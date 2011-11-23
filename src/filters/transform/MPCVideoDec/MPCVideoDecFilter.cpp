@@ -473,29 +473,6 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] = {
 };
 const int CMPCVideoDecFilter::sudPinTypesOutCount = countof(CMPCVideoDecFilter::sudPinTypesOut);
 
-PixelFormat GetPixelFormatFromCsp(int csp)
-{
-	switch (csp & FF_CSPS_MASK) {
-		case FF_CSP_420P :
-			return PIX_FMT_YUV420P;
-		case FF_CSP_422P :
-			return PIX_FMT_YUV422P;
-		case FF_CSP_444P :
-			return PIX_FMT_YUV444P;
-		case FF_CSP_411P :
-			return PIX_FMT_YUV411P;
-		case FF_CSP_YUY2 :
-			return PIX_FMT_UYVY422;		// TODO : check this...
-		case FF_CSP_UYVY :
-			return PIX_FMT_UYVY422;
-		default :
-			ASSERT(FALSE);
-	}
-
-	return PIX_FMT_NONE;
-}
-
-
 BOOL CALLBACK EnumFindProcessWnd (HWND hwnd, LPARAM lParam)
 {
 	DWORD	procid = 0;
@@ -1057,9 +1034,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->dsp_mask				= AV_CPU_FLAG_FORCE | m_pCpuId->GetFeatures();
 
 			m_pAVCtx->debug_mv				= 0;
-#ifdef _DEBUG
-			//m_pAVCtx->debug					= FF_DEBUG_PICT_INFO | FF_DEBUG_STARTCODE | FF_DEBUG_PTS;
-#endif
 
 			m_pAVCtx->opaque				= this;
 			m_pAVCtx->get_buffer			= get_buffer;
@@ -1133,16 +1107,16 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 	return __super::SetMediaType(direction, pmt);
 }
 
-VIDEO_OUTPUT_FORMATS DXVAFormats[] = {
-	{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},	// DXVA2
+VIDEO_OUTPUT_FORMATS DXVAFormats[] = { // DXVA2
+	{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVXD'},
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVxD'},
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AvXD'}
 };
 
-VIDEO_OUTPUT_FORMATS SoftwareFormats[] = {
+VIDEO_OUTPUT_FORMATS SoftwareFormats[] = { // Software
 	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
-	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},	// Software
+	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
 	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'}
 };
@@ -1394,7 +1368,6 @@ int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 	} else if (subtype == MEDIASUBTYPE_YUY2) {
 		return FF_CSP_YUY2;
 	}
-	//	else if (subtype == MEDIASUBTYPE_ARGB32 || subtype == MEDIASUBTYPE_RGB32 || subtype == MEDIASUBTYPE_RGB24 || subtype == MEDIASUBTYPE_RGB565)
 
 	ASSERT (FALSE);
 	return FF_CSP_NULL;
@@ -1413,14 +1386,21 @@ void CMPCVideoDecFilter::InitSwscale()
 									   m_pAVCtx->pix_fmt,
 									   m_pAVCtx->width,
 									   m_pAVCtx->height,
-									   GetPixelFormatFromCsp(m_nOutCsp),
-									   SWS_LANCZOS,
+									   csp_ffdshow2lavc(m_nOutCsp),
+									   SWS_LANCZOS|SWS_PRINT_INFO,
 									   NULL,
 									   NULL,
 									   NULL);
-
+		m_nSwOutBpp		= bihOut.biBitCount;
 		m_pOutSize.cx	= bihOut.biWidth;
 		m_pOutSize.cy	= abs(bihOut.biHeight);
+
+	    int *inv_tbl = NULL, *tbl = NULL;
+	    int srcRange, dstRange, brightness, contrast, saturation;
+	    int ret = sws_getColorspaceDetails(m_pSwsContext, &inv_tbl, &srcRange, &tbl, &dstRange, &brightness, &contrast, &saturation);
+	    if (ret >= 0) {
+			sws_setColorspaceDetails(m_pSwsContext, sws_getCoefficients((PictWidthRounded() > 768) ? SWS_CS_ITU709 : SWS_CS_ITU601), srcRange, tbl, dstRange, brightness, contrast, saturation);
+		}
 	}
 }
 
@@ -1518,33 +1498,38 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		if (m_pSwsContext == NULL) {
 			InitSwscale();
 		}
-
-		// TODO : quick and dirty patch to fix convertion to YUY2 with swscale
-		if (m_nOutCsp == FF_CSP_YUY2) {
-			CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
-		}
-
-		else if (m_pSwsContext != NULL) {
+		if (m_pSwsContext != NULL) {
 			uint8_t*	dst[4];
 			int			srcStride[4];
 			int			dstStride[4];
 
 			const TcspInfo *outcspInfo=csp_getInfo(m_nOutCsp);
-			for (int i=0; i<4; i++) {
-				srcStride[i]=(stride_t)m_pFrame->linesize[i];
-				dstStride[i]=m_pOutSize.cx>>outcspInfo->shiftX[i];
-				if (i==0) {
-					dst[i]=pDataOut;
-				} else {
-					dst[i]=dst[i-1]+dstStride[i-1]*(m_pOutSize.cy>>outcspInfo->shiftY[i-1]);
-				}
-			}
 
-			int nTempCsp = m_nOutCsp;
-			if(outcspInfo->id==FF_CSP_420P) {
-				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,odd2even(m_pOutSize.cy),(unsigned char**)dst,(stride_t*)dstStride);
+			if (m_nOutCsp == FF_CSP_YUY2) {
+				dst[0] = pDataOut;
+				dst[1] = dst[2] = dst[3] = NULL;
+				srcStride[0] = m_pFrame->linesize[0];
+				srcStride[1] = m_pFrame->linesize[1];
+				srcStride[2] = m_pFrame->linesize[2];
+				srcStride[3] = m_pFrame->linesize[3];
+				dstStride[0] = (m_nSwOutBpp>>3) * (m_pOutSize.cx);
+				dstStride[1] = dstStride[2] = dstStride[3] = 0;
 			} else {
-				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,(stride_t*)dstStride);
+				for (int i=0; i<4; i++) {
+					srcStride[i]=(stride_t)m_pFrame->linesize[i];
+					dstStride[i]=m_pOutSize.cx>>outcspInfo->shiftX[i];
+					if (i==0) {
+						dst[i]=pDataOut;
+					} else {
+						dst[i]=dst[i-1]+dstStride[i-1]*(m_pOutSize.cy>>outcspInfo->shiftY[i-1]);
+					}
+				}
+				int nTempCsp = m_nOutCsp;
+				if(outcspInfo->id==FF_CSP_420P) {
+					csp_yuv_adj_to_plane(nTempCsp,outcspInfo,odd2even(m_pOutSize.cy),(unsigned char**)dst,(stride_t*)dstStride);
+				} else {
+					csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,(stride_t*)dstStride);
+				}
 			}
 
 			// We crash inside this function
@@ -1568,92 +1553,6 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 	return hr;
 }
-
-/*
-void CMPCVideoDecFilter::FindStartCodeVC1 (BYTE** pDataIn, int& nSize)
-{
-	DWORD		dw			= 0;
-	long		lStart		= -1;
-
-	*pDataIn = NULL;
-	nSize	 = 0;
-	for (int i=0; i<m_nFFSize; i++)
-	{
-		dw = (dw<<8) + m_pFFBuffer[i];
-		if (dw == 0x0000010D ||									// Frame start code
-			(dw == 0x0000010F && m_nDXVAMode == MODE_SOFTWARE))	// Sequence start code
-		{
-			if (lStart == -1)
-				lStart = i-3;
-			else
-			{
-				nSize	 = i - lStart  - 3;
-				*pDataIn = m_pFFBuffer + lStart;
-				return;
-			}
-		}
-	}
-}
-
-void CMPCVideoDecFilter::FindStartCodeH264 (BYTE** pDataIn, int& nSize)
-{
-	DWORD		dw			= 0;
-	long		lStart		= -1;
-
-	*pDataIn = NULL;
-	nSize	 = 0;
-	for (int i=0; i<m_nFFSize; i++)
-	{
-		dw = (dw<<8) + m_pFFBuffer[i];
-		if ((dw & 0xffffff1f)  == 0x00000109)
-		{
-			if (lStart == -1)
-				lStart = i-4;
-			else
-			{
-				nSize	 = i - lStart  - 4;
-				*pDataIn = m_pFFBuffer + lStart;
-				return;
-			}
-		}
-	}
-
-	//DWORD		dw			= 0;
-	//long		lStart		= -1;
-
-	//*pDataIn = NULL;
-	//nSize	 = 0;
-	//for (int i=0; i<m_nFFSize; i++)
-	//{
-	//	dw = (dw<<8) + m_pFFBuffer[i];
-	//	if (dw == 0x00000001)
-	//	{
-	//		if (lStart == -1)
-	//			lStart = i-3;
-	//		else
-	//		{
-	//			nSize	 = i - lStart  - 3;
-	//			*pDataIn = m_pFFBuffer + lStart;
-	//			return;
-	//		}
-	//	}
-	//}
-
-	//DWORD		dw = 0;
-
-	//// Get last 3 bytes in buffer (if startcode is between 2 packets)
-	//for (int i=max (0, m_nFFSize-3); i<max (0, m_nFFSize); i++)
-	//	dw = (dw<<8) + m_pFFBuffer[i];
-
-	//for (int i=0; i<nSize; i++)
-	//{
-	//	dw = (dw<<8) + pDataIn[i];
-	//	if (dw == 0x00000001)
-	//		return i-3;
-	//}
-	//return -5;
-}
-*/
 
 bool CMPCVideoDecFilter::FindPicture(int nIndex, int nStartCode)
 {
@@ -1817,10 +1716,10 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 		m_nPosB						= 1-m_nPosB;
 	}
 
-	//	m_rtStart	= rtStart;
+	//m_rtStart	= rtStart;
 
-	//	DumpBuffer (pDataIn, nSize);
-	//	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);
+	//DumpBuffer (pDataIn, nSize);
+	//TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);
 
 	//char		strMsg[300];
 	//FILE* hFile = fopen ("d:\\receive.txt", "at");
@@ -2053,7 +1952,8 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 			}
 
 			// Patch for the Sandy Bridge (prevent crash on Mode_E, fixme later)
-			if (m_nPCIVendor == PCIV_Intel && pDecoderGuids[iGuid] == DXVA2_ModeH264_E) {
+			// known device IDs for SB integrated graphics are: 258, 274, 278, 290, 294
+			if (m_nPCIVendor == PCIV_Intel && nPCIDevice>=258 && nPCIDevice <=294 && pDecoderGuids[iGuid] == DXVA2_ModeH264_E) {
 				continue;
 			}
 

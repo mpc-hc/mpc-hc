@@ -124,6 +124,7 @@ protected:
 	SwsContext*								m_pSwsContext;
 	int										m_nOutCsp;
 	CSize									m_pOutSize;				// Picture size on output pin
+	int										m_nSwOutBpp;
 
 	// === DXVA common variables
 	VIDEO_OUTPUT_FORMATS*					m_pVideoOutputFormat;
