@@ -83,5 +83,6 @@ SSE2I_INSTRUCTION(pcmpeqb,_mm_cmpeq_epi8)
 SSE2I_INSTRUCTION(pcmpeqw,_mm_cmpeq_epi16)
 SSE2I_INSTRUCTION(pcmpgtb,_mm_cmpgt_epi8)
 SSE2I_INSTRUCTION(pcmpgtw,_mm_cmpgt_epi16)
+SSE2I_INSTRUCTION(paddusb,_mm_adds_epu8)
 
 #endif
