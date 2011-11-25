@@ -272,6 +272,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 	MpegEncContext* const	s = &h->s;
 	int						field_pic_flag;
 	HRESULT					hr = E_FAIL;
+	const Picture *current_picture = s->current_picture_ptr;
 
 	field_pic_flag = (h->s.picture_structure != PICT_FRAME);
 
@@ -324,17 +325,15 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 
 		pDXVAPicParams->bit_depth_luma_minus8					= cur_sps->bit_depth_luma   - 8;	// bit_depth_luma_minus8
 		pDXVAPicParams->bit_depth_chroma_minus8					= cur_sps->bit_depth_chroma - 8;	// bit_depth_chroma_minus8
+		
 		//	pDXVAPicParams->StatusReportFeedbackNumber				= SET IN DecodeFrame;
-
-
 		//	pDXVAPicParams->CurrFieldOrderCnt						= SET IN UpdateRefFramesList;
 		//	pDXVAPicParams->FieldOrderCntList						= SET IN UpdateRefFramesList;
 		//	pDXVAPicParams->FrameNumList							= SET IN UpdateRefFramesList;
 		//	pDXVAPicParams->UsedForReferenceFlags					= SET IN UpdateRefFramesList;
 		//	pDXVAPicParams->NonExistingFrameFlags
-		pDXVAPicParams->frame_num								= h->frame_num;
-		//	pDXVAPicParams->SliceGroupMap
 
+		pDXVAPicParams->frame_num								= h->frame_num;
 
 		pDXVAPicParams->log2_max_frame_num_minus4				= cur_sps->log2_max_frame_num - 4;					// log2_max_frame_num_minus4;
 		pDXVAPicParams->pic_order_cnt_type						= cur_sps->poc_type;								// pic_order_cnt_type;
@@ -358,22 +357,14 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 		pDXVAPicParams->pic_init_qp_minus26						= cur_pps->init_qp - 26;
 		pDXVAPicParams->pic_init_qs_minus26						= cur_pps->init_qs - 26;
 
-		if (field_pic_flag) {
-			pDXVAPicParams->CurrPic.AssociatedFlag  = (h->s.picture_structure == PICT_BOTTOM_FIELD);
-
-			if (pDXVAPicParams->CurrPic.AssociatedFlag) {
-				// Bottom field
-				pDXVAPicParams->CurrFieldOrderCnt[0] = 0;
-				pDXVAPicParams->CurrFieldOrderCnt[1] = h->poc_lsb + h->poc_msb;
-			} else {
-				// Top field
-				pDXVAPicParams->CurrFieldOrderCnt[0] = h->poc_lsb + h->poc_msb;
-				pDXVAPicParams->CurrFieldOrderCnt[1] = 0;
-			}
-		} else {
-			pDXVAPicParams->CurrPic.AssociatedFlag	= 0;
-			pDXVAPicParams->CurrFieldOrderCnt[0]	= h->poc_lsb + h->poc_msb;
-			pDXVAPicParams->CurrFieldOrderCnt[1]	= h->poc_lsb + h->poc_msb;
+		pDXVAPicParams->CurrPic.AssociatedFlag  = field_pic_flag && (h->s.picture_structure == PICT_BOTTOM_FIELD);
+		pDXVAPicParams->CurrFieldOrderCnt[0] = 0;
+		if ((h->s.picture_structure & PICT_TOP_FIELD) && current_picture->field_poc[0] != INT_MAX) {
+			pDXVAPicParams->CurrFieldOrderCnt[0] = current_picture->field_poc[0];
+		}
+		pDXVAPicParams->CurrFieldOrderCnt[1] = 0;
+		if ((h->s.picture_structure & PICT_BOTTOM_FIELD) && current_picture->field_poc[1] != INT_MAX) {
+			pDXVAPicParams->CurrFieldOrderCnt[1] = current_picture->field_poc[1];
 		}
 
 		CopyScalingMatrix (pDXVAScalingMatrix, (DXVA_Qmatrix_H264*)cur_pps->scaling_matrix4, nPCIVendor);
