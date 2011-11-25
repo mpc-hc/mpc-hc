@@ -164,7 +164,7 @@ typedef cmsBool (* PositionTableEntryFn)(struct _cms_typehandler_struct* self,
                                              cmsUInt32Number n, 
                                              cmsUInt32Number SizeOfTag);
 
-// Helper function to deal with position tables as decribed in several addendums to ICC spec 4.2
+// Helper function to deal with position tables as decribed in ICC spec 4.3
 // A table of n elements is readed, where first comes n records containing offsets and sizes and
 // then a block containing the data itself. This allows to reuse same data in more than one entry
 static

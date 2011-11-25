@@ -114,7 +114,7 @@ cmsHPROFILE CMSEXPORT cmsCreateRGBProfileTHR(cmsContext ContextID,
     if (!hICC)                          // can't allocate
         return NULL;
 
-    cmsSetProfileVersion(hICC, 4.2);
+    cmsSetProfileVersion(hICC, 4.3);
 
     cmsSetDeviceClass(hICC,      cmsSigDisplayClass);
     cmsSetColorSpace(hICC,       cmsSigRgbData);
@@ -218,7 +218,7 @@ cmsHPROFILE CMSEXPORT cmsCreateGrayProfileTHR(cmsContext ContextID,
     if (!hICC)                          // can't allocate
         return NULL;
 
-    cmsSetProfileVersion(hICC, 4.2);
+    cmsSetProfileVersion(hICC, 4.3);
 
     cmsSetDeviceClass(hICC,      cmsSigDisplayClass);
     cmsSetColorSpace(hICC,       cmsSigGrayData);
@@ -281,7 +281,7 @@ cmsHPROFILE CMSEXPORT cmsCreateLinearizationDeviceLinkTHR(cmsContext ContextID,
     if (!hICC)                          
         return NULL;
 
-    cmsSetProfileVersion(hICC, 4.2);
+    cmsSetProfileVersion(hICC, 4.3);
 
     cmsSetDeviceClass(hICC,      cmsSigLinkClass);
     cmsSetColorSpace(hICC,       ColorSpace);
@@ -401,7 +401,7 @@ cmsHPROFILE CMSEXPORT cmsCreateInkLimitingDeviceLinkTHR(cmsContext ContextID,
     if (!hICC)                          // can't allocate
         return NULL;
 
-    cmsSetProfileVersion(hICC, 4.2);
+    cmsSetProfileVersion(hICC, 4.3);
 
     cmsSetDeviceClass(hICC,      cmsSigLinkClass);
     cmsSetColorSpace(hICC,       ColorSpace);
@@ -509,7 +509,7 @@ cmsHPROFILE CMSEXPORT cmsCreateLab4ProfileTHR(cmsContext ContextID, const cmsCIE
     hProfile = cmsCreateRGBProfileTHR(ContextID, WhitePoint == NULL ? cmsD50_xyY() : WhitePoint, NULL, NULL);
     if (hProfile == NULL) return NULL;
 
-    cmsSetProfileVersion(hProfile, 4.2);
+    cmsSetProfileVersion(hProfile, 4.3);
 
     cmsSetDeviceClass(hProfile, cmsSigAbstractClass);
     cmsSetColorSpace(hProfile,  cmsSigLabData);
@@ -554,7 +554,7 @@ cmsHPROFILE CMSEXPORT cmsCreateXYZProfileTHR(cmsContext ContextID)
     hProfile = cmsCreateRGBProfileTHR(ContextID, cmsD50_xyY(), NULL, NULL);
     if (hProfile == NULL) return NULL;
 
-    cmsSetProfileVersion(hProfile, 4.2);
+    cmsSetProfileVersion(hProfile, 4.3);
 
     cmsSetDeviceClass(hProfile, cmsSigAbstractClass);
     cmsSetColorSpace(hProfile,  cmsSigXYZData);
@@ -809,7 +809,7 @@ cmsHPROFILE CMSEXPORT cmsCreateNULLProfileTHR(cmsContext ContextID)
     if (!hProfile)                          // can't allocate
         return NULL;
 
-    cmsSetProfileVersion(hProfile, 4.2);
+    cmsSetProfileVersion(hProfile, 4.3);
 
     if (!SetTextTags(hProfile, L"NULL profile built-in")) goto Error;    
 
