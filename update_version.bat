@@ -3,12 +3,14 @@ SETLOCAL
 
 SET "SUBWCREV=SubWCRev.exe"
 
+PUSHD %~dp0%
 "%SUBWCREV%" . "include\Version_rev.h.in" "include\Version_rev.h" -f
 IF %ERRORLEVEL% NEQ 0 GOTO NoSubWCRev
 
 "%SUBWCREV%" . "src\apps\mplayerc\res\mpc-hc.exe.manifest.conf" "src\apps\mplayerc\res\mpc-hc.exe.manifest" -f >NUL
 IF %ERRORLEVEL% NEQ 0 GOTO NoSubWCRev
 
+POPD
 ENDLOCAL
 EXIT /B
 
@@ -21,5 +23,6 @@ ECHO I'll use MPC_VERSION_REV=0 for now.
 ECHO #define MPC_VERSION_REV 0 > "include\Version_rev.h"
 COPY /Y /V "src\apps\mplayerc\res\mpc-hc.exe.manifest.template" "src\apps\mplayerc\res\mpc-hc.exe.manifest" >NUL
 
+POPD
 ENDLOCAL
 EXIT /B

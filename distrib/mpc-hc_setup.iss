@@ -276,10 +276,10 @@ begin
   end
   else begin
     RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', sInstallPath)
-      Result := ExtractFileDir(sInstallPath);
-      if (Result = '') or not DirExists(Result) then begin
-        Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
-      end;
+    Result := ExtractFileDir(sInstallPath);
+    if (Result = '') or not DirExists(Result) then begin
+      Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
+    end;
   end;
 end;
 
