@@ -637,7 +637,7 @@ void CMPCVideoDecFilter::DetectVideoCard(HWND hWnd)
 			m_nPCIDevice = adapterIdentifier.DeviceId;
 			m_VideoDriverVersion = adapterIdentifier.DriverVersion;
 			m_strDeviceDescription = adapterIdentifier.Description;
-			m_strDeviceDescription.AppendFormat (_T(" (%d)"), m_nPCIVendor);
+			m_strDeviceDescription.AppendFormat (_T(" (%d:%d)"), m_nPCIVendor, m_nPCIDevice);
 		}
 		pD3D9->Release();
 	}
@@ -672,7 +672,7 @@ void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIM
 	}
 }
 
-void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight)
+void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int & RealWidth, int & RealHeight, int& vsfilter)
 {
 #if 1
 	RealWidth = m_nWidth;
@@ -1954,12 +1954,13 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 			// Patch for the Sandy Bridge (prevent crash on Mode_E, fixme later)
 			// known device IDs for SB integrated graphics are: 258, 274, 278, 290, 294
 			if (m_nPCIVendor == PCIV_Intel && m_nPCIDevice>=258 && m_nPCIDevice<=294 && pDecoderGuids[iGuid] == DXVA2_ModeH264_E) {
-				continue;
+				bFoundDXVA2Configuration = false;
 			}
 
 			if (bFoundDXVA2Configuration) {
 				// Found a good configuration. Save the GUID.
 				guidDecoder = pDecoderGuids[iGuid];
+				break;
 			}
 		}
 	}
