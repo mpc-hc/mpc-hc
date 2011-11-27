@@ -201,7 +201,7 @@ BOOL CPPageFullscreen::OnApply()
 
 	for (int i = 0; i < MaxFpsCount; i++) {
 		int n = m_iSeldm[i];
-		if (m_iSeldm[i] >= 0 && (size_t)m_iSeldm[i] < m_dms.GetCount() && i < m_list.GetItemCount()) {
+		if (n >= 0 && (size_t)n < m_dms.GetCount() && i < m_list.GetItemCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].dmFSRes = m_dms[n];
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].fChecked = !!m_list.GetCheck(i);
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].fIsData = true;
@@ -406,7 +406,6 @@ void CPPageFullscreen::ModesUpdate()
 	}
 	m_list.DeleteAllItems();
 	m_dms.RemoveAll();
-	m_dms2.RemoveAll();
 	sl.RemoveAll();
 	for (int i=1; i<MaxFpsCount; i++) {
 		sl2[i] = _T("");
@@ -441,26 +440,17 @@ void CPPageFullscreen::ModesUpdate()
 		m++;
 	}
 
-	for (int i=0; (size_t)i<m_dms.GetCount(); i++) {
-		m_dms2.Add((__int64)m_dms[i].size.cx*10000*1000
-				   + (__int64)m_dms[i].size.cy*1000
-				   + (__int64)m_dms[i].freq);
-	}
-
-	// bubble sort
-	for (int i=1; (size_t)i<m_dms2.GetCount(); i++) {
-		__int64 temp=0;
-		dispmode dmt;
-		for (int j=0;  (size_t)j < m_dms2.GetCount()-i;  j++) {
-			if (m_dms2[j] > m_dms2[j+1]) {
-				temp=m_dms2[j];
-				dmt=m_dms[j];
-				m_dms2[j]=m_dms2[j+1];
-				m_dms[j]=m_dms[j+1];
-				m_dms2[j+1]=temp;
-				m_dms[j+1]=dmt;
-			}
+	// sort display modes
+	for (unsigned int j, i = 1; i < m_dms.GetCount(); i++) {
+		dm = m_dms[i];
+		j = i - 1;
+		while (j != -1 && m_dms[j].size.cx >= dm.size.cx &&
+						  m_dms[j].size.cy >= dm.size.cy &&
+						  m_dms[j].freq > dm.freq) {
+			m_dms[j+1] = m_dms[j];
+			j--;
 		}
+		m_dms[j+1] = dm;
 	}
 
 	for (int i=0;  (size_t) i<m_dms.GetCount(); i++) {

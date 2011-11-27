@@ -34,7 +34,6 @@ class CPPageFullscreen : public CPPageBase
 
 	//	private:
 	CAtlArray<dispmode> m_dms;
-	CAtlArray<__int64> m_dms2;
 	CAtlArray<CString> sl;
 	CStringArray m_MonitorDisplayNames;
 
@@ -93,8 +92,9 @@ public:
 	afx_msg void OnMoveDown();
 	afx_msg void OnUpdateUp(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateDown(CCmdUI* pCmdUI);
-	afx_msg void ReindexList();
-	afx_msg void ReindexListSubItem();
-	afx_msg void GetCurDispModeString(CString& strMode);
+	
+	void ReindexList();
+	void ReindexListSubItem();
+	void GetCurDispModeString(CString& strMode);
 	void ModesUpdate();
 };
