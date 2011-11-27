@@ -165,9 +165,7 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 		int wout = 0, hout = 0, arxout = 0, aryout = 0;
 		ExtractDim(&mt, wout, hout, arxout, aryout);
 		if(arxout != m_arx || aryout != m_ary) {
-			CString debug_s;
-			debug_s.Format(_T("\nCBaseVideoFilter::ReconnectOutput; wout = %d, hout = %d, current = %dx%d, set = %dx%d\n"), wout, hout, arxout, aryout, m_arx, m_ary);
-			TRACE(debug_s);
+			TRACE(_T("\nCBaseVideoFilter::ReconnectOutput; wout = %d, hout = %d, current = %dx%d, set = %dx%d\n"), wout, hout, arxout, aryout, m_arx, m_ary);
 			m_update_aspect = true;
 		}
 	}
@@ -239,7 +237,7 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 						DeleteMediaType(pmt);
 					} else { // stupid overlay mixer won't let us know the new pitch...
 						long size = pOut->GetSize();
-						bmi->biWidth = size / bmi->biHeight * 8 / bmi->biBitCount;
+						bmi->biWidth = size ? (size / abs(bmi->biHeight) * 8 / bmi->biBitCount) : bmi->biWidth;
 					}
 				} else {
 					m_w = w_org;
