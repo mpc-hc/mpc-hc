@@ -493,6 +493,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	memcpy(m_buff.GetData() + bufflen, pDataIn, len);
 	len += bufflen;
 
+	if(0) {} // needed if decoders are disabled below
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AMR
 	if(subtype == MEDIASUBTYPE_AMR || subtype == MEDIASUBTYPE_SAMR) {
 		hr = ProcessFFmpeg(CODEC_ID_AMR_NB);
