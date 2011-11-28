@@ -88,7 +88,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	GUID*	DxvaGui = NULL;
 
 #if HAS_FFMPEG_VIDEO_DECODERS
-	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 450, nPosY+150), this, (UINT)IDC_STATIC);
+	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 350, nPosY+150), this, (UINT)IDC_STATIC);
 
 #if INTERNAL_DECODER_H264
 
@@ -146,7 +146,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	nPosY = 170;
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
-	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 450, nPosY+135), this, (UINT)IDC_STATIC);
+	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 350, nPosY+135), this, (UINT)IDC_STATIC);
 
 	// DXVA Compatibility check
 	nPosY += VERTICAL_SPACING;
@@ -169,7 +169,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	// Video card description
 	nPosY += VERTICAL_SPACING;
 	m_txtVideoCardDescription.Create (ResStr (IDS_VDF_VIDEOCARD), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 120, nPosY+15), this, (UINT)IDC_STATIC);
-	m_edtVideoCardDescription.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (120,  nPosY, 445, nPosY+20), this, 0);
+	m_edtVideoCardDescription.Create (ES_MULTILINE|WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (120,  nPosY, 345, nPosY+30), this, 0);
 	m_edtVideoCardDescription.SetWindowText (m_pMDF->GetVideoCardDescription());
 
 

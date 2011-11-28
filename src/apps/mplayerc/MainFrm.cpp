@@ -1538,7 +1538,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 	}
 
 	IDirect3D9* pD3D9 = NULL;
-	int m_nPCIVendor = 0;
+	DWORD m_nPCIVendor = 0;
 
 	pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
 	if (pD3D9) {

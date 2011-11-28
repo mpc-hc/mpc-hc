@@ -151,7 +151,7 @@ BOOL DriverVersionCheck(LARGE_INTEGER VideoDriverVersion, int A, int B, int C, i
 	return FALSE;
 }
 
-int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor, int nPCIDevice, LARGE_INTEGER VideoDriverVersion)
+int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, DWORD nPCIVendor, DWORD nPCIDevice, LARGE_INTEGER VideoDriverVersion)
 {
 	H264Context*	pContext	= (H264Context*) pAVCtx->priv_data;
 	SPS*			cur_sps;
@@ -223,7 +223,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MANY_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
 }
 
-void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, DXVA_Qmatrix_H264* pSource, int nPCIVendor)
+void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, DXVA_Qmatrix_H264* pSource, DWORD nPCIVendor)
 {
 	int		i,j;
 
@@ -264,7 +264,7 @@ USHORT FFH264FindRefFrameIndex(USHORT num_frame, DXVA_PicParams_H264* pDXVAPicPa
 	return 127;
 }
 
-HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, int* nFieldType, int* nSliceType, struct AVCodecContext* pAVCtx, int nPCIVendor)
+HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, int* nFieldType, int* nSliceType, struct AVCodecContext* pAVCtx, DWORD nPCIVendor)
 {
 	H264Context*			h			= (H264Context*) pAVCtx->priv_data;
 	SPS*					cur_sps;

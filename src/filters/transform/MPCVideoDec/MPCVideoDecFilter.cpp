@@ -637,7 +637,7 @@ void CMPCVideoDecFilter::DetectVideoCard(HWND hWnd)
 			m_nPCIDevice = adapterIdentifier.DeviceId;
 			m_VideoDriverVersion = adapterIdentifier.DriverVersion;
 			m_strDeviceDescription = adapterIdentifier.Description;
-			m_strDeviceDescription.AppendFormat (_T(" (%d:%d)"), m_nPCIVendor, m_nPCIDevice);
+			m_strDeviceDescription.AppendFormat (_T(" (%04X:%04X)"), m_nPCIVendor, m_nPCIDevice);
 		}
 		pD3D9->Release();
 	}
@@ -672,7 +672,7 @@ void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIM
 	}
 }
 
-void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int & RealWidth, int & RealHeight, int& vsfilter)
+void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight, int& vsfilter)
 {
 #if 1
 	RealWidth = m_nWidth;

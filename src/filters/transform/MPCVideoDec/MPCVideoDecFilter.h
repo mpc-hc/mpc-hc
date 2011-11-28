@@ -133,8 +133,8 @@ protected:
 	CDXVADecoder*							m_pDXVADecoder;
 	GUID									m_DXVADecoderGUID;
 
-	int										m_nPCIVendor;
-	int										m_nPCIDevice;
+	DWORD									m_nPCIVendor;
+	DWORD									m_nPCIDevice;
 	LARGE_INTEGER							m_VideoDriverVersion;
 	CString									m_strDeviceDescription;
 
@@ -191,7 +191,7 @@ public:
 	DECLARE_IUNKNOWN
 	STDMETHODIMP			NonDelegatingQueryInterface(REFIID riid, void** ppv);
 	virtual bool			IsVideoInterlaced();
-	virtual void			GetOutputSize(int& w, int& h, int& arx, int& ary, int & RealWidth, int & RealHeight, int& vsfilter);
+	virtual void			GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight, int& vsfilter);
 	CTransformOutputPin*	GetOutputPin() {
 		return m_pOutput;
 	}
@@ -263,7 +263,7 @@ public:
 	inline bool					IsReorderBFrame() {
 		return m_bReorderBFrame;
 	};
-	inline int					GetPCIVendor()  {
+	inline DWORD				GetPCIVendor()  {
 		return m_nPCIVendor;
 	};
 	inline REFERENCE_TIME		GetAvrTimePerFrame() {

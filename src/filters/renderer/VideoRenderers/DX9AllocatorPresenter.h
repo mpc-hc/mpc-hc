@@ -294,7 +294,7 @@ namespace DSObjects
 		CString					m_strStatsMsg[10];
 
 		CString					m_D3D9Device;
-		int						m_nPCIVendor;
+		DWORD					m_nPCIVendor;
 
 		CString					m_Decoder;
 
