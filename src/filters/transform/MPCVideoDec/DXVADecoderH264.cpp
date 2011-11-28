@@ -197,6 +197,12 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	int							nOutPOC;
 	REFERENCE_TIME				rtOutStart;
 
+	if (m_nWaitingPics >= m_nPicEntryNumber) {
+		Flush();
+		m_bFlushed = false;
+		return S_FALSE;		
+	}
+
 	if (FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, &nFramePOC, &nOutPOC, &rtOutStart) == -1) {
 		return S_FALSE;
 	}
@@ -359,7 +365,7 @@ int CDXVADecoderH264::FindOldestFrame()
 
 	for (int i=0; i<m_nPicEntryNumber; i++) {
 		if (m_pPictureStore[i].bInUse && !m_pPictureStore[i].bDisplayed) {
-			if (m_pPictureStore[i].nCodecSpecific == m_nOutPOC && m_pPictureStore[i].rtStart < rtPos) {
+			if ((m_pPictureStore[i].nCodecSpecific == m_nOutPOC) && (m_pPictureStore[i].rtStart < rtPos) && (m_pPictureStore[i].rtStart >= m_rtOutStart)) {
 				nPos  = i;
 				rtPos = m_pPictureStore[i].rtStart;
 			}

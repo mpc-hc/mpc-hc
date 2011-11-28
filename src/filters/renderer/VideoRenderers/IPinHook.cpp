@@ -273,9 +273,8 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 
 // === DXVA1 hooks
 
-#define MAX_BUFFER_TYPE		15
-
 #ifdef _DEBUG
+#define MAX_BUFFER_TYPE		15
 BYTE*		g_ppBuffer[MAX_BUFFER_TYPE]; // Only used for debug logging
 
 static HRESULT ( STDMETHODCALLTYPE *GetVideoAcceleratorGUIDsOrg )( IAMVideoAcceleratorC * This,/* [out][in] */ LPDWORD pdwNumGuidsSupported,/* [out][in] */ LPGUID pGuidsSupported) = NULL;
@@ -295,12 +294,6 @@ static HRESULT ( STDMETHODCALLTYPE *ExecuteOrg )( IAMVideoAcceleratorC * This,/*
 static HRESULT ( STDMETHODCALLTYPE *QueryRenderStatusOrg )( IAMVideoAcceleratorC * This,/* [in] */ DWORD dwTypeIndex,/* [in] */ DWORD dwBufferIndex,/* [in] */ DWORD dwFlags) = NULL;
 static HRESULT ( STDMETHODCALLTYPE *DisplayFrameOrg )( IAMVideoAcceleratorC * This,/* [in] */ DWORD dwFlipToIndex,/* [in] */ IMediaSample *pMediaSample) = NULL;
 #endif
-
-static void Hack_DXVA_PicParams_H264(DXVA_PicParams_H264* pPic)
-{
-	pPic->Reserved8BitsB = 0; // according to specification H.264 DXVA - The value shall be 0, and accelerators shall ingnore the value.
-	// Hack for play H.264 with high ReFrames with external DXVA decoder (as example - Cyberlink PDVD Decoder playback "H.264 Level 4.x ReFrames 16" with artifact) ...
-}
 
 #if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
 static void LOG_TOFILE(LPCTSTR FileName, LPCTSTR fmt, ...)
@@ -1129,7 +1122,6 @@ static void LogDecodeBufferDesc(DXVA2_DecodeBufferDesc* pDecodeBuff)
 	//LOG(_T("	- ReservedBits                      %d"), pDecodeBuff->ReservedBits);
 	//LOG(_T("	- pvPVPState                        %d"), pDecodeBuff->pvPVPState);
 }
-#endif
 
 class CFakeDirectXVideoDecoder : public CUnknown, public IDirectXVideoDecoder
 {
@@ -1145,9 +1137,7 @@ public :
 	}
 
 	~CFakeDirectXVideoDecoder() {
-#ifdef _DEBUG
 		LOG(_T("CFakeDirectXVideoDecoder destroyed !\n"));
-#endif
 	}
 
 	DECLARE_IUNKNOWN;
@@ -1162,17 +1152,13 @@ public :
 
 	virtual HRESULT STDMETHODCALLTYPE GetVideoDecoderService(IDirectXVideoDecoderService **ppService) {
 		HRESULT		hr = m_pDec->GetVideoDecoderService (ppService);
-#ifdef _DEBUG
 		LOG(_T("IDirectXVideoDecoder::GetVideoDecoderService  hr = %08x\n"), hr);
-#endif
 		return hr;
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE GetCreationParameters(GUID *pDeviceGuid, DXVA2_VideoDesc *pVideoDesc, DXVA2_ConfigPictureDecode *pConfig, IDirect3DSurface9 ***pDecoderRenderTargets, UINT *pNumSurfaces) {
 		HRESULT		hr = m_pDec->GetCreationParameters(pDeviceGuid, pVideoDesc, pConfig, pDecoderRenderTargets, pNumSurfaces);
-#ifdef _DEBUG
 		LOG(_T("IDirectXVideoDecoder::GetCreationParameters hr = %08x\n"), hr);
-#endif
 		return hr;
 	}
 
@@ -1184,33 +1170,26 @@ public :
 			m_ppBuffer[BufferType]	= (BYTE*)*ppBuffer;
 			m_ppBufferLen[BufferType]		= *pBufferSize;
 		}
-#ifdef _DEBUG
-		LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
-#endif
+		//			LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
+
 		return hr;
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType) {
 		HRESULT		hr = m_pDec->ReleaseBuffer (BufferType);
-#ifdef _DEBUG
-		LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
-#endif
+		//			LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
 		return hr;
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE BeginFrame(IDirect3DSurface9 *pRenderTarget, void *pvPVPData) {
 		HRESULT		hr = m_pDec->BeginFrame (pRenderTarget, pvPVPData);
-#ifdef _DEBUG
 		LOG(_T("IDirectXVideoDecoder::BeginFrame pRenderTarget = %08x,  hr = %08x"), pRenderTarget, hr);
-#endif
 		return hr;
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE EndFrame(HANDLE *pHandleComplete) {
 		HRESULT		hr = m_pDec->EndFrame (pHandleComplete);
-#ifdef _DEBUG
 		LOG(_T("IDirectXVideoDecoder::EndFrame  Handle=0x%08x  hr = %08x\n"), pHandleComplete, hr);
-#endif
 		return hr;
 	}
 
@@ -1290,11 +1269,6 @@ public :
 			}
 		}
 #endif
-		for (DWORD i=0; i<pExecuteParams->NumCompBuffers; i++) {
-			if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_PictureParametersBufferType && g_guidDXVADecoder == DXVA2_ModeH264_E) {
-				Hack_DXVA_PicParams_H264 ((DXVA_PicParams_H264*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
-			}
-		}
 
 		HRESULT		hr = m_pDec->Execute (pExecuteParams);
 
@@ -1315,6 +1289,7 @@ public :
 		return hr;
 	}
 };
+#endif
 
 
 // Both IDirectXVideoDecoderServiceCVtbl and IDirectXVideoDecoderServiceC already exists in file \Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include\dxva2api.h
@@ -1365,8 +1340,10 @@ interface IDirectXVideoDecoderServiceC {
 
 IDirectXVideoDecoderServiceCVtbl*	g_pIDirectXVideoDecoderServiceCVtbl = NULL;
 static HRESULT (STDMETHODCALLTYPE* CreateVideoDecoderOrg )  (IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in  const DXVA2_VideoDesc* pVideoDesc, __in  const DXVA2_ConfigPictureDecode* pConfig, __in_ecount(NumRenderTargets)  IDirect3DSurface9 **ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = NULL;
+#ifdef _DEBUG
 static HRESULT (STDMETHODCALLTYPE* GetDecoderDeviceGuidsOrg)(IDirectXVideoDecoderServiceC* pThis, __out  UINT* pCount, __deref_out_ecount_opt(*pCount)  GUID** pGuids) = NULL;
 static HRESULT (STDMETHODCALLTYPE* GetDecoderConfigurationsOrg) (IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in const DXVA2_VideoDesc* pVideoDesc, __reserved void* pReserved, __out UINT* pCount, __deref_out_ecount_opt(*pCount)  DXVA2_ConfigPictureDecode **ppConfigs) = NULL;
+#endif
 
 #ifdef _DEBUG
 static void LogDXVA2Config (const DXVA2_ConfigPictureDecode* pConfig)
@@ -1484,7 +1461,9 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 
 	if (FAILED (hr)) {
 		g_guidDXVADecoder	= GUID_NULL;
-	} else {
+	}
+#ifdef _DEBUG
+	else {
 		if ((Guid == DXVA2_ModeH264_E) ||
 				(Guid == DXVA2_ModeVC1_D)  ||
 				(Guid == DXVA_Intel_H264_ClearVideo) ||
@@ -1493,12 +1472,12 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 			*ppDecode	= DNew CFakeDirectXVideoDecoder (NULL, *ppDecode);
 			(*ppDecode)->AddRef();
 		}
-#ifdef _DEBUG
+
 		for (DWORD i=0; i<NumRenderTargets; i++) {
 			LOG(_T(" - Surf %d : %08x"), i, ppDecoderRenderTargets[i]);
 		}
-#endif
 	}
+#endif
 
 	TRACE(_T("DXVA Decoder : %s\n"), GetDXVADecoderDescription());
 #ifdef _DEBUG
@@ -1507,14 +1486,13 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 	return hr;
 }
 
+#ifdef _DEBUG
 static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine (IDirectXVideoDecoderServiceC*					pThis,
 		__out  UINT*									pCount,
 		__deref_out_ecount_opt(*pCount)  GUID**			pGuids)
 {
 	HRESULT hr = GetDecoderDeviceGuidsOrg(pThis, pCount, pGuids);
-#ifdef _DEBUG
 	LOG(_T("IDirectXVideoDecoderService::GetDecoderDeviceGuids  hr = %08x\n"), hr);
-#endif
 
 	return hr;
 }
@@ -1533,6 +1511,7 @@ static HRESULT STDMETHODCALLTYPE GetDecoderConfigurationsMine (IDirectXVideoDeco
 
 	return hr;
 }
+#endif
 
 void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 {
@@ -1548,18 +1527,22 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 			g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder = CreateVideoDecoderOrg;
 		}
 
+#ifdef _DEBUG
 		if (g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderConfigurations == GetDecoderConfigurationsMine) {
 			g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderConfigurations = GetDecoderConfigurationsOrg;
 		}
 
 		//if (g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids == GetDecoderDeviceGuidsMine)
 		//	g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsOrg;
+#endif
 
 		res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(g_pIDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
 		g_pIDirectXVideoDecoderServiceCVtbl	= NULL;
 		CreateVideoDecoderOrg				= NULL;
+#ifdef _DEBUG
 		GetDecoderConfigurationsOrg			= NULL;
+#endif
 		g_guidDXVADecoder					= GUID_NULL;
 		g_nDXVAVersion						= 0;
 	}
@@ -1577,11 +1560,13 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 		CreateVideoDecoderOrg = pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder;
 		pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder = CreateVideoDecoderMine;
 
+#ifdef _DEBUG
 		GetDecoderConfigurationsOrg = pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderConfigurations;
 		pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderConfigurations = GetDecoderConfigurationsMine;
 
 		//GetDecoderDeviceGuidsOrg = pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids;
 		//pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsMine;
+#endif
 
 		res = VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
