@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2001-2003 Michael Niedermayer <michaelni@gmx.at>
+ * Copyright (C) 2001-2011 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -30,6 +30,7 @@
 #include "libavutil/avutil.h"
 #include "libavutil/log.h"
 #include "libavutil/pixfmt.h"
+#include "ffImgfmt.h"
 
 #define LIBSWSCALE_VERSION_MAJOR 2
 #define LIBSWSCALE_VERSION_MINOR 1
@@ -45,6 +46,16 @@
 
 #define LIBSWSCALE_IDENT        "SwS" AV_STRINGIFY(LIBSWSCALE_VERSION)
 
+//FFDShow structures
+typedef struct SwsMethodParams {
+    int method;
+    double param[2];
+} SwsMethodParams;
+
+typedef struct SwsParams {
+    SwsMethodParams methodLuma,methodChroma;
+} SwsParams;
+
 /**
  * Those FF_API_* defines are not part of public API.
  * They may change, break or disappear at any time.
@@ -54,6 +65,9 @@
 #endif
 #ifndef FF_API_SWS_CPU_CAPS
 #define FF_API_SWS_CPU_CAPS    (LIBSWSCALE_VERSION_MAJOR < 3)
+#endif
+#ifndef FF_API_SWS_FORMAT_NAME
+#define FF_API_SWS_FORMAT_NAME  (LIBSWSCALE_VERSION_MAJOR < 3)
 #endif
 
 /**
@@ -87,7 +101,9 @@ const char *swscale_license(void);
 #define SWS_SRC_V_CHR_DROP_MASK     0x30000
 #define SWS_SRC_V_CHR_DROP_SHIFT    16
 
-#define SWS_PARAM_DEFAULT           123456
+//FFDShow initializes params to 0
+#define SWS_PARAM_DEFAULT           0
+//#define SWS_PARAM_DEFAULT           123456
 
 #define SWS_PRINT_INFO              0x1000
 
@@ -135,13 +151,13 @@ const int *sws_getCoefficients(int colorspace);
 
 // when used for filters they must have an odd number of elements
 // coeffs cannot be shared between vectors
-typedef struct {
+typedef struct SwsVector{
     double *coeff;              ///< pointer to the list of coefficients
     int length;                 ///< number of coefficients in the vector
 } SwsVector;
 
 // vectors can be shared
-typedef struct {
+typedef struct SwsFilter{
     SwsVector *lumH;
     SwsVector *lumV;
     SwsVector *chrH;
@@ -167,7 +183,7 @@ int sws_isSupportedOutput(enum PixelFormat pix_fmt);
  * sws_init_context(). For filling see AVOptions, options.c and
  * sws_setColorspaceDetails().
  */
-struct SwsContext *sws_alloc_context(void);
+struct SwsContext *sws_alloc_context(int threadCount);
 
 /**
  * Initializes the swscaler context sws_context.
@@ -175,7 +191,7 @@ struct SwsContext *sws_alloc_context(void);
  * @return zero or positive value on success, a negative value on
  * error
  */
-int sws_init_context(struct SwsContext *sws_context, SwsFilter *srcFilter, SwsFilter *dstFilter);
+int sws_init_context(struct SwsContext *sws_context, SwsFilter *srcFilter, SwsFilter *dstFilter, SwsParams *ffdshow_params);
 
 /**
  * Frees the swscaler context swsContext.
@@ -203,7 +219,12 @@ void sws_freeContext(struct SwsContext *swsContext);
 struct SwsContext *sws_getContext(int srcW, int srcH, enum PixelFormat srcFormat,
                                   int dstW, int dstH, enum PixelFormat dstFormat,
                                   int flags, SwsFilter *srcFilter,
-                                  SwsFilter *dstFilter, const double *param);
+                                  SwsFilter *dstFilter, const double *param, SwsParams *ffdshow_params
+								  // ==> Start patch MPC
+								  ,
+                                  int thread_count
+								  // <== End patch MPC
+								  );
 #endif
 
 /**
@@ -233,8 +254,8 @@ struct SwsContext *sws_getContext(int srcW, int srcH, enum PixelFormat srcFormat
  * @return          the height of the output slice
  */
 int sws_scale(struct SwsContext *c, const uint8_t* const srcSlice[],
-              const int srcStride[], int srcSliceY, int srcSliceH,
-              uint8_t* const dst[], const int dstStride[]);
+              const stride_t srcStride[], int srcSliceY, int srcSliceH,
+              uint8_t* const dst[], const stride_t dstStride[]);
 
 /**
  * @param inv_table the yuv2rgb coefficients, normally ff_yuv2rgb_coeffs[x]
@@ -325,7 +346,12 @@ struct SwsContext *sws_getCachedContext(struct SwsContext *context,
                                         int srcW, int srcH, enum PixelFormat srcFormat,
                                         int dstW, int dstH, enum PixelFormat dstFormat,
                                         int flags, SwsFilter *srcFilter,
-                                        SwsFilter *dstFilter, const double *param);
+                                        SwsFilter *dstFilter, const double *param, SwsParams *ffdshow_params
+										// ==> Start patch MPC
+										,
+                                        int thread_count
+										// <== End patch MPC
+										);
 
 /**
  * Converts an 8bit paletted frame into a frame with a color depth of 32-bits.
@@ -351,12 +377,10 @@ void sws_convertPalette8ToPacked32(const uint8_t *src, uint8_t *dst, int num_pix
  */
 void sws_convertPalette8ToPacked24(const uint8_t *src, uint8_t *dst, int num_pixels, const uint8_t *palette);
 
-/**
- * Get the AVClass for swsContext. It can be used in combination with
- * AV_OPT_SEARCH_FAKE_OBJ for examining options.
- *
- * @see av_opt_find().
- */
-const AVClass *sws_get_class(void);
+// ffdshow custom code
+int sws_thread_init(struct SwsContext *context);
+void sws_thread_free(struct SwsContext *context);
+int sws_thread_execute(struct SwsContext *ccontext, int (*func)(struct SwsContext *c2), int *ret, int count);
+int sws_default_execute(struct SwsContext *context, int (*func)(struct SwsContext *c2), int *ret, int count);
 
 #endif /* SWSCALE_SWSCALE_H */

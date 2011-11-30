@@ -672,7 +672,7 @@ void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIM
 	}
 }
 
-void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight, int& vsfilter)
+void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight)
 {
 #if 1
 	RealWidth = m_nWidth;
@@ -977,10 +977,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx	= avcodec_alloc_context3(m_pAVCodec);
 			CheckPointer (m_pAVCtx,	  E_POINTER);
 
-			int nThreadNumber = m_nThreadNumber;
-			if(!nThreadNumber) {
-				nThreadNumber = m_pCpuId->GetProcessorNumber();
-			}
+			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber();
 			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
 				FFSetThreadNumber(m_pAVCtx, m_nCodecId, IsDXVASupported() ? 1 : nThreadNumber);
 			}
@@ -1115,6 +1112,7 @@ VIDEO_OUTPUT_FORMATS DXVAFormats[] = { // DXVA2
 };
 
 VIDEO_OUTPUT_FORMATS SoftwareFormats[] = { // Software
+	{&MEDIASUBTYPE_NV12, 3, 12, '21VN'},
 	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
 	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
@@ -1235,17 +1233,14 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 				m_nDXVAMode  = MODE_DXVA2;
 			}
 		}
-		if (m_nDXVAMode == MODE_SOFTWARE && !FFSoftwareCheckCompatibility(m_pAVCtx)) {
+		if (m_nDXVAMode == MODE_SOFTWARE && (!FFSoftwareCheckCompatibility(m_pAVCtx) || (m_nCodecId == CODEC_ID_MPEG2VIDEO))) {
 			return VFW_E_INVALIDMEDIATYPE;
 		}
 
-		if (m_nDXVAMode == MODE_SOFTWARE && m_pAVCtx->h264_using_dxva) {
+		if (m_nDXVAMode == MODE_SOFTWARE && m_nCodecId == CODEC_ID_H264 && m_pAVCtx->h264_using_dxva) {
 			m_bUseDXVA = false;
 			avcodec_close (m_pAVCtx);
-			int nThreadNumber = m_nThreadNumber;
-			if(!nThreadNumber) {
-				nThreadNumber = m_pCpuId->GetProcessorNumber();
-			}
+			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber();
 			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
 				FFSetThreadNumber(m_pAVCtx, m_nCodecId, nThreadNumber);
 			}
@@ -1262,8 +1257,7 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 	}
 
 	// Cannot use YUY2 if horizontal or vertical resolution is not even
-	if ( ((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_NV12) && (m_nDXVAMode == MODE_SOFTWARE)) ||
-			((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_YUY2) && (m_pAVCtx->width&1 || m_pAVCtx->height&1)) ) {
+	if (((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_YUY2) && (m_pAVCtx->width&1 || m_pAVCtx->height&1))) {
 		return VFW_E_INVALIDMEDIATYPE;
 	}
 
@@ -1314,6 +1308,7 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	if (m_pDXVADecoder) {
 		m_pDXVADecoder->Flush();
 	}
+
 	return __super::NewSegment (rtStart, rtStop, dRate);
 }
 
@@ -1365,6 +1360,8 @@ int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 {
 	if (subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_YV12) {
 		return FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ;
+	} else if (subtype == MEDIASUBTYPE_NV12) {
+		return FF_CSP_NV12;
 	} else if (subtype == MEDIASUBTYPE_YUY2) {
 		return FF_CSP_YUY2;
 	}
@@ -1373,6 +1370,19 @@ int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 	return FF_CSP_NULL;
 }
 
+void swsInitParams(SwsParams *params,int resizeMethod)
+{
+	memset(params, 0, sizeof(*params));
+	params->methodLuma.method = params->methodChroma.method = resizeMethod;
+	params->methodLuma.param[0] = params->methodChroma.param[0] = SWS_PARAM_DEFAULT;
+	params->methodLuma.param[1] = params->methodChroma.param[1] = SWS_PARAM_DEFAULT;
+}
+void swsInitParams(SwsParams *params,int resizeMethod,int flags)
+{
+	swsInitParams(params, resizeMethod);
+	params->methodLuma.method |= flags;
+	params->methodChroma.method |= flags;
+}
 
 void CMPCVideoDecFilter::InitSwscale()
 {
@@ -1380,25 +1390,36 @@ void CMPCVideoDecFilter::InitSwscale()
 		BITMAPINFOHEADER bihOut;
 		ExtractBIH(&m_pOutput->CurrentMediaType(), &bihOut);
 
+		int sws_Flags = SWS_BILINEAR | SWS_FULL_CHR_H_INP | SWS_FULL_CHR_H_INT;
+
+		SwsParams params;
+		swsInitParams(&params, SWS_BILINEAR, sws_Flags);
+
 		m_nOutCsp	  = GetCspFromMediaType(m_pOutput->CurrentMediaType().subtype);
-		m_pSwsContext = sws_getContext(m_pAVCtx->width,
-									   m_pAVCtx->height,
-									   m_pAVCtx->pix_fmt,
-									   m_pAVCtx->width,
-									   m_pAVCtx->height,
-									   csp_ffdshow2lavc(m_nOutCsp),
-									   SWS_LANCZOS|SWS_PRINT_INFO,
-									   NULL,
-									   NULL,
-									   NULL);
+
+		m_pSwsContext = sws_getCachedContext(
+										NULL,
+										m_pAVCtx->width,
+										m_pAVCtx->height,
+										m_pAVCtx->pix_fmt,
+										m_pAVCtx->width,
+										m_pAVCtx->height,
+										csp_ffdshow2lavc(m_nOutCsp),
+										sws_Flags|SWS_PRINT_INFO,
+										NULL,
+										NULL,
+										NULL,
+										&params,
+										(m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber()));
+
 		m_nSwOutBpp		= bihOut.biBitCount;
 		m_pOutSize.cx	= bihOut.biWidth;
 		m_pOutSize.cy	= abs(bihOut.biHeight);
 
-	    int *inv_tbl = NULL, *tbl = NULL;
-	    int srcRange, dstRange, brightness, contrast, saturation;
-	    int ret = sws_getColorspaceDetails(m_pSwsContext, &inv_tbl, &srcRange, &tbl, &dstRange, &brightness, &contrast, &saturation);
-	    if (ret >= 0) {
+		int *inv_tbl = NULL, *tbl = NULL;
+		int srcRange, dstRange, brightness, contrast, saturation;
+		int ret = sws_getColorspaceDetails(m_pSwsContext, &inv_tbl, &srcRange, &tbl, &dstRange, &brightness, &contrast, &saturation);
+		if (ret >= 0) {
 			sws_setColorspaceDetails(m_pSwsContext, sws_getCoefficients((PictWidthRounded() > 768) ? SWS_CS_ITU709 : SWS_CS_ITU601), srcRange, tbl, dstRange, brightness, contrast, saturation);
 		}
 	}
@@ -1536,7 +1557,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			// In swscale.c: Function 'simpleCopy'
 			// Line: 1961 - Buffer Overrun
 			// This might be ffmpeg fault or more likely mpchc is not reinitializing ffmpeg correctly during display change (moving mpchc window from display A to display B)
-			sws_scale (m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
+			sws_scale(m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
 		}
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 

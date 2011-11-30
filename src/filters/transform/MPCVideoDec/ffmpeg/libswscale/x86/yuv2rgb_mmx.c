@@ -7,20 +7,20 @@
  * 1,4,8bpp support and context / deglobalize stuff
  * by Michael Niedermayer (michaelni@gmx.at)
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -81,7 +81,10 @@ SwsFunc ff_yuv2rgb_init_mmx(SwsContext *c)
     }
 #endif
 
+// ==> Start patch MPC
 #if HAVE_MMX
+// <== End patch MPC
+
     if (cpu_flags & AV_CPU_FLAG_MMX) {
         switch (c->dstFormat) {
             case PIX_FMT_RGB32:
@@ -104,7 +107,10 @@ SwsFunc ff_yuv2rgb_init_mmx(SwsContext *c)
             case PIX_FMT_RGB555: return yuv420_rgb15_MMX;
         }
     }
+
+// ==> Start patch MPC
 #endif
+// <== End patch MPC
 
     return NULL;
 }
