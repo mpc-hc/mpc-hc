@@ -187,6 +187,7 @@ bool CMpeg2DecSettingsWnd::OnApply()
 		m_pM2DF->EnablePlanarYUV(m_planaryuv);
 		m_pM2DF->EnableInterlaced(m_interlaced);
 		m_pM2DF->EnableReadARFromStream(m_readARFromStream);
+		m_pM2DF->Apply();
 	}
 
 	return true;

@@ -28,7 +28,6 @@ IMpeg2DecFilter :
 public IUnknown {
 	STDMETHOD(SetDeinterlaceMethod(ditype di)) = 0;
 	STDMETHOD_(ditype, GetDeinterlaceMethod()) = 0;
-
 	// Brightness: -255.0 to 255.0, default 0.0
 	// Contrast: 0.0 to 10.0, default 1.0
 	// Hue: -180.0 to +180.0, default 0.0
@@ -54,4 +53,6 @@ public IUnknown {
 
 	STDMETHOD(EnableReadARFromStream(bool fEnable)) = 0;
 	STDMETHOD_(bool, IsReadARFromStreamEnabled()) = 0;
+
+	STDMETHOD(Apply()) = 0;
 };

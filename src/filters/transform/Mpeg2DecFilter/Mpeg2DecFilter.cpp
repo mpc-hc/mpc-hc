@@ -295,6 +295,12 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 CMpeg2DecFilter::~CMpeg2DecFilter()
 {
+	delete m_pSubpicInput;
+	delete m_pClosedCaptionOutput;
+}
+
+STDMETHODIMP CMpeg2DecFilter::Apply()
+{
 #ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Video Decoder"))) {
@@ -320,8 +326,7 @@ CMpeg2DecFilter::~CMpeg2DecFilter()
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("ReadARFromStream"), m_bReadARFromStream);
 #endif
 
-	delete m_pSubpicInput;
-	delete m_pClosedCaptionOutput;
+	return S_OK;
 }
 
 void CMpeg2DecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight)
