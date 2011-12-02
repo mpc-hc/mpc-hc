@@ -240,11 +240,6 @@ static void asm_blend_row(void *dst0, const void *src0, uint32 w, ptrdiff_t srcp
 #endif
 
 #if defined(VD_CPU_X86) || defined(VD_CPU_AMD64)
-	/*
-	 * FIXME: Borked optimization, see ticket 1804
-	 * https://sourceforge.net/apps/trac/mpc-hc/ticket/1804
-	 */
-	/*
 	static void asm_blend_row_SSE2(void *dst, const void *src, uint32 w, ptrdiff_t srcpitch) {
 		__m128i zero = _mm_setzero_si128();
 		__m128i inv = _mm_cmpeq_epi8(zero, zero);
@@ -263,7 +258,6 @@ static void asm_blend_row(void *dst0, const void *src0, uint32 w, ptrdiff_t srcp
 			*dstrow++ = _mm_avg_epu8(_mm_xor_si128(_mm_avg_epu8(_mm_xor_si128(a, inv), _mm_xor_si128(c, inv)), inv), b);
 		} while(--w);
 	}
-	*/
 
 
 	void ela_L8_SSE2(__m128i *dst, const __m128i *srcat, const __m128i *srcab, int w16) {
@@ -1918,18 +1912,12 @@ mainRowLoop:
 	void BlendPlane(void *dst, ptrdiff_t dstpitch, const void *src, ptrdiff_t srcpitch, uint32 w, uint32 h) {
 		void (*blend_func)(void *, const void *, uint32, ptrdiff_t);
 #if defined(VD_CPU_X86)
-		/*
-		 * FIXME: asm_blend_row_SSE2 is borked, see ticket 1804
-		 * https://sourceforge.net/apps/trac/mpc-hc/ticket/1804
-		 */
-		/*
 		if (SSE2_enabled && !(srcpitch % 16))
 			blend_func = asm_blend_row_SSE2;
 		else
-		*/
 			blend_func = ISSE_enabled ? asm_blend_row_ISSE : MMX_enabled ? asm_blend_row_MMX : asm_blend_row;
 #else
-		blend_func = asm_blend_row;
+		blend_func = asm_blend_row_SSE2;
 #endif
 
 		w = (w + 3) >> 2;
