@@ -101,8 +101,8 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
 	p.y += 10;
 
-	m_ditype_static.Create(ResStr(IDS_MPEG2_DEINTERLACING), dwStyle, CRect(p, CSize(70, m_fontheight)), this);
-	m_ditype_combo.Create(dwStyle|CBS_DROPDOWNLIST, CRect(p + CSize(85, -3), CSize(100, 200)), this, IDC_PP_COMBO1);
+	m_ditype_static.Create(ResStr(IDS_MPEG2_DEINTERLACING), dwStyle, CRect(p, CSize(100, m_fontheight)), this);
+	m_ditype_combo.Create(dwStyle|CBS_DROPDOWNLIST, CRect(p + CSize(110, -3), CSize(100, 200)), this, IDC_PP_COMBO1);
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Auto")), (DWORD)DIAuto);
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Weave")), (DWORD)DIWeave);
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Blend")), (DWORD)DIBlend);
@@ -122,7 +122,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 	for(int i = 0, h = max(20, m_fontheight)+1; i < countof(m_procamp_slider); i++, p.y += h) {
 		static const TCHAR* labels[] = {m_strBrightness, m_strContrast,	m_strHue, m_strSaturation};
 		m_procamp_static[i].Create(labels[i], dwStyle, CRect(p, CSize(70, h)), this);
-		m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(80, 0), CSize(200, h)), this, IDC_PP_SLIDER1+i);
+		m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(80, 0), CSize(201, h)), this, IDC_PP_SLIDER1+i);
 		m_procamp_value[i].Create(_T(""), dwStyle, CRect(p + CPoint(280, 0), CSize(40, h)), this);
 	}
 
