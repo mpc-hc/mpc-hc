@@ -23,9 +23,8 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
     int Islice_detected = 0;
     AVCodecContext *users_MpegEncContext_avctx;
 
-#if (HAVE_PTHREADS) //mpc custom code
     avctx = get_thread0_avctx(avctx); // Next frame will start on thread 0, and we want to store SPS and PPS in the context of thread 0.
-#endif
+
     h = avctx->priv_data;
     h->is_avc = avcodec_h264_decode_init_is_avc(avctx);
     s = &h->s;

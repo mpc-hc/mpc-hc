@@ -33,10 +33,10 @@
 #include "avcodec.h"
 #include "thread.h"
 
-#if HAVE_W32THREADS
-	#include "w32pthreads.h"
-#elif HAVE_PTHREADS
-	#include <pthread.h>
+#if HAVE_PTHREADS
+#include <pthread.h>
+#elif HAVE_W32THREADS
+#include "w32pthreads.h"
 #endif
 
 typedef int (action_func)(AVCodecContext *c, void *arg);
@@ -940,7 +940,7 @@ AVCodecContext* get_thread0_avctx(AVCodecContext *avctx)
     FrameThreadContext *fctx;
     PerThreadContext *p;
 
-    if (avctx->active_thread_type&FF_THREAD_FRAME && avctx->thread_opaque){
+    if (HAVE_THREADS && (avctx->active_thread_type & FF_THREAD_FRAME) && avctx->thread_opaque){
         fctx = avctx->thread_opaque;
         p = &fctx->threads[0];
         return p->avctx;
