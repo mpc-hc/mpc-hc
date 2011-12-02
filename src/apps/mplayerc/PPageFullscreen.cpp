@@ -283,7 +283,7 @@ void CPPageFullscreen::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			for (int i=0; (size_t)i<sl.GetCount(); i++) {
 				sl1.AddTail(sl[i]);
 				if (m_list.GetItemText(pItem->iItem, COL_SRR) == sl[i]) {
-					m_iSeldm[i] = m_iSel = i;
+					m_iSel = i;
 				}
 			}
 			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl1, m_iSel);
