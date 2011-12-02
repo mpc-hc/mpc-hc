@@ -124,6 +124,7 @@ extern void		TracePinInfo(IPin* pPin);
 extern void		SetThreadName( DWORD dwThreadID, LPCSTR szThreadName);
 extern void		HexDump(CString fName, BYTE* buf, int size);
 extern DWORD	GetDefChannelMask(WORD nChannels);
+extern void		CorrectComboListWidth(CComboBox& m_pComboBox);
 
 class CPinInfo : public PIN_INFO
 {

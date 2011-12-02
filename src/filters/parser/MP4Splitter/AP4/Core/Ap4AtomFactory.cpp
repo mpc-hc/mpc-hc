@@ -132,8 +132,9 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
     stream.Tell(start);
 
     // read atom size
-    AP4_UI32 size;
-    result = stream.ReadUI32(size);
+
+    AP4_UI64 size = 0;
+    result = stream.ReadUI32((AP4_UI32&)size);
     if (AP4_FAILED(result)) {
         stream.Seek(start);
         return result;
@@ -164,25 +165,15 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 
 	if (size == 1)
 	{
-		AP4_UI32 size_high;
+		AP4_UI64 size_high;
 
-		result = stream.ReadUI32(size_high);
+		result = stream.ReadUI64(size_high);
 		if (AP4_FAILED(result) ) {
-            stream.Seek(start);
+			stream.Seek(start);
 			return AP4_ERROR_INVALID_FORMAT;
 		}
-
-		result = stream.ReadUI32(size);
-		if (AP4_FAILED(result)) {
-            stream.Seek(start);
-			return result;
-		}
-        if(size_high > 0)
-        {
-            size = (((ULONGLONG)size_high) << 32) | size;
-        }
+		size = size_high;
 	}
-
     
     // create the atom
     switch (type) {

@@ -48,6 +48,8 @@ class CNullVideoRendererInputPin : public CRendererInputPin,
 {
 public :
 	CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name);
+	~CNullVideoRendererInputPin() {
+		if (m_hDXVA2Lib) FreeLibrary(m_hDXVA2Lib);}
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -122,7 +124,7 @@ public :
 	};
 
 private :
-
+	HMODULE									m_hDXVA2Lib;
 	PTR_DXVA2CreateDirect3DDeviceManager9	pfDXVA2CreateDirect3DDeviceManager9;
 	PTR_DXVA2CreateVideoService				pfDXVA2CreateVideoService;
 
@@ -141,17 +143,13 @@ private :
 CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name)
 	: CRendererInputPin(pRenderer, phr, Name)
 {
-	HMODULE		hLib;
-
 	CreateSurface();
 
-	hLib = LoadLibrary (L"dxva2.dll");
-	pfDXVA2CreateDirect3DDeviceManager9	= hLib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress (hLib, "DXVA2CreateDirect3DDeviceManager9") : NULL;
-	pfDXVA2CreateVideoService			= hLib ? (PTR_DXVA2CreateVideoService)           GetProcAddress (hLib, "DXVA2CreateVideoService") : NULL;
-
-
-	if (hLib != NULL) {
-		pfDXVA2CreateDirect3DDeviceManager9 (&m_nResetTocken, &m_pD3DDeviceManager);
+	m_hDXVA2Lib = LoadLibrary(L"dxva2.dll");
+	if (m_hDXVA2Lib) {
+		pfDXVA2CreateDirect3DDeviceManager9 = reinterpret_cast<PTR_DXVA2CreateDirect3DDeviceManager9>(GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9"));
+		pfDXVA2CreateVideoService = reinterpret_cast<PTR_DXVA2CreateVideoService>(GetProcAddress(m_hDXVA2Lib, "DXVA2CreateVideoService"));
+		pfDXVA2CreateDirect3DDeviceManager9(&m_nResetTocken, &m_pD3DDeviceManager);
 	}
 
 	// Initialize Device Manager with DX surface

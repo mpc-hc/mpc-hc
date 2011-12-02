@@ -186,6 +186,8 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		pWnd->SetFont(&m_font, FALSE);
 	}
 
+	CorrectComboListWidth(m_cbDXVACompatibilityCheck);
+
 	if (m_pMDF) {
 #if HAS_FFMPEG_VIDEO_DECODERS
 #if INTERNAL_DECODER_H264
