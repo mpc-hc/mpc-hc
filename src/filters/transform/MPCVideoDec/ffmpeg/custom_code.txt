@@ -15,4 +15,3 @@ The following files have MPC-specific custom code (compared to ffdshow):
 * libavcodec/vc1_dxva.c
 * libavcodec/vp3.c
 * libavutil/log.h
-* libswscale (vanilla from libav)

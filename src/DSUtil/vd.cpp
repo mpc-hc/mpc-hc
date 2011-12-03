@@ -175,10 +175,10 @@ bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYT
 		&& !((DWORD_PTR)dst&15) && !(dstpitch&15))
 	{
 		if(w<=0 || h<=0 || (w&1) || (h&1))
-			return(false);
+			return false;
 
 		yv12_yuy2_sse2(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
-		return(true);
+		return true;
 	}
 #endif
 
@@ -322,7 +322,7 @@ static void yuvtoyuy2row_avg_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DW
 bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
 {
 	if(w<=0 || h<=0 || (w&1) || (h&1))
-		return(false);
+		return false;
 
 	if(srcpitch == 0) srcpitch = w;
 
@@ -335,7 +335,7 @@ bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE*
 		&& !((DWORD_PTR)dst&15) && !(dstpitch&15))
 	{
 		yv12_yuy2_sse2_interlaced(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
-		return(true);
+		return true;
 	}
 
 	if((g_cpuid.m_flags & CCpuID::mmx) && !(w&7))
@@ -351,7 +351,7 @@ bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE*
 	}
 
 	if(!yuvtoyuy2row)
-		return(false);
+		return false;
 
 	int halfsrcpitch = srcpitch/2;
 	do
@@ -374,5 +374,5 @@ bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE*
 		__asm emms
 #endif
 
-	return(true);
+	return true;
 }

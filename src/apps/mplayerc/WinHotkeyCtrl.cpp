@@ -251,7 +251,7 @@ void CWinHotkeyCtrl::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 BOOL CWinHotkeyCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	return(FALSE);
+	return FALSE;
 }
 
 void CWinHotkeyCtrl::OnSetFocus(CWnd* pOldWnd)
