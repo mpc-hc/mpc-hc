@@ -752,6 +752,10 @@ public:
 		return l1 < l2 ? -1 : +1;
 	}
 
+	int comparei(const wchar_t *s) const {
+		return comparei(VDStringSpanW(s));
+	}
+
 	int comparei(const VDStringSpanW& s) const {
 		size_type l1 = (size_type)(mpEnd - mpBegin);
 		size_type l2 = (size_type)(s.mpEnd - s.mpBegin);

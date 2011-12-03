@@ -93,6 +93,8 @@ public:
 		q[1] = hi;
 	}
 
+	explicit inline vdint128(const vduint128& x);
+
 	sint64 getHi() const { return q[1]; }
 	uint64 getLo() const { return q[0]; }
 
@@ -239,6 +241,8 @@ public:
 		q[1] = hi;
 	}
 
+	explicit inline vduint128(const vdint128& x);
+
 	uint64 getHi() const { return q[1]; }
 	uint64 getLo() const { return q[0]; }
 
@@ -345,6 +349,16 @@ public:
 	const vduint128 operator>>(int v) const;
 #endif
 };
+
+inline vdint128::vdint128(const vduint128& x) {
+	q[0] = x.q[0];
+	q[1] = x.q[1];
+}
+
+inline vduint128::vduint128(const vdint128& x) {
+	q[0] = x.q[0];
+	q[1] = x.q[1];
+}
 
 #ifdef _M_AMD64
 	inline vduint128 VDUMul64x64To128(uint64 x, uint64 y) {

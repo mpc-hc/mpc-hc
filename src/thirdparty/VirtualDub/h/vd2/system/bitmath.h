@@ -61,8 +61,8 @@ inline float VDGetIntAsFloat(sint32 i) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifdef VD_COMPILER_MSVC_VC8
-	#include <intrin.h>
+#ifdef VD_COMPILER_MSVC_VC8_OR_LATER
+	#include <vd2/system/win32/intrin.h>
 	#pragma intrinsic(_BitScanForward)
 	#pragma intrinsic(_BitScanReverse)
 

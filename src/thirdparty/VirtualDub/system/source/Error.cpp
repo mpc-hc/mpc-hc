@@ -231,6 +231,10 @@ MyMemoryError::MyMemoryError() {
 	setf("Out of memory");
 }
 
+MyMemoryError::MyMemoryError(size_t requestedSize) {
+	setf("Out of memory (unable to allocate %llu bytes)", (unsigned long long)requestedSize);
+}
+
 MyWin32Error::MyWin32Error(const char *format, uint32 err, ...)
 	: mWin32Error(err)
 {

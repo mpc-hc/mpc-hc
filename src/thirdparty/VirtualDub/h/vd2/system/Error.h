@@ -94,6 +94,7 @@ public:
 class MyMemoryError : public MyError {
 public:
 	MyMemoryError();
+	MyMemoryError(size_t attemptedSize);
 };
 
 class MyWin32Error : public MyError {

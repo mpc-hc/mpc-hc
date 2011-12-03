@@ -47,6 +47,10 @@ namespace nsVDMath {
 // Integer clamping functions
 //
 #ifdef _M_IX86
+	inline uint32 VDClampToUint32(uint64 v) {
+		return v >= 0x100000000UL ? 0xFFFFFFFFUL : (uint32)v;
+	}
+
 	inline uint32 VDClampToUint32(sint64 v) {
 		union U {
 			__int64 v64;
@@ -57,6 +61,10 @@ namespace nsVDMath {
 		};
 
 		return ((U *)&v)->v32.hi ? ~(((U *)&v)->v32.hi >> 31) : ((U *)&v)->v32.lo;
+	}
+
+	inline uint32 VDClampToUint32(sint32 v) {
+		return v < 0 ? 0 : (uint32)v;
 	}
 #else
 	inline uint32 VDClampToUint32(sint64 v) {

@@ -386,7 +386,7 @@ const vdint128 vdint128::operator*(const vdint128& x) const {
 
 	bd.q[1] += X.q[0]*Y.q[1] + X.q[1]*Y.q[0];
 
-	return (q[1]^x.q[1])<0 ? -(const vdint128&)bd : (const vdint128&)bd;
+	return (q[1]^x.q[1])<0 ? -vdint128(bd) : vdint128(bd);
 }
 
 const vdint128 vdint128::operator/(int x) const {

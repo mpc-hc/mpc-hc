@@ -308,6 +308,9 @@
     <ClInclude Include="..\h\vd2\system\zip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\h\vd2\system\win32\intrin.h">
+      <Filter>Header Files\win32</Filter>
+    </ClInclude>
     <ClInclude Include="..\h\vd2\system\win32\miniwindows.h">
       <Filter>Header Files\win32</Filter>
     </ClInclude>
@@ -345,6 +348,9 @@
     </YASM>
     <YASM Include="source\a_thunk.asm">
       <Filter>Assembly Files %28x86%29</Filter>
+    </YASM>
+    <YASM Include="source\a64_cpuaccel.asm">
+      <Filter>Assembly Files %28AMD64%29</Filter>
     </YASM>
     <YASM Include="source\a64_fraction.asm">
       <Filter>Assembly Files %28AMD64%29</Filter>

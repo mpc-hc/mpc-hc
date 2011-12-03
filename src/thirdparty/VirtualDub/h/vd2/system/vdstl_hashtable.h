@@ -71,6 +71,10 @@ struct vdhashtable_node : public vdhashtable_base_node {
 	T mData;
 
 	vdhashtable_node() {}
+	vdhashtable_node(vdhashtable_node<T> *next) : mData() {
+		mpHashNext = next;
+	}
+
 	vdhashtable_node(vdhashtable_node<T> *next, const T& val) : mData(val) {
 		mpHashNext = next;
 	}

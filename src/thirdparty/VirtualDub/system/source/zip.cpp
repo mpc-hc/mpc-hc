@@ -640,3 +640,92 @@ IVDStream *VDZipArchive::OpenRawStream(sint32 idx) {
 
 	return mpStream;
 }
+
+///////////////////////////////////////////////////////////////////////////
+
+VDGUnzipStream::VDGUnzipStream() {
+}
+
+VDGUnzipStream::VDGUnzipStream(IVDStream *pSrc, uint64 limit) {
+	Init(pSrc, limit);
+}
+
+VDGUnzipStream::~VDGUnzipStream() {
+}
+
+void VDGUnzipStream::Init(IVDStream *pSrc, uint64 limit) {
+	// See RFC1952 for a description of the gzip header format.
+	uint8 hdr[10];
+
+	uint32 gzipContainerBytes = 10 + 8;	// header + footer
+	pSrc->Read(hdr, 10);
+	if (hdr[0] != 0x1f || hdr[1] != 0x8b)
+		throw MyError("Source stream is not in gzip format.");
+
+	if (hdr[2] != 0x08)
+		throw MyError("Gzip stream uses an unsupported compression method.");
+
+	enum {
+		FLG_FTEXT		= 0x01,
+		FLG_FHCRC		= 0x02,
+		FLG_FEXTRA		= 0x04,
+		FLG_FNAME		= 0x08,
+		FLG_FCOMMENT	= 0x10
+	};
+
+	const uint8 flg = hdr[3];
+
+	if (flg & FLG_FEXTRA) {
+		uint8 xlendat[2];
+		pSrc->Read(xlendat, 2);
+
+		uint32 xlen = VDReadUnalignedLEU16(xlendat);
+		uint8 buf[256];
+
+		gzipContainerBytes += xlen + 2;
+
+		while(xlen) {
+			uint32 tc = xlen > 256 ? 256 : xlen;
+			pSrc->Read(buf, tc);
+			xlen -= tc;
+		}
+	}
+
+	if (flg & FLG_FNAME) {
+		// ugh
+		uint8 c;
+		for(;;) {
+			pSrc->Read(&c, 1);
+			++gzipContainerBytes;
+
+			if (!c)
+				break;
+
+			mFilename += c;
+		} 
+	}
+
+	if (flg & FLG_FCOMMENT) {
+		// ugh
+		uint8 c;
+		do {
+			pSrc->Read(&c, 1);
+			++gzipContainerBytes;
+		} while(c);
+	}
+
+	if (flg & FLG_FHCRC) {
+		uint16 crc16;
+
+		pSrc->Read(&crc16, 2);
+		gzipContainerBytes += 2;
+	}
+
+	if (gzipContainerBytes > limit)
+		throw MyError("The gzip compressed data is invalid.");
+
+	limit -= gzipContainerBytes;
+
+	VDZipStream::Init(pSrc, limit, false);
+}
+

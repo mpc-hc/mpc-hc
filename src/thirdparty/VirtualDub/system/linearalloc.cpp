@@ -11,6 +11,10 @@ VDLinearAllocator::VDLinearAllocator(uint32 blockSize)
 }
 
 VDLinearAllocator::~VDLinearAllocator() {
+	Clear();
+}
+
+void VDLinearAllocator::Clear() {
 	Block *p = mpBlocks;
 
 	while(p) {
@@ -20,6 +24,8 @@ VDLinearAllocator::~VDLinearAllocator() {
 
 		p = next;
 	}
+
+	mpBlocks = NULL;
 }
 
 void *VDLinearAllocator::AllocateSlow(size_t bytes) {
@@ -31,17 +37,20 @@ void *VDLinearAllocator::AllocateSlow(size_t bytes) {
 		if (!block)
 			throw MyMemoryError();
 
-		p = block + 1;
+        mAllocLeft = 0;
 
 	} else {
 		block = (Block *)malloc(sizeof(Block) + mBlockSize);
+
 		if (!block)
 			throw MyMemoryError();
 
-		p = block + 1;
-		mpAllocPtr = (char *)p + bytes;
 		mAllocLeft = mBlockSize - bytes;
+
 	}
+
+	p = block + 1;
+	mpAllocPtr = (char *)p + bytes;
 
 	block->mpNext = mpBlocks;
 	mpBlocks = block;

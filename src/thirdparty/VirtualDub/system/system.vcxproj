@@ -223,6 +223,7 @@
     <ClInclude Include="..\h\vd2\system\vectors_int.h" />
     <ClInclude Include="..\h\vd2\system\w32assist.h" />
     <ClInclude Include="..\h\vd2\system\zip.h" />
+    <ClInclude Include="..\h\vd2\system\win32\intrin.h" />
     <ClInclude Include="..\h\vd2\system\win32\miniwindows.h" />
     <ClInclude Include="h\stdafx.h" />
   </ItemGroup>
@@ -232,6 +233,9 @@
     </YASM>
     <YASM Include="source\a_thunk.asm">
       <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </YASM>
+    <YASM Include="source\a64_cpuaccel.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
     </YASM>
     <YASM Include="source\a64_fraction.asm">
       <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>

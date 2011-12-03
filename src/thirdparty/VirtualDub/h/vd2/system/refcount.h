@@ -308,4 +308,16 @@ inline vdsaferelease_t& operator,(vdsaferelease_t& x, T *& p) {
 	return x;
 }
 
+///////////////////////////////////////////////////////////////////////////
+
+template<class T>
+void VDReleaseObjects(const T& container) {
+	for(typename T::const_iterator it(container.begin()), itEnd(container.end());
+		it != itEnd;
+		++it)
+	{
+		(*it)->Release();
+	}
+}
+
 #endif

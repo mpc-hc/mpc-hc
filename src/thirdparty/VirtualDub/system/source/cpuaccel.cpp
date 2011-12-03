@@ -36,188 +36,123 @@ extern "C" {
 	bool FPU_enabled, MMX_enabled, SSE_enabled, ISSE_enabled, SSE2_enabled;
 };
 
+namespace {
+#ifdef _M_IX86
+	bool VDIsAVXSupportedByOS() {
+		uint32 xfeature_enabled_mask;
 
-#ifdef _M_AMD64
-
-	long CPUCheckForExtensions() {
-		long flags = CPUF_SUPPORTS_FPU;
-
-		// This code used to use IsProcessorFeaturePresent(), but this function is somewhat
-		// suboptimal in Win64 -- for one thing, it doesn't return true for MMX, at least
-		// on Vista 64.
-
-		// check for SSE3, SSSE3, SSE4.1
-		int cpuInfo[4];
-		__cpuid(cpuInfo, 1);
-
-		if (cpuInfo[3] & (1 << 23))
-			flags |= CPUF_SUPPORTS_MMX;
-
-		if (cpuInfo[3] & (1 << 25))
-			flags |= CPUF_SUPPORTS_SSE | CPUF_SUPPORTS_INTEGER_SSE;
-
-		if (cpuInfo[3] & (1 << 26))
-			flags |= CPUF_SUPPORTS_SSE2;
-
-		if (cpuInfo[2] & 0x00000001)
-			flags |= CPUF_SUPPORTS_SSE3;
-
-		if (cpuInfo[2] & 0x00000200)
-			flags |= CPUF_SUPPORTS_SSSE3;
-
-		if (cpuInfo[2] & 0x00080000)
-			flags |= CPUF_SUPPORTS_SSE41;
-
-		// check for 3DNow!, 3DNow! extensions
-		__cpuid(cpuInfo, 0x80000000);
-		if (cpuInfo[0] >= 0x80000001) {
-			__cpuid(cpuInfo, 0x80000001);
-
-			if (cpuInfo[3] & (1 << 31))
-				flags |= CPUF_SUPPORTS_3DNOW;
-
-			if (cpuInfo[3] & (1 << 30))
-				flags |= CPUF_SUPPORTS_3DNOW_EXT;
-
-			if (cpuInfo[3] & (1 << 22))
-				flags |= CPUF_SUPPORTS_INTEGER_SSE;
+		__asm {
+			xor ecx, ecx
+			__emit 0x0f		;xgetbv
+			__emit 0x01
+			__emit 0xd0
+			mov dword ptr xfeature_enabled_mask, eax
 		}
 
-		return flags;
+		return (xfeature_enabled_mask & 0x06) == 0x06;
 	}
 
+	bool IsSSESupported() {
+
+		return true;
+	}
 #else
+	extern "C" bool VDIsAVXSupportedByOS();
 
-	// This is ridiculous.
+	bool IsSSESupported() {
+		return true;
+	}
+#endif
+}
 
-	static long CPUCheckForSSESupport() {
+// This code used to use IsProcessorFeaturePresent(), but this function is somewhat
+// suboptimal in Win64 -- for one thing, it doesn't return true for MMX, at least
+// on Vista 64.
+long CPUCheckForExtensions() {
+	// check for CPUID (x86 only)
+#ifdef _M_IX86
+	uint32 id;
+	__asm {
+		pushfd
+		or		dword ptr [esp], 00200000h	;set the ID bit
+		popfd
+		pushfd					;flags -> EAX
+		pop		dword ptr id
+	}
+
+	if (!(id & 0x00200000)) {
+		// if we don't have CPUID, we probably won't want to try FPU optimizations
+		// (80486).
+		return 0;
+	}
+#endif
+
+	// check for features register
+	long flags = CPUF_SUPPORTS_FPU | CPUF_SUPPORTS_CPUID;
+
+	int cpuInfo[4];
+	__cpuid(cpuInfo, 0);
+	if (cpuInfo[0] == 0)
+		return flags;
+
+	__cpuid(cpuInfo, 1);
+
+	if (cpuInfo[3] & (1 << 23))
+		flags |= CPUF_SUPPORTS_MMX;
+
+	if (cpuInfo[3] & (1 << 25)) {
+		// Check if SSE is actually supported.
+		bool sseSupported = true;
+
+#ifdef _M_IX86
 		__try {
-	//		__asm andps xmm0,xmm0
-
-			__asm _emit 0x0f
-			__asm _emit 0x54
-			__asm _emit 0xc0
-
+			__asm andps xmm0,xmm0
 		} __except(EXCEPTION_EXECUTE_HANDLER) {
 			if (_exception_code() == STATUS_ILLEGAL_INSTRUCTION)
-				g_lCPUExtensionsAvailable &= ~(CPUF_SUPPORTS_SSE|CPUF_SUPPORTS_SSE2|CPUF_SUPPORTS_SSE3|CPUF_SUPPORTS_SSSE3);
+				sseSupported = false;
 		}
-
-		return g_lCPUExtensionsAvailable;
-	}
-
-	long __declspec(naked) CPUCheckForExtensions() {
-		__asm {
-			push	ebp
-			push	edi
-			push	esi
-			push	ebx
-
-			xor		ebp,ebp			;cpu flags - if we don't have CPUID, we probably
-									;won't want to try FPU optimizations.
-
-			;check for CPUID.
-
-			pushfd					;flags -> EAX
-			pop		eax
-			or		eax,00200000h	;set the ID bit
-			push	eax				;EAX -> flags
-			popfd
-			pushfd					;flags -> EAX
-			pop		eax
-			and		eax,00200000h	;ID bit set?
-			jz		done			;nope...
-
-			;CPUID exists, check for features register.
-
-			mov		ebp,00000003h
-			xor		eax,eax
-			cpuid
-			or		eax,eax
-			jz		done			;no features register?!?
-
-			;features register exists, look for MMX, SSE, SSE2.
-
-			mov		eax,1
-			cpuid
-			mov		ebx,edx
-			and		ebx,00800000h	;MMX is bit 23 of EDX
-			shr		ebx,21
-			or		ebp,ebx			;set bit 2 if MMX exists
-
-			mov		ebx,edx
-			and		edx,02000000h	;SSE is bit 25 of EDX
-			shr		edx,25
-			neg		edx
-			and		edx,00000018h	;set bits 3 and 4 if SSE exists
-			or		ebp,edx
-
-			and		ebx,04000000h	;SSE2 is bit 26 of EDX
-			shr		ebx,21
-			and		ebx,00000020h	;set bit 5
-			or		ebp,ebx
-
-			test	ecx, 1			;SSE3 is bit 0 of ECX
-			jz		no_sse3
-			or		ebp, 100h
-no_sse3:
-
-			test	ecx, 200h		;SSSE3 is bit 9 of ECX
-			jz		no_ssse3
-			or		ebp, 200h
-no_ssse3:
-
-			test	ecx, 80000h		;SSE4_1 is bit 19 of ECX
-			jz		no_sse4_1
-			or		ebp, 400h
-no_sse4_1:
-
-			;check for vendor feature register (K6/Athlon).
-
-			mov		eax,80000000h
-			cpuid
-			mov		ecx,80000001h
-			cmp		eax,ecx
-			jb		done
-
-			;vendor feature register exists, look for 3DNow! and Athlon extensions
-
-			mov		eax,ecx
-			cpuid
-
-			mov		eax,edx
-			and		edx,80000000h	;3DNow! is bit 31
-			shr		edx,25
-			or		ebp,edx			;set bit 6
-
-			mov		edx,eax
-			and		eax,40000000h	;3DNow!2 is bit 30
-			shr		eax,23
-			or		ebp,eax			;set bit 7
-
-			and		edx,00400000h	;AMD MMX extensions (integer SSE) is bit 22
-			shr		edx,19
-			or		ebp,edx
-
-	done:
-			mov		eax,ebp
-			mov		g_lCPUExtensionsAvailable, ebp
-
-			;Full SSE and SSE-2 require OS support for the xmm* registers.
-
-			test	eax,00000030h
-			jz		nocheck
-			call	CPUCheckForSSESupport
-	nocheck:
-			pop		ebx
-			pop		esi
-			pop		edi
-			pop		ebp
-			ret
-		}
-	}
-
 #endif
+		
+		if (sseSupported) {
+			flags |= CPUF_SUPPORTS_SSE | CPUF_SUPPORTS_INTEGER_SSE;
+
+			if (cpuInfo[3] & (1 << 26))
+				flags |= CPUF_SUPPORTS_SSE2;
+
+			if (cpuInfo[2] & 0x00000001)
+				flags |= CPUF_SUPPORTS_SSE3;
+
+			if (cpuInfo[2] & 0x00000200)
+				flags |= CPUF_SUPPORTS_SSSE3;
+
+			if (cpuInfo[2] & 0x00080000)
+				flags |= CPUF_SUPPORTS_SSE41;
+
+			// check OSXSAVE and AVX bits
+			if ((cpuInfo[2] & ((1 << 27) | (1 << 28))) == ((1 << 27) | (1 << 28))) {
+				if (VDIsAVXSupportedByOS())
+					flags |= CPUF_SUPPORTS_AVX;
+			}
+		}
+	}
+
+	// check for 3DNow!, 3DNow! extensions
+	__cpuid(cpuInfo, 0x80000000);
+	if ((unsigned)cpuInfo[0] >= 0x80000001U) {
+		__cpuid(cpuInfo, 0x80000001);
+
+		if (cpuInfo[3] & (1 << 31))
+			flags |= CPUF_SUPPORTS_3DNOW;
+
+		if (cpuInfo[3] & (1 << 30))
+			flags |= CPUF_SUPPORTS_3DNOW_EXT;
+
+		if (cpuInfo[3] & (1 << 22))
+			flags |= CPUF_SUPPORTS_INTEGER_SSE;
+	}
+
+	return flags;
+}
 
 long CPUEnableExtensions(long lEnableFlags) {
 	g_lCPUExtensionsEnabled = lEnableFlags;

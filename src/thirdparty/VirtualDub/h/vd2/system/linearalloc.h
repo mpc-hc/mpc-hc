@@ -7,6 +7,8 @@ class VDLinearAllocator {
 public:
 	explicit VDLinearAllocator(uint32 blockSize = 4096);
 	~VDLinearAllocator();
+	
+	void Clear();
 
 	void *Allocate(size_t bytes) {
 		void *p = mpAllocPtr;

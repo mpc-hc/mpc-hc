@@ -462,6 +462,7 @@ protected:
 
 	uint32		mWriteOffset;
 	VDAtomicInt	mBufferLevel;
+	sint64		mClientSlowPointer;
 	sint64		mClientFastPointer;
 	sint64		mFastPointer;
 
@@ -479,6 +480,7 @@ VDFileAsyncNT::VDFileAsyncNT()
 	: mhFileSlow(INVALID_HANDLE_VALUE)
 	, mhFileFast(INVALID_HANDLE_VALUE)
 	, mFastPointer(0)
+	, mClientSlowPointer(0)
 	, mClientFastPointer(0)
 	, mbPreemptiveExtend(false)
 	, mpError(NULL)
@@ -645,7 +647,7 @@ void VDFileAsyncNT::Write(sint64 pos, const void *p, uint32 bytes) {
 	Seek(pos);
 
 	DWORD dwActual;
-	if (!WriteFile(mhFileSlow, p, bytes, &dwActual, NULL) || dwActual != bytes)
+	if (!WriteFile(mhFileSlow, p, bytes, &dwActual, NULL) || (mClientSlowPointer += dwActual),(dwActual != bytes))
 		throw MyWin32Error("Write error occurred on file \"%s\": %%s", GetLastError(), mFilename.c_str());
 }
 
@@ -707,6 +709,9 @@ void VDFileAsyncNT::Seek(sint64 pos) {
 }
 
 bool VDFileAsyncNT::SeekNT(sint64 pos) {
+	if (mClientSlowPointer == pos)
+		return true;
+
 	LONG posHi = (LONG)(pos >> 32);
 	DWORD result = SetFilePointer(mhFileSlow, (LONG)pos, &posHi, FILE_BEGIN);
 
@@ -717,6 +722,7 @@ bool VDFileAsyncNT::SeekNT(sint64 pos) {
 			return false;
 	}
 
+	mClientSlowPointer = pos;
 	return true;
 }
 

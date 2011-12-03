@@ -17,6 +17,7 @@
 //	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 #include <stdafx.h>
+#include <vd2/system/error.h>
 #include <vd2/system/vdtypes.h>
 #include <vd2/Kasumi/pixmaputils.h>
 #include <vd2/system/memory.h>
@@ -414,17 +415,25 @@ void VDPixmapBuffer::init(sint32 width, sint32 height, int f) {
 	sint32		subh		= -(-height >> srcinfo.auxhbits);
 	ptrdiff_t	mainpitch	= (srcinfo.qsize * qw + 15) & ~15;
 	ptrdiff_t	subpitch	= (srcinfo.auxsize * subw + 15) & ~15;
-	size_t		mainsize	= mainpitch * qh;
-	size_t		subsize		= subpitch * subh;
-	size_t		totalsize	= mainsize + subsize*srcinfo.auxbufs + 4 * srcinfo.palsize;
+	uint64		mainsize	= (uint64)mainpitch * qh;
+	uint64		subsize		= (uint64)subpitch * subh;
+	uint64		totalsize64	= mainsize + subsize*srcinfo.auxbufs + 4 * srcinfo.palsize;
 
 #ifdef _DEBUG
-	totalsize += 28;
+	totalsize64 += 28;
 #endif
+
+	// reject huge allocations
+	if (totalsize64 > (size_t)-1 - 4096)
+		throw MyMemoryError();
+
+	size_t totalsize = (uint32)totalsize64;
 
 	if (mLinearSize != totalsize) {
 		clear();
-		mpBuffer = new char[totalsize + 15];
+		mpBuffer = new_nothrow char[totalsize + 15];
+		if (!mpBuffer)
+			throw MyMemoryError(totalsize + 15);
 		mLinearSize = totalsize;
 	}
 
@@ -474,54 +483,63 @@ void VDPixmapBuffer::init(sint32 width, sint32 height, int f) {
 #endif
 }
 
-void VDPixmapBuffer::init(const VDPixmapLayout& layout) {
+void VDPixmapBuffer::init(const VDPixmapLayout& layout, uint32 additionalPadding) {
 	const VDPixmapFormatInfo& srcinfo = VDPixmapGetInfo(layout.format);
 	sint32		qw			= (layout.w + srcinfo.qw - 1) / srcinfo.qw;
 	sint32		qh			= -(-layout.h >> srcinfo.qhbits);
 	sint32		subw		= -(-layout.w >> srcinfo.auxwbits);
 	sint32		subh		= -(-layout.h >> srcinfo.auxhbits);
 
-	ptrdiff_t mino=0, maxo=0;
+	sint64 mino=0, maxo=0;
 
 	if (layout.pitch < 0) {
-		mino = std::min<ptrdiff_t>(mino, layout.data + layout.pitch * (qh-1));
-		maxo = std::max<ptrdiff_t>(maxo, layout.data - layout.pitch);
+		mino = std::min<sint64>(mino, layout.data + (sint64)layout.pitch * (qh-1));
+		maxo = std::max<sint64>(maxo, layout.data - (sint64)layout.pitch);
 	} else {
-		mino = std::min<ptrdiff_t>(mino, layout.data);
-		maxo = std::max<ptrdiff_t>(maxo, layout.data + layout.pitch*qh);
+		mino = std::min<sint64>(mino, layout.data);
+		maxo = std::max<sint64>(maxo, layout.data + (sint64)layout.pitch*qh);
 	}
 
 	if (srcinfo.auxbufs >= 1) {
 		if (layout.pitch2 < 0) {
-			mino = std::min<ptrdiff_t>(mino, layout.data2 + layout.pitch2 * (subh-1));
-			maxo = std::max<ptrdiff_t>(maxo, layout.data2 - layout.pitch2);
+			mino = std::min<sint64>(mino, layout.data2 + (sint64)layout.pitch2 * (subh-1));
+			maxo = std::max<sint64>(maxo, layout.data2 - (sint64)layout.pitch2);
 		} else {
-			mino = std::min<ptrdiff_t>(mino, layout.data2);
-			maxo = std::max<ptrdiff_t>(maxo, layout.data2 + layout.pitch2*subh);
+			mino = std::min<sint64>(mino, layout.data2);
+			maxo = std::max<sint64>(maxo, layout.data2 + (sint64)layout.pitch2*subh);
 		}
 
 		if (srcinfo.auxbufs >= 2) {
 			if (layout.pitch3 < 0) {
-				mino = std::min<ptrdiff_t>(mino, layout.data3 + layout.pitch3 * (subh-1));
-				maxo = std::max<ptrdiff_t>(maxo, layout.data3 - layout.pitch3);
+				mino = std::min<sint64>(mino, layout.data3 + (sint64)layout.pitch3 * (subh-1));
+				maxo = std::max<sint64>(maxo, layout.data3 - (sint64)layout.pitch3);
 			} else {
-				mino = std::min<ptrdiff_t>(mino, layout.data3);
-				maxo = std::max<ptrdiff_t>(maxo, layout.data3 + layout.pitch3*subh);
+				mino = std::min<sint64>(mino, layout.data3);
+				maxo = std::max<sint64>(maxo, layout.data3 + (sint64)layout.pitch3*subh);
 			}
 		}
 	}
 
-	ptrdiff_t linsize = ((maxo - mino + 3) & ~(uintptr)3);
+	sint64 linsize64 = ((maxo - mino + 3) & ~(uint64)3);
 
-	ptrdiff_t totalsize = linsize + 4*srcinfo.palsize;
+	sint64 totalsize64 = linsize64 + 4*srcinfo.palsize + additionalPadding;
 
 #ifdef _DEBUG
-	totalsize += 28;
+	totalsize64 += 28;
 #endif
+
+	// reject huge allocations
+	if (totalsize64 > (size_t)-1 - 4096)
+		throw MyMemoryError();
+
+	size_t totalsize = (uint32)totalsize64;
+	ptrdiff_t linsize = (uint32)linsize64;
 
 	if (mLinearSize != totalsize) {
 		clear();
-		mpBuffer = new char[totalsize + 15];
+		mpBuffer = new_nothrow char[totalsize + 15];
+		if (!mpBuffer)
+			throw MyMemoryError(totalsize + 15);
 		mLinearSize = totalsize;
 	}
 

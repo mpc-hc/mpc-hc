@@ -53,6 +53,7 @@
 
 		#if _MSC_VER >= 1400
 			#define VD_COMPILER_MSVC_VC8		1
+			#define VD_COMPILER_MSVC_VC8_OR_LATER 1
 
 			#if _MSC_FULL_VER == 140040310
 				#define VD_COMPILER_MSVC_VC8_PSDK 1

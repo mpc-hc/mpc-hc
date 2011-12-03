@@ -217,4 +217,18 @@ protected:
 	IVDRandomAccessStream			*mpStream;
 };
 
+class VDGUnzipStream : public VDZipStream {
+public:
+	VDGUnzipStream();
+	VDGUnzipStream(IVDStream *pSrc, uint64 limit);
+	~VDGUnzipStream();
+
+	void Init(IVDStream *pSrc, uint64 limit);
+
+	const char *GetFilename() const { return mFilename.c_str(); }
+
+protected:
+	VDStringA mFilename;
+};
+
 #endif

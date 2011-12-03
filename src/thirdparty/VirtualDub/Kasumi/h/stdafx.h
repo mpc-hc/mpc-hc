@@ -17,6 +17,6 @@
 //	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 #include <vd2/system/vdtypes.h>
-#include <vd2/system/math.h>
+#include <vd2/system/math.h> // MPC-HC patch
 #include <vd2/Kasumi/pixmap.h>
 #include <uberblit.h>

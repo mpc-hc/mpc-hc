@@ -1,6 +1,6 @@
 //	VirtualDub - Video processing and capture application
 //	System library component
-//	Copyright (C) 1998-2004 Avery Lee, All Rights Reserved.
+//	Copyright (C) 1998-2011 Avery Lee, All Rights Reserved.
 //
 //	Beginning with 1.6.0, the VirtualDub system library is licensed
 //	differently than the remainder of VirtualDub.  This particular file is
@@ -23,28 +23,30 @@
 //	3.	This notice may not be removed or altered from any source
 //		distribution.
 
-#ifndef f_VIRTUALDUB_CPUACCEL_H
-#define f_VIRTUALDUB_CPUACCEL_H
+#ifndef f_VD2_SYSTEM_WIN32_INTRIN_H
+#define f_VD2_SYSTEM_WIN32_INTRIN_H
 
-#define CPUF_SUPPORTS_CPUID			(0x00000001L)
-#define CPUF_SUPPORTS_FPU			(0x00000002L)
-#define CPUF_SUPPORTS_MMX			(0x00000004L)
-#define CPUF_SUPPORTS_INTEGER_SSE	(0x00000008L)
-#define CPUF_SUPPORTS_SSE			(0x00000010L)
-#define CPUF_SUPPORTS_SSE2			(0x00000020L)
-#define CPUF_SUPPORTS_3DNOW			(0x00000040L)
-#define CPUF_SUPPORTS_3DNOW_EXT		(0x00000080L)
-#define CPUF_SUPPORTS_SSE3			(0x00000100L)
-#define CPUF_SUPPORTS_SSSE3			(0x00000200L)
-#define CPUF_SUPPORTS_SSE41			(0x00000400L)
-#define CPUF_SUPPORTS_AVX			(0x00000800L)
-#define CPUF_SUPPORTS_MASK			(0x000007FFL)
+#pragma once
 
-long CPUCheckForExtensions();
-long CPUEnableExtensions(long lEnableFlags);
-long CPUGetEnabledExtensions();
-void VDCPUCleanupExtensions();
+// The Windows SDK conflicts with the VS2005 declaration of a couple
+// of intrinsics starting with the Vista SDK. The conflict is between
+// intrin.h and winnt.h. To work around this, we wrap intrin.h and
+// rename its declaration.
+#pragma push_macro("_interlockedbittestandset")
+#pragma push_macro("_interlockedbittestandreset")
+#pragma push_macro("_interlockedbittestandset64")
+#pragma push_macro("_interlockedbittestandreset64")
 
-extern "C" bool FPU_enabled, MMX_enabled, SSE_enabled, ISSE_enabled, SSE2_enabled;
+#define _interlockedbittestandset _interlockedbittestandset_vc
+#define _interlockedbittestandreset _interlockedbittestandreset_vc
+#define _interlockedbittestandset64 _interlockedbittestandset64_vc
+#define _interlockedbittestandreset64 _interlockedbittestandreset64_vc
+
+#include <intrin.h>
+
+#pragma pop_macro("_interlockedbittestandreset64")
+#pragma pop_macro("_interlockedbittestandset64")
+#pragma pop_macro("_interlockedbittestandreset")
+#pragma pop_macro("_interlockedbittestandset")
 
 #endif

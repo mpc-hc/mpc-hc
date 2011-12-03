@@ -156,7 +156,7 @@ public:
 #endif
 
 	void init(sint32 w, sint32 h, int format);
-	void init(const VDPixmapLayout&);
+	void init(const VDPixmapLayout&, uint32 additionalPadding = 0);
 
 	void assign(const VDPixmap& src);
 
