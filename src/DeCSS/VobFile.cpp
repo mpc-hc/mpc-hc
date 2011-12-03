@@ -9,6 +9,7 @@
 #include "../DSUtil/DSUtil.h"
 
 #define Audio_block_size 66
+#define Subtitle_block_size 194
 
 //
 // CDVDSession
@@ -397,7 +398,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 
 	// Audio streams ...
 	f.Seek(0x202, CFile::begin);
-	BYTE buffer[Audio_block_size];
+	BYTE buffer[Subtitle_block_size];
 	f.Read(buffer, Audio_block_size);
 	CGolombBuffer gb(buffer, Audio_block_size);
 	int stream_count = gb.ReadShort();
@@ -425,6 +426,19 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 		if(ToAdd) {
 			m_pStream_Lang[ToAdd + i] = ISO6391ToLanguage(lang);
 		}
+	}
+
+	// Subtitle streams ...
+	f.Seek(0x254, CFile::begin);
+	f.Read(buffer, Subtitle_block_size);
+	CGolombBuffer gb_s(buffer, Subtitle_block_size);
+	stream_count = gb_s.ReadShort();
+	for(int i = 0; i< min(stream_count,32); i++) {
+		gb_s.ReadShort();
+		char lang[2];
+		gb_s.ReadBuffer((BYTE *)lang, 2);
+		gb_s.ReadShort();
+		m_pStream_Lang[0x20 + i] = ISO6391ToLanguage(lang);
 	}
 
 	f.Close();

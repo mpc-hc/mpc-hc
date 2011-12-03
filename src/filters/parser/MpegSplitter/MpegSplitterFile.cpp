@@ -913,15 +913,13 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
 						case 0x0a: // ISO 639 language descriptor
 						case 0x56: // Teletext descriptor
 						case 0x59: // Subtitling descriptor
-							ch[0] = gb.BitRead(8);
-							ch[1] = gb.BitRead(8);
-							ch[2] = gb.BitRead(8);
+							gb.ReadBuffer((BYTE *)ch, 3);
 							ch[3] = 0;
 							for(int i = 3; i < descriptor_length; i++) {
 								gb.BitRead(8);
 							}
 							if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
-								m_pPMT_Lang[pid] = CString(ch);
+								m_pPMT_Lang[pid] = ISO6392ToLanguage(ch);
 							}
 							break;
 						default:

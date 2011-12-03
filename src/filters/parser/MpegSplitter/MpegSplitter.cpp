@@ -854,17 +854,9 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
 				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
-				CString lang_str;
 				CString lang_name = _T("");
-				if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
-					char ch[4];
-					ch[0] = lang_str[0];
-					ch[1] = lang_str[1];
-					ch[2] = lang_str[2];
-					ch[3] = lang_str[3];
-					lang_name = ISO6392ToLanguage(ch);
-				}
-
+				m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_name);
+				
 				lang_name = pTI ? pTI->GetTrackName(s.ps1id) : lang_name;
 
 				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
@@ -941,16 +933,8 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
 				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
-				CString lang_str;
 				CString lang_name = _T("");
-				if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
-					char ch[4];
-					ch[0] = lang_str[0];
-					ch[1] = lang_str[1];
-					ch[2] = lang_str[2];
-					ch[3] = lang_str[3];
-					lang_name = ISO6392ToLanguage(ch);
-				}
+				m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_name);
 
 				lang_name = pTI ? pTI->GetTrackName(s.ps1id) : lang_name;
 
@@ -1379,16 +1363,8 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 					int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
 					pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
-					CString lang_str;
 					CString lang_name = _T("");
-					if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
-						char ch[4];
-						ch[0] = lang_str[0];
-						ch[1] = lang_str[1];
-						ch[2] = lang_str[2];
-						ch[3] = lang_str[3];
-						lang_name = ISO6392ToLanguage(ch);
-					}
+					m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_name);
 
 					lang_name = pTI ? pTI->GetTrackName(s.ps1id) : lang_name;
 
