@@ -44,6 +44,11 @@ public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+
+	// CBaseFilter
+
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+
 };
 
 class __declspec(uuid("59A0DB73-0287-4C9A-9D3C-8CFF39F8E5DB"))

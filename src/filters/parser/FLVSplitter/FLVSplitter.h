@@ -79,6 +79,10 @@ protected:
 
 public:
 	CFLVSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
+
+	// CBaseFilter
+	STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
+
 };
 
 class __declspec(uuid("C9ECE7B3-1D8E-41F5-9F24-B255DF16C087"))

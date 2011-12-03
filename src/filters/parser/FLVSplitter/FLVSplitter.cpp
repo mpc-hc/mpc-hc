@@ -52,8 +52,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut2[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CFLVSplitterFilter), L"MPC - FLV Splitter (Gabest)", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CFLVSourceFilter), L"MPC - FLV Source (Gabest)", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CFLVSplitterFilter), L"MPC Flv Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CFLVSourceFilter), L"MPC Flv Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -92,6 +92,20 @@ CFilterApp theApp;
 CFLVSplitterFilter::CFLVSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	: CBaseSplitterFilter(NAME("CFLVSplitterFilter"), pUnk, phr, __uuidof(this))
 {
+}
+
+STDMETHODIMP CFLVSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+
+	wcscpy(pInfo->achName, L"MPC Flv Splitter");
+	pInfo->pGraph = m_pGraph;
+	if(m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 bool CFLVSplitterFilter::ReadTag(Tag& t)

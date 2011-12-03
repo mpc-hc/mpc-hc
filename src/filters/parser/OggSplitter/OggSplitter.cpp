@@ -48,8 +48,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(COggSplitterFilter), L"MPC - Ogg Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(COggSourceFilter), L"MPC - Ogg Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(COggSplitterFilter), L"MPC Ogg Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(COggSourceFilter), L"MPC Ogg Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -145,6 +145,20 @@ COggSplitterFilter::COggSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr)
 
 COggSplitterFilter::~COggSplitterFilter()
 {
+}
+
+STDMETHODIMP COggSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+
+	wcscpy(pInfo->achName, L"MPC Ogg Splitter");
+	pInfo->pGraph = m_pGraph;
+	if(m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)

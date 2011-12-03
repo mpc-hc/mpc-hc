@@ -38,8 +38,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMpaSplitterFilter), L"MPC - Mpa Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CMpaSourceFilter), L"MPC - Mpa Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpaSplitterFilter), L"MPC Mpa Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpaSourceFilter), L"MPC Mpa Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -85,6 +85,20 @@ STDMETHODIMP CMpaSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void**
 
 	return
 		__super::NonDelegatingQueryInterface(riid, ppv);
+}
+
+STDMETHODIMP CMpaSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+
+	wcscpy(pInfo->achName, L"MPC Mpa Splitter");
+	pInfo->pGraph = m_pGraph;
+	if(m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 HRESULT CMpaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)

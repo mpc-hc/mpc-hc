@@ -41,6 +41,9 @@ public:
 	CDSMSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 	virtual ~CDSMSplitterFilter();
 
+	// CBaseFilter
+	STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
+
 	// IKeyFrameInfo
 
 	STDMETHODIMP_(HRESULT) GetKeyFrameCount(UINT& nKFs);

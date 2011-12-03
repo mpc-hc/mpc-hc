@@ -48,6 +48,9 @@ public:
 	CMP4SplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 	virtual ~CMP4SplitterFilter();
 
+	// CBaseFilter
+	STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
+
 	// IKeyFrameInfo
 
 	STDMETHODIMP_(HRESULT) GetKeyFrameCount(UINT& nKFs);

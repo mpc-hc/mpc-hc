@@ -38,8 +38,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CAviSplitterFilter), L"MPC - Avi Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CAviSourceFilter), L"MPC - Avi Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CAviSplitterFilter), L"MPC Avi Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CAviSourceFilter), L"MPC Avi Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -124,6 +124,20 @@ STDMETHODIMP CAviSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void**
 
 	return
 		__super::NonDelegatingQueryInterface(riid, ppv);
+}
+
+STDMETHODIMP CAviSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+
+	wcscpy(pInfo->achName, L"MPC Avi Splitter");
+	pInfo->pGraph = m_pGraph;
+	if(m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)

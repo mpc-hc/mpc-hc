@@ -187,6 +187,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	}
 
 	CorrectComboListWidth(m_cbDXVACompatibilityCheck);
+	CorrectComboListWidth(m_cbDiscardMode);
 
 	if (m_pMDF) {
 #if HAS_FFMPEG_VIDEO_DECODERS

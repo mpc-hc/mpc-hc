@@ -77,8 +77,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMpegSplitterFilter), L"MPC - Mpeg Splitter (Gabest)", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CMpegSourceFilter), L"MPC - Mpeg Source (Gabest)", MERIT_UNLIKELY, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpegSplitterFilter), L"MPC Mpeg Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpegSourceFilter), L"MPC Mpeg Source", MERIT_UNLIKELY, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -575,6 +575,20 @@ STDMETHODIMP CMpegSplitterFilter::GetClassID(CLSID* pClsID)
 	} else {
 		return __super::GetClassID(pClsID);
 	}
+}
+
+STDMETHODIMP CMpegSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+
+	wcscpy(pInfo->achName, L"MPC Mpeg Splitter");
+	pInfo->pGraph = m_pGraph;
+	if(m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)

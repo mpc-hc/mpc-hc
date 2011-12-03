@@ -215,6 +215,10 @@ public:
 	CRealMediaSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 	virtual ~CRealMediaSplitterFilter();
 
+	// CBaseFilter
+
+	STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
+
 	// IKeyFrameInfo
 
 	STDMETHODIMP_(HRESULT) GetKeyFrameCount(UINT& nKFs);

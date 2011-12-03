@@ -56,6 +56,10 @@ public:
 	DECLARE_IUNKNOWN;
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
+	// CBaseFilter
+
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+
 	// IMediaSeeking
 
 	STDMETHODIMP GetDuration(LONGLONG* pDuration);

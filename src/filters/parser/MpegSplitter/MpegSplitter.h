@@ -90,6 +90,10 @@ public:
 	STDMETHODIMP GetClassID(CLSID* pClsID);
 	STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
 
+	// CBaseFilter
+
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+
 	// IAMStreamSelect
 
 	STDMETHODIMP Count(DWORD* pcStreams);
