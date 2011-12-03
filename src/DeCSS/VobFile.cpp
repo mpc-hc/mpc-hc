@@ -5,6 +5,11 @@
 #include "CSSscramble.h"
 #include "udf.h"
 
+#include "../DSUtil/GolombBuffer.h"
+#include "../DSUtil/DSUtil.h"
+
+#define Audio_block_size 66
+
 //
 // CDVDSession
 //
@@ -390,6 +395,38 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 		return false;
 	}
 
+	// Audio streams ...
+	f.Seek(0x202, CFile::begin);
+	BYTE buffer[Audio_block_size];
+	f.Read(buffer, Audio_block_size);
+	CGolombBuffer gb(buffer, Audio_block_size);
+	int stream_count = gb.ReadShort();
+	for(int i = 0; i< min(stream_count,8); i++) {
+		byte Coding_mode = gb.BitRead(3);
+		gb.BitRead(5);// skip
+		int ToAdd=0;
+		switch(Coding_mode) {
+			case 0:
+				ToAdd=0x80;
+				break;
+			case 4:
+				ToAdd=0xA0;
+				break;
+			case 6:
+				ToAdd=0x88;
+				break;
+			default:
+				break;
+		}
+		gb.ReadByte();// skip
+		char lang[2];
+		gb.ReadBuffer((BYTE *)lang, 2);
+		gb.ReadDword();// skip
+		if(ToAdd) {
+			m_pStream_Lang[ToAdd + i] = ISO6391ToLanguage(lang);
+		}
+	}
+
 	f.Close();
 
 	int offset = -1;
@@ -630,4 +667,12 @@ bool CVobFile::Read(BYTE* buff)
 	}
 
 	return true;
+}
+
+BSTR CVobFile::GetTrackName(UINT aTrackIdx)
+{
+	CString TrackName = _T("");
+	m_pStream_Lang.Lookup(aTrackIdx, TrackName);
+
+	return TrackName.AllocSysString();
 }

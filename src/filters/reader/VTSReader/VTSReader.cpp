@@ -103,6 +103,7 @@ STDMETHODIMP CVTSReader::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
 	return
 		QI(IFileSourceFilter)
+		QI(ITrackInfo)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -152,6 +153,48 @@ STDMETHODIMP CVTSReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 	wcscpy(*ppszFileName, m_fn);
 
 	return S_OK;
+}
+
+// ITrackInfo
+
+STDMETHODIMP_(UINT) CVTSReader::GetTrackCount()
+{
+	return 0; // Not implemented yet
+}
+
+STDMETHODIMP_(BOOL) CVTSReader::GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill)
+{
+	return FALSE; // Not implemented yet
+}
+
+STDMETHODIMP_(BOOL) CVTSReader::GetTrackExtendedInfo(UINT aTrackIdx, void* pStructureToFill)
+{
+	return FALSE; // Not implemented yet
+}
+
+STDMETHODIMP_(BSTR) CVTSReader::GetTrackName(UINT aTrackIdx)
+{
+	return m_stream.GetTrackName(aTrackIdx); // return stream's language
+}
+
+STDMETHODIMP_(BSTR) CVTSReader::GetTrackCodecID(UINT aTrackIdx)
+{
+	return NULL; // Not implemented yet
+}
+
+STDMETHODIMP_(BSTR) CVTSReader::GetTrackCodecName(UINT aTrackIdx)
+{
+	return NULL; // Not implemented yet
+}
+
+STDMETHODIMP_(BSTR) CVTSReader::GetTrackCodecInfoURL(UINT aTrackIdx)
+{
+	return NULL; // Not implemented yet
+}
+
+STDMETHODIMP_(BSTR) CVTSReader::GetTrackCodecDownloadURL(UINT aTrackIdx)
+{
+	return NULL; // Not implemented yet
 }
 
 // CVTSStream
@@ -235,4 +278,9 @@ void CVTSStream::Lock()
 void CVTSStream::Unlock()
 {
 	m_csLock.Unlock();
+}
+
+BSTR CVTSStream::GetTrackName(UINT aTrackIdx)
+{
+	return m_vob->GetTrackName(aTrackIdx);
 }

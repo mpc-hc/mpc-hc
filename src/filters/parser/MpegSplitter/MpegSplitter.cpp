@@ -788,6 +788,12 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		return hr;
 	}
 
+	if(m_pFile->m_type == CMpegSplitterFile::ps) {
+		if(m_pInput && m_pInput->IsConnected() && (GetCLSID(m_pInput->GetConnected()) == GUIDFromCString(_T("{773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73}")))){ // MPC VTS Reader
+			pTI = GetFilterFromPin(m_pInput->GetConnected());
+		}
+	}
+
 	CString cs_audioProgram = _T("");
 	CString cs_subpicProgram = _T("");
 
@@ -858,6 +864,8 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					ch[3] = lang_str[3];
 					lang_name = ISO6392ToLanguage(ch);
 				}
+
+				lang_name = pTI ? pTI->GetTrackName(s.ps1id) : lang_name;
 
 				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
 
@@ -943,6 +951,8 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					ch[3] = lang_str[3];
 					lang_name = ISO6392ToLanguage(ch);
 				}
+
+				lang_name = pTI ? pTI->GetTrackName(s.ps1id) : lang_name;
 
 				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
 			
@@ -1351,7 +1361,6 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 				*ppUnk = NULL;
 			}
 
-
 			if(ppszName) {
 				CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
 
@@ -1380,6 +1389,8 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 						ch[3] = lang_str[3];
 						lang_name = ISO6392ToLanguage(ch);
 					}
+
+					lang_name = pTI ? pTI->GetTrackName(s.ps1id) : lang_name;
 
 					CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
 

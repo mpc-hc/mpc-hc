@@ -24,6 +24,7 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "MpegSplitterFile.h"
 #include "MpegSplitterSettingsWnd.h"
+#include <ITrackInfo.h>
 
 #define PauseGraph \
 	CComQIPtr<IMediaControl> _pMC(m_pGraph); \
@@ -57,6 +58,7 @@ class __declspec(uuid("DC257063-045F-4BE2-BD5B-E12279C464F0"))
 
 protected:
 	CAutoPtr<CMpegSplitterFile> m_pFile;
+	CComQIPtr<ITrackInfo> pTI;
 
 	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 	void	ReadClipInfo(LPCOLESTR pszFileName);

@@ -25,6 +25,8 @@
 #include "../AsyncReader/asyncio.h"
 #include "../AsyncReader/asyncrdr.h"
 
+#include <ITrackInfo.h>
+
 class CVobFile;
 
 class CVTSStream : public CAsyncStream
@@ -47,12 +49,15 @@ public:
 	DWORD Alignment();
 	void Lock();
 	void Unlock();
+
+	BSTR GetTrackName(UINT aTrackIdx);
 };
 
 class __declspec(uuid("773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73"))
 	CVTSReader
 	: public CAsyncReader
 	, public IFileSourceFilter
+	, public ITrackInfo
 {
 	CVTSStream m_stream;
 	CStringW m_fn;
@@ -71,4 +76,15 @@ public:
 	// IFileSourceFilter
 	STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
 	STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt);
+
+	// ITrackInfo
+
+	STDMETHODIMP_(UINT) GetTrackCount();
+	STDMETHODIMP_(BOOL) GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill);
+	STDMETHODIMP_(BOOL) GetTrackExtendedInfo(UINT aTrackIdx, void* pStructureToFill);
+	STDMETHODIMP_(BSTR) GetTrackName(UINT aTrackIdx);
+	STDMETHODIMP_(BSTR) GetTrackCodecID(UINT aTrackIdx);
+	STDMETHODIMP_(BSTR) GetTrackCodecName(UINT aTrackIdx);
+	STDMETHODIMP_(BSTR) GetTrackCodecInfoURL(UINT aTrackIdx);
+	STDMETHODIMP_(BSTR) GetTrackCodecDownloadURL(UINT aTrackIdx);
 };

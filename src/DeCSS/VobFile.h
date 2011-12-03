@@ -73,6 +73,8 @@ class CVobFile : public CDVDSession
 	// attribs
 	bool m_fDVD, m_fHasDiscKey, m_fHasTitleKey;
 
+	CAtlMap<DWORD, CString> m_pStream_Lang;
+
 public:
 	CVobFile();
 	virtual ~CVobFile();
@@ -89,4 +91,6 @@ public:
 	int GetPosition();
 	int Seek(int pos);
 	bool Read(BYTE* buff);
+
+	BSTR GetTrackName(UINT aTrackIdx);
 };
