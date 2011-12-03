@@ -401,6 +401,11 @@ CStringW GetFilterName(IBaseFilter* pBF)
 	if(pBF && SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
 		name = fi.achName;
 	}
+
+	if(pBF && GetCLSID(pBF) == CLSID_AsyncReader) {
+		name = _T("File Source (Async)");
+	}
+
 	return(name);
 }
 
