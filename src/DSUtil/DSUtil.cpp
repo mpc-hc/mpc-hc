@@ -396,14 +396,24 @@ IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pR
 
 CStringW GetFilterName(IBaseFilter* pBF)
 {
-	CStringW name;
-	CFilterInfo fi;
-	if(pBF && SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
-		name = fi.achName;
-	}
+	CStringW name = _T("");
 
-	if(pBF && GetCLSID(pBF) == CLSID_AsyncReader) {
-		name = _T("File Source (Async)");
+	if(pBF) {
+		CLSID clsid = GetCLSID(pBF);
+		if(clsid == CLSID_AsyncReader) {
+			name = _T("File Source (Async)");
+		} else if(clsid == GUIDFromCString(_T("{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}"))) {
+			name = _T("AV Source");
+		} else if(clsid == GUIDFromCString(_T("{B98D13E7-55DB-4385-A33D-09FD1BA26338}"))) {
+			name = _T("LAV Splitter Source");
+		} else if(clsid == GUIDFromCString(_T("{55DA30FC-F16B-49FC-BAA5-AE59FC65F82D}"))) {
+			name = _T("Haali Media Source");
+		} else {
+			CFilterInfo fi;
+			if(SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
+				name = fi.achName;
+			}
+		}
 	}
 
 	return(name);
