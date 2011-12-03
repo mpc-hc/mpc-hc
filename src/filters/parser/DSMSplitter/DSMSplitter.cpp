@@ -39,8 +39,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CDSMSplitterFilter), L"MPC DSM Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CDSMSourceFilter), L"MPC DSM Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CDSMSplitterFilter), DSMSplitterName, MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CDSMSourceFilter), DSMSourceName, MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -95,7 +95,11 @@ STDMETHODIMP CDSMSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
 
-	wcscpy(pInfo->achName, L"MPC DSM Splitter");
+	if (m_pName && m_pName[0]==L'M' && m_pName[1]==L'P' && m_pName[2]==L'C') {
+		(void)StringCchCopyW(pInfo->achName, NUMELMS(pInfo->achName), m_pName);
+	} else {
+		wcscpy(pInfo->achName, DSMSourceName);
+	}
 	pInfo->pGraph = m_pGraph;
 	if(m_pGraph) {
 		m_pGraph->AddRef();

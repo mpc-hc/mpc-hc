@@ -26,6 +26,9 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "../../transform/BaseVideoFilter/BaseVideoFilter.h"
 
+#define RMSplitterName L"MPC RealMedia Splitter"
+#define RMSourceName   L"MPC RealMedia Source"
+
 #pragma pack(push, 1)
 
 namespace RMFF

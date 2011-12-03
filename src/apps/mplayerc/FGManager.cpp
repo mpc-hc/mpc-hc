@@ -1545,9 +1545,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_MATROSKA
 	if (src[SRC_MATROSKA]) {
-		pFGF = DNew CFGFilterInternal<CMatroskaSplitterFilter>(L"MPC Matroska Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<CMatroskaSplitterFilter>(MatroskaSplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<CMatroskaSplitterFilter>(L"MPC Matroska Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<CMatroskaSplitterFilter>(CStringW(MatroskaSplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Matroska);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
@@ -1556,9 +1556,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_REALMEDIA
 	if (src[SRC_REALMEDIA]) {
-		pFGF = DNew CFGFilterInternal<CRealMediaSplitterFilter>(L"MPC RealMedia Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<CRealMediaSplitterFilter>(RMSplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<CRealMediaSplitterFilter>(L"MPC RealMedia Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<CRealMediaSplitterFilter>(CStringW(RMSplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RealMedia);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
@@ -1567,9 +1567,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_AVI
 	if (src[SRC_AVI]) {
-		pFGF = DNew CFGFilterInternal<CAviSplitterFilter>(L"MPC Avi Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<CAviSplitterFilter>(AviSplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<CAviSplitterFilter>(L"MPC Avi Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<CAviSplitterFilter>(CStringW(AviSplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
@@ -1578,9 +1578,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_OGG
 	if (src[SRC_OGG]) {
-		pFGF = DNew CFGFilterInternal<COggSplitterFilter>(L"MPC Ogg Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<COggSplitterFilter>(OggSplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<COggSplitterFilter>(L"MPC Ogg Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<COggSplitterFilter>(CStringW(OggSplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
@@ -1589,9 +1589,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_MPEG
 	if (src[SRC_MPEG]) {
-		pFGF = DNew CFGFilterInternal<CMpegSplitterFilter>(L"MPC Mpeg Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<CMpegSplitterFilter>(MpegSplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<CMpegSplitterFilter>(L"MPC Mpeg Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<CMpegSplitterFilter>(CStringW(MpegSplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1System);
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
@@ -1603,9 +1603,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
 	if (src[SRC_MPA]) {
-		pFGF = DNew CFGFilterInternal<CMpaSplitterFilter>(L"MPC Mpa Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<CMpaSplitterFilter>(MpaSplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<CMpaSplitterFilter>(L"MPC Mpa Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<CMpaSplitterFilter>(CStringW(MpaSplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
@@ -1614,9 +1614,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_DSM
 	if (src[SRC_DSM]) {
-		pFGF = DNew CFGFilterInternal<CDSMSplitterFilter>(L"MPC DSM Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<CDSMSplitterFilter>(DSMSplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<CDSMSplitterFilter>(L"MPC DSM Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<CDSMSplitterFilter>(CStringW(DSMSplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_DirectShowMedia);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
@@ -1625,9 +1625,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_MP4
 	if (src[SRC_MP4]) {
-		pFGF = DNew CFGFilterInternal<CMP4SplitterFilter>(L"MPC MP4/MOV Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<CMP4SplitterFilter>(MP4SplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<CMP4SplitterFilter>(L"MPC MP4/MOV Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<CMP4SplitterFilter>(CStringW(MP4SplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
@@ -1636,9 +1636,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_FLV
 	if (src[SRC_FLV]) {
-		pFGF = DNew CFGFilterInternal<CFLVSplitterFilter>(L"MPC Flv Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF = DNew CFGFilterInternal<CFLVSplitterFilter>(FlvSplitterName, MERIT64_ABOVE_DSHOW);
 	} else {
-		pFGF = DNew CFGFilterInternal<CFLVSplitterFilter>(L"MPC Flv Splitter (low merit)", MERIT64_DO_USE);
+		pFGF = DNew CFGFilterInternal<CFLVSplitterFilter>(CStringW(FlvSplitterName)+LowMeritSuffix, MERIT64_DO_USE);
 	}
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_FLV);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);

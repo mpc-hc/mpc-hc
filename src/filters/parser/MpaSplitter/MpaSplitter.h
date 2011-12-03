@@ -24,6 +24,9 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "MpaSplitterFile.h"
 
+#define MpaSplitterName L"MPC Mpa Splitter"
+#define MpaSourceName   L"MPC Mpa Source"
+
 class __declspec(uuid("0E9D4BF7-CBCB-46C7-BD80-4EF223A3DC2B"))
 	CMpaSplitterFilter : public CBaseSplitterFilter
 {

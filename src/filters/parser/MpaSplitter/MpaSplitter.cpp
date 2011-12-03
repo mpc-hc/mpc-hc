@@ -38,8 +38,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMpaSplitterFilter), L"MPC Mpa Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CMpaSourceFilter), L"MPC Mpa Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpaSplitterFilter), MpaSplitterName, MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpaSourceFilter), MpaSourceName, MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -92,7 +92,11 @@ STDMETHODIMP CMpaSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
 
-	wcscpy(pInfo->achName, L"MPC Mpa Splitter");
+	if (m_pName && m_pName[0]==L'M' && m_pName[1]==L'P' && m_pName[2]==L'C') {
+		(void)StringCchCopyW(pInfo->achName, NUMELMS(pInfo->achName), m_pName);
+	} else {
+		wcscpy(pInfo->achName, MpaSourceName);
+	}
 	pInfo->pGraph = m_pGraph;
 	if(m_pGraph) {
 		m_pGraph->AddRef();

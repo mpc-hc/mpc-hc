@@ -26,6 +26,9 @@
 #include "MP4SplitterFile.h"
 #include "../BaseSplitter/BaseSplitter.h"
 
+#define MP4SplitterName L"MPC MP4/MOV Splitter"
+#define MP4SourceName   L"MPC MP4/MOV Source"
+
 class __declspec(uuid("61F47056-E400-43d3-AF1E-AB7DFFD4C4AD"))
 	CMP4SplitterFilter : public CBaseSplitterFilter
 {

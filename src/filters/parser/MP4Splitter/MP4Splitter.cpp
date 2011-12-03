@@ -52,8 +52,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMP4SplitterFilter), L"MPC MP4/MOV Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CMP4SourceFilter), L"MPC MP4/MOV Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMP4SplitterFilter), MP4SplitterName, MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMP4SourceFilter), MP4SourceName, MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CMPEG4VideoSplitterFilter), L"MPC MPEG4 Video Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CMPEG4VideoSourceFilter), L"MPC MPEG4 Video Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
@@ -120,7 +120,11 @@ STDMETHODIMP CMP4SplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
 
-	wcscpy(pInfo->achName, L"MPC MP4/MOV Splitter");
+	if (m_pName && m_pName[0]==L'M' && m_pName[1]==L'P' && m_pName[2]==L'C') {
+		(void)StringCchCopyW(pInfo->achName, NUMELMS(pInfo->achName), m_pName);
+	} else {
+		wcscpy(pInfo->achName, MP4SourceName);
+	}
 	pInfo->pGraph = m_pGraph;
 	if(m_pGraph) {
 		m_pGraph->AddRef();

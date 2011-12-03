@@ -26,6 +26,7 @@
 #include "FGFilter.h"
 #include "IGraphBuilder2.h"
 
+#define LowMeritSuffix L" (low merit)"
 
 class CFGManager
 	: public CUnknown

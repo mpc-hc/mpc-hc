@@ -134,8 +134,8 @@ const AMOVIESETUP_PIN sudpPins3[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CRealMediaSplitterFilter), L"MPC RealMedia Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CRealMediaSourceFilter), L"MPC RealMedia Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CRealMediaSplitterFilter), RMSplitterName, MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CRealMediaSourceFilter), RMSourceName, MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CRealVideoDecoder), L"MPC RealVideo Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CRealAudioDecoder), L"MPC RealAudio Decoder", MERIT_NORMAL, countof(sudpPins3), sudpPins3, CLSID_LegacyAmFilterCategory},
 };
@@ -187,7 +187,11 @@ STDMETHODIMP CRealMediaSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
 
-	wcscpy(pInfo->achName, L"MPC RealMedia Splitter");
+	if (m_pName && m_pName[0]==L'M' && m_pName[1]==L'P' && m_pName[2]==L'C') {
+		(void)StringCchCopyW(pInfo->achName, NUMELMS(pInfo->achName), m_pName);
+	} else {
+		wcscpy(pInfo->achName, RMSourceName);
+	}
 	pInfo->pGraph = m_pGraph;
 	if(m_pGraph) {
 		m_pGraph->AddRef();

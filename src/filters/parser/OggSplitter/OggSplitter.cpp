@@ -48,8 +48,8 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(COggSplitterFilter), L"MPC Ogg Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(COggSourceFilter), L"MPC Ogg Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(COggSplitterFilter), OggSplitterName, MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(COggSourceFilter), OggSourceName, MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -152,7 +152,11 @@ STDMETHODIMP COggSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
 
-	wcscpy(pInfo->achName, L"MPC Ogg Splitter");
+	if (m_pName && m_pName[0]==L'M' && m_pName[1]==L'P' && m_pName[2]==L'C') {
+		(void)StringCchCopyW(pInfo->achName, NUMELMS(pInfo->achName), m_pName);
+	} else {
+		wcscpy(pInfo->achName, OggSourceName);
+	}
 	pInfo->pGraph = m_pGraph;
 	if(m_pGraph) {
 		m_pGraph->AddRef();

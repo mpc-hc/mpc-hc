@@ -27,6 +27,9 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include <ITrackInfo.h>
 
+#define MatroskaSplitterName L"MPC Matroska Splitter"
+#define MatroskaSourceName   L"MPC Matroska Source"
+
 class MatroskaPacket : public Packet
 {
 protected:

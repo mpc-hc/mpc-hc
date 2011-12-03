@@ -26,6 +26,9 @@
 #include "DSMSplitterFile.h"
 #include "../BaseSplitter/BaseSplitter.h"
 
+#define DSMSplitterName L"MPC DSM Splitter"
+#define DSMSourceName   L"MPC DSM Source"
+
 class __declspec(uuid("0912B4DD-A30A-4568-B590-7179EBB420EC"))
 	CDSMSplitterFilter : public CBaseSplitterFilter
 {

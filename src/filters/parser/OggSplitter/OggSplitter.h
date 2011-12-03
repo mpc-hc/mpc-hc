@@ -26,6 +26,9 @@
 #include "OggFile.h"
 #include "../BaseSplitter/BaseSplitter.h"
 
+#define OggSplitterName L"MPC Ogg Splitter"
+#define OggSourceName   L"MPC Ogg Source"
+
 class OggPacket : public Packet
 {
 public:

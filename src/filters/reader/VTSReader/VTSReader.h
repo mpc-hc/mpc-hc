@@ -25,6 +25,8 @@
 #include "../AsyncReader/asyncio.h"
 #include "../AsyncReader/asyncrdr.h"
 
+#define VTSReaderName L"MPC VTS Reader"
+
 #include <ITrackInfo.h>
 
 class CVobFile;

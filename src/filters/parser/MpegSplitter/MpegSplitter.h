@@ -26,6 +26,9 @@
 #include "MpegSplitterSettingsWnd.h"
 #include <ITrackInfo.h>
 
+#define MpegSplitterName L"MPC Mpeg Splitter"
+#define MpegSourceName   L"MPC Mpeg Source"
+
 #define PauseGraph \
 	CComQIPtr<IMediaControl> _pMC(m_pGraph); \
 	OAFilterState _fs = -1; \
