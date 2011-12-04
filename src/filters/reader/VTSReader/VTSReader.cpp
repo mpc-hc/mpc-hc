@@ -104,6 +104,7 @@ STDMETHODIMP CVTSReader::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 	return
 		QI(IFileSourceFilter)
 		QI(ITrackInfo)
+		QI(IDSMChapterBag)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -128,6 +129,13 @@ STDMETHODIMP CVTSReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 	if(!m_stream.Load(pszFileName)) {
 		return E_FAIL;
 	}
+
+	ChapRemoveAll();
+	for (int i=0; i<m_stream.GetChaptersCount(); i++) {
+		CString chap; chap.Format(_T("Chapter %d"), i+1);
+		ChapAppend(m_stream.GetChapterOffset(i), chap);
+	}
+
 
 	m_fn = pszFileName;
 
@@ -283,4 +291,14 @@ void CVTSStream::Unlock()
 BSTR CVTSStream::GetTrackName(UINT aTrackIdx)
 {
 	return m_vob->GetTrackName(aTrackIdx);
+}
+
+int CVTSStream::GetChaptersCount()
+{
+	return m_vob->GetChaptersCount();
+}
+
+REFERENCE_TIME CVTSStream::GetChapterOffset(UINT ChapterNumber)
+{
+	return m_vob->GetChapterOffset(ChapterNumber);
 }

@@ -355,6 +355,7 @@ bool CLBAFile::Read(BYTE* buff)
 CVobFile::CVobFile()
 {
 	Close();
+	m_ChaptersCount = -1;
 }
 
 CVobFile::~CVobFile()
@@ -382,24 +383,56 @@ bool CVobFile::HasTitleKey(BYTE* key)
 	return m_fHasTitleKey;
 }
 
+DWORD CVobFile::ReadDword()
+{
+	return ReadByte()<<24 | ReadByte()<<16 | ReadByte()<<8 | ReadByte();
+}
+
+SHORT CVobFile::ReadShort()
+{
+	return (ReadByte()<<8 | ReadByte());
+}
+
+BYTE CVobFile::ReadByte()
+{
+	BYTE	bVal;
+	m_ifoFile.Read(&bVal, sizeof(bVal));
+	return bVal;
+}
+
+void CVobFile::ReadBuffer(BYTE* pBuff, DWORD nLen)
+{
+	m_ifoFile.Read(pBuff, nLen);
+}
+
+static short GetFrames(byte val)
+{
+    int byte0_high = val >> 4;
+    int byte0_low = val & 0x0F;
+    if (byte0_high > 11)
+        return (short)(((byte0_high - 12) * 10) + byte0_low);
+    if ((byte0_high <= 3) || (byte0_high >= 8))
+        return 0;
+    return (short)(((byte0_high - 4) * 10) + byte0_low);
+}
+
 bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 {
-	CFile f;
-	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
+	if(!m_ifoFile.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
 		return false;
 	}
 
 	char hdr[13];
-	f.Read(hdr, 12);
+	m_ifoFile.Read(hdr, 12);
 	hdr[12] = 0;
 	if(strcmp(hdr, "DVDVIDEO-VTS")) {
 		return false;
 	}
 
 	// Audio streams ...
-	f.Seek(0x202, CFile::begin);
+	m_ifoFile.Seek(0x202, CFile::begin);
 	BYTE buffer[Subtitle_block_size];
-	f.Read(buffer, Audio_block_size);
+	m_ifoFile.Read(buffer, Audio_block_size);
 	CGolombBuffer gb(buffer, Audio_block_size);
 	int stream_count = gb.ReadShort();
 	for(int i = 0; i< min(stream_count,8); i++) {
@@ -429,8 +462,8 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 	}
 
 	// Subtitle streams ...
-	f.Seek(0x254, CFile::begin);
-	f.Read(buffer, Subtitle_block_size);
+	m_ifoFile.Seek(0x254, CFile::begin);
+	m_ifoFile.Read(buffer, Subtitle_block_size);
 	CGolombBuffer gb_s(buffer, Subtitle_block_size);
 	stream_count = gb_s.ReadShort();
 	for(int i = 0; i< min(stream_count,32); i++) {
@@ -441,7 +474,63 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 		m_pStream_Lang[0x20 + i] = ISO6391ToLanguage(lang);
 	}
 
-	f.Close();
+	// Chapters ...
+	m_ifoFile.Seek(0xCC, CFile::begin); //Get VTS_PGCI adress
+	WORD pcgITPosition = ReadDword() * 2048;
+	m_ifoFile.Seek(pcgITPosition + 8 + 4, CFile::begin);
+	WORD chainOffset = ReadDword();
+	m_ifoFile.Seek(pcgITPosition + chainOffset + 2, CFile::begin);
+	BYTE programChainPrograms = ReadByte();
+	m_ChaptersCount = programChainPrograms;
+	m_ifoFile.Seek(pcgITPosition + chainOffset + 230, CFile::begin);
+	int programMapOffset = ReadShort();
+	m_ifoFile.Seek(pcgITPosition + chainOffset + 0xE8, CFile::begin);
+	int cellTableOffset = ReadShort();
+	REFERENCE_TIME rtDuration = 0;
+	m_pChapters[0] = 0;
+	for(int currentProgram=0; currentProgram<programChainPrograms; currentProgram++) {
+		m_ifoFile.Seek(pcgITPosition + chainOffset + programMapOffset + currentProgram, CFile::begin);
+		byte entryCell = ReadByte();
+		byte exitCell = entryCell;
+		if (currentProgram < (programChainPrograms - 1)){
+			m_ifoFile.Seek(pcgITPosition + chainOffset + programMapOffset + (currentProgram + 1), CFile::begin);
+			exitCell = ReadByte()-1;
+		}
+
+		REFERENCE_TIME rtTotalTime = 0;
+        for (int currentCell = entryCell; currentCell <= exitCell; currentCell++)
+        {
+			int cellStart = cellTableOffset + ((currentCell - 1) * 0x18);
+			m_ifoFile.Seek(pcgITPosition + chainOffset + cellStart, CFile::begin);
+			BYTE bytes[4];
+			ReadBuffer(bytes, 4);
+			int cellType = bytes[0] >> 6;
+			if (cellType == 0x00 || cellType == 0x01){
+				m_ifoFile.Seek(pcgITPosition + chainOffset + cellStart + 4, CFile::begin);
+				ReadBuffer(bytes, 4);
+				short frames = GetFrames(bytes[3]);
+				int fpsMask = bytes[3] >> 6;
+				double fps = fpsMask == 0x01 ? 25 : fpsMask == 0x03 ? (30 / 1.001): 0;
+				CString tmp;
+				int hours = bytes[0]; tmp.Format(_T("%x"), hours); _stscanf(tmp, _T("%d"), &hours);
+				int minutes = bytes[1]; tmp.Format(_T("%x"), minutes); _stscanf(tmp, _T("%d"), &minutes);
+				int seconds = bytes[2]; tmp.Format(_T("%x"), seconds); _stscanf(tmp, _T("%d"), &seconds);
+				int mmseconds = 0;
+				if (fps != 0){
+					mmseconds = 1000*frames / fps;
+				}
+
+				REFERENCE_TIME rtCurrentTime = 10000i64*(((hours*60 + minutes)*60 + seconds)*1000 + mmseconds);//((((REFERENCE_TIME)hours*60+minutes)*60+seconds)*1000+mmseconds)*10000;
+				rtTotalTime += rtCurrentTime;
+			}
+        }
+		rtDuration += rtTotalTime;
+		m_pChapters[currentProgram + 1] = rtDuration;
+
+	}
+
+	//
+	m_ifoFile.Close();
 
 	int offset = -1;
 
@@ -687,6 +776,11 @@ BSTR CVobFile::GetTrackName(UINT aTrackIdx)
 {
 	CString TrackName = _T("");
 	m_pStream_Lang.Lookup(aTrackIdx, TrackName);
-
 	return TrackName.AllocSysString();
+}
+
+REFERENCE_TIME CVobFile::GetChapterOffset(UINT ChapterNumber){
+	REFERENCE_TIME ChapterOffset = 0;
+	m_pChapters.Lookup(ChapterNumber, ChapterOffset);
+	return ChapterOffset;
 }

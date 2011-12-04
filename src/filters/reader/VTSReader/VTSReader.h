@@ -28,6 +28,7 @@
 #define VTSReaderName L"MPC VTS Reader"
 
 #include <ITrackInfo.h>
+#include "../../../DSUtil/DSMPropertyBag.h"
 
 class CVobFile;
 
@@ -53,6 +54,8 @@ public:
 	void Unlock();
 
 	BSTR GetTrackName(UINT aTrackIdx);
+	int GetChaptersCount();
+	REFERENCE_TIME GetChapterOffset(UINT ChapterNumber);
 };
 
 class __declspec(uuid("773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73"))
@@ -60,6 +63,7 @@ class __declspec(uuid("773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73"))
 	: public CAsyncReader
 	, public IFileSourceFilter
 	, public ITrackInfo
+	, public IDSMChapterBagImpl
 {
 	CVTSStream m_stream;
 	CStringW m_fn;

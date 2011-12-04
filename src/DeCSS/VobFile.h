@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <atlbase.h>
 #include <atlcoll.h>
 #include <winddk/ntddcdvd.h>
@@ -75,6 +74,8 @@ class CVobFile : public CDVDSession
 
 	CAtlMap<DWORD, CString> m_pStream_Lang;
 
+	int m_ChaptersCount;
+	CAtlMap<BYTE, LONGLONG> m_pChapters;
 public:
 	CVobFile();
 	virtual ~CVobFile();
@@ -93,4 +94,14 @@ public:
 	bool Read(BYTE* buff);
 
 	BSTR GetTrackName(UINT aTrackIdx);
+
+	int GetChaptersCount() {return m_ChaptersCount;}
+	LONGLONG GetChapterOffset(UINT ChapterNumber);
+
+private:
+	CFile		m_ifoFile;
+	DWORD		ReadDword();
+	SHORT		ReadShort();
+	BYTE		ReadByte();
+	void		ReadBuffer(BYTE* pBuff, DWORD nLen);
 };
