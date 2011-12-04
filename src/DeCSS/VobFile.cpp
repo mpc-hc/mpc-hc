@@ -407,13 +407,13 @@ void CVobFile::ReadBuffer(BYTE* pBuff, DWORD nLen)
 
 static short GetFrames(byte val)
 {
-    int byte0_high = val >> 4;
-    int byte0_low = val & 0x0F;
-    if (byte0_high > 11)
-        return (short)(((byte0_high - 12) * 10) + byte0_low);
-    if ((byte0_high <= 3) || (byte0_high >= 8))
-        return 0;
-    return (short)(((byte0_high - 4) * 10) + byte0_low);
+	int byte0_high = val >> 4;
+	int byte0_low = val & 0x0F;
+	if (byte0_high > 11)
+		return (short)(((byte0_high - 12) * 10) + byte0_low);
+	if ((byte0_high <= 3) || (byte0_high >= 8))
+		return 0;
+	return (short)(((byte0_high - 4) * 10) + byte0_low);
 }
 
 bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
@@ -498,8 +498,8 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 		}
 
 		REFERENCE_TIME rtTotalTime = 0;
-        for (int currentCell = entryCell; currentCell <= exitCell; currentCell++)
-        {
+		for (int currentCell = entryCell; currentCell <= exitCell; currentCell++)
+		{
 			int cellStart = cellTableOffset + ((currentCell - 1) * 0x18);
 			m_ifoFile.Seek(pcgITPosition + chainOffset + cellStart, CFile::begin);
 			BYTE bytes[4];
@@ -520,13 +520,12 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 					mmseconds = 1000*frames / fps;
 				}
 
-				REFERENCE_TIME rtCurrentTime = 10000i64*(((hours*60 + minutes)*60 + seconds)*1000 + mmseconds);//((((REFERENCE_TIME)hours*60+minutes)*60+seconds)*1000+mmseconds)*10000;
+				REFERENCE_TIME rtCurrentTime = 10000i64*(((hours*60 + minutes)*60 + seconds)*1000 + mmseconds);
 				rtTotalTime += rtCurrentTime;
 			}
-        }
+		}
 		rtDuration += rtTotalTime;
 		m_pChapters[currentProgram + 1] = rtDuration;
-
 	}
 
 	//
