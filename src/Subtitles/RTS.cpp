@@ -3205,23 +3205,12 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 	marginRect.right = (int)(sub->m_scalex*marginRect.right*8);
 	marginRect.bottom = (int)(sub->m_scaley*marginRect.bottom*8);
 
-	if(stss.relativeTo == 1) {// relative adaptation to video size on screen, extra adaptation for aspect ratios over 2
-		size_t w = m_vidrect.right-m_vidrect.left, h = m_vidrect.bottom-m_vidrect.top;
-		if(w > h<<1) {// aspect ratio w:h over 2
-			marginRect.left += m_vidrect.left;
-			marginRect.top = m_vidrect.top;
-			marginRect.right += m_size.cx - m_vidrect.right;
-			marginRect.bottom = m_size.cy - m_vidrect.bottom;}
-		else if (h > w<<1) {// aspect ratio h:w over 2
-			marginRect.left = m_vidrect.left;
-			marginRect.top += m_vidrect.top;
-			marginRect.right = m_size.cx - m_vidrect.right;
-			marginRect.bottom += m_size.cy - m_vidrect.bottom;}
-		else {
-			marginRect.left += m_vidrect.left;
-			marginRect.top += m_vidrect.top;
-			marginRect.right += m_size.cx - m_vidrect.right;
-			marginRect.bottom += m_size.cy - m_vidrect.bottom;}}
+	if(stss.relativeTo == 1) {
+		marginRect.left += m_vidrect.left; 
+		marginRect.top += m_vidrect.top; 
+		marginRect.right += m_size.cx - m_vidrect.right; 
+		marginRect.bottom += m_size.cy - m_vidrect.bottom;
+	}
 
 	sub->CreateClippers(m_size);
 
