@@ -21,6 +21,8 @@
 
 #pragma once
 
+#define AVI2AC3FilterName L"MPC AVI<->AC3/DTS"
+
 /*  AC3 audio
 
     wFormatTag          WAVE_FORMAT_DOLBY_AC3

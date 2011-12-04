@@ -1537,7 +1537,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_AVI2AC3
 	// hmmm, shouldn't there be an option in the GUI to enable/disable this filter?
-	pFGF = DNew CFGFilterInternal<CAVI2AC3Filter>(L"AVI<->AC3/DTS", MERIT64(0x00680000)+1);
+	pFGF = DNew CFGFilterInternal<CAVI2AC3Filter>(AVI2AC3FilterName, MERIT64(0x00680000)+1);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_WAVE_DOLBY_AC3);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_WAVE_DTS);
 	m_transform.AddTail(pFGF);
@@ -1839,7 +1839,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 	// High merit MPC Video Decoder
 #if HAS_FFMPEG_VIDEO_DECODERS | HAS_DXVA_VIDEO_DECODERS
-	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(_T("MPC Video Decoder"), MERIT64_ABOVE_DSHOW);
+	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(MPCVideoDecName, MERIT64_ABOVE_DSHOW);
 #if INTERNAL_DECODER_FLV
 	if (ffmpeg_filters[FFM_FLV4]) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
@@ -2024,7 +2024,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 
 	// Low merit MPC Video Decoder
-	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(_T("MPC Video Decoder (low merit)"), MERIT64_DO_USE);
+	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(CStringW(MPCVideoDecName)+LowMeritSuffix, MERIT64_DO_USE);
 #if INTERNAL_DECODER_FLV
 	if (!(ffmpeg_filters[FFM_FLV4])) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);

@@ -36,15 +36,16 @@
 
 #include "H264RandomAccess.h"
 
+#define MPCVideoDecName L"MPC Video decoder"
+
+#define MAX_BUFF_TIME   20
+
 struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
 struct SwsContext;
 
 class CCpuId;
-
-
-#define MAX_BUFF_TIME		20
 
 typedef enum {
 	MODE_SOFTWARE,

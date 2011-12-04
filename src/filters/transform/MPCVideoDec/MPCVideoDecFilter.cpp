@@ -51,8 +51,6 @@ extern "C"
 
 
 #define MAX_SUPPORTED_MODE			5
-#define MPCVD_CAPTION				_T("MPC Video decoder")
-
 #define ROUND_FRAMERATE(var,FrameRate)	if (labs ((long)(var - FrameRate)) < FrameRate*1/100) var = FrameRate;
 
 typedef struct {
