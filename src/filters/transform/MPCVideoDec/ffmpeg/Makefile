@@ -22,7 +22,7 @@ TARGET_LIB     = $(TARGET_LIB_DIR)/libavcodec.lib
 
 # Compiler and yasm flags
 CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I../../../../thirdparty/zlib \
-            -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -std=gnu99 -mdll -mthreads -pipe
+            -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -std=gnu99 -mdll -mthreads -pipe
 
 OPTFLAGS  = -O2 -fno-common -fno-tree-vectorize -fomit-frame-pointer
 YASMFLAGS = -Pconfig.asm -I. -Ilibavutil/x86
@@ -30,9 +30,9 @@ YASMFLAGS = -Pconfig.asm -I. -Ilibavutil/x86
 ifeq ($(64BIT),yes)
     FFMPEG_PREFIX = x86_64-w64-mingw32-
     TARGET_OS     = x86_64-w64-mingw32
-    CFLAGS       += -DWIN64 -D_WIN64 -DARCH_X86_64
+    CFLAGS       += -DWIN64 -D_WIN64 -DARCH_X86_64 -DPIC
     OPTFLAGS     += -m64 -fno-leading-underscore
-    YASMFLAGS    += -f win64 -m amd64 -DWIN64 -DARCH_X86_64
+    YASMFLAGS    += -f win64 -m amd64 -DWIN64 -DARCH_X86_64 -DPIC
 else
     TARGET_OS     = i686-pc-mingw32
     CFLAGS       += -DWIN32 -D_WIN32 -DARCH_X86_32

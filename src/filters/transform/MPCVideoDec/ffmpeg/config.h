@@ -2,32 +2,38 @@
 #define FFMPEG_CONFIG_H
 
 #ifdef __GNUC__
+	#define ARCH_X86 1
 	#define HAVE_INLINE_ASM 1
-	#define HAVE_SSE 1
-	#define HAVE_SSSE3 1
+	#define HAVE_MMX 1
+	#define HAVE_MMX2 1
 	#define HAVE_AMD3DNOW 1
 	#define HAVE_AMD3DNOWEXT 1
-
-	#define ARCH_X86 1
+	#define HAVE_SSE 1
+	#define HAVE_SSSE3 1
 
 	#ifdef ARCH_X86_64
-		#define HAVE_MMX 0	// <= compatibility with VS2010!
-		#define HAVE_MMX2 0 // <= compatibility with VS2010!
-		#define BROKEN_RELOCATIONS 0
+		#define BROKEN_RELOCATIONS 1
 		#define ARCH_X86_32 0
 		#define ARCH_X86_64 1
 		#define HAVE_FAST_64BIT 1
 		#define HAVE_STRUCT_TIMESPEC 1
 		#define HAVE_W32THREADS 1
 		#define HAVE_PTHREADS 0
+		#define HAVE_CMOV 1
+		#define HAVE_EBP_AVAILABLE 1
+		#define HAVE_FAST_CMOV 1
+		#define HAVE_XMM_CLOBBERS 1
 	#else
-		#define HAVE_MMX 1
-		#define HAVE_MMX2 1
 		#define ARCH_X86_32 1
 		#define ARCH_X86_64 0
 		#define HAVE_FAST_64BIT 0
+		#define HAVE_STRUCT_TIMESPEC 0
 		#define HAVE_W32THREADS 0
 		#define HAVE_PTHREADS 1
+		#define HAVE_CMOV 0
+		#define HAVE_EBP_AVAILABLE 0
+		#define HAVE_FAST_CMOV 0
+		#define HAVE_XMM_CLOBBERS 0
 	#endif
 
 	#define PTW32_STATIC_LIB 1
@@ -99,17 +105,35 @@
 #define HAVE_MMI 0
 #define HAVE_NEON 0
 #define HAVE_PPC4XX 0
+#define HAVE_VFPV3 0
 #define HAVE_VIS 0
 
-#define HAVE_ALIGNED_STACK 0
+#define HAVE_ALIGNED_STACK 1
+#define HAVE_ALSA_ASOUNDLIB_H 0
 #define HAVE_ALTIVEC_H 0
+#define HAVE_ARPA_INET_H 0
 #define HAVE_BIGENDIAN 0
 #define HAVE_BSWAP 1
-#define HAVE_CMOV 1
-#define HAVE_EBP_AVAILABLE 1
+#define HAVE_CLOSESOCKET 0
+#define HAVE_DCBZL 0
+#define HAVE_DEV_BKTR_IOCTL_BT848_H 0
+#define HAVE_DEV_BKTR_IOCTL_METEOR_H 0
+#define HAVE_DEV_IC_BT8XX_H 0
+#define HAVE_DEV_VIDEO_METEOR_IOCTL_METEOR_H 0
+#define HAVE_DEV_VIDEO_BKTR_IOCTL_BT848_H 0
+#define HAVE_DLFCN_H 1
+#define HAVE_DLOPEN 1
+#define HAVE_DOS_PATHS 1
 #define HAVE_EBX_AVAILABLE 1
-#define HAVE_FAST_CLZ 0
-#define HAVE_FAST_CMOV 1
+#define HAVE_FAST_CLZ 1
+#define HAVE_FCNTL 0
+#define HAVE_FORK 0
+#define HAVE_GETADDRINFO 0
+#define HAVE_GETHRTIME 0
+#define HAVE_GETPROCESSMEMORYINFO 1
+#define HAVE_GETPROCESSTIMES 1
+#define HAVE_GETRUSAGE 0
+#define HAVE_GNU_AS 1  //???
 #define HAVE_FAST_UNALIGNED 1
 #define HAVE_ISATTY 0
 #define HAVE_LOCAL_ALIGNED_16 1
@@ -122,7 +146,6 @@
 #define HAVE_TEN_OPERANDS 1
 #define HAVE_THREADS 1
 #define HAVE_VIRTUALALLOC 0
-#define HAVE_XMM_CLOBBERS 1
 #define HAVE_YASM 1
 
 #ifdef __GNUC__

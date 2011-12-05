@@ -1,0 +1,58 @@
+%define ARCH_X86
+%define CONFIG_GPL
+%define HAVE_AMD3DNOW
+%define HAVE_AMD3DNOWEXT
+%define HAVE_MMX
+%define HAVE_MMX2
+%define HAVE_SSE
+%define HAVE_SSSE3
+
+%ifdef ARCH_X86_64
+    %define HAVE_CMOV
+    %define HAVE_EBP_AVAILABLE
+    %define HAVE_FAST_64BIT
+    %define HAVE_FAST_CMOV
+    %define HAVE_XMM_CLOBBERS
+%endif
+
+%ifdef ARCH_X86_64
+    %define HAVE_W32THREADS
+%else
+    %define HAVE_PTHREADS
+%endif
+
+%define HAVE_FAST_UNALIGNED
+%define HAVE_ALIGNED_STACK
+%define HAVE_ATTRIBUTE_MAY_ALIAS
+%define HAVE_ATTRIBUTE_PACKED
+%define HAVE_BSWAP
+%define HAVE_DLFCN_H
+%define HAVE_DLOPEN
+%define HAVE_DOS_PATHS
+%define HAVE_EBX_AVAILABLE
+%define HAVE_EXP2
+%define HAVE_EXP2F
+%define HAVE_FAST_CLZ
+%define HAVE_GETPROCESSMEMORYINFO
+%define HAVE_GETPROCESSTIMES
+%define HAVE_ISATTY
+%define HAVE_LLRINT
+%define HAVE_LLRINTF
+%define HAVE_LOCAL_ALIGNED_16
+%define HAVE_LOCAL_ALIGNED_8
+%define HAVE_LOG2
+%define HAVE_LOG2F
+%define HAVE_LRINT
+%define HAVE_LRINTF
+%define HAVE_MALLOC_H
+%define HAVE_MAPVIEWOFFILE
+%define HAVE_ROUND
+%define HAVE_ROUNDF
+%define HAVE_SETMODE
+%define HAVE_SYMVER
+%define HAVE_SYMVER_ASM_LABEL
+%define HAVE_THREADS
+%define HAVE_TRUNC
+%define HAVE_TRUNCF
+%define HAVE_VIRTUALALLOC
+%define HAVE_YASM

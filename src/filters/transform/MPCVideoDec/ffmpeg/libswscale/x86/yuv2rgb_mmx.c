@@ -81,10 +81,6 @@ SwsFunc ff_yuv2rgb_init_mmx(SwsContext *c)
     }
 #endif
 
-// ==> Start patch MPC
-#if HAVE_MMX
-// <== End patch MPC
-
     if (cpu_flags & AV_CPU_FLAG_MMX) {
         switch (c->dstFormat) {
             case PIX_FMT_RGB32:
@@ -107,10 +103,6 @@ SwsFunc ff_yuv2rgb_init_mmx(SwsContext *c)
             case PIX_FMT_RGB555: return yuv420_rgb15_MMX;
         }
     }
-
-// ==> Start patch MPC
-#endif
-// <== End patch MPC
 
     return NULL;
 }
