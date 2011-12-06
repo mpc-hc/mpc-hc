@@ -262,6 +262,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	void SetupFavoritesSubMenu();
 	void SetupShadersSubMenu();
 	void SetupRecentFilesSubMenu();
+	void SetupLanguageMenu();
 
 	IBaseFilter* FindSourceSelectableFilter();
 	void SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGroup);
@@ -270,6 +271,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CMenu m_popupmain, m_popup;
 	CMenu m_opencds;
 	CMenu m_filters, m_subtitles, m_audios;
+	CMenu m_language;
 	CAutoPtrArray<CMenu> m_filterpopups;
 	CMenu m_navangle;
 	CMenu m_navchapters;

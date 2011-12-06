@@ -3228,6 +3228,9 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 		} else if (itemID == ID_FILTERS) {
 			SetupFiltersSubMenu();
 			pSubMenu = &m_filters;
+		} else if (itemID == ID_MENU_LANGUAGE) {
+			SetupLanguageMenu();
+			pSubMenu = &m_language;
 		} else if (itemID == ID_AUDIOS) {
 			SetupAudioSwitcherSubMenu();
 			pSubMenu = &m_audios;
@@ -12355,6 +12358,37 @@ void CMainFrame::SetupFiltersSubMenu()
 			idf++;
 		}
 		EndEnumFilters;
+	}
+}
+
+void CMainFrame::SetupLanguageMenu()
+{
+	CMenu* pSub = &m_language;
+	int iCount = 0;
+
+	if (!IsMenu(pSub->m_hMenu)) {
+		pSub->CreatePopupMenu();
+	} else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
+		;
+	}
+	for (int i=1; i<ID_LANGUAGE_LAST-ID_LANGUAGE_ENGLISH; i++) {
+		UINT nID = AfxGetMyApp()->GetLanguageAlph(i);
+		if (nID == 1) {
+			pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_LANGUAGE_ENGLISH, AfxGetMyApp()->GetLanguageName(0));
+		}
+		LPCTSTR strSatellite = AfxGetMyApp()->GetSatelliteDll(nID);
+		if (strSatellite) {
+			HMODULE lib = NULL;
+			if ((lib = LoadLibrary(strSatellite)) != NULL) {
+				FreeLibrary(lib);				
+				pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, nID+ID_LANGUAGE_ENGLISH, AfxGetMyApp()->GetLanguageName(nID));
+				iCount++;
+			}
+		}
+	}
+
+	if(!iCount) {
+		pSub->RemoveMenu(0, MF_BYPOSITION);		
 	}
 }
 

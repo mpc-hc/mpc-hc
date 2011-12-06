@@ -157,6 +157,8 @@ public:
 	DXVA2_ValueRange*			GetEVRColorControl(ControlType nFlag);
 	static void					SetLanguage (int nLanguage);
 	static LPCTSTR				GetSatelliteDll(int nLang);
+	static LPCTSTR				GetLanguageName(int nLang);
+	static int					GetLanguageAlph(int nLang);
 	static int					GetDefLanguage();
 	static bool					IsVSFilterInstalled();
 	static bool					HasEVR();

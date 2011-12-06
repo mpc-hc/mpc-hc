@@ -2232,6 +2232,60 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 	return NULL;
 }
 
+LPCTSTR CMPlayerCApp::GetLanguageName(int nLanguage)
+{
+	switch (nLanguage) {
+		case 0:		// English
+			return _T("English");
+		case 1:		// French
+			return _T("French");
+		case 2:		// German
+			return _T("German");
+		case 3:		// Russian
+			return _T("Russian");
+		case 4:		// Turkish
+			return _T("Turkish");
+		case 5:		// Czech
+			return _T("Czech");
+		case 6:		// Spanish
+			return _T("Spanish");
+		case 7:		// Hungarian
+			return _T("Hungarian");
+		case 8:		// Korean
+			return _T("Korean");
+		case 9:		// Polish
+			return _T("Polish");
+		case 10:	// Ukrainian
+			return _T("Ukrainian");
+		case 11:	// Italian
+			return _T("Italian");
+		case 12 :	// Slovak
+			return _T("Slovak");
+		case 13 :	// Chinese (Simplified)
+			return _T("Chinese (Simplified)");
+		case 14 :	// Chinese (Traditional)
+			return _T("Chinese (Traditional)");
+		case 15 :	// Belarusian
+			return _T("Belarusian");
+		case 16 :	// Swedish
+			return _T("Swedish");
+		case 17 :	// Portuguese (Brasil)
+			return _T("Portuguese (Brasil)");
+		case 18 :	// Dutch
+			return _T("Dutch");
+		case 19 :	// Catalan
+			return _T("Catalan");
+		case 20 :	// Japanese
+			return _T("Japanese");
+		case 21 :	// Armenian
+			return _T("Armenian");
+		case 22 :	// Hebrew
+			return _T("Hebrew");
+	}
+	return NULL;
+}
+
+
 int CMPlayerCApp::GetDefLanguage()
 {
 	switch (GetUserDefaultUILanguage()) {
@@ -2279,6 +2333,58 @@ int CMPlayerCApp::GetDefLanguage()
 			return 21;
 		case 1037 : // Hebrew
 			return 22;
+		default:
+			return 0;
+	}
+}
+
+int CMPlayerCApp::GetLanguageAlph(int nLanguage)
+{
+	switch (nLanguage) {
+		case 1 :	// Armenian
+			return 21;
+		case 2 :	// Belarusian
+			return 15;
+		case 3 :	// Catalan
+			return 19;
+		case 4 :	// Chinese (Simplified)
+			return 13;
+		case 5 :	// Chinese (Traditional)
+			return 14;
+		case 6:		// Czech
+			return  5;
+		case 7 :	// Dutch
+			return 18;
+		case 8:		// French
+			return  1;
+		case 9:		// German
+			return  2;
+		case 10 :	// Hebrew
+			return 22;
+		case 11:	// Hungarian
+			return  7;
+		case 12:	// Italian
+			return 11;
+		case 13 :	// Japanese
+			return 20;
+		case 14:	// Korean
+			return  8;
+		case 15:	// Polish
+			return  9;
+		case 16 :	// Portuguese (Brasil)
+			return 17;
+		case 17:	// Russian
+			return  3;
+		case 18 :	// Slovak
+			return 12;
+		case 19:	// Spanish
+			return  6;
+		case 20 :	// Swedish
+			return 16;
+		case 21:	// Turkish
+			return  4;
+		case 22:	// Ukrainian
+			return 10;
 		default:
 			return 0;
 	}
