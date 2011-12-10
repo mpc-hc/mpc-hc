@@ -644,7 +644,8 @@ CMainFrame::CMainFrame() :
 	m_bOpenedThruThread(false),
 	m_nMenuHideTick(0),
 	m_bWasSnapped(false),
-	m_nSeekDirection(SEEK_DIRECTION_NONE)
+	m_nSeekDirection(SEEK_DIRECTION_NONE),
+	m_bIsBDPlay(false)
 {
 	//m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
@@ -4148,6 +4149,20 @@ void CMainFrame::OnFileOpenQuick()
 	ShowWindow(SW_SHOW);
 	SetForegroundWindow();
 
+	if(fns.GetCount() == 1) {
+		CString fn = fns.GetHead();
+		CString ext = CPath(fn).GetExtension();
+		ext.MakeLower();
+		if (!ext.IsEmpty() && ext == _T(".bdmv")) {
+			fn.Replace(_T("\\BDMV\\"), _T("\\"));
+			CPath Path(fn);
+			Path.RemoveFileSpec();
+			if(OpenBD(Path)) {
+				return;
+			}
+		}
+	}
+
 	m_wndPlaylistBar.Open(fns, fMultipleFiles);
 
 	if (m_wndPlaylistBar.GetCount() == 1 && m_wndPlaylistBar.IsWindowVisible() && !m_wndPlaylistBar.IsFloating()) {
@@ -4174,6 +4189,20 @@ void CMainFrame::OnFileOpenmedia()
 
 	ShowWindow(SW_SHOW);
 	SetForegroundWindow();
+
+	if(!dlg.m_fMultipleFiles) {
+		CString fn = dlg.m_fns.GetHead();
+		CString ext = CPath(fn).GetExtension();
+		ext.MakeLower();
+		if (!ext.IsEmpty() && ext == _T(".bdmv")) {
+			fn.Replace(_T("\\BDMV\\"), _T("\\"));
+			CPath Path(fn);
+			Path.RemoveFileSpec();
+			if(OpenBD(Path)) {
+				return;
+			}
+		}
+	}
 
 	if (dlg.m_fAppendPlaylist) {
 		m_wndPlaylistBar.Append(dlg.m_fns, dlg.m_fMultipleFiles);
@@ -4327,19 +4356,8 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		if (!fMulti) {
 			sl.AddTailList(&s.slDubs);
 		}
-
-		CHdmvClipInfo		ClipInfo;
-		CString				strPlaylistFile;
-		CAtlList<CHdmvClipInfo::PlaylistItem>	MainPlaylist;
-
-		if (!fMulti && is_dir(s.slFiles.GetHead() + _T("\\BDMV")) && SUCCEEDED(ClipInfo.FindMainMovie (s.slFiles.GetHead(), strPlaylistFile, MainPlaylist))) {
-			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+		if(OpenBD(s.slFiles.GetHead())) {
 			fSetForegroundWindow = true;
-
-			m_wndPlaylistBar.Empty();
-			CAutoPtr<OpenFileData> p(DNew OpenFileData());
-			p->fns.AddTail(strPlaylistFile);
-			OpenMedia(p);
 		} else if (!fMulti && is_dir(s.slFiles.GetHead() + _T("\\VIDEO_TS"))) {
 			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 			fSetForegroundWindow = true;
@@ -4442,18 +4460,9 @@ void CMainFrame::OnFileOpendvd()
 	static LPITEMIDLIST iil;
 	iil = SHBrowseForFolder(&bi);
 	if (iil) {
-		CHdmvClipInfo		ClipInfo;
-		CString				strPlaylistFile;
-		CAtlList<CHdmvClipInfo::PlaylistItem>	MainPlaylist;
 		SHGetPathFromIDList(iil, path);
 		s.strDVDPath = path;
-
-		if (SUCCEEDED (ClipInfo.FindMainMovie (path, strPlaylistFile, MainPlaylist))) {
-			m_wndPlaylistBar.Empty();
-			CAutoPtr<OpenFileData> p(DNew OpenFileData());
-			p->fns.AddTail(strPlaylistFile);
-			OpenMedia(p);
-		} else {
+		if(!OpenBD(path)) {
 			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 			p->path = path;
 			p->path.Replace('/', '\\');
@@ -4542,6 +4551,14 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 	CAtlList<CString> sl;
 
 	UINT nFiles = ::DragQueryFile(hDropInfo, (UINT)-1, NULL, 0);
+
+	if(nFiles == 1) {
+		CString path;
+		path.ReleaseBuffer(::DragQueryFile(hDropInfo, 0, path.GetBuffer(_MAX_PATH), _MAX_PATH));
+		if(OpenBD(path)) {
+			return;
+		}
+	}
 
 	for (UINT iFile = 0; iFile < nFiles; iFile++) {
 		CString fn;
@@ -8578,10 +8595,22 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 
 		nID -= m_pCB->ChapGetCount();
 
-		if ((int)nID >= 0 && (int)nID < m_wndPlaylistBar.GetCount()
-				&& m_wndPlaylistBar.GetSelIdx() != (int)nID) {
-			m_wndPlaylistBar.SetSelIdx(nID);
-			OpenCurPlaylistItem();
+		if ((int)nID >= 0 && m_MPLSPlaylist.GetCount()>1) {
+			POSITION pos = m_MPLSPlaylist.GetHeadPosition();
+			int idx = 0;
+			while(pos) {
+				CHdmvClipInfo::PlaylistItem Item = m_MPLSPlaylist.GetNext(pos); 
+				if(idx == nID) {
+					m_bIsBDPlay = true;
+					m_wndPlaylistBar.Empty();
+					CAtlList<CString> sl;
+					sl.AddTail(CString(Item.m_strFileName));
+					m_wndPlaylistBar.Append(sl, false);
+					OpenCurPlaylistItem();
+					return;
+				}
+				idx++;
+			}
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {
 		ULONG ulNumOfVolumes, ulVolume;
@@ -11476,6 +11505,11 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	// Clear DXVA state ...	
 	ClearDXVAState();
 
+	//
+	if(!m_bIsBDPlay)
+		m_MPLSPlaylist.RemoveAll();
+	m_bIsBDPlay = false;
+
 #ifdef _DEBUG
 	// Debug trace code - Begin
 	// Check for bad / buggy auto loading file code
@@ -12734,6 +12768,14 @@ void CMainFrame::SetupNavAngleSubMenu()
 	}
 }
 
+static CString StripPath(CString path)
+{
+	CString p = path;
+	p.Replace('\\', '/');
+	p = p.Mid(p.ReverseFind('/')+1);
+	return(p.IsEmpty() ? path : p);
+}
+
 void CMainFrame::SetupNavChaptersSubMenu()
 {
 	CMenu* pSub = &m_navchapters;
@@ -12779,20 +12821,24 @@ void CMainFrame::SetupNavChaptersSubMenu()
 			pSub->AppendMenu(flags, id, name + '\t' + time);
 		}
 
-		if (m_wndPlaylistBar.GetCount() > 1) {
-			POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition();
+		if(m_MPLSPlaylist.GetCount() > 1) {
+			POSITION pos = m_MPLSPlaylist.GetHeadPosition();
 			while (pos) {
 				UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
-				if (pos == m_wndPlaylistBar.m_pl.GetPos()) {
-					flags |= MF_CHECKED;
-				}
-				if (id != ID_NAVIGATE_CHAP_SUBITEM_START && pos == m_wndPlaylistBar.m_pl.GetHeadPosition()) {
+				if (id != ID_NAVIGATE_CHAP_SUBITEM_START && pos == m_MPLSPlaylist.GetHeadPosition()) {
 					pSub->AppendMenu(MF_SEPARATOR);
 				}
-				CPlaylistItem& pli = m_wndPlaylistBar.m_pl.GetNext(pos);
-				CString name = pli.GetLabel();
+
+				CHdmvClipInfo::PlaylistItem Item = m_MPLSPlaylist.GetNext(pos);
+				CString time = _T("[") + ReftimeToString2(Item.Duration()) + _T("]");
+				CString name = StripPath(Item.m_strFileName);
+
+				if(name == m_wndPlaylistBar.m_pl.GetHead().GetLabel()) {
+					flags |= MF_CHECKED;
+				}
+
 				name.Replace(_T("&"), _T("&&"));
-				pSub->AppendMenu(flags, id++, name);
+				pSub->AppendMenu(flags, id++, name + '\t' + time);
 			}
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {
@@ -15690,4 +15736,22 @@ void CMainFrame::EnableShaders2(bool enable)
 			m_pCAP2->SetPixelShader2(NULL, NULL, true);
 		}
 	}
+}
+
+bool CMainFrame::OpenBD(CString Path)
+{
+	CHdmvClipInfo		ClipInfo;
+	CString				strPlaylistFile;
+	CAtlList<CHdmvClipInfo::PlaylistItem>	MainPlaylist;
+
+	if (is_dir(Path + _T("\\BDMV")) && SUCCEEDED (ClipInfo.FindMainMovie (Path, strPlaylistFile, MainPlaylist, m_MPLSPlaylist))) {
+		m_wndPlaylistBar.Empty();
+		CAtlList<CString> sl;
+		sl.AddTail(CString(strPlaylistFile));
+		m_wndPlaylistBar.Append(sl, false);
+		OpenCurPlaylistItem();
+		m_bIsBDPlay = true;
+		return true;
+	}
+	return false;
 }

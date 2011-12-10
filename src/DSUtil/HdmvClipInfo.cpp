@@ -399,16 +399,18 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 	return AmHresultFromWin32(GetLastError());
 }
 
-HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist)
+HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist, CAtlList<PlaylistItem>& MPLSPlaylists)
 {
 	HRESULT				hr		= E_FAIL;
 
 	CString				strPath (strFolder);
 	CString				strFilter;
 
+	MPLSPlaylists.RemoveAll();
+
 	CAtlList<PlaylistItem>	Playlist;
 	WIN32_FIND_DATA		fd = {0};
-
+	
 	strPath.Replace(_T("\\PLAYLIST\\"), _T("\\"));
 	//strPath.Replace(_T("\\BDMV\\"),		_T("\\"));
 	strPath.Replace(_T("\\STREAM\\"),		_T("\\"));
@@ -425,21 +427,40 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 			Playlist.RemoveAll();
 
 			// Main movie shouldn't have duplicate M2TS filename...
-			if (ReadPlaylist(strCurrentPlaylist, rtCurrent, Playlist) == S_OK && rtCurrent > rtMax) {
-				rtMax			= rtCurrent;
-
-				strPlaylistFile = strCurrentPlaylist;
-				MainPlaylist.RemoveAll();
-				POSITION pos = Playlist.GetHeadPosition();
-				while(pos) {
-					MainPlaylist.AddTail(Playlist.GetNext(pos));
+			if (ReadPlaylist(strCurrentPlaylist, rtCurrent, Playlist) == S_OK) {
+				if(rtCurrent > rtMax) {
+					rtMax			= rtCurrent;
+					strPlaylistFile = strCurrentPlaylist;
+					MainPlaylist.RemoveAll();
+					POSITION pos = Playlist.GetHeadPosition();
+					while(pos) {
+						MainPlaylist.AddTail(Playlist.GetNext(pos));
+					}
+					hr				= S_OK;
+				}
+				if(rtCurrent > 3*600000000) {
+					PlaylistItem	Item;
+					Item.m_strFileName	= strCurrentPlaylist;
+					Item.m_rtIn			= 0;
+					Item.m_rtOut		= rtCurrent;
+					MPLSPlaylists.AddTail(Item);
 				}
 
-				hr				= S_OK;
 			}
 		} while(FindNextFile(hFind, &fd));
 
 		FindClose(hFind);
+	}
+
+	if(MPLSPlaylists.GetCount() > 1) {
+		// bubble sort
+		for (int j=0; j<MPLSPlaylists.GetCount(); j++) {
+			for(int i=0; i<MPLSPlaylists.GetCount()-1; i++) {
+				if (MPLSPlaylists.GetAt(MPLSPlaylists.FindIndex(i)).Duration() < MPLSPlaylists.GetAt(MPLSPlaylists.FindIndex(i+1)).Duration()) {
+					MPLSPlaylists.SwapElements(MPLSPlaylists.FindIndex(i), MPLSPlaylists.FindIndex(i+1));
+				}
+			}
+		}
 	}
 
 	return hr;
