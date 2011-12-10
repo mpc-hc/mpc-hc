@@ -645,7 +645,8 @@ CMainFrame::CMainFrame() :
 	m_nMenuHideTick(0),
 	m_bWasSnapped(false),
 	m_nSeekDirection(SEEK_DIRECTION_NONE),
-	m_bIsBDPlay(false)
+	m_bIsBDPlay(false),
+	m_bIsDVDOpen(false)
 {
 	//m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
@@ -2577,6 +2578,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						if ( s.fShowDebugInfo ) {
 							m_OSD.DebugMessage(_T("%s"), Domain);
 						}
+						if(m_bIsDVDOpen) {
+							pDVDC->ShowMenu((DVD_MENU_ID)2, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+						}
+						m_bIsDVDOpen = false;
 						break;
 					case DVD_DOMAIN_VideoTitleSetMenu:
 						Domain = _T("Video Title Set Menu");
@@ -4356,6 +4361,23 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		if (!fMulti) {
 			sl.AddTailList(&s.slDubs);
 		}
+
+		CString fn = s.slFiles.GetHead();
+		CString ext = CPath(fn).GetExtension();
+		ext.MakeLower();
+		if (!ext.IsEmpty() && ext == _T(".bdmv")) {
+			fn.Replace(_T("\\BDMV\\"), _T("\\"));
+			CPath Path(fn);
+			Path.RemoveFileSpec();
+			if(OpenBD(Path)) {
+				if (fSetForegroundWindow && !(s.nCLSwitches&CLSW_NOFOCUS)) {
+					SetForegroundWindow();
+				}
+				s.nCLSwitches &= ~CLSW_NOFOCUS;
+				return true;
+			}
+		}
+
 		if(OpenBD(s.slFiles.GetHead())) {
 			fSetForegroundWindow = true;
 		} else if (!fMulti && is_dir(s.slFiles.GetHead() + _T("\\VIDEO_TS"))) {
@@ -4463,14 +4485,18 @@ void CMainFrame::OnFileOpendvd()
 		SHGetPathFromIDList(iil, path);
 		s.strDVDPath = path;
 		if(!OpenBD(path)) {
-			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
-			p->path = path;
-			p->path.Replace('/', '\\');
-			if (p->path[p->path.GetLength()-1] != '\\') {
-				p->path += '\\';
-			}
+			CString fn = path;
+			fn.Replace(_T("\\BDMV"), _T("\\"));
+			if(!OpenBD(fn)) {
+				CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
+				p->path = path;
+				p->path.Replace('/', '\\');
+				if (p->path[p->path.GetLength()-1] != '\\') {
+					p->path += '\\';
+				}
 
-			OpenMedia(p);
+				OpenMedia(p);
+			}
 		}
 	}
 }
@@ -4555,8 +4581,24 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 	if(nFiles == 1) {
 		CString path;
 		path.ReleaseBuffer(::DragQueryFile(hDropInfo, 0, path.GetBuffer(_MAX_PATH), _MAX_PATH));
+
+		CString ext = CPath(path).GetExtension();
+		ext.MakeLower();
+		if (!ext.IsEmpty() && ext == _T(".bdmv")) {
+			path.Replace(_T("\\BDMV\\"), _T("\\"));
+			CPath Path(path);
+			Path.RemoveFileSpec();
+			if(OpenBD(Path)) {
+				return;
+			}
+		}
 		if(OpenBD(path)) {
 			return;
+		} else {
+			path.Replace(_T("\\BDMV"), _T("\\"));
+			if(OpenBD(path)) {
+				return;
+			}
 		}
 	}
 
@@ -11493,6 +11535,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		ASSERT(0);
 		return false;
 	}
+
+	m_bIsDVDOpen = true;
 
 	OpenFileData *pFileData = dynamic_cast<OpenFileData *>(pOMD.m_p);
 	OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(pOMD.m_p);
