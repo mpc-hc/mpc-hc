@@ -412,8 +412,7 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 	WIN32_FIND_DATA		fd = {0};
 	
 	strPath.Replace(_T("\\PLAYLIST\\"), _T("\\"));
-	//strPath.Replace(_T("\\BDMV\\"),		_T("\\"));
-	strPath.Replace(_T("\\STREAM\\"),		_T("\\"));
+	strPath.Replace(_T("\\STREAM\\"), _T("\\"));
 	strPath  += _T("\\BDMV\\");
 	strFilter.Format (_T("%sPLAYLIST\\*.mpls"), strPath);
 
