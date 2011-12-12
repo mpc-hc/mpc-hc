@@ -399,7 +399,7 @@ protected:
 
 	bool m_fAudioOnly;
 	dispmode m_dmBeforeFullscreen;
-	CString m_LastOpenFile;
+	CString m_LastOpenFile, m_LastOpenBDPath;
 	HMONITOR m_LastWindow_HM;
 
 	DVD_DOMAIN m_iDVDDomain;
