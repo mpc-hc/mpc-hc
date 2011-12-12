@@ -86,9 +86,10 @@
 #include "jpeg.h"
 #include <pngdib/pngdib.h>
 
-
 #define DEFCLIENTW 292
 #define DEFCLIENTH 200
+
+#define MENUBARBREAK 30
 
 static UINT s_uTaskbarRestart = RegisterWindowMessage(TEXT("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
@@ -8564,25 +8565,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 	nID -= ID_NAVIGATE_CHAP_SUBITEM_START;
 
 	if (GetPlaybackMode() == PM_FILE) {
-		if ((int)nID >= 0 && nID < m_pCB->ChapGetCount()) {
-			REFERENCE_TIME rt;
-			CComBSTR name;
-			if (SUCCEEDED(m_pCB->ChapGet(nID, &rt, &name))) {
-				SeekTo(rt);
-				SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
-
-				REFERENCE_TIME rtDur;
-				pMS->GetDuration(&rtDur);
-				CString m_strOSD;
-				m_strOSD.Format(_T("%s/%s %s%d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), nID+1, m_pCB->ChapGetCount(), name);
-				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
-			}
-			return;
-		}
-
-		nID -= m_pCB->ChapGetCount();
-
-		if ((int)nID >= 0 && m_MPLSPlaylist.GetCount()>1) {
+		if ((int)nID >= 0 && (nID < m_MPLSPlaylist.GetCount() && m_MPLSPlaylist.GetCount() > 1)) {
 			POSITION pos = m_MPLSPlaylist.GetHeadPosition();
 			int idx = 0;
 			while(pos) {
@@ -8598,6 +8581,26 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 				}
 				idx++;
 			}
+		}
+
+		if(m_MPLSPlaylist.GetCount()>1) {
+			nID -= m_MPLSPlaylist.GetCount();
+		}
+
+		if ((int)nID >= 0 && (nID < m_pCB->ChapGetCount() && m_pCB->ChapGetCount() > 1)) {
+			REFERENCE_TIME rt;
+			CComBSTR name;
+			if (SUCCEEDED(m_pCB->ChapGet(nID, &rt, &name))) {
+				SeekTo(rt);
+				SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
+
+				REFERENCE_TIME rtDur;
+				pMS->GetDuration(&rtDur);
+				CString m_strOSD;
+				m_strOSD.Format(_T("%s/%s %s%d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), nID+1, m_pCB->ChapGetCount(), name);
+				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
+			}
+			return;
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {
 		ULONG ulNumOfVolumes, ulVolume;
@@ -12782,41 +12785,20 @@ void CMainFrame::SetupNavChaptersSubMenu()
 	UINT id = ID_NAVIGATE_CHAP_SUBITEM_START;
 
 	if (GetPlaybackMode() == PM_FILE) {
-		SetupChapters();
-
-		REFERENCE_TIME rt = GetPos();
-		DWORD j = m_pCB->ChapLookup(&rt, NULL);
-
-		for (DWORD i = 0; i < m_pCB->ChapGetCount(); i++, id++) {
-			rt = 0;
-			CComBSTR bstr;
-			if (FAILED(m_pCB->ChapGet(i, &rt, &bstr))) {
-				continue;
-			}
-
-			CString time = _T("[") + ReftimeToString2(rt) + _T("]");
-
-			CString name = CString(bstr);
-			name.Replace(_T("&"), _T("&&"));
-			name.Replace(_T("\t"), _T(" "));
-
-			UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
-			if (i == j) {
-				flags |= MF_CHECKED;
-			}
-			if (id != ID_NAVIGATE_CHAP_SUBITEM_START && i == 0) {
-				pSub->AppendMenu(MF_SEPARATOR);
-			}
-			pSub->AppendMenu(flags, id, name + '\t' + time);
-		}
-
 		if(m_MPLSPlaylist.GetCount() > 1) {
+			DWORD idx = 1;
 			POSITION pos = m_MPLSPlaylist.GetHeadPosition();
 			while (pos) {
 				UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
 				if (id != ID_NAVIGATE_CHAP_SUBITEM_START && pos == m_MPLSPlaylist.GetHeadPosition()) {
-					pSub->AppendMenu(MF_SEPARATOR);
+					//pSub->AppendMenu(MF_SEPARATOR);
+					flags |= MF_MENUBARBREAK;
 				}
+				if (idx == MENUBARBREAK) {
+					flags |= MF_MENUBARBREAK;
+					idx = 0;
+				}
+				idx++;
 
 				CHdmvClipInfo::PlaylistItem Item = m_MPLSPlaylist.GetNext(pos);
 				CString time = _T("[") + ReftimeToString2(Item.Duration()) + _T("]");
@@ -12828,6 +12810,44 @@ void CMainFrame::SetupNavChaptersSubMenu()
 
 				name.Replace(_T("&"), _T("&&"));
 				pSub->AppendMenu(flags, id++, name + '\t' + time);
+			}
+		}
+
+		SetupChapters();
+		REFERENCE_TIME rt = GetPos();
+		DWORD j = m_pCB->ChapLookup(&rt, NULL);
+
+		if(m_pCB->ChapGetCount() > 1) {
+			for (DWORD i = 0, idx = 0; i < m_pCB->ChapGetCount(); i++, id++, idx++) {
+				rt = 0;
+				CComBSTR bstr;
+				if (FAILED(m_pCB->ChapGet(i, &rt, &bstr))) {
+					continue;
+				}
+
+				CString time = _T("[") + ReftimeToString2(rt) + _T("]");
+
+				CString name = CString(bstr);
+				name.Replace(_T("&"), _T("&&"));
+				name.Replace(_T("\t"), _T(" "));
+
+				UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
+				if (i == j) {
+					flags |= MF_CHECKED;
+				}
+
+				if (idx == MENUBARBREAK) {
+					flags |= MF_MENUBARBREAK;
+					idx = 0;
+				}
+
+				if (id != ID_NAVIGATE_CHAP_SUBITEM_START && i == 0) {
+					//pSub->AppendMenu(MF_SEPARATOR);
+					if(m_MPLSPlaylist.GetCount() > 1) {
+						flags |= MF_MENUBARBREAK;
+					}
+				}
+				pSub->AppendMenu(flags, id, name + '\t' + time);
 			}
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {

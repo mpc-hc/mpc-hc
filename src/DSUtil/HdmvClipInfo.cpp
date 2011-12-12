@@ -399,6 +399,8 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 	return AmHresultFromWin32(GetLastError());
 }
 
+#define MIN_LIMIT 3
+
 HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist, CAtlList<PlaylistItem>& MPLSPlaylists)
 {
 	HRESULT				hr		= E_FAIL;
@@ -437,7 +439,7 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 					}
 					hr				= S_OK;
 				}
-				if(rtCurrent > 3*600000000) {
+				if(rtCurrent >= (REFERENCE_TIME)MIN_LIMIT*600000000) {
 					PlaylistItem	Item;
 					Item.m_strFileName	= strCurrentPlaylist;
 					Item.m_rtIn			= 0;
@@ -453,8 +455,8 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 
 	if(MPLSPlaylists.GetCount() > 1) {
 		// bubble sort
-		for (int j=0; j<MPLSPlaylists.GetCount(); j++) {
-			for(int i=0; i<MPLSPlaylists.GetCount()-1; i++) {
+		for (size_t j=0; j<MPLSPlaylists.GetCount(); j++) {
+			for(size_t i=0; i<MPLSPlaylists.GetCount()-1; i++) {
 				if (MPLSPlaylists.GetAt(MPLSPlaylists.FindIndex(i)).Duration() < MPLSPlaylists.GetAt(MPLSPlaylists.FindIndex(i+1)).Duration()) {
 					MPLSPlaylists.SwapElements(MPLSPlaylists.FindIndex(i), MPLSPlaylists.FindIndex(i+1));
 				}
