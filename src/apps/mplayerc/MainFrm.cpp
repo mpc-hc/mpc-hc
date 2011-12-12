@@ -647,7 +647,6 @@ CMainFrame::CMainFrame() :
 	m_bWasSnapped(false),
 	m_nSeekDirection(SEEK_DIRECTION_NONE),
 	m_bIsBDPlay(false),
-	m_bIsDVDOpen(false),
 	m_LastOpenBDPath(_T(""))
 {
 	//m_Lcd.SetVolumeRange(0, 100);
@@ -2580,10 +2579,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						if ( s.fShowDebugInfo ) {
 							m_OSD.DebugMessage(_T("%s"), Domain);
 						}
-						if(m_bIsDVDOpen) {
-							pDVDC->ShowMenu((DVD_MENU_ID)2, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-						}
-						m_bIsDVDOpen = false;
 						break;
 					case DVD_DOMAIN_VideoTitleSetMenu:
 						Domain = _T("Video Title Set Menu");
@@ -11487,8 +11482,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		ASSERT(0);
 		return false;
 	}
-
-	m_bIsDVDOpen = true;
 
 	OpenFileData *pFileData = dynamic_cast<OpenFileData *>(pOMD.m_p);
 	OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(pOMD.m_p);

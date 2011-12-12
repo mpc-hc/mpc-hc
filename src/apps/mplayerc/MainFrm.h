@@ -973,6 +973,4 @@ public:
 	CAtlList<CHdmvClipInfo::PlaylistItem> m_MPLSPlaylist;
 	bool m_bIsBDPlay;
 	bool OpenBD(CString Path);
-
-	bool m_bIsDVDOpen;
 };
