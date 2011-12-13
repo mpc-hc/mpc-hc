@@ -168,7 +168,8 @@ HRESULT CmadVRAllocatorPresenter::Render(
 	__super::SetPosition(CRect(0, 0, width, height), CRect(left, top, right, bottom)); // needed? should be already set by the player
 	SetTime(rtStart);
 	if(atpf > 0 && m_pSubPicQueue) {
-		m_pSubPicQueue->SetFPS(10000000.0 / atpf);
+		m_fps = (double)(10000000.0 / atpf);
+		m_pSubPicQueue->SetFPS(m_fps);
 	}
 	AlphaBltSubPic(CSize(width, height));
 	return S_OK;
