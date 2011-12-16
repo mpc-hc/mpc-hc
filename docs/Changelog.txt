@@ -26,7 +26,7 @@ CHANGED: Updated VirtualDub to v1.10.1-test16
 CHANGED: Updated MediaInfoLib to v0.7.51
 CHANGED: Updated ZenLib to v0.4.23
 CHANGED: Updated Little CMS to v2.3-rc1
-CHANGED: Updated libpng to v1.5.6
+CHANGED: Updated libpng to v1.5.7
 CHANGED: Updated ffmpeg
 FIXED  : If "Play # time(s)" was set to a value higher than one and if the playlist
          had more than one element, the playback never stopped.
