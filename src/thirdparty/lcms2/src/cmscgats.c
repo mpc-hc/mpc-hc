@@ -114,6 +114,8 @@ typedef struct _SubAllocator {
 // Table. Each individual table can hold properties and rows & cols
 typedef struct _Table {
         
+        char SheetType[MAXSTR];               // The first row of the IT8 (the type)
+
         int            nSamples, nPatches;    // Cols, Rows
         int            SampleID;              // Pos of ID
         
@@ -133,8 +135,7 @@ typedef struct _FileContext {
 // This struct hold all information about an open IT8 handler. 
 typedef struct {
 
-        char SheetType[MAXSTR];               // The first row of the IT8 (the type)
-
+      
         cmsUInt32Number  TablesCount;                     // How many tables in this stream
         cmsUInt32Number  nTable;                          // The actual table
 
@@ -1214,7 +1215,7 @@ cmsHANDLE  CMSEXPORT cmsIT8Alloc(cmsContext ContextID)
     it8 -> lineno = 1;
 
     strcpy(it8->DoubleFormatter, DEFAULT_DBL_FORMAT);
-    strcpy(it8->SheetType, "CGATS.17");
+    cmsIT8SetSheetType((cmsHANDLE) it8, "CGATS.17");
 
     // Initialize predefined properties & data
     
@@ -1230,19 +1231,16 @@ cmsHANDLE  CMSEXPORT cmsIT8Alloc(cmsContext ContextID)
 
 
 const char* CMSEXPORT cmsIT8GetSheetType(cmsHANDLE hIT8)
-{
-        cmsIT8* it8 = (cmsIT8*) hIT8;
-
-        return it8 ->SheetType;
-
+{        
+        return GetTable((cmsIT8*) hIT8)->SheetType;
 }
 
 cmsBool CMSEXPORT cmsIT8SetSheetType(cmsHANDLE hIT8, const char* Type)
 {
-        cmsIT8* it8 = (cmsIT8*) hIT8;
+        TABLE* t = GetTable((cmsIT8*) hIT8);
 
-        strncpy(it8 ->SheetType, Type, MAXSTR-1);
-        it8 ->SheetType[MAXSTR-1] = 0;
+        strncpy(t ->SheetType, Type, MAXSTR-1);
+        t ->SheetType[MAXSTR-1] = 0;
         return TRUE;
 }
 
@@ -1524,7 +1522,10 @@ void WriteHeader(cmsIT8* it8, SAVESTREAM* fp)
     KEYVALUE* p;
     TABLE* t = GetTable(it8);
 
-    
+    // Writes the type
+    WriteStr(fp, t->SheetType);
+    WriteStr(fp, "\n");
+
     for (p = t->HeaderList; (p != NULL); p = p->Next)
     {
         if (*p ->Keyword == '#') {
@@ -1672,8 +1673,6 @@ cmsBool CMSEXPORT cmsIT8SaveToFile(cmsHANDLE hIT8, const char* cFileName)
     sd.stream = fopen(cFileName, "wt");
     if (!sd.stream) return FALSE;
     
-    WriteStr(&sd, it8->SheetType);
-    WriteStr(&sd, "\n");
     for (i=0; i < it8 ->TablesCount; i++) {
 
             cmsIT8SetTable(hIT8, i);
@@ -1708,8 +1707,6 @@ cmsBool CMSEXPORT cmsIT8SaveToMem(cmsHANDLE hIT8, void *MemPtr, cmsUInt32Number*
     else 
         sd.Max  = 0;                // Just counting the needed bytes
    
-    WriteStr(&sd, it8->SheetType);
-    WriteStr(&sd, "\n");
     for (i=0; i < it8 ->TablesCount; i++) {
 
             cmsIT8SetTable(hIT8, i);
@@ -1934,12 +1931,8 @@ cmsBool HeaderSection(cmsIT8* it8)
 
 
 static
-cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
-{
-    char* SheetTypePtr = it8 ->SheetType;
-
-    if (nosheet == 0) {
-
+void ReadType(cmsIT8* it8, char* SheetTypePtr)
+{ 
     // First line is a very special case.
 
     while (isseparator(it8->ch))
@@ -1950,9 +1943,20 @@ cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
         *SheetTypePtr++= (char) it8 ->ch;
         NextCh(it8);
     }
-    }
 
     *SheetTypePtr = 0;
+}
+
+
+static
+cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
+{
+    char* SheetTypePtr = it8 ->Tab[0].SheetType;
+
+    if (nosheet == 0) {
+        ReadType(it8, SheetTypePtr);  
+    }
+
     InSymbol(it8);
    
     SkipEOLN(it8);
@@ -1969,11 +1973,44 @@ cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
             case SBEGIN_DATA:
 
                     if (!DataSection(it8)) return FALSE;
-                    
+                                                     
                     if (it8 -> sy != SEOF) {
 
                             AllocTable(it8);
                             it8 ->nTable = it8 ->TablesCount - 1;
+                            
+                            // Read sheet type if present. We only support identifier and string.
+                            // <ident> <eoln> is a type string
+                            // anything else, is not a type string
+                            if (nosheet == 0) {
+                                                             
+                                if (it8 ->sy == SIDENT) {
+
+                                    // May be a type sheet or may be a prop value statement. We cannot use insymbol in
+                                    // this special case...
+                                     while (isseparator(it8->ch))
+                                         NextCh(it8);
+
+                                     // If a newline is found, then this is a type string
+                                    if (it8 ->ch == '\n') {
+
+                                         cmsIT8SetSheetType(it8, it8 ->id);
+                                         InSymbol(it8);
+                                    } 
+                                    else
+                                    {
+                                        // It is not. Just continue
+                                        cmsIT8SetSheetType(it8, "");                                       
+                                    }
+                                }
+                                else
+                                    // Validate quoted strings
+                                    if (it8 ->sy == SSTRING) {
+                                        cmsIT8SetSheetType(it8, it8 ->str);
+                                        InSymbol(it8);
+                                    }
+                           }
+                           
                     }
                     break;
 
@@ -2094,14 +2131,14 @@ void CookPointers(cmsIT8* it8)
 
 // Try to infere if the file is a CGATS/IT8 file at all. Read first line
 // that should be something like some printable characters plus a \n
-
+// returns 0 if this is not like a CGATS, or an integer otherwise
 static
 int IsMyBlock(cmsUInt8Number* Buffer, int n)
 {
     int cols = 1, space = 0, quot = 0;
     int i;
 
-    if (n < 10) return FALSE;   // Too small
+    if (n < 10) return 0;   // Too small
 
     if (n > 132)
         n = 132;
@@ -2112,7 +2149,7 @@ int IsMyBlock(cmsUInt8Number* Buffer, int n)
         {
         case '\n':
         case '\r':
-            return quot == 1 || cols > 2 ? 0 : cols;
+            return ((quot == 1) || (cols > 2)) ? 0 : cols;
         case '\t':
         case ' ':
             if(!quot && !space)
@@ -2130,8 +2167,7 @@ int IsMyBlock(cmsUInt8Number* Buffer, int n)
         }
     }
 
-    return FALSE;
-
+    return 0;
 }
 
 
