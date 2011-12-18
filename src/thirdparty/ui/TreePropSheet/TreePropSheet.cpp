@@ -266,8 +266,8 @@ void CTreePropSheet::MoveChildWindows(int nDx, int nDy)
 	{
 		CRect	rect;
 		pWnd->GetWindowRect(rect);
-		rect.OffsetRect(nDx, nDy);
 		ScreenToClient(rect);
+		rect.OffsetRect(nDx, nDy);
 		pWnd->MoveWindow(rect);
 
 		pWnd = pWnd->GetNextWindow();

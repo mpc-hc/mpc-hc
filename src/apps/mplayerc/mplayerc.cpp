@@ -2443,21 +2443,15 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	if ( hMod == NULL ) {
 		hMod = AfxGetApp()->m_hInstance;
 		s.iLanguage = 0;
+	} else if (nLanguage == 22) {
+		// Hebrew needs the RTL flag.
+		SetProcessDefaultLayout(LAYOUT_RTL);
+		SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, NULL, GetCurrentThreadId());
 	}
 	if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance) {
 		FreeLibrary(AfxGetResourceHandle());
 	}
 	AfxSetResourceHandle( hMod );
-
-	// Hebrew needs the RTL flag.
-	SetProcessDefaultLayout((nLanguage == 22) ? LAYOUT_RTL : LAYOUT_LTR);
-	/*
-	// Something like this is needed to have the options dialog RTLed
-	// but it currently totally breaks the layout ...
-	if (nLanguage == 22) {
-		SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, NULL, GetCurrentThreadId());
-	}
-	*/
 }
 
 bool CMPlayerCApp::IsVSFilterInstalled()
