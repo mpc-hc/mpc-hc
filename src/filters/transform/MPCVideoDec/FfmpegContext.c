@@ -205,8 +205,8 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		} else if (nPCIVendor == PCIV_S3_Graphics) {
 			no_level51_support = 0;
 		} else if (nPCIVendor == PCIV_ATI) {
-			// HD4xxx and HD5xxx ATI cards support level 5.1 since drivers v8.14.1.6105 (Catalyst 10.4)
-			if((nPCIDevice >> 8 == 0x68) || (nPCIDevice >> 8 == 0x94)) {
+			// HD4xxx, HD5xxx, and HD6xxx AMD/ATI cards support level 5.1 since drivers v8.14.1.6105 (Catalyst 10.4)
+			if(nPCIDevice > 0x6700) {
 				if (DriverVersionCheck(VideoDriverVersion, 8, 14, 1, 6105)) {
 					no_level51_support = 0;
 					max_ref_frames = 16;
