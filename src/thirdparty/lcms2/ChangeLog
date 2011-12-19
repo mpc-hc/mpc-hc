@@ -52,3 +52,7 @@ Fixed Absolute colorimetric intent issues
 Fixed a bug on the range of data in transicc, when colorant tag is specified
 Adding a memory alignment macro for CGATS parser
 Updated to ICC spec 4.3
+Added compatibilty with Argyll's CGATS parser
+
+2.3 Maintenance release
+-----------------------
