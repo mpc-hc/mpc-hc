@@ -1217,7 +1217,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 		DWORD asecondary = w->m_style.alpha[1];
 		if(alpha > 0) {
 			aprimary += alpha*(0xff-w->m_style.alpha[0])/0xff;
-			asecondary += alpha*(0xff-w->m_style.alpha[2])/0xff;
+			asecondary += alpha*(0xff-w->m_style.alpha[1])/0xff;
 		}
 		COLORREF primary = revcolor(w->m_style.colors[0]) | ((0xff-aprimary)<<24);
 		COLORREF secondary = revcolor(w->m_style.colors[1]) | ((0xff-asecondary)<<24);
