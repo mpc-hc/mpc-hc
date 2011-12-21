@@ -1074,6 +1074,9 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 							}
 						}
 						break;
+					case CODEC_ID_VC1:
+						m_bDXVACompatible = !!VC1CheckCompatibility(m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+						break;
 					case CODEC_ID_MPEG2VIDEO :
 						// DSP is disable for DXVA decoding (to keep default idct_permutation)
 						m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
