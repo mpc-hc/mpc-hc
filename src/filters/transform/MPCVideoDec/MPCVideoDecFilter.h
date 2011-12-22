@@ -152,6 +152,8 @@ protected:
 
 	CH264RandomAccess						m_h264RandomAccess;
 
+	BOOL				m_bWaitingForKeyFrame;
+
 	// === Private functions
 	void				Cleanup();
 	int					FindCodec(const CMediaType* mtIn);

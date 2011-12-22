@@ -555,6 +555,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nPosB						= 1;
 	m_sar.SetSize(1,1);
 
+	m_bWaitingForKeyFrame = TRUE;
+
 #ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ)) {
@@ -1302,6 +1304,8 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 
 	m_h264RandomAccess.flush(m_pAVCtx->thread_count);
 
+	m_bWaitingForKeyFrame = TRUE;
+
 	if (m_pAVCtx) {
 		avcodec_flush_buffers (m_pAVCtx);
 	}
@@ -1490,6 +1494,14 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 		if (m_pAVCtx->codec_id == CODEC_ID_H264 && got_picture) {
 			m_h264RandomAccess.judgeFrameUsability(m_pFrame, &got_picture);
+    } else if (m_nCodecId == CODEC_ID_VC1) {
+      if (m_bWaitingForKeyFrame && got_picture) {
+        if (m_pFrame->key_frame) {
+          m_bWaitingForKeyFrame = FALSE;
+        } else {
+          got_picture = 0;
+        }
+      }
 		}
 
 		if (!got_picture || !m_pFrame->data[0]) {

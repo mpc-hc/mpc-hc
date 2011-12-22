@@ -1,7 +1,3 @@
-1) The x64 build has performance issues. They might be related to MMX/MMX2 being disabled for x64.
-   Using the following sample, the 32bit mpc-hc build gets 62fps while the x64 gets 33fps on a i7-2600K.
-   http://xhmikosr.1f0.de/samples/2160p/ParkJoy/ParkJoy_2160p50.x264.CRF24.mkv
-2) Fix libmingwex.a x64 patch for v2.0 and use that
-3) See why there are seeking problems on XP when using w32threads
-4) Use vanilla ffmpeg or libav with the DXVA patches only
-5) Stop linking ffmpeg statically. This should fix the x64 performance issues
+1) Fix libmingwex.a x64 patch for v2.0 and use that
+2) Use vanilla ffmpeg or libav with the DXVA patches only
+3) Stop linking ffmpeg statically. This should fix the x64 performance issues

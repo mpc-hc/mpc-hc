@@ -17,8 +17,6 @@
 		#define ARCH_X86_64 1
 		#define HAVE_FAST_64BIT 1
 		#define HAVE_STRUCT_TIMESPEC 1
-		#define HAVE_W32THREADS 1
-		#define HAVE_PTHREADS 0
 		#define HAVE_CMOV 1
 		#define HAVE_EBP_AVAILABLE 1
 		#define HAVE_FAST_CMOV 1
@@ -28,8 +26,6 @@
 		#define ARCH_X86_64 0
 		#define HAVE_FAST_64BIT 0
 		#define HAVE_STRUCT_TIMESPEC 0
-		#define HAVE_W32THREADS 0
-		#define HAVE_PTHREADS 1
 		#define HAVE_CMOV 0
 		#define HAVE_EBP_AVAILABLE 0
 		#define HAVE_FAST_CMOV 0
@@ -145,6 +141,8 @@
 #define HAVE_SYMVER_ASM_LABEL 1
 #define HAVE_TEN_OPERANDS 1
 #define HAVE_THREADS 1
+#define HAVE_W32THREADS 1
+#define HAVE_PTHREADS 0
 #define HAVE_VIRTUALALLOC 0
 #define HAVE_YASM 1
 

@@ -15,12 +15,7 @@
     %define HAVE_XMM_CLOBBERS
 %endif
 
-%ifdef ARCH_X86_64
-    %define HAVE_W32THREADS
-%else
-    %define HAVE_PTHREADS
-%endif
-
+%define HAVE_W32THREADS
 %define HAVE_FAST_UNALIGNED
 %define HAVE_ALIGNED_STACK
 %define HAVE_ATTRIBUTE_MAY_ALIAS
