@@ -606,9 +606,9 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 int VC1CheckCompatibility(struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
 {
 	VC1Context* pContext = (VC1Context*) pAVCtx->priv_data;
-	if (pBuffer != NULL) {
+	if (pBuffer) {
 		av_vc1_decode_frame(pAVCtx, pBuffer, nSize);
-		if  (pContext->interlace  || // MPC Video decoder not support DXVA for interlaced VC-1
+		if  (//pContext->interlace  || // MPC Video decoder not support DXVA for interlaced VC-1, but it can decode 3:2 pulldown
 			 pContext->output_width > 1920 ||
 			 pContext->output_height > 1440) {
 			return 0; 

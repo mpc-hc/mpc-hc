@@ -1044,7 +1044,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			if(IsDXVASupported()) {
 				switch (m_nCodecId) {
 					case CODEC_ID_H264 :
-						if(((m_nDXVA_SD) && (PictWidthRounded() < 1280)) || (PictWidthRounded() > 1920) || (PictHeightRounded() > 1088)) {
+						if(((m_nDXVA_SD) && (PictWidthRounded() < 1280)) || (PictWidthRounded() > 1920) || (PictHeightRounded() > 1440)) {
 							m_bDXVACompatible = false;
 						} else {
 							int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
