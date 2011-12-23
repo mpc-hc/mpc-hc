@@ -934,6 +934,11 @@ cmsHPROFILE CreateNamedColorDevicelink(cmsHTRANSFORM xform)
     // Colorant count now depends on the output space 
     nc2 ->ColorantCount = cmsPipelineOutputChannels(v ->Lut);
 
+    // Make sure we have proper formatters    
+    cmsChangeBuffersFormat(xform, TYPE_NAMED_COLOR_INDEX, 
+        FLOAT_SH(0) | COLORSPACE_SH(_cmsLCMScolorSpace(v ->ExitColorSpace)) 
+        | BYTES_SH(2) | CHANNELS_SH(cmsChannelsOf(v ->ExitColorSpace)));
+
     // Apply the transfor to colorants.
     for (i=0; i < nColors; i++) {
         cmsDoTransform(xform, &i, nc2 ->List[i].DeviceColorant, 1);

@@ -56,3 +56,5 @@ Added compatibilty with Argyll's CGATS parser
 
 2.3 Maintenance release
 -----------------------
+
+Fixed a bug in the named color devicelink generation

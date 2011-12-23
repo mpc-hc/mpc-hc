@@ -529,6 +529,7 @@ cmsBool OptimizeByResampling(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt3
 {
     cmsPipeline* Src;
     cmsPipeline* Dest;   
+    cmsStage* mpe;   
     cmsStage* CLUT;      
     cmsStage *KeepPreLin = NULL, *KeepPostLin = NULL;
     int nGridPoints;    
@@ -544,6 +545,9 @@ cmsBool OptimizeByResampling(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt3
     // This is a loosy optimization! does not apply in floating-point cases
     if (_cmsFormatterIsFloat(*InputFormat) || _cmsFormatterIsFloat(*OutputFormat)) return FALSE;
 
+
+
+
     ColorSpace       = _cmsICCcolorSpace(T_COLORSPACE(*InputFormat));
     OutputColorSpace = _cmsICCcolorSpace(T_COLORSPACE(*OutputFormat));
     nGridPoints      = _cmsReasonableGridpointsByColorspace(ColorSpace, *dwFlags);
@@ -553,6 +557,13 @@ cmsBool OptimizeByResampling(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt3
         nGridPoints = 2;
 
     Src = *Lut;
+
+   // Named color pipelines cannot be optimized either
+   for (mpe = cmsPipelineGetPtrToFirstStage(Src);
+         mpe != NULL;
+         mpe = cmsStageNext(mpe)) {
+            if (cmsStageType(mpe) == cmsSigNamedColorElemType) return FALSE;
+    }
 
     // Allocate an empty LUT    
     Dest =  cmsPipelineAlloc(Src ->ContextID, Src ->InputChannels, Src ->OutputChannels);
@@ -912,6 +923,7 @@ cmsBool OptimizeByComputingLinearization(cmsPipeline** Lut, cmsUInt32Number Inte
     cmsStage* OptimizedCLUTmpe;
     cmsColorSpaceSignature ColorSpace, OutputColorSpace;
     cmsStage* OptimizedPrelinMpe;
+    cmsStage* mpe;
     cmsToneCurve**   OptimizedPrelinCurves;
     _cmsStageCLutData*     OptimizedPrelinCLUT;
 
@@ -930,6 +942,14 @@ cmsBool OptimizeByComputingLinearization(cmsPipeline** Lut, cmsUInt32Number Inte
     }
 
     OriginalLut = *Lut;
+
+   // Named color pipelines cannot be optimized either
+   for (mpe = cmsPipelineGetPtrToFirstStage(OriginalLut);
+         mpe != NULL;
+         mpe = cmsStageNext(mpe)) {
+            if (cmsStageType(mpe) == cmsSigNamedColorElemType) return FALSE;
+    }
+
     ColorSpace       = _cmsICCcolorSpace(T_COLORSPACE(*InputFormat));
     OutputColorSpace = _cmsICCcolorSpace(T_COLORSPACE(*OutputFormat));
     nGridPoints      = _cmsReasonableGridpointsByColorspace(ColorSpace, *dwFlags);

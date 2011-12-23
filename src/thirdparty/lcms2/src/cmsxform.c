@@ -369,6 +369,7 @@ _cmsTRANSFORM* AllocEmptyTransform(cmsContext ContextID, cmsUInt32Number InputFo
 
         if (InputFormat == 0 && OutputFormat == 0) {
             p ->FromInput = p ->ToOutput = NULL;
+            dwFlags |= cmsFLAGS_CAN_CHANGE_FORMATTER;
         }
         else {
 
@@ -508,6 +509,12 @@ cmsHTRANSFORM CMSEXPORT cmsCreateExtendedTransform(cmsContext ContextID,
     cmsColorSpaceSignature ExitColorSpace;
     cmsPipeline* Lut;
     cmsUInt32Number LastIntent = Intents[nProfiles-1];
+
+    // If it is a fake transform
+    if (dwFlags & cmsFLAGS_NULLTRANSFORM)
+    {
+        return AllocEmptyTransform(ContextID, InputFormat, OutputFormat, dwFlags);
+    }
 
     // If gamut check is requested, make sure we have a gamut profile
     if (dwFlags & cmsFLAGS_GAMUTCHECK) {
@@ -788,10 +795,9 @@ cmsBool CMSEXPORT cmsChangeBuffersFormat(cmsHTRANSFORM hTransform,
 
     _cmsTRANSFORM* xform = (_cmsTRANSFORM*) hTransform;
     cmsFormatter16 FromInput, ToOutput;
-    cmsUInt32Number BytesPerPixelInput;
+    
 
-    // We only can afford to change formatters if previous transform is at least 16 bits
-    BytesPerPixelInput = T_BYTES(xform ->InputFormat);
+    // We only can afford to change formatters if previous transform is at least 16 bits    
     if (!(xform ->dwOriginalFlags & cmsFLAGS_CAN_CHANGE_FORMATTER)) {
 
         cmsSignalError(xform ->ContextID, cmsERROR_NOT_SUITABLE, "cmsChangeBuffersFormat works only on transforms created originally with at least 16 bits of precision");
