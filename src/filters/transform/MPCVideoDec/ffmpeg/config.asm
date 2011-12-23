@@ -8,11 +8,7 @@
 %define HAVE_SSSE3
 
 %ifdef ARCH_X86_64
-    %define HAVE_CMOV
-    %define HAVE_EBP_AVAILABLE
     %define HAVE_FAST_64BIT
-    %define HAVE_FAST_CMOV
-    %define HAVE_XMM_CLOBBERS
 %endif
 
 %define HAVE_W32THREADS
@@ -21,13 +17,16 @@
 %define HAVE_ATTRIBUTE_MAY_ALIAS
 %define HAVE_ATTRIBUTE_PACKED
 %define HAVE_BSWAP
+%define HAVE_CMOV
 %define HAVE_DLFCN_H
 %define HAVE_DLOPEN
 %define HAVE_DOS_PATHS
+%define HAVE_EBP_AVAILABLE
 %define HAVE_EBX_AVAILABLE
 %define HAVE_EXP2
 %define HAVE_EXP2F
 %define HAVE_FAST_CLZ
+%define HAVE_FAST_CMOV
 %define HAVE_GETPROCESSMEMORYINFO
 %define HAVE_GETPROCESSTIMES
 %define HAVE_ISATTY
@@ -50,4 +49,5 @@
 %define HAVE_TRUNC
 %define HAVE_TRUNCF
 %define HAVE_VIRTUALALLOC
+%define HAVE_XMM_CLOBBERS
 %define HAVE_YASM

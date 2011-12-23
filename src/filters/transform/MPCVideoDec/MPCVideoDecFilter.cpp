@@ -1473,7 +1473,6 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			avpkt.size = nSize;
 			avpkt.pts  = rtStart;
 			avpkt.dts  = rtStop;
-			// HACK for CorePNG to decode as normal PNG by default
 			avpkt.flags = AV_PKT_FLAG_KEY;
 		} else {
 			avpkt.data = NULL;

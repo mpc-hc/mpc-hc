@@ -627,7 +627,6 @@ int	MPEG2CheckCompatibility(struct AVCodecContext* pAVCtx, struct AVFrame* pFram
 	av_init_packet(&avpkt);
 	avpkt.data = (BYTE*)pAVCtx->extradata;
 	avpkt.size = pAVCtx->extradata_size;
-	// HACK for CorePNG to decode as normal PNG by default
 	avpkt.flags = AV_PKT_FLAG_KEY;
 
 	avcodec_decode_video2(pAVCtx, pFrame, &got_picture, &avpkt);
@@ -648,7 +647,6 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 		av_init_packet(&avpkt);
 		avpkt.data = pBuffer;
 		avpkt.size = nSize;
-		// HACK for CorePNG to decode as normal PNG by default
 		avpkt.flags = AV_PKT_FLAG_KEY;
 
 		s1->pSliceInfo = pSliceInfo;
