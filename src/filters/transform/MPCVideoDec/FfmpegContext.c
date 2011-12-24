@@ -825,7 +825,7 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDev
 		}
 	} else if (nPCIVendor == PCIV_ATI) {
 		if (width <= 2048 && height <= 2048) { // tested H.264 on UVD 2.2 (HD5770, HD5850)
-			return TRUE; //it may also work if (width <= 2064 && height <= 2064 && width*height <= 2088960), but unstable
+			return TRUE; //it may also work if (width <= 2064 && height <= 2064 && width*height <= 2048*2048), but unstable
 		}
 	} else if (width <= 1920 && height <= 1088) {
 		return TRUE;
