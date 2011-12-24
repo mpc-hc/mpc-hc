@@ -603,7 +603,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	return S_OK;
 }
 
-int VC1CheckCompatibility(struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
+/*int VC1CheckCompatibility(struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
 {
 	VC1Context* pContext = (VC1Context*) pAVCtx->priv_data;
 	if (pBuffer) {
@@ -615,7 +615,7 @@ int VC1CheckCompatibility(struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSi
 		}
 	}
 	return 1;
-}
+}*/
 
 int	MPEG2CheckCompatibility(struct AVCodecContext* pAVCtx, struct AVFrame* pFrame)
 {
@@ -812,6 +812,26 @@ BOOL FFGetAlternateScan(struct AVCodecContext* pAVCtx)
 	MpegEncContext*		s = GetMpegEncContext(pAVCtx);
 
 	return (s != NULL) ? s->alternate_scan : 0;
+}
+
+BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDevice*/)
+{
+	width  = (width  + 15)&0xFFFFFFF0; // (width  + 15) / 16 * 16;
+	height = (height + 15)&0xFFFFFFF0; // (height + 15) / 16 * 16;
+
+	if (nPCIVendor == PCIV_nVidia) {
+		if (width <= 2032 && height <= 2032 && width*height <= 2088960) { // tested H.264 on VP4 (feature set C) (G210M, GT220)
+			return TRUE;
+		}
+	} else if (nPCIVendor == PCIV_ATI) {
+		if (width <= 2048 && height <= 2048) { // tested H.264 on UVD 2.2 (HD5770, HD5850)
+			return TRUE;
+		}
+	} else if (width <= 1920 && height <= 1088) {
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 #ifdef _WIN64

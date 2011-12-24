@@ -54,7 +54,7 @@ void			FFH264SetDxvaSliceLong (struct AVCodecContext* pAVCtx, void* pSliceLong);
 // === VC1 functions
 HRESULT			FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize);
 int				FFIsSkipped(struct AVCodecContext* pAVCtx);
-int				VC1CheckCompatibility(struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
+//int			VC1CheckCompatibility(struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
 
 // === Mpeg2 functions
 int				MPEG2CheckCompatibility(struct AVCodecContext* pAVCtx, struct AVFrame* pFrame);
@@ -70,3 +70,4 @@ void			FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nCodecId, int nThrea
 BOOL			FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx);
 int				FFGetCodedPicture(struct AVCodecContext* pAVCtx);
 BOOL			FFGetAlternateScan(struct AVCodecContext* pAVCtx);
+BOOL			DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDevice*/);
