@@ -1043,52 +1043,42 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				return VFW_E_INVALIDMEDIATYPE;
 			}
 
-			if(IsDXVASupported()) {
-				switch (m_nCodecId) {
-					case CODEC_ID_H264 :
-						if((m_nDXVA_SD && PictWidthRounded() < 1280) || !DXVACheckFramesize(PictWidth(), PictHeight(), m_nPCIVendor)) {
-							m_bDXVACompatible = false;
-						} else {
-							int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
-							if(nCompat) {
-								if(DXVA_HIGH_BIT == nCompat) {
-									m_bDXVACompatible = false;
-								} else if(m_nDXVACheckCompatibility != 3) {
-									switch(m_nDXVACheckCompatibility) {
-										case 0 :
-											// full check
-											m_bDXVACompatible = false;
-											break;
-										case 1 :
-											// skip level check
-											if(nCompat != DXVA_UNSUPPORTED_LEVEL) {
-												m_bDXVACompatible = false;
-											}
-											break;
-										case 2 :
-											// skip reference frame check
-											if(nCompat != DXVA_TOO_MANY_REF_FRAMES) {
-												m_bDXVACompatible = false;
-											}
-											break;
-									}
-								}
+			if (IsDXVASupported()) {
+				do {
+					m_bDXVACompatible = false;
+
+					if(!DXVACheckFramesize(PictWidth(), PictHeight(), m_nPCIVendor)) { // check frame size
+						break;
+					}
+
+					if (m_nCodecId == CODEC_ID_H264) {
+						if (m_nDXVA_SD && PictWidthRounded() < 1280) { // check "Disable DXVA for SD" option
+							break;
+						}
+						int nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
+						if(nCompat) {
+							if ( nCompat == DXVA_HIGH_BIT       ||
+								 m_nDXVACheckCompatibility == 0 || // full check
+								 m_nDXVACheckCompatibility == 1 && nCompat != DXVA_UNSUPPORTED_LEVEL ||   // skip level check
+								 m_nDXVACheckCompatibility == 2 && nCompat != DXVA_TOO_MANY_REF_FRAMES) { // skip reference frame check
+								break;
 							}
 						}
-						break;
-					case CODEC_ID_VC1:
-						m_bDXVACompatible = !!DXVACheckFramesize(PictWidth(), PictHeight(), m_nPCIVendor); //limits as H.264. need tests.
-						break;
-					case CODEC_ID_MPEG2VIDEO :
-						m_bDXVACompatible = !!DXVACheckFramesize(PictWidth(), PictHeight(), m_nPCIVendor);
-						if (m_bDXVACompatible) {
-							// DSP is disable for DXVA decoding (to keep default idct_permutation)
-							m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
-							m_bDXVACompatible = !!MPEG2CheckCompatibility(m_pAVCtx, m_pFrame);
+					/*} else if (m_nCodecId == CODEC_ID_VC1) {
+						if (!VC1CheckCompatibility(m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size)) {
+							break;
 						}
+					*/
+					} else if (m_nCodecId == CODEC_ID_MPEG2VIDEO) {
+						// DSP is disable for DXVA decoding (to keep default idct_permutation)
+						m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
+						if (!MPEG2CheckCompatibility(m_pAVCtx, m_pFrame)) {
+							break;
+						}
+					}
 
-						break;
-				}
+					m_bDXVACompatible = true;
+				} while (false);
 			}
 
 			if (IsDXVASupported() && !m_bDXVACompatible) {
