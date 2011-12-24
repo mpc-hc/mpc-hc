@@ -1080,9 +1080,12 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 						m_bDXVACompatible = !!DXVACheckFramesize(PictWidth(), PictHeight(), m_nPCIVendor); //limits as H.264. need tests.
 						break;
 					case CODEC_ID_MPEG2VIDEO :
-						// DSP is disable for DXVA decoding (to keep default idct_permutation)
-						m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
-						m_bDXVACompatible = !!MPEG2CheckCompatibility(m_pAVCtx, m_pFrame);
+						m_bDXVACompatible = !!DXVACheckFramesize(PictWidth(), PictHeight(), m_nPCIVendor);
+						if (m_bDXVACompatible) {
+							// DSP is disable for DXVA decoding (to keep default idct_permutation)
+							m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
+							m_bDXVACompatible = !!MPEG2CheckCompatibility(m_pAVCtx, m_pFrame);
+						}
 
 						break;
 				}

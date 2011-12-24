@@ -820,7 +820,7 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDev
 	height = (height + 15)&0xFFFFFFF0; // (height + 15) / 16 * 16;
 
 	if (nPCIVendor == PCIV_nVidia) {
-		if (width <= 2032 && height <= 2032 && width*height <= 2088960) { // tested H.264 on VP4 (feature set C) (G210M, GT220)
+		if (width <= 2032 && height <= 2032 && width*height <= 2088960) { // tested H.264 and MPEG-2 on VP4 (feature set C) (G210M, GT220)
 			return TRUE;
 		}
 	} else if (nPCIVendor == PCIV_ATI) {
