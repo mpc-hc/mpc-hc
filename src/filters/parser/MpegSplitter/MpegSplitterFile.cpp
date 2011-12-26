@@ -198,7 +198,10 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 	m_init = false;
 
 	int indicated_rate = m_rate;
-	int detected_rate = int(10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin));
+	int detected_rate = int(m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0);
+
+	m_rate = detected_rate ? detected_rate : m_rate;
+#if (0)
 	// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
 	// (update: also allowing +/-50k/s)
 	if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1 || abs(detected_rate - indicated_rate) < 50*1024) {
@@ -206,6 +209,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 	} else {
 		;    // TODO: in this case disable seeking, or try doing something less drastical...
 	}
+#endif
 
 	// Add fake Subtitle stream ...
 	if(m_type == ts) {
@@ -244,6 +248,9 @@ void CMpegSplitterFile::OnComplete(IAsyncReader* pAsyncReader)
 	if(SUCCEEDED(SearchStreams(GetLength() - 500*1024, GetLength(), pAsyncReader, TRUE))) {
 		int indicated_rate = m_rate;
 		int detected_rate = int(m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0);
+
+		m_rate = detected_rate ? detected_rate : m_rate;
+#if (0)
 		// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
 		// (update: also allowing +/-50k/s)
 		if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1 || abs(detected_rate - indicated_rate) < 50*1024) {
@@ -251,6 +258,7 @@ void CMpegSplitterFile::OnComplete(IAsyncReader* pAsyncReader)
 		} else {
 			;    // TODO: in this case disable seeking, or try doing something less drastical...
 		}
+#endif
 	}
 
 	Seek(pos);
@@ -381,10 +389,12 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 					if(m_rtMin == _I64_MAX) {
 						m_rtMin = h.pts;
 						m_posMin = GetPos();
+						TRACE ("m_rtMin(SearchStreams)=%S\n", ReftimeToString(m_rtMin));
 					}
 					if(m_rtMin < h.pts && m_rtMax < h.pts) {
 						m_rtMax = h.pts;
 						m_posMax = GetPos();
+						TRACE ("m_rtMax(SearchStreams)=%S\n", ReftimeToString(m_rtMax));
 					}
 				}
 

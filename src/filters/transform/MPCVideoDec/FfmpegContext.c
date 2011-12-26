@@ -817,14 +817,10 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDev
 	width  = (width  + 15)&0xFFFFFFF0; // (width  + 15) / 16 * 16;
 	height = (height + 15)&0xFFFFFFF0; // (height + 15) / 16 * 16;
 
-	if (nPCIVendor == PCIV_nVidia) {
-		if (width <= 2032 && height <= 2032 && width*height <= 2088960) { // tested H.264 and MPEG-2 on VP4 (feature set C) (G210M, GT220)
-			return TRUE;
-		}
-	} else if (nPCIVendor == PCIV_ATI) {
-		if (width <= 2048 && height <= 2048) { // tested H.264 on UVD 2.2 (HD5770, HD5850)
-			return TRUE; //it may also work if (width <= 2064 && height <= 2064 && width*height <= 2048*2048), but unstable
-		}
+	if ((nPCIVendor == PCIV_nVidia) && (width <= 2032 && height <= 2032 && width*height <= 2088960)) { // tested H.264 and MPEG-2 on VP4 (feature set C) (G210M, GT220)
+		return TRUE;
+	} else if ((nPCIVendor == PCIV_ATI) && (width <= 2048 && height <= 2048)) { // tested H.264 on UVD 2.2 (HD5770, HD5850)
+		return TRUE; //it may also work if (width <= 2064 && height <= 2064 && width*height <= 2048*2048), but unstable
 	} else if (width <= 1920 && height <= 1088) {
 		return TRUE;
 	}
