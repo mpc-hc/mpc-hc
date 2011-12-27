@@ -101,6 +101,9 @@ static UINT s_uTBBC = RegisterWindowMessage(TEXT("TaskbarButtonCreated"));
 #include "MultiMonitor.h"
 #include "CGdiPlusBitmap.h"
 
+#include <MediaInfo/MediaInfo.h>
+using namespace MediaInfoLib;
+
 DWORD last_run = 0;
 UINT flast_nID = 0;
 bool b_firstPlay = false;
@@ -9758,7 +9761,10 @@ void CMainFrame::AutoChangeMonitorMode()
 	CStringW mf_hmonitor = s.strFullScreenMonitor;
 	double MediaFPS = 0.0;
 
-	if (GetPlaybackMode() == PM_FILE) {
+	if (s.IsD3DFullscreen()) {
+		MediaFPS = miFPS;
+	}
+	else if (GetPlaybackMode() == PM_FILE) {
 		LONGLONG m_rtTimePerFrame = 1;
 		// if ExtractAvgTimePerFrame isn't executed then MediaFPS=10000000.0,
 		// (int)(MediaFPS + 0.5)=10000000 and SetDispMode is executed to Default.
@@ -9780,8 +9786,7 @@ void CMainFrame::AutoChangeMonitorMode()
 		EndEnumFilters;
 		MediaFPS = 10000000.0 / m_rtTimePerFrame;
 	}
-
-	if (GetPlaybackMode() == PM_DVD) {
+	else if (GetPlaybackMode() == PM_DVD) {
 		DVD_PLAYBACK_LOCATION2 Location;
 		if (pDVDI->GetCurrentLocation(&Location) == S_OK) {
 			MediaFPS  = Location.TimeCodeFlags == DVD_TC_FLAG_25fps ? 25.0
@@ -11510,6 +11515,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	// Debug trace code - End
 #endif
 
+	CString mi_fn = _T("");
+
 	if (pFileData) {
 		if (pFileData->fns.IsEmpty()) {
 			return false;
@@ -11541,6 +11548,59 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 					return false;
 				}
 			}
+			mi_fn = fn;
+		}
+	}
+
+	if (s.AutoChangeFullscrRes.bEnabled && s.IsD3DFullscreen()) {
+		// DVD
+		if (pDVDData) {
+			mi_fn = pDVDData->path;
+			CPath path(mi_fn);
+			CString ext = path.GetExtension();
+			if (ext == _T("")) {
+				if (mi_fn.Right(10) == _T("\\VIDEO_TS\\")) {
+					mi_fn = mi_fn + _T("VTS_01_1.VOB");
+				} else {
+					mi_fn = mi_fn + _T("\\VIDEO_TS\\VTS_01_1.VOB");
+				}
+			} else if (ext == _T(".IFO")) {
+				path.RemoveFileSpec();
+				mi_fn = path + _T("\\VTS_01_1.VOB");
+			}
+		} else { 
+			CPath path(mi_fn);
+			CString ext = path.GetExtension();
+			// BD
+			if (ext == _T(".mpls")) {
+				CHdmvClipInfo ClipInfo;
+				CAtlList<CHdmvClipInfo::PlaylistItem> CurPlaylist;
+				CHdmvClipInfo::PlaylistItem Item;
+				REFERENCE_TIME rtDuration;
+				if (SUCCEEDED (ClipInfo.ReadPlaylist(mi_fn, rtDuration, CurPlaylist))) {
+					Item = CurPlaylist.GetHead();
+					mi_fn = Item.m_strFileName;
+				}
+			}
+		}
+
+		// Get FPS
+		miFPS = 0.0;
+		MediaInfo MI;
+		if (MI.Open(mi_fn.GetString())) {
+			CString strFPS =  MI.Get(Stream_Video, 0, _T("FrameRate"), Info_Text, Info_Name).c_str();
+
+			// 3:2 pulldown ???
+			CString strST = MI.Get(Stream_Video, 0, _T("ScanType"), Info_Text, Info_Name).c_str(); 
+			CString strSO = MI.Get(Stream_Video, 0, _T("ScanOrder"), Info_Text, Info_Name).c_str(); 
+
+			if (strFPS == _T("29.970") && (strSO == _T("2:3 Pulldown") || strST == _T("Progressive") && (strSO == _T("TFF") || strSO  == _T("BFF") || strSO  == _T("2:3 Pulldown"))) ) {
+
+				strFPS = _T("23.976");
+			}
+			miFPS = wcstod(strFPS, NULL); 
+
+			AutoChangeMonitorMode();
 		}
 	}
 

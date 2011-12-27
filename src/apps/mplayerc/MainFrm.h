@@ -435,6 +435,7 @@ protected:
 	void OpenSetupCaptureBar();
 	void OpenSetupWindowTitle(CString fn = _T(""));
 	void AutoChangeMonitorMode();
+	double miFPS;
 
 	bool GraphEventComplete();
 
