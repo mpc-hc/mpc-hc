@@ -46,7 +46,7 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 
 public:
 	CHdmvClipInfo &m_ClipInfo;
-	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub, bool AC3CoreOnly);
+	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub, bool TrackPriority, bool AC3CoreOnly);
 
 	REFERENCE_TIME NextPTS(DWORD TrackNum);
 
@@ -59,7 +59,7 @@ public:
 	int m_rate; // byte/sec
 
 	int m_nVC1_GuidFlag;
-	bool m_ForcedSub, m_AC3CoreOnly;
+	bool m_ForcedSub, m_TrackPriority, m_AC3CoreOnly;
 
 	struct stream {
 		CMpegSplitterFile *m_pFile;
@@ -89,14 +89,15 @@ public:
 	public:
 		void Insert(stream& s, CMpegSplitterFile *_pFile) {
 			s.m_pFile = _pFile;
-			for(POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
-				stream& s2 = GetAt(pos);
-				if(s < s2) {
-					InsertBefore(pos, s);
-					return;
+			if(_pFile->m_TrackPriority) {
+				for(POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
+					stream& s2 = GetAt(pos);
+					if(s < s2) {
+						InsertBefore(pos, s);
+						return;
+					}
 				}
 			}
-
 			AddTail(s);
 		}
 

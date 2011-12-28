@@ -29,7 +29,7 @@
 #define MEGABYTE 1024*1024
 
 
-CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub, bool AC3CoreOnly)
+CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub, bool TrackPriority, bool AC3CoreOnly)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
 	, m_rate(0)
@@ -39,6 +39,7 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
 	, m_ClipInfo(ClipInfo)
 	, m_nVC1_GuidFlag(guid_flag)
 	, m_ForcedSub(ForcedSub)
+	, m_TrackPriority(TrackPriority)
 	, m_AC3CoreOnly(AC3CoreOnly)
 	, m_init(false)
 {

@@ -33,6 +33,9 @@ public IUnknown {
 	STDMETHOD(SetForcedSub(BOOL nValue)) = 0;
 	STDMETHOD_(BOOL, GetForcedSub()) = 0;
 
+	STDMETHOD(SetTrackPriority(BOOL nValue)) = 0;
+	STDMETHOD_(BOOL, GetTrackPriority()) = 0;
+
 	STDMETHOD(SetAudioLanguageOrder(WCHAR *nValue)) = 0;
 	STDMETHOD_(WCHAR *, GetAudioLanguageOrder()) = 0;
 

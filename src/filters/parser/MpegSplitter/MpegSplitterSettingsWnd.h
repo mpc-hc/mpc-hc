@@ -34,6 +34,7 @@ private :
 	CButton		m_grpDefault;
 	CButton		m_cbFastStreamChange;
 	CButton		m_cbForcedSub;
+	CButton		m_cbTrackPriority;
 	CStatic		m_txtAudioLanguageOrder;
 	CEdit			m_edtAudioLanguageOrder;
 	CStatic		m_txtSubtitlesLanguageOrder;
@@ -48,6 +49,7 @@ private :
 	enum {
 		IDC_PP_FAST_STREAM_SELECT = 10000,
 		IDC_PP_SUBTITLE_FORCED,
+		IDC_PP_TRACK_PRIORITY,
 		IDC_PP_AUDIO_LANGUAGE_ORDER,
 		IDC_PP_SUBTITLES_LANGUAGE_ORDER,
 		IDC_PP_VC1_GUIDFLAG,
@@ -68,7 +70,7 @@ public:
 		return _T("Settings");
 	}
 	static CSize GetWindowSize() {
-		return CSize(320, 260);
+		return CSize(320, 285);
 	}
 
 	DECLARE_MESSAGE_MAP()
