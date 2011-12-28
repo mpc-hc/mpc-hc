@@ -1,5 +1,3 @@
-; $Id$
-;
 ; (C) 2009-2011 see Authors.txt
 ;
 ; This file is part of MPC-HC.
@@ -16,7 +14,8 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+;
+; $Id$
 
 
 ; Requirements:
@@ -33,8 +32,8 @@
 
 ; From now on you shouldn't need to change anything
 
-#if VER < 0x05040200
-  #error Update your Inno Setup version
+#if VER < EncodeVer(5,4,2)
+  #error Update your Inno Setup version (5.4.2 or newer)
 #endif
 
 #ifndef UNICODE
