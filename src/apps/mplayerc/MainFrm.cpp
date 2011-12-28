@@ -101,8 +101,13 @@ static UINT s_uTBBC = RegisterWindowMessage(TEXT("TaskbarButtonCreated"));
 #include "MultiMonitor.h"
 #include "CGdiPlusBitmap.h"
 
+#ifdef USE_MEDIAINFO_STATIC
 #include <MediaInfo/MediaInfo.h>
 using namespace MediaInfoLib;
+#else
+#include <MediaInfoDLL.h>
+using namespace MediaInfoDLL;
+#endif
 
 DWORD last_run = 0;
 UINT flast_nID = 0;
@@ -9761,7 +9766,7 @@ void CMainFrame::AutoChangeMonitorMode()
 	CStringW mf_hmonitor = s.strFullScreenMonitor;
 	double MediaFPS = 0.0;
 
-	if (s.IsD3DFullscreen()) {
+	if (s.IsD3DFullscreen() && miFPS > 0.9) {
 		MediaFPS = miFPS;
 	}
 	else if (GetPlaybackMode() == PM_FILE) {
@@ -11586,7 +11591,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 		// Get FPS
 		miFPS = 0.0;
+
+#ifdef USE_MEDIAINFO_STATIC
+		MediaInfoLib::MediaInfo MI;
+#else
 		MediaInfo MI;
+#endif
+
 		if (MI.Open(mi_fn.GetString())) {
 			CString strFPS =  MI.Get(Stream_Video, 0, _T("FrameRate"), Info_Text, Info_Name).c_str();
 
