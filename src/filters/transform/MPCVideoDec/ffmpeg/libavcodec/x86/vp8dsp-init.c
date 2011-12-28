@@ -3,20 +3,20 @@
  * Copyright (c) 2010 Ronald S. Bultje <rsbultje@gmail.com>
  * Copyright (c) 2010 Jason Garrett-Glaser <darkshikari@gmail.com>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -283,9 +283,9 @@ DECLARE_LOOP_FILTER(sse4)
 
 av_cold void ff_vp8dsp_init_x86(VP8DSPContext* c)
 {
+#if HAVE_YASM
     int mm_flags = av_get_cpu_flags();
 
-#if HAVE_YASM
     if (mm_flags & AV_CPU_FLAG_MMX) {
         c->vp8_idct_dc_add    = ff_vp8_idct_dc_add_mmx;
         c->vp8_idct_dc_add4y  = ff_vp8_idct_dc_add4y_mmx;

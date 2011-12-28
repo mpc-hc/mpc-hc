@@ -27,6 +27,13 @@
 #include <errno.h>
 #include "avutil.h"
 
+/**
+ * @addtogroup lavu_error
+ *
+ * @{
+ */
+
+
 /* error handling */
 #if EDOM > 0
 #define AVERROR(e) (-(e))   ///< Returns a negative error code from a POSIX error code, to return from library functions.
@@ -50,6 +57,7 @@
 #define AVERROR_PATCHWELCOME       (-MKTAG( 'P','A','W','E')) ///< Not yet implemented in Libav, patches welcome
 #define AVERROR_PROTOCOL_NOT_FOUND (-MKTAG(0xF8,'P','R','O')) ///< Protocol not found
 #define AVERROR_STREAM_NOT_FOUND   (-MKTAG(0xF8,'S','T','R')) ///< Stream not found
+#define AVERROR_BUG                (-MKTAG( 'B','U','G',' ')) ///< Bug detected, please report the issue
 
 /**
  * Put a description of the AVERROR code errnum in errbuf.
@@ -64,5 +72,9 @@
  * cannot be found
  */
 int av_strerror(int errnum, char *errbuf, size_t errbuf_size);
+
+/**
+ * @}
+ */
 
 #endif /* AVUTIL_ERROR_H */

@@ -18,24 +18,21 @@
 
 int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
 {
+    int n_slices = 0, i;
     VC1Context *v = avctx->priv_data;
     MpegEncContext *s = &v->s;
     uint8_t *buf2 = NULL;
+    struct {
+        uint8_t *buf;
+        GetBitContext gb;
+        int mby_start;
+    } *slices = NULL;
 
-    v->allow_interlaced = 1;
     v->lumshift         = 0;
     v->lumscale         = 32;
 
-// mpc custom comment out start
-    ///* We need to set current_picture_ptr before reading the header,
-    // * otherwise we cannot store anything in there. */
-    //if(s->current_picture_ptr==NULL || s->current_picture_ptr->f.data[0]){
-    //    int i= ff_find_unused_picture(s, 0);
-    //    s->current_picture_ptr= &s->picture[i];
-    //}
-// mpc custom comment out end
     //for advanced profile we may need to parse and unescape data
-    if (avctx->codec_id == CODEC_ID_VC1) {
+    if (avctx->codec_id == CODEC_ID_VC1 || avctx->codec_id == CODEC_ID_VC1IMAGE) {
         int buf_size2 = 0;
         buf2 = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
 
@@ -57,9 +54,20 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
                     init_get_bits(&s->gb, buf2, buf_size2*8);
                     vc1_decode_entry_point(avctx, v, &s->gb);
                     break;
-                case VC1_CODE_SLICE:
-                    av_log(avctx, AV_LOG_ERROR, "Sliced decoding is not implemented (yet)\n");
-                    goto err;
+                case VC1_CODE_SLICE: {
+                    int buf_size3;
+                    slices = av_realloc(slices, sizeof(*slices) * (n_slices+1));
+                    if (!slices) goto err;
+                    slices[n_slices].buf = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
+                    if (!slices[n_slices].buf) goto err;
+                    buf_size3 = vc1_unescape_buffer(start + 4, size,
+                                                    slices[n_slices].buf);
+                    init_get_bits(&slices[n_slices].gb, slices[n_slices].buf,
+                                  buf_size3 << 3);
+                    slices[n_slices].mby_start = get_bits(&slices[n_slices].gb, 9);
+                    n_slices++;
+                    break;
+                }
                 }
             }
         }else if(v->interlace && ((buf[0] & 0xC0) == 0xC0)){ /* WVC1 interlaced stores both fields divided by marker */
@@ -80,9 +88,16 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
             buf_size2 = vc1_unescape_buffer(buf, buf_size, buf2);
         }
         init_get_bits(&s->gb, buf2, buf_size2*8);
-    } else
+    } else {
         init_get_bits(&s->gb, buf, buf_size*8);
-// mpc custom code start
+    }
+    
+    if (s->context_initialized &&
+        (s->width  != avctx->coded_width ||
+         s->height != avctx->coded_height)) {
+        vc1_decode_end(avctx);
+    }
+
     if (!s->context_initialized) {
         if (ff_msmpeg4_decode_init(avctx) < 0 || vc1_decode_init_alloc_tables(v) < 0)
             return -1;
@@ -101,7 +116,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
         int i= ff_find_unused_picture(s, 0);
         s->current_picture_ptr= &s->picture[i];
     }
-// mpc custom code end
+
     // do parse frame header
     if(v->profile < PROFILE_ADVANCED) {
         if(vc1_parse_frame_header(v, &s->gb) == -1) {
@@ -113,11 +128,21 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
         }
     }
 
+    // for skipping the frame
+    s->current_picture.f.pict_type = s->pict_type;
+    s->current_picture.f.key_frame = s->pict_type == AV_PICTURE_TYPE_I;
+
 end:
     av_free(buf2);
+    for (i = 0; i < n_slices; i++)
+        av_free(slices[i].buf);
+    av_free(slices);
     return buf_size;
 
 err:
     av_free(buf2);
+    for (i = 0; i < n_slices; i++)
+        av_free(slices[i].buf);
+    av_free(slices);
     return -1;
 }

@@ -102,11 +102,11 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="config.asm" />
     <None Include="custom_code.txt" />
     <None Include="gccbuild64_2010.bat" />
     <None Include="gccbuild_2010.bat" />
     <None Include="libavcodec\x86\ac3dsp.asm" />
-    <None Include="libavcodec\x86\config.asm" />
     <None Include="libavcodec\x86\dsputil_yasm.asm" />
     <None Include="libavcodec\x86\fft_mmx.asm" />
     <None Include="libavcodec\x86\fmtconvert.asm" />
@@ -125,11 +125,8 @@
     <None Include="libavcodec\x86\vp3dsp.asm" />
     <None Include="libavcodec\x86\vp56dsp.asm" />
     <None Include="libavcodec\x86\vp8dsp.asm" />
-    <None Include="libavcodec\x86\x86inc.asm" />
-    <None Include="libavcodec\x86\x86util.asm" />
     <None Include="libavutil\x86\x86inc.asm" />
     <None Include="libavutil\x86\x86util.asm" />
-    <None Include="libswscale\x86\config.asm" />
     <None Include="libswscale\x86\scale.asm" />
   </ItemGroup>
   <ItemGroup>
@@ -140,16 +137,21 @@
     <ClCompile Include="libavcodec\ac3dsp.c" />
     <ClCompile Include="libavcodec\ac3tab.c" />
     <ClCompile Include="libavcodec\ac3_parser.c" />
+    <ClCompile Include="libavcodec\acelp_filters.c" />
+    <ClCompile Include="libavcodec\acelp_pitch_delay.c" />
+    <ClCompile Include="libavcodec\acelp_vectors.c" />
     <ClCompile Include="libavcodec\adpcm.c" />
     <ClCompile Include="libavcodec\adpcm_data.c" />
     <ClCompile Include="libavcodec\allcodecs.c" />
-    <ClCompile Include="libavcodec\amr_float\interf_dec.c" />
-    <ClCompile Include="libavcodec\amr_float\sp_dec.c" />
+    <ClCompile Include="libavcodec\amrnbdec.c" />
+    <ClCompile Include="libavcodec\amrwbdec.c" />
     <ClCompile Include="libavcodec\avfft.c" />
     <ClCompile Include="libavcodec\avpacket.c" />
     <ClCompile Include="libavcodec\bitstream.c" />
     <ClCompile Include="libavcodec\bit_depth_template.c" />
     <ClCompile Include="libavcodec\cabac.c" />
+    <ClCompile Include="libavcodec\celp_filters.c" />
+    <ClCompile Include="libavcodec\celp_math.c" />
     <ClCompile Include="libavcodec\CompilerVersion.c" />
     <ClCompile Include="libavcodec\dsputil.c" />
     <ClCompile Include="libavcodec\dsputil_template.c" />
@@ -193,7 +195,7 @@
     <ClCompile Include="libavcodec\jpeglsdec.c" />
     <ClCompile Include="libavcodec\jrevdct.c" />
     <ClCompile Include="libavcodec\kbdwin.c" />
-    <ClCompile Include="libavcodec\libamr.c" />
+    <ClCompile Include="libavcodec\lsp.c" />
     <ClCompile Include="libavcodec\mdct.c" />
     <ClCompile Include="libavcodec\mjpeg.c" />
     <ClCompile Include="libavcodec\mjpegdec.c" />
@@ -221,6 +223,7 @@
     <ClCompile Include="libavcodec\rv30.c" />
     <ClCompile Include="libavcodec\rv30dsp.c" />
     <ClCompile Include="libavcodec\rv34.c" />
+    <ClCompile Include="libavcodec\rv34dsp.c" />
     <ClCompile Include="libavcodec\rv40.c" />
     <ClCompile Include="libavcodec\rv40dsp.c" />
     <ClCompile Include="libavcodec\simple_idct.c" />
@@ -300,11 +303,11 @@
     <ClCompile Include="libavutil\samplefmt.c" />
     <ClCompile Include="libavutil\utils.c" />
     <ClCompile Include="libavutil\x86\cpu.c" />
-    <ClCompile Include="libswscale\options.c" />
     <ClCompile Include="libswscale\rgb2rgb.c" />
     <ClCompile Include="libswscale\rgb2rgb_template.c" />
     <ClCompile Include="libswscale\swscale.c" />
     <ClCompile Include="libswscale\swscale_unscaled.c" />
+    <ClCompile Include="libswscale\sww32thread.c" />
     <ClCompile Include="libswscale\utils.c" />
     <ClCompile Include="libswscale\x86\rgb2rgb.c" />
     <ClCompile Include="libswscale\x86\rgb2rgb_template.c" />
@@ -328,21 +331,22 @@
     <ClInclude Include="libavcodec\ac3dsp.h" />
     <ClInclude Include="libavcodec\ac3tab.h" />
     <ClInclude Include="libavcodec\ac3_parser.h" />
+    <ClInclude Include="libavcodec\acelp_filters.h" />
+    <ClInclude Include="libavcodec\acelp_pitch_delay.h" />
+    <ClInclude Include="libavcodec\acelp_vectors.h" />
     <ClInclude Include="libavcodec\adpcm.h" />
     <ClInclude Include="libavcodec\adpcm_data.h" />
-    <ClInclude Include="libavcodec\amr_float\interf_dec.h" />
-    <ClInclude Include="libavcodec\amr_float\interf_enc.h" />
-    <ClInclude Include="libavcodec\amr_float\interf_rom.h" />
-    <ClInclude Include="libavcodec\amr_float\rom_dec.h" />
-    <ClInclude Include="libavcodec\amr_float\sp_dec.h" />
-    <ClInclude Include="libavcodec\amr_float\sp_enc.h" />
-    <ClInclude Include="libavcodec\amr_float\typedef.h" />
+    <ClInclude Include="libavcodec\amr.h" />
+    <ClInclude Include="libavcodec\amrnbdata.h" />
+    <ClInclude Include="libavcodec\amrwbdata.h" />
     <ClInclude Include="libavcodec\audioconvert.h" />
     <ClInclude Include="libavcodec\avcodec.h" />
     <ClInclude Include="libavcodec\avfft.h" />
     <ClInclude Include="libavcodec\AVPaletteControl.h" />
     <ClInclude Include="libavcodec\bytestream.h" />
     <ClInclude Include="libavcodec\cabac.h" />
+    <ClInclude Include="libavcodec\celp_filters.h" />
+    <ClInclude Include="libavcodec\celp_math.h" />
     <ClInclude Include="libavcodec\dct.h" />
     <ClInclude Include="libavcodec\dsputil.h" />
     <ClInclude Include="libavcodec\dxva.h" />
@@ -365,7 +369,6 @@
     <ClInclude Include="libavcodec\h264dsp.h" />
     <ClInclude Include="libavcodec\h264pred.h" />
     <ClInclude Include="libavcodec\h264_mvpred.h" />
-    <ClInclude Include="libavcodec\h264_parser.h" />
     <ClInclude Include="libavcodec\huffman.h" />
     <ClInclude Include="libavcodec\imgconvert.h" />
     <ClInclude Include="libavcodec\internal.h" />
@@ -375,8 +378,8 @@
     <ClInclude Include="libavcodec\jpeglsdec.h" />
     <ClInclude Include="libavcodec\kbdwin.h" />
     <ClInclude Include="libavcodec\lpc.h" />
+    <ClInclude Include="libavcodec\lsp.h" />
     <ClInclude Include="libavcodec\mathops.h" />
-    <ClInclude Include="libavcodec\mdct_tablegen.h" />
     <ClInclude Include="libavcodec\mjpeg.h" />
     <ClInclude Include="libavcodec\mjpegdec.h" />
     <ClInclude Include="libavcodec\mjpegenc.h" />

@@ -91,6 +91,8 @@ av_cold int ff_h263_decode_init(AVCodecContext *avctx)
         break;
     case CODEC_ID_VC1:
     case CODEC_ID_WMV3:
+    case CODEC_ID_VC1IMAGE:
+    case CODEC_ID_WMV3IMAGE:
         s->h263_pred = 1;
         s->msmpeg4_version=6;
         avctx->chroma_sample_location = AVCHROMA_LOC_LEFT;
@@ -124,7 +126,7 @@ av_cold int ff_h263_decode_end(AVCodecContext *avctx)
 }
 
 /**
- * returns the number of bytes consumed for building the current frame
+ * Return the number of bytes consumed for building the current frame.
  */
 static int get_consumed_bytes(MpegEncContext *s, int buf_size){
     int pos= (get_bits_count(&s->gb)+7)>>3;
@@ -145,7 +147,7 @@ static int get_consumed_bytes(MpegEncContext *s, int buf_size){
 }
 
 static int decode_slice(MpegEncContext *s){
-    const int part_mask= s->partitioned_frame ? (AC_END|AC_ERROR) : 0x7F;
+    const int part_mask= s->partitioned_frame ? (ER_AC_END|ER_AC_ERROR) : 0x7F;
     const int mb_size= 16>>s->avctx->lowres;
     s->last_resync_gb= s->gb;
     s->first_slice_line= 1;
@@ -174,7 +176,7 @@ static int decode_slice(MpegEncContext *s){
         /* per-row end of slice checks */
         if(s->msmpeg4_version){
             if(s->resync_mb_y + s->slice_height == s->mb_y){
-                ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x-1, s->mb_y, AC_END|DC_END|MV_END);
+                ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x-1, s->mb_y, ER_MB_END);
 
                 return 0;
             }
@@ -215,7 +217,7 @@ static int decode_slice(MpegEncContext *s){
                         ff_h263_loop_filter(s);
 
 //printf("%d %d %d %06X\n", s->mb_x, s->mb_y, s->gb.size*8 - get_bits_count(&s->gb), show_bits(&s->gb, 24));
-                    ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x, s->mb_y, (AC_END|DC_END|MV_END)&part_mask);
+                    ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x, s->mb_y, ER_MB_END&part_mask);
 
                     s->padding_bug_score--;
 
@@ -228,11 +230,11 @@ static int decode_slice(MpegEncContext *s){
                     return 0;
                 }else if(ret==SLICE_NOEND){
                     av_log(s->avctx, AV_LOG_ERROR, "Slice mismatch at MB: %d\n", xy);
-                    ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x+1, s->mb_y, (AC_END|DC_END|MV_END)&part_mask);
+                    ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x+1, s->mb_y, ER_MB_END&part_mask);
                     return -1;
                 }
                 av_log(s->avctx, AV_LOG_ERROR, "Error at MB: %d\n", xy);
-                ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x, s->mb_y, (AC_ERROR|DC_ERROR|MV_ERROR)&part_mask);
+                ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x, s->mb_y, ER_MB_ERROR&part_mask);
 
                 return -1;
             }
@@ -300,7 +302,7 @@ static int decode_slice(MpegEncContext *s){
             max_extra+= 17;
 
         /* buggy padding but the frame should still end approximately at the bitstream end */
-        if((s->workaround_bugs&FF_BUG_NO_PADDING) && s->error_recognition>=3)
+        if((s->workaround_bugs&FF_BUG_NO_PADDING) && (s->err_recognition&AV_EF_BUFFER))
             max_extra+= 48;
         else if((s->workaround_bugs&FF_BUG_NO_PADDING))
             max_extra+= 256*256*256*64;
@@ -311,7 +313,7 @@ static int decode_slice(MpegEncContext *s){
         else if(left<0){
             av_log(s->avctx, AV_LOG_ERROR, "overreading %d bits\n", -left);
         }else
-            ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x-1, s->mb_y, AC_END|DC_END|MV_END);
+            ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x-1, s->mb_y, ER_MB_END);
 
         return 0;
     }
@@ -320,7 +322,7 @@ static int decode_slice(MpegEncContext *s){
             get_bits_left(&s->gb),
             show_bits(&s->gb, 24), s->padding_bug_score);
 
-    ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x, s->mb_y, (AC_END|DC_END|MV_END)&part_mask);
+    ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x, s->mb_y, ER_MB_END&part_mask);
 
     return -1;
 }
@@ -400,6 +402,8 @@ retry:
      * otherwise we cannot store anyting in there */
     if (s->current_picture_ptr == NULL || s->current_picture_ptr->f.data[0]) {
         int i= ff_find_unused_picture(s, 0);
+        if (i < 0)
+            return i;
         s->current_picture_ptr= &s->picture[i];
     }
 
@@ -653,7 +657,7 @@ retry:
 
     if (s->msmpeg4_version && s->msmpeg4_version<4 && s->pict_type==AV_PICTURE_TYPE_I)
         if(!CONFIG_MSMPEG4_DECODER || msmpeg4_decode_ext_header(s, buf_size) < 0){
-            s->error_status_table[s->mb_num-1]= AC_ERROR|DC_ERROR|MV_ERROR;
+            s->error_status_table[s->mb_num-1]= ER_MB_ERROR;
         }
 
     assert(s->bitstream_buffer_size==0);
@@ -711,7 +715,7 @@ intrax8_decoded:
 av_log(avctx, AV_LOG_DEBUG, "%"PRId64"\n", rdtsc()-time);
 #endif
 
-    return (ret && avctx->error_recognition >= FF_ER_EXPLODE)?ret:get_consumed_bytes(s, buf_size);
+    return (ret && (avctx->err_recognition & AV_EF_EXPLODE))?ret:get_consumed_bytes(s, buf_size);
 }
 
 AVCodec ff_h263_decoder = {

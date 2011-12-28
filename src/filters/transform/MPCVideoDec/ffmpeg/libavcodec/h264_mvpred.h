@@ -86,7 +86,7 @@ static av_always_inline int fetch_diagonal_mv(H264Context *h, const int16_t **C,
 }
 
 /**
- * gets the predicted MV.
+ * Get the predicted MV.
  * @param n the block index
  * @param part_width the width of the partition (4, 8,16) -> (1, 2, 4)
  * @param mx the x component of the predicted motion vector
@@ -142,7 +142,7 @@ static av_always_inline void pred_motion(H264Context * const h, int n, int part_
 }
 
 /**
- * gets the directionally predicted 16x8 MV.
+ * Get the directionally predicted 16x8 MV.
  * @param n the block index
  * @param mx the x component of the predicted motion vector
  * @param my the y component of the predicted motion vector
@@ -177,7 +177,7 @@ static av_always_inline void pred_16x8_motion(H264Context * const h, int n, int 
 }
 
 /**
- * gets the directionally predicted 8x16 MV.
+ * Get the directionally predicted 8x16 MV.
  * @param n the block index
  * @param mx the x component of the predicted motion vector
  * @param my the y component of the predicted motion vector
@@ -510,7 +510,7 @@ static void fill_decode_caches(H264Context *h, int mb_type){
     if(top_type){
         nnz = h->non_zero_count[top_xy];
         AV_COPY32(&nnz_cache[4+8* 0], &nnz[4*3]);
-        if(CHROMA444){
+        if(!s->chroma_y_shift){
             AV_COPY32(&nnz_cache[4+8* 5], &nnz[4* 7]);
             AV_COPY32(&nnz_cache[4+8*10], &nnz[4*11]);
         }else{
@@ -534,6 +534,11 @@ static void fill_decode_caches(H264Context *h, int mb_type){
                 nnz_cache[3+8* 7 + 2*8*i]= nnz[left_block[8+1+2*i]+4*4];
                 nnz_cache[3+8*11 + 2*8*i]= nnz[left_block[8+0+2*i]+8*4];
                 nnz_cache[3+8*12 + 2*8*i]= nnz[left_block[8+1+2*i]+8*4];
+            }else if(CHROMA422) {
+                nnz_cache[3+8* 6 + 2*8*i]= nnz[left_block[8+0+2*i]-2+4*4];
+                nnz_cache[3+8* 7 + 2*8*i]= nnz[left_block[8+1+2*i]-2+4*4];
+                nnz_cache[3+8*11 + 2*8*i]= nnz[left_block[8+0+2*i]-2+8*4];
+                nnz_cache[3+8*12 + 2*8*i]= nnz[left_block[8+1+2*i]-2+8*4];
             }else{
                 nnz_cache[3+8* 6 +   8*i]= nnz[left_block[8+4+2*i]];
                 nnz_cache[3+8*11 +   8*i]= nnz[left_block[8+5+2*i]];
@@ -628,7 +633,7 @@ static void fill_decode_caches(H264Context *h, int mb_type){
                 AV_ZERO32(mv_cache[4 - 1*8]);
                 ref_cache[4 - 1*8]= topright_type ? LIST_NOT_USED : PART_NOT_AVAILABLE;
             }
-            if(ref_cache[4 - 1*8] < 0){
+            if(ref_cache[2 - 1*8] < 0 || ref_cache[4 - 1*8] < 0){
                 if(USES_LIST(topleft_type, list)){
                     const int b_xy = h->mb2b_xy[topleft_xy] + 3 + b_stride + (h->topleft_partition & 2*b_stride);
                     const int b8_xy= 4*topleft_xy + 1 + (h->topleft_partition & 2);

@@ -677,9 +677,11 @@ const char *sws_format_name(enum PixelFormat format);
         ||  isBGRinInt(x)           \
     )
 #else
-#define isPacked(x) \
+#define isPacked(x) (\
     (av_pix_fmt_descriptors[x].nb_components >= 2 && \
-     !(av_pix_fmt_descriptors[x].flags & PIX_FMT_PLANAR))
+     !(av_pix_fmt_descriptors[x].flags & PIX_FMT_PLANAR)) || \
+    (x) == PIX_FMT_PAL8\
+    )
 
 #endif
 #define isPlanar(x) \
@@ -698,7 +700,7 @@ extern const uint16_t dither_scale[15][16];
 //extern const AVClass sws_context_class;
 
 /**
- * Sets c->swScale to an unscaled converter if one exists for the specific
+ * Set c->swScale to an unscaled converter if one exists for the specific
  * source and destination formats, bit depths, flags, etc.
  */
 void ff_get_unscaled_swscale(SwsContext *c);
@@ -706,7 +708,7 @@ void ff_get_unscaled_swscale(SwsContext *c);
 void ff_swscale_get_unscaled_altivec(SwsContext *c);
 
 /**
- * Returns function pointer to fastest main scaler path function depending
+ * Return function pointer to fastest main scaler path function depending
  * on architecture and available optimizations.
  */
 SwsFunc ff_getSwsFunc(SwsContext *c);

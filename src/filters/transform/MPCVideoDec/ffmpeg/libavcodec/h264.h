@@ -39,13 +39,6 @@
 #define interlaced_dct interlaced_dct_is_a_bad_name
 #define mb_intra mb_intra_is_not_initialized_see_mb_type
 
-#define CHROMA_DC_COEFF_TOKEN_VLC_BITS 8
-#define COEFF_TOKEN_VLC_BITS           8
-#define TOTAL_ZEROS_VLC_BITS           9
-#define CHROMA_DC_TOTAL_ZEROS_VLC_BITS 3
-#define RUN_VLC_BITS                   3
-#define RUN7_VLC_BITS                  6
-
 #define MAX_SPS_COUNT 32
 #define MAX_PPS_COUNT 256
 
@@ -94,6 +87,7 @@
 #define CABAC h->pps.cabac
 #endif
 
+#define CHROMA422 (h->sps.chroma_format_idc == 2)
 #define CHROMA444 (h->sps.chroma_format_idc == 3)
 
 #define EXTENDED_SAR          255
@@ -500,6 +494,11 @@ typedef struct H264Context{
     Picture *long_ref[32];
     Picture default_ref_list[2][32]; ///< base reference list for all slices of a coded picture
     Picture *delayed_pic[MAX_DELAYED_PIC_COUNT+2]; //FIXME size?
+// ==> Start patch MPC
+/*
+    int last_pocs[MAX_DELAYED_PIC_COUNT];
+*/
+// <== End patch MPC
     Picture *next_output_pic;
     int outputed_poc;
     int next_outputed_poc;
@@ -588,6 +587,8 @@ typedef struct H264Context{
     // Timestamp stuff
     int sei_buffering_period_present;  ///< Buffering period SEI flag
     int initial_cpb_removal_delay[32]; ///< Initial timestamps for CPBs
+
+    int cur_chroma_format_idc;
 
     int16_t slice_row[MAX_SLICES]; ///< to detect when MAX_SLICES is too low
 
@@ -694,13 +695,13 @@ av_cold void ff_h264_decode_init_vlc(void);
 
 /**
  * Decode a macroblock
- * @return 0 if OK, AC_ERROR / DC_ERROR / MV_ERROR if an error is noticed
+ * @return 0 if OK, ER_AC_ERROR / ER_DC_ERROR / ER_MV_ERROR if an error is noticed
  */
 int ff_h264_decode_mb_cavlc(H264Context *h);
 
 /**
  * Decode a CABAC coded macroblock
- * @return 0 if OK, AC_ERROR / DC_ERROR / MV_ERROR if an error is noticed
+ * @return 0 if OK, ER_AC_ERROR / ER_DC_ERROR / ER_MV_ERROR if an error is noticed
  */
 int ff_h264_decode_mb_cabac(H264Context *h);
 
@@ -788,14 +789,14 @@ static av_always_inline uint16_t pack8to16(int a, int b){
 }
 
 /**
- * gets the chroma qp.
+ * Get the chroma qp.
  */
 static av_always_inline int get_chroma_qp(H264Context *h, int t, int qscale){
     return h->pps.chroma_qp_table[t][qscale];
 }
 
 /**
- * gets the predicted intra4x4 prediction mode.
+ * Get the predicted intra4x4 prediction mode.
  */
 static av_always_inline int pred_intra_mode(H264Context *h, int n){
     const int index8= scan8[n];
@@ -833,7 +834,7 @@ static av_always_inline void write_back_non_zero_count(H264Context *h){
     AV_COPY32(&nnz[32], &nnz_cache[4+8*11]);
     AV_COPY32(&nnz[36], &nnz_cache[4+8*12]);
 
-    if(CHROMA444){
+    if(!h->s.chroma_y_shift){
         AV_COPY32(&nnz[24], &nnz_cache[4+8* 8]);
         AV_COPY32(&nnz[28], &nnz_cache[4+8* 9]);
         AV_COPY32(&nnz[40], &nnz_cache[4+8*13]);

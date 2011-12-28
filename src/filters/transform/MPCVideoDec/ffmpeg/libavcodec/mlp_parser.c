@@ -2,20 +2,20 @@
  * MLP parser
  * Copyright (c) 2007 Ian Caulfield
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -79,13 +79,13 @@ static const uint64_t thd_layout[13] = {
     AV_CH_LOW_FREQUENCY,                                    // LFE
     AV_CH_SIDE_LEFT|AV_CH_SIDE_RIGHT,                       // LRs
     AV_CH_TOP_FRONT_LEFT|AV_CH_TOP_FRONT_RIGHT,             // LRvh
-    AV_CH_SIDE_LEFT|AV_CH_SIDE_RIGHT,                       // LRc
+    AV_CH_FRONT_LEFT_OF_CENTER|AV_CH_FRONT_RIGHT_OF_CENTER, // LRc
     AV_CH_BACK_LEFT|AV_CH_BACK_RIGHT,                       // LRrs
     AV_CH_BACK_CENTER,                                      // Cs
-    AV_CH_TOP_BACK_CENTER,                                  // Ts
-    AV_CH_SIDE_LEFT|AV_CH_SIDE_RIGHT,                       // LRsd
-    AV_CH_FRONT_LEFT_OF_CENTER|AV_CH_FRONT_RIGHT_OF_CENTER, // LRw
-    AV_CH_TOP_BACK_CENTER,                                  // Cvh
+    AV_CH_TOP_CENTER,                                       // Ts
+    AV_CH_SIDE_LEFT|AV_CH_SIDE_RIGHT,                       // LRsd - TODO: Surround Direct
+    AV_CH_FRONT_LEFT_OF_CENTER|AV_CH_FRONT_RIGHT_OF_CENTER, // LRw  - TODO: Wide
+    AV_CH_TOP_FRONT_CENTER,                                 // Cvh
     AV_CH_LOW_FREQUENCY                                     // LFE2
 };
 
@@ -107,7 +107,7 @@ static int truehd_channels(int chanmap)
     return channels;
 }
 
-int64_t ff_truehd_layout(int chanmap)
+uint64_t ff_truehd_layout(int chanmap)
 {
     int layout = 0, i;
 
@@ -139,12 +139,12 @@ int ff_mlp_read_major_sync(void *log, MLPHeaderInfo *mh, GetBitContext *gb)
     /* FFDShow custom code: disable crc check because it doesn't work properly with interweaved AC3/TrueHD streams
     if (checksum != AV_RL16(gb->buffer+26)) {
         av_log(log, AV_LOG_ERROR, "major sync info header checksum error\n");
-        return -1;
+        return AVERROR_INVALIDDATA;
     }
     */
 
     if (get_bits_long(gb, 24) != 0xf8726f) /* Sync words */
-        return -1;
+        return AVERROR_INVALIDDATA;
 
     mh->stream_type = get_bits(gb, 8);
 
@@ -175,7 +175,7 @@ int ff_mlp_read_major_sync(void *log, MLPHeaderInfo *mh, GetBitContext *gb)
 
         mh->channels_thd_stream2 = get_bits(gb, 13);
     } else
-        return -1;
+        return AVERROR_INVALIDDATA;
 
     mh->access_unit_size = 40 << (ratebits & 7);
     mh->access_unit_size_pow2 = 64 << (ratebits & 7);
@@ -349,9 +349,9 @@ lost_sync:
 }
 
 AVCodecParser ff_mlp_parser = {
-    { CODEC_ID_MLP, CODEC_ID_TRUEHD },
-    sizeof(MLPParseContext),
-    mlp_init,
-    mlp_parse,
-    ff_parse_close,
+    .codec_ids      = { CODEC_ID_MLP, CODEC_ID_TRUEHD },
+    .priv_data_size = sizeof(MLPParseContext),
+    .parser_init    = mlp_init,
+    .parser_parse   = mlp_parse,
+    .parser_close   = ff_parse_close,
 };

@@ -1,5 +1,6 @@
 /*
  * VC-1 and WMV3 decoder
+ * Copyright (c) 2011 Mashiat Sarker Shakkhar
  * Copyright (c) 2006-2007 Konstantin Shishkov
  * Partly based on vc9.c (c) 2005 Anonymous, Alex Beregszaszi, Michael Niedermayer
  *
@@ -23,8 +24,8 @@
 /**
  * @file
  * VC-1 and WMV3 decoder
- *
  */
+
 #include "internal.h"
 #include "dsputil.h"
 #include "avcodec.h"
@@ -67,8 +68,7 @@ static int vc1_init_common(VC1Context *v)
     v->hrd_rate = v->hrd_buffer = NULL;
 
     /* VLC tables */
-    if(!done)
-    {
+    if (!done) {
         INIT_VLC_STATIC(&ff_vc1_bfraction_vlc, VC1_BFRACTION_VLC_BITS, 23,
                  ff_vc1_bfraction_bits, 1, 1,
                  ff_vc1_bfraction_codes, 1, 1, 1 << VC1_BFRACTION_VLC_BITS);
@@ -128,7 +128,7 @@ static int vc1_init_common(VC1Context *v)
     }
 
     /* Other defaults */
-    v->pq = -1;
+    v->pq      = -1;
     v->mvrange = 0; /* 7.1.1.18, p80 */
 
     return 0;
@@ -232,17 +232,17 @@ static void vc1_loop_filter_iblk(VC1Context *v, int pq)
     if (!s->first_slice_line) {
         v->vc1dsp.vc1_v_loop_filter16(s->dest[0], s->linesize, pq);
         if (s->mb_x)
-            v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 16*s->linesize, s->linesize, pq);
-        v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 16*s->linesize+8, s->linesize, pq);
-        for(j = 0; j < 2; j++){
-            v->vc1dsp.vc1_v_loop_filter8(s->dest[j+1], s->uvlinesize, pq);
+            v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 16 * s->linesize, s->linesize, pq);
+        v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 16 * s->linesize + 8, s->linesize, pq);
+        for (j = 0; j < 2; j++) {
+            v->vc1dsp.vc1_v_loop_filter8(s->dest[j + 1], s->uvlinesize, pq);
             if (s->mb_x)
-                v->vc1dsp.vc1_h_loop_filter8(s->dest[j+1]-8*s->uvlinesize, s->uvlinesize, pq);
+                v->vc1dsp.vc1_h_loop_filter8(s->dest[j + 1] - 8 * s->uvlinesize, s->uvlinesize, pq);
         }
     }
-    v->vc1dsp.vc1_v_loop_filter16(s->dest[0] + 8*s->linesize, s->linesize, pq);
+    v->vc1dsp.vc1_v_loop_filter16(s->dest[0] + 8 * s->linesize, s->linesize, pq);
 
-    if (s->mb_y == s->end_mb_y-1) {
+    if (s->mb_y == s->end_mb_y - 1) {
         if (s->mb_x) {
             v->vc1dsp.vc1_h_loop_filter16(s->dest[0], s->linesize, pq);
             v->vc1dsp.vc1_h_loop_filter8(s->dest[1], s->uvlinesize, pq);
@@ -267,10 +267,10 @@ static void vc1_loop_filter_iblk_delayed(VC1Context *v, int pq)
                 if (s->mb_x >= 2)
                     v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 32 * s->linesize - 16, s->linesize, pq);
                 v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 32 * s->linesize - 8, s->linesize, pq);
-                for(j = 0; j < 2; j++) {
-                    v->vc1dsp.vc1_v_loop_filter8(s->dest[j+1] - 8 * s->uvlinesize - 8, s->uvlinesize, pq);
+                for (j = 0; j < 2; j++) {
+                    v->vc1dsp.vc1_v_loop_filter8(s->dest[j + 1] - 8 * s->uvlinesize - 8, s->uvlinesize, pq);
                     if (s->mb_x >= 2) {
-                        v->vc1dsp.vc1_h_loop_filter8(s->dest[j+1] - 16 * s->uvlinesize - 8, s->uvlinesize, pq);
+                        v->vc1dsp.vc1_h_loop_filter8(s->dest[j + 1] - 16 * s->uvlinesize - 8, s->uvlinesize, pq);
                     }
                 }
             }
@@ -284,10 +284,10 @@ static void vc1_loop_filter_iblk_delayed(VC1Context *v, int pq)
                 if (s->mb_x)
                     v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 32 * s->linesize, s->linesize, pq);
                 v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 32 * s->linesize + 8, s->linesize, pq);
-                for(j = 0; j < 2; j++) {
-                    v->vc1dsp.vc1_v_loop_filter8(s->dest[j+1] - 8 * s->uvlinesize, s->uvlinesize, pq);
+                for (j = 0; j < 2; j++) {
+                    v->vc1dsp.vc1_v_loop_filter8(s->dest[j + 1] - 8 * s->uvlinesize, s->uvlinesize, pq);
                     if (s->mb_x >= 2) {
-                        v->vc1dsp.vc1_h_loop_filter8(s->dest[j+1] - 16 * s->uvlinesize, s->uvlinesize, pq);
+                        v->vc1dsp.vc1_h_loop_filter8(s->dest[j + 1] - 16 * s->uvlinesize, s->uvlinesize, pq);
                     }
                 }
             }
@@ -300,8 +300,8 @@ static void vc1_loop_filter_iblk_delayed(VC1Context *v, int pq)
                     v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 16 * s->linesize - 16, s->linesize, pq);
                 v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 16 * s->linesize - 8, s->linesize, pq);
                 if (s->mb_x >= 2) {
-                    for(j = 0; j < 2; j++) {
-                        v->vc1dsp.vc1_h_loop_filter8(s->dest[j+1] - 8 * s->uvlinesize - 8, s->uvlinesize, pq);
+                    for (j = 0; j < 2; j++) {
+                        v->vc1dsp.vc1_h_loop_filter8(s->dest[j + 1] - 8 * s->uvlinesize - 8, s->uvlinesize, pq);
                     }
                 }
             }
@@ -311,8 +311,8 @@ static void vc1_loop_filter_iblk_delayed(VC1Context *v, int pq)
                     v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 16 * s->linesize, s->linesize, pq);
                 v->vc1dsp.vc1_h_loop_filter16(s->dest[0] - 16 * s->linesize + 8, s->linesize, pq);
                 if (s->mb_x) {
-                    for(j = 0; j < 2; j++) {
-                        v->vc1dsp.vc1_h_loop_filter8(s->dest[j+1] - 8 * s->uvlinesize, s->uvlinesize, pq);
+                    for (j = 0; j < 2; j++) {
+                        v->vc1dsp.vc1_h_loop_filter8(s->dest[j + 1] - 8 * s->uvlinesize, s->uvlinesize, pq);
                     }
                 }
             }
@@ -337,14 +337,14 @@ static void vc1_smooth_overlap_filter_iblk(VC1Context *v)
      * running the V overlap. Therefore, the V overlap makes us trail by one
      * MB col and the H overlap filter makes us trail by one MB row. This
      * is reflected in the time at which we run the put_pixels loop. */
-    if(v->condover == CONDOVER_ALL || v->pq >= 9 || v->over_flags_plane[mb_pos]) {
-        if(s->mb_x && (v->condover == CONDOVER_ALL || v->pq >= 9 ||
-                       v->over_flags_plane[mb_pos - 1])) {
+    if (v->condover == CONDOVER_ALL || v->pq >= 9 || v->over_flags_plane[mb_pos]) {
+        if (s->mb_x && (v->condover == CONDOVER_ALL || v->pq >= 9 ||
+                        v->over_flags_plane[mb_pos - 1])) {
             v->vc1dsp.vc1_h_s_overlap(v->block[v->left_blk_idx][1],
                                       v->block[v->cur_blk_idx][0]);
             v->vc1dsp.vc1_h_s_overlap(v->block[v->left_blk_idx][3],
                                       v->block[v->cur_blk_idx][2]);
-            if(!(s->flags & CODEC_FLAG_GRAY)) {
+            if (!(s->flags & CODEC_FLAG_GRAY)) {
                 v->vc1dsp.vc1_h_s_overlap(v->block[v->left_blk_idx][4],
                                           v->block[v->cur_blk_idx][4]);
                 v->vc1dsp.vc1_h_s_overlap(v->block[v->left_blk_idx][5],
@@ -357,13 +357,13 @@ static void vc1_smooth_overlap_filter_iblk(VC1Context *v)
                                   v->block[v->cur_blk_idx][3]);
 
         if (s->mb_x == s->mb_width - 1) {
-            if(!s->first_slice_line && (v->condover == CONDOVER_ALL || v->pq >= 9 ||
-                                        v->over_flags_plane[mb_pos - s->mb_stride])) {
+            if (!s->first_slice_line && (v->condover == CONDOVER_ALL || v->pq >= 9 ||
+                                         v->over_flags_plane[mb_pos - s->mb_stride])) {
                 v->vc1dsp.vc1_v_s_overlap(v->block[v->top_blk_idx][2],
                                           v->block[v->cur_blk_idx][0]);
                 v->vc1dsp.vc1_v_s_overlap(v->block[v->top_blk_idx][3],
                                           v->block[v->cur_blk_idx][1]);
-                if(!(s->flags & CODEC_FLAG_GRAY)) {
+                if (!(s->flags & CODEC_FLAG_GRAY)) {
                     v->vc1dsp.vc1_v_s_overlap(v->block[v->top_blk_idx][4],
                                               v->block[v->cur_blk_idx][4]);
                     v->vc1dsp.vc1_v_s_overlap(v->block[v->top_blk_idx][5],
@@ -377,13 +377,13 @@ static void vc1_smooth_overlap_filter_iblk(VC1Context *v)
         }
     }
     if (s->mb_x && (v->condover == CONDOVER_ALL || v->over_flags_plane[mb_pos - 1])) {
-        if(!s->first_slice_line && (v->condover == CONDOVER_ALL || v->pq >= 9 ||
-                                    v->over_flags_plane[mb_pos - s->mb_stride - 1])) {
+        if (!s->first_slice_line && (v->condover == CONDOVER_ALL || v->pq >= 9 ||
+                                     v->over_flags_plane[mb_pos - s->mb_stride - 1])) {
             v->vc1dsp.vc1_v_s_overlap(v->block[v->topleft_blk_idx][2],
                                       v->block[v->left_blk_idx][0]);
             v->vc1dsp.vc1_v_s_overlap(v->block[v->topleft_blk_idx][3],
                                       v->block[v->left_blk_idx][1]);
-            if(!(s->flags & CODEC_FLAG_GRAY)) {
+            if (!(s->flags & CODEC_FLAG_GRAY)) {
                 v->vc1dsp.vc1_v_s_overlap(v->block[v->topleft_blk_idx][4],
                                           v->block[v->left_blk_idx][4]);
                 v->vc1dsp.vc1_v_s_overlap(v->block[v->topleft_blk_idx][5],
@@ -403,7 +403,7 @@ static void vc1_smooth_overlap_filter_iblk(VC1Context *v)
 static void vc1_mc_1mv(VC1Context *v, int dir)
 {
     MpegEncContext *s = &v->s;
-    DSPContext *dsp = &v->s.dsp;
+    DSPContext *dsp   = &v->s.dsp;
     uint8_t *srcY, *srcU, *srcV;
     int dxy, mx, my, uvmx, uvmy, src_x, src_y, uvsrc_x, uvsrc_y;
 
@@ -435,29 +435,29 @@ static void vc1_mc_1mv(VC1Context *v, int dir)
         srcV = s->next_picture.f.data[2];
     }
 
-    src_x = s->mb_x * 16 + (mx >> 2);
-    src_y = s->mb_y * 16 + (my >> 2);
-    uvsrc_x = s->mb_x * 8 + (uvmx >> 2);
-    uvsrc_y = s->mb_y * 8 + (uvmy >> 2);
+    src_x   = s->mb_x * 16 + (mx   >> 2);
+    src_y   = s->mb_y * 16 + (my   >> 2);
+    uvsrc_x = s->mb_x *  8 + (uvmx >> 2);
+    uvsrc_y = s->mb_y *  8 + (uvmy >> 2);
 
-    if(v->profile != PROFILE_ADVANCED){
+    if (v->profile != PROFILE_ADVANCED) {
         src_x   = av_clip(  src_x, -16, s->mb_width  * 16);
         src_y   = av_clip(  src_y, -16, s->mb_height * 16);
         uvsrc_x = av_clip(uvsrc_x,  -8, s->mb_width  *  8);
         uvsrc_y = av_clip(uvsrc_y,  -8, s->mb_height *  8);
-    }else{
+    } else {
         src_x   = av_clip(  src_x, -17, s->avctx->coded_width);
         src_y   = av_clip(  src_y, -18, s->avctx->coded_height + 1);
         uvsrc_x = av_clip(uvsrc_x,  -8, s->avctx->coded_width  >> 1);
         uvsrc_y = av_clip(uvsrc_y,  -8, s->avctx->coded_height >> 1);
     }
 
-    srcY += src_y * s->linesize + src_x;
+    srcY += src_y   * s->linesize   + src_x;
     srcU += uvsrc_y * s->uvlinesize + uvsrc_x;
     srcV += uvsrc_y * s->uvlinesize + uvsrc_x;
 
     /* for grayscale we should not try to read from unknown area */
-    if(s->flags & CODEC_FLAG_GRAY) {
+    if (s->flags & CODEC_FLAG_GRAY) {
         srcU = s->edge_emu_buffer + 18 * s->linesize;
         srcV = s->edge_emu_buffer + 18 * s->linesize;
     }
@@ -478,7 +478,7 @@ static void vc1_mc_1mv(VC1Context *v, int dir)
         srcU = uvbuf;
         srcV = uvbuf + 16;
         /* if we deal with range reduction we need to scale source blocks */
-        if(v->rangeredfrm) {
+        if (v->rangeredfrm) {
             int i, j;
             uint8_t *src, *src2;
 
@@ -493,12 +493,12 @@ static void vc1_mc_1mv(VC1Context *v, int dir)
                     src[i] = ((src[i] - 128) >> 1) + 128;
                     src2[i] = ((src2[i] - 128) >> 1) + 128;
                 }
-                src += s->uvlinesize;
+                src  += s->uvlinesize;
                 src2 += s->uvlinesize;
             }
         }
         /* if we deal with intensity compensation we need to scale source blocks */
-        if(v->mv_mode == MV_PMODE_INTENSITY_COMP) {
+        if (v->mv_mode == MV_PMODE_INTENSITY_COMP) {
             int i, j;
             uint8_t *src, *src2;
 
@@ -513,7 +513,7 @@ static void vc1_mc_1mv(VC1Context *v, int dir)
                     src[i] = v->lutuv[src[i]];
                     src2[i] = v->lutuv[src2[i]];
                 }
-                src += s->uvlinesize;
+                src  += s->uvlinesize;
                 src2 += s->uvlinesize;
             }
         }
@@ -611,12 +611,12 @@ static void vc1_mc_4mv_luma(VC1Context *v, int n)
         srcY += s->mspel * (1 + s->linesize);
     }
 
-    if(s->mspel) {
+    if (s->mspel) {
         dxy = ((my & 3) << 2) | (mx & 3);
         v->vc1dsp.put_vc1_mspel_pixels_tab[dxy](s->dest[0] + off, srcY, s->linesize, v->rnd);
     } else { // hpel mc - always used for luma
         dxy = (my & 2) | ((mx & 2) >> 1);
-        if(!v->rnd)
+        if (!v->rnd)
             dsp->put_pixels_tab[1][dxy](s->dest[0] + off, srcY, s->linesize, 8);
         else
             dsp->put_no_rnd_pixels_tab[1][dxy](s->dest[0] + off, srcY, s->linesize, 8);
@@ -738,12 +738,12 @@ static void vc1_mc_4mv_chroma(VC1Context *v)
                     src[i] = ((src[i] - 128) >> 1) + 128;
                     src2[i] = ((src2[i] - 128) >> 1) + 128;
                 }
-                src += s->uvlinesize;
+                src  += s->uvlinesize;
                 src2 += s->uvlinesize;
             }
         }
         /* if we deal with intensity compensation we need to scale source blocks */
-        if(v->mv_mode == MV_PMODE_INTENSITY_COMP) {
+        if (v->mv_mode == MV_PMODE_INTENSITY_COMP) {
             int i, j;
             uint8_t *src, *src2;
 
@@ -753,7 +753,7 @@ static void vc1_mc_4mv_chroma(VC1Context *v)
                     src[i] = v->lutuv[src[i]];
                     src2[i] = v->lutuv[src2[i]];
                 }
-                src += s->uvlinesize;
+                src  += s->uvlinesize;
                 src2 += s->uvlinesize;
             }
         }
@@ -882,7 +882,7 @@ static inline void vc1_pred_mv(VC1Context *v, int n, int dmv_x, int dmv_y, int m
     wrap = s->b8_stride;
     xy = s->block_index[n];
 
-    if(s->mb_intra){
+    if (s->mb_intra) {
         s->mv[0][n][0] = s->current_picture.f.motion_val[0][xy][0] = 0;
         s->mv[0][n][1] = s->current_picture.f.motion_val[0][xy][1] = 0;
         s->current_picture.f.motion_val[1][xy][0] = 0;
@@ -1024,29 +1024,29 @@ static void vc1_interp_mc(VC1Context *v)
     srcU = s->next_picture.f.data[1];
     srcV = s->next_picture.f.data[2];
 
-    src_x = s->mb_x * 16 + (mx >> 2);
-    src_y = s->mb_y * 16 + (my >> 2);
-    uvsrc_x = s->mb_x * 8 + (uvmx >> 2);
-    uvsrc_y = s->mb_y * 8 + (uvmy >> 2);
+    src_x   = s->mb_x * 16 + (mx   >> 2);
+    src_y   = s->mb_y * 16 + (my   >> 2);
+    uvsrc_x = s->mb_x *  8 + (uvmx >> 2);
+    uvsrc_y = s->mb_y *  8 + (uvmy >> 2);
 
-    if(v->profile != PROFILE_ADVANCED){
+    if (v->profile != PROFILE_ADVANCED) {
         src_x   = av_clip(  src_x, -16, s->mb_width  * 16);
         src_y   = av_clip(  src_y, -16, s->mb_height * 16);
         uvsrc_x = av_clip(uvsrc_x,  -8, s->mb_width  *  8);
         uvsrc_y = av_clip(uvsrc_y,  -8, s->mb_height *  8);
-    }else{
+    } else {
         src_x   = av_clip(  src_x, -17, s->avctx->coded_width);
         src_y   = av_clip(  src_y, -18, s->avctx->coded_height + 1);
         uvsrc_x = av_clip(uvsrc_x,  -8, s->avctx->coded_width  >> 1);
         uvsrc_y = av_clip(uvsrc_y,  -8, s->avctx->coded_height >> 1);
     }
 
-    srcY += src_y * s->linesize + src_x;
+    srcY += src_y   * s->linesize   + src_x;
     srcU += uvsrc_y * s->uvlinesize + uvsrc_x;
     srcV += uvsrc_y * s->uvlinesize + uvsrc_x;
 
     /* for grayscale we should not try to read from unknown area */
-    if(s->flags & CODEC_FLAG_GRAY) {
+    if (s->flags & CODEC_FLAG_GRAY) {
         srcU = s->edge_emu_buffer + 18 * s->linesize;
         srcV = s->edge_emu_buffer + 18 * s->linesize;
     }
@@ -1067,7 +1067,7 @@ static void vc1_interp_mc(VC1Context *v)
         srcU = uvbuf;
         srcV = uvbuf + 16;
         /* if we deal with range reduction we need to scale source blocks */
-        if(v->rangeredfrm) {
+        if (v->rangeredfrm) {
             int i, j;
             uint8_t *src, *src2;
 
@@ -1082,7 +1082,7 @@ static void vc1_interp_mc(VC1Context *v)
                     src[i] = ((src[i] - 128) >> 1) + 128;
                     src2[i] = ((src2[i] - 128) >> 1) + 128;
                 }
-                src += s->uvlinesize;
+                src  += s->uvlinesize;
                 src2 += s->uvlinesize;
             }
         }
@@ -1123,15 +1123,15 @@ static av_always_inline int scale_mv(int value, int bfrac, int inv, int qs)
     int n = bfrac;
 
 #if B_FRACTION_DEN==256
-    if(inv)
+    if (inv)
         n -= 256;
-    if(!qs)
+    if (!qs)
         return 2 * ((value * n + 255) >> 9);
     return (value * n + 128) >> 8;
 #else
-    if(inv)
+    if (inv)
         n -= B_FRACTION_DEN;
-    if(!qs)
+    if (!qs)
         return 2 * ((value * n + B_FRACTION_DEN - 1) / (2 * B_FRACTION_DEN));
     return (value * n + B_FRACTION_DEN/2) / B_FRACTION_DEN;
 #endif
@@ -1139,31 +1139,37 @@ static av_always_inline int scale_mv(int value, int bfrac, int inv, int qs)
 
 /** Reconstruct motion vector for B-frame and do motion compensation
  */
-static inline void vc1_b_mc(VC1Context *v, int dmv_x[2], int dmv_y[2], int direct, int mode)
+static inline void vc1_b_mc(VC1Context *v, int dmv_x[2], int dmv_y[2],
+                            int direct, int mode)
 {
-    if(v->use_ic) {
+    if (v->use_ic) {
         v->mv_mode2 = v->mv_mode;
-        v->mv_mode = MV_PMODE_INTENSITY_COMP;
+        v->mv_mode  = MV_PMODE_INTENSITY_COMP;
     }
-    if(direct) {
+    if (direct) {
         vc1_mc_1mv(v, 0);
         vc1_interp_mc(v);
-        if(v->use_ic) v->mv_mode = v->mv_mode2;
+        if (v->use_ic)
+            v->mv_mode = v->mv_mode2;
         return;
     }
-    if(mode == BMV_TYPE_INTERPOLATED) {
+    if (mode == BMV_TYPE_INTERPOLATED) {
         vc1_mc_1mv(v, 0);
         vc1_interp_mc(v);
-        if(v->use_ic) v->mv_mode = v->mv_mode2;
+        if (v->use_ic)
+            v->mv_mode = v->mv_mode2;
         return;
     }
 
-    if(v->use_ic && (mode == BMV_TYPE_BACKWARD)) v->mv_mode = v->mv_mode2;
+    if (v->use_ic && (mode == BMV_TYPE_BACKWARD))
+        v->mv_mode = v->mv_mode2;
     vc1_mc_1mv(v, (mode == BMV_TYPE_BACKWARD));
-    if(v->use_ic) v->mv_mode = v->mv_mode2;
+    if (v->use_ic)
+        v->mv_mode = v->mv_mode2;
 }
 
-static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2], int direct, int mvtype)
+static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2],
+                                 int direct, int mvtype)
 {
     MpegEncContext *s = &v->s;
     int xy, wrap, off = 0;
@@ -1209,22 +1215,22 @@ static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2], int 
         return;
     }
 
-    if((mvtype == BMV_TYPE_FORWARD) || (mvtype == BMV_TYPE_INTERPOLATED)) {
-        C = s->current_picture.f.motion_val[0][xy - 2];
-        A = s->current_picture.f.motion_val[0][xy - wrap*2];
+    if ((mvtype == BMV_TYPE_FORWARD) || (mvtype == BMV_TYPE_INTERPOLATED)) {
+        C   = s->current_picture.f.motion_val[0][xy - 2];
+        A   = s->current_picture.f.motion_val[0][xy - wrap * 2];
         off = (s->mb_x == (s->mb_width - 1)) ? -2 : 2;
-        B = s->current_picture.f.motion_val[0][xy - wrap*2 + off];
+        B   = s->current_picture.f.motion_val[0][xy - wrap * 2 + off];
 
-        if(!s->mb_x) C[0] = C[1] = 0;
-        if(!s->first_slice_line) { // predictor A is not out of bounds
-            if(s->mb_width == 1) {
+        if (!s->mb_x) C[0] = C[1] = 0;
+        if (!s->first_slice_line) { // predictor A is not out of bounds
+            if (s->mb_width == 1) {
                 px = A[0];
                 py = A[1];
             } else {
                 px = mid_pred(A[0], B[0], C[0]);
                 py = mid_pred(A[1], B[1], C[1]);
             }
-        } else if(s->mb_x) { // predictor C is not out of bounds
+        } else if (s->mb_x) { // predictor C is not out of bounds
             px = C[0];
             py = C[1];
         } else {
@@ -1233,34 +1239,34 @@ static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2], int 
         /* Pullback MV as specified in 8.3.5.3.4 */
         {
             int qx, qy, X, Y;
-            if(v->profile < PROFILE_ADVANCED) {
+            if (v->profile < PROFILE_ADVANCED) {
                 qx = (s->mb_x << 5);
                 qy = (s->mb_y << 5);
-                X = (s->mb_width << 5) - 4;
-                Y = (s->mb_height << 5) - 4;
-                if(qx + px < -28) px = -28 - qx;
-                if(qy + py < -28) py = -28 - qy;
-                if(qx + px > X) px = X - qx;
-                if(qy + py > Y) py = Y - qy;
+                X  = (s->mb_width  << 5) - 4;
+                Y  = (s->mb_height << 5) - 4;
+                if (qx + px < -28) px = -28 - qx;
+                if (qy + py < -28) py = -28 - qy;
+                if (qx + px > X) px = X - qx;
+                if (qy + py > Y) py = Y - qy;
             } else {
                 qx = (s->mb_x << 6);
                 qy = (s->mb_y << 6);
-                X = (s->mb_width << 6) - 4;
-                Y = (s->mb_height << 6) - 4;
-                if(qx + px < -60) px = -60 - qx;
-                if(qy + py < -60) py = -60 - qy;
-                if(qx + px > X) px = X - qx;
-                if(qy + py > Y) py = Y - qy;
+                X  = (s->mb_width  << 6) - 4;
+                Y  = (s->mb_height << 6) - 4;
+                if (qx + px < -60) px = -60 - qx;
+                if (qy + py < -60) py = -60 - qy;
+                if (qx + px > X) px = X - qx;
+                if (qy + py > Y) py = Y - qy;
             }
         }
         /* Calculate hybrid prediction as specified in 8.3.5.3.5 */
-        if(0 && !s->first_slice_line && s->mb_x) {
-            if(is_intra[xy - wrap])
+        if (0 && !s->first_slice_line && s->mb_x) {
+            if (is_intra[xy - wrap])
                 sum = FFABS(px) + FFABS(py);
             else
                 sum = FFABS(px - A[0]) + FFABS(py - A[1]);
-            if(sum > 32) {
-                if(get_bits1(&s->gb)) {
+            if (sum > 32) {
+                if (get_bits1(&s->gb)) {
                     px = A[0];
                     py = A[1];
                 } else {
@@ -1268,12 +1274,12 @@ static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2], int 
                     py = C[1];
                 }
             } else {
-                if(is_intra[xy - 2])
+                if (is_intra[xy - 2])
                     sum = FFABS(px) + FFABS(py);
                 else
                     sum = FFABS(px - C[0]) + FFABS(py - C[1]);
-                if(sum > 32) {
-                    if(get_bits1(&s->gb)) {
+                if (sum > 32) {
+                    if (get_bits1(&s->gb)) {
                         px = A[0];
                         py = A[1];
                     } else {
@@ -1287,22 +1293,23 @@ static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2], int 
         s->mv[0][0][0] = ((px + dmv_x[0] + r_x) & ((r_x << 1) - 1)) - r_x;
         s->mv[0][0][1] = ((py + dmv_y[0] + r_y) & ((r_y << 1) - 1)) - r_y;
     }
-    if((mvtype == BMV_TYPE_BACKWARD) || (mvtype == BMV_TYPE_INTERPOLATED)) {
-        C = s->current_picture.f.motion_val[1][xy - 2];
-        A = s->current_picture.f.motion_val[1][xy - wrap*2];
+    if ((mvtype == BMV_TYPE_BACKWARD) || (mvtype == BMV_TYPE_INTERPOLATED)) {
+        C   = s->current_picture.f.motion_val[1][xy - 2];
+        A   = s->current_picture.f.motion_val[1][xy - wrap * 2];
         off = (s->mb_x == (s->mb_width - 1)) ? -2 : 2;
-        B = s->current_picture.f.motion_val[1][xy - wrap*2 + off];
+        B   = s->current_picture.f.motion_val[1][xy - wrap * 2 + off];
 
-        if(!s->mb_x) C[0] = C[1] = 0;
-        if(!s->first_slice_line) { // predictor A is not out of bounds
-            if(s->mb_width == 1) {
+        if (!s->mb_x)
+            C[0] = C[1] = 0;
+        if (!s->first_slice_line) { // predictor A is not out of bounds
+            if (s->mb_width == 1) {
                 px = A[0];
                 py = A[1];
             } else {
                 px = mid_pred(A[0], B[0], C[0]);
                 py = mid_pred(A[1], B[1], C[1]);
             }
-        } else if(s->mb_x) { // predictor C is not out of bounds
+        } else if (s->mb_x) { // predictor C is not out of bounds
             px = C[0];
             py = C[1];
         } else {
@@ -1311,34 +1318,34 @@ static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2], int 
         /* Pullback MV as specified in 8.3.5.3.4 */
         {
             int qx, qy, X, Y;
-            if(v->profile < PROFILE_ADVANCED) {
+            if (v->profile < PROFILE_ADVANCED) {
                 qx = (s->mb_x << 5);
                 qy = (s->mb_y << 5);
-                X = (s->mb_width << 5) - 4;
-                Y = (s->mb_height << 5) - 4;
-                if(qx + px < -28) px = -28 - qx;
-                if(qy + py < -28) py = -28 - qy;
-                if(qx + px > X) px = X - qx;
-                if(qy + py > Y) py = Y - qy;
+                X  = (s->mb_width  << 5) - 4;
+                Y  = (s->mb_height << 5) - 4;
+                if (qx + px < -28) px = -28 - qx;
+                if (qy + py < -28) py = -28 - qy;
+                if (qx + px > X) px = X - qx;
+                if (qy + py > Y) py = Y - qy;
             } else {
                 qx = (s->mb_x << 6);
                 qy = (s->mb_y << 6);
-                X = (s->mb_width << 6) - 4;
-                Y = (s->mb_height << 6) - 4;
-                if(qx + px < -60) px = -60 - qx;
-                if(qy + py < -60) py = -60 - qy;
-                if(qx + px > X) px = X - qx;
-                if(qy + py > Y) py = Y - qy;
+                X  = (s->mb_width  << 6) - 4;
+                Y  = (s->mb_height << 6) - 4;
+                if (qx + px < -60) px = -60 - qx;
+                if (qy + py < -60) py = -60 - qy;
+                if (qx + px > X) px = X - qx;
+                if (qy + py > Y) py = Y - qy;
             }
         }
         /* Calculate hybrid prediction as specified in 8.3.5.3.5 */
-        if(0 && !s->first_slice_line && s->mb_x) {
-            if(is_intra[xy - wrap])
+        if (0 && !s->first_slice_line && s->mb_x) {
+            if (is_intra[xy - wrap])
                 sum = FFABS(px) + FFABS(py);
             else
                 sum = FFABS(px - A[0]) + FFABS(py - A[1]);
-            if(sum > 32) {
-                if(get_bits1(&s->gb)) {
+            if (sum > 32) {
+                if (get_bits1(&s->gb)) {
                     px = A[0];
                     py = A[1];
                 } else {
@@ -1346,12 +1353,12 @@ static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2], int 
                     py = C[1];
                 }
             } else {
-                if(is_intra[xy - 2])
+                if (is_intra[xy - 2])
                     sum = FFABS(px) + FFABS(py);
                 else
                     sum = FFABS(px - C[0]) + FFABS(py - C[1]);
-                if(sum > 32) {
-                    if(get_bits1(&s->gb)) {
+                if (sum > 32) {
+                    if (get_bits1(&s->gb)) {
                         px = A[0];
                         py = A[1];
                     } else {
@@ -1382,23 +1389,23 @@ static inline void vc1_pred_b_mv(VC1Context *v, int dmv_x[2], int dmv_y[2], int 
  * @param dir_ptr Prediction direction for use in AC prediction
  */
 static inline int vc1_i_pred_dc(MpegEncContext *s, int overlap, int pq, int n,
-                              int16_t **dc_val_ptr, int *dir_ptr)
+                                int16_t **dc_val_ptr, int *dir_ptr)
 {
     int a, b, c, wrap, pred, scale;
     int16_t *dc_val;
     static const uint16_t dcpred[32] = {
-    -1, 1024,  512,  341,  256,  205,  171,  146,  128,
-         114,  102,   93,   85,   79,   73,   68,   64,
-          60,   57,   54,   51,   49,   47,   45,   43,
-          41,   39,   38,   37,   35,   34,   33
+        -1, 1024,  512,  341,  256,  205,  171,  146,  128,
+             114,  102,   93,   85,   79,   73,   68,   64,
+              60,   57,   54,   51,   49,   47,   45,   43,
+              41,   39,   38,   37,   35,   34,   33
     };
 
     /* find prediction - wmv3_dc_scale always used here in fact */
-    if (n < 4)     scale = s->y_dc_scale;
-    else           scale = s->c_dc_scale;
+    if (n < 4) scale = s->y_dc_scale;
+    else       scale = s->c_dc_scale;
 
-    wrap = s->block_wrap[n];
-    dc_val= s->dc_val[0] + s->block_index[n];
+    wrap   = s->block_wrap[n];
+    dc_val = s->dc_val[0] + s->block_index[n];
 
     /* B A
      * C X
@@ -1407,25 +1414,26 @@ static inline int vc1_i_pred_dc(MpegEncContext *s, int overlap, int pq, int n,
     b = dc_val[ - 1 - wrap];
     a = dc_val[ - wrap];
 
-    if (pq < 9 || !overlap)
-    {
+    if (pq < 9 || !overlap) {
         /* Set outer values */
-        if (s->first_slice_line && (n!=2 && n!=3)) b=a=dcpred[scale];
-        if (s->mb_x == 0 && (n!=1 && n!=3)) b=c=dcpred[scale];
-    }
-    else
-    {
+        if (s->first_slice_line && (n != 2 && n != 3))
+            b = a = dcpred[scale];
+        if (s->mb_x == 0 && (n != 1 && n != 3))
+            b = c = dcpred[scale];
+    } else {
         /* Set outer values */
-        if (s->first_slice_line && (n!=2 && n!=3)) b=a=0;
-        if (s->mb_x == 0 && (n!=1 && n!=3)) b=c=0;
+        if (s->first_slice_line && (n != 2 && n != 3))
+            b = a = 0;
+        if (s->mb_x == 0 && (n != 1 && n != 3))
+            b = c = 0;
     }
 
     if (abs(a - b) <= abs(b - c)) {
-        pred = c;
-        *dir_ptr = 1;//left
+        pred     = c;
+        *dir_ptr = 1; // left
     } else {
-        pred = a;
-        *dir_ptr = 0;//top
+        pred     = a;
+        *dir_ptr = 0; // top
     }
 
     /* update predictor */
@@ -1455,7 +1463,7 @@ static inline int vc1_pred_dc(MpegEncContext *s, int overlap, int pq, int n,
     int q1, q2 = 0;
 
     wrap = s->block_wrap[n];
-    dc_val= s->dc_val[0] + s->block_index[n];
+    dc_val = s->dc_val[0] + s->block_index[n];
 
     /* B A
      * C X
@@ -1465,42 +1473,44 @@ static inline int vc1_pred_dc(MpegEncContext *s, int overlap, int pq, int n,
     a = dc_val[ - wrap];
     /* scale predictors if needed */
     q1 = s->current_picture.f.qscale_table[mb_pos];
-    if(c_avail && (n!= 1 && n!=3)) {
+    if (c_avail && (n != 1 && n != 3)) {
         q2 = s->current_picture.f.qscale_table[mb_pos - 1];
-        if(q2 && q2 != q1)
+        if (q2 && q2 != q1)
             c = (c * s->y_dc_scale_table[q2] * ff_vc1_dqscale[s->y_dc_scale_table[q1] - 1] + 0x20000) >> 18;
     }
-    if(a_avail && (n!= 2 && n!=3)) {
+    if (a_avail && (n != 2 && n != 3)) {
         q2 = s->current_picture.f.qscale_table[mb_pos - s->mb_stride];
-        if(q2 && q2 != q1)
+        if (q2 && q2 != q1)
             a = (a * s->y_dc_scale_table[q2] * ff_vc1_dqscale[s->y_dc_scale_table[q1] - 1] + 0x20000) >> 18;
     }
-    if(a_avail && c_avail && (n!=3)) {
+    if (a_avail && c_avail && (n != 3)) {
         int off = mb_pos;
-        if(n != 1) off--;
-        if(n != 2) off -= s->mb_stride;
+        if (n != 1)
+            off--;
+        if (n != 2)
+            off -= s->mb_stride;
         q2 = s->current_picture.f.qscale_table[off];
-        if(q2 && q2 != q1)
+        if (q2 && q2 != q1)
             b = (b * s->y_dc_scale_table[q2] * ff_vc1_dqscale[s->y_dc_scale_table[q1] - 1] + 0x20000) >> 18;
     }
 
-    if(a_avail && c_avail) {
-        if(abs(a - b) <= abs(b - c)) {
-            pred = c;
-            *dir_ptr = 1;//left
+    if (a_avail && c_avail) {
+        if (abs(a - b) <= abs(b - c)) {
+            pred     = c;
+            *dir_ptr = 1; // left
         } else {
-            pred = a;
-            *dir_ptr = 0;//top
+            pred     = a;
+            *dir_ptr = 0; // top
         }
-    } else if(a_avail) {
-        pred = a;
-        *dir_ptr = 0;//top
-    } else if(c_avail) {
-        pred = c;
-        *dir_ptr = 1;//left
+    } else if (a_avail) {
+        pred     = a;
+        *dir_ptr = 0; // top
+    } else if (c_avail) {
+        pred     = c;
+        *dir_ptr = 1; // left
     } else {
-        pred = 0;
-        *dir_ptr = 1;//left
+        pred     = 0;
+        *dir_ptr = 1; // left
     }
 
     /* update predictor */
@@ -1516,11 +1526,12 @@ static inline int vc1_pred_dc(MpegEncContext *s, int overlap, int pq, int n,
  * @{
  */
 
-static inline int vc1_coded_block_pred(MpegEncContext * s, int n, uint8_t **coded_block_ptr)
+static inline int vc1_coded_block_pred(MpegEncContext * s, int n,
+                                       uint8_t **coded_block_ptr)
 {
     int xy, wrap, pred, a, b, c;
 
-    xy = s->block_index[n];
+    xy   = s->block_index[n];
     wrap = s->b8_stride;
 
     /* B C
@@ -1551,61 +1562,62 @@ static inline int vc1_coded_block_pred(MpegEncContext * s, int n, uint8_t **code
  * @param codingset set of VLC to decode data
  * @see 8.1.3.4
  */
-static void vc1_decode_ac_coeff(VC1Context *v, int *last, int *skip, int *value, int codingset)
+static void vc1_decode_ac_coeff(VC1Context *v, int *last, int *skip,
+                                int *value, int codingset)
 {
     GetBitContext *gb = &v->s.gb;
     int index, escape, run = 0, level = 0, lst = 0;
 
     index = get_vlc2(gb, ff_vc1_ac_coeff_table[codingset].table, AC_VLC_BITS, 3);
     if (index != vc1_ac_sizes[codingset] - 1) {
-        run = vc1_index_decode_table[codingset][index][0];
+        run   = vc1_index_decode_table[codingset][index][0];
         level = vc1_index_decode_table[codingset][index][1];
-        lst = index >= vc1_last_decode_table[codingset] || get_bits_left(gb) < 0;
-        if(get_bits1(gb))
+        lst   = index >= vc1_last_decode_table[codingset] || get_bits_left(gb) < 0;
+        if (get_bits1(gb))
             level = -level;
     } else {
         escape = decode210(gb);
         if (escape != 2) {
             index = get_vlc2(gb, ff_vc1_ac_coeff_table[codingset].table, AC_VLC_BITS, 3);
-            run = vc1_index_decode_table[codingset][index][0];
+            run   = vc1_index_decode_table[codingset][index][0];
             level = vc1_index_decode_table[codingset][index][1];
-            lst = index >= vc1_last_decode_table[codingset];
-            if(escape == 0) {
-                if(lst)
+            lst   = index >= vc1_last_decode_table[codingset];
+            if (escape == 0) {
+                if (lst)
                     level += vc1_last_delta_level_table[codingset][run];
                 else
                     level += vc1_delta_level_table[codingset][run];
             } else {
-                if(lst)
+                if (lst)
                     run += vc1_last_delta_run_table[codingset][level] + 1;
                 else
                     run += vc1_delta_run_table[codingset][level] + 1;
             }
-            if(get_bits1(gb))
+            if (get_bits1(gb))
                 level = -level;
         } else {
             int sign;
             lst = get_bits1(gb);
-            if(v->s.esc3_level_length == 0) {
-                if(v->pq < 8 || v->dquantfrm) { // table 59
+            if (v->s.esc3_level_length == 0) {
+                if (v->pq < 8 || v->dquantfrm) { // table 59
                     v->s.esc3_level_length = get_bits(gb, 3);
-                    if(!v->s.esc3_level_length)
+                    if (!v->s.esc3_level_length)
                         v->s.esc3_level_length = get_bits(gb, 2) + 8;
-                } else { //table 60
+                } else { // table 60
                     v->s.esc3_level_length = get_unary(gb, 1, 6) + 2;
                 }
                 v->s.esc3_run_length = 3 + get_bits(gb, 2);
             }
-            run = get_bits(gb, v->s.esc3_run_length);
-            sign = get_bits1(gb);
+            run   = get_bits(gb, v->s.esc3_run_length);
+            sign  = get_bits1(gb);
             level = get_bits(gb, v->s.esc3_level_length);
-            if(sign)
+            if (sign)
                 level = -level;
         }
     }
 
-    *last = lst;
-    *skip = run;
+    *last  = lst;
+    *skip  = run;
     *value = level;
 }
 
@@ -1616,7 +1628,8 @@ static void vc1_decode_ac_coeff(VC1Context *v, int *last, int *skip, int *value,
  * @param coded are AC coeffs present or not
  * @param codingset set of VLC to decode data
  */
-static int vc1_decode_i_block(VC1Context *v, DCTELEM block[64], int n, int coded, int codingset)
+static int vc1_decode_i_block(VC1Context *v, DCTELEM block[64], int n,
+                              int coded, int codingset)
 {
     GetBitContext *gb = &v->s.gb;
     MpegEncContext *s = &v->s;
@@ -1632,25 +1645,21 @@ static int vc1_decode_i_block(VC1Context *v, DCTELEM block[64], int n, int coded
     } else {
         dcdiff = get_vlc2(&s->gb, ff_msmp4_dc_chroma_vlc[s->dc_table_index].table, DC_VLC_BITS, 3);
     }
-    if (dcdiff < 0){
+    if (dcdiff < 0) {
         av_log(s->avctx, AV_LOG_ERROR, "Illegal DC VLC\n");
         return -1;
     }
-    if (dcdiff)
-    {
-        if (dcdiff == 119 /* ESC index value */)
-        {
+    if (dcdiff) {
+        if (dcdiff == 119 /* ESC index value */) {
             /* TODO: Optimize */
-            if (v->pq == 1) dcdiff = get_bits(gb, 10);
+            if (v->pq == 1)      dcdiff = get_bits(gb, 10);
             else if (v->pq == 2) dcdiff = get_bits(gb, 9);
-            else dcdiff = get_bits(gb, 8);
-        }
-        else
-        {
+            else                 dcdiff = get_bits(gb, 8);
+        } else {
             if (v->pq == 1)
-                dcdiff = (dcdiff<<2) + get_bits(gb, 2) - 3;
+                dcdiff = (dcdiff << 2) + get_bits(gb, 2) - 3;
             else if (v->pq == 2)
-                dcdiff = (dcdiff<<1) + get_bits1(gb)   - 1;
+                dcdiff = (dcdiff << 1) + get_bits1(gb)   - 1;
         }
         if (get_bits1(gb))
             dcdiff = -dcdiff;
@@ -1671,7 +1680,7 @@ static int vc1_decode_i_block(VC1Context *v, DCTELEM block[64], int n, int coded
         goto not_coded;
     }
 
-    //AC Decoding
+    // AC Decoding
     i = 1;
 
     {
@@ -1682,87 +1691,87 @@ static int vc1_decode_i_block(VC1Context *v, DCTELEM block[64], int n, int coded
 
         scale = v->pq * 2 + v->halfpq;
 
-        if(v->s.ac_pred) {
-            if(!dc_pred_dir)
+        if (v->s.ac_pred) {
+            if (!dc_pred_dir)
                 zz_table = v->zz_8x8[2];
             else
                 zz_table = v->zz_8x8[3];
         } else
             zz_table = v->zz_8x8[1];
 
-        ac_val = s->ac_val[0][0] + s->block_index[n] * 16;
+        ac_val  = s->ac_val[0][0] + s->block_index[n] * 16;
         ac_val2 = ac_val;
-        if(dc_pred_dir) //left
+        if (dc_pred_dir) // left
             ac_val -= 16;
-        else //top
+        else // top
             ac_val -= 16 * s->block_wrap[n];
 
         while (!last) {
             vc1_decode_ac_coeff(v, &last, &skip, &value, codingset);
             i += skip;
-            if(i > 63)
+            if (i > 63)
                 break;
             block[zz_table[i++]] = value;
         }
 
         /* apply AC prediction if needed */
-        if(s->ac_pred) {
-            if(dc_pred_dir) { //left
-                for(k = 1; k < 8; k++)
+        if (s->ac_pred) {
+            if (dc_pred_dir) { // left
+                for (k = 1; k < 8; k++)
                     block[k << v->left_blk_sh] += ac_val[k];
-            } else { //top
-                for(k = 1; k < 8; k++)
+            } else { // top
+                for (k = 1; k < 8; k++)
                     block[k << v->top_blk_sh] += ac_val[k + 8];
             }
         }
         /* save AC coeffs for further prediction */
-        for(k = 1; k < 8; k++) {
+        for (k = 1; k < 8; k++) {
             ac_val2[k]     = block[k << v->left_blk_sh];
             ac_val2[k + 8] = block[k << v->top_blk_sh];
         }
 
         /* scale AC coeffs */
-        for(k = 1; k < 64; k++)
-            if(block[k]) {
+        for (k = 1; k < 64; k++)
+            if (block[k]) {
                 block[k] *= scale;
-                if(!v->pquantizer)
+                if (!v->pquantizer)
                     block[k] += (block[k] < 0) ? -v->pq : v->pq;
             }
 
-        if(s->ac_pred) i = 63;
+        if (s->ac_pred) i = 63;
     }
 
 not_coded:
-    if(!coded) {
+    if (!coded) {
         int k, scale;
-        ac_val = s->ac_val[0][0] + s->block_index[n] * 16;
+        ac_val  = s->ac_val[0][0] + s->block_index[n] * 16;
         ac_val2 = ac_val;
 
         i = 0;
         scale = v->pq * 2 + v->halfpq;
         memset(ac_val2, 0, 16 * 2);
-        if(dc_pred_dir) {//left
+        if (dc_pred_dir) { // left
             ac_val -= 16;
-            if(s->ac_pred)
+            if (s->ac_pred)
                 memcpy(ac_val2, ac_val, 8 * 2);
-        } else {//top
+        } else { // top
             ac_val -= 16 * s->block_wrap[n];
-            if(s->ac_pred)
+            if (s->ac_pred)
                 memcpy(ac_val2 + 8, ac_val + 8, 8 * 2);
         }
 
         /* apply AC prediction if needed */
-        if(s->ac_pred) {
-            if(dc_pred_dir) { //left
-                for(k = 1; k < 8; k++) {
+        if (s->ac_pred) {
+            if (dc_pred_dir) { //left
+                for (k = 1; k < 8; k++) {
                     block[k << v->left_blk_sh] = ac_val[k] * scale;
-                    if(!v->pquantizer && block[k << v->left_blk_sh])
+                    if (!v->pquantizer && block[k << v->left_blk_sh])
                         block[k << v->left_blk_sh] += (block[k << v->left_blk_sh] < 0) ? -v->pq : v->pq;
                 }
-            } else { //top
-                for(k = 1; k < 8; k++) {
+            } else { // top
+                for (k = 1; k < 8; k++) {
                     block[k << v->top_blk_sh] = ac_val[k + 8] * scale;
-                    if(!v->pquantizer && block[k << v->top_blk_sh])
+                    if (!v->pquantizer && block[k << v->top_blk_sh])
                         block[k << v->top_blk_sh] += (block[k << v->top_blk_sh] < 0) ? -v->pq : v->pq;
                 }
             }
@@ -1782,7 +1791,8 @@ not_coded:
  * @param codingset set of VLC to decode data
  * @param mquant quantizer value for this macroblock
  */
-static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n, int coded, int codingset, int mquant)
+static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n,
+                                  int coded, int codingset, int mquant)
 {
     GetBitContext *gb = &v->s.gb;
     MpegEncContext *s = &v->s;
@@ -1803,25 +1813,21 @@ static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n, int c
     } else {
         dcdiff = get_vlc2(&s->gb, ff_msmp4_dc_chroma_vlc[s->dc_table_index].table, DC_VLC_BITS, 3);
     }
-    if (dcdiff < 0){
+    if (dcdiff < 0) {
         av_log(s->avctx, AV_LOG_ERROR, "Illegal DC VLC\n");
         return -1;
     }
-    if (dcdiff)
-    {
-        if (dcdiff == 119 /* ESC index value */)
-        {
+    if (dcdiff) {
+        if (dcdiff == 119 /* ESC index value */) {
             /* TODO: Optimize */
-            if (mquant == 1) dcdiff = get_bits(gb, 10);
+            if (mquant == 1)      dcdiff = get_bits(gb, 10);
             else if (mquant == 2) dcdiff = get_bits(gb, 9);
-            else dcdiff = get_bits(gb, 8);
-        }
-        else
-        {
+            else                  dcdiff = get_bits(gb, 8);
+        } else {
             if (mquant == 1)
-                dcdiff = (dcdiff<<2) + get_bits(gb, 2) - 3;
+                dcdiff = (dcdiff << 2) + get_bits(gb, 2) - 3;
             else if (mquant == 2)
-                dcdiff = (dcdiff<<1) + get_bits1(gb)   - 1;
+                dcdiff = (dcdiff << 1) + get_bits1(gb)   - 1;
         }
         if (get_bits1(gb))
             dcdiff = -dcdiff;
@@ -1842,25 +1848,31 @@ static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n, int c
     i = 1;
 
     /* check if AC is needed at all */
-    if(!a_avail && !c_avail) use_pred = 0;
-    ac_val = s->ac_val[0][0] + s->block_index[n] * 16;
+    if (!a_avail && !c_avail)
+        use_pred = 0;
+    ac_val  = s->ac_val[0][0] + s->block_index[n] * 16;
     ac_val2 = ac_val;
 
     scale = mquant * 2 + ((mquant == v->pq) ? v->halfpq : 0);
 
-    if(dc_pred_dir) //left
+    if (dc_pred_dir) // left
         ac_val -= 16;
-    else //top
+    else // top
         ac_val -= 16 * s->block_wrap[n];
 
     q1 = s->current_picture.f.qscale_table[mb_pos];
-    if(dc_pred_dir && c_avail && mb_pos) q2 = s->current_picture.f.qscale_table[mb_pos - 1];
-    if(!dc_pred_dir && a_avail && mb_pos >= s->mb_stride) q2 = s->current_picture.f.qscale_table[mb_pos - s->mb_stride];
-    if(dc_pred_dir && n==1) q2 = q1;
-    if(!dc_pred_dir && n==2) q2 = q1;
-    if(n==3) q2 = q1;
+    if ( dc_pred_dir && c_avail && mb_pos)
+        q2 = s->current_picture.f.qscale_table[mb_pos - 1];
+    if (!dc_pred_dir && a_avail && mb_pos >= s->mb_stride)
+        q2 = s->current_picture.f.qscale_table[mb_pos - s->mb_stride];
+    if ( dc_pred_dir && n == 1)
+        q2 = q1;
+    if (!dc_pred_dir && n == 2)
+        q2 = q1;
+    if (n == 3)
+        q2 = q1;
 
-    if(coded) {
+    if (coded) {
         int last = 0, skip, value;
         const uint8_t *zz_table;
         int k;
@@ -1876,88 +1888,88 @@ static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n, int c
         while (!last) {
             vc1_decode_ac_coeff(v, &last, &skip, &value, codingset);
             i += skip;
-            if(i > 63)
+            if (i > 63)
                 break;
             block[zz_table[i++]] = value;
         }
 
         /* apply AC prediction if needed */
-        if(use_pred) {
+        if (use_pred) {
             /* scale predictors if needed*/
-            if(q2 && q1!=q2) {
+            if (q2 && q1 != q2) {
                 q1 = q1 * 2 + ((q1 == v->pq) ? v->halfpq : 0) - 1;
                 q2 = q2 * 2 + ((q2 == v->pq) ? v->halfpq : 0) - 1;
 
-                if(dc_pred_dir) { //left
-                    for(k = 1; k < 8; k++)
+                if (dc_pred_dir) { // left
+                    for (k = 1; k < 8; k++)
                         block[k << v->left_blk_sh] += (ac_val[k] * q2 * ff_vc1_dqscale[q1 - 1] + 0x20000) >> 18;
-                } else { //top
-                    for(k = 1; k < 8; k++)
+                } else { // top
+                    for (k = 1; k < 8; k++)
                         block[k << v->top_blk_sh] += (ac_val[k + 8] * q2 * ff_vc1_dqscale[q1 - 1] + 0x20000) >> 18;
                 }
             } else {
-                if(dc_pred_dir) { //left
-                    for(k = 1; k < 8; k++)
+                if (dc_pred_dir) { //left
+                    for (k = 1; k < 8; k++)
                         block[k << v->left_blk_sh] += ac_val[k];
                 } else { //top
-                    for(k = 1; k < 8; k++)
+                    for (k = 1; k < 8; k++)
                         block[k << v->top_blk_sh] += ac_val[k + 8];
                 }
             }
         }
         /* save AC coeffs for further prediction */
-        for(k = 1; k < 8; k++) {
+        for (k = 1; k < 8; k++) {
             ac_val2[k    ] = block[k << v->left_blk_sh];
             ac_val2[k + 8] = block[k << v->top_blk_sh];
         }
 
         /* scale AC coeffs */
-        for(k = 1; k < 64; k++)
-            if(block[k]) {
+        for (k = 1; k < 64; k++)
+            if (block[k]) {
                 block[k] *= scale;
-                if(!v->pquantizer)
+                if (!v->pquantizer)
                     block[k] += (block[k] < 0) ? -mquant : mquant;
             }
 
-        if(use_pred) i = 63;
+        if (use_pred) i = 63;
     } else { // no AC coeffs
         int k;
 
         memset(ac_val2, 0, 16 * 2);
-        if(dc_pred_dir) {//left
-            if(use_pred) {
+        if (dc_pred_dir) { // left
+            if (use_pred) {
                 memcpy(ac_val2, ac_val, 8 * 2);
-                if(q2 && q1!=q2) {
+                if (q2 && q1 != q2) {
                     q1 = q1 * 2 + ((q1 == v->pq) ? v->halfpq : 0) - 1;
                     q2 = q2 * 2 + ((q2 == v->pq) ? v->halfpq : 0) - 1;
-                    for(k = 1; k < 8; k++)
+                    for (k = 1; k < 8; k++)
                         ac_val2[k] = (ac_val2[k] * q2 * ff_vc1_dqscale[q1 - 1] + 0x20000) >> 18;
                 }
             }
-        } else {//top
-            if(use_pred) {
+        } else { // top
+            if (use_pred) {
                 memcpy(ac_val2 + 8, ac_val + 8, 8 * 2);
-                if(q2 && q1!=q2) {
+                if (q2 && q1 != q2) {
                     q1 = q1 * 2 + ((q1 == v->pq) ? v->halfpq : 0) - 1;
                     q2 = q2 * 2 + ((q2 == v->pq) ? v->halfpq : 0) - 1;
-                    for(k = 1; k < 8; k++)
+                    for (k = 1; k < 8; k++)
                         ac_val2[k + 8] = (ac_val2[k + 8] * q2 * ff_vc1_dqscale[q1 - 1] + 0x20000) >> 18;
                 }
             }
         }
 
         /* apply AC prediction if needed */
-        if(use_pred) {
-            if(dc_pred_dir) { //left
-                for(k = 1; k < 8; k++) {
+        if (use_pred) {
+            if (dc_pred_dir) { // left
+                for (k = 1; k < 8; k++) {
                     block[k << v->left_blk_sh] = ac_val2[k] * scale;
-                    if(!v->pquantizer && block[k << v->left_blk_sh])
+                    if (!v->pquantizer && block[k << v->left_blk_sh])
                         block[k << v->left_blk_sh] += (block[k << v->left_blk_sh] < 0) ? -mquant : mquant;
                 }
-            } else { //top
-                for(k = 1; k < 8; k++) {
+            } else { // top
+                for (k = 1; k < 8; k++) {
                     block[k << v->top_blk_sh] = ac_val2[k + 8] * scale;
-                    if(!v->pquantizer && block[k << v->top_blk_sh])
+                    if (!v->pquantizer && block[k << v->top_blk_sh])
                         block[k << v->top_blk_sh] += (block[k << v->top_blk_sh] < 0) ? -mquant : mquant;
                 }
             }
@@ -1977,7 +1989,8 @@ static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n, int c
  * @param mquant block quantizer
  * @param codingset set of VLC to decode data
  */
-static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n, int coded, int mquant, int codingset)
+static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n,
+                                  int coded, int mquant, int codingset)
 {
     GetBitContext *gb = &v->s.gb;
     MpegEncContext *s = &v->s;
@@ -1995,7 +2008,7 @@ static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n, int c
     s->dsp.clear_block(block);
 
     /* XXX: Guard against dumb values of mquant */
-    mquant = (mquant < 1) ? 0 : ( (mquant>31) ? 31 : mquant );
+    mquant = (mquant < 1) ? 0 : ((mquant > 31) ? 31 : mquant);
 
     /* Set DC scale - y and c use the same */
     s->y_dc_scale = s->y_dc_scale_table[mquant];
@@ -2007,25 +2020,21 @@ static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n, int c
     } else {
         dcdiff = get_vlc2(&s->gb, ff_msmp4_dc_chroma_vlc[s->dc_table_index].table, DC_VLC_BITS, 3);
     }
-    if (dcdiff < 0){
+    if (dcdiff < 0) {
         av_log(s->avctx, AV_LOG_ERROR, "Illegal DC VLC\n");
         return -1;
     }
-    if (dcdiff)
-    {
-        if (dcdiff == 119 /* ESC index value */)
-        {
+    if (dcdiff) {
+        if (dcdiff == 119 /* ESC index value */) {
             /* TODO: Optimize */
-            if (mquant == 1) dcdiff = get_bits(gb, 10);
+            if (mquant == 1)      dcdiff = get_bits(gb, 10);
             else if (mquant == 2) dcdiff = get_bits(gb, 9);
-            else dcdiff = get_bits(gb, 8);
-        }
-        else
-        {
+            else                  dcdiff = get_bits(gb, 8);
+        } else {
             if (mquant == 1)
-                dcdiff = (dcdiff<<2) + get_bits(gb, 2) - 3;
+                dcdiff = (dcdiff << 2) + get_bits(gb, 2) - 3;
             else if (mquant == 2)
-                dcdiff = (dcdiff<<1) + get_bits1(gb)   - 1;
+                dcdiff = (dcdiff << 1) + get_bits1(gb)   - 1;
         }
         if (get_bits1(gb))
             dcdiff = -dcdiff;
@@ -2047,115 +2056,119 @@ static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n, int c
     i = 1;
 
     /* check if AC is needed at all and adjust direction if needed */
-    if(!a_avail) dc_pred_dir = 1;
-    if(!c_avail) dc_pred_dir = 0;
-    if(!a_avail && !c_avail) use_pred = 0;
+    if (!a_avail) dc_pred_dir = 1;
+    if (!c_avail) dc_pred_dir = 0;
+    if (!a_avail && !c_avail) use_pred = 0;
     ac_val = s->ac_val[0][0] + s->block_index[n] * 16;
     ac_val2 = ac_val;
 
     scale = mquant * 2 + v->halfpq;
 
-    if(dc_pred_dir) //left
+    if (dc_pred_dir) //left
         ac_val -= 16;
     else //top
         ac_val -= 16 * s->block_wrap[n];
 
     q1 = s->current_picture.f.qscale_table[mb_pos];
-    if(dc_pred_dir && c_avail && mb_pos) q2 = s->current_picture.f.qscale_table[mb_pos - 1];
-    if(!dc_pred_dir && a_avail && mb_pos >= s->mb_stride) q2 = s->current_picture.f.qscale_table[mb_pos - s->mb_stride];
-    if(dc_pred_dir && n==1) q2 = q1;
-    if(!dc_pred_dir && n==2) q2 = q1;
-    if(n==3) q2 = q1;
+    if (dc_pred_dir && c_avail && mb_pos)
+        q2 = s->current_picture.f.qscale_table[mb_pos - 1];
+    if (!dc_pred_dir && a_avail && mb_pos >= s->mb_stride)
+        q2 = s->current_picture.f.qscale_table[mb_pos - s->mb_stride];
+    if ( dc_pred_dir && n == 1)
+        q2 = q1;
+    if (!dc_pred_dir && n == 2)
+        q2 = q1;
+    if (n == 3) q2 = q1;
 
-    if(coded) {
+    if (coded) {
         int last = 0, skip, value;
         int k;
 
         while (!last) {
             vc1_decode_ac_coeff(v, &last, &skip, &value, codingset);
             i += skip;
-            if(i > 63)
+            if (i > 63)
                 break;
             block[v->zz_8x8[0][i++]] = value;
         }
 
         /* apply AC prediction if needed */
-        if(use_pred) {
+        if (use_pred) {
             /* scale predictors if needed*/
-            if(q2 && q1!=q2) {
+            if (q2 && q1 != q2) {
                 q1 = q1 * 2 + ((q1 == v->pq) ? v->halfpq : 0) - 1;
                 q2 = q2 * 2 + ((q2 == v->pq) ? v->halfpq : 0) - 1;
 
-                if(dc_pred_dir) { //left
-                    for(k = 1; k < 8; k++)
+                if (dc_pred_dir) { // left
+                    for (k = 1; k < 8; k++)
                         block[k << v->left_blk_sh] += (ac_val[k] * q2 * ff_vc1_dqscale[q1 - 1] + 0x20000) >> 18;
                 } else { //top
-                    for(k = 1; k < 8; k++)
+                    for (k = 1; k < 8; k++)
                         block[k << v->top_blk_sh] += (ac_val[k + 8] * q2 * ff_vc1_dqscale[q1 - 1] + 0x20000) >> 18;
                 }
             } else {
-                if(dc_pred_dir) { //left
-                    for(k = 1; k < 8; k++)
+                if (dc_pred_dir) { // left
+                    for (k = 1; k < 8; k++)
                         block[k << v->left_blk_sh] += ac_val[k];
-                } else { //top
-                    for(k = 1; k < 8; k++)
+                } else { // top
+                    for (k = 1; k < 8; k++)
                         block[k << v->top_blk_sh] += ac_val[k + 8];
                 }
             }
         }
         /* save AC coeffs for further prediction */
-        for(k = 1; k < 8; k++) {
+        for (k = 1; k < 8; k++) {
             ac_val2[k    ] = block[k << v->left_blk_sh];
             ac_val2[k + 8] = block[k << v->top_blk_sh];
         }
 
         /* scale AC coeffs */
-        for(k = 1; k < 64; k++)
-            if(block[k]) {
+        for (k = 1; k < 64; k++)
+            if (block[k]) {
                 block[k] *= scale;
-                if(!v->pquantizer)
+                if (!v->pquantizer)
                     block[k] += (block[k] < 0) ? -mquant : mquant;
             }
 
-        if(use_pred) i = 63;
+        if (use_pred) i = 63;
     } else { // no AC coeffs
         int k;
 
         memset(ac_val2, 0, 16 * 2);
-        if(dc_pred_dir) {//left
-            if(use_pred) {
+        if (dc_pred_dir) { // left
+            if (use_pred) {
                 memcpy(ac_val2, ac_val, 8 * 2);
-                if(q2 && q1!=q2) {
+                if (q2 && q1 != q2) {
                     q1 = q1 * 2 + ((q1 == v->pq) ? v->halfpq : 0) - 1;
                     q2 = q2 * 2 + ((q2 == v->pq) ? v->halfpq : 0) - 1;
-                    for(k = 1; k < 8; k++)
+                    for (k = 1; k < 8; k++)
                         ac_val2[k] = (ac_val2[k] * q2 * ff_vc1_dqscale[q1 - 1] + 0x20000) >> 18;
                 }
             }
-        } else {//top
-            if(use_pred) {
+        } else { // top
+            if (use_pred) {
                 memcpy(ac_val2 + 8, ac_val + 8, 8 * 2);
-                if(q2 && q1!=q2) {
+                if (q2 && q1 != q2) {
                     q1 = q1 * 2 + ((q1 == v->pq) ? v->halfpq : 0) - 1;
                     q2 = q2 * 2 + ((q2 == v->pq) ? v->halfpq : 0) - 1;
-                    for(k = 1; k < 8; k++)
+                    for (k = 1; k < 8; k++)
                         ac_val2[k + 8] = (ac_val2[k + 8] * q2 * ff_vc1_dqscale[q1 - 1] + 0x20000) >> 18;
                 }
             }
         }
 
         /* apply AC prediction if needed */
-        if(use_pred) {
-            if(dc_pred_dir) { //left
-                for(k = 1; k < 8; k++) {
+        if (use_pred) {
+            if (dc_pred_dir) { // left
+                for (k = 1; k < 8; k++) {
                     block[k << v->left_blk_sh] = ac_val2[k] * scale;
-                    if(!v->pquantizer && block[k << v->left_blk_sh])
+                    if (!v->pquantizer && block[k << v->left_blk_sh])
                         block[k << v->left_blk_sh] += (block[k << v->left_blk_sh] < 0) ? -mquant : mquant;
                 }
-            } else { //top
-                for(k = 1; k < 8; k++) {
+            } else { // top
+                for (k = 1; k < 8; k++) {
                     block[k << v->top_blk_sh] = ac_val2[k + 8] * scale;
-                    if(!v->pquantizer && block[k << v->top_blk_sh])
+                    if (!v->pquantizer && block[k << v->top_blk_sh])
                         block[k << v->top_blk_sh] += (block[k << v->top_blk_sh] < 0) ? -mquant : mquant;
                 }
             }
@@ -2169,8 +2182,10 @@ static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n, int c
 
 /** Decode P block
  */
-static int vc1_decode_p_block(VC1Context *v, DCTELEM block[64], int n, int mquant, int ttmb, int first_block,
-                              uint8_t *dst, int linesize, int skip_block, int *ttmb_out)
+static int vc1_decode_p_block(VC1Context *v, DCTELEM block[64], int n,
+                              int mquant, int ttmb, int first_block,
+                              uint8_t *dst, int linesize, int skip_block,
+                              int *ttmb_out)
 {
     MpegEncContext *s = &v->s;
     GetBitContext *gb = &s->gb;
@@ -2182,50 +2197,53 @@ static int vc1_decode_p_block(VC1Context *v, DCTELEM block[64], int n, int mquan
 
     s->dsp.clear_block(block);
 
-    if(ttmb == -1) {
+    if (ttmb == -1) {
         ttblk = ff_vc1_ttblk_to_tt[v->tt_index][get_vlc2(gb, ff_vc1_ttblk_vlc[v->tt_index].table, VC1_TTBLK_VLC_BITS, 1)];
     }
-    if(ttblk == TT_4X4) {
+    if (ttblk == TT_4X4) {
         subblkpat = ~(get_vlc2(gb, ff_vc1_subblkpat_vlc[v->tt_index].table, VC1_SUBBLKPAT_VLC_BITS, 1) + 1);
     }
-    if((ttblk != TT_8X8 && ttblk != TT_4X4)
+    if ((ttblk != TT_8X8 && ttblk != TT_4X4)
         && ((v->ttmbf || (ttmb != -1 && (ttmb & 8) && !first_block))
             || (!v->res_rtm_flag && !first_block))) {
         subblkpat = decode012(gb);
-        if(subblkpat) subblkpat ^= 3; //swap decoded pattern bits
-        if(ttblk == TT_8X4_TOP || ttblk == TT_8X4_BOTTOM) ttblk = TT_8X4;
-        if(ttblk == TT_4X8_RIGHT || ttblk == TT_4X8_LEFT) ttblk = TT_4X8;
+        if (subblkpat)
+            subblkpat ^= 3; // swap decoded pattern bits
+        if (ttblk == TT_8X4_TOP || ttblk == TT_8X4_BOTTOM)
+            ttblk = TT_8X4;
+        if (ttblk == TT_4X8_RIGHT || ttblk == TT_4X8_LEFT)
+            ttblk = TT_4X8;
     }
     scale = 2 * mquant + ((v->pq == mquant) ? v->halfpq : 0);
 
     // convert transforms like 8X4_TOP to generic TT and SUBBLKPAT
-    if(ttblk == TT_8X4_TOP || ttblk == TT_8X4_BOTTOM) {
+    if (ttblk == TT_8X4_TOP || ttblk == TT_8X4_BOTTOM) {
         subblkpat = 2 - (ttblk == TT_8X4_TOP);
-        ttblk = TT_8X4;
+        ttblk     = TT_8X4;
     }
-    if(ttblk == TT_4X8_RIGHT || ttblk == TT_4X8_LEFT) {
+    if (ttblk == TT_4X8_RIGHT || ttblk == TT_4X8_LEFT) {
         subblkpat = 2 - (ttblk == TT_4X8_LEFT);
-        ttblk = TT_4X8;
+        ttblk     = TT_4X8;
     }
-    switch(ttblk) {
+    switch (ttblk) {
     case TT_8X8:
-        pat = 0xF;
-        i = 0;
+        pat  = 0xF;
+        i    = 0;
         last = 0;
         while (!last) {
             vc1_decode_ac_coeff(v, &last, &skip, &value, v->codingset2);
             i += skip;
-            if(i > 63)
+            if (i > 63)
                 break;
             idx = v->zz_8x8[0][i++];
             block[idx] = value * scale;
-            if(!v->pquantizer)
+            if (!v->pquantizer)
                 block[idx] += (block[idx] < 0) ? -mquant : mquant;
         }
-        if(!skip_block){
-            if(i==1)
+        if (!skip_block) {
+            if (i == 1)
                 v->vc1dsp.vc1_inv_trans_8x8_dc(dst, linesize, block);
-            else{
+            else {
                 v->vc1dsp.vc1_inv_trans_8x8(block);
                 s->dsp.add_pixels_clamped(block, dst, linesize);
             }
@@ -2233,71 +2251,71 @@ static int vc1_decode_p_block(VC1Context *v, DCTELEM block[64], int n, int mquan
         break;
     case TT_4X4:
         pat = ~subblkpat & 0xF;
-        for(j = 0; j < 4; j++) {
+        for (j = 0; j < 4; j++) {
             last = subblkpat & (1 << (3 - j));
-            i = 0;
-            off = (j & 1) * 4 + (j & 2) * 16;
+            i    = 0;
+            off  = (j & 1) * 4 + (j & 2) * 16;
             while (!last) {
                 vc1_decode_ac_coeff(v, &last, &skip, &value, v->codingset2);
                 i += skip;
-                if(i > 15)
+                if (i > 15)
                     break;
                 idx = ff_vc1_simple_progressive_4x4_zz[i++];
                 block[idx + off] = value * scale;
-                if(!v->pquantizer)
+                if (!v->pquantizer)
                     block[idx + off] += (block[idx + off] < 0) ? -mquant : mquant;
             }
-            if(!(subblkpat & (1 << (3 - j))) && !skip_block){
-                if(i==1)
-                    v->vc1dsp.vc1_inv_trans_4x4_dc(dst + (j&1)*4 + (j&2)*2*linesize, linesize, block + off);
+            if (!(subblkpat & (1 << (3 - j))) && !skip_block) {
+                if (i == 1)
+                    v->vc1dsp.vc1_inv_trans_4x4_dc(dst + (j & 1) * 4 + (j & 2) * 2 * linesize, linesize, block + off);
                 else
-                    v->vc1dsp.vc1_inv_trans_4x4(dst + (j&1)*4 + (j&2)*2*linesize, linesize, block + off);
+                    v->vc1dsp.vc1_inv_trans_4x4(dst + (j & 1) * 4 + (j & 2) *  2 * linesize, linesize, block + off);
             }
         }
         break;
     case TT_8X4:
-        pat = ~((subblkpat & 2)*6 + (subblkpat & 1)*3) & 0xF;
-        for(j = 0; j < 2; j++) {
+        pat = ~((subblkpat & 2) * 6 + (subblkpat & 1) * 3) & 0xF;
+        for (j = 0; j < 2; j++) {
             last = subblkpat & (1 << (1 - j));
-            i = 0;
-            off = j * 32;
+            i    = 0;
+            off  = j * 32;
             while (!last) {
                 vc1_decode_ac_coeff(v, &last, &skip, &value, v->codingset2);
                 i += skip;
-                if(i > 31)
+                if (i > 31)
                     break;
                 idx = v->zz_8x4[i++]+off;
                 block[idx] = value * scale;
-                if(!v->pquantizer)
+                if (!v->pquantizer)
                     block[idx] += (block[idx] < 0) ? -mquant : mquant;
             }
-            if(!(subblkpat & (1 << (1 - j))) && !skip_block){
-                if(i==1)
-                    v->vc1dsp.vc1_inv_trans_8x4_dc(dst + j*4*linesize, linesize, block + off);
+            if (!(subblkpat & (1 << (1 - j))) && !skip_block) {
+                if (i == 1)
+                    v->vc1dsp.vc1_inv_trans_8x4_dc(dst + j * 4 * linesize, linesize, block + off);
                 else
-                    v->vc1dsp.vc1_inv_trans_8x4(dst + j*4*linesize, linesize, block + off);
+                    v->vc1dsp.vc1_inv_trans_8x4(dst + j * 4 * linesize, linesize, block + off);
             }
         }
         break;
     case TT_4X8:
-        pat = ~(subblkpat*5) & 0xF;
-        for(j = 0; j < 2; j++) {
+        pat = ~(subblkpat * 5) & 0xF;
+        for (j = 0; j < 2; j++) {
             last = subblkpat & (1 << (1 - j));
-            i = 0;
-            off = j * 4;
+            i    = 0;
+            off  = j * 4;
             while (!last) {
                 vc1_decode_ac_coeff(v, &last, &skip, &value, v->codingset2);
                 i += skip;
-                if(i > 31)
+                if (i > 31)
                     break;
                 idx = v->zz_4x8[i++]+off;
                 block[idx] = value * scale;
-                if(!v->pquantizer)
+                if (!v->pquantizer)
                     block[idx] += (block[idx] < 0) ? -mquant : mquant;
             }
-            if(!(subblkpat & (1 << (1 - j))) && !skip_block){
-                if(i==1)
-                    v->vc1dsp.vc1_inv_trans_4x8_dc(dst + j*4, linesize, block + off);
+            if (!(subblkpat & (1 << (1 - j))) && !skip_block) {
+                if (i == 1)
+                    v->vc1dsp.vc1_inv_trans_4x8_dc(dst + j * 4, linesize, block + off);
                 else
                     v->vc1dsp.vc1_inv_trans_4x8(dst + j*4, linesize, block + off);
             }
@@ -2316,15 +2334,15 @@ static const int offset_table[6] = { 0, 1, 3, 7, 15, 31 };
 
 static av_always_inline void vc1_apply_p_v_loop_filter(VC1Context *v, int block_num)
 {
-    MpegEncContext *s = &v->s;
+    MpegEncContext *s  = &v->s;
     int mb_cbp         = v->cbp[s->mb_x - s->mb_stride],
         block_cbp      = mb_cbp      >> (block_num * 4), bottom_cbp,
         mb_is_intra    = v->is_intra[s->mb_x - s->mb_stride],
         block_is_intra = mb_is_intra >> (block_num * 4), bottom_is_intra;
-    int idx, linesize = block_num > 3 ? s->uvlinesize : s->linesize, ttblk;
+    int idx, linesize  = block_num > 3 ? s->uvlinesize : s->linesize, ttblk;
     uint8_t *dst;
 
-    if(block_num > 3) {
+    if (block_num > 3) {
         dst      = s->dest[block_num - 3];
     } else {
         dst      = s->dest[0] + (block_num & 1) * 8 + ((block_num & 2) * 4 - 8) * linesize;
@@ -2333,16 +2351,16 @@ static av_always_inline void vc1_apply_p_v_loop_filter(VC1Context *v, int block_
         int16_t (*mv)[2];
         int mv_stride;
 
-        if(block_num > 3) {
+        if (block_num > 3) {
             bottom_cbp      = v->cbp[s->mb_x]      >> (block_num * 4);
             bottom_is_intra = v->is_intra[s->mb_x] >> (block_num * 4);
             mv              = &v->luma_mv[s->mb_x - s->mb_stride];
             mv_stride       = s->mb_stride;
         } else {
-            bottom_cbp      = (block_num < 2) ? (mb_cbp               >> ((block_num + 2) * 4)) :
-                                                (v->cbp[s->mb_x]      >> ((block_num - 2) * 4));
-            bottom_is_intra = (block_num < 2) ? (mb_is_intra          >> ((block_num + 2) * 4)) :
-                                                (v->is_intra[s->mb_x] >> ((block_num - 2) * 4));
+            bottom_cbp      = (block_num < 2) ? (mb_cbp               >> ((block_num + 2) * 4))
+                                              : (v->cbp[s->mb_x]      >> ((block_num - 2) * 4));
+            bottom_is_intra = (block_num < 2) ? (mb_is_intra          >> ((block_num + 2) * 4))
+                                              : (v->is_intra[s->mb_x] >> ((block_num - 2) * 4));
             mv_stride       = s->b8_stride;
             mv              = &s->current_picture.f.motion_val[0][s->block_index[block_num] - 2 * mv_stride];
         }
@@ -2352,7 +2370,7 @@ static av_always_inline void vc1_apply_p_v_loop_filter(VC1Context *v, int block_
             v->vc1dsp.vc1_v_loop_filter8(dst, linesize, v->pq);
         } else {
             idx = ((bottom_cbp >> 2) | block_cbp) & 3;
-            if(idx == 3) {
+            if (idx == 3) {
                 v->vc1dsp.vc1_v_loop_filter8(dst, linesize, v->pq);
             } else if (idx) {
                 if (idx == 1)
@@ -2364,7 +2382,7 @@ static av_always_inline void vc1_apply_p_v_loop_filter(VC1Context *v, int block_
     }
 
     dst -= 4 * linesize;
-    ttblk = (v->ttblk[s->mb_x - s->mb_stride] >> (block_num * 4)) & 0xf;
+    ttblk = (v->ttblk[s->mb_x - s->mb_stride] >> (block_num * 4)) & 0xF;
     if (ttblk == TT_4X4 || ttblk == TT_8X4) {
         idx = (block_cbp | (block_cbp >> 2)) & 3;
         if (idx == 3) {
@@ -2380,12 +2398,12 @@ static av_always_inline void vc1_apply_p_v_loop_filter(VC1Context *v, int block_
 
 static av_always_inline void vc1_apply_p_h_loop_filter(VC1Context *v, int block_num)
 {
-    MpegEncContext *s = &v->s;
+    MpegEncContext *s  = &v->s;
     int mb_cbp         = v->cbp[s->mb_x - 1 - s->mb_stride],
         block_cbp      = mb_cbp      >> (block_num * 4), right_cbp,
         mb_is_intra    = v->is_intra[s->mb_x - 1 - s->mb_stride],
         block_is_intra = mb_is_intra >> (block_num * 4), right_is_intra;
-    int idx, linesize = block_num > 3 ? s->uvlinesize : s->linesize, ttblk;
+    int idx, linesize  = block_num > 3 ? s->uvlinesize : s->linesize, ttblk;
     uint8_t *dst;
 
     if (block_num > 3) {
@@ -2397,15 +2415,15 @@ static av_always_inline void vc1_apply_p_h_loop_filter(VC1Context *v, int block_
     if (s->mb_x != s->mb_width || !(block_num & 5)) {
         int16_t (*mv)[2];
 
-        if(block_num > 3) {
+        if (block_num > 3) {
             right_cbp      = v->cbp[s->mb_x - s->mb_stride] >> (block_num * 4);
             right_is_intra = v->is_intra[s->mb_x - s->mb_stride] >> (block_num * 4);
             mv             = &v->luma_mv[s->mb_x - s->mb_stride - 1];
-        }else{
-            right_cbp      = (block_num & 1) ? (v->cbp[s->mb_x - s->mb_stride]      >> ((block_num - 1) * 4)) :
-                                               (mb_cbp                              >> ((block_num + 1) * 4));
-            right_is_intra = (block_num & 1) ? (v->is_intra[s->mb_x - s->mb_stride] >> ((block_num - 1) * 4)) :
-                                               (mb_is_intra                         >> ((block_num + 1) * 4));
+        } else {
+            right_cbp      = (block_num & 1) ? (v->cbp[s->mb_x - s->mb_stride]      >> ((block_num - 1) * 4))
+                                             : (mb_cbp                              >> ((block_num + 1) * 4));
+            right_is_intra = (block_num & 1) ? (v->is_intra[s->mb_x - s->mb_stride] >> ((block_num - 1) * 4))
+                                             : (mb_is_intra                         >> ((block_num + 1) * 4));
             mv             = &s->current_picture.f.motion_val[0][s->block_index[block_num] - s->b8_stride * 2 - 2];
         }
         if (block_is_intra & 1 || right_is_intra & 1 || mv[0][0] != mv[1][0] || mv[0][1] != mv[1][1]) {
@@ -2416,9 +2434,9 @@ static av_always_inline void vc1_apply_p_h_loop_filter(VC1Context *v, int block_
                 v->vc1dsp.vc1_h_loop_filter8(dst, linesize, v->pq);
             } else if (idx) {
                 if (idx == 1)
-                    v->vc1dsp.vc1_h_loop_filter4(dst+4*linesize, linesize, v->pq);
+                    v->vc1dsp.vc1_h_loop_filter4(dst + 4 * linesize, linesize, v->pq);
                 else
-                    v->vc1dsp.vc1_h_loop_filter4(dst,            linesize, v->pq);
+                    v->vc1dsp.vc1_h_loop_filter4(dst,                linesize, v->pq);
             }
         }
     }
@@ -2431,9 +2449,9 @@ static av_always_inline void vc1_apply_p_h_loop_filter(VC1Context *v, int block_
             v->vc1dsp.vc1_h_loop_filter8(dst, linesize, v->pq);
         } else if (idx) {
             if (idx == 1)
-                v->vc1dsp.vc1_h_loop_filter4(dst + linesize*4, linesize, v->pq);
+                v->vc1dsp.vc1_h_loop_filter4(dst + linesize * 4, linesize, v->pq);
             else
-                v->vc1dsp.vc1_h_loop_filter4(dst,              linesize, v->pq);
+                v->vc1dsp.vc1_h_loop_filter4(dst,                linesize, v->pq);
         }
     }
 }
@@ -2447,7 +2465,7 @@ static void vc1_apply_p_loop_filter(VC1Context *v)
         vc1_apply_p_v_loop_filter(v, i);
     }
 
-    /* V always preceedes H, therefore we run H one MB before V;
+    /* V always precedes H, therefore we run H one MB before V;
      * at the end of a row, we catch up to complete the row */
     if (s->mb_x) {
         for (i = 0; i < 6; i++) {
@@ -2463,7 +2481,7 @@ static void vc1_apply_p_loop_filter(VC1Context *v)
     }
 }
 
-/** Decode one P-frame MB (in Simple/Main profile)
+/** Decode one P-frame MB
  */
 static int vc1_decode_p_mb(VC1Context *v)
 {
@@ -2484,7 +2502,7 @@ static int vc1_decode_p_mb(VC1Context *v)
     int skipped, fourmv;
     int block_cbp = 0, pat, block_tt = 0, block_intra = 0;
 
-    mquant = v->pq; /* Loosy initialization */
+    mquant = v->pq; /* lossy initialization */
 
     if (v->mv_type_is_raw)
         fourmv = get_bits1(gb);
@@ -2495,10 +2513,8 @@ static int vc1_decode_p_mb(VC1Context *v)
     else
         skipped = v->s.mbskip_table[mb_pos];
 
-    if (!fourmv) /* 1MV mode */
-    {
-        if (!skipped)
-        {
+    if (!fourmv) { /* 1MV mode */
+        if (!skipped) {
             GET_MVDATA(dmv_x, dmv_y);
 
             if (s->mb_intra) {
@@ -2509,179 +2525,185 @@ static int vc1_decode_p_mb(VC1Context *v)
             vc1_pred_mv(v, 0, dmv_x, dmv_y, 1, v->range_x, v->range_y, v->mb_type[0]);
 
             /* FIXME Set DC val for inter block ? */
-            if (s->mb_intra && !mb_has_coeffs)
-            {
+            if (s->mb_intra && !mb_has_coeffs) {
                 GET_MQUANT();
                 s->ac_pred = get_bits1(gb);
-                cbp = 0;
-            }
-            else if (mb_has_coeffs)
-            {
-                if (s->mb_intra) s->ac_pred = get_bits1(gb);
+                cbp        = 0;
+            } else if (mb_has_coeffs) {
+                if (s->mb_intra)
+                    s->ac_pred = get_bits1(gb);
                 cbp = get_vlc2(&v->s.gb, v->cbpcy_vlc->table, VC1_CBPCY_P_VLC_BITS, 2);
                 GET_MQUANT();
-            }
-            else
-            {
+            } else {
                 mquant = v->pq;
-                cbp = 0;
+                cbp    = 0;
             }
             s->current_picture.f.qscale_table[mb_pos] = mquant;
 
             if (!v->ttmbf && !s->mb_intra && mb_has_coeffs)
                 ttmb = get_vlc2(gb, ff_vc1_ttmb_vlc[v->tt_index].table,
                                 VC1_TTMB_VLC_BITS, 2);
-            if(!s->mb_intra) vc1_mc_1mv(v, 0);
+            if (!s->mb_intra) vc1_mc_1mv(v, 0);
             dst_idx = 0;
-            for (i=0; i<6; i++)
-            {
+            for (i = 0; i < 6; i++) {
                 s->dc_val[0][s->block_index[i]] = 0;
                 dst_idx += i >> 2;
                 val = ((cbp >> (5 - i)) & 1);
                 off = (i & 4) ? 0 : ((i & 1) * 8 + (i & 2) * 4 * s->linesize);
                 v->mb_type[0][s->block_index[i]] = s->mb_intra;
-                if(s->mb_intra) {
+                if (s->mb_intra) {
                     /* check if prediction blocks A and C are available */
                     v->a_avail = v->c_avail = 0;
-                    if(i == 2 || i == 3 || !s->first_slice_line)
+                    if (i == 2 || i == 3 || !s->first_slice_line)
                         v->a_avail = v->mb_type[0][s->block_index[i] - s->block_wrap[i]];
-                    if(i == 1 || i == 3 || s->mb_x)
+                    if (i == 1 || i == 3 || s->mb_x)
                         v->c_avail = v->mb_type[0][s->block_index[i] - 1];
 
-                    vc1_decode_intra_block(v, s->block[i], i, val, mquant, (i&4)?v->codingset2:v->codingset);
-                    if((i>3) && (s->flags & CODEC_FLAG_GRAY)) continue;
+                    vc1_decode_intra_block(v, s->block[i], i, val, mquant,
+                                           (i & 4) ? v->codingset2 : v->codingset);
+                    if ((i>3) && (s->flags & CODEC_FLAG_GRAY))
+                        continue;
                     v->vc1dsp.vc1_inv_trans_8x8(s->block[i]);
-                    if(v->rangeredfrm) for(j = 0; j < 64; j++) s->block[i][j] <<= 1;
+                    if (v->rangeredfrm)
+                        for (j = 0; j < 64; j++)
+                            s->block[i][j] <<= 1;
                     s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
-                    if(v->pq >= 9 && v->overlap) {
-                        if(v->c_avail)
+                    if (v->pq >= 9 && v->overlap) {
+                        if (v->c_avail)
                             v->vc1dsp.vc1_h_overlap(s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
-                        if(v->a_avail)
+                        if (v->a_avail)
                             v->vc1dsp.vc1_v_overlap(s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
                     }
-                    block_cbp |= 0xF << (i << 2);
+                    block_cbp   |= 0xF << (i << 2);
                     block_intra |= 1 << i;
-                } else if(val) {
-                    pat = vc1_decode_p_block(v, s->block[i], i, mquant, ttmb, first_block, s->dest[dst_idx] + off, (i&4)?s->uvlinesize:s->linesize, (i&4) && (s->flags & CODEC_FLAG_GRAY), &block_tt);
+                } else if (val) {
+                    pat = vc1_decode_p_block(v, s->block[i], i, mquant, ttmb, first_block,
+                                             s->dest[dst_idx] + off, (i & 4) ? s->uvlinesize : s->linesize,
+                                             (i & 4) && (s->flags & CODEC_FLAG_GRAY), &block_tt);
                     block_cbp |= pat << (i << 2);
-                    if(!v->ttmbf && ttmb < 8) ttmb = -1;
+                    if (!v->ttmbf && ttmb < 8)
+                        ttmb = -1;
                     first_block = 0;
                 }
             }
-        }
-        else //Skipped
-        {
+        } else { // skipped
             s->mb_intra = 0;
-            for(i = 0; i < 6; i++) {
+            for (i = 0; i < 6; i++) {
                 v->mb_type[0][s->block_index[i]] = 0;
-                s->dc_val[0][s->block_index[i]] = 0;
+                s->dc_val[0][s->block_index[i]]  = 0;
             }
-            s->current_picture.f.mb_type[mb_pos] = MB_TYPE_SKIP;
+            s->current_picture.f.mb_type[mb_pos]      = MB_TYPE_SKIP;
             s->current_picture.f.qscale_table[mb_pos] = 0;
             vc1_pred_mv(v, 0, 0, 0, 1, v->range_x, v->range_y, v->mb_type[0]);
             vc1_mc_1mv(v, 0);
         }
-    } //1MV mode
-    else //4MV mode
-    {
-        if (!skipped /* unskipped MB */)
-        {
+    } else { // 4MV mode
+        if (!skipped /* unskipped MB */) {
             int intra_count = 0, coded_inter = 0;
             int is_intra[6], is_coded[6];
             /* Get CBPCY */
             cbp = get_vlc2(&v->s.gb, v->cbpcy_vlc->table, VC1_CBPCY_P_VLC_BITS, 2);
-            for (i=0; i<6; i++)
-            {
+            for (i = 0; i < 6; i++) {
                 val = ((cbp >> (5 - i)) & 1);
                 s->dc_val[0][s->block_index[i]] = 0;
-                s->mb_intra = 0;
-                if(i < 4) {
+                s->mb_intra                     = 0;
+                if (i < 4) {
                     dmv_x = dmv_y = 0;
-                    s->mb_intra = 0;
+                    s->mb_intra   = 0;
                     mb_has_coeffs = 0;
-                    if(val) {
+                    if (val) {
                         GET_MVDATA(dmv_x, dmv_y);
                     }
                     vc1_pred_mv(v, i, dmv_x, dmv_y, 0, v->range_x, v->range_y, v->mb_type[0]);
                     if(!s->mb_intra) vc1_mc_4mv_luma(v, i);
                     intra_count += s->mb_intra;
-                    is_intra[i] = s->mb_intra;
-                    is_coded[i] = mb_has_coeffs;
+                    is_intra[i]  = s->mb_intra;
+                    is_coded[i]  = mb_has_coeffs;
                 }
-                if(i&4){
+                if (i & 4) {
                     is_intra[i] = (intra_count >= 3);
                     is_coded[i] = val;
                 }
-                if(i == 4) vc1_mc_4mv_chroma(v);
+                if (i == 4)
+                    vc1_mc_4mv_chroma(v);
                 v->mb_type[0][s->block_index[i]] = is_intra[i];
-                if(!coded_inter) coded_inter = !is_intra[i] & is_coded[i];
+                if (!coded_inter)
+                    coded_inter = !is_intra[i] & is_coded[i];
             }
             // if there are no coded blocks then don't do anything more
             dst_idx = 0;
-            if(!intra_count && !coded_inter)
+            if (!intra_count && !coded_inter)
                 goto end;
             GET_MQUANT();
             s->current_picture.f.qscale_table[mb_pos] = mquant;
             /* test if block is intra and has pred */
             {
                 int intrapred = 0;
-                for(i=0; i<6; i++)
-                    if(is_intra[i]) {
-                        if(((!s->first_slice_line || (i==2 || i==3)) && v->mb_type[0][s->block_index[i] - s->block_wrap[i]])
-                            || ((s->mb_x || (i==1 || i==3)) && v->mb_type[0][s->block_index[i] - 1])) {
+                for (i = 0; i < 6; i++)
+                    if (is_intra[i]) {
+                        if (((!s->first_slice_line || (i == 2 || i == 3)) && v->mb_type[0][s->block_index[i] - s->block_wrap[i]])
+                            || ((s->mb_x || (i == 1 || i == 3)) && v->mb_type[0][s->block_index[i] - 1])) {
                             intrapred = 1;
                             break;
                         }
                     }
-                if(intrapred)s->ac_pred = get_bits1(gb);
-                else s->ac_pred = 0;
+                if (intrapred)
+                    s->ac_pred = get_bits1(gb);
+                else
+                    s->ac_pred = 0;
             }
             if (!v->ttmbf && coded_inter)
                 ttmb = get_vlc2(gb, ff_vc1_ttmb_vlc[v->tt_index].table, VC1_TTMB_VLC_BITS, 2);
-            for (i=0; i<6; i++)
-            {
-                dst_idx += i >> 2;
-                off = (i & 4) ? 0 : ((i & 1) * 8 + (i & 2) * 4 * s->linesize);
+            for (i = 0; i < 6; i++) {
+                dst_idx    += i >> 2;
+                off         = (i & 4) ? 0 : ((i & 1) * 8 + (i & 2) * 4 * s->linesize);
                 s->mb_intra = is_intra[i];
                 if (is_intra[i]) {
                     /* check if prediction blocks A and C are available */
                     v->a_avail = v->c_avail = 0;
-                    if(i == 2 || i == 3 || !s->first_slice_line)
+                    if (i == 2 || i == 3 || !s->first_slice_line)
                         v->a_avail = v->mb_type[0][s->block_index[i] - s->block_wrap[i]];
-                    if(i == 1 || i == 3 || s->mb_x)
+                    if (i == 1 || i == 3 || s->mb_x)
                         v->c_avail = v->mb_type[0][s->block_index[i] - 1];
 
-                    vc1_decode_intra_block(v, s->block[i], i, is_coded[i], mquant, (i&4)?v->codingset2:v->codingset);
-                    if((i>3) && (s->flags & CODEC_FLAG_GRAY)) continue;
+                    vc1_decode_intra_block(v, s->block[i], i, is_coded[i], mquant,
+                                           (i & 4) ? v->codingset2 : v->codingset);
+                    if ((i>3) && (s->flags & CODEC_FLAG_GRAY))
+                        continue;
                     v->vc1dsp.vc1_inv_trans_8x8(s->block[i]);
-                    if(v->rangeredfrm) for(j = 0; j < 64; j++) s->block[i][j] <<= 1;
-                    s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off, (i&4)?s->uvlinesize:s->linesize);
-                    if(v->pq >= 9 && v->overlap) {
-                        if(v->c_avail)
+                    if (v->rangeredfrm)
+                        for (j = 0; j < 64; j++)
+                            s->block[i][j] <<= 1;
+                    s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off,
+                                                     (i & 4) ? s->uvlinesize : s->linesize);
+                    if (v->pq >= 9 && v->overlap) {
+                        if (v->c_avail)
                             v->vc1dsp.vc1_h_overlap(s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
-                        if(v->a_avail)
+                        if (v->a_avail)
                             v->vc1dsp.vc1_v_overlap(s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
                     }
-                    block_cbp |= 0xF << (i << 2);
+                    block_cbp   |= 0xF << (i << 2);
                     block_intra |= 1 << i;
-                } else if(is_coded[i]) {
-                    pat = vc1_decode_p_block(v, s->block[i], i, mquant, ttmb, first_block, s->dest[dst_idx] + off, (i&4)?s->uvlinesize:s->linesize, (i&4) && (s->flags & CODEC_FLAG_GRAY), &block_tt);
+                } else if (is_coded[i]) {
+                    pat = vc1_decode_p_block(v, s->block[i], i, mquant, ttmb,
+                                             first_block, s->dest[dst_idx] + off,
+                                             (i & 4) ? s->uvlinesize : s->linesize,
+                                             (i & 4) && (s->flags & CODEC_FLAG_GRAY),
+                                             &block_tt);
                     block_cbp |= pat << (i << 2);
-                    if(!v->ttmbf && ttmb < 8) ttmb = -1;
+                    if (!v->ttmbf && ttmb < 8)
+                        ttmb = -1;
                     first_block = 0;
                 }
             }
-        }
-        else //Skipped MB
-        {
-            s->mb_intra = 0;
+        } else { // skipped MB
+            s->mb_intra                               = 0;
             s->current_picture.f.qscale_table[mb_pos] = 0;
-            for (i=0; i<6; i++) {
+            for (i = 0; i < 6; i++) {
                 v->mb_type[0][s->block_index[i]] = 0;
-                s->dc_val[0][s->block_index[i]] = 0;
+                s->dc_val[0][s->block_index[i]]  = 0;
             }
-            for (i=0; i<4; i++)
-            {
+            for (i = 0; i < 4; i++) {
                 vc1_pred_mv(v, i, 0, 0, 0, v->range_x, v->range_y, v->mb_type[0]);
                 vc1_mc_4mv_luma(v, i);
             }
@@ -2690,8 +2712,8 @@ static int vc1_decode_p_mb(VC1Context *v)
         }
     }
 end:
-    v->cbp[s->mb_x] = block_cbp;
-    v->ttblk[s->mb_x] = block_tt;
+    v->cbp[s->mb_x]      = block_cbp;
+    v->ttblk[s->mb_x]    = block_tt;
     v->is_intra[s->mb_x] = block_intra;
 
     return 0;
@@ -2717,7 +2739,7 @@ static void vc1_decode_b_mb(VC1Context *v)
     int dmv_x[2], dmv_y[2];
     int bmvtype = BMV_TYPE_BACKWARD;
 
-    mquant = v->pq; /* Loosy initialization */
+    mquant      = v->pq; /* lossy initialization */
     s->mb_intra = 0;
 
     if (v->dmb_is_raw)
@@ -2730,9 +2752,9 @@ static void vc1_decode_b_mb(VC1Context *v)
         skipped = v->s.mbskip_table[mb_pos];
 
     dmv_x[0] = dmv_x[1] = dmv_y[0] = dmv_y[1] = 0;
-    for(i = 0; i < 6; i++) {
+    for (i = 0; i < 6; i++) {
         v->mb_type[0][s->block_index[i]] = 0;
-        s->dc_val[0][s->block_index[i]] = 0;
+        s->dc_val[0][s->block_index[i]]  = 0;
     }
     s->current_picture.f.qscale_table[mb_pos] = 0;
 
@@ -2742,9 +2764,9 @@ static void vc1_decode_b_mb(VC1Context *v)
             dmv_x[1] = dmv_x[0];
             dmv_y[1] = dmv_y[0];
         }
-        if(skipped || !s->mb_intra) {
+        if (skipped || !s->mb_intra) {
             bmvtype = decode012(gb);
-            switch(bmvtype) {
+            switch (bmvtype) {
             case 0:
                 bmvtype = (v->bfraction >= (B_FRACTION_DEN/2)) ? BMV_TYPE_BACKWARD : BMV_TYPE_FORWARD;
                 break;
@@ -2752,16 +2774,17 @@ static void vc1_decode_b_mb(VC1Context *v)
                 bmvtype = (v->bfraction >= (B_FRACTION_DEN/2)) ? BMV_TYPE_FORWARD : BMV_TYPE_BACKWARD;
                 break;
             case 2:
-                bmvtype = BMV_TYPE_INTERPOLATED;
+                bmvtype  = BMV_TYPE_INTERPOLATED;
                 dmv_x[0] = dmv_y[0] = 0;
             }
         }
     }
-    for(i = 0; i < 6; i++)
+    for (i = 0; i < 6; i++)
         v->mb_type[0][s->block_index[i]] = s->mb_intra;
 
     if (skipped) {
-        if(direct) bmvtype = BMV_TYPE_INTERPOLATED;
+        if (direct)
+            bmvtype = BMV_TYPE_INTERPOLATED;
         vc1_pred_b_mv(v, dmv_x, dmv_y, direct, bmvtype);
         vc1_b_mc(v, dmv_x, dmv_y, direct, bmvtype);
         return;
@@ -2771,28 +2794,28 @@ static void vc1_decode_b_mb(VC1Context *v)
         GET_MQUANT();
         s->mb_intra = 0;
         s->current_picture.f.qscale_table[mb_pos] = mquant;
-        if(!v->ttmbf)
+        if (!v->ttmbf)
             ttmb = get_vlc2(gb, ff_vc1_ttmb_vlc[v->tt_index].table, VC1_TTMB_VLC_BITS, 2);
         dmv_x[0] = dmv_y[0] = dmv_x[1] = dmv_y[1] = 0;
         vc1_pred_b_mv(v, dmv_x, dmv_y, direct, bmvtype);
         vc1_b_mc(v, dmv_x, dmv_y, direct, bmvtype);
     } else {
-        if(!mb_has_coeffs && !s->mb_intra) {
+        if (!mb_has_coeffs && !s->mb_intra) {
             /* no coded blocks - effectively skipped */
             vc1_pred_b_mv(v, dmv_x, dmv_y, direct, bmvtype);
             vc1_b_mc(v, dmv_x, dmv_y, direct, bmvtype);
             return;
         }
-        if(s->mb_intra && !mb_has_coeffs) {
+        if (s->mb_intra && !mb_has_coeffs) {
             GET_MQUANT();
             s->current_picture.f.qscale_table[mb_pos] = mquant;
             s->ac_pred = get_bits1(gb);
             cbp = 0;
             vc1_pred_b_mv(v, dmv_x, dmv_y, direct, bmvtype);
         } else {
-            if(bmvtype == BMV_TYPE_INTERPOLATED) {
+            if (bmvtype == BMV_TYPE_INTERPOLATED) {
                 GET_MVDATA(dmv_x[0], dmv_y[0]);
-                if(!mb_has_coeffs) {
+                if (!mb_has_coeffs) {
                     /* interpolated skipped block */
                     vc1_pred_b_mv(v, dmv_x, dmv_y, direct, bmvtype);
                     vc1_b_mc(v, dmv_x, dmv_y, direct, bmvtype);
@@ -2800,42 +2823,49 @@ static void vc1_decode_b_mb(VC1Context *v)
                 }
             }
             vc1_pred_b_mv(v, dmv_x, dmv_y, direct, bmvtype);
-            if(!s->mb_intra) {
+            if (!s->mb_intra) {
                 vc1_b_mc(v, dmv_x, dmv_y, direct, bmvtype);
             }
-            if(s->mb_intra)
+            if (s->mb_intra)
                 s->ac_pred = get_bits1(gb);
             cbp = get_vlc2(&v->s.gb, v->cbpcy_vlc->table, VC1_CBPCY_P_VLC_BITS, 2);
             GET_MQUANT();
             s->current_picture.f.qscale_table[mb_pos] = mquant;
-            if(!v->ttmbf && !s->mb_intra && mb_has_coeffs)
+            if (!v->ttmbf && !s->mb_intra && mb_has_coeffs)
                 ttmb = get_vlc2(gb, ff_vc1_ttmb_vlc[v->tt_index].table, VC1_TTMB_VLC_BITS, 2);
         }
     }
     dst_idx = 0;
-    for (i=0; i<6; i++)
-    {
+    for (i = 0; i < 6; i++) {
         s->dc_val[0][s->block_index[i]] = 0;
         dst_idx += i >> 2;
         val = ((cbp >> (5 - i)) & 1);
         off = (i & 4) ? 0 : ((i & 1) * 8 + (i & 2) * 4 * s->linesize);
         v->mb_type[0][s->block_index[i]] = s->mb_intra;
-        if(s->mb_intra) {
+        if (s->mb_intra) {
             /* check if prediction blocks A and C are available */
             v->a_avail = v->c_avail = 0;
-            if(i == 2 || i == 3 || !s->first_slice_line)
+            if (i == 2 || i == 3 || !s->first_slice_line)
                 v->a_avail = v->mb_type[0][s->block_index[i] - s->block_wrap[i]];
-            if(i == 1 || i == 3 || s->mb_x)
+            if (i == 1 || i == 3 || s->mb_x)
                 v->c_avail = v->mb_type[0][s->block_index[i] - 1];
 
-            vc1_decode_intra_block(v, s->block[i], i, val, mquant, (i&4)?v->codingset2:v->codingset);
-            if((i>3) && (s->flags & CODEC_FLAG_GRAY)) continue;
+            vc1_decode_intra_block(v, s->block[i], i, val, mquant,
+                                   (i & 4) ? v->codingset2 : v->codingset);
+            if ((i>3) && (s->flags & CODEC_FLAG_GRAY))
+                continue;
             v->vc1dsp.vc1_inv_trans_8x8(s->block[i]);
-            if(v->rangeredfrm) for(j = 0; j < 64; j++) s->block[i][j] <<= 1;
+            if (v->rangeredfrm)
+                for (j = 0; j < 64; j++)
+                    s->block[i][j] <<= 1;
             s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
-        } else if(val) {
-            vc1_decode_p_block(v, s->block[i], i, mquant, ttmb, first_block, s->dest[dst_idx] + off, (i&4)?s->uvlinesize:s->linesize, (i&4) && (s->flags & CODEC_FLAG_GRAY), NULL);
-            if(!v->ttmbf && ttmb < 8) ttmb = -1;
+        } else if (val) {
+            vc1_decode_p_block(v, s->block[i], i, mquant, ttmb,
+                               first_block, s->dest[dst_idx] + off,
+                               (i & 4) ? s->uvlinesize : s->linesize,
+                               (i & 4) && (s->flags & CODEC_FLAG_GRAY), NULL);
+            if (!v->ttmbf && ttmb < 8)
+                ttmb = -1;
             first_block = 0;
         }
     }
@@ -2852,7 +2882,7 @@ static void vc1_decode_i_blocks(VC1Context *v)
     int mb_pos;
 
     /* select codingmode used for VLC tables selection */
-    switch(v->y_ac_table_index){
+    switch (v->y_ac_table_index) {
     case 0:
         v->codingset = (v->pqindex <= 8) ? CS_HIGH_RATE_INTRA : CS_LOW_MOT_INTRA;
         break;
@@ -2864,7 +2894,7 @@ static void vc1_decode_i_blocks(VC1Context *v)
         break;
     }
 
-    switch(v->c_ac_table_index){
+    switch (v->c_ac_table_index) {
     case 0:
         v->codingset2 = (v->pqindex <= 8) ? CS_HIGH_RATE_INTER : CS_LOW_MOT_INTER;
         break;
@@ -2882,12 +2912,12 @@ static void vc1_decode_i_blocks(VC1Context *v)
 
     //do frame decode
     s->mb_x = s->mb_y = 0;
-    s->mb_intra = 1;
+    s->mb_intra         = 1;
     s->first_slice_line = 1;
-    for(s->mb_y = 0; s->mb_y < s->mb_height; s->mb_y++) {
+    for (s->mb_y = 0; s->mb_y < s->mb_height; s->mb_y++) {
         s->mb_x = 0;
         ff_init_block_index(s);
-        for(; s->mb_x < s->mb_width; s->mb_x++) {
+        for (; s->mb_x < s->mb_width; s->mb_x++) {
             uint8_t *dst[6];
             ff_update_block_index(s);
             dst[0] = s->dest[0];
@@ -2898,8 +2928,8 @@ static void vc1_decode_i_blocks(VC1Context *v)
             dst[5] = s->dest[2];
             s->dsp.clear_blocks(s->block[0]);
             mb_pos = s->mb_x + s->mb_y * s->mb_width;
-            s->current_picture.f.mb_type[mb_pos] = MB_TYPE_INTRA;
-            s->current_picture.f.qscale_table[mb_pos] = v->pq;
+            s->current_picture.f.mb_type[mb_pos]                     = MB_TYPE_INTRA;
+            s->current_picture.f.qscale_table[mb_pos]                = v->pq;
             s->current_picture.f.motion_val[1][s->block_index[0]][0] = 0;
             s->current_picture.f.motion_val[1][s->block_index[0]][1] = 0;
 
@@ -2907,44 +2937,49 @@ static void vc1_decode_i_blocks(VC1Context *v)
             cbp = get_vlc2(&v->s.gb, ff_msmp4_mb_i_vlc.table, MB_INTRA_VLC_BITS, 2);
             v->s.ac_pred = get_bits1(&v->s.gb);
 
-            for(k = 0; k < 6; k++) {
+            for (k = 0; k < 6; k++) {
                 val = ((cbp >> (5 - k)) & 1);
 
                 if (k < 4) {
-                    int pred = vc1_coded_block_pred(&v->s, k, &coded_val);
-                    val = val ^ pred;
+                    int pred   = vc1_coded_block_pred(&v->s, k, &coded_val);
+                    val        = val ^ pred;
                     *coded_val = val;
                 }
                 cbp |= val << (5 - k);
 
-                vc1_decode_i_block(v, s->block[k], k, val, (k<4)? v->codingset : v->codingset2);
+                vc1_decode_i_block(v, s->block[k], k, val, (k < 4) ? v->codingset : v->codingset2);
 
-                if (k > 3 && (s->flags & CODEC_FLAG_GRAY)) continue;
+                if (k > 3 && (s->flags & CODEC_FLAG_GRAY))
+                    continue;
                 v->vc1dsp.vc1_inv_trans_8x8(s->block[k]);
-                if(v->pq >= 9 && v->overlap) {
-                    if (v->rangeredfrm) for(j = 0; j < 64; j++) s->block[k][j] <<= 1;
+                if (v->pq >= 9 && v->overlap) {
+                    if (v->rangeredfrm)
+                        for (j = 0; j < 64; j++)
+                            s->block[k][j] <<= 1;
                     s->dsp.put_signed_pixels_clamped(s->block[k], dst[k], k & 4 ? s->uvlinesize : s->linesize);
                 } else {
-                    if (v->rangeredfrm) for(j = 0; j < 64; j++) s->block[k][j] = (s->block[k][j] - 64) << 1;
+                    if (v->rangeredfrm)
+                        for (j = 0; j < 64; j++)
+                            s->block[k][j] = (s->block[k][j] - 64) << 1;
                     s->dsp.put_pixels_clamped(s->block[k], dst[k], k & 4 ? s->uvlinesize : s->linesize);
                 }
             }
 
-            if(v->pq >= 9 && v->overlap) {
-                if(s->mb_x) {
+            if (v->pq >= 9 && v->overlap) {
+                if (s->mb_x) {
                     v->vc1dsp.vc1_h_overlap(s->dest[0], s->linesize);
                     v->vc1dsp.vc1_h_overlap(s->dest[0] + 8 * s->linesize, s->linesize);
-                    if(!(s->flags & CODEC_FLAG_GRAY)) {
+                    if (!(s->flags & CODEC_FLAG_GRAY)) {
                         v->vc1dsp.vc1_h_overlap(s->dest[1], s->uvlinesize);
                         v->vc1dsp.vc1_h_overlap(s->dest[2], s->uvlinesize);
                     }
                 }
                 v->vc1dsp.vc1_h_overlap(s->dest[0] + 8, s->linesize);
                 v->vc1dsp.vc1_h_overlap(s->dest[0] + 8 * s->linesize + 8, s->linesize);
-                if(!s->first_slice_line) {
+                if (!s->first_slice_line) {
                     v->vc1dsp.vc1_v_overlap(s->dest[0], s->linesize);
                     v->vc1dsp.vc1_v_overlap(s->dest[0] + 8, s->linesize);
-                    if(!(s->flags & CODEC_FLAG_GRAY)) {
+                    if (!(s->flags & CODEC_FLAG_GRAY)) {
                         v->vc1dsp.vc1_v_overlap(s->dest[1], s->uvlinesize);
                         v->vc1dsp.vc1_v_overlap(s->dest[2], s->uvlinesize);
                     }
@@ -2952,24 +2987,25 @@ static void vc1_decode_i_blocks(VC1Context *v)
                 v->vc1dsp.vc1_v_overlap(s->dest[0] + 8 * s->linesize, s->linesize);
                 v->vc1dsp.vc1_v_overlap(s->dest[0] + 8 * s->linesize + 8, s->linesize);
             }
-            if(v->s.loop_filter) vc1_loop_filter_iblk(v, v->pq);
+            if (v->s.loop_filter) vc1_loop_filter_iblk(v, v->pq);
 
-            if(get_bits_count(&s->gb) > v->bits) {
-                ff_er_add_slice(s, 0, 0, s->mb_x, s->mb_y, (AC_END|DC_END|MV_END));
-                av_log(s->avctx, AV_LOG_ERROR, "Bits overconsumption: %i > %i\n", get_bits_count(&s->gb), v->bits);
+            if (get_bits_count(&s->gb) > v->bits) {
+                ff_er_add_slice(s, 0, 0, s->mb_x, s->mb_y, ER_MB_ERROR);
+                av_log(s->avctx, AV_LOG_ERROR, "Bits overconsumption: %i > %i\n",
+                       get_bits_count(&s->gb), v->bits);
                 return;
             }
         }
         if (!v->s.loop_filter)
             ff_draw_horiz_band(s, s->mb_y * 16, 16);
         else if (s->mb_y)
-            ff_draw_horiz_band(s, (s->mb_y-1) * 16, 16);
+            ff_draw_horiz_band(s, (s->mb_y - 1) * 16, 16);
 
         s->first_slice_line = 0;
     }
     if (v->s.loop_filter)
-        ff_draw_horiz_band(s, (s->mb_height-1)*16, 16);
-    ff_er_add_slice(s, 0, 0, s->mb_width - 1, s->mb_height - 1, (AC_END|DC_END|MV_END));
+        ff_draw_horiz_band(s, (s->mb_height - 1) * 16, 16);
+    ff_er_add_slice(s, 0, 0, s->mb_width - 1, s->mb_height - 1, ER_MB_END);
 }
 
 /** Decode blocks of I-frame for advanced profile
@@ -2986,7 +3022,7 @@ static void vc1_decode_i_blocks_adv(VC1Context *v)
     GetBitContext *gb = &s->gb;
 
     /* select codingmode used for VLC tables selection */
-    switch(v->y_ac_table_index){
+    switch (v->y_ac_table_index) {
     case 0:
         v->codingset = (v->pqindex <= 8) ? CS_HIGH_RATE_INTRA : CS_LOW_MOT_INTRA;
         break;
@@ -2998,7 +3034,7 @@ static void vc1_decode_i_blocks_adv(VC1Context *v)
         break;
     }
 
-    switch(v->c_ac_table_index){
+    switch (v->c_ac_table_index) {
     case 0:
         v->codingset2 = (v->pqindex <= 8) ? CS_HIGH_RATE_INTER : CS_LOW_MOT_INTER;
         break;
@@ -3010,21 +3046,21 @@ static void vc1_decode_i_blocks_adv(VC1Context *v)
         break;
     }
 
-    //do frame decode
-    s->mb_x = s->mb_y = 0;
-    s->mb_intra = 1;
+    // do frame decode
+    s->mb_x             = s->mb_y = 0;
+    s->mb_intra         = 1;
     s->first_slice_line = 1;
-    s->mb_y = s->start_mb_y;
+    s->mb_y             = s->start_mb_y;
     if (s->start_mb_y) {
         s->mb_x = 0;
         ff_init_block_index(s);
-        memset(&s->coded_block[s->block_index[0]-s->b8_stride], 0,
+        memset(&s->coded_block[s->block_index[0] - s->b8_stride], 0,
                (1 + s->b8_stride) * sizeof(*s->coded_block));
     }
-    for(; s->mb_y < s->end_mb_y; s->mb_y++) {
+    for (; s->mb_y < s->end_mb_y; s->mb_y++) {
         s->mb_x = 0;
         ff_init_block_index(s);
-        for(;s->mb_x < s->mb_width; s->mb_x++) {
+        for (;s->mb_x < s->mb_width; s->mb_x++) {
             DCTELEM (*block)[64] = v->block[v->cur_blk_idx];
             ff_update_block_index(s);
             s->dsp.clear_blocks(block[0]);
@@ -3035,7 +3071,7 @@ static void vc1_decode_i_blocks_adv(VC1Context *v)
 
             // do actual MB decoding and displaying
             cbp = get_vlc2(&v->s.gb, ff_msmp4_mb_i_vlc.table, MB_INTRA_VLC_BITS, 2);
-            if(v->acpred_is_raw)
+            if ( v->acpred_is_raw)
                 v->s.ac_pred = get_bits1(&v->s.gb);
             else
                 v->s.ac_pred = v->acpred_plane[mb_pos];
@@ -3050,32 +3086,36 @@ static void vc1_decode_i_blocks_adv(VC1Context *v)
             s->y_dc_scale = s->y_dc_scale_table[mquant];
             s->c_dc_scale = s->c_dc_scale_table[mquant];
 
-            for(k = 0; k < 6; k++) {
+            for (k = 0; k < 6; k++) {
                 val = ((cbp >> (5 - k)) & 1);
 
                 if (k < 4) {
-                    int pred = vc1_coded_block_pred(&v->s, k, &coded_val);
-                    val = val ^ pred;
+                    int pred   = vc1_coded_block_pred(&v->s, k, &coded_val);
+                    val        = val ^ pred;
                     *coded_val = val;
                 }
                 cbp |= val << (5 - k);
 
-                v->a_avail = !s->first_slice_line || (k==2 || k==3);
-                v->c_avail = !!s->mb_x || (k==1 || k==3);
+                v->a_avail = !s->first_slice_line || (k == 2 || k == 3);
+                v->c_avail = !!s->mb_x || (k == 1 || k == 3);
 
-                vc1_decode_i_block_adv(v, block[k], k, val, (k<4)? v->codingset : v->codingset2, mquant);
+                vc1_decode_i_block_adv(v, block[k], k, val,
+                                       (k < 4) ? v->codingset : v->codingset2, mquant);
 
-                if (k > 3 && (s->flags & CODEC_FLAG_GRAY)) continue;
+                if (k > 3 && (s->flags & CODEC_FLAG_GRAY))
+                    continue;
                 v->vc1dsp.vc1_inv_trans_8x8(block[k]);
             }
 
             vc1_smooth_overlap_filter_iblk(v);
             vc1_put_signed_blocks_clamped(v);
-            if(v->s.loop_filter) vc1_loop_filter_iblk_delayed(v, v->pq);
+            if (v->s.loop_filter) vc1_loop_filter_iblk_delayed(v, v->pq);
 
-            if(get_bits_count(&s->gb) > v->bits) {
-                ff_er_add_slice(s, 0, s->start_mb_y, s->mb_x, s->mb_y, (AC_END|DC_END|MV_END));
-                av_log(s->avctx, AV_LOG_ERROR, "Bits overconsumption: %i > %i\n", get_bits_count(&s->gb), v->bits);
+            if (get_bits_count(&s->gb) > v->bits) {
+                // TODO: may need modification to handle slice coding
+                ff_er_add_slice(s, 0, s->start_mb_y, s->mb_x, s->mb_y, ER_MB_ERROR);
+                av_log(s->avctx, AV_LOG_ERROR, "Bits overconsumption: %i > %i\n",
+                       get_bits_count(&s->gb), v->bits);
                 return;
             }
         }
@@ -3089,14 +3129,15 @@ static void vc1_decode_i_blocks_adv(VC1Context *v)
     /* raw bottom MB row */
     s->mb_x = 0;
     ff_init_block_index(s);
-    for(;s->mb_x < s->mb_width; s->mb_x++) {
+    for (;s->mb_x < s->mb_width; s->mb_x++) {
         ff_update_block_index(s);
         vc1_put_signed_blocks_clamped(v);
-        if(v->s.loop_filter) vc1_loop_filter_iblk_delayed(v, v->pq);
+        if (v->s.loop_filter)
+            vc1_loop_filter_iblk_delayed(v, v->pq);
     }
     if (v->s.loop_filter)
         ff_draw_horiz_band(s, (s->end_mb_y-1)*16, 16);
-    ff_er_add_slice(s, 0, s->start_mb_y, s->mb_width - 1, s->end_mb_y - 1, (AC_END|DC_END|MV_END));
+    ff_er_add_slice(s, 0, s->start_mb_y, s->mb_width - 1, s->end_mb_y - 1, ER_MB_END);
 }
 
 static void vc1_decode_p_blocks(VC1Context *v)
@@ -3105,7 +3146,7 @@ static void vc1_decode_p_blocks(VC1Context *v)
     int apply_loop_filter;
 
     /* select codingmode used for VLC tables selection */
-    switch(v->c_ac_table_index){
+    switch (v->c_ac_table_index) {
     case 0:
         v->codingset = (v->pqindex <= 8) ? CS_HIGH_RATE_INTRA : CS_LOW_MOT_INTRA;
         break;
@@ -3117,7 +3158,7 @@ static void vc1_decode_p_blocks(VC1Context *v)
         break;
     }
 
-    switch(v->c_ac_table_index){
+    switch (v->c_ac_table_index) {
     case 0:
         v->codingset2 = (v->pqindex <= 8) ? CS_HIGH_RATE_INTER : CS_LOW_MOT_INTER;
         break;
@@ -3129,29 +3170,29 @@ static void vc1_decode_p_blocks(VC1Context *v)
         break;
     }
 
-    apply_loop_filter = s->loop_filter && !(s->avctx->skip_loop_filter >= AVDISCARD_NONKEY);
+    apply_loop_filter   = s->loop_filter && !(s->avctx->skip_loop_filter >= AVDISCARD_NONKEY);
     s->first_slice_line = 1;
     memset(v->cbp_base, 0, sizeof(v->cbp_base[0])*2*s->mb_stride);
-    for(s->mb_y = s->start_mb_y; s->mb_y < s->end_mb_y; s->mb_y++) {
+    for (s->mb_y = s->start_mb_y; s->mb_y < s->end_mb_y; s->mb_y++) {
         s->mb_x = 0;
         ff_init_block_index(s);
-        for(; s->mb_x < s->mb_width; s->mb_x++) {
+        for (; s->mb_x < s->mb_width; s->mb_x++) {
             ff_update_block_index(s);
 
             vc1_decode_p_mb(v);
             if (s->mb_y != s->start_mb_y && apply_loop_filter)
                 vc1_apply_p_loop_filter(v);
             if(get_bits_count(&s->gb) > v->bits || get_bits_count(&s->gb) < 0) {
-                ff_er_add_slice(s, 0, s->start_mb_y, s->mb_x, s->mb_y, (AC_END|DC_END|MV_END));
+                ff_er_add_slice(s, 0, s->start_mb_y, s->mb_x, s->mb_y, ER_MB_END);
                 av_log(s->avctx, AV_LOG_ERROR, "Bits overconsumption: %i > %i at %ix%i\n", get_bits_count(&s->gb), v->bits,s->mb_x,s->mb_y);
                 return;
             }
         }
-        memmove(v->cbp_base, v->cbp, sizeof(v->cbp_base[0])*s->mb_stride);
-        memmove(v->ttblk_base, v->ttblk, sizeof(v->ttblk_base[0])*s->mb_stride);
-        memmove(v->is_intra_base, v->is_intra, sizeof(v->is_intra_base[0])*s->mb_stride);
-        memmove(v->luma_mv_base, v->luma_mv, sizeof(v->luma_mv_base[0])*s->mb_stride);
-        if (s->mb_y != s->start_mb_y) ff_draw_horiz_band(s, (s->mb_y-1) * 16, 16);
+        memmove(v->cbp_base,      v->cbp,      sizeof(v->cbp_base[0])      * s->mb_stride);
+        memmove(v->ttblk_base,    v->ttblk,    sizeof(v->ttblk_base[0])    * s->mb_stride);
+        memmove(v->is_intra_base, v->is_intra, sizeof(v->is_intra_base[0]) * s->mb_stride);
+        memmove(v->luma_mv_base,  v->luma_mv,  sizeof(v->luma_mv_base[0])  * s->mb_stride);
+        if (s->mb_y != s->start_mb_y) ff_draw_horiz_band(s, (s->mb_y - 1) * 16, 16);
         s->first_slice_line = 0;
     }
     if (apply_loop_filter) {
@@ -3164,7 +3205,7 @@ static void vc1_decode_p_blocks(VC1Context *v)
     }
     if (s->end_mb_y >= s->start_mb_y)
         ff_draw_horiz_band(s, (s->end_mb_y-1) * 16, 16);
-    ff_er_add_slice(s, 0, s->start_mb_y, s->mb_width - 1, s->end_mb_y - 1, (AC_END|DC_END|MV_END));
+    ff_er_add_slice(s, 0, s->start_mb_y, s->mb_width - 1, s->end_mb_y - 1, ER_MB_END);
 }
 
 static void vc1_decode_b_blocks(VC1Context *v)
@@ -3172,7 +3213,7 @@ static void vc1_decode_b_blocks(VC1Context *v)
     MpegEncContext *s = &v->s;
 
     /* select codingmode used for VLC tables selection */
-    switch(v->c_ac_table_index){
+    switch (v->c_ac_table_index) {
     case 0:
         v->codingset = (v->pqindex <= 8) ? CS_HIGH_RATE_INTRA : CS_LOW_MOT_INTRA;
         break;
@@ -3184,7 +3225,7 @@ static void vc1_decode_b_blocks(VC1Context *v)
         break;
     }
 
-    switch(v->c_ac_table_index){
+    switch (v->c_ac_table_index) {
     case 0:
         v->codingset2 = (v->pqindex <= 8) ? CS_HIGH_RATE_INTER : CS_LOW_MOT_INTER;
         break;
@@ -3197,38 +3238,38 @@ static void vc1_decode_b_blocks(VC1Context *v)
     }
 
     s->first_slice_line = 1;
-    for(s->mb_y = s->start_mb_y; s->mb_y < s->end_mb_y; s->mb_y++) {
+    for (s->mb_y = s->start_mb_y; s->mb_y < s->end_mb_y; s->mb_y++) {
         s->mb_x = 0;
         ff_init_block_index(s);
-        for(; s->mb_x < s->mb_width; s->mb_x++) {
+        for (; s->mb_x < s->mb_width; s->mb_x++) {
             ff_update_block_index(s);
 
             vc1_decode_b_mb(v);
             if(get_bits_count(&s->gb) > v->bits || get_bits_count(&s->gb) < 0) {
-                ff_er_add_slice(s, 0, s->start_mb_y, s->mb_x, s->mb_y, (AC_END|DC_END|MV_END));
+                ff_er_add_slice(s, 0, s->start_mb_y, s->mb_x, s->mb_y, ER_MB_END);
                 av_log(s->avctx, AV_LOG_ERROR, "Bits overconsumption: %i > %i at %ix%i\n", get_bits_count(&s->gb), v->bits,s->mb_x,s->mb_y);
                 return;
             }
-            if(v->s.loop_filter) vc1_loop_filter_iblk(v, v->pq);
+            if (v->s.loop_filter) vc1_loop_filter_iblk(v, v->pq);
         }
         if (!v->s.loop_filter)
             ff_draw_horiz_band(s, s->mb_y * 16, 16);
         else if (s->mb_y)
-            ff_draw_horiz_band(s, (s->mb_y-1) * 16, 16);
+            ff_draw_horiz_band(s, (s->mb_y - 1) * 16, 16);
         s->first_slice_line = 0;
     }
     if (v->s.loop_filter)
         ff_draw_horiz_band(s, (s->end_mb_y-1)*16, 16);
-    ff_er_add_slice(s, 0, s->start_mb_y, s->mb_width - 1, s->end_mb_y - 1, (AC_END|DC_END|MV_END));
+    ff_er_add_slice(s, 0, s->start_mb_y, s->mb_width - 1, s->end_mb_y - 1, ER_MB_END);
 }
 
 static void vc1_decode_skip_blocks(VC1Context *v)
 {
     MpegEncContext *s = &v->s;
 
-    ff_er_add_slice(s, 0, s->start_mb_y, s->mb_width - 1, s->end_mb_y - 1, (AC_END|DC_END|MV_END));
+    ff_er_add_slice(s, 0, s->start_mb_y, s->mb_width - 1, s->end_mb_y - 1, ER_MB_END);
     s->first_slice_line = 1;
-    for(s->mb_y = s->start_mb_y; s->mb_y < s->end_mb_y; s->mb_y++) {
+    for (s->mb_y = s->start_mb_y; s->mb_y < s->end_mb_y; s->mb_y++) {
         s->mb_x = 0;
         ff_init_block_index(s);
         ff_update_block_index(s);
@@ -3245,33 +3286,33 @@ static void vc1_decode_blocks(VC1Context *v)
 {
 
     v->s.esc3_level_length = 0;
-    if(v->x8_type){
-        ff_intrax8_decode_picture(&v->x8, 2*v->pq+v->halfpq, v->pq*(!v->pquantizer) );
-    }else{
-        v->cur_blk_idx = 0;
-        v->left_blk_idx = -1;
-        v->topleft_blk_idx = 1;
-        v->top_blk_idx = 2;
-        switch(v->s.pict_type) {
+    if (v->x8_type) {
+        ff_intrax8_decode_picture(&v->x8, 2*v->pq + v->halfpq, v->pq * !v->pquantizer);
+    } else {
+        v->cur_blk_idx     =  0;
+        v->left_blk_idx    = -1;
+        v->topleft_blk_idx =  1;
+        v->top_blk_idx     =  2;
+        switch (v->s.pict_type) {
         case AV_PICTURE_TYPE_I:
-            if(v->profile == PROFILE_ADVANCED)
+            if (v->profile == PROFILE_ADVANCED)
                 vc1_decode_i_blocks_adv(v);
             else
                 vc1_decode_i_blocks(v);
             break;
         case AV_PICTURE_TYPE_P:
-            if(v->p_frame_skipped)
+            if (v->p_frame_skipped)
                 vc1_decode_skip_blocks(v);
             else
                 vc1_decode_p_blocks(v);
             break;
         case AV_PICTURE_TYPE_B:
-            if(v->bi_type){
-                if(v->profile == PROFILE_ADVANCED)
+            if (v->bi_type) {
+                if (v->profile == PROFILE_ADVANCED)
                     vc1_decode_i_blocks_adv(v);
                 else
                     vc1_decode_i_blocks(v);
-            }else
+            } else
                 vc1_decode_b_blocks(v);
             break;
         }
@@ -3301,7 +3342,7 @@ typedef struct {
 
 static inline int get_fp_val(GetBitContext* gb)
 {
-    return (get_bits_long(gb, 30) - (1<<29)) << 1;
+    return (get_bits_long(gb, 30) - (1 << 29)) << 1;
 }
 
 static void vc1_sprite_parse_transform(GetBitContext* gb, int c[7])
@@ -3310,9 +3351,9 @@ static void vc1_sprite_parse_transform(GetBitContext* gb, int c[7])
 
     switch (get_bits(gb, 2)) {
     case 0:
-        c[0] = 1<<16;
+        c[0] = 1 << 16;
         c[2] = get_fp_val(gb);
-        c[4] = 1<<16;
+        c[4] = 1 << 16;
         break;
     case 1:
         c[0] = c[4] = get_fp_val(gb);
@@ -3335,7 +3376,7 @@ static void vc1_sprite_parse_transform(GetBitContext* gb, int c[7])
     if (get_bits1(gb))
         c[6] = get_fp_val(gb);
     else
-        c[6] = 1<<16;
+        c[6] = 1 << 16;
 }
 
 static void vc1_parse_sprites(VC1Context *v, GetBitContext* gb, SpriteData* sd)
@@ -3351,7 +3392,7 @@ static void vc1_parse_sprites(VC1Context *v, GetBitContext* gb, SpriteData* sd)
         for (i = 0; i < 7; i++)
             av_log(avctx, AV_LOG_DEBUG, " %d.%.3d",
                    sd->coefs[sprite][i] / (1<<16),
-                   (abs(sd->coefs[sprite][i]) & 0xFFFF) * 1000 / (1<<16));
+                   (abs(sd->coefs[sprite][i]) & 0xFFFF) * 1000 / (1 << 16));
         av_log(avctx, AV_LOG_DEBUG, "\n");
     }
 
@@ -3374,8 +3415,8 @@ static void vc1_parse_sprites(VC1Context *v, GetBitContext* gb, SpriteData* sd)
             av_log(avctx, AV_LOG_DEBUG, "Effect: %d; params: ", sd->effect_type);
             for (i = 0; i < sd->effect_pcount1; i++)
                 av_log(avctx, AV_LOG_DEBUG, " %d.%.2d",
-                       sd->effect_params1[i] / (1<<16),
-                       (abs(sd->effect_params1[i]) & 0xFFFF) * 1000 / (1<<16));
+                       sd->effect_params1[i] / (1 << 16),
+                       (abs(sd->effect_params1[i]) & 0xFFFF) * 1000 / (1 << 16));
             av_log(avctx, AV_LOG_DEBUG, "\n");
         }
 
@@ -3386,11 +3427,11 @@ static void vc1_parse_sprites(VC1Context *v, GetBitContext* gb, SpriteData* sd)
         } else if (sd->effect_pcount2) {
             i = -1;
             av_log(avctx, AV_LOG_DEBUG, "Effect params 2: ");
-            while (++i < sd->effect_pcount2){
+            while (++i < sd->effect_pcount2) {
                 sd->effect_params2[i] = get_fp_val(gb);
                 av_log(avctx, AV_LOG_DEBUG, " %d.%.2d",
-                       sd->effect_params2[i] / (1<<16),
-                       (abs(sd->effect_params2[i]) & 0xFFFF) * 1000 / (1<<16));
+                       sd->effect_params2[i] / (1 << 16),
+                       (abs(sd->effect_params2[i]) & 0xFFFF) * 1000 / (1 << 16));
             }
             av_log(avctx, AV_LOG_DEBUG, "\n");
         }
@@ -3398,7 +3439,8 @@ static void vc1_parse_sprites(VC1Context *v, GetBitContext* gb, SpriteData* sd)
     if (sd->effect_flag = get_bits1(gb))
         av_log(avctx, AV_LOG_DEBUG, "Effect flag set\n");
 
-    if (get_bits_count(gb) >= gb->size_in_bits)
+    if (get_bits_count(gb) >= gb->size_in_bits +
+       (avctx->codec_id == CODEC_ID_WMV3IMAGE ? 64 : 0))
         av_log(avctx, AV_LOG_ERROR, "Buffer overrun\n");
     if (get_bits_count(gb) < gb->size_in_bits - 8)
         av_log(avctx, AV_LOG_WARNING, "Buffer not fully read\n");
@@ -3416,11 +3458,11 @@ static void vc1_draw_sprites(VC1Context *v, SpriteData* sd)
     for (i = 0; i < 2; i++) {
         xoff[i] = av_clip(sd->coefs[i][2], 0, v->sprite_width-1 << 16);
         xadv[i] = sd->coefs[i][0];
-        if (xadv[i] != 1<<16 || (v->sprite_width<<16) - (v->output_width<<16) - xoff[i])
+        if (xadv[i] != 1<<16 || (v->sprite_width << 16) - (v->output_width << 16) - xoff[i])
             xadv[i] = av_clip(xadv[i], 0, ((v->sprite_width<<16) - xoff[i] - 1) / v->output_width);
 
         yoff[i] = av_clip(sd->coefs[i][5], 0, v->sprite_height-1 << 16);
-        yadv[i] = av_clip(sd->coefs[i][4], 0, ((v->sprite_height<<16) - yoff[i]) / v->output_height);
+        yadv[i] = av_clip(sd->coefs[i][4], 0, ((v->sprite_height << 16) - yoff[i]) / v->output_height);
     }
     alpha = av_clip(sd->coefs[1][6], 0, (1<<16) - 1);
 
@@ -3434,29 +3476,29 @@ static void vc1_draw_sprites(VC1Context *v, SpriteData* sd)
             for (sprite = 0; sprite <= v->two_sprites; sprite++) {
                 uint8_t *iplane = s->current_picture.f.data[plane];
                 int      iline  = s->current_picture.f.linesize[plane];
-                int      ycoord = yoff[sprite] + yadv[sprite]*row;
-                int      yline  = ycoord>>16;
-                ysub[sprite] = ycoord&0xFFFF;
+                int      ycoord = yoff[sprite] + yadv[sprite] * row;
+                int      yline  = ycoord >> 16;
+                ysub[sprite] = ycoord & 0xFFFF;
                 if (sprite) {
                     iplane = s->last_picture.f.data[plane];
                     iline  = s->last_picture.f.linesize[plane];
                 }
-                if (!(xoff[sprite]&0xFFFF) && xadv[sprite] == 1<<16) {
-                        src_h[sprite][0] = iplane+(xoff[sprite]>>16)+ yline   *iline;
+                if (!(xoff[sprite] & 0xFFFF) && xadv[sprite] == 1 << 16) {
+                        src_h[sprite][0] = iplane + (xoff[sprite] >> 16) +  yline      * iline;
                     if (ysub[sprite])
-                        src_h[sprite][1] = iplane+(xoff[sprite]>>16)+(yline+1)*iline;
+                        src_h[sprite][1] = iplane + (xoff[sprite] >> 16) + (yline + 1) * iline;
                 } else {
                     if (sr_cache[sprite][0] != yline) {
                         if (sr_cache[sprite][1] == yline) {
                             FFSWAP(uint8_t*, v->sr_rows[sprite][0], v->sr_rows[sprite][1]);
                             FFSWAP(int,        sr_cache[sprite][0],   sr_cache[sprite][1]);
                         } else {
-                            v->vc1dsp.sprite_h(v->sr_rows[sprite][0], iplane+yline*iline, xoff[sprite], xadv[sprite], width);
+                            v->vc1dsp.sprite_h(v->sr_rows[sprite][0], iplane + yline * iline, xoff[sprite], xadv[sprite], width);
                             sr_cache[sprite][0] = yline;
                         }
                     }
                     if (ysub[sprite] && sr_cache[sprite][1] != yline + 1) {
-                        v->vc1dsp.sprite_h(v->sr_rows[sprite][1], iplane+(yline+1)*iline, xoff[sprite], xadv[sprite], width);
+                        v->vc1dsp.sprite_h(v->sr_rows[sprite][1], iplane + (yline + 1) * iline, xoff[sprite], xadv[sprite], width);
                         sr_cache[sprite][1] = yline + 1;
                     }
                     src_h[sprite][0] = v->sr_rows[sprite][0];
@@ -3499,7 +3541,7 @@ static void vc1_draw_sprites(VC1Context *v, SpriteData* sd)
 
 static int vc1_decode_sprites(VC1Context *v, GetBitContext* gb)
 {
-    MpegEncContext *s = &v->s;
+    MpegEncContext *s     = &v->s;
     AVCodecContext *avctx = s->avctx;
     SpriteData sd;
 
@@ -3532,7 +3574,7 @@ static int vc1_decode_sprites(VC1Context *v, GetBitContext* gb)
 
 static void vc1_sprite_flush(AVCodecContext *avctx)
 {
-    VC1Context *v = avctx->priv_data;
+    VC1Context *v     = avctx->priv_data;
     MpegEncContext *s = &v->s;
     AVFrame *f = &s->current_picture.f;
     int plane, i;
@@ -3544,7 +3586,7 @@ static void vc1_sprite_flush(AVCodecContext *avctx)
     if (f->data[0])
         for (plane = 0; plane < (s->flags&CODEC_FLAG_GRAY ? 1 : 3); plane++)
             for (i = 0; i < v->sprite_height>>!!plane; i++)
-                memset(f->data[plane]+i*f->linesize[plane],
+                memset(f->data[plane] + i * f->linesize[plane],
                        plane ? 128 : 0, f->linesize[plane]);
 }
 
@@ -3579,8 +3621,7 @@ static av_cold int vc1_decode_init_alloc_tables(VC1Context *v)
     v->mb_type[2] = v->mb_type[1] + s->mb_stride * (s->mb_height + 1);
 
     /* Init coded blocks info */
-    if (v->profile == PROFILE_ADVANCED)
-    {
+    if (v->profile == PROFILE_ADVANCED) {
 //        if (alloc_bitplane(&v->over_flags_plane, s->mb_width, s->mb_height) < 0)
 //            return -1;
 //        if (alloc_bitplane(&v->ac_pred_plane, s->mb_width, s->mb_height) < 0)
@@ -3588,6 +3629,11 @@ static av_cold int vc1_decode_init_alloc_tables(VC1Context *v)
     }
 
     ff_intrax8_common_init(&v->x8,s);
+
+    if (s->avctx->codec_id == CODEC_ID_WMV3IMAGE || s->avctx->codec_id == CODEC_ID_VC1IMAGE) {
+        for (i = 0; i < 4; i++)
+            if (!(v->sr_rows[i>>1][i%2] = av_malloc(v->output_width))) return -1;
+    }
 
     if (!v->mv_type_mb_plane || !v->direct_mb_plane || !v->acpred_plane || !v->over_flags_plane ||
         !v->block || !v->cbp_base || !v->ttblk_base || !v->is_intra_base || !v->luma_mv_base ||
@@ -3612,24 +3658,25 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
     v->output_width  = avctx->width;
     v->output_height = avctx->height;
 
-    if (!avctx->extradata_size || !avctx->extradata) return -1;
+    if (!avctx->extradata_size || !avctx->extradata)
+        return -1;
     if (!(avctx->flags & CODEC_FLAG_GRAY))
         avctx->pix_fmt = PIX_FMT_YUV420P; /* ffdshow custom code */
     else
         avctx->pix_fmt = PIX_FMT_GRAY8;
     v->s.avctx = avctx;
     avctx->flags |= CODEC_FLAG_EMU_EDGE;
-    v->s.flags |= CODEC_FLAG_EMU_EDGE;
+    v->s.flags   |= CODEC_FLAG_EMU_EDGE;
 
-    if(avctx->idct_algo==FF_IDCT_AUTO){
-        avctx->idct_algo=FF_IDCT_WMV2;
+    if (avctx->idct_algo == FF_IDCT_AUTO) {
+        avctx->idct_algo = FF_IDCT_WMV2;
     }
 
-    if (vc1_init_common(v) < 0) return -1;
+    if (vc1_init_common(v) < 0)
+        return -1;
     ff_vc1dsp_init(&v->vc1dsp);
 
-    if (avctx->codec_id == CODEC_ID_WMV3)
-    {
+    if (avctx->codec_id == CODEC_ID_WMV3 || avctx->codec_id == CODEC_ID_WMV3IMAGE) {
         int count = 0;
 
         // looks like WMV3 has a sequence header stored in the extradata
@@ -3643,13 +3690,10 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
           return -1;
 
         count = avctx->extradata_size*8 - get_bits_count(&gb);
-        if (count>0)
-        {
+        if (count > 0) {
             av_log(avctx, AV_LOG_INFO, "Extra data: %i bits left, value: %X\n",
                    count, get_bits(&gb, count));
-        }
-        else if (count < 0)
-        {
+        } else if (count < 0) {
             av_log(avctx, AV_LOG_INFO, "Read %i bits in overflow\n", -count);
         }
     } else { // VC1/WVC1/WVP2
@@ -3660,30 +3704,31 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
         uint8_t *buf2 = NULL;
         int seq_initialized = 0, ep_initialized = 0;
 
-        if(avctx->extradata_size < 16) {
+        if (avctx->extradata_size < 16) {
             av_log(avctx, AV_LOG_ERROR, "Extradata size too small: %i\n", avctx->extradata_size);
             return -1;
         }
 
-        buf2 = av_mallocz(avctx->extradata_size + FF_INPUT_BUFFER_PADDING_SIZE);
+        buf2  = av_mallocz(avctx->extradata_size + FF_INPUT_BUFFER_PADDING_SIZE);
         start = find_next_marker(start, end); // in WVC1 extradata first byte is its size, but can be 0 in mkv
-        next = start;
-        for(; next < end; start = next){
+        next  = start;
+        for (; next < end; start = next) {
             next = find_next_marker(start + 4, end);
             size = next - start - 4;
-            if(size <= 0) continue;
+            if (size <= 0)
+                continue;
             buf2_size = vc1_unescape_buffer(start + 4, size, buf2);
             init_get_bits(&gb, buf2, buf2_size * 8);
-            switch(AV_RB32(start)){
+            switch (AV_RB32(start)) {
             case VC1_CODE_SEQHDR:
-                if(vc1_decode_sequence_header(avctx, v, &gb) < 0){
+                if (vc1_decode_sequence_header(avctx, v, &gb) < 0) {
                     av_free(buf2);
                     return -1;
                 }
                 seq_initialized = 1;
                 break;
             case VC1_CODE_ENTRYPOINT:
-                if(vc1_decode_entry_point(avctx, v, &gb) < 0){
+                if (vc1_decode_entry_point(avctx, v, &gb) < 0) {
                     av_free(buf2);
                     return -1;
                 }
@@ -3692,7 +3737,7 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
             }
         }
         av_free(buf2);
-        if(!seq_initialized || !ep_initialized){
+        if (!seq_initialized || !ep_initialized) {
             av_log(avctx, AV_LOG_ERROR, "Incomplete extradata\n");
             return -1;
         }
@@ -3703,14 +3748,14 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
     if (v->profile == PROFILE_ADVANCED)
         avctx->level = v->level;
 
-    avctx->has_b_frames= !!(avctx->max_b_frames);
+    avctx->has_b_frames = !!(avctx->max_b_frames);
 
-    s->mb_width = (avctx->coded_width+15)>>4;
-    s->mb_height = (avctx->coded_height+15)>>4;
+    s->mb_width  = (avctx->coded_width  + 15) >> 4;
+    s->mb_height = (avctx->coded_height + 15) >> 4;
 
     if (v->profile == PROFILE_ADVANCED || v->res_fasttx) {
-        for (i = 0; i < 64;  i++) {
-#define transpose(x) ((x>>3) | ((x&7)<<3))
+        for (i = 0; i < 64; i++) {
+#define transpose(x) ((x >> 3) | ((x & 7) << 3))
             v->zz_8x8[0][i] = transpose(wmv1_scantable[0][i]);
             v->zz_8x8[1][i] = transpose(wmv1_scantable[1][i]);
             v->zz_8x8[2][i] = transpose(wmv1_scantable[2][i]);
@@ -3724,6 +3769,19 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
         v->top_blk_sh  = 0;
     }
 
+    if (avctx->codec_id == CODEC_ID_WMV3IMAGE || avctx->codec_id == CODEC_ID_VC1IMAGE) {
+        v->sprite_width  = avctx->coded_width;
+        v->sprite_height = avctx->coded_height;
+
+        avctx->coded_width  = avctx->width  = v->output_width;
+        avctx->coded_height = avctx->height = v->output_height;
+
+        // prevent 16.16 overflows
+        if (v->sprite_width  > 1 << 14 ||
+            v->sprite_height > 1 << 14 ||
+            v->output_width  > 1 << 14 ||
+            v->output_height > 1 << 14) return -1;
+    }
     return 0;
 }
 
@@ -3735,6 +3793,9 @@ static av_cold int vc1_decode_end(AVCodecContext *avctx)
     VC1Context *v = avctx->priv_data;
     int i;
 
+    if ((avctx->codec_id == CODEC_ID_WMV3IMAGE || avctx->codec_id == CODEC_ID_VC1IMAGE)
+        && v->sprite_output_frame.data[0])
+        avctx->release_buffer(avctx, &v->sprite_output_frame);
     for (i = 0; i < 4; i++)
         av_freep(&v->sr_rows[i>>1][i%2]);
     av_freep(&v->hrd_rate);
@@ -3758,9 +3819,8 @@ static av_cold int vc1_decode_end(AVCodecContext *avctx)
 /** Decode a VC1/WMV3 frame
  * @todo TODO: Handle VC-1 IDUs (Transport level?)
  */
-static int vc1_decode_frame(AVCodecContext *avctx,
-                            void *data, int *data_size,
-                            AVPacket *avpkt)
+static int vc1_decode_frame(AVCodecContext *avctx, void *data,
+                            int *data_size, AVPacket *avpkt)
 {
     const uint8_t *buf = avpkt->data;
     int buf_size = avpkt->size, n_slices = 0, i;
@@ -3778,9 +3838,9 @@ static int vc1_decode_frame(AVCodecContext *avctx,
     /* no supplementary picture */
     if (buf_size == 0 || (buf_size == 4 && AV_RB32(buf) == VC1_CODE_ENDOFSEQ)) {
         /* special case for last picture */
-        if (s->low_delay==0 && s->next_picture_ptr) {
-            *pict= *(AVFrame*)s->next_picture_ptr;
-            s->next_picture_ptr= NULL;
+        if (s->low_delay == 0 && s->next_picture_ptr) {
+            *pict = *(AVFrame*)s->next_picture_ptr;
+            s->next_picture_ptr = NULL;
 
             *data_size = sizeof(AVFrame);
         }
@@ -3789,34 +3849,36 @@ static int vc1_decode_frame(AVCodecContext *avctx,
     }
 
     //for advanced profile we may need to parse and unescape data
-    if (avctx->codec_id == CODEC_ID_VC1) {
+    if (avctx->codec_id == CODEC_ID_VC1 || avctx->codec_id == CODEC_ID_VC1IMAGE) {
         int buf_size2 = 0;
         buf2 = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
 
-        if(IS_MARKER(AV_RB32(buf))){ /* frame starts with marker and needs to be parsed */
+        if (IS_MARKER(AV_RB32(buf))) { /* frame starts with marker and needs to be parsed */
             const uint8_t *start, *end, *next;
             int size;
 
             next = buf;
-            for(start = buf, end = buf + buf_size; next < end; start = next){
+            for (start = buf, end = buf + buf_size; next < end; start = next) {
                 next = find_next_marker(start + 4, end);
                 size = next - start - 4;
-                if(size <= 0) continue;
-                switch(AV_RB32(start)){
+                if (size <= 0) continue;
+                switch (AV_RB32(start)) {
                 case VC1_CODE_FRAME:
                     buf_size2 = vc1_unescape_buffer(start + 4, size, buf2);
                     break;
                 case VC1_CODE_ENTRYPOINT: /* it should be before frame data */
                     buf_size2 = vc1_unescape_buffer(start + 4, size, buf2);
-                    init_get_bits(&s->gb, buf2, buf_size2*8);
+                    init_get_bits(&s->gb, buf2, buf_size2 * 8);
                     vc1_decode_entry_point(avctx, v, &s->gb);
                     break;
                 case VC1_CODE_SLICE: {
                     int buf_size3;
                     slices = av_realloc(slices, sizeof(*slices) * (n_slices+1));
-                    if (!slices) goto err;
+                    if (!slices)
+                        goto err;
                     slices[n_slices].buf = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
-                    if (!slices[n_slices].buf) goto err;
+                    if (!slices[n_slices].buf)
+                        goto err;
                     buf_size3 = vc1_unescape_buffer(start + 4, size,
                                                     slices[n_slices].buf);
                     init_get_bits(&slices[n_slices].gb, slices[n_slices].buf,
@@ -3827,11 +3889,11 @@ static int vc1_decode_frame(AVCodecContext *avctx,
                 }
                 }
             }
-        }else if(v->interlace && ((buf[0] & 0xC0) == 0xC0)){ /* WVC1 interlaced stores both fields divided by marker */
+        } else if (v->interlace && ((buf[0] & 0xC0) == 0xC0)) { /* WVC1 interlaced stores both fields divided by marker */
             const uint8_t *divider;
 
             divider = find_next_marker(buf, buf + buf_size);
-            if((divider == (buf + buf_size)) || AV_RB32(divider) != VC1_CODE_FIELD){
+            if ((divider == (buf + buf_size)) || AV_RB32(divider) != VC1_CODE_FIELD) {
                 av_log(avctx, AV_LOG_ERROR, "Error in WVC1 interlaced frame\n");
                 goto err;
             }
@@ -3849,12 +3911,21 @@ static int vc1_decode_frame(AVCodecContext *avctx,
         init_get_bits(&s->gb, buf, buf_size*8);
 
     if (v->res_sprite) {
-        v->new_sprite = !get_bits1(&s->gb);
-        v->two_sprites = get_bits1(&s->gb);
+        v->new_sprite  = !get_bits1(&s->gb);
+        v->two_sprites =  get_bits1(&s->gb);
         /* res_sprite means a Windows Media Image stream, CODEC_ID_*IMAGE means
            we're using the sprite compositor. These are intentionally kept separate
            so you can get the raw sprites by using the wmv3 decoder for WMVP or
            the vc1 one for WVP2 */
+        if (avctx->codec_id == CODEC_ID_WMV3IMAGE || avctx->codec_id == CODEC_ID_VC1IMAGE) {
+            if (v->new_sprite) {
+                // switch AVCodecContext parameters to those of the sprites
+                avctx->width  = avctx->coded_width  = v->sprite_width;
+                avctx->height = avctx->coded_height = v->sprite_height;
+            } else {
+                goto image;
+            }
+        }
     }
 
     if (s->context_initialized &&
@@ -3878,29 +3949,37 @@ static int vc1_decode_frame(AVCodecContext *avctx,
     /* We need to set current_picture_ptr before reading the header,
      * otherwise we cannot store anything in there. */
     if (s->current_picture_ptr == NULL || s->current_picture_ptr->f.data[0]) {
-        int i= ff_find_unused_picture(s, 0);
-        s->current_picture_ptr= &s->picture[i];
+        int i = ff_find_unused_picture(s, 0);
+        if (i < 0)
+            goto err;
+        s->current_picture_ptr = &s->picture[i];
     }
 
     // do parse frame header
-    if(v->profile < PROFILE_ADVANCED) {
-        if(vc1_parse_frame_header(v, &s->gb) == -1) {
+    if (v->profile < PROFILE_ADVANCED) {
+        if (vc1_parse_frame_header(v, &s->gb) == -1) {
             goto err;
         }
     } else {
-        if(vc1_parse_frame_header_adv(v, &s->gb) == -1) {
+        if (vc1_parse_frame_header_adv(v, &s->gb) == -1) {
             goto err;
         }
+    }
+
+    if ((avctx->codec_id == CODEC_ID_WMV3IMAGE || avctx->codec_id == CODEC_ID_VC1IMAGE)
+        && s->pict_type != AV_PICTURE_TYPE_I) {
+        av_log(v->s.avctx, AV_LOG_ERROR, "Sprite decoder: expected I-frame\n");
+        goto err;
     }
 
     // process pulldown flags
     s->current_picture_ptr->f.repeat_pict = 0;
     // Pulldown flags are only valid when 'broadcast' has been set.
     // So ticks_per_frame will be 2
-    if (v->rff){
+    if (v->rff) {
         // repeat field
         s->current_picture_ptr->f.repeat_pict = 1;
-    }else if (v->rptfrm){
+    } else if (v->rptfrm) {
         // repeat frames
         s->current_picture_ptr->f.repeat_pict = v->rptfrm * 2;
     }
@@ -3910,28 +3989,28 @@ static int vc1_decode_frame(AVCodecContext *avctx,
     s->current_picture.f.key_frame = s->pict_type == AV_PICTURE_TYPE_I;
 
     /* skip B-frames if we don't have reference frames */
-    if(s->last_picture_ptr==NULL && (s->pict_type==AV_PICTURE_TYPE_B || s->dropable)){
+    if (s->last_picture_ptr == NULL && (s->pict_type == AV_PICTURE_TYPE_B || s->dropable)) {
         goto err;
     }
-    if(   (avctx->skip_frame >= AVDISCARD_NONREF && s->pict_type==AV_PICTURE_TYPE_B)
-       || (avctx->skip_frame >= AVDISCARD_NONKEY && s->pict_type!=AV_PICTURE_TYPE_I)
-       ||  avctx->skip_frame >= AVDISCARD_ALL) {
+    if ((avctx->skip_frame >= AVDISCARD_NONREF && s->pict_type == AV_PICTURE_TYPE_B) ||
+        (avctx->skip_frame >= AVDISCARD_NONKEY && s->pict_type != AV_PICTURE_TYPE_I) ||
+         avctx->skip_frame >= AVDISCARD_ALL) {
         goto end;
     }
 
-    if(s->next_p_frame_damaged){
-        if(s->pict_type==AV_PICTURE_TYPE_B)
+    if (s->next_p_frame_damaged) {
+        if (s->pict_type == AV_PICTURE_TYPE_B)
             goto end;
         else
-            s->next_p_frame_damaged=0;
+            s->next_p_frame_damaged = 0;
     }
 
-    if(MPV_frame_start(s, avctx) < 0) {
+    if (MPV_frame_start(s, avctx) < 0) {
         goto err;
     }
 
-    s->me.qpel_put= s->dsp.put_qpel_pixels_tab;
-    s->me.qpel_avg= s->dsp.avg_qpel_pixels_tab;
+    s->me.qpel_put = s->dsp.put_qpel_pixels_tab;
+    s->me.qpel_avg = s->dsp.avg_qpel_pixels_tab;
 
         ff_er_frame_start(s);
 
@@ -3945,7 +4024,7 @@ static int vc1_decode_frame(AVCodecContext *avctx,
             if (i != n_slices) s->gb = slices[i].gb;
         }
 //av_log(s->avctx, AV_LOG_INFO, "Consumed %i/%i bits\n", get_bits_count(&s->gb), s->gb.size_in_bits);
-//  if(get_bits_count(&s->gb) > buf_size * 8)
+//  if (get_bits_count(&s->gb) > buf_size * 8)
 //      return -1;
         ff_er_frame_end(s);
 
@@ -3954,15 +4033,28 @@ static int vc1_decode_frame(AVCodecContext *avctx,
 assert(s->current_picture.f.pict_type == s->current_picture_ptr->f.pict_type);
 assert(s->current_picture.f.pict_type == s->pict_type);
 
-    if (s->pict_type == AV_PICTURE_TYPE_B || s->low_delay) {
-        *pict= *(AVFrame*)s->current_picture_ptr;
-    } else if (s->last_picture_ptr != NULL) {
-        *pict= *(AVFrame*)s->last_picture_ptr;
-    }
-
-    if(s->last_picture_ptr || s->low_delay){
+    if (avctx->codec_id == CODEC_ID_WMV3IMAGE || avctx->codec_id == CODEC_ID_VC1IMAGE) {
+image:
+        avctx->width  = avctx->coded_width  = v->output_width;
+        avctx->height = avctx->coded_height = v->output_height;
+        if (avctx->skip_frame >= AVDISCARD_NONREF)
+            goto end;
+#if CONFIG_WMV3IMAGE_DECODER || CONFIG_VC1IMAGE_DECODER
+        if (vc1_decode_sprites(v, &s->gb))
+            goto err;
+#endif
+        *pict      = v->sprite_output_frame;
         *data_size = sizeof(AVFrame);
-        ff_print_debug_info(s, pict);
+    } else {
+        if (s->pict_type == AV_PICTURE_TYPE_B || s->low_delay) {
+            *pict = *(AVFrame*)s->current_picture_ptr;
+        } else if (s->last_picture_ptr != NULL) {
+            *pict = *(AVFrame*)s->last_picture_ptr;
+        }
+        if (s->last_picture_ptr || s->low_delay) {
+            *data_size = sizeof(AVFrame);
+            ff_print_debug_info(s, pict);
+        }
     }
 
 end:
@@ -3998,9 +4090,9 @@ AVCodec ff_vc1_decoder = {
     .close          = vc1_decode_end,
     .decode         = vc1_decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-    .long_name = NULL_IF_CONFIG_SMALL("SMPTE VC-1"),
-    .pix_fmts = ff_hwaccel_pixfmt_list_420,
-    .profiles = NULL_IF_CONFIG_SMALL(profiles)
+    .long_name      = NULL_IF_CONFIG_SMALL("SMPTE VC-1"),
+    .pix_fmts       = ff_hwaccel_pixfmt_list_420,
+    .profiles       = NULL_IF_CONFIG_SMALL(profiles)
 };
 
 #if CONFIG_WMV3_DECODER
@@ -4013,9 +4105,41 @@ AVCodec ff_wmv3_decoder = {
     .close          = vc1_decode_end,
     .decode         = vc1_decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-    .long_name = NULL_IF_CONFIG_SMALL("Windows Media Video 9"),
-    .pix_fmts = ff_hwaccel_pixfmt_list_420,
-    .profiles = NULL_IF_CONFIG_SMALL(profiles)
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 9"),
+    .pix_fmts       = ff_hwaccel_pixfmt_list_420,
+    .profiles       = NULL_IF_CONFIG_SMALL(profiles)
+};
+#endif
+
+#if CONFIG_WMV3IMAGE_DECODER
+AVCodec ff_wmv3image_decoder = {
+    .name           = "wmv3image",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_WMV3IMAGE,
+    .priv_data_size = sizeof(VC1Context),
+    .init           = vc1_decode_init,
+    .close          = vc1_decode_end,
+    .decode         = vc1_decode_frame,
+    .capabilities   = CODEC_CAP_DR1,
+    .flush          = vc1_sprite_flush,
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 9 Image"),
+    .pix_fmts       = ff_pixfmt_list_420
+};
+#endif
+
+#if CONFIG_VC1IMAGE_DECODER
+AVCodec ff_vc1image_decoder = {
+    .name           = "vc1image",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_VC1IMAGE,
+    .priv_data_size = sizeof(VC1Context),
+    .init           = vc1_decode_init,
+    .close          = vc1_decode_end,
+    .decode         = vc1_decode_frame,
+    .capabilities   = CODEC_CAP_DR1,
+    .flush          = vc1_sprite_flush,
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 9 Image v2"),
+    .pix_fmts       = ff_pixfmt_list_420
 };
 #endif
 

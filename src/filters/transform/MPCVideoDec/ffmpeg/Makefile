@@ -25,7 +25,7 @@ CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I../../../../thirdparty/zlib \
             -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -std=gnu99 -mdll -mthreads -pipe
 
 OPTFLAGS  = -O2 -fno-common -fno-tree-vectorize -fomit-frame-pointer
-YASMFLAGS = -Pconfig.asm -I. -Ilibavutil/x86
+YASMFLAGS = -I. -Ilibavutil/x86 -Pconfig.asm
 
 ifeq ($(64BIT),yes)
     FFMPEG_PREFIX = x86_64-w64-mingw32-
@@ -157,6 +157,7 @@ SRCS_C=\
     libavcodec/rv30.c \
     libavcodec/rv30dsp.c \
     libavcodec/rv34.c \
+    libavcodec/rv34dsp.c \
     libavcodec/rv40.c \
     libavcodec/rv40dsp.c \
     libavcodec/simple_idct.c \
@@ -263,7 +264,6 @@ SRCS_YASM=\
     libavcodec/x86/vp3dsp.asm \
     libavcodec/x86/vp56dsp.asm \
     libavcodec/x86/vp8dsp.asm \
-    libavcodec/x86/x86util.asm \
     libswscale/x86/scale.asm
 
 OBJS += \

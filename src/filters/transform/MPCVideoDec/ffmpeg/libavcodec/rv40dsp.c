@@ -294,7 +294,220 @@ static void rv40_weight_func_ ## size (uint8_t *dst, uint8_t *src1, uint8_t *src
 RV40_WEIGHT_FUNC(16)
 RV40_WEIGHT_FUNC(8)
 
+/**
+ * dither values for deblocking filter - left/top values
+ */
+static const uint8_t rv40_dither_l[16] = {
+    0x40, 0x50, 0x20, 0x60, 0x30, 0x50, 0x40, 0x30,
+    0x50, 0x40, 0x50, 0x30, 0x60, 0x20, 0x50, 0x40
+};
+
+/**
+ * dither values for deblocking filter - right/bottom values
+ */
+static const uint8_t rv40_dither_r[16] = {
+    0x40, 0x30, 0x60, 0x20, 0x50, 0x30, 0x30, 0x40,
+    0x40, 0x40, 0x50, 0x30, 0x20, 0x60, 0x30, 0x40
+};
+
+#define CLIP_SYMM(a, b) av_clip(a, -(b), b)
+/**
+ * weaker deblocking very similar to the one described in 4.4.2 of JVT-A003r1
+ */
+static av_always_inline void rv40_weak_loop_filter(uint8_t *src,
+                                                   const int step,
+                                                   const int stride,
+                                                   const int filter_p1,
+                                                   const int filter_q1,
+                                                   const int alpha,
+                                                   const int beta,
+                                                   const int lim_p0q0,
+                                                   const int lim_q1,
+                                                   const int lim_p1)
+{
+    uint8_t *cm = ff_cropTbl + MAX_NEG_CROP;
+    int i, t, u, diff;
+
+    for (i = 0; i < 4; i++, src += stride) {
+        int diff_p1p0 = src[-2*step] - src[-1*step];
+        int diff_q1q0 = src[ 1*step] - src[ 0*step];
+        int diff_p1p2 = src[-2*step] - src[-3*step];
+        int diff_q1q2 = src[ 1*step] - src[ 2*step];
+
+        t = src[0*step] - src[-1*step];
+        if (!t)
+            continue;
+
+        u = (alpha * FFABS(t)) >> 7;
+        if (u > 3 - (filter_p1 && filter_q1))
+            continue;
+
+        t <<= 2;
+        if (filter_p1 && filter_q1)
+            t += src[-2*step] - src[1*step];
+
+        diff = CLIP_SYMM((t + 4) >> 3, lim_p0q0);
+        src[-1*step] = cm[src[-1*step] + diff];
+        src[ 0*step] = cm[src[ 0*step] - diff];
+
+        if (filter_p1 && FFABS(diff_p1p2) <= beta) {
+            t = (diff_p1p0 + diff_p1p2 - diff) >> 1;
+            src[-2*step] = cm[src[-2*step] - CLIP_SYMM(t, lim_p1)];
+        }
+
+        if (filter_q1 && FFABS(diff_q1q2) <= beta) {
+            t = (diff_q1q0 + diff_q1q2 + diff) >> 1;
+            src[ 1*step] = cm[src[ 1*step] - CLIP_SYMM(t, lim_q1)];
+        }
+    }
+}
+
+static void rv40_h_weak_loop_filter(uint8_t *src, const int stride,
+                                    const int filter_p1, const int filter_q1,
+                                    const int alpha, const int beta,
+                                    const int lim_p0q0, const int lim_q1,
+                                    const int lim_p1)
+{
+    rv40_weak_loop_filter(src, stride, 1, filter_p1, filter_q1,
+                          alpha, beta, lim_p0q0, lim_q1, lim_p1);
+}
+
+static void rv40_v_weak_loop_filter(uint8_t *src, const int stride,
+                                    const int filter_p1, const int filter_q1,
+                                    const int alpha, const int beta,
+                                    const int lim_p0q0, const int lim_q1,
+                                    const int lim_p1)
+{
+    rv40_weak_loop_filter(src, 1, stride, filter_p1, filter_q1,
+                          alpha, beta, lim_p0q0, lim_q1, lim_p1);
+}
+
+static av_always_inline void rv40_strong_loop_filter(uint8_t *src,
+                                                     const int step,
+                                                     const int stride,
+                                                     const int alpha,
+                                                     const int lims,
+                                                     const int dmode,
+                                                     const int chroma)
+{
+    int i;
+
+    for(i = 0; i < 4; i++, src += stride){
+        int sflag, p0, q0, p1, q1;
+        int t = src[0*step] - src[-1*step];
+
+        if (!t)
+            continue;
+
+        sflag = (alpha * FFABS(t)) >> 7;
+        if (sflag > 1)
+            continue;
+
+        p0 = (25*src[-3*step] + 26*src[-2*step] + 26*src[-1*step] +
+              26*src[ 0*step] + 25*src[ 1*step] +
+              rv40_dither_l[dmode + i]) >> 7;
+
+        q0 = (25*src[-2*step] + 26*src[-1*step] + 26*src[ 0*step] +
+              26*src[ 1*step] + 25*src[ 2*step] +
+              rv40_dither_r[dmode + i]) >> 7;
+
+        if (sflag) {
+            p0 = av_clip(p0, src[-1*step] - lims, src[-1*step] + lims);
+            q0 = av_clip(q0, src[ 0*step] - lims, src[ 0*step] + lims);
+        }
+
+        p1 = (25*src[-4*step] + 26*src[-3*step] + 26*src[-2*step] + 26*p0 +
+              25*src[ 0*step] + rv40_dither_l[dmode + i]) >> 7;
+        q1 = (25*src[-1*step] + 26*q0 + 26*src[ 1*step] + 26*src[ 2*step] +
+              25*src[ 3*step] + rv40_dither_r[dmode + i]) >> 7;
+
+        if (sflag) {
+            p1 = av_clip(p1, src[-2*step] - lims, src[-2*step] + lims);
+            q1 = av_clip(q1, src[ 1*step] - lims, src[ 1*step] + lims);
+        }
+
+        src[-2*step] = p1;
+        src[-1*step] = p0;
+        src[ 0*step] = q0;
+        src[ 1*step] = q1;
+
+        if(!chroma){
+            src[-3*step] = (25*src[-1*step] + 26*src[-2*step] +
+                            51*src[-3*step] + 26*src[-4*step] + 64) >> 7;
+            src[ 2*step] = (25*src[ 0*step] + 26*src[ 1*step] +
+                            51*src[ 2*step] + 26*src[ 3*step] + 64) >> 7;
+        }
+    }
+}
+
+static void rv40_h_strong_loop_filter(uint8_t *src, const int stride,
+                                      const int alpha, const int lims,
+                                      const int dmode, const int chroma)
+{
+    rv40_strong_loop_filter(src, stride, 1, alpha, lims, dmode, chroma);
+}
+
+static void rv40_v_strong_loop_filter(uint8_t *src, const int stride,
+                                      const int alpha, const int lims,
+                                      const int dmode, const int chroma)
+{
+    rv40_strong_loop_filter(src, 1, stride, alpha, lims, dmode, chroma);
+}
+
+static av_always_inline int rv40_loop_filter_strength(uint8_t *src,
+                                                      int step, int stride,
+                                                      int beta, int beta2,
+                                                      int edge,
+                                                      int *p1, int *q1)
+{
+    int sum_p1p0 = 0, sum_q1q0 = 0, sum_p1p2 = 0, sum_q1q2 = 0;
+    int strong0 = 0, strong1 = 0;
+    uint8_t *ptr;
+    int i;
+
+    for (i = 0, ptr = src; i < 4; i++, ptr += stride) {
+        sum_p1p0 += ptr[-2*step] - ptr[-1*step];
+        sum_q1q0 += ptr[ 1*step] - ptr[ 0*step];
+    }
+
+    *p1 = FFABS(sum_p1p0) < (beta << 2);
+    *q1 = FFABS(sum_q1q0) < (beta << 2);
+
+    if(!*p1 && !*q1)
+        return 0;
+
+    if (!edge)
+        return 0;
+
+    for (i = 0, ptr = src; i < 4; i++, ptr += stride) {
+        sum_p1p2 += ptr[-2*step] - ptr[-3*step];
+        sum_q1q2 += ptr[ 1*step] - ptr[ 2*step];
+    }
+
+    strong0 = *p1 && (FFABS(sum_p1p2) < beta2);
+    strong1 = *q1 && (FFABS(sum_q1q2) < beta2);
+
+    return strong0 && strong1;
+}
+
+static int rv40_h_loop_filter_strength(uint8_t *src, int stride,
+                                       int beta, int beta2, int edge,
+                                       int *p1, int *q1)
+{
+    return rv40_loop_filter_strength(src, stride, 1, beta, beta2, edge, p1, q1);
+}
+
+static int rv40_v_loop_filter_strength(uint8_t *src, int stride,
+                                       int beta, int beta2, int edge,
+                                       int *p1, int *q1)
+{
+    return rv40_loop_filter_strength(src, 1, stride, beta, beta2, edge, p1, q1);
+}
+
 av_cold void ff_rv40dsp_init(RV34DSPContext *c, DSPContext* dsp) {
+
+    ff_rv34dsp_init(c, dsp);
+
     c->put_pixels_tab[0][ 0] = dsp->put_h264_qpel_pixels_tab[0][0];
     c->put_pixels_tab[0][ 1] = put_rv40_qpel16_mc10_c;
     c->put_pixels_tab[0][ 2] = dsp->put_h264_qpel_pixels_tab[0][2];
@@ -368,6 +581,15 @@ av_cold void ff_rv40dsp_init(RV34DSPContext *c, DSPContext* dsp) {
     c->rv40_weight_pixels_tab[0] = rv40_weight_func_16;
     c->rv40_weight_pixels_tab[1] = rv40_weight_func_8;
 
+    c->rv40_weak_loop_filter[0]     = rv40_h_weak_loop_filter;
+    c->rv40_weak_loop_filter[1]     = rv40_v_weak_loop_filter;
+    c->rv40_strong_loop_filter[0]   = rv40_h_strong_loop_filter;
+    c->rv40_strong_loop_filter[1]   = rv40_v_strong_loop_filter;
+    c->rv40_loop_filter_strength[0] = rv40_h_loop_filter_strength;
+    c->rv40_loop_filter_strength[1] = rv40_v_loop_filter_strength;
+
     if (HAVE_MMX)
         ff_rv40dsp_init_x86(c, dsp);
+    if (HAVE_NEON)
+        ff_rv40dsp_init_neon(c, dsp);
 }

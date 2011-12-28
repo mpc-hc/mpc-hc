@@ -1779,7 +1779,7 @@ static void add_8x8basis_c(int16_t rem[64], int16_t basis[64], int scale){
 }
 
 /**
- * permutes an 8x8 block.
+ * Permute an 8x8 block.
  * @param block the block which will be permuted according to the given permutation vector
  * @param permutation the permutation vector
  * @param last the last non zero coefficient in scantable order, used to speed the permutation up
@@ -2796,7 +2796,7 @@ int ff_check_alignment(void){
     return 0;
 }
 
-av_cold void dsputil_init(DSPContext* c, AVCodecContext *avctx)
+av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 {
     int i;
 
@@ -2865,9 +2865,6 @@ av_cold void dsputil_init(DSPContext* c, AVCodecContext *avctx)
             c->idct_add= ff_faanidct_add;
             c->idct    = ff_faanidct;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
-        }else if(CONFIG_EATGQ_DECODER && avctx->idct_algo==FF_IDCT_EA) {
-            c->idct_put= ff_ea_idct_put_c;
-            c->idct_permutation_type= FF_NO_IDCT_PERM;
         }else{ //accurate/default
             c->idct_put = ff_simple_idct_put_8;
             c->idct_add = ff_simple_idct_add_8;
@@ -2887,8 +2884,8 @@ av_cold void dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->pix_sum = pix_sum_c;
     c->pix_norm1 = pix_norm1_c;
 
-    c->fill_block_tab[0] = fill_block16_c;
-    c->fill_block_tab[1] = fill_block8_c;
+//    c->fill_block_tab[0] = fill_block16_c;
+//    c->fill_block_tab[1] = fill_block8_c;
 
     /* TODO [0] 16  [1] 8 */
     c->pix_abs[0][0] = pix_abs16_c;
@@ -3043,7 +3040,7 @@ av_cold void dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->vector_fmul_window = vector_fmul_window_c;
     c->vector_clipf = vector_clipf_c;
     c->scalarproduct_int16 = scalarproduct_int16_c;
-    c->scalarproduct_and_madd_int16 = scalarproduct_and_madd_int16_c;
+//    c->scalarproduct_and_madd_int16 = scalarproduct_and_madd_int16_c;
     c->apply_window_int16 = apply_window_int16_c;
     c->vector_clip_int32 = vector_clip_int32_c;
     c->scalarproduct_float = scalarproduct_float_c;
@@ -3173,4 +3170,42 @@ av_cold void dsputil_init(DSPContext* c, AVCodecContext *avctx)
 
     ff_init_scantable_permutation(c->idct_permutation,
                                   c->idct_permutation_type);
+}
+
+// avcodec_get_current_idct,avcodec_get_encoder_info by h.yamagata
+// It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
+const char* avcodec_get_current_idct(AVCodecContext *avctx)
+{
+    MpegEncContext *s = avctx->priv_data;
+    DSPContext *c = &s->dsp;
+
+    if (c->idct_put==ff_jref_idct_put)
+        return "Integer (ff_jref_idct)";
+    if (c->idct_put==ff_jref_idct1_put)
+        return "Integer (ff_jref_idct1)";
+    if (c->idct_put==ff_jref_idct1_put)
+        return "Integer (ff_jref_idct2)";
+    if (c->idct_put==ff_jref_idct4_put)
+        return "Integer (ff_jref_idct4)";
+    if (c->idct_put==ff_vp3_idct_put_c)
+        return "VP3 (ff_vp3_idct_c)";
+    if (c->idct_put==ff_faanidct_put)
+        return "FAAN (ff_faanidct_put)";
+    if (c->idct_put==ff_simple_idct_put_8)
+        return "Simple IDCT (simple_idct)";
+#if HAVE_MMX
+    return avcodec_get_current_idct_mmx(avctx,c);
+#else
+    return "";
+#endif
+}
+
+// It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
+void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_version,int *divx_build,int *lavc_build)
+{
+    MpegEncContext *s = avctx->priv_data;
+    *xvid_build = s->xvid_build;
+    *divx_version = s->divx_version;
+    *divx_build = s->divx_build;
+    *lavc_build = s->lavc_build;
 }

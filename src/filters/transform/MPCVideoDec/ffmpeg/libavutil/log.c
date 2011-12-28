@@ -32,63 +32,71 @@
 static int av_log_level = AV_LOG_INFO;
 static int flags;
 
-const char* av_default_item_name(void* ptr){
-    return (*(AVClass**)ptr)->class_name;
+const char *av_default_item_name(void *ptr)
+{
+    return (*(AVClass **) ptr)->class_name;
 }
 
 void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl)
 {
-    static int print_prefix=1;
+    static int print_prefix = 1;
     static int count;
     static char prev[1024];
     char line[1024];
     static int is_atty;
-    AVClass* avc= ptr ? *(AVClass**)ptr : NULL;
-    if(level>av_log_level)
+    AVClass* avc = ptr ? *(AVClass **) ptr : NULL;
+    if (level > av_log_level)
         return;
-    line[0]=0;
+    line[0] = 0;
 #undef fprintf
-    if(print_prefix && avc) {
+    if (print_prefix && avc) {
         if (avc->parent_log_context_offset) {
-            AVClass** parent= *(AVClass***)(((uint8_t*)ptr) + avc->parent_log_context_offset);
-            if(parent && *parent){
-                snprintf(line, sizeof(line), "[%s @ %p] ", (*parent)->item_name(parent), parent);
+            AVClass** parent = *(AVClass ***) (((uint8_t *) ptr) +
+                                   avc->parent_log_context_offset);
+            if (parent && *parent) {
+                snprintf(line, sizeof(line), "[%s @ %p] ",
+                         (*parent)->item_name(parent), parent);
             }
         }
-        snprintf(line + strlen(line), sizeof(line) - strlen(line), "[%s @ %p] ", avc->item_name(ptr), ptr);
+        snprintf(line + strlen(line), sizeof(line) - strlen(line), "[%s @ %p] ",
+                 avc->item_name(ptr), ptr);
     }
 
     vsnprintf(line + strlen(line), sizeof(line) - strlen(line), fmt, vl);
 
-    print_prefix = strlen(line) && line[strlen(line)-1] == '\n';
+    print_prefix = strlen(line) && line[strlen(line) - 1] == '\n';
 
 #if HAVE_ISATTY
-    if(!is_atty) is_atty= isatty(2) ? 1 : -1;
+    if (!is_atty)
+        is_atty = isatty(2) ? 1 : -1;
 #endif
 
-    if(print_prefix && (flags & AV_LOG_SKIP_REPEATED) && !strncmp(line, prev, sizeof line)){
+    if (print_prefix && (flags & AV_LOG_SKIP_REPEATED) &&
+        !strncmp(line, prev, sizeof line)) {
         count++;
-        if(is_atty==1)
+        if (is_atty == 1)
             fprintf(stderr, "    Last message repeated %d times\r", count);
         return;
     }
-    if(count>0){
+    if (count > 0) {
         fprintf(stderr, "    Last message repeated %d times\n", count);
-        count=0;
+        count = 0;
     }
     fputs(line, stderr);
     av_strlcpy(prev, line, sizeof line);
 }
 
-static void (*av_log_callback)(void*, int, const char*, va_list) = av_log_default_callback;
+static void (*av_log_callback)(void*, int, const char*, va_list) =
+    av_log_default_callback;
 
 void av_log(void* avcl, int level, const char *fmt, ...)
 {
-    AVClass* avc= avcl ? *(AVClass**)avcl : NULL;
+    AVClass* avc = avcl ? *(AVClass **) avcl : NULL;
     va_list vl;
     va_start(vl, fmt);
-    if(avc && avc->version >= (50<<16 | 15<<8 | 2) && avc->log_level_offset_offset && level>=AV_LOG_FATAL)
-        level += *(int*)(((uint8_t*)avcl) + avc->log_level_offset_offset);
+    if (avc && avc->version >= (50 << 16 | 15 << 8 | 2) &&
+        avc->log_level_offset_offset && level >= AV_LOG_FATAL)
+        level += *(int *) (((uint8_t *) avcl) + avc->log_level_offset_offset);
     av_vlog(avcl, level, fmt, vl);
     va_end(vl);
 }
@@ -115,7 +123,7 @@ void av_log_set_level(int level)
 
 void av_log_set_flags(int arg)
 {
-    flags= arg;
+    flags = arg;
 }
 
 void av_log_set_callback(void (*callback)(void*, int, const char*, va_list))

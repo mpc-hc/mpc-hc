@@ -84,6 +84,7 @@ av_cold int ff_mjpeg_decode_init(AVCodecContext *avctx)
 
     if (!s->picture_ptr)
         s->picture_ptr = &s->picture;
+    avcodec_get_frame_defaults(&s->picture);
 
     s->avctx = avctx;
     dsputil_init(&s->dsp, avctx);
@@ -216,8 +217,6 @@ int ff_mjpeg_decode_dht(MJpegDecodeContext *s)
 int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
 {
     int len, nb_components, i, width, height, pix_fmt_id;
-
-    s->cur_scan = 0;
 
     /* XXX: verify len field validity */
     len = get_bits(&s->gb, 16);
@@ -662,15 +661,19 @@ static int ljpeg_decode_rgb_scan(MJpegDecodeContext *s, int predictor, int point
                 s->restart_count = s->restart_interval;
 
             for(i=0;i<3;i++) {
-                int pred;
+                int pred, dc;
 
                 topleft[i]= top[i];
                 top[i]= buffer[mb_x][i];
 
                 PREDICT(pred, topleft[i], top[i], left[i], modified_predictor);
 
+                dc = mjpeg_decode_dc(s, s->dc_index[i]);
+                if(dc == 0xFFFF)
+                    return -1;
+
                 left[i]=
-                buffer[mb_x][i]= mask & (pred + (mjpeg_decode_dc(s, s->dc_index[i]) << point_transform));
+                buffer[mb_x][i]= mask & (pred + (dc << point_transform));
             }
 
             if (s->restart_interval && !--s->restart_count) {
@@ -896,9 +899,9 @@ static int mjpeg_decode_scan(MJpegDecodeContext *s, int nb_components, int Ah, i
             if (s->restart_interval && show_bits(&s->gb, i)  == (1<<i)-1){ /* skip RSTn */
                 int pos= get_bits_count(&s->gb);
                 align_get_bits(&s->gb);
-                while(show_bits(&s->gb, 8) == 0xFF)
+                while(get_bits_count(&s->gb) < s->gb.size_in_bits && show_bits(&s->gb, 8) == 0xFF)
                     skip_bits(&s->gb, 8);
-                if((get_bits(&s->gb, 8)&0xF8) == 0xD0){
+                if(get_bits_count(&s->gb) < s->gb.size_in_bits && (get_bits(&s->gb, 8)&0xF8) == 0xD0){
                     for (i=0; i<nb_components; i++) /* reset dc */
                         s->last_dc[i] = 1024;
                 }else{
@@ -1124,9 +1127,9 @@ static int mjpeg_decode_app(MJpegDecodeContext *s)
         av_log(s->avctx, AV_LOG_DEBUG, "APPx %8X\n", id);
     }
 
-    /* buggy AVID, it puts EOI only at every 10th frame */
-    /* also this fourcc is used by non-avid files too, it holds some
-       informations, but it's always present in AVID creates files */
+    /* Buggy AVID, it puts EOI only at every 10th frame. */
+    /* Also, this fourcc is used by non-avid files too, it holds some
+       information, but it's always present in AVID-created files. */
     if (id == AV_RL32("AVI1"))
     {
         /* structure:
@@ -1139,8 +1142,9 @@ static int mjpeg_decode_app(MJpegDecodeContext *s)
             s->buggy_avid = 1;
 //        if (s->first_picture)
 //            printf("mjpeg: workarounding buggy AVID\n");
-        i = get_bits(&s->gb, 8); len--;
-        av_log(s->avctx, AV_LOG_DEBUG, "polarity %d\n", i);
+        i = get_bits(&s->gb, 8);
+        if     (i==2) s->bottom_field= 1;
+        else if(i==1) s->bottom_field= 0;
 #if 0
         skip_bits(&s->gb, 8);
         skip_bits(&s->gb, 32);
@@ -1511,10 +1515,10 @@ int ff_mjpeg_decode_frame(AVCodecContext *avctx,
                         return -1;
                     break;
                 case EOI:
+                    s->cur_scan = 0;
                     if ((s->buggy_avid && !s->interlaced) || s->restart_interval)
                         break;
 eoi_parser:
-                    s->cur_scan = 0;
                     if (!s->got_picture) {
                         av_log(avctx, AV_LOG_WARNING, "Found EOI before any SOF, ignoring\n");
                         break;
@@ -1523,7 +1527,7 @@ eoi_parser:
                         s->bottom_field ^= 1;
                         /* if not bottom field, do not output image yet */
                         if (s->bottom_field == !s->interlace_polarity)
-                            break;
+                            goto not_the_end;
                     }
                     *picture = *s->picture_ptr;
                     *data_size = sizeof(AVFrame);
@@ -1545,7 +1549,7 @@ eoi_parser:
                         break;
                     }
                     if (ff_mjpeg_decode_sos(s, NULL, NULL) < 0 &&
-                        avctx->error_recognition >= FF_ER_EXPLODE)
+                        (avctx->err_recognition & AV_EF_EXPLODE))
                       return AVERROR_INVALIDDATA;
                     /* buggy avid puts EOI every 10-20th frame */
                     /* if restart period is over process EOI */
@@ -1572,6 +1576,7 @@ eoi_parser:
 //                    break;
                 }
 
+not_the_end:
                 /* eof process start code */
                 buf_ptr += (get_bits_count(&s->gb)+7)/8;
                 av_log(avctx, AV_LOG_DEBUG, "marker parser used %d bytes (%d bits)\n",
@@ -1618,7 +1623,7 @@ av_cold int ff_mjpeg_decode_end(AVCodecContext *avctx)
 #define OFFSET(x) offsetof(MJpegDecodeContext, x)
 #define VD AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_DECODING_PARAM
 static const AVOption options[] = {
-    { "extern_huff",        "Use external huffman table.",  OFFSET(extern_huff), FF_OPT_TYPE_INT, { 0 }, 0, 1, VD },
+    { "extern_huff",        "Use external huffman table.",  OFFSET(extern_huff), AV_OPT_TYPE_INT, { 0 }, 0, 1, VD },
     { NULL },
 };
 

@@ -35,7 +35,7 @@ static const uint8_t eac3_blocks[4] = {
 };
 
 
-int ff_ac3_parse_header(GetBitContext *gbc, AC3HeaderInfo *hdr)
+int avpriv_ac3_parse_header(GetBitContext *gbc, AC3HeaderInfo *hdr)
 {
     int frame_size_code;
 
@@ -141,7 +141,7 @@ static int ac3_sync(uint64_t state, AACAC3ParseContext *hdr_info,
     GetBitContext gbc;
 
     init_get_bits(&gbc, tmp.u8+8-AC3_HEADER_SIZE, 54);
-    err = ff_ac3_parse_header(&gbc, &hdr);
+    err = avpriv_ac3_parse_header(&gbc, &hdr);
 
     if(err < 0)
         return 0;
@@ -174,9 +174,9 @@ static av_cold int ac3_parse_init(AVCodecParserContext *s1)
 
 
 AVCodecParser ff_ac3_parser = {
-    { CODEC_ID_AC3, CODEC_ID_EAC3 },
-    sizeof(AACAC3ParseContext),
-    ac3_parse_init,
-    ff_aac_ac3_parse,
-    ff_parse_close,
+    .codec_ids      = { CODEC_ID_AC3, CODEC_ID_EAC3 },
+    .priv_data_size = sizeof(AACAC3ParseContext),
+    .parser_init    = ac3_parse_init,
+    .parser_parse   = ff_aac_ac3_parse,
+    .parser_close   = ff_parse_close,
 };

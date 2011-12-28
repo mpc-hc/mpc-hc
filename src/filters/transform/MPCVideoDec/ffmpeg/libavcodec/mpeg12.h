@@ -2,20 +2,20 @@
  * MPEG1/2 common code
  * Copyright (c) 2007 Aurelien Jacobs <aurel@gnuage.org>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -24,11 +24,34 @@
 
 #include "mpegvideo.h"
 
+// ==> Start patch MPC
+#include <windows.h>
+#include "dxva.h"
+// <== End patch MPC
+
 #define DC_VLC_BITS 9
 #define TEX_VLC_BITS 9
 
 extern VLC ff_dc_lum_vlc;
 extern VLC ff_dc_chroma_vlc;
+
+typedef struct Mpeg1Context {
+    MpegEncContext mpeg_enc_ctx;
+    int mpeg_enc_ctx_allocated; /* true if decoding context allocated */
+    int repeat_field; /* true if we must repeat the field */
+    AVPanScan pan_scan;              /**< some temporary storage for the panscan */
+    int slice_count;
+    int swap_uv;//indicate VCR2
+    int save_aspect_info;
+    int save_width, save_height, save_progressive_seq;
+    AVRational frame_rate_ext;       ///< MPEG-2 specific framerate modificator
+    int sync;                        ///< Did we reach a sync point like a GOP/SEQ/KEYFrame?
+    int closed_gop;                  ///< GOP is closed
+	// ==> Start patch MPC
+	DXVA_SliceInfo* pSliceInfo;
+	uint8_t* prev_slice;
+	// <== End patch MPC
+} Mpeg1Context;
 
 extern uint8_t ff_mpeg12_static_rl_table_store[2][2][2*MAX_RUN + MAX_LEVEL + 3];
 

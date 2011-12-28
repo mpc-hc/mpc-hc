@@ -124,10 +124,10 @@ typedef struct Picture{
     int pic_id;                 /**< h264 pic_num (short -> no wrap version of pic_num,
                                      pic_num & max_pic_num; long -> long_pic_num) */
     int long_ref;               ///< 1->long term reference 0->short term reference
-    int ref_poc[2][2][16];      ///< h264 POCs of the frames used as reference (FIXME need per slice)
+    int ref_poc[2][2][32];      ///< h264 POCs of the frames/fields used as reference (FIXME need per slice)
     int ref_count[2][2];        ///< number of entries in ref_poc              (FIXME need per slice)
     int mbaff;                  ///< h264 1 -> MBAFF frame 0-> not MBAFF
-    int field_picture;          ///< whether or not the picture was encoded in seperate fields
+    int field_picture;          ///< whether or not the picture was encoded in separate fields
 
     int mb_var_sum;             ///< sum of MB variance for current frame
     int mc_mb_var_sum;          ///< motion compensated MB variance for current frame
@@ -234,7 +234,6 @@ typedef struct MpegEncContext {
     int coded_picture_number;  ///< used to set pic->coded_picture_number, should not be used for/by anything else
     int picture_number;       //FIXME remove, unclear definition
     int picture_in_gop_number; ///< 0-> first pic in gop, ...
-    int b_frames_since_non_b;  ///< used for encoding, relative to not yet reordered input
     int mb_width, mb_height;   ///< number of MBs horizontally & vertically
     int mb_stride;             ///< mb_width+1 used for some arrays to allow simple addressing of left & top MBs without sig11
     int b8_stride;             ///< 2*mb_width+1 used for some 8x8 block arrays to allow simple addressing
@@ -303,7 +302,6 @@ typedef struct MpegEncContext {
     int last_dc[3];                ///< last DC values for MPEG1
     int16_t *dc_val_base;
     int16_t *dc_val[3];            ///< used for mpeg4 DC prediction, all 3 arrays must be continuous
-    int16_t dc_cache[4*5];
     const uint8_t *y_dc_scale_table;     ///< qscale -> y_dc_scale table
     const uint8_t *c_dc_scale_table;     ///< qscale -> c_dc_scale table
     const uint8_t *chroma_qscale_table;  ///< qscale -> chroma_qscale (h263)
@@ -311,8 +309,6 @@ typedef struct MpegEncContext {
     uint8_t *coded_block;          ///< used for coded block pattern prediction (msmpeg4v3, wmv1)
     int16_t (*ac_val_base)[16];
     int16_t (*ac_val[3])[16];      ///< used for for mpeg4 AC prediction, all 3 arrays must be continuous
-    uint8_t *prev_pict_types;     ///< previous picture types in bitstream order, used for mb skip
-#define PREV_PICT_TYPES_BUFFER_SIZE 256
     int mb_skipped;                ///< MUST BE SET only during DECODING
     uint8_t *mbskip_table;        /**< used to avoid copy if macroblock skipped (for black regions for example)
                                    and used for b-frame encoding & decoding (contains skip table of next P Frame) */
@@ -343,7 +339,6 @@ typedef struct MpegEncContext {
     /* motion compensation */
     int unrestricted_mv;        ///< mv can point outside of the coded picture
     int h263_long_vectors;      ///< use horrible h263v1 long vector mode
-    int decode;                 ///< if 0 then decoding will be skipped (for encoding b frames for example)
 
     DSPContext dsp;             ///< pointers for accelerated dsp functions
     int f_code;                 ///< forward MV resolution
@@ -438,7 +433,6 @@ typedef struct MpegEncContext {
     uint8_t *inter_ac_vlc_length;
     uint8_t *inter_ac_vlc_last_length;
     uint8_t *luma_dc_vlc_length;
-    uint8_t *chroma_dc_vlc_length;
 #define UNI_AC_ENC_INDEX(run,level) ((run)*128 + (level))
 
     int coded_score[8];
@@ -458,7 +452,6 @@ typedef struct MpegEncContext {
     void *opaque;              ///< private data for the user
 
     /* bit rate control */
-    int64_t wanted_bits;
     int64_t total_bits;
     int frame_bits;                ///< bits used for the current frame
     int next_lambda;               ///< next lambda used for retrying to encode a frame
@@ -480,20 +473,22 @@ typedef struct MpegEncContext {
     int error_count, error_occurred;
     uint8_t *error_status_table;       ///< table of the error status of each MB
 #define VP_START            1          ///< current MB is the first after a resync marker
-#define AC_ERROR            2
-#define DC_ERROR            4
-#define MV_ERROR            8
-#define AC_END              16
-#define DC_END              32
-#define MV_END              64
-//FIXME some prefix?
+#define ER_AC_ERROR            2
+#define ER_DC_ERROR            4
+#define ER_MV_ERROR            8
+#define ER_AC_END              16
+#define ER_DC_END              32
+#define ER_MV_END              64
+
+#define ER_MB_ERROR (ER_AC_ERROR|ER_DC_ERROR|ER_MV_ERROR)
+#define ER_MB_END   (ER_AC_END|ER_DC_END|ER_MV_END)
 
     int resync_mb_x;                 ///< x position of last resync marker
     int resync_mb_y;                 ///< y position of last resync marker
     GetBitContext last_resync_gb;    ///< used to search for the next resync marker
     int mb_num_left;                 ///< number of MBs left in this video packet (for partitioned Slices only)
     int next_p_frame_damaged;        ///< set if the next p frame is damaged, to avoid showing trashed b frames
-    int error_recognition;
+    int err_recognition;
 
     ParseContext parse_context;
 
@@ -719,7 +714,7 @@ void ff_update_duplicate_context(MpegEncContext *dst, MpegEncContext *src);
 int MPV_lowest_referenced_row(MpegEncContext *s, int dir);
 void MPV_report_decode_progress(MpegEncContext *s);
 int ff_mpeg_update_thread_context(AVCodecContext *dst, const AVCodecContext *src);
-const uint8_t *ff_find_start_code(const uint8_t *p, const uint8_t *end, uint32_t *state);
+const uint8_t *avpriv_mpv_find_start_code(const uint8_t *p, const uint8_t *end, uint32_t *state);
 void ff_set_qscale(MpegEncContext * s, int qscale);
 
 void ff_er_frame_start(MpegEncContext *s);
@@ -734,8 +729,8 @@ void ff_init_block_index(MpegEncContext *s);
 void ff_copy_picture(Picture *dst, Picture *src);
 
 /**
- * allocates a Picture
- * The pixels are allocated/set by calling get_buffer() if shared=0
+ * Allocate a Picture.
+ * The pixels are allocated/set by calling get_buffer() if shared = 0.
  */
 int ff_alloc_picture(MpegEncContext *s, Picture *pic, int shared);
 

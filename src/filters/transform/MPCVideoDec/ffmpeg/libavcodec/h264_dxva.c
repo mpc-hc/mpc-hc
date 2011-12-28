@@ -35,13 +35,10 @@ static void fill_dxva_slice_long(H264Context *h){
 	pSlice->slice_type						= h->raw_slice_type; 
 	pSlice->luma_log2_weight_denom			= h->luma_log2_weight_denom;
 	pSlice->chroma_log2_weight_denom		= h->chroma_log2_weight_denom;
-
-	if (h->list_count > 0)
-		pSlice->num_ref_idx_l0_active_minus1 = h->ref_count[0] - 1;
-	if (h->list_count > 1)
-		pSlice->num_ref_idx_l1_active_minus1 = h->ref_count[1] - 1;
-	pSlice->slice_alpha_c0_offset_div2		= h->slice_alpha_c0_offset / 2 - 26;
-	pSlice->slice_beta_offset_div2			= h->slice_beta_offset     / 2 - 26;
+	pSlice->num_ref_idx_l0_active_minus1	= h->ref_count[0]-1;	// num_ref_idx_l0_active_minus1;
+	pSlice->num_ref_idx_l1_active_minus1	= h->ref_count[1]-1;	// num_ref_idx_l1_active_minus1;
+	pSlice->slice_alpha_c0_offset_div2		= h->slice_alpha_c0_offset / 2;
+	pSlice->slice_beta_offset_div2			= h->slice_beta_offset / 2;
 	pSlice->Reserved8Bits					= 0;
 	
 	// Fill prediction weights
@@ -511,9 +508,7 @@ int decode_slice_header_noexecute(H264Context *h){
 
         } else {
             /* Frame or first field in a potentially complementary pair */
-			// ==> Start patch MPC
-			// assert(!s0->current_picture_ptr);
-			// <== End patch MPC
+            assert(!s0->current_picture_ptr);
             s0->first_field = FIELD_PICTURE;
         }
 
