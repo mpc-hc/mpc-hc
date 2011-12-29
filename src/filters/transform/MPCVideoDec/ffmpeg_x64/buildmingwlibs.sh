@@ -74,7 +74,7 @@ then
   rm mingw-w64-crt/misc/delayimp.c
   fi
 
-  svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/tags/v1.0.2 .
+  svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/stable/v1.x .
 
   # apply Mingw64 compatibility patch
   patch -p0 -i ../../mpchc_Mingw64.patch
@@ -88,7 +88,7 @@ then
   echo "Compiling MinGW64 crt and headers..."
   cd "$BD/mingw/build-$HST"
   ../mingw-w64-crt/configure --prefix="$PF" --with-sysroot="$PF" --host="$TGT" --disable-lib32 || exit 1
-  make -j4 CFLAGS="-fno-leading-underscore" -s && make install || exit 1
+  make -j4 CFLAGS="-O2 -fno-leading-underscore -pipe" -s && make install || exit 1
   cp "/mingw/lib/gcc/x86_64-w64-mingw32/$GCCVER/libgcc.a" "$BD/../../../../../../lib64/libgcc.a"
   cp "$PF/x86_64-w64-mingw32/lib/libmingwex.a" "$BD/../../../../../../lib64/libmingwex.a"
 fi
