@@ -133,7 +133,7 @@
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libfaad.lib;libflac.lib;libmad.lib;libvorbisidec.lib;Winmm.lib;zlib.lib;libgcc.a;libmingwex.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libfaad.lib;libflac.lib;libvorbisidec.lib;Winmm.lib;zlib.lib;libgcc.a;libmingwex.a;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin10\lib\Debug_$(Platform);$(SolutionDir)lib\detours;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -150,7 +150,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libfaad.lib;libflac.lib;libmad.lib;libvorbisidec.lib;Winmm.lib;zlib.lib;libgcc.a;libmingwex.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libfaad.lib;libflac.lib;libvorbisidec.lib;Winmm.lib;zlib.lib;libgcc.a;libmingwex.a;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin10\lib\Debug_$(Platform);$(SolutionDir)lib64\detours;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -166,7 +166,7 @@
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libfaad.lib;libflac.lib;libmad.lib;libvorbisidec.lib;Winmm.lib;zlib.lib;libgcc.a;libmingwex.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libfaad.lib;libflac.lib;libvorbisidec.lib;Winmm.lib;zlib.lib;libgcc.a;libmingwex.a;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -182,7 +182,7 @@
       <PreprocessorDefinitions>REGISTER_FILTER;_WIN64;NDEBUG;_USRDLL;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libfaad.lib;libflac.lib;libmad.lib;libvorbisidec.lib;Winmm.lib;zlib.lib;libgcc.a;libmingwex.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libfaad.lib;libflac.lib;libvorbisidec.lib;Winmm.lib;zlib.lib;libgcc.a;libmingwex.a;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -198,7 +198,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>libfaad.lib;libmad.lib;libdca.lib;liba52.lib;libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libfaad.lib;libdca.lib;liba52.lib;libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -210,7 +210,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>libfaad.lib;libmad.lib;libdca.lib;liba52.lib;libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libfaad.lib;libdca.lib;liba52.lib;libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -221,7 +221,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>libfaad.lib;libmad.lib;libdca.lib;liba52.lib;libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libfaad.lib;libdca.lib;liba52.lib;libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -232,7 +232,7 @@
       <PreprocessorDefinitions>_WIN64;NDEBUG;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>libfaad.lib;libmad.lib;libdca.lib;liba52.lib;libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libfaad.lib;libdca.lib;liba52.lib;libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -290,10 +290,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\thirdparty\libflac\src\libFLAC\libflac.vcxproj">
       <Project>{4cefbc84-c215-11db-8314-0800200c9a66}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\thirdparty\libmad\libmad.vcxproj">
-      <Project>{d8365c15-2166-4db6-8a2d-1c8f0239eb18}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\..\thirdparty\libvorbisidec\libvorbisidec.vcxproj">

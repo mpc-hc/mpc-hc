@@ -727,10 +727,6 @@
       <Project>{4cefbc84-c215-11db-8314-0800200c9a66}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\thirdparty\libmad\libmad.vcxproj">
-      <Project>{d8365c15-2166-4db6-8a2d-1c8f0239eb18}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\libpng\libpng.vcxproj">
       <Project>{fc8080d1-603c-45ec-bcfa-7172e2f3d989}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

@@ -311,16 +311,17 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_fDynamicRangeControl[dts] = false;
 	m_fDynamicRangeControl[aac] = false;
 	m_DolbyDigitalMode			= DD_Unknown;
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 	m_pAVCodec					= NULL;
 	m_pAVCtx					= NULL;
+	m_pParser					= NULL;
 	m_pPCMData					= NULL;
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	memset (&m_flac, 0, sizeof(m_flac));
 #endif
 
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 	m_pFFBuffer					= NULL;
 	m_nFFBufferSize				= 0;
 #endif
@@ -374,7 +375,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 CMpaDecFilter::~CMpaDecFilter()
 {
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 	if (m_pFFBuffer) {
 		free(m_pFFBuffer);
 	}
@@ -417,7 +418,7 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	m_sample_max = 0.1f;
 	m_ps2_state.sync = false;
 	m_DolbyDigitalMode = DD_Unknown;
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 	if (m_pAVCtx) {
 		avcodec_flush_buffers (m_pAVCtx);
 	}
@@ -597,8 +598,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
-	else { // if(.. the rest ..)
-		hr = ProcessMPA();
+	else if(subtype == MEDIASUBTYPE_MPEG1Packet || subtype == MEDIASUBTYPE_MPEG1Payload || subtype == MEDIASUBTYPE_MPEG1AudioPayload) {
+		hr = ProcessFFmpeg(CODEC_ID_MP1);
+	} else if(subtype == MEDIASUBTYPE_MPEG2_AUDIO) {
+		hr = ProcessFFmpeg(CODEC_ID_MP2);
+	} else if(subtype == MEDIASUBTYPE_MP3) {
+		hr = ProcessFFmpeg(CODEC_ID_MP3);
 	}
 #endif
 
@@ -1035,7 +1040,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 #endif
 #endif /* INTERNAL_DECODER_AC3 */
 
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 HRESULT CMpaDecFilter::ProcessFFmpeg(int nCodecId)
 {
 	HRESULT hr;
@@ -1663,17 +1668,6 @@ HRESULT CMpaDecFilter::ProcessVorbis()
 }
 #endif /* INTERNAL_DECODER_VORBIS */
 
-static inline float fscale(mad_fixed_t sample)
-{
-	if(sample >= MAD_F_ONE) {
-		sample = MAD_F_ONE - 1;
-	} else if(sample < -MAD_F_ONE) {
-		sample = -MAD_F_ONE;
-	}
-
-	return (float)sample / (1 << MAD_F_FRACBITS);
-}
-
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 HRESULT CMpaDecFilter::ProcessFlac()
 {
@@ -1684,79 +1678,6 @@ HRESULT CMpaDecFilter::ProcessFlac()
 	return m_flac.hr;
 }
 #endif /* INTERNAL_DECODER_FLAC */
-
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
-HRESULT CMpaDecFilter::ProcessMPA()
-{
-	mad_stream_buffer(&m_stream, m_buff.GetData(), m_buff.GetCount());
-
-	while(1) {
-		if(mad_frame_decode(&m_frame, &m_stream) == -1) {
-			if(m_stream.error == MAD_ERROR_BUFLEN) {
-				memmove(m_buff.GetData(), m_stream.this_frame, m_stream.bufend - m_stream.this_frame);
-				m_buff.SetCount(m_stream.bufend - m_stream.this_frame);
-				break;
-			}
-
-			if( m_stream.error == MAD_ERROR_BADDATAPTR) {
-				TRACE(_T("MAD MAD_ERROR_BADDATAPTR\n"));
-				continue;
-			}
-
-
-			if(!MAD_RECOVERABLE(m_stream.error)) {
-				TRACE(_T("*m_stream.error == %d\n"), m_stream.error);
-				return E_FAIL;
-			}
-
-			// FIXME: the renderer doesn't like this
-			// m_fDiscontinuity = true;
-
-			continue;
-		}
-		/*
-		// TODO: needs to be tested... (has anybody got an external mpeg audio decoder?)
-		HRESULT hr;
-		if(S_OK != (hr = Deliver(
-		   (BYTE*)m_stream.this_frame,
-		   m_stream.next_frame - m_stream.this_frame,
-		   m_frame.header.bitrate,
-		   m_frame.header.layer == 1 ? 0x0004 : 0x0005)))
-			return hr;
-		continue;
-		*/
-		mad_synth_frame(&m_synth, &m_frame);
-
-		WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-		if(wfein->nChannels != m_synth.pcm.channels || wfein->nSamplesPerSec != m_synth.pcm.samplerate) {
-			TRACE(_T("MAD channels %d %d samplerate %d %d \n"),wfein->nChannels , m_synth.pcm.channels, wfein->nSamplesPerSec , m_synth.pcm.samplerate);
-			//Some time this does happened - need more testing ...
-			//continue;
-		}
-
-		const mad_fixed_t* left_ch   = m_synth.pcm.samples[0];
-		const mad_fixed_t* right_ch  = m_synth.pcm.samples[1];
-
-		CAtlArray<float> pBuff;
-		pBuff.SetCount(m_synth.pcm.length*m_synth.pcm.channels);
-
-		float* pDataOut = pBuff.GetData();
-		for(unsigned short i = 0; i < m_synth.pcm.length; i++) {
-			*pDataOut++ = fscale(*left_ch++);
-			if(m_synth.pcm.channels == 2) {
-				*pDataOut++ = fscale(*right_ch++);
-			}
-		}
-
-		HRESULT hr;
-		if(S_OK != (hr = Deliver(pBuff, m_synth.pcm.samplerate, m_synth.pcm.channels))) {
-			return hr;
-		}
-	}
-
-	return S_OK;
-}
-#endif /* INTERNAL_DECODER_MPEGAUDIO */
 
 HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
 {
@@ -2234,13 +2155,6 @@ HRESULT CMpaDecFilter::StartStreaming()
 	m_aac_state.init(m_pInput->CurrentMediaType());
 #endif
 
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
-	mad_stream_init(&m_stream);
-	mad_frame_init(&m_frame);
-	mad_synth_init(&m_synth);
-	mad_stream_options(&m_stream, 0/*options*/);
-#endif
-
 	m_ps2_state.reset();
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	FlacInitDecoder();
@@ -2263,15 +2177,10 @@ HRESULT CMpaDecFilter::StopStreaming()
 	dts_free(m_dts_state);
 #endif
 
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
-	mad_synth_finish(&m_synth);
-	mad_frame_finish(&m_frame);
-	mad_stream_finish(&m_stream);
-#endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	flac_stream_finish();
 #endif
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 	ffmpeg_stream_finish();
 #endif
 
@@ -2692,9 +2601,25 @@ void CMpaDecFilter::flac_stream_finish()
 
 #endif /* INTERNAL_DECODER_FLAC */
 
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 
 #pragma region FFmpeg decoder
+
+#define INT64_C(x)		((x) + (INT64_MAX - INT64_MAX))
+
+// Copy the given data into our buffer, including padding, so broken decoders do not overread and crash
+#define COPY_TO_BUFFER(data, size) { \
+  if (size + FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) { \
+    m_nFFBufferSize = size+FF_INPUT_BUFFER_PADDING_SIZE; \
+	m_pFFBuffer	= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize); \
+    if (!m_pFFBuffer) { \
+      m_nFFBufferSize = 0; \
+      return E_FAIL; \
+    } \
+  }\
+  memcpy(m_pFFBuffer, data, size); \
+  memset(m_pFFBuffer+size, 0, FF_INPUT_BUFFER_PADDING_SIZE); \
+}
 
 HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size)
 {
@@ -2705,6 +2630,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 			size = 0;
 			return E_FAIL;
 		}
+
 	BYTE* pDataInBuff = p;
 	CAtlArray<float> pBuffOut;
 	scmap_t* scmap = NULL;
@@ -2714,31 +2640,54 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 
 	while (buffsize > 0) {
 		nPCMLength = AVCODEC_MAX_AUDIO_FRAME_SIZE;
-		if (buffsize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {
-			m_nFFBufferSize = buffsize+FF_INPUT_BUFFER_PADDING_SIZE;
-			m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
+		COPY_TO_BUFFER(pDataInBuff, buffsize);
+
+		if (m_pParser) {
+			BYTE *pOut = NULL;
+			int pOut_size = 0;
+			int used_bytes = av_parser_parse2(m_pParser, m_pAVCtx, &pOut, &pOut_size, m_pFFBuffer, buffsize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
+			if (used_bytes < 0) {
+				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - audio parsing failed (ret: %d)\n"), -used_bytes);
+				return E_FAIL;
+			} else if(used_bytes == 0 && pOut_size == 0) {
+				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - could not process buffer while parsing\n"));
+				break;
+			}
+
+			if (used_bytes > 0) {
+				size		+= used_bytes;
+				buffsize	-= used_bytes;
+				pDataInBuff += used_bytes;
+			}
+			if (pOut_size > 0) {
+				COPY_TO_BUFFER(pOut, pOut_size);
+				avpkt.data = m_pFFBuffer;
+				avpkt.size = pOut_size;
+
+				int ret2 = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, &avpkt);
+				if (ret2 < 0) {
+					TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - decoding failed despite successfull parsing\n"));
+					continue;
+				}
+			} else {
+				continue;
+			}
+        } else {
+			avpkt.data = (uint8_t *)m_pFFBuffer;
+			avpkt.size = buffsize;
+
+			int used_bytes = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, &avpkt);
+
+			if (used_bytes < 0 || (used_bytes == 0 && nPCMLength <= 0)) {
+				size = used_bytes;
+				return S_OK;
+			} else if (used_bytes == 0) {
+				break;
+			}
+			size		+= used_bytes;
+			buffsize	-= used_bytes;
+			pDataInBuff += used_bytes;
 		}
-
-		// Required number of additionally allocated bytes at the end of the input bitstream for decoding.
-		// This is mainly needed because some optimized bitstream readers read
-		// 32 or 64 bit at once and could read over the end.<br>
-		// Note: If the first 23 bits of the additional bytes are not 0, then damaged
-		// MPEG bitstreams could cause overread and segfault.
-		memcpy(m_pFFBuffer, pDataInBuff, buffsize);
-		memset(m_pFFBuffer+buffsize,0,FF_INPUT_BUFFER_PADDING_SIZE);
-
-		avpkt.data = (uint8_t *)m_pFFBuffer;
-		avpkt.size = buffsize;
-
-		int used_byte = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, &avpkt);
-
-		if (used_byte < 0 || (used_byte == 0 && nPCMLength <= 0)) {
-			size = used_byte;
-			return S_OK;
-		} else if (used_byte == 0) {
-			break;
-		}
-		size += used_byte;//
 
 		if (nPCMLength > 0) {
 			//WAVEFORMATEX*		wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
@@ -2803,9 +2752,6 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 
 			}
 		}
-
-		buffsize	-= used_byte;
-		pDataInBuff += used_byte;
 	}
 	if(pBuffOut.GetCount() > 0 && scmap) {
 		hr = Deliver(pBuffOut, m_pAVCtx->sample_rate, scmap->nChannels, scmap->dwChannelMask);
@@ -2819,15 +2765,21 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 	bool			bRet	= false;
 
 	avcodec_register_all();
-#ifdef _DEBUG
 	av_log_set_callback(LogLibAVCodec);
-#endif
 
 	if (m_pAVCodec) {
 		ffmpeg_stream_finish();
 	}
 
-	m_pAVCodec					= avcodec_find_decoder((CodecID)nCodecId);
+	if(nCodecId == CODEC_ID_MP1) {
+		m_pAVCodec = avcodec_find_decoder_by_name("mp1float");
+	} else if(nCodecId == CODEC_ID_MP2) {
+		m_pAVCodec = avcodec_find_decoder_by_name("mp2float");
+	} else if(nCodecId == CODEC_ID_MP3) {
+		m_pAVCodec = avcodec_find_decoder_by_name("mp3float");
+	} else {
+		m_pAVCodec = avcodec_find_decoder((CodecID)nCodecId);
+	}
 	if (m_pAVCodec) {
 		if (nCodecId==CODEC_ID_AMR_NB || nCodecId== CODEC_ID_AMR_WB) {
 			wfein->nChannels = 1;
@@ -2840,9 +2792,14 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 		m_pAVCtx->bit_rate				= wfein->nAvgBytesPerSec*8;
 		m_pAVCtx->bits_per_coded_sample	= wfein->wBitsPerSample;
 		m_pAVCtx->block_align			= wfein->nBlockAlign;
-		m_pAVCtx->flags				   |= CODEC_FLAG_TRUNCATED;
+		if (m_pAVCodec->capabilities & CODEC_CAP_TRUNCATED) {
+			m_pAVCtx->flags				|= CODEC_FLAG_TRUNCATED;
+		}
 
 		m_pAVCtx->codec_id		= (CodecID)nCodecId;
+		
+		// have issue when use parser on TrueHD and MP1/MP2 track ... try to fix later
+		// m_pParser = av_parser_init(nCodecId);
 
 		if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)>=0) {
 			m_pPCMData	= (BYTE*)FF_aligned_malloc (AVCODEC_MAX_AUDIO_FRAME_SIZE+FF_INPUT_BUFFER_PADDING_SIZE, 64);
@@ -2859,9 +2816,11 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 
 void CMpaDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_list valist)
 {
+#if defined(_DEBUG) && 0
 	char		Msg [500];
 	vsnprintf_s (Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
 	TRACE("AVLIB : %s", Msg);
+#endif
 }
 
 void CMpaDecFilter::ffmpeg_stream_finish()
@@ -2871,6 +2830,11 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 		avcodec_close (m_pAVCtx);
 		av_freep (&m_pAVCtx);
 		m_pAVCtx	= NULL;
+	}
+
+	if (m_pParser) {
+		av_parser_close (m_pParser);
+		m_pParser	= NULL;
 	}
 
 	if (m_pPCMData) {

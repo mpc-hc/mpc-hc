@@ -73,6 +73,19 @@ clean:
 
 # Objects
 SRCS_C=\
+    libavcodec/mpegaudiodec.c \
+    libavcodec/mpegaudiodecheader.c \
+    libavcodec/mpegaudio.c \
+    libavcodec/mpegaudiodata.c \
+    libavcodec/mpegaudiodec_float.c \
+    libavcodec/mpegaudiodsp.c \
+    libavcodec/mpegaudiodsp_float.c \
+    libavcodec/mpegaudiodsp_template.c \
+    libavcodec/dct32.c \
+    libavcodec/dct32_float.c \
+    libavcodec/dct.c \
+    libavcodec/mpegaudio_parser.c \
+\
     libavcodec/aac_ac3_parser.c \
     libavcodec/ac3.c \
     libavcodec/ac3_parser.c \
@@ -247,6 +260,7 @@ SRCS_C=\
 SRCS_YASM=\
     libavcodec/x86/ac3dsp.asm \
     libavcodec/x86/dsputil_yasm.asm \
+    libavcodec/x86/dct32_sse.asm \
     libavcodec/x86/fft_mmx.asm \
     libavcodec/x86/fmtconvert.asm \
     libavcodec/x86/h264_chromamc.asm \

@@ -3475,7 +3475,7 @@ FF_EXPORT AVCodec *avcodec_find_decoder(enum CodecID id);
  * @param name name of the requested decoder
  * @return A decoder if one was found, NULL otherwise.
  */
-AVCodec *avcodec_find_decoder_by_name(const char *name);
+FF_EXPORT AVCodec *avcodec_find_decoder_by_name(const char *name);
 void avcodec_string(char *buf, int buf_size, AVCodecContext *enc, int encode);
 
 /**
@@ -4040,7 +4040,7 @@ typedef struct AVCodecParser {
 AVCodecParser *av_parser_next(AVCodecParser *c);
 
 void av_register_codec_parser(AVCodecParser *parser);
-AVCodecParserContext *av_parser_init(int codec_id);
+FF_EXPORT AVCodecParserContext *av_parser_init(int codec_id);
 
 /**
  * Parse a packet.
@@ -4070,7 +4070,7 @@ AVCodecParserContext *av_parser_init(int codec_id);
  *   }
  * @endcode
  */
-int av_parser_parse2(AVCodecParserContext *s,
+FF_EXPORT int av_parser_parse2(AVCodecParserContext *s,
                      AVCodecContext *avctx,
                      uint8_t **poutbuf, int *poutbuf_size,
                      const uint8_t *buf, int buf_size,
@@ -4081,7 +4081,7 @@ int av_parser_change(AVCodecParserContext *s,
                      AVCodecContext *avctx,
                      uint8_t **poutbuf, int *poutbuf_size,
                      const uint8_t *buf, int buf_size, int keyframe);
-void av_parser_close(AVCodecParserContext *s);
+FF_EXPORT void av_parser_close(AVCodecParserContext *s);
 
 /* memory */
 FF_EXPORT void av_freep(void *arg);

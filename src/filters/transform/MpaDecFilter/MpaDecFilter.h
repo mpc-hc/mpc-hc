@@ -25,7 +25,6 @@
 
 #include <atlcoll.h>
 #include <stdint.h>
-#include <libmad/mad.h>
 #include <a52dec/include/a52.h>
 #include <libdca/include/dts.h>
 #include <libvorbisidec/vorbis/codec.h>
@@ -109,11 +108,6 @@ protected:
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 	aac_state_t				m_aac_state;
 #endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
-	mad_stream				m_stream;
-	mad_frame				m_frame;
-	mad_synth				m_synth;
-#endif
 	ps2_state_t				m_ps2_state;
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	vorbis_state_t			m_vorbis;
@@ -127,6 +121,7 @@ protected:
 	// === FFMpeg variables
 	AVCodec*				m_pAVCodec;
 	AVCodecContext*			m_pAVCtx;
+	AVCodecParserContext*	m_pParser;
 	BYTE*					m_pPCMData;
 #endif
 
@@ -160,10 +155,7 @@ protected:
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	HRESULT ProcessFlac();
 #endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
-	HRESULT ProcessMPA();
-#endif
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 	HRESULT ProcessFFmpeg(int nCodecId);
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
@@ -186,7 +178,7 @@ protected:
 	void	flac_stream_finish();
 #endif
 
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
 	bool	InitFFmpeg(int nCodecId);
 	void	ffmpeg_stream_finish();
 	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int samples, int& size);

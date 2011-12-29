@@ -100,7 +100,7 @@ s_filters[] = {
 	{_T("LPCM"), DECODER, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_MPEGAUDIO
-	{_T("MPEG Audio"), DECODER, TRA_MPA, IDS_TRA_MPA, CreateInstance<CMpaDecFilter>},
+	{_T("MPEG Audio"), DECODER, TRA_MPA, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_VORBIS
 	{_T("Vorbis"), DECODER, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
