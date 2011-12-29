@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -21,8 +21,6 @@
  */
 
 #pragma once
-
-#define USE_MEDIAINFO_STATIC
 
 // CPPageFileMediaInfo dialog
 
