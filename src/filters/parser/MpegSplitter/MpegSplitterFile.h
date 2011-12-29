@@ -97,8 +97,19 @@ public:
 						return;
 					}
 				}
+				AddTail(s);
+			} else {
+				AddTail(s);
+				if(GetCount() > 1) {
+					for (size_t j=0; j<GetCount(); j++) {
+						for(size_t i=0; i<GetCount()-1; i++) {
+							if (GetAt(FindIndex(i)) > GetAt(FindIndex(i+1))) {
+								SwapElements(FindIndex(i), FindIndex(i+1));
+							}
+						}
+					}
+				}
 			}
-			AddTail(s);
 		}
 
 		void Replace(stream& source, stream& dest, CMpegSplitterFile *_pFile) {
