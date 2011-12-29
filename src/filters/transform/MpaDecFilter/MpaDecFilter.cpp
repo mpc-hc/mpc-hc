@@ -133,7 +133,7 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMpaDecFilter), L"MPC - MPA Decoder Filter", /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpaDecFilter), L"MPC Audio Decoder", /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
