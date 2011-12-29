@@ -3721,7 +3721,7 @@ FF_EXPORT int avcodec_open2(AVCodecContext *avctx, AVCodec *codec, AVDictionary 
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame data was decompressed (used) from the input AVPacket.
  */
-FF_EXPORT int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
+attribute_deprecated int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
                          AVPacket *avpkt);
 #endif
@@ -3759,7 +3759,7 @@ FF_EXPORT int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
  *         decoding, otherwise the number of bytes consumed from the input
  *         AVPacket is returned.
  */
-int avcodec_decode_audio4(AVCodecContext *avctx, AVFrame *frame,
+FF_EXPORT int avcodec_decode_audio4(AVCodecContext *avctx, AVFrame *frame,
                           int *got_frame_ptr, AVPacket *avpkt);
 
 /**

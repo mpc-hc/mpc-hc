@@ -122,7 +122,7 @@ protected:
 	AVCodec*				m_pAVCodec;
 	AVCodecContext*			m_pAVCtx;
 	AVCodecParserContext*	m_pParser;
-	BYTE*					m_pPCMData;
+	AVFrame*				m_pFrame;
 #endif
 
 	CAtlArray<BYTE> m_buff;

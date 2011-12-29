@@ -508,7 +508,9 @@ int decode_slice_header_noexecute(H264Context *h){
 
         } else {
             /* Frame or first field in a potentially complementary pair */
-            assert(!s0->current_picture_ptr);
+// ==> Start patch MPC
+            // assert(!s0->current_picture_ptr);
+// <== End patch MPC
             s0->first_field = FIELD_PICTURE;
         }
 

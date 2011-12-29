@@ -75,6 +75,11 @@ attribute_deprecated
 int av_get_bits_per_sample_fmt(enum AVSampleFormat sample_fmt);
 #endif
 
+// ==> Start patch MPC
+#ifdef __cplusplus
+extern "C" {
+#endif
+// <== End patch MPC
 /**
  * Return number of bytes per sample.
  *
@@ -83,6 +88,11 @@ int av_get_bits_per_sample_fmt(enum AVSampleFormat sample_fmt);
  * sample format
  */
 int av_get_bytes_per_sample(enum AVSampleFormat sample_fmt);
+// ==> Start patch MPC
+#ifdef __cplusplus
+}
+#endif
+// <== End patch MPC
 
 /**
  * Check if the sample format is planar.

@@ -19,6 +19,7 @@ The following files have MPC-specific custom code (compared to ffdshow):
 
 * libavutil/log.c
 * libavutil/log.h
+* libavutil/samplefmt.h
 
 * libswscale/swscale.c
 * libswscale/swscale.h
