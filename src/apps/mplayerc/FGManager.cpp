@@ -1501,6 +1501,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->m_chkbytes.AddTail(_T("0,8,fffffc00ffe00000,4156000055000000"));
 		pFGF->m_chkbytes.AddTail(_T("0,8,,4D504C5330323030"));	// MPLS0200
 		pFGF->m_chkbytes.AddTail(_T("0,8,,4D504C5330313030"));	// MPLS0100
+		pFGF->m_extensions.AddTail(_T(".ts")); // for some broken .ts
 		m_source.AddTail(pFGF);
 	}
 #endif
