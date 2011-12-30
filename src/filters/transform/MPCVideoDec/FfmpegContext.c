@@ -814,15 +814,13 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDev
 	return FALSE;
 }
 
-#ifdef _WIN64
+#if (_WIN64 | REGISTER_FILTER)
 
-// Stupid : MSVC "forgot" to link toupper and ftime (referenced in ffmpeg and compile with Gcc) in x64
+// Stupid : MSVC "forgot" to link toupper (referenced in ffmpeg and compile with Gcc) in x64
 //			for standalone decoder without this dummy function !
 void DummyX64Link ()
 {
-	struct timeb t;
 	toupper('X');
-	ftime(&t);
 }
 
 #endif

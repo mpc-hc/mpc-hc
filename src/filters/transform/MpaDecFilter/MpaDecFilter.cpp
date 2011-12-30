@@ -119,8 +119,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 
 #ifdef REGISTER_FILTER
 
-#if _DEBUG
-extern "C" int mingw_app_type = 1;	/* 0:console, 1:windows.  */
+#if (_DEBUG | _WIN64)
+	extern "C" int mingw_app_type = 1;	/* 0:console, 1:windows.  */
 #endif
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
@@ -2844,13 +2844,5 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 }
 
 #pragma endregion
-
-#ifdef _WIN64
-void DummyX64Link ()
-{
-		struct timeb t;
-		ftime(&t);
-}
-#endif
 
 #endif /* HAS_FFMPEG_AUDIO_DECODERS */
