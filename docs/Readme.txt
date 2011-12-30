@@ -62,7 +62,6 @@ liba52              GPLv2                      http://liba52.sourceforge.net/
 libav               GPLv2                      http://libav.org/
 libdca              GPLv2                      http://www.videolan.org/developers/libdca.html
 libflac             GPLv2 / New BSD License    http://flac.sourceforge.net/
-libmad              GPLv2                      http://www.underbit.com/products/mad/
 libogg              New BSD License            http://www.xiph.org/
 libpng              libpng License             http://libpng.sourceforge.net/
 libvorbis           New BSD License            http://www.xiph.org/

@@ -73,19 +73,6 @@ clean:
 
 # Objects
 SRCS_C=\
-    libavcodec/mpegaudiodec.c \
-    libavcodec/mpegaudiodecheader.c \
-    libavcodec/mpegaudio.c \
-    libavcodec/mpegaudiodata.c \
-    libavcodec/mpegaudiodec_float.c \
-    libavcodec/mpegaudiodsp.c \
-    libavcodec/mpegaudiodsp_float.c \
-    libavcodec/mpegaudiodsp_template.c \
-    libavcodec/dct32.c \
-    libavcodec/dct32_float.c \
-    libavcodec/dct.c \
-    libavcodec/mpegaudio_parser.c \
-\
     libavcodec/aac_ac3_parser.c \
     libavcodec/ac3.c \
     libavcodec/ac3_parser.c \
@@ -108,6 +95,9 @@ SRCS_C=\
     libavcodec/celp_filters.c \
     libavcodec/celp_math.c \
     libavcodec/CompilerVersion.c \
+    libavcodec/dct.c \
+    libavcodec/dct32.c \
+    libavcodec/dct32_float.c \
     libavcodec/dsputil.c \
     libavcodec/eac3_data.c \
     libavcodec/eac3dec.c \
@@ -157,6 +147,15 @@ SRCS_C=\
     libavcodec/mpeg4video.c \
     libavcodec/mpeg4video_parser.c \
     libavcodec/mpeg4videodec.c \
+    libavcodec/mpegaudio.c \
+    libavcodec/mpegaudio_parser.c \
+    libavcodec/mpegaudiodata.c \
+    libavcodec/mpegaudiodec.c \
+    libavcodec/mpegaudiodec_float.c \
+    libavcodec/mpegaudiodecheader.c \
+    libavcodec/mpegaudiodsp.c \
+    libavcodec/mpegaudiodsp_float.c \
+    libavcodec/mpegaudiodsp_template.c \
     libavcodec/mpegvideo.c \
     libavcodec/msmpeg4.c \
     libavcodec/msmpeg4data.c \
@@ -241,7 +240,6 @@ SRCS_C=\
     libavutil/rational.c \
     libavutil/samplefmt.c \
     libavutil/utils.c \
-\
     libavutil/x86/cpu.c \
 \
     libswscale/rgb2rgb.c \

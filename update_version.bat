@@ -4,6 +4,7 @@ SETLOCAL
 SET "SUBWCREV=SubWCRev.exe"
 
 PUSHD %~dp0%
+
 "%SUBWCREV%" . "include\Version_rev.h.in" "include\Version_rev.h" -f
 IF %ERRORLEVEL% NEQ 0 GOTO NoSubWCRev
 

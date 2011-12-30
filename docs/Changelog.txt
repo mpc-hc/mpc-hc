@@ -17,7 +17,7 @@ NEW    : Ticket #1155, "After Playback" enhancements:
          - each "After Playback" action can now be associated to a keyboard shortcut.
          - an OSD message is shown when an "After Playback" action is selected.
 NEW    : Ticket #1627, Open the file's directory from the clip properties
-        (by double clicking on it)
+         (by double clicking on it)
 CHANGED: Updated Belarusian, Chinese (simplified and traditional), Czech, Dutch,
          French, German, Hebrew, Hungarian, Japanese, Polish, Russian, Slovakian
          and Ukrainian translations
@@ -29,6 +29,7 @@ CHANGED: Updated ZenLib to v0.4.23
 CHANGED: Updated Little CMS to v2.3
 CHANGED: Updated libpng to v1.5.7
 CHANGED: Updated ffmpeg
+CHANGED: Use ffmpeg for decoding MPEG audio files
 FIXED  : If "Play # time(s)" was set to a value higher than one and if the playlist
          had more than one element, the playback never stopped.
 FIXED  : If the playlist had only invalid elements, the player would try to
