@@ -33,6 +33,7 @@
 #include "MpaDecSettingsWnd.h"
 #include "../../../apps/mplayerc/InternalFiltersConfig.h"
 
+#define MPCAudioDecName	L"MPC Audio Decoder"
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 struct aac_state_t {

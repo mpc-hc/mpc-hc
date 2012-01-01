@@ -36,7 +36,7 @@
 
 #include "H264RandomAccess.h"
 
-#define MPCVideoDecName L"MPC Video decoder"
+#define MPCVideoDecName L"MPC Video Decoder"
 
 #define MAX_BUFF_TIME   20
 

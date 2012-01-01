@@ -36,7 +36,7 @@ const AMOVIESETUP_PIN sudpPinsVideoDec[] = {
 
 
 const AMOVIESETUP_FILTER sudFilters[] = {
-	{&__uuidof(CMPCVideoDecFilter), L"MPC - Video decoder", /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPinsVideoDec), sudpPinsVideoDec, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CMPCVideoDecFilter), MPCVideoDecName, /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPinsVideoDec), sudpPinsVideoDec, CLSID_LegacyAmFilterCategory}
 };
 
 
