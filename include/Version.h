@@ -1,7 +1,7 @@
 //
 // $Id$
 //
-// (C) 2010-2011 see AUTHORS
+// (C) 2010-2012 see AUTHORS
 //
 // This file is part of MPC-HC.
 //
@@ -54,7 +54,7 @@
 #ifndef ISPP_IS_BUGGY
 
 #define MPC_COMP_NAME_STR    L"MPC-HC Team"
-#define MPC_COPYRIGHT_STR    L"Copyright © 2002-2011 all contributors, see Authors.txt"
+#define MPC_COPYRIGHT_STR    L"Copyright © 2002-2012 all contributors, see Authors.txt"
 
 #ifdef  NO_VERSION_REV_NEEDED
 #define MPC_VERSION_NUM      MPC_VERSION_MAJOR,MPC_VERSION_MINOR,MPC_VERSION_PATCH,0

@@ -1,4 +1,4 @@
-; (C) 2009-2011 see Authors.txt
+; (C) 2009-2012 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -44,7 +44,7 @@
 #define ISPP_IS_BUGGY
 #include "..\include\Version.h"
 
-#define copyright_year "2002-2011"
+#define copyright_year "2002-2012"
 #define app_name       "Media Player Classic - Home Cinema"
 #define app_version    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
 #define quick_launch   "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
@@ -84,7 +84,7 @@ AppPublisherURL=http://mpc-hc.sourceforge.net/
 AppSupportURL=http://mpc-hc.sourceforge.net/
 AppUpdatesURL=http://mpc-hc.sourceforge.net/
 AppContact=http://mpc-hc.sourceforge.net/
-AppCopyright=Copyright © {#copyright_year} all contributors, see AUTHORS file
+AppCopyright=Copyright © {#copyright_year} all contributors, see Authors.txt
 VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright=Copyright © {#copyright_year}, MPC-HC Team
 VersionInfoDescription={#app_name} Setup
