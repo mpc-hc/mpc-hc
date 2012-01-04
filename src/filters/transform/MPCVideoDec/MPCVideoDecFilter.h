@@ -186,8 +186,6 @@ public:
 	static bool*							FFmpegFilters;
 	static bool*							DXVAFilters;
 
-	static bool								m_ref_frame_count_check_skip;
-
 	CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CMPCVideoDecFilter();
 

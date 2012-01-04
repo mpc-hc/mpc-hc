@@ -2230,11 +2230,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if HAS_FFMPEG_VIDEO_DECODERS | HAS_DXVA_VIDEO_DECODERS
 	CMPCVideoDecFilter::FFmpegFilters = (HAS_FFMPEG_DECODERS) ? s.FFmpegFilters : NULL;
 	CMPCVideoDecFilter::DXVAFilters = (HAS_DXVA_VIDEO_DECODERS) ? s.DXVAFilters : NULL;
-
-	CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
-	if ((!IsWinVistaOrLater()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR))) {
-		CMPCVideoDecFilter::m_ref_frame_count_check_skip = true;
-	}
 #endif
 
 	// Blocked filters

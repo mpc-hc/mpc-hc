@@ -725,26 +725,6 @@ int FFIsSkipped(struct AVCodecContext* pAVCtx)
 	return vc1->p_frame_skipped;
 }
 
-int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)
-{
-	if (pAVCtx->codec_id == CODEC_ID_H264) {
-		H264Context*	h		= (H264Context*) pAVCtx->priv_data;
-		SPS*			cur_sps = h->sps_buffers[0];
-
-		if (cur_sps && !cur_sps->frame_mbs_only_flag) {
-			return 1;
-		} else {
-			return 0;
-		}
-	} else if (pAVCtx->codec_id == CODEC_ID_VC1) {
-		VC1Context*		vc1 = (VC1Context*) pAVCtx->priv_data;
-		return vc1->interlace;
-	}
-
-	return 0;
-}
-
-
 int FFGetThreadType(int nCodecId, int nThreadCount)
 {
 	if(!nThreadCount) {

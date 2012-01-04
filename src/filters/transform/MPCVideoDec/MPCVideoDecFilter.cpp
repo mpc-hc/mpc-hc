@@ -463,7 +463,6 @@ const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::s
 
 bool*		CMPCVideoDecFilter::FFmpegFilters = NULL;
 bool*		CMPCVideoDecFilter::DXVAFilters = NULL;
-bool		CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] = {
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_NV12},

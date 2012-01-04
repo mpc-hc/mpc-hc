@@ -64,7 +64,6 @@ HRESULT			FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixDa
 // === Common functions
 BOOL			IsVistaOrAbove();
 char*			GetFFMpegPictureType(int nType);
-int				FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight);
 unsigned long	FFGetMBNumber(struct AVCodecContext* pAVCtx);
 void			FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nCodecId, int nThreadCount);
 BOOL			FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx);
