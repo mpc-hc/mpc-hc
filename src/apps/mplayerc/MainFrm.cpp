@@ -15840,8 +15840,8 @@ bool CMainFrame::OpenBD(CString Path)
 			CAtlList<CString> sl;
 			sl.AddTail(CString(strPlaylistFile));
 			m_wndPlaylistBar.Append(sl, false);
-			OpenCurPlaylistItem();
 			m_bIsBDPlay = true;
+			OpenCurPlaylistItem();
 			return true;
 		}
 	}
