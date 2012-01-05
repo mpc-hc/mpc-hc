@@ -39,6 +39,8 @@
 #include "vc1.h"
 #include "mpeg12.h"
 
+void *__imp_toupper = toupper;
+
 int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rtStartTime, uint8_t *buf, int buf_size);
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 void av_init_packet(AVPacket *pkt);
@@ -793,14 +795,3 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDev
 
 	return FALSE;
 }
-
-#if (_WIN64 | REGISTER_FILTER)
-
-// Stupid : MSVC "forgot" to link toupper (referenced in ffmpeg and compile with Gcc) in x64
-//			for standalone decoder without this dummy function !
-void DummyX64Link ()
-{
-	toupper('X');
-}
-
-#endif

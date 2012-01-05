@@ -53,7 +53,10 @@ private:
 
 	int							m_nNextCodecIndex;
 
+	REFERENCE_TIME	m_rtLastStart;
+
 	// Private functions
 	void					Init();
 	void					UpdatePictureParams(int nSurfaceIndex);
+	void					UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 };

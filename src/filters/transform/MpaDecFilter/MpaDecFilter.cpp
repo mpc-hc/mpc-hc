@@ -969,12 +969,12 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		bool	fEnoughData = true;
 
 		if (m_DolbyDigitalMode != DD_TRUEHD && m_DolbyDigitalMode != DD_MLP && (*((__int16*)p) == 0x770b)) {	/* AC3-EAC3 syncword */
-			BYTE	bsid = p[5] >> 3;
-			if ((m_DolbyDigitalMode != DD_EAC3) && bsid <= 12) {
-				m_DolbyDigitalMode = DD_AC3;
+			BYTE bsid = p[5] >> 3;
+			if (bsid <= 10) {
 				if (FAILED (hr = ProcessA52 (p, end-p, size, fEnoughData))) {
 					return hr;
 				}
+				m_DolbyDigitalMode = DD_AC3;
 			} else if (bsid <= 16) {
 				DeliverFFmpeg(CODEC_ID_EAC3, p, end-p, size);
 				if (size > 0) {
