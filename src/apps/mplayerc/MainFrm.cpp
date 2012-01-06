@@ -8590,7 +8590,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			}
 		}
 
-		if(m_MPLSPlaylist.GetCount()>1) {
+		if(m_MPLSPlaylist.GetCount() > 1) {
 			nID -= m_MPLSPlaylist.GetCount();
 		}
 
@@ -8608,6 +8608,15 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 			}
 			return;
+		}
+		
+		if(m_pCB->ChapGetCount() > 1) {
+			nID -= m_pCB->ChapGetCount();
+		}
+
+		if ((int)nID >= 0 && (int)nID < m_wndPlaylistBar.GetCount() && m_wndPlaylistBar.GetSelIdx() != (int)nID) {
+			m_wndPlaylistBar.SetSelIdx(nID);
+			OpenCurPlaylistItem();
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {
 		ULONG ulNumOfVolumes, ulVolume;
@@ -12919,6 +12928,24 @@ void CMainFrame::SetupNavChaptersSubMenu()
 				pSub->AppendMenu(flags, id, name + '\t' + time);
 			}
 		}
+		
+		if (m_wndPlaylistBar.GetCount() > 1) {
+			POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition();
+			while (pos) {
+				UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
+				if (pos == m_wndPlaylistBar.m_pl.GetPos()) {
+					flags |= MF_CHECKED;
+				}
+				if (id != ID_NAVIGATE_CHAP_SUBITEM_START && pos == m_wndPlaylistBar.m_pl.GetHeadPosition()) {
+					pSub->AppendMenu(MF_SEPARATOR);
+				}
+				CPlaylistItem& pli = m_wndPlaylistBar.m_pl.GetNext(pos);
+				CString name = pli.GetLabel();
+				name.Replace(_T("&"), _T("&&"));
+				pSub->AppendMenu(flags, id++, name);
+			}
+		}
+		
 	} else if (GetPlaybackMode() == PM_DVD) {
 		ULONG ulNumOfVolumes, ulVolume;
 		DVD_DISC_SIDE Side;
