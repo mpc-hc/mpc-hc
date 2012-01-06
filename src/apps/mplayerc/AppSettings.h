@@ -451,26 +451,10 @@ public:
 
 	CMediaFormats	m_Formats;
 
-#if HAS_SOURCEFILTERS
-	bool			SrcFilters[SRC_LAST];
-#else
-	bool			SrcFilters[1];
-#endif
-#if HAS_OTHER_DECODERS | HAS_FFMPEG_DECODERS
-	bool			TraFilters[TRA_LAST];
-#else
-	bool			TraFilters[1];
-#endif
-#if HAS_DXVA_VIDEO_DECODERS
-	bool			DXVAFilters[TRA_DXVA_LAST];
-#else
-	bool			DXVAFilters[1];
-#endif
-#if HAS_FFMPEG_DECODERS
-	bool			FFmpegFilters[FFM_LAST];
-#else
-	bool			FFmpegFilters[1];
-#endif
+	bool			SrcFilters[SRC_LAST + !SRC_LAST];
+	bool			TraFilters[TRA_LAST + !TRA_LAST];
+	bool			DXVAFilters[TRA_DXVA_LAST + !TRA_DXVA_LAST];
+	bool			FFmpegFilters[FFM_LAST + !FFM_LAST];
 
 	CString			strLogoFileName;
 	UINT			nLogoId;
@@ -565,26 +549,10 @@ private :
 	FILE_POSITION	FilePosition[MAX_FILE_POSITION];
 	int				nCurrentFilePosition;
 
-#if HAS_SOURCEFILTERS
-	CString		SrcFiltersKeys[SRC_LAST];
-#else
-	CString		SrcFiltersKeys[1];
-#endif
-#if HAS_OTHER_DECODERS | HAS_FFMPEG_DECODERS
-	CString		TraFiltersKeys[TRA_LAST];
-#else
-	CString		TraFiltersKeys[1];
-#endif
-#if HAS_DXVA_VIDEO_DECODERS
-	CString		DXVAFiltersKeys[TRA_DXVA_LAST];
-#else
-	CString		DXVAFiltersKeys[1];
-#endif
-#if HAS_FFMPEG_DECODERS
-	CString		FFMFiltersKeys[FFM_LAST];
-#else
-	CString		FFMFiltersKeys[1];
-#endif
+	CString		SrcFiltersKeys[SRC_LAST + !SRC_LAST];
+	CString		TraFiltersKeys[TRA_LAST + !TRA_LAST];
+	CString		DXVAFiltersKeys[TRA_DXVA_LAST + !TRA_DXVA_LAST];
+	CString		FFMFiltersKeys[FFM_LAST + !FFM_LAST];
 
 	__int64			ConvertTimeToMSec(CString& time) const;
 	void			ExtractDVDStartPos(CString& strParam);

@@ -214,7 +214,7 @@ typedef struct {
 	QWORD			UniqueID; // 160
 	DWORD			LengthofExtendedAttributes; // 168
 	DWORD			LengthofAllocationDescriptors; // 172
-	BYTE*			ExtendedAttributes; // 176
+	BYTE			ExtendedAttributes[1]; // 176
 	//	BYTE			AllocationDescriptors[]; // 176
 } t_udf_FileEntry, *tp_udf_FileEntry; // >= 176
 
@@ -226,7 +226,7 @@ typedef struct {
 	BYTE			LengthofFileIdentifier; // 19
 	t_udf_long_ad	ICB; // 20
 	WORD			LengthofImplementationUse; // 36
-	BYTE*			ImplementationUse; // 38
+	BYTE			ImplementationUse[1]; // 38
 	//	char			FileIdentifier[]; // 38
 	//	BYTE			Padding[]; // 38
 } t_udf_FileIdentifierDescriptor, *tp_udf_FileIdentifierDescriptor; // >= 38

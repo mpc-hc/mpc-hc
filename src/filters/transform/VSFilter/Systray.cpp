@@ -158,6 +158,7 @@ void CSystrayWindow::OnClose()
 void CSystrayWindow::OnDestroy()
 {
 	NOTIFYICONDATA tnid;
+	ZeroMemory(&tnid, sizeof(NOTIFYICONDATA));
 	tnid.cbSize = sizeof(NOTIFYICONDATA);
 	tnid.hWnd = m_hWnd;
 	tnid.uID = IDI_ICON1;
@@ -220,6 +221,7 @@ LRESULT CSystrayWindow::OnTaskBarRestart(WPARAM, LPARAM)
 
 	if(m_tbid->fShowIcon) {
 		NOTIFYICONDATA tnid;
+		ZeroMemory(&tnid, sizeof(NOTIFYICONDATA));
 		tnid.cbSize = sizeof(NOTIFYICONDATA);
 		tnid.hWnd = m_hWnd;
 		tnid.uID = IDI_ICON1;
