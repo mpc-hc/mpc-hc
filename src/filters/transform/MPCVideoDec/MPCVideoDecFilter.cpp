@@ -560,12 +560,15 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ)) {
 		DWORD dw;
+		#if HAS_FFMPEG_VIDEO_DECODERS
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ThreadNumber"), dw)) {
 			m_nThreadNumber = dw;
 		}
+			#if INTERNAL_DECODER_H264
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DiscardMode"), dw)) {
 			m_nDiscardMode = dw;
 		}
+			#endif
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorRecognition"), dw)) {
 			m_nErrorRecognition = dw;
 		}
@@ -578,6 +581,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ARMode"), dw)) {
 			m_nARMode = dw;
 		}
+		#endif
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DXVACheckCompatibility"), dw)) {
 			m_nDXVACheckCompatibility = dw;
 		}
@@ -586,11 +590,15 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		}
 	}
 #else
+	#if HAS_FFMPEG_VIDEO_DECODERS
 	m_nThreadNumber = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ThreadNumber"), m_nThreadNumber);
+		#if INTERNAL_DECODER_H264
 	m_nDiscardMode = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DiscardMode"), m_nDiscardMode);
+		#endif
 	m_nErrorRecognition = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ErrorRecognition"), m_nErrorRecognition);
 	m_nIDCTAlgo = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("IDCTAlgo"), m_nIDCTAlgo);
 	m_nARMode = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ARMode"), m_nARMode);
+	#endif
 	m_nDXVACheckCompatibility = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
 	m_nDXVA_SD = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DisableDXVA_SD"), m_nDXVA_SD);
 #endif

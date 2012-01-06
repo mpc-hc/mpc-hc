@@ -90,8 +90,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 #if HAS_FFMPEG_VIDEO_DECODERS
 	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 350, nPosY+150), this, (UINT)IDC_STATIC);
 
-#if INTERNAL_DECODER_H264
-
 	// Decoding threads
 	nPosY += VERTICAL_SPACING;
 	m_txtThreadNumber.Create (ResStr (IDS_VDF_THREADNUMBER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 220, nPosY+15), this, (UINT)IDC_STATIC);
@@ -103,10 +101,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		m_cbThreadNumber.AddString(ThreadNumberStr);
 	}
 
-#endif /* INTERNAL_DECODER_H264 */
-
 #if INTERNAL_DECODER_H264
-
 	// H264 deblocking mode
 	nPosY += VERTICAL_SPACING;
 	m_txtDiscardMode.Create (ResStr (IDS_VDF_SKIPDEBLOCK), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 220, nPosY+15), this, (UINT)IDC_STATIC);
@@ -117,7 +112,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_BIDIR));
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_NONKFRM));
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_ALL));
-
 #endif /* INTERNAL_DECODER_H264 */
 
 	// Error recognition
@@ -187,7 +181,9 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	}
 
 	CorrectComboListWidth(m_cbDXVACompatibilityCheck);
+#if INTERNAL_DECODER_H264
 	CorrectComboListWidth(m_cbDiscardMode);
+#endif
 
 	if (m_pMDF) {
 #if HAS_FFMPEG_VIDEO_DECODERS
