@@ -436,8 +436,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						num = pasp->GetNum();
 						den = pasp->GetDen();
 					}
-					if(!num) num = 1;
-					if(!den) den = 1;
+					if(num <= 0 || den <= 0) { // if bad AR
+						num = den = 1; // then reset AR
+					}
 
 					const AP4_Byte* data = di->GetData();
 					AP4_Size size = di->GetDataSize();
