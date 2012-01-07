@@ -68,18 +68,22 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 		if(formattype == FORMAT_VideoInfo || formattype == FORMAT_MPEGVideo) {
 			VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pbFormat;
 			if(vih->AvgTimePerFrame) {
-				rate.Format(_T("%0.2ffps "), 10000000.0f / vih->AvgTimePerFrame);
+				rate.Format(_T("%0.3f"), 10000000.0f / vih->AvgTimePerFrame);
+				rate.TrimRight(_T(".0"));
+				rate += _T("fps ");
 			}
 			if(vih->dwBitRate) {
-				rate.Format(_T("%s%dkbps"), CString(rate), vih->dwBitRate/1000);
+				rate.AppendFormat(_T("%dkbps"), vih->dwBitRate/1000);
 			}
 		} else if(formattype == FORMAT_VideoInfo2 || formattype == FORMAT_MPEG2_VIDEO || formattype == FORMAT_DiracVideoInfo) {
 			VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pbFormat;
 			if(vih->AvgTimePerFrame) {
-				rate.Format(_T("%0.2ffps "), 10000000.0f / vih->AvgTimePerFrame);
+				rate.Format(_T("%0.3f"), 10000000.0f / vih->AvgTimePerFrame);
+				rate.TrimRight(_T(".0"));
+				rate += _T("fps ");
 			}
 			if(vih->dwBitRate) {
-				rate.Format(_T("%s%dkbps"), CString(rate), vih->dwBitRate/1000);
+				rate.AppendFormat(_T("%dkbps"), vih->dwBitRate/1000);
 			}
 		}
 
