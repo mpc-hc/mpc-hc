@@ -61,7 +61,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 		if(fDim) {
 			dim.Format(_T("%dx%d"), w, h);
 			if(w*ary != h*arx) {
-				dim.Format(_T("%s (%d:%d)"), CString(dim), arx, ary);
+				dim.AppendFormat(_T(" (%d:%d)"), arx, ary);
 			}
 		}
 
@@ -105,11 +105,11 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 				codec = GetAudioCodecName(subtype, wfe->wFormatTag);
 				dim.Format(_T("%dHz"), wfe->nSamplesPerSec);
 				if(wfe->nChannels == 1) {
-					dim.Format(_T("%s mono"), CString(dim));
+					dim += _T(" mono");
 				} else if(wfe->nChannels == 2) {
-					dim.Format(_T("%s stereo"), CString(dim));
+					dim += _T(" stereo");
 				} else {
-					dim.Format(_T("%s %dch"), CString(dim), wfe->nChannels);
+					dim.AppendFormat(_T(" %dch"), wfe->nChannels);
 				}
 				if(wfe->nAvgBytesPerSec) {
 					rate.Format(_T("%dkbps"), wfe->nAvgBytesPerSec*8/1000);
@@ -121,11 +121,11 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 			codec = GetAudioCodecName(subtype, 0);
 			dim.Format(_T("%dHz"), vf->nSamplesPerSec);
 			if(vf->nChannels == 1) {
-				dim.Format(_T("%s mono"), CString(dim));
+				dim += _T(" mono");
 			} else if(vf->nChannels == 2) {
-				dim.Format(_T("%s stereo"), CString(dim));
+				dim += _T(" stereo");
 			} else {
-				dim.Format(_T("%s %dch"), CString(dim), vf->nChannels);
+				dim.AppendFormat(_T(" %dch"), vf->nChannels);
 			}
 			if(vf->nAvgBitsPerSec) {
 				rate.Format(_T("%dkbps"), vf->nAvgBitsPerSec/1000);
@@ -136,11 +136,11 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 			codec = GetAudioCodecName(subtype, 0);
 			dim.Format(_T("%dHz"), vf->SamplesPerSec);
 			if(vf->Channels == 1) {
-				dim.Format(_T("%s mono"), CString(dim));
+				dim += _T(" mono");
 			} else if(vf->Channels == 2) {
-				dim.Format(_T("%s stereo"), CString(dim));
+				dim += _T(" stereo");
 			} else {
-				dim.Format(_T("%s %dch"), CString(dim), vf->Channels);
+				dim.AppendFormat(_T(" %dch"), vf->Channels);
 			}
 		}
 	} else if(majortype == MEDIATYPE_Text) {
