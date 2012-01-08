@@ -691,9 +691,9 @@ void CAppSettings::UpdateData(bool fSave)
 		// CASIMIR666 : end of new settings
 
 		{
-			for (int i = 0; ; i++) {
+			for (unsigned int i = 0; ; i++) {
 				CString key;
-				key.Format(_T("%s\\%04d"), IDS_R_FILTERS, i);
+				key.Format(_T("%s\\%04u"), IDS_R_FILTERS, i);
 				int j = pApp->GetProfileInt(key, _T("Enabled"), -1);
 				pApp->WriteProfileString(key, NULL, NULL);
 				if (j < 0) {
@@ -702,8 +702,9 @@ void CAppSettings::UpdateData(bool fSave)
 			}
 			pApp->WriteProfileString(IDS_R_FILTERS, NULL, NULL);
 
+			unsigned int k = 0;
 			POSITION pos = m_filters.GetHeadPosition();
-			for (int i = 0; pos; i++) {
+			while (pos) {
 				FilterOverride* f = m_filters.GetNext(pos);
 
 				if (f->fTemporary) {
@@ -711,7 +712,7 @@ void CAppSettings::UpdateData(bool fSave)
 				}
 
 				CString key;
-				key.Format(_T("%s\\%04d"), IDS_R_FILTERS, i);
+				key.Format(_T("%s\\%04u"), IDS_R_FILTERS, k);
 
 				pApp->WriteProfileInt(key, _T("SourceType"), (int)f->type);
 				pApp->WriteProfileInt(key, _T("Enabled"), (int)!f->fDisabled);
@@ -724,19 +725,21 @@ void CAppSettings::UpdateData(bool fSave)
 					pApp->WriteProfileString(key, _T("CLSID"), CStringFromGUID(f->clsid));
 				}
 				POSITION pos2 = f->backup.GetHeadPosition();
-				for (int i = 0; pos2; i++) {
+				for (unsigned int i = 0; pos2; i++) {
 					CString val;
-					val.Format(_T("org%04d"), i);
+					val.Format(_T("org%04u"), i);
 					pApp->WriteProfileString(key, val, CStringFromGUID(f->backup.GetNext(pos2)));
 				}
 				pos2 = f->guids.GetHeadPosition();
-				for (int i = 0; pos2; i++) {
+				for (unsigned int i = 0; pos2; i++) {
 					CString val;
-					val.Format(_T("mod%04d"), i);
+					val.Format(_T("mod%04u"), i);
 					pApp->WriteProfileString(key, val, CStringFromGUID(f->guids.GetNext(pos2)));
 				}
 				pApp->WriteProfileInt(key, _T("LoadType"), f->iLoadType);
 				pApp->WriteProfileInt(key, _T("Merit"), f->dwMerit);
+
+				k++;
 			}
 		}
 
@@ -1044,9 +1047,9 @@ void CAppSettings::UpdateData(bool fSave)
 		nSpeakerChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
 		{
-			for (int i = 0; ; i++) {
+			for (unsigned int i = 0; ; i++) {
 				CString key;
-				key.Format(_T("%s\\%04d"), IDS_R_FILTERS, i);
+				key.Format(_T("%s\\%04u"), IDS_R_FILTERS, i);
 
 				CAutoPtr<FilterOverride> f(DNew FilterOverride);
 
@@ -1068,9 +1071,9 @@ void CAppSettings::UpdateData(bool fSave)
 				}
 
 				f->backup.RemoveAll();
-				for (int i = 0; ; i++) {
+				for (unsigned int i = 0; ; i++) {
 					CString val;
-					val.Format(_T("org%04d"), i);
+					val.Format(_T("org%04u"), i);
 					CString guid = pApp->GetProfileString(key, val, _T(""));
 					if (guid.IsEmpty()) {
 						break;
@@ -1079,9 +1082,9 @@ void CAppSettings::UpdateData(bool fSave)
 				}
 
 				f->guids.RemoveAll();
-				for (int i = 0; ; i++) {
+				for (unsigned int i = 0; ; i++) {
 					CString val;
-					val.Format(_T("mod%04d"), i);
+					val.Format(_T("mod%04u"), i);
 					CString guid = pApp->GetProfileString(key, val, _T(""));
 					if (guid.IsEmpty()) {
 						break;
