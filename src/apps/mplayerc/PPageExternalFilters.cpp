@@ -147,6 +147,7 @@ void CPPageExternalFilters::SetupSubTypes(CAtlArray<GUID>& guids)
 	guids.Add(MEDIASUBTYPE_CPLA);
 	guids.Add(MEDIASUBTYPE_MJPG);
 	guids.Add(MEDIASUBTYPE_MJPA);
+	guids.Add(MEDIASUBTYPE_MJPB);
 	guids.Add(MEDIASUBTYPE_TVMJ);
 	guids.Add(MEDIASUBTYPE_WAKE);
 	guids.Add(MEDIASUBTYPE_CFCC);

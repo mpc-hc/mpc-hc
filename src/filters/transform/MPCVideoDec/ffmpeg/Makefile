@@ -136,6 +136,7 @@ SRCS_C=\
     libavcodec/lsp.c \
     libavcodec/mdct.c \
     libavcodec/mjpeg.c \
+    libavcodec/mjpegbdec.c \
     libavcodec/mjpegdec.c \
     libavcodec/mlp.c \
     libavcodec/mlp_parser.c \

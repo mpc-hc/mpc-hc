@@ -197,6 +197,7 @@ FFMPEG_CODECS		ffCodecs[] = {
   { &MEDIASUBTYPE_MJPG,   CODEC_ID_MJPEG,  MAKEFOURCC('M','J','P','G'), NULL },
   { &MEDIASUBTYPE_QTJpeg, CODEC_ID_MJPEG,  MAKEFOURCC('j','p','e','g'), NULL },
   { &MEDIASUBTYPE_MJPA,   CODEC_ID_MJPEG,  MAKEFOURCC('m','j','p','a'), NULL },
+  { &MEDIASUBTYPE_MJPB,   CODEC_ID_MJPEGB,  MAKEFOURCC('m','j','p','b'), NULL },
 
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
@@ -377,6 +378,7 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] = {
   { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPG   },
   { &MEDIATYPE_Video, &MEDIASUBTYPE_QTJpeg },
   { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPA   },
+  { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPB   },
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	// H264/AVC
@@ -1495,11 +1497,15 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			return S_OK;
 		}
 
-		if ((m_pAVCtx->active_thread_type & FF_THREAD_FRAME || (!got_picture && used_bytes == 0)) || bFlush) {
+		// Comment from LAV Video code:
+		// When Frame Threading, we won't know how much data has been consumed, so it by default eats everything.
+		// In addition, if no data got consumed, and no picture was extracted, the frame probably isn't all that useufl.
+		// The MJPEB decoder is somewhat buggy and doesn't let us know how much data was consumed really...
+		if ((m_pAVCtx->active_thread_type & FF_THREAD_FRAME || (!got_picture && used_bytes == 0)) || m_nCodecId == CODEC_ID_MJPEGB || bFlush) {
 			nSize = 0;
 		} else {
-			nSize	-= used_bytes;
-			pDataIn	+= used_bytes;
+			nSize   -= used_bytes;
+			pDataIn += used_bytes;
 		}
 
 		if (m_pAVCtx->codec_id == CODEC_ID_H264 && got_picture) {

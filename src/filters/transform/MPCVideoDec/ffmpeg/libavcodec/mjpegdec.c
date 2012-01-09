@@ -84,7 +84,6 @@ av_cold int ff_mjpeg_decode_init(AVCodecContext *avctx)
 
     if (!s->picture_ptr)
         s->picture_ptr = &s->picture;
-    avcodec_get_frame_defaults(&s->picture);
 
     s->avctx = avctx;
     dsputil_init(&s->dsp, avctx);
@@ -107,8 +106,8 @@ av_cold int ff_mjpeg_decode_init(AVCodecContext *avctx)
         av_log(avctx, AV_LOG_INFO, "mjpeg: using external huffman table\n");
         init_get_bits(&s->gb, avctx->extradata, avctx->extradata_size*8);
         if (ff_mjpeg_decode_dht(s)) {
-            av_log(avctx, AV_LOG_ERROR, "mjpeg: error using external huffman table, switching back to internal\n");
-            build_basic_mjpeg_vlc(s);
+            av_log(avctx, AV_LOG_ERROR, "mjpeg: error using external huffman table\n");
+            return AVERROR_INVALIDDATA;
         }
     }
     if (avctx->field_order == AV_FIELD_BB) { /* quicktime icefloe 019 */
@@ -319,10 +318,8 @@ int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
     case 0x11111100:
         if(s->rgb){
             s->avctx->pix_fmt = PIX_FMT_BGRA;
-        }else{
+        }else
             s->avctx->pix_fmt = s->cs_itu601 ? PIX_FMT_YUV444P : PIX_FMT_YUVJ444P;
-            s->avctx->color_range = s->cs_itu601 ? AVCOL_RANGE_MPEG : AVCOL_RANGE_JPEG;
-        }
         assert(s->nb_components==3);
         break;
     case 0x11000000:
@@ -330,15 +327,12 @@ int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
         break;
     case 0x12111100:
         s->avctx->pix_fmt = s->cs_itu601 ? PIX_FMT_YUV440P : PIX_FMT_YUVJ440P;
-        s->avctx->color_range = s->cs_itu601 ? AVCOL_RANGE_MPEG : AVCOL_RANGE_JPEG;
         break;
     case 0x21111100:
         s->avctx->pix_fmt = s->cs_itu601 ? PIX_FMT_YUV422P : PIX_FMT_YUVJ422P;
-        s->avctx->color_range = s->cs_itu601 ? AVCOL_RANGE_MPEG : AVCOL_RANGE_JPEG;
         break;
     case 0x22111100:
         s->avctx->pix_fmt = s->cs_itu601 ? PIX_FMT_YUV420P : PIX_FMT_YUVJ420P;
-        s->avctx->color_range = s->cs_itu601 ? AVCOL_RANGE_MPEG : AVCOL_RANGE_JPEG;
         break;
     default:
         av_log(s->avctx, AV_LOG_ERROR, "Unhandled pixel format 0x%x\n", pix_fmt_id);
@@ -658,19 +652,15 @@ static int ljpeg_decode_rgb_scan(MJpegDecodeContext *s, int predictor, int point
                 s->restart_count = s->restart_interval;
 
             for(i=0;i<3;i++) {
-                int pred, dc;
+                int pred;
 
                 topleft[i]= top[i];
                 top[i]= buffer[mb_x][i];
 
                 PREDICT(pred, topleft[i], top[i], left[i], modified_predictor);
 
-                dc = mjpeg_decode_dc(s, s->dc_index[i]);
-                if(dc == 0xFFFF)
-                    return -1;
-
                 left[i]=
-                buffer[mb_x][i]= mask & (pred + (dc << point_transform));
+                buffer[mb_x][i]= mask & (pred + (mjpeg_decode_dc(s, s->dc_index[i]) << point_transform));
             }
 
             if (s->restart_interval && !--s->restart_count) {
@@ -891,22 +881,14 @@ static int mjpeg_decode_scan(MJpegDecodeContext *s, int nb_components, int Ah, i
                 }
             }
 
-            if (s->restart_interval) {
-                s->restart_count--;
-                i = 8 + ((-get_bits_count(&s->gb)) & 7);
-                /* skip RSTn */
-                if (show_bits(&s->gb, i) == (1 << i) - 1) {
-                    int pos = get_bits_count(&s->gb);
-                    align_get_bits(&s->gb);
-                    while (get_bits_left(&s->gb) >= 8 && show_bits(&s->gb, 8) == 0xFF)
-                        skip_bits(&s->gb, 8);
-                    if (get_bits_left(&s->gb) >= 8 && (get_bits(&s->gb, 8) & 0xF8) == 0xD0) {
-                        for (i = 0; i < nb_components; i++) /* reset dc */
-                            s->last_dc[i] = 1024;
-                    } else {
-                        skip_bits_long(&s->gb, pos - get_bits_count(&s->gb));
-                    }
-                }
+            if (s->restart_interval && show_bits(&s->gb, 8) == 0xFF){ /* skip RSTn */
+                --s->restart_count;
+                align_get_bits(&s->gb);
+                while(show_bits(&s->gb, 8) == 0xFF)
+                    skip_bits(&s->gb, 8);
+                skip_bits(&s->gb, 8);
+                for (i=0; i<nb_components; i++) /* reset dc */
+                    s->last_dc[i] = 1024;
             }
         }
     }
@@ -1031,11 +1013,8 @@ int ff_mjpeg_decode_sos(MJpegDecodeContext *s,
 
     predictor= get_bits(&s->gb, 8); /* JPEG Ss / lossless JPEG predictor /JPEG-LS NEAR */
     ilv= get_bits(&s->gb, 8);    /* JPEG Se / JPEG-LS ILV */
-    if(s->avctx->codec_tag != AV_RL32("CJPG")){
-        prev_shift = get_bits(&s->gb, 4); /* Ah */
-        point_transform= get_bits(&s->gb, 4); /* Al */
-    }else
-        prev_shift= point_transform= 0;
+    prev_shift = get_bits(&s->gb, 4); /* Ah */
+    point_transform= get_bits(&s->gb, 4); /* Al */
 
     for(i=0;i<nb_components;i++)
         s->last_dc[i] = 1024;
@@ -1055,8 +1034,8 @@ int ff_mjpeg_decode_sos(MJpegDecodeContext *s,
     }
 
     if(s->avctx->debug & FF_DEBUG_PICT_INFO)
-        av_log(s->avctx, AV_LOG_DEBUG, "%s %s p:%d >>:%d ilv:%d bits:%d skip:%d %s\n", s->lossless ? "lossless" : "sequential DCT", s->rgb ? "RGB" : "",
-               predictor, point_transform, ilv, s->bits, s->mjpb_skiptosod,
+        av_log(s->avctx, AV_LOG_DEBUG, "%s %s p:%d >>:%d ilv:%d bits:%d %s\n", s->lossless ? "lossless" : "sequential DCT", s->rgb ? "RGB" : "",
+               predictor, point_transform, ilv, s->bits,
                s->pegasus_rct ? "PRCT" : (s->rct ? "RCT" : ""));
 
 

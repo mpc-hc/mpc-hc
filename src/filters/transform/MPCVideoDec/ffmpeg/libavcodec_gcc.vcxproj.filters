@@ -378,6 +378,9 @@
     <ClCompile Include="libavcodec\mjpeg.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\mjpegbdec.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\mjpegdec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>

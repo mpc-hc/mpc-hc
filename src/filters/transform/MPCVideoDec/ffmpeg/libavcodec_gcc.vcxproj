@@ -198,6 +198,7 @@
     <ClCompile Include="libavcodec\lsp.c" />
     <ClCompile Include="libavcodec\mdct.c" />
     <ClCompile Include="libavcodec\mjpeg.c" />
+    <ClCompile Include="libavcodec\mjpegbdec.c" />
     <ClCompile Include="libavcodec\mjpegdec.c" />
     <ClCompile Include="libavcodec\mlp.c" />
     <ClCompile Include="libavcodec\mlpdec.c" />
