@@ -1411,7 +1411,7 @@ static void compute_imdct(MPADecodeContext *s, GranuleDef *g,
     }
     for (j = mdct_long_end; j < sblimit; j++) {
         /* select frequency inversion */
-        win     = mdct_win[2] + ((4 * 36) & -(j & 1));
+        win     = mdct_win[2 + (4  & -(j & 1))];
         out_ptr = sb_samples + j;
 
         for (i = 0; i < 6; i++) {
@@ -1548,7 +1548,7 @@ static int mp_decode_layer3(MPADecodeContext *s)
         memcpy(s->last_buf + s->last_buf_size, ptr, EXTRABYTES);
         s->in_gb = s->gb;
         init_get_bits(&s->gb, s->last_buf, s->last_buf_size*8);
-#if CONFIG_SAFE_BITSTREAM_READER
+#if !UNCHECKED_BITSTREAM_READER
         s->gb.size_in_bits_plus8 += EXTRABYTES * 8;
 #endif
         skip_bits_long(&s->gb, 8*(s->last_buf_size - main_data_begin));

@@ -70,49 +70,49 @@ static int vc1_init_common(VC1Context *v)
     /* VLC tables */
     if (!done) {
         INIT_VLC_STATIC(&ff_vc1_bfraction_vlc, VC1_BFRACTION_VLC_BITS, 23,
-                 ff_vc1_bfraction_bits, 1, 1,
-                 ff_vc1_bfraction_codes, 1, 1, 1 << VC1_BFRACTION_VLC_BITS);
+                        ff_vc1_bfraction_bits, 1, 1,
+                        ff_vc1_bfraction_codes, 1, 1, 1 << VC1_BFRACTION_VLC_BITS);
         INIT_VLC_STATIC(&ff_vc1_norm2_vlc, VC1_NORM2_VLC_BITS, 4,
-                 ff_vc1_norm2_bits, 1, 1,
-                 ff_vc1_norm2_codes, 1, 1, 1 << VC1_NORM2_VLC_BITS);
+                        ff_vc1_norm2_bits, 1, 1,
+                        ff_vc1_norm2_codes, 1, 1, 1 << VC1_NORM2_VLC_BITS);
         INIT_VLC_STATIC(&ff_vc1_norm6_vlc, VC1_NORM6_VLC_BITS, 64,
-                 ff_vc1_norm6_bits, 1, 1,
-                 ff_vc1_norm6_codes, 2, 2, 556);
+                        ff_vc1_norm6_bits, 1, 1,
+                        ff_vc1_norm6_codes, 2, 2, 556);
         INIT_VLC_STATIC(&ff_vc1_imode_vlc, VC1_IMODE_VLC_BITS, 7,
-                 ff_vc1_imode_bits, 1, 1,
-                 ff_vc1_imode_codes, 1, 1, 1 << VC1_IMODE_VLC_BITS);
-        for (i=0; i<3; i++)
+                        ff_vc1_imode_bits, 1, 1,
+                        ff_vc1_imode_codes, 1, 1, 1 << VC1_IMODE_VLC_BITS);
+        for (i = 0; i < 3; i++)
         {
-            ff_vc1_ttmb_vlc[i].table = &vlc_table[vlc_offs[i*3+0]];
-            ff_vc1_ttmb_vlc[i].table_allocated = vlc_offs[i*3+1] - vlc_offs[i*3+0];
+            ff_vc1_ttmb_vlc[i].table           = &vlc_table[vlc_offs[i * 3 + 0]];
+            ff_vc1_ttmb_vlc[i].table_allocated = vlc_offs[i * 3 + 1] - vlc_offs[i * 3 + 0];
             init_vlc(&ff_vc1_ttmb_vlc[i], VC1_TTMB_VLC_BITS, 16,
                      ff_vc1_ttmb_bits[i], 1, 1,
                      ff_vc1_ttmb_codes[i], 2, 2, INIT_VLC_USE_NEW_STATIC);
-            ff_vc1_ttblk_vlc[i].table = &vlc_table[vlc_offs[i*3+1]];
-            ff_vc1_ttblk_vlc[i].table_allocated = vlc_offs[i*3+2] - vlc_offs[i*3+1];
+            ff_vc1_ttblk_vlc[i].table           = &vlc_table[vlc_offs[i * 3 + 1]];
+            ff_vc1_ttblk_vlc[i].table_allocated = vlc_offs[i * 3 + 2] - vlc_offs[i * 3 + 1];
             init_vlc(&ff_vc1_ttblk_vlc[i], VC1_TTBLK_VLC_BITS, 8,
                      ff_vc1_ttblk_bits[i], 1, 1,
                      ff_vc1_ttblk_codes[i], 1, 1, INIT_VLC_USE_NEW_STATIC);
-            ff_vc1_subblkpat_vlc[i].table = &vlc_table[vlc_offs[i*3+2]];
-            ff_vc1_subblkpat_vlc[i].table_allocated = vlc_offs[i*3+3] - vlc_offs[i*3+2];
+            ff_vc1_subblkpat_vlc[i].table           = &vlc_table[vlc_offs[i * 3 + 2]];
+            ff_vc1_subblkpat_vlc[i].table_allocated = vlc_offs[i * 3 + 3] - vlc_offs[i * 3 + 2];
             init_vlc(&ff_vc1_subblkpat_vlc[i], VC1_SUBBLKPAT_VLC_BITS, 15,
                      ff_vc1_subblkpat_bits[i], 1, 1,
                      ff_vc1_subblkpat_codes[i], 1, 1, INIT_VLC_USE_NEW_STATIC);
         }
-        for(i=0; i<4; i++)
+        for (i = 0; i < 4; i++)
         {
-            ff_vc1_4mv_block_pattern_vlc[i].table = &vlc_table[vlc_offs[i*3+9]];
-            ff_vc1_4mv_block_pattern_vlc[i].table_allocated = vlc_offs[i*3+10] - vlc_offs[i*3+9];
+            ff_vc1_4mv_block_pattern_vlc[i].table           = &vlc_table[vlc_offs[i * 3 + 9]];
+            ff_vc1_4mv_block_pattern_vlc[i].table_allocated = vlc_offs[i * 3 + 10] - vlc_offs[i * 3 + 9];
             init_vlc(&ff_vc1_4mv_block_pattern_vlc[i], VC1_4MV_BLOCK_PATTERN_VLC_BITS, 16,
                      ff_vc1_4mv_block_pattern_bits[i], 1, 1,
                      ff_vc1_4mv_block_pattern_codes[i], 1, 1, INIT_VLC_USE_NEW_STATIC);
-            ff_vc1_cbpcy_p_vlc[i].table = &vlc_table[vlc_offs[i*3+10]];
-            ff_vc1_cbpcy_p_vlc[i].table_allocated = vlc_offs[i*3+11] - vlc_offs[i*3+10];
+            ff_vc1_cbpcy_p_vlc[i].table           = &vlc_table[vlc_offs[i * 3 + 10]];
+            ff_vc1_cbpcy_p_vlc[i].table_allocated = vlc_offs[i * 3 + 11] - vlc_offs[i * 3 + 10];
             init_vlc(&ff_vc1_cbpcy_p_vlc[i], VC1_CBPCY_P_VLC_BITS, 64,
                      ff_vc1_cbpcy_p_bits[i], 1, 1,
                      ff_vc1_cbpcy_p_codes[i], 2, 2, INIT_VLC_USE_NEW_STATIC);
-            ff_vc1_mv_diff_vlc[i].table = &vlc_table[vlc_offs[i*3+11]];
-            ff_vc1_mv_diff_vlc[i].table_allocated = vlc_offs[i*3+12] - vlc_offs[i*3+11];
+            ff_vc1_mv_diff_vlc[i].table           = &vlc_table[vlc_offs[i * 3 + 11]];
+            ff_vc1_mv_diff_vlc[i].table_allocated = vlc_offs[i * 3 + 12] - vlc_offs[i * 3 + 11];
             init_vlc(&ff_vc1_mv_diff_vlc[i], VC1_MV_DIFF_VLC_BITS, 73,
                      ff_vc1_mv_diff_bits[i], 1, 1,
                      ff_vc1_mv_diff_codes[i], 2, 2, INIT_VLC_USE_NEW_STATIC);
@@ -880,7 +880,7 @@ static inline void vc1_pred_mv(VC1Context *v, int n, int dmv_x, int dmv_y, int m
     dmv_y <<= 1 - s->quarter_sample;
 
     wrap = s->b8_stride;
-    xy = s->block_index[n];
+    xy   = s->block_index[n];
 
     if (s->mb_intra) {
         s->mv[0][n][0] = s->current_picture.f.motion_val[0][xy][0] = 0;
@@ -944,19 +944,19 @@ static inline void vc1_pred_mv(VC1Context *v, int n, int dmv_x, int dmv_y, int m
     /* Pullback MV as specified in 8.3.5.3.4 */
     {
         int qx, qy, X, Y;
-        qx = (s->mb_x << 6) + ((n==1 || n==3) ? 32 : 0);
-        qy = (s->mb_y << 6) + ((n==2 || n==3) ? 32 : 0);
-        X = (s->mb_width << 6) - 4;
-        Y = (s->mb_height << 6) - 4;
-        if(mv1) {
-            if(qx + px < -60) px = -60 - qx;
-            if(qy + py < -60) py = -60 - qy;
+        qx = (s->mb_x << 6) + ((n == 1 || n == 3) ? 32 : 0);
+        qy = (s->mb_y << 6) + ((n == 2 || n == 3) ? 32 : 0);
+        X  = (s->mb_width  << 6) - 4;
+        Y  = (s->mb_height << 6) - 4;
+        if (mv1) {
+            if (qx + px < -60) px = -60 - qx;
+            if (qy + py < -60) py = -60 - qy;
         } else {
-            if(qx + px < -28) px = -28 - qx;
-            if(qy + py < -28) py = -28 - qy;
+            if (qx + px < -28) px = -28 - qx;
+            if (qy + py < -28) py = -28 - qy;
         }
-        if(qx + px > X) px = X - qx;
-        if(qy + py > Y) py = Y - qy;
+        if (qx + px > X) px = X - qx;
+        if (qy + py > Y) py = Y - qy;
     }
     /* Calculate hybrid prediction as specified in 8.3.5.3.5 */
     if((!s->first_slice_line || (n==2 || n==3)) && (s->mb_x || (n==1 || n==3))) {
@@ -1105,7 +1105,7 @@ static void vc1_interp_mc(VC1Context *v)
             dsp->avg_no_rnd_pixels_tab[0][dxy](s->dest[0], srcY, s->linesize, 16);
     }
 
-    if(s->flags & CODEC_FLAG_GRAY) return;
+    if (s->flags & CODEC_FLAG_GRAY) return;
     /* Chroma MC always uses qpel blilinear */
     uvmx = (uvmx&3)<<1;
     uvmy = (uvmy&3)<<1;
@@ -3748,7 +3748,7 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
     if (v->profile == PROFILE_ADVANCED)
         avctx->level = v->level;
 
-    avctx->has_b_frames = !!(avctx->max_b_frames);
+    avctx->has_b_frames = !!avctx->max_b_frames;
 
     s->mb_width  = (avctx->coded_width  + 15) >> 4;
     s->mb_height = (avctx->coded_height + 15) >> 4;

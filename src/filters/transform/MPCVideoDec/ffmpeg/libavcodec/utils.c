@@ -583,9 +583,6 @@ void avcodec_get_frame_defaults(AVFrame *pic){
     pic->key_frame= 1;
     pic->sample_aspect_ratio = (AVRational){0, 1};
     pic->format = -1;           /* unknown */
-    /* ffdshow custom code */
-    pic->YCbCr_RGB_matrix_coefficients = YCbCr_RGB_coeff_Unspecified;
-    pic->video_full_range_flag = VIDEO_FULL_RANGE_INVALID;
 }
 
 AVFrame *avcodec_alloc_frame(void){
@@ -711,6 +708,8 @@ int attribute_align_arg avcodec_open2(AVCodecContext *avctx, AVCodec *codec, AVD
             goto free_and_end;
         }
     }
+    if (!HAVE_THREADS && !(codec->capabilities & CODEC_CAP_AUTO_THREADS))
+        avctx->thread_count = 1;
 
     if (avctx->codec->max_lowres < avctx->lowres || avctx->lowres < 0) {
         av_log(avctx, AV_LOG_ERROR, "The maximum value for lowres supported by the decoder is %d\n",
@@ -929,6 +928,8 @@ int attribute_align_arg avcodec_decode_audio4(AVCodecContext *avctx,
         if (ret >= 0 && *got_frame_ptr) {
             avctx->frame_number++;
             frame->pkt_dts = avpkt->dts;
+            if (frame->format == AV_SAMPLE_FMT_NONE)
+                frame->format = avctx->sample_fmt;
         }
     }
     return ret;

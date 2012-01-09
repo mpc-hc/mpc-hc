@@ -197,6 +197,8 @@ protected:
 	bool m_fDynamicRangeControl[etlast];
 	float m_boost;
 
+	bool m_bResync;
+
 public:
 	CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CMpaDecFilter();

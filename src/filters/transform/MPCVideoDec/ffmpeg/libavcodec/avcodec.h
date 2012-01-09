@@ -26,6 +26,7 @@
 #else
     #define FF_EXPORT 
 #endif
+
 /**
  * @file
  * external API header
@@ -617,21 +618,6 @@ enum AVAudioServiceType {
     AV_AUDIO_SERVICE_TYPE_NB                   , ///< Not part of ABI
 };
 
-/**
- * H.264 VUI colour primaries (matrix_coefficients)
- */
-typedef enum {
-    YCbCr_RGB_coeff_GBR                                = 0,
-    YCbCr_RGB_coeff_ITUR_BT_709                        = 1,
-    YCbCr_RGB_coeff_Unspecified                        = 2,
-    YCbCr_RGB_coeff_Reserved                           = 3,
-    YCbCr_RGB_coeff_US_Federal_Regulations_2003_73_682 = 4,
-    YCbCr_RGB_coeff_ITUR_BT_601_625                    = 5,
-    YCbCr_RGB_coeff_ITUR_BT_601_525                    = 6,
-    YCbCr_RGB_coeff_SMPTE240M                          = 7,
-    YCbCr_RGB_coeff_YCgCo                              = 8
-} YCbCr_RGB_MatrixCoefficientsType;
-
 typedef enum {
     VIDEO_FULL_RANGE_TV         = 0,
     VIDEO_FULL_RANGE_PC         = 1,
@@ -753,10 +739,22 @@ typedef struct RcOverride{
 /* Codec can export data for HW decoding (XvMC). */
 #define CODEC_CAP_HWACCEL         0x0010
 /**
- * Codec has a nonzero delay and needs to be fed with avpkt->data=NULL,
+ * Encoder or decoder requires flushing with NULL input at the end in order to
+ * give the complete and correct output.
+ *
+ * NOTE: If this flag is not set, the codec is guaranteed to never be fed with
+ *       with NULL data. The user can still send NULL data to the public encode
+ *       or decode function, but libavcodec will not pass it along to the codec
+ *       unless this flag is set.
+ *
+ * Decoders:
+ * The decoder has a non-zero delay and needs to be fed with avpkt->data=NULL,
  * avpkt->size=0 at the end to get the delayed data until the decoder no longer
- * returns frames. If this is not set, the codec is guaranteed to never be fed
- * with NULL data.
+ * returns frames.
+ *
+ * Encoders:
+ * The encoder needs to be fed with NULL data at the end of encoding until the
+ * encoder no longer returns data.
  */
 #define CODEC_CAP_DELAY           0x0020
 /**
@@ -801,6 +799,14 @@ typedef struct RcOverride{
  * Codec supports slice-based (or partition-based) multithreading.
  */
 #define CODEC_CAP_SLICE_THREADS    0x2000
+/**
+ * Codec supports changed parameters at any point.
+ */
+#define CODEC_CAP_PARAM_CHANGE     0x4000
+/**
+ * Codec supports avctx->thread_count == 0 (auto).
+ */
+#define CODEC_CAP_AUTO_THREADS     0x8000
 
 //The following defines may change, don't expect compatibility if you use them.
 #define MB_TYPE_INTRA4x4   0x0001
@@ -880,6 +886,12 @@ typedef struct AVPanScan{
 #define FF_BUFFER_HINTS_READABLE 0x02 // Codec will read from buffer.
 #define FF_BUFFER_HINTS_PRESERVE 0x04 // User must not alter buffer content.
 #define FF_BUFFER_HINTS_REUSABLE 0x08 // Codec will reuse the buffer (update).
+
+enum AVPacketSideDataType {
+    AV_PKT_DATA_PALETTE,
+    AV_PKT_DATA_NEW_EXTRADATA,
+    AV_PKT_DATA_PARAM_CHANGE,
+};
 
 typedef struct AVPacket {
     /**
@@ -1269,6 +1281,7 @@ typedef struct AVFrame {
      * - decoding: Read by user.
      */
     int format;
+
     /* ffdshow custom code (begin) */
     int mb_width,mb_height,mb_stride;
     int num_sprite_warping_points,real_sprite_warping_points;
@@ -1280,19 +1293,6 @@ typedef struct AVFrame {
     int h264_max_frame_num;
 
     int mpeg2_sequence_end_flag;
-
-    /**
-     * video_full_range_flag
-     * - encoding: unused
-     * - decoding: Set by libavcodec.  -1: invalid, 0: TV (16-235) 1: PC (1-254)
-     */
-    VideoFullRangeType video_full_range_flag;
-    /**
-     * YCbCr_RGB_matrix_coefficients
-     * - encoding: unused
-     * - decoding: Set by libavcodec.
-     */
-    YCbCr_RGB_MatrixCoefficientsType YCbCr_RGB_matrix_coefficients;
     /* ffdshow custom code (end) */
 } AVFrame;
 

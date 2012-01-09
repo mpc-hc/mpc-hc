@@ -1215,7 +1215,7 @@ static int mpeg_decode_postinit(AVCodecContext *avctx)
 
         /* low_delay may be forced, in this case we will have B-frames
          * that behave like P-frames. */
-        avctx->has_b_frames = !(s->low_delay);
+        avctx->has_b_frames = !s->low_delay;
 
         assert((avctx->sub_id == 1) == (avctx->codec_id == CODEC_ID_MPEG1VIDEO));
         if (avctx->codec_id == CODEC_ID_MPEG1VIDEO) {
@@ -2438,7 +2438,9 @@ static int decode_chunks(AVCodecContext *avctx,
                 // <== End patch MPC
 
                 if (HAVE_THREADS && (avctx->active_thread_type & FF_THREAD_SLICE)) {
-                    int threshold= (s2->mb_height * s->slice_count + avctx->thread_count / 2) / avctx->thread_count;
+                    int threshold = (s2->mb_height * s->slice_count +
+                                     s2->slice_context_count / 2) /
+                                    s2->slice_context_count;
                     if (threshold <= mb_y) {
                         MpegEncContext *thread_context = s2->thread_context[s->slice_count];
 

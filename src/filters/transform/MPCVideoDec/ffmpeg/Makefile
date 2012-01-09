@@ -276,6 +276,7 @@ SRCS_YASM=\
     libavcodec/x86/vp3dsp.asm \
     libavcodec/x86/vp56dsp.asm \
     libavcodec/x86/vp8dsp.asm \
+    libswscale/x86/output.asm \
     libswscale/x86/scale.asm
 
 OBJS += \

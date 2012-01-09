@@ -150,10 +150,6 @@ static void decode_postinit_dxva(H264Context *h, int* nOutPOC, int64_t* rtStartT
         }
     }
 
-    /* ffdshow custom code */
-    cur->f.video_full_range_flag = h->sps.full_range;
-    cur->f.YCbCr_RGB_matrix_coefficients = h->sps.colorspace;
-
     //FIXME do something with unavailable reference frames
 
     /* Sort B-frames into display order */

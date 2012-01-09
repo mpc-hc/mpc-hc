@@ -91,9 +91,15 @@ typedef struct ADPCMDecodeContext {
 static av_cold int adpcm_decode_init(AVCodecContext * avctx)
 {
     ADPCMDecodeContext *c = avctx->priv_data;
+    unsigned int min_channels = 1;
     unsigned int max_channels = 2;
 
-    if (avctx->channels <= 0 || avctx->channels > max_channels) {
+    switch(avctx->codec->id) {
+    case CODEC_ID_ADPCM_EA:
+        min_channels = 2;
+        break;
+    }
+    if (avctx->channels < min_channels || avctx->channels > max_channels) {
         av_log(avctx, AV_LOG_ERROR, "Invalid number of channels\n");
         return AVERROR(EINVAL);
     }
@@ -717,9 +723,6 @@ static int adpcm_decode_frame(AVCodecContext *avctx, void *data,
 
         /* Each EA ADPCM frame has a 12-byte header followed by 30-byte pieces,
            each coding 28 stereo samples. */
-
-        if(avctx->channels != 2)
-            return AVERROR_INVALIDDATA;
 
         src += 4; // skip sample count (already read)
 

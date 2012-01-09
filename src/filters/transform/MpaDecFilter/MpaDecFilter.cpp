@@ -41,7 +41,6 @@
 #include <libflac/include/FLAC/stream_decoder.h>
 
 #define INT24_MAX					0x7FFFFF
-#define EAC3_FRAME_TYPE_RESERVED	3
 #define AC3_HEADER_SIZE				7
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
@@ -282,6 +281,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	, m_iSampleFormat(SF_PCM16)
 	, m_fNormalize(false)
 	, m_boost(1)
+	, m_bResync(false)
 {
 	if(phr) {
 		*phr = S_OK;
@@ -428,6 +428,9 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 		FLAC__stream_decoder_flush((FLAC__StreamDecoder*) m_flac.pDecoder);
 	}
 #endif
+
+	m_bResync = true;
+
 	return __super::NewSegment(tStart, tStop, dRate);
 }
 
@@ -473,19 +476,22 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	if(pIn->IsDiscontinuity() == S_OK) {
 		m_fDiscontinuity = true;
 		m_buff.RemoveAll();
+		m_rtStart = rtStart;
 		m_sample_max = 0.1f;
-		// ASSERT(SUCCEEDED(hr)); // what to do if not?
+		m_bResync = true;
 		if(FAILED(hr)) {
+			TRACE(_T("CMpaDecFilter::Receive() : Discontinuity without timestamp\n"));
 			return S_OK;
 		}
-		m_rtStart = rtStart;
 	}
 
 	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 
-	if(SUCCEEDED(hr) && _abs64((m_rtStart - rtStart)) > 1000000i64) { // +-100ms jitter is allowed for now 
+	if(SUCCEEDED(hr) && (_abs64((m_rtStart - rtStart)) > 1000000i64) // +-100ms jitter is allowed for now 
+			|| m_bResync) {
 		m_buff.RemoveAll(); 
-		m_rtStart = rtStart; 
+		m_rtStart = rtStart;
+		m_bResync = false;
 	} 
 
 	int bufflen = m_buff.GetCount();
@@ -2664,6 +2670,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 				int ret2 = avcodec_decode_audio4(m_pAVCtx, m_pFrame, &got_frame, &avpkt);
 				if (ret2 < 0) {
 					TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - decoding failed despite successfull parsing\n"));
+					m_bResync = true;
 					continue;
 				}
 			} else {
