@@ -60,10 +60,10 @@ void avcodec_register_all(void)
     //REGISTER_DECODER (EIGHTBPS, eightbps);
     //REGISTER_ENCDEC  (FFV1, ffv1);
     //REGISTER_ENCDEC  (FFVHUFF, ffvhuff);
-    REGISTER_DECODER  (FLV, flv);
+    REGISTER_DECODER (FLV, flv);
     //REGISTER_DECODER (FRAPS, fraps);
     //REGISTER_ENCDEC  (H261, h261);
-    REGISTER_DECODER  (H263, h263);
+    REGISTER_DECODER (H263, h263);
     //REGISTER_DECODER (H263I, h263i);
     //REGISTER_ENCODER (H263P, h263p);
     REGISTER_DECODER (H264, h264);
@@ -75,14 +75,15 @@ void avcodec_register_all(void)
     //REGISTER_ENCODER (LJPEG, ljpeg);
     //REGISTER_DECODER (LOCO, loco);
     //REGISTER_ENCDEC  (MJPEG, mjpeg);
+	REGISTER_DECODER (MJPEG, mjpeg);
     //REGISTER_DECODER (MJPEGB, mjpegb);
     //REGISTER_ENCDEC  (MPEG1VIDEO, mpeg1video);
-    REGISTER_DECODER  (MPEG2VIDEO, mpeg2video);
-    REGISTER_DECODER  (MPEG4, mpeg4);
+    REGISTER_DECODER (MPEG2VIDEO, mpeg2video);
+    REGISTER_DECODER (MPEG4, mpeg4);
     //REGISTER_DECODER (MPEGVIDEO, mpegvideo);
-    REGISTER_DECODER  (MSMPEG4V1, msmpeg4v1);
-    REGISTER_DECODER  (MSMPEG4V2, msmpeg4v2);
-    REGISTER_DECODER  (MSMPEG4V3, msmpeg4v3);
+    REGISTER_DECODER (MSMPEG4V1, msmpeg4v1);
+    REGISTER_DECODER (MSMPEG4V2, msmpeg4v2);
+    REGISTER_DECODER (MSMPEG4V3, msmpeg4v3);
     //REGISTER_DECODER (MSRLE, msrle);
     //REGISTER_DECODER (MSVIDEO1, msvideo1);
     //REGISTER_DECODER (MSZH, mszh);
@@ -184,8 +185,8 @@ void avcodec_register_all(void)
 
     /* parsers */
     //REGISTER_PARSER  (AAC, aac);
-    REGISTER_PARSER  (AC3, ac3);
+    REGISTER_PARSER (AC3, ac3);
     //REGISTER_PARSER  (DCA, dca);
-    REGISTER_PARSER  (MLP, mlp);
-    REGISTER_PARSER  (MPEGAUDIO, mpegaudio);
+    REGISTER_PARSER (MLP, mlp);
+    REGISTER_PARSER (MPEGAUDIO, mpegaudio);
 }

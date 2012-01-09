@@ -1841,6 +1841,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	// High merit MPC Video Decoder
 #if HAS_FFMPEG_VIDEO_DECODERS | HAS_DXVA_VIDEO_DECODERS
 	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(MPCVideoDecName, MERIT64_ABOVE_DSHOW);
+
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
+
 #if INTERNAL_DECODER_FLV
 	if (ffmpeg_filters[FFM_FLV4]) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
@@ -2026,6 +2030,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 	// Low merit MPC Video Decoder
 	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(CStringW(MPCVideoDecName)+LowMeritSuffix, MERIT64_DO_USE);
+
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
+
 #if INTERNAL_DECODER_FLV
 	if (!(ffmpeg_filters[FFM_FLV4])) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
