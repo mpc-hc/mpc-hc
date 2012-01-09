@@ -213,14 +213,6 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			BITMAPINFOHEADER* pbmi = &((BITMAPINFO*)s->strf.GetData())->bmiHeader;
 
 			mt.majortype = MEDIATYPE_Video;
-			mt.subtype = FOURCCMap(pbmi->biCompression);
-			mt.formattype = FORMAT_VideoInfo;
-			VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + s->strf.GetCount() - sizeof(BITMAPINFOHEADER));
-			memset(mt.Format(), 0, mt.FormatLength());
-			memcpy(&pvih->bmiHeader, s->strf.GetData(), s->strf.GetCount());
-			if(s->strh.dwRate > 0) {
-				pvih->AvgTimePerFrame = 10000000i64 * s->strh.dwScale / s->strh.dwRate;
-			}
 			switch(pbmi->biCompression) {
 				case BI_RGB:
 				case BI_BITFIELDS:
@@ -233,8 +225,21 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						pbmi->biBitCount == 32 ? MEDIASUBTYPE_ARGB32 :
 						MEDIASUBTYPE_NULL;
 					break;
-					//			case BI_RLE8: mt.subtype = MEDIASUBTYPE_RGB8; break;
-					//			case BI_RLE4: mt.subtype = MEDIASUBTYPE_RGB4; break;
+				//case BI_RLE8: mt.subtype = MEDIASUBTYPE_RGB8; break;
+				//case BI_RLE4: mt.subtype = MEDIASUBTYPE_RGB4; break;
+				case FCC('AVRn')://uncommon fourcc
+				case FCC('JPGL')://uncommon fourcc
+					mt.subtype = MEDIASUBTYPE_MJPG;
+					break;
+				default:
+					mt.subtype = FOURCCMap(pbmi->biCompression);
+			}
+			mt.formattype = FORMAT_VideoInfo;
+			VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + s->strf.GetCount() - sizeof(BITMAPINFOHEADER));
+			memset(mt.Format(), 0, mt.FormatLength());
+			memcpy(&pvih->bmiHeader, s->strf.GetData(), s->strf.GetCount());
+			if(s->strh.dwRate > 0) {
+				pvih->AvgTimePerFrame = 10000000i64 * s->strh.dwScale / s->strh.dwRate;
 			}
 
 			if(s->cs.GetCount() && pvih->AvgTimePerFrame > 0) {
