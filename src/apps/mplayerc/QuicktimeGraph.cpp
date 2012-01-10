@@ -293,9 +293,12 @@ STDMETHODIMP CQuicktimeGraph::get_Volume(long* plVolume)
 	CheckPointer(plVolume, E_POINTER);
 
 	if (m_wndDestFrame.theMovie) {
-		*plVolume = (long)GetMovieVolume(m_wndDestFrame.theMovie);
-		*plVolume = (long)(4000*log10(*plVolume/256.0f));
-		*plVolume = max(min(*plVolume, 0), -10000);
+		*plVolume = (long)GetMovieVolume(m_wndDestFrame.theMovie); // [?..256]
+		if (*plVolume > 0) {
+			*plVolume = min((long)(4000*log10(*plVolume/256.0f)), 0);
+		} else {
+			*plVolume = -10000;
+		}
 		return S_OK;
 	}
 

@@ -787,10 +787,12 @@ STDMETHODIMP CRealMediaGraph::get_Volume(long* plVolume)
 
 	CheckPointer(plVolume, E_POINTER);
 
-	*plVolume = (long)m_pRMP->m_pVolume->GetVolume();
-	*plVolume = (long)(4000*log10(*plVolume/100.0f));
-	*plVolume = max(min(*plVolume, 0), -10000);
-
+	*plVolume = (long)m_pRMP->m_pVolume->GetVolume(); // [?..100]
+	if (*plVolume > 0) {
+		*plVolume = min((long)(4000*log10(*plVolume/100.0f)), 0);
+	} else {
+		*plVolume = -10000;
+	} 
 	return S_OK;
 }
 

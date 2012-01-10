@@ -196,11 +196,14 @@ bool CPlayerToolBar::IsMuted()
 
 int CPlayerToolBar::GetVolume()
 {
-	int volume = m_volctrl.GetPos();
-	volume = (int)(4000*log10(volume/100.0f)); // 4000=2.0*100*20, where 2.0 is a special factor
-	volume = max(min(volume, 0), -10000);
+	int volume = m_volctrl.GetPos(); // [0..100]
+	if (IsMuted() || volume <= 0) {
+		volume = -10000;
+	} else {
+		volume = min((int)(4000*log10(volume/100.0f)), 0); // 4000=2.0*100*20, where 2.0 is a special factor
+	}
 
-	return(IsMuted() ? -10000 : volume);
+	return volume;
 }
 
 int CPlayerToolBar::GetMinWidth()

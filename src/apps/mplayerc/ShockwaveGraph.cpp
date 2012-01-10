@@ -266,10 +266,12 @@ STDMETHODIMP CShockwaveGraph::get_Volume(long* plVolume)
 	CheckPointer(plVolume, E_POINTER);
 
 	waveOutGetVolume(0, (DWORD*)plVolume);
-	*plVolume = (*plVolume&0xffff + ((*plVolume>>16)&0xffff)) / 2;
-	*plVolume = *plVolume*100/0x10000;
-	*plVolume = (long)(4000*log10(*plVolume/100.0f));
-	*plVolume = max(min(*plVolume, 0), -10000);
+	*plVolume = (*plVolume&0xffff + ((*plVolume>>16)&0xffff)) / 2 * 100/0x10000;
+	if (*plVolume > 0) {
+		*plVolume = min((long)(4000*log10(*plVolume/100.0f)), 0);
+	} else {
+		*plVolume = -10000;
+	}
 
 	return S_OK;
 }
