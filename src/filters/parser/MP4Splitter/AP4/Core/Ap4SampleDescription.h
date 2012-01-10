@@ -246,6 +246,10 @@ const AP4_MpegSampleDescription::OTI AP4_MPEG1_VISUAL_OTI         = 0x6A;
 const AP4_MpegSampleDescription::OTI AP4_MPEG1_AUDIO_OTI          = 0x6B;
 const AP4_MpegSampleDescription::OTI AP4_JPEG_OTI                 = 0x6C;
 
+const AP4_MpegSampleDescription::OTI AP4_DTSC_AUDIO_OTI           = 0xA9;
+const AP4_MpegSampleDescription::OTI AP4_DTSH_AUDIO_OTI           = 0xAA;
+const AP4_MpegSampleDescription::OTI AP4_DTSL_AUDIO_OTI           = 0xAB;
+
 const AP4_MpegSampleDescription::OTI AP4_NERO_VOBSUB              = 0xE0;
 
 #endif // _AP4_SAMPLE_DESCRIPTION_H_

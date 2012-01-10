@@ -260,6 +260,10 @@ AP4_MpegSampleDescription::GetObjectTypeString(OTI oti)
         case AP4_MPEG1_VISUAL_OTI:         return "MPEG-1 Video";
         case AP4_MPEG1_AUDIO_OTI:          return "MPEG-1 Audio";
         case AP4_JPEG_OTI:                 return "JPEG";
+        case AP4_DTSC_AUDIO_OTI:           return "DTS audio";
+        case AP4_DTSH_AUDIO_OTI:           return "DTS-HD High Resolution Audio";
+        case AP4_DTSL_AUDIO_OTI:           return "DTS-HD Master Audio";
+        case AP4_NERO_VOBSUB:              return "VobSub Subtitle";
         default:                           return "UNKNOWN";
     }
 }

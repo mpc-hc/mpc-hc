@@ -200,6 +200,12 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					mpeg_desc = isma_desc->GetOriginalSampleDescription();
 				}
 
+				CStringW TypeString = CStringW(mpeg_desc->GetObjectTypeString(mpeg_desc->GetObjectTypeId()));
+				if((TypeString.Find(_T("UNKNOWN")) == -1) && (TypeString.Find(_T("INVALID")) == -1)) {
+					TrackName += _T(" - ");
+					TrackName += TypeString;
+				}
+
 				if(AP4_MpegVideoSampleDescription* video_desc =
 							dynamic_cast<AP4_MpegVideoSampleDescription*>(mpeg_desc)) {
 					const AP4_DataBuffer* di = video_desc->GetDecoderInfo();
@@ -333,6 +339,20 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							}
 							mts.Add(mt);
 							break;
+						case AP4_DTSC_AUDIO_OTI:
+						case AP4_DTSH_AUDIO_OTI:
+						case AP4_DTSL_AUDIO_OTI:
+							mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_DVD_DTS);
+							{
+								m_pFile->Seek(sample.GetOffset());
+								CBaseSplitterFileEx::dtshdr h;
+								CMediaType mt2;
+								if(m_pFile->Read(h, sample.GetSize(), &mt2)) {
+									mt = mt2;
+								}
+							}
+							mts.Add(mt);
+							break;
 					}
 
 					if(mt.subtype == GUID_NULL) {
@@ -426,6 +446,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			} else if(AP4_Avc1SampleEntry* avc1 = dynamic_cast<AP4_Avc1SampleEntry*>(
 					track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd/avc1"))) {
 				if(AP4_AvcCAtom* avcC = dynamic_cast<AP4_AvcCAtom*>(avc1->GetChild(AP4_ATOM_TYPE_AVCC))) {
+
+					TrackName += _T(" - MPEG4 Video (H264)");
+
 					const AP4_DataBuffer* di = avcC->GetDecoderInfo();
 					if(!di) {
 						di = &empty;
@@ -512,10 +535,17 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					if((type & 0xffff0000) == AP4_ATOM_TYPE('m', 's', 0, 0)) {
 						fourcc = type & 0xffff;
 					} else if(type == AP4_ATOM_TYPE__MP3) {
+						TrackName += _T(" - MPEG Audio (MP3)");
 						fourcc = 0x0055;
 					} else if((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3) || (type == AP4_ATOM_TYPE_EAC3)) {
+						if(type == AP4_ATOM_TYPE_EAC3) {
+							TrackName += _T(" - AC-3 Audio");
+						} else {
+							TrackName += _T(" - Enhanced AC-3 audio");
+						}
 						fourcc = 0x2000;
 					} else if(type == AP4_ATOM_TYPE_MP4A) {
+						TrackName += _T(" - MPEG-2 Audio AAC");
 						fourcc = WAVE_FORMAT_AAC;
 					} else {
 						fourcc =
