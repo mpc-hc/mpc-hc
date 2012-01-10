@@ -497,7 +497,7 @@ avcsuccess:
 					}
 				} else if(CodecID == "A_PCM/INT/LIT") {
 					mt.subtype = MEDIASUBTYPE_PCM;
-					if (pTE->a.Channels <= 2 && pTE->a.BitDepth % 8 == 0 ) {
+					if (pTE->a.Channels <= 2 && pTE->a.BitDepth <= 16) {
 						wfe->wFormatTag = WAVE_FORMAT_PCM;
 					} else {
 						WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
