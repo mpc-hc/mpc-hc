@@ -401,7 +401,11 @@ CStringW GetFilterName(IBaseFilter* pBF)
 	if(pBF) {
 		CLSID clsid = GetCLSID(pBF);
 		if(clsid == CLSID_AsyncReader) {
-			name = _T("File Source (Async)");
+			name = _T("File Source (Async.)");
+		} else if(clsid == CLSID_URLReader) {
+			name = _T("File Source (URL)");
+		} else if(clsid == CLSID_WMAsfReader) {
+			name = _T("WM ASF Reader");
 		} else if(clsid == GUIDFromCString(_T("{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}"))) {
 			name = _T("AV Source");
 		} else if(clsid == GUIDFromCString(_T("{B98D13E7-55DB-4385-A33D-09FD1BA26338}"))) {
