@@ -426,6 +426,7 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 	  case AP4_ATOM_TYPE_FL64:
 	  case AP4_ATOM_TYPE_ALAW:
 	  case AP4_ATOM_TYPE_ULAW:
+	  case AP4_ATOM_TYPE_NMOS:
         atom = DNew AP4_AudioSampleEntry(type, size, stream, *this);
         break;
 

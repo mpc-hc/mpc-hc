@@ -547,6 +547,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					} else if(type == AP4_ATOM_TYPE_MP4A) {
 						TrackName += _T(" - MPEG-2 Audio AAC");
 						fourcc = WAVE_FORMAT_AAC;
+					} else if(type == AP4_ATOM_TYPE_NMOS) {
+						TrackName += _T(" - NellyMoser Audio");
+						fourcc = MAKEFOURCC('N','E','L','L');
 					} else {
 						fourcc =
 							((type >> 24) & 0x000000ff) |
