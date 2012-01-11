@@ -1254,6 +1254,7 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 		}
 
 		if (m_nDXVAMode == MODE_SOFTWARE && m_nCodecId == CODEC_ID_H264 && m_pAVCtx->h264_using_dxva) {
+#if INTERNAL_DECODER_H264
 			m_bUseDXVA = false;
 			avcodec_close (m_pAVCtx);
 			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber();
@@ -1264,6 +1265,9 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 			if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
 				return VFW_E_INVALIDMEDIATYPE;
 			}
+#else
+			return VFW_E_INVALIDMEDIATYPE;
+#endif
 		}
 
 		CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
@@ -1449,7 +1453,6 @@ template<class T> inline T odd2even(T x)
 		   x + 1 :
 		   x;
 }
-#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
@@ -1544,7 +1547,6 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		pOut->SetTime(&rtStart, &rtStop);
 		pOut->SetMediaTime(NULL, NULL);
 
-#if HAS_FFMPEG_VIDEO_DECODERS
 		if (m_pSwsContext == NULL) {
 			InitSwscale();
 		}
@@ -1588,7 +1590,6 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			// This might be ffmpeg fault or more likely mpchc is not reinitializing ffmpeg correctly during display change (moving mpchc window from display A to display B)
 			sws_scale(m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
 		}
-#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 #if defined(_DEBUG) && 0
 		static REFERENCE_TIME	rtLast = 0;
@@ -1603,6 +1604,8 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 	return hr;
 }
+
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 bool CMPCVideoDecFilter::FindPicture(int nIndex, int nStartCode)
 {
@@ -1783,9 +1786,11 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//fclose (hFile);
 
 	switch (m_nDXVAMode) {
+#if HAS_FFMPEG_VIDEO_DECODERS
 		case MODE_SOFTWARE :
 			hr = SoftwareDecode (pIn, pDataIn, nSize, rtStart, rtStop);
 			break;
+#endif
 		case MODE_DXVA1 :
 		case MODE_DXVA2 :
 			CheckPointer (m_pDXVADecoder, E_UNEXPECTED);
