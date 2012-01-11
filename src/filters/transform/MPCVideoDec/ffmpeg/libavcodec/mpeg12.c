@@ -1160,17 +1160,12 @@ static void quant_matrix_rebuild(uint16_t *matrix, const uint8_t *old_perm,
     }
 }
 
-static const enum PixelFormat pixfmt_xvmc_mpg2_420[] = {
-    PIX_FMT_XVMC_MPEG2_IDCT,
-    PIX_FMT_XVMC_MPEG2_MC,
-    PIX_FMT_NONE };
-
 static enum PixelFormat mpeg_get_pixelformat(AVCodecContext *avctx)
 {
     Mpeg1Context *s1 = avctx->priv_data;
     MpegEncContext *s = &s1->mpeg_enc_ctx;
 
-    if (s->chroma_format <  2) {
+    if (s->chroma_format < 2) {
         return PIX_FMT_YUV420P;
     } else if(s->chroma_format == 2)
         return PIX_FMT_YUV422P;

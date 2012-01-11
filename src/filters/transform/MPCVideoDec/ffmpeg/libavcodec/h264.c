@@ -26,6 +26,7 @@
  */
 
 #define UNCHECKED_BITSTREAM_READER 1
+
 #include "libavutil/imgutils.h"
 #include "internal.h"
 #include "dsputil.h"
@@ -1469,7 +1470,7 @@ static void decode_postinit(H264Context *h, int setup_finished){
     if(s->avctx->has_b_frames < out_of_order && !h->sps.bitstream_restriction_flag){
         av_log(s->avctx, AV_LOG_WARNING, "Increasing reorder buffer to %d\n", out_of_order);
         s->avctx->has_b_frames = out_of_order;
-        s->low_delay= 0;
+        s->low_delay = 0;
     }
 
     pics = 0;
