@@ -147,45 +147,21 @@ void CGoToDlg::OnBnClickedOk1()
 void CGoToDlg::OnBnClickedOk2()
 {
 	UpdateData();
-
-	float fps = 0;
-
-	CAtlRegExp<> re;
-
-	REParseError status = re.Parse(_T("{\\z}[^0-9\\.]+{[0-9\\.]+}"), FALSE);
-	if (REPARSE_ERROR_OK == status) {
-		int frame = 0;
-		CAtlREMatchContext<> mc;
-		const CAtlREMatchContext<>::RECHAR* s = m_framestr.GetBuffer();
-		const CAtlREMatchContext<>::RECHAR* e = NULL;
-		if (re.Match(s, &mc, &e)) {
-			const CAtlREMatchContext<>::RECHAR* szStart = 0;
-			const CAtlREMatchContext<>::RECHAR* szEnd = 0;
-
-			mc.GetMatch(0, &szStart, &szEnd);
-			frame = _tcstol(szStart, (TCHAR**)&szStart, 10);
-
-			mc.GetMatch(1, &szStart, &szEnd);
-			if (_stscanf_s(szStart, _T("%f"), &fps) != 1) {
-				fps = 0;
-			} else {
-				AfxGetApp()->WriteProfileString(IDS_R_SETTINGS, _T("fps"), szStart);
-			}
-		} else {
-			AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TEXT), MB_ICONEXCLAMATION | MB_OK);
-			return;
-		}
-
-		if (fps == 0) {
-			AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_FPS), MB_ICONEXCLAMATION | MB_OK);
-			return;
-		}
-
-		m_time = (int)(1000.0*frame/fps) + 1;
-
-		AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, _T("gotoluf"), 1);
-
+	unsigned int frame;
+	float fps;
+	wchar_t c1[2]; // delimiter character
+	wchar_t c2[2]; // unnecessary character
+	int result = swscanf_s(m_framestr, L"%u%1s%f%1s", &frame, &c1, 2, &fps, &c2, 2);
+	if (result == 1) {
+		m_time = (int)(1000.0*frame/m_fps+0.5);
 		OnOK();
+	} else if (result == 3 && c1[0] == L',') {
+		m_time = (int)(1000.0*frame/fps+0.5);
+		OnOK();
+	} else if (result == 0 || c1[0] != L',') {
+		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TEXT), MB_ICONEXCLAMATION | MB_OK);
+	} else {
+		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_FPS), MB_ICONEXCLAMATION | MB_OK);
 	}
 }
 
