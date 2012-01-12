@@ -73,27 +73,24 @@ clean:
 
 # Objects
 SRCS_C=\
+    libavcodec/aacadtsdec.c \
+    libavcodec/aacdec.c \
+    libavcodec/aacps.c \
+    libavcodec/aacsbr.c \
+    libavcodec/aactab.c \
     libavcodec/aac_ac3_parser.c \
     libavcodec/ac3.c \
-    libavcodec/ac3_parser.c \
     libavcodec/ac3dec.c \
     libavcodec/ac3dec_data.c \
     libavcodec/ac3dsp.c \
     libavcodec/ac3tab.c \
+    libavcodec/ac3_parser.c \
     libavcodec/acelp_filters.c \
     libavcodec/acelp_pitch_delay.c \
     libavcodec/acelp_vectors.c \
     libavcodec/adpcm.c \
     libavcodec/adpcm_data.c \
     libavcodec/allcodecs.c \
-\
-    libavcodec/aacdec.c \
-    libavcodec/aactab.c \
-    libavcodec/aacsbr.c \
-    libavcodec/aacps.c \
-    libavcodec/aacadtsdec.c \
-    libavcodec/mpeg4audio.c \
-\
     libavcodec/amrnbdec.c \
     libavcodec/amrwbdec.c \
     libavcodec/avfft.c \
@@ -107,8 +104,8 @@ SRCS_C=\
     libavcodec/dct32.c \
     libavcodec/dct32_float.c \
     libavcodec/dsputil.c \
-    libavcodec/eac3_data.c \
     libavcodec/eac3dec.c \
+    libavcodec/eac3_data.c \
     libavcodec/error_resilience.c \
     libavcodec/faandct.c \
     libavcodec/faanidct.c \
@@ -117,9 +114,12 @@ SRCS_C=\
     libavcodec/fmtconvert.c \
     libavcodec/golomb.c \
     libavcodec/h263.c \
-    libavcodec/h263_parser.c \
     libavcodec/h263dec.c \
+    libavcodec/h263_parser.c \
     libavcodec/h264.c \
+    libavcodec/h264dsp.c \
+    libavcodec/h264idct.c \
+    libavcodec/h264pred.c \
     libavcodec/h264_cabac.c \
     libavcodec/h264_cavlc.c \
     libavcodec/h264_direct.c \
@@ -128,9 +128,6 @@ SRCS_C=\
     libavcodec/h264_ps.c \
     libavcodec/h264_refs.c \
     libavcodec/h264_sei.c \
-    libavcodec/h264dsp.c \
-    libavcodec/h264idct.c \
-    libavcodec/h264pred.c \
     libavcodec/huffman.c \
     libavcodec/imgconvert.c \
     libavcodec/intelh263dec.c \
@@ -147,24 +144,25 @@ SRCS_C=\
     libavcodec/mjpegbdec.c \
     libavcodec/mjpegdec.c \
     libavcodec/mlp.c \
-    libavcodec/mlp_parser.c \
     libavcodec/mlpdec.c \
     libavcodec/mlpdsp.c \
+    libavcodec/mlp_parser.c \
     libavcodec/mpc_helper.c \
     libavcodec/mpeg12.c \
     libavcodec/mpeg12data.c \
+    libavcodec/mpeg4audio.c \
     libavcodec/mpeg4video.c \
-    libavcodec/mpeg4video_parser.c \
     libavcodec/mpeg4videodec.c \
+    libavcodec/mpeg4video_parser.c \
     libavcodec/mpegaudio.c \
-    libavcodec/mpegaudio_parser.c \
     libavcodec/mpegaudiodata.c \
     libavcodec/mpegaudiodec.c \
-    libavcodec/mpegaudiodec_float.c \
     libavcodec/mpegaudiodecheader.c \
+    libavcodec/mpegaudiodec_float.c \
     libavcodec/mpegaudiodsp.c \
     libavcodec/mpegaudiodsp_float.c \
     libavcodec/mpegaudiodsp_template.c \
+    libavcodec/mpegaudio_parser.c \
     libavcodec/mpegvideo.c \
     libavcodec/msmpeg4.c \
     libavcodec/msmpeg4data.c \
@@ -189,8 +187,8 @@ SRCS_C=\
     libavcodec/svq3.c \
     libavcodec/utils.c \
     libavcodec/vc1.c \
-    libavcodec/vc1dec.c \
     libavcodec/vc1data.c \
+    libavcodec/vc1dec.c \
     libavcodec/vc1dsp.c \
     libavcodec/vp3.c \
     libavcodec/vp3dsp.c \
@@ -238,8 +236,8 @@ SRCS_C=\
     libavutil/imgutils.c \
     libavutil/intfloat_readwrite.c \
     libavutil/inverse.c \
-    libavutil/log.c \
     libavutil/lfg.c \
+    libavutil/log.c \
     libavutil/mathematics.c \
     libavutil/md5.c \
     libavutil/mem.c \
@@ -254,8 +252,8 @@ SRCS_C=\
     libswscale/rgb2rgb.c \
     libswscale/swscale.c \
     libswscale/swscale_unscaled.c \
-    libswscale/utils.c \
     libswscale/sww32thread.c \
+    libswscale/utils.c \
     libswscale/yuv2rgb.c \
     libswscale/x86/rgb2rgb.c \
     libswscale/x86/swscale_mmx.c \

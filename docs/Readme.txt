@@ -9,15 +9,15 @@ Main Features:
 * Better support for Windows Vista/7, including a 64-bit build
 * Support for EVR/EVR CP (Enhanced Video Renderer)
 * Supports most types of subtitles including BD .sup files
-* Playback and recording of television if a supported TV tuner is installed
+* Playback and recording of television, if a supported TV tuner is installed
 * OSD info (On Screen Display)
-* Supports Multi-Monitor configuration
+* Multi-Monitor support
 * Various pixel shaders
 * Color management
 * 22 translations available
 
 
-Supported operating systems:
+Supported Operating Systems:
 -----------------------------
 * Windows XP SP3, Vista, 7 32bit/64bit
 
@@ -25,7 +25,8 @@ Supported operating systems:
 System Requirements:
 ---------------------
 * An SSE capable CPU
-* The latest DirectX 9.0c runtime (June 2010) (install it regardless of the operating system, they all need it)
+* The latest DirectX 9.0c runtime (June 2010). Install it regardless of
+  the operating system, they all need it.
   Web installer:  http://www.microsoft.com/download/en/details.aspx?id=35
   Full:           http://www.microsoft.com/download/en/details.aspx?id=8109
 

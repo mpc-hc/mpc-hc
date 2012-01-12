@@ -29,8 +29,7 @@ CHANGED: Updated ZenLib to v0.4.23
 CHANGED: Updated Little CMS to v2.3
 CHANGED: Updated libpng to v1.5.7
 CHANGED: Updated ffmpeg
-CHANGED: Use ffmpeg for decoding MPEG audio
-CHANGED: Use ffmpeg for decoding AAC audio
+CHANGED: Use ffmpeg for MPEG and AAC audio decoding
 FIXED  : If "Play # time(s)" was set to a value higher than one and if the playlist
          had more than one element, the playback never stopped.
 FIXED  : If the playlist had only invalid elements, the player would try to
