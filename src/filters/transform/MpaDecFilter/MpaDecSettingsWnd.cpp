@@ -61,7 +61,6 @@ bool CMpaDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>
 	m_ac3drc = m_pMDF->GetDynamicRangeControl(IMpaDecFilter::ac3);
 	m_dtsspkcfg = m_pMDF->GetSpeakerConfig(IMpaDecFilter::dts);
 	m_dtsdrc = m_pMDF->GetDynamicRangeControl(IMpaDecFilter::dts);
-	m_aacdownmix = !!m_pMDF->GetSpeakerConfig(IMpaDecFilter::aac);
 	m_ddmode = m_pMDF->GetDolbyDigitalMode();
 
 	return true;
@@ -197,15 +196,6 @@ bool CMpaDecSettingsWnd::OnActivate()
 	m_dtsspkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle|WS_DISABLED|BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(205, m_fontheight)), this, IDC_PP_CHECK2);
 	m_dtsspkcfg_check.SetCheck(m_dtsdrc);
 
-	p.y += m_fontheight + 10;
-
-	m_aacspkcfg_static.Create(ResStr(IDS_MPADECSETTINGSWND_11), dwStyle, CRect(p, CSize(120, m_fontheight)), this);
-
-	p.y += m_fontheight + 5;
-
-	m_aacdownmix_check.Create(ResStr(IDS_MPADECSETTINGSWND_12), dwStyle|BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(150, m_fontheight)), this, IDC_PP_CHECK3);
-	m_aacdownmix_check.SetCheck(m_aacdownmix);
-
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
 	}
@@ -232,7 +222,6 @@ void CMpaDecSettingsWnd::OnDeactivate()
 		m_dtsspkcfg = -m_dtsspkcfg;
 	}
 	m_dtsdrc = !!m_dtsspkcfg_check.GetCheck();
-	m_aacdownmix = !!m_aacdownmix_check.GetCheck();
 }
 
 bool CMpaDecSettingsWnd::OnApply()
@@ -245,7 +234,6 @@ bool CMpaDecSettingsWnd::OnApply()
 		m_pMDF->SetDynamicRangeControl(IMpaDecFilter::ac3, m_ac3drc);
 		m_pMDF->SetSpeakerConfig(IMpaDecFilter::dts, m_dtsspkcfg);
 		m_pMDF->SetDynamicRangeControl(IMpaDecFilter::dts, m_dtsdrc);
-		m_pMDF->SetSpeakerConfig(IMpaDecFilter::aac, m_aacdownmix);
 
 		m_pMDF->SaveSettings();
 	}

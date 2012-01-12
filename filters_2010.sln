@@ -52,8 +52,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec_gcc", "src\filte
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdca", "src\thirdparty\libdca\vc++\libdca.vcxproj", "{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfaad", "src\thirdparty\faad2\libfaad\libfaad.vcxproj", "{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libflac", "src\thirdparty\libflac\src\libFLAC\libflac.vcxproj", "{4CEFBC84-C215-11DB-8314-0800200C9A66}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "src\Subtitles\libssf\libssf.vcxproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"

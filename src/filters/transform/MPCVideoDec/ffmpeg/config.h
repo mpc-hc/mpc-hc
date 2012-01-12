@@ -17,11 +17,15 @@
 		#define ARCH_X86_64 1
 		#define HAVE_FAST_64BIT 1
 		#define HAVE_STRUCT_TIMESPEC 1
+		#define HAVE_LOG2 0
+		#define HAVE_LOG2F 0
 	#else
 		#define ARCH_X86_32 1
 		#define ARCH_X86_64 0
 		#define HAVE_FAST_64BIT 0
 		#define HAVE_STRUCT_TIMESPEC 0
+		#define HAVE_LOG2 1
+		#define HAVE_LOG2F 1
 	#endif
 
 	#define PTW32_STATIC_LIB 1
@@ -150,8 +154,6 @@
 	#define HAVE_EXP2 1
 	#define HAVE_EXP2F 1
 	#define HAVE_LLRINT 1
-	#define HAVE_LOG2 1
-	#define HAVE_LOG2F 1
 	#define HAVE_LRINT 1
 	#define HAVE_LRINTF 1
 	#define HAVE_ROUND 1
@@ -289,8 +291,8 @@ Note: when adding a new codec, you have to:
 #define CONFIG_ZLIB_DECODER 0
 #define CONFIG_ZMBV_DECODER 0
 
-#define CONFIG_AAC_DECODER 0
-#define CONFIG_AAC_LATM_DECODER 0
+#define CONFIG_AAC_DECODER 1
+#define CONFIG_AAC_LATM_DECODER 1
 #define CONFIG_AC3_DECODER 1
 #define CONFIG_ATRAC3_DECODER 0
 #define CONFIG_COOK_DECODER 0

@@ -92,7 +92,7 @@
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;MPCVideoDec.lib;UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;SubPic.lib;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -115,7 +115,7 @@
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;MPCVideoDec.lib;UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;SubPic.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -137,7 +137,7 @@
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;MPCVideoDec.lib;UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;SubPic.lib;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
@@ -158,7 +158,7 @@
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;MPCVideoDec.lib;UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;SubPic.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
@@ -709,10 +709,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\a52dec\vc++\liba52.vcxproj">
       <Project>{62fe6d94-e17c-4a8e-8d3c-7a589a70d865}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\thirdparty\faad2\libfaad\libfaad.vcxproj">
-      <Project>{5efcfacb-1835-422c-acda-e3b3a2f51387}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\lcms2\lcms2.vcxproj">

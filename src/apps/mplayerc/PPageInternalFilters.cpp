@@ -90,7 +90,7 @@ s_filters[] = {
 #endif
 
 #if INTERNAL_DECODER_AAC
-	{_T("AAC"), DECODER, TRA_AAC, IDS_TRA_AAC, CreateInstance<CMpaDecFilter>},
+	{_T("AAC"), DECODER, TRA_AAC, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_AC3
 	{_T("AC3"), DECODER, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},

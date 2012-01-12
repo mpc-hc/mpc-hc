@@ -35,20 +35,6 @@
 
 #define MPCAudioDecName	L"MPC Audio Decoder"
 
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-struct aac_state_t {
-	void* h; // NeAACDecHandle h;
-	DWORD freq;
-	BYTE channels;
-
-	aac_state_t();
-	~aac_state_t();
-	bool open();
-	void close();
-	bool init(const CMediaType& mt);
-};
-#endif
-
 struct ps2_state_t {
 	bool sync;
 	double a[2], b[2];
@@ -106,9 +92,6 @@ protected:
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
 	dts_state_t*			m_dts_state;
 #endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-	aac_state_t				m_aac_state;
-#endif
 	ps2_state_t				m_ps2_state;
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	vorbis_state_t			m_vorbis;
@@ -143,9 +126,6 @@ protected:
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
 	HRESULT ProcessDTS();
 #endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-	HRESULT ProcessAAC();
-#endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUDIO
 	HRESULT ProcessPS2PCM();
 	HRESULT ProcessPS2ADPCM();
@@ -156,7 +136,7 @@ protected:
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	HRESULT ProcessFlac();
 #endif
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 	HRESULT ProcessFFmpeg(int nCodecId);
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
@@ -179,11 +159,12 @@ protected:
 	void	flac_stream_finish();
 #endif
 
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 	bool	InitFFmpeg(int nCodecId);
 	void	ffmpeg_stream_finish();
 	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int samples, int& size);
 	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
+	void	AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt);
 
 	BYTE*	m_pFFBuffer;
 	int		m_nFFBufferSize;

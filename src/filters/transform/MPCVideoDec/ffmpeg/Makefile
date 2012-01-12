@@ -86,6 +86,14 @@ SRCS_C=\
     libavcodec/adpcm.c \
     libavcodec/adpcm_data.c \
     libavcodec/allcodecs.c \
+\
+    libavcodec/aacdec.c \
+    libavcodec/aactab.c \
+    libavcodec/aacsbr.c \
+    libavcodec/aacps.c \
+    libavcodec/aacadtsdec.c \
+    libavcodec/mpeg4audio.c \
+\
     libavcodec/amrnbdec.c \
     libavcodec/amrwbdec.c \
     libavcodec/avfft.c \

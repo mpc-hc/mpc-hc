@@ -56,7 +56,6 @@ CFileVersionInfo    -                          -
 CLineNumberEdit     -                          -
 CSizingControlBar   GPLv2                      http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                   http://research.microsoft.com/en-us/projects/detours/
-FAAD2               GPLv2                      http://www.audiocoding.com/
 ffmpeg              GPLv2                      http://www.ffmpeg.org/
 liba52              GPLv2                      http://liba52.sourceforge.net/
 libav               GPLv2                      http://libav.org/

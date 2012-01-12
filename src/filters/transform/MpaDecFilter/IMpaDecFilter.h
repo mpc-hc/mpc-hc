@@ -24,7 +24,6 @@
 #pragma once
 
 enum MPCSampleFormat {SF_PCM16, SF_PCM24, SF_PCM32, SF_FLOAT32};
-enum {AAC_ASIS, AAC_STEREO};
 
 enum DolbyDigitalMode {
 	DD_Unknown,
@@ -38,7 +37,7 @@ enum DolbyDigitalMode {
 interface __declspec(uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C"))
 IMpaDecFilter :
 public IUnknown {
-	enum enctype {ac3, dts, aac, etlast};
+	enum enctype {ac3, dts, etlast};
 
 	STDMETHOD(SetSampleFormat(MPCSampleFormat sf)) = 0;
 	STDMETHOD_(MPCSampleFormat, GetSampleFormat()) = 0;

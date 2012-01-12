@@ -37,7 +37,6 @@ class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
 	bool m_ac3drc;
 	int m_dtsspkcfg;
 	bool m_dtsdrc;
-	bool m_aacdownmix;
 	DolbyDigitalMode m_ddmode;
 
 	enum {
@@ -50,7 +49,6 @@ class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
 		IDC_PP_COMBO3,
 		IDC_PP_CHECK1,
 		IDC_PP_CHECK2,
-		IDC_PP_CHECK3,
 		IDC_PP_CHECK4,
 		IDC_PP_CHECK5
 	};
@@ -66,9 +64,7 @@ class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
 	CButton m_dtsspkcfg_radio[2];
 	CComboBox m_dtsspkcfg_combo;
 	CButton m_dtsspkcfg_check;
-	CStatic m_aacspkcfg_static;
 	CButton m_dtslfe_check;
-	CButton m_aacdownmix_check;
 
 public:
 	CMpaDecSettingsWnd();
@@ -84,7 +80,7 @@ public:
 		return _T("Settings");
 	}
 	static CSize GetWindowSize() {
-		return CSize(320, 320);
+		return CSize(320, 305);
 	}
 
 	DECLARE_MESSAGE_MAP()

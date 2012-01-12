@@ -37,7 +37,6 @@
 #include "PODtypes.h"
 #include "avcodec.h"
 
-#include <faad2/include/neaacdec.h>
 #include <libflac/include/FLAC/stream_decoder.h>
 
 #define INT24_MAX					0x7FFFFF
@@ -79,6 +78,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_MPEG2_PACK,			&MEDIASUBTYPE_AAC},
 	{&MEDIATYPE_MPEG2_PES,			&MEDIASUBTYPE_AAC},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_AAC},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_LATM_AAC},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_AAC_ADTS},
 	{&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_MP4A},
 	{&MEDIATYPE_MPEG2_PACK,			&MEDIASUBTYPE_MP4A},
 	{&MEDIATYPE_MPEG2_PES,			&MEDIASUBTYPE_MP4A},
@@ -306,12 +307,10 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	m_iSpeakerConfig[ac3] = A52_STEREO;
 	m_iSpeakerConfig[dts] = DTS_STEREO;
-	m_iSpeakerConfig[aac] = AAC_STEREO;
 	m_fDynamicRangeControl[ac3] = false;
 	m_fDynamicRangeControl[dts] = false;
-	m_fDynamicRangeControl[aac] = false;
 	m_DolbyDigitalMode			= DD_Unknown;
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 	m_pAVCodec					= NULL;
 	m_pAVCtx					= NULL;
 	m_pParser					= NULL;
@@ -321,7 +320,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	memset (&m_flac, 0, sizeof(m_flac));
 #endif
 
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 	m_pFFBuffer					= NULL;
 	m_nFFBufferSize				= 0;
 #endif
@@ -345,17 +344,11 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsSpeakerConfig"), dw)) {
 			m_iSpeakerConfig[dts] = (int)dw;
 		}
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("AacSpeakerConfig"), dw)) {
-			m_iSpeakerConfig[aac] = (int)dw;
-		}
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3DynamicRangeControl"), dw)) {
 			m_fDynamicRangeControl[ac3] = !!dw;
 		}
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsDynamicRangeControl"), dw)) {
 			m_fDynamicRangeControl[dts] = !!dw;
-		}
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("AacDynamicRangeControl"), dw)) {
-			m_fDynamicRangeControl[aac] = !!dw;
 		}
 	}
 #else
@@ -366,16 +359,14 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_boost = *(float*)&dw;
 	m_iSpeakerConfig[ac3] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
 	m_iSpeakerConfig[dts] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
-	m_iSpeakerConfig[aac] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("AacSpeakerConfig"), m_iSpeakerConfig[aac]);
 	m_fDynamicRangeControl[ac3] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
 	m_fDynamicRangeControl[dts] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
-	m_fDynamicRangeControl[aac] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
 #endif
 }
 
 CMpaDecFilter::~CMpaDecFilter()
 {
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 	if (m_pFFBuffer) {
 		free(m_pFFBuffer);
 	}
@@ -418,7 +409,7 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	m_sample_max = 0.1f;
 	m_ps2_state.sync = false;
 	m_DolbyDigitalMode = DD_Unknown;
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 	if (m_pAVCtx) {
 		avcodec_flush_buffers (m_pAVCtx);
 	}
@@ -452,9 +443,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		DeleteMediaType(pmt);
 		pmt = NULL;
 		m_sample_max = 0.1f;
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-		m_aac_state.init(mt);
-#endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 		m_vorbis.init(mt);
 #endif
@@ -528,8 +516,10 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-	else if(subtype == MEDIASUBTYPE_AAC || subtype == MEDIASUBTYPE_MP4A || subtype == MEDIASUBTYPE_mp4a) {
-		hr = ProcessAAC();
+	else if(subtype == MEDIASUBTYPE_AAC || subtype == MEDIASUBTYPE_MP4A || subtype == MEDIASUBTYPE_mp4a || subtype == MEDIASUBTYPE_AAC_ADTS) {
+		hr = ProcessFFmpeg(CODEC_ID_AAC);
+	} else if(subtype == MEDIASUBTYPE_LATM_AAC) {
+		hr = ProcessFFmpeg(CODEC_ID_AAC_LATM);
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUDIO
@@ -1043,7 +1033,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 #endif
 #endif /* INTERNAL_DECODER_AC3 */
 
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 HRESULT CMpaDecFilter::ProcessFFmpeg(int nCodecId)
 {
 	HRESULT hr;
@@ -1153,91 +1143,6 @@ HRESULT CMpaDecFilter::ProcessDTS()
 	return S_OK;
 }
 #endif /* INTERNAL_DECODER_DTS */
-
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-HRESULT CMpaDecFilter::ProcessAAC()
-{
-	int iSpeakerConfig = GetSpeakerConfig(aac);
-
-	NeAACDecConfigurationPtr c = NeAACDecGetCurrentConfiguration(m_aac_state.h);
-	c->downMatrix = iSpeakerConfig;
-	NeAACDecSetConfiguration(m_aac_state.h, c);
-
-	NeAACDecFrameInfo info;
-	float* src = (float*)NeAACDecDecode(m_aac_state.h, &info, m_buff.GetData(), m_buff.GetCount());
-	m_buff.RemoveAll();
-	//if(!src) return E_FAIL;
-	if(info.error) {
-		m_aac_state.init(m_pInput->CurrentMediaType());
-	}
-	if(!src || info.samples == 0) {
-		return S_OK;
-	}
-
-	// HACK: bug in faad2 with mono sources?
-	if(info.channels == 2 && info.channel_position[1] == UNKNOWN_CHANNEL) {
-		info.channel_position[0] = FRONT_CHANNEL_LEFT;
-		info.channel_position[1] = FRONT_CHANNEL_RIGHT;
-	}
-
-	CAtlArray<float> pBuff;
-	pBuff.SetCount(info.samples);
-	float* dst = pBuff.GetData();
-
-	CAtlMap<int, int> chmask;
-	chmask[FRONT_CHANNEL_CENTER] = SPEAKER_FRONT_CENTER;
-	chmask[FRONT_CHANNEL_LEFT] = SPEAKER_FRONT_LEFT;
-	chmask[FRONT_CHANNEL_RIGHT] = SPEAKER_FRONT_RIGHT;
-	chmask[SIDE_CHANNEL_LEFT] = SPEAKER_SIDE_LEFT;
-	chmask[SIDE_CHANNEL_RIGHT] = SPEAKER_SIDE_RIGHT;
-	chmask[BACK_CHANNEL_LEFT] = SPEAKER_BACK_LEFT;
-	chmask[BACK_CHANNEL_RIGHT] = SPEAKER_BACK_RIGHT;
-	chmask[BACK_CHANNEL_CENTER] = SPEAKER_BACK_CENTER;
-	chmask[LFE_CHANNEL] = SPEAKER_LOW_FREQUENCY;
-
-	DWORD dwChannelMask = 0;
-	for(int i = 0; i < info.channels; i++) {
-		if(info.channel_position[i] == UNKNOWN_CHANNEL) {
-			ASSERT(0);
-			return E_FAIL;
-		}
-		dwChannelMask |= chmask[info.channel_position[i]];
-	}
-
-	int chmap[countof(info.channel_position)];
-	memset(chmap, 0, sizeof(chmap));
-
-	for(unsigned char i = 0; i < info.channels; ++i) {
-		unsigned int ch = 0, mask = chmask[info.channel_position[i]];
-
-		for(unsigned int j = 0; j < 32; ++j) {
-			if(dwChannelMask & (1 << j)) {
-				if((unsigned int)(1 << j) == mask) {
-					chmap[i] = ch;
-					break;
-				}
-				++ch;
-			}
-		}
-	}
-
-	if(info.channels <= 2) {
-		dwChannelMask = 0;
-	}
-
-	for(unsigned int j = 0; j < info.samples; j += info.channels, dst += info.channels)
-		for(int i = 0; i < info.channels; i++) {
-			dst[chmap[i]] = *src++;
-		}
-
-	HRESULT hr;
-	if(S_OK != (hr = Deliver(pBuff, info.samplerate, info.channels, dwChannelMask))) {
-		return hr;
-	}
-
-	return S_OK;
-}
-#endif /* INTERNAL_DECODER_AAC */
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
 HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
@@ -2041,14 +1946,6 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 		return S_OK;
 	}
 #endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-	else if(mtIn->subtype == MEDIASUBTYPE_AAC) {
-		// Reject invalid AAC stream on connection
-		if (!m_aac_state.init(*mtIn)) {
-			return VFW_E_TYPE_NOT_ACCEPTED;
-		}
-	}
-#endif
 
 	for(int i = 0; i < countof(sudPinTypesIn); i++) {
 		if(*sudPinTypesIn[i].clsMajorType == mtIn->majortype
@@ -2154,10 +2051,6 @@ HRESULT CMpaDecFilter::StartStreaming()
 	m_dts_state = dts_init(0);
 #endif
 
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-	m_aac_state.init(m_pInput->CurrentMediaType());
-#endif
-
 	m_ps2_state.reset();
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	FlacInitDecoder();
@@ -2183,7 +2076,7 @@ HRESULT CMpaDecFilter::StopStreaming()
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	flac_stream_finish();
 #endif
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 	ffmpeg_stream_finish();
 #endif
 
@@ -2289,10 +2182,8 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
 		key.SetDWORDValue(_T("Boost"), *(DWORD*)&m_boost);
 		key.SetDWORDValue(_T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
 		key.SetDWORDValue(_T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
-		key.SetDWORDValue(_T("AacSpeakerConfig"), m_iSpeakerConfig[aac]);
 		key.SetDWORDValue(_T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
 		key.SetDWORDValue(_T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
-		key.SetDWORDValue(_T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
 	}
 #else
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SampleFormat"), m_iSampleFormat);
@@ -2300,10 +2191,8 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Boost"), *(DWORD*)&m_boost);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
-	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("AacSpeakerConfig"), m_iSpeakerConfig[aac]);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
-	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
 #endif
 
 	return S_OK;
@@ -2347,55 +2236,6 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
 	: CDeCSSInputPin(NAME("CMpaDecInputPin"), pFilter, phr, pName)
 {
 }
-
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-//
-// aac_state_t
-//
-
-aac_state_t::aac_state_t() : h(NULL), freq(0), channels(0)
-{
-	open();
-}
-aac_state_t::~aac_state_t()
-{
-	close();
-}
-
-bool aac_state_t::open()
-{
-	close();
-	h = NeAACDecOpen();
-	if(!h) {
-		return false;
-	}
-	NeAACDecConfigurationPtr c = NeAACDecGetCurrentConfiguration(h);
-	c->outputFormat = FAAD_FMT_FLOAT;
-	NeAACDecSetConfiguration(h, c);
-	return true;
-}
-
-void aac_state_t::close()
-{
-	if(h) {
-		NeAACDecClose(h);
-	}
-	h = NULL;
-}
-
-bool aac_state_t::init(const CMediaType& mt)
-{
-	if(mt.subtype != MEDIASUBTYPE_AAC
-			&& mt.subtype != MEDIASUBTYPE_MP4A
-			&& mt.subtype != MEDIASUBTYPE_mp4a) {
-		return true;    // nothing to do
-	}
-
-	open();
-	const WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
-	return !NeAACDecInit2(h, (BYTE*)(wfe+1), wfe->cbSize, &freq, &channels);
-}
-#endif /* INTERNAL_DECODER_AAC */
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 //
@@ -2604,7 +2444,7 @@ void CMpaDecFilter::flac_stream_finish()
 
 #endif /* INTERNAL_DECODER_FLAC */
 
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 
 #pragma region FFmpeg decoder
 
@@ -2805,9 +2645,11 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 		m_pAVCtx->codec_id		= (CodecID)nCodecId;
 		
 		// have issue when use parser on TrueHD ... try to fix later
-		if(nCodecId != CODEC_ID_TRUEHD) {
+		if(nCodecId != CODEC_ID_TRUEHD && nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
 			m_pParser = av_parser_init(nCodecId);
 		}
+
+		AllocExtradata (m_pAVCtx, &m_pInput->CurrentMediaType());
 
 		if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)>=0) {
 			m_pFrame	= avcodec_alloc_frame();
@@ -2835,7 +2677,12 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 {
 	m_pAVCodec	= NULL;
 	if (m_pAVCtx) {
-		avcodec_close (m_pAVCtx);
+		if (m_pAVCtx->extradata) {
+			free((unsigned char*)m_pAVCtx->extradata);
+		}
+		if (m_pAVCtx->codec) {
+			avcodec_close(m_pAVCtx);
+		}
 		av_freep (&m_pAVCtx);
 		m_pAVCtx	= NULL;
 	}
@@ -2847,6 +2694,23 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 
 	if (m_pFrame)	{
 		av_freep(&m_pFrame);
+	}
+}
+
+void CMpaDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt)
+{
+	const BYTE*		data = NULL;
+	unsigned int	size = 0;
+
+	if (pmt->formattype == FORMAT_WaveFormatEx) {
+		size = pmt->cbFormat-sizeof(WAVEFORMATEX);
+		data = size?pmt->pbFormat+sizeof(WAVEFORMATEX):NULL;
+	}
+
+	if (size) {
+		pAVCtx->extradata_size	= size;
+		pAVCtx->extradata		= (const unsigned char*)calloc(1, size+FF_INPUT_BUFFER_PADDING_SIZE);
+		memcpy((void*)pAVCtx->extradata, data, size);
 	}
 }
 
