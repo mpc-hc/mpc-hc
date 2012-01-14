@@ -1,7 +1,7 @@
 //
 // $Id$
 //
-// (C) 2010-2012 see AUTHORS
+// (C) 2010-2012 see Authors.txt
 //
 // This file is part of MPC-HC.
 //
