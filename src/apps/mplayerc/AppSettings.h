@@ -584,6 +584,8 @@ public:
 	int				nSpeakerChannels;
 
 	bool			fRemainingTime;
+
+	bool			GetAllowMultiInst();
 private:
 	void			UpdateRenderersData(bool fSave);
 	friend	void	CRenderersSettings::UpdateData(bool bSave);

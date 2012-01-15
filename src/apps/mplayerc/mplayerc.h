@@ -113,7 +113,7 @@ class CMPlayerCApp : public CWinApp
 
 	CAtlList<CString> m_cmdln;
 	void PreProcessCommandLine();
-	void SendCommandLine(HWND hWnd);
+	BOOL SendCommandLine(HWND hWnd);
 	UINT GetVKFromAppCommand(UINT nAppCommand);
 
 	// Casimir666 : new in CMPlayerCApp
@@ -137,8 +137,6 @@ public:
 	void ExportSettings();
 
 	bool GetAppSavePath(CString& path);
-
-	void ExitPrepare();
 
 	// Casimir666 : new in CMPlayerCApp
 	CRenderersData m_Renderers;

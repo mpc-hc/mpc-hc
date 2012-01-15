@@ -1426,6 +1426,11 @@ void CAppSettings::UpdateData(bool fSave)
 	}
 }
 
+bool CAppSettings::GetAllowMultiInst()
+{
+	return !!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MULTIINST, 0);
+}
+
 void CAppSettings::UpdateRenderersData(bool fSave)
 {
 	CWinApp* pApp = AfxGetApp();

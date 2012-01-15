@@ -655,7 +655,8 @@ CMainFrame::CMainFrame() :
 	m_bWasSnapped(false),
 	m_nSeekDirection(SEEK_DIRECTION_NONE),
 	m_bIsBDPlay(false),
-	m_LastOpenBDPath(_T(""))
+	m_LastOpenBDPath(_T("")),
+	m_fClosingState(false)
 {
 	//m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
@@ -857,7 +858,7 @@ void CMainFrame::OnDestroy()
 
 void CMainFrame::OnClose()
 {
-	AfxGetMyApp()->ExitPrepare();
+	m_fClosingState = true;
 
 	AppSettings& s = AfxGetAppSettings();
 	// Casimir666 : save shaders list
@@ -4219,6 +4220,10 @@ void CMainFrame::OnUpdateFileOpen(CCmdUI* pCmdUI)
 
 BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 {
+	if (m_fClosingState) {
+		return FALSE;
+	}
+
 	AppSettings& s = AfxGetAppSettings();
 
 	if (s.hMasterWnd) {

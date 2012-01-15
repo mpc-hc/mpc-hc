@@ -526,11 +526,6 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 	return true;
 }
 
-void CMPlayerCApp::ExitPrepare()
-{
-	m_mutexOneInstance.Close(); // 
-}
-
 bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 {
 	bool success;
@@ -610,10 +605,10 @@ void CMPlayerCApp::PreProcessCommandLine()
 	}
 }
 
-void CMPlayerCApp::SendCommandLine(HWND hWnd)
+BOOL CMPlayerCApp::SendCommandLine(HWND hWnd)
 {
 	if (m_cmdln.IsEmpty()) {
-		return;
+		return FALSE;
 	}
 
 	int bufflen = sizeof(DWORD);
@@ -625,7 +620,7 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 
 	CAutoVectorPtr<BYTE> buff;
 	if (!buff.Allocate(bufflen)) {
-		return;
+		return FALSE;
 	}
 
 	BYTE* p = buff;
@@ -645,7 +640,7 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 	cds.dwData = 0x6ABE51;
 	cds.cbData = bufflen;
 	cds.lpData = (void*)(BYTE*)buff;
-	SendMessage(hWnd, WM_COPYDATA, (WPARAM)NULL, (LPARAM)&cds);
+	return SendMessage(hWnd, WM_COPYDATA, (WPARAM)NULL, (LPARAM)&cds);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1048,13 +1043,13 @@ BOOL CMPlayerCApp::InitInstance()
 
 	m_s.ParseCommandLine(m_cmdln);
 
-	if (m_s.nCLSwitches&(CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH)) {
+	if (m_s.nCLSwitches&(CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH)) { // show comandline help windows
 		m_s.UpdateData(false);
 		ShowCmdlnSwitches();
 		return FALSE;
 	}
 
-	if (m_s.nCLSwitches & CLSW_RESET) {
+	if (m_s.nCLSwitches & CLSW_RESET) { // reset sittings
 		// We want the other instances to be closed before resetting the settings.
 		HWND hWnd = FindWindow(MPC_WND_CLASS_NAME, NULL);
 
@@ -1090,13 +1085,12 @@ BOOL CMPlayerCApp::InitInstance()
 		}
 	}
 
-	if ((m_s.nCLSwitches&CLSW_CLOSE) && m_s.slFiles.IsEmpty()) {
+	if ((m_s.nCLSwitches&CLSW_CLOSE) && m_s.slFiles.IsEmpty()) { // "/close" switch and empty file list
 		return FALSE;
 	}
 
-	m_s.UpdateData(false);
-
-	if (m_s.nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) {
+	if (m_s.nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) { // register file types
+		m_s.m_Formats.UpdateData(false);
 		CMediaFormats& mf = m_s.m_Formats;
 
 		bool bAudioOnly, bPlaylist;
@@ -1125,7 +1119,8 @@ BOOL CMPlayerCApp::InitInstance()
 		return FALSE;
 	}
 
-	if ((m_s.nCLSwitches&CLSW_UNREGEXT)) {
+	if ((m_s.nCLSwitches&CLSW_UNREGEXT)) { // unregistered file types
+		m_s.m_Formats.UpdateData(false);
 		CMediaFormats& mf = m_s.m_Formats;
 
 		for (int i = 0; i < (int)mf.GetCount(); i++) {
@@ -1142,6 +1137,8 @@ BOOL CMPlayerCApp::InitInstance()
 
 	// Enable to open options with administrator privilege (for Vista UAC)
 	if (m_s.nCLSwitches & CLSW_ADMINOPTION) {
+		m_s.UpdateData(false); // read all settings. long time but not critical at this point
+
 		switch (m_s.iAdminOption) {
 			case CPPageFormats::IDD : {
 				CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), NULL, NULL, m_s.iAdminOption);
@@ -1158,30 +1155,26 @@ BOOL CMPlayerCApp::InitInstance()
 
 	m_mutexOneInstance.Create(NULL, TRUE, MPC_WND_CLASS_NAME);
 
-	if (GetLastError() == ERROR_ALREADY_EXISTS
-			&& (!(m_s.fAllowMultipleInst || (m_s.nCLSwitches&CLSW_NEW) || m_cmdln.IsEmpty())
-			|| (m_s.nCLSwitches&CLSW_ADD))) {
-		
+	if ( GetLastError() == ERROR_ALREADY_EXISTS &&
+		 (!(m_s.GetAllowMultiInst() || m_s.nCLSwitches&CLSW_NEW || m_cmdln.IsEmpty()) || m_s.nCLSwitches&CLSW_ADD) ) {
+
 		DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 5000);
 		if (res==WAIT_OBJECT_0 || res==WAIT_ABANDONED) {
 			HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
 			if (hWnd) {
-				/*DWORD_PTR Result = 0;
-				LRESULT Return = 0;
-				Return = ::SendMessageTimeout(hWnd, WM_NULL, 0, 0, SMTO_ABORTIFHUNG, 400, &Result);
-				Sleep(200);
-				Return = ::SendMessageTimeout(hWnd, WM_NULL, 0, 0, SMTO_ABORTIFHUNG, 400, &Result);
-				if (Return) {*/
 				SetForegroundWindow(hWnd);
 				if (!(m_s.nCLSwitches&CLSW_MINIMIZED) && IsIconic(hWnd)) {
 					ShowWindow(hWnd, SW_RESTORE);
 				}
-				SendCommandLine(hWnd);
-				m_mutexOneInstance.Close();
-				return FALSE;
+				if (SendCommandLine(hWnd)) {
+					m_mutexOneInstance.Close();
+					return FALSE;
+				}
 			}
 		}
 	}
+
+	m_s.UpdateData(false); // read settings
 
 	AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
 
