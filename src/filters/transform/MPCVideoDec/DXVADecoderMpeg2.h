@@ -26,7 +26,7 @@
 #include <dxva.h>
 #include "DXVADecoder.h"
 
-#define MAX_SLICE		175			// Max slice number for Mpeg2 streams
+#define MAX_SLICE		1024 // Max slice number for Mpeg2 streams
 
 class CDXVADecoderMpeg2 :	public CDXVADecoder
 {
