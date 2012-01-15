@@ -1090,12 +1090,12 @@ BOOL CMPlayerCApp::InitInstance()
 	}
 
 	if (m_s.nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) { // register file types
-		m_s.m_Formats.UpdateData(false);
 		CMediaFormats& mf = m_s.m_Formats;
+		mf.UpdateData(false);
 
 		bool bAudioOnly, bPlaylist;
 
-		for (size_t i = 0; i < mf.GetCount(); i++) {
+		for (unsigned int i = 0; i < mf.GetCount(); i++) {
 			bPlaylist = !mf[i].GetLabel().CompareNoCase(_T("pls"));
 
 			if (bPlaylist && !(m_s.nCLSwitches & CLSW_REGEXTPL)) {
@@ -1120,10 +1120,10 @@ BOOL CMPlayerCApp::InitInstance()
 	}
 
 	if ((m_s.nCLSwitches&CLSW_UNREGEXT)) { // unregistered file types
-		m_s.m_Formats.UpdateData(false);
 		CMediaFormats& mf = m_s.m_Formats;
+		mf.UpdateData(false);
 
-		for (int i = 0; i < (int)mf.GetCount(); i++) {
+		for (unsigned int i = 0; i < mf.GetCount(); i++) {
 			int j = 0;
 			CString str = mf[i].GetExtsWithPeriod();
 			for (CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j)) {
@@ -1330,7 +1330,7 @@ void CMPlayerCApp::RegisterHotkeys()
 	};
 
 	// Register MCE Remote Control raw input
-	for (int i=0; i<countof(MCEInputDevice); i++) {
+	for (unsigned int i=0; i<countof(MCEInputDevice); i++) {
 		MCEInputDevice[i].hwndTarget = m_pMainWnd->m_hWnd;
 	}
 
