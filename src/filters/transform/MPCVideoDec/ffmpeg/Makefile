@@ -221,6 +221,7 @@ SRCS_C=\
     libavcodec/x86/motion_est_mmx.c \
     libavcodec/x86/mpegaudiodec_mmx.c \
     libavcodec/x86/mpegvideo_mmx.c \
+    libavcodec/x86/rv34dsp_init.c \
     libavcodec/x86/rv40dsp.c \
     libavcodec/x86/simple_idct_mmx.c \
     libavcodec/x86/vc1dsp_mmx.c \
@@ -280,6 +281,7 @@ SRCS_YASM=\
     libavcodec/x86/h264_weight.asm \
     libavcodec/x86/h264_weight_10bit.asm \
     libavcodec/x86/imdct36_sse.asm \
+    libavcodec/x86/rv34dsp.asm \
     libavcodec/x86/vc1dsp_yasm.asm \
     libavcodec/x86/vp3dsp.asm \
     libavcodec/x86/vp56dsp.asm \

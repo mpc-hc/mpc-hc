@@ -105,6 +105,10 @@ const static FormatEntry format_entries[PIX_FMT_NB] = {
     [PIX_FMT_RGBA]        = { 1 , 1 },
     [PIX_FMT_ABGR]        = { 1 , 1 },
     [PIX_FMT_BGRA]        = { 1 , 1 },
+    [PIX_FMT_0RGB]        = { 1 , 1 },
+    [PIX_FMT_RGB0]        = { 1 , 1 },
+    [PIX_FMT_0BGR]        = { 1 , 1 },
+    [PIX_FMT_BGR0]        = { 1 , 1 },
     [PIX_FMT_GRAY16BE]    = { 1 , 1 },
     [PIX_FMT_GRAY16LE]    = { 1 , 1 },
     [PIX_FMT_YUV440P]     = { 1 , 1 },
@@ -747,6 +751,10 @@ static int handle_jpeg(enum PixelFormat *format)
     case PIX_FMT_YUVJ422P: *format = PIX_FMT_YUV422P; return 1;
     case PIX_FMT_YUVJ444P: *format = PIX_FMT_YUV444P; return 1;
     case PIX_FMT_YUVJ440P: *format = PIX_FMT_YUV440P; return 1;
+    case PIX_FMT_0BGR    : *format = PIX_FMT_ABGR   ; return 0;
+    case PIX_FMT_BGR0    : *format = PIX_FMT_BGRA   ; return 0;
+    case PIX_FMT_0RGB    : *format = PIX_FMT_ARGB   ; return 0;
+    case PIX_FMT_RGB0    : *format = PIX_FMT_RGBA   ; return 0;
     default:                                          return 0;
     }
 }
@@ -849,7 +857,14 @@ int sws_init_context(SwsContext *c, SwsFilter *srcFilter, SwsFilter *dstFilter, 
     getSubSampleFactors(&c->chrDstHSubSample, &c->chrDstVSubSample, dstFormat);
 
     // reuse chroma for 2 pixels RGB/BGR unless user wants full chroma interpolation
-    if (isAnyRGB(dstFormat) && !(flags&SWS_FULL_CHR_H_INT)) c->chrDstHSubSample=1;
+    if (isAnyRGB(dstFormat) && !(flags&SWS_FULL_CHR_H_INT)) {
+        if (dstW&1) {
+            av_log(c, AV_LOG_DEBUG, "Forcing full internal H chroma due to odd output size\n");
+            flags |= SWS_FULL_CHR_H_INT;
+            c->flags = flags;
+        } else
+            c->chrDstHSubSample = 1;
+    }
 
     // drop some chroma lines if the user wants it
     c->vChrDrop= (flags&SWS_SRC_V_CHR_DROP_MASK)>>SWS_SRC_V_CHR_DROP_SHIFT;

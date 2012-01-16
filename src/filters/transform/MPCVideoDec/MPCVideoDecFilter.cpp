@@ -1084,11 +1084,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 								break;
 							}
 						}
-					/*} else if (m_nCodecId == CODEC_ID_VC1) {
-						if (!VC1CheckCompatibility(m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size)) {
-							break;
-						}
-					*/
 					} else if (m_nCodecId == CODEC_ID_MPEG2VIDEO) {
 						// DSP is disable for DXVA decoding (to keep default idct_permutation)
 						m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;

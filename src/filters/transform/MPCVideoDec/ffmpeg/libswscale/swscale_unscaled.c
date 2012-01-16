@@ -396,17 +396,22 @@ static int planarRgbToRgbWrapper(SwsContext *c, const uint8_t* src[], stride_t s
         )
 
 /* {RGB,BGR}{15,16,24,32,32_1} -> {RGB,BGR}{15,16,24,32} */
-static int rgbToRgbWrapper(SwsContext *c, const uint8_t *src[], stride_t srcStride[],
-                           int srcSliceY, int srcSliceH, uint8_t *dst[],
-                           stride_t dstStride[])
+typedef void (* rgbConvFn) (const uint8_t *, uint8_t *, int);
+static rgbConvFn findRgbConvFn(SwsContext *c)
 {
     const enum PixelFormat srcFormat = c->srcFormat;
     const enum PixelFormat dstFormat = c->dstFormat;
-    const int srcBpp = (c->srcFormatBpp + 7) >> 3;
-    const int dstBpp = (c->dstFormatBpp + 7) >> 3;
-    const int srcId = c->srcFormatBpp >> 2; /* 1:0, 4:1, 8:2, 15:3, 16:4, 24:6, 32:8 */
-    const int dstId = c->dstFormatBpp >> 2;
-    void (*conv)(const uint8_t *src, uint8_t *dst, int src_size) = NULL;
+    const int srcId = c->srcFormatBpp;
+    const int dstId = c->dstFormatBpp;
+    rgbConvFn conv = NULL;
+
+#define IS_NOT_NE(bpp, fmt) \
+    (((bpp + 7) >> 3) == 2 && \
+     (!(av_pix_fmt_descriptors[fmt].flags & PIX_FMT_BE) != !HAVE_BIGENDIAN))
+
+    /* if this is non-native rgb444/555/565, don't handle it here. */
+    if (IS_NOT_NE(srcId, srcFormat) || IS_NOT_NE(dstId, dstFormat))
+        return NULL;
 
 #define CONV_IS(src, dst) (srcFormat == PIX_FMT_##src && dstFormat == PIX_FMT_##dst)
 
@@ -427,40 +432,57 @@ static int rgbToRgbWrapper(SwsContext *c, const uint8_t *src[], stride_t srcStri
     /* BGR -> BGR */
     if ((isBGRinInt(srcFormat) && isBGRinInt(dstFormat)) ||
         (isRGBinInt(srcFormat) && isRGBinInt(dstFormat))) {
-        switch (srcId | (dstId << 4)) {
-        case 0x34: conv = rgb16to15; break;
-        case 0x36: conv = rgb24to15; break;
-        case 0x38: conv = rgb32to15; break;
-        case 0x43: conv = rgb15to16; break;
-        case 0x46: conv = rgb24to16; break;
-        case 0x48: conv = rgb32to16; break;
-        case 0x63: conv = rgb15to24; break;
-        case 0x64: conv = rgb16to24; break;
-        case 0x68: conv = rgb32to24; break;
-        case 0x83: conv = rgb15to32; break;
-        case 0x84: conv = rgb16to32; break;
-        case 0x86: conv = rgb24to32; break;
+        switch (srcId | (dstId << 16)) {
+        case 0x000F000C: conv = rgb12to15; break;
+        case 0x000F0010: conv = rgb16to15; break;
+        case 0x000F0018: conv = rgb24to15; break;
+        case 0x000F0020: conv = rgb32to15; break;
+        case 0x0010000F: conv = rgb15to16; break;
+        case 0x00100018: conv = rgb24to16; break;
+        case 0x00100020: conv = rgb32to16; break;
+        case 0x0018000F: conv = rgb15to24; break;
+        case 0x00180010: conv = rgb16to24; break;
+        case 0x00180020: conv = rgb32to24; break;
+        case 0x0020000F: conv = rgb15to32; break;
+        case 0x00200010: conv = rgb16to32; break;
+        case 0x00200018: conv = rgb24to32; break;
         }
     } else if ((isBGRinInt(srcFormat) && isRGBinInt(dstFormat)) ||
                (isRGBinInt(srcFormat) && isBGRinInt(dstFormat))) {
-        switch (srcId | (dstId << 4)) {
-        case 0x33: conv = rgb15tobgr15; break;
-        case 0x34: conv = rgb16tobgr15; break;
-        case 0x36: conv = rgb24tobgr15; break;
-        case 0x38: conv = rgb32tobgr15; break;
-        case 0x43: conv = rgb15tobgr16; break;
-        case 0x44: conv = rgb16tobgr16; break;
-        case 0x46: conv = rgb24tobgr16; break;
-        case 0x48: conv = rgb32tobgr16; break;
-        case 0x63: conv = rgb15tobgr24; break;
-        case 0x64: conv = rgb16tobgr24; break;
-        case 0x66: conv = rgb24tobgr24; break;
-        case 0x68: conv = rgb32tobgr24; break;
-        case 0x83: conv = rgb15tobgr32; break;
-        case 0x84: conv = rgb16tobgr32; break;
-        case 0x86: conv = rgb24tobgr32; break;
+        switch (srcId | (dstId << 16)) {
+        case 0x000C000C: conv = rgb12tobgr12; break;
+        case 0x000F000F: conv = rgb15tobgr15; break;
+        case 0x000F0010: conv = rgb16tobgr15; break;
+        case 0x000F0018: conv = rgb24tobgr15; break;
+        case 0x000F0020: conv = rgb32tobgr15; break;
+        case 0x0010000F: conv = rgb15tobgr16; break;
+        case 0x00100010: conv = rgb16tobgr16; break;
+        case 0x00100018: conv = rgb24tobgr16; break;
+        case 0x00100020: conv = rgb32tobgr16; break;
+        case 0x0018000F: conv = rgb15tobgr24; break;
+        case 0x00180010: conv = rgb16tobgr24; break;
+        case 0x00180018: conv = rgb24tobgr24; break;
+        case 0x00180020: conv = rgb32tobgr24; break;
+        case 0x0020000F: conv = rgb15tobgr32; break;
+        case 0x00200010: conv = rgb16tobgr32; break;
+        case 0x00200018: conv = rgb24tobgr32; break;
         }
     }
+
+    return conv;
+}
+
+/* {RGB,BGR}{15,16,24,32,32_1} -> {RGB,BGR}{15,16,24,32} */
+static int rgbToRgbWrapper(SwsContext *c, const uint8_t *src[], stride_t srcStride[],
+                           int srcSliceY, int srcSliceH, uint8_t *dst[],
+                           stride_t dstStride[])
+
+{
+    const enum PixelFormat srcFormat = c->srcFormat;
+    const enum PixelFormat dstFormat = c->dstFormat;
+    const int srcBpp = (c->srcFormatBpp + 7) >> 3;
+    const int dstBpp = (c->dstFormatBpp + 7) >> 3;
+    rgbConvFn conv = findRgbConvFn(c);
 
     if (!conv) {
         av_log(c, AV_LOG_ERROR, "internal error %s -> %s converter\n",
@@ -693,6 +715,8 @@ static int planarCopyWrapper(SwsContext *c, const uint8_t *src[],
             } else {
                 if (is16BPS(c->srcFormat) && is16BPS(c->dstFormat))
                     length *= 2;
+                else if (!av_pix_fmt_descriptors[c->srcFormat].comp[0].depth_minus1)
+                    length >>= 3; // monowhite/black
                 for (i = 0; i < height; i++) {
                     memcpy(dstPtr, srcPtr, length);
                     srcPtr += srcStride[plane];
@@ -747,20 +771,7 @@ void ff_get_unscaled_swscale(SwsContext *c)
         c->swScale = bgr24ToYv12Wrapper;
 
     /* RGB/BGR -> RGB/BGR (no dither needed forms) */
-    if (   isAnyRGB(srcFormat)
-        && isAnyRGB(dstFormat)
-        && srcFormat != PIX_FMT_BGR8      && dstFormat != PIX_FMT_BGR8
-        && srcFormat != PIX_FMT_RGB8      && dstFormat != PIX_FMT_RGB8
-        && srcFormat != PIX_FMT_BGR4      && dstFormat != PIX_FMT_BGR4
-        && srcFormat != PIX_FMT_RGB4      && dstFormat != PIX_FMT_RGB4
-        && srcFormat != PIX_FMT_BGR4_BYTE && dstFormat != PIX_FMT_BGR4_BYTE
-        && srcFormat != PIX_FMT_RGB4_BYTE && dstFormat != PIX_FMT_RGB4_BYTE
-        && srcFormat != PIX_FMT_MONOBLACK && dstFormat != PIX_FMT_MONOBLACK
-        && srcFormat != PIX_FMT_MONOWHITE && dstFormat != PIX_FMT_MONOWHITE
-        && srcFormat != PIX_FMT_RGB48LE   && dstFormat != PIX_FMT_RGB48LE
-        && srcFormat != PIX_FMT_RGB48BE   && dstFormat != PIX_FMT_RGB48BE
-        && srcFormat != PIX_FMT_BGR48LE   && dstFormat != PIX_FMT_BGR48LE
-        && srcFormat != PIX_FMT_BGR48BE   && dstFormat != PIX_FMT_BGR48BE
+    if (isAnyRGB(srcFormat) && isAnyRGB(dstFormat) && findRgbConvFn(c)
         && (!needsDither || (c->flags&(SWS_FAST_BILINEAR|SWS_POINT))))
         c->swScale= rgbToRgbWrapper;
 
