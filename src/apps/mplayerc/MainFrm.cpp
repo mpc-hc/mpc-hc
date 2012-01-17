@@ -8764,7 +8764,7 @@ public:
 
 	// ISequentialStream
 	STDMETHODIMP Read(void* pv, ULONG cb, ULONG* pcbRead) {
-		__int64 cbRead = min(m_data.GetCount() - m_pos, (__int64)cb);
+		__int64 cbRead = min((__int64)(m_data.GetCount() - m_pos), (__int64)cb);
 		cbRead = max(cbRead, 0);
 		memcpy(pv, &m_data[(INT_PTR)m_pos], (int)cbRead);
 		if (pcbRead) {

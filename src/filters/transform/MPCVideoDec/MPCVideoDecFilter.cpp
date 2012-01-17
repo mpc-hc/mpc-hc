@@ -972,7 +972,8 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 		nCodec==CODEC_ID_MPEG1VIDEO ||
 		nCodec==CODEC_ID_FFV1 ||
 		nCodec==CODEC_ID_DVVIDEO ||
-		nCodec==CODEC_ID_VP8
+		nCodec==CODEC_ID_VP8 ||
+		nCodec==CODEC_ID_THEORA
 	);
 }
 
@@ -1535,8 +1536,14 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			return hr;
 		}
 
-		rtStart = m_pFrame->reordered_opaque;
-		rtStop  = m_pFrame->reordered_opaque + m_rtAvrTimePerFrame;
+		if(m_pAVCtx->codec_id == CODEC_ID_THEORA) {
+			rtStart = m_pFrame->pkt_pts;
+			rtStop = m_pFrame->pkt_dts;
+		} else {
+			rtStart = m_pFrame->reordered_opaque;
+			rtStop  = m_pFrame->reordered_opaque + m_rtAvrTimePerFrame;
+		}
+
 		ReorderBFrames(rtStart, rtStop);
 
 		pOut->SetTime(&rtStart, &rtStop);

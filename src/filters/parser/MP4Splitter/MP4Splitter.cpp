@@ -132,11 +132,24 @@ STDMETHODIMP CMP4SplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 
 	return S_OK;
 }
+
+void SetTrackName(CString *TrackName, CString Suffix)
+{
+	if(TrackName->IsEmpty()) {
+		*TrackName = Suffix;
+	} else {
+		*TrackName += _T(" - ");
+		*TrackName += Suffix;
+	}
+}
+
 HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 {
 	CheckPointer(pAsyncReader, E_POINTER);
 
 	HRESULT hr = E_FAIL;
+
+	bool b_HasVideo = false;
 
 	m_trackpos.RemoveAll();
 
@@ -165,6 +178,10 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					&& track->GetType() != AP4_Track::TYPE_AUDIO
 					&& track->GetType() != AP4_Track::TYPE_TEXT
 					&& track->GetType() != AP4_Track::TYPE_SUBP) {
+				continue;
+			}
+
+			if(b_HasVideo && track->GetType() == AP4_Track::TYPE_VIDEO) {
 				continue;
 			}
 
@@ -200,10 +217,11 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					mpeg_desc = isma_desc->GetOriginalSampleDescription();
 				}
 
-				CStringW TypeString = CStringW(mpeg_desc->GetObjectTypeString(mpeg_desc->GetObjectTypeId()));
-				if((TypeString.Find(_T("UNKNOWN")) == -1) && (TypeString.Find(_T("INVALID")) == -1)) {
-					TrackName += _T(" - ");
-					TrackName += TypeString;
+				if(mpeg_desc) {
+					CStringW TypeString = CStringW(mpeg_desc->GetObjectTypeString(mpeg_desc->GetObjectTypeId()));
+					if((TypeString.Find(_T("UNKNOWN")) == -1) && (TypeString.Find(_T("INVALID")) == -1)) {
+						SetTrackName(&TrackName, TypeString);
+					}
 				}
 
 				if(AP4_MpegVideoSampleDescription* video_desc =
@@ -257,6 +275,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								mts.Add(mt);
 								mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = 'V4PM');
 								mts.Add(mt);
+								b_HasVideo = true;
 							}
 							break;
 						case AP4_MPEG2_VISUAL_SIMPLE_OTI:
@@ -446,8 +465,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			} else if(AP4_Avc1SampleEntry* avc1 = dynamic_cast<AP4_Avc1SampleEntry*>(
 					track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd/avc1"))) {
 				if(AP4_AvcCAtom* avcC = dynamic_cast<AP4_AvcCAtom*>(avc1->GetChild(AP4_ATOM_TYPE_AVCC))) {
-
-					TrackName += _T(" - MPEG4 Video (H264)");
+					SetTrackName(&TrackName, _T("MPEG4 Video (H264)"));
 
 					const AP4_DataBuffer* di = avcC->GetDecoderInfo();
 					if(!di) {
@@ -519,6 +537,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 					mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = '1CVA');
 					mts.Add(mt);
+					b_HasVideo = true;
 				}
 			} else if(AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(
 											   track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd"))) {
@@ -535,20 +554,20 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					if((type & 0xffff0000) == AP4_ATOM_TYPE('m', 's', 0, 0)) {
 						fourcc = type & 0xffff;
 					} else if(type == AP4_ATOM_TYPE__MP3) {
-						TrackName += _T(" - MPEG Audio (MP3)");
+						SetTrackName(&TrackName, _T("MPEG Audio (MP3)"));
 						fourcc = 0x0055;
 					} else if((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3) || (type == AP4_ATOM_TYPE_EAC3)) {
 						if(type == AP4_ATOM_TYPE_EAC3) {
-							TrackName += _T(" - AC-3 Audio");
+							SetTrackName(&TrackName, _T("AC-3 Audio"));
 						} else {
-							TrackName += _T(" - Enhanced AC-3 audio");
+							SetTrackName(&TrackName, _T("Enhanced AC-3 audio"));
 						}
 						fourcc = 0x2000;
 					} else if(type == AP4_ATOM_TYPE_MP4A) {
-						TrackName += _T(" - MPEG-2 Audio AAC");
+						SetTrackName(&TrackName, _T("MPEG-2 Audio AAC"));
 						fourcc = WAVE_FORMAT_AAC;
 					} else if(type == AP4_ATOM_TYPE_NMOS) {
-						TrackName += _T(" - NellyMoser Audio");
+						SetTrackName(&TrackName, _T("NellyMoser Audio"));
 						fourcc = MAKEFOURCC('N','E','L','L');
 					} else {
 						fourcc =
@@ -582,6 +601,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						if(typelwr != fourcc) {
 							mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = typelwr);
 							mts.Add(mt);
+							b_HasVideo = true;
 						}
 
 						_strupr((char*)&buff);
@@ -590,6 +610,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						if(typeupr != fourcc) {
 							mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = typeupr);
 							mts.Add(mt);
+							b_HasVideo = true;
 						}
 
 						break;

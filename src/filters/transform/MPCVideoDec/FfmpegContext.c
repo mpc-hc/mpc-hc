@@ -756,6 +756,7 @@ int FFGetThreadType(int nCodecId, int nThreadCount)
 			return FF_THREAD_SLICE;
 			break;			
 		case CODEC_ID_VP8 :
+		case CODEC_ID_THEORA :
 			return FF_THREAD_FRAME;
 			break;			
 		default :
