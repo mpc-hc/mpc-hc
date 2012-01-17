@@ -388,4 +388,6 @@ Note: when adding a new codec, you have to:
 #define CONFIG_AMRNB_DECODER 1
 #define CONFIG_AMRWB_DECODER 1
 
+#define CONFIG_VC1_VDPAU_DECODER 0
+
 #endif /* FFMPEG_CONFIG_H */

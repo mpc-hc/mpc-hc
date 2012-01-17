@@ -84,10 +84,11 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	HRESULT						hr;
 	int							nSurfaceIndex;
 	CComPtr<IMediaSample>		pSampleToDeliver;
-	int							nFieldType;
-	int							nSliceType;
+	int							nFieldType, nSliceType;
+	UINT						nFrameSize, nSize_Result;
 
-	FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), &nFieldType, &nSliceType, pDataIn, nSize);
+	FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), &nFieldType, &nSliceType, pDataIn, nSize, &nFrameSize, FALSE);
+
 	if (FFIsSkipped (m_pFilter->GetAVCtx())) {
 		return S_OK;
 	}
@@ -105,7 +106,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
-	TRACE_VC1 ("=> %s   %I64d  Surf=%d\n", GetFFMpegPictureType(nSliceType), rtStart, nSurfaceIndex);
+	TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame - PictureType = %s, rtStart = %I64d, Surf = %d\n", GetFFMpegPictureType(nSliceType), rtStart, nSurfaceIndex);
 
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
 	m_PictureParams.wDeblockedPictureIndex	= m_PictureParams.wDecodedPictureIndex;
@@ -126,24 +127,44 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	m_PictureParams.bPicScanMethod++;					// Use for status reporting sections 3.8.1 and 3.8.2
 
-	TRACE_VC1("CDXVADecoderVC1 : Decode frame %i\n", m_PictureParams.bPicScanMethod);
+	TRACE_VC1("CDXVADecoderVC1::DecodeFrame - Decode frame %i\n", m_PictureParams.bPicScanMethod);
 
 	// Send picture params to accelerator
-	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
-	//	CHECK_HR (Execute());
-
 
 	// Send bitstream to accelerator
-	CHECK_HR (AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize));
+	CHECK_HR (AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nFrameSize ? nFrameSize : nSize, pDataIn, &nSize_Result));
 
 	m_SliceInfo.wQuantizerScaleCode	= 1;		// TODO : 1->31 ???
-	m_SliceInfo.dwSliceBitsInBuffer	= nSize * 8;
+	m_SliceInfo.dwSliceBitsInBuffer	= nSize_Result * 8;
 	CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceInfo), &m_SliceInfo));
 
 	// Decode frame
 	CHECK_HR (Execute());
 	CHECK_HR (EndFrame(nSurfaceIndex));
+
+	// ***************
+	if(nFrameSize) { // Decoding Second Field
+		FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), NULL, NULL, pDataIn, nSize, NULL, TRUE);
+
+		CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
+
+		TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame - PictureType = %s\n", GetFFMpegPictureType(nSliceType));
+
+		CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
+
+		// Send bitstream to accelerator
+		CHECK_HR (AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize - nFrameSize, pDataIn + nFrameSize, &nSize_Result));
+
+		m_SliceInfo.wQuantizerScaleCode	= 1;		// TODO : 1->31 ???
+		m_SliceInfo.dwSliceBitsInBuffer	= nSize_Result * 8;
+		CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceInfo), &m_SliceInfo));
+
+		// Decode frame
+		CHECK_HR (Execute());
+		CHECK_HR (EndFrame(nSurfaceIndex));
+	}
+	// ***************
 
 #ifdef _DEBUG
 	DisplayStatus();
@@ -202,9 +223,9 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 	m_PictureParams.bReservedBits					= 0;
 
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
-	m_PictureParams.bBidirectionalAveragingMode	= (1 << 7) |
-			(GetConfigIntraResidUnsigned()    <<6) |	// i9IRU
-			(GetConfigResidDiffAccelerator()  <<5);	// iOHIT
+	m_PictureParams.bBidirectionalAveragingMode		= (1 << 7) |
+													  (GetConfigIntraResidUnsigned()    <<6) |	// i9IRU
+													  (GetConfigResidDiffAccelerator()  <<5);	// iOHIT
 }
 
 BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize)
@@ -234,6 +255,7 @@ BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacke
 	}
 
 	ASSERT (FALSE);		// Should never happen!
+
 	return NULL;
 }
 
@@ -241,27 +263,31 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 {
 	int		nDummy;
 
-	if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000) {
-		// Some splitter have remove startcode (Haali)
-		pDXVABuffer[0]=pDXVABuffer[1]=0;
-		pDXVABuffer[2]=1;
-		pDXVABuffer[3]=0x0D;
-		pDXVABuffer	+=4;
-		// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
+	if(m_PictureParams.bSecondField) {
 		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
-		nSize  +=4;
 	} else {
-		BYTE*	pStart;
-		UINT	nPacketSize;
+		if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000) {
+			// Some splitter have remove startcode (Haali)
+			pDXVABuffer[0]=pDXVABuffer[1]=0;
+			pDXVABuffer[2]=1;
+			pDXVABuffer[3]=0x0D;
+			pDXVABuffer	+=4;
+			memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+			nSize  +=4;
+		} else {
+			BYTE*	pStart;
+			UINT	nPacketSize;
 
-		pStart = FindNextStartCode (pBuffer, nSize, nPacketSize);
-		if (pStart) {
-			// Startcode already present
-			memcpy (pDXVABuffer, (BYTE*)pStart, nPacketSize);
-			nSize = nPacketSize;
+			pStart = FindNextStartCode (pBuffer, nSize, nPacketSize);
+			if (pStart) {
+				// Startcode already present
+				memcpy (pDXVABuffer, (BYTE*)pStart, nPacketSize);
+				nSize = nPacketSize;
+			}
 		}
 	}
 
+	// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
 	nDummy  = 128 - (nSize %128);
 
 	pDXVABuffer += nSize;
@@ -298,7 +324,7 @@ HRESULT CDXVADecoderVC1::DisplayStatus()
 	if (SUCCEEDED (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)))) {
 		Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;
 
-		TRACE_VC1 ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
+		TRACE_VC1 ("CDXVADecoderVC1::DisplayStatus - Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
 				   Status.StatusReportFeedbackNumber,
 				   Status.bBufType,
 				   Status.bStatus,
