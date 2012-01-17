@@ -98,7 +98,7 @@ BOOL CPPageWebServer::OnInitDialog()
 	m_fWebServerUseCompression = s.fWebServerUseCompression;
 	m_fWebRoot = s.strWebRoot.Find('*') < 0;
 	m_WebRoot = s.strWebRoot;
-	m_WebRoot.TrimLeft(_T("*"));
+	m_WebRoot.TrimLeft(_T('*'));
 	m_WebDefIndex = s.strWebDefIndex;
 	m_WebServerCGI = s.strWebServerCGI;
 

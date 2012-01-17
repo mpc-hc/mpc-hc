@@ -69,8 +69,8 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 			VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pbFormat;
 			if(vih->AvgTimePerFrame) {
 				rate.Format(_T("%0.3f"), 10000000.0f / vih->AvgTimePerFrame);
-				rate.TrimRight(_T("0"));
-				rate.TrimRight(_T("."));
+				rate.TrimRight(_T('0')); // remove trailing zeros
+				rate.TrimRight(_T('.')); // remove the trailing dot
 				rate += _T("fps ");
 			}
 			if(vih->dwBitRate) {
@@ -80,8 +80,8 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 			VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pbFormat;
 			if(vih->AvgTimePerFrame) {
 				rate.Format(_T("%0.3f"), 10000000.0f / vih->AvgTimePerFrame);
-				rate.TrimRight(_T("0"));
-				rate.TrimRight(_T("."));
+				rate.TrimRight(_T('0')); // remove trailing zeros
+				rate.TrimRight(_T('.')); // remove the trailing dot
 				rate += _T("fps ");
 			}
 			if(vih->dwBitRate) {
@@ -89,7 +89,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 			}
 		}
 
-		rate.Trim();
+		rate.TrimRight();
 
 		if(subtype == MEDIASUBTYPE_DVD_SUBPICTURE) {
 			type = _T("Subtitle");

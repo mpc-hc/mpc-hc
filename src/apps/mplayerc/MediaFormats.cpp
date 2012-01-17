@@ -137,7 +137,7 @@ CString CMediaFormatCategory::GetFilter()
 	while (pos) {
 		filter += _T("*.") + m_exts.GetNext(pos) + _T(";");
 	}
-	filter.TrimRight(_T(";")); // cheap...
+	filter.TrimRight(_T(';')); // cheap...
 	return(filter);
 }
 
@@ -157,7 +157,7 @@ CString CMediaFormatCategory::GetExtsWithPeriod(bool fAppendEngine)
 	while (pos) {
 		exts += _T(".") + m_exts.GetNext(pos) + _T(" ");
 	}
-	exts.TrimRight(_T(" ")); // cheap...
+	exts.TrimRight(_T(' ')); // cheap...
 	if (fAppendEngine) {
 		exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
 	}
@@ -171,7 +171,7 @@ CString CMediaFormatCategory::GetBackupExtsWithPeriod(bool fAppendEngine)
 	while (pos) {
 		exts += _T(".") + m_backupexts.GetNext(pos) + _T(" ");
 	}
-	exts.TrimRight(_T(" ")); // cheap...
+	exts.TrimRight(_T(' ')); // cheap...
 	if (fAppendEngine) {
 		exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
 	}
@@ -331,7 +331,7 @@ engine_t CMediaFormats::GetEngine(CString path)
 
 bool CMediaFormats::FindExt(CString ext, bool fAudioOnly)
 {
-	ext.TrimLeft(_T("."));
+	ext.TrimLeft(_T('.'));
 
 	if (!ext.IsEmpty()) {
 		for (size_t i = 0; i < GetCount(); i++) {
@@ -357,8 +357,8 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 		mask[0] += strTemp;
 		filter  += strTemp;
 	}
-	mask[0].TrimRight(_T(";"));
-	filter.TrimRight(_T(";"));
+	mask[0].TrimRight(_T(';'));
+	filter.TrimRight(_T(';'));
 	filter += _T("|");
 
 	for (size_t i = 0; i < GetCount(); i++) {
@@ -389,8 +389,8 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 		filter  += strTemp;
 	}
 
-	mask[0].TrimRight(_T(";"));
-	filter.TrimRight(_T(";"));
+	mask[0].TrimRight(_T(';'));
+	filter.TrimRight(_T(';'));
 	filter += _T("|");
 
 	for (size_t i = 0; i < GetCount(); i++) {
