@@ -27,7 +27,6 @@
 #include <stdint.h>
 #include <a52dec/include/a52.h>
 #include <libdca/include/dts.h>
-#include <libvorbisidec/vorbis/codec.h>
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
@@ -47,35 +46,17 @@ struct ps2_state_t {
 	}
 };
 
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-struct vorbis_state_t {
-	vorbis_info vi;
-	vorbis_comment vc;
-	vorbis_block vb;
-	vorbis_dsp_state vd;
-	ogg_packet op;
-	int packetno;
-	double postgain;
-
-	vorbis_state_t();
-	~vorbis_state_t();
-	void clear();
-	bool init(const CMediaType& mt);
-};
-#endif
-
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 struct flac_state_t {
 	void*				pDecoder;
 	HRESULT				hr;
 };
+#endif
 
 struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
 struct AVCodecParserContext;
-#endif
-
 
 class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 	CMpaDecFilter
@@ -93,9 +74,6 @@ protected:
 	dts_state_t*			m_dts_state;
 #endif
 	ps2_state_t				m_ps2_state;
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-	vorbis_state_t			m_vorbis;
-#endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	flac_state_t			m_flac;
 #endif
@@ -130,13 +108,10 @@ protected:
 	HRESULT ProcessPS2PCM();
 	HRESULT ProcessPS2ADPCM();
 #endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-	HRESULT ProcessVorbis();
-#endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	HRESULT ProcessFlac();
 #endif
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
 	HRESULT ProcessFFmpeg(int nCodecId);
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
@@ -159,12 +134,11 @@ protected:
 	void	flac_stream_finish();
 #endif
 
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
 	bool	InitFFmpeg(int nCodecId);
 	void	ffmpeg_stream_finish();
 	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int samples, int& size);
 	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
-	void	AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt);
 
 	BYTE*	m_pFFBuffer;
 	int		m_nFFBufferSize;

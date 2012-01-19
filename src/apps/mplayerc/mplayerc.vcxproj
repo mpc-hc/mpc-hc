@@ -727,10 +727,6 @@
       <Project>{fc8080d1-603c-45ec-bcfa-7172e2f3d989}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\thirdparty\libvorbisidec\libvorbisidec.vcxproj">
-      <Project>{a7134255-dff3-42f7-9bc2-fac6e71cffae}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">
       <Project>{20e0f8d6-213c-460b-b361-9c725cb375c7}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

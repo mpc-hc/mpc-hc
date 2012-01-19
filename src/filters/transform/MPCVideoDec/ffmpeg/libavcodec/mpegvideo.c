@@ -1174,7 +1174,6 @@ int MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
 */
 // <== End patch MPC
 
-    /* mark & release old frames */
 
     /* mark & release old frames */
     if (s->out_format != FMT_H264 || s->codec_id == CODEC_ID_SVQ3) {

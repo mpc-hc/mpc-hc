@@ -190,6 +190,9 @@ SRCS_C=\
     libavcodec/vc1data.c \
     libavcodec/vc1dec.c \
     libavcodec/vc1dsp.c \
+    libavcodec/vorbis.c \
+    libavcodec/vorbis_data.c \
+    libavcodec/vorbisdec.c \
     libavcodec/vp3.c \
     libavcodec/vp3dsp.c \
     libavcodec/vp5.c \

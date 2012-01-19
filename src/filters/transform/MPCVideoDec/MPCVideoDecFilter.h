@@ -107,6 +107,8 @@ protected:
 	int										m_nPosB;
 	int										m_nWidth;				// Frame width give to input pin
 	int										m_nHeight;				// Frame height give to input pin
+	
+	bool									m_bTheoraMTSupport;	
 
 	// Buffer management for truncated stream (store stream chunks & reference time sent by splitter)
 	BYTE*									m_pFFBuffer;

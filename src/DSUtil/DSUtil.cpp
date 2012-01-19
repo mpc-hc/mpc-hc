@@ -2862,3 +2862,91 @@ void CorrectComboListWidth(CComboBox& m_pComboBox)
 	// Set the width of the list box so that every item is completely visible.
 	m_pComboBox.SetDroppedWidth(dx);
 }
+
+unsigned int lav_xiphlacing(unsigned char *s, unsigned int v)
+{
+    unsigned int n = 0;
+
+    while(v >= 0xff) {
+        *s++ = 0xff;
+        v -= 0xff;
+        n++;
+    }
+    *s = v;
+    n++;
+    return n;
+}
+
+void getExtraData(const BYTE *format, const GUID *formattype, const size_t formatlen, BYTE *extra, unsigned int *extralen)
+{
+  const BYTE *extraposition = NULL;
+  unsigned extralength = 0;
+  if (*formattype == FORMAT_WaveFormatEx) {
+    WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
+    extraposition = format + sizeof(WAVEFORMATEX);
+    // Protected against over-reads
+    extralength   = formatlen - sizeof(WAVEFORMATEX);
+  } else if (*formattype == FORMAT_VorbisFormat2) {
+    VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)format;
+    BYTE *start = NULL, *end = NULL;
+    unsigned offset = 1;
+    if (extra) {
+      *extra = 2;
+      offset += lav_xiphlacing(extra+offset, vf2->HeaderSize[0]);
+      offset += lav_xiphlacing(extra+offset, vf2->HeaderSize[1]);
+      extra += offset;
+    } else {
+      BYTE dummy[100];
+      offset += lav_xiphlacing(dummy, vf2->HeaderSize[0]);
+      offset += lav_xiphlacing(dummy, vf2->HeaderSize[1]);
+    }
+    extralength = vf2->HeaderSize[0] + vf2->HeaderSize[1] + vf2->HeaderSize[2];
+    extralength = min(extralength, formatlen - sizeof(VORBISFORMAT2));
+
+    if (extra && extralength)
+      memcpy(extra, format + sizeof(VORBISFORMAT2), extralength);
+    if (extralen)
+      *extralen = extralength + offset;
+
+    return;
+  }
+
+  if (extra && extralength)
+    memcpy(extra, extraposition, extralength);
+  if (extralen)
+    *extralen = extralength;
+}
+
+void audioFormatTypeHandler(const BYTE *format, const GUID *formattype, DWORD *pnSamples, WORD *pnChannels, WORD *pnBitsPerSample, WORD *pnBlockAlign, DWORD *pnBytesPerSec)
+{
+  DWORD nSamples       = 0;
+  WORD  nChannels      = 0;
+  WORD  nBitsPerSample = 0;
+  WORD  nBlockAlign    = 0;
+  DWORD nBytesPerSec   = 0;
+
+  if (*formattype == FORMAT_WaveFormatEx) {
+    WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
+    nSamples       = wfex->nSamplesPerSec;
+    nChannels      = wfex->nChannels;
+    nBitsPerSample = wfex->wBitsPerSample;
+    nBlockAlign    = wfex->nBlockAlign;
+    nBytesPerSec   = wfex->nAvgBytesPerSec;
+  } else if (*formattype == FORMAT_VorbisFormat2) {
+    VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)format;
+    nSamples       = vf2->SamplesPerSec;
+    nChannels      = (WORD)vf2->Channels;
+    nBitsPerSample = (WORD)vf2->BitsPerSample;
+  }
+
+  if (pnSamples)
+    *pnSamples = nSamples;
+  if (pnChannels)
+    *pnChannels = nChannels;
+  if (pnBitsPerSample)
+    *pnBitsPerSample = nBitsPerSample;
+  if (pnBlockAlign)
+    *pnBlockAlign = nBlockAlign;
+  if (pnBytesPerSec)
+    *pnBytesPerSec = nBytesPerSec;
+}

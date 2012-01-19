@@ -43,6 +43,7 @@ extern "C"
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"
 #include "../../parser/MpegSplitter/MpegSplitter.h"
+#include "../../parser/OggSplitter/OggSplitter.h"
 #include <moreuuids.h>
 #include "DXVADecoderH264.h"
 #include "../../../apps/mplayerc/FilterEnum.h"
@@ -569,6 +570,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	m_bWaitingForKeyFrame = TRUE;
 
+	m_bTheoraMTSupport = true;
+
 #ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ)) {
@@ -988,6 +991,12 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 		}
 
 		if (nNewCodec != m_nCodecNb) {
+
+			CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
+			if((ClsidSourceFilter == __uuidof(COggSourceFilter)) || (ClsidSourceFilter == __uuidof(COggSplitterFilter))) {
+				m_bTheoraMTSupport = false;
+			}
+
 			m_nCodecNb	= nNewCodec;
 
 			m_bReorderBFrame	= true;
@@ -1000,7 +1009,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber();
 			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
-				FFSetThreadNumber(m_pAVCtx, m_nCodecId, IsDXVASupported() ? 1 : nThreadNumber);
+				FFSetThreadNumber(m_pAVCtx, m_nCodecId, (IsDXVASupported() || (m_nCodecId == CODEC_ID_THEORA && !m_bTheoraMTSupport)) ? 1 : nThreadNumber);
 			}
 
 			m_pAVCtx->h264_using_dxva = IsDXVASupported();

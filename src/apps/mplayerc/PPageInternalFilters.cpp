@@ -103,16 +103,16 @@ s_filters[] = {
 	{_T("MPEG Audio"), DECODER, TRA_MPA, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_VORBIS
-	{_T("Vorbis"), DECODER, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+	{_T("Vorbis"), DECODER, TRA_VORBIS, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_FLAC
 	{_T("FLAC"), DECODER, TRA_FLAC, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
 #endif
 #if INTERNAL_DECODER_NELLYMOSER
-	{_T("Nellymoser"), DECODER, TRA_NELLY, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+	{_T("Nellymoser"), DECODER, TRA_NELLY, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_AMR
-	{_T("AMR"), DECODER, TRA_AMR, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+	{_T("AMR"), DECODER, TRA_AMR, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_REALAUDIO
 	{_T("RealAudio"), DECODER, TRA_RA, IDS_TRA_RA, NULL},
@@ -121,7 +121,7 @@ s_filters[] = {
 	{_T("PS2 Audio (PCM/ADPCM)"), DECODER, TRA_PS2AUD, IDS_TRA_PS2AUD, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_PCM
-	{_T("QT PCM"), DECODER, TRA_PCM, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+	{_T("QT PCM"), DECODER, TRA_PCM, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 
 #if INTERNAL_DECODER_MPEG1

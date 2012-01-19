@@ -224,15 +224,6 @@ s_scmap_dts[2*10] = {
 	{6, {1, 2, 0, 5, 3, 4,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // DTS_3F2R|DTS_LFE
 },
 
-s_scmap_vorbis[6] = {
-	{1, {0,-1,-1,-1,-1,-1,-1,-1}, 0}, // 1F
-	{2, {0, 1,-1,-1,-1,-1,-1,-1}, 0},	// 2F
-	{3, {0, 2, 1,-1,-1,-1,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER}, // 2F1R
-	{4, {0, 1, 2, 3,-1,-1,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // 2F2R
-	{5, {0, 2, 1, 3, 4,-1,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // 3F2R
-	{6, {0, 2, 1, 5, 3, 4,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // 3F2R + LFE
-},
-
 s_scmap_hdmv[] = {
 	//    FL  FR  FC  LFe BL  BR  FLC FRC
 	{0, {-1,-1,-1,-1,-1,-1,-1,-1 }, 0},		// INVALID
@@ -310,19 +301,17 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_fDynamicRangeControl[ac3] = false;
 	m_fDynamicRangeControl[dts] = false;
 	m_DolbyDigitalMode			= DD_Unknown;
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
 	m_pAVCodec					= NULL;
 	m_pAVCtx					= NULL;
 	m_pParser					= NULL;
 	m_pFrame					= NULL;
-#endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
-	memset (&m_flac, 0, sizeof(m_flac));
-#endif
-
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
 	m_pFFBuffer					= NULL;
 	m_nFFBufferSize				= 0;
+#endif
+
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
+	memset (&m_flac, 0, sizeof(m_flac));
 #endif
 
 #ifdef REGISTER_FILTER
@@ -366,7 +355,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 CMpaDecFilter::~CMpaDecFilter()
 {
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
 	if (m_pFFBuffer) {
 		free(m_pFFBuffer);
 	}
@@ -409,7 +398,7 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	m_sample_max = 0.1f;
 	m_ps2_state.sync = false;
 	m_DolbyDigitalMode = DD_Unknown;
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
 	if (m_pAVCtx) {
 		avcodec_flush_buffers (m_pAVCtx);
 	}
@@ -443,9 +432,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		DeleteMediaType(pmt);
 		pmt = NULL;
 		m_sample_max = 0.1f;
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-		m_vorbis.init(mt);
-#endif
 		m_DolbyDigitalMode = DD_Unknown;
 	}
 
@@ -531,7 +517,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	else if(subtype == MEDIASUBTYPE_Vorbis2) {
-		hr = ProcessVorbis();
+		hr = ProcessFFmpeg(CODEC_ID_VORBIS);
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
@@ -1033,7 +1019,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 #endif
 #endif /* INTERNAL_DECODER_AC3 */
 
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
 HRESULT CMpaDecFilter::ProcessFFmpeg(int nCodecId)
 {
 	HRESULT hr;
@@ -1521,61 +1507,6 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 }
 #endif /* INTERNAL_DECODER_PS2AUDIO */
 
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-HRESULT CMpaDecFilter::ProcessVorbis()
-{
-	if(m_vorbis.vi.channels < 1 || m_vorbis.vi.channels > 6) {
-		return E_FAIL;
-	}
-
-	if(m_buff.IsEmpty()) {
-		return S_OK;
-	}
-
-	HRESULT hr = S_OK;
-
-	ogg_packet op;
-	memset(&op, 0, sizeof(op));
-	op.packet = m_buff.GetData();
-	op.bytes = m_buff.GetCount();
-	op.b_o_s = 0;
-	op.packetno = m_vorbis.packetno++;
-
-	if(vorbis_synthesis(&m_vorbis.vb, &op) == 0) {
-		vorbis_synthesis_blockin(&m_vorbis.vd, &m_vorbis.vb);
-
-		int samples;
-		float** pcm;
-
-		while((samples = vorbis_synthesis_pcmout(&m_vorbis.vd, &pcm)) > 0) {
-			const scmap_t& scmap = s_scmap_vorbis[m_vorbis.vi.channels-1];
-
-			CAtlArray<float> pBuff;
-			pBuff.SetCount(samples * scmap.nChannels);
-			float* dst = pBuff.GetData();
-
-			for(int j = 0, ch = scmap.nChannels; j < ch; j++) {
-				float* src = pcm[scmap.ch[j]];
-				for(int i = 0; i < samples; i++) {
-					dst[j + i*ch] = src[i];
-				}
-				//	dst[j + i*ch] = (float)max(min(src[i], 1<<24), -1<<24) / (1<<24);
-			}
-
-			if(S_OK != (hr = Deliver(pBuff, m_vorbis.vi.rate, scmap.nChannels, scmap.dwChannelMask))) {
-				break;
-			}
-
-			vorbis_synthesis_read(&m_vorbis.vd, samples);
-		}
-	}
-
-	m_buff.RemoveAll();
-
-	return hr;
-}
-#endif /* INTERNAL_DECODER_VORBIS */
-
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 HRESULT CMpaDecFilter::ProcessFlac()
 {
@@ -1929,13 +1860,6 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 		}
 	}
 #endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-	else if(mtIn->subtype == MEDIASUBTYPE_Vorbis2) {
-		if(!m_vorbis.init(*mtIn)) {
-			return VFW_E_TYPE_NOT_ACCEPTED;
-		}
-	}
-#endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	else if(mtIn->subtype == MEDIASUBTYPE_FLAC_FRAMED) {
 		return S_OK;
@@ -2026,8 +1950,9 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	else if(subtype == MEDIASUBTYPE_Vorbis2) {
-		const scmap_t& scmap = s_scmap_vorbis[m_vorbis.vi.channels-1];
-		*pmt = CreateMediaType(GetSampleFormat(), m_vorbis.vi.rate, m_vorbis.vi.channels, scmap.dwChannelMask);
+		VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)mt.Format();
+		scmap_t* scmap = &m_scmap_default[vf2->Channels-1];
+		*pmt = CreateMediaType(GetSampleFormat(), vf2->SamplesPerSec, vf2->Channels, scmap->dwChannelMask);
 	}
 #endif
 	else {
@@ -2077,7 +2002,7 @@ HRESULT CMpaDecFilter::StopStreaming()
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	flac_stream_finish();
 #endif
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
 	ffmpeg_stream_finish();
 #endif
 
@@ -2238,99 +2163,6 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
 {
 }
 
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-//
-// vorbis_state_t
-//
-
-vorbis_state_t::vorbis_state_t()
-{
-	memset(&vd, 0, sizeof(vd));
-	memset(&vb, 0, sizeof(vb));
-	memset(&vc, 0, sizeof(vc));
-	memset(&vi, 0, sizeof(vi));
-}
-
-vorbis_state_t::~vorbis_state_t()
-{
-	clear();
-}
-
-void vorbis_state_t::clear()
-{
-	vorbis_block_clear(&vb);
-	vorbis_dsp_clear(&vd);
-	vorbis_comment_clear(&vc);
-	vorbis_info_clear(&vi);
-}
-
-bool vorbis_state_t::init(const CMediaType& mt)
-{
-	if(mt.subtype != MEDIASUBTYPE_Vorbis2) {
-		return true;    // nothing to do
-	}
-
-	clear();
-
-	vorbis_info_init(&vi);
-	vorbis_comment_init(&vc);
-
-	VORBISFORMAT2* vf = (VORBISFORMAT2*)mt.Format();
-	BYTE* fmt = mt.Format();
-
-	packetno = 0;
-
-	memset(&op, 0, sizeof(op));
-	op.packet = (fmt += sizeof(*vf));
-	op.bytes = vf->HeaderSize[0];
-	op.b_o_s = 1;
-	op.packetno = packetno++;
-
-	if(vorbis_synthesis_headerin(&vi, &vc, &op) < 0) {
-		return false;
-	}
-
-	memset(&op, 0, sizeof(op));
-	op.packet = (fmt += vf->HeaderSize[0]);
-	op.bytes = vf->HeaderSize[1];
-	op.b_o_s = 0;
-	op.packetno = packetno++;
-
-	if(vorbis_synthesis_headerin(&vi, &vc, &op) < 0) {
-		return false;
-	}
-
-	memset(&op, 0, sizeof(op));
-	op.packet = (fmt += vf->HeaderSize[1]);
-	op.bytes = vf->HeaderSize[2];
-	op.b_o_s = 0;
-	op.packetno = packetno++;
-
-	if(vorbis_synthesis_headerin(&vi, &vc, &op) < 0) {
-		return false;
-	}
-
-	postgain = 1.0;
-
-	if(vorbis_comment_query_count(&vc, "LWING_GAIN")) {
-		postgain = atof(vorbis_comment_query(&vc, "LWING_GAIN", 0));
-	}
-
-	if(vorbis_comment_query_count(&vc, "POSTGAIN")) {
-		postgain = atof(vorbis_comment_query(&vc, "POSTGAIN", 0));
-	}
-
-	if(vorbis_comment_query_count(&vc, "REPLAYGAIN_TRACK_GAIN")) {
-		postgain = pow(10.0, atof(vorbis_comment_query(&vc, "REPLAYGAIN_TRACK_GAIN", 0)) / 20.0);
-	}
-
-	vorbis_synthesis_init(&vd, &vi);
-	vorbis_block_init(&vd, &vb);
-
-	return true;
-}
-#endif /* INTERNAL_DECODER_VORBIS */
-
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 
 #pragma region Flac callback
@@ -2445,7 +2277,7 @@ void CMpaDecFilter::flac_stream_finish()
 
 #endif /* INTERNAL_DECODER_FLAC */
 
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC)
+#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
 
 #pragma region FFmpeg decoder
 
@@ -2608,7 +2440,6 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 
 bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 {
-	WAVEFORMATEX*	wfein	= (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
 	bool			bRet	= false;
 
 	avcodec_register_all();
@@ -2617,40 +2448,56 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 	if (m_pAVCodec) {
 		ffmpeg_stream_finish();
 	}
-
-	if(nCodecId == CODEC_ID_MP1) {
-		m_pAVCodec = avcodec_find_decoder_by_name("mp1float");
-	} else if(nCodecId == CODEC_ID_MP2) {
-		m_pAVCodec = avcodec_find_decoder_by_name("mp2float");
-	} else if(nCodecId == CODEC_ID_MP3) {
-		m_pAVCodec = avcodec_find_decoder_by_name("mp3float");
-	} else {
-		m_pAVCodec = avcodec_find_decoder((CodecID)nCodecId);
+	switch (nCodecId) {
+		case CODEC_ID_MP1 :
+			m_pAVCodec = avcodec_find_decoder_by_name("mp1float");
+		case CODEC_ID_MP2 :
+			m_pAVCodec = avcodec_find_decoder_by_name("mp2float");
+		case CODEC_ID_MP3 :
+			m_pAVCodec = avcodec_find_decoder_by_name("mp3float");
+		default :
+			m_pAVCodec = avcodec_find_decoder((CodecID)nCodecId);
 	}
+	
 	if (m_pAVCodec) {
+		DWORD nSamples, nBytesPerSec;
+		WORD nChannels, nBitsPerSample, nBlockAlign;
+		audioFormatTypeHandler((BYTE *)m_pInput->CurrentMediaType().Format(), m_pInput->CurrentMediaType().FormatType(), &nSamples, &nChannels, &nBitsPerSample, &nBlockAlign, &nBytesPerSec);
+
 		if (nCodecId==CODEC_ID_AMR_NB || nCodecId== CODEC_ID_AMR_WB) {
-			wfein->nChannels = 1;
-			wfein->nSamplesPerSec = 8000;
+			nChannels	= 1;
+			nSamples	= 8000;
 		}
 
 		m_pAVCtx						= avcodec_alloc_context3(m_pAVCodec);
-		m_pAVCtx->sample_rate			= wfein->nSamplesPerSec;
-		m_pAVCtx->channels				= wfein->nChannels;
-		m_pAVCtx->bit_rate				= wfein->nAvgBytesPerSec*8;
-		m_pAVCtx->bits_per_coded_sample	= wfein->wBitsPerSample;
-		m_pAVCtx->block_align			= wfein->nBlockAlign;
+		CheckPointer(m_pAVCtx, false);
+
+		m_pAVCtx->sample_rate           = nSamples;
+		m_pAVCtx->channels              = nChannels;
+		m_pAVCtx->bit_rate              = nBytesPerSec << 3;
+		m_pAVCtx->bits_per_coded_sample = nBitsPerSample;
+		m_pAVCtx->block_align           = nBlockAlign;
+		
+		m_pAVCtx->err_recognition       = AV_EF_CAREFUL;
+		m_pAVCtx->codec_id				= (CodecID)nCodecId;		
 		if (m_pAVCodec->capabilities & CODEC_CAP_TRUNCATED) {
 			m_pAVCtx->flags				|= CODEC_FLAG_TRUNCATED;
 		}
-
-		m_pAVCtx->codec_id		= (CodecID)nCodecId;
 		
 		// have issue when use parser on TrueHD ... try to fix later
 		if(nCodecId != CODEC_ID_TRUEHD && nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
 			m_pParser = av_parser_init(nCodecId);
 		}
 
-		AllocExtradata (m_pAVCtx, &m_pInput->CurrentMediaType());
+		const void *format = m_pInput->CurrentMediaType().Format();
+		GUID format_type = m_pInput->CurrentMediaType().formattype;
+		DWORD formatlen = m_pInput->CurrentMediaType().cbFormat;
+		unsigned extralen = 0;
+		getExtraData((BYTE *)format, &format_type, formatlen, NULL, &extralen);
+		
+		m_pAVCtx->extradata_size      	= extralen;
+		m_pAVCtx->extradata           	= (const unsigned char*)calloc(1, m_pAVCtx->extradata_size + FF_INPUT_BUFFER_PADDING_SIZE);
+		getExtraData((BYTE *)format, &format_type, formatlen, (BYTE *)m_pAVCtx->extradata, NULL);
 
 		if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)>=0) {
 			m_pFrame	= avcodec_alloc_frame();
@@ -2695,23 +2542,6 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 
 	if (m_pFrame)	{
 		av_freep(&m_pFrame);
-	}
-}
-
-void CMpaDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt)
-{
-	const BYTE*		data = NULL;
-	unsigned int	size = 0;
-
-	if (pmt->formattype == FORMAT_WaveFormatEx) {
-		size = pmt->cbFormat-sizeof(WAVEFORMATEX);
-		data = size?pmt->pbFormat+sizeof(WAVEFORMATEX):NULL;
-	}
-
-	if (size) {
-		pAVCtx->extradata_size	= size;
-		pAVCtx->extradata		= (const unsigned char*)calloc(1, size+FF_INPUT_BUFFER_PADDING_SIZE);
-		memcpy((void*)pAVCtx->extradata, data, size);
 	}
 }
 

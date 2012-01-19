@@ -56,8 +56,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libflac", "src\thirdparty\l
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "src\Subtitles\libssf\libssf.vcxproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvorbisidec", "src\thirdparty\libvorbisidec\libvorbisidec.vcxproj", "{A7134255-DFF3-42F7-9BC2-FAC6E71CFFAE}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatroskaMuxer", "src\filters\muxer\MatroskaMuxer\MatroskaMuxer.vcxproj", "{67827491-8162-4039-9132-F934ABC836A0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatroskaSplitter", "src\filters\parser\MatroskaSplitter\MatroskaSplitter.vcxproj", "{3F5EA225-F4B7-4413-AEB3-4E4E5751E438}"
