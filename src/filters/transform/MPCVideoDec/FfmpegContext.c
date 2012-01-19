@@ -39,7 +39,9 @@
 #include "vc1.h"
 #include "mpeg12.h"
 
-void *__imp_toupper = toupper;
+#if defined(REGISTER_FILTER) && _WIN64
+	void *__imp_toupper = toupper;
+#endif
 
 int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rtStartTime, uint8_t *buf, int buf_size);
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size, int *nFrameSize);

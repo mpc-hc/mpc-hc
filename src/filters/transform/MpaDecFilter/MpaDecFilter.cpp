@@ -119,8 +119,11 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 
 #ifdef REGISTER_FILTER
 
-#if (_DEBUG | _WIN64)
-	extern "C" int mingw_app_type = 1;	/* 0:console, 1:windows.  */
+#ifdef _WIN64
+	#ifdef _DEBUG
+		extern "C" int mingw_app_type = 1;	/* 0:console, 1:windows.  */
+	#endif
+	void *__imp_toupper = toupper;
 #endif
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
