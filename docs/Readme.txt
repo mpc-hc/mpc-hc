@@ -64,7 +64,6 @@ libdca              GPLv2                      http://www.videolan.org/developer
 libflac             GPLv2 / New BSD License    http://flac.sourceforge.net/
 libogg              New BSD License            http://www.xiph.org/
 libpng              libpng License             http://libpng.sourceforge.net/
-libvorbis           New BSD License            http://www.xiph.org/
 Little CMS          MIT License                http://www.littlecms.com/
 Logitech SDK        -                          -
 MediaInfoLib        LGPLv3                     http://mediainfo.sourceforge.net/
