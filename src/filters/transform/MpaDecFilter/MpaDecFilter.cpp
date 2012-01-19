@@ -2026,7 +2026,8 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	else if(subtype == MEDIASUBTYPE_Vorbis2) {
-		*pmt = CreateMediaType(GetSampleFormat(), m_vorbis.vi.rate, m_vorbis.vi.channels);
+		const scmap_t& scmap = s_scmap_vorbis[m_vorbis.vi.channels-1];
+		*pmt = CreateMediaType(GetSampleFormat(), m_vorbis.vi.rate, m_vorbis.vi.channels, scmap.dwChannelMask);
 	}
 #endif
 	else {
