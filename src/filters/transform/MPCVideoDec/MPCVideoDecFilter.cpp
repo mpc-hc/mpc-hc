@@ -838,6 +838,10 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				case CODEC_ID_VP8  :
 					bCodecActivated = (m_nActiveCodecs & MPCVD_VP8) != 0;
 					break;
+				case CODEC_ID_MJPEG  :
+				case CODEC_ID_MJPEGB :
+					bCodecActivated = 1;
+					break;
 			}
 			return (bCodecActivated ? i : -1);
 #endif
