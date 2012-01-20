@@ -113,8 +113,8 @@ DXVA_PARAMS		DXVA_VC1 = {
 FFMPEG_CODECS		ffCodecs[] = {
 #if HAS_FFMPEG_VIDEO_DECODERS
 	// Flash video
-	{ &MEDIASUBTYPE_flv1, CODEC_ID_FLV1, NULL },
 	{ &MEDIASUBTYPE_FLV1, CODEC_ID_FLV1, NULL },
+	{ &MEDIASUBTYPE_flv1, CODEC_ID_FLV1, NULL },
 	{ &MEDIASUBTYPE_FLV4, CODEC_ID_VP6F, NULL },
 	{ &MEDIASUBTYPE_flv4, CODEC_ID_VP6F, NULL },
 	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, NULL },
@@ -159,6 +159,7 @@ FFMPEG_CODECS		ffCodecs[] = {
 
 	// MPEG-2
 	{ &MEDIASUBTYPE_MPEG2_VIDEO, CODEC_ID_MPEG2VIDEO, &DXVA_Mpeg2 },
+	{ &MEDIASUBTYPE_MPG2, CODEC_ID_MPEG2VIDEO, &DXVA_Mpeg2 },
 
 	// MSMPEG-4
 	{ &MEDIASUBTYPE_DIV3, CODEC_ID_MSMPEG4V3, NULL },
@@ -343,6 +344,7 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] = {
 
 	// MPEG-2
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPEG2_VIDEO },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPG2 },
 
 	// MSMPEG-4
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV3   },
@@ -1063,6 +1065,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			}
 			m_nWidth	= m_pAVCtx->width;
 			m_nHeight	= m_pAVCtx->height;
+
+			if(m_pAVCtx->codec_tag == MAKEFOURCC('m','p','g','2')) {
+				m_pAVCtx->codec_tag = MAKEFOURCC('M','P','E','G');
+			}
 
 			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->inter_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
