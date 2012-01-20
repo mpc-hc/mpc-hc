@@ -199,6 +199,9 @@ FFMPEG_CODECS		ffCodecs[] = {
   { &MEDIASUBTYPE_QTJpeg, CODEC_ID_MJPEG,  MAKEFOURCC('j','p','e','g'), NULL },
   { &MEDIASUBTYPE_MJPA,   CODEC_ID_MJPEG,  MAKEFOURCC('m','j','p','a'), NULL },
   { &MEDIASUBTYPE_MJPB,   CODEC_ID_MJPEGB,  MAKEFOURCC('m','j','p','b'), NULL },
+	
+	// TSCC
+  { &MEDIASUBTYPE_TSCC,   CODEC_ID_TSCC,  MAKEFOURCC('t','s','c','c'), NULL },
 
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
@@ -380,6 +383,9 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] = {
   { &MEDIATYPE_Video, &MEDIASUBTYPE_QTJpeg },
   { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPA   },
   { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPB   },
+
+  // TSCC
+  { &MEDIATYPE_Video, &MEDIASUBTYPE_TSCC   },
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	// H264/AVC
@@ -840,6 +846,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 					break;
 				case CODEC_ID_MJPEG  :
 				case CODEC_ID_MJPEGB :
+				case CODEC_ID_TSCC :
 					bCodecActivated = 1;
 					break;
 			}
@@ -1024,25 +1031,29 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_h264RandomAccess.flush(m_pAVCtx->thread_count);
 
 			if(pmt->formattype == FORMAT_VideoInfo) {
-				VIDEOINFOHEADER*	vih = (VIDEOINFOHEADER*)pmt->pbFormat;
-				m_pAVCtx->width		= vih->bmiHeader.biWidth;
-				m_pAVCtx->height	= abs(vih->bmiHeader.biHeight);
-				m_pAVCtx->codec_tag	= vih->bmiHeader.biCompression;
+				VIDEOINFOHEADER*	vih			= (VIDEOINFOHEADER*)pmt->pbFormat;
+				m_pAVCtx->width					= vih->bmiHeader.biWidth;
+				m_pAVCtx->height				= abs(vih->bmiHeader.biHeight);
+				m_pAVCtx->codec_tag				= vih->bmiHeader.biCompression;
+				m_pAVCtx->bits_per_coded_sample = vih->bmiHeader.biBitCount;
 			} else if(pmt->formattype == FORMAT_VideoInfo2) {
-				VIDEOINFOHEADER2*	vih2 = (VIDEOINFOHEADER2*)pmt->pbFormat;
-				m_pAVCtx->width		= vih2->bmiHeader.biWidth;
-				m_pAVCtx->height	= abs(vih2->bmiHeader.biHeight);
-				m_pAVCtx->codec_tag	= vih2->bmiHeader.biCompression;
+				VIDEOINFOHEADER2*	vih2		= (VIDEOINFOHEADER2*)pmt->pbFormat;
+				m_pAVCtx->width					= vih2->bmiHeader.biWidth;
+				m_pAVCtx->height				= abs(vih2->bmiHeader.biHeight);
+				m_pAVCtx->codec_tag				= vih2->bmiHeader.biCompression;
+				m_pAVCtx->bits_per_coded_sample = vih2->bmiHeader.biBitCount;
 			} else if(pmt->formattype == FORMAT_MPEGVideo) {
-				MPEG1VIDEOINFO*		mpgv = (MPEG1VIDEOINFO*)pmt->pbFormat;
-				m_pAVCtx->width		= mpgv->hdr.bmiHeader.biWidth;
-				m_pAVCtx->height	= abs(mpgv->hdr.bmiHeader.biHeight);
-				m_pAVCtx->codec_tag	= mpgv->hdr.bmiHeader.biCompression;
+				MPEG1VIDEOINFO*		mpgv		= (MPEG1VIDEOINFO*)pmt->pbFormat;
+				m_pAVCtx->width					= mpgv->hdr.bmiHeader.biWidth;
+				m_pAVCtx->height				= abs(mpgv->hdr.bmiHeader.biHeight);
+				m_pAVCtx->codec_tag				= mpgv->hdr.bmiHeader.biCompression;
+				m_pAVCtx->bits_per_coded_sample = mpgv->hdr.bmiHeader.biBitCount;
 			} else if(pmt->formattype == FORMAT_MPEG2Video) {
-				MPEG2VIDEOINFO*		mpg2v = (MPEG2VIDEOINFO*)pmt->pbFormat;
-				m_pAVCtx->width		= mpg2v->hdr.bmiHeader.biWidth;
-				m_pAVCtx->height	= abs(mpg2v->hdr.bmiHeader.biHeight);
-				m_pAVCtx->codec_tag	= mpg2v->hdr.bmiHeader.biCompression;
+				MPEG2VIDEOINFO*		mpg2v		= (MPEG2VIDEOINFO*)pmt->pbFormat;
+				m_pAVCtx->width					= mpg2v->hdr.bmiHeader.biWidth;
+				m_pAVCtx->height				= abs(mpg2v->hdr.bmiHeader.biHeight);
+				m_pAVCtx->codec_tag				= mpg2v->hdr.bmiHeader.biCompression;
+				m_pAVCtx->bits_per_coded_sample = mpg2v->hdr.bmiHeader.biBitCount;
 
 				if (mpg2v->hdr.bmiHeader.biCompression == NULL) {
 					m_pAVCtx->codec_tag = pmt->subtype.Data1;
@@ -1057,6 +1068,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->inter_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->codec_tag				= ffCodecs[nNewCodec].fourcc;
+			m_pAVCtx->codec_id              = (CodecID)m_nCodecId;
 			m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;
 			m_pAVCtx->error_concealment		= m_nErrorConcealment;
 			m_pAVCtx->error_recognition		= m_nErrorRecognition;

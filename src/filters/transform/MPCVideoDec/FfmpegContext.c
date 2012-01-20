@@ -554,8 +554,8 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	}
 
 	pPicParams->bSecondField			= (vc1->interlace && vc1->fcm == ILACE_FIELD && vc1->second_field);
-	pPicParams->bPicIntra				= (vc1->s.pict_type == AV_PICTURE_TYPE_I);
-	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == AV_PICTURE_TYPE_B);
+	pPicParams->bPicIntra				= (vc1->s.pict_type == AV_PICTURE_TYPE_I || vc1->bi_type == 1);
+	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == AV_PICTURE_TYPE_B && vc1->bi_type == 0);
 
 	// Init    Init    Init    Todo
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
@@ -583,10 +583,10 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 
 	//				TODO section 3.2.20.6
 	//pPicParams->bPicStructure		= *nFieldType;
-	pPicParams->bPicStructure      = vc1->s.picture_structure;
+	pPicParams->bPicStructure		= vc1->s.picture_structure;
 
 	// Cf page 17 : 2 for interlaced, 0 for progressive
-	pPicParams->bPicExtrapolation       = (!vc1->interlace || vc1->fcm == PROGRESSIVE) ? 1 : 2;
+	pPicParams->bPicExtrapolation	= (!vc1->interlace || vc1->fcm == PROGRESSIVE) ? 1 : 2;
 
 	if (vc1->s.picture_structure == PICT_FRAME) {
 		pPicParams->wBitstreamFcodes        = vc1->lumscale;
@@ -611,8 +611,10 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	// Cf §7.1.1.25 in VC1 specification, §3.2.14.3 in DXVA spec
 	pPicParams->bRcontrol	= vc1->rnd;
 
-    pPicParams->bPicDeblocked	=	((vc1->profile != PROFILE_ADVANCED && vc1->rangeredfrm) << 5) |
-									(vc1->s.loop_filter << 1);
+	pPicParams->bPicDeblocked	= ((vc1->profile == PROFILE_ADVANCED && vc1->overlap == 1 &&     
+								  pPicParams->bPicBackwardPrediction == 0)					<< 6) |
+								  ((vc1->profile != PROFILE_ADVANCED && vc1->rangeredfrm)	<< 5) | 
+								  (vc1->s.loop_filter										<< 1);
 
 	return S_OK;
 }

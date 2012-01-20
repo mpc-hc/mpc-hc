@@ -166,6 +166,8 @@ SRCS_C=\
     libavcodec/mpegvideo.c \
     libavcodec/msmpeg4.c \
     libavcodec/msmpeg4data.c \
+    libavcodec/msrle.c \
+    libavcodec/msrledec.c \
     libavcodec/nellymoser.c \
     libavcodec/nellymoserdec.c \
     libavcodec/options.c \
@@ -184,6 +186,7 @@ SRCS_C=\
     libavcodec/sp5xdec.c \
     libavcodec/svq1.c \
     libavcodec/svq1dec.c \
+    libavcodec/tscc.c \
     libavcodec/svq3.c \
     libavcodec/utils.c \
     libavcodec/vc1.c \

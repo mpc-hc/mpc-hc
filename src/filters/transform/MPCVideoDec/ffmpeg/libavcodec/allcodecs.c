@@ -101,7 +101,7 @@ void avcodec_register_all(void)
     REGISTER_DECODER (THEORA, theora);
     //REGISTER_DECODER (TRUEMOTION1, truemotion1);
     //REGISTER_DECODER (TRUEMOTION2, truemotion2);
-    //REGISTER_DECODER (TSCC, tscc);
+    REGISTER_DECODER (TSCC, tscc);
     //REGISTER_DECODER (ULTI, ulti);
     REGISTER_DECODER (VC1, vc1);
     //REGISTER_DECODER (VC1IMAGE, vc1image);

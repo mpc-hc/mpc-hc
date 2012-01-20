@@ -215,7 +215,6 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 	m_PictureParams.bRcontrol						= 0;
 	m_PictureParams.bPicExtrapolation				= 0;
 
-	m_PictureParams.bPicDeblocked					= 2;	// TODO ???
 	m_PictureParams.bPicOBMC						= 0;
 	m_PictureParams.bPicBinPB						= 0;	// TODO
 	m_PictureParams.bMV_RPS							= 0;	// TODO
