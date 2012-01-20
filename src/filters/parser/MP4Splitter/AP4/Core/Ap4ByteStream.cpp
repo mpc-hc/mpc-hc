@@ -145,6 +145,28 @@ AP4_ByteStream::ReadUI64(AP4_UI64& value)
 }
 
 /*----------------------------------------------------------------------
+|   AP4_ByteStream::ReadDouble
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_ByteStream::ReadDouble(double& value)
+{
+    unsigned char buffer[8];
+
+    // read bytes from the stream
+    AP4_Result result;
+    result = Read((void*)buffer, 8);
+    if (AP4_FAILED(result)) {
+        value = 0;
+        return result;
+    }
+
+    // convert bytes to value
+    value = AP4_BytesToDoubleBE(buffer);
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
 |       AP4_ByteStream::ReadUI32
 +---------------------------------------------------------------------*/
 AP4_Result

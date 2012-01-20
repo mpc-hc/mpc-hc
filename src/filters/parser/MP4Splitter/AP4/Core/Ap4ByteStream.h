@@ -46,6 +46,7 @@ class AP4_ByteStream : public AP4_Referenceable
     virtual AP4_Result Read(void*     buffer, 
                             AP4_Size  bytes_to_read, 
                             AP4_Size* bytes_read = 0) = 0;
+    virtual AP4_Result ReadDouble(double& value);
     virtual AP4_Result ReadUI64(AP4_UI64& value);
     virtual AP4_Result ReadUI32(AP4_UI32& value);
     virtual AP4_Result ReadUI24(AP4_UI32& value);

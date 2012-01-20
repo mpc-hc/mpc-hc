@@ -260,6 +260,8 @@ const AP4_Atom::Type AP4_ATOM_TYPE_IN24 = AP4_ATOM_TYPE('i','n','2','4');
 const AP4_Atom::Type AP4_ATOM_TYPE_IN32 = AP4_ATOM_TYPE('i','n','3','2');
 const AP4_Atom::Type AP4_ATOM_TYPE_FL32 = AP4_ATOM_TYPE('f','l','3','2');
 const AP4_Atom::Type AP4_ATOM_TYPE_FL64 = AP4_ATOM_TYPE('f','l','6','4');
+//LPCM
+const AP4_Atom::Type AP4_ATOM_TYPE_LPCM = AP4_ATOM_TYPE('l','p','c','m');
 //
 const AP4_Atom::Type AP4_ATOM_TYPE_CHPL = AP4_ATOM_TYPE('c','h','p','l');
 const AP4_Atom::Type AP4_ATOM_TYPE_NAM  = AP4_ATOM_TYPE(169,'n','a','m');

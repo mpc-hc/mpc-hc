@@ -308,12 +308,29 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type    format,
                                            AP4_UI16          sample_size,
                                            AP4_UI16          channel_count) :
     AP4_MpegSampleEntry(format, descriptor),
-	m_DescriptionVersion(0),
-	m_RevisionLevel(0),
-	m_Vendor(0),
-    m_SampleRate(sample_rate),
+    m_QtVersion(0),
+    m_QtRevision(0),
+    m_QtVendor(0),
     m_ChannelCount(channel_count),
-    m_SampleSize(sample_size)
+    m_SampleSize(sample_size),
+    m_QtCompressionId(0),
+    m_QtPacketSize(0),
+    m_SampleRate(sample_rate),
+    m_QtV1SamplesPerPacket(0),
+    m_QtV1BytesPerPacket(0),
+    m_QtV1BytesPerFrame(0),
+    m_QtV1BytesPerSample(0),
+    m_QtV2StructSize(0),
+    m_QtV2SampleRate64(0.0),
+    m_QtV2ChannelCount(0),
+    m_QtV2Reserved(0),
+    m_QtV2BitsPerChannel(0),
+    m_QtV2FormatSpecificFlags(0),
+    m_QtV2BytesPerAudioPacket(0),
+    m_QtV2LPCMFramesPerAudioPacket(0),
+// mpc-hc custom code start
+	m_Endian(ENDIAN_NOTSET)
+// mpc-hc custom code end
 {
     m_Size += 20;
 }
@@ -330,17 +347,9 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
     // read fields
     ReadFields(stream);
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////
-	//hack to support the formats using more than 16 bits per sample
-	//in the future will have to be moved to MP4Splitter.cpp
-	if(m_DescriptionVersion == 1 && m_SampleSize == 16){
-		//QuickTime File Format Specification->Sound Sample Description (Version 1)->Bytes per packet
-		m_SampleSize = m_BytesPerPacket * 8;
-	}
-	//
 	//hack to get the correct WAVEFORMATEX in MP4Splitter.cpp
 	//need more information about audio formats used in older movs (QuickTime 2.x).
-	if(m_DescriptionVersion == 0)
+	if(m_QtVersion == 0)
 	{
 		switch( format )
 		{
@@ -348,33 +357,33 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
 		case AP4_ATOM_TYPE_RAW:
 		case AP4_ATOM_TYPE_TWOS:
 		case AP4_ATOM_TYPE_SOWT:
-			m_SamplesPerPacket = 1;
-			m_BytesPerPacket = m_SampleSize / 8;
-			m_BytesPerFrame = m_ChannelCount * m_BytesPerPacket;
-			m_BytesPerSample = m_SampleSize/8;
+			m_QtV1SamplesPerPacket = 1;
+			m_QtV1BytesPerPacket = m_SampleSize / 8;
+			m_QtV1BytesPerFrame = m_ChannelCount * m_QtV1BytesPerPacket;
+			m_QtV1BytesPerSample = m_SampleSize/8;
 			break;
 		case AP4_ATOM_TYPE_IMA4:
-			m_SamplesPerPacket = 64;
-			m_BytesPerPacket = 34;
-			m_BytesPerFrame = m_ChannelCount * m_BytesPerPacket;
-			m_BytesPerSample = m_SampleSize/8;
+			m_QtV1SamplesPerPacket = 64;
+			m_QtV1BytesPerPacket = 34;
+			m_QtV1BytesPerFrame = m_ChannelCount * m_QtV1BytesPerPacket;
+			m_QtV1BytesPerSample = m_SampleSize/8;
 			break;
 		}
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// must be called after m_DescriptionVersion was already set
+	// must be called after m_QtVersion was already set
     AP4_Size fields_size = GetFieldsSize();
 
     // read children atoms (ex: esds and maybe others)
     ReadChildren(atom_factory, stream, size-AP4_ATOM_HEADER_SIZE-fields_size);
 
 	// read AP4_ATOM_TYPE_ENDA
-	m_LittleEndian = 0xffff;
+	m_Endian = ENDIAN_NOTSET;
 	if(AP4_Atom* child = GetChild(AP4_ATOM_TYPE_WAVE))
 		if(AP4_ContainerAtom* wave = dynamic_cast<AP4_ContainerAtom*>(child))
 			if (AP4_EndaAtom* endian = dynamic_cast<AP4_EndaAtom*>(wave->GetChild(AP4_ATOM_TYPE_ENDA)))
-				m_LittleEndian = endian->IsLittleEndian();
+				m_Endian = endian->ReadEndian();
 }
 
 /*----------------------------------------------------------------------
@@ -385,18 +394,51 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
     AP4_MpegSampleEntry(format, size)
 {
 }
-    
+
 /*----------------------------------------------------------------------
-|       AP4_AudioSampleEntry::GetFieldsSize
+|   AP4_AudioSampleEntry::GetFieldsSize
 +---------------------------------------------------------------------*/
 AP4_Size
 AP4_AudioSampleEntry::GetFieldsSize()
 {
-	return AP4_SampleEntry::GetFieldsSize() + 20 + (m_DescriptionVersion == 1 ? 16 : 0);
+    AP4_Size size = AP4_SampleEntry::GetFieldsSize()+20;
+    if (m_QtVersion == 1) {
+        size += 16;
+    } else if (m_QtVersion == 2) {
+        size += 36+m_QtV2Extension.GetDataSize();
+    }
+    
+    return size;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_AudioSampleEntry::ReadFields
+|   AP4_AudioSampleEntry::GetSampleRate
++---------------------------------------------------------------------*/
+AP4_UI32
+AP4_AudioSampleEntry::GetSampleRate()
+{
+    if (m_QtVersion == 2) {
+        return (AP4_UI32)(m_QtV2SampleRate64);
+    } else {
+        return m_SampleRate>>16;
+    }
+}
+
+/*----------------------------------------------------------------------
+|   AP4_AudioSampleEntry::GetChannelCount
++---------------------------------------------------------------------*/
+AP4_UI16
+AP4_AudioSampleEntry::GetChannelCount()
+{
+    if (m_QtVersion == 2) {
+        return m_QtV2ChannelCount;
+    } else {
+        return m_ChannelCount;
+    }
+}  
+
+/*----------------------------------------------------------------------
+|   AP4_AudioSampleEntry::ReadFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_AudioSampleEntry::ReadFields(AP4_ByteStream& stream)
@@ -406,68 +448,54 @@ AP4_AudioSampleEntry::ReadFields(AP4_ByteStream& stream)
     if (result < 0) return result;
 
     // read the fields of this class
-	stream.ReadUI16(m_DescriptionVersion);
-	stream.ReadUI16(m_RevisionLevel);
-	stream.ReadUI32(m_Vendor);
+    stream.ReadUI16(m_QtVersion);
+    stream.ReadUI16(m_QtRevision);
+    stream.ReadUI32(m_QtVendor);
+    stream.ReadUI16(m_ChannelCount);
+    stream.ReadUI16(m_SampleSize);
+    stream.ReadUI16(m_QtCompressionId);
+    stream.ReadUI16(m_QtPacketSize);
+    stream.ReadUI32(m_SampleRate);
 
-	m_SamplesPerPacket = 0;
-    m_BytesPerPacket = 0;
-	m_BytesPerSample = 0;
-	m_BytesPerFrame = 0;
-
-	if(m_DescriptionVersion == 0 || m_DescriptionVersion == 1)
-	{
-		stream.ReadUI16(m_ChannelCount);
-	    stream.ReadUI16(m_SampleSize);
-		stream.ReadUI16(m_CompressionID);
-	    stream.ReadUI16(m_PacketSize);
-	    stream.ReadUI32(m_SampleRate);
-
-		if(m_DescriptionVersion == 1)
-		{
-			stream.ReadUI32(m_SamplesPerPacket); 
-			stream.ReadUI32(m_BytesPerPacket);
-			stream.ReadUI32(m_BytesPerFrame); 
-			stream.ReadUI32(m_BytesPerSample); 
-		}
-	}
-	else if(m_DescriptionVersion == 2)
-	{
-		char junk[16];
-
-		stream.Read(junk, 12); // always 00 03 00 10 FF FE 00 00 00 01 00 00
-		
-		AP4_UI32 SizeOfStructOnly;
-		stream.ReadUI32(SizeOfStructOnly);
-		if(SizeOfStructOnly < 0x48) return AP4_FAILURE;
-
-		m_SampleSize = 0;
-
-		AP4_UI64 SampleRate;
-		stream.ReadUI64(SampleRate);
-		m_SampleRate = (AP4_UI32)(*(double*)&SampleRate * 65536);
-
-		AP4_UI32 ChannelCount;
-		stream.ReadUI32(ChannelCount);
-		m_ChannelCount = (AP4_UI16)ChannelCount;
-
-		stream.Read(junk, 4); // always 7f 00 00 00
-		stream.Read(junk, 16); // constBitsPerChannel, formatSpecificFlags, constBytesPerAudioPacket, constLPCMFramesPerAudioPacket
-
-		SizeOfStructOnly -= 0x48;
-
-		if(SizeOfStructOnly > 0)
-		{
-			AP4_Offset offset;
-			stream.Tell(offset);
-			stream.Seek(offset + SizeOfStructOnly);
-		}
-	}
-	else
-	{
-		return AP4_FAILURE;
-	}
-
+    // if this is a QT V1 entry, read the extension
+    if (m_QtVersion == 1) {
+        stream.ReadUI32(m_QtV1SamplesPerPacket);
+        stream.ReadUI32(m_QtV1BytesPerPacket);
+        stream.ReadUI32(m_QtV1BytesPerFrame);
+        stream.ReadUI32(m_QtV1BytesPerSample);
+    } else if (m_QtVersion == 2) {
+        stream.ReadUI32(m_QtV2StructSize);
+        stream.ReadDouble(m_QtV2SampleRate64);
+        stream.ReadUI32(m_QtV2ChannelCount);
+        stream.ReadUI32(m_QtV2Reserved);
+        stream.ReadUI32(m_QtV2BitsPerChannel);
+        stream.ReadUI32(m_QtV2FormatSpecificFlags);
+        stream.ReadUI32(m_QtV2BytesPerAudioPacket);
+        stream.ReadUI32(m_QtV2LPCMFramesPerAudioPacket);
+        if (m_QtV2StructSize > 72) {
+            unsigned int ext_size = m_QtV2StructSize-72;
+            m_QtV2Extension.SetDataSize(ext_size);
+            stream.Read(m_QtV2Extension.UseData(), ext_size);
+        }
+        m_QtV1SamplesPerPacket =
+        m_QtV1BytesPerPacket   =
+        m_QtV1BytesPerFrame    =
+        m_QtV1BytesPerSample   = 0;
+    } else {
+        m_QtV1SamplesPerPacket         = 0;
+        m_QtV1BytesPerPacket           = 0;
+        m_QtV1BytesPerFrame            = 0;
+        m_QtV1BytesPerSample           = 0;
+        m_QtV2StructSize               = 0;
+        m_QtV2SampleRate64             = 0.0;
+        m_QtV2ChannelCount             = 0;
+        m_QtV2Reserved                 = 0;
+        m_QtV2BitsPerChannel           = 0;
+        m_QtV2FormatSpecificFlags      = 0;
+        m_QtV2BytesPerAudioPacket      = 0;
+        m_QtV2LPCMFramesPerAudioPacket = 0;
+    }
+    
     return AP4_SUCCESS;
 }
 
@@ -483,11 +511,11 @@ AP4_AudioSampleEntry::WriteFields(AP4_ByteStream& stream)
     result = AP4_SampleEntry::WriteFields(stream);
 
     // 
-    result = stream.WriteUI16(m_DescriptionVersion);
+    result = stream.WriteUI16(m_QtVersion);
     if (AP4_FAILED(result)) return result;
-    result = stream.WriteUI16(m_RevisionLevel);
+    result = stream.WriteUI16(m_QtRevision);
     if (AP4_FAILED(result)) return result;
-    result = stream.WriteUI32(m_Vendor);
+    result = stream.WriteUI32(m_QtVendor);
     if (AP4_FAILED(result)) return result;
 
     // channel count
@@ -499,29 +527,29 @@ AP4_AudioSampleEntry::WriteFields(AP4_ByteStream& stream)
     if (AP4_FAILED(result)) return result;
 
     // predefined1
-    result = stream.WriteUI16(m_CompressionID);
+    result = stream.WriteUI16(m_QtCompressionId);
     if (AP4_FAILED(result)) return result;
 
     // reserved3
-    result = stream.WriteUI16(m_PacketSize);
+    result = stream.WriteUI16(m_QtPacketSize);
     if (AP4_FAILED(result)) return result;
 
     // sample rate
     result = stream.WriteUI32(m_SampleRate);
     if (AP4_FAILED(result)) return result;
 
-	if(m_DescriptionVersion == 1)
+	if(m_QtVersion == 1)
 	{
-		result = stream.WriteUI32(m_SamplesPerPacket);
+		result = stream.WriteUI32(m_QtV1SamplesPerPacket);
 	    if (AP4_FAILED(result)) return result;
-		result = stream.WriteUI32(m_BytesPerPacket);
+		result = stream.WriteUI32(m_QtV1BytesPerPacket);
 	    if (AP4_FAILED(result)) return result;
-		result = stream.WriteUI32(m_BytesPerFrame);
+		result = stream.WriteUI32(m_QtV1BytesPerFrame);
 	    if (AP4_FAILED(result)) return result;
-		result = stream.WriteUI32(m_BytesPerSample);
+		result = stream.WriteUI32(m_QtV1BytesPerSample);
 	    if (AP4_FAILED(result)) return result;
 	}
-	else if(m_DescriptionVersion != 0)
+	else if(m_QtVersion != 0)
 	{
 		return AP4_FAILURE;
 	}

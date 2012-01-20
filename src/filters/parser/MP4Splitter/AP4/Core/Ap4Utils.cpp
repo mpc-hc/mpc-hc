@@ -33,6 +33,19 @@
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
+|   AP4_BytesToDoubleBE
++---------------------------------------------------------------------*/
+double
+AP4_BytesToDoubleBE(const unsigned char* bytes)
+{
+    AP4_UI64 i_value = AP4_BytesToUInt64BE(bytes);
+    void*    v_value = reinterpret_cast<void*>(&i_value);
+    double*  d_value = reinterpret_cast<double*>(v_value);
+    
+    return *d_value;
+}
+
+/*----------------------------------------------------------------------
 |       AP4_BytesToUInt64BE
 +---------------------------------------------------------------------*/
 unsigned long long 

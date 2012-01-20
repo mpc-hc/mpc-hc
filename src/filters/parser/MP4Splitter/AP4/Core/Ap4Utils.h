@@ -45,6 +45,7 @@
 /*----------------------------------------------------------------------
 |       byte I/O
 +---------------------------------------------------------------------*/
+double   AP4_BytesToDoubleBE(const unsigned char* bytes);
 unsigned long long AP4_BytesToUInt64BE(const unsigned char* bytes);
 unsigned long AP4_BytesToUInt32BE(const unsigned char* bytes);
 unsigned long AP4_BytesToUInt24BE(const unsigned char* bytes);

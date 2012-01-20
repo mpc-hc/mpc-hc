@@ -102,6 +102,30 @@ CFilterApp theApp;
 
 #endif
 
+GUID GetLPCMGUID(WORD bps, DWORD flags)
+{
+	if (flags & 1) { // floating point
+		if (flags & 2) { // big endian
+			if      (bps == 32) return MEDIASUBTYPE_PCM_FL32;
+			else if (bps == 64) return MEDIASUBTYPE_PCM_FL64;
+		} else {
+			if      (bps == 32) return MEDIASUBTYPE_PCM_FL32_le;
+			else if (bps == 64) return MEDIASUBTYPE_PCM_FL64_le;
+		}
+	} else {
+		if (flags & 2) {
+			if      (bps == 16) return MEDIASUBTYPE_PCM_TWOS;
+			else if (bps == 24) return MEDIASUBTYPE_PCM_IN24;
+			else if (bps == 32) return MEDIASUBTYPE_PCM_IN32;
+		} else {
+			if      (bps == 16) return MEDIASUBTYPE_PCM_SOWT;
+			else if (bps == 24) return MEDIASUBTYPE_PCM_IN24_le;
+			else if (bps == 32) return MEDIASUBTYPE_PCM_IN32_le;
+		}
+	}
+	return FOURCCMap(MAKEFOURCC('l','p','c','m'));
+}
+
 //
 // CMP4SplitterFilter
 //
@@ -615,7 +639,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						break;
 					} else if(AP4_AudioSampleEntry* ase = dynamic_cast<AP4_AudioSampleEntry*>(atom)) {
-						if (ase->IsLittleEndian()==1) {
+						if (ase->GetEndian()==1) {
 							if (type==AP4_ATOM_TYPE_IN24 || type==AP4_ATOM_TYPE_IN32 ||
 									type==AP4_ATOM_TYPE_FL32 || type==AP4_ATOM_TYPE_FL64) {
 								fourcc = type;    //reverse fourcc
@@ -666,7 +690,6 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						}
 
 						mt.majortype = MEDIATYPE_Audio;
-						mt.subtype = FOURCCMap(fourcc);
 						mt.formattype = FORMAT_WaveFormatEx;
 						wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + (type == AP4_ATOM_TYPE_MP4A ? 0 : db.GetDataSize()));
 						memset(wfe, 0, mt.FormatLength());
@@ -678,7 +701,12 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						wfe->wBitsPerSample = ase->GetSampleSize();
 						wfe->nBlockAlign = ase->GetBytesPerFrame();
 						wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nChannels * wfe->wBitsPerSample / 8;
-						
+
+						if (type == AP4_ATOM_TYPE_LPCM) {
+							mt.subtype = GetLPCMGUID(wfe->wBitsPerSample, ase->GetFormatSpecificFlags());
+						} else {
+							mt.subtype = FOURCCMap(fourcc);
+						}
 						if(type != AP4_ATOM_TYPE_MP4A) {
 							wfe->cbSize = db.GetDataSize();
 							memcpy(wfe+1, db.GetData(), db.GetDataSize());

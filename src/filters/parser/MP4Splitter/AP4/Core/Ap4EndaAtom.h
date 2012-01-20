@@ -24,7 +24,7 @@ public:
 
     AP4_Result WriteFields(AP4_ByteStream& stream) { return AP4_FAILURE; }
 
-    AP4_Atom::Type IsLittleEndian() const { return m_LittleEndian; }
+    AP4_Atom::Type ReadEndian() const { return m_LittleEndian; }
 
 private:
 	AP4_UI16 m_LittleEndian;

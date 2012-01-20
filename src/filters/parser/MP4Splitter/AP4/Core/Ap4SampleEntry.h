@@ -136,14 +136,52 @@ class AP4_AudioSampleEntry : public AP4_MpegSampleEntry
                          AP4_Size          size);
     
     // accessors
-    AP4_UI32 GetSampleRate()   { return m_SampleRate>>16; }
-    AP4_UI16 GetSampleSize()   { return m_SampleSize;     }
-    AP4_UI16 GetChannelCount() { return m_ChannelCount;   }
-	AP4_UI32 GetSamplesPerPacket(){ return m_SamplesPerPacket; }
-	AP4_UI32 GetBytesPerPacket(){ return m_BytesPerPacket; }
-	AP4_UI32 GetBytesPerFrame(){ return m_BytesPerFrame; }
-	AP4_UI32 GetBytesPerSample(){ return m_BytesPerSample; }
-	AP4_UI16 IsLittleEndian() { return m_LittleEndian; }
+    AP4_UI32 GetSampleRate();
+//  AP4_UI16 GetSampleSize() { return m_SampleSize; }
+    AP4_UI16 GetChannelCount();
+// mpc-hc custom code start
+	AP4_UI32 GetSamplesPerPacket()
+	{
+		if (m_QtVersion == 2) {
+			return m_QtV2LPCMFramesPerAudioPacket;
+		}
+		return m_QtV1SamplesPerPacket;
+	}
+	AP4_UI32 GetBytesPerFrame()
+	{
+		if (m_QtVersion == 2) {
+			return m_QtV2BytesPerAudioPacket;
+		}
+		return m_QtV1BytesPerFrame;
+	}
+	AP4_UI16 GetSampleSize()
+	{
+		if (m_QtVersion == 1 && m_SampleSize == 16) {
+			//QuickTime File Format Specification->Sound Sample Description (Version 1)->Bytes per packet
+			return m_QtV1BytesPerPacket * 8;
+		} else if (m_QtVersion == 2) {
+			return m_QtV2BitsPerChannel;
+		}
+		return m_SampleSize;
+	}
+	AP4_UI16 GetEndian() 
+	{
+		/*if (m_QtVersion == 2) {
+			if (m_QtV2FormatSpecificFlags & 2) {
+				return ENDIAN_BIG;
+			} else {
+				return ENDIAN_LITTLE;
+			}
+		}*/
+		return m_Endian; 
+	}
+	AP4_UI32 GetFormatSpecificFlags() { return m_QtV2FormatSpecificFlags; }
+
+#define ENDIAN_NOTSET -1
+#define ENDIAN_BIG     0
+#define ENDIAN_LITTLE  1
+
+// mpc-hc custom code end
 
     // methods
     AP4_SampleDescription* ToSampleDescription();
@@ -156,21 +194,32 @@ protected:
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
 
     // members
-	AP4_UI16 m_DescriptionVersion;
-	AP4_UI16 m_RevisionLevel;
-	AP4_UI32 m_Vendor;
-    AP4_UI16 m_ChannelCount;
-    AP4_UI16 m_SampleSize;
-	AP4_UI16 m_CompressionID;
-    AP4_UI16 m_PacketSize;
-    AP4_UI32 m_SampleRate;
-    // m_Version == 1 ?
-    AP4_UI32 m_SamplesPerPacket; 
-    AP4_UI32 m_BytesPerPacket; 
-    AP4_UI32 m_BytesPerFrame; 
-    AP4_UI32 m_BytesPerSample;
+    AP4_UI16 m_QtVersion;       // 0, 1 or 2
+    AP4_UI16 m_QtRevision;      // 0
+    AP4_UI32 m_QtVendor;        // 0
+    AP4_UI16 m_ChannelCount; 
+    AP4_UI16 m_SampleSize; 
+    AP4_UI16 m_QtCompressionId; // 0 or -2
+    AP4_UI16 m_QtPacketSize;    // always 0
+    AP4_UI32 m_SampleRate;      // 16.16 fixed point
+    // Version == 1
+    AP4_UI32 m_QtV1SamplesPerPacket;
+    AP4_UI32 m_QtV1BytesPerPacket;
+    AP4_UI32 m_QtV1BytesPerFrame;
+    AP4_UI32 m_QtV1BytesPerSample;
+    // Version == 2
+	AP4_UI32 m_QtV2StructSize;
+    double   m_QtV2SampleRate64;
+    AP4_UI32 m_QtV2ChannelCount;
+    AP4_UI32 m_QtV2Reserved;
+    AP4_UI32 m_QtV2BitsPerChannel;
+    AP4_UI32 m_QtV2FormatSpecificFlags;
+    AP4_UI32 m_QtV2BytesPerAudioPacket;
+    AP4_UI32 m_QtV2LPCMFramesPerAudioPacket;
+    AP4_DataBuffer m_QtV2Extension;
 	// from 'enda' atom
-	AP4_UI16 m_LittleEndian;
+	AP4_UI16 m_Endian;
+
 };
 
 /*----------------------------------------------------------------------
