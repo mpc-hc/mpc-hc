@@ -340,7 +340,8 @@ void WINAPI DbgInitLogTo (
             if (INVALID_HANDLE_VALUE != m_hOutput)
             {
               static const TCHAR cszBar[] = TEXT("\r\n\r\n=====DbgInitialize()=====\r\n\r\n");
-              SetFilePointer (m_hOutput, 0, NULL, FILE_END);
+              LARGE_INTEGER zero = {0, 0};
+              SetFilePointerEx(m_hOutput, zero, NULL, FILE_END);
               DbgOutString (cszBar);
             }
           }

@@ -141,7 +141,7 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 	ASSERT(!(sl.GetCount()&3));
 
 	LARGE_INTEGER size = {0, 0};
-	size.LowPart = GetFileSize(hFile, (DWORD*)&size.HighPart);
+	GetFileSizeEx(hFile, &size);
 
 	while (sl.GetCount() >= 4) {
 		CString offsetstr = sl.RemoveHead();
@@ -162,7 +162,7 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 		if (offset.QuadPart < 0) {
 			offset.QuadPart = size.QuadPart - offset.QuadPart;
 		}
-		SetFilePointer(hFile, offset.LowPart, &offset.HighPart, FILE_BEGIN);
+		SetFilePointerEx(hFile, offset, &offset, FILE_BEGIN);
 
 		// LAME
 		while (maskstr.GetLength() < valstr.GetLength()) {

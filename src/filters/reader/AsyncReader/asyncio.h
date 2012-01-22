@@ -42,7 +42,7 @@ public:
 
 // represents a single request and performs the i/o. Can be called on either
 // worker thread or app thread, but must hold pcsFile across file accesses.
-// (ie across SetFilePointer/ReadFile pairs)
+// (ie across SetFilePointerEx/ReadFile pairs)
 class CAsyncRequest
 {
     CAsyncIo     *m_pIo;
@@ -118,7 +118,7 @@ typedef CGenericList<CAsyncRequest> CRequestList;
 //
 // Synchronous requests are done on the caller thread. These should be
 // synchronised by the caller, but to make sure we hold m_csFile across
-// the SetFilePointer/ReadFile code.
+// the SetFilePointerEx/ReadFile code.
 //
 // Flush by calling BeginFlush. This rejects all further requests (by
 // setting m_bFlushing within m_csLists), cancels all requests and moves them

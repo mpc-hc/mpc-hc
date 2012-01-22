@@ -186,14 +186,15 @@ bool CIfo::OpenFile (LPCTSTR strFile)
 {
 	bool	bRet = false;
 	HANDLE	hFile;
+	LARGE_INTEGER size;
 
 	hFile	 = Real_CreateFileW((LPTSTR) strFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	ASSERT (hFile != INVALID_HANDLE_VALUE);
 
-	if (hFile != INVALID_HANDLE_VALUE) {
-		DWORD		dwSize = GetFileSize (hFile, NULL);
-		m_pBuffer = DNew BYTE [dwSize];
-		ReadFile (hFile, m_pBuffer, dwSize, &m_dwSize, NULL);
+	if (hFile != INVALID_HANDLE_VALUE && GetFileSizeEx(hFile, &size) &&
+			size.QuadPart <= 0x800000) { // max size of the ifo file = 8 MB (taken with reserve. need a more correct info)
+		m_pBuffer = DNew BYTE [size.QuadPart];
+		ReadFile (hFile, m_pBuffer, size.QuadPart, &m_dwSize, NULL);
 		CloseHandle (hFile);
 
 		if (IsVTS() && (OFF_VTSM_PGCI_UT(m_pBuffer)!=0)) {

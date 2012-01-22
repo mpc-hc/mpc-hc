@@ -257,7 +257,7 @@ bool CCDXAStream::Load(const WCHAR* fnw)
 	}
 
 	LARGE_INTEGER size = {0, 0};
-	size.LowPart = (LONG)GetFileSize(m_hFile, (LPDWORD)&size.HighPart);
+	GetFileSizeEx(m_hFile, &size);
 
 	m_llLength = int((size.QuadPart - RIFFCDXA_HEADER_SIZE) / RAW_SECTOR_SIZE) * RAW_DATA_SIZE;
 
@@ -294,7 +294,7 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 		if(m_nBufferedSector != (int)sector) {
 			LARGE_INTEGER FilePointer;
 			FilePointer.QuadPart = RIFFCDXA_HEADER_SIZE + sector*RAW_SECTOR_SIZE;
-			SetFilePointer(m_hFile, (LONG)FilePointer.LowPart, (PLONG)&FilePointer.HighPart, FILE_BEGIN);
+			SetFilePointerEx(m_hFile, FilePointer, &FilePointer, FILE_BEGIN);
 
 			memset(m_sector, 0, sizeof(m_sector));
 

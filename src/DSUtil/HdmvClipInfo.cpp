@@ -73,12 +73,13 @@ void CHdmvClipInfo::ReadBuffer(BYTE* pBuff, DWORD nLen)
 
 HRESULT CHdmvClipInfo::ReadProgramInfo()
 {
-	BYTE		number_of_program_sequences;
-	BYTE		number_of_streams_in_ps;
-	DWORD		dwPos;
+	BYTE			number_of_program_sequences;
+	BYTE			number_of_streams_in_ps;
+	LARGE_INTEGER	Pos;
 
 	m_Streams.RemoveAll();
-	SetFilePointer (m_hFile, ProgramInfo_start_address, NULL, FILE_BEGIN);
+	Pos.QuadPart = ProgramInfo_start_address;
+	SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
 
 	ReadDword();	//length
 	ReadByte();		//reserved_for_word_align
@@ -95,8 +96,9 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 			m_Streams[iStream].m_PID			= ReadShort();	// stream_PID
 
 			// == StreamCodingInfo
-			dwPos  = SetFilePointer(m_hFile, 0, NULL, FILE_CURRENT) + 1;
-			dwPos += ReadByte();	// length
+			Pos.QuadPart = 0;
+			SetFilePointerEx(m_hFile, Pos, &Pos, FILE_CURRENT);
+			Pos.QuadPart += ReadByte() + 1;	// length
 			m_Streams[iStream].m_Type	= (PES_STREAM_TYPE)ReadByte();
 
 			switch (m_Streams[iStream].m_Type) {
@@ -153,7 +155,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 			}
 
 			iStream++;
-			SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
+			SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
 		}
 	}
 	return S_OK;
@@ -273,25 +275,25 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 			return CloseFile(VFW_E_INVALID_FILE_FORMAT);
 		}
 
-		DWORD				dwPos;
+		LARGE_INTEGER		Pos;
 		DWORD				dwTemp;
 		USHORT				nPlaylistItems;
 
-		dwPos	= ReadDword();		// PlayList_start_address
+		Pos.QuadPart = ReadDword();	// PlayList_start_address
 		ReadDword();				// PlayListMark_start_address
 
 		// PlayList()
-		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
+		SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
 		ReadDword();						// length
 		ReadShort();						// reserved_for_future_use
 		nPlaylistItems = ReadShort();		// number_of_PlayItems
 		ReadShort();						// number_of_SubPaths
 
-		dwPos	  += 10;
+		Pos.QuadPart += 10;
 		for (size_t i=0; i<nPlaylistItems; i++) {
 			PlaylistItem	Item;
-			SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
-			dwPos = dwPos + ReadShort() + 2;
+			SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
+			Pos.QuadPart += ReadShort() + 2;
 			ReadBuffer(Buff, 5);
 			Item.m_strFileName.Format(_T("%s\\STREAM\\%c%c%c%c%c.M2TS"), Path, Buff[0], Buff[1], Buff[2], Buff[3], Buff[4]);
 
@@ -365,14 +367,14 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 			return CloseFile(VFW_E_INVALID_FILE_FORMAT);
 		}
 
-		DWORD				dwPos;
+		LARGE_INTEGER		Pos;
 		USHORT				nMarkCount;
 
-		ReadDword();			// PlayList_start_address
-		dwPos	= ReadDword();	// PlayListMark_start_address
+		ReadDword();				// PlayList_start_address
+		Pos.QuadPart = ReadDword();	// PlayListMark_start_address
 
 		// PlayListMark()
-		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
+		SetFilePointerEx(m_hFile, Pos, NULL, FILE_BEGIN);
 		ReadDword();				// length
 		nMarkCount = ReadShort();	// number_of_PlayList_marks
 		for (size_t i=0; i<nMarkCount; i++)

@@ -10,8 +10,8 @@
 
 static bool aspi_GetSectorInfo(const HANDLE hDrive, DWORD* sec_size, DWORD* max_sec)
 {
-	LARGE_INTEGER size;
-	size.LowPart = GetFileSize(hDrive, (DWORD*)&size.HighPart);
+	LARGE_INTEGER size = {0, 0};
+	GetFileSizeEx(hDrive, &size);
 
 	*sec_size = 2048;
 	*max_sec = size.QuadPart / *sec_size;
@@ -22,8 +22,10 @@ static bool aspi_GetSectorInfo(const HANDLE hDrive, DWORD* sec_size, DWORD* max_
 static bool aspi_ReadSectors(const HANDLE hDrive, int lba, int nSectors, DWORD sec_size, BYTE* sector)
 {
 	DWORD nbr = 0;
-	return lba*sec_size == SetFilePointer(hDrive, lba*sec_size, NULL, FILE_BEGIN)
-		   && ReadFile(hDrive, sector, nSectors*sec_size, &nbr, NULL);
+	LARGE_INTEGER offset;
+	offset.QuadPart = lba*sec_size;
+	SetFilePointerEx(hDrive, offset, &offset, FILE_BEGIN);
+	return lba*sec_size == offset.QuadPart && ReadFile(hDrive, sector, nSectors*sec_size, &nbr, NULL);
 }
 
 static bool udf_GetLBA(const tp_udf_FileEntry fe, const DWORD sec_size, DWORD *start, DWORD *end)
