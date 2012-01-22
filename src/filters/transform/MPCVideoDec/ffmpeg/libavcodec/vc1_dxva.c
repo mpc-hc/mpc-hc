@@ -169,6 +169,7 @@ end:
     return buf_size;
 
 err:
+    av_log(avctx, AV_LOG_ERROR, "Error in av_vc1_decode_frame()\n");
     av_free(buf2);
     for (i = 0; i < n_slices; i++)
         av_free(slices[i].buf);

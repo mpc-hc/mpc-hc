@@ -111,7 +111,7 @@ protected:
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	HRESULT ProcessFlac();
 #endif
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	HRESULT ProcessFFmpeg(int nCodecId);
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
@@ -134,7 +134,7 @@ protected:
 	void	flac_stream_finish();
 #endif
 
-#if defined(REGISTER_FILTER) | (HAS_FFMPEG_AUDIO_DECODERS || INTERNAL_DECODER_MPEGAUDIO || INTERNAL_DECODER_AAC || INTERNAL_DECODER_VORBIS)
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	bool	InitFFmpeg(int nCodecId);
 	void	ffmpeg_stream_finish();
 	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int samples, int& size);
@@ -143,6 +143,8 @@ protected:
 	BYTE*	m_pFFBuffer;
 	int		m_nFFBufferSize;
 #endif
+
+	enum CodecID	FindCodec(const GUID subtype);
 
 protected:
 	CCritSec m_csProps;

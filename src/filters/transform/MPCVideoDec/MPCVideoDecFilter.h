@@ -98,7 +98,7 @@ protected:
 	AVCodecContext*							m_pAVCtx;
 	AVFrame*								m_pFrame;
 	int										m_nCodecNb;
-	int										m_nCodecId;
+	enum CodecID							m_nCodecId;
 	int										m_nWorkaroundBug;
 	int										m_nErrorConcealment;
 	REFERENCE_TIME							m_rtAvrTimePerFrame;
@@ -160,7 +160,7 @@ protected:
 	void				Cleanup();
 	int					FindCodec(const CMediaType* mtIn);
 	void				AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* mt);
-	bool				IsMultiThreadSupported(int nCodec);
+	bool				IsMultiThreadSupported(enum CodecID nCodec);
 	void				GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 	void				CalcAvgTimePerFrame();
 	void				DetectVideoCard(HWND hWnd);
@@ -169,8 +169,6 @@ protected:
 
 	void				SetTypeSpecificFlags(IMediaSample* pMS);
 	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
-	//void					FindStartCodeVC1  (BYTE** pDataIn, int& nSize);
-	//void					FindStartCodeH264 (BYTE** pDataIn, int& nSize);
 	bool				AppendBuffer (BYTE* pDataIn, int nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	bool				FindPicture(int nIndex, int nStartCode);
 	void				ShrinkBuffer();

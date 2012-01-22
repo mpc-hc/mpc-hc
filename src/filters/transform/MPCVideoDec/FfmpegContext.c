@@ -768,7 +768,7 @@ int FFGetThreadType(int nCodecId, int nThreadCount)
 	}
 }
 
-void FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nCodecId, int nThreadCount)
+void FFSetThreadNumber(struct AVCodecContext* pAVCtx, enum CodecID nCodecId, int nThreadCount)
 {
 	pAVCtx->thread_count		= nThreadCount;
 	pAVCtx->thread_type			= FFGetThreadType (nCodecId, nThreadCount);

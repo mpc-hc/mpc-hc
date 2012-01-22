@@ -158,8 +158,8 @@ FFMPEG_CODECS		ffCodecs[] = {
 	{ &MEDIASUBTYPE_wmv3, CODEC_ID_WMV3, NULL },
 
 	// MPEG-2
-	{ &MEDIASUBTYPE_MPEG2_VIDEO, CODEC_ID_MPEG2VIDEO, &DXVA_Mpeg2 },
-	{ &MEDIASUBTYPE_MPG2, CODEC_ID_MPEG2VIDEO, &DXVA_Mpeg2 },
+	{ &MEDIASUBTYPE_MPEG2_VIDEO,	CODEC_ID_MPEG2VIDEO, &DXVA_Mpeg2 },
+	{ &MEDIASUBTYPE_MPG2,			CODEC_ID_MPEG2VIDEO, &DXVA_Mpeg2 },
 
 	// MSMPEG-4
 	{ &MEDIASUBTYPE_DIV3, CODEC_ID_MSMPEG4V3, NULL },
@@ -536,7 +536,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pAVCtx				= NULL;
 	m_pFrame				= NULL;
 	m_nCodecNb				= -1;
-	m_nCodecId				= -1;
+	m_nCodecId				= CODEC_ID_NONE;
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
@@ -908,7 +908,7 @@ void CMPCVideoDecFilter::Cleanup()
 	m_nFFBufferPos	= 0;
 	m_nFFPicEnd		= INT_MIN;
 	m_nCodecNb		= -1;
-	m_nCodecId		= -1;
+	m_nCodecId		= CODEC_ID_NONE;
 	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
 
 	// Release DXVA ressources
@@ -979,7 +979,7 @@ HRESULT CMPCVideoDecFilter::CheckInputType(const CMediaType* mtIn)
 	return VFW_E_TYPE_NOT_ACCEPTED;
 }
 
-bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
+bool CMPCVideoDecFilter::IsMultiThreadSupported(enum CodecID nCodec)
 {
 	return
 	(
@@ -998,7 +998,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 		int nNewCodec = FindCodec(pmt);
 
-		if (nNewCodec == -1) {
+		if (nNewCodec == CODEC_ID_NONE) {
 			return VFW_E_TYPE_NOT_ACCEPTED;
 		}
 
@@ -1013,7 +1013,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 			m_bReorderBFrame	= true;
 			m_nCodecId			= ffCodecs[nNewCodec].nFFCodec;
-			m_pAVCodec			= avcodec_find_decoder((CodecID)m_nCodecId);
+			m_pAVCodec			= avcodec_find_decoder(m_nCodecId);
 			CheckPointer (m_pAVCodec, VFW_E_UNSUPPORTED_VIDEO);
 
 			m_pAVCtx	= avcodec_alloc_context3(m_pAVCodec);
@@ -1072,7 +1072,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->inter_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
-			m_pAVCtx->codec_id              = (CodecID)m_nCodecId;
+			m_pAVCtx->codec_id              = m_nCodecId;
 			m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;
 			m_pAVCtx->error_concealment		= m_nErrorConcealment;
 			m_pAVCtx->error_recognition		= m_nErrorRecognition;
@@ -1489,7 +1489,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 	AVPacket		avpkt;
 	av_init_packet(&avpkt);
 
-	if (!bFlush && m_pAVCtx->codec_id == CODEC_ID_H264) {
+	if (!bFlush && m_nCodecId == CODEC_ID_H264) {
 		if(!m_h264RandomAccess.searchRecoveryPoint(m_pAVCtx, pDataIn, nSize)) {
 			return S_OK;
 		}
@@ -1536,16 +1536,16 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			pDataIn += used_bytes;
 		}
 
-		if (m_pAVCtx->codec_id == CODEC_ID_H264 && got_picture) {
+		if (m_nCodecId == CODEC_ID_H264 && got_picture) {
 			m_h264RandomAccess.judgeFrameUsability(m_pFrame, &got_picture);
-    } else if (m_nCodecId == CODEC_ID_VC1) {
-      if (m_bWaitingForKeyFrame && got_picture) {
-        if (m_pFrame->key_frame) {
-          m_bWaitingForKeyFrame = FALSE;
-        } else {
-          got_picture = 0;
-        }
-      }
+		} else if (m_nCodecId == CODEC_ID_VC1) {
+			if (m_bWaitingForKeyFrame && got_picture) {
+				if (m_pFrame->key_frame) {
+					m_bWaitingForKeyFrame = FALSE;
+				} else {
+					got_picture = 0;
+				}
+			}
 		}
 
 		if (!got_picture || !m_pFrame->data[0]) {
@@ -1565,7 +1565,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			return hr;
 		}
 
-		if(m_pAVCtx->codec_id == CODEC_ID_THEORA) {
+		if(m_nCodecId == CODEC_ID_THEORA) {
 			rtStart = m_pFrame->pkt_pts;
 			rtStop = m_pFrame->pkt_dts;
 		} else {

@@ -64,7 +64,7 @@ HRESULT			FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixDa
 BOOL			IsVistaOrAbove();
 char*			GetFFMpegPictureType(int nType);
 unsigned long	FFGetMBNumber(struct AVCodecContext* pAVCtx);
-void			FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nCodecId, int nThreadCount);
+void			FFSetThreadNumber(struct AVCodecContext* pAVCtx, enum CodecID nCodecId, int nThreadCount);
 BOOL			FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx);
 int				FFGetCodedPicture(struct AVCodecContext* pAVCtx);
 BOOL			FFGetAlternateScan(struct AVCodecContext* pAVCtx);
