@@ -234,8 +234,8 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			if (ext != _T(".dtswav") && ext != _T(".dts") && ext != _T(".wav") && ext != _T(".ac3") && ext != _T(".eac3")) //check only specific extensions
 				break;
 			m_file.Seek(m_dataOffset, CFile::begin);
-			BYTE buf[4100];
-			int len = m_file.Read(&buf, 4100); //4100=4096+4
+			BYTE buf[6*1024];
+			int len = m_file.Read(&buf, 6*1024); // 6 KB
 			if (len<100) break; //100=96+4
 			bool isFound = false;
 			for (int i=1; i<len-4; i++) { // looking for DTS or AC3 sync
