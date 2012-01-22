@@ -536,7 +536,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	enum CodecID nCodecId = FindCodec(subtype);
 	if(nCodecId != CODEC_ID_NONE) {
-		ProcessFFmpeg(nCodecId);
+		hr = ProcessFFmpeg(nCodecId);
 	} else {
 		if(0) {} // needed if decoders are disabled below
 	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
