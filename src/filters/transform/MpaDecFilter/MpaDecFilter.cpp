@@ -1050,7 +1050,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 #endif /* INTERNAL_DECODER_AC3 */
 
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
-HRESULT CMpaDecFilter::ProcessFFmpeg(int nCodecId)
+HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 {
 	HRESULT hr;
 	BYTE* p = m_buff.GetData();
@@ -2327,7 +2327,7 @@ void CMpaDecFilter::flac_stream_finish()
   memset(m_pFFBuffer+size, 0, FF_INPUT_BUFFER_PADDING_SIZE); \
 }
 
-HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size)
+HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsize, int& size)
 {
 	HRESULT hr = S_OK;
 	int got_frame	= 0;
@@ -2468,7 +2468,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 	return hr;
 }
 
-bool CMpaDecFilter::InitFFmpeg(int nCodecId)
+bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 {
 	bool			bRet	= false;
 
@@ -2486,7 +2486,7 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 		case CODEC_ID_MP3 :
 			m_pAVCodec = avcodec_find_decoder_by_name("mp3float");
 		default :
-			m_pAVCodec = avcodec_find_decoder((CodecID)nCodecId);
+			m_pAVCodec = avcodec_find_decoder(nCodecId);
 	}
 	
 	if (m_pAVCodec) {
@@ -2494,7 +2494,7 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 		WORD nChannels, nBitsPerSample, nBlockAlign;
 		audioFormatTypeHandler((BYTE *)m_pInput->CurrentMediaType().Format(), m_pInput->CurrentMediaType().FormatType(), &nSamples, &nChannels, &nBitsPerSample, &nBlockAlign, &nBytesPerSec);
 
-		if (nCodecId==CODEC_ID_AMR_NB || nCodecId== CODEC_ID_AMR_WB) {
+		if (nCodecId == CODEC_ID_AMR_NB || nCodecId == CODEC_ID_AMR_WB) {
 			nChannels	= 1;
 			nSamples	= 8000;
 		}
@@ -2509,7 +2509,7 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 		m_pAVCtx->block_align           = nBlockAlign;
 		
 		m_pAVCtx->err_recognition       = AV_EF_CAREFUL;
-		m_pAVCtx->codec_id				= (CodecID)nCodecId;		
+		m_pAVCtx->codec_id				= nCodecId;		
 		if (m_pAVCodec->capabilities & CODEC_CAP_TRUNCATED) {
 			m_pAVCtx->flags				|= CODEC_FLAG_TRUNCATED;
 		}

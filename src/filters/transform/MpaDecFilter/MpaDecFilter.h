@@ -111,9 +111,6 @@ protected:
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	HRESULT ProcessFlac();
 #endif
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
-	HRESULT ProcessFFmpeg(int nCodecId);
-#endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
 	HRESULT ProcessPCMraw();
 	HRESULT ProcessPCMintBE();
@@ -135,9 +132,10 @@ protected:
 #endif
 
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
-	bool	InitFFmpeg(int nCodecId);
+	bool	InitFFmpeg(enum CodecID nCodecId);
 	void	ffmpeg_stream_finish();
-	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int samples, int& size);
+	HRESULT DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int samples, int& size);
+	HRESULT ProcessFFmpeg(enum CodecID nCodecId);
 	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 
 	BYTE*	m_pFFBuffer;
