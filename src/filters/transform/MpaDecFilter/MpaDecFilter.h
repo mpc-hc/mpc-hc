@@ -140,9 +140,9 @@ protected:
 
 	BYTE*	m_pFFBuffer;
 	int		m_nFFBufferSize;
-#endif
 
 	enum CodecID	FindCodec(const GUID subtype);
+#endif
 
 protected:
 	CCritSec m_csProps;

@@ -47,9 +47,8 @@ typedef struct {
 	const enum CodecID	nFFCodec;
 } FFMPEG_AUDIO_CODECS;
 
-static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 #if HAS_FFMPEG_AUDIO_DECODERS
-
+static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 #if INTERNAL_DECODER_AMR
 	// AMR
 	{ &MEDIASUBTYPE_AMR,		CODEC_ID_AMR_NB	},
@@ -84,10 +83,9 @@ static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 	{ &MEDIASUBTYPE_MPEG2_AUDIO,		CODEC_ID_MP2 },
 	{ &MEDIASUBTYPE_MP3,				CODEC_ID_MP3 },
 #endif
-
 	{ &MEDIASUBTYPE_None,				CODEC_ID_NONE },
-#endif
 };
+#endif
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_MP3},
@@ -464,6 +462,7 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	return __super::NewSegment(tStart, tStop, dRate);
 }
 
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 enum CodecID CMpaDecFilter::FindCodec(const GUID subtype)
 {
 	for (int i=0; i<countof(ffAudioCodecs); i++)
@@ -473,6 +472,7 @@ enum CodecID CMpaDecFilter::FindCodec(const GUID subtype)
 
 	return CODEC_ID_NONE;
 }
+#endif
 
 
 HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
@@ -534,11 +534,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	memcpy(m_buff.GetData() + bufflen, pDataIn, len);
 	len += bufflen;
 
-	enum CodecID nCodecId = FindCodec(subtype);
-	if(nCodecId != CODEC_ID_NONE) {
-		hr = ProcessFFmpeg(nCodecId);
-	} else {
-		if(0) {} // needed if decoders are disabled below
+	if(0) {} // needed if decoders are disabled below
+	#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+		else if(FindCodec(subtype) != CODEC_ID_NONE) {
+			hr = ProcessFFmpeg(nCodecId);
+		}
+	#endif
 	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
 		else if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
 			hr = ProcessLPCM();
@@ -614,7 +615,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 			hr = ProcessPCMfloatLE();
 		}
 	#endif
-	}
 
 	return hr;
 }
