@@ -42,12 +42,12 @@
 #define INT24_MAX					0x7FFFFF
 #define AC3_HEADER_SIZE				7
 
+#if HAS_FFMPEG_AUDIO_DECODERS
 typedef struct {
 	const CLSID*		clsMinorType;
 	const enum CodecID	nFFCodec;
 } FFMPEG_AUDIO_CODECS;
 
-#if HAS_FFMPEG_AUDIO_DECODERS
 static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 #if INTERNAL_DECODER_AMR
 	// AMR
@@ -534,12 +534,13 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	memcpy(m_buff.GetData() + bufflen, pDataIn, len);
 	len += bufflen;
 
-	if(0) {} // needed if decoders are disabled below
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
-	else if(FindCodec(subtype) != CODEC_ID_NONE) {
-		hr = ProcessFFmpeg(FindCodec(subtype));
+	enum CodecID nCodecId = FindCodec(subtype);
+	if(nCodecId != CODEC_ID_NONE) {
+		return ProcessFFmpeg(nCodecId);
 	}
 #endif
+	if(0) {} // needed if decoders are disabled below
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
 	else if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
 		hr = ProcessLPCM();
