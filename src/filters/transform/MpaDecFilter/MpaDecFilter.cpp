@@ -535,86 +535,86 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	len += bufflen;
 
 	if(0) {} // needed if decoders are disabled below
-	#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
-		else if(FindCodec(subtype) != CODEC_ID_NONE) {
-			hr = ProcessFFmpeg(nCodecId);
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+	else if(FindCodec(subtype) != CODEC_ID_NONE) {
+		hr = ProcessFFmpeg(FindCodec(subtype));
+	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
+	else if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
+		hr = ProcessLPCM();
+	} else if(subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
+		hr = ProcessHdmvLPCM(!!pIn->IsSyncPoint());
+	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
+	else if(subtype == MEDIASUBTYPE_DOLBY_AC3 ||
+			subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
+			subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
+			subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+		hr = ProcessAC3();
+	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
+	else if(subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS) {
+		hr = ProcessDTS();
+	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUDIO
+	else if(subtype == MEDIASUBTYPE_PS2_PCM) {
+		hr = ProcessPS2PCM();
+	} else if(subtype == MEDIASUBTYPE_PS2_ADPCM) {
+		hr = ProcessPS2ADPCM();
+	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
+	else if(subtype == MEDIASUBTYPE_FLAC_FRAMED) {
+		hr = ProcessFlac();
+	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
+	else if(subtype == MEDIASUBTYPE_PCM_NONE ||
+			subtype == MEDIASUBTYPE_PCM_RAW) {
+		if(m_buff.GetCount() < 480) {
+			return S_OK;
 		}
-	#endif
-	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
-		else if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
-			hr = ProcessLPCM();
-		} else if(subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
-			hr = ProcessHdmvLPCM(!!pIn->IsSyncPoint());
+		hr = ProcessPCMraw();
+	} else if(subtype == MEDIASUBTYPE_PCM_TWOS) {
+		if(m_buff.GetCount() < 960) {
+			return S_OK;
 		}
-	#endif
-	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
-		else if(subtype == MEDIASUBTYPE_DOLBY_AC3 ||
-				subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
-				subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
-				subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
-			hr = ProcessAC3();
+		hr = ProcessPCMintBE();
+	} else if(subtype == MEDIASUBTYPE_PCM_SOWT) {
+		if(m_buff.GetCount() < 960) {
+			return S_OK;
 		}
-	#endif
-	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
-		else if(subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS) {
-			hr = ProcessDTS();
+		hr = ProcessPCMintLE();
+	} else if(subtype == MEDIASUBTYPE_PCM_IN24 ||
+			  subtype == MEDIASUBTYPE_PCM_IN32) {
+		if(m_buff.GetCount() < 1920) {
+			return S_OK;
 		}
-	#endif
-	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUDIO
-		else if(subtype == MEDIASUBTYPE_PS2_PCM) {
-			hr = ProcessPS2PCM();
-		} else if(subtype == MEDIASUBTYPE_PS2_ADPCM) {
-			hr = ProcessPS2ADPCM();
+		hr = ProcessPCMintBE();
+	} else if(subtype == MEDIASUBTYPE_PCM_IN24_le ||
+			  subtype == MEDIASUBTYPE_PCM_IN32_le) {
+		if(m_buff.GetCount() < 1920) {
+			return S_OK;
 		}
-	#endif
-	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
-		else if(subtype == MEDIASUBTYPE_FLAC_FRAMED) {
-			hr = ProcessFlac();
+		hr = ProcessPCMintLE();
+	} else if(subtype == MEDIASUBTYPE_PCM_FL32 ||
+			  subtype == MEDIASUBTYPE_PCM_FL64) {
+		if(m_buff.GetCount() < 3840) {
+			return S_OK;
 		}
-	#endif
-	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
-		else if(subtype == MEDIASUBTYPE_PCM_NONE ||
-				subtype == MEDIASUBTYPE_PCM_RAW) {
-			if(m_buff.GetCount() < 480) {
-				return S_OK;
-			}
-			hr = ProcessPCMraw();
-		} else if(subtype == MEDIASUBTYPE_PCM_TWOS) {
-			if(m_buff.GetCount() < 960) {
-				return S_OK;
-			}
-			hr = ProcessPCMintBE();
-		} else if(subtype == MEDIASUBTYPE_PCM_SOWT) {
-			if(m_buff.GetCount() < 960) {
-				return S_OK;
-			}
-			hr = ProcessPCMintLE();
-		} else if(subtype == MEDIASUBTYPE_PCM_IN24 ||
-				  subtype == MEDIASUBTYPE_PCM_IN32) {
-			if(m_buff.GetCount() < 1920) {
-				return S_OK;
-			}
-			hr = ProcessPCMintBE();
-		} else if(subtype == MEDIASUBTYPE_PCM_IN24_le ||
-				  subtype == MEDIASUBTYPE_PCM_IN32_le) {
-			if(m_buff.GetCount() < 1920) {
-				return S_OK;
-			}
-			hr = ProcessPCMintLE();
-		} else if(subtype == MEDIASUBTYPE_PCM_FL32 ||
-				  subtype == MEDIASUBTYPE_PCM_FL64) {
-			if(m_buff.GetCount() < 3840) {
-				return S_OK;
-			}
-			hr = ProcessPCMfloatBE();
-		} else if(subtype == MEDIASUBTYPE_PCM_FL32_le ||
-				  subtype == MEDIASUBTYPE_PCM_FL64_le) {
-			if(m_buff.GetCount() < 3840) {
-				return S_OK;
-			}
-			hr = ProcessPCMfloatLE();
+		hr = ProcessPCMfloatBE();
+	} else if(subtype == MEDIASUBTYPE_PCM_FL32_le ||
+			  subtype == MEDIASUBTYPE_PCM_FL64_le) {
+		if(m_buff.GetCount() < 3840) {
+			return S_OK;
 		}
-	#endif
+		hr = ProcessPCMfloatLE();
+	}
+#endif
 
 	return hr;
 }
