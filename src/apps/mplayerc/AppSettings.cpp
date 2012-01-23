@@ -186,6 +186,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_AMVV
 	FFMFiltersKeys[FFM_AMVV] = _T("FFM_AMVV");
 #endif
+#if INTERNAL_DECODER_MJPEG
+	FFMFiltersKeys[FFM_MJPEG] = _T("FFM_MJPEG");
+#endif
 }
 
 void CAppSettings::CreateCommands()

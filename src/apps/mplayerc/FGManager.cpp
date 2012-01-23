@@ -1844,10 +1844,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if HAS_FFMPEG_VIDEO_DECODERS | HAS_DXVA_VIDEO_DECODERS
 	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(MPCVideoDecName, MERIT64_ABOVE_DSHOW);
 
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPA);
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPB);
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
 
 #if INTERNAL_DECODER_FLV
@@ -2031,16 +2027,20 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
 	}
 #endif
+#if INTERNAL_DECODER_MJPEG
+	if (ffmpeg_filters[FFM_MJPEG]) {
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPA);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPB);
+	}
+#endif
 
 	m_transform.AddTail(pFGF);
 
 	// Low merit MPC Video Decoder
 	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(CStringW(MPCVideoDecName)+LowMeritSuffix, MERIT64_DO_USE);
 
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPA);
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPB);
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
 
 #if INTERNAL_DECODER_FLV
@@ -2220,6 +2220,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_DECODER_VP8
 	if (!(ffmpeg_filters[FFM_VP8])) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
+	}
+#endif
+#if INTERNAL_DECODER_MJPEG
+	if (ffmpeg_filters[FFM_MJPEG]) {
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPG);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPA);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPB);
 	}
 #endif
 	m_transform.AddTail(pFGF);

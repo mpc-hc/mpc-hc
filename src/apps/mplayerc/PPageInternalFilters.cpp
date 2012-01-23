@@ -182,6 +182,10 @@ s_filters[] = {
 #if INTERNAL_DECODER_THEORA
 	{_T("Theora"), FFMPEG_DECODER, FFM_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
+#if INTERNAL_DECODER_MJPEG
+	{_T("MJPEG"), FFMPEG_DECODER, FFM_MJPEG, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+
 	{NULL, 0, 0, 0, NULL}
 };
 
