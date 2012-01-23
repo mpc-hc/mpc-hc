@@ -540,7 +540,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6|MPCVD_VP8;
+	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6|MPCVD_VP8|MPCVD_MJPEG;
 	m_rtLastStart			= 0;
 	m_nCountEstimated		= 0;
 
@@ -847,6 +847,8 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 					break;
 				case CODEC_ID_MJPEG  :
 				case CODEC_ID_MJPEGB :
+					bCodecActivated = (m_nActiveCodecs & MPCVD_MJPEG) != 0;
+					break;
 				case CODEC_ID_TSCC :
 					bCodecActivated = 1;
 					break;
