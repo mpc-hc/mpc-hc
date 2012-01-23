@@ -511,7 +511,7 @@ int CPlayerListCtrl::HitTestEx(CPoint& point, int* col) const
 
 	int row = HitTest(CPoint(0, point.y), NULL);
 
-	if ((GetWindowLong(m_hWnd, GWL_STYLE) & LVS_TYPEMASK) != LVS_REPORT) {
+	if ((GetWindowLongPtr(m_hWnd, GWL_STYLE) & LVS_TYPEMASK) != LVS_REPORT) {
 		return row;
 	}
 

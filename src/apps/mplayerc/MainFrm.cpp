@@ -13409,7 +13409,7 @@ void CMainFrame::SetAlwaysOnTop(int i)
 		}
 
 		SetWindowPos(pInsertAfter, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
-	} else if (!(GetWindowLong(m_hWnd, GWL_EXSTYLE)&WS_EX_TOPMOST)) {
+	} else if (!(GetWindowLongPtr(m_hWnd, GWL_EXSTYLE)&WS_EX_TOPMOST)) {
 		if (!AfxGetAppSettings().IsD3DFullscreen()) {
 			SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
 		}
@@ -14654,7 +14654,7 @@ bool CMainFrame::CreateFullScreenWindow()
 		m_fullWndSize.cy	= MonitorRect.Height();
 
 		m_pFullscreenWnd->CreateEx (WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), dwStyle, MonitorRect.left, MonitorRect.top, MonitorRect.Width(), MonitorRect.Height(), NULL, NULL, NULL);
-		//		SetWindowLong(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);	// TODO : still freezing sometimes...
+		//SetWindowLongPtr(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST); // TODO : still freezing sometimes...
 		/*
 		CRect r;
 		GetWindowRect(r);

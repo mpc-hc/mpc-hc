@@ -2393,8 +2393,8 @@ LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM l
 		//	lpcs->dwExStyle |= WS_EX_LAYOUTRTL;	// doesn't seem to have any effect, but shouldn't hurt
 
 		HWND hWnd = (HWND)wParam;
-		if ((GetWindowLong(hWnd, GWL_STYLE) & WS_CHILD) == 0) {
-			SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYOUTRTL);
+		if ((GetWindowLongPtr(hWnd, GWL_STYLE) & WS_CHILD) == 0) {
+			SetWindowLongPtr(hWnd, GWL_EXSTYLE, GetWindowLongPtr(hWnd, GWL_EXSTYLE) | WS_EX_LAYOUTRTL);
 		}
 	}
 	return CallNextHookEx(NULL, code, wParam, lParam);

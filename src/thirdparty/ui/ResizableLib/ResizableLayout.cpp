@@ -321,7 +321,9 @@ BOOL CResizableLayout::NeedsRefresh(const CResizableLayout::LayoutInfo& layout,
 	// window classes that need refresh when resized
 	if (layout.sWndClass == WC_STATIC)
 	{
-		DWORD style = ::GetWindowLong(layout.hWnd, GWL_STYLE);
+//mpc-hc custom code start
+		DWORD style = ::GetWindowLongPtr(layout.hWnd, GWL_STYLE);
+//mpc-hc custom code end
 
 		switch (style & SS_TYPEMASK)
 		{
@@ -398,7 +400,9 @@ BOOL CResizableLayout::LikesClipping(const CResizableLayout::LayoutInfo& layout)
 			return clipping.bLikesClipping;
 	}
 
-	DWORD style = ::GetWindowLong(layout.hWnd, GWL_STYLE);
+//mpc-hc custom code start
+	DWORD style = ::GetWindowLongPtr(layout.hWnd, GWL_STYLE);
+//mpc-hc custom code end
 
 	// skip windows that wants background repainted
 	if (layout.sWndClass == TOOLBARCLASSNAME && (style & TBSTYLE_TRANSPARENT))

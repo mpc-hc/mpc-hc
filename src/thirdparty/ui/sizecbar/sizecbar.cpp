@@ -432,7 +432,9 @@ void CSizingControlBar::OnNcCalcSize(BOOL bCalcValidRects,
         if (pFrame != NULL &&
             pFrame->IsKindOf(RUNTIME_CLASS(CMiniFrameWnd)))
         {
-            DWORD dwStyle = ::GetWindowLong(pFrame->m_hWnd, GWL_STYLE);
+//mpc-hc custom code start
+            DWORD dwStyle = ::GetWindowLongPtr(pFrame->m_hWnd, GWL_STYLE);
+//mpc-hc custom code end
             if ((dwStyle & MFS_4THICKFRAME) != 0)
             {
                 pFrame->ModifyStyle(MFS_4THICKFRAME, 0); // clear
