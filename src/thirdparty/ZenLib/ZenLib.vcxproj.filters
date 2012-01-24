@@ -14,9 +14,6 @@
     <Filter Include="Source Files\Format\Html">
       <UniqueIdentifier>{d9df8c89-24c5-4fa0-a091-ab35f334de6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\TinyXml">
-      <UniqueIdentifier>{e6a58e0d-012d-4129-9a52-4f93e8afa7fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -29,9 +26,6 @@
     </Filter>
     <Filter Include="Header Files\Format\Http">
       <UniqueIdentifier>{67c60fa1-1fe7-4f24-bd24-8a7846d1dc28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\TinyXml">
-      <UniqueIdentifier>{10a4ea7b-a241-4ba2-b474-f7af040615ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,15 +100,6 @@
     </ClCompile>
     <ClCompile Include="ZenLib\Format\Html\Html_Request.cpp">
       <Filter>Source Files\Format\Html</Filter>
-    </ClCompile>
-    <ClCompile Include="ZenLib\TinyXml\tinyxml.cpp">
-      <Filter>Source Files\TinyXml</Filter>
-    </ClCompile>
-    <ClCompile Include="ZenLib\TinyXml\tinyxmlerror.cpp">
-      <Filter>Source Files\TinyXml</Filter>
-    </ClCompile>
-    <ClCompile Include="ZenLib\TinyXml\tinyxmlparser.cpp">
-      <Filter>Source Files\TinyXml</Filter>
     </ClCompile>
     <ClCompile Include="ZenLib\PreComp.cpp">
       <Filter>Source Files</Filter>
@@ -201,9 +186,6 @@
     </ClInclude>
     <ClInclude Include="ZenLib\Format\Http\Http_Utils.h">
       <Filter>Header Files\Format\Http</Filter>
-    </ClInclude>
-    <ClInclude Include="ZenLib\TinyXml\tinyxml.h">
-      <Filter>Header Files\TinyXml</Filter>
     </ClInclude>
     <ClInclude Include="ZenLib\PreComp.h">
       <Filter>Header Files</Filter>

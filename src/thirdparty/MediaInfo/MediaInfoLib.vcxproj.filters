@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="extra">
+      <UniqueIdentifier>{45366669-16db-4223-8550-a40e7722a6af}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -71,6 +74,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ThirdParty\base64\base64.h">
+      <Filter>extra</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\tinyxml\tinyxml.h">
+      <Filter>extra</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\File__Analyse_Automatic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -547,6 +556,15 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ThirdParty\tinyxml\tinyxml.cpp">
+      <Filter>extra</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\tinyxml\tinyxmlerror.cpp">
+      <Filter>extra</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\tinyxml\tinyxmlparser.cpp">
+      <Filter>extra</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\File__Analyze.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

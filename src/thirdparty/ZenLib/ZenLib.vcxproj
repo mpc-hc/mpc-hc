@@ -137,15 +137,6 @@
     <ClCompile Include="ZenLib\Format\Http\Http_Utils.cpp" />
     <ClCompile Include="ZenLib\Format\Html\Html_Handler.cpp" />
     <ClCompile Include="ZenLib\Format\Html\Html_Request.cpp" />
-    <ClCompile Include="ZenLib\TinyXml\tinyxml.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="ZenLib\TinyXml\tinyxmlerror.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="ZenLib\TinyXml\tinyxmlparser.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ZenLib\BitStream.h" />
@@ -176,7 +167,6 @@
     <ClInclude Include="ZenLib\Format\Http\Http_Handler.h" />
     <ClInclude Include="ZenLib\Format\Http\Http_Request.h" />
     <ClInclude Include="ZenLib\Format\Http\Http_Utils.h" />
-    <ClInclude Include="ZenLib\TinyXml\tinyxml.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

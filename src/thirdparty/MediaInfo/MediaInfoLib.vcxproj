@@ -65,7 +65,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;ThirdParty/base64;ThirdParty/tinyxml;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_MINIMAL_YES;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
@@ -76,7 +76,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;ThirdParty/base64;ThirdParty/tinyxml;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_MINIMAL_YES;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -88,7 +88,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;ThirdParty/base64;ThirdParty/tinyxml;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_MINIMAL_YES;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
@@ -99,7 +99,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;ThirdParty/base64;ThirdParty/tinyxml;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_MINIMAL_YES;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
@@ -109,6 +109,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ThirdParty\base64\base64.h" />
+    <ClInclude Include="ThirdParty\tinyxml\tinyxml.h" />
     <ClInclude Include="MediaInfo\Archive\File_7z.h" />
     <ClInclude Include="MediaInfo\Archive\File_Ace.h" />
     <ClInclude Include="MediaInfo\Archive\File_Bzip2.h" />
@@ -159,6 +161,7 @@
     <ClInclude Include="MediaInfo\Duplicate\File__Duplicate__Writer.h" />
     <ClInclude Include="MediaInfo\Export\Export_Mpeg7.h" />
     <ClInclude Include="MediaInfo\Export\Export_PBCore.h" />
+    <ClInclude Include="MediaInfo\Export\Export_reVTMD.h" />
     <ClInclude Include="MediaInfo\File_Dummy.h" />
     <ClInclude Include="MediaInfo\File_Other.h" />
     <ClInclude Include="MediaInfo\File_Unknown.h" />
@@ -220,6 +223,7 @@
     <ClInclude Include="MediaInfo\Multiple\File_P2_Clip.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Riff.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Rm.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_SequenceInfo.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Skm.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Swf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Umf.h" />
@@ -321,6 +325,7 @@
     <ClCompile Include="MediaInfo\Duplicate\File__Duplicate__Writer.cpp" />
     <ClCompile Include="MediaInfo\Export\Export_Mpeg7.cpp" />
     <ClCompile Include="MediaInfo\Export\Export_PBCore.cpp" />
+    <ClCompile Include="MediaInfo\Export\Export_reVTMD.cpp" />
     <ClCompile Include="MediaInfo\File_Dummy.cpp" />
     <ClCompile Include="MediaInfo\File_Other.cpp" />
     <ClCompile Include="MediaInfo\File_Unknown.cpp" />
@@ -391,6 +396,7 @@
     <ClCompile Include="MediaInfo\Multiple\File_Riff.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Riff_Elements.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Rm.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_SequenceInfo.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Skm.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Swf.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Umf.cpp" />
@@ -435,6 +441,15 @@
     <ClCompile Include="MediaInfo\Video\File_Vc1.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Vc3.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Y4m.cpp" />
+    <ClCompile Include="ThirdParty\tinyxml\tinyxml.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\tinyxml\tinyxmlerror.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\tinyxml\tinyxmlparser.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
