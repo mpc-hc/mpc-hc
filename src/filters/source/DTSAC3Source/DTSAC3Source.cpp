@@ -36,8 +36,8 @@ enum {
 	unknown,
 	AC3,
 	EAC3,
-	TrueHD,
-	TrueHDAC3,
+//	TrueHD,
+//	TrueHDAC3,
 	MLP,
 	DTS,
 	DTSHD,
@@ -230,7 +230,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 		// search DTS and AC3 headers (skip garbage in the beginning)
 		if (!isDTSSync(id) && (WORD)id!=AC3_SYNC_WORD
-			&& id!=IEC61937_SYNC_WORD && id2!=TRUEHD_SYNC_WORD) {
+			&& id!=IEC61937_SYNC_WORD /*&& id2!=TRUEHD_SYNC_WORD*/) {
 			if (ext != _T(".dtswav") && ext != _T(".dts") && ext != _T(".wav") && ext != _T(".ac3") && ext != _T(".eac3")) //check only specific extensions
 				break;
 			m_file.Seek(m_dataOffset, CFile::begin);
@@ -346,6 +346,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 					break;
 				}
 				m_streamtype = AC3;
+				/*
 				// TrueHD+AC3
 				m_file.Seek(m_dataOffset+fsize, CFile::begin);
 				if (m_file.Read(&buf, 20) == 20) {
@@ -356,6 +357,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 						m_fixedframesize = false;
 					}
 				}
+				*/
 			// E-AC3 header
 			} else if (bsid == 16) {
 				int frametype;
@@ -408,6 +410,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			m_subtype = MEDIASUBTYPE_DOLBY_AC3_SPDIF;
 			m_streamtype = SPDIF_AC3;
 
+		/*
 		// TrueHD
 		} else if (id2 == TRUEHD_SYNC_WORD) {
 			BYTE buf[20];
@@ -442,7 +445,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 			m_wFormatTag = WAVE_FORMAT_UNKNOWN;
 			m_subtype = MEDIASUBTYPE_DOLBY_TRUEHD;
-
+		*/
 		} else {
 			break;
 		}
@@ -539,6 +542,7 @@ bool CDTSAC3Stream::CheckSPDIFAC3(const CMediaType* pmt)
 		   && ((WAVEFORMATEX*)pmt->pbFormat)->wFormatTag == WAVE_FORMAT_DOLBY_AC3_SPDIF;
 }
 
+/*
 bool CDTSAC3Stream::CheckTrueHD(const CMediaType* pmt)
 {
 	return pmt->majortype == MEDIATYPE_Audio
@@ -546,6 +550,7 @@ bool CDTSAC3Stream::CheckTrueHD(const CMediaType* pmt)
 		   && pmt->formattype == FORMAT_WaveFormatEx
 		   && ((WAVEFORMATEX*)pmt->pbFormat)->wFormatTag == WAVE_FORMAT_UNKNOWN;
 }
+*/
 
 HRESULT CDTSAC3Stream::GetMediaType(int iPosition, CMediaType* pmt)
 {
@@ -568,8 +573,8 @@ HRESULT CDTSAC3Stream::GetMediaType(int iPosition, CMediaType* pmt)
 		if (m_streamtype == SPDIF_AC3) {
 			wfe->nBlockAlign = 4;
 			pmt->SetSampleSize(m_framesize);
-		} else if (m_streamtype == TrueHD) {
-			pmt->SetSampleSize(0);
+//		} else if (m_streamtype == TrueHD) {
+//			pmt->SetSampleSize(0);
 		}
 
 	} else {
@@ -585,7 +590,7 @@ HRESULT CDTSAC3Stream::CheckMediaType(const CMediaType* pmt)
 {
 	return CheckDTS(pmt) || CheckDTS2(pmt)
 		|| CheckAC3(pmt) || CheckSPDIFAC3(pmt)
-		|| CheckTrueHD(pmt)
+//		|| CheckTrueHD(pmt)
 		   ? S_OK
 		   : E_INVALIDARG;
 }
