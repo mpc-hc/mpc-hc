@@ -172,10 +172,11 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			fHideWarning = wnd.DoModal(m_pFile, fHideWarning, fShowWarningText);
 			AfxGetApp()->WriteProfileInt(_T("Settings"), _T("HideAviSplitterWarning"), fHideWarning);
 		}
-
+/*
 		if(fShowWarningText) {
 			hr = E_FAIL;
 		}
+*/
 	}
 
 	if(FAILED(hr)) {

@@ -1319,17 +1319,22 @@ void CSubtitle::Empty()
 		delete m_words.GetNext(pos);
 	}
 
+	EmptyEffects();
+
+	if(m_pClipper) {
+		delete m_pClipper;
+	}
+	m_pClipper = NULL;
+}
+
+void CSubtitle::EmptyEffects()
+{
 	for(ptrdiff_t i = 0; i < EF_NUMBEROFEFFECTS; i++) {
 		if(m_effects[i]) {
 			delete m_effects[i];
 		}
 	}
 	memset(m_effects, 0, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
-
-	if(m_pClipper) {
-		delete m_pClipper;
-	}
-	m_pClipper = NULL;
 }
 
 int CSubtitle::GetFullWidth()
@@ -3177,6 +3182,10 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 		}
 
 		str = str.Mid(i);
+	}
+
+	if(m_doOverrideStyle && m_pStyleOverride != NULL) {
+		sub->EmptyEffects();
 	}
 
 	// just a "work-around" solution... in most cases nobody will want to use \org together with moving but without rotating the subs

@@ -295,7 +295,7 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VC1) != 0);
 #endif
 #if HAS_FFMPEG_VIDEO_DECODERS
-	m_lstCodecs.AddString (_T("Xvid"));
+	m_lstCodecs.AddString (_T("Xvid/MPEG-4"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_XVID) != 0);
 	m_lstCodecs.AddString (_T("DivX"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_DIVX) != 0);

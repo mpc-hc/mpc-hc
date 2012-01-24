@@ -792,16 +792,13 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 					bCodecActivated = (m_nActiveCodecs & MPCVD_FLASH) != 0;
 					break;
 				case CODEC_ID_MPEG4 :
-					if ((*ffCodecs[i].clsMinorType == MEDIASUBTYPE_XVID) ||
-							(*ffCodecs[i].clsMinorType == MEDIASUBTYPE_xvid) ||
-							(*ffCodecs[i].clsMinorType == MEDIASUBTYPE_XVIX) ||
-							(*ffCodecs[i].clsMinorType == MEDIASUBTYPE_xvix) ) {
-						bCodecActivated = (m_nActiveCodecs & MPCVD_XVID) != 0;
-					} else if ((*ffCodecs[i].clsMinorType == MEDIASUBTYPE_DX50) ||
-							   (*ffCodecs[i].clsMinorType == MEDIASUBTYPE_dx50) ||
-							   (*ffCodecs[i].clsMinorType == MEDIASUBTYPE_DIVX) ||
-							   (*ffCodecs[i].clsMinorType == MEDIASUBTYPE_divx) ) {
+					if ((*ffCodecs[i].clsMinorType == MEDIASUBTYPE_DX50) ||		// DivX
+						(*ffCodecs[i].clsMinorType == MEDIASUBTYPE_dx50) ||
+						(*ffCodecs[i].clsMinorType == MEDIASUBTYPE_DIVX) ||
+						(*ffCodecs[i].clsMinorType == MEDIASUBTYPE_divx) ) {
 						bCodecActivated = (m_nActiveCodecs & MPCVD_DIVX) != 0;
+					} else {
+						bCodecActivated = (m_nActiveCodecs & MPCVD_XVID) != 0;	// Xvid/MPEG-4
 					}
 					break;
 				case CODEC_ID_WMV1 :

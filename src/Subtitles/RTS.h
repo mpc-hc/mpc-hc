@@ -199,6 +199,7 @@ public:
 	CSubtitle();
 	virtual ~CSubtitle();
 	virtual void Empty();
+	void EmptyEffects();
 
 	void CreateClippers(CSize size);
 
