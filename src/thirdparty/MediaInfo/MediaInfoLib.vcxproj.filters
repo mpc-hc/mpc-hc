@@ -554,6 +554,12 @@
     <ClInclude Include="MediaInfo\Image\File_Tga.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Export\Export_reVTMD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File_SequenceInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ThirdParty\tinyxml\tinyxml.cpp">
@@ -1056,6 +1062,12 @@
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Ism.cpp">
       <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Export\Export_reVTMD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File_SequenceInfo.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

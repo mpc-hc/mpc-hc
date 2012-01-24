@@ -166,7 +166,7 @@
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libgcc.a;libmingwex.a;BaseClasses.lib;DSUtil.lib;DeCSS.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libflac.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgcc.a;libmingwex.a;BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libflac.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
