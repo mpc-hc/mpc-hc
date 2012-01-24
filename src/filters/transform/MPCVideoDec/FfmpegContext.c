@@ -744,7 +744,7 @@ int FFIsSkipped(struct AVCodecContext* pAVCtx)
 	return vc1->p_frame_skipped;
 }
 
-int FFGetThreadType(int nCodecId, int nThreadCount)
+int FFGetThreadType(enum CodecID nCodecId, int nThreadCount)
 {
 	if(!nThreadCount) {
 		return 0;
@@ -758,11 +758,11 @@ int FFGetThreadType(int nCodecId, int nThreadCount)
 		case CODEC_ID_DVVIDEO :
 		case CODEC_ID_FFV1 :
 			return FF_THREAD_SLICE;
-			break;			
+			break;
 		case CODEC_ID_VP8 :
 		case CODEC_ID_THEORA :
 			return FF_THREAD_FRAME;
-			break;			
+			break;
 		default :
 			return 0;
 	}

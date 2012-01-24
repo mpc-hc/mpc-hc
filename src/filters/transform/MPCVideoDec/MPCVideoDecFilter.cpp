@@ -199,10 +199,9 @@ FFMPEG_CODECS		ffCodecs[] = {
   { &MEDIASUBTYPE_QTJpeg, CODEC_ID_MJPEG,  NULL },
   { &MEDIASUBTYPE_MJPA,   CODEC_ID_MJPEG,  NULL },
   { &MEDIASUBTYPE_MJPB,   CODEC_ID_MJPEGB, NULL },
-	
+
 	// TSCC
   { &MEDIASUBTYPE_TSCC,   CODEC_ID_TSCC, NULL },
-
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	// H264/AVC
@@ -379,14 +378,14 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] = {
 	// AMV Video
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AMVV   },
 
-  // MJPEG
-  { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPG   },
-  { &MEDIATYPE_Video, &MEDIASUBTYPE_QTJpeg },
-  { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPA   },
-  { &MEDIATYPE_Video, &MEDIASUBTYPE_MJPB   },
+	// MJPEG
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MJPG   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_QTJpeg },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MJPA   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MJPB   },
 
-  // TSCC
-  { &MEDIATYPE_Video, &MEDIASUBTYPE_TSCC   },
+	// TSCC
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_TSCC   },
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	// H264/AVC
@@ -997,7 +996,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 		int nNewCodec = FindCodec(pmt);
 
-		if (nNewCodec == CODEC_ID_NONE) {
+		if (nNewCodec == -1) {
 			return VFW_E_TYPE_NOT_ACCEPTED;
 		}
 
