@@ -189,6 +189,10 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_MJPEG
 	FFMFiltersKeys[FFM_MJPEG] = _T("FFM_MJPEG");
 #endif
+#if INTERNAL_DECODER_INDEO
+	FFMFiltersKeys[FFM_INDEO] = _T("FFM_INDEO");
+#endif
+
 }
 
 void CAppSettings::CreateCommands()

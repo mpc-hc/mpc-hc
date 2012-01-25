@@ -29,7 +29,7 @@
 #define MEGABYTE 1024*1024
 
 
-CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub, bool TrackPriority, bool AC3CoreOnly)
+CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub, bool TrackPriority, int AC3CoreOnly)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
 	, m_rate(0)
@@ -569,7 +569,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				// AC3
 				if(type == unknown) {
 					CMpegSplitterFile::ac3hdr h;
-					if(Read(h, len, &s.mt, false, m_AC3CoreOnly)) {
+					if(Read(h, len, &s.mt, false, (m_AC3CoreOnly == 1))) {
 						type = audio;
 					}
 				}
@@ -628,7 +628,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						break;
 					}
 				}
-			} else if(!m_AC3CoreOnly && m_init){
+			} else if((m_AC3CoreOnly != 1) && m_init){
 				int iProgram;
 				const CHdmvClipInfo::Stream *pClipInfo;
 				const program* pProgram = FindProgram (s.pid, iProgram, pClipInfo);
@@ -636,7 +636,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 					const stream* source = m_streams[audio].FindStream(s.pid);
 					if(source && source->mt.subtype == MEDIASUBTYPE_DOLBY_AC3) {
 						CMpegSplitterFile::ac3hdr h;
-						if(Read(h, len, &s.mt, false, m_AC3CoreOnly) && s.mt.subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+						if(Read(h, len, &s.mt, false, (m_AC3CoreOnly == 1)) && s.mt.subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
 							m_streams[audio].Replace((stream&)*source, s, this);
 						}
 					}

@@ -56,6 +56,20 @@ static void fillPlane(uint8_t *plane, int stride, int width, int height, int y,
     }
 }
 
+static void fillPlane16(uint8_t *plane, int stride, int width, int height, int y,
+                      int alpha, int bits)
+{
+    int i, j;
+    uint8_t *ptr = plane + stride * y;
+    int v = alpha ? -1 : (1<<bits);
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            AV_WN16(ptr+2*j, v);
+        }
+        ptr += stride;
+    }
+}
+
 static void copyPlane(const uint8_t *src, stride_t srcStride,
                       int srcSliceY, int srcSliceH, int width,
                       uint8_t *dst, stride_t dstStride)
@@ -615,10 +629,13 @@ static int planarCopyWrapper(SwsContext *c, const uint8_t *src[],
         // ignore palette for GRAY8
         if (plane == 1 && !dst[2]) continue;
         if (!src[plane] || (plane == 1 && !src[2])) {
-            if (is16BPS(c->dstFormat))
-                length *= 2;
-            fillPlane(dst[plane], dstStride[plane], length, height, y,
-                      (plane == 3) ? 255 : 128);
+            if (is16BPS(c->dstFormat) || isNBPS(c->dstFormat)) {
+                fillPlane16(dst[plane], dstStride[plane], length, height, y,
+                        plane == 3, av_pix_fmt_descriptors[c->dstFormat].comp[plane].depth_minus1);
+            } else {
+                fillPlane(dst[plane], dstStride[plane], length, height, y,
+                        (plane == 3) ? 255 : 128);
+            }
         } else {
             if(isNBPS(c->srcFormat) || isNBPS(c->dstFormat)
                || (is16BPS(c->srcFormat) != is16BPS(c->dstFormat))
@@ -829,13 +846,14 @@ void ff_get_unscaled_swscale(SwsContext *c)
     if (srcFormat == PIX_FMT_UYVY422 && dstFormat == PIX_FMT_YUV422P)
         c->swScale = uyvyToYuv422Wrapper;
 
+#define isPlanarGray(x) (isGray(x) && (x) != PIX_FMT_GRAY8A)
     /* simple copy */
     if ( srcFormat == dstFormat ||
         (srcFormat == PIX_FMT_YUVA420P && dstFormat == PIX_FMT_YUV420P) ||
         (srcFormat == PIX_FMT_YUV420P && dstFormat == PIX_FMT_YUVA420P) ||
-        (isPlanarYUV(srcFormat) && isGray(dstFormat)) ||
-        (isPlanarYUV(dstFormat) && isGray(srcFormat)) ||
-        (isGray(dstFormat) && isGray(srcFormat)) ||
+        (isPlanarYUV(srcFormat) && isPlanarGray(dstFormat)) ||
+        (isPlanarYUV(dstFormat) && isPlanarGray(srcFormat)) ||
+        (isPlanarGray(dstFormat) && isPlanarGray(srcFormat)) ||
         (isPlanarYUV(srcFormat) && isPlanarYUV(dstFormat) &&
          c->chrDstHSubSample == c->chrSrcHSubSample &&
          c->chrDstVSubSample == c->chrSrcVSubSample &&
@@ -891,9 +909,10 @@ int attribute_align_arg sws_scale(struct SwsContext *c,
                                   int srcSliceH, uint8_t *const dst[],
                                   const stride_t dstStride[])
 {
-    int i;
+    int i, ret;
     const uint8_t *src2[4] = { srcSlice[0], srcSlice[1], srcSlice[2], srcSlice[3] };
     uint8_t *dst2[4] = { dst[0], dst[1], dst[2], dst[3] };
+    uint8_t *rgb0_tmp = NULL;
 
     // do not mess up sliceDir if we have a "trailing" 0-size slice
     if (srcSliceH == 0)
@@ -985,6 +1004,20 @@ int attribute_align_arg sws_scale(struct SwsContext *c,
         }
     }
 
+    if (c->src0Alpha && !c->dst0Alpha && isALPHA(c->dstFormat)) {
+        uint8_t *base;
+        int x,y;
+        rgb0_tmp = av_malloc(FFABS(srcStride[0]) * srcSliceH + 32);
+        base = srcStride[0] < 0 ? rgb0_tmp - srcStride[0] * (srcSliceH-1) : rgb0_tmp;
+        for (y=0; y<srcSliceH; y++){
+            memcpy(base + srcStride[0]*y, src2[0] + srcStride[0]*y, 4*c->srcW);
+            for (x=c->src0Alpha-1; x<4*c->srcW; x+=4) {
+                base[ srcStride[0]*y + x] = 0xFF;
+            }
+        }
+        src2[0] = base;
+    }
+
     // copy strides, so they can safely be modified
     if (c->sliceDir == 1) {
         // slices go from top to bottom
@@ -1026,9 +1059,12 @@ int attribute_align_arg sws_scale(struct SwsContext *c,
         if (!srcSliceY)
             c->sliceDir = 0;
 
-        return c->swScale(c, src2, srcStride2, c->srcH-srcSliceY-srcSliceH,
+        ret = c->swScale(c, src2, srcStride2, c->srcH-srcSliceY-srcSliceH,
                           srcSliceH, dst2, dstStride2);
     }
+
+    av_free(rgb0_tmp);
+    return ret;
 }
 
 /* Convert the palette to the same packed 32-bit format as the palette */

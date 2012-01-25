@@ -130,10 +130,15 @@ SRCS_C=\
     libavcodec/h264_sei.c \
     libavcodec/huffman.c \
     libavcodec/imgconvert.c \
+    libavcodec/indeo3.c \
+    libavcodec/indeo4.c \
+    libavcodec/indeo5.c \
     libavcodec/intelh263dec.c \
     libavcodec/intrax8.c \
     libavcodec/intrax8dsp.c \
     libavcodec/ituh263dec.c \
+    libavcodec/ivi_common.c \
+    libavcodec/ivi_dsp.c \
     libavcodec/jpegls.c \
     libavcodec/jpeglsdec.c \
     libavcodec/jrevdct.c \

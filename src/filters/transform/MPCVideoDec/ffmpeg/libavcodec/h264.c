@@ -2746,10 +2746,13 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
                 break;
             default:
                 if (CHROMA444){
+                    s->avctx->pix_fmt = s->avctx->color_range == AVCOL_RANGE_JPEG ? PIX_FMT_YUVJ444P : PIX_FMT_YUV444P;
                     if (s->avctx->colorspace == AVCOL_SPC_RGB) {
-                        s->avctx->pix_fmt = PIX_FMT_GBRP;
-                    } else
-                        s->avctx->pix_fmt = s->avctx->color_range == AVCOL_RANGE_JPEG ? PIX_FMT_YUVJ444P : PIX_FMT_YUV444P;
+                       s->avctx->pix_fmt = PIX_FMT_GBR24P;
+                       av_log(h->s.avctx, AV_LOG_DEBUG, "Detected GBR colorspace.\n");
+                    } else if (s->avctx->colorspace == AVCOL_SPC_YCGCO) {
+                        av_log(h->s.avctx, AV_LOG_WARNING, "Detected unsupported YCgCo colorspace.\n");
+                    }
                 } else if (CHROMA422) {
                     s->avctx->pix_fmt = s->avctx->color_range == AVCOL_RANGE_JPEG ? PIX_FMT_YUVJ422P : PIX_FMT_YUV422P;
                 }else{

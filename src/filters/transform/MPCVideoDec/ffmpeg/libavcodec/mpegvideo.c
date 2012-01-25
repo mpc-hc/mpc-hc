@@ -1476,8 +1476,8 @@ static inline int hpel_motion_lowres(MpegEncContext *s,
 
     src   += src_y * stride + src_x;
 
-    if ((unsigned)src_x >  h_edge_pos - (!!sx) - w ||
-        (unsigned)src_y > (v_edge_pos >> field_based) - (!!sy) - h) {
+    if ((unsigned)src_x > FFMAX( h_edge_pos - (!!sx) - w,                 0) ||
+        (unsigned)src_y > FFMAX((v_edge_pos >> field_based) - (!!sy) - h, 0)) {
         s->dsp.emulated_edge_mc(s->edge_emu_buffer, src, s->linesize, w + 1,
                                 (h + 1) << field_based, src_x,
                                 src_y   << field_based,
@@ -1512,7 +1512,7 @@ static av_always_inline void mpeg_motion_lowres(MpegEncContext *s,
     int mx, my, src_x, src_y, uvsrc_x, uvsrc_y, uvlinesize, linesize, sx, sy,
         uvsx, uvsy;
     const int lowres     = s->avctx->lowres;
-    const int op_index   = FFMIN(lowres, 2);
+    const int op_index   = FFMIN(lowres-1+s->chroma_x_shift, 2);
     const int block_s    = 8>>lowres;
     const int s_mask     = (2 << lowres) - 1;
     const int h_edge_pos = s->h_edge_pos >> lowres;
@@ -1526,8 +1526,8 @@ static av_always_inline void mpeg_motion_lowres(MpegEncContext *s,
         motion_y /= 2;
     }
 
-    if (field_based) {
-        motion_y += (bottom_field - field_select) * (1 << lowres - 1);
+    if(field_based){
+        motion_y += (bottom_field - field_select)*((1 << lowres)-1);
     }
 
     sx = motion_x & s_mask;
@@ -1551,12 +1551,12 @@ static av_always_inline void mpeg_motion_lowres(MpegEncContext *s,
     } else {
         // FFmpeg patch
         if(s->chroma_y_shift){
-            mx = motion_x / 2;
-            my = motion_y / 2;
-            uvsx = mx & s_mask;
-            uvsy = my & s_mask;
-            uvsrc_x = s->mb_x*block_s               + (mx >> (lowres+1));
-            uvsrc_y =(   mb_y*block_s>>field_based) + (my >> (lowres+1));
+            mx      = motion_x / 2;
+            my      = motion_y / 2;
+            uvsx    = mx & s_mask;
+            uvsy    = my & s_mask;
+            uvsrc_x = s->mb_x * block_s                 + (mx >> lowres + 1);
+            uvsrc_y =   (mb_y * block_s >> field_based) + (my >> lowres + 1);
         } else {
             if(s->chroma_x_shift){
             //Chroma422
@@ -1579,8 +1579,8 @@ static av_always_inline void mpeg_motion_lowres(MpegEncContext *s,
     ptr_cb = ref_picture[1] + uvsrc_y * uvlinesize + uvsrc_x;
     ptr_cr = ref_picture[2] + uvsrc_y * uvlinesize + uvsrc_x;
 
-    if ((unsigned) src_x >  h_edge_pos - (!!sx) - 2 * block_s ||
-        (unsigned) src_y > (v_edge_pos >> field_based) - (!!sy) - h) {
+    if ((unsigned) src_x > FFMAX( h_edge_pos - (!!sx) - 2 * block_s,       0) ||
+        (unsigned) src_y > FFMAX((v_edge_pos >> field_based) - (!!sy) - h, 0)) {
         s->dsp.emulated_edge_mc(s->edge_emu_buffer, ptr_y,
                                 s->linesize, 17, 17 + field_based,
                                 src_x, src_y << field_based, h_edge_pos,
@@ -1664,8 +1664,8 @@ static inline void chroma_4mv_motion_lowres(MpegEncContext *s,
     offset = src_y * s->uvlinesize + src_x;
     ptr = ref_picture[1] + offset;
     if (s->flags & CODEC_FLAG_EMU_EDGE) {
-        if ((unsigned) src_x > h_edge_pos - (!!sx) - block_s ||
-            (unsigned) src_y > v_edge_pos - (!!sy) - block_s) {
+        if ((unsigned) src_x > FFMAX(h_edge_pos - (!!sx) - block_s, 0) ||
+            (unsigned) src_y > FFMAX(v_edge_pos - (!!sy) - block_s, 0)) {
             s->dsp.emulated_edge_mc(s->edge_emu_buffer, ptr, s->uvlinesize,
                                     9, 9, src_x, src_y, h_edge_pos, v_edge_pos);
             ptr = s->edge_emu_buffer;
@@ -2093,7 +2093,7 @@ void MPV_decode_mb_internal(MpegEncContext *s, DCTELEM block[12][64],
                     }else{
                         //chroma422
                         dct_linesize = uvlinesize << s->interlaced_dct;
-                        dct_offset =(s->interlaced_dct)? uvlinesize : uvlinesize*block_size;  // FFmpeg patch
+                        dct_offset   = s->interlaced_dct ? uvlinesize : uvlinesize * block_size;  // FFmpeg patch
 
                         add_dct(s, block[4], 4, dest_cb, dct_linesize);
                         add_dct(s, block[5], 5, dest_cr, dct_linesize);
@@ -2145,7 +2145,7 @@ void MPV_decode_mb_internal(MpegEncContext *s, DCTELEM block[12][64],
                     }else{
 
                         dct_linesize = uvlinesize << s->interlaced_dct;
-                        dct_offset =(s->interlaced_dct)? uvlinesize : uvlinesize*block_size;  // FFmpeg patch
+                        dct_offset   = s->interlaced_dct ? uvlinesize : uvlinesize * block_size;  // FFmpeg patch
 
                         s->dsp.idct_put(dest_cb,              dct_linesize, block[4]);
                         s->dsp.idct_put(dest_cr,              dct_linesize, block[5]);
@@ -2297,6 +2297,7 @@ void ff_mpeg_flush(AVCodecContext *avctx){
     s->current_picture_ptr = s->last_picture_ptr = s->next_picture_ptr = NULL;
 
     s->mb_x= s->mb_y= 0;
+    s->closed_gop= 0;
 
     s->parse_context.state= -1;
     s->parse_context.frame_start_found= 0;

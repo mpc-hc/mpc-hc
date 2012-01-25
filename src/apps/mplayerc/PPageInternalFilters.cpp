@@ -185,6 +185,9 @@ s_filters[] = {
 #if INTERNAL_DECODER_MJPEG
 	{_T("MJPEG"), FFMPEG_DECODER, FFM_MJPEG, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
+#if INTERNAL_DECODER_INDEO
+	{_T("Indeo 3/4/5"), FFMPEG_DECODER, FFM_INDEO, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
 
 	{NULL, 0, 0, 0, NULL}
 };

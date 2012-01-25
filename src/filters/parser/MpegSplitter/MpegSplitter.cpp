@@ -495,7 +495,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	, m_useFastStreamChange(true)
 	, m_ForcedSub(false)
 	, m_TrackPriority(false)
-	, m_AC3CoreOnly(false)
+	, m_AC3CoreOnly(0)
 	, m_nVC1_GuidFlag(1)
 {
 #ifdef REGISTER_FILTER
@@ -535,7 +535,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 		}
 
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("AC3CoreOnly"), dw)) {
-			m_AC3CoreOnly = !!dw;
+			m_AC3CoreOnly = dw;
 		}
 	}
 #else
@@ -546,7 +546,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	m_csAudioLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, _T(""));
 	m_nVC1_GuidFlag = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 	if(m_nVC1_GuidFlag<1 || m_nVC1_GuidFlag>3) m_nVC1_GuidFlag = 1;
-	m_AC3CoreOnly = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("AC3CoreOnly"), m_AC3CoreOnly);
+	m_AC3CoreOnly = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("AC3CoreOnly"), m_AC3CoreOnly);
 #endif
 }
 
@@ -1537,14 +1537,14 @@ STDMETHODIMP_(int) CMpegSplitterFilter::GetVC1_GuidFlag()
 	return m_nVC1_GuidFlag;
 }
 
-STDMETHODIMP CMpegSplitterFilter::SetTrueHD(BOOL nValue)
+STDMETHODIMP CMpegSplitterFilter::SetTrueHD(int nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	m_AC3CoreOnly = !!nValue;
+	m_AC3CoreOnly = nValue;
 	return S_OK;
 }
 
-STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetTrueHD()
+STDMETHODIMP_(int) CMpegSplitterFilter::GetTrueHD()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_AC3CoreOnly;
@@ -2021,7 +2021,10 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		BYTE* start = p->GetData();
 		p->SetData(start + 4, p->GetCount() - 4);
 	// Dolby_AC3
-	} else if ((m_type == CMpegSplitterFile::ts) && (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3) && (static_cast<CMpegSplitterFilter*>(m_pFilter))->StreamIsTrueHD(p->TrackNumber)) {
+	} else if ((m_type == CMpegSplitterFile::ts) && 
+						 (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3) && 
+						 (static_cast<CMpegSplitterFilter*>(m_pFilter))->StreamIsTrueHD(p->TrackNumber) &&
+						 (static_cast<CMpegSplitterFilter*>(m_pFilter))->GetTrueHD() != 2) {
 		if (p->GetCount() < 8) {
 			return S_OK;    // Should be invalid packet
 		}
@@ -2030,7 +2033,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			return S_OK;
 		}
 	// TrueHD
-	} else if (m_mt.subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+	} else if (m_mt.subtype == MEDIASUBTYPE_DOLBY_TRUEHD && (static_cast<CMpegSplitterFilter*>(m_pFilter))->GetTrueHD() != 2) {
 		if (p->GetCount() < 8) {
 			return S_OK;    // Should be invalid packet
 		}

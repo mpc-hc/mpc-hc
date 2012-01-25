@@ -2035,6 +2035,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPB);
 	}
 #endif
+#if INTERNAL_DECODER_INDEO
+	if (ffmpeg_filters[FFM_INDEO]) {
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV31);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV32);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV41);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV50);
+	}
+#endif
 
 	m_transform.AddTail(pFGF);
 
@@ -2228,6 +2236,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_QTJpeg);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPA);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MJPB);
+	}
+#endif
+#if INTERNAL_DECODER_INDEO
+	if (ffmpeg_filters[FFM_INDEO]) {
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV31);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV32);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV41);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV50);
 	}
 #endif
 	m_transform.AddTail(pFGF);

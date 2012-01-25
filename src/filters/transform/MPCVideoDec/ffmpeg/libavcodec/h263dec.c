@@ -3,20 +3,20 @@
  * Copyright (c) 2001 Fabrice Bellard
  * Copyright (c) 2002-2004 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -24,6 +24,8 @@
  * @file
  * H.263 decoder.
  */
+
+#define UNCHECKED_BITSTREAM_READER 1
 
 #include "libavutil/cpu.h"
 #include "internal.h"
@@ -263,7 +265,7 @@ static int decode_slice(MpegEncContext *s){
     if(      s->codec_id==CODEC_ID_MPEG4
        &&   (s->workaround_bugs&FF_BUG_AUTODETECT)
        &&    get_bits_left(&s->gb) >=0
-       &&    get_bits_left(&s->gb) < 48
+       &&    get_bits_left(&s->gb) < 137
 //       &&   !s->resync_marker
        &&   !s->data_partitioning){
 
@@ -302,7 +304,7 @@ static int decode_slice(MpegEncContext *s){
             max_extra+= 17;
 
         /* buggy padding but the frame should still end approximately at the bitstream end */
-        if((s->workaround_bugs&FF_BUG_NO_PADDING) && (s->err_recognition&AV_EF_BUFFER))
+        if((s->workaround_bugs&FF_BUG_NO_PADDING) && (s->err_recognition&(AV_EF_BUFFER|AV_EF_AGGRESSIVE)))
             max_extra+= 48;
         else if((s->workaround_bugs&FF_BUG_NO_PADDING))
             max_extra+= 256*256*256*64;
@@ -374,7 +376,7 @@ uint64_t time= rdtsc();
 
 
 retry:
-    if(s->divx_packed && s->xvid_build>=0 && s->bitstream_buffer_size){
+    if(s->divx_packed && s->bitstream_buffer_size){
         int i;
         for(i=0; i<buf_size-3; i++){
             if(buf[i]==0 && buf[i+1]==0 && buf[i+2]==1){
@@ -560,8 +562,7 @@ retry:
 #if HAVE_MMX
     if (s->codec_id == CODEC_ID_MPEG4 && s->xvid_build>=0 && avctx->idct_algo == FF_IDCT_AUTO && (av_get_cpu_flags() & AV_CPU_FLAG_MMX)) {
         avctx->idct_algo= FF_IDCT_XVIDMMX;
-        avctx->coded_width= 0; // force reinit
-//        dsputil_init(&s->dsp, avctx);
+        ff_dct_common_init(s);
         s->picture_number=0;
     }
 #endif
@@ -575,6 +576,12 @@ retry:
         || s->height != avctx->coded_height) {
         /* H.263 could change picture size any time */
         ParseContext pc= s->parse_context; //FIXME move these demuxng hack to avformat
+
+        if (HAVE_THREADS && (s->avctx->active_thread_type&FF_THREAD_FRAME)) {
+            av_log_missing_feature(s->avctx, "Width/height/bit depth/chroma idc changing with threads is", 0);
+            return -1;   // width / height changed during parallelized decoding
+        }
+
         s->parse_context.buffer=0;
         MPV_common_end(s);
         s->parse_context= pc;
@@ -664,21 +671,17 @@ retry:
 frame_end:
     /* divx 5.01+ bistream reorder stuff */
     if(s->codec_id==CODEC_ID_MPEG4 && s->divx_packed){
-        int current_pos= get_bits_count(&s->gb)>>3;
+        int current_pos= s->gb.buffer == s->bitstream_buffer ? 0 : (get_bits_count(&s->gb)>>3);
         int startcode_found=0;
 
-        if(buf_size - current_pos > 5){
+        if(buf_size - current_pos > 7){
             int i;
-            for(i=current_pos; i<buf_size-3; i++){
+            for(i=current_pos; i<buf_size-4; i++){
                 if(buf[i]==0 && buf[i+1]==0 && buf[i+2]==1 && buf[i+3]==0xB6){
-                    startcode_found=1;
+                    startcode_found=!(buf[i+4]&0x40);
                     break;
                 }
             }
-        }
-        if(s->gb.buffer == s->bitstream_buffer && buf_size>7 && s->xvid_build>=0){ //xvid style
-            startcode_found=1;
-            current_pos=0;
         }
 
         if(startcode_found){

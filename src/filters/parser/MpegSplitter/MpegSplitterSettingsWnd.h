@@ -45,6 +45,7 @@ private :
 	CButton		m_grpTrueHD;
 	CButton		m_cbTrueHD;
 	CButton		m_cbAC3Core;
+	CButton		m_cbAsIs;
 
 	enum {
 		IDC_PP_FAST_STREAM_SELECT = 10000,
@@ -54,7 +55,8 @@ private :
 		IDC_PP_SUBTITLES_LANGUAGE_ORDER,
 		IDC_PP_VC1_GUIDFLAG,
 		IDC_PP_TRUEHD,
-		IDC_PP_AC3CORE
+		IDC_PP_AC3CORE,
+		IDC_PP_ASIS
 	};
 
 public:

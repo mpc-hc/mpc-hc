@@ -958,6 +958,7 @@ int attribute_align_arg avcodec_encode_audio2(AVCodecContext *avctx,
 }
 
 #if FF_API_OLD_DECODE_AUDIO
+#if 0
 int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx,
                                              uint8_t *buf, int buf_size,
                                              const short *samples)
@@ -1007,9 +1008,12 @@ int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx,
         /* fabricate frame pts from sample count.
            this is needed because the avcodec_encode_audio() API does not have
            a way for the user to provide pts */
-        frame->pts = av_rescale_q(avctx->internal->sample_count,
+        if(avctx->sample_rate && avctx->time_base.num)
+            frame->pts = av_rescale_q(avctx->internal->sample_count,
                                   (AVRational){ 1, avctx->sample_rate },
                                   avctx->time_base);
+        else
+            frame->pts = AV_NOPTS_VALUE;
         avctx->internal->sample_count += frame->nb_samples;
     } else {
         frame = NULL;
@@ -1035,6 +1039,22 @@ int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx,
 
     return ret ? ret : pkt.size;
 }
+#else
+int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf, int buf_size,
+                         const short *samples)
+{
+    if(buf_size < FF_MIN_BUFFER_SIZE && 0){
+        av_log(avctx, AV_LOG_ERROR, "buffer smaller than minimum size\n");
+        return -1;
+    }
+    if((avctx->codec->capabilities & CODEC_CAP_DELAY) || samples){
+        int ret = avctx->codec->encode(avctx, buf, buf_size, samples);
+        avctx->frame_number++;
+        return ret;
+    }else
+        return 0;
+}
+#endif
 #endif
 
 int attribute_align_arg avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf, int buf_size,
