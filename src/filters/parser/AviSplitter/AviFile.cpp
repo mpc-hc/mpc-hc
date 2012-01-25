@@ -552,14 +552,17 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 
 REFERENCE_TIME CAviFile::strm_t::GetRefTime(DWORD frame, UINT64 size)
 {
+	if (frame == 0 || strh.dwRate == 0) {
+		return 0;
+	}
 	if(strh.fccType == FCC('auds')) {
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)strf.GetData();
 
-		return (REFERENCE_TIME)(wfe->nBlockAlign & strh.dwRate ? 10000000i64 * size * strh.dwScale / (strh.dwRate * wfe->nBlockAlign) + 1 : 0);
+		return (REFERENCE_TIME)(wfe->nBlockAlign ? 10000000i64 * size * strh.dwScale / (strh.dwRate * wfe->nBlockAlign) + 1 : 0);
 	}
 
-	return (REFERENCE_TIME)(strh.dwRate ? 10000000i64 * frame * strh.dwScale / strh.dwRate + 1 : 0);
-	// "+ 1" is necessary to compensate for framenumber->reftime->framenumber
+	return (REFERENCE_TIME)(10000000i64 * frame * strh.dwScale / strh.dwRate + 1);
+	// "+ 1" is necessary to compensate for framenumber->reftime->framenumber conversion
 } 
 
 int CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
