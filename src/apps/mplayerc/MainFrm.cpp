@@ -10610,10 +10610,10 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 		break;
 	}
 	EndEnumFilters;
-	UINT nKFs = 0, nKFsTmp = 0;
+	UINT nKFs = 0;
 	if (pKFI && S_OK == pKFI->GetKeyFrameCount(nKFs) && nKFs > 0) {
-		m_kfs.SetCount(nKFsTmp = nKFs);
-		if (S_OK != pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.GetData(), nKFsTmp) || nKFsTmp != nKFs) {
+		UINT k = nKFs;
+		if (!m_kfs.SetCount(k) || S_OK != pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.GetData(), k) || k != nKFs) {
 			m_kfs.RemoveAll();
 		}
 	}
