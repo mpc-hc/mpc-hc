@@ -19,8 +19,8 @@ NEW    : Ticket #1155, "After Playback" enhancements:
 NEW    : Ticket #1627, Open the file's directory from the clip properties
          (by double clicking on it)
 CHANGED: Updated Belarusian, Chinese (simplified and traditional), Czech, Dutch,
-         French, German, Hebrew, Hungarian, Japanese, Polish, Russian, Slovakian
-         and Ukrainian translations
+         French, German, Hebrew, Hungarian, Japanese, Korean, Polish, Russian,
+         Slovakian and Ukrainian translations
 CHANGED: Updated libogg to v1.3.0
 CHANGED: Updated SoundTouch to v1.6.1pre r131
 CHANGED: Updated VirtualDub to v1.10.1-test16

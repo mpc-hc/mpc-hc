@@ -8,9 +8,7 @@ Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
 jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff
-KindDragon              <kinddragon@users.sourceforge.net>      Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
-Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       Code
 xpc1000                 <xpc1000@users.sourceforge.net>         Code
 Underground78           <underground78@users.sourceforge.net>   Code, French
 v0lt                    <v0lt@users.sourceforge.net>            Code
@@ -27,6 +25,8 @@ Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
 spec-chum               <spec-chum@users.sourceforge.net>       Code
 Tomas Sen               <tomasen@users.sourceforge.net>         Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code
+KindDragon              <kinddragon@users.sourceforge.net>      Code
+Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       Code
 
 
 Translators:
