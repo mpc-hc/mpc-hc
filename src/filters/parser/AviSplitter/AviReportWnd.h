@@ -34,7 +34,7 @@ protected:
 	CButton m_checkbox;
 	CAviPlotterWnd m_graph;
 
-	int m_nChunks;
+	unsigned int m_nChunks;
 	REFERENCE_TIME m_rtDur;
 
 public:

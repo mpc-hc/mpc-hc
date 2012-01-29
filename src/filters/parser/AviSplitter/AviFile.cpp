@@ -1,5 +1,27 @@
+/*
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2012 see AUTHORS
+ *
+ *  This Program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
+ *
+ *  This Program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with GNU Make; see the file COPYING.  If not, write to
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  http://www.gnu.org/copyleft/gpl.html
+ *
+ */
+
 #include "stdafx.h"
 #include "AviFile.h"
+#include <math.h>
 
 //
 // CAviFile
@@ -62,21 +84,21 @@ HRESULT CAviFile::Init()
 
 HRESULT CAviFile::BuildAMVIndex()
 {
-	strm_t::chunk	NewChunk;
-	ULONG	ulType;
-	ULONG	ulSize;
+	strm_t::chunk NewChunk;
+	DWORD ulType;
+	DWORD ulSize;
 
 	memset (&NewChunk, 0, sizeof(strm_t::chunk));
 	while((Read(ulType) == S_OK) && (Read(ulSize) == S_OK)) {
 		switch (ulType) {
-			case FCC('00dc'):	// 01bw : JPeg
+			case FCC('00dc'): // 01bw : JPeg
 				NewChunk.size = ulSize;
 				NewChunk.filepos = GetPos();
 				NewChunk.orgsize = ulSize;
 				NewChunk.fKeyFrame = true;
 				m_strms[0]->cs.Add (NewChunk);
 				break;
-			case FCC('01wb') :	// 00dc : Audio
+			case FCC('01wb'): // 00dc : Audio
 				NewChunk.size    = ulSize;
 				NewChunk.orgsize = ulSize;
 				NewChunk.fKeyFrame = true;
@@ -196,7 +218,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 					if (m_isamv) {
 						// First alway video, second always audio
 						strm->strh.fccType = m_strms.GetCount() == 0 ? FCC('vids') : FCC('amva');
-						strm->strh.dwRate  = m_avih.dwReserved[0]*1000;	// dwReserved[0] = fps!
+						strm->strh.dwRate  = m_avih.dwReserved[0]*1000; // dwReserved[0] = fps!
 						strm->strh.dwScale = 1000;
 					}
 					break;
@@ -217,13 +239,13 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 						if (strm->strh.fccType == FCC('vids')) {
 							strm->strf.SetCount(sizeof(BITMAPINFOHEADER));
 							BITMAPINFOHEADER* pbmi = &((BITMAPINFO*)strm->strf.GetData())->bmiHeader;
-							pbmi->biSize		= sizeof(BITMAPINFOHEADER);
-							pbmi->biHeight		= m_avih.dwHeight;
-							pbmi->biWidth		= m_avih.dwWidth;
+							pbmi->biSize        = sizeof(BITMAPINFOHEADER);
+							pbmi->biHeight      = m_avih.dwHeight;
+							pbmi->biWidth       = m_avih.dwWidth;
 							pbmi->biCompression = FCC('AMVV');
-							pbmi->biPlanes		= 1;
-							pbmi->biBitCount	= 24;
-							pbmi->biSizeImage	= pbmi->biHeight * pbmi->biWidth * (pbmi->biBitCount/8);
+							pbmi->biPlanes      = 1;
+							pbmi->biBitCount    = 24;
+							pbmi->biSizeImage   = pbmi->biHeight * pbmi->biWidth * (pbmi->biBitCount/8);
 						}
 						m_strms.Add(strm);
 					}
@@ -234,7 +256,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 						strm.Attach(DNew strm_t());
 					}
 					ASSERT(strm->indx == NULL);
-					AVISUPERINDEX*	pSuperIndex;
+					AVISUPERINDEX* pSuperIndex;
 					if (size < MAXDWORD-8) {
 						// Fix buffer overrun vulnerability : http://www.vulnhunt.com/advisories/CAL-20070912-1_Multiple_vendor_produce_handling_AVI_file_vulnerabilities.txt
 						TRY {
@@ -261,7 +283,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 					}
 					break;
 				case FCC('vprp'):
-					//				if(S_OK != Read(m_vprp)) return E_FAIL;
+					//if(S_OK != Read(m_vprp)) return E_FAIL;
 					break;
 				case FCC('idx1'):
 					ASSERT(m_idx1 == NULL);
@@ -320,7 +342,7 @@ HRESULT CAviFile::BuildIndex()
 	for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		strm_t* s = m_strms[i];
 		if(s->indx && s->indx->nEntriesInUse > 0) {
-			nSuperIndexes++;
+			++nSuperIndexes;
 		}
 	}
 
@@ -495,7 +517,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 		if(!s->IsRawSubtitleStream()) {
 			strm_t::chunk2& cs2 = s->cs2[curchunk];
 			cs2.t = (DWORD)(s->GetRefTime(curchunk, cursize)>>13); // for comparing later it is just as good as /10000 to get a near [ms] accuracy
-			//			cs2.t = (DWORD)(s->GetRefTime(curchunk, cursize)/10000);
+			//cs2.t = (DWORD)(s->GetRefTime(curchunk, cursize)/10000);
 			cs2.n = end++;
 		}
 
@@ -530,7 +552,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 
 		++curchunks[n];
 
-		if(cs2last.t >= 0 && abs((int)cs2min.n - (int)cs2last.n) >= 1000) {
+		if(cs2last.t != (DWORD)-1 && abs((int)cs2min.n - (int)cs2last.n) >= 1000) {
 			fInterleaved = false;
 		}
 
@@ -557,45 +579,50 @@ REFERENCE_TIME CAviFile::strm_t::GetRefTime(DWORD frame, UINT64 size)
 	}
 	if(strh.fccType == FCC('auds')) {
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)strf.GetData();
-
-		return (REFERENCE_TIME)(wfe->nBlockAlign ? 10000000i64 * size * strh.dwScale / (strh.dwRate * wfe->nBlockAlign) + 1 : 0);
+		if (wfe->nBlockAlign == 0) {
+			return 0;
+		}
+		return (REFERENCE_TIME)ceil(10000000.0 * size * strh.dwScale / (strh.dwRate * wfe->nBlockAlign));
+		// need calculate in double, because the (10000000ui64 * size * strh.dwScale) can give overflow
+		// "ceil" is necessary to compensate for framenumber->reftime->framenumber conversion
 	}
-
-	return (REFERENCE_TIME)(10000000i64 * frame * strh.dwScale / strh.dwRate + 1);
-	// "+ 1" is necessary to compensate for framenumber->reftime->framenumber conversion
+	return (REFERENCE_TIME)ceil(10000000.0 * frame * strh.dwScale / strh.dwRate);
+	// need calculate in double, because the (10000000ui64 * frame * strh.dwScale) can give overflow (verified in practice)
+	// "ceil" is necessary to compensate for framenumber->reftime->framenumber conversion
 } 
 
-int CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
+DWORD CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
 {
-	int frame;
+	DWORD frame;
 
-	if (strh.dwScale == 0) {
-		frame = 0;
-	} else if (strh.fccType == FCC('auds')) {
+	if (strh.dwScale == 0 || rt <= 0 || cs.GetCount() == 0) {
+ 		frame = 0;
+ 	} else if (strh.fccType == FCC('auds')) {
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)strf.GetData();
 
-		UINT64 size = (UINT64)(rt * wfe->nBlockAlign * strh.dwRate / (strh.dwScale * 10000000i64));
-
-		for(frame = 0; frame < (int)cs.GetCount(); frame++) {
+		UINT64 size = (UINT64)(double(rt) * wfe->nBlockAlign * strh.dwRate / (strh.dwScale * 10000000.0));
+		// need calculate in double, because the (rt * wfe->nBlockAlign * strh.dwRate) can give overflow
+		frame = 1;
+		for(; frame < cs.GetCount(); ++frame) {
 			if(cs[frame].size > size) {
-				frame--;
 				break;
 			}
 		}
+		--frame;
 	} else {
-		frame = (int)(rt * strh.dwRate / (strh.dwScale * 10000000i64));
-	}
-
-	if(frame >= (int)cs.GetCount()) {
-		frame = cs.GetCount()-1;
+		frame = (DWORD)(double(rt) * strh.dwRate / (strh.dwScale * 10000000.0));
+		// need calculate in double, because the (rt * strh.dwRate) can give overflow (verified in practice)
+		if (frame >= cs.GetCount()) {
+			frame = cs.GetCount() - 1;
+		}
 	}
 
 	return frame;
 }
 
-int CAviFile::strm_t::GetKeyFrame(REFERENCE_TIME rt)
+DWORD CAviFile::strm_t::GetKeyFrame(REFERENCE_TIME rt)
 {
-	int i = GetFrame(rt);
+	DWORD i = GetFrame(rt);
 	for(; i > 0; i--) {
 		if(cs[i].fKeyFrame) {
 			break;

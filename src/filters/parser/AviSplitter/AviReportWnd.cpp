@@ -16,8 +16,8 @@ bool CAviReportWnd::DoModal(CAviFile* pAF, bool fHideChecked, bool fShowWarningT
 	m_rtDur = 0;
 
 	for(DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
-		int cnt = pAF->m_strms[i]->cs2.GetCount();
-		if(cnt <= 0) {
+		unsigned int cnt = pAF->m_strms[i]->cs2.GetCount();
+		if(cnt == 0) {
 			continue;
 		}
 		CAviFile::strm_t::chunk2& c2 = pAF->m_strms[i]->cs2[cnt-1];
@@ -129,7 +129,7 @@ void CAviReportWnd::OnMouseMove(UINT nFlags, CPoint p)
 		int y = r.bottom - p.y;
 
 		REFERENCE_TIME rt = m_rtDur * x / r.Width();
-		int chunk = (int)(1.0 * m_nChunks * y / r.Height());
+		int chunk = (int)(__int64(m_nChunks) * y / r.Height());
 
 		rt /= 10000;
 		int ms = (int)(rt%1000);
@@ -236,15 +236,15 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 		m_dc.SetTextColor(clr[i % pAF->m_avih.dwStreams]);
 		m_dc.SetBkMode(TRANSPARENT);
 		CString str;
-		str.Format(_T("Stream %d"), i);
+		str.Format(_T("Stream %u"), i);
 		m_dc.TextOut(10, y, str);
 	}
 
 	DWORD nmax = 0, tmax = 0;
 
 	for(DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
-		int cnt = pAF->m_strms[i]->cs2.GetCount();
-		if(cnt <= 0) {
+		unsigned int cnt = pAF->m_strms[i]->cs2.GetCount();
+		if(cnt == 0) {
 			continue;
 		}
 		CAviFile::strm_t::chunk2& c2 = pAF->m_strms[i]->cs2[cnt-1];
@@ -255,13 +255,13 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 	if(nmax > 0 && tmax > 0) {
 		CAtlArray<CPen> pen;
 		pen.SetCount(pAF->m_avih.dwStreams);
-		for(size_t i = 0; i < pen.GetCount(); i++) {
+		for(size_t i = 0; i < pen.GetCount(); ++i) {
 			pen[i].CreatePen(PS_SOLID, 2, clr[i]);
 		}
 
 		CAtlArray<CPoint> pp;
 		pp.SetCount(pAF->m_avih.dwStreams);
-		for(size_t i = 0; i < pen.GetCount(); i++) {
+		for(size_t i = 0; i < pen.GetCount(); ++i) {
 			pp[i].SetPoint(-1, -1);
 		}
 
@@ -310,20 +310,20 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 			int dist = abs((int)cs2min.n - (int)cs2last.n);
 
-			if(cs2last.t >= 0 /*&& dist >= 1000*/) {
+			if(cs2last.t != (DWORD)-1 /*&& dist >= 1000*/) {
 				if(p.x >= 0 && p.x < w) {
 					m_chunkdist[p.x] = max(m_chunkdist[p.x], dist);
 				}
 			}
 
-			curchunks[n]++;
+			++curchunks[n];
 			cs2last = cs2min;
 		}
 
 		CPen red(PS_SOLID, 1, 0x0000ff);
 		CPen green(PS_SOLID, 1, 0x00ff00);
 
-		for(int x = 0; x < w; x++) {
+		for(int x = 0; x < w; ++x) {
 			CPen* pOldPen = m_dc.SelectObject(m_chunkdist[x] >= 1000 ? &red : &green);
 			m_dc.MoveTo(x, h);
 			m_dc.LineTo(x, h + GRAPHFOOTER);
