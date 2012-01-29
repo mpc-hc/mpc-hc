@@ -4,7 +4,13 @@ NEW    : Add the ability to export MPC-HC settings
 NEW    : Add the ability to use different mouse button bindings in windowed and
          fullscreen modes
 NEW    : Add colors controls for all EVR based renderers
+NEW    : Support NV12 output colorspace, NV12 is now preferred over YUY2
+         (on ATI HW Deinterlacing and Post-Processing only works with NV12)
+NEW    : Support language info for audio and subtitle streams when playing .IFO files
 NEW    : Multithreaded decoder
+NEW    : FLV Splitter and MP4/MOV Splitter - add support more NellyMoser
+NEW    : VC-1 DXVA Decoder now decodes VC-1 interlaced material
+NEW    : Support MJPEG(-B), AVRn, JPGL (for AVI), AVDJ (for MOV), TSCC codec and MPEG-2 in AVI
 NEW    : Ticket #372, Add the ability of resetting MPC-HC to its default settings using
          either a new button in "Misc" option page or "/reset" command line option.
          Be careful, when using this feature ALL your current settings will be lost.
@@ -18,6 +24,7 @@ NEW    : Ticket #1155, "After Playback" enhancements:
          - an OSD message is shown when an "After Playback" action is selected.
 NEW    : Ticket #1627, Open the file's directory from the clip properties
          (by double clicking on it)
+NEW    : Ticket #1951, add support for DTS audio in MP4/MOV Splitter
 CHANGED: Updated Belarusian, Chinese (simplified and traditional), Czech, Dutch,
          French, German, Hebrew, Hungarian, Japanese, Korean, Polish, Russian,
          Slovakian and Ukrainian translations
@@ -29,6 +36,7 @@ CHANGED: Updated ZenLib to v0.4.24
 CHANGED: Updated Little CMS to v2.3
 CHANGED: Updated libpng to v1.5.7
 CHANGED: Updated ffmpeg
+CHANGED: Fixed a couple of UI problems with the Windows classic theme
 CHANGED: Use ffmpeg for AAC, MPEG and Vorbis audio decoding
 FIXED  : If "Play # time(s)" was set to a value higher than one and if the playlist
          had more than one element, the playback never stopped.
@@ -36,8 +44,14 @@ FIXED  : If the playlist had only invalid elements, the player would try to
          open the last element forever. If at least one element was invalid,
          the "Play # time(s)" setting would be ignored and the playlist would
          be repeated forever.
+FIXED  : The audio decoder sometimes tried to decode AC3 stream as E-AC3
 FIXED  : Ticket #19, AviSplitter: fixed detection of absolute chunk addressing
 FIXED  : Ticket #53/#1666, [OGG] splitter fails for latest Theora videos
+FIXED  : Ticket #58/#122/#1857, The internal DXVA decoder has "flickering"
+         with some H.264 videos
+FIXED  : Ticket #98, MPEGSplitter: fix A/V sync issue on MPEG-TS with H.264 stream;
+         some MPEG-TS with H.264 stream was unable to playback with MPC software decoder
+FIXED  : Ticket #111, [VC1 DXVA] Overlap filter causes corruption
 FIXED  : Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
          MP4/MOV source filter
 FIXED  : Ticket #311, High dpi awareness
@@ -63,7 +77,13 @@ FIXED  : Ticket #1596, correct calculation of the window size when caption hidin
 FIXED  : Ticket #1622, Unable to seek in files when auto-play is off
 FIXED  : Ticket #1624, Full screen is not working with Intel G45 Express Chipset
 FIXED  : Ticket #1686/#1694, Improve MPC-HC web interface and embedded web server
-FIXED  : Ticket #1710, "On Top While Playing Video" stops working after fullscreen
+FIXED  : Ticket #1710/#1827, "On Top While Playing Video" stops working after fullscreen
+FIXED  : Ticket #1899, Improve Hebrew translation: the UI is now correctly displayed
+         with a right-to-left layout
+FIXED  : Ticket #1928, MP4Splitter: ignore the bad AR
+FIXED  : Ticket #1941, Volume slider bug
+FIXED  : Ticket #1962, MPC-HC fails to play PCM audio in QuickTime .mov file
+         (add support for 'lpcm' in .mov files; partial update for bento4 lib)
 
 
 
