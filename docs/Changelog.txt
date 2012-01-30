@@ -1,4 +1,4 @@
-next version - not yet released
+v1.6.0.4014 - 30 January 2012
 ==============================
 NEW    : Add the ability to export MPC-HC settings
 NEW    : Add the ability to use different mouse button bindings in windowed and
