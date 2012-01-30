@@ -47,8 +47,8 @@
 #define MAKE_STR(x)    DO_MAKE_STR(x)
 
 #define MPC_VERSION_MAJOR 1
-#define MPC_VERSION_MINOR 5
-#define MPC_VERSION_PATCH 3
+#define MPC_VERSION_MINOR 6
+#define MPC_VERSION_PATCH 0
 
 
 #ifndef ISPP_IS_BUGGY
