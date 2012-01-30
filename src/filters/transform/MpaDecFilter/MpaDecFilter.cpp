@@ -457,6 +457,7 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	}
 #endif
 
+	m_buff.RemoveAll();
 	m_bResync = true;
 
 	return __super::NewSegment(tStart, tStop, dRate);
@@ -1058,10 +1059,16 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 	BYTE* base = p;
 	BYTE* end = p + m_buff.GetCount();
 
-	int		size = 0;
+	int size = 0;
 	hr = DeliverFFmpeg(nCodecId, p, end-p, size);
+	if (FAILED(hr)) {
+		m_buff.RemoveAll();
+		m_bResync = true;
+		return S_FALSE;
+	}
+	
 	if (size <= 0) {
-		return S_OK;
+		return hr;
 	}
 	p += size;
 	memmove(base, p, end - p);
@@ -2417,7 +2424,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 						break;
 				}
 
-				DWORD dwPCMSize = m_pFrame->nb_samples * /*m_pAVCtx->channels*/scmap->nChannels * av_get_bytes_per_sample(m_pAVCtx->sample_fmt);
+				DWORD dwPCMSize = m_pFrame->nb_samples * scmap->nChannels * av_get_bytes_per_sample(m_pAVCtx->sample_fmt);
 				switch (m_pAVCtx->sample_fmt) {
 					case SAMPLE_FMT_S16 :
 						pBuff.SetCount (dwPCMSize / 2);
@@ -2453,19 +2460,16 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 				}
 
 				if(pBuff.GetCount() > 0) {
-					int idx_start = pBuffOut.GetCount();
-					pBuffOut.SetCount( idx_start + pBuff.GetCount()  );
-					for(size_t i = 0; i< pBuff.GetCount(); i++) {
-						pBuffOut[idx_start+i] = pBuff[i];
+					hr = Deliver(pBuff, m_pAVCtx->sample_rate, scmap->nChannels, scmap->dwChannelMask);
+					if(FAILED(hr)) {
+						return hr;
 					}
 				}
 
 			}
 		}
 	}
-	if(pBuffOut.GetCount() > 0 && scmap) {
-		hr = Deliver(pBuffOut, m_pAVCtx->sample_rate, scmap->nChannels, scmap->dwChannelMask);
-	}
+
 	return hr;
 }
 
