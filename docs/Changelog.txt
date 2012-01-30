@@ -36,6 +36,7 @@ CHANGED: Updated ZenLib to v0.4.24
 CHANGED: Updated Little CMS to v2.3
 CHANGED: Updated libpng to v1.5.7
 CHANGED: Updated ffmpeg
+CHANGED: Updated zlib to v1.2.6
 CHANGED: Fixed a couple of UI problems with the Windows classic theme
 CHANGED: Use ffmpeg for AAC, MPEG and Vorbis audio decoding
 FIXED  : If "Play # time(s)" was set to a value higher than one and if the playlist
