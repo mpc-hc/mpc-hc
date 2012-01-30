@@ -32,8 +32,8 @@
 
 ; From now on you shouldn't need to change anything
 
-#if VER < EncodeVer(5,4,2)
-  #error Update your Inno Setup version (5.4.2 or newer)
+#if VER < EncodeVer(5,4,3)
+  #error Update your Inno Setup version (5.4.3 or newer)
 #endif
 
 #ifndef UNICODE
@@ -149,14 +149,14 @@ BeveledLabel={#app_name} {#app_version}
 
 [Types]
 Name: default;            Description: {cm:types_DefaultInstallation}
-Name: custom;             Description: {cm:types_CustomInstallation};                      Flags: iscustom
+Name: custom;             Description: {cm:types_CustomInstallation};                     Flags: iscustom
 
 
 [Components]
 Name: main;               Description: {#app_name} {#app_version}; Types: default custom; Flags: fixed
-Name: mpciconlib;         Description: {cm:comp_mpciconlib};        Types: default custom
+Name: mpciconlib;         Description: {cm:comp_mpciconlib};       Types: default custom
 #ifdef localize
-Name: mpcresources;       Description: {cm:comp_mpcresources};      Types: default custom
+Name: mpcresources;       Description: {cm:comp_mpcresources};     Types: default custom; Flags: disablenouninstallwarning
 #endif
 
 
@@ -285,9 +285,9 @@ end;
 
 function D3DX9DLLExists(): Boolean;
 begin
-  if FileExists(ExpandConstant('{sys}\D3DX9_{#DIRECTX_SDK_NUMBER}.dll')) then begin
-    Result := True;
-  end else
+  if FileExists(ExpandConstant('{sys}\D3DX9_{#DIRECTX_SDK_NUMBER}.dll')) then
+    Result := True
+  else
     Result := False;
 end;
 
@@ -309,6 +309,7 @@ end;
 
 #endif
 
+
 function IsUpgrade(): Boolean;
 var
   sPrevPath: String;
@@ -322,22 +323,18 @@ end;
 function SettingsExistCheck(): Boolean;
 begin
   if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') or
-  FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
-    Result := True;
-  end else
+  FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
+    Result := True
+  else
     Result := False;
 end;
 
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
-  // Hide the license page
-  if IsUpgrade() and (PageID = wpLicense) then begin
+  // Hide the License page
+  if IsUpgrade() and (PageID = wpLicense) then
     Result := True;
-  end
-  else begin
-    Result := False;
-  end;
 end;
 
 
@@ -360,28 +357,20 @@ var
   iLanguage: Integer;
 begin
   if CurStep = ssPostInstall then begin
-    if IsTaskSelected('reset_settings') then begin
+    if IsTaskSelected('reset_settings') then
       CleanUpSettingsAndFiles();
-    end;
 
     iLanguage := StrToInt(ExpandConstant('{cm:langid}'));
     RegWriteStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', ExpandConstant('{app}\{#mpchc_exe}'));
 
-    if IsComponentSelected('mpcresources') then begin
-      if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
-        SetIniInt('Settings', 'InterfaceLanguage', iLanguage, ExpandConstant('{app}\{#mpchc_ini}'))
-      end
-      else begin
-        RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', iLanguage);
-      end;
-    end;
+    if IsComponentSelected('mpcresources') and FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
+      SetIniInt('Settings', 'InterfaceLanguage', iLanguage, ExpandConstant('{app}\{#mpchc_ini}'))
+    else
+      RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', iLanguage);
   end;
 
-  if CurStep = ssDone then begin
-    if not WizardSilent() and not D3DX9DLLExists() then begin
-      SuppressibleMsgBox(CustomMessage('msg_NoD3DX9DLL_found'), mbError, MB_OK, MB_OK);
-    end;
-  end;
+  if (CurStep = ssDone) and not WizardSilent() and not D3DX9DLLExists() then
+    SuppressibleMsgBox(CustomMessage('msg_NoD3DX9DLL_found'), mbError, MB_OK, MB_OK);
 
 end;
 
@@ -389,12 +378,9 @@ end;
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   // When uninstalling, ask the user to delete MPC-HC settings
-  if CurUninstallStep = usUninstall then begin
-    if SettingsExistCheck() then begin
-      if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then begin
-        CleanUpSettingsAndFiles();
-      end;
-    end;
+  if (CurUninstallStep = usUninstall) and SettingsExistCheck() then begin
+    if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
+      CleanUpSettingsAndFiles();
   end;
 end;
 
@@ -424,4 +410,3 @@ begin
 
   end;
 end;
-
