@@ -1,3 +1,3 @@
 1) Fix libmingwex.a x64 patch for v2.0 and use that
 2) Use vanilla ffmpeg or libav with the DXVA patches only
-3) Stop linking ffmpeg statically. This should fix the x64 performance issues
+3) Stop linking ffmpeg statically.

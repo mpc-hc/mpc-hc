@@ -127,10 +127,10 @@
 			if (p4!=-1 || (p1!=-1 && p2!=-1 && p2>p1) || (p1!=-1 && p3!=-1 && p3>p1)) return -2000;
 			p1=(p1 == -1?ts.length+1:p1)
 			if (p2 == -1)		t=parseFloat((ts+"      ").substring(0,p1+4));
-			if (p2 != -1 && p3 == -1)	t=parseInt(ts.substring(0,p2))*60 + 
+			if (p2 != -1 && p3 == -1)	t=parseInt(ts.substring(0,p2))*60 +
 							parseFloat("0"+(ts+"      ").substring(p2+1,p1+4));
-			if (p2 != -1 && p3 != -1)	t=parseInt(ts.substring(0,p2))*3600 + 
-							parseInt(ts.substring(p2+1,p3))*60 + 
+			if (p2 != -1 && p3 != -1)	t=parseInt(ts.substring(0,p2))*3600 +
+							parseInt(ts.substring(p2+1,p3))*60 +
 							parseFloat("0"+(ts+"      ").substring(p3+1,p1+4));
 			return t;
 		}
@@ -217,9 +217,9 @@
 	<body onload="init()">
 		<p>
 			<strong>
-				Feel free to redesign this page (nice image buttons, more "player-like" layout, etc.), but if you do 
+				Feel free to redesign this page (nice image buttons, more "player-like" layout, etc.), but if you do
 				alter the page <a href="http://cvs.sourceforge.net/viewcvs.py/guliverkli/guliverkli/src/apps/mplayerc/res/web/">here</a>
-				and not the one you can save from the browser. Post your comments, remarks, ideas, progress into 
+				and not the one you can save from the browser. Post your comments, remarks, ideas, progress into
 				<a href="https://sourceforge.net/forum/message.php?msg_id=2357783">this topic</a>.
 			</strong>
 		</p>

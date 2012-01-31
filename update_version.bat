@@ -20,7 +20,7 @@ ECHO You should (re)install TortoiseSVN.
 ECHO I'll use MPC_VERSION_REV=0 for now.
 
 ECHO #define MPC_VERSION_REV 0 > "include\Version_rev.h"
-COPY /Y "src\apps\mplayerc\res\mpc-hc.exe.manifest.template" "src\apps\mplayerc\res\mpc-hc.exe.manifest" >NUL
+TYPE "src\apps\mplayerc\res\mpc-hc.exe.manifest.template" > "src\apps\mplayerc\res\mpc-hc.exe.manifest"
 
 :END
 POPD

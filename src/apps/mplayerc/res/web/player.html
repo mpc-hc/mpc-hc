@@ -59,7 +59,7 @@ OnStatus = function(title, status, pos, posstr, dur, durstr, muted, volume, file
 	if ((e = document.getElementById('status')) && e.innerHTML != status) e.innerHTML = status;
 	if ((e = document.getElementById('timer')) && e.innerHTML != timestr) e.innerHTML = timestr;
 	if (e = document.getElementById('controlvolumemute')) {url = 'url(controlvolume' + (muted?'off':'on') + '.png)'; if (e.style.backgroundImage != url) e.style.backgroundImage = url;}
-	if (e = document.getElementById('controlvolumegrip')) 
+	if (e = document.getElementById('controlvolumegrip'))
 	{
 		volume = (document.getElementById('controlvolumebar').offsetWidth - e.offsetWidth) * volume / 100;
 		e.style.position = 'relative';
