@@ -149,7 +149,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\");
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\");
 
 #if defined (_WIN64)
 	m_strMPCPath += _T("mpc-hc_x64");

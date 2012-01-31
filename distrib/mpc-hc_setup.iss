@@ -51,11 +51,11 @@
 
 
 #ifdef x64Build
-  #define bindir       = "..\bin10\mpc-hc_x64"
+  #define bindir       = "..\bin\mpc-hc_x64"
   #define mpchc_exe    = "mpc-hc64.exe"
   #define mpchc_ini    = "mpc-hc64.ini"
 #else
-  #define bindir       = "..\bin10\mpc-hc_x86"
+  #define bindir       = "..\bin\mpc-hc_x86"
   #define mpchc_exe    = "mpc-hc.exe"
   #define mpchc_ini    = "mpc-hc.ini"
 #endif

@@ -1,6 +1,6 @@
 CC = gcc.exe
 
-BIN_DIR = ../../../../../bin10
+BIN_DIR = ../../../../../bin
 
 ifeq ($(64BIT),yes)
     MY_ARCH = x64

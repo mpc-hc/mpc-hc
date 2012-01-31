@@ -45,7 +45,7 @@ Part C: Downloading and compiling the MPC-HC source
     c) Put https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk in "URL of Repository" and press OK.
     d) Wait for the source tree to be downloaded.
 
-3. Open the solution file C:\mpc-hc\mpc-hc_2010.sln
+3. Open the solution file C:\mpc-hc\mpc-hc.sln
     Change the solution's configuration to "Release" (in the toolbar).
 4. Right click the mpc-hc project, and open up its Properties.
    There, go to Configuration Properties->Linker->General. Add the following directories to the "Additional Library Directories":
@@ -84,20 +84,20 @@ EXIT /B
 
 5. Press OK to save the changes and close the Properties window.
 6. Press F7 to build the solution.
-7. You now have mpc-hc.exe under C:\mpc-hc\bin10\mpc-hc_x86
-8. Open the solution file C:\mpc-hc\mpciconlib_2010.sln
+7. You now have mpc-hc.exe under C:\mpc-hc\bin\mpc-hc_x86
+8. Open the solution file C:\mpc-hc\mpciconlib.sln
 9. Press F7 to build the solution.
-10. You now have mpciconlib.dll under C:\mpc-hc\bin10\mpc-hc_x86
-11. Open the solution file C:\mpc-hc\mpcresources_2010.sln
+10. You now have mpciconlib.dll under C:\mpc-hc\bin\mpc-hc_x86
+11. Open the solution file C:\mpc-hc\mpcresources.sln
     In Visual Studio go to Build->Batch Build->Press Select All->Press Build
-12. You now have mpcresources.XX.dll under C:\mpc-hc\bin10\mpc-hc_x86
+12. You now have mpcresources.XX.dll under C:\mpc-hc\bin\mpc-hc_x86\Lang
 
-Alternatively, you can use build_2010.bat (run: build_2010.bat help for more info)
+Alternatively, you can use build.bat (run: build.bat help for more info)
 
 
 Part D: Building FFmpeg x64 (libavcodec) with GCC
 
-When building FFmpeg (project libavcodec_gcc) in 32 bit mode, GCC is used and according to the makefile that is automatically invoked from the solution. Doing so for 64 bit, requires some additional steps:
+When building FFmpeg (project libavcodec) in 32 bit mode, GCC is used and according to the makefile that is automatically invoked from the solution. Doing so for 64 bit, requires some additional steps:
  1. Run MSYS and cd to the trunk\src\filters\transform\MPCVideoDec\ffmpeg_x64 folder
 Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
 (notice that the first part will most probably differ for the exact paths)
@@ -113,6 +113,6 @@ Now libavcodec can be compiled from within the MPC-HC visual studio solution fil
 
 Part E: Building the installer
 
-Download Inno Setup Unicode v5.4.2 or newer from: http://www.jrsoftware.org/isdl.php
+Download Inno Setup Unicode v5.4.3 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup, read the first comments in the script and compile it.
 Note: ISTool does not handle Unicode well so don't use it. Use Inno Setup's built-in IDE.

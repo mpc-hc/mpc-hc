@@ -32,19 +32,19 @@ IF DEFINED PROGRAMFILES(x86) (SET build_type=amd64) ELSE (SET build_type=x86_amd
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
 CD /D %~dp0
 
-REM Debug build only applies to Main (mpc-hc_2010.sln)
+REM Debug build only applies to Main (mpc-hc.sln)
 IF /I "%4"=="Debug" (SET BUILDCONFIG=Debug) ELSE (SET BUILDCONFIG=Release)
 
 REM Do we want to build x86, x64 or both?
 IF /I "%2"=="x64" GOTO skip32
-SET OUTDIR=bin10\mpc-hc_x86
+SET OUTDIR=bin\mpc-hc_x86
 SET PLATFORM=Win32
 CALL :Sub_build_internal %*
 
 
 :skip32
 IF /I "%2"=="x86" GOTO END
-SET OUTDIR=bin10\mpc-hc_x64
+SET OUTDIR=bin\mpc-hc_x64
 SET PLATFORM=x64
 CALL :Sub_build_internal %*
 GOTO END
@@ -73,7 +73,7 @@ EXIT /B
 IF /I "%3"=="Resource" GOTO skipMain
 
 TITLE Compiling MPC-HC - %BUILDCONFIG%^|%PLATFORM%...
-devenv /nologo mpc-hc_2010.sln /%BUILDTYPE% "%BUILDCONFIG%|%PLATFORM%"
+devenv /nologo mpc-hc.sln /%BUILDTYPE% "%BUILDCONFIG%|%PLATFORM%"
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 
 
@@ -81,7 +81,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 IF /I "%3"=="Main" GOTO skipResource
 
 TITLE Compiling mpciconlib - Release^|%PLATFORM%...
-devenv /nologo mpciconlib_2010.sln /%BUILDTYPE% "Release|%PLATFORM%"
+devenv /nologo mpciconlib.sln /%BUILDTYPE% "Release|%PLATFORM%"
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 
 FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese simplified" "Chinese traditional"
@@ -107,7 +107,7 @@ IF /I "%PLATFORM%"=="x64" GOTO skipx86installer
 
 IF DEFINED InnoSetupPath (
   TITLE Compiling x86 installer...
-  "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss"
+  "%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss"
   IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
   ECHO. & ECHO x86 installer successfully built
 ) ELSE (
@@ -122,7 +122,7 @@ IF /I "%PLATFORM%"=="Win32" GOTO END
 
 IF DEFINED InnoSetupPath (
   TITLE Compiling x64 installer...
-  "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /Dx64Build
+  "%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" /Dx64Build
   IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
   ECHO. & ECHO x64 installer successfully built
 ) ELSE (
@@ -134,7 +134,7 @@ EXIT /B
 
 :SubMPCRES
 TITLE Compiling mpcresources - %~1^|%PLATFORM%...
-devenv /nologo mpcresources_2010.sln /%BUILDTYPE% "Release %~1|%PLATFORM%"
+devenv /nologo mpcresources.sln /%BUILDTYPE% "Release %~1|%PLATFORM%"
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 EXIT /B
 
