@@ -255,8 +255,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile->Seek(m_DataOffset);
 
-	for(int i = 0; ReadTag(t) && (fTypeFlagsVideo || fTypeFlagsAudio) && i < 150; i++) {
-	// 150 is the maximum search depth. In one case, it took 137 cycles to find the video tag.
+	for(int i = 0; ReadTag(t) && (fTypeFlagsVideo || fTypeFlagsAudio); i++) {
+		if(!t.DataSize) continue; // skip empty Tag
+
 		UINT64 next = m_pFile->GetPos() + t.DataSize;
 
 		CStringW name;
@@ -292,9 +293,11 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				switch(at.SoundFormat) {
 					case 0: // FLV_CODECID_PCM_BE
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_PCM);
+						name += L" PCM";
 						break;
 					case 1: { // FLV_CODECID_ADPCM
 						mt.subtype = FOURCCMap(MAKEFOURCC('A','S','W','F'));
+						name += L" ADPCM";
 
 						// Create special media type - to playback ADPCM with LAVAudio
 						ff_mtype.InitMediaType();
@@ -312,7 +315,8 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					}
 					case 2:	// FLV_CODECID_MP3
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
-
+						name += L" MP3";
+						
 						{
 							CBaseSplitterFileEx::mpahdr h;
 							CMediaType mt2;
@@ -327,19 +331,23 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					case 4 :	// FLV_CODECID_NELLYMOSER_16HZ_MONO
 						mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
 						wfe->nSamplesPerSec = 16000;
+						name += L" Nellimoser";
 						break;
 					case 5 :	// FLV_CODECID_NELLYMOSER_8HZ_MONO
 						mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
 						wfe->nSamplesPerSec = 8000;
+						name += L" Nellimoser";
 						break;
 					case 6 :	// FLV_CODECID_NELLYMOSER
 						mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
+						name += L" Nellimoser";
 						break;
 					case 10: { // FLV_CODECID_AAC
 						if (dataSize < 1 || m_pFile->BitRead(8) != 0) { // packet type 0 == aac header
 							fTypeFlagsAudio = true;
 							break;
 						}
+						name += L" AAC";
 
 						const int sampleRates[] = {
 							96000, 88200, 64000, 48000, 44100, 32000, 24000,
@@ -429,6 +437,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						}
 
 						mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = '1VLF');
+						name += L" H.263";
 
 						break;
 					case FLV_CODECID_SCREEN: {
@@ -447,6 +456,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						vih->bmiHeader.biSizeImage = vih->bmiHeader.biWidth * vih->bmiHeader.biHeight * 3;
 
 						mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = '1VSF');
+						name += L" Screen";
 
 						break;
 					}
@@ -498,6 +508,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 #endif
 
 						mt.subtype = FOURCCMap(bih->biCompression = '4VLF');
+						name += L" VP6";
 
 						break;
 					}
@@ -661,6 +672,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						delete[] headerData;
 
 						mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = '1CVA');
+						name += L" H.264";
 
 						break;
 					}
