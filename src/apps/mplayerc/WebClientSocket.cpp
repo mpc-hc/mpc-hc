@@ -389,6 +389,40 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
 	return true;
 }
 
+bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
+{
+	int pos = (int)(m_pMainFrame->GetPos()/10000);
+	int dur = (int)(m_pMainFrame->GetDur()/10000);
+
+	CString positionstring, durationstring, versionstring, volumelevel, resolutionstring, fpsstring, sizestring, codecstring;
+	versionstring.Format(L"%s", AfxGetMyApp()->m_strVersion);
+	CPath file(m_pMainFrame->m_wndPlaylistBar.GetCurFileName());
+	file.StripPath();
+	file.RemoveExtension();
+
+	positionstring.Format(_T("%02d:%02d:%02d"), (pos/3600000), (pos/60000)%60, (pos/1000)%60);
+	durationstring.Format(_T("%02d:%02d:%02d"), (dur/3600000), (dur/60000)%60, (dur/1000)%60);
+
+	WIN32_FIND_DATA wfd;
+	HANDLE hFind = FindFirstFile(m_pMainFrame->m_wndPlaylistBar.GetCurFileName(), &wfd);
+	if(hFind != INVALID_HANDLE_VALUE) {
+		FindClose(hFind);
+		__int64 size = (__int64(wfd.nFileSizeHigh)<<32)|wfd.nFileSizeLow;
+		const int MAX_FILE_SIZE_BUFFER = 65;
+		TCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
+		StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
+		sizestring.Format(L"%s", szFileSize);
+	}
+
+	m_pWebServer->LoadPage(IDR_HTML_INFO, body, m_path);
+	body.Replace("[version]", UTF8(versionstring));
+	body.Replace("[file]", UTF8(file));
+	body.Replace("[position]", UTF8(positionstring));
+	body.Replace("[duration]", UTF8(durationstring));
+	body.Replace("[size]", UTF8(sizestring));
+	return true;
+}
+
 bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 {
 	CAtlList<CStringA> rootdrives;

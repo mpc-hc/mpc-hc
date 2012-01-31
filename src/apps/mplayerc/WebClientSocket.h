@@ -60,6 +60,7 @@ public:
 
 	bool OnCommand(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnIndex(CStringA& hdr, CStringA& body, CStringA& mime);
+	bool OnInfo(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnControls(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnVariables(CStringA& hdr, CStringA& body, CStringA& mime);

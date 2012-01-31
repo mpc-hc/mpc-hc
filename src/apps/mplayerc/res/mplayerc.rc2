@@ -119,6 +119,7 @@ W7_TOOLBAR                       PNG                     "res\\Toolbarw7.png"
 //
 
 IDR_HTML_INDEX                   HTML                    "res\\web\\index.html"
+IDR_HTML_INFO                    HTML                    "res\\web\\info.html"
 IDR_HTML_404                     HTML                    "res\\web\\404.html"
 IDR_HTML_BROWSER                 HTML                    "res\\web\\browser.html"
 IDR_HTML_CONTROLS                HTML                    "res\\web\\controls.html"

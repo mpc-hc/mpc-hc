@@ -44,6 +44,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 	if (m_internalpages.IsEmpty()) {
 		m_internalpages[_T("/")] = &CWebClientSocket::OnIndex;
 		m_internalpages[_T("/index.html")] = &CWebClientSocket::OnIndex;
+		m_internalpages[_T("/info.html")] = &CWebClientSocket::OnInfo;
 		m_internalpages[_T("/browser.html")] = &CWebClientSocket::OnBrowser;
 		m_internalpages[_T("/controls.html")] = &CWebClientSocket::OnControls;
 		m_internalpages[_T("/command.html")] = &CWebClientSocket::OnCommand;
@@ -198,6 +199,9 @@ void CWebServer::Deploy(CString dir)
 	CStringA data;
 	if (LoadResource(IDR_HTML_INDEX, data, RT_HTML)) {
 		PutFileContents(dir + _T("index.html"), data);
+	}
+	if (LoadResource(IDR_HTML_INFO, data, RT_HTML)) {
+		PutFileContents(dir + _T("info.html"), data);
 	}
 	if (LoadResource(IDR_HTML_BROWSER, data, RT_HTML)) {
 		PutFileContents(dir + _T("browser.html"), data);

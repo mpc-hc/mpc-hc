@@ -471,6 +471,7 @@
     <None Include="res\web\headerclose.png" />
     <None Include="res\web\headericon.png" />
     <None Include="res\web\index.html" />
+    <None Include="res\web\info.html" />
     <None Include="res\web\leftbottomside.png" />
     <None Include="res\web\leftside.png" />
     <None Include="res\web\logo.png" />

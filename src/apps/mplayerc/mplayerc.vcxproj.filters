@@ -838,6 +838,9 @@
     <None Include="res\web\index.html">
       <Filter>Resource Files\web</Filter>
     </None>
+    <None Include="res\web\info.html">
+      <Filter>Resource Files\web</Filter>
+    </None>
     <None Include="res\web\leftbottomside.png">
       <Filter>Resource Files\web</Filter>
     </None>
