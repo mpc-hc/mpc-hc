@@ -136,7 +136,7 @@ Name: se; MessagesFile: Languages\Swedish.isl
 Name: sk; MessagesFile: compiler:Languages\Slovak.isl
 Name: tc; MessagesFile: Languages\ChineseTrad.isl
 Name: tr; MessagesFile: Languages\Turkish.isl
-Name: ua; MessagesFile: Languages\Ukrainian.isl
+Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
 #endif
 
 ; Include installer's custom messages
