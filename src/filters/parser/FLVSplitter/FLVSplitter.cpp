@@ -255,7 +255,8 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile->Seek(m_DataOffset);
 
-	for(int i = 0; ReadTag(t) && (fTypeFlagsVideo || fTypeFlagsAudio) && i < 100; i++) {
+	for(int i = 0; ReadTag(t) && (fTypeFlagsVideo || fTypeFlagsAudio) && i < 150; i++) {
+	// 150 is the maximum search depth. In one case, it took 137 cycles to find the video tag.
 		UINT64 next = m_pFile->GetPos() + t.DataSize;
 
 		CStringW name;
