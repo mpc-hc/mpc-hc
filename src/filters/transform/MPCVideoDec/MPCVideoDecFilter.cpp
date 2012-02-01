@@ -1007,6 +1007,28 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(enum CodecID nCodec)
 	);
 }
 
+CString CMPCVideoDecFilter::GetFileExtension()
+{
+	CString ext = _T("");
+
+	BeginEnumFilters(m_pGraph, pEF, pBF) {
+		CComQIPtr<IFileSourceFilter> pFSF = pBF;
+		if (pFSF) {
+			LPOLESTR pFN = NULL;
+			AM_MEDIA_TYPE mt;
+			if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
+				ext = CPath(CStringW(pFN)).GetExtension();
+				ext.MakeLower();
+				CoTaskMemFree(pFN);
+			}
+			break;
+		}
+	}
+	EndEnumFilters
+
+	return ext;
+}
+
 HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
 {
 	if (direction == PINDIR_INPUT) {
@@ -1075,7 +1097,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 					m_pAVCtx->codec_tag = pmt->subtype.Data1;
 				} else if ( (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1')) || (m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1'))) {
 					m_pAVCtx->nal_length_size = mpg2v->dwFlags;
-					m_bReorderBFrame = false;
+					m_bReorderBFrame = (GetFileExtension() == _T(".avi")) ? true : false;
 				}
 			}
 			m_nWidth	= m_pAVCtx->width;

@@ -35,6 +35,7 @@
 #include "TlibavcodecExt.h"
 
 #include "H264RandomAccess.h"
+#include <atlpath.h>
 
 #define MPCVideoDecName L"MPC Video Decoder"
 
@@ -196,7 +197,9 @@ public:
 	CTransformOutputPin*	GetOutputPin() {
 		return m_pOutput;
 	}
-	void					UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
+
+	void			UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
+	CString			GetFileExtension();
 
 	// === Overriden DirectShow functions
 	HRESULT			SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
