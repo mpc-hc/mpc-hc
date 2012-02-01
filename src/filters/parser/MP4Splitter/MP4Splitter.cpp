@@ -302,6 +302,26 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								b_HasVideo = true;
 							}
 							break;
+						case AP4_JPEG_OTI:
+							mt.subtype = FOURCCMap('gepj');
+							mt.formattype = FORMAT_MPEG2Video;
+							{
+								MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
+								memset(vih, 0, mt.FormatLength());
+								vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
+								vih->hdr.bmiHeader.biWidth = biWidth;
+								vih->hdr.bmiHeader.biHeight = biHeight;
+								vih->hdr.bmiHeader.biCompression = 'gepj';
+								vih->hdr.bmiHeader.biPlanes = 1;
+								vih->hdr.bmiHeader.biBitCount = 24;
+								vih->hdr.dwPictAspectRatioX = vih->hdr.bmiHeader.biWidth;
+								vih->hdr.dwPictAspectRatioY = vih->hdr.bmiHeader.biHeight;
+								vih->cbSequenceHeader = di->GetDataSize();
+								memcpy(vih->dwSequenceHeader, di->GetData(), di->GetDataSize());
+								mts.Add(mt);
+								b_HasVideo = true;
+							}
+							break;
 						case AP4_MPEG2_VISUAL_SIMPLE_OTI:
 						case AP4_MPEG2_VISUAL_MAIN_OTI:
 						case AP4_MPEG2_VISUAL_SNR_OTI:
