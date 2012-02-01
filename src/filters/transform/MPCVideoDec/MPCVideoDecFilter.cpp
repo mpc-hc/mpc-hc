@@ -1098,6 +1098,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				} else if ( (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1')) || (m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1'))) {
 					m_pAVCtx->nal_length_size = mpg2v->dwFlags;
 					m_bReorderBFrame = (GetFileExtension() == _T(".avi")) ? true : false;
+				} else if ( (m_pAVCtx->codec_tag == MAKEFOURCC('m','p','4','v')) || (m_pAVCtx->codec_tag == MAKEFOURCC('M','P','4','V'))) {
+					m_bReorderBFrame = false;
 				}
 			}
 			m_nWidth	= m_pAVCtx->width;
