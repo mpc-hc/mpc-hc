@@ -1064,7 +1064,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 	if (FAILED(hr)) {
 		m_buff.RemoveAll();
 		m_bResync = true;
-		return S_FALSE;
+		return S_OK;
 	}
 	
 	if (size <= 0) {
