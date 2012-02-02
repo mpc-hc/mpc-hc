@@ -39,8 +39,9 @@
 
 #include <libflac/include/FLAC/stream_decoder.h>
 
-#define INT24_MAX					0x7FFFFF
-#define AC3_HEADER_SIZE				7
+#define INT24_MAX			0x7FFFFF
+#define AC3_HEADER_SIZE		7
+#define MAX_JITTER			1000000i64 // +-100ms jitter is allowed for now 
 
 #if HAS_FFMPEG_AUDIO_DECODERS
 typedef struct {
@@ -509,6 +510,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	REFERENCE_TIME rtStart = _I64_MIN, rtStop = _I64_MIN;
 	hr = pIn->GetTime(&rtStart, &rtStop);
 
+	if(SUCCEEDED(hr)) {
+		TRACE(_T("CMpaDecFilter::Receive(): rtStart = %10I64d, rtStop = %10I64d\n"), rtStart, rtStop);
+	} else {
+		TRACE(_T("CMpaDecFilter::Receive(): frame without timestamp\n"));
+	}
+
 	if(pIn->IsDiscontinuity() == S_OK) {
 		m_fDiscontinuity = true;
 		m_buff.RemoveAll();
@@ -521,10 +528,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		}
 	}
 
-	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
-
-	if(SUCCEEDED(hr) && (_abs64((m_rtStart - rtStart)) > 1000000i64) // +-100ms jitter is allowed for now 
-			|| m_bResync) {
+	if(SUCCEEDED(hr) && ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) || m_bResync)) {
 		m_buff.RemoveAll(); 
 		m_rtStart = rtStart;
 		m_bResync = false;
@@ -534,6 +538,8 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	m_buff.SetCount(bufflen + len, 4096);
 	memcpy(m_buff.GetData() + bufflen, pDataIn, len);
 	len += bufflen;
+
+	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	enum CodecID nCodecId = FindCodec(subtype);
