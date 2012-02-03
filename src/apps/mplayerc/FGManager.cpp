@@ -1766,6 +1766,15 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RV30);
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RV40);
 	m_transform.AddTail(pFGF);
+
+	pFGF = DNew CFGFilterInternal<	CMPCVideoDecFilter>(
+			   (tra[TRA_RV]) ? MPCVideoDecName : CStringW(MPCVideoDecName)+LowMeritSuffix,
+			   (tra[TRA_RV]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RV10);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RV20);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RV30);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RV40);
+	m_transform.AddTail(pFGF);
 #endif
 
 #if INTERNAL_DECODER_REALAUDIO

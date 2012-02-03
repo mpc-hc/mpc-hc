@@ -551,7 +551,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6|MPCVD_VP8|MPCVD_MJPEG|MPCVD_INDEO;
+	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6|MPCVD_VP8|MPCVD_MJPEG|MPCVD_INDEO|MPCVD_RV;
 	m_rtLastStart			= 0;
 	m_nCountEstimated		= 0;
 
@@ -589,6 +589,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_bWaitingForKeyFrame = TRUE;
 
 	m_bTheoraMTSupport = true;
+
+	m_rtPrevStop = 0;
 
 #ifdef REGISTER_FILTER
 	CRegKey key;
@@ -865,6 +867,12 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				case CODEC_ID_TSCC :
 					bCodecActivated = 1;
 					break;
+				case CODEC_ID_RV10 :
+				case CODEC_ID_RV20 :
+				case CODEC_ID_RV30 :
+				case CODEC_ID_RV40 :
+					bCodecActivated = (m_nActiveCodecs & MPCVD_RV) != 0;
+					break;
 			}
 			return (bCodecActivated ? i : -1);
 #endif
@@ -1003,7 +1011,9 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(enum CodecID nCodec)
 		nCodec==CODEC_ID_FFV1 ||
 		nCodec==CODEC_ID_DVVIDEO ||
 		nCodec==CODEC_ID_VP8 ||
-		nCodec==CODEC_ID_THEORA
+		nCodec==CODEC_ID_THEORA ||
+		nCodec==CODEC_ID_RV30 ||
+		nCodec==CODEC_ID_RV40
 	);
 }
 
@@ -1107,6 +1117,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 			if(m_pAVCtx->codec_tag == MAKEFOURCC('m','p','g','2')) {
 				m_pAVCtx->codec_tag = MAKEFOURCC('M','P','E','G');
+			}
+
+			if(m_nCodecId == CODEC_ID_RV10 || m_nCodecId == CODEC_ID_RV20 || m_nCodecId == CODEC_ID_RV30 || m_nCodecId == CODEC_ID_RV40) {
+				m_bReorderBFrame = false;
 			}
 
 			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
@@ -1395,6 +1409,8 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 		m_pDXVADecoder->Flush();
 	}
 
+	m_rtPrevStop = 0;
+
 	return __super::NewSegment (rtStart, rtStop, dRate);
 }
 
@@ -1577,7 +1593,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 		if (m_nCodecId == CODEC_ID_H264 && got_picture) {
 			m_h264RandomAccess.judgeFrameUsability(m_pFrame, &got_picture);
-		} else if (m_nCodecId == CODEC_ID_VC1) {
+		} else if (m_nCodecId == CODEC_ID_VC1 || m_nCodecId == CODEC_ID_RV30 || m_nCodecId == CODEC_ID_RV40) {
 			if (m_bWaitingForKeyFrame && got_picture) {
 				if (m_pFrame->key_frame) {
 					m_bWaitingForKeyFrame = FALSE;
@@ -1607,10 +1623,15 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		if(m_nCodecId == CODEC_ID_THEORA) {
 			rtStart = m_pFrame->pkt_pts;
 			rtStop = m_pFrame->pkt_dts;
+		} else if((m_nCodecId == CODEC_ID_RV10 || m_nCodecId == CODEC_ID_RV20 || m_nCodecId == CODEC_ID_RV30 || m_nCodecId == CODEC_ID_RV40) && m_pFrame->pict_type == AV_PICTURE_TYPE_B) {
+			rtStart = m_rtPrevStop;
+			rtStop = rtStart + m_rtAvrTimePerFrame;
 		} else {
 			rtStart = m_pFrame->reordered_opaque;
 			rtStop  = m_pFrame->reordered_opaque + m_rtAvrTimePerFrame;
 		}
+
+		m_rtPrevStop = rtStop;
 
 		ReorderBFrames(rtStart, rtStop);
 

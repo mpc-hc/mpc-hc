@@ -321,6 +321,8 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MJPEG) != 0);
 	m_lstCodecs.AddString (_T("Indeo 3/4/5"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_INDEO) != 0);
+	m_lstCodecs.AddString (_T("Real Video"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_RV) != 0);
 #endif
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
