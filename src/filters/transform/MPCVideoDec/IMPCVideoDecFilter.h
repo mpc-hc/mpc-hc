@@ -25,24 +25,24 @@
 
 // Internal codec list (use to enable/disable codec in standalone mode)
 typedef enum {
-	MPCVD_H264      = 1,
-	MPCVD_VC1       = MPCVD_H264<<1,
-	MPCVD_XVID      = MPCVD_VC1<<1,
-	MPCVD_DIVX      = MPCVD_XVID<<1,
-	MPCVD_WMV       = MPCVD_DIVX<<1,
-	MPCVD_MSMPEG4   = MPCVD_WMV<<1,
-	MPCVD_H263      = MPCVD_MSMPEG4<<1,
-	MPCVD_SVQ3      = MPCVD_H263<<1,
-	MPCVD_THEORA    = MPCVD_SVQ3<<1,
-	MPCVD_AMVV      = MPCVD_THEORA<<1,
-	MPCVD_FLASH     = MPCVD_AMVV<<1,
-	MPCVD_H264_DXVA = MPCVD_FLASH<<1,
-	MPCVD_VC1_DXVA  = MPCVD_H264_DXVA<<1,
-	MPCVD_VP6       = MPCVD_VC1_DXVA<<1,
-	MPCVD_VP8       = MPCVD_VP6<<1,
-	MPCVD_MJPEG     = MPCVD_VP8<<1,
-	MPCVD_INDEO     = MPCVD_MJPEG<<1,
-	MPCVD_RV        = MPCVD_MJPEG<<1
+	MPCVD_H264      = 1 <<  0,
+	MPCVD_VC1       = 1 <<  1,
+	MPCVD_XVID      = 1 <<  2,
+	MPCVD_DIVX      = 1 <<  3,
+	MPCVD_WMV       = 1 <<  4,
+	MPCVD_MSMPEG4   = 1 <<  5,
+	MPCVD_H263      = 1 <<  6,
+	MPCVD_SVQ3      = 1 <<  7,
+	MPCVD_THEORA    = 1 <<  8,
+	MPCVD_AMVV      = 1 <<  9,
+	MPCVD_FLASH     = 1 << 10,
+	MPCVD_H264_DXVA = 1 << 11,
+	MPCVD_VC1_DXVA  = 1 << 12,
+	MPCVD_VP6       = 1 << 13,
+	MPCVD_VP8       = 1 << 14,
+	MPCVD_MJPEG     = 1 << 15,
+	MPCVD_INDEO     = 1 << 16,
+	MPCVD_RV        = 1 << 17
 } MPC_VIDEO_CODEC;
 
 interface __declspec(uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262"))
