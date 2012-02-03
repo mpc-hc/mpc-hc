@@ -1,3 +1,10 @@
+next version - not yet release
+==============================
+CHANGED: Updated libpng to v1.5.8
+CHANGED: Updated Polish translation
+FIXED  : Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
+
+
 v1.6.0.4014 - 30 January 2012
 ==============================
 NEW    : Add the ability to export MPC-HC settings

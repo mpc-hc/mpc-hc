@@ -3776,6 +3776,22 @@ Version 1.5.7 [December 15, 2011]
   Minor fixes to pngvalid.c for gcc 4.6.2 compatibility to remove warnings
     reported by earlier versions.
 
+Version 1.5.8beta01 [January 15, 2011]
+  Removed '#include config.h"' from contrib/libtests/pngvalid.c.  It's not
+    needed and causes trouble for VPATH building.
+  Moved AC_MSG_CHECKING([if libraries can be versioned]) later to the proper
+    location in configure.ac (Gilles Espinasse).
+  Fix bug in pngerror.c: some long warnings were being improperly truncated
+    (bug introduced in libpng-1.5.3beta05).
+
+Version 1.5.8rc01 [January 21, 2012]
+  No changes.
+
+Version 1.5.8rc02 [January 25, 2012]
+  Fixed Min/GW uninstall to remove libpng.dll.a
+  Conditionalize the install rules for MINGW and CYGWIN in CMakeLists.txt
+
+
 Send comments/corrections/commendations to png-mng-implement at lists.sf.net
 (subscription required; visit
 https://lists.sourceforge.net/lists/listinfo/png-mng-implement
