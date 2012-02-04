@@ -2083,7 +2083,7 @@ static int vp3_decode_frame(AVCodecContext *avctx,
                 }
         }
         s->current_frame.reordered_opaque = 10000000LL * theora_granule_frame(s,s->granulepos) * avctx->time_base.den / avctx->time_base.num;
-        s->current_frame.pict_type=s->keyframe?FF_I_TYPE:FF_P_TYPE;
+        s->current_frame.pict_type=s->keyframe?AV_PICTURE_TYPE_I:AV_PICTURE_TYPE_P;
     }
     /* ffdshow custom code (end) */
 

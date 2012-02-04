@@ -2,20 +2,20 @@
  * AAC Spectral Band Replication decoding data
  * Copyright (c) 2008-2009 Robert Swain ( rob opendot cl )
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -352,7 +352,8 @@ static DECLARE_ALIGNED(16, float, sbr_qmf_window_us)[640] = {
      0.8537385600,
 };
 
-static const float sbr_noise_table[512][2] = {
+/* First two entries repeated at end to simplify SIMD implementations. */
+const DECLARE_ALIGNED(16, float, ff_sbr_noise_table)[][2] = {
 {-0.99948153278296, -0.59483417516607}, { 0.97113454393991, -0.67528515225647},
 { 0.14130051758487, -0.95090983575689}, {-0.47005496701697, -0.37340549728647},
 { 0.80705063769351,  0.29653668284408}, {-0.38981478896926,  0.89572605717087},
@@ -609,6 +610,7 @@ static const float sbr_noise_table[512][2] = {
 {-0.93412041758744,  0.41374052024363}, { 0.96063943315511,  0.93116709541280},
 { 0.97534253457837,  0.86150930812689}, { 0.99642466504163,  0.70190043427512},
 {-0.94705089665984, -0.29580042814306}, { 0.91599807087376, -0.98147830385781},
+{-0.99948153278296, -0.59483417516607}, { 0.97113454393991, -0.67528515225647},
 };
 
 #endif /* AVCODEC_AACSBRDATA_H */

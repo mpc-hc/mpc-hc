@@ -608,7 +608,7 @@ int vc1_parse_frame_header(VC1Context *v, GetBitContext* gb)
         skip_bits(gb, 7); // skip buffer fullness
 
     if (v->parse_only)
-        return 0;
+        goto done;
 
     /* calculate RND */
     if (v->s.pict_type == AV_PICTURE_TYPE_I || v->s.pict_type == AV_PICTURE_TYPE_BI)
@@ -791,6 +791,7 @@ int vc1_parse_frame_header(VC1Context *v, GetBitContext* gb)
         v->s.dc_table_index = get_bits1(gb);
     }
 
+done:
     if (v->s.pict_type == AV_PICTURE_TYPE_BI) {
         v->s.pict_type = AV_PICTURE_TYPE_B;
         v->bi_type     = 1;

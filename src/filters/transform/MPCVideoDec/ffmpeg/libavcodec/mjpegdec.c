@@ -102,10 +102,6 @@ av_cold int ff_mjpeg_decode_init(AVCodecContext *avctx)
 
     build_basic_mjpeg_vlc(s);
 
-#if FF_API_MJPEG_GLOBAL_OPTS
-    if (avctx->flags & CODEC_FLAG_EXTERN_HUFF)
-        s->extern_huff = 1;
-#endif
     if (s->extern_huff) {
         av_log(avctx, AV_LOG_INFO, "mjpeg: using external huffman table\n");
         init_get_bits(&s->gb, avctx->extradata, avctx->extradata_size * 8);
@@ -1376,13 +1372,9 @@ int ff_mjpeg_find_marker(MJpegDecodeContext *s,
     int start_code;
     start_code = find_marker(buf_ptr, buf_end);
 
-    if ((buf_end - *buf_ptr) > s->buffer_size) {
-        av_free(s->buffer);
-        s->buffer_size = buf_end - *buf_ptr;
-        s->buffer      = av_malloc(s->buffer_size + FF_INPUT_BUFFER_PADDING_SIZE);
-        av_log(s->avctx, AV_LOG_DEBUG,
-               "buffer too small, expanding to %d bytes\n", s->buffer_size);
-    }
+    av_fast_padded_malloc(&s->buffer, &s->buffer_size, buf_end - *buf_ptr);
+    if (!s->buffer)
+        return AVERROR(ENOMEM);
 
     /* unescape buffer of SOS, use special treatment for JPEG-LS */
     if (start_code == SOS && !s->ls) {

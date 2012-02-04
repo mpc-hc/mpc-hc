@@ -25,6 +25,8 @@
 #include "MPCVideoDecSettingsWnd.h"
 #include "../../../DSUtil/DSUtil.h"
 
+#include "avcodec.h"
+
 #include "../../../apps/mplayerc/InternalFiltersConfig.h"
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
@@ -38,18 +40,33 @@
 //
 
 int g_AVDiscard[] = {
-	-16, ///< AVDISCARD_NONE	discard nothing
-	0, ///< AVDISCARD_DEFAULT	discard useless packets like 0 size packets in avi
-	8, ///< AVDISCARD_NONREF	discard all non reference
-	16, ///< AVDISCARD_BIDIR	discard all bidirectional frames
-	32, ///< AVDISCARD_NONKEY	discard all frames except keyframes
-	48, ///< AVDISCARD_ALL		discard all
+	AVDISCARD_NONE,
+	AVDISCARD_DEFAULT,
+	AVDISCARD_NONREF,
+	AVDISCARD_BIDIR,
+	AVDISCARD_NONKEY,
+	AVDISCARD_ALL,
 };
 
 int FindDiscardIndex(int nValue)
 {
 	for (int i=0; i<countof (g_AVDiscard); i++)
 		if (g_AVDiscard[i] == nValue) {
+			return i;
+		}
+	return 1;
+}
+
+int g_AVErrRecognition[] = {
+	AV_EF_CAREFUL,
+	AV_EF_COMPLIANT,
+	AV_EF_AGGRESSIVE,
+};
+
+int FindErrRecognitionIndex(int nValue)
+{
+	for (int i=0; i<countof (g_AVErrRecognition); i++)
+		if (g_AVErrRecognition[i] == nValue) {
 			return i;
 		}
 	return 1;
@@ -121,7 +138,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbErrorRecognition.AddString (ResStr (IDS_VDF_ERR_CAREFUL));
 	m_cbErrorRecognition.AddString (ResStr (IDS_VDF_ERR_COMPLIANT));
 	m_cbErrorRecognition.AddString (ResStr (IDS_VDF_ERR_AGGRESSIVE));
-	m_cbErrorRecognition.AddString (ResStr (IDS_VDF_ERR_VERYAGGRESSIVE));
 
 	// IDCT Algo
 	nPosY += VERTICAL_SPACING;
@@ -191,7 +207,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		m_cbThreadNumber.SetCurSel		(m_pMDF->GetThreadNumber());
 		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
 #endif
-		m_cbErrorRecognition.SetCurSel	(m_pMDF->GetErrorRecognition()-1);
+		m_cbErrorRecognition.SetCurSel	(FindErrRecognitionIndex (m_pMDF->GetErrorRecognition()));
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
 
 		m_cbARMode.SetCheck(m_pMDF->GetARMode());
@@ -218,7 +234,7 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel());
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
 #endif /* INTERNAL_DECODER_H264 */
-		m_pMDF->SetErrorRecognition  (m_cbErrorRecognition.GetCurSel()+1);
+		m_pMDF->SetErrorRecognition  (g_AVErrRecognition[m_cbErrorRecognition.GetCurSel()]);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
 
 		m_pMDF->SetARMode(m_cbARMode.GetCheck());
@@ -400,6 +416,9 @@ bool CMPCVideoDecCodecWnd::OnApply()
 		}
 		if (m_lstCodecs.GetCheck  (nPos++)) {
 			nActiveCodecs |= MPCVD_MJPEG;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_RV;
 		}
 #endif
 		m_pMDF->SetActiveCodecs ((MPC_VIDEO_CODEC)nActiveCodecs);

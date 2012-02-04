@@ -174,10 +174,9 @@ static av_cold int ac3_decode_init(AVCodecContext *avctx)
     AC3DecodeContext *s = avctx->priv_data;
     s->avctx = avctx;
 
-#if FF_API_DRC_SCALE
+    /* ffdshow custom code */
     if (avctx->drc_scale)
         s->drc_scale = avctx->drc_scale;
-#endif
 
     ff_ac3_common_init();
     ac3_tables_init();

@@ -2432,7 +2432,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 
 				DWORD dwPCMSize = m_pFrame->nb_samples * scmap->nChannels * av_get_bytes_per_sample(m_pAVCtx->sample_fmt);
 				switch (m_pAVCtx->sample_fmt) {
-					case SAMPLE_FMT_S16 :
+					case AV_SAMPLE_FMT_S16 :
 						pBuff.SetCount (dwPCMSize / 2);
 						pDataOut = pBuff.GetData();
 
@@ -2444,7 +2444,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 						}
 						break;
 
-					case SAMPLE_FMT_S32 :
+					case AV_SAMPLE_FMT_S32 :
 						pBuff.SetCount (dwPCMSize / 4);
 						pDataOut = pBuff.GetData();
 
@@ -2455,7 +2455,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 							}
 						}
 						break;
-					case SAMPLE_FMT_FLT:
+					case AV_SAMPLE_FMT_FLT:
 						pBuff.SetCount (dwPCMSize / 4);
 						pDataOut = pBuff.GetData();
 						memcpy(pDataOut, m_pFrame->data[0], dwPCMSize);

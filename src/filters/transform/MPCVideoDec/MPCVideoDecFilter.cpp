@@ -560,7 +560,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	m_nThreadNumber			= 0;
 	m_nDiscardMode			= AVDISCARD_DEFAULT;
-	m_nErrorRecognition		= FF_ER_CAREFUL;
+	m_nErrorRecognition		= AV_EF_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
 	m_bDXVACompatible		= true;
 	m_pFFBuffer				= NULL;
@@ -600,11 +600,11 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ThreadNumber"), dw)) {
 			m_nThreadNumber = dw;
 		}
-			#if INTERNAL_DECODER_H264
+		#if INTERNAL_DECODER_H264
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DiscardMode"), dw)) {
 			m_nDiscardMode = dw;
 		}
-			#endif
+		#endif
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorRecognition"), dw)) {
 			m_nErrorRecognition = dw;
 		}
@@ -628,9 +628,9 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 #else
 	#if HAS_FFMPEG_VIDEO_DECODERS
 	m_nThreadNumber = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ThreadNumber"), m_nThreadNumber);
-		#if INTERNAL_DECODER_H264
+	#if INTERNAL_DECODER_H264
 	m_nDiscardMode = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DiscardMode"), m_nDiscardMode);
-		#endif
+	#endif
 	m_nErrorRecognition = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ErrorRecognition"), m_nErrorRecognition);
 	m_nIDCTAlgo = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("IDCTAlgo"), m_nIDCTAlgo);
 	m_nARMode = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("ARMode"), m_nARMode);
@@ -639,6 +639,9 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nDXVA_SD = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DisableDXVA_SD"), m_nDXVA_SD);
 #endif
 
+	if(m_nErrorRecognition != AV_EF_CAREFUL && m_nErrorRecognition != AV_EF_COMPLIANT && m_nErrorRecognition != AV_EF_AGGRESSIVE) {
+		m_nErrorRecognition = AV_EF_CAREFUL;
+	}
 	if(m_nDXVACheckCompatibility > 3) {
 		m_nDXVACheckCompatibility = 1;    // skip level check by default
 	}
@@ -1128,7 +1131,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->codec_id              = m_nCodecId;
 			m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;
 			m_pAVCtx->error_concealment		= m_nErrorConcealment;
-			m_pAVCtx->error_recognition		= m_nErrorRecognition;
+			m_pAVCtx->err_recognition		= m_nErrorRecognition;
 			m_pAVCtx->idct_algo				= m_nIDCTAlgo;
 			m_pAVCtx->skip_loop_filter		= (AVDiscard)m_nDiscardMode;
 			m_pAVCtx->dsp_mask				= AV_CPU_FLAG_FORCE | m_pCpuId->GetFeatures();
@@ -1439,12 +1442,12 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
 			}
 
 			switch (m_pFrame->pict_type) {
-				case FF_I_TYPE :
-				case FF_SI_TYPE :
+				case AV_PICTURE_TYPE_I :
+				case AV_PICTURE_TYPE_SI :
 					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_I_SAMPLE;
 					break;
-				case FF_P_TYPE :
-				case FF_SP_TYPE :
+				case AV_PICTURE_TYPE_P :
+				case AV_PICTURE_TYPE_SP :
 					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_P_SAMPLE;
 					break;
 				default :

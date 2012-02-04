@@ -15,7 +15,6 @@
 #define IDS_VDF_ERR_CAREFUL             33177
 #define IDS_VDF_ERR_COMPLIANT           33178
 #define IDS_VDF_ERR_AGGRESSIVE          33179
-#define IDS_VDF_ERR_VERYAGGRESSIVE      33180
 #define IDS_VDF_IDCT_ALGO               33181
 #define IDS_VDF_IDCT_AUTO               33182
 #define IDS_VDF_IDCT_LIBMPEG2           33183

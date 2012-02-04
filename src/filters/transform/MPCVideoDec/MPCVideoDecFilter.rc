@@ -114,7 +114,6 @@ BEGIN
     IDS_VDF_ERR_CAREFUL     "Careful"
     IDS_VDF_ERR_COMPLIANT   "Compliant"
     IDS_VDF_ERR_AGGRESSIVE  "Aggressive"
-    IDS_VDF_ERR_VERYAGGRESSIVE "Very aggressive"
     IDS_VDF_IDCT_ALGO       "IDCT Algorithm"
     IDS_VDF_IDCT_AUTO       "Auto"
     IDS_VDF_IDCT_LIBMPEG2   "libmpeg2 MMX"

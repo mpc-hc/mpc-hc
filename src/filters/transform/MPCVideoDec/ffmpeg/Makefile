@@ -32,12 +32,12 @@ ifeq ($(64BIT),yes)
     TARGET_OS     = x86_64-w64-mingw32
     CFLAGS       += -DWIN64 -D_WIN64 -DARCH_X86_64 -DPIC
     OPTFLAGS     += -m64 -fno-leading-underscore
-    YASMFLAGS    += -f win64 -m amd64 -DWIN64 -DARCH_X86_64 -DPIC
+    YASMFLAGS    += -f win64 -m amd64 -DWIN64=1 -DARCH_X86_32=0 -DARCH_X86_64=1 -DPIC
 else
     TARGET_OS     = i686-pc-mingw32
     CFLAGS       += -DWIN32 -D_WIN32 -DARCH_X86_32
     OPTFLAGS     += -march=i686 -mmmx -msse -mfpmath=sse
-    YASMFLAGS    += -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX
+    YASMFLAGS    += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
 endif
 
 ifeq ($(DEBUG),yes)
@@ -186,6 +186,7 @@ SRCS_C=\
     libavcodec/rv34dsp.c \
     libavcodec/rv40.c \
     libavcodec/rv40dsp.c \
+    libavcodec/sbrdsp.c \
     libavcodec/simple_idct.c \
     libavcodec/sinewin.c \
     libavcodec/sp5xdec.c \
@@ -233,7 +234,7 @@ SRCS_C=\
     libavcodec/x86/mpegaudiodec_mmx.c \
     libavcodec/x86/mpegvideo_mmx.c \
     libavcodec/x86/rv34dsp_init.c \
-    libavcodec/x86/rv40dsp.c \
+    libavcodec/x86/rv40dsp_init.c \
     libavcodec/x86/simple_idct_mmx.c \
     libavcodec/x86/vc1dsp_mmx.c \
     libavcodec/x86/vp56dsp_init.c \
@@ -293,6 +294,7 @@ SRCS_YASM=\
     libavcodec/x86/h264_weight_10bit.asm \
     libavcodec/x86/imdct36_sse.asm \
     libavcodec/x86/rv34dsp.asm \
+    libavcodec/x86/rv40dsp.asm \
     libavcodec/x86/vc1dsp_yasm.asm \
     libavcodec/x86/vp3dsp.asm \
     libavcodec/x86/vp56dsp.asm \

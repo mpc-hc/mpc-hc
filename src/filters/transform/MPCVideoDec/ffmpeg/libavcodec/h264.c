@@ -1198,7 +1198,7 @@ static int decode_update_thread_context(AVCodecContext *dst, const AVCodecContex
     int inited = s->context_initialized, err;
     int i;
 
-    if(dst == src || !s1->context_initialized) return 0;
+    if(dst == src) return 0;
 
     err = ff_mpeg_update_thread_context(dst, src);
     if(err) return err;
@@ -1214,11 +1214,18 @@ static int decode_update_thread_context(AVCodecContext *dst, const AVCodecContex
         memcpy(&h->s + 1, &h1->s + 1, sizeof(H264Context) - sizeof(MpegEncContext)); //copy all fields after MpegEnc
         memset(h->sps_buffers, 0, sizeof(h->sps_buffers));
         memset(h->pps_buffers, 0, sizeof(h->pps_buffers));
+
+        if (s1->context_initialized) {
         if (ff_h264_alloc_tables(h) < 0) {
             av_log(dst, AV_LOG_ERROR, "Could not allocate memory for h264\n");
             return AVERROR(ENOMEM);
         }
         context_init(h);
+
+        // frame_start may not be called for the next thread (if it's decoding a bottom field)
+        // so this has to be allocated here
+        h->s.obmc_scratchpad = av_malloc(16*6*s->linesize);
+        }
 
         for(i=0; i<2; i++){
             h->rbsp_buffer[i] = NULL;
@@ -1226,10 +1233,6 @@ static int decode_update_thread_context(AVCodecContext *dst, const AVCodecContex
         }
 
         h->thread_context[0] = h;
-
-        // frame_start may not be called for the next thread (if it's decoding a bottom field)
-        // so this has to be allocated here
-        h->s.obmc_scratchpad = av_malloc(16*6*s->linesize);
 
         s->dsp.clear_blocks(h->mb);
         s->dsp.clear_blocks(h->mb+(24*16<<h->pixel_shift));
@@ -3659,7 +3662,7 @@ static int decode_slice(struct AVCodecContext *avctx, void *arg){
                     tprintf(s->avctx, "slice end %d %d\n", get_bits_count(&s->gb), s->gb.size_in_bits);
 
                     if(   get_bits_count(&s->gb) == s->gb.size_in_bits
-                       || get_bits_count(&s->gb) <  s->gb.size_in_bits && s->avctx->error_recognition < FF_ER_AGGRESSIVE) {
+                       || get_bits_count(&s->gb) <  s->gb.size_in_bits && !(s->avctx->err_recognition & AV_EF_AGGRESSIVE)) {
                         ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x-1, s->mb_y, ER_MB_END&part_mask);
 
                         return 0;

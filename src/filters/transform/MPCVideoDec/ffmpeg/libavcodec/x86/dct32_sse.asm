@@ -19,8 +19,8 @@
 ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 ;******************************************************************************
 
-%include "libavutil/x86/x86inc.asm"
-%include "libavutil/x86/x86util.asm"
+%include "x86inc.asm"
+%include "x86util.asm"
 
 SECTION_RODATA 32
 
@@ -211,7 +211,7 @@ ps_p1p1m1m1: dd 0, 0, 0x80000000, 0x80000000, 0, 0, 0x80000000, 0x80000000
 
 INIT_YMM
 SECTION_TEXT
-%ifdef HAVE_AVX
+%if HAVE_AVX
 ; void ff_dct32_float_avx(FFTSample *out, const FFTSample *in)
 cglobal dct32_float_avx, 2,3,8, out, in, tmp
     ; pass 1
@@ -289,7 +289,7 @@ INIT_XMM
 %define BUTTERFLY  BUTTERFLY_SSE
 %define BUTTERFLY0 BUTTERFLY0_SSE
 
-%ifdef ARCH_X86_64
+%if ARCH_X86_64
 %define SPILL SWAP
 %define UNSPILL SWAP
 

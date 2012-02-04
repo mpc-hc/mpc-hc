@@ -385,8 +385,6 @@ static attribute_align_arg void *frame_worker_thread(void *arg)
         p->state = STATE_INPUT_READY;
 
         pthread_mutex_lock(&p->progress_mutex);
-
-        pthread_cond_broadcast(&p->progress_cond);
         pthread_cond_signal(&p->output_cond);
         pthread_mutex_unlock(&p->progress_mutex);
 

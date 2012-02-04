@@ -80,6 +80,19 @@ void av_fast_malloc(void *ptr, unsigned int *size, size_t min_size)
     *size= min_size;
 }
 
+void av_fast_padded_malloc(void *ptr, unsigned int *size, size_t min_size)
+{
+    void **p = ptr;
+    if (min_size > SIZE_MAX - FF_INPUT_BUFFER_PADDING_SIZE) {
+        av_freep(p);
+        *size = 0;
+        return;
+    }
+    av_fast_malloc(p, size, min_size + FF_INPUT_BUFFER_PADDING_SIZE);
+    if (*size)
+        memset((uint8_t *)*p + min_size, 0, FF_INPUT_BUFFER_PADDING_SIZE);
+}
+
 /* encoder management */
 static AVCodec *first_avcodec = NULL;
 
@@ -88,10 +101,7 @@ AVCodec *av_codec_next(AVCodec *c){
     else  return first_avcodec;
 }
 
-#if !FF_API_AVCODEC_INIT
-static
-#endif
-void avcodec_init(void)
+static void avcodec_init(void)
 {
     static int initialized = 0;
 
@@ -215,7 +225,7 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
         *height+=2; // some of the optimized chroma MC reads one line too much
                     // which is also done in mpeg decoders with lowres > 0
 
-    for (i = 0; i < AV_NUM_DATA_POINTERS; i++)
+    for (i = 0; i < 4; i++)
         linesize_align[i] = STRIDE_ALIGN;
 //STRIDE_ALIGN is 8 for SSE* but this does not work for SVQ1 chroma planes
 //we could change STRIDE_ALIGN to 16 for x86/sse but it would increase the
@@ -225,7 +235,7 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
     if(s->codec_id == CODEC_ID_SVQ1 || s->codec_id == CODEC_ID_VP5 ||
        s->codec_id == CODEC_ID_VP6 || s->codec_id == CODEC_ID_VP6F ||
        s->codec_id == CODEC_ID_VP6A) {
-        for (i = 0; i < AV_NUM_DATA_POINTERS; i++)
+        for (i = 0; i < 4; i++)
             linesize_align[i] = 16;
     }
 #endif
@@ -622,17 +632,25 @@ AVFrame *avcodec_alloc_frame(void){
     return pic;
 }
 
-#if FF_API_AVCODEC_OPEN
-int attribute_align_arg avcodec_open(AVCodecContext *avctx, AVCodec *codec)
-{
-    return avcodec_open2(avctx, codec, NULL);
-}
-#endif
-
 int attribute_align_arg avcodec_open2(AVCodecContext *avctx, AVCodec *codec, AVDictionary **options)
 {
     int ret = 0;
     AVDictionary *tmp = NULL;
+
+    if (avcodec_is_open(avctx))
+        return 0;
+
+    if ((!codec && !avctx->codec)) {
+        av_log(avctx, AV_LOG_ERROR, "No codec provided to avcodec_open2().\n");
+        return AVERROR(EINVAL);
+    }
+    if ((codec && avctx->codec && codec != avctx->codec)) {
+        av_log(avctx, AV_LOG_ERROR, "This AVCodecContext was allocated for %s, "
+               "but %s passed to avcodec_open2().\n", avctx->codec->name, codec->name);
+        return AVERROR(EINVAL);
+    }
+    if (!codec)
+        codec = avctx->codec;
 
     if (avctx->extradata_size < 0 || avctx->extradata_size >= FF_MAX_EXTRADATA_SIZE)
         return AVERROR(EINVAL);
@@ -653,11 +671,6 @@ int attribute_align_arg avcodec_open2(AVCodecContext *avctx, AVCodec *codec, AVD
     //    ret = -1;
     //    goto end;
     //}
-
-    if(avctx->codec || !codec) {
-        ret = AVERROR(EINVAL);
-        goto end;
-    }
 
     avctx->internal = av_mallocz(sizeof(AVCodecInternal));
     if (!avctx->internal) {
@@ -721,16 +734,12 @@ int attribute_align_arg avcodec_open2(AVCodecContext *avctx, AVCodec *codec, AVD
         goto free_and_end;
     }
     avctx->frame_number = 0;
-#if FF_API_ER
 
-    av_log(avctx, AV_LOG_DEBUG, "err{or,}_recognition separate: %d; %d\n",
-           avctx->error_recognition, avctx->err_recognition);
-    /* FF_ER_CAREFUL (==1) implies AV_EF_CRCCHECK (== 1<<1 - 1),
-       FF_ER_COMPLIANT (==2) implies AV_EF_{CRCCHECK,BITSTREAM} (== 1<<2 - 1), et cetera} */
-    avctx->err_recognition |= (1<<(avctx->error_recognition-(avctx->error_recognition>=FF_ER_VERY_AGGRESSIVE))) - 1;
-    av_log(avctx, AV_LOG_DEBUG, "err{or,}_recognition combined: %d; %d\n",
-           avctx->error_recognition, avctx->err_recognition);
-#endif
+    if (avctx->codec_type == AVMEDIA_TYPE_AUDIO &&
+        (!avctx->time_base.num || !avctx->time_base.den)) {
+        avctx->time_base.num = 1;
+        avctx->time_base.den = avctx->sample_rate;
+    }
 
     if (HAVE_THREADS && !avctx->thread_opaque) {
         ret = ff_thread_init(avctx);
@@ -828,16 +837,14 @@ int ff_alloc_packet(AVPacket *avpkt, int size)
 
     if (avpkt->data) {
         uint8_t *pkt_data;
-        int pkt_size;
 
         if (avpkt->size < size)
             return AVERROR(EINVAL);
 
         pkt_data = avpkt->data;
-        pkt_size = avpkt->size;
         av_init_packet(avpkt);
         avpkt->data = pkt_data;
-        avpkt->size = pkt_size;
+        avpkt->size = size;
         return 0;
     } else {
         return av_new_packet(avpkt, size);
@@ -1203,14 +1210,17 @@ av_cold int avcodec_close(AVCodecContext *avctx)
     //    return -1;
     //}
 
-    if (HAVE_THREADS && avctx->thread_opaque)
-        ff_thread_free(avctx);
-    if (avctx->codec && avctx->codec->close)
-        avctx->codec->close(avctx);
-    avcodec_default_free_buffers(avctx);
-    avctx->coded_frame = NULL;
-    av_freep(&avctx->internal);
-    if (avctx->codec && avctx->codec->priv_class)
+    if (avcodec_is_open(avctx)) {
+        if (HAVE_THREADS && avctx->thread_opaque)
+            ff_thread_free(avctx);
+        if (avctx->codec && avctx->codec->close)
+            avctx->codec->close(avctx);
+        avcodec_default_free_buffers(avctx);
+        avctx->coded_frame = NULL;
+        av_freep(&avctx->internal);
+    }
+
+    if (avctx->priv_data && avctx->codec && avctx->codec->priv_class)
         av_opt_free(avctx->priv_data);
     av_opt_free(avctx);
     av_freep(&avctx->priv_data);
@@ -1361,12 +1371,6 @@ void avcodec_default_free_buffers(AVCodecContext *avctx)
     }
 }
 
-#if FF_API_OLD_FF_PICT_TYPES
-char av_get_pict_type_char(int pict_type){
-    return av_get_picture_type_char(pict_type);
-}
-#endif
-
 int av_get_bits_per_sample(enum CodecID codec_id){
     switch(codec_id){
     case CODEC_ID_ADPCM_SBPRO_2:
@@ -1388,12 +1392,6 @@ int av_get_bits_per_sample(enum CodecID codec_id){
         return 0;
     }
 }
-
-#if FF_API_OLD_SAMPLE_FMT
-int av_get_bits_per_sample_format(enum AVSampleFormat sample_fmt) {
-    return av_get_bytes_per_sample(sample_fmt) << 3;
-}
-#endif
 
 #if !HAVE_THREADS
 int ff_thread_init(AVCodecContext *s){
@@ -1518,3 +1516,8 @@ void ff_thread_await_progress(AVFrame *f, int progress, int field)
 }
 
 #endif
+
+int avcodec_is_open(AVCodecContext *s)
+{
+    return !!s->internal;
+}

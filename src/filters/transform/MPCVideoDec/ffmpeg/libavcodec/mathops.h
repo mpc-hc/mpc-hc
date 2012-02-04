@@ -184,4 +184,3 @@ if ((y) < (x)) {\
 #endif
 
 #endif /* AVCODEC_MATHOPS_H */
-
