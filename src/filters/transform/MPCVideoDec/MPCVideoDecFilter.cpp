@@ -1630,8 +1630,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			return hr;
 		}
 
-		if (m_nCodecId == CODEC_ID_THEORA ||
-				m_nCodecId == CODEC_ID_VP8 && m_rtAvrTimePerFrame == 10000) { // need more tests
+		if (m_nCodecId == CODEC_ID_THEORA || (m_nCodecId == CODEC_ID_VP8 && m_rtAvrTimePerFrame == 10000)) { // need more tests
 			rtStart = m_pFrame->pkt_pts;
 			rtStop = m_pFrame->pkt_dts;
 		} else if ((m_nCodecId == CODEC_ID_RV10 || m_nCodecId == CODEC_ID_RV20 || m_nCodecId == CODEC_ID_RV30 || m_nCodecId == CODEC_ID_RV40) && m_pFrame->pict_type == AV_PICTURE_TYPE_B) {
