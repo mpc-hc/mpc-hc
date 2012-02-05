@@ -204,12 +204,10 @@ cmsBool  MemoryWrite(struct _cms_io_handler* iohandler, cmsUInt32Number size, co
 
     memmove(ResData ->Block + ResData ->Pointer, Ptr, size);
     ResData ->Pointer += size;
+    iohandler->UsedSpace += size;    
 
     if (ResData ->Pointer > iohandler->UsedSpace)
-        iohandler->UsedSpace = ResData ->Pointer;
-
-    
-    iohandler->UsedSpace += size;    
+        iohandler->UsedSpace = ResData ->Pointer;   
 
     return TRUE;
 }
@@ -620,7 +618,7 @@ cmsBool _cmsReadHeader(_cmsICCPROFILE* Icc)
     Icc -> flags           = _cmsAdjustEndianess32(Header.flags);
     Icc -> manufacturer    = _cmsAdjustEndianess32(Header.manufacturer);
     Icc -> model           = _cmsAdjustEndianess32(Header.model);
-    _cmsAdjustEndianess64(&Icc -> attributes, Header.attributes);
+    _cmsAdjustEndianess64(&Icc -> attributes, &Header.attributes);
     Icc -> Version         = _cmsAdjustEndianess32(Header.version);
 
     // Get size as reported in header
@@ -712,7 +710,7 @@ cmsBool _cmsWriteHeader(_cmsICCPROFILE* Icc, cmsUInt32Number UsedSpace)
     Header.manufacturer = _cmsAdjustEndianess32(Icc -> manufacturer);
     Header.model        = _cmsAdjustEndianess32(Icc -> model);
 
-    _cmsAdjustEndianess64(&Header.attributes, Icc -> attributes);              
+    _cmsAdjustEndianess64(&Header.attributes, &Icc -> attributes);              
     
     // Rendering intent in the header (for embedded profiles)
     Header.renderingIntent = _cmsAdjustEndianess32(Icc -> RenderingIntent);

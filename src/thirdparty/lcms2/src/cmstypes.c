@@ -2535,7 +2535,7 @@ cmsBool WriteSetOfCurves(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,
         // If this is a table-based curve, use curve type even on V4
         CurrentType = Type;
 
-        if ((Curves[i] ->nSegments == 0)||(Curves[i]->nSegments == 2) && (Curves[i] ->Segments[1].Type == 0))
+        if ((Curves[i] ->nSegments == 0)||((Curves[i]->nSegments == 2) && (Curves[i] ->Segments[1].Type == 0)))
             CurrentType = cmsSigCurveType;
         else
         if (Curves[i] ->Segments[0].Type < 0)
@@ -3273,7 +3273,7 @@ cmsBool  Type_ProfileSequenceDesc_Write(struct _cms_typehandler_struct* self, cm
 
         if (!_cmsWriteUInt32Number(io, sec ->deviceMfg)) return FALSE;
         if (!_cmsWriteUInt32Number(io, sec ->deviceModel)) return FALSE;
-        if (!_cmsWriteUInt64Number(io, sec ->attributes)) return FALSE;        
+        if (!_cmsWriteUInt64Number(io, &sec ->attributes)) return FALSE;        
         if (!_cmsWriteUInt32Number(io, sec ->technology)) return FALSE;
         
         if (!SaveDescription(self, io, sec ->Manufacturer)) return FALSE;       

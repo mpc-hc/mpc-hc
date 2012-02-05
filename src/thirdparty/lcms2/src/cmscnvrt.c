@@ -446,6 +446,10 @@ cmsBool ColorSpaceIsCompatible(cmsColorSpaceSignature a, cmsColorSpaceSignature 
     // If they are same, they are compatible.
     if (a == b) return TRUE;
 
+    // Check for MCH4 substitution of CMYK
+    if ((a == cmsSig4colorData) && (b == cmsSigCmykData)) return TRUE;
+    if ((a == cmsSigCmykData) && (b == cmsSig4colorData)) return TRUE;
+
     // Check for XYZ/Lab. Those spaces are interchangeable as they can be computed one from other.
     if ((a == cmsSigXYZData) && (b == cmsSigLabData)) return TRUE;
     if ((a == cmsSigLabData) && (b == cmsSigXYZData)) return TRUE;

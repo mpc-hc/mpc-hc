@@ -1,6 +1,8 @@
 next version - not yet release
 ==============================
+NEW    : Use ffmpeg for RealVideo decoding
 CHANGED: Updated libpng to v1.5.8
+CHANGED: Updated Little CMS to the latest git
 CHANGED: Updated Polish translation
 FIXED  : Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
 

@@ -675,6 +675,8 @@ void TetrahedralInterpFloat(const cmsFloat32Number Input[],
 
 
 
+#if 0
+
 #define DENS(i,j,k) (LutTable[(i)+(j)+(k)+OutChan])
 
 static
@@ -777,6 +779,142 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
 }
 #undef DENS
 
+#else
+
+static
+void TetrahedralInterp16(register const cmsUInt16Number Input[],
+                         register cmsUInt16Number Output[],
+                         register const cmsInterpParams* p)
+{
+    const cmsUInt16Number* LutTable = (cmsUInt16Number*) p -> Table;
+    cmsS15Fixed16Number fx, fy, fz;
+    cmsS15Fixed16Number rx, ry, rz;
+    int x0, y0, z0;
+    cmsS15Fixed16Number c0, c1, c2, c3, Rest;
+    cmsS15Fixed16Number X0, X1, Y0, Y1, Z0, Z1;
+    cmsUInt32Number TotalOut = p -> nOutputs;
+
+    fx = _cmsToFixedDomain((int) Input[0] * p -> Domain[0]);
+    fy = _cmsToFixedDomain((int) Input[1] * p -> Domain[1]);
+    fz = _cmsToFixedDomain((int) Input[2] * p -> Domain[2]);
+
+    x0 = FIXED_TO_INT(fx);
+    y0 = FIXED_TO_INT(fy);
+    z0 = FIXED_TO_INT(fz);
+
+    rx = FIXED_REST_TO_INT(fx);
+    ry = FIXED_REST_TO_INT(fy);
+    rz = FIXED_REST_TO_INT(fz);
+
+    X0 = p -> opta[2] * x0;
+    X1 = (Input[0] == 0xFFFFU ? 0 : p->opta[2]);
+
+    Y0 = p -> opta[1] * y0;
+    Y1 = (Input[1] == 0xFFFFU ? 0 : p->opta[1]);
+
+    Z0 = p -> opta[0] * z0;
+    Z1 = (Input[2] == 0xFFFFU ? 0 : p->opta[0]);
+
+    LutTable = &LutTable[X0+Y0+Z0];
+
+    // The old code used: x = ROUND_FIXED_TO_INT(_cmsToFixedDomain(Rest))
+    // which expands as: x = (Rest + ((Rest+0x7fff)/0xFFFF) + 0x8000)>>16
+    // This can be replaced by: t = Rest+0x8001, x = (t + (t>>16))>>16
+    // at the cost of being off by one at 7fff and 17ffe.
+
+    if (rx >= ry) {
+        if (ry >= rz) {
+            Y1 += X1;
+            Z1 += Y1;
+            for (; TotalOut; TotalOut--) {
+                c1 = LutTable[X1];
+                c2 = LutTable[Y1];
+                c3 = LutTable[Z1];
+                c0 = *LutTable++;
+                c3 -= c2;
+                c2 -= c1;
+                c1 -= c0;
+                Rest = c1 * rx + c2 * ry + c3 * rz + 0x8001;
+                *Output++ = (cmsUInt16Number) c0 + ((Rest + (Rest>>16))>>16);
+            }
+        } else if (rz >= rx) {
+            X1 += Z1;
+            Y1 += X1;
+            for (; TotalOut; TotalOut--) {
+                c1 = LutTable[X1];
+                c2 = LutTable[Y1];
+                c3 = LutTable[Z1];
+                c0 = *LutTable++;
+                c2 -= c1;
+                c1 -= c3;
+                c3 -= c0;
+                Rest = c1 * rx + c2 * ry + c3 * rz + 0x8001;
+                *Output++ = (cmsUInt16Number) c0 + ((Rest + (Rest>>16))>>16);
+            }
+        } else {
+            Z1 += X1;
+            Y1 += Z1;
+            for (; TotalOut; TotalOut--) {
+                c1 = LutTable[X1];
+                c2 = LutTable[Y1];
+                c3 = LutTable[Z1];
+                c0 = *LutTable++;
+                c2 -= c3;
+                c3 -= c1;
+                c1 -= c0;
+                Rest = c1 * rx + c2 * ry + c3 * rz + 0x8001;
+                *Output++ = (cmsUInt16Number) c0 + ((Rest + (Rest>>16))>>16);
+            }
+        }
+    } else {
+        if (rx >= rz) {
+            X1 += Y1;
+            Z1 += X1;
+            for (; TotalOut; TotalOut--) {
+                c1 = LutTable[X1];
+                c2 = LutTable[Y1];
+                c3 = LutTable[Z1];
+                c0 = *LutTable++;
+                c3 -= c1;
+                c1 -= c2;
+                c2 -= c0;
+                Rest = c1 * rx + c2 * ry + c3 * rz + 0x8001;
+                *Output++ = (cmsUInt16Number) c0 + ((Rest + (Rest>>16))>>16);
+            }
+        } else if (ry >= rz) {
+            Z1 += Y1;
+            X1 += Z1;
+            for (; TotalOut; TotalOut--) {
+                c1 = LutTable[X1];
+                c2 = LutTable[Y1];
+                c3 = LutTable[Z1];
+                c0 = *LutTable++;
+                c1 -= c3;
+                c3 -= c2;
+                c2 -= c0;
+                Rest = c1 * rx + c2 * ry + c3 * rz + 0x8001;
+                *Output++ = (cmsUInt16Number) c0 + ((Rest + (Rest>>16))>>16);
+            }
+        } else {
+            Y1 += Z1;
+            X1 += Y1;
+            for (; TotalOut; TotalOut--) {
+                c1 = LutTable[X1];
+                c2 = LutTable[Y1];
+                c3 = LutTable[Z1];
+                c0 = *LutTable++;
+                c1 -= c2;
+                c2 -= c3;
+                c3 -= c0;
+                Rest = c1 * rx + c2 * ry + c3 * rz + 0x8001;
+                *Output++ = (cmsUInt16Number) c0 + ((Rest + (Rest>>16))>>16);
+            }
+        }
+    }
+}
+
+
+#endif
 
 #define DENS(i,j,k) (LutTable[(i)+(j)+(k)+OutChan])
 static

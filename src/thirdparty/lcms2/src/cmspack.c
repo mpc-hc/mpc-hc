@@ -2682,6 +2682,7 @@ static cmsFormattersFloat OutputFormattersFloat[] = {
 
 
 // Bit fields set to one in the mask are not compared
+static
 cmsFormatter _cmsGetStockOutputFormatter(cmsUInt32Number dwInput, cmsUInt32Number dwFlags)
 {
     cmsUInt32Number i;

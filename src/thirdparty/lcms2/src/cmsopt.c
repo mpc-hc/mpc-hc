@@ -877,9 +877,8 @@ void PrelinEval8(register const cmsUInt16Number Input[],
                             }
 
 
-                            Rest = c1 * rx + c2 * ry + c3 * rz;
-
-                            Output[OutChan] = (cmsUInt16Number)c0 + ROUND_FIXED_TO_INT(_cmsToFixedDomain(Rest));
+                            Rest = c1 * rx + c2 * ry + c3 * rz + 0x8001;
+                            Output[OutChan] = (cmsUInt16Number)c0 + ((Rest + (Rest>>16))>>16);
                             
     }
 }

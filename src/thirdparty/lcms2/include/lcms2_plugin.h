@@ -131,7 +131,7 @@ struct _cms_io_handler {
 // Endianess adjust functions
 CMSAPI cmsUInt16Number   CMSEXPORT  _cmsAdjustEndianess16(cmsUInt16Number Word);
 CMSAPI cmsUInt32Number   CMSEXPORT  _cmsAdjustEndianess32(cmsUInt32Number Value);
-CMSAPI void              CMSEXPORT  _cmsAdjustEndianess64(cmsUInt64Number* Result, cmsUInt64Number QWord);
+CMSAPI void              CMSEXPORT  _cmsAdjustEndianess64(cmsUInt64Number* Result, cmsUInt64Number* QWord);
 
 // Helper IO functions
 CMSAPI cmsBool           CMSEXPORT  _cmsReadUInt8Number(cmsIOHANDLER* io,  cmsUInt8Number* n);
@@ -147,7 +147,7 @@ CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt8Number(cmsIOHANDLER* io, cmsUI
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt16Number(cmsIOHANDLER* io, cmsUInt16Number n);
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt32Number(cmsIOHANDLER* io, cmsUInt32Number n);
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteFloat32Number(cmsIOHANDLER* io, cmsFloat32Number n);
-CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt64Number(cmsIOHANDLER* io, cmsUInt64Number n);
+CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt64Number(cmsIOHANDLER* io, cmsUInt64Number* n);
 CMSAPI cmsBool           CMSEXPORT  _cmsWrite15Fixed16Number(cmsIOHANDLER* io, cmsFloat64Number n);
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteXYZNumber(cmsIOHANDLER* io, const cmsCIEXYZ* XYZ);
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt16Array(cmsIOHANDLER* io, cmsUInt32Number n, const cmsUInt16Number* Array);

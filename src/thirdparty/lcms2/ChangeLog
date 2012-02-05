@@ -58,3 +58,4 @@ Added compatibilty with Argyll's CGATS parser
 -----------------------
 
 Fixed a bug in the named color devicelink generation
+Fixed uint64 to work in systems without long long native type
