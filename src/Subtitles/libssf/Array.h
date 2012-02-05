@@ -41,17 +41,17 @@ namespace ssf
 			m_nGrowBy = 4096;
 		}
 		virtual ~Array() {
-			if(m_pData) {
+			if (m_pData) {
 				_aligned_free(m_pData);
 			}
 		}
 
 		void SetCount(size_t nSize, size_t nGrowBy = 0) {
-			if(nGrowBy > 0) {
+			if (nGrowBy > 0) {
 				m_nGrowBy = nGrowBy;
 			}
 
-			if(nSize > m_nMaxSize) {
+			if (nSize > m_nMaxSize) {
 				m_nMaxSize = nSize + max(m_nGrowBy, m_nSize);
 				size_t nBytes = m_nMaxSize * sizeof(T);
 				m_pData = m_pData ? (T*)_aligned_realloc(m_pData, nBytes, 16) : (T*)_aligned_malloc(nBytes, 16);
@@ -86,7 +86,7 @@ namespace ssf
 		}
 
 		void Append(const T* ptr, size_t nSize, size_t nGrowBy = 0) {
-			if(!nSize) {
+			if (!nSize) {
 				return;
 			}
 			size_t nOldSize = m_nSize;

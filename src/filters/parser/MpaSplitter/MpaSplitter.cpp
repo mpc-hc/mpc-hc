@@ -98,7 +98,7 @@ STDMETHODIMP CMpaSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 		wcscpy(pInfo->achName, MpaSourceName);
 	}
 	pInfo->pGraph = m_pGraph;
-	if(m_pGraph) {
+	if (m_pGraph) {
 		m_pGraph->AddRef();
 	}
 
@@ -114,10 +114,10 @@ HRESULT CMpaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_pFile.Free();
 
 	m_pFile.Attach(DNew CMpaSplitterFile(pAsyncReader, hr));
-	if(!m_pFile) {
+	if (!m_pFile) {
 		return E_OUTOFMEMORY;
 	}
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		m_pFile.Free();
 		return hr;
 	}
@@ -132,22 +132,22 @@ HRESULT CMpaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_rtNewStop = m_rtStop = m_rtDuration = m_pFile->GetDuration();
 
 	CStringW str, title;
-	if(m_pFile->m_tags.Lookup('TIT2', str)) {
+	if (m_pFile->m_tags.Lookup('TIT2', str)) {
 		title = str;
 	}
-	if(m_pFile->m_tags.Lookup('TYER', str) && !title.IsEmpty() && !str.IsEmpty()) {
+	if (m_pFile->m_tags.Lookup('TYER', str) && !title.IsEmpty() && !str.IsEmpty()) {
 		title += L" (" + str + L")";
 	}
-	if(!title.IsEmpty()) {
+	if (!title.IsEmpty()) {
 		SetProperty(L"TITL", title);
 	}
-	if(m_pFile->m_tags.Lookup('TPE1', str)) {
+	if (m_pFile->m_tags.Lookup('TPE1', str)) {
 		SetProperty(L"AUTH", str);
 	}
-	if(m_pFile->m_tags.Lookup('TCOP', str)) {
+	if (m_pFile->m_tags.Lookup('TCOP', str)) {
 		SetProperty(L"CPYR", str);
 	}
-	if(m_pFile->m_tags.Lookup('COMM', str)) {
+	if (m_pFile->m_tags.Lookup('COMM', str)) {
 		SetProperty(L"DESC", str);
 	}
 
@@ -167,7 +167,7 @@ STDMETHODIMP CMpaSplitterFilter::GetDuration(LONGLONG* pDuration)
 bool CMpaSplitterFilter::DemuxInit()
 {
 	SetThreadName((DWORD)-1, "CMpaSplitterFilter");
-	if(!m_pFile) {
+	if (!m_pFile) {
 		return false;
 	}
 
@@ -181,7 +181,7 @@ void CMpaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 	__int64 startpos = m_pFile->GetStartPos();
 	__int64 endpos = m_pFile->GetEndPos();
 
-	if(rt <= 0 || m_pFile->GetDuration() <= 0) {
+	if (rt <= 0 || m_pFile->GetDuration() <= 0) {
 		m_pFile->Seek(startpos);
 		m_rtStart = 0;
 	} else {
@@ -198,8 +198,8 @@ bool CMpaSplitterFilter::DemuxLoop()
 	int FrameSize;
 	REFERENCE_TIME rtDuration;
 
-	while(SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetPos() < m_pFile->GetEndPos() - 9) {
-		if(!m_pFile->Sync(FrameSize, rtDuration)) {
+	while (SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetPos() < m_pFile->GetEndPos() - 9) {
+		if (!m_pFile->Sync(FrameSize, rtDuration)) {
 			Sleep(1);
 			continue;
 		}

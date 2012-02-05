@@ -15,9 +15,9 @@ bool CAviReportWnd::DoModal(CAviFile* pAF, bool fHideChecked, bool fShowWarningT
 	m_nChunks = 0;
 	m_rtDur = 0;
 
-	for(DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
+	for (DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
 		unsigned int cnt = pAF->m_strms[i]->cs2.GetCount();
-		if(cnt == 0) {
+		if (cnt == 0) {
 			continue;
 		}
 		CAviFile::strm_t::chunk2& c2 = pAF->m_strms[i]->cs2[cnt-1];
@@ -77,7 +77,7 @@ bool CAviReportWnd::DoModal(CAviFile* pAF, bool fHideChecked, bool fShowWarningT
 
 	//
 
-	if(!fShowWarningText) {
+	if (!fShowWarningText) {
 		m_message.ShowWindow(SW_HIDE);
 		m_checkbox.ShowWindow(SW_HIDE);
 		r = cr;
@@ -122,7 +122,7 @@ void CAviReportWnd::OnMouseMove(UINT nFlags, CPoint p)
 	r.bottom -= GRAPHFOOTER;
 	r2.top = r.bottom;
 
-	if(r.PtInRect(p)) {
+	if (r.PtInRect(p)) {
 		SetCapture();
 
 		int x = p.x - r.left;
@@ -143,18 +143,18 @@ void CAviReportWnd::OnMouseMove(UINT nFlags, CPoint p)
 		CString str;
 		str.Format(_T("%s (%d - %d:%02d:%02d.%03d)"), TITLE, chunk, h, m, s, ms);
 		SetWindowText(str);
-	} else if(r2.PtInRect(p)) {
+	} else if (r2.PtInRect(p)) {
 		SetCapture();
 
 		int dist = m_graph.GetChunkDist(p.x - r2.left);
 		CString str;
 		str.Format(_T("%s (chunk distance: %d"), TITLE, dist);
-		if(dist >= 1000) {
+		if (dist >= 1000) {
 			str += _T(" - over the limit!");
 		}
 		str += ")";
 		SetWindowText(str);
-	} else if(GetCapture() == this) {
+	} else if (GetCapture() == this) {
 		SetWindowText(TITLE);
 
 		ReleaseCapture();
@@ -171,7 +171,7 @@ CAviPlotterWnd::CAviPlotterWnd()
 
 bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 {
-	if(!CreateEx(WS_EX_CLIENTEDGE, _T("STATIC"), _T(""), WS_CHILD|WS_VISIBLE, r, pParentWnd, 0)) {
+	if (!CreateEx(WS_EX_CLIENTEDGE, _T("STATIC"), _T(""), WS_CHILD|WS_VISIBLE, r, pParentWnd, 0)) {
 		return false;
 	}
 
@@ -191,15 +191,15 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 	{
 		CPen pen(PS_DOT, 1, 0x008000);
 		CPen* pOldPen = m_dc.SelectObject(&pen);
-		for(int y = 0, dy = max(h/10,1); y < h; y += dy) {
-			if(y == 0) {
+		for (int y = 0, dy = max(h/10,1); y < h; y += dy) {
+			if (y == 0) {
 				continue;
 			}
 			m_dc.MoveTo(0, y);
 			m_dc.LineTo(w, y);
 		}
-		for(int x = 0, dx = max(w/10,1); x < w; x += dx) {
-			if(x == 0) {
+		for (int x = 0, dx = max(w/10,1); x < w; x += dx) {
+			if (x == 0) {
 				continue;
 			}
 			m_dc.MoveTo(x, 0);
@@ -232,7 +232,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 	COLORREF clr[] = {0x0000ff,0xff0000,0x40ffff,0xff40ff,0xffff40,0xffffff};
 
-	for(DWORD i = 0, y = 40, dy = m_dc.GetTextExtent(_T("Stream N")).cy + 1; i < pAF->m_avih.dwStreams; ++i, y += dy) {
+	for (DWORD i = 0, y = 40, dy = m_dc.GetTextExtent(_T("Stream N")).cy + 1; i < pAF->m_avih.dwStreams; ++i, y += dy) {
 		m_dc.SetTextColor(clr[i % pAF->m_avih.dwStreams]);
 		m_dc.SetBkMode(TRANSPARENT);
 		CString str;
@@ -242,9 +242,9 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 	DWORD nmax = 0, tmax = 0;
 
-	for(DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
+	for (DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
 		unsigned int cnt = pAF->m_strms[i]->cs2.GetCount();
-		if(cnt == 0) {
+		if (cnt == 0) {
 			continue;
 		}
 		CAviFile::strm_t::chunk2& c2 = pAF->m_strms[i]->cs2[cnt-1];
@@ -252,16 +252,16 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 		tmax = max(tmax, c2.t);
 	}
 
-	if(nmax > 0 && tmax > 0) {
+	if (nmax > 0 && tmax > 0) {
 		CAtlArray<CPen> pen;
 		pen.SetCount(pAF->m_avih.dwStreams);
-		for(size_t i = 0; i < pen.GetCount(); ++i) {
+		for (size_t i = 0; i < pen.GetCount(); ++i) {
 			pen[i].CreatePen(PS_SOLID, 2, clr[i]);
 		}
 
 		CAtlArray<CPoint> pp;
 		pp.SetCount(pAF->m_avih.dwStreams);
-		for(size_t i = 0; i < pen.GetCount(); ++i) {
+		for (size_t i = 0; i < pen.GetCount(); ++i) {
 			pp[i].SetPoint(-1, -1);
 		}
 
@@ -273,22 +273,22 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 		CAviFile::strm_t::chunk2 cs2last = {(DWORD)-1, 0};
 
-		while(1) {
+		while (1) {
 			CAviFile::strm_t::chunk2 cs2min = {LONG_MAX, LONG_MAX};
 
 			DWORD n = (DWORD)-1;
-			for(DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
+			for (DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
 				DWORD curchunk = curchunks[i];
-				if(curchunk >= pAF->m_strms[i]->cs2.GetCount()) {
+				if (curchunk >= pAF->m_strms[i]->cs2.GetCount()) {
 					continue;
 				}
 				CAviFile::strm_t::chunk2& cs2 = pAF->m_strms[i]->cs2[curchunk];
-				if(cs2.t < cs2min.t) {
+				if (cs2.t < cs2min.t) {
 					cs2min = cs2;
 					n = i;
 				}
 			}
-			if(n == -1) {
+			if (n == -1) {
 				break;
 			}
 
@@ -296,9 +296,9 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 			CPoint p;
 			p.x = (int)(1.0 * w * cs2min.t / tmax);
 			p.y = (int)(h - 1.0 * h * cs2min.n / nmax);
-			if(pp[n] != p) {
+			if (pp[n] != p) {
 				CPen* pOldPen = m_dc.SelectObject(&pen[n]);
-				if(pp[n] == CPoint(-1, -1)) {
+				if (pp[n] == CPoint(-1, -1)) {
 					m_dc.MoveTo(p);
 				} else {
 					m_dc.MoveTo(pp[n]);
@@ -310,8 +310,8 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 			int dist = abs((int)cs2min.n - (int)cs2last.n);
 
-			if(cs2last.t != (DWORD)-1 /*&& dist >= 1000*/) {
-				if(p.x >= 0 && p.x < w) {
+			if (cs2last.t != (DWORD)-1 /*&& dist >= 1000*/) {
+				if (p.x >= 0 && p.x < w) {
 					m_chunkdist[p.x] = max(m_chunkdist[p.x], dist);
 				}
 			}
@@ -323,7 +323,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 		CPen red(PS_SOLID, 1, 0x0000ff);
 		CPen green(PS_SOLID, 1, 0x00ff00);
 
-		for(int x = 0; x < w; ++x) {
+		for (int x = 0; x < w; ++x) {
 			CPen* pOldPen = m_dc.SelectObject(m_chunkdist[x] >= 1000 ? &red : &green);
 			m_dc.MoveTo(x, h);
 			m_dc.LineTo(x, h + GRAPHFOOTER);

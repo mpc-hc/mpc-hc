@@ -445,8 +445,8 @@ void CPPageFullscreen::ModesUpdate()
 		dm = m_dms[i];
 		j = i - 1;
 		while (j != -1 && m_dms[j].size.cx >= dm.size.cx &&
-						  m_dms[j].size.cy >= dm.size.cy &&
-						  m_dms[j].freq > dm.freq) {
+				m_dms[j].size.cy >= dm.size.cy &&
+				m_dms[j].freq > dm.freq) {
 			m_dms[j+1] = m_dms[j];
 			j--;
 		}

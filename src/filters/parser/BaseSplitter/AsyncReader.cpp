@@ -37,7 +37,7 @@ CAsyncFileReader::CAsyncFileReader(CString fn, HRESULT& hr)
 	, m_lOsError(0)
 {
 	hr = Open(fn, modeRead|shareDenyNone|typeBinary|osSequentialScan) ? S_OK : E_FAIL;
-	if(SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr)) {
 		m_len = GetLength();
 	}
 }
@@ -49,7 +49,7 @@ CAsyncFileReader::CAsyncFileReader(CAtlList<CHdmvClipInfo::PlaylistItem>& Items,
 	, m_lOsError(0)
 {
 	hr = OpenFiles(Items, modeRead|shareDenyNone|typeBinary|osSequentialScan) ? S_OK : E_FAIL;
-	if(SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr)) {
 		m_len = GetLength();
 	}
 }
@@ -71,44 +71,44 @@ STDMETHODIMP CAsyncFileReader::SyncRead(LONGLONG llPosition, LONG lLength, BYTE*
 {
 	do {
 		try {
-			if((ULONGLONG)llPosition+lLength > GetLength()) {
+			if ((ULONGLONG)llPosition+lLength > GetLength()) {
 				return E_FAIL;    // strange, but the Seek below can return llPosition even if the file is not that big (?)
 			}
-			if((ULONGLONG)llPosition != Seek(llPosition, begin)) {
+			if ((ULONGLONG)llPosition != Seek(llPosition, begin)) {
 				return E_FAIL;
 			}
-			if((UINT)lLength < Read(pBuffer, lLength)) {
+			if ((UINT)lLength < Read(pBuffer, lLength)) {
 				return E_FAIL;
 			}
 
 #if 0 // def DEBUG
 			static __int64 s_total = 0, s_laststoppos = 0;
 			s_total += lLength;
-			if(s_laststoppos > llPosition) {
+			if (s_laststoppos > llPosition) {
 				TRACE(_T("[%I64d - %I64d] %d (%I64d)\n"), llPosition, llPosition + lLength, lLength, s_total);
 			}
 			s_laststoppos = llPosition + lLength;
 #endif
 
 			return S_OK;
-		} catch(CFileException* e) {
+		} catch (CFileException* e) {
 			m_lOsError = e->m_lOsError;
 			e->Delete();
 			Sleep(1);
 			CString fn = m_strFileName;
 			try {
 				Close();
-			} catch(CFileException* e) {
+			} catch (CFileException* e) {
 				e->Delete();
 			}
 			try {
 				Open(fn, modeRead|shareDenyNone|typeBinary|osSequentialScan);
-			} catch(CFileException* e) {
+			} catch (CFileException* e) {
 				e->Delete();
 			}
 			m_strFileName = fn;
 		}
-	} while(m_hBreakEvent && WaitForSingleObject(m_hBreakEvent, 0) == WAIT_TIMEOUT);
+	} while (m_hBreakEvent && WaitForSingleObject(m_hBreakEvent, 0) == WAIT_TIMEOUT);
 
 	return E_FAIL;
 }
@@ -116,10 +116,10 @@ STDMETHODIMP CAsyncFileReader::SyncRead(LONGLONG llPosition, LONG lLength, BYTE*
 STDMETHODIMP CAsyncFileReader::Length(LONGLONG* pTotal, LONGLONG* pAvailable)
 {
 	LONGLONG len = m_len >= 0 ? m_len : GetLength();
-	if(pTotal) {
+	if (pTotal) {
 		*pTotal = len;
 	}
-	if(pAvailable) {
+	if (pAvailable) {
 		*pAvailable = len;
 	}
 	return S_OK;
@@ -144,13 +144,13 @@ STDMETHODIMP_(LPCTSTR) CAsyncFileReader::GetFileName()
 CAsyncUrlReader::CAsyncUrlReader(CString url, HRESULT& hr)
 	: CAsyncFileReader(url, hr)
 {
-	if(SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr)) {
 		return;
 	}
 
 	m_url = url;
 
-	if(CAMThread::Create()) {
+	if (CAMThread::Create()) {
 		CallWorker(CMD_INIT);
 	}
 
@@ -160,11 +160,11 @@ CAsyncUrlReader::CAsyncUrlReader(CString url, HRESULT& hr)
 
 CAsyncUrlReader::~CAsyncUrlReader()
 {
-	if(ThreadExists()) {
+	if (ThreadExists()) {
 		CallWorker(CMD_EXIT);
 	}
 
-	if(!m_fn.IsEmpty()) {
+	if (!m_fn.IsEmpty()) {
 		CMultiFiles::Close();
 		DeleteFile(m_fn);
 	}
@@ -174,7 +174,7 @@ CAsyncUrlReader::~CAsyncUrlReader()
 
 STDMETHODIMP CAsyncUrlReader::Length(LONGLONG* pTotal, LONGLONG* pAvailable)
 {
-	if(pTotal) {
+	if (pTotal) {
 		*pTotal = 0;
 	}
 	return __super::Length(NULL, pAvailable);
@@ -187,7 +187,7 @@ DWORD CAsyncUrlReader::ThreadProc()
 	AfxSocketInit(NULL);
 
 	DWORD cmd = GetRequest();
-	if(cmd != CMD_INIT) {
+	if (cmd != CMD_INIT) {
 		Reply((DWORD)E_FAIL);
 		return (DWORD)-1;
 	}
@@ -198,21 +198,21 @@ DWORD CAsyncUrlReader::ThreadProc()
 
 		TCHAR path[_MAX_PATH], fn[_MAX_PATH];
 		CFile fout;
-		if(GetTempPath(MAX_PATH, path) && GetTempFileName(path, _T("mpc_http"), 0, fn)
+		if (GetTempPath(MAX_PATH, path) && GetTempFileName(path, _T("mpc_http"), 0, fn)
 				&& fout.Open(fn, modeCreate|modeWrite|shareDenyWrite|typeBinary)) {
 			m_fn = fn;
 
 			char buff[1024];
 			int len = fin->Read(buff, sizeof(buff));
-			if(len > 0) {
+			if (len > 0) {
 				fout.Write(buff, len);
 			}
 
 			Reply(S_OK);
 
-			while(!CheckRequest(&cmd)) {
+			while (!CheckRequest(&cmd)) {
 				int len = fin->Read(buff, sizeof(buff));
-				if(len > 0) {
+				if (len > 0) {
 					fout.Write(buff, len);
 				}
 			}
@@ -221,7 +221,7 @@ DWORD CAsyncUrlReader::ThreadProc()
 		}
 
 		fin->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
-	} catch(CInternetException* ie) {
+	} catch (CInternetException* ie) {
 		ie->Delete();
 		Reply((DWORD)E_FAIL);
 	}

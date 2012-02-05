@@ -39,22 +39,22 @@ namespace ssf
 	{
 		RemoveAll();
 
-		if(size_t seplen = wcslen(sep)) {
-			for(int i = 0, j = 0, len = str.GetLength();
+		if (size_t seplen = wcslen(sep)) {
+			for (int i = 0, j = 0, len = str.GetLength();
 					i <= len && (limit == 0 || GetCount() < limit);
 					i = j + (int)seplen) {
 				j = str.Find(sep, i);
-				if(j < 0) {
+				if (j < 0) {
 					j = len;
 				}
 
 				CStringW s = i < j ? str.Mid(i, j - i) : L"";
 
-				switch(type) {
+				switch (type) {
 					case Min:
 						s.Trim(); // fall through
 					case Def:
-						if(s.IsEmpty()) {
+						if (s.IsEmpty()) {
 							break;    // else fall through
 						}
 					case Max:
@@ -67,7 +67,7 @@ namespace ssf
 
 	int Split::GetAtInt(size_t i)
 	{
-		if(i >= GetCount()) {
+		if (i >= GetCount()) {
 			throw Exception(_T("Index out of bounds"));
 		}
 		return _wtoi(GetAt(i));
@@ -75,7 +75,7 @@ namespace ssf
 
 	float Split::GetAtFloat(size_t i)
 	{
-		if(i >= GetCount()) {
+		if (i >= GetCount()) {
 			throw Exception(_T("Index out of bounds"));
 		}
 		return (float)_wtof(GetAt(i));

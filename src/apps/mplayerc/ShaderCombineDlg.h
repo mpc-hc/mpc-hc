@@ -60,7 +60,7 @@ protected:
 	virtual BOOL OnInitDialog();
 
 	DECLARE_MESSAGE_MAP()
-	
+
 protected:
 	virtual void OnOK();
 	virtual void OnCancel();

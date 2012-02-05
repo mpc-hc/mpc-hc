@@ -298,13 +298,13 @@ namespace ssf
 
 	bool Arabic::Replace(WCHAR& c, pres_form_t pf)
 	{
-		if(!IsArabic(c)) {
+		if (!IsArabic(c)) {
 			return false;
 		}
 
 		const arabicforms& af = ArabicForms[c - 0x600];
 
-		switch(pf) {
+		switch (pf) {
 			case isol:
 				c = af.isolated;
 				break;
@@ -324,7 +324,7 @@ namespace ssf
 
 	bool Arabic::Replace(WCHAR& c, WCHAR prev, WCHAR next)
 	{
-		if(!IsArabic(c)) {
+		if (!IsArabic(c)) {
 			return false;
 		}
 

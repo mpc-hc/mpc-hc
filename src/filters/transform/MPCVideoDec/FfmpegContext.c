@@ -40,7 +40,7 @@
 #include "mpeg12.h"
 
 #if defined(REGISTER_FILTER) && _WIN64
-	void *__imp_toupper = toupper;
+void *__imp_toupper = toupper;
 #endif
 
 int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rtStartTime, uint8_t *buf, int buf_size);
@@ -163,7 +163,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	if (cur_sps != NULL) {
 		int max_ref_frames = 0;
 
-		if(cur_sps->bit_depth_luma > 8) {
+		if (cur_sps->bit_depth_luma > 8) {
 			return DXVA_HIGH_BIT;
 		}
 
@@ -178,7 +178,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 					no_level51_support = 0;
 
 					// max ref frames is 16 for HD and 11 otherwise
-					if(nWidth >= 1280) {
+					if (nWidth >= 1280) {
 						max_ref_frames = 16;
 					} else {
 						max_ref_frames = 11;
@@ -196,7 +196,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 			no_level51_support = 0;
 		} else if (nPCIVendor == PCIV_ATI) {
 			// HD4xxx, HD5xxx, and HD6xxx AMD/ATI cards support level 5.1 since drivers v8.14.1.6105 (Catalyst 10.4)
-			if(nPCIDevice > 0x6700) {
+			if (nPCIDevice > 0x6700) {
 				if (DriverVersionCheck(VideoDriverVersion, 8, 14, 1, 6105)) {
 					no_level51_support = 0;
 					max_ref_frames = 16;
@@ -315,7 +315,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 
 		pDXVAPicParams->bit_depth_luma_minus8					= cur_sps->bit_depth_luma   - 8;	// bit_depth_luma_minus8
 		pDXVAPicParams->bit_depth_chroma_minus8					= cur_sps->bit_depth_chroma - 8;	// bit_depth_chroma_minus8
-		
+
 		//	pDXVAPicParams->StatusReportFeedbackNumber				= SET IN DecodeFrame;
 		//	pDXVAPicParams->CurrFieldOrderCnt						= SET IN UpdateRefFramesList;
 		//	pDXVAPicParams->FieldOrderCntList						= SET IN UpdateRefFramesList;
@@ -327,9 +327,9 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 
 		pDXVAPicParams->log2_max_frame_num_minus4				= cur_sps->log2_max_frame_num - 4;					// log2_max_frame_num_minus4;
 		pDXVAPicParams->pic_order_cnt_type						= cur_sps->poc_type;								// pic_order_cnt_type;
-		if(cur_sps->poc_type == 0)
+		if (cur_sps->poc_type == 0)
 			pDXVAPicParams->log2_max_pic_order_cnt_lsb_minus4		= cur_sps->log2_max_poc_lsb - 4;					// log2_max_pic_order_cnt_lsb_minus4;
-		else if(cur_sps->poc_type == 1)
+		else if (cur_sps->poc_type == 1)
 			pDXVAPicParams->delta_pic_order_always_zero_flag		= cur_sps->delta_pic_order_always_zero_flag;
 		pDXVAPicParams->direct_8x8_inference_flag				= cur_sps->direct_8x8_inference_flag;
 		pDXVAPicParams->entropy_coding_mode_flag				= cur_pps->cabac;									// entropy_coding_mode_flag;
@@ -383,7 +383,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 	Picture*		pic;
 	UCHAR			AssociatedFlag;
 
-	for(i=0; i<16; i++) {
+	for (i=0; i<16; i++) {
 		if (i < h->short_ref_count) {
 			// Short list reference frames
 			pic				= h->short_ref[h->short_ref_count - i - 1];
@@ -455,7 +455,7 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	HRESULT					hr = E_FAIL;
 	unsigned int			i;
 
-	for(i=0; i<32; i++) {
+	for (i=0; i<32; i++) {
 		pSlice->RefPicList[0][i].AssociatedFlag = 1;
 		pSlice->RefPicList[0][i].bPicEntry = 255;
 		pSlice->RefPicList[0][i].Index7Bits = 127;
@@ -464,13 +464,13 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 		pSlice->RefPicList[1][i].Index7Bits = 127;
 	}
 
-	if(h->slice_type != AV_PICTURE_TYPE_I && h->slice_type != AV_PICTURE_TYPE_SI) {
-		if(h->ref_count[0] > 0) {
-			for(i=0; i < h->ref_count[0]; i++) {
+	if (h->slice_type != AV_PICTURE_TYPE_I && h->slice_type != AV_PICTURE_TYPE_SI) {
+		if (h->ref_count[0] > 0) {
+			for (i=0; i < h->ref_count[0]; i++) {
 				pSlice->RefPicList[0][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[0][i].frame_num, pDXVAPicParams);
 				pSlice->RefPicList[0][i].AssociatedFlag = 0;
-				if((h->s.picture_structure != PICT_FRAME)) {
-					if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
+				if ((h->s.picture_structure != PICT_FRAME)) {
+					if ((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
 							(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
 							(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)) {
 						pSlice->RefPicList[0][i].AssociatedFlag = 1;
@@ -482,13 +482,13 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 		pSlice->num_ref_idx_l0_active_minus1 = 0;
 	}
 
-	if(h->slice_type == AV_PICTURE_TYPE_B || h->slice_type == AV_PICTURE_TYPE_S || h->slice_type == AV_PICTURE_TYPE_BI) {
-		if(h->ref_count[1] > 0) {
-			for(i=0; i < h->ref_count[1]; i++) {
+	if (h->slice_type == AV_PICTURE_TYPE_B || h->slice_type == AV_PICTURE_TYPE_S || h->slice_type == AV_PICTURE_TYPE_BI) {
+		if (h->ref_count[1] > 0) {
+			for (i=0; i < h->ref_count[1]; i++) {
 				pSlice->RefPicList[1][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[1][i].frame_num, pDXVAPicParams);
 				pSlice->RefPicList[1][i].AssociatedFlag = 0;
-				if((h->s.picture_structure != PICT_FRAME)) {
-					if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
+				if ((h->s.picture_structure != PICT_FRAME)) {
+					if ((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
 							(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
 							(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)) {
 						pSlice->RefPicList[1][i].AssociatedFlag = 1;
@@ -501,15 +501,15 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	}
 
 
-	if(h->slice_type == AV_PICTURE_TYPE_I || h->slice_type == AV_PICTURE_TYPE_SI) {
-		for(i = 0; i<16; i++) {
+	if (h->slice_type == AV_PICTURE_TYPE_I || h->slice_type == AV_PICTURE_TYPE_SI) {
+		for (i = 0; i<16; i++) {
 			pSlice->RefPicList[0][i].bPicEntry = 0xff;
 		}
 	}
 
-	if(h->slice_type == AV_PICTURE_TYPE_P || h->slice_type == AV_PICTURE_TYPE_I ||
+	if (h->slice_type == AV_PICTURE_TYPE_P || h->slice_type == AV_PICTURE_TYPE_I ||
 			h->slice_type ==AV_PICTURE_TYPE_SP  || h->slice_type == AV_PICTURE_TYPE_SI) {
-		for(i = 0; i < 16; i++) {
+		for (i = 0; i < 16; i++) {
 			pSlice->RefPicList[1][i].bPicEntry = 0xff;
 		}
 	}
@@ -532,16 +532,16 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 
 	// WARNING : vc1->interlace is not reliable (always set for progressive video on HD-DVD material)
 	if (vc1->fcm == 0) {
-		if(nFieldType) {
+		if (nFieldType) {
 			*nFieldType = PICT_FRAME;
 		}
 	} else {	// fcm : 2 or 3 frame or field interlaced
-		if(nFieldType) {
+		if (nFieldType) {
 			*nFieldType = (vc1->tff ? PICT_TOP_FIELD : PICT_BOTTOM_FIELD);
 		}
 	}
 
-	if(b_SecondField) {
+	if (b_SecondField) {
 		vc1->second_field = 1;
 		vc1->s.picture_structure = PICT_TOP_FIELD + vc1->tff;
 		vc1->s.pict_type = (vc1->fptype & 1) ? AV_PICTURE_TYPE_P : AV_PICTURE_TYPE_I;
@@ -549,7 +549,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 			vc1->s.pict_type = (vc1->fptype & 1) ? AV_PICTURE_TYPE_BI : AV_PICTURE_TYPE_B;
 	}
 
-	if(nFrameSize) {
+	if (nFrameSize) {
 		*nFrameSize = out_nFrameSize;
 	}
 
@@ -560,8 +560,8 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	// Init    Init    Init    Todo
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
 	pPicParams->bBidirectionalAveragingMode	=	(pPicParams->bBidirectionalAveragingMode & 0xE0) |	// init in SetExtraData
-												((vc1->lumshift!=0 || vc1->lumscale!=32) ? 0x10 : 0)| // iINSO
-												((vc1->profile == PROFILE_ADVANCED)	 <<3 );			// iWMVA
+			((vc1->lumshift!=0 || vc1->lumscale!=32) ? 0x10 : 0)| // iINSO
+			((vc1->profile == PROFILE_ADVANCED)	 <<3 );			// iWMVA
 
 	// Section 3.2.20.3
 	pPicParams->bPicSpatialResid8	= (vc1->panscanflag   << 7) | (vc1->refdist_flag << 6) |
@@ -598,22 +598,22 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	}
 
 	// Section 3.2.16
-	if(nSliceType) {
+	if (nSliceType) {
 		*nSliceType = vc1->s.pict_type;
 	}
 
 	// TODO : not finish...
 	pPicParams->bMVprecisionAndChromaRelation = ((vc1->mv_mode == MV_PMODE_1MV_HPEL_BILIN) << 3) |		// 0 for non-bilinear luma motion, 1 for bilinear
-												(1 << 2) |		// 0 for WMV8, 1 for WMV9 motion
-												(0 << 1) |		// 1 for WMV8 quarter sample luma motion
-												(0);			// 0 for quarter sample chroma motion, 1 for half sample chroma
+			(1 << 2) |		// 0 for WMV8, 1 for WMV9 motion
+			(0 << 1) |		// 1 for WMV8 quarter sample luma motion
+			(0);			// 0 for quarter sample chroma motion, 1 for half sample chroma
 
 	// Cf §7.1.1.25 in VC1 specification, §3.2.14.3 in DXVA spec
 	pPicParams->bRcontrol	= vc1->rnd;
 
-	pPicParams->bPicDeblocked	= ((vc1->profile == PROFILE_ADVANCED && vc1->overlap == 1 &&     
-								  pPicParams->bPicBackwardPrediction == 0)					<< 6) |
-								  ((vc1->profile != PROFILE_ADVANCED && vc1->rangeredfrm)	<< 5) | 
+	pPicParams->bPicDeblocked	= ((vc1->profile == PROFILE_ADVANCED && vc1->overlap == 1 &&
+									pPicParams->bPicBackwardPrediction == 0)					<< 6) |
+								  ((vc1->profile != PROFILE_ADVANCED && vc1->rangeredfrm)	<< 5) |
 								  (vc1->s.loop_filter										<< 1);
 
 	return S_OK;
@@ -701,13 +701,13 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	// pPicParams->bReservedBits;						// ??
 
 	pPicParams->wBitstreamFcodes				= (s->mpeg_f_code[0][0]<<12)  | (s->mpeg_f_code[0][1]<<8) |
-												  (s->mpeg_f_code[1][0]<<4)   | (s->mpeg_f_code[1][1]);
+			(s->mpeg_f_code[1][0]<<4)   | (s->mpeg_f_code[1][1]);
 	pPicParams->wBitstreamPCEelements			= (s->intra_dc_precision<<14) | (s->picture_structure<<12) |
-												  (s->top_field_first<<11)    | (s->frame_pred_frame_dct<<10)|
-												  (s->concealment_motion_vectors<<9) | (s->q_scale_type<<8)|
-												  (s->intra_vlc_format<<7)    | (s->alternate_scan<<6)|
-												  (s->repeat_first_field<<5)  | (s->chroma_420_type<<4)|
-												  (s->progressive_frame<<3);
+			(s->top_field_first<<11)    | (s->frame_pred_frame_dct<<10)|
+			(s->concealment_motion_vectors<<9) | (s->q_scale_type<<8)|
+			(s->intra_vlc_format<<7)    | (s->alternate_scan<<6)|
+			(s->repeat_first_field<<5)  | (s->chroma_420_type<<4)|
+			(s->progressive_frame<<3);
 
 	// TODO : could be interesting to parameter concealment method?
 	// pPicParams->bBitstreamConcealmentNeed;
@@ -746,10 +746,10 @@ int FFIsSkipped(struct AVCodecContext* pAVCtx)
 
 int FFGetThreadType(enum CodecID nCodecId, int nThreadCount)
 {
-	if(!nThreadCount) {
+	if (!nThreadCount) {
 		return 0;
 	}
-	switch(nCodecId)
+	switch (nCodecId)
 	{
 		case CODEC_ID_H264 :
 			return FF_THREAD_FRAME|FF_THREAD_SLICE;

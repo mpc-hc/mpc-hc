@@ -50,11 +50,11 @@ bool CBaseSplitterFileEx::NextMpegStartCode(BYTE& code, __int64 len)
 	BitByteAlign();
 	DWORD dw = (DWORD)-1;
 	do {
-		if(len-- == 0 || !GetRemaining()) {
+		if (len-- == 0 || !GetRemaining()) {
 			return false;
 		}
 		dw = (dw << 8) | (BYTE)BitRead(8);
-	} while((dw&0xffffff00) != 0x00000100);
+	} while ((dw&0xffffff00) != 0x00000100);
 	code = (BYTE)(dw&0xff);
 	return true;
 }
@@ -69,7 +69,7 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 
 	BYTE b = (BYTE)BitRead(8, true);
 
-	if((b&0xf1) == 0x21) {
+	if ((b&0xf1) == 0x21) {
 		h.type = mpeg1;
 
 		EXECUTE_ASSERT(BitRead(4) == 2);
@@ -84,7 +84,7 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 		MARKER; // 14..0
 		h.bitrate = BitRead(22);
 		MARKER;
-	} else if((b&0xc4) == 0x44) {
+	} else if ((b&0xc4) == 0x44) {
 		h.type = mpeg2;
 
 		EXECUTE_ASSERT(BitRead(2) == 1);
@@ -103,7 +103,7 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 		MARKER;
 		BitRead(5); // reserved
 		UINT64 stuffing = BitRead(3);
-		while(stuffing-- > 0) {
+		while (stuffing-- > 0) {
 			EXECUTE_ASSERT(BitRead(8) == 0xff);
 		}
 	} else {
@@ -133,7 +133,7 @@ bool CBaseSplitterFileEx::Read(pssyshdr& h)
 
 	EXECUTE_ASSERT((BitRead(8)&0x7f) == 0x7f); // reserved (should be 0xff, but not in reality)
 
-	for(len -= 6; len > 3; len -= 3) { // TODO: also store these, somewhere, if needed
+	for (len -= 6; len > 3; len -= 3) { // TODO: also store these, somewhere, if needed
 		UINT64 stream_id = BitRead(8);
 		UNUSED_ALWAYS(stream_id);
 		EXECUTE_ASSERT(BitRead(2) == 3);
@@ -148,42 +148,42 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 {
 	memset(&h, 0, sizeof(h));
 
-	if(!(code >= 0xbd && code < 0xf0 || code == 0xfd)) { // 0xfd => blu-ray (.m2ts)
+	if (!(code >= 0xbd && code < 0xf0 || code == 0xfd)) { // 0xfd => blu-ray (.m2ts)
 		return false;
 	}
 
 	h.len = (WORD)BitRead(16);
 
-	if(code == 0xbe || code == 0xbf) {
+	if (code == 0xbe || code == 0xbf) {
 		return true;
 	}
 
 	// mpeg1 stuffing (ff ff .. , max 16x)
-	for(int i = 0; i < 16 && BitRead(8, true) == 0xff; i++) {
+	for (int i = 0; i < 16 && BitRead(8, true) == 0xff; i++) {
 		BitRead(8);
-		if(h.len) {
+		if (h.len) {
 			h.len--;
 		}
 	}
 
 	h.type = (BYTE)BitRead(2, true) == mpeg2 ? mpeg2 : mpeg1;
 
-	if(h.type == mpeg1) {
+	if (h.type == mpeg1) {
 		BYTE b = (BYTE)BitRead(2);
 
-		if(b == 1) {
+		if (b == 1) {
 			h.std_buff_size = (BitRead(1)?1024:128)*BitRead(13);
-			if(h.len) {
+			if (h.len) {
 				h.len -= 2;
 			}
 			b = (BYTE)BitRead(2);
 		}
 
-		if(b == 0) {
+		if (b == 0) {
 			h.fpts = (BYTE)BitRead(1);
 			h.fdts = (BYTE)BitRead(1);
 		}
-	} else if(h.type == mpeg2) {
+	} else if (h.type == mpeg2) {
 		EXECUTE_ASSERT(BitRead(2) == mpeg2);
 		h.scrambling = (BYTE)BitRead(2);
 		h.priority = (BYTE)BitRead(1);
@@ -200,16 +200,16 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 		h.extension = (BYTE)BitRead(1);
 		h.hdrlen = (BYTE)BitRead(8);
 	} else {
-		if(h.len) while(h.len-- > 0) {
+		if (h.len) while (h.len-- > 0) {
 				BitRead(8);
 			}
 		return false;
 	}
 
-	if(h.fpts) {
-		if(h.type == mpeg2) {
+	if (h.fpts) {
+		if (h.type == mpeg2) {
 			BYTE b = (BYTE)BitRead(4);
-			if(!(h.fdts && b == 3 || !h.fdts && b == 2)) {/*ASSERT(0); */return false;}
+			if (!(h.fdts && b == 3 || !h.fdts && b == 2)) {/*ASSERT(0); */return false;}
 		}
 
 		h.pts = 0;
@@ -222,8 +222,8 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 		h.pts = 10000*h.pts/90 + m_rtPTSOffset;
 	}
 
-	if(h.fdts) {
-		if((BYTE)BitRead(4) != 1) {/*ASSERT(0); */return false;}
+	if (h.fdts) {
+		if ((BYTE)BitRead(4) != 1) {/*ASSERT(0); */return false;}
 
 		h.dts = 0;
 		h.dts |= BitRead(3) << 30;
@@ -237,35 +237,35 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 
 	// skip to the end of header
 
-	if(h.type == mpeg1) {
-		if(!h.fpts && !h.fdts && BitRead(4) != 0xf) {
+	if (h.type == mpeg1) {
+		if (!h.fpts && !h.fdts && BitRead(4) != 0xf) {
 			/*ASSERT(0);*/ return false;
 		}
 
-		if(h.len) {
+		if (h.len) {
 			h.len--;
-			if(h.pts) {
+			if (h.pts) {
 				h.len -= 4;
 			}
-			if(h.dts) {
+			if (h.dts) {
 				h.len -= 5;
 			}
 		}
 	}
 
-	if(h.type == mpeg2) {
-		if(h.len) {
+	if (h.type == mpeg2) {
+		if (h.len) {
 			h.len -= 3+h.hdrlen;
 		}
 
 		int left = h.hdrlen;
-		if(h.fpts) {
+		if (h.fpts) {
 			left -= 5;
 		}
-		if(h.fdts) {
+		if (h.fdts) {
 			left -= 5;
 		}
-		while(left-- > 0) {
+		while (left-- > 0) {
 			BitRead(8);
 		}
 		/*
@@ -289,13 +289,13 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 
 	BYTE id = 0;
 
-	while(GetPos() < endpos && id != 0xb3) {
-		if(!NextMpegStartCode(id, len)) {
+	while (GetPos() < endpos && id != 0xb3) {
+		if (!NextMpegStartCode(id, len)) {
 			return false;
 		}
 	}
 
-	if(id != 0xb3) {
+	if (id != 0xb3) {
 		return false;
 	}
 
@@ -312,14 +312,14 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 	h.constrained = BitRead(1);
 
 	h.fiqm = BitRead(1);
-	if(h.fiqm)
-		for(int i = 0; i < countof(h.iqm); i++) {
+	if (h.fiqm)
+		for (int i = 0; i < countof(h.iqm); i++) {
 			h.iqm[i] = (BYTE)BitRead(8);
 		}
 
 	h.fniqm = BitRead(1);
-	if(h.fniqm)
-		for(int i = 0; i < countof(h.niqm); i++) {
+	if (h.fniqm)
+		for (int i = 0; i < countof(h.niqm); i++) {
 			h.niqm[i] = (BYTE)BitRead(8);
 		}
 
@@ -337,7 +337,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 
 	__int64 shextpos = 0, shextlen = 0;
 
-	if(NextMpegStartCode(id, 8) && id == 0xb5) { // sequence header ext
+	if (NextMpegStartCode(id, 8) && id == 0xb5) { // sequence header ext
 		shextpos = GetPos() - 4;
 
 		h.startcodeid = BitRead(4);
@@ -370,22 +370,22 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 	h.bitrate = h.bitrate == (1<<30)-1 ? 0 : h.bitrate * 400;
 
 	DWORD a = h.arx, b = h.ary;
-	while(a) {
+	while (a) {
 		DWORD tmp = a;
 		a = b % tmp;
 		b = tmp;
 	}
-	if(b) {
+	if (b) {
 		h.arx /= b, h.ary /= b;
 	}
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
 	pmt->majortype = MEDIATYPE_Video;
 
-	if(type == mpeg1) {
+	if (type == mpeg1) {
 		pmt->subtype = MEDIASUBTYPE_MPEG1Payload;
 		pmt->formattype = FORMAT_MPEGVideo;
 		int len = FIELD_OFFSET(MPEG1VIDEOINFO, bSequenceHeader) + shlen + shextlen;
@@ -401,13 +401,13 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 		vi->cbSequenceHeader = shlen + shextlen;
 		Seek(shpos);
 		ByteRead((BYTE*)&vi->bSequenceHeader[0], shlen);
-		if(shextpos && shextlen) {
+		if (shextpos && shextlen) {
 			Seek(shextpos);
 		}
 		ByteRead((BYTE*)&vi->bSequenceHeader[0] + shlen, shextlen);
 		pmt->SetFormat((BYTE*)vi, len);
 		delete [] vi;
-	} else if(type == mpeg2) {
+	} else if (type == mpeg2) {
 		pmt->subtype = MEDIASUBTYPE_MPEG2_VIDEO;
 		pmt->formattype = FORMAT_MPEG2_VIDEO;
 		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + shlen + shextlen;
@@ -425,7 +425,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 		vi->cbSequenceHeader = shlen + shextlen;
 		Seek(shpos);
 		ByteRead((BYTE*)&vi->dwSequenceHeader[0], shlen);
-		if(shextpos && shextlen) {
+		if (shextpos && shextlen) {
 			Seek(shextpos);
 		}
 		ByteRead((BYTE*)&vi->dwSequenceHeader[0] + shlen, shextlen);
@@ -444,11 +444,11 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 
 	int syncbits = fAllowV25 ? 11 : 12;
 
-	for(; len >= 4 && BitRead(syncbits, true) != (1<<syncbits) - 1; len--) {
+	for (; len >= 4 && BitRead(syncbits, true) != (1<<syncbits) - 1; len--) {
 		BitRead(8);
 	}
 
-	if(len < 4) {
+	if (len < 4) {
 		return false;
 	}
 
@@ -466,12 +466,12 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 	h.original = BitRead(1);
 	h.emphasis = BitRead(2);
 
-	if(h.version == 1 || h.layer == 0 || h.freq == 3 || h.bitrate == 15 || h.emphasis == 2) {
+	if (h.version == 1 || h.layer == 0 || h.freq == 3 || h.bitrate == 15 || h.emphasis == 2) {
 		return false;
 	}
 
-	if(h.version == 3 && h.layer == 2) {
-		if((h.bitrate == 1 || h.bitrate == 2 || h.bitrate == 3 || h.bitrate == 5) && h.channels != 3
+	if (h.version == 3 && h.layer == 2) {
+		if ((h.bitrate == 1 || h.bitrate == 2 || h.bitrate == 3 || h.bitrate == 5) && h.channels != 3
 				&& (h.bitrate >= 11 && h.bitrate <= 14) && h.channels == 3) {
 			return false;
 		}
@@ -502,7 +502,7 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 
 	static int brtblcol[][4] = {{0,3,4,4},{0,0,1,2}};
 	int bitrate = 1000*brtbl[h.bitrate][brtblcol[h.version&1][h.layer]];
-	if(bitrate == 0) {
+	if (bitrate == 0) {
 		return false;
 	}
 
@@ -517,7 +517,7 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 	h.rtDuration = 10000000i64 * (h.layer == 1 ? 384 : l3ext ? 576 : 1152) / h.nSamplesPerSec;// / (h.channels == 3 ? 1 : 2);
 	h.nBytesPerSec = bitrate / 8;
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -528,7 +528,7 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 	memset(wfe, 0, len);
 	wfe->cbSize = len - sizeof(WAVEFORMATEX);
 
-	if(h.layer == 3) {
+	if (h.layer == 3) {
 		wfe->wFormatTag = WAVE_FORMAT_MP3;
 
 		/*		MPEGLAYER3WAVEFORMAT* f = (MPEGLAYER3WAVEFORMAT*)wfe;
@@ -542,19 +542,19 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 		f->fwHeadMode = 1 << h.channels;
 		f->fwHeadModeExt = 1 << h.modeext;
 		f->wHeadEmphasis = h.emphasis+1;
-		if(h.privatebit) {
+		if (h.privatebit) {
 			f->fwHeadFlags |= ACM_MPEG_PRIVATEBIT;
 		}
-		if(h.copyright) {
+		if (h.copyright) {
 			f->fwHeadFlags |= ACM_MPEG_COPYRIGHT;
 		}
-		if(h.original) {
+		if (h.original) {
 			f->fwHeadFlags |= ACM_MPEG_ORIGINALHOME;
 		}
-		if(h.crc == 0) {
+		if (h.crc == 0) {
 			f->fwHeadFlags |= ACM_MPEG_PROTECTIONBIT;
 		}
-		if(h.version == 3) {
+		if (h.version == 3) {
 			f->fwHeadFlags |= ACM_MPEG_ID_MPEG1;
 		}
 		f->fwHeadLayer = 1 << (h.layer-1);
@@ -580,11 +580,11 @@ bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	for(; len >= 3 && BitRead(11, true) != 0x2b7; len--) {
+	for (; len >= 3 && BitRead(11, true) != 0x2b7; len--) {
 		BitRead(8);
 	}
-	
-	if(len < 3) {
+
+	if (len < 3) {
 		return false;
 	}
 
@@ -597,14 +597,14 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 	memset(&h, 0, sizeof(h));
 
 	__int64 pos = 0;
-	int found_fake_sync = 0;	
+	int found_fake_sync = 0;
 
-	for(;;) {
-		for(; len >= 7 && BitRead(12, true) != 0xfff; len--) {
+	for (;;) {
+		for (; len >= 7 && BitRead(12, true) != 0xfff; len--) {
 			BitRead(8);
 		}
 
-		if(len < 7) {
+		if (len < 7) {
 			return false;
 		}
 
@@ -627,12 +627,12 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 		h.adts_buffer_fullness = BitRead(11);
 		h.no_raw_data_blocks_in_frame = BitRead(2);
 
-		if(h.fcrc == 0) {
+		if (h.fcrc == 0) {
 			h.crc = BitRead(16);
 		}
 
-		if(h.layer != 0 || h.freq >= 12 || h.aac_frame_length <= (h.fcrc == 0 ? 9 : 7)) {
-			if(found_fake_sync) // skip only one "fake" sync. TODO - find better way to detect and skip "fake" sync
+		if (h.layer != 0 || h.freq >= 12 || h.aac_frame_length <= (h.fcrc == 0 ? 9 : 7)) {
+			if (found_fake_sync) // skip only one "fake" sync. TODO - find better way to detect and skip "fake" sync
 				return false;
 			found_fake_sync++;
 			Seek(pos + 1);
@@ -645,7 +645,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 		h.nBytesPerSec = h.aac_frame_length * freq[h.freq] / 1024; // ok?
 		h.rtDuration = 10000000i64 * 1024 / freq[h.freq]; // ok?
 
-		if(!pmt) {
+		if (!pmt) {
 			return true;
 		}
 
@@ -676,11 +676,11 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	bool e_ac3 = false;
 
 	__int64 startpos = GetPos();
-	
+
 	memset(&h, 0, sizeof(h));
 
 	// Parse TrueHD header
-	if(!AC3CoreOnly) {
+	if (!AC3CoreOnly) {
 		BYTE buf[20];
 		int  m_channels;
 		int  m_samplerate;
@@ -688,11 +688,11 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 
 		int fsize = 0;
 		ByteRead(buf, 20);
-		
-		fsize = ParseTrueHDHeader(buf, &m_samplerate, &m_channels, &m_framelength);
-		if(fsize) {
 
-			if(!pmt) {
+		fsize = ParseTrueHDHeader(buf, &m_samplerate, &m_channels, &m_framelength);
+		if (fsize) {
+
+			if (!pmt) {
 				return true;
 			}
 
@@ -701,7 +701,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 			pmt->majortype = MEDIATYPE_Audio;
 			pmt->subtype = MEDIASUBTYPE_DOLBY_TRUEHD;
 			pmt->formattype = FORMAT_WaveFormatEx;
-			
+
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
 			wfe->wFormatTag      = WAVE_FORMAT_UNKNOWN;
 			wfe->nChannels       = m_channels;
@@ -718,18 +718,18 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 
 	Seek(startpos);
 
-	if(find_sync) {
-		for(; len >= 7 && BitRead(16, true) != 0x0b77; len--) {
+	if (find_sync) {
+		for (; len >= 7 && BitRead(16, true) != 0x0b77; len--) {
 			BitRead(8);
 		}
 	}
 
-	if(len < 7) {
+	if (len < 7) {
 		return false;
 	}
 
 	h.sync = (WORD)BitRead(16);
-	if(h.sync != 0x0B77) {
+	if (h.sync != 0x0B77) {
 		return false;
 	}
 
@@ -738,26 +738,26 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	h.fscod = BitRead(2);
 	h.frmsizecod = BitRead(6);
 	h.bsid = BitRead(5);
-	if(h.bsid > 16) {
+	if (h.bsid > 16) {
 		return false;
 	}
-	if(h.bsid <= 10) {
+	if (h.bsid <= 10) {
 		/* Normal AC-3 */
-		if(h.fscod == 3) {
+		if (h.fscod == 3) {
 			return false;
 		}
-		if(h.frmsizecod > 37) {
+		if (h.frmsizecod > 37) {
 			return false;
 		}
 		h.bsmod = BitRead(3);
 		h.acmod = BitRead(3);
-		if(h.acmod == 2) {
+		if (h.acmod == 2) {
 			h.dsurmod = BitRead(2);
 		}
-		if((h.acmod & 1) && h.acmod != 1) {
+		if ((h.acmod & 1) && h.acmod != 1) {
 			h.cmixlev = BitRead(2);
 		}
-		if(h.acmod & 4) {
+		if (h.acmod & 4) {
 			h.surmixlev = BitRead(2);
 		}
 		h.lfeon = BitRead(1);
@@ -768,17 +768,17 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 		Seek(pos);
 		h.frame_type = BitRead(2);
 		h.substreamid = BitRead(3);
-		if(h.frame_type || h.substreamid) {
+		if (h.frame_type || h.substreamid) {
 			return false;
 		}
 		h.frame_size = (BitRead(11) + 1) << 1;
-		if(h.frame_size < 7) {
+		if (h.frame_size < 7) {
 			return false;
 		}
 		h.sr_code = BitRead(2);
-		if(h.sr_code == 3) {
+		if (h.sr_code == 3) {
 			int sr_code2 = BitRead(2);
-			if(sr_code2 == 3) {
+			if (sr_code2 == 3) {
 				return false;
 			}
 			h.sample_rate = freq[sr_code2] / 2;
@@ -793,7 +793,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 		h.lfeon = BitRead(1);
 	}
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -804,7 +804,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	static int channels[] = {2, 1, 2, 3, 3, 4, 4, 5};
 	wfe.nChannels = channels[h.acmod] + h.lfeon;
 
-	if(!e_ac3) {
+	if (!e_ac3) {
 		wfe.nSamplesPerSec = freq[h.fscod] >> h.sr_shift;
 		static int rate[] = {32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640, 768, 896, 1024, 1152, 1280};
 		wfe.nAvgBytesPerSec = ((rate[h.frmsizecod>>1] * 1000) >> h.sr_shift) / 8;
@@ -816,7 +816,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	wfe.nBlockAlign = (WORD)(1536 * wfe.nAvgBytesPerSec / wfe.nSamplesPerSec);
 
 	pmt->majortype = MEDIATYPE_Audio;
-	if(e_ac3) {
+	if (e_ac3) {
 		pmt->subtype = MEDIASUBTYPE_DOLBY_DDPLUS;
 	} else {
 		pmt->subtype = MEDIASUBTYPE_DOLBY_AC3;
@@ -831,18 +831,18 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sy
 {
 	memset(&h, 0, sizeof(h));
 
-	if(find_sync) {
-		for(; len >= 10 && BitRead(32, true) != 0x7ffe8001; len--) {
+	if (find_sync) {
+		for (; len >= 10 && BitRead(32, true) != 0x7ffe8001; len--) {
 			BitRead(8);
 		}
 	}
 
-	if(len < 10) {
+	if (len < 10) {
 		return false;
 	}
 
 	h.sync = (DWORD)BitRead(32);
-	if(h.sync != 0x7ffe8001) {
+	if (h.sync != 0x7ffe8001) {
 		return false;
 	}
 
@@ -867,7 +867,7 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sy
 	h.predictor_history = BitRead(1);
 
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -877,7 +877,7 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sy
 
 	static int channels[] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
 
-	if(h.amode < countof(channels)) {
+	if (h.amode < countof(channels)) {
 		wfe.nChannels = channels[h.amode];
 		if (h.lfe > 0) {
 			++wfe.nChannels;
@@ -927,7 +927,7 @@ bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
 		return false;
 	}
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -969,11 +969,11 @@ bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 	h.channels = BitRead(3);
 	h.drc = (BYTE)BitRead(8);
 
-	if(h.quantwordlen == 3 || h.reserved1 || h.reserved2) {
+	if (h.quantwordlen == 3 || h.reserved1 || h.reserved2) {
 		return false;
 	}
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -1011,7 +1011,7 @@ bool CBaseSplitterFileEx::Read(dvdspuhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -1026,7 +1026,7 @@ bool CBaseSplitterFileEx::Read(hdmvsubhdr& h, CMediaType* pmt, const char* langu
 {
 	memset(&h, 0, sizeof(h));
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -1047,7 +1047,7 @@ bool CBaseSplitterFileEx::Read(svcdspuhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -1062,7 +1062,7 @@ bool CBaseSplitterFileEx::Read(cvdspuhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -1077,23 +1077,23 @@ bool CBaseSplitterFileEx::Read(ps2audhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	if(BitRead(16, true) != 'SS') {
+	if (BitRead(16, true) != 'SS') {
 		return false;
 	}
 
 	__int64 pos = GetPos();
 
-	while(BitRead(16, true) == 'SS') {
+	while (BitRead(16, true) == 'SS') {
 		DWORD tag = (DWORD)BitRead(32, true);
 		DWORD size = 0;
 
-		if(tag == 'SShd') {
+		if (tag == 'SShd') {
 			BitRead(32);
 			ByteRead((BYTE*)&size, sizeof(size));
 			ASSERT(size == 0x18);
 			Seek(GetPos());
 			ByteRead((BYTE*)&h, sizeof(h));
-		} else if(tag == 'SSbd') {
+		} else if (tag == 'SSbd') {
 			BitRead(32);
 			ByteRead((BYTE*)&size, sizeof(size));
 			break;
@@ -1102,7 +1102,7 @@ bool CBaseSplitterFileEx::Read(ps2audhdr& h, CMediaType* pmt)
 
 	Seek(pos);
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -1130,7 +1130,7 @@ bool CBaseSplitterFileEx::Read(ps2subhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -1147,19 +1147,19 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 	BitByteAlign();
 
-	if(m_tslen == 0) {
+	if (m_tslen == 0) {
 		__int64 pos = GetPos();
 
-		for(int i = 0; i < 192; i++) {
-			if(BitRead(8, true) == 0x47) {
+		for (int i = 0; i < 192; i++) {
+			if (BitRead(8, true) == 0x47) {
 				__int64 pos = GetPos();
 				Seek(pos + 188);
-				if(BitRead(8, true) == 0x47) {
+				if (BitRead(8, true) == 0x47) {
 					m_tslen = 188;    // TS stream
 					break;
 				}
 				Seek(pos + 192);
-				if(BitRead(8, true) == 0x47) {
+				if (BitRead(8, true) == 0x47) {
 					m_tslen = 192;    // M2TS stream
 					break;
 				}
@@ -1170,19 +1170,19 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 		Seek(pos);
 
-		if(m_tslen == 0) {
+		if (m_tslen == 0) {
 			return false;
 		}
 	}
 
-	if(fSync) {
-		for(int i = 0; i < m_tslen; i++) {
-			if(BitRead(8, true) == 0x47) {
-				if(i == 0) {
+	if (fSync) {
+		for (int i = 0; i < m_tslen; i++) {
+			if (BitRead(8, true) == 0x47) {
+				if (i == 0) {
 					break;
 				}
 				Seek(GetPos()+m_tslen);
-				if(BitRead(8, true) == 0x47) {
+				if (BitRead(8, true) == 0x47) {
 					Seek(GetPos()-m_tslen);
 					break;
 				}
@@ -1190,13 +1190,13 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 			BitRead(8);
 
-			if(i == m_tslen-1) {
+			if (i == m_tslen-1) {
 				return false;
 			}
 		}
 	}
 
-	if(BitRead(8, true) != 0x47) {
+	if (BitRead(8, true) != 0x47) {
 		return false;
 	}
 
@@ -1214,10 +1214,10 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 	h.bytes = 188 - 4;
 
-	if(h.adapfield) {
+	if (h.adapfield) {
 		h.length = (BYTE)BitRead(8);
 
-		if(h.length > 0) {
+		if (h.length > 0) {
 			h.discontinuity = BitRead(1);
 			h.randomaccess = BitRead(1);
 			h.priority = BitRead(1);
@@ -1229,7 +1229,7 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 			int i = 1;
 
-			if(h.fPCR) {
+			if (h.fPCR) {
 				h.PCR = BitRead(33);
 				BitRead(6);
 				UINT64 PCRExt = BitRead(9);
@@ -1239,14 +1239,14 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 			ASSERT(i <= h.length);
 
-			for(; i < h.length; i++) {
+			for (; i < h.length; i++) {
 				BitRead(8);
 			}
 		}
 
 		h.bytes -= h.length+1;
 
-		if(h.bytes < 0) {
+		if (h.bytes < 0) {
 			ASSERT(0);
 			return false;
 		}
@@ -1259,7 +1259,7 @@ bool CBaseSplitterFileEx::Read(trsechdr& h)
 	memset(&h, 0, sizeof(h));
 
 	BYTE pointer_field = BitRead(8);
-	while(pointer_field-- > 0) {
+	while (pointer_field-- > 0) {
 		BitRead(8);
 	}
 	h.table_id = BitRead(8);
@@ -1282,16 +1282,16 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 
 	BitByteAlign();
 
-	if(fSync) {
-		for(int i = 0; i < 65536; i++) {
-			if((BitRead(64, true)&0xfffffc00ffe00000i64) == 0x4156000055000000i64) {
+	if (fSync) {
+		for (int i = 0; i < 65536; i++) {
+			if ((BitRead(64, true)&0xfffffc00ffe00000i64) == 0x4156000055000000i64) {
 				break;
 			}
 			BitRead(8);
 		}
 	}
 
-	if((BitRead(64, true)&0xfffffc00ffe00000i64) != 0x4156000055000000i64) {
+	if ((BitRead(64, true)&0xfffffc00ffe00000i64) != 0x4156000055000000i64) {
 		return false;
 	}
 
@@ -1305,26 +1305,26 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 	h.prebytes = BitRead(2);
 	h.length = (WORD)BitRead(16);
 
-	if(h.length > 6136) {
+	if (h.length > 6136) {
 		return false;
 	}
 
 	__int64 pos = GetPos();
 
-	if(h.streamid == 1 && h.fpts) {
+	if (h.streamid == 1 && h.fpts) {
 		h.pts = 10000*BitRead(32)/90 + m_rtPTSOffset;
-	} else if(h.streamid == 2 && (h.fpts || (BitRead(32, true)&0xffffffe0) == 0x000001c0)) {
+	} else if (h.streamid == 2 && (h.fpts || (BitRead(32, true)&0xffffffe0) == 0x000001c0)) {
 		BYTE b;
-		if(!NextMpegStartCode(b, 4)) {
+		if (!NextMpegStartCode(b, 4)) {
 			return false;
 		}
 		peshdr h2;
-		if(!Read(h2, b)) {
+		if (!Read(h2, b)) {
 			return false;
 		}
 		// Maybe bug, code before: if(h.fpts = h2.fpts) h.pts = h2.pts;
 		h.fpts = h2.fpts;
-		if(h.fpts) {
+		if (h.fpts) {
 			h.pts = h2.pts;
 		}
 	}
@@ -1339,12 +1339,12 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 int CBaseSplitterFileEx::HrdParameters(CGolombBuffer& gb)
 {
 	unsigned int cnt = gb.UExpGolombRead();	// cpb_cnt_minus1
-	if(cnt > 32U) 
+	if (cnt > 32U)
 		return -1;
 	gb.BitRead(4);							// bit_rate_scale
 	gb.BitRead(4);							// cpb_size_scale
 
-	for(unsigned int i = 0; i <= cnt; i++ ) {
+	for (unsigned int i = 0; i <= cnt; i++ ) {
 		gb.UExpGolombRead();				// bit_rate_value_minus1
 		gb.UExpGolombRead();				// cpb_size_value_minus1
 		gb.BitRead(1);						// cbr_flag
@@ -1354,7 +1354,7 @@ int CBaseSplitterFileEx::HrdParameters(CGolombBuffer& gb)
 	gb.BitRead(5);							// cpb_removal_delay_length_minus1
 	gb.BitRead(5);							// dpb_output_delay_length_minus1
 	gb.BitRead(5);							// time_offset_length
-	
+
 	return 0;
 }
 
@@ -1362,13 +1362,13 @@ void CBaseSplitterFileEx::RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length)
 {
 	int		si=0;
 	int		di=0;
-	while(si+2<length) {
+	while (si+2<length) {
 		//remove escapes (very rare 1:2^22)
-		if(src[si+2]>3) {
+		if (src[si+2]>3) {
 			dst[di++]= src[si++];
 			dst[di++]= src[si++];
-		} else if(src[si]==0 && src[si+1]==0) {
-			if(src[si+2]==3) { //escape
+		} else if (src[si]==0 && src[si+1]==0) {
+			if (src[si+2]==3) { //escape
 				dst[di++]= 0;
 				dst[di++]= 0;
 				si+=3;
@@ -1391,23 +1391,23 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 	// First try search for the start code
 	DWORD _dwStartCode = BitRead(32, true);
-	while(GetPos() < endpos+4 &&
+	while (GetPos() < endpos+4 &&
 			(_dwStartCode & 0xFFFFFF1F) != 0x101 &&		// Coded slide of a non-IDR
 			(_dwStartCode & 0xFFFFFF1F) != 0x105 &&		// Coded slide of an IDR
 			(_dwStartCode & 0xFFFFFF1F) != 0x107 &&		// Sequence Parameter Set
 			(_dwStartCode & 0xFFFFFF1F) != 0x108 &&		// Picture Parameter Set
 			(_dwStartCode & 0xFFFFFF1F) != 0x109 &&		// Access Unit Delimiter
 			(_dwStartCode & 0xFFFFFF1F) != 0x10f		// Subset Sequence Parameter Set (MVC)
-		) {
+		  ) {
 		BitRead(8);
 		_dwStartCode = BitRead(32, true);
 	}
-	if(GetPos() >= endpos+4) {
+	if (GetPos() >= endpos+4) {
 		return false;
 	}
 
 	// At least a SPS (normal or subset) and a PPS is required
-	while(GetPos() < endpos+4 && (!(h.spspps[index_sps].complete || h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat))
+	while (GetPos() < endpos+4 && (!(h.spspps[index_sps].complete || h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat))
 	{
 		BYTE id = h.lastid;
 		repeat = false;
@@ -1415,19 +1415,19 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		// Get array index from NAL unit type
 		spsppsindex index = index_unknown;
 
-		if((id&0x60) != 0) {
-			if((id&0x9f) == 0x07) {
+		if ((id&0x60) != 0) {
+			if ((id&0x9f) == 0x07) {
 				index = index_sps;
-			} else if((id&0x9f) == 0x0F) {
+			} else if ((id&0x9f) == 0x0F) {
 				index = index_subsetsps;
-			} else if((id&0x9f) == 0x08) {
+			} else if ((id&0x9f) == 0x08) {
 				index = h.spspps[index_pps1].complete ? index_pps2 : index_pps1;
 			}
 		}
 
 		// Search for next start code
 		DWORD dwStartCode = BitRead(32, true);
-		while(GetPos() < endpos+4 && (dwStartCode != 0x00000001) && (dwStartCode & 0xFFFFFF00) != 0x00000100) {
+		while (GetPos() < endpos+4 && (dwStartCode != 0x00000001) && (dwStartCode & 0xFFFFFF00) != 0x00000100) {
 			BitRead(8);
 			dwStartCode = BitRead(32, true);
 		}
@@ -1436,7 +1436,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 		// Skip start code
 		__int64 pos;
-		if(GetPos() < endpos+4) {
+		if (GetPos() < endpos+4) {
 			if (dwStartCode == 0x00000001)
 				BitRead(32);
 			else
@@ -1449,11 +1449,11 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		}
 
 		// The SPS or PPS might be fragmented, copy data into buffer until NAL is complete
-		if(index >= 0) {
-			if(h.spspps[index].complete) {
+		if (index >= 0) {
+			if (h.spspps[index].complete) {
 				// Don't handle SPS/PPS twice
 				continue;
-			} else if(pos > nalstartpos) {
+			} else if (pos > nalstartpos) {
 				// Copy into buffer
 				Seek(nalstartpos);
 				unsigned int bufsize = countof(h.spspps[index].buffer);
@@ -1464,7 +1464,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 				//ASSERT(h.spspps[index].size < bufsize); // disable for better debug ...
 
-				if(h.spspps[index].size >= bufsize || dwStartCode == 0x00000001 || (dwStartCode & 0xFFFFFF00) == 0x00000100) {
+				if (h.spspps[index].size >= bufsize || dwStartCode == 0x00000001 || (dwStartCode & 0xFFFFFF00) == 0x00000100) {
 					if (Read(h, index)) {
 						h.spspps[index].complete = true;
 						h.spspps[index].size -= 4;
@@ -1481,20 +1481,20 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	}
 
 	// Exit and wait for next packet if there is no SPS and PPS yet
-	if((!h.spspps[index_sps].complete && !h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat) {
+	if ((!h.spspps[index_sps].complete && !h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat) {
 
 		return false;
 	}
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
 	{
 		// Calculate size of extra data
 		int extra = 0;
-		for(int i = 0; i < 4; i++) {
-			if(h.spspps[i].complete)
+		for (int i = 0; i < 4; i++) {
+			if (h.spspps[i].complete)
 				extra += 2+(h.spspps[i].size);
 		}
 
@@ -1513,15 +1513,15 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		memset(vi, 0, len);
 		// vi->hdr.dwBitRate = ;
 		vi->hdr.AvgTimePerFrame = h.AvgTimePerFrame;
-		if(!h.sar.num) h.sar.num = 1;
-		if(!h.sar.den) h.sar.den = 1;
+		if (!h.sar.num) h.sar.num = 1;
+		if (!h.sar.den) h.sar.den = 1;
 		CSize aspect(h.width * h.sar.num, h.height * h.sar.den);
 		int lnko = LNKO(aspect.cx, aspect.cy);
-		if(lnko > 1) {
+		if (lnko > 1) {
 			aspect.cx /= lnko, aspect.cy /= lnko;
 		}
 
-		if(aspect.cx * 2 < aspect.cy) {
+		if (aspect.cx * 2 < aspect.cy) {
 			delete[] vi;
 			return false;
 		}
@@ -1545,8 +1545,8 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 		// Copy extra data
 		BYTE* p = (BYTE*)&vi->dwSequenceHeader[0];
-		for(int i = 0; i < 4; i++) {
-			if(h.spspps[i].complete) {
+		for (int i = 0; i < 4; i++) {
+			if (h.spspps[i].complete) {
 				*p++ = (h.spspps[i].size) >> 8;
 				*p++ = (h.spspps[i].size) & 0xff;
 				memcpy(p, h.spspps[i].buffer, h.spspps[i].size);
@@ -1567,7 +1567,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	static BYTE levels[] = {10, 11, 12, 13, 20, 21, 22, 30, 31, 32, 40, 41, 42, 50, 51};
 
 	// Only care about SPS and subset SPS
-	if(index != index_sps && index != index_subsetsps)
+	if (index != index_sps && index != index_subsetsps)
 		return true;
 
 	// Manage escape codes
@@ -1578,35 +1578,35 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	gb.BitRead(8);							// nal_unit_type
 	h.profile = (BYTE)gb.BitRead(8);
 	bool b_ident = false;
-	for(int i = 0; i<sizeof(profiles); i++) {
-		if(h.profile == profiles[i]) {
+	for (int i = 0; i<sizeof(profiles); i++) {
+		if (h.profile == profiles[i]) {
 			b_ident = true;
 			break;
 		}
 	}
-	if(!b_ident)
+	if (!b_ident)
 		return false;
 
 	gb.BitRead(8);
 	h.level = (BYTE)gb.BitRead(8);
 	b_ident = false;
-	for(int i = 0; i<sizeof(levels); i++) {
-		if(h.level == levels[i]) {
+	for (int i = 0; i<sizeof(levels); i++) {
+		if (h.level == levels[i]) {
 			b_ident = true;
 			break;
 		}
 	}
-	if(!b_ident)
+	if (!b_ident)
 		return false;
 
 	unsigned int sps_id = gb.UExpGolombRead();	// seq_parameter_set_id
-	if(sps_id >= 32)
+	if (sps_id >= 32)
 		return false;
 
 	UINT64 chroma_format_idc = 0;
-	if(h.profile >= 100) {					// high profile
+	if (h.profile >= 100) {					// high profile
 		chroma_format_idc = gb.UExpGolombRead();
-		if(chroma_format_idc  == 3) {		// chroma_format_idc
+		if (chroma_format_idc  == 3) {		// chroma_format_idc
 			gb.BitRead(1);					// residue_transform_flag
 		}
 
@@ -1615,10 +1615,10 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 		gb.BitRead(1);						// qpprime_y_zero_transform_bypass_flag
 
-		if(gb.BitRead(1)) {					// seq_scaling_matrix_present_flag
-			for(int i = 0; i < 8; i++) {
-				if(gb.BitRead(1)) {			// seq_scaling_list_present_flag
-					for(int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j) {
+		if (gb.BitRead(1)) {					// seq_scaling_matrix_present_flag
+			for (int i = 0; i < 8; i++) {
+				if (gb.BitRead(1)) {			// seq_scaling_list_present_flag
+					for (int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j) {
 						next = (next + gb.SExpGolombRead() + 256) & 255;
 					}
 				}
@@ -1630,24 +1630,24 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 	UINT64 pic_order_cnt_type = gb.UExpGolombRead();
 
-	if(pic_order_cnt_type == 0) {
+	if (pic_order_cnt_type == 0) {
 		gb.UExpGolombRead();				// log2_max_pic_order_cnt_lsb_minus4
-	} else if(pic_order_cnt_type == 1) {
+	} else if (pic_order_cnt_type == 1) {
 		gb.BitRead(1);						// delta_pic_order_always_zero_flag
 		gb.SExpGolombRead();				// offset_for_non_ref_pic
 		gb.SExpGolombRead();				// offset_for_top_to_bottom_field
 		UINT64 num_ref_frames_in_pic_order_cnt_cycle = gb.UExpGolombRead();
-		if(num_ref_frames_in_pic_order_cnt_cycle >= 256)
+		if (num_ref_frames_in_pic_order_cnt_cycle >= 256)
 			return false;
-		for(int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++) {
+		for (int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++) {
 			gb.SExpGolombRead();			// offset_for_ref_frame[i]
 		}
-	} else if(pic_order_cnt_type != 2) {
+	} else if (pic_order_cnt_type != 2) {
 		return false;
 	}
 
 	UINT64 ref_frame_count = gb.UExpGolombRead();					// num_ref_frames
-	if (ref_frame_count > 30) 
+	if (ref_frame_count > 30)
 		return false;
 	gb.BitRead(1);							// gaps_in_frame_num_value_allowed_flag
 
@@ -1655,29 +1655,29 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	UINT64 pic_height_in_map_units_minus1 = gb.UExpGolombRead();
 	BYTE frame_mbs_only_flag = (BYTE)gb.BitRead(1);
 
-	if(!frame_mbs_only_flag) {
+	if (!frame_mbs_only_flag) {
 		gb.BitRead(1);						// mb_adaptive_frame_field_flag
 	}
 
 	BYTE direct_8x8_inference_flag = (BYTE)gb.BitRead(1);							// direct_8x8_inference_flag
-	if(!frame_mbs_only_flag && !direct_8x8_inference_flag) {
+	if (!frame_mbs_only_flag && !direct_8x8_inference_flag) {
 		return false;
 	}
 
-	if(gb.BitRead(1)) {						// frame_cropping_flag
+	if (gb.BitRead(1)) {						// frame_cropping_flag
 		h.crop_left = gb.UExpGolombRead();				// frame_cropping_rect_left_offset
 		h.crop_right = gb.UExpGolombRead();				// frame_cropping_rect_right_offset
 		h.crop_top = gb.UExpGolombRead();				// frame_cropping_rect_top_offset
 		h.crop_bottom = gb.UExpGolombRead();				// frame_cropping_rect_bottom_offset
 	}
 
-	if(gb.BitRead(1)) {						// vui_parameters_present_flag
-		if(gb.BitRead(1)) {					// aspect_ratio_info_present_flag
+	if (gb.BitRead(1)) {						// vui_parameters_present_flag
+		if (gb.BitRead(1)) {					// aspect_ratio_info_present_flag
 			BYTE aspect_ratio_idc = gb.BitRead(8); // aspect_ratio_idc
-			if(255==(BYTE)aspect_ratio_idc) {
+			if (255==(BYTE)aspect_ratio_idc) {
 				h.sar.num = gb.BitRead(16);				// sar_width
 				h.sar.den = gb.BitRead(16);				// sar_height
-			} else if(aspect_ratio_idc < 17) {
+			} else if (aspect_ratio_idc < 17) {
 				h.sar.num = pixel_aspect[aspect_ratio_idc][0];
 				h.sar.den = pixel_aspect[aspect_ratio_idc][1];
 			} else {
@@ -1688,24 +1688,24 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			h.sar.den = 1;
 		}
 
-		if(gb.BitRead(1)) {					// overscan_info_present_flag
+		if (gb.BitRead(1)) {					// overscan_info_present_flag
 			gb.BitRead(1);					// overscan_appropriate_flag
 		}
 
-		if(gb.BitRead(1)) {					// video_signal_type_present_flag
+		if (gb.BitRead(1)) {					// video_signal_type_present_flag
 			gb.BitRead(3);					// video_format
 			gb.BitRead(1);					// video_full_range_flag
-			if(gb.BitRead(1)) {				// colour_description_present_flag
+			if (gb.BitRead(1)) {				// colour_description_present_flag
 				gb.BitRead(8);				// colour_primaries
 				gb.BitRead(8);				// transfer_characteristics
 				gb.BitRead(8);				// matrix_coefficients
 			}
 		}
-		if(gb.BitRead(1)) {					// chroma_location_info_present_flag
+		if (gb.BitRead(1)) {					// chroma_location_info_present_flag
 			gb.UExpGolombRead();			// chroma_sample_loc_type_top_field
 			gb.UExpGolombRead();			// chroma_sample_loc_type_bottom_field
 		}
-		if(gb.BitRead(1)) {					// timing_info_present_flag
+		if (gb.BitRead(1)) {					// timing_info_present_flag
 			__int64 num_units_in_tick	= gb.BitRead(32);
 			__int64 time_scale			= gb.BitRead(32);
 			/*long fixed_frame_rate_flag	= */gb.BitRead(1);
@@ -1728,21 +1728,21 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 		}
 
 		bool nalflag = !!gb.BitRead(1);		// nal_hrd_parameters_present_flag
-		if(nalflag) {
-			if(HrdParameters(gb)<0)	
+		if (nalflag) {
+			if (HrdParameters(gb)<0)
 				return false;
 		}
 		bool vlcflag = !!gb.BitRead(1);		// vlc_hrd_parameters_present_flag
-		if(vlcflag) {
-			if(HrdParameters(gb)<0) 
+		if (vlcflag) {
+			if (HrdParameters(gb)<0)
 				return false;
 		}
-		if(nalflag || vlcflag) {
-			 gb.BitRead(1);					// low_delay_hrd_flag
+		if (nalflag || vlcflag) {
+			gb.BitRead(1);					// low_delay_hrd_flag
 		}
 
 		gb.BitRead(1);						// pic_struct_present_flag
-		if(gb.BitRead(1)) {					// bitstream_restriction_flag
+		if (gb.BitRead(1)) {					// bitstream_restriction_flag
 			gb.BitRead(1);					// motion_vectors_over_pic_boundaries_flag
 			gb.UExpGolombRead();			// max_bytes_per_pic_denom
 			gb.UExpGolombRead();			// max_bits_per_mb_denom
@@ -1751,19 +1751,19 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			UINT64 num_reorder_frames = gb.UExpGolombRead();			// num_reorder_frames
 			gb.UExpGolombRead();			// max_dec_frame_buffering
 
-			if(gb.GetSize() < gb.GetPos()){
+			if (gb.GetSize() < gb.GetPos()) {
 				num_reorder_frames = 0;
 			}
-			if(num_reorder_frames > 16U) 
+			if (num_reorder_frames > 16U)
 				return false;
 		}
 	}
 
-	if(index == index_subsetsps) {
-		if(h.profile == 83 || h.profile == 86) {
+	if (index == index_subsetsps) {
+		if (h.profile == 83 || h.profile == 86) {
 			// TODO: SVC extensions
 			return false;
-		} else if(h.profile == 118 || h.profile == 128) {
+		} else if (h.profile == 118 || h.profile == 128) {
 			gb.BitRead(1);													// bit_equal_to_one
 
 			// seq_parameter_set_mvc_extension
@@ -1838,18 +1838,18 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	BYTE CHROMA444 = (chroma_format_idc == 3);
 
 	h.width = 16 * mb_Width - (2>>CHROMA444) * min(h.crop_right, (8<<CHROMA444)-1);
-	if(frame_mbs_only_flag) {
+	if (frame_mbs_only_flag) {
 		h.height = 16 * mb_Height - (2>>CHROMA444) * min(h.crop_bottom, (8<<CHROMA444)-1);
 	} else {
 		h.height = 16 * mb_Height - (4>>CHROMA444) * min(h.crop_bottom, (8<<CHROMA444)-1);
 	}
 
-	if(h.height<100 || h.width<100) {
+	if (h.height<100 || h.width<100) {
 		return false;
 	}
 
-	if(h.height == 1088) {
-		h.height = 1080;	// Prevent blur lines 
+	if (h.height == 1088) {
+		h.height = 1080;	// Prevent blur lines
 	}
 
 	return true;
@@ -1893,17 +1893,17 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		h.finterpflag		= BitRead (1);
 		BitRead (1); // reserved
 		h.psf				= BitRead (1);
-		if(BitRead (1)) {
+		if (BitRead (1)) {
 			int ar = 0;
 			BitRead (14);
 			BitRead (14);
-			if(BitRead (1)) {
+			if (BitRead (1)) {
 				ar = BitRead (4);
 			}
-			if(ar && ar < 14) {
+			if (ar && ar < 14) {
 				h.sar.num = pixel_aspect[ar][0];
 				h.sar.den = pixel_aspect[ar][1];
-			} else if(ar == 15) {
+			} else if (ar == 15) {
 				h.sar.num = BitRead (8);
 				h.sar.den = BitRead (8);
 			}
@@ -1912,15 +1912,15 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 			const int	ff_vc1_fps_nr[5] = { 24, 25, 30, 50, 60 },
 										   ff_vc1_fps_dr[2] = { 1000, 1001 };
 
-			if(BitRead (1)) {
-				if(BitRead (1)) {
+			if (BitRead (1)) {
+				if (BitRead (1)) {
 					nFrameRateNum = 32;
 					nFrameRateDen = BitRead (16) + 1;
 				} else {
 					int nr, dr;
 					nr = BitRead (8);
 					dr = BitRead (4);
-					if(nr && nr < 8 && dr && dr < 3) {
+					if (nr && nr < 8 && dr && dr < 3) {
 						nFrameRateNum = ff_vc1_fps_dr[dr - 1];
 						nFrameRateDen = ff_vc1_fps_nr[nr - 1] * 1000;
 					}
@@ -1939,11 +1939,11 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		}
 	}
 
-	if(!extrapos || !extralen) {
+	if (!extrapos || !extralen) {
 		return false;
 	}
 
-	if(!pmt) {
+	if (!pmt) {
 		return true;
 	}
 
@@ -1963,14 +1963,14 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		memset(vi, 0, len);
 		vi->AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
 
-		if(!h.sar.num) h.sar.num = 1;
-		if(!h.sar.den) h.sar.den = 1;
+		if (!h.sar.num) h.sar.num = 1;
+		if (!h.sar.den) h.sar.den = 1;
 		CSize aspect = CSize(h.width * h.sar.num, h.height * h.sar.den);
-		if(h.width == h.sar.num && h.height == h.sar.den) {
+		if (h.width == h.sar.num && h.height == h.sar.den) {
 			aspect = CSize(h.width, h.height);
 		}
 		int lnko = LNKO(aspect.cx, aspect.cy);
-		if(lnko > 1) {
+		if (lnko > 1) {
 			aspect.cx /= lnko, aspect.cy /= lnko;
 		}
 

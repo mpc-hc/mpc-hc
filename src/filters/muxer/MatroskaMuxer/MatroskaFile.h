@@ -167,7 +167,7 @@ namespace MatroskaWriter
 		QWORD Size(bool fWithHeader = true) {
 			QWORD len = 0;
 			POSITION pos = GetHeadPosition();
-			while(pos) {
+			while (pos) {
 				len += GetNext(pos)->Size(fWithHeader);
 			}
 			return len;
@@ -175,7 +175,7 @@ namespace MatroskaWriter
 		HRESULT Write(IStream* pStream) {
 			HRESULT hr;
 			POSITION pos = GetHeadPosition();
-			while(pos) if(FAILED(hr = GetNext(pos)->Write(pStream))) {
+			while (pos) if (FAILED(hr = GetNext(pos)->Write(pStream))) {
 					return hr;
 				}
 			return S_OK;

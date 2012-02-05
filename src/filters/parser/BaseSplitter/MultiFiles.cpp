@@ -59,7 +59,7 @@ BOOL CMultiFiles::OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT n
 	REFERENCE_TIME	rtDur = 0;
 
 	Reset();
-	while(pos) {
+	while (pos) {
 		CHdmvClipInfo::PlaylistItem& s = files.GetNext(pos);
 		m_strFiles.Add(s.m_strFileName);
 		if (!OpenPart(nPos)) {

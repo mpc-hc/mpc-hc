@@ -74,7 +74,7 @@ CFilterApp theApp;
 CUDPReader::CUDPReader(IUnknown* pUnk, HRESULT* phr)
 	: CAsyncReader(NAME("CUDPReader"), pUnk, &m_stream, phr, __uuidof(this))
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 }
@@ -96,7 +96,7 @@ STDMETHODIMP CUDPReader::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
 STDMETHODIMP CUDPReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 {
-	if(!m_stream.Load(pszFileName)) {
+	if (!m_stream.Load(pszFileName)) {
 		return E_FAIL;
 	}
 
@@ -112,12 +112,12 @@ STDMETHODIMP CUDPReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 
 STDMETHODIMP CUDPReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
-	if(!ppszFileName) {
+	if (!ppszFileName) {
 		return E_POINTER;
 	}
 
 	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
-	if(!(*ppszFileName)) {
+	if (!(*ppszFileName)) {
 		return E_OUTOFMEMORY;
 	}
 
@@ -142,15 +142,15 @@ CUDPStream::~CUDPStream()
 
 void CUDPStream::Clear()
 {
-	if(m_socket !=INVALID_SOCKET) {
+	if (m_socket !=INVALID_SOCKET) {
 		closesocket(m_socket);
 		m_socket = INVALID_SOCKET;
 	}
-	if(CAMThread::ThreadExists()) {
+	if (CAMThread::ThreadExists()) {
 		CAMThread::CallWorker(CMD_EXIT);
 		CAMThread::Close();
 	}
-	while(!m_packets.IsEmpty()) {
+	while (!m_packets.IsEmpty()) {
 		delete m_packets.RemoveHead();
 	}
 	m_pos = m_len = 0;
@@ -161,18 +161,18 @@ void CUDPStream::Append(BYTE* buff, int len)
 {
 	CAutoLock cAutoLock(&m_csLock);
 
-	if(m_packets.GetCount() > 1) {
+	if (m_packets.GetCount() > 1) {
 		__int64 size = m_packets.GetTail()->m_end - m_packets.GetHead()->m_start;
 
-		if(!m_drop && (m_pos >= BUFF_SIZE_FIRST && size >= BUFF_SIZE_FIRST || size >= 2*BUFF_SIZE_FIRST)) {
+		if (!m_drop && (m_pos >= BUFF_SIZE_FIRST && size >= BUFF_SIZE_FIRST || size >= 2*BUFF_SIZE_FIRST)) {
 			m_drop = true;
 			TRACE(_T("DROP ON\n"));
-		} else if(m_drop && size <= BUFF_SIZE_FIRST) {
+		} else if (m_drop && size <= BUFF_SIZE_FIRST) {
 			m_drop = false;
 			TRACE(_T("DROP OFF\n"));
 		}
 
-		if(m_drop) {
+		if (m_drop) {
 			return;
 		}
 	}
@@ -195,7 +195,7 @@ bool CUDPStream::Load(const WCHAR* fnw)
 
 	CAtlList<CStringW> sl;
 	Explode(url, sl, ':');
-	if(sl.GetCount() != 3) {
+	if (sl.GetCount() != 3) {
 		return false;
 	}
 
@@ -205,23 +205,23 @@ bool CUDPStream::Load(const WCHAR* fnw)
 	m_ip = CString(sl.RemoveHead()).TrimLeft('/');
 
 	int port = _wtoi(Explode(sl.RemoveHead(), sl, '/', 2));
-	if(port < 0 || port > 0xffff) {
+	if (port < 0 || port > 0xffff) {
 		return false;
 	}
 	m_port = port;
 
-	if(sl.GetCount() != 2 || FAILED(GUIDFromCString(CString(sl.GetTail()), m_subtype))) {
+	if (sl.GetCount() != 2 || FAILED(GUIDFromCString(CString(sl.GetTail()), m_subtype))) {
 		m_subtype = MEDIASUBTYPE_NULL;    // TODO: detect subtype
 	}
 
 	CAMThread::Create();
-	if(FAILED(CAMThread::CallWorker(CMD_RUN))) {
+	if (FAILED(CAMThread::CallWorker(CMD_RUN))) {
 		Clear();
 		return false;
 	}
 
 	clock_t start = clock();
-	while(clock() - start < 3000 && m_len < 1000000) {
+	while (clock() - start < 3000 && m_len < 1000000) {
 		Sleep(100);
 	}
 
@@ -232,7 +232,7 @@ HRESULT CUDPStream::SetPointer(LONGLONG llPos)
 {
 	CAutoLock cAutoLock(&m_csLock);
 
-	if(m_packets.IsEmpty() && llPos != 0
+	if (m_packets.IsEmpty() && llPos != 0
 			|| !m_packets.IsEmpty() && llPos < m_packets.GetHead()->m_start
 			|| !m_packets.IsEmpty() && llPos > m_packets.GetTail()->m_end) {
 		TRACE(_T("CUDPStream: SetPointer error\n"));
@@ -251,15 +251,15 @@ HRESULT CUDPStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 	DWORD len = dwBytesToRead;
 	BYTE* ptr = pbBuffer;
 
-	while(len > 0 && !m_packets.IsEmpty()) {
+	while (len > 0 && !m_packets.IsEmpty()) {
 		POSITION pos = m_packets.GetHeadPosition();
-		while(pos && len > 0) {
+		while (pos && len > 0) {
 			packet_t* p = m_packets.GetNext(pos);
 
-			if(p->m_start <= m_pos && m_pos < p->m_end) {
+			if (p->m_start <= m_pos && m_pos < p->m_end) {
 				int size;
 
-				if(m_pos < p->m_start) {
+				if (m_pos < p->m_start) {
 					ASSERT(0);
 					size = min(len, p->m_start - m_pos);
 					memset(ptr, 0, size);
@@ -274,8 +274,8 @@ HRESULT CUDPStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 				len -= size;
 			}
 
-			if(p->m_end <= m_pos - 2048 && BUFF_SIZE_FIRST <= m_pos) {
-				while(m_packets.GetHeadPosition() != pos) {
+			if (p->m_end <= m_pos - 2048 && BUFF_SIZE_FIRST <= m_pos) {
+				while (m_packets.GetHeadPosition() != pos) {
 					delete m_packets.RemoveHead();
 				}
 			}
@@ -283,7 +283,7 @@ HRESULT CUDPStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 		}
 	}
 
-	if(pdwBytesRead) {
+	if (pdwBytesRead) {
 		*pdwBytesRead = ptr - pbBuffer;
 	}
 
@@ -293,7 +293,7 @@ HRESULT CUDPStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 LONGLONG CUDPStream::Size(LONGLONG* pSizeAvailable)
 {
 	CAutoLock cAutoLock(&m_csLock);
-	if(pSizeAvailable) {
+	if (pSizeAvailable) {
 		*pSizeAvailable = m_len;
 	}
 	return 0;
@@ -329,24 +329,24 @@ DWORD CUDPStream::ThreadProc()
 	imr.imr_multiaddr.s_addr = inet_addr(CStringA(m_ip));
 	imr.imr_interface.s_addr = INADDR_ANY;
 
-	if((m_socket = socket(AF_INET, SOCK_DGRAM, 0))!=INVALID_SOCKET) {
+	if ((m_socket = socket(AF_INET, SOCK_DGRAM, 0))!=INVALID_SOCKET) {
 		/*		u_long argp = 1;
 				ioctlsocket(m_socket, FIONBIO, &argp);
 		*/
 		DWORD dw = TRUE;
-		if(setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (const char*)&dw, sizeof(dw))==SOCKET_ERROR) {
+		if (setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (const char*)&dw, sizeof(dw))==SOCKET_ERROR) {
 			closesocket(m_socket);
 			m_socket =  INVALID_SOCKET;
 		}
 
-		if(bind(m_socket, (struct sockaddr*)&addr, sizeof(addr))==SOCKET_ERROR) {
+		if (bind(m_socket, (struct sockaddr*)&addr, sizeof(addr))==SOCKET_ERROR) {
 			closesocket(m_socket);
 			m_socket =  INVALID_SOCKET;
 		}
 
-		if(IN_MULTICAST(htonl(imr.imr_multiaddr.s_addr))) {
+		if (IN_MULTICAST(htonl(imr.imr_multiaddr.s_addr))) {
 			int ret = setsockopt(m_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*)&imr, sizeof(imr));
-			if(ret < 0) {
+			if (ret < 0) {
 				ret = ::WSAGetLastError();
 			}
 			ret = ret;
@@ -362,22 +362,22 @@ DWORD CUDPStream::ThreadProc()
 	//	log = _tfopen(_T("c:\\udp.txt"), _T("wt"));
 #endif
 
-	while(1) {
+	while (1) {
 		DWORD cmd = GetRequest();
 
-		switch(cmd) {
+		switch (cmd) {
 			default:
 			case CMD_EXIT:
-				if(m_socket!=INVALID_SOCKET) {
+				if (m_socket!=INVALID_SOCKET) {
 					closesocket(m_socket);
 					m_socket =  INVALID_SOCKET;
 				}
 				WSACleanup();
 #ifdef _DEBUG
-				if(dump) {
+				if (dump) {
 					fclose(dump);
 				}
-				if(log) {
+				if (log) {
 					fclose(log);
 				}
 #endif
@@ -390,23 +390,23 @@ DWORD CUDPStream::ThreadProc()
 					char buff[65536*2];
 					int buffsize = 0;
 
-					for(unsigned int i = 0; ; i++) {
-						if(!(i&0xff)) {
-							if(CheckRequest(NULL)) {
+					for (unsigned int i = 0; ; i++) {
+						if (!(i&0xff)) {
+							if (CheckRequest(NULL)) {
 								break;
 							}
 						}
 
 						int fromlen = sizeof(addr);
 						int len = recvfrom(m_socket, &buff[buffsize], 65536, 0, (SOCKADDR*)&addr, &fromlen);
-						if(len <= 0) {
+						if (len <= 0) {
 							Sleep(1);
 							continue;
 						}
 
 #ifdef _DEBUG
-						if(log) {
-							if(buffsize >= len && !memcmp(&buff[buffsize-len], &buff[buffsize], len)) {
+						if (log) {
+							if (buffsize >= len && !memcmp(&buff[buffsize-len], &buff[buffsize], len)) {
 								DWORD pid = ((buff[buffsize+1]<<8)|buff[buffsize+2])&0x1fff;
 								DWORD counter = buff[buffsize+3]&0xf;
 								_ftprintf(log, _T("%04d %2d DUP\n"), pid, counter);
@@ -416,24 +416,24 @@ DWORD CUDPStream::ThreadProc()
 
 						buffsize += len;
 
-						if(buffsize >= 65536 || m_len == 0) {
+						if (buffsize >= 65536 || m_len == 0) {
 #ifdef _DEBUG
-							if(dump) {
+							if (dump) {
 								fwrite(buff, buffsize, 1, dump);
 							}
 
-							if(log) {
+							if (log) {
 								static BYTE pid2counter[0x2000];
 								static bool init = false;
-								if(!init) {
+								if (!init) {
 									memset(pid2counter, 0, sizeof(pid2counter));
 									init = true;
 								}
 
-								for(int i = 0; i < buffsize; i += 188) {
+								for (int i = 0; i < buffsize; i += 188) {
 									DWORD pid = ((buff[i+1]<<8)|buff[i+2])&0x1fff;
 									DWORD counter = buff[i+3]&0xf;
-									if(pid2counter[pid] != ((counter-1+16)&15)) {
+									if (pid2counter[pid] != ((counter-1+16)&15)) {
 										_ftprintf(log, _T("%04x %2d -> %2d\n"), pid, pid2counter[pid], counter);
 									}
 									pid2counter[pid] = counter;

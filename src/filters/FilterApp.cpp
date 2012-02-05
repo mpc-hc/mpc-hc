@@ -32,7 +32,7 @@ CFilterApp::CFilterApp()
 
 BOOL CFilterApp::InitInstance()
 {
-	if(!__super::InitInstance()) {
+	if (!__super::InitInstance()) {
 		return FALSE;
 	}
 

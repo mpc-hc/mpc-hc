@@ -166,10 +166,10 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 #ifdef REGISTER_FILTER
 
 #ifdef _WIN64
-	#ifdef _DEBUG
-		extern "C" int mingw_app_type = 1;	/* 0:console, 1:windows.  */
-	#endif
-	void *__imp_toupper = toupper;
+#ifdef _DEBUG
+extern "C" int mingw_app_type = 1;	/* 0:console, 1:windows.  */
+#endif
+void *__imp_toupper = toupper;
 #endif
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
@@ -324,23 +324,23 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	, m_boost(1)
 	, m_bResync(false)
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 
 	m_pInput = DNew CMpaDecInputPin(this, phr, L"In");
-	if(!m_pInput) {
+	if (!m_pInput) {
 		*phr = E_OUTOFMEMORY;
 	}
-	if(FAILED(*phr)) {
+	if (FAILED(*phr)) {
 		return;
 	}
 
 	m_pOutput = DNew CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out");
-	if(!m_pOutput) {
+	if (!m_pOutput) {
 		*phr = E_OUTOFMEMORY;
 	}
-	if(FAILED(*phr))  {
+	if (FAILED(*phr))  {
 		delete m_pInput, m_pInput = NULL;
 		return;
 	}
@@ -365,27 +365,27 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 #ifdef REGISTER_FILTER
 	CRegKey key;
-	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"), KEY_READ)) {
+	if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"), KEY_READ)) {
 		DWORD dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("SampleFormat"), dw)) {
+		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SampleFormat"), dw)) {
 			m_iSampleFormat = (MPCSampleFormat)dw;
 		}
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Normalize"), dw)) {
+		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("Normalize"), dw)) {
 			m_fNormalize = !!dw;
 		}
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Boost"), dw)) {
+		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("Boost"), dw)) {
 			m_boost = *(float*)&dw;
 		}
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3SpeakerConfig"), dw)) {
+		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3SpeakerConfig"), dw)) {
 			m_iSpeakerConfig[ac3] = (int)dw;
 		}
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsSpeakerConfig"), dw)) {
+		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsSpeakerConfig"), dw)) {
 			m_iSpeakerConfig[dts] = (int)dw;
 		}
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3DynamicRangeControl"), dw)) {
+		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3DynamicRangeControl"), dw)) {
 			m_fDynamicRangeControl[ac3] = !!dw;
 		}
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsDynamicRangeControl"), dw)) {
+		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsDynamicRangeControl"), dw)) {
 			m_fDynamicRangeControl[dts] = !!dw;
 		}
 	}
@@ -484,12 +484,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	HRESULT hr;
 
 	AM_SAMPLE2_PROPERTIES* const pProps = m_pInput->SampleProps();
-	if(pProps->dwStreamId != AM_STREAM_MEDIA) {
+	if (pProps->dwStreamId != AM_STREAM_MEDIA) {
 		return m_pOutput->Deliver(pIn);
 	}
 
 	AM_MEDIA_TYPE* pmt;
-	if(SUCCEEDED(pIn->GetMediaType(&pmt)) && pmt) {
+	if (SUCCEEDED(pIn->GetMediaType(&pmt)) && pmt) {
 		CMediaType mt(*pmt);
 		m_pInput->SetMediaType(&mt);
 		DeleteMediaType(pmt);
@@ -499,7 +499,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	}
 
 	BYTE* pDataIn = NULL;
-	if(FAILED(hr = pIn->GetPointer(&pDataIn))) {
+	if (FAILED(hr = pIn->GetPointer(&pDataIn))) {
 		return hr;
 	}
 
@@ -510,29 +510,29 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	REFERENCE_TIME rtStart = _I64_MIN, rtStop = _I64_MIN;
 	hr = pIn->GetTime(&rtStart, &rtStop);
 
-	if(SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr)) {
 		TRACE(_T("CMpaDecFilter::Receive(): rtStart = %10I64d, rtStop = %10I64d\n"), rtStart, rtStop);
 	} else {
 		TRACE(_T("CMpaDecFilter::Receive(): frame without timestamp\n"));
 	}
 
-	if(pIn->IsDiscontinuity() == S_OK) {
+	if (pIn->IsDiscontinuity() == S_OK) {
 		m_fDiscontinuity = true;
 		m_buff.RemoveAll();
 		m_rtStart = rtStart;
 		m_sample_max = 0.1f;
 		m_bResync = true;
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			TRACE(_T("CMpaDecFilter::Receive() : Discontinuity without timestamp\n"));
 			return S_OK;
 		}
 	}
 
-	if(SUCCEEDED(hr) && ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) || m_bResync)) {
-		m_buff.RemoveAll(); 
+	if (SUCCEEDED(hr) && ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) || m_bResync)) {
+		m_buff.RemoveAll();
 		m_rtStart = rtStart;
 		m_bResync = false;
-	} 
+	}
 
 	int bufflen = m_buff.GetCount();
 	m_buff.SetCount(bufflen + len, 4096);
@@ -543,81 +543,81 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	enum CodecID nCodecId = FindCodec(subtype);
-	if(nCodecId != CODEC_ID_NONE) {
+	if (nCodecId != CODEC_ID_NONE) {
 		return ProcessFFmpeg(nCodecId);
 	}
 #endif
-	if(0) {} // needed if decoders are disabled below
+	if (0) {} // needed if decoders are disabled below
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
-	else if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
+	else if (subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
 		hr = ProcessLPCM();
-	} else if(subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
+	} else if (subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
 		hr = ProcessHdmvLPCM(!!pIn->IsSyncPoint());
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
-	else if(subtype == MEDIASUBTYPE_DOLBY_AC3 ||
-			subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
-			subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
-			subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+	else if (subtype == MEDIASUBTYPE_DOLBY_AC3 ||
+			 subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
+			 subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
+			 subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
 		hr = ProcessAC3();
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
-	else if(subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS) {
+	else if (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS) {
 		hr = ProcessDTS();
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUDIO
-	else if(subtype == MEDIASUBTYPE_PS2_PCM) {
+	else if (subtype == MEDIASUBTYPE_PS2_PCM) {
 		hr = ProcessPS2PCM();
-	} else if(subtype == MEDIASUBTYPE_PS2_ADPCM) {
+	} else if (subtype == MEDIASUBTYPE_PS2_ADPCM) {
 		hr = ProcessPS2ADPCM();
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
-	else if(subtype == MEDIASUBTYPE_FLAC_FRAMED) {
+	else if (subtype == MEDIASUBTYPE_FLAC_FRAMED) {
 		hr = ProcessFlac();
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
-	else if(subtype == MEDIASUBTYPE_PCM_NONE ||
-			subtype == MEDIASUBTYPE_PCM_RAW) {
-		if(m_buff.GetCount() < 480) {
+	else if (subtype == MEDIASUBTYPE_PCM_NONE ||
+			 subtype == MEDIASUBTYPE_PCM_RAW) {
+		if (m_buff.GetCount() < 480) {
 			return S_OK;
 		}
 		hr = ProcessPCMraw();
-	} else if(subtype == MEDIASUBTYPE_PCM_TWOS) {
-		if(m_buff.GetCount() < 960) {
+	} else if (subtype == MEDIASUBTYPE_PCM_TWOS) {
+		if (m_buff.GetCount() < 960) {
 			return S_OK;
 		}
 		hr = ProcessPCMintBE();
-	} else if(subtype == MEDIASUBTYPE_PCM_SOWT) {
-		if(m_buff.GetCount() < 960) {
+	} else if (subtype == MEDIASUBTYPE_PCM_SOWT) {
+		if (m_buff.GetCount() < 960) {
 			return S_OK;
 		}
 		hr = ProcessPCMintLE();
-	} else if(subtype == MEDIASUBTYPE_PCM_IN24 ||
-			  subtype == MEDIASUBTYPE_PCM_IN32) {
-		if(m_buff.GetCount() < 1920) {
+	} else if (subtype == MEDIASUBTYPE_PCM_IN24 ||
+			   subtype == MEDIASUBTYPE_PCM_IN32) {
+		if (m_buff.GetCount() < 1920) {
 			return S_OK;
 		}
 		hr = ProcessPCMintBE();
-	} else if(subtype == MEDIASUBTYPE_PCM_IN24_le ||
-			  subtype == MEDIASUBTYPE_PCM_IN32_le) {
-		if(m_buff.GetCount() < 1920) {
+	} else if (subtype == MEDIASUBTYPE_PCM_IN24_le ||
+			   subtype == MEDIASUBTYPE_PCM_IN32_le) {
+		if (m_buff.GetCount() < 1920) {
 			return S_OK;
 		}
 		hr = ProcessPCMintLE();
-	} else if(subtype == MEDIASUBTYPE_PCM_FL32 ||
-			  subtype == MEDIASUBTYPE_PCM_FL64) {
-		if(m_buff.GetCount() < 3840) {
+	} else if (subtype == MEDIASUBTYPE_PCM_FL32 ||
+			   subtype == MEDIASUBTYPE_PCM_FL64) {
+		if (m_buff.GetCount() < 3840) {
 			return S_OK;
 		}
 		hr = ProcessPCMfloatBE();
-	} else if(subtype == MEDIASUBTYPE_PCM_FL32_le ||
-			  subtype == MEDIASUBTYPE_PCM_FL64_le) {
-		if(m_buff.GetCount() < 3840) {
+	} else if (subtype == MEDIASUBTYPE_PCM_FL32_le ||
+			   subtype == MEDIASUBTYPE_PCM_FL64_le) {
+		if (m_buff.GetCount() < 3840) {
 			return S_OK;
 		}
 		hr = ProcessPCMfloatLE();
@@ -655,25 +655,25 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 			long nSamples = len/(BytesPerDoubleChannelSample);
 			int16 Temp[2][8];
 			for (int i=0; i<nSamples; i++) {
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint16 All = *((uint16 *)pDataIn);
 					pDataIn += 2;
 					int16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
 					Temp[0][j] = Part1;
 				}
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint16 All = *((uint16 *)pDataIn);
 					pDataIn += 2;
 					int16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
 					Temp[1][j] = Part1;
 				}
 
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					int		nRemap = remap->ch[j];
 					*pDataOut = float(Temp[0][nRemap]) / float(SHRT_MAX);
 					++pDataOut;
 				}
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					int		nRemap = remap->ch[j];
 					*pDataOut = float(Temp[1][nRemap]) / float(SHRT_MAX);
 					++pDataOut;
@@ -687,13 +687,13 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 			int32 Temp[2][8];
 			for (int i=0; i<nSamples; i++) {
 				// Start by upper 16 bits
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint32 All = *((uint16 *)pDataIn);
 					pDataIn += 2;
 					uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
 					Temp[0][j] = Part1;
 				}
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint32 All = *((uint16 *)pDataIn);
 					pDataIn += 2;
 					uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
@@ -701,24 +701,24 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 				}
 
 				// Continue with lower bits
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint32 All = *((uint8 *)pDataIn);
 					pDataIn += 1;
 					Temp[0][j] = int32(Temp[0][j] | (All << 8)) >> 8;
 				}
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint32 All = *((uint8 *)pDataIn);
 					pDataIn += 1;
 					Temp[1][j] = int32(Temp[1][j] | (All << 8)) >> 8;
 				}
 
 				// Convert into float
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					int		nRemap = remap->ch[j];
 					*pDataOut = float(Temp[0][nRemap]) / float(1<<23);
 					++pDataOut;
 				}
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					int		nRemap = remap->ch[j];
 					*pDataOut = float(Temp[1][nRemap]) / float(1<<23);
 					++pDataOut;
@@ -731,13 +731,13 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 			int32 Temp[2][8];
 			for (int i=0; i<nSamples; i++) {
 				// Start by upper 16 bits
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint32 All = *((uint16 *)pDataIn);
 					pDataIn += 2;
 					uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
 					Temp[0][j] = Part1;
 				}
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint32 All = *((uint16 *)pDataIn);
 					pDataIn += 2;
 					uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
@@ -745,7 +745,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 				}
 
 				// Continue with lower bits
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					uint32 All = *((uint8 *)pDataIn);
 					pDataIn += 1;
 					Temp[0][j] = int32(Temp[0][j] | ((All&0xf0) << 8)) >> 8;
@@ -753,12 +753,12 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 				}
 
 				// Convert into float
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					int		nRemap = remap->ch[j];
 					*pDataOut = float(Temp[0][nRemap]) / float(1<<23);
 					++pDataOut;
 				}
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					int		nRemap = remap->ch[j];
 					*pDataOut = float(Temp[1][nRemap]) / float(1<<23);
 					++pDataOut;
@@ -799,7 +799,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 	switch (wfein->wBitsPerSample) {
 		case 16 :
 			for (int i=0; i<nFrames; i++) {
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					BYTE nRemap = remap->ch[j];
 					*pDataOut = (float)(short)(pDataIn[nRemap*2]<<8 | pDataIn[nRemap*2+1]) / 32768;
 					pDataOut++;
@@ -810,7 +810,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 		case 24 :
 		case 20 :
 			for (int i=0; i<nFrames; i++) {
-				for(int j = 0; j < nChannels; j++) {
+				for (int j = 0; j < nChannels; j++) {
 					BYTE nRemap = remap->ch[j];
 					*pDataOut = (float)(long)(pDataIn[nRemap*3]<<24 | pDataIn[nRemap*3+1]<<16 | pDataIn[nRemap*3+2]<<8) / 0x80000000;
 					pDataOut++;
@@ -831,17 +831,17 @@ HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoug
 {
 	int flags, sample_rate, bit_rate;
 
-	if((size = a52_syncinfo(p, &flags, &sample_rate, &bit_rate)) > 0) {
+	if ((size = a52_syncinfo(p, &flags, &sample_rate, &bit_rate)) > 0) {
 		//			TRACE(_T("ac3: size=%d, flags=%08x, sample_rate=%d, bit_rate=%d\n"), size, flags, sample_rate, bit_rate);
 
 		fEnoughData = size <= buffsize;
 
-		if(fEnoughData) {
+		if (fEnoughData) {
 			int iSpeakerConfig = GetSpeakerConfig(ac3);
 
-			if(iSpeakerConfig < 0) {
+			if (iSpeakerConfig < 0) {
 				HRESULT hr;
-				if(S_OK != (hr = DeliverBitstream(p, size, sample_rate, 1536, 0x0001))) {
+				if (S_OK != (hr = DeliverBitstream(p, size, sample_rate, 1536, 0x0001))) {
 					return hr;
 				}
 			} else {
@@ -851,8 +851,8 @@ HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoug
 				sample_t level = 1, gain = 1, bias = 0;
 				level *= gain;
 
-				if(a52_frame(m_a52_state, p, &flags, &level, bias) == 0) {
-					if(GetDynamicRangeControl(ac3)) {
+				if (a52_frame(m_a52_state, p, &flags, &level, bias) == 0) {
+					if (GetDynamicRangeControl(ac3)) {
 						a52_dynrng(m_a52_state, NULL, NULL);
 					}
 
@@ -865,20 +865,20 @@ HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoug
 
 					int i = 0;
 
-					for(; i < 6 && a52_block(m_a52_state) == 0; i++) {
+					for (; i < 6 && a52_block(m_a52_state) == 0; i++) {
 						sample_t* samples = a52_samples(m_a52_state);
 
-						for(int j = 0; j < 256; j++, samples++) {
-							for(int ch = 0; ch < scmap.nChannels; ch++) {
+						for (int j = 0; j < 256; j++, samples++) {
+							for (int ch = 0; ch < scmap.nChannels; ch++) {
 								ASSERT(scmap.ch[ch] != -1);
 								*p++ = (float)(*(samples + 256*scmap.ch[ch]) / level);
 							}
 						}
 					}
 
-					if(i == 6) {
+					if (i == 6) {
 						HRESULT hr;
-						if(S_OK != (hr = Deliver(pBuff, sample_rate, scmap.nChannels, scmap.dwChannelMask))) {
+						if (S_OK != (hr = Deliver(pBuff, sample_rate, scmap.nChannels, scmap.dwChannelMask))) {
 							return hr;
 						}
 					}
@@ -898,20 +898,20 @@ HRESULT CMpaDecFilter::ProcessAC3()
 	BYTE* base = p;
 	BYTE* end = p + m_buff.GetCount();
 
-	while(end - p >= 7) {
+	while (end - p >= 7) {
 		int size = 0, flags, sample_rate, bit_rate;
 
-		if((size = a52_syncinfo(p, &flags, &sample_rate, &bit_rate)) > 0) {
+		if ((size = a52_syncinfo(p, &flags, &sample_rate, &bit_rate)) > 0) {
 			//			TRACE(_T("ac3: size=%d, flags=%08x, sample_rate=%d, bit_rate=%d\n"), size, flags, sample_rate, bit_rate);
 
 			bool fEnoughData = p + size <= end;
 
-			if(fEnoughData) {
+			if (fEnoughData) {
 				int iSpeakerConfig = GetSpeakerConfig(ac3);
 
-				if(iSpeakerConfig < 0) {
+				if (iSpeakerConfig < 0) {
 					HRESULT hr;
-					if(S_OK != (hr = Deliver(p, size, bit_rate, 0x0001))) {
+					if (S_OK != (hr = Deliver(p, size, bit_rate, 0x0001))) {
 						return hr;
 					}
 				} else {
@@ -921,8 +921,8 @@ HRESULT CMpaDecFilter::ProcessAC3()
 					sample_t level = 1, gain = 1, bias = 0;
 					level *= gain;
 
-					if(a52_frame(m_a52_state, p, &flags, &level, bias) == 0) {
-						if(GetDynamicRangeControl(ac3)) {
+					if (a52_frame(m_a52_state, p, &flags, &level, bias) == 0) {
+						if (GetDynamicRangeControl(ac3)) {
 							a52_dynrng(m_a52_state, NULL, NULL);
 						}
 
@@ -935,20 +935,20 @@ HRESULT CMpaDecFilter::ProcessAC3()
 
 						int i = 0;
 
-						for(; i < 6 && a52_block(m_a52_state) == 0; i++) {
+						for (; i < 6 && a52_block(m_a52_state) == 0; i++) {
 							sample_t* samples = a52_samples(m_a52_state);
 
-							for(int j = 0; j < 256; j++, samples++) {
-								for(int ch = 0; ch < scmap.nChannels; ch++) {
+							for (int j = 0; j < 256; j++, samples++) {
+								for (int ch = 0; ch < scmap.nChannels; ch++) {
 									ASSERT(scmap.ch[ch] != -1);
 									*p++ = (float)(*(samples + 256*scmap.ch[ch]) / level);
 								}
 							}
 						}
 
-						if(i == 6) {
+						if (i == 6) {
 							HRESULT hr;
-							if(S_OK != (hr = Deliver(pBuff, sample_rate, scmap.nChannels, scmap.dwChannelMask))) {
+							if (S_OK != (hr = Deliver(pBuff, sample_rate, scmap.nChannels, scmap.dwChannelMask))) {
 								return hr;
 							}
 						}
@@ -962,7 +962,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 			end = base + (end - p);
 			p = base;
 
-			if(!fEnoughData) {
+			if (!fEnoughData) {
 				break;
 			}
 		} else {
@@ -984,7 +984,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 	BYTE* base = p;
 	BYTE* end = p + m_buff.GetCount();
 
-	while(p < end && end - p >= AC3_HEADER_SIZE) {
+	while (p < end && end - p >= AC3_HEADER_SIZE) {
 		int		size = 0;
 		bool	fEnoughData = true;
 
@@ -1045,7 +1045,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		memmove(base, p, end - p);
 		end = base + (end - p);
 		p = base;
-		if(!fEnoughData) {
+		if (!fEnoughData) {
 			break;
 		}
 	}
@@ -1072,7 +1072,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 		m_bResync = true;
 		return S_OK;
 	}
-	
+
 	if (size <= 0) {
 		return hr;
 	}
@@ -1093,21 +1093,21 @@ HRESULT CMpaDecFilter::ProcessDTS()
 	BYTE* base = p;
 	BYTE* end = p + m_buff.GetCount();
 
-	while(end - p >= 14) {
+	while (end - p >= 14) {
 		int size = 0, flags, sample_rate, bit_rate, frame_length;
 
-		if((size = dts_syncinfo(m_dts_state, p, &flags, &sample_rate, &bit_rate, &frame_length)) > 0) {
+		if ((size = dts_syncinfo(m_dts_state, p, &flags, &sample_rate, &bit_rate, &frame_length)) > 0) {
 			//			TRACE(_T("dts: size=%d, flags=%08x, sample_rate=%d, bit_rate=%d, frame_length=%d\n"), size, flags, sample_rate, bit_rate, frame_length);
 			bit_rate = int (size * 8i64 * sample_rate / frame_length); // calculate actual bitrate
 
 			bool fEnoughData = p + size <= end;
 
-			if(fEnoughData) {
+			if (fEnoughData) {
 				int iSpeakerConfig = GetSpeakerConfig(dts);
 
-				if(iSpeakerConfig < 0) {
+				if (iSpeakerConfig < 0) {
 					HRESULT hr;
-					if(S_OK != (hr = DeliverBitstream(p, size, sample_rate, frame_length, 0x000b))) {
+					if (S_OK != (hr = DeliverBitstream(p, size, sample_rate, frame_length, 0x000b))) {
 						return hr;
 					}
 				} else {
@@ -1117,8 +1117,8 @@ HRESULT CMpaDecFilter::ProcessDTS()
 					sample_t level = 1, gain = 1, bias = 0;
 					level *= gain;
 
-					if(dts_frame(m_dts_state, p, &flags, &level, bias) == 0) {
-						if(GetDynamicRangeControl(dts)) {
+					if (dts_frame(m_dts_state, p, &flags, &level, bias) == 0) {
+						if (GetDynamicRangeControl(dts)) {
 							dts_dynrng(m_dts_state, NULL, NULL);
 						}
 
@@ -1133,20 +1133,20 @@ HRESULT CMpaDecFilter::ProcessDTS()
 
 						int i = 0;
 
-						for(; i < blocks && dts_block(m_dts_state) == 0; i++) {
+						for (; i < blocks && dts_block(m_dts_state) == 0; i++) {
 							sample_t* samples = dts_samples(m_dts_state);
 
-							for(int j = 0; j < 256; j++, samples++) {
-								for(int ch = 0; ch < scmap.nChannels; ch++) {
+							for (int j = 0; j < 256; j++, samples++) {
+								for (int ch = 0; ch < scmap.nChannels; ch++) {
 									ASSERT(scmap.ch[ch] != -1);
 									*p++ = (float)(*(samples + 256*scmap.ch[ch]) / level);
 								}
 							}
 						}
 
-						if(i == blocks) {
+						if (i == blocks) {
 							HRESULT hr;
-							if(S_OK != (hr = Deliver(pBuff, sample_rate, scmap.nChannels, scmap.dwChannelMask))) {
+							if (S_OK != (hr = Deliver(pBuff, sample_rate, scmap.nChannels, scmap.dwChannelMask))) {
 								return hr;
 							}
 						}
@@ -1160,7 +1160,7 @@ HRESULT CMpaDecFilter::ProcessDTS()
 			end = base + (end - p);
 			p = base;
 
-			if(!fEnoughData) {
+			if (!fEnoughData) {
 				break;
 			}
 		} else {
@@ -1184,17 +1184,17 @@ HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
 	pBuff.SetCount(nSamples);
 	float* f = pBuff.GetData();
 
-	switch(wfe->wBitsPerSample) {
+	switch (wfe->wBitsPerSample) {
 		case 8: { //unsigned 8-bit
 			BYTE* b = m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)(CHAR)(b[i] - 128) / 128;
 			}
 		}
 		break;
 		case 16: { //signed big-endian 16 bit
 			USHORT* d = (USHORT*)m_buff.GetData();//signed take as an unsigned to shift operations.
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)(SHORT)(d[i] << 8 | d[i] >> 8) / 32768;
 			}
 		}
@@ -1202,7 +1202,7 @@ HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
 	}
 
 	HRESULT hr;
-	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
+	if (S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
 		return hr;
 	}
 
@@ -1219,24 +1219,24 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
 	pBuff.SetCount(nSamples);
 	float* f = pBuff.GetData();
 
-	switch(wfe->wBitsPerSample) {
+	switch (wfe->wBitsPerSample) {
 		case 8: { //signed 8-bit
 			CHAR* b = (CHAR*)m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)b[i] / 128;
 			}
 		}
 		break;
 		case 16: { //signed big-endian 16-bit
 			USHORT* d = (USHORT*)m_buff.GetData();//signed take as an unsigned to shift operations.
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)(SHORT)(d[i] << 8 | d[i] >> 8) / 32768;
 			}
 		}
 		break;
 		case 24: { //signed big-endian 24-bit
 			BYTE* b = (BYTE*)m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)(signed int)((unsigned int)b[3*i] << 24 |
 										   (unsigned int)b[3*i+1] << 16 |
 										   (unsigned int)b[3*i+2] << 8) / 2147483648;
@@ -1245,7 +1245,7 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
 		break;
 		case 32: { //signed big-endian 32-bit
 			UINT* q = (UINT*)m_buff.GetData();//signed take as an unsigned to shift operations.
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)(INT)(q[i] >> 24 |
 									(q[i] & 0x00ff0000) >> 8 |
 									(q[i] & 0x0000ff00) << 8 |
@@ -1256,7 +1256,7 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
 	}
 
 	HRESULT hr;
-	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
+	if (S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
 		return hr;
 	}
 
@@ -1273,24 +1273,24 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() //'sowt', little-endian 'in24' and 'in3
 	pBuff.SetCount(nSamples);
 	float* f = pBuff.GetData();
 
-	switch(wfe->wBitsPerSample) {
+	switch (wfe->wBitsPerSample) {
 		case 8: { //signed 8-bit
 			CHAR* b = (CHAR*)m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)b[i] / 128;
 			}
 		}
 		break;
 		case 16: { //signed little-endian 16-bit
 			SHORT* d = (SHORT*)m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)d[i] / 32768;
 			}
 		}
 		break;
 		case 24: { //signed little-endian 32-bit
 			BYTE* b = (BYTE*)m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)(signed int)((unsigned int)b[3*i] << 8 |
 										   (unsigned int)b[3*i+1] << 16 |
 										   (unsigned int)b[3*i+2] << 24) / 2147483648;
@@ -1299,7 +1299,7 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() //'sowt', little-endian 'in24' and 'in3
 		break;
 		case 32: { //signed little-endian 32-bit
 			INT* q = (INT*)m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)q[i] / 2147483648;
 			}
 		}
@@ -1307,7 +1307,7 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() //'sowt', little-endian 'in24' and 'in3
 	}
 
 	HRESULT hr;
-	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
+	if (S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
 		return hr;
 	}
 
@@ -1324,11 +1324,11 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
 	pBuff.SetCount(nSamples);
 	float* f = pBuff.GetData();
 
-	switch(wfe->wBitsPerSample) {
+	switch (wfe->wBitsPerSample) {
 		case 32: {
 			unsigned int* q = (unsigned int*)m_buff.GetData();
 			unsigned int* vf = (unsigned int*)f;
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				vf[i] = q[i] >> 24 |
 						(q[i] & 0x00ff0000) >> 8 |
 						(q[i] & 0x0000ff00) << 8 |
@@ -1339,7 +1339,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
 		case 64: {
 			unsigned __int64* q = (unsigned __int64*)m_buff.GetData();
 			unsigned __int64 x;
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				x =	q[i] >>56 |
 					(q[i] & 0x00FF000000000000) >> 40 |
 					(q[i] & 0x0000FF0000000000) >> 24 |
@@ -1355,7 +1355,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
 	}
 
 	HRESULT hr;
-	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
+	if (S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
 		return hr;
 	}
 
@@ -1372,17 +1372,17 @@ HRESULT CMpaDecFilter::ProcessPCMfloatLE() //little-endian 'fl32' and 'fl64'
 	pBuff.SetCount(nSamples);
 	float* f = pBuff.GetData();
 
-	switch(wfe->wBitsPerSample) {
+	switch (wfe->wBitsPerSample) {
 		case 32: {
 			float* q = (float*)m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = q[i];
 			}
 		}
 		break;
 		case 64: {
 			double* q = (double*)m_buff.GetData();
-			for(int i = 0; i < nSamples; i++) {
+			for (int i = 0; i < nSamples; i++) {
 				f[i] = (float)q[i];
 			}
 		}
@@ -1390,7 +1390,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatLE() //little-endian 'fl32' and 'fl64'
 	}
 
 	HRESULT hr;
-	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
+	if (S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
 		return hr;
 	}
 
@@ -1415,30 +1415,30 @@ HRESULT CMpaDecFilter::ProcessPS2PCM()
 	pBuff.SetCount(samples*channels);
 	float* f = pBuff.GetData();
 
-	while(end - p >= size) {
+	while (end - p >= size) {
 		DWORD* dw = (DWORD*)p;
 
-		if(dw[0] == 'dhSS') {
+		if (dw[0] == 'dhSS') {
 			p += dw[1] + 8;
-		} else if(dw[0] == 'dbSS') {
+		} else if (dw[0] == 'dbSS') {
 			p += 8;
 			m_ps2_state.sync = true;
 		} else {
-			if(m_ps2_state.sync) {
+			if (m_ps2_state.sync) {
 				short* s = (short*)p;
 
-				for(int i = 0; i < samples; i++)
-					for(int j = 0; j < channels; j++) {
+				for (int i = 0; i < samples; i++)
+					for (int j = 0; j < channels; j++) {
 						f[i*channels+j] = (float)s[j*samples+i] / 32768;
 					}
 			} else {
-				for(int i = 0, j = samples*channels; i < j; i++) {
+				for (int i = 0, j = samples*channels; i < j; i++) {
 					f[i] = 0;
 				}
 			}
 
 			HRESULT hr;
-			if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
+			if (S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
 				return hr;
 			}
 
@@ -1462,7 +1462,7 @@ static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, double* pout)
 	int unk = pin[1]; // ?
 	UNUSED_ALWAYS(unk);
 
-	if(tbl_index >= 10) {
+	if (tbl_index >= 10) {
 		ASSERT(0);
 		return;
 	}
@@ -1477,7 +1477,7 @@ static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, double* pout)
 	double& a = s.a[channel];
 	double& b = s.b[channel];
 
-	for(int i = 0; i < 28; i++) {
+	for (int i = 0; i < 28; i++) {
 		short input = (short)(((pin[2+i/2] >> ((i&1) << 2)) & 0xf) << 12) >> shift;
 		double output = a * tbl[1] + b * tbl[0] + input;
 
@@ -1503,37 +1503,37 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 	pBuff.SetCount(samples*channels);
 	float* f = pBuff.GetData();
 
-	while(end - p >= size) {
+	while (end - p >= size) {
 		DWORD* dw = (DWORD*)p;
 
-		if(dw[0] == 'dhSS') {
+		if (dw[0] == 'dhSS') {
 			p += dw[1] + 8;
-		} else if(dw[0] == 'dbSS') {
+		} else if (dw[0] == 'dbSS') {
 			p += 8;
 			m_ps2_state.sync = true;
 		} else {
-			if(m_ps2_state.sync) {
+			if (m_ps2_state.sync) {
 				double* tmp = DNew double[samples*channels];
 
-				for(int channel = 0, j = 0, k = 0; channel < channels; channel++, j += wfe->dwInterleave)
-					for(DWORD i = 0; i < wfe->dwInterleave; i += 16, k += 28) {
+				for (int channel = 0, j = 0, k = 0; channel < channels; channel++, j += wfe->dwInterleave)
+					for (DWORD i = 0; i < wfe->dwInterleave; i += 16, k += 28) {
 						decodeps2adpcm(m_ps2_state, channel, p + i + j, tmp + k);
 					}
 
-				for(int i = 0, k = 0; i < samples; i++)
-					for(int j = 0; j < channels; j++, k++) {
+				for (int i = 0, k = 0; i < samples; i++)
+					for (int j = 0; j < channels; j++, k++) {
 						f[k] = (float)tmp[j*samples+i];
 					}
 
 				delete [] tmp;
 			} else {
-				for(int i = 0, j = samples*channels; i < j; i++) {
+				for (int i = 0, j = samples*channels; i < j; i++) {
 					f[i] = 0;
 				}
 			}
 
 			HRESULT hr;
-			if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
+			if (S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))) {
 				return hr;
 			}
 
@@ -1567,13 +1567,13 @@ HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
 	HRESULT hr;
 
 	*pData = NULL;
-	if(FAILED(hr = m_pOutput->GetDeliveryBuffer(pSample, NULL, NULL, 0))
+	if (FAILED(hr = m_pOutput->GetDeliveryBuffer(pSample, NULL, NULL, 0))
 			|| FAILED(hr = (*pSample)->GetPointer(pData))) {
 		return hr;
 	}
 
 	AM_MEDIA_TYPE* pmt = NULL;
-	if(SUCCEEDED((*pSample)->GetMediaType(&pmt)) && pmt) {
+	if (SUCCEEDED((*pSample)->GetMediaType(&pmt)) && pmt) {
 		CMediaType mt = *pmt;
 		m_pOutput->SetMediaType(&mt);
 		DeleteMediaType(pmt);
@@ -1594,13 +1594,13 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
 	int nSamples = pBuff.GetCount()/wfe->nChannels;
 
-	if(FAILED(hr = ReconnectOutput(nSamples, mt))) {
+	if (FAILED(hr = ReconnectOutput(nSamples, mt))) {
 		return hr;
 	}
 
 	CComPtr<IMediaSample> pOut;
 	BYTE* pDataOut = NULL;
-	if(FAILED(GetDeliveryBuffer(&pOut, &pDataOut))) {
+	if (FAILED(GetDeliveryBuffer(&pOut, &pDataOut))) {
 		return E_FAIL;
 	}
 
@@ -1608,11 +1608,11 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 	REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
 	m_rtStart += rtDur;
 	//TRACE(_T("CMpaDecFilter: %I64d - %I64d\n"), rtStart/10000, rtStop/10000);
-	if(rtStart < 0 /*200000*/ /* < 0, FIXME: 0 makes strange noises */) {
+	if (rtStart < 0 /*200000*/ /* < 0, FIXME: 0 makes strange noises */) {
 		return S_OK;
 	}
 
-	if(hr == S_OK) {
+	if (hr == S_OK) {
 		m_pOutput->SetMediaType(&mt);
 		pOut->SetMediaType(&mt);
 	}
@@ -1636,13 +1636,13 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
 	// TODO: move this into the audio switcher
 	float sample_mul = 1;
-	if(m_fNormalize) {
-		for(int i = 0, len = pBuff.GetCount(); i < len; i++) {
+	if (m_fNormalize) {
+		for (int i = 0, len = pBuff.GetCount(); i < len; i++) {
 			float f = *pDataIn++;
-			if(f < 0) {
+			if (f < 0) {
 				f = -f;
 			}
-			if(m_sample_max < f) {
+			if (m_sample_max < f) {
 				m_sample_max = f;
 			}
 		}
@@ -1653,28 +1653,28 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 	bool fBoost = m_boost > 1;
 	double boost = 1+log10(m_boost);
 
-	for(int i = 0, len = pBuff.GetCount(); i < len; i++) {
+	for (int i = 0, len = pBuff.GetCount(); i < len; i++) {
 		float f = *pDataIn++;
 
 		// TODO: move this into the audio switcher
 
-		if(m_fNormalize) {
+		if (m_fNormalize) {
 			f *= sample_mul;
 		}
 
-		if(fBoost) {
+		if (fBoost) {
 			f *= boost;
 		}
 
-		if(f < -1) {
+		if (f < -1) {
 			f = -1;
-		} else if(f > 1) {
+		} else if (f > 1) {
 			f = 1;
 		}
 
 #define round(x) ((x) > 0 ? (x) + 0.5 : (x) - 0.5)
 
-		switch(sf) {
+		switch (sf) {
 			default:
 			case SF_PCM16:
 				*(short*)pDataOut = (short)round(f * SHRT_MAX);
@@ -1707,15 +1707,15 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, 
 	bool isDTSWAV = false;
 
 	int length = 0;
-	
+
 	if (type == 0x0b) { // DTS
 		if (size == 4096 && sample_rate == 44100 && samples == 1024) { // DTSWAV
 			length = size;
 			isDTSWAV = true;
 		}
-		else while(length < size+16) {
-			length += 2048;
-		}
+		else while (length < size+16) {
+				length += 2048;
+			}
 	} else { //if (type == 0x01) { // AC3
 		length = samples*4;
 	}
@@ -1727,13 +1727,13 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, 
 		mt = CreateMediaTypeSPDIF();
 	}
 
-	if(FAILED(hr = ReconnectOutput(length, mt))) {
+	if (FAILED(hr = ReconnectOutput(length, mt))) {
 		return hr;
 	}
 
 	CComPtr<IMediaSample> pOut;
 	BYTE* pDataOut = NULL;
-	if(FAILED(GetDeliveryBuffer(&pOut, &pDataOut))) {
+	if (FAILED(GetDeliveryBuffer(&pOut, &pDataOut))) {
 		return E_FAIL;
 	}
 
@@ -1748,17 +1748,17 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, 
 		pDataOutW[3] = size*8;
 		_swab((char*)pBuff, (char*)&pDataOutW[4], size+1); //if the size is odd, the function "_swab" lose the last byte. need add one.
 	}
-	
+
 	REFERENCE_TIME rtDur;
 	rtDur = 10000000i64 * samples / sample_rate;
 	REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
 	m_rtStart += rtDur;
 
-	if(rtStart < 0) {
+	if (rtStart < 0) {
 		return S_OK;
 	}
 
-	if(hr == S_OK) {
+	if (hr == S_OK) {
 		m_pOutput->SetMediaType(&mt);
 		pOut->SetMediaType(&mt);
 	}
@@ -1781,29 +1781,29 @@ HRESULT CMpaDecFilter::ReconnectOutput(int nSamples, CMediaType& mt)
 	HRESULT hr;
 
 	CComQIPtr<IMemInputPin> pPin = m_pOutput->GetConnected();
-	if(!pPin) {
+	if (!pPin) {
 		return E_NOINTERFACE;
 	}
 
 	CComPtr<IMemAllocator> pAllocator;
-	if(FAILED(hr = pPin->GetAllocator(&pAllocator)) || !pAllocator) {
+	if (FAILED(hr = pPin->GetAllocator(&pAllocator)) || !pAllocator) {
 		return hr;
 	}
 
 	ALLOCATOR_PROPERTIES props, actual;
-	if(FAILED(hr = pAllocator->GetProperties(&props))) {
+	if (FAILED(hr = pAllocator->GetProperties(&props))) {
 		return hr;
 	}
 
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 	long cbBuffer = nSamples * wfe->nBlockAlign;
 
-	if(mt != m_pOutput->CurrentMediaType() || cbBuffer > props.cbBuffer) {
-		if(cbBuffer > props.cbBuffer) {
+	if (mt != m_pOutput->CurrentMediaType() || cbBuffer > props.cbBuffer) {
+		if (cbBuffer > props.cbBuffer) {
 			props.cBuffers = 4;
 			props.cbBuffer = cbBuffer*3/2;
 
-			if(FAILED(hr = m_pOutput->DeliverBeginFlush())
+			if (FAILED(hr = m_pOutput->DeliverBeginFlush())
 					|| FAILED(hr = m_pOutput->DeliverEndFlush())
 					|| FAILED(hr = pAllocator->Decommit())
 					|| FAILED(hr = pAllocator->SetProperties(&props, &actual))
@@ -1811,7 +1811,7 @@ HRESULT CMpaDecFilter::ReconnectOutput(int nSamples, CMediaType& mt)
 				return hr;
 			}
 
-			if(props.cBuffers > actual.cBuffers || props.cbBuffer > actual.cbBuffer) {
+			if (props.cBuffers > actual.cBuffers || props.cbBuffer > actual.cbBuffer) {
 				NotifyEvent(EC_ERRORABORT, hr, 0);
 				return E_FAIL;
 			}
@@ -1837,7 +1837,7 @@ CMediaType CMpaDecFilter::CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerS
 	wfe->wFormatTag = (WORD)mt.subtype.Data1;
 	wfe->nChannels = nChannels;
 	wfe->nSamplesPerSec = nSamplesPerSec;
-	switch(sf) {
+	switch (sf) {
 		default:
 		case SF_PCM16:
 			wfe->wBitsPerSample = 16;
@@ -1855,11 +1855,11 @@ CMediaType CMpaDecFilter::CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerS
 	mt.SetSampleSize (wfe->wBitsPerSample*wfe->nChannels/8);
 
 	// FIXME: 24/32 bit only seems to work with WAVE_FORMAT_EXTENSIBLE
-	if(dwChannelMask == 0 && (sf == SF_PCM24 || sf == SF_PCM32)) {
+	if (dwChannelMask == 0 && (sf == SF_PCM24 || sf == SF_PCM32)) {
 		dwChannelMask = nChannels == 2 ? (SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT) : SPEAKER_FRONT_CENTER;
 	}
 
-	if(dwChannelMask) {
+	if (dwChannelMask) {
 		wfex.Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
 		wfex.Format.cbSize = sizeof(wfex) - sizeof(wfex.Format);
 		wfex.dwChannelMask = dwChannelMask;
@@ -1882,41 +1882,41 @@ CMediaType CMpaDecFilter::CreateMediaTypeSPDIF(DWORD nSamplesPerSec)
 HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 {
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
-	if(mtIn->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
+	if (mtIn->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)mtIn->Format();
-		if(wfe->nChannels < 1 || wfe->nChannels > 8 || (wfe->wBitsPerSample != 16 && wfe->wBitsPerSample != 20 && wfe->wBitsPerSample != 24)) {
+		if (wfe->nChannels < 1 || wfe->nChannels > 8 || (wfe->wBitsPerSample != 16 && wfe->wBitsPerSample != 20 && wfe->wBitsPerSample != 24)) {
 			return VFW_E_TYPE_NOT_ACCEPTED;
 		}
-	} else if(mtIn->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
+	} else if (mtIn->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)mtIn->Format();
 		UNUSED_ALWAYS(wfe);
 		return S_OK;
 	}
 #else
-	if(0) {}
+	if (0) {}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUD
-	else if(mtIn->subtype == MEDIASUBTYPE_PS2_ADPCM) {
+	else if (mtIn->subtype == MEDIASUBTYPE_PS2_ADPCM) {
 		WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)mtIn->Format();
 		UNUSED_ALWAYS(wfe);
-		if(wfe->dwInterleave & 0xf) { // has to be a multiple of the block size (16 bytes)
+		if (wfe->dwInterleave & 0xf) { // has to be a multiple of the block size (16 bytes)
 			return VFW_E_TYPE_NOT_ACCEPTED;
 		}
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
-	else if(mtIn->subtype == MEDIASUBTYPE_FLAC_FRAMED) {
+	else if (mtIn->subtype == MEDIASUBTYPE_FLAC_FRAMED) {
 		return S_OK;
 	}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_NELLYMOSER
-	else if(mtIn->subtype == MEDIASUBTYPE_NELLYMOSER) {
+	else if (mtIn->subtype == MEDIASUBTYPE_NELLYMOSER) {
 		return S_OK;
 	}
 #endif
 
-	for(int i = 0; i < countof(sudPinTypesIn); i++) {
-		if(*sudPinTypesIn[i].clsMajorType == mtIn->majortype
+	for (int i = 0; i < countof(sudPinTypesIn); i++) {
+		if (*sudPinTypesIn[i].clsMajorType == mtIn->majortype
 				&& *sudPinTypesIn[i].clsMinorType == mtIn->subtype) {
 			return S_OK;
 		}
@@ -1936,7 +1936,7 @@ HRESULT CMpaDecFilter::CheckTransform(const CMediaType* mtIn, const CMediaType* 
 
 HRESULT CMpaDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
-	if(m_pInput->IsConnected() == FALSE) {
+	if (m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
 	}
 
@@ -1952,7 +1952,7 @@ HRESULT CMpaDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 
 	HRESULT hr;
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) {
+	if (FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) {
 		return hr;
 	}
 
@@ -1963,14 +1963,14 @@ HRESULT CMpaDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 
 HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 {
-	if(m_pInput->IsConnected() == FALSE) {
+	if (m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
 	}
 
-	if(iPosition < 0) {
+	if (iPosition < 0) {
 		return E_INVALIDARG;
 	}
-	if(iPosition > 0) {
+	if (iPosition > 0) {
 		return VFW_S_NO_MORE_ITEMS;
 	}
 
@@ -1982,18 +1982,18 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	}
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3 | INTERNAL_DECODER_DTS
-	if(GetSpeakerConfig(ac3) < 0 && (subtype == MEDIASUBTYPE_DOLBY_AC3 ||
-									 subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
-									 subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
-									 subtype == MEDIASUBTYPE_DOLBY_TRUEHD)
+	if (GetSpeakerConfig(ac3) < 0 && (subtype == MEDIASUBTYPE_DOLBY_AC3 ||
+									  subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
+									  subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
+									  subtype == MEDIASUBTYPE_DOLBY_TRUEHD)
 			|| GetSpeakerConfig(dts) < 0 && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
 		*pmt = CreateMediaTypeSPDIF();
 	}
 #else
-	if(0) {}
+	if (0) {}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-	else if(subtype == MEDIASUBTYPE_Vorbis2) {
+	else if (subtype == MEDIASUBTYPE_Vorbis2) {
 		VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)mt.Format();
 		scmap_t* scmap = &m_scmap_default[vf2->Channels-1];
 		*pmt = CreateMediaType(GetSampleFormat(), vf2->SamplesPerSec, vf2->Channels, scmap->dwChannelMask);
@@ -2009,7 +2009,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 HRESULT CMpaDecFilter::StartStreaming()
 {
 	HRESULT hr = __super::StartStreaming();
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
@@ -2071,7 +2071,7 @@ STDMETHODIMP_(MPCSampleFormat) CMpaDecFilter::GetSampleFormat()
 STDMETHODIMP CMpaDecFilter::SetNormalize(bool fNormalize)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	if(m_fNormalize != fNormalize) {
+	if (m_fNormalize != fNormalize) {
 		m_sample_max = 0.1f;
 	}
 	m_fNormalize = fNormalize;
@@ -2087,7 +2087,7 @@ STDMETHODIMP_(bool) CMpaDecFilter::GetNormalize()
 STDMETHODIMP CMpaDecFilter::SetSpeakerConfig(enctype et, int sc)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	if(et >= 0 && et < etlast) {
+	if (et >= 0 && et < etlast) {
 		m_iSpeakerConfig[et] = sc;
 	}
 	return S_OK;
@@ -2096,7 +2096,7 @@ STDMETHODIMP CMpaDecFilter::SetSpeakerConfig(enctype et, int sc)
 STDMETHODIMP_(int) CMpaDecFilter::GetSpeakerConfig(enctype et)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	if(et >= 0 && et < etlast) {
+	if (et >= 0 && et < etlast) {
 		return m_iSpeakerConfig[et];
 	}
 	return -1;
@@ -2105,7 +2105,7 @@ STDMETHODIMP_(int) CMpaDecFilter::GetSpeakerConfig(enctype et)
 STDMETHODIMP CMpaDecFilter::SetDynamicRangeControl(enctype et, bool fDRC)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	if(et >= 0 && et < etlast) {
+	if (et >= 0 && et < etlast) {
 		m_fDynamicRangeControl[et] = fDRC;
 	} else {
 		return E_INVALIDARG;
@@ -2116,7 +2116,7 @@ STDMETHODIMP CMpaDecFilter::SetDynamicRangeControl(enctype et, bool fDRC)
 STDMETHODIMP_(bool) CMpaDecFilter::GetDynamicRangeControl(enctype et)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	if(et >= 0 && et < etlast) {
+	if (et >= 0 && et < etlast) {
 		return m_fDynamicRangeControl[et];
 	}
 	return false;
@@ -2146,7 +2146,7 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
 	CAutoLock cAutoLock(&m_csProps);
 #ifdef REGISTER_FILTER
 	CRegKey key;
-	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"))) {
+	if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"))) {
 		key.SetDWORDValue(_T("SampleFormat"), m_iSampleFormat);
 		key.SetDWORDValue(_T("Normalize"), m_fNormalize);
 		key.SetDWORDValue(_T("Boost"), *(DWORD*)&m_boost);
@@ -2185,13 +2185,13 @@ STDMETHODIMP CMpaDecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)
 {
 	CheckPointer(ppPage, E_POINTER);
 
-	if(*ppPage != NULL) {
+	if (*ppPage != NULL) {
 		return E_INVALIDARG;
 	}
 
 	HRESULT hr;
 
-	if(guid == __uuidof(CMpaDecSettingsWnd)) {
+	if (guid == __uuidof(CMpaDecSettingsWnd)) {
 		(*ppPage = DNew CInternalPropertyPageTempl<CMpaDecSettingsWnd>(NULL, &hr))->AddRef();
 	}
 
@@ -2236,8 +2236,8 @@ void CMpaDecFilter::FlacDeliverBuffer  (unsigned blocksize, const __int32 * cons
 
 	switch (wfein->wBitsPerSample) {
 		case 16 :
-			for(unsigned i = 0; i < blocksize; i++) {
-				for(int nChannel = 0; nChannel < wfein->nChannels; nChannel++) {
+			for (unsigned i = 0; i < blocksize; i++) {
+				for (int nChannel = 0; nChannel < wfein->nChannels; nChannel++) {
 					FLAC__int16		nVal = (FLAC__int16)buffer[nChannel][i];
 					*pDataOut = (float)nVal / SHRT_MAX;
 					pDataOut++;
@@ -2246,8 +2246,8 @@ void CMpaDecFilter::FlacDeliverBuffer  (unsigned blocksize, const __int32 * cons
 			break;
 		case 20 :
 		case 24 :
-			for(unsigned i = 0; i < blocksize; i++) {
-				for(int nChannel = 0; nChannel < wfein->nChannels; nChannel++) {
+			for (unsigned i = 0; i < blocksize; i++) {
+				for (int nChannel = 0; nChannel < wfein->nChannels; nChannel++) {
 					FLAC__int32		nVal = (FLAC__int32)buffer[nChannel][i];
 					*pDataOut = (float)nVal / INT24_MAX;
 					pDataOut++;
@@ -2369,7 +2369,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 			if (used_bytes < 0) {
 				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - audio parsing failed (ret: %d)\n"), -used_bytes);
 				return E_FAIL;
-			} else if(used_bytes == 0 && pOut_size == 0) {
+			} else if (used_bytes == 0 && pOut_size == 0) {
 				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - could not process buffer while parsing\n"));
 				break;
 			}
@@ -2393,7 +2393,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 			} else {
 				continue;
 			}
-        } else {
+		} else {
 			avpkt.data = (uint8_t *)m_pFFBuffer;
 			avpkt.size = buffsize;
 
@@ -2437,7 +2437,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 						pDataOut = pBuff.GetData();
 
 						for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++) {
-							for(int ch=0; ch<m_pAVCtx->channels; ch++) {
+							for (int ch=0; ch<m_pAVCtx->channels; ch++) {
 								*pDataOut = (float)((int16_t*)m_pFrame->data[0]) [scmap->ch[ch]+i*m_pAVCtx->channels] / SHRT_MAX;
 								pDataOut++;
 							}
@@ -2449,7 +2449,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 						pDataOut = pBuff.GetData();
 
 						for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++) {
-							for(int ch=0; ch<m_pAVCtx->channels; ch++) {
+							for (int ch=0; ch<m_pAVCtx->channels; ch++) {
 								*pDataOut = (float)((int32_t*)m_pFrame->data[0]) [scmap->ch[ch]+i*m_pAVCtx->channels] / INT_MAX;
 								pDataOut++;
 							}
@@ -2465,9 +2465,9 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 						break;
 				}
 
-				if(pBuff.GetCount() > 0) {
+				if (pBuff.GetCount() > 0) {
 					hr = Deliver(pBuff, m_pAVCtx->sample_rate, scmap->nChannels, scmap->dwChannelMask);
-					if(FAILED(hr)) {
+					if (FAILED(hr)) {
 						return hr;
 					}
 				}
@@ -2499,7 +2499,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 		default :
 			m_pAVCodec = avcodec_find_decoder(nCodecId);
 	}
-	
+
 	if (m_pAVCodec) {
 		DWORD nSamples, nBytesPerSec;
 		WORD nChannels, nBitsPerSample, nBlockAlign;
@@ -2518,15 +2518,15 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 		m_pAVCtx->bit_rate              = nBytesPerSec << 3;
 		m_pAVCtx->bits_per_coded_sample = nBitsPerSample;
 		m_pAVCtx->block_align           = nBlockAlign;
-		
+
 		m_pAVCtx->err_recognition       = AV_EF_CAREFUL;
-		m_pAVCtx->codec_id				= nCodecId;		
+		m_pAVCtx->codec_id				= nCodecId;
 		if (m_pAVCodec->capabilities & CODEC_CAP_TRUNCATED) {
 			m_pAVCtx->flags				|= CODEC_FLAG_TRUNCATED;
 		}
-		
+
 		// have issue when use parser on TrueHD ... try to fix later
-		if(nCodecId != CODEC_ID_TRUEHD && nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
+		if (nCodecId != CODEC_ID_TRUEHD && nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
 			m_pParser = av_parser_init(nCodecId);
 		}
 
@@ -2535,7 +2535,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 		DWORD formatlen = m_pInput->CurrentMediaType().cbFormat;
 		unsigned extralen = 0;
 		getExtraData((BYTE *)format, &format_type, formatlen, NULL, &extralen);
-		
+
 		m_pAVCtx->extradata_size      	= extralen;
 		m_pAVCtx->extradata           	= (const unsigned char*)calloc(1, m_pAVCtx->extradata_size + FF_INPUT_BUFFER_PADDING_SIZE);
 		getExtraData((BYTE *)format, &format_type, formatlen, (BYTE *)m_pAVCtx->extradata, NULL);

@@ -169,7 +169,7 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 	m_hFile   = CreateFile(strFile, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL,
 						   OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
-	if(m_hFile != INVALID_HANDLE_VALUE) {
+	if (m_hFile != INVALID_HANDLE_VALUE) {
 		ReadBuffer(Buff, 4);
 		if (memcmp (Buff, "HDMV", 4)) {
 			return CloseFile(VFW_E_INVALID_FILE_FORMAT);
@@ -264,7 +264,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 	m_hFile   = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL,
 						   OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
-	if(m_hFile != INVALID_HANDLE_VALUE) {
+	if (m_hFile != INVALID_HANDLE_VALUE) {
 		ReadBuffer(Buff, 4);
 		if (memcmp (Buff, "MPLS", 4)) {
 			return CloseFile(VFW_E_INVALID_FILE_FORMAT);
@@ -339,14 +339,14 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 	m_hFile   = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL,
 						   OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
-	if(m_hFile != INVALID_HANDLE_VALUE)
+	if (m_hFile != INVALID_HANDLE_VALUE)
 	{
 		REFERENCE_TIME*		rtOffset = new REFERENCE_TIME[PlaylistItems.GetCount()];
 		REFERENCE_TIME		rtSum	 = 0;
 		int					nIndex   = 0;
 
 		POSITION		pos = PlaylistItems.GetHeadPosition();
-		while(pos)
+		while (pos)
 		{
 			CHdmvClipInfo::PlaylistItem& PI = PlaylistItems.GetNext(pos);
 
@@ -414,14 +414,14 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 
 	CAtlList<PlaylistItem>	Playlist;
 	WIN32_FIND_DATA		fd = {0};
-	
+
 	strPath.Replace(_T("\\PLAYLIST\\"), _T("\\"));
 	strPath.Replace(_T("\\STREAM\\"), _T("\\"));
 	strPath  += _T("\\BDMV\\");
 	strFilter.Format (_T("%sPLAYLIST\\*.mpls"), strPath);
 
 	HANDLE hFind = FindFirstFile(strFilter, &fd);
-	if(hFind != INVALID_HANDLE_VALUE) {
+	if (hFind != INVALID_HANDLE_VALUE) {
 		REFERENCE_TIME		rtMax	= 0;
 		REFERENCE_TIME		rtCurrent;
 		CString				strCurrentPlaylist;
@@ -431,17 +431,17 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 
 			// Main movie shouldn't have duplicate M2TS filename...
 			if (ReadPlaylist(strCurrentPlaylist, rtCurrent, Playlist) == S_OK) {
-				if(rtCurrent > rtMax) {
+				if (rtCurrent > rtMax) {
 					rtMax			= rtCurrent;
 					strPlaylistFile = strCurrentPlaylist;
 					MainPlaylist.RemoveAll();
 					POSITION pos = Playlist.GetHeadPosition();
-					while(pos) {
+					while (pos) {
 						MainPlaylist.AddTail(Playlist.GetNext(pos));
 					}
 					hr				= S_OK;
 				}
-				if(rtCurrent >= (REFERENCE_TIME)MIN_LIMIT*600000000) {
+				if (rtCurrent >= (REFERENCE_TIME)MIN_LIMIT*600000000) {
 					PlaylistItem	Item;
 					Item.m_strFileName	= strCurrentPlaylist;
 					Item.m_rtIn			= 0;
@@ -450,15 +450,15 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 				}
 
 			}
-		} while(FindNextFile(hFind, &fd));
+		} while (FindNextFile(hFind, &fd));
 
 		FindClose(hFind);
 	}
 
-	if(MPLSPlaylists.GetCount() > 1) {
+	if (MPLSPlaylists.GetCount() > 1) {
 		// bubble sort
 		for (size_t j=0; j<MPLSPlaylists.GetCount(); j++) {
-			for(size_t i=0; i<MPLSPlaylists.GetCount()-1; i++) {
+			for (size_t i=0; i<MPLSPlaylists.GetCount()-1; i++) {
 				if (MPLSPlaylists.GetAt(MPLSPlaylists.FindIndex(i)).Duration() < MPLSPlaylists.GetAt(MPLSPlaylists.FindIndex(i+1)).Duration()) {
 					MPLSPlaylists.SwapElements(MPLSPlaylists.FindIndex(i), MPLSPlaylists.FindIndex(i+1));
 				}

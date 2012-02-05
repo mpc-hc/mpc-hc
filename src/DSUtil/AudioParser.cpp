@@ -27,7 +27,7 @@ int GetAC3FrameSize(const BYTE *buf)
 		static const int rates[] = {32,  40,  48,  56,  64,  80,  96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640};
 
 		int frmsizecod = buf[4] & 0x3F;
-		if (frmsizecod >= 38) 
+		if (frmsizecod >= 38)
 			return 0;
 
 		int rate  = rates[frmsizecod >> 1];
@@ -73,7 +73,7 @@ int ParseAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framele
 	static const unsigned char halfrate[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3};
 
 	int frmsizecod = buf[4] & 0x3F;
-	if (frmsizecod >= 38) 
+	if (frmsizecod >= 38)
 		return 0;
 
 	int half = halfrate[buf[5] >> 3];
@@ -96,7 +96,7 @@ int ParseAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framele
 		default:
 			return 0;
 	}
-	
+
 	unsigned char acmod    = buf[6] >> 5;
 	unsigned char flags = ((((buf[6] & 0xf8) == 0x50) ? AC3_DOLBY : acmod) | ((buf[6] & lfeon[acmod]) ? AC3_LFE : 0));
 	switch (flags & AC3_CHANNEL_MASK) {
@@ -123,7 +123,7 @@ int ParseAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framele
 			break;
 	}
 	if (flags & AC3_LFE) (*channels)++;
-	
+
 	*framelength = 1536;
 	return frame_size;
 }
@@ -141,10 +141,10 @@ int ParseEAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framel
 	static const int samples_tbl[]      = { 256, 512, 768, 1536 };
 
 	int frame_size = (((buf[2] & 0x03) << 8) + buf[3] + 1) * 2;
-	
+
 	int fscod  =  buf[4] >> 6;
 	int fscod2 = (buf[4] >> 4) & 0x03;
-	
+
 	if (fscod == 0x03 && fscod2 == 0x03)
 		return 0;
 
@@ -166,14 +166,15 @@ int ParseTrueHDHeader(const BYTE *buf, int *samplerate, int *channels, int *fram
 {
 	static const int sampling_rates[]  = { 48000, 96000, 192000, 0, 0, 0, 0, 0, 44100, 88200, 176400, 0, 0, 0, 0, 0 };
 	static const int channel_count[13] = {//   LR    C   LFE  LRs LRvh  LRc LRrs  Cs   Ts  LRsd  LRw  Cvh  LFE2
-												2,   1,   1,   2,   2,   2,   2,   1,   1,   2,   2,   1,   1 };
-	
+		2,   1,   1,   2,   2,   2,   2,   1,   1,   2,   2,   1,   1
+	};
+
 	DWORD sync = *(DWORD*)(buf+4);
 	if (sync != TRUEHD_SYNC_WORD)
 		return 0;
 
 	int frame_size  = (((buf[0] << 8) | buf[1]) & 0xfff) * 2;
-	
+
 	*samplerate             = sampling_rates[buf[8] >> 4];
 	*framelength            = 40 << ((buf[8] >> 4) & 0x07);
 	int chanmap_substream_1 = ((buf[ 9] & 0x0f) << 1) | (buf[10] >> 7);

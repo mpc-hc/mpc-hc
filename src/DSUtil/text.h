@@ -11,10 +11,10 @@ T Explode(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	sl.RemoveAll();
 
-	for(ptrdiff_t i = 0, j = 0; ; i = j+1) {
+	for (ptrdiff_t i = 0, j = 0; ; i = j+1) {
 		j = str.Find(sep, i);
 
-		if(j < 0 || sl.GetCount() == limit-1) {
+		if (j < 0 || sl.GetCount() == limit-1) {
 			sl.AddTail(str.Mid(i).Trim());
 			break;
 		} else {
@@ -30,13 +30,13 @@ T ExplodeMin(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	Explode(str, sl, sep, limit);
 	POSITION pos = sl.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		POSITION tmp = pos;
-		if(sl.GetNext(pos).IsEmpty()) {
+		if (sl.GetNext(pos).IsEmpty()) {
 			sl.RemoveAt(tmp);
 		}
 	}
-	if(sl.IsEmpty()) {
+	if (sl.IsEmpty()) {
 		sl.AddTail(T());    // eh
 	}
 
@@ -48,9 +48,9 @@ T Implode(CAtlList<T>& sl, SEP sep)
 {
 	T ret;
 	POSITION pos = sl.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		ret += sl.GetNext(pos);
-		if(pos) {
+		if (pos) {
 			ret += sep;
 		}
 	}

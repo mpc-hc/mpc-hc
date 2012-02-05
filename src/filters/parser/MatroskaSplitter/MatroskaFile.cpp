@@ -32,7 +32,7 @@ static void LOG(LPCTSTR fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	if(FILE* f = _tfopen(_T("c:\\matroskasplitterlog.txt"), _T("at"))) {
+	if (FILE* f = _tfopen(_T("c:\\matroskasplitterlog.txt"), _T("at"))) {
 		fseek(f, 0, 2);
 		_vftprintf(f, fmt, args);
 		fclose(f);
@@ -62,7 +62,7 @@ using namespace MatroskaReader;
  
 static void bswap(BYTE* s, int len)
 {
-	for(BYTE* d = s + len-1; s < d; s++, d--) {
+	for (BYTE* d = s + len-1; s < d; s++, d--) {
 		*s ^= *d, *d ^= *s, *s ^= *d;
 	}
 }
@@ -75,7 +75,7 @@ CMatroskaFile::CMatroskaFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 	: CBaseSplitterFile(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false)
 	, m_rtOffset(0)
 {
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return;
 	}
 	hr = Init();
@@ -84,17 +84,17 @@ CMatroskaFile::CMatroskaFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 HRESULT CMatroskaFile::Init()
 {
 	DWORD dw;
-	if(FAILED(Read(dw)) || dw != 0x1A45DFA3) {
+	if (FAILED(Read(dw)) || dw != 0x1A45DFA3) {
 		return E_FAIL;
 	}
 
 	CMatroskaNode Root(this);
-	if(FAILED(Parse(&Root))) {
+	if (FAILED(Parse(&Root))) {
 		return E_FAIL;
 	}
 
 	CAutoPtr<CMatroskaNode> pSegment, pCluster;
-	if((pSegment = Root.Child(0x18538067))
+	if ((pSegment = Root.Child(0x18538067))
 			&& (pCluster = pSegment->Child(0x1F43B675))) {
 		Cluster c0;
 		c0.ParseTimeCode(pCluster);
@@ -108,7 +108,7 @@ template <class T>
 HRESULT CMatroskaFile::Read(T& var)
 {
 	HRESULT hr = ByteRead((BYTE*)&var, sizeof(var));
-	if(S_OK == hr) {
+	if (S_OK == hr) {
 		bswap((BYTE*)&var, sizeof(var));
 	}
 	return hr;
@@ -119,12 +119,12 @@ HRESULT CMatroskaFile::Parse(CMatroskaNode* pMN0)
 	BeginChunk
 case 0x1A45DFA3:
 	m_ebml.Parse(pMN);
-	if((m_ebml.DocType != DOCTYPE || m_ebml.DocTypeReadVersion > DOCTYPEVERSION) &&  m_ebml.DocType != DOCTYPE_WEBM) {
+	if ((m_ebml.DocType != DOCTYPE || m_ebml.DocTypeReadVersion > DOCTYPEVERSION) &&  m_ebml.DocType != DOCTYPE_WEBM) {
 		return E_FAIL;
 	}
 	break;
 case 0x18538067:
-	if(m_segment.SegmentInfo.SegmentUID.IsEmpty()) {
+	if (m_segment.SegmentInfo.SegmentUID.IsEmpty()) {
 		m_segment.ParseMinimal(pMN);
 	}
 	break;
@@ -198,14 +198,14 @@ HRESULT Segment::ParseMinimal(CMatroskaNode* pMN0)
 	len = pMN0->m_len;
 
 	CAutoPtr<CMatroskaNode> pMN = pMN0->Child();
-	if(!pMN) {
+	if (!pMN) {
 		return S_FALSE;
 	}
 
 	int n = 0;
 
 	do {
-		switch(pMN->m_id) {
+		switch (pMN->m_id) {
 			case 0x1549A966:
 				SegmentInfo.Parse(pMN);
 				n++;
@@ -222,37 +222,37 @@ HRESULT Segment::ParseMinimal(CMatroskaNode* pMN0)
 				Cues.Parse(pMN);
 				break;
 		}
-	} while(n < 3 && pMN->Next());
+	} while (n < 3 && pMN->Next());
 
-	if(!pMN->IsRandomAccess()) {
+	if (!pMN->IsRandomAccess()) {
 		return S_OK;
 	}
 
-	while(MatroskaReader::QWORD pos = pMN->FindPos(0x114D9B74, pMN->GetPos())) {
+	while (MatroskaReader::QWORD pos = pMN->FindPos(0x114D9B74, pMN->GetPos())) {
 		pMN->SeekTo(pos);
 		pMN->Parse();
-		if(pMN->m_id != 0x114D9B74) {
+		if (pMN->m_id != 0x114D9B74) {
 			ASSERT(0);
 			break;
 		}
 		MetaSeekInfo.Parse(pMN);
 	}
 
-	if(n == 3) {
-		if(Cues.IsEmpty() && (pMN = pMN0->Child(0x1C53BB6B, false))) {
+	if (n == 3) {
+		if (Cues.IsEmpty() && (pMN = pMN0->Child(0x1C53BB6B, false))) {
 			do {
 				Cues.Parse(pMN);
-			} while(pMN->Next(true));
+			} while (pMN->Next(true));
 		}
 
-		if(Chapters.IsEmpty() && (pMN = pMN0->Child(0x1043A770, false))) {
+		if (Chapters.IsEmpty() && (pMN = pMN0->Child(0x1043A770, false))) {
 			do {
 				Chapters.Parse(pMN); /*BIG UGLY HACK:*/
 				break;
-			} while(pMN->Next(true));
+			} while (pMN->Next(true));
 		}
 
-		if(Attachments.IsEmpty() && (pMN = pMN0->Child(0x1941A469, false))) {
+		if (Attachments.IsEmpty() && (pMN = pMN0->Child(0x1941A469, false))) {
 			do {
 				Attachments.Parse(pMN); /*BIG UGLY HACK:*/
 				break;
@@ -268,26 +268,26 @@ UINT64 Segment::GetMasterTrack()
 	UINT64 TrackNumber = 0, AltTrackNumber = 0;
 
 	POSITION pos1 = Tracks.GetHeadPosition();
-	while(pos1 && TrackNumber == 0) {
+	while (pos1 && TrackNumber == 0) {
 		Track* pT = Tracks.GetNext(pos1);
 
 		POSITION pos2 = pT->TrackEntries.GetHeadPosition();
-		while(pos2 && TrackNumber == 0) {
+		while (pos2 && TrackNumber == 0) {
 			TrackEntry* pTE = pT->TrackEntries.GetNext(pos2);
 
-			if(pTE->TrackType == TrackEntry::TypeVideo) {
+			if (pTE->TrackType == TrackEntry::TypeVideo) {
 				TrackNumber = pTE->TrackNumber;
 				break;
-			} else if(pTE->TrackType == TrackEntry::TypeAudio && AltTrackNumber == 0) {
+			} else if (pTE->TrackType == TrackEntry::TypeAudio && AltTrackNumber == 0) {
 				AltTrackNumber = pTE->TrackNumber;
 			}
 		}
 	}
 
-	if(TrackNumber == 0) {
+	if (TrackNumber == 0) {
 		TrackNumber = AltTrackNumber;
 	}
-	if(TrackNumber == 0) {
+	if (TrackNumber == 0) {
 		TrackNumber = 1;
 	}
 
@@ -296,14 +296,14 @@ UINT64 Segment::GetMasterTrack()
 
 ChapterAtom* ChapterAtom::FindChapterAtom(UINT64 id)
 {
-	if(ChapterUID == id) {
+	if (ChapterUID == id) {
 		return(this);
 	}
 
 	POSITION pos = ChapterAtoms.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		ChapterAtom* ca = ChapterAtoms.GetNext(pos)->FindChapterAtom(id);
-		if(ca) {
+		if (ca) {
 			return ca;
 		}
 	}
@@ -314,14 +314,14 @@ ChapterAtom* ChapterAtom::FindChapterAtom(UINT64 id)
 ChapterAtom* Segment::FindChapterAtom(UINT64 id, int nEditionEntry)
 {
 	POSITION pos1 = Chapters.GetHeadPosition();
-	while(pos1) {
+	while (pos1) {
 		Chapter* c = Chapters.GetNext(pos1);
 
 		POSITION pos2 = c->EditionEntries.GetHeadPosition();
-		while(pos2) {
+		while (pos2) {
 			EditionEntry* ee = c->EditionEntries.GetNext(pos2);
 
-			if(nEditionEntry-- == 0) {
+			if (nEditionEntry-- == 0) {
 				return id == 0 ? ee : ee->FindChapterAtom(id);
 			}
 		}
@@ -470,12 +470,12 @@ case 0x23314F:
 	TrackTimecodeScale.Parse(pMN);
 	break;
 case 0xE0:
-	if(S_OK == v.Parse(pMN)) {
+	if (S_OK == v.Parse(pMN)) {
 		DescType |= DescVideo;
 	}
 	break;
 case 0xE1:
-	if(S_OK == a.Parse(pMN)) {
+	if (S_OK == a.Parse(pMN)) {
 		DescType |= DescAudio;
 	}
 	break;
@@ -496,29 +496,29 @@ static int cesort(const void* a, const void* b)
 
 bool TrackEntry::Expand(CBinary& data, UINT64 Scope)
 {
-	if(ces.ce.GetCount() == 0) {
+	if (ces.ce.GetCount() == 0) {
 		return true;
 	}
 
 	CAtlArray<ContentEncoding*> cearray;
 	POSITION pos = ces.ce.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		cearray.Add(ces.ce.GetNext(pos));
 	}
 	qsort(cearray.GetData(), cearray.GetCount(), sizeof(ContentEncoding*), cesort);
 
-	for(int i = cearray.GetCount()-1; i >= 0; i--) {
+	for (int i = cearray.GetCount()-1; i >= 0; i--) {
 		ContentEncoding* ce = cearray[i];
 
-		if(!(ce->ContentEncodingScope & Scope)) {
+		if (!(ce->ContentEncodingScope & Scope)) {
 			continue;
 		}
 
-		if(ce->ContentEncodingType == ContentEncoding::Compression) {
-			if(!data.Decompress(ce->cc)) {
+		if (ce->ContentEncodingType == ContentEncoding::Compression) {
+			if (!data.Decompress(ce->cc)) {
 				return false;
 			}
-		} else if(ce->ContentEncodingType == ContentEncoding::Encryption) {
+		} else if (ce->ContentEncodingType == ContentEncoding::Encryption) {
 			// TODO
 			return false;
 		}
@@ -720,7 +720,7 @@ case 0xE8:
 	TimeSlices.Parse(pMN);
 	break;
 case 0x75A1:
-	if(fFull) {
+	if (fFull) {
 		ba.Parse(pMN);
 	}
 	break;
@@ -737,7 +737,7 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
 	TimeCode.Set(s);
 	Lacing.Parse(pMN);
 
-	if(!fFull) {
+	if (!fFull) {
 		return S_OK;
 	}
 
@@ -746,7 +746,7 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
 	MatroskaReader::QWORD FrameSize;
 	BYTE FramesInLaceLessOne;
 
-	switch((Lacing & 0x06) >> 1) {
+	switch ((Lacing & 0x06) >> 1) {
 		case 0:
 			// No lacing
 			lens.AddTail((pMN->m_start+pMN->m_len) - (pMN->GetPos()+tlen));
@@ -755,13 +755,13 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
 			// Xiph lacing
 			BYTE n;
 			pMN->Read(n);
-			while(n-- > 0) {
+			while (n-- > 0) {
 				BYTE b;
 				MatroskaReader::QWORD len = 0;
 				do {
 					pMN->Read(b);
 					len += b;
-				} while(b == 0xff);
+				} while (b == 0xff);
 				lens.AddTail(len);
 				tlen += len;
 			}
@@ -772,7 +772,7 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
 			pMN->Read(FramesInLaceLessOne);
 			FramesInLaceLessOne++;
 			FrameSize = ((pMN->m_start+pMN->m_len) - (pMN->GetPos()+tlen)) / FramesInLaceLessOne;
-			while(FramesInLaceLessOne-- > 0) {
+			while (FramesInLaceLessOne-- > 0) {
 				lens.AddTail(FrameSize);
 			}
 			break;
@@ -788,7 +788,7 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
 
 			CSignedLength DiffSize;
 			FrameSize = FirstFrameSize;
-			while(FramesInLaceLessOne--) {
+			while (FramesInLaceLessOne--) {
 				DiffSize.Parse(pMN);
 				FrameSize += DiffSize;
 				lens.AddTail(FrameSize);
@@ -799,7 +799,7 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
 	}
 
 	POSITION pos = lens.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		MatroskaReader::QWORD len = lens.GetNext(pos);
 		CAutoPtr<CBinary> p(DNew CBinary());
 		p->SetCount((INT_PTR)len);
@@ -1012,7 +1012,7 @@ HRESULT CBinary::Parse(CMatroskaNode* pMN)
 
 bool CBinary::Compress(ContentCompression& cc)
 {
-	if(cc.ContentCompAlgo == ContentCompression::ZLIB) {
+	if (cc.ContentCompAlgo == ContentCompression::ZLIB) {
 		int res;
 		z_stream c_stream;
 
@@ -1020,7 +1020,7 @@ bool CBinary::Compress(ContentCompression& cc)
 		c_stream.zfree = (free_func)0;
 		c_stream.opaque = (voidpf)0;
 
-		if(Z_OK != (res = deflateInit(&c_stream, 9))) {
+		if (Z_OK != (res = deflateInit(&c_stream, 9))) {
 			return false;
 		}
 
@@ -1033,11 +1033,11 @@ bool CBinary::Compress(ContentCompression& cc)
 			dst = (BYTE*)realloc(dst, ++n*10);
 			c_stream.next_out = &dst[(n-1)*10];
 			c_stream.avail_out = 10;
-			if(Z_OK != (res = deflate(&c_stream, Z_FINISH)) && Z_STREAM_END != res) {
+			if (Z_OK != (res = deflate(&c_stream, Z_FINISH)) && Z_STREAM_END != res) {
 				free(dst);
 				return false;
 			}
-		} while(0 == c_stream.avail_out && Z_STREAM_END != res);
+		} while (0 == c_stream.avail_out && Z_STREAM_END != res);
 
 		deflateEnd(&c_stream);
 
@@ -1054,7 +1054,7 @@ bool CBinary::Compress(ContentCompression& cc)
 
 bool CBinary::Decompress(ContentCompression& cc)
 {
-	if(cc.ContentCompAlgo == ContentCompression::ZLIB) {
+	if (cc.ContentCompAlgo == ContentCompression::ZLIB) {
 		int res;
 		z_stream d_stream;
 
@@ -1062,7 +1062,7 @@ bool CBinary::Decompress(ContentCompression& cc)
 		d_stream.zfree = (free_func)0;
 		d_stream.opaque = (voidpf)0;
 
-		if(Z_OK != (res = inflateInit(&d_stream))) {
+		if (Z_OK != (res = inflateInit(&d_stream))) {
 			return false;
 		}
 
@@ -1075,11 +1075,11 @@ bool CBinary::Decompress(ContentCompression& cc)
 			dst = (unsigned char *)realloc(dst, ++n*1000);
 			d_stream.next_out = &dst[(n-1)*1000];
 			d_stream.avail_out = 1000;
-			if(Z_OK != (res = inflate(&d_stream, Z_NO_FLUSH)) && Z_STREAM_END != res) {
+			if (Z_OK != (res = inflate(&d_stream, Z_NO_FLUSH)) && Z_STREAM_END != res) {
 				free(dst);
 				return false;
 			}
-		} while(0 == d_stream.avail_out && 0 != d_stream.avail_in && Z_STREAM_END != res);
+		} while (0 == d_stream.avail_out && 0 != d_stream.avail_in && Z_STREAM_END != res);
 
 		inflateEnd(&d_stream);
 
@@ -1089,7 +1089,7 @@ bool CBinary::Decompress(ContentCompression& cc)
 		free(dst);
 
 		return true;
-	} else if(cc.ContentCompAlgo == ContentCompression::HDRSTRIP) {
+	} else if (cc.ContentCompAlgo == ContentCompression::HDRSTRIP) {
 		InsertArrayAt(0, &cc.ContentCompSettings);
 	}
 
@@ -1102,7 +1102,7 @@ HRESULT CANSI::Parse(CMatroskaNode* pMN)
 
 	MatroskaReader::QWORD len = pMN->m_len;
 	CHAR c;
-	while(len-- > 0 && SUCCEEDED(pMN->Read(c))) {
+	while (len-- > 0 && SUCCEEDED(pMN->Read(c))) {
 		*this += c;
 	}
 
@@ -1113,7 +1113,7 @@ HRESULT CUTF8::Parse(CMatroskaNode* pMN)
 {
 	Empty();
 	CAutoVectorPtr<BYTE> buff;
-	if(!buff.Allocate((UINT)pMN->m_len + 1) || S_OK != pMN->Read(buff, pMN->m_len)) {
+	if (!buff.Allocate((UINT)pMN->m_len + 1) || S_OK != pMN->Read(buff, pMN->m_len)) {
 		return E_FAIL;
 	}
 	buff[pMN->m_len] = 0;
@@ -1124,10 +1124,10 @@ HRESULT CUTF8::Parse(CMatroskaNode* pMN)
 HRESULT CUInt::Parse(CMatroskaNode* pMN)
 {
 	m_val = 0;
-	for(int i = 0; i < (int)pMN->m_len; i++) {
+	for (int i = 0; i < (int)pMN->m_len; i++) {
 		m_val <<= 8;
 		HRESULT hr = pMN->Read(*(BYTE*)&m_val);
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			return hr;
 		}
 	}
@@ -1138,9 +1138,9 @@ HRESULT CUInt::Parse(CMatroskaNode* pMN)
 HRESULT CInt::Parse(CMatroskaNode* pMN)
 {
 	m_val = 0;
-	for(int i = 0; i < (int)pMN->m_len; i++) {
+	for (int i = 0; i < (int)pMN->m_len; i++) {
 		HRESULT hr = pMN->Read(*((BYTE*)&m_val+7-i));
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			return hr;
 		}
 	}
@@ -1154,14 +1154,14 @@ HRESULT CFloat::Parse(CMatroskaNode* pMN)
 	HRESULT hr = E_FAIL;
 	m_val = 0;
 
-	if(pMN->m_len == 4) {
+	if (pMN->m_len == 4) {
 		float val = 0;
 		hr = pMN->Read(val);
 		m_val = val;
-	} else if(pMN->m_len == 8) {
+	} else if (pMN->m_len == 8) {
 		hr = pMN->Read(m_val);
 	}
-	if(SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr)) {
 		m_fValid = true;
 	}
 	return hr;
@@ -1182,32 +1182,32 @@ HRESULT CID::Parse(CMatroskaNode* pMN)
 
 	BYTE b = 0;
 	HRESULT hr = pMN->Read(b);
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
 	int nMoreBytes = 0;
 
-	if((b&0x80) == 0x80) {
+	if ((b&0x80) == 0x80) {
 		m_val = b&0xff;
 		nMoreBytes = 0;
-	} else if((b&0xc0) == 0x40) {
+	} else if ((b&0xc0) == 0x40) {
 		m_val = b&0x7f;
 		nMoreBytes = 1;
-	} else if((b&0xe0) == 0x20) {
+	} else if ((b&0xe0) == 0x20) {
 		m_val = b&0x3f;
 		nMoreBytes = 2;
-	} else if((b&0xf0) == 0x10) {
+	} else if ((b&0xf0) == 0x10) {
 		m_val = b&0x1f;
 		nMoreBytes = 3;
 	} else {
 		return E_FAIL;
 	}
 
-	while(nMoreBytes-- > 0) {
+	while (nMoreBytes-- > 0) {
 		m_val <<= 8;
 		hr = pMN->Read(*(BYTE*)&m_val);
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			return hr;
 		}
 	}
@@ -1223,34 +1223,34 @@ HRESULT CLength::Parse(CMatroskaNode* pMN)
 
 	BYTE b = 0;
 	HRESULT hr = pMN->Read(b);
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
 	int nMoreBytes = 0;
 
-	if((b&0x80) == 0x80) {
+	if ((b&0x80) == 0x80) {
 		m_val = b&0x7f;
 		nMoreBytes = 0;
-	} else if((b&0xc0) == 0x40) {
+	} else if ((b&0xc0) == 0x40) {
 		m_val = b&0x3f;
 		nMoreBytes = 1;
-	} else if((b&0xe0) == 0x20) {
+	} else if ((b&0xe0) == 0x20) {
 		m_val = b&0x1f;
 		nMoreBytes = 2;
-	} else if((b&0xf0) == 0x10) {
+	} else if ((b&0xf0) == 0x10) {
 		m_val = b&0x0f;
 		nMoreBytes = 3;
-	} else if((b&0xf8) == 0x08) {
+	} else if ((b&0xf8) == 0x08) {
 		m_val = b&0x07;
 		nMoreBytes = 4;
-	} else if((b&0xfc) == 0x04) {
+	} else if ((b&0xfc) == 0x04) {
 		m_val = b&0x03;
 		nMoreBytes = 5;
-	} else if((b&0xfe) == 0x02) {
+	} else if ((b&0xfe) == 0x02) {
 		m_val = b&0x01;
 		nMoreBytes = 6;
-	} else if((b&0xff) == 0x01) {
+	} else if ((b&0xff) == 0x01) {
 		m_val = b&0x00;
 		nMoreBytes = 7;
 	} else {
@@ -1261,20 +1261,20 @@ HRESULT CLength::Parse(CMatroskaNode* pMN)
 
 	MatroskaReader::QWORD UnknownSize = (1i64<<(7*(nMoreBytes+1)))-1;
 
-	while(nMoreBytes-- > 0) {
+	while (nMoreBytes-- > 0) {
 		m_val <<= 8;
 		hr = pMN->Read(*(BYTE*)&m_val);
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			return hr;
 		}
 	}
 
-	if(m_val == UnknownSize) {
+	if (m_val == UnknownSize) {
 		m_val = pMN->GetLength() - pMN->GetPos();
 		TRACE(_T("CLength: Unspecified chunk size at %I64d (corrected to %I64d)\n"), pMN->GetPos(), m_val);
 	}
 
-	if(m_fSigned) {
+	if (m_fSigned) {
 		m_val -= (UnknownSize >> 1);
 	}
 
@@ -1335,7 +1335,7 @@ HRESULT CNode<T>::Parse(CMatroskaNode* pMN)
 {
 	CAutoPtr<T> p(DNew T());
 	HRESULT hr = E_OUTOFMEMORY;
-	if(!p || FAILED(hr = p->Parse(pMN))) {
+	if (!p || FAILED(hr = p->Parse(pMN))) {
 		return hr;
 	}
 	AddTail(p);
@@ -1346,7 +1346,7 @@ HRESULT CBlockGroupNode::Parse(CMatroskaNode* pMN, bool fFull)
 {
 	CAutoPtr<BlockGroup> p(DNew BlockGroup());
 	HRESULT hr = E_OUTOFMEMORY;
-	if(!p || FAILED(hr = p->Parse(pMN, fFull))) {
+	if (!p || FAILED(hr = p->Parse(pMN, fFull))) {
 		return hr;
 	}
 	AddTail(p);
@@ -1357,7 +1357,7 @@ HRESULT CSimpleBlockNode::Parse(CMatroskaNode* pMN, bool fFull)
 {
 	CAutoPtr<SimpleBlock> p(DNew SimpleBlock());
 	HRESULT hr = E_OUTOFMEMORY;
-	if(!p || FAILED(hr = p->Parse(pMN, fFull))) {
+	if (!p || FAILED(hr = p->Parse(pMN, fFull))) {
 		return hr;
 	}
 	AddTail(p);
@@ -1385,7 +1385,7 @@ CMatroskaNode::CMatroskaNode(CMatroskaNode* pParent)
 HRESULT CMatroskaNode::Parse()
 {
 	m_filepos = GetPos();
-	if(FAILED(m_id.Parse(this)) || FAILED(m_len.Parse(this))) {
+	if (FAILED(m_id.Parse(this)) || FAILED(m_len.Parse(this))) {
 		return E_FAIL;
 	}
 	m_start = GetPos();
@@ -1394,12 +1394,12 @@ HRESULT CMatroskaNode::Parse()
 
 CAutoPtr<CMatroskaNode> CMatroskaNode::Child(DWORD id, bool fSearch)
 {
-	if(m_len == 0) {
+	if (m_len == 0) {
 		return CAutoPtr<CMatroskaNode>();
 	}
 	SeekTo(m_start);
 	CAutoPtr<CMatroskaNode> pMN(DNew CMatroskaNode(this));
-	if(id && !pMN->Find(id, fSearch)) {
+	if (id && !pMN->Find(id, fSearch)) {
 		pMN.Free();
 	}
 	return pMN;
@@ -1407,22 +1407,22 @@ CAutoPtr<CMatroskaNode> CMatroskaNode::Child(DWORD id, bool fSearch)
 
 bool CMatroskaNode::Next(bool fSame)
 {
-	if(!m_pParent) {
+	if (!m_pParent) {
 		return false;
 	}
 
 	CID id = m_id;
 
-	while(m_start+m_len < m_pParent->m_start+m_pParent->m_len) {
+	while (m_start+m_len < m_pParent->m_start+m_pParent->m_len) {
 		SeekTo(m_start+m_len);
 
-		if(FAILED(Parse())) {
-			if(!Resync()) {
+		if (FAILED(Parse())) {
+			if (!Resync()) {
 				return false;
 			}
 		}
 
-		if(!fSame || m_id == id) {
+		if (!fSame || m_id == id) {
 			return true;
 		}
 	}
@@ -1436,11 +1436,11 @@ bool CMatroskaNode::Find(DWORD id, bool fSearch)
 								? FindPos(id)
 								: 0;
 
-	if(pos) {
+	if (pos) {
 		SeekTo(pos);
 		Parse();
-	} else if(fSearch) {
-		while(m_id != id && Next()) {
+	} else if (fSearch) {
+		while (m_id != id && Next()) {
 			;
 		}
 	}
@@ -1479,13 +1479,13 @@ MatroskaReader::QWORD CMatroskaNode::FindPos(DWORD id, MatroskaReader::QWORD sta
 	Segment& sm = m_pMF->m_segment;
 
 	POSITION pos = sm.MetaSeekInfo.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		Seek* s = sm.MetaSeekInfo.GetNext(pos);
 
 		POSITION pos2 = s->SeekHeads.GetHeadPosition();
-		while(pos2) {
+		while (pos2) {
 			SeekHead* sh = s->SeekHeads.GetNext(pos2);
-			if(sh->SeekID == id && sh->SeekPosition+sm.pos >= start) {
+			if (sh->SeekID == id && sh->SeekPosition+sm.pos >= start) {
 				return sh->SeekPosition+sm.pos;
 			}
 		}
@@ -1509,31 +1509,31 @@ CAutoPtr<CMatroskaNode> CMatroskaNode::GetFirstBlock()
 {
 	CAutoPtr<CMatroskaNode> pNode = Child();
 	do {
-		if(pNode->m_id == 0xA0 || pNode->m_id == 0xA3) {
+		if (pNode->m_id == 0xA0 || pNode->m_id == 0xA3) {
 			return pNode;
 		}
-	} while(pNode->Next());
+	} while (pNode->Next());
 	return CAutoPtr<CMatroskaNode>();
 }
 
 bool CMatroskaNode::NextBlock()
 {
-	if(!m_pParent) {
+	if (!m_pParent) {
 		return false;
 	}
 
 	CID id = m_id;
 
-	while(m_start+m_len < m_pParent->m_start+m_pParent->m_len) {
+	while (m_start+m_len < m_pParent->m_start+m_pParent->m_len) {
 		SeekTo(m_start+m_len);
 
-		if(FAILED(Parse())) {
-			if(!Resync()) {
+		if (FAILED(Parse())) {
+			if (!Resync()) {
 				return false;
 			}
 		}
 
-		if(m_id == 0xA0 || m_id == 0xA3) {
+		if (m_id == 0xA0 || m_id == 0xA3) {
 			return true;
 		}
 	}
@@ -1543,11 +1543,11 @@ bool CMatroskaNode::NextBlock()
 
 bool CMatroskaNode::Resync()
 {
-	if(m_pParent->m_id == 0x18538067) { /*segment?*/
+	if (m_pParent->m_id == 0x18538067) { /*segment?*/
 		SeekTo(m_filepos);
 
-		for(BYTE b = 0; S_OK == Read(b); b = 0) {
-			if((b&0xf0) != 0x10) {
+		for (BYTE b = 0; S_OK == Read(b); b = 0) {
+			if ((b&0xf0) != 0x10) {
 				continue;
 			}
 
@@ -1555,7 +1555,7 @@ bool CMatroskaNode::Resync()
 			Read((BYTE*)&dw+1, 3);
 			bswap((BYTE*)&dw, 4);
 
-			switch(dw) {
+			switch (dw) {
 				case 0x1549A966: // SegmentInfo
 				case 0x114D9B74: // MetaSeekInfo
 				case 0x1654AE6B: // Tracks

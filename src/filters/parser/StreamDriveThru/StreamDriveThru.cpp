@@ -72,7 +72,7 @@ CStreamDriveThruFilter::CStreamDriveThruFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	: CBaseFilter(NAME("CStreamDriveThruFilter"), pUnk, &m_csLock, __uuidof(this))
 	, m_position(0)
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 
@@ -106,10 +106,10 @@ STDMETHODIMP CStreamDriveThruFilter::NonDelegatingQueryInterface(REFIID riid, vo
 
 DWORD CStreamDriveThruFilter::ThreadProc()
 {
-	while(1) {
+	while (1) {
 		DWORD cmd = GetRequest();
 
-		switch(cmd) {
+		switch (cmd) {
 			default:
 			case CMD_EXIT:
 				Reply(S_OK);
@@ -127,7 +127,7 @@ DWORD CStreamDriveThruFilter::ThreadProc()
 					CComPtr<IAsyncReader> pAsyncReader;
 					CComPtr<IStream> pStream;
 
-					if(!m_pInput || !m_pInput->IsConnected() || FAILED(m_pInput->GetAsyncReader(&pAsyncReader))
+					if (!m_pInput || !m_pInput->IsConnected() || FAILED(m_pInput->GetAsyncReader(&pAsyncReader))
 							|| !m_pOutput || !m_pOutput->IsConnected() || FAILED(m_pOutput->GetStream(&pStream))) {
 						break;
 					}
@@ -135,16 +135,16 @@ DWORD CStreamDriveThruFilter::ThreadProc()
 					LARGE_INTEGER li = {0};
 					ULARGE_INTEGER uli = {0};
 
-					if(FAILED(pStream->Seek(li, STREAM_SEEK_SET, NULL))
+					if (FAILED(pStream->Seek(li, STREAM_SEEK_SET, NULL))
 							|| FAILED(pStream->SetSize(uli))) {
 						break;
 					}
 
-					if(CComQIPtr<IFileSinkFilter2> pFSF = GetFilterFromPin(m_pOutput->GetConnected())) {
+					if (CComQIPtr<IFileSinkFilter2> pFSF = GetFilterFromPin(m_pOutput->GetConnected())) {
 						pFSF->SetMode(AM_FILE_OVERWRITE);
 
 						LPOLESTR pfn;
-						if(SUCCEEDED(pFSF->GetCurFile(&pfn, NULL))) {
+						if (SUCCEEDED(pFSF->GetCurFile(&pfn, NULL))) {
 							pFSF->SetFileName(pfn, NULL);
 							CoTaskMemFree(pfn);
 						}
@@ -154,23 +154,23 @@ DWORD CStreamDriveThruFilter::ThreadProc()
 					BYTE buff[PACKETSIZE];
 
 					do {
-						while(!CheckRequest(&cmd)) {
+						while (!CheckRequest(&cmd)) {
 							CAutoLock csAutoLock(&m_csLock);
 
 							LONGLONG total = 0, available = 0;
-							if(FAILED(pAsyncReader->Length(&total, &available)) || m_position >= total) {
+							if (FAILED(pAsyncReader->Length(&total, &available)) || m_position >= total) {
 								cmd = CMD_STOP;
 								break;
 							}
 
 							LONG size = (LONG)min(PACKETSIZE, total - m_position);
-							if(FAILED(pAsyncReader->SyncRead(m_position, size, buff))) {
+							if (FAILED(pAsyncReader->SyncRead(m_position, size, buff))) {
 								cmd = CMD_STOP;
 								break;
 							}
 
 							ULONG written = 0;
-							if(FAILED(pStream->Write(buff, (ULONG)size, &written)) || (ULONG)size != written) {
+							if (FAILED(pStream->Write(buff, (ULONG)size, &written)) || (ULONG)size != written) {
 								cmd = CMD_STOP;
 								break;
 							}
@@ -178,24 +178,24 @@ DWORD CStreamDriveThruFilter::ThreadProc()
 							m_position += size;
 						}
 
-						if(cmd == CMD_PAUSE) {
+						if (cmd == CMD_PAUSE) {
 							Reply(S_OK); // reply to CMD_PAUSE
 
-							while(!CheckRequest(&cmd)) {
+							while (!CheckRequest(&cmd)) {
 								Sleep(50);
 							}
 
 							Reply(S_OK); // reply to something
 						}
-					} while(cmd == CMD_RUN);
+					} while (cmd == CMD_RUN);
 
 					uli.QuadPart = m_position;
 					pStream->SetSize(uli);
 
-					if(CComPtr<IPin> pPin = m_pOutput->GetConnected()) {
+					if (CComPtr<IPin> pPin = m_pOutput->GetConnected()) {
 						pPin->EndOfStream();
 					}
-				} while(false);
+				} while (false);
 
 				break;
 		}
@@ -213,9 +213,9 @@ CBasePin* CStreamDriveThruFilter::GetPin(int n)
 {
 	CAutoLock csAutoLock(&m_csLock);
 
-	if(n == 0) {
+	if (n == 0) {
 		return m_pInput;
-	} else if(n == 1) {
+	} else if (n == 1) {
 		return m_pOutput;
 	}
 
@@ -226,7 +226,7 @@ STDMETHODIMP CStreamDriveThruFilter::Stop()
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::Stop())) {
+	if (FAILED(hr = __super::Stop())) {
 		return hr;
 	}
 
@@ -239,7 +239,7 @@ STDMETHODIMP CStreamDriveThruFilter::Pause()
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::Pause())) {
+	if (FAILED(hr = __super::Pause())) {
 		return hr;
 	}
 
@@ -252,7 +252,7 @@ STDMETHODIMP CStreamDriveThruFilter::Run(REFERENCE_TIME tStart)
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::Run(tStart))) {
+	if (FAILED(hr = __super::Run(tStart))) {
 		return hr;
 	}
 
@@ -272,7 +272,7 @@ STDMETHODIMP CStreamDriveThruFilter::CheckCapabilities(DWORD* pCapabilities)
 {
 	CheckPointer(pCapabilities, E_POINTER);
 
-	if(*pCapabilities == 0) {
+	if (*pCapabilities == 0) {
 		return S_OK;
 	}
 
@@ -314,9 +314,9 @@ STDMETHODIMP CStreamDriveThruFilter::GetDuration(LONGLONG* pDuration)
 	CheckPointer(pDuration, E_POINTER);
 	CheckPointer(m_pInput, VFW_E_NOT_CONNECTED);
 
-	if(CComQIPtr<IAsyncReader> pAsyncReader = m_pInput->GetConnected()) {
+	if (CComQIPtr<IAsyncReader> pAsyncReader = m_pInput->GetConnected()) {
 		LONGLONG total, available;
-		if(SUCCEEDED(pAsyncReader->Length(&total, &available))) {
+		if (SUCCEEDED(pAsyncReader->Length(&total, &available))) {
 			*pDuration = total;
 			return S_OK;
 		}
@@ -415,11 +415,11 @@ HRESULT CStreamDriveThruInputPin::CheckConnect(IPin* pPin)
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::CheckConnect(pPin))) {
+	if (FAILED(hr = __super::CheckConnect(pPin))) {
 		return hr;
 	}
 
-	if(!CComQIPtr<IAsyncReader>(pPin)) {
+	if (!CComQIPtr<IAsyncReader>(pPin)) {
 		return E_NOINTERFACE;
 	}
 
@@ -430,7 +430,7 @@ HRESULT CStreamDriveThruInputPin::BreakConnect()
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::BreakConnect())) {
+	if (FAILED(hr = __super::BreakConnect())) {
 		return hr;
 	}
 
@@ -443,7 +443,7 @@ HRESULT CStreamDriveThruInputPin::CompleteConnect(IPin* pPin)
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::CompleteConnect(pPin))) {
+	if (FAILED(hr = __super::CompleteConnect(pPin))) {
 		return hr;
 	}
 
@@ -509,11 +509,11 @@ HRESULT CStreamDriveThruOutputPin::DecideBufferSize(IMemAllocator* pAlloc, ALLOC
 	pProperties->cbBuffer = PACKETSIZE;
 
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
+	if (FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
 		return hr;
 	}
 
-	if(Actual.cbBuffer < pProperties->cbBuffer) {
+	if (Actual.cbBuffer < pProperties->cbBuffer) {
 		return E_FAIL;
 	}
 	ASSERT(Actual.cBuffers == pProperties->cBuffers);
@@ -532,10 +532,10 @@ HRESULT CStreamDriveThruOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 {
 	CAutoLock cAutoLock(m_pLock);
 
-	if(iPosition < 0) {
+	if (iPosition < 0) {
 		return E_INVALIDARG;
 	}
-	if(iPosition > 0) {
+	if (iPosition > 0) {
 		return VFW_S_NO_MORE_ITEMS;
 	}
 
@@ -551,11 +551,11 @@ HRESULT CStreamDriveThruOutputPin::CheckConnect(IPin* pPin)
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::CheckConnect(pPin))) {
+	if (FAILED(hr = __super::CheckConnect(pPin))) {
 		return hr;
 	}
 
-	if(!CComQIPtr<IStream>(pPin)) {
+	if (!CComQIPtr<IStream>(pPin)) {
 		return E_NOINTERFACE;
 	}
 
@@ -566,7 +566,7 @@ HRESULT CStreamDriveThruOutputPin::BreakConnect()
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::BreakConnect())) {
+	if (FAILED(hr = __super::BreakConnect())) {
 		return hr;
 	}
 
@@ -579,7 +579,7 @@ HRESULT CStreamDriveThruOutputPin::CompleteConnect(IPin* pPin)
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::CompleteConnect(pPin))) {
+	if (FAILED(hr = __super::CompleteConnect(pPin))) {
 		return hr;
 	}
 

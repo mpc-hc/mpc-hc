@@ -70,7 +70,7 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 	{
 		//		int i = fn.Find(_T("://"));
 		int i = fn.Find(_T("http://"));
-		if(i > 0) {
+		if (i > 0) {
 			fn = _T("http") + fn.Mid(i);
 			fWeb = true;
 		}
@@ -79,7 +79,7 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 	int	l = fn.GetLength(), l2 = l;
 	l2 = fn.ReverseFind('.');
 	l = fn.ReverseFind('/') + 1;
-	if(l2 < l) {
+	if (l2 < l) {
 		l2 = l;
 	}
 
@@ -87,23 +87,23 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 	CString title = fn.Mid(l, l2-l);
 	CString filename = title + _T(".nooneexpectsthespanishinquisition");
 
-	if(!fWeb) {
+	if (!fWeb) {
 		// struct _tfinddata_t file, file2;
 		// long hFile, hFile2 = 0;
 
 		WIN32_FIND_DATA wfd, wfd2;
 		HANDLE hFile, hFile2;
 
-		for(size_t k = 0; k < paths.GetCount(); k++) {
+		for (size_t k = 0; k < paths.GetCount(); k++) {
 			CString path = paths[k];
 			path.Replace('\\', '/');
 
 			l = path.GetLength();
-			if(l > 0 && path[l-1] != '/') {
+			if (l > 0 && path[l-1] != '/') {
 				path += '/';
 			}
 
-			if(path.Find(':') == -1 && path.Find(_T("\\\\")) != 0) {
+			if (path.Find(':') == -1 && path.Find(_T("\\\\")) != 0) {
 				path = orgpath + path;
 			}
 
@@ -114,51 +114,51 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 
 			bool fEmpty = true;
 
-			if((hFile = FindFirstFile(path + title + _T("*"), &wfd)) != INVALID_HANDLE_VALUE) {
+			if ((hFile = FindFirstFile(path + title + _T("*"), &wfd)) != INVALID_HANDLE_VALUE) {
 				do {
-					if(filename.CompareNoCase(wfd.cFileName) != 0) {
+					if (filename.CompareNoCase(wfd.cFileName) != 0) {
 						fEmpty = false;
 						// sl.AddTail(path + file.name);
 					}
-				} while(FindNextFile(hFile, &wfd));
+				} while (FindNextFile(hFile, &wfd));
 
 				FindClose(hFile);
 			}
 
 			// TODO: use 'sl' in the next step to find files (already a nice speedup as it is now...)
-			if(fEmpty) {
+			if (fEmpty) {
 				continue;
 			}
 
-			for(ptrdiff_t j = 0; j < extlistnum; j++) {
-				for(ptrdiff_t i = 0; i < extsubnum; i++) {
-					if((hFile = FindFirstFile(path + title + ext[j][i], &wfd)) != INVALID_HANDLE_VALUE) {
+			for (ptrdiff_t j = 0; j < extlistnum; j++) {
+				for (ptrdiff_t i = 0; i < extsubnum; i++) {
+					if ((hFile = FindFirstFile(path + title + ext[j][i], &wfd)) != INVALID_HANDLE_VALUE) {
 						do {
 							CString fn = path + wfd.cFileName;
 
 							hFile2 = INVALID_HANDLE_VALUE;
 
-							if(j == 0 || (hFile2 = FindFirstFile(fn.Left(fn.ReverseFind('.')) + _T(".avi"), &wfd2)) == INVALID_HANDLE_VALUE) {
+							if (j == 0 || (hFile2 = FindFirstFile(fn.Left(fn.ReverseFind('.')) + _T(".avi"), &wfd2)) == INVALID_HANDLE_VALUE) {
 								SubFile f;
 								f.fn = fn;
 								ret.Add(f);
 							}
 
-							if(hFile2 != INVALID_HANDLE_VALUE) {
+							if (hFile2 != INVALID_HANDLE_VALUE) {
 								FindClose(hFile2);
 							}
-						} while(FindNextFile(hFile, &wfd));
+						} while (FindNextFile(hFile, &wfd));
 
 						FindClose(hFile);
 					}
 				}
 			}
 		}
-	} else if(l > 7) {
+	} else if (l > 7) {
 		CWebTextFile wtf; // :)
-		if(wtf.Open(orgpath + title + WEBSUBEXT)) {
+		if (wtf.Open(orgpath + title + WEBSUBEXT)) {
 			CString fn;
-			while(wtf.ReadString(fn) && fn.Find(_T("://")) >= 0) {
+			while (wtf.ReadString(fn) && fn.Find(_T("://")) >= 0) {
 				SubFile f;
 				f.fn = fn;
 				ret.Add(f);

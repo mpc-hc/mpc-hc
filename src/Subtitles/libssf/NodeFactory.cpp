@@ -49,7 +49,7 @@ namespace ssf
 		m_root = NULL;
 
 		POSITION pos = m_nodes.GetStartPosition();
-		while(pos) {
+		while (pos) {
 			delete m_nodes.GetNextValue(pos);
 		}
 		m_nodes.RemoveAll();
@@ -65,8 +65,8 @@ namespace ssf
 	void NodeFactory::Rollback()
 	{
 		POSITION pos = m_newnodes.GetTailPosition();
-		while(pos) {
-			if(StringMap<Node*, CStringW>::CPair* p = m_nodes.Lookup(m_newnodes.GetPrev(pos))) {
+		while (pos) {
+			if (StringMap<Node*, CStringW>::CPair* p = m_nodes.Lookup(m_newnodes.GetPrev(pos))) {
 				delete p->m_value; // TODO: remove it from "parent"->m_nodes too
 				m_nodes.RemoveKey(p->m_key);
 			}
@@ -95,7 +95,7 @@ namespace ssf
 		m_nodes.SetAt(name, pRef);
 		m_newnodes.AddTail(name);
 
-		if(pParentDef) {
+		if (pParentDef) {
 			pParentDef->AddTail(pRef);
 			pRef->m_parent = pParentDef;
 		}
@@ -107,29 +107,29 @@ namespace ssf
 	{
 		Definition* pDef = NULL;
 
-		if(name.IsEmpty()) {
+		if (name.IsEmpty()) {
 			name = GenName();
 		} else {
 			pDef = GetDefByName(name);
 
-			if(pDef) {
-				if(!pDef->m_predefined) {
+			if (pDef) {
+				if (!pDef->m_predefined) {
 					throw Exception(_T("redefinition of '%s' is not allowed"), CString(name));
 				}
 
-				if(!pDef->IsTypeUnknown() && !pDef->IsType(type)) {
+				if (!pDef->IsTypeUnknown() && !pDef->IsType(type)) {
 					throw Exception(_T("cannot redefine type of %s to %s"), CString(name), CString(type));
 				}
 			}
 		}
 
-		if(!pDef) {
+		if (!pDef) {
 			pDef = DNew Definition(this, name);
 
 			m_nodes.SetAt(name, pDef);
 			m_newnodes.AddTail(name);
 
-			if(pParentRef) {
+			if (pParentRef) {
 				pParentRef->AddTail(pDef);
 				pDef->m_parent = pParentRef;
 			}
@@ -154,8 +154,8 @@ namespace ssf
 		defs.RemoveAll();
 
 		POSITION pos = m_newnodes.GetHeadPosition();
-		while(pos) {
-			if(Definition* pDef = GetDefByName(m_newnodes.GetNext(pos))) {
+		while (pos) {
+			if (Definition* pDef = GetDefByName(m_newnodes.GetNext(pos))) {
 				defs.AddTail(pDef);
 			}
 		}
@@ -163,12 +163,12 @@ namespace ssf
 
 	void NodeFactory::Dump(OutputStream& s) const
 	{
-		if(!m_root) {
+		if (!m_root) {
 			return;
 		}
 
 		POSITION pos = m_root->m_nodes.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			m_root->m_nodes.GetNext(pos)->Dump(s);
 		}
 	}

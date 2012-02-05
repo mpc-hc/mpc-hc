@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
+
 #include "stdafx.h"
 #include <InitGuid.h>
 #include "SyncClock.h"
@@ -93,9 +93,9 @@ STDMETHODIMP CSyncClockFilter::NonDelegatingQueryInterface( REFIID riid, void **
 {
 	CheckPointer(ppv, E_POINTER);
 
-	if(riid == IID_IReferenceClock) {
+	if (riid == IID_IReferenceClock) {
 		return GetInterface(static_cast<IReferenceClock*>(&m_Clock), ppv);
-	} else if(riid == IID_ISyncClock) {
+	} else if (riid == IID_ISyncClock) {
 		return GetInterface(static_cast<ISyncClock*>(this), ppv);
 	} else {
 		return CBaseFilter::NonDelegatingQueryInterface(riid, ppv);

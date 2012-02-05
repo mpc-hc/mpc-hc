@@ -49,7 +49,7 @@ namespace ssf
 		m_file.Free();
 		m_renderer.Free();
 
-		if(name.IsEmpty()) {
+		if (name.IsEmpty()) {
 			CString str = fn;
 			str.Replace('\\', '/');
 			name = str.Left(str.ReverseFind('.'));
@@ -58,11 +58,11 @@ namespace ssf
 		}
 
 		try {
-			if(Open(FileInputStream(fn), name)) {
+			if (Open(FileInputStream(fn), name)) {
 				m_fn = fn;
 				return true;
 			}
-		} catch(Exception& e) {
+		} catch (Exception& e) {
 			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 		}
@@ -83,7 +83,7 @@ namespace ssf
 			m_renderer.Attach(DNew Renderer());
 			m_name = name;
 			return true;
-		} catch(Exception& e) {
+		} catch (Exception& e) {
 			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 		}
@@ -93,13 +93,13 @@ namespace ssf
 
 	void CRenderer::Append(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, LPCWSTR str)
 	{
-		if(!m_file) {
+		if (!m_file) {
 			return;
 		}
 
 		try {
 			m_file->Append(ssf::WCharInputStream(str), (float)rtStart / 10000000, (float)rtStop / 10000000);
-		} catch(Exception& e) {
+		} catch (Exception& e) {
 			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 		}
@@ -157,7 +157,7 @@ namespace ssf
 		CheckPointer(m_file, E_UNEXPECTED);
 		CheckPointer(m_renderer, E_UNEXPECTED);
 
-		if(spd.type != MSP_RGB32) {
+		if (spd.type != MSP_RGB32) {
 			return E_INVALIDARG;
 		}
 
@@ -172,10 +172,10 @@ namespace ssf
 		m_renderer->NextSegment(subs);
 
 		POSITION pos = subs.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			const Subtitle* s = subs.GetNext(pos);
 			const RenderedSubtitle* rs = m_renderer->Lookup(s, CSize(spd.w, spd.h), spd.vidrect);
-			if(rs) {
+			if (rs) {
 				bbox2 |= rs->Draw(spd);
 			}
 		}
@@ -201,20 +201,20 @@ namespace ssf
 
 	STDMETHODIMP CRenderer::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
 	{
-		if(iStream != 0) {
+		if (iStream != 0) {
 			return E_INVALIDARG;
 		}
 
-		if(ppName) {
+		if (ppName) {
 			*ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength()+1)*sizeof(WCHAR));
-			if(!(*ppName)) {
+			if (!(*ppName)) {
 				return E_OUTOFMEMORY;
 			}
 
 			wcscpy(*ppName, CStringW(m_name));
 		}
 
-		if(pLCID) {
+		if (pLCID) {
 			*pLCID = 0; // TODO
 		}
 

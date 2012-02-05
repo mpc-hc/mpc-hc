@@ -83,11 +83,11 @@ bool CMPCVideoDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnk
 	m_pMDF.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pMDF = pUnks.GetNext(pos))) {
+	while (pos && !(m_pMDF = pUnks.GetNext(pos))) {
 		;
 	}
 
-	if(!m_pMDF) {
+	if (!m_pMDF) {
 		return false;
 	}
 
@@ -113,7 +113,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbThreadNumber.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (230,  nPosY-4, 290, nPosY+90), this, IDC_PP_THREAD_NUMBER);
 	m_cbThreadNumber.AddString(_T("Auto"));
 	CString ThreadNumberStr;
-	for(int i=0; i<16; i++) {
+	for (int i=0; i<16; i++) {
 		ThreadNumberStr.Format(_T("%d"), i+1);
 		m_cbThreadNumber.AddString(ThreadNumberStr);
 	}
@@ -192,7 +192,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		m_edtDXVAMode.ShowWindow (SW_HIDE);
 	}
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
+	for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
 	}
 
@@ -228,7 +228,7 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMDF && m_cbDXVACompatibilityCheck.m_hWnd) {
+	if (m_pMDF && m_cbDXVACompatibilityCheck.m_hWnd) {
 #if HAS_FFMPEG_VIDEO_DECODERS
 #if INTERNAL_DECODER_H264
 		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel());
@@ -268,11 +268,11 @@ bool CMPCVideoDecCodecWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknow
 	m_pMDF.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pMDF = pUnks.GetNext(pos))) {
+	while (pos && !(m_pMDF = pUnks.GetNext(pos))) {
 		;
 	}
 
-	if(!m_pMDF) {
+	if (!m_pMDF) {
 		return false;
 	}
 
@@ -341,7 +341,7 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_RV) != 0);
 #endif
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
+	for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
 	}
 
@@ -356,7 +356,7 @@ bool CMPCVideoDecCodecWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMDF) {
+	if (m_pMDF) {
 		int			nActiveCodecs = 0;
 		int			nPos		  = 0;
 

@@ -118,7 +118,7 @@ void CGoToDlg::OnBnClickedOk1()
 		 swscanf_s(m_timestr, L"%u%c%f%1s", &mm, &c2, 1, &ss, &c3, 2) == 3 && ss < 60 || // mmm:ss[.ms]
 		 swscanf_s(m_timestr, L"%u%c%u%c%f%1s", &hh, &c1, 1, &mm, &c2, 1, &ss, &c3, 2) == 5 && mm < 60  && ss < 60) && // hhh:mm:ss[.ms]
 		 c1 == L':' && c2 == L':' && ss >=0) {
-		
+
 		m_time = (int)(1000*((hh*60+mm)*60+ss)+0.5);
 		OnOK();
 	} else {

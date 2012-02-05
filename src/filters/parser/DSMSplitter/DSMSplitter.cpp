@@ -101,7 +101,7 @@ STDMETHODIMP CDSMSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 		wcscpy(pInfo->achName, DSMSourceName);
 	}
 	pInfo->pGraph = m_pGraph;
-	if(m_pGraph) {
+	if (m_pGraph) {
 		m_pGraph->AddRef();
 	}
 
@@ -121,10 +121,10 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 	m_pFile.Attach(DNew CDSMSplitterFile(pAsyncReader, hr, *this, *this));
-	if(!m_pFile) {
+	if (!m_pFile) {
 		return E_OUTOFMEMORY;
 	}
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		m_pFile.Free();
 		return hr;
 	}
@@ -135,7 +135,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	CAtlArray<BYTE> ids;
 
 	POSITION pos = m_pFile->m_mts.GetStartPosition();
-	while(pos) {
+	while (pos) {
 		BYTE id;
 		CMediaType mt;
 		m_pFile->m_mts.GetNextAssoc(pos, id, mt);
@@ -144,7 +144,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	qsort(ids.GetData(), ids.GetCount(), sizeof(BYTE), compare_id);
 
-	for(size_t i = 0; i < ids.GetCount(); i++) {
+	for (size_t i = 0; i < ids.GetCount(); i++) {
 		BYTE id = ids[i];
 		CMediaType& mt = m_pFile->m_mts[id];
 
@@ -159,26 +159,26 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		name.Empty();
 
 		pos = m_pFile->m_sim[id].GetStartPosition();
-		while(pos) {
+		while (pos) {
 			CStringA key;
 			CStringW value;
 			m_pFile->m_sim[id].GetNextAssoc(pos, key, value);
 			pPinOut->SetProperty(CStringW(key), value);
 
-			if(key == "NAME") {
+			if (key == "NAME") {
 				name = value;
 			}
-			if(key == "LANG") if((lang = ISO6392ToLanguage(CStringA(CString(value)))).IsEmpty()) {
+			if (key == "LANG") if ((lang = ISO6392ToLanguage(CStringA(CString(value)))).IsEmpty()) {
 					lang = value;
 				}
 		}
 
-		if(!name.IsEmpty() || !lang.IsEmpty()) {
-			if(!name.IsEmpty()) {
-				if(!lang.IsEmpty()) {
+		if (!name.IsEmpty() || !lang.IsEmpty()) {
+			if (!name.IsEmpty()) {
+				if (!lang.IsEmpty()) {
 					name += L" (" + lang + L")";
 				}
-			} else if(!lang.IsEmpty()) {
+			} else if (!lang.IsEmpty()) {
 				name = lang;
 			}
 			pPinOut->SetName(name);
@@ -188,18 +188,18 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	}
 
 	pos = m_pFile->m_fim.GetStartPosition();
-	while(pos) {
+	while (pos) {
 		CStringA key;
 		CStringW value;
 		m_pFile->m_fim.GetNextAssoc(pos, key, value);
 		SetProperty(CStringW(key), value);
 	}
 
-	for(size_t i = 0; i < m_resources.GetCount(); i++) {
+	for (size_t i = 0; i < m_resources.GetCount(); i++) {
 		const CDSMResource& r = m_resources[i];
-		if(r.mime == "application/x-truetype-font" ||
-		   r.mime == "application/x-font-ttf" ||
-		   r.mime == "application/vnd.ms-opentype") {
+		if (r.mime == "application/x-truetype-font" ||
+				r.mime == "application/x-font-ttf" ||
+				r.mime == "application/vnd.ms-opentype") {
 			//m_fontinst.InstallFont(r.data);
 			m_fontinst.InstallFontMemory(r.data.GetData(), r.data.GetCount());
 		}
@@ -223,20 +223,20 @@ bool CDSMSplitterFilter::DemuxLoop()
 {
 	HRESULT hr = S_OK;
 
-	while(SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
+	while (SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
 		dsmp_t type;
 		UINT64 len;
 
-		if(!m_pFile->Sync(type, len)) {
+		if (!m_pFile->Sync(type, len)) {
 			continue;
 		}
 
 		__int64 pos = m_pFile->GetPos();
 
-		if(type == DSMP_SAMPLE) {
+		if (type == DSMP_SAMPLE) {
 			CAutoPtr<Packet> p(DNew Packet());
-			if(m_pFile->Read(len, p)) {
-				if(p->rtStart != Packet::INVALID_TIME) {
+			if (m_pFile->Read(len, p)) {
+				if (p->rtStart != Packet::INVALID_TIME) {
 					p->rtStart -= m_pFile->m_rtFirst;
 					p->rtStop -= m_pFile->m_rtFirst;
 				}
@@ -266,12 +266,12 @@ STDMETHODIMP CDSMSplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
 	CheckPointer(pKFs, E_POINTER);
 	CheckPointer(m_pFile, E_UNEXPECTED);
 
-	if(*pFormat != TIME_FORMAT_MEDIA_TIME) {
+	if (*pFormat != TIME_FORMAT_MEDIA_TIME) {
 		return E_INVALIDARG;
 	}
 
 	// these aren't really the keyframes, but quicky accessable points in the stream
-	for(nKFs = 0; nKFs < m_pFile->m_sps.GetCount(); nKFs++) {
+	for (nKFs = 0; nKFs < m_pFile->m_sps.GetCount(); nKFs++) {
 		pKFs[nKFs] = m_pFile->m_sps[nKFs].rt;
 	}
 

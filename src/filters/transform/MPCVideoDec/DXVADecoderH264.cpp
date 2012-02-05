@@ -59,7 +59,7 @@ void CDXVADecoderH264::Init()
 	memset (&m_pSliceShort,		0, sizeof (DXVA_Slice_H264_Short)*MAX_SLICES);
 
 	m_DXVAPicParams.MbsConsecutiveFlag					= 1;
-	if(m_pFilter->GetPCIVendor() == PCIV_Intel) {
+	if (m_pFilter->GetPCIVendor() == PCIV_Intel) {
 		m_DXVAPicParams.Reserved16Bits					= 0x534c;
 	} else {
 		m_DXVAPicParams.Reserved16Bits					= 0;
@@ -101,7 +101,7 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 
 #if 0
 	// Test to place Nal on multiple of 128 bytes (seems to be not necessary)
-	if(!m_bUseLongSlice) {
+	if (!m_bUseLongSlice) {
 		while (Nalu.ReadNext()) {
 			switch (Nalu.GetType()) {
 				case NALU_TYPE_SLICE:
@@ -137,19 +137,19 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 				case NALU_TYPE_SLICE:
 				case NALU_TYPE_IDR:
 					// Skip the NALU if the data length is below 0
-					if(Nalu.GetDataLength() < 0) {
+					if (Nalu.GetDataLength() < 0) {
 						break;
 					}
 
 					// For AVC1, put startcode 0x000001
-					pDXVABuffer[0]=pDXVABuffer[1]=0;pDXVABuffer[2]=1;
-					if(Nalu.GetDataLength() < 0)
+					pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1;
+					if (Nalu.GetDataLength() < 0)
 						break;
 
 					// Copy NALU
 					__try {
 						memcpy (pDXVABuffer+3, Nalu.GetDataBuffer(), Nalu.GetDataLength());
-					}__except(EXCEPTION_EXECUTE_HANDLER) { break; }
+					} __except (EXCEPTION_EXECUTE_HANDLER) { break; }
 
 					// Update slice control buffer
 					nDxvaNalLength									= Nalu.GetDataLength()+3;
@@ -200,7 +200,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	if (m_nWaitingPics >= m_nPicEntryNumber) {
 		Flush();
 		m_bFlushed = false;
-		return S_FALSE;		
+		return S_FALSE;
 	}
 
 	if (FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, &nFramePOC, &nOutPOC, &rtOutStart) == -1) {
@@ -212,7 +212,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		switch (Nalu.GetType()) {
 			case NALU_TYPE_SLICE:
 			case NALU_TYPE_IDR:
-				if(m_bUseLongSlice) {
+				if (m_bUseLongSlice) {
 					m_pSliceLong[nSlices].BSNALunitDataLocation	= nNalOffset;
 					m_pSliceLong[nSlices].SliceBytesInBuffer	= Nalu.GetDataLength()+3; //.GetRoundedDataLength();
 					m_pSliceLong[nSlices].slice_id				= nSlices;

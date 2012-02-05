@@ -4160,8 +4160,8 @@ void CMainFrame::OnFileOpenQuick()
 	ShowWindow(SW_SHOW);
 	SetForegroundWindow();
 
-	if(fns.GetCount() == 1) {
-		if(OpenBD(fns.GetHead())) {
+	if (fns.GetCount() == 1) {
+		if (OpenBD(fns.GetHead())) {
 			return;
 		}
 	}
@@ -4193,8 +4193,8 @@ void CMainFrame::OnFileOpenmedia()
 	ShowWindow(SW_SHOW);
 	SetForegroundWindow();
 
-	if(!dlg.m_fMultipleFiles) {
-		if(OpenBD(dlg.m_fns.GetHead())) {
+	if (!dlg.m_fMultipleFiles) {
+		if (OpenBD(dlg.m_fns.GetHead())) {
 			return;
 		}
 	}
@@ -4349,7 +4349,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 			sl.AddTailList(&s.slDubs);
 		}
 
-		if(OpenBD(s.slFiles.GetHead())) {
+		if (OpenBD(s.slFiles.GetHead())) {
 			if (fSetForegroundWindow && !(s.nCLSwitches&CLSW_NOFOCUS)) {
 				SetForegroundWindow();
 			}
@@ -4459,7 +4459,7 @@ void CMainFrame::OnFileOpendvd()
 	if (iil) {
 		SHGetPathFromIDList(iil, path);
 		s.strDVDPath = path;
-		if(!OpenBD(path)) {
+		if (!OpenBD(path)) {
 			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 			p->path = path;
 			p->path.Replace('/', '\\');
@@ -4533,7 +4533,7 @@ void CMainFrame::OnFileOpenCD(UINT nID)
 
 void CMainFrame::OnFileReopen()
 {
-	if(!m_LastOpenBDPath.IsEmpty() && OpenBD(m_LastOpenBDPath)) {
+	if (!m_LastOpenBDPath.IsEmpty() && OpenBD(m_LastOpenBDPath)) {
 		return;
 	}
 	OpenCurPlaylistItem();
@@ -4552,10 +4552,10 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 
 	UINT nFiles = ::DragQueryFile(hDropInfo, (UINT)-1, NULL, 0);
 
-	if(nFiles == 1) {
+	if (nFiles == 1) {
 		CString path;
 		path.ReleaseBuffer(::DragQueryFile(hDropInfo, 0, path.GetBuffer(_MAX_PATH), _MAX_PATH));
-		if(OpenBD(path)) {
+		if (OpenBD(path)) {
 			return;
 		}
 	}
@@ -7143,7 +7143,7 @@ void CMainFrame::OnPlayPlay()
 		CString m_strOSD = _T("");
 		if (GetPlaybackMode() == PM_FILE) {
 			m_strOSD =  m_wndPlaylistBar.GetCurFileName();
-			if(!m_LastOpenBDPath.IsEmpty()) {
+			if (!m_LastOpenBDPath.IsEmpty()) {
 				m_strOSD = ResStr(ID_PLAY_PLAY);
 				int i = m_strOSD.Find(_T("\n"));
 				if (i > 0) {
@@ -8580,9 +8580,9 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		if ((int)nID >= 0 && (nID < m_MPLSPlaylist.GetCount() && m_MPLSPlaylist.GetCount() > 1)) {
 			POSITION pos = m_MPLSPlaylist.GetHeadPosition();
 			int idx = 0;
-			while(pos) {
-				CHdmvClipInfo::PlaylistItem Item = m_MPLSPlaylist.GetNext(pos); 
-				if(idx == nID) {
+			while (pos) {
+				CHdmvClipInfo::PlaylistItem Item = m_MPLSPlaylist.GetNext(pos);
+				if (idx == nID) {
 					m_bIsBDPlay = true;
 					m_wndPlaylistBar.Empty();
 					CAtlList<CString> sl;
@@ -8595,7 +8595,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			}
 		}
 
-		if(m_MPLSPlaylist.GetCount() > 1) {
+		if (m_MPLSPlaylist.GetCount() > 1) {
 			nID -= m_MPLSPlaylist.GetCount();
 		}
 
@@ -8614,8 +8614,8 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			}
 			return;
 		}
-		
-		if(m_pCB->ChapGetCount() > 1) {
+
+		if (m_pCB->ChapGetCount() > 1) {
 			nID -= m_pCB->ChapGetCount();
 		}
 
@@ -9817,9 +9817,9 @@ void CMainFrame::AutoChangeMonitorMode()
 
 	for (int rs = 1; rs < 100 ; rs++) {
 		if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData == true
-			&& s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked == 1
-			&& MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
-			&& MediaFPS <= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_to) {
+				&& s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked == 1
+				&& MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
+				&& MediaFPS <= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_to) {
 
 			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[rs].dmFSRes, mf_hmonitor);
 			return;
@@ -11515,7 +11515,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		return false;
 	}
 
-	// Clear DXVA state ...	
+	// Clear DXVA state ...
 	ClearDXVAState();
 
 #ifdef _DEBUG
@@ -11587,7 +11587,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 				path.RemoveFileSpec();
 				mi_fn = path + _T("\\VTS_01_1.VOB");
 			}
-		} else { 
+		} else {
 			CPath path(mi_fn);
 			CString ext = path.GetExtension();
 			// BD
@@ -11616,14 +11616,14 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			CString strFPS =  MI.Get(Stream_Video, 0, _T("FrameRate"), Info_Text, Info_Name).c_str();
 
 			// 3:2 pulldown ???
-			CString strST = MI.Get(Stream_Video, 0, _T("ScanType"), Info_Text, Info_Name).c_str(); 
-			CString strSO = MI.Get(Stream_Video, 0, _T("ScanOrder"), Info_Text, Info_Name).c_str(); 
+			CString strST = MI.Get(Stream_Video, 0, _T("ScanType"), Info_Text, Info_Name).c_str();
+			CString strSO = MI.Get(Stream_Video, 0, _T("ScanOrder"), Info_Text, Info_Name).c_str();
 
 			if (strFPS == _T("29.970") && (strSO == _T("2:3 Pulldown") || strST == _T("Progressive") && (strSO == _T("TFF") || strSO  == _T("BFF") || strSO  == _T("2:3 Pulldown"))) ) {
 
 				strFPS = _T("23.976");
 			}
-			miFPS = wcstod(strFPS, NULL); 
+			miFPS = wcstod(strFPS, NULL);
 
 			AutoChangeMonitorMode();
 		}
@@ -11917,7 +11917,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
 
-	if(!m_bIsBDPlay) {
+	if (!m_bIsBDPlay) {
 		m_MPLSPlaylist.RemoveAll();
 		m_LastOpenBDPath = _T("");
 	}
@@ -12478,8 +12478,8 @@ void CMainFrame::SetupLanguageMenu()
 	if (!IsMenu(pSub->m_hMenu)) {
 		pSub->CreatePopupMenu();
 	} else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-		;
-	}
+			;
+		}
 	for (int i=1; i<ID_LANGUAGE_LAST-ID_LANGUAGE_ENGLISH; i++) {
 		UINT nID = AfxGetMyApp()->GetLanguageAlph(i);
 		if (nID == 1) {
@@ -12489,15 +12489,15 @@ void CMainFrame::SetupLanguageMenu()
 		if (strSatellite) {
 			HMODULE lib = NULL;
 			if ((lib = LoadLibrary(strSatellite)) != NULL) {
-				FreeLibrary(lib);				
+				FreeLibrary(lib);
 				pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, nID+ID_LANGUAGE_ENGLISH, AfxGetMyApp()->GetLanguageName(nID));
 				iCount++;
 			}
 		}
 	}
 
-	if(!iCount) {
-		pSub->RemoveMenu(0, MF_BYPOSITION);		
+	if (!iCount) {
+		pSub->RemoveMenu(0, MF_BYPOSITION);
 	}
 }
 
@@ -12868,7 +12868,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
 	UINT id = ID_NAVIGATE_CHAP_SUBITEM_START;
 
 	if (GetPlaybackMode() == PM_FILE) {
-		if(m_MPLSPlaylist.GetCount() > 1) {
+		if (m_MPLSPlaylist.GetCount() > 1) {
 			DWORD idx = 1;
 			POSITION pos = m_MPLSPlaylist.GetHeadPosition();
 			while (pos) {
@@ -12887,7 +12887,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
 				CString time = _T("[") + ReftimeToString2(Item.Duration()) + _T("]");
 				CString name = StripPath(Item.m_strFileName);
 
-				if(name == m_wndPlaylistBar.m_pl.GetHead().GetLabel()) {
+				if (name == m_wndPlaylistBar.m_pl.GetHead().GetLabel()) {
 					flags |= MF_CHECKED;
 				}
 
@@ -12900,7 +12900,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
 		REFERENCE_TIME rt = GetPos();
 		DWORD j = m_pCB->ChapLookup(&rt, NULL);
 
-		if(m_pCB->ChapGetCount() > 1) {
+		if (m_pCB->ChapGetCount() > 1) {
 			for (DWORD i = 0, idx = 0; i < m_pCB->ChapGetCount(); i++, id++, idx++) {
 				rt = 0;
 				CComBSTR bstr;
@@ -12926,14 +12926,14 @@ void CMainFrame::SetupNavChaptersSubMenu()
 
 				if (id != ID_NAVIGATE_CHAP_SUBITEM_START && i == 0) {
 					//pSub->AppendMenu(MF_SEPARATOR);
-					if(m_MPLSPlaylist.GetCount() > 1) {
+					if (m_MPLSPlaylist.GetCount() > 1) {
 						flags |= MF_MENUBARBREAK;
 					}
 				}
 				pSub->AppendMenu(flags, id, name + '\t' + time);
 			}
 		}
-		
+
 		if (m_wndPlaylistBar.GetCount() > 1) {
 			POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition();
 			while (pos) {
@@ -12950,7 +12950,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
 				pSub->AppendMenu(flags, id++, name);
 			}
 		}
-		
+
 	} else if (GetPlaybackMode() == PM_DVD) {
 		ULONG ulNumOfVolumes, ulVolume;
 		DVD_DISC_SIDE Side;
@@ -15858,13 +15858,13 @@ bool CMainFrame::OpenBD(CString Path)
 	CString ext = CPath(Path).GetExtension();
 	ext.MakeLower();
 
-	if((CPath(Path).IsDirectory() && Path.Find(_T("\\BDMV"))) || CPath(Path + _T("\\BDMV")).IsDirectory() || (!ext.IsEmpty() && ext == _T(".bdmv"))){
-		if(!ext.IsEmpty() && ext == _T(".bdmv")) {
+	if ((CPath(Path).IsDirectory() && Path.Find(_T("\\BDMV"))) || CPath(Path + _T("\\BDMV")).IsDirectory() || (!ext.IsEmpty() && ext == _T(".bdmv"))) {
+		if (!ext.IsEmpty() && ext == _T(".bdmv")) {
 			Path.Replace(_T("\\BDMV\\"), _T("\\"));
 			CPath _Path(Path);
 			_Path.RemoveFileSpec();
 			Path = CString(_Path);
-		} else if(Path.Find(_T("\\BDMV"))) {
+		} else if (Path.Find(_T("\\BDMV"))) {
 			Path.Replace(_T("\\BDMV"), _T("\\"));
 		}
 		if (SUCCEEDED (ClipInfo.FindMainMovie (Path, strPlaylistFile, MainPlaylist, m_MPLSPlaylist))) {

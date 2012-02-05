@@ -49,7 +49,8 @@ class CNullVideoRendererInputPin : public CRendererInputPin,
 public :
 	CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name);
 	~CNullVideoRendererInputPin() {
-		if (m_hDXVA2Lib) FreeLibrary(m_hDXVA2Lib);}
+		if (m_hDXVA2Lib) FreeLibrary(m_hDXVA2Lib);
+	}
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -165,7 +166,7 @@ void CNullVideoRendererInputPin::CreateSurface()
 {
 	HRESULT		hr;
 	m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-	if(!m_pD3D) {
+	if (!m_pD3D) {
 		m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
 	}
 

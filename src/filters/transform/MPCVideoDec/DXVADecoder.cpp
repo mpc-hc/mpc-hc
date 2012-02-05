@@ -563,14 +563,14 @@ int CDXVADecoder::FindOldestFrame()
 
 void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* pMS)
 {
-	if(CComQIPtr<IMediaSample2> pMS2 = pMS) {
+	if (CComQIPtr<IMediaSample2> pMS2 = pMS) {
 		AM_SAMPLE2_PROPERTIES props;
-		if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))) {
+		if (SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))) {
 			props.dwTypeSpecificFlags &= ~0x7f;
 
-			if(pPicture->n1FieldType == PICT_FRAME) {
+			if (pPicture->n1FieldType == PICT_FRAME) {
 				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
-			} else if(pPicture->n1FieldType == PICT_TOP_FIELD) {
+			} else if (pPicture->n1FieldType == PICT_TOP_FIELD) {
 				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
 			}
 

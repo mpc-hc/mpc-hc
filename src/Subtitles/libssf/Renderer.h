@@ -44,7 +44,7 @@ namespace ssf
 
 		void RemoveAll() {
 			POSITION pos = m_key2obj.GetStartPosition();
-			while(pos) {
+			while (pos) {
 				delete m_key2obj.GetNextValue(pos);
 			}
 			m_key2obj.RemoveAll();
@@ -52,7 +52,7 @@ namespace ssf
 		}
 
 		void Add(const CStringW& key, T& obj, bool fFlush = true) {
-			if(StringMapW<T>::CPair* p = m_key2obj.Lookup(key)) {
+			if (StringMapW<T>::CPair* p = m_key2obj.Lookup(key)) {
 				delete p->m_value;
 			} else {
 				m_objs.AddTail(key);
@@ -60,13 +60,13 @@ namespace ssf
 
 			m_key2obj[key] = obj;
 
-			if(fFlush) {
+			if (fFlush) {
 				Flush();
 			}
 		}
 
 		void Flush() {
-			while(m_objs.GetCount() > m_limit) {
+			while (m_objs.GetCount() > m_limit) {
 				CStringW key = m_objs.RemoveHead();
 				ASSERT(m_key2obj.Lookup(key));
 				delete m_key2obj[key];
@@ -80,7 +80,7 @@ namespace ssf
 
 		void Invalidate(const CStringW& key) {
 			T val;
-			if(m_key2obj.Lookup(key, val)) {
+			if (m_key2obj.Lookup(key, val)) {
 				delete val;
 				m_key2obj[key] = NULL;
 			}

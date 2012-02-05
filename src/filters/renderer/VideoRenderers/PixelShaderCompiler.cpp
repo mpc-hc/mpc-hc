@@ -35,15 +35,15 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
 	HINSTANCE		hDll;
 	hDll = GetRenderersData()->GetD3X9Dll();
 
-	if(hDll) {
+	if (hDll) {
 		m_pD3DXCompileShader = (D3DXCompileShaderPtr)GetProcAddress(hDll, "D3DXCompileShader");
 		m_pD3DXDisassembleShader = (D3DXDisassembleShaderPtr)GetProcAddress(hDll, "D3DXDisassembleShader");
 	}
 
-	if(!fStaySilent) {
-		if(!hDll) {
+	if (!fStaySilent) {
+		if (!hDll) {
 			AfxMessageBox(ResStr(IDS_PIXELSHADERCOMPILER_0), MB_OK);
-		} else if(!m_pD3DXCompileShader || !m_pD3DXDisassembleShader) {
+		} else if (!m_pD3DXCompileShader || !m_pD3DXDisassembleShader) {
 			AfxMessageBox(ResStr(IDS_PIXELSHADERCOMPILER_1), MB_OK);
 		}
 	}
@@ -62,7 +62,7 @@ HRESULT CPixelShaderCompiler::CompileShader(
 	CString* disasm,
 	CString* errmsg)
 {
-	if(!m_pD3DXCompileShader || !m_pD3DXDisassembleShader) {
+	if (!m_pD3DXCompileShader || !m_pD3DXDisassembleShader) {
 		return E_FAIL;
 	}
 
@@ -71,11 +71,11 @@ HRESULT CPixelShaderCompiler::CompileShader(
 	CComPtr<ID3DXBuffer> pShader, pDisAsm, pErrorMsgs;
 	hr = m_pD3DXCompileShader(pSrcData, strlen(pSrcData), NULL, NULL, pFunctionName, pProfile, Flags, &pShader, &pErrorMsgs, NULL);
 
-	if(FAILED(hr)) {
-		if(errmsg) {
+	if (FAILED(hr)) {
+		if (errmsg) {
 			CStringA msg = "Unexpected compiler error";
 
-			if(pErrorMsgs) {
+			if (pErrorMsgs) {
 				int len = pErrorMsgs->GetBufferSize();
 				memcpy(msg.GetBufferSetLength(len), pErrorMsgs->GetBufferPointer(), len);
 			}
@@ -86,19 +86,19 @@ HRESULT CPixelShaderCompiler::CompileShader(
 		return hr;
 	}
 
-	if(ppPixelShader) {
-		if(!m_pD3DDev) {
+	if (ppPixelShader) {
+		if (!m_pD3DDev) {
 			return E_FAIL;
 		}
 		hr = m_pD3DDev->CreatePixelShader((DWORD*)pShader->GetBufferPointer(), ppPixelShader);
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			return hr;
 		}
 	}
 
-	if(disasm) {
+	if (disasm) {
 		hr = m_pD3DXDisassembleShader((DWORD*)pShader->GetBufferPointer(), FALSE, NULL, &pDisAsm);
-		if(SUCCEEDED(hr) && pDisAsm) {
+		if (SUCCEEDED(hr) && pDisAsm) {
 			*disasm = CStringA((const char*)pDisAsm->GetBufferPointer());
 		}
 	}

@@ -49,7 +49,7 @@ int g_cTemplates = countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
-	if(GetVersion()&0x80000000) {
+	if (GetVersion()&0x80000000) {
 		::MessageBox(NULL, _T("Sorry, this will only run on Windows NT based operating system."), _T("CDDA Reader"), MB_OK);
 		return E_NOTIMPL;
 	}
@@ -90,12 +90,12 @@ CFilterApp theApp;
 CCDDAReader::CCDDAReader(IUnknown* pUnk, HRESULT* phr)
 	: CAsyncReader(NAME("CCDDAReader"), pUnk, &m_stream, phr, __uuidof(this))
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 
-	if(GetVersion()&0x80000000) {
-		if(phr) {
+	if (GetVersion()&0x80000000) {
+		if (phr) {
 			*phr = E_NOTIMPL;
 		}
 		return;
@@ -120,7 +120,7 @@ STDMETHODIMP CCDDAReader::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
 STDMETHODIMP CCDDAReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 {
-	if(!m_stream.Load(pszFileName)) {
+	if (!m_stream.Load(pszFileName)) {
 		return E_FAIL;
 	}
 
@@ -139,7 +139,7 @@ STDMETHODIMP CCDDAReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 	CheckPointer(ppszFileName, E_POINTER);
 
 	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
-	if(!(*ppszFileName)) {
+	if (!(*ppszFileName)) {
 		return E_OUTOFMEMORY;
 	}
 
@@ -174,7 +174,7 @@ STDMETHODIMP CCDDAReader::get_AuthorName(BSTR* pbstrAuthorName)
 {
 	CheckPointer(pbstrAuthorName, E_POINTER);
 	CString str = m_stream.m_trackArtist;
-	if(str.IsEmpty()) {
+	if (str.IsEmpty()) {
 		str = m_stream.m_discArtist;
 	}
 	*pbstrAuthorName = str.AllocSysString();
@@ -185,7 +185,7 @@ STDMETHODIMP CCDDAReader::get_Title(BSTR* pbstrTitle)
 {
 	CheckPointer(pbstrTitle, E_POINTER);
 	CString str = m_stream.m_trackTitle;
-	if(str.IsEmpty()) {
+	if (str.IsEmpty()) {
 		str = m_stream.m_discTitle;
 	}
 	*pbstrTitle = str.AllocSysString();
@@ -274,7 +274,7 @@ CCDDAStream::CCDDAStream()
 
 CCDDAStream::~CCDDAStream()
 {
-	if(m_hDrive != INVALID_HANDLE_VALUE) {
+	if (m_hDrive != INVALID_HANDLE_VALUE) {
 		CloseHandle(m_hDrive);
 		m_hDrive = INVALID_HANDLE_VALUE;
 	}
@@ -286,31 +286,31 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 
 	int iDriveLetter = path.Find(_T(":\\"))-1;
 	int iTrackIndex = CString(path).MakeLower().Find(_T(".cda"))-1;
-	if(iDriveLetter < 0 || iTrackIndex <= iDriveLetter) {
+	if (iDriveLetter < 0 || iTrackIndex <= iDriveLetter) {
 		return false;
 	}
 
 	CString drive = CString(_T("\\\\.\\")) + path[iDriveLetter] + _T(":");
-	while(iTrackIndex > 0 && _istdigit(path[iTrackIndex-1])) {
+	while (iTrackIndex > 0 && _istdigit(path[iTrackIndex-1])) {
 		iTrackIndex--;
 	}
-	if(1 != _stscanf(path.Mid(iTrackIndex), _T("%d"), &iTrackIndex)) {
+	if (1 != _stscanf(path.Mid(iTrackIndex), _T("%d"), &iTrackIndex)) {
 		return false;
 	}
 
-	if(m_hDrive != INVALID_HANDLE_VALUE) {
+	if (m_hDrive != INVALID_HANDLE_VALUE) {
 		CloseHandle(m_hDrive);
 		m_hDrive = INVALID_HANDLE_VALUE;
 	}
 
 	m_hDrive = CreateFile(drive, GENERIC_READ, FILE_SHARE_READ, NULL,
 						  OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)NULL);
-	if(m_hDrive == INVALID_HANDLE_VALUE) {
+	if (m_hDrive == INVALID_HANDLE_VALUE) {
 		return false;
 	}
 
 	DWORD BytesReturned;
-	if(!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC, NULL, 0, &m_TOC, sizeof(m_TOC), &BytesReturned, 0)
+	if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC, NULL, 0, &m_TOC, sizeof(m_TOC), &BytesReturned, 0)
 			|| !(m_TOC.FirstTrack <= iTrackIndex && iTrackIndex <= m_TOC.LastTrack)) {
 		CloseHandle(m_hDrive);
 		m_hDrive = INVALID_HANDLE_VALUE;
@@ -319,13 +319,13 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 
 	// MMC-3 Draft Revision 10g: Table 222 – Q Sub-channel control field
 	m_TOC.TrackData[iTrackIndex-1].Control &= 5;
-	if(!(m_TOC.TrackData[iTrackIndex-1].Control == 0 || m_TOC.TrackData[iTrackIndex-1].Control == 1)) {
+	if (!(m_TOC.TrackData[iTrackIndex-1].Control == 0 || m_TOC.TrackData[iTrackIndex-1].Control == 1)) {
 		CloseHandle(m_hDrive);
 		m_hDrive = INVALID_HANDLE_VALUE;
 		return false;
 	}
 
-	if(m_TOC.TrackData[iTrackIndex-1].Control&8) {
+	if (m_TOC.TrackData[iTrackIndex-1].Control&8) {
 		m_header.frm.pcm.wf.nChannels = 4;
 	}
 
@@ -344,7 +344,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 		TOCEx.SessionTrack = iTrackIndex;
 		WORD size = 0;
 		ASSERT(MINIMUM_CDROM_READ_TOC_EX_SIZE == sizeof(size));
-		if(!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), &size, sizeof(size), &BytesReturned, 0)) {
+		if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), &size, sizeof(size), &BytesReturned, 0)) {
 			break;
 		}
 
@@ -354,7 +354,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 		pCDTextData.Allocate(size);
 		memset(pCDTextData, 0, size);
 
-		if(!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), pCDTextData, size, &BytesReturned, 0)) {
+		if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), pCDTextData, size, &BytesReturned, 0)) {
 			break;
 		}
 
@@ -362,13 +362,13 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 		CDROM_TOC_CD_TEXT_DATA_BLOCK* pDesc = ((CDROM_TOC_CD_TEXT_DATA*)(BYTE*)pCDTextData)->Descriptors;
 
 		CStringArray str[16];
-		for(int i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; i++) {
 			str[i].SetSize(1+m_TOC.LastTrack);
 		}
 		CString last;
 
-		for(int i = 0; size >= sizeof(CDROM_TOC_CD_TEXT_DATA_BLOCK); i++, size -= sizeof(CDROM_TOC_CD_TEXT_DATA_BLOCK), pDesc++) {
-			if(pDesc->TrackNumber > m_TOC.LastTrack) {
+		for (int i = 0; size >= sizeof(CDROM_TOC_CD_TEXT_DATA_BLOCK); i++, size -= sizeof(CDROM_TOC_CD_TEXT_DATA_BLOCK), pDesc++) {
+			if (pDesc->TrackNumber > m_TOC.LastTrack) {
 				continue;
 			}
 
@@ -386,14 +386,14 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 							 : CString(CStringW((WCHAR*)pDesc->WText+tlen+1, lenW-(tlen+1))))
 							  : _T("");
 
-			if((pDesc->PackType -= 0x80) >= 0x10) {
+			if ((pDesc->PackType -= 0x80) >= 0x10) {
 				continue;
 			}
 
-			if(pDesc->CharacterPosition == 0) {
+			if (pDesc->CharacterPosition == 0) {
 				str[pDesc->PackType][pDesc->TrackNumber] = text;
-			} else if(pDesc->CharacterPosition <= 0xf) {
-				if(pDesc->CharacterPosition < 0xf && last.GetLength() > 0) {
+			} else if (pDesc->CharacterPosition <= 0xf) {
+				if (pDesc->CharacterPosition < 0xf && last.GetLength() > 0) {
 					str[pDesc->PackType][pDesc->TrackNumber] = last + text;
 				} else {
 					str[pDesc->PackType][pDesc->TrackNumber] += text;
@@ -407,7 +407,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 		m_trackTitle = str[0][iTrackIndex];
 		m_discArtist = str[1][0];
 		m_trackArtist = str[1][iTrackIndex];
-	} while(0);
+	} while (0);
 
 
 	return true;
@@ -415,7 +415,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 
 HRESULT CCDDAStream::SetPointer(LONGLONG llPos)
 {
-	if(llPos < 0 || llPos > m_llLength) {
+	if (llPos < 0 || llPos > m_llLength) {
 		return S_FALSE;
 	}
 	m_llPosition = llPos;
@@ -432,7 +432,7 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 	LONGLONG pos = m_llPosition;
 	size_t len = (size_t)dwBytesToRead;
 
-	if(pos < sizeof(m_header) && len > 0) {
+	if (pos < sizeof(m_header) && len > 0) {
 		size_t l = (size_t)min(len, sizeof(m_header) - pos);
 		memcpy(pbBuffer, &((BYTE*)&m_header)[pos], l);
 		pbBuffer += l;
@@ -442,7 +442,7 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 
 	pos -= sizeof(m_header);
 
-	while(pos >= 0 && pos < m_llLength && len > 0) {
+	while (pos >= 0 && pos < m_llLength && len > 0) {
 		RAW_READ_INFO rawreadinfo;
 		rawreadinfo.SectorCount = 1;
 		rawreadinfo.TrackMode = CDDA;
@@ -467,7 +467,7 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 		len -= l;
 	}
 
-	if(pdwBytesRead) {
+	if (pdwBytesRead) {
 		*pdwBytesRead = pbBuffer - pbBufferOrg;
 	}
 	m_llPosition += pbBuffer - pbBufferOrg;
@@ -478,7 +478,7 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 LONGLONG CCDDAStream::Size(LONGLONG* pSizeAvailable)
 {
 	LONGLONG size = sizeof(m_header) + m_llLength;
-	if(pSizeAvailable) {
+	if (pSizeAvailable) {
 		*pSizeAvailable = size;
 	}
 	return size;

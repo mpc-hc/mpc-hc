@@ -69,36 +69,36 @@ namespace Plugin
 		}
 
 		bool Render(SubPicDesc& dst, REFERENCE_TIME rt, float fps) {
-			if(!m_pSubPicProvider) {
+			if (!m_pSubPicProvider) {
 				return false;
 			}
 
 			CSize size(dst.w, dst.h);
 
-			if(!m_pSubPicQueue) {
+			if (!m_pSubPicQueue) {
 				CComPtr<ISubPicAllocator> pAllocator = new CMemSubPicAllocator(dst.type, size);
 
 				HRESULT hr;
-				if(!(m_pSubPicQueue = new CSubPicQueueNoThread(pAllocator, &hr)) || FAILED(hr)) {
+				if (!(m_pSubPicQueue = new CSubPicQueueNoThread(pAllocator, &hr)) || FAILED(hr)) {
 					m_pSubPicQueue = NULL;
 					return false;
 				}
 			}
 
-			if(m_SubPicProviderId != (DWORD_PTR)(ISubPicProvider*)m_pSubPicProvider) {
+			if (m_SubPicProviderId != (DWORD_PTR)(ISubPicProvider*)m_pSubPicProvider) {
 				m_pSubPicQueue->SetSubPicProvider(m_pSubPicProvider);
 				m_SubPicProviderId = (DWORD_PTR)(ISubPicProvider*)m_pSubPicProvider;
 			}
 
 			CComPtr<ISubPic> pSubPic;
-			if(!m_pSubPicQueue->LookupSubPic(rt, pSubPic)) {
+			if (!m_pSubPicQueue->LookupSubPic(rt, pSubPic)) {
 				return false;
 			}
 
 			CRect r;
 			pSubPic->GetDirtyRect(r);
 
-			if(dst.type == MSP_RGB32 || dst.type == MSP_RGB24 || dst.type == MSP_RGB16 || dst.type == MSP_RGB15) {
+			if (dst.type == MSP_RGB32 || dst.type == MSP_RGB24 || dst.type == MSP_RGB16 || dst.type == MSP_RGB15) {
 				dst.h = -dst.h;
 			}
 
@@ -118,35 +118,35 @@ namespace Plugin
 			fs.m_mtime = 0;
 			CFileGetStatus(fn, fs);
 
-			while(1) {
+			while (1) {
 				DWORD i = WaitForMultipleObjects(handles.GetCount(), handles.GetData(), FALSE, 1000);
 
-				if(WAIT_OBJECT_0 == i) {
+				if (WAIT_OBJECT_0 == i) {
 					Reply(S_OK);
 					break;
-				} else if(WAIT_OBJECT_0 + 1 >= i && i <= WAIT_OBJECT_0 + handles.GetCount()) {
-					if(FindNextChangeNotification(handles[i - WAIT_OBJECT_0])) {
+				} else if (WAIT_OBJECT_0 + 1 >= i && i <= WAIT_OBJECT_0 + handles.GetCount()) {
+					if (FindNextChangeNotification(handles[i - WAIT_OBJECT_0])) {
 						CFileStatus fs2;
 						fs2.m_mtime = 0;
 						CFileGetStatus(fn, fs2);
 
-						if(fs.m_mtime < fs2.m_mtime) {
+						if (fs.m_mtime < fs2.m_mtime) {
 							fs.m_mtime = fs2.m_mtime;
 
-							if(CComQIPtr<ISubStream> pSubStream = m_pSubPicProvider) {
+							if (CComQIPtr<ISubStream> pSubStream = m_pSubPicProvider) {
 								CAutoLock cAutoLock(&m_csSubLock);
 								pSubStream->Reload();
 							}
 						}
 					}
-				} else if(WAIT_TIMEOUT == i) {
+				} else if (WAIT_TIMEOUT == i) {
 					CString fn2 = GetFileName();
 
-					if(fn != fn2) {
+					if (fn != fn2) {
 						CPath p(fn2);
 						p.RemoveFileSpec();
 						HANDLE h = FindFirstChangeNotification(p, FALSE, FILE_NOTIFY_CHANGE_LAST_WRITE);
-						if(h != INVALID_HANDLE_VALUE) {
+						if (h != INVALID_HANDLE_VALUE) {
 							fn = fn2;
 							handles.SetCount(1);
 							handles.Add(h);
@@ -159,7 +159,7 @@ namespace Plugin
 
 			m_hThread = 0;
 
-			for(size_t i = 1; i < handles.GetCount(); i++) {
+			for (size_t i = 1; i < handles.GetCount(); i++) {
 				FindCloseChangeNotification(handles[i]);
 			}
 
@@ -171,7 +171,7 @@ namespace Plugin
 	{
 	public:
 		CVobSubFilter(CString fn = _T("")) {
-			if(!fn.IsEmpty()) {
+			if (!fn.IsEmpty()) {
 				Open(fn);
 			}
 		}
@@ -180,9 +180,9 @@ namespace Plugin
 			SetFileName(_T(""));
 			m_pSubPicProvider = NULL;
 
-			if(CVobSubFile* vsf = new CVobSubFile(&m_csSubLock)) {
+			if (CVobSubFile* vsf = new CVobSubFile(&m_csSubLock)) {
 				m_pSubPicProvider = (ISubPicProvider*)vsf;
-				if(vsf->Open(CString(fn))) {
+				if (vsf->Open(CString(fn))) {
 					SetFileName(fn);
 				} else {
 					m_pSubPicProvider = NULL;
@@ -201,7 +201,7 @@ namespace Plugin
 		CTextSubFilter(CString fn = _T(""), int CharSet = DEFAULT_CHARSET, float fps = -1)
 			: m_CharSet(CharSet) {
 			m_fps = fps;
-			if(!fn.IsEmpty()) {
+			if (!fn.IsEmpty()) {
 				Open(fn, CharSet);
 			}
 		}
@@ -214,10 +214,10 @@ namespace Plugin
 			SetFileName(_T(""));
 			m_pSubPicProvider = NULL;
 
-			if(!m_pSubPicProvider) {
-				if(ssf::CRenderer* ssf = new ssf::CRenderer(&m_csSubLock)) {
+			if (!m_pSubPicProvider) {
+				if (ssf::CRenderer* ssf = new ssf::CRenderer(&m_csSubLock)) {
 					m_pSubPicProvider = (ISubPicProvider*)ssf;
-					if(ssf->Open(CString(fn))) {
+					if (ssf->Open(CString(fn))) {
 						SetFileName(fn);
 					} else {
 						m_pSubPicProvider = NULL;
@@ -225,10 +225,10 @@ namespace Plugin
 				}
 			}
 
-			if(!m_pSubPicProvider) {
-				if(CRenderedTextSubtitle* rts = new CRenderedTextSubtitle(&m_csSubLock)) {
+			if (!m_pSubPicProvider) {
+				if (CRenderedTextSubtitle* rts = new CRenderedTextSubtitle(&m_csSubLock)) {
 					m_pSubPicProvider = (ISubPicProvider*)rts;
-					if(rts->Open(CString(fn), CharSet)) {
+					if (rts->Open(CString(fn), CharSet)) {
 						SetFileName(fn);
 					} else {
 						m_pSubPicProvider = NULL;
@@ -296,7 +296,7 @@ namespace Plugin
 				CFileDialog fd(TRUE, NULL, GetFileName(), OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY,
 							   _T("VobSub files (*.idx;*.sub)|*.idx;*.sub||"), CWnd::FromHandle(hwnd), 0);
 
-				if(fd.DoModal() != IDOK) {
+				if (fd.DoModal() != IDOK) {
 					return 1;
 				}
 
@@ -335,7 +335,7 @@ namespace Plugin
 				fd.m_pOFN->lpfnHook = (LPOFNHOOKPROC)OpenHookProc;
 				fd.m_pOFN->lCustData = (LPARAM)DEFAULT_CHARSET;
 
-				if(fd.DoModal() != IDOK) {
+				if (fd.DoModal() != IDOK) {
 					return 1;
 				}
 
@@ -343,7 +343,7 @@ namespace Plugin
 			}
 
 			void StringProc(const FilterActivation* fa, const FilterFunctions* ff, char* str) {
-				if(!GetFileName().IsEmpty()) {
+				if (!GetFileName().IsEmpty()) {
 					sprintf(str, " (%s, %d)", CStringA(GetFileName()), GetCharSet());
 				} else {
 					sprintf(str, " (empty)");
@@ -373,7 +373,7 @@ namespace Plugin
 		void baseDeinitProc(FilterActivation* fa, const FilterFunctions* ff)
 		{
 			CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-			if(f) {
+			if (f) {
 				delete f, f = NULL;
 			}
 		}
@@ -399,7 +399,7 @@ namespace Plugin
 		void baseStringProc(const FilterActivation* fa, const FilterFunctions* ff, char* str)
 		{
 			CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-			if(f) {
+			if (f) {
 				f->StringProc(fa, ff, str);
 			}
 		}
@@ -414,7 +414,7 @@ namespace Plugin
 		{
 			FilterActivation* fa = (FilterActivation*)lpVoid;
 			CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-			if(f) {
+			if (f) {
 				delete f;
 			}
 			f = new CVobSubVirtualDubFilter(CString(*argv[0].asString()));
@@ -425,7 +425,7 @@ namespace Plugin
 		{
 			FilterActivation* fa = (FilterActivation*)lpVoid;
 			CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-			if(f) {
+			if (f) {
 				delete f;
 			}
 			f = new CTextSubVirtualDubFilter(CString(*argv[0].asString()), argv[1].asInt());
@@ -498,11 +498,11 @@ namespace Plugin
 		extern "C" __declspec(dllexport) int __cdecl VirtualdubFilterModuleInit2(FilterModule *fm, const FilterFunctions *ff, int& vdfd_ver, int& vdfd_compat)
 		{
 			fd_vobsub = ff->addFilter(fm, &filterDef_vobsub, sizeof(FilterDefinition));
-			if(!fd_vobsub) {
+			if (!fd_vobsub) {
 				return 1;
 			}
 			fd_textsub = ff->addFilter(fm, &filterDef_textsub, sizeof(FilterDefinition));
-			if(!fd_textsub) {
+			if (!fd_textsub) {
 				return 1;
 			}
 
@@ -573,7 +573,7 @@ namespace Plugin
 				CFileDialog fd(TRUE, NULL, GetFileName(), OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY,
 							   _T("VobSub files (*.idx;*.sub)|*.idx;*.sub||"), CWnd::FromHandle((HWND)hwnd), 0);
 
-				if(fd.DoModal() != IDOK) {
+				if (fd.DoModal() != IDOK) {
 					return 1;
 				}
 
@@ -618,7 +618,7 @@ namespace Plugin
 				CFileDialog fd(TRUE, NULL, GetFileName(), OFN_ENABLESIZING|OFN_HIDEREADONLY,
 							   formats, CWnd::FromHandle((HWND)hwnd), sizeof(OPENFILENAME));
 #endif
-				if(fd.DoModal() != IDOK) {
+				if (fd.DoModal() != IDOK) {
 					return 1;
 				}
 
@@ -626,7 +626,7 @@ namespace Plugin
 			}
 
 			void StringProc(const VDXFilterActivation* fa, const VDXFilterFunctions* ff, char* str) {
-				if(!GetFileName().IsEmpty()) {
+				if (!GetFileName().IsEmpty()) {
 					sprintf(str, " (%s, %d)", CStringA(GetFileName()), GetCharSet());
 				} else {
 					sprintf(str, " (empty)");
@@ -654,7 +654,7 @@ namespace Plugin
 		void baseDeinitProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff)
 		{
 			CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-			if(f) {
+			if (f) {
 				delete f, f = NULL;
 			}
 		}
@@ -680,7 +680,7 @@ namespace Plugin
 		void baseStringProc(const VDXFilterActivation* fa, const VDXFilterFunctions* ff, char* str)
 		{
 			CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-			if(f) {
+			if (f) {
 				f->StringProc(fa, ff, str);
 			}
 		}
@@ -695,7 +695,7 @@ namespace Plugin
 		{
 			VDXFilterActivation* fa = (VDXFilterActivation*)lpVoid;
 			CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-			if(f) {
+			if (f) {
 				delete f;
 			}
 			f = new CVobSubVirtualDubFilter(CString(*argv[0].asString()));
@@ -706,7 +706,7 @@ namespace Plugin
 		{
 			VDXFilterActivation* fa = (VDXFilterActivation*)lpVoid;
 			CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-			if(f) {
+			if (f) {
 				delete f;
 			}
 			f = new CTextSubVirtualDubFilter(CString(*argv[0].asString()), argv[1].asInt());
@@ -778,7 +778,7 @@ namespace Plugin
 
 		extern "C" __declspec(dllexport) int __cdecl VirtualdubFilterModuleInit2(VDXFilterModule *fm, const VDXFilterFunctions *ff, int& vdfd_ver, int& vdfd_compat)
 		{
-			if(!(fd_vobsub = ff->addFilter(fm, &filterDef_vobsub, sizeof(VDXFilterDefinition)))
+			if (!(fd_vobsub = ff->addFilter(fm, &filterDef_vobsub, sizeof(VDXFilterDefinition)))
 					|| !(fd_textsub = ff->addFilter(fm, &filterDef_textsub, sizeof(VDXFilterDefinition)))) {
 				return 1;
 			}
@@ -840,7 +840,7 @@ namespace Plugin
 			CVobSubAvisynthFilter(PClip c, const char* fn, IScriptEnvironment* env)
 				: CVobSubFilter(CString(fn))
 				, CAvisynthFilter(c, env) {
-				if(!m_pSubPicProvider) {
+				if (!m_pSubPicProvider) {
 					env->ThrowError("VobSub: Can't open \"%s\"", fn);
 				}
 			}
@@ -857,7 +857,7 @@ namespace Plugin
 			CTextSubAvisynthFilter(PClip c, IScriptEnvironment* env, const char* fn, int CharSet = DEFAULT_CHARSET, float fps = -1)
 				: CTextSubFilter(CString(fn), CharSet, fps)
 				, CAvisynthFilter(c, env) {
-				if(!m_pSubPicProvider)
+				if (!m_pSubPicProvider)
 #ifdef _VSMOD
 					env->ThrowError("TextSubMod: Can't open \"%s\"", fn);
 #else
@@ -980,7 +980,7 @@ namespace Plugin
 			CVobSubAvisynthFilter(PClip c, const char* fn, IScriptEnvironment* env)
 				: CVobSubFilter(CString(fn))
 				, CAvisynthFilter(c, env) {
-				if(!m_pSubPicProvider) {
+				if (!m_pSubPicProvider) {
 					env->ThrowError("VobSub: Can't open \"%s\"", fn);
 				}
 			}
@@ -997,7 +997,7 @@ namespace Plugin
 			CTextSubAvisynthFilter(PClip c, IScriptEnvironment* env, const char* fn, int CharSet = DEFAULT_CHARSET, float fps = -1, VFRTranslator *vfr = 0) //vfr patch
 				: CTextSubFilter(CString(fn), CharSet, fps)
 				, CAvisynthFilter(c, env, vfr) {
-				if(!m_pSubPicProvider)
+				if (!m_pSubPicProvider)
 #ifdef _VSMOD
 					env->ThrowError("TextSubMod: Can't open \"%s\"", fn);
 #else
@@ -1103,11 +1103,11 @@ namespace Plugin
 
 UINT_PTR CALLBACK OpenHookProc(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uiMsg) {
+	switch (uiMsg) {
 		case WM_NOTIFY: {
 			OPENFILENAME* ofn = ((OFNOTIFY *)lParam)->lpOFN;
 
-			if(((NMHDR *)lParam)->code == CDN_FILEOK) {
+			if (((NMHDR *)lParam)->code == CDN_FILEOK) {
 				ofn->lCustData = (LPARAM)CharSetList[SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0)];
 			}
 
@@ -1121,11 +1121,11 @@ UINT_PTR CALLBACK OpenHookProc(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM lPar
 			SetWindowLongPtr(hDlg, GWL_USERDATA, lParam);
 #endif
 
-			for(ptrdiff_t i = 0; i < CharSetLen; i++) {
+			for (ptrdiff_t i = 0; i < CharSetLen; i++) {
 				CString s;
 				s.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
 				SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LONG)(LPCTSTR)s);
-				if(CharSetList[i] == (int)((OPENFILENAME*)lParam)->lCustData) {
+				if (CharSetList[i] == (int)((OPENFILENAME*)lParam)->lCustData) {
 					SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, i, 0);
 				}
 			}

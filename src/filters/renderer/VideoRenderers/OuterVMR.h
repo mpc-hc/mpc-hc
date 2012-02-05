@@ -53,22 +53,22 @@ namespace DSObjects
 			HRESULT hr;
 
 			// Casimir666 : in renderless mode, do the inlaying in place of VMR
-			if(riid == __uuidof(IVMRMixerBitmap9)) {
+			if (riid == __uuidof(IVMRMixerBitmap9)) {
 				return GetInterface((IVMRMixerBitmap9*)this, ppv);
 			}
 
 			hr = m_pVMR ? m_pVMR->QueryInterface(riid, ppv) : E_NOINTERFACE;
-			if(m_pVMR && FAILED(hr)) {
-				if(riid == __uuidof(IVideoWindow)) {
+			if (m_pVMR && FAILED(hr)) {
+				if (riid == __uuidof(IVideoWindow)) {
 					return GetInterface((IVideoWindow*)this, ppv);
 				}
-				if(riid == __uuidof(IBasicVideo)) {
+				if (riid == __uuidof(IBasicVideo)) {
 					return GetInterface((IBasicVideo*)this, ppv);
 				}
-				if(riid == __uuidof(IBasicVideo2)) {
+				if (riid == __uuidof(IBasicVideo2)) {
 					return GetInterface((IBasicVideo2*)this, ppv);
 				}
-				if(riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
+				if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
 					return GetInterface((IVMRffdshow9*)this, ppv);
 				}
 				/*			if(riid == __uuidof(IVMRWindowlessControl))

@@ -1108,8 +1108,8 @@ BOOL CMPlayerCApp::InitInstance()
 			CString str = mf[i].GetExtsWithPeriod();
 			for (CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j)) {
 				if (((m_s.nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
-					((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
-					((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
+						((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
+						((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
 					CPPageFormats::RegisterExt(ext, mf[i].GetDescription(), true);
 				}
 			}
@@ -1156,7 +1156,7 @@ BOOL CMPlayerCApp::InitInstance()
 	m_mutexOneInstance.Create(NULL, TRUE, MPC_WND_CLASS_NAME);
 
 	if ( GetLastError() == ERROR_ALREADY_EXISTS &&
-		 (!(m_s.GetAllowMultiInst() || m_s.nCLSwitches&CLSW_NEW || m_cmdln.IsEmpty()) || m_s.nCLSwitches&CLSW_ADD) ) {
+			(!(m_s.GetAllowMultiInst() || m_s.nCLSwitches&CLSW_NEW || m_cmdln.IsEmpty()) || m_s.nCLSwitches&CLSW_ADD) ) {
 
 		DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 5000);
 		if (res==WAIT_OBJECT_0 || res==WAIT_ABANDONED) {
@@ -2126,7 +2126,7 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
 		m_ColorControl[0].StepSize		= max(1,(int)(m_VMR9ColorControl[0].StepSize+0.5));
 		// Contrast
 		//if(m_VMR9ColorControl[1].MinValue == 0.0999908447265625) m_VMR9ColorControl[1].MinValue = 0.11; //fix nvidia bug
-		if(*(int*)&m_VMR9ColorControl[1].MinValue == 1036830720) m_VMR9ColorControl[1].MinValue = 0.11f; //fix nvidia bug
+		if (*(int*)&m_VMR9ColorControl[1].MinValue == 1036830720) m_VMR9ColorControl[1].MinValue = 0.11f; //fix nvidia bug
 		m_ColorControl[1].MinValue		= (int)floor(m_VMR9ColorControl[1].MinValue*100+0.5);
 		m_ColorControl[1].MaxValue		= (int)floor(m_VMR9ColorControl[1].MaxValue*100+0.5);
 		m_ColorControl[1].DefaultValue	= (int)floor(m_VMR9ColorControl[1].DefaultValue*100+0.5);

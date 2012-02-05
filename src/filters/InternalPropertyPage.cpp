@@ -37,17 +37,17 @@ CInternalPropertyPageWnd::CInternalPropertyPageWnd()
 
 BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRect, CWnd* pParentWnd)
 {
-	if(!pPageSite || !pRect) {
+	if (!pPageSite || !pRect) {
 		return FALSE;
 	}
 
 	m_pPageSite = pPageSite;
 
-	if(!m_font.m_hObject) {
+	if (!m_font.m_hObject) {
 		CString face;
 		WORD height;
 		extern BOOL AFXAPI AfxGetPropSheetFont(CString& strFace, WORD& wSize, BOOL bWizard); // yay
-		if(!AfxGetPropSheetFont(face, height, FALSE)) {
+		if (!AfxGetPropSheetFont(face, height, FALSE)) {
 			return FALSE;
 		}
 
@@ -59,15 +59,15 @@ BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRec
 		::ReleaseDC(0, hDC);
 		lf.lfWeight = FW_NORMAL;
 		lf.lfCharSet = DEFAULT_CHARSET;
-		if(!m_font.CreateFontIndirect(&lf)) {
+		if (!m_font.CreateFontIndirect(&lf)) {
 			return FALSE;
 		}
 
 		lf.lfHeight -= -1;
 		_tcscpy(lf.lfFaceName, _T("Lucida Console"));
-		if(!m_monospacefont.CreateFontIndirect(&lf)) {
+		if (!m_monospacefont.CreateFontIndirect(&lf)) {
 			_tcscpy(lf.lfFaceName, _T("Courier New"));
-			if(!m_monospacefont.CreateFontIndirect(&lf)) {
+			if (!m_monospacefont.CreateFontIndirect(&lf)) {
 				return FALSE;
 			}
 		}
@@ -83,7 +83,7 @@ BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRec
 	}
 
 	LPCTSTR wc = AfxRegisterWndClass(CS_VREDRAW|CS_HREDRAW|CS_DBLCLKS, 0, (HBRUSH)(COLOR_BTNFACE + 1));
-	if(!CreateEx(0, wc, _T("CInternalPropertyPageWnd"), WS_CHILDWINDOW, *pRect, pParentWnd, 0)) {
+	if (!CreateEx(0, wc, _T("CInternalPropertyPageWnd"), WS_CHILDWINDOW, *pRect, pParentWnd, 0)) {
 		return FALSE;
 	}
 
@@ -94,7 +94,7 @@ BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRec
 
 BOOL CInternalPropertyPageWnd::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-	if(message == WM_COMMAND || message == WM_HSCROLL || message == WM_VSCROLL) {
+	if (message == WM_COMMAND || message == WM_HSCROLL || message == WM_VSCROLL) {
 		SetDirty(true);
 	}
 
@@ -112,15 +112,15 @@ CInternalPropertyPage::CInternalPropertyPage(LPUNKNOWN lpunk, HRESULT* phr)
 	: CUnknown(_T("CInternalPropertyPage"), lpunk)
 	, m_pWnd(NULL)
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 }
 
 CInternalPropertyPage::~CInternalPropertyPage()
 {
-	if(m_pWnd) {
-		if(m_pWnd->m_hWnd) {
+	if (m_pWnd) {
+		if (m_pWnd->m_hWnd) {
 			ASSERT(0);
 			m_pWnd->DestroyWindow();
 		}
@@ -142,7 +142,7 @@ STDMETHODIMP CInternalPropertyPage::SetPageSite(IPropertyPageSite* pPageSite)
 {
 	CAutoLock cAutoLock(this);
 
-	if(pPageSite && m_pPageSite || !pPageSite && !m_pPageSite) {
+	if (pPageSite && m_pPageSite || !pPageSite && !m_pPageSite) {
 		return E_UNEXPECTED;
 	}
 
@@ -159,15 +159,15 @@ STDMETHODIMP CInternalPropertyPage::Activate(HWND hwndParent, LPCRECT pRect, BOO
 
 	CheckPointer(pRect, E_POINTER);
 
-	if(!m_pWnd || m_pWnd->m_hWnd || m_pUnks.IsEmpty()) {
+	if (!m_pWnd || m_pWnd->m_hWnd || m_pUnks.IsEmpty()) {
 		return E_UNEXPECTED;
 	}
 
-	if(!m_pWnd->Create(m_pPageSite, pRect, CWnd::FromHandle(hwndParent))) {
+	if (!m_pWnd->Create(m_pPageSite, pRect, CWnd::FromHandle(hwndParent))) {
 		return E_OUTOFMEMORY;
 	}
 
-	if(!m_pWnd->OnActivate()) {
+	if (!m_pWnd->OnActivate()) {
 		m_pWnd->DestroyWindow();
 		return E_FAIL;
 	}
@@ -184,7 +184,7 @@ STDMETHODIMP CInternalPropertyPage::Deactivate()
 
 	CAutoLock cAutoLock(this);
 
-	if(!m_pWnd || !m_pWnd->m_hWnd) {
+	if (!m_pWnd || !m_pWnd->m_hWnd) {
 		return E_UNEXPECTED;
 	}
 
@@ -204,7 +204,7 @@ STDMETHODIMP CInternalPropertyPage::GetPageInfo(PROPPAGEINFO* pPageInfo)
 
 	LPOLESTR pszTitle;
 	HRESULT hr = AMGetWideString(CStringW(GetWindowTitle()), &pszTitle);
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
@@ -222,25 +222,25 @@ STDMETHODIMP CInternalPropertyPage::SetObjects(ULONG cObjects, LPUNKNOWN* ppUnk)
 {
 	CAutoLock cAutoLock(this);
 
-	if(cObjects && m_pWnd || !cObjects && !m_pWnd) {
+	if (cObjects && m_pWnd || !cObjects && !m_pWnd) {
 		return E_UNEXPECTED;
 	}
 
 	m_pUnks.RemoveAll();
 
-	if(cObjects > 0) {
+	if (cObjects > 0) {
 		CheckPointer(ppUnk, E_POINTER);
 
-		for(ULONG i = 0; i < cObjects; i++) {
+		for (ULONG i = 0; i < cObjects; i++) {
 			m_pUnks.AddTail(ppUnk[i]);
 		}
 
 		m_pWnd = GetWindow();
-		if(!m_pWnd) {
+		if (!m_pWnd) {
 			return E_OUTOFMEMORY;
 		}
 
-		if(!m_pWnd->OnConnect(m_pUnks)) {
+		if (!m_pWnd->OnConnect(m_pUnks)) {
 			delete m_pWnd;
 			m_pWnd = NULL;
 
@@ -263,11 +263,11 @@ STDMETHODIMP CInternalPropertyPage::Show(UINT nCmdShow)
 
 	CAutoLock cAutoLock(this);
 
-	if(!m_pWnd) {
+	if (!m_pWnd) {
 		return E_UNEXPECTED;
 	}
 
-	if((nCmdShow != SW_SHOW) && (nCmdShow != SW_SHOWNORMAL) && (nCmdShow != SW_HIDE)) {
+	if ((nCmdShow != SW_SHOW) && (nCmdShow != SW_SHOWNORMAL) && (nCmdShow != SW_HIDE)) {
 		return E_INVALIDARG;
 	}
 
@@ -285,7 +285,7 @@ STDMETHODIMP CInternalPropertyPage::Move(LPCRECT pRect)
 
 	CheckPointer(pRect, E_POINTER);
 
-	if(!m_pWnd) {
+	if (!m_pWnd) {
 		return E_UNEXPECTED;
 	}
 
@@ -307,11 +307,11 @@ STDMETHODIMP CInternalPropertyPage::Apply()
 
 	CAutoLock cAutoLock(this);
 
-	if(!m_pWnd || m_pUnks.IsEmpty() || !m_pPageSite) {
+	if (!m_pWnd || m_pUnks.IsEmpty() || !m_pPageSite) {
 		return E_UNEXPECTED;
 	}
 
-	if(m_pWnd->GetDirty() && m_pWnd->OnApply()) {
+	if (m_pWnd->GetDirty() && m_pWnd->OnApply()) {
 		m_pWnd->SetDirty(false);
 	}
 

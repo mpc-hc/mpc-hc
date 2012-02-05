@@ -108,7 +108,7 @@ void Rasterizer::_EvaluateBezier(int ptbase, bool fBSpline)
 
 	double cx3, cx2, cx1, cx0, cy3, cy2, cy1, cy0;
 
-	if(fBSpline) {
+	if (fBSpline) {
 		// 1   [-1 +3 -3 +1]
 		// - * [+3 -6 +3  0]
 		// 6   [-3  0 +3  0]
@@ -164,18 +164,18 @@ void Rasterizer::_EvaluateBezier(int ptbase, bool fBSpline)
 	double maxaccel = maxaccel1 > maxaccel2 ? maxaccel1 : maxaccel2;
 	double h = 1.0;
 
-	if(maxaccel > 8.0) {
+	if (maxaccel > 8.0) {
 		h = sqrt(8.0 / maxaccel);
 	}
 
-	if(!fFirstSet) {
+	if (!fFirstSet) {
 		firstp.x = (LONG)cx0;
 		firstp.y = (LONG)cy0;
 		lastp = firstp;
 		fFirstSet = true;
 	}
 
-	for(double t = 0; t < 1.0; t += h) {
+	for (double t = 0; t < 1.0; t += h) {
 		double x = cx0 + t*(cx1 + t*(cx2 + t*cx3));
 		double y = cy0 + t*(cy1 + t*(cy2 + t*cy3));
 		_EvaluateLine(lastp.x, lastp.y, (int)x, (int)y);
@@ -196,11 +196,11 @@ void Rasterizer::_EvaluateLine(int pt1idx, int pt2idx)
 
 void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
 {
-	if(lastp.x != x0 || lastp.y != y0) {
+	if (lastp.x != x0 || lastp.y != y0) {
 		_EvaluateLine(lastp.x, lastp.y, x0, y0);
 	}
 
-	if(!fFirstSet) {
+	if (!fFirstSet) {
 		firstp.x = x0;
 		firstp.y = y0;
 		fFirstSet = true;
@@ -208,7 +208,7 @@ void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
 	lastp.x = x1;
 	lastp.y = y1;
 
-	if(y1 > y0) {	// down
+	if (y1 > y0) {	// down
 		__int64 xacc = (__int64)x0 << 13;
 
 		// prestep y0 down
@@ -219,16 +219,16 @@ void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
 
 		y1 = (y1 - 5) >> 3;
 
-		if(iy <= y1) {
+		if (iy <= y1) {
 			__int64 invslope = (__int64(x1 - x0) << 16) / dy;
 
-			while(mEdgeNext + y1 + 1 - iy > mEdgeHeapSize) {
+			while (mEdgeNext + y1 + 1 - iy > mEdgeHeapSize) {
 				_ReallocEdgeBuffer(mEdgeHeapSize*2);
 			}
 
 			xacc += (invslope * (y - y0)) >> 3;
 
-			while(iy <= y1) {
+			while (iy <= y1) {
 				int ix = (int)((xacc + 32768) >> 16);
 
 				mpEdgeBuffer[mEdgeNext].next = mpScanBuffer[iy];
@@ -240,7 +240,7 @@ void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
 				xacc += invslope;
 			}
 		}
-	} else if(y1 < y0) { // up
+	} else if (y1 < y0) { // up
 		__int64 xacc = (__int64)x1 << 13;
 
 		// prestep y1 down
@@ -251,16 +251,16 @@ void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
 
 		y0 = (y0 - 5) >> 3;
 
-		if(iy <= y0) {
+		if (iy <= y0) {
 			__int64 invslope = (__int64(x0 - x1) << 16) / dy;
 
-			while(mEdgeNext + y0 + 1 - iy > mEdgeHeapSize) {
+			while (mEdgeNext + y0 + 1 - iy > mEdgeHeapSize) {
 				_ReallocEdgeBuffer(mEdgeHeapSize*2);
 			}
 
 			xacc += (invslope * (y - y1)) >> 3;
 
-			while(iy <= y0) {
+			while (iy <= y0) {
 				int ix = (int)((xacc + 32768) >> 16);
 
 				mpEdgeBuffer[mEdgeNext].next = mpScanBuffer[iy];
@@ -286,17 +286,17 @@ bool Rasterizer::EndPath(HDC hdc)
 {
 	::CloseFigure(hdc);
 
-	if(::EndPath(hdc)) {
+	if (::EndPath(hdc)) {
 		mPathPoints = GetPath(hdc, NULL, NULL, 0);
 
-		if(!mPathPoints) {
+		if (!mPathPoints) {
 			return true;
 		}
 
 		mpPathTypes = (BYTE*)malloc(sizeof(BYTE) * mPathPoints);
 		mpPathPoints = (POINT*)malloc(sizeof(POINT) * mPathPoints);
 
-		if(mPathPoints == (size_t)GetPath(hdc, mpPathPoints, mpPathTypes, mPathPoints)) {
+		if (mPathPoints == (size_t)GetPath(hdc, mpPathPoints, mpPathTypes, mPathPoints)) {
 			return true;
 		}
 	}
@@ -308,7 +308,7 @@ bool Rasterizer::EndPath(HDC hdc)
 
 bool Rasterizer::PartialBeginPath(HDC hdc, bool bClearPath)
 {
-	if(bClearPath) {
+	if (bClearPath) {
 		_TrashPath();
 	}
 
@@ -319,33 +319,33 @@ bool Rasterizer::PartialEndPath(HDC hdc, long dx, long dy)
 {
 	::CloseFigure(hdc);
 
-	if(::EndPath(hdc)) {
+	if (::EndPath(hdc)) {
 		int nPoints;
 		BYTE* pNewTypes;
 		POINT* pNewPoints;
 
 		nPoints = GetPath(hdc, NULL, NULL, 0);
 
-		if(!nPoints) {
+		if (!nPoints) {
 			return true;
 		}
 
 		pNewTypes = (BYTE*)realloc(mpPathTypes, (mPathPoints + nPoints) * sizeof(BYTE));
 		pNewPoints = (POINT*)realloc(mpPathPoints, (mPathPoints + nPoints) * sizeof(POINT));
 
-		if(pNewTypes) {
+		if (pNewTypes) {
 			mpPathTypes = pNewTypes;
 		}
 
-		if(pNewPoints) {
+		if (pNewPoints) {
 			mpPathPoints = pNewPoints;
 		}
 
 		BYTE* pTypes = DNew BYTE[nPoints];
 		POINT* pPoints = DNew POINT[nPoints];
 
-		if(pNewTypes && pNewPoints && nPoints == GetPath(hdc, pPoints, pTypes, nPoints)) {
-			for(ptrdiff_t i = 0; i < nPoints; ++i) {
+		if (pNewTypes && pNewPoints && nPoints == GetPath(hdc, pPoints, pTypes, nPoints)) {
+			for (ptrdiff_t i = 0; i < nPoints; ++i) {
 				mpPathPoints[mPathPoints + i].x = pPoints[i].x + dx;
 				mpPathPoints[mPathPoints + i].y = pPoints[i].y + dy;
 				mpPathTypes[mPathPoints + i] = pTypes[i];
@@ -382,7 +382,7 @@ bool Rasterizer::ScanConvert()
 
 	// Determine bounding box
 
-	if(!mPathPoints) {
+	if (!mPathPoints) {
 		mPathOffsetX = mPathOffsetY = 0;
 		mWidth = mHeight = 0;
 		return 0;
@@ -393,20 +393,20 @@ bool Rasterizer::ScanConvert()
 	ptrdiff_t maxx = INT_MIN;
 	ptrdiff_t maxy = INT_MIN;
 
-	for(i=0; i<mPathPoints; ++i) {
+	for (i=0; i<mPathPoints; ++i) {
 		ptrdiff_t ix = mpPathPoints[i].x;
 		ptrdiff_t iy = mpPathPoints[i].y;
 
-		if(ix < minx) {
+		if (ix < minx) {
 			minx = ix;
 		}
-		if(ix > maxx) {
+		if (ix > maxx) {
 			maxx = ix;
 		}
-		if(iy < miny) {
+		if (iy < miny) {
 			miny = iy;
 		}
-		if(iy > maxy) {
+		if (iy > maxy) {
 			maxy = iy;
 		}
 	}
@@ -416,12 +416,12 @@ bool Rasterizer::ScanConvert()
 	maxx = (maxx + 7) >> 3;
 	maxy = (maxy + 7) >> 3;
 
-	for(i=0; i<mPathPoints; ++i) {
+	for (i=0; i<mPathPoints; ++i) {
 		mpPathPoints[i].x -= minx*8;
 		mpPathPoints[i].y -= miny*8;
 	}
 
-	if(minx > maxx || miny > maxy) {
+	if (minx > maxx || miny > maxy) {
 		mWidth = mHeight = 0;
 		mPathOffsetX = mPathOffsetY = 0;
 		_TrashPath();
@@ -455,12 +455,12 @@ bool Rasterizer::ScanConvert()
 	firstp.x = firstp.y = 0;
 	lastp.x = lastp.y = 0;
 
-	for(i=0; i<mPathPoints; ++i) {
+	for (i=0; i<mPathPoints; ++i) {
 		BYTE t = mpPathTypes[i] & ~PT_CLOSEFIGURE;
 
-		switch(t) {
+		switch (t) {
 			case PT_MOVETO:
-				if(lastmoveto >= 0 && firstp != lastp) {
+				if (lastmoveto >= 0 && firstp != lastp) {
 					_EvaluateLine(lastp.x, lastp.y, firstp.x, firstp.y);
 				}
 				lastmoveto = i;
@@ -470,31 +470,31 @@ bool Rasterizer::ScanConvert()
 			case PT_MOVETONC:
 				break;
 			case PT_LINETO:
-				if(mPathPoints - (i-1) >= 2) {
+				if (mPathPoints - (i-1) >= 2) {
 					_EvaluateLine(i-1, i);
 				}
 				break;
 			case PT_BEZIERTO:
-				if(mPathPoints - (i-1) >= 4) {
+				if (mPathPoints - (i-1) >= 4) {
 					_EvaluateBezier(i-1, false);
 				}
 				i += 2;
 				break;
 			case PT_BSPLINETO:
-				if(mPathPoints - (i-1) >= 4) {
+				if (mPathPoints - (i-1) >= 4) {
 					_EvaluateBezier(i-1, true);
 				}
 				i += 2;
 				break;
 			case PT_BSPLINEPATCHTO:
-				if(mPathPoints - (i-3) >= 4) {
+				if (mPathPoints - (i-3) >= 4) {
 					_EvaluateBezier(i-3, true);
 				}
 				break;
 		}
 	}
 
-	if(lastmoveto >= 0 && firstp != lastp) {
+	if (lastmoveto >= 0 && firstp != lastp) {
 		_EvaluateLine(lastp.x, lastp.y, firstp.x, firstp.y);
 	}
 
@@ -514,12 +514,12 @@ bool Rasterizer::ScanConvert()
 
 	__int64 y = 0;
 
-	for(y=0; y<mHeight; ++y) {
+	for (y=0; y<mHeight; ++y) {
 		int count = 0;
 
 		// Detangle scanline into edge heap.
 
-		for(size_t ptr = (mpScanBuffer[y]&size_t(-1)); ptr; ptr = mpEdgeBuffer[ptr].next) {
+		for (size_t ptr = (mpScanBuffer[y]&size_t(-1)); ptr; ptr = mpEdgeBuffer[ptr].next) {
 			heap.push_back(mpEdgeBuffer[ptr].posandflag);
 		}
 
@@ -538,23 +538,23 @@ bool Rasterizer::ScanConvert()
 		size_t x1 = 0;
 		size_t x2;
 
-		for(; itX1 != itX2; ++itX1) {
+		for (; itX1 != itX2; ++itX1) {
 			size_t x = *itX1;
 
-			if(!count) {
+			if (!count) {
 				x1 = (x>>1);
 			}
 
-			if(x&1) {
+			if (x&1) {
 				++count;
 			} else {
 				--count;
 			}
 
-			if(!count) {
+			if (!count) {
 				x2 = (x>>1);
 
-				if(x2>x1) {
+				if (x2>x1) {
 					mOutline.push_back(std::pair<__int64,__int64>((y<<32)+x1+0x4000000040000000i64, (y<<32)+x2+0x4000000040000000i64));    // G: damn Avery, this is evil! :)
 				}
 			}
@@ -593,8 +593,8 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int 
 	unsigned __int64 offset1 = (((__int64)dy)<<32) - dx;
 	unsigned __int64 offset2 = (((__int64)dy)<<32) + dx;
 
-	while(itA != itAE && itB != itBE) {
-		if((*itB).first + offset1 < (*itA).first) {
+	while (itA != itAE && itB != itBE) {
+		if ((*itB).first + offset1 < (*itA).first) {
 			// B span is earlier.  Use it.
 
 			unsigned __int64 x1 = (*itB).first + offset1;
@@ -604,30 +604,30 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int 
 
 			// B spans don't overlap, so begin merge loop with A first.
 
-			for(;;) {
+			for (;;) {
 				// If we run out of A spans or the A span doesn't overlap,
 				// then the next B span can't either (because B spans don't
 				// overlap) and we exit.
 
-				if(itA == itAE || (*itA).first > x2) {
+				if (itA == itAE || (*itA).first > x2) {
 					break;
 				}
 
 				do {
 					x2 = _MAX(x2, (*itA++).second);
-				} while(itA != itAE && (*itA).first <= x2);
+				} while (itA != itAE && (*itA).first <= x2);
 
 				// If we run out of B spans or the B span doesn't overlap,
 				// then the next A span can't either (because A spans don't
 				// overlap) and we exit.
 
-				if(itB == itBE || (*itB).first + offset1 > x2) {
+				if (itB == itBE || (*itB).first + offset1 > x2) {
 					break;
 				}
 
 				do {
 					x2 = _MAX(x2, (*itB++).second + offset2);
-				} while(itB != itBE && (*itB).first + offset1 <= x2);
+				} while (itB != itBE && (*itB).first + offset1 <= x2);
 			}
 
 			// Flush span.
@@ -643,30 +643,30 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int 
 
 			// A spans don't overlap, so begin merge loop with B first.
 
-			for(;;) {
+			for (;;) {
 				// If we run out of B spans or the B span doesn't overlap,
 				// then the next A span can't either (because A spans don't
 				// overlap) and we exit.
 
-				if(itB == itBE || (*itB).first + offset1 > x2) {
+				if (itB == itBE || (*itB).first + offset1 > x2) {
 					break;
 				}
 
 				do {
 					x2 = _MAX(x2, (*itB++).second + offset2);
-				} while(itB != itBE && (*itB).first + offset1 <= x2);
+				} while (itB != itBE && (*itB).first + offset1 <= x2);
 
 				// If we run out of A spans or the A span doesn't overlap,
 				// then the next B span can't either (because B spans don't
 				// overlap) and we exit.
 
-				if(itA == itAE || (*itA).first > x2) {
+				if (itA == itAE || (*itA).first > x2) {
 					break;
 				}
 
 				do {
 					x2 = _MAX(x2, (*itA++).second);
-				} while(itA != itAE && (*itA).first <= x2);
+				} while (itA != itAE && (*itA).first <= x2);
 			}
 
 			// Flush span.
@@ -677,11 +677,11 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int 
 
 	// Copy over leftover spans.
 
-	while(itA != itAE) {
+	while (itA != itAE) {
 		dst.push_back(*itA++);
 	}
 
-	while(itB != itBE) {
+	while (itB != itBE) {
 		dst.push_back(tSpan((*itB).first + offset1, (*itB).second + offset2));
 		++itB;
 	}
@@ -689,10 +689,10 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int 
 
 bool Rasterizer::CreateWidenedRegion(int rx, int ry)
 {
-	if(rx < 0) {
+	if (rx < 0) {
 		rx = 0;
 	}
-	if(ry < 0) {
+	if (ry < 0) {
 		ry = 0;
 	}
 
@@ -701,7 +701,7 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
 	if (ry > 0) {
 		// Do a half circle.
 		// _OverlapRegion mirrors this so both halves are done.
-		for(ptrdiff_t y = -ry; y <= ry; ++y) {
+		for (ptrdiff_t y = -ry; y <= ry; ++y) {
 			int x = (int)(0.5 + sqrt(float(ry*ry - y*y)) * float(rx)/float(ry));
 
 			_OverlapRegion(mWideOutline, mOutline, x, y);
@@ -725,7 +725,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 {
 	_TrashOverlay();
 
-	if(!mWidth || !mHeight) {
+	if (!mWidth || !mHeight) {
 		mOverlayWidth = mOverlayHeight = 0;
 		return true;
 	}
@@ -741,7 +741,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 	mWideBorder = (mWideBorder+7)&~7;
 
-	if(!mWideOutline.empty() || fBlur || fGaussianBlur > 0) {
+	if (!mWideOutline.empty() || fBlur || fGaussianBlur > 0) {
 		int bluradjust = 0;
 		if (fGaussianBlur > 0) {
 			bluradjust += (int)(fGaussianBlur*3*8 + 0.5) | 1;
@@ -768,7 +768,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 	mOverlayHeight=((height+14)>>3) + 1;
 
 	mpOverlayBuffer = (byte*)_aligned_malloc(2 * mOverlayWidth * mOverlayHeight, 16);
-	if(!mpOverlayBuffer) {
+	if (!mpOverlayBuffer) {
 		return false;
 	}
 
@@ -778,11 +778,11 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 	tSpanBuffer* pOutline[2] = {&mOutline, &mWideOutline};
 
-	for(ptrdiff_t i = countof(pOutline)-1; i >= 0; i--) {
+	for (ptrdiff_t i = countof(pOutline)-1; i >= 0; i--) {
 		tSpanBuffer::iterator it = pOutline[i]->begin();
 		tSpanBuffer::iterator itEnd = pOutline[i]->end();
 
-		for(; it!=itEnd; ++it) {
+		for (; it!=itEnd; ++it) {
 			unsigned __int64 f = (*it).first;
 			size_t y = (f >> 32) - 0x40000000 + ysub;
 			size_t x1 = (f & 0xffffffff) - 0x40000000 + xsub;
@@ -790,18 +790,18 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 			unsigned __int64 s = (*it).second;
 			size_t x2 = (s & 0xffffffff) - 0x40000000 + xsub;
 
-			if(x2 > x1) {
+			if (x2 > x1) {
 				size_t first = x1>>3;
 				size_t last = (x2-1)>>3;
 				byte* dst = mpOverlayBuffer + 2*(mOverlayWidth*(y>>3) + first) + i;
 
-				if(first == last) {
+				if (first == last) {
 					*dst += x2-x1;
 				} else {
 					*dst += ((first+1)<<3) - x1;
 					dst += 2;
 
-					while(++first < last) {
+					while (++first < last) {
 						*dst += 0x08;
 						dst += 2;
 					}
@@ -819,7 +819,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 			size_t pitch = mOverlayWidth*2;
 
 			byte *tmp = DNew byte[pitch*mOverlayHeight];
-			if(!tmp) {
+			if (!tmp) {
 				return false;
 			}
 
@@ -837,11 +837,11 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 	// If we're blurring, do a 3x3 box blur
 	// Can't do it on subpictures smaller than 3x3 pixels
 	for (int pass = 0; pass < fBlur; pass++) {
-		if(mOverlayWidth >= 3 && mOverlayHeight >= 3) {
+		if (mOverlayWidth >= 3 && mOverlayHeight >= 3) {
 			int pitch = mOverlayWidth*2;
 
 			byte* tmp = DNew byte[pitch*mOverlayHeight];
-			if(!tmp) {
+			if (!tmp) {
 				return false;
 			}
 
@@ -850,11 +850,11 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 			int border = !mWideOutline.empty() ? 1 : 0;
 
 			// This could be done in a separated way and win some speed
-			for(ptrdiff_t j = 1; j < mOverlayHeight-1; j++) {
+			for (ptrdiff_t j = 1; j < mOverlayHeight-1; j++) {
 				byte* src = tmp + pitch*j + 2 + border;
 				byte* dst = mpOverlayBuffer + pitch*j + 2 + border;
 
-				for(ptrdiff_t i = 1; i < mOverlayWidth-1; i++, src+=2, dst+=2) {
+				for (ptrdiff_t i = 1; i < mOverlayWidth-1; i++, src+=2, dst+=2) {
 					*dst = (src[-2-pitch] + (src[-pitch]<<1) + src[+2-pitch]
 							+ (src[-2]<<1) + (src[0]<<2) + (src[+2]<<1)
 							+ src[-2+pitch] + (src[+pitch]<<1) + src[+2+pitch]) >> 4;
@@ -911,7 +911,7 @@ static __forceinline void alpha_blend_sse2(DWORD* dst, DWORD original_color, BYT
 	alpha_mask = _mm_and_si128(alpha_mask, low_mask);
 
 	alpha_mask = _mm_mullo_epi16(alpha_mask, src_alpha);
-			
+
 	alpha_mask = _mm_srli_epi16(alpha_mask, 6);
 	alpha_mask = _mm_and_si128(alpha_mask, low_mask);
 
@@ -1072,8 +1072,8 @@ void Rasterizer::Draw_noAlpha_spFF_Body_0(RasterizerNfo& rnfo)
 	// The <<6 is due to pixmix expecting the alpha parameter to be
 	// the multiplication of two 6-bit unsigned numbers but we
 	// only have one here. (No alpha mask.)
-	while(h--) {
-		for(int wt=0; wt<rnfo.w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<rnfo.w; ++wt) {
 			pixmix(&dst[wt], color, s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
@@ -1096,8 +1096,8 @@ void Rasterizer::Draw_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo)
 	// subtraction must be saturating since the widened region
 	// pixel value can be smaller than the fill value.
 	// This happens when blur edges is used.
-	while(h--) {
-		for(int wt=0; wt<rnfo.w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<rnfo.w; ++wt) {
 			pixmix(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]));
 		}
 		src += 2*rnfo.overlayp;
@@ -1119,11 +1119,11 @@ void Rasterizer::Draw_noAlpha_sp_Body_0(RasterizerNfo& rnfo)
 	// (So switchpts stores both colours *and* coordinates?)
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix(&dst[wt], color, s[wt*2]);
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix(&dst[wt], color2, s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
@@ -1141,11 +1141,11 @@ void Rasterizer::Draw_noAlpha_sp_noBody_0(RasterizerNfo& rnfo)
 
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]));
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix(&dst[wt], color2, safe_subtract(src[wt*2+1], src[wt*2]));
 		}
 		src += 2*rnfo.overlayp;
@@ -1170,8 +1170,8 @@ void Rasterizer::Draw_Alpha_spFF_Body_0(RasterizerNfo& rnfo)
 	// clipping mask.
 	// Multiplying them together yields a 12-bit number.
 	// I think some imprecision is introduced here??
-	while(h--) {
-		for(int wt=0; wt<rnfo.w; ++wt)
+	while (h--) {
+		for (int wt=0; wt<rnfo.w; ++wt)
 #ifdef _VSMOD // patch m006. moveable vector clip
 			pixmix2(&dst[wt], color, s[wt*2], mod_vc.GetAlphaValue(wt,h));
 #else
@@ -1198,19 +1198,19 @@ void Rasterizer::Draw_Alpha_spFF_noBody_0(RasterizerNfo& rnfo)
 
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
-	while(h--) {
+	while (h--) {
 #ifdef _VSMOD // patch m006. moveable vector clip
-		for(int wt=0; wt<gran; ++wt) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix2(&dst[wt], color2, safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
 #else
-		for(int wt=0; wt<gran; ++wt) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix2(&dst[wt], color2, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
 		}
 		am += rnfo.spdw;
@@ -1233,8 +1233,8 @@ void Rasterizer::Draw_Alpha_sp_Body_0(RasterizerNfo& rnfo)
 
 	byte* s = rnfo.s;
 	DWORD* dst = rnfo.dst;
-	while(h--) {
-		for(int wt=0; wt<rnfo.w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<rnfo.w; ++wt) {
 #ifdef _VSMOD // patch m006. moveable vector clip
 			pixmix2(&dst[wt], color, s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
@@ -1263,19 +1263,19 @@ void Rasterizer::Draw_Alpha_sp_noBody_0(RasterizerNfo& rnfo)
 	DWORD* dst = rnfo.dst;
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
-	while(h--) {
+	while (h--) {
 #ifdef _VSMOD // patch m006. moveable vector clip
-		for(int wt=0; wt<gran; ++wt) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix2(&dst[wt], color2, safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
 #else
-		for(int wt=0; wt<gran; ++wt) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix2(&dst[wt], color2, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
 		}
 		am += rnfo.spdw;
@@ -1298,12 +1298,12 @@ void Rasterizer::Draw_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 	// only have one here. (No alpha mask.)
 	int w = rnfo.w;
 	int end_w = ((w-1)/8)*8;
-	while(h--) {
-		for(int wt = 0; wt < end_w; wt+=8)
+	while (h--) {
+		for (int wt = 0; wt < end_w; wt+=8)
 		{
 			alpha_blend_sse2(dst, color, s, wt);
 		}
-		for(int wt=end_w; wt<w; ++wt) {
+		for (int wt=end_w; wt<w; ++wt) {
 			pixmix_sse2(&dst[wt], color, s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
@@ -1326,8 +1326,8 @@ void Rasterizer::Draw_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 	// subtraction must be saturating since the widened region
 	// pixel value can be smaller than the fill value.
 	// This happens when blur edges is used.
-	while(h--) {
-		for(int wt=0; wt<rnfo.w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<rnfo.w; ++wt) {
 			pixmix_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		}
 		src += 2*rnfo.overlayp;
@@ -1351,19 +1351,19 @@ void Rasterizer::Draw_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo)
 	int end_gran = ((gran-1)/8)*8;
 	int end_w = gran+((rnfo.w-gran-1)/8)*8;
 	int color2 = rnfo.sw[2];
-	while(h--) {
-		for(int wt=0; wt < end_gran; wt+=8)
+	while (h--) {
+		for (int wt=0; wt < end_gran; wt+=8)
 		{
 			alpha_blend_sse2(dst, color, s, wt);
 		}
-		for(int wt=end_gran; wt<gran; ++wt) {
+		for (int wt=end_gran; wt<gran; ++wt) {
 			pixmix_sse2(&dst[wt], color, s[wt*2]);
 		}
-		for(int wt=gran; wt<end_w; wt+=8) 
+		for (int wt=gran; wt<end_w; wt+=8)
 		{
 			alpha_blend_sse2(dst, color2, s, wt);
 		}
-		for(int wt=end_w; wt<rnfo.w; wt++)
+		for (int wt=end_w; wt<rnfo.w; wt++)
 		{
 			pixmix_sse2(&dst[wt], color2, s[wt*2]);
 		}
@@ -1382,11 +1382,11 @@ void Rasterizer::Draw_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	DWORD* dst = rnfo.dst;
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix_sse2(&dst[wt], color2, safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		}
 		src += 2*rnfo.overlayp;
@@ -1411,8 +1411,8 @@ void Rasterizer::Draw_Alpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 	// clipping mask.
 	// Multiplying them together yields a 12-bit number.
 	// I think some imprecision is introduced here??
-	while(h--) {
-		for(int wt=0; wt<rnfo.w; ++wt)
+	while (h--) {
+		for (int wt=0; wt<rnfo.w; ++wt)
 #ifdef _VSMOD // patch m006. moveable vector clip
 			pixmix2_sse2(&dst[wt], color, s[wt*2], mod_vc.GetAlphaValue(wt,h));
 #else
@@ -1437,8 +1437,8 @@ void Rasterizer::Draw_Alpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
 
-	while(h--) {
-		for(int wt=0; wt<rnfo.w; ++wt)
+	while (h--) {
+		for (int wt=0; wt<rnfo.w; ++wt)
 #ifdef _VSMOD // patch m006. moveable vector clip
 			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 #else
@@ -1466,19 +1466,19 @@ void Rasterizer::Draw_Alpha_sp_Body_sse2(RasterizerNfo& rnfo)
 
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
-	while(h--) {
+	while (h--) {
 #ifdef _VSMOD // patch m006. moveable vector clip
-		for(int wt=0; wt<gran; ++wt) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2_sse2(&dst[wt], color, s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix2_sse2(&dst[wt], color2, s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
 #else
-		for(int wt=0; wt<gran; ++wt) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2_sse2(&dst[wt], color, s[wt*2], am[wt]);
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix2_sse2(&dst[wt], color2, s[wt*2], am[wt]);
 		}
 		am += rnfo.spdw;
@@ -1506,19 +1506,19 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	int color2 = rnfo.sw[2];
 	UNUSED_ALWAYS(color2);
 
-	while(h--) {
+	while (h--) {
 #ifdef _VSMOD // patch m006. moveable vector clip
-		for(int wt=0; wt<gran; ++wt) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
 #else
-		for(int wt=0; wt<gran; ++wt) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), am[wt]);
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for (int wt=gran; wt<rnfo.w; ++wt) {
 			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), am[wt]);
 		}
 		am += rnfo.spdw;
@@ -1539,8 +1539,8 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_Body_0(RasterizerNfo& rnfo)
 	int typ = rnfo.typ;
 	int h = rnfo.h;
 	int w = rnfo.w;
-	while(h--) {
-		for(int wt=0; wt<w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<w; ++wt) {
 			pixmix(&dst[wt], mod_grad.getmixcolor(wt,h,typ), s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
@@ -1558,8 +1558,8 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo)
 	int typ = rnfo.typ;
 	int h = rnfo.h;
 	int w = rnfo.w;
-	while(h--) {
-		for(int wt=0; wt<w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<w; ++wt) {
 			pixmix(&dst[wt], mod_grad.getmixcolor(wt,h,typ), safe_subtract(src[wt*2+1], src[wt*2]));
 		}
 		src += 2*rnfo.overlayp;
@@ -1579,11 +1579,11 @@ void Rasterizer::Draw_Grad_noAlpha_sp_Body_0(RasterizerNfo& rnfo)
 	int w = rnfo.w;
 
 	int gran = max(rnfo.sw[3]+1-rnfo.xo,0);
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix(&dst[wt], mod_grad.getmixcolor(wt,h,0), s[wt*2]);
 		}
-		for(int wt=gran; wt<w; ++wt) {
+		for (int wt=gran; wt<w; ++wt) {
 			pixmix(&dst[wt], mod_grad.getmixcolor(wt,h,1), s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
@@ -1602,11 +1602,11 @@ void Rasterizer::Draw_Grad_noAlpha_sp_noBody_0(RasterizerNfo& rnfo)
 	int w = rnfo.w;
 
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix(&dst[wt], mod_grad.getmixcolor(wt,h,0), safe_subtract(src[wt*2+1], src[wt*2]));
 		}
-		for(int wt=gran; wt<w; ++wt) {
+		for (int wt=gran; wt<w; ++wt) {
 			pixmix(&dst[wt], mod_grad.getmixcolor(wt,h,1), safe_subtract(src[wt*2+1], src[wt*2]));
 		}
 		src += 2*rnfo.overlayp;
@@ -1624,8 +1624,8 @@ void Rasterizer::Draw_Grad_Alpha_spFF_Body_0(RasterizerNfo& rnfo)
 	int typ = rnfo.typ;
 	int h = rnfo.h;
 	int w = rnfo.w;
-	while(h--) {
-		for(int wt=0; wt<w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<w; ++wt) {
 			pixmix2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
 		s += 2*rnfo.overlayp;
@@ -1643,8 +1643,8 @@ void Rasterizer::Draw_Grad_Alpha_spFF_noBody_0(RasterizerNfo& rnfo)
 	int typ = rnfo.typ;
 	int h = rnfo.h;
 	int w = rnfo.w;
-	while(h--) {
-		for(int wt=0; wt<w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<w; ++wt) {
 			pixmix2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
 		src += 2*rnfo.overlayp;
@@ -1664,11 +1664,11 @@ void Rasterizer::Draw_Grad_Alpha_sp_Body_0(RasterizerNfo& rnfo)
 	int h = rnfo.h;
 	int w = rnfo.w;
 
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2(&dst[wt], mod_grad.getmixcolor(wt,h,0), s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
-		for(int wt=gran; wt<w; ++wt) {
+		for (int wt=gran; wt<w; ++wt) {
 			pixmix2(&dst[wt], mod_grad.getmixcolor(wt,h,1), s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
 		s += 2*rnfo.overlayp;
@@ -1688,11 +1688,11 @@ void Rasterizer::Draw_Grad_Alpha_sp_noBody_0(RasterizerNfo& rnfo)
 	int h = rnfo.h;
 	int w = rnfo.w;
 
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2(&dst[wt], mod_grad.getmixcolor(wt,h,0), safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
-		for(int wt=gran; wt<w; ++wt) {
+		for (int wt=gran; wt<w; ++wt) {
 			pixmix2(&dst[wt], mod_grad.getmixcolor(wt,h,1), safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
 		src += 2*rnfo.overlayp;
@@ -1711,8 +1711,8 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 
 	int h = rnfo.h;
 	int w = rnfo.w;
-	while(h--) {
-		for(int wt=0; wt<w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<w; ++wt) {
 			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
@@ -1730,8 +1730,8 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 
 	int h = rnfo.h;
 	int w = rnfo.w;
-	while(h--) {
-		for(int wt=0; wt<w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<w; ++wt) {
 			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		}
 		src += 2*rnfo.overlayp;
@@ -1750,11 +1750,11 @@ void Rasterizer::Draw_Grad_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo)
 	int h = rnfo.h;
 	int w = rnfo.w;
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,0), s[wt*2]);
 		}
-		for(int wt=gran; wt<w; ++wt) {
+		for (int wt=gran; wt<w; ++wt) {
 			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,1), s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
@@ -1772,11 +1772,11 @@ void Rasterizer::Draw_Grad_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	int h = rnfo.h;
 	int w = rnfo.w;
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,0), safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		}
-		for(int wt=gran; wt<w; ++wt) {
+		for (int wt=gran; wt<w; ++wt) {
 			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,1), safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		}
 		src += 2*rnfo.overlayp;
@@ -1795,8 +1795,8 @@ void Rasterizer::Draw_Grad_Alpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 	int typ = rnfo.typ;
 	int h = rnfo.h;
 	int w = rnfo.w;
-	while(h--) {
-		for(int wt=0; wt<w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<w; ++wt) {
 			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
 		s += 2*rnfo.overlayp;
@@ -1815,8 +1815,8 @@ void Rasterizer::Draw_Grad_Alpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 	int typ = rnfo.typ;
 	int h = rnfo.h;
 	int w = rnfo.w;
-	while(h--) {
-		for(int wt=0; wt<w; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<w; ++wt) {
 			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
 		src += 2*rnfo.overlayp;
@@ -1835,11 +1835,11 @@ void Rasterizer::Draw_Grad_Alpha_sp_Body_sse2(RasterizerNfo& rnfo)
 	int h = rnfo.h;
 	int w = rnfo.w;
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,0), s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
-		for(int wt=gran; wt<w; ++wt) {
+		for (int wt=gran; wt<w; ++wt) {
 			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,1), s[wt*2], mod_vc.GetAlphaValue(wt,h));
 		}
 		s += 2*rnfo.overlayp;
@@ -1858,11 +1858,11 @@ void Rasterizer::Draw_Grad_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	int h = rnfo.h;
 	int w = rnfo.w;
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
-	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+	while (h--) {
+		for (int wt=0; wt<gran; ++wt) {
 			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,0), safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
-		for(int wt=gran; wt<w; ++wt) {
+		for (int wt=gran; wt<w; ++wt) {
 			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,1), safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		}
 		src += 2*rnfo.overlayp;
@@ -1889,7 +1889,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 {
 	CRect bbox(0, 0, 0, 0);
 
-	if(!switchpts || !fBody && !fBorder) {
+	if (!switchpts || !fBody && !fBorder) {
 		return(bbox);
 	}
 
@@ -1907,25 +1907,25 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 	int xo = 0, yo = 0;
 
 	// Again, limiting?
-	if(x < r.left) {
+	if (x < r.left) {
 		xo = r.left-x;
 		w -= r.left-x;
 		x = r.left;
 	}
-	if(y < r.top) {
+	if (y < r.top) {
 		yo = r.top-y;
 		h -= r.top-y;
 		y = r.top;
 	}
-	if(x+w > r.right) {
+	if (x+w > r.right) {
 		w = r.right-x;
 	}
-	if(y+h > r.bottom) {
+	if (y+h > r.bottom) {
 		h = r.bottom-y;
 	}
 
 	// Check if there's actually anything to render
-	if(w <= 0 || h <= 0) {
+	if (w <= 0 || h <= 0) {
 		return(bbox);
 	}
 
@@ -1977,17 +1977,17 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 	// Every remaining line in the bitmap to be rendered...
 	// Basic case of no complex clipping mask
 #ifdef _VSMOD // patch m004. gradient colors
-	if(((typ==0)&&((mod_grad.mode[0]==0)&&(mod_grad.mode[1]==0)))||(mod_grad.mode[typ]==0))
+	if (((typ==0)&&((mod_grad.mode[0]==0)&&(mod_grad.mode[1]==0)))||(mod_grad.mode[typ]==0))
 		// No gradient
 #endif
-		if(!pAlphaMask) {
+		if (!pAlphaMask) {
 			// If the first colour switching coordinate is at "infinite" we're
 			// never switching and can use some simpler code.
 			// ??? Is this optimisation really worth the extra readability issues it adds?
-			if(switchpts[1] == 0xFFFFFFFF) {
+			if (switchpts[1] == 0xFFFFFFFF) {
 				// fBody is true if we're rendering a fill or a shadow.
-				if(fBody) {
-					if(fSSE2) {
+				if (fBody) {
+					if (fSSE2) {
 						Draw_noAlpha_spFF_Body_sse2(rnfo);
 					} else {
 						Draw_noAlpha_spFF_Body_0(rnfo);
@@ -1995,7 +1995,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 				}
 				// Not painting body, ie. painting border without fill in it
 				else {
-					if(fSSE2) {
+					if (fSSE2) {
 						Draw_noAlpha_spFF_noBody_sse2(rnfo);
 					} else {
 						Draw_noAlpha_spFF_noBody_0(rnfo);
@@ -2007,8 +2007,8 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 				// switchpts plays an important rule here
 				//const long *sw = switchpts;
 
-				if(fBody) {
-					if(fSSE2) {
+				if (fBody) {
+					if (fSSE2) {
 						Draw_noAlpha_sp_Body_sse2(rnfo);
 					} else {
 						Draw_noAlpha_sp_Body_0(rnfo);
@@ -2016,7 +2016,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 				}
 				// Not body
 				else {
-					if(fSSE2) {
+					if (fSSE2) {
 						Draw_noAlpha_sp_noBody_sse2(rnfo);
 					} else {
 						Draw_noAlpha_sp_noBody_0(rnfo);
@@ -2026,15 +2026,15 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 		}
 	// Here we *do* have an alpha mask
 		else {
-			if(switchpts[1] == 0xFFFFFFFF) {
-				if(fBody) {
-					if(fSSE2) {
+			if (switchpts[1] == 0xFFFFFFFF) {
+				if (fBody) {
+					if (fSSE2) {
 						Draw_Alpha_spFF_Body_sse2(rnfo);
 					} else {
 						Draw_Alpha_spFF_Body_0(rnfo);
 					}
 				} else {
-					if(fSSE2) {
+					if (fSSE2) {
 						Draw_Alpha_spFF_noBody_sse2(rnfo);
 					} else {
 						Draw_Alpha_spFF_noBody_0(rnfo);
@@ -2043,14 +2043,14 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 			} else {
 				//const long *sw = switchpts;
 
-				if(fBody) {
-					if(fSSE2) {
+				if (fBody) {
+					if (fSSE2) {
 						Draw_Alpha_sp_Body_sse2(rnfo);
 					} else {
 						Draw_Alpha_sp_Body_0(rnfo);
 					}
 				} else {
-					if(fSSE2) {
+					if (fSSE2) {
 						Draw_Alpha_sp_noBody_sse2(rnfo);
 					} else {
 						Draw_Alpha_sp_noBody_0(rnfo);
@@ -2060,14 +2060,14 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 		}
 #ifdef _VSMOD // patch m004. gradient colors
 	else {
-		if(!pAlphaMask) {
+		if (!pAlphaMask) {
 			// If the first colour switching coordinate is at "infinite" we're
 			// never switching and can use some simpler code.
 			// ??? Is this optimisation really worth the extra readability issues it adds?
-			if(switchpts[1] == 0xFFFFFFFF) {
+			if (switchpts[1] == 0xFFFFFFFF) {
 				// fBody is true if we're rendering a fill or a shadow.
-				if(fBody) {
-					if(fSSE2) {
+				if (fBody) {
+					if (fSSE2) {
 						Draw_Grad_noAlpha_spFF_Body_sse2(rnfo);
 					} else {
 						Draw_Grad_noAlpha_spFF_Body_0(rnfo);
@@ -2075,7 +2075,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 				}
 				// Not painting body, ie. painting border without fill in it
 				else {
-					if(fSSE2) {
+					if (fSSE2) {
 						Draw_Grad_noAlpha_spFF_noBody_sse2(rnfo);
 					} else {
 						Draw_Grad_noAlpha_spFF_noBody_0(rnfo);
@@ -2087,8 +2087,8 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 				// switchpts plays an important rule here
 				//const long *sw = switchpts;
 
-				if(fBody) {
-					if(fSSE2) {
+				if (fBody) {
+					if (fSSE2) {
 						Draw_Grad_noAlpha_sp_Body_sse2(rnfo);
 					} else {
 						Draw_Grad_noAlpha_sp_Body_0(rnfo);
@@ -2096,7 +2096,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 				}
 				// Not body
 				else {
-					if(fSSE2) {
+					if (fSSE2) {
 						Draw_Grad_noAlpha_sp_noBody_sse2(rnfo);
 					} else {
 						Draw_Grad_noAlpha_sp_noBody_0(rnfo);
@@ -2106,15 +2106,15 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 		}
 		// Here we *do* have an alpha mask
 		else {
-			if(switchpts[1] == 0xFFFFFFFF) {
-				if(fBody) {
-					if(fSSE2) {
+			if (switchpts[1] == 0xFFFFFFFF) {
+				if (fBody) {
+					if (fSSE2) {
 						Draw_Grad_Alpha_spFF_Body_sse2(rnfo);
 					} else {
 						Draw_Grad_Alpha_spFF_Body_0(rnfo);
 					}
 				} else {
-					if(fSSE2) {
+					if (fSSE2) {
 						Draw_Grad_Alpha_spFF_noBody_sse2(rnfo);
 					} else {
 						Draw_Grad_Alpha_spFF_noBody_0(rnfo);
@@ -2123,14 +2123,14 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 			} else {
 				//const long *sw = switchpts;
 
-				if(fBody) {
-					if(fSSE2) {
+				if (fBody) {
+					if (fSSE2) {
 						Draw_Grad_Alpha_sp_Body_sse2(rnfo);
 					} else {
 						Draw_Grad_Alpha_sp_Body_0(rnfo);
 					}
 				} else {
-					if(fSSE2) {
+					if (fSSE2) {
 						Draw_Grad_Alpha_sp_noBody_sse2(rnfo);
 					} else {
 						Draw_Grad_Alpha_sp_noBody_0(rnfo);
@@ -2169,17 +2169,17 @@ void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nH
 {
 	bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 
-	if(fSSE2) {
+	if (fSSE2) {
 		for (int wy=y; wy<y+nHeight; wy++) {
 			DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
-			for(int wt=0; wt<nWidth; ++wt) {
+			for (int wt=0; wt<nWidth; ++wt) {
 				pixmix_sse2(&dst[wt], lColor, 0x40);    // 0x40 because >> 6 in pixmix (to preserve tranparency)
 			}
 		}
 	} else {
 		for (int wy=y; wy<y+nHeight; wy++) {
 			DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
-			for(int wt=0; wt<nWidth; ++wt) {
+			for (int wt=0; wt<nWidth; ++wt) {
 				pixmix(&dst[wt], lColor, 0x40);
 			}
 		}
@@ -2208,7 +2208,7 @@ void MOD_MOVEVC::clear()
 byte MOD_MOVEVC::GetAlphaValue(int wx,int wy)
 {
 	byte alpham;
-	if(!enable) {
+	if (!enable) {
 		//		return 0xFF;
 		return alphamask[wx+((hfull-wy)*spd.cx)];
 	}

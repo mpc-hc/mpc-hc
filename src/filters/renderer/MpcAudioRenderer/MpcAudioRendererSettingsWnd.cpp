@@ -44,11 +44,11 @@ bool CMpcAudioRendererSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID
 	m_pMAR.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pMAR = pUnks.GetNext(pos))) {
+	while (pos && !(m_pMAR = pUnks.GetNext(pos))) {
 		;
 	}
 
-	if(!m_pMAR) {
+	if (!m_pMAR) {
 		return false;
 	}
 
@@ -60,26 +60,26 @@ void CMpcAudioRendererSettingsWnd::OnDisconnect()
 	m_pMAR.Release();
 }
 
-bool CALLBACK DSEnumProc(LPGUID lpGUID, 
-             LPCTSTR lpszDesc,
-             LPCTSTR lpszDrvName, 
-             LPVOID lpContext )
+bool CALLBACK DSEnumProc(LPGUID lpGUID,
+						 LPCTSTR lpszDesc,
+						 LPCTSTR lpszDrvName,
+						 LPVOID lpContext )
 {
-	CComboBox *pCombo = (CComboBox*)lpContext;   
-    ASSERT ( pCombo );   
-    LPGUID lpTemp = NULL;   
+	CComboBox *pCombo = (CComboBox*)lpContext;
+	ASSERT ( pCombo );
+	LPGUID lpTemp = NULL;
 
-	if (lpGUID != NULL) // NULL only for "Primary Sound Driver".   
-    {   
-        if ((lpTemp = (LPGUID)malloc(sizeof(GUID))) == NULL)   
-        {   
-            return TRUE;   
-        }   
-        memcpy(lpTemp, lpGUID, sizeof(GUID));   
-    }   
-    pCombo->AddString ( lpszDesc );   
-    free(lpTemp);   
-    return TRUE;   
+	if (lpGUID != NULL) // NULL only for "Primary Sound Driver".
+	{
+		if ((lpTemp = (LPGUID)malloc(sizeof(GUID))) == NULL)
+		{
+			return TRUE;
+		}
+		memcpy(lpTemp, lpGUID, sizeof(GUID));
+	}
+	pCombo->AddString ( lpszDesc );
+	free(lpTemp);
+	return TRUE;
 }
 
 bool CMpcAudioRendererSettingsWnd::OnActivate()
@@ -94,14 +94,14 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 	nPosY += VERTICAL_SPACING + 5;
 	m_txtSoundDevice.Create (ResStr (IDS_ARS_SOUND_DEVICE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 100, nPosY+15), this, (UINT)IDC_STATIC);
 	m_cbSoundDevice.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (110,  nPosY-4, 325, nPosY+90), this, IDC_PP_SOUND_DEVICE);
-	
+
 	SetClassLongPtr(GetDlgItem(IDC_PP_SOUND_DEVICE)->m_hWnd, GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));
 
 	DirectSoundEnumerate((LPDSENUMCALLBACK)DSEnumProc, (VOID*)&m_cbSoundDevice);
 
 	if ( m_cbSoundDevice.GetCount() > 0 ) {
 		int idx = m_cbSoundDevice.FindString(0, m_pMAR->GetSoundDevice());
-		if( idx < 0) {
+		if ( idx < 0) {
 			m_cbSoundDevice.SetCurSel(0);
 		}
 		else {
@@ -112,7 +112,7 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 	m_cbWasapiMode.SetCheck(m_pMAR->GetWasapiMode());
 	m_cbMuteFastForward.SetCheck(m_pMAR->GetMuteFastForward());
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
+	for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
 	}
 
@@ -127,12 +127,12 @@ bool CMpcAudioRendererSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMAR) {
+	if (m_pMAR) {
 		m_pMAR->SetWasapiMode(m_cbWasapiMode.GetCheck());
 		m_pMAR->SetMuteFastForward(m_cbMuteFastForward.GetCheck());
 		CString str;
 		int idx = m_cbSoundDevice.GetCurSel();
-		if( !(idx < 0) ) {
+		if ( !(idx < 0) ) {
 			m_cbSoundDevice.GetLBText( idx, str );
 			m_pMAR->SetSoundDevice(str);
 		}

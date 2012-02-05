@@ -324,13 +324,13 @@ UINT VIHSIZE = countof(vihs);
 CString VIH2String(int i)
 {
 	CString ret = CString(GuidNames[*vihs[i].subtype]);
-	if(!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) {
+	if (!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) {
 		ret = ret.Mid(13);
 	}
-	if(vihs[i].vih.bmiHeader.biCompression == 3) {
+	if (vihs[i].vih.bmiHeader.biCompression == 3) {
 		ret += _T(" BITF");
 	}
-	if(*vihs[i].subtype == MEDIASUBTYPE_I420) {
+	if (*vihs[i].subtype == MEDIASUBTYPE_I420) {
 		ret = _T("I420");    // FIXME
 	}
 	return(ret);
@@ -339,10 +339,10 @@ CString VIH2String(int i)
 CString Subtype2String(const GUID& subtype)
 {
 	CString ret = CString(GuidNames[subtype]);
-	if(!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) {
+	if (!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) {
 		ret = ret.Mid(13);
 	}
-	if(subtype == MEDIASUBTYPE_I420) {
+	if (subtype == MEDIASUBTYPE_I420) {
 		ret = _T("I420");    // FIXME
 	}
 	return(ret);
@@ -350,17 +350,17 @@ CString Subtype2String(const GUID& subtype)
 
 void CorrectMediaType(AM_MEDIA_TYPE* pmt)
 {
-	if(!pmt) {
+	if (!pmt) {
 		return;
 	}
 
 	CMediaType mt(*pmt);
 
-	if(mt.formattype == FORMAT_VideoInfo) {
+	if (mt.formattype == FORMAT_VideoInfo) {
 		VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mt.pbFormat;
 
-		for(UINT i = 0; i < VIHSIZE; i++) {
-			if(mt.subtype == *vihs[i].subtype
+		for (UINT i = 0; i < VIHSIZE; i++) {
+			if (mt.subtype == *vihs[i].subtype
 					&& vih->bmiHeader.biCompression == vihs[i].vih.bmiHeader.biCompression) {
 				mt.AllocFormatBuffer(vihs[i].size);
 				memcpy(mt.pbFormat, &vihs[i], vihs[i].size);
@@ -368,11 +368,11 @@ void CorrectMediaType(AM_MEDIA_TYPE* pmt)
 				break;
 			}
 		}
-	} else if(mt.formattype == FORMAT_VideoInfo2) {
+	} else if (mt.formattype == FORMAT_VideoInfo2) {
 		VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.pbFormat;
 
-		for(UINT i = 0; i < VIHSIZE; i++) {
-			if(mt.subtype == *vih2s[i].subtype
+		for (UINT i = 0; i < VIHSIZE; i++) {
+			if (mt.subtype == *vih2s[i].subtype
 					&& vih2->bmiHeader.biCompression == vih2s[i].vih.bmiHeader.biCompression) {
 				mt.AllocFormatBuffer(vih2s[i].size);
 				memcpy(mt.pbFormat, &vih2s[i], vih2s[i].size);

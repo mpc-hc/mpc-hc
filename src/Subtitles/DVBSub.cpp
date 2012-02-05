@@ -26,9 +26,9 @@
 #include "../DSUtil/GolombBuffer.h"
 
 #if (0)		// Set to 1 to activate DVB subtitles traces
-	#define TRACE_DVB		TRACE
+#define TRACE_DVB		TRACE
 #else
-	#define TRACE_DVB
+#define TRACE_DVB
 #endif
 
 #define BUFFER_CHUNK_GROW		0x1000
@@ -153,7 +153,7 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
 	DVB_SEGMENT_TYPE	nCurSegment;
 
 	hr = pSample->GetPointer(&pData);
-	if(FAILED(hr) || pData == NULL) {
+	if (FAILED(hr) || pData == NULL) {
 		return hr;
 	}
 	nSize = pSample->GetActualDataLength();
@@ -184,9 +184,9 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
 		gb.BitRead(1);	// extension
 		gb.BitRead(8);	// hdrlen
 
-		if(fpts) {
+		if (fpts) {
 			BYTE b = (BYTE)gb.BitRead(4);
-			if(!(fdts && b == 3 || !fdts && b == 2)) {
+			if (!(fdts && b == 3 || !fdts && b == 2)) {
 				ASSERT(0);
 				return(E_FAIL);
 			}

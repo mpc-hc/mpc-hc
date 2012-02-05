@@ -128,7 +128,7 @@ class CShoutcastStream : public CSourceStream
 			delete pData;
 		}
 		mp3frame& operator = (const mp3frame& f) {
-			if(this != &f) {
+			if (this != &f) {
 				len = f.len;
 				pData = f.pData;
 				rtStart = f.rtStart;

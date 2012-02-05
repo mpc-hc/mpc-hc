@@ -40,12 +40,12 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 {
 	CString s;
 	CStdioFile f;
-	if(!f.Open(fn, CFile::modeCreate|CFile::modeWrite|CFile::typeText)) {
+	if (!f.Open(fn, CFile::modeCreate|CFile::modeWrite|CFile::typeText)) {
 		return;
 	}
 
 	int cnt = 0, size = 0;
-	if(FAILED(pAMVSCCap->GetNumberOfCapabilities(&cnt, &size))) {
+	if (FAILED(pAMVSCCap->GetNumberOfCapabilities(&cnt, &size))) {
 		return;
 	}
 
@@ -53,9 +53,9 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 	s.Format(_T("cnt %d, size %d\n"), cnt, size);
 	f.WriteString(s);
 
-	if(size == sizeof(VIDEO_STREAM_CONFIG_CAPS)) {
+	if (size == sizeof(VIDEO_STREAM_CONFIG_CAPS)) {
 		CString ss;
-		for(ptrdiff_t i = 0; i < cnt; i++) {
+		for (ptrdiff_t i = 0; i < cnt; i++) {
 			AM_MEDIA_TYPE* pmt = NULL;
 
 			VIDEO_STREAM_CONFIG_CAPS caps;
@@ -66,7 +66,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 			s += ss;
 			f.WriteString(s);
 
-			if(FAILED(pAMVSCCap->GetStreamCaps(i, &pmt, (BYTE*)&caps))) {
+			if (FAILED(pAMVSCCap->GetStreamCaps(i, &pmt, (BYTE*)&caps))) {
 				continue;
 			}
 
@@ -102,7 +102,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 			}
 
 			BITMAPINFOHEADER* pbh;
-			if(pmt->formattype == FORMAT_VideoInfo) {
+			if (pmt->formattype == FORMAT_VideoInfo) {
 				VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->pbFormat;
 				pbh = &vih->bmiHeader;
 
@@ -116,7 +116,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 				ss.Format(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
 				s += ss;
 				f.WriteString(s);
-			} else if(pmt->formattype == FORMAT_VideoInfo2) {
+			} else if (pmt->formattype == FORMAT_VideoInfo2) {
 				VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->pbFormat;
 				pbh = &vih->bmiHeader;
 
@@ -158,7 +158,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 
 			DeleteMediaType(pmt);
 		}
-	} else if(size == sizeof(AUDIO_STREAM_CONFIG_CAPS)) {
+	} else if (size == sizeof(AUDIO_STREAM_CONFIG_CAPS)) {
 		// TODO
 	}
 }
@@ -170,18 +170,18 @@ int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC)
 
 	BeginEnumPins(pBF, pEP, pPin) {
 		PIN_DIRECTION dir;
-		if(SUCCEEDED(pPin->QueryDirection(&dir))) {
+		if (SUCCEEDED(pPin->QueryDirection(&dir))) {
 			CComPtr<IPin> pPinConnectedTo;
 			pPin->ConnectedTo(&pPinConnectedTo);
 
-			if(dir == PINDIR_INPUT) {
+			if (dir == PINDIR_INPUT) {
 				nIn++;
-				if(pPinConnectedTo) {
+				if (pPinConnectedTo) {
 					nInC++;
 				}
-			} else if(dir == PINDIR_OUTPUT) {
+			} else if (dir == PINDIR_OUTPUT) {
 				nOut++;
-				if(pPinConnectedTo) {
+				if (pPinConnectedTo) {
 					nOutC++;
 				}
 			}
@@ -209,7 +209,7 @@ bool IsMultiplexer(IBaseFilter* pBF, bool fCountConnectedOnly)
 bool IsStreamStart(IBaseFilter* pBF)
 {
 	CComQIPtr<IAMFilterMiscFlags> pAMMF(pBF);
-	if(pAMMF && pAMMF->GetMiscFlags()&AM_FILTER_MISC_FLAGS_IS_SOURCE) {
+	if (pAMMF && pAMMF->GetMiscFlags()&AM_FILTER_MISC_FLAGS_IS_SOURCE) {
 		return true;
 	}
 
@@ -233,10 +233,10 @@ bool IsVideoRenderer(IBaseFilter* pBF)
 	int nIn, nOut, nInC, nOutC;
 	CountPins(pBF, nIn, nOut, nInC, nOutC);
 
-	if(nInC > 0 && nOut == 0) {
+	if (nInC > 0 && nOut == 0) {
 		BeginEnumPins(pBF, pEP, pPin) {
 			AM_MEDIA_TYPE mt;
-			if(S_OK != pPin->ConnectionMediaType(&mt)) {
+			if (S_OK != pPin->ConnectionMediaType(&mt)) {
 				continue;
 			}
 
@@ -263,10 +263,10 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
 	int nIn, nOut, nInC, nOutC;
 	CountPins(pBF, nIn, nOut, nInC, nOutC);
 
-	if(nInC > 0 && nOut == 0 && CComQIPtr<IBasicAudio>(pBF)) {
+	if (nInC > 0 && nOut == 0 && CComQIPtr<IBasicAudio>(pBF)) {
 		BeginEnumPins(pBF, pEP, pPin) {
 			AM_MEDIA_TYPE mt;
-			if(S_OK != pPin->ConnectionMediaType(&mt)) {
+			if (S_OK != pPin->ConnectionMediaType(&mt)) {
 				continue;
 			}
 
@@ -294,13 +294,13 @@ IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin)
 IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin)
 {
 	BeginEnumPins(pBF, pEP, pPin) {
-		if(pInputPin && pInputPin != pPin) {
+		if (pInputPin && pInputPin != pPin) {
 			continue;
 		}
 
 		PIN_DIRECTION dir;
 		CComPtr<IPin> pPinConnectedTo;
-		if(SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_INPUT
+		if (SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_INPUT
 				&& SUCCEEDED(pPin->ConnectedTo(&pPinConnectedTo))) {
 			IPin* pRet = pPinConnectedTo.Detach();
 			pRet->Release();
@@ -314,14 +314,14 @@ IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin)
 
 IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 {
-	if(!pBF) {
+	if (!pBF) {
 		return(NULL);
 	}
 
 	BeginEnumPins(pBF, pEP, pPin) {
 		PIN_DIRECTION dir2;
 		pPin->QueryDirection(&dir2);
-		if(dir == dir2) {
+		if (dir == dir2) {
 			IPin* pRet = pPin.Detach();
 			pRet->Release();
 			return(pRet);
@@ -334,7 +334,7 @@ IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 
 IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 {
-	if(!pBF) {
+	if (!pBF) {
 		return(NULL);
 	}
 
@@ -342,7 +342,7 @@ IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 		PIN_DIRECTION dir2;
 		pPin->QueryDirection(&dir2);
 		CComPtr<IPin> pPinTo;
-		if(dir == dir2 && (S_OK != pPin->ConnectedTo(&pPinTo))) {
+		if (dir == dir2 && (S_OK != pPin->ConnectedTo(&pPinTo))) {
 			IPin* pRet = pPin.Detach();
 			pRet->Release();
 			return(pRet);
@@ -364,7 +364,7 @@ IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG)
 {
 	BeginEnumFilters(pFG, pEF, pBF) {
 		CLSID clsid2;
-		if(SUCCEEDED(pBF->GetClassID(&clsid2)) && clsid == clsid2) {
+		if (SUCCEEDED(pBF->GetClassID(&clsid2)) && clsid == clsid2) {
 			return(pBF);
 		}
 	}
@@ -398,23 +398,23 @@ CStringW GetFilterName(IBaseFilter* pBF)
 {
 	CStringW name = _T("");
 
-	if(pBF) {
+	if (pBF) {
 		CLSID clsid = GetCLSID(pBF);
-		if(clsid == CLSID_AsyncReader) {
+		if (clsid == CLSID_AsyncReader) {
 			name = _T("File Source (Async.)");
-		} else if(clsid == CLSID_URLReader) {
+		} else if (clsid == CLSID_URLReader) {
 			name = _T("File Source (URL)");
-		} else if(clsid == CLSID_WMAsfReader) {
+		} else if (clsid == CLSID_WMAsfReader) {
 			name = _T("WM ASF Reader");
-		} else if(clsid == GUIDFromCString(_T("{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}"))) {
+		} else if (clsid == GUIDFromCString(_T("{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}"))) {
 			name = _T("AV Source");
-		} else if(clsid == GUIDFromCString(_T("{B98D13E7-55DB-4385-A33D-09FD1BA26338}"))) {
+		} else if (clsid == GUIDFromCString(_T("{B98D13E7-55DB-4385-A33D-09FD1BA26338}"))) {
 			name = _T("LAV Splitter Source");
-		} else if(clsid == GUIDFromCString(_T("{55DA30FC-F16B-49FC-BAA5-AE59FC65F82D}"))) {
+		} else if (clsid == GUIDFromCString(_T("{55DA30FC-F16B-49FC-BAA5-AE59FC65F82D}"))) {
 			name = _T("Haali Media Source");
 		} else {
 			CFilterInfo fi;
-			if(SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
+			if (SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
 				name = fi.achName;
 			}
 		}
@@ -427,21 +427,21 @@ CStringW GetPinName(IPin* pPin)
 {
 	CStringW name;
 	CPinInfo pi;
-	if(pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
+	if (pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
 		name = pi.achName;
 	}
-	
+
 	return(name);
 }
 
 IFilterGraph* GetGraphFromFilter(IBaseFilter* pBF)
 {
-	if(!pBF) {
+	if (!pBF) {
 		return NULL;
 	}
 	IFilterGraph* pGraph = NULL;
 	CFilterInfo fi;
-	if(pBF && SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
+	if (pBF && SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
 		pGraph = fi.pGraph;
 	}
 	return(pGraph);
@@ -449,12 +449,12 @@ IFilterGraph* GetGraphFromFilter(IBaseFilter* pBF)
 
 IBaseFilter* GetFilterFromPin(IPin* pPin)
 {
-	if(!pPin) {
+	if (!pPin) {
 		return NULL;
 	}
 	IBaseFilter* pBF = NULL;
 	CPinInfo pi;
-	if(pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
+	if (pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
 		pBF = pi.pFilter;
 	}
 	return(pBF);
@@ -467,13 +467,13 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 	CInterfaceList<IBaseFilter> pFilters;
 
 	do {
-		if(!pPin || DisplayName.IsEmpty() || !pGB) {
+		if (!pPin || DisplayName.IsEmpty() || !pGB) {
 			break;
 		}
 
 		CComPtr<IPin> pPinTo;
 		PIN_DIRECTION dir;
-		if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT || SUCCEEDED(pPin->ConnectedTo(&pPinTo))) {
+		if (FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT || SUCCEEDED(pPin->ConnectedTo(&pPinTo))) {
 			break;
 		}
 
@@ -482,22 +482,22 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 
 		CComPtr<IMoniker> pMoniker;
 		ULONG chEaten;
-		if(S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
+		if (S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
 			break;
 		}
 
 		CComPtr<IBaseFilter> pBF;
-		if(FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF) {
+		if (FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF) {
 			break;
 		}
 
 		CComPtr<IPropertyBag> pPB;
-		if(FAILED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))) {
+		if (FAILED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))) {
 			break;
 		}
 
 		CComVariant var;
-		if(FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+		if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
 			break;
 		}
 
@@ -506,42 +506,42 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 		pFilters.AddTail(pBF2);
 		EndEnumFilters
 
-		if(FAILED(pGB->AddFilter(pBF, CStringW(var.bstrVal)))) {
+		if (FAILED(pGB->AddFilter(pBF, CStringW(var.bstrVal)))) {
 			break;
 		}
 
 		BeginEnumFilters(pGB, pEnum, pBF2)
-		if(!pFilters.Find(pBF2) && SUCCEEDED(pGB->RemoveFilter(pBF2))) {
+		if (!pFilters.Find(pBF2) && SUCCEEDED(pGB->RemoveFilter(pBF2))) {
 			pEnum->Reset();
 		}
 		EndEnumFilters
 
 		pPinTo = GetFirstPin(pBF, PINDIR_INPUT);
-		if(!pPinTo) {
+		if (!pPinTo) {
 			pGB->RemoveFilter(pBF);
 			break;
 		}
 
 		HRESULT hr;
-		if(FAILED(hr = pGB->ConnectDirect(pPin, pPinTo, NULL))) {
+		if (FAILED(hr = pGB->ConnectDirect(pPin, pPinTo, NULL))) {
 			hr = pGB->Connect(pPin, pPinTo);
 			pGB->RemoveFilter(pBF);
 			break;
 		}
 
 		BeginEnumFilters(pGB, pEnum, pBF2)
-		if(!pFilters.Find(pBF2) && SUCCEEDED(pGB->RemoveFilter(pBF2))) {
+		if (!pFilters.Find(pBF2) && SUCCEEDED(pGB->RemoveFilter(pBF2))) {
 			pEnum->Reset();
 		}
 		EndEnumFilters
 
 		pRet = GetFirstPin(pBF, PINDIR_OUTPUT);
-		if(!pRet) {
+		if (!pRet) {
 			pRet = pPin;
 			pGB->RemoveFilter(pBF);
 			break;
 		}
-	} while(false);
+	} while (false);
 
 	return(pRet);
 }
@@ -549,26 +549,26 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 {
 	do {
-		if(!pPin || DisplayName.IsEmpty() || !pGB) {
+		if (!pPin || DisplayName.IsEmpty() || !pGB) {
 			break;
 		}
 
 		PIN_DIRECTION dir;
-		if(FAILED(pPin->QueryDirection(&dir))) {
+		if (FAILED(pPin->QueryDirection(&dir))) {
 			break;
 		}
 
 		CComPtr<IPin> pFrom, pTo;
 
-		if(dir == PINDIR_INPUT) {
+		if (dir == PINDIR_INPUT) {
 			pPin->ConnectedTo(&pFrom);
 			pTo = pPin;
-		} else if(dir == PINDIR_OUTPUT) {
+		} else if (dir == PINDIR_OUTPUT) {
 			pFrom = pPin;
 			pPin->ConnectedTo(&pTo);
 		}
 
-		if(!pFrom || !pTo) {
+		if (!pFrom || !pTo) {
 			break;
 		}
 
@@ -577,63 +577,63 @@ IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 
 		CComPtr<IMoniker> pMoniker;
 		ULONG chEaten;
-		if(S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
+		if (S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
 			break;
 		}
 
 		CComPtr<IBaseFilter> pBF;
-		if(FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF) {
+		if (FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF) {
 			break;
 		}
 
 		CComPtr<IPropertyBag> pPB;
-		if(FAILED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))) {
+		if (FAILED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))) {
 			break;
 		}
 
 		CComVariant var;
-		if(FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+		if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
 			break;
 		}
 
-		if(FAILED(pGB->AddFilter(pBF, CStringW(var.bstrVal)))) {
+		if (FAILED(pGB->AddFilter(pBF, CStringW(var.bstrVal)))) {
 			break;
 		}
 
 		CComPtr<IPin> pFromTo = GetFirstPin(pBF, PINDIR_INPUT);
-		if(!pFromTo) {
+		if (!pFromTo) {
 			pGB->RemoveFilter(pBF);
 			break;
 		}
 
-		if(FAILED(pGB->Disconnect(pFrom)) || FAILED(pGB->Disconnect(pTo))) {
+		if (FAILED(pGB->Disconnect(pFrom)) || FAILED(pGB->Disconnect(pTo))) {
 			pGB->RemoveFilter(pBF);
 			pGB->ConnectDirect(pFrom, pTo, NULL);
 			break;
 		}
 
 		HRESULT hr;
-		if(FAILED(hr = pGB->ConnectDirect(pFrom, pFromTo, NULL))) {
+		if (FAILED(hr = pGB->ConnectDirect(pFrom, pFromTo, NULL))) {
 			pGB->RemoveFilter(pBF);
 			pGB->ConnectDirect(pFrom, pTo, NULL);
 			break;
 		}
 
 		CComPtr<IPin> pToFrom = GetFirstPin(pBF, PINDIR_OUTPUT);
-		if(!pToFrom) {
+		if (!pToFrom) {
 			pGB->RemoveFilter(pBF);
 			pGB->ConnectDirect(pFrom, pTo, NULL);
 			break;
 		}
 
-		if(FAILED(pGB->ConnectDirect(pToFrom, pTo, NULL))) {
+		if (FAILED(pGB->ConnectDirect(pToFrom, pTo, NULL))) {
 			pGB->RemoveFilter(pBF);
 			pGB->ConnectDirect(pFrom, pTo, NULL);
 			break;
 		}
 
 		pPin = pToFrom;
-	} while(false);
+	} while (false);
 
 	return(pPin);
 }
@@ -645,13 +645,13 @@ void ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types)
 	BeginEnumMediaTypes(pPin, pEM, pmt) {
 		bool fFound = false;
 
-		for(ptrdiff_t i = 0; !fFound && i < (int)types.GetCount(); i += 2) {
-			if(types[i] == pmt->majortype && types[i+1] == pmt->subtype) {
+		for (ptrdiff_t i = 0; !fFound && i < (int)types.GetCount(); i += 2) {
+			if (types[i] == pmt->majortype && types[i+1] == pmt->subtype) {
 				fFound = true;
 			}
 		}
 
-		if(!fFound) {
+		if (!fFound) {
 			types.Add(pmt->majortype);
 			types.Add(pmt->subtype);
 		}
@@ -667,14 +667,14 @@ void ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts)
 		bool fFound = false;
 
 		POSITION pos = mts.GetHeadPosition();
-		while(!fFound && pos) {
+		while (!fFound && pos) {
 			CMediaType& mt = mts.GetNext(pos);
-			if(mt.majortype == pmt->majortype && mt.subtype == pmt->subtype) {
+			if (mt.majortype == pmt->majortype && mt.subtype == pmt->subtype) {
 				fFound = true;
 			}
 		}
 
-		if(!fFound) {
+		if (!fFound) {
 			mts.AddTail(CMediaType(*pmt));
 		}
 	}
@@ -683,7 +683,7 @@ void ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts)
 
 int Eval_Exception(int n_except)
 {
-	if(n_except == STATUS_ACCESS_VIOLATION) {
+	if (n_except == STATUS_ACCESS_VIOLATION) {
 		AfxMessageBox(_T("The property page of this filter has just caused a\nmemory access violation. The application will gently die now :)"));
 	}
 
@@ -695,7 +695,7 @@ void MyOleCreatePropertyFrame(HWND hwndOwner, UINT x, UINT y, LPCOLESTR lpszCapt
 	__try {
 		OleCreatePropertyFrame(hwndOwner, x, y, lpszCaption, cObjects, lplpUnk, cPages, lpPageClsID, lcid, dwReserved, lpvReserved);
 	}
-	__except(Eval_Exception(GetExceptionCode())) {
+	__except (Eval_Exception(GetExceptionCode())) {
 		// No code; this block never executed.
 	}
 }
@@ -707,12 +707,12 @@ void ShowPPage(CString DisplayName, HWND hParentWnd)
 
 	CComPtr<IMoniker> pMoniker;
 	ULONG chEaten;
-	if(S_OK != MkParseDisplayName(pBindCtx, CStringW(DisplayName), &chEaten, &pMoniker)) {
+	if (S_OK != MkParseDisplayName(pBindCtx, CStringW(DisplayName), &chEaten, &pMoniker)) {
 		return;
 	}
 
 	CComPtr<IBaseFilter> pBF;
-	if(FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF) {
+	if (FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF) {
 		return;
 	}
 
@@ -722,7 +722,7 @@ void ShowPPage(CString DisplayName, HWND hParentWnd)
 void ShowPPage(IUnknown* pUnk, HWND hParentWnd)
 {
 	CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk;
-	if(!pSPP) {
+	if (!pSPP) {
 		return;
 	}
 
@@ -732,15 +732,15 @@ void ShowPPage(IUnknown* pUnk, HWND hParentWnd)
 	CFilterInfo fi;
 	CComQIPtr<IPin> pPin = pSPP;
 	CPinInfo pi;
-	if(pBF && SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
+	if (pBF && SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
 		str = fi.achName;
-	} else if(pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
+	} else if (pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
 		str = pi.achName;
 	}
 
 	CAUUID caGUID;
 	caGUID.pElems = NULL;
-	if(SUCCEEDED(pSPP->GetPages(&caGUID))) {
+	if (SUCCEEDED(pSPP->GetPages(&caGUID))) {
 		IUnknown* lpUnk = NULL;
 		pSPP.QueryInterface(&lpUnk);
 		MyOleCreatePropertyFrame(
@@ -750,7 +750,7 @@ void ShowPPage(IUnknown* pUnk, HWND hParentWnd)
 			0, 0, NULL);
 		lpUnk->Release();
 
-		if(caGUID.pElems) {
+		if (caGUID.pElems) {
 			CoTaskMemFree(caGUID.pElems);
 		}
 	}
@@ -759,7 +759,7 @@ void ShowPPage(IUnknown* pUnk, HWND hParentWnd)
 CLSID GetCLSID(IBaseFilter* pBF)
 {
 	CLSID clsid = GUID_NULL;
-	if(pBF) {
+	if (pBF) {
 		pBF->GetClassID(&clsid);
 	}
 	return(clsid);
@@ -784,7 +784,7 @@ bool IsCLSIDRegistered(const CLSID& clsid)
 	bool fRet = false;
 
 	LPOLESTR pStr = NULL;
-	if(S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
+	if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
 		fRet = IsCLSIDRegistered(CString(pStr));
 		CoTaskMemFree(pStr);
 	}
@@ -801,16 +801,16 @@ void CStringToBin(CString str, CAtlArray<BYTE>& data)
 	BYTE b = 0;
 
 	str.MakeUpper();
-	for(size_t i = 0, j = str.GetLength(); i < j; i++) {
+	for (size_t i = 0, j = str.GetLength(); i < j; i++) {
 		TCHAR c = str[i];
-		if(c >= '0' && c <= '9') {
-			if(!(i&1)) {
+		if (c >= '0' && c <= '9') {
+			if (!(i&1)) {
 				b = ((char(c-'0')<<4)&0xf0)|(b&0x0f);
 			} else {
 				b = (char(c-'0')&0x0f)|(b&0xf0);
 			}
-		} else if(c >= 'A' && c <= 'F') {
-			if(!(i&1)) {
+		} else if (c >= 'A' && c <= 'F') {
+			if (!(i&1)) {
 				b = ((char(c-'A'+10)<<4)&0xf0)|(b&0x0f);
 			} else {
 				b = (char(c-'A'+10)&0x0f)|(b&0xf0);
@@ -819,7 +819,7 @@ void CStringToBin(CString str, CAtlArray<BYTE>& data)
 			break;
 		}
 
-		if(i&1) {
+		if (i&1) {
 			data[i>>1] = b;
 			b = 0;
 		}
@@ -830,7 +830,7 @@ CString BinToCString(BYTE* ptr, int len)
 {
 	CString ret;
 
-	while(len-- > 0) {
+	while (len-- > 0) {
 		TCHAR high, low;
 		high = (*ptr>>4) >= 10 ? (*ptr>>4)-10 + 'A' : (*ptr>>4) + '0';
 		low = (*ptr&0xf) >= 10 ? (*ptr&0xf)-10 + 'A' : (*ptr&0xf) + '0';
@@ -853,10 +853,10 @@ static void FindFiles(CString fn, CAtlList<CString>& files)
 
 	WIN32_FIND_DATA findData;
 	HANDLE h = FindFirstFile(fn, &findData);
-	if(h != INVALID_HANDLE_VALUE) {
+	if (h != INVALID_HANDLE_VALUE) {
 		do {
 			files.AddTail(path + findData.cFileName);
-		} while(FindNextFile(h, &findData));
+		} while (FindNextFile(h, &findData));
 
 		FindClose(h);
 	}
@@ -869,7 +869,7 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
 	CString path;
 	path.Format(_T("%c:"), drive);
 
-	if(GetDriveType(path + _T("\\")) == DRIVE_CDROM) {
+	if (GetDriveType(path + _T("\\")) == DRIVE_CDROM) {
 		// CDROM_VideoCD
 		FindFiles(path + _T("\\mpegav\\avseq??.dat"), files);
 		FindFiles(path + _T("\\mpegav\\avseq??.mpg"), files);
@@ -879,28 +879,28 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
 		FindFiles(path + _T("\\mpegav\\music??.mpg"), files);
 		FindFiles(path + _T("\\mpeg2\\music??.dat"), files);
 		FindFiles(path + _T("\\mpeg2\\music??.mpg"), files);
-		if(files.GetCount() > 0) {
+		if (files.GetCount() > 0) {
 			return CDROM_VideoCD;
 		}
 
 		// CDROM_DVDVideo
 		FindFiles(path + _T("\\VIDEO_TS\\video_ts.ifo"), files);
-		if(files.GetCount() > 0) {
+		if (files.GetCount() > 0) {
 			return CDROM_DVDVideo;
 		}
 
 		// CDROM_Audio
-		if(!(GetVersion()&0x80000000)) {
+		if (!(GetVersion()&0x80000000)) {
 			HANDLE hDrive = CreateFile(CString(_T("\\\\.\\")) + path, GENERIC_READ, FILE_SHARE_READ, NULL,
 									   OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
-			if(hDrive != INVALID_HANDLE_VALUE) {
+			if (hDrive != INVALID_HANDLE_VALUE) {
 				DWORD BytesReturned;
 				CDROM_TOC TOC;
-				if(DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, NULL, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
-					for(ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++) {
+				if (DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, NULL, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
+					for (ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++) {
 						// MMC-3 Draft Revision 10g: Table 222 – Q Sub-channel control field
 						TOC.TrackData[i-1].Control &= 5;
-						if(TOC.TrackData[i-1].Control == 0 || TOC.TrackData[i-1].Control == 1) {
+						if (TOC.TrackData[i-1].Control == 0 || TOC.TrackData[i-1].Control == 1) {
 							CString fn;
 							fn.Format(_T("%s\\track%02d.cda"), path, i);
 							files.AddTail(fn);
@@ -911,7 +911,7 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
 				CloseHandle(hDrive);
 			}
 		}
-		if(files.GetCount() > 0) {
+		if (files.GetCount() > 0) {
 			return CDROM_Audio;
 		}
 
@@ -930,9 +930,9 @@ CString GetDriveLabel(TCHAR drive)
 	path.Format(_T("%c:\\"), drive);
 	TCHAR VolumeNameBuffer[MAX_PATH], FileSystemNameBuffer[MAX_PATH];
 	DWORD VolumeSerialNumber, MaximumComponentLength, FileSystemFlags;
-	if(GetVolumeInformation(path,
-							VolumeNameBuffer, MAX_PATH, &VolumeSerialNumber, &MaximumComponentLength,
-							&FileSystemFlags, FileSystemNameBuffer, MAX_PATH)) {
+	if (GetVolumeInformation(path,
+							 VolumeNameBuffer, MAX_PATH, &VolumeSerialNumber, &MaximumComponentLength,
+							 &FileSystemFlags, FileSystemNameBuffer, MAX_PATH)) {
 		label = VolumeNameBuffer;
 	}
 
@@ -944,35 +944,35 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
 	kfs.RemoveAll();
 
 	CString fn2 = CString(fn).MakeLower();
-	if(fn2.Mid(fn2.ReverseFind('.')+1) == _T("avi")) {
+	if (fn2.Mid(fn2.ReverseFind('.')+1) == _T("avi")) {
 		AVIFileInit();
 
 		PAVIFILE pfile;
-		if(AVIFileOpen(&pfile, fn, OF_SHARE_DENY_WRITE, 0L) == 0) {
+		if (AVIFileOpen(&pfile, fn, OF_SHARE_DENY_WRITE, 0L) == 0) {
 			AVIFILEINFO afi;
 			memset(&afi, 0, sizeof(afi));
 			AVIFileInfo(pfile, &afi, sizeof(AVIFILEINFO));
 
 			CComPtr<IAVIStream> pavi;
-			if(AVIFileGetStream(pfile, &pavi, streamtypeVIDEO, 0) == AVIERR_OK) {
+			if (AVIFileGetStream(pfile, &pavi, streamtypeVIDEO, 0) == AVIERR_OK) {
 				AVISTREAMINFO si;
 				AVIStreamInfo(pavi, &si, sizeof(si));
 
-				if(afi.dwCaps&AVIFILECAPS_ALLKEYFRAMES) {
+				if (afi.dwCaps&AVIFILECAPS_ALLKEYFRAMES) {
 					kfs.SetSize(si.dwLength);
-					for(ptrdiff_t kf = 0; kf < (int)si.dwLength; kf++) {
+					for (ptrdiff_t kf = 0; kf < (int)si.dwLength; kf++) {
 						kfs[kf] = kf;
 					}
 				} else {
-					for(ptrdiff_t kf = 0; ; kf++) {
+					for (ptrdiff_t kf = 0; ; kf++) {
 						kf = pavi->FindSample(kf, FIND_KEY|FIND_NEXT);
-						if(kf < 0 || kfs.GetCount() > 0 && kfs[kfs.GetCount()-1] >= (UINT)kf) {
+						if (kf < 0 || kfs.GetCount() > 0 && kfs[kfs.GetCount()-1] >= (UINT)kf) {
 							break;
 						}
 						kfs.Add(kf);
 					}
 
-					if(kfs.GetCount() > 0 && kfs[kfs.GetCount()-1] < si.dwLength-1) {
+					if (kfs.GetCount() > 0 && kfs[kfs.GetCount()-1] < si.dwLength-1) {
 						kfs.Add(si.dwLength-1);
 					}
 				}
@@ -1014,7 +1014,7 @@ DVD_HMSF_TIMECODE RT2HMS_r(REFERENCE_TIME rt) // use only for information (for d
 
 REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps)
 {
-	if(fps == 0) {
+	if (fps == 0) {
 		hmsf.bFrames = 0;
 		fps = 1;
 	}
@@ -1050,7 +1050,7 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 		}
 	}
 
-	switch(n - o) {
+	switch (n - o) {
 		case 3:
 				((DWORD*)dst)[o + 2] = c;
 		case 2:
@@ -1073,26 +1073,26 @@ void memsetw(void* dst, unsigned short c, size_t nbytes)
 
 bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih)
 {
-	if(pmt && bih) {
+	if (pmt && bih) {
 		memset(bih, 0, sizeof(*bih));
 
-		if(pmt->formattype == FORMAT_VideoInfo) {
+		if (pmt->formattype == FORMAT_VideoInfo) {
 			VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->pbFormat;
 			memcpy(bih, &vih->bmiHeader, sizeof(BITMAPINFOHEADER));
 			return true;
-		} else if(pmt->formattype == FORMAT_VideoInfo2) {
+		} else if (pmt->formattype == FORMAT_VideoInfo2) {
 			VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->pbFormat;
 			memcpy(bih, &vih->bmiHeader, sizeof(BITMAPINFOHEADER));
 			return true;
-		} else if(pmt->formattype == FORMAT_MPEGVideo) {
+		} else if (pmt->formattype == FORMAT_MPEGVideo) {
 			VIDEOINFOHEADER* vih = &((MPEG1VIDEOINFO*)pmt->pbFormat)->hdr;
 			memcpy(bih, &vih->bmiHeader, sizeof(BITMAPINFOHEADER));
 			return true;
-		} else if(pmt->formattype == FORMAT_MPEG2_VIDEO) {
+		} else if (pmt->formattype == FORMAT_MPEG2_VIDEO) {
 			VIDEOINFOHEADER2* vih = &((MPEG2VIDEOINFO*)pmt->pbFormat)->hdr;
 			memcpy(bih, &vih->bmiHeader, sizeof(BITMAPINFOHEADER));
 			return true;
-		} else if(pmt->formattype == FORMAT_DiracVideoInfo) {
+		} else if (pmt->formattype == FORMAT_DiracVideoInfo) {
 			VIDEOINFOHEADER2* vih = &((DIRACINFOHEADER*)pmt->pbFormat)->hdr;
 			memcpy(bih, &vih->bmiHeader, sizeof(BITMAPINFOHEADER));
 			return true;
@@ -1123,7 +1123,7 @@ bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih)
 {
 	AM_MEDIA_TYPE* pmt = NULL;
 	pMS->GetMediaType(&pmt);
-	if(pmt) {
+	if (pmt) {
 		bool fRet = ExtractBIH(pmt, bih);
 		DeleteMediaType(pmt);
 		return(fRet);
@@ -1136,13 +1136,13 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 {
 	w = h = arx = ary = 0;
 
-	if(pmt->formattype == FORMAT_VideoInfo || pmt->formattype == FORMAT_MPEGVideo) {
+	if (pmt->formattype == FORMAT_VideoInfo || pmt->formattype == FORMAT_MPEGVideo) {
 		VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->pbFormat;
 		w = vih->bmiHeader.biWidth;
 		h = abs(vih->bmiHeader.biHeight);
 		arx = w * vih->bmiHeader.biYPelsPerMeter;
 		ary = h * vih->bmiHeader.biXPelsPerMeter;
-	} else if(pmt->formattype == FORMAT_VideoInfo2 || pmt->formattype == FORMAT_MPEG2_VIDEO || pmt->formattype == FORMAT_DiracVideoInfo) {
+	} else if (pmt->formattype == FORMAT_VideoInfo2 || pmt->formattype == FORMAT_MPEG2_VIDEO || pmt->formattype == FORMAT_DiracVideoInfo) {
 		VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->pbFormat;
 		w = vih->bmiHeader.biWidth;
 		h = abs(vih->bmiHeader.biHeight);
@@ -1152,15 +1152,15 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 		return false;
 	}
 
-	if(!arx || !ary) {
+	if (!arx || !ary) {
 		BYTE* ptr = NULL;
 		DWORD len = 0;
 
-		if(pmt->formattype == FORMAT_MPEGVideo) {
+		if (pmt->formattype == FORMAT_MPEGVideo) {
 			ptr = ((MPEG1VIDEOINFO*)pmt->pbFormat)->bSequenceHeader;
 			len = ((MPEG1VIDEOINFO*)pmt->pbFormat)->cbSequenceHeader;
 
-			if(ptr && len >= 8 && *(DWORD*)ptr == 0xb3010000) {
+			if (ptr && len >= 8 && *(DWORD*)ptr == 0xb3010000) {
 				w = (ptr[4]<<4)|(ptr[5]>>4);
 				h = ((ptr[5]&0xf)<<8)|ptr[6];
 				float ar[] = {
@@ -1172,11 +1172,11 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 				arx = (int)((float)w / ar[ptr[7]>>4] + 0.5);
 				ary = h;
 			}
-		} else if(pmt->formattype == FORMAT_MPEG2_VIDEO) {
+		} else if (pmt->formattype == FORMAT_MPEG2_VIDEO) {
 			ptr = (BYTE*)((MPEG2VIDEOINFO*)pmt->pbFormat)->dwSequenceHeader;
 			len = ((MPEG2VIDEOINFO*)pmt->pbFormat)->cbSequenceHeader;
 
-			if(ptr && len >= 8 && *(DWORD*)ptr == 0xb3010000) {
+			if (ptr && len >= 8 && *(DWORD*)ptr == 0xb3010000) {
 				w = (ptr[4]<<4)|(ptr[5]>>4);
 				h = ((ptr[5]&0xf)<<8)|ptr[6];
 				struct {
@@ -1189,18 +1189,18 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 		}
 	}
 
-	if(!arx || !ary) {
+	if (!arx || !ary) {
 		arx = w;
 		ary = h;
 	}
 
 	DWORD a = arx, b = ary;
-	while(a) {
+	while (a) {
 		int tmp = a;
 		a = b % tmp;
 		b = tmp;
 	}
-	if(b) {
+	if (b) {
 		arx /= b, ary /= b;
 	}
 
@@ -1209,7 +1209,7 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 
 bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
 {
-	if(len < 4 || *(DWORD*)seqhdr != 0xb3010000) {
+	if (len < 4 || *(DWORD*)seqhdr != 0xb3010000) {
 		mt = CMediaType();
 
 		mt.majortype = MEDIATYPE_Video;
@@ -1231,8 +1231,8 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
 
 	BYTE* seqhdr_end = seqhdr + 7;
 
-	while(seqhdr_end < (seqhdr + len - 6)) {
-		if(*(DWORD*)seqhdr_end == 0xb5010000) {
+	while (seqhdr_end < (seqhdr + len - 6)) {
+		if (*(DWORD*)seqhdr_end == 0xb5010000) {
 			seqhdr_ext = seqhdr_end;
 			seqhdr_end += 10;
 			len = seqhdr_end - seqhdr;
@@ -1269,7 +1269,7 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
 		0, 0, 0, 0
 	};
 
-	if(seqhdr_ext && (seqhdr_ext[4] & 0xf0) == 0x10) {
+	if (seqhdr_ext && (seqhdr_ext[4] & 0xf0) == 0x10) {
 		vih->dwProfile = profile[seqhdr_ext[4] & 0x07];
 		vih->dwLevel = level[seqhdr_ext[5] >> 4];
 	}
@@ -1286,11 +1286,11 @@ unsigned __int64 GetFileVersion(LPCTSTR fn)
 	DWORD d; // a variable that GetFileVersionInfoSize sets to zero (but why is it needed ?????????????????????????????? :)
 	DWORD len = GetFileVersionInfoSize((TCHAR*)fn, &d);
 
-	if(len) {
+	if (len) {
 		TCHAR* b1 = DNew TCHAR[len];
-		if(b1) {
+		if (b1) {
 			UINT uLen;
-			if(GetFileVersionInfo((TCHAR*)fn, 0, len, b1) && VerQueryValue(b1, _T("\\"), (void**)&pvsf, &uLen)) {
+			if (GetFileVersionInfo((TCHAR*)fn, 0, len, b1) && VerQueryValue(b1, _T("\\"), (void**)&pvsf, &uLen)) {
 				ret = ((unsigned __int64)pvsf->dwFileVersionMS<<32) | pvsf->dwFileVersionLS;
 			}
 
@@ -1303,7 +1303,7 @@ unsigned __int64 GetFileVersion(LPCTSTR fn)
 
 bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyName)
 {
-	if(!ppBF) {
+	if (!ppBF) {
 		return false;
 	}
 
@@ -1315,17 +1315,17 @@ bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyNa
 
 	CComPtr<IMoniker> pMoniker;
 	ULONG chEaten;
-	if(S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
+	if (S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
 		return false;
 	}
 
-	if(FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)ppBF)) || !*ppBF) {
+	if (FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)ppBF)) || !*ppBF) {
 		return false;
 	}
 
 	CComPtr<IPropertyBag> pPB;
 	CComVariant var;
-	if(SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))
+	if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))
 			&& SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
 		FriendlyName = var.bstrVal;
 	}
@@ -1336,13 +1336,13 @@ bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyNa
 IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
 {
 	do {
-		if(!pPin || !pMoniker || !pGB) {
+		if (!pPin || !pMoniker || !pGB) {
 			break;
 		}
 
 		CComPtr<IPin> pPinTo;
 		PIN_DIRECTION dir;
-		if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT || SUCCEEDED(pPin->ConnectedTo(&pPinTo))) {
+		if (FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT || SUCCEEDED(pPin->ConnectedTo(&pPinTo))) {
 			break;
 		}
 
@@ -1350,38 +1350,38 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
 		CreateBindCtx(0, &pBindCtx);
 
 		CComPtr<IPropertyBag> pPB;
-		if(FAILED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))) {
+		if (FAILED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))) {
 			break;
 		}
 
 		CComVariant var;
-		if(FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
+		if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
 			break;
 		}
 
 		CComPtr<IBaseFilter> pBF;
-		if(FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF) {
+		if (FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF) {
 			break;
 		}
 
-		if(FAILED(pGB->AddFilter(pBF, CStringW(var.bstrVal)))) {
+		if (FAILED(pGB->AddFilter(pBF, CStringW(var.bstrVal)))) {
 			break;
 		}
 
 		BeginEnumPins(pBF, pEP, pPinTo) {
 			PIN_DIRECTION dir;
-			if(FAILED(pPinTo->QueryDirection(&dir)) || dir != PINDIR_INPUT) {
+			if (FAILED(pPinTo->QueryDirection(&dir)) || dir != PINDIR_INPUT) {
 				continue;
 			}
 
-			if(SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo, NULL))) {
+			if (SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo, NULL))) {
 				return(pBF);
 			}
 		}
 		EndEnumFilters
 
 		pGB->RemoveFilter(pBF);
-	} while(false);
+	} while (false);
 
 	return(NULL);
 }
@@ -1395,13 +1395,13 @@ CStringW GetFriendlyName(CStringW DisplayName)
 
 	CComPtr<IMoniker> pMoniker;
 	ULONG chEaten;
-	if(S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
+	if (S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
 		return false;
 	}
 
 	CComPtr<IPropertyBag> pPB;
 	CComVariant var;
-	if(SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))
+	if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_IPropertyBag, (void**)&pPB))
 			&& SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
 		FriendlyName = var.bstrVal;
 	}
@@ -1427,9 +1427,9 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
 	bool fFound = false;
 
 	POSITION pos = s_extobjs.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		ExternalObject& eo = s_extobjs.GetNext(pos);
-		if(!eo.path.CompareNoCase(fullpath)) {
+		if (!eo.path.CompareNoCase(fullpath)) {
 			hInst = eo.hInst;
 			fFound = true;
 			break;
@@ -1438,27 +1438,27 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
 
 	HRESULT hr = E_FAIL;
 
-	if(!hInst) {
+	if (!hInst) {
 		hInst = CoLoadLibrary(CComBSTR(fullpath), TRUE);
 	}
-	if(hInst) {
+	if (hInst) {
 		typedef HRESULT (__stdcall * PDllGetClassObject)(REFCLSID rclsid, REFIID riid, LPVOID* ppv);
 		PDllGetClassObject p = (PDllGetClassObject)GetProcAddress(hInst, "DllGetClassObject");
 
-		if(p && FAILED(hr = p(clsid, iid, ppv))) {
+		if (p && FAILED(hr = p(clsid, iid, ppv))) {
 			CComPtr<IClassFactory> pCF;
-			if(SUCCEEDED(hr = p(clsid, __uuidof(IClassFactory), (void**)&pCF))) {
+			if (SUCCEEDED(hr = p(clsid, __uuidof(IClassFactory), (void**)&pCF))) {
 				hr = pCF->CreateInstance(NULL, iid, ppv);
 			}
 		}
 	}
 
-	if(FAILED(hr) && hInst && !fFound) {
+	if (FAILED(hr) && hInst && !fFound) {
 		CoFreeLibrary(hInst);
 		return hr;
 	}
 
-	if(hInst && !fFound) {
+	if (hInst && !fFound) {
 		ExternalObject eo;
 		eo.path = fullpath;
 		eo.hInst = hInst;
@@ -1477,14 +1477,14 @@ HRESULT LoadExternalFilter(LPCTSTR path, REFCLSID clsid, IBaseFilter** ppBF)
 HRESULT LoadExternalPropertyPage(IPersist* pP, REFCLSID clsid, IPropertyPage** ppPP)
 {
 	CLSID clsid2 = GUID_NULL;
-	if(FAILED(pP->GetClassID(&clsid2))) {
+	if (FAILED(pP->GetClassID(&clsid2))) {
 		return E_FAIL;
 	}
 
 	POSITION pos = s_extobjs.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		ExternalObject& eo = s_extobjs.GetNext(pos);
-		if(eo.clsid == clsid2) {
+		if (eo.clsid == clsid2) {
 			return LoadExternalObject(eo.path, clsid, __uuidof(IPropertyPage), (void**)ppPP);
 		}
 	}
@@ -1495,7 +1495,7 @@ HRESULT LoadExternalPropertyPage(IPersist* pP, REFCLSID clsid, IPropertyPage** p
 void UnloadExternalObjects()
 {
 	POSITION pos = s_extobjs.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		ExternalObject& eo = s_extobjs.GetNext(pos);
 		CoFreeLibrary(eo.hInst);
 	}
@@ -1511,10 +1511,10 @@ CString MakeFullPath(LPCTSTR path)
 	fn.ReleaseBuffer(GetModuleFileName(AfxGetInstanceHandle(), fn.GetBuffer(MAX_PATH), MAX_PATH));
 	CPath p(fn);
 
-	if(full.GetLength() >= 2 && full[0] == '\\' && full[1] != '\\') {
+	if (full.GetLength() >= 2 && full[0] == '\\' && full[1] != '\\') {
 		p.StripToRoot();
 		full = CString(p) + full.Mid(1);
-	} else if(full.Find(_T(":\\")) < 0) {
+	} else if (full.Find(_T(":\\")) < 0) {
 		p.RemoveFileSpec();
 		p.AddBackslash();
 		full = CString(p) + full;
@@ -1533,15 +1533,15 @@ CString GetMediaTypeName(const GUID& guid)
 				  ? _T("Any type")
 				  : CString(GuidNames[guid]);
 
-	if(ret == _T("FOURCC GUID")) {
+	if (ret == _T("FOURCC GUID")) {
 		CString str;
-		if(guid.Data1 >= 0x10000) {
+		if (guid.Data1 >= 0x10000) {
 			str.Format(_T("Video: %c%c%c%c"), (guid.Data1>>0)&0xff, (guid.Data1>>8)&0xff, (guid.Data1>>16)&0xff, (guid.Data1>>24)&0xff);
 		} else {
 			str.Format(_T("Audio: 0x%08x"), guid.Data1);
 		}
 		ret = str;
-	} else if(ret == _T("Unknown GUID Name")) {
+	} else if (ret == _T("Unknown GUID Name")) {
 		WCHAR null[128] = {0}, buff[128];
 		StringFromGUID2(GUID_NULL, null, 127);
 		ret = CString(CStringW(StringFromGUID2(guid, buff, 127) ? buff : null));
@@ -1576,7 +1576,7 @@ CStringW UTF8To16(LPCSTR utf8)
 {
 	CStringW str;
 	int n = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, NULL, 0)-1;
-	if(n < 0) {
+	if (n < 0) {
 		return str;
 	}
 	str.ReleaseBuffer(MultiByteToWideChar(CP_UTF8, 0, utf8, -1, str.GetBuffer(n), n+1)-1);
@@ -1587,7 +1587,7 @@ CStringA UTF16To8(LPCWSTR utf16)
 {
 	CStringA str;
 	int n = WideCharToMultiByte(CP_UTF8, 0, utf16, -1, NULL, 0, NULL, NULL)-1;
-	if(n < 0) {
+	if (n < 0) {
 		return str;
 	}
 	str.ReleaseBuffer(WideCharToMultiByte(CP_UTF8, 0, utf16, -1, str.GetBuffer(n), n+1, NULL, NULL)-1);
@@ -2135,11 +2135,11 @@ CString ISO6391ToLanguage(LPCSTR code)
 	strncpy_s(tmp, code, 2);
 	tmp[2] = 0;
 	_strlwr_s(tmp);
-	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
-		if(!strcmp(s_isolangs[i].iso6391, tmp)) {
+	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
+		if (!strcmp(s_isolangs[i].iso6391, tmp)) {
 			CString ret = CString(CStringA(s_isolangs[i].name));
 			int i = ret.Find(';');
-			if(i > 0) {
+			if (i > 0) {
 				ret = ret.Left(i);
 			}
 			return ret;
@@ -2153,11 +2153,11 @@ CString ISO6392ToLanguage(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
-		if(!strcmp(s_isolangs[i].iso6392, tmp)) {
+	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
+		if (!strcmp(s_isolangs[i].iso6392, tmp)) {
 			CString ret = CString(CStringA(s_isolangs[i].name));
 			int i = ret.Find(';');
-			if(i > 0) {
+			if (i > 0) {
 				ret = ret.Left(i);
 			}
 			return ret;
@@ -2172,8 +2172,8 @@ LCID ISO6391ToLcid(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
-		if(!strcmp(s_isolangs[i].iso6391, code)) {
+	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
+		if (!strcmp(s_isolangs[i].iso6391, code)) {
 			return s_isolangs[i].lcid;
 		}
 	}
@@ -2186,8 +2186,8 @@ LCID ISO6392ToLcid(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
-		if(!strcmp(s_isolangs[i].iso6392, tmp)) {
+	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
+		if (!strcmp(s_isolangs[i].iso6392, tmp)) {
 			return s_isolangs[i].lcid;
 		}
 	}
@@ -2200,8 +2200,8 @@ CString ISO6391To6392(LPCSTR code)
 	strncpy_s(tmp, code, 2);
 	tmp[2] = 0;
 	_strlwr_s(tmp);
-	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
-		if(!strcmp(s_isolangs[i].iso6391, tmp)) {
+	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
+		if (!strcmp(s_isolangs[i].iso6391, tmp)) {
 			return CString(CStringA(s_isolangs[i].iso6392));
 		}
 	return _T("");
@@ -2213,8 +2213,8 @@ CString ISO6392To6391(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
-		if(!strcmp(s_isolangs[i].iso6392, tmp)) {
+	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
+		if (!strcmp(s_isolangs[i].iso6392, tmp)) {
 			return CString(CStringA(s_isolangs[i].iso6391));
 		}
 	return _T("");
@@ -2224,12 +2224,12 @@ CString LanguageToISO6392(LPCTSTR lang)
 {
 	CString str = lang;
 	str.MakeLower();
-	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
+	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
 		CAtlList<CString> sl;
 		Explode(CString(s_isolangs[i].name), sl, ';');
 		POSITION pos = sl.GetHeadPosition();
-		while(pos) {
-			if(!str.CompareNoCase(sl.GetNext(pos))) {
+		while (pos) {
+			if (!str.CompareNoCase(sl.GetNext(pos))) {
 				return CString(s_isolangs[i].iso6392);
 			}
 		}
@@ -2241,27 +2241,27 @@ int MakeAACInitData(BYTE* pData, int profile, int freq, int channels)
 {
 	int srate_idx;
 
-	if(92017 <= freq) {
+	if (92017 <= freq) {
 		srate_idx = 0;
-	} else if(75132 <= freq) {
+	} else if (75132 <= freq) {
 		srate_idx = 1;
-	} else if(55426 <= freq) {
+	} else if (55426 <= freq) {
 		srate_idx = 2;
-	} else if(46009 <= freq) {
+	} else if (46009 <= freq) {
 		srate_idx = 3;
-	} else if(37566 <= freq) {
+	} else if (37566 <= freq) {
 		srate_idx = 4;
-	} else if(27713 <= freq) {
+	} else if (27713 <= freq) {
 		srate_idx = 5;
-	} else if(23004 <= freq) {
+	} else if (23004 <= freq) {
 		srate_idx = 6;
-	} else if(18783 <= freq) {
+	} else if (18783 <= freq) {
 		srate_idx = 7;
-	} else if(13856 <= freq) {
+	} else if (13856 <= freq) {
 		srate_idx = 8;
-	} else if(11502 <= freq) {
+	} else if (11502 <= freq) {
 		srate_idx = 9;
-	} else if(9391 <= freq) {
+	} else if (9391 <= freq) {
 		srate_idx = 10;
 	} else {
 		srate_idx = 11;
@@ -2272,30 +2272,30 @@ int MakeAACInitData(BYTE* pData, int profile, int freq, int channels)
 
 	int ret = 2;
 
-	if(profile < 0) {
+	if (profile < 0) {
 		freq *= 2;
 
-		if(92017 <= freq) {
+		if (92017 <= freq) {
 			srate_idx = 0;
-		} else if(75132 <= freq) {
+		} else if (75132 <= freq) {
 			srate_idx = 1;
-		} else if(55426 <= freq) {
+		} else if (55426 <= freq) {
 			srate_idx = 2;
-		} else if(46009 <= freq) {
+		} else if (46009 <= freq) {
 			srate_idx = 3;
-		} else if(37566 <= freq) {
+		} else if (37566 <= freq) {
 			srate_idx = 4;
-		} else if(27713 <= freq) {
+		} else if (27713 <= freq) {
 			srate_idx = 5;
-		} else if(23004 <= freq) {
+		} else if (23004 <= freq) {
 			srate_idx = 6;
-		} else if(18783 <= freq) {
+		} else if (18783 <= freq) {
 			srate_idx = 7;
-		} else if(13856 <= freq) {
+		} else if (13856 <= freq) {
 			srate_idx = 8;
-		} else if(11502 <= freq) {
+		} else if (11502 <= freq) {
 			srate_idx = 9;
-		} else if(9391 <= freq) {
+		} else if (9391 <= freq) {
 			srate_idx = 10;
 		} else {
 			srate_idx = 11;
@@ -2315,7 +2315,7 @@ BOOL CFileGetStatus(LPCTSTR lpszFileName, CFileStatus& status)
 {
 	try {
 		return CFile::GetStatus(lpszFileName, status);
-	} catch(CException* e) {
+	} catch (CException* e) {
 		// MFCBUG: E_INVALIDARG / "Parameter is incorrect" is thrown for certain cds (vs2003)
 		// http://groups.google.co.uk/groups?hl=en&lr=&ie=UTF-8&threadm=OZuXYRzWDHA.536%40TK2MSFTNGP10.phx.gbl&rnum=1&prev=/groups%3Fhl%3Den%26lr%3D%26ie%3DISO-8859-1
 		TRACE(_T("CFile::GetStatus has thrown an exception\n"));
@@ -2332,8 +2332,8 @@ bool DeleteRegKey(LPCTSTR pszKey, LPCTSTR pszSubkey)
 
 	HKEY hKey;
 	LONG ec = ::RegOpenKeyEx(HKEY_CLASSES_ROOT, pszKey, 0, KEY_ALL_ACCESS, &hKey);
-	if(ec == ERROR_SUCCESS) {
-		if(pszSubkey != 0) {
+	if (ec == ERROR_SUCCESS) {
+		if (pszSubkey != 0) {
 			ec = ::RegDeleteKey(hKey, pszSubkey);
 		}
 
@@ -2350,14 +2350,14 @@ bool SetRegKeyValue(LPCTSTR pszKey, LPCTSTR pszSubkey, LPCTSTR pszValueName, LPC
 	bool bOK = false;
 
 	CString szKey(pszKey);
-	if(pszSubkey != 0) {
+	if (pszSubkey != 0) {
 		szKey += CString(_T("\\")) + pszSubkey;
 	}
 
 	HKEY hKey;
 	LONG ec = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, szKey, 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, 0, &hKey, 0);
-	if(ec == ERROR_SUCCESS) {
-		if(pszValue != 0) {
+	if (ec == ERROR_SUCCESS) {
+		if (pszValue != 0) {
 			ec = ::RegSetValueEx(hKey, pszValueName, 0, REG_SZ,
 								 reinterpret_cast<BYTE*>(const_cast<LPTSTR>(pszValue)),
 								 (_tcslen(pszValue) + 1) * sizeof(TCHAR));
@@ -2389,7 +2389,7 @@ void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, LPCTSTR chkb
 
 	va_list marker;
 	va_start(marker, ext);
-	for(; ext; ext = va_arg(marker, LPCTSTR)) {
+	for (; ext; ext = va_arg(marker, LPCTSTR)) {
 		DeleteRegKey(_T("Media Type\\Extensions"), ext);
 	}
 	va_end(marker);
@@ -2402,7 +2402,7 @@ void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlLi
 	CString subtype = CStringFromGUID(subtype2);
 
 	POSITION pos = chkbytes.GetHeadPosition();
-	for(ptrdiff_t i = 0; pos; i++) {
+	for (ptrdiff_t i = 0; pos; i++) {
 		CString idx;
 		idx.Format(_T("%d"), i);
 		SetRegKeyValue(_T("Media Type\\") + majortype, subtype, idx, chkbytes.GetNext(pos));
@@ -2414,7 +2414,7 @@ void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlLi
 
 	va_list marker;
 	va_start(marker, ext);
-	for(; ext; ext = va_arg(marker, LPCTSTR)) {
+	for (; ext; ext = va_arg(marker, LPCTSTR)) {
 		DeleteRegKey(_T("Media Type\\Extensions"), ext);
 	}
 	va_end(marker);
@@ -2487,7 +2487,8 @@ static const DXVA2_DECODER DXVA2Decoder[] = {
 	{&DXVA2_NoEncrypt,					_T("No encryption")},
 	{&DXVA2_VideoProcProgressiveDevice,	_T("Progressive scan")},
 	{&DXVA2_VideoProcBobDevice,			_T("Bob deinterlacing")},
-	{&DXVA2_VideoProcSoftwareDevice,	_T("Software processing")}};
+	{&DXVA2_VideoProcSoftwareDevice,	_T("Software processing")}
+};
 
 LPCTSTR GetDXVAMode(const GUID* guidDecoder)
 {
@@ -2735,13 +2736,13 @@ void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName)
 	__try {
 		RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD), (ULONG_PTR*)&info );
 	}
-	__except(EXCEPTION_CONTINUE_EXECUTION) {
+	__except (EXCEPTION_CONTINUE_EXECUTION) {
 	}
 }
 
 void HexDump(CString fileName, BYTE* buf, int size)
 {
-	if(size<=0) {
+	if (size<=0) {
 		return;
 	}
 
@@ -2749,13 +2750,13 @@ void HexDump(CString fileName, BYTE* buf, int size)
 	dump_str.Format(_T("Dump size = %d\n"), size);
 	int len, i, j, c;
 
-	for(i=0; i<size; i+=16) {
+	for (i=0; i<size; i+=16) {
 		len = size - i;
 		if (len > 16) {
 			len = 16;
 		}
 		dump_str.AppendFormat(_T("%08x "), i);
-		for(j=0; j<16; j++) {
+		for (j=0; j<16; j++) {
 			if (j < len) {
 				dump_str.AppendFormat(_T(" %02x"), buf[i+j]);
 			}
@@ -2764,7 +2765,7 @@ void HexDump(CString fileName, BYTE* buf, int size)
 			}
 		}
 		dump_str.Append(_T(" "));
-		for(j=0; j<len; j++) {
+		for (j=0; j<len; j++) {
 			c = buf[i+j];
 			if (c < ' ' || c > '~') {
 				c = '.';
@@ -2775,9 +2776,9 @@ void HexDump(CString fileName, BYTE* buf, int size)
 	}
 	dump_str.Append(_T("\n"));
 
-	if(!fileName.IsEmpty()) {
+	if (!fileName.IsEmpty()) {
 		CStdioFile file;
-		if(file.Open(fileName, CFile::modeCreate|CFile::modeWrite)) {
+		if (file.Open(fileName, CFile::modeCreate|CFile::modeWrite)) {
 			file.WriteString(dump_str);
 			file.Close();
 		}
@@ -2791,42 +2792,42 @@ DWORD GetDefChannelMask(WORD nChannels)
 {
 	switch (nChannels) {
 		case 1: // 1.0 Mono
-			return SPEAKER_FRONT_CENTER;
+				return SPEAKER_FRONT_CENTER;
 		case 2: // 2.0 Stereo
-			return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT;
+				return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT;
 		case 3: // 2.1 Stereo
-			return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_LOW_FREQUENCY;
+				return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_LOW_FREQUENCY;
 		case 4: // 4.0 Quad
-			return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT
-					| SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT;
+				return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT
+					   | SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT;
 		case 5: // 4.1
-			return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_LOW_FREQUENCY
-					| SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT;
+				return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_LOW_FREQUENCY
+					   | SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT;
 		case 6: // 5.1 Side (KSAUDIO_SPEAKER_5POINT1_SURROUND)
-			return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER
-					| SPEAKER_LOW_FREQUENCY | SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT;
+				return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER
+					   | SPEAKER_LOW_FREQUENCY | SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT;
 		case 7: // 6.1 Side
-			return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER
-					| SPEAKER_LOW_FREQUENCY | SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT
-					| SPEAKER_BACK_CENTER;
+				return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER
+					   | SPEAKER_LOW_FREQUENCY | SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT
+					   | SPEAKER_BACK_CENTER;
 		case 8: // 7.1 Surround (KSAUDIO_SPEAKER_7POINT1_SURROUND)
-			return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER
-					| SPEAKER_LOW_FREQUENCY | SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT
-					| SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT;
+				return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER
+					   | SPEAKER_LOW_FREQUENCY | SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT
+					   | SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT;
 		case 10: // 9.1 Surround
-			return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER
-					| SPEAKER_LOW_FREQUENCY | SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT
-					| SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT
-					| SPEAKER_TOP_FRONT_LEFT | SPEAKER_TOP_FRONT_RIGHT;
+				return SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT | SPEAKER_FRONT_CENTER
+					   | SPEAKER_LOW_FREQUENCY | SPEAKER_BACK_LEFT | SPEAKER_BACK_RIGHT
+					   | SPEAKER_SIDE_LEFT | SPEAKER_SIDE_RIGHT
+					   | SPEAKER_TOP_FRONT_LEFT | SPEAKER_TOP_FRONT_RIGHT;
 		default:
-			return 0;
+				return 0;
 	}
 }
 
 void CorrectComboListWidth(CComboBox& m_pComboBox)
 {
 	// Find the longest string in the combo box.
-	if(m_pComboBox.GetCount() <=0 )
+	if (m_pComboBox.GetCount() <=0 )
 		return;
 
 	CString    str;
@@ -2843,14 +2844,14 @@ void CorrectComboListWidth(CComboBox& m_pComboBox)
 
 	for (int i = 0; i < m_pComboBox.GetCount(); i++)
 	{
-	   m_pComboBox.GetLBText(i, str);
-	   sz = pDC->GetTextExtent(str);
+		m_pComboBox.GetLBText(i, str);
+		sz = pDC->GetTextExtent(str);
 
-	   // Add the avg width to prevent clipping
-	   sz.cx += tm.tmAveCharWidth;
+		// Add the avg width to prevent clipping
+		sz.cx += tm.tmAveCharWidth;
 
-	   if (sz.cx > dx)
-		  dx = sz.cx;
+		if (sz.cx > dx)
+			dx = sz.cx;
 	}
 	// Select the old font back into the DC
 	pDC->SelectObject(pOldFont);
@@ -2865,88 +2866,88 @@ void CorrectComboListWidth(CComboBox& m_pComboBox)
 
 unsigned int lav_xiphlacing(unsigned char *s, unsigned int v)
 {
-    unsigned int n = 0;
+	unsigned int n = 0;
 
-    while(v >= 0xff) {
-        *s++ = 0xff;
-        v -= 0xff;
-        n++;
-    }
-    *s = v;
-    n++;
-    return n;
+	while (v >= 0xff) {
+		*s++ = 0xff;
+		v -= 0xff;
+		n++;
+	}
+	*s = v;
+	n++;
+	return n;
 }
 
 void getExtraData(const BYTE *format, const GUID *formattype, const size_t formatlen, BYTE *extra, unsigned int *extralen)
 {
-  const BYTE *extraposition = NULL;
-  unsigned extralength = 0;
-  if (*formattype == FORMAT_WaveFormatEx) {
-    WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
-    extraposition = format + sizeof(WAVEFORMATEX);
-    // Protected against over-reads
-    extralength   = formatlen - sizeof(WAVEFORMATEX);
-  } else if (*formattype == FORMAT_VorbisFormat2) {
-    VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)format;
-    BYTE *start = NULL, *end = NULL;
-    unsigned offset = 1;
-    if (extra) {
-      *extra = 2;
-      offset += lav_xiphlacing(extra+offset, vf2->HeaderSize[0]);
-      offset += lav_xiphlacing(extra+offset, vf2->HeaderSize[1]);
-      extra += offset;
-    } else {
-      BYTE dummy[100];
-      offset += lav_xiphlacing(dummy, vf2->HeaderSize[0]);
-      offset += lav_xiphlacing(dummy, vf2->HeaderSize[1]);
-    }
-    extralength = vf2->HeaderSize[0] + vf2->HeaderSize[1] + vf2->HeaderSize[2];
-    extralength = min(extralength, formatlen - sizeof(VORBISFORMAT2));
+	const BYTE *extraposition = NULL;
+	unsigned extralength = 0;
+	if (*formattype == FORMAT_WaveFormatEx) {
+		WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
+		extraposition = format + sizeof(WAVEFORMATEX);
+		// Protected against over-reads
+		extralength   = formatlen - sizeof(WAVEFORMATEX);
+	} else if (*formattype == FORMAT_VorbisFormat2) {
+		VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)format;
+		BYTE *start = NULL, *end = NULL;
+		unsigned offset = 1;
+		if (extra) {
+			*extra = 2;
+			offset += lav_xiphlacing(extra+offset, vf2->HeaderSize[0]);
+			offset += lav_xiphlacing(extra+offset, vf2->HeaderSize[1]);
+			extra += offset;
+		} else {
+			BYTE dummy[100];
+			offset += lav_xiphlacing(dummy, vf2->HeaderSize[0]);
+			offset += lav_xiphlacing(dummy, vf2->HeaderSize[1]);
+		}
+		extralength = vf2->HeaderSize[0] + vf2->HeaderSize[1] + vf2->HeaderSize[2];
+		extralength = min(extralength, formatlen - sizeof(VORBISFORMAT2));
 
-    if (extra && extralength)
-      memcpy(extra, format + sizeof(VORBISFORMAT2), extralength);
-    if (extralen)
-      *extralen = extralength + offset;
+		if (extra && extralength)
+			memcpy(extra, format + sizeof(VORBISFORMAT2), extralength);
+		if (extralen)
+			*extralen = extralength + offset;
 
-    return;
-  }
+		return;
+	}
 
-  if (extra && extralength)
-    memcpy(extra, extraposition, extralength);
-  if (extralen)
-    *extralen = extralength;
+	if (extra && extralength)
+		memcpy(extra, extraposition, extralength);
+	if (extralen)
+		*extralen = extralength;
 }
 
 void audioFormatTypeHandler(const BYTE *format, const GUID *formattype, DWORD *pnSamples, WORD *pnChannels, WORD *pnBitsPerSample, WORD *pnBlockAlign, DWORD *pnBytesPerSec)
 {
-  DWORD nSamples       = 0;
-  WORD  nChannels      = 0;
-  WORD  nBitsPerSample = 0;
-  WORD  nBlockAlign    = 0;
-  DWORD nBytesPerSec   = 0;
+	DWORD nSamples       = 0;
+	WORD  nChannels      = 0;
+	WORD  nBitsPerSample = 0;
+	WORD  nBlockAlign    = 0;
+	DWORD nBytesPerSec   = 0;
 
-  if (*formattype == FORMAT_WaveFormatEx) {
-    WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
-    nSamples       = wfex->nSamplesPerSec;
-    nChannels      = wfex->nChannels;
-    nBitsPerSample = wfex->wBitsPerSample;
-    nBlockAlign    = wfex->nBlockAlign;
-    nBytesPerSec   = wfex->nAvgBytesPerSec;
-  } else if (*formattype == FORMAT_VorbisFormat2) {
-    VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)format;
-    nSamples       = vf2->SamplesPerSec;
-    nChannels      = (WORD)vf2->Channels;
-    nBitsPerSample = (WORD)vf2->BitsPerSample;
-  }
+	if (*formattype == FORMAT_WaveFormatEx) {
+		WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
+		nSamples       = wfex->nSamplesPerSec;
+		nChannels      = wfex->nChannels;
+		nBitsPerSample = wfex->wBitsPerSample;
+		nBlockAlign    = wfex->nBlockAlign;
+		nBytesPerSec   = wfex->nAvgBytesPerSec;
+	} else if (*formattype == FORMAT_VorbisFormat2) {
+		VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)format;
+		nSamples       = vf2->SamplesPerSec;
+		nChannels      = (WORD)vf2->Channels;
+		nBitsPerSample = (WORD)vf2->BitsPerSample;
+	}
 
-  if (pnSamples)
-    *pnSamples = nSamples;
-  if (pnChannels)
-    *pnChannels = nChannels;
-  if (pnBitsPerSample)
-    *pnBitsPerSample = nBitsPerSample;
-  if (pnBlockAlign)
-    *pnBlockAlign = nBlockAlign;
-  if (pnBytesPerSec)
-    *pnBytesPerSec = nBytesPerSec;
+	if (pnSamples)
+		*pnSamples = nSamples;
+	if (pnChannels)
+		*pnChannels = nChannels;
+	if (pnBitsPerSample)
+		*pnBitsPerSample = nBitsPerSample;
+	if (pnBlockAlign)
+		*pnBlockAlign = nBlockAlign;
+	if (pnBytesPerSec)
+		*pnBytesPerSec = nBytesPerSec;
 }

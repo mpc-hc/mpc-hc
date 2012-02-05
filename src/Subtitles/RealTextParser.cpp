@@ -429,7 +429,7 @@ wstring CRealTextParser::FormatTimecode(int iTimecode,
 wstring CRealTextParser::StringToLower(const wstring& p_crszString)
 {
 	wstring szLowercaseString;
-	for(unsigned int i=0; i < p_crszString.length(); ++i) {
+	for (unsigned int i=0; i < p_crszString.length(); ++i) {
 		szLowercaseString += towlower(p_crszString.at(i));
 	}
 	return szLowercaseString;

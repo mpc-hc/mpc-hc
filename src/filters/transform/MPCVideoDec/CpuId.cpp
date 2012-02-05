@@ -41,11 +41,11 @@
 
 CCpuId::CCpuId(void)
 {
-unsigned	nHighestFeature;
-unsigned	nHighestFeatureEx;
-int			nBuff[4];
-char		szMan[13];
-//char		szFeatures[256];
+	unsigned	nHighestFeature;
+	unsigned	nHighestFeatureEx;
+	int			nBuff[4];
+	char		szMan[13];
+	//char		szFeatures[256];
 
 	// Get CPU manufacturer and highest CPUID
 	__cpuid(nBuff, 0);
@@ -54,9 +54,9 @@ char		szMan[13];
 	*(int*)&szMan[4] = nBuff[3];
 	*(int*)&szMan[8] = nBuff[2];
 	szMan[12] = 0;
-	if(strcmp(szMan, "AuthenticAMD") == 0)
+	if (strcmp(szMan, "AuthenticAMD") == 0)
 		m_nType = PROCESSOR_AMD;
-	else if(strcmp(szMan, "GenuineIntel") == 0)
+	else if (strcmp(szMan, "GenuineIntel") == 0)
 		m_nType = PROCESSOR_INTEL;
 	else
 		m_nType = PROCESSOR_UNKNOWN;
@@ -92,19 +92,19 @@ char		szMan[13];
 	// Get CPU features
 	m_nCPUFeatures	= 0;
 	//szFeatures[0]	= 0;
-	if(nHighestFeature >= 1)
+	if (nHighestFeature >= 1)
 	{
 		__cpuid(nBuff, 1);
-		if(nBuff[3] & 1<<23)	m_nCPUFeatures|=MPC_MM_MMX;
-		if(nBuff[3] & 1<<25)	m_nCPUFeatures|=MPC_MM_SSE;
-		if(nBuff[3] & 1<<26)	m_nCPUFeatures|=MPC_MM_SSE2;
-		if(nBuff[2] & 1<<0)		m_nCPUFeatures|=MPC_MM_SSE3;
+		if (nBuff[3] & 1<<23)	m_nCPUFeatures|=MPC_MM_MMX;
+		if (nBuff[3] & 1<<25)	m_nCPUFeatures|=MPC_MM_SSE;
+		if (nBuff[3] & 1<<26)	m_nCPUFeatures|=MPC_MM_SSE2;
+		if (nBuff[2] & 1<<0)		m_nCPUFeatures|=MPC_MM_SSE3;
 
 		// Intel specific:
-		if(m_nType == PROCESSOR_INTEL)
+		if (m_nType == PROCESSOR_INTEL)
 		{
-			if(nBuff[2] & 1<<9)	m_nCPUFeatures|=MPC_MM_SSSE3;
-		//	if(nBuff[2] & 1<<7) strcat(szFeatures, "EST ");
+			if (nBuff[2] & 1<<9)	m_nCPUFeatures|=MPC_MM_SSSE3;
+			//if (nBuff[2] & 1<<7)	strcat(szFeatures, "EST ");
 		}
 
 		//if(nBuff[3] & 1<<28)
@@ -112,16 +112,16 @@ char		szMan[13];
 	}
 
 	// AMD specific:
-	if(m_nType == PROCESSOR_AMD)
+	if (m_nType == PROCESSOR_AMD)
 	{
 		// Get extended features
 		__cpuid(nBuff, 0x80000000);
-		if(nHighestFeatureEx >= 0x80000001)
+		if (nHighestFeatureEx >= 0x80000001)
 		{
 			__cpuid(nBuff, 0x80000001);
-			if(nBuff[3] & 1<<31)	m_nCPUFeatures|=MPC_MM_3DNOW;
-		//	if(nBuff[3] & 1<<30)	strcat(szFeatures, "Ex3DNow! ");
-			if(nBuff[3] & 1<<22)	m_nCPUFeatures|=MPC_MM_MMXEXT;
+			if (nBuff[3] & 1<<31)	m_nCPUFeatures|=MPC_MM_3DNOW;
+			//if (nBuff[3] & 1<<30)	strcat(szFeatures, "Ex3DNow! ");
+			if (nBuff[3] & 1<<22)	m_nCPUFeatures|=MPC_MM_MMXEXT;
 		}
 
 		// Get level 1 cache size

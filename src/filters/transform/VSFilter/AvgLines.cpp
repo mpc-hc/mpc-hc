@@ -20,18 +20,18 @@
 
 void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 {
-	if(h <= 1) {
+	if (h <= 1) {
 		return;
 	}
 
 	BYTE* s = dst;
 	BYTE* d = dst + (h-2)*pitch;
 
-	for(; s < d; s += pitch*2) {
+	for (; s < d; s += pitch*2) {
 		BYTE* tmp = s;
 
 #ifndef _WIN64
-		if((g_cpuid.m_flags & CCpuID::sse2) && !((DWORD)tmp&0xf) && !((DWORD)pitch&0xf)) {
+		if ((g_cpuid.m_flags & CCpuID::sse2) && !((DWORD)tmp&0xf) && !((DWORD)pitch&0xf)) {
 			__asm {
 				mov		esi, tmp
 				mov		ebx, pitch
@@ -51,10 +51,10 @@ void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 				mov		tmp, esi
 			}
 
-			for(ptrdiff_t i = pitch&7; i--; tmp++) {
+			for (ptrdiff_t i = pitch&7; i--; tmp++) {
 				tmp[pitch] = (tmp[0] + tmp[pitch<<1] + 1) >> 1;
 			}
-		} else if(g_cpuid.m_flags & CCpuID::mmx) {
+		} else if (g_cpuid.m_flags & CCpuID::mmx) {
 			__asm {
 				mov		esi, tmp
 				mov		ebx, pitch
@@ -94,19 +94,19 @@ void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 				mov		tmp, esi
 			}
 
-			for(ptrdiff_t i = pitch&7; i--; tmp++) {
+			for (ptrdiff_t i = pitch&7; i--; tmp++) {
 				tmp[pitch] = (tmp[0] + tmp[pitch<<1] + 1) >> 1;
 			}
 		} else
 #endif
 		{
-			for(ptrdiff_t i = pitch; i--; tmp++) {
+			for (ptrdiff_t i = pitch; i--; tmp++) {
 				tmp[pitch] = (tmp[0] + tmp[pitch<<1] + 1) >> 1;
 			}
 		}
 	}
 
-	if(!(h&1) && h >= 2) {
+	if (!(h&1) && h >= 2) {
 		dst += (h-2)*pitch;
 		memcpy(dst + pitch, dst, pitch);
 	}
@@ -118,7 +118,7 @@ void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 
 void AvgLines555(BYTE* dst, DWORD h, DWORD pitch)
 {
-	if(h <= 1) {
+	if (h <= 1) {
 		return;
 	}
 
@@ -128,7 +128,7 @@ void AvgLines555(BYTE* dst, DWORD h, DWORD pitch)
 	BYTE* s = dst;
 	BYTE* d = dst + (h-2)*pitch;
 
-	for(; s < d; s += pitch*2) {
+	for (; s < d; s += pitch*2) {
 		BYTE* tmp = s;
 
 #ifndef _WIN64
@@ -185,7 +185,7 @@ void AvgLines555(BYTE* dst, DWORD h, DWORD pitch)
 		}
 #endif
 
-		for(ptrdiff_t i = (pitch&7)>>1; i--; tmp++) {
+		for (ptrdiff_t i = (pitch&7)>>1; i--; tmp++) {
 			tmp[pitch] =
 				((((*tmp&0x7c00) + (tmp[pitch<<1]&0x7c00)) >> 1)&0x7c00)|
 				((((*tmp&0x03e0) + (tmp[pitch<<1]&0x03e0)) >> 1)&0x03e0)|
@@ -193,7 +193,7 @@ void AvgLines555(BYTE* dst, DWORD h, DWORD pitch)
 		}
 	}
 
-	if(!(h&1) && h >= 2) {
+	if (!(h&1) && h >= 2) {
 		dst += (h-2)*pitch;
 		memcpy(dst + pitch, dst, pitch);
 	}
@@ -205,7 +205,7 @@ void AvgLines555(BYTE* dst, DWORD h, DWORD pitch)
 
 void AvgLines565(BYTE* dst, DWORD h, DWORD pitch)
 {
-	if(h <= 1) {
+	if (h <= 1) {
 		return;
 	}
 
@@ -215,7 +215,7 @@ void AvgLines565(BYTE* dst, DWORD h, DWORD pitch)
 	BYTE* s = dst;
 	BYTE* d = dst + (h-2)*pitch;
 
-	for(; s < d; s += pitch*2) {
+	for (; s < d; s += pitch*2) {
 		WORD* tmp = (WORD*)s;
 
 #ifndef _WIN64
@@ -271,7 +271,7 @@ void AvgLines565(BYTE* dst, DWORD h, DWORD pitch)
 			mov		tmp, esi
 		}
 #else
-		for(ptrdiff_t wd=(pitch>>3); wd--; tmp++) {
+		for (ptrdiff_t wd=(pitch>>3); wd--; tmp++) {
 			tmp[0] =
 				((((*tmp&0xf800) + (tmp[pitch<<1]&0xf800)) >> 1)&0xf800)|
 				((((*tmp&0x07e0) + (tmp[pitch<<1]&0x07e0)) >> 1)&0x07e0)|
@@ -279,7 +279,7 @@ void AvgLines565(BYTE* dst, DWORD h, DWORD pitch)
 		}
 #endif
 
-		for(ptrdiff_t i = (pitch&7)>>1; i--; tmp++) {
+		for (ptrdiff_t i = (pitch&7)>>1; i--; tmp++) {
 			tmp[pitch] =
 				((((*tmp&0xf800) + (tmp[pitch<<1]&0xf800)) >> 1)&0xf800)|
 				((((*tmp&0x07e0) + (tmp[pitch<<1]&0x07e0)) >> 1)&0x07e0)|
@@ -287,7 +287,7 @@ void AvgLines565(BYTE* dst, DWORD h, DWORD pitch)
 		}
 	}
 
-	if(!(h&1) && h >= 2) {
+	if (!(h&1) && h >= 2) {
 		dst += (h-2)*pitch;
 		memcpy(dst + pitch, dst, pitch);
 	}

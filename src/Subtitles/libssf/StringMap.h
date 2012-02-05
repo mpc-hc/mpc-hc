@@ -34,7 +34,7 @@ namespace ssf
 		StringMap& operator = (const StringMap& s2t) {
 			RemoveAll();
 			POSITION pos = s2t.GetStartPosition();
-			while(pos) {
+			while (pos) {
 				const StringMap::CPair* p = s2t.GetNext(pos);
 				SetAt(p->m_key, p->m_value);
 			}

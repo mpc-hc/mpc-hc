@@ -47,7 +47,7 @@
  \
 	if(_fs == State_Running && _pMS) \
 		_pMC->Run(); \
-
+ 
 class __declspec(uuid("DC257063-045F-4BE2-BD5B-E12279C464F0"))
 	CMpegSplitterFilter
 	: public CBaseSplitterFilter

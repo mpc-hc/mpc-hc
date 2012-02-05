@@ -46,7 +46,7 @@ int g_cTemplates = countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
-	if(GetVersion()&0x80000000) {
+	if (GetVersion()&0x80000000) {
 		return E_NOTIMPL;
 	}
 
@@ -81,12 +81,12 @@ CFilterApp theApp;
 CVTSReader::CVTSReader(IUnknown* pUnk, HRESULT* phr)
 	: CAsyncReader(NAME("CVTSReader"), pUnk, &m_stream, phr, __uuidof(this))
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 
-	if(GetVersion()&0x80000000) {
-		if(phr) {
+	if (GetVersion()&0x80000000) {
+		if (phr) {
 			*phr = E_NOTIMPL;
 		}
 		return;
@@ -115,7 +115,7 @@ STDMETHODIMP CVTSReader::QueryFilterInfo(FILTER_INFO* pInfo)
 
 	wcscpy(pInfo->achName, VTSReaderName);
 	pInfo->pGraph = m_pGraph;
-	if(m_pGraph) {
+	if (m_pGraph) {
 		m_pGraph->AddRef();
 	}
 
@@ -126,7 +126,7 @@ STDMETHODIMP CVTSReader::QueryFilterInfo(FILTER_INFO* pInfo)
 
 STDMETHODIMP CVTSReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 {
-	if(!m_stream.Load(pszFileName)) {
+	if (!m_stream.Load(pszFileName)) {
 		return E_FAIL;
 	}
 
@@ -149,12 +149,12 @@ STDMETHODIMP CVTSReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 
 STDMETHODIMP CVTSReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
-	if(!ppszFileName) {
+	if (!ppszFileName) {
 		return E_POINTER;
 	}
 
 	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
-	if(!(*ppszFileName)) {
+	if (!(*ppszFileName)) {
 		return E_OUTOFMEMORY;
 	}
 
@@ -237,9 +237,9 @@ HRESULT CVTSStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 	DWORD len = dwBytesToRead;
 	BYTE* ptr = pbBuffer;
 
-	while(len > 0) {
+	while (len > 0) {
 		BYTE buff[2048];
-		if(!m_vob->Read(buff)) {
+		if (!m_vob->Read(buff)) {
 			break;
 		}
 
@@ -249,7 +249,7 @@ HRESULT CVTSStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 
 		m_off = (m_off + size)&2047;
 
-		if(m_off > 0) {
+		if (m_off > 0) {
 			m_vob->Seek(m_vob->GetPosition()-1);
 		}
 
@@ -257,7 +257,7 @@ HRESULT CVTSStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 		len -= size;
 	}
 
-	if(pdwBytesRead) {
+	if (pdwBytesRead) {
 		*pdwBytesRead = ptr - pbBuffer;
 	}
 
@@ -267,7 +267,7 @@ HRESULT CVTSStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 LONGLONG CVTSStream::Size(LONGLONG* pSizeAvailable)
 {
 	LONGLONG len = 2048i64*m_vob->GetLength();
-	if(pSizeAvailable) {
+	if (pSizeAvailable) {
 		*pSizeAvailable = len;
 	}
 	return(len);

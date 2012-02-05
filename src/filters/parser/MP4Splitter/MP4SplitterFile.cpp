@@ -6,7 +6,7 @@ CMP4SplitterFile::CMP4SplitterFile(IAsyncReader* pReader, HRESULT& hr)
 	: CBaseSplitterFileEx(pReader, hr, DEFAULT_CACHE_LENGTH, false)
 	, m_pAp4File(NULL)
 {
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return;
 	}
 

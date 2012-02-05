@@ -35,7 +35,7 @@
 bool IsVMR7InGraph(IFilterGraph* pFG)
 {
 	BeginEnumFilters(pFG, pEF, pBF)
-	if(CComQIPtr<IVMRWindowlessControl>(pBF)) {
+	if (CComQIPtr<IVMRWindowlessControl>(pBF)) {
 		return true;
 	}
 	EndEnumFilters
@@ -73,7 +73,7 @@ HRESULT CreateAP7(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppA
 
 	(*ppAP)->AddRef();
 
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		(*ppAP)->Release();
 		*ppAP = NULL;
 	}

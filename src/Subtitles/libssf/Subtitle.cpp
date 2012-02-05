@@ -32,27 +32,27 @@ namespace ssf
 		: m_pFile(pFile)
 		, m_animated(false)
 	{
-		if(m_n2n.align[0].IsEmpty()) {
+		if (m_n2n.align[0].IsEmpty()) {
 			m_n2n.align[0][L"left"] = 0;
 			m_n2n.align[0][L"center"] = 0.5;
 			m_n2n.align[0][L"middle"] = 0.5;
 			m_n2n.align[0][L"right"] = 1;
 		}
 
-		if(m_n2n.align[1].IsEmpty()) {
+		if (m_n2n.align[1].IsEmpty()) {
 			m_n2n.align[1][L"top"] = 0;
 			m_n2n.align[1][L"middle"] = 0.5;
 			m_n2n.align[1][L"center"] = 0.5;
 			m_n2n.align[1][L"bottom"] = 1;
 		}
 
-		if(m_n2n.weight.IsEmpty()) {
+		if (m_n2n.weight.IsEmpty()) {
 			m_n2n.weight[L"thin"] = FW_THIN;
 			m_n2n.weight[L"normal"] = FW_NORMAL;
 			m_n2n.weight[L"bold"] = FW_BOLD;
 		}
 
-		if(m_n2n.transition.IsEmpty()) {
+		if (m_n2n.transition.IsEmpty()) {
 			m_n2n.transition[L"start"] = 0;
 			m_n2n.transition[L"stop"] = 1e10;
 			m_n2n.transition[L"linear"] = 1;
@@ -105,20 +105,20 @@ namespace ssf
 
 			// TODO: trimming should be done by the renderer later, after breaking the words into lines
 
-			while(!m_text.IsEmpty() && (m_text.GetHead().str == Text::SP || m_text.GetHead().str == Text::LSEP)) {
+			while (!m_text.IsEmpty() && (m_text.GetHead().str == Text::SP || m_text.GetHead().str == Text::LSEP)) {
 				m_text.RemoveHead();
 			}
 
-			while(!m_text.IsEmpty() && (m_text.GetTail().str == Text::SP || m_text.GetTail().str == Text::LSEP)) {
+			while (!m_text.IsEmpty() && (m_text.GetTail().str == Text::SP || m_text.GetTail().str == Text::LSEP)) {
 				m_text.RemoveTail();
 			}
 
-			for(POSITION pos = m_text.GetHeadPosition(); pos; m_text.GetNext(pos)) {
-				if(m_text.GetAt(pos).str == Text::LSEP) {
+			for (POSITION pos = m_text.GetHeadPosition(); pos; m_text.GetNext(pos)) {
+				if (m_text.GetAt(pos).str == Text::LSEP) {
 					POSITION prev = pos;
 					m_text.GetPrev(prev);
 
-					while(prev && m_text.GetAt(prev).str == Text::SP) {
+					while (prev && m_text.GetAt(prev).str == Text::SP) {
 						POSITION tmp = prev;
 						m_text.GetPrev(prev);
 						m_text.RemoveAt(tmp);
@@ -127,14 +127,14 @@ namespace ssf
 					POSITION next = pos;
 					m_text.GetNext(next);
 
-					while(next && m_text.GetAt(next).str == Text::SP) {
+					while (next && m_text.GetAt(next).str == Text::SP) {
 						POSITION tmp = next;
 						m_text.GetNext(next);
 						m_text.RemoveAt(tmp);
 					}
 				}
 			}
-		} catch(Exception& e) {
+		} catch (Exception& e) {
 			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s"), e.ToString());
 			return false;
@@ -172,24 +172,24 @@ namespace ssf
 
 		Definition& clip = placement[L"clip"];
 
-		if(clip.IsValue(Definition::string)) {
+		if (clip.IsValue(Definition::string)) {
 			CStringW str = clip;
 
-			if(str == L"frame") {
+			if (str == L"frame") {
 				style.placement.clip = frame;
 			}
 			// else ?
 		} else {
-			if(clip[L"t"].IsValue()) {
+			if (clip[L"t"].IsValue()) {
 				style.placement.clip.t = clip[L"t"];
 			}
-			if(clip[L"r"].IsValue()) {
+			if (clip[L"r"].IsValue()) {
 				style.placement.clip.r = clip[L"r"];
 			}
-			if(clip[L"b"].IsValue()) {
+			if (clip[L"b"].IsValue()) {
 				style.placement.clip.b = clip[L"b"];
 			}
-			if(clip[L"l"].IsValue()) {
+			if (clip[L"l"].IsValue()) {
 				style.placement.clip.l = clip[L"l"];
 			}
 		}
@@ -213,11 +213,11 @@ namespace ssf
 		placement[L"align"][L"h"].GetAsNumber(style.placement.align.h, &m_n2n.align[0]);
 		placement[L"align"][L"v"].GetAsNumber(style.placement.align.v, &m_n2n.align[1]);
 
-		if(placement[L"pos"][L"x"].IsValue()) {
+		if (placement[L"pos"][L"x"].IsValue()) {
 			style.placement.pos.x = placement[L"pos"][L"x"];
 			style.placement.pos.auto_x = false;
 		}
-		if(placement[L"pos"][L"y"].IsValue()) {
+		if (placement[L"pos"][L"y"].IsValue()) {
 			style.placement.pos.y = placement[L"pos"][L"y"];
 			style.placement.pos.auto_y = false;
 		}
@@ -229,11 +229,11 @@ namespace ssf
 		style.placement.angle.y = placement[L"angle"][L"y"];
 		style.placement.angle.z = placement[L"angle"][L"z"];
 
-		if(placement[L"org"][L"x"].IsValue()) {
+		if (placement[L"org"][L"x"].IsValue()) {
 			style.placement.org.x = placement[L"org"][L"x"];
 			style.placement.org.auto_x = false;
 		}
-		if(placement[L"org"][L"y"].IsValue()) {
+		if (placement[L"org"][L"y"].IsValue()) {
 			style.placement.org.y = placement[L"org"][L"y"];
 			style.placement.org.auto_y = false;
 		}
@@ -297,30 +297,30 @@ namespace ssf
 			n2n[L"stop"] = m_time.stop - m_time.start;
 
 			Definition::Time time;
-			if(pDef->GetAsTime(time, offset, &n2n, default_id) && time.start.value < time.stop.value) {
+			if (pDef->GetAsTime(time, offset, &n2n, default_id) && time.start.value < time.stop.value) {
 				t = (at - time.start.value) / (time.stop.value - time.start.value);
 
 				float u = t;
 
-				if(t < 0) {
+				if (t < 0) {
 					t = 0;
-				} else if(t >= 1) {
+				} else if (t >= 1) {
 					t = 0.99999f;    // doh
 				}
 
-				if((*pDef)[L"loop"].IsValue()) {
+				if ((*pDef)[L"loop"].IsValue()) {
 					t *= (float)(*pDef)[L"loop"];
 				}
 
 				CStringW direction = (*pDef)[L"direction"].IsValue() ? (*pDef)[L"direction"] : L"fw";
-				if(direction == L"fwbw" || direction == L"bwfw") {
+				if (direction == L"fwbw" || direction == L"bwfw") {
 					t *= 2;
 				}
 
 				float n;
 				t = modf(t, &n);
 
-				if(direction == L"bw"
+				if (direction == L"bw"
 						|| direction == L"fwbw" && ((int)n & 1)
 						|| direction == L"bwfw" && !((int)n & 1)) {
 					t = 1 - t;
@@ -328,26 +328,26 @@ namespace ssf
 
 				float accel = 1;
 
-				if((*pDef)[L"transition"].IsValue()) {
+				if ((*pDef)[L"transition"].IsValue()) {
 					Definition::Number<float> n;
 					(*pDef)[L"transition"].GetAsNumber(n, &m_n2n.transition);
-					if(n.value >= 0) {
+					if (n.value >= 0) {
 						accel = n.value;
 					}
 				}
 
-				if(t == 0.99999f) {
+				if (t == 0.99999f) {
 					t = 1;
 				}
 
-				if(u >= 0 && u < 1) {
+				if (u >= 0 && u < 1) {
 					t = accel == 0 ? 1 :
 						accel == 1 ? t :
 						accel >= 1e10 ? 0 :
 						pow(t, accel);
 				}
 			}
-		} catch(Exception&) {
+		} catch (Exception&) {
 		}
 
 		return t;
@@ -370,13 +370,13 @@ namespace ssf
 	template<class T>
 	bool Subtitle::MixValue(Definition& def, T& value, float t, StringMapW<T>* n2n)
 	{
-		if(!def.IsValue()) {
+		if (!def.IsValue()) {
 			return false;
 		}
 
-		if(t >= 0.5) {
-			if(n2n && def.IsValue(Definition::string)) {
-				if(StringMapW<T>::CPair* p = n2n->Lookup(def)) {
+		if (t >= 0.5) {
+			if (n2n && def.IsValue(Definition::string)) {
+				if (StringMapW<T>::CPair* p = n2n->Lookup(def)) {
 					value = p->m_value;
 					return true;
 				}
@@ -391,13 +391,13 @@ namespace ssf
 	template<>
 	bool Subtitle::MixValue(Definition& def, float& value, float t, StringMapW<float>* n2n)
 	{
-		if(!def.IsValue()) {
+		if (!def.IsValue()) {
 			return false;
 		}
 
-		if(t > 0) {
-			if(n2n && def.IsValue(Definition::string)) {
-				if(StringMap<float, CStringW>::CPair* p = n2n->Lookup(def)) {
+		if (t > 0) {
+			if (n2n && def.IsValue(Definition::string)) {
+				if (StringMap<float, CStringW>::CPair* p = n2n->Lookup(def)) {
 					value += (p->m_value - value) * t;
 					return true;
 				}
@@ -412,17 +412,17 @@ namespace ssf
 	template<>
 	bool Subtitle::MixValue(Definition& def, Path& src, float t)
 	{
-		if(!def.IsValue(Definition::string)) {
+		if (!def.IsValue(Definition::string)) {
 			return false;
 		}
 
-		if(t >= 1) {
+		if (t >= 1) {
 			src = (LPCWSTR)def;
-		} else if(t > 0) {
+		} else if (t > 0) {
 			Path dst = (LPCWSTR)def;
 
-			if(src.GetCount() == dst.GetCount()) {
-				for(size_t i = 0, j = src.GetCount(); i < j; i++) {
+			if (src.GetCount() == dst.GetCount()) {
+				for (size_t i = 0, j = src.GetCount(); i < j; i++) {
 					Point& s = src[i];
 					const Point& d = dst[i];
 					s.x += (d.x - s.x) * t;
@@ -438,9 +438,9 @@ namespace ssf
 	{
 		const Style src = dst;
 
-		if(t <= 0) {
+		if (t <= 0) {
 			return;
-		} else if(t > 1) {
+		} else if (t > 1) {
 			t = 1;
 		}
 
@@ -510,8 +510,8 @@ namespace ssf
 		MixValue(fill[L"color"][L"b"], dst.fill.color.b, t);
 		MixValue(fill[L"width"], dst.fill.width, t);
 
-		if(fill.m_priority >= PNormal) { // this assumes there is no way to set low priority inline overrides
-			if(dst.fill.id > 0) {
+		if (fill.m_priority >= PNormal) { // this assumes there is no way to set low priority inline overrides
+			if (dst.fill.id > 0) {
 				throw Exception(_T("cannot apply fill more than once on the same text"));
 			}
 			dst.fill.id = ++Fill::gen_id;
@@ -523,10 +523,10 @@ namespace ssf
 		Text text;
 		text.style = style;
 
-		for(int c = s.PeekChar(); c != Stream::EOS; c = s.PeekChar()) {
+		for (int c = s.PeekChar(); c != Stream::EOS; c = s.PeekChar()) {
 			s.GetChar();
 
-			if(c == '[') {
+			if (c == '[') {
 				AddText(text);
 
 				style = text.style;
@@ -542,55 +542,55 @@ namespace ssf
 
 					ASSERT(pDef->IsType(L"style") || pDef->IsTypeUnknown());
 
-					if((*pDef)[L"time"][L"start"].IsValue() && (*pDef)[L"time"][L"stop"].IsValue()) {
+					if ((*pDef)[L"time"][L"start"].IsValue() && (*pDef)[L"time"][L"stop"].IsValue()) {
 						m_animated = true;
 					}
 
 					float t = GetMixWeight(pDef, at, offset, ++default_id);
 					MixStyle(pDef, style, t);
 
-					if((*pDef)[L"@"].IsValue()) {
+					if ((*pDef)[L"@"].IsValue()) {
 						Parse(WCharInputStream((LPCWSTR)(*pDef)[L"@"]), style, at, offset, pParentRef);
 					}
 
 					s.SkipWhiteSpace();
 					c = s.GetChar();
-				} while(c == ',' || c == ';');
+				} while (c == ',' || c == ';');
 
-				if(c != ']') {
+				if (c != ']') {
 					s.ThrowError(_T("unterminated override"));
 				}
 
 				bool fWhiteSpaceNext = s.IsWhiteSpace(s.PeekChar());
 				c = s.SkipWhiteSpace();
 
-				if(c == '{') {
+				if (c == '{') {
 					s.GetChar();
 					Parse(s, style, at, inneroffset, pParentRef);
 				} else {
-					if(fWhiteSpaceNext) {
+					if (fWhiteSpaceNext) {
 						text.str += (WCHAR)Text::SP;
 					}
 					text.style = style;
 				}
-			} else if(c == ']') {
+			} else if (c == ']') {
 				s.ThrowError(_T("unexpected ] found"));
-			} else if(c == '{') {
+			} else if (c == '{') {
 				AddText(text);
 				Parse(s, text.style, at, offset, pParentRef);
-			} else if(c == '}') {
+			} else if (c == '}') {
 				break;
 			} else {
-				if(c == '\\') {
+				if (c == '\\') {
 					c = s.GetChar();
-					if(c == Stream::EOS) {
+					if (c == Stream::EOS) {
 						break;
-					} else if(c == 'n') {
+					} else if (c == 'n') {
 						AddText(text);
 						text.str = (WCHAR)Text::LSEP;
 						AddText(text);
 						continue;
-					} else if(c == 'h') {
+					} else if (c == 'h') {
 						c = Text::NBSP;
 					}
 				}
@@ -606,31 +606,31 @@ namespace ssf
 	{
 		bool f1 = !t.str.IsEmpty() && Stream::IsWhiteSpace(t.str[t.str.GetLength()-1]);
 		bool f2 = Stream::IsWhiteSpace(c);
-		if(f2) {
+		if (f2) {
 			c = Text::SP;
 		}
-		if(!f1 || !f2) {
+		if (!f1 || !f2) {
 			t.str += (WCHAR)c;
 		}
 	}
 
 	void Subtitle::AddText(Text& t)
 	{
-		if(t.str.IsEmpty()) {
+		if (t.str.IsEmpty()) {
 			return;
 		}
 
 		Split sa(' ', t.str, 0, Split::Max);
 
-		for(size_t i = 0, n = sa; i < n; i++) {
+		for (size_t i = 0, n = sa; i < n; i++) {
 			CStringW str = sa[i];
 
-			if(!str.IsEmpty()) {
+			if (!str.IsEmpty()) {
 				t.str = str;
 				m_text.AddTail(t);
 			}
 
-			if(i < n-1 && (m_text.IsEmpty() || m_text.GetTail().str != Text::SP)) {
+			if (i < n-1 && (m_text.IsEmpty() || m_text.GetTail().str != Text::SP)) {
 				t.str = (WCHAR)Text::SP;
 				m_text.AddTail(t);
 			}
@@ -660,7 +660,7 @@ namespace ssf
 
 		SetCount(s/2);
 
-		for(size_t i = 0, j = GetCount(); i < j; i++) {
+		for (size_t i = 0, j = GetCount(); i < j; i++) {
 			Point p;
 			p.x = s.GetAtFloat(i*2+0);
 			p.y = s.GetAtFloat(i*2+1);
@@ -674,7 +674,7 @@ namespace ssf
 	{
 		CStringW ret;
 
-		for(size_t i = 0, j = GetCount(); i < j; i++) {
+		for (size_t i = 0, j = GetCount(); i < j; i++) {
 			const Point& p = GetAt(i);
 
 			CStringW str;

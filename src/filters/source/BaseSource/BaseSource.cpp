@@ -58,7 +58,7 @@ STDMETHODIMP CBaseStream::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
 void CBaseStream::UpdateFromSeek()
 {
-	if(ThreadExists()) {
+	if (ThreadExists()) {
 		// next time around the loop, the worker thread will
 		// pick up the position change.
 		// We need to flush all the existing data - we must do that here
@@ -81,7 +81,7 @@ void CBaseStream::UpdateFromSeek()
 
 HRESULT CBaseStream::SetRate(double dRate)
 {
-	if(dRate <= 0) {
+	if (dRate <= 0) {
 		return E_INVALIDARG;
 	}
 
@@ -118,7 +118,7 @@ HRESULT CBaseStream::ChangeStop()
 {
 	{
 		CAutoLock lock(CSourceSeeking::m_pLock);
-		if(m_rtPosition < m_rtStop) {
+		if (m_rtPosition < m_rtStop) {
 			return S_OK;
 		}
 	}
@@ -146,12 +146,12 @@ HRESULT CBaseStream::FillBuffer(IMediaSample* pSample)
 	{
 		CAutoLock cAutoLockShared(&m_cSharedState);
 
-		if(m_rtPosition >= m_rtStop) {
+		if (m_rtPosition >= m_rtStop) {
 			return S_FALSE;
 		}
 
 		BYTE* pOut = NULL;
-		if(FAILED(hr = pSample->GetPointer(&pOut)) || !pOut) {
+		if (FAILED(hr = pSample->GetPointer(&pOut)) || !pOut) {
 			return S_FALSE;
 		}
 
@@ -160,7 +160,7 @@ HRESULT CBaseStream::FillBuffer(IMediaSample* pSample)
 		long len = pSample->GetSize();
 
 		hr = FillBuffer(pSample, nFrame, pOut, len);
-		if(hr != S_OK) {
+		if (hr != S_OK) {
 			return hr;
 		}
 
@@ -178,7 +178,7 @@ HRESULT CBaseStream::FillBuffer(IMediaSample* pSample)
 
 	pSample->SetSyncPoint(TRUE);
 
-	if(m_bDiscontinuity) {
+	if (m_bDiscontinuity) {
 		pSample->SetDiscontinuity(TRUE);
 		m_bDiscontinuity = FALSE;
 	}

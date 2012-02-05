@@ -44,7 +44,7 @@ extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
 
 BOOL CVSFilterApp::InitInstance()
 {
-	if(!CWinApp::InitInstance()) {
+	if (!CWinApp::InitInstance()) {
 		return FALSE;
 	}
 
@@ -137,15 +137,15 @@ STDAPI DllRegisterServer()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	if(theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0) != 1) {
+	if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0) != 1) {
 		theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0);
 	}
 
-	if(theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_VMRZOOMENABLED), -1) == -1) {
+	if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_VMRZOOMENABLED), -1) == -1) {
 		theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_VMRZOOMENABLED), 0);
 	}
 
-	if(theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), -1) == -1) {
+	if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), -1) == -1) {
 		theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), 0);
 	}
 
@@ -161,14 +161,14 @@ STDAPI DllUnregisterServer()
 
 void CALLBACK DirectVobSub(HWND hwnd, HINSTANCE hinst, LPSTR lpszCmdLine, int nCmdShow)
 {
-	if(FAILED(::CoInitialize(0))) {
+	if (FAILED(::CoInitialize(0))) {
 		return;
 	}
 
 	CComPtr<IBaseFilter> pFilter;
 	CComQIPtr<ISpecifyPropertyPages> pSpecify;
 
-	if(SUCCEEDED(pFilter.CoCreateInstance(__uuidof(CDirectVobSubFilter))) && (pSpecify = pFilter)) {
+	if (SUCCEEDED(pFilter.CoCreateInstance(__uuidof(CDirectVobSubFilter))) && (pSpecify = pFilter)) {
 		ShowPPage(pFilter, hwnd);
 	}
 

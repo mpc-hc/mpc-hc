@@ -48,7 +48,7 @@ namespace DSObjects
 		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
 			HRESULT hr;
 
-			if(riid == __uuidof(IVMRMixerBitmap9)) {
+			if (riid == __uuidof(IVMRMixerBitmap9)) {
 				return GetInterface((IVMRMixerBitmap9*)this, ppv);
 			}
 			if (riid == __uuidof(IMediaFilter)) {
@@ -62,8 +62,8 @@ namespace DSObjects
 			}
 
 			hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
-			if(m_pEVR && FAILED(hr)) {
-				if(riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
+			if (m_pEVR && FAILED(hr)) {
+				if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
 					return GetInterface((IVMRffdshow9*)this, ppv);
 				}
 			}

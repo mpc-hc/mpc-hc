@@ -67,10 +67,10 @@ namespace ssf
 	{
 		path_bkg.RemoveAll();
 
-		if(style.background.type == L"enlarge" && style.background.size > 0) {
+		if (style.background.type == L"enlarge" && style.background.size > 0) {
 			path_bkg.Enlarge(path, GetBackgroundSize());
-		} else if(style.background.type == L"box" && style.background.size >= 0) {
-			if(c != ssf::Text::LSEP) {
+		} else if (style.background.type == L"box" && style.background.size >= 0) {
+			if (c != ssf::Text::LSEP) {
 				int s = (int)(GetBackgroundSize() + 0.5);
 				int x0 = (!vertical ? -spacing/2 : ascent - row_ascent);
 				int y0 = (!vertical ? ascent - row_ascent : -spacing/2);
@@ -94,7 +94,7 @@ namespace ssf
 	{
 		spline.RemoveAll();
 
-		if(style.placement.path.IsEmpty()) {
+		if (style.placement.path.IsEmpty()) {
 			return;
 		}
 
@@ -105,14 +105,14 @@ namespace ssf
 
 		Point p;
 
-		while(i < j) {
+		while (i < j) {
 			p.x = style.placement.path[i].x * scale.cx + spdrc.left * 64;
 			p.y = style.placement.path[i].y * scale.cy + spdrc.top * 64;
 			pts[++i] = p;
 		}
 
-		if(pts.GetCount() >= 4) {
-			if(pts[1].x == pts[j].x && pts[1].y == pts[j].y) {
+		if (pts.GetCount() >= 4) {
+			if (pts[1].x == pts[j].x && pts[1].y == pts[j].y) {
 				pts.SetAt(0, pts[j-1]);
 				pts.SetAt(j+1, pts[2]);
 			} else {
@@ -127,7 +127,7 @@ namespace ssf
 
 			spline.SetCount(pts.GetCount()-3);
 
-			for(size_t i = 0, j = pts.GetCount()-4; i <= j; i++) {
+			for (size_t i = 0, j = pts.GetCount()-4; i <= j; i++) {
 				static const float _1div6 = 1.0f / 6;
 
 				SplineCoeffs sc;
@@ -165,17 +165,17 @@ namespace ssf
 		float cay = cos(deg2rad(style.placement.angle.y));
 		float say = sin(deg2rad(style.placement.angle.y));
 
-		for(size_t i = 0, j = path.types.GetCount(); i < j; i++) {
+		for (size_t i = 0, j = path.types.GetCount(); i < j; i++) {
 			CPoint p = path.points[i];
 
-			if(bscale) {
+			if (bscale) {
 				float x, y, z;
 
 				x = sx * (p.x - org.x);
 				y = sy * (p.y - org.y);
 				z = 0;
 
-				if(bspline) {
+				if (bspline) {
 					float pos = vertical ? y + org.y + tl.y - subrect.top : x + org.x + tl.x - subrect.left;
 					float size = vertical ? subrect.Size().cy : subrect.Size().cx;
 					float dist = vertical ? x : y;
@@ -183,7 +183,7 @@ namespace ssf
 					const SplineCoeffs* sc;
 					float t;
 
-					if(pos >= size) {
+					if (pos >= size) {
 						sc = &spline[spline.GetCount() - 1];
 						t = 1;
 					} else {
@@ -203,7 +203,7 @@ namespace ssf
 					y = sc->cy[0] + t*(sc->cy[1] + t*(sc->cy[2] + t*sc->cy[3])) + nx * dist - org.y - tl.y;
 				}
 
-				if(brotate) {
+				if (brotate) {
 					float xx = x*caz + y*saz;
 					float yy = -(x*saz - y*caz);
 					float zz = z;
@@ -228,16 +228,16 @@ namespace ssf
 				path.points[i] = p;
 			}
 
-			if(p.x < bbox.left) {
+			if (p.x < bbox.left) {
 				bbox.left = p.x;
 			}
-			if(p.x > bbox.right) {
+			if (p.x > bbox.right) {
 				bbox.right = p.x;
 			}
-			if(p.y < bbox.top) {
+			if (p.y < bbox.top) {
 				bbox.top = p.y;
 			}
-			if(p.y > bbox.bottom) {
+			if (p.y > bbox.bottom) {
 				bbox.bottom = p.y;
 			}
 		}
@@ -245,10 +245,10 @@ namespace ssf
 
 	void Glyph::Transform(CPoint org, const CRect& subrect)
 	{
-		if(!style.placement.org.auto_x) {
+		if (!style.placement.org.auto_x) {
 			org.x = style.placement.org.x * scale.cx;
 		}
-		if(!style.placement.org.auto_y) {
+		if (!style.placement.org.auto_y) {
 			org.y = style.placement.org.y * scale.cy;
 		}
 
@@ -264,14 +264,14 @@ namespace ssf
 
 	void Glyph::Rasterize()
 	{
-		if(!path_bkg.IsEmpty()) {
+		if (!path_bkg.IsEmpty()) {
 			ras_bkg.ScanConvert(path_bkg, bbox);
 			ras_bkg.Rasterize(tl.x, tl.y);
 		}
 
 		ras.ScanConvert(path, bbox);
 
-		if(style.background.type == L"outline" && style.background.size > 0) {
+		if (style.background.type == L"outline" && style.background.size > 0) {
 			ras.CreateWidenedRegion((int)(GetBackgroundSize() + 0.5));
 		}
 
@@ -283,7 +283,7 @@ namespace ssf
 		ras.Rasterize(tl.x, tl.y);
 		r->Blur(style.background.blur, plane);
 
-		if(style.shadow.depth > 0) {
+		if (style.shadow.depth > 0) {
 			ras_shadow.Reuse(*r);
 
 			float depth = GetShadowDepth();

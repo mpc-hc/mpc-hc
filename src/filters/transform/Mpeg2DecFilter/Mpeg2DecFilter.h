@@ -86,7 +86,7 @@ class __declspec(uuid("39F498AF-1A09-4275-B193-673B0BA3D478"))
 			p += (size/4 + 31) & ~31;
 		}
 		void Free() {
-			if(buf_base) {
+			if (buf_base) {
 				_aligned_free(buf_base);
 			}
 			buf_base = NULL;
@@ -113,7 +113,7 @@ public:
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
-	
+
 	HRESULT DeliverFast();
 	HRESULT DeliverNormal();
 	HRESULT Deliver(bool fRepeatLast);

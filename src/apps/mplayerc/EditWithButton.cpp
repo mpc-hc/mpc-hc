@@ -35,8 +35,8 @@ CRect CEditWithButton_Base::GetButtonRect(const CRect& rectWindow) const
 	rectButton.right -= m_RightBorder;
 	rectButton.left = rectButton.right - m_ButtonWidth;
 
-    // take into account any scrollbars in the edit control
-	if(rectButton.right > rectButton.left)
+	// take into account any scrollbars in the edit control
+	if (rectButton.right > rectButton.left)
 		rectButton.OffsetRect(m_RightBorder - m_LeftBorder, 0);
 
 	return rectButton;
@@ -44,11 +44,11 @@ CRect CEditWithButton_Base::GetButtonRect(const CRect& rectWindow) const
 
 int CEditWithButton_Base::GetButtonThemeState() const
 {
-	if(GetStyle() & (ES_READONLY | WS_DISABLED))
+	if (GetStyle() & (ES_READONLY | WS_DISABLED))
 		return PBS_DISABLED;
-	else if(m_IsButtonPressed)
+	else if (m_IsButtonPressed)
 		return PBS_PRESSED;
-	else if(m_IsButtonHot)
+	else if (m_IsButtonHot)
 		return PBS_HOT;
 	else
 		return PBS_NORMAL;
@@ -60,12 +60,12 @@ void CEditWithButton_Base::DrawButton(CRect rectButton)
 
 #ifdef UNICODE
 	HTHEME hButtonTheme = OpenThemeData(m_hWnd, _T("Button"));
-	if(hButtonTheme)
+	if (hButtonTheme)
 	{
 		int ButtonState = GetButtonThemeState();
 
 		// If necessary, first fill with the edit control's background color.
-		if(IsThemeBackgroundPartiallyTransparent(hButtonTheme, BP_PUSHBUTTON, ButtonState))
+		if (IsThemeBackgroundPartiallyTransparent(hButtonTheme, BP_PUSHBUTTON, ButtonState))
 		{
 			HTHEME hEditTheme = OpenThemeDataEx(m_hWnd, _T("Edit"), OTD_NONCLIENT);
 
@@ -86,14 +86,14 @@ void CEditWithButton_Base::DrawButton(CRect rectButton)
 #endif	//UNICODE
 	{
 		UINT uState = DFCS_BUTTONPUSH;
-		if(GetStyle() & (ES_READONLY | WS_DISABLED))
+		if (GetStyle() & (ES_READONLY | WS_DISABLED))
 			uState |= DFCS_INACTIVE;
-		else if(m_IsButtonPressed)
+		else if (m_IsButtonPressed)
 			uState |= DFCS_PUSHED;
 		dc.DrawFrameControl(rectButton, DFC_BUTTON, uState);
 
 		// If the button is in a pressed state, then contents should move slightly as part of the "push" effect.
-		if(m_IsButtonPressed)
+		if (m_IsButtonPressed)
 			rectButton.OffsetRect(1, 1);
 
 		DrawButtonContent(dc, rectButton, NULL);
@@ -136,13 +136,13 @@ void CEditWithButton_Base::OnNcPaint()
 
 void CEditWithButton_Base::OnNcLButtonDown(UINT nHitTest, CPoint point)
 {
-	if(!(GetStyle() & (ES_READONLY | WS_DISABLED)))
+	if (!(GetStyle() & (ES_READONLY | WS_DISABLED)))
 	{
 		CRect rectWindow;
 		GetWindowRect(rectWindow);
 		CRect rectButton = GetButtonRect(rectWindow);
 
-		if(rectButton.PtInRect(point))
+		if (rectButton.PtInRect(point))
 		{
 			SetCapture();
 
@@ -159,7 +159,7 @@ void CEditWithButton_Base::OnNcLButtonDown(UINT nHitTest, CPoint point)
 
 void CEditWithButton_Base::OnMouseMove(UINT nFlags, CPoint point)
 {
-	if(m_IsMouseActive)
+	if (m_IsMouseActive)
 	{
 		ClientToScreen(&point);
 
@@ -172,7 +172,7 @@ void CEditWithButton_Base::OnMouseMove(UINT nFlags, CPoint point)
 		m_IsButtonPressed = rectButton.PtInRect(point) != FALSE;
 
 		// If the button state has changed, redraw it to reflect the change
-		if(OldState != m_IsButtonPressed)
+		if (OldState != m_IsButtonPressed)
 			SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 	}
 
@@ -188,12 +188,12 @@ void CEditWithButton_Base::OnNcMouseMove(UINT nHitTest, CPoint point)
 	bool OldState = m_IsButtonHot;
 	m_IsButtonHot = rectButton.PtInRect(point) != FALSE;
 	// If the button state has changed, redraw it to reflect the change
-	if(OldState != m_IsButtonHot)
+	if (OldState != m_IsButtonHot)
 	{
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 
 		// If the state has changed to hot, register to get the WM_NCMOUSELEAVE notification.
-		if(m_IsButtonHot)
+		if (m_IsButtonHot)
 		{
 			TRACKMOUSEEVENT tme;
 			tme.cbSize = sizeof(tme);
@@ -216,11 +216,11 @@ void CEditWithButton_Base::OnNcMouseLeave()
 	GetWindowRect(rectWindow);
 	CRect rectButton = GetButtonRect(rectWindow);
 
-	// We may get this message either when the mouse actually leaves the client area 
-	// or when the user clicks the mouse on the button. So we must check whether or 
-	// not the cursor has actually left the button area. If so, then update the hot 
+	// We may get this message either when the mouse actually leaves the client area
+	// or when the user clicks the mouse on the button. So we must check whether or
+	// not the cursor has actually left the button area. If so, then update the hot
 	// state and prompt a redraw of the button.
-	if(!rectButton.PtInRect(point))
+	if (!rectButton.PtInRect(point))
 	{
 		m_IsButtonHot = false;
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
@@ -231,7 +231,7 @@ void CEditWithButton_Base::OnNcMouseLeave()
 
 void CEditWithButton_Base::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	if(m_IsMouseActive)
+	if (m_IsMouseActive)
 	{
 		ReleaseCapture();
 
@@ -250,7 +250,7 @@ void CEditWithButton_Base::OnLButtonUp(UINT nFlags, CPoint point)
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 
 		// Run the on-click logic if appropriate.
-		if(rectButton.PtInRect(point))
+		if (rectButton.PtInRect(point))
 			OnLeftClick();
 	}
 
@@ -263,7 +263,7 @@ LRESULT CEditWithButton_Base::OnNcHitTest(CPoint point)
 	GetWindowRect(rectWindow);
 	CRect rectButton = GetButtonRect(rectWindow);
 
-	if(rectButton.PtInRect(point))
+	if (rectButton.PtInRect(point))
 		return HTBORDER;
 
 	return CEdit::OnNcHitTest(point);
@@ -329,7 +329,7 @@ void CEditWithButton::SetButtonText(LPCTSTR buttonText)
 	m_ButtonText = buttonText;
 
 	// If this is a live window, then prompt the button area to redraw.
-	if(IsWindow(m_hWnd))
+	if (IsWindow(m_hWnd))
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
@@ -338,21 +338,21 @@ void CEditWithButton::DrawButtonContent(CDC& dc, CRect rectButton, HTHEME hButto
 	CFont* pOldFont = dc.SelectObject(GetFont());
 
 #ifdef UNICODE
-	if(hButtonTheme)
+	if (hButtonTheme)
 	{
-		DrawThemeText(hButtonTheme, dc.m_hDC, BP_PUSHBUTTON, GetButtonThemeState(), 
-			m_ButtonText, m_ButtonText.GetLength(), 
-			DT_CENTER | DT_VCENTER | DT_SINGLELINE, 0, rectButton);
+		DrawThemeText(hButtonTheme, dc.m_hDC, BP_PUSHBUTTON, GetButtonThemeState(),
+					  m_ButtonText, m_ButtonText.GetLength(),
+					  DT_CENTER | DT_VCENTER | DT_SINGLELINE, 0, rectButton);
 	}
 	else
 #endif UNICODE
 	{
-		if(GetStyle() & (ES_READONLY | WS_DISABLED))
+		if (GetStyle() & (ES_READONLY | WS_DISABLED))
 			dc.SetTextColor(GetSysColor(COLOR_GRAYTEXT));
 
 		dc.SetBkMode(TRANSPARENT);
-		dc.DrawText(m_ButtonText, m_ButtonText.GetLength(), 
-			rectButton, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+		dc.DrawText(m_ButtonText, m_ButtonText.GetLength(),
+					rectButton, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	}
 
 	dc.SelectObject(pOldFont);

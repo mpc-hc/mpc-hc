@@ -76,7 +76,7 @@ CFilterApp theApp;
 CAVI2AC3Filter::CAVI2AC3Filter(LPUNKNOWN lpunk, HRESULT* phr)
 	: CTransformFilter(NAME("CAVI2AC3Filter"), lpunk, __uuidof(this))
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 }
@@ -90,45 +90,45 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 	HRESULT hr;
 
 	BYTE* pIn = NULL;
-	if(FAILED(hr = pSample->GetPointer(&pIn))) {
+	if (FAILED(hr = pSample->GetPointer(&pIn))) {
 		return hr;
 	}
 	BYTE* pInOrg = pIn;
 
 	long len = pSample->GetActualDataLength();
-	if(len <= 0) {
+	if (len <= 0) {
 		return S_FALSE;
 	}
 
 	BYTE* pOut = NULL;
-	if(FAILED(hr = pOutSample->GetPointer(&pOut))) {
+	if (FAILED(hr = pOutSample->GetPointer(&pOut))) {
 		return hr;
 	}
 	BYTE* pOutOrg = pOut;
 
 	int size = pOutSample->GetSize();
 
-	if((CheckAC3(&m_pInput->CurrentMediaType()) || CheckDTS(&m_pInput->CurrentMediaType()))
+	if ((CheckAC3(&m_pInput->CurrentMediaType()) || CheckDTS(&m_pInput->CurrentMediaType()))
 			&& (CheckWAVEAC3(&m_pOutput->CurrentMediaType()) || CheckWAVEDTS(&m_pOutput->CurrentMediaType()))) {
-		if(*(DWORD*)pIn == 0xBA010000) {
+		if (*(DWORD*)pIn == 0xBA010000) {
 			pIn += 14;
 		}
 
-		if(*(DWORD*)pIn == 0xBD010000) {
+		if (*(DWORD*)pIn == 0xBD010000) {
 			pIn += 8 + 1 + pIn[8] + 1 + 3;
 		}
 
 		len -= (pInOrg - pIn);
 
-		if(size < len) {
+		if (size < len) {
 			return E_FAIL;
 		}
 
 		memcpy(pOut, pIn, len);
 		pOut += len;
-	} else if((CheckWAVEAC3(&m_pInput->CurrentMediaType()) || CheckWAVEDTS(&m_pInput->CurrentMediaType()))
-			  && (CheckAC3(&m_pOutput->CurrentMediaType()) || CheckDTS(&m_pOutput->CurrentMediaType()))) {
-		if((m_pOutput->CurrentMediaType().majortype == MEDIATYPE_DVD_ENCRYPTED_PACK
+	} else if ((CheckWAVEAC3(&m_pInput->CurrentMediaType()) || CheckWAVEDTS(&m_pInput->CurrentMediaType()))
+			   && (CheckAC3(&m_pOutput->CurrentMediaType()) || CheckDTS(&m_pOutput->CurrentMediaType()))) {
+		if ((m_pOutput->CurrentMediaType().majortype == MEDIATYPE_DVD_ENCRYPTED_PACK
 				|| m_pOutput->CurrentMediaType().majortype == MEDIATYPE_MPEG2_PES)
 				&& (len + 12 + 3) >= 0x10000) { // damn, this can happen if the interleave time is too big
 			REFERENCE_TIME rtStart = 0, rtStop = 1;
@@ -137,15 +137,15 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 			bool fDiscontinuity = (S_OK == pOutSample->IsDiscontinuity());
 
 			int pos = 0;
-			while(pos < len) {
+			while (pos < len) {
 				int curlen = min(len - pos, 2013);
 				pos += 2013;
 
 				CComPtr<IMediaSample> pOutSample;
 				hr = InitializeOutputSample(pSample, &pOutSample);
 
-				if(fDiscontinuity) {
-					if(fHasTime) {
+				if (fDiscontinuity) {
+					if (fHasTime) {
 						rtStop = rtStart + (rtStop - rtStart) * curlen / len;
 						pOutSample->SetTime(&rtStart, &rtStop);
 					}
@@ -157,7 +157,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 				}
 
 				BYTE* pOut = NULL;
-				if(FAILED(hr = pOutSample->GetPointer(&pOut))) {
+				if (FAILED(hr = pOutSample->GetPointer(&pOut))) {
 					return hr;
 				}
 				BYTE* pOutOrg = pOut;
@@ -167,8 +167,8 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 				const GUID* majortype = &m_pOutput->CurrentMediaType().majortype;
 				const GUID* subtype = &m_pOutput->CurrentMediaType().subtype;
 
-				if(*majortype == MEDIATYPE_DVD_ENCRYPTED_PACK) {
-					if(size < curlen + 32 + 3) {
+				if (*majortype == MEDIATYPE_DVD_ENCRYPTED_PACK) {
+					if (size < curlen + 32 + 3) {
 						return E_FAIL;
 					}
 
@@ -184,8 +184,8 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 					majortype = &MEDIATYPE_MPEG2_PES;
 				}
 
-				if(*majortype == MEDIATYPE_MPEG2_PES) {
-					if(size < curlen + 20 + 3) {
+				if (*majortype == MEDIATYPE_MPEG2_PES) {
+					if (size < curlen + 20 + 3) {
 						return E_FAIL;
 					}
 
@@ -205,22 +205,22 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 					Private1Header[4] = (packetlen>>8)&0xff;
 					Private1Header[5] = packetlen&0xff;
 
-					if(*subtype == MEDIASUBTYPE_DTS) {
+					if (*subtype == MEDIASUBTYPE_DTS) {
 						Private1Header[17] += 8;
 					}
 
-					if(*subtype == MEDIASUBTYPE_DOLBY_AC3) {
-						for(int i = 0; i < curlen; i++) {
-							if(*(DWORD*)&pIn[i] == 0x770B) {
+					if (*subtype == MEDIASUBTYPE_DOLBY_AC3) {
+						for (int i = 0; i < curlen; i++) {
+							if (*(DWORD*)&pIn[i] == 0x770B) {
 								i++;
 								Private1Header[19] = (i>>8)&0xff;
 								Private1Header[20] = i&0xff;
 								break;
 							}
 						}
-					} else if(*subtype == MEDIASUBTYPE_DTS) {
-						for(int i = 0; i < curlen; i++) {
-							if(*(DWORD*)&pIn[i] == 0x0180FE7F) {
+					} else if (*subtype == MEDIASUBTYPE_DTS) {
+						for (int i = 0; i < curlen; i++) {
+							if (*(DWORD*)&pIn[i] == 0x0180FE7F) {
 								i++;
 								Private1Header[19] = (i>>8)&0xff;
 								Private1Header[20] = i&0xff;
@@ -235,8 +235,8 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 					majortype = &MEDIATYPE_Audio;
 				}
 
-				if(*majortype == MEDIATYPE_Audio) {
-					if(size < curlen) {
+				if (*majortype == MEDIATYPE_Audio) {
+					if (size < curlen) {
 						return E_FAIL;
 					}
 					memcpy(pOut, pIn, curlen);
@@ -254,8 +254,8 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 			const GUID* majortype = &m_pOutput->CurrentMediaType().majortype;
 			const GUID* subtype = &m_pOutput->CurrentMediaType().subtype;
 
-			if(*majortype == MEDIATYPE_DVD_ENCRYPTED_PACK) {
-				if(size < len + 32 + 3) {
+			if (*majortype == MEDIATYPE_DVD_ENCRYPTED_PACK) {
+				if (size < len + 32 + 3) {
 					return E_FAIL;
 				}
 
@@ -271,8 +271,8 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 				majortype = &MEDIATYPE_MPEG2_PES;
 			}
 
-			if(*majortype == MEDIATYPE_MPEG2_PES) {
-				if(size < len + 20 + 3) {
+			if (*majortype == MEDIATYPE_MPEG2_PES) {
+				if (size < len + 20 + 3) {
 					return E_FAIL;
 				}
 
@@ -292,7 +292,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 				Private1Header[4] = (packetlen>>8)&0xff;
 				Private1Header[5] = packetlen&0xff;
 
-				if(*subtype == MEDIASUBTYPE_DTS) {
+				if (*subtype == MEDIASUBTYPE_DTS) {
 					Private1Header[17] += 8;
 				}
 
@@ -302,8 +302,8 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
 				majortype = &MEDIATYPE_Audio;
 			}
 
-			if(*majortype == MEDIATYPE_Audio) {
-				if(size < len) {
+			if (*majortype == MEDIATYPE_Audio) {
+				if (size < len) {
 					return E_FAIL;
 				}
 
@@ -375,13 +375,13 @@ HRESULT CAVI2AC3Filter::CheckTransform(const CMediaType* mtIn, const CMediaType*
 
 HRESULT CAVI2AC3Filter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
-	if(m_pInput->IsConnected() == FALSE) {
+	if (m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
 	}
 
 	CComPtr<IMemAllocator> pAllocatorIn;
 	m_pInput->GetAllocator(&pAllocatorIn);
-	if(!pAllocatorIn) {
+	if (!pAllocatorIn) {
 		return E_UNEXPECTED;
 	}
 
@@ -394,7 +394,7 @@ HRESULT CAVI2AC3Filter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PR
 
 	HRESULT hr;
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) {
+	if (FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) {
 		return hr;
 	}
 
@@ -405,7 +405,7 @@ HRESULT CAVI2AC3Filter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PR
 
 HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 {
-	if(m_pInput->IsConnected() == FALSE) {
+	if (m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
 	}
 
@@ -413,11 +413,11 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 	UNUSED_ALWAYS(majortype);
 
-	if(CheckAC3(&m_pInput->CurrentMediaType()) || CheckDTS(&m_pInput->CurrentMediaType())) {
-		if(iPosition < 0) {
+	if (CheckAC3(&m_pInput->CurrentMediaType()) || CheckDTS(&m_pInput->CurrentMediaType())) {
+		if (iPosition < 0) {
 			return E_INVALIDARG;
 		}
-		if(iPosition > 0) {
+		if (iPosition > 0) {
 			return VFW_S_NO_MORE_ITEMS;
 		}
 
@@ -433,24 +433,24 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 		wfe->nChannels = 2;
 		wfe->nBlockAlign = 1;
 
-		if(subtype == MEDIASUBTYPE_DOLBY_AC3) {
+		if (subtype == MEDIASUBTYPE_DOLBY_AC3) {
 			pMediaType->subtype = MEDIASUBTYPE_WAVE_DOLBY_AC3;
 			wfe->wFormatTag = WAVE_FORMAT_DOLBY_AC3;
-		} else if(subtype == MEDIASUBTYPE_DTS) {
+		} else if (subtype == MEDIASUBTYPE_DTS) {
 			pMediaType->subtype = MEDIASUBTYPE_WAVE_DTS;
 			wfe->wFormatTag = WAVE_FORMAT_DVD_DTS;
 		} else {
 			return E_INVALIDARG;
 		}
-	} else if(CheckWAVEAC3(&m_pInput->CurrentMediaType()) || CheckWAVEDTS(&m_pInput->CurrentMediaType())) {
-		if(iPosition < 0) {
+	} else if (CheckWAVEAC3(&m_pInput->CurrentMediaType()) || CheckWAVEDTS(&m_pInput->CurrentMediaType())) {
+		if (iPosition < 0) {
 			return E_INVALIDARG;
 		}
-		if(iPosition > 4) {
+		if (iPosition > 4) {
 			return VFW_S_NO_MORE_ITEMS;
 		}
 
-		if(subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3) {
+		if (subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3) {
 			pMediaType->subtype = MEDIASUBTYPE_DOLBY_AC3;
 
 			pMediaType->formattype = FORMAT_WaveFormatEx;
@@ -464,7 +464,7 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 			wfe->wfx.nSamplesPerSec = 48000;
 			wfe->wfx.nChannels = 6;
 			wfe->bBigEndian = TRUE;
-		} else if(subtype == MEDIASUBTYPE_WAVE_DTS) {
+		} else if (subtype == MEDIASUBTYPE_WAVE_DTS) {
 			pMediaType->subtype = MEDIASUBTYPE_DTS;
 
 			pMediaType->formattype = FORMAT_WaveFormatEx;
@@ -479,7 +479,7 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 			return E_INVALIDARG;
 		}
 
-		switch(iPosition) {
+		switch (iPosition) {
 			case 0:
 				pMediaType->majortype = MEDIATYPE_Audio;
 				break;

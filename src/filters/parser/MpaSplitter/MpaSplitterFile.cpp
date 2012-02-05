@@ -82,7 +82,7 @@ CMpaSplitterFile::CMpaSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 	, m_totalbps(0)
 	, m_bIsVBR(false)
 {
-	if(SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr)) {
 		hr = Init();
 	}
 }
@@ -94,14 +94,14 @@ HRESULT CMpaSplitterFile::Init()
 
 	Seek(0);
 
-	if(BitRead(24, true) == 0x000001) {
+	if (BitRead(24, true) == 0x000001) {
 		return E_FAIL;
 	}
 
-	if(m_endpos > 128 && IsRandomAccess()) {
+	if (m_endpos > 128 && IsRandomAccess()) {
 		Seek(m_endpos - 128);
 
-		if(BitRead(24) == 'TAG') {
+		if (BitRead(24) == 'TAG') {
 			m_endpos -= 128;
 
 			CStringA str;
@@ -128,13 +128,13 @@ HRESULT CMpaSplitterFile::Init()
 
 			// track
 			LPCSTR s = str;
-			if(s[28] == 0 && s[29] != 0) {
+			if (s[28] == 0 && s[29] != 0) {
 				m_tags['TRCK'].Format(L"%d", s[29]);
 			}
 
 			// genre
 			BYTE genre = (BYTE)BitRead(8);
-			if(genre < countof(s_genre)) {
+			if (genre < countof(s_genre)) {
 				m_tags['TCON'] = CStringW(s_genre[genre]);
 			}
 		}
@@ -144,7 +144,7 @@ HRESULT CMpaSplitterFile::Init()
 
 	bool MP3_find = false;
 
-	while(BitRead(24, true) == 'ID3') {
+	while (BitRead(24, true) == 'ID3') {
 		MP3_find = true;
 
 		BitRead(24);
@@ -156,19 +156,19 @@ HRESULT CMpaSplitterFile::Init()
 		BYTE flags = (BYTE)BitRead(8);
 		UNUSED_ALWAYS(flags);
 		DWORD size = 0;
-		if(BitRead(1) != 0) {
+		if (BitRead(1) != 0) {
 			return E_FAIL;
 		}
 		size |= BitRead(7) << 21;
-		if(BitRead(1) != 0) {
+		if (BitRead(1) != 0) {
 			return E_FAIL;
 		}
 		size |= BitRead(7) << 14;
-		if(BitRead(1) != 0) {
+		if (BitRead(1) != 0) {
 			return E_FAIL;
 		}
 		size |= BitRead(7) << 7;
-		if(BitRead(1) != 0) {
+		if (BitRead(1) != 0) {
 			return E_FAIL;
 		}
 		size |= BitRead(7);
@@ -177,10 +177,10 @@ HRESULT CMpaSplitterFile::Init()
 
 		// TODO: read extended header
 
-		if(major <= 4) {
+		if (major <= 4) {
 			__int64 pos = GetPos();
 
-			while(pos < m_startpos) {
+			while (pos < m_startpos) {
 				Seek(pos);
 
 				DWORD tag = (DWORD)BitRead(32);
@@ -194,11 +194,11 @@ HRESULT CMpaSplitterFile::Init()
 
 				pos += 4+4+2+size;
 
-				if(!size || pos >= m_startpos) {
+				if (!size || pos >= m_startpos) {
 					break;
 				}
 
-				if(tag == 'TIT2'
+				if (tag == 'TIT2'
 						|| tag == 'TPE1'
 						|| tag == 'TALB'
 						|| tag == 'TYER'
@@ -212,16 +212,16 @@ HRESULT CMpaSplitterFile::Init()
 					CStringA str;
 					CStringW wstr;
 
-					if(encoding > 0 && size >= 2 && bom == 0xfffe) {
+					if (encoding > 0 && size >= 2 && bom == 0xfffe) {
 						BitRead(16);
 						size = (size - 2) / 2;
 						ByteRead((BYTE*)wstr.GetBufferSetLength(size), size*2);
 						m_tags[tag] = wstr.Trim();
-					} else if(encoding > 0 && size >= 2 && bom == 0xfeff) {
+					} else if (encoding > 0 && size >= 2 && bom == 0xfeff) {
 						BitRead(16);
 						size = (size - 2) / 2;
 						ByteRead((BYTE*)wstr.GetBufferSetLength(size), size*2);
-						for(int i = 0, j = wstr.GetLength(); i < j; i++) {
+						for (int i = 0, j = wstr.GetLength(); i < j; i++) {
 							wstr.SetAt(i, (wstr[i]<<8)|(wstr[i]>>8));
 						}
 						m_tags[tag] = wstr.Trim();
@@ -235,7 +235,7 @@ HRESULT CMpaSplitterFile::Init()
 
 		Seek(m_startpos);
 
-		for(int i = 0; i < (1<<20) && m_startpos < m_endpos && BitRead(8, true) == 0; i++) {
+		for (int i = 0; i < (1<<20) && m_startpos < m_endpos && BitRead(8, true) == 0; i++) {
 			BitRead(8), m_startpos++;
 		}
 	}
@@ -244,16 +244,16 @@ HRESULT CMpaSplitterFile::Init()
 	__int64 startpos;
 	__int64 syncpos;
 
-	
-	if(!MP3_find) { // if no 'ID3' tag at begin of file
+
+	if (!MP3_find) { // if no 'ID3' tag at begin of file
 		Seek(m_startpos);
 		searchlen = min(m_endpos - m_startpos, 4);
-		if(Read(m_mpahdr, searchlen, true, &m_mt)) {
+		if (Read(m_mpahdr, searchlen, true, &m_mt)) {
 			MP3_find = true;
 		}
 	}
 
-	if(MP3_find) {
+	if (MP3_find) {
 		__int64 startpos_mp3 = m_startpos;
 		while (m_mode == none) {
 			searchlen = min(m_endpos - startpos_mp3, 0x200);
@@ -263,7 +263,7 @@ HRESULT CMpaSplitterFile::Init()
 			syncpos = startpos_mp3 + searchlen;
 
 			// Check for a valid MPA header
-			if(Read(m_mpahdr, searchlen, true, &m_mt)) {
+			if (Read(m_mpahdr, searchlen, true, &m_mt)) {
 				m_mode = mpa;
 
 				syncpos = GetPos();
@@ -271,7 +271,7 @@ HRESULT CMpaSplitterFile::Init()
 
 				// make sure the first frame is followed by another of the same kind (validates m_mpahdr basically)
 				Seek(startpos + m_mpahdr.FrameSize);
-				if(!Sync(4)) {
+				if (!Sync(4)) {
 					m_mode = none;
 				} else {
 					break;
@@ -290,37 +290,37 @@ HRESULT CMpaSplitterFile::Init()
 	searchlen = min(m_endpos - m_startpos, m_startpos > 0 ? 0x200 : 7);
 	Seek(m_startpos);
 
-	if(m_mode == none && Read(m_aachdr, searchlen, &m_mt)) {
+	if (m_mode == none && Read(m_aachdr, searchlen, &m_mt)) {
 		m_mode = mp4a;
 
 		startpos = GetPos() - (m_aachdr.fcrc?7:9);
 
 		// make sure the first frame is followed by another of the same kind (validates m_aachdr basically)
 		Seek(startpos + m_aachdr.aac_frame_length);
-		if(!Sync(9)) {
+		if (!Sync(9)) {
 			m_mode = none;
 		}
 	}
 
-	if(m_mode == none) {
+	if (m_mode == none) {
 		return E_FAIL;
 	}
 
 	m_startpos = startpos;
 
-	if(m_mode == mpa) {
+	if (m_mode == mpa) {
 		DWORD m_dwFrames = 0;		// total number of frames
 		Seek(m_startpos + MPA_HEADER_SIZE + 32);
-		if(BitRead(32, true) == 'Xing' || BitRead(32, true) == 'Info') {
+		if (BitRead(32, true) == 'Xing' || BitRead(32, true) == 'Info') {
 			TRACE(_T("CMpaSplitterFile -  Xing VBR header found\n"));
 
 			BitRead(32); // Skip ID tag
 			DWORD dwFlags = BitRead(32);
 			// extract total number of frames in file
-			if(dwFlags & FRAMES_FLAG)
+			if (dwFlags & FRAMES_FLAG)
 				m_dwFrames = BitRead(32);
 
-		} else if(BitRead(32, true) == 'VBRI') {
+		} else if (BitRead(32, true) == 'VBRI') {
 			TRACE(_T("CMpaSplitterFile -  VBRI header found\n"));
 
 			BitRead(32); // Skip ID tag
@@ -332,8 +332,8 @@ HRESULT CMpaSplitterFile::Init()
 			m_dwFrames = BitRead(32); // extract total number of frames in file
 		}
 
-		if(m_dwFrames) {
-		
+		if (m_dwFrames) {
+
 			bool l3ext = m_mpahdr.layer == 3 && !(m_mpahdr.version&1);
 			DWORD m_dwSamplesPerFrame = m_mpahdr.layer == 1 ? 384 : l3ext ? 576 : 1152;
 
@@ -348,11 +348,11 @@ HRESULT CMpaSplitterFile::Init()
 	REFERENCE_TIME rtFrameDur, rtPrevDur = -1;
 	clock_t start = clock();
 	int i = 0;
-	while(Sync(FrameSize, rtFrameDur) && (clock() - start) < CLOCKS_PER_SEC) {
+	while (Sync(FrameSize, rtFrameDur) && (clock() - start) < CLOCKS_PER_SEC) {
 		TRACE(_T("%I64d\n"), m_rtDuration);
 		Seek(GetPos() + FrameSize);
 		i = rtPrevDur == m_rtDuration ? i+1 : 0;
-		if(i == 10) {
+		if (i == 10) {
 			break;
 		}
 		rtPrevDur = m_rtDuration;
@@ -372,11 +372,11 @@ bool CMpaSplitterFile::Sync(int& FrameSize, REFERENCE_TIME& rtDuration, int limi
 {
 	__int64 endpos = min(m_endpos, GetPos() + limit);
 
-	if(m_mode == mpa) {
-		while(GetPos() <= endpos - 4) {
+	if (m_mode == mpa) {
+		while (GetPos() <= endpos - 4) {
 			mpahdr h;
 
-			if(Read(h, endpos - GetPos(), true)) {
+			if (Read(h, endpos - GetPos(), true)) {
 				if (m_mpahdr.version == h.version
 						&& m_mpahdr.layer == h.layer
 						&& m_mpahdr.channels == h.channels) {
@@ -392,11 +392,11 @@ bool CMpaSplitterFile::Sync(int& FrameSize, REFERENCE_TIME& rtDuration, int limi
 				break;
 			}
 		}
-	} else if(m_mode == mp4a) {
-		while(GetPos() <= endpos - 9) {
+	} else if (m_mode == mp4a) {
+		while (GetPos() <= endpos - 9) {
 			aachdr h;
 
-			if(Read(h, endpos - GetPos())) {
+			if (Read(h, endpos - GetPos())) {
 				if (m_aachdr.version == h.version
 						&& m_aachdr.layer == h.layer
 						&& m_aachdr.channels == h.channels) {
@@ -422,11 +422,11 @@ void CMpaSplitterFile::AdjustDuration(int nBytesPerSec)
 {
 	ASSERT(nBytesPerSec);
 
-	if(!m_bIsVBR) {
+	if (!m_bIsVBR) {
 		int rValue;
-		if(!m_pos2bps.Lookup(GetPos(), rValue)) {
+		if (!m_pos2bps.Lookup(GetPos(), rValue)) {
 			m_totalbps += nBytesPerSec;
-			if(!m_totalbps) {
+			if (!m_totalbps) {
 				return;
 			}
 			m_pos2bps.SetAt(GetPos(), nBytesPerSec);

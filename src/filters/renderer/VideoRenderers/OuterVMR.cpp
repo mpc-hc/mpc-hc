@@ -28,7 +28,7 @@
 using namespace DSObjects;
 
 STDMETHODIMP COuterVMR9::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight) {
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
 		return pWC9->GetNativeVideoSize(lpWidth, lpHeight, lpARWidth, lpARHeight);
 	}
 
@@ -36,7 +36,7 @@ STDMETHODIMP COuterVMR9::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG*
 }
 
 STDMETHODIMP COuterVMR9::GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect) {
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
 		return pWC9->GetVideoPosition(lpSRCRect, lpDSTRect);
 	}
 
@@ -44,7 +44,7 @@ STDMETHODIMP COuterVMR9::GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect) {
 }
 
 STDMETHODIMP COuterVMR9::GetAspectRatioMode(DWORD* lpAspectRatioMode) {
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
 		*lpAspectRatioMode = VMR_ARMODE_NONE;
 		return S_OK;
 	}
@@ -54,7 +54,7 @@ STDMETHODIMP COuterVMR9::GetAspectRatioMode(DWORD* lpAspectRatioMode) {
 
 // IVideoWindow
 STDMETHODIMP COuterVMR9::get_Width(long* pWidth) {
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
 		CRect s, d;
 		HRESULT hr = pWC9->GetVideoPosition(&s, &d);
 		*pWidth = d.Width();
@@ -65,7 +65,7 @@ STDMETHODIMP COuterVMR9::get_Width(long* pWidth) {
 }
 
 STDMETHODIMP COuterVMR9::get_Height(long* pHeight) {
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
 		CRect s, d;
 		HRESULT hr = pWC9->GetVideoPosition(&s, &d);
 		*pHeight = d.Height();
@@ -98,7 +98,7 @@ STDMETHODIMP COuterVMR9::GetSourcePosition(long* pLeft, long* pTop, long* pWidth
 }
 
 STDMETHODIMP COuterVMR9::GetDestinationPosition(long* pLeft, long* pTop, long* pWidth, long* pHeight) {
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
 		CRect s, d;
 		HRESULT hr = pWC9->GetVideoPosition(&s, &d);
 		*pLeft = d.left;
@@ -112,7 +112,7 @@ STDMETHODIMP COuterVMR9::GetDestinationPosition(long* pLeft, long* pTop, long* p
 }
 
 STDMETHODIMP COuterVMR9::GetVideoSize(long* pWidth, long* pHeight) {
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
 		LONG aw, ah;
 		//			return pWC9->GetNativeVideoSize(pWidth, pHeight, &aw, &ah);
 		// DVD Nav. bug workaround fix
@@ -125,7 +125,7 @@ STDMETHODIMP COuterVMR9::GetVideoSize(long* pWidth, long* pHeight) {
 }
 
 STDMETHODIMP COuterVMR9::GetPreferredAspectRatio(long* plAspectX, long* plAspectY) {
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
 		LONG w, h;
 		return pWC9->GetNativeVideoSize(&w, &h, plAspectX, plAspectY);
 	}

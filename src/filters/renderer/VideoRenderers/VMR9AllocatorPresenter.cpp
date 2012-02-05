@@ -58,13 +58,13 @@ STDMETHODIMP CVMR9AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, v
 HRESULT CVMR9AllocatorPresenter::CreateDevice(CString &_Error)
 {
 	HRESULT hr = __super::CreateDevice(_Error);
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
-	if(m_pIVMRSurfAllocNotify) {
+	if (m_pIVMRSurfAllocNotify) {
 		HMONITOR hMonitor = m_pD3D->GetAdapterMonitor(m_CurrentAdapter);
-		if(FAILED(hr = m_pIVMRSurfAllocNotify->ChangeD3DDevice(m_pD3DDev, hMonitor))) {
+		if (FAILED(hr = m_pIVMRSurfAllocNotify->ChangeD3DDevice(m_pD3DDev, hMonitor))) {
 			_Error += L"m_pIVMRSurfAllocNotify->ChangeD3DDevice failed";
 			return hr; //return false;
 		}
@@ -105,30 +105,30 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 		CComQIPtr<IMemInputPin> pMemInputPin = pPin;
 		m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
 
-		if(CComQIPtr<IAMVideoAccelerator> pAMVA = pPin) {
+		if (CComQIPtr<IAMVideoAccelerator> pAMVA = pPin) {
 			HookAMVideoAccelerator((IAMVideoAcceleratorC*)(IAMVideoAccelerator*)pAMVA);
 		}
 
 		CComQIPtr<IVMRFilterConfig9> pConfig = pBF;
-		if(!pConfig) {
+		if (!pConfig) {
 			break;
 		}
 
 		CRenderersSettings& s = GetRenderersSettings();
 
-		if(s.fVMR9MixerMode) {
-			if(FAILED(hr = pConfig->SetNumberOfStreams(1))) {
+		if (s.fVMR9MixerMode) {
+			if (FAILED(hr = pConfig->SetNumberOfStreams(1))) {
 				break;
 			}
 
-			if(CComQIPtr<IVMRMixerControl9> pMC = pBF) {
+			if (CComQIPtr<IVMRMixerControl9> pMC = pBF) {
 				DWORD dwPrefs;
 				pMC->GetMixingPrefs(&dwPrefs);
 
 				// See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
 				dwPrefs |= MixerPref9_NonSquareMixing;
 				dwPrefs |= MixerPref9_NoDecimation;
-				if(s.fVMR9MixerYUV && !IsVistaOrAbove()) {
+				if (s.fVMR9MixerYUV && !IsVistaOrAbove()) {
 					dwPrefs &= ~MixerPref9_RenderTargetMask;
 					dwPrefs |= MixerPref9_RenderTargetYUV;
 				}
@@ -136,16 +136,16 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 			}
 		}
 
-		if(FAILED(hr = pConfig->SetRenderingMode(VMR9Mode_Renderless))) {
+		if (FAILED(hr = pConfig->SetRenderingMode(VMR9Mode_Renderless))) {
 			break;
 		}
 
 		CComQIPtr<IVMRSurfaceAllocatorNotify9> pSAN = pBF;
-		if(!pSAN) {
+		if (!pSAN) {
 			break;
 		}
 
-		if(FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator9*>(this)))
+		if (FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator9*>(this)))
 				|| FAILED(hr = AdviseNotify(pSAN))) {
 			break;
 		}
@@ -153,7 +153,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 		*ppRenderer = (IUnknown*)pBF.Detach();
 
 		return S_OK;
-	} while(0);
+	} while (0);
 
 	return E_FAIL;
 }
@@ -171,17 +171,17 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 	CAutoLock lock(this);
 	CAutoLock cRenderLock(&m_RenderLock);
 
-	if(!lpAllocInfo || !lpNumBuffers) {
+	if (!lpAllocInfo || !lpNumBuffers) {
 		return E_POINTER;
 	}
 
-	if(!m_pIVMRSurfAllocNotify) {
+	if (!m_pIVMRSurfAllocNotify) {
 		return E_FAIL;
 	}
 
 	// WTF: Is this some kind of forgotten debug code ?
-	if((GetAsyncKeyState(VK_CONTROL)&0x80000000))
-		if(lpAllocInfo->Format == '21VY' || lpAllocInfo->Format == '024I') {
+	if ((GetAsyncKeyState(VK_CONTROL)&0x80000000))
+		if (lpAllocInfo->Format == '21VY' || lpAllocInfo->Format == '024I') {
 			return E_FAIL;
 		}
 
@@ -203,12 +203,12 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 
 	HRESULT hr;
 
-	if(lpAllocInfo->dwFlags & VMR9AllocFlag_3DRenderTarget) {
+	if (lpAllocInfo->dwFlags & VMR9AllocFlag_3DRenderTarget) {
 		lpAllocInfo->dwFlags |= VMR9AllocFlag_TextureSurface;
 	}
 
 	hr = m_pIVMRSurfAllocNotify->AllocateSurfaceHelper(lpAllocInfo, lpNumBuffers, &m_pSurfaces[0]);
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
@@ -219,7 +219,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 	CSize VideoSize = GetVisibleVideoSize();
 	int arx = lpAllocInfo->szAspectRatio.cx;
 	int ary = lpAllocInfo->szAspectRatio.cy;
-	if(arx > 0 && ary > 0) {
+	if (arx > 0 && ary > 0) {
 		arx = arx / ((float) m_NativeVideoSize.cx / VideoSize.cx);
 		ary = ary / ((float) m_NativeVideoSize.cy / VideoSize.cy);
 		m_AspectRatio.SetSize(arx, ary);
@@ -227,13 +227,13 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 		m_AspectRatio = VideoSize;
 	}
 
-	if(FAILED(hr = AllocSurfaces())) {
+	if (FAILED(hr = AllocSurfaces())) {
 		return hr;
 	}
 
-	if(!(lpAllocInfo->dwFlags & VMR9AllocFlag_TextureSurface)) {
+	if (!(lpAllocInfo->dwFlags & VMR9AllocFlag_TextureSurface)) {
 		// test if the colorspace is acceptable
-		if(FAILED(hr = m_pD3DDev->StretchRect(m_pSurfaces[0], NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE))) {
+		if (FAILED(hr = m_pD3DDev->StretchRect(m_pSurfaces[0], NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE))) {
 			DeleteSurfaces();
 			return E_FAIL;
 		}
@@ -260,7 +260,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::TerminateDevice(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR9AllocatorPresenter::GetSurface(DWORD_PTR dwUserID, DWORD SurfaceIndex, DWORD SurfaceFlags, IDirect3DSurface9** lplpSurface)
 {
-	if(!lplpSurface) {
+	if (!lplpSurface) {
 		return E_POINTER;
 	}
 
@@ -271,7 +271,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::GetSurface(DWORD_PTR dwUserID, DWORD Surfa
 	SurfaceIndex = 0
 	m_pSurfaces.GetCount() = 0
 
-	Scenario:	
+	Scenario:
 	Thread 1:
 		Wait on m_RenderLock in this function
 	Thread 2:
@@ -279,15 +279,15 @@ STDMETHODIMP CVMR9AllocatorPresenter::GetSurface(DWORD_PTR dwUserID, DWORD Surfa
 		(Happens by calling ex CDX9AllocatorPresenter::ResetDevice)
 
 	When thread 2 releases the lock thread 1 gets it and boom!
-	
+
 	Possible solution: Adding object lock and moving m_RenderLock to try to fix this threading issue.
 	This problem occurs when moving the window from display a to display b.
-	
+
 	NOTE: This is just a workaround.
 	CDX9AllocatorPresenter doesn't follow the rules which is why this happened.
 	And it is used by EVR custom (which it really shouldn't) so i can't easily fix it without breaking EVR custom.
 	*/
-	if(SurfaceIndex >= m_pSurfaces.GetCount()) {
+	if (SurfaceIndex >= m_pSurfaces.GetCount()) {
 		return E_FAIL;
 	}
 
@@ -314,7 +314,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::AdviseNotify(IVMRSurfaceAllocatorNotify9* 
 
 	HRESULT hr;
 	HMONITOR hMonitor = m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D));
-	if(FAILED(hr = m_pIVMRSurfAllocNotify->SetD3DDevice(m_pD3DDev, hMonitor))) {
+	if (FAILED(hr = m_pIVMRSurfAllocNotify->SetD3DDevice(m_pD3DDev, hMonitor))) {
 		return hr;
 	}
 
@@ -409,18 +409,18 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
 	HRESULT hr;
 
-	if(!lpPresInfo || !lpPresInfo->lpSurf) {
+	if (!lpPresInfo || !lpPresInfo->lpSurf) {
 		return E_POINTER;
 	}
 
 	CAutoLock cAutoLock(this);
 	CAutoLock cRenderLock(&m_RenderLock);
 
-	if(lpPresInfo->rtEnd > lpPresInfo->rtStart) {
-		if(m_pSubPicQueue) {
+	if (lpPresInfo->rtEnd > lpPresInfo->rtStart) {
+		if (m_pSubPicQueue) {
 			m_pSubPicQueue->SetFPS(m_fps);
 
-			if(m_fUseInternalTimer && !g_bExternalSubtitleTime) {
+			if (m_fUseInternalTimer && !g_bExternalSubtitleTime) {
 				__super::SetTime(g_tSegmentStart + g_tSampleStart);
 			}
 		}
@@ -429,12 +429,12 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 	CSize VideoSize = GetVisibleVideoSize();
 	int arx = lpPresInfo->szAspectRatio.cx;
 	int ary = lpPresInfo->szAspectRatio.cy;
-	if(arx > 0 && ary > 0) {
+	if (arx > 0 && ary > 0) {
 		arx = arx / ((float) m_NativeVideoSize.cx / VideoSize.cx);
 		ary = ary / ((float) m_NativeVideoSize.cy / VideoSize.cy);
 		VideoSize.cx = VideoSize.cy*arx/ary;
 	}
-	if(VideoSize != GetVideoSize()) {
+	if (VideoSize != GetVideoSize()) {
 		m_AspectRatio.SetSize(arx, ary);
 		AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
 	}
@@ -443,9 +443,9 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 		CComPtr<IDirect3DTexture9> pTexture;
 		lpPresInfo->lpSurf->GetContainer(IID_IDirect3DTexture9, (void**)&pTexture);
 
-		if(pTexture) {
+		if (pTexture) {
 			m_pVideoSurface[m_nCurSurface] = lpPresInfo->lpSurf;
-			if(m_pVideoTexture[m_nCurSurface]) {
+			if (m_pVideoTexture[m_nCurSurface]) {
 				m_pVideoTexture[m_nCurSurface] = pTexture;
 			}
 		} else {
@@ -483,16 +483,16 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
 STDMETHODIMP CVMR9AllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight)
 {
-	if(lpWidth) {
+	if (lpWidth) {
 		*lpWidth = m_NativeVideoSize.cx;
 	}
-	if(lpHeight) {
+	if (lpHeight) {
 		*lpHeight = m_NativeVideoSize.cy;
 	}
-	if(lpARWidth) {
+	if (lpARWidth) {
 		*lpARWidth = m_AspectRatio.cx;
 	}
-	if(lpARHeight) {
+	if (lpARHeight) {
 		*lpARHeight = m_AspectRatio.cy;
 	}
 	return S_OK;
@@ -522,7 +522,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::GetVideoPosition(LPRECT lpSRCRect, LPRECT 
 
 STDMETHODIMP CVMR9AllocatorPresenter::GetAspectRatioMode(DWORD* lpAspectRatioMode)
 {
-	if(lpAspectRatioMode) {
+	if (lpAspectRatioMode) {
 		*lpAspectRatioMode = AM_ARMODE_STRETCHED;
 	}
 	return S_OK;
@@ -560,7 +560,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::SetBorderColor(COLORREF Clr)
 
 STDMETHODIMP CVMR9AllocatorPresenter::GetBorderColor(COLORREF* lpClr)
 {
-	if(lpClr) {
+	if (lpClr) {
 		*lpClr = 0;
 	}
 	return S_OK;

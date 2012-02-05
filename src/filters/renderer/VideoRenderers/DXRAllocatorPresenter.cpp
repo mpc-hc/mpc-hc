@@ -37,7 +37,7 @@ CDXRAllocatorPresenter::CDXRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &
 	: CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
 	, m_ScreenSize(0, 0)
 {
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		_Error += L"ISubPicAllocatorPresenterImpl failed\n";
 		return;
 	}
@@ -47,7 +47,7 @@ CDXRAllocatorPresenter::CDXRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &
 
 CDXRAllocatorPresenter::~CDXRAllocatorPresenter()
 {
-	if(m_pSRCB) {
+	if (m_pSRCB) {
 		// nasty, but we have to let it know about our death somehow
 		((CSubRenderCallback*)(ISubRenderCallback*)m_pSRCB)->SetDXRAP(NULL);
 	}
@@ -73,8 +73,8 @@ STDMETHODIMP CDXRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 			return GetInterface((IVMRWindowlessControl*)this, ppv);
 	*/
 
-	if(riid != IID_IUnknown && m_pDXR) {
-		if(SUCCEEDED(m_pDXR->QueryInterface(riid, ppv))) {
+	if (riid != IID_IUnknown && m_pDXR) {
+		if (SUCCEEDED(m_pDXR->QueryInterface(riid, ppv))) {
 			return S_OK;
 		}
 	}
@@ -87,7 +87,7 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	CheckPointer(pD3DDev, E_POINTER);
 
 	CSize size;
-	switch(GetRenderersSettings().nSPCMaxRes) {
+	switch (GetRenderersSettings().nSPCMaxRes) {
 		case 0:
 		default:
 			size = m_ScreenSize;
@@ -121,11 +121,11 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 			break;
 	}
 
-	if(m_pAllocator) {
+	if (m_pAllocator) {
 		m_pAllocator->ChangeDevice(pD3DDev);
 	} else {
 		m_pAllocator = DNew CDX9SubPicAllocator(pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, true);
-		if(!m_pAllocator) {
+		if (!m_pAllocator) {
 			return E_FAIL;
 		}
 	}
@@ -135,11 +135,11 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
 					 ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 					 : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
-	if(!m_pSubPicQueue || FAILED(hr)) {
+	if (!m_pSubPicQueue || FAILED(hr)) {
 		return E_FAIL;
 	}
 
-	if(m_SubPicProvider) {
+	if (m_SubPicProvider) {
 		m_pSubPicQueue->SetSubPicProvider(m_SubPicProvider);
 	}
 
@@ -152,7 +152,7 @@ HRESULT CDXRAllocatorPresenter::Render(
 {
 	__super::SetPosition(CRect(0, 0, width, height), CRect(left, top, right, bottom)); // needed? should be already set by the player
 	SetTime(rtStart);
-	if(atpf > 0 && m_pSubPicQueue) {
+	if (atpf > 0 && m_pSubPicQueue) {
 		m_pSubPicQueue->SetFPS(10000000.0 / atpf);
 	}
 	AlphaBltSubPic(CSize(width, height));
@@ -165,22 +165,22 @@ STDMETHODIMP CDXRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
 	CheckPointer(ppRenderer, E_POINTER);
 
-	if(m_pDXR) {
+	if (m_pDXR) {
 		return E_UNEXPECTED;
 	}
 	m_pDXR.CoCreateInstance(CLSID_DXR, GetOwner());
-	if(!m_pDXR) {
+	if (!m_pDXR) {
 		return E_FAIL;
 	}
 
 	CComQIPtr<ISubRender> pSR = m_pDXR;
-	if(!pSR) {
+	if (!pSR) {
 		m_pDXR = NULL;
 		return E_FAIL;
 	}
 
 	m_pSRCB = DNew CSubRenderCallback(this);
-	if(FAILED(pSR->SetCallback(m_pSRCB))) {
+	if (FAILED(pSR->SetCallback(m_pSRCB))) {
 		m_pDXR = NULL;
 		return E_FAIL;
 	}
@@ -198,12 +198,12 @@ STDMETHODIMP CDXRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 
 STDMETHODIMP_(void) CDXRAllocatorPresenter::SetPosition(RECT w, RECT v)
 {
-	if(CComQIPtr<IBasicVideo> pBV = m_pDXR) {
+	if (CComQIPtr<IBasicVideo> pBV = m_pDXR) {
 		pBV->SetDefaultSourcePosition();
 		pBV->SetDestinationPosition(v.left, v.top, v.right - v.left, v.bottom - v.top);
 	}
 
-	if(CComQIPtr<IVideoWindow> pVW = m_pDXR) {
+	if (CComQIPtr<IVideoWindow> pVW = m_pDXR) {
 		pVW->SetWindowPosition(w.left, w.top, w.right - w.left, w.bottom - w.top);
 	}
 }
@@ -212,12 +212,12 @@ STDMETHODIMP_(SIZE) CDXRAllocatorPresenter::GetVideoSize(bool fCorrectAR)
 {
 	SIZE size = {0, 0};
 
-	if(!fCorrectAR) {
-		if(CComQIPtr<IBasicVideo> pBV = m_pDXR) {
+	if (!fCorrectAR) {
+		if (CComQIPtr<IBasicVideo> pBV = m_pDXR) {
 			pBV->GetVideoSize(&size.cx, &size.cy);
 		}
 	} else {
-		if(CComQIPtr<IBasicVideo2> pBV2 = m_pDXR) {
+		if (CComQIPtr<IBasicVideo2> pBV2 = m_pDXR) {
 			pBV2->GetPreferredAspectRatio(&size.cx, &size.cy);
 		}
 	}
@@ -233,7 +233,7 @@ STDMETHODIMP_(bool) CDXRAllocatorPresenter::Paint(bool fAll)
 STDMETHODIMP CDXRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
 	HRESULT hr = E_NOTIMPL;
-	if(CComQIPtr<IBasicVideo> pBV = m_pDXR) {
+	if (CComQIPtr<IBasicVideo> pBV = m_pDXR) {
 		hr = pBV->GetCurrentImage((long*)size, (long*)lpDib);
 	}
 	return hr;

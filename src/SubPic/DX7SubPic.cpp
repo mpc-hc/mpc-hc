@@ -36,7 +36,7 @@ CDX7SubPic::CDX7SubPic(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pSurface)
 {
 	DDSURFACEDESC2 ddsd;
 	INITDDSTRUCT(ddsd);
-	if(SUCCEEDED(m_pSurface->GetSurfaceDesc(&ddsd))) {
+	if (SUCCEEDED(m_pSurface->GetSurfaceDesc(&ddsd))) {
 		m_maxsize.SetSize(ddsd.dwWidth, ddsd.dwHeight);
 		m_rcDirty.SetRect(0, 0, ddsd.dwWidth, ddsd.dwHeight);
 	}
@@ -53,7 +53,7 @@ STDMETHODIMP CDX7SubPic::GetDesc(SubPicDesc& spd)
 {
 	DDSURFACEDESC2 ddsd;
 	INITDDSTRUCT(ddsd);
-	if(FAILED(m_pSurface->GetSurfaceDesc(&ddsd))) {
+	if (FAILED(m_pSurface->GetSurfaceDesc(&ddsd))) {
 		return E_FAIL;
 	}
 
@@ -71,7 +71,7 @@ STDMETHODIMP CDX7SubPic::GetDesc(SubPicDesc& spd)
 STDMETHODIMP CDX7SubPic::CopyTo(ISubPic* pSubPic)
 {
 	HRESULT hr;
-	if(FAILED(hr = __super::CopyTo(pSubPic))) {
+	if (FAILED(hr = __super::CopyTo(pSubPic))) {
 		return hr;
 	}
 
@@ -83,7 +83,7 @@ STDMETHODIMP CDX7SubPic::CopyTo(ISubPic* pSubPic)
 
 STDMETHODIMP CDX7SubPic::ClearDirtyRect(DWORD color)
 {
-	if(m_rcDirty.IsRectEmpty()) {
+	if (m_rcDirty.IsRectEmpty()) {
 		return S_FALSE;
 	}
 
@@ -101,7 +101,7 @@ STDMETHODIMP CDX7SubPic::Lock(SubPicDesc& spd)
 {
 	DDSURFACEDESC2 ddsd;
 	INITDDSTRUCT(ddsd);
-	if(FAILED(m_pSurface->Lock(NULL, &ddsd, DDLOCK_SURFACEMEMORYPTR|DDLOCK_WAIT, NULL))) {
+	if (FAILED(m_pSurface->Lock(NULL, &ddsd, DDLOCK_SURFACEMEMORYPTR|DDLOCK_WAIT, NULL))) {
 		return E_FAIL;
 	}
 
@@ -120,7 +120,7 @@ STDMETHODIMP CDX7SubPic::Unlock(RECT* pDirtyRect)
 {
 	m_pSurface->Unlock(NULL);
 
-	if(pDirtyRect) {
+	if (pDirtyRect) {
 		m_rcDirty = *pDirtyRect;
 		m_rcDirty.InflateRect(1, 1);
 		m_rcDirty &= CRect(CPoint(0, 0), m_size);
@@ -135,7 +135,7 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 {
 	ASSERT(pTarget == NULL);
 
-	if(!m_pD3DDev || !m_pSurface || !pSrc || !pDst) {
+	if (!m_pD3DDev || !m_pSurface || !pSrc || !pDst) {
 		return E_POINTER;
 	}
 
@@ -146,7 +146,7 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 	do {
 		DDSURFACEDESC2 ddsd;
 		INITDDSTRUCT(ddsd);
-		if(FAILED(hr = m_pSurface->GetSurfaceDesc(&ddsd))) {
+		if (FAILED(hr = m_pSurface->GetSurfaceDesc(&ddsd))) {
 			break;
 		}
 
@@ -201,7 +201,7 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 		*///
 
-		if(FAILED(hr = m_pD3DDev->BeginScene())) {
+		if (FAILED(hr = m_pD3DDev->BeginScene())) {
 			break;
 		}
 
@@ -215,7 +215,7 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 		m_pD3DDev->SetTexture(0, NULL);
 
 		return S_OK;
-	} while(0);
+	} while (0);
 
 	return E_FAIL;
 }
@@ -236,7 +236,7 @@ CDX7SubPicAllocator::CDX7SubPicAllocator(IDirect3DDevice7* pD3DDev, SIZE maxsize
 STDMETHODIMP CDX7SubPicAllocator::ChangeDevice(IUnknown* pDev)
 {
 	CComQIPtr<IDirect3DDevice7, &IID_IDirect3DDevice7> pD3DDev = pDev;
-	if(!pD3DDev) {
+	if (!pD3DDev) {
 		return E_NOINTERFACE;
 	}
 
@@ -250,7 +250,7 @@ STDMETHODIMP CDX7SubPicAllocator::ChangeDevice(IUnknown* pDev)
 
 bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
-	if(!ppSubPic) {
+	if (!ppSubPic) {
 		return false;
 	}
 
@@ -271,12 +271,12 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	ddsd.ddpfPixelFormat.dwGBitMask        = 0x0000FF00;
 	ddsd.ddpfPixelFormat.dwBBitMask        = 0x000000FF;
 
-	if(m_fPow2Textures) {
+	if (m_fPow2Textures) {
 		ddsd.dwWidth = ddsd.dwHeight = 1;
-		while(ddsd.dwWidth < (DWORD)m_maxsize.cx) {
+		while (ddsd.dwWidth < (DWORD)m_maxsize.cx) {
 			ddsd.dwWidth <<= 1;
 		}
-		while(ddsd.dwHeight < (DWORD)m_maxsize.cy) {
+		while (ddsd.dwHeight < (DWORD)m_maxsize.cy) {
 			ddsd.dwHeight <<= 1;
 		}
 	}
@@ -284,17 +284,17 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 
 	CComPtr<IDirect3D7> pD3D;
 	CComQIPtr<IDirectDraw7, &IID_IDirectDraw7> pDD;
-	if(FAILED(m_pD3DDev->GetDirect3D(&pD3D)) || !pD3D || !(pDD = pD3D)) {
+	if (FAILED(m_pD3DDev->GetDirect3D(&pD3D)) || !pD3D || !(pDD = pD3D)) {
 		return false;
 	}
 
 	CComPtr<IDirectDrawSurface7> pSurface;
-	if(FAILED(pDD->CreateSurface(&ddsd, &pSurface, NULL))) {
+	if (FAILED(pDD->CreateSurface(&ddsd, &pSurface, NULL))) {
 		return false;
 	}
 
 	*ppSubPic = DNew CDX7SubPic(m_pD3DDev, pSurface);
-	if(!(*ppSubPic)) {
+	if (!(*ppSubPic)) {
 		return false;
 	}
 

@@ -80,7 +80,7 @@ CFilterApp theApp;
 CD2VSource::CD2VSource(LPUNKNOWN lpunk, HRESULT* phr)
 	: CBaseSource<CD2VStream>(NAME("CD2VSource"), lpunk, phr, __uuidof(this))
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 }
@@ -100,22 +100,22 @@ CD2VStream::CD2VStream(const WCHAR* fn, CSource* pParent, HRESULT* phr)
 	CAutoLock cAutoLock(&m_cSharedState);
 
 	m_pDecoder.Attach(DNew CMPEG2Dec());
-	if(!m_pDecoder) {
-		if(phr) {
+	if (!m_pDecoder) {
+		if (phr) {
 			*phr = E_OUTOFMEMORY;
 		}
 		return;
 	}
 
-	if(!m_pDecoder->Open(CString(fn), CMPEG2Dec::YUY2)) {
-		if(phr) {
+	if (!m_pDecoder->Open(CString(fn), CMPEG2Dec::YUY2)) {
+		if (phr) {
 			*phr = E_FAIL;
 		}
 		return;
 	}
 
-	if(!m_pFrameBuffer.Allocate(m_pDecoder->Clip_Width*m_pDecoder->Clip_Height*4)) {
-		if(phr) {
+	if (!m_pFrameBuffer.Allocate(m_pDecoder->Clip_Width*m_pDecoder->Clip_Height*4)) {
+		if (phr) {
 			*phr = E_OUTOFMEMORY;
 		}
 		return;
@@ -124,7 +124,7 @@ CD2VStream::CD2VStream(const WCHAR* fn, CSource* pParent, HRESULT* phr)
 	m_AvgTimePerFrame = 10000000000i64/m_pDecoder->VF_FrameRate;
 	m_rtDuration = m_rtStop = m_AvgTimePerFrame*m_pDecoder->VF_FrameLimit;
 
-	if(phr) {
+	if (phr) {
 		*phr = m_rtDuration > 0 ? S_OK : E_FAIL;
 	}
 }
@@ -144,7 +144,7 @@ HRESULT CD2VStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES
 	HRESULT hr = NOERROR;
 
 	int w, h, bpp;
-	if(!GetDim(w, h, bpp)) {
+	if (!GetDim(w, h, bpp)) {
 		return E_FAIL;
 	}
 
@@ -152,11 +152,11 @@ HRESULT CD2VStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES
 	pProperties->cbBuffer = w*h*bpp>>3;
 
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
+	if (FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
 		return hr;
 	}
 
-	if(Actual.cbBuffer < pProperties->cbBuffer) {
+	if (Actual.cbBuffer < pProperties->cbBuffer) {
 		return E_FAIL;
 	}
 	ASSERT(Actual.cBuffers == pProperties->cBuffers);
@@ -166,12 +166,12 @@ HRESULT CD2VStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES
 
 HRESULT CD2VStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len)
 {
-	if(!m_pDecoder) {
+	if (!m_pDecoder) {
 		return S_FALSE;
 	}
 
 	AM_MEDIA_TYPE* pmt;
-	if(SUCCEEDED(pSample->GetMediaType(&pmt)) && pmt) {
+	if (SUCCEEDED(pSample->GetMediaType(&pmt)) && pmt) {
 		CMediaType mt(*pmt);
 		SetMediaType(&mt);
 
@@ -179,7 +179,7 @@ HRESULT CD2VStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, lo
 	}
 
 	int w, h, bpp;
-	if(!GetDim(w, h, bpp)) {
+	if (!GetDim(w, h, bpp)) {
 		return S_FALSE;
 	}
 
@@ -192,7 +192,7 @@ HRESULT CD2VStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, lo
 
 	m_pDecoder->Decode(pIn, (unsigned long)(nFrame), pitchIn);
 
-	for(int y = 0, p = min(pitchIn, pitchOut);
+	for (int y = 0, p = min(pitchIn, pitchOut);
 			y < h;
 			y++, pIn += pitchIn, pOut += pitchOut) {
 		memcpy(pOut, pIn, p);
@@ -207,10 +207,10 @@ HRESULT CD2VStream::GetMediaType(int iPosition, CMediaType* pmt)
 {
 	CAutoLock cAutoLock(m_pFilter->pStateLock());
 
-	if(iPosition < 0) {
+	if (iPosition < 0) {
 		return E_INVALIDARG;
 	}
-	if(iPosition > 0) {
+	if (iPosition > 0) {
 		return VFW_S_NO_MORE_ITEMS;
 	}
 
@@ -237,8 +237,8 @@ HRESULT CD2VStream::GetMediaType(int iPosition, CMediaType* pmt)
 
 HRESULT CD2VStream::SetMediaType(const CMediaType* pmt)
 {
-	if(m_pDecoder) {
-		if(pmt->subtype == MEDIASUBTYPE_YUY2) {
+	if (m_pDecoder) {
+		if (pmt->subtype == MEDIASUBTYPE_YUY2) {
 			m_pDecoder->m_dstFormat = CMPEG2Dec::YUY2;
 		} else {
 			return E_FAIL;
@@ -259,7 +259,7 @@ HRESULT CD2VStream::CheckMediaType(const CMediaType* pmt)
 
 STDMETHODIMP CD2VStream::Notify(IBaseFilter* pSender, Quality q)
 {
-	if(q.Late > 0 && q.Late < 100000000) {
+	if (q.Late > 0 && q.Late < 100000000) {
 		CAutoLock cAutoLockShared(&m_cSharedState);
 
 		m_rtSampleTime += (q.Late/m_AvgTimePerFrame)*m_AvgTimePerFrame;
@@ -273,11 +273,11 @@ STDMETHODIMP CD2VStream::Notify(IBaseFilter* pSender, Quality q)
 
 bool CD2VStream::GetDim(int& w, int& h, int& bpp)
 {
-	if(m_mt.formattype == FORMAT_VideoInfo) {
+	if (m_mt.formattype == FORMAT_VideoInfo) {
 		w = ((VIDEOINFOHEADER*)m_mt.pbFormat)->bmiHeader.biWidth;
 		h = abs(((VIDEOINFOHEADER*)m_mt.pbFormat)->bmiHeader.biHeight);
 		bpp = ((VIDEOINFOHEADER*)m_mt.pbFormat)->bmiHeader.biBitCount;
-	} else if(m_mt.formattype == FORMAT_VideoInfo2) {
+	} else if (m_mt.formattype == FORMAT_VideoInfo2) {
 		w = ((VIDEOINFOHEADER2*)m_mt.pbFormat)->bmiHeader.biWidth;
 		h = abs(((VIDEOINFOHEADER2*)m_mt.pbFormat)->bmiHeader.biHeight);
 		bpp = ((VIDEOINFOHEADER2*)m_mt.pbFormat)->bmiHeader.biBitCount;

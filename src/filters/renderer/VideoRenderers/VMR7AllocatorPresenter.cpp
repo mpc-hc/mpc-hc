@@ -42,11 +42,11 @@ CVMR7AllocatorPresenter::CVMR7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 	: CDX7AllocatorPresenter(hWnd, hr)
 	, m_fUseInternalTimer(false)
 {
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return;
 	}
 
-	if(FAILED(hr = m_pSA.CoCreateInstance(CLSID_AllocPresenter))) {
+	if (FAILED(hr = m_pSA.CoCreateInstance(CLSID_AllocPresenter))) {
 		hr = E_FAIL;
 		return;
 	}
@@ -66,13 +66,13 @@ STDMETHODIMP CVMR7AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, v
 HRESULT CVMR7AllocatorPresenter::CreateDevice()
 {
 	HRESULT hr = __super::CreateDevice();
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
-	if(m_pIVMRSurfAllocNotify) {
+	if (m_pIVMRSurfAllocNotify) {
 		HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-		if(FAILED(hr = m_pIVMRSurfAllocNotify->ChangeDDrawDevice(m_pDD, hMonitor))) {
+		if (FAILED(hr = m_pIVMRSurfAllocNotify->ChangeDDrawDevice(m_pDD, hMonitor))) {
 			return hr;    //return false;
 		}
 	}
@@ -102,25 +102,25 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 	do {
 		CComPtr<IBaseFilter> pBF;
 
-		if(FAILED(hr = pBF.CoCreateInstance(CLSID_VideoMixingRenderer))) {
+		if (FAILED(hr = pBF.CoCreateInstance(CLSID_VideoMixingRenderer))) {
 			break;
 		}
 
 		CComQIPtr<IVMRFilterConfig> pConfig = pBF;
-		if(!pConfig) {
+		if (!pConfig) {
 			break;
 		}
 
-		if(FAILED(hr = pConfig->SetRenderingMode(VMRMode_Renderless))) {
+		if (FAILED(hr = pConfig->SetRenderingMode(VMRMode_Renderless))) {
 			break;
 		}
 
 		CComQIPtr<IVMRSurfaceAllocatorNotify> pSAN = pBF;
-		if(!pSAN) {
+		if (!pSAN) {
 			break;
 		}
 
-		if(FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator*>(this)))
+		if (FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator*>(this)))
 				|| FAILED(hr = AdviseNotify(pSAN))) {
 			break;
 		}
@@ -132,7 +132,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 		*ppRenderer = (IUnknown*)pBF.Detach();
 
 		return S_OK;
-	} while(0);
+	} while (0);
 
 	return E_FAIL;
 }
@@ -147,11 +147,11 @@ STDMETHODIMP_(void) CVMR7AllocatorPresenter::SetTime(REFERENCE_TIME rtNow)
 
 STDMETHODIMP CVMR7AllocatorPresenter::AllocateSurface(DWORD_PTR dwUserID, VMRALLOCATIONINFO* lpAllocInfo, DWORD* lpdwBuffer, LPDIRECTDRAWSURFACE7* lplpSurface)
 {
-	if(!lpAllocInfo || !lpdwBuffer || !lplpSurface) {
+	if (!lpAllocInfo || !lpdwBuffer || !lplpSurface) {
 		return E_POINTER;
 	}
 
-	if(!m_pIVMRSurfAllocNotify) {
+	if (!m_pIVMRSurfAllocNotify) {
 		return E_FAIL;
 	}
 
@@ -164,28 +164,28 @@ STDMETHODIMP CVMR7AllocatorPresenter::AllocateSurface(DWORD_PTR dwUserID, VMRALL
 	// then that might stall for about 30 seconds because of some unknown buggy code
 	// behind <ddraw surface>->Release()
 
-	if(lpAllocInfo->lpHdr->biBitCount < 16) {
+	if (lpAllocInfo->lpHdr->biBitCount < 16) {
 		return E_FAIL;
 	}
 
 	hr = m_pSA->AllocateSurface(dwUserID, lpAllocInfo, lpdwBuffer, lplpSurface);
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
 	m_NativeVideoSize = CSize(abs(lpAllocInfo->lpHdr->biWidth), abs(lpAllocInfo->lpHdr->biHeight));
 	m_AspectRatio = m_NativeVideoSize;
 	int arx = lpAllocInfo->szAspectRatio.cx, ary = lpAllocInfo->szAspectRatio.cy;
-	if(arx > 0 && ary > 0) {
+	if (arx > 0 && ary > 0) {
 		m_AspectRatio.SetSize(arx, ary);
 	}
 
-	if(FAILED(hr = AllocSurfaces())) {
+	if (FAILED(hr = AllocSurfaces())) {
 		return hr;
 	}
 
 	// test if the colorspace is acceptable
-	if(FAILED(hr = m_pVideoSurface->Blt(NULL, *lplpSurface, NULL, DDBLT_WAIT, NULL))) {
+	if (FAILED(hr = m_pVideoSurface->Blt(NULL, *lplpSurface, NULL, DDBLT_WAIT, NULL))) {
 		DeleteSurfaces();
 		return hr;
 	}
@@ -208,7 +208,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::PrepareSurface(DWORD_PTR dwUserID, IDirect
 {
 	SetThreadName((DWORD)-1, "CVMR7AllocatorPresenter");
 
-	if(!lpSurface) {
+	if (!lpSurface) {
 		return E_POINTER;
 	}
 
@@ -229,7 +229,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::AdviseNotify(IVMRSurfaceAllocatorNotify* l
 
 	HRESULT hr;
 	HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-	if(FAILED(hr = m_pIVMRSurfAllocNotify->SetDDrawDevice(m_pDD, hMonitor))) {
+	if (FAILED(hr = m_pIVMRSurfAllocNotify->SetDDrawDevice(m_pDD, hMonitor))) {
 		return hr;
 	}
 
@@ -256,7 +256,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESENTATIONINFO* lpPresInfo)
 {
-	if(!lpPresInfo || !lpPresInfo->lpSurf) {
+	if (!lpPresInfo || !lpPresInfo->lpSurf) {
 		return E_POINTER;
 	}
 
@@ -266,14 +266,14 @@ STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESEN
 		m_pVideoSurface->Blt(NULL, lpPresInfo->lpSurf, NULL, DDBLT_WAIT, NULL);
 	}
 
-	if(lpPresInfo->rtEnd > lpPresInfo->rtStart) {
+	if (lpPresInfo->rtEnd > lpPresInfo->rtStart) {
 		REFERENCE_TIME rtTimePerFrame = lpPresInfo->rtEnd - lpPresInfo->rtStart;
 		m_fps = 10000000.0 / rtTimePerFrame;
 
-		if(m_pSubPicQueue) {
+		if (m_pSubPicQueue) {
 			m_pSubPicQueue->SetFPS(m_fps);
 
-			if(m_fUseInternalTimer && !g_bExternalSubtitleTime) {
+			if (m_fUseInternalTimer && !g_bExternalSubtitleTime) {
 				__super::SetTime(g_tSegmentStart + g_tSampleStart);
 			}
 		}
@@ -281,10 +281,10 @@ STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESEN
 
 	CSize VideoSize = m_NativeVideoSize;
 	int arx = lpPresInfo->szAspectRatio.cx, ary = lpPresInfo->szAspectRatio.cy;
-	if(arx > 0 && ary > 0) {
+	if (arx > 0 && ary > 0) {
 		VideoSize.cx = VideoSize.cy*arx/ary;
 	}
-	if(VideoSize != GetVideoSize()) {
+	if (VideoSize != GetVideoSize()) {
 		m_AspectRatio.SetSize(arx, ary);
 		AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
 	}
@@ -305,16 +305,16 @@ STDMETHODIMP CVMR7AllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lp
 	CSize vs = m_NativeVideoSize, ar = m_AspectRatio;
 	// DVD Nav. bug workaround fix
 	vs.cx = vs.cy * ar.cx / ar.cy;
-	if(lpWidth) {
+	if (lpWidth) {
 		*lpWidth = vs.cx;
 	}
-	if(lpHeight) {
+	if (lpHeight) {
 		*lpHeight = vs.cy;
 	}
-	if(lpARWidth) {
+	if (lpARWidth) {
 		*lpARWidth = ar.cx;
 	}
-	if(lpARHeight) {
+	if (lpARHeight) {
 		*lpARHeight = ar.cy;
 	}
 	return S_OK;
@@ -346,7 +346,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::GetVideoPosition(LPRECT lpSRCRect, LPRECT 
 
 STDMETHODIMP CVMR7AllocatorPresenter::GetAspectRatioMode(DWORD* lpAspectRatioMode)
 {
-	if(lpAspectRatioMode) {
+	if (lpAspectRatioMode) {
 		*lpAspectRatioMode = AM_ARMODE_STRETCHED;
 	}
 	return S_OK;
@@ -384,7 +384,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::SetBorderColor(COLORREF Clr)
 
 STDMETHODIMP CVMR7AllocatorPresenter::GetBorderColor(COLORREF* lpClr)
 {
-	if(lpClr) {
+	if (lpClr) {
 		*lpClr = 0;
 	}
 	return S_OK;

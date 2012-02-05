@@ -144,7 +144,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
 	// ***************
-	if(nFrameSize) { // Decoding Second Field
+	if (nFrameSize) { // Decoding Second Field
 		FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), NULL, NULL, pDataIn, nSize, NULL, TRUE);
 
 		CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
@@ -223,8 +223,8 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
 	m_PictureParams.bBidirectionalAveragingMode		= (1 << 7) |
-													  (GetConfigIntraResidUnsigned()    <<6) |	// i9IRU
-													  (GetConfigResidDiffAccelerator()  <<5);	// iOHIT
+			(GetConfigIntraResidUnsigned()    <<6) |	// i9IRU
+			(GetConfigResidDiffAccelerator()  <<5);	// iOHIT
 }
 
 BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize)
@@ -262,7 +262,7 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 {
 	int		nDummy;
 
-	if(m_PictureParams.bSecondField) {
+	if (m_PictureParams.bSecondField) {
 		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
 	} else {
 		if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000) {

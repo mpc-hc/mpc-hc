@@ -48,16 +48,16 @@ static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 {
 	double offset = 0.5;
 
-	for(int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		v[i].x -= offset;
 		v[i].y -= offset;
 
-		for(int j = 0; j < max(texcoords-1, 1); j++) {
+		for (int j = 0; j < max(texcoords-1, 1); j++) {
 			v[i].t[j].u -= offset*dx;
 			v[i].t[j].v -= offset*dy;
 		}
 
-		if(texcoords > 1) {
+		if (texcoords > 1) {
 			v[i].t[texcoords-1].u -= offset;
 			v[i].t[texcoords-1].v -= offset;
 		}
@@ -67,13 +67,13 @@ static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 template<int texcoords>
 static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter)
 {
-	if(!pD3DDev) {
+	if (!pD3DDev) {
 		return E_POINTER;
 	}
 
 	DWORD FVF = 0;
 
-	switch(texcoords) {
+	switch (texcoords) {
 		case 1:
 			FVF = D3DFVF_TEX1;
 			break;
@@ -113,7 +113,7 @@ static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4]
 	hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
 	hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
 
-	for(int i = 0; i < texcoords; i++) {
+	for (int i = 0; i < texcoords; i++) {
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
@@ -134,7 +134,7 @@ static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4]
 
 	//
 
-	for(int i = 0; i < texcoords; i++) {
+	for (int i = 0; i < texcoords; i++) {
 		pD3DDev->SetTexture(i, NULL);
 	}
 
@@ -182,12 +182,12 @@ void CDX9RenderingEngine::CleanupRenderingEngine()
 	CleanupFinalPass();
 
 	POSITION pos = m_pCustomScreenSpacePixelShaders.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		CExternalPixelShader &Shader = m_pCustomScreenSpacePixelShaders.GetNext(pos);
 		Shader.m_pPixelShader = NULL;
 	}
 	pos = m_pCustomPixelShaders.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		CExternalPixelShader &Shader = m_pCustomPixelShaders.GetNext(pos);
 		Shader.m_pPixelShader = NULL;
 	}
@@ -215,10 +215,10 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
 		int nTexturesNeeded = settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nNbDXSurface : 1;
 
 		for (int i = 0; i < nTexturesNeeded; i++) {
-			if(FAILED(hr = m_pD3DDev->CreateTexture(
-							   m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1,
-							   D3DUSAGE_RENDERTARGET, m_SurfaceType,
-							   D3DPOOL_DEFAULT, &m_pVideoTexture[i], NULL))) {
+			if (FAILED(hr = m_pD3DDev->CreateTexture(
+								m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1,
+								D3DUSAGE_RENDERTARGET, m_SurfaceType,
+								D3DPOOL_DEFAULT, &m_pVideoTexture[i], NULL))) {
 				return hr;
 			}
 
@@ -361,7 +361,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 		long stop = clock();
 		long diff = stop - start;
 
-		if(diff >= 10*60*CLOCKS_PER_SEC) {
+		if (diff >= 10*60*CLOCKS_PER_SEC) {
 			start = stop;    // reset after 10 min (ps float has its limits in both range and accuracy)
 		}
 
@@ -389,7 +389,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 		bool first = true;
 
 		POSITION pos = m_pCustomPixelShaders.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			CComPtr<IDirect3DSurface9> pTemporarySurface;
 			hr = m_pTemporaryVideoTextures[dest]->GetSurfaceLevel(0, &pTemporarySurface);
 			hr = m_pD3DDev->SetRenderTarget(0, pTemporarySurface);
@@ -972,44 +972,44 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	m_pFinalPixelShader = NULL;
 
 	if (!m_pDitherTexture) {
-	// Create the dither texture
-	hr = m_pD3DDev->CreateTexture(DITHER_MATRIX_SIZE, DITHER_MATRIX_SIZE,
-								  1,
-								  D3DUSAGE_DYNAMIC,
-								  D3DFMT_A16B16G16R16F,
-								  D3DPOOL_DEFAULT,
-								  &m_pDitherTexture,
-								  NULL);
+		// Create the dither texture
+		hr = m_pD3DDev->CreateTexture(DITHER_MATRIX_SIZE, DITHER_MATRIX_SIZE,
+									  1,
+									  D3DUSAGE_DYNAMIC,
+									  D3DFMT_A16B16G16R16F,
+									  D3DPOOL_DEFAULT,
+									  &m_pDitherTexture,
+									  NULL);
 
-	if (FAILED(hr)) {
-		CleanupFinalPass();
-		return hr;
-	}
-
-	D3DLOCKED_RECT lockedRect;
-	hr = m_pDitherTexture->LockRect(0, &lockedRect, NULL, D3DLOCK_DISCARD);
-	if (FAILED(hr)) {
-		CleanupFinalPass();
-		return hr;
-	}
-
-	char* outputRowIterator = static_cast<char*>(lockedRect.pBits);
-	for (int y = 0; y < DITHER_MATRIX_SIZE; y++) {
-		unsigned short* outputIterator = reinterpret_cast<unsigned short*>(outputRowIterator);
-		for (int x = 0; x < DITHER_MATRIX_SIZE; x++) {
-			for (int i = 0; i < 4; i++) {
-				*outputIterator++ = DITHER_MATRIX[y][x];
-			}
+		if (FAILED(hr)) {
+			CleanupFinalPass();
+			return hr;
 		}
 
-		outputRowIterator += lockedRect.Pitch;
-	}
+		D3DLOCKED_RECT lockedRect;
+		hr = m_pDitherTexture->LockRect(0, &lockedRect, NULL, D3DLOCK_DISCARD);
+		if (FAILED(hr)) {
+			CleanupFinalPass();
+			return hr;
+		}
 
-	hr = m_pDitherTexture->UnlockRect(0);
-	if (FAILED(hr)) {
-		CleanupFinalPass();
-		return hr;
-	}
+		char* outputRowIterator = static_cast<char*>(lockedRect.pBits);
+		for (int y = 0; y < DITHER_MATRIX_SIZE; y++) {
+			unsigned short* outputIterator = reinterpret_cast<unsigned short*>(outputRowIterator);
+			for (int x = 0; x < DITHER_MATRIX_SIZE; x++) {
+				for (int i = 0; i < 4; i++) {
+					*outputIterator++ = DITHER_MATRIX[y][x];
+				}
+			}
+
+			outputRowIterator += lockedRect.Pitch;
+		}
+
+		hr = m_pDitherTexture->UnlockRect(0);
+		if (FAILED(hr)) {
+			CleanupFinalPass();
+			return hr;
+		}
 	}
 
 	// Initialize the color management if necessary
@@ -1382,7 +1382,7 @@ HRESULT CDX9RenderingEngine::FinalPass(IDirect3DTexture9* pTexture)
 		{w, h, 0.5f, 2.0f, 1, 1},
 	};
 
-	for(int i = 0; i < countof(v); i++) {
+	for (int i = 0; i < countof(v); i++) {
 		v[i].x -= 0.5;
 		v[i].y -= 0.5;
 	}
@@ -1550,7 +1550,7 @@ HRESULT CDX9RenderingEngine::DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_
 
 HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 {
-	if(!pSrc || !pDst) {
+	if (!pSrc || !pDst) {
 		return E_POINTER;
 	}
 
@@ -1560,7 +1560,7 @@ HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9*
 
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
-	if(FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
+	if (FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
 		return E_FAIL;
 	}
 
@@ -1577,8 +1577,8 @@ HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9*
 		{(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
 		{(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
 	};
-	
-	for(int i = 0; i < countof(pVertices); i++) {
+
+	for (int i = 0; i < countof(pVertices); i++) {
 		pVertices[i].x -= 0.5;
 		pVertices[i].y -= 0.5;
 	}

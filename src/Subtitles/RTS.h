@@ -266,7 +266,7 @@ public:
 	// call to signal this RTS to ignore any of the styles and apply the given override style
 	void SetOverride(bool doOverride = true, STSStyle *styleOverride = NULL) {
 		m_doOverrideStyle = doOverride;
-		if(styleOverride != NULL) {
+		if (styleOverride != NULL) {
 			m_pStyleOverride = styleOverride;
 		}
 	}

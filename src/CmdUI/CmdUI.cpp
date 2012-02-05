@@ -52,7 +52,7 @@ LRESULT CCmdUIDialog::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT ret = __super::DefWindowProc(message, wParam, lParam);
 
-	if(message == WM_INITDIALOG) {
+	if (message == WM_INITDIALOG) {
 		SendMessage(WM_KICKIDLE);
 	}
 
@@ -161,8 +161,8 @@ CCmdUIPropertyPage::~CCmdUIPropertyPage()
 
 LRESULT CCmdUIPropertyPage::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message == WM_COMMAND) {
-		switch(HIWORD(wParam)) {
+	if (message == WM_COMMAND) {
+		switch (HIWORD(wParam)) {
 			case BN_CLICKED:
 			case CBN_SELCHANGE:
 			case EN_CHANGE:
@@ -174,7 +174,7 @@ LRESULT CCmdUIPropertyPage::DefWindowProc(UINT message, WPARAM wParam, LPARAM lP
 
 	LRESULT ret = __super::DefWindowProc(message, wParam, lParam);
 
-	if(message == WM_INITDIALOG) {
+	if (message == WM_INITDIALOG) {
 		SendMessage(WM_KICKIDLE);
 	}
 

@@ -81,10 +81,10 @@ namespace ssf
 		}
 
 		int NextByte() {
-			if(!m_pFile) {
+			if (!m_pFile) {
 				ThrowError(_T("m_pFile is NULL"));
 			}
-			if(!m_pFile->GetRemaining()) {
+			if (!m_pFile->GetRemaining()) {
 				return EOS;
 			}
 			return (int)m_pFile->BitRead(8);
@@ -96,10 +96,10 @@ int CSSFSplitterFilter::SegmentItemEx::Compare(const void* a, const void* b)
 {
 	const SegmentItemEx* si1 = (const SegmentItemEx*)a;
 	const SegmentItemEx* si2 = (const SegmentItemEx*)b;
-	if(si1->start < si2->start) {
+	if (si1->start < si2->start) {
 		return -1;
 	}
-	if(si2->start < si1->start) {
+	if (si2->start < si1->start) {
 		return +1;
 	}
 	return 0;
@@ -122,17 +122,17 @@ HRESULT CSSFSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 	m_pFile.Attach(DNew CBaseSplitterFile(pAsyncReader, hr));
-	if(!m_pFile) {
+	if (!m_pFile) {
 		return E_OUTOFMEMORY;
 	}
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		m_pFile.Free();
 		return hr;
 	}
 
 	try {
 		m_ssf.Parse(ssf::InputStreamBSF(m_pFile));
-	} catch(ssf::Exception&) {
+	} catch (ssf::Exception&) {
 		return E_FAIL;
 	}
 
@@ -141,17 +141,17 @@ HRESULT CSSFSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_rtNewStart = m_rtCurrent = 0;
 	m_rtNewStop = m_rtStop = m_rtDuration = 0;
 
-	if(ssf::Reference* pRootRef = m_ssf.GetRootRef()) {
+	if (ssf::Reference* pRootRef = m_ssf.GetRootRef()) {
 		ssf::WCharOutputStream s;
 		ssf::StringMapW<float> offset;
 
 		POSITION pos = pRootRef->m_nodes.GetHeadPosition();
-		while(pos) {
-			if(ssf::Definition* pDef = dynamic_cast<ssf::Definition*>(pRootRef->m_nodes.GetNext(pos))) {
+		while (pos) {
+			if (ssf::Definition* pDef = dynamic_cast<ssf::Definition*>(pRootRef->m_nodes.GetNext(pos))) {
 				try {
 					ssf::Definition::Time time;
 
-					if(pDef->m_type == L"subtitle" && pDef->GetAsTime(time, offset) && (*pDef)[L"@"].IsValue()) {
+					if (pDef->m_type == L"subtitle" && pDef->GetAsTime(time, offset) && (*pDef)[L"@"].IsValue()) {
 						SegmentItemEx si;
 						si.pDef = pDef;
 						si.start = time.start.value;
@@ -162,7 +162,7 @@ HRESULT CSSFSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						continue;
 					}
-				} catch(ssf::Exception&) {
+				} catch (ssf::Exception&) {
 				}
 
 				pDef->Dump(s);
@@ -193,16 +193,16 @@ HRESULT CSSFSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		CAtlArray<SegmentItemEx> subs;
 		subs.SetCount(m_subs.GetCount());
 		pos = m_subs.GetHeadPosition();
-		for(size_t i = 0; pos; i++) {
+		for (size_t i = 0; pos; i++) {
 			subs.SetAt(i, m_subs.GetNext(pos));
 		}
 		qsort(subs.GetData(), subs.GetCount(), sizeof(SegmentItemEx), SegmentItemEx::Compare);
 		m_subs.RemoveAll();
-		for(size_t i = 0; i < subs.GetCount(); i++) {
+		for (size_t i = 0; i < subs.GetCount(); i++) {
 			m_subs.AddTail(subs[i]);
 		}
 
-		if(!m_ssf.m_segments.IsEmpty()) {
+		if (!m_ssf.m_segments.IsEmpty()) {
 			m_rtNewStop = m_rtStop = m_rtDuration = 10000000i64*m_ssf.m_segments.GetTail().m_stop;
 		}
 	}
@@ -218,7 +218,7 @@ bool CSSFSplitterFilter::DemuxInit()
 
 void CSSFSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
-	if(rt <= 0) {
+	if (rt <= 0) {
 	} else {
 		// TODO
 	}
@@ -230,7 +230,7 @@ bool CSSFSplitterFilter::DemuxLoop()
 
 	POSITION pos = m_subs.GetHeadPosition();
 
-	while(pos && SUCCEEDED(hr) && !CheckRequest(NULL)) {
+	while (pos && SUCCEEDED(hr) && !CheckRequest(NULL)) {
 		SegmentItemEx& si = m_subs.GetNext(pos);
 
 		ssf::WCharOutputStream s;

@@ -136,7 +136,7 @@ public:
 		pFilter = NULL;
 	}
 	~CPinInfo() {
-		if(pFilter) {
+		if (pFilter) {
 			pFilter->Release();
 		}
 	}
@@ -149,7 +149,7 @@ public:
 		pGraph = NULL;
 	}
 	~CFilterInfo() {
-		if(pGraph) {
+		if (pGraph) {
 			pGraph->Release();
 		}
 	}
@@ -220,7 +220,7 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
 	*phr = S_OK;
 	CUnknown* punk = DNew T(lpunk, phr);
-	if(punk == NULL) {
+	if (punk == NULL) {
 		*phr = E_OUTOFMEMORY;
 	}
 	return punk;
@@ -232,13 +232,13 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 
 inline int LNKO(int a, int b)
 {
-	if(a == 0 || b == 0) {
+	if (a == 0 || b == 0) {
 		return(1);
 	}
-	while(a != b) {
-		if(a < b) {
+	while (a != b) {
+		if (a < b) {
 			b -= a;
-		} else if(a > b) {
+		} else if (a > b) {
 			a -= b;
 		}
 	}

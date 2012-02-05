@@ -40,11 +40,11 @@ bool CPinInfoWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks
 	m_pBF.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pBF = pUnks.GetNext(pos))) {
+	while (pos && !(m_pBF = pUnks.GetNext(pos))) {
 		;
 	}
 
-	if(!m_pBF) {
+	if (!m_pBF) {
 		return false;
 	}
 
@@ -59,7 +59,7 @@ void CPinInfoWnd::OnDisconnect()
 static WNDPROC OldControlProc;
 static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message == WM_KEYDOWN) {
+	if (message == WM_KEYDOWN) {
 		if (LOWORD(wParam)==VK_ESCAPE) {
 			return 0;    // just ignore ESCAPE in edit control
 		}
@@ -84,17 +84,17 @@ bool CPinInfoWnd::OnActivate()
 	m_pin_combo.Create(dwStyle|CBS_DROPDOWNLIST, CRect(p + CPoint(30, 0), CSize(450, 200)), this, IDC_PP_COMBO1);
 	BeginEnumPins(m_pBF, pEP, pPin) {
 		CPinInfo pi;
-		if(FAILED(pPin->QueryPinInfo(&pi))) {
+		if (FAILED(pPin->QueryPinInfo(&pi))) {
 			continue;
 		}
 		CString str = CString(pi.achName);
-		if(!str.Find(_T("Apple"))) {
+		if (!str.Find(_T("Apple"))) {
 			str.Delete(0,1);
 		}
 		CString dir = _T("[?] ");
-		if(pi.dir == PINDIR_INPUT) {
+		if (pi.dir == PINDIR_INPUT) {
 			dir = _T("[IN] ");
-		} else if(pi.dir == PINDIR_OUTPUT) {
+		} else if (pi.dir == PINDIR_OUTPUT) {
 			dir = _T("[OUT] ");
 		}
 		m_pin_combo.SetItemDataPtr(m_pin_combo.AddString(dir + str), pPin);
@@ -109,7 +109,7 @@ bool CPinInfoWnd::OnActivate()
 
 	OnCbnSelchangeCombo1();
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
+	for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
 	}
 
@@ -129,7 +129,7 @@ bool CPinInfoWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pBF) {
+	if (m_pBF) {
 	}
 
 	return true;
@@ -158,12 +158,12 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
 	m_info_edit.SetWindowText(_T(""));
 
 	int i = m_pin_combo.GetCurSel();
-	if(i < 0) {
+	if (i < 0) {
 		return;
 	}
 
 	CComPtr<IPin> pPin = (IPin*)m_pin_combo.GetItemDataPtr(i);
-	if(!pPin) {
+	if (!pPin) {
 		return;
 	}
 
@@ -197,7 +197,7 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
 	CMediaTypeEx cmt;
 
 	CComPtr<IPin> pPinTo;
-	if(SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
+	if (SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
 		str.Format(_T("- Connected to:\n\nCLSID: %s\nFilter: %s\nPin: %s\n\n"),
 				   CString(CStringFromGUID(GetCLSID(pPinTo))),
 				   CString(GetFilterName(GetFilterFromPin(pPinTo))),
@@ -207,11 +207,11 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
 
 		AddLine(_T("- Connection media type:\n\n"));
 
-		if(SUCCEEDED(pPin->ConnectionMediaType(&cmt))) {
+		if (SUCCEEDED(pPin->ConnectionMediaType(&cmt))) {
 			CAtlList<CString> sl;
 			cmt.Dump(sl);
 			POSITION pos = sl.GetHeadPosition();
-			while(pos) {
+			while (pos) {
 				AddLine(sl.GetNext(pos) + '\n');
 			}
 		}
@@ -227,13 +227,13 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
 		str.Format(_T("- Enumerated media type %d:\n\n"), iMT++);
 		AddLine(str);
 
-		if(cmt.majortype != GUID_NULL && mt == cmt) {
+		if (cmt.majortype != GUID_NULL && mt == cmt) {
 			AddLine(_T("Set as the current media type\n\n"));
 		} else {
 			CAtlList<CString> sl;
 			mt.Dump(sl);
 			POSITION pos = sl.GetHeadPosition();
-			while(pos) {
+			while (pos) {
 				AddLine(sl.GetNext(pos) + '\n');
 			}
 		}

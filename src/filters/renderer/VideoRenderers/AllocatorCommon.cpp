@@ -35,7 +35,7 @@
 bool IsVMR9InGraph(IFilterGraph* pFG)
 {
 	BeginEnumFilters(pFG, pEF, pBF)
-	if(CComQIPtr<IVMRWindowlessControl9>(pBF)) {
+	if (CComQIPtr<IVMRWindowlessControl9>(pBF)) {
 		return true;
 	}
 	EndEnumFilters
@@ -103,7 +103,7 @@ HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
 		*ppAP	= DNew DSObjects::CEVRAllocatorPresenter(hWnd, bFullscreen, hr, Error);
 		(*ppAP)->AddRef();
 
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			Error += L"\n";
 			Error += GetWindowsErrorMessage(hr, NULL);
 			MessageBox(hWnd, Error, L"Error creating EVR Custom renderer", MB_OK | MB_ICONERROR);
@@ -185,8 +185,8 @@ CString GetWindowsErrorMessage(HRESULT _Error, HMODULE _Module)
 
 	CString errmsg;
 	LPVOID lpMsgBuf;
-	if(FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS|FORMAT_MESSAGE_FROM_HMODULE,
-					 _Module, _Error, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL)) {
+	if (FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS|FORMAT_MESSAGE_FROM_HMODULE,
+					  _Module, _Error, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL)) {
 		errmsg = (LPCTSTR)lpMsgBuf;
 		LocalFree(lpMsgBuf);
 	}

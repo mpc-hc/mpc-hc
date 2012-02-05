@@ -30,7 +30,7 @@ CBaseMuxerFilter::CBaseMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& cl
 	: CBaseFilter(NAME("CBaseMuxerFilter"), pUnk, this, clsid)
 	, m_rtCurrent(0)
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 	m_pOutput.Attach(DNew CBaseMuxerOutputPin(L"Output", this, this, phr));
@@ -62,9 +62,9 @@ STDMETHODIMP CBaseMuxerFilter::NonDelegatingQueryInterface(REFIID riid, void** p
 void CBaseMuxerFilter::AddInput()
 {
 	POSITION pos = m_pInputs.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		CBasePin* pPin = m_pInputs.GetNext(pos);
-		if(!pPin->IsConnected()) {
+		if (!pPin->IsConnected()) {
 			return;
 		}
 	}
@@ -74,7 +74,7 @@ void CBaseMuxerFilter::AddInput()
 	name.Format(L"Input %d", m_pInputs.GetCount()+1);
 
 	CBaseMuxerInputPin* pInputPin = NULL;
-	if(FAILED(CreateInput(name, &pInputPin)) || !pInputPin) {
+	if (FAILED(CreateInput(name, &pInputPin)) || !pInputPin) {
 		ASSERT(0);
 		return;
 	}
@@ -83,7 +83,7 @@ void CBaseMuxerFilter::AddInput()
 	name.Format(L"~Output %d", m_pRawOutputs.GetCount()+1);
 
 	CBaseMuxerRawOutputPin* pRawOutputPin = NULL;
-	if(FAILED(CreateRawOutput(name, &pRawOutputPin)) || !pRawOutputPin) {
+	if (FAILED(CreateRawOutput(name, &pRawOutputPin)) || !pRawOutputPin) {
 		ASSERT(0);
 		return;
 	}
@@ -120,10 +120,10 @@ DWORD CBaseMuxerFilter::ThreadProc()
 
 	POSITION pos;
 
-	while(1) {
+	while (1) {
 		DWORD cmd = GetRequest();
 
-		switch(cmd) {
+		switch (cmd) {
 			default:
 			case CMD_EXIT:
 				CAMThread::m_hThread = NULL;
@@ -135,9 +135,9 @@ DWORD CBaseMuxerFilter::ThreadProc()
 				m_pPins.RemoveAll();
 
 				pos = m_pInputs.GetHeadPosition();
-				while(pos) {
+				while (pos) {
 					CBaseMuxerInputPin* pPin = m_pInputs.GetNext(pos);
-					if(pPin->IsConnected()) {
+					if (pPin->IsConnected()) {
 						m_pActivePins.AddTail(pPin);
 						m_pPins.AddTail(pPin);
 					}
@@ -152,23 +152,23 @@ DWORD CBaseMuxerFilter::ThreadProc()
 				try {
 					MuxHeaderInternal();
 
-					while(!CheckRequest(NULL) && m_pActivePins.GetCount()) {
-						if(m_State == State_Paused) {
+					while (!CheckRequest(NULL) && m_pActivePins.GetCount()) {
+						if (m_State == State_Paused) {
 							Sleep(10);
 							continue;
 						}
 
 						CAutoPtr<MuxerPacket> pPacket = GetPacket();
-						if(!pPacket) {
+						if (!pPacket) {
 							Sleep(1);
 							continue;
 						}
 
-						if(pPacket->IsTimeValid()) {
+						if (pPacket->IsTimeValid()) {
 							m_rtCurrent = pPacket->rtStart;
 						}
 
-						if(pPacket->IsEOS()) {
+						if (pPacket->IsEOS()) {
 							m_pActivePins.RemoveAt(m_pActivePins.Find(pPacket->pPin));
 						}
 
@@ -176,14 +176,14 @@ DWORD CBaseMuxerFilter::ThreadProc()
 					}
 
 					MuxFooterInternal();
-				} catch(HRESULT hr) {
+				} catch (HRESULT hr) {
 					CComQIPtr<IMediaEventSink>(m_pGraph)->Notify(EC_ERRORABORT, hr, 0);
 				}
 
 				m_pOutput->DeliverEndOfStream();
 
 				pos = m_pRawOutputs.GetHeadPosition();
-				while(pos) {
+				while (pos) {
 					m_pRawOutputs.GetNext(pos)->DeliverEndOfStream();
 				}
 
@@ -204,7 +204,7 @@ void CBaseMuxerFilter::MuxHeaderInternal()
 {
 	TRACE(_T("MuxHeader\n"));
 
-	if(CComQIPtr<IBitStream> pBitStream = m_pOutput->GetBitStream()) {
+	if (CComQIPtr<IBitStream> pBitStream = m_pOutput->GetBitStream()) {
 		MuxHeader(pBitStream);
 	}
 
@@ -213,9 +213,9 @@ void CBaseMuxerFilter::MuxHeaderInternal()
 	//
 
 	POSITION pos = m_pPins.GetHeadPosition();
-	while(pos) {
-		if(CBaseMuxerInputPin* pInput = m_pPins.GetNext(pos))
-			if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin())) {
+	while (pos) {
+		if (CBaseMuxerInputPin* pInput = m_pPins.GetNext(pos))
+			if (CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin())) {
 				pOutput->MuxHeader(pInput->CurrentMediaType());
 			}
 	}
@@ -231,14 +231,14 @@ void CBaseMuxerFilter::MuxPacketInternal(const MuxerPacket* pPacket)
 		  !!(pPacket->flags & MuxerPacket::bogus),
 		  pPacket->rtStart/10000, pPacket->rtStop/10000);
 
-	if(CComQIPtr<IBitStream> pBitStream = m_pOutput->GetBitStream()) {
+	if (CComQIPtr<IBitStream> pBitStream = m_pOutput->GetBitStream()) {
 		MuxPacket(pBitStream, pPacket);
 	}
 
 	MuxPacket(pPacket);
 
-	if(CBaseMuxerInputPin* pInput = pPacket->pPin)
-		if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin())) {
+	if (CBaseMuxerInputPin* pInput = pPacket->pPin)
+		if (CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin())) {
 			pOutput->MuxPacket(pInput->CurrentMediaType(), pPacket);
 		}
 }
@@ -247,7 +247,7 @@ void CBaseMuxerFilter::MuxFooterInternal()
 {
 	TRACE(_T("MuxFooter\n"));
 
-	if(CComQIPtr<IBitStream> pBitStream = m_pOutput->GetBitStream()) {
+	if (CComQIPtr<IBitStream> pBitStream = m_pOutput->GetBitStream()) {
 		MuxFooter(pBitStream);
 	}
 
@@ -256,9 +256,9 @@ void CBaseMuxerFilter::MuxFooterInternal()
 	//
 
 	POSITION pos = m_pPins.GetHeadPosition();
-	while(pos) {
-		if(CBaseMuxerInputPin* pInput = m_pPins.GetNext(pos))
-			if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin())) {
+	while (pos) {
+		if (CBaseMuxerInputPin* pInput = m_pPins.GetNext(pos))
+			if (CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin())) {
 				pOutput->MuxFooter(pInput->CurrentMediaType());
 			}
 	}
@@ -271,23 +271,23 @@ CAutoPtr<MuxerPacket> CBaseMuxerFilter::GetPacket()
 	int i = int(m_pActivePins.GetCount());
 
 	POSITION pos = m_pActivePins.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		CBaseMuxerInputPin* pPin = m_pActivePins.GetNext(pos);
 
 		CAutoLock cAutoLock(&pPin->m_csQueue);
-		if(!pPin->m_queue.GetCount()) {
+		if (!pPin->m_queue.GetCount()) {
 			continue;
 		}
 
 		MuxerPacket* p = pPin->m_queue.GetHead();
 
-		if(p->IsBogus() || !p->IsTimeValid() || p->IsEOS()) {
+		if (p->IsBogus() || !p->IsTimeValid() || p->IsEOS()) {
 			pPinMin = pPin;
 			i = 0;
 			break;
 		}
 
-		if(p->rtStart < rtMin) {
+		if (p->rtStart < rtMin) {
 			rtMin = p->rtStart;
 			pPinMin = pPin;
 		}
@@ -297,11 +297,11 @@ CAutoPtr<MuxerPacket> CBaseMuxerFilter::GetPacket()
 
 	CAutoPtr<MuxerPacket> pPacket;
 
-	if(pPinMin && i == 0) {
+	if (pPinMin && i == 0) {
 		pPacket = pPinMin->PopPacket();
 	} else {
 		pos = m_pActivePins.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			m_pActivePins.GetNext(pos)->m_evAcceptPacket.Set();
 		}
 	}
@@ -320,22 +320,22 @@ CBasePin* CBaseMuxerFilter::GetPin(int n)
 {
 	CAutoLock cAutoLock(this);
 
-	if(n >= 0 && n < (int)m_pInputs.GetCount()) {
-		if(POSITION pos = m_pInputs.FindIndex(n)) {
+	if (n >= 0 && n < (int)m_pInputs.GetCount()) {
+		if (POSITION pos = m_pInputs.FindIndex(n)) {
 			return m_pInputs.GetAt(pos);
 		}
 	}
 
 	n -= int(m_pInputs.GetCount());
 
-	if(n == 0 && m_pOutput) {
+	if (n == 0 && m_pOutput) {
 		return m_pOutput;
 	}
 
 	n--;
 
-	if(n >= 0 && n < (int)m_pRawOutputs.GetCount()) {
-		if(POSITION pos = m_pRawOutputs.FindIndex(n)) {
+	if (n >= 0 && n < (int)m_pRawOutputs.GetCount()) {
+		if (POSITION pos = m_pRawOutputs.FindIndex(n)) {
 			return m_pRawOutputs.GetAt(pos);
 		}
 	}
@@ -350,7 +350,7 @@ STDMETHODIMP CBaseMuxerFilter::Stop()
 	CAutoLock cAutoLock(this);
 
 	HRESULT hr = __super::Stop();
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
@@ -366,11 +366,11 @@ STDMETHODIMP CBaseMuxerFilter::Pause()
 	FILTER_STATE fs = m_State;
 
 	HRESULT hr = __super::Pause();
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
-	if(fs == State_Stopped && m_pOutput) {
+	if (fs == State_Stopped && m_pOutput) {
 		CAMThread::Create();
 		CallWorker(CMD_RUN);
 	}
@@ -383,7 +383,7 @@ STDMETHODIMP CBaseMuxerFilter::Run(REFERENCE_TIME tStart)
 	CAutoLock cAutoLock(this);
 
 	HRESULT hr = __super::Run(tStart);
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		return hr;
 	}
 
@@ -400,7 +400,7 @@ STDMETHODIMP CBaseMuxerFilter::GetCapabilities(DWORD* pCapabilities)
 STDMETHODIMP CBaseMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
 {
 	CheckPointer(pCapabilities, E_POINTER);
-	if(*pCapabilities == 0) {
+	if (*pCapabilities == 0) {
 		return S_OK;
 	}
 	DWORD caps;
@@ -439,9 +439,9 @@ STDMETHODIMP CBaseMuxerFilter::GetDuration(LONGLONG* pDuration)
 	CheckPointer(pDuration, E_POINTER);
 	*pDuration = 0;
 	POSITION pos = m_pInputs.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		REFERENCE_TIME rt = m_pInputs.GetNext(pos)->GetDuration();
-		if(rt > *pDuration) {
+		if (rt > *pDuration) {
 			*pDuration = rt;
 		}
 	}
@@ -469,15 +469,15 @@ STDMETHODIMP CBaseMuxerFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentF
 {
 	FILTER_STATE fs;
 
-	if(SUCCEEDED(GetState(0, &fs)) && fs == State_Stopped) {
+	if (SUCCEEDED(GetState(0, &fs)) && fs == State_Stopped) {
 		POSITION pos = m_pInputs.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			CBasePin* pPin = m_pInputs.GetNext(pos);
 			CComQIPtr<IMediaSeeking> pMS = pPin->GetConnected();
-			if(!pMS) {
+			if (!pMS) {
 				pMS = GetFilterFromPin(pPin->GetConnected());
 			}
-			if(pMS) {
+			if (pMS) {
 				pMS->SetPositions(pCurrent, dwCurrentFlags, pStop, dwStopFlags);
 			}
 		}

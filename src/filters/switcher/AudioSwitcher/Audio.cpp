@@ -32,7 +32,7 @@ static long audio_pointsample_8(void *dst, void *src, long accum, long samp_frac
 	do {
 		*d++ = s[accum>>19];
 		accum += samp_frac;
-	} while(--cnt);
+	} while (--cnt);
 
 	return accum;
 }
@@ -45,7 +45,7 @@ static long audio_pointsample_16(void *dst, void *src, long accum, long samp_fra
 	do {
 		*d++ = s[accum>>19];
 		accum += samp_frac;
-	} while(--cnt);
+	} while (--cnt);
 
 	return accum;
 }
@@ -58,7 +58,7 @@ static long audio_pointsample_32(void *dst, void *src, long accum, long samp_fra
 	do {
 		*d++ = s[accum>>19];
 		accum += samp_frac;
-	} while(--cnt);
+	} while (--cnt);
 
 	return accum;
 }
@@ -79,7 +79,7 @@ static long audio_downsample_mono8(void *dst, void *src, long *filter_bank, int 
 		s_ptr = s + (accum>>19);
 		do {
 			sum += *fb_ptr++ * (int)*s_ptr++;
-		} while(--w);
+		} while (--w);
 
 		if (sum < 0) {
 			*d++ = 0;
@@ -90,7 +90,7 @@ static long audio_downsample_mono8(void *dst, void *src, long *filter_bank, int 
 		}
 
 		accum += samp_frac;
-	} while(--cnt);
+	} while (--cnt);
 
 	return accum;
 }
@@ -111,7 +111,7 @@ static long audio_downsample_mono16(void *dst, void *src, long *filter_bank, int
 		s_ptr = s + (accum>>19);
 		do {
 			sum += *fb_ptr++ * (int)*s_ptr++;
-		} while(--w);
+		} while (--w);
 
 		if (sum < -0x20000000) {
 			*d++ = -0x8000;
@@ -122,7 +122,7 @@ static long audio_downsample_mono16(void *dst, void *src, long *filter_bank, int
 		}
 
 		accum += samp_frac;
-	} while(--cnt);
+	} while (--cnt);
 
 	return accum;
 }
@@ -144,7 +144,7 @@ static void make_downsample_filter(long *filter_bank, int filter_width, long sam
 
 	filt_max = (16384.0 * 524288.0) / samp_frac;
 
-	for(i=0; i<128*filter_width; i++) {
+	for (i=0; i<128*filter_width; i++) {
 		int y = 0;
 		double d = i / filtwidth_frac;
 
@@ -153,22 +153,22 @@ static void make_downsample_filter(long *filter_bank, int filter_width, long sam
 		}
 
 		filter_bank[permute_index(128*filter_width + i, filter_width)]
-		= filter_bank[permute_index(128*filter_width - i, filter_width)]
-		  = y;
+			= filter_bank[permute_index(128*filter_width - i, filter_width)]
+			  = y;
 	}
 
 	// Normalize the filter to correct for integer roundoff errors
 
-	for(i=0; i<256*filter_width; i+=filter_width) {
+	for (i=0; i<256*filter_width; i+=filter_width) {
 		v=0;
-		for(j=0; j<filter_width; j++) {
+		for (j=0; j<filter_width; j++) {
 			v += filter_bank[i+j];
 		}
 
 		//		_RPT2(0,"error[%02x] = %04x\n", i/filter_width, 0x4000 - v);
 
 		v = (0x4000 - v)/filter_width;
-		for(j=0; j<filter_width; j++) {
+		for (j=0; j<filter_width; j++) {
 			filter_bank[i+j] += v;
 		}
 	}
@@ -182,10 +182,10 @@ AudioStreamResampler::AudioStreamResampler(int bps, long org_rate, long new_rate
 
 	this->bps = bps;
 
-	if(bps == 1) {
+	if (bps == 1) {
 		ptsampleRout = audio_pointsample_8;
 		dnsampleRout = audio_downsample_mono8;
-	} else if(bps >= 2) {
+	} else if (bps >= 2) {
 		ptsampleRout = audio_pointsample_16;
 		dnsampleRout = audio_downsample_mono16;
 	} else {
@@ -202,14 +202,14 @@ AudioStreamResampler::AudioStreamResampler(int bps, long org_rate, long new_rate
 
 	// If this is a high-quality downsample, allocate memory for the filter bank
 
-	if(fHighQuality) {
-		if(samp_frac>0x80000) {
+	if (fHighQuality) {
+		if (samp_frac>0x80000) {
 			// HQ downsample: allocate filter bank
 
 			filter_width = ((samp_frac + 0x7ffff)>>19)<<1 <<1;
 
 			filter_bank = DNew long[filter_width * 256];
-			if(!filter_bank) {
+			if (!filter_bank) {
 				filter_width = 1;
 				return;
 			}
@@ -239,7 +239,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
 	//
 	// We need (n/2) points to the left and (n/2-1) points to the right.
 
-	while(samplesin > 0 && samplesout > 0) {
+	while (samplesin > 0 && samplesout > 0) {
 		long srcSamples, dstSamples;
 		int nhold;
 
@@ -253,14 +253,14 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
 
 		// Don't exceed the buffer (BUFFER_SIZE - holdover).
 
-		if(srcSamples > BUFFER_SIZE - holdover) {
+		if (srcSamples > BUFFER_SIZE - holdover) {
 			srcSamples = BUFFER_SIZE - holdover;
 		}
 
 		// Read into buffer.
 
 		srcSamples = min(srcSamples, samplesin);
-		if(!srcSamples) {
+		if (!srcSamples) {
 			break;
 		}
 
@@ -274,12 +274,12 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
 
 		dstSamples = (((__int64)(srcSamples+holdover-filter_width)<<19) + 0x7ffff - accum) / samp_frac + 1;
 
-		if(dstSamples > samplesout) {
+		if (dstSamples > samplesout) {
 			dstSamples = samplesout;
 		}
 
-		if(dstSamples >= 1) {
-			if(filter_bank) {
+		if (dstSamples >= 1) {
+			if (filter_bank) {
 				accum = dnsampleRout(output, cbuffer, filter_bank, filter_width, accum, samp_frac, dstSamples);
 			} else {
 				accum = ptsampleRout(output, cbuffer, accum, samp_frac, dstSamples);

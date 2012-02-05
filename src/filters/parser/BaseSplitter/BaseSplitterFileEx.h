@@ -26,7 +26,7 @@
 #define MAX_SPSPPS			256			// Max size for a SPS/PPS packet
 class CGolombBuffer;
 
-static const byte pixel_aspect[17][2]={
+static const byte pixel_aspect[17][2]= {
 	{0, 1},
 	{1, 1},
 	{12, 11},
@@ -369,10 +369,10 @@ public:
 		UINT64 crop_left, crop_right, crop_top, crop_bottom;
 		__int64 AvgTimePerFrame;
 
-		struct sar{
+		struct sar {
 			BYTE num;
 			BYTE den;
-		}sar;
+		} sar;
 
 		spsppsdata spspps[4];
 		BYTE lastid;
@@ -399,10 +399,10 @@ public:
 		BYTE		finterpflag;
 		BYTE		psf;
 		unsigned int width, height;
-		struct sar{
+		struct sar {
 			BYTE num;
 			BYTE den;
-		}sar;
+		} sar;
 	};
 
 	struct dvbsub {

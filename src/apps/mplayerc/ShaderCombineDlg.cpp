@@ -46,7 +46,7 @@ void CShaderCombineDlg::DoDataExchange(CDataExchange* pDX)
 	__super::DoDataExchange(pDX);
 	DDX_Check(pDX, IDC_CHECK1, m_fcheck1);
 	DDX_Control(pDX, IDC_LIST1, m_list1);
-	
+
 	DDX_Check(pDX, IDC_CHECK2, m_fcheck2);
 	DDX_Control(pDX, IDC_LIST2, m_list2);
 
@@ -72,8 +72,8 @@ BOOL CShaderCombineDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-//	AddAnchor(IDOK, TOP_RIGHT);
-//	AddAnchor(IDCANCEL, TOP_RIGHT);
+	//AddAnchor(IDOK, TOP_RIGHT);
+	//AddAnchor(IDCANCEL, TOP_RIGHT);
 
 	AppSettings& s = AfxGetAppSettings();
 
@@ -177,7 +177,7 @@ void CShaderCombineDlg::OnBnClickedAdd()
 		UpdateShaders(SHAIDER1);
 		return;
 	}
-	
+
 	i = m_list2.GetCurSel();
 	if (i >= 0) {
 		m_list2.InsertString(i, label);

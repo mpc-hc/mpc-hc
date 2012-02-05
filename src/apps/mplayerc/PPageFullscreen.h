@@ -92,7 +92,7 @@ public:
 	afx_msg void OnMoveDown();
 	afx_msg void OnUpdateUp(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateDown(CCmdUI* pCmdUI);
-	
+
 	void ReindexList();
 	void ReindexListSubItem();
 	void GetCurDispModeString(CString& strMode);

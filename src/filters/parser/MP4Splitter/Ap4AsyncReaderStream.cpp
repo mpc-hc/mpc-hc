@@ -22,7 +22,7 @@ void AP4_AsyncReaderStream::AddReference()
 void AP4_AsyncReaderStream::Release()
 {
 	ASSERT(m_refs > 0);
-	if(--m_refs == 0) {
+	if (--m_refs == 0) {
 		delete this;
 	}
 }
@@ -31,25 +31,25 @@ AP4_Result AP4_AsyncReaderStream::Read(void* buffer, AP4_Size bytesToRead, AP4_S
 {
 	__int64 bytesAvail = m_pFile->GetRemaining();
 
-	if(bytesAvail < (long long)bytesToRead) {
-		if(bytesRead) {
+	if (bytesAvail < (long long)bytesToRead) {
+		if (bytesRead) {
 			*bytesRead = bytesAvail;
 		}
 		bytesToRead = bytesAvail;
 	}
 
-	if(bytesAvail == 0) {
+	if (bytesAvail == 0) {
 		return AP4_ERROR_EOS;
 	}
 
-	if(FAILED(m_pFile->ByteRead((BYTE*)buffer, bytesToRead))) {
-		if(bytesRead) {
+	if (FAILED(m_pFile->ByteRead((BYTE*)buffer, bytesToRead))) {
+		if (bytesRead) {
 			*bytesRead = 0;
 		}
 		return AP4_ERROR_READ_FAILED;
 	}
 
-	if(bytesRead) {
+	if (bytesRead) {
 		*bytesRead = bytesToRead;
 	}
 

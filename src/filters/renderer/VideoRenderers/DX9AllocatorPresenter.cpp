@@ -74,7 +74,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 {
 	HINSTANCE		hDll;
 
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		_Error += L"ISubPicAllocatorPresenterImpl failed\n";
 		return;
 	}
@@ -85,7 +85,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 	m_pD3DXCreateFont				= NULL;
 	m_pD3DXCreateSprite				= NULL;
 	hDll							= GetRenderersData()->GetD3X9Dll();
-	if(hDll) {
+	if (hDll) {
 		(FARPROC&)m_pD3DXLoadSurfaceFromMemory	= GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
 		(FARPROC&)m_pD3DXLoadSurfaceFromSurface = GetProcAddress(hDll, "D3DXLoadSurfaceFromSurface");
 		(FARPROC&)m_pD3DXCreateLine				= GetProcAddress(hDll, "D3DXCreateLine");
@@ -115,13 +115,13 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
 	if (m_pDirect3DCreate9Ex) {
 		m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-		if(!m_pD3DEx) {
+		if (!m_pD3DEx) {
 			m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
 		}
 	}
-	if(!m_pD3DEx) {
+	if (!m_pD3DEx) {
 		m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-		if(!m_pD3D) {
+		if (!m_pD3D) {
 			m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
 		}
 	} else {
@@ -537,8 +537,8 @@ void CDX9AllocatorPresenter::VSyncThread()
 								m_DetectedRefreshTime = ThisValue;
 								m_DetectedRefreshTimePrim = 0;
 							}
-							if(_isnan(m_DetectedRefreshTime)) {m_DetectedRefreshTime = 0.0;}
-							if(_isnan(m_DetectedRefreshTimePrim)) {m_DetectedRefreshTimePrim = 0.0;}
+							if (_isnan(m_DetectedRefreshTime)) {m_DetectedRefreshTime = 0.0;}
+							if (_isnan(m_DetectedRefreshTimePrim)) {m_DetectedRefreshTimePrim = 0.0;}
 
 							ModerateFloat(m_DetectedRefreshTime, ThisValue, m_DetectedRefreshTimePrim, 1.5);
 							if (m_DetectedRefreshTime > 0.0) {
@@ -709,7 +709,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 
 	CleanupRenderingEngine();
 
-	if(!m_pD3D) {
+	if (!m_pD3D) {
 		_Error += L"Failed to create D3D9\n";
 		return E_UNEXPECTED;
 	}
@@ -792,7 +792,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	} else if (m_bForceInputHighColorResolution || m_bHighColorResolution) {
 		m_SurfaceType = D3DFMT_A2R10G10B10;
 	} else {
-		if(m_nPCIVendor == PCIV_ATI)
+		if (m_nPCIVendor == PCIV_ATI)
 			m_SurfaceType = D3DFMT_X8R8G8B8;
 		else
 			m_SurfaceType = D3DFMT_A8R8G8B8;
@@ -808,7 +808,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		if (m_bHighColorResolution) {
 			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
 		} else {
-			pp.BackBufferFormat = D3DFMT_X8R8G8B8;	
+			pp.BackBufferFormat = D3DFMT_X8R8G8B8;
 		}
 		pp.Windowed = false;
 		pp.BackBufferCount = 3;
@@ -909,7 +909,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		m_BackbufferType = pp.BackBufferFormat;
 	}
 
-	while(hr == D3DERR_DEVICELOST) {
+	while (hr == D3DERR_DEVICELOST) {
 		TRACE("D3DERR_DEVICELOST. Trying to Reset.\n");
 		hr = m_pD3DDev->TestCooperativeLevel();
 	}
@@ -927,7 +927,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		m_pD3DDevEx->SetGPUThreadPriority(7);
 	}
 
-	if(FAILED(hr)) {
+	if (FAILED(hr)) {
 		_Error += L"CreateDevice failed\n";
 		CStringW str;
 		str.Format(L"Error code: 0x%X\n", hr);
@@ -944,12 +944,12 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	InitRenderingEngine();
 
 	CComPtr<ISubPicProvider> pSubPicProvider;
-	if(m_pSubPicQueue) {
+	if (m_pSubPicQueue) {
 		m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
 	}
 
 	CSize size;
-	switch(GetRenderersSettings().nSPCMaxRes) {
+	switch (GetRenderersSettings().nSPCMaxRes) {
 		case 0:
 		default:
 			size = m_ScreenSize;
@@ -983,11 +983,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 			break;
 	}
 
-	if(m_pAllocator) {
+	if (m_pAllocator) {
 		m_pAllocator->ChangeDevice(m_pD3DDev);
 	} else {
 		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, false);
-		if(!m_pAllocator) {
+		if (!m_pAllocator) {
 			_Error += L"CDX9SubPicAllocator failed\n";
 
 			return E_FAIL;
@@ -998,13 +998,13 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
 					 ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 					 : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
-	if(!m_pSubPicQueue || FAILED(hr)) {
+	if (!m_pSubPicQueue || FAILED(hr)) {
 		_Error += L"m_pSubPicQueue failed\n";
 
 		return E_FAIL;
 	}
 
-	if(pSubPicProvider) {
+	if (pSubPicProvider) {
 		m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
 	}
 
@@ -1066,7 +1066,7 @@ void CDX9AllocatorPresenter::DeleteSurfaces()
 
 UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 {
-	if(m_hWnd == NULL || pD3D == NULL) {
+	if (m_hWnd == NULL || pD3D == NULL) {
 		return D3DADAPTER_DEFAULT;
 	}
 
@@ -1074,11 +1074,11 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 	m_nPCIVendor = 0;
 
 	CRenderersSettings& s = GetRenderersSettings();
-	if(bGetAdapter && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T(""))) {
+	if (bGetAdapter && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T(""))) {
 		TCHAR		strGUID[50];
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 
-		for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
+		for (UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
 			if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) {
 				if ((::StringFromGUID2(adapterIdentifier.DeviceIdentifier, strGUID, 50) > 0) && (s.D3D9RenderDevice == strGUID)) {
 					m_D3D9Device = adapterIdentifier.Description;
@@ -1090,14 +1090,14 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 	}
 
 	HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-	if(hMonitor == NULL) {
+	if (hMonitor == NULL) {
 		return D3DADAPTER_DEFAULT;
 	}
 
-	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
+	for (UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
 		HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
-		if(hAdpMon == hMonitor) {
-			if(bGetAdapter) {
+		if (hAdpMon == hMonitor) {
+			if (bGetAdapter) {
 				D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 				if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) {
 					m_D3D9Device = adapterIdentifier.Description;
@@ -1185,7 +1185,7 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
 	int ScanLine = 0;
 	_ScanLine = 0;
 	_bInVBlank = 0;
-	
+
 	if (m_pDirectDraw) {
 		DWORD ScanLineGet = 0;
 		m_pDirectDraw->GetScanLine(&ScanLineGet);
@@ -1511,7 +1511,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	LONGLONG StartPaint = pApp->GetPerfCounter();
 	CAutoLock cRenderLock(&m_RenderLock);
 
-	if(m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
+	if (m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
 			|| m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
 			|| !m_pVideoSurface) {
 		if (m_OrderedPaint) {
@@ -1569,7 +1569,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		m_pOSDTexture	= NULL;
 		m_pOSDSurface	= NULL;
 		if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE *)m_VMR9AlphaBitmapData) {
-			if( (m_pD3DXLoadSurfaceFromMemory != NULL) &&
+			if ( (m_pD3DXLoadSurfaceFromMemory != NULL) &&
 					SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1,
 								   D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
 								   D3DPOOL_DEFAULT, &m_pOSDTexture, NULL)) ) {
@@ -1633,7 +1633,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		BOOL Data;
 		//Sleep(5);
 		LONGLONG FlushStartTime = pApp->GetPerfCounter();
-		while(S_FALSE == pEventQuery->GetData( &Data, sizeof(Data), D3DGETDATA_FLUSH )) {
+		while (S_FALSE == pEventQuery->GetData( &Data, sizeof(Data), D3DGETDATA_FLUSH )) {
 			if (!s.m_RenderSettings.iVMRFlushGPUWait) {
 				break;
 			}
@@ -1766,7 +1766,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	if (!m_bPendingResetDevice) {
 		bool fResetDevice = false;
 
-		if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET) {
+		if (hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET) {
 			TRACE("Reset Device: D3D Device Lost\n");
 			fResetDevice = true;
 		}
@@ -1795,17 +1795,17 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			}
 		}
 
-		if(s.fResetDevice) {
+		if (s.fResetDevice) {
 			LONGLONG time = GetRenderersData()->GetPerfCounter();
 			if (time > m_LastAdapterCheck + 20000000) { // check every 2 sec.
 				m_LastAdapterCheck = time;
 #ifdef _DEBUG
 				D3DDEVICE_CREATION_PARAMETERS Parameters;
-				if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters))) {
+				if (SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters))) {
 					ASSERT(Parameters.AdapterOrdinal == m_CurrentAdapter);
 				}
 #endif
-				if(m_CurrentAdapter != GetAdapter(m_pD3D)) {
+				if (m_CurrentAdapter != GetAdapter(m_pD3D)) {
 					TRACE("Reset Device: D3D adapter changed\n");
 					fResetDevice = true;
 				}
@@ -1817,7 +1817,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			}
 		}
 
-		if(fResetDevice) {
+		if (fResetDevice) {
 			m_bPendingResetDevice = true;
 			SendResetRequest();
 		}
@@ -1863,7 +1863,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
 	TRACE("ResetDevice\n");
 	_ASSERT(m_MainThreadId == GetCurrentThreadId());
 	StopWorkerThreads();
-	
+
 	// In VMR-9 deleting the surfaces before we are told to is bad !
 	// Can't comment out this because CDX9AllocatorPresenter is used by EVR Custom
 	// Why is EVR using a presenter for DX9 anyway ?!
@@ -1876,7 +1876,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
 	// In VMR-9 'AllocSurfaces' call is redundant afaik because
 	// 'CreateDevice' calls 'm_pIVMRSurfAllocNotify->ChangeD3DDevice' which in turn calls
 	// 'CVMR9AllocatorPresenter::InitializeDevice' which calls 'AllocSurfaces'
-	if(FAILED(hr = CreateDevice(Error)) || FAILED(hr = AllocSurfaces())) {
+	if (FAILED(hr = CreateDevice(Error)) || FAILED(hr = AllocSurfaces())) {
 		// TODO: We should probably pause player
 #ifdef _DEBUG
 		Error += GetWindowsErrorMessage(hr, NULL);
@@ -2209,14 +2209,14 @@ void CDX9AllocatorPresenter::DrawStats()
 			strText.Format(L"DirectX SDK  : %d", GetRenderersData()->GetDXSdkRelease());
 			DrawText(rc, strText, 1);
 			OffsetRect (&rc, 0, TextHeight);
-			
-			if(m_D3D9Device != _T("")) {
+
+			if (m_D3D9Device != _T("")) {
 				strText = "Render device: " + m_D3D9Device;
 				DrawText(rc, strText, 1);
 				OffsetRect (&rc, 0, TextHeight);
 			}
 
-			if(m_Decoder != _T("")) {
+			if (m_Decoder != _T("")) {
 				strText = "Decoder      : " + m_Decoder;
 				DrawText(rc, strText, 1);
 				OffsetRect (&rc, 0, TextHeight);
@@ -2310,34 +2310,38 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 	m_pVideoSurface[m_nCurSurface]->GetDesc(&desc);
 
 	DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
-	if(!lpDib) {
+	if (!lpDib) {
 		*size = required;
 		return S_OK;
 	}
-	if(*size < required) {
+	if (*size < required) {
 		return E_OUTOFMEMORY;
 	}
 	*size = required;
 
 	D3DLOCKED_RECT r;
 	CComPtr<IDirect3DSurface9> pSurface;
-	if(m_bFullFloatingPointProcessing || m_bHalfFloatingPointProcessing || m_bHighColorResolution) {
+	if (m_bFullFloatingPointProcessing || m_bHalfFloatingPointProcessing || m_bHighColorResolution) {
 		CComPtr<IDirect3DSurface9> fSurface = m_pVideoSurface[m_nCurSurface];
-		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &fSurface, NULL))
-			|| FAILED(hr = m_pD3DXLoadSurfaceFromSurface(fSurface, NULL, NULL, m_pVideoSurface[m_nCurSurface], NULL, NULL, D3DX_DEFAULT, 0))) return hr;
+		if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &fSurface, NULL))
+				|| FAILED(hr = m_pD3DXLoadSurfaceFromSurface(fSurface, NULL, NULL, m_pVideoSurface[m_nCurSurface], NULL, NULL, D3DX_DEFAULT, 0))) return hr;
 		pSurface = fSurface;
-		if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
+		if (FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
 			pSurface = NULL;
-			if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
-				|| FAILED(hr = m_pD3DDev->GetRenderTargetData(fSurface, pSurface))
-				|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) return hr;}}
+			if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
+					|| FAILED(hr = m_pD3DDev->GetRenderTargetData(fSurface, pSurface))
+					|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) return hr;
+		}
+	}
 	else {
 		pSurface = m_pVideoSurface[m_nCurSurface];
-		if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
+		if (FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
 			pSurface = NULL;
-			if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
-				|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
-				|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) return hr;}}
+			if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
+					|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
+					|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) return hr;
+		}
+	}
 
 	BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
 	memset(bih, 0, sizeof(BITMAPINFOHEADER));

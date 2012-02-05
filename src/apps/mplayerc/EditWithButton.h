@@ -1,16 +1,16 @@
 /*
 	Edit With Button
 
-	This class acts mostly like a normal Edit Box except that it provides a button to the right 
-	side of the control. Clicking the button invokes the virutal OnLeftClick method. If that 
-	has not been overridden in a derived classes then it sends the EDIT_BUTTON_LEFTCLICKED 
+	This class acts mostly like a normal Edit Box except that it provides a button to the right
+	side of the control. Clicking the button invokes the virutal OnLeftClick method. If that
+	has not been overridden in a derived classes then it sends the EDIT_BUTTON_LEFTCLICKED
 	message to the parent window.
 
-	CEditWithButton_Base contains most of the code to make this work but cannot be instantiated 
-	itself. A derived class must override DrawButtonContent and CalculateButtonWidth to determine 
+	CEditWithButton_Base contains most of the code to make this work but cannot be instantiated
+	itself. A derived class must override DrawButtonContent and CalculateButtonWidth to determine
 	what is actually drawn for the button.
 
-	CEditWithButton is a derived class that handles the simplest form of a button where a plain 
+	CEditWithButton is a derived class that handles the simplest form of a button where a plain
 	text string is displayed on the button.
 
 	Other classes could be derived to draw other kinds of buttons.
@@ -34,8 +34,8 @@ public:
 	CEditWithButton_Base();
 
 	// Called when a left click is detected. The default implementation will send a
-	// EDIT_BUTTON_LEFTCLICKED message to the parent window. Derived classes 
-	// could override this to handle the event themselves, and so are not required 
+	// EDIT_BUTTON_LEFTCLICKED message to the parent window. Derived classes
+	// could override this to handle the event themselves, and so are not required
 	// to call this base implementation.
 	virtual void OnLeftClick();
 
@@ -61,12 +61,12 @@ protected:
 	int GetButtonThemeState() const;
 
 	//	Called when the button needs to be drawn.
-	//	The default implementation draws the button frame, adjusts the rect if 
-	//	the button is pressed, and then calls DrawButtonContent to render the 
+	//	The default implementation draws the button frame, adjusts the rect if
+	//	the button is pressed, and then calls DrawButtonContent to render the
 	//	contents of the button.
 	virtual void DrawButton(CRect rectButton);
 
-	//	Called when the button contents (anything inside the button's border) needs to 
+	//	Called when the button contents (anything inside the button's border) needs to
 	//	be drawn. The rect will have already been adjusted if the button is pressed.
 	//	The content must be drawn using the given device context within the given rect.
 	virtual void DrawButtonContent(CDC& dc, CRect rectButton, HTHEME hButtonTheme) = 0;

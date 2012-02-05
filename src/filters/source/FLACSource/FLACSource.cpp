@@ -119,7 +119,7 @@ CFLACStream::CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	HRESULT			hr = E_FAIL;
 
 	do {
-		if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone, &ex)) {
+		if (!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone, &ex)) {
 			hr	= AmHresultFromWin32 (ex.m_lOsError);
 			break;
 		}
@@ -153,7 +153,7 @@ CFLACStream::CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		hr = S_OK;
 	} while (false);
 
-	if(phr) {
+	if (phr) {
 		*phr = hr;
 	}
 }
@@ -173,11 +173,11 @@ HRESULT CFLACStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIE
 	pProperties->cbBuffer = m_nMaxFrameSize;
 
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
+	if (FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
 		return hr;
 	}
 
-	if(Actual.cbBuffer < pProperties->cbBuffer) {
+	if (Actual.cbBuffer < pProperties->cbBuffer) {
 		return E_FAIL;
 	}
 	ASSERT(Actual.cBuffers == pProperties->cBuffers);
@@ -222,7 +222,7 @@ HRESULT CFLACStream::GetMediaType(int iPosition, CMediaType* pmt)
 {
 	CAutoLock cAutoLock(m_pFilter->pStateLock());
 
-	if(iPosition == 0) {
+	if (iPosition == 0) {
 		pmt->majortype			= MEDIATYPE_Audio;
 		pmt->subtype			= MEDIASUBTYPE_FLAC_FRAMED;
 		pmt->formattype			= FORMAT_WaveFormatEx;

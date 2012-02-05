@@ -51,11 +51,11 @@ bool CMpeg2DecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknow
 	m_pM2DF.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pM2DF = pUnks.GetNext(pos))) {
+	while (pos && !(m_pM2DF = pUnks.GetNext(pos))) {
 		;
 	}
 
-	if(!m_pM2DF) {
+	if (!m_pM2DF) {
 		return false;
 	}
 
@@ -110,8 +110,8 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Field Shift")), (DWORD)DIFieldShift);
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("ELA")), (DWORD)DIELA);
 	m_ditype_combo.SetCurSel(0);
-	for(int i = 0; i < m_ditype_combo.GetCount(); i++)
-		if((int)m_ditype_combo.GetItemData(i) == m_ditype) {
+	for (int i = 0; i < m_ditype_combo.GetCount(); i++)
+		if ((int)m_ditype_combo.GetItemData(i) == m_ditype) {
 			m_ditype_combo.SetCurSel(i);
 		}
 
@@ -119,7 +119,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
 	p.y += m_fontheight + 20;
 
-	for(int i = 0, h = max(20, m_fontheight)+1; i < countof(m_procamp_slider); i++, p.y += h) {
+	for (int i = 0, h = max(20, m_fontheight)+1; i < countof(m_procamp_slider); i++, p.y += h) {
 		static const TCHAR* labels[] = {m_strBrightness, m_strContrast,	m_strHue, m_strSaturation};
 		m_procamp_static[i].Create(labels[i], dwStyle, CRect(p, CSize(70, h)), this);
 		m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(80, 0), CSize(201, h)), this, IDC_PP_SLIDER1+i);
@@ -153,7 +153,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 		ResStr(IDS_MPEG2DECSETTINGSWND_8),
 		dwStyle, CRect(p, CSize(320, m_fontheight * 4)), this);
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
+	for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
 	}
 
@@ -177,7 +177,7 @@ bool CMpeg2DecSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pM2DF) {
+	if (m_pM2DF) {
 		m_pM2DF->SetDeinterlaceMethod(m_ditype);
 		m_pM2DF->SetBrightness(m_procamp[0]);
 		m_pM2DF->SetContrast(m_procamp[1]);

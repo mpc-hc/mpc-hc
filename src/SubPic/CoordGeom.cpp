@@ -75,7 +75,7 @@ Vector Vector::Pow(float exp)
 Vector Vector::Unit()
 {
 	float l = Length();
-	if(!l || l == 1) {
+	if (!l || l == 1) {
 		return(*this);
 	}
 	return(*this * (1 / l));
@@ -108,11 +108,11 @@ void Vector::Angle(float& u, float& v)
 
 	u = asin(n.y);
 
-	if(IsZero(n.z)) {
+	if (IsZero(n.z)) {
 		v = PI/2 * Sgn(n.x);
-	} else if(n.z > 0) {
+	} else if (n.z > 0) {
 		v = atan(n.x / n.z);
-	} else if(n.z < 0) {
+	} else if (n.z < 0) {
 		v = IsZero(n.x) ? PI : (PI * Sgn(n.x) + atan(n.x / n.z));
 	}
 }
@@ -163,19 +163,19 @@ Vector Vector::Refract(Vector& N, float nFront, float nBack, float* nOut)
 
 	float len_sin_T = sin_T | sin_T;
 
-	if(len_sin_T > 1) {
-		if(nOut) {
+	if (len_sin_T > 1) {
+		if (nOut) {
 			*nOut = N_dot_D >= 0 ? nFront : nBack;
 		}
 		return((*this).Reflect(N));
 	}
 
 	float N_dot_T = sqrt(1.0 - len_sin_T);
-	if(N_dot_D < 0) {
+	if (N_dot_D < 0) {
 		N_dot_T = -N_dot_T;
 	}
 
-	if(nOut) {
+	if (nOut) {
 		*nOut = N_dot_D >= 0 ? nBack : nFront;
 	}
 
@@ -194,19 +194,19 @@ Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
 
 	float len_sin_T = sin_T | sin_T;
 
-	if(len_sin_T > 1) {
-		if(nOut) {
+	if (len_sin_T > 1) {
+		if (nOut) {
 			*nOut = nFrom;
 		}
 		return((*this).Reflect(N));
 	}
 
 	float N_dot_T = sqrt(1.0 - len_sin_T);
-	if(N_dot_D < 0) {
+	if (N_dot_D < 0) {
 		N_dot_T = -N_dot_T;
 	}
 
-	if(nOut) {
+	if (nOut) {
 		*nOut = nTo;
 	}
 
@@ -235,7 +235,7 @@ Vector Vector::operator - ()
 
 bool Vector::operator == (const Vector& v) const
 {
-	if(IsZero(x - v.x) && IsZero(y - v.y) && IsZero(z - v.z)) {
+	if (IsZero(x - v.x) && IsZero(y - v.y) && IsZero(z - v.z)) {
 		return true;
 	}
 	return false;
@@ -369,7 +369,7 @@ void Ray::Set(Vector& p, Vector& d)
 float Ray::GetDistanceFrom(Ray& r)
 {
 	float t = (d | r.d);
-	if(IsZero(t)) {
+	if (IsZero(t)) {
 		return(-BIGNUMBER);    // plane is paralell to the ray, return -infinite
 	}
 	return(((r.p - p) | r.d) / t);
@@ -405,7 +405,7 @@ void XForm::Initalize(Ray& r, Vector& s, bool isWorldToLocal)
 	Initalize();
 
 	m_isWorldToLocal = isWorldToLocal;
-	if(isWorldToLocal) {
+	if (isWorldToLocal) {
 		*this -= r.p;
 		*this >>= r.d;
 		*this /= s;
@@ -552,14 +552,14 @@ XForm::Matrix XForm::Matrix::operator * (Matrix& m)
 {
 	Matrix ret;
 
-	for(ptrdiff_t i = 0; i < 4; i++) {
-		for(ptrdiff_t j = 0; j < 4; j++) {
+	for (ptrdiff_t i = 0; i < 4; i++) {
+		for (ptrdiff_t j = 0; j < 4; j++) {
 			ret.mat[i][j] = mat[i][0] * m.mat[0][j] +
 							mat[i][1] * m.mat[1][j] +
 							mat[i][2] * m.mat[2][j] +
 							mat[i][3] * m.mat[3][j];
 
-			if(IsZero(ret.mat[i][j])) {
+			if (IsZero(ret.mat[i][j])) {
 				ret.mat[i][j] = 0;
 			}
 		}

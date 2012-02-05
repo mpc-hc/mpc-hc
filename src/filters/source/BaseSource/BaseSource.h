@@ -35,7 +35,7 @@ protected:
 public:
 	CBaseSource(TCHAR* name, LPUNKNOWN lpunk, HRESULT* phr, const CLSID& clsid)
 		: CSource(name, lpunk, clsid) {
-		if(phr) {
+		if (phr) {
 			*phr = S_OK;
 		}
 	}
@@ -54,16 +54,16 @@ public:
 
 	STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt) {
 		// TODO: destroy any already existing pins and create new, now we are just going die nicely instead of doing it :)
-		if(GetPinCount() > 0) {
+		if (GetPinCount() > 0) {
 			return VFW_E_ALREADY_CONNECTED;
 		}
 
 		HRESULT hr = S_OK;
-		if(!(DNew TStream(pszFileName, this, &hr))) {
+		if (!(DNew TStream(pszFileName, this, &hr))) {
 			return E_OUTOFMEMORY;
 		}
 
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			return hr;
 		}
 
@@ -74,13 +74,13 @@ public:
 
 	STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt) {
 		size_t		nCount;
-		if(!ppszFileName) {
+		if (!ppszFileName) {
 			return E_POINTER;
 		}
 
 		nCount = m_fn.GetLength()+1;
 		*ppszFileName = (LPOLESTR)CoTaskMemAlloc(nCount*sizeof(WCHAR));
-		if(!(*ppszFileName)) {
+		if (!(*ppszFileName)) {
 			return E_OUTOFMEMORY;
 		}
 

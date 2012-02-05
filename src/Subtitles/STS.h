@@ -244,7 +244,7 @@ public:
 		*this = stss;
 	}
 	STSSegment& operator = (const STSSegment& stss) {
-		if(this != &stss) {
+		if (this != &stss) {
 			start = stss.start;
 			end = stss.end;
 			subs.Copy(stss.subs);

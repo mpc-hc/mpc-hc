@@ -405,7 +405,7 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
 
 	WIN32_FIND_DATA wfd;
 	HANDLE hFind = FindFirstFile(m_pMainFrame->m_wndPlaylistBar.GetCurFileName(), &wfd);
-	if(hFind != INVALID_HANDLE_VALUE) {
+	if (hFind != INVALID_HANDLE_VALUE) {
 		FindClose(hFind);
 		__int64 size = (__int64(wfd.nFileSizeHigh)<<32)|wfd.nFileSizeLow;
 		const int MAX_FILE_SIZE_BUFFER = 65;

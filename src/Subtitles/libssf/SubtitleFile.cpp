@@ -46,16 +46,16 @@ namespace ssf
 		StringMapW<float> offset;
 
 		POSITION pos = defs.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			Definition* pDef = defs.GetNext(pos);
 
 			try {
 				Definition::Time time;
 
-				if(pDef->GetAsTime(time, offset) && (*pDef)[L"@"].IsValue()) {
+				if (pDef->GetAsTime(time, offset) && (*pDef)[L"@"].IsValue()) {
 					m_segments.Insert(time.start.value, time.stop.value, pDef);
 				}
-			} catch(Exception&) {
+			} catch (Exception&) {
 			}
 		}
 	}
@@ -70,21 +70,21 @@ namespace ssf
 		GetNewDefs(defs);
 
 		POSITION pos = defs.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			Definition* pDef = defs.GetNext(pos);
 
-			if(pDef->m_parent == pRootRef && pDef->m_type == L"subtitle" && (*pDef)[L"@"].IsValue()) {
+			if (pDef->m_parent == pRootRef && pDef->m_type == L"subtitle" && (*pDef)[L"@"].IsValue()) {
 				m_segments.Insert(start, stop, pDef);
 
-				if(fSetTime) {
+				if (fSetTime) {
 					try {
 						Definition::Time time;
 						StringMapW<float> offset;
 						pDef->GetAsTime(time, offset);
-						if(time.start.value == start && time.stop.value == stop) {
+						if (time.start.value == start && time.stop.value == stop) {
 							continue;
 						}
-					} catch(Exception&) {
+					} catch (Exception&) {
 					}
 
 					CStringW str;
@@ -101,7 +101,7 @@ namespace ssf
 
 	bool SubtitleFile::Lookup(float at, CAutoPtrList<Subtitle>& subs)
 	{
-		if(!subs.IsEmpty()) {
+		if (!subs.IsEmpty()) {
 			ASSERT(0);
 			return false;
 		}
@@ -110,20 +110,20 @@ namespace ssf
 		m_segments.Lookup(at, sis);
 
 		POSITION pos = sis.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			SegmentItem& si = sis.GetNext(pos);
 
 			CAutoPtr<Subtitle> s(DNew Subtitle(this));
 
-			if(s->Parse(si.pDef, si.start, si.stop, at)) {
-				for(POSITION pos = subs.GetHeadPosition(); pos; subs.GetNext(pos)) {
-					if(s->m_layer < subs.GetAt(pos)->m_layer) {
+			if (s->Parse(si.pDef, si.start, si.stop, at)) {
+				for (POSITION pos = subs.GetHeadPosition(); pos; subs.GetNext(pos)) {
+					if (s->m_layer < subs.GetAt(pos)->m_layer) {
 						subs.InsertBefore(pos, s);
 						break;
 					}
 				}
 
-				if(s) {
+				if (s) {
 					subs.AddTail(s);
 				}
 			}
@@ -138,7 +138,7 @@ namespace ssf
 	{
 		m_start = start;
 		m_stop = stop;
-		if(si) {
+		if (si) {
 			AddTail(*si);
 		}
 	}
@@ -150,7 +150,7 @@ namespace ssf
 
 	SubtitleFile::Segment& SubtitleFile::Segment::operator = (const Segment& s)
 	{
-		if(this != &s) {
+		if (this != &s) {
 			m_start = s.m_start;
 			m_stop = s.m_stop;
 			RemoveAll();
@@ -169,7 +169,7 @@ namespace ssf
 
 	void SubtitleFile::SegmentList::Insert(float start, float stop, Definition* pDef)
 	{
-		if(start >= stop) {
+		if (start >= stop) {
 			ASSERT(0);
 			return;
 		}
@@ -178,7 +178,7 @@ namespace ssf
 
 		SegmentItem si = {pDef, start, stop};
 
-		if(IsEmpty()) {
+		if (IsEmpty()) {
 			AddTail(Segment(start, stop, &si));
 			return;
 		}
@@ -186,46 +186,46 @@ namespace ssf
 		Segment& head = GetHead();
 		Segment& tail = GetTail();
 
-		if(start >= tail.m_stop && stop > tail.m_stop) {
-			if(start > tail.m_stop) {
+		if (start >= tail.m_stop && stop > tail.m_stop) {
+			if (start > tail.m_stop) {
 				AddTail(Segment(tail.m_stop, start));
 			}
 			AddTail(Segment(start, stop, &si));
-		} else if(start < head.m_start && stop <= head.m_start) {
-			if(stop < head.m_start) {
+		} else if (start < head.m_start && stop <= head.m_start) {
+			if (stop < head.m_start) {
 				AddHead(Segment(stop, head.m_start));
 			}
 			AddHead(Segment(start, stop, &si));
 		} else {
-			if(start < head.m_start) {
+			if (start < head.m_start) {
 				AddHead(Segment(start, head.m_start, &si));
 				start = head.m_start;
 			}
 
-			if(stop > tail.m_stop) {
+			if (stop > tail.m_stop) {
 				AddTail(Segment(tail.m_stop, stop, &si));
 				stop = tail.m_stop;
 			}
 
-			for(POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
+			for (POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
 				Segment& s = GetAt(pos);
 
-				if(start >= s.m_stop) {
+				if (start >= s.m_stop) {
 					continue;
 				}
-				if(stop <= s.m_start) {
+				if (stop <= s.m_start) {
 					break;
 				}
 
-				if(s.m_start < start && start < s.m_stop) {
+				if (s.m_start < start && start < s.m_stop) {
 					Segment s2 = s;
 					s2.m_start = start;
 					InsertAfter(pos, s2);
 					s.m_stop = start;
-				} else if(s.m_start == start) {
-					if(stop > s.m_stop) {
+				} else if (s.m_start == start) {
+					if (stop > s.m_stop) {
 						start = s.m_stop;
-					} else if(stop < s.m_stop) {
+					} else if (stop < s.m_stop) {
 						Segment s2 = s;
 						s2.m_start = stop;
 						InsertAfter(pos, s2);
@@ -240,10 +240,10 @@ namespace ssf
 
 	size_t SubtitleFile::SegmentList::Index(bool fForce)
 	{
-		if(m_index.IsEmpty() || fForce) {
+		if (m_index.IsEmpty() || fForce) {
 			m_index.RemoveAll();
 			POSITION pos = GetHeadPosition();
-			while(pos) {
+			while (pos) {
 				m_index.Add(&GetNext(pos));
 			}
 		}
@@ -256,36 +256,36 @@ namespace ssf
 		sis.RemoveAll();
 
 		size_t k;
-		if(Lookup(at, k)) {
+		if (Lookup(at, k)) {
 			sis.AddTailList(GetSegment(k));
 		}
 	}
 
 	bool SubtitleFile::SegmentList::Lookup(float at, size_t& k)
 	{
-		if(!Index()) {
+		if (!Index()) {
 			return false;
 		}
 
 		size_t i = 0, j = m_index.GetCount()-1;
 
-		if(m_index[i]->m_start <= at && at < m_index[j]->m_stop)
+		if (m_index[i]->m_start <= at && at < m_index[j]->m_stop)
 			do {
 				k = (i+j)/2;
-				if(m_index[k]->m_start <= at && at < m_index[k]->m_stop) {
+				if (m_index[k]->m_start <= at && at < m_index[k]->m_stop) {
 					return true;
-				} else if(at < m_index[k]->m_start) {
-					if(j == k) {
+				} else if (at < m_index[k]->m_start) {
+					if (j == k) {
 						k--;
 					}
 					j = k;
-				} else if(at >= m_index[k]->m_stop) {
-					if(i == k) {
+				} else if (at >= m_index[k]->m_stop) {
+					if (i == k) {
 						k++;
 					}
 					i = k;
 				}
-			} while(i <= j);
+			} while (i <= j);
 
 		return false;
 	}

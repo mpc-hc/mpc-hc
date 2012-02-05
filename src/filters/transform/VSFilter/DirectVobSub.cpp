@@ -54,8 +54,8 @@ CDirectVobSub::CDirectVobSub()
 	m_fMediaFPSEnabled = !!theApp.GetProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPSENABLED), 0);
 	m_ePARCompensationType = static_cast<CSimpleTextSubtitle::EPARCompensationType>(theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_AUTOPARCOMPENSATION), 0));
 	pData = NULL;
-	if(theApp.GetProfileBinary(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPS), &pData, &nSize) && pData) {
-		if(nSize != sizeof(m_MediaFPS)) {
+	if (theApp.GetProfileBinary(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPS), &pData, &nSize) && pData) {
+		if (nSize != sizeof(m_MediaFPS)) {
 			m_MediaFPS = 25.0;
 		} else {
 			memcpy(&m_MediaFPS, pData, sizeof(m_MediaFPS));
@@ -77,7 +77,7 @@ STDMETHODIMP CDirectVobSub::get_FileName(WCHAR* fn)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(!fn) {
+	if (!fn) {
 		return E_POINTER;
 	}
 
@@ -94,12 +94,12 @@ STDMETHODIMP CDirectVobSub::put_FileName(WCHAR* fn)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(!fn) {
+	if (!fn) {
 		return E_POINTER;
 	}
 
 	CString tmp = fn;
-	if(!m_FileName.Left(m_FileName.ReverseFind('.')+1).CompareNoCase(tmp.Left(tmp.ReverseFind('.')+1))) {
+	if (!m_FileName.Left(m_FileName.ReverseFind('.')+1).CompareNoCase(tmp.Left(tmp.ReverseFind('.')+1))) {
 		return S_FALSE;
 	}
 
@@ -139,12 +139,12 @@ STDMETHODIMP CDirectVobSub::put_SelectedLanguage(int iSelected)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_iSelectedLanguage == iSelected) {
+	if (m_iSelectedLanguage == iSelected) {
 		return S_FALSE;
 	}
 
 	int nCount;
-	if(FAILED(get_LanguageCount(&nCount))
+	if (FAILED(get_LanguageCount(&nCount))
 			|| iSelected < 0
 			|| iSelected >= nCount) {
 		return E_FAIL;
@@ -166,7 +166,7 @@ STDMETHODIMP CDirectVobSub::put_HideSubtitles(bool fHideSubtitles)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fHideSubtitles == fHideSubtitles) {
+	if (m_fHideSubtitles == fHideSubtitles) {
 		return S_FALSE;
 	}
 
@@ -188,7 +188,7 @@ STDMETHODIMP CDirectVobSub::put_PreBuffering(bool fDoPreBuffering)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if((m_uSubPictToBuffer > 0) == fDoPreBuffering) {
+	if ((m_uSubPictToBuffer > 0) == fDoPreBuffering) {
 		return S_FALSE;
 	}
 
@@ -208,7 +208,7 @@ STDMETHODIMP CDirectVobSub::put_SubPictToBuffer(unsigned int uSubPictToBuffer)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_uSubPictToBuffer == uSubPictToBuffer) {
+	if (m_uSubPictToBuffer == uSubPictToBuffer) {
 		return S_FALSE;
 	}
 
@@ -228,7 +228,7 @@ STDMETHODIMP CDirectVobSub::put_AnimWhenBuffering(bool fAnimWhenBuffering)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fAnimWhenBuffering == fAnimWhenBuffering) {
+	if (m_fAnimWhenBuffering == fAnimWhenBuffering) {
 		return S_FALSE;
 	}
 
@@ -241,13 +241,13 @@ STDMETHODIMP CDirectVobSub::get_Placement(bool* fOverridePlacement, int* xperc, 
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(fOverridePlacement) {
+	if (fOverridePlacement) {
 		*fOverridePlacement = m_fOverridePlacement;
 	}
-	if(xperc) {
+	if (xperc) {
 		*xperc = m_PlacementXperc;
 	}
-	if(yperc) {
+	if (yperc) {
 		*yperc = m_PlacementYperc;
 	}
 
@@ -258,7 +258,7 @@ STDMETHODIMP CDirectVobSub::put_Placement(bool fOverridePlacement, int xperc, in
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fOverridePlacement == fOverridePlacement && m_PlacementXperc == xperc && m_PlacementYperc == yperc) {
+	if (m_fOverridePlacement == fOverridePlacement && m_PlacementXperc == xperc && m_PlacementYperc == yperc) {
 		return S_FALSE;
 	}
 
@@ -273,13 +273,13 @@ STDMETHODIMP CDirectVobSub::get_VobSubSettings(bool* fBuffer, bool* fOnlyShowFor
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(fBuffer) {
+	if (fBuffer) {
 		*fBuffer = m_fBufferVobSub;
 	}
-	if(fOnlyShowForcedSubs) {
+	if (fOnlyShowForcedSubs) {
 		*fOnlyShowForcedSubs = m_fOnlyShowForcedVobSubs;
 	}
-	if(fPolygonize) {
+	if (fPolygonize) {
 		*fPolygonize = m_fPolygonize;
 	}
 
@@ -290,7 +290,7 @@ STDMETHODIMP CDirectVobSub::put_VobSubSettings(bool fBuffer, bool fOnlyShowForce
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fBufferVobSub == fBuffer && m_fOnlyShowForcedVobSubs == fOnlyShowForcedSubs && m_fPolygonize == fPolygonize) {
+	if (m_fBufferVobSub == fBuffer && m_fOnlyShowForcedVobSubs == fOnlyShowForcedSubs && m_fPolygonize == fPolygonize) {
 		return S_FALSE;
 	}
 
@@ -305,10 +305,10 @@ STDMETHODIMP CDirectVobSub::get_TextSettings(void* lf, int lflen, COLORREF* colo
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(lf) {
-		if(lflen == sizeof(LOGFONTA)) {
+	if (lf) {
+		if (lflen == sizeof(LOGFONTA)) {
 			strncpy_s(((LOGFONTA*)lf)->lfFaceName, LF_FACESIZE, CStringA(m_defStyle.fontName), _TRUNCATE);
-		} else if(lflen == sizeof(LOGFONTW)) {
+		} else if (lflen == sizeof(LOGFONTW)) {
 			wcsncpy_s(((LOGFONTW*)lf)->lfFaceName, LF_FACESIZE, CStringW(m_defStyle.fontName), _TRUNCATE);
 		} else {
 			return E_INVALIDARG;
@@ -322,16 +322,16 @@ STDMETHODIMP CDirectVobSub::get_TextSettings(void* lf, int lflen, COLORREF* colo
 		((LOGFONT*)lf)->lfUnderline = m_defStyle.fUnderline;
 	}
 
-	if(color) {
+	if (color) {
 		*color = m_defStyle.colors[0];
 	}
-	if(fShadow) {
+	if (fShadow) {
 		*fShadow = (m_defStyle.shadowDepthX!=0) || (m_defStyle.shadowDepthY!=0);
 	}
-	if(fOutline) {
+	if (fOutline) {
 		*fOutline = (m_defStyle.outlineWidthX+m_defStyle.outlineWidthY)>0;
 	}
-	if(fAdvancedRenderer) {
+	if (fAdvancedRenderer) {
 		*fAdvancedRenderer = m_fAdvancedRenderer;
 	}
 
@@ -342,10 +342,10 @@ STDMETHODIMP CDirectVobSub::put_TextSettings(void* lf, int lflen, COLORREF color
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(lf) {
-		if(lflen == sizeof(LOGFONTA)) {
+	if (lf) {
+		if (lflen == sizeof(LOGFONTA)) {
 			m_defStyle.fontName = ((LOGFONTA*)lf)->lfFaceName;
-		} else if(lflen == sizeof(LOGFONTW)) {
+		} else if (lflen == sizeof(LOGFONTW)) {
 			m_defStyle.fontName = ((LOGFONTW*)lf)->lfFaceName;
 		} else {
 			return E_INVALIDARG;
@@ -358,7 +358,7 @@ STDMETHODIMP CDirectVobSub::put_TextSettings(void* lf, int lflen, COLORREF color
 		m_defStyle.fStrikeOut = !!((LOGFONT*)lf)->lfStrikeOut;
 		m_defStyle.fUnderline = !!((LOGFONT*)lf)->lfUnderline;
 
-		if(m_defStyle.fontSize < 0) {
+		if (m_defStyle.fontSize < 0) {
 			HDC hdc = ::GetDC(0);
 			m_defStyle.fontSize = -m_defStyle.fontSize * 72 / GetDeviceCaps(hdc, LOGPIXELSY);
 			::ReleaseDC(0, hdc);
@@ -378,10 +378,10 @@ STDMETHODIMP CDirectVobSub::get_Flip(bool* fPicture, bool* fSubtitles)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(fPicture) {
+	if (fPicture) {
 		*fPicture = m_fFlipPicture;
 	}
-	if(fSubtitles) {
+	if (fSubtitles) {
 		*fSubtitles = m_fFlipSubtitles;
 	}
 
@@ -392,7 +392,7 @@ STDMETHODIMP CDirectVobSub::put_Flip(bool fPicture, bool fSubtitles)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fFlipPicture == fPicture && m_fFlipSubtitles == fSubtitles) {
+	if (m_fFlipPicture == fPicture && m_fFlipSubtitles == fSubtitles) {
 		return S_FALSE;
 	}
 
@@ -413,7 +413,7 @@ STDMETHODIMP CDirectVobSub::put_OSD(bool fOSD)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fOSD == fOSD) {
+	if (m_fOSD == fOSD) {
 		return S_FALSE;
 	}
 
@@ -433,7 +433,7 @@ STDMETHODIMP CDirectVobSub::put_SaveFullPath(bool fSaveFullPath)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fSaveFullPath == fSaveFullPath) {
+	if (m_fSaveFullPath == fSaveFullPath) {
 		return S_FALSE;
 	}
 
@@ -446,13 +446,13 @@ STDMETHODIMP CDirectVobSub::get_SubtitleTiming(int* delay, int* speedmul, int* s
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(delay) {
+	if (delay) {
 		*delay = m_SubtitleDelay;
 	}
-	if(speedmul) {
+	if (speedmul) {
 		*speedmul = m_SubtitleSpeedMul;
 	}
-	if(speeddiv) {
+	if (speeddiv) {
 		*speeddiv = m_SubtitleSpeedDiv;
 	}
 
@@ -463,13 +463,13 @@ STDMETHODIMP CDirectVobSub::put_SubtitleTiming(int delay, int speedmul, int spee
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_SubtitleDelay == delay && m_SubtitleSpeedMul == speedmul && m_SubtitleSpeedDiv == speeddiv) {
+	if (m_SubtitleDelay == delay && m_SubtitleSpeedMul == speedmul && m_SubtitleSpeedDiv == speeddiv) {
 		return S_FALSE;
 	}
 
 	m_SubtitleDelay = delay;
 	m_SubtitleSpeedMul = speedmul;
-	if(speeddiv > 0) {
+	if (speeddiv > 0) {
 		m_SubtitleSpeedDiv = speeddiv;
 	}
 
@@ -480,10 +480,10 @@ STDMETHODIMP CDirectVobSub::get_MediaFPS(bool* fEnabled, double* fps)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(fEnabled) {
+	if (fEnabled) {
 		*fEnabled = m_fMediaFPSEnabled;
 	}
-	if(fps) {
+	if (fps) {
 		*fps = m_MediaFPS;
 	}
 
@@ -494,12 +494,12 @@ STDMETHODIMP CDirectVobSub::put_MediaFPS(bool fEnabled, double fps)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fMediaFPSEnabled == fEnabled && m_MediaFPS == fps) {
+	if (m_fMediaFPSEnabled == fEnabled && m_MediaFPS == fps) {
 		return S_FALSE;
 	}
 
 	m_fMediaFPSEnabled = fEnabled;
-	if(fps > 0) {
+	if (fps > 0) {
 		m_MediaFPS = fps;
 	}
 
@@ -510,7 +510,7 @@ STDMETHODIMP CDirectVobSub::get_ZoomRect(NORMALIZEDRECT* rect)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(!rect) {
+	if (!rect) {
 		return E_POINTER;
 	}
 
@@ -523,11 +523,11 @@ STDMETHODIMP CDirectVobSub::put_ZoomRect(NORMALIZEDRECT* rect)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(!rect) {
+	if (!rect) {
 		return E_POINTER;
 	}
 
-	if(!memcmp(&m_ZoomRect, rect, sizeof(m_ZoomRect))) {
+	if (!memcmp(&m_ZoomRect, rect, sizeof(m_ZoomRect))) {
 		return S_FALSE;
 	}
 
@@ -581,7 +581,7 @@ STDMETHODIMP CDirectVobSub::IsSubtitleReloaderLocked(bool* fLocked)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(!fLocked) {
+	if (!fLocked) {
 		return E_POINTER;
 	}
 
@@ -597,14 +597,14 @@ STDMETHODIMP CDirectVobSub::LockSubtitleReloader(bool fLock)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(fLock) {
+	if (fLock) {
 		m_nReloaderDisableCount++;
 	} else {
 		m_nReloaderDisableCount--;
 	}
 
 	ASSERT(m_nReloaderDisableCount >= 0);
-	if(m_nReloaderDisableCount < 0) {
+	if (m_nReloaderDisableCount < 0) {
 		m_nReloaderDisableCount = 0;
 	}
 
@@ -617,7 +617,7 @@ STDMETHODIMP CDirectVobSub::get_SubtitleReloader(bool* fDisabled)
 
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(fDisabled) {
+	if (fDisabled) {
 		*fDisabled = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DISABLERELOADER), 0);
 	}
 
@@ -632,7 +632,7 @@ STDMETHODIMP CDirectVobSub::put_SubtitleReloader(bool fDisable)
 
 	bool b;
 	get_SubtitleReloader(&b);
-	if(b == fDisable) {
+	if (b == fDisable) {
 		return S_FALSE;
 	}
 
@@ -647,19 +647,19 @@ STDMETHODIMP CDirectVobSub::get_ExtendPicture(int* horizontal, int* vertical, in
 
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(horizontal) {
+	if (horizontal) {
 		*horizontal = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_MOD32FIX), 0) & 1;
 	}
-	if(vertical) {
+	if (vertical) {
 		*vertical = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_EXTPIC), 0);
 	}
-	if(resx2) {
+	if (resx2) {
 		*resx2 = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_RESX2), 2) & 3;
 	}
-	if(resx2minw) {
+	if (resx2minw) {
 		*resx2minw = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_RESX2MINW), 384);
 	}
-	if(resx2minh) {
+	if (resx2minh) {
 		*resx2minh = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_RESX2MINH), 288);
 	}
 
@@ -674,7 +674,7 @@ STDMETHODIMP CDirectVobSub::put_ExtendPicture(int horizontal, int vertical, int 
 
 	int i[5];
 	get_ExtendPicture(i, i+1, i+2, i+3, i+4);
-	if(i[0] == horizontal && i[1] == vertical && i[2] == resx2 && i[3] == resx2minw && i[4] == resx2minh) {
+	if (i[0] == horizontal && i[1] == vertical && i[2] == resx2 && i[3] == resx2minw && i[4] == resx2minh) {
 		return S_FALSE;
 	}
 
@@ -693,16 +693,16 @@ STDMETHODIMP CDirectVobSub::get_LoadSettings(int* level, bool* fExternalLoad, bo
 
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(level) {
+	if (level) {
 		*level = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_LOADLEVEL), 0) & 3;
 	}
-	if(fExternalLoad) {
+	if (fExternalLoad) {
 		*fExternalLoad = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_EXTERNALLOAD), 1);
 	}
-	if(fWebLoad) {
+	if (fWebLoad) {
 		*fWebLoad = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_WEBLOAD), 0);
 	}
-	if(fEmbeddedLoad) {
+	if (fEmbeddedLoad) {
 		*fEmbeddedLoad = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_EMBEDDEDLOAD), 1);
 	}
 
@@ -718,7 +718,7 @@ STDMETHODIMP CDirectVobSub::put_LoadSettings(int level, bool fExternalLoad, bool
 	int i;
 	bool b[3];
 	get_LoadSettings(&i, b, b+1, b+2);
-	if(i == level && b[0] == fExternalLoad && b[1] == fWebLoad && b[2] == fEmbeddedLoad) {
+	if (i == level && b[0] == fExternalLoad && b[1] == fWebLoad && b[2] == fEmbeddedLoad) {
 		return S_FALSE;
 	}
 
@@ -766,7 +766,7 @@ STDMETHODIMP CDirectVobSub::put_TextSettings(STSStyle* pDefStyle)
 
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(!memcmp(&m_defStyle, pDefStyle, sizeof(m_defStyle))) {
+	if (!memcmp(&m_defStyle, pDefStyle, sizeof(m_defStyle))) {
 		return S_FALSE;
 	}
 

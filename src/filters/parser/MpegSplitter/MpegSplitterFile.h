@@ -78,21 +78,22 @@ public:
 		}
 	};
 
-	enum {video, audio, subpic, 
+	enum {video, audio, subpic,
 #if defined(MVC_SUPPORT)
-		stereo, 
+		  stereo,
 #endif
-		unknown};
+		  unknown
+		 };
 
 	class CStreamList : public CAtlList<stream>
 	{
 	public:
 		void Insert(stream& s, CMpegSplitterFile *_pFile) {
 			s.m_pFile = _pFile;
-			if(_pFile->m_TrackPriority) {
-				for(POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
+			if (_pFile->m_TrackPriority) {
+				for (POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
 					stream& s2 = GetAt(pos);
-					if(s < s2) {
+					if (s < s2) {
 						InsertBefore(pos, s);
 						return;
 					}
@@ -100,9 +101,9 @@ public:
 				AddTail(s);
 			} else {
 				AddTail(s);
-				if(GetCount() > 1) {
+				if (GetCount() > 1) {
 					for (size_t j=0; j<GetCount(); j++) {
-						for(size_t i=0; i<GetCount()-1; i++) {
+						for (size_t i=0; i<GetCount()-1; i++) {
 							if (GetAt(FindIndex(i)) > GetAt(FindIndex(i+1))) {
 								SwapElements(FindIndex(i), FindIndex(i+1));
 							}
@@ -115,9 +116,9 @@ public:
 		void Replace(stream& source, stream& dest, CMpegSplitterFile *_pFile) {
 			source.m_pFile = _pFile;
 			dest.m_pFile = _pFile;
-			for(POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
+			for (POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
 				stream& s = GetAt(pos);
-				if(source == s) {
+				if (source == s) {
 					SetAt(pos, dest);
 					return;
 				}
@@ -130,15 +131,15 @@ public:
 				type == audio ? L"Audio" :
 				type == subpic ? L"Subtitle" :
 #if defined(MVC_SUPPORT)
-				type == stereo ? L"Stereo" : 
+				type == stereo ? L"Stereo" :
 #endif
 				L"Unknown";
 		}
 
 		const stream* FindStream(int pid) {
-			for(POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
+			for (POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
 				const stream& s = GetAt(pos);
-				if(s.pid == pid) {
+				if (s.pid == pid) {
 					return &s;
 				}
 			}

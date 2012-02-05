@@ -100,7 +100,7 @@ static DWORD build_edc(const void* in, unsigned from, unsigned upto)
 	const BYTE* p = (BYTE*)in + from;
 	DWORD result = 0;
 
-	for(; from < upto; from++) {
+	for (; from < upto; from++) {
 		result = EDC_crctable[(result ^ *p++) & 0xffL] ^ (result >> 8);
 	}
 
@@ -162,7 +162,7 @@ CFilterApp theApp;
 CCDXAReader::CCDXAReader(IUnknown* pUnk, HRESULT* phr)
 	: CAsyncReader(NAME("CCDXAReader"), pUnk, &m_stream, phr, __uuidof(this))
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 }
@@ -183,7 +183,7 @@ STDMETHODIMP CCDXAReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE *pmt)
 	CMediaType mt;
 	m_mt = mt;
 
-	if(!m_stream.Load(pszFileName)) {
+	if (!m_stream.Load(pszFileName)) {
 		return E_FAIL;
 	}
 
@@ -198,12 +198,12 @@ STDMETHODIMP CCDXAReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE *pmt)
 
 STDMETHODIMP CCDXAReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
-	if(!ppszFileName) {
+	if (!ppszFileName) {
 		return E_POINTER;
 	}
 
 	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
-	if(!(*ppszFileName)) {
+	if (!(*ppszFileName)) {
 		return E_OUTOFMEMORY;
 	}
 
@@ -227,7 +227,7 @@ CCDXAStream::CCDXAStream()
 
 CCDXAStream::~CCDXAStream()
 {
-	if(m_hFile != INVALID_HANDLE_VALUE) {
+	if (m_hFile != INVALID_HANDLE_VALUE) {
 		CloseHandle(m_hFile);
 		m_hFile = INVALID_HANDLE_VALUE;
 	}
@@ -235,20 +235,20 @@ CCDXAStream::~CCDXAStream()
 
 bool CCDXAStream::Load(const WCHAR* fnw)
 {
-	if(m_hFile != INVALID_HANDLE_VALUE) {
+	if (m_hFile != INVALID_HANDLE_VALUE) {
 		CloseHandle(m_hFile);
 		m_hFile = INVALID_HANDLE_VALUE;
 	}
 
 	m_hFile = CreateFile(CString(fnw), GENERIC_READ, FILE_SHARE_READ, NULL,
 						 OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)NULL);
-	if(m_hFile == INVALID_HANDLE_VALUE) {
+	if (m_hFile == INVALID_HANDLE_VALUE) {
 		return false;
 	}
 
 	BYTE hdr[RIFFCDXA_HEADER_SIZE];
 	DWORD NumberOfBytesRead;
-	if(!ReadFile(m_hFile, (LPVOID)hdr, RIFFCDXA_HEADER_SIZE, &NumberOfBytesRead, NULL)
+	if (!ReadFile(m_hFile, (LPVOID)hdr, RIFFCDXA_HEADER_SIZE, &NumberOfBytesRead, NULL)
 			|| *((DWORD*)&hdr[0]) != 'FFIR' || *((DWORD*)&hdr[8]) != 'AXDC'
 			|| *((DWORD*)&hdr[4]) != (*((DWORD*)&hdr[0x28])+0x24)) {
 		CloseHandle(m_hFile);
@@ -261,7 +261,7 @@ bool CCDXAStream::Load(const WCHAR* fnw)
 
 	m_llLength = int((size.QuadPart - RIFFCDXA_HEADER_SIZE) / RAW_SECTOR_SIZE) * RAW_DATA_SIZE;
 
-	if(!LookForMediaSubType()) {
+	if (!LookForMediaSubType()) {
 		m_llPosition = m_llLength = 0;
 		CloseHandle(m_hFile);
 		m_hFile = INVALID_HANDLE_VALUE;
@@ -287,11 +287,11 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 	PBYTE pbBufferOrg = pbBuffer;
 	LONGLONG pos = m_llPosition;
 
-	while(pos >= 0 && pos < m_llLength && dwBytesToRead > 0) {
+	while (pos >= 0 && pos < m_llLength && dwBytesToRead > 0) {
 		UINT sector = m_nFirstSector + int(pos/RAW_DATA_SIZE);
 		__int64 offset = pos%RAW_DATA_SIZE;
 
-		if(m_nBufferedSector != (int)sector) {
+		if (m_nBufferedSector != (int)sector) {
 			LARGE_INTEGER FilePointer;
 			FilePointer.QuadPart = RIFFCDXA_HEADER_SIZE + sector*RAW_SECTOR_SIZE;
 			SetFilePointerEx(m_hFile, FilePointer, &FilePointer, FILE_BEGIN);
@@ -301,18 +301,18 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 			DWORD NumberOfBytesRead = 0;
 
 			int nRetries = 3;
-			while(nRetries--) {
+			while (nRetries--) {
 				NumberOfBytesRead = 0;
-				if(!ReadFile(m_hFile, m_sector, RAW_SECTOR_SIZE, &NumberOfBytesRead, NULL)
+				if (!ReadFile(m_hFile, m_sector, RAW_SECTOR_SIZE, &NumberOfBytesRead, NULL)
 						|| NumberOfBytesRead != RAW_SECTOR_SIZE) {
 					break;
 				}
 
-				if(*(DWORD*)&m_sector[RAW_SECTOR_SIZE-4] == 0) { // no CRC? it happens...
+				if (*(DWORD*)&m_sector[RAW_SECTOR_SIZE-4] == 0) { // no CRC? it happens...
 					break;
 				}
 
-				if(build_edc(m_sector, RAW_SYNC_SIZE + RAW_HEADER_SIZE, RAW_SECTOR_SIZE) == 0) {
+				if (build_edc(m_sector, RAW_SYNC_SIZE + RAW_HEADER_SIZE, RAW_SECTOR_SIZE) == 0) {
 					break;
 				}
 
@@ -330,12 +330,12 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 		dwBytesToRead -= l;
 	}
 
-	if(pdwBytesRead) {
+	if (pdwBytesRead) {
 		*pdwBytesRead = pbBuffer - pbBufferOrg;
 	}
 	m_llPosition += pbBuffer - pbBufferOrg;
 
-	if(dwBytesToRead != 0) {
+	if (dwBytesToRead != 0) {
 		return S_FALSE;
 	}
 
@@ -344,7 +344,7 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 
 LONGLONG CCDXAStream::Size(LONGLONG* pSizeAvailable)
 {
-	if(pSizeAvailable) {
+	if (pSizeAvailable) {
 		*pSizeAvailable = m_llLength;
 	}
 	return m_llLength;
@@ -375,22 +375,22 @@ bool CCDXAStream::LookForMediaSubType()
 
 	m_llPosition = 0;
 
-	for(int iSectorsRead = 0;
+	for (int iSectorsRead = 0;
 			Read(buff, RAW_DATA_SIZE, 1, NULL) == S_OK && iSectorsRead < 1000;
 			iSectorsRead++) {
-		if(*((DWORD*)&buff[0]) == 0xba010000) {
+		if (*((DWORD*)&buff[0]) == 0xba010000) {
 			m_llPosition = 0;
 			m_llLength -= iSectorsRead*RAW_DATA_SIZE;
 			m_nFirstSector = iSectorsRead;
 
-			if((buff[4]&0xc4) == 0x44) {
+			if ((buff[4]&0xc4) == 0x44) {
 				m_subtype = MEDIASUBTYPE_MPEG2_PROGRAM;
-			} else if((buff[4]&0xf1) == 0x21) {
+			} else if ((buff[4]&0xf1) == 0x21) {
 				m_subtype = MEDIASUBTYPE_MPEG1System;
 			}
 
 			return !!(m_subtype != MEDIASUBTYPE_NULL);
-		} else if(*((DWORD*)&buff[0]) == 'SggO') {
+		} else if (*((DWORD*)&buff[0]) == 'SggO') {
 			m_llPosition = 0;
 			m_llLength -= iSectorsRead*RAW_DATA_SIZE;
 			m_nFirstSector = iSectorsRead;
@@ -398,7 +398,7 @@ bool CCDXAStream::LookForMediaSubType()
 			m_subtype = MEDIASUBTYPE_Ogg;
 
 			return true;
-		} else if(*((DWORD*)&buff[0]) == 0xA3DF451A) {
+		} else if (*((DWORD*)&buff[0]) == 0xA3DF451A) {
 			m_llPosition = 0;
 			m_llLength -= iSectorsRead*RAW_DATA_SIZE;
 			m_nFirstSector = iSectorsRead;
@@ -406,7 +406,7 @@ bool CCDXAStream::LookForMediaSubType()
 			m_subtype = MEDIASUBTYPE_Matroska;
 
 			return true;
-		} else if(*((DWORD*)&buff[0]) == 'FMR.') {
+		} else if (*((DWORD*)&buff[0]) == 'FMR.') {
 			m_llPosition = 0;
 			m_llLength -= iSectorsRead*RAW_DATA_SIZE;
 			m_nFirstSector = iSectorsRead;
@@ -414,7 +414,7 @@ bool CCDXAStream::LookForMediaSubType()
 			m_subtype = MEDIASUBTYPE_RealMedia;
 
 			return true;
-		} else if(*((DWORD*)&buff[0]) == 'FFIR' && *((DWORD*)&buff[8]) == ' IVA') {
+		} else if (*((DWORD*)&buff[0]) == 'FFIR' && *((DWORD*)&buff[8]) == ' IVA') {
 			m_llPosition = 0;
 			m_llLength = min(m_llLength, *((DWORD*)&buff[4])+8);
 			m_nFirstSector = iSectorsRead;
@@ -422,8 +422,8 @@ bool CCDXAStream::LookForMediaSubType()
 			m_subtype = MEDIASUBTYPE_Avi;
 
 			return true;
-		} else if(*((DWORD*)&buff[4]) == 'voom' || *((DWORD*)&buff[4]) == 'tadm'
-				  || *((DWORD*)&buff[4]) == 'pytf' && *((DWORD*)&buff[8]) == 'mosi' && *((DWORD*)&buff[16]) == '14pm') {
+		} else if (*((DWORD*)&buff[4]) == 'voom' || *((DWORD*)&buff[4]) == 'tadm'
+				   || *((DWORD*)&buff[4]) == 'pytf' && *((DWORD*)&buff[8]) == 'mosi' && *((DWORD*)&buff[16]) == '14pm') {
 			m_llPosition = 0;
 			m_llLength -= iSectorsRead*RAW_DATA_SIZE;
 			m_nFirstSector = iSectorsRead;
@@ -438,22 +438,22 @@ bool CCDXAStream::LookForMediaSubType()
 
 	CRegKey majorkey;
 	CString majortype = _T("\\Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}");
-	if(ERROR_SUCCESS == majorkey.Open(HKEY_CLASSES_ROOT, majortype, KEY_READ)) {
+	if (ERROR_SUCCESS == majorkey.Open(HKEY_CLASSES_ROOT, majortype, KEY_READ)) {
 		TCHAR subtype[256+1];
 		DWORD len = 256;
-		for(int i = 0; ERROR_SUCCESS == majorkey.EnumKey(i, subtype, &len); i++, len = 256) {
+		for (int i = 0; ERROR_SUCCESS == majorkey.EnumKey(i, subtype, &len); i++, len = 256) {
 			CRegKey subkey;
-			if(ERROR_SUCCESS != subkey.Open(HKEY_CLASSES_ROOT, majortype + _T("\\") + subtype, KEY_READ)) {
+			if (ERROR_SUCCESS != subkey.Open(HKEY_CLASSES_ROOT, majortype + _T("\\") + subtype, KEY_READ)) {
 				continue;
 			}
 
-			for(int j = 0; true; j++) {
+			for (int j = 0; true; j++) {
 				TCHAR number[10];
 				_stprintf(number, sizeof(number)/sizeof(TCHAR), _T("%d"), j);
 
 				TCHAR pattern[256+1];
 				ULONG len = 256;
-				if(ERROR_SUCCESS != subkey.QueryStringValue(number, pattern, &len)) {
+				if (ERROR_SUCCESS != subkey.QueryStringValue(number, pattern, &len)) {
 					break;
 				}
 
@@ -466,13 +466,13 @@ bool CCDXAStream::LookForMediaSubType()
 
 				int nMatches = 0, nTries = 0;
 
-				for(int k = 0, l; nTries >= 0 && (l = p.Find(',', k)) >= 0; k = l+1, nTries++) {
+				for (int k = 0, l; nTries >= 0 && (l = p.Find(',', k)) >= 0; k = l+1, nTries++) {
 					CString s = p.Mid(k, l-k);
 					TRACE(s + '\n');
 
 					TCHAR* end = NULL;
 
-					switch(nTries&3) {
+					switch (nTries&3) {
 						case 0:
 							offset = _tcstol(s, &end, 10);
 							break;
@@ -490,27 +490,27 @@ bool CCDXAStream::LookForMediaSubType()
 							break;
 					}
 
-					if(nTries >= 0 && (nTries&3) == 3) {
-						if(cb > 0 && val.GetCount() > 0 && cb == val.GetCount()) {
-							if(offset >= 0 && S_OK == SetPointer(offset)
+					if (nTries >= 0 && (nTries&3) == 3) {
+						if (cb > 0 && val.GetCount() > 0 && cb == val.GetCount()) {
+							if (offset >= 0 && S_OK == SetPointer(offset)
 									|| S_OK == SetPointer(m_llLength + offset)) {
 								CAutoVectorPtr<BYTE> pData;
-								if(pData.Allocate(cb)) {
+								if (pData.Allocate(cb)) {
 									DWORD BytesRead = 0;
-									if(S_OK == Read(pData, cb, 1, &BytesRead) && cb == BytesRead) {
-										if(mask.GetCount() < cb) {
+									if (S_OK == Read(pData, cb, 1, &BytesRead) && cb == BytesRead) {
+										if (mask.GetCount() < cb) {
 											size_t i = mask.GetCount();
 											mask.SetCount(cb);
-											for(; i < cb; i++) {
+											for (; i < cb; i++) {
 												mask[i] = 0xff;
 											}
 										}
 
-										for(unsigned int i = 0; i < cb; i++) {
+										for (unsigned int i = 0; i < cb; i++) {
 											pData[i] &= (BYTE)mask[i];
 										}
 
-										if(memcmp(pData, val.GetData(), cb) == 0) {
+										if (memcmp(pData, val.GetData(), cb) == 0) {
 											nMatches++;
 										}
 									}
@@ -525,7 +525,7 @@ bool CCDXAStream::LookForMediaSubType()
 					}
 				}
 
-				if(nMatches > 0 && nMatches*4 == nTries) {
+				if (nMatches > 0 && nMatches*4 == nTries) {
 					m_subtype = GUIDFromCString(subtype);
 					return S_OK;
 				}

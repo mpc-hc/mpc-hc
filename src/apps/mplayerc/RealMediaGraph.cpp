@@ -792,7 +792,7 @@ STDMETHODIMP CRealMediaGraph::get_Volume(long* plVolume)
 		*plVolume = min((long)(4000*log10(*plVolume/100.0f)), 0);
 	} else {
 		*plVolume = -10000;
-	} 
+	}
 	return S_OK;
 }
 

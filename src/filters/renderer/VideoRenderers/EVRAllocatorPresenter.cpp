@@ -297,18 +297,18 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 		CComPtr<IMFVideoRenderer>		pMFVR;
 		CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF;
 		CComQIPtr<IEVRFilterConfig> pConfig = pBF;
-		if(SUCCEEDED(hr)) { 
-			if(FAILED(pConfig->SetNumberOfStreams(3))) {  // TODO - maybe need other number of input stream ...
+		if (SUCCEEDED(hr)) {
+			if (FAILED(pConfig->SetNumberOfStreams(3))) { // TODO - maybe need other number of input stream ...
 				break;
 			}
 		}
 
 		hr = pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoRenderer, (void**)&pMFVR);
 
-		if(SUCCEEDED(hr)) {
+		if (SUCCEEDED(hr)) {
 			hr = QueryInterface (__uuidof(IMFVideoPresenter), (void**)&pVP);
 		}
-		if(SUCCEEDED(hr)) {
+		if (SUCCEEDED(hr)) {
 			hr = pMFVR->InitializeRenderer (NULL, pVP);
 		}
 
@@ -322,7 +322,7 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 		m_fUseInternalTimer = false;
 #endif
 
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			*ppRenderer = NULL;
 		} else {
 			*ppRenderer = pBF.Detach();
@@ -341,27 +341,27 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::Paint(bool fAll)
 STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	HRESULT		hr;
-	if(riid == __uuidof(IMFClockStateSink)) {
+	if (riid == __uuidof(IMFClockStateSink)) {
 		hr = GetInterface((IMFClockStateSink*)this, ppv);
-	} else if(riid == __uuidof(IMFVideoPresenter)) {
+	} else if (riid == __uuidof(IMFVideoPresenter)) {
 		hr = GetInterface((IMFVideoPresenter*)this, ppv);
-	} else if(riid == __uuidof(IMFTopologyServiceLookupClient)) {
+	} else if (riid == __uuidof(IMFTopologyServiceLookupClient)) {
 		hr = GetInterface((IMFTopologyServiceLookupClient*)this, ppv);
-	} else if(riid == __uuidof(IMFVideoDeviceID)) {
+	} else if (riid == __uuidof(IMFVideoDeviceID)) {
 		hr = GetInterface((IMFVideoDeviceID*)this, ppv);
-	} else if(riid == __uuidof(IMFGetService)) {
+	} else if (riid == __uuidof(IMFGetService)) {
 		hr = GetInterface((IMFGetService*)this, ppv);
-	} else if(riid == __uuidof(IMFAsyncCallback)) {
+	} else if (riid == __uuidof(IMFAsyncCallback)) {
 		hr = GetInterface((IMFAsyncCallback*)this, ppv);
-	} else if(riid == __uuidof(IMFVideoDisplayControl)) {
+	} else if (riid == __uuidof(IMFVideoDisplayControl)) {
 		hr = GetInterface((IMFVideoDisplayControl*)this, ppv);
-	} else if(riid == __uuidof(IEVRTrustedVideoPlugin)) {
+	} else if (riid == __uuidof(IEVRTrustedVideoPlugin)) {
 		hr = GetInterface((IEVRTrustedVideoPlugin*)this, ppv);
-	} else if(riid == IID_IQualProp) {
+	} else if (riid == IID_IQualProp) {
 		hr = GetInterface((IQualProp*)this, ppv);
-	} else if(riid == __uuidof(IMFRateSupport)) {
+	} else if (riid == __uuidof(IMFRateSupport)) {
 		hr = GetInterface((IMFRateSupport*)this, ppv);
-	} else if(riid == __uuidof(IDirect3DDeviceManager9))
+	} else if (riid == __uuidof(IDirect3DDeviceManager9))
 		//		hr = GetInterface((IDirect3DDeviceManager9*)this, ppv);
 	{
 		hr = m_pD3DManager->QueryInterface (__uuidof(IDirect3DDeviceManager9), (void**) ppv);
@@ -764,7 +764,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
 	bool bDoneSomething = true;
 
-	if(m_AspectRatio.cx >= 1 && m_AspectRatio.cy >= 1) { //if any of these is 0, it will stuck into a infinite loop
+	if (m_AspectRatio.cx >= 1 && m_AspectRatio.cy >= 1) { //if any of these is 0, it will stuck into a infinite loop
 		while (bDoneSomething) {
 			bDoneSomething = false;
 			INT MinNum = min(m_AspectRatio.cx, m_AspectRatio.cy);
@@ -924,13 +924,13 @@ HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMer
 				break;
 			case FCC('AYUV'):
 				*pMerit = 3;
-				break;			
- 			case D3DFMT_X8R8G8B8:
- 				if (m_bForceInputHighColorResolution) {
+				break;
+			case D3DFMT_X8R8G8B8:
+				if (m_bForceInputHighColorResolution) {
 					*pMerit = 63;
- 				} else {
+				} else {
 					*pMerit = 1;
- 				}
+				}
 				break;
 			case D3DFMT_A8R8G8B8:// an accepted format, but fails on most surface types
 			case D3DFMT_A8B8G8R8:
@@ -1245,7 +1245,7 @@ STDMETHODIMP CEVRAllocatorPresenter::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMa
 		D3DDISPLAYMODE	d3ddm;
 
 		ZeroMemory(&d3ddm, sizeof(d3ddm));
-		if(SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm))) {
+		if (SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm))) {
 			pszMax->cx	= d3ddm.Width;
 			pszMax->cy	= d3ddm.Height;
 		}
@@ -1439,16 +1439,16 @@ STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lpH
 	// This function should be called...
 	ASSERT (FALSE);
 
-	if(lpWidth) {
+	if (lpWidth) {
 		*lpWidth	= m_NativeVideoSize.cx;
 	}
-	if(lpHeight)	{
+	if (lpHeight)	{
 		*lpHeight	= m_NativeVideoSize.cy;
 	}
-	if(lpARWidth)	{
+	if (lpARWidth)	{
 		*lpARWidth	= m_AspectRatio.cx;
 	}
-	if(lpARHeight)	{
+	if (lpARHeight)	{
 		*lpARHeight	= m_AspectRatio.cy;
 	}
 	return S_OK;
@@ -1480,7 +1480,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 	}
 
 	if (SUCCEEDED(hr)) {
-		for(int i = 0; i < m_nNbDXSurface; i++) {
+		for (int i = 0; i < m_nNbDXSurface; i++) {
 			CComPtr<IMFSample>		pMFSample;
 			hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
 
@@ -1581,9 +1581,9 @@ void CEVRAllocatorPresenter::GetMixerThread()
 						ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
 
 						m_bInterlaced = ExtractInterlaced(&mt);
-						
+
 						CComPtr<IPin> pPinTo;
-						if(SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
+						if (SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
 							m_Decoder = GetFilterName(GetFilterFromPin(pPinTo));
 						}
 					}
@@ -1593,7 +1593,7 @@ void CEVRAllocatorPresenter::GetMixerThread()
 					}
 
 					// Update internal subtitle clock
-					if(m_fUseInternalTimer && m_pSubPicQueue) {
+					if (m_fUseInternalTimer && m_pSubPicQueue) {
 						m_fps = (float)(10000000.0 / m_rtTimePerFrame);
 						m_pSubPicQueue->SetFPS(m_fps);
 					}
@@ -1856,7 +1856,7 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
 
 	bool bResult = __super::ResetDevice();
 
-	for(int i = 0; i < m_nNbDXSurface; i++) {
+	for (int i = 0; i < m_nNbDXSurface; i++) {
 		CComPtr<IMFSample>		pMFSample;
 		HRESULT hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
 
@@ -1904,7 +1904,7 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::DisplayChange()
 	m_bSyncStatsAvailable = false;
 
 	bool bResult = __super::DisplayChange();
-	
+
 	return bResult;
 }
 
@@ -2012,18 +2012,18 @@ void CEVRAllocatorPresenter::RenderThread()
 							m_pcFrames++;
 							bStepForward = true;
 							m_nStepCount = 0;
-/*
-						} else if (m_nStepCount > 0) {
-							pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
-							++m_OrderedPaint;
-							if (!g_bExternalSubtitleTime) {
-								__super::SetTime (g_tSegmentStart + nsSampleTime);
-							}
-							Paint(true);
-							m_nDroppedUpdate = 0;
-							CompleteFrameStep (false);
-							bStepForward = true;
-*/
+							/*
+													} else if (m_nStepCount > 0) {
+														pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
+														++m_OrderedPaint;
+														if (!g_bExternalSubtitleTime) {
+															__super::SetTime (g_tSegmentStart + nsSampleTime);
+														}
+														Paint(true);
+														m_nDroppedUpdate = 0;
+														CompleteFrameStep (false);
+														bStepForward = true;
+							*/
 						} else if ((m_nRenderState == Started)) {
 							LONGLONG CurrentCounter = GetRenderersData()->GetPerfCounter();
 							// Calculate wake up timer
