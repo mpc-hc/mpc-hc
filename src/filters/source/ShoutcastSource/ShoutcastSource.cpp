@@ -395,7 +395,7 @@ HRESULT CShoutcastStream::FillBuffer(IMediaSample* pSample)
 		ASSERT(!m_queue.IsEmpty());
 		if (!m_queue.IsEmpty()) {
 			mp3frame f = m_queue.RemoveHead();
-			DWORD len = min(pSample->GetSize(), f.len);
+			DWORD len = min((DWORD)pSample->GetSize(), f.len);
 			memcpy(pData, f.pData, len);
 			pSample->SetActualDataLength(len);
 			pSample->SetTime(&f.rtStart, &f.rtStop);

@@ -1117,7 +1117,7 @@ void Rasterizer::Draw_noAlpha_sp_Body_0(RasterizerNfo& rnfo)
 	// xo is the offset (usually negative) we have moved into the image
 	// So if we have passed the switchpoint (?) switch to another colour
 	// (So switchpts stores both colours *and* coordinates?)
-	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
 	while (h--) {
 		for (int wt=0; wt<gran; ++wt) {
@@ -1139,7 +1139,7 @@ void Rasterizer::Draw_noAlpha_sp_noBody_0(RasterizerNfo& rnfo)
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
 
-	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
 	while (h--) {
 		for (int wt=0; wt<gran; ++wt) {
@@ -1196,7 +1196,7 @@ void Rasterizer::Draw_Alpha_spFF_noBody_0(RasterizerNfo& rnfo)
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
 
-	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
 	while (h--) {
 #ifdef _VSMOD // patch m006. moveable vector clip
@@ -1261,7 +1261,7 @@ void Rasterizer::Draw_Alpha_sp_noBody_0(RasterizerNfo& rnfo)
 
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
-	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
 	while (h--) {
 #ifdef _VSMOD // patch m006. moveable vector clip
@@ -1347,7 +1347,7 @@ void Rasterizer::Draw_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo)
 	// xo is the offset (usually negative) we have moved into the image
 	// So if we have passed the switchpoint (?) switch to another colour
 	// (So switchpts stores both colours *and* coordinates?)
-	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int end_gran = ((gran-1)/8)*8;
 	int end_w = gran+((rnfo.w-gran-1)/8)*8;
 	int color2 = rnfo.sw[2];
@@ -1380,7 +1380,7 @@ void Rasterizer::Draw_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
-	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
 	while (h--) {
 		for (int wt=0; wt<gran; ++wt) {
@@ -1464,7 +1464,7 @@ void Rasterizer::Draw_Alpha_sp_Body_sse2(RasterizerNfo& rnfo)
 	byte* s = rnfo.s;
 	DWORD* dst = rnfo.dst;
 
-	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
 	while (h--) {
 #ifdef _VSMOD // patch m006. moveable vector clip
@@ -1502,7 +1502,7 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
 
-	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
 	UNUSED_ALWAYS(color2);
 

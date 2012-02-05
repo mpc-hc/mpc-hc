@@ -375,7 +375,7 @@ HRESULT CAviFile::BuildIndex()
 				Seek(idx->aIndex[j].qwOffset);
 
 				CAutoPtr<AVISTDINDEX> p((AVISTDINDEX*)DNew BYTE[idx->aIndex[j].dwSize]);
-				if (!p || S_OK != ByteRead((BYTE*)(AVISTDINDEX*)p, idx->aIndex[j].dwSize) || p->qwBaseOffset >= GetLength()) {
+				if (!p || S_OK != ByteRead((BYTE*)(AVISTDINDEX*)p, idx->aIndex[j].dwSize) || p->qwBaseOffset >= (DWORDLONG)GetLength()) {
 					EmptyIndex();
 					return E_FAIL;
 				}
