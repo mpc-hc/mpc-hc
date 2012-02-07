@@ -915,8 +915,10 @@ void CMPCVideoDecFilter::Cleanup()
 		FFSetThreadNumber (m_pAVCtx, m_pAVCtx->codec_id, 0);
 
 		av_freep(&m_pAVCtx);
+		m_pAVCtx = NULL;
 	}
-	if (m_pFrame)	{
+
+	if (m_pFrame) {
 		av_freep(&m_pFrame);
 	}
 
@@ -1421,6 +1423,9 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 
 	m_rtPrevStop = 0;
 
+	rm.video_after_seek	= true;
+	m_rtStart			= rtStart;
+
 	return __super::NewSegment (rtStart, rtStop, dRate);
 }
 
@@ -1502,8 +1507,7 @@ void CMPCVideoDecFilter::InitSwscale()
 		BITMAPINFOHEADER bihOut;
 		ExtractBIH(&m_pOutput->CurrentMediaType(), &bihOut);
 
-		int sws_Flags = SWS_BILINEAR | SWS_FULL_CHR_H_INP | SWS_FULL_CHR_H_INT;
-
+		int sws_Flags = SWS_FULL_CHR_H_INT | SWS_FULL_CHR_H_INP;
 		SwsParams params;
 		swsInitParams(&params, SWS_BILINEAR, sws_Flags);
 
@@ -1535,6 +1539,61 @@ void CMPCVideoDecFilter::InitSwscale()
 			sws_setColorspaceDetails(m_pSwsContext, sws_getCoefficients((PictWidthRounded() > 768) ? SWS_CS_ITU709 : SWS_CS_ITU601), srcRange, tbl, dstRange, brightness, contrast, saturation);
 		}
 	}
+}
+
+#define RM_SKIP_BITS(n)	(buffer<<=n)
+#define RM_SHOW_BITS(n)	((buffer)>>(32-(n)))
+
+static int rm_fix_timestamp(uint8_t *buf, int64_t timestamp, enum CodecID nCodecId, int64_t *kf_base, int *kf_pts)
+{
+    uint8_t *s = buf + 1 + (*buf+1)*8;
+    uint32_t buffer = (s[0]<<24) + (s[1]<<16) + (s[2]<<8) + s[3];
+    uint32_t kf = timestamp;
+    int pict_type;
+    uint32_t orig_kf;
+
+    if(nCodecId == CODEC_ID_RV30) {
+        RM_SKIP_BITS(3);
+        pict_type = RM_SHOW_BITS(2);
+        RM_SKIP_BITS(2 + 7);
+    } else {
+        RM_SKIP_BITS(1);
+        pict_type = RM_SHOW_BITS(2);
+        RM_SKIP_BITS(2 + 7 + 3);
+    }
+    orig_kf = kf = RM_SHOW_BITS(13); // kf= 2*RM_SHOW_BITS(12);
+    if(pict_type <= 1) {
+        // I frame, sync timestamps:
+        *kf_base = (int64_t)timestamp-kf;
+        kf = timestamp;
+    } else {
+        // P/B frame, merge timestamps:
+        int64_t tmp = (int64_t)timestamp - *kf_base;
+        kf |= tmp&(~0x1fff); // combine with packet timestamp
+        if(kf<tmp-4096) {
+			kf += 8192;
+		} else if(kf>tmp+4096) { // workaround wrap-around problems
+			kf -= 8192;
+		}
+        kf += *kf_base;
+    }
+    if(pict_type != 3) { // P || I  frame -> swap timestamps
+        uint32_t tmp=kf;
+        kf = *kf_pts;
+        *kf_pts = tmp;
+    }
+
+    return kf;
+}
+
+static int64_t process_rv_timestamp(RMDemuxContext *rm, enum CodecID nCodecId, uint8_t *buf, int64_t timestamp)
+{
+    if(rm->video_after_seek) {
+		rm->kf_base = 0;
+		rm->kf_pts = timestamp;
+		rm->video_after_seek = false;
+    }
+	return rm_fix_timestamp(buf, timestamp, nCodecId, &rm->kf_base, &rm->kf_pts);
 }
 
 template<class T> inline T odd2even(T x)
@@ -1633,8 +1692,11 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		if (m_nCodecId == CODEC_ID_THEORA || (m_nCodecId == CODEC_ID_VP8 && m_rtAvrTimePerFrame == 10000)) { // need more tests
 			rtStart = m_pFrame->pkt_pts;
 			rtStop = m_pFrame->pkt_dts;
-		} else if ((m_nCodecId == CODEC_ID_RV10 || m_nCodecId == CODEC_ID_RV20 || m_nCodecId == CODEC_ID_RV30 || m_nCodecId == CODEC_ID_RV40) && m_pFrame->pict_type == AV_PICTURE_TYPE_B) {
+		} else if ((m_nCodecId == CODEC_ID_RV10 || m_nCodecId == CODEC_ID_RV20) && m_pFrame->pict_type == AV_PICTURE_TYPE_B) {
 			rtStart = m_rtPrevStop;
+			rtStop = rtStart + m_rtAvrTimePerFrame;
+		} else if (m_nCodecId == CODEC_ID_RV30 || m_nCodecId == CODEC_ID_RV40) {
+			rtStart = (rtStart == _I64_MIN) ? m_rtPrevStop : (10000i64*process_rv_timestamp(&rm, m_nCodecId, avpkt.data, (rtStart + m_rtStart)/10000) - m_rtStart);
 			rtStop = rtStart + m_rtAvrTimePerFrame;
 		} else {
 			rtStart = m_pFrame->reordered_opaque;
@@ -1869,22 +1931,6 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 		m_BFrames[m_nPosB].rtStop	= rtStop;
 		m_nPosB						= 1-m_nPosB;
 	}
-
-	//m_rtStart	= rtStart;
-
-	//DumpBuffer (pDataIn, nSize);
-	//TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);
-
-	//char		strMsg[300];
-	//FILE* hFile = fopen ("d:\\receive.txt", "at");
-	//sprintf (strMsg, "Receive : %10I64d - %10I64d   Size=%d\n", (rtStart + m_rtAvrTimePerFrame/2) / m_rtAvrTimePerFrame, rtStart, nSize);
-	//fwrite (strMsg, strlen(strMsg), 1, hFile);
-	//fclose (hFile);
-
-	//char		strMsg[300];
-	//FILE* hFile = fopen ("receive.bin", "ab");
-	//fwrite (pDataIn, nSize, 1, hFile);
-	//fclose (hFile);
 
 	switch (m_nDXVAMode) {
 #if HAS_FFMPEG_VIDEO_DECODERS

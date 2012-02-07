@@ -65,6 +65,12 @@ typedef struct {
 	int				nBuffPos;
 } BUFFER_TIME;
 
+typedef struct {
+	bool	video_after_seek;
+    __int64	kf_base;	///< timestamp of the prev. video keyframe
+    __int32	kf_pts;		///< timestamp of next video keyframe
+} RMDemuxContext;
+
 class __declspec(uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4"))
 	CMPCVideoDecFilter
 	: public CBaseVideoFilter
@@ -156,7 +162,10 @@ protected:
 
 	CH264RandomAccess						m_h264RandomAccess;
 
-	BOOL				m_bWaitingForKeyFrame;
+	BOOL									m_bWaitingForKeyFrame;
+
+	RMDemuxContext							rm;
+	REFERENCE_TIME							m_rtStart;
 
 	// === Private functions
 	void				Cleanup();
@@ -250,38 +259,26 @@ public:
 	int							PictHeight();
 	int							PictWidthRounded();
 	int							PictHeightRounded();
-	inline bool					UseDXVA2()	{
-		return (m_nDXVAMode == MODE_DXVA2);
-	};
+
+	inline bool					UseDXVA2()				{ return (m_nDXVAMode == MODE_DXVA2); };
+	inline AVCodecContext*		GetAVCtx()				{ return m_pAVCtx; };
+	inline AVFrame*				GetFrame()				{ return m_pFrame; }
+	inline bool					IsReorderBFrame()		{ return m_bReorderBFrame; };
+	inline DWORD				GetPCIVendor()			{ return m_nPCIVendor; };
+	inline REFERENCE_TIME		GetAvrTimePerFrame()	{ return m_rtAvrTimePerFrame; };
+	inline double				GetRate()				{ return m_dRate; };
+	bool						IsDXVASupported();
+	void						UpdateAspectRatio();
+	void						ReorderBFrames(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 	void						FlushDXVADecoder()	{
 		if (m_pDXVADecoder) {
 			m_pDXVADecoder->Flush();
 		}
 	}
-	inline AVCodecContext*		GetAVCtx()			{
-		return m_pAVCtx;
-	};
-	inline AVFrame*				GetFrame()			{
-		return m_pFrame;
-	}
-	bool						IsDXVASupported();
-	inline bool					IsReorderBFrame() {
-		return m_bReorderBFrame;
-	};
-	inline DWORD				GetPCIVendor()  {
-		return m_nPCIVendor;
-	};
-	inline REFERENCE_TIME		GetAvrTimePerFrame() {
-		return m_rtAvrTimePerFrame;
-	};
-	inline double				GetRate() { return m_dRate; };
-	void						UpdateAspectRatio();
-	void						ReorderBFrames(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
+
 
 	// === DXVA1 functions
-	DDPIXELFORMAT*				GetPixelFormat() {
-		return &m_PixelFormat;
-	}
+	DDPIXELFORMAT*				GetPixelFormat()		{ return &m_PixelFormat; }
 	HRESULT						FindDXVA1DecoderConfiguration(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* guidDecoder, DDPIXELFORMAT* pPixelFormat);
 	HRESULT						CheckDXVA1Decoder(const GUID *pGuid);
 	void						SetDXVA1Params(const GUID* pGuid, DDPIXELFORMAT* pPixelFormat);
@@ -291,14 +288,12 @@ public:
 
 	// === DXVA2 functions
 	void						FillInVideoDescription(DXVA2_VideoDesc *pDesc);
-	DXVA2_ConfigPictureDecode*	GetDXVA2Config() {
-		return &m_DXVA2Config;
-	};
+	DXVA2_ConfigPictureDecode*	GetDXVA2Config()		{ return &m_DXVA2Config; };
 	HRESULT						ConfigureDXVA2(IPin *pPin);
 	HRESULT						SetEVRForDXVA2(IPin *pPin);
 	HRESULT						FindDXVA2DecoderConfiguration(IDirectXVideoDecoderService *pDecoderService,
-			const GUID& guidDecoder,
-			DXVA2_ConfigPictureDecode *pSelectedConfig,
-			BOOL *pbFoundDXVA2Configuration);
+															  const GUID& guidDecoder,
+															  DXVA2_ConfigPictureDecode *pSelectedConfig,
+															  BOOL *pbFoundDXVA2Configuration);
 	HRESULT						CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets);
 };

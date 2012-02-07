@@ -510,11 +510,13 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	REFERENCE_TIME rtStart = _I64_MIN, rtStop = _I64_MIN;
 	hr = pIn->GetTime(&rtStart, &rtStop);
 
+#if 0
 	if (SUCCEEDED(hr)) {
 		TRACE(_T("CMpaDecFilter::Receive(): rtStart = %10I64d, rtStop = %10I64d\n"), rtStart, rtStop);
 	} else {
 		TRACE(_T("CMpaDecFilter::Receive(): frame without timestamp\n"));
 	}
+#endif
 
 	if (pIn->IsDiscontinuity() == S_OK) {
 		m_fDiscontinuity = true;
