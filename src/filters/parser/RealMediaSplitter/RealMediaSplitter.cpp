@@ -270,8 +270,18 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			pvih->bmiHeader.biBitCount = rvi.bpp;
 			pvih->bmiHeader.biCompression = rvi.fcc2;
 			pvih->bmiHeader.biSizeImage = rvi.w*rvi.h*3/2;
-
 			mts.Add(mt);
+
+			BYTE* extra		= pmp->typeSpecData.GetData();
+			int extralen	= pmp->typeSpecData.GetCount();
+
+			if(extralen > 26) {
+				extra		+= 26;
+				extralen	-= 26;
+				VIDEOINFOHEADER* pvih2 = (VIDEOINFOHEADER*)mt.ReallocFormatBuffer(sizeof(VIDEOINFOHEADER) + extralen);
+				memcpy(pvih2 + 1, extra, extralen);
+				mts.InsertAt(0, mt);
+			}
 
 			if (pmp->width > 0 && pmp->height > 0) {
 				BITMAPINFOHEADER bmi = pvih->bmiHeader;

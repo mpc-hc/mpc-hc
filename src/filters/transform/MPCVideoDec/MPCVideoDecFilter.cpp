@@ -1313,12 +1313,6 @@ void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType
 	}
 
 	if (size) {
-		CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
-		if (((ClsidSourceFilter == __uuidof(CRealMediaSourceFilter)) || (ClsidSourceFilter == __uuidof(CRealMediaSplitterFilter))) &&
-				(m_nCodecId == CODEC_ID_RV10 || m_nCodecId == CODEC_ID_RV20 || m_nCodecId == CODEC_ID_RV30) && (size > 26)) {
-			size -= 26;
-			data += 26;
-		}
 		pAVCtx->extradata_size	= size;
 		pAVCtx->extradata		= (const unsigned char*)calloc(1, size+FF_INPUT_BUFFER_PADDING_SIZE);
 		memcpy((void*)pAVCtx->extradata, data, size);
