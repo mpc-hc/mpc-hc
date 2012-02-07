@@ -42,6 +42,7 @@ public:
 	BOOL m_iAlwaysOnTop;
 	BOOL m_fRememberWindowPos;
 	BOOL m_fRememberWindowSize;
+	BOOL m_fSavePnSZoom;
 	BOOL m_fSnapToDesktopEdges;
 	BOOL m_fUseIni;
 	BOOL m_fTrayIcon;

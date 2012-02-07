@@ -113,6 +113,7 @@
 #define IDS_RS_HIDENAVIGATION				_T("HideNavigation")
 #define IDS_RS_DEFAULTVIDEOFRAME			_T("DefaultVideoFrame")
 #define IDS_RS_REMEMBERWINDOWSIZE			_T("RememberWindowSize")
+#define IDS_RS_PANSCANZOOM					_T("PanScanZoom")
 #define IDS_RS_REALMEDIARENDERLESS			_T("RealMediaRenderless")
 #define IDS_RS_QUICKTIMERENDERER			_T("QuickTimeRenderer")
 #define IDS_RS_REALMEDIAFPS					_T("RealMediaFPS")

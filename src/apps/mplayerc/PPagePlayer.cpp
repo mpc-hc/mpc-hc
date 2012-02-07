@@ -39,6 +39,7 @@ CPPagePlayer::CPPagePlayer()
 	, m_bTitleBarTextTitle(0)
 	, m_fRememberWindowPos(FALSE)
 	, m_fRememberWindowSize(FALSE)
+	, m_fSavePnSZoom(FALSE)
 	, m_fSnapToDesktopEdges(FALSE)
 	, m_fUseIni(FALSE)
 	, m_fKeepHistory(FALSE)
@@ -65,6 +66,7 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK3, m_fTrayIcon);
 	DDX_Check(pDX, IDC_CHECK6, m_fRememberWindowPos);
 	DDX_Check(pDX, IDC_CHECK7, m_fRememberWindowSize);
+	DDX_Check(pDX, IDC_CHECK11, m_fSavePnSZoom);
 	DDX_Check(pDX, IDC_CHECK12, m_fSnapToDesktopEdges);
 	DDX_Check(pDX, IDC_CHECK8, m_fUseIni);
 	DDX_Check(pDX, IDC_CHECK1, m_fKeepHistory);
@@ -98,6 +100,7 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_fTrayIcon = s.fTrayIcon;
 	m_fRememberWindowPos = s.fRememberWindowPos;
 	m_fRememberWindowSize = s.fRememberWindowSize;
+	m_fSavePnSZoom = s.fSavePnSZoom;
 	m_fSnapToDesktopEdges = s.fSnapToDesktopEdges;
 	m_fUseIni = ((CMPlayerCApp*)AfxGetApp())->IsIniValid();
 	m_fKeepHistory = s.fKeepHistory;
@@ -130,6 +133,7 @@ BOOL CPPagePlayer::OnApply()
 	s.fTrayIcon = !!m_fTrayIcon;
 	s.fRememberWindowPos = !!m_fRememberWindowPos;
 	s.fRememberWindowSize = !!m_fRememberWindowSize;
+	s.fSavePnSZoom = !!m_fSavePnSZoom;
 	s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
 	s.fKeepHistory = !!m_fKeepHistory;
 	s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;

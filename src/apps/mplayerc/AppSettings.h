@@ -383,6 +383,9 @@ public:
 	bool			fRestoreResAfterExit;
 	bool			fRememberWindowPos;
 	bool			fRememberWindowSize;
+	bool			fSavePnSZoom;
+	float			dZoomX;
+	float			dZoomY;
 	bool			fSnapToDesktopEdges;
 	CRect			rcLastWindowPos;
 	UINT			nLastWindowType;

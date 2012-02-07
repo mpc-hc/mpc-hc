@@ -888,6 +888,9 @@ void CMainFrame::OnClose()
 	s.fToggleShader = m_bToggleShader;
 	s.fToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
 
+	s.dZoomX = m_ZoomX;
+	s.dZoomY = m_ZoomY;
+
 	m_wndPlaylistBar.SavePlaylist();
 
 	SaveControlBars();
@@ -6865,27 +6868,25 @@ void CMainFrame::OnViewPanNScan(UINT nID)
 
 	if (x > 0 && m_ZoomX < 3) {
 		m_ZoomX *= 1.02;
-	}
-	if (x < 0 && m_ZoomX > 0.2) {
+	} else if (x < 0 && m_ZoomX > 0.2) {
 		m_ZoomX /= 1.02;
 	}
+
 	if (y > 0 && m_ZoomY < 3) {
 		m_ZoomY *= 1.02;
-	}
-	if (y < 0 && m_ZoomY > 0.2) {
+	} else if (y < 0 && m_ZoomY > 0.2) {
 		m_ZoomY /= 1.02;
 	}
 
 	if (dx < 0 && m_PosX > 0) {
 		m_PosX = max(m_PosX - 0.005*m_ZoomX, 0);
-	}
-	if (dx > 0 && m_PosX < 1) {
+	} else if (dx > 0 && m_PosX < 1) {
 		m_PosX = min(m_PosX + 0.005*m_ZoomX, 1);
 	}
+
 	if (dy < 0 && m_PosY > 0) {
 		m_PosY = max(m_PosY - 0.005*m_ZoomY, 0);
-	}
-	if (dy > 0 && m_PosY < 1) {
+	} else if (dy > 0 && m_PosY < 1) {
 		m_PosY = min(m_PosY + 0.005*m_ZoomY, 1);
 	}
 
@@ -9420,6 +9421,11 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		if (!m_fFullScreen && s.fLastFullScreen) {
 			ToggleFullscreen(true, true);
 		}
+	}
+
+	if (s.fSavePnSZoom) {
+		m_ZoomX = s.dZoomX;
+		m_ZoomY = s.dZoomY;
 	}
 }
 
