@@ -338,7 +338,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				pwfe->nChannels = rai5.channels;
 				pwfe->wBitsPerSample = rai5.sample_size;
 				pwfe->nSamplesPerSec = rai5.sample_rate;
-				pwfe->nBlockAlign = rai5.frame_size;
+				pwfe->nBlockAlign = rai5.frame_size/3;
 				fcc = rai5.fourcc3;
 				extra = fmt + sizeof(rainfo5) + 4;
 			} else {
@@ -383,7 +383,6 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				if (fcc == 'DNET') {
 					mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_DOLBY_AC3);
-					mts.InsertAt(0, mt);
 				} else if (fcc == 'RAAC' || fcc == 'RACP') {
 					mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_AAC);
 					int extralen = *(DWORD*)extra;
@@ -400,8 +399,16 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						WAVEFORMATEX* pwfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + 5);
 						pwfe->cbSize = MakeAACInitData((BYTE*)(pwfe+1), 0, pwfe->nSamplesPerSec, pwfe->nChannels);
 					}
-					mts.InsertAt(0, mt);
+				} else {
+					int extralen = *(DWORD*)extra;
+					::bswap(extralen);
+					extra += 4;
+					WAVEFORMATEX* pwfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + extralen);
+					pwfe->cbSize = extralen;
+					memcpy(pwfe + 1, extra, extralen);
 				}
+
+				mts.InsertAt(0, mt);
 			}
 		} else if (pmp->mime == "logical-fileinfo") {
 			CAtlMap<CStringA, CStringA, CStringElementTraits<CStringA> > lfi;
@@ -942,7 +949,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				pIn++; //BYTE seqnum = *pIn++;
 			}
 
-			int len2 = min(len - (pIn - pInOrg), packetlen - packetoffset);
+			int len2 = min(len - (pIn - pInOrg), int(packetlen - packetoffset));
 
 			CAutoPtr<segment> s(DNew segment);
 			s->offset = packetoffset;
@@ -1546,7 +1553,7 @@ void CRMFile::GetDimensions()
 					p++;
 				}
 
-				len = min(len - (p - p0), packetlen - packetoffset);
+				len = min(len - (p - p0), int(packetlen - packetoffset));
 
 				if (len > 0) {
 					bool repeat_field;
@@ -1888,8 +1895,8 @@ HRESULT CRealVideoDecoder::CheckInputType(const CMediaType* mtIn)
 
 	if (mtIn->formattype == FORMAT_VideoInfo2) {
 		VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mtIn->Format();
-		if (vih2->dwPictAspectRatioX < vih2->bmiHeader.biWidth
-				|| vih2->dwPictAspectRatioY < vih2->bmiHeader.biHeight) {
+		if (vih2->dwPictAspectRatioX < (DWORD)vih2->bmiHeader.biWidth
+				|| vih2->dwPictAspectRatioY < (DWORD)vih2->bmiHeader.biHeight) {
 			return VFW_E_TYPE_NOT_ACCEPTED;
 		}
 	}
@@ -2169,7 +2176,7 @@ HRESULT CRealAudioDecoder::InitRA(const CMediaType* pmt)
 
 		initdata.bpframe = m_rai.sub_packet_size;
 		initdata.packetsize = m_rai.coded_frame_size;
-		initdata.extralen = min((pmt->Format() + pmt->FormatLength()) - (p + 4), *(DWORD*)p);
+		initdata.extralen = min((pmt->Format() + pmt->FormatLength()) - (p + 4), (LONG)*(DWORD*)p);
 		initdata.extra = p + 4;
 	}
 
