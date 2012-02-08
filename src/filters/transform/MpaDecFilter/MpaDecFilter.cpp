@@ -458,7 +458,6 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	}
 #endif
 
-	m_buff.RemoveAll();
 	m_bResync = true;
 
 	return __super::NewSegment(tStart, tStop, dRate);
@@ -2059,7 +2058,8 @@ HRESULT	CMpaDecFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType *pmt)
 {
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	if (dir == PINDIR_INPUT) {
-		if(!InitFFmpeg(FindCodec(pmt->subtype))) {
+		enum CodecID nCodecId = FindCodec(pmt->subtype);
+		if (nCodecId != CODEC_ID_NONE && !InitFFmpeg(nCodecId)) {
 			return VFW_E_TYPE_NOT_ACCEPTED;
 		}
 	}
