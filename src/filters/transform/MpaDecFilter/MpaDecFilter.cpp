@@ -2055,6 +2055,17 @@ HRESULT CMpaDecFilter::StopStreaming()
 	return __super::StopStreaming();
 }
 
+HRESULT	CMpaDecFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType *pmt)
+{
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
+	if (dir == PINDIR_INPUT) {
+		return InitFFmpeg(FindCodec(pmt->subtype)) ? S_OK : VFW_E_TYPE_NOT_ACCEPTED;
+	}
+#endif
+
+	return __super::SetMediaType(dir, pmt);
+}
+
 // IMpaDecFilter
 
 STDMETHODIMP CMpaDecFilter::SetSampleFormat(MPCSampleFormat sf)
@@ -2483,7 +2494,11 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 
 bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 {
-	bool			bRet	= false;
+	if(nCodecId == CODEC_ID_NONE) {
+		return false;
+	}
+	
+	bool bRet = false;
 
 	avcodec_register_all();
 	av_log_set_callback(LogLibAVCodec);

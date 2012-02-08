@@ -175,6 +175,8 @@ public:
 	HRESULT StartStreaming();
 	HRESULT StopStreaming();
 
+	HRESULT	SetMediaType(PIN_DIRECTION dir, const CMediaType *pmt);
+
 	// ISpecifyPropertyPages2
 
 	STDMETHODIMP GetPages(CAUUID* pPages);
