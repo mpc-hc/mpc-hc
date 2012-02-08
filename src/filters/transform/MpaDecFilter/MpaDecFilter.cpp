@@ -2059,7 +2059,9 @@ HRESULT	CMpaDecFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType *pmt)
 {
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	if (dir == PINDIR_INPUT) {
-		return InitFFmpeg(FindCodec(pmt->subtype)) ? S_OK : VFW_E_TYPE_NOT_ACCEPTED;
+		if(!InitFFmpeg(FindCodec(pmt->subtype))) {
+			return VFW_E_TYPE_NOT_ACCEPTED;
+		}
 	}
 #endif
 
