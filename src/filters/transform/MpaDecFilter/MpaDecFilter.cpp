@@ -2616,6 +2616,8 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 		unsigned extralen = 0;
 		getExtraData((BYTE *)format, &format_type, formatlen, NULL, &extralen);
 
+		memset(&m_raData, 0, sizeof(m_raData));
+
 		if(extralen) {
 			if (nCodecId == CODEC_ID_COOK || nCodecId == CODEC_ID_ATRAC3) {
 				uint8_t *extra = (uint8_t *)calloc(1, extralen + FF_INPUT_BUFFER_PADDING_SIZE);
