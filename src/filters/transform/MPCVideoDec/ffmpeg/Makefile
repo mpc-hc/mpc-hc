@@ -93,12 +93,15 @@ SRCS_C=\
     libavcodec/allcodecs.c \
     libavcodec/amrnbdec.c \
     libavcodec/amrwbdec.c \
+    libavcodec/atrac.c \
+    libavcodec/atrac3.c \
     libavcodec/avfft.c \
     libavcodec/avpacket.c \
     libavcodec/bitstream.c \
     libavcodec/cabac.c \
     libavcodec/celp_filters.c \
     libavcodec/celp_math.c \
+    libavcodec/cook.c \
     libavcodec/CompilerVersion.c \
     libavcodec/dct.c \
     libavcodec/dct32.c \
@@ -179,6 +182,9 @@ SRCS_C=\
     libavcodec/parser.c \
     libavcodec/pthread.c \
     libavcodec/rdft.c \
+    libavcodec/ra144.c \
+    libavcodec/ra144dec.c \
+    libavcodec/ra288.c \
     libavcodec/rv10.c \
     libavcodec/rv30.c \
     libavcodec/rv30dsp.c \
@@ -189,6 +195,8 @@ SRCS_C=\
     libavcodec/sbrdsp.c \
     libavcodec/simple_idct.c \
     libavcodec/sinewin.c \
+    libavcodec/sipr.c \
+    libavcodec/sipr16k.c \
     libavcodec/sp5xdec.c \
     libavcodec/svq1.c \
     libavcodec/svq1dec.c \

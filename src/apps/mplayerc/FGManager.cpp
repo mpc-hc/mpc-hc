@@ -1789,6 +1789,19 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_SIPR);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_RAAC);
 	m_transform.AddTail(pFGF);
+
+	pFGF = DNew CFGFilterInternal<CMpaDecFilter>(
+			   (tra[TRA_RA]) ? MPCAudioDecName : CStringW(MPCAudioDecName)+LowMeritSuffix,
+			   (tra[TRA_RA]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_14_4);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_28_8);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_ATRC);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_COOK);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DNET);
+	//pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_SIPR);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_RAAC);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_RACP);
+	m_transform.AddTail(pFGF);
 #endif
 
 #if INTERNAL_DECODER_VORBIS

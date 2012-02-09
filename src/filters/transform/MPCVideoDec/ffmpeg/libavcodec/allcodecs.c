@@ -126,8 +126,8 @@ void avcodec_register_all(void)
     REGISTER_DECODER (AAC, aac);
     REGISTER_DECODER (AAC_LATM, aac_latm);
     REGISTER_DECODER (AC3, ac3);
-    //REGISTER_DECODER (ATRAC3, atrac3);
-    //REGISTER_DECODER (COOK, cook);
+    REGISTER_DECODER (ATRAC3, atrac3);
+    REGISTER_DECODER (COOK, cook);
     //REGISTER_DECODER (DCA, dca);
     REGISTER_DECODER (EAC3, eac3);
     //REGISTER_DECODER (FLAC, flac);
@@ -145,8 +145,9 @@ void avcodec_register_all(void)
     REGISTER_DECODER (MP3FLOAT, mp3float);
     REGISTER_DECODER (NELLYMOSER, nellymoser);
     //REGISTER_DECODER (QDM2, qdm2);
-    //REGISTER_DECODER (RA_144, ra_144);
-    //REGISTER_DECODER (RA_288, ra_288);
+    REGISTER_DECODER (RA_144, ra_144);
+    REGISTER_DECODER (RA_288, ra_288);
+    REGISTER_DECODER (SIPR, sipr);
     REGISTER_DECODER (TRUEHD, truehd);
     //REGISTER_DECODER (TRUESPEECH, truespeech);
     //REGISTER_DECODER (TTA, tta);

@@ -136,12 +136,23 @@ protected:
 	void	ffmpeg_stream_finish();
 	HRESULT DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int samples, int& size);
 	HRESULT ProcessFFmpeg(enum CodecID nCodecId);
-	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
+	static void	LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 
 	BYTE*	m_pFFBuffer;
 	int		m_nFFBufferSize;
 
 	enum CodecID	FindCodec(const GUID subtype);
+
+	struct {
+		int coded_frame_size;
+		int sub_packet_h;
+		int sub_packet_size;
+		unsigned int deint_id;
+
+		int cook_processing;
+	} m_raData;
+
+	HRESULT	ParseRealAudioHeader(const BYTE *extra, const int extralen);
 #endif
 
 protected:

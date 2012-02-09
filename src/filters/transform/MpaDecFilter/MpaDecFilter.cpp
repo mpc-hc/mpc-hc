@@ -84,7 +84,17 @@ static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 	{ &MEDIASUBTYPE_MPEG2_AUDIO,		CODEC_ID_MP2 },
 	{ &MEDIASUBTYPE_MP3,				CODEC_ID_MP3 },
 #endif
-	{ &MEDIASUBTYPE_None,				CODEC_ID_NONE },
+#if INTERNAL_DECODER_REALAUDIO
+	// RealMedia Audio
+	{ &MEDIASUBTYPE_14_4,		CODEC_ID_RA_144	},
+	{ &MEDIASUBTYPE_28_8,		CODEC_ID_RA_288	},
+	{ &MEDIASUBTYPE_ATRC,		CODEC_ID_ATRAC3	},
+	{ &MEDIASUBTYPE_COOK,		CODEC_ID_COOK	},
+	//{ &MEDIASUBTYPE_SIPR,		CODEC_ID_SIPR	},
+	{ &MEDIASUBTYPE_RAAC,		CODEC_ID_AAC	},
+	{ &MEDIASUBTYPE_RACP,		CODEC_ID_AAC	},
+#endif
+	{ &MEDIASUBTYPE_None,		CODEC_ID_NONE },
 };
 #endif
 
@@ -161,6 +171,14 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL32_le},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL64_le},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_IMA4},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_14_4},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_28_8},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_ATRC},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_COOK},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_DNET},
+	//{&MEDIATYPE_Audio,				&MEDIASUBTYPE_SIPR},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_RAAC},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_RACP},
 };
 
 #ifdef REGISTER_FILTER
@@ -529,7 +547,13 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		}
 	}
 
-	if (SUCCEEDED(hr) && ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) || m_bResync)) {
+	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
+	
+	if((_abs64((m_rtStart - rtStart)) > MAX_JITTER) && ((subtype != MEDIASUBTYPE_COOK) && (subtype != MEDIASUBTYPE_ATRC))) {
+		m_bResync = true;
+	}
+
+	if (SUCCEEDED(hr) && m_bResync) {
 		m_buff.RemoveAll();
 		m_rtStart = rtStart;
 		m_bResync = false;
@@ -539,8 +563,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	m_buff.SetCount(bufflen + len, 4096);
 	memcpy(m_buff.GetData() + bufflen, pDataIn, len);
 	len += bufflen;
-
-	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	enum CodecID nCodecId = FindCodec(subtype);
@@ -560,7 +582,8 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	else if (subtype == MEDIASUBTYPE_DOLBY_AC3 ||
 			 subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
 			 subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
-			 subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+			 subtype == MEDIASUBTYPE_DOLBY_TRUEHD ||
+			 subtype == MEDIASUBTYPE_DNET) {
 		hr = ProcessAC3();
 	}
 #endif
@@ -2370,8 +2393,41 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 	CAtlArray<float> pBuffOut;
 	scmap_t* scmap = NULL;
 
+	BYTE *tmpProcessBuf = NULL;
+
 	AVPacket avpkt;
 	av_init_packet(&avpkt);
+
+	if (m_raData.cook_processing) {
+		if (m_raData.deint_id != MAKEFOURCC('g','e','n','r')) {
+			TRACE(_T("RA processing but deint_id is not what we expect .. this might sound wrong\n"));
+		}
+
+		int w = m_raData.coded_frame_size;
+		int h = m_raData.sub_packet_h;
+		int sps = m_raData.sub_packet_size;
+		int len = w * h;
+
+		if (buffsize >= len) {
+			if (sps > 0) {
+				const BYTE *srcBuf = pDataInBuff;
+				tmpProcessBuf = (BYTE *)calloc(1, len + FF_INPUT_BUFFER_PADDING_SIZE);
+
+				for(int y = 0; y < h; y++) {
+					for(int x = 0, w2 = w / sps; x < w2; x++) {
+						memcpy(tmpProcessBuf + sps*(h*x+((h+1)/2)*(y&1)+(y>>1)), srcBuf, sps);
+						srcBuf += sps;
+					}
+				}
+
+				pDataInBuff = tmpProcessBuf;
+				buffsize = len;
+			}
+		} else {
+			size = 0;
+			return S_OK;
+		}
+	}
 
 	while (buffsize > 0) {
 		got_frame	= 0;
@@ -2555,9 +2611,30 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 		unsigned extralen = 0;
 		getExtraData((BYTE *)format, &format_type, formatlen, NULL, &extralen);
 
-		m_pAVCtx->extradata_size      	= extralen;
-		m_pAVCtx->extradata           	= (const unsigned char*)calloc(1, m_pAVCtx->extradata_size + FF_INPUT_BUFFER_PADDING_SIZE);
-		getExtraData((BYTE *)format, &format_type, formatlen, (BYTE *)m_pAVCtx->extradata, NULL);
+		if(extralen) {
+			if (nCodecId == CODEC_ID_COOK || nCodecId == CODEC_ID_ATRAC3) {
+				uint8_t *extra = (uint8_t *)calloc(1, extralen + FF_INPUT_BUFFER_PADDING_SIZE);
+				getExtraData((BYTE *)format, &format_type, formatlen, extra, NULL);
+
+				if (extra[0] == '.' && extra[1] == 'r' && extra[2] == 'a' && extra[3] == 0xfd) {
+					HRESULT hr = ParseRealAudioHeader(extra, extralen);
+					free((unsigned char*)extra);
+					if (FAILED(hr)) {
+						return false;
+					}
+
+					m_raData.cook_processing = (nCodecId == CODEC_ID_COOK || nCodecId == CODEC_ID_ATRAC3);
+				} else {
+					// Try without any processing?
+					m_pAVCtx->extradata_size = extralen;
+					m_pAVCtx->extradata      = extra;
+				}
+			} else {
+				m_pAVCtx->extradata_size      	= extralen;
+				m_pAVCtx->extradata           	= (const unsigned char*)calloc(1, m_pAVCtx->extradata_size + FF_INPUT_BUFFER_PADDING_SIZE);
+				getExtraData((BYTE *)format, &format_type, formatlen, (BYTE *)m_pAVCtx->extradata, NULL);
+			}
+		}
 
 		if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)>=0) {
 			m_pFrame	= avcodec_alloc_frame();
@@ -2603,6 +2680,77 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 	if (m_pFrame)	{
 		av_freep(&m_pFrame);
 	}
+}
+
+#ifndef AV_RB16
+#   define AV_RB16(x)                           \
+    ((((const uint8_t*)(x))[0] << 8) |          \
+      ((const uint8_t*)(x))[1])
+#endif
+
+#ifndef AV_RB32
+#   define AV_RB32(x)                                \
+    (((uint32_t)((const uint8_t*)(x))[0] << 24) |    \
+               (((const uint8_t*)(x))[1] << 16) |    \
+               (((const uint8_t*)(x))[2] <<  8) |    \
+                ((const uint8_t*)(x))[3])
+#endif
+
+HRESULT CMpaDecFilter::ParseRealAudioHeader(const BYTE *extra, const int extralen)
+{
+	const uint8_t *fmt = extra+4;
+	uint16_t version = AV_RB16(fmt);
+	fmt += 2;
+	if (version == 3) {
+		TRACE(_T("RealAudio Header version 3 unsupported\n"));
+		return VFW_E_UNSUPPORTED_AUDIO;
+	} else if (version == 4 || version == 5 && extralen > 50) {
+		// main format block
+		fmt += 2;  // word - unused (always 0)
+		fmt += 4;  // byte[4] - .ra4/.ra5 signature
+		fmt += 4;  // dword - unknown
+		fmt += 2;  // word - Version2
+		fmt += 4;  // dword - header size
+		fmt += 2;  // word - codec flavor
+		m_raData.coded_frame_size = AV_RB32(fmt); fmt += 4;  // dword - coded frame size
+		fmt += 12; // byte[12] - unknown
+		m_raData.sub_packet_h = AV_RB16(fmt); fmt += 2;  // word - sub packet h
+		fmt += 2;  // word - frame size
+		m_raData.sub_packet_size = m_pAVCtx->block_align = AV_RB16(fmt); fmt += 2;  // word - subpacket size
+		fmt += 2;  // word - unknown
+		// 6 Unknown bytes in ver 5
+		if (version == 5) {
+			fmt += 6;
+		}
+		// Audio format block
+		fmt += 8;
+		// Tag info in v4
+		if (version == 4) {
+			int len = *fmt++;
+			fmt += len;
+			len = *fmt++;
+			fmt += len;
+		} else if (version == 5) {
+			m_raData.deint_id = AV_RB32(fmt); fmt += 4;
+			fmt += 4;
+		}
+		fmt += 3;
+		if (version == 5) {
+			fmt++;
+		}
+
+		int ra_extralen = AV_RB32(fmt);
+		if (ra_extralen > 0)  {
+			m_pAVCtx->extradata_size = ra_extralen;
+			m_pAVCtx->extradata      = (uint8_t *)calloc(1, ra_extralen + FF_INPUT_BUFFER_PADDING_SIZE);
+			memcpy((void*)m_pAVCtx->extradata, fmt+4, ra_extralen);
+		}
+	} else {
+		TRACE(_T("Unknown RealAudio Header version: %d\n", version));
+		return VFW_E_UNSUPPORTED_AUDIO;
+	}
+
+	return S_OK;
 }
 
 #pragma endregion

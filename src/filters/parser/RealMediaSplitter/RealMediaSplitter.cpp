@@ -393,6 +393,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				if (fcc == 'DNET') {
 					mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_DOLBY_AC3);
+					mts.InsertAt(0, mt);
 				} else if (fcc == 'RAAC' || fcc == 'RACP') {
 					mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_AAC);
 					int extralen = *(DWORD*)extra;
@@ -409,16 +410,8 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						WAVEFORMATEX* pwfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + 5);
 						pwfe->cbSize = MakeAACInitData((BYTE*)(pwfe+1), 0, pwfe->nSamplesPerSec, pwfe->nChannels);
 					}
-				} else {
-					int extralen = *(DWORD*)extra;
-					::bswap(extralen);
-					extra += 4;
-					WAVEFORMATEX* pwfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + extralen);
-					pwfe->cbSize = extralen;
-					memcpy(pwfe + 1, extra, extralen);
+					mts.InsertAt(0, mt);
 				}
-
-				mts.InsertAt(0, mt);
 			}
 		} else if (pmp->mime == "logical-fileinfo") {
 			CAtlMap<CStringA, CStringA, CStringElementTraits<CStringA> > lfi;
