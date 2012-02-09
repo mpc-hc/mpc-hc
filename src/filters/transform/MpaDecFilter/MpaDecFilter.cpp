@@ -2399,8 +2399,8 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 	av_init_packet(&avpkt);
 
 	if (m_raData.cook_processing) {
-		if (m_raData.deint_id != MAKEFOURCC('g','e','n','r')) {
-			TRACE(_T("RA processing but deint_id is not what we expect .. this might sound wrong\n"));
+		if (m_raData.deint_id != MAKEFOURCC('r','n','e','g')) {
+			TRACE(_T("RA processing but deint_id is not what we expect .. this might sound wrong, 0x%08x\n"), m_raData.deint_id);
 		}
 
 		int w = m_raData.coded_frame_size;
@@ -2439,7 +2439,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 			int used_bytes = av_parser_parse2(m_pParser, m_pAVCtx, &pOut, &pOut_size, m_pFFBuffer, buffsize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
 			if (used_bytes < 0) {
 				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - audio parsing failed (ret: %d)\n"), -used_bytes);
-				return E_FAIL;
+				goto fail;
 			} else if (used_bytes == 0 && pOut_size == 0) {
 				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - could not process buffer while parsing\n"));
 				break;
@@ -2473,7 +2473,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 			if (used_bytes < 0 || (used_bytes == 0 && !got_frame)) {
 				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - decoding failed\n"));
 				size = used_bytes;
-				return E_FAIL;
+				goto fail;
 			} else if (used_bytes == 0) {
 				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - could not process buffer while decoding\n"));
 				break;
@@ -2539,7 +2539,8 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 				if (pBuff.GetCount() > 0) {
 					hr = Deliver(pBuff, m_pAVCtx->sample_rate, scmap->nChannels, scmap->dwChannelMask);
 					if (FAILED(hr)) {
-						return hr;
+						TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - Deliver failed\n"));
+						goto fail;
 					}
 				}
 
@@ -2547,7 +2548,11 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 		}
 	}
 
+	free((unsigned char*)tmpProcessBuf);
 	return hr;
+fail:
+	free((unsigned char*)tmpProcessBuf);
+	return E_FAIL;
 }
 
 bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
