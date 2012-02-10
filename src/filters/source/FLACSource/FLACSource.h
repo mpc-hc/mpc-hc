@@ -24,6 +24,8 @@
 #include <atlbase.h>
 #include "../BaseSource/BaseSource.h"
 
+#define FlacSourceName   L"MPC Flac Source"
+
 class CFLACStream;
 
 class __declspec(uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2"))
@@ -32,6 +34,9 @@ class __declspec(uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2"))
 public:
 	CFLACSource(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CFLACSource();
+
+	// CBaseFilter
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 };
 
 class CGolombBuffer;

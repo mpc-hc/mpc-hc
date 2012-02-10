@@ -27,6 +27,8 @@
 #include <afxsock.h>
 #include <qnetwork.h>
 
+#define ShoutcastSourceName   L"MPC ShoutCast Source"
+
 class __declspec(uuid("68F540E9-766F-44d2-AB07-E26CC6D27A79"))
 	CShoutcastSource
 	: public CSource
@@ -105,6 +107,9 @@ public:
 	STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText) {
 		return E_NOTIMPL;
 	}
+
+	// CBaseFilter
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 };
 
 class CShoutcastStream : public CSourceStream

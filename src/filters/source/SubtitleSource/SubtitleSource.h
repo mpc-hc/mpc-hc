@@ -24,6 +24,8 @@
 #include <atlbase.h>
 #include "../../../Subtitles/RTS.h"
 
+#define SubtitleSourceName   L"MPC Subtitle Source"
+
 class CSubtitleSource
 	: public CSource
 	, public IFileSourceFilter
@@ -47,6 +49,9 @@ public:
 	STDMETHODIMP_(ULONG) GetMiscFlags();
 
 	virtual HRESULT GetMediaType(CMediaType* pmt) = 0;
+
+	// CBaseFilter
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 };
 
 class CSubtitleStream

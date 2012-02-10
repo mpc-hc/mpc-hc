@@ -23,6 +23,8 @@
 
 #include <atlcoll.h>
 
+#define FlicSourceName   L"MPC Flic Source"
+
 #pragma pack(push, 1)
 enum {
 	FLIC_256_COLOR = 4,
@@ -117,6 +119,9 @@ public:
 
 	// IAMFilterMiscFlags
 	STDMETHODIMP_(ULONG) GetMiscFlags();
+
+	// CBaseFilter
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 };
 
 class CFLICStream

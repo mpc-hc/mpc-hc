@@ -101,7 +101,7 @@ const AMOVIESETUP_PIN sudOpPin[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CDTSAC3Source), L"MPC - DTS/AC3/DD+ Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CDTSAC3Source), DTSAC3SourceName, MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -174,6 +174,19 @@ CDTSAC3Source::CDTSAC3Source(LPUNKNOWN lpunk, HRESULT* phr)
 
 CDTSAC3Source::~CDTSAC3Source()
 {
+}
+
+STDMETHODIMP CDTSAC3Source::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+	wcscpy(pInfo->achName, DTSAC3SourceName);
+	pInfo->pGraph = m_pGraph;
+	if (m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 // CDTSAC3Stream

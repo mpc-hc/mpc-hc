@@ -209,6 +209,19 @@ ULONG CSubtitleSource::GetMiscFlags()
 	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
 }
 
+STDMETHODIMP CSubtitleSource::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+	wcscpy(pInfo->achName, SubtitleSourceName);
+	pInfo->pGraph = m_pGraph;
+	if (m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
+}
+
 //
 // CSubtitleStream
 //

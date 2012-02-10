@@ -33,7 +33,7 @@ const AMOVIESETUP_PIN sudOpPin[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CD2VSource), L"MPC - D2VSource", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CD2VSource), D2VSourceName, MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -87,6 +87,19 @@ CD2VSource::CD2VSource(LPUNKNOWN lpunk, HRESULT* phr)
 
 CD2VSource::~CD2VSource()
 {
+}
+
+STDMETHODIMP CD2VSource::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+	wcscpy(pInfo->achName, D2VSourceName);
+	pInfo->pGraph = m_pGraph;
+	if (m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 //

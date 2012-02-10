@@ -34,7 +34,7 @@ const AMOVIESETUP_PIN sudOpPin[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CFLICSource), L"MPC - FLICSource", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CFLICSource), FlicSourceName, MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -149,6 +149,19 @@ STDMETHODIMP CFLICSource::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 ULONG CFLICSource::GetMiscFlags()
 {
 	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
+}
+
+STDMETHODIMP CFLICSource::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+	wcscpy(pInfo->achName, FlicSourceName);
+	pInfo->pGraph = m_pGraph;
+	if (m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 // CFLICStream

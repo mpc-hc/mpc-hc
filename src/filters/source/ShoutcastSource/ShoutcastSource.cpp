@@ -86,7 +86,7 @@ const AMOVIESETUP_PIN sudOpPin[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CShoutcastSource), L"MPC - ShoutcastSource", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CShoutcastSource), ShoutcastSourceName, MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -238,6 +238,19 @@ STDMETHODIMP CShoutcastSource::get_Title(BSTR* pbstrTitle)
 	}
 
 	return E_UNEXPECTED;
+}
+
+STDMETHODIMP CShoutcastSource::QueryFilterInfo(FILTER_INFO* pInfo)
+{
+	CheckPointer(pInfo, E_POINTER);
+	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
+	wcscpy(pInfo->achName, ShoutcastSourceName);
+	pInfo->pGraph = m_pGraph;
+	if (m_pGraph) {
+		m_pGraph->AddRef();
+	}
+
+	return S_OK;
 }
 
 // CShoutcastStream

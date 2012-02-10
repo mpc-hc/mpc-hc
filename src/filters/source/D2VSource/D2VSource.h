@@ -21,6 +21,8 @@
 #include <atlbase.h>
 #include "../BaseSource/BaseSource.h"
 
+#define D2VSourceName   L"MPC D2V Source"
+
 class CD2VStream;
 
 class __declspec(uuid("47CE0591-C4D5-4b41-BED7-28F59AD76228"))
@@ -29,6 +31,9 @@ class __declspec(uuid("47CE0591-C4D5-4b41-BED7-28F59AD76228"))
 public:
 	CD2VSource(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CD2VSource();
+
+	// CBaseFilter
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 };
 
 class CMPEG2Dec;

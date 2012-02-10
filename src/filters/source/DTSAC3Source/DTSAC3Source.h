@@ -24,6 +24,8 @@
 #include <atlbase.h>
 #include "../BaseSource/BaseSource.h"
 
+#define DTSAC3SourceName   L"MPC DTS/AC3/DD+ Source"
+
 class CDTSAC3Stream;
 
 class __declspec(uuid("B4A7BE85-551D-4594-BDC7-832B09185041"))
@@ -32,6 +34,9 @@ class __declspec(uuid("B4A7BE85-551D-4594-BDC7-832B09185041"))
 public:
 	CDTSAC3Source(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CDTSAC3Source();
+
+	// CBaseFilter
+	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 };
 
 class CDTSAC3Stream : public CBaseStream
