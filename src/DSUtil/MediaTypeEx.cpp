@@ -351,9 +351,9 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
 				   subtype == MEDIASUBTYPE_PCM_FL32 || subtype == MEDIASUBTYPE_PCM_FL32_le ||
 				   subtype == MEDIASUBTYPE_PCM_FL64 || subtype == MEDIASUBTYPE_PCM_FL64_le) {
 			str += _T("PCM");
-		}
-		// else if(subtype == ) str = _T("");
-		else {
+		} else if (subtype == MEDIASUBTYPE_ADPCM_SWF || subtype == MEDIASUBTYPE_IMA4) {
+			str += _T("ADPCM");
+		} else {
 			str.Format(_T("0x%04x"), wFormatTag);
 		}
 	}

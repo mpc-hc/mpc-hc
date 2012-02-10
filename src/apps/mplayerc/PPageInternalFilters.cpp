@@ -121,7 +121,7 @@ s_filters[] = {
 	{_T("PS2 Audio (PCM/ADPCM)"), DECODER, TRA_PS2AUD, IDS_TRA_PS2AUD, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_PCM
-	{_T("QT PCM"), DECODER, TRA_PCM, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+	{_T("Other PCM/ADPCM"), DECODER, TRA_PCM, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 
 #if INTERNAL_DECODER_MPEG1

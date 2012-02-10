@@ -1845,8 +1845,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL32_le);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL64_le);
 	/* todo: this should not depend on PCM */
-#if INTERNAL_DECODER_IMA4
+#if INTERNAL_DECODER_ADPCM
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IMA4);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_ADPCM_SWF);
 #endif
 	m_transform.AddTail(pFGF);
 #endif

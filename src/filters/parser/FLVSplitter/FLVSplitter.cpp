@@ -298,19 +298,6 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					case 1: { // FLV_CODECID_ADPCM
 						mt.subtype = FOURCCMap(MAKEFOURCC('A','S','W','F'));
 						name += L" ADPCM";
-
-						// Create special media type - to playback ADPCM with LAVAudio
-						ff_mtype.InitMediaType();
-						ff_mtype.SetSampleSize(256000);
-						ff_mtype.majortype = MEDIATYPE_Audio;
-						ff_mtype.subtype = MEDIASUBTYPE_FFMPEG_AUDIO;
-						ff_mtype.formattype = FORMAT_WaveFormatExFFMPEG;
-
-						WAVEFORMATEXFFMPEG* wfex_ff = (WAVEFORMATEXFFMPEG*)ff_mtype.AllocFormatBuffer(sizeof(WAVEFORMATEXFFMPEG));
-						memset(wfex_ff, 0, sizeof(WAVEFORMATEXFFMPEG));
-						memcpy(&wfex_ff->wfex, wfe, sizeof(WAVEFORMATEX));
-						wfex_ff->nCodecId = FF_CODEC_ID_ADPCM_SWF;
-
 						break;
 					}
 					case 2:	// FLV_CODECID_MP3
