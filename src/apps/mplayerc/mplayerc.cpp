@@ -503,23 +503,15 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 	if (IsIniValid()) { // If settings ini file found, store stuff in the same folder as the exe file
 		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
 		path.ReleaseBuffer();
-		path = path.Left(path.ReverseFind('\\'));
+		path.Truncate(path.ReverseFind('\\'));
 	} else {
-		CRegKey key;
-		if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ)) {
-			ULONG len = _MAX_PATH;
-			if (ERROR_SUCCESS == key.QueryStringValue(_T("AppData"), path.GetBuffer(_MAX_PATH), &len)) {
-				path.ReleaseBufferSetLength(len);
-			}
-		}
-
-		if (path.IsEmpty()) {
+		HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, path.GetBuffer(_MAX_PATH));
+		path.ReleaseBuffer();
+		if (FAILED(hr)) {
 			return false;
 		}
-
 		CPath p;
 		p.Combine(path, _T("Media Player Classic"));
-
 		path = (LPCTSTR)p;
 	}
 
