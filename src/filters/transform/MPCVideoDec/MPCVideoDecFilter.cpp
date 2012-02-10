@@ -1501,7 +1501,7 @@ void CMPCVideoDecFilter::InitSwscale()
 		BITMAPINFOHEADER bihOut;
 		ExtractBIH(&m_pOutput->CurrentMediaType(), &bihOut);
 
-		int sws_Flags = SWS_FULL_CHR_H_INT | SWS_FULL_CHR_H_INP;
+		int sws_Flags = SWS_FULL_CHR_H_INT | SWS_FULL_CHR_H_INP | SWS_ACCURATE_RND;
 		SwsParams params;
 		swsInitParams(&params, SWS_BILINEAR, sws_Flags);
 

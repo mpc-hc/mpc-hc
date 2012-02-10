@@ -6,20 +6,20 @@
  * Written by Nick Kurshev.
  * palette & YUV & runtime CPU stuff by Michael (michaelni@gmx.at)
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 #include <inttypes.h>
@@ -171,13 +171,13 @@ void rgb16tobgr32(const uint8_t *src, uint8_t *dst, int src_size)
         bgr = *s++;
 #if HAVE_BIGENDIAN
         *d++ = 255;
-        *d++ = ((bgr&0x1F)<<3) | ((bgr&0x1F)>>2);
-        *d++ = ((bgr&0x7E0)>>3) | ((bgr&0x7E0)>>9);
-        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
+        *d++ = (bgr&0x1F)<<3;
+        *d++ = (bgr&0x7E0)>>3;
+        *d++ = (bgr&0xF800)>>8;
 #else
-        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
-        *d++ = ((bgr&0x7E0)>>3) | ((bgr&0x7E0)>>9);
-        *d++ = ((bgr&0x1F)<<3) | ((bgr&0x1F)>>2);
+        *d++ = (bgr&0xF800)>>8;
+        *d++ = (bgr&0x7E0)>>3;
+        *d++ = (bgr&0x1F)<<3;
         *d++ = 255;
 #endif
     }
@@ -211,9 +211,9 @@ void rgb16to24(const uint8_t *src, uint8_t *dst, int src_size)
     while (s < end) {
         register uint16_t bgr;
         bgr = *s++;
-        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
-        *d++ = ((bgr&0x7E0)>>3) | ((bgr&0x7E0)>>9);
-        *d++ = ((bgr&0x1F)<<3) | ((bgr&0x1F)>>2);
+        *d++ = (bgr&0xF800)>>8;
+        *d++ = (bgr&0x7E0)>>3;
+        *d++ = (bgr&0x1F)<<3;
     }
 }
 
@@ -250,13 +250,13 @@ void rgb15tobgr32(const uint8_t *src, uint8_t *dst, int src_size)
         bgr = *s++;
 #if HAVE_BIGENDIAN
         *d++ = 255;
-        *d++ = ((bgr&0x1F)<<3) | ((bgr&0x1F)>>2);
-        *d++ = ((bgr&0x3E0)>>2) | ((bgr&0x3E0)>>7);
-        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
+        *d++ = (bgr&0x1F)<<3;
+        *d++ = (bgr&0x3E0)>>2;
+        *d++ = (bgr&0x7C00)>>7;
 #else
-        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
-        *d++ = ((bgr&0x3E0)>>2) | ((bgr&0x3E0)>>7);
-        *d++ = ((bgr&0x1F)<<3) | ((bgr&0x1F)>>2);
+        *d++ = (bgr&0x7C00)>>7;
+        *d++ = (bgr&0x3E0)>>2;
+        *d++ = (bgr&0x1F)<<3;
         *d++ = 255;
 #endif
     }
@@ -271,9 +271,9 @@ void rgb15to24(const uint8_t *src, uint8_t *dst, int src_size)
     while (s < end) {
         register uint16_t bgr;
         bgr = *s++;
-        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
-        *d++ = ((bgr&0x3E0)>>2) | ((bgr&0x3E0)>>7);
-        *d++ = ((bgr&0x1F)<<3) | ((bgr&0x1F)>>2);
+        *d++ = (bgr&0x7C00)>>7;
+        *d++ = (bgr&0x3E0)>>2;
+        *d++ = (bgr&0x1F)<<3;
     }
 }
 
@@ -311,6 +311,21 @@ void rgb12tobgr12(const uint8_t *src, uint8_t *dst, int src_size)
     for (i = 0; i < num_pixels; i++) {
         unsigned rgb = s[i];
         d[i] = (rgb << 8 | rgb & 0xF0 | rgb >> 8) & 0xFFF;
+    }
+}
+
+void bgr8torgb8(const uint8_t *src, uint8_t *dst, int src_size)
+{
+    int i;
+    int num_pixels = src_size;
+    for (i=0; i<num_pixels; i++) {
+        unsigned b,g,r;
+        register uint8_t rgb;
+        rgb = src[i];
+        r = (rgb&0x07);
+        g = (rgb&0x38)>>3;
+        b = (rgb&0xC0)>>6;
+        dst[i] = ((b<<1)&0x07) | ((g&0x07)<<3) | ((r&0x03)<<6);
     }
 }
 

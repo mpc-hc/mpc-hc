@@ -144,12 +144,11 @@ protected:
 	enum CodecID	FindCodec(const GUID subtype);
 
 	struct {
+		int flavor;
 		int coded_frame_size;
 		int sub_packet_h;
 		int sub_packet_size;
 		unsigned int deint_id;
-
-		int cook_processing;
 	} m_raData;
 
 	HRESULT	ParseRealAudioHeader(const BYTE *extra, const int extralen);

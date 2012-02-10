@@ -90,7 +90,7 @@ static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 	{ &MEDIASUBTYPE_28_8,		CODEC_ID_RA_288	},
 	{ &MEDIASUBTYPE_ATRC,		CODEC_ID_ATRAC3	},
 	{ &MEDIASUBTYPE_COOK,		CODEC_ID_COOK	},
-	//{ &MEDIASUBTYPE_SIPR,		CODEC_ID_SIPR	},
+	{ &MEDIASUBTYPE_SIPR,		CODEC_ID_SIPR	},
 	{ &MEDIASUBTYPE_RAAC,		CODEC_ID_AAC	},
 	{ &MEDIASUBTYPE_RACP,		CODEC_ID_AAC	},
 #endif
@@ -176,7 +176,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_ATRC},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_COOK},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_DNET},
-	//{&MEDIATYPE_Audio,				&MEDIASUBTYPE_SIPR},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_SIPR},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_RAAC},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_RACP},
 };
@@ -549,7 +549,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 	
-	if((_abs64((m_rtStart - rtStart)) > MAX_JITTER) && ((subtype != MEDIASUBTYPE_COOK) && (subtype != MEDIASUBTYPE_ATRC))) {
+	if((S_OK == pIn->IsSyncPoint()) || ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) && ((subtype != MEDIASUBTYPE_COOK) && (subtype != MEDIASUBTYPE_ATRC)))) {
 		m_bResync = true;
 	}
 
@@ -2398,31 +2398,60 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 	AVPacket avpkt;
 	av_init_packet(&avpkt);
 
-	if (m_raData.cook_processing) {
-		if (m_raData.deint_id != MAKEFOURCC('r','n','e','g')) {
-			TRACE(_T("RA processing but deint_id is not what we expect .. this might sound wrong, 0x%08x\n"), m_raData.deint_id);
-		}
-
+	if (m_raData.deint_id == MAKEFOURCC('r','n','e','g') || m_raData.deint_id == MAKEFOURCC('r','p','i','s')) {
+		
 		int w = m_raData.coded_frame_size;
 		int h = m_raData.sub_packet_h;
 		int sps = m_raData.sub_packet_size;
 		int len = w * h;
 
 		if (buffsize >= len) {
-			if (sps > 0) {
+			tmpProcessBuf = (BYTE *)calloc(1, len + FF_INPUT_BUFFER_PADDING_SIZE);
+			if (sps > 0 && m_raData.deint_id == MAKEFOURCC('r','n','e','g')) { // COOK and ATRAC codec
 				const BYTE *srcBuf = pDataInBuff;
-				tmpProcessBuf = (BYTE *)calloc(1, len + FF_INPUT_BUFFER_PADDING_SIZE);
-
 				for(int y = 0; y < h; y++) {
 					for(int x = 0, w2 = w / sps; x < w2; x++) {
 						memcpy(tmpProcessBuf + sps*(h*x+((h+1)/2)*(y&1)+(y>>1)), srcBuf, sps);
 						srcBuf += sps;
 					}
 				}
+			} else if (m_raData.deint_id == MAKEFOURCC('r','p','i','s')) { // SIPR codec
+				memcpy(tmpProcessBuf, pDataInBuff, len);
+				
+				// http://mplayerhq.hu/pipermail/mplayer-dev-eng/2002-August/010569.html
+				static BYTE sipr_swaps[38][2]= {
+					{0,63},{1,22},{2,44},{3,90},{5,81},{7,31},{8,86},{9,58},{10,36},{12,68},
+					{13,39},{14,73},{15,53},{16,69},{17,57},{19,88},{20,34},{21,71},{24,46},
+					{25,94},{26,54},{28,75},{29,50},{32,70},{33,92},{35,74},{38,85},{40,56},
+					{42,87},{43,65},{45,59},{48,79},{49,93},{51,89},{55,95},{61,76},{67,83},
+					{77,80}
+				};
 
-				pDataInBuff = tmpProcessBuf;
-				buffsize = len;
+				int bs=h*w*2/96; // nibbles per subpacket
+				for (int n=0; n<38; n++) {
+					int i=bs*sipr_swaps[n][0];
+					int o=bs*sipr_swaps[n][1];
+					// swap nibbles of block 'i' with 'o'
+					for (int j=0; j<bs; j++) {
+						int x=(i&1) ? (tmpProcessBuf[(i>>1)]>>4) : (tmpProcessBuf[(i>>1)]&15);
+						int y=(o&1) ? (tmpProcessBuf[(o>>1)]>>4) : (tmpProcessBuf[(o>>1)]&15);
+						if (o&1) {
+							tmpProcessBuf[(o>>1)]=(tmpProcessBuf[(o>>1)]&0x0F)|(x<<4);
+						} else {
+							tmpProcessBuf[(o>>1)]=(tmpProcessBuf[(o>>1)]&0xF0)|x;
+						}
+						if (i&1) {
+							tmpProcessBuf[(i>>1)]=(tmpProcessBuf[(i>>1)]&0x0F)|(y<<4);
+						} else {
+							tmpProcessBuf[(i>>1)]=(tmpProcessBuf[(i>>1)]&0xF0)|y;
+						}
+						++i;
+						++o;
+					}
+				}
 			}
+			pDataInBuff = tmpProcessBuf;
+			buffsize = len;
 		} else {
 			size = 0;
 			return S_OK;
@@ -2619,7 +2648,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 		memset(&m_raData, 0, sizeof(m_raData));
 
 		if(extralen) {
-			if (nCodecId == CODEC_ID_COOK || nCodecId == CODEC_ID_ATRAC3) {
+			if (nCodecId == CODEC_ID_COOK || nCodecId == CODEC_ID_ATRAC3 || nCodecId == CODEC_ID_SIPR) {
 				uint8_t *extra = (uint8_t *)calloc(1, extralen + FF_INPUT_BUFFER_PADDING_SIZE);
 				getExtraData((BYTE *)format, &format_type, formatlen, extra, NULL);
 
@@ -2629,8 +2658,14 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 					if (FAILED(hr)) {
 						return false;
 					}
-
-					m_raData.cook_processing = (nCodecId == CODEC_ID_COOK || nCodecId == CODEC_ID_ATRAC3);
+					if(nCodecId == CODEC_ID_SIPR) {
+						if (m_raData.flavor > 3) {
+							TRACE(_T("CMpaDecFilter::InitFFmpeg() : Invalid SIPR flavor (%d)"), m_raData.flavor);
+							return false;
+						}
+						static BYTE sipr_subpk_size[4] = { 29, 19, 37, 20 };
+						m_pAVCtx->block_align = sipr_subpk_size[m_raData.flavor];
+					}
 				} else {
 					// Try without any processing?
 					m_pAVCtx->extradata_size = extralen;
@@ -2718,7 +2753,7 @@ HRESULT CMpaDecFilter::ParseRealAudioHeader(const BYTE *extra, const int extrale
 		fmt += 4;  // dword - unknown
 		fmt += 2;  // word - Version2
 		fmt += 4;  // dword - header size
-		fmt += 2;  // word - codec flavor
+		m_raData.flavor = AV_RB16(fmt); fmt += 2;  // word - codec flavor
 		m_raData.coded_frame_size = AV_RB32(fmt); fmt += 4;  // dword - coded frame size
 		fmt += 12; // byte[12] - unknown
 		m_raData.sub_packet_h = AV_RB16(fmt); fmt += 2;  // word - sub packet h
@@ -2734,7 +2769,7 @@ HRESULT CMpaDecFilter::ParseRealAudioHeader(const BYTE *extra, const int extrale
 		// Tag info in v4
 		if (version == 4) {
 			int len = *fmt++;
-			fmt += len;
+			m_raData.deint_id = AV_RB32(fmt); fmt += len;
 			len = *fmt++;
 			fmt += len;
 		} else if (version == 5) {
@@ -2753,7 +2788,7 @@ HRESULT CMpaDecFilter::ParseRealAudioHeader(const BYTE *extra, const int extrale
 			memcpy((void*)m_pAVCtx->extradata, fmt+4, ra_extralen);
 		}
 	} else {
-		TRACE(_T("Unknown RealAudio Header version: %d\n", version));
+		TRACE(_T("Unknown RealAudio Header version: %d\n"), version);
 		return VFW_E_UNSUPPORTED_AUDIO;
 	}
 

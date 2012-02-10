@@ -2,20 +2,20 @@
  * pixel format descriptor
  * Copyright (c) 2009 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -281,9 +281,9 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
         .log2_chroma_w = 0,
         .log2_chroma_h = 0,
         .comp = {
-            { 0, 0, 1, 0, 7 },        /* Y */
-            { 1, 0, 1, 0, 7 },        /* U */
-            { 2, 0, 1, 0, 7 },        /* V */
+            {0, 0, 1, 0, 7},        /* Y */
+            {1, 0, 1, 0, 7},        /* U */
+            {2, 0, 1, 0, 7},        /* V */
         },
         .flags = PIX_FMT_PLANAR,
     },
@@ -327,7 +327,7 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
             { 0, 0, 1, 3, 2 },        /* G */
             { 0, 0, 1, 0, 2 },        /* R */
         },
-        .flags = PIX_FMT_PAL | PIX_FMT_RGB,
+        .flags = PIX_FMT_RGB | PIX_FMT_PSEUDOPAL,
     },
     [PIX_FMT_BGR4] = {
         .name = "bgr4",
@@ -351,7 +351,7 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
             { 0, 0, 1, 1, 1 },        /* G */
             { 0, 0, 1, 0, 0 },        /* R */
         },
-        .flags = PIX_FMT_PAL | PIX_FMT_RGB,
+        .flags = PIX_FMT_RGB | PIX_FMT_PSEUDOPAL,
     },
     [PIX_FMT_RGB8] = {
         .name = "rgb8",
@@ -363,7 +363,7 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
             { 0, 0, 1, 3, 2 },        /* G */
             { 0, 0, 1, 0, 2 },        /* B */
         },
-        .flags = PIX_FMT_PAL | PIX_FMT_RGB,
+        .flags = PIX_FMT_RGB | PIX_FMT_PSEUDOPAL,
     },
     [PIX_FMT_RGB4] = {
         .name = "rgb4",
@@ -387,7 +387,7 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
             { 0, 0, 1, 1, 1 },        /* G */
             { 0, 0, 1, 0, 0 },        /* B */
         },
-        .flags = PIX_FMT_PAL | PIX_FMT_RGB,
+        .flags = PIX_FMT_RGB | PIX_FMT_PSEUDOPAL,
     },
     [PIX_FMT_NV12] = {
         .name = "nv12",
@@ -395,9 +395,9 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
         .log2_chroma_w = 1,
         .log2_chroma_h = 1,
         .comp = {
-            { 0, 0, 1, 0, 7 },        /* Y */
-            { 1, 1, 1, 0, 7 },        /* U */
-            { 1, 1, 2, 0, 7 },        /* V */
+            { 0,0,1,0,7 },        /* Y */
+            { 1,1,1,0,7 },        /* U */
+            { 1,1,2,0,7 },        /* V */
         },
         .flags = PIX_FMT_PLANAR,
     },
@@ -465,56 +465,6 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
         },
         .flags = PIX_FMT_RGB,
     },
-    [PIX_FMT_0RGB] = {
-        .name = "0rgb",
-        .nb_components= 3,
-        .log2_chroma_w= 0,
-        .log2_chroma_h= 0,
-        .comp = {
-            { 0, 3, 2, 0, 7 },        /* R */
-            { 0, 3, 3, 0, 7 },        /* G */
-            { 0, 3, 4, 0, 7 },        /* B */
-        },
-        .flags = PIX_FMT_RGB,
-    },
-    [PIX_FMT_RGB0] = {
-        .name = "rgb0",
-        .nb_components= 3,
-        .log2_chroma_w= 0,
-        .log2_chroma_h= 0,
-        .comp = {
-            { 0, 3, 1, 0, 7 },        /* R */
-            { 0, 3, 2, 0, 7 },        /* G */
-            { 0, 3, 3, 0, 7 },        /* B */
-            { 0, 3, 4, 0, 7 },        /* A */
-        },
-        .flags = PIX_FMT_RGB,
-    },
-    [PIX_FMT_0BGR] = {
-        .name = "0bgr",
-        .nb_components= 3,
-        .log2_chroma_w= 0,
-        .log2_chroma_h= 0,
-        .comp = {
-            { 0, 3, 2, 0, 7 },        /* B */
-            { 0, 3, 3, 0, 7 },        /* G */
-            { 0, 3, 4, 0, 7 },        /* R */
-        },
-        .flags = PIX_FMT_RGB,
-    },
-    [PIX_FMT_BGR0] = {
-        .name = "bgr0",
-        .nb_components= 3,
-        .log2_chroma_w= 0,
-        .log2_chroma_h= 0,
-        .comp = {
-            { 0, 3, 1, 0, 7 },        /* B */
-            { 0, 3, 2, 0, 7 },        /* G */
-            { 0, 3, 3, 0, 7 },        /* R */
-            { 0, 3, 4, 0, 7 },        /* A */
-        },
-        .flags = PIX_FMT_RGB,
-    },
     [PIX_FMT_GRAY16BE] = {
         .name = "gray16be",
         .nb_components = 1,
@@ -563,19 +513,6 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
         .nb_components = 4,
         .log2_chroma_w = 1,
         .log2_chroma_h = 1,
-        .comp = {
-            { 0, 0, 1, 0, 7 },        /* Y */
-            { 1, 0, 1, 0, 7 },        /* U */
-            { 2, 0, 1, 0, 7 },        /* V */
-            { 3, 0, 1, 0, 7 },        /* A */
-        },
-        .flags = PIX_FMT_PLANAR,
-    },
-    [PIX_FMT_YUVA444P] = {
-        .name = "yuva444p",
-        .nb_components = 4,
-        .log2_chroma_w = 0,
-        .log2_chroma_h = 0,
         .comp = {
             { 0, 0, 1, 0, 7 },        /* Y */
             { 1, 0, 1, 0, 7 },        /* U */
@@ -641,32 +578,6 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
             { 0, 5, 1, 0, 15 },       /* R */
             { 0, 5, 3, 0, 15 },       /* G */
             { 0, 5, 5, 0, 15 },       /* B */
-        },
-        .flags = PIX_FMT_RGB,
-    },
-    [PIX_FMT_RGBA64BE] = {
-        .name = "rgba64be",
-        .nb_components= 4,
-        .log2_chroma_w= 0,
-        .log2_chroma_h= 0,
-        .comp = {
-            { 0, 7, 1, 0, 15 },       /* R */
-            { 0, 7, 3, 0, 15 },       /* G */
-            { 0, 7, 5, 0, 15 },       /* B */
-            { 0, 7, 7, 0, 15 },       /* A */
-        },
-        .flags = PIX_FMT_RGB | PIX_FMT_BE,
-    },
-    [PIX_FMT_RGBA64LE] = {
-        .name = "rgba64le",
-        .nb_components= 4,
-        .log2_chroma_w= 0,
-        .log2_chroma_h= 0,
-        .comp = {
-            { 0, 7, 1, 0, 15 },       /* R */
-            { 0, 7, 3, 0, 15 },       /* G */
-            { 0, 7, 5, 0, 15 },       /* B */
-            { 0, 7, 7, 0, 15 },       /* B */
         },
         .flags = PIX_FMT_RGB,
     },
@@ -765,31 +676,6 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
             { 0, 5, 5, 0, 15 },       /* R */
         },
         .flags = PIX_FMT_RGB,
-    },
-    [PIX_FMT_BGRA64BE] = {
-        .name = "bgra64be",
-        .nb_components= 4,
-        .log2_chroma_w= 0,
-        .log2_chroma_h= 0,
-        .comp = {
-            { 0, 7, 1, 0, 15 },       /* B */
-            { 0, 7, 3, 0, 15 },       /* G */
-            { 0, 7, 5, 0, 15 },       /* R */
-            { 0, 7, 7, 0, 15 },       /* A */
-        },
-        .flags = PIX_FMT_BE,
-    },
-    [PIX_FMT_BGRA64LE] = {
-        .name = "bgra64le",
-        .nb_components= 4,
-        .log2_chroma_w= 0,
-        .log2_chroma_h= 0,
-        .comp = {
-            { 0, 7, 1, 0, 15 },       /* B */
-            { 0, 7, 3, 0, 15 },       /* G */
-            { 0, 7, 5, 0, 15 },       /* R */
-            { 0, 7, 7, 0, 15 },       /* A */
-        },
     },
     [PIX_FMT_BGR565BE] = {
         .name = "bgr565be",
@@ -977,9 +863,9 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
         .log2_chroma_w = 1,
         .log2_chroma_h = 0,
         .comp = {
-            { 0, 1, 1, 0, 8 },        /* Y */
-            { 1, 1, 1, 0, 8 },        /* U */
-            { 2, 1, 1, 0, 8 },        /* V */
+            {0,1,1,0,8},        /* Y */
+            {1,1,1,0,8},        /* U */
+            {2,1,1,0,8},        /* V */
         },
         .flags = PIX_FMT_BE | PIX_FMT_PLANAR,
     },
@@ -1109,29 +995,13 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
         .log2_chroma_h = 1,
         .flags = PIX_FMT_HWACCEL,
     },
-    [PIX_FMT_VDA_VLD] = {
-        .name = "vda_vld",
-        .log2_chroma_w = 1,
-        .log2_chroma_h = 1,
-        .flags = PIX_FMT_HWACCEL,
-    },
-    [PIX_FMT_GRAY8A] = {
-        .name = "gray8a",
+    [PIX_FMT_Y400A] = {
+        .name = "y400a",
         .nb_components = 2,
         .comp = {
             { 0, 1, 1, 0, 7 },        /* Y */
             { 0, 1, 2, 0, 7 },        /* A */
         },
-    },
-    [PIX_FMT_GBR24P] = {
-        .name = "gbr24p",
-        .nb_components= 3,
-        .comp = {
-            { 1, 0, 1, 0, 7 },        /* B */
-            { 0, 0, 1, 0, 7 },        /* G */
-            { 2, 0, 1, 0, 7 },        /* R */
-        },
-        .flags = PIX_FMT_PLANAR | PIX_FMT_RGB,
     },
     [PIX_FMT_GBRP] = {
         .name = "gbrp",

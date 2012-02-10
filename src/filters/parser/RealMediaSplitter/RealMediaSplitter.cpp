@@ -348,7 +348,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				pwfe->nChannels = rai5.channels;
 				pwfe->wBitsPerSample = rai5.sample_size;
 				pwfe->nSamplesPerSec = rai5.sample_rate;
-				pwfe->nBlockAlign = rai5.frame_size/3;
+				pwfe->nBlockAlign = rai5.frame_size;
 				fcc = rai5.fourcc3;
 				extra = fmt + sizeof(rainfo5) + 4;
 			} else {

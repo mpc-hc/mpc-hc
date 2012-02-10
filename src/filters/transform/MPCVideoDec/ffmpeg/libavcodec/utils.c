@@ -227,18 +227,6 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
 
     for (i = 0; i < 4; i++)
         linesize_align[i] = STRIDE_ALIGN;
-//STRIDE_ALIGN is 8 for SSE* but this does not work for SVQ1 chroma planes
-//we could change STRIDE_ALIGN to 16 for x86/sse but it would increase the
-//picture size unneccessarily in some cases. The solution here is not
-//pretty and better ideas are welcome!
-#if HAVE_MMX
-    if(s->codec_id == CODEC_ID_SVQ1 || s->codec_id == CODEC_ID_VP5 ||
-       s->codec_id == CODEC_ID_VP6 || s->codec_id == CODEC_ID_VP6F ||
-       s->codec_id == CODEC_ID_VP6A) {
-        for (i = 0; i < 4; i++)
-            linesize_align[i] = 16;
-    }
-#endif
 }
 
 void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height){
@@ -1064,6 +1052,7 @@ int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf
 #endif
 #endif
 
+#if FF_API_OLD_ENCODE_VIDEO
 int attribute_align_arg avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf, int buf_size,
                          const AVFrame *pict)
 {
@@ -1081,6 +1070,75 @@ int attribute_align_arg avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf
         return ret;
     }else
         return 0;
+}
+#endif
+
+#define MAX_CODED_FRAME_SIZE(width, height)\
+    (8*(width)*(height) + FF_MIN_BUFFER_SIZE)
+
+int attribute_align_arg avcodec_encode_video2(AVCodecContext *avctx,
+                                              AVPacket *avpkt,
+                                              const AVFrame *frame,
+                                              int *got_packet_ptr)
+{
+    int ret;
+    int user_packet = !!avpkt->data;
+
+    if (!(avctx->codec->capabilities & CODEC_CAP_DELAY) && !frame) {
+        av_init_packet(avpkt);
+        avpkt->size     = 0;
+        *got_packet_ptr = 0;
+        return 0;
+    }
+
+    if (av_image_check_size(avctx->width, avctx->height, 0, avctx))
+        return AVERROR(EINVAL);
+
+    if (avctx->codec->encode2) {
+        *got_packet_ptr = 0;
+        ret = avctx->codec->encode2(avctx, avpkt, frame, got_packet_ptr);
+        if (!ret) {
+            if (!*got_packet_ptr)
+                avpkt->size = 0;
+            else if (!(avctx->codec->capabilities & CODEC_CAP_DELAY))
+                avpkt->pts = avpkt->dts = frame->pts;
+        }
+    } else {
+        /* for compatibility with encoders not supporting encode2(), we need to
+           allocate a packet buffer if the user has not provided one or check
+           the size otherwise */
+        int buf_size = avpkt->size;
+
+        if (!user_packet)
+            buf_size = MAX_CODED_FRAME_SIZE(avctx->width, avctx->height);
+
+        if ((ret = ff_alloc_packet(avpkt, buf_size)))
+            return ret;
+
+        /* encode the frame */
+        ret = avctx->codec->encode(avctx, avpkt->data, avpkt->size, frame);
+        if (ret >= 0) {
+            if (!ret) {
+                /* no output. if the packet data was allocated by libavcodec,
+                   free it */
+                if (!user_packet)
+                    av_freep(&avpkt->data);
+            } else if (avctx->coded_frame) {
+                avpkt->pts    = avctx->coded_frame->pts;
+                avpkt->flags |= AV_PKT_FLAG_KEY*avctx->coded_frame->key_frame;
+            }
+
+            avpkt->size     = ret;
+            *got_packet_ptr = (ret > 0);
+            ret             = 0;
+        }
+    }
+
+    if (!ret)
+        avctx->frame_number++;
+
+    emms_c();
+    return ret;
 }
 
 int attribute_align_arg avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture,
