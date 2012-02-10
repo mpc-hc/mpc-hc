@@ -549,7 +549,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 	
-	if((S_OK == pIn->IsSyncPoint()) || ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) && ((subtype != MEDIASUBTYPE_COOK) && (subtype != MEDIASUBTYPE_ATRC)))) {
+	if((subtype == MEDIASUBTYPE_COOK && (S_OK == pIn->IsSyncPoint())) || ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) && ((subtype != MEDIASUBTYPE_COOK) && (subtype != MEDIASUBTYPE_ATRC) && (subtype != MEDIASUBTYPE_SIPR)))) {
 		m_bResync = true;
 	}
 
