@@ -2,10 +2,11 @@ next version - not yet release
 ==============================
 NEW    : Use ffmpeg for RealVideo\RealAudio decoding
 NEW    : Support for SIPR codec
+NEW    : Ticket #1738, Support for decoding FLV SWF ADPCM
 CHANGED: Updated libpng to v1.5.8
 CHANGED: Updated Little CMS to the latest git
 CHANGED: Updated libav
-CHANGED: Updated Polish translation
+CHANGED: Updated Polish, Japanese, Chinese Simplified, Chinese Traditional and Russian translations
 FIXED  : Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
 
 

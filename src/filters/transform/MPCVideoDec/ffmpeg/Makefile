@@ -1,6 +1,7 @@
 CC = gcc.exe
 
-BIN_DIR = ../../../../../bin
+BIN_DIR  = ../../../../../bin
+ZLIB_DIR = ../../../../thirdparty/zlib
 
 ifeq ($(64BIT),yes)
     MY_ARCH = x64
@@ -21,9 +22,9 @@ TARGET_LIB     = $(TARGET_LIB_DIR)/libavcodec.lib
 
 
 # Compiler and yasm flags
-CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I../../../../thirdparty/zlib \
-            -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -std=gnu99 -mdll -mthreads -pipe
-
+CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I$(ZLIB_DIR) -DHAVE_AV_CONFIG_H \
+            -D_ISOC99_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
+            -std=gnu99 -mdll -mthreads -pipe
 OPTFLAGS  = -O2 -fno-common -fno-tree-vectorize -fomit-frame-pointer
 YASMFLAGS = -I. -Ilibavutil/x86 -Pconfig.asm
 
@@ -36,7 +37,7 @@ ifeq ($(64BIT),yes)
 else
     TARGET_OS     = i686-pc-mingw32
     CFLAGS       += -DWIN32 -D_WIN32 -DARCH_X86_32
-    OPTFLAGS     += -march=i686 -mmmx -msse -mfpmath=sse
+    OPTFLAGS     += -march=i686 -mmmx -msse
     YASMFLAGS    += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
 endif
 
