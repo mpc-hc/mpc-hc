@@ -296,7 +296,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						name += L" PCM";
 						break;
 					case 1: { // FLV_CODECID_ADPCM
-						mt.subtype = FOURCCMap(MAKEFOURCC('A','S','W','F'));
+						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_ADPCM_SWF);
 						name += L" ADPCM";
 						break;
 					}
