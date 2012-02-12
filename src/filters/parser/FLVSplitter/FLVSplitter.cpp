@@ -776,17 +776,16 @@ void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
 	bool hasVideo = !!GetOutputPin(9);
 
 	__int64 estimPos = m_DataOffset + 1.0 * rt / m_rtDuration * (m_pFile->GetLength() - m_DataOffset);
-	__int64 seekBack = 256 * 1024;
 
 	while (true) {
-		bool foundAudio = false;
-		bool foundVideo = false;
-		__int64 bestPos = 0;
+		estimPos -= 256 * 1024;
+		if (estimPos < m_DataOffset) estimPos = m_DataOffset;
+		
+		bool foundAudio = !hasAudio;
+		bool foundVideo = !hasVideo;
+		__int64 bestPos = estimPos;
 
-		estimPos = max(estimPos - seekBack, m_DataOffset);
-		seekBack *= 2;
-
-		if (Sync(estimPos)) {
+		if (Sync(bestPos)) {
 			Tag t;
 			AudioTag at;
 			VideoTag vt;
@@ -809,15 +808,14 @@ void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
 			}
 		}
 
-		if ((hasAudio && !foundAudio) || (hasVideo && !foundVideo)) {
-			if (estimPos == m_DataOffset) {
-				m_pFile->Seek(m_DataOffset);
-				return;
-			}
-		} else {
+		if (foundAudio && foundVideo) {
 			m_pFile->Seek(bestPos);
 			return;
+		} else if (estimPos == m_DataOffset) {
+			m_pFile->Seek(m_DataOffset);
+			return;
 		}
+
 	}
 }
 
