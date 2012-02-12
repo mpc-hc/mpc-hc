@@ -51,8 +51,8 @@ arestarh                <arestarh1986@users.sourceforge.net>    Ukrainian
 Sebastiii               <sebastiii@users.sourceforge.net>       French
 roytam1                 <roytam1@users.sourceforge.net>         Japanese, Chinese Traditional, Chinese Simplified
 hrant77                 <hrant77@users.sourceforge.net>         Armenian
-Superb                                                          Hebrew
 Markus Gaugg            <prinzeugen@users.sourceforge.net>      German
+Superb                                                          Hebrew
 
 
 Contributors: (listed alphabetically)
