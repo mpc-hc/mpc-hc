@@ -759,6 +759,7 @@ int FFGetThreadType(enum CodecID nCodecId, int nThreadCount)
 		case CODEC_ID_FFV1 :
 			return FF_THREAD_SLICE;
 			break;
+		case CODEC_ID_VP3 :
 		case CODEC_ID_VP8 :
 		case CODEC_ID_THEORA :
 		case CODEC_ID_RV30 :

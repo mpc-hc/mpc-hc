@@ -319,8 +319,8 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MSMPEG4) != 0);
 	m_lstCodecs.AddString (_T("FLV1/4"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_FLASH) != 0);
-	m_lstCodecs.AddString (_T("VP5/6"));
-	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VP6) != 0);
+	m_lstCodecs.AddString (_T("VP3/5/6"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VP356) != 0);
 	m_lstCodecs.AddString (_T("VP8"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VP8) != 0);
 	m_lstCodecs.AddString (_T("WMV1/2/3"));
@@ -394,7 +394,7 @@ bool CMPCVideoDecCodecWnd::OnApply()
 			nActiveCodecs |= MPCVD_FLASH;
 		}
 		if (m_lstCodecs.GetCheck  (nPos++)) {
-			nActiveCodecs |= MPCVD_VP6;
+			nActiveCodecs |= MPCVD_VP356;
 		}
 		if (m_lstCodecs.GetCheck  (nPos++)) {
 			nActiveCodecs |= MPCVD_VP8;

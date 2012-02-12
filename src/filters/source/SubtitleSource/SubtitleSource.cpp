@@ -504,7 +504,7 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 			rtStart = (REFERENCE_TIME)((10000i64*stss->start - m_rtStart) / m_dRateSeeking);
 			rtStop = (REFERENCE_TIME)((10000i64*stss->end - m_rtStart) / m_dRateSeeking);
 		} else {
-			if (m_nPosition >= m_rts.GetCount()) {
+			if ((size_t)m_nPosition >= m_rts.GetCount()) {
 				return S_FALSE;
 			}
 

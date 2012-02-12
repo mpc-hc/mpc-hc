@@ -161,8 +161,8 @@ s_filters[] = {
 #if INTERNAL_DECODER_FLV
 	{_T("FLV1/4"), FFMPEG_DECODER, FFM_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
-#if INTERNAL_DECODER_VP6
-	{_T("VP5/6"), FFMPEG_DECODER, FFM_VP62, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#if INTERNAL_DECODER_VP356
+	{_T("VP3/5/6"), FFMPEG_DECODER, FFM_VP356, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_VP8
 	{_T("VP8"), FFMPEG_DECODER, FFM_VP8, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},

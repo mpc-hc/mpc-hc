@@ -121,6 +121,10 @@ FFMPEG_CODECS		ffCodecs[] = {
 	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, NULL },
 	{ &MEDIASUBTYPE_vp6f, CODEC_ID_VP6F, NULL },
 
+	// VP3
+	{ &MEDIASUBTYPE_VP30, CODEC_ID_VP3,  NULL },
+	{ &MEDIASUBTYPE_VP31, CODEC_ID_VP3,  NULL },
+
 	// VP5
 	{ &MEDIASUBTYPE_VP50, CODEC_ID_VP5,  NULL },
 	{ &MEDIASUBTYPE_vp50, CODEC_ID_VP5,  NULL },
@@ -310,6 +314,10 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] = {
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_flv4   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6F   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp6f   },
+
+	// VP3
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP30   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP31   },
 
 	// VP5
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP50   },
@@ -552,7 +560,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6|MPCVD_VP8|MPCVD_MJPEG|MPCVD_INDEO|MPCVD_RV;
+	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP356|MPCVD_VP8|MPCVD_MJPEG|MPCVD_INDEO|MPCVD_RV;
 	m_rtLastStart			= 0;
 	m_nCountEstimated		= 0;
 
@@ -851,10 +859,11 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				case CODEC_ID_AMV :
 					bCodecActivated = (m_nActiveCodecs & MPCVD_AMVV) != 0;
 					break;
+				case CODEC_ID_VP3  :
 				case CODEC_ID_VP5  :
 				case CODEC_ID_VP6  :
 				case CODEC_ID_VP6A :
-					bCodecActivated = (m_nActiveCodecs & MPCVD_VP6) != 0;
+					bCodecActivated = (m_nActiveCodecs & MPCVD_VP356) != 0;
 					break;
 				case CODEC_ID_VP8  :
 					bCodecActivated = (m_nActiveCodecs & MPCVD_VP8) != 0;
@@ -1016,6 +1025,7 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(enum CodecID nCodec)
 			nCodec==CODEC_ID_MPEG1VIDEO ||
 			nCodec==CODEC_ID_FFV1 ||
 			nCodec==CODEC_ID_DVVIDEO ||
+			nCodec==CODEC_ID_VP3 ||
 			nCodec==CODEC_ID_VP8 ||
 			nCodec==CODEC_ID_THEORA ||
 			nCodec==CODEC_ID_RV30 ||

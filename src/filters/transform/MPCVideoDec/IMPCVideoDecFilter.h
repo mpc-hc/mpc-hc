@@ -38,7 +38,7 @@ typedef enum {
 	MPCVD_FLASH     = 1 << 10,
 	MPCVD_H264_DXVA = 1 << 11,
 	MPCVD_VC1_DXVA  = 1 << 12,
-	MPCVD_VP6       = 1 << 13,
+	MPCVD_VP356     = 1 << 13,
 	MPCVD_VP8       = 1 << 14,
 	MPCVD_MJPEG     = 1 << 15,
 	MPCVD_INDEO     = 1 << 16,

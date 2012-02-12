@@ -156,8 +156,8 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_FLV
 	FFMFiltersKeys[FFM_FLV4] = _T("FFM_FLV4");
 #endif
-#if INTERNAL_DECODER_VP6
-	FFMFiltersKeys[FFM_VP62] = _T("FFM_VP62");
+#if INTERNAL_DECODER_VP356
+	FFMFiltersKeys[FFM_VP356] = _T("FFM_VP356");
 #endif
 #if INTERNAL_DECODER_VP8
 	FFMFiltersKeys[FFM_VP8] = _T("FFM_VP8");

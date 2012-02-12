@@ -278,7 +278,7 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 				p += 4;
 				i -= 4;
 
-				if (len > i || len == 1) {
+				if (len > (DWORD)i || len == 1) {
 					len = i;
 					ASSERT(0);
 				}

@@ -1877,8 +1877,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_flv4);
 	}
 #endif
-#if INTERNAL_DECODER_VP6
-	if (ffmpeg_filters[FFM_VP62]) {
+#if INTERNAL_DECODER_VP356
+	if (ffmpeg_filters[FFM_VP356]) {
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP30);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP31);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP50);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_vp50);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP60);
@@ -2082,8 +2084,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_flv4);
 	}
 #endif
-#if INTERNAL_DECODER_VP6
-	if (!(ffmpeg_filters[FFM_VP62])) {
+#if INTERNAL_DECODER_VP356
+	if (!(ffmpeg_filters[FFM_VP356])) {
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP30);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP31);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP50);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_vp50);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP60);
