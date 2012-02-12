@@ -26,14 +26,32 @@
 #include <InitGuid.h>
 #include <moreuuids.h>
 
-enum {
-	FLV_CODECID_H263    = 2,
-	FLV_CODECID_SCREEN  = 3,
-	FLV_CODECID_VP6     = 4,
-	FLV_CODECID_VP6A    = 5,
-	FLV_CODECID_SCREEN2 = 6,
-	FLV_CODECID_H264    = 7,
-};
+#define FLV_AUDIODATA     8
+#define FLV_VIDEODATA     9
+#define FLV_SCRIPTDATA    18
+
+#define FLV_AUDIO_PCM     0 // Linear PCM, platform endian
+#define FLV_AUDIO_ADPCM   1 // ADPCM
+#define FLV_AUDIO_MP3     2 // MP3
+#define FLV_AUDIO_PCMLE   3 // Linear PCM, little endian
+#define FLV_AUDIO_NELLY16 4 // Nellymoser 16 kHz mono
+#define FLV_AUDIO_NELLY8  5 // Nellymoser 8 kHz mono
+#define FLV_AUDIO_NELLY   6 // Nellymoser
+// 7 = G.711 A-law logarithmic PCM (reserved)
+// 8 = G.711 mu-law logarithmic PCM (reserved)
+// 9 = reserved 
+#define FLV_AUDIO_AAC     10 // AAC
+#define FLV_AUDIO_SPEEX   11 // Speex
+// 14 = MP3 8 kHz (reserved)
+// 15 = Device-specific sound (reserved)
+
+//#define FLV_VIDEO_JPEG    1 // non-standard? need samples
+#define FLV_VIDEO_H263    2 // Sorenson H.263
+#define FLV_VIDEO_SCREEN  3 // Screen video
+#define FLV_VIDEO_VP6     4 // On2 VP6
+#define FLV_VIDEO_VP6A    5 // On2 VP6 with alpha channel
+#define FLV_VIDEO_SCREEN2 6 // Screen video version 2
+#define FLV_VIDEO_AVC     7 // AVC
 
 #ifdef REGISTER_FILTER
 
@@ -176,7 +194,7 @@ bool CFLVSplitterFilter::Sync(__int64& pos)
 		__int64 limit = m_pFile->GetRemaining();
 		while (true) {
 			BYTE b = m_pFile->BitRead(8);
-			if (b == 8 || b == 9) {
+			if (b == FLV_AUDIODATA || b == FLV_VIDEODATA) {
 				break;
 			}
 			if (--limit < 15) {
@@ -196,7 +214,7 @@ bool CFLVSplitterFilter::Sync(__int64& pos)
 			} else if (next <= m_pFile->GetLength() - 19) {
 				m_pFile->Seek(next);
 				Tag nt;
-				if (ReadTag(nt) && (nt.TagType == 8 || nt.TagType == 9 || nt.TagType == 18)) {
+				if (ReadTag(nt) && (nt.TagType == FLV_AUDIODATA || nt.TagType == FLV_VIDEODATA || nt.TagType == FLV_SCRIPTDATA)) {
 					if ((nt.PreviousTagSize == ct.DataSize + 11) ||
 							(m_IgnorePrevSizes &&
 							 nt.TimeStamp >= ct.TimeStamp &&
@@ -272,7 +290,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		}
 		prevTagSize = t.DataSize + 11;
 
-		if (t.TagType == 8 && t.DataSize != 0 && fTypeFlagsAudio) {
+		if (t.TagType == FLV_AUDIODATA && t.DataSize != 0 && fTypeFlagsAudio) {
 			UNREFERENCED_PARAMETER(at);
 			AudioTag at;
 			name = L"Audio";
@@ -291,16 +309,16 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				wfe->nChannels = at.SoundType+1;
 
 				switch (at.SoundFormat) {
-					case 0: // FLV_CODECID_PCM_BE
+					case FLV_AUDIO_PCM:
+					case FLV_AUDIO_PCMLE:
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_PCM);
 						name += L" PCM";
 						break;
-					case 1: { // FLV_CODECID_ADPCM
+					case FLV_AUDIO_ADPCM:
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_ADPCM_SWF);
 						name += L" ADPCM";
 						break;
-					}
-					case 2:	// FLV_CODECID_MP3
+					case FLV_AUDIO_MP3:
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
 						name += L" MP3";
 
@@ -312,24 +330,21 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							}
 						}
 						break;
-					case 3 :	// FLV_CODECID_PCM_LE
-						// ToDo
-						break;
-					case 4 :	// FLV_CODECID_NELLYMOSER_16HZ_MONO
+					case FLV_AUDIO_NELLY16:
 						mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
 						wfe->nSamplesPerSec = 16000;
 						name += L" Nellimoser";
 						break;
-					case 5 :	// FLV_CODECID_NELLYMOSER_8HZ_MONO
+					case FLV_AUDIO_NELLY8:
 						mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
 						wfe->nSamplesPerSec = 8000;
 						name += L" Nellimoser";
 						break;
-					case 6 :	// FLV_CODECID_NELLYMOSER
+					case FLV_AUDIO_NELLY:
 						mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
 						name += L" Nellimoser";
 						break;
-					case 10: { // FLV_CODECID_AAC
+					case FLV_AUDIO_AAC: {
 						if (dataSize < 1 || m_pFile->BitRead(8) != 0) { // packet type 0 == aac header
 							fTypeFlagsAudio = true;
 							break;
@@ -373,7 +388,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				}
 			}
-		} else if (t.TagType == 9 && t.DataSize != 0 && fTypeFlagsVideo) {
+		} else if (t.TagType == FLV_VIDEODATA && t.DataSize != 0 && fTypeFlagsVideo) {
 			UNREFERENCED_PARAMETER(vt);
 			VideoTag vt;
 			if (ReadTag(vt) && vt.FrameType == 1) {
@@ -392,7 +407,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				int w, h, arx, ary;
 
 				switch (vt.CodecID) {
-					case FLV_CODECID_H263:   // H.263
+					case FLV_VIDEO_H263:   // H.263
 						if (m_pFile->BitRead(17) != 1) {
 							break;
 						}
@@ -427,7 +442,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						name += L" H.263";
 
 						break;
-					case FLV_CODECID_SCREEN: {
+					case FLV_VIDEO_SCREEN: {
 						m_pFile->BitRead(4);
 						vih->bmiHeader.biWidth  = m_pFile->BitRead(12);
 						m_pFile->BitRead(4);
@@ -447,9 +462,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						break;
 					}
-					case FLV_CODECID_VP6A:  // VP6 with alpha
+					case FLV_VIDEO_VP6A:  // VP6 with alpha
 						m_pFile->BitRead(24);
-					case FLV_CODECID_VP6: { // VP6
+					case FLV_VIDEO_VP6: { // VP6
 #ifdef NOVIDEOTWEAK
 						m_pFile->BitRead(8);
 #else
@@ -499,7 +514,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						break;
 					}
-					case FLV_CODECID_H264: { // H.264
+					case FLV_VIDEO_AVC: { // H.264
 						if (dataSize < 4 || m_pFile->BitRead(8) != 0) { // packet type 0 == avc header
 							fTypeFlagsVideo = true;
 							break;
@@ -693,7 +708,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			while (ReadTag(t)) {
 				UINT64 next = m_pFile->GetPos() + t.DataSize;
 
-				if (t.TagType == 8 && ReadTag(at) || t.TagType == 9 && ReadTag(vt)) {
+				if (t.TagType == FLV_AUDIODATA && ReadTag(at) || t.TagType == FLV_VIDEODATA && ReadTag(vt)) {
 					m_rtDuration = max(m_rtDuration, 10000i64 * t.TimeStamp);
 				}
 
@@ -726,8 +741,8 @@ void CFLVSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 void CFLVSplitterFilter::NormalSeek(REFERENCE_TIME rt)
 {
-	bool fAudio = !!GetOutputPin(8);
-	bool fVideo = !!GetOutputPin(9);
+	bool fAudio = !!GetOutputPin(FLV_AUDIODATA);
+	bool fVideo = !!GetOutputPin(FLV_VIDEODATA);
 
 	__int64 pos = m_DataOffset + 1.0 * rt / m_rtDuration * (m_pFile->GetLength() - m_DataOffset);
 
@@ -754,9 +769,9 @@ void CFLVSplitterFilter::NormalSeek(REFERENCE_TIME rt)
 		UINT64 prev = m_pFile->GetPos() - 15 - t.PreviousTagSize - 4;
 
 		if (10000i64 * t.TimeStamp <= rt) {
-			if (t.TagType == 8 && ReadTag(at)) {
+			if (t.TagType == FLV_AUDIODATA && ReadTag(at)) {
 				fAudio = false;
-			} else if (t.TagType == 9 && ReadTag(vt) && vt.FrameType == 1) {
+			} else if (t.TagType == FLV_VIDEODATA && ReadTag(vt) && vt.FrameType == 1) {
 				fVideo = false;
 			}
 		}
@@ -772,8 +787,8 @@ void CFLVSplitterFilter::NormalSeek(REFERENCE_TIME rt)
 
 void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
 {
-	bool hasAudio = !!GetOutputPin(8);
-	bool hasVideo = !!GetOutputPin(9);
+	bool hasAudio = !!GetOutputPin(FLV_AUDIODATA);
+	bool hasVideo = !!GetOutputPin(FLV_VIDEODATA);
 
 	__int64 estimPos = m_DataOffset + 1.0 * rt / m_rtDuration * (m_pFile->GetLength() - m_DataOffset);
 
@@ -794,12 +809,12 @@ void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
 				__int64 cur = m_pFile->GetPos() - 15;
 				__int64 next = cur + 15 + t.DataSize;
 
-				if (hasAudio && t.TagType == 8 && ReadTag(at)) {
+				if (hasAudio && t.TagType == FLV_AUDIODATA && ReadTag(at)) {
 					foundAudio = true;
 					if (!hasVideo) {
 						bestPos = cur;
 					}
-				} else if (hasVideo && t.TagType == 9 && ReadTag(vt) && vt.FrameType == 1) {
+				} else if (hasVideo && t.TagType == FLV_VIDEODATA && ReadTag(vt) && vt.FrameType == 1) {
 					foundVideo = true;
 					bestPos = cur;
 				}
@@ -836,17 +851,17 @@ bool CFLVSplitterFilter::DemuxLoop()
 
 		__int64 next = m_pFile->GetPos() + t.DataSize;
 
-		if ((t.DataSize > 0) && (t.TagType == 8 && ReadTag(at) || t.TagType == 9 && ReadTag(vt))) {
+		if ((t.DataSize > 0) && (t.TagType == FLV_AUDIODATA && ReadTag(at) || t.TagType == FLV_VIDEODATA && ReadTag(vt))) {
 			UINT32 tsOffset = 0;
-			if (t.TagType == 9) {
+			if (t.TagType == FLV_VIDEODATA) {
 				if (vt.FrameType == 5) {
 					goto NextTag;    // video info/command frame
 				}
-				if (vt.CodecID == 4) {
+				if (vt.CodecID == FLV_VIDEO_VP6) {
 					m_pFile->BitRead(8);
-				} else if (vt.CodecID == 5) {
+				} else if (vt.CodecID == FLV_VIDEO_VP6A) {
 					m_pFile->BitRead(32);
-				} else if (vt.CodecID == 7) {
+				} else if (vt.CodecID == FLV_VIDEO_AVC) {
 					if (m_pFile->BitRead(8) != 1) {
 						goto NextTag;
 					}
@@ -855,7 +870,7 @@ bool CFLVSplitterFilter::DemuxLoop()
 					tsOffset = (tsOffset + 0xff800000) ^ 0xff800000; // sign extension
 				}
 			}
-			if (t.TagType == 8 && at.SoundFormat == 10) {
+			if (t.TagType == FLV_AUDIODATA && at.SoundFormat == FLV_AUDIO_AAC) {
 				if (m_pFile->BitRead(8) != 1) {
 					goto NextTag;
 				}
@@ -868,7 +883,7 @@ bool CFLVSplitterFilter::DemuxLoop()
 			p->TrackNumber = t.TagType;
 			p->rtStart = 10000i64 * (t.TimeStamp + tsOffset);
 			p->rtStop = p->rtStart + 1;
-			p->bSyncPoint = t.TagType == 9 ? vt.FrameType == 1 : true;
+			p->bSyncPoint = t.TagType == FLV_VIDEODATA ? vt.FrameType == 1 : true;
 			p->SetCount(dataSize);
 			m_pFile->ByteRead(p->GetData(), p->GetCount());
 			hr = DeliverPacket(p);
