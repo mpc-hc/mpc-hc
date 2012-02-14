@@ -331,7 +331,6 @@ static int swScaleMod(SwsContext *c, const uint8_t* src[],
     int16_t *hChrFilter= c->hChrFilter;
     int32_t *lumMmxFilter= c->lumMmxFilter;
     int32_t *chrMmxFilter= c->chrMmxFilter;
-    int32_t av_unused *alpMmxFilter= c->alpMmxFilter;
     const int vLumFilterSize= c->vLumFilterSize;
     const int vChrFilterSize= c->vChrFilterSize;
     const int hLumFilterSize= c->hLumFilterSize;
@@ -568,7 +567,7 @@ static int swScaleMod(SwsContext *c, const uint8_t* src[],
                 chrVSrcPtr = tmpV;
             }
 
-            if (isPlanarYUV(dstFormat) || dstFormat==PIX_FMT_GRAY8) { //YV12 like
+            if (isPlanarYUV(dstFormat) || (isGray(dstFormat) && !isALPHA(dstFormat))) { //YV12 like
                 const int chrSkipMask= (1<<c->chrDstVSubSample)-1;
 
                 if (vLumFilterSize == 1) {
@@ -603,8 +602,8 @@ static int swScaleMod(SwsContext *c, const uint8_t* src[],
             } else {
                 assert(lumSrcPtr  + vLumFilterSize - 1 < lumPixBuf  + vLumBufSize*2);
                 assert(chrUSrcPtr + vChrFilterSize - 1 < chrUPixBuf + vChrBufSize*2);
-                if (c->yuv2packed1 && vLumFilterSize == 1 && vChrFilterSize == 2) { //unscaled RGB
-                    int chrAlpha = vChrFilter[2 * dstY + 1];
+                if (c->yuv2packed1 && vLumFilterSize == 1 && vChrFilterSize <= 2) { //unscaled RGB
+                    int chrAlpha = vChrFilterSize == 1 ? 0 : vChrFilter[2 * dstY + 1];
                     yuv2packed1(c, *lumSrcPtr, chrUSrcPtr, chrVSrcPtr,
                                 alpPixBuf ? *alpSrcPtr : NULL,
                                 dest[0], dstW, chrAlpha, dstY);
