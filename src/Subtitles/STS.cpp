@@ -2976,8 +2976,8 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 		f.WriteString(str2);
 
 		str  = (et == EXTSSA)
-			   ? _T("Style: %s,%s,%d,&H%06x,&H%06x,&H%06x,&H%06x,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n")
-			   : _T("Style: %s,%s,%d,&H%08x,&H%08x,&H%08x,&H%08x,%d,%d,%d,%d,%d,%d,%d,%.2f,%d,%d,%d,%d,%d,%d,%d,%d\n");
+			   ? _T("Style: %s,%s,%d,&H%06x,&H%06x,&H%06x,&H%06x,%d,%d,%d,%.2f,%.2f,%d,%d,%d,%d,%d,%d\n")
+			   : _T("Style: %s,%s,%d,&H%08x,&H%08x,&H%08x,&H%08x,%d,%d,%d,%d,%.2f,%.2f,%.2f,%.2f,%d,%.2f,%.2f,%d,%d,%d,%d,%d\n");
 
 		POSITION pos = m_styles.GetStartPosition();
 		while (pos) {
@@ -2988,7 +2988,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 			if (et == EXTSSA) {
 				CString str2;
 				str2.Format(str, key,
-							s->fontName, s->fontSize,
+							s->fontName, (int)s->fontSize,
 							s->colors[0]&0xffffff,
 							s->colors[1]&0xffffff,
 							s->colors[2]&0xffffff,
@@ -3004,7 +3004,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 			} else {
 				CString str2;
 				str2.Format(str, key,
-							s->fontName, s->fontSize,
+							s->fontName, (int)s->fontSize,
 							(s->colors[0]&0xffffff) | (s->alpha[0]<<24),
 							(s->colors[1]&0xffffff) | (s->alpha[1]<<24),
 							(s->colors[2]&0xffffff) | (s->alpha[2]<<24),
@@ -3016,7 +3016,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 							s->borderStyle == 0 ? 1 : s->borderStyle == 1 ? 3 : 0,
 							s->outlineWidthY, s->shadowDepthY,
 							s->scrAlignment,
-							s->marginRect.left, s->marginRect.right, (s->marginRect.top + s->marginRect.bottom) / 2,
+							s->marginRect.left, s->marginRect.right, (int)((s->marginRect.top + s->marginRect.bottom) / 2),
 							s->charSet);
 				f.WriteString(str2);
 			}
@@ -3124,9 +3124,9 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 		str2.Format(str, m_dstScreenSize.cx, m_dstScreenSize.cy);
 		f.WriteString(str2);
 
-		str  = _T("Style: Default,%s,%d,&H%08x,&H%08x,&H%08x,&H%08x,%d,%d,%d,%d,%d,%d,%d,%.2f,%d,%d,%d,%d,%d,%d,%d,%d\n");
+		str  = _T("Style: Default,%s,%d,&H%08x,&H%08x,&H%08x,&H%08x,%d,%d,%d,%d,%.2f,%.2f,%.2f,%.2f,%d,%.2f,%.2f,%d,%d,%d,%d,%d\n");
 		str2.Format(str,
-					s->fontName, s->fontSize,
+					s->fontName, (int)s->fontSize,
 					(s->colors[0]&0xffffff) | (s->alpha[0]<<24),
 					(s->colors[1]&0xffffff) | (s->alpha[1]<<24),
 					(s->colors[2]&0xffffff) | (s->alpha[2]<<24),
@@ -3138,7 +3138,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 					s->borderStyle == 0 ? 1 : s->borderStyle == 1 ? 3 : 0,
 					s->outlineWidthY, s->shadowDepthY,
 					s->scrAlignment,
-					s->marginRect.left, s->marginRect.right, (s->marginRect.top + s->marginRect.bottom) / 2,
+					s->marginRect.left, s->marginRect.right, (int)((s->marginRect.top + s->marginRect.bottom) / 2),
 					s->charSet);
 		f.WriteString(str2);
 	}
