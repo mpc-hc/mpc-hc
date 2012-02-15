@@ -1365,6 +1365,7 @@
 #define IDS_RESET_COLOR                 41319
 #define ID_MENU_LANGUAGE                41320
 #define ID_HELP_CHECKFORUPDATE          41321
+#define ID_PANSCAN_NEXT                 41322
 #define IDS_USING_LATEST_STABLE         41322
 #define IDS_USING_NEWER_VERSION         41323
 #define IDS_NEW_UPDATE_AVAILABLE        41324
@@ -1501,6 +1502,7 @@
 #define IDS_PPAGE_CAPTURE_SFG0          57351
 #define IDS_PPAGE_CAPTURE_SFG1          57352
 #define IDS_PPAGE_CAPTURE_SFG2          57353
+#define IDS_AG_NEXT_PNS_PRESET          57354
 
 // Next default values for new objects
 // 

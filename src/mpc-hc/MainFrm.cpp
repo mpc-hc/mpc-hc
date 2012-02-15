@@ -322,6 +322,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnViewAspectRatio)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnUpdateViewAspectRatio)
     ON_COMMAND(ID_ASPECTRATIO_NEXT, OnViewAspectRatioNext)
+    ON_COMMAND(ID_PANSCAN_NEXT, OnViewPnSNext)
     ON_COMMAND_RANGE(ID_ONTOP_DEFAULT, ID_ONTOP_WHILEPLAYINGVIDEO, OnViewOntop)
     ON_UPDATE_COMMAND_UI_RANGE(ID_ONTOP_DEFAULT, ID_ONTOP_WHILEPLAYINGVIDEO, OnUpdateViewOntop)
     ON_COMMAND(ID_VIEW_OPTIONS, OnViewOptions)
@@ -646,6 +647,7 @@ CMainFrame::CMainFrame()
     , m_pGraphThread(nullptr)
     , m_bOpenedThruThread(false)
     , m_nMenuHideTick(0)
+    , m_iPnS(0)
     , m_bWasSnapped(false)
     , m_nSeekDirection(SEEK_DIRECTION_NONE)
     , m_bIsBDPlay(false)
@@ -6714,12 +6716,17 @@ void CMainFrame::OnViewPanNScan(UINT nID)
 
     int x = 0, y = 0;
     int dx = 0, dy = 0;
+    CString info;
 
     switch (nID) {
         case ID_VIEW_RESET:
             m_ZoomX = m_ZoomY = 1.0;
             m_PosX = m_PosY = 0.5;
             m_AngleX = m_AngleY = m_AngleZ = 0;
+            m_iPnS = 0;
+            info.Format(_T("P & S Reset"));
+            m_OSD.DisplayMessage(OSD_TOPLEFT, info, 3000);
+
             break;
         case ID_VIEW_INCSIZE:
             x = y = 1;
@@ -6877,6 +6884,10 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
     m_ZoomY = min(max(m_ZoomY, 0.2), 3);
 
     MoveVideoWindow(true);
+
+    CString info;
+    info.Format(_T("P & S Preset: %s"), str.Mid(0, str.Find(_T(","))));
+    m_OSD.DisplayMessage(OSD_TOPLEFT, info, 3000);
 }
 
 void CMainFrame::OnUpdateViewPanNScanPresets(CCmdUI* pCmdUI)
@@ -6972,6 +6983,16 @@ void CMainFrame::OnViewAspectRatioNext()
     }
 
     OnViewAspectRatio(nID);
+}
+
+void CMainFrame::OnViewPnSNext()
+{
+    if (m_iPnS == AfxGetAppSettings().m_pnspresets.GetCount()) {
+        OnViewPanNScan(ID_VIEW_RESET);
+    } else {
+        OnViewPanNScanPresets(ID_PANNSCAN_PRESETS_START + m_iPnS);
+        m_iPnS += 1;
+    }
 }
 
 void CMainFrame::OnViewOntop(UINT nID)

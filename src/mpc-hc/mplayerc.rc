@@ -2538,6 +2538,7 @@ BEGIN
     IDS_AG_DVD_ROOT_MENU    "DVD Root Menu"
     IDS_MPLAYERC_65         "DVD Subtitle Menu"
     IDS_MPLAYERC_66         "DVD Audio Menu"
+    IDS_AG_NEXT_PNS_PRESET  "PnS Next Preset"
 END
 
 STRINGTABLE
