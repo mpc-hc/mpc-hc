@@ -654,7 +654,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 		s1->pSliceInfo = pSliceInfo;
 		avcodec_decode_video2(pAVCtx, pFrame, &got_picture, &avpkt);
 		*nSliceCount = s1->slice_count;
-		*nFieldType = s->top_field_first ? PICT_TOP_FIELD : PICT_FRAME;
+		*nFieldType = s->progressive_frame ? PICT_FRAME : s->top_field_first ? PICT_TOP_FIELD : PICT_FRAME;
 		*nSliceType = s->pict_type;
 	}
 

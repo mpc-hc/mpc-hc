@@ -11764,8 +11764,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 				m_pSubStreams.RemoveAll(); // Needs to be replaced with code that checks for forced subtitles.
 			}
 
-			if (s.fPrioritizeExternalSubtitles)
-			{
+			if (s.fPrioritizeExternalSubtitles) {
 				ATL::CInterfaceList<ISubStream, &__uuidof(ISubStream)> subs;
 
 				while (!m_pSubStreams.IsEmpty()) {
@@ -11779,12 +11778,15 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 				extern ISubStream *InsertSubStream(CInterfaceList<ISubStream> *subStreams, const CComPtr<ISubStream> &theSubStream);
 
+				CInterfaceList<ISubStream> pSubStreams;
 				while (!subs.IsEmpty()) {
-					InsertSubStream(&m_pSubStreams, subs.RemoveHead());
+					InsertSubStream(&pSubStreams, subs.RemoveHead());
 				}
-			}
-			else
-			{
+
+				while (!pSubStreams.IsEmpty()) {
+					m_pSubStreams.AddTail(pSubStreams.RemoveHead());
+				}
+			} else {
 				POSITION pos = pOMD->subs.GetHeadPosition();
 				while (pos) {
 					LoadSubtitle(pOMD->subs.GetNext(pos));
