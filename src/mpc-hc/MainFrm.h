@@ -707,6 +707,7 @@ public:
     afx_msg void OnViewAspectRatio(UINT nID);
     afx_msg void OnUpdateViewAspectRatio(CCmdUI* pCmdUI);
     afx_msg void OnViewAspectRatioNext();
+    afx_msg void OnViewPnSNext();
     afx_msg void OnViewOntop(UINT nID);
     afx_msg void OnUpdateViewOntop(CCmdUI* pCmdUI);
     afx_msg void OnViewOptions();
@@ -938,6 +939,7 @@ protected:
     void WTSUnRegisterSessionNotification();
 
     DWORD m_nMenuHideTick;
+    UINT m_iPnS;
     UINT m_nSeekDirection;
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);

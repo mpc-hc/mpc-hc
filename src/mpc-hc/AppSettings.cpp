@@ -302,6 +302,7 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_VIEW_VF_FROMOUTSIDE,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_OUTSIDE));
     ADDCMD((ID_VIEW_VF_SWITCHZOOM,              'P', FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_SWITCHZOOM));
     ADDCMD((ID_ONTOP_ALWAYS,                    'A', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_ALWAYS_ON_TOP));
+    ADDCMD((ID_PANSCAN_NEXT,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_PNS_PRESET));
     ADDCMD((ID_VIEW_RESET,               VK_NUMPAD5, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_RESET));
     ADDCMD((ID_VIEW_INCSIZE,             VK_NUMPAD9, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_INC_SIZE));
     ADDCMD((ID_VIEW_INCWIDTH,            VK_NUMPAD6, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_INC_WIDTH));

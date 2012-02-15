@@ -2051,6 +2051,7 @@ END
 STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Media Player Classic Home Cinema"
+    IDS_AG_NEXT_PNS_PRESET  "PnS Next Preset"
 END
 
 STRINGTABLE

@@ -3,7 +3,9 @@
 // Used by mplayerc.rc
 //
 #define IDR_MAINFRAME                   128
+#define ID_PANSCAN_NEXT                 129
 #define IDR_POPUP                       130
+#define IDS_AG_NEXT_PNS_PRESET          130
 #define IDR_POPUPMAIN                   133
 #define IDB_PLAYERTOOLBAR               201
 #define IDB_AUDIOTYPE_NOAUDIO           202
