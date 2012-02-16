@@ -32,7 +32,7 @@
 #undef BIT_DEPTH
 
 #define BIT_DEPTH 9
-//#include "h264pred_template.c"
+#include "h264pred_template.c"
 #undef BIT_DEPTH
 
 #define BIT_DEPTH 10
@@ -521,11 +521,9 @@ void ff_h264_pred_init(H264PredContext *h, int codec_id, const int bit_depth, co
     h->pred16x16_add[ HOR_PRED8x8]= FUNCC(pred16x16_horizontal_add        , depth);\
 
     switch (bit_depth) {
-#if 0
         case 9:
             H264_PRED(9)
             break;
-#endif
         case 10:
             H264_PRED(10)
             break;

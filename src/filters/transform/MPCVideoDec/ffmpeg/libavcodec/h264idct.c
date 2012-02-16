@@ -30,7 +30,7 @@
 #undef BIT_DEPTH
 
 #define BIT_DEPTH 9
-//#include "h264idct_template.c"
+#include "h264idct_template.c"
 #undef BIT_DEPTH
 
 #define BIT_DEPTH 10

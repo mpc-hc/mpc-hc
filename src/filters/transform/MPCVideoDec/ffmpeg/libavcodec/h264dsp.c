@@ -34,7 +34,7 @@
 #undef BIT_DEPTH
 
 #define BIT_DEPTH 9
-//#include "h264dsp_template.c"
+#include "h264dsp_template.c"
 #undef BIT_DEPTH
 
 #define BIT_DEPTH 10
@@ -100,11 +100,9 @@ void ff_h264dsp_init(H264DSPContext *c, const int bit_depth, const int chroma_fo
     c->h264_loop_filter_strength= NULL;
 
     switch (bit_depth) {
-#if 0
     case 9:
         H264_DSP(9);
         break;
-#endif
     case 10:
         H264_DSP(10);
         break;
