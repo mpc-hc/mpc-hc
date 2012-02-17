@@ -300,3 +300,24 @@ CoInitializeHelper::~CoInitializeHelper()
 {
     CoUninitialize();
 }
+
+HRESULT FileDelete(CString file, HWND hWnd, bool recycle /*= true*/)
+{
+    // Strings in SHFILEOPSTRUCT must be double-null terminated
+    file.AppendChar(_T('\0'));
+
+    SHFILEOPSTRUCT fileOpStruct;
+    ZeroMemory(&fileOpStruct, sizeof(SHFILEOPSTRUCT));
+    fileOpStruct.hwnd = hWnd;
+    fileOpStruct.wFunc = FO_DELETE;
+    fileOpStruct.pFrom = file;
+    if (recycle) {
+        fileOpStruct.fFlags = FOF_ALLOWUNDO | FOF_WANTNUKEWARNING;
+    }
+    int hRes = SHFileOperation(&fileOpStruct);
+    if (fileOpStruct.fAnyOperationsAborted) {
+        hRes = E_ABORT;
+    }
+    TRACE(_T("Delete recycle=%d hRes=0x%08x, file=%s\n"), recycle, hRes, file);
+    return hRes;
+}

@@ -31,6 +31,7 @@
 #include "PlayerPlaylistBar.h"
 #include "SettingsDefines.h"
 #include "InternalFiltersConfig.h"
+#include "WinAPIUtils.h"
 
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
@@ -825,6 +826,28 @@ bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
     return false;
 }
 
+bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
+{
+    CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
+
+    // release the file handle by changing to the next item or stopping playback
+    if (pos == m_pl.GetPos()) {
+        if (m_pl.GetCount() > 1) {
+            pMainFrm->OnNavigateSkipFile(ID_NAVIGATE_SKIPFORWARDFILE);
+        } else {
+            pMainFrm->CloseMedia();
+        }
+    }
+
+    if (SUCCEEDED(FileDelete(m_pl.GetAt(pos).m_fns.GetHead(), pMainFrm->m_hWnd, recycle))) {
+        m_list.DeleteItem(FindItem(pos));
+        m_pl.RemoveAt(pos);
+        SavePlaylist();
+        return true;
+    }
+    return false;
+}
+
 void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 {
     CString base;
@@ -1329,6 +1352,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         M_OPEN = 1,
         M_ADD,
         M_REMOVE,
+        M_RECYCLE,
         M_CLEAR,
         M_CLIPBOARD,
         M_SAVEAS,
@@ -1347,6 +1371,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         m.AppendMenu(MF_STRING | MF_ENABLED, M_ADD, ResStr(IDS_PLAYLIST_ADD));
     }
     m.AppendMenu(MF_STRING | (/*fSelected||*/!fOnItem ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_REMOVE, ResStr(IDS_PLAYLIST_REMOVE));
+    m.AppendMenu(MF_STRING | (/*fSelected||*/!fOnItem ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_RECYCLE, ResStr(IDS_FILE_RECYCLE));
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | (!m_pl.GetCount() ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_CLEAR, ResStr(IDS_PLAYLIST_CLEAR));
     m.AppendMenu(MF_SEPARATOR);
@@ -1381,6 +1406,9 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             }
             m_list.DeleteItem(lvhti.iItem);
             SavePlaylist();
+            break;
+        case M_RECYCLE:
+            DeleteFileInPlaylist(pos);
             break;
         case M_CLEAR:
             if (Empty()) {

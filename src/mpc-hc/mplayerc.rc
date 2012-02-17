@@ -3232,6 +3232,11 @@ BEGIN
     IDS_CONTENT_LEISURE                 "Leisure hobbies"
 END
 
+STRINGTABLE
+BEGIN
+    IDS_FILE_RECYCLE                    "Move to Recycle Bin"
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
