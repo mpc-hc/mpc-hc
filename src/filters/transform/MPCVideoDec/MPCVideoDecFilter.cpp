@@ -2102,6 +2102,7 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 	HRESULT hr						 = S_OK;
 	UINT	cDecoderGuids			 = 0;
 	BOOL	bFoundDXVA2Configuration = FALSE;
+	BOOL    bHasIntelGuid			 = FALSE;
 	GUID	guidDecoder				 = GUID_NULL;
 
 	DXVA2_ConfigPictureDecode config;
@@ -2143,6 +2144,14 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 	}
 
 	if (SUCCEEDED(hr)) {
+
+		//Intel patch for Ivy Bridge and Sandy Bridge
+		if(m_nPCIVendor == PCIV_Intel){
+			for(UINT iCnt = 0; iCnt < cDecoderGuids; iCnt++) {
+				if(pDecoderGuids[iCnt] == DXVA_Intel_H264_ClearVideo) 
+					bHasIntelGuid = TRUE; 
+			}
+		}
 		// Look for the decoder GUIDs we want.
 		for (UINT iGuid = 0; iGuid < cDecoderGuids; iGuid++) {
 			// Do we support this mode?
@@ -2158,15 +2167,14 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 			}
 
 			// Patch for the Sandy Bridge (prevent crash on Mode_E, fixme later)
-			// known device IDs for SB integrated graphics are: 258, 274, 278, 290, 294
-			if (m_nPCIVendor == PCIV_Intel && m_nPCIDevice>=258 && m_nPCIDevice<=294 && pDecoderGuids[iGuid] == DXVA2_ModeH264_E) {
-				bFoundDXVA2Configuration = false;
-			}
+			if (m_nPCIVendor == PCIV_Intel && pDecoderGuids[iGuid] == DXVA2_ModeH264_E && bHasIntelGuid) {  
+						  continue;
+		}
 
 			if (bFoundDXVA2Configuration) {
 				// Found a good configuration. Save the GUID.
 				guidDecoder = pDecoderGuids[iGuid];
-				break;
+			if (!bHasIntelGuid) break;
 			}
 		}
 	}
