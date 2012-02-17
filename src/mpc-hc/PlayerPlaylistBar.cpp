@@ -804,6 +804,25 @@ bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
     return false;
 }
 
+bool CPlayerPlaylistBar::RemoveFileInPlaylist(LPCTSTR filename)
+{
+    if (!filename) {
+        return false;
+    }
+    POSITION pos = m_pl.GetHeadPosition();
+    while (pos) {
+        CPlaylistItem& pli = m_pl.GetAt(pos);
+        if (pli.FindFile(filename)) {
+            m_list.DeleteItem(FindItem(pos));
+            m_pl.RemoveAt(pos);
+            SavePlaylist();
+            return true;
+        }
+        m_pl.GetNext(pos);
+    }
+    return false;
+}
+
 void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 {
     CString base;
@@ -1299,6 +1318,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     POSITION pos = FindPos(lvhti.iItem);
     //bool fSelected = (pos == m_pl.GetPos());
     bool fOnItem = !!(lvhti.flags & LVHT_ONITEM);
+    bool recycle = false;
 
     CMenu m;
     m.CreatePopupMenu();
@@ -1307,6 +1327,8 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         M_OPEN = 1,
         M_ADD,
         M_REMOVE,
+        M_DELETE,
+        M_RECYCLE,
         M_CLEAR,
         M_CLIPBOARD,
         M_SAVEAS,
@@ -1325,6 +1347,8 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         m.AppendMenu(MF_STRING | MF_ENABLED, M_ADD, ResStr(IDS_PLAYLIST_ADD));
     }
     m.AppendMenu(MF_STRING | (/*fSelected||*/!fOnItem ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_REMOVE, ResStr(IDS_PLAYLIST_REMOVE));
+    m.AppendMenu(MF_STRING | (/*fSelected||*/!fOnItem ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_DELETE, ResStr(IDS_FILE_DELETE));
+    m.AppendMenu(MF_STRING | (/*fSelected||*/!fOnItem ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_RECYCLE, ResStr(IDS_FILE_RECYCLE));
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | (!m_pl.GetCount() ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_CLEAR, ResStr(IDS_PLAYLIST_CLEAR));
     m.AppendMenu(MF_SEPARATOR);
@@ -1357,6 +1381,22 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             if (m_pl.RemoveAt(pos)) {
                 pMainFrm->CloseMedia();
             }
+            m_list.DeleteItem(lvhti.iItem);
+            SavePlaylist();
+            break;
+        case M_RECYCLE:
+		    recycle = true;
+        case M_DELETE:
+            // release the file handle by changing to the next file or stopping playback
+            if (pos == m_pl.GetPos()) {
+                if (!pMainFrm->OnNavigateSkipFile(ID_NAVIGATE_SKIPFORWARDFILE)) {
+                    pMainFrm->CloseMedia();
+                }
+            }
+            if (!SUCCEEDED(pMainFrm->FileDelete(m_pl.GetAt(pos).m_fns.GetHead(), recycle))) {
+                break;
+            }
+            m_pl.RemoveAt(pos);
             m_list.DeleteItem(lvhti.iItem);
             SavePlaylist();
             break;

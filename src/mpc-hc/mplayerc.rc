@@ -2231,6 +2231,7 @@ STRINGTABLE
 BEGIN
     IDD_PPAGEACCELTBL       "Player::Keys"
     IDD_PPAGESUBSTYLE       "Subtitles::Default Style"
+    IDS_FILE_DELETE         "Delete from Disk"
     IDD_PPAGEINTERNALFILTERS "Internal Filters"
     IDD_PPAGELOGO           "Player::Logo"
     IDD_PPAGEOUTPUT         "Playback::Output"
@@ -3310,6 +3311,11 @@ BEGIN
     IDS_OSD_RESET_COLOR     "Color settings restored"
     IDS_OSD_NO_COLORCONTROL "Color control is not supported"
     IDS_BRIGHTNESS_INC      "Brightness increase"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_FILE_RECYCLE        "Move to Recycle Bin"
 END
 
 #endif    // English (United States) resources

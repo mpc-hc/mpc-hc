@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by mplayerc.rc
 //
+#define IDS_FILE_RECYCLE                1
 #define IDR_MAINFRAME                   128
 #define IDR_POPUP                       130
 #define IDR_POPUPMAIN                   133
@@ -339,6 +340,7 @@
 #define IDD_PPAGEEXTERNALFILTERS        10030
 #define IDD_PPAGEACCELTBL               10032
 #define IDD_PPAGESUBSTYLE               10033
+#define IDS_FILE_DELETE                 10034
 #define IDD_PPAGEINTERNALFILTERS        10036
 #define IDD_PPAGELOGO                   10037
 #define IDD_PPAGEOUTPUT                 10039
@@ -680,6 +682,8 @@
 #define ID_VIEW_CM_INTENT_SATURATION    24041
 #define ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC 24042
 #define ID_VIEW_HALFFLOATINGPOINTPROCESSING 24043
+#define ID_FILE_DELETE                  24044
+#define ID_FILE_RECYCLE                 24045
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADERS_TOGGLE               32770
 #define IDS_SHADERS_TOGGLE              32771
@@ -1490,6 +1494,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        20013
 #define _APS_NEXT_COMMAND_VALUE         33449
 #define _APS_NEXT_CONTROL_VALUE         22073
-#define _APS_NEXT_SYMED_VALUE           24044
+#define _APS_NEXT_SYMED_VALUE           24046
 #endif
 #endif
