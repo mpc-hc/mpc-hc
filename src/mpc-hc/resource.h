@@ -7,6 +7,7 @@
 #define IDR_POPUP                       130
 #define IDS_AG_NEXT_PNS_PRESET          130
 #define IDR_POPUPMAIN                   133
+#define IDS_FILE_DELETE                 133
 #define IDB_PLAYERTOOLBAR               201
 #define IDB_AUDIOTYPE_NOAUDIO           202
 #define IDB_AUDIOTYPE_MONO              203
@@ -682,6 +683,7 @@
 #define ID_VIEW_CM_INTENT_SATURATION    24041
 #define ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC 24042
 #define ID_VIEW_HALFFLOATINGPOINTPROCESSING 24043
+#define ID_FILE_DELETE                  24044
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADERS_TOGGLE               32770
 #define IDS_SHADERS_TOGGLE              32771
@@ -1493,6 +1495,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        20013
 #define _APS_NEXT_COMMAND_VALUE         33449
 #define _APS_NEXT_CONTROL_VALUE         22073
-#define _APS_NEXT_SYMED_VALUE           24044
+#define _APS_NEXT_SYMED_VALUE           24045
 #endif
 #endif

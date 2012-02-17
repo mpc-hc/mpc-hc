@@ -236,6 +236,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_FILE_OPEN_CD_START, ID_FILE_OPEN_CD_END, OnFileOpenCD)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILE_OPEN_CD_START, ID_FILE_OPEN_CD_END, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_REOPEN, OnFileReopen)
+    ON_COMMAND(ID_FILE_DELETE, OnFileDelete)
     ON_WM_DROPFILES()
     ON_COMMAND(ID_FILE_SAVE_COPY, OnFileSaveAs)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_COPY, OnUpdateFileSaveAs)
@@ -4413,6 +4414,23 @@ void CMainFrame::OnFileOpenCD(UINT nID)
     }
 }
 
+void CMainFrame::OnFileDelete()
+{
+    // check if a file is playing
+    if (GetPlaybackMode() != PM_FILE) {
+        return;
+    }
+    CString file = m_LastOpenFile;
+    // release the file handle by changing to the next file or stopping playback
+    if (!NavigateSkipFile(ID_NAVIGATE_SKIPFORWARDFILE)) {
+        CloseMedia();
+    }
+    if (!SUCCEEDED(DeleteFile(file))) {
+        return;
+    }
+    m_wndPlaylistBar.RemoveFileInPlaylist(file);
+}
+
 void CMainFrame::OnFileReopen()
 {
     if (!m_LastOpenBDPath.IsEmpty() && OpenBD(m_LastOpenBDPath)) {
@@ -8342,8 +8360,9 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
                        || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing)));
 }
 
-void CMainFrame::OnNavigateSkipFile(UINT nID)
+bool CMainFrame::NavigateSkipFile(UINT nID)
 {
+    bool bRet = false;
     if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_CAPTURE) {
         if (m_wndPlaylistBar.GetCount() == 1) {
             if (GetPlaybackMode() == PM_CAPTURE || !AfxGetAppSettings().fUseSearchInFolder) {
@@ -8354,9 +8373,12 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
                     if (!SearchInDir(false)) {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
                     }
+                    bRet = true;
                 } else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
                     if (!SearchInDir(true)) {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
+                    } else {
+                        bRet = true;
                     }
                 }
             }
@@ -8366,10 +8388,17 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
             } else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
                 m_wndPlaylistBar.SetNext();
             }
-
-            OpenCurPlaylistItem();
+            if (OpenCurPlaylistItem()) {
+                bRet = true;
+            }
         }
     }
+    return bRet;
+}
+
+void CMainFrame::OnNavigateSkipFile(UINT nID)
+{
+    NavigateSkipFile(nID);
 }
 
 void CMainFrame::OnUpdateNavigateSkipFile(CCmdUI* pCmdUI)
@@ -12050,6 +12079,20 @@ static bool SearchInDirCompare(const CString& str1, const CString& str2)
     return (StrCmpLogicalW(str1, str2) < 0);
 }
 
+HRESULT CMainFrame::DeleteFile(CString file)
+{
+    file.AppendChar('\0');
+    SHFILEOPSTRUCT fileOpStruct = {0};
+    fileOpStruct.hwnd = m_hWnd;
+    fileOpStruct.wFunc = FO_DELETE;
+    fileOpStruct.pFrom = file;
+    fileOpStruct.fFlags = FOF_ALLOWUNDO | FOF_WANTNUKEWARNING;
+    int hRes = SHFileOperation(&fileOpStruct);
+    if (fileOpStruct.fAnyOperationsAborted) { hRes = E_ABORT; }
+    TRACE(_T("Delete from Disk hRes=0x%08x, file=%s\n"), hRes, file);
+    return hRes;
+}
+
 bool CMainFrame::SearchInDir(bool bDirForward)
 {
     CStringArray files;
@@ -14369,10 +14412,10 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
     m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
 
-void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
+bool CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
 {
     if (m_wndPlaylistBar.GetCount() == 0) {
-        return;
+        return false;
     }
 
     CPlaylistItem pli;
@@ -14380,13 +14423,15 @@ void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
         m_wndPlaylistBar.SetFirstSelected();
     }
     if (!m_wndPlaylistBar.GetCur(pli)) {
-        return;
+        return false;
     }
 
     CAutoPtr<OpenMediaData> p(m_wndPlaylistBar.GetCurOMD(rtStart));
     if (p) {
         OpenMedia(p);
+        return true;
     }
+    return true;
 }
 
 void CMainFrame::AddCurDevToPlaylist()

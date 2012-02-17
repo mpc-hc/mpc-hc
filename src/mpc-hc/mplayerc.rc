@@ -2052,6 +2052,7 @@ STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Media Player Classic Home Cinema"
     IDS_AG_NEXT_PNS_PRESET  "PnS Next Preset"
+    IDS_FILE_DELETE         "Delete from Disk"
 END
 
 STRINGTABLE
