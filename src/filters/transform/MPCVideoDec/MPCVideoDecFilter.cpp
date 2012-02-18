@@ -902,7 +902,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				case CODEC_ID_RV40 :
 					bCodecActivated = (m_nActiveCodecs & MPCVD_RV) != 0;
 					break;
-				case CODEC_ID_MPEG2 :
+				case CODEC_ID_MPEG2VIDEO :
 					m_bUseDXVA = (m_nActiveCodecs & MPCVD_MPEG2_DXVA) != 0;
 					m_bUseFFmpeg = false;
 					bCodecActivated = m_bUseDXVA;
