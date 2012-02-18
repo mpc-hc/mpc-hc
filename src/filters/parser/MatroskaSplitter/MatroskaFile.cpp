@@ -202,27 +202,28 @@ HRESULT Segment::ParseMinimal(CMatroskaNode* pMN0)
 		return S_FALSE;
 	}
 
-	int n = 0;
+	unsigned int k = 0;
 
 	do {
 		switch (pMN->m_id) {
 			case 0x1549A966:
 				SegmentInfo.Parse(pMN);
-				n++;
+				k |= (1 << 0);
 				break;
 			case 0x114D9B74:
 				MetaSeekInfo.Parse(pMN);
-				n++;
+				k |= (1 << 1);
 				break;
 			case 0x1654AE6B:
 				Tracks.Parse(pMN);
-				n++;
+				k |= (1 << 2);
 				break;
 			case 0x1C53BB6B:
+				k |= (1 << 3);
 				Cues.Parse(pMN);
 				break;
 		}
-	} while (n < 3 && pMN->Next());
+	} while (k != 15 && pMN->m_id != 0x1F43B675 && pMN->Next());
 
 	if (!pMN->IsRandomAccess()) {
 		return S_OK;
@@ -238,7 +239,7 @@ HRESULT Segment::ParseMinimal(CMatroskaNode* pMN0)
 		MetaSeekInfo.Parse(pMN);
 	}
 
-	if (n == 3) {
+	if (k != 15) {
 		if (Cues.IsEmpty() && (pMN = pMN0->Child(0x1C53BB6B, false))) {
 			do {
 				Cues.Parse(pMN);
@@ -1413,9 +1414,6 @@ bool CMatroskaNode::Next(bool fSame)
 
 	CID id = m_id;
 
-	CID last_id;
-	CLength last_len;
-	
 	while (m_start+m_len < m_pParent->m_start+m_pParent->m_len) {
 		SeekTo(m_start+m_len);
 
@@ -1428,13 +1426,6 @@ bool CMatroskaNode::Next(bool fSame)
 		if (!fSame || m_id == id) {
 			return true;
 		}
-
-		if(last_id == m_id || last_len == m_len) {
-			return false;
-		}
-
-		last_id.Set(m_id);
-		last_len.Set(m_len);
 	}
 
 	return false;
