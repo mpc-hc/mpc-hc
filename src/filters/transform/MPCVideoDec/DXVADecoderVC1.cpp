@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #include "DXVADecoderVC1.h"
 #include "MPCVideoDecFilter.h"
+#include "avcodec.h"
 
 extern "C"
 {
@@ -198,8 +199,6 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 {
-	m_PictureParams.wPicWidthInMBminus1				= m_pFilter->PictWidth()  - 1;
-	m_PictureParams.wPicHeightInMBminus1			= m_pFilter->PictHeight() - 1;
 	m_PictureParams.bMacroblockWidthMinus1			= 15;
 	m_PictureParams.bMacroblockHeightMinus1			= 15;
 	m_PictureParams.bBlockWidthMinus1				= 7;
@@ -266,13 +265,16 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
 	} else {
 		if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000) {
-			// Some splitter have remove startcode (Haali)
-			pDXVABuffer[0]=pDXVABuffer[1]=0;
-			pDXVABuffer[2]=1;
-			pDXVABuffer[3]=0x0D;
-			pDXVABuffer	+=4;
-			memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
-			nSize  +=4;
+			if(m_pFilter->GetCodec() == CODEC_ID_WMV3) {
+				memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);			
+			} else {
+				pDXVABuffer[0]=pDXVABuffer[1]=0;
+				pDXVABuffer[2]=1;
+				pDXVABuffer[3]=0x0D;
+				pDXVABuffer	+=4;
+				memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+				nSize  +=4;
+			}
 		} else {
 			BYTE*	pStart;
 			UINT	nPacketSize;

@@ -1416,7 +1416,7 @@ bool CMatroskaNode::Next(bool fSame)
 	CID last_id;
 	CLength last_len;
 	
-	while ((m_start+m_len < m_pParent->m_start+m_pParent->m_len) && (last_id != m_id) && (last_len != m_len)) {
+	while (m_start+m_len < m_pParent->m_start+m_pParent->m_len) {
 		SeekTo(m_start+m_len);
 
 		if (FAILED(Parse())) {
@@ -1427,6 +1427,10 @@ bool CMatroskaNode::Next(bool fSame)
 
 		if (!fSame || m_id == id) {
 			return true;
+		}
+
+		if(last_id == m_id || last_len == m_len) {
+			return false;
 		}
 
 		last_id.Set(m_id);

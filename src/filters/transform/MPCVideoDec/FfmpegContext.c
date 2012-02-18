@@ -553,6 +553,16 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 		*nFrameSize = out_nFrameSize;
 	}
 
+	if (vc1->profile == PROFILE_ADVANCED) {
+		/* It is the cropped width/height -1 of the frame */
+		pPicParams->wPicWidthInMBminus1 = pAVCtx->width  - 1;
+		pPicParams->wPicHeightInMBminus1= pAVCtx->height - 1;
+	} else {
+		/* It is the coded width/height in macroblock -1 of the frame */
+		pPicParams->wPicWidthInMBminus1 = vc1->s.mb_width  - 1;
+		pPicParams->wPicHeightInMBminus1= vc1->s.mb_height - 1;
+	}
+
 	pPicParams->bSecondField			= (vc1->interlace && vc1->fcm == ILACE_FIELD && vc1->second_field);
 	pPicParams->bPicIntra				= (vc1->s.pict_type == AV_PICTURE_TYPE_I || vc1->bi_type == 1);
 	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == AV_PICTURE_TYPE_B && vc1->bi_type == 0);
@@ -604,15 +614,15 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 
 	// TODO : not finish...
 	pPicParams->bMVprecisionAndChromaRelation = ((vc1->mv_mode == MV_PMODE_1MV_HPEL_BILIN) << 3) |		// 0 for non-bilinear luma motion, 1 for bilinear
-			(1 << 2) |		// 0 for WMV8, 1 for WMV9 motion
-			(0 << 1) |		// 1 for WMV8 quarter sample luma motion
-			(0);			// 0 for quarter sample chroma motion, 1 for half sample chroma
+																						(1 << 2) |		// 0 for WMV8, 1 for WMV9 motion
+																						(0 << 1) |		// 1 for WMV8 quarter sample luma motion
+																						(0);			// 0 for quarter sample chroma motion, 1 for half sample chroma
 
 	// Cf §7.1.1.25 in VC1 specification, §3.2.14.3 in DXVA spec
 	pPicParams->bRcontrol	= vc1->rnd;
 
 	pPicParams->bPicDeblocked	= ((vc1->profile == PROFILE_ADVANCED && vc1->overlap == 1 &&
-									pPicParams->bPicBackwardPrediction == 0)					<< 6) |
+								pPicParams->bPicBackwardPrediction == 0)					<< 6) |
 								  ((vc1->profile != PROFILE_ADVANCED && vc1->rangeredfrm)	<< 5) |
 								  (vc1->s.loop_filter										<< 1);
 

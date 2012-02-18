@@ -298,18 +298,28 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.AddString (_T("H.264/AVC (DXVA)"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_H264_DXVA) != 0);
 #endif
-#if INTERNAL_DECODER_H264
-	m_lstCodecs.AddString (_T("H.264/AVC (FFmpeg)"));
-	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_H264) != 0);
-#endif
 #if INTERNAL_DECODER_VC1_DXVA
 	m_lstCodecs.AddString (_T("VC1 (DXVA)"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VC1_DXVA) != 0);
+#endif
+#if INTERNAL_DECODER_WMV9_DXVA
+	m_lstCodecs.AddString (_T("WMV9 (DXVA)"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_WMV9_DXVA) != 0);
+#endif
+#if INTERNAL_DECODER_MPEG2_DXVA
+	m_lstCodecs.AddString (_T("MPEG2 (DXVA)"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MPEG2_DXVA) != 0);
+#endif
+
+#if INTERNAL_DECODER_H264
+	m_lstCodecs.AddString (_T("H.264/AVC (FFmpeg)"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_H264) != 0);
 #endif
 #if INTERNAL_DECODER_VC1
 	m_lstCodecs.AddString (_T("VC1 (FFmpeg)"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VC1) != 0);
 #endif
+
 #if HAS_FFMPEG_VIDEO_DECODERS
 	m_lstCodecs.AddString (_T("Xvid/MPEG-4"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_XVID) != 0);

@@ -262,7 +262,8 @@ public:
 
 	inline bool					UseDXVA2()				{ return (m_nDXVAMode == MODE_DXVA2); };
 	inline AVCodecContext*		GetAVCtx()				{ return m_pAVCtx; };
-	inline AVFrame*				GetFrame()				{ return m_pFrame; }
+	inline AVFrame*				GetFrame()				{ return m_pFrame; };
+	inline enum CodecID			GetCodec()				{ return m_nCodecId; };
 	inline bool					IsReorderBFrame()		{ return m_bReorderBFrame; };
 	inline DWORD				GetPCIVendor()			{ return m_nPCIVendor; };
 	inline REFERENCE_TIME		GetAvrTimePerFrame()	{ return m_rtAvrTimePerFrame; };
@@ -275,7 +276,6 @@ public:
 			m_pDXVADecoder->Flush();
 		}
 	}
-
 
 	// === DXVA1 functions
 	DDPIXELFORMAT*				GetPixelFormat()		{ return &m_PixelFormat; }

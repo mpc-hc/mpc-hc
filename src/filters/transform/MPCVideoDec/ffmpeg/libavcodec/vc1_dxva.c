@@ -152,7 +152,12 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
 
     // do parse frame header
     v->pic_header_flag = 0;
-    vc1_parse_frame_header_adv(v, &s->gb);
+
+    if (v->profile < PROFILE_ADVANCED) {
+			vc1_parse_frame_header(v, &s->gb);
+    } else {
+			vc1_parse_frame_header_adv(v, &s->gb);
+    }
 
     if (v->field_mode && buf_start_second_field) {
         s->picture_structure = PICT_BOTTOM_FIELD - v->tff;

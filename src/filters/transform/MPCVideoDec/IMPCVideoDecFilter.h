@@ -42,7 +42,9 @@ typedef enum {
 	MPCVD_VP8       = 1 << 14,
 	MPCVD_MJPEG     = 1 << 15,
 	MPCVD_INDEO     = 1 << 16,
-	MPCVD_RV        = 1 << 17
+	MPCVD_RV        = 1 << 17,
+	MPCVD_WMV9_DXVA = 1 << 19,
+	MPCVD_MPEG2_DXVA  = 1 << 19,
 } MPC_VIDEO_CODEC;
 
 interface __declspec(uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262"))

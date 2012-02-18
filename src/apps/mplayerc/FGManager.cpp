@@ -1986,6 +1986,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV2);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv2);
+	}
+#endif
+#if INTERNAL_DECODER_WMV | INTERNAL_DECODER_WMV9_DXVA
+	if ((ffmpeg_filters[FFM_WMV]) || (dxva_filters[TRA_DXVA_WMV9])) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV3);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv3);
 	}
@@ -2193,6 +2197,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV2);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv2);
+	}
+#endif
+#if INTERNAL_DECODER_WMV | INTERNAL_DECODER_WMV9_DXVA
+	if ((ffmpeg_filters[FFM_WMV]) || (dxva_filters[TRA_DXVA_WMV9])) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV3);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv3);
 	}

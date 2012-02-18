@@ -124,27 +124,31 @@ s_filters[] = {
 	{_T("Other PCM/ADPCM"), DECODER, TRA_PCM, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 
+#if INTERNAL_DECODER_H264_DXVA
+	{_T("H264/AVC (DXVA)"), DXVA_DECODER, TRA_DXVA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_VC1_DXVA
+	{_T("VC1 (DXVA)"), DXVA_DECODER, TRA_DXVA_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_WMV9_DXVA
+	{_T("WMV9 (DXVA)"), DXVA_DECODER, TRA_DXVA_WMV9, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_MPEG2_DXVA
+	{_T("MPEG-2 Video (DXVA)"), DXVA_DECODER, TRA_DXVA_MPEG2, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+
 #if INTERNAL_DECODER_MPEG1
 	{_T("MPEG-1 Video"), DECODER, TRA_MPEG1, IDS_TRA_MPEG1, CreateInstance<CMpeg2DecFilter>},
 #endif
 #if INTERNAL_DECODER_MPEG2
 	{_T("MPEG-2 Video"), DECODER, TRA_MPEG2, IDS_TRA_MPEG2, CreateInstance<CMpeg2DecFilter>},
 #endif
-#if INTERNAL_DECODER_MPEG2_DXVA
-	{_T("MPEG-2 Video (DXVA)"), DXVA_DECODER, TRA_DXVA_MPEG2, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
 #if INTERNAL_DECODER_REALVIDEO
 	{_T("RealVideo"), DECODER, TRA_RV, IDS_TRA_RV, NULL},
 #endif
 
-#if INTERNAL_DECODER_H264_DXVA
-	{_T("H264/AVC (DXVA)"), DXVA_DECODER, TRA_DXVA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
 #if INTERNAL_DECODER_H264
 	{_T("H264/AVC (FFmpeg)"), FFMPEG_DECODER, FFM_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
-#if INTERNAL_DECODER_VC1_DXVA
-	{_T("VC1 (DXVA)"), DXVA_DECODER, TRA_DXVA_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_VC1
 	{_T("VC1 (FFmpeg)"), FFMPEG_DECODER, FFM_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
