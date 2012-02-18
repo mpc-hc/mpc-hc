@@ -231,11 +231,13 @@ HRESULT Segment::ParseMinimal(CMatroskaNode* pMN0)
 
 	while (MatroskaReader::QWORD pos = pMN->FindPos(0x114D9B74, pMN->GetPos())) {
 		pMN->SeekTo(pos);
-		pMN->Parse();
-		if (pMN->m_id != 0x114D9B74) {
+		if (FAILED(pMN->Parse())) {
+			return S_FALSE; // a broken file
+		}
+		/*if (pMN->m_id != 0x114D9B74) {
 			ASSERT(0);
 			break;
-		}
+		}*/
 		MetaSeekInfo.Parse(pMN);
 	}
 
