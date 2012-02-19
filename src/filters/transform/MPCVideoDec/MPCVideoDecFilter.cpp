@@ -560,7 +560,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP356|MPCVD_VP8|MPCVD_MJPEG|MPCVD_INDEO|MPCVD_RV|MPCVD_WMV9_DXVA|MPCVD_MPEG2_DXVA;
+	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP356|MPCVD_VP8|MPCVD_MJPEG|MPCVD_INDEO|MPCVD_RV|MPCVD_WMV3_DXVA|MPCVD_MPEG2_DXVA;
 	m_rtLastStart			= 0;
 	m_nCountEstimated		= 0;
 
@@ -799,8 +799,8 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 #endif
 					break;
 				case CODEC_ID_WMV3 :
-#if INTERNAL_DECODER_WMV9_DXVA
-					m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_WMV9];
+#if INTERNAL_DECODER_WMV3_DXVA
+					m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_WMV3];
 #else
 					m_bUseDXVA = false;
 #endif
@@ -843,7 +843,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 					bCodecActivated = (m_nActiveCodecs & MPCVD_WMV) != 0;
 					break;
 				case CODEC_ID_WMV3 :
-					m_bUseDXVA = (m_nActiveCodecs & MPCVD_WMV9_DXVA) != 0;
+					m_bUseDXVA = (m_nActiveCodecs & MPCVD_WMV3_DXVA) != 0;
 					m_bUseFFmpeg = (m_nActiveCodecs & MPCVD_WMV) != 0;
 					bCodecActivated = m_bUseDXVA || m_bUseFFmpeg;
 					break;

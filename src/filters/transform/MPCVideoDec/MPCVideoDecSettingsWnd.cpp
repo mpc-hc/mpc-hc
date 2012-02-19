@@ -302,9 +302,9 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.AddString (_T("VC1 (DXVA)"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VC1_DXVA) != 0);
 #endif
-#if INTERNAL_DECODER_WMV9_DXVA
-	m_lstCodecs.AddString (_T("WMV9 (DXVA)"));
-	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_WMV9_DXVA) != 0);
+#if INTERNAL_DECODER_WMV3_DXVA
+	m_lstCodecs.AddString (_T("WMV3 (DXVA)"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_WMV3_DXVA) != 0);
 #endif
 #if INTERNAL_DECODER_MPEG2_DXVA
 	m_lstCodecs.AddString (_T("MPEG2 (DXVA)"));

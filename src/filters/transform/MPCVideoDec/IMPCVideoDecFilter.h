@@ -43,7 +43,7 @@ typedef enum {
 	MPCVD_MJPEG      = 1 << 15,
 	MPCVD_INDEO      = 1 << 16,
 	MPCVD_RV         = 1 << 17,
-	MPCVD_WMV9_DXVA  = 1 << 19,
+	MPCVD_WMV3_DXVA  = 1 << 19,
 	MPCVD_MPEG2_DXVA = 1 << 20,
 } MPC_VIDEO_CODEC;
 
