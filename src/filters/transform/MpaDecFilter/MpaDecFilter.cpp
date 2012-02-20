@@ -384,6 +384,14 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	memset (&m_flac, 0, sizeof(m_flac));
 #endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
+	m_a52_state = NULL;
+#endif
+
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
+	m_dts_state = NULL;
+#endif
+
 #ifdef REGISTER_FILTER
 	CRegKey key;
 	if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"), KEY_READ)) {
@@ -425,12 +433,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 CMpaDecFilter::~CMpaDecFilter()
 {
-#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
-	if (m_pFFBuffer) {
-		free(m_pFFBuffer);
-	}
-	m_nFFBufferSize	= 0;
-#endif
+	StopStreaming();
 }
 
 STDMETHODIMP CMpaDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -2063,16 +2066,23 @@ HRESULT CMpaDecFilter::StartStreaming()
 HRESULT CMpaDecFilter::StopStreaming()
 {
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
-	a52_free(m_a52_state);
+	if(m_a52_state != NULL) {
+		a52_free(m_a52_state);
+		m_a52_state = NULL;
+	}
 #endif
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
-	dts_free(m_dts_state);
+	if(m_dts_state != NULL) {
+		dts_free(m_dts_state);
+		m_dts_state = NULL;
+	}
 #endif
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	flac_stream_finish();
 #endif
+
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	ffmpeg_stream_finish();
 #endif
@@ -2725,6 +2735,11 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 	if (m_pFrame)	{
 		av_freep(&m_pFrame);
 	}
+
+	if (m_pFFBuffer) {
+		free(m_pFFBuffer);
+	}
+	m_nFFBufferSize	= 0;
 }
 
 #ifndef AV_RB16
