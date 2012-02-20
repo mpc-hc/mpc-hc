@@ -2734,10 +2734,12 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 
 	if (m_pFrame)	{
 		av_freep(&m_pFrame);
+		m_pFrame = NULL;
 	}
 
 	if (m_pFFBuffer) {
 		free(m_pFFBuffer);
+		m_pFFBuffer = NULL;
 	}
 	m_nFFBufferSize	= 0;
 }
