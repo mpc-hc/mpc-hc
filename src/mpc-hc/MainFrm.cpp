@@ -592,7 +592,6 @@ CMainFrame::CMainFrame()
     : m_iMediaLoadState(MLS_CLOSED)
     , m_iPlaybackMode(PM_NONE)
     , m_bFirstPlay(false)
-    , m_dwLastRun(0)
     , m_dSpeedRate(1.0)
     , m_rtDurationOverride(-1)
     , m_fFullScreen(false)
@@ -623,6 +622,9 @@ CMainFrame::CMainFrame()
     , m_fBuffering(false)
     , m_fileDropTarget(this)
     , m_fTrayIcon(false)
+    , m_nIPCTick(ULONG_MAX)
+    , m_nIPCTick_COPYDATA(ULONG_MAX)
+    , m_nIPCDelay_COPYDATA(ULONG_MAX)
     , m_pFullscreenWnd(NULL)
     , m_pVideoWnd(NULL)
     , m_bRemainingTime(false)
@@ -4239,10 +4241,9 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             OpenMedia(p);
         } else {
-            if (m_dwLastRun && ((GetTickCount() - m_dwLastRun) < 500)) {
+            if (m_nIPCDelay_COPYDATA < 500) {
                 s.nCLSwitches |= CLSW_ADD;
             }
-            m_dwLastRun = GetTickCount();
 
             if ((s.nCLSwitches & CLSW_ADD) && m_wndPlaylistBar.GetCount() > 0) {
                 m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
@@ -4252,7 +4253,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                     OpenCurPlaylistItem();
                 }
             } else {
-                SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                 fSetForegroundWindow = true;
 
                 m_wndPlaylistBar.Open(sl, fMulti, &s.slSubs);
@@ -15834,7 +15834,24 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         return 0;
     }
 
-    return __super::WindowProc(message, wParam, lParam);
+    // allow time for WM_COPYDATA IPC, for example recursion through a large directory tree
+    if (message == WM_COPYDATA) {
+        m_nIPCDelay_COPYDATA = GetTickCount() - m_nIPCTick_COPYDATA - (GetTickCount() - m_nIPCTick);
+    }
+    LRESULT lRes = __super::WindowProc(message, wParam, lParam);
+    if (message == WM_COPYDATA) {
+        m_nIPCTick_COPYDATA = GetTickCount();
+    }
+    // avoid variable assignment after ~CMainFrame
+    static bool exist = true;
+    if (message == WM_CLOSE) {
+        exist = false;
+    }
+    if (exist) {
+        m_nIPCTick = GetTickCount();
+    }
+
+    return lRes;
 }
 
 UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)

@@ -286,7 +286,6 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     bool m_fEndOfStream;
 
     LARGE_INTEGER m_liLastSaveTime;
-    DWORD m_dwLastRun;
 
     bool m_fBuffering;
 
@@ -913,6 +912,10 @@ public:
     void        SetTimersPlay();
     void        KillTimersStop();
 
+    // IPC
+    DWORD       m_nIPCTick;
+    DWORD       m_nIPCTick_COPYDATA;
+    DWORD       m_nIPCDelay_COPYDATA;
 
     // MPC API functions
     void        ProcessAPICommand(COPYDATASTRUCT* pCDS);
