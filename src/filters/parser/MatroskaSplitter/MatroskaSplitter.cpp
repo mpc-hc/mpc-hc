@@ -800,7 +800,10 @@ void CMatroskaSplitterFilter::SetupChapters(LPCSTR lng, ChapterAtom* parent, int
 
 			ChapAppend(ca->ChapterTimeStart / 100 - m_pFile->m_rtOffset, name);
 
-			if (!ca->ChapterAtoms.IsEmpty()) {
+			if (!ca->ChapterAtoms.IsEmpty() && level < 5) {
+				// level < 5 - hard limit for the number of levels
+				// limit is needed because the player crash sometimes (broken files?)
+				// TODO: remake it
 				SetupChapters(lng, ca, level+1);
 			}
 		}
