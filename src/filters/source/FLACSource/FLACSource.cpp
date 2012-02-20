@@ -125,6 +125,7 @@ STDMETHODIMP CFLACSource::QueryFilterInfo(FILTER_INFO* pInfo)
 CFLACStream::CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	: CBaseStream(NAME("CFLACStream"), pParent, phr)
 	, m_bIsEOF (false)
+	, m_pDecoder (NULL)
 {
 	CAutoLock		cAutoLock(&m_cSharedState);
 	CString			fn(wfn);
@@ -173,6 +174,10 @@ CFLACStream::CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 CFLACStream::~CFLACStream()
 {
+	if (m_pDecoder) {
+		FLAC__stream_decoder_delete (_DECODER_);
+		m_pDecoder = NULL;
+	}
 }
 
 HRESULT CFLACStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
