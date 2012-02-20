@@ -375,14 +375,24 @@ bool CMPCVideoDecCodecWnd::OnApply()
 			nActiveCodecs |= MPCVD_H264_DXVA;
 		}
 #endif
-#if INTERNAL_DECODER_H264
-		if (m_lstCodecs.GetCheck  (nPos++)) {
-			nActiveCodecs |= MPCVD_H264;
-		}
-#endif
 #if INTERNAL_DECODER_VC1_DXVA
 		if (m_lstCodecs.GetCheck  (nPos++)) {
 			nActiveCodecs |= MPCVD_VC1_DXVA;
+		}
+#endif
+#if INTERNAL_DECODER_WMV3_DXVA
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_WMV3_DXVA;
+		}
+#endif
+#if INTERNAL_DECODER_MPEG2_DXVA
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_MPEG2_DXVA;
+		}
+#endif
+#if INTERNAL_DECODER_H264
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_H264;
 		}
 #endif
 #if INTERNAL_DECODER_VC1
@@ -426,6 +436,9 @@ bool CMPCVideoDecCodecWnd::OnApply()
 		}
 		if (m_lstCodecs.GetCheck  (nPos++)) {
 			nActiveCodecs |= MPCVD_MJPEG;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_INDEO;
 		}
 		if (m_lstCodecs.GetCheck  (nPos++)) {
 			nActiveCodecs |= MPCVD_RV;
