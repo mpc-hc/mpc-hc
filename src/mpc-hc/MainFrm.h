@@ -287,6 +287,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     LARGE_INTEGER m_liLastSaveTime;
     DWORD m_dwLastRun;
+    DWORD m_dwLastRunWM;
 
     bool m_fBuffering;
 

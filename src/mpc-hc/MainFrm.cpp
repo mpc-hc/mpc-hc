@@ -591,6 +591,7 @@ CMainFrame::CMainFrame()
     , m_iPlaybackMode(PM_NONE)
     , m_bFirstPlay(false)
     , m_dwLastRun(0)
+    , m_dwLastRunWM(0)
     , m_dSpeedRate(1.0)
     , m_rtDurationOverride(-1)
     , m_fFullScreen(false)
@@ -4236,10 +4237,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             OpenMedia(p);
         } else {
-            if (m_dwLastRun && ((GetTickCount() - m_dwLastRun) < 500)) {
+            // if a new process is started soon after the previous add the files to the playlist
+            if (m_dwLastRunWM - m_dwLastRun < 500) {
                 s.nCLSwitches |= CLSW_ADD;
             }
-            m_dwLastRun = GetTickCount();
 
             if ((s.nCLSwitches & CLSW_ADD) && m_wndPlaylistBar.GetCount() > 0) {
                 m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
@@ -15759,7 +15760,21 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         return 0;
     }
 
-    return __super::WindowProc(message, wParam, lParam);
+    LRESULT lRes = __super::WindowProc(message, wParam, lParam);
+
+    // avoid variable assignment after ~CMainFrame
+    static bool exist = true;
+    if (message == WM_DESTROY || message == WM_CLOSE || message == WM_QUIT) {
+        exist = false;
+    }
+    if (exist) {
+        if (message == WM_COPYDATA) {
+            m_dwLastRun = GetTickCount();
+        }
+        m_dwLastRunWM = GetTickCount();
+    }
+
+    return lRes;
 }
 
 UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
