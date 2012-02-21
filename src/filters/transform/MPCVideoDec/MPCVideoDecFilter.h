@@ -120,6 +120,9 @@ protected:
 	// Buffer management for truncated stream (store stream chunks & reference time sent by splitter)
 	BYTE*									m_pFFBuffer;
 	int										m_nFFBufferSize;
+	BYTE*									m_pAlignedFFBuffer;
+	int										m_nAlignedFFBufferSize;
+
 	int										m_nFFBufferPos;
 	int										m_nFFPicEnd;
 	BUFFER_TIME								m_FFBufferTime[MAX_BUFF_TIME];

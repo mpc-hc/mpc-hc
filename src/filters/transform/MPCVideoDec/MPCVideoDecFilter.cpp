@@ -601,6 +601,9 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	m_rtPrevStop = 0;
 
+	m_pAlignedFFBuffer		= NULL;
+	m_nAlignedFFBufferSize	= 0;
+
 #ifdef REGISTER_FILTER
 	CRegKey key;
 	if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ)) {
@@ -931,7 +934,8 @@ void CMPCVideoDecFilter::Cleanup()
 			free((unsigned char*)m_pAVCtx->extradata);
 		}
 		if (m_pFFBuffer) {
-			free(m_pFFBuffer);
+			av_freep(&m_pFFBuffer);
+			m_nFFBufferSize = 0;
 		}
 
 		if (m_pAVCtx->slice_offset) {
@@ -1501,7 +1505,7 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
 int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 {
 	if (subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_YV12) {
-		return FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ;
+		return (int)(FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ);
 	} else if (subtype == MEDIASUBTYPE_NV12) {
 		return FF_CSP_NV12;
 	} else if (subtype == MEDIASUBTYPE_YUY2) {
@@ -1628,6 +1632,8 @@ template<class T> inline T odd2even(T x)
 		   x;
 }
 
+#define FFALIGN(x, a) (((x)+(a)-1)&~((a)-1))
+
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
 	HRESULT			hr = S_OK;
@@ -1648,7 +1654,11 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		if (!bFlush) {
 			if (nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {
 				m_nFFBufferSize	= nSize+FF_INPUT_BUFFER_PADDING_SIZE;
-				m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
+				m_pFFBuffer		= (BYTE*)av_realloc(m_pFFBuffer, m_nFFBufferSize);
+				if (!m_pFFBuffer) {
+					m_nFFBufferSize = 0;
+					return E_FAIL;
+				}
 			}
 
 			// Required number of additionally allocated bytes at the end of the input bitstream for decoding.
@@ -1739,6 +1749,22 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			InitSwscale();
 		}
 		if (m_pSwsContext != NULL) {
+
+			int outStride = m_pOutSize.cx;
+			
+			// From LAVVideo ...
+			// Check if we have proper pixel alignment and the dst memory is actually aligned
+			if (FFALIGN(outStride, 16) != outStride || ((uintptr_t)pDataOut % 16u)) {
+				outStride = FFALIGN(outStride, 16);
+				int requiredSize = (outStride * m_pAVCtx->height * m_nSwOutBpp) << 3;
+				if (requiredSize > m_nAlignedFFBufferSize) {
+					av_freep(&m_pAlignedFFBuffer);
+					m_nAlignedFFBufferSize	= requiredSize;
+					m_pAlignedFFBuffer		= (BYTE*)av_malloc(m_nAlignedFFBufferSize+FF_INPUT_BUFFER_PADDING_SIZE);
+				}
+				pDataOut = m_pAlignedFFBuffer;
+			}
+
 			uint8_t*	dst[4];
 			int			srcStride[4];
 			int			dstStride[4];
@@ -1752,12 +1778,12 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				srcStride[1] = m_pFrame->linesize[1];
 				srcStride[2] = m_pFrame->linesize[2];
 				srcStride[3] = m_pFrame->linesize[3];
-				dstStride[0] = (m_nSwOutBpp>>3) * (m_pOutSize.cx);
+				dstStride[0] = (m_nSwOutBpp>>3) * (outStride);
 				dstStride[1] = dstStride[2] = dstStride[3] = 0;
 			} else {
 				for (int i=0; i<4; i++) {
 					srcStride[i]=(stride_t)m_pFrame->linesize[i];
-					dstStride[i]=m_pOutSize.cx>>outcspInfo->shiftX[i];
+					dstStride[i]=outStride>>outcspInfo->shiftX[i];
 					if (i==0) {
 						dst[i]=pDataOut;
 					} else {
@@ -1766,9 +1792,9 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				}
 				int nTempCsp = m_nOutCsp;
 				if (outcspInfo->id==FF_CSP_420P) {
-					csp_yuv_adj_to_plane(nTempCsp,outcspInfo,odd2even(m_pOutSize.cy),(unsigned char**)dst,(stride_t*)dstStride);
+					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, odd2even(m_pOutSize.cy), (unsigned char**)dst, (stride_t*)dstStride);
 				} else {
-					csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,(stride_t*)dstStride);
+					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, m_pAVCtx->height, (unsigned char**)dst, (stride_t*)dstStride);
 				}
 			}
 

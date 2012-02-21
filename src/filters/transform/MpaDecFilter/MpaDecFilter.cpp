@@ -2382,7 +2382,7 @@ void CMpaDecFilter::flac_stream_finish()
 #define COPY_TO_BUFFER(data, size) { \
   if (size + FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) { \
     m_nFFBufferSize = size+FF_INPUT_BUFFER_PADDING_SIZE; \
-	m_pFFBuffer	= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize); \
+	m_pFFBuffer	= (BYTE*)av_realloc(m_pFFBuffer, m_nFFBufferSize); \
     if (!m_pFFBuffer) { \
       m_nFFBufferSize = 0; \
       return E_FAIL; \
@@ -2419,7 +2419,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 		int len = w * h;
 
 		if (buffsize >= len) {
-			tmpProcessBuf = (BYTE *)calloc(1, len + FF_INPUT_BUFFER_PADDING_SIZE);
+			tmpProcessBuf = (BYTE *)av_malloc(len + FF_INPUT_BUFFER_PADDING_SIZE);
 			if (sps > 0 && m_raData.deint_id == MAKEFOURCC('r','n','e','g')) { // COOK and ATRAC codec
 				const BYTE *srcBuf = pDataInBuff;
 				for(int y = 0; y < h; y++) {
@@ -2590,10 +2590,10 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 		}
 	}
 
-	free((unsigned char*)tmpProcessBuf);
+	av_freep(&tmpProcessBuf);
 	return hr;
 fail:
-	free((unsigned char*)tmpProcessBuf);
+	av_freep(&tmpProcessBuf);
 	return E_FAIL;
 }
 
@@ -2738,8 +2738,8 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 	}
 
 	if (m_pFFBuffer) {
-		free(m_pFFBuffer);
-		m_pFFBuffer = NULL;
+		av_freep(m_pFFBuffer);
+		m_pFFBuffer		= NULL;
 	}
 	m_nFFBufferSize	= 0;
 }

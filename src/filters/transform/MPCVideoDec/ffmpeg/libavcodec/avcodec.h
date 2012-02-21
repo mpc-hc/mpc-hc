@@ -3895,6 +3895,8 @@ FF_EXPORT void av_parser_close(AVCodecParserContext *s);
 
 /* memory */
 FF_EXPORT void av_freep(void *arg);
+FF_EXPORT void *av_realloc(void *ptr, size_t size);
+FF_EXPORT void *av_malloc(size_t size);
 
 /**
  * Reallocate the given block if it is not large enough, otherwise do nothing.
