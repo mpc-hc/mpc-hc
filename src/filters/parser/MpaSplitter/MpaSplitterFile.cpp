@@ -240,50 +240,39 @@ HRESULT CMpaSplitterFile::Init()
 		}
 	}
 
-	__int64 searchlen;
-	__int64 startpos;
-	__int64 syncpos;
+	__int64 searchlen = 0;
+	__int64 startpos = 0;
+	__int64 syncpos = 0;
 
+	__int64 startpos_mp3 = m_startpos;
+	while (m_mode == none) {
+		searchlen = min(m_endpos - startpos_mp3, 0x200);
+		Seek(startpos_mp3);
 
-	if (!MP3_find) { // if no 'ID3' tag at begin of file
-		Seek(m_startpos);
-		searchlen = min(m_endpos - m_startpos, 4);
+		// If we fail to see sync bytes, we reposition here and search again
+		syncpos = startpos_mp3 + searchlen;
+
+		// Check for a valid MPA header
 		if (Read(m_mpahdr, searchlen, true, &m_mt)) {
-			MP3_find = true;
-		}
-	}
+			m_mode = mpa;
 
-	if (MP3_find) {
-		__int64 startpos_mp3 = m_startpos;
-		while (m_mode == none) {
-			searchlen = min(m_endpos - startpos_mp3, 0x200);
-			Seek(startpos_mp3);
+			syncpos = GetPos();
+			startpos = syncpos - 4;
 
-			// If we fail to see sync bytes, we reposition here and search again
-			syncpos = startpos_mp3 + searchlen;
-
-			// Check for a valid MPA header
-			if (Read(m_mpahdr, searchlen, true, &m_mt)) {
-				m_mode = mpa;
-
-				syncpos = GetPos();
-				startpos = syncpos - 4;
-
-				// make sure the first frame is followed by another of the same kind (validates m_mpahdr basically)
-				Seek(startpos + m_mpahdr.FrameSize);
-				if (!Sync(4)) {
-					m_mode = none;
-				} else {
-					break;
-				}
-			}
-
-			// If we have enough room to search for a valid header, then skip ahead and try again
-			if (m_endpos - syncpos >= 8) {
-				startpos_mp3 = syncpos;
+			// make sure the first frame is followed by another of the same kind (validates m_mpahdr basically)
+			Seek(startpos + m_mpahdr.FrameSize);
+			if (!Sync(4)) {
+				m_mode = none;
 			} else {
 				break;
 			}
+		}
+
+		// If we have enough room to search for a valid header, then skip ahead and try again
+		if (m_endpos - syncpos >= 8) {
+			startpos_mp3 = syncpos;
+		} else {
+			break;
 		}
 	}
 
@@ -312,8 +301,6 @@ HRESULT CMpaSplitterFile::Init()
 		DWORD m_dwFrames = 0;		// total number of frames
 		Seek(m_startpos + MPA_HEADER_SIZE + 32);
 		if (BitRead(32, true) == 'Xing' || BitRead(32, true) == 'Info') {
-			TRACE(_T("CMpaSplitterFile -  Xing VBR header found\n"));
-
 			BitRead(32); // Skip ID tag
 			DWORD dwFlags = BitRead(32);
 			// extract total number of frames in file
@@ -321,8 +308,6 @@ HRESULT CMpaSplitterFile::Init()
 				m_dwFrames = BitRead(32);
 
 		} else if (BitRead(32, true) == 'VBRI') {
-			TRACE(_T("CMpaSplitterFile -  VBRI header found\n"));
-
 			BitRead(32); // Skip ID tag
 			// extract all fields from header (all mandatory)
 			BitRead(16); // version

@@ -321,11 +321,11 @@ static av_cold int cook_decode_close(AVCodecContext *avctx)
 
     /* Free the VLC tables. */
     for (i = 0; i < 13; i++)
-        free_vlc(&q->envelope_quant_index[i]);
+        ff_free_vlc(&q->envelope_quant_index[i]);
     for (i = 0; i < 7; i++)
-        free_vlc(&q->sqvh[i]);
+        ff_free_vlc(&q->sqvh[i]);
     for (i = 0; i < q->num_subpackets; i++)
-        free_vlc(&q->subpacket[i].ccpl);
+        ff_free_vlc(&q->subpacket[i].ccpl);
 
     av_log(avctx, AV_LOG_DEBUG, "Memory deallocated.\n");
 
@@ -1078,6 +1078,10 @@ static av_cold int cook_decode_init(AVCodecContext *avctx)
     q->sample_rate = avctx->sample_rate;
     q->nb_channels = avctx->channels;
     q->bit_rate = avctx->bit_rate;
+    if (!q->nb_channels) {
+        av_log(avctx, AV_LOG_ERROR, "Invalid number of channels\n");
+        return AVERROR_INVALIDDATA;
+    }
 
     /* Initialize RNG. */
     av_lfg_init(&q->random_state, 0);

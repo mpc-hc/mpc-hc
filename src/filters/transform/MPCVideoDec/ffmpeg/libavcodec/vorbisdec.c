@@ -203,7 +203,7 @@ static void vorbis_free(vorbis_context *vc)
 
     for (i = 0; i < vc->codebook_count; ++i) {
         av_free(vc->codebooks[i].codevectors);
-        free_vlc(&vc->codebooks[i].vlc);
+        ff_free_vlc(&vc->codebooks[i].vlc);
     }
     av_freep(&vc->codebooks);
 
@@ -978,7 +978,7 @@ static av_cold int vorbis_decode_init(AVCodecContext *avccontext)
     int hdr_type, ret;
 
     vc->avccontext = avccontext;
-    dsputil_init(&vc->dsp, avccontext);
+    ff_dsputil_init(&vc->dsp, avccontext);
     ff_fmt_convert_init(&vc->fmt_conv, avccontext);
 
     if (avccontext->request_sample_fmt == AV_SAMPLE_FMT_FLT) {
@@ -1244,20 +1244,20 @@ static int vorbis_floor1_decode(vorbis_context *vc,
             floor1_flag[i]               = 1;
             if (val >= room) {
                 if (highroom > lowroom) {
-                    floor1_Y_final[i] = val - lowroom + predicted;
+                    floor1_Y_final[i] = av_clip_uint16(val - lowroom + predicted);
                 } else {
-                    floor1_Y_final[i] = predicted - val + highroom - 1;
+                    floor1_Y_final[i] = av_clip_uint16(predicted - val + highroom - 1);
                 }
             } else {
                 if (val & 1) {
-                    floor1_Y_final[i] = predicted - (val + 1) / 2;
+                    floor1_Y_final[i] = av_clip_uint16(predicted - (val + 1) / 2);
                 } else {
-                    floor1_Y_final[i] = predicted + val / 2;
+                    floor1_Y_final[i] = av_clip_uint16(predicted + val / 2);
                 }
             }
         } else {
             floor1_flag[i]    = 0;
-            floor1_Y_final[i] = predicted;
+            floor1_Y_final[i] = av_clip_uint16(predicted);
         }
 
         av_dlog(NULL, " Decoded floor(%d) = %u / val %u\n",
@@ -1447,7 +1447,7 @@ static inline int vorbis_residue_decode(vorbis_context *vc, vorbis_residue *vr,
     }
 }
 
-void vorbis_inverse_coupling(float *mag, float *ang, int blocksize)
+void ff_vorbis_inverse_coupling(float *mag, float *ang, int blocksize)
 {
     int i;
     for (i = 0;  i < blocksize;  i++) {
@@ -1713,4 +1713,3 @@ AVCodec ff_vorbis_decoder = {
         AV_SAMPLE_FMT_FLT, AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE
     },
 };
-

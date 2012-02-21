@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2006 Konstantin Shishkov
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -61,7 +61,7 @@ static int build_huff_tree(VLC *vlc, Node *nodes, int head, int flags)
     int pos = 0;
 
     get_tree_codes(bits, lens, xlat, nodes, head, 0, 0, &pos, no_zero_count);
-    return init_vlc_sparse(vlc, 9, pos, lens, 2, 2, bits, 4, 4, xlat, 1, 1, 0);
+    return ff_init_vlc_sparse(vlc, 9, pos, lens, 2, 2, bits, 4, 4, xlat, 1, 1, 0);
 }
 
 
@@ -90,19 +90,18 @@ int ff_huff_build_tree(AVCodecContext *avctx, VLC *vlc, int nb_codes,
     cur_node = nb_codes;
     nodes[nb_codes*2-1].count = 0;
     for(i = 0; i < nb_codes*2-1; i += 2){
-        uint32_t cur_count = nodes[i].count + nodes[i+1].count;
-        // find correct place to insert new node, and
-        // make space for the new node while at it
-        for(j = cur_node; j > i + 2; j--){
-            if(cur_count > nodes[j-1].count ||
-               (cur_count == nodes[j-1].count &&
-                !(flags & FF_HUFFMAN_FLAG_HNODE_FIRST)))
+        nodes[cur_node].sym = HNODE;
+        nodes[cur_node].count = nodes[i].count + nodes[i+1].count;
+        nodes[cur_node].n0 = i;
+        for(j = cur_node; j > 0; j--){
+            if(nodes[j].count > nodes[j-1].count ||
+               (nodes[j].count == nodes[j-1].count &&
+                (!(flags & FF_HUFFMAN_FLAG_HNODE_FIRST) ||
+                 nodes[j].n0==j-1 || nodes[j].n0==j-2 ||
+                 (nodes[j].sym!=HNODE && nodes[j-1].sym!=HNODE))))
                 break;
-            nodes[j] = nodes[j - 1];
+            FFSWAP(Node, nodes[j], nodes[j-1]);
         }
-        nodes[j].sym = HNODE;
-        nodes[j].count = cur_count;
-        nodes[j].n0 = i;
         cur_node++;
     }
     if(build_huff_tree(vlc, nodes, nb_codes*2-2, flags) < 0){

@@ -229,7 +229,7 @@ static void field_end_noexecute(H264Context *h){
     h->prev_frame_num_offset= h->frame_num_offset;
     h->prev_frame_num       = h->frame_num;
 
-    MPV_frame_end(s);
+    ff_MPV_frame_end(s);
 
     h->current_slice=0;
 }
@@ -343,7 +343,7 @@ int decode_slice_header_noexecute(H264Context *h){
         }
         free_tables(h, 0);
         flush_dpb(s->avctx);
-        MPV_common_end(s);
+        ff_MPV_common_end(s);
     }
     if (!s->context_initialized) {
         if (h != h0) {
@@ -377,8 +377,8 @@ int decode_slice_header_noexecute(H264Context *h){
         
         s->avctx->pix_fmt = PIX_FMT_YUV420P;
 
-        if (MPV_common_init(s) < 0) {
-            av_log(h->s.avctx, AV_LOG_ERROR, "MPV_common_init() failed.\n");
+        if (ff_MPV_common_init(s) < 0) {
+            av_log(h->s.avctx, AV_LOG_ERROR, "ff_MPV_common_init() failed.\n");
             return -1;
         }
         s->first_field = 0;

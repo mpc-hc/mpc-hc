@@ -73,7 +73,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
                 case VC1_CODE_ENTRYPOINT: /* it should be before frame data */
                     buf_size2 = vc1_unescape_buffer(start + 4, size, buf2);
                     init_get_bits(&s->gb, buf2, buf_size2 * 8);
-                    vc1_decode_entry_point(avctx, v, &s->gb);
+                    ff_vc1_decode_entry_point(avctx, v, &s->gb);
                     break;
                 case VC1_CODE_SLICE: {
                     int buf_size3;
@@ -154,9 +154,9 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
     v->pic_header_flag = 0;
 
     if (v->profile < PROFILE_ADVANCED) {
-			vc1_parse_frame_header(v, &s->gb);
+			ff_vc1_parse_frame_header(v, &s->gb);
     } else {
-			vc1_parse_frame_header_adv(v, &s->gb);
+			ff_vc1_parse_frame_header_adv(v, &s->gb);
     }
 
     if (v->field_mode && buf_start_second_field) {

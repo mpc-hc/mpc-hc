@@ -109,7 +109,7 @@ static void avcodec_init(void)
         return;
     initialized = 1;
 
-    dsputil_static_init();
+    ff_dsputil_static_init();
 }
 
 static av_always_inline int codec_is_encoder(AVCodec *codec)
@@ -884,9 +884,8 @@ int attribute_align_arg avcodec_encode_audio2(AVCodecContext *avctx,
         if (!ret && *got_packet_ptr) {
             if (!(avctx->codec->capabilities & CODEC_CAP_DELAY)) {
                 avpkt->pts = frame->pts;
-                avpkt->duration = av_rescale_q(frame->nb_samples,
-                                               (AVRational){ 1, avctx->sample_rate },
-                                               avctx->time_base);
+                avpkt->duration = ff_samples_to_time_base(avctx,
+                                                          frame->nb_samples);
             }
             avpkt->dts = avpkt->pts;
         } else {
@@ -942,9 +941,8 @@ int attribute_align_arg avcodec_encode_audio2(AVCodecContext *avctx,
                    once all encoders supporting CODEC_CAP_SMALL_LAST_FRAME use
                    encode2() */
                 if (fs_tmp) {
-                    avpkt->duration = av_rescale_q(avctx->frame_size,
-                                                   (AVRational){ 1, avctx->sample_rate },
-                                                   avctx->time_base);
+                    avpkt->duration = ff_samples_to_time_base(avctx,
+                                                              avctx->frame_size);
                 }
             }
             avpkt->size = ret;
@@ -1018,9 +1016,8 @@ int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx,
            this is needed because the avcodec_encode_audio() API does not have
            a way for the user to provide pts */
         if(avctx->sample_rate && avctx->time_base.num)
-            frame->pts = av_rescale_q(avctx->internal->sample_count,
-                                  (AVRational){ 1, avctx->sample_rate },
-                                  avctx->time_base);
+            frame->pts = ff_samples_to_time_base(avctx,
++                                             avctx->internal->sample_count);
         else
             frame->pts = AV_NOPTS_VALUE;
         avctx->internal->sample_count += frame->nb_samples;
@@ -1070,20 +1067,34 @@ int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf
 int attribute_align_arg avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf, int buf_size,
                          const AVFrame *pict)
 {
+    AVPacket pkt;
+    int ret, got_packet = 0;
+
     if(buf_size < FF_MIN_BUFFER_SIZE){
         av_log(avctx, AV_LOG_ERROR, "buffer smaller than minimum size\n");
         return -1;
     }
-    if(av_image_check_size(avctx->width, avctx->height, 0, avctx))
-        return -1;
-    if((avctx->codec->capabilities & CODEC_CAP_DELAY) || pict){
-        int ret = avctx->codec->encode(avctx, buf, buf_size, pict);
-        avctx->frame_number++;
-        emms_c(); //needed to avoid an emms_c() call before every return;
 
-        return ret;
-    }else
-        return 0;
+    av_init_packet(&pkt);
+    pkt.data = buf;
+    pkt.size = buf_size;
+
+    ret = avcodec_encode_video2(avctx, &pkt, pict, &got_packet);
+    if (!ret && got_packet && avctx->coded_frame) {
+        avctx->coded_frame->pts       = pkt.pts;
+        avctx->coded_frame->key_frame = !!(pkt.flags & AV_PKT_FLAG_KEY);
+    }
+
+    /* free any side data since we cannot return it */
+    if (pkt.side_data_elems > 0) {
+        int i;
+        for (i = 0; i < pkt.side_data_elems; i++)
+            av_free(pkt.side_data[i].data);
+        av_freep(&pkt.side_data);
+        pkt.side_data_elems = 0;
+    }
+
+    return ret ? ret : pkt.size;
 }
 #endif
 
