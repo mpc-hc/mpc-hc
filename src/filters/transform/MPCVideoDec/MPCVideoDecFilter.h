@@ -136,7 +136,7 @@ protected:
 	bool									m_bUseFFmpeg;
 	CSize 									m_sar;
 	SwsContext*								m_pSwsContext;
-	int										m_nOutCsp;
+	unsigned __int64						m_nOutCsp;
 	CSize									m_pOutSize;				// Picture size on output pin
 	int										m_nSwOutBpp;
 
@@ -178,7 +178,7 @@ protected:
 	void				GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 	void				CalcAvgTimePerFrame();
 	void				DetectVideoCard(HWND hWnd);
-	int					GetCspFromMediaType(GUID& subtype);
+	unsigned __int64	GetCspFromMediaType(GUID& subtype);
 	void				InitSwscale();
 
 	void				SetTypeSpecificFlags(IMediaSample* pMS);

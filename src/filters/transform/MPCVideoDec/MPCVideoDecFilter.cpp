@@ -925,22 +925,23 @@ void CMPCVideoDecFilter::Cleanup()
 	// Release FFMpeg
 	if (m_pAVCtx) {
 		if (m_pAVCtx->intra_matrix) {
-			free(m_pAVCtx->intra_matrix);
+			av_freep(&m_pAVCtx->intra_matrix);
 		}
 		if (m_pAVCtx->inter_matrix) {
-			free(m_pAVCtx->inter_matrix);
+			av_freep(&m_pAVCtx->inter_matrix);
 		}
 		if (m_pAVCtx->extradata) {
-			free((unsigned char*)m_pAVCtx->extradata);
+			av_freep(&m_pAVCtx->extradata);
 		}
 		if (m_pFFBuffer) {
 			av_freep(&m_pFFBuffer);
-			m_nFFBufferSize = 0;
 		}
+		m_nFFBufferSize = 0;
+		if (m_pAlignedFFBuffer) {
+			av_freep(&m_pAlignedFFBuffer);
+		}
+		m_nAlignedFFBufferSize = 0;
 
-		if (m_pAVCtx->slice_offset) {
-			av_freep(&m_pAVCtx->slice_offset);
-		}
 		if (m_pAVCtx->codec) {
 			avcodec_close(m_pAVCtx);
 		}
@@ -949,7 +950,6 @@ void CMPCVideoDecFilter::Cleanup()
 		FFSetThreadNumber (m_pAVCtx, m_pAVCtx->codec_id, 0);
 
 		av_freep(&m_pAVCtx);
-		m_pAVCtx = NULL;
 	}
 
 	if (m_pFrame) {
@@ -1164,8 +1164,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				m_bReorderBFrame = false;
 			}
 
-			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
-			m_pAVCtx->inter_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
+			m_pAVCtx->intra_matrix			= (uint16_t*)av_mallocz(sizeof(uint16_t)*64);
+			m_pAVCtx->inter_matrix			= (uint16_t*)av_mallocz(sizeof(uint16_t)*64);
 			m_pAVCtx->codec_id              = m_nCodecId;
 			m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;
 			m_pAVCtx->error_concealment		= m_nErrorConcealment;
@@ -1349,7 +1349,7 @@ void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType
 
 	if (size) {
 		pAVCtx->extradata_size	= size;
-		pAVCtx->extradata		= (const unsigned char*)calloc(1, size+FF_INPUT_BUFFER_PADDING_SIZE);
+		pAVCtx->extradata		= (uint8_t *)av_mallocz(size+FF_INPUT_BUFFER_PADDING_SIZE);
 		memcpy((void*)pAVCtx->extradata, data, size);
 	}
 }
@@ -1502,10 +1502,10 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
 }
 
 #if HAS_FFMPEG_VIDEO_DECODERS
-int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
+unsigned __int64 CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 {
 	if (subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_YV12) {
-		return (int)(FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ);
+		return (FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ);
 	} else if (subtype == MEDIASUBTYPE_NV12) {
 		return FF_CSP_NV12;
 	} else if (subtype == MEDIASUBTYPE_YUY2) {
@@ -1766,8 +1766,8 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			}
 
 			uint8_t*	dst[4];
-			int			srcStride[4];
-			int			dstStride[4];
+			stride_t			srcStride[4];
+			stride_t			dstStride[4];
 
 			const TcspInfo *outcspInfo=csp_getInfo(m_nOutCsp);
 
@@ -1782,7 +1782,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				dstStride[1] = dstStride[2] = dstStride[3] = 0;
 			} else {
 				for (int i=0; i<4; i++) {
-					srcStride[i]=(stride_t)m_pFrame->linesize[i];
+					srcStride[i]=m_pFrame->linesize[i];
 					dstStride[i]=outStride>>outcspInfo->shiftX[i];
 					if (i==0) {
 						dst[i]=pDataOut;
@@ -1790,11 +1790,11 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 						dst[i]=dst[i-1]+dstStride[i-1]*(m_pOutSize.cy>>outcspInfo->shiftY[i-1]);
 					}
 				}
-				int nTempCsp = m_nOutCsp;
+				uint64_t nTempCsp = m_nOutCsp;
 				if (outcspInfo->id==FF_CSP_420P) {
-					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, odd2even(m_pOutSize.cy), (unsigned char**)dst, (stride_t*)dstStride);
+					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, odd2even(m_pOutSize.cy), (unsigned char**)dst, dstStride);
 				} else {
-					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, m_pAVCtx->height, (unsigned char**)dst, (stride_t*)dstStride);
+					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, m_pAVCtx->height, (unsigned char**)dst, dstStride);
 				}
 			}
 
@@ -1903,7 +1903,7 @@ bool CMPCVideoDecFilter::AppendBuffer (BYTE* pDataIn, int nSize, REFERENCE_TIME 
 
 	if (m_nFFBufferPos+nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {
 		m_nFFBufferSize = m_nFFBufferPos+nSize+FF_INPUT_BUFFER_PADDING_SIZE;
-		m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
+		m_pFFBuffer		= (BYTE*)av_realloc(m_pFFBuffer, m_nFFBufferSize);
 	}
 
 	memcpy(m_pFFBuffer+m_nFFBufferPos, pDataIn, nSize);
