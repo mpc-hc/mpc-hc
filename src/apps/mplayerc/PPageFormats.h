@@ -35,9 +35,9 @@ class CPPageFormats : public CPPageBase
 	DECLARE_DYNAMIC(CPPageFormats)
 
 private:
-	CImageList	m_onoff;
-	bool		m_bInsufficientPrivileges;
-	bool		m_bFileExtChanged;
+	CImageList m_onoff;
+	bool       m_bInsufficientPrivileges;
+	bool       m_bFileExtChanged;
 
 	int GetChecked(int iItem);
 	void SetChecked(int iItem, int fChecked);
@@ -47,7 +47,7 @@ private:
 	bool IsAutoPlayRegistered(autoplay_t ap);
 
 	void SetListItemState(int nItem);
-	static CComPtr<IApplicationAssociationRegistration>	m_pAAR;
+	static CComPtr<IApplicationAssociationRegistration> m_pAAR;
 	static BOOL SetFileAssociation(CString strExt, CString extfile, bool fRegister);
 	static CString GetOpenCommand();
 	static CString GetEnqueueCommand();
@@ -56,6 +56,7 @@ public:
 	CPPageFormats();
 	virtual ~CPPageFormats();
 
+	static bool RegisterApp();
 	static bool IsRegistered(CString ext);
 	static bool RegisterExt(CString ext, CString strLabel, bool fRegister);
 

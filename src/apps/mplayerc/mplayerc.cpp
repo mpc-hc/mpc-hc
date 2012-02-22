@@ -1082,6 +1082,8 @@ BOOL CMPlayerCApp::InitInstance()
 	}
 
 	if (m_s.nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) { // register file types
+		CPPageFormats::RegisterApp();
+
 		CMediaFormats& mf = m_s.m_Formats;
 		mf.UpdateData(false);
 

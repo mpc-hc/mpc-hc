@@ -32,7 +32,7 @@
 // CPPageFormats dialog
 
 
-CComPtr<IApplicationAssociationRegistration>	CPPageFormats::m_pAAR;
+CComPtr<IApplicationAssociationRegistration> CPPageFormats::m_pAAR;
 
 // TODO: change this along with the root key for settings and the mutex name to
 //       avoid possible risks of conflict with the old MPC (non HC version).
@@ -42,14 +42,14 @@ CComPtr<IApplicationAssociationRegistration>	CPPageFormats::m_pAAR;
 	#define PROGID _T("mplayerc")
 #endif // _WIN64
 
-LPCTSTR			g_strRegisteredAppName = _T("Media Player Classic");
-LPCTSTR			g_strOldAssoc		   = _T("PreviousRegistration");
-CString			g_strRegisteredKey	   = _T("Software\\Clients\\Media\\Media Player Classic\\Capabilities");
+LPCTSTR g_strRegisteredAppName = _T("Media Player Classic");
+LPCTSTR g_strOldAssoc          = _T("PreviousRegistration");
+CString g_strRegisteredKey     = _T("Software\\Clients\\Media\\Media Player Classic\\Capabilities");
 
-int	f_setContextFiles = 0;
-int	f_getContextFiles = 0;
+int f_setContextFiles = 0;
+int f_getContextFiles = 0;
 
-int	f_setAssociatedWithIcon = 0;
+int f_setAssociatedWithIcon = 0;
 
 IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
@@ -114,7 +114,7 @@ void CPPageFormats::SetChecked(int iItem, int iChecked)
 
 CString CPPageFormats::GetEnqueueCommand()
 {
-	CString		 path;
+	CString path;
 
 	TCHAR buff[_MAX_PATH];
 	if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) {
@@ -127,7 +127,7 @@ CString CPPageFormats::GetEnqueueCommand()
 
 CString CPPageFormats::GetOpenCommand()
 {
-	CString		 path;
+	CString path;
 	TCHAR buff[_MAX_PATH];
 
 	if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) {
@@ -140,8 +140,8 @@ CString CPPageFormats::GetOpenCommand()
 
 bool CPPageFormats::IsRegistered(CString ext)
 {
-	HRESULT	hr;
-	BOOL	bIsDefault = FALSE;
+	HRESULT hr;
+	BOOL    bIsDefault = FALSE;
 	CString strProgID = PROGID + ext;
 
 	if (m_pAAR == NULL) {
@@ -158,9 +158,9 @@ bool CPPageFormats::IsRegistered(CString ext)
 		hr = m_pAAR->QueryAppIsDefault(ext, AT_FILEEXTENSION, AL_EFFECTIVE, g_strRegisteredAppName, &bIsDefault);
 	} else {
 		// The 2000/XP way
-		CRegKey		key;
-		TCHAR		buff[256];
-		ULONG		len = sizeof(buff)/sizeof(buff[0]);
+		CRegKey key;
+		TCHAR   buff[256];
+		ULONG   len = sizeof(buff)/sizeof(buff[0]);
 		memset(buff, 0, sizeof(buff));
 
 		if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext)) {
@@ -174,12 +174,12 @@ bool CPPageFormats::IsRegistered(CString ext)
 		bIsDefault = (buff == strProgID);
 	}
 	if (!f_setContextFiles) {
-		CRegKey		key;
-		TCHAR		buff[_MAX_PATH];
-		ULONG		len = sizeof(buff)/sizeof(buff[0]);
+		CRegKey key;
+		TCHAR   buff[_MAX_PATH];
+		ULONG   len = sizeof(buff)/sizeof(buff[0]);
 
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"), KEY_READ)) {
-			CString		strCommand = ResStr(IDS_OPEN_WITH_MPC);
+			CString strCommand = ResStr(IDS_OPEN_WITH_MPC);
 			if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len)) {
 				f_setContextFiles = (strCommand.CompareNoCase(CString(buff)) == 0);
 			}
@@ -188,13 +188,13 @@ bool CPPageFormats::IsRegistered(CString ext)
 
 	// Check if association is for this instance of MPC
 	if (bIsDefault) {
-		CRegKey		key;
-		TCHAR		buff[_MAX_PATH];
-		ULONG		len = sizeof(buff)/sizeof(buff[0]);
+		CRegKey key;
+		TCHAR   buff[_MAX_PATH];
+		ULONG   len = sizeof(buff)/sizeof(buff[0]);
 
 		bIsDefault = FALSE;
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ)) {
-			CString		strCommand = GetOpenCommand();
+			CString strCommand = GetOpenCommand();
 			if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len)) {
 				bIsDefault = (strCommand.CompareNoCase(CString(buff)) == 0);
 			}
@@ -243,10 +243,51 @@ int GetIconIndex(CString ext)
 	return iconindex;
 }
 
+bool CPPageFormats::RegisterApp()
+{
+	if (m_pAAR == NULL) {
+		// Default manager (requiered at least Vista)
+		HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
+									  NULL,
+									  CLSCTX_INPROC,
+									  __uuidof(IApplicationAssociationRegistration),
+									  (void**)&m_pAAR);
+		UNUSED_ALWAYS(hr);
+	}
+
+	if (m_pAAR) {
+		CString AppIcon = _T("");
+		TCHAR buff[_MAX_PATH];
+
+		if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH)) {
+			AppIcon = buff;
+			AppIcon = "\""+AppIcon+"\"";
+			AppIcon += _T(",0");
+		}
+
+		// Register MPC for the windows "Default application" manager
+		CRegKey key;
+
+		if (ERROR_SUCCESS == key.Open(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\RegisteredApplications"))) {
+			key.SetStringValue(_T("Media Player Classic"), g_strRegisteredKey);
+
+			if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, g_strRegisteredKey)) {
+				return false;
+			}
+
+			// ==>>  TODO icon !!!
+			key.SetStringValue(_T("ApplicationDescription"), ResStr(IDS_APP_DESCRIPTION), REG_EXPAND_SZ);
+			key.SetStringValue(_T("ApplicationIcon"), AppIcon, REG_EXPAND_SZ);
+			key.SetStringValue(_T("ApplicationName"), ResStr(IDR_MAINFRAME), REG_EXPAND_SZ);
+		}
+	}
+	return true;
+}
+
 bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
 {
-	CRegKey		key;
-	bool		bSetValue;
+	CRegKey key;
+	bool    bSetValue;
 	CString strProgID = PROGID + ext;
 
 	if (!fRegister) {
@@ -595,13 +636,13 @@ BOOL CPPageFormats::OnInitDialog()
 	}
 
 
-	CRegKey		key;
-	TCHAR		buff[_MAX_PATH];
-	ULONG		len = sizeof(buff)/sizeof(buff[0]);
+	CRegKey key;
+	TCHAR   buff[_MAX_PATH];
+	ULONG   len = sizeof(buff)/sizeof(buff[0]);
 
 	int fContextDir = 0;
 	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play\\command"), KEY_READ)) {
-		CString		strCommand = GetOpenCommand();
+		CString strCommand = GetOpenCommand();
 		if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len)) {
 			fContextDir = (strCommand.CompareNoCase(CString(buff)) == 0);
 		}
@@ -615,11 +656,11 @@ BOOL CPPageFormats::OnInitDialog()
 
 BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool fRegister)
 {
-	CString		extoldreg, extOldIcon;
-	CRegKey		key;
-	HRESULT		hr = S_OK;
-	TCHAR		buff[256];
-	ULONG		len = sizeof(buff)/sizeof(buff[0]);
+	CString extoldreg, extOldIcon;
+	CRegKey key;
+	HRESULT hr = S_OK;
+	TCHAR   buff[256];
+	ULONG   len = sizeof(buff)/sizeof(buff[0]);
 	memset(buff, 0, sizeof(buff));
 
 	if (m_pAAR == NULL) {
@@ -634,7 +675,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 
 	if (m_pAAR) {
 		// The Vista way
-		CString		strNewApp;
+		CString strNewApp;
 		if (fRegister) {
 			// Create non existing file type
 			if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strExt)) {
@@ -762,32 +803,7 @@ BOOL CPPageFormats::OnApply()
 
 	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
-	CString AppIcon = _T("");
-	TCHAR buff[_MAX_PATH];
-
-	if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH)) {
-		AppIcon = buff;
-		AppIcon = "\""+AppIcon+"\"";
-		AppIcon += _T(",0");
-	}
-
-	if (m_pAAR) {
-		// Register MPC for the windows "Default application" manager
-		CRegKey		key;
-
-		if (ERROR_SUCCESS == key.Open(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\RegisteredApplications"))) {
-			key.SetStringValue(_T("Media Player Classic"), g_strRegisteredKey);
-
-			if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, g_strRegisteredKey)) {
-				return false;
-			}
-
-			// ==>>  TODO icon !!!
-			key.SetStringValue(_T("ApplicationDescription"), ResStr(IDS_APP_DESCRIPTION), REG_EXPAND_SZ);
-			key.SetStringValue(_T("ApplicationIcon"), AppIcon, REG_EXPAND_SZ);
-			key.SetStringValue(_T("ApplicationName"), ResStr(IDR_MAINFRAME), REG_EXPAND_SZ);
-		}
-	}
+	RegisterApp();
 
 	f_setContextFiles = m_fContextFiles.GetCheck();
 	f_setAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
@@ -808,7 +824,7 @@ BOOL CPPageFormats::OnApply()
 			}
 		}
 	}
-	CRegKey	key;
+	CRegKey key;
 	if (m_fContextDir.GetCheck()) {
 		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue"))) {
 			key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST));
@@ -1011,8 +1027,8 @@ void CPPageFormats::OnBnClickedButton13()
 
 void CPPageFormats::OnBnVistaModify()
 {
-	CString			strCmd;
-	TCHAR			strApp [_MAX_PATH];
+	CString strCmd;
+	TCHAR   strApp[_MAX_PATH];
 
 	strCmd.Format (_T("/adminoption %d"), IDD);
 	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, _MAX_PATH);
