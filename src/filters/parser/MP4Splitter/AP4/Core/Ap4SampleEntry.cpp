@@ -360,13 +360,21 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
 			m_QtV1SamplesPerPacket = 1;
 			m_QtV1BytesPerPacket = m_SampleSize / 8;
 			m_QtV1BytesPerFrame = m_ChannelCount * m_QtV1BytesPerPacket;
-			m_QtV1BytesPerSample = m_SampleSize/8;
+			m_QtV1BytesPerSample = m_SampleSize / 8;
+			break;
+		case AP4_ATOM_TYPE_ALAW:
+		case AP4_ATOM_TYPE_ULAW:
+			m_SampleSize = 8;
+			m_QtV1SamplesPerPacket = 1;
+			m_QtV1BytesPerPacket = 1;
+			m_QtV1BytesPerFrame = m_ChannelCount * m_QtV1BytesPerPacket;
+			m_QtV1BytesPerSample = 1;
 			break;
 		case AP4_ATOM_TYPE_IMA4:
 			m_QtV1SamplesPerPacket = 64;
 			m_QtV1BytesPerPacket = 34;
 			m_QtV1BytesPerFrame = m_ChannelCount * m_QtV1BytesPerPacket;
-			m_QtV1BytesPerSample = m_SampleSize/8;
+			m_QtV1BytesPerSample = m_SampleSize / 8;
 			break;
 		}
 	}

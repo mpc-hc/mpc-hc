@@ -597,9 +597,13 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 					if ((type & 0xffff0000) == AP4_ATOM_TYPE('m', 's', 0, 0)) {
 						fourcc = type & 0xffff;
+					} else if (type == AP4_ATOM_TYPE_ALAW) {
+						fourcc = WAVE_FORMAT_ALAW;
+					} else if (type == AP4_ATOM_TYPE_ULAW) {
+						fourcc = WAVE_FORMAT_MULAW;
 					} else if (type == AP4_ATOM_TYPE__MP3) {
 						SetTrackName(&TrackName, _T("MPEG Audio (MP3)"));
-						fourcc = 0x0055;
+						fourcc = WAVE_FORMAT_MPEGLAYER3;
 					} else if ((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3) || (type == AP4_ATOM_TYPE_EAC3)) {
 						if (type == AP4_ATOM_TYPE_EAC3) {
 							SetTrackName(&TrackName, _T("AC-3 Audio"));
@@ -727,7 +731,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						} else {
 							mt.subtype = FOURCCMap(fourcc);
 						}
-						if (type != AP4_ATOM_TYPE_MP4A) {
+						if (type != AP4_ATOM_TYPE_MP4A && type != AP4_ATOM_TYPE_ALAW && type != AP4_ATOM_TYPE_ULAW) {
 							wfe->cbSize = db.GetDataSize();
 							memcpy(wfe+1, db.GetData(), db.GetDataSize());
 						}
@@ -1325,12 +1329,12 @@ bool CMP4SplitterFilter::DemuxLoop()
 			}
 
 			//
-			if (track->GetType() == AP4_Track::TYPE_AUDIO && data.GetDataSize() == 1) {
+			if (track->GetType() == AP4_Track::TYPE_AUDIO && (data.GetDataSize() == 1 || data.GetDataSize() == 2)) {
 				WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 
 				int nBlockAlign = 1200;
 
-				if (wfe->nBlockAlign > 1) {
+				if (wfe->nBlockAlign > 2) {
 					nBlockAlign = wfe->nBlockAlign;
 					pPairNext->m_value.index -= pPairNext->m_value.index % wfe->nBlockAlign;
 				}
