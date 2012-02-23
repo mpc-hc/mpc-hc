@@ -1329,12 +1329,15 @@ bool CMP4SplitterFilter::DemuxLoop()
 			}
 
 			//
-			if (track->GetType() == AP4_Track::TYPE_AUDIO && (data.GetDataSize() == 1 || data.GetDataSize() == 2)) {
+			if (track->GetType() == AP4_Track::TYPE_AUDIO && data.GetDataSize() >= 1 && data.GetDataSize() <= 16) {
 				WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 
-				int nBlockAlign = 1200;
-
-				if (wfe->nBlockAlign > 2) {
+				int nBlockAlign;
+				if (wfe->nBlockAlign == 0) {
+					nBlockAlign = 1200;
+				} else if (wfe->nBlockAlign <= 16) { // for PCM (from 8bit mono to 64bit stereo), A-Law, u-Law
+					nBlockAlign = wfe->nBlockAlign * (wfe->nSamplesPerSec >> 4); // 1/16s=62.5ms
+				} else {
 					nBlockAlign = wfe->nBlockAlign;
 					pPairNext->m_value.index -= pPairNext->m_value.index % wfe->nBlockAlign;
 				}
