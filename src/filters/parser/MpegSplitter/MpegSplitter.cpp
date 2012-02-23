@@ -1841,11 +1841,6 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 					pPacket->rtStart = rtStart;
 					pPacket->rtStop = rtStop;
 				}
-				/*
-								if(pPacket->rtStart == Packet::INVALID_TIME) {
-									continue;
-								}
-				*/
 
 				p = m_pl.RemoveHead();
 
@@ -1858,8 +1853,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				if (hr != S_OK) {
 					return hr;
 				}
-			}
-			if (rtStart == Packet::INVALID_TIME) {
+			} else if (rtStart == Packet::INVALID_TIME) {
 				rtStart = pPacket->rtStart;
 				rtStop = pPacket->rtStop;
 			}

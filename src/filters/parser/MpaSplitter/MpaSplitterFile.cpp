@@ -246,7 +246,10 @@ HRESULT CMpaSplitterFile::Init()
 
 	__int64 startpos_mp3 = m_startpos;
 	while (m_mode == none) {
-		searchlen = min(m_endpos - startpos_mp3, 0x200);
+		if(!MP3_find && GetPos() >= 8192) {
+			break;
+		}
+		searchlen = min(m_endpos - startpos_mp3, 512);
 		Seek(startpos_mp3);
 
 		// If we fail to see sync bytes, we reposition here and search again
@@ -276,7 +279,7 @@ HRESULT CMpaSplitterFile::Init()
 		}
 	}
 
-	searchlen = min(m_endpos - m_startpos, m_startpos > 0 ? 0x200 : 7);
+	searchlen = min(m_endpos - m_startpos, m_startpos > 0 ? 512 : 7);
 	Seek(m_startpos);
 
 	if (m_mode == none && Read(m_aachdr, searchlen, &m_mt)) {
