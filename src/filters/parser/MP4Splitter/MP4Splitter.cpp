@@ -595,36 +595,6 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					AP4_Atom::Type type = atom->GetType();
 					DWORD fourcc;
 
-					if ((type & 0xffff0000) == AP4_ATOM_TYPE('m', 's', 0, 0)) {
-						fourcc = type & 0xffff;
-					} else if (type == AP4_ATOM_TYPE_ALAW) {
-						fourcc = WAVE_FORMAT_ALAW;
-					} else if (type == AP4_ATOM_TYPE_ULAW) {
-						fourcc = WAVE_FORMAT_MULAW;
-					} else if (type == AP4_ATOM_TYPE__MP3) {
-						SetTrackName(&TrackName, _T("MPEG Audio (MP3)"));
-						fourcc = WAVE_FORMAT_MPEGLAYER3;
-					} else if ((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3) || (type == AP4_ATOM_TYPE_EAC3)) {
-						if (type == AP4_ATOM_TYPE_EAC3) {
-							SetTrackName(&TrackName, _T("AC-3 Audio"));
-						} else {
-							SetTrackName(&TrackName, _T("Enhanced AC-3 audio"));
-						}
-						fourcc = 0x2000;
-					} else if (type == AP4_ATOM_TYPE_MP4A) {
-						SetTrackName(&TrackName, _T("MPEG-2 Audio AAC"));
-						fourcc = WAVE_FORMAT_AAC;
-					} else if (type == AP4_ATOM_TYPE_NMOS) {
-						SetTrackName(&TrackName, _T("NellyMoser Audio"));
-						fourcc = MAKEFOURCC('N','E','L','L');
-					} else {
-						fourcc =
-							((type >> 24) & 0x000000ff) |
-							((type >>  8) & 0x0000ff00) |
-							((type <<  8) & 0x00ff0000) |
-							((type << 24) & 0xff000000);
-					}
-
 					if (AP4_VisualSampleEntry* vse = dynamic_cast<AP4_VisualSampleEntry*>(atom)) {
 						mt.majortype = MEDIATYPE_Video;
 						mt.subtype = FOURCCMap(fourcc);
@@ -663,11 +633,39 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						break;
 					} else if (AP4_AudioSampleEntry* ase = dynamic_cast<AP4_AudioSampleEntry*>(atom)) {
-						if (ase->GetEndian()==1) {
-							if (type==AP4_ATOM_TYPE_IN24 || type==AP4_ATOM_TYPE_IN32 ||
-									type==AP4_ATOM_TYPE_FL32 || type==AP4_ATOM_TYPE_FL64) {
-								fourcc = type;    //reverse fourcc
+
+						if ((type & 0xffff0000) == AP4_ATOM_TYPE('m', 's', 0, 0)) {
+							fourcc = type & 0xffff;
+						} else if (type == AP4_ATOM_TYPE_ALAW) {
+							fourcc = WAVE_FORMAT_ALAW;
+						} else if (type == AP4_ATOM_TYPE_ULAW) {
+							fourcc = WAVE_FORMAT_MULAW;
+						} else if (type == AP4_ATOM_TYPE__MP3) {
+							SetTrackName(&TrackName, _T("MPEG Audio (MP3)"));
+							fourcc = WAVE_FORMAT_MPEGLAYER3;
+						} else if ((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3) || (type == AP4_ATOM_TYPE_EAC3)) {
+							fourcc = 0x2000;
+							if (type == AP4_ATOM_TYPE_EAC3) {
+								SetTrackName(&TrackName, _T("AC-3 Audio"));
+							} else {
+								SetTrackName(&TrackName, _T("Enhanced AC-3 audio"));
 							}
+						} else if (type == AP4_ATOM_TYPE_MP4A) {
+							fourcc = WAVE_FORMAT_AAC;
+							SetTrackName(&TrackName, _T("MPEG-2 Audio AAC"));
+						} else if (type == AP4_ATOM_TYPE_NMOS) {
+							fourcc = MAKEFOURCC('N','E','L','L');
+							SetTrackName(&TrackName, _T("NellyMoser Audio"));
+						} else if (ase->GetEndian()==1 &&
+								  (type==AP4_ATOM_TYPE_IN24 || type==AP4_ATOM_TYPE_IN32 ||
+								   type==AP4_ATOM_TYPE_FL32 || type==AP4_ATOM_TYPE_FL64)) {
+							fourcc = type;    //reverse fourcc
+						} else {
+							fourcc =
+								((type >> 24) & 0x000000ff) |
+								((type >>  8) & 0x0000ff00) |
+								((type <<  8) & 0x00ff0000) |
+								((type << 24) & 0xff000000);
 						}
 
 						DWORD nSampleRate = ase->GetSampleRate();
@@ -725,12 +723,14 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						wfe->wBitsPerSample = ase->GetSampleSize();
 						wfe->nBlockAlign = ase->GetBytesPerFrame();
 						wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nChannels * wfe->wBitsPerSample / 8;
+						//wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nBlockAlign / ase->GetSamplesPerPacket();
 
 						if (type == AP4_ATOM_TYPE_LPCM) {
 							mt.subtype = GetLPCMGUID(wfe->wBitsPerSample, ase->GetFormatSpecificFlags());
 						} else {
 							mt.subtype = FOURCCMap(fourcc);
 						}
+
 						if (type != AP4_ATOM_TYPE_MP4A && type != AP4_ATOM_TYPE_ALAW && type != AP4_ATOM_TYPE_ULAW) {
 							wfe->cbSize = db.GetDataSize();
 							memcpy(wfe+1, db.GetData(), db.GetDataSize());
@@ -739,7 +739,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						mts.Add(mt);
 						break;
 					} else {
-						TRACE(_T("Unknow MP4 Steam %x") , fourcc);
+						TRACE(_T("Unknow MP4 Stream %x") , fourcc);
 					}
 				}
 			}
