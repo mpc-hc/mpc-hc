@@ -498,12 +498,11 @@ void CAviSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 		for (unsigned int j = 0; j < m_pFile->m_strms.GetCount(); ++j) {
 			CAviFile::strm_t* s = m_pFile->m_strms[j];
 
-			DWORD f = s->GetKeyFrame(rt);
-			UINT64 fp = s->cs[f].filepos;
+			if (s->IsRawSubtitleStream()) continue;
 
-			if (!s->IsRawSubtitleStream()) {
-				minfp = min(minfp, fp);
-			}
+			DWORD f = s->GetKeyFrame(rt);
+			UINT64 fp = s->cs[s->GetKeyFrame(rt)].filepos;
+			minfp = min(minfp, fp);
 		}
 
 		for (unsigned int j = 0; j < m_pFile->m_strms.GetCount(); ++j) {
