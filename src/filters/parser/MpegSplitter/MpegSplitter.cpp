@@ -495,6 +495,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	, m_TrackPriority(false)
 	, m_AC3CoreOnly(0)
 	, m_nVC1_GuidFlag(1)
+	, m_AlternativeDuration(false)
 {
 #ifdef REGISTER_FILTER
 	CRegKey key;
@@ -535,6 +536,10 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("AC3CoreOnly"), dw)) {
 			m_AC3CoreOnly = dw;
 		}
+
+		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("AlternativeDuration"), dw)) {
+			m_AlternativeDuration = !!dw;
+		}
 	}
 #else
 	m_useFastStreamChange = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
@@ -545,6 +550,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	m_nVC1_GuidFlag = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 	if (m_nVC1_GuidFlag<1 || m_nVC1_GuidFlag>3) m_nVC1_GuidFlag = 1;
 	m_AC3CoreOnly = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("AC3CoreOnly"), m_AC3CoreOnly);
+	m_AlternativeDuration = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("AlternativeDuration"), m_AlternativeDuration);
 #endif
 }
 
@@ -785,7 +791,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_pFile.Free();
 
 	ReadClipInfo (GetPartFilename(pAsyncReader));
-	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag, m_ForcedSub, m_TrackPriority, m_AC3CoreOnly));
+	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag, m_ForcedSub, m_TrackPriority, m_AC3CoreOnly, m_AlternativeDuration));
 
 	if (!m_pFile) {
 		return E_OUTOFMEMORY;
@@ -1444,6 +1450,7 @@ STDMETHODIMP CMpegSplitterFilter::Apply()
 		key.SetStringValue(_T("SubtitlesLanguageOrder"), m_csSubtitlesLanguageOrder);
 		key.SetDWORDValue(_T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 		key.SetDWORDValue(_T("AC3CoreOnly"), m_AC3CoreOnly);
+		key.SetDWORDValue(_T("AlternativeDuration"), m_AlternativeDuration);
 	}
 #else
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
@@ -1451,6 +1458,7 @@ STDMETHODIMP CMpegSplitterFilter::Apply()
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("TrackPriority"), m_TrackPriority);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("AC3CoreOnly"), m_AC3CoreOnly);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("AlternativeDuration"), m_AlternativeDuration);
 #endif
 
 	return S_OK;
@@ -1545,6 +1553,19 @@ STDMETHODIMP_(int) CMpegSplitterFilter::GetTrueHD()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_AC3CoreOnly;
+}
+
+STDMETHODIMP CMpegSplitterFilter::SetAlternativeDuration(BOOL nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_AlternativeDuration = nValue;
+	return S_OK;
+}
+
+STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetAlternativeDuration()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_AlternativeDuration;
 }
 
 //

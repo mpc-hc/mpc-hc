@@ -45,6 +45,9 @@ public IUnknown {
 	STDMETHOD(SetVC1_GuidFlag(int nValue)) = 0;
 	STDMETHOD_(int, GetVC1_GuidFlag()) = 0;
 
-	STDMETHOD(SetTrueHD(BOOL nValue)) = 0;
-	STDMETHOD_(BOOL, GetTrueHD()) = 0;
+	STDMETHOD(SetTrueHD(int nValue)) = 0;
+	STDMETHOD_(int, GetTrueHD()) = 0;
+
+	STDMETHOD(SetAlternativeDuration(BOOL nValue)) = 0;
+	STDMETHOD_(BOOL, GetAlternativeDuration()) = 0;
 };

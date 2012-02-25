@@ -35,10 +35,11 @@ private :
 	CButton		m_cbFastStreamChange;
 	CButton		m_cbForcedSub;
 	CButton		m_cbTrackPriority;
+	CButton		m_cbAlternativeDuration;
 	CStatic		m_txtAudioLanguageOrder;
-	CEdit			m_edtAudioLanguageOrder;
+	CEdit		m_edtAudioLanguageOrder;
 	CStatic		m_txtSubtitlesLanguageOrder;
-	CEdit			m_edtSubtitlesLanguageOrder;
+	CEdit		m_edtSubtitlesLanguageOrder;
 	CStatic		m_txtVC1_GuidFlag;
 	CComboBox	m_cbVC1_GuidFlag;
 
@@ -56,7 +57,8 @@ private :
 		IDC_PP_VC1_GUIDFLAG,
 		IDC_PP_TRUEHD,
 		IDC_PP_AC3CORE,
-		IDC_PP_ASIS
+		IDC_PP_ASIS,
+		IDC_PP_ALTERNATIVE_DURATION
 	};
 
 public:
@@ -72,7 +74,7 @@ public:
 		return _T("Settings");
 	}
 	static CSize GetWindowSize() {
-		return CSize(320, 285);
+		return CSize(320, 310);
 	}
 
 	DECLARE_MESSAGE_MAP()

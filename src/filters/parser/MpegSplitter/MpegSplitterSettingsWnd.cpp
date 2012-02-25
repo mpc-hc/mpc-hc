@@ -25,7 +25,6 @@
 #include "resource.h"
 #include "../../../apps/mplayerc/InternalFiltersConfig.h"
 
-// ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 #define LEFT_SPACING					25
@@ -62,7 +61,7 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 {
 	int		nPosY	= 10;
 
-	m_grpDefault.Create (ResStr(IDS_OPTIONS_CAPTION), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 320, nPosY+285), this, (UINT)IDC_STATIC);
+	m_grpDefault.Create (ResStr(IDS_OPTIONS_CAPTION), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 320, nPosY+310), this, (UINT)IDC_STATIC);
 
 	nPosY += VERTICAL_SPACING;
 	m_cbFastStreamChange.Create (ResStr(IDS_MPEGSPLITTER_FSTREAM_CHANGE), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 305, nPosY+15), this, IDC_PP_FAST_STREAM_SELECT);
@@ -72,6 +71,9 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 
 	nPosY += VERTICAL_SPACING;
 	m_cbTrackPriority.Create (ResStr(IDS_MPEGSPLITTER_TRACKS_ORDER), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 305, nPosY+15), this, IDC_PP_TRACK_PRIORITY);
+
+	nPosY += VERTICAL_SPACING;
+	m_cbAlternativeDuration.Create (_T("Alternative method calculation of duration"), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 305, nPosY+15), this, IDC_PP_ALTERNATIVE_DURATION);
 
 	nPosY += VERTICAL_SPACING;
 	m_txtAudioLanguageOrder.Create (ResStr(IDS_MPEGSPLITTER_LANG_ORDER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 200, nPosY+15), this, (UINT)IDC_STATIC);
@@ -111,6 +113,7 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 		m_cbTrueHD.SetCheck	(m_pMSF->GetTrueHD() == 0);
 		m_cbAC3Core.SetCheck(m_pMSF->GetTrueHD() == 1);
 		m_cbAsIs.SetCheck		(!m_cbTrueHD.GetCheck() && !m_cbAC3Core.GetCheck());
+		m_cbAlternativeDuration.SetCheck(m_pMSF->GetAlternativeDuration());
 	}
 
 #ifndef REGISTER_FILTER
@@ -140,6 +143,7 @@ bool CMpegSplitterSettingsWnd::OnApply()
 		m_pMSF->SetTrackPriority(m_cbTrackPriority.GetCheck());
 		m_pMSF->SetVC1_GuidFlag(m_cbVC1_GuidFlag.GetCurSel() + 1);
 		m_pMSF->SetTrueHD(m_cbTrueHD.GetCheck() ? 0 : m_cbAC3Core.GetCheck() ? 1 : 2);
+		m_pMSF->SetAlternativeDuration(m_cbAlternativeDuration.GetCheck());
 
 #ifdef REGISTER_FILTER
 		CString str = _T("");

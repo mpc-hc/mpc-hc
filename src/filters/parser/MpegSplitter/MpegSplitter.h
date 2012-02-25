@@ -78,7 +78,7 @@ protected:
 
 private:
 	CString m_csAudioLanguageOrder, m_csSubtitlesLanguageOrder;
-	bool m_useFastStreamChange, m_ForcedSub, m_TrackPriority;
+	bool m_useFastStreamChange, m_ForcedSub, m_TrackPriority, m_AlternativeDuration;
 	int m_nVC1_GuidFlag, m_AC3CoreOnly;
 	CCritSec m_csProps;
 
@@ -133,6 +133,9 @@ public:
 
 	STDMETHODIMP SetTrueHD(int nValue);
 	STDMETHODIMP_(int) GetTrueHD();
+
+	STDMETHODIMP SetAlternativeDuration(BOOL nValue);
+	STDMETHODIMP_(BOOL) GetAlternativeDuration();
 };
 
 class __declspec(uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3"))
