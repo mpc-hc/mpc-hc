@@ -189,6 +189,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_rtNewStart = m_rtCurrent = 0;
 	m_rtNewStop = m_rtStop = m_rtDuration = 0;
+	REFERENCE_TIME rtVideoDuration = 0;
 
 	m_framesize.SetSize(640, 480);
 
@@ -757,6 +758,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			if (m_rtDuration < rtDuration) {
 				m_rtDuration = rtDuration;
 			}
+			if (rtVideoDuration < rtDuration && AP4_Track::TYPE_VIDEO == track->GetType())
+				rtVideoDuration = rtDuration; // get the max video duration
 
 			DWORD id = track->GetId();
 
@@ -912,6 +915,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			}
 		}
 	}
+
+	if (rtVideoDuration > 0 && rtVideoDuration < m_rtDuration/2)
+		m_rtDuration = rtVideoDuration; // fix incorrect duration
 
 	m_rtNewStop = m_rtStop = m_rtDuration;
 
