@@ -96,6 +96,9 @@ static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 	{ &MEDIASUBTYPE_RAAC,		CODEC_ID_AAC	},
 	{ &MEDIASUBTYPE_RACP,		CODEC_ID_AAC	},
 #endif
+#if INTERNAL_DECODER_AC3
+	{ &MEDIASUBTYPE_DOLBY_DDPLUS, CODEC_ID_EAC3 },
+#endif
 	{ &MEDIASUBTYPE_None,		CODEC_ID_NONE },
 };
 #endif
@@ -587,7 +590,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
 	else if (subtype == MEDIASUBTYPE_DOLBY_AC3 ||
 			 subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
-			 subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
 			 subtype == MEDIASUBTYPE_DOLBY_TRUEHD ||
 			 subtype == MEDIASUBTYPE_DNET) {
 		hr = ProcessAC3();
@@ -1063,7 +1065,6 @@ HRESULT CMpaDecFilter::ProcessAC3()
 			continue;
 		}
 
-
 		// Update buffer position
 		if (fEnoughData) {
 			ASSERT (size <= end-p);
@@ -1106,6 +1107,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 	if (size <= 0) {
 		return hr;
 	}
+
 	p += size;
 	memmove(base, p, end - p);
 	end = base + (end - p);

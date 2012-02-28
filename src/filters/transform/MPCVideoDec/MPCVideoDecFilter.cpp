@@ -1766,8 +1766,8 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			}
 
 			uint8_t*	dst[4];
-			stride_t			srcStride[4];
-			stride_t			dstStride[4];
+			int			srcStride[4];
+			int			dstStride[4];
 
 			const TcspInfo *outcspInfo=csp_getInfo(m_nOutCsp);
 
@@ -1784,17 +1784,13 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				for (int i=0; i<4; i++) {
 					srcStride[i]=m_pFrame->linesize[i];
 					dstStride[i]=outStride>>outcspInfo->shiftX[i];
-					if (i==0) {
-						dst[i]=pDataOut;
-					} else {
-						dst[i]=dst[i-1]+dstStride[i-1]*(m_pOutSize.cy>>outcspInfo->shiftY[i-1]);
-					}
+					dst[i]=!i ? pDataOut : dst[i-1]+dstStride[i-1]*(m_pOutSize.cy>>outcspInfo->shiftY[i-1]) ;
 				}
 				uint64_t nTempCsp = m_nOutCsp;
 				if (outcspInfo->id==FF_CSP_420P) {
-					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, odd2even(m_pOutSize.cy), (unsigned char**)dst, dstStride);
+					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, odd2even(m_pOutSize.cy), (unsigned char**)dst, (stride_t*)dstStride);
 				} else {
-					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, m_pAVCtx->height, (unsigned char**)dst, dstStride);
+					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, m_pAVCtx->height, (unsigned char**)dst, (stride_t*)dstStride);
 				}
 			}
 

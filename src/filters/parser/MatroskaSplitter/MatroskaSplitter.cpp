@@ -1389,7 +1389,7 @@ HRESULT CMatroskaSplitterOutputPin::DeliverBlock(MatroskaPacket* p)
 
 TrackEntry* CMatroskaSplitterFilter::GetTrackEntryAt(UINT aTrackIdx)
 {
-	if (aTrackIdx < 0 || aTrackIdx >= m_pOrderedTrackArray.GetCount()) {
+	if (aTrackIdx >= m_pOrderedTrackArray.GetCount()) {
 		return NULL;
 	}
 	return m_pOrderedTrackArray[aTrackIdx];
