@@ -270,26 +270,26 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 			BYTE pes_ext = (BYTE)BitRead(8);
 			left--;
 			BYTE skip = (pes_ext >> 4) & 0xb;
-            skip += skip & 0x9;
-            if (pes_ext & 0x40 || skip > left){
-                TRACE(_T("pes_ext %X is invalid\n"), pes_ext);
-                pes_ext = skip = 0;
-            }
+			skip += skip & 0x9;
+			if (pes_ext & 0x40 || skip > left){
+				TRACE(_T("pes_ext %X is invalid\n"), pes_ext);
+				pes_ext = skip = 0;
+			}
 			for (int i=0; i<skip; i++) {
 				BitRead(8);
 			}
 			left -= skip;
-            if (pes_ext & 0x01) { /* PES extension 2 */
-                BYTE ext2_len = (BYTE)BitRead(8);
-                left--;
-                if ((ext2_len & 0x7f) > 0) {
-                    BYTE id_ext = (BYTE)BitRead(8);
+			if (pes_ext & 0x01) { /* PES extension 2 */
+				BYTE ext2_len = (BYTE)BitRead(8);
+				left--;
+				if ((ext2_len & 0x7f) > 0) {
+					BYTE id_ext = (BYTE)BitRead(8);
 					if ((id_ext & 0x80) == 0) {
 						h.id_ext = id_ext;
 					}
-                    left--;
-                }
-            }
+					left--;
+				}
+			}
 		}
 		while (left-- > 0) {
 			BitRead(8);
