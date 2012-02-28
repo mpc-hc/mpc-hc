@@ -1,13 +1,24 @@
 next version - not yet release
 ==============================
 NEW    : Use ffmpeg for RealVideo\RealAudio decoding
-NEW    : Support for SIPR codec
+NEW    : Support for SIPR and VP30/31
+NEW    : Support WMV3 DXVA
 NEW    : Ticket #1738, Support for decoding FLV SWF ADPCM
-CHANGED: Updated libpng to v1.5.8
-CHANGED: Updated Little CMS to the latest git
+CHANGED: Updated libpng to v1.5.9
+CHANGED: Updated Little CMS to the latest git (25/02/2012)
 CHANGED: Updated libav
-CHANGED: Updated Polish, Japanese, Chinese Simplified, Chinese Traditional and Russian translations
+CHANGED: Updated Polish, Japanese, Chinese Simplified, Chinese Traditional, Russian,
+         Ukrainian and German translations
+FIXED  : Long opening of MKV files after using the "mkvclean" utility
+FIXED  : Incorrect detection of interlaced flag on some MPEG2 stream with DXVA decoder,
+         fix choppy playback with incorrect frame rate
+FIXED  : MPASplitter can't split some .MP3 files
+FIXED  : MPC Video Decoder switched to software decode mode, even if only DXVA decoder was
+         selected, but wasn't supported
 FIXED  : Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
+FIXED  : Ticket #2007, Prevent a memory leak in FLACSource
+FIXED  : Ticket #2013, bug when saving the ASS/SSA subtitle, the header has incorrect values
+FIXED  : Ticket #2014, Embedded subtitle overrides "Prefer external"
 
 
 For the older changes see:

@@ -3782,7 +3782,7 @@ Version 1.5.8beta01 [January 15, 2011]
   Moved AC_MSG_CHECKING([if libraries can be versioned]) later to the proper
     location in configure.ac (Gilles Espinasse).
   Fix bug in pngerror.c: some long warnings were being improperly truncated
-    (bug introduced in libpng-1.5.3beta05).
+    (CVE-2011-3464, bug introduced in libpng-1.5.3beta05).
 
 Version 1.5.8rc01 [January 21, 2012]
   No changes.
@@ -3791,6 +3791,24 @@ Version 1.5.8rc02 [January 25, 2012]
   Fixed Min/GW uninstall to remove libpng.dll.a
   Conditionalize the install rules for MINGW and CYGWIN in CMakeLists.txt
 
+Version 1.5.8 [February 1, 2012]
+  No changes.
+
+Version 1.5.9beta01 [February 3, 2012]
+  Rebuilt configure scripts in the tar distributions.
+
+Version 1.5.9beta02 [February 16, 2012]
+  Removed two unused definitions from scripts/pnglibconf.h.prebuilt
+  Removed some unused arrays (with #ifdef) from png_read_push_finish_row().
+  Removed tests for no-longer-used *_EMPTY_PLTE_SUPPORTED from pngstruct.h
+
+Version 1.5.9rc01 [February 17, 2012]
+  Fixed CVE-2011-3026 buffer overrun bug.  Deal more correctly with the test
+    on iCCP chunk length. Also removed spurious casts that may hide problems
+    on 16-bit systems.
+
+Version 1.5.9 [February 18, 2012]
+  No changes.
 
 Send comments/corrections/commendations to png-mng-implement at lists.sf.net
 (subscription required; visit

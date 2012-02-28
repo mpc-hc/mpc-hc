@@ -675,111 +675,6 @@ void TetrahedralInterpFloat(const cmsFloat32Number Input[],
 
 
 
-#if 0
-
-#define DENS(i,j,k) (LutTable[(i)+(j)+(k)+OutChan])
-
-static
-void TetrahedralInterp16(register const cmsUInt16Number Input[],
-                         register cmsUInt16Number Output[],
-                         register const cmsInterpParams* p)
-{
-    const cmsUInt16Number* LutTable = (cmsUInt16Number*) p -> Table;
-    cmsS15Fixed16Number    fx, fy, fz;
-    cmsS15Fixed16Number    rx, ry, rz;
-    int                    x0, y0, z0;
-    cmsS15Fixed16Number    c0, c1, c2, c3, Rest;       
-    cmsUInt32Number        OutChan;
-    cmsS15Fixed16Number    X0, X1, Y0, Y1, Z0, Z1;
-    cmsUInt32Number        TotalOut = p -> nOutputs;
-    
-
-    fx  = _cmsToFixedDomain((int) Input[0] * p -> Domain[0]);
-    fy  = _cmsToFixedDomain((int) Input[1] * p -> Domain[1]);
-    fz  = _cmsToFixedDomain((int) Input[2] * p -> Domain[2]);
-
-    x0  = FIXED_TO_INT(fx);
-    y0  = FIXED_TO_INT(fy); 
-    z0  = FIXED_TO_INT(fz);
-
-    rx  = FIXED_REST_TO_INT(fx);   
-    ry  = FIXED_REST_TO_INT(fy);      
-    rz  = FIXED_REST_TO_INT(fz);
-
-    X0 = p -> opta[2] * x0;
-    X1 = X0 + (Input[0] == 0xFFFFU ? 0 : p->opta[2]);
-
-    Y0 = p -> opta[1] * y0;
-    Y1 = Y0 + (Input[1] == 0xFFFFU ? 0 : p->opta[1]);
-
-    Z0 = p -> opta[0] * z0;
-    Z1 = Z0 + (Input[2] == 0xFFFFU ? 0 : p->opta[0]);
-
-    // These are the 6 Tetrahedral
-    for (OutChan=0; OutChan < TotalOut; OutChan++) {
-
-        c0 = DENS(X0, Y0, Z0);
-
-        if (rx >= ry && ry >= rz) {
-
-            c1 = DENS(X1, Y0, Z0) - c0;
-            c2 = DENS(X1, Y1, Z0) - DENS(X1, Y0, Z0);
-            c3 = DENS(X1, Y1, Z1) - DENS(X1, Y1, Z0);
-
-        }
-        else
-            if (rx >= rz && rz >= ry) {            
-
-                c1 = DENS(X1, Y0, Z0) - c0;
-                c2 = DENS(X1, Y1, Z1) - DENS(X1, Y0, Z1);
-                c3 = DENS(X1, Y0, Z1) - DENS(X1, Y0, Z0);
-
-            }
-            else
-                if (rz >= rx && rx >= ry) {
-
-                    c1 = DENS(X1, Y0, Z1) - DENS(X0, Y0, Z1);
-                    c2 = DENS(X1, Y1, Z1) - DENS(X1, Y0, Z1);
-                    c3 = DENS(X0, Y0, Z1) - c0;                            
-
-                }
-                else
-                    if (ry >= rx && rx >= rz) {
-
-                        c1 = DENS(X1, Y1, Z0) - DENS(X0, Y1, Z0);
-                        c2 = DENS(X0, Y1, Z0) - c0;
-                        c3 = DENS(X1, Y1, Z1) - DENS(X1, Y1, Z0);
-
-                    }
-                    else
-                        if (ry >= rz && rz >= rx) {
-
-                            c1 = DENS(X1, Y1, Z1) - DENS(X0, Y1, Z1);
-                            c2 = DENS(X0, Y1, Z0) - c0;
-                            c3 = DENS(X0, Y1, Z1) - DENS(X0, Y1, Z0);
-
-                        }
-                        else
-                            if (rz >= ry && ry >= rx) {             
-
-                                c1 = DENS(X1, Y1, Z1) - DENS(X0, Y1, Z1);
-                                c2 = DENS(X0, Y1, Z1) - DENS(X0, Y0, Z1);
-                                c3 = DENS(X0, Y0, Z1) - c0;
-
-                            }
-                            else  {
-                                c1 = c2 = c3 = 0;                               
-                            }
-
-                            Rest = c1 * rx + c2 * ry + c3 * rz;                
-
-                            Output[OutChan] = (cmsUInt16Number) c0 + ROUND_FIXED_TO_INT(_cmsToFixedDomain(Rest));
-    }
-
-}
-#undef DENS
-
-#else
 
 static
 void TetrahedralInterp16(register const cmsUInt16Number Input[],
@@ -817,7 +712,7 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
 
     LutTable = &LutTable[X0+Y0+Z0];
 
-    // The old code used: x = ROUND_FIXED_TO_INT(_cmsToFixedDomain(Rest))
+    // Output should be computed as x = ROUND_FIXED_TO_INT(_cmsToFixedDomain(Rest))
     // which expands as: x = (Rest + ((Rest+0x7fff)/0xFFFF) + 0x8000)>>16
     // This can be replaced by: t = Rest+0x8001, x = (t + (t>>16))>>16
     // at the cost of being off by one at 7fff and 17ffe.
@@ -913,8 +808,6 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
     }
 }
 
-
-#endif
 
 #define DENS(i,j,k) (LutTable[(i)+(j)+(k)+OutChan])
 static

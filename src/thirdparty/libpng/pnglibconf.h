@@ -3,7 +3,7 @@
 
 /* pnglibconf.h - library build configuration */
 
-/* Libpng 1.5.8 - February 1, 2012 */
+/* Libpng 1.5.9 - February 18, 2012 */
 
 /* Copyright (c) 1998-2011 Glenn Randers-Pehrson */
 
@@ -54,8 +54,6 @@
 #define PNG_FIXED_POINT_SUPPORTED
 #define PNG_FLOATING_ARITHMETIC_SUPPORTED
 #define PNG_FLOATING_POINT_SUPPORTED
-#define PNG_FORMAT_AFIRST_SUPPORTED
-#define PNG_FORMAT_BGR_SUPPORTED
 #define PNG_gAMA_SUPPORTED
 #define PNG_HANDLE_AS_UNKNOWN_SUPPORTED
 #define PNG_hIST_SUPPORTED
