@@ -1,6 +1,6 @@
-next version - not yet release
+next version - not yet released
 ==============================
-NEW    : Use ffmpeg for RealVideo\RealAudio decoding
+NEW    : Use ffmpeg for RealVideo/RealAudio decoding
 NEW    : Support for SIPR and VP30/31
 NEW    : Support WMV3 DXVA
 NEW    : Ticket #1738, Support for decoding FLV SWF ADPCM
