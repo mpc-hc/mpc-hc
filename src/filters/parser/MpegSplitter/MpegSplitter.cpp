@@ -677,7 +677,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 
 			__int64 pos = m_pFile->GetPos();
 
-			DWORD TrackNumber = m_pFile->AddStream(0, b, h.len);
+			DWORD TrackNumber = m_pFile->AddStream(0, b, h.id_ext, h.len);
 
 			if (GetOutputPin(TrackNumber)) {
 				CAutoPtr<Packet> p(DNew Packet());
@@ -717,7 +717,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 					ASSERT(0);
 					return E_FAIL;
 				}
-				TrackNumber = m_pFile->AddStream(h.pid, b, h.bytes - (DWORD)(m_pFile->GetPos() - pos));
+				TrackNumber = m_pFile->AddStream(h.pid, b, 0, h.bytes - (DWORD)(m_pFile->GetPos() - pos));
 			}
 
 			if (GetOutputPin(TrackNumber)) {
@@ -1553,7 +1553,7 @@ STDMETHODIMP_(int) CMpegSplitterFilter::GetTrueHD()
 STDMETHODIMP CMpegSplitterFilter::SetAlternativeDuration(BOOL nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	m_AlternativeDuration = nValue;
+	m_AlternativeDuration = !!nValue;
 	return S_OK;
 }
 

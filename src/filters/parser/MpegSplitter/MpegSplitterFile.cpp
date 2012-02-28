@@ -290,7 +290,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 
 				__int64 pos = GetPos();
 
-				if (h.fpts && AddStream(0, b, h.len) == TrackNum) {
+				if (h.fpts && AddStream(0, b, h.id_ext, h.len) == TrackNum) {
 					//ASSERT(h.pts >= m_rtMin && h.pts <= m_rtMax);
 					rt = h.pts;
 					break;
@@ -309,7 +309,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 			if (h.payload && h.payloadstart && ISVALIDPID(h.pid)) {
 				peshdr h2;
 				if (NextMpegStartCode(b, 4) && Read(h2, b)) { // pes packet
-					if (h2.fpts && AddStream(h.pid, b, DWORD(h.bytes - (GetPos() - rtpos)) == TrackNum)) {
+					if (h2.fpts && AddStream(h.pid, b, 0, DWORD(h.bytes - (GetPos() - rtpos)) == TrackNum)) {
 						//ASSERT(h2.pts >= m_rtMin && h2.pts <= m_rtMax);
 						rt = h2.pts;
 						break;
@@ -391,7 +391,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 				}
 
 				__int64 pos = GetPos();
-				AddStream(0, b, h.len);
+				AddStream(0, b, h.id_ext, h.len);
 				if (h.len) {
 					Seek(pos + h.len);
 				}
@@ -449,7 +449,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 				}
 
 				if (!CalcDuration) {
-					AddStream(h.pid, b, DWORD(h.bytes - (GetPos() - pos)));
+					AddStream(h.pid, b, 0, DWORD(h.bytes - (GetPos() - pos)));
 				}
 			}
 
@@ -475,9 +475,9 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 			__int64 pos = GetPos();
 
 			if (h.streamid == 1) {
-				AddStream(h.streamid, 0xe0, h.length);
+				AddStream(h.streamid, 0xe0, 0, h.length);
 			} else if (h.streamid == 2) {
-				AddStream(h.streamid, 0xc0, h.length);
+				AddStream(h.streamid, 0xc0, 0, h.length);
 			}
 
 			if (h.length) {
@@ -489,7 +489,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 	return S_OK;
 }
 
-DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
+DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 {
 	if (pid) {
 		if (pesid) {
@@ -502,6 +502,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	stream s;
 	s.pid = pid;
 	s.pesid = pesid;
+	s.ps1id = ps1id;
 
 	int type = unknown;
 
@@ -710,11 +711,26 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						type = subpic;
 					}
 				}
-			} else if (b >= 0xc0 && b < 0xc8) { // dolby digital/dolby digital +
+			} else if (b >= 0xc0 && b < 0xcf) { // dolby digital/dolby digital +
 				s.ps1id = (BYTE)BitRead(8);
-				BitRead(8);BitRead(16);
+				// skip audio header - 3-byte
+				BitRead(8);
+				BitRead(8);
+				BitRead(8);
 				CMpegSplitterFile::ac3hdr h;
 				if (!m_streams[audio].Find(s) && Read(h, len, &s.mt)) {
+					type = audio;
+				}
+			} else if (b >= 0xb0 && b < 0xbf) { // truehd
+				s.ps1id = (BYTE)BitRead(8);
+				// skip audio header - 3-byte
+				BitRead(8);
+				BitRead(8);
+				BitRead(8);
+				// TrueHD audio has a 4-byte header
+				BitRead(8);
+				CMpegSplitterFile::ac3hdr h;
+				if (!m_streams[audio].Find(s) && Read(h, len, &s.mt, false, false)) {
 					type = audio;
 				}
 			}

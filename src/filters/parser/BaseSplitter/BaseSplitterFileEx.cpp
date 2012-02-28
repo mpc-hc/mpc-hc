@@ -265,19 +265,35 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 		if (h.fdts) {
 			left -= 5;
 		}
+		
+		if(h.extension) { /* PES extension */
+			BYTE pes_ext = (BYTE)BitRead(8);
+			left--;
+			BYTE skip = (pes_ext >> 4) & 0xb;
+            skip += skip & 0x9;
+            if (pes_ext & 0x40 || skip > left){
+                TRACE(_T("pes_ext %X is invalid\n"), pes_ext);
+                pes_ext = skip = 0;
+            }
+			for (int i=0; i<skip; i++) {
+				BitRead(8);
+			}
+			left -= skip;
+            if (pes_ext & 0x01) { /* PES extension 2 */
+                BYTE ext2_len = (BYTE)BitRead(8);
+                left--;
+                if ((ext2_len & 0x7f) > 0) {
+                    BYTE id_ext = (BYTE)BitRead(8);
+					if ((id_ext & 0x80) == 0) {
+						h.id_ext = id_ext;
+					}
+                    left--;
+                }
+            }
+		}
 		while (left-- > 0) {
 			BitRead(8);
 		}
-		/*
-				// mpeg2 stuffing (ff ff .. , max 32x)
-				while(BitRead(8, true) == 0xff) {BitRead(8); if(h.len) h.len--;}
-				Seek(GetPos()); // put last peeked byte back for Read()
-
-				// FIXME: this doesn't seems to be here,
-				// infact there can be ff's as part of the data
-				// right at the beginning of the packet, which
-				// we should not skip...
-		*/
 	}
 
 	return true;

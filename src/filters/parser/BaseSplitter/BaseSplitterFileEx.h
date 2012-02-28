@@ -91,6 +91,8 @@ public:
 		BYTE escr:1, esrate:1, dsmtrickmode:1, morecopyright:1, crc:1, extension:1;
 		BYTE hdrlen;
 
+		BYTE id_ext;
+
 		struct peshdr() {
 			memset(this, 0, sizeof(*this));
 		}

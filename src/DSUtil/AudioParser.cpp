@@ -170,8 +170,9 @@ int ParseTrueHDHeader(const BYTE *buf, int *samplerate, int *channels, int *fram
 	};
 
 	DWORD sync = *(DWORD*)(buf+4);
-	if (sync != TRUEHD_SYNC_WORD)
+	if (sync != TRUEHD_SYNC_WORD) {
 		return 0;
+	}
 
 	int frame_size  = (((buf[0] << 8) | buf[1]) & 0xfff) * 2;
 

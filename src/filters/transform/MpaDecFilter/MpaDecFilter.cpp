@@ -97,7 +97,8 @@ static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 	{ &MEDIASUBTYPE_RACP,		CODEC_ID_AAC	},
 #endif
 #if INTERNAL_DECODER_AC3
-	{ &MEDIASUBTYPE_DOLBY_DDPLUS, CODEC_ID_EAC3 },
+	{ &MEDIASUBTYPE_DOLBY_DDPLUS, CODEC_ID_EAC3   },
+	{ &MEDIASUBTYPE_DOLBY_TRUEHD, CODEC_ID_TRUEHD },
 #endif
 	{ &MEDIASUBTYPE_None,		CODEC_ID_NONE },
 };
@@ -590,7 +591,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
 	else if (subtype == MEDIASUBTYPE_DOLBY_AC3 ||
 			 subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
-			 subtype == MEDIASUBTYPE_DOLBY_TRUEHD ||
 			 subtype == MEDIASUBTYPE_DNET) {
 		hr = ProcessAC3();
 	}
@@ -1107,6 +1107,8 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 	if (size <= 0) {
 		return hr;
 	}
+
+	m_DolbyDigitalMode = (nCodecId == CODEC_ID_TRUEHD) ? DD_TRUEHD : (nCodecId == CODEC_ID_EAC3) ? DD_EAC3 : DD_Unknown;
 
 	p += size;
 	memmove(base, p, end - p);
@@ -2649,8 +2651,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 			m_pAVCtx->flags				|= CODEC_FLAG_TRUNCATED;
 		}
 
-		// have issue when use parser on TrueHD ... try to fix later
-		if (nCodecId != CODEC_ID_TRUEHD && nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
+		if (nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
 			m_pParser = av_parser_init(nCodecId);
 		}
 
