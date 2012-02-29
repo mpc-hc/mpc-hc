@@ -995,19 +995,20 @@ static int decode_band_types(AACContext *ac, enum BandType band_type[120],
                 av_log(ac->avctx, AV_LOG_ERROR, "invalid band type\n");
                 return -1;
             }
-            while ((sect_len_incr = get_bits(gb, bits)) == (1 << bits) - 1 && get_bits_left(gb) >= bits)
+            do {
+                sect_len_incr = get_bits(gb, bits);
                 sect_end += sect_len_incr;
-            sect_end += sect_len_incr;
-            if (get_bits_left(gb) < 0 || sect_len_incr == (1 << bits) - 1) {
-                av_log(ac->avctx, AV_LOG_ERROR, overread_err);
-                return -1;
-            }
-            if (sect_end > ics->max_sfb) {
-                av_log(ac->avctx, AV_LOG_ERROR,
-                       "Number of bands (%d) exceeds limit (%d).\n",
-                       sect_end, ics->max_sfb);
-                return -1;
-            }
+                if (get_bits_left(gb) < 0) {
+                    av_log(ac->avctx, AV_LOG_ERROR, overread_err);
+                    return -1;
+                }
+                if (sect_end > ics->max_sfb) {
+                    av_log(ac->avctx, AV_LOG_ERROR,
+                           "Number of bands (%d) exceeds limit (%d).\n",
+                           sect_end, ics->max_sfb);
+                    return -1;
+                }
+            } while (sect_len_incr == (1 << bits) - 1);
             for (; k < sect_end; k++) {
                 band_type        [idx]   = sect_band_type;
                 band_type_run_end[idx++] = sect_end;
@@ -1037,7 +1038,7 @@ static int decode_scalefactors(AACContext *ac, float sf[120], GetBitContext *gb,
     int offset[3] = { global_gain, global_gain - 90, 0 };
     int clipped_offset;
     int noise_flag = 1;
-    static const char *sf_str[3] = { "Global gain", "Noise gain", "Intensity stereo position" };
+    static const char *const sf_str[3] = { "Global gain", "Noise gain", "Intensity stereo position" };
     for (g = 0; g < ics->num_window_groups; g++) {
         for (i = 0; i < ics->max_sfb;) {
             int run_end = band_type_run_end[idx];

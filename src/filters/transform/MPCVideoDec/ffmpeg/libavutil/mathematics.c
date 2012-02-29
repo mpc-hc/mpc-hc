@@ -142,7 +142,7 @@ int64_t av_rescale_q_rnd(int64_t a, AVRational bq, AVRational cq,
 int64_t av_rescale_q(int64_t a, AVRational bq, AVRational cq)
 {
     return av_rescale_q_rnd(a, bq, cq, AV_ROUND_NEAR_INF);
- }
+}
 
 int av_compare_ts(int64_t ts_a, AVRational tb_a, int64_t ts_b, AVRational tb_b){
     int64_t a= tb_a.num * (int64_t)tb_b.den;

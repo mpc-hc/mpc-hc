@@ -994,10 +994,37 @@ static av_cold int vorbis_decode_init(AVCodecContext *avccontext)
         return AVERROR_INVALIDDATA;
     }
 
-    if ((ret = avpriv_split_xiph_headers(headers, headers_len, 30, header_start, header_len)) < 0) {
+    /* ffdshow custom code (begin) */
+    if (headers[0]!=2 && avccontext->vorbis_header_size[0]==0) {
         av_log(avccontext, AV_LOG_ERROR, "Extradata corrupt.\n");
-        return ret;
+        return AVERROR_INVALIDDATA;
     }
+    
+    if (avccontext->vorbis_header_size[0]==0) {
+        int i,j;
+        for(j=1,i=0;i<2;++i, ++j) {
+            header_len[i]=0;
+            while(j<headers_len && headers[j]==0xff) {
+                header_len[i]+=0xff;
+                ++j;
+            }
+            if (j>=headers_len) {
+                av_log(avccontext, AV_LOG_ERROR, "Extradata corrupt.\n");
+                return AVERROR_INVALIDDATA;
+            }
+            header_len[i]+=headers[j];
+        }
+        header_len[2]=headers_len-header_len[0]-header_len[1]-j;
+        headers+=j;
+    }else{
+        header_len[0]=avccontext->vorbis_header_size[0];
+        header_len[1]=avccontext->vorbis_header_size[1];
+        header_len[2]=avccontext->vorbis_header_size[2];
+    }
+    header_start[0]=headers;
+    header_start[1]=headers+header_len[0];
+    header_start[2]=header_start[1]+header_len[1];
+    /* ffdshow custom code (end) */
 
     init_get_bits(gb, header_start[0], header_len[0]*8);
     hdr_type = get_bits(gb, 8);
@@ -1698,6 +1725,17 @@ static av_cold int vorbis_decode_close(AVCodecContext *avccontext)
     return 0;
 }
 
+static av_cold void vorbis_decode_flush(AVCodecContext *avccontext)
+{
+    vorbis_context *vc = avccontext->priv_data;
+
+    if (vc->saved) {
+        memset(vc->saved, 0, (vc->blocksize[1] / 4) * vc->audio_channels *
+                             sizeof(*vc->saved));
+    }
+    vc->previous_window = 0;
+}
+
 AVCodec ff_vorbis_decoder = {
     .name           = "vorbis",
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1706,6 +1744,7 @@ AVCodec ff_vorbis_decoder = {
     .init           = vorbis_decode_init,
     .close          = vorbis_decode_close,
     .decode         = vorbis_decode_frame,
+    .flush          = vorbis_decode_flush,
     .capabilities   = CODEC_CAP_DR1,
     .long_name = NULL_IF_CONFIG_SMALL("Vorbis"),
     .channel_layouts = ff_vorbis_channel_layouts,

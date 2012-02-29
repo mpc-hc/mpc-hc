@@ -117,7 +117,7 @@ int avpriv_unlock_avformat(void);
  * @return        0 on success, negative error code on failure
  */
 int ff_alloc_packet(AVPacket *avpkt, int size);
- 
+
 /**
  * Rescale from sample rate to AVCodecContext.time_base.
  */
@@ -128,4 +128,4 @@ static av_always_inline int64_t ff_samples_to_time_base(AVCodecContext *avctx,
                         avctx->time_base);
 }
 
- #endif /* AVCODEC_INTERNAL_H */
+#endif /* AVCODEC_INTERNAL_H */

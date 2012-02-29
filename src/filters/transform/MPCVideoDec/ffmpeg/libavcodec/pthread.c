@@ -469,7 +469,7 @@ static int update_context_from_user(AVCodecContext *dst, AVCodecContext *src)
     dst->slice_flags = src->slice_flags;
     dst->flags2      = src->flags2;
 
-    copy_fields(skip_loop_filter, bidir_refine);
+    copy_fields(skip_loop_filter, subtitle_header);
 
     dst->frame_number     = src->frame_number;
     dst->reordered_opaque = src->reordered_opaque;
@@ -732,7 +732,6 @@ static void park_frame_worker_threads(FrameThreadContext *fctx, int thread_count
                 pthread_cond_wait(&p->output_cond, &p->progress_mutex);
             pthread_mutex_unlock(&p->progress_mutex);
         }
-        p->got_frame = 0;
     }
 }
 

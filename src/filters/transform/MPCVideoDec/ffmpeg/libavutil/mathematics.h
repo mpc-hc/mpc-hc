@@ -106,7 +106,7 @@ int64_t av_rescale_q_rnd(int64_t a, AVRational bq, AVRational cq,
                          enum AVRounding) av_const;
 
 /**
-  * Compare 2 timestamps each in its own timebases.
+ * Compare 2 timestamps each in its own timebases.
  * The result of the function is undefined if one of the timestamps
  * is outside the int64_t range when represented in the others timebase.
  * @return -1 if ts_a is before ts_b, 1 if ts_a is after ts_b or 0 if they represent the same position

@@ -42,6 +42,7 @@
 
 #define BACKSTEP_SIZE 512
 #define EXTRABYTES 24
+#define LAST_BUF_SIZE 2 * BACKSTEP_SIZE + EXTRABYTES
 
 /* layer 3 "granule" */
 typedef struct GranuleDef {
@@ -65,7 +66,7 @@ typedef struct GranuleDef {
 
 typedef struct MPADecodeContext {
     MPA_DECODE_HEADER
-    uint8_t last_buf[2 * BACKSTEP_SIZE + EXTRABYTES];
+    uint8_t last_buf[LAST_BUF_SIZE];
     int last_buf_size;
     /* next header (used in free format parsing) */
     uint32_t free_format_next_header;
@@ -1389,7 +1390,7 @@ static int mp_decode_layer3(MPADecodeContext *s)
         s->in_gb = s->gb;
         init_get_bits(&s->gb, s->last_buf, s->last_buf_size*8);
 #if !UNCHECKED_BITSTREAM_READER
-        s->gb.size_in_bits_plus8 += extrasize * 8;
+        s->gb.size_in_bits_plus8 += FFMAX(extrasize, LAST_BUF_SIZE - s->last_buf_size) * 8;
 #endif
         skip_bits_long(&s->gb, 8*(s->last_buf_size - main_data_begin));
     }
