@@ -56,7 +56,6 @@ private:
 	bool					m_bUseLongSlice;
 	int						m_nOutPOC;
 	REFERENCE_TIME			m_rtOutStart;
-	REFERENCE_TIME			m_rtLastFrameDisplayed;
 
 	// Private functions
 	void					Init();

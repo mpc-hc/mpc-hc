@@ -177,7 +177,6 @@ void CDXVADecoderH264::Flush()
 	ClearRefFramesList();
 	m_DXVAPicParams.UsedForReferenceFlags	= 0;
 	m_nOutPOC								= -1;
-	m_rtLastFrameDisplayed					= 0;
 
 	__super::Flush();
 }
@@ -373,13 +372,8 @@ int CDXVADecoderH264::FindOldestFrame()
 	}
 
 	if (nPos != -1) {
-		if (m_rtOutStart == _I64_MIN) {
-			// If start time not set (no PTS for example), guess presentation time!
-			m_rtOutStart = m_rtLastFrameDisplayed;
-		}
 		m_pPictureStore[nPos].rtStart	= m_rtOutStart;
-		m_pPictureStore[nPos].rtStop	= m_rtOutStart + m_pFilter->GetAvrTimePerFrame() / m_pFilter->GetRate();
-		m_rtLastFrameDisplayed			= m_pPictureStore[nPos].rtStop;
+		m_pFilter->UpdateFrameTime(m_pPictureStore[nPos].rtStart, m_pPictureStore[nPos].rtStop);
 		m_pFilter->ReorderBFrames (m_pPictureStore[nPos].rtStart, m_pPictureStore[nPos].rtStop);
 	}
 

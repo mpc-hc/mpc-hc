@@ -54,6 +54,7 @@ extern "C"
 
 #define MAX_SUPPORTED_MODE			5
 #define ROUND_FRAMERATE(var,FrameRate)	if (labs ((long)(var - FrameRate)) < FrameRate*1/100) var = FrameRate;
+#define AVRTIMEPERFRAME_VC1_EVO 417083
 
 typedef struct {
 	const int			PicEntryNumber;
@@ -604,6 +605,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pAlignedFFBuffer		= NULL;
 	m_nAlignedFFBufferSize	= 0;
 
+	m_bFrame_repeat_pict = false;
+
 #ifdef REGISTER_FILTER
 	CRegKey key;
 	if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ)) {
@@ -715,19 +718,32 @@ bool CMPCVideoDecFilter::IsVideoInterlaced()
 	return true;
 };
 
-void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
+void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop, bool b_repeat_pict)
 {
+	if (m_nCodecId == CODEC_ID_VC1 && b_repeat_pict && m_rtAvrTimePerFrame == 333666) { // Fix for EVO+VC1 Pulldown ... thanks to ffdshow to idea
+		if(rtStart == _I64_MIN) {
+			rtStart	= m_rtLastStart + (AVRTIMEPERFRAME_VC1_EVO / m_dRate) * m_nCountEstimated;
+			m_nCountEstimated++;
+		} else {
+			m_rtLastStart		= rtStart;
+			m_nCountEstimated	= 1;
+		}
+		rtStop	= rtStart + (AVRTIMEPERFRAME_VC1_EVO / m_dRate);
+		return;
+	}
+
 	if (rtStart == _I64_MIN) {
 		// If reference time has not been set by splitter, extrapolate start time
 		// from last known start time already delivered
 		rtStart = m_rtLastStart + (m_rtAvrTimePerFrame / m_dRate) * m_nCountEstimated;
-		rtStop  = rtStart + (m_rtAvrTimePerFrame / m_dRate);
 		m_nCountEstimated++;
 	} else {
 		// Known start time, set as new reference
 		m_rtLastStart		= rtStart;
 		m_nCountEstimated	= 1;
 	}
+
+	rtStop  = rtStart + (m_rtAvrTimePerFrame / m_dRate);
 }
 
 void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight)
@@ -1716,6 +1732,10 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			return S_OK;
 		}
 
+		if(!m_bFrame_repeat_pict && m_pFrame->repeat_pict) {
+			m_bFrame_repeat_pict = true;
+		}
+
 		CComPtr<IMediaSample>	pOut;
 		BYTE*					pDataOut = NULL;
 
@@ -1733,9 +1753,9 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		} else if (m_nCodecId == CODEC_ID_RV30 || m_nCodecId == CODEC_ID_RV40) {
 			rtStart = (rtStart == _I64_MIN) ? m_rtPrevStop : (10000i64*process_rv_timestamp(&rm, m_nCodecId, avpkt.data, (rtStart + m_rtStart)/10000) - m_rtStart);
 			rtStop = rtStart + m_rtAvrTimePerFrame;
-		} else {
+		} else if (!(m_nCodecId == CODEC_ID_VC1 && m_bFrame_repeat_pict && m_rtAvrTimePerFrame == 333666)) {
 			rtStart = m_pFrame->reordered_opaque;
-			rtStop  = m_pFrame->reordered_opaque + m_rtAvrTimePerFrame;
+			rtStop  = m_pFrame->reordered_opaque2;
 		}
 
 		m_rtPrevStop = rtStop;
@@ -1966,8 +1986,9 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	if (rtStop <= rtStart && rtStop != _I64_MIN) {
 		rtStop = rtStart + m_rtAvrTimePerFrame / m_dRate;
 	}
+
 	if (m_nDXVAMode == MODE_SOFTWARE) {
-		UpdateFrameTime(rtStart, rtStop);
+		UpdateFrameTime(rtStart, rtStop, m_bFrame_repeat_pict);
 	}
 
 	m_pAVCtx->reordered_opaque  = rtStart;

@@ -77,6 +77,8 @@ void CDXVADecoderVC1::Init()
 		default :
 			ASSERT(FALSE);
 	}
+
+	m_bFrame_repeat_pict = FALSE;
 }
 
 // === Public functions
@@ -88,7 +90,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	int							nFieldType, nSliceType;
 	UINT						nFrameSize, nSize_Result;
 
-	FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), &nFieldType, &nSliceType, pDataIn, nSize, &nFrameSize, FALSE);
+	FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), &nFieldType, &nSliceType, pDataIn, nSize, &nFrameSize, FALSE, &m_bFrame_repeat_pict);
 
 	if (FFIsSkipped (m_pFilter->GetAVCtx())) {
 		return S_OK;
@@ -146,7 +148,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	// ***************
 	if (nFrameSize) { // Decoding Second Field
-		FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), NULL, NULL, pDataIn, nSize, NULL, TRUE);
+		FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), NULL, NULL, pDataIn, nSize, NULL, TRUE, &m_bFrame_repeat_pict);
 
 		CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
@@ -172,7 +174,10 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 #endif
 
 	// Re-order B frames
-	if (m_pFilter->IsReorderBFrame()) {
+	if (m_bFrame_repeat_pict || m_pFilter->IsReorderBFrame()) {
+		if(m_bFrame_repeat_pict) {
+			m_pFilter->UpdateFrameTime(rtStart, rtStop, !!m_bFrame_repeat_pict);
+		}
 		if (m_PictureParams.bPicBackwardPrediction == 1) {
 			SwapRT (rtStart, m_rtStartDelayed);
 			SwapRT (rtStop,  m_rtStopDelayed);

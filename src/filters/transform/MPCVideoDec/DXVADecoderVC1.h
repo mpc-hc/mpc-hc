@@ -98,6 +98,8 @@ private:
 	REFERENCE_TIME				m_rtStartDelayed;
 	REFERENCE_TIME				m_rtStopDelayed;
 
+	BOOL 						m_bFrame_repeat_pict;
+
 	// Private functions
 	void						Init();
 	HRESULT						DisplayStatus();

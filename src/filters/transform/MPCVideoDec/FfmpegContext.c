@@ -521,7 +521,7 @@ void FFH264SetDxvaSliceLong (struct AVCodecContext* pAVCtx, void* pSliceLong)
 	h->dxva_slice_long = pSliceLong;
 }
 
-HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize, UINT* nFrameSize, BOOL b_SecondField)
+HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize, UINT* nFrameSize, BOOL b_SecondField, BOOL* b_repeat_pict)
 {
 	VC1Context*		vc1 = (VC1Context*) pAVCtx->priv_data;
 	int out_nFrameSize = 0;
@@ -625,6 +625,10 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 								pPicParams->bPicBackwardPrediction == 0)					<< 6) |
 								  ((vc1->profile != PROFILE_ADVANCED && vc1->rangeredfrm)	<< 5) |
 								  (vc1->s.loop_filter										<< 1);
+
+	if (vc1->profile == PROFILE_ADVANCED && (vc1->rff || vc1->rptfrm)) {
+		*b_repeat_pict = TRUE;
+	}
 
 	return S_OK;
 }
