@@ -299,7 +299,6 @@ const AP4_Atom::Type AP4_ATOM_TYPE_AVDJ = AP4_ATOM_TYPE('A','V','D','J');
 const AP4_Atom::Type AP4_ATOM_TYPE_DMB1 = AP4_ATOM_TYPE('d','m','b','1');
 //
 const AP4_Atom::Type AP4_ATOM_TYPE_RPZA = AP4_ATOM_TYPE('r','p','z','a');
-const AP4_Atom::Type AP4_ATOM_TYPE_DVC  = AP4_ATOM_TYPE('d','v','c',' ');
 const AP4_Atom::Type AP4_ATOM_TYPE_DIV3 = AP4_ATOM_TYPE('D','I','V','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_DIVX = AP4_ATOM_TYPE('d','i','v','x');
 const AP4_Atom::Type AP4_ATOM_TYPE_8BPS = AP4_ATOM_TYPE('8','B','P','S');
@@ -313,6 +312,11 @@ const AP4_Atom::Type AP4_ATOM_TYPE_YV12 = AP4_ATOM_TYPE('y','v','1','2');
 const AP4_Atom::Type AP4_ATOM_TYPE_PASP = AP4_ATOM_TYPE('p','a','s','p');
 
 const AP4_Atom::Type AP4_ATOM_TYPE_NMOS = AP4_ATOM_TYPE('n','m','o','s');
+
+const AP4_Atom::Type AP4_ATOM_TYPE_DVC  = AP4_ATOM_TYPE('d','v','c',' ');
+const AP4_Atom::Type AP4_ATOM_TYPE_DV5P = AP4_ATOM_TYPE('d','v','5','p');
+const AP4_Atom::Type AP4_ATOM_TYPE_DVCP = AP4_ATOM_TYPE('d','v','c','p');
+const AP4_Atom::Type AP4_ATOM_TYPE_DVPP = AP4_ATOM_TYPE('d','v','p','p');
 /*----------------------------------------------------------------------
 |       AP4_AtomListInspector
 +---------------------------------------------------------------------*/
