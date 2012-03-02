@@ -24,13 +24,12 @@
  * MPEG Audio decoder
  */
 
-#define UNCHECKED_BITSTREAM_READER 1
-
 #include "libavutil/audioconvert.h"
 #include "avcodec.h"
 #include "get_bits.h"
 #include "mathops.h"
 #include "mpegaudiodsp.h"
+#include "dsputil.h"
 
 /*
  * TODO:
@@ -82,6 +81,7 @@ typedef struct MPADecodeContext {
     int err_recognition;
     AVCodecContext* avctx;
     MPADSPContext mpadsp;
+    DSPContext dsp;
     AVFrame frame;
 } MPADecodeContext;
 
@@ -434,6 +434,7 @@ static av_cold int decode_init(AVCodecContext * avctx)
     s->avctx = avctx;
 
     ff_mpadsp_init(&s->mpadsp);
+    ff_dsputil_init(&s->dsp, avctx);
 
     avctx->sample_fmt= OUT_FMT;
     s->err_recognition = avctx->err_recognition;
@@ -1155,6 +1156,9 @@ found2:
         /* ms stereo ONLY */
         /* NOTE: the 1/sqrt(2) normalization factor is included in the
            global gain */
+#if CONFIG_FLOAT
+       s-> dsp.butterflies_float(g0->sb_hybrid, g1->sb_hybrid, 576);
+#else
         tab0 = g0->sb_hybrid;
         tab1 = g1->sb_hybrid;
         for (i = 0; i < 576; i++) {
@@ -1163,6 +1167,7 @@ found2:
             tab0[i] = tmp0 + tmp1;
             tab1[i] = tmp0 - tmp1;
         }
+#endif
     }
 }
 
@@ -1379,6 +1384,7 @@ static int mp_decode_layer3(MPADecodeContext *s)
     }
 
     if (!s->adu_mode) {
+        int skip;
         const uint8_t *ptr = s->gb.buffer + (get_bits_count(&s->gb)>>3);
         int extrasize = av_clip(get_bits_left(&s->gb) >> 3, 0, EXTRABYTES);
         assert((get_bits_count(&s->gb) & 7) == 0);
@@ -1392,25 +1398,29 @@ static int mp_decode_layer3(MPADecodeContext *s)
 #if !UNCHECKED_BITSTREAM_READER
         s->gb.size_in_bits_plus8 += FFMAX(extrasize, LAST_BUF_SIZE - s->last_buf_size) * 8;
 #endif
-        skip_bits_long(&s->gb, 8*(s->last_buf_size - main_data_begin));
+        s->last_buf_size <<= 3;
+        for (gr = 0; gr < nb_granules && (s->last_buf_size >> 3) < main_data_begin; gr++) {
+            for (ch = 0; ch < s->nb_channels; ch++) {
+                g = &s->granules[ch][gr];
+                s->last_buf_size += g->part2_3_length;
+                memset(g->sb_hybrid, 0, sizeof(g->sb_hybrid));
+            }
+        }
+        skip = s->last_buf_size - 8 * main_data_begin;
+        if (skip >= s->gb.size_in_bits && s->in_gb.buffer) {
+            skip_bits_long(&s->in_gb, skip - s->gb.size_in_bits);
+            s->gb           = s->in_gb;
+            s->in_gb.buffer = NULL;
+        } else {
+            skip_bits_long(&s->gb, skip);
+        }
+    } else {
+        gr = 0;
     }
 
-    for (gr = 0; gr < nb_granules; gr++) {
+    for (; gr < nb_granules; gr++) {
         for (ch = 0; ch < s->nb_channels; ch++) {
             g = &s->granules[ch][gr];
-            if (get_bits_count(&s->gb) < 0) {
-                av_log(s->avctx, AV_LOG_DEBUG, "mdb:%d, lastbuf:%d skipping granule %d\n",
-                       main_data_begin, s->last_buf_size, gr);
-                skip_bits_long(&s->gb, g->part2_3_length);
-                memset(g->sb_hybrid, 0, sizeof(g->sb_hybrid));
-                if (get_bits_count(&s->gb) >= s->gb.size_in_bits && s->in_gb.buffer) {
-                    skip_bits_long(&s->in_gb, get_bits_count(&s->gb) - s->gb.size_in_bits);
-                    s->gb           = s->in_gb;
-                    s->in_gb.buffer = NULL;
-                }
-                continue;
-            }
-
             bits_pos = get_bits_count(&s->gb);
 
             if (!s->lsf) {

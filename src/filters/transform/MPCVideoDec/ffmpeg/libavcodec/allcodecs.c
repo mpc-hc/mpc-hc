@@ -191,4 +191,6 @@ void avcodec_register_all(void)
     //REGISTER_PARSER  (DCA, dca);
     REGISTER_PARSER (MLP, mlp);
     REGISTER_PARSER (MPEGAUDIO, mpegaudio);
+    REGISTER_PARSER  (H264, h264);
+    REGISTER_PARSER  (MPEGVIDEO, mpegvideo);
 }

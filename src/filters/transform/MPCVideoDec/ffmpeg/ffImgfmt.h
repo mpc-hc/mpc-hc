@@ -81,7 +81,7 @@
 
 #include <stddef.h>
 
-typedef ptrdiff_t stride_t;
+typedef int stride_t;
 
 //==================================== xvid4 =====================================
 

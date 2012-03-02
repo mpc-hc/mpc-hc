@@ -650,16 +650,18 @@ typedef struct RcOverride{
 #define CODEC_FLAG_BITEXACT       0x00800000 ///< Use only bitexact stuff (except (I)DCT).
 /* Fx : Flag for h263+ extra options */
 #define CODEC_FLAG_AC_PRED        0x01000000 ///< H.263 advanced intra coding / MPEG-4 AC prediction
-#define CODEC_FLAG_CBP_RD         0x04000000 ///< Use rate distortion optimization for cbp.
-#define CODEC_FLAG_QP_RD          0x08000000 ///< Use rate distortion optimization for qp selectioon.
 #define CODEC_FLAG_LOOP_FILTER    0x00000800 ///< loop filter
 #define CODEC_FLAG_INTERLACED_ME  0x20000000 ///< interlaced motion estimation
 #define CODEC_FLAG_CLOSED_GOP     0x80000000
 #define CODEC_FLAG2_FAST          0x00000001 ///< Allow non spec compliant speedup tricks.
-#define CODEC_FLAG2_STRICT_GOP    0x00000002 ///< Strictly enforce GOP size.
 #define CODEC_FLAG2_NO_OUTPUT     0x00000004 ///< Skip bitstream encoding.
 #define CODEC_FLAG2_LOCAL_HEADER  0x00000008 ///< Place global headers at every keyframe instead of in extradata.
+#if FF_API_MPV_GLOBAL_OPTS
+#define CODEC_FLAG_CBP_RD         0x04000000 ///< Use rate distortion optimization for cbp.
+#define CODEC_FLAG_QP_RD          0x08000000 ///< Use rate distortion optimization for qp selectioon.
+#define CODEC_FLAG2_STRICT_GOP    0x00000002 ///< Strictly enforce GOP size.
 #define CODEC_FLAG2_SKIP_RD       0x00004000 ///< RD optimal MB level residual skipping
+#endif
 #define CODEC_FLAG2_CHUNKS        0x00008000 ///< Input bitstream might be truncated at a packet boundaries instead of only at frame boundaries.
 
 /* Unsupported options :
@@ -830,6 +832,7 @@ enum AVPacketSideDataType {
     AV_PKT_DATA_PALETTE,
     AV_PKT_DATA_NEW_EXTRADATA,
     AV_PKT_DATA_PARAM_CHANGE,
+    AV_PKT_DATA_H263_MB_INFO,
 };
 
 typedef struct AVPacket {
@@ -910,6 +913,24 @@ typedef struct AVPacket {
  * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_DIMENSIONS)
  *     s32le width
  *     s32le height
+ */
+
+/**
+ * An AV_PKT_DATA_H263_MB_INFO side data packet contains a number of
+ * structures with info about macroblocks relevant to splitting the
+ * packet into smaller packets on macroblock edges (e.g. as for RFC 2190).
+ * That is, it does not necessarily contain info about all macroblocks,
+ * as long as the distance between macroblocks in the info is smaller
+ * than the target payload size.
+ * Each MB info structure is 12 bytes, and is laid out as follows:
+ * u32le bit offset from the start of the packet
+ * u8    current quantizer at the start of the macroblock
+ * u8    GOB number
+ * u16le macroblock address within the GOB
+ * u8    horizontal MV predictor
+ * u8    vertical MV predictor
+ * u8    horizontal MV predictor for block number 3
+ * u8    vertical MV predictor for block number 3
  */
 
 enum AVSideDataParamChangeFlags {
@@ -1542,19 +1563,21 @@ typedef struct AVCodecContext {
 
     int b_frame_strategy;
 
+#if FF_API_MPV_GLOBAL_OPTS
     /**
      * luma single coefficient elimination threshold
      * - encoding: Set by user.
      * - decoding: unused
      */
-    int luma_elim_threshold;
+    attribute_deprecated int luma_elim_threshold;
 
     /**
      * chroma single coeff elimination threshold
      * - encoding: Set by user.
      * - decoding: unused
      */
-    int chroma_elim_threshold;
+    attribute_deprecated int chroma_elim_threshold;
+#endif
 
     /**
      * qscale offset between IP and B-frames
@@ -1793,13 +1816,15 @@ typedef struct AVCodecContext {
      */
     int inter_quant_bias;
 
+#if FF_API_COLOR_TABLE_ID
     /**
      * color table ID
      * - encoding: unused
      * - decoding: Which clrtable should be used for 8bit RGB images.
      *             Tables have to be stored somewhere. FIXME
      */
-    int color_table_id;
+    attribute_deprecated int color_table_id;
+#endif
 
     /**
      * slice flags
@@ -1857,19 +1882,19 @@ typedef struct AVCodecContext {
      */
     int noise_reduction;
 
+#if FF_API_INTER_THRESHOLD
     /**
-     *
-     * - encoding: Set by user.
-     * - decoding: unused
+     * @deprecated this field is unused
      */
-    int inter_threshold;
+    attribute_deprecated int inter_threshold;
+#endif
 
+#if FF_API_MPV_GLOBAL_OPTS
     /**
-     * quantizer noise shaping
-     * - encoding: Set by user.
-     * - decoding: unused
+     * @deprecated use mpegvideo private options instead
      */
-    int quantizer_noise_shaping;
+    attribute_deprecated int quantizer_noise_shaping;
+#endif
 
     /**
      * Motion estimation threshold below which no motion estimation is
@@ -2884,7 +2909,6 @@ typedef struct AVCodecContext {
     int nal_length_size;
     int vorbis_header_size[3];
     int64_t granulepos;
-    int64_t *parserRtStart;
     void (*handle_user_data)(struct AVCodecContext *c,const uint8_t *buf,int buf_size);
     int h264_has_to_drop_first_non_ref;    // Workaround Haali's media splitter (http://forum.doom9.org/showthread.php?p=1226434#post1226434)
     int h264_using_dxva;
@@ -3172,6 +3196,17 @@ void av_free_packet(AVPacket *pkt);
  */
 uint8_t* av_packet_new_side_data(AVPacket *pkt, enum AVPacketSideDataType type,
                                  int size);
+
+/**
+ * Shrink the already allocated side data buffer
+ *
+ * @param pkt packet
+ * @param type side information type
+ * @param size new side information size
+ * @return 0 on success, < 0 on failure
+ */
+int av_packet_shrink_side_data(AVPacket *pkt, enum AVPacketSideDataType type,
+                               int size);
 
 /**
  * Get side information from packet.
@@ -3847,7 +3882,7 @@ typedef struct AVCodecParserContext {
      * For all other types, this is in units of AVCodecContext.time_base.
      */
     int duration;
- } AVCodecParserContext;
+} AVCodecParserContext;
 
 typedef struct AVCodecParser {
     int codec_ids[5]; /* several codec IDs are permitted */

@@ -115,55 +115,6 @@ static VLC vlc_spectral[11];
 
 static const char overread_err[] = "Input buffer exhausted before END element found\n";
 
-static ChannelElement *get_che(AACContext *ac, int type, int elem_id)
-{
-    // For PCE based channel configurations map the channels solely based on tags.
-    if (!ac->m4ac.chan_config) {
-        return ac->tag_che_map[type][elem_id];
-    }
-    // For indexed channel configurations map the channels solely based on position.
-    switch (ac->m4ac.chan_config) {
-    case 7:
-        if (ac->tags_mapped == 3 && type == TYPE_CPE) {
-            ac->tags_mapped++;
-            return ac->tag_che_map[TYPE_CPE][elem_id] = ac->che[TYPE_CPE][2];
-        }
-    case 6:
-        /* Some streams incorrectly code 5.1 audio as SCE[0] CPE[0] CPE[1] SCE[1]
-           instead of SCE[0] CPE[0] CPE[1] LFE[0]. If we seem to have
-           encountered such a stream, transfer the LFE[0] element to the SCE[1]'s mapping */
-        if (ac->tags_mapped == tags_per_config[ac->m4ac.chan_config] - 1 && (type == TYPE_LFE || type == TYPE_SCE)) {
-            ac->tags_mapped++;
-            return ac->tag_che_map[type][elem_id] = ac->che[TYPE_LFE][0];
-        }
-    case 5:
-        if (ac->tags_mapped == 2 && type == TYPE_CPE) {
-            ac->tags_mapped++;
-            return ac->tag_che_map[TYPE_CPE][elem_id] = ac->che[TYPE_CPE][1];
-        }
-    case 4:
-        if (ac->tags_mapped == 2 && ac->m4ac.chan_config == 4 && type == TYPE_SCE) {
-            ac->tags_mapped++;
-            return ac->tag_che_map[TYPE_SCE][elem_id] = ac->che[TYPE_SCE][1];
-        }
-    case 3:
-    case 2:
-        if (ac->tags_mapped == (ac->m4ac.chan_config != 2) && type == TYPE_CPE) {
-            ac->tags_mapped++;
-            return ac->tag_che_map[TYPE_CPE][elem_id] = ac->che[TYPE_CPE][0];
-        } else if (ac->m4ac.chan_config == 2) {
-            return NULL;
-        }
-    case 1:
-        if (!ac->tags_mapped && type == TYPE_SCE) {
-            ac->tags_mapped++;
-            return ac->tag_che_map[TYPE_SCE][elem_id] = ac->che[TYPE_SCE][0];
-        }
-    default:
-        return NULL;
-    }
-}
-
 static int count_channels(uint8_t (*layout)[3], int tags)
 {
     int i, sum = 0;
@@ -400,8 +351,6 @@ static uint64_t sniff_channel_order(uint8_t (*layout_map)[3], int tags)
 /**
  * Configure output channel order based on the current program configuration element.
  *
- * @param   che_pos current channel position configuration
- *
  * @return  Returns error status. 0 - OK, !0 - error
  */
 static av_cold int output_configure(AACContext *ac,
@@ -458,10 +407,92 @@ static void flush(AVCodecContext *avctx)
 }
 
 /**
+ * Set up channel positions based on a default channel configuration
+ * as specified in table 1.17.
+ *
+ * @return  Returns error status. 0 - OK, !0 - error
+ */
+static av_cold int set_default_channel_config(AVCodecContext *avctx,
+                                              uint8_t (*layout_map)[3],
+                                              int *tags,
+                                              int channel_config)
+{
+    if (channel_config < 1 || channel_config > 7) {
+        av_log(avctx, AV_LOG_ERROR, "invalid default channel configuration (%d)\n",
+               channel_config);
+        return -1;
+    }
+    *tags = tags_per_config[channel_config];
+    memcpy(layout_map, aac_channel_layout_map[channel_config-1], *tags * sizeof(*layout_map));
+    return 0;
+}
+
+static ChannelElement *get_che(AACContext *ac, int type, int elem_id)
+{
+    // For PCE based channel configurations map the channels solely based on tags.
+    if (!ac->m4ac.chan_config) {
+        return ac->tag_che_map[type][elem_id];
+    }
+    // Allow single CPE stereo files to be signalled with mono configuration.
+    if (!ac->tags_mapped && type == TYPE_CPE && ac->m4ac.chan_config == 1) {
+        uint8_t layout_map[MAX_ELEM_ID*4][3];
+        int layout_map_tags;
+
+        if (set_default_channel_config(ac->avctx, layout_map, &layout_map_tags,
+                                       2) < 0)
+            return NULL;
+        if (output_configure(ac, layout_map, layout_map_tags,
+                             2, OC_TRIAL_FRAME) < 0)
+            return NULL;
+
+        ac->m4ac.chan_config = 2;
+    }
+    // For indexed channel configurations map the channels solely based on position.
+    switch (ac->m4ac.chan_config) {
+    case 7:
+        if (ac->tags_mapped == 3 && type == TYPE_CPE) {
+            ac->tags_mapped++;
+            return ac->tag_che_map[TYPE_CPE][elem_id] = ac->che[TYPE_CPE][2];
+        }
+    case 6:
+        /* Some streams incorrectly code 5.1 audio as SCE[0] CPE[0] CPE[1] SCE[1]
+           instead of SCE[0] CPE[0] CPE[1] LFE[0]. If we seem to have
+           encountered such a stream, transfer the LFE[0] element to the SCE[1]'s mapping */
+        if (ac->tags_mapped == tags_per_config[ac->m4ac.chan_config] - 1 && (type == TYPE_LFE || type == TYPE_SCE)) {
+            ac->tags_mapped++;
+            return ac->tag_che_map[type][elem_id] = ac->che[TYPE_LFE][0];
+        }
+    case 5:
+        if (ac->tags_mapped == 2 && type == TYPE_CPE) {
+            ac->tags_mapped++;
+            return ac->tag_che_map[TYPE_CPE][elem_id] = ac->che[TYPE_CPE][1];
+        }
+    case 4:
+        if (ac->tags_mapped == 2 && ac->m4ac.chan_config == 4 && type == TYPE_SCE) {
+            ac->tags_mapped++;
+            return ac->tag_che_map[TYPE_SCE][elem_id] = ac->che[TYPE_SCE][1];
+        }
+    case 3:
+    case 2:
+        if (ac->tags_mapped == (ac->m4ac.chan_config != 2) && type == TYPE_CPE) {
+            ac->tags_mapped++;
+            return ac->tag_che_map[TYPE_CPE][elem_id] = ac->che[TYPE_CPE][0];
+        } else if (ac->m4ac.chan_config == 2) {
+            return NULL;
+        }
+    case 1:
+        if (!ac->tags_mapped && type == TYPE_SCE) {
+            ac->tags_mapped++;
+            return ac->tag_che_map[TYPE_SCE][elem_id] = ac->che[TYPE_SCE][0];
+        }
+    default:
+        return NULL;
+    }
+}
+
+/**
  * Decode an array of 4 bit element IDs, optionally interleaved with a stereo/mono switching bit.
  *
- * @param cpe_map Stereo (Channel Pair Element) map, NULL if stereo bit is not present.
- * @param sce_map mono (Single Channel Element) map
  * @param type speaker type/position for these channels
  */
 static void decode_channel_map(uint8_t layout_map[][3],
@@ -553,27 +584,6 @@ static int decode_pce(AVCodecContext *avctx, MPEG4AudioConfig *m4ac,
     }
     skip_bits_long(gb, comment_len);
     return tags;
-}
-
-/**
- * Set up channel positions based on a default channel configuration
- * as specified in table 1.17.
- *
- * @return  Returns error status. 0 - OK, !0 - error
- */
-static av_cold int set_default_channel_config(AVCodecContext *avctx,
-                                              uint8_t (*layout_map)[3],
-                                              int *tags,
-                                              int channel_config)
-{
-    if (channel_config < 1 || channel_config > 7) {
-        av_log(avctx, AV_LOG_ERROR, "invalid default channel configuration (%d)\n",
-               channel_config);
-        return -1;
-    }
-    *tags = tags_per_config[channel_config];
-    memcpy(layout_map, aac_channel_layout_map[channel_config-1], *tags * sizeof(*layout_map));
-    return 0;
 }
 
 /**
@@ -1038,7 +1048,6 @@ static int decode_scalefactors(AACContext *ac, float sf[120], GetBitContext *gb,
     int offset[3] = { global_gain, global_gain - 90, 0 };
     int clipped_offset;
     int noise_flag = 1;
-    static const char *const sf_str[3] = { "Global gain", "Noise gain", "Intensity stereo position" };
     for (g = 0; g < ics->num_window_groups; g++) {
         for (i = 0; i < ics->max_sfb;) {
             int run_end = band_type_run_end[idx];
@@ -1077,7 +1086,7 @@ static int decode_scalefactors(AACContext *ac, float sf[120], GetBitContext *gb,
                     offset[0] += get_vlc2(gb, vlc_scalefactors.table, 7, 3) - 60;
                     if (offset[0] > 255U) {
                         av_log(ac->avctx, AV_LOG_ERROR,
-                               "%s (%d) out of range.\n", sf_str[0], offset[0]);
+                               "Scalefactor (%d) out of range.\n", offset[0]);
                         return -1;
                     }
                     sf[idx] = -ff_aac_pow2sf_tab[offset[0] - 100 + POW_SF2_ZERO];

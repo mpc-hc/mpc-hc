@@ -150,7 +150,7 @@ ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
 			break;
 	}
 
-	lOff = max(min(lOff, len), 0) + m_offset;
+	lOff = max(min((ULONGLONG)lOff, len), 0) + m_offset;
 
 	pos = CStdioFile::Seek(lOff, begin) - m_offset;
 

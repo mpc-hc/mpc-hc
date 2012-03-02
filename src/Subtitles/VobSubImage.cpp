@@ -538,25 +538,25 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 
 static bool FitLine(COutline& o, int& start, int& end)
 {
-	int len = int(o.pa.GetCount());
+	size_t len = o.pa.GetCount();
 	if (len < 7) {
 		return false;    // small segments should be handled with beziers...
 	}
 
-	for (start = 0; start < len && !o.da[start]; start++) {
+	for (start = 0; start < (int)len && !o.da[start]; start++) {
 		;
 	}
 	for (end = len-1; end > start && !o.da[end]; end--) {
 		;
 	}
 
-	if (end-start < 8 || end-start < (len-end)+(start-0)) {
+	if (end-start < 8 || end-start < ((int)len-end)+(start-0)) {
 		return false;
 	}
 
 	CUIntArray la, ra;
 
-	int i, j, k;
+	size_t i, j, k;
 
 	for (i = start+1, j = end, k = start; i <= j; i++) {
 		if (!o.da[i]) {
@@ -940,14 +940,14 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 
 void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2)
 {
-	int len = int(o.pa.GetCount());
+	size_t len = int(o.pa.GetCount());
 	if (len < 4) {
 		return;
 	}
 
 	CAtlArray<UINT> la, sa, ea;
 
-	int i, j, k;
+	size_t i, j, k;
 
 	for (i = 0, j = 0; j < len; j++) {
 		if (j == len-1 || o.da[j]) {
@@ -958,8 +958,8 @@ void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2)
 		}
 	}
 
-	int maxlen = 0, maxidx = -1;
-	int maxlen2 = 0, maxidx2 = -1;
+	size_t maxlen = 0, maxidx = -1;
+	size_t maxlen2 = 0, maxidx2 = -1;
 
 	for (i = 0; i < la.GetCount(); i++) {
 		if (maxlen < la[i]) {

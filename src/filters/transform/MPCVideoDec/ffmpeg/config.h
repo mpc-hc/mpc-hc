@@ -383,6 +383,7 @@ Note: when adding a new codec, you have to:
 #define CONFIG_MPEGAUDIO_PARSER 1
 #define CONFIG_MPEG4VIDEO_PARSER 0
 #define CONFIG_MLP_PARSER 1
+#define CONFIG_MPEGVIDEO_PARSER 1
 
 #define CONFIG_AMRNB_DECODER 1
 #define CONFIG_AMRWB_DECODER 1
