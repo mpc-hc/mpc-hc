@@ -326,6 +326,11 @@ m_scmap_default[] = {
 	{8, { 0, 1, 2, 3, 6, 7, 4, 5 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},// 3/4+LFe		FL, FR, FC, BL, Bls, Brs, BR, LFe
 },
 
+m_scmap_truehd_51 =
+	{6, { 0, 1, 2, 3, 4, 5,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},
+m_scmap_truehd_71 =
+	{8, { 0, 1, 2, 3, 4, 5, 6, 7 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},
+
 m_ffmpeg_ac3[] = {
 	//    FL  FR  FC  LFe BL  BR  FLC FRC
 	{2, {0, 1,-1,-1,-1,-1,-1,-1}, 0},	// AC3_CHMODE_DUALMONO
@@ -2539,10 +2544,18 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 			if (nRemap >=0) {
 
 				switch (nCodecId) {
-					case CODEC_ID_EAC3 :
+					case CODEC_ID_EAC3:
 						scmap = &m_ffmpeg_ac3[FFGetChannelMap(m_pAVCtx)];
 						break;
-					default :
+					case CODEC_ID_TRUEHD:
+						if (m_pAVCtx->channels== 6) {
+							scmap = &m_scmap_truehd_51;
+							break;
+						} else if (m_pAVCtx->channels== 8) {
+							scmap = &m_scmap_truehd_71;
+							break;
+						}
+					default:
 						scmap = &m_scmap_default[m_pAVCtx->channels-1];
 						break;
 				}
