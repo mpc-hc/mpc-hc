@@ -101,7 +101,7 @@ SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 AppReadmeFile={app}\Readme.txt
 WizardImageFile=WizardImageFile.bmp
 WizardSmallImageFile=WizardSmallImageFile.bmp
-Compression=lzma/ultra
+Compression=lzma2/ultra
 SolidCompression=yes
 AllowNoIcons=yes
 ShowTasksTreeLines=yes
@@ -230,6 +230,7 @@ Type: files; Name: {#quick_launch}\{#app_name}.lnk; Check: not IsTaskSelected('q
 Type: files; Name: {app}\AUTHORS
 Type: files; Name: {app}\ChangeLog
 Type: files; Name: {app}\COPYING
+
 #ifdef localize
 ; remove the old language dlls when upgrading
 Type: files; Name: {app}\mpcresources.br.dll
@@ -274,7 +275,7 @@ begin
     Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
   end
   else begin
-    RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', sInstallPath)
+    RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', sInstallPath);
     Result := ExtractFileDir(sInstallPath);
     if (Result = '') or not DirExists(Result) then begin
       Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');

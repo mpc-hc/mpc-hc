@@ -171,7 +171,7 @@ ECHO * Visual Studio 2010 SP1 installed
 ECHO * MinGW 32bit with MSYS pointed to in MINGW32 environment variable
 ECHO * MinGW 64bit with MSYS pointed to in MINGW64 environment variable
 ECHO.
-ECHO See "Compilation.txt" for more information.
+ECHO See "docs\Compilation.txt" for more information.
 ECHO. & ECHO.
 ECHO Press any key to exit...
 PAUSE >NUL
