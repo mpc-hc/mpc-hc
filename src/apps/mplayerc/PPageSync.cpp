@@ -133,6 +133,7 @@ void CPPageSync::OnBnClickedSyncVideo()
 		m_bSynchronizeNearest = FALSE;
 	}
 	UpdateData(FALSE);
+	SetModified();
 }
 
 void CPPageSync::OnBnClickedSyncDisplay()
@@ -143,6 +144,7 @@ void CPPageSync::OnBnClickedSyncDisplay()
 		m_bSynchronizeNearest = FALSE;
 	}
 	UpdateData(FALSE);
+	SetModified();
 }
 
 void CPPageSync::OnBnClickedSyncNearest()
@@ -153,4 +155,5 @@ void CPPageSync::OnBnClickedSyncNearest()
 		m_bSynchronizeDisplay = FALSE;
 	}
 	UpdateData(FALSE);
+	SetModified();
 }
