@@ -23,11 +23,6 @@
 #include "stdafx.h"
 #include "H264Nalu.h"
 
-CH264Nalu::CH264Nalu()
-{
-	// Explicit default constructor to make cppcheck happy.
-}
-
 void CH264Nalu::SetBuffer(BYTE* pBuffer, int nSize, int nNALSize)
 {
 	m_pBuffer		= pBuffer;
@@ -39,7 +34,7 @@ void CH264Nalu::SetBuffer(BYTE* pBuffer, int nSize, int nNALSize)
 	m_nNALStartPos	= 0;
 	m_nNALDataPos	= 0;
 
-	if (nNALSize == 0) {
+	if (!nNALSize) {
 		MoveToNextAnnexBStartcode();
 	}
 }
@@ -81,7 +76,7 @@ bool CH264Nalu::ReadNext()
 		// RTP Nalu type : (XX XX) XX XX NAL..., with XX XX XX XX or XX XX equal to NAL size
 		m_nNALStartPos	= m_nCurPos;
 		m_nNALDataPos	= m_nCurPos + m_nNALSize;
-		int nTemp			= 0;
+		unsigned nTemp	= 0;
 		for (int i=0; i<m_nNALSize; i++) {
 			nTemp = (nTemp << 8) + m_pBuffer[m_nCurPos++];
 		}

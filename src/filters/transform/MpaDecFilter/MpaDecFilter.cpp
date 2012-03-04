@@ -2405,11 +2405,14 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 {
 	HRESULT hr = S_OK;
 	int got_frame	= 0;
-	if (!m_pAVCtx || nCodecId != m_pAVCtx->codec_id)
+	if (!m_pAVCtx || nCodecId != m_pAVCtx->codec_id) {
 		if (!InitFFmpeg (nCodecId)) {
 			size = 0;
 			return E_FAIL;
 		}
+	}
+
+	bool b_use_parse = m_pParser && ((nCodecId == CODEC_ID_TRUEHD) ? ((buffsize > 2000) ? true : false) : true); // Dirty hack for use with MPC MPEGSplitter
 
 	BYTE* pDataInBuff = p;
 	CAtlArray<float> pBuffOut;
@@ -2422,10 +2425,10 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 
 	if (m_raData.deint_id == MAKEFOURCC('r','n','e','g') || m_raData.deint_id == MAKEFOURCC('r','p','i','s')) {
 		
-		int w = m_raData.coded_frame_size;
-		int h = m_raData.sub_packet_h;
-		int sps = m_raData.sub_packet_size;
-		int len = w * h;
+		int w		= m_raData.coded_frame_size;
+		int h		= m_raData.sub_packet_h;
+		int sps	= m_raData.sub_packet_size;
+		int len	= w * h;
 
 		if (buffsize >= len) {
 			tmpProcessBuf = (BYTE *)av_mallocz(len + FF_INPUT_BUFFER_PADDING_SIZE);
@@ -2484,7 +2487,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 		got_frame	= 0;
 		COPY_TO_BUFFER(pDataInBuff, buffsize);
 
-		if (m_pParser) {
+		if (b_use_parse) {
 			BYTE *pOut = NULL;
 			int pOut_size = 0;
 			int used_bytes = av_parser_parse2(m_pParser, m_pAVCtx, &pOut, &pOut_size, m_pFFBuffer, buffsize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
@@ -2664,7 +2667,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 			m_pAVCtx->flags				|= CODEC_FLAG_TRUNCATED;
 		}
 
-		if (nCodecId != CODEC_ID_TRUEHD && nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
+		if (nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
 			m_pParser = av_parser_init(nCodecId);
 		}
 

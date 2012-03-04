@@ -47,7 +47,6 @@ private :
 
 	int			m_nNALStartPos;		//! NALU start (including startcode / size)
 	int			m_nNALDataPos;		//! Useful part
-	unsigned	m_nDataLen;			//! Length of the NAL unit (Excluding the start code, which does not belong to the NALU)
 
 	BYTE*		m_pBuffer;
 	int			m_nCurPos;
@@ -59,7 +58,7 @@ private :
 	bool		MoveToNextRTPStartcode();
 
 public :
-	CH264Nalu();
+	CH264Nalu() { SetBuffer(NULL, 0, 0); }
 
 	NALU_TYPE GetType() const {
 		return nal_unit_type;
