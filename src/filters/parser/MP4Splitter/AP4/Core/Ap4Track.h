@@ -91,6 +91,9 @@ class AP4_Track {
                             AP4_DataBuffer& data);
     AP4_Result   GetSampleIndexForTimeStampMs(AP4_TimeStamp ts, 
                                               AP4_Ordinal& index);
+// mpc-hc custom code start
+	AP4_Result   GetSampleIndexForRefTime(REFERENCE_TIME rt, AP4_Ordinal& index);
+// mpc-hc custom code end
     AP4_SampleDescription* GetSampleDescription(AP4_Ordinal index);
     AP4_UI32      GetId();
     AP4_Result    SetId(AP4_UI32 track_id);

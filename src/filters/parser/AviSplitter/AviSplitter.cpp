@@ -862,28 +862,26 @@ STDMETHODIMP CAviSplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
 		return E_INVALIDARG;
 	}
 
-	UINT nKFsTmp = 0;
-
 	for (unsigned int i = 0; i < m_pFile->m_strms.GetCount(); ++i) {
 		CAviFile::strm_t* s = m_pFile->m_strms[i];
 		if (s->strh.fccType != FCC('vids')) {
 			continue;
 		}
-
 		bool fConvertToRefTime = !!(*pFormat == TIME_FORMAT_MEDIA_TIME);
+
+		UINT nKFsTmp = 0;
 
 		for (unsigned int j = 0; j < s->cs.GetCount() && nKFsTmp < nKFs; ++j) {
 			if (s->cs[j].fKeyFrame) {
 				pKFs[nKFsTmp++] = fConvertToRefTime ? s->GetRefTime(j, s->cs[j].size) : j;
 			}
 		}
+		nKFs = nKFsTmp;
 
-		break;
+		return S_OK;
 	}
 
-	nKFs = nKFsTmp;
-
-	return S_OK;
+	return E_FAIL;
 }
 
 //

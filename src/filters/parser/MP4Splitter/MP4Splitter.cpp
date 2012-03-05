@@ -564,8 +564,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					BYTE* src_end = (BYTE*)data + size;
 					BYTE* dst_end = (BYTE*)vih->dwSequenceHeader + size;
 
-					for (int i = 0; i < 2; i++) {
-						for (int n = *src++ & 0x1f; n > 0; n--) {
+					for (int i = 0; i < 2; ++i) {
+						for (int n = *src++ & 0x1f; n > 0; --n) {
 							int len = ((src[0] << 8) | src[1]) + 2;
 							if (src + len > src_end || dst + len > dst_end) {
 								ASSERT(0);
@@ -689,7 +689,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								AP4_Size size = sample_data.GetDataSize();
 
 								CGolombBuffer gb((BYTE *)data, size);
-								for (; size >= 7 && gb.BitRead(16, true) != 0x0b77; size--) {
+								for (; size >= 7 && gb.BitRead(16, true) != 0x0b77; --size) {
 									gb.BitRead(8);
 								}
 								WORD sync = (WORD)gb.BitRead(16);
@@ -776,7 +776,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				}
 			}
 
-			for (int i = 0, j = mts.GetCount(); i < j; i++) {
+			for (int i = 0, j = mts.GetCount(); i < j; ++i) {
 				BITMAPINFOHEADER bih;
 				if (ExtractBIH(&mts[i], &bih)) {
 					m_framesize.cx = bih.biWidth;
@@ -823,7 +823,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		if (AP4_ChplAtom* chpl = dynamic_cast<AP4_ChplAtom*>(movie->GetMoovAtom()->FindChild("udta/chpl"))) {
 			AP4_Array<AP4_ChplAtom::AP4_Chapter>& chapters = chpl->GetChapters();
 
-			for (AP4_Cardinal i = 0; i < chapters.ItemCount(); i++) {
+			for (AP4_Cardinal i = 0; i < chapters.ItemCount(); ++i) {
 				AP4_ChplAtom::AP4_Chapter& chapter = chapters[i];
 				ChapAppend(chapter.Time, UTF8To16(ConvertMBCS(chapter.Name.c_str(), ANSI_CHARSET, CP_UTF8))); // this is b0rked, thx to nero :P
 			}
@@ -950,8 +950,6 @@ bool CMP4SplitterFilter::DemuxInit()
 
 void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
-	AP4_TimeStamp ts = (AP4_TimeStamp)(rt / 10000);
-
 	AP4_Movie* movie = (AP4_Movie*)m_pFile->GetMovie();
 
 	POSITION pos = m_trackpos.GetStartPosition();
@@ -960,7 +958,7 @@ void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 		AP4_Track* track = movie->GetTrack(pPair->m_key);
 
-		if (AP4_FAILED(track->GetSampleIndexForTimeStampMs(ts, pPair->m_value.index))) {
+		if (AP4_FAILED(track->GetSampleIndexForRefTime(rt, pPair->m_value.index))) {
 			pPair->m_value.index = 0;
 		}
 
@@ -970,17 +968,16 @@ void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 		}
 
 		// FIXME: slow search & stss->m_Entries is private
-
 		if (AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss"))) {
 			if (stss->m_Entries.ItemCount() > 0) {
-				AP4_Cardinal i = -1;
-				while (++i < stss->m_Entries.ItemCount() && stss->m_Entries[i]-1 <= pPair->m_value.index) {
-					;
+				AP4_Cardinal i = 1;
+				while (i < stss->m_Entries.ItemCount()) {
+					if (stss->m_Entries[i] - 1 > pPair->m_value.index) {
+						break;
+					}
+					++i;
 				}
-				if (i > 0) {
-					i--;
-				}
-				pPair->m_value.index = stss->m_Entries[i]-1;
+				pPair->m_value.index = stss->m_Entries[i-1] - 1;
 			}
 		}
 	}
@@ -1005,7 +1002,7 @@ static CStringW ConvertTX3GToSSA(
 	int str_len = str.GetLength();
 
 	SSACharacter* chars = DNew SSACharacter[str_len];
-	for (int i = 0; i < str_len; i++) {
+	for (int i = 0; i < str_len; ++i) {
 		chars[i].c = str[i];
 	}
 	str.Empty();
@@ -1215,16 +1212,16 @@ static CStringW ConvertTX3GToSSA(
 
 		int breaks = 0;
 
-		for (int i = 0, j = 0; i <= str_len; i++) {
+		for (int i = 0, j = 0; i <= str_len; ++i) {
 			if (chars[i].c == '\n' /*|| chars[i].c == ' '*/) {
-				breaks++;
+				++breaks;
 			}
 		}
 
 		if (str_len > breaks) {
 			float dur = (float)max(durationms - 500, 0) / 10;
 
-			for (int i = 0, j = 0; i <= str_len; i++) {
+			for (int i = 0, j = 0; i <= str_len; ++i) {
 				if (i == str_len || chars[i].c == '\n' /*|| chars[i].c == ' '*/) {
 					s.Format(L"{\\kf%d}", (int)(dur * (i - j) / (str_len - breaks)));
 					chars[j].pre += s;
@@ -1236,7 +1233,7 @@ static CStringW ConvertTX3GToSSA(
 
 	//
 
-	for (int i = 0; i < str_len; i++) {
+	for (int i = 0; i < str_len; ++i) {
 		str += chars[i].pre;
 		str += chars[i].c;
 		if (desc.DisplayFlags & 0x20000) {
@@ -1330,12 +1327,15 @@ bool CMP4SplitterFilter::DemuxLoop()
 			if (AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss"))) {
 				if (stss->m_Entries.ItemCount() > 0) {
 					p->bSyncPoint = FALSE;
-
-					AP4_Cardinal i = -1;
-					while (++i < stss->m_Entries.ItemCount())
-						if (stss->m_Entries[i]-1 == pPairNext->m_value.index) {
+					for (AP4_Cardinal i = 0; i < stss->m_Entries.ItemCount(); ++i) {
+						if (stss->m_Entries[i] - 1 < pPairNext->m_value.index) {
+							continue;
+						}
+						if (stss->m_Entries[i] - 1 == pPairNext->m_value.index) {
 							p->bSyncPoint = TRUE;
 						}
+						break;
+					}
 				}
 			}
 
@@ -1360,14 +1360,15 @@ bool CMP4SplitterFilter::DemuxLoop()
 				while (AP4_SUCCEEDED(track->ReadSample(pPairNext->m_value.index, sample, data))) {
 					AP4_Size size = data.GetDataSize();
 					const AP4_Byte* ptr = data.GetData();
-					for (int i = 0; i < size; i++) {
-						p->Add(ptr[i]);
-					}
-
+					
 					if (fFirst) {
+						p->SetData(ptr, size);
 						p->rtStart = p->rtStop = (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetCts());
 						fFirst = false;
+					} else {
+						for (int i = 0; i < size; ++i) p->Add(ptr[i]);
 					}
+
 					p->rtStop += (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetDuration());
 
 					if (pPairNext->m_value.index+1 >= track->GetSampleCount() || (int)p->GetCount() >= nBlockAlign) {
@@ -1390,7 +1391,7 @@ bool CMP4SplitterFilter::DemuxLoop()
 
 						if (size >= 2 && ptr[2] == 0xfe && ptr[3] == 0xff) {
 							CStringW wstr = CStringW((LPCWSTR)&ptr[2], size/2);
-							for (int i = 0; i < wstr.GetLength(); i++) {
+							for (int i = 0; i < wstr.GetLength(); ++i) {
 								wstr.SetAt(i, ((WORD)wstr[i] >> 8) | ((WORD)wstr[i] << 8));
 							}
 							str = UTF16To8(wstr);
@@ -1563,14 +1564,16 @@ STDMETHODIMP CMP4SplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
 		}
 
 		if (AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss"))) {
-			nKFs = 0;
+			UINT nKFsTmp = 0;
 
-			for (AP4_Cardinal i = 0; i < stss->m_Entries.ItemCount(); i++) {
+			for (AP4_Cardinal i = 0; i < stss->m_Entries.ItemCount() && nKFsTmp < nKFs; ++i) {
 				AP4_Sample sample;
 				if (AP4_SUCCEEDED(track->GetSample(stss->m_Entries[i]-1, sample))) {
-					pKFs[nKFs++] = 10000000i64 * sample.GetCts() / track->GetMediaTimeScale();
+					pKFs[nKFsTmp++] = (REFERENCE_TIME)(10000000ui64 * sample.GetCts() / track->GetMediaTimeScale());
+					//pKFs[nKFsTmp++] = (REFERENCE_TIME)ceil(10000000.0 * sample.GetCts() / track->GetMediaTimeScale());
 				}
 			}
+			nKFs = nKFsTmp;
 
 			return S_OK;
 		}
@@ -1787,7 +1790,7 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				if (fixed_vop_rate) {
 					int bits = 0;
 					for (WORD i = vop_time_increment_resolution; i; i /= 2) {
-						bits++;
+						++bits;
 					}
 
 					WORD fixed_vop_time_increment = m_pFile->BitRead(bits);
@@ -1885,7 +1888,7 @@ bool CMPEG4VideoSplitterFilter::DemuxLoop()
 	DWORD sync = ~0;
 
 	while (SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
-		for (int i = 0; i < 65536; i++) { // don't call CheckRequest so often
+		for (int i = 0; i < 65536; ++i) { // don't call CheckRequest so often
 			bool eof = !m_pFile->GetRemaining();
 
 			if (p && !p->IsEmpty() && (m_pFile->BitRead(32, true) == 0x000001b6 || eof)) {
