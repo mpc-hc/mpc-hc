@@ -27,12 +27,12 @@
 
 #include <atlrx.h>
 #include "SettingsDefines.h"
-
+#include <math.h>
 
 // CGoToDlg dialog
 
 IMPLEMENT_DYNAMIC(CGoToDlg, CDialog)
-CGoToDlg::CGoToDlg(int time, float fps, CWnd* pParent /*=NULL*/)
+CGoToDlg::CGoToDlg(REFERENCE_TIME time, double fps, CWnd* pParent /*=NULL*/)
 	: CDialog(CGoToDlg::IDD, pParent)
 	, m_timestr(_T(""))
 	, m_framestr(_T(""))
@@ -41,8 +41,9 @@ CGoToDlg::CGoToDlg(int time, float fps, CWnd* pParent /*=NULL*/)
 {
 	if (m_fps == 0) {
 		CString str = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, _T("fps"), _T("0"));
-		if (_stscanf_s(str, _T("%f"), &m_fps) != 1) {
-			m_fps = 0;
+		float fps;
+		if (_stscanf_s(str, _T("%f"), &fps) == 1) {
+			m_fps = fps;
 		}
 	}
 }
@@ -64,12 +65,13 @@ BOOL CGoToDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	if (m_time >= 0) {
+	int time = m_time / 10000;
+	if (time >= 0) {
 		m_timestr.Format(_T("%02d:%02d:%02d.%03d"),
-						 (m_time/(1000*60*60))%60, (m_time/(1000*60))%60, (m_time/1000)%60, m_time%1000);
+						 (time/(1000*60*60))%60, (time/(1000*60))%60, (time/1000)%60, time%1000);
 
 		if (m_fps > 0) {
-			m_framestr.Format(_T("%d, %.3f"), (int)(m_fps*m_time/1000), m_fps);
+			m_framestr.Format(_T("%d, %.3f"), (int)(m_fps*m_time/10000000), m_fps);
 		}
 
 		UpdateData(FALSE);
@@ -119,7 +121,8 @@ void CGoToDlg::OnBnClickedOk1()
 		 swscanf_s(m_timestr, L"%u%c%u%c%f%1s", &hh, &c1, 1, &mm, &c2, 1, &ss, &c3, 2) == 5 && mm < 60  && ss < 60) && // hhh:mm:ss[.ms]
 		 c1 == L':' && c2 == L':' && ss >=0) {
 
-		m_time = (int)(1000*((hh*60+mm)*60+ss)+0.5);
+		int time = (int)(1000*((hh*60+mm)*60+ss)+0.5);
+		m_time = time * 10000i64;
 		OnOK();
 	} else {
 		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TIME), MB_ICONEXCLAMATION | MB_OK);
@@ -137,10 +140,10 @@ void CGoToDlg::OnBnClickedOk2()
 
 	int result = swscanf_s(m_framestr, L"%u%1s%f%1s", &frame, &c1, 2, &fps, &c2, 2);
 	if (result == 1) {
-		m_time = (int)(1000.0*frame/m_fps+0.5);
+		m_time = (REFERENCE_TIME)ceil(10000000.0*frame/m_fps);
 		OnOK();
 	} else if (result == 3 && c1[0] == L',') {
-		m_time = (int)(1000.0*frame/fps+0.5);
+		m_time = (REFERENCE_TIME)ceil(10000000.0*frame/fps);
 		OnOK();
 	} else if (result == 0 || c1[0] != L',') {
 		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TEXT), MB_ICONEXCLAMATION | MB_OK);

@@ -33,7 +33,7 @@ class CGoToDlg : public CDialog
 	DECLARE_DYNAMIC(CGoToDlg)
 
 public:
-	CGoToDlg(int time = -1, float fps = 0, CWnd* pParent = NULL);   // standard constructor
+	CGoToDlg(REFERENCE_TIME time = -1, double fps = 0, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CGoToDlg();
 
 	CString m_timestr;
@@ -41,8 +41,8 @@ public:
 	CEdit m_timeedit;
 	CEdit m_frameedit;
 
-	int m_time;
-	float m_fps;
+	REFERENCE_TIME m_time;
+	double m_fps;
 
 	// Dialog Data
 	enum { IDD = IDD_GOTO_DLG };
