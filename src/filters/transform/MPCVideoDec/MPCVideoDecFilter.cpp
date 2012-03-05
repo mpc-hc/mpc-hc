@@ -1168,6 +1168,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				} else if ( (m_pAVCtx->codec_tag == MAKEFOURCC('m','p','4','v')) || (m_pAVCtx->codec_tag == MAKEFOURCC('M','P','4','V'))) {
 					m_bReorderBFrame = false;
 				}
+			} else {
+				return VFW_E_INVALIDMEDIATYPE;
 			}
 			m_nWidth	= m_pAVCtx->width;
 			m_nHeight	= m_pAVCtx->height;
