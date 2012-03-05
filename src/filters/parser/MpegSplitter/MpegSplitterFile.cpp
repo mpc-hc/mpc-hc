@@ -561,7 +561,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 				// AC3
 				if (type == unknown) {
 					CMpegSplitterFile::ac3hdr h;
-					if (Read(h, len, &s.mt, false, (m_AC3CoreOnly == 1))) {
+					if (Read(h, len, &s.mt, true, (m_AC3CoreOnly == 1))) {
 						type = audio;
 					}
 				}

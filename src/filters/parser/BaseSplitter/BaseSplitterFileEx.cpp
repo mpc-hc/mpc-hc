@@ -1245,7 +1245,7 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 			int i = 1;
 
-			if (h.fPCR) {
+			if (h.fPCR && h.length>6) {
 				h.PCR = BitRead(33);
 				BitRead(6);
 				UINT64 PCRExt = BitRead(9);
@@ -1253,8 +1253,7 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 				i += 6;
 			}
 
-			ASSERT(i <= h.length);
-
+			h.length = min(h.length, h.bytes-1);
 			for (; i < h.length; i++) {
 				BitRead(8);
 			}
