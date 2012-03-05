@@ -126,6 +126,297 @@ GUID GetLPCMGUID(WORD bps, DWORD flags)
 	return FOURCCMap(MAKEFOURCC('l','p','c','m'));
 }
 
+struct SSACharacter {
+	CString pre, post;
+	WCHAR c;
+};
+
+static CStringW ConvertTX3GToSSA(
+	CStringW str,
+	const AP4_Tx3gSampleEntry::AP4_Tx3gDescription& desc,
+	CStringW font,
+	const AP4_Byte* mods,
+	int size,
+	CSize framesize,
+	CPoint translation,
+	int durationms,
+	CRect& rbox)
+{
+	int str_len = str.GetLength();
+
+	SSACharacter* chars = DNew SSACharacter[str_len];
+	for (int i = 0; i < str_len; ++i) {
+		chars[i].c = str[i];
+	}
+	str.Empty();
+
+	//
+
+	rbox.SetRect(desc.TextBox.Left, desc.TextBox.Top, desc.TextBox.Right, desc.TextBox.Bottom);
+
+	int align = 2;
+	signed char h = (signed char)desc.HorizontalJustification;
+	signed char v = (signed char)desc.VerticalJustification;
+	if (h == 0 && v < 0) {
+		align = 1;
+	} else if (h > 0 && v < 0) {
+		align = 2;
+	} else if (h < 0 && v < 0) {
+		align = 3;
+	} else if (h == 0 && v > 0) {
+		align = 4;
+	} else if (h > 0 && v > 0) {
+		align = 5;
+	} else if (h < 0 && v > 0) {
+		align = 6;
+	} else if (h == 0 && v == 0) {
+		align = 7;
+	} else if (h > 0 && v == 0) {
+		align = 8;
+	} else if (h < 0 && v == 0) {
+		align = 9;
+	}
+	str.Format(L"{\\an%d}%s", align, CStringW(str));
+
+	if (!font.CompareNoCase(L"serif")) {
+		font = L"Times New Roman";
+	} else if (!font.CompareNoCase(L"sans-serif")) {
+		font = L"Arial";
+	} else if (!font.CompareNoCase(L"monospace")) {
+		font = L"Courier New";
+	}
+	str.Format(L"{\\fn%s}%s", font, CStringW(str));
+
+	const AP4_Byte* fclr = (const AP4_Byte*)&desc.Style.Font.Color;
+
+	CStringW font_color;
+	font_color.Format(L"{\\1c%02x%02x%02x\\1a%02x}", fclr[2], fclr[1], fclr[0], 255 - fclr[3]);
+	str = font_color + str;
+
+	str.Format(L"%s{\\2c%02x%02x%02x\\2a%02x}", CString(str), fclr[2], fclr[1], fclr[0], 255 - fclr[3]);
+
+	CStringW font_size;
+	font_size.Format(L"{\\fs%d}", desc.Style.Font.Size);
+	str = font_size + str;
+
+	CStringW font_flags;
+	font_flags.Format(L"{\\b%d\\i%d\\u%d}",
+					  (desc.Style.Font.Face&1) ? 1 : 0,
+					  (desc.Style.Font.Face&2) ? 1 : 0,
+					  (desc.Style.Font.Face&4) ? 1 : 0);
+	str = font_flags + str;
+
+	//
+
+	const AP4_Byte* hclr = (const AP4_Byte*)&desc.BackgroundColor;
+
+	while (size > 8) {
+		DWORD tag_size = (mods[0]<<24)|(mods[1]<<16)|(mods[2]<<8)|(mods[3]);
+		mods += 4;
+		DWORD tag = (mods[0]<<24)|(mods[1]<<16)|(mods[2]<<8)|(mods[3]);
+		mods += 4;
+
+		size -= tag_size;
+		tag_size -= 8;
+		const AP4_Byte* next = mods + tag_size;
+
+		if (tag == 'styl') {
+			WORD styl_count = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+
+			while (styl_count-- > 0) {
+				WORD start = (mods[0]<<8)|(mods[1]);
+				mods += 2;
+				WORD end = (mods[0]<<8)|(mods[1]);
+				mods += 2;
+				WORD font_id = (mods[0]<<8)|(mods[1]);
+				mods += 2;
+				WORD flags = mods[0];
+				mods += 1;
+				WORD size = mods[0];
+				mods += 1;
+				const AP4_Byte* color = mods;
+				mods += 4;
+
+				if (end > str_len) {
+					end = str_len;
+				}
+
+				if (start < end) {
+					CStringW s;
+
+					s.Format(L"{\\1c%02x%02x%02x\\1a%02x}", color[2], color[1], color[0], 255 - color[3]);
+					chars[start].pre += s;
+					chars[end-1].post += font_color;
+
+					s.Format(L"{\\fs%d}", size);
+					chars[start].pre += s;
+					chars[end-1].post += font_size;
+
+					s.Format(L"{\\b%d\\i%d\\u%d}", (flags&1) ? 1 : 0, (flags&2) ? 1 : 0, (flags&4) ? 1 : 0);
+					chars[start].pre += s;
+					chars[end-1].post += font_flags;
+				}
+			}
+		} else if (tag == 'hclr') {
+			hclr = mods;
+		} else if (tag == 'hlit') {
+			WORD start = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+			WORD end = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+
+			if (end > str_len) {
+				end = str_len;
+			}
+
+			if (start < end) {
+				CStringW s;
+
+				s.Format(L"{\\3c%02x%02x%02x\\3a%02x}", hclr[2], hclr[1], hclr[0], 255 - hclr[3]);
+				chars[start].pre += s;
+				chars[end-1].post += font_color;
+
+				chars[start].pre += L"{\\bord0.1}";
+				chars[end-1].post += L"{\\bord}";
+			}
+		} else if (tag == 'blnk') {
+			WORD start = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+			WORD end = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+
+			if (end > str_len) {
+				end = str_len;
+			}
+
+			if (start < end) {
+				// cheap...
+
+				for (int i = 0, alpha = 255; i < durationms; i += 750, alpha = 255 - alpha) {
+					CStringW s;
+					s.Format(L"{\\t(%d, %d, \\alpha&H%02x&)}", i, i + 750, alpha);
+					chars[start].pre += s;
+				}
+
+				chars[end-1].post += L"{\\alpha}";
+			}
+		} else if (tag == 'tbox') {
+			rbox.top = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+			rbox.left = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+			rbox.bottom = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+			rbox.right = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+		} else if (tag == 'krok' && !(desc.DisplayFlags & 0x800)) {
+			DWORD start_time = (mods[0]<<24)|(mods[1]<<16)|(mods[2]<<8)|(mods[3]);
+			mods += 4;
+			WORD krok_count = (mods[0]<<8)|(mods[1]);
+			mods += 2;
+
+			while (krok_count-- > 0) {
+				DWORD end_time = (mods[0]<<24)|(mods[1]<<16)|(mods[2]<<8)|(mods[3]);
+				mods += 4;
+				WORD start = (mods[0]<<8)|(mods[1]);
+				mods += 2;
+				WORD end = (mods[0]<<8)|(mods[1]);
+				mods += 2;
+
+				if (end > str_len) {
+					end = str_len;
+				}
+
+				if (start < end) {
+					CStringW s;
+
+					s.Format(L"{\\kt%d\\kf%d}", start_time/10, (end_time - start_time)/10);
+					chars[start].pre += s;
+					s.Format(L"{\\1c%02x%02x%02x\\1a%02x}", hclr[2], hclr[1], hclr[0], 255 - hclr[3]);
+					chars[start].pre += s;
+					chars[end-1].post += L"{\\kt}" + font_color;
+				}
+
+				start_time = end_time;
+			}
+		}
+
+		mods = next;
+	}
+
+	// continous karaoke
+
+	if (desc.DisplayFlags & 0x800) {
+		CStringW s;
+
+		s.Format(L"{\\1c%02x%02x%02x\\1a%02x}", hclr[2], hclr[1], hclr[0], 255 - hclr[3]);
+		str += s;
+
+		int breaks = 0;
+
+		for (int i = 0, j = 0; i <= str_len; ++i) {
+			if (chars[i].c == '\n' /*|| chars[i].c == ' '*/) {
+				++breaks;
+			}
+		}
+
+		if (str_len > breaks) {
+			float dur = (float)max(durationms - 500, 0) / 10;
+
+			for (int i = 0, j = 0; i <= str_len; ++i) {
+				if (i == str_len || chars[i].c == '\n' /*|| chars[i].c == ' '*/) {
+					s.Format(L"{\\kf%d}", (int)(dur * (i - j) / (str_len - breaks)));
+					chars[j].pre += s;
+					j = i+1;
+				}
+			}
+		}
+	}
+
+	//
+
+	for (int i = 0; i < str_len; ++i) {
+		str += chars[i].pre;
+		str += chars[i].c;
+		if (desc.DisplayFlags & 0x20000) {
+			str += L"\\N";
+		}
+		str += chars[i].post;
+	}
+
+	delete [] chars;
+
+	//
+
+	if (rbox.IsRectEmpty()) {
+		rbox.SetRect(0, 0, framesize.cx, framesize.cy);
+	}
+	rbox.OffsetRect(translation);
+
+	CRect rbox2 = rbox;
+	rbox2.DeflateRect(2, 2);
+
+	CRect r(0,0,0,0);
+	if (rbox2.Height() > 0) {
+		r.top = rbox2.top;
+		r.bottom = framesize.cy - rbox2.bottom;
+	}
+	if (rbox2.Width() > 0) {
+		r.left = rbox2.left;
+		r.right = framesize.cx - rbox2.right;
+	}
+
+	CStringW hdr;
+	hdr.Format(L"0,0,Text,,%d,%d,%d,%d,,{\\clip(%d,%d,%d,%d)}",
+			   r.left, r.right, r.top, r.bottom,
+			   rbox.left, rbox.top, rbox.right, rbox.bottom);
+
+	//
+
+	return hdr + str;
+}
+
 //
 // CMP4SplitterFilter
 //
@@ -977,301 +1268,11 @@ void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 					}
 					++i;
 				}
+				//ASSERT(pPair->m_value.index == stss->m_Entries[i-1] - 1); // fast seek test
 				pPair->m_value.index = stss->m_Entries[i-1] - 1;
 			}
 		}
 	}
-}
-
-struct SSACharacter {
-	CString pre, post;
-	WCHAR c;
-};
-
-static CStringW ConvertTX3GToSSA(
-	CStringW str,
-	const AP4_Tx3gSampleEntry::AP4_Tx3gDescription& desc,
-	CStringW font,
-	const AP4_Byte* mods,
-	int size,
-	CSize framesize,
-	CPoint translation,
-	int durationms,
-	CRect& rbox)
-{
-	int str_len = str.GetLength();
-
-	SSACharacter* chars = DNew SSACharacter[str_len];
-	for (int i = 0; i < str_len; ++i) {
-		chars[i].c = str[i];
-	}
-	str.Empty();
-
-	//
-
-	rbox.SetRect(desc.TextBox.Left, desc.TextBox.Top, desc.TextBox.Right, desc.TextBox.Bottom);
-
-	int align = 2;
-	signed char h = (signed char)desc.HorizontalJustification;
-	signed char v = (signed char)desc.VerticalJustification;
-	if (h == 0 && v < 0) {
-		align = 1;
-	} else if (h > 0 && v < 0) {
-		align = 2;
-	} else if (h < 0 && v < 0) {
-		align = 3;
-	} else if (h == 0 && v > 0) {
-		align = 4;
-	} else if (h > 0 && v > 0) {
-		align = 5;
-	} else if (h < 0 && v > 0) {
-		align = 6;
-	} else if (h == 0 && v == 0) {
-		align = 7;
-	} else if (h > 0 && v == 0) {
-		align = 8;
-	} else if (h < 0 && v == 0) {
-		align = 9;
-	}
-	str.Format(L"{\\an%d}%s", align, CStringW(str));
-
-	if (!font.CompareNoCase(L"serif")) {
-		font = L"Times New Roman";
-	} else if (!font.CompareNoCase(L"sans-serif")) {
-		font = L"Arial";
-	} else if (!font.CompareNoCase(L"monospace")) {
-		font = L"Courier New";
-	}
-	str.Format(L"{\\fn%s}%s", font, CStringW(str));
-
-	const AP4_Byte* fclr = (const AP4_Byte*)&desc.Style.Font.Color;
-
-	CStringW font_color;
-	font_color.Format(L"{\\1c%02x%02x%02x\\1a%02x}", fclr[2], fclr[1], fclr[0], 255 - fclr[3]);
-	str = font_color + str;
-
-	str.Format(L"%s{\\2c%02x%02x%02x\\2a%02x}", CString(str), fclr[2], fclr[1], fclr[0], 255 - fclr[3]);
-
-	CStringW font_size;
-	font_size.Format(L"{\\fs%d}", desc.Style.Font.Size);
-	str = font_size + str;
-
-	CStringW font_flags;
-	font_flags.Format(L"{\\b%d\\i%d\\u%d}",
-					  (desc.Style.Font.Face&1) ? 1 : 0,
-					  (desc.Style.Font.Face&2) ? 1 : 0,
-					  (desc.Style.Font.Face&4) ? 1 : 0);
-	str = font_flags + str;
-
-	//
-
-	const AP4_Byte* hclr = (const AP4_Byte*)&desc.BackgroundColor;
-
-	while (size > 8) {
-		DWORD tag_size = (mods[0]<<24)|(mods[1]<<16)|(mods[2]<<8)|(mods[3]);
-		mods += 4;
-		DWORD tag = (mods[0]<<24)|(mods[1]<<16)|(mods[2]<<8)|(mods[3]);
-		mods += 4;
-
-		size -= tag_size;
-		tag_size -= 8;
-		const AP4_Byte* next = mods + tag_size;
-
-		if (tag == 'styl') {
-			WORD styl_count = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-
-			while (styl_count-- > 0) {
-				WORD start = (mods[0]<<8)|(mods[1]);
-				mods += 2;
-				WORD end = (mods[0]<<8)|(mods[1]);
-				mods += 2;
-				WORD font_id = (mods[0]<<8)|(mods[1]);
-				mods += 2;
-				WORD flags = mods[0];
-				mods += 1;
-				WORD size = mods[0];
-				mods += 1;
-				const AP4_Byte* color = mods;
-				mods += 4;
-
-				if (end > str_len) {
-					end = str_len;
-				}
-
-				if (start < end) {
-					CStringW s;
-
-					s.Format(L"{\\1c%02x%02x%02x\\1a%02x}", color[2], color[1], color[0], 255 - color[3]);
-					chars[start].pre += s;
-					chars[end-1].post += font_color;
-
-					s.Format(L"{\\fs%d}", size);
-					chars[start].pre += s;
-					chars[end-1].post += font_size;
-
-					s.Format(L"{\\b%d\\i%d\\u%d}", (flags&1) ? 1 : 0, (flags&2) ? 1 : 0, (flags&4) ? 1 : 0);
-					chars[start].pre += s;
-					chars[end-1].post += font_flags;
-				}
-			}
-		} else if (tag == 'hclr') {
-			hclr = mods;
-		} else if (tag == 'hlit') {
-			WORD start = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-			WORD end = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-
-			if (end > str_len) {
-				end = str_len;
-			}
-
-			if (start < end) {
-				CStringW s;
-
-				s.Format(L"{\\3c%02x%02x%02x\\3a%02x}", hclr[2], hclr[1], hclr[0], 255 - hclr[3]);
-				chars[start].pre += s;
-				chars[end-1].post += font_color;
-
-				chars[start].pre += L"{\\bord0.1}";
-				chars[end-1].post += L"{\\bord}";
-			}
-		} else if (tag == 'blnk') {
-			WORD start = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-			WORD end = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-
-			if (end > str_len) {
-				end = str_len;
-			}
-
-			if (start < end) {
-				// cheap...
-
-				for (int i = 0, alpha = 255; i < durationms; i += 750, alpha = 255 - alpha) {
-					CStringW s;
-					s.Format(L"{\\t(%d, %d, \\alpha&H%02x&)}", i, i + 750, alpha);
-					chars[start].pre += s;
-				}
-
-				chars[end-1].post += L"{\\alpha}";
-			}
-		} else if (tag == 'tbox') {
-			rbox.top = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-			rbox.left = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-			rbox.bottom = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-			rbox.right = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-		} else if (tag == 'krok' && !(desc.DisplayFlags & 0x800)) {
-			DWORD start_time = (mods[0]<<24)|(mods[1]<<16)|(mods[2]<<8)|(mods[3]);
-			mods += 4;
-			WORD krok_count = (mods[0]<<8)|(mods[1]);
-			mods += 2;
-
-			while (krok_count-- > 0) {
-				DWORD end_time = (mods[0]<<24)|(mods[1]<<16)|(mods[2]<<8)|(mods[3]);
-				mods += 4;
-				WORD start = (mods[0]<<8)|(mods[1]);
-				mods += 2;
-				WORD end = (mods[0]<<8)|(mods[1]);
-				mods += 2;
-
-				if (end > str_len) {
-					end = str_len;
-				}
-
-				if (start < end) {
-					CStringW s;
-
-					s.Format(L"{\\kt%d\\kf%d}", start_time/10, (end_time - start_time)/10);
-					chars[start].pre += s;
-					s.Format(L"{\\1c%02x%02x%02x\\1a%02x}", hclr[2], hclr[1], hclr[0], 255 - hclr[3]);
-					chars[start].pre += s;
-					chars[end-1].post += L"{\\kt}" + font_color;
-				}
-
-				start_time = end_time;
-			}
-		}
-
-		mods = next;
-	}
-
-	// continous karaoke
-
-	if (desc.DisplayFlags & 0x800) {
-		CStringW s;
-
-		s.Format(L"{\\1c%02x%02x%02x\\1a%02x}", hclr[2], hclr[1], hclr[0], 255 - hclr[3]);
-		str += s;
-
-		int breaks = 0;
-
-		for (int i = 0, j = 0; i <= str_len; ++i) {
-			if (chars[i].c == '\n' /*|| chars[i].c == ' '*/) {
-				++breaks;
-			}
-		}
-
-		if (str_len > breaks) {
-			float dur = (float)max(durationms - 500, 0) / 10;
-
-			for (int i = 0, j = 0; i <= str_len; ++i) {
-				if (i == str_len || chars[i].c == '\n' /*|| chars[i].c == ' '*/) {
-					s.Format(L"{\\kf%d}", (int)(dur * (i - j) / (str_len - breaks)));
-					chars[j].pre += s;
-					j = i+1;
-				}
-			}
-		}
-	}
-
-	//
-
-	for (int i = 0; i < str_len; ++i) {
-		str += chars[i].pre;
-		str += chars[i].c;
-		if (desc.DisplayFlags & 0x20000) {
-			str += L"\\N";
-		}
-		str += chars[i].post;
-	}
-
-	delete [] chars;
-
-	//
-
-	if (rbox.IsRectEmpty()) {
-		rbox.SetRect(0, 0, framesize.cx, framesize.cy);
-	}
-	rbox.OffsetRect(translation);
-
-	CRect rbox2 = rbox;
-	rbox2.DeflateRect(2, 2);
-
-	CRect r(0,0,0,0);
-	if (rbox2.Height() > 0) {
-		r.top = rbox2.top;
-		r.bottom = framesize.cy - rbox2.bottom;
-	}
-	if (rbox2.Width() > 0) {
-		r.left = rbox2.left;
-		r.right = framesize.cx - rbox2.right;
-	}
-
-	CStringW hdr;
-	hdr.Format(L"0,0,Text,,%d,%d,%d,%d,,{\\clip(%d,%d,%d,%d)}",
-			   r.left, r.right, r.top, r.bottom,
-			   rbox.left, rbox.top, rbox.right, rbox.bottom);
-
-	//
-
-	return hdr + str;
 }
 
 bool CMP4SplitterFilter::DemuxLoop()
@@ -1360,7 +1361,7 @@ bool CMP4SplitterFilter::DemuxLoop()
 				while (AP4_SUCCEEDED(track->ReadSample(pPairNext->m_value.index, sample, data))) {
 					AP4_Size size = data.GetDataSize();
 					const AP4_Byte* ptr = data.GetData();
-					
+
 					if (fFirst) {
 						p->SetData(ptr, size);
 						p->rtStart = p->rtStop = (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetCts());
