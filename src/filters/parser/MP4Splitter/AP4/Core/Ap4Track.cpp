@@ -278,7 +278,8 @@ AP4_Track::GetSampleIndexForTimeStampMs(AP4_TimeStamp ts, AP4_Ordinal& index)
 AP4_Result  
 AP4_Track::GetSampleIndexForRefTime(REFERENCE_TIME rt, AP4_Ordinal& index)
 {
-	AP4_TimeStamp ts = (AP4_TimeStamp)(double(rt) * m_MediaTimeScale / 10000000 + 0.5);
+	AP4_TimeStamp ts = (AP4_TimeStamp(rt) * m_MediaTimeScale + 5000000) / 10000000;
+	//AP4_TimeStamp ts = (AP4_TimeStamp)(double(rt) * m_MediaTimeScale / 10000000 + 0.5);
 
 	return m_SampleTable->GetSampleIndexForTimeStamp(ts, index);
 }

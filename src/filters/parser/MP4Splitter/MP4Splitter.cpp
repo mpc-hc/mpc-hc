@@ -1565,12 +1565,13 @@ STDMETHODIMP CMP4SplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
 
 		if (AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss"))) {
 			UINT nKFsTmp = 0;
+			AP4_UI32 mts = track->GetMediaTimeScale();
 
 			for (AP4_Cardinal i = 0; i < stss->m_Entries.ItemCount() && nKFsTmp < nKFs; ++i) {
 				AP4_Sample sample;
 				if (AP4_SUCCEEDED(track->GetSample(stss->m_Entries[i]-1, sample))) {
-					pKFs[nKFsTmp++] = (REFERENCE_TIME)(10000000ui64 * sample.GetCts() / track->GetMediaTimeScale());
-					//pKFs[nKFsTmp++] = (REFERENCE_TIME)ceil(10000000.0 * sample.GetCts() / track->GetMediaTimeScale());
+					pKFs[nKFsTmp++] = REFERENCE_TIME((10000000ui64 * sample.GetCts() + mts/2) / mts);
+					//pKFs[nKFsTmp++] = REFERENCE_TIME(10000000.0 * sample.GetCts() / track->GetMediaTimeScale() + 0.5);
 				}
 			}
 			nKFs = nKFsTmp;
