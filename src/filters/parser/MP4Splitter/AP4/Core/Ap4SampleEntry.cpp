@@ -602,9 +602,9 @@ AP4_AudioSampleEntry::ToSampleDescription()
     // create a sample description
     return DNew AP4_MpegAudioSampleDescription(
         dc_desc->GetObjectTypeIndication(),
-        m_SampleRate>>16,
-        m_SampleSize,
-        m_ChannelCount,
+        GetSampleRate(),
+        GetSampleSize(),
+        GetChannelCount(),
         dsi,
         dc_desc->GetBufferSize(),
         dc_desc->GetMaxBitrate(),
