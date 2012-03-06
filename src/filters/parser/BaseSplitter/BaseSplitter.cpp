@@ -399,10 +399,8 @@ HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 		return S_FALSE;
 	}
 
-	while (S_OK == m_hrDeliver
-			&& (!(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()
-				|| m_queue.GetSize() > MAXPACKETSIZE*100)) {
-		Sleep(1);
+	while (S_OK == m_hrDeliver && (!(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying() || m_queue.GetSize() > MAXPACKETSIZE*100)) {
+		Sleep(10);
 	}
 
 	if (S_OK != m_hrDeliver) {
@@ -416,12 +414,12 @@ HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 
 bool CBaseSplitterOutputPin::IsDiscontinuous()
 {
-	return m_mt.majortype == MEDIATYPE_Text
-		   || m_mt.majortype == MEDIATYPE_ScriptCommand
-		   || m_mt.majortype == MEDIATYPE_Subtitle
-		   || m_mt.subtype == MEDIASUBTYPE_DVD_SUBPICTURE
-		   || m_mt.subtype == MEDIASUBTYPE_CVD_SUBPICTURE
-		   || m_mt.subtype == MEDIASUBTYPE_SVCD_SUBPICTURE;
+	return m_mt.majortype		== MEDIATYPE_Text
+		   || m_mt.majortype	== MEDIATYPE_ScriptCommand
+		   || m_mt.majortype	== MEDIATYPE_Subtitle
+		   || m_mt.subtype		== MEDIASUBTYPE_DVD_SUBPICTURE
+		   || m_mt.subtype		== MEDIASUBTYPE_CVD_SUBPICTURE
+		   || m_mt.subtype		== MEDIASUBTYPE_SVCD_SUBPICTURE;
 }
 
 bool CBaseSplitterOutputPin::IsActive()
