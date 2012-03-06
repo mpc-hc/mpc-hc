@@ -500,7 +500,7 @@ void CAviSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 			if (s->IsRawSubtitleStream()) continue;
 
-			DWORD f = s->GetKeyFrame(rt);
+			//ASSERT(s->GetFrame(rt) == s->GetKeyFrame(rt)); // fast seek test
 			UINT64 fp = s->cs[s->GetKeyFrame(rt)].filepos;
 			minfp = min(minfp, fp);
 		}

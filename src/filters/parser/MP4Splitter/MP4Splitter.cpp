@@ -576,20 +576,20 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							mt.subtype = FOURCCMap('v4pm');
 							mt.formattype = FORMAT_MPEG2Video;
 							{
-								MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
-								memset(vih, 0, mt.FormatLength());
-								vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
-								vih->hdr.bmiHeader.biWidth = biWidth;
-								vih->hdr.bmiHeader.biHeight = biHeight;
-								vih->hdr.bmiHeader.biCompression = 'v4pm';
-								vih->hdr.bmiHeader.biPlanes = 1;
-								vih->hdr.bmiHeader.biBitCount = 24;
-								vih->hdr.dwPictAspectRatioX = vih->hdr.bmiHeader.biWidth;
-								vih->hdr.dwPictAspectRatioY = vih->hdr.bmiHeader.biHeight;
-								vih->cbSequenceHeader = di->GetDataSize();
-								memcpy(vih->dwSequenceHeader, di->GetData(), di->GetDataSize());
+								MPEG2VIDEOINFO* mvih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
+								memset(mvih, 0, mt.FormatLength());
+								mvih->hdr.bmiHeader.biSize = sizeof(mvih->hdr.bmiHeader);
+								mvih->hdr.bmiHeader.biWidth = biWidth;
+								mvih->hdr.bmiHeader.biHeight = biHeight;
+								mvih->hdr.bmiHeader.biCompression = 'v4pm';
+								mvih->hdr.bmiHeader.biPlanes = 1;
+								mvih->hdr.bmiHeader.biBitCount = 24;
+								mvih->hdr.dwPictAspectRatioX = mvih->hdr.bmiHeader.biWidth;
+								mvih->hdr.dwPictAspectRatioY = mvih->hdr.bmiHeader.biHeight;
+								mvih->cbSequenceHeader = di->GetDataSize();
+								memcpy(mvih->dwSequenceHeader, di->GetData(), di->GetDataSize());
 								mts.Add(mt);
-								mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = 'V4PM');
+								mt.subtype = FOURCCMap(mvih->hdr.bmiHeader.biCompression = 'V4PM');
 								mts.Add(mt);
 								b_HasVideo = true;
 							}
@@ -598,18 +598,18 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							mt.subtype = FOURCCMap('gepj');
 							mt.formattype = FORMAT_MPEG2Video;
 							{
-								MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
-								memset(vih, 0, mt.FormatLength());
-								vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
-								vih->hdr.bmiHeader.biWidth = biWidth;
-								vih->hdr.bmiHeader.biHeight = biHeight;
-								vih->hdr.bmiHeader.biCompression = 'gepj';
-								vih->hdr.bmiHeader.biPlanes = 1;
-								vih->hdr.bmiHeader.biBitCount = 24;
-								vih->hdr.dwPictAspectRatioX = vih->hdr.bmiHeader.biWidth;
-								vih->hdr.dwPictAspectRatioY = vih->hdr.bmiHeader.biHeight;
-								vih->cbSequenceHeader = di->GetDataSize();
-								memcpy(vih->dwSequenceHeader, di->GetData(), di->GetDataSize());
+								MPEG2VIDEOINFO* mvih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
+								memset(mvih, 0, mt.FormatLength());
+								mvih->hdr.bmiHeader.biSize = sizeof(mvih->hdr.bmiHeader);
+								mvih->hdr.bmiHeader.biWidth = biWidth;
+								mvih->hdr.bmiHeader.biHeight = biHeight;
+								mvih->hdr.bmiHeader.biCompression = 'gepj';
+								mvih->hdr.bmiHeader.biPlanes = 1;
+								mvih->hdr.bmiHeader.biBitCount = 24;
+								mvih->hdr.dwPictAspectRatioX = mvih->hdr.bmiHeader.biWidth;
+								mvih->hdr.dwPictAspectRatioY = mvih->hdr.bmiHeader.biHeight;
+								mvih->cbSequenceHeader = di->GetDataSize();
+								memcpy(mvih->dwSequenceHeader, di->GetData(), di->GetDataSize());
 								mts.Add(mt);
 								b_HasVideo = true;
 							}
@@ -824,36 +824,36 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					mt.subtype = FOURCCMap('1cva');
 					mt.formattype = FORMAT_MPEG2Video;
 
-					MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + size - 7);
-					memset(vih, 0, mt.FormatLength());
-					vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
-					vih->hdr.bmiHeader.biWidth = (LONG)avc1->GetWidth();
-					vih->hdr.bmiHeader.biHeight = (LONG)avc1->GetHeight();
-					vih->hdr.bmiHeader.biCompression = '1cva';
-					vih->hdr.bmiHeader.biPlanes = 1;
-					vih->hdr.bmiHeader.biBitCount = 24;
+					MPEG2VIDEOINFO* mvih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + size - 7);
+					memset(mvih, 0, mt.FormatLength());
+					mvih->hdr.bmiHeader.biSize = sizeof(mvih->hdr.bmiHeader);
+					mvih->hdr.bmiHeader.biWidth = (LONG)avc1->GetWidth();
+					mvih->hdr.bmiHeader.biHeight = (LONG)avc1->GetHeight();
+					mvih->hdr.bmiHeader.biCompression = '1cva';
+					mvih->hdr.bmiHeader.biPlanes = 1;
+					mvih->hdr.bmiHeader.biBitCount = 24;
 
-					CSize aspect(vih->hdr.bmiHeader.biWidth * num, vih->hdr.bmiHeader.biHeight * den);
+					CSize aspect(mvih->hdr.bmiHeader.biWidth * num, mvih->hdr.bmiHeader.biHeight * den);
 					int lnko = LNKO(aspect.cx, aspect.cy);
 					if (lnko > 1) {
 						aspect.cx /= lnko, aspect.cy /= lnko;
 					}
-					vih->hdr.dwPictAspectRatioX = aspect.cx;
-					vih->hdr.dwPictAspectRatioY = aspect.cy;
+					mvih->hdr.dwPictAspectRatioX = aspect.cx;
+					mvih->hdr.dwPictAspectRatioY = aspect.cy;
 					if (item->GetData()->GetSampleCount() > 1) {
-						vih->hdr.AvgTimePerFrame = item->GetData()->GetDurationMs()*10000 / (item->GetData()->GetSampleCount()-1);
+						mvih->hdr.AvgTimePerFrame = item->GetData()->GetDurationMs()*10000 / (item->GetData()->GetSampleCount()-1);
 					}
-					vih->dwProfile = data[1];
-					vih->dwLevel = data[3];
-					vih->dwFlags = (data[4] & 3) + 1;
+					mvih->dwProfile = data[1];
+					mvih->dwLevel = data[3];
+					mvih->dwFlags = (data[4] & 3) + 1;
 
-					vih->cbSequenceHeader = 0;
+					mvih->cbSequenceHeader = 0;
 
 					BYTE* src = (BYTE*)data + 5;
-					BYTE* dst = (BYTE*)vih->dwSequenceHeader;
+					BYTE* dst = (BYTE*)mvih->dwSequenceHeader;
 
 					BYTE* src_end = (BYTE*)data + size;
-					BYTE* dst_end = (BYTE*)vih->dwSequenceHeader + size;
+					BYTE* dst_end = (BYTE*)mvih->dwSequenceHeader + size;
 
 					for (int i = 0; i < 2; ++i) {
 						for (int n = *src++ & 0x1f; n > 0; --n) {
@@ -865,13 +865,13 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							memcpy(dst, src, len);
 							src += len;
 							dst += len;
-							vih->cbSequenceHeader += len;
+							mvih->cbSequenceHeader += len;
 						}
 					}
 
 					mts.Add(mt);
 
-					mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = '1CVA');
+					mt.subtype = FOURCCMap(mvih->hdr.bmiHeader.biCompression = '1CVA');
 					mts.Add(mt);
 					b_HasVideo = true;
 				}
@@ -1840,22 +1840,22 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	mt.majortype = MEDIATYPE_Video;
 	mt.subtype = FOURCCMap('v4pm');
 	mt.formattype = FORMAT_MPEG2Video;
-	MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + m_seqhdrsize);
-	memset(vih, 0, mt.FormatLength());
-	vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
-	vih->hdr.bmiHeader.biWidth = width;
-	vih->hdr.bmiHeader.biHeight = height;
-	vih->hdr.bmiHeader.biCompression = 'v4pm';
-	vih->hdr.bmiHeader.biPlanes = 1;
-	vih->hdr.bmiHeader.biBitCount = 24;
-	vih->hdr.AvgTimePerFrame = atpf;
-	vih->hdr.dwPictAspectRatioX = width*parx;
-	vih->hdr.dwPictAspectRatioY = height*pary;
-	vih->cbSequenceHeader = m_seqhdrsize;
+	MPEG2VIDEOINFO* mvih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + m_seqhdrsize);
+	memset(mvih, 0, mt.FormatLength());
+	mvih->hdr.bmiHeader.biSize = sizeof(mvih->hdr.bmiHeader);
+	mvih->hdr.bmiHeader.biWidth = width;
+	mvih->hdr.bmiHeader.biHeight = height;
+	mvih->hdr.bmiHeader.biCompression = 'v4pm';
+	mvih->hdr.bmiHeader.biPlanes = 1;
+	mvih->hdr.bmiHeader.biBitCount = 24;
+	mvih->hdr.AvgTimePerFrame = atpf;
+	mvih->hdr.dwPictAspectRatioX = width*parx;
+	mvih->hdr.dwPictAspectRatioY = height*pary;
+	mvih->cbSequenceHeader = m_seqhdrsize;
 	m_pFile->Seek(0);
-	m_pFile->ByteRead((BYTE*)vih->dwSequenceHeader, m_seqhdrsize);
+	m_pFile->ByteRead((BYTE*)mvih->dwSequenceHeader, m_seqhdrsize);
 	mts.Add(mt);
-	mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = 'V4PM');
+	mt.subtype = FOURCCMap(mvih->hdr.bmiHeader.biCompression = 'V4PM');
 	mts.Add(mt);
 
 	CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
