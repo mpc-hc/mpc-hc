@@ -30,7 +30,7 @@
 #define MINPACKETS 100			// Beliyaal: Changed the min number of packets to allow Bluray playback over network
 #define MINPACKETSIZE 256*1024	// Beliyaal: Changed the min packet size to allow Bluray playback over network
 #define MAXPACKETS 10000
-#define MAXPACKETSIZE 1024*1024*5
+#define MAXPACKETSIZE 1024*1024*256
 
 //
 // CPacketQueue
@@ -399,7 +399,9 @@ HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 		return S_FALSE;
 	}
 
-	while (S_OK == m_hrDeliver && (!(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying() || m_queue.GetSize() > MAXPACKETSIZE*100)) {
+	while(S_OK == m_hrDeliver 
+		&& ((m_queue.GetCount() > 2*MAXPACKETS || m_queue.GetSize() > (MAXPACKETSIZE*3/2))
+		|| ((m_queue.GetCount() > MAXPACKETS || m_queue.GetSize() > MAXPACKETSIZE) && !(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()))) {
 		Sleep(10);
 	}
 
