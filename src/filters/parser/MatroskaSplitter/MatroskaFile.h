@@ -265,6 +265,7 @@ namespace MatroskaReader
 	public:
 		CUInt FlagInterlaced, StereoMode;
 		CUInt PixelWidth, PixelHeight, DisplayWidth, DisplayHeight, DisplayUnit;
+		CUInt VideoPixelCropBottom, VideoPixelCropTop, VideoPixelCropLeft, VideoPixelCropRight;
 		CUInt AspectRatioType;
 		CUInt ColourSpace;
 		CFloat GammaValue;

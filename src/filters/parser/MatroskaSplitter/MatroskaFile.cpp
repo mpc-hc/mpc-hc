@@ -559,6 +559,18 @@ case 0x54B2:
 case 0x54B3:
 	AspectRatioType.Parse(pMN);
 	break;
+case 0x54AA:
+	VideoPixelCropBottom.Parse(pMN);
+	break;
+case 0x54BB:
+	VideoPixelCropTop.Parse(pMN);
+	break;
+case 0x54CC:
+	VideoPixelCropLeft.Parse(pMN);
+	break;
+case 0x54DD:
+	VideoPixelCropRight.Parse(pMN);
+	break;
 case 0x2EB524:
 	ColourSpace.Parse(pMN);
 	break;
