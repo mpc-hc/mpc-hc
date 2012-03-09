@@ -464,44 +464,53 @@ avcsuccess:
 				wfe->nAvgBytesPerSec = wfe->nSamplesPerSec * wfe->nBlockAlign;
 				mt.SetSampleSize(256000);
 
-				static CAtlMap<CStringA, int, CStringElementTraits<CStringA> > id2ft;
-
-				if (id2ft.IsEmpty()) {
-					id2ft["A_MPEG/L3"] = WAVE_FORMAT_MP3;
-					id2ft["A_MPEG/L2"] = WAVE_FORMAT_MPEG;
-					id2ft["A_MPEG/L1"] = WAVE_FORMAT_MPEG;
-					id2ft["A_AC3"] = WAVE_FORMAT_DOLBY_AC3;
-					id2ft["A_DTS"] = WAVE_FORMAT_DVD_DTS;
-					id2ft["A_EAC3"] = WAVE_FORMAT_DOLBY_AC3;
-					id2ft["A_PCM/FLOAT/IEEE"] = WAVE_FORMAT_IEEE_FLOAT;
-					id2ft["A_AAC"] = -WAVE_FORMAT_AAC;
-					id2ft["A_FLAC"] = -WAVE_FORMAT_FLAC;
-					id2ft["A_WAVPACK4"] = -WAVE_FORMAT_WAVPACK4;
-					id2ft["A_TTA1"] = WAVE_FORMAT_TTA1;
-					id2ft["A_TRUEHD"] = WAVE_FORMAT_DOLBY_AC3;
-					id2ft["A_MLP"] = WAVE_FORMAT_DOLBY_AC3;
-				}
-
-				int wFormatTag;
-				if (id2ft.Lookup(CodecID, wFormatTag)) {
-					if (wFormatTag < 0) {
-						wFormatTag = -wFormatTag;
-						wfe->cbSize = pTE->CodecPrivate.GetCount();
-						wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
-						memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
-					}
-
-					if (CodecID == "A_TRUEHD" || CodecID == "A_MLP") {
-						mt.subtype = MEDIASUBTYPE_DOLBY_TRUEHD; // TODO: remake it
-					} else {
-						mt.subtype = FOURCCMap(wfe->wFormatTag = wFormatTag);
-					}
+				if (CodecID == "A_MPEG/L3") {
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MPEGLAYER3);
 					mts.Add(mt);
+				} else if (CodecID == "A_MPEG/L2" ||
+						   CodecID == "A_MPEG/L1") {
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MPEG);
+					mts.Add(mt);
+				} else if (CodecID == "A_AC3" ||
+						   CodecID == "A_EAC3") {
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_DOLBY_AC3);
+					mts.Add(mt);
+				} else if (CodecID == "A_TRUEHD" ||
+						   CodecID == "A_MLP") {
+					wfe->wFormatTag = WAVE_FORMAT_DOLBY_AC3;
+					mt.subtype = MEDIASUBTYPE_DOLBY_TRUEHD;
+					mts.Add(mt);
+				} else if (CodecID == "A_DTS") {
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_DVD_DTS);
+					mts.Add(mt);
+				} else if (CodecID == "A_PCM/FLOAT/IEEE") {
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_IEEE_FLOAT);
+					mts.Add(mt);
+				} else if (CodecID == "A_TTA1") {
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_TTA1);
+					mts.Add(mt);
+				} else if (CodecID == "A_AAC") {
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
+					wfe->cbSize = pTE->CodecPrivate.GetCount();
+					wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
+					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
+					mts.Add(mt);
+				} else if (CodecID == "A_WAVPACK4") {
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_WAVPACK4);
+					wfe->cbSize = pTE->CodecPrivate.GetCount();
+					wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
+					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
+					mts.Add(mt);
+				} else if (CodecID == "A_FLAC") {
+					wfe->wFormatTag = WAVE_FORMAT_FLAC;
+					wfe->cbSize = pTE->CodecPrivate.GetCount();
+					wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
+					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 
-					if (wFormatTag == WAVE_FORMAT_FLAC) {
-						mt.subtype = MEDIASUBTYPE_FLAC_FRAMED;
-						mts.InsertAt(0, mt);
-					}
+					mt.subtype = MEDIASUBTYPE_FLAC_FRAMED;
+					mts.Add(mt);
+					mt.subtype = MEDIASUBTYPE_FLAC;
+					mts.Add(mt);
 				} else if (CodecID == "A_PCM/INT/LIT") {
 					mt.subtype = MEDIASUBTYPE_PCM;
 					if (pTE->a.Channels <= 2 && pTE->a.BitDepth <= 16) {
@@ -614,6 +623,15 @@ avcsuccess:
 					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					wfe->cbSize = 0; // IMPORTANT: this is screwed, but cbSize has to be 0 and the extra data from codec priv must be after WAVEFORMATEX
 					mts.Add(mt);
+				} else if (CodecID == "A_QUICKTIME" && pTE->CodecPrivate.GetCount() > 8) {
+					DWORD* type = (DWORD*)(pTE->CodecPrivate.GetData() + 4);
+					if (*type == MAKEFOURCC('Q','D','M','2') || *type == MAKEFOURCC('Q','D','M','C')) {
+						mt.subtype = FOURCCMap(*type);
+						wfe->cbSize = pTE->CodecPrivate.GetCount();
+						wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
+						memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
+						mts.Add(mt);
+					}
 				}
 			} else if (pTE->TrackType == TrackEntry::TypeSubtitle) {
 				if (iSubtitle == 1) {
