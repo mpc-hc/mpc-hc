@@ -380,9 +380,9 @@ avcsuccess:
 					if (!bHasVideo)
 						mts.Add(mt);
 					bHasVideo = true;
-				} else if (CodecID == "V_QUICKTIME" && pTE->CodecPrivate.GetCount() > 8) {
+				} else if (CodecID == "V_QUICKTIME" && pTE->CodecPrivate.GetCount() >= 8) {
 					DWORD* type = (DWORD*)(pTE->CodecPrivate.GetData() + 4);
-					if (*type == MAKEFOURCC('S','V','Q','3') || *type == MAKEFOURCC('S','V','Q','1')) {
+					if (*type == MAKEFOURCC('S','V','Q','3') || *type == MAKEFOURCC('S','V','Q','1') || *type == MAKEFOURCC('c','v','i','d')) {
 						mt.subtype = FOURCCMap(*type);
 						mt.formattype = FORMAT_VideoInfo;
 						VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + pTE->CodecPrivate.GetCount());
@@ -639,7 +639,7 @@ avcsuccess:
 					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					wfe->cbSize = 0; // IMPORTANT: this is screwed, but cbSize has to be 0 and the extra data from codec priv must be after WAVEFORMATEX
 					mts.Add(mt);
-				} else if (CodecID == "A_QUICKTIME" && pTE->CodecPrivate.GetCount() > 8) {
+				} else if (CodecID == "A_QUICKTIME" && pTE->CodecPrivate.GetCount() >= 8) {
 					DWORD* type = (DWORD*)(pTE->CodecPrivate.GetData() + 4);
 					if (*type == MAKEFOURCC('Q','D','M','2') || *type == MAKEFOURCC('Q','D','M','C')) {
 						mt.subtype = FOURCCMap(*type);
