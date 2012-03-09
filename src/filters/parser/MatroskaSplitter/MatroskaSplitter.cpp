@@ -380,7 +380,7 @@ avcsuccess:
 					if (!bHasVideo)
 						mts.Add(mt);
 					bHasVideo = true;
-				} else if (CodecID == "V_QUICKTIME") {
+				} else if (CodecID == "V_QUICKTIME" && pTE->CodecPrivate.GetCount() > 8) {
 					DWORD* type = (DWORD*)(pTE->CodecPrivate.GetData() + 4);
 					if (*type == MAKEFOURCC('S','V','Q','3') || *type == MAKEFOURCC('S','V','Q','1')) {
 						mt.subtype = FOURCCMap(*type);
