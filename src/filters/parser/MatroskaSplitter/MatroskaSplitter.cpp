@@ -380,6 +380,22 @@ avcsuccess:
 					if (!bHasVideo)
 						mts.Add(mt);
 					bHasVideo = true;
+				} else if (CodecID == "V_QUICKTIME") {
+					DWORD* type = (DWORD*)(pTE->CodecPrivate.GetData() + 4);
+					if (*type == MAKEFOURCC('S','V','Q','3') || *type == MAKEFOURCC('S','V','Q','1')) {
+						mt.subtype = FOURCCMap(*type);
+						mt.formattype = FORMAT_VideoInfo;
+						VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + pTE->CodecPrivate.GetCount());
+						memset(mt.Format(), 0, mt.FormatLength());
+						memcpy(mt.Format() + sizeof(VIDEOINFOHEADER), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
+						pvih->bmiHeader.biSize = sizeof(pvih->bmiHeader);
+						pvih->bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
+						pvih->bmiHeader.biHeight = (LONG)pTE->v.PixelHeight;
+						pvih->bmiHeader.biCompression = mt.subtype.Data1;
+						if (!bHasVideo)
+							mts.Add(mt);
+						bHasVideo = true;
+					}
 				}
 				/*
 				else if(CodecID == "V_DSHOW/MPEG1VIDEO") { // V_MPEG1
