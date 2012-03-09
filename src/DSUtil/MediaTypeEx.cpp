@@ -44,7 +44,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 		int w, h, arx, ary;
 		bool fDim = ExtractDim(this, w, h, arx, ary);
 
-		if (fBIH && bih.biCompression) {
+		if (fBIH) {
 			codec = GetVideoCodecName(subtype, bih.biCompression);
 		}
 
@@ -199,7 +199,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 
 CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression)
 {
-	CString str;
+	CString str = _T("");
 
 	static CAtlMap<DWORD, CString> names;
 
@@ -250,6 +250,15 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 				str.Format(_T("%4.4hs"), &biCompression);
 			}
 		}
+	} else {
+		if(subtype == MEDIASUBTYPE_RGB32) 
+			str = _T("RGB32");
+		else if(subtype == MEDIASUBTYPE_RGB24) 
+			str = _T("RGB24");
+		else if(subtype == MEDIASUBTYPE_RGB555) 
+			str = _T("RGB555");
+		else if(subtype == MEDIASUBTYPE_RGB565) 
+			str = _T("RGB565");
 	}
 
 	return str;

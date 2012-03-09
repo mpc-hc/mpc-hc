@@ -228,7 +228,8 @@ static inline int decode_vui_parameters(H264Context *h, SPS *sps){
         sps->num_reorder_frames= get_ue_golomb(&s->gb);
         get_ue_golomb(&s->gb); /*max_dec_frame_buffering*/
 
-        if(get_bits_left(&s->gb) < 0){
+        if (get_bits_left(&s->gb) < 0) {
+            av_log(h->s.avctx, AV_LOG_ERROR, "Overread VUI by %d bits\n", -get_bits_left(&s->gb));
             sps->num_reorder_frames=0;
             sps->bitstream_restriction_flag= 0;
         }
@@ -380,7 +381,7 @@ int ff_h264_decode_seq_parameter_set(H264Context *h){
     }
 
     sps->ref_frame_count= get_ue_golomb_31(&s->gb);
-    if(sps->ref_frame_count > MAX_PICTURE_COUNT-2 || sps->ref_frame_count > 16U){
+    if(sps->ref_frame_count > MAX_PICTURE_COUNT-2 || sps->ref_frame_count >= 32U){
         av_log(h->s.avctx, AV_LOG_ERROR, "too many reference frames\n");
         goto fail;
     }

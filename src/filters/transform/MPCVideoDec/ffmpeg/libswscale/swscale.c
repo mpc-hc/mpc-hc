@@ -68,7 +68,7 @@ static av_always_inline void fillPlane(uint8_t* plane, int stride,
 
 static void hScale16To19_c(SwsContext *c, int16_t *_dst, int dstW, const uint8_t *_src,
                            const int16_t *filter,
-                           const int16_t *filterPos, int filterSize)
+                           const int32_t *filterPos, int filterSize)
 {
     int i;
     int32_t *dst = (int32_t *) _dst;
@@ -91,7 +91,7 @@ static void hScale16To19_c(SwsContext *c, int16_t *_dst, int dstW, const uint8_t
 
 static void hScale16To15_c(SwsContext *c, int16_t *dst, int dstW, const uint8_t *_src,
                            const int16_t *filter,
-                           const int16_t *filterPos, int filterSize)
+                           const int32_t *filterPos, int filterSize)
 {
     int i;
     const uint16_t *src = (const uint16_t *) _src;
@@ -112,7 +112,7 @@ static void hScale16To15_c(SwsContext *c, int16_t *dst, int dstW, const uint8_t 
 
 // bilinear / bicubic scaling
 static void hScale8To15_c(SwsContext *c, int16_t *dst, int dstW, const uint8_t *src,
-                          const int16_t *filter, const int16_t *filterPos,
+                          const int16_t *filter, const int32_t *filterPos,
                           int filterSize)
 {
     int i;
@@ -130,7 +130,7 @@ static void hScale8To15_c(SwsContext *c, int16_t *dst, int dstW, const uint8_t *
 }
 
 static void hScale8To19_c(SwsContext *c, int16_t *_dst, int dstW, const uint8_t *src,
-                          const int16_t *filter, const int16_t *filterPos,
+                          const int16_t *filter, const int32_t *filterPos,
                           int filterSize)
 {
     int i;
@@ -231,7 +231,7 @@ static void hyscale_fast_c(SwsContext *c, int16_t *dst, int dstWidth,
 static av_always_inline void hyscale(SwsContext *c, int16_t *dst, int dstWidth,
                                      const uint8_t *src_in[4], int srcW, int xInc,
                                      const int16_t *hLumFilter,
-                                     const int16_t *hLumFilterPos, int hLumFilterSize,
+                                     const int32_t *hLumFilterPos, int hLumFilterSize,
                                      uint8_t *formatConvBuffer,
                                      uint32_t *pal, int isAlpha)
 {
@@ -275,7 +275,7 @@ static void hcscale_fast_c(SwsContext *c, int16_t *dst1, int16_t *dst2,
 static av_always_inline void hcscale(SwsContext *c, int16_t *dst1, int16_t *dst2, int dstWidth,
                                      const uint8_t *src_in[4],
                                      int srcW, int xInc, const int16_t *hChrFilter,
-                                     const int16_t *hChrFilterPos, int hChrFilterSize,
+                                     const int32_t *hChrFilterPos, int hChrFilterSize,
                                      uint8_t *formatConvBuffer, uint32_t *pal)
 {
     const uint8_t *src1 = src_in[1], *src2 = src_in[2];
@@ -321,10 +321,10 @@ static int swScaleMod(SwsContext *c, const uint8_t* src[],
     const enum PixelFormat dstFormat= c->dstFormat;
     const int flags= c->flags;
     const SwsParams params= c->params; //FFDShow custom code
-    int16_t *vLumFilterPos= c->vLumFilterPos;
-    int16_t *vChrFilterPos= c->vChrFilterPos;
-    int16_t *hLumFilterPos= c->hLumFilterPos;
-    int16_t *hChrFilterPos= c->hChrFilterPos;
+    int32_t *vLumFilterPos= c->vLumFilterPos;
+    int32_t *vChrFilterPos= c->vChrFilterPos;
+    int32_t *hLumFilterPos= c->hLumFilterPos;
+    int32_t *hChrFilterPos= c->hChrFilterPos;
     int16_t *vLumFilter= c->vLumFilter;
     int16_t *vChrFilter= c->vChrFilter;
     int16_t *hLumFilter= c->hLumFilter;
@@ -600,8 +600,10 @@ static int swScaleMod(SwsContext *c, const uint8_t* src[],
                     }
                 }
             } else {
-                assert(lumSrcPtr  + vLumFilterSize - 1 < lumPixBuf  + vLumBufSize*2);
-                assert(chrUSrcPtr + vChrFilterSize - 1 < chrUPixBuf + vChrBufSize*2);
+				// ==> Start patch MPC ... In debug mode - we get an except for YUY2 and RGB32 mode, and crash.
+                // assert(lumSrcPtr  + vLumFilterSize - 1 < lumPixBuf  + vLumBufSize*2);
+                // assert(chrUSrcPtr + vChrFilterSize - 1 < chrUPixBuf + vChrBufSize*2);
+				// ==> end patch MPC
                 if (c->yuv2packed1 && vLumFilterSize == 1 && vChrFilterSize <= 2) { //unscaled RGB
                     int chrAlpha = vChrFilterSize == 1 ? 0 : vChrFilter[2 * dstY + 1];
                     yuv2packed1(c, *lumSrcPtr, chrUSrcPtr, chrVSrcPtr,

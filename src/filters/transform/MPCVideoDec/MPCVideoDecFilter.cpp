@@ -1265,11 +1265,10 @@ VIDEO_OUTPUT_FORMATS DXVAFormats[] = { // DXVA2
 };
 
 VIDEO_OUTPUT_FORMATS SoftwareFormats[] = { // Software
-	{&MEDIASUBTYPE_NV12, 3, 12, '21VN'},
-	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
-	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
-	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
-	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'}
+	{&MEDIASUBTYPE_NV12,  2, 12, '21VN'},
+	{&MEDIASUBTYPE_YV12,  3, 12, '21VY'},
+	{&MEDIASUBTYPE_YUY2,  1, 16, '2YUY'},
+	{&MEDIASUBTYPE_RGB32, 1, 32, BI_RGB},
 };
 
 bool CMPCVideoDecFilter::IsDXVASupported()
@@ -1526,6 +1525,8 @@ unsigned __int64 CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 		return (FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ);
 	} else if (subtype == MEDIASUBTYPE_NV12) {
 		return FF_CSP_NV12;
+	} else if (subtype == MEDIASUBTYPE_RGB32) {
+		return FF_CSP_RGB32;
 	} else if (subtype == MEDIASUBTYPE_YUY2) {
 		return FF_CSP_YUY2;
 	}
@@ -1787,32 +1788,22 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				pDataOut = m_pAlignedFFBuffer;
 			}
 
-			uint8_t*	dst[4];
-			stride_t			srcStride[4];
-			stride_t			dstStride[4];
-
+			uint8_t*	dst[4] = {NULL, NULL, NULL, NULL};
+			stride_t	srcStride[4] = {m_pFrame->linesize[0], m_pFrame->linesize[1], m_pFrame->linesize[2], m_pFrame->linesize[3]};
+			stride_t	dstStride[4] = {0, 0, 0, 0};
 			const TcspInfo *outcspInfo=csp_getInfo(m_nOutCsp);
 
-			if (m_nOutCsp == FF_CSP_YUY2) {
+			if (m_nOutCsp == FF_CSP_YUY2 || m_nOutCsp == FF_CSP_RGB32) {
 				dst[0] = pDataOut;
-				dst[1] = dst[2] = dst[3] = NULL;
-				srcStride[0] = m_pFrame->linesize[0];
-				srcStride[1] = m_pFrame->linesize[1];
-				srcStride[2] = m_pFrame->linesize[2];
-				srcStride[3] = m_pFrame->linesize[3];
 				dstStride[0] = (m_nSwOutBpp>>3) * (outStride);
-				dstStride[1] = dstStride[2] = dstStride[3] = 0;
 			} else {
 				for (int i=0; i<4; i++) {
-					srcStride[i]=m_pFrame->linesize[i];
-					dstStride[i]=outStride>>outcspInfo->shiftX[i];
-					dst[i]=!i ? pDataOut : dst[i-1]+dstStride[i-1]*(m_pOutSize.cy>>outcspInfo->shiftY[i-1]) ;
+					dstStride[i] = outStride >> outcspInfo->shiftX[i];
+					dst[i] = !i ? pDataOut : dst[i-1] + dstStride[i-1] * (m_pOutSize.cy >> outcspInfo->shiftY[i-1]) ;
 				}
-				uint64_t nTempCsp = m_nOutCsp;
-				if (outcspInfo->id==FF_CSP_420P) {
-					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, odd2even(m_pOutSize.cy), (unsigned char**)dst, dstStride);
-				} else {
-					csp_yuv_adj_to_plane(nTempCsp, outcspInfo, m_pAVCtx->height, (unsigned char**)dst, dstStride);
+
+				if (m_nOutCsp != FF_CSP_NV12) {
+					std::swap(dst[1], dst[2]);
 				}
 			}
 

@@ -1372,7 +1372,6 @@ static void mpeg_decode_sequence_extension(Mpeg1Context *s1)
 
     av_dlog(s->avctx, "sequence extension\n");
     s->codec_id      = s->avctx->codec_id = CODEC_ID_MPEG2VIDEO;
-    s->avctx->sub_id = 2; /* indicates MPEG-2 found */
 
     if (s->avctx->debug & FF_DEBUG_PICT_INFO)
         av_log(s->avctx, AV_LOG_DEBUG, "profile: %d, level: %d vbv buffer: %d, bitrate:%d\n",
@@ -1993,7 +1992,6 @@ static int mpeg1_decode_sequence(AVCodecContext *avctx,
     s->frame_pred_frame_dct = 1;
     s->chroma_format        = 1;
     s->codec_id             = s->avctx->codec_id = CODEC_ID_MPEG1VIDEO;
-    avctx->sub_id           = 1; /* indicates MPEG-1 */
     s->out_format           = FMT_MPEG1;
     s->swap_uv              = 0; // AFAIK VCR2 does not have SEQ_HEADER
     if (s->flags & CODEC_FLAG_LOW_DELAY)

@@ -38,8 +38,6 @@ typedef struct ParseContext{
     int64_t rtStart;            /* ffdshow custom code */
 } ParseContext;
 
-struct MpegEncContext;
-
 #define END_NOT_FOUND (-100)
 
 int ff_combine_frame(ParseContext *pc, int next, const uint8_t **buf, int *buf_size);
