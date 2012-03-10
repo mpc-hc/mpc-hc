@@ -504,6 +504,14 @@ avcsuccess:
 					mts.Add(mt);
 				} else if (CodecID == "A_TTA1") {
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_TTA1);
+					wfe->cbSize = 30;
+					wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + 30);
+					BYTE *p = (BYTE *)(wfe + 1);
+					memcpy(p, (const unsigned char *)"TTA1\x01\x00", 6);
+					memcpy(p + 6,  &wfe->nChannels, 2);
+					memcpy(p + 8,  &wfe->wBitsPerSample, 2);
+					memcpy(p + 10, &wfe->nSamplesPerSec, 4);
+					memset(p + 14, 0, 30 - 14);
 					mts.Add(mt);
 				} else if (CodecID == "A_AAC") {
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
@@ -559,19 +567,15 @@ avcsuccess:
 				} else if (CodecID == "A_VORBIS") {
 					BYTE* p = pTE->CodecPrivate.GetData();
 					CAtlArray<int> sizes;
+					int totalsize = 0;
 					for (BYTE n = *p++; n > 0; n--) {
 						int size = 0;
 						do {
 							size += *p;
 						} while (*p++ == 0xff);
 						sizes.Add(size);
+						totalsize += size;
 					}
-
-					int totalsize = 0;
-					for (size_t i = 0; i < sizes.GetCount(); i++) {
-						totalsize += sizes[i];
-					}
-
 					sizes.Add(pTE->CodecPrivate.GetCount() - (p - pTE->CodecPrivate.GetData()) - totalsize);
 					totalsize += sizes[sizes.GetCount()-1];
 
