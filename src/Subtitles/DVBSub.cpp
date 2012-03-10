@@ -144,7 +144,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
 
 #define MARKER if(gb.BitRead(1) != 1) {ASSERT(0); return(E_FAIL);}
 
-HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
+HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 {
 	CheckPointer (pSample, E_POINTER);
 	HRESULT				hr;
@@ -324,17 +324,10 @@ void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 	}
 }
 
-HRESULT CDVBSub::GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
+HRESULT CDVBSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
 {
-	// TODO : limit size for HDTV
-
-	// Texture size should be video size width. Height is limited (to prevent performances issues with
-	// more than 1024x768 pixels)
-	MaxTextureSize.cx	= min (m_Display.width, 1920);
-	MaxTextureSize.cy	= min (m_Display.height, 1024*768/MaxTextureSize.cx);
-
-	VideoSize.cx	= m_Display.width;
-	VideoSize.cy	= m_Display.height;
+	MaxTextureSize.cx = VideoSize.cx = m_Display.width;
+	MaxTextureSize.cy = VideoSize.cy = m_Display.height;
 
 	VideoTopLeft.x	= 0;
 	VideoTopLeft.y	= 0;

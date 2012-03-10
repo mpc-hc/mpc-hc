@@ -326,19 +326,16 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 	}
 }
 
-HRESULT CHdmvSub::GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
+HRESULT CHdmvSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
 {
 	CompositionObject*	pObject = m_pObjects.GetAt (pos);
 	if (pObject) {
-		MaxTextureSize.cx	= m_VideoDescriptor.nVideoWidth;
-		MaxTextureSize.cy	= m_VideoDescriptor.nVideoHeight;
-
-		VideoSize.cx	= m_VideoDescriptor.nVideoWidth;
-		VideoSize.cy	= m_VideoDescriptor.nVideoHeight;
+		MaxTextureSize.cx = VideoSize.cx = m_VideoDescriptor.nVideoWidth;
+		MaxTextureSize.cy = VideoSize.cy = m_VideoDescriptor.nVideoHeight;
 
 		// The subs will be directly rendered into the proper position!
-		VideoTopLeft.x	= 0; //pObject->m_horizontal_position;
-		VideoTopLeft.y	= 0; //pObject->m_vertical_position;
+		VideoTopLeft.x = 0; //pObject->m_horizontal_position;
+		VideoTopLeft.y = 0; //pObject->m_vertical_position;
 
 		return S_OK;
 	}
