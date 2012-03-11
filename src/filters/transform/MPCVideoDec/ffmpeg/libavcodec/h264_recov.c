@@ -1,3 +1,4 @@
+// #included by h264.c
 av_cold int avcodec_h264_decode_init_is_avc(AVCodecContext *avctx){
     if(avctx->extradata_size > 0 && avctx->extradata &&
        (*(char *)avctx->extradata == 1 || (avctx->codec_tag == 0x31637661 || avctx->codec_tag == 0x31435641))){
@@ -7,8 +8,14 @@ av_cold int avcodec_h264_decode_init_is_avc(AVCodecContext *avctx){
     }
 }
 
+static int is_I_slice(int slice_type)
+{
+    return slice_type == 2 || slice_type == 4 || slice_type == 7 || slice_type == 9;
+}
+
 /**
  * ffdshow custom stuff (based on decode_nal_units)
+ * Copyright (c) 2008-2012 Haruhiko Yamagata (except the parts copied from decode_nal_units)
  *
  * @param[out] recovery_frame_cnt. Valid only if GDR.
  * @return   0: no recovery point, 1:I-frame 2:Recovery Point SEI (GDR), 3:IDR, -1:error
@@ -20,7 +27,6 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
     MpegEncContext *s;
     int buf_index = 0;
     int found = 0; // 0: no recovery point, 1:Recovery Point SEI (GDR), 2:IDR
-    int Islice_detected = 0;
     AVCodecContext *users_MpegEncContext_avctx;
 
     avctx = get_thread0_avctx(avctx); // Next frame will start on thread 0, and we want to store SPS and PPS in the context of thread 0.
@@ -86,9 +92,6 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
 
 
         switch(h->nal_unit_type){
-        case NAL_IDR_SLICE:
-            found = 3;
-            goto end;
         case NAL_SEI:
             if (ptr[0] == 6/* Recovery Point SEI */){
                 init_get_bits(&s->gb, ptr, bit_length);
@@ -123,23 +126,30 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
                 found = 1;
             break;
         }
+        case NAL_IDR_SLICE:
         case NAL_SLICE:
         case NAL_DPA:
             // decode part of slice header and find I frame
-            if (found == 0){
-                unsigned int slice_type;
+            init_get_bits(&s->gb, ptr, bit_length);
+            int first_mb_in_slice = get_ue_golomb(&s->gb);
+            unsigned int slice_type= get_ue_golomb(&s->gb);
+            if (!is_I_slice(slice_type))
+                goto end;
 
-                init_get_bits(&s->gb, ptr, bit_length);
-                get_ue_golomb(&s->gb); // first_mb_in_slice
-                slice_type= get_ue_golomb(&s->gb);
-                if (slice_type == 2 || slice_type == 4 || slice_type == 7 || slice_type == 9){ // I/SI slice
-                    Islice_detected = 1;
-                }else{
-                    found=0;
+            // at least one slice must start at the left top corner.
+            // ASO should work, while FMO may not. FMO is not supported by current Libav anyway.
+            if (first_mb_in_slice == 0) {
+                if (h->nal_unit_type == NAL_IDR_SLICE) {
+                    found = 3;
                     goto end;
+                } else {
+                    if (found == 0) {
+                        found = 1;
+                        goto end;
+                    }
                 }
-                break;
             }
+            break;
         case NAL_DPB:
         case NAL_DPC:
         case NAL_END_SEQUENCE:
@@ -153,8 +163,6 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
         }
 
     }
-    if (found == 0 && Islice_detected)
-     found = 1;
     *recovery_frame_cnt = h->sei_recovery_frame_cnt;
 end:
     s->avctx = users_MpegEncContext_avctx;

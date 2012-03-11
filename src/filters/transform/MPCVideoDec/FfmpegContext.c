@@ -555,7 +555,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 
 	if (vc1->profile == PROFILE_ADVANCED) {
 		/* It is the cropped width/height -1 of the frame */
-		pPicParams->wPicWidthInMBminus1 = pAVCtx->width  - 1;
+		pPicParams->wPicWidthInMBminus1	= pAVCtx->width  - 1;
 		pPicParams->wPicHeightInMBminus1= pAVCtx->height - 1;
 	} else {
 		/* It is the coded width/height in macroblock -1 of the frame */
@@ -564,8 +564,9 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	}
 
 	pPicParams->bSecondField			= (vc1->interlace && vc1->fcm == ILACE_FIELD && vc1->second_field);
-	pPicParams->bPicIntra				= (vc1->s.pict_type == AV_PICTURE_TYPE_I || vc1->bi_type == 1);
-	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == AV_PICTURE_TYPE_B && vc1->bi_type == 0);
+	pPicParams->bPicIntra               = vc1->s.pict_type == AV_PICTURE_TYPE_I;
+	pPicParams->bPicBackwardPrediction  = vc1->s.pict_type == AV_PICTURE_TYPE_B;
+
 
 	// Init    Init    Init    Todo
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
@@ -591,9 +592,19 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 									  (vc1->psf << 1)		   | vc1->extended_dmv;
 
 
-	//				TODO section 3.2.20.6
-	//pPicParams->bPicStructure		= *nFieldType;
-	pPicParams->bPicStructure		= vc1->s.picture_structure;
+	pPicParams->bPicStructure = 0;
+	if (vc1->s.picture_structure & PICT_TOP_FIELD) {
+		pPicParams->bPicStructure	|= 0x01;
+	}
+	if (vc1->s.picture_structure & PICT_BOTTOM_FIELD) {
+		pPicParams->bPicStructure	|= 0x02;
+	}
+
+	pPicParams->bMVprecisionAndChromaRelation =	((vc1->mv_mode == MV_PMODE_1MV_HPEL_BILIN) << 3) |
+												  (1                                       << 2) |
+												  (0                                       << 1) |
+												  (!vc1->s.quarter_sample					   );
+
 
 	// Cf page 17 : 2 for interlaced, 0 for progressive
 	pPicParams->bPicExtrapolation	= (!vc1->interlace || vc1->fcm == PROGRESSIVE) ? 1 : 2;
@@ -605,6 +616,13 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 		/* Syntax: (top_field_param << 8) | bottom_field_param */
 		pPicParams->wBitstreamFcodes        = (vc1->lumscale << 8) | vc1->lumscale;
 		pPicParams->wBitstreamPCEelements   = (vc1->lumshift << 8) | vc1->lumshift;
+	}
+
+	if (vc1->profile == PROFILE_ADVANCED) {
+		pPicParams->bPicOBMC	  = (vc1->range_mapy_flag  << 7) |
+									(vc1->range_mapy       << 4) |
+									(vc1->range_mapuv_flag << 3) |
+									(vc1->range_mapuv          );
 	}
 
 	// Section 3.2.16
@@ -622,7 +640,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	pPicParams->bRcontrol	= vc1->rnd;
 
 	pPicParams->bPicDeblocked	= ((vc1->profile == PROFILE_ADVANCED && vc1->overlap == 1 &&
-								pPicParams->bPicBackwardPrediction == 0)					<< 6) |
+								    pPicParams->bPicBackwardPrediction == 0)				<< 6) |
 								  ((vc1->profile != PROFILE_ADVANCED && vc1->rangeredfrm)	<< 5) |
 								  (vc1->s.loop_filter										<< 1);
 
