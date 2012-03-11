@@ -562,7 +562,17 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 				if (type == unknown) {
 					CMpegSplitterFile::ac3hdr h;
 					if (Read(h, len, &s.mt, true, (m_AC3CoreOnly == 1))) {
-						type = audio;
+						int iProgram;
+						const CHdmvClipInfo::Stream *pClipInfo;
+						const program* pProgram = FindProgram (s.pid, iProgram, pClipInfo);
+						if (pProgram) {
+							PES_STREAM_TYPE stream_type = pProgram->streams[iProgram].type;
+							if(stream_type == AUDIO_STREAM_AC3 || stream_type == AUDIO_STREAM_AC3_PLUS || stream_type == AUDIO_STREAM_AC3_TRUE_HD) {
+								type = audio;
+							}
+						} else {
+							type = audio;
+						}
 					}
 				}
 
