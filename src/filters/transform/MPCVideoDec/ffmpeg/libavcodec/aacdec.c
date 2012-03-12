@@ -2326,22 +2326,6 @@ static int parse_adts_frame_header(AACContext *ac, GetBitContext *gb)
     return size;
 }
 
-/* ffdshow custom code */ 	 
-void float_interleave(float *dst, const float **src, long len, int channels) 	 
-{ 	 
-   int i,j,c; 	 
-   if(channels==2){ 	 
-       for(i=0; i<len; i++){ 	 
-           dst[2*i]   = src[0][i] / 32768.0f; 	 
-           dst[2*i+1] = src[1][i] / 32768.0f; 	 
-       } 	 
-   }else{ 	 
-       for(c=0; c<channels; c++) 	 
-           for(i=0, j=c; i<len; i++, j+=channels) 	 
-               dst[j] = src[c][i] / 32768.0f; 	 
-   } 	 
-}
-
 static int aac_decode_frame_int(AVCodecContext *avctx, void *data,
                                 int *got_frame_ptr, GetBitContext *gb)
 {
@@ -2465,8 +2449,7 @@ static int aac_decode_frame_int(AVCodecContext *avctx, void *data,
         }
 
         if (avctx->sample_fmt == AV_SAMPLE_FMT_FLT)
-            /*ac->fmt_conv.*/float_interleave((float *)ac->frame.data[0],
-                                          (const float **)ac->output_data,
+            float_interleave((float *)ac->frame.data[0], (const float **)ac->output_data,
                                           samples, avctx->channels);
         else
             ac->fmt_conv.float_to_int16_interleave((int16_t *)ac->frame.data[0],
@@ -2486,12 +2469,31 @@ static int aac_decode_frame_int(AVCodecContext *avctx, void *data,
 static int aac_decode_frame(AVCodecContext *avctx, void *data,
                             int *got_frame_ptr, AVPacket *avpkt)
 {
+    AACContext *ac = avctx->priv_data;
     const uint8_t *buf = avpkt->data;
     int buf_size = avpkt->size;
     GetBitContext gb;
     int buf_consumed;
     int buf_offset;
     int err;
+    int new_extradata_size;
+    const uint8_t *new_extradata = av_packet_get_side_data(avpkt,
+                                       AV_PKT_DATA_NEW_EXTRADATA,
+                                       &new_extradata_size);
+
+    if (new_extradata) {
+        av_free(avctx->extradata);
+        avctx->extradata = av_mallocz(new_extradata_size +
+                                      FF_INPUT_BUFFER_PADDING_SIZE);
+        if (!avctx->extradata)
+            return AVERROR(ENOMEM);
+        avctx->extradata_size = new_extradata_size;
+        memcpy(avctx->extradata, new_extradata, new_extradata_size);
+        if (decode_audio_specific_config(ac, ac->avctx, &ac->m4ac,
+                                         avctx->extradata,
+                                         avctx->extradata_size*8, 1) < 0)
+            return AVERROR_INVALIDDATA;
+    }
 
     init_get_bits(&gb, buf, buf_size * 8);
 
@@ -2512,9 +2514,10 @@ static av_cold int aac_decode_close(AVCodecContext *avctx)
     int i, type;
 
     if (!avctx->extradata_size && ac->m4ac.object_type) {
+        PutBitContext pb;
+
         avctx->extradata = av_mallocz(2);
         avctx->extradata_size = 2;
-        PutBitContext pb;
         init_put_bits(&pb, avctx->extradata, avctx->extradata_size);
         put_bits(&pb, 5, ac->m4ac.object_type);
         put_bits(&pb, 4, ac->m4ac.sampling_index);
@@ -2589,7 +2592,8 @@ static int latm_decode_audio_specific_config(struct LATMContext *latmctx,
     if (bits_consumed < 0)
         return AVERROR_INVALIDDATA;
 
-    if (ac->m4ac.sample_rate != m4ac.sample_rate ||
+    if (!latmctx->initialized ||
+        ac->m4ac.sample_rate != m4ac.sample_rate ||
         ac->m4ac.chan_config != m4ac.chan_config) {
 
         av_log(avctx, AV_LOG_INFO, "audio config changed\n");

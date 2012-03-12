@@ -141,7 +141,7 @@ av_cold void ff_aac_sbr_ctx_init(AACContext *ac, SpectralBandReplication *sbr)
     /* SBR requires samples to be scaled to +/-32768.0 to work correctly.
      * mdct scale factors are adjusted to scale up from +/-1.0 at analysis
      * and scale back down at synthesis. */
-    mdct_scale = ac->avctx->sample_fmt == AV_SAMPLE_FMT_FLT ? 32768.0f : 1.0f;
+    mdct_scale = 1.0; //ac->avctx->sample_fmt == AV_SAMPLE_FMT_FLT ? 32768.0f : 1.0f;
     ff_mdct_init(&sbr->mdct,     7, 1, 1.0 / (64 * mdct_scale));
     ff_mdct_init(&sbr->mdct_ana, 7, 1, -2.0 * mdct_scale);
     ff_ps_ctx_init(&sbr->ps);

@@ -1794,6 +1794,11 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 					p2->Append(*p3);
 				}
 			}
+			start = next;
+
+			if(!p2) {
+				continue;
+			}
 
 			p2->TrackNumber = m_p->TrackNumber;
 			p2->bDiscontinuity = m_p->bDiscontinuity;
@@ -1831,8 +1836,6 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 			m_p->pmt = p->pmt;
 			p->pmt = NULL;
-
-			start = next;
 		}
 		if (start > m_p->GetData()) {
 			m_p->RemoveAt(0, start - m_p->GetData());
