@@ -14866,7 +14866,6 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 {
 	CAtlList<CString>	fns;
 	REFERENCE_TIME		rtPos	= 0;
-	long				lPos	= 0;
 
 	switch (pCDS->dwData) {
 		case CMD_OPENFILE :
@@ -14894,13 +14893,7 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 			m_wndPlaylistBar.Empty();
 			break;
 		case CMD_SETPOSITION :
-			DVD_HMSF_TIMECODE	tcPos;
-
-			lPos			= _wtol ((LPCWSTR)pCDS->lpData);
-			tcPos.bHours	= lPos/3600;
-			tcPos.bMinutes	= (lPos/60) % 60;
-			tcPos.bSeconds	= lPos%60;
-			rtPos = HMSF2RT(tcPos);
+			rtPos = 10000 * REFERENCE_TIME(_wtof((LPCWSTR)pCDS->lpData)*1000); //with accuracy of 1 ms
 			// imianz: quick and dirty trick
 			// Pause->SeekTo->Play (in place of SeekTo only) seems to prevents in most cases
 			// some strange video effects on avi files (ex. locks a while and than running fast).
