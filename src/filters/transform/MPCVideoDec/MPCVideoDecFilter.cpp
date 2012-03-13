@@ -1714,7 +1714,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			pDataIn += used_bytes;
 		}
 
-		if (m_nCodecId == CODEC_ID_H264 && got_picture) {
+		if (m_nCodecId == CODEC_ID_H264) {
 			m_h264RandomAccess.judgeFrameUsability(m_pFrame, &got_picture);
 		} else if (m_nCodecId == CODEC_ID_VC1 || m_nCodecId == CODEC_ID_RV30 || m_nCodecId == CODEC_ID_RV40) {
 			if (m_bWaitingForKeyFrame && got_picture) {
