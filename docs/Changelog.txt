@@ -7,6 +7,8 @@ NEW    : Ticket #1738, Support for decoding FLV SWF ADPCM
 CHANGED: Updated libpng to v1.5.9
 CHANGED: Updated Little CMS to the latest git (25/02/2012)
 CHANGED: Updated libav
+CHANGED: Updated MediaInfoLib to v0.7.54
+CHANGED: Updated ZenLib to v0.4.25
 CHANGED: Updated Polish, Japanese, Chinese Simplified, Chinese Traditional, Russian,
          Ukrainian and German translations
 FIXED  : Long opening of MKV files after using the "mkvclean" utility

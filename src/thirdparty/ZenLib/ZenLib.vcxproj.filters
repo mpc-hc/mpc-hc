@@ -109,6 +109,9 @@
     <ClInclude Include="ZenLib\BitStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ZenLib\BitStream_Fast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="ZenLib\BitStream_LE.h">
       <Filter>Header Files</Filter>
     </ClInclude>

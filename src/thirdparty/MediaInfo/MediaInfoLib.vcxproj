@@ -264,12 +264,14 @@
     <ClInclude Include="MediaInfo\Video\File_Dirac.h" />
     <ClInclude Include="MediaInfo\Video\File_Flic.h" />
     <ClInclude Include="MediaInfo\Video\File_Fraps.h" />
+    <ClInclude Include="MediaInfo\Video\File_H263.h" />
     <ClInclude Include="MediaInfo\Video\File_Lagarith.h" />
     <ClInclude Include="MediaInfo\Video\File_Mpeg4v.h" />
     <ClInclude Include="MediaInfo\Video\File_Mpegv.h" />
     <ClInclude Include="MediaInfo\Video\File_Theora.h" />
     <ClInclude Include="MediaInfo\Video\File_Vc1.h" />
     <ClInclude Include="MediaInfo\Video\File_Vc3.h" />
+    <ClInclude Include="MediaInfo\Video\File_Vp8.h" />
     <ClInclude Include="MediaInfo\Video\File_Y4m.h" />
   </ItemGroup>
   <ItemGroup>
@@ -434,12 +436,14 @@
     <ClCompile Include="MediaInfo\Video\File_Dirac.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Flic.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Fraps.cpp" />
+    <ClCompile Include="MediaInfo\Video\File_H263.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Lagarith.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Mpeg4v.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Mpegv.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Theora.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Vc1.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Vc3.cpp" />
+    <ClCompile Include="MediaInfo\Video\File_Vp8.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Y4m.cpp" />
     <ClCompile Include="ThirdParty\tinyxml\tinyxml.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

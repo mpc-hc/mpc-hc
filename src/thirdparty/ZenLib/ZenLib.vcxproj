@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ZenLib\BitStream.h" />
+    <ClInclude Include="ZenLib\BitStream_Fast.h" />
     <ClInclude Include="ZenLib\BitStream_LE.h" />
     <ClInclude Include="ZenLib\Conf.h" />
     <ClInclude Include="ZenLib\CriticalSection.h" />

@@ -15,8 +15,8 @@ Part B: Preparing the GCC environment
   * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
   * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.5.2.0.
 
- 1. Download and extract MSYS_MinGW_GCC_462_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_462_x86-x64.7z
-    For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_462_x86-x64_components.txt
+ 1. Download and extract MSYS_MinGW_GCC_463_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_463_x86-x64.7z
+    For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_463_x86-x64_components.txt
  2. Edit the "fstab" file in C:\MSYS\etc\ to specify your MinGW path.
     Add this to it: C:\MSYS\mingw	\mingw
     Note the tab-space between mingw and \mingw

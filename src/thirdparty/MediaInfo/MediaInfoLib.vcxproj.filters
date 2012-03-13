@@ -413,6 +413,9 @@
     <ClInclude Include="MediaInfo\Video\File_Fraps.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Video\File_H263.h">
+      <Filter>Header Files\Video</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_Lagarith.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
@@ -429,6 +432,9 @@
       <Filter>Header Files\Video</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_Vc3.h">
+      <Filter>Header Files\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Video\File_Vp8.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_Y4m.h">
@@ -844,6 +850,9 @@
     <ClCompile Include="MediaInfo\Video\File_Fraps.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Video\File_H263.cpp">
+      <Filter>Source Files\Video</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_Lagarith.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
@@ -860,6 +869,9 @@
       <Filter>Source Files\Video</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_Vc3.cpp">
+      <Filter>Source Files\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Video\File_Vp8.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_Y4m.cpp">
