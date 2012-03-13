@@ -1104,8 +1104,10 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 	int size = 0;
 	hr = DeliverFFmpeg(nCodecId, p, end-p, size);
 	if (FAILED(hr)) {
-		m_buff.RemoveAll();
-		m_bResync = true;
+		if(!(nCodecId == CODEC_ID_AAC || nCodecId == CODEC_ID_AAC_LATM)) {
+			m_buff.RemoveAll();
+			m_bResync = true;
+		}
 		return S_OK;
 	}
 
