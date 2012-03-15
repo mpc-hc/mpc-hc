@@ -31,7 +31,7 @@
 
 CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub, bool TrackPriority, int AC3CoreOnly, bool AlternativeDuration)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
-	, m_type(us)
+	, m_type(mpeg_us)
 	, m_rate(0)
 	, m_rtMin(0), m_rtMax(0)
 	, m_posMin(0), m_posMax(0)
@@ -55,11 +55,11 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 
 	// get the type first
 
-	m_type = us;
+	m_type = mpeg_us;
 
 	Seek(0);
 
-	if (m_type == us) {
+	if (m_type == mpeg_us) {
 		if (BitRead(32, true) == 'TFrc') {
 			Seek(0x67c);
 		}
@@ -68,13 +68,13 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 			Seek(h.next);
 		}
 		if (cnt >= limit) {
-			m_type = ts;
+			m_type = mpeg_ts;
 		}
 	}
 
 	Seek(0);
 
-	if (m_type == us) {
+	if (m_type == mpeg_us) {
 		if (BitRead(32, true) == 'TFrc') {
 			Seek(0xE80);
 		}
@@ -83,31 +83,31 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 			Seek(h.next);
 		}
 		if (cnt >= limit) {
-			m_type = ts;
+			m_type = mpeg_ts;
 		}
 	}
 
 	Seek(0);
 
-	if (m_type == us) {
+	if (m_type == mpeg_us) {
 		int cnt = 0, limit = 4;
 		for (pvahdr h; cnt < limit && Read(h); cnt++) {
 			Seek(GetPos() + h.length);
 		}
 		if (cnt >= limit) {
-			m_type = pva;
+			m_type = mpeg_pva;
 		}
 	}
 
 	Seek(0);
 
-	if (m_type == us) {
+	if (m_type == mpeg_us) {
 		BYTE b;
-		for (int i = 0; (i < 4 || GetPos() < 65536) && m_type == us && NextMpegStartCode(b); i++) {
+		for (int i = 0; (i < 4 || GetPos() < 65536) && m_type == mpeg_us && NextMpegStartCode(b); i++) {
 			if (b == 0xba) {
 				pshdr h;
 				if (Read(h)) {
-					m_type = ps;
+					m_type = mpeg_ps;
 					m_rate = int(h.bitrate/8);
 					break;
 				}
@@ -117,7 +117,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 					   || b == 0xbd) { // private stream 1, 0xbd, ac3/dts/lpcm/subpic
 				peshdr h;
 				if (Read(h, b) && BitRead(24, true) == 0x000001) {
-					m_type = es;
+					m_type = mpeg_es;
 				}
 			}
 		}
@@ -125,7 +125,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 
 	Seek(0);
 
-	if (m_type == us) {
+	if (m_type == mpeg_us) {
 		return E_FAIL;
 	}
 
@@ -163,7 +163,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 		}
 	}
 
-	if (m_type == ts) {
+	if (m_type == mpeg_ts) {
 		if (IsRandomAccess() || IsStreaming()) {
 			if (IsStreaming()) {
 				for (int i = 0; i < 20 || i < 50 && S_OK != HasMoreData(1024*100, 100); i++) {
@@ -214,7 +214,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 #endif
 
 	// Add fake Subtitle stream ...
-	if (m_type == ts) {
+	if (m_type == mpeg_ts) {
 		if (m_streams[video].GetCount()) {
 			if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
 				stream s;
@@ -274,7 +274,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 	BYTE b;
 
 	while (GetRemaining()) {
-		if (m_type == ps || m_type == es) {
+		if (m_type == mpeg_ps || m_type == mpeg_es) {
 			if (!NextMpegStartCode(b)) {	// continue;
 				ASSERT(0);
 				break;
@@ -298,7 +298,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 
 				Seek(pos + h.len);
 			}
-		} else if (m_type == ts) {
+		} else if (m_type == mpeg_ts) {
 			trhdr h;
 			if (!Read(h)) {
 				continue;
@@ -318,7 +318,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 			}
 
 			Seek(h.next);
-		} else if (m_type == pva) {
+		} else if (m_type == mpeg_pva) {
 			pvahdr h;
 			if (!Read(h)) {
 				continue;
@@ -349,7 +349,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 	while (GetPos() < stop) {
 		BYTE b;
 
-		if (m_type == ps || m_type == es) {
+		if (m_type == mpeg_ps || m_type == mpeg_es) {
 			if (!NextMpegStartCode(b)) {
 				continue;
 			}
@@ -396,7 +396,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 					Seek(pos + h.len);
 				}
 			}
-		} else if (m_type == ts) {
+		} else if (m_type == mpeg_ts) {
 			trhdr h;
 			if (!Read(h)) {
 				continue;
@@ -454,7 +454,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 			}
 
 			Seek(h.next);
-		} else if (m_type == pva) {
+		} else if (m_type == mpeg_pva) {
 			pvahdr h;
 			if (!Read(h)) {
 				continue;

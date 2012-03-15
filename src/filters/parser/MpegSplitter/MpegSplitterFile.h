@@ -52,7 +52,7 @@ public:
 
 	CCritSec m_csProps;
 
-	enum {us, ps, ts, es, pva} m_type;
+	MPEG_TYPES m_type;
 
 	REFERENCE_TIME m_rtMin, m_rtMax;
 	__int64 m_posMin, m_posMax;

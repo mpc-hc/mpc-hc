@@ -647,7 +647,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 	HRESULT hr;
 	BYTE b;
 
-	if (m_pFile->m_type == CMpegSplitterFile::ps || m_pFile->m_type == CMpegSplitterFile::es) {
+	if (m_pFile->m_type == mpeg_ps || m_pFile->m_type == mpeg_es) {
 		if (!m_pFile->NextMpegStartCode(b)) {
 			return S_FALSE;
 		}
@@ -695,7 +695,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 			}
 			m_pFile->Seek(pos + h.len);
 		}
-	} else if (m_pFile->m_type == CMpegSplitterFile::ts) {
+	} else if (m_pFile->m_type == mpeg_ts) {
 		CMpegSplitterFile::trhdr h;
 
 		if (!m_pFile->Read(h)) {
@@ -745,7 +745,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 		}
 
 		m_pFile->Seek(h.next);
-	} else if (m_pFile->m_type == CMpegSplitterFile::pva) {
+	} else if (m_pFile->m_type == mpeg_pva) {
 		CMpegSplitterFile::pvahdr h;
 		if (!m_pFile->Read(h)) {
 			return S_FALSE;
@@ -797,7 +797,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		return hr;
 	}
 
-	if (m_pFile->m_type == CMpegSplitterFile::ps) {
+	if (m_pFile->m_type == mpeg_ps) {
 		if (m_pInput && m_pInput->IsConnected() && (GetCLSID(m_pInput->GetConnected()) == GUIDFromCString(_T("{773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73}")))) { // MPC VTS Reader
 			pTI = GetFilterFromPin(m_pInput->GetConnected());
 		}
@@ -1563,6 +1563,11 @@ STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetAlternativeDuration()
 	return m_AlternativeDuration;
 }
 
+STDMETHODIMP_(int) CMpegSplitterFilter::GetMPEGType()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_pFile->m_type;
+}
 //
 // CMpegSourceFilter
 //
@@ -2031,7 +2036,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		BYTE* start = p->GetData();
 		p->SetData(start + 4, p->GetCount() - 4);
 		// Dolby_AC3
-	} else if ((m_type == CMpegSplitterFile::ts) &&
+	} else if ((m_type == mpeg_ts) &&
 			   (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3) &&
 			   (static_cast<CMpegSplitterFilter*>(m_pFilter))->StreamIsTrueHD(p->TrackNumber) &&
 			   (static_cast<CMpegSplitterFilter*>(m_pFilter))->GetTrueHD() != 2) {

@@ -558,12 +558,14 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pFrame				= NULL;
 	m_nCodecNb				= -1;
 	m_nCodecId				= CODEC_ID_NONE;
-	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
 	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP356|MPCVD_VP8|MPCVD_MJPEG|MPCVD_INDEO|MPCVD_RV|MPCVD_WMV3_DXVA|MPCVD_MPEG2_DXVA;
+	
+	m_rtAvrTimePerFrame		= 0;
 	m_rtLastStart			= 0;
 	m_nCountEstimated		= 0;
+	m_rtPrevStop			= 0;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
@@ -575,14 +577,16 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_bDXVACompatible		= true;
 	m_pFFBuffer				= NULL;
 	m_nFFBufferSize			= 0;
+	m_pAlignedFFBuffer		= NULL;
+	m_nAlignedFFBufferSize	= 0;
 	ResetBuffer();
 
 	m_nWidth				= 0;
 	m_nHeight				= 0;
 	m_pSwsContext			= NULL;
 
-	m_bUseDXVA = true;
-	m_bUseFFmpeg = true;
+	m_bUseDXVA				= true;
+	m_bUseFFmpeg			= true;
 
 	m_nDXVAMode				= MODE_SOFTWARE;
 	m_pDXVADecoder			= NULL;
@@ -593,19 +597,13 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nARMode					= 1;
 	m_nDXVACheckCompatibility	= 1; // skip level check by default
 	m_nDXVA_SD					= 0;
-	m_nPosB						= 1;
 	m_sar.SetSize(1,1);
 
-	m_bWaitingForKeyFrame = TRUE;
-
-	m_bTheoraMTSupport = true;
-
-	m_rtPrevStop = 0;
-
-	m_pAlignedFFBuffer		= NULL;
-	m_nAlignedFFBufferSize	= 0;
-
-	m_bFrame_repeat_pict = false;
+	m_bTheoraMTSupport		= true;
+	m_bWaitingForKeyFrame	= TRUE;
+	m_nPosB					= 1;
+	m_bFrame_repeat_pict	= false;
+	m_bIsEVO				= false;
 
 #ifdef REGISTER_FILTER
 	CRegKey key;
@@ -673,8 +671,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 #ifdef _DEBUG
 	// Check codec definition table
-	int		nCodecs	  = countof(ffCodecs);
-	int		nPinTypes = countof(sudPinTypesIn);
+	int nCodecs	  = countof(ffCodecs);
+	int nPinTypes = countof(sudPinTypesIn);
 	ASSERT (nCodecs == nPinTypes);
 	for (int i=0; i<nPinTypes; i++) {
 		ASSERT (ffCodecs[i].clsMinorType == sudPinTypesIn[i].clsMinorType);
@@ -720,30 +718,17 @@ bool CMPCVideoDecFilter::IsVideoInterlaced()
 
 void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop, bool b_repeat_pict)
 {
-	if (m_nCodecId == CODEC_ID_VC1 && b_repeat_pict && m_rtAvrTimePerFrame == 333666) { // Fix for EVO+VC1 Pulldown ... thanks to ffdshow to idea
-		if(rtStart == _I64_MIN) {
-			rtStart	= m_rtLastStart + (AVRTIMEPERFRAME_VC1_EVO / m_dRate) * m_nCountEstimated;
-			m_nCountEstimated++;
-		} else {
-			m_rtLastStart		= rtStart;
-			m_nCountEstimated	= 1;
-		}
-		rtStop	= rtStart + (AVRTIMEPERFRAME_VC1_EVO / m_dRate);
-		return;
-	}
+	REFERENCE_TIME m_rtFrameDuration = (m_nCodecId == CODEC_ID_VC1 && b_repeat_pict && m_rtAvrTimePerFrame == 333666) ? AVRTIMEPERFRAME_VC1_EVO : m_rtAvrTimePerFrame;
 
-	if (rtStart == _I64_MIN) {
-		// If reference time has not been set by splitter, extrapolate start time
-		// from last known start time already delivered
-		rtStart = m_rtLastStart + (m_rtAvrTimePerFrame / m_dRate) * m_nCountEstimated;
+	if ((rtStart == _I64_MIN) || (rtStart <= m_rtPrevStop)) {
+		rtStart = m_rtLastStart + (m_rtFrameDuration / m_dRate) * m_nCountEstimated;
 		m_nCountEstimated++;
 	} else {
-		// Known start time, set as new reference
 		m_rtLastStart		= rtStart;
 		m_nCountEstimated	= 1;
 	}
 
-	rtStop  = rtStart + (m_rtAvrTimePerFrame / m_dRate);
+	rtStop  = rtStart + (m_rtFrameDuration / m_dRate);
 }
 
 void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight)
@@ -1107,21 +1092,24 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 		}
 
 		if (nNewCodec != m_nCodecNb) {
+			m_nCodecNb	= nNewCodec;
+			m_nCodecId	= ffCodecs[nNewCodec].nFFCodec;
 
-			CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
+			CLSID ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
 			if ((ClsidSourceFilter == __uuidof(COggSourceFilter)) || (ClsidSourceFilter == __uuidof(COggSplitterFilter))) {
 				m_bTheoraMTSupport = false;
+			} else if ((ClsidSourceFilter == __uuidof(CMpegSourceFilter)) || (ClsidSourceFilter == __uuidof(CMpegSplitterFilter))) {
+				if (IBaseFilter* mpegsp = GetFilterFromPin(m_pInput->GetConnected())) {
+					m_bIsEVO = (m_nCodecId == CODEC_ID_VC1 && mpeg_ps == (static_cast<CMpegSplitterFilter*>(mpegsp))->GetMPEGType());
+				}
 			}
 
-			m_nCodecNb	= nNewCodec;
-
 			m_bReorderBFrame	= true;
-			m_nCodecId			= ffCodecs[nNewCodec].nFFCodec;
 			m_pAVCodec			= avcodec_find_decoder(m_nCodecId);
 			CheckPointer (m_pAVCodec, VFW_E_UNSUPPORTED_VIDEO);
 
 			m_pAVCtx	= avcodec_alloc_context3(m_pAVCodec);
-			CheckPointer (m_pAVCtx,	  E_POINTER);
+			CheckPointer (m_pAVCtx, E_POINTER);
 
 			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber();
 			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
@@ -1941,43 +1929,18 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	HRESULT			hr;
 	BYTE*			pDataIn;
 	int				nSize;
-	REFERENCE_TIME	rtStart = _I64_MIN;
-	REFERENCE_TIME	rtStop  = _I64_MIN;
+	REFERENCE_TIME	rtStart	= _I64_MIN;
+	REFERENCE_TIME	rtStop	= _I64_MIN;
 
 	if (FAILED(hr = pIn->GetPointer(&pDataIn))) {
 		return hr;
 	}
 
-	nSize		= pIn->GetActualDataLength();
+	nSize = pIn->GetActualDataLength();
 	hr = pIn->GetTime(&rtStart, &rtStop);
-
-	// FIXE THIS PART TO EVO_SUPPORT (insure m_rtAvrTimePerFrame is not estimated if not needed!!)
-	//if (rtStart != _I64_MIN)
-	//{
-	//	// Estimate rtStart/rtStop if not set by parser (EVO support)
-	//	if (m_nCountEstimated > 0)
-	//	{
-	//		m_rtAvrTimePerFrame = (rtStart - m_rtLastStart) / m_nCountEstimated;
-
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 417083);	// 23.97 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 333667);	// 29.97 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 400000);	// 25.00 fps
-	//	}
-	//	m_rtLastStart		= rtStart;
-	//	m_nCountEstimated	= 0;
-	//}
-	//else
-	//{
-	//	m_nCountEstimated++;
-	//	rtStart = rtStop = m_rtLastStart + m_nCountEstimated*m_rtAvrTimePerFrame;
-	//}
 
 	if (FAILED(hr)) {
 		rtStart = rtStop = _I64_MIN;
-	}
-
-	if (rtStop <= rtStart && rtStop != _I64_MIN) {
-		rtStop = rtStart + m_rtAvrTimePerFrame / m_dRate;
 	}
 
 	if (m_nDXVAMode == MODE_SOFTWARE) {

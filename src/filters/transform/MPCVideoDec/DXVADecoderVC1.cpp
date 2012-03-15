@@ -173,24 +173,26 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	DisplayStatus();
 #endif
 
-	// Re-order B frames
+	// Update timestamp & Re-order B frames
 	if (m_bFrame_repeat_pict || m_pFilter->IsReorderBFrame()) {
 		if(m_bFrame_repeat_pict) {
 			m_pFilter->UpdateFrameTime(rtStart, rtStop, !!m_bFrame_repeat_pict);
 		}
-		if (m_PictureParams.bPicBackwardPrediction == 1) {
-			SwapRT (rtStart, m_rtStartDelayed);
-			SwapRT (rtStop,  m_rtStopDelayed);
-		} else {
-			// Save I or P reference time (swap later)
-			if (!m_bFlushed) {
-				if (m_nDelayedSurfaceIndex != -1) {
-					UpdateStore (m_nDelayedSurfaceIndex, m_rtStartDelayed, m_rtStopDelayed);
-				}
-				m_rtStartDelayed = m_rtStopDelayed = _I64_MAX;
+		if(m_pFilter->IsReorderBFrame() || m_pFilter->IsEvo()) {
+			if (m_PictureParams.bPicBackwardPrediction == 1) {
 				SwapRT (rtStart, m_rtStartDelayed);
 				SwapRT (rtStop,  m_rtStopDelayed);
-				m_nDelayedSurfaceIndex	= nSurfaceIndex;
+			} else {
+				// Save I or P reference time (swap later)
+				if (!m_bFlushed) {
+					if (m_nDelayedSurfaceIndex != -1) {
+						UpdateStore (m_nDelayedSurfaceIndex, m_rtStartDelayed, m_rtStopDelayed);
+					}
+					m_rtStartDelayed = m_rtStopDelayed = _I64_MAX;
+					SwapRT (rtStart, m_rtStartDelayed);
+					SwapRT (rtStop,  m_rtStopDelayed);
+					m_nDelayedSurfaceIndex	= nSurfaceIndex;
+				}
 			}
 		}
 	}

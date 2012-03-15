@@ -136,6 +136,8 @@ public:
 
 	STDMETHODIMP SetAlternativeDuration(BOOL nValue);
 	STDMETHODIMP_(BOOL) GetAlternativeDuration();
+
+	STDMETHODIMP_(int) GetMPEGType();
 };
 
 class __declspec(uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3"))

@@ -116,6 +116,7 @@ protected:
 	int										m_nHeight;				// Frame height give to input pin
 
 	bool									m_bTheoraMTSupport;
+	bool									m_bIsEVO;
 
 	// Buffer management for truncated stream (store stream chunks & reference time sent by splitter)
 	BYTE*									m_pFFBuffer;
@@ -269,6 +270,7 @@ public:
 	inline AVFrame*				GetFrame()				{ return m_pFrame; };
 	inline enum CodecID			GetCodec()				{ return m_nCodecId; };
 	inline bool					IsReorderBFrame()		{ return m_bReorderBFrame; };
+	inline bool					IsEvo()					{ return m_bIsEVO; };
 	inline DWORD				GetPCIVendor()			{ return m_nPCIVendor; };
 	inline REFERENCE_TIME		GetAvrTimePerFrame()	{ return m_rtAvrTimePerFrame; };
 	inline double				GetRate()				{ return m_dRate; };
