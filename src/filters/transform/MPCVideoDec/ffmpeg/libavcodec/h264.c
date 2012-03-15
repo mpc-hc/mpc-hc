@@ -2683,8 +2683,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     if (s->context_initialized
         && (   s->width != s->avctx->coded_width || s->height != s->avctx->coded_height
             || s->avctx->bits_per_raw_sample != h->sps.bit_depth_luma
-            || h->cur_chroma_format_idc != h->sps.chroma_format_idc
-            || av_cmp_q(h->sps.sar, s->avctx->sample_aspect_ratio))) {
+            || h->cur_chroma_format_idc != h->sps.chroma_format_idc)) {
         if(h != h0) {
             av_log_missing_feature(s->avctx, "Width/height/bit depth/chroma idc changing with threads is", 0);
             return -1;   // width / height changed during parallelized decoding
@@ -2700,8 +2699,6 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
             return -1;
         }
         avcodec_set_dimensions(s->avctx, s->width, s->height);
-        s->avctx->sample_aspect_ratio= h->sps.sar;
-        av_assert0(s->avctx->sample_aspect_ratio.den);
 
         if(h->sps.video_signal_type_present_flag){
             s->avctx->color_range = h->sps.full_range ? AVCOL_RANGE_JPEG : AVCOL_RANGE_MPEG;
@@ -2804,6 +2801,9 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
                 }
         }
     }
+
+    s->avctx->sample_aspect_ratio= h->sps.sar;
+    av_assert0(s->avctx->sample_aspect_ratio.den);
 
     if(h == h0 && h->dequant_coeff_pps != pps_id){
         h->dequant_coeff_pps = pps_id;

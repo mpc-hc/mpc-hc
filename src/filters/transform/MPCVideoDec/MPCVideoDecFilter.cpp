@@ -720,7 +720,7 @@ void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIM
 {
 	REFERENCE_TIME m_rtFrameDuration = (m_nCodecId == CODEC_ID_VC1 && b_repeat_pict && m_rtAvrTimePerFrame == 333666) ? AVRTIMEPERFRAME_VC1_EVO : m_rtAvrTimePerFrame;
 
-	if ((rtStart == _I64_MIN) || (rtStart <= m_rtPrevStop)) {
+	if ((rtStart == _I64_MIN) || (m_rtPrevStop && (rtStart <= m_rtPrevStop))) {
 		rtStart = m_rtLastStart + (m_rtFrameDuration / m_dRate) * m_nCountEstimated;
 		m_nCountEstimated++;
 	} else {
