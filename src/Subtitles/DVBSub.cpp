@@ -250,10 +250,12 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 						ParsePage(gb, wSegLength, pPage);
 
 						if (pPage->PageState == DPS_ACQUISITION) {
+							UpdateTimeStamp(m_rtStart);
+
 							m_pCurrentPage = pPage;
-							m_pCurrentPage->rtStart = m_rtStart;
+							m_pCurrentPage->rtStart	= m_rtStart;
+							m_pCurrentPage->rtStop	= m_pCurrentPage->rtStart + m_pCurrentPage->PageTimeOut * 1000000;
 							TRACE_DVB ("DVB - Page started  %S\n", ReftimeToString(m_rtStart));
-							m_rtStart = INVALID_TIME;
 						} else {
 							TRACE_DVB ("DVB - Page update\n");
 						}
@@ -273,16 +275,15 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 						break;
 					case DISPLAY :
 						ParseDisplay(gb, wSegLength);
+						TRACE_DVB ("DVB - Display\n");
 						break;
 					case END_OF_DISPLAY :
-						if (m_pCurrentPage != NULL && m_rtStart != INVALID_TIME) {
-							m_pCurrentPage->rtStop = m_rtStart;
+						if (m_pCurrentPage != NULL) {
 							TRACE_DVB ("DVB - End display %S - %S\n", ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
 							m_Pages.AddTail (m_pCurrentPage.Detach());
 						}
 						break;
 					default :
-						//					gb.SkipBytes(wSegLength);
 						break;
 				}
 				nLastPos = gb.GetPos();
@@ -552,6 +553,22 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
 		}
 	}
 
+
+	return hr;
+}
+
+HRESULT CDVBSub::UpdateTimeStamp(REFERENCE_TIME rtStop)
+{
+	HRESULT hr = E_FAIL;
+	POSITION pos = m_Pages.GetHeadPosition();
+	while (pos) {
+		DVB_PAGE* pPage = m_Pages.GetAt (pos);
+		if (pPage->rtStop > rtStop) {
+			pPage->rtStop = rtStop;
+			hr = S_OK;
+		}
+		m_Pages.GetNext(pos);
+	}
 
 	return hr;
 }

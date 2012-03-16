@@ -211,4 +211,6 @@ private:
 	HRESULT				ParseClut(CGolombBuffer& gb, WORD wSegLength);
 	HRESULT				ParseObject(CGolombBuffer& gb, WORD wSegLength);
 
+	HRESULT				UpdateTimeStamp(REFERENCE_TIME rtStop);
+
 };
