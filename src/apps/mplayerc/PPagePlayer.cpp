@@ -186,22 +186,3 @@ void CPPagePlayer::OnUpdatePos(CCmdUI* pCmdUI)
 
 	pCmdUI->Enable( !!m_fKeepHistory );
 }
-
-BOOL CPPagePlayer::OnSetActive()
-{
-	AppSettings& s = AfxGetAppSettings();
-	m_fRememberWindowSize = !!s.fRememberWindowSize;
-	UpdateData(FALSE);
-
-	return __super::OnSetActive();
-}
-
-BOOL CPPagePlayer::OnKillActive()
-{
-	AppSettings& s = AfxGetAppSettings();
-	if (s.fRememberWindowSize) {
-		s.fRememberZoomLevel = false;
-	}
-
-	return __super::OnKillActive();
-}

@@ -223,25 +223,6 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 	return TRUE;    // message was handled
 }
 
-BOOL CPPagePlayback::OnSetActive()
-{
-	AppSettings& s = AfxGetAppSettings();
-	m_iRememberZoomLevel = !!s.fRememberZoomLevel;
-	UpdateData(FALSE);
-
-	return __super::OnSetActive();
-}
-
-BOOL CPPagePlayback::OnKillActive()
-{
-	AppSettings& s = AfxGetAppSettings();
-	if (s.fRememberZoomLevel) {
-		s.fRememberWindowSize = false;
-	}
-
-	return __super::OnKillActive();
-}
-
 void CPPagePlayback::OnCancel()
 {
 	AppSettings& s = AfxGetAppSettings();
