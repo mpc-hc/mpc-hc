@@ -1579,7 +1579,6 @@ void CMPCVideoDecFilter::InitSwscale()
 
 #define RM_SKIP_BITS(n)	(buffer<<=n)
 #define RM_SHOW_BITS(n)	((buffer)>>(32-(n)))
-
 static int rm_fix_timestamp(uint8_t *buf, int64_t timestamp, enum CodecID nCodecId, int64_t *kf_base, int *kf_pts)
 {
     uint8_t *s = buf + 1 + (*buf+1)*8;
@@ -1624,11 +1623,11 @@ static int rm_fix_timestamp(uint8_t *buf, int64_t timestamp, enum CodecID nCodec
 
 static int64_t process_rv_timestamp(RMDemuxContext *rm, enum CodecID nCodecId, uint8_t *buf, int64_t timestamp)
 {
-    if(rm->video_after_seek) {
+	if(rm->video_after_seek) {
 		rm->kf_base = 0;
 		rm->kf_pts = timestamp;
 		rm->video_after_seek = false;
-    }
+	}
 	return rm_fix_timestamp(buf, timestamp, nCodecId, &rm->kf_base, &rm->kf_pts);
 }
 
@@ -1639,8 +1638,16 @@ template<class T> inline T odd2even(T x)
 		   x;
 }
 
-#define FFALIGN(x, a) (((x)+(a)-1)&~((a)-1))
+void copyPlane(BYTE *dstp, stride_t dst_pitch, const BYTE *srcp, stride_t src_pitch, int row_size, int height)
+{
+	for (int y=height; y>0; --y) {
+		memcpy(dstp, srcp, row_size);
+		dstp += dst_pitch;
+		srcp += src_pitch;
+	}
+}
 
+#define FFALIGN(x, a) (((x)+(a)-1)&~((a)-1))
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
 	HRESULT			hr = S_OK;
@@ -1762,6 +1769,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		if (m_pSwsContext != NULL) {
 
 			int outStride = m_pOutSize.cx;
+			BYTE *outData = pDataOut;
 			
 			// From LAVVideo ...
 			// Check if we have proper pixel alignment and the dst memory is actually aligned
@@ -1773,21 +1781,20 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 					m_nAlignedFFBufferSize	= requiredSize;
 					m_pAlignedFFBuffer		= (BYTE*)av_malloc(m_nAlignedFFBufferSize+FF_INPUT_BUFFER_PADDING_SIZE);
 				}
-				pDataOut = m_pAlignedFFBuffer;
+				outData = m_pAlignedFFBuffer;
 			}
 
 			uint8_t*	dst[4] = {NULL, NULL, NULL, NULL};
-			stride_t	srcStride[4] = {m_pFrame->linesize[0], m_pFrame->linesize[1], m_pFrame->linesize[2], m_pFrame->linesize[3]};
 			stride_t	dstStride[4] = {0, 0, 0, 0};
 			const TcspInfo *outcspInfo=csp_getInfo(m_nOutCsp);
 
 			if (m_nOutCsp == FF_CSP_YUY2 || m_nOutCsp == FF_CSP_RGB32) {
-				dst[0] = pDataOut;
+				dst[0] = outData;
 				dstStride[0] = (m_nSwOutBpp>>3) * (outStride);
 			} else {
 				for (int i=0; i<4; i++) {
 					dstStride[i] = outStride >> outcspInfo->shiftX[i];
-					dst[i] = !i ? pDataOut : dst[i-1] + dstStride[i-1] * (m_pOutSize.cy >> outcspInfo->shiftY[i-1]) ;
+					dst[i] = !i ? outData : dst[i-1] + dstStride[i-1] * (m_pOutSize.cy >> outcspInfo->shiftY[i-1]) ;
 				}
 
 				if (m_nOutCsp != FF_CSP_NV12) {
@@ -1795,11 +1802,15 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				}
 			}
 
-			// We crash inside this function
-			// In swscale.c: Function 'simpleCopy'
-			// Line: 1961 - Buffer Overrun
-			// This might be ffmpeg fault or more likely mpchc is not reinitializing ffmpeg correctly during display change (moving mpchc window from display A to display B)
-			sws_scale(m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
+			sws_scale(m_pSwsContext, m_pFrame->data, m_pFrame->linesize, 0, m_pAVCtx->height, dst, dstStride);
+
+			if(outData != pDataOut) {
+				unsigned int rowsize = m_pOutSize.cx*outcspInfo->Bpp;
+				for (unsigned int i=0; i<outcspInfo->numPlanes; i++) {
+					copyPlane(pDataOut, m_pOutSize.cx, dst[i], outStride, rowsize>>outcspInfo->shiftX[i], m_pAVCtx->height>>outcspInfo->shiftY[i]);
+					pDataOut += m_pOutSize.cx * m_pAVCtx->height>>outcspInfo->shiftY[i];
+				}
+			}
 		}
 
 #if defined(_DEBUG) && 0
