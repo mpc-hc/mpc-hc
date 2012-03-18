@@ -275,6 +275,8 @@
     <ClCompile Include="SubtitleDlDlg.cpp" />
     <ClCompile Include="TextPassThruFilter.cpp" />
     <ClCompile Include="TunerScanDlg.cpp" />
+    <ClCompile Include="UpdateChecker.cpp" />
+    <ClCompile Include="UpdateCheckerDlg.cpp" />
     <ClCompile Include="vkCodes.cpp" />
     <ClCompile Include="VMROSD.cpp" />
     <ClCompile Include="VolumeCtrl.cpp" />
@@ -396,6 +398,8 @@
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TunerScanDlg.h" />
     <ClInclude Include="..\..\..\include\Version.h" />
+    <ClInclude Include="UpdateChecker.h" />
+    <ClInclude Include="UpdateCheckerDlg.h" />
     <ClInclude Include="vkCodes.h" />
     <ClInclude Include="VMROSD.h" />
     <ClInclude Include="VolumeCtrl.h" />

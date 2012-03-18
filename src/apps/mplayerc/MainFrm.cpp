@@ -49,6 +49,8 @@
 #include "OpenDirHelper.h"
 #include "SubtitleDlDlg.h"
 #include "ISDb.h"
+#include "UpdateChecker.h"
+#include "UpdateCheckerDlg.h"
 
 #include <mtype.h>
 #include <Mpconfig.h>
@@ -516,6 +518,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_RECENT_FILE_START, ID_RECENT_FILE_END, OnUpdateRecentFile)
 
 	ON_COMMAND(ID_HELP_HOMEPAGE, OnHelpHomepage)
+	ON_COMMAND(ID_HELP_CHECKFORUPDATE, OnHelpCheckForUpdate)
 	//ON_COMMAND(ID_HELP_DOCUMENTATION, OnHelpDocumentation)
 	ON_COMMAND(ID_HELP_TOOLBARIMAGES, OnHelpToolbarImages)
 	ON_COMMAND(ID_HELP_DONATE, OnHelpDonate)
@@ -9271,6 +9274,21 @@ void CMainFrame::OnUpdateFavoritesDevice(CCmdUI* pCmdUI)
 void CMainFrame::OnHelpHomepage()
 {
 	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
+}
+
+UINT CMainFrame::CheckForUpdate(LPVOID pParam)
+{
+	UpdateChecker updateChecker(_T("http://mpc-hc.sourceforge.net/version.txt"));
+	UpdateCheckerDlg dlg(updateChecker.isUpdateAvailable(), updateChecker.getLatestVersion());
+	dlg.DoModal();
+
+	return 0;
+}
+
+
+void CMainFrame::OnHelpCheckForUpdate()
+{
+	AfxBeginThread(CheckForUpdate, NULL);
 }
 
 /*

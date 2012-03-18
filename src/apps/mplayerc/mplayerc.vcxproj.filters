@@ -351,6 +351,12 @@
     <ClCompile Include="EditWithButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UpdateChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateCheckerDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -702,6 +708,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EditWithButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateChecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateCheckerDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
