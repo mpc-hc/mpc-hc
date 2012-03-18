@@ -33,6 +33,7 @@ FIXED  : Ticket #2014, Embedded subtitle overrides "Prefer external"
 FIXED  : Ticket #2047, Apply button under "EVR Sync Settings" can't be clicked
 FIXED  : Ticket #2057, Don't crash with some incomplete .AVI files
 FIXED  : Ticket #2057, MatroskaSplitter does not use properly cropping parameters
+FIXED  : Ticket #2080, Add fallback fonts for MediaInfo tab in case Lucida Console is not available
 FIXED  : Numerous other bugfixes and improvements
 
 

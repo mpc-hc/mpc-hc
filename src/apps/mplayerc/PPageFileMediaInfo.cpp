@@ -126,12 +126,20 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	}
 
 	LOGFONT lf;
-	memset( &lf, 0, sizeof(lf) );
-	lf.lfHeight = 10;
-	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_ROMAN;
-	lstrcpy( lf.lfFaceName, _T("Lucida Console") );
-	m_pCFont->CreateFontIndirect( &lf );
-	m_mediainfo.SetFont( m_pCFont );
+	memset(&lf, 0, sizeof(lf));
+	// Use a negative value to match the character height instead of the cell height.
+	lf.lfHeight = -11;
+	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
+	// The empty string will fallback to the first font that matches the other specified attributes.
+	CString fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };
+	UINT i = 0;
+	BOOL success;
+	do {
+		lstrcpy(lf.lfFaceName, fonts[i]);
+		success = m_pCFont->CreateFontIndirect(&lf);
+		i++;
+	} while (!success && i < countof(fonts));
+	m_mediainfo.SetFont(m_pCFont);
 	m_mediainfo.SetWindowText(MI_Text);
 
 	// subclass the edit control
