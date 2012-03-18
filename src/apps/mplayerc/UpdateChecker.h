@@ -25,7 +25,13 @@
 
 #include <afxwin.h>
 
-#include "Version.h"
+struct Version
+{
+	UINT major;
+	UINT minor;
+	UINT patch;
+	UINT revision;
+};
 
 class UpdateChecker
 {
@@ -38,6 +44,8 @@ public:
 	const Version& getLatestVersion() const { return latestVersion; };
 
 private :
+	static const Version MPC_VERSION;
+
 	CString versionFileURL;
 	Version latestVersion;
 

@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include <Version.h>
-#include "afxwin.h"
+#include <afxwin.h>
 
+#include "UpdateChecker.h"
 
 class UpdateCheckerDlg : public CDialog
 {

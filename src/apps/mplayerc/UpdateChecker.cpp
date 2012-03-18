@@ -22,9 +22,16 @@
 
 
 #include "stdafx.h"
+#include "Version.h"
 #include "UpdateChecker.h"
 
 #include <afxinet.h>
+
+#ifdef NO_VERSION_REV_NEEDED
+const Version UpdateChecker::MPC_VERSION = { MPC_VERSION_MAJOR, MPC_VERSION_MINOR, MPC_VERSION_PATCH, 0 };
+#else
+const Version UpdateChecker::MPC_VERSION = { MPC_VERSION_MAJOR, MPC_VERSION_MINOR, MPC_VERSION_PATCH, MPC_VERSION_REV };
+#endif // NO_VERSION_REV_NEEDED
 
 UpdateChecker::UpdateChecker(CString versionFileURL)
 	: versionFileURL(versionFileURL)
