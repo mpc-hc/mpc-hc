@@ -246,7 +246,7 @@ HRESULT CMpaSplitterFile::Init()
 
 	__int64 startpos_mp3 = m_startpos;
 	while (m_mode == none) {
-		if(!MP3_find && GetPos() >= 2048) {
+		if (!MP3_find && GetPos() >= 2048) {
 			break;
 		}
 		searchlen = min(m_endpos - startpos_mp3, 512);

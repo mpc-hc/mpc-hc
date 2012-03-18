@@ -251,13 +251,13 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 			}
 		}
 	} else {
-		if(subtype == MEDIASUBTYPE_RGB32) 
+		if (subtype == MEDIASUBTYPE_RGB32)
 			str = _T("RGB32");
-		else if(subtype == MEDIASUBTYPE_RGB24) 
+		else if (subtype == MEDIASUBTYPE_RGB24)
 			str = _T("RGB24");
-		else if(subtype == MEDIASUBTYPE_RGB555) 
+		else if (subtype == MEDIASUBTYPE_RGB555)
 			str = _T("RGB555");
-		else if(subtype == MEDIASUBTYPE_RGB565) 
+		else if (subtype == MEDIASUBTYPE_RGB565)
 			str = _T("RGB565");
 	}
 

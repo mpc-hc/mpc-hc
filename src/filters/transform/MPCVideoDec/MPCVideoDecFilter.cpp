@@ -561,7 +561,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
 	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP356|MPCVD_VP8|MPCVD_MJPEG|MPCVD_INDEO|MPCVD_RV|MPCVD_WMV3_DXVA|MPCVD_MPEG2_DXVA;
-	
+
 	m_rtAvrTimePerFrame		= 0;
 	m_rtLastStart			= 0;
 	m_nCountEstimated		= 0;
@@ -1581,49 +1581,49 @@ void CMPCVideoDecFilter::InitSwscale()
 #define RM_SHOW_BITS(n)	((buffer)>>(32-(n)))
 static int rm_fix_timestamp(uint8_t *buf, int64_t timestamp, enum CodecID nCodecId, int64_t *kf_base, int *kf_pts)
 {
-    uint8_t *s = buf + 1 + (*buf+1)*8;
-    uint32_t buffer = (s[0]<<24) + (s[1]<<16) + (s[2]<<8) + s[3];
-    uint32_t kf = timestamp;
-    int pict_type;
-    uint32_t orig_kf;
+	uint8_t *s = buf + 1 + (*buf+1)*8;
+	uint32_t buffer = (s[0]<<24) + (s[1]<<16) + (s[2]<<8) + s[3];
+	uint32_t kf = timestamp;
+	int pict_type;
+	uint32_t orig_kf;
 
-    if(nCodecId == CODEC_ID_RV30) {
-        RM_SKIP_BITS(3);
-        pict_type = RM_SHOW_BITS(2);
-        RM_SKIP_BITS(2 + 7);
-    } else {
-        RM_SKIP_BITS(1);
-        pict_type = RM_SHOW_BITS(2);
-        RM_SKIP_BITS(2 + 7 + 3);
-    }
-    orig_kf = kf = RM_SHOW_BITS(13); // kf= 2*RM_SHOW_BITS(12);
-    if(pict_type <= 1) {
-        // I frame, sync timestamps:
-        *kf_base = (int64_t)timestamp-kf;
-        kf = timestamp;
-    } else {
-        // P/B frame, merge timestamps:
-        int64_t tmp = (int64_t)timestamp - *kf_base;
-        kf |= tmp&(~0x1fff); // combine with packet timestamp
-        if(kf<tmp-4096) {
+	if (nCodecId == CODEC_ID_RV30) {
+		RM_SKIP_BITS(3);
+		pict_type = RM_SHOW_BITS(2);
+		RM_SKIP_BITS(2 + 7);
+	} else {
+		RM_SKIP_BITS(1);
+		pict_type = RM_SHOW_BITS(2);
+		RM_SKIP_BITS(2 + 7 + 3);
+	}
+	orig_kf = kf = RM_SHOW_BITS(13); // kf= 2*RM_SHOW_BITS(12);
+	if (pict_type <= 1) {
+		// I frame, sync timestamps:
+		*kf_base = (int64_t)timestamp-kf;
+		kf = timestamp;
+	} else {
+		// P/B frame, merge timestamps:
+		int64_t tmp = (int64_t)timestamp - *kf_base;
+		kf |= tmp&(~0x1fff); // combine with packet timestamp
+		if (kf<tmp-4096) {
 			kf += 8192;
-		} else if(kf>tmp+4096) { // workaround wrap-around problems
+		} else if (kf>tmp+4096) { // workaround wrap-around problems
 			kf -= 8192;
 		}
-        kf += *kf_base;
-    }
-    if(pict_type != 3) { // P || I  frame -> swap timestamps
-        uint32_t tmp=kf;
-        kf = *kf_pts;
-        *kf_pts = tmp;
-    }
+		kf += *kf_base;
+	}
+	if (pict_type != 3) { // P || I  frame -> swap timestamps
+		uint32_t tmp=kf;
+		kf = *kf_pts;
+		*kf_pts = tmp;
+	}
 
-    return kf;
+	return kf;
 }
 
 static int64_t process_rv_timestamp(RMDemuxContext *rm, enum CodecID nCodecId, uint8_t *buf, int64_t timestamp)
 {
-	if(rm->video_after_seek) {
+	if (rm->video_after_seek) {
 		rm->kf_base = 0;
 		rm->kf_pts = timestamp;
 		rm->video_after_seek = false;
@@ -1730,7 +1730,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			return S_OK;
 		}
 
-		if(!m_bFrame_repeat_pict && m_pFrame->repeat_pict) {
+		if (!m_bFrame_repeat_pict && m_pFrame->repeat_pict) {
 			m_bFrame_repeat_pict = true;
 		}
 
@@ -1770,7 +1770,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 			int outStride = m_pOutSize.cx;
 			BYTE *outData = pDataOut;
-			
+
 			// From LAVVideo ...
 			// Check if we have proper pixel alignment and the dst memory is actually aligned
 			if (FFALIGN(outStride, 16) != outStride || ((uintptr_t)pDataOut % 16u)) {
@@ -1804,7 +1804,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 			sws_scale(m_pSwsContext, m_pFrame->data, m_pFrame->linesize, 0, m_pAVCtx->height, dst, dstStride);
 
-			if(outData != pDataOut) {
+			if (outData != pDataOut) {
 				unsigned int rowsize = m_pOutSize.cx*outcspInfo->Bpp;
 				for (unsigned int i=0; i<outcspInfo->numPlanes; i++) {
 					copyPlane(pDataOut, m_pOutSize.cx, dst[i], outStride, rowsize>>outcspInfo->shiftX[i], m_pAVCtx->height>>outcspInfo->shiftY[i]);
@@ -2177,10 +2177,10 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 	if (SUCCEEDED(hr)) {
 
 		//Intel patch for Ivy Bridge and Sandy Bridge
-		if(m_nPCIVendor == PCIV_Intel){
-			for(UINT iCnt = 0; iCnt < cDecoderGuids; iCnt++) {
-				if(pDecoderGuids[iCnt] == DXVA_Intel_H264_ClearVideo) 
-					bHasIntelGuid = TRUE; 
+		if (m_nPCIVendor == PCIV_Intel) {
+			for (UINT iCnt = 0; iCnt < cDecoderGuids; iCnt++) {
+				if (pDecoderGuids[iCnt] == DXVA_Intel_H264_ClearVideo)
+					bHasIntelGuid = TRUE;
 			}
 		}
 		// Look for the decoder GUIDs we want.
@@ -2198,14 +2198,14 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 			}
 
 			// Patch for the Sandy Bridge (prevent crash on Mode_E, fixme later)
-			if (m_nPCIVendor == PCIV_Intel && pDecoderGuids[iGuid] == DXVA2_ModeH264_E && bHasIntelGuid) {  
-						  continue;
-		}
+			if (m_nPCIVendor == PCIV_Intel && pDecoderGuids[iGuid] == DXVA2_ModeH264_E && bHasIntelGuid) {
+				continue;
+			}
 
 			if (bFoundDXVA2Configuration) {
 				// Found a good configuration. Save the GUID.
 				guidDecoder = pDecoderGuids[iGuid];
-			if (!bHasIntelGuid) break;
+				if (!bHasIntelGuid) break;
 			}
 		}
 	}

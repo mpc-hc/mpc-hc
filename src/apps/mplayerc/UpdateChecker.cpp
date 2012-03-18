@@ -51,7 +51,7 @@ bool UpdateChecker::isUpdateAvailable(const Version& currentVersion)
 		CString latestVersionStr;
 		char buffer[101];
 		UINT br = 0;
-		
+
 		while (br = versionFile->Read(buffer, 50))
 		{
 			buffer[br] = '\0';
@@ -89,7 +89,7 @@ bool UpdateChecker::parseVersion(const CString& versionStr)
 		{
 			if (EOF == _stscanf_s(resToken, _T("%u"), v + i))
 				success = false;
-			
+
 			resToken = versionStr.Tokenize(_T("."), curPos);
 			i++;
 		}
@@ -109,7 +109,7 @@ bool UpdateChecker::parseVersion(const CString& versionStr)
 bool UpdateChecker::isHigherVersion(const Version& v1, const Version& v2) const
 {
 	return (v1.major > v2.major
-		|| (v1.major == v2.major && (v1.minor > v2.minor 
+		|| (v1.major == v2.major && (v1.minor > v2.minor
 									|| (v1.minor == v2.minor && (v1.patch > v2.patch
 																|| (v1.patch == v2.patch && v1.revision > v2.revision))))));
 }

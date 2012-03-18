@@ -175,10 +175,10 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	// Update timestamp & Re-order B frames
 	if (m_bFrame_repeat_pict || m_pFilter->IsReorderBFrame()) {
-		if(m_bFrame_repeat_pict) {
+		if (m_bFrame_repeat_pict) {
 			m_pFilter->UpdateFrameTime(rtStart, rtStop, !!m_bFrame_repeat_pict);
 		}
-		if(m_pFilter->IsReorderBFrame() || m_pFilter->IsEvo()) {
+		if (m_pFilter->IsReorderBFrame() || m_pFilter->IsEvo()) {
 			if (m_PictureParams.bPicBackwardPrediction == 1) {
 				SwapRT (rtStart, m_rtStartDelayed);
 				SwapRT (rtStop,  m_rtStopDelayed);
@@ -224,8 +224,8 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
 	m_PictureParams.bBidirectionalAveragingMode		= (1 << 7) |
-						(GetConfigIntraResidUnsigned()   << 6) |	// i9IRU
-						(GetConfigResidDiffAccelerator() << 5);		// iOHIT
+			(GetConfigIntraResidUnsigned()   << 6) |	// i9IRU
+			(GetConfigResidDiffAccelerator() << 5);		// iOHIT
 }
 
 BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize)
@@ -267,8 +267,8 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
 	} else {
 		if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000) {
-			if(m_pFilter->GetCodec() == CODEC_ID_WMV3) {
-				memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);			
+			if (m_pFilter->GetCodec() == CODEC_ID_WMV3) {
+				memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
 			} else {
 				pDXVABuffer[0]=pDXVABuffer[1]=0;
 				pDXVABuffer[2]=1;

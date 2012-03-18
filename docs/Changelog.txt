@@ -28,7 +28,7 @@ FIXED  : Freeze occurs when madVR leaves exclusive mode
 FIXED  : MPCVideoDec bad playback with VC1 files with pulldown in MPEG-TS
 FIXED  : Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
 FIXED  : Ticket #2007, Prevent a memory leak in FLACSource
-FIXED  : Ticket #2013, bug when saving the ASS/SSA subtitle, the header has incorrect values
+FIXED  : Ticket #2013, Bug when saving the ASS/SSA subtitle, the header has incorrect values
 FIXED  : Ticket #2014, Embedded subtitle overrides "Prefer external"
 FIXED  : Ticket #2047, Apply button under "EVR Sync Settings" can't be clicked
 FIXED  : Ticket #2057, Don't crash with some incomplete .AVI files

@@ -275,7 +275,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			BYTE* extra		= pmp->typeSpecData.GetData();
 			int extralen	= pmp->typeSpecData.GetCount();
 
-			if(extralen > 26) {
+			if (extralen > 26) {
 				extra		+= 26;
 				extralen	-= 26;
 				VIDEOINFOHEADER* pvih2 = (VIDEOINFOHEADER*)mt.ReallocFormatBuffer(sizeof(VIDEOINFOHEADER) + extralen);

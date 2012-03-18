@@ -886,10 +886,10 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 					AP4_Atom::Type type = atom->GetType();
 					DWORD fourcc =
-								((type >> 24) & 0x000000ff) |
-								((type >>  8) & 0x0000ff00) |
-								((type <<  8) & 0x00ff0000) |
-								((type << 24) & 0xff000000);
+						((type >> 24) & 0x000000ff) |
+						((type >>  8) & 0x0000ff00) |
+						((type <<  8) & 0x00ff0000) |
+						((type << 24) & 0xff000000);
 
 					if (AP4_VisualSampleEntry* vse = dynamic_cast<AP4_VisualSampleEntry*>(atom)) {
 
@@ -960,8 +960,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							fourcc = MAKEFOURCC('N','E','L','L');
 							SetTrackName(&TrackName, _T("NellyMoser Audio"));
 						} else if (ase->GetEndian()==1 &&
-								  (type==AP4_ATOM_TYPE_IN24 || type==AP4_ATOM_TYPE_IN32 ||
-								   type==AP4_ATOM_TYPE_FL32 || type==AP4_ATOM_TYPE_FL64)) {
+								   (type==AP4_ATOM_TYPE_IN24 || type==AP4_ATOM_TYPE_IN32 ||
+									type==AP4_ATOM_TYPE_FL32 || type==AP4_ATOM_TYPE_FL64)) {
 							fourcc = type;    //reverse fourcc
 						}
 

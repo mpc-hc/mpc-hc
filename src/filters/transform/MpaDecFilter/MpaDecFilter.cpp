@@ -327,9 +327,9 @@ m_scmap_default[] = {
 },
 
 m_scmap_truehd_51 =
-	{6, { 0, 1, 2, 3, 4, 5,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},
+{6, { 0, 1, 2, 3, 4, 5,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},
 m_scmap_truehd_71 =
-	{8, { 0, 1, 2, 3, 4, 5, 6, 7 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},
+{8, { 0, 1, 2, 3, 4, 5, 6, 7 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},
 
 m_ffmpeg_ac3[] = {
 	//    FL  FR  FC  LFe BL  BR  FLC FRC
@@ -563,8 +563,8 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	}
 
 	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
-	
-	if((subtype == MEDIASUBTYPE_COOK && (S_OK == pIn->IsSyncPoint())) || ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) && ((subtype != MEDIASUBTYPE_COOK) && (subtype != MEDIASUBTYPE_ATRC) && (subtype != MEDIASUBTYPE_SIPR)))) {
+
+	if ((subtype == MEDIASUBTYPE_COOK && (S_OK == pIn->IsSyncPoint())) || ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) && ((subtype != MEDIASUBTYPE_COOK) && (subtype != MEDIASUBTYPE_ATRC) && (subtype != MEDIASUBTYPE_SIPR)))) {
 		m_bResync = true;
 	}
 
@@ -1104,7 +1104,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 	int size = 0;
 	hr = DeliverFFmpeg(nCodecId, p, end-p, size);
 	if (FAILED(hr)) {
-		if(!(nCodecId == CODEC_ID_AAC || nCodecId == CODEC_ID_AAC_LATM)) {
+		if (!(nCodecId == CODEC_ID_AAC || nCodecId == CODEC_ID_AAC_LATM)) {
 			m_buff.RemoveAll();
 			m_bResync = true;
 		}
@@ -2077,14 +2077,14 @@ HRESULT CMpaDecFilter::StartStreaming()
 HRESULT CMpaDecFilter::StopStreaming()
 {
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
-	if(m_a52_state != NULL) {
+	if (m_a52_state != NULL) {
 		a52_free(m_a52_state);
 		m_a52_state = NULL;
 	}
 #endif
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
-	if(m_dts_state != NULL) {
+	if (m_dts_state != NULL) {
 		dts_free(m_dts_state);
 		m_dts_state = NULL;
 	}
@@ -2426,7 +2426,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 	av_init_packet(&avpkt);
 
 	if (m_raData.deint_id == MAKEFOURCC('r','n','e','g') || m_raData.deint_id == MAKEFOURCC('r','p','i','s')) {
-		
+
 		int w		= m_raData.coded_frame_size;
 		int h		= m_raData.sub_packet_h;
 		int sps	= m_raData.sub_packet_size;
@@ -2436,15 +2436,15 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 			tmpProcessBuf = (BYTE *)av_mallocz(len + FF_INPUT_BUFFER_PADDING_SIZE);
 			if (sps > 0 && m_raData.deint_id == MAKEFOURCC('r','n','e','g')) { // COOK and ATRAC codec
 				const BYTE *srcBuf = pDataInBuff;
-				for(int y = 0; y < h; y++) {
-					for(int x = 0, w2 = w / sps; x < w2; x++) {
+				for (int y = 0; y < h; y++) {
+					for (int x = 0, w2 = w / sps; x < w2; x++) {
 						memcpy(tmpProcessBuf + sps*(h*x+((h+1)/2)*(y&1)+(y>>1)), srcBuf, sps);
 						srcBuf += sps;
 					}
 				}
 			} else if (m_raData.deint_id == MAKEFOURCC('r','p','i','s')) { // SIPR codec
 				memcpy(tmpProcessBuf, pDataInBuff, len);
-				
+
 				// http://mplayerhq.hu/pipermail/mplayer-dev-eng/2002-August/010569.html
 				static BYTE sipr_swaps[38][2]= {
 					{0,63},{1,22},{2,44},{3,90},{5,81},{7,31},{8,86},{9,58},{10,36},{12,68},
@@ -2621,10 +2621,10 @@ fail:
 
 bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 {
-	if(nCodecId == CODEC_ID_NONE) {
+	if (nCodecId == CODEC_ID_NONE) {
 		return false;
 	}
-	
+
 	bool bRet = false;
 
 	avcodec_register_all();
@@ -2681,7 +2681,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 
 		memset(&m_raData, 0, sizeof(m_raData));
 
-		if(extralen) {
+		if (extralen) {
 			if (nCodecId == CODEC_ID_COOK || nCodecId == CODEC_ID_ATRAC3 || nCodecId == CODEC_ID_SIPR) {
 				uint8_t *extra = (uint8_t *)av_mallocz(extralen + FF_INPUT_BUFFER_PADDING_SIZE);
 				getExtraData((BYTE *)format, &format_type, formatlen, extra, NULL);
@@ -2692,7 +2692,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 					if (FAILED(hr)) {
 						return false;
 					}
-					if(nCodecId == CODEC_ID_SIPR) {
+					if (nCodecId == CODEC_ID_SIPR) {
 						if (m_raData.flavor > 3) {
 							TRACE(_T("CMpaDecFilter::InitFFmpeg() : Invalid SIPR flavor (%d)"), m_raData.flavor);
 							return false;

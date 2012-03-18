@@ -422,13 +422,13 @@ avcsuccess:
 					if (mts[i].formattype == FORMAT_VideoInfo
 							|| mts[i].formattype == FORMAT_VideoInfo2
 							|| mts[i].formattype == FORMAT_MPEG2Video) {
-						if(pTE->v.PixelWidth && pTE->v.PixelHeight) {
+						if (pTE->v.PixelWidth && pTE->v.PixelHeight) {
 							RECT rect = {pTE->v.VideoPixelCropLeft, pTE->v.VideoPixelCropTop, pTE->v.PixelWidth - pTE->v.VideoPixelCropRight, pTE->v.PixelHeight - pTE->v.VideoPixelCropBottom};
 							VIDEOINFOHEADER *vih = (VIDEOINFOHEADER*)mts[i].Format();
 							vih->rcSource = vih->rcTarget = rect;
 						}
 
-						if(AvgTimePerFrame) {
+						if (AvgTimePerFrame) {
 							((VIDEOINFOHEADER*)mts[i].Format())->AvgTimePerFrame = AvgTimePerFrame;
 						}
 					}

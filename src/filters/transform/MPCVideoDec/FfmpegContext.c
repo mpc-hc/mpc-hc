@@ -640,7 +640,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	pPicParams->bRcontrol	= vc1->rnd;
 
 	pPicParams->bPicDeblocked	= ((vc1->profile == PROFILE_ADVANCED && vc1->overlap == 1 &&
-								    pPicParams->bPicBackwardPrediction == 0)				<< 6) |
+									pPicParams->bPicBackwardPrediction == 0)				<< 6) |
 								  ((vc1->profile != PROFILE_ADVANCED && vc1->rangeredfrm)	<< 5) |
 								  (vc1->s.loop_filter										<< 1);
 

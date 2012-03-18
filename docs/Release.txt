@@ -7,7 +7,8 @@ Here is a quick how-to release a new stable build:
 5) Keep the PDB files of all the filters and MPC-HC builds
 6) Upload the binary packages on SF following the directory and the packages names scheme
    (you can also upload the PDB files too, use 7zip for creating the 7z packages)
-7) Update the webpage with the new download links and history
+7) Update the webpage with the new download links, history and version.txt (in the SF FTP)
+   with the new version number
 
 
 In the next commit, bump the version:

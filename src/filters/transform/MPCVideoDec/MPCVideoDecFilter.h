@@ -67,8 +67,8 @@ typedef struct {
 
 typedef struct {
 	bool	video_after_seek;
-    __int64	kf_base;	///< timestamp of the prev. video keyframe
-    __int32	kf_pts;		///< timestamp of next video keyframe
+	__int64	kf_base;	///< timestamp of the prev. video keyframe
+	__int32	kf_pts;		///< timestamp of next video keyframe
 } RMDemuxContext;
 
 class __declspec(uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4"))

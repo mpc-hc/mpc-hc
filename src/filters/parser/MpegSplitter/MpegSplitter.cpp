@@ -1801,7 +1801,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			}
 			start = next;
 
-			if(!p2) {
+			if (!p2) {
 				continue;
 			}
 

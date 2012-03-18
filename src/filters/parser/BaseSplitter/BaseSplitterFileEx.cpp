@@ -265,13 +265,13 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 		if (h.fdts) {
 			left -= 5;
 		}
-		
-		if(h.extension) { /* PES extension */
+
+		if (h.extension) { /* PES extension */
 			BYTE pes_ext = (BYTE)BitRead(8);
 			left--;
 			BYTE skip = (pes_ext >> 4) & 0xb;
 			skip += skip & 0x9;
-			if (pes_ext & 0x40 || skip > left){
+			if (pes_ext & 0x40 || skip > left) {
 				TRACE(_T("pes_ext %X is invalid\n"), pes_ext);
 				pes_ext = skip = 0;
 			}

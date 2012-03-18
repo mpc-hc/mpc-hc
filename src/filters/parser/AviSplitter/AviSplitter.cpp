@@ -173,7 +173,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			AfxGetApp()->WriteProfileInt(_T("Settings"), _T("HideAviSplitterWarning"), fHideWarning);
 		}
 
-		if(fShowWarningText) {
+		if (fShowWarningText) {
 			hr = E_FAIL;
 		}
 	}

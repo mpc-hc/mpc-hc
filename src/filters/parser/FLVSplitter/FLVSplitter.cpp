@@ -39,7 +39,7 @@
 #define FLV_AUDIO_NELLY   6 // Nellymoser
 // 7 = G.711 A-law logarithmic PCM (reserved)
 // 8 = G.711 mu-law logarithmic PCM (reserved)
-// 9 = reserved 
+// 9 = reserved
 #define FLV_AUDIO_AAC     10 // AAC
 #define FLV_AUDIO_SPEEX   11 // Speex
 // 14 = MP3 8 kHz (reserved)
@@ -795,7 +795,7 @@ void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
 	while (true) {
 		estimPos -= 256 * 1024;
 		if (estimPos < m_DataOffset) estimPos = m_DataOffset;
-		
+
 		bool foundAudio = !hasAudio;
 		bool foundVideo = !hasVideo;
 		__int64 bestPos = estimPos;

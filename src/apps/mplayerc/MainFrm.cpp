@@ -1556,7 +1556,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 	}
 
 	AppSettings& s = AfxGetAppSettings();
-	if(s.iDSVideoRendererType != VIDRNDT_DS_MADVR && s.iDSVideoRendererType != VIDRNDT_DS_DXR) {
+	if (s.iDSVideoRendererType != VIDRNDT_DS_MADVR && s.iDSVideoRendererType != VIDRNDT_DS_DXR) {
 		IDirect3D9* pD3D9 = NULL;
 		DWORD m_nPCIVendor = 0;
 
