@@ -1638,12 +1638,21 @@ template<class T> inline T odd2even(T x)
 		   x;
 }
 
-void copyPlane(BYTE *dstp, stride_t dst_pitch, const BYTE *srcp, stride_t src_pitch, int row_size, int height)
+void copyPlane(BYTE *dstp, stride_t dst_pitch, const BYTE *srcp, stride_t src_pitch, int row_size, int height, bool flip = false)
 {
-	for (int y=height; y>0; --y) {
-		memcpy(dstp, srcp, row_size);
-		dstp += dst_pitch;
-		srcp += src_pitch;
+	if (!flip) {
+		for (int y=height; y>0; --y) {
+			memcpy(dstp, srcp, row_size);
+			dstp += dst_pitch;
+			srcp += src_pitch;
+		}
+	} else {
+		dstp += dst_pitch * (height - 1);
+		for (int y=height; y>0; --y) {
+			memcpy(dstp, srcp, row_size);
+			dstp -= dst_pitch;
+			srcp += src_pitch;
+		}
 	}
 }
 
@@ -1792,12 +1801,12 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				dst[0] = outData;
 				dstStride[0] = (m_nSwOutBpp>>3) * (outStride);
 			} else {
-				for (int i=0; i<4; i++) {
+				for (unsigned int i=0; i<outcspInfo->numPlanes; i++) {
 					dstStride[i] = outStride >> outcspInfo->shiftX[i];
 					dst[i] = !i ? outData : dst[i-1] + dstStride[i-1] * (m_pOutSize.cy >> outcspInfo->shiftY[i-1]) ;
 				}
 
-				if (m_nOutCsp != FF_CSP_NV12) {
+				if (m_nOutCsp & FF_CSP_420P) {
 					std::swap(dst[1], dst[2]);
 				}
 			}
@@ -1805,10 +1814,15 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			sws_scale(m_pSwsContext, m_pFrame->data, m_pFrame->linesize, 0, m_pAVCtx->height, dst, dstStride);
 
 			if (outData != pDataOut) {
-				unsigned int rowsize = m_pOutSize.cx*outcspInfo->Bpp;
+				if (m_nOutCsp & FF_CSP_420P) {
+					std::swap(dst[1], dst[2]);
+				}
+				int rowsize = 0, height = 0;
 				for (unsigned int i=0; i<outcspInfo->numPlanes; i++) {
-					copyPlane(pDataOut, m_pOutSize.cx, dst[i], outStride, rowsize>>outcspInfo->shiftX[i], m_pAVCtx->height>>outcspInfo->shiftY[i]);
-					pDataOut += m_pOutSize.cx * m_pAVCtx->height>>outcspInfo->shiftY[i];
+					rowsize	= (m_pOutSize.cx*outcspInfo->Bpp) >> outcspInfo->shiftX[i];
+					height	= m_pAVCtx->height >> outcspInfo->shiftY[i];
+					copyPlane(pDataOut, rowsize, dst[i], (outStride*outcspInfo->Bpp) >> outcspInfo->shiftX[i], rowsize, height, (m_nOutCsp == FF_CSP_RGB32));
+					pDataOut += rowsize * height;
 				}
 			}
 		}
