@@ -15,7 +15,7 @@ CHANGED: Updated ZenLib to v0.4.25
 CHANGED: Updated VirtualDub to v1.10.2-test5
 CHANGED: New icons for the Windows 7 Taskbar
 CHANGED: Updated Polish, Japanese, Chinese Simplified, Chinese Traditional, Russian,
-         Ukrainian, German and Slovak translations
+         Ukrainian, German, Slovak and French translations
 FIXED  : Long opening of MKV files after using the "mkvclean" utility
 FIXED  : Incorrect detection of interlaced flag on some MPEG2 stream with DXVA decoder,
          fix choppy playback with incorrect frame rate
