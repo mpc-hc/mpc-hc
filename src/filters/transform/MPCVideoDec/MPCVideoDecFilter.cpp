@@ -1547,13 +1547,18 @@ void CMPCVideoDecFilter::InitSwscale()
 		SwsParams params;
 		swsInitParams(&params, SWS_BILINEAR, sws_Flags);
 
-		m_nOutCsp	  = GetCspFromMediaType(m_pOutput->CurrentMediaType().subtype);
+		m_nOutCsp = GetCspFromMediaType(m_pOutput->CurrentMediaType().subtype);
+
+		PixelFormat pix_fmt = csp_ffdshow2lavc(csp_lavc2ffdshow(m_pAVCtx->pix_fmt));
+		if(pix_fmt == PIX_FMT_NB) {
+			pix_fmt = m_pAVCtx->pix_fmt;
+		}
 
 		m_pSwsContext = sws_getCachedContext(
 							NULL,
 							m_pAVCtx->width,
 							m_pAVCtx->height,
-							m_pAVCtx->pix_fmt,
+							pix_fmt,
 							m_pAVCtx->width,
 							m_pAVCtx->height,
 							csp_ffdshow2lavc(m_nOutCsp),
