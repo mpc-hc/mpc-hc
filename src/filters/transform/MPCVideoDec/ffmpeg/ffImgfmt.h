@@ -65,6 +65,10 @@
 #define FF_CSP_GBRP9  (1ULL << 33)  // 0x200000000
 #define FF_CSP_GBRP10 (1ULL << 34)  // 0x400000000
 
+#define FF_CSP_420P9  (1ULL << 35)  // 0x800000000
+#define FF_CSP_422P9  (1ULL << 36)  // 0x1000000000
+#define FF_CSP_444P9  (1ULL << 37)  // 0x2000000000
+
 // Flags
 #define FF_CSP_FLAGS_YUV_JPEG   (1ULL << 59)
 #define FF_CSP_FLAGS_YUV_ORDER  (1ULL << 60) // UV ordered chroma planes (not VU as default)
@@ -72,7 +76,7 @@
 #define FF_CSP_FLAGS_INTERLACED (1ULL << 62)
 #define FF_CSP_FLAGS_VFLIP      (1ULL << 63) // flip mask
 
-#define FF_CSPS_NUM 35
+#define FF_CSPS_NUM 38
 
 #define FF_CSP_UNSUPPORTED      (1ULL<<FF_CSPS_NUM)
 
@@ -144,15 +148,12 @@ static __inline uint64_t csp_lavc2ffdshow(enum PixelFormat pix_fmt)
 {
     switch (pix_fmt) {
         case PIX_FMT_YUV420P :
-            return FF_CSP_420P;
         case PIX_FMT_YUVJ420P:
             return FF_CSP_420P;
         case PIX_FMT_YUV422P :
-            return FF_CSP_422P;
         case PIX_FMT_YUVJ422P:
             return FF_CSP_422P;
         case PIX_FMT_YUV444P :
-            return FF_CSP_444P;
         case PIX_FMT_YUVJ444P:
             return FF_CSP_444P;
         case PIX_FMT_YUV411P :
@@ -192,6 +193,12 @@ static __inline uint64_t csp_lavc2ffdshow(enum PixelFormat pix_fmt)
             return FF_CSP_GBRP9;
         case PIX_FMT_GBRP10  :
             return FF_CSP_GBRP10;
+        case PIX_FMT_YUV420P9:
+            return FF_CSP_420P9;
+        case PIX_FMT_YUV422P9:
+            return FF_CSP_422P9;
+        case PIX_FMT_YUV444P9:
+            return FF_CSP_444P9;
         default              :
             return FF_CSP_NULL;
     }
@@ -247,6 +254,12 @@ static __inline enum PixelFormat csp_ffdshow2lavc(uint64_t pix_fmt)
             return PIX_FMT_GBRP9;
         case FF_CSP_GBRP10:
             return PIX_FMT_GBRP10;
+        case FF_CSP_420P9:
+            return PIX_FMT_YUV420P9;
+        case FF_CSP_422P9:
+            return PIX_FMT_YUV422P9;
+        case FF_CSP_444P9:
+            return PIX_FMT_YUV444P9;
         default         :
             return PIX_FMT_NB;
     }
@@ -275,6 +288,9 @@ static __inline enum PixelFormat csp_ffdshow2lavc(uint64_t pix_fmt)
   FF_CSP_420P10|    \
   FF_CSP_422P10|    \
   FF_CSP_444P10|    \
+  FF_CSP_420P9|     \
+  FF_CSP_422P9|     \
+  FF_CSP_444P9|     \
   FF_CSP_Y800       \
  )
 #define SWS_OUT_CSPS \
@@ -300,6 +316,9 @@ static __inline enum PixelFormat csp_ffdshow2lavc(uint64_t pix_fmt)
   FF_CSP_420P10|     \
   FF_CSP_422P10|     \
   FF_CSP_444P10|     \
+  FF_CSP_420P9|      \
+  FF_CSP_422P9|      \
+  FF_CSP_444P9|      \
   FF_CSP_Y800        \
  )
 
