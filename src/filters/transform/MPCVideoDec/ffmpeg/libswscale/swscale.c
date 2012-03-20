@@ -305,7 +305,9 @@ static av_always_inline void hcscale(SwsContext *c, int16_t *dst1, int16_t *dst2
 #define DEBUG_SWSCALE_BUFFERS 0
 #define DEBUG_BUFFERS(...) if (DEBUG_SWSCALE_BUFFERS) av_log(c, AV_LOG_DEBUG, __VA_ARGS__)
 
-__attribute__((force_align_arg_pointer)) /* ffdshow custom attribute */
+#ifdef __GNUC__
+attribute_align_arg /* ffdshow custom attribute */
+#endif
 static int swScaleMod(SwsContext *c, const uint8_t* src[],
                    int srcStride[], int srcSliceY,
                    int srcSliceH, uint8_t* dst[], int dstStride[], int dstYstart, int dstYend)

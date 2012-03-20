@@ -23,10 +23,7 @@
 static void fill_dxva_slice_long(H264Context *h){
 	MpegEncContext* const	s = &h->s;
 	DXVA_Slice_H264_Long*	pSlice = &((DXVA_Slice_H264_Long*) h->dxva_slice_long)[h->current_slice-1];
-	int						field_pic_flag;
 	unsigned int			i,j,k;
-
-	field_pic_flag = (h->s.picture_structure != PICT_FRAME);
 
 	pSlice->slice_id						= h->current_slice-1;
 	pSlice->first_mb_in_slice				= h->first_mb_in_slice;

@@ -573,6 +573,19 @@ static int decode_cell(Indeo3DecodeContext *ctx, AVCodecContext *avctx,
     /* setup output and reference pointers */
     offset = (cell->ypos << 2) * plane->pitch + (cell->xpos << 2);
     block  =  plane->pixels[ctx->buf_sel] + offset;
+
+    if (cell->mv_ptr) {
+        mv_y      = cell->mv_ptr[0];
+        mv_x      = cell->mv_ptr[1];
+        if (   mv_x + 4*cell->xpos < 0
+            || mv_y + 4*cell->ypos < 0
+            || mv_x + 4*cell->xpos + 4*cell->width  > plane->width
+            || mv_y + 4*cell->ypos + 4*cell->height > plane->height) {
+            av_log(avctx, AV_LOG_ERROR, "motion vector %d %d outside reference\n", mv_x + 4*cell->xpos, mv_y + 4*cell->ypos);
+            return AVERROR_INVALIDDATA;
+        }
+    }
+
     if (!cell->mv_ptr) {
         /* use previous line as reference for INTRA cells */
         ref_block = block - plane->pitch;
@@ -615,7 +628,7 @@ static int decode_cell(Indeo3DecodeContext *ctx, AVCodecContext *avctx,
     /* of the predicted cell in order to avoid overflows. */
     if (vq_index >= 8 && ref_block) {
         for (x = 0; x < cell->width << 2; x++)
-            ref_block[x] = requant_tab[vq_index & 7][ref_block[x]];
+            ref_block[x] = requant_tab[vq_index & 7][ref_block[x] & 127];
     }
 
     error = IV3_NOERR;
@@ -716,6 +729,7 @@ static int parse_bintree(Indeo3DecodeContext *ctx, AVCodecContext *avctx,
 {
     Cell    curr_cell;
     int     bytes_used;
+    int mv_x, mv_y;
 
     if (depth <= 0) {
         av_log(avctx, AV_LOG_ERROR, "Stack overflow (corrupted binary tree)!\n");
@@ -766,6 +780,17 @@ static int parse_bintree(Indeo3DecodeContext *ctx, AVCodecContext *avctx,
                 CHECK_CELL
                 if (!curr_cell.mv_ptr)
                     return AVERROR_INVALIDDATA;
+
+                mv_y = curr_cell.mv_ptr[0];
+                mv_x = curr_cell.mv_ptr[1];
+                if (   mv_x + 4*curr_cell.xpos < 0
+                    || mv_y + 4*curr_cell.ypos < 0
+                    || mv_x + 4*curr_cell.xpos + 4*curr_cell.width  > plane->width
+                    || mv_y + 4*curr_cell.ypos + 4*curr_cell.height > plane->height) {
+                    av_log(avctx, AV_LOG_ERROR, "motion vector %d %d outside reference\n", mv_x + 4*curr_cell.xpos, mv_y + 4*curr_cell.ypos);
+                    return AVERROR_INVALIDDATA;
+                }
+
                 copy_cell(ctx, plane, &curr_cell);
                 return 0;
             }

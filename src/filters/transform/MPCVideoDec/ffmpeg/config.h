@@ -2,50 +2,50 @@
 #define FFMPEG_CONFIG_H
 
 #ifdef __GNUC__
-	#define ARCH_X86 1
-	#define HAVE_INLINE_ASM 1
-	#define HAVE_MMX 1
-	#define HAVE_MMX2 1
-	#define HAVE_AMD3DNOW 1
-	#define HAVE_AMD3DNOWEXT 1
-	#define HAVE_SSE 1
-	#define HAVE_SSSE3 1
+  #define ARCH_X86 1
+  #define HAVE_INLINE_ASM 1
+  #define HAVE_MMX 1
+  #define HAVE_MMX2 1
+  #define HAVE_AMD3DNOW 1
+  #define HAVE_AMD3DNOWEXT 1
+  #define HAVE_SSE 1
+  #define HAVE_SSSE3 1
 
-	#ifdef ARCH_X86_64
-		#define BROKEN_RELOCATIONS 1
-		#define ARCH_X86_32 0
-		#define ARCH_X86_64 1
-		#define HAVE_FAST_64BIT 1
-		#define HAVE_STRUCT_TIMESPEC 1
-		#define HAVE_LOG2 0
-		#define HAVE_LOG2F 0
-	#else
-		#define ARCH_X86_32 1
-		#define ARCH_X86_64 0
-		#define HAVE_FAST_64BIT 0
-		#define HAVE_STRUCT_TIMESPEC 0
-		#define HAVE_LOG2 1
-		#define HAVE_LOG2F 1
-	#endif
+  #ifdef ARCH_X86_64
+    #define BROKEN_RELOCATIONS 1
+    #define ARCH_X86_32 0
+    #define ARCH_X86_64 1
+    #define HAVE_FAST_64BIT 1
+    #define HAVE_STRUCT_TIMESPEC 1
+    #define HAVE_LOG2 0
+    #define HAVE_LOG2F 0
+  #else
+    #define ARCH_X86_32 1
+    #define ARCH_X86_64 0
+    #define HAVE_FAST_64BIT 0
+    #define HAVE_STRUCT_TIMESPEC 0
+    #define HAVE_LOG2 1
+    #define HAVE_LOG2F 1
+  #endif
 
-	#define PTW32_STATIC_LIB 1
-	#define restrict restrict
+  #define PTW32_STATIC_LIB 1
+  #define restrict restrict
 #else
-	#define HAVE_INLINE_ASM 0
-	#define HAVE_MMX 0
-	#define HAVE_MMX2 0
-	#define HAVE_SSE 0
-	#define HAVE_SSSE3 0
-	#define HAVE_AMD3DNOW 0
-	#define HAVE_AMD3DNOWEXT 0
-	#define ARCH_X86 0
-	#define ARCH_X86_32 0
-	#define ARCH_X86_64 0
-	#define HAVE_FAST_64BIT 0
+  #define HAVE_INLINE_ASM 0
+  #define HAVE_MMX 0
+  #define HAVE_MMX2 0
+  #define HAVE_SSE 0
+  #define HAVE_SSSE3 0
+  #define HAVE_AMD3DNOW 0
+  #define HAVE_AMD3DNOWEXT 0
+  #define ARCH_X86 0
+  #define ARCH_X86_32 0
+  #define ARCH_X86_64 0
+  #define HAVE_FAST_64BIT 0
 
-	#define restrict
-	#define __asm__ __asm
-	#define inline __inline
+  #define restrict
+  #define __asm__ __asm
+  #define inline __inline
 #endif
 
 // Use DPRINTF instead of av_log. To be used for debug purpose because DPRINTF will be always called (the
@@ -62,9 +62,9 @@
 
 // MPC custom code for linking with MSVC
 #if defined(__GNUC__) && ARCH_X86_64
-    #define EXTERN_PREFIX ""
+  #define EXTERN_PREFIX ""
 #else
-    #define EXTERN_PREFIX "_"
+  #define EXTERN_PREFIX "_"
 #endif
 #define EXTERN_ASM _
 
@@ -148,36 +148,36 @@
 #define HAVE_YASM 1
 
 #ifdef __GNUC__
-	#define HAVE_ATTRIBUTE_PACKED 1
-	#define HAVE_ATTRIBUTE_MAY_ALIAS 1
+  #define HAVE_ATTRIBUTE_PACKED 1
+  #define HAVE_ATTRIBUTE_MAY_ALIAS 1
 
-	#define HAVE_EXP2 1
-	#define HAVE_EXP2F 1
-	#define HAVE_LLRINT 1
-	#define HAVE_LRINT 1
-	#define HAVE_LRINTF 1
-	#define HAVE_ROUND 1
-	#define HAVE_ROUNDF 1
-	 #define HAVE_TRUNC 1
-	#define HAVE_TRUNCF 1
+  #define HAVE_EXP2 1
+  #define HAVE_EXP2F 1
+  #define HAVE_LLRINT 1
+  #define HAVE_LRINT 1
+  #define HAVE_LRINTF 1
+  #define HAVE_ROUND 1
+  #define HAVE_ROUNDF 1
+  #define HAVE_TRUNC 1
+  #define HAVE_TRUNCF 1
 
 #else
-	#define HAVE_ATTRIBUTE_PACKED 0
-	#define HAVE_ATTRIBUTE_MAY_ALIAS 0
-	#define EMULATE_FAST_INT
+  #define HAVE_ATTRIBUTE_PACKED 0
+  #define HAVE_ATTRIBUTE_MAY_ALIAS 0
+  #define EMULATE_FAST_INT
 
-	#define HAVE_EXP2 1
-	#define HAVE_EXP2F 1
-	#define HAVE_LLRINT 0
-	#define HAVE_LOG2 1
-	#define HAVE_LOG2F 1
-	#define HAVE_LRINT 0
-	#define HAVE_LRINTF 0
-	#define HAVE_ROUND 0
-	#define HAVE_ROUNDF 1
-	#define HAVE_TRUNCF 1
-	#define rint(x) (int)(x+0.5)
-	#define cbrtf(x) pow((float)x, (float)1.0/3)
+  #define HAVE_EXP2 1
+  #define HAVE_EXP2F 1
+  #define HAVE_LLRINT 0
+  #define HAVE_LOG2 1
+  #define HAVE_LOG2F 1
+  #define HAVE_LRINT 0
+  #define HAVE_LRINTF 0
+  #define HAVE_ROUND 0
+  #define HAVE_ROUNDF 1
+  #define HAVE_TRUNCF 1
+  #define rint(x) (int)(x+0.5)
+  #define cbrtf(x) pow((float)x, (float)1.0/3)
 #endif
 
 #define CONFIG_AC3ENC_FLOAT 0
@@ -209,14 +209,12 @@
 
 /* 
 Note: when adding a new codec, you have to:
-1)	Add a
-		#define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>
-		depending on the type of codec you are adding
-2)	Add a
-		REGISTER_<ENCODER|DECODER|PARSER> (<codec suffix>, <codec suffix lowercase>);
-		line to libavcodec/allcodecs.c
-3)	Define the codec into ffcodecs.h :
-		CODEC_OP(CODEC_ID_<codec suffix>, <unique id>, "<codec description">)
+1)  Add a
+    #define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>
+    depending on the type of codec you are adding
+2)  Add a
+    REGISTER_<ENCODER|DECODER|PARSER> (<codec suffix>, <codec suffix lowercase>);
+    line to libavcodec/allcodecs.c
 */
 
 #define CONFIG_AASC_DECODER 0
@@ -390,5 +388,8 @@ Note: when adding a new codec, you have to:
 
 #define CONFIG_VC1_VDPAU_DECODER 0
 #define CONFIG_MPEG_XVMC_DECODER 0
+
+#define CONFIG_CUSTOM_FFDSHOW_H264 1
+#define CONFIG_CUSTOM_FFMPEG_H264 1
 
 #endif /* FFMPEG_CONFIG_H */

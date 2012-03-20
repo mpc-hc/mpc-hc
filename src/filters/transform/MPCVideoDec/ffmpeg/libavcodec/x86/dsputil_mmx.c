@@ -84,6 +84,8 @@ DECLARE_ALIGNED(16, const xmm_reg,  ff_pb_FE ) = {0xFEFEFEFEFEFEFEFEULL, 0xFEFEF
 DECLARE_ALIGNED(16, const double, ff_pd_1)[2] = { 1.0, 1.0 };
 DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
 
+#if ARCH_X86 // ffdshow custom code
+
 #define JUMPALIGN() __asm__ volatile (".p2align 3"::)
 #define MOVQ_ZERO(regd)  __asm__ volatile ("pxor %%" #regd ", %%" #regd ::)
 
@@ -2932,3 +2934,4 @@ const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
         return "VP3 (ff_vp3_idct_mmx)";
     return NULL;
 }
+#endif // ARCH_X86, ffdshow custom code

@@ -128,7 +128,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	LOGFONT lf;
 	memset(&lf, 0, sizeof(lf));
 	// Use a negative value to match the character height instead of the cell height.
-	lf.lfHeight = -11;
+	lf.lfHeight = -10;
 	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
 	// The empty string will fallback to the first font that matches the other specified attributes.
 	CString fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };

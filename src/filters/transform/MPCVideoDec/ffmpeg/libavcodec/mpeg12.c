@@ -2164,9 +2164,10 @@ int ff_mpeg1_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size, 
                 /* ffdshow custom code (i-3 instead of i+1) */
                 /* DVDs won't send the next frame start on still images */
                 /* SEQ_END_CODE will have to stay at the beginning of the next frame */
-                if (avctx->isDVD)
+                if (avctx->isDVD && buf_size != 4) {
+                    av_log(avctx, AV_LOG_ERROR, "state == SEQ_END_CODE i %d buf_size %d",i,buf_size);
                     return i-3;
-                else
+                } else
                 return i+1;
             }
             if (pc->frame_start_found == 2 && state == SEQ_START_CODE)
