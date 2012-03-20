@@ -14915,15 +14915,15 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 			// imianz: quick and dirty trick
 			// Pause->SeekTo->Play (in place of SeekTo only) seems to prevents in most cases
 			// some strange video effects on avi files (ex. locks a while and than running fast).
-			if (!m_fAudioOnly) {
+			if (!m_fAudioOnly && GetMediaState()==State_Running) {
 				SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-			}
-			SeekTo(rtPos);
-			if (!m_fAudioOnly) {
+				SeekTo(rtPos);
 				SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-				// show current position overridden by play command
-				m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
+			} else {
+				SeekTo(rtPos);
 			}
+			// show current position overridden by play command
+			m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
 			break;
 		case CMD_SETAUDIODELAY :
 			rtPos			= _wtol ((LPCWSTR)pCDS->lpData) * 10000;
@@ -15228,26 +15228,22 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
 	}
 
 	if (m_iMediaLoadState == MLS_LOADED) {
-		long			lPosition = 0;
-		REFERENCE_TIME	rtCur;
-		DVD_PLAYBACK_LOCATION2 Location;
+		CStringW strPos;
 
 		if (m_iPlaybackMode == PM_FILE) {
+			REFERENCE_TIME rtCur;
 			pMS->GetCurrentPosition(&rtCur);
-			DVD_HMSF_TIMECODE tcCur = RT2HMSF(rtCur);
-			lPosition = tcCur.bHours*60*60 + tcCur.bMinutes*60 + tcCur.bSeconds;
+			strPos.Format(L"%.3f", rtCur/10000000.0);
 		}
 		else if (m_iPlaybackMode == PM_DVD) {
+			DVD_PLAYBACK_LOCATION2 Location;
 			// get current location while playing disc, will return 0, if at a menu
 			if (pDVDI->GetCurrentLocation(&Location) == S_OK) {
-				lPosition = Location.TimeCode.bHours*60*60 + Location.TimeCode.bMinutes*60 + Location.TimeCode.bSeconds;
+				strPos.Format(L"%u", Location.TimeCode.bHours*60*60 + Location.TimeCode.bMinutes*60 + Location.TimeCode.bSeconds);
 			}
 		}
 
-		CStringW buff;
-		buff.Format (L"%d", lPosition);
-
-		SendAPICommand (fNotifySeek ? CMD_NOTIFYSEEK : CMD_CURRENTPOSITION, buff);
+		SendAPICommand (fNotifySeek ? CMD_NOTIFYSEEK : CMD_CURRENTPOSITION, strPos);
 	}
 }
 
