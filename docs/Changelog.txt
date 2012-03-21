@@ -7,6 +7,8 @@ NEW    : MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
 NEW    : Ticket #552, Add the ability to check if a newer stable version
          is available using Help --> Check for update
 NEW    : Ticket #1738, Support for decoding FLV SWF ADPCM
+NEW    : Ticket #2065, CMD_GETCURRENTPOSITION command gives the position with an accuracy of 1 ms
+         (only for media files, not for DVD-Video)
 NEW    : Ticket #2087, Add some OSD messages when resetting the playback rate
          and changing the zoom level
 CHANGED: Updated libpng to v1.5.9
@@ -36,6 +38,7 @@ FIXED  : Ticket #2047, Apply button under "EVR Sync Settings" can't be clicked
 FIXED  : Ticket #2057, Don't crash with some incomplete .AVI files
 FIXED  : Ticket #2057, MatroskaSplitter does not use properly cropping parameters
 FIXED  : Ticket #2080, Add fallback fonts for MediaInfo tab in case Lucida Console is not available
+FIXED  : Ticket #2064, CMD_SETPOSITION command does not start playback when paused
 FIXED  : Numerous other bugfixes and improvements
 
 
