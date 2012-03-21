@@ -213,15 +213,17 @@ void CFavoriteOrganizeDlg::OnPlayFavorite(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 
-	switch (m_tab.GetCurSel()) {
-		case 0: // Files
-			((CMainFrame*)GetParentFrame())->PlayFavoriteFile(m_sl[0].GetAt((POSITION)m_list.GetItemData(pItemActivate->iItem)));
-			break;
-		case 1: // DVDs
-			((CMainFrame*)GetParentFrame())->PlayFavoriteDVD(m_sl[1].GetAt((POSITION)m_list.GetItemData(pItemActivate->iItem)));
-			break;
-		case 2: // Devices
-			break;
+	if (pItemActivate->iItem >= 0) {
+		switch (m_tab.GetCurSel()) {
+			case 0: // Files
+				((CMainFrame*)GetParentFrame())->PlayFavoriteFile(m_sl[0].GetAt((POSITION)m_list.GetItemData(pItemActivate->iItem)));
+				break;
+			case 1: // DVDs
+				((CMainFrame*)GetParentFrame())->PlayFavoriteDVD(m_sl[1].GetAt((POSITION)m_list.GetItemData(pItemActivate->iItem)));
+				break;
+			case 2: // Devices
+				break;
+		}
 	}
 }
 
