@@ -6719,7 +6719,13 @@ void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoom(UINT nID)
 {
-	ZoomVideoWindow(true, nID == ID_VIEW_ZOOM_50 ? 0.5 : nID == ID_VIEW_ZOOM_200 ? 2.0 : 1.0);
+	double scale = (nID == ID_VIEW_ZOOM_50) ? 0.5 : (nID == ID_VIEW_ZOOM_200) ? 2.0 : 1.0;
+
+	ZoomVideoWindow(true, scale);
+
+	CString strODSMessage;
+	strODSMessage.Format(IDS_OSD_ZOOM, scale * 100);
+	m_OSD.DisplayMessage(OSD_TOPLEFT, strODSMessage, 3000);
 }
 
 void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
@@ -6730,6 +6736,7 @@ void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
 void CMainFrame::OnViewZoomAutoFit()
 {
 	ZoomVideoWindow(true, GetZoomAutoFitScale());
+	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO), 3000);
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
@@ -7718,12 +7725,12 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
 			}
 
 			if (SUCCEEDED(hr)) {
-				CString		strMessage;
 				m_iSpeedLevel = iNewSpeedLevel;
 				m_dSpeedRate = dRate;
-
-				strMessage.Format(ResStr(IDS_OSD_SPEED), (iNewSpeedLevel < 0 && GetPlaybackMode() == PM_DVD) ? -dRate : dRate);
-				m_OSD.DisplayMessage(OSD_TOPRIGHT, strMessage);
+				
+				CString	strODSMessage;
+				strODSMessage.Format(ResStr(IDS_OSD_SPEED), (iNewSpeedLevel < 0 && GetPlaybackMode() == PM_DVD) ? -dRate : dRate);
+				m_OSD.DisplayMessage(OSD_TOPRIGHT, strODSMessage);
 			}
 		}
 
@@ -7779,6 +7786,10 @@ void CMainFrame::OnPlayResetRate()
 	if (SUCCEEDED(hr)) {
 		m_iSpeedLevel = 0;
 		m_dSpeedRate = 1.0;
+
+		CString	strODSMessage;
+		strODSMessage.Format(ResStr(IDS_OSD_SPEED), m_dSpeedRate);
+		m_OSD.DisplayMessage(OSD_TOPRIGHT, strODSMessage);
 	}
 }
 

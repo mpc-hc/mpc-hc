@@ -7,6 +7,8 @@ NEW    : MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
 NEW    : Ticket #552, Add the ability to check if a newer stable version
          is available using Help --> Check for update
 NEW    : Ticket #1738, Support for decoding FLV SWF ADPCM
+NEW    : Ticket #2087, Add some OSD messages when resetting the playback rate
+         and changing the zoom level
 CHANGED: Updated libpng to v1.5.9
 CHANGED: Updated Little CMS to the latest git (25/02/2012)
 CHANGED: Updated libav
