@@ -109,7 +109,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
-	TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame - PictureType = %s, rtStart = %I64d, Surf = %d\n", GetFFMpegPictureType(nSliceType), rtStart, nSurfaceIndex);
+	TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame - PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
 
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
 	m_PictureParams.wDeblockedPictureIndex	= m_PictureParams.wDecodedPictureIndex;

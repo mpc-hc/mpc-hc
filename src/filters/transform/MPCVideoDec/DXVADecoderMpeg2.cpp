@@ -100,7 +100,7 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIM
 
 	UpdatePictureParams(nSurfaceIndex);
 
-	TRACE_MPEG2 ("=> %s   %I64d  Surf=%d\n", GetFFMpegPictureType(nSliceType), rtStart, nSurfaceIndex);
+	TRACE_MPEG2 ("CDXVADecoderVC1::DecodeFrame - PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
 
 	TRACE_MPEG2("CDXVADecoderMpeg2 : Decode frame %i\n", m_PictureParams.bPicScanMethod);
 

@@ -1441,6 +1441,8 @@ static void decode_postinit(H264Context *h, int setup_finished){
         }
     }
 
+    cur->mmco_reset = h->mmco_reset;
+    h->mmco_reset = 0;
     //FIXME do something with unavailable reference frames
 
     /* Sort B-frames into display order */
