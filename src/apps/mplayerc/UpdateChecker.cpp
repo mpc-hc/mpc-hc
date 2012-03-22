@@ -42,39 +42,48 @@ UpdateChecker::~UpdateChecker(void)
 {
 }
 
-bool UpdateChecker::isUpdateAvailable(const Version& currentVersion)
+Update_Status UpdateChecker::isUpdateAvailable(const Version& currentVersion)
 {
-	bool updateAvailable = false;
+	Update_Status updateAvailable = UPDATE_NOT_AVAILABLE;
 
-	CInternetSession internet;
-	CHttpFile* versionFile = (CHttpFile*) internet.OpenURL(versionFileURL,
-														   1,
-														   INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
-														   NULL,
-														   0);
+	try {
+		CInternetSession internet;
+		CHttpFile* versionFile = (CHttpFile*) internet.OpenURL(versionFileURL,
+															   1,
+															   INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
+															   NULL,
+															   0);
 
-	if (versionFile)
-	{
-		CString latestVersionStr;
-		char buffer[101];
-		UINT br = 0;
+		if (versionFile) {
+			CString latestVersionStr;
+			char buffer[101];
+			UINT br = 0;
 
-		while (br = versionFile->Read(buffer, 50))
-		{
-			buffer[br] = '\0';
-			latestVersionStr += buffer;
+			while (br = versionFile->Read(buffer, 50))
+			{
+				buffer[br] = '\0';
+				latestVersionStr += buffer;
+			}
+
+			if (!parseVersion(latestVersionStr)) {
+				updateAvailable = UPDATE_ERROR;
+			} else if (isHigherVersion(latestVersion, currentVersion)) {
+				updateAvailable = UPDATE_AVAILABLE;
+			}
+
+			delete versionFile;
+		} else {
+			updateAvailable = UPDATE_ERROR;
 		}
-
-		if (parseVersion(latestVersionStr) && isHigherVersion(latestVersion, currentVersion))
-			updateAvailable = true;
-
-		delete versionFile;
+	} catch (CInternetException* pEx) {
+		updateAvailable = UPDATE_ERROR;
+		pEx->Delete();
 	}
 
 	return updateAvailable;
 }
 
-bool UpdateChecker::isUpdateAvailable()
+Update_Status UpdateChecker::isUpdateAvailable()
 {
 	return isUpdateAvailable(MPC_VERSION);
 }
@@ -94,14 +103,17 @@ bool UpdateChecker::parseVersion(const CString& versionStr)
 
 		while (!resToken.IsEmpty() && i < _countof(v) && success)
 		{
-			if (EOF == _stscanf_s(resToken, _T("%u"), v + i))
+			if (1 != _stscanf_s(resToken, _T("%u"), v + i)) {
 				success = false;
+			}
 
 			resToken = versionStr.Tokenize(_T("."), curPos);
 			i++;
 		}
 
-		if (success && i == _countof(v))
+		success = success && (i == _countof(v));
+
+		if (success)
 		{
 			latestVersion.major = v[0];
 			latestVersion.minor = v[1];

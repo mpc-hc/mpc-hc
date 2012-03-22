@@ -31,7 +31,7 @@ class UpdateCheckerDlg : public CDialog
 	DECLARE_DYNAMIC(UpdateCheckerDlg)
 
 public:
-	UpdateCheckerDlg(bool updateAvailable, const Version& latestVersion, CWnd* pParent = NULL);
+	UpdateCheckerDlg(Update_Status updateStatus, const Version& latestVersion, CWnd* pParent = NULL);
 	virtual ~UpdateCheckerDlg();
 
 	enum { IDD = IDD_UPDATE_DIALOG };
@@ -43,7 +43,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 private:
-	bool m_updateAvailable;
+	Update_Status m_updateStatus;
 	CString m_text;
 	CStatic m_icon;
 	CButton m_okButton;

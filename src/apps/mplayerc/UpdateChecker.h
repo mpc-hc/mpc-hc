@@ -33,14 +33,21 @@ struct Version
 	UINT revision;
 };
 
+enum Update_Status
+{
+	UPDATE_ERROR = -1,
+	UPDATE_NOT_AVAILABLE,
+	UPDATE_AVAILABLE
+};
+
 class UpdateChecker
 {
 public:
 	UpdateChecker(CString versionFileURL);
 	~UpdateChecker(void);
 
-	bool isUpdateAvailable(const Version& currentVersion);
-	bool isUpdateAvailable();
+	Update_Status isUpdateAvailable(const Version& currentVersion);
+	Update_Status isUpdateAvailable();
 	const Version& getLatestVersion() const { return latestVersion; };
 
 private :
