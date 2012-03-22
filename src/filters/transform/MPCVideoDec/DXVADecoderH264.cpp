@@ -33,6 +33,12 @@ extern "C"
 #include "FfmpegContext.h"
 }
 
+#if 0
+	#define TRACE_H264	TRACE
+#else
+	#define TRACE_H264(...)
+#endif
+
 CDXVADecoderH264::CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
 	: CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
 {
@@ -166,9 +172,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		return S_FALSE;
 	}
 
-#if defined(_DEBUG) && 0
-	TRACE(_T("FFH264DecodeBuffer() : nFramePOC = %d, nOutPOC = %d[%d], rtOutStart = %I64d\n"), nFramePOC, nOutPOC, m_nOutPOC, rtOutStart);
-#endif
+	TRACE_H264("CDXVADecoderH264::DecodeFrame() : nFramePOC = %d, nOutPOC = %d[%d], rtOutStart = %I64d\n", nFramePOC, nOutPOC, m_nOutPOC, rtOutStart);
 
 	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength);
 	while (Nalu.ReadNext()) {
@@ -309,10 +313,9 @@ HRESULT CDXVADecoderH264::DisplayStatus()
 	DXVA_Status_H264 	Status;
 
 	memset (&Status, 0, sizeof(Status));
-
 	CHECK_HR (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
 
-	TRACE ("CDXVADecoderH264 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
+	TRACE_H264 ("CDXVADecoderH264::DisplayStatus() : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
 		   Status.StatusReportFeedbackNumber,
 		   Status.bBufType,
 		   Status.bStatus,

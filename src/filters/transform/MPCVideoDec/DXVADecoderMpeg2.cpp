@@ -30,11 +30,10 @@ extern "C"
 }
 
 #if 0
-#define TRACE_MPEG2		TRACE
+	#define TRACE_MPEG2	TRACE
 #else
-#define TRACE_MPEG2(...)
+	#define TRACE_MPEG2(...)
 #endif
-
 
 CDXVADecoderMpeg2::CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
 	: CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
@@ -100,9 +99,9 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIM
 
 	UpdatePictureParams(nSurfaceIndex);
 
-	TRACE_MPEG2 ("CDXVADecoderVC1::DecodeFrame - PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
+	TRACE_MPEG2 ("CDXVADecoderMpeg2::DecodeFrame() : PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
 
-	TRACE_MPEG2("CDXVADecoderMpeg2 : Decode frame %i\n", m_PictureParams.bPicScanMethod);
+	TRACE_MPEG2 ("CDXVADecoderMpeg2::DecodeFrame() : Decode frame %i\n", m_PictureParams.bPicScanMethod);
 
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
 

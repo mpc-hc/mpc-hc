@@ -31,11 +31,10 @@ extern "C"
 }
 
 #if 0
-#define TRACE_VC1		TRACE
+	#define TRACE_VC1	TRACE
 #else
-#define TRACE_VC1(...)
+	#define TRACE_VC1(...)
 #endif
-
 
 inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
 {
@@ -109,7 +108,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
-	TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame - PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
+	TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame() : PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
 
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
 	m_PictureParams.wDeblockedPictureIndex	= m_PictureParams.wDecodedPictureIndex;
@@ -130,7 +129,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	m_PictureParams.bPicScanMethod++;					// Use for status reporting sections 3.8.1 and 3.8.2
 
-	TRACE_VC1("CDXVADecoderVC1::DecodeFrame - Decode frame %i\n", m_PictureParams.bPicScanMethod);
+	TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame() : Decode frame %i\n", m_PictureParams.bPicScanMethod);
 
 	// Send picture params to accelerator
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
@@ -152,7 +151,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 		CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
-		TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame - PictureType = %s\n", GetFFMpegPictureType(nSliceType));
+		TRACE_VC1 ("CDXVADecoderVC1::DecodeFrame() : PictureType = %d\n", nSliceType);
 
 		CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
 
@@ -224,8 +223,8 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
 	m_PictureParams.bBidirectionalAveragingMode		= (1 << 7) |
-			(GetConfigIntraResidUnsigned()   << 6) |	// i9IRU
-			(GetConfigResidDiffAccelerator() << 5);		// iOHIT
+						(GetConfigIntraResidUnsigned()   << 6) |	// i9IRU
+						(GetConfigResidDiffAccelerator() << 5);		// iOHIT
 }
 
 BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize)
@@ -327,7 +326,7 @@ HRESULT CDXVADecoderVC1::DisplayStatus()
 	if (SUCCEEDED (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)))) {
 		Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;
 
-		TRACE_VC1 ("CDXVADecoderVC1::DisplayStatus - Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
+		TRACE_VC1 ("CDXVADecoderVC1::DisplayStatus() : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
 				   Status.StatusReportFeedbackNumber,
 				   Status.bBufType,
 				   Status.bStatus,
