@@ -5,7 +5,7 @@ NEW    : Support for SIPR and VP30/31
 NEW    : Support WMV3 DXVA
 NEW    : MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
 NEW    : Ticket #552, Add the ability to check if a newer stable version
-         is available using Help --> Check for update
+         is available using Help --> Check for updates
 NEW    : Ticket #1738, Support for decoding FLV SWF ADPCM
 NEW    : Ticket #2065, CMD_GETCURRENTPOSITION command gives the position with an accuracy of 1 ms
          (only for media files, not for DVD-Video)
@@ -19,7 +19,7 @@ CHANGED: Updated ZenLib to v0.4.25
 CHANGED: Updated VirtualDub to v1.10.2-test5
 CHANGED: New icons for the Windows 7 Taskbar
 CHANGED: Updated Polish, Japanese, Chinese Simplified, Chinese Traditional, Russian,
-         Ukrainian, German, Slovak and French translations
+         Ukrainian, German, Slovak, French and Armenian translations
 FIXED  : Long opening of MKV files after using the "mkvclean" utility
 FIXED  : Incorrect detection of interlaced flag on some MPEG2 stream with DXVA decoder,
          fix choppy playback with incorrect frame rate
@@ -37,8 +37,8 @@ FIXED  : Ticket #2014, Embedded subtitle overrides "Prefer external"
 FIXED  : Ticket #2047, Apply button under "EVR Sync Settings" can't be clicked
 FIXED  : Ticket #2057, Don't crash with some incomplete .AVI files
 FIXED  : Ticket #2057, MatroskaSplitter does not use properly cropping parameters
-FIXED  : Ticket #2080, Add fallback fonts for MediaInfo tab in case Lucida Console is not available
 FIXED  : Ticket #2064, CMD_SETPOSITION command does not start playback when paused
+FIXED  : Ticket #2080, Add fallback fonts for MediaInfo tab in case Lucida Console is not available
 FIXED  : Ticket #2088, Fix a crash when double-clicking in the Organize Favorites dialog
          when the favorites list was empty
 FIXED  : Numerous other bugfixes and improvements
