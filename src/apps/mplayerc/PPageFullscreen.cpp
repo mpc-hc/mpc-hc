@@ -275,7 +275,6 @@ void CPPageFullscreen::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	CAtlList<CString> sl1;
 	CMonitors monitors;
-	dispmode dm;
 	CString strModes;
 	switch (pItem->iSubItem) {
 		case COL_SRR:

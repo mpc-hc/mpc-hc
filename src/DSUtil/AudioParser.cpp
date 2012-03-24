@@ -53,7 +53,7 @@ int GetAC3FrameSize(const BYTE *buf)
 int GetMLPFrameSize(const BYTE *buf)
 {
 	DWORD sync = *(DWORD*)(buf+4);
-	if (sync == TRUEHD_SYNC_WORD || sync == TRUEHD_SYNC_WORD) {
+	if (sync == TRUEHD_SYNC_WORD || sync == MLP_SYNC_WORD) {
 		return (((buf[0] << 8) | buf[1]) & 0xfff) * 2;
 	}
 	return 0;

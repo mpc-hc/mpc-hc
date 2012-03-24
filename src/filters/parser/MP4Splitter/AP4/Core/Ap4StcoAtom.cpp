@@ -60,7 +60,6 @@ AP4_StcoAtom::AP4_StcoAtom(AP4_Size size, AP4_ByteStream& stream) :
     m_Entries = DNew AP4_UI32[m_EntryCount];
     for (AP4_Ordinal i=0; i<m_EntryCount; i++) {
         stream.ReadUI32(m_Entries[i]);
-		i = i;
     }
 }
 

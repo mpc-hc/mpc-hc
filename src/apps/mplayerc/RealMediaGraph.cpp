@@ -482,7 +482,7 @@ STDMETHODIMP CRealMediaPlayer::OnInit(RMAAudioFormat* pFormat)
 CRealMediaPlayerWindowed::CRealMediaPlayerWindowed(HWND hWndParent, CRealMediaGraph* pRMG)
 	: CRealMediaPlayer(hWndParent, pRMG)
 {
-	if (!m_wndWindowFrame.CreateEx(WS_EX_NOPARENTNOTIFY, NULL, NULL, WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN|WS_VISIBLE,
+	if (!m_wndWindowFrame.CreateEx(WS_EX_NOPARENTNOTIFY, NULL, NULL, WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN,
 								   CRect(0, 0, 0, 0), CWnd::FromHandle(m_hWndParent), 0, NULL)) {
 		return;
 	}

@@ -363,7 +363,6 @@ HRESULT CNullAudioRenderer::CheckMediaType(const CMediaType* pmt)
 		   || pmt->subtype == MEDIASUBTYPE_SDDS
 		   || pmt->subtype == MEDIASUBTYPE_MPEG1AudioPayload
 		   || pmt->subtype == MEDIASUBTYPE_MPEG1Audio
-		   || pmt->subtype == MEDIASUBTYPE_MPEG1Audio
 		   ? S_OK
 		   : E_FAIL;
 }
