@@ -10,51 +10,51 @@ Legend:
 
 next version - not yet released
 ==============================
-+ : Use ffmpeg for RealVideo/RealAudio decoding
-+ : Support for SIPR and VP30/31
-+ : Support WMV3 DXVA
-+ : MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
-+ : Ticket #552, Add the ability to check if a newer stable version is available
-    using Help --> Check for updates
-+ : Ticket #1738, Support for decoding FLV SWF ADPCM
-+ : Ticket #2065, CMD_GETCURRENTPOSITION command gives the position with an accuracy of 1 ms
-    (only for media files, not for DVD-Video)
-+ : Ticket #2087, Add some OSD messages when resetting the playback rate
-    and changing the zoom level
-* : Updated libpng to v1.5.9
-* : Updated Little CMS to v2.3+ (git 839a5b0 23/03/2012)
-* : Updated libav
-* : Updated MediaInfoLib to v0.7.54
-* : Updated ZenLib to v0.4.25
-* : Updated VirtualDub to v1.10.2-test5
-* : New icons for the Windows 7 Taskbar
-* : Updated Polish, Japanese, Chinese Simplified, Chinese Traditional, Russian, Ukrainian,
-    German, Slovak, French and Armenian translations
-* : Ticket #1652, UI improvements:
-     - "Tearing Test" and "Display stats" menu entries are now disabled
-       if no video is loaded (which means in audio only mode too)
-     - "Organize Favorites" menu entry is disabled if no favorite exists
-     - the filename is not highlighted anymore when opening the properties dialog
-     - double-clicking on the file location will now open the containing folder and select the file.
-! : Long opening of MKV files after using the "mkvclean" utility
-! : Incorrect detection of interlaced flag on some MPEG2 stream with DXVA decoder,
-    fix choppy playback with incorrect frame rate
-! : MPASplitter can't split some .MP3 files
-! : MPC Video Decoder switched to software decode mode, even if only DXVA decoder was
-    selected, but wasn't supported
-! : MPEGSplitter can't load MPEG-TS files with corrupted packet header
-    (incorrect Adaptation Field)
-! : Freeze occurs when madVR leaves exclusive mode
-! : MPCVideoDec bad playback with VC1 files with pulldown in MPEG-TS
-! : Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
-! : Ticket #2007, Prevent a memory leak in FLACSource
-! : Ticket #2013, Bug when saving the ASS/SSA subtitle, the header has incorrect values
-! : Ticket #2014, Embedded subtitle overrides "Prefer external"
-! : Ticket #2047, Apply button under "EVR Sync Settings" can't be clicked
-! : Ticket #2057, Don't crash with some incomplete .AVI files
-! : Ticket #2057, MatroskaSplitter does not use properly cropping parameters
-! : Ticket #2064, CMD_SETPOSITION command does not start playback when paused
-! : Ticket #2080, Add fallback fonts for MediaInfo tab in case Lucida Console is not available
-! : Ticket #2088, Fix a crash when double-clicking in the Organize Favorites dialog
-    when the favorites list was empty
-! : Numerous other bugfixes and improvements
++ Use ffmpeg for RealVideo/RealAudio decoding
++ Support for SIPR and VP30/31
++ Support WMV3 DXVA
++ MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
++ Ticket #552, Add the ability to check if a newer stable version is available
+  using Help --> Check for updates
++ Ticket #1738, Support for decoding FLV SWF ADPCM
++ Ticket #2065, CMD_GETCURRENTPOSITION command gives the position with an accuracy of 1 ms
+  (only for media files, not for DVD-Video)
++ Ticket #2087, Add some OSD messages when resetting the playback rate
+  and changing the zoom level
+* Ticket #1652, UI improvements:
+  - "Tearing Test" and "Display stats" menu entries are now disabled
+    if no video is loaded (which means in audio only mode too)
+  - "Organize Favorites" menu entry is disabled if no favorite exists
+  - the filename is not highlighted anymore when opening the properties dialog
+  - double-clicking on the file location will now open the containing folder and select the file
+* Updated libpng to v1.5.9
+* Updated Little CMS to v2.3+ (git 839a5b0 23/03/2012)
+* Updated libav
+* Updated MediaInfoLib to v0.7.54
+* Updated ZenLib to v0.4.25
+* Updated VirtualDub to v1.10.2-test5
+* New icons for the Windows 7 Taskbar
+* Updated Polish, Japanese, Chinese Simplified, Chinese Traditional, Russian, Ukrainian,
+  German, Slovak, French and Armenian translations
+! Long opening of MKV files after using the "mkvclean" utility
+! Incorrect detection of interlaced flag on some MPEG2 stream with DXVA decoder,
+  fix choppy playback with incorrect frame rate
+! MPASplitter can't split some .MP3 files
+! MPC Video Decoder switched to software decode mode, even if only DXVA decoder was
+  selected, but wasn't supported
+! MPEGSplitter can't load MPEG-TS files with corrupted packet header
+  (incorrect Adaptation Field)
+! Freeze occurs when madVR leaves exclusive mode
+! MPCVideoDec bad playback with VC1 files with pulldown in MPEG-TS
+! Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
+! Ticket #2007, Prevent a memory leak in FLACSource
+! Ticket #2013, Bug when saving the ASS/SSA subtitle, the header has incorrect values
+! Ticket #2014, Embedded subtitle overrides "Prefer external"
+! Ticket #2047, Apply button under "EVR Sync Settings" can't be clicked
+! Ticket #2057, Don't crash with some incomplete .AVI files
+! Ticket #2057, MatroskaSplitter does not use properly cropping parameters
+! Ticket #2064, CMD_SETPOSITION command does not start playback when paused
+! Ticket #2080, Add fallback fonts for MediaInfo tab in case Lucida Console is not available
+! Ticket #2088, Fix a crash when double-clicking in the Organize Favorites dialog
+  when the favorites list was empty
+! Numerous other bugfixes and improvements
