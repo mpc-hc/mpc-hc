@@ -30,7 +30,7 @@ extern "C"
 }
 
 #if 0
-	#define TRACE_MPEG2	TRACE
+	#define TRACE_MPEG2 TRACE
 #else
 	#define TRACE_MPEG2(...)
 #endif

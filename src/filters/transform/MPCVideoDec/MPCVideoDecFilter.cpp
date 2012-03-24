@@ -1550,7 +1550,7 @@ void CMPCVideoDecFilter::InitSwscale()
 		m_nOutCsp = GetCspFromMediaType(m_pOutput->CurrentMediaType().subtype);
 
 		PixelFormat pix_fmt = csp_ffdshow2lavc(csp_lavc2ffdshow(m_pAVCtx->pix_fmt));
-		if(pix_fmt == PIX_FMT_NB) {
+		if (pix_fmt == PIX_FMT_NB) {
 			pix_fmt = m_pAVCtx->pix_fmt;
 		}
 

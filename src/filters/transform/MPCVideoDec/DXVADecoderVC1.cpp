@@ -31,7 +31,7 @@ extern "C"
 }
 
 #if 0
-	#define TRACE_VC1	TRACE
+	#define TRACE_VC1 TRACE
 #else
 	#define TRACE_VC1(...)
 #endif
@@ -223,8 +223,8 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
 	m_PictureParams.bBidirectionalAveragingMode		= (1 << 7) |
-						(GetConfigIntraResidUnsigned()   << 6) |	// i9IRU
-						(GetConfigResidDiffAccelerator() << 5);		// iOHIT
+			(GetConfigIntraResidUnsigned()   << 6) |	// i9IRU
+			(GetConfigResidDiffAccelerator() << 5);		// iOHIT
 }
 
 BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize)

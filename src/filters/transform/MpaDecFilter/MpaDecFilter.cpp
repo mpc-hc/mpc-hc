@@ -1288,9 +1288,9 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
 			uint32_t* q = (uint32_t*)m_buff.GetData();//signed take as an unsigned to shift operations.
 			for (unsigned int i = 0; i < nSamples; i++) {
 				f[i] = (float)(int32_t)(q[i] >> 24 |
-									   (q[i] & 0x00ff0000) >> 8 |
-									   (q[i] & 0x0000ff00) << 8 |
-									    q[i] << 24) / 2147483648;
+										(q[i] & 0x00ff0000) >> 8 |
+										(q[i] & 0x0000ff00) << 8 |
+										q[i] << 24) / 2147483648;
 			}
 		}
 		break;
@@ -1371,8 +1371,8 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
 			uint32_t* vf = (uint32_t*)f;
 			for (unsigned int i = 0; i < nSamples; i++) {
 				vf[i] = q[i] >> 24 |
-					   (q[i] & 0x00ff0000) >> 8 |
-					   (q[i] & 0x0000ff00) << 8 |
+						(q[i] & 0x00ff0000) >> 8 |
+						(q[i] & 0x0000ff00) << 8 |
 						q[i] << 24;
 			}
 		}
@@ -1382,13 +1382,13 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
 			uint64_t x;
 			for (unsigned int i = 0; i < nSamples; i++) {
 				x = q[i] >>56 |
-				   (q[i] & 0x00FF000000000000) >> 40 |
-				   (q[i] & 0x0000FF0000000000) >> 24 |
-				   (q[i] & 0x000000FF00000000) >>  8 |
-				   (q[i] & 0x00000000FF000000) <<  8 |
-				   (q[i] & 0x0000000000FF0000) << 24 |
-				   (q[i] & 0x000000000000FF00) << 40 |
-				    q[i] << 56;
+					(q[i] & 0x00FF000000000000) >> 40 |
+					(q[i] & 0x0000FF0000000000) >> 24 |
+					(q[i] & 0x000000FF00000000) >>  8 |
+					(q[i] & 0x00000000FF000000) <<  8 |
+					(q[i] & 0x0000000000FF0000) << 24 |
+					(q[i] & 0x000000000000FF00) << 40 |
+					q[i] << 56;
 				f[i] = (float)*(double*)&x;
 			}
 		}

@@ -34,7 +34,7 @@ extern "C"
 }
 
 #if 0
-	#define TRACE_H264	TRACE
+	#define TRACE_H264 TRACE
 #else
 	#define TRACE_H264(...)
 #endif
@@ -316,10 +316,10 @@ HRESULT CDXVADecoderH264::DisplayStatus()
 	CHECK_HR (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
 
 	TRACE_H264 ("CDXVADecoderH264::DisplayStatus() : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
-		   Status.StatusReportFeedbackNumber,
-		   Status.bBufType,
-		   Status.bStatus,
-		   Status.wNumMbsAffected);
+				Status.StatusReportFeedbackNumber,
+				Status.bBufType,
+				Status.bStatus,
+				Status.wNumMbsAffected);
 
 	return hr;
 }

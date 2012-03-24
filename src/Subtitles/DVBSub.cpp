@@ -520,7 +520,7 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
 				pClut->Palette[entry_id].Cb	= (BYTE)gb.BitRead(4)<<4;
 				pClut->Palette[entry_id].T	= 0xff-((BYTE)gb.BitRead(2)<<6);
 			}
-			if(!pClut->Palette[entry_id].Y) {
+			if (!pClut->Palette[entry_id].Y) {
 				pClut->Palette[entry_id].Cr = pClut->Palette[entry_id].Cb = 0;
 			}
 
