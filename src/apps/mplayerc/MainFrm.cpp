@@ -5626,13 +5626,13 @@ void CMainFrame::OnFileCloseMedia()
 
 void CMainFrame::OnUpdateViewTearingTest(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable (TRUE);
-	pCmdUI->SetCheck (AfxGetMyApp()->m_Renderers.m_fTearingTest);
+	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+	pCmdUI->SetCheck(AfxGetMyApp()->m_Renderers.m_fTearingTest);
 }
 
 void CMainFrame::OnViewTearingTest()
 {
-	AfxGetMyApp()->m_Renderers.m_fTearingTest = ! AfxGetMyApp()->m_Renderers.m_fTearingTest;
+	AfxGetMyApp()->m_Renderers.m_fTearingTest = !AfxGetMyApp()->m_Renderers.m_fTearingTest;
 }
 
 void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
@@ -5644,8 +5644,8 @@ void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 					  s.iDSVideoRendererType == VIDRNDT_DS_SYNC) &&
 					 r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D;
 
-	pCmdUI->Enable (supported);
-	pCmdUI->SetCheck (supported && (AfxGetMyApp()->m_Renderers.m_fDisplayStats));
+	pCmdUI->Enable(supported && m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
+	pCmdUI->SetCheck(supported && (AfxGetMyApp()->m_Renderers.m_fDisplayStats));
 }
 
 void CMainFrame::OnViewResetStats()
@@ -9094,7 +9094,17 @@ void CMainFrame::OnFavoritesOrganize()
 
 void CMainFrame::OnUpdateFavoritesOrganize(CCmdUI* pCmdUI)
 {
-	// TODO: Add your command update UI handler code here
+	AppSettings& s = AfxGetAppSettings();
+
+	CAtlList<CString> sl;
+	s.GetFav(FAV_FILE, sl);
+	bool enable = !sl.IsEmpty();
+	if (!enable) {
+		s.GetFav(FAV_DVD, sl);
+		enable = !sl.IsEmpty();
+	}
+
+	pCmdUI->Enable(enable);
 }
 
 void CMainFrame::OnRecentFileClear()
