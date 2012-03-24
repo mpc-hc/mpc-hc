@@ -70,7 +70,7 @@ END_MESSAGE_MAP()
 
 BOOL CPPageFileInfoSheet::OnInitDialog()
 {
-	BOOL fRet = __super::OnInitDialog();
+	__super::OnInitDialog();
 
 	m_fn.TrimRight('/');
 	int i = max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
@@ -94,7 +94,9 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 	m_Button_MI.SetFont(GetFont());
 	m_Button_MI.ShowWindow(SW_HIDE);
 
-	return fRet;
+	GetTabControl()->SetFocus();
+
+	return FALSE;  // return TRUE unless you set the focus to a control
 }
 
 void CPPageFileInfoSheet::OnSaveAs()

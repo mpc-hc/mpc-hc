@@ -55,8 +55,20 @@ CPPageFileInfoClip::~CPPageFileInfoClip()
 BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
 {
 	if (pMsg->message == WM_LBUTTONDBLCLK && pMsg->hwnd == m_location.m_hWnd && !m_location_str.IsEmpty()) {
-		ShellExecute(NULL, _T("open"), m_location_str, NULL, NULL, SW_SHOWDEFAULT);
-		return TRUE;
+		HRESULT res = CoInitialize(NULL);
+
+		if (res == S_OK || res == S_FALSE) {
+			PIDLIST_ABSOLUTE pidl = ILCreateFromPath(m_location_str+_T("\\")+m_fn);
+
+			if (pidl) {
+				SHOpenFolderAndSelectItems(pidl, 0, NULL, 0);
+				ILFree(pidl);
+			}
+
+			CoUninitialize();
+
+			return TRUE;
+		}
 	}
 
 	return __super::PreTranslateMessage(pMsg);
