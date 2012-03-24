@@ -620,43 +620,43 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
 	else if (subtype == MEDIASUBTYPE_PCM_NONE ||
 			 subtype == MEDIASUBTYPE_PCM_RAW) {
-		if (m_buff.GetCount() < 480) {
-			return S_OK;
-		}
+//		if (m_buff.GetCount() < 480) {
+//			return S_OK;
+//		}
 		hr = ProcessPCMraw();
 	} else if (subtype == MEDIASUBTYPE_PCM_TWOS) {
-		if (m_buff.GetCount() < 960) {
-			return S_OK;
-		}
+//		if (m_buff.GetCount() < 960) {
+//			return S_OK;
+//		}
 		hr = ProcessPCMintBE();
 	} else if (subtype == MEDIASUBTYPE_PCM_SOWT) {
-		if (m_buff.GetCount() < 960) {
-			return S_OK;
-		}
+//		if (m_buff.GetCount() < 960) {
+//			return S_OK;
+//		}
 		hr = ProcessPCMintLE();
 	} else if (subtype == MEDIASUBTYPE_PCM_IN24 ||
 			   subtype == MEDIASUBTYPE_PCM_IN32) {
-		if (m_buff.GetCount() < 1920) {
-			return S_OK;
-		}
+//		if (m_buff.GetCount() < 1920) {
+//			return S_OK;
+//		}
 		hr = ProcessPCMintBE();
 	} else if (subtype == MEDIASUBTYPE_PCM_IN24_le ||
 			   subtype == MEDIASUBTYPE_PCM_IN32_le) {
-		if (m_buff.GetCount() < 1920) {
-			return S_OK;
-		}
+//		if (m_buff.GetCount() < 1920) {
+//			return S_OK;
+//		}
 		hr = ProcessPCMintLE();
 	} else if (subtype == MEDIASUBTYPE_PCM_FL32 ||
 			   subtype == MEDIASUBTYPE_PCM_FL64) {
-		if (m_buff.GetCount() < 3840) {
-			return S_OK;
-		}
+//		if (m_buff.GetCount() < 3840) {
+//			return S_OK;
+//		}
 		hr = ProcessPCMfloatBE();
 	} else if (subtype == MEDIASUBTYPE_PCM_FL32_le ||
 			   subtype == MEDIASUBTYPE_PCM_FL64_le) {
-		if (m_buff.GetCount() < 3840) {
-			return S_OK;
-		}
+//		if (m_buff.GetCount() < 3840) {
+//			return S_OK;
+//		}
 		hr = ProcessPCMfloatLE();
 	}
 #endif
@@ -1219,7 +1219,7 @@ HRESULT CMpaDecFilter::ProcessDTS()
 HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
 {
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-	int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+	unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount(nSamples);
@@ -1227,16 +1227,16 @@ HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
 
 	switch (wfe->wBitsPerSample) {
 		case 8: { //unsigned 8-bit
-			BYTE* b = m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
-				f[i] = (float)(CHAR)(b[i] - 128) / 128;
+			uint8_t* b = (uint8_t*)m_buff.GetData();
+			for (unsigned int i = 0; i < nSamples; i++) {
+				f[i] = (float)(int8_t)(b[i] + 128) / 128;
 			}
 		}
 		break;
 		case 16: { //signed big-endian 16 bit
-			USHORT* d = (USHORT*)m_buff.GetData();//signed take as an unsigned to shift operations.
-			for (int i = 0; i < nSamples; i++) {
-				f[i] = (float)(SHORT)(d[i] << 8 | d[i] >> 8) / 32768;
+			uint16_t* d = (uint16_t*)m_buff.GetData();//signed take as an unsigned to shift operations.
+			for (unsigned int i = 0; i < nSamples; i++) {
+				f[i] = (float)(int16_t)(d[i] << 8 | d[i] >> 8) / 32768;
 			}
 		}
 		break;
@@ -1254,7 +1254,7 @@ HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
 HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
 {
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-	int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+	unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount(nSamples);
@@ -1262,35 +1262,35 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
 
 	switch (wfe->wBitsPerSample) {
 		case 8: { //signed 8-bit
-			CHAR* b = (CHAR*)m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
+			int8_t* b = (int8_t*)m_buff.GetData();
+			for (unsigned int i = 0; i < nSamples; i++) {
 				f[i] = (float)b[i] / 128;
 			}
 		}
 		break;
 		case 16: { //signed big-endian 16-bit
-			USHORT* d = (USHORT*)m_buff.GetData();//signed take as an unsigned to shift operations.
-			for (int i = 0; i < nSamples; i++) {
-				f[i] = (float)(SHORT)(d[i] << 8 | d[i] >> 8) / 32768;
+			uint16_t* d = (uint16_t*)m_buff.GetData();//signed take as an unsigned to shift operations.
+			for (unsigned int i = 0; i < nSamples; i++) {
+				f[i] = (float)(int16_t)(d[i] << 8 | d[i] >> 8) / 32768;
 			}
 		}
 		break;
 		case 24: { //signed big-endian 24-bit
-			BYTE* b = (BYTE*)m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
-				f[i] = (float)(signed int)((unsigned int)b[3*i] << 24 |
-										   (unsigned int)b[3*i+1] << 16 |
-										   (unsigned int)b[3*i+2] << 8) / 2147483648;
+			uint8_t* b = (uint8_t*)m_buff.GetData();
+			for (unsigned int i = 0; i < nSamples; i++) {
+				f[i] = (float)(int32_t)((uint32_t)b[3*i]   << 24 |
+										(uint32_t)b[3*i+1] << 16 |
+										(uint32_t)b[3*i+2] << 8) / 2147483648;
 			}
 		}
 		break;
 		case 32: { //signed big-endian 32-bit
-			UINT* q = (UINT*)m_buff.GetData();//signed take as an unsigned to shift operations.
-			for (int i = 0; i < nSamples; i++) {
-				f[i] = (float)(INT)(q[i] >> 24 |
-									(q[i] & 0x00ff0000) >> 8 |
-									(q[i] & 0x0000ff00) << 8 |
-									q[i] << 24) / 2147483648;
+			uint32_t* q = (uint32_t*)m_buff.GetData();//signed take as an unsigned to shift operations.
+			for (unsigned int i = 0; i < nSamples; i++) {
+				f[i] = (float)(int32_t)(q[i] >> 24 |
+									   (q[i] & 0x00ff0000) >> 8 |
+									   (q[i] & 0x0000ff00) << 8 |
+									    q[i] << 24) / 2147483648;
 			}
 		}
 		break;
@@ -1308,7 +1308,7 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
 HRESULT CMpaDecFilter::ProcessPCMintLE() //'sowt', little-endian 'in24' and 'in32'
 {
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-	int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+	unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount(nSamples);
@@ -1316,31 +1316,31 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() //'sowt', little-endian 'in24' and 'in3
 
 	switch (wfe->wBitsPerSample) {
 		case 8: { //signed 8-bit
-			CHAR* b = (CHAR*)m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
+			int8_t* b = (int8_t*)m_buff.GetData();
+			for (unsigned int i = 0; i < nSamples; i++) {
 				f[i] = (float)b[i] / 128;
 			}
 		}
 		break;
 		case 16: { //signed little-endian 16-bit
-			SHORT* d = (SHORT*)m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
+			int16_t* d = (int16_t*)m_buff.GetData();
+			for (unsigned int i = 0; i < nSamples; i++) {
 				f[i] = (float)d[i] / 32768;
 			}
 		}
 		break;
 		case 24: { //signed little-endian 32-bit
-			BYTE* b = (BYTE*)m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
-				f[i] = (float)(signed int)((unsigned int)b[3*i] << 8 |
-										   (unsigned int)b[3*i+1] << 16 |
-										   (unsigned int)b[3*i+2] << 24) / 2147483648;
+			uint8_t* b = (uint8_t*)m_buff.GetData();
+			for (unsigned int i = 0; i < nSamples; i++) {
+				f[i] = (float)(int32_t)((uint32_t)b[3*i]   << 8  |
+										(uint32_t)b[3*i+1] << 16 |
+										(uint32_t)b[3*i+2] << 24) / 2147483648;
 			}
 		}
 		break;
 		case 32: { //signed little-endian 32-bit
-			INT* q = (INT*)m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
+			int32_t* q = (int32_t*)m_buff.GetData();
+			for (unsigned int i = 0; i < nSamples; i++) {
 				f[i] = (float)q[i] / 2147483648;
 			}
 		}
@@ -1359,7 +1359,7 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() //'sowt', little-endian 'in24' and 'in3
 HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
 {
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-	int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+	unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount(nSamples);
@@ -1367,28 +1367,28 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
 
 	switch (wfe->wBitsPerSample) {
 		case 32: {
-			unsigned int* q = (unsigned int*)m_buff.GetData();
-			unsigned int* vf = (unsigned int*)f;
-			for (int i = 0; i < nSamples; i++) {
+			uint32_t* q  = (uint32_t*)m_buff.GetData();
+			uint32_t* vf = (uint32_t*)f;
+			for (unsigned int i = 0; i < nSamples; i++) {
 				vf[i] = q[i] >> 24 |
-						(q[i] & 0x00ff0000) >> 8 |
-						(q[i] & 0x0000ff00) << 8 |
+					   (q[i] & 0x00ff0000) >> 8 |
+					   (q[i] & 0x0000ff00) << 8 |
 						q[i] << 24;
 			}
 		}
 		break;
 		case 64: {
-			unsigned __int64* q = (unsigned __int64*)m_buff.GetData();
-			unsigned __int64 x;
-			for (int i = 0; i < nSamples; i++) {
-				x =	q[i] >>56 |
-					(q[i] & 0x00FF000000000000) >> 40 |
-					(q[i] & 0x0000FF0000000000) >> 24 |
-					(q[i] & 0x000000FF00000000) >>  8 |
-					(q[i] & 0x00000000FF000000) <<  8 |
-					(q[i] & 0x0000000000FF0000) << 24 |
-					(q[i] & 0x000000000000FF00) << 40 |
-					q[i] << 56;
+			uint64_t* q = (uint64_t*)m_buff.GetData();
+			uint64_t x;
+			for (unsigned int i = 0; i < nSamples; i++) {
+				x = q[i] >>56 |
+				   (q[i] & 0x00FF000000000000) >> 40 |
+				   (q[i] & 0x0000FF0000000000) >> 24 |
+				   (q[i] & 0x000000FF00000000) >>  8 |
+				   (q[i] & 0x00000000FF000000) <<  8 |
+				   (q[i] & 0x0000000000FF0000) << 24 |
+				   (q[i] & 0x000000000000FF00) << 40 |
+				    q[i] << 56;
 				f[i] = (float)*(double*)&x;
 			}
 		}
@@ -1407,7 +1407,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
 HRESULT CMpaDecFilter::ProcessPCMfloatLE() //little-endian 'fl32' and 'fl64'
 {
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-	int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+	unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount(nSamples);
@@ -1416,14 +1416,12 @@ HRESULT CMpaDecFilter::ProcessPCMfloatLE() //little-endian 'fl32' and 'fl64'
 	switch (wfe->wBitsPerSample) {
 		case 32: {
 			float* q = (float*)m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
-				f[i] = q[i];
-			}
+			memcpy(f, q, nSamples * 4);
 		}
 		break;
 		case 64: {
 			double* q = (double*)m_buff.GetData();
-			for (int i = 0; i < nSamples; i++) {
+			for (unsigned int i = 0; i < nSamples; i++) {
 				f[i] = (float)q[i];
 			}
 		}
