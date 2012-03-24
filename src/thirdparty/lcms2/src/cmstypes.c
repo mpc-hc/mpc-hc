@@ -125,7 +125,7 @@ cmsBool _cmsWriteWCharArray(cmsIOHANDLER* io, cmsUInt32Number n, const wchar_t* 
     cmsUInt32Number i;
 
     _cmsAssert(io != NULL);
-    _cmsAssert(Array != NULL);
+    _cmsAssert(!(Array == NULL && n > 0));
 
     for (i=0; i < n; i++) {
         if (!_cmsWriteUInt16Number(io, (cmsUInt16Number) Array[i])) return FALSE;
@@ -1464,13 +1464,19 @@ void *Type_MLU_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cmsU
 
     // Now read the remaining of tag and fill all strings. Substract the directory
     SizeOfTag   = (LargestPosition * sizeof(wchar_t)) / sizeof(cmsUInt16Number);
+    if (SizeOfTag == 0)
+    {
+        Block = NULL;
+        NumOfWchar = 0;
 
-    Block = (wchar_t*) _cmsMalloc(self ->ContextID, SizeOfTag);
-    if (Block == NULL) goto Error;
-
-    NumOfWchar = SizeOfTag / sizeof(wchar_t);
-
-    if (!_cmsReadWCharArray(io, NumOfWchar, Block)) goto Error;
+    }
+    else
+    {
+        Block = (wchar_t*) _cmsMalloc(self ->ContextID, SizeOfTag);
+        if (Block == NULL) goto Error;
+        NumOfWchar = SizeOfTag / sizeof(wchar_t);
+        if (!_cmsReadWCharArray(io, NumOfWchar, Block)) goto Error;
+    }
 
     mlu ->MemPool  = Block;
     mlu ->PoolSize = SizeOfTag;
@@ -2535,7 +2541,8 @@ cmsBool WriteSetOfCurves(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,
         // If this is a table-based curve, use curve type even on V4
         CurrentType = Type;
 
-        if ((Curves[i] ->nSegments == 0)||((Curves[i]->nSegments == 2) && (Curves[i] ->Segments[1].Type == 0)))
+        if ((Curves[i] ->nSegments == 0)||
+            ((Curves[i]->nSegments == 2) && (Curves[i] ->Segments[1].Type == 0)) )
             CurrentType = cmsSigCurveType;
         else
         if (Curves[i] ->Segments[0].Type < 0)
@@ -3217,28 +3224,32 @@ void *Type_ProfileSequenceDesc_Read(struct _cms_typehandler_struct* self, cmsIOH
         
         cmsPSEQDESC* sec = &OutSeq -> seq[i];
 
-        if (!_cmsReadUInt32Number(io, &sec ->deviceMfg)) return NULL;
-        if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
+        if (!_cmsReadUInt32Number(io, &sec ->deviceMfg)) goto Error;
+        if (SizeOfTag < sizeof(cmsUInt32Number)) goto Error;
         SizeOfTag -= sizeof(cmsUInt32Number);
 
-        if (!_cmsReadUInt32Number(io, &sec ->deviceModel)) return NULL;
-        if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
+        if (!_cmsReadUInt32Number(io, &sec ->deviceModel)) goto Error;
+        if (SizeOfTag < sizeof(cmsUInt32Number)) goto Error;
         SizeOfTag -= sizeof(cmsUInt32Number);
 
-        if (!_cmsReadUInt64Number(io, &sec ->attributes)) return NULL;        
-        if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
+        if (!_cmsReadUInt64Number(io, &sec ->attributes)) goto Error;
+        if (SizeOfTag < sizeof(cmsUInt32Number)) goto Error;
         SizeOfTag -= sizeof(cmsUInt64Number);
 
-        if (!_cmsReadUInt32Number(io, (cmsUInt32Number *)&sec ->technology)) return NULL;
-        if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
+        if (!_cmsReadUInt32Number(io, (cmsUInt32Number *)&sec ->technology)) goto Error;
+        if (SizeOfTag < sizeof(cmsUInt32Number)) goto Error;
         SizeOfTag -= sizeof(cmsUInt32Number);
 
-        if (!ReadEmbeddedText(self, io, &sec ->Manufacturer, SizeOfTag)) return NULL;
-        if (!ReadEmbeddedText(self, io, &sec ->Model, SizeOfTag)) return NULL;
+        if (!ReadEmbeddedText(self, io, &sec ->Manufacturer, SizeOfTag)) goto Error;
+        if (!ReadEmbeddedText(self, io, &sec ->Model, SizeOfTag)) goto Error;
     }
 
     *nItems = 1;
     return OutSeq;
+
+Error:
+    cmsFreeProfileSequenceDescription(OutSeq);
+    return NULL;
 }
 
 

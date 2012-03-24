@@ -61,3 +61,4 @@ Fixed a bug in the named color devicelink generation
 Fixed uint64 to work in systems without long long native type
 Added performance improvements from several contributors, mostly artifex
 Fixed a bug in black preservation checking
+Added black point detection algorithm from Adobe paper

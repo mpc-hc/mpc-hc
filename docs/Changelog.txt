@@ -4,15 +4,15 @@ NEW    : Use ffmpeg for RealVideo/RealAudio decoding
 NEW    : Support for SIPR and VP30/31
 NEW    : Support WMV3 DXVA
 NEW    : MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
-NEW    : Ticket #552, Add the ability to check if a newer stable version
-         is available using Help --> Check for updates
+NEW    : Ticket #552, Add the ability to check if a newer stable version is available
+         using Help --> Check for updates
 NEW    : Ticket #1738, Support for decoding FLV SWF ADPCM
 NEW    : Ticket #2065, CMD_GETCURRENTPOSITION command gives the position with an accuracy of 1 ms
          (only for media files, not for DVD-Video)
 NEW    : Ticket #2087, Add some OSD messages when resetting the playback rate
          and changing the zoom level
 CHANGED: Updated libpng to v1.5.9
-CHANGED: Updated Little CMS to the latest git (25/02/2012)
+CHANGED: Updated Little CMS to v2.3+ (git 839a5b0 23/03/2012)
 CHANGED: Updated libav
 CHANGED: Updated MediaInfoLib to v0.7.54
 CHANGED: Updated ZenLib to v0.4.25

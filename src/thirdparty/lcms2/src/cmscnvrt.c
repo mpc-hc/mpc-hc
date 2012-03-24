@@ -345,7 +345,7 @@ cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[],
             cmsCIEXYZ BlackPointIn, BlackPointOut;
 
             cmsDetectBlackPoint(&BlackPointIn,  hProfiles[i-1], Intent, 0);
-            cmsDetectBlackPoint(&BlackPointOut, hProfiles[i], Intent, 0);
+            cmsDetectDestinationBlackPoint(&BlackPointOut, hProfiles[i], Intent, 0);
 
             // If black points are equal, then do nothing
             if (BlackPointIn.X != BlackPointOut.X ||

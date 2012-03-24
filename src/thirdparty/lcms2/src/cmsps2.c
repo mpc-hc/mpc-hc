@@ -948,7 +948,7 @@ cmsFloat64Number* GetPtrToMatrix(const cmsStage* mpe)
 // Does create CSA based on matrix-shaper. Allowed types are gray and RGB based
 
 static
-    int WriteInputMatrixShaper(cmsIOHANDLER* m, cmsHPROFILE hProfile, cmsStage* Matrix, cmsStage* Shaper)
+int WriteInputMatrixShaper(cmsIOHANDLER* m, cmsHPROFILE hProfile, cmsStage* Matrix, cmsStage* Shaper)
 {
     cmsColorSpaceSignature ColorSpace;    
     int rc;
