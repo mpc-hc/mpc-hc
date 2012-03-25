@@ -68,7 +68,9 @@ void CPPageFileInfoDetails::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT7, m_encoding);
 }
 
+#define SETPAGEFOCUS WM_APP+252 // arbitrary number, can be changed if necessary
 BEGIN_MESSAGE_MAP(CPPageFileInfoDetails, CPropertyPage)
+  ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
 END_MESSAGE_MAP()
 
 // CPPageFileInfoDetails message handlers
@@ -233,6 +235,23 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
+}
+
+BOOL CPPageFileInfoDetails::OnSetActive()
+{
+	BOOL ret = __super::OnSetActive();
+
+	PostMessage(SETPAGEFOCUS, 0, 0L);
+
+	return ret;
+}
+
+LRESULT CPPageFileInfoDetails::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
+{
+	CPropertySheet* psheet = (CPropertySheet*) GetParent();   
+	psheet->GetTabControl()->SetFocus();
+
+	return 0;
 }
 
 void CPPageFileInfoDetails::InitEncoding()

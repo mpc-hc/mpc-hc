@@ -60,6 +60,8 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
+	virtual BOOL OnSetActive();
+	virtual LRESULT OnSetPageFocus(WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()
 

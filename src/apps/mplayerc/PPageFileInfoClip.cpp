@@ -59,7 +59,7 @@ BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
 
 		if (res == S_OK || res == S_FALSE) {
 			PIDLIST_ABSOLUTE pidl;
-			
+
 			CString path = m_location_str;
 			if (path[path.GetLength() - 1] != '\\') {
 				path += _T("\\");
@@ -94,7 +94,9 @@ void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT7, m_desc);
 }
 
+#define SETPAGEFOCUS WM_APP+252 // arbitrary number, can be changed if necessary
 BEGIN_MESSAGE_MAP(CPPageFileInfoClip, CPropertyPage)
+  ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
 END_MESSAGE_MAP()
 
 
@@ -172,4 +174,21 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
+}
+
+BOOL CPPageFileInfoClip::OnSetActive()
+{
+	BOOL ret = __super::OnSetActive();
+
+	PostMessage(SETPAGEFOCUS, 0, 0L);
+
+	return ret;
+}
+
+LRESULT CPPageFileInfoClip::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
+{
+	CPropertySheet* psheet = (CPropertySheet*) GetParent();   
+	psheet->GetTabControl()->SetFocus();
+
+	return 0;
 }
