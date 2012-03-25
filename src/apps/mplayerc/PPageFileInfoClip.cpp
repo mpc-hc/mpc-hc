@@ -58,11 +58,17 @@ BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
 		HRESULT res = CoInitialize(NULL);
 
 		if (res == S_OK || res == S_FALSE) {
-			PIDLIST_ABSOLUTE pidl = ILCreateFromPath(m_location_str+_T("\\")+m_fn);
+			PIDLIST_ABSOLUTE pidl;
+			
+			CString path = m_location_str;
+			if (path[path.GetLength() - 1] != '\\') {
+				path += _T("\\");
+			}
+			path += m_fn;
 
-			if (pidl) {
+			if (SHParseDisplayName(path, NULL, &pidl, 0, NULL) == S_OK) {
 				SHOpenFolderAndSelectItems(pidl, 0, NULL, 0);
-				ILFree(pidl);
+				CoTaskMemFree(pidl);
 			}
 
 			CoUninitialize();
