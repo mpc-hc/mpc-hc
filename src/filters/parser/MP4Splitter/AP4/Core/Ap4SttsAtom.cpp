@@ -55,6 +55,11 @@ AP4_SttsAtom::AP4_SttsAtom(AP4_Size size, AP4_ByteStream& stream) :
         AP4_UI32 sample_duration;
         if (stream.ReadUI32(sample_count)    == AP4_SUCCESS &&
             stream.ReadUI32(sample_duration) == AP4_SUCCESS) {
+// mpc-hc custom code start
+            if((int)sample_duration < 0) {
+                sample_duration = 0;
+            }
+// mpc-hc custom code end
             m_Entries.Append(AP4_SttsTableEntry(sample_count,
                                                 sample_duration));
         }
@@ -76,7 +81,7 @@ AP4_SttsAtom::GetDts(AP4_Ordinal sample, AP4_TimeStamp& dts, AP4_Duration& durat
         // check if we have the correct entry 
         if (sample_count_in_entry <= entry.m_SampleCount) {
             dts += (sample_count_in_entry - 1) * entry.m_SampleDuration;
-			duration = entry.m_SampleDuration;
+            duration = entry.m_SampleDuration;
             return AP4_SUCCESS;
         } else {
             dts += entry.m_SampleCount * entry.m_SampleDuration;

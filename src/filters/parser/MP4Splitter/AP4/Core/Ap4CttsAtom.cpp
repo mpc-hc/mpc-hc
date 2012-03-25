@@ -47,6 +47,11 @@ AP4_CttsAtom::AP4_CttsAtom(AP4_Size size, AP4_ByteStream& stream) :
         AP4_UI32 sample_offset;
         if (stream.ReadUI32(sample_count)  == AP4_SUCCESS &&
             stream.ReadUI32(sample_offset) == AP4_SUCCESS) {
+// mpc-hc custom code start
+            if((int)sample_offset < 0) {
+                sample_offset = 0;
+            }
+// mpc-hc custom code end
             m_Entries.Append(AP4_CttsTableEntry(sample_count,
                                                 sample_offset));
         }
