@@ -70,7 +70,7 @@ void CPPageFileInfoDetails::DoDataExchange(CDataExchange* pDX)
 
 #define SETPAGEFOCUS WM_APP+252 // arbitrary number, can be changed if necessary
 BEGIN_MESSAGE_MAP(CPPageFileInfoDetails, CPropertyPage)
-  ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
+	ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
 END_MESSAGE_MAP()
 
 // CPPageFileInfoDetails message handlers
@@ -248,7 +248,7 @@ BOOL CPPageFileInfoDetails::OnSetActive()
 
 LRESULT CPPageFileInfoDetails::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
 {
-	CPropertySheet* psheet = (CPropertySheet*) GetParent();   
+	CPropertySheet* psheet = (CPropertySheet*) GetParent();
 	psheet->GetTabControl()->SetFocus();
 
 	return 0;
