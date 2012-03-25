@@ -2,20 +2,20 @@
  * Microsoft RLE decoder
  * Copyright (C) 2008 Konstantin Shishkov
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -140,7 +140,7 @@ static int msrle_decode_8_16_24_32(AVCodecContext *avctx, AVPicture *pic, int de
 
     output     = pic->data[0] + (avctx->height - 1) * pic->linesize[0];
     output_end = pic->data[0] +  avctx->height      * pic->linesize[0];
-    while(src < data + srcsize) {
+    while(src + 1 < data + srcsize) {
         p1 = *src++;
         if(p1 == 0) { //Escape code
             p2 = *src++;
@@ -171,6 +171,10 @@ static int msrle_decode_8_16_24_32(AVCodecContext *avctx, AVPicture *pic, int de
               ||(pic->linesize[0] < 0 && output + p2 * (depth >> 3) < output_end)) {
                 src += p2 * (depth >> 3);
                 continue;
+            }
+            if(data + srcsize - src < p2 * (depth >> 3)){
+                av_log(avctx, AV_LOG_ERROR, "Copy beyond input buffer\n");
+                return -1;
             }
             if ((depth == 8) || (depth == 24)) {
                 for(i = 0; i < p2 * (depth >> 3); i++) {

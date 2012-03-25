@@ -3,20 +3,20 @@
  * Copyright (c) 2000,2001 Fabrice Bellard
  * Copyright (c) 2002-2004 Michael Niedermayer
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -304,6 +304,23 @@ static int rv20_decode_picture_header(RVDecContext *rv)
     int seq, mb_pos, i;
     int rpr_bits;
 
+#if 0
+    GetBitContext gb= s->gb;
+    for(i=0; i<64; i++){
+        av_log(s->avctx, AV_LOG_DEBUG, "%d", get_bits1(&gb));
+        if(i%4==3) av_log(s->avctx, AV_LOG_DEBUG, " ");
+    }
+    av_log(s->avctx, AV_LOG_DEBUG, "\n");
+#endif
+#if 0
+    av_log(s->avctx, AV_LOG_DEBUG, "%3dx%03d/%02Xx%02X ", s->width, s->height, s->width/4, s->height/4);
+    for(i=0; i<s->avctx->extradata_size; i++){
+        av_log(s->avctx, AV_LOG_DEBUG, "%02X ", ((uint8_t*)s->avctx->extradata)[i]);
+        if(i%4==3) av_log(s->avctx, AV_LOG_DEBUG, " ");
+    }
+    av_log(s->avctx, AV_LOG_DEBUG, "\n");
+#endif
+
     i= get_bits(&s->gb, 2);
     switch(i){
     case 0: s->pict_type= AV_PICTURE_TYPE_I; break;
@@ -439,7 +456,6 @@ static av_cold int rv10_decode_init(AVCodecContext *avctx)
     s->avctx= avctx;
     s->out_format = FMT_H263;
     s->codec_id= avctx->codec_id;
-    avctx->flags |= CODEC_FLAG_EMU_EDGE;
 
     s->orig_width = s->width  = avctx->coded_width;
     s->orig_height= s->height = avctx->coded_height;
@@ -547,6 +563,7 @@ static int rv10_decode_packet(AVCodecContext *avctx,
             return -1;
         }
     }
+
 
     av_dlog(avctx, "qscale=%d\n", s->qscale);
 
@@ -656,7 +673,6 @@ static int rv10_decode_frame(AVCodecContext *avctx,
     const uint8_t *slices_hdr = NULL;
 
     av_dlog(avctx, "*****frame %d size=%d\n", avctx->frame_number, buf_size);
-    // FFmpeg patch
     s->flags  = avctx->flags;
     s->flags2 = avctx->flags2;
 

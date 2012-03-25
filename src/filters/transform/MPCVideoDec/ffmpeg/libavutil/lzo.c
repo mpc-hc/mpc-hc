@@ -2,20 +2,20 @@
  * LZO 1x decompression
  * Copyright (c) 2006 Reimar Doeffinger
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -112,7 +112,7 @@ static inline void memcpy_backptr(uint8_t *dst, int back, int cnt);
 
 /**
  * @brief Copies previously decoded bytes to current position.
- * @param back how many bytes back we start
+ * @param back how many bytes back we start, must be > 0
  * @param cnt number of bytes to copy, must be >= 0
  *
  * cnt > back is valid, this will copy the bytes we just copied,
@@ -135,7 +135,7 @@ static inline void copy_backptr(LZOContext *c, int back, int cnt) {
 
 static inline void memcpy_backptr(uint8_t *dst, int back, int cnt) {
     const uint8_t *src = &dst[-back];
-    if (back == 1) {
+    if (back <= 1) {
         memset(dst, *src, cnt);
     } else {
 #ifdef OUTBUF_PADDED
@@ -175,11 +175,11 @@ int av_lzo1x_decode(void *out, int *outlen, const void *in, int *inlen) {
     int state= 0;
     int x;
     LZOContext c;
-    if (!*outlen || !*inlen) {
+    if (*outlen <= 0 || *inlen <= 0) {
         int res = 0;
-        if (!*outlen)
+        if (*outlen <= 0)
             res |= AV_LZO_OUTPUT_FULL;
-        if (!*inlen)
+        if (*inlen <= 0)
             res |= AV_LZO_INPUT_DEPLETED;
         return res;
     }

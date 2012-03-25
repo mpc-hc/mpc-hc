@@ -251,6 +251,12 @@ int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
     if (nb_components <= 0 ||
         nb_components > MAX_COMPONENTS)
         return -1;
+    if (s->interlaced && (s->bottom_field == !s->interlace_polarity)) {
+        if (nb_components != s->nb_components) {
+            av_log(s->avctx, AV_LOG_ERROR, "nb_components changing in interlaced picture\n");
+            return AVERROR_INVALIDDATA;
+        }
+    }
     if (s->ls && !(s->bits <= 8 || nb_components == 1)) {
         av_log(s->avctx, AV_LOG_ERROR,
                "only <= 8 bits/component or 16-bit gray accepted for JPEG-LS\n");
@@ -1162,6 +1168,8 @@ int ff_mjpeg_decode_sos(MJpegDecodeContext *s, const uint8_t *mb_bitmask,
 
         if(nb_components == 3 && s->nb_components == 3 && s->avctx->pix_fmt == PIX_FMT_GBR24P)
             index = (i+2)%3;
+        if(nb_components == 1 && s->nb_components == 3 && s->avctx->pix_fmt == PIX_FMT_GBR24P)
+            index = (index+2)%3;
 
         s->comp_index[i] = index;
 

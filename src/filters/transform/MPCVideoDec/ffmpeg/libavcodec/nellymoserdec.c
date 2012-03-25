@@ -154,6 +154,7 @@ static int decode_tag(AVCodecContext *avctx, void *data,
                       int *got_frame_ptr, AVPacket *avpkt)
 {
     const uint8_t *buf = avpkt->data;
+    const uint8_t *side=av_packet_get_side_data(avpkt, 'F', NULL);
     int buf_size = avpkt->size;
     NellyMoserDecodeContext *s = avctx->priv_data;
     int blocks, i, ret;
@@ -161,10 +162,12 @@ static int decode_tag(AVCodecContext *avctx, void *data,
     float   *samples_flt;
 
     blocks     = buf_size / NELLY_BLOCK_LEN;
+
     if (blocks <= 0) {
         av_log(avctx, AV_LOG_ERROR, "Packet is too small\n");
         return AVERROR_INVALIDDATA;
     }
+
     if (buf_size % NELLY_BLOCK_LEN) {
         av_log(avctx, AV_LOG_WARNING, "Leftover bytes: %d.\n",
                buf_size % NELLY_BLOCK_LEN);
@@ -176,6 +179,8 @@ static int decode_tag(AVCodecContext *avctx, void *data,
      * 22050 Hz - 4
      * 44100 Hz - 8
      */
+    if(side && blocks>1 && avctx->sample_rate%11025==0 && (1<<((side[0]>>2)&3)) == blocks)
+        avctx->sample_rate= 11025*(blocks/2);
 
     /* get output buffer */
     s->frame.nb_samples = NELLY_SAMPLES * blocks;

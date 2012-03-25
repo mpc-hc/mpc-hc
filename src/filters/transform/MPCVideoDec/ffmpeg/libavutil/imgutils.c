@@ -1,18 +1,18 @@
 /*
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -44,24 +44,41 @@ void av_image_fill_max_pixsteps(int max_pixsteps[4], int max_pixstep_comps[4],
     }
 }
 
+static inline
+int image_get_linesize(int width, int plane,
+                       int max_step, int max_step_comp,
+                       const AVPixFmtDescriptor *desc)
+{
+    int s, shifted_w, linesize;
+
+    if (width < 0)
+        return AVERROR(EINVAL);
+    s = (max_step_comp == 1 || max_step_comp == 2) ? desc->log2_chroma_w : 0;
+    shifted_w = ((width + (1 << s) - 1)) >> s;
+    if (shifted_w && max_step > INT_MAX / shifted_w)
+        return AVERROR(EINVAL);
+    linesize = max_step * shifted_w;
+    if (desc->flags & PIX_FMT_BITSTREAM)
+        linesize = (linesize + 7) >> 3;
+    return linesize;
+}
+
 int av_image_get_linesize(enum PixelFormat pix_fmt, int width, int plane)
 {
     const AVPixFmtDescriptor *desc = &av_pix_fmt_descriptors[pix_fmt];
     int max_step     [4];       /* max pixel step for each plane */
     int max_step_comp[4];       /* the component for each plane which has the max pixel step */
-    int s;
 
-    if (desc->flags & PIX_FMT_BITSTREAM)
-        return (width * (desc->comp[0].step_minus1+1) + 7) >> 3;
+    if ((unsigned)pix_fmt >= PIX_FMT_NB || desc->flags & PIX_FMT_HWACCEL)
+        return AVERROR(EINVAL);
 
     av_image_fill_max_pixsteps(max_step, max_step_comp, desc);
-    s = (max_step_comp[plane] == 1 || max_step_comp[plane] == 2) ? desc->log2_chroma_w : 0;
-    return max_step[plane] * (((width + (1 << s) - 1)) >> s);
+    return image_get_linesize(width, plane, max_step[plane], max_step_comp[plane], desc);
 }
 
 int av_image_fill_linesizes(int linesizes[4], enum PixelFormat pix_fmt, int width)
 {
-    int i;
+    int i, ret;
     const AVPixFmtDescriptor *desc = &av_pix_fmt_descriptors[pix_fmt];
     int max_step     [4];       /* max pixel step for each plane */
     int max_step_comp[4];       /* the component for each plane which has the max pixel step */
@@ -71,20 +88,11 @@ int av_image_fill_linesizes(int linesizes[4], enum PixelFormat pix_fmt, int widt
     if ((unsigned)pix_fmt >= PIX_FMT_NB || desc->flags & PIX_FMT_HWACCEL)
         return AVERROR(EINVAL);
 
-    if (desc->flags & PIX_FMT_BITSTREAM) {
-        if (width > (INT_MAX -7) / (desc->comp[0].step_minus1+1))
-            return AVERROR(EINVAL);
-        linesizes[0] = (width * (desc->comp[0].step_minus1+1) + 7) >> 3;
-        return 0;
-    }
-
     av_image_fill_max_pixsteps(max_step, max_step_comp, desc);
     for (i = 0; i < 4; i++) {
-        int s = (max_step_comp[i] == 1 || max_step_comp[i] == 2) ? desc->log2_chroma_w : 0;
-        int shifted_w = ((width + (1 << s) - 1)) >> s;
-        if (max_step[i] > INT_MAX / shifted_w)
-            return AVERROR(EINVAL);
-        linesizes[i] = max_step[i] * shifted_w;
+        if ((ret = image_get_linesize(width, i, max_step[i], max_step_comp[i], desc)) < 0)
+            return ret;
+        linesizes[i] = ret;
     }
 
     return 0;
@@ -168,7 +176,7 @@ int ff_set_systematic_pal2(uint32_t pal[256], enum PixelFormat pix_fmt)
         default:
             return AVERROR(EINVAL);
         }
-        pal[i] = b + (g<<8) + (r<<16);
+        pal[i] = b + (g<<8) + (r<<16) + (0xFF<<24);
     }
 
     return 0;

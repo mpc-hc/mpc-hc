@@ -2,20 +2,20 @@
  * H.264 IDCT
  * Copyright (c) 2004-2011 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -51,7 +51,7 @@ void FUNCC(ff_h264_idct_add)(uint8_t *_dst, DCTELEM *_block, int stride)
     int i;
     pixel *dst = (pixel*)_dst;
     dctcoef *block = (dctcoef*)_block;
-    stride /= sizeof(pixel);
+    stride >>= sizeof(pixel)-1;
 
     block[0] += 1 << 5;
 
@@ -84,7 +84,7 @@ void FUNCC(ff_h264_idct8_add)(uint8_t *_dst, DCTELEM *_block, int stride){
     int i;
     pixel *dst = (pixel*)_dst;
     dctcoef *block = (dctcoef*)_block;
-    stride /= sizeof(pixel);
+    stride >>= sizeof(pixel)-1;
 
     block[0] += 32;
 
@@ -153,11 +153,11 @@ void FUNCC(ff_h264_idct8_add)(uint8_t *_dst, DCTELEM *_block, int stride){
 }
 
 // assumes all AC coefs are 0
-void FUNCC(ff_h264_idct_dc_add)(uint8_t *_dst, DCTELEM *block, int stride){
+void FUNCC(ff_h264_idct_dc_add)(uint8_t *p_dst, DCTELEM *block, int stride){
     int i, j;
     int dc = (((dctcoef*)block)[0] + 32) >> 6;
-    pixel *dst = (pixel*)_dst;
-    stride /= sizeof(pixel);
+    pixel *dst = (pixel*)p_dst;
+    stride >>= sizeof(pixel)-1;
     for( j = 0; j < 4; j++ )
     {
         for( i = 0; i < 4; i++ )
@@ -166,11 +166,11 @@ void FUNCC(ff_h264_idct_dc_add)(uint8_t *_dst, DCTELEM *block, int stride){
     }
 }
 
-void FUNCC(ff_h264_idct8_dc_add)(uint8_t *_dst, DCTELEM *block, int stride){
+void FUNCC(ff_h264_idct8_dc_add)(uint8_t *p_dst, DCTELEM *block, int stride){
     int i, j;
     int dc = (((dctcoef*)block)[0] + 32) >> 6;
-    pixel *dst = (pixel*)_dst;
-    stride /= sizeof(pixel);
+    pixel *dst = (pixel*)p_dst;
+    stride >>= sizeof(pixel)-1;
     for( j = 0; j < 8; j++ )
     {
         for( i = 0; i < 8; i++ )
@@ -247,13 +247,13 @@ void FUNCC(ff_h264_idct_add8_422)(uint8_t **dest, const int *block_offset, DCTEL
  * IDCT transforms the 16 dc values and dequantizes them.
  * @param qmul quantization parameter
  */
-void FUNCC(ff_h264_luma_dc_dequant_idct)(DCTELEM *_output, DCTELEM *_input, int qmul){
+void FUNCC(ff_h264_luma_dc_dequant_idct)(DCTELEM *p_output, DCTELEM *p_input, int qmul){
 #define stride 16
     int i;
     int temp[16];
     static const uint8_t x_offset[4]={0, 2*stride, 8*stride, 10*stride};
-    dctcoef *input = (dctcoef*)_input;
-    dctcoef *output = (dctcoef*)_output;
+    dctcoef *input = (dctcoef*)p_input;
+    dctcoef *output = (dctcoef*)p_output;
 
     for(i=0; i<4; i++){
         const int z0= input[4*i+0] + input[4*i+1];

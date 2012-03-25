@@ -2,20 +2,20 @@
  * MMX optimized MP3 decoding functions
  * Copyright (c) 2010 Vitor Sessak
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -211,11 +211,17 @@ static void imdct36_blocks_ ## CPU1(float *out, float *buf, float *in,      \
     }                                                                   \
 }
 
+#if HAVE_YASM
+#if HAVE_SSE
 DECL_IMDCT_BLOCKS(sse,sse)
 DECL_IMDCT_BLOCKS(sse2,sse)
 DECL_IMDCT_BLOCKS(sse3,sse)
 DECL_IMDCT_BLOCKS(ssse3,sse)
+#endif
+#if HAVE_AVX
 DECL_IMDCT_BLOCKS(avx,avx)
+#endif
+#endif
 
 void ff_mpadsp_init_mmx(MPADSPContext *s)
 {
@@ -239,8 +245,11 @@ void ff_mpadsp_init_mmx(MPADSPContext *s)
         s->apply_window_float = apply_window_mp3;
     }
 #if HAVE_YASM
-    if (mm_flags & AV_CPU_FLAG_AVX && HAVE_AVX) {
+    if (0) {
+#if HAVE_AVX
+    } else if (mm_flags & AV_CPU_FLAG_AVX && HAVE_AVX) {
         s->imdct36_blocks_float = imdct36_blocks_avx;
+#endif
 #if HAVE_SSE
     } else if (mm_flags & AV_CPU_FLAG_SSSE3) {
         s->imdct36_blocks_float = imdct36_blocks_ssse3;

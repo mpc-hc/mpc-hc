@@ -3,20 +3,20 @@
  * Copyright (c) 2006-2007 Robert Swain
  * Copyright (c) 2009 Colin McQuillan
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -1655,10 +1655,10 @@ static const float ir_filter_medium[AMR_SUBFRAME_SIZE] = {
  0.016998,  0.023804, -0.041779,  0.025696,  0.019989,
 };
 
-static const float *ir_filters_lookup[2]           = {
+static const float * const ir_filters_lookup[2]           = {
     ir_filter_strong,           ir_filter_medium
 };
-static const float *ir_filters_lookup_MODE_7k95[2] = {
+static const float * const ir_filters_lookup_MODE_7k95[2] = {
     ir_filter_strong_MODE_7k95, ir_filter_medium
 };
 

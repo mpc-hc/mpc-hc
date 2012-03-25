@@ -8,20 +8,20 @@
  *
  * SVQ1 Encoder (c) 2004 Mike Melanson <melanson@pcisys.net>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -141,7 +141,7 @@ static const uint8_t string_table[256] = {
         break;\
       /* add child nodes */\
       list[n++] = list[i];\
-      list[n++] = list[i] + (((level & 1) ? pitch : 1) << ((level / 2) + 1));\
+      list[n++] = list[i] + (((level & 1) ? pitch : 1) << ((level >> 1) + 1));\
     }
 
 #define SVQ1_ADD_CODEBOOK()\
@@ -202,7 +202,7 @@ static const uint8_t string_table[256] = {
         entries[j] = (((bit_cache >> (4*(stages - j - 1))) & 0xF) + 16*j) << (level + 1);\
       }\
       mean -= (stages * 128);\
-      n4    = ((mean + (mean >> 31)) << 16) | (mean & 0xFFFF);
+      n4    = (mean << 16) + mean;
 
 static int svq1_decode_block_intra (GetBitContext *bitbuf, uint8_t *pixels, int pitch ) {
   uint32_t    bit_cache;
@@ -706,7 +706,7 @@ static int svq1_decode_frame(AVCodecContext *avctx,
           result = svq1_decode_block_intra (&s->gb, &current[x], linesize);
           if (result != 0)
           {
-            av_log(s->avctx, AV_LOG_INFO, "Error in svq1_decode_block %i (keyframe)\n",result);
+            av_log(s->avctx, AV_LOG_ERROR, "Error in svq1_decode_block %i (keyframe)\n",result);
             goto err;
           }
         }

@@ -2,20 +2,20 @@
  * H.26L/H.264/AVC/JVT/14496-10/... cabac decoding
  * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -26,6 +26,7 @@
  */
 
 #define CABAC 1
+#define UNCHECKED_BITSTREAM_READER 1
 
 #include "config.h"
 #include "cabac.h"
@@ -1695,6 +1696,7 @@ decode_cabac_residual_internal(H264Context *h, DCTELEM *block,
         }
     }
 
+
 #define STORE_BLOCK(type) \
     do { \
         uint8_t *ctx = coeff_abs_level1_ctx[node_ctx] + abs_level_m1_ctx_base; \
@@ -1738,11 +1740,11 @@ decode_cabac_residual_internal(H264Context *h, DCTELEM *block,
         } \
     } while ( coeff_count );
 
-    if (h->pixel_shift) {
-        STORE_BLOCK(int32_t)
-    } else {
-        STORE_BLOCK(int16_t)
-    }
+        if (h->pixel_shift) {
+            STORE_BLOCK(int32_t)
+        } else {
+            STORE_BLOCK(int16_t)
+        }
 #ifdef CABAC_ON_STACK
             h->cabac.range     = cc.range     ;
             h->cabac.low       = cc.low       ;

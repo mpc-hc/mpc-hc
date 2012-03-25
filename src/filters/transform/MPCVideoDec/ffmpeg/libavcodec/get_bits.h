@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2004 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -53,9 +53,7 @@ typedef struct GetBitContext {
     const uint8_t *buffer, *buffer_end;
     int index;
     int size_in_bits;
-#if !UNCHECKED_BITSTREAM_READER
     int size_in_bits_plus8;
-#endif
 } GetBitContext;
 
 #define VLC_TYPE int16_t
@@ -123,7 +121,7 @@ for examples see get_bits, show_bits, skip_bits, get_vlc
 #if UNCHECKED_BITSTREAM_READER
 #define OPEN_READER(name, gb)                   \
     unsigned int name##_index = (gb)->index;    \
-    unsigned int av_unused name##_cache = 0
+    av_unused unsigned int name##_cache
 
 #define HAVE_BITS_REMAINING(name, gb) 1
 #else
@@ -360,9 +358,7 @@ static inline void init_get_bits(GetBitContext *s, const uint8_t *buffer,
 
     s->buffer       = buffer;
     s->size_in_bits = bit_size;
-#if !UNCHECKED_BITSTREAM_READER
     s->size_in_bits_plus8 = bit_size + 8;
-#endif
     s->buffer_end   = buffer + buffer_size;
     s->index        = 0;
 }

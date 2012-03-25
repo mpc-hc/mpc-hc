@@ -3,20 +3,20 @@
  * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
  * Copyright (c) 2004 Alex Beregszaszi
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -29,11 +29,6 @@
 
 #ifndef AVCODEC_GOLOMB_H
 #define AVCODEC_GOLOMB_H
-
-#ifdef __cplusplus
-extern "C" {
-#define FFMIN(a,b) ((a) > (b) ? (b) : (a))
-#endif
 
 #include <stdint.h>
 #include "get_bits.h"
@@ -140,7 +135,7 @@ static inline int svq3_get_ue_golomb(GetBitContext *gb){
             ret = (ret << 4) | ff_interleaved_dirac_golomb_vlc_code[buf];
             UPDATE_CACHE(re, gb);
             buf = GET_CACHE(re, gb);
-        } while (HAVE_BITS_REMAINING(re, gb));
+        } while (ret<0x8000000U && HAVE_BITS_REMAINING(re, gb));
 
         CLOSE_READER(re, gb);
         return ret - 1;
@@ -231,6 +226,24 @@ static inline int svq3_get_se_golomb(GetBitContext *gb){
 
         return (signed) (((((buf << log) >> log) - 1) ^ -(buf & 0x1)) + 1) >> 1;
     }
+}
+
+static inline int dirac_get_se_golomb(GetBitContext *gb){
+    uint32_t buf;
+    uint32_t ret;
+
+    ret = svq3_get_ue_golomb(gb);
+
+    if (ret) {
+        OPEN_READER(re, gb);
+        UPDATE_CACHE(re, gb);
+        buf = SHOW_SBITS(re, gb, 1);
+        LAST_SKIP_BITS(re, gb, 1);
+        ret = (ret ^ buf) - buf;
+        CLOSE_READER(re, gb);
+    }
+
+    return ret;
 }
 
 /**
@@ -529,9 +542,5 @@ static inline void set_sr_golomb_flac(PutBitContext *pb, int i, int k, int limit
 
     set_ur_golomb_jpegls(pb, v, k, limit, esc_len);
 }
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* AVCODEC_GOLOMB_H */

@@ -34,7 +34,6 @@
 #include "parser.h"
 #include "mlp_parser.h"
 #include "mlp.h"
-#include "libavutil/audioconvert.h"
 
 /** number of bits used for VLC lookup - longest Huffman code is 9 */
 #define VLC_BITS            9

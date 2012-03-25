@@ -2,20 +2,20 @@
  * rational numbers
  * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -52,7 +52,7 @@ typedef struct AVRational{
  * @return 0 if a==b, 1 if a>b, -1 if a<b, and INT_MIN if one of the
  * values is of the form 0/0
  */
-static av_always_inline int av_cmp_q(AVRational a, AVRational b){
+static inline int av_cmp_q(AVRational a, AVRational b){
     const int64_t tmp= a.num * (int64_t)b.den - b.num * (int64_t)a.den;
 
     if(tmp) return ((tmp ^ a.den ^ b.den)>>63)|1;
@@ -66,7 +66,7 @@ static av_always_inline int av_cmp_q(AVRational a, AVRational b){
  * @param a rational to convert
  * @return (double) a
  */
-static av_always_inline double av_q2d(AVRational a){
+static inline double av_q2d(AVRational a){
     return a.num / (double) a.den;
 }
 

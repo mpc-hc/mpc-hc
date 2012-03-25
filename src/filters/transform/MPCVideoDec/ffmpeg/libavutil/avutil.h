@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -26,19 +26,20 @@
  * external API header
  */
 
-/**
+/*
  * @mainpage
  *
  * @section libav_intro Introduction
  *
  * This document describes the usage of the different libraries
- * provided by Libav.
+ * provided by FFmpeg.
  *
  * @li @ref libavc "libavcodec" encoding/decoding library
  * @li @subpage libavfilter graph based frame editing library
  * @li @ref libavf "libavformat" I/O and muxing/demuxing library
  * @li @ref lavd "libavdevice" special devices muxing/demuxing library
  * @li @ref lavu "libavutil" common utility library
+ * @li @subpage libpostproc post processing library
  * @li @subpage libswscale  color conversion and scaling library
  */
 
@@ -46,7 +47,7 @@
  * @defgroup lavu Common utility functions
  *
  * @brief
- * libavutil contains the code shared across all the other Libav
+ * libavutil contains the code shared across all the other FFmpeg
  * libraries
  *
  * @note In order to use the functions provided by avutil you must include
@@ -152,8 +153,8 @@
  */
 
 #define LIBAVUTIL_VERSION_MAJOR 51
-#define LIBAVUTIL_VERSION_MINOR 24
-#define LIBAVUTIL_VERSION_MICRO  0
+#define LIBAVUTIL_VERSION_MINOR 43
+#define LIBAVUTIL_VERSION_MICRO 100
 
 #define LIBAVUTIL_VERSION_INT   AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, \
                                                LIBAVUTIL_VERSION_MINOR, \
@@ -177,6 +178,9 @@
  *
  * @{
  */
+#ifndef FF_API_OLD_EVAL_NAMES
+#define FF_API_OLD_EVAL_NAMES (LIBAVUTIL_VERSION_MAJOR < 52)
+#endif
 #ifndef FF_API_GET_BITS_PER_SAMPLE_FMT
 #define FF_API_GET_BITS_PER_SAMPLE_FMT (LIBAVUTIL_VERSION_MAJOR < 52)
 #endif
@@ -234,6 +238,12 @@ enum AVMediaType {
 };
 
 /**
+ * Return a string describing the media_type enum, NULL if media_type
+ * is unknown.
+ */
+const char *av_get_media_type_string(enum AVMediaType media_type);
+
+/**
  * @defgroup lavu_const Constants
  * @{
  *
@@ -254,7 +264,7 @@ enum AVMediaType {
  * @}
  * @defgroup lavu_time Timestamp specific
  *
- * Libav internal timebase and timestamp definitions
+ * FFmpeg internal timebase and timestamp definitions
  *
  * @{
  */
@@ -278,10 +288,7 @@ enum AVMediaType {
  * Internal time base represented as fractional value
  */
 
-//#define AV_TIME_BASE_Q          (AVRational){1, AV_TIME_BASE}
-// ffdshow custom code
-#include "rational.h"
-static const AVRational AV_TIME_BASE_Q = {1, AV_TIME_BASE};
+#define AV_TIME_BASE_Q          (AVRational){1, AV_TIME_BASE}
 
 /**
  * @}
@@ -295,7 +302,7 @@ static const AVRational AV_TIME_BASE_Q = {1, AV_TIME_BASE};
 
 enum AVPictureType {
     AV_PICTURE_TYPE_NONE = 0, ///< Undefined
-    AV_PICTURE_TYPE_I = 1, ///< Intra
+    AV_PICTURE_TYPE_I,     ///< Intra
     AV_PICTURE_TYPE_P,     ///< Predicted
     AV_PICTURE_TYPE_B,     ///< Bi-dir predicted
     AV_PICTURE_TYPE_S,     ///< S(GMC)-VOP MPEG4
@@ -319,6 +326,19 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 
 #include "common.h"
 #include "error.h"
+#include "mathematics.h"
+#include "rational.h"
+#include "intfloat_readwrite.h"
+#include "log.h"
+#include "pixfmt.h"
+
+/**
+ * Return x default pointer in case p is NULL.
+ */
+static inline void *av_x_if_null(const void *p, const void *x)
+{
+    return (void *)(intptr_t)(p ? p : x);
+}
 
 /**
  * @}

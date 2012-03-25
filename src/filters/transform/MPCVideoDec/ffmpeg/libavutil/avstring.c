@@ -2,20 +2,20 @@
  * Copyright (c) 2000, 2001, 2002 Fabrice Bellard
  * Copyright (c) 2007 Mans Rullgard
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -51,11 +51,11 @@ int av_stristart(const char *str, const char *pfx, const char **ptr)
 char *av_stristr(const char *s1, const char *s2)
 {
     if (!*s2)
-        return s1;
+        return (char*)(intptr_t)s1;
 
     do {
         if (av_stristart(s1, s2, NULL))
-            return s1;
+            return (char*)(intptr_t)s1;
     } while (*s1++);
 
     return NULL;
@@ -89,6 +89,32 @@ size_t av_strlcatf(char *dst, size_t size, const char *fmt, ...)
     va_end(vl);
 
     return len;
+}
+
+char *av_asprintf(const char *fmt, ...)
+{
+    char *p = NULL;
+    va_list va;
+    int len;
+
+    va_start(va, fmt);
+    len = vsnprintf(NULL, 0, fmt, va);
+    va_end(va);
+    if (len < 0)
+        goto end;
+
+    p = av_malloc(len + 1);
+    if (!p)
+        goto end;
+
+    va_start(va, fmt);
+    len = vsnprintf(p, len + 1, fmt, va);
+    va_end(va);
+    if (len < 0)
+        av_freep(&p);
+
+end:
+    return p;
 }
 
 char *av_d2str(double d)
@@ -132,6 +158,35 @@ char *av_get_token(const char **buf, const char *term)
     *buf = p;
 
     return ret;
+}
+
+char *av_strtok(char *s, const char *delim, char **saveptr)
+{
+    char *tok;
+
+    if (!s && !(s = *saveptr))
+        return NULL;
+
+    /* skip leading delimiters */
+    s += strspn(s, delim);
+
+    /* s now points to the first non delimiter char, or to the end of the string */
+    if (!*s) {
+        *saveptr = NULL;
+        return NULL;
+    }
+    tok = s++;
+
+    /* skip non delimiters */
+    s += strcspn(s, delim);
+    if (*s) {
+        *s = 0;
+        *saveptr = s+1;
+    } else {
+        *saveptr = NULL;
+    }
+
+    return tok;
 }
 
 int av_strcasecmp(const char *a, const char *b)

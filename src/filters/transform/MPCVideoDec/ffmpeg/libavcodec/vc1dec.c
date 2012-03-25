@@ -1788,7 +1788,7 @@ static inline void vc1_pred_mv_intfr(VC1Context *v, int n, int dmv_x, int dmv_y,
                 } else if (c_valid) {
                     px = C[0];
                     py = C[1];
-                }
+                } else px = py = 0;
             }
         } else if (total_valid == 1) {
             px = (a_valid) ? A[0] : ((b_valid) ? B[0] : C[0]);
@@ -3686,7 +3686,7 @@ static int vc1_decode_p_mb_intfr(VC1Context *v)
     int idx_mbmode = 0, mvbp;
     int stride_y, fieldtx;
 
-    mquant = v->pq; /* Loosy initialization */
+    mquant = v->pq; /* Lossy initialization */
 
     if (v->skip_is_raw)
         skipped = get_bits1(gb);
@@ -3890,11 +3890,11 @@ static int vc1_decode_p_mb_intfi(VC1Context *v)
     int val; /* temp values */
     int first_block = 1;
     int dst_idx, off;
-    int pred_flag;
+    int pred_flag = 0;
     int block_cbp = 0, pat, block_tt = 0;
     int idx_mbmode = 0;
 
-    mquant = v->pq; /* Loosy initialization */
+    mquant = v->pq; /* Lossy initialization */
 
     idx_mbmode = get_vlc2(gb, v->mbmode_vlc->table, VC1_IF_MBMODE_VLC_BITS, 2);
     if (idx_mbmode <= 1) { // intra MB
@@ -4167,7 +4167,7 @@ static void vc1_decode_b_mb_intfi(VC1Context *v)
     int bmvtype = BMV_TYPE_BACKWARD;
     int idx_mbmode, interpmvp;
 
-    mquant      = v->pq; /* Loosy initialization */
+    mquant      = v->pq; /* Lossy initialization */
     s->mb_intra = 0;
 
     idx_mbmode = get_vlc2(gb, v->mbmode_vlc->table, VC1_IF_MBMODE_VLC_BITS, 2);
@@ -5127,6 +5127,7 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
         avctx->pix_fmt = avctx->get_format(avctx, avctx->codec->pix_fmts);
     else
         avctx->pix_fmt = PIX_FMT_GRAY8;
+    avctx->hwaccel = ff_find_hwaccel(avctx->codec->id, avctx->pix_fmt);
     v->parse_only = avctx->hwaccel != NULL;
     v->s.avctx = avctx;
     avctx->flags |= CODEC_FLAG_EMU_EDGE;
@@ -5355,6 +5356,9 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
                     break;
                 case VC1_CODE_FIELD: {
                     int buf_size3;
+                    if (avctx->hwaccel ||
+                        s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
+                        buf_start_second_field = start;
                     slices = av_realloc(slices, sizeof(*slices) * (n_slices+1));
                     if (!slices)
                         goto err;
@@ -5404,6 +5408,9 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
                 av_log(avctx, AV_LOG_ERROR, "Error in WVC1 interlaced frame\n");
                 goto err;
             } else { // found field marker, unescape second field
+                if (avctx->hwaccel ||
+                    s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
+                    buf_start_second_field = divider;
                 tmp = av_realloc(slices, sizeof(*slices) * (n_slices+1));
                 if (!tmp)
                     goto err;
@@ -5506,7 +5513,7 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
     s->current_picture.f.key_frame = s->pict_type == AV_PICTURE_TYPE_I;
 
     /* skip B-frames if we don't have reference frames */
-    if (s->last_picture_ptr == NULL && (s->pict_type == AV_PICTURE_TYPE_B || s->dropable)) {
+    if (s->last_picture_ptr == NULL && (s->pict_type == AV_PICTURE_TYPE_B || s->dropable) && !avctx->hwaccel) {
         goto err;
     }
     if ((avctx->skip_frame >= AVDISCARD_NONREF && s->pict_type == AV_PICTURE_TYPE_B) ||
@@ -5717,6 +5724,38 @@ AVCodec ff_wmv3_decoder = {
 };
 #endif
 
+#if CONFIG_WMV3_VDPAU_DECODER
+AVCodec ff_wmv3_vdpau_decoder = {
+    .name           = "wmv3_vdpau",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_WMV3,
+    .priv_data_size = sizeof(VC1Context),
+    .init           = vc1_decode_init,
+    .close          = vc1_decode_end,
+    .decode         = vc1_decode_frame,
+    .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY | CODEC_CAP_HWACCEL_VDPAU,
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 9 VDPAU"),
+    .pix_fmts       = (const enum PixelFormat[]){PIX_FMT_VDPAU_WMV3, PIX_FMT_NONE},
+    .profiles       = NULL_IF_CONFIG_SMALL(profiles)
+};
+#endif
+
+#if CONFIG_VC1_VDPAU_DECODER
+AVCodec ff_vc1_vdpau_decoder = {
+    .name           = "vc1_vdpau",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_VC1,
+    .priv_data_size = sizeof(VC1Context),
+    .init           = vc1_decode_init,
+    .close          = vc1_decode_end,
+    .decode         = vc1_decode_frame,
+    .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY | CODEC_CAP_HWACCEL_VDPAU,
+    .long_name      = NULL_IF_CONFIG_SMALL("SMPTE VC-1 VDPAU"),
+    .pix_fmts       = (const enum PixelFormat[]){PIX_FMT_VDPAU_VC1, PIX_FMT_NONE},
+    .profiles       = NULL_IF_CONFIG_SMALL(profiles)
+};
+#endif
+
 #if CONFIG_WMV3IMAGE_DECODER
 AVCodec ff_wmv3image_decoder = {
     .name           = "wmv3image",
@@ -5749,4 +5788,6 @@ AVCodec ff_vc1image_decoder = {
 };
 #endif
 
+// ==> Start patch MPC
 #include "vc1_dxva.c"
+// ==> End patch MPC

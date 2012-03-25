@@ -2,20 +2,20 @@
  * AC-3 DSP utils
  * Copyright (c) 2011 Justin Ruggles
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -23,6 +23,7 @@
 #include "avcodec.h"
 #include "ac3.h"
 #include "ac3dsp.h"
+#include "mathops.h"
 
 static void ac3_exponent_min_c(uint8_t *exp, int num_reuse_blocks, int nb_coefs)
 {
@@ -171,6 +172,48 @@ static void ac3_extract_exponents_c(uint8_t *exp, int32_t *coef, int nb_coefs)
     }
 }
 
+static void ac3_sum_square_butterfly_int32_c(int64_t sum[4],
+                                             const int32_t *coef0,
+                                             const int32_t *coef1,
+                                             int len)
+{
+    int i;
+
+    sum[0] = sum[1] = sum[2] = sum[3] = 0;
+
+    for (i = 0; i < len; i++) {
+        int lt = coef0[i];
+        int rt = coef1[i];
+        int md = lt + rt;
+        int sd = lt - rt;
+        MAC64(sum[0], lt, lt);
+        MAC64(sum[1], rt, rt);
+        MAC64(sum[2], md, md);
+        MAC64(sum[3], sd, sd);
+    }
+}
+
+static void ac3_sum_square_butterfly_float_c(float sum[4],
+                                             const float *coef0,
+                                             const float *coef1,
+                                             int len)
+{
+    int i;
+
+    sum[0] = sum[1] = sum[2] = sum[3] = 0;
+
+    for (i = 0; i < len; i++) {
+        float lt = coef0[i];
+        float rt = coef1[i];
+        float md = lt + rt;
+        float sd = lt - rt;
+        sum[0] += lt * lt;
+        sum[1] += rt * rt;
+        sum[2] += md * md;
+        sum[3] += sd * sd;
+    }
+}
+
 av_cold void ff_ac3dsp_init(AC3DSPContext *c, int bit_exact)
 {
     c->ac3_exponent_min = ac3_exponent_min_c;
@@ -182,6 +225,8 @@ av_cold void ff_ac3dsp_init(AC3DSPContext *c, int bit_exact)
     c->update_bap_counts = ac3_update_bap_counts_c;
     c->compute_mantissa_size = ac3_compute_mantissa_size_c;
     c->extract_exponents = ac3_extract_exponents_c;
+    c->sum_square_butterfly_int32 = ac3_sum_square_butterfly_int32_c;
+    c->sum_square_butterfly_float = ac3_sum_square_butterfly_float_c;
 
     if (ARCH_ARM)
         ff_ac3dsp_init_arm(c, bit_exact);

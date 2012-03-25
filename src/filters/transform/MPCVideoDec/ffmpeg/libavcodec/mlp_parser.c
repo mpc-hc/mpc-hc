@@ -137,12 +137,10 @@ int ff_mlp_read_major_sync(void *log, MLPHeaderInfo *mh, GetBitContext *gb)
     }
 
     checksum = ff_mlp_checksum16(gb->buffer, 26);
-    /* FFDShow custom code: disable crc check because it doesn't work properly with interweaved AC3/TrueHD streams
     if (checksum != AV_RL16(gb->buffer+26)) {
         av_log(log, AV_LOG_ERROR, "major sync info header checksum error\n");
         return AVERROR_INVALIDDATA;
     }
-    */
 
     if (get_bits_long(gb, 24) != 0xf8726f) /* Sync words */
         return AVERROR_INVALIDDATA;
@@ -299,12 +297,10 @@ static int mlp_parse(AVCodecParserContext *s,
             }
         }
 
-        /* FFDShow custom code: parity check disabled, uncompatible with interweaved streams AC3/MLP
         if ((((parity_bits >> 4) ^ parity_bits) & 0xF) != 0xF) {
             av_log(avctx, AV_LOG_INFO, "mlpparse: Parity check failed.\n");
             goto lost_sync;
         }
-        */
     } else {
         GetBitContext gb;
         MLPHeaderInfo mh;

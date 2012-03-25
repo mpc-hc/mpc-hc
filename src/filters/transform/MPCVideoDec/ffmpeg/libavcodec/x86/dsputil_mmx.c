@@ -3,20 +3,20 @@
  * Copyright (c) 2000, 2001 Fabrice Bellard
  * Copyright (c) 2002-2004 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  *
  * MMX optimization by Nick Kurshev <nickols_k@mail.ru>
@@ -31,6 +31,7 @@
 #include "libavcodec/ac3dec.h"
 #include "dsputil_mmx.h"
 #include "idct_xvid.h"
+#include "diracdsp_mmx.h"
 
 //#undef NDEBUG
 //#include <assert.h>
@@ -83,8 +84,6 @@ DECLARE_ALIGNED(16, const xmm_reg,  ff_pb_FE ) = {0xFEFEFEFEFEFEFEFEULL, 0xFEFEF
 
 DECLARE_ALIGNED(16, const double, ff_pd_1)[2] = { 1.0, 1.0 };
 DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
-
-#if ARCH_X86 // ffdshow custom code
 
 #define JUMPALIGN() __asm__ volatile (".p2align 3"::)
 #define MOVQ_ZERO(regd)  __asm__ volatile ("pxor %%" #regd ", %%" #regd ::)
@@ -1866,6 +1865,84 @@ void ff_avg_vc1_mspel_mc00_mmx2(uint8_t *dst, const uint8_t *src, int stride, in
     avg_pixels8_mmx2(dst, src, stride, 8);
 }
 
+/* only used in VP3/5/6 */
+static void put_vp_no_rnd_pixels8_l2_mmx(uint8_t *dst, const uint8_t *a, const uint8_t *b, int stride, int h)
+{
+//    START_TIMER
+    MOVQ_BFE(mm6);
+    __asm__ volatile(
+        "1:                             \n\t"
+        "movq   (%1), %%mm0             \n\t"
+        "movq   (%2), %%mm1             \n\t"
+        "movq   (%1,%4), %%mm2          \n\t"
+        "movq   (%2,%4), %%mm3          \n\t"
+        PAVGBP_MMX_NO_RND(%%mm0, %%mm1, %%mm4,   %%mm2, %%mm3, %%mm5)
+        "movq   %%mm4, (%3)             \n\t"
+        "movq   %%mm5, (%3,%4)          \n\t"
+
+        "movq   (%1,%4,2), %%mm0        \n\t"
+        "movq   (%2,%4,2), %%mm1        \n\t"
+        "movq   (%1,%5), %%mm2          \n\t"
+        "movq   (%2,%5), %%mm3          \n\t"
+        "lea    (%1,%4,4), %1           \n\t"
+        "lea    (%2,%4,4), %2           \n\t"
+        PAVGBP_MMX_NO_RND(%%mm0, %%mm1, %%mm4,   %%mm2, %%mm3, %%mm5)
+        "movq   %%mm4, (%3,%4,2)        \n\t"
+        "movq   %%mm5, (%3,%5)          \n\t"
+        "lea    (%3,%4,4), %3           \n\t"
+        "subl   $4, %0                  \n\t"
+        "jnz    1b                      \n\t"
+        :"+r"(h), "+r"(a), "+r"(b), "+r"(dst)
+        :"r"((x86_reg)stride), "r"((x86_reg)3L*stride)
+        :"memory");
+//    STOP_TIMER("put_vp_no_rnd_pixels8_l2_mmx")
+}
+static void put_vp_no_rnd_pixels16_l2_mmx(uint8_t *dst, const uint8_t *a, const uint8_t *b, int stride, int h)
+{
+    put_vp_no_rnd_pixels8_l2_mmx(dst, a, b, stride, h);
+    put_vp_no_rnd_pixels8_l2_mmx(dst+8, a+8, b+8, stride, h);
+}
+
+#if CONFIG_DIRAC_DECODER
+#define DIRAC_PIXOP(OPNAME, EXT)\
+void ff_ ## OPNAME ## _dirac_pixels8_ ## EXT(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels8_ ## EXT(dst, src[0], stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels16_ ## EXT(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels16_ ## EXT(dst, src[0], stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels32_ ## EXT(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels16_ ## EXT(dst   , src[0]   , stride, h);\
+    OPNAME ## _pixels16_ ## EXT(dst+16, src[0]+16, stride, h);\
+}
+
+DIRAC_PIXOP(put, mmx)
+DIRAC_PIXOP(avg, mmx)
+DIRAC_PIXOP(avg, mmx2)
+
+void ff_put_dirac_pixels16_sse2(uint8_t *dst, const uint8_t *src[5], int stride, int h)
+{
+    put_pixels16_sse2(dst, src[0], stride, h);
+}
+void ff_avg_dirac_pixels16_sse2(uint8_t *dst, const uint8_t *src[5], int stride, int h)
+{
+    avg_pixels16_sse2(dst, src[0], stride, h);
+}
+void ff_put_dirac_pixels32_sse2(uint8_t *dst, const uint8_t *src[5], int stride, int h)
+{
+    put_pixels16_sse2(dst   , src[0]   , stride, h);
+    put_pixels16_sse2(dst+16, src[0]+16, stride, h);
+}
+void ff_avg_dirac_pixels32_sse2(uint8_t *dst, const uint8_t *src[5], int stride, int h)
+{
+    avg_pixels16_sse2(dst   , src[0]   , stride, h);
+    avg_pixels16_sse2(dst+16, src[0]+16, stride, h);
+}
+#endif
+
 /* XXX: those functions should be suppressed ASAP when all IDCTs are
    converted */
 #if CONFIG_GPL
@@ -2035,10 +2112,6 @@ static void vorbis_inverse_coupling_sse(float *mag, float *ang, int blocksize)
         :"memory"\
     );
 
-/* ffdshow custom code */
-#pragma GCC push_options
-#pragma GCC target ("sse")
-
 static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_ch, int in_ch, int len)
 {
     int (*matrix_cmp)[2] = (int(*)[2])matrix;
@@ -2073,9 +2146,6 @@ static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_c
         }
     }
 }
-
-/* ffdshow custom code */
-#pragma GCC pop_options
 
 static void vector_fmul_3dnow(float *dst, const float *src0, const float *src1, int len){
     x86_reg i = (len-4)*4;
@@ -2413,6 +2483,9 @@ static void dsputil_init_mmx(DSPContext *c, AVCodecContext *avctx, int mm_flags)
 #endif
 
     c->add_bytes = add_bytes_mmx;
+
+    c->put_no_rnd_pixels_l2[0]= put_vp_no_rnd_pixels16_l2_mmx;
+    c->put_no_rnd_pixels_l2[1]= put_vp_no_rnd_pixels8_l2_mmx;
 
     if (CONFIG_H263_DECODER || CONFIG_H263_ENCODER) {
         c->h263_v_loop_filter = h263_v_loop_filter_mmx;
@@ -2913,25 +2986,3 @@ void ff_dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
     if (CONFIG_ENCODERS)
         ff_dsputilenc_init_mmx(c, avctx);
 }
-
-const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
-{
-    if (c->idct_put==ff_idct_xvid_mmx_put)
-        return "Xvid (ff_idct_xvid_mmx)";
-    if (c->idct_put==ff_idct_xvid_mmx2_put)
-        return "Xvid (ff_idct_xvid_mmx2)";
-    if (c->idct_put==ff_idct_xvid_sse2_put)
-        return "Xvid (ff_idct_xvid_sse2)";
-    if (c->idct_put==ff_simple_idct_put_mmx)
-        return "Simple MMX (ff_simple_idct_mmx)";
-    if (c->idct_put==ff_libmpeg2mmx2_idct_put)
-        return "libmpeg2 (ff_libmpeg2mmx2_idct)";
-    if (c->idct_put==ff_libmpeg2mmx_idct_put)
-        return "libmpeg2 (ff_libmpeg2mmx_idct)";
-    if (c->idct_put==ff_vp3_idct_put_sse2)
-        return "VP3 (ff_vp3_idct_sse2)";
-    if (c->idct_put==ff_vp3_idct_put_mmx)
-        return "VP3 (ff_vp3_idct_mmx)";
-    return NULL;
-}
-#endif // ARCH_X86, ffdshow custom code

@@ -60,7 +60,7 @@ av_cold int ff_h263_decode_init(AVCodecContext *avctx)
     s->quant_precision=5;
     s->decode_mb= ff_h263_decode_mb;
     s->low_delay= 1;
-    avctx->pix_fmt= PIX_FMT_YUV420P; /* ffdshow custom code */
+    avctx->pix_fmt= avctx->get_format(avctx, avctx->codec->pix_fmts);
     s->unrestricted_mv= 1;
 
     /* select sub codec */
@@ -108,6 +108,7 @@ av_cold int ff_h263_decode_init(AVCodecContext *avctx)
         return -1;
     }
     s->codec_id= avctx->codec->id;
+    avctx->hwaccel= ff_find_hwaccel(avctx->codec->id, avctx->pix_fmt);
 
     /* for h263, we allocate the images after having read the header */
     if (avctx->codec->id != CODEC_ID_H263 && avctx->codec->id != CODEC_ID_MPEG4)
@@ -133,7 +134,7 @@ av_cold int ff_h263_decode_end(AVCodecContext *avctx)
 static int get_consumed_bytes(MpegEncContext *s, int buf_size){
     int pos= (get_bits_count(&s->gb)+7)>>3;
 
-    if(s->divx_packed){
+    if(s->divx_packed || s->avctx->hwaccel){
         //we would have to scan through the whole buf to handle the weird reordering ...
         return buf_size;
     }else if(s->flags&CODEC_FLAG_TRUNCATED){
@@ -158,6 +159,13 @@ static int decode_slice(MpegEncContext *s){
     s->resync_mb_y= s->mb_y;
 
     ff_set_qscale(s, s->qscale);
+
+    if (s->avctx->hwaccel) {
+        const uint8_t *start= s->gb.buffer + get_bits_count(&s->gb)/8;
+        const uint8_t *end  = ff_h263_find_resync_marker(start + 1, s->gb.buffer_end);
+        skip_bits_long(&s->gb, 8*(end - start));
+        return s->avctx->hwaccel->decode_slice(s->avctx, start, end - start);
+    }
 
     if(s->partitioned_frame){
         const int qscale= s->qscale;
@@ -629,6 +637,16 @@ retry:
 
     if (!s->divx_packed) ff_thread_finish_setup(avctx);
 
+    if (CONFIG_MPEG4_VDPAU_DECODER && (s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)) {
+        ff_vdpau_mpeg4_decode_picture(s, s->gb.buffer, s->gb.buffer_end - s->gb.buffer);
+        goto frame_end;
+    }
+
+    if (avctx->hwaccel) {
+        if (avctx->hwaccel->start_frame(avctx, s->gb.buffer, s->gb.buffer_end - s->gb.buffer) < 0)
+            return -1;
+    }
+
     ff_er_frame_start(s);
 
     //the second part of the wmv2 header contains the MB skip bits which are stored in current_picture->mb_type
@@ -698,6 +716,11 @@ frame_end:
 
 intrax8_decoded:
     ff_er_frame_end(s);
+
+    if (avctx->hwaccel) {
+        if (avctx->hwaccel->end_frame(avctx) < 0)
+            return -1;
+    }
 
     ff_MPV_frame_end(s);
 

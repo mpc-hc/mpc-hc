@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -68,47 +68,75 @@ static const struct {
 } channel_layout_map[] = {
     { "mono",        1,  AV_CH_LAYOUT_MONO },
     { "stereo",      2,  AV_CH_LAYOUT_STEREO },
-    { "stereo",      2,  AV_CH_LAYOUT_STEREO_DOWNMIX },
     { "2.1",         3,  AV_CH_LAYOUT_2POINT1 },
     { "3.0",         3,  AV_CH_LAYOUT_SURROUND },
     { "3.0(back)",   3,  AV_CH_LAYOUT_2_1 },
-    { "3.1",         4,  AV_CH_LAYOUT_3POINT1 },
     { "4.0",         4,  AV_CH_LAYOUT_4POINT0 },
     { "quad",        4,  AV_CH_LAYOUT_QUAD },
     { "quad(side)",  4,  AV_CH_LAYOUT_2_2 },
-    { "4.1",         5,  AV_CH_LAYOUT_4POINT1 },
-    { "5.0",         5,  AV_CH_LAYOUT_5POINT0 },
+    { "3.1",         4,  AV_CH_LAYOUT_3POINT1 },
     { "5.0",         5,  AV_CH_LAYOUT_5POINT0_BACK },
-    { "5.1",         6,  AV_CH_LAYOUT_5POINT1 },
+    { "5.0",         5,  AV_CH_LAYOUT_5POINT0 },
+    { "4.1",         5,  AV_CH_LAYOUT_4POINT1 },
     { "5.1",         6,  AV_CH_LAYOUT_5POINT1_BACK },
-    { "5.1+downmix", 8,  AV_CH_LAYOUT_5POINT1|AV_CH_LAYOUT_STEREO_DOWNMIX, },
+    { "5.1",         6,  AV_CH_LAYOUT_5POINT1 },
+//     { "5.1+downmix", 8,  AV_CH_LAYOUT_5POINT1|AV_CH_LAYOUT_STEREO_DOWNMIX, },
     { "6.0",         6,  AV_CH_LAYOUT_6POINT0 },
-    { "6.0(front)",  6,  AV_CH_LAYOUT_6POINT0_FRONT },
+    { "6.0",         6,  AV_CH_LAYOUT_6POINT0_FRONT },
     { "hexagonal",   6,  AV_CH_LAYOUT_HEXAGONAL },
     { "6.1",         7,  AV_CH_LAYOUT_6POINT1 },
     { "6.1",         7,  AV_CH_LAYOUT_6POINT1_BACK },
-    { "6.1(front)",  7,  AV_CH_LAYOUT_6POINT1_FRONT },
-    { "6.1+downmix", 9,  AV_CH_LAYOUT_6POINT1|AV_CH_LAYOUT_STEREO_DOWNMIX, },
+    { "6.1",         7,  AV_CH_LAYOUT_6POINT1_FRONT },
+//     { "6.1+downmix", 9,  AV_CH_LAYOUT_6POINT1|AV_CH_LAYOUT_STEREO_DOWNMIX, },
     { "7.0",         7,  AV_CH_LAYOUT_7POINT0 },
-    { "7.0(front)",  7,  AV_CH_LAYOUT_7POINT0_FRONT },
+    { "7.0",         7,  AV_CH_LAYOUT_7POINT0_FRONT },
     { "7.1",         8,  AV_CH_LAYOUT_7POINT1 },
-    { "7.1(wide)",   8,  AV_CH_LAYOUT_7POINT1_WIDE },
-    { "7.1(wide)",   8,  AV_CH_LAYOUT_7POINT1_WIDE_BACK },
-    { "7.1+downmix", 10, AV_CH_LAYOUT_7POINT1|AV_CH_LAYOUT_STEREO_DOWNMIX, },
+    { "7.1",         8,  AV_CH_LAYOUT_7POINT1_WIDE },
+//     { "7.1+downmix", 10, AV_CH_LAYOUT_7POINT1|AV_CH_LAYOUT_STEREO_DOWNMIX, },
     { "octagonal",   8,  AV_CH_LAYOUT_OCTAGONAL },
-    { 0 }
+    { "downmix",     2,  AV_CH_LAYOUT_STEREO_DOWNMIX, },
 };
+
+static uint64_t get_channel_layout_single(const char *name, int name_len)
+{
+    int i;
+    char *end;
+    int64_t layout;
+
+    for (i = 0; i < FF_ARRAY_ELEMS(channel_layout_map); i++) {
+        if (strlen(channel_layout_map[i].name) == name_len &&
+            !memcmp(channel_layout_map[i].name, name, name_len))
+            return channel_layout_map[i].layout;
+    }
+    for (i = 0; i < FF_ARRAY_ELEMS(channel_names); i++)
+        if (channel_names[i] &&
+            strlen(channel_names[i]) == name_len &&
+            !memcmp(channel_names[i], name, name_len))
+            return (int64_t)1 << i;
+    i = strtol(name, &end, 10);
+    if (end - name == name_len ||
+        (end + 1 - name == name_len && *end  == 'c'))
+        return av_get_default_channel_layout(i);
+    layout = strtoll(name, &end, 0);
+    if (end - name == name_len)
+        return FFMAX(layout, 0);
+    return 0;
+}
 
 uint64_t av_get_channel_layout(const char *name)
 {
-    int i = 0;
-    do {
-        if (!strcmp(channel_layout_map[i].name, name))
-            return channel_layout_map[i].layout;
-        i++;
-    } while (channel_layout_map[i].name);
+    const char *n, *e;
+    const char *name_end = name + strlen(name);
+    int64_t layout = 0, layout_single;
 
-    return 0;
+    for (n = name; n < name_end; n = e + 1) {
+        for (e = n; e < name_end && *e != '+' && *e != '|'; e++);
+        layout_single = get_channel_layout_single(n, e - n);
+        if (!layout_single)
+            return 0;
+        layout |= layout_single;
+    }
+    return layout;
 }
 
 void av_get_channel_layout_string(char *buf, int buf_size,
@@ -119,7 +147,7 @@ void av_get_channel_layout_string(char *buf, int buf_size,
     if (nb_channels <= 0)
         nb_channels = av_get_channel_layout_nb_channels(channel_layout);
 
-    for (i = 0; channel_layout_map[i].name; i++)
+    for (i = 0; i < FF_ARRAY_ELEMS(channel_layout_map); i++)
         if (nb_channels    == channel_layout_map[i].nb_channels &&
             channel_layout == channel_layout_map[i].layout) {
             av_strlcpy(buf, channel_layout_map[i].name, buf_size);
@@ -135,7 +163,7 @@ void av_get_channel_layout_string(char *buf, int buf_size,
                 const char *name = get_channel_name(i);
                 if (name) {
                     if (ch > 0)
-                        av_strlcat(buf, "|", buf_size);
+                        av_strlcat(buf, "+", buf_size);
                     av_strlcat(buf, name, buf_size);
                 }
                 ch++;
@@ -152,4 +180,12 @@ int av_get_channel_layout_nb_channels(uint64_t channel_layout)
     for (count = 0; x; count++)
         x &= x-1; // unset lowest set bit
     return count;
+}
+
+int64_t av_get_default_channel_layout(int nb_channels) {
+    int i;
+    for (i = 0; i < FF_ARRAY_ELEMS(channel_layout_map); i++)
+        if (nb_channels == channel_layout_map[i].nb_channels)
+            return channel_layout_map[i].layout;
+    return 0;
 }

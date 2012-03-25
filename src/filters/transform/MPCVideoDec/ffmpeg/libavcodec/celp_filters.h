@@ -3,20 +3,20 @@
  *
  * Copyright (c) 2008 Vladimir Voroshilov
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -63,6 +63,7 @@ void ff_celp_circ_addf(float *out, const float *in,
  * @param filter_length filter length (10 for 10th order LP filter)
  * @param stop_on_overflow   1 - return immediately if overflow occurs
  *                           0 - ignore overflows
+ * @param shift the result is shifted right by this value
  * @param rounder the amount to add for rounding (usually 0x800 or 0xfff)
  *
  * @return 1 if overflow occurred, 0 - otherwise
@@ -75,7 +76,7 @@ void ff_celp_circ_addf(float *out, const float *in,
 int ff_celp_lp_synthesis_filter(int16_t *out, const int16_t *filter_coeffs,
                                 const int16_t *in, int buffer_length,
                                 int filter_length, int stop_on_overflow,
-                                int rounder);
+                                int shift, int rounder);
 
 /**
  * LP synthesis filter.

@@ -52,8 +52,12 @@
 // registry switch is not read)
 #define USE_DPRINTF 0
 
+// libswscale
 #define LIBAV_CONFIGURATION "ffdshow custom"
 #define LIBAV_LICENSE "GPL version 2 or later"
+// ffmpeg
+#define FFMPEG_CONFIGURATION "ffmpeg configuration"
+#define FFMPEG_LICENSE "GPL version 2 or later"
 
 #define CC_TYPE "gcc"
 #define CC_VERSION __VERSION__
@@ -389,7 +393,9 @@ Note: when adding a new codec, you have to:
 #define CONFIG_VC1_VDPAU_DECODER 0
 #define CONFIG_MPEG_XVMC_DECODER 0
 
-#define CONFIG_CUSTOM_FFDSHOW_H264 1
-#define CONFIG_CUSTOM_FFMPEG_H264 1
+#define CONFIG_EATGQ_DECODER 0
+#define CONFIG_MPEG4_VDPAU_DECODER 0
+#define CONFIG_H264_VDPAU_DECODER 0
+#define CONFIG_VDPAU 0
 
 #endif /* FFMPEG_CONFIG_H */

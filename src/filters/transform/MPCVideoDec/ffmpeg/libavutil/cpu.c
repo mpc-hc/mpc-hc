@@ -1,46 +1,48 @@
 /*
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #include "cpu.h"
 #include "config.h"
 
-static int cpuflags_mask = -1, checked;
+static int flags, checked;
+
+void av_force_cpu_flags(int arg){
+    flags   = arg;
+    checked = arg != -1;
+}
 
 int av_get_cpu_flags(void)
 {
-    static int flags;
-
     if (checked)
         return flags;
 
     if (ARCH_PPC) flags = ff_get_cpu_flags_ppc();
     if (ARCH_X86) flags = ff_get_cpu_flags_x86();
 
-    flags  &= cpuflags_mask;
     checked = 1;
-
     return flags;
 }
 
 void av_set_cpu_flags_mask(int mask)
 {
-    cpuflags_mask = mask;
     checked       = 0;
+    flags         = av_get_cpu_flags() & mask;
+    checked       = 1;
 }
 
 #ifdef TEST

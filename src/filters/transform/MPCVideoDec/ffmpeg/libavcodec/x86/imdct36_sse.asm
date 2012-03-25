@@ -19,8 +19,8 @@
 ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 ;******************************************************************************
 
-%include "x86inc.asm"
-%include "x86util.asm"
+%include "libavutil/x86/x86inc.asm"
+%include "libavutil/x86/x86util.asm"
 
 SECTION_RODATA
 
@@ -371,8 +371,10 @@ DEFINE_IMDCT
 INIT_XMM ssse3
 DEFINE_IMDCT
 
+%if HAVE_AVX
 INIT_XMM avx
 DEFINE_IMDCT
+%endif
 
 INIT_XMM sse
 
@@ -717,5 +719,7 @@ cglobal four_imdct36_float, 5,5,16, out, buf, in, win, tmp
 INIT_XMM sse
 DEFINE_FOUR_IMDCT
 
+%if HAVE_AVX
 INIT_XMM avx
 DEFINE_FOUR_IMDCT
+%endif

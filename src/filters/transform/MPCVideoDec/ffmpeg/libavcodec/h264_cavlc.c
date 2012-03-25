@@ -2,20 +2,20 @@
  * H.26L/H.264/AVC/JVT/14496-10/... cavlc bitstream decoding
  * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -26,6 +26,7 @@
  */
 
 #define CABAC 0
+#define UNCHECKED_BITSTREAM_READER 1
 
 #include "internal.h"
 #include "avcodec.h"
@@ -1122,12 +1123,15 @@ decode_intra_mb:
             if( decode_luma_residual(h, gb, scan, scan8x8, pixel_shift, mb_type, cbp, 2) < 0 ){
                 return -1;
             }
-        } else if (CHROMA422) {
+        } else {
+            const int num_c8x8 = h->sps.chroma_format_idc;
+
             if(cbp&0x30){
                 for(chroma_idx=0; chroma_idx<2; chroma_idx++)
                     if (decode_residual(h, gb, h->mb + ((256 + 16*16*chroma_idx) << pixel_shift),
-                                        CHROMA_DC_BLOCK_INDEX+chroma_idx, chroma422_dc_scan,
-                                        NULL, 8) < 0) {
+                                        CHROMA_DC_BLOCK_INDEX+chroma_idx,
+                                        CHROMA422 ? chroma422_dc_scan : chroma_dc_scan,
+                                        NULL, 4*num_c8x8) < 0) {
                         return -1;
                     }
             }
@@ -1136,34 +1140,12 @@ decode_intra_mb:
                 for(chroma_idx=0; chroma_idx<2; chroma_idx++){
                     const uint32_t *qmul = h->dequant4_coeff[chroma_idx+1+(IS_INTRA( mb_type ) ? 0:3)][h->chroma_qp[chroma_idx]];
                     DCTELEM *mb = h->mb + (16*(16 + 16*chroma_idx) << pixel_shift);
-                    for (i8x8 = 0; i8x8 < 2; i8x8++) {
-                        for (i4x4 = 0; i4x4 < 4; i4x4++) {
-                            const int index = 16 + 16*chroma_idx + 8*i8x8 + i4x4;
+                    for (i8x8=0; i8x8<num_c8x8; i8x8++) {
+                        for (i4x4=0; i4x4<4; i4x4++) {
+                            const int index= 16 + 16*chroma_idx + 8*i8x8 + i4x4;
                             if (decode_residual(h, gb, mb, index, scan + 1, qmul, 15) < 0)
                                 return -1;
-                            mb += 16 << pixel_shift;
-                        }
-                    }
-                }
-            }else{
-                fill_rectangle(&h->non_zero_count_cache[scan8[16]], 4, 4, 8, 0, 1);
-                fill_rectangle(&h->non_zero_count_cache[scan8[32]], 4, 4, 8, 0, 1);
-            }
-        } else /* yuv420 */ {
-            if(cbp&0x30){
-                for(chroma_idx=0; chroma_idx<2; chroma_idx++)
-                    if( decode_residual(h, gb, h->mb + ((256 + 16*16*chroma_idx) << pixel_shift), CHROMA_DC_BLOCK_INDEX+chroma_idx, chroma_dc_scan, NULL, 4) < 0){
-                        return -1;
-                    }
-            }
-
-            if(cbp&0x20){
-                for(chroma_idx=0; chroma_idx<2; chroma_idx++){
-                    const uint32_t *qmul = h->dequant4_coeff[chroma_idx+1+(IS_INTRA( mb_type ) ? 0:3)][h->chroma_qp[chroma_idx]];
-                    for(i4x4=0; i4x4<4; i4x4++){
-                        const int index= 16 + 16*chroma_idx + i4x4;
-                        if( decode_residual(h, gb, h->mb + (16*index << pixel_shift), index, scan + 1, qmul, 15) < 0){
-                            return -1;
+                            mb += 16<<pixel_shift;
                         }
                     }
                 }

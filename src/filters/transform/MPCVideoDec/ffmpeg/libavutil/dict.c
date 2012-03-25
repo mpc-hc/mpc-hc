@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2009 Michael Niedermayer
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -74,11 +74,11 @@ int av_dict_set(AVDictionary **pm, const char *key, const char *value, int flags
     }
     if (value) {
         if (flags & AV_DICT_DONT_STRDUP_KEY) {
-            m->elems[m->count].key  = key;
+            m->elems[m->count].key   = (char*)(intptr_t)key;
         } else
         m->elems[m->count].key  = av_strdup(key  );
         if (flags & AV_DICT_DONT_STRDUP_VAL) {
-            m->elems[m->count].value = value;
+            m->elems[m->count].value = (char*)(intptr_t)value;
         } else if (oldval && flags & AV_DICT_APPEND) {
             int len = strlen(oldval) + strlen(value) + 1;
             if (!(oldval = av_realloc(oldval, len)))

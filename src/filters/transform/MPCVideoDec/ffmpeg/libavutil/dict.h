@@ -1,25 +1,31 @@
 /*
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 /**
  * @file
  * Public dictionary API.
+ * @deprecated
+ *  AVDictionary is provided for compatibility with libav. It is both in
+ *  implementation as well as API inefficient. It does not scale and is
+ *  extremely slow with large dictionaries.
+ *  It is recommended that new code uses our tree container from tree.c/h
+ *  where applicable, which uses AVL trees to achieve O(log n) performance.
  */
 
 #ifndef AVUTIL_DICT_H
@@ -93,7 +99,7 @@ av_dict_get(AVDictionary *m, const char *key, const AVDictionaryEntry *prev, int
  * a dictionary struct is allocated and put in *pm.
  * @param key entry key to add to *pm (will be av_strduped depending on flags)
  * @param value entry value to add to *pm (will be av_strduped depending on flags).
- *        Passing a NULL value will cause an existing tag to be deleted.
+ *        Passing a NULL value will cause an existing entry to be deleted.
  * @return >= 0 on success otherwise an error code <0
  */
 int av_dict_set(AVDictionary **pm, const char *key, const char *value, int flags);

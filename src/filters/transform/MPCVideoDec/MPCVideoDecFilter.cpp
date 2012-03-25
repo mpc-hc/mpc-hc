@@ -51,7 +51,6 @@ extern "C"
 
 #include "../../../apps/mplayerc/WinAPIUtils.h"
 
-
 #define MAX_SUPPORTED_MODE			5
 #define ROUND_FRAMERATE(var,FrameRate)	if (labs ((long)(var - FrameRate)) < FrameRate*1/100) var = FrameRate;
 #define AVRTIMEPERFRAME_VC1_EVO 417083
@@ -1116,8 +1115,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				FFSetThreadNumber(m_pAVCtx, m_nCodecId, (IsDXVASupported() || (m_nCodecId == CODEC_ID_THEORA && !m_bTheoraMTSupport)) ? 1 : nThreadNumber);
 			}
 
-			m_pAVCtx->h264_using_dxva = IsDXVASupported();
-
 			m_pFrame = avcodec_alloc_frame();
 			CheckPointer (m_pFrame,	  E_POINTER);
 
@@ -1185,6 +1182,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->opaque				= this;
 			m_pAVCtx->get_buffer			= get_buffer;
 
+			if (m_nCodecId == CODEC_ID_H264) {
+				m_pAVCtx->flags2			|= CODEC_FLAG2_SHOW_ALL;
+			}
+
 			AllocExtradata (m_pAVCtx, pmt);
 			ConnectTo (m_pAVCtx);
 			CalcAvgTimePerFrame();
@@ -1232,7 +1233,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
 					FFSetThreadNumber(m_pAVCtx, m_nCodecId, nThreadNumber);
 				}
-				m_pAVCtx->h264_using_dxva = 0;
 				if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
 					return VFW_E_INVALIDMEDIATYPE;
 				}
@@ -1324,38 +1324,68 @@ void CMPCVideoDecFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** 
 
 void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt)
 {
-	const BYTE*		data = NULL;
-	unsigned int	size = 0;
+	// code from LAV ...
+	// Process Extradata
+	BYTE *extra = NULL;
+	unsigned int extralen = 0;
+	getExtraData((const BYTE *)pmt->Format(), pmt->FormatType(), pmt->FormatLength(), NULL, &extralen);
 
-	if (pmt->formattype==FORMAT_VideoInfo) {
-		size = pmt->cbFormat-sizeof(VIDEOINFOHEADER);
-		data = size?pmt->pbFormat+sizeof(VIDEOINFOHEADER):NULL;
-	} else if (pmt->formattype==FORMAT_VideoInfo2) {
-		size = pmt->cbFormat-sizeof(VIDEOINFOHEADER2);
-		data = size?pmt->pbFormat+sizeof(VIDEOINFOHEADER2):NULL;
-	} else if (pmt->formattype==FORMAT_MPEGVideo) {
-		MPEG1VIDEOINFO*		mpeg1info = (MPEG1VIDEOINFO*)pmt->pbFormat;
-		if (mpeg1info->cbSequenceHeader) {
-			size = mpeg1info->cbSequenceHeader;
-			data = mpeg1info->bSequenceHeader;
-		}
-	} else if (pmt->formattype==FORMAT_MPEG2Video) {
-		MPEG2VIDEOINFO*		mpeg2info = (MPEG2VIDEOINFO*)pmt->pbFormat;
-		if (mpeg2info->cbSequenceHeader) {
-			size = mpeg2info->cbSequenceHeader;
-			data = (const uint8_t*)mpeg2info->dwSequenceHeader;
-		}
-	} else if (pmt->formattype==FORMAT_VorbisFormat2) {
-		const VORBISFORMAT2 *vf2=(const VORBISFORMAT2*)pmt->pbFormat;
-		UNUSED_ALWAYS(vf2);
-		size=pmt->cbFormat-sizeof(VORBISFORMAT2);
-		data=size?pmt->pbFormat+sizeof(VORBISFORMAT2):NULL;
-	}
+	BOOL bH264avc = FALSE;
+	if (extralen > 0) {
+		TRACE(_T("CMPCVideoDecFilter::AllocExtradata() : processing extradata of %d bytes"), extralen);
+		// Reconstruct AVC1 extradata format
+		if (pmt->formattype == FORMAT_MPEG2Video && (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1') || m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1') || m_pAVCtx->codec_tag == MAKEFOURCC('C','C','V','1'))) {
+			MPEG2VIDEOINFO *mp2vi = (MPEG2VIDEOINFO *)pmt->Format();
+			extralen += 7;
+			extra = (uint8_t *)av_mallocz(extralen + FF_INPUT_BUFFER_PADDING_SIZE);
+			extra[0] = 1;
+			extra[1] = (BYTE)mp2vi->dwProfile;
+			extra[2] = 0;
+			extra[3] = (BYTE)mp2vi->dwLevel;
+			extra[4] = (BYTE)(mp2vi->dwFlags ? mp2vi->dwFlags : 2) - 1;
 
-	if (size) {
-		pAVCtx->extradata_size	= size;
-		pAVCtx->extradata		= (uint8_t *)av_mallocz(size+FF_INPUT_BUFFER_PADDING_SIZE);
-		memcpy((void*)pAVCtx->extradata, data, size);
+			// Actually copy the metadata into our new buffer
+			unsigned int actual_len;
+			getExtraData((const BYTE *)pmt->Format(), pmt->FormatType(), pmt->FormatLength(), extra+6, &actual_len);
+
+			// Count the number of SPS/PPS in them and set the length
+			// We'll put them all into one block and add a second block with 0 elements afterwards
+			// The parsing logic does not care what type they are, it just expects 2 blocks.
+			BYTE *p = extra+6, *end = extra+6+actual_len;
+			BOOL bSPS = FALSE, bPPS = FALSE;
+			int count = 0;
+			while (p+1 < end) {
+				unsigned len = (((unsigned)p[0] << 8) | p[1]) + 2;
+				if (p + len > end) {
+					break;
+				}
+				if ((p[2] & 0x1F) == 7)
+					bSPS = TRUE;
+				if ((p[2] & 0x1F) == 8)
+					bPPS = TRUE;
+				count++;
+				p += len;
+			}
+			extra[5] = count;
+			extra[extralen-1] = 0;
+
+			bH264avc = TRUE;
+			if (!bSPS) {
+				TRACE(_T("CMPCVideoDecFilter::AllocExtradata() : AVC1 extradata doesn't contain a SPS, setting thread_count = 1"));
+				m_pAVCtx->thread_count = 1;
+			}
+		} else {
+			// Just copy extradata for other formats
+			extra = (uint8_t *)av_mallocz(extralen + FF_INPUT_BUFFER_PADDING_SIZE);
+			getExtraData((const BYTE *)pmt->Format(), pmt->FormatType(), pmt->FormatLength(), extra, NULL);
+		}
+		// Hack to discard invalid MP4 metadata with AnnexB style video
+		if (m_nCodecId == CODEC_ID_H264 && !bH264avc && extra[0] == 1) {
+			av_freep(&extra);
+			extralen = 0;
+		}
+		m_pAVCtx->extradata = extra;
+		m_pAVCtx->extradata_size = (int)extralen;
 	}
 }
 
@@ -1375,23 +1405,6 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 		}
 		if (m_nDXVAMode == MODE_SOFTWARE && (!m_bUseFFmpeg || !FFSoftwareCheckCompatibility(m_pAVCtx))) {
 			return VFW_E_INVALIDMEDIATYPE;
-		}
-
-		if (m_nDXVAMode == MODE_SOFTWARE && m_nCodecId == CODEC_ID_H264 && m_pAVCtx->h264_using_dxva) {
-#if INTERNAL_DECODER_H264
-			m_bUseDXVA = false;
-			avcodec_close (m_pAVCtx);
-			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber();
-			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
-				FFSetThreadNumber(m_pAVCtx, m_nCodecId, nThreadNumber);
-			}
-			m_pAVCtx->h264_using_dxva = 0;
-			if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
-				return VFW_E_INVALIDMEDIATYPE;
-			}
-#else
-			return VFW_E_INVALIDMEDIATYPE;
-#endif
 		}
 
 		CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
@@ -1973,7 +1986,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 		rtStart = rtStop = _I64_MIN;
 	}
 
-	if (m_nDXVAMode == MODE_SOFTWARE) {
+	if (m_nDXVAMode == MODE_SOFTWARE || (m_nCodecId == CODEC_ID_VC1 && !m_bIsEVO)) {
 		UpdateFrameTime(rtStart, rtStop, m_bFrame_repeat_pict);
 	}
 

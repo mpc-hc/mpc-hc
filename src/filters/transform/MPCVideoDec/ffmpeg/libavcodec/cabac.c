@@ -2,20 +2,20 @@
  * H.26L/H.264/AVC/JVT/14496-10/... encoder/decoder
  * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -52,6 +52,7 @@ static const uint8_t lps_range[64][4]= {
 
 uint8_t ff_h264_mlps_state[4*64];
 uint8_t ff_h264_lps_range[4*2*64];
+uint8_t ff_h264_lps_state[2*64];
 static uint8_t h264_mps_state[2 * 64];
 
 static const uint8_t mps_state[64]= {
@@ -146,10 +147,14 @@ void ff_init_cabac_states(CABACContext *c){
         h264_mps_state[2 * i + 1] = 2 * mps_state[i] + 1;
 
         if( i ){
+            ff_h264_lps_state[2*i+0]=
             ff_h264_mlps_state[128-2*i-1]= 2*lps_state[i]+0;
+            ff_h264_lps_state[2*i+1]=
             ff_h264_mlps_state[128-2*i-2]= 2*lps_state[i]+1;
         }else{
+            ff_h264_lps_state[2*i+0]=
             ff_h264_mlps_state[128-2*i-1]= 1;
+            ff_h264_lps_state[2*i+1]=
             ff_h264_mlps_state[128-2*i-2]= 0;
         }
     }
@@ -196,6 +201,7 @@ static void put_cabac(CABACContext *c, uint8_t * const state, int bit){
     }else{
         c->low += c->range - RangeLPS;
         c->range = RangeLPS;
+        *state= ff_h264_lps_state[*state];
     }
 
     renorm_cabac_encoder(c);
@@ -260,7 +266,8 @@ int main(void){
     ff_init_cabac_states(&c);
 
     for(i=0; i<SIZE; i++){
-        r[i] = av_lfg_get(&prng) % 7;
+        if(2*i<SIZE) r[i] = av_lfg_get(&prng) % 7;
+        else         r[i] = (i>>8)&1;
     }
 
     for(i=0; i<SIZE; i++){

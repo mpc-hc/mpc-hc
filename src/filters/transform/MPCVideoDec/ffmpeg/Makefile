@@ -270,6 +270,7 @@ SRCS_C=\
     libavutil/random_seed.c \
     libavutil/rational.c \
     libavutil/samplefmt.c \
+    libavutil/timecode.c \
     libavutil/utils.c \
     libavutil/x86/cpu.c \
 \
@@ -291,6 +292,7 @@ SRCS_C=\
 SRCS_YASM=\
     libavcodec/x86/ac3dsp.asm \
     libavcodec/x86/dsputil_yasm.asm \
+    libavcodec/x86/deinterlace.asm \
     libavcodec/x86/dct32_sse.asm \
     libavcodec/x86/fft_mmx.asm \
     libavcodec/x86/fmtconvert.asm \

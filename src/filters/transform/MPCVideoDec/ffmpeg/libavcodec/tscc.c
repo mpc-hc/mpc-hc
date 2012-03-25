@@ -2,20 +2,20 @@
  * TechSmith Camtasia decoder
  * Copyright (c) 2004 Konstantin Shishkov
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -81,7 +81,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size, AVPac
     if(c->pic.data[0])
             avctx->release_buffer(avctx, &c->pic);
 
-    c->pic.reference = 1;
+    c->pic.reference = 3;
     c->pic.buffer_hints = FF_BUFFER_HINTS_VALID;
     if(avctx->get_buffer(avctx, &c->pic) < 0){
         av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
@@ -142,6 +142,7 @@ static av_cold int decode_init(AVCodecContext *avctx)
 
     c->height = avctx->height;
 
+    avcodec_get_frame_defaults(&c->pic);
     // Needed if zlib unused or init aborted before inflateInit
     memset(&c->zstream, 0, sizeof(z_stream));
     switch(avctx->bits_per_coded_sample){

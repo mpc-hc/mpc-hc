@@ -34,7 +34,6 @@ void TlibavcodecExt::ConnectTo(AVCodecContext *pAVCtx)
 	pAVCtx->get_buffer				= get_buffer;
 	pAVCtx->reget_buffer			= reget_buffer;
 	pAVCtx->release_buffer			= release_buffer;
-	pAVCtx->handle_user_data		= handle_user_data0;
 }
 
 int TlibavcodecExt::get_buffer(AVCodecContext *c, AVFrame *pic)
@@ -59,9 +58,4 @@ void TlibavcodecExt::release_buffer(AVCodecContext *c, AVFrame *pic)
 {
 	c->opaque->ff_avcodec_default_release_buffer(c,pic);
 	c->opaque->OnReleaseBuffer(pic);
-}
-
-void TlibavcodecExt::handle_user_data0(AVCodecContext *c, const uint8_t *buf,int buf_len)
-{
-	c->opaque->HandleUserData(buf,buf_len);
 }

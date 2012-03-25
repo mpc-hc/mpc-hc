@@ -5,20 +5,20 @@
  * Optimized for ia32 CPUs by Nick Kurshev <nickols_k@mail.ru>
  * h263, mpeg1, mpeg2 dequantizer & draw_edges by Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -530,11 +530,6 @@ static void  denoise_dct_mmx(MpegEncContext *s, DCTELEM *block){
     );
 }
 
-/* ffdshow custom code */
-#pragma GCC push_options
-#pragma GCC target ("sse")
-
-
 static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
     const int intra= s->mb_intra;
     int *sum= s->dct_error_sum[intra];
@@ -630,9 +625,6 @@ static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
 #define RENAMEl(a) a ## _sse2
 #include "mpegvideo_mmx_template.c"
 #endif
-
-/* ffdshow custom code */
-#pragma GCC pop_options
 
 void ff_MPV_common_init_mmx(MpegEncContext *s)
 {

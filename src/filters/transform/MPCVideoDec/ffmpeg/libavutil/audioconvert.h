@@ -2,20 +2,20 @@
  * Copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  * Copyright (c) 2008 Peter Ross
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -107,6 +107,18 @@
 
 /**
  * Return a channel layout id that matches name, 0 if no match.
+ * name can be one or several of the following notations,
+ * separated by '+' or '|':
+ * - the name of an usual channel layout (mono, stereo, 4.0, quad, 5.0,
+ *   5.0(side), 5.1, 5.1(side), 7.1, 7.1(wide), downmix);
+ * - the name of a single channel (FL, FR, FC, LFE, BL, BR, FLC, FRC, BC,
+ *   SL, SR, TC, TFL, TFC, TFR, TBL, TBC, TBR, DL, DR);
+ * - a number of channels, in decimal, optionnally followed by 'c', yielding
+ *   the default channel layout for that number of channels (@see
+ *   av_get_default_channel_layout);
+ * - a channel layout mask, in hexadecimal starting with "0x" (see the
+ *   AV_CH_* macros).
+ + Example: "stereo+FC" = "2+FC" = "2c+1c" = "0x7"
  */
 uint64_t av_get_channel_layout(const char *name);
 
@@ -123,6 +135,11 @@ void av_get_channel_layout_string(char *buf, int buf_size, int nb_channels, uint
  * Return the number of channels in the channel layout.
  */
 int av_get_channel_layout_nb_channels(uint64_t channel_layout);
+
+/**
+ * Return default channel layout for a given number of channels.
+ */
+int64_t av_get_default_channel_layout(int nb_channels);
 
 /**
  * @}

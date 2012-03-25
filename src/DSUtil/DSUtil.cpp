@@ -2880,6 +2880,7 @@ unsigned int lav_xiphlacing(unsigned char *s, unsigned int v)
 
 void getExtraData(const BYTE *format, const GUID *formattype, const size_t formatlen, BYTE *extra, unsigned int *extralen)
 {
+	// code from LAV ...
 	const BYTE *extraposition = NULL;
 	unsigned extralength = 0;
 	if (*formattype == FORMAT_WaveFormatEx) {
@@ -2909,6 +2910,20 @@ void getExtraData(const BYTE *format, const GUID *formattype, const size_t forma
 			*extralen = extralength + offset;
 
 		return;
+	} else if (*formattype == FORMAT_VideoInfo) {
+		extraposition = format + sizeof(VIDEOINFOHEADER);
+		extralength   = formatlen - sizeof(VIDEOINFOHEADER);
+	} else if(*formattype == FORMAT_VideoInfo2) {
+		extraposition = format + sizeof(VIDEOINFOHEADER2);
+		extralength   = formatlen - sizeof(VIDEOINFOHEADER2);
+	} else if (*formattype == FORMAT_MPEGVideo) {
+		MPEG1VIDEOINFO *mp1vi = (MPEG1VIDEOINFO *)format;
+		extraposition = (BYTE *)mp1vi->bSequenceHeader;
+		extralength   =  min(mp1vi->cbSequenceHeader, formatlen - FIELD_OFFSET(MPEG1VIDEOINFO, bSequenceHeader[0]));
+	} else if (*formattype == FORMAT_MPEG2Video) {
+		MPEG2VIDEOINFO *mp2vi = (MPEG2VIDEOINFO *)format;
+		extraposition = (BYTE *)mp2vi->dwSequenceHeader;
+		extralength   = min(mp2vi->cbSequenceHeader, formatlen - FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader[0]));
 	}
 
 	if (extra && extralength)

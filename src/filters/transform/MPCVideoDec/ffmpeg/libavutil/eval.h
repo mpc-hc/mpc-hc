@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2002 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -90,6 +90,39 @@ double av_expr_eval(AVExpr *e, const double *const_values, void *opaque);
  * Free a parsed expression previously created with av_expr_parse().
  */
 void av_expr_free(AVExpr *e);
+
+#if FF_API_OLD_EVAL_NAMES
+/**
+ * @deprecated Deprecated in favor of av_expr_parse_and_eval().
+ */
+attribute_deprecated
+int av_parse_and_eval_expr(double *res, const char *s,
+                           const char * const *const_names, const double *const_values,
+                           const char * const *func1_names, double (* const *funcs1)(void *, double),
+                           const char * const *func2_names, double (* const *funcs2)(void *, double, double),
+                           void *opaque, int log_offset, void *log_ctx);
+
+/**
+ * @deprecated Deprecated in favor of av_expr_parse().
+ */
+attribute_deprecated
+int av_parse_expr(AVExpr **expr, const char *s,
+                  const char * const *const_names,
+                  const char * const *func1_names, double (* const *funcs1)(void *, double),
+                  const char * const *func2_names, double (* const *funcs2)(void *, double, double),
+                  int log_offset, void *log_ctx);
+/**
+ * @deprecated Deprecated in favor of av_expr_eval().
+ */
+attribute_deprecated
+double av_eval_expr(AVExpr *e, const double *const_values, void *opaque);
+
+/**
+ * @deprecated Deprecated in favor of av_expr_free().
+ */
+attribute_deprecated
+void av_free_expr(AVExpr *e);
+#endif /* FF_API_OLD_EVAL_NAMES */
 
 /**
  * Parse the string in numstr and return its value as a double. If

@@ -993,6 +993,28 @@ static inline int mpeg4_decode_block(MpegEncContext * s, DCTELEM * block,
                         SKIP_COUNTER(re, &s->gb, 1+12+1);
                     }
 
+#if 0
+                    if(s->error_recognition >= FF_ER_COMPLIANT){
+                        const int abs_level= FFABS(level);
+                        if(abs_level<=MAX_LEVEL && run<=MAX_RUN){
+                            const int run1= run - rl->max_run[last][abs_level] - 1;
+                            if(abs_level <= rl->max_level[last][run]){
+                                av_log(s->avctx, AV_LOG_ERROR, "illegal 3. esc, vlc encoding possible\n");
+                                return -1;
+                            }
+                            if(s->error_recognition > FF_ER_COMPLIANT){
+                                if(abs_level <= rl->max_level[last][run]*2){
+                                    av_log(s->avctx, AV_LOG_ERROR, "illegal 3. esc, esc 1 encoding possible\n");
+                                    return -1;
+                                }
+                                if(run1 >= 0 && abs_level <= rl->max_level[last][run1]){
+                                    av_log(s->avctx, AV_LOG_ERROR, "illegal 3. esc, esc 2 encoding possible\n");
+                                    return -1;
+                                }
+                            }
+                        }
+                    }
+#endif
                     if (level>0) level= level * qmul + qadd;
                     else         level= level * qmul - qadd;
 
@@ -1291,7 +1313,7 @@ static int mpeg4_decode_mb(MpegEncContext *s,
                 s->last_mv[i][1][1]= 0;
             }
 
-            ff_thread_await_progress((AVFrame*)s->next_picture_ptr, s->mb_y, 0);
+            ff_thread_await_progress(&s->next_picture_ptr->f, s->mb_y, 0);
         }
 
         /* if we skipped it in the future P Frame than skip it now too */
@@ -1478,7 +1500,7 @@ end:
 
             if(s->pict_type==AV_PICTURE_TYPE_B){
                 const int delta= s->mb_x + 1 == s->mb_width ? 2 : 1;
-                ff_thread_await_progress((AVFrame*)s->next_picture_ptr,
+                ff_thread_await_progress(&s->next_picture_ptr->f,
                                         (s->mb_x + delta >= s->mb_width) ? FFMIN(s->mb_y+1, s->mb_height-1) : s->mb_y, 0);
                 if (s->next_picture.f.mbskip_table[xy + delta])
                     return SLICE_OK;
@@ -1665,12 +1687,10 @@ static int decode_vol_header(MpegEncContext *s, GetBitContext *gb){
             for(i=0; i<64; i++){
                 int j= s->dsp.idct_permutation[i];
                 v= ff_mpeg4_default_intra_matrix[i];
-                s->avctx->intra_matrix[i]=v;
                 s->intra_matrix[j]= v;
                 s->chroma_intra_matrix[j]= v;
 
                 v= ff_mpeg4_default_non_intra_matrix[i];
-                s->avctx->inter_matrix[i]=v;
                 s->inter_matrix[j]= v;
                 s->chroma_inter_matrix[j]= v;
             }
@@ -1685,7 +1705,6 @@ static int decode_vol_header(MpegEncContext *s, GetBitContext *gb){
 
                     last= v;
                     j= s->dsp.idct_permutation[ ff_zigzag_direct[i] ];
-                    s->avctx->intra_matrix[ff_zigzag_direct[i]]=v;
                     s->intra_matrix[j]= v;
                     s->chroma_intra_matrix[j]= v;
                 }
@@ -1693,7 +1712,6 @@ static int decode_vol_header(MpegEncContext *s, GetBitContext *gb){
                 /* replicate last value */
                 for(; i<64; i++){
                     int j= s->dsp.idct_permutation[ ff_zigzag_direct[i] ];
-                    s->avctx->intra_matrix[ff_zigzag_direct[i]]=last;
                     s->intra_matrix[j]= last;
                     s->chroma_intra_matrix[j]= last;
                 }
@@ -1709,7 +1727,6 @@ static int decode_vol_header(MpegEncContext *s, GetBitContext *gb){
 
                     last= v;
                     j= s->dsp.idct_permutation[ ff_zigzag_direct[i] ];
-                    s->avctx->inter_matrix[ff_zigzag_direct[i]]=v;
                     s->inter_matrix[j]= v;
                     s->chroma_inter_matrix[j]= v;
                 }
@@ -1717,7 +1734,6 @@ static int decode_vol_header(MpegEncContext *s, GetBitContext *gb){
                 /* replicate last value */
                 for(; i<64; i++){
                     int j= s->dsp.idct_permutation[ ff_zigzag_direct[i] ];
-                    s->avctx->inter_matrix[ff_zigzag_direct[i]]=last;
                     s->inter_matrix[j]= last;
                     s->chroma_inter_matrix[j]= last;
                 }
@@ -2306,3 +2322,20 @@ AVCodec ff_mpeg4_decoder = {
     .update_thread_context= ONLY_IF_THREADS_ENABLED(ff_mpeg_update_thread_context),
     .priv_class = &mpeg4_class,
 };
+
+
+#if CONFIG_MPEG4_VDPAU_DECODER
+AVCodec ff_mpeg4_vdpau_decoder = {
+    .name           = "mpeg4_vdpau",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_MPEG4,
+    .priv_data_size = sizeof(MpegEncContext),
+    .init           = decode_init,
+    .close          = ff_h263_decode_end,
+    .decode         = ff_h263_decode_frame,
+    .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY | CODEC_CAP_HWACCEL_VDPAU,
+    .long_name= NULL_IF_CONFIG_SMALL("MPEG-4 part 2 (VDPAU)"),
+    .pix_fmts= (const enum PixelFormat[]){PIX_FMT_VDPAU_MPEG4, PIX_FMT_NONE},
+    .priv_class = &mpeg4_vdpau_class,
+};
+#endif

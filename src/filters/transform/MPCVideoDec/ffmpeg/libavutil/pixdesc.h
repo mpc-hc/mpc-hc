@@ -2,20 +2,20 @@
  * pixel format descriptor
  * Copyright (c) 2009 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -73,6 +73,7 @@ typedef struct AVPixFmtDescriptor{
      * This value only refers to the chroma components.
      */
     uint8_t log2_chroma_h;
+    uint8_t flags;
 
     /**
      * Parameters that describe how pixels are packed. If the format
@@ -80,7 +81,6 @@ typedef struct AVPixFmtDescriptor{
      * comp[2].
      */
     AVComponentDescriptor comp[4];
-    uint8_t flags; //ffdshow custom code (must match order as defined for MSVC in pixdesc.c)
 }AVPixFmtDescriptor;
 
 #define PIX_FMT_BE        1 ///< Pixel format is big-endian.
@@ -179,5 +179,6 @@ char *av_get_pix_fmt_string (char *buf, int buf_size, enum PixelFormat pix_fmt);
  * not counted.
  */
 int av_get_bits_per_pixel(const AVPixFmtDescriptor *pixdesc);
+int av_get_bits_per_pixel2(enum PixelFormat pix_fmt);
 
 #endif /* AVUTIL_PIXDESC_H */

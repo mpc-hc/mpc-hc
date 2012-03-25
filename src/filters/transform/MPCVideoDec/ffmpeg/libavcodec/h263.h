@@ -1,20 +1,20 @@
 /*
  * H263 internal header
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 #ifndef AVCODEC_H263_H
@@ -59,8 +59,8 @@ extern RLTable ff_rl_intra_aic;
 
 extern const uint16_t ff_h263_format[8][2];
 extern const uint8_t ff_modified_quant_tab[2][32];
-extern uint16_t ff_mba_max[6];
-extern uint8_t ff_mba_length[7];
+extern const uint16_t ff_mba_max[6];
+extern const uint8_t ff_mba_length[7];
 
 extern uint8_t ff_h263_static_rl_table_store[2][2][2*MAX_RUN + MAX_LEVEL + 3];
 

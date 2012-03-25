@@ -7,25 +7,25 @@
 ;*          Jason Garrett-Glaser <darkshikari@gmail.com>
 ;*          Oskar Arvidsson <oskar@irock.se>
 ;*
-;* This file is part of Libav.
+;* This file is part of FFmpeg.
 ;*
-;* Libav is free software; you can redistribute it and/or
+;* FFmpeg is free software; you can redistribute it and/or
 ;* modify it under the terms of the GNU Lesser General Public
 ;* License as published by the Free Software Foundation; either
 ;* version 2.1 of the License, or (at your option) any later version.
 ;*
-;* Libav is distributed in the hope that it will be useful,
+;* FFmpeg is distributed in the hope that it will be useful,
 ;* but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;* Lesser General Public License for more details.
 ;*
 ;* You should have received a copy of the GNU Lesser General Public
-;* License along with Libav; if not, write to the Free Software
+;* License along with FFmpeg; if not, write to the Free Software
 ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 ;******************************************************************************
 
-%include "x86inc.asm"
-%include "x86util.asm"
+%include "libavutil/x86/x86inc.asm"
+%include "libavutil/x86/x86util.asm"
 
 SECTION .text
 
@@ -386,8 +386,10 @@ cglobal deblock_h_luma_8_%1, 5,7
 
 INIT_XMM
 DEBLOCK_LUMA sse2
+%if HAVE_AVX
 INIT_AVX
 DEBLOCK_LUMA avx
+%endif
 
 %else
 
@@ -505,8 +507,10 @@ INIT_MMX
 DEBLOCK_LUMA mmxext, v8, 8
 INIT_XMM
 DEBLOCK_LUMA sse2, v, 16
+%if HAVE_AVX
 INIT_AVX
 DEBLOCK_LUMA avx, v, 16
+%endif
 
 %endif ; ARCH
 
@@ -777,8 +781,10 @@ cglobal deblock_h_luma_intra_8_%1, 2,4
 
 INIT_XMM
 DEBLOCK_LUMA_INTRA sse2, v
+%if HAVE_AVX
 INIT_AVX
 DEBLOCK_LUMA_INTRA avx , v
+%endif
 %if ARCH_X86_64 == 0
 INIT_MMX
 DEBLOCK_LUMA_INTRA mmxext, v8
@@ -839,7 +845,11 @@ cglobal deblock_h_chroma_8_mmxext, 5,7
     TRANSPOSE4x8_LOAD  bw, wd, dq, PASS8ROWS(t5, r0, r1, t6)
     movq  buf0, m0
     movq  buf1, m3
-    call ff_chroma_inter_body_mmxext
+    LOAD_MASK  r2d, r3d
+    movd       m6, [r4] ; tc0
+    punpcklbw  m6, m6
+    pand       m7, m6
+    DEBLOCK_P0_Q0
     movq  m0, buf0
     movq  m3, buf1
     TRANSPOSE8x4B_STORE PASS8ROWS(t5, r0, r1, t6)

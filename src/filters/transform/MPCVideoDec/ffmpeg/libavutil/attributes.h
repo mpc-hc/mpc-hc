@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -37,6 +37,14 @@
 #    define av_always_inline __attribute__((always_inline)) inline
 #else
 #    define av_always_inline inline
+#endif
+#endif
+
+#ifndef av_noreturn
+#if AV_GCC_VERSION_AT_LEAST(2,5)
+#    define av_noreturn __attribute__((noreturn))
+#else
+#    define av_noreturn
 #endif
 #endif
 
@@ -88,6 +96,24 @@
 #endif
 #endif
 
+/**
+ * Disable warnings about deprecated features
+ * This is useful for sections of code kept for backward compatibility and
+ * scheduled for removal.
+ */
+#ifndef AV_NOWARN_DEPRECATED
+#if AV_GCC_VERSION_AT_LEAST(4,6)
+#    define AV_NOWARN_DEPRECATED(code) \
+        _Pragma("GCC diagnostic push") \
+        _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"") \
+        code \
+        _Pragma("GCC diagnostic pop")
+#else
+#    define AV_NOWARN_DEPRECATED(code) code
+#endif
+#endif
+
+
 #ifndef av_unused
 #if defined(__GNUC__)
 #    define av_unused __attribute__((unused))
@@ -118,7 +144,7 @@
 #endif
 
 #ifndef av_uninit
-#if defined(__GNUC__) && !defined(__ICC)
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
 #    define av_uninit(x) x=x
 #else
 #    define av_uninit(x) x

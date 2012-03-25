@@ -2,20 +2,20 @@
  * H.26L/H.264/AVC/JVT/14496-10/... direct mb/block decoding
  * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -89,7 +89,8 @@ static void fill_colmap(H264Context *h, int map[2][16+32], int list, int field, 
             for(j=start; j<end; j++){
                 if (4 * h->ref_list[0][j].frame_num + (h->ref_list[0][j].f.reference & 3) == poc) {
                     int cur_ref= mbafi ? (j-16)^field : j;
-                    map[list][2*old_ref + (rfield^field) + 16] = cur_ref;
+                    if(ref1->mbaff)
+                        map[list][2*old_ref + (rfield^field) + 16] = cur_ref;
                     if(rfield == field || !interl)
                         map[list][old_ref] = cur_ref;
                     break;

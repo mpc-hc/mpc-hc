@@ -2,20 +2,20 @@
  * AVOptions
  * Copyright (c) 2005 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -36,10 +36,9 @@
 //FIXME order them and do a bin search
 const AVOption *av_find_opt(void *v, const char *name, const char *unit, int mask, int flags)
 {
-    AVClass *c= *(AVClass**)v; //FIXME silly way of storing AVClass
-    const AVOption *o= c->option;
+    const AVOption *o = NULL;
 
-    for (; o && o->name; o++) {
+    while ((o = av_next_option(v, o))) {
         if (!strcmp(o->name, name) && (!unit || (o->unit && !strcmp(o->unit, unit))) && (o->flags & mask) == flags)
             return o;
     }
@@ -73,6 +72,7 @@ static int read_number(const AVOption *o, void *dst, double *num, int *den, int6
     case AV_OPT_TYPE_RATIONAL:  *intnum = ((AVRational*)dst)->num;
                                 *den    = ((AVRational*)dst)->den;
                                                         return 0;
+    case AV_OPT_TYPE_CONST:     *num    = o->default_val.dbl; return 0;
     }
     return AVERROR(EINVAL);
 }
@@ -80,7 +80,7 @@ static int read_number(const AVOption *o, void *dst, double *num, int *den, int6
 static int write_number(void *obj, const AVOption *o, void *dst, double num, int den, int64_t intnum)
 {
     if (o->max*den < num*intnum || o->min*den > num*intnum) {
-        av_log(obj, AV_LOG_ERROR, "Value %lf for parameter '%s' out of range\n", num, o->name);
+        av_log(obj, AV_LOG_ERROR, "Value %f for parameter '%s' out of range\n", num*intnum/den, o->name);
         return AVERROR(ERANGE);
     }
 
@@ -228,7 +228,7 @@ int av_opt_set(void *obj, const char *name, const char *val, int search_flags)
     const AVOption *o = av_opt_find2(obj, name, NULL, 0, search_flags, &target_obj);
     if (!o || !target_obj)
         return AVERROR_OPTION_NOT_FOUND;
-    if (!val)
+    if (!val && o->type != AV_OPT_TYPE_STRING)
         return AVERROR(EINVAL);
 
     dst = ((uint8_t*)target_obj) + o->offset;
@@ -324,7 +324,7 @@ int av_opt_set_q(void *obj, const char *name, AVRational val, int search_flags)
  */
 const char *av_get_string(void *obj, const char *name, const AVOption **o_out, char *buf, int buf_len)
 {
-    const AVOption *o = av_opt_find(obj, name, NULL, 0, 0);
+    const AVOption *o = av_opt_find(obj, name, NULL, 0, AV_OPT_SEARCH_CHILDREN);
     void *dst;
     uint8_t *bin;
     int len, i;
@@ -343,6 +343,7 @@ const char *av_get_string(void *obj, const char *name, const AVOption **o_out, c
     case AV_OPT_TYPE_FLOAT:     snprintf(buf, buf_len, "%f" , *(float  *)dst);break;
     case AV_OPT_TYPE_DOUBLE:    snprintf(buf, buf_len, "%f" , *(double *)dst);break;
     case AV_OPT_TYPE_RATIONAL:  snprintf(buf, buf_len, "%d/%d", ((AVRational*)dst)->num, ((AVRational*)dst)->den);break;
+    case AV_OPT_TYPE_CONST:     snprintf(buf, buf_len, "%f" , o->default_val.dbl);break;
     case AV_OPT_TYPE_STRING:    return *(void**)dst;
     case AV_OPT_TYPE_BINARY:
         len = *(int*)(((uint8_t *)dst) + sizeof(uint8_t *));
@@ -363,7 +364,7 @@ int av_opt_get(void *obj, const char *name, int search_flags, uint8_t **out_val)
     uint8_t *bin, buf[128];
     int len, i, ret;
 
-    if (!o || !target_obj)
+    if (!o || !target_obj || (o->offset<=0 && o->type != AV_OPT_TYPE_CONST))
         return AVERROR_OPTION_NOT_FOUND;
 
     dst = (uint8_t*)target_obj + o->offset;
@@ -376,6 +377,7 @@ int av_opt_get(void *obj, const char *name, int search_flags, uint8_t **out_val)
     case AV_OPT_TYPE_FLOAT:     ret = snprintf(buf, sizeof(buf), "%f" ,     *(float  *)dst);break;
     case AV_OPT_TYPE_DOUBLE:    ret = snprintf(buf, sizeof(buf), "%f" ,     *(double *)dst);break;
     case AV_OPT_TYPE_RATIONAL:  ret = snprintf(buf, sizeof(buf), "%d/%d",   ((AVRational*)dst)->num, ((AVRational*)dst)->den);break;
+    case AV_OPT_TYPE_CONST:     ret = snprintf(buf, sizeof(buf), "%f" ,     o->default_val.dbl);break;
     case AV_OPT_TYPE_STRING:
         if (*(uint8_t**)dst)
             *out_val = av_strdup(*(uint8_t**)dst);
@@ -751,8 +753,13 @@ const AVOption *av_opt_find(void *obj, const char *name, const char *unit,
 const AVOption *av_opt_find2(void *obj, const char *name, const char *unit,
                              int opt_flags, int search_flags, void **target_obj)
 {
-    const AVClass  *c = *(AVClass**)obj;
+    const AVClass  *c;
     const AVOption *o = NULL;
+
+    if(!obj)
+        return NULL;
+
+    c= *(AVClass**)obj;
 
     if (search_flags & AV_OPT_SEARCH_CHILDREN) {
         if (search_flags & AV_OPT_SEARCH_FAKE_OBJ) {
@@ -771,7 +778,7 @@ const AVOption *av_opt_find2(void *obj, const char *name, const char *unit,
     while (o = av_opt_next(obj, o)) {
         if (!strcmp(o->name, name) && (o->flags & opt_flags) == opt_flags &&
             ((!unit && o->type != AV_OPT_TYPE_CONST) ||
-             (unit  && o->unit && !strcmp(o->unit, unit)))) {
+             (unit  && o->type == AV_OPT_TYPE_CONST && o->unit && !strcmp(o->unit, unit)))) {
             if (target_obj) {
                 if (!(search_flags & AV_OPT_SEARCH_FAKE_OBJ))
                     *target_obj = obj;
@@ -797,6 +804,14 @@ const AVClass *av_opt_child_class_next(const AVClass *parent, const AVClass *pre
     if (parent->child_class_next)
         return parent->child_class_next(prev);
     return NULL;
+}
+
+void *av_opt_ptr(const AVClass *class, void *obj, const char *name)
+{
+    const AVOption *opt= av_opt_find2(&class, name, NULL, 0, AV_OPT_SEARCH_FAKE_OBJ, NULL);
+    if(!opt)
+        return NULL;
+    return (uint8_t*)obj + opt->offset;
 }
 
 #ifdef TEST

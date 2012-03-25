@@ -3,20 +3,20 @@
  *
  * Copyright (c) 2008 Vladimir Voroshilov
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -80,6 +80,37 @@ extern const uint8_t ff_fc_4pulses_8bits_track_4[32];
  */
 extern const uint8_t ff_fc_2pulses_9bits_track1[16];
 extern const uint8_t ff_fc_2pulses_9bits_track1_gray[16];
+
+/**
+ * Track|Pulse|        Positions
+ * -----------------------------------------
+ *  2   | 1   | 0, 7, 14, 20, 27, 34,  1, 21
+ *      |     | 2, 9, 15, 22, 29, 35,  6, 26
+ *      |     | 4,10, 17, 24, 30, 37, 11, 31
+ *      |     | 5,12, 19, 25, 32, 39, 16, 36
+ * -----------------------------------------
+ *
+ * @remark Track in the table should be read top-to-bottom, left-to-right.
+ *
+ * @note (EE.1) This table (from the reference code) does not comply with
+ *              the specification.
+ *              The specification contains the following table:
+ *
+ * Track|Pulse|        Positions
+ * -----------------------------------------
+ *  2   | 1   | 0, 5, 10, 15, 20, 25, 30, 35
+ *      |     | 1, 6, 11, 16, 21, 26, 31, 36
+ *      |     | 2, 7, 12, 17, 22, 27, 32, 37
+ *      |     | 4, 9, 14, 19, 24, 29, 34, 39
+ *
+ * -----------------------------------------
+ *
+ * @note (EE.2) Reference G.729D code also uses gray decoding for each
+ *              pulse index before looking up the value in the table.
+ *
+ * Used in G.729 @@6.4k (with gray coding)
+ */
+extern const uint8_t ff_fc_2pulses_9bits_track2_gray[32];
 
 /**
  * b60 hamming windowed sinc function coefficients

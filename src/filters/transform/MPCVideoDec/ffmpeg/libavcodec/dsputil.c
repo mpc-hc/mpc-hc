@@ -5,20 +5,20 @@
  *
  * gmc & q-pel & 32/64 bit based MC by Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -38,6 +38,7 @@
 #include "config.h"
 #include "ac3dec.h"
 #include "vorbis.h"
+#include "diracdsp.h"
 
 uint8_t ff_cropTbl[256 + 2 * MAX_NEG_CROP] = {0, };
 uint32_t ff_squareTbl[512] = {0, };
@@ -1322,6 +1323,51 @@ void ff_avg_rv40_qpel8_mc33_c(uint8_t *dst, uint8_t *src, int stride){
 }
 #endif /* CONFIG_RV40_DECODER */
 
+#if CONFIG_DIRAC_DECODER
+#define DIRAC_MC(OPNAME)\
+void ff_ ## OPNAME ## _dirac_pixels8_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+     OPNAME ## _pixels8_8_c(dst, src[0], stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels16_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels16_8_c(dst, src[0], stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels32_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels16_8_c(dst   , src[0]   , stride, h);\
+    OPNAME ## _pixels16_8_c(dst+16, src[0]+16, stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels8_l2_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels8_l2_8(dst, src[0], src[1], stride, stride, stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels16_l2_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels16_l2_8(dst, src[0], src[1], stride, stride, stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels32_l2_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels16_l2_8(dst   , src[0]   , src[1]   , stride, stride, stride, h);\
+    OPNAME ## _pixels16_l2_8(dst+16, src[0]+16, src[1]+16, stride, stride, stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels8_l4_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels8_l4_8(dst, src[0], src[1], src[2], src[3], stride, stride, stride, stride, stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels16_l4_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels16_l4_8(dst, src[0], src[1], src[2], src[3], stride, stride, stride, stride, stride, h);\
+}\
+void ff_ ## OPNAME ## _dirac_pixels32_l4_c(uint8_t *dst, const uint8_t *src[5], int stride, int h)\
+{\
+    OPNAME ## _pixels16_l4_8(dst   , src[0]   , src[1]   , src[2]   , src[3]   , stride, stride, stride, stride, stride, h);\
+    OPNAME ## _pixels16_l4_8(dst+16, src[0]+16, src[1]+16, src[2]+16, src[3]+16, stride, stride, stride, stride, stride, h);\
+}
+DIRAC_MC(put)
+DIRAC_MC(avg)
+#endif
+
 static void wmv2_mspel8_v_lowpass(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int w){
     uint8_t *cm = ff_cropTbl + MAX_NEG_CROP;
     int i;
@@ -1875,7 +1921,7 @@ static void add_bytes_c(uint8_t *dst, uint8_t *src, int w){
         dst[i+0] += src[i+0];
 }
 
-static void diff_bytes_c(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
+static void diff_bytes_c(uint8_t *dst, const uint8_t *src1, const uint8_t *src2, int w){
     long i;
 #if !HAVE_FAST_UNALIGNED
     if((long)src2 & (sizeof(long)-1)){
@@ -2765,7 +2811,7 @@ int ff_check_alignment(void){
                 "Compiler did not align stack variables. Libavcodec has been miscompiled\n"
                 "and may be very slow or crash. This is not a bug in libavcodec,\n"
                 "but in the compiler. You may try recompiling using gcc >= 4.2.\n"
-                "Do not report crashes to Libav developers.\n");
+                "Do not report crashes to FFmpeg developers.\n");
 #endif
             did_fail=1;
         }
@@ -2774,7 +2820,7 @@ int ff_check_alignment(void){
     return 0;
 }
 
-av_cold void attribute_align_arg ff_dsputil_init(DSPContext* c, AVCodecContext *avctx)
+av_cold void ff_dsputil_init(DSPContext* c, AVCodecContext *avctx)
 {
     int i;
 
@@ -2842,6 +2888,9 @@ av_cold void attribute_align_arg ff_dsputil_init(DSPContext* c, AVCodecContext *
             c->idct_put= ff_faanidct_put;
             c->idct_add= ff_faanidct_add;
             c->idct    = ff_faanidct;
+            c->idct_permutation_type= FF_NO_IDCT_PERM;
+        }else if(CONFIG_EATGQ_DECODER && avctx->idct_algo==FF_IDCT_EA) {
+            c->idct_put= ff_ea_idct_put_c;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
         }else{ //accurate/default
             c->idct_put = ff_simple_idct_put_8;
@@ -3143,40 +3192,7 @@ av_cold void attribute_align_arg ff_dsputil_init(DSPContext* c, AVCodecContext *
                                   c->idct_permutation_type);
 }
 
-// avcodec_get_current_idct,avcodec_get_encoder_info by h.yamagata
-// It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
-const char* avcodec_get_current_idct(AVCodecContext *avctx)
+av_cold void dsputil_init(DSPContext* c, AVCodecContext *avctx)
 {
-    MpegEncContext *s = avctx->priv_data;
-    DSPContext *c = &s->dsp;
-
-    if (c->idct_put==ff_jref_idct_put)
-        return "Integer (ff_jref_idct)";
-    if (c->idct_put==ff_jref_idct1_put)
-        return "Integer (ff_jref_idct1)";
-    if (c->idct_put==ff_jref_idct1_put)
-        return "Integer (ff_jref_idct2)";
-    if (c->idct_put==ff_jref_idct4_put)
-        return "Integer (ff_jref_idct4)";
-    if (c->idct_put==ff_vp3_idct_put_c)
-        return "VP3 (ff_vp3_idct_c)";
-    if (c->idct_put==ff_faanidct_put)
-        return "FAAN (ff_faanidct_put)";
-    if (c->idct_put==ff_simple_idct_put_8)
-        return "Simple IDCT (simple_idct)";
-#if HAVE_MMX
-    return avcodec_get_current_idct_mmx(avctx,c);
-#else
-    return "";
-#endif
-}
-
-// It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
-void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_version,int *divx_build,int *lavc_build)
-{
-    MpegEncContext *s = avctx->priv_data;
-    *xvid_build = s->xvid_build;
-    *divx_version = s->divx_version;
-    *divx_build = s->divx_build;
-    *lavc_build = s->lavc_build;
+    ff_dsputil_init(c, avctx);
 }

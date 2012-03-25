@@ -3,20 +3,20 @@
  * Copyright (c) 2007 Bartlomiej Wolowiec <bartek.wolowiec@gmail.com>
  * Copyright (c) 2008 Justin Ruggles
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -491,7 +491,7 @@ int ff_eac3_parse_header(AC3DecodeContext *s)
     s->skip_syntax       = get_bits1(gbc);
     parse_spx_atten_data = get_bits1(gbc);
 
-    /* coupling strategy occurance and coupling use per block */
+    /* coupling strategy occurrence and coupling use per block */
     num_cpl_blocks = 0;
     if (s->channel_mode > 1) {
         for (blk = 0; blk < s->num_blocks; blk++) {

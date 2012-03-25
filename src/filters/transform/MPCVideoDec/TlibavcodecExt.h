@@ -41,7 +41,6 @@ protected:
 	static int get_buffer(AVCodecContext *s, AVFrame *pic);
 	static void release_buffer(AVCodecContext *s, AVFrame *pic);
 	static int reget_buffer(AVCodecContext *s, AVFrame *pic);
-	static void handle_user_data0(AVCodecContext *c,const uint8_t *buf,int buf_len);
 
 	FUNC_AV_DEFAULT_GET_BUFFER				ff_avcodec_default_get_buffer;
 	FUNC_AV_DEFAULT_RELEASE_BUFFER			ff_avcodec_default_release_buffer;
@@ -53,5 +52,4 @@ public:
 	virtual void	OnGetBuffer(AVFrame *pic) {}
 	virtual void	OnRegetBuffer(AVFrame *pic) {}
 	virtual void	OnReleaseBuffer(AVFrame *pic) {}
-	virtual void	HandleUserData(const uint8_t *buf,int buf_len) {}
 };

@@ -2,20 +2,20 @@
  * RV30/40 decoder common data
  * Copyright (c) 2007 Mike Melanson, Konstantin Shishkov
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -711,8 +711,7 @@ static inline void rv34_mc(RV34DecContext *r, const int block_type,
 
     if (HAVE_THREADS && (s->avctx->active_thread_type & FF_THREAD_FRAME)) {
         /* wait for the referenced mb row to be finished */
-        int mb_row = FFMIN(s->mb_height - 1,
-                           s->mb_y + ((yoff + my + 5 + 8 * height) >> 4));
+        int mb_row = s->mb_y + ((yoff + my + 5 + 8 * height) >> 4);
         AVFrame *f = dir ? &s->next_picture_ptr->f : &s->last_picture_ptr->f;
         ff_thread_await_progress(f, mb_row, 0);
     }
@@ -1459,6 +1458,10 @@ static int rv34_decode_slice(RV34DecContext *r, int end, const uint8_t* buf, int
 
         if (slice_type != s->pict_type) {
             av_log(s->avctx, AV_LOG_ERROR, "Slice type mismatch\n");
+            return AVERROR_INVALIDDATA;
+        }
+        if (s->width != r->si.width || s->height != r->si.height) {
+            av_log(s->avctx, AV_LOG_ERROR, "Size mismatch\n");
             return AVERROR_INVALIDDATA;
         }
     }

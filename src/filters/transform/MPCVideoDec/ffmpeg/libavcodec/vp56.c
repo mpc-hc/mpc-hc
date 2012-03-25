@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2006  Aurelien Jacobs <aurel@gnuage.org>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -529,7 +529,7 @@ int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
         }
 
         if (!is_alpha) {
-            p->reference = 1;
+            p->reference = 3;
             if (avctx->get_buffer(avctx, p) < 0) {
                 av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
                 return -1;
@@ -666,15 +666,16 @@ av_cold void ff_vp56_init(AVCodecContext *avctx, int flip, int has_alpha)
     s->avctx = avctx;
     avctx->pix_fmt = has_alpha ? PIX_FMT_YUVA420P : PIX_FMT_YUV420P;
 
-    /* always use the VP3 IDCT */
-    //if (avctx->idct_algo == FF_IDCT_AUTO)
+    if (avctx->idct_algo == FF_IDCT_AUTO)
         avctx->idct_algo = FF_IDCT_VP3;
     ff_dsputil_init(&s->dsp, avctx);
     ff_vp56dsp_init(&s->vp56dsp, avctx->codec->id);
     ff_init_scantable(s->dsp.idct_permutation, &s->scantable,ff_zigzag_direct);
 
-    for (i=0; i<4; i++)
+    for (i=0; i<4; i++) {
         s->framep[i] = &s->frames[i];
+        avcodec_get_frame_defaults(&s->frames[i]);
+    }
     s->framep[VP56_FRAME_UNUSED] = s->framep[VP56_FRAME_GOLDEN];
     s->framep[VP56_FRAME_UNUSED2] = s->framep[VP56_FRAME_GOLDEN2];
     s->edge_emu_buffer_alloc = NULL;

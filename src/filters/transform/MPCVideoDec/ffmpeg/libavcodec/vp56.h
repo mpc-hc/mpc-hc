@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2006  Aurelien Jacobs <aurel@gnuage.org>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -333,29 +333,18 @@ int vp56_rac_get_tree(VP56RangeCoder *c,
     return -tree->val;
 }
 
-/**
- * This is identical to vp8_rac_get_tree except for the possibility of starting
- * on a node other than the root node, needed for coeff decode where this is
- * used to save a bit after a 0 token (by disallowing EOB to immediately follow.)
- */
-static av_always_inline
-int vp8_rac_get_tree_with_offset(VP56RangeCoder *c, const int8_t (*tree)[2],
-                                 const uint8_t *probs, int i)
+// how probabilities are associated with decisions is different I think
+// well, the new scheme fits in the old but this way has one fewer branches per decision
+static av_always_inline int vp8_rac_get_tree(VP56RangeCoder *c, const int8_t (*tree)[2],
+                                   const uint8_t *probs)
 {
+    int i = 0;
+
     do {
         i = tree[i][vp56_rac_get_prob(c, probs[i])];
     } while (i > 0);
 
     return -i;
-}
-
-// how probabilities are associated with decisions is different I think
-// well, the new scheme fits in the old but this way has one fewer branches per decision
-static av_always_inline
-int vp8_rac_get_tree(VP56RangeCoder *c, const int8_t (*tree)[2],
-                     const uint8_t *probs)
-{
-    return vp8_rac_get_tree_with_offset(c, tree, probs, 0);
 }
 
 // DCTextra

@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2003-2004 the ffmpeg project
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -51,8 +51,6 @@ typedef struct Vp3Fragment {
     uint8_t coding_method;
     uint8_t qpi;
 } Vp3Fragment;
-
-#define _ilog(i) av_log2(2*(i)) /* ffdshow custom code */
 
 #define SB_NOT_CODED        0
 #define SB_PARTIALLY_CODED  1
@@ -249,11 +247,6 @@ typedef struct Vp3DecodeContext {
 
     uint8_t filter_limit_values[64];
     DECLARE_ALIGNED(8, int, bounding_values_array)[256+2];
-
-    /* ffdshow custom stuffs (begin) */
-    int64_t granulepos;
-    int keyframe_granule_shift,keyframe_frequency_force;
-    /* ffdshow custom stuffs (end) */
 } Vp3DecodeContext;
 
 /************************************************************************
@@ -1579,10 +1572,7 @@ static void render_slice(Vp3DecodeContext *s, int slice)
                     /* invert DCT and place (or add) in final output */
 
                     if (s->all_fragments[i].coding_method == MODE_INTRA) {
-                        int index;
-                        index = vp3_dequant(s, s->all_fragments + i, plane, 0, block);
-                        if (index > 63)
-                            continue;
+                        vp3_dequant(s, s->all_fragments + i, plane, 0, block);
                         if(s->avctx->idct_algo!=FF_IDCT_VP3)
                             block[0] += 128<<3;
                         s->dsp.idct_put(
@@ -1590,10 +1580,7 @@ static void render_slice(Vp3DecodeContext *s, int slice)
                             stride,
                             block);
                     } else {
-                        int index = vp3_dequant(s, s->all_fragments + i, plane, 1, block);
-                        if (index > 63)
-                            continue;
-                        if (index > 0) {
+                        if (vp3_dequant(s, s->all_fragments + i, plane, 1, block)) {
                         s->dsp.idct_add(
                             output_plane + first_pixel,
                             stride,
@@ -1682,7 +1669,7 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
     if (avctx->pix_fmt == PIX_FMT_NONE)
         avctx->pix_fmt = PIX_FMT_YUV420P;
     avctx->chroma_sample_location = AVCHROMA_LOC_CENTER;
-    //if(avctx->idct_algo==FF_IDCT_AUTO)
+    if(avctx->idct_algo==FF_IDCT_AUTO)
         avctx->idct_algo=FF_IDCT_VP3;
     ff_dsputil_init(&s->dsp, avctx);
 
@@ -1872,7 +1859,7 @@ static int vp3_update_thread_context(AVCodecContext *dst, const AVCodecContext *
         ||s->width != s1->width
         ||s->height!= s1->height) {
         if (s != s1)
-            copy_fields(s, s1, golden_frame, current_frame);
+            copy_fields(s, s1, golden_frame, keyframe);
         return -1;
     }
 
@@ -1913,19 +1900,6 @@ static int vp3_update_thread_context(AVCodecContext *dst, const AVCodecContext *
 
     return 0;
 }
-
-/* ffdshow custom code (begin) */
-static int64_t theora_granule_frame(Vp3DecodeContext *s,int64_t granulepos) 	 
-{ 	 
-    if(granulepos>=0){
-        int64_t iframe=granulepos>>s->keyframe_granule_shift;
-        int64_t pframe=granulepos-(iframe<<s->keyframe_granule_shift);
-        return iframe+pframe;
-    }else{
-        return -1;
-    }
-}
-/* ffdshow custom code (end) */
 
 static int vp3_decode_frame(AVCodecContext *avctx,
                             void *data, int *data_size,
@@ -2065,28 +2039,6 @@ static int vp3_decode_frame(AVCodecContext *avctx,
     }
     vp3_draw_horiz_band(s, s->avctx->height);
 
-    /* ffdshow custom code (begin) */
-    if (s->theora && avctx->time_base.num){
-        if (avctx->granulepos>-1){
-            s->granulepos=avctx->granulepos;
-        }else{
-            if (s->granulepos==-1)
-                s->granulepos=0;
-            else
-                if (s->keyframe){
-                    long frames= s->granulepos & ((1<<s->keyframe_granule_shift)-1);
-                    s->granulepos>>=s->keyframe_granule_shift;
-                    s->granulepos+=frames+1;
-                    s->granulepos<<=s->keyframe_granule_shift;
-                }else{
-                    s->granulepos++;
-                }
-        }
-        s->current_frame.reordered_opaque = 10000000LL * theora_granule_frame(s,s->granulepos) * avctx->time_base.den / avctx->time_base.num;
-        s->current_frame.pict_type=s->keyframe?AV_PICTURE_TYPE_I:AV_PICTURE_TYPE_P;
-    }
-    /* ffdshow custom code (end) */
-
     *data_size=sizeof(AVFrame);
     *(AVFrame*)data= s->current_frame;
 
@@ -2211,7 +2163,7 @@ static int theora_decode_header(AVCodecContext *avctx, GetBitContext *gb)
     }
 
     if (s->theora < 0x030200)
-        s->keyframe_frequency_force=1<<get_bits(gb, 5); /* keyframe frequency force */ /* ffdshow custom code */
+        skip_bits(gb, 5); /* keyframe frequency force */
     colorspace = get_bits(gb, 8);
     skip_bits(gb, 24); /* bitrate */
 
@@ -2219,11 +2171,10 @@ static int theora_decode_header(AVCodecContext *avctx, GetBitContext *gb)
 
     if (s->theora >= 0x030200)
     {
-        s->keyframe_frequency_force=1<<get_bits(gb, 5); /* keyframe frequency force */ /* ffdshow custom code */
+        skip_bits(gb, 5); /* keyframe frequency force */
         avctx->pix_fmt = theora_pix_fmts[get_bits(gb, 2)];
         skip_bits(gb, 3); /* reserved */
     }
-    s->keyframe_granule_shift=_ilog(s->keyframe_frequency_force-1); // ffdshow custom code
 
 //    align_get_bits(gb);
 
@@ -2414,7 +2365,6 @@ static av_cold int theora_decode_init(AVCodecContext *avctx)
         break;
   }
 
-    s->granulepos=-1; /* ffdshow custom code */
     return vp3_decode_init(avctx);
 }
 

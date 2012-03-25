@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003 The Libav Project
+ * Copyright (c) 2003 The FFmpeg Project
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -37,7 +37,7 @@
  *
  * You will know you have these parameters passed correctly when the decoder
  * correctly decodes this file:
- *  http://samples.libav.org/V-codecs/SVQ3/Vertical400kbit.sorenson3.mov
+ *  http://samples.mplayerhq.hu/V-codecs/SVQ3/Vertical400kbit.sorenson3.mov
  */
 #include "internal.h"
 #include "dsputil.h"
@@ -70,6 +70,8 @@ typedef struct {
     int unknown_flag;
     int next_slice_index;
     uint32_t watermark_key;
+    uint8_t *buf;
+    int buf_size;
 } SVQ3Context;
 
 #define FULLPEL_MODE  1
@@ -218,7 +220,7 @@ static inline int svq3_decode_block(GetBitContext *gb, DCTELEM *block,
     for (limit = (16 >> intra); index < 16; index = limit, limit += 8) {
         for (; (vlc = svq3_get_ue_golomb(gb)) != 0; index++) {
 
-          if (vlc == INVALID_VLC)
+          if (vlc < 0)
               return -1;
 
           sign = (vlc & 0x1) - 1;
@@ -236,7 +238,7 @@ static inline int svq3_decode_block(GetBitContext *gb, DCTELEM *block,
                   level = ((vlc + 9) >> 2) - run;
               }
           } else {
-              if (vlc < 16) {
+              if (vlc < 16U) {
                   run   = svq3_dct_tables[intra][vlc].run;
                   level = svq3_dct_tables[intra][vlc].level;
               } else if (intra) {
@@ -568,7 +570,7 @@ static int svq3_decode_mb(SVQ3Context *svq3, unsigned int mb_type)
             for (i = 0; i < 16; i+=2) {
                 vlc = svq3_get_ue_golomb(&s->gb);
 
-                if (vlc >= 25){
+                if (vlc >= 25U){
                     av_log(h->s.avctx, AV_LOG_ERROR, "luma prediction:%d\n", vlc);
                     return -1;
                 }
@@ -640,7 +642,7 @@ static int svq3_decode_mb(SVQ3Context *svq3, unsigned int mb_type)
     }
 
     if (!IS_INTRA16x16(mb_type) && (!IS_SKIP(mb_type) || s->pict_type == AV_PICTURE_TYPE_B)) {
-        if ((vlc = svq3_get_ue_golomb(&s->gb)) >= 48){
+        if ((vlc = svq3_get_ue_golomb(&s->gb)) >= 48U){
             av_log(h->s.avctx, AV_LOG_ERROR, "cbp_vlc=%d\n", vlc);
             return -1;
         }
@@ -650,7 +652,7 @@ static int svq3_decode_mb(SVQ3Context *svq3, unsigned int mb_type)
     if (IS_INTRA16x16(mb_type) || (s->pict_type != AV_PICTURE_TYPE_I && s->adaptive_quant && cbp)) {
         s->qscale += svq3_get_se_golomb(&s->gb);
 
-        if (s->qscale > 31u){
+        if (s->qscale > 31U){
             av_log(h->s.avctx, AV_LOG_ERROR, "qscale:%d\n", s->qscale);
             return -1;
         }
@@ -754,7 +756,7 @@ static int svq3_decode_slice_header(AVCodecContext *avctx)
         skip_bits_long(&s->gb, 0);
     }
 
-    if ((i = svq3_get_ue_golomb(&s->gb)) == INVALID_VLC || i >= 3){
+    if ((i = svq3_get_ue_golomb(&s->gb)) >= 3U){
         av_log(h->s.avctx, AV_LOG_ERROR, "illegal slice type %d \n", i);
         return -1;
     }
@@ -829,6 +831,7 @@ static av_cold int svq3_decode_init(AVCodecContext *avctx)
         svq3->halfpel_flag  = 1;
         svq3->thirdpel_flag = 1;
         svq3->unknown_flag  = 0;
+
 
         /* prowl for the "SEQH" marker in the extradata */
         extradata = (unsigned char *)avctx->extradata;
@@ -945,12 +948,12 @@ static int svq3_decode_frame(AVCodecContext *avctx,
                              void *data, int *data_size,
                              AVPacket *avpkt)
 {
-    const uint8_t *buf = avpkt->data;
     SVQ3Context *svq3 = avctx->priv_data;
     H264Context *h = &svq3->h;
     MpegEncContext *s = &h->s;
     int buf_size = avpkt->size;
     int m, mb_type, left;
+    uint8_t *buf;
 
     /* special case for last picture */
     if (buf_size == 0) {
@@ -962,9 +965,20 @@ static int svq3_decode_frame(AVCodecContext *avctx,
         return 0;
     }
 
-    init_get_bits (&s->gb, buf, 8*buf_size);
-
     s->mb_x = s->mb_y = h->mb_xy = 0;
+
+    if (svq3->watermark_key) {
+        av_fast_malloc(&svq3->buf, &svq3->buf_size,
+                       buf_size+FF_INPUT_BUFFER_PADDING_SIZE);
+        if (!svq3->buf)
+            return AVERROR(ENOMEM);
+        memcpy(svq3->buf, avpkt->data, buf_size);
+        buf = svq3->buf;
+    } else {
+        buf = avpkt->data;
+    }
+
+    init_get_bits(&s->gb, buf, 8*buf_size);
 
     if (svq3_decode_slice_header(avctx))
         return -1;
@@ -1109,6 +1123,9 @@ static int svq3_decode_end(AVCodecContext *avctx)
     ff_h264_free_context(h);
 
     ff_MPV_common_end(s);
+
+    av_freep(&svq3->buf);
+    svq3->buf_size = 0;
 
     return 0;
 }

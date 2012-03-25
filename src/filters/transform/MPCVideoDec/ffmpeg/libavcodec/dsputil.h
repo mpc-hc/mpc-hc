@@ -3,20 +3,20 @@
  * Copyright (c) 2000, 2001, 2002 Fabrice Bellard
  * Copyright (c) 2002-2004 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -133,7 +133,7 @@ void ff_gmc_c(uint8_t *dst, uint8_t *src, int stride, int h, int ox, int oy,
 /* minimum alignment rules ;)
 If you notice errors in the align stuff, need more alignment for some ASM code
 for some CPU or need to use a function with less aligned data then send a mail
-to the libav-devel mailing list, ...
+to the ffmpeg-devel mailing list, ...
 
 !warning These alignments might not match reality, (missing attribute((align))
 stuff somewhere possible).
@@ -378,7 +378,7 @@ typedef struct DSPContext {
 
     /* huffyuv specific */
     void (*add_bytes)(uint8_t *dst/*align 16*/, uint8_t *src/*align 16*/, int w);
-    void (*diff_bytes)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 1*/,int w);
+    void (*diff_bytes)(uint8_t *dst/*align 16*/, const uint8_t *src1/*align 16*/, const uint8_t *src2/*align 1*/,int w);
     /**
      * subtract huffyuv's variant of median prediction
      * note, this might read from src1[-1], src2[-1]
@@ -387,6 +387,7 @@ typedef struct DSPContext {
     void (*add_hfyu_median_prediction)(uint8_t *dst, const uint8_t *top, const uint8_t *diff, int w, int *left, int *left_top);
     int  (*add_hfyu_left_prediction)(uint8_t *dst, const uint8_t *src, int w, int left);
     void (*add_hfyu_left_prediction_bgr32)(uint8_t *dst, const uint8_t *src, int w, int *red, int *green, int *blue, int *alpha);
+    /* this might write to dst[w] */
     void (*bswap_buf)(uint32_t *dst, const uint32_t *src, int w);
     void (*bswap16_buf)(uint16_t *dst, const uint16_t *src, int len);
 
@@ -581,6 +582,7 @@ typedef struct DSPContext {
 
 void ff_dsputil_static_init(void);
 void ff_dsputil_init(DSPContext* p, AVCodecContext *avctx);
+attribute_deprecated void dsputil_init(DSPContext* c, AVCodecContext *avctx);
 
 int ff_check_alignment(void);
 
@@ -775,46 +777,5 @@ static inline void copy_block17(uint8_t *dst, const uint8_t *src, int dstStride,
         src+=srcStride;
     }
 }
-
-/* ffdshow custom code begin */
-
-const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c);
-
-#ifndef D3DCOLOR_DEFINED
-typedef uint32_t D3DCOLOR;
-#define D3DCOLOR_DEFINED
-#endif
-
-#define D3DCOLOR_ARGB(a,r,g,b) \
-    ((D3DCOLOR)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
-
-static const double Rec601_Kr = 0.299;
-static const double Rec601_Kb = 0.114;
-static const double Rec601_Kg = 0.587;
-static const double Rec709_Kr = 0.2125;
-static const double Rec709_Kb = 0.0721;
-static const double Rec709_Kg = 0.7154;
-
-static inline uint32_t YCrCbToRGB_Rec709(uint8_t A, uint8_t Y, uint8_t Cr, uint8_t Cb)
-{
-
-  double rp = Y + 2*(Cr-128)*(1.0-Rec709_Kr);
-  double gp = Y - 2*(Cb-128)*(1.0-Rec709_Kb)*Rec709_Kb/Rec709_Kg - 2*(Cr-128)*(1.0-Rec709_Kr)*Rec709_Kr/Rec709_Kg;
-  double bp = Y + 2*(Cb-128)*(1.0-Rec709_Kb);
-
-  return D3DCOLOR_ARGB(A, (uint8_t)fabs(rp), (uint8_t)fabs(gp), (uint8_t)fabs(bp));
-}
-
-static inline uint32_t YCrCbToRGB_Rec601(uint8_t A, uint8_t Y, uint8_t Cr, uint8_t Cb)
-{
-
-  double rp = Y + 2*(Cr-128)*(1.0-Rec601_Kr);
-  double gp = Y - 2*(Cb-128)*(1.0-Rec601_Kb)*Rec601_Kb/Rec601_Kg - 2*(Cr-128)*(1.0-Rec601_Kr)*Rec601_Kr/Rec601_Kg;
-  double bp = Y + 2*(Cb-128)*(1.0-Rec601_Kb);
-
-  return D3DCOLOR_ARGB(A, (uint8_t)fabs(rp), (uint8_t)fabs(gp), (uint8_t)fabs(bp));
-}
-
-/* ffdshow custom code end */
 
 #endif /* AVCODEC_DSPUTIL_H */

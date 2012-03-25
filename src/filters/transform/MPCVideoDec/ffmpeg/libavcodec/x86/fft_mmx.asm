@@ -6,20 +6,20 @@
 ;* This algorithm (though not any of the implementation details) is
 ;* based on libdjbfft by D. J. Bernstein.
 ;*
-;* This file is part of Libav.
+;* This file is part of FFmpeg.
 ;*
-;* Libav is free software; you can redistribute it and/or
+;* FFmpeg is free software; you can redistribute it and/or
 ;* modify it under the terms of the GNU Lesser General Public
 ;* License as published by the Free Software Foundation; either
 ;* version 2.1 of the License, or (at your option) any later version.
 ;*
-;* Libav is distributed in the hope that it will be useful,
+;* FFmpeg is distributed in the hope that it will be useful,
 ;* but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;* Lesser General Public License for more details.
 ;*
 ;* You should have received a copy of the GNU Lesser General Public
-;* License along with Libav; if not, write to the Free Software
+;* License along with FFmpeg; if not, write to the Free Software
 ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 ;******************************************************************************
 
@@ -28,13 +28,15 @@
 ; in blocks as conventient to the vector size.
 ; i.e. {4x real, 4x imaginary, 4x real, ...} (or 2x respectively)
 
-%include "x86inc.asm"
+%include "libavutil/x86/x86inc.asm"
 
 %if ARCH_X86_64
 %define pointer resq
 %else
 %define pointer resd
 %endif
+
+SECTION_RODATA
 
 struc FFTContext
     .nbits:    resd 1
@@ -46,8 +48,6 @@ struc FFTContext
     .tcos:     pointer 1
     .tsin:     pointer 1
 endstruc
-
-SECTION_RODATA
 
 %define M_SQRT1_2 0.70710678118654752440
 %define M_COS_PI_1_8 0.923879532511287
@@ -388,6 +388,7 @@ fft32_interleave_avx:
     sub r2d, mmsize/4
     jg .deint_loop
     ret
+
 %endif
 
 INIT_XMM

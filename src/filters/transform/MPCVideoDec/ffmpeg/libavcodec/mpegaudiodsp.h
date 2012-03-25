@@ -29,6 +29,7 @@ typedef struct MPADSPContext {
                                int *dither_state, int16_t *samples, int incr);
     void (*dct32_float)(float *dst, const float *src);
     void (*dct32_fixed)(int *dst, const int *src);
+
     void (*imdct36_blocks_float)(float *out, float *buf, float *in,
                                  int count, int switch_point, int block_type);
     void (*imdct36_blocks_fixed)(int *out, int *buf, int *in,

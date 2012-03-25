@@ -1,18 +1,22 @@
-/*
- * This file is part of Libav.
+/**
+ * @file
+ * Vorbis I decoder
+ * @author Denes Balatoni  ( dbalatoni programozo hu )
  *
- * Libav is free software; you can redistribute it and/or
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -575,6 +579,14 @@ static int vorbis_parse_setup_hdr_floors(vorbis_context *vc)
 
 // Precalculate order of x coordinates - needed for decode
             ff_vorbis_ready_floor1_list(floor_setup->data.t1.list, floor_setup->data.t1.x_list_dim);
+
+            for (j=1; j<floor_setup->data.t1.x_list_dim; j++) {
+                if (   floor_setup->data.t1.list[ floor_setup->data.t1.list[j-1].sort ].x
+                    == floor_setup->data.t1.list[ floor_setup->data.t1.list[j  ].sort ].x) {
+                    av_log(vc->avccontext, AV_LOG_ERROR, "Non unique x values in floor type 1\n");
+                    return AVERROR_INVALIDDATA;
+                }
+            }
         } else if (floor_setup->floor_type == 0) {
             unsigned max_codebook_dim = 0;
 
@@ -930,12 +942,12 @@ static int vorbis_parse_id_hdr(vorbis_context *vc)
     vc->bitrate_minimum = get_bits_long(gb, 32);
     bl0 = get_bits(gb, 4);
     bl1 = get_bits(gb, 4);
-    vc->blocksize[0] = (1 << bl0);
-    vc->blocksize[1] = (1 << bl1);
     if (bl0 > 13 || bl0 < 6 || bl1 > 13 || bl1 < 6 || bl1 < bl0) {
         av_log(vc->avccontext, AV_LOG_ERROR, " Vorbis id header packet corrupt (illegal blocksize). \n");
         return AVERROR_INVALIDDATA;
     }
+    vc->blocksize[0] = (1 << bl0);
+    vc->blocksize[1] = (1 << bl1);
     vc->win[0] = ff_vorbis_vwin[bl0 - 6];
     vc->win[1] = ff_vorbis_vwin[bl1 - 6];
 
@@ -994,37 +1006,10 @@ static av_cold int vorbis_decode_init(AVCodecContext *avccontext)
         return AVERROR_INVALIDDATA;
     }
 
-    /* ffdshow custom code (begin) */
-    if (headers[0]!=2 && avccontext->vorbis_header_size[0]==0) {
+    if ((ret = avpriv_split_xiph_headers(headers, headers_len, 30, header_start, header_len)) < 0) {
         av_log(avccontext, AV_LOG_ERROR, "Extradata corrupt.\n");
-        return AVERROR_INVALIDDATA;
+        return ret;
     }
-    
-    if (avccontext->vorbis_header_size[0]==0) {
-        int i,j;
-        for(j=1,i=0;i<2;++i, ++j) {
-            header_len[i]=0;
-            while(j<headers_len && headers[j]==0xff) {
-                header_len[i]+=0xff;
-                ++j;
-            }
-            if (j>=headers_len) {
-                av_log(avccontext, AV_LOG_ERROR, "Extradata corrupt.\n");
-                return AVERROR_INVALIDDATA;
-            }
-            header_len[i]+=headers[j];
-        }
-        header_len[2]=headers_len-header_len[0]-header_len[1]-j;
-        headers+=j;
-    }else{
-        header_len[0]=avccontext->vorbis_header_size[0];
-        header_len[1]=avccontext->vorbis_header_size[1];
-        header_len[2]=avccontext->vorbis_header_size[2];
-    }
-    header_start[0]=headers;
-    header_start[1]=headers+header_len[0];
-    header_start[2]=header_start[1]+header_len[1];
-    /* ffdshow custom code (end) */
 
     init_get_bits(gb, header_start[0], header_len[0]*8);
     hdr_type = get_bits(gb, 8);
@@ -1185,7 +1170,7 @@ static int vorbis_floor1_decode(vorbis_context *vc,
     uint16_t floor1_Y[258];
     uint16_t floor1_Y_final[258];
     int floor1_flag[258];
-    unsigned class, cdim, cbits, csub, cval, offset, i, j;
+    unsigned partition_class, cdim, cbits, csub, cval, offset, i, j;
     int book, adx, ady, dy, off, predicted, err;
 
 
@@ -1201,20 +1186,20 @@ static int vorbis_floor1_decode(vorbis_context *vc,
 
     offset = 2;
     for (i = 0; i < vf->partitions; ++i) {
-        class = vf->partition_class[i];
-        cdim   = vf->class_dimensions[class];
-        cbits  = vf->class_subclasses[class];
+        partition_class = vf->partition_class[i];
+        cdim   = vf->class_dimensions[partition_class];
+        cbits  = vf->class_subclasses[partition_class];
         csub = (1 << cbits) - 1;
         cval = 0;
 
         av_dlog(NULL, "Cbits %u\n", cbits);
 
         if (cbits) // this reads all subclasses for this partition's class
-            cval = get_vlc2(gb, vc->codebooks[vf->class_masterbook[class]].vlc.table,
-                            vc->codebooks[vf->class_masterbook[class]].nb_bits, 3);
+            cval = get_vlc2(gb, vc->codebooks[vf->class_masterbook[partition_class]].vlc.table,
+                            vc->codebooks[vf->class_masterbook[partition_class]].nb_bits, 3);
 
         for (j = 0; j < cdim; ++j) {
-            book = vf->subclass_books[class][cval & csub];
+            book = vf->subclass_books[partition_class][cval & csub];
 
             av_dlog(NULL, "book %d Cbits %u cval %u  bits:%d\n",
                     book, cbits, cval, get_bits_count(gb));

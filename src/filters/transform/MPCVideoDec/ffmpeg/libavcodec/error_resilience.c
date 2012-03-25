@@ -789,11 +789,9 @@ static int is_intra_more_likely(MpegEncContext *s)
                     ff_thread_await_progress(&s->last_picture_ptr->f,
                                              mb_y, 0);
                 }
-                is_intra_likely += s->dsp.sad[0](NULL, last_mb_ptr, mb_ptr,
-                                                 s->linesize, 16);
-                is_intra_likely -= s->dsp.sad[0](NULL, last_mb_ptr,
-                                                 last_mb_ptr + s->linesize * 16,
-                                                 s->linesize, 16);
+                is_intra_likely += s->dsp.sad[0](NULL, last_mb_ptr, mb_ptr                    , s->linesize, 16);
+                // FIXME need await_progress() here
+                is_intra_likely -= s->dsp.sad[0](NULL, last_mb_ptr, last_mb_ptr+s->linesize*16, s->linesize, 16);
             } else {
                 if (IS_INTRA(s->current_picture.f.mb_type[mb_xy]))
                    is_intra_likely++;

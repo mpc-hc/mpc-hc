@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2010 Jason Garrett-Glaser
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -188,7 +188,8 @@ void ff_h264_pred_init_x86(H264PredContext *h, int codec_id, const int bit_depth
                 if (chroma_format_idc == 1)
                     h->pred8x8  [PLANE_PRED8x8] = ff_pred8x8_plane_mmx;
                 if (codec_id == CODEC_ID_SVQ3) {
-                    h->pred16x16[PLANE_PRED8x8] = ff_pred16x16_plane_svq3_mmx;
+                    if (mm_flags & AV_CPU_FLAG_CMOV)
+                        h->pred16x16[PLANE_PRED8x8] = ff_pred16x16_plane_svq3_mmx;
                 } else if (codec_id == CODEC_ID_RV40) {
                     h->pred16x16[PLANE_PRED8x8] = ff_pred16x16_plane_rv40_mmx;
                 } else {

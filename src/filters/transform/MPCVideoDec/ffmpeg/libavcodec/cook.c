@@ -3,20 +3,20 @@
  * Copyright (c) 2003 Sascha Sommer
  * Copyright (c) 2005 Benjamin Larsson
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -280,8 +280,8 @@ static av_cold void init_cplscales_table(COOKContext *q)
 static inline int decode_bytes(const uint8_t *inbuffer, uint8_t *out, int bytes)
 {
     static const uint32_t tab[4] = {
-        AV_BE2NE32C(0x37c511f2), AV_BE2NE32C(0xf237c511),
-        AV_BE2NE32C(0x11f237c5), AV_BE2NE32C(0xc511f237),
+        AV_BE2NE32C(0x37c511f2U), AV_BE2NE32C(0xf237c511U),
+        AV_BE2NE32C(0x11f237c5U), AV_BE2NE32C(0xc511f237U),
     };
     int i, off;
     uint32_t c;
@@ -407,7 +407,7 @@ static int decode_envelope(COOKContext *q, COOKSubpacket *p,
  * @param category              pointer to the category array
  * @param category_index        pointer to the category_index array
  */
-static void categorize(COOKContext *q, COOKSubpacket *p, int *quant_index_table,
+static void categorize(COOKContext *q, COOKSubpacket *p, const int *quant_index_table,
                        int *category, int *category_index)
 {
     int exp_idx, bias, tmpbias1, tmpbias2, bits_left, num_bits, index, v, i, j;
@@ -652,7 +652,7 @@ static int mono_decode(COOKContext *q, COOKSubpacket *p, float *mlt_buffer)
     int category_index[128];
     int quant_index_table[102];
     int category[128];
-    int res;
+    int res, i;
 
     memset(&category,       0, sizeof(category));
     memset(&category_index, 0, sizeof(category_index));
@@ -662,6 +662,10 @@ static int mono_decode(COOKContext *q, COOKSubpacket *p, float *mlt_buffer)
     q->num_vectors = get_bits(&q->gb, p->log2_numvector_size);
     categorize(q, p, quant_index_table, category, category_index);
     expand_category(q, category, category_index);
+    for (i=0; i<p->total_subbands; i++) {
+        if (category[i] > 7)
+            return AVERROR_INVALIDDATA;
+    }
     decode_vectors(q, p, category, quant_index_table, mlt_buffer);
 
     return 0;
@@ -762,7 +766,7 @@ static void imlt_gain(COOKContext *q, float *inbuffer,
  * @param decouple_tab      decoupling array
  *
  */
-static void decouple_info(COOKContext *q, COOKSubpacket *p, int *decouple_tab)
+static int decouple_info(COOKContext *q, COOKSubpacket *p, int *decouple_tab)
 {
     int i;
     int vlc    = get_bits1(&q->gb);
@@ -771,14 +775,21 @@ static void decouple_info(COOKContext *q, COOKSubpacket *p, int *decouple_tab)
     int length = end - start + 1;
 
     if (start > end)
-        return;
+        return 0;
 
     if (vlc)
         for (i = 0; i < length; i++)
             decouple_tab[start + i] = get_vlc2(&q->gb, p->ccpl.table, p->ccpl.bits, 2);
     else
-        for (i = 0; i < length; i++)
-            decouple_tab[start + i] = get_bits(&q->gb, p->js_vlc_bits);
+        for (i = 0; i < length; i++) {
+            int v = get_bits(&q->gb, p->js_vlc_bits);
+            if (v == (1<<p->js_vlc_bits)-1) {
+                av_log(q->avctx, AV_LOG_ERROR, "decouple value too large\n");
+                return AVERROR_INVALIDDATA;
+            }
+            decouple_tab[start + i] = v;
+        }
+    return 0;
 }
 
 /*
@@ -830,10 +841,10 @@ static int joint_decode(COOKContext *q, COOKSubpacket *p, float *mlt_buffer1,
     /* Make sure the buffers are zeroed out. */
     memset(mlt_buffer1, 0, 1024 * sizeof(*mlt_buffer1));
     memset(mlt_buffer2, 0, 1024 * sizeof(*mlt_buffer2));
-    decouple_info(q, p, decouple_tab);
+    if ((res = decouple_info(q, p, decouple_tab)) < 0)
+        return res;
     if ((res = mono_decode(q, p, decode_buffer)) < 0)
         return res;
-
     /* The two channels are stored interleaved in decode_buffer. */
     for (i = 0; i < p->js_subband_start; i++) {
         for (j = 0; j < SUBBAND_SIZE; j++) {

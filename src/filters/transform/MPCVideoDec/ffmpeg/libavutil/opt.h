@@ -2,20 +2,20 @@
  * AVOptions
  * copyright (c) 2005 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -176,7 +176,7 @@
  *
  * @section avoptions_use Using AVOptions
  * This section deals with accessing options in an AVOptions-enabled struct.
- * Such structs in Libav are e.g. AVCodecContext in libavcodec or
+ * Such structs in FFmpeg are e.g. AVCodecContext in libavcodec or
  * AVFormatContext in libavformat.
  *
  * @subsection avoptions_use_examine Examining AVOptions
@@ -340,9 +340,9 @@ attribute_deprecated const AVOption *av_set_double(void *obj, const char *name, 
 attribute_deprecated const AVOption *av_set_q(void *obj, const char *name, AVRational n);
 attribute_deprecated const AVOption *av_set_int(void *obj, const char *name, int64_t n);
 
-attribute_deprecated double av_get_double(void *obj, const char *name, const AVOption **o_out);
-attribute_deprecated AVRational av_get_q(void *obj, const char *name, const AVOption **o_out);
-attribute_deprecated int64_t av_get_int(void *obj, const char *name, const AVOption **o_out);
+double av_get_double(void *obj, const char *name, const AVOption **o_out);
+AVRational av_get_q(void *obj, const char *name, const AVOption **o_out);
+int64_t av_get_int(void *obj, const char *name, const AVOption **o_out);
 attribute_deprecated const char *av_get_string(void *obj, const char *name, const AVOption **o_out, char *buf, int buf_len);
 attribute_deprecated const AVOption *av_next_option(void *obj, const AVOption *last);
 #endif
@@ -376,6 +376,7 @@ void av_opt_set_defaults2(void *s, int mask, int flags);
  * key. ctx must be an AVClass context, storing is done using
  * AVOptions.
  *
+ * @param opts options string to parse, may be NULL
  * @param key_val_sep a 0-terminated list of characters used to
  * separate key from value
  * @param pairs_sep a 0-terminated list of characters used to separate
@@ -585,6 +586,17 @@ int av_opt_get_double(void *obj, const char *name, int search_flags, double     
 int av_opt_get_q     (void *obj, const char *name, int search_flags, AVRational *out_val);
 /**
  * @}
+ */
+/**
+ * Gets a pointer to the requested field in a struct.
+ * This function allows accessing a struct even when its fields are moved or
+ * renamed since the application making the access has been compiled,
+ *
+ * @returns a pointer to the field, it can be cast to the correct type and read
+ *          or written to.
+ */
+void *av_opt_ptr(const AVClass *avclass, void *obj, const char *name);
+/**
  * @}
  */
 

@@ -3,26 +3,27 @@
  * copyright (c) 2006 Baptiste Coudurier <baptiste.coudurier@free.fr>
  * Copyright (c) 2012 Aneesh Dogra (lionaneesh) <lionaneesh@gmail.com>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef AVCODEC_BYTESTREAM_H
 #define AVCODEC_BYTESTREAM_H
 
+#include <stdint.h>
 #include <string.h>
 
 #include "libavutil/common.h"
@@ -37,7 +38,7 @@ typedef struct {
     int eof;
 } PutByteContext;
 
-#define DEF_T(type, name, bytes, read, write)                                  \
+#define DEF(type, name, bytes, read, write)                                  \
 static av_always_inline type bytestream_get_ ## name(const uint8_t **b)        \
 {                                                                              \
     (*b) += bytes;                                                             \
@@ -80,24 +81,15 @@ static av_always_inline type bytestream2_peek_ ## name(GetByteContext *g)      \
     return read(g->buffer);                                                    \
 }
 
-#define DEF(name, bytes, read, write)                                          \
-    DEF_T(unsigned int, name, bytes, read, write)
-#define DEF64(name, bytes, read, write)                                        \
-    DEF_T(uint64_t, name, bytes, read, write)
-
-DEF64(le64, 8, AV_RL64, AV_WL64)
-DEF  (le32, 4, AV_RL32, AV_WL32)
-DEF  (le24, 3, AV_RL24, AV_WL24)
-DEF  (le16, 2, AV_RL16, AV_WL16)
-DEF64(be64, 8, AV_RB64, AV_WB64)
-DEF  (be32, 4, AV_RB32, AV_WB32)
-DEF  (be24, 3, AV_RB24, AV_WB24)
-DEF  (be16, 2, AV_RB16, AV_WB16)
-DEF  (byte, 1, AV_RB8 , AV_WB8 )
-
-#undef DEF
-#undef DEF64
-#undef DEF_T
+DEF(uint64_t,     le64, 8, AV_RL64, AV_WL64)
+DEF(unsigned int, le32, 4, AV_RL32, AV_WL32)
+DEF(unsigned int, le24, 3, AV_RL24, AV_WL24)
+DEF(unsigned int, le16, 2, AV_RL16, AV_WL16)
+DEF(uint64_t,     be64, 8, AV_RB64, AV_WB64)
+DEF(unsigned int, be32, 4, AV_RB32, AV_WB32)
+DEF(unsigned int, be24, 3, AV_RB24, AV_WB24)
+DEF(unsigned int, be16, 2, AV_RB16, AV_WB16)
+DEF(unsigned int, byte, 1, AV_RB8 , AV_WB8)
 
 #if HAVE_BIGENDIAN
 #   define bytestream2_get_ne16  bytestream2_get_be16
@@ -196,6 +188,16 @@ static av_always_inline int bytestream2_tell(GetByteContext *g)
 static av_always_inline int bytestream2_tell_p(PutByteContext *p)
 {
     return (int)(p->buffer - p->buffer_start);
+}
+
+static av_always_inline int bytestream2_size(GetByteContext *g)
+{
+    return (int)(g->buffer_end - g->buffer_start);
+}
+
+static av_always_inline int bytestream2_size_p(PutByteContext *p)
+{
+    return (int)(p->buffer_end - p->buffer_start);
 }
 
 static av_always_inline int bytestream2_seek(GetByteContext *g,

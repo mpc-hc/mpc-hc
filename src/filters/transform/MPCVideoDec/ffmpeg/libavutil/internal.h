@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -37,6 +37,7 @@
 #include "config.h"
 #include "attributes.h"
 #include "timer.h"
+#include "cpu.h"
 #include "dict.h"
 
 struct AVDictionary {
@@ -191,12 +192,11 @@ struct AVDictionary {
 #   define NULL_IF_CONFIG_SMALL(x) x
 #endif
 
-
 /**
  * Define a function with only the non-default version specified.
  *
  * On systems with ELF shared libraries, all symbols exported from
- * Libav libraries are tagged with the name and major version of the
+ * FFmpeg libraries are tagged with the name and major version of the
  * library to which they belong.  If a function is moved from one
  * library to another, a wrapper must be retained in the original
  * location to preserve binary compatibility.
@@ -239,7 +239,8 @@ struct AVDictionary {
  */
 static av_always_inline void emms_c(void)
 {
-    __asm__ volatile ("emms" ::: "memory");
+    if(av_get_cpu_flags() & AV_CPU_FLAG_MMX)
+        __asm__ volatile ("emms" ::: "memory");
 }
 #else /* HAVE_MMX */
 #define emms_c()

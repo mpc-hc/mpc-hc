@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -29,6 +29,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <inttypes.h>
+#include <stdint.h>
 #include <limits.h>
 #include <math.h>
 #include <stdio.h>
@@ -37,7 +38,7 @@
 #include "attributes.h"
 #include "libavutil/avconfig.h"
 
-#ifdef HAVE_AV_CONFIG_H
+#include <stdint.h>
 
 #if AV_HAVE_BIGENDIAN
 #   define AV_NE(be, le) (be)
@@ -49,6 +50,8 @@
 #define RSHIFT(a,b) ((a) > 0 ? ((a) + ((1<<(b))>>1))>>(b) : ((a) + ((1<<(b))>>1)-1)>>(b))
 /* assume b>0 */
 #define ROUNDED_DIV(a,b) (((a)>0 ? (a) + ((b)>>1) : (a) - ((b)>>1))/(b))
+#define FFUDIV(a,b) (((a)>0 ?(a):(a)-(b)+1) / (b))
+#define FFUMOD(a,b) ((a)-(b)*FFUDIV(a,b))
 #define FFABS(a) ((a) >= 0 ? (a) : (-(a)))
 #define FFSIGN(a) ((a) > 0 ? 1 : -1)
 
@@ -61,9 +64,18 @@
 #define FF_ARRAY_ELEMS(a) (sizeof(a) / sizeof((a)[0]))
 #define FFALIGN(x, a) (((x)+(a)-1)&~((a)-1))
 
+// ==> Start patch MPC
+#ifdef __cplusplus
+	#define UINT64_C(x)	((x) + (UINT64_MAX - UINT64_MAX))
+#endif
+// <== End patch MPC
+
 /* misc math functions */
 extern const uint8_t ff_log2_tab[256];
 
+/**
+ * Reverse the order of the bits of an 8-bits unsigned integer.
+ */
 extern const uint8_t av_reverse[256];
 
 static av_always_inline av_const int av_log2_c(unsigned int v)
@@ -348,15 +360,12 @@ static av_always_inline av_const int av_popcount64_c(uint64_t x)
 
 #include "mem.h"
 
-#endif /* HAVE_AV_CONFIG_H */
-
 #ifdef HAVE_AV_CONFIG_H
 #    include "internal.h"
 #endif /* HAVE_AV_CONFIG_H */
 
 #endif /* AVUTIL_COMMON_H */
 
-#ifdef HAVE_AV_CONFIG_H
 /*
  * The following definitions are outside the multiple inclusion guard
  * to ensure they are immediately available in intmath.h.
@@ -401,5 +410,3 @@ static av_always_inline av_const int av_popcount64_c(uint64_t x)
 #ifndef av_popcount64
 #   define av_popcount64    av_popcount64_c
 #endif
-
-#endif /* HAVE_AV_CONFIG_H */

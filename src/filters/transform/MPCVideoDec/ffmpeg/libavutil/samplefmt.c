@@ -1,18 +1,18 @@
 /*
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -23,23 +23,24 @@
 #include <string.h>
 
 typedef struct SampleFmtInfo {
-    const char *name;
+    char name[8];
     int bits;
     int planar;
+    enum AVSampleFormat altform; ///< planar<->packed alternative form
 } SampleFmtInfo;
 
 /** this table gives more information about formats */
 static const SampleFmtInfo sample_fmt_info[AV_SAMPLE_FMT_NB] = {
-    [AV_SAMPLE_FMT_U8]   = { .name =   "u8", .bits =  8, .planar = 0 },
-    [AV_SAMPLE_FMT_S16]  = { .name =  "s16", .bits = 16, .planar = 0 },
-    [AV_SAMPLE_FMT_S32]  = { .name =  "s32", .bits = 32, .planar = 0 },
-    [AV_SAMPLE_FMT_FLT]  = { .name =  "flt", .bits = 32, .planar = 0 },
-    [AV_SAMPLE_FMT_DBL]  = { .name =  "dbl", .bits = 64, .planar = 0 },
-    [AV_SAMPLE_FMT_U8P]  = { .name =  "u8p", .bits =  8, .planar = 1 },
-    [AV_SAMPLE_FMT_S16P] = { .name = "s16p", .bits = 16, .planar = 1 },
-    [AV_SAMPLE_FMT_S32P] = { .name = "s32p", .bits = 32, .planar = 1 },
-    [AV_SAMPLE_FMT_FLTP] = { .name = "fltp", .bits = 32, .planar = 1 },
-    [AV_SAMPLE_FMT_DBLP] = { .name = "dblp", .bits = 64, .planar = 1 },
+    [AV_SAMPLE_FMT_U8]   = { .name =   "u8", .bits =  8, .planar = 0, .altform = AV_SAMPLE_FMT_U8P  },
+    [AV_SAMPLE_FMT_S16]  = { .name =  "s16", .bits = 16, .planar = 0, .altform = AV_SAMPLE_FMT_S16P },
+    [AV_SAMPLE_FMT_S32]  = { .name =  "s32", .bits = 32, .planar = 0, .altform = AV_SAMPLE_FMT_S32P },
+    [AV_SAMPLE_FMT_FLT]  = { .name =  "flt", .bits = 32, .planar = 0, .altform = AV_SAMPLE_FMT_FLTP },
+    [AV_SAMPLE_FMT_DBL]  = { .name =  "dbl", .bits = 64, .planar = 0, .altform = AV_SAMPLE_FMT_DBLP },
+    [AV_SAMPLE_FMT_U8P]  = { .name =  "u8p", .bits =  8, .planar = 1, .altform = AV_SAMPLE_FMT_U8   },
+    [AV_SAMPLE_FMT_S16P] = { .name = "s16p", .bits = 16, .planar = 1, .altform = AV_SAMPLE_FMT_S16  },
+    [AV_SAMPLE_FMT_S32P] = { .name = "s32p", .bits = 32, .planar = 1, .altform = AV_SAMPLE_FMT_S32  },
+    [AV_SAMPLE_FMT_FLTP] = { .name = "fltp", .bits = 32, .planar = 1, .altform = AV_SAMPLE_FMT_FLT  },
+    [AV_SAMPLE_FMT_DBLP] = { .name = "dblp", .bits = 64, .planar = 1, .altform = AV_SAMPLE_FMT_DBL  },
 };
 
 const char *av_get_sample_fmt_name(enum AVSampleFormat sample_fmt)
@@ -57,6 +58,15 @@ enum AVSampleFormat av_get_sample_fmt(const char *name)
         if (!strcmp(sample_fmt_info[i].name, name))
             return i;
     return AV_SAMPLE_FMT_NONE;
+}
+
+enum AVSampleFormat av_get_alt_sample_fmt(enum AVSampleFormat sample_fmt, int planar)
+{
+    if (sample_fmt < 0 || sample_fmt >= AV_SAMPLE_FMT_NB)
+        return AV_SAMPLE_FMT_NONE;
+    if (sample_fmt_info[sample_fmt].planar == planar)
+        return sample_fmt;
+    return sample_fmt_info[sample_fmt].altform;
 }
 
 char *av_get_sample_fmt_string (char *buf, int buf_size, enum AVSampleFormat sample_fmt)
