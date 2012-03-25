@@ -16,6 +16,7 @@ next version - not yet released
 + MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
 + Ticket #552, Add the ability to check if a newer stable version is available
   using Help --> Check for updates
++ Ticket #1668, A keyboard shortcut can now be assigned to toggle custom channel mapping on/off
 + Ticket #1738, Support for decoding FLV SWF ADPCM
 + Ticket #2065, CMD_GETCURRENTPOSITION command gives the position with an accuracy of 1 ms
   (only for media files, not for DVD-Video)
@@ -46,6 +47,7 @@ next version - not yet released
   (incorrect Adaptation Field)
 ! Freeze occurs when madVR leaves exclusive mode
 ! MPCVideoDec bad playback with VC1 files with pulldown in MPEG-TS
+! Ticket #413, #2096, Fixed register command line switches for audio and video files
 ! Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
 ! Ticket #2007, Prevent a memory leak in FLACSource
 ! Ticket #2013, Bug when saving the ASS/SSA subtitle, the header has incorrect values

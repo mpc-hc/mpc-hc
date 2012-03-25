@@ -479,6 +479,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND_RANGE(ID_VOLUME_UP, ID_VOLUME_MUTE, OnPlayVolume)
 	ON_COMMAND_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnPlayVolumeBoost)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnUpdatePlayVolumeBoost)
+	ON_COMMAND(ID_CUSTOM_CHANNEL_MAPPING, OnCustomChannelMapping)
+	ON_UPDATE_COMMAND_UI(ID_CUSTOM_CHANNEL_MAPPING, OnUpdateCustomChannelMapping)
 	ON_COMMAND_RANGE(ID_COLOR_BRIGHTNESS_INC, ID_COLOR_RESET, OnPlayColor)
 	ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnAfterplayback)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnUpdateAfterplayback)
@@ -8160,6 +8162,26 @@ void CMainFrame::SetVolumeBoost(float fAudioBoost_dB)
 void CMainFrame::OnUpdatePlayVolumeBoost(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable();
+}
+
+void CMainFrame::OnCustomChannelMapping()
+{
+	if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
+		AppSettings& s = AfxGetAppSettings();
+
+		s.fCustomChannelMapping = !s.fCustomChannelMapping;
+
+		pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
+
+		m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(s.fCustomChannelMapping ? IDS_OSD_CUSTOM_CH_MAPPING_ON : IDS_OSD_CUSTOM_CH_MAPPING_OFF));
+	}
+}
+
+void CMainFrame::OnUpdateCustomChannelMapping(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+
+	pCmdUI->Enable(s.fEnableAudioSwitcher);
 }
 
 void CMainFrame::OnPlayColor(UINT nID)
