@@ -59,7 +59,7 @@ Update_Status UpdateChecker::isUpdateAvailable(const Version& currentVersion)
 			char buffer[101];
 			UINT br = 0;
 
-			while (br = versionFile->Read(buffer, 50))
+			while ((br = versionFile->Read(buffer, 50)) > 0)
 			{
 				buffer[br] = '\0';
 				latestVersionStr += buffer;
