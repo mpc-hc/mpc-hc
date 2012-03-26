@@ -22,13 +22,14 @@ next version - not yet released
   (only for media files, not for DVD-Video)
 + Ticket #2087, Add some OSD messages when resetting the playback rate
   and changing the zoom level
-* Ticket #1652, UI improvements:
+* Ticket #1652, #2070, UI improvements:
   - "Tearing Test" and "Display stats" menu entries are now disabled
     if no video is loaded (which means in audio only mode too)
   - The "Organize Favorites" menu entry is disabled if no favorites exist
   - The filename is not highlighted anymore when opening the properties dialog
   - Double-clicking on the file location from the clip properties will now open
     the containing folder and select the current file
+  - The informations fields are now correctly aligned with their labels
 * Updated libpng to v1.5.9
 * Updated Little CMS to v2.3+ (git 839a5b0 23/03/2012)
 * Updated ffmpeg
