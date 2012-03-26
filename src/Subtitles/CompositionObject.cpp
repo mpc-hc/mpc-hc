@@ -44,18 +44,12 @@ CompositionObject::~CompositionObject()
 
 void CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalette, bool bIsHD)
 {
-	m_nColorNumber	= nNbEntry;
-
-	for (int i=0; i<m_nColorNumber; i++) {
-		//		if (pPalette[i].T != 0)	// Prevent ugly background when Alpha=0 (but RGB different from 0)
-		{
-			if (bIsHD) {
-				m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709 (pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
-			} else {
-				m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601 (pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
-			}
+	for (int i=0; i<nNbEntry; i++) {
+		if (bIsHD) {
+			m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709 (pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+		} else {
+			m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601 (pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
 		}
-		//		TRACE_HDMVSUB ("%03d : %08x\n", pPalette[i].entry_id, m_Colors[pPalette[i].entry_id]);
 	}
 }
 
