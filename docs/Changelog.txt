@@ -29,7 +29,7 @@ next version - not yet released
   - The filename is not highlighted anymore when opening the properties dialog
   - Double-clicking on the file location from the clip properties will now open
     the containing folder and select the current file
-  - The informations fields are now correctly aligned with their labels
+  - The informations fields in the properties dialog are now correctly aligned with their labels
 * Updated libpng to v1.5.9
 * Updated Little CMS to v2.3+ (git 839a5b0 23/03/2012)
 * Updated ffmpeg
