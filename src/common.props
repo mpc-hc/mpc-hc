@@ -15,6 +15,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>WINVER=0x0601;PSAPI_VERSION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
+      <AdditionalOptions>/w34706 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -25,12 +25,13 @@ next version - not yet released
 * Ticket #1652, UI improvements:
   - "Tearing Test" and "Display stats" menu entries are now disabled
     if no video is loaded (which means in audio only mode too)
-  - "Organize Favorites" menu entry is disabled if no favorite exists
-  - the filename is not highlighted anymore when opening the properties dialog
-  - double-clicking on the file location will now open the containing folder and select the file
+  - The "Organize Favorites" menu entry is disabled if no favorites exist
+  - The filename is not highlighted anymore when opening the properties dialog
+  - Double-clicking on the file location from the clip properties will now open
+    the containing folder and select the current file
 * Updated libpng to v1.5.9
 * Updated Little CMS to v2.3+ (git 839a5b0 23/03/2012)
-* Updated libav
+* Updated ffmpeg
 * Updated MediaInfoLib to v0.7.54
 * Updated ZenLib to v0.4.25
 * Updated VirtualDub to v1.10.2-test5
@@ -41,7 +42,7 @@ next version - not yet released
 ! Incorrect detection of interlaced flag on some MPEG2 stream with DXVA decoder,
   fix choppy playback with incorrect frame rate
 ! MPASplitter can't split some .MP3 files
-! MPC Video Decoder switched to software decode mode, even if only DXVA decoder was
+! MPCVideoDec switched to software decoding mode, even if only the DXVA decoder was
   selected, but wasn't supported
 ! MPEGSplitter can't load MPEG-TS files with corrupted packet header
   (incorrect Adaptation Field)
@@ -56,7 +57,7 @@ next version - not yet released
 ! Ticket #2057, Don't crash with some incomplete .AVI files
 ! Ticket #2057, MatroskaSplitter does not use properly cropping parameters
 ! Ticket #2064, CMD_SETPOSITION command does not start playback when paused
-! Ticket #2080, Add fallback fonts for MediaInfo tab in case Lucida Console is not available
+! Ticket #2080, Add fallback fonts for the MediaInfo tab in case Lucida Console is not available
 ! Ticket #2088, Fix a crash when double-clicking in the Organize Favorites dialog
   when the favorites list was empty
 ! Numerous other bugfixes and improvements
