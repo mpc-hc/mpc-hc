@@ -111,6 +111,8 @@ protected :
 	int								m_nPicEntryNumber;		// Total number of picture in store
 	int								m_nWaitingPics;			// Number of picture not yet displayed
 
+	bool							m_bNeedChangeAspect;
+
 	// === DXVA functions
 	HRESULT						AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
 	HRESULT						GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, IMediaSample** ppSampleToDeliver);

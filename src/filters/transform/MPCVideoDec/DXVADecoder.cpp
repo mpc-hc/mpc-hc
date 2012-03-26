@@ -50,6 +50,7 @@ CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  p
 	m_pAMVideoAccelerator	= pAMVideoAccelerator;
 	m_dwBufferIndex			= 0;
 	m_nMaxWaiting			= 3;
+	m_bNeedChangeAspect		= true;
 
 	Init (pFilter, nMode, nPicEntryNumber);
 }
@@ -291,8 +292,10 @@ HRESULT CDXVADecoder::GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME r
 
 	// Change aspect ratio for DXVA2
 	if (m_nEngine == ENGINE_DXVA2) {
-		m_pFilter->UpdateAspectRatio();
-		m_pFilter->ReconnectOutput(m_pFilter->PictWidthRounded(), m_pFilter->PictHeightRounded(), true, m_pFilter->PictWidth(), m_pFilter->PictHeight());
+		if(m_bNeedChangeAspect) {
+			m_pFilter->UpdateAspectRatio();
+			m_pFilter->ReconnectOutput(m_pFilter->PictWidthRounded(), m_pFilter->PictHeightRounded(), true, m_pFilter->PictWidth(), m_pFilter->PictHeight());
+		}
 	}
 	hr = m_pFilter->GetOutputPin()->GetDeliveryBuffer(&pNewSample, 0, 0, 0);
 
@@ -627,6 +630,7 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 			rtLast = m_pPictureStore[nPicIndex].rtStart;
 #endif
 		}
+		m_bNeedChangeAspect = false;
 
 		m_pPictureStore[nPicIndex].bDisplayed = true;
 		if (!m_pPictureStore[nPicIndex].bRefPicture) {

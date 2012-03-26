@@ -717,9 +717,10 @@ bool CMPCVideoDecFilter::IsVideoInterlaced()
 
 void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop, bool b_repeat_pict)
 {
-	REFERENCE_TIME m_rtFrameDuration = (m_nCodecId == CODEC_ID_VC1 && b_repeat_pict && m_rtAvrTimePerFrame == 333666) ? AVRTIMEPERFRAME_VC1_EVO : m_rtAvrTimePerFrame;
+	bool m_PullDownFlag = (m_nCodecId == CODEC_ID_VC1 && b_repeat_pict && m_rtAvrTimePerFrame == 333666);
+	REFERENCE_TIME m_rtFrameDuration = m_PullDownFlag ? AVRTIMEPERFRAME_VC1_EVO : m_rtAvrTimePerFrame;
 
-	if ((rtStart == _I64_MIN) || (m_rtPrevStop && (rtStart <= m_rtPrevStop))) {
+	if ((rtStart == _I64_MIN) || (m_PullDownFlag && m_rtPrevStop && (rtStart <= m_rtPrevStop))) {
 		rtStart = m_rtLastStart + (m_rtFrameDuration / m_dRate) * m_nCountEstimated;
 		m_nCountEstimated++;
 	} else {
