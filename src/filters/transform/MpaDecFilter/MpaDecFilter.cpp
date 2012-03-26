@@ -2531,6 +2531,11 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 			} else if (used_bytes == 0) {
 				TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - could not process buffer while decoding\n"));
 				break;
+			} else if (m_pAVCtx->channels>8) {
+				// sometimes avcodec_decode_audio4 can not identify the garbage and produces incorrect data.
+				// this code does not solve the problem, it only reduces the likelihood of crash.
+				// do it better!
+				got_frame = 0;
 			}
 
 			size		+= used_bytes;
