@@ -208,9 +208,17 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 	CString posstr, durstr, rstr;
 
 	if (*pTimeFormat == TIME_FORMAT_MEDIA_TIME) {
-		DVD_HMSF_TIMECODE tcNow = RT2HMS_r(rtNow);
-		DVD_HMSF_TIMECODE tcDur = RT2HMS_r(rtDur);
-		DVD_HMSF_TIMECODE tcRt = RT2HMS_r(rtDur-rtNow);
+		DVD_HMSF_TIMECODE tcNow, tcDur, tcRt;
+
+		if (fHighPrecision) {
+			tcNow = RT2HMSF(rtNow);
+			tcDur = RT2HMSF(rtDur);
+			tcRt  = RT2HMSF(rtDur-rtNow);
+		} else {
+			tcNow = RT2HMS_r(rtNow);
+			tcDur = RT2HMS_r(rtDur);
+			tcRt  = RT2HMS_r(rtDur-rtNow);
+		}
 
 		if (tcDur.bHours > 0 || (rtNow >= rtDur && tcNow.bHours > 0)) {
 			posstr.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
@@ -227,13 +235,9 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 		}
 
 		if (fHighPrecision) {
-			str.Format(_T("%s.%03d"), posstr, (rtNow/10000)%1000);
-			posstr = str;
-			str.Format(_T("%s.%03d"), durstr, (rtDur/10000)%1000);
-			durstr = str;
-			str.Format(_T("%s.%03d"), rstr, ((rtDur - rtNow)/10000)%1000);
-			rstr = str;
-			str.Empty();
+			posstr.AppendFormat(_T(".%03d"), (rtNow/10000)%1000);
+			durstr.AppendFormat(_T(".%03d"), (rtDur/10000)%1000);
+			rstr.AppendFormat(_T(".%03d"), ((rtDur - rtNow)/10000)%1000);
 		}
 	} else if (*pTimeFormat == TIME_FORMAT_FRAME) {
 		posstr.Format(_T("%I64d"), rtNow);
