@@ -61,9 +61,10 @@ next version - not yet released
 ! Ticket #2057, Don't crash with some incomplete .AVI files
 ! Ticket #2057, MatroskaSplitter does not use properly cropping parameters
 ! Ticket #2064, CMD_SETPOSITION command does not start playback when paused
-! Ticket #2080, Add fallback fonts for the MediaInfo tab in case Lucida Console is not available
-! Ticket #2080, Use MPC-HC's internal formats list when trying to get the format description from
+! Ticket #2070, Use MPC-HC's internal formats list when trying to get the format description from
  the file extension. The registry is now only used as a fallback since it is not particularly reliable.
+! Ticket #2080, Add fallback fonts for the MediaInfo tab in case Lucida Console is not available
 ! Ticket #2088, Fix a crash when double-clicking in the Organize Favorites dialog
   when the favorites list was empty
+! Ticket #2116, Fix the "Reset" button in Options/Subtitles/Misc
 ! Numerous other bugfixes and improvements
