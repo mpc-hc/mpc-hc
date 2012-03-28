@@ -100,12 +100,10 @@ END_MESSAGE_MAP()
 
 void CPPageSubMisc::OnBnClickedButton1()
 {
-	UpdateData();
-
-	AppSettings& s = AfxGetAppSettings();
-	m_szAutoloadPaths = s.strSubtitlePaths;
+	m_szAutoloadPaths = DEFAULT_SUBTITLE_PATHS;
 
 	UpdateData(FALSE);
+	SetModified();
 }
 
 void CPPageSubMisc::OnBnClickedButton2()

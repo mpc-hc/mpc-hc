@@ -127,10 +127,15 @@ enum MCE_RAW_INPUT {
 	MCE_MEDIA_PREVIOUSTRACK	= 0x0100B6,
 };
 
-
 #define AUDRNDT_NULL_COMP _T("Null Audio Renderer (Any)")
 #define AUDRNDT_NULL_UNCOMP _T("Null Audio Renderer (Uncompressed)")
 #define AUDRNDT_MPC _T("MPC Audio Renderer")
+
+#define DEFAULT_SUBTITLE_PATHS _T(".;.\\subtitles;.\\subs")
+#define DEFAULT_JUMPDISTANCE_1  1000
+#define DEFAULT_JUMPDISTANCE_2  5000
+#define DEFAULT_JUMPDISTANCE_3 20000
+
 
 typedef enum {
 	DVS_HALF,

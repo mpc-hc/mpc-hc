@@ -209,11 +209,12 @@ void CPPageTweaks::OnUpdateCheck2(CCmdUI* pCmdUI)
 
 void CPPageTweaks::OnBnClickedButton1()
 {
-	m_nJumpDistS = 1000;
-	m_nJumpDistM = 5000;
-	m_nJumpDistL = 20000;
+	m_nJumpDistS = DEFAULT_JUMPDISTANCE_1;
+	m_nJumpDistM = DEFAULT_JUMPDISTANCE_2;
+	m_nJumpDistL = DEFAULT_JUMPDISTANCE_3;
 
 	UpdateData(FALSE);
+	SetModified();
 }
 
 void CPPageTweaks::OnChngOSDCombo()
