@@ -331,18 +331,23 @@ engine_t CMediaFormats::GetEngine(CString path)
 
 bool CMediaFormats::FindExt(CString ext, bool fAudioOnly)
 {
+	return (FindMediaByExt(ext, fAudioOnly) != NULL);
+}
+
+CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly)
+{
 	ext.TrimLeft(_T('.'));
 
 	if (!ext.IsEmpty()) {
 		for (size_t i = 0; i < GetCount(); i++) {
 			CMediaFormatCategory& mfc = GetAt(i);
 			if ((!fAudioOnly || mfc.IsAudioOnly()) && mfc.FindExt(ext)) {
-				return true;
+				return &mfc;
 			}
 		}
 	}
 
-	return false;
+	return NULL;
 }
 
 void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)

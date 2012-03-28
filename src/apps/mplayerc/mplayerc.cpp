@@ -147,55 +147,64 @@ HICON LoadIcon(CString fn, bool fSmall)
 
 bool LoadType(CString fn, CString& type)
 {
-	CRegKey key;
+	bool found = false;
 
-	TCHAR buff[256];
-	ULONG len;
-
-	if (fn.IsEmpty()) {
-		return(NULL);
-	}
-
-	CString ext = fn.Left(fn.Find(_T("://"))+1).TrimRight(':');
-	if (ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
-		ext = _T(".") + fn.Mid(fn.ReverseFind('.')+1);
-	}
-
-	CString tmp = _T("");
-	CString mplayerc_ext = _T("mplayerc") + ext;
-
-	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, mplayerc_ext)) {
-		tmp = mplayerc_ext;
-	}
-
-	if ((tmp == _T("")) && (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext))) {
-		return false;
-	}
-
-	if (tmp == _T("")) {
-		tmp = ext;
-	}
-
-	while (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, tmp)) {
-		len = sizeof(buff)/sizeof(buff[0]);
-		memset(buff, 0, sizeof(buff));
-		if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
-			break;
+	if (!fn.IsEmpty()) {
+		CString ext = fn.Left(fn.Find(_T("://"))+1).TrimRight(':');
+		if (ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
+			ext = _T(".") + fn.Mid(fn.ReverseFind('.')+1);
 		}
 
-		CString str(buff);
-		str.Trim();
+		// Try MPC-HC's internal formats list
+		CMediaFormatCategory* mfc = AfxGetAppSettings().m_Formats.FindMediaByExt(ext);
 
-		if (str.IsEmpty() || str == tmp) {
-			break;
+		if (mfc != NULL) {
+			found = true;
+			type = mfc->GetDescription();
+		} else { // Fallback to registry
+			CRegKey key;
+
+			TCHAR buff[256];
+			ULONG len;
+
+			CString tmp = _T("");
+			CString mplayerc_ext = _T("mplayerc") + ext;
+
+			if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, mplayerc_ext)) {
+				tmp = mplayerc_ext;
+			}
+
+			if (!tmp.IsEmpty() || ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, ext)) {
+				found = true;
+
+				if (tmp.IsEmpty()) {
+					tmp = ext;
+				}
+
+				while (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, tmp)) {
+					len = sizeof(buff)/sizeof(buff[0]);
+					memset(buff, 0, sizeof(buff));
+
+					if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
+						break;
+					}
+
+					CString str(buff);
+					str.Trim();
+
+					if (str.IsEmpty() || str == tmp) {
+						break;
+					}
+
+					tmp = str;
+				}
+
+				type = tmp;
+			}
 		}
-
-		tmp = str;
 	}
 
-	type = tmp;
-
-	return true;
+	return found;
 }
 
 bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)

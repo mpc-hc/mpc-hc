@@ -102,6 +102,7 @@ public:
 	engine_t GetEngine(CString path);
 
 	bool FindExt(CString ext, bool fAudioOnly = false);
+	CMediaFormatCategory* FindMediaByExt(CString ext, bool fAudioOnly = false);
 
 	void GetFilter(CString& filter, CAtlArray<CString>& mask);
 	void GetAudioFilter(CString& filter, CAtlArray<CString>& mask);
