@@ -22,6 +22,9 @@ next version - not yet released
   (only for media files, not for DVD-Video)
 + Ticket #2087, Add some OSD messages when resetting the playback rate
   and changing the zoom level
++ Ticket #2111, A keyboard shortcut can now be assigned
+ - to toggle normalization on/off
+ - to toggle regain volume on/off.
 * Ticket #1652, #2070, UI improvements:
   - "Tearing Test" and "Display stats" menu entries are now disabled
     if no video is loaded (which means in audio only mode too)
