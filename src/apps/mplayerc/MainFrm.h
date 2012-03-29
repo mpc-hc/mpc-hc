@@ -253,8 +253,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
 	void SetupOpenCDSubMenu();
 	void SetupFiltersSubMenu();
-	void SetupAudioSwitcherSubMenu();
-	void SetupSubtitlesSubMenu();
+	void SetupAudioSwitcherSubMenu(CMenu* pSub, UINT id);
+	void SetupSubtitlesSubMenu(CMenu* pSub, UINT id);
 	void SetupNavAudioSubMenu();
 	void SetupNavSubtitleSubMenu();
 	void SetupNavAngleSubMenu();
@@ -270,7 +270,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
 	CMenu m_popupmain, m_popup;
 	CMenu m_opencds;
-	CMenu m_filters, m_subtitles, m_audios;
+	CMenu m_filters;
 	CMenu m_language;
 	CAutoPtrArray<CMenu> m_filterpopups;
 	CMenu m_navangle;
