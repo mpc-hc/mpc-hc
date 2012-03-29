@@ -7897,6 +7897,10 @@ void CMainFrame::OnPlayAudio(UINT nID)
 
 void CMainFrame::OnUpdatePlayAudio(CCmdUI* pCmdUI)
 {
+	if(GetPlaybackMode() == PM_DVD) {
+		return;
+	}
+
 	if(FindSourceSelectableFilter()) {
 		return;
 	}
@@ -7942,6 +7946,10 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
 
 void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
 {
+	if(GetPlaybackMode() == PM_DVD) {
+		return;
+	}
+
 	UINT nID = pCmdUI->m_nID;
 	int i = (int)nID - (5 + ID_NAVIGATE_SUBP_SUBITEM_START); // again, 5 pre-set subtitles options before the actual list
 
@@ -8520,103 +8528,101 @@ void CMainFrame::OnNavigateAudio(UINT nID)
 {
 	nID -= ID_NAVIGATE_AUDIO_SUBITEM_START;
 
-	if(nID == 0) {
-		ShowOptions(CPPageAudioSwitcher::IDD);
-	} else {
-		nID -= 1;
-
-		if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
+	if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
+		if(nID == 0) {
+			ShowOptions(CPPageAudioSwitcher::IDD);
+		} else {
+			nID -= 1;
 			OnNavStreamSelectSubMenu(nID, 1);
-		} else if (GetPlaybackMode() == PM_DVD) {
-			pDVDC->SelectAudioStream(nID, DVD_CMD_FLAG_Block, NULL);
 		}
+	} else if (GetPlaybackMode() == PM_DVD) {
+		pDVDC->SelectAudioStream(nID, DVD_CMD_FLAG_Block, NULL);
 	}
 }
 
 void CMainFrame::OnNavigateSubpic(UINT nID)
 {
-	int i = (int)nID - ((5 + ID_NAVIGATE_SUBP_SUBITEM_START));
-
-	if (i == -5) {
-		// options
-		ShowOptions(CPPageSubtitles::IDD);
-	} else if (i == -4) {
-		// styles
-		int i = m_iSubtitleSel;
-
-		POSITION pos = m_pSubStreams.GetHeadPosition();
-		while (pos && i >= 0) {
-			CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
-
-			if (i < pSubStream->GetStreamCount()) {
-				CLSID clsid;
-				if (FAILED(pSubStream->GetClassID(&clsid))) {
-					continue;
-				}
-
-				if (clsid == __uuidof(CRenderedTextSubtitle)) {
-					CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubStream;
-
-					CAutoPtrArray<CPPageSubStyle> pages;
-					CAtlArray<STSStyle*> styles;
-
-					POSITION pos = pRTS->m_styles.GetStartPosition();
-					for (int i = 0; pos; i++) {
-						CString key;
-						STSStyle* val;
-						pRTS->m_styles.GetNextAssoc(pos, key, val);
-
-						CAutoPtr<CPPageSubStyle> page(DNew CPPageSubStyle());
-						page->InitStyle(key, *val);
-						pages.Add(page);
-						styles.Add(val);
-					}
-
-					CString m_style = ResStr(IDS_SUBTITLES_STYLES);
-					int i = m_style.Find(_T("&"));
-					if (i!=-1 ) {
-						m_style.Delete(i, 1);
-					}
-					CPropertySheet dlg(m_style, GetModalParent());
-					for (int i = 0; i < (int)pages.GetCount(); i++) {
-						dlg.AddPage(pages[i]);
-					}
-
-					if (dlg.DoModal() == IDOK) {
-						for (int j = 0; j < (int)pages.GetCount(); j++) {
-							pages[j]->GetStyle(*styles[j]);
-						}
-						UpdateSubtitle(false, false);
-					}
-
-					return;
-				}
-			}
-
-			i -= pSubStream->GetStreamCount();
-		}
-	} else if (i == -3) {
-		// reload
-		ReloadSubtitle();
-	} else if (i == -2) {
-		// enable
-		if (m_iSubtitleSel == -1) {
-			AfxGetAppSettings().fEnableSubtitles = true;
-			m_iSubtitleSel = 0;
-		} else {
-			AfxGetAppSettings().fEnableSubtitles = false;
-			m_iSubtitleSel ^= (1<<31);
-		}
-		UpdateSubtitle();
-	} else if (i == -1) {
-		// override default style
-		// TODO: default subtitles style toggle here
-		AfxGetAppSettings().fUseDefaultSubtitlesStyle = !AfxGetAppSettings().fUseDefaultSubtitlesStyle;
-		UpdateSubtitle();
-	} else 
-
 	if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
-		OnNavStreamSelectSubMenu(nID - ID_NAVIGATE_SUBP_SUBITEM_START - 5, 2);
+		int i = (int)nID - ((5 + ID_NAVIGATE_SUBP_SUBITEM_START));
+		if (i == -5) {
+			// options
+			ShowOptions(CPPageSubtitles::IDD);
+		} else if (i == -4) {
+			// styles
+			int i = m_iSubtitleSel;
+
+			POSITION pos = m_pSubStreams.GetHeadPosition();
+			while (pos && i >= 0) {
+				CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
+
+				if (i < pSubStream->GetStreamCount()) {
+					CLSID clsid;
+					if (FAILED(pSubStream->GetClassID(&clsid))) {
+						continue;
+					}
+
+					if (clsid == __uuidof(CRenderedTextSubtitle)) {
+						CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubStream;
+
+						CAutoPtrArray<CPPageSubStyle> pages;
+						CAtlArray<STSStyle*> styles;
+
+						POSITION pos = pRTS->m_styles.GetStartPosition();
+						for (int i = 0; pos; i++) {
+							CString key;
+							STSStyle* val;
+							pRTS->m_styles.GetNextAssoc(pos, key, val);
+
+							CAutoPtr<CPPageSubStyle> page(DNew CPPageSubStyle());
+							page->InitStyle(key, *val);
+							pages.Add(page);
+							styles.Add(val);
+						}
+
+						CString m_style = ResStr(IDS_SUBTITLES_STYLES);
+						int i = m_style.Find(_T("&"));
+						if (i!=-1 ) {
+							m_style.Delete(i, 1);
+						}
+						CPropertySheet dlg(m_style, GetModalParent());
+						for (int i = 0; i < (int)pages.GetCount(); i++) {
+							dlg.AddPage(pages[i]);
+						}
+
+						if (dlg.DoModal() == IDOK) {
+							for (int j = 0; j < (int)pages.GetCount(); j++) {
+								pages[j]->GetStyle(*styles[j]);
+							}
+							UpdateSubtitle(false, false);
+						}
+
+						return;
+					}
+				}
+
+				i -= pSubStream->GetStreamCount();
+			}
+		} else if (i == -3) {
+			// reload
+			ReloadSubtitle();
+		} else if (i == -2) {
+			// enable
+			if (m_iSubtitleSel == -1) {
+				AfxGetAppSettings().fEnableSubtitles = true;
+				m_iSubtitleSel = 0;
+			} else {
+				AfxGetAppSettings().fEnableSubtitles = false;
+				m_iSubtitleSel ^= (1<<31);
+			}
+			UpdateSubtitle();
+		} else if (i == -1) {
+			// override default style
+			// TODO: default subtitles style toggle here
+			AfxGetAppSettings().fUseDefaultSubtitlesStyle = !AfxGetAppSettings().fUseDefaultSubtitlesStyle;
+			UpdateSubtitle();
+		} else {
+			OnNavStreamSelectSubMenu(nID - ID_NAVIGATE_SUBP_SUBITEM_START - 5, 2);
+		}
 	} else if (GetPlaybackMode() == PM_DVD) {
 		int i = (int)nID - (1 + ID_NAVIGATE_SUBP_SUBITEM_START - 5);
 
@@ -12696,10 +12702,10 @@ void CMainFrame::SetupNavAudioSubMenu()
 
 	UINT id = ID_NAVIGATE_AUDIO_SUBITEM_START;
 
-	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
-	pSub->AppendMenu(MF_SEPARATOR|MF_ENABLED);
-
 	if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
+		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
+		pSub->AppendMenu(MF_SEPARATOR|MF_ENABLED);
+
 		SetupNavStreamSelectSubMenu(pSub, id, 1);
 	} else if (GetPlaybackMode() == PM_DVD) {
 		ULONG ulStreamsAvailable, ulCurrentStream;
@@ -12791,19 +12797,19 @@ void CMainFrame::SetupNavSubtitleSubMenu()
 
 	UINT id = ID_NAVIGATE_SUBP_SUBITEM_START;
 
-	POSITION pos = m_pSubStreams.GetHeadPosition();
-	if (pos) {
-		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
-		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES));
-		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD));
-		pSub->AppendMenu(MF_SEPARATOR);
-
-		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE));
-		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE));
-		pSub->AppendMenu(MF_SEPARATOR);
-	}
-
 	if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
+		POSITION pos = m_pSubStreams.GetHeadPosition();
+		if (pos) {
+			pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
+			pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_STYLES));
+			pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD));
+			pSub->AppendMenu(MF_SEPARATOR);
+
+			pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE));
+			pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE));
+			pSub->AppendMenu(MF_SEPARATOR);
+		}
+
 		SetupNavStreamSelectSubMenu(pSub, id, 2);
 	} else if (GetPlaybackMode() == PM_DVD) {
 		ULONG ulStreamsAvailable, ulCurrentStream;
