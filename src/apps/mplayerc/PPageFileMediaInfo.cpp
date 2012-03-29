@@ -127,15 +127,16 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 
 	LOGFONT lf;
 	memset(&lf, 0, sizeof(lf));
-	// Use a negative value to match the character height instead of the cell height.
-	lf.lfHeight = -10;
 	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
 	// The empty string will fallback to the first font that matches the other specified attributes.
-	CString fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };
+	CString  fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };
+	// Use a negative value to match the character height instead of the cell height.
+	int fonts_size[] = { -10, -11, -11 };
 	UINT i = 0;
 	BOOL success;
 	do {
 		lstrcpy(lf.lfFaceName, fonts[i]);
+		lf.lfHeight = fonts_size[i];
 		success = m_pCFont->CreateFontIndirect(&lf);
 		i++;
 	} while (!success && i < countof(fonts));
