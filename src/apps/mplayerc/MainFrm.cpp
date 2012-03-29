@@ -7950,6 +7950,8 @@ void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
 		return;
 	}
 
+	bool m_enable_style = false;
+
 	UINT nID = pCmdUI->m_nID;
 	int i = (int)nID - (5 + ID_NAVIGATE_SUBP_SUBITEM_START); // again, 5 pre-set subtitles options before the actual list
 
@@ -7960,7 +7962,6 @@ void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
 		pCmdUI->Enable(FALSE);
 
 		int i = m_iSubtitleSel;
-
 		POSITION pos = m_pSubStreams.GetHeadPosition();
 		while (pos && i >= 0) {
 			CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
@@ -7983,10 +7984,30 @@ void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
 		// enabled
 		pCmdUI->SetCheck(AfxGetAppSettings().fEnableSubtitles);
 	} else if (i == -1) {
+		int i = m_iSubtitleSel;
+		POSITION pos = m_pSubStreams.GetHeadPosition();
+		while (pos && i >= 0) {
+			CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
+
+			if (i < pSubStream->GetStreamCount()) {
+				CLSID clsid;
+				if (FAILED(pSubStream->GetClassID(&clsid))) {
+					continue;
+				}
+
+				if (clsid == __uuidof(CRenderedTextSubtitle)) {
+					m_enable_style = true;
+					break;
+				}
+			}
+
+			i -= pSubStream->GetStreamCount();
+		}
+
 		// override
 		// TODO: foxX - default subtitles style toggle here; still wip
 		pCmdUI->SetCheck(AfxGetAppSettings().fUseDefaultSubtitlesStyle);
-		pCmdUI->Enable(AfxGetAppSettings().fEnableSubtitles);
+		pCmdUI->Enable(AfxGetAppSettings().fEnableSubtitles && m_enable_style);
 	} else if (i >= 0) {
 		if(FindSourceSelectableFilter()) {
 			return;
