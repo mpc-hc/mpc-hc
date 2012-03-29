@@ -29,7 +29,6 @@
 #include <ctype.h>
 #include <errno.h>
 #include <inttypes.h>
-#include <stdint.h>
 #include <limits.h>
 #include <math.h>
 #include <stdio.h>
@@ -37,8 +36,6 @@
 #include <string.h>
 #include "attributes.h"
 #include "libavutil/avconfig.h"
-
-#include <stdint.h>
 
 #if AV_HAVE_BIGENDIAN
 #   define AV_NE(be, le) (be)

@@ -48,14 +48,21 @@ int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size, int *
 void av_init_packet(AVPacket *pkt);
 
 const byte ZZ_SCAN[16]  = {
-	0,  1,  4,  8,  5,  2,  3,  6,  9, 12, 13, 10,  7, 11, 14, 15
+	0,  1,  4,  8,
+	5,  2,  3,  6,
+	9, 12, 13, 10,
+	7, 11, 14, 15
 };
 
 const byte ZZ_SCAN8[64] = {
-	0,  1,  8, 16,  9,  2,  3, 10, 17, 24, 32, 25, 18, 11,  4,  5,
-	12, 19, 26, 33, 40, 48, 41, 34, 27, 20, 13,  6,  7, 14, 21, 28,
-	35, 42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51,
-	58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
+	0,   1,  8, 16,  9,  2,  3, 10,
+	17, 24, 32, 25, 18, 11,  4,  5,
+	12, 19, 26, 33, 40, 48, 41, 34,
+	27, 20, 13,  6,  7, 14, 21, 28,
+	35, 42, 49, 56, 57, 50, 43, 36,
+	29, 22, 15, 23, 30, 37, 44, 51,
+	58, 59, 52, 45, 38, 31, 39, 46,
+	53, 60, 61, 54, 47, 55, 62, 63
 };
 
 BOOL IsVistaOrAbove()
@@ -205,28 +212,28 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MANY_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
 }
 
-void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, DXVA_Qmatrix_H264* pSource, DWORD nPCIVendor)
+void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, PPS* pps, DWORD nPCIVendor)
 {
-	int i,j;
+	int i, j;
+	memset(pDest, 0, sizeof(DXVA_Qmatrix_H264));
+	if (nPCIVendor == PCIV_ATI) {
+		for (i = 0; i < 6; i++)
+			for (j = 0; j < 16; j++)
+				pDest->bScalingLists4x4[i][j] = pps->scaling_matrix4[i][j];
 
-	switch (nPCIVendor) {
-		case PCIV_ATI :
-			// The ATI way
-			memcpy (pDest, pSource, sizeof (DXVA_Qmatrix_H264));
-			break;
+		for (i = 0; i < 64; i++) {
+			pDest->bScalingLists8x8[0][i] = pps->scaling_matrix8[0][i];
+			pDest->bScalingLists8x8[1][i] = pps->scaling_matrix8[3][i];
+		}
+	} else {
+		for (i = 0; i < 6; i++)
+			for (j = 0; j < 16; j++)
+				pDest->bScalingLists4x4[i][j] = pps->scaling_matrix4[i][ZZ_SCAN[j]];
 
-		default :
-			// The nVidia way (and other manufacturers compliant with specifications....)
-			for (i=0; i<6; i++)
-				for (j=0; j<16; j++) {
-					pDest->bScalingLists4x4[i][j] = pSource->bScalingLists4x4[i][ZZ_SCAN[j]];
-				}
-
-			for (i=0; i<2; i++)
-				for (j=0; j<64; j++) {
-					pDest->bScalingLists8x8[i][j] = pSource->bScalingLists8x8[i][ZZ_SCAN8[j]];
-				}
-			break;
+		for (i = 0; i < 64; i++) {
+			pDest->bScalingLists8x8[0][i] = pps->scaling_matrix8[0][ZZ_SCAN8[i]];
+			pDest->bScalingLists8x8[1][i] = pps->scaling_matrix8[3][ZZ_SCAN8[i]];
+		}
 	}
 }
 
@@ -349,7 +356,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 			pDXVAPicParams->CurrFieldOrderCnt[1] = current_picture->field_poc[1];
 		}
 
-		CopyScalingMatrix (pDXVAScalingMatrix, (DXVA_Qmatrix_H264*)cur_pps->scaling_matrix4, nPCIVendor);
+		CopyScalingMatrix (pDXVAScalingMatrix, cur_pps, nPCIVendor);
 		hr = S_OK;
 	}
 

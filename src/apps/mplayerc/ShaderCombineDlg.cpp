@@ -106,6 +106,7 @@ BOOL CShaderCombineDlg::OnInitDialog()
 
 	if (m_combo.GetCount()) {
 		m_combo.SetCurSel(0);
+		CorrectComboListWidth(m_combo, GetFont());
 	}
 
 	UpdateData(FALSE);

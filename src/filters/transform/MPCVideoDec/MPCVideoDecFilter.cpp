@@ -1116,8 +1116,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				FFSetThreadNumber(m_pAVCtx, m_nCodecId, (IsDXVASupported() || (m_nCodecId == CODEC_ID_THEORA && !m_bTheoraMTSupport)) ? 1 : nThreadNumber);
 			}
 
-			m_pAVCtx->h264_using_dxva = IsDXVASupported();
-
 			m_pFrame = avcodec_alloc_frame();
 			CheckPointer (m_pFrame,	  E_POINTER);
 
@@ -1236,7 +1234,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
 					FFSetThreadNumber(m_pAVCtx, m_nCodecId, nThreadNumber);
 				}
-				m_pAVCtx->h264_using_dxva = 0;
 				if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
 					return VFW_E_INVALIDMEDIATYPE;
 				}
@@ -1409,23 +1406,6 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 		}
 		if (m_nDXVAMode == MODE_SOFTWARE && (!m_bUseFFmpeg || !FFSoftwareCheckCompatibility(m_pAVCtx))) {
 			return VFW_E_INVALIDMEDIATYPE;
-		}
-
-		if (m_nDXVAMode == MODE_SOFTWARE && m_nCodecId == CODEC_ID_H264 && m_pAVCtx->h264_using_dxva) {
-#if INTERNAL_DECODER_H264
-			m_bUseDXVA = false;
-			avcodec_close (m_pAVCtx);
-			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber();
-			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
-				FFSetThreadNumber(m_pAVCtx, m_nCodecId, nThreadNumber);
-			}
-			m_pAVCtx->h264_using_dxva = 0;
-			if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
-				return VFW_E_INVALIDMEDIATYPE;
-			}
-#else
-			return VFW_E_INVALIDMEDIATYPE;
-#endif
 		}
 
 		CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());

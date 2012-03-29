@@ -2877,7 +2877,6 @@ typedef struct AVCodecContext {
 
     // ==> Start patch MPC
     int nal_length_size;
-    int h264_using_dxva;
     // ==> End patch MPC
 } AVCodecContext;
 

@@ -92,9 +92,6 @@
     <ClInclude Include="FfmpegContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="H264QuantizationMatrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IMPCVideoDecFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

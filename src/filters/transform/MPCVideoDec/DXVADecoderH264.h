@@ -25,8 +25,6 @@
 
 #include <dxva.h>
 #include "DXVADecoder.h"
-#include "H264QuantizationMatrix.h"
-
 
 #define MAX_SLICES 16		// Also define in ffmpeg!
 

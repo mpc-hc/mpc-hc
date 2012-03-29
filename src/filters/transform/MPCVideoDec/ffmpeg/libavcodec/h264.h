@@ -599,7 +599,6 @@ typedef struct H264Context{
     int parse_last_mb;
 
     // ==> Start patch MPC
-    int using_dxva;
     int sp_for_switch_flag;
     int slice_qs_delta;
     int slice_qp_delta;

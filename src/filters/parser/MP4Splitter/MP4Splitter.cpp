@@ -1074,7 +1074,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				}
 			}
 
-			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, name, this, this, &hr));
+			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMP4SplitterOutputPin(mts, name, this, this, &hr));
 
 			if (!TrackName.IsEmpty()) {
 				pPinOut->SetProperty(L"NAME", TrackName);
@@ -1097,7 +1097,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				id ^= 0x80402010; // FIXME: until fixing, let's hope there won't be another track like this...
 
-				CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, name + postfix, this, this, &hr));
+				CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMP4SplitterOutputPin(mts, name + postfix, this, this, &hr));
 
 				if (!TrackName.IsEmpty()) {
 					pPinOut->SetProperty(L"NAME", TrackName + postfix);
@@ -1249,7 +1249,7 @@ void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 		AP4_Track* track = movie->GetTrack(pPair->m_key);
 
 		if (AP4_FAILED(track->GetSampleIndexForRefTime(rt, pPair->m_value.index))) {
-			pPair->m_value.index = 0;
+			continue;
 		}
 
 		AP4_Sample sample;
@@ -1929,4 +1929,35 @@ CMPEG4VideoSourceFilter::CMPEG4VideoSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 {
 	m_clsid = __uuidof(this);
 	m_pInput.Free();
+}
+
+//
+// CMP4SplitterOutputPin
+//
+
+CMP4SplitterOutputPin::CMP4SplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr)
+{
+}
+
+CMP4SplitterOutputPin::~CMP4SplitterOutputPin()
+{
+}
+
+HRESULT CMP4SplitterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
+{
+	CAutoLock cAutoLock(this);
+	return __super::DeliverNewSegment(tStart, tStop, dRate);
+}
+
+HRESULT CMP4SplitterOutputPin::DeliverEndFlush()
+{
+	CAutoLock cAutoLock(this);
+	return __super::DeliverEndFlush();
+}
+
+HRESULT CMP4SplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
+{
+	CAutoLock cAutoLock(this);
+	return __super::DeliverPacket(p);
 }

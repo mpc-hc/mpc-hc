@@ -94,3 +94,14 @@ class __declspec(uuid("E2B98EEA-EE55-4E9B-A8C1-6E5288DF785A"))
 public:
 	CMPEG4VideoSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
+
+class CMP4SplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
+{
+public:
+	CMP4SplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+	virtual ~CMP4SplitterOutputPin();
+
+	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT DeliverPacket(CAutoPtr<Packet> p);
+	HRESULT DeliverEndFlush();
+};

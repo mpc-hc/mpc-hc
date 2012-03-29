@@ -285,7 +285,6 @@
     <ClInclude Include="DXVADecoderMpeg2.h" />
     <ClInclude Include="DXVADecoderVC1.h" />
     <ClInclude Include="FfmpegContext.h" />
-    <ClInclude Include="H264QuantizationMatrix.h" />
     <ClInclude Include="H264RandomAccess.h" />
     <ClInclude Include="IMPCVideoDecFilter.h" />
     <ClInclude Include="intrin_fixed.h" />
