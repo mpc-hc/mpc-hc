@@ -249,13 +249,13 @@ void CWebClientSocket::Header()
 					cookie_attribs value;
 					m_cookieattribs.GetNextAssoc(pos2, key, value);
 					if (!value.path.IsEmpty()) {
-						reshdr += " path=" + value.path;
+						reshdr += "; path=" + value.path;
 					}
 					if (!value.expire.IsEmpty()) {
-						reshdr += " expire=" + value.expire;
+						reshdr += "; expire=" + value.expire;
 					}
 					if (!value.domain.IsEmpty()) {
-						reshdr += " domain=" + value.domain;
+						reshdr += "; domain=" + value.domain;
 					}
 				}
 				reshdr += "\r\n";
