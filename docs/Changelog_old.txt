@@ -286,7 +286,7 @@ v1.4.2499.0 - 7 September 2010
 + New panel for switching DVB channels, audio and tuner scan
   accessible through View-->Navigation menu when in Capture mode
 + Automatically play next files in a folder
-+ Implemented 'Quick add favorite' shortcut (default: Shift + Q)
++ Implemented 'Quick add favorite' shortcut (default: Shift+Q)
   will use current settings from 'Add Favorite' dialog
 + Select D3D device for render, including DXVA if two or more video
   adapters are in the system (EVR Custom & VMR9-Renderless only)
@@ -753,7 +753,7 @@ v1.0.7.0 - 27 May 2007
   EVR supports internal MPC-HC subtitles, D3D Fullscreen, tearing test
   and Pixels Shaders
 + Statistics option currently displays the jitter curve
-  (Ctrl + J to activate) for VMR9 Renderless and EVR Custom Presenter
+  (Ctrl+J to activate) for VMR9 Renderless and EVR Custom Presenter
 * Output property page, options now are disabled when not supported
   by the selected renderer
 ! Mouse cursor invisible in Fullscreen mode
@@ -783,7 +783,7 @@ v1.0.5.0 - 05 May 2007
 v1.0.4.0 - 09 May 2006
 ======================
 * OSD improvement
-+ Remaining time displayed (Ctrl + I or "Remaining_Time" with WinLIRC)
++ Remaining time displayed (Ctrl+I or "Remaining_Time" with WinLIRC)
 + OSD Fast forward / rewind speed display
 * OSD FF/Rew for DVD playback: slow forward replaced by rewind, no more
   predefined speed limits (feature depends on MPEG-2 decoder capabilities)
@@ -811,7 +811,7 @@ v1.0.1.0 - 09 April 2006
 + DVD open dialog now allows selecting the source folder or drive
 + Possibility to save video position for the last 5 DVDs and/or files
   to resume playback at this position when MPC-HC is restarted
-+ Shortcut to inhibit Pixel Shaders (Ctrl + P). Only additional
++ Shortcut to inhibit Pixel Shaders (Ctrl+P). Only additional
   Pixel Shaders effects are concerned (always used if resize active)
 
 

@@ -39,7 +39,7 @@ next version - not yet released
 * Updated MediaInfoLib to v0.7.54
 * Updated ZenLib to v0.4.25
 * Updated VirtualDub to v1.10.2-test5
-* New icons for the Windows 7 Taskbar
+* New icons for the Windows 7 taskbar controls
 * Updated Polish, Japanese, Chinese Simplified, Chinese Traditional, Russian, Ukrainian,
   German, Slovak, French and Armenian translations
 ! Long opening of MKV files after using the "mkvclean" utility

@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -410,11 +410,12 @@ void CPPageOutput::OnFullscreenCheck()
 {
 	UpdateData();
 	if (m_fD3DFullscreen &&
-			(MessageBox(ResStr(IDS_D3DFS_WARNING), NULL, MB_YESNO) == IDNO)) {
+			(MessageBox(ResStr(IDS_D3DFS_WARNING), NULL, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDNO)) {
 		m_fD3DFullscreen = false;
 		UpdateData(FALSE);
+	} else {
+		SetModified();
 	}
-	SetModified();
 }
 
 void CPPageOutput::OnD3D9DeviceCheck()
