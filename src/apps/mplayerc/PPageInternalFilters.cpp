@@ -29,14 +29,7 @@
 #include "InternalFiltersConfig.h"
 
 
-static struct filter_t {
-	LPCTSTR label;
-	int type;
-	int flag;
-	UINT nHintID;
-	CUnknown* (WINAPI * CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr);
-}
-s_filters[] = {
+static filter_t s_filters[] = {
 #if INTERNAL_SOURCEFILTER_AVI
 	{_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_SRC_AVI, NULL},
 #endif
@@ -201,6 +194,9 @@ CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n)
 	: CCheckListBox()
 	, m_n(n)
 {
+	for (int i = 0; i < FILTER_TYPE_NB; i++) {
+		m_nbFiltersPerType[i] = m_nbChecked[i] = 0;
+	}
 }
 
 void CPPageInternalFiltersListBox::PreSubclassWindow()
@@ -284,6 +280,33 @@ void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	}
 }
 
+int CPPageInternalFiltersListBox::AddFilter(filter_t* filter, bool checked)
+{
+	int index = AddString(filter->label);
+	// SetItemDataPtr must be called before SetCheck
+	SetItemDataPtr(index, filter);
+	SetCheck(index, checked);
+
+	return index;
+}
+
+void CPPageInternalFiltersListBox::UpdateCheckState()
+{
+	for (int i = 0; i < FILTER_TYPE_NB; i++) {
+		m_nbFiltersPerType[i] = m_nbChecked[i] = 0;
+	}
+
+	for (int i = 0; i < GetCount(); i++) {
+		filter_t* filter = (filter_t*) GetItemDataPtr(i);
+
+		m_nbFiltersPerType[filter->type]++;
+
+		if (GetCheck(i)) {
+			m_nbChecked[filter->type]++;
+		}
+	}
+}
+
 void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	CCheckListBox::OnRButtonDown(nFlags, point);
@@ -292,23 +315,37 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 	m.CreatePopupMenu();
 
 	enum {
-		ENABLEALL=1,
-		DISABLEALL,
-		ENABLEFFDSHOW,
-		DISABLEFFDSHOW,
-		ENABLEDXVA,
-		DISABLEDXVA,
+		ENABLE_ALL = 1,
+		DISABLE_ALL,
+		ENABLE_FFMPEG,
+		DISABLE_FFMPEG,
+		ENABLE_DXVA,
+		DISABLE_DXVA,
 	};
 
-	m.AppendMenu(MF_STRING|MF_ENABLED, ENABLEALL, ResStr(IDS_ENABLE_ALL_FILTERS));
-	m.AppendMenu(MF_STRING|MF_ENABLED, DISABLEALL, ResStr(IDS_DISABLE_ALL_FILTERS));
+	int totalFilters = 0, totalChecked = 0;
+	for (int i = 0; i < FILTER_TYPE_NB; i++) {
+		totalFilters += m_nbFiltersPerType[i];
+		totalChecked += m_nbChecked[i];
+	}
+
+	UINT state = (totalChecked != totalFilters) ? MF_ENABLED : MF_GRAYED;
+	m.AppendMenu(MF_STRING | state, ENABLE_ALL, ResStr(IDS_ENABLE_ALL_FILTERS));
+	state = (totalChecked != 0) ? MF_ENABLED : MF_GRAYED;
+	m.AppendMenu(MF_STRING | state, DISABLE_ALL, ResStr(IDS_DISABLE_ALL_FILTERS));
+
 	if (m_n == 1) {
 		m.AppendMenu(MF_SEPARATOR);
-		m.AppendMenu(MF_STRING|MF_ENABLED, ENABLEFFDSHOW, ResStr(IDS_ENABLE_FFMPEG_FILTERS));
-		m.AppendMenu(MF_STRING|MF_ENABLED, DISABLEFFDSHOW, ResStr(IDS_DISABLE_FFMPEG_FILTERS));
+		state = (m_nbChecked[FFMPEG_DECODER] != m_nbFiltersPerType[FFMPEG_DECODER]) ? MF_ENABLED : MF_GRAYED;
+		m.AppendMenu(MF_STRING | state, ENABLE_FFMPEG, ResStr(IDS_ENABLE_FFMPEG_FILTERS));
+		state = (m_nbChecked[FFMPEG_DECODER] != 0) ? MF_ENABLED : MF_GRAYED;
+		m.AppendMenu(MF_STRING | state, DISABLE_FFMPEG, ResStr(IDS_DISABLE_FFMPEG_FILTERS));
+
 		m.AppendMenu(MF_SEPARATOR);
-		m.AppendMenu(MF_STRING|MF_ENABLED, ENABLEDXVA, ResStr(IDS_ENABLE_DXVA_FILTERS));
-		m.AppendMenu(MF_STRING|MF_ENABLED, DISABLEDXVA, ResStr(IDS_DISABLE_DXVA_FILTERS));
+		state = (m_nbChecked[DXVA_DECODER] != m_nbFiltersPerType[DXVA_DECODER]) ? MF_ENABLED : MF_GRAYED;
+		m.AppendMenu(MF_STRING | state, ENABLE_DXVA, ResStr(IDS_ENABLE_DXVA_FILTERS));
+		state = (m_nbChecked[DXVA_DECODER] != 0) ? MF_ENABLED : MF_GRAYED;
+		m.AppendMenu(MF_STRING | state, DISABLE_DXVA, ResStr(IDS_DISABLE_DXVA_FILTERS));
 	}
 
 	CPoint p = point;
@@ -320,17 +357,17 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	int Index = 0;
+	int index = 0;
 	for (int i = 0; i < countof(s_filters); i++) {
 		switch (s_filters[i].type) {
-			case 0: // source filter
+			case SOURCE_FILTER:
 				if (m_n == 1) {
 					continue;
 				}
 				break;
-			case 1: // decoder
-			case 2: // dxva decoder
-			case 3: // ffmpeg decoder
+			case DECODER:
+			case DXVA_DECODER:
+			case FFMPEG_DECODER:
 				if (m_n == 0) {
 					continue;
 				}
@@ -340,34 +377,34 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 		}
 
 		switch (id) {
-			case ENABLEALL:
-				SetCheck(Index, TRUE);
+			case ENABLE_ALL:
+				SetCheck(index, TRUE);
 				break;
-			case DISABLEALL:
-				SetCheck(Index, FALSE);
+			case DISABLE_ALL:
+				SetCheck(index, FALSE);
 				break;
-			case ENABLEFFDSHOW:
-				if (s_filters[i].type == 3) {
-					SetCheck(Index, TRUE);
+			case ENABLE_FFMPEG:
+				if (s_filters[i].type == FFMPEG_DECODER) {
+					SetCheck(index, TRUE);
 				}
 				break;
-			case DISABLEFFDSHOW:
-				if (s_filters[i].type == 3) {
-					SetCheck(Index, FALSE);
+			case DISABLE_FFMPEG:
+				if (s_filters[i].type == FFMPEG_DECODER) {
+					SetCheck(index, FALSE);
 				}
 				break;
-			case ENABLEDXVA:
-				if (s_filters[i].type == 2) {
-					SetCheck(Index, TRUE);
+			case ENABLE_DXVA:
+				if (s_filters[i].type == DXVA_DECODER) {
+					SetCheck(index, TRUE);
 				}
 				break;
-			case DISABLEDXVA:
-				if (s_filters[i].type == 2) {
-					SetCheck(Index, FALSE);
+			case DISABLE_DXVA:
+				if (s_filters[i].type == DXVA_DECODER) {
+					SetCheck(index, FALSE);
 				}
 				break;
 		}
-		Index++;
+		index++;
 	}
 
 	GetParent()->SendMessage(WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(), CLBN_CHKCHANGE), (LPARAM)m_hWnd);
@@ -412,23 +449,23 @@ BOOL CPPageInternalFilters::OnInitDialog()
 	AppSettings& s = AfxGetAppSettings();
 
 	for (int i = 0; i < countof(s_filters)-1; i++) {
-		CCheckListBox* l;
+		CPPageInternalFiltersListBox* l;
 		bool checked;
 
 		switch (s_filters[i].type) {
-			case SOURCE_FILTER: // source filter
+			case SOURCE_FILTER:
 				l = &m_listSrc;
 				checked = s.SrcFilters[s_filters[i].flag];
 				break;
-			case DECODER: // decoder
+			case DECODER:
 				l = &m_listTra;
 				checked = s.TraFilters[s_filters[i].flag];
 				break;
-			case DXVA_DECODER: // dxva decoder
+			case DXVA_DECODER:
 				l = &m_listTra;
 				checked = s.DXVAFilters[s_filters[i].flag];
 				break;
-			case FFMPEG_DECODER: // ffmpeg decoder
+			case FFMPEG_DECODER:
 				l = &m_listTra;
 				checked = s.FFmpegFilters[s_filters[i].flag];
 				break;
@@ -438,11 +475,12 @@ BOOL CPPageInternalFilters::OnInitDialog()
 		}
 
 		if (l) {
-			int Index = l->AddString(s_filters[i].label);
-			l->SetCheck(Index, checked);
-			l->SetItemDataPtr(Index, &s_filters[i]);
+			l->AddFilter(&s_filters[i], checked);
 		}
 	}
+
+	m_listSrc.UpdateCheckState();
+	m_listTra.UpdateCheckState();
 
 	UpdateData(FALSE);
 
@@ -528,5 +566,8 @@ void CPPageInternalFilters::OnSelChange()
 
 void CPPageInternalFilters::OnCheckBoxChange()
 {
+	m_listSrc.UpdateCheckState();
+	m_listTra.UpdateCheckState();
+
 	SetModified();
 }

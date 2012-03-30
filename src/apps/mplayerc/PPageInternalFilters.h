@@ -27,15 +27,20 @@
 #include "PPageBase.h"
 
 
+struct filter_t {
+	LPCTSTR label;
+	int type;
+	int flag;
+	UINT nHintID;
+	CUnknown* (WINAPI * CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr);
+};
+
 class CPPageInternalFiltersListBox : public CCheckListBox
 {
 	DECLARE_DYNAMIC(CPPageInternalFiltersListBox)
 
 public:
 	CPPageInternalFiltersListBox(int n);
-
-	CFont m_bold;
-	int   m_n;
 
 protected:
 	virtual void PreSubclassWindow();
@@ -44,8 +49,15 @@ protected:
 	DECLARE_MESSAGE_MAP()
 	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 
+	CFont m_bold;
+	int m_n;
+	unsigned int m_nbFiltersPerType[FILTER_TYPE_NB];
+	unsigned int m_nbChecked[FILTER_TYPE_NB];
+
 public:
 	virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
+	virtual int AddFilter(filter_t* filter, bool checked);
+	virtual void UpdateCheckState();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 };
 

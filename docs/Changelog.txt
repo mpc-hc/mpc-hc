@@ -32,6 +32,8 @@ next version - not yet released
   - Double-clicking on the file location from the clip properties will now open
     the containing folder and select the current file
   - The information fields in the properties dialog are now correctly aligned with their labels
+* Ticket #2098, Improve the behavior of the context menu in the internal filters page: menu items
+  are now disabled when it makes sense to do so
 * Ticket #2108, Adjust drop-down list width for long shaders name
 * Updated libpng to v1.5.10
 * Updated Little CMS to v2.3+ (git 839a5b0 23/03/2012)
