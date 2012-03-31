@@ -23,7 +23,7 @@
 
 #include <atlcoll.h>
 
-#define FlicSourceName   L"MPC Flic Source"
+#define FlicSourceName   L"MPC FLIC Source"
 
 #pragma pack(push, 1)
 enum {

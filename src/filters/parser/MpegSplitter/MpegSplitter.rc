@@ -44,12 +44,12 @@ BEGIN
         BEGIN
             VALUE "Comments", MPC_VERSION_COMMENTS
             VALUE "CompanyName", MPC_COMP_NAME_STR
-            VALUE "FileDescription", "Mpeg Splitter"
+            VALUE "FileDescription", "MPEG Splitter"
             VALUE "FileVersion", MPC_VERSION_STR
-            VALUE "InternalName", "Mpeg Splitter"
+            VALUE "InternalName", "MPEG Splitter"
             VALUE "LegalCopyright", MPC_COPYRIGHT_STR
             VALUE "OriginalFilename", "MpegSplitter.ax"
-            VALUE "ProductName", "Mpeg Splitter"
+            VALUE "ProductName", "MPEG Splitter"
             VALUE "ProductVersion", MPC_VERSION_STR
         END
     END
