@@ -25,8 +25,8 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "../../transform/BaseVideoFilter/BaseVideoFilter.h"
 
-#define FlvSplitterName L"MPC Flv Splitter"
-#define FlvSourceName   L"MPC Flv Source"
+#define FlvSplitterName L"MPC FLV Splitter"
+#define FlvSourceName   L"MPC FLV Source"
 
 class __declspec(uuid("47E792CF-0BBE-4F7A-859C-194B0768650A"))
 	CFLVSplitterFilter : public CBaseSplitterFilter

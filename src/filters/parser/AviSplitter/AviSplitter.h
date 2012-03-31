@@ -25,8 +25,8 @@
 #include <atlcoll.h>
 #include "../BaseSplitter/BaseSplitter.h"
 
-#define AviSplitterName L"MPC Avi Splitter"
-#define AviSourceName   L"MPC Avi Source"
+#define AviSplitterName L"MPC AVI Splitter"
+#define AviSourceName   L"MPC AVI Source"
 
 class CAviFile;
 

@@ -39,7 +39,7 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CBufferFilter), L"MPC - Buffer Filter", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CBufferFilter), L"MPC Buffer Filter", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] = {

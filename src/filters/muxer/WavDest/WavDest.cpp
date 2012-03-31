@@ -41,7 +41,7 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CWavDestFilter), L"MPC - WavDest", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CWavDestFilter), L"MPC WavDest", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] = {
