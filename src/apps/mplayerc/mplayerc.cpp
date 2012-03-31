@@ -589,20 +589,9 @@ void CMPlayerCApp::ExportSettings()
 void CMPlayerCApp::PreProcessCommandLine()
 {
 	m_cmdln.RemoveAll();
+
 	for (int i = 1; i < __argc; i++) {
-		CString str = CString(__targv[i]).Trim(_T(" \""));
-
-		if (str[0] != '/' && str[0] != '-' && str.Find(_T(":")) < 0) {
-			LPTSTR p = NULL;
-			CString str2;
-			str2.ReleaseBuffer(GetFullPathName(str, _MAX_PATH, str2.GetBuffer(_MAX_PATH), &p));
-			CFileStatus fs;
-			if (!str2.IsEmpty() && CFileGetStatus(str2, fs)) {
-				str = str2;
-			}
-		}
-
-		m_cmdln.AddTail(str);
+		m_cmdln.AddTail(CString(__targv[i]).Trim(_T(" \"")));
 	}
 }
 

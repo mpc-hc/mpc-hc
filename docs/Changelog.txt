@@ -57,6 +57,8 @@ next version - not yet released
 ! Ticket #90/#971/#1682, MP4Splitter - Fixed hanged image/slow response after seeking
 ! Ticket #413/#2096, Fixed register command line switches for audio and video files
 ! Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
+! Ticket #1815, Only try to expend command line argument into full path name when
+  we are sure the argument is supposed to be a path name
 ! Ticket #1987, MP4Splitter: Fix a deadloop which happened sometimes at the end of a file
 ! Ticket #2007, Prevent a memory leak in FLACSource
 ! Ticket #2013, Bug when saving the ASS/SSA subtitle, the header has incorrect values

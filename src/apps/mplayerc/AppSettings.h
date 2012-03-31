@@ -330,6 +330,7 @@ public:
 
 	CString			strPnSPreset;
 
+	CString			ParseFileName(CString const& param);
 	void			ParseCommandLine(CAtlList<CString>& cmdln);
 
 	// Added a Debug display to the screen (/debug option)

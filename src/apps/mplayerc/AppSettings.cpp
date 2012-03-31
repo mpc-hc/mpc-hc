@@ -1678,6 +1678,23 @@ void CAppSettings::ExtractDVDStartPos(CString& strParam)
 	}
 }
 
+CString CAppSettings::ParseFileName(CString const& param)
+{
+	CString fullPathName;
+
+	// Try to transform relative pathname into full pathname
+	if (param.Find(_T(":")) < 0) {
+		fullPathName.ReleaseBuffer(GetFullPathName(param, _MAX_PATH, fullPathName.GetBuffer(_MAX_PATH), NULL));
+
+		CFileStatus fs;
+		if (!fullPathName.IsEmpty() && CFileGetStatus(fullPathName, fs)) {
+			return fullPathName;
+		}
+	}
+
+	return param;
+}
+
 void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 {
 	nCLSwitches = 0;
@@ -1718,16 +1735,16 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 			} else if (sw == _T("help") || sw == _T("h") || sw == _T("?")) {
 				nCLSwitches |= CLSW_HELP;
 			} else if (sw == _T("dub") && pos) {
-				slDubs.AddTail(cmdln.GetNext(pos));
+				slDubs.AddTail(ParseFileName(cmdln.GetNext(pos)));
 			} else if (sw == _T("dubdelay") && pos) {
-				CString		strFile = cmdln.GetNext(pos);
+				CString		strFile = ParseFileName(cmdln.GetNext(pos));
 				int			nPos  = strFile.Find (_T("DELAY"));
 				if (nPos != -1) {
 					rtShift = 10000 * _tstol(strFile.Mid(nPos + 6));
 				}
 				slDubs.AddTail(strFile);
 			} else if (sw == _T("sub") && pos) {
-				slSubs.AddTail(cmdln.GetNext(pos));
+				slSubs.AddTail(ParseFileName(cmdln.GetNext(pos)));
 			} else if (sw == _T("filter") && pos) {
 				slFilters.AddTail(cmdln.GetNext(pos));
 			} else if (sw == _T("dvd")) {
@@ -1811,7 +1828,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 				nCLSwitches |= CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH;
 			}
 		} else {
-			slFiles.AddTail(param);
+			slFiles.AddTail(ParseFileName(param));
 		}
 	}
 }
