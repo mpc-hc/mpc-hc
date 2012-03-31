@@ -229,4 +229,6 @@ void CPPageTweaks::OnChngOSDCombo()
 void CPPageTweaks::OnUseTimeTooltipClicked()
 {
 	m_TimeTooltipPosition.EnableWindow(IsDlgButtonChecked(IDC_CHECK8));
+
+	SetModified();
 }

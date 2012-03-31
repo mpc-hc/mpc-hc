@@ -74,6 +74,8 @@ void CPPageExternalFilters::StepUp(CCheckListBox& list)
 	list.SetItemData(i, dwItemData);
 	list.SetCheck(i, nCheck);
 	list.SetCurSel(i);
+
+	SetModified();
 }
 
 void CPPageExternalFilters::StepDown(CCheckListBox& list)
@@ -93,6 +95,8 @@ void CPPageExternalFilters::StepDown(CCheckListBox& list)
 	list.SetItemData(i, dwItemData);
 	list.SetCheck(i, nCheck);
 	list.SetCurSel(i);
+
+	SetModified();
 }
 
 FilterOverride* CPPageExternalFilters::GetCurFilter()
@@ -406,6 +410,8 @@ void CPPageExternalFilters::OnAddRegistered()
 					m_filters.SetCurSel(i);
 					OnLbnSelchangeList1();
 				}
+
+				SetModified();
 			}
 		}
 	}
@@ -416,11 +422,14 @@ void CPPageExternalFilters::OnRemoveFilter()
 	int i = m_filters.GetCurSel();
 	m_pFilters.RemoveAt((POSITION)m_filters.GetItemDataPtr(i));
 	m_filters.DeleteString(i);
+
 	if (i >= m_filters.GetCount()) {
 		i--;
 	}
 	m_filters.SetCurSel(i);
 	OnLbnSelchangeList1();
+
+	SetModified();
 }
 
 void CPPageExternalFilters::OnMoveFilterUp()
@@ -507,6 +516,8 @@ void CPPageExternalFilters::OnAddMajorType()
 
 		node = m_tree.InsertItem(sub, node);
 		m_tree.SetItemData(node, (DWORD_PTR)pos);
+
+		SetModified();
 	}
 }
 
@@ -552,6 +563,8 @@ void CPPageExternalFilters::OnAddSubType()
 
 		node = m_tree.InsertItem(sub, node);
 		m_tree.SetItemData(node, (DWORD_PTR)pos);
+
+		SetModified();
 	}
 }
 
@@ -598,6 +611,8 @@ void CPPageExternalFilters::OnDeleteType()
 				f->guids.RemoveAt(pos2);
 			}
 		}
+
+		SetModified();
 	}
 }
 
@@ -620,8 +635,11 @@ void CPPageExternalFilters::OnResetTypes()
 			f->guids.RemoveAll();
 			f->guids.AddTailList(&f->backup);
 		}
+
 		m_pLastSelFilter = NULL;
 		OnLbnSelchangeList1();
+
+		SetModified();
 	}
 }
 
@@ -740,6 +758,8 @@ void CPPageExternalFilters::OnNMDblclkTree2(NMHDR *pNMHDR, LRESULT *pResult)
 		if (dlg.DoModal() == IDOK) {
 			f->guids.SetAt(pos, dlg.m_guid);
 			m_tree.SetItemText(node, GetMediaTypeName(dlg.m_guid));
+
+			SetModified();
 		}
 	}
 }
@@ -778,6 +798,8 @@ void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)
 					m_filters.SetCurSel(i);
 					OnLbnSelchangeList1();
 				}
+
+				SetModified();
 			}
 		}
 	}

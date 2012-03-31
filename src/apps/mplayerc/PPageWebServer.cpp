@@ -230,7 +230,9 @@ void CPPageWebServer::OnBnClickedButton1()
 			dir = (LPCTSTR)path;
 		}
 		m_WebRoot = dir;
+
 		UpdateData(FALSE);
+		SetModified();
 	}
 }
 

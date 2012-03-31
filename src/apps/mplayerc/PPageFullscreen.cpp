@@ -74,7 +74,8 @@ BEGIN_MESSAGE_MAP(CPPageFullscreen, CPPageBase)
 	ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginlabeleditList)
 	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndlabeleditList)
 	ON_NOTIFY(NM_CLICK, IDC_LIST1, OnNMClickList1)
-	ON_NOTIFY ( NM_CUSTOMDRAW, IDC_LIST1, OnCustomdrawList)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_LIST1, OnCustomdrawList)
+	ON_CLBN_CHKCHANGE(IDC_LIST1, OnCheckChangeList)
 	ON_UPDATE_COMMAND_UI(IDC_LIST1, OnUpdateList)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateApplyDefault)
 	ON_UPDATE_COMMAND_UI(IDC_SPIN1, OnUpdateTimeout)
@@ -169,8 +170,7 @@ BOOL CPPageFullscreen::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
-void CPPageFullscreen::OnCustomdrawList ( NMHDR* pNMHDR, LRESULT* pResult )
+void CPPageFullscreen::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>( pNMHDR );
 	*pResult = CDRF_DODEFAULT;
@@ -190,7 +190,6 @@ void CPPageFullscreen::OnCustomdrawList ( NMHDR* pNMHDR, LRESULT* pResult )
 		*pResult = CDRF_DODEFAULT;
 	}
 }
-
 
 BOOL CPPageFullscreen::OnApply()
 {
@@ -337,6 +336,11 @@ void CPPageFullscreen::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	if (*pResult) {
 		SetModified();
 	}
+}
+
+void CPPageFullscreen::OnCheckChangeList()
+{
+	SetModified();
 }
 
 void CPPageFullscreen::OnUpdateList(CCmdUI* pCmdUI)
@@ -584,6 +588,8 @@ void CPPageFullscreen::OnRemove()
 		m_list.SetItemState(nItem,LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 		ReindexList();
 		ReindexListSubItem();
+
+		SetModified();
 	}
 }
 
@@ -614,6 +620,8 @@ void CPPageFullscreen::OnAdd()
 		m_list.SetItemState(i,LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 		ReindexList();
 		ReindexListSubItem();
+
+		SetModified();
 	}
 }
 
@@ -652,6 +660,8 @@ void CPPageFullscreen::OnMoveUp()
 		m_list.SetItemState(nItem, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 		ReindexList();
 		ReindexListSubItem();
+
+		SetModified();
 	}
 }
 
@@ -684,6 +694,8 @@ void CPPageFullscreen::OnMoveDown()
 		m_list.SetItemState(nItem, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 		ReindexList();
 		ReindexListSubItem();
+
+		SetModified();
 	}
 }
 

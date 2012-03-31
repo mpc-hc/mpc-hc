@@ -74,6 +74,6 @@ next version - not yet released
   when the favorites list was empty
 ! Ticket #2093, Fixed time display when subresync bar is enabled
 ! Ticket #2116, Fix the "Reset" button in Options/Subtitles/Misc
-! Ticket #2128, The "Apply" button can now be used after enabling or disabling a filter
- in the external filters page
+! Ticket #2128, The "Apply" button is now clickable after modifing the web server root directory,
+  the fullscreen modes list, the external filters list and the time tooltip option
 ! Numerous other bugfixes and improvements
