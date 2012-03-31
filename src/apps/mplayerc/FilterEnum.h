@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2010 see AUTHORS
+ * (C) 2010-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *

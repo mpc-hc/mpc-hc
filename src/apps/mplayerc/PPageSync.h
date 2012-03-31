@@ -1,5 +1,7 @@
 /*
- * (C) 2006-2011 see AUTHORS
+ * $Id$
+ *
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
