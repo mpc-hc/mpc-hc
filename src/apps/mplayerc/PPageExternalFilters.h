@@ -82,6 +82,7 @@ public:
 	afx_msg void OnDeleteType();
 	afx_msg void OnResetTypes();
 	afx_msg void OnLbnSelchangeList1();
+	afx_msg void OnCheckChangeList1();
 	afx_msg void OnBnClickedRadio();
 	afx_msg void OnEnChangeEdit1();
 	afx_msg void OnNMDblclkTree2(NMHDR *pNMHDR, LRESULT *pResult);

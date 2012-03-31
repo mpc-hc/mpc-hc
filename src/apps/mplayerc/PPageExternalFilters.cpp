@@ -272,6 +272,7 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
 	ON_BN_CLICKED(IDC_BUTTON7, OnDeleteType)
 	ON_BN_CLICKED(IDC_BUTTON8, OnResetTypes)
 	ON_LBN_SELCHANGE(IDC_LIST1, OnLbnSelchangeList1)
+	ON_CLBN_CHKCHANGE(IDC_LIST1, OnCheckChangeList1)
 	ON_BN_CLICKED(IDC_RADIO1, OnBnClickedRadio)
 	ON_BN_CLICKED(IDC_RADIO2, OnBnClickedRadio)
 	ON_BN_CLICKED(IDC_RADIO3, OnBnClickedRadio)
@@ -680,6 +681,11 @@ void CPPageExternalFilters::OnLbnSelchangeList1()
 
 		m_tree.DeleteAllItems();
 	}
+}
+
+void CPPageExternalFilters::OnCheckChangeList1()
+{
+	SetModified();
 }
 
 void CPPageExternalFilters::OnBnClickedRadio()
