@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -482,7 +482,6 @@ public:
 	void SetupAudioStreams();
 	// subtitle streams order function
 	bool LoadSubtitle(CString fn, ISubStream **actualStream = NULL);
-	bool LoadSubtitle(CString videoFn, CString subFn, ISubStream **actualStream);
 
 	void UpdateSubtitle(bool fDisplayMessage = false, bool fApplyDefStyle = false);
 	void SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle = false);

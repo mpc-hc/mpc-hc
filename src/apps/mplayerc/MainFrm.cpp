@@ -7897,11 +7897,11 @@ void CMainFrame::OnPlayAudio(UINT nID)
 
 void CMainFrame::OnUpdatePlayAudio(CCmdUI* pCmdUI)
 {
-	if(GetPlaybackMode() == PM_DVD) {
+	if (GetPlaybackMode() == PM_DVD) {
 		return;
 	}
 
-	if(FindSourceSelectableFilter()) {
+	if (FindSourceSelectableFilter()) {
 		return;
 	}
 
@@ -7946,7 +7946,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
 
 void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
 {
-	if(GetPlaybackMode() == PM_DVD) {
+	if (GetPlaybackMode() == PM_DVD) {
 		return;
 	}
 
@@ -8009,7 +8009,7 @@ void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck(AfxGetAppSettings().fUseDefaultSubtitlesStyle);
 		pCmdUI->Enable(AfxGetAppSettings().fEnableSubtitles && m_enable_style);
 	} else if (i >= 0) {
-		if(FindSourceSelectableFilter()) {
+		if (FindSourceSelectableFilter()) {
 			return;
 		}
 
@@ -8149,7 +8149,7 @@ void CMainFrame::OnNormalizeRegainVolume(UINT nID)
 				osdMessage = ResStr(s.fAudioNormalizeRecover ? IDS_OSD_REGAIN_VOLUME_ON : IDS_OSD_REGAIN_VOLUME_OFF);
 				break;
 		}
-		
+
 		pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost_dB);
 
 		m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
@@ -8550,7 +8550,7 @@ void CMainFrame::OnNavigateAudio(UINT nID)
 	nID -= ID_NAVIGATE_AUDIO_SUBITEM_START;
 
 	if (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)) {
-		if(nID == 0) {
+		if (nID == 0) {
 			ShowOptions(CPPageAudioSwitcher::IDD);
 		} else {
 			nID -= 1;
@@ -13678,8 +13678,6 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream **actualStream)
 {
 	CComPtr<ISubStream> pSubStream;
 
-	CString videoFn = m_wndPlaylistBar.GetCurFileName();
-
 	// TMP: maybe this will catch something for those who get a runtime error dialog when opening subtitles from cds
 	try {
 		if (!pSubStream) {
@@ -13691,7 +13689,22 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream **actualStream)
 
 		if (!pSubStream) {
 			CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock, &AfxGetAppSettings().subdefstyle, AfxGetAppSettings().fUseDefaultSubtitlesStyle));
-			if (pRTS && pRTS->Open(videoFn, fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0) {
+
+			// The filename of the video file
+			CString videoName = m_wndPlaylistBar.GetCurFileName();
+			videoName = videoName.Left(videoName.ReverseFind('.')).Mid(videoName.ReverseFind('\\') + 1);
+
+			// The filename of the subtitle file
+			CString subName = fn.Left(fn.ReverseFind('.')).Mid(fn.ReverseFind('\\') + 1);
+
+			CString name;
+			if (subName.Find(videoName) != -1 && videoName.CompareNoCase(subName) != 0 && subName.Replace(videoName, _T("")) == 1) {
+				name = subName.TrimLeft('.');
+			} else {
+				name = ResStr(IDS_UNDETERMINED);
+			}
+
+			if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, name) && pRTS->GetStreamCount() > 0) {
 				pSubStream = pRTS.Detach();
 			}
 		}

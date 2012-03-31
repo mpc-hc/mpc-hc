@@ -2,7 +2,7 @@
  *  $Id$
  *
  *  (C) 2003-2006 Gabest
- *  (C) 2006-2010 see AUTHORS
+ *  (C) 2006-2012 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -309,7 +309,6 @@ public:
 
 	void Append(CSimpleTextSubtitle& sts, int timeoff = -1);
 
-	bool Open(CString videoFn, CString subFn, int charSet, CString name = _T(""));
 	bool Open(CString fn, int CharSet, CString name = _T(""));
 	bool Open(CTextFile* f, int CharSet, CString name);
 	bool Open(BYTE* data, int len, int CharSet, CString name);
