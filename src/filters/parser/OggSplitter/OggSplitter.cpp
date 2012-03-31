@@ -245,7 +245,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			} else if (type == 0x7F && page.GetCount()>12 && *(long*)(p+8) == 0x43614C66) {	// Flac
 				// Ogg Flac : method 1
 				CAutoPtr<CBaseSplitterOutputPin> pPinOut;
-				name.Format(L"Flac %d", i);
+				name.Format(L"FLAC %d", i);
 				pPinOut.Attach(DNew COggFlacOutputPin(p+12, page.GetCount()-14, name, this, this, &hr));
 				AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
 			} else if (*(long*)(p-1) == 0x43614C66) {
@@ -253,7 +253,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				//nWaitForMore++;
 				if (m_pFile->Read(page)) {
 					CAutoPtr<CBaseSplitterOutputPin> pPinOut;
-					name.Format(L"Flac %d", i);
+					name.Format(L"FLAC %d", i);
 					p = page.GetData();
 					pPinOut.Attach(DNew COggFlacOutputPin(p, page.GetCount(), name, this, this, &hr));
 					AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);

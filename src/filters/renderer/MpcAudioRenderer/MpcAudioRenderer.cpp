@@ -73,7 +73,7 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMpcAudioRenderer), L"MPC - Audio Renderer", 0x40000001, countof(sudpPins), sudpPins,CLSID_AudioRendererCategory},
+	{&__uuidof(CMpcAudioRenderer), L"MPC - Audio Renderer", 0x40000001, countof(sudpPins), sudpPins, CLSID_AudioRendererCategory},
 };
 
 CFactoryTemplate g_Templates[] = {

@@ -24,7 +24,7 @@
 #include <atlbase.h>
 #include "../BaseSource/BaseSource.h"
 
-#define FlacSourceName   L"MPC Flac Source"
+#define FlacSourceName   L"MPC FLAC Source"
 
 class CFLACStream;
 
