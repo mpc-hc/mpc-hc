@@ -1828,6 +1828,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 #endif
 
+#if INTERNAL_DECODER_ALAC
+	pFGF = DNew CFGFilterInternal<CMpaDecFilter>(
+			   (tra[TRA_ALAC]) ? MPCAudioDecName : LowMerit(MPCAudioDecName),
+			   (tra[TRA_ALAC]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_ALAC);
+	m_transform.AddTail(pFGF);
+#endif
+
 #if INTERNAL_DECODER_PCM
 	pFGF = new CFGFilterInternal<CMpaDecFilter>(
 		(tra[TRA_PCM]) ? MPCAudioDecName : LowMerit(MPCAudioDecName),

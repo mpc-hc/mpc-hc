@@ -116,6 +116,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_AAC
 	TraFiltersKeys[TRA_AAC] = _T("TRA_AAC");
 #endif
+#if INTERNAL_DECODER_ALAC
+	TraFiltersKeys[TRA_ALAC] = _T("TRA_ALAC");
+#endif
 #if INTERNAL_DECODER_PS2AUDIO
 	TraFiltersKeys[TRA_PS2AUD] = _T("TRA_PS2AUD");
 #endif

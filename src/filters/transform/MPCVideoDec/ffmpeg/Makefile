@@ -91,6 +91,7 @@ SRCS_C=\
     libavcodec/acelp_vectors.c \
     libavcodec/adpcm.c \
     libavcodec/adpcm_data.c \
+    libavcodec/alac.c \
     libavcodec/allcodecs.c \
     libavcodec/amrnbdec.c \
     libavcodec/amrwbdec.c \

@@ -64,6 +64,10 @@ static const FFMPEG_AUDIO_CODECS	ffAudioCodecs[] = {
 	{ &MEDIASUBTYPE_AAC_ADTS,	CODEC_ID_AAC },
 	{ &MEDIASUBTYPE_LATM_AAC,	CODEC_ID_AAC_LATM },
 #endif
+#if INTERNAL_DECODER_ALAC
+	// NellyMoser
+	{ &MEDIASUBTYPE_ALAC,		CODEC_ID_ALAC },
+#endif
 #if INTERNAL_DECODER_VORBIS
 	// Ogg Vorbis
 	{ &MEDIASUBTYPE_Vorbis2,	CODEC_ID_VORBIS },
@@ -186,6 +190,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_SIPR},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_RAAC},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_RACP},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_ALAC},
 };
 
 #ifdef REGISTER_FILTER
@@ -1945,11 +1950,6 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	else if (mtIn->subtype == MEDIASUBTYPE_FLAC_FRAMED) {
-		return S_OK;
-	}
-#endif
-#if defined(REGISTER_FILTER) | INTERNAL_DECODER_NELLYMOSER
-	else if (mtIn->subtype == MEDIASUBTYPE_NELLYMOSER) {
 		return S_OK;
 	}
 #endif

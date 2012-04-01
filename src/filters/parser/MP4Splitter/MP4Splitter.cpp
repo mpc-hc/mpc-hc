@@ -959,6 +959,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						} else if (type == AP4_ATOM_TYPE_NMOS) {
 							fourcc = MAKEFOURCC('N','E','L','L');
 							SetTrackName(&TrackName, _T("NellyMoser Audio"));
+						} else if (type == AP4_ATOM_TYPE_ALAC) {
+							fourcc = MAKEFOURCC('a','l','a','c');
+							SetTrackName(&TrackName, _T("Alac Audio"));
 						} else if (ase->GetEndian()==1 &&
 								   (type==AP4_ATOM_TYPE_IN24 || type==AP4_ATOM_TYPE_IN32 ||
 									type==AP4_ATOM_TYPE_FL32 || type==AP4_ATOM_TYPE_FL64)) {
@@ -1009,7 +1012,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						mt.majortype = MEDIATYPE_Audio;
 						mt.formattype = FORMAT_WaveFormatEx;
-						wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + (type == AP4_ATOM_TYPE_MP4A ? 0 : db.GetDataSize()));
+						wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + (type == AP4_ATOM_TYPE_MP4A ? 0 : type == AP4_ATOM_TYPE_ALAC ? 36 : db.GetDataSize()));
 						memset(wfe, 0, mt.FormatLength());
 						if (!(fourcc & 0xffff0000)) {
 							wfe->wFormatTag = (WORD)fourcc;
@@ -1028,8 +1031,26 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						}
 
 						if (type != AP4_ATOM_TYPE_MP4A && type != AP4_ATOM_TYPE_ALAW && type != AP4_ATOM_TYPE_ULAW) {
-							wfe->cbSize = db.GetDataSize();
-							memcpy(wfe+1, db.GetData(), db.GetDataSize());
+							if(type == AP4_ATOM_TYPE_ALAC) {
+								const AP4_Byte* data = db.GetData();
+								AP4_Size size = db.GetDataSize();
+								AP4_Size pos = 0;
+								while (size > 36) {
+									if((*(BYTE*)(data++) == 0x24) && (*(DWORD*)(data) == 0x63616c61)) {
+										data -= 4;
+										break;
+									}
+									size--;
+									pos++;
+								}
+								if(size >= 36) {
+									wfe->cbSize = 36;
+									memcpy(wfe+1, data, 36);
+								}
+							} else {
+								wfe->cbSize = db.GetDataSize();
+								memcpy(wfe+1, db.GetData(), db.GetDataSize());
+							}
 						}
 
 						mts.Add(mt);

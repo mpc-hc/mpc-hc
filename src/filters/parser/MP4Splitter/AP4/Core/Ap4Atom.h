@@ -312,6 +312,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE_YV12 = AP4_ATOM_TYPE('y','v','1','2');
 const AP4_Atom::Type AP4_ATOM_TYPE_PASP = AP4_ATOM_TYPE('p','a','s','p');
 
 const AP4_Atom::Type AP4_ATOM_TYPE_NMOS = AP4_ATOM_TYPE('n','m','o','s');
+const AP4_Atom::Type AP4_ATOM_TYPE_ALAC = AP4_ATOM_TYPE('a','l','a','c');
 
 const AP4_Atom::Type AP4_ATOM_TYPE_DVC  = AP4_ATOM_TYPE('d','v','c',' ');
 const AP4_Atom::Type AP4_ATOM_TYPE_DV5P = AP4_ATOM_TYPE('d','v','5','p');
