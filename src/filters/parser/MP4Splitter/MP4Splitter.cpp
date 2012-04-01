@@ -1034,15 +1034,15 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							if(type == AP4_ATOM_TYPE_ALAC) {
 								const AP4_Byte* data = db.GetData();
 								AP4_Size size = db.GetDataSize();
-								AP4_Size pos = 0;
-								while (size > 36) {
-									if((*(BYTE*)(data++) == 0x24) && (*(DWORD*)(data) == 0x63616c61)) {
-										data -= 4;
+
+								while (size >= 36) {
+									if((*(DWORD*)(data) == 0x24000000) && (*(DWORD*)(data+4) == 0x63616c61)) {
 										break;
 									}
 									size--;
-									pos++;
+									data++;
 								}
+
 								if(size >= 36) {
 									wfe->cbSize = 36;
 									memcpy(wfe+1, data, 36);
