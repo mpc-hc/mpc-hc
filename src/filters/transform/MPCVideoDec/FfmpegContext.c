@@ -376,42 +376,52 @@ void FFH264SetCurrentPicture (int nIndex, DXVA_PicParams_H264* pDXVAPicParams, s
 void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx)
 {
 	H264Context*	h = (H264Context*) pAVCtx->priv_data;
+	UINT			nUsedForReferenceFlags = 0;
 	int				i, j;
-	const Picture*	pic;
+	Picture*		pic;
+	UCHAR			AssociatedFlag;
 
-	for (i = 0, j = 0; i < 16; i++) {
-		if (j < h->short_ref_count) {
-			pic = h->short_ref[j++];
-		} else {
+	for (i=0, j=0; i<16; i++) {
+		if (i < h->short_ref_count) {
+			// Short list reference frames
+			pic				= h->short_ref[h->short_ref_count - i - 1];
+			AssociatedFlag	= pic->long_ref != 0;
+        } else {
+			// Long list reference frames
 			pic = NULL;
 			while (!pic && j < h->short_ref_count + 16) {
 				pic = h->long_ref[j++ - h->short_ref_count];
 			}
+			AssociatedFlag	= 1;
 		}
-		if (pic) {
-			pDXVAPicParams->FrameNumList[i]				= pic->long_ref ? pic->pic_id : pic->frame_num;
-			pDXVAPicParams->FieldOrderCntList[i][0]		= 0;
-			pDXVAPicParams->FieldOrderCntList[i][1]		= 0;
 
-			if ((pic->f.reference & PICT_TOP_FIELD) && pic->field_poc[0] != INT_MAX)
-				pDXVAPicParams->FieldOrderCntList[i][0]		= pic->field_poc[0];
-			if ((pic->f.reference & PICT_BOTTOM_FIELD) && pic->field_poc[1] != INT_MAX)
-				pDXVAPicParams->FieldOrderCntList[i][1]		= pic->field_poc[1];
+		if (pic != NULL) {
+			pDXVAPicParams->FrameNumList[i]					= pic->long_ref ? pic->pic_id : pic->frame_num;
+			pDXVAPicParams->FieldOrderCntList[i][0]			= 0;
+			pDXVAPicParams->FieldOrderCntList[i][1]			= 0;
 
-			if (pic->f.reference & PICT_TOP_FIELD)
-				pDXVAPicParams->UsedForReferenceFlags		|= 1 << (2*i + 0);
-			if (pic->f.reference & PICT_BOTTOM_FIELD)
-				pDXVAPicParams->UsedForReferenceFlags		|= 1 << (2*i + 1);
+			if (pic->field_poc[0] != INT_MAX) {
+				pDXVAPicParams->FieldOrderCntList[i][0]		= pic->field_poc [0];
+				nUsedForReferenceFlags						|= 1<<(i*2);
+			}
 
-			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= (pic->long_ref != 0);
+			if (pic->field_poc[1] != INT_MAX) {
+				pDXVAPicParams->FieldOrderCntList[i][1]		= pic->field_poc [1];
+				nUsedForReferenceFlags						|= 2<<(i*2);
+			}
+
+			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= AssociatedFlag;
 			pDXVAPicParams->RefFrameList[i].Index7Bits		= (UCHAR)pic->f.opaque;
 		} else {
-			pDXVAPicParams->RefFrameList[i].bPicEntry	= 0xff;
-			pDXVAPicParams->FieldOrderCntList[i][0]		= 0;
-			pDXVAPicParams->FieldOrderCntList[i][1]		= 0;
-			pDXVAPicParams->FrameNumList[i]				= 0;
+			pDXVAPicParams->FrameNumList[i]					= 0;
+			pDXVAPicParams->FieldOrderCntList[i][0]			= 0;
+			pDXVAPicParams->FieldOrderCntList[i][1]			= 0;
+			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= 1;
+			pDXVAPicParams->RefFrameList[i].Index7Bits		= 127;
 		}
 	}
+
+	pDXVAPicParams->UsedForReferenceFlags = nUsedForReferenceFlags;
 }
 
 BOOL FFH264IsRefFrameInUse (int nFrameNum, struct AVCodecContext* pAVCtx)
