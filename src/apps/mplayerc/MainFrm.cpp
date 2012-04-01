@@ -13138,7 +13138,8 @@ IBaseFilter* CMainFrame::FindSourceSelectableFilter()
 	if (!pSF) {
 		pSF = FindFilter(L"{529A00DB-0C43-4f5b-8EF2-05004CBE0C6F}", pGB); // AV Splitter
 	}
-	if (!pSF) {		pSF = FindFilter(L"{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}", pGB); // AV Source
+	if (!pSF) {
+		pSF = FindFilter(L"{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}", pGB); // AV Source
 	}
 	if (!pSF) {
 		pSF = FindFilter(__uuidof(CMpegSplitterFilter), pGB);
