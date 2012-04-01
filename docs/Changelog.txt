@@ -8,7 +8,7 @@ Legend:
 ! Fixed
 
 
-v1.6.1.x - April 2012
+v1.6.1.4235 - 1 April 2012
 ==============================
 + Use ffmpeg for RealVideo/RealAudio decoding
 + Support for SIPR and VP30/31
@@ -75,6 +75,6 @@ v1.6.1.x - April 2012
   when the favorites list was empty
 ! Ticket #2093, Fixed time display when subresync bar is enabled
 ! Ticket #2116, Fix the "Reset" button in Options/Subtitles/Misc
-! Ticket #2128, The "Apply" button is now clickable after modifing the web server root directory,
+! Ticket #2128, The "Apply" button is now clickable after modifying the web server root directory,
   the fullscreen modes list, the external filters list and the time tooltip option
 ! Numerous other bugfixes and improvements
