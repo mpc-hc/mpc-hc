@@ -1031,19 +1031,19 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						}
 
 						if (type != AP4_ATOM_TYPE_MP4A && type != AP4_ATOM_TYPE_ALAW && type != AP4_ATOM_TYPE_ULAW) {
-							if(type == AP4_ATOM_TYPE_ALAC) {
+							if (type == AP4_ATOM_TYPE_ALAC) {
 								const AP4_Byte* data = db.GetData();
 								AP4_Size size = db.GetDataSize();
 
 								while (size >= 36) {
-									if((*(DWORD*)(data) == 0x24000000) && (*(DWORD*)(data+4) == 0x63616c61)) {
+									if ((*(DWORD*)(data) == 0x24000000) && (*(DWORD*)(data+4) == 0x63616c61)) {
 										break;
 									}
 									size--;
 									data++;
 								}
 
-								if(size >= 36) {
+								if (size >= 36) {
 									wfe->cbSize = 36;
 									memcpy(wfe+1, data, 36);
 								}

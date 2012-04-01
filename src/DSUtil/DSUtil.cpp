@@ -2913,7 +2913,7 @@ void getExtraData(const BYTE *format, const GUID *formattype, const size_t forma
 	} else if (*formattype == FORMAT_VideoInfo) {
 		extraposition = format + sizeof(VIDEOINFOHEADER);
 		extralength   = formatlen - sizeof(VIDEOINFOHEADER);
-	} else if(*formattype == FORMAT_VideoInfo2) {
+	} else if (*formattype == FORMAT_VideoInfo2) {
 		extraposition = format + sizeof(VIDEOINFOHEADER2);
 		extralength   = formatlen - sizeof(VIDEOINFOHEADER2);
 	} else if (*formattype == FORMAT_MPEGVideo) {

@@ -233,7 +233,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 		while (!gb.IsEOF()) {
 			if (gb.ReadByte() == 0x0F) {
 				TRACE_DVB ("DVB - ParseSample\n");
-			
+
 				WORD				wPageId;
 				WORD				wSegLength;
 
@@ -252,7 +252,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 						ParsePage(gb, wSegLength, pPage);
 
 						if (pPage->PageState == DPS_ACQUISITION) {
-							if(m_pCurrentPage != NULL) {
+							if (m_pCurrentPage != NULL) {
 								m_pCurrentPage->rtStop = max(m_pCurrentPage->rtStop, m_rtStart);
 								m_Pages.AddTail (m_pCurrentPage.Detach());
 							}

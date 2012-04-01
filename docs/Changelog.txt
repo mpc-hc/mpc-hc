@@ -8,11 +8,12 @@ Legend:
 ! Fixed
 
 
-next version - not yet released
+v1.6.1.x - April 2012
 ==============================
 + Use ffmpeg for RealVideo/RealAudio decoding
 + Support for SIPR and VP30/31
 + Support WMV3 DXVA
++ Support for ALAC
 + MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
 + Ticket #552, Add the ability to check if a newer stable version is available
   using Help --> Check for updates

@@ -378,7 +378,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 	H264Context*	h = (H264Context*) pAVCtx->priv_data;
 	int				i, j;
 	const Picture*	pic;
-	
+
 	for (i = 0, j = 0; i < 16; i++) {
 		if (j < h->short_ref_count) {
 			pic = h->short_ref[j++];
@@ -393,15 +393,15 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 			pDXVAPicParams->FieldOrderCntList[i][0]		= 0;
 			pDXVAPicParams->FieldOrderCntList[i][1]		= 0;
 
-		if ((pic->f.reference & PICT_TOP_FIELD) && pic->field_poc[0] != INT_MAX)
-			pDXVAPicParams->FieldOrderCntList[i][0]		= pic->field_poc[0];
-		if ((pic->f.reference & PICT_BOTTOM_FIELD) && pic->field_poc[1] != INT_MAX)
-			pDXVAPicParams->FieldOrderCntList[i][1]		= pic->field_poc[1];
+			if ((pic->f.reference & PICT_TOP_FIELD) && pic->field_poc[0] != INT_MAX)
+				pDXVAPicParams->FieldOrderCntList[i][0]		= pic->field_poc[0];
+			if ((pic->f.reference & PICT_BOTTOM_FIELD) && pic->field_poc[1] != INT_MAX)
+				pDXVAPicParams->FieldOrderCntList[i][1]		= pic->field_poc[1];
 
-		if (pic->f.reference & PICT_TOP_FIELD)
-			pDXVAPicParams->UsedForReferenceFlags		|= 1 << (2*i + 0);
-		if (pic->f.reference & PICT_BOTTOM_FIELD)
-			pDXVAPicParams->UsedForReferenceFlags		|= 1 << (2*i + 1);
+			if (pic->f.reference & PICT_TOP_FIELD)
+				pDXVAPicParams->UsedForReferenceFlags		|= 1 << (2*i + 0);
+			if (pic->f.reference & PICT_BOTTOM_FIELD)
+				pDXVAPicParams->UsedForReferenceFlags		|= 1 << (2*i + 1);
 
 			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= (pic->long_ref != 0);
 			pDXVAPicParams->RefFrameList[i].Index7Bits		= (UCHAR)pic->f.opaque;
@@ -840,6 +840,6 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDev
 
 #ifdef _WIN64
 // Hack to use MinGW64 from 2.x branch
-void __mingw_raise_matherr (int typ, const char *name, double a1, double a2, double rslt){}
+void __mingw_raise_matherr (int typ, const char *name, double a1, double a2, double rslt) {}
 #endif
 
