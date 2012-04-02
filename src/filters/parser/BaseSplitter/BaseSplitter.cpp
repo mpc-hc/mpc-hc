@@ -27,11 +27,6 @@
 #include "BaseSplitter.h"
 
 
-#define MINPACKETS 100			// Beliyaal: Changed the min number of packets to allow Bluray playback over network
-#define MINPACKETSIZE 256*1024	// Beliyaal: Changed the min packet size to allow Bluray playback over network
-#define MAXPACKETS 10000
-#define MAXPACKETSIZE 1024*1024*256
-
 //
 // CPacketQueue
 //
@@ -195,11 +190,12 @@ STDMETHODIMP CBaseSplitterInputPin::EndFlush()
 // CBaseSplitterOutputPin
 //
 
-CBaseSplitterOutputPin::CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers)
+CBaseSplitterOutputPin::CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers, int QueueMaxPackets)
 	: CBaseOutputPin(NAME("CBaseSplitterOutputPin"), pFilter, pLock, phr, pName)
 	, m_hrDeliver(S_OK) // just in case it were asked before the worker thread could be created and reset it
 	, m_fFlushing(false)
 	, m_eEndFlush(TRUE)
+	, m_QueueMaxPackets(QueueMaxPackets)
 {
 	m_mts.Copy(mts);
 	m_nBuffers = max(nBuffers, 1);
@@ -400,8 +396,8 @@ HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 	}
 
 	while (S_OK == m_hrDeliver
-			&& ((m_queue.GetCount() > 2*MAXPACKETS || m_queue.GetSize() > (MAXPACKETSIZE*3/2))
-			|| ((m_queue.GetCount() > MAXPACKETS || m_queue.GetSize() > MAXPACKETSIZE) && !(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()))) {
+			&& ((m_queue.GetCount() > 2*m_QueueMaxPackets || m_queue.GetSize() > (MAXPACKETSIZE*3/2))
+			|| ((m_queue.GetCount() > m_QueueMaxPackets || m_queue.GetSize() > MAXPACKETSIZE) && !(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()))) {
 		Sleep(10);
 	}
 
@@ -773,7 +769,7 @@ STDMETHODIMP CBaseSplitterOutputPin::GetPreroll(LONGLONG* pllPreroll)
 // CBaseSplitterFilter
 //
 
-CBaseSplitterFilter::CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid)
+CBaseSplitterFilter::CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid, int QueueMaxPackets)
 	: CBaseFilter(pName, pUnk, this, clsid)
 	, m_rtDuration(0), m_rtStart(0), m_rtStop(0), m_rtCurrent(0)
 	, m_dRate(1.0)
@@ -782,6 +778,7 @@ CBaseSplitterFilter::CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT*
 	, m_rtLastStart(_I64_MIN)
 	, m_rtLastStop(_I64_MIN)
 	, m_priority(THREAD_PRIORITY_NORMAL)
+	, m_QueueMaxPackets(QueueMaxPackets)
 {
 	if (phr) {
 		*phr = S_OK;
@@ -1103,7 +1100,7 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
 		totalsize += size;
 	}
 
-	if (m_priority != THREAD_PRIORITY_NORMAL && (totalcount > MAXPACKETS*2/3 || totalsize > MAXPACKETSIZE*2/3)) {
+	if (m_priority != THREAD_PRIORITY_NORMAL && (totalcount > m_QueueMaxPackets*2/3 || totalsize > MAXPACKETSIZE*2/3)) {
 		//		SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_NORMAL);
 		POSITION pos = m_pOutputs.GetHeadPosition();
 		while (pos) {

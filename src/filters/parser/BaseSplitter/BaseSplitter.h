@@ -32,6 +32,11 @@
 #include "../../../DSUtil/DSMPropertyBag.h"
 #include "../../../DSUtil/FontInstaller.h"
 
+#define MINPACKETS 100			// Beliyaal: Changed the min number of packets to allow Bluray playback over network
+#define MINPACKETSIZE 256*1024	// Beliyaal: Changed the min packet size to allow Bluray playback over network
+#define MAXPACKETS 2000
+#define MAXPACKETSIZE 1024*1024*256
+
 enum {
 	/* various PCM "codecs" */
 	FF_CODEC_ID_FIRST_AUDIO = 0x10000,     ///< A dummy id pointing at the start of audio codecs
@@ -201,6 +206,8 @@ private:
 		DWORD nAverageBitRate;
 	} m_brs;
 
+	int m_QueueMaxPackets;
+
 protected:
 	REFERENCE_TIME m_rtStart;
 
@@ -229,7 +236,7 @@ protected:
 	STDMETHODIMP GetPreroll(LONGLONG* pllPreroll);
 
 public:
-	CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers = 0);
+	CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers = 0, int QueueMaxPackets = MAXPACKETS);
 	CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers = 0);
 	virtual ~CBaseSplitterOutputPin();
 
@@ -347,6 +354,8 @@ protected:
 
 	CFontInstaller m_fontinst;
 
+	int m_QueueMaxPackets;
+
 protected:
 	enum {CMD_EXIT, CMD_SEEK};
 	DWORD ThreadProc();
@@ -361,7 +370,7 @@ protected:
 	virtual bool BuildChapters(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<CHdmvClipInfo::PlaylistChapter>& Items) { return false; };
 
 public:
-	CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid);
+	CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid, int QueueMaxPackets = MAXPACKETS);
 	virtual ~CBaseSplitterFilter();
 
 	DECLARE_IUNKNOWN;

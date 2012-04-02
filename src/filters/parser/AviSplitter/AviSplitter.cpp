@@ -25,6 +25,8 @@
 #include "AviReportWnd.h"
 #include "AviSplitter.h"
 
+#define MAXPACKETS_AVI	MAXPACKETS*5
+
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
@@ -111,7 +113,7 @@ CAviSplitterApp theApp;
 //
 
 CAviSplitterFilter::CAviSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr)
-	: CBaseSplitterFilter(NAME("CAviSplitterFilter"), pUnk, phr, __uuidof(this))
+	: CBaseSplitterFilter(NAME("CAviSplitterFilter"), pUnk, phr, __uuidof(this), MAXPACKETS_AVI)
 	, m_timeformat(TIME_FORMAT_MEDIA_TIME)
 {
 }
@@ -900,7 +902,7 @@ CAviSourceFilter::CAviSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 //
 
 CAviSplitterOutputPin::CAviSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
-	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr)
+	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr, 0, MAXPACKETS_AVI)
 {
 }
 
