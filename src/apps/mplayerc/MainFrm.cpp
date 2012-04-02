@@ -4354,10 +4354,13 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		m_wndPlaylistBar.Open(sl, true);
 		OpenCurPlaylistItem();
 	} else if (!s.slFiles.IsEmpty()) {
-		bool fMulti = s.slFiles.GetCount() > 1;
-
 		CAtlList<CString> sl;
 		sl.AddTailList(&s.slFiles);
+
+		ParseDirs(sl);
+
+		bool fMulti = sl.GetCount() > 1;
+
 		if (!fMulti) {
 			sl.AddTailList(&s.slDubs);
 		}
@@ -4577,19 +4580,9 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 		CString fn;
 		fn.ReleaseBuffer(::DragQueryFile(hDropInfo, iFile, fn.GetBuffer(_MAX_PATH), _MAX_PATH));
 		sl.AddTail(fn);
-
-		WIN32_FIND_DATA fd = {0};
-		HANDLE hFind = FindFirstFile(fn, &fd);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			if (fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {
-				if (fn[fn.GetLength()-1] != '\\') {
-					fn += '\\';
-				}
-				COpenDirHelper::RecurseAddDir(fn, &sl);
-			}
-			FindClose(hFind);
-		}
 	}
+
+	ParseDirs(sl);
 
 	::DragFinish(hDropInfo);
 
@@ -12113,6 +12106,28 @@ void CMainFrame::CloseMediaPrivate()
 	AfxGetAppSettings().ResetPositions();
 
 	SetLoadState (MLS_CLOSED);
+}
+
+void CMainFrame::ParseDirs(CAtlList<CString>& sl) {
+	POSITION pos = sl.GetHeadPosition();
+
+	while (pos) {
+		CString fn = sl.GetNext(pos);
+		WIN32_FIND_DATA fd = {0};
+		HANDLE hFind = FindFirstFile(fn, &fd);
+
+		if (hFind != INVALID_HANDLE_VALUE) {
+			if (fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {
+				if (fn[fn.GetLength()-1] != '\\') {
+					fn += '\\';
+				}
+
+				COpenDirHelper::RecurseAddDir(fn, &sl);
+			}
+
+			FindClose(hFind);
+		}
+	}
 }
 
 typedef struct {

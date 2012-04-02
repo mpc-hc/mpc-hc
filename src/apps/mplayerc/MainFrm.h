@@ -508,6 +508,7 @@ public:
 	bool DoCapture(), StartCapture(), StopCapture();
 
 	bool DoAfterPlaybackEvent();
+	void ParseDirs(CAtlList<CString>& sl);
 	int SearchInDir(bool DirForward);
 
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
