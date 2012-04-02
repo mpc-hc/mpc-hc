@@ -1,14 +1,14 @@
 Here is a quick how-to release a new stable build:
 
 1) Make sure you have a clean source tree, no modified files included
-2) Update the revision number and the date in the Changelog.txt
+2) Update the revision number and the date in Changelog.txt
 3) Compile MPC-HC and the standalone filters
-4) Create a tag for the new release
+4) Create an svn tag for the new release
 5) Keep the PDB files of all the filters and MPC-HC builds
 6) Upload the binary packages on SF following the directory and the packages names scheme
    (you can also upload the PDB files too, use 7zip for creating the 7z packages)
-7) Update the webpage with the new download links, history and version.txt (in the SF FTP)
-   with the new version number
+7) Update the webpage with the new download links, history and version.txt with
+   the new version number (in the SF FTP)
 
 
 In the next commit, bump the version:

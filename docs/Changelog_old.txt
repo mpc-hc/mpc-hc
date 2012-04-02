@@ -4,6 +4,78 @@ Legend:
 ! Fixed
 
 
+v1.6.1.4235 - 1 April 2012
+==============================
++ Use ffmpeg for RealVideo/RealAudio decoding
++ Support for SIPR and VP30/31
++ Support WMV3 DXVA
++ Support for ALAC
++ MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
++ Ticket #552, Add the ability to check if a newer stable version is available
+  using Help --> Check for updates
++ Ticket #1668, A keyboard shortcut can now be assigned to toggle custom channel mapping on/off
++ Ticket #1738, Support for decoding FLV SWF ADPCM
++ Ticket #2065, CMD_GETCURRENTPOSITION command gives the position with an accuracy of 1 ms
+  (only for media files, not for DVD-Video)
++ Ticket #2087, Add some OSD messages when resetting the playback rate
+  and changing the zoom level
++ Ticket #2111, A keyboard shortcut can now be assigned to toggle normalization
+  and regain volume on/off
+* Ticket #1652/#2070, UI improvements:
+  - "Tearing Test" and "Display stats" menu entries are now disabled
+    if no video is loaded (which means in audio only mode too)
+  - The "Organize Favorites" menu entry is disabled if no favorites exist
+  - The filename is not highlighted anymore when opening the properties dialog
+  - Double-clicking on the file location from the clip properties will now open
+    the containing folder and select the current file
+  - The information fields in the properties dialog are now correctly aligned with their labels
+* Ticket #2098, Improve the behavior of the context menu in the internal filters page: menu items
+  are now disabled when it makes sense to do so
+* Ticket #2108, Adjust drop-down list width for long shaders name
+* Updated libpng to v1.5.10
+* Updated Little CMS to v2.3+ (git 839a5b0 23/03/2012)
+* Updated ffmpeg
+* Updated MediaInfoLib to v0.7.54
+* Updated ZenLib to v0.4.25
+* Updated VirtualDub to v1.10.2-test5
+* New icons for the Windows 7 taskbar controls
+* Updated Polish, Japanese, Chinese Simplified, Chinese Traditional, Russian, Ukrainian,
+  German, Slovak, French and Armenian translations
+! Long opening of MKV files after using the "mkvclean" utility
+! Incorrect detection of interlaced flag on some MPEG2 stream with DXVA decoder,
+  fix choppy playback with incorrect frame rate
+! MPASplitter can't split some .MP3 files
+! MPCVideoDec switched to software decoding mode, even if only the DXVA decoder
+  was selected, but wasn't supported
+! MPEGSplitter can't load MPEG-TS files with corrupted packet header
+  (incorrect Adaptation Field)
+! Freeze occurs when madVR leaves exclusive mode
+! MPCVideoDec bad playback with VC1 files with pulldown in MPEG-TS
+! Ticket #90/#971/#1682, MP4Splitter - Fixed hanged image/slow response after seeking
+! Ticket #413/#2096, Fixed register command line switches for audio and video files
+! Ticket #1007, FLVSplitter: increased the depth of the search for audio and video tags
+! Ticket #1815, Only try to expend command line argument into full path name when
+  we are sure the argument is supposed to be a path name
+! Ticket #1987, MP4Splitter: Fix a deadloop which happened sometimes at the end of a file
+! Ticket #2007, Prevent a memory leak in FLACSource
+! Ticket #2013, Bug when saving the ASS/SSA subtitle, the header has incorrect values
+! Ticket #2014, Embedded subtitle overrides "Prefer external"
+! Ticket #2047, Apply button under "EVR Sync Settings" can't be clicked
+! Ticket #2057, Don't crash with some incomplete .AVI files
+! Ticket #2057, MatroskaSplitter does not use properly cropping parameters
+! Ticket #2064, CMD_SETPOSITION command does not start playback when paused
+! Ticket #2070, Use MPC-HC's internal formats list when trying to get the format description
+  from the file extension
+! Ticket #2080, Add fallback fonts for the MediaInfo tab in case Lucida Console isn't available
+! Ticket #2088, Fix a crash when double-clicking in the Organize Favorites dialog
+  when the favorites list was empty
+! Ticket #2093, Fixed time display when subresync bar is enabled
+! Ticket #2116, Fix the "Reset" button in Options/Subtitles/Misc
+! Ticket #2128, The "Apply" button is now clickable after modifying the web server root directory,
+  the fullscreen modes list, the external filters list and the time tooltip option
+! Numerous other bugfixes and improvements
+
+
 v1.6.0.4014 - 30 January 2012
 ==============================
 + Add the ability to export MPC-HC settings
