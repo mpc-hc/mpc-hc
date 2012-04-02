@@ -26,6 +26,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageFileMediaInfo.h"
+#include "WinAPIUtils.h"
 
 #ifdef USE_MEDIAINFO_STATIC
 #include <MediaInfo/MediaInfo.h>
@@ -137,7 +138,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	do {
 		lstrcpy(lf.lfFaceName, fonts[i]);
 		lf.lfHeight = fonts_size[i];
-		success = m_pCFont->CreateFontIndirect(&lf);
+		success = IsFontInstalled(fonts[i]) && m_pCFont->CreateFontIndirect(&lf);
 		i++;
 	} while (!success && i < countof(fonts));
 	m_mediainfo.SetFont(m_pCFont);

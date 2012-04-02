@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2011 see AUTHORS
+ * (C) 2011-2012 see AUTHORS
  *
  * This file is part of mpc-hc.
  *
@@ -238,4 +238,31 @@ UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd)
 	}
 
 	return D3DADAPTER_DEFAULT;
+}
+
+int CALLBACK EnumFontFamExProc(ENUMLOGFONTEX* /*lpelfe*/, NEWTEXTMETRICEX* /*lpntme*/, int /*FontType*/, LPARAM lParam)
+{
+    LPARAM* l = (LPARAM*)lParam;
+    *l = TRUE;
+    return TRUE;
+}
+
+bool IsFontInstalled(LPCTSTR lpszFont)
+{
+    // Get the screen DC
+    CDC dc;
+    if (!dc.CreateCompatibleDC(NULL)) {
+        return false;
+    }
+
+    LOGFONT lf = {0};
+    // Any character set will do
+    lf.lfCharSet = DEFAULT_CHARSET;
+    // Set the facename to check for
+    _tcscpy(lf.lfFaceName, lpszFont);
+    LPARAM lParam = 0;
+    // Enumerate fonts
+    EnumFontFamiliesEx(dc.GetSafeHdc(), &lf, (FONTENUMPROC)EnumFontFamExProc, (LPARAM)&lParam, 0);
+
+    return lParam ? true : false;
 }

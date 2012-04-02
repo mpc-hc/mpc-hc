@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2011 see AUTHORS
+ * (C) 2011-2012 see AUTHORS
  *
  * This file is part of mpc-hc.
  *
@@ -34,3 +34,5 @@ bool SetPrivilege(LPCTSTR privilege, bool bEnable=true);
 bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName=_T(""));
 
 UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd);
+
+bool IsFontInstalled(LPCTSTR lpszFont);

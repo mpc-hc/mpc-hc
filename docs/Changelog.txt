@@ -8,6 +8,12 @@ Legend:
 ! Fixed
 
 
+next version - not yet release 
+============================== 
+! Ticket #2090, Better handling of font fallback in the MediaInfo dialog so that
+  the font size is now correctly adapted to the font used
+
+
 v1.6.1.4235 - 1 April 2012
 ==============================
 + Use ffmpeg for RealVideo/RealAudio decoding
