@@ -16,6 +16,7 @@ Legend:
   intergrated Intel adapter
 ! Ticket #1182, unable to playback MPEG2 in AVI
 ! Ticket #1589, Crash with "Null (uncompressed)"
+! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on
 ! Ticket #2090, Better handling of font fallback in the MediaInfo dialog so that
   the font size is now correctly adapted to the font used
 ! Ticket #2133, javascript error in player.html
