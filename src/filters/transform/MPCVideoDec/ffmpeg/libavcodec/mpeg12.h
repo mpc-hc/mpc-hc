@@ -47,10 +47,10 @@ typedef struct Mpeg1Context {
     AVRational frame_rate_ext;       ///< MPEG-2 specific framerate modificator
     int sync;                        ///< Did we reach a sync point like a GOP/SEQ/KEYFrame?
     int tmpgexs;
-	// ==> Start patch MPC
-	DXVA_SliceInfo* pSliceInfo;
-	uint8_t* prev_slice;
-	// <== End patch MPC
+    // ==> Start patch MPC
+    DXVA_SliceInfo* pSliceInfo;
+    uint8_t* prev_slice;
+    // <== End patch MPC
 } Mpeg1Context;
 
 extern uint8_t ff_mpeg12_static_rl_table_store[2][2][2*MAX_RUN + MAX_LEVEL + 3];

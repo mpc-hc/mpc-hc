@@ -23,7 +23,9 @@
 static void fill_dxva_slice_long(H264Context *h){
 	MpegEncContext* const	s = &h->s;
 	DXVA_Slice_H264_Long*	pSlice = &((DXVA_Slice_H264_Long*) h->dxva_slice_long)[h->current_slice-1];
-	unsigned int			i,j,k;
+	unsigned				i, list;
+
+	memset(pSlice, 0, sizeof(DXVA_Slice_H264_Long));
 
 	pSlice->slice_id						= h->current_slice-1;
 	pSlice->first_mb_in_slice				= h->first_mb_in_slice;
@@ -32,24 +34,48 @@ static void fill_dxva_slice_long(H264Context *h){
 	pSlice->slice_type						= h->raw_slice_type; 
 	pSlice->luma_log2_weight_denom			= h->luma_log2_weight_denom;
 	pSlice->chroma_log2_weight_denom		= h->chroma_log2_weight_denom;
-	pSlice->num_ref_idx_l0_active_minus1	= h->ref_count[0]-1;	// num_ref_idx_l0_active_minus1;
-	pSlice->num_ref_idx_l1_active_minus1	= h->ref_count[1]-1;	// num_ref_idx_l1_active_minus1;
 	pSlice->slice_alpha_c0_offset_div2		= h->slice_alpha_c0_offset / 2;
 	pSlice->slice_beta_offset_div2			= h->slice_beta_offset / 2;
 	pSlice->Reserved8Bits					= 0;
-	
+
+	pSlice->num_ref_idx_l0_active_minus1	= 0;
+	pSlice->num_ref_idx_l1_active_minus1	= 0;
+	if (h->list_count > 0) {
+		pSlice->num_ref_idx_l0_active_minus1 = h->ref_count[0] - 1;
+	}
+	if (h->list_count > 1) {
+		pSlice->num_ref_idx_l1_active_minus1 = h->ref_count[1] - 1;
+	}
+
 	// Fill prediction weights
 	memset (pSlice->Weights, 0, sizeof(pSlice->Weights));
-	for(i=0; i<2; i++){
-		for(j=0; j<h->ref_count[i]; j++){
-			//         L0&L1          Y,Cb,Cr  Weight,Offset
-			// Weights  [2]    [32]     [3]         [2]
-			pSlice->Weights[i][j][0][0] = h->luma_weight[j][i][0];
-			pSlice->Weights[i][j][0][1] = h->luma_weight[j][i][1];
-
-			for(k=0; k<2; k++){
-				pSlice->Weights[i][j][k+1][0] = h->chroma_weight[j][i][k][0];
-				pSlice->Weights[i][j][k+1][1] = h->chroma_weight[j][i][k][1];
+	for (list = 0; list < 2; list++) {
+		for (i = 0; i < 32; i++) {
+			if (list < h->list_count && i < h->ref_count[list]) {
+				const Picture *r = &h->ref_list[list][i];
+				unsigned plane;
+				for (plane = 0; plane < 3; plane++) {
+					int w, o;
+					if (plane == 0 && h->luma_weight_flag[list]) {
+						w = h->luma_weight[i][list][0];
+						o = h->luma_weight[i][list][1];
+					} else if (plane >= 1 && h->chroma_weight_flag[list]) {
+						w = h->chroma_weight[i][list][plane-1][0];
+						o = h->chroma_weight[i][list][plane-1][1];
+					} else {
+						w = 1 << (plane == 0 ? h->luma_log2_weight_denom :
+										   h->chroma_log2_weight_denom);
+						o = 0;
+					}
+					pSlice->Weights[list][i][plane][0] = w;
+					pSlice->Weights[list][i][plane][1] = o;
+				}
+			} else {
+				unsigned plane;
+				for (plane = 0; plane < 3; plane++) {
+					pSlice->Weights[list][i][plane][0] = 0;
+					pSlice->Weights[list][i][plane][1] = 0;
+				}
 			}
 		}
 	}

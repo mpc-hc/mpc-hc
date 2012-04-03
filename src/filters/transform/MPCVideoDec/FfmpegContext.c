@@ -449,63 +449,23 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	H264Context*			h	= (H264Context*) pAVCtx->priv_data;
 	MpegEncContext* const	s	= &h->s;
 	HRESULT					hr	= E_FAIL;
-	unsigned int			i;
+	unsigned				i, list;
 
-	for (i=0; i<32; i++) {
-		pSlice->RefPicList[0][i].AssociatedFlag = 1;
-		pSlice->RefPicList[0][i].bPicEntry = 255;
-		pSlice->RefPicList[0][i].Index7Bits = 127;
-		pSlice->RefPicList[1][i].AssociatedFlag = 1;
-		pSlice->RefPicList[1][i].bPicEntry = 255;
-		pSlice->RefPicList[1][i].Index7Bits = 127;
+	for (list = 0; list < 2; list++) {
+		for (i = 0; i < 32; i++) {
+			pSlice->RefPicList[list][i].AssociatedFlag	= 1;
+			pSlice->RefPicList[list][i].Index7Bits		= 127;
+			pSlice->RefPicList[list][i].bPicEntry		= 255;
+		}
 	}
 
-	if (h->slice_type != AV_PICTURE_TYPE_I && h->slice_type != AV_PICTURE_TYPE_SI) {
-		if (h->ref_count[0] > 0) {
-			for (i=0; i < h->ref_count[0]; i++) {
-				pSlice->RefPicList[0][i].Index7Bits		= FFH264FindRefFrameIndex (h->ref_list[0][i].frame_num, pDXVAPicParams);
-				pSlice->RefPicList[0][i].AssociatedFlag	= 0;
-				if ((h->s.picture_structure != PICT_FRAME)) {
-					if ((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
-							(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
-							(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)) {
-						pSlice->RefPicList[0][i].AssociatedFlag = 1;
-					}
-				}
+	for (list = 0; list < 2; list++) {
+		for (i = 0; i < 32; i++) {
+			if (list < h->list_count && i < h->ref_count[list]) {
+				const Picture *r = &h->ref_list[list][i];
+				pSlice->RefPicList[list][i].Index7Bits		= FFH264FindRefFrameIndex (h->ref_list[list][i].frame_num, pDXVAPicParams);
+				pSlice->RefPicList[list][i].AssociatedFlag	= r->f.reference == PICT_BOTTOM_FIELD;
 			}
-		}
-	} else {
-		pSlice->num_ref_idx_l0_active_minus1 = 0;
-	}
-
-	if (h->slice_type == AV_PICTURE_TYPE_B || h->slice_type == AV_PICTURE_TYPE_S || h->slice_type == AV_PICTURE_TYPE_BI) {
-		if (h->ref_count[1] > 0) {
-			for (i=0; i < h->ref_count[1]; i++) {
-				pSlice->RefPicList[1][i].Index7Bits		= FFH264FindRefFrameIndex (h->ref_list[1][i].frame_num, pDXVAPicParams);
-				pSlice->RefPicList[1][i].AssociatedFlag	= 0;
-				if ((h->s.picture_structure != PICT_FRAME)) {
-					if ((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
-							(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
-							(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)) {
-						pSlice->RefPicList[1][i].AssociatedFlag = 1;
-					}
-				}
-			}
-		}
-	} else {
-		pSlice->num_ref_idx_l1_active_minus1 = 0;
-	}
-
-	if (h->slice_type == AV_PICTURE_TYPE_I || h->slice_type == AV_PICTURE_TYPE_SI) {
-		for (i = 0; i<16; i++) {
-			pSlice->RefPicList[0][i].bPicEntry = 0xff;
-		}
-	}
-
-	if (h->slice_type == AV_PICTURE_TYPE_P || h->slice_type == AV_PICTURE_TYPE_I ||
-			h->slice_type ==AV_PICTURE_TYPE_SP || h->slice_type == AV_PICTURE_TYPE_SI) {
-		for (i = 0; i < 16; i++) {
-			pSlice->RefPicList[1][i].bPicEntry = 0xff;
 		}
 	}
 }
@@ -600,7 +560,6 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 												  (0                                       << 1) |
 												  (!vc1->s.quarter_sample					   );
 
-
 	// Cf page 17 : 2 for interlaced, 0 for progressive
 	pPicParams->bPicExtrapolation = (!vc1->interlace || vc1->fcm == PROGRESSIVE) ? 1 : 2;
 
@@ -624,12 +583,6 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	if (nSliceType) {
 		*nSliceType = vc1->s.pict_type;
 	}
-
-	// TODO : not finish...
-	pPicParams->bMVprecisionAndChromaRelation = ((vc1->mv_mode == MV_PMODE_1MV_HPEL_BILIN) << 3) |		// 0 for non-bilinear luma motion, 1 for bilinear
-																						(1 << 2) |		// 0 for WMV8, 1 for WMV9 motion
-																						(0 << 1) |		// 1 for WMV8 quarter sample luma motion
-																						(0);			// 0 for quarter sample chroma motion, 1 for half sample chroma
 
 	// Cf §7.1.1.25 in VC1 specification, §3.2.14.3 in DXVA spec
 	pPicParams->bRcontrol	= vc1->rnd;
@@ -670,6 +623,9 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	int				got_picture	= 0;
 	Mpeg1Context*	s1			= (Mpeg1Context*)pAVCtx->priv_data;
 	MpegEncContext*	s			= (MpegEncContext*)&s1->mpeg_enc_ctx;
+	int				is_field	= s->picture_structure != PICT_FRAME;
+	const unsigned	mb_count	= s->mb_width * (s->mb_height >> is_field);
+
 	AVPacket		avpkt;
 
 	if (pBuffer) {
@@ -691,7 +647,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	// pPicParams->wBackwardRefPictureIndex;		set in DecodeFrame
 
 	pPicParams->wPicWidthInMBminus1				= s->mb_width-1;
-	pPicParams->wPicHeightInMBminus1			= s->mb_height-1;
+	pPicParams->wPicHeightInMBminus1			= (s->mb_height >> is_field) - 1;
 
 	pPicParams->bMacroblockWidthMinus1			= 15;	// This is equal to “15” for MPEG-1, MPEG-2, H.263, and MPEG-4
 	pPicParams->bMacroblockHeightMinus1			= 15;	// This is equal to “15” for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
@@ -737,19 +693,29 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 												  (s->repeat_first_field<<5)  |     (s->chroma_420_type<<4)|
 												  (s->progressive_frame<<3);
 
-	// TODO : could be interesting to parameter concealment method?
-	// pPicParams->bBitstreamConcealmentNeed;
-	// pPicParams->bBitstreamConcealmentMethod;
+	pPicParams->bBitstreamConcealmentNeed		= 0;
+	pPicParams->bBitstreamConcealmentMethod		= 0;
 
 	pQMatrixData->bNewQmatrix[0] = 1;
 	pQMatrixData->bNewQmatrix[1] = 1;
 	pQMatrixData->bNewQmatrix[2] = 1;
 	pQMatrixData->bNewQmatrix[3] = 1;
-	for (i=0; i<64; i++) {	// intra Y, inter Y, intra chroma, inter chroma
-		pQMatrixData->Qmatrix[0][i] = s->intra_matrix[ZZ_SCAN8[i]];
-		pQMatrixData->Qmatrix[1][i] = s->inter_matrix[ZZ_SCAN8[i]];
-		pQMatrixData->Qmatrix[2][i] = s->chroma_intra_matrix[ZZ_SCAN8[i]];
-		pQMatrixData->Qmatrix[3][i] = s->chroma_inter_matrix[ZZ_SCAN8[i]];
+	for (i = 0; i < 64; i++) {
+		int n = s->dsp.idct_permutation[ZZ_SCAN8[i]];
+		pQMatrixData->Qmatrix[0][i] = s->intra_matrix[n];
+		pQMatrixData->Qmatrix[1][i] = s->inter_matrix[n];
+		pQMatrixData->Qmatrix[2][i] = s->chroma_intra_matrix[n];
+		pQMatrixData->Qmatrix[3][i] = s->chroma_inter_matrix[n];
+	}
+
+	for (i = 0; i < s1->slice_count; i++) {
+		DXVA_SliceInfo *slice = &s1->pSliceInfo[i];
+
+		if (i < s1->slice_count - 1) {
+		    slice->wNumberMBsInSlice = slice[1].wNumberMBsInSlice - slice[0].wNumberMBsInSlice;
+		} else {
+		    slice->wNumberMBsInSlice = mb_count - slice[0].wNumberMBsInSlice;
+		}
 	}
 
 	if (got_picture) {

@@ -925,12 +925,6 @@ void CMPCVideoDecFilter::Cleanup()
 
 	// Release FFMpeg
 	if (m_pAVCtx) {
-		if (m_pAVCtx->intra_matrix) {
-			av_freep(&m_pAVCtx->intra_matrix);
-		}
-		if (m_pAVCtx->inter_matrix) {
-			av_freep(&m_pAVCtx->inter_matrix);
-		}
 		if (m_pAVCtx->extradata) {
 			av_freep(&m_pAVCtx->extradata);
 		}
@@ -1168,8 +1162,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				m_bReorderBFrame = false;
 			}
 
-			m_pAVCtx->intra_matrix			= (uint16_t*)av_mallocz(sizeof(uint16_t)*64);
-			m_pAVCtx->inter_matrix			= (uint16_t*)av_mallocz(sizeof(uint16_t)*64);
 			m_pAVCtx->codec_id              = m_nCodecId;
 			m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;
 			m_pAVCtx->error_concealment		= m_nErrorConcealment;

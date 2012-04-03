@@ -174,12 +174,6 @@ void CDXVADecoderMpeg2::UpdatePictureParams(int nSurfaceIndex)
 	}
 }
 
-void CDXVADecoderMpeg2::SetExtraData (BYTE* pDataIn, UINT nSize)
-{
-	m_PictureParams.wPicWidthInMBminus1				= m_pFilter->PictWidth()  - 1;
-	m_PictureParams.wPicHeightInMBminus1			= m_pFilter->PictHeight() - 1;
-}
-
 void CDXVADecoderMpeg2::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
 	while (*((DWORD*)pBuffer) != 0x01010000) {

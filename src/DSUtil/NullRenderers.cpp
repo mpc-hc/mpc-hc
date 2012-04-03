@@ -49,7 +49,19 @@ class CNullVideoRendererInputPin : public CRendererInputPin,
 public :
 	CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name);
 	~CNullVideoRendererInputPin() {
-		if (m_hDXVA2Lib) FreeLibrary(m_hDXVA2Lib);
+		if (m_pD3DDeviceManager) {
+			if(m_hDevice != INVALID_HANDLE_VALUE) {
+				m_pD3DDeviceManager->CloseDeviceHandle(m_hDevice);
+				m_hDevice = INVALID_HANDLE_VALUE;
+			}
+			m_pD3DDeviceManager = NULL;
+		}
+		if(m_pD3DDev) {
+			m_pD3DDev = NULL;
+		}
+		if (m_hDXVA2Lib) {
+			FreeLibrary(m_hDXVA2Lib);
+		}
 	}
 
 	DECLARE_IUNKNOWN
@@ -143,6 +155,10 @@ private :
 
 CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name)
 	: CRendererInputPin(pRenderer, phr, Name)
+	, m_hDXVA2Lib(NULL)
+	, m_pD3DDev(NULL)
+	, m_pD3DDeviceManager(NULL)
+	, m_hDevice(INVALID_HANDLE_VALUE)
 {
 	CreateSurface();
 

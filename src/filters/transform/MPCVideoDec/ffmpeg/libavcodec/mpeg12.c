@@ -1626,9 +1626,6 @@ static int mpeg_field_start(MpegEncContext *s, const uint8_t *buf, int buf_size)
 static int mpeg_decode_slice(MpegEncContext *s, int mb_y,
                              const uint8_t **buf, int buf_size)
 {
-    // ==> Start patch MPC
-	Mpeg1Context *s1 = (Mpeg1Context*)s;
-    // ==> Start patch MPC
     AVCodecContext *avctx = s->avctx;
     const int lowres      = s->avctx->lowres;
     const int field_pic   = s->picture_structure != PICT_FRAME;
@@ -1643,12 +1640,6 @@ static int mpeg_decode_slice(MpegEncContext *s, int mb_y,
     ff_mpeg1_clean_buffers(s);
     s->interlaced_dct = 0;
 
-    // ==> Start patch MPC
-    // DXVA need raw syntax element
-    if (s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
-        s->qscale = get_bits(&s->gb, 5);
-    else
-    // <== End patch MPC
     s->qscale = get_qscale(s);
 
     if (s->qscale == 0) {
@@ -1660,31 +1651,6 @@ static int mpeg_decode_slice(MpegEncContext *s, int mb_y,
     while (get_bits1(&s->gb) != 0) {
         skip_bits(&s->gb, 8);
     }
-
-    // ==> Start patch MPC
-    if (s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
-    {
-        // Fill DXVA structure and return
-        // s1->pSliceInfo[s1->slice_count].wHorizontalPosition =                    // TODO : horizontal ?
-        s1->pSliceInfo[s1->slice_count].wVerticalPosition   = s1->slice_count;      
-        s1->pSliceInfo[s1->slice_count].wMBbitOffset        = s->gb.index + 32;     // Current pos + Slice Start Code 
-        s1->pSliceInfo[s1->slice_count].wNumberMBsInSlice   = s->mb_width;
-        s1->pSliceInfo[s1->slice_count].wQuantizerScaleCode = s->qscale;// >> 1;
-        s1->pSliceInfo[s1->slice_count].dwSliceBitsInBuffer = (buf_size*8)+32;
-
-        if (s1->slice_count>0)
-        {
-            s1->pSliceInfo[s1->slice_count-1].dwSliceBitsInBuffer = (*buf - s1->prev_slice)*8;
-            s1->pSliceInfo[s1->slice_count].dwSliceDataLocation   = s1->pSliceInfo[s1->slice_count-1].dwSliceDataLocation +
-                                                                    s1->pSliceInfo[s1->slice_count-1].dwSliceBitsInBuffer/8;
-        }
-
-        s1->prev_slice = (uint8_t*)*buf;
-        s1->slice_count++;
-
-        return 0;
-    }
-    // <== End patch MPC
 
     s->mb_x = 0;
 
@@ -1726,6 +1692,52 @@ static int mpeg_decode_slice(MpegEncContext *s, int mb_y,
         *buf = buf_end;
         return DECODE_SLICE_OK;
     }
+
+    // ==> Start patch MPC
+    if (s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU) {
+        Mpeg1Context *s1 = (Mpeg1Context*)s;
+        const uint8_t *buf_end, *buf_start = *buf - 4; /* include start_code */
+        const uint8_t *buffer;
+        uint32_t size;
+        int start_code = -1;
+        int is_field = s->picture_structure != PICT_FRAME;
+        GetBitContext gb;
+
+        buf_end = avpriv_mpv_find_start_code(buf_start + 2, *buf + buf_size, &start_code);
+        if (buf_end < *buf + buf_size)
+            buf_end -= 4;
+        s->mb_y = mb_y;
+
+        buffer = buf_start;
+        size = buf_end - buf_start;
+
+        s1->pSliceInfo[s1->slice_count].wHorizontalPosition = s->mb_x;
+        s1->pSliceInfo[s1->slice_count].wVerticalPosition   = s->mb_y >> is_field;
+        s1->pSliceInfo[s1->slice_count].dwSliceBitsInBuffer = 8 * size;
+        s1->pSliceInfo[s1->slice_count].bStartCodeBitOffset = 0;
+        s1->pSliceInfo[s1->slice_count].bReservedBits       = 0;
+        s1->pSliceInfo[s1->slice_count].wNumberMBsInSlice   = (s->mb_y >> is_field) * s->mb_width + s->mb_x;//s->mb_width;
+        s1->pSliceInfo[s1->slice_count].wBadSliceChopping   = 0;
+
+        init_get_bits(&gb, &buffer[4], 8 * (size - 4));
+        s1->pSliceInfo[s1->slice_count].wQuantizerScaleCode = get_bits(&gb, 5);
+        while (get_bits1(&gb))
+            skip_bits(&gb, 8);
+
+        s1->pSliceInfo[s1->slice_count].wMBbitOffset = 4 * 8 + get_bits_count(&gb);
+        if (s1->slice_count>0) {
+            s1->pSliceInfo[s1->slice_count-1].dwSliceBitsInBuffer = (buffer - s1->prev_slice)*8;
+            s1->pSliceInfo[s1->slice_count].dwSliceDataLocation   = s1->pSliceInfo[s1->slice_count-1].dwSliceDataLocation +
+                                                                    s1->pSliceInfo[s1->slice_count-1].dwSliceBitsInBuffer/8;
+        }
+
+        s1->prev_slice = (uint8_t*)buffer;
+        s1->slice_count++;
+
+        *buf = buf_end;
+        return 0;
+    }
+    // <== End patch MPC
 
     s->resync_mb_x = s->mb_x;
     s->resync_mb_y = s->mb_y = mb_y;
