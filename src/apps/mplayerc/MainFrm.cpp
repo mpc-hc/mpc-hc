@@ -3726,11 +3726,23 @@ void CMainFrame::OnUpdateFilePostClosemedia(CCmdUI* pCmdUI)
 
 void CMainFrame::OnBossKey()
 {
+	// Disable animation
+	ANIMATIONINFO AnimationInfo;
+	AnimationInfo.cbSize = sizeof(ANIMATIONINFO);
+	::SystemParametersInfo(SPI_GETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
+	int m_WindowAnimationType = AnimationInfo.iMinAnimate;
+	AnimationInfo.iMinAnimate = 0;
+	::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
+
 	SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 	if (m_fFullScreen) {
 		SendMessage(WM_COMMAND, ID_VIEW_FULLSCREEN);
 	}
 	SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, -1);
+
+	// Enable animation
+	AnimationInfo.iMinAnimate = m_WindowAnimationType;
+	::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
 }
 
 void CMainFrame::OnStreamAudio(UINT nID)
