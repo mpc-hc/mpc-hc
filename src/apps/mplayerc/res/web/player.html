@@ -1,26 +1,27 @@
 ﻿<html>
-
 <head>
-
 <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8">
-
 <title>Media Player Classic - Home Cinema</title>
-
 <script language="JavaScript" type="text/JavaScript">
-
 function getXMLHTTP()
 {
 	try {return new ActiveXObject("Msxml2.XMLHTTP");}
-	catch(e) {try {return new ActiveXObject("Microsoft.XMLHTTP");}
-	catch(e) {}}
+	catch(e)
+	{
+	try
+	{
+		return new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	catch(e)
+	{
+	}
+}
 	if (typeof XMLHttpRequest != "undefined") {return new XMLHttpRequest();}
 	return null;
 }
-
 function MakeRequest(req)
 {
 	var httpRequest = getXMLHTTP();
-
 	try
 	{
 		httpRequest.open("GET", req, true);
@@ -30,21 +31,18 @@ function MakeRequest(req)
 	{
 	}
 }
-
 function urlencode(s)
 {
 	if (encodeURIComponent) return encodeURIComponent(s);
 	if (escape) return escape(s);
 	return s; // whatever
 }
-
 function getOffsetX(m)
 {
 	var x = m.offsetLeft;
 	while (m.offsetParent)	{x += (m = m.offsetParent).offsetLeft; }
 	return x;
 }
-
 OnStatus = function(title, status, pos, posstr, dur, durstr, muted, volume, filepath)
 {
 	var maxtitle = 70;
@@ -52,7 +50,6 @@ OnStatus = function(title, status, pos, posstr, dur, durstr, muted, volume, file
 	var timestr = dur > 0 && posstr && durstr ? posstr + '&nbsp;/&nbsp;' + durstr : '&nbsp;';
 	if (!dur || dur == 0) dur = 1;
 	var sbpercent = Math.floor(100*pos/dur);
-
 	if (e = document.getElementById('title')) e.innerHTML = title;
 	if (e = document.getElementById('seekbarchleft')) e.width = sbpercent > 0 ? sbpercent + '%' : '1px';
 	if (e = document.getElementById('seekbarchright')) e.width = sbpercent < 100 ? (100 - sbpercent) + '%' : '1px';
@@ -67,25 +64,27 @@ OnStatus = function(title, status, pos, posstr, dur, durstr, muted, volume, file
 		e.style.left = Math.floor(volume) + 'px';
 	}
 }
-
 var httpRequestStatus;
-
 function OnReadyStateChange()
 {
 	if (httpRequestStatus && httpRequestStatus.readyState == 4 && httpRequestStatus.responseText)
 	{
-		if (httpRequestStatus.responseText.charAt(0) != "<") eval(HttpRequestStatus.responseText.replace(/\\/g,'\\\\');
-		else {alert(httpRequestStatus.responseText);}
+		if (httpRequestStatus.responseText.charAt(0) != "<")
+		{
+			eval(HttpRequestStatus.responseText.replace(/\\/g,'\\\\'));
+		}
+		else
+		{
+			alert(httpRequestStatus.responseText);
+		}
 		httpRequestStatus = null;
 	}
 }
-
 function StatusLoop()
 {
 	if (!httpRequestStatus || httpRequestStatus.readyState == 0)
 	{
 		httpRequestStatus = getXMLHTTP();
-
 		try
 		{
 			httpRequestStatus.open("GET", 'status.html', true);
@@ -96,12 +95,9 @@ function StatusLoop()
 		{
 		}
 	}
-
 	setTimeout("StatusLoop()", 500);
 }
-
 var snapshotcounter = 0;
-
 function LoadSnapShot()
 {
 	if (img = document.getElementById('snapshot'))
@@ -109,17 +105,14 @@ function LoadSnapShot()
 		img.src = 'snapshot.jpg' + '?' + snapshotcounter++;
 	}
 }
-
 function OnLoadSnapShot()
 {
 	setTimeout("LoadSnapShot()", 5000);
 }
-
 function OnAbortErrorSnapShot(e)
 {
 	setTimeout("LoadSnapShot()", 10000);
 }
-
 function OnSeek(e)
 {
 	left = right = 0;
@@ -131,11 +124,9 @@ function OnSeek(e)
 		percent = 100 * ((window.event ? window.event.clientX : e.clientX) - left) / (right - left);
 		if (percent < 0) percent = 0;
 		else if (percent > 100) percent = 100;
-
 		MakeRequest('command.html?wm_command=[setposcommand]&percent='+percent);
 	}
 }
-
 function OnVolume(e)
 {
 	left = right = 0;
@@ -145,30 +136,23 @@ function OnVolume(e)
 		percent = 100 * ((window.event ? window.event.clientX : e.clientX) - left) / (right - left);
 		if (percent < 0) percent = 0;
 		else if (percent > 100) percent = 100;
-
 		MakeRequest('command.html?wm_command=[setvolumecommand]&volume='+percent);
 	}
 }
-
 function OnCommand(id)
 {
 	MakeRequest('command.html?wm_command='+id);
 }
-
 function Init()
 {
 	StatusLoop();
 	LoadSnapShot();
-
 	if (e = document.getElementById('seekbar'))
 		e.onclick = OnSeek;
-
 	if (e = document.getElementById('controlvolumebar'))
 		e.onclick = OnVolume;
 }
-
 </script>
-
 <style>
 img {padding: 0; margin: 0; border: 0;}
 #player {margin-left: auto; margin-right: auto;}
@@ -204,100 +188,148 @@ img {padding: 0; margin: 0; border: 0;}
 #bottomside {background-image: url(bottomside.png); background-repeat: repeat-x; height: 4px;}
 #rightbottomside {background-image: url(rightbottomside.png); background-repeat: repeat-x; width: 4px; height: 4px;}
 </style>
-
 </head>
-
 <body onload="Init()">
-
-	<div align="center">
+<div align="center">
 	<table id="player" cellpadding="0" cellspacing="0">
 	<tr>
 		<td colspan="3">
 			<table id="header" cellpadding="0" cellspacing="0">
-				<tr>
-					<td id="headericon"></td>
-					<td id="headerback"><nobr>&nbsp;<div id="title"></div>&nbsp;</nobr></td>
-					<td id="headerclose" onclick="OnCommand(816)"></td>
-				</tr>
+			<tr>
+				<td id="headericon">
+				</td>
+				<td id="headerback">
+					<nobr>&nbsp;
+					<div id="title">
+					</div>
+					&nbsp;</nobr>
+				</td>
+				<td id="headerclose" onclick="OnCommand(816)">
+				</td>
+			</tr>
 			</table>
 		</td>
 	</tr>
 	<tr>
-		<td id="leftside"></td>
+		<td id="leftside">
+		</td>
 		<td>
 			<table cellpadding="0" cellspacing="0" id="center">
-				<tr>
-					<td>
-						<table id="menu" width="100%">
-							<tr>
-								<td>File</td>
-								<td>View</td>
-								<td>Play</td>
-								<td>Navigate</td>
-								<td>Favorites</td>
-								<td width="100%" align="right">Help</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td id="video" align="center" onclick="OnCommand(889)">
-						<img src="snapshot.png" alt="snapshot" id="snapshot" onload="OnLoadSnapShot()" onabort="OnAbortErrorSnapShot()" onerror="OnAbortErrorSnapShot()" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<table width="100%" id="seekbar" cellpadding="0" cellspacing="0">
-							<tr>
-								<td id="seekbarleft"><img src="seekbarleft.png"></td>
-								<td id="seekbarchleft" width="0%"></td>
-								<td id="seekbargrip"><img src="seekbargrip.png"></td>
-								<td id="seekbarchright" width="100%"></td>
-								<td id="seekbarright"><img src="seekbarright.png"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<table width="100%" cellpadding="0" cellspacing="0" id="controlbar">
-							<tr>
-								<td id="controlbuttonplay" onclick="OnCommand(887)"></td>
-								<td id="controlbuttonpause" onclick="OnCommand(888)"></td>
-								<td id="controlbuttonstop" onclick="OnCommand(890)"></td>
-								<td id="controlbuttonskipback" onclick="OnCommand(920)"></td>
-								<td id="controlbuttondecrate" onclick="OnCommand(894)"></td>
-								<td id="controlbuttonincrate" onclick="OnCommand(895)"></td>
-								<td id="controlbuttonskipforward" onclick="OnCommand(921)"></td>
-								<td id="controlbuttonstep" onclick="OnCommand(891)"></td>
-								<td>&nbsp;</td>
-								<td id="controlvolumemute" onclick="OnCommand(909)"></td>
-								<td id="controlvolumebar" valign="top"><img src="controlvolumegrip.png" id="controlvolumegrip"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<table width="100%" id="statusbar">
-							<tr>
-								<td><div id="status"></div></td>
-								<td align="right"><div id="timer">&nbsp;</div></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
+			<tr>
+				<td>
+					<table id="menu" width="100%">
+					<tr>
+						<td>
+							File
+						</td>
+						<td>
+							View
+						</td>
+						<td>
+							Play
+						</td>
+						<td>
+							Navigate
+						</td>
+						<td>
+							Favorites
+						</td>
+						<td width="100%" align="right">
+							Help
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td id="video" align="center" onclick="OnCommand(889)">
+					<img src="snapshot.png" alt="snapshot" id="snapshot" onload="OnLoadSnapShot()" onabort="OnAbortErrorSnapShot()" onerror="OnAbortErrorSnapShot()"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%" id="seekbar" cellpadding="0" cellspacing="0">
+					<tr>
+						<td id="seekbarleft">
+							<img src="seekbarleft.png">
+						</td>
+						<td id="seekbarchleft" width="0%">
+						</td>
+						<td id="seekbargrip">
+							<img src="seekbargrip.png">
+						</td>
+						<td id="seekbarchright" width="100%">
+						</td>
+						<td id="seekbarright">
+							<img src="seekbarright.png">
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%" cellpadding="0" cellspacing="0" id="controlbar">
+					<tr>
+						<td id="controlbuttonplay" onclick="OnCommand(887)">
+						</td>
+						<td id="controlbuttonpause" onclick="OnCommand(888)">
+						</td>
+						<td id="controlbuttonstop" onclick="OnCommand(890)">
+						</td>
+						<td id="controlbuttonskipback" onclick="OnCommand(920)">
+						</td>
+						<td id="controlbuttondecrate" onclick="OnCommand(894)">
+						</td>
+						<td id="controlbuttonincrate" onclick="OnCommand(895)">
+						</td>
+						<td id="controlbuttonskipforward" onclick="OnCommand(921)">
+						</td>
+						<td id="controlbuttonstep" onclick="OnCommand(891)">
+						</td>
+						<td>
+							&nbsp;
+						</td>
+						<td id="controlvolumemute" onclick="OnCommand(909)">
+						</td>
+						<td id="controlvolumebar" valign="top">
+							<img src="controlvolumegrip.png" id="controlvolumegrip">
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table width="100%" id="statusbar">
+					<tr>
+						<td>
+							<div id="status">
+							</div>
+						</td>
+						<td align="right">
+							<div id="timer">
+								&nbsp;
+							</div>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
 			</table>
 		</td>
-		<td id="rightside"></td>
+		<td id="rightside">
+		</td>
 	</tr>
 	<tr>
-		<td id="leftbottomside"></td>
-		<td id="bottomside"></td>
-		<td id="rightbottomside"></td>
+		<td id="leftbottomside">
+		</td>
+		<td id="bottomside">
+		</td>
+		<td id="rightbottomside">
+		</td>
 	</tr>
 	</table>
-	</div>
+</div>
 </body>
-
 </html>
