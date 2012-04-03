@@ -95,11 +95,11 @@ inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
 	switch (pAVCtx->codec_id) {
 		case CODEC_ID_VC1 :
 		case CODEC_ID_H264 :
-			s = (MpegEncContext*) pAVCtx->priv_data;
+			s	= (MpegEncContext*)pAVCtx->priv_data;
 			break;
 		case CODEC_ID_MPEG2VIDEO:
-			s1 = (Mpeg1Context*)pAVCtx->priv_data;
-			s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
+			s1	= (Mpeg1Context*)pAVCtx->priv_data;
+			s 	= (MpegEncContext*)&s1->mpeg_enc_ctx;
 			break;
 	}
 	return s;
@@ -607,8 +607,8 @@ int	MPEG2CheckCompatibility(struct AVCodecContext* pAVCtx, struct AVFrame* pFram
 	AVPacket		avpkt;
 
 	av_init_packet(&avpkt);
-	avpkt.data = (BYTE*)pAVCtx->extradata;
-	avpkt.size = pAVCtx->extradata_size;
+	avpkt.data	= (BYTE*)pAVCtx->extradata;
+	avpkt.size	= pAVCtx->extradata_size;
 	avpkt.flags = AV_PKT_FLAG_KEY;
 
 	avcodec_decode_video2(pAVCtx, pFrame, &got_picture, &avpkt);
@@ -623,28 +623,31 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	int				got_picture	= 0;
 	Mpeg1Context*	s1			= (Mpeg1Context*)pAVCtx->priv_data;
 	MpegEncContext*	s			= (MpegEncContext*)&s1->mpeg_enc_ctx;
-	int				is_field	= s->picture_structure != PICT_FRAME;
-	const unsigned	mb_count	= s->mb_width * (s->mb_height >> is_field);
+	int				is_field	= 0;
+	unsigned		mb_count	= 0;
 
 	AVPacket		avpkt;
 
 	if (pBuffer) {
+		s1->pSliceInfo	= pSliceInfo;
+		
 		av_init_packet(&avpkt);
-		avpkt.data = pBuffer;
-		avpkt.size = nSize;
-		avpkt.flags = AV_PKT_FLAG_KEY;
-
-		s1->pSliceInfo = pSliceInfo;
+		avpkt.data		= pBuffer;
+		avpkt.size		= nSize;
+		avpkt.flags		= AV_PKT_FLAG_KEY;
 		avcodec_decode_video2(pAVCtx, pFrame, &got_picture, &avpkt);
-		*nSliceCount = s1->slice_count;
-		*nFieldType = s->progressive_frame ? PICT_FRAME : s->top_field_first ? PICT_TOP_FIELD : PICT_BOTTOM_FIELD;
-		*nSliceType = s->pict_type;
+
+		*nSliceCount	= s1->slice_count;
+		*nFieldType		= s->progressive_frame ? PICT_FRAME : s->top_field_first ? PICT_TOP_FIELD : PICT_BOTTOM_FIELD;
+		*nSliceType		= s->pict_type;
 	}
 
 	// pPicParams->wDecodedPictureIndex;			set in DecodeFrame
 	// pPicParams->wDeblockedPictureIndex;			0 for Mpeg2
 	// pPicParams->wForwardRefPictureIndex;			set in DecodeFrame
 	// pPicParams->wBackwardRefPictureIndex;		set in DecodeFrame
+	
+	is_field									= s->picture_structure != PICT_FRAME;
 
 	pPicParams->wPicWidthInMBminus1				= s->mb_width-1;
 	pPicParams->wPicHeightInMBminus1			= (s->mb_height >> is_field) - 1;
@@ -708,8 +711,9 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 		pQMatrixData->Qmatrix[3][i] = s->chroma_inter_matrix[n];
 	}
 
+	mb_count = s->mb_width * (s->mb_height >> is_field);
 	for (i = 0; i < s1->slice_count; i++) {
-		DXVA_SliceInfo *slice = &s1->pSliceInfo[i];
+		DXVA_SliceInfo *slice		= &s1->pSliceInfo[i];
 
 		if (i < s1->slice_count - 1) {
 		    slice->wNumberMBsInSlice = slice[1].wNumberMBsInSlice - slice[0].wNumberMBsInSlice;
