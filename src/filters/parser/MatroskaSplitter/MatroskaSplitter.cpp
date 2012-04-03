@@ -418,6 +418,11 @@ avcsuccess:
 					AvgTimePerFrame = (REFERENCE_TIME)pTE->DefaultDuration / 100;
 				}
 
+				// Need to find another way to determine the correct FPS, but for now let us leave this dirty hack ))
+				if(AvgTimePerFrame == 10000) {
+					AvgTimePerFrame = 416667;
+				}
+
 				for (size_t i = 0; i < mts.GetCount(); i++) {
 					if (mts[i].formattype == FORMAT_VideoInfo
 							|| mts[i].formattype == FORMAT_VideoInfo2
