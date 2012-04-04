@@ -162,7 +162,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	if (cur_sps != NULL) {
 		int max_ref_frames = 0;
 
-		if (cur_sps->bit_depth_luma > 8) {
+		if (cur_sps->bit_depth_luma > 8 || cur_sps->chroma_format_idc > 1) {
 			return DXVA_HIGH_BIT;
 		}
 

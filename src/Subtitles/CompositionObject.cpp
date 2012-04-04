@@ -294,10 +294,12 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 			}
 		}
 
+#if 0
 		if (nX+nCount > m_width) {
 			ASSERT (FALSE);
 			break;
 		}
+#endif
 
 		if (nCount>0) {
 			FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);

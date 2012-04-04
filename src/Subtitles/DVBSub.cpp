@@ -261,9 +261,18 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 							m_pCurrentPage = pPage;
 							m_pCurrentPage->rtStart	= m_rtStart;
 							m_pCurrentPage->rtStop	= m_pCurrentPage->rtStart + m_pCurrentPage->PageTimeOut * 1000000;
+
 							TRACE_DVB ("DVB - Page started %S, TimeOut = %d\n", ReftimeToString(m_rtStart), m_pCurrentPage->PageTimeOut);
 						} else {
 							TRACE_DVB ("DVB - Page update\n");
+
+							if(m_pCurrentPage && !m_pCurrentPage->RegionCount) {
+								m_pCurrentPage = pPage;
+								m_pCurrentPage->rtStart	= m_rtStart;
+								m_pCurrentPage->rtStop	= m_pCurrentPage->rtStart + m_pCurrentPage->PageTimeOut * 1000000;
+
+								TRACE_DVB ("DVB - Page started[update] %S, TimeOut = %d\n", ReftimeToString(m_rtStart), m_pCurrentPage->PageTimeOut);
+							}
 						}
 					}
 					break;
