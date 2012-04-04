@@ -276,11 +276,11 @@ SRCS_C=\
     libavutil/x86/cpu.c \
 \
     libswscale/input.c \
+    libswscale/options.c \
     libswscale/output.c \
     libswscale/rgb2rgb.c \
     libswscale/swscale.c \
     libswscale/swscale_unscaled.c \
-    libswscale/sww32thread.c \
     libswscale/utils.c \
     libswscale/yuv2rgb.c \
     libswscale/x86/rgb2rgb.c \

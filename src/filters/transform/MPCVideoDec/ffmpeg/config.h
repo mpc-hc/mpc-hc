@@ -52,10 +52,6 @@
 // registry switch is not read)
 #define USE_DPRINTF 0
 
-// libswscale
-#define LIBAV_CONFIGURATION "ffdshow custom"
-#define LIBAV_LICENSE "GPL version 2 or later"
-// ffmpeg
 #define FFMPEG_CONFIGURATION "ffmpeg configuration"
 #define FFMPEG_LICENSE "GPL version 2 or later"
 

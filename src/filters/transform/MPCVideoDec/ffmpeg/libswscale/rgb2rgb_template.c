@@ -7,20 +7,20 @@
  * palette & YUV & runtime CPU stuff by Michael (michaelni@gmx.at)
  * lot of big-endian byte order fixes by Alex Beregszaszi
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -238,27 +238,6 @@ static inline void rgb24to15_c(const uint8_t *src, uint8_t *dst, int src_size)
     }
 }
 
-/*
- * I use less accurate approximation here by simply left-shifting the input
- * value and filling the low order bits with zeroes. This method improves PNG
- * compression but this scheme cannot reproduce white exactly, since it does
- * not generate an all-ones maximum value; the net effect is to darken the
- * image slightly.
- *
- * The better method should be "left bit replication":
- *
- *  4 3 2 1 0
- *  ---------
- *  1 1 0 1 1
- *
- *  7 6 5 4 3  2 1 0
- *  ----------------
- *  1 1 0 1 1  1 1 0
- *  |=======|  |===|
- *      |      leftmost bits repeated to fill open bits
- *      |
- *  original bits
- */
 static inline void rgb15tobgr24_c(const uint8_t *src, uint8_t *dst,
                                   int src_size)
 {
@@ -268,9 +247,9 @@ static inline void rgb15tobgr24_c(const uint8_t *src, uint8_t *dst,
 
     while (s < end) {
         register uint16_t bgr = *s++;
-        *d++ = (bgr & 0x1F)   << 3;
-        *d++ = (bgr & 0x3E0)  >> 2;
-        *d++ = (bgr & 0x7C00) >> 7;
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
+        *d++ = ((bgr&0x03E0)>>2) | ((bgr&0x03E0)>> 7);
+        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
     }
 }
 
@@ -283,9 +262,9 @@ static inline void rgb16tobgr24_c(const uint8_t *src, uint8_t *dst,
 
     while (s < end) {
         register uint16_t bgr = *s++;
-        *d++ = (bgr & 0x1F)   << 3;
-        *d++ = (bgr & 0x7E0)  >> 3;
-        *d++ = (bgr & 0xF800) >> 8;
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
+        *d++ = ((bgr&0x07E0)>>3) | ((bgr&0x07E0)>> 9);
+        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
     }
 }
 
@@ -299,13 +278,13 @@ static inline void rgb15to32_c(const uint8_t *src, uint8_t *dst, int src_size)
         register uint16_t bgr = *s++;
 #if HAVE_BIGENDIAN
         *d++ = 255;
-        *d++ = (bgr & 0x7C00) >> 7;
-        *d++ = (bgr & 0x3E0)  >> 2;
-        *d++ = (bgr & 0x1F)   << 3;
+        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
+        *d++ = ((bgr&0x03E0)>>2) | ((bgr&0x03E0)>> 7);
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
 #else
-        *d++ = (bgr & 0x1F)   << 3;
-        *d++ = (bgr & 0x3E0)  >> 2;
-        *d++ = (bgr & 0x7C00) >> 7;
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
+        *d++ = ((bgr&0x03E0)>>2) | ((bgr&0x03E0)>> 7);
+        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
         *d++ = 255;
 #endif
     }
@@ -321,13 +300,13 @@ static inline void rgb16to32_c(const uint8_t *src, uint8_t *dst, int src_size)
         register uint16_t bgr = *s++;
 #if HAVE_BIGENDIAN
         *d++ = 255;
-        *d++ = (bgr & 0xF800) >> 8;
-        *d++ = (bgr & 0x7E0)  >> 3;
-        *d++ = (bgr & 0x1F)   << 3;
+        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
+        *d++ = ((bgr&0x07E0)>>3) | ((bgr&0x07E0)>> 9);
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
 #else
-        *d++ = (bgr & 0x1F)   << 3;
-        *d++ = (bgr & 0x7E0)  >> 3;
-        *d++ = (bgr & 0xF800) >> 8;
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
+        *d++ = ((bgr&0x07E0)>>3) | ((bgr&0x07E0)>> 9);
+        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
         *d++ = 255;
 #endif
     }
@@ -664,6 +643,9 @@ void rgb24toyv12_c(const uint8_t *src, uint8_t *ydst, uint8_t *udst,
         }
         ydst += lumStride;
         src  += srcStride;
+
+        if (y+1 == height)
+            break;
 
         for (i = 0; i < chromWidth; i++) {
             unsigned int b = src[6 * i + 0];

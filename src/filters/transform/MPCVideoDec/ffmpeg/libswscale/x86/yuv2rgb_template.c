@@ -4,20 +4,20 @@
  * Copyright (C) 2001-2007 Michael Niedermayer
  *           (c) 2010 Konstantin Shishkov
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -43,17 +43,14 @@
     if (h_size * depth > FFABS(dstStride[0]))                        \
         h_size -= 8;                                                 \
                                                                      \
-    if (c->srcFormat == PIX_FMT_YUV422P) {                           \
-        srcStride[1] *= 2;                                           \
-        srcStride[2] *= 2;                                           \
-    }                                                                \
+    vshift = c->srcFormat != PIX_FMT_YUV422P;                        \
                                                                      \
     __asm__ volatile ("pxor %mm4, %mm4\n\t");                        \
     for (y = 0; y < srcSliceH; y++) {                                \
         uint8_t *image    = dst[0] + (y + srcSliceY) * dstStride[0]; \
         const uint8_t *py = src[0] +               y * srcStride[0]; \
-        const uint8_t *pu = src[1] +        (y >> 1) * srcStride[1]; \
-        const uint8_t *pv = src[2] +        (y >> 1) * srcStride[2]; \
+        const uint8_t *pu = src[1] +   (y >> vshift) * srcStride[1]; \
+        const uint8_t *pv = src[2] +   (y >> vshift) * srcStride[2]; \
         x86_reg index = -h_size / 2;                                 \
 
 #define YUV2RGB_INITIAL_LOAD          \
@@ -141,6 +138,7 @@
         : "+r" (index), "+r" (image)                              \
         : "r" (pu - index), "r" (pv - index), "r"(&c->redDither), \
           "r" (py - 2*index)                                      \
+        : "memory"                                                \
         );                                                        \
     }                                                             \
 
@@ -148,6 +146,7 @@
         : "+r" (index), "+r" (image)                              \
         : "r" (pu - index), "r" (pv - index), "r"(&c->redDither), \
           "r" (py - 2*index), "r" (pa - 2*index)                  \
+        : "memory"                                                \
         );                                                        \
     }                                                             \
 
@@ -188,7 +187,7 @@ static inline int RENAME(yuv420_rgb15)(SwsContext *c, const uint8_t *src[],
                                        int srcSliceY, int srcSliceH,
                                        uint8_t *dst[], int dstStride[])
 {
-    int y, h_size;
+    int y, h_size, vshift;
 
     YUV2RGB_LOOP(2)
 
@@ -216,7 +215,7 @@ static inline int RENAME(yuv420_rgb16)(SwsContext *c, const uint8_t *src[],
                                        int srcSliceY, int srcSliceH,
                                        uint8_t *dst[], int dstStride[])
 {
-    int y, h_size;
+    int y, h_size, vshift;
 
     YUV2RGB_LOOP(2)
 
@@ -306,7 +305,7 @@ static inline int RENAME(yuv420_rgb24)(SwsContext *c, const uint8_t *src[],
                                        int srcSliceY, int srcSliceH,
                                        uint8_t *dst[], int dstStride[])
 {
-    int y, h_size;
+    int y, h_size, vshift;
 
     YUV2RGB_LOOP(3)
 
@@ -324,7 +323,7 @@ static inline int RENAME(yuv420_bgr24)(SwsContext *c, const uint8_t *src[],
                                        int srcSliceY, int srcSliceH,
                                        uint8_t *dst[], int dstStride[])
 {
-    int y, h_size;
+    int y, h_size, vshift;
 
     YUV2RGB_LOOP(3)
 
@@ -368,7 +367,7 @@ static inline int RENAME(yuv420_rgb32)(SwsContext *c, const uint8_t *src[],
                                        int srcSliceY, int srcSliceH,
                                        uint8_t *dst[], int dstStride[])
 {
-    int y, h_size;
+    int y, h_size, vshift;
 
     YUV2RGB_LOOP(4)
 
@@ -389,7 +388,7 @@ static inline int RENAME(yuva420_rgb32)(SwsContext *c, const uint8_t *src[],
                                         int srcSliceY, int srcSliceH,
                                         uint8_t *dst[], int dstStride[])
 {
-    int y, h_size;
+    int y, h_size, vshift;
 
     YUV2RGB_LOOP(4)
 
@@ -411,7 +410,7 @@ static inline int RENAME(yuv420_bgr32)(SwsContext *c, const uint8_t *src[],
                                        int srcSliceY, int srcSliceH,
                                        uint8_t *dst[], int dstStride[])
 {
-    int y, h_size;
+    int y, h_size, vshift;
 
     YUV2RGB_LOOP(4)
 
@@ -432,7 +431,7 @@ static inline int RENAME(yuva420_bgr32)(SwsContext *c, const uint8_t *src[],
                                         int srcSliceY, int srcSliceH,
                                         uint8_t *dst[], int dstStride[])
 {
-    int y, h_size;
+    int y, h_size, vshift;
 
     YUV2RGB_LOOP(4)
 

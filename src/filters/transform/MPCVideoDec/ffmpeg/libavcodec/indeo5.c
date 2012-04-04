@@ -76,6 +76,8 @@ typedef struct {
     int             is_scalable;
     uint32_t        lock_word;
     IVIPicConfig    pic_conf;
+
+    int gop_invalid;
 } IVI5DecContext;
 
 
@@ -336,8 +338,10 @@ static int decode_pic_hdr(IVI5DecContext *ctx, AVCodecContext *avctx)
     ctx->frame_num = get_bits(&ctx->gb, 8);
 
     if (ctx->frame_type == FRAMETYPE_INTRA) {
+        ctx->gop_invalid = 1;
         if (decode_gop_header(ctx, avctx))
             return -1;
+        ctx->gop_invalid = 0;
     }
 
     if (ctx->frame_type != FRAMETYPE_NULL) {
@@ -446,7 +450,7 @@ static int decode_mb_info(IVI5DecContext *ctx, IVIBandDesc *band,
                           IVITile *tile, AVCodecContext *avctx)
 {
     int         x, y, mv_x, mv_y, mv_delta, offs, mb_offset,
-                mv_scale, blks_per_mb;
+                mv_scale, blks_per_mb, s;
     IVIMbInfo   *mb, *ref_mb;
     int         row_offset = band->mb_size * band->pitch;
 
@@ -544,6 +548,15 @@ static int decode_mb_info(IVI5DecContext *ctx, IVIBandDesc *band,
                         mb->mv_y = mv_y;
                     }
                 }
+            }
+
+            s= band->is_halfpel;
+            if (mb->type)
+            if ( x +  (mb->mv_x   >>s) +                 (y+               (mb->mv_y   >>s))*band->pitch < 0 ||
+                 x + ((mb->mv_x+s)>>s) + band->mb_size - 1
+                   + (y+band->mb_size - 1 +((mb->mv_y+s)>>s))*band->pitch > band->bufsize - 1) {
+                av_log(avctx, AV_LOG_ERROR, "motion vector %d %d outside reference\n", x*s + mb->mv_x, y*s + mb->mv_y);
+                return AVERROR_INVALIDDATA;
             }
 
             mb++;
@@ -751,7 +764,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     ctx->frame_size = buf_size;
 
     result = decode_pic_hdr(ctx, avctx);
-    if (result) {
+    if (result || ctx->gop_invalid) {
         av_log(avctx, AV_LOG_ERROR,
                "Error while decoding picture header: %d\n", result);
         return -1;
@@ -783,6 +796,10 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
 
     if (ctx->frame.data[0])
         avctx->release_buffer(avctx, &ctx->frame);
+
+    if(   avctx->width  != ctx->planes[0].width
+       || avctx->height != ctx->planes[0].height)
+        avcodec_set_dimensions(avctx, ctx->planes[0].width, ctx->planes[0].height);
 
     ctx->frame.reference = 0;
     if (avctx->get_buffer(avctx, &ctx->frame) < 0) {

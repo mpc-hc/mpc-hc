@@ -493,7 +493,7 @@ static int decode_sequence_header_adv(VC1Context *v, GetBitContext *gb)
                 int nr, dr;
                 nr = get_bits(gb, 8);
                 dr = get_bits(gb, 4);
-                if (nr && nr < 8 && dr && dr < 3) {
+                if (nr > 0 && nr < 8 && dr > 0 && dr < 3) {
                     v->s.avctx->time_base.num = ff_vc1_fps_dr[dr - 1];
                     v->s.avctx->time_base.den = ff_vc1_fps_nr[nr - 1] * 1000;
                 }
@@ -535,6 +535,8 @@ int ff_vc1_decode_entry_point(AVCodecContext *avctx, VC1Context *v, GetBitContex
     v->panscanflag    = get_bits1(gb);
     v->refdist_flag   = get_bits1(gb);
     v->s.loop_filter  = get_bits1(gb);
+    if (v->s.avctx->skip_loop_filter >= AVDISCARD_ALL)
+        v->s.loop_filter = 0;
     v->fastuvmc       = get_bits1(gb);
     v->extended_mv    = get_bits1(gb);
     v->dquant         = get_bits(gb, 2);
@@ -608,7 +610,7 @@ int ff_vc1_parse_frame_header(VC1Context *v, GetBitContext* gb)
         skip_bits(gb, 7); // skip buffer fullness
 
     if (v->parse_only)
-        goto done;
+        return 0;
 
     /* calculate RND */
     if (v->s.pict_type == AV_PICTURE_TYPE_I || v->s.pict_type == AV_PICTURE_TYPE_BI)
@@ -791,7 +793,6 @@ int ff_vc1_parse_frame_header(VC1Context *v, GetBitContext* gb)
         v->s.dc_table_index = get_bits1(gb);
     }
 
-done:
     if (v->s.pict_type == AV_PICTURE_TYPE_BI) {
         v->s.pict_type = AV_PICTURE_TYPE_B;
         v->bi_type     = 1;
@@ -887,10 +888,6 @@ int ff_vc1_parse_frame_header_adv(VC1Context *v, GetBitContext* gb)
             v->rff = get_bits1(gb);
         }
     }
-
-    if (v->interlace && v->fcm != PROGRESSIVE && !v->s.avctx->hwaccel)
-        return -1;
-
     if (v->panscanflag) {
         av_log_missing_feature(v->s.avctx, "Pan-scan", 0);
         //...
@@ -964,7 +961,7 @@ int ff_vc1_parse_frame_header_adv(VC1Context *v, GetBitContext* gb)
         v->use_ic = 0;
 
     if (v->parse_only)
-        goto done;
+        return 0;
 
     switch (v->s.pict_type) {
     case AV_PICTURE_TYPE_I:
@@ -1246,7 +1243,6 @@ int ff_vc1_parse_frame_header_adv(VC1Context *v, GetBitContext* gb)
         vop_dquant_decoding(v);
     }
 
-done:
     v->bi_type = 0;
     if (v->s.pict_type == AV_PICTURE_TYPE_BI) {
         v->s.pict_type = AV_PICTURE_TYPE_B;

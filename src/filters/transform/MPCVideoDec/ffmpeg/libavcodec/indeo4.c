@@ -372,7 +372,8 @@ static int decode_band_hdr(IVI4DecContext *ctx, IVIBandDesc *band,
 
         if (!get_bits1(&ctx->gb) || ctx->frame_type == FRAMETYPE_INTRA) {
             transform_id = get_bits(&ctx->gb, 5);
-            if (!transforms[transform_id].inv_trans) {
+            if (transform_id >= FF_ARRAY_ELEMS(transforms) ||
+                !transforms[transform_id].inv_trans) {
                 av_log_ask_for_sample(avctx, "Unimplemented transform: %d!\n", transform_id);
                 return AVERROR_PATCHWELCOME;
             }
@@ -392,6 +393,10 @@ static int decode_band_hdr(IVI4DecContext *ctx, IVIBandDesc *band,
             band->is_2d_trans   = transforms[transform_id].is_2d_trans;
 
             scan_indx = get_bits(&ctx->gb, 4);
+            if ((scan_indx>4 && scan_indx<10) != (band->blk_size==4)) {
+                av_log(avctx, AV_LOG_ERROR, "mismatching scan table!\n");
+                return AVERROR_INVALIDDATA;
+            }
             if (scan_indx == 15) {
                 av_log(avctx, AV_LOG_ERROR, "Custom scan pattern encountered!\n");
                 return AVERROR_INVALIDDATA;
@@ -401,6 +406,10 @@ static int decode_band_hdr(IVI4DecContext *ctx, IVIBandDesc *band,
             band->quant_mat = get_bits(&ctx->gb, 5);
             if (band->quant_mat == 31) {
                 av_log(avctx, AV_LOG_ERROR, "Custom quant matrix encountered!\n");
+                return AVERROR_INVALIDDATA;
+            }
+            if (band->quant_mat > 21) {
+                av_log(avctx, AV_LOG_ERROR, "Invalid quant matrix encountered!\n");
                 return AVERROR_INVALIDDATA;
             }
         }
@@ -443,6 +452,11 @@ static int decode_band_hdr(IVI4DecContext *ctx, IVIBandDesc *band,
 
     align_get_bits(&ctx->gb);
 
+    if (!band->scan) {
+        av_log(avctx, AV_LOG_ERROR, "band->scan not set\n");
+        return AVERROR_INVALIDDATA;
+    }
+
     return 0;
 }
 
@@ -461,7 +475,7 @@ static int decode_mb_info(IVI4DecContext *ctx, IVIBandDesc *band,
                           IVITile *tile, AVCodecContext *avctx)
 {
     int         x, y, mv_x, mv_y, mv_delta, offs, mb_offset, blks_per_mb,
-                mv_scale, mb_type_bits;
+                mv_scale, mb_type_bits, s;
     IVIMbInfo   *mb, *ref_mb;
     int         row_offset = band->mb_size * band->pitch;
 
@@ -475,6 +489,11 @@ static int decode_mb_info(IVI4DecContext *ctx, IVIBandDesc *band,
     /* scale factor for motion vectors */
     mv_scale = (ctx->planes[0].bands[0].mb_size >> 3) - (band->mb_size >> 3);
     mv_x = mv_y = 0;
+
+    if (((tile->width + band->mb_size-1)/band->mb_size) * ((tile->height + band->mb_size-1)/band->mb_size) != tile->num_MBs) {
+        av_log(avctx, AV_LOG_ERROR, "num_MBs mismatch %d %d %d %d\n", tile->width, tile->height, band->mb_size, tile->num_MBs);
+        return -1;
+    }
 
     for (y = tile->ypos; y < tile->ypos + tile->height; y += band->mb_size) {
         mb_offset = offs;
@@ -500,7 +519,7 @@ static int decode_mb_info(IVI4DecContext *ctx, IVIBandDesc *band,
                 }
 
                 mb->mv_x = mb->mv_y = 0; /* no motion vector coded */
-                if (band->inherit_mv) {
+                if (band->inherit_mv && ref_mb) {
                     /* motion vector inheritance */
                     if (mv_scale) {
                         mb->mv_x = ivi_scale_mv(ref_mb->mv_x, mv_scale);
@@ -511,7 +530,7 @@ static int decode_mb_info(IVI4DecContext *ctx, IVIBandDesc *band,
                     }
                 }
             } else {
-                if (band->inherit_mv) {
+                if (band->inherit_mv && ref_mb) {
                     mb->type = ref_mb->type; /* copy mb_type from corresponding reference mb */
                 } else if (ctx->frame_type == FRAMETYPE_INTRA) {
                     mb->type = 0; /* mb_type is always INTRA for intra-frames */
@@ -534,7 +553,7 @@ static int decode_mb_info(IVI4DecContext *ctx, IVIBandDesc *band,
                 if (!mb->type) {
                     mb->mv_x = mb->mv_y = 0; /* there is no motion vector in intra-macroblocks */
                 } else {
-                    if (band->inherit_mv) {
+                    if (band->inherit_mv && ref_mb) {
                         /* motion vector inheritance */
                         if (mv_scale) {
                             mb->mv_x = ivi_scale_mv(ref_mb->mv_x, mv_scale);
@@ -555,6 +574,15 @@ static int decode_mb_info(IVI4DecContext *ctx, IVIBandDesc *band,
                         mb->mv_y = mv_y;
                     }
                 }
+            }
+
+            s= band->is_halfpel;
+            if (mb->type)
+            if ( x +  (mb->mv_x   >>s) +                 (y+               (mb->mv_y   >>s))*band->pitch < 0 ||
+                 x + ((mb->mv_x+s)>>s) + band->mb_size - 1
+                   + (y+band->mb_size - 1 +((mb->mv_y+s)>>s))*band->pitch > band->bufsize -1) {
+                av_log(avctx, AV_LOG_ERROR, "motion vector %d %d outside reference\n", x*s + mb->mv_x, y*s + mb->mv_y);
+                return AVERROR_INVALIDDATA;
             }
 
             mb++;
@@ -585,6 +613,7 @@ static int decode_band(IVI4DecContext *ctx, int plane_num,
 {
     int         result, i, t, pos, idx1, idx2;
     IVITile     *tile;
+    int         ret = 0;
 
     band->buf     = band->bufs[ctx->dst_buf];
     band->ref_buf = band->bufs[ctx->ref_buf];
@@ -608,6 +637,10 @@ static int decode_band(IVI4DecContext *ctx, int plane_num,
         idx2 = band->corr[i * 2 + 1];
         FFSWAP(uint8_t, band->rv_map->runtab[idx1], band->rv_map->runtab[idx2]);
         FFSWAP(int16_t, band->rv_map->valtab[idx1], band->rv_map->valtab[idx2]);
+        if (idx1 == band->rv_map->eob_sym || idx2 == band->rv_map->eob_sym)
+            band->rv_map->eob_sym ^= idx1 ^ idx2;
+        if (idx1 == band->rv_map->esc_sym || idx2 == band->rv_map->esc_sym)
+            band->rv_map->esc_sym ^= idx1 ^ idx2;
     }
 
     pos = get_bits_count(&ctx->gb);
@@ -624,7 +657,8 @@ static int decode_band(IVI4DecContext *ctx, int plane_num,
             tile->data_size = ff_ivi_dec_tile_data_size(&ctx->gb);
             if (!tile->data_size) {
                 av_log(avctx, AV_LOG_ERROR, "Tile data size is zero!\n");
-                return AVERROR_INVALIDDATA;
+                ret = AVERROR_INVALIDDATA;
+                break;
             }
 
             result = decode_mb_info(ctx, band, tile, avctx);
@@ -647,6 +681,10 @@ static int decode_band(IVI4DecContext *ctx, int plane_num,
         idx2 = band->corr[i * 2 + 1];
         FFSWAP(uint8_t, band->rv_map->runtab[idx1], band->rv_map->runtab[idx2]);
         FFSWAP(int16_t, band->rv_map->valtab[idx1], band->rv_map->valtab[idx2]);
+        if (idx1 == band->rv_map->eob_sym || idx2 == band->rv_map->eob_sym)
+            band->rv_map->eob_sym ^= idx1 ^ idx2;
+        if (idx1 == band->rv_map->esc_sym || idx2 == band->rv_map->esc_sym)
+            band->rv_map->esc_sym ^= idx1 ^ idx2;
     }
 
 #if defined(DEBUG) && IVI4_DEBUG_CHECKSUM
@@ -662,7 +700,7 @@ static int decode_band(IVI4DecContext *ctx, int plane_num,
 
     align_get_bits(&ctx->gb);
 
-    return 0;
+    return ret;
 }
 
 

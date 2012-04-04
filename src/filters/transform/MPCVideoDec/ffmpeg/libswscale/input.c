@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2001-2003 Michael Niedermayer <michaelni@gmx.at>
+ * Copyright (C) 2001-2012 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -50,6 +50,86 @@
 
 #define r ((origin == PIX_FMT_BGR48BE || origin == PIX_FMT_BGR48LE) ? b_r : r_b)
 #define b ((origin == PIX_FMT_BGR48BE || origin == PIX_FMT_BGR48LE) ? r_b : b_r)
+
+static av_always_inline void
+rgb64ToY_c_template(uint16_t *dst, const uint16_t *src, int width,
+                    enum PixelFormat origin)
+{
+    int i;
+    for (i = 0; i < width; i++) {
+        unsigned int r_b = input_pixel(&src[i*4+0]);
+        unsigned int   g = input_pixel(&src[i*4+1]);
+        unsigned int b_r = input_pixel(&src[i*4+2]);
+
+        dst[i] = (RY*r + GY*g + BY*b + (0x2001<<(RGB2YUV_SHIFT-1))) >> RGB2YUV_SHIFT;
+    }
+}
+
+static av_always_inline void
+rgb64ToUV_c_template(uint16_t *dstU, uint16_t *dstV,
+                    const uint16_t *src1, const uint16_t *src2,
+                    int width, enum PixelFormat origin)
+{
+    int i;
+    assert(src1==src2);
+    for (i = 0; i < width; i++) {
+        int r_b = input_pixel(&src1[i*4+0]);
+        int   g = input_pixel(&src1[i*4+1]);
+        int b_r = input_pixel(&src1[i*4+2]);
+
+        dstU[i] = (RU*r + GU*g + BU*b + (0x10001<<(RGB2YUV_SHIFT-1))) >> RGB2YUV_SHIFT;
+        dstV[i] = (RV*r + GV*g + BV*b + (0x10001<<(RGB2YUV_SHIFT-1))) >> RGB2YUV_SHIFT;
+    }
+}
+
+static av_always_inline void
+rgb64ToUV_half_c_template(uint16_t *dstU, uint16_t *dstV,
+                          const uint16_t *src1, const uint16_t *src2,
+                          int width, enum PixelFormat origin)
+{
+    int i;
+    assert(src1==src2);
+    for (i = 0; i < width; i++) {
+        int r_b = (input_pixel(&src1[8 * i + 0]) + input_pixel(&src1[8 * i + 4]) + 1) >> 1;
+        int   g = (input_pixel(&src1[8 * i + 1]) + input_pixel(&src1[8 * i + 5]) + 1) >> 1;
+        int b_r = (input_pixel(&src1[8 * i + 2]) + input_pixel(&src1[8 * i + 6]) + 1) >> 1;
+
+        dstU[i]= (RU*r + GU*g + BU*b + (0x10001<<(RGB2YUV_SHIFT-1))) >> RGB2YUV_SHIFT;
+        dstV[i]= (RV*r + GV*g + BV*b + (0x10001<<(RGB2YUV_SHIFT-1))) >> RGB2YUV_SHIFT;
+    }
+}
+
+#define rgb64funcs(pattern, BE_LE, origin) \
+static void pattern ## 64 ## BE_LE ## ToY_c(uint8_t *_dst, const uint8_t *_src, const uint8_t *unused0, const uint8_t *unused1,\
+                                    int width, uint32_t *unused) \
+{ \
+    const uint16_t *src = (const uint16_t *) _src; \
+    uint16_t *dst = (uint16_t *) _dst; \
+    rgb64ToY_c_template(dst, src, width, origin); \
+} \
+ \
+static void pattern ## 64 ## BE_LE ## ToUV_c(uint8_t *_dstU, uint8_t *_dstV, \
+                                    const uint8_t *unused0, const uint8_t *_src1, const uint8_t *_src2, \
+                                    int width, uint32_t *unused) \
+{ \
+    const uint16_t *src1 = (const uint16_t *) _src1, \
+                   *src2 = (const uint16_t *) _src2; \
+    uint16_t *dstU = (uint16_t *) _dstU, *dstV = (uint16_t *) _dstV; \
+    rgb64ToUV_c_template(dstU, dstV, src1, src2, width, origin); \
+} \
+ \
+static void pattern ## 64 ## BE_LE ## ToUV_half_c(uint8_t *_dstU, uint8_t *_dstV, \
+                                    const uint8_t *unused0, const uint8_t *_src1, const uint8_t *_src2, \
+                                    int width, uint32_t *unused) \
+{ \
+    const uint16_t *src1 = (const uint16_t *) _src1, \
+                   *src2 = (const uint16_t *) _src2; \
+    uint16_t *dstU = (uint16_t *) _dstU, *dstV = (uint16_t *) _dstV; \
+    rgb64ToUV_half_c_template(dstU, dstV, src1, src2, width, origin); \
+}
+
+rgb64funcs(rgb, LE, PIX_FMT_RGBA64LE)
+rgb64funcs(rgb, BE, PIX_FMT_RGBA64BE)
 
 static av_always_inline void
 rgb48ToY_c_template(uint16_t *dst, const uint16_t *src, int width,
@@ -104,7 +184,7 @@ rgb48ToUV_half_c_template(uint16_t *dstU, uint16_t *dstV,
 #undef input_pixel
 
 #define rgb48funcs(pattern, BE_LE, origin) \
-static void pattern ## 48 ## BE_LE ## ToY_c(uint8_t *_dst, const uint8_t *_src, \
+static void pattern ## 48 ## BE_LE ## ToY_c(uint8_t *_dst, const uint8_t *_src, const uint8_t *unused0, const uint8_t *unused1,\
                                     int width, uint32_t *unused) \
 { \
     const uint16_t *src = (const uint16_t *) _src; \
@@ -113,7 +193,7 @@ static void pattern ## 48 ## BE_LE ## ToY_c(uint8_t *_dst, const uint8_t *_src, 
 } \
  \
 static void pattern ## 48 ## BE_LE ## ToUV_c(uint8_t *_dstU, uint8_t *_dstV, \
-                                    const uint8_t *_src1, const uint8_t *_src2, \
+                                    const uint8_t *unused0, const uint8_t *_src1, const uint8_t *_src2, \
                                     int width, uint32_t *unused) \
 { \
     const uint16_t *src1 = (const uint16_t *) _src1, \
@@ -123,7 +203,7 @@ static void pattern ## 48 ## BE_LE ## ToUV_c(uint8_t *_dstU, uint8_t *_dstV, \
 } \
  \
 static void pattern ## 48 ## BE_LE ## ToUV_half_c(uint8_t *_dstU, uint8_t *_dstV, \
-                                    const uint8_t *_src1, const uint8_t *_src2, \
+                                    const uint8_t *unused0, const uint8_t *_src1, const uint8_t *_src2, \
                                     int width, uint32_t *unused) \
 { \
     const uint16_t *src1 = (const uint16_t *) _src1, \
@@ -142,14 +222,14 @@ rgb48funcs(bgr, BE, PIX_FMT_BGR48BE)
                         (isBE(origin) ? AV_RB16(&src[(i)*2]) : AV_RL16(&src[(i)*2])))
 
 static av_always_inline void
-rgb16_32ToY_c_template(uint8_t *dst, const uint8_t *src,
+rgb16_32ToY_c_template(int16_t *dst, const uint8_t *src,
                        int width, enum PixelFormat origin,
                        int shr,   int shg,   int shb, int shp,
                        int maskr, int maskg, int maskb,
                        int rsh,   int gsh,   int bsh, int S)
 {
     const int ry = RY << rsh, gy = GY << gsh, by = BY << bsh;
-    const unsigned rnd = 33u << (S - 1);
+    const unsigned rnd = (32<<((S)-1)) + (1<<(S-7));
     int i;
 
     for (i = 0; i < width; i++) {
@@ -158,12 +238,12 @@ rgb16_32ToY_c_template(uint8_t *dst, const uint8_t *src,
         int g = (px & maskg) >> shg;
         int r = (px & maskr) >> shr;
 
-        dst[i] = (ry * r + gy * g + by * b + rnd) >> S;
+        dst[i] = (ry * r + gy * g + by * b + rnd) >> ((S)-6);
     }
 }
 
 static av_always_inline void
-rgb16_32ToUV_c_template(uint8_t *dstU, uint8_t *dstV,
+rgb16_32ToUV_c_template(int16_t *dstU, int16_t *dstV,
                         const uint8_t *src, int width,
                         enum PixelFormat origin,
                         int shr,   int shg,   int shb, int shp,
@@ -172,7 +252,7 @@ rgb16_32ToUV_c_template(uint8_t *dstU, uint8_t *dstV,
 {
     const int ru = RU << rsh, gu = GU << gsh, bu = BU << bsh,
               rv = RV << rsh, gv = GV << gsh, bv = BV << bsh;
-    const unsigned rnd = 257u << (S - 1);
+    const unsigned rnd = (256u<<((S)-1)) + (1<<(S-7));
     int i;
 
     for (i = 0; i < width; i++) {
@@ -181,13 +261,13 @@ rgb16_32ToUV_c_template(uint8_t *dstU, uint8_t *dstV,
         int g = (px & maskg) >> shg;
         int r = (px & maskr) >> shr;
 
-        dstU[i] = (ru * r + gu * g + bu * b + rnd) >> S;
-        dstV[i] = (rv * r + gv * g + bv * b + rnd) >> S;
+        dstU[i] = (ru * r + gu * g + bu * b + rnd) >> ((S)-6);
+        dstV[i] = (rv * r + gv * g + bv * b + rnd) >> ((S)-6);
     }
 }
 
 static av_always_inline void
-rgb16_32ToUV_half_c_template(uint8_t *dstU, uint8_t *dstV,
+rgb16_32ToUV_half_c_template(int16_t *dstU, int16_t *dstV,
                              const uint8_t *src, int width,
                              enum PixelFormat origin,
                              int shr,   int shg,   int shb, int shp,
@@ -197,7 +277,7 @@ rgb16_32ToUV_half_c_template(uint8_t *dstU, uint8_t *dstV,
     const int ru = RU << rsh, gu = GU << gsh, bu = BU << bsh,
               rv = RV << rsh, gv = GV << gsh, bv = BV << bsh,
               maskgx = ~(maskr | maskb);
-    const unsigned rnd = 257u << S;
+    const unsigned rnd = (256U<<(S)) + (1<<(S-6));
     int i;
 
     maskr |= maskr << 1; maskb |= maskb << 1; maskg |= maskg << 1;
@@ -216,8 +296,8 @@ rgb16_32ToUV_half_c_template(uint8_t *dstU, uint8_t *dstV,
         }
         r = (rb & maskr) >> shr;
 
-        dstU[i] = (ru * r + gu * g + bu * b + rnd) >> (S + 1);
-        dstV[i] = (rv * r + gv * g + bv * b + rnd) >> (S + 1);
+        dstU[i] = (ru * r + gu * g + bu * b + (unsigned)rnd) >> ((S)-6+1);
+        dstV[i] = (rv * r + gv * g + bv * b + (unsigned)rnd) >> ((S)-6+1);
     }
 }
 
@@ -225,26 +305,29 @@ rgb16_32ToUV_half_c_template(uint8_t *dstU, uint8_t *dstV,
 
 #define rgb16_32_wrapper(fmt, name, shr, shg, shb, shp, maskr, \
                          maskg, maskb, rsh, gsh, bsh, S) \
-static void name ## ToY_c(uint8_t *dst, const uint8_t *src, \
+static void name ## ToY_c(uint8_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2, \
                           int width, uint32_t *unused) \
 { \
-    rgb16_32ToY_c_template(dst, src, width, fmt, shr, shg, shb, shp, \
+    rgb16_32ToY_c_template((int16_t*)dst, src, width, fmt, \
+                           shr, shg, shb, shp, \
                            maskr, maskg, maskb, rsh, gsh, bsh, S); \
 } \
  \
 static void name ## ToUV_c(uint8_t *dstU, uint8_t *dstV, \
-                           const uint8_t *src, const uint8_t *dummy, \
+                           const uint8_t *unused0, const uint8_t *src, const uint8_t *dummy, \
                            int width, uint32_t *unused) \
 { \
-    rgb16_32ToUV_c_template(dstU, dstV, src, width, fmt, shr, shg, shb, shp, \
+    rgb16_32ToUV_c_template((int16_t*)dstU, (int16_t*)dstV, src, width, fmt,  \
+                            shr, shg, shb, shp, \
                             maskr, maskg, maskb, rsh, gsh, bsh, S); \
 } \
  \
 static void name ## ToUV_half_c(uint8_t *dstU, uint8_t *dstV, \
-                                const uint8_t *src, const uint8_t *dummy, \
+                                const uint8_t *unused0, const uint8_t *src, const uint8_t *dummy, \
                                 int width, uint32_t *unused) \
 { \
-    rgb16_32ToUV_half_c_template(dstU, dstV, src, width, fmt, shr, shg, shb, shp, \
+    rgb16_32ToUV_half_c_template((int16_t*)dstU, (int16_t*)dstV, src, width, fmt, \
+                                 shr, shg, shb, shp, \
                                  maskr, maskg, maskb, rsh, gsh, bsh, S); \
 }
 
@@ -265,15 +348,23 @@ rgb16_32_wrapper(PIX_FMT_RGB565BE, rgb16be, 0, 0,  0, 0,   0xF800, 0x07E0,   0x0
 rgb16_32_wrapper(PIX_FMT_RGB555BE, rgb15be, 0, 0,  0, 0,   0x7C00, 0x03E0,   0x001F,  0, 5, 10, RGB2YUV_SHIFT+7)
 rgb16_32_wrapper(PIX_FMT_RGB444BE, rgb12be, 0, 0,  0, 0,   0x0F00, 0x00F0,   0x000F,  0, 4,  8, RGB2YUV_SHIFT+4)
 
-static void abgrToA_c(uint8_t *dst, const uint8_t *src, int width, uint32_t *unused)
+static void gbr24pToUV_half_c(uint16_t *dstU, uint16_t *dstV,
+                         const uint8_t *gsrc, const uint8_t *bsrc, const uint8_t *rsrc,
+                         int width, enum PixelFormat origin)
 {
     int i;
     for (i=0; i<width; i++) {
-        dst[i]= src[4*i];
+        unsigned int g   = gsrc[2*i] + gsrc[2*i+1];
+        unsigned int b   = bsrc[2*i] + bsrc[2*i+1];
+        unsigned int r   = rsrc[2*i] + rsrc[2*i+1];
+
+        dstU[i] = (RU*r + GU*g + BU*b + (0x4001<<(RGB2YUV_SHIFT-6))) >> (RGB2YUV_SHIFT-6+1);
+        dstV[i] = (RV*r + GV*g + BV*b + (0x4001<<(RGB2YUV_SHIFT-6))) >> (RGB2YUV_SHIFT-6+1);
     }
 }
 
-static void rgbaToA_c(uint8_t *dst, const uint8_t *src, int width, uint32_t *unused)
+static void rgba64ToA_c(int16_t *dst, const uint16_t *src, const uint8_t *unused1,
+                        const uint8_t *unused2, int width, uint32_t *unused)
 {
     int i;
     for (i=0; i<width; i++) {
@@ -281,18 +372,44 @@ static void rgbaToA_c(uint8_t *dst, const uint8_t *src, int width, uint32_t *unu
     }
 }
 
-static void palToY_c(uint8_t *dst, const uint8_t *src, int width, uint32_t *pal)
+static void abgrToA_c(int16_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2, int width, uint32_t *unused)
+{
+    int i;
+    for (i=0; i<width; i++) {
+        dst[i]= src[4*i]<<6;
+    }
+}
+
+static void rgbaToA_c(int16_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2, int width, uint32_t *unused)
+{
+    int i;
+    for (i=0; i<width; i++) {
+        dst[i]= src[4*i+3]<<6;
+    }
+}
+
+static void palToA_c(int16_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2, int width, uint32_t *pal)
 {
     int i;
     for (i=0; i<width; i++) {
         int d= src[i];
 
-        dst[i]= pal[d] & 0xFF;
+        dst[i]= (pal[d] >> 24)<<6;
     }
 }
 
-static void palToUV_c(uint8_t *dstU, uint8_t *dstV,
-                      const uint8_t *src1, const uint8_t *src2,
+static void palToY_c(int16_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2, long width, uint32_t *pal)
+{
+    int i;
+    for (i=0; i<width; i++) {
+        int d= src[i];
+
+        dst[i]= (pal[d] & 0xFF)<<6;
+    }
+}
+
+static void palToUV_c(uint16_t *dstU, int16_t *dstV,
+                           const uint8_t *unused0, const uint8_t *src1, const uint8_t *src2,
                       int width, uint32_t *pal)
 {
     int i;
@@ -300,34 +417,42 @@ static void palToUV_c(uint8_t *dstU, uint8_t *dstV,
     for (i=0; i<width; i++) {
         int p= pal[src1[i]];
 
-        dstU[i]= p>>8;
-        dstV[i]= p>>16;
+        dstU[i]= (uint8_t)(p>> 8)<<6;
+        dstV[i]= (uint8_t)(p>>16)<<6;
     }
 }
 
-static void monowhite2Y_c(uint8_t *dst, const uint8_t *src,
-                          int width, uint32_t *unused)
+static void monowhite2Y_c(int16_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2,  int width, uint32_t *unused)
 {
     int i, j;
     for (i=0; i<width/8; i++) {
         int d= ~src[i];
         for(j=0; j<8; j++)
-            dst[8*i+j]= ((d>>(7-j))&1)*255;
+            dst[8*i+j]= ((d>>(7-j))&1)*16383;
+    }
+    if(width&7){
+        int d= ~src[i];
+        for(j=0; j<(width&7); j++)
+            dst[8*i+j]= ((d>>(7-j))&1)*16383;
     }
 }
 
-static void monoblack2Y_c(uint8_t *dst, const uint8_t *src,
-                          int width, uint32_t *unused)
+static void monoblack2Y_c(int16_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2,  int width, uint32_t *unused)
 {
     int i, j;
     for (i=0; i<width/8; i++) {
         int d= src[i];
         for(j=0; j<8; j++)
-            dst[8*i+j]= ((d>>(7-j))&1)*255;
+            dst[8*i+j]= ((d>>(7-j))&1)*16383;
+    }
+    if(width&7){
+        int d= src[i];
+        for(j=0; j<(width&7); j++)
+            dst[8*i+j]= ((d>>(7-j))&1)*16383;
     }
 }
 
-static void yuy2ToY_c(uint8_t *dst, const uint8_t *src, int width,
+static void yuy2ToY_c(uint8_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2,  int width,
                       uint32_t *unused)
 {
     int i;
@@ -335,7 +460,7 @@ static void yuy2ToY_c(uint8_t *dst, const uint8_t *src, int width,
         dst[i]= src[2*i];
 }
 
-static void yuy2ToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
+static void yuy2ToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *unused0, const uint8_t *src1,
                        const uint8_t *src2, int width, uint32_t *unused)
 {
     int i;
@@ -346,7 +471,7 @@ static void yuy2ToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
     assert(src1 == src2);
 }
 
-static void bswap16Y_c(uint8_t *_dst, const uint8_t *_src, int width, uint32_t *unused)
+static void bswap16Y_c(uint8_t *_dst, const uint8_t *_src, const uint8_t *unused1, const uint8_t *unused2,  int width, uint32_t *unused)
 {
     int i;
     const uint16_t *src = (const uint16_t *) _src;
@@ -356,7 +481,7 @@ static void bswap16Y_c(uint8_t *_dst, const uint8_t *_src, int width, uint32_t *
     }
 }
 
-static void bswap16UV_c(uint8_t *_dstU, uint8_t *_dstV, const uint8_t *_src1,
+static void bswap16UV_c(uint8_t *_dstU, uint8_t *_dstV, const uint8_t *unused0, const uint8_t *_src1,
                         const uint8_t *_src2, int width, uint32_t *unused)
 {
     int i;
@@ -371,7 +496,7 @@ static void bswap16UV_c(uint8_t *_dstU, uint8_t *_dstV, const uint8_t *_src1,
 
 /* This is almost identical to the previous, end exists only because
  * yuy2ToY/UV)(dst, src+1, ...) would have 100% unaligned accesses. */
-static void uyvyToY_c(uint8_t *dst, const uint8_t *src, int width,
+static void uyvyToY_c(uint8_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2,  int width,
                       uint32_t *unused)
 {
     int i;
@@ -379,7 +504,7 @@ static void uyvyToY_c(uint8_t *dst, const uint8_t *src, int width,
         dst[i]= src[2*i+1];
 }
 
-static void uyvyToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
+static void uyvyToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *unused0, const uint8_t *src1,
                        const uint8_t *src2, int width, uint32_t *unused)
 {
     int i;
@@ -401,14 +526,14 @@ static av_always_inline void nvXXtoUV_c(uint8_t *dst1, uint8_t *dst2,
 }
 
 static void nv12ToUV_c(uint8_t *dstU, uint8_t *dstV,
-                       const uint8_t *src1, const uint8_t *src2,
+                       const uint8_t *unused0, const uint8_t *src1, const uint8_t *src2,
                        int width, uint32_t *unused)
 {
     nvXXtoUV_c(dstU, dstV, src1, width);
 }
 
 static void nv21ToUV_c(uint8_t *dstU, uint8_t *dstV,
-                       const uint8_t *src1, const uint8_t *src2,
+                       const uint8_t *unused0, const uint8_t *src1, const uint8_t *src2,
                        int width, uint32_t *unused)
 {
     nvXXtoUV_c(dstV, dstU, src1, width);
@@ -416,7 +541,7 @@ static void nv21ToUV_c(uint8_t *dstU, uint8_t *dstV,
 
 #define input_pixel(pos) (isBE(origin) ? AV_RB16(pos) : AV_RL16(pos))
 
-static void bgr24ToY_c(uint8_t *dst, const uint8_t *src,
+static void bgr24ToY_c(int16_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2,
                        int width, uint32_t *unused)
 {
     int i;
@@ -425,11 +550,11 @@ static void bgr24ToY_c(uint8_t *dst, const uint8_t *src,
         int g= src[i*3+1];
         int r= src[i*3+2];
 
-        dst[i]= ((RY*r + GY*g + BY*b + (33<<(RGB2YUV_SHIFT-1)))>>RGB2YUV_SHIFT);
+        dst[i]= ((RY*r + GY*g + BY*b + (32<<(RGB2YUV_SHIFT-1)) + (1<<(RGB2YUV_SHIFT-7)))>>(RGB2YUV_SHIFT-6));
     }
 }
 
-static void bgr24ToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
+static void bgr24ToUV_c(int16_t *dstU, int16_t *dstV, const uint8_t *unused0, const uint8_t *src1,
                         const uint8_t *src2, int width, uint32_t *unused)
 {
     int i;
@@ -438,13 +563,13 @@ static void bgr24ToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
         int g= src1[3*i + 1];
         int r= src1[3*i + 2];
 
-        dstU[i]= (RU*r + GU*g + BU*b + (257<<(RGB2YUV_SHIFT-1)))>>RGB2YUV_SHIFT;
-        dstV[i]= (RV*r + GV*g + BV*b + (257<<(RGB2YUV_SHIFT-1)))>>RGB2YUV_SHIFT;
+        dstU[i]= (RU*r + GU*g + BU*b + (256<<(RGB2YUV_SHIFT-1)) + (1<<(RGB2YUV_SHIFT-7)))>>(RGB2YUV_SHIFT-6);
+        dstV[i]= (RV*r + GV*g + BV*b + (256<<(RGB2YUV_SHIFT-1)) + (1<<(RGB2YUV_SHIFT-7)))>>(RGB2YUV_SHIFT-6);
     }
     assert(src1 == src2);
 }
 
-static void bgr24ToUV_half_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
+static void bgr24ToUV_half_c(int16_t *dstU, int16_t *dstV, const uint8_t *unused0, const uint8_t *src1,
                              const uint8_t *src2, int width, uint32_t *unused)
 {
     int i;
@@ -453,13 +578,13 @@ static void bgr24ToUV_half_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
         int g= src1[6*i + 1] + src1[6*i + 4];
         int r= src1[6*i + 2] + src1[6*i + 5];
 
-        dstU[i]= (RU*r + GU*g + BU*b + (257<<RGB2YUV_SHIFT))>>(RGB2YUV_SHIFT+1);
-        dstV[i]= (RV*r + GV*g + BV*b + (257<<RGB2YUV_SHIFT))>>(RGB2YUV_SHIFT+1);
+        dstU[i]= (RU*r + GU*g + BU*b + (256<<RGB2YUV_SHIFT) + (1<<(RGB2YUV_SHIFT-6)))>>(RGB2YUV_SHIFT-5);
+        dstV[i]= (RV*r + GV*g + BV*b + (256<<RGB2YUV_SHIFT) + (1<<(RGB2YUV_SHIFT-6)))>>(RGB2YUV_SHIFT-5);
     }
     assert(src1 == src2);
 }
 
-static void rgb24ToY_c(uint8_t *dst, const uint8_t *src, int width,
+static void rgb24ToY_c(int16_t *dst, const uint8_t *src, const uint8_t *unused1, const uint8_t *unused2, int width,
                        uint32_t *unused)
 {
     int i;
@@ -468,11 +593,11 @@ static void rgb24ToY_c(uint8_t *dst, const uint8_t *src, int width,
         int g= src[i*3+1];
         int b= src[i*3+2];
 
-        dst[i]= ((RY*r + GY*g + BY*b + (33<<(RGB2YUV_SHIFT-1)))>>RGB2YUV_SHIFT);
+        dst[i]= ((RY*r + GY*g + BY*b + (32<<(RGB2YUV_SHIFT-1)) + (1<<(RGB2YUV_SHIFT-7)))>>(RGB2YUV_SHIFT-6));
     }
 }
 
-static void rgb24ToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
+static void rgb24ToUV_c(int16_t *dstU, int16_t *dstV, const uint8_t *unused0, const uint8_t *src1,
                         const uint8_t *src2, int width, uint32_t *unused)
 {
     int i;
@@ -482,12 +607,12 @@ static void rgb24ToUV_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
         int g= src1[3*i + 1];
         int b= src1[3*i + 2];
 
-        dstU[i]= (RU*r + GU*g + BU*b + (257<<(RGB2YUV_SHIFT-1)))>>RGB2YUV_SHIFT;
-        dstV[i]= (RV*r + GV*g + BV*b + (257<<(RGB2YUV_SHIFT-1)))>>RGB2YUV_SHIFT;
+        dstU[i]= (RU*r + GU*g + BU*b + (256<<(RGB2YUV_SHIFT-1)) + (1<<(RGB2YUV_SHIFT-7)))>>(RGB2YUV_SHIFT-6);
+        dstV[i]= (RV*r + GV*g + BV*b + (256<<(RGB2YUV_SHIFT-1)) + (1<<(RGB2YUV_SHIFT-7)))>>(RGB2YUV_SHIFT-6);
     }
 }
 
-static void rgb24ToUV_half_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
+static void rgb24ToUV_half_c(int16_t *dstU, int16_t *dstV, const uint8_t *unused0, const uint8_t *src1,
                              const uint8_t *src2, int width, uint32_t *unused)
 {
     int i;
@@ -497,12 +622,12 @@ static void rgb24ToUV_half_c(uint8_t *dstU, uint8_t *dstV, const uint8_t *src1,
         int g= src1[6*i + 1] + src1[6*i + 4];
         int b= src1[6*i + 2] + src1[6*i + 5];
 
-        dstU[i]= (RU*r + GU*g + BU*b + (257<<RGB2YUV_SHIFT))>>(RGB2YUV_SHIFT+1);
-        dstV[i]= (RV*r + GV*g + BV*b + (257<<RGB2YUV_SHIFT))>>(RGB2YUV_SHIFT+1);
+        dstU[i]= (RU*r + GU*g + BU*b + (256<<RGB2YUV_SHIFT) + (1<<(RGB2YUV_SHIFT-6)))>>(RGB2YUV_SHIFT-5);
+        dstV[i]= (RV*r + GV*g + BV*b + (256<<RGB2YUV_SHIFT) + (1<<(RGB2YUV_SHIFT-6)))>>(RGB2YUV_SHIFT-5);
     }
 }
 
-static void planar_rgb_to_y(uint8_t *dst, const uint8_t *src[4], int width)
+static void planar_rgb_to_y(uint16_t *dst, const uint8_t *src[4], int width)
 {
     int i;
     for (i = 0; i < width; i++) {
@@ -510,7 +635,7 @@ static void planar_rgb_to_y(uint8_t *dst, const uint8_t *src[4], int width)
         int b = src[1][i];
         int r = src[2][i];
 
-        dst[i] = ((RY * r + GY * g + BY * b + (33 << (RGB2YUV_SHIFT - 1))) >> RGB2YUV_SHIFT);
+        dst[i] = (RY*r + GY*g + BY*b + (0x801<<(RGB2YUV_SHIFT-7))) >> (RGB2YUV_SHIFT-6);
     }
 }
 
@@ -542,7 +667,7 @@ static void planar_rgb16be_to_y(uint8_t *_dst, const uint8_t *_src[4], int width
     }
 }
 
-static void planar_rgb_to_uv(uint8_t *dstU, uint8_t *dstV, const uint8_t *src[4], int width)
+static void planar_rgb_to_uv(uint16_t *dstU, uint16_t *dstV, const uint8_t *src[4], int width)
 {
     int i;
     for (i = 0; i < width; i++) {
@@ -550,8 +675,8 @@ static void planar_rgb_to_uv(uint8_t *dstU, uint8_t *dstV, const uint8_t *src[4]
         int b = src[1][i];
         int r = src[2][i];
 
-        dstU[i] = (RU * r + GU * g + BU * b + (257 << RGB2YUV_SHIFT)) >> (RGB2YUV_SHIFT + 1);
-        dstV[i] = (RV * r + GV * g + BV * b + (257 << RGB2YUV_SHIFT)) >> (RGB2YUV_SHIFT + 1);
+        dstU[i] = (RU*r + GU*g + BU*b + (0x4001<<(RGB2YUV_SHIFT-7))) >> (RGB2YUV_SHIFT-6);
+        dstV[i] = (RV*r + GV*g + BV*b + (0x4001<<(RGB2YUV_SHIFT-7))) >> (RGB2YUV_SHIFT-6);
     }
 }
 
@@ -633,6 +758,8 @@ av_cold void ff_sws_init_input_funcs(SwsContext *c)
     }
     if (c->chrSrcHSubSample) {
         switch(srcFormat) {
+        case PIX_FMT_RGBA64BE: c->chrToYV12 = rgb64BEToUV_half_c; break;
+        case PIX_FMT_RGBA64LE: c->chrToYV12 = rgb64LEToUV_half_c; break;
         case PIX_FMT_RGB48BE : c->chrToYV12 = rgb48BEToUV_half_c; break;
         case PIX_FMT_RGB48LE : c->chrToYV12 = rgb48LEToUV_half_c; break;
         case PIX_FMT_BGR48BE : c->chrToYV12 = bgr48BEToUV_half_c; break;
@@ -653,11 +780,14 @@ av_cold void ff_sws_init_input_funcs(SwsContext *c)
         case PIX_FMT_RGB565BE: c->chrToYV12 = rgb16beToUV_half_c; break;
         case PIX_FMT_RGB555LE: c->chrToYV12 = rgb15leToUV_half_c; break;
         case PIX_FMT_RGB555BE: c->chrToYV12 = rgb15beToUV_half_c; break;
+        case PIX_FMT_GBR24P  : c->chrToYV12 = gbr24pToUV_half_c;  break;
         case PIX_FMT_RGB444LE: c->chrToYV12 = rgb12leToUV_half_c; break;
         case PIX_FMT_RGB444BE: c->chrToYV12 = rgb12beToUV_half_c; break;
         }
     } else {
         switch(srcFormat) {
+        case PIX_FMT_RGBA64BE: c->chrToYV12 = rgb64BEToUV_c; break;
+        case PIX_FMT_RGBA64LE: c->chrToYV12 = rgb64LEToUV_c; break;
         case PIX_FMT_RGB48BE : c->chrToYV12 = rgb48BEToUV_c; break;
         case PIX_FMT_RGB48LE : c->chrToYV12 = rgb48LEToUV_c; break;
         case PIX_FMT_BGR48BE : c->chrToYV12 = bgr48BEToUV_c; break;
@@ -748,14 +878,19 @@ av_cold void ff_sws_init_input_funcs(SwsContext *c)
     case PIX_FMT_RGB48LE: c->lumToYV12 = rgb48LEToY_c; break;
     case PIX_FMT_BGR48BE: c->lumToYV12 = bgr48BEToY_c; break;
     case PIX_FMT_BGR48LE: c->lumToYV12 = bgr48LEToY_c; break;
+    case PIX_FMT_RGBA64BE:c->lumToYV12 = rgb64BEToY_c; break;
+    case PIX_FMT_RGBA64LE:c->lumToYV12 = rgb64LEToY_c; break;
     }
     if (c->alpPixBuf) {
         switch (srcFormat) {
+        case PIX_FMT_RGBA64LE:
+        case PIX_FMT_RGBA64BE:  c->alpToYV12 = rgba64ToA_c; break;
         case PIX_FMT_BGRA:
         case PIX_FMT_RGBA:  c->alpToYV12 = rgbaToA_c; break;
         case PIX_FMT_ABGR:
         case PIX_FMT_ARGB:  c->alpToYV12 = abgrToA_c; break;
         case PIX_FMT_Y400A: c->alpToYV12 = uyvyToY_c; break;
+        case PIX_FMT_PAL8 : c->alpToYV12 = palToA_c; break;
         }
     }
 }

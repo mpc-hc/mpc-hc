@@ -267,10 +267,12 @@ yuv2planeX_fn  9,  7, 5
 yuv2planeX_fn 10,  7, 5
 yuv2planeX_fn 16,  8, 5
 
+%if HAVE_AVX
 INIT_XMM avx
 yuv2planeX_fn  8, 10, 7
 yuv2planeX_fn  9,  7, 5
 yuv2planeX_fn 10,  7, 5
+%endif
 
 ; %1=outout-bpc, %2=alignment (u/a)
 %macro yuv2plane1_mainloop 2
@@ -405,8 +407,10 @@ yuv2plane1_fn 16, 6, 3
 INIT_XMM sse4
 yuv2plane1_fn 16, 5, 3
 
+%if HAVE_AVX
 INIT_XMM avx
 yuv2plane1_fn  8, 5, 5
 yuv2plane1_fn  9, 5, 3
 yuv2plane1_fn 10, 5, 3
 yuv2plane1_fn 16, 5, 3
+%endif

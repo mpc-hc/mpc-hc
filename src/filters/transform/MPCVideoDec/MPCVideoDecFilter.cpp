@@ -1529,29 +1529,13 @@ unsigned __int64 CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 	return FF_CSP_NULL;
 }
 
-void swsInitParams(SwsParams *params,int resizeMethod)
-{
-	memset(params, 0, sizeof(*params));
-	params->methodLuma.method = params->methodChroma.method = resizeMethod;
-	params->methodLuma.param[0] = params->methodChroma.param[0] = SWS_PARAM_DEFAULT;
-	params->methodLuma.param[1] = params->methodChroma.param[1] = SWS_PARAM_DEFAULT;
-}
-void swsInitParams(SwsParams *params,int resizeMethod,int flags)
-{
-	swsInitParams(params, resizeMethod);
-	params->methodLuma.method |= flags;
-	params->methodChroma.method |= flags;
-}
-
 void CMPCVideoDecFilter::InitSwscale()
 {
 	if (m_pSwsContext == NULL) {
 		BITMAPINFOHEADER bihOut;
 		ExtractBIH(&m_pOutput->CurrentMediaType(), &bihOut);
 
-		int sws_Flags = SWS_FULL_CHR_H_INT | SWS_FULL_CHR_H_INP | SWS_ACCURATE_RND;
-		SwsParams params;
-		swsInitParams(&params, SWS_BILINEAR, sws_Flags);
+		int sws_Flags = SWS_BILINEAR | SWS_FULL_CHR_H_INT | SWS_FULL_CHR_H_INP | SWS_ACCURATE_RND;
 
 		m_nOutCsp = GetCspFromMediaType(m_pOutput->CurrentMediaType().subtype);
 
@@ -1571,9 +1555,7 @@ void CMPCVideoDecFilter::InitSwscale()
 							sws_Flags|SWS_PRINT_INFO,
 							NULL,
 							NULL,
-							NULL,
-							&params,
-							(m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber()));
+							NULL);
 
 		m_nSwOutBpp		= bihOut.biBitCount;
 		m_pOutSize.cx	= bihOut.biWidth;
@@ -1640,13 +1622,6 @@ static int64_t process_rv_timestamp(RMDemuxContext *rm, enum CodecID nCodecId, u
 		rm->video_after_seek = false;
 	}
 	return rm_fix_timestamp(buf, timestamp, nCodecId, &rm->kf_base, &rm->kf_pts);
-}
-
-template<class T> inline T odd2even(T x)
-{
-	return x&1 ?
-		   x + 1 :
-		   x;
 }
 
 void copyPlane(BYTE *dstp, stride_t dst_pitch, const BYTE *srcp, stride_t src_pitch, int row_size, int height, bool flip = false)

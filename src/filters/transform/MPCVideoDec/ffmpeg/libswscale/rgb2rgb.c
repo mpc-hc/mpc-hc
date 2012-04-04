@@ -6,20 +6,20 @@
  * Written by Nick Kurshev.
  * palette & YUV & runtime CPU stuff by Michael (michaelni@gmx.at)
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -180,13 +180,13 @@ void rgb16tobgr32(const uint8_t *src, uint8_t *dst, int src_size)
         register uint16_t bgr = *s++;
 #if HAVE_BIGENDIAN
         *d++ = 255;
-        *d++ = (bgr & 0x1F)   << 3;
-        *d++ = (bgr & 0x7E0)  >> 3;
-        *d++ = (bgr & 0xF800) >> 8;
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
+        *d++ = ((bgr&0x07E0)>>3) | ((bgr&0x07E0)>> 9);
+        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
 #else
-        *d++ = (bgr & 0xF800) >> 8;
-        *d++ = (bgr & 0x7E0)  >> 3;
-        *d++ = (bgr & 0x1F)   << 3;
+        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
+        *d++ = ((bgr&0x07E0)>>3) | ((bgr&0x07E0)>> 9);
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
         *d++ = 255;
 #endif
     }
@@ -219,9 +219,9 @@ void rgb16to24(const uint8_t *src, uint8_t *dst, int src_size)
 
     while (s < end) {
         register uint16_t bgr = *s++;
-        *d++ = (bgr & 0xF800) >> 8;
-        *d++ = (bgr & 0x7E0)  >> 3;
-        *d++ = (bgr & 0x1F)   << 3;
+        *d++ = ((bgr&0xF800)>>8) | ((bgr&0xF800)>>13);
+        *d++ = ((bgr&0x07E0)>>3) | ((bgr&0x07E0)>> 9);
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
     }
 }
 
@@ -255,13 +255,13 @@ void rgb15tobgr32(const uint8_t *src, uint8_t *dst, int src_size)
         register uint16_t bgr = *s++;
 #if HAVE_BIGENDIAN
         *d++ = 255;
-        *d++ = (bgr & 0x1F)   << 3;
-        *d++ = (bgr & 0x3E0)  >> 2;
-        *d++ = (bgr & 0x7C00) >> 7;
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
+        *d++ = ((bgr&0x03E0)>>2) | ((bgr&0x03E0)>> 7);
+        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
 #else
-        *d++ = (bgr & 0x7C00) >> 7;
-        *d++ = (bgr & 0x3E0)  >> 2;
-        *d++ = (bgr & 0x1F)   << 3;
+        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
+        *d++ = ((bgr&0x03E0)>>2) | ((bgr&0x03E0)>> 7);
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
         *d++ = 255;
 #endif
     }
@@ -275,9 +275,9 @@ void rgb15to24(const uint8_t *src, uint8_t *dst, int src_size)
 
     while (s < end) {
         register uint16_t bgr = *s++;
-        *d++ = (bgr & 0x7C00) >> 7;
-        *d++ = (bgr & 0x3E0)  >> 2;
-        *d++ = (bgr & 0x1F)   << 3;
+        *d++ = ((bgr&0x7C00)>>7) | ((bgr&0x7C00)>>12);
+        *d++ = ((bgr&0x03E0)>>2) | ((bgr&0x03E0)>> 7);
+        *d++ = ((bgr&0x001F)<<3) | ((bgr&0x001F)>> 2);
     }
 }
 
@@ -314,18 +314,6 @@ void rgb12tobgr12(const uint8_t *src, uint8_t *dst, int src_size)
     }
 }
 
-void bgr8torgb8(const uint8_t *src, uint8_t *dst, int src_size)
-{
-    int i, num_pixels = src_size;
-
-    for (i = 0; i < num_pixels; i++) {
-        register uint8_t rgb = src[i];
-        unsigned r           = (rgb & 0x07);
-        unsigned g           = (rgb & 0x38) >> 3;
-        unsigned b           = (rgb & 0xC0) >> 6;
-        dst[i]               = ((b << 1) & 0x07) | ((g & 0x07) << 3) | ((r & 0x03) << 6);
-    }
-}
 
 #define DEFINE_SHUFFLE_BYTES(a, b, c, d)                                \
 void shuffle_bytes_ ## a ## b ## c ## d(const uint8_t *src,             \

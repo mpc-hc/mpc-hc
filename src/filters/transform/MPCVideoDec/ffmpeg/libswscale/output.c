@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2001-2003 Michael Niedermayer <michaelni@gmx.at>
+ * Copyright (C) 2001-2012 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include "libavutil/avutil.h"
+#include "libavutil/avassert.h"
 #include "libavutil/bswap.h"
 #include "libavutil/cpu.h"
 #include "libavutil/intreadwrite.h"
@@ -135,7 +136,8 @@ yuv2plane1_16_c_template(const int32_t *src, uint16_t *dest, int dstW,
                          int big_endian, int output_bits)
 {
     int i;
-    int shift = 19 - output_bits;
+    int shift = 3;
+    av_assert0(output_bits == 16);
 
     for (i = 0; i < dstW; i++) {
         int val = src[i] + (1 << (shift - 1));
@@ -149,10 +151,11 @@ yuv2planeX_16_c_template(const int16_t *filter, int filterSize,
                          int big_endian, int output_bits)
 {
     int i;
-    int shift = 15 + 16 - output_bits;
+    int shift = 15;
+    av_assert0(output_bits == 16);
 
     for (i = 0; i < dstW; i++) {
-        int val = 1 << (30-output_bits);
+        int val = 1 << (shift - 1);
         int j;
 
         /* range of val is [0,0x7FFFFFFF], so 31 bits, but with lanczos/spline
@@ -199,7 +202,7 @@ yuv2planeX_10_c_template(const int16_t *filter, int filterSize,
     int shift = 11 + 16 - output_bits;
 
     for (i = 0; i < dstW; i++) {
-        int val = 1 << (26-output_bits);
+        int val = 1 << (shift - 1);
         int j;
 
         for (j = 0; j < filterSize; j++)
@@ -388,14 +391,14 @@ yuv2mono_1_c_template(SwsContext *c, const int16_t *buf0,
     for (i = 0; i < dstW - 7; i += 8) {
         int acc = 0;
 
-        accumulate_bit(acc, (buf0[i + 0] >> 7) + d128[0]);
-        accumulate_bit(acc, (buf0[i + 1] >> 7) + d128[1]);
-        accumulate_bit(acc, (buf0[i + 2] >> 7) + d128[2]);
-        accumulate_bit(acc, (buf0[i + 3] >> 7) + d128[3]);
-        accumulate_bit(acc, (buf0[i + 4] >> 7) + d128[4]);
-        accumulate_bit(acc, (buf0[i + 5] >> 7) + d128[5]);
-        accumulate_bit(acc, (buf0[i + 6] >> 7) + d128[6]);
-        accumulate_bit(acc, (buf0[i + 7] >> 7) + d128[7]);
+        accumulate_bit(acc, ((buf0[i + 0] + 64) >> 7) + d128[0]);
+        accumulate_bit(acc, ((buf0[i + 1] + 64) >> 7) + d128[1]);
+        accumulate_bit(acc, ((buf0[i + 2] + 64) >> 7) + d128[2]);
+        accumulate_bit(acc, ((buf0[i + 3] + 64) >> 7) + d128[3]);
+        accumulate_bit(acc, ((buf0[i + 4] + 64) >> 7) + d128[4]);
+        accumulate_bit(acc, ((buf0[i + 5] + 64) >> 7) + d128[5]);
+        accumulate_bit(acc, ((buf0[i + 6] + 64) >> 7) + d128[6]);
+        accumulate_bit(acc, ((buf0[i + 7] + 64) >> 7) + d128[7]);
 
         output_pixel(*dest++, acc);
     }
@@ -511,10 +514,12 @@ yuv2422_2_c_template(SwsContext *c, const int16_t *buf[2],
         int U  = (ubuf0[i]        * uvalpha1 + ubuf1[i]        * uvalpha) >> 19;
         int V  = (vbuf0[i]        * uvalpha1 + vbuf1[i]        * uvalpha) >> 19;
 
-        Y1 = av_clip_uint8(Y1);
-        Y2 = av_clip_uint8(Y2);
-        U  = av_clip_uint8(U);
-        V  = av_clip_uint8(V);
+        if ((Y1 | Y2 | U | V) & 0x100) {
+            Y1 = av_clip_uint8(Y1);
+            Y2 = av_clip_uint8(Y2);
+            U  = av_clip_uint8(U);
+            V  = av_clip_uint8(V);
+        }
 
         output_pixels(i * 4, Y1, U, Y2, V);
     }
@@ -531,10 +536,17 @@ yuv2422_1_c_template(SwsContext *c, const int16_t *buf0,
 
     if (uvalpha < 2048) {
         for (i = 0; i < (dstW >> 1); i++) {
-            int Y1 = buf0[i * 2]     >> 7;
-            int Y2 = buf0[i * 2 + 1] >> 7;
-            int U  = ubuf0[i]        >> 7;
-            int V  = vbuf0[i]        >> 7;
+            int Y1 = (buf0[i * 2    ]+64) >> 7;
+            int Y2 = (buf0[i * 2 + 1]+64) >> 7;
+            int U  = (ubuf0[i]       +64) >> 7;
+            int V  = (vbuf0[i]       +64) >> 7;
+
+            if ((Y1 | Y2 | U | V) & 0x100) {
+                Y1 = av_clip_uint8(Y1);
+                Y2 = av_clip_uint8(Y2);
+                U  = av_clip_uint8(U);
+                V  = av_clip_uint8(V);
+            }
 
             Y1 = av_clip_uint8(Y1);
             Y2 = av_clip_uint8(Y2);
@@ -546,10 +558,17 @@ yuv2422_1_c_template(SwsContext *c, const int16_t *buf0,
     } else {
         const int16_t *ubuf1 = ubuf[1], *vbuf1 = vbuf[1];
         for (i = 0; i < (dstW >> 1); i++) {
-            int Y1 =  buf0[i * 2]          >> 7;
-            int Y2 =  buf0[i * 2 + 1]      >> 7;
-            int U  = (ubuf0[i] + ubuf1[i]) >> 8;
-            int V  = (vbuf0[i] + vbuf1[i]) >> 8;
+            int Y1 = (buf0[i * 2    ]    + 64) >> 7;
+            int Y2 = (buf0[i * 2 + 1]    + 64) >> 7;
+            int U  = (ubuf0[i] + ubuf1[i]+128) >> 8;
+            int V  = (vbuf0[i] + vbuf1[i]+128) >> 8;
+
+            if ((Y1 | Y2 | U | V) & 0x100) {
+                Y1 = av_clip_uint8(Y1);
+                Y2 = av_clip_uint8(Y2);
+                U  = av_clip_uint8(U);
+                V  = av_clip_uint8(V);
+            }
 
             Y1 = av_clip_uint8(Y1);
             Y2 = av_clip_uint8(Y2);
@@ -807,7 +826,7 @@ YUV2PACKED16WRAPPER(yuv2, rgb48, bgr48le, PIX_FMT_BGR48LE)
  * correct RGB values into the destination buffer.
  */
 static av_always_inline void
-yuv2rgb_write(uint8_t *_dest, int i, unsigned Y1, unsigned Y2,
+yuv2rgb_write(uint8_t *_dest, int i, int Y1, int Y2,
               unsigned A1, unsigned A2,
               const void *_r, const void *_g, const void *_b, int y,
               enum PixelFormat target, int hasAlpha)
@@ -843,6 +862,7 @@ yuv2rgb_write(uint8_t *_dest, int i, unsigned Y1, unsigned Y2,
 
 #define r_b ((target == PIX_FMT_RGB24) ? r : b)
 #define b_r ((target == PIX_FMT_RGB24) ? b : r)
+
         dest[i * 6 + 0] = r_b[Y1];
         dest[i * 6 + 1] =   g[Y1];
         dest[i * 6 + 2] = b_r[Y1];
@@ -948,12 +968,6 @@ yuv2rgb_X_c_template(SwsContext *c, const int16_t *lumFilter,
         Y2 >>= 19;
         U  >>= 19;
         V  >>= 19;
-        if ((Y1 | Y2 | U | V) & 0x100) {
-            Y1 = av_clip_uint8(Y1);
-            Y2 = av_clip_uint8(Y2);
-            U  = av_clip_uint8(U);
-            V  = av_clip_uint8(V);
-        }
         if (hasAlpha) {
             A1 = 1 << 18;
             A2 = 1 << 18;
@@ -969,10 +983,9 @@ yuv2rgb_X_c_template(SwsContext *c, const int16_t *lumFilter,
             }
         }
 
-        /* FIXME fix tables so that clipping is not needed and then use _NOCLIP*/
-        r =  c->table_rV[V];
-        g = (c->table_gU[U] + c->table_gV[V]);
-        b =  c->table_bU[U];
+        r =  c->table_rV[V + YUVRGB_TABLE_HEADROOM];
+        g = (c->table_gU[U + YUVRGB_TABLE_HEADROOM] + c->table_gV[V + YUVRGB_TABLE_HEADROOM]);
+        b =  c->table_bU[U + YUVRGB_TABLE_HEADROOM];
 
         yuv2rgb_write(dest, i, Y1, Y2, hasAlpha ? A1 : 0, hasAlpha ? A2 : 0,
                       r, g, b, y, target, hasAlpha);
@@ -1001,9 +1014,9 @@ yuv2rgb_2_c_template(SwsContext *c, const int16_t *buf[2],
         int U  = (ubuf0[i]        * uvalpha1 + ubuf1[i]        * uvalpha) >> 19;
         int V  = (vbuf0[i]        * uvalpha1 + vbuf1[i]        * uvalpha) >> 19;
         int A1, A2;
-        const void *r =  c->table_rV[V],
-                   *g = (c->table_gU[U] + c->table_gV[V]),
-                   *b =  c->table_bU[U];
+        const void *r =  c->table_rV[V + YUVRGB_TABLE_HEADROOM],
+                   *g = (c->table_gU[U + YUVRGB_TABLE_HEADROOM] + c->table_gV[V + YUVRGB_TABLE_HEADROOM]),
+                   *b =  c->table_bU[U + YUVRGB_TABLE_HEADROOM];
 
         Y1 = av_clip_uint8(Y1);
         Y2 = av_clip_uint8(Y2);
@@ -1034,14 +1047,14 @@ yuv2rgb_1_c_template(SwsContext *c, const int16_t *buf0,
 
     if (uvalpha < 2048) {
         for (i = 0; i < (dstW >> 1); i++) {
-            int Y1 = buf0[i * 2]     >> 7;
-            int Y2 = buf0[i * 2 + 1] >> 7;
-            int U  = ubuf0[i]        >> 7;
-            int V  = vbuf0[i]        >> 7;
+            int Y1 = (buf0[i * 2    ] + 64) >> 7;
+            int Y2 = (buf0[i * 2 + 1] + 64) >> 7;
+            int U  = (ubuf0[i]        + 64) >> 7;
+            int V  = (vbuf0[i]        + 64) >> 7;
             int A1, A2;
-            const void *r =  c->table_rV[V],
-                       *g = (c->table_gU[U] + c->table_gV[V]),
-                       *b =  c->table_bU[U];
+            const void *r =  c->table_rV[V + YUVRGB_TABLE_HEADROOM],
+                       *g = (c->table_gU[U + YUVRGB_TABLE_HEADROOM] + c->table_gV[V + YUVRGB_TABLE_HEADROOM]),
+                       *b =  c->table_bU[U + YUVRGB_TABLE_HEADROOM];
 
             Y1 = av_clip_uint8(Y1);
             Y2 = av_clip_uint8(Y2);
@@ -1049,8 +1062,8 @@ yuv2rgb_1_c_template(SwsContext *c, const int16_t *buf0,
             V  = av_clip_uint8(V);
 
             if (hasAlpha) {
-                A1 = abuf0[i * 2    ] >> 7;
-                A2 = abuf0[i * 2 + 1] >> 7;
+                A1 = abuf0[i * 2    ] * 255 + 16384 >> 15;
+                A2 = abuf0[i * 2 + 1] * 255 + 16384 >> 15;
                 A1 = av_clip_uint8(A1);
                 A2 = av_clip_uint8(A2);
             }
@@ -1061,14 +1074,14 @@ yuv2rgb_1_c_template(SwsContext *c, const int16_t *buf0,
     } else {
         const int16_t *ubuf1 = ubuf[1], *vbuf1 = vbuf[1];
         for (i = 0; i < (dstW >> 1); i++) {
-            int Y1 =  buf0[i * 2]          >> 7;
-            int Y2 =  buf0[i * 2 + 1]      >> 7;
-            int U  = (ubuf0[i] + ubuf1[i]) >> 8;
-            int V  = (vbuf0[i] + vbuf1[i]) >> 8;
+            int Y1 = (buf0[i * 2    ]     +  64) >> 7;
+            int Y2 = (buf0[i * 2 + 1]     +  64) >> 7;
+            int U  = (ubuf0[i] + ubuf1[i] + 128) >> 8;
+            int V  = (vbuf0[i] + vbuf1[i] + 128) >> 8;
             int A1, A2;
-            const void *r =  c->table_rV[V],
-                       *g = (c->table_gU[U] + c->table_gV[V]),
-                       *b =  c->table_bU[U];
+            const void *r =  c->table_rV[V + YUVRGB_TABLE_HEADROOM],
+                       *g = (c->table_gU[U + YUVRGB_TABLE_HEADROOM] + c->table_gV[V + YUVRGB_TABLE_HEADROOM]),
+                       *b =  c->table_bU[U + YUVRGB_TABLE_HEADROOM];
 
             Y1 = av_clip_uint8(Y1);
             Y2 = av_clip_uint8(Y2);
@@ -1076,8 +1089,8 @@ yuv2rgb_1_c_template(SwsContext *c, const int16_t *buf0,
             V  = av_clip_uint8(V);
 
             if (hasAlpha) {
-                A1 = abuf0[i * 2    ] >> 7;
-                A2 = abuf0[i * 2 + 1] >> 7;
+                A1 = (abuf0[i * 2    ] + 64) >> 7;
+                A2 = (abuf0[i * 2 + 1] + 64) >> 7;
                 A1 = av_clip_uint8(A1);
                 A2 = av_clip_uint8(A2);
             }
@@ -1153,9 +1166,9 @@ yuv2rgb_full_X_c_template(SwsContext *c, const int16_t *lumFilter,
 
     for (i = 0; i < dstW; i++) {
         int j;
-        int Y = 0;
-        int U = -128 << 19;
-        int V = -128 << 19;
+        int Y = 1<<9;
+        int U = (1<<9)-(128 << 19);
+        int V = (1<<9)-(128 << 19);
         int R, G, B, A;
 
         for (j = 0; j < lumFilterSize; j++) {
@@ -1169,7 +1182,7 @@ yuv2rgb_full_X_c_template(SwsContext *c, const int16_t *lumFilter,
         U >>= 10;
         V >>= 10;
         if (hasAlpha) {
-            A = 1 << 21;
+            A = 1 << 18;
             for (j = 0; j < lumFilterSize; j++) {
                 A += alpSrc[j][i] * lumFilter[j];
             }
@@ -1212,7 +1225,6 @@ yuv2rgb_full_X_c_template(SwsContext *c, const int16_t *lumFilter,
             dest[1] = B >> 22;
             dest[2] = G >> 22;
             dest[3] = R >> 22;
-            dest += 4;
             break;
         case PIX_FMT_BGR24:
             dest[0] = B >> 22;
@@ -1343,7 +1355,10 @@ void ff_sws_init_output_funcs(SwsContext *c,
             *yuv2packedX = yuv2bgr24_full_X_c;
             break;
         }
+        if(!*yuv2packedX)
+            goto YUV_PACKED;
     } else {
+        YUV_PACKED:
         switch (dstFormat) {
         case PIX_FMT_RGB48LE:
             *yuv2packed1 = yuv2rgb48le_1_c;

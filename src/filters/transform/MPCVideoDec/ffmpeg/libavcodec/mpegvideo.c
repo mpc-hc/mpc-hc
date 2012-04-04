@@ -420,12 +420,12 @@ static int init_duplicate_context(MpegEncContext *s, MpegEncContext *base)
     // edge emu needs blocksize + filter length - 1
     // (= 17x17 for  halfpel / 21x21 for  h264)
     FF_ALLOCZ_OR_GOTO(s->avctx, s->edge_emu_buffer,
-                      (s->width + 64) * 2 * 21 * 2, fail);    // (width + edge + align)*interlaced*MBsize*tolerance
+                      (s->width + 95) * 2 * 21 * 4, fail);    // (width + edge + align)*interlaced*MBsize*tolerance
 
     // FIXME should be linesize instead of s->width * 2
     // but that is not known before get_buffer()
     FF_ALLOCZ_OR_GOTO(s->avctx, s->me.scratchpad,
-                      (s->width + 64) * 4 * 16 * 2 * sizeof(uint8_t), fail)
+                      (s->width + 95) * 4 * 16 * 2 * sizeof(uint8_t), fail)
     s->me.temp         = s->me.scratchpad;
     s->rd_scratchpad   = s->me.scratchpad;
     s->b_scratchpad    = s->me.scratchpad;
@@ -1136,6 +1136,11 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
            s->codec_id == CODEC_ID_SVQ3);
     */
     // ==> End patch MPC
+    if (!ff_thread_can_start_frame(avctx)) {
+        av_log(avctx, AV_LOG_ERROR, "Attempt to start a frame outside SETUP state\n");
+        return -1;
+    }
+
     /* mark & release old frames */
     if (s->out_format != FMT_H264 || s->codec_id == CODEC_ID_SVQ3) {
         if (s->pict_type != AV_PICTURE_TYPE_B && s->last_picture_ptr &&
@@ -1239,10 +1244,12 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
             i = ff_find_unused_picture(s, 0);
             if (i < 0)
                 return i;
-            s->last_picture_ptr= &s->picture[i];
+            s->last_picture_ptr = &s->picture[i];
             s->last_picture_ptr->f.key_frame = 0;
-            if (ff_alloc_picture(s, s->last_picture_ptr, 0) < 0)
+            if (ff_alloc_picture(s, s->last_picture_ptr, 0) < 0) {
+                s->last_picture_ptr = NULL;
                 return -1;
+            }
 
             if(s->codec_id == CODEC_ID_FLV1 || s->codec_id == CODEC_ID_H263){
                 for(i=0; i<avctx->height; i++)
@@ -1260,10 +1267,12 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
             i = ff_find_unused_picture(s, 0);
             if (i < 0)
                 return i;
-            s->next_picture_ptr= &s->picture[i];
+            s->next_picture_ptr = &s->picture[i];
             s->next_picture_ptr->f.key_frame = 0;
-            if (ff_alloc_picture(s, s->next_picture_ptr, 0) < 0)
+            if (ff_alloc_picture(s, s->next_picture_ptr, 0) < 0) {
+                s->next_picture_ptr = NULL;
                 return -1;
+            }
             ff_thread_report_progress(&s->next_picture_ptr->f, INT_MAX, 0);
             ff_thread_report_progress(&s->next_picture_ptr->f, INT_MAX, 1);
             s->next_picture_ptr->f.reference = 3;

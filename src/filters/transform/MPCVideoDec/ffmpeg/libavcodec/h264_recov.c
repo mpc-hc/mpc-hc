@@ -81,7 +81,7 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
         }
         while(ptr[dst_length - 1] == 0 && dst_length > 0)
             dst_length--;
-        bit_length= !dst_length ? 0 : (8*dst_length - ff_h264_decode_rbsp_trailing(h, ptr + dst_length - 1));
+        bit_length= !dst_length ? 0 : (8*dst_length - decode_rbsp_trailing(h, ptr + dst_length - 1));
 
         if (h->is_avc && (nalsize != consumed)){
             av_log(h->s.avctx, AV_LOG_ERROR, "AVC: Consumed only %d bytes instead of %d\n", consumed, nalsize);

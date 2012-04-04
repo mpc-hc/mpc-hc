@@ -1586,12 +1586,6 @@ static int mpeg_field_start(MpegEncContext *s, const uint8_t *buf, int buf_size)
             return -1;
         }
 
-        if (s->avctx->hwaccel &&
-            (s->avctx->slice_flags & SLICE_FLAG_ALLOW_FIELD)) {
-            if (s->avctx->hwaccel->end_frame(s->avctx) < 0)
-                av_log(avctx, AV_LOG_ERROR, "hardware accelerator failed to decode first field\n");
-        }
-
         for (i = 0; i < 4; i++) {
             s->current_picture.f.data[i] = s->current_picture_ptr->f.data[i];
             if (s->picture_structure == PICT_BOTTOM_FIELD) {
@@ -2494,13 +2488,13 @@ static int decode_chunks(AVCodecContext *avctx,
                 }
 
                 // ==> Start patch MPC
-				/*
+                /*
                 if (uses_vdpau(avctx)) {
                     s->slice_count++;
                     break;
                 }
-				*/
-                // <== End patch MPC				
+                */
+                // <== End patch MPC
 
                 if (HAVE_THREADS && (avctx->active_thread_type & FF_THREAD_SLICE)) {
                     int threshold = (s2->mb_height * s->slice_count +
@@ -2596,9 +2590,9 @@ AVCodec ff_mpeg2video_decoder = {
     .init           = mpeg_decode_init,
     .close          = mpeg_decode_end,
     .decode         = mpeg_decode_frame,
-// ==> Start patch MPC
+     // ==> Start patch MPC
     .capabilities   = CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY | CODEC_CAP_HWACCEL_VDPAU,
-// ==> End patch MPC
+     // ==> End patch MPC
     .flush          = flush,
     .max_lowres     = 3,
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-2 video"),

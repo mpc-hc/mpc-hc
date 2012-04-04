@@ -150,6 +150,10 @@ static av_cold int che_configure(AACContext *ac,
             ff_aac_sbr_ctx_init(ac, &ac->che[type][id]->sbr);
         }
         if (type != TYPE_CCE) {
+            if (*channels >= MAX_CHANNELS - (type == TYPE_CPE || (type == TYPE_SCE && ac->m4ac.ps == 1))) {
+                av_log(ac->avctx, AV_LOG_ERROR, "Too many channels\n");
+                return AVERROR_INVALIDDATA;
+            }
             ac->output_data[(*channels)++] = ac->che[type][id]->ch[0].ret;
             if (type == TYPE_CPE ||
                 (type == TYPE_SCE && ac->m4ac.ps == 1)) {
@@ -962,11 +966,11 @@ static int decode_ics_info(AACContext *ac, IndividualChannelStream *ics,
         if (ics->predictor_present) {
             if (ac->m4ac.object_type == AOT_AAC_MAIN) {
                 if (decode_prediction(ac, ics, gb)) {
-                    return AVERROR_INVALIDDATA;
+                    goto fail;
                 }
             } else if (ac->m4ac.object_type == AOT_AAC_LC) {
                 av_log(ac->avctx, AV_LOG_ERROR, "Prediction is not allowed in AAC-LC.\n");
-                return AVERROR_INVALIDDATA;
+                goto fail;
             } else {
                 if ((ics->ltp.present = get_bits(gb, 1)))
                     decode_ltp(ac, &ics->ltp, gb, ics->max_sfb);
@@ -978,10 +982,13 @@ static int decode_ics_info(AACContext *ac, IndividualChannelStream *ics,
         av_log(ac->avctx, AV_LOG_ERROR,
                "Number of scalefactor bands in group (%d) exceeds limit (%d).\n",
                ics->max_sfb, ics->num_swb);
-        return AVERROR_INVALIDDATA;
+        goto fail;
     }
 
     return 0;
+fail:
+    ics->max_sfb = 0;
+    return AVERROR_INVALIDDATA;
 }
 
 /**

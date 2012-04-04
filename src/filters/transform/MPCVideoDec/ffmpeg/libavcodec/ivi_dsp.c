@@ -55,6 +55,9 @@ void ff_ivi_recompose53(const IVIPlaneDesc *plane, uint8_t *dst,
     b3_ptr = plane->bands[3].buf;
 
     for (y = 0; y < plane->height; y += 2) {
+
+        if (y+2 >= plane->height)
+            pitch= 0;
         /* load storage variables with values */
         if (num_bands > 0) {
             b0_1 = b0_ptr[0];
@@ -84,6 +87,13 @@ void ff_ivi_recompose53(const IVIPlaneDesc *plane, uint8_t *dst,
         }
 
         for (x = 0, indx = 0; x < plane->width; x+=2, indx++) {
+            if (x+2 >= plane->width) {
+                b0_ptr --;
+                b1_ptr --;
+                b2_ptr --;
+                b3_ptr --;
+            }
+
             /* some values calculated in the previous iterations can */
             /* be reused in the next ones, so do appropriate copying */
             b2_1 = b2_2; // b2[x-1,y  ] = b2[x,  y  ]
@@ -171,10 +181,10 @@ void ff_ivi_recompose53(const IVIPlaneDesc *plane, uint8_t *dst,
 
         back_pitch = -pitch;
 
-        b0_ptr += pitch;
-        b1_ptr += pitch;
-        b2_ptr += pitch;
-        b3_ptr += pitch;
+        b0_ptr += pitch + 1;
+        b1_ptr += pitch + 1;
+        b2_ptr += pitch + 1;
+        b3_ptr += pitch + 1;
     }
 }
 
