@@ -12,12 +12,15 @@ Legend:
 ==============================
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
   reduce the amount of memory consumed by the player
+* Updated ffmpeg
+* Updated MediaInfoLib to v0.7.55
+* Updated French translation
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
-! Ticket #1182, unable to playback MPEG2 in AVI
+! Ticket #1182, Unable to playback MPEG2 in AVI
 ! Ticket #1589, Crash with "Null (uncompressed)"
 ! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on
 ! Ticket #2090, Better handling of font fallback in the MediaInfo dialog so that
   the font size is now correctly adapted to the font used
-! Ticket #2133, javascript error in player.html
+! Ticket #2133, Javascript error in "player.html"
 ! Ticket #2137, Disable animation when pressing the "Boss" key
