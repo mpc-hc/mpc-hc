@@ -13,7 +13,6 @@ Legend:
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
   reduce the amount of memory consumed by the player
 * Updated ffmpeg
-* Updated MediaInfoLib to v0.7.55
 * Updated French and Turkish translations
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter

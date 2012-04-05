@@ -203,7 +203,6 @@
     <ClInclude Include="MediaInfo\Multiple\File_Flv.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Gxf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Gxf_TimeCode.h" />
-    <ClInclude Include="MediaInfo\Multiple\File_Hls.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ibi.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ibi_Creation.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ism.h" />
@@ -376,7 +375,6 @@
     <ClCompile Include="MediaInfo\Multiple\File_Flv.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Gxf.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Gxf_TimeCode.cpp" />
-    <ClCompile Include="MediaInfo\Multiple\File_Hls.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Ibi.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Ibi_Creation.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Ism.cpp" />

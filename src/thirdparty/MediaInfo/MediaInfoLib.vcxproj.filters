@@ -251,9 +251,6 @@
     <ClInclude Include="MediaInfo\Multiple\File_Gxf_TimeCode.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
-    <ClInclude Include="MediaInfo\Multiple\File_Hls.h">
-      <Filter>Header Files\Multiple</Filter>
-    </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File_Ivf.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
@@ -737,9 +734,6 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Gxf_TimeCode.cpp">
-      <Filter>Source Files\Multiple</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Multiple\File_Hls.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Ivf.cpp">
