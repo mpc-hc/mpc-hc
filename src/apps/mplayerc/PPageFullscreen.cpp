@@ -379,7 +379,6 @@ void CPPageFullscreen::OnUpdateTimeout(CCmdUI* pCmdUI)
 void CPPageFullscreen::ModesUpdate()
 {
 	CMonitors monitors;
-	AppSettings& s = AfxGetAppSettings();
 
 	m_fSetFullscreenRes = m_AutoChangeFullscrRes.bEnabled;
 	CString sl2[MaxFpsCount];
@@ -627,7 +626,6 @@ void CPPageFullscreen::OnAdd()
 
 void CPPageFullscreen::OnUpdateAdd(CCmdUI* pCmdUI)
 {
-	POSITION pos = m_list.GetFirstSelectedItemPosition();
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2));
 }
 

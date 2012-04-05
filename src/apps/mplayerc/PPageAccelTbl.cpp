@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -1621,7 +1621,6 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = TRUE;
 
 	wmcmd& wc = m_wmcmds.GetAt((POSITION)m_list.GetItemData(pItem->iItem));
-	ACCEL& a = wc;
 
 	CAtlList<CString> sl;
 	int nSel = -1;
