@@ -1165,19 +1165,32 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 	if (m_tslen == 0) {
 		__int64 pos = GetPos();
+		int count	= 0;
 
 		for (int i = 0; i < 192; i++) {
 			if (BitRead(8, true) == 0x47) {
 				__int64 pos = GetPos();
 				Seek(pos + 188);
 				if (BitRead(8, true) == 0x47) {
+					if(m_tslen != 188) {
+						count = 0;
+					}
 					m_tslen = 188;    // TS stream
-					break;
+					if(count > 1) {
+						break;
+					}
+					count++;
 				}
 				Seek(pos + 192);
 				if (BitRead(8, true) == 0x47) {
+					if(m_tslen != 192) {
+						count = 0;
+					}
 					m_tslen = 192;    // M2TS stream
-					break;
+					if(count > 1) {
+						break;
+					}
+					count++;
 				}
 			}
 

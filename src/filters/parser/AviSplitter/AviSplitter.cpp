@@ -25,7 +25,7 @@
 #include "AviReportWnd.h"
 #include "AviSplitter.h"
 
-#define MAXPACKETS_AVI	MAXPACKETS*5
+#define MAXPACKETS_AVI	MAXPACKETS*10
 
 #ifdef REGISTER_FILTER
 
