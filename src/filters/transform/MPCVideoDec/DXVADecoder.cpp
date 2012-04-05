@@ -50,7 +50,6 @@ CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  p
 	m_pAMVideoAccelerator	= pAMVideoAccelerator;
 	m_dwBufferIndex			= 0;
 	m_nMaxWaiting			= 3;
-	m_bNeedChangeAspect		= true;
 
 	Init (pFilter, nMode, nPicEntryNumber);
 }
@@ -77,6 +76,7 @@ void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEnt
 	m_nPicEntryNumber	= nPicEntryNumber;
 	m_pPictureStore		= DNew PICTURE_STORE[nPicEntryNumber];
 	m_dwNumBuffersInfo	= 0;
+	m_bNeedChangeAspect	= true;
 
 	memset (&m_DXVA1Config, 0, sizeof(m_DXVA1Config));
 	memset (&m_DXVA1BufferDesc, 0, sizeof(m_DXVA1BufferDesc));

@@ -237,7 +237,7 @@ protected:
 
 public:
 	CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers = 0, int QueueMaxPackets = MAXPACKETS);
-	CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers = 0);
+	CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers = 0, int QueueMaxPackets = MAXPACKETS);
 	virtual ~CBaseSplitterOutputPin();
 
 	DECLARE_IUNKNOWN;

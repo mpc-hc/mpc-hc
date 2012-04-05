@@ -203,11 +203,12 @@ CBaseSplitterOutputPin::CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWS
 	m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
 }
 
-CBaseSplitterOutputPin::CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers)
+CBaseSplitterOutputPin::CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers, int QueueMaxPackets)
 	: CBaseOutputPin(NAME("CBaseSplitterOutputPin"), pFilter, pLock, phr, pName)
 	, m_hrDeliver(S_OK) // just in case it were asked before the worker thread could be created and reset it
 	, m_fFlushing(false)
 	, m_eEndFlush(TRUE)
+	, m_QueueMaxPackets(QueueMaxPackets)
 {
 	m_nBuffers = max(nBuffers, 1);
 	memset(&m_brs, 0, sizeof(m_brs));
