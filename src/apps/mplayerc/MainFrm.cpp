@@ -8651,15 +8651,19 @@ void CMainFrame::OnNavigateAngle(UINT nID)
 
 void CMainFrame::OnNavigateChapters(UINT nID)
 {
-	nID -= ID_NAVIGATE_CHAP_SUBITEM_START;
+	if (nID < ID_NAVIGATE_CHAP_SUBITEM_START) {
+		return;
+	}
 
 	if (GetPlaybackMode() == PM_FILE) {
-		if ((int)nID >= 0 && (nID < m_MPLSPlaylist.GetCount() && m_MPLSPlaylist.GetCount() > 1)) {
+		int id = nID - ID_NAVIGATE_CHAP_SUBITEM_START;
+
+		if (id < m_MPLSPlaylist.GetCount() && m_MPLSPlaylist.GetCount() > 1) {
 			POSITION pos = m_MPLSPlaylist.GetHeadPosition();
 			int idx = 0;
 			while (pos) {
 				CHdmvClipInfo::PlaylistItem Item = m_MPLSPlaylist.GetNext(pos);
-				if (idx == nID) {
+				if (idx == id) {
 					m_bIsBDPlay = true;
 					m_wndPlaylistBar.Empty();
 					CAtlList<CString> sl;
@@ -8673,31 +8677,31 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		}
 
 		if (m_MPLSPlaylist.GetCount() > 1) {
-			nID -= m_MPLSPlaylist.GetCount();
+			id -= m_MPLSPlaylist.GetCount();
 		}
 
-		if ((int)nID >= 0 && (nID < m_pCB->ChapGetCount() && m_pCB->ChapGetCount() > 1)) {
+		if (id >= 0 && id < m_pCB->ChapGetCount() && m_pCB->ChapGetCount() > 1) {
 			REFERENCE_TIME rt;
 			CComBSTR name;
-			if (SUCCEEDED(m_pCB->ChapGet(nID, &rt, &name))) {
+			if (SUCCEEDED(m_pCB->ChapGet(id, &rt, &name))) {
 				SeekTo(rt);
 				SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
 
 				REFERENCE_TIME rtDur;
 				pMS->GetDuration(&rtDur);
 				CString m_strOSD;
-				m_strOSD.Format(_T("%s/%s %s%d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), nID+1, m_pCB->ChapGetCount(), name);
+				m_strOSD.Format(_T("%s/%s %s%d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), id+1, m_pCB->ChapGetCount(), name);
 				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 			}
 			return;
 		}
 
 		if (m_pCB->ChapGetCount() > 1) {
-			nID -= m_pCB->ChapGetCount();
+			id -= m_pCB->ChapGetCount();
 		}
 
-		if ((int)nID >= 0 && (int)nID < m_wndPlaylistBar.GetCount() && m_wndPlaylistBar.GetSelIdx() != (int)nID) {
-			m_wndPlaylistBar.SetSelIdx(nID);
+		if (id >= 0 && id < m_wndPlaylistBar.GetCount() && m_wndPlaylistBar.GetSelIdx() != id) {
+			m_wndPlaylistBar.SetSelIdx(id);
 			OpenCurPlaylistItem();
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {
@@ -8712,15 +8716,15 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		ULONG ulNumOfChapters = 0;
 		pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
 
-		nID++;
+		nID -= (ID_NAVIGATE_CHAP_SUBITEM_START - 1);
 
-		if (nID > 0 && nID <= ulNumOfTitles) {
+		if (nID <= ulNumOfTitles) {
 			pDVDC->PlayTitle(nID, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL); // sometimes this does not do anything ...
 			pDVDC->PlayChapterInTitle(nID, 1, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL); // ... but this does!
 		} else {
 			nID -= ulNumOfTitles;
 
-			if (nID > 0 && nID <= ulNumOfChapters) {
+			if (nID <= ulNumOfChapters) {
 				pDVDC->PlayChapter(nID, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 			}
 		}
@@ -8745,6 +8749,8 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		}
 	} else if (GetPlaybackMode() == PM_CAPTURE) {
 		AppSettings& s = AfxGetAppSettings();
+
+		nID -= ID_NAVIGATE_CHAP_SUBITEM_START;
 
 		if (s.iDefaultCaptureDevice == 1) {
 			CComQIPtr<IBDATuner>	pTun = pGB;
