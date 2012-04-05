@@ -8658,7 +8658,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 	if (GetPlaybackMode() == PM_FILE) {
 		int id = nID - ID_NAVIGATE_CHAP_SUBITEM_START;
 
-		if (id < m_MPLSPlaylist.GetCount() && m_MPLSPlaylist.GetCount() > 1) {
+		if (id < (int)m_MPLSPlaylist.GetCount() && m_MPLSPlaylist.GetCount() > 1) {
 			POSITION pos = m_MPLSPlaylist.GetHeadPosition();
 			int idx = 0;
 			while (pos) {
@@ -8680,7 +8680,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			id -= m_MPLSPlaylist.GetCount();
 		}
 
-		if (id >= 0 && id < m_pCB->ChapGetCount() && m_pCB->ChapGetCount() > 1) {
+		if (id >= 0 && id < (int)m_pCB->ChapGetCount() && m_pCB->ChapGetCount() > 1) {
 			REFERENCE_TIME rt;
 			CComBSTR name;
 			if (SUCCEEDED(m_pCB->ChapGet(id, &rt, &name))) {
