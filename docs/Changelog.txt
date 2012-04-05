@@ -14,7 +14,7 @@ Legend:
   reduce the amount of memory consumed by the player
 * Updated ffmpeg
 * Updated MediaInfoLib to v0.7.55
-* Updated French translation
+* Updated French and Turkish translations
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
 ! Ticket #1182, Unable to playback MPEG2 in AVI
