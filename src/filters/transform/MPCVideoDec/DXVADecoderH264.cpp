@@ -149,6 +149,7 @@ void CDXVADecoderH264::Flush()
 	ClearRefFramesList();
 	m_DXVAPicParams.UsedForReferenceFlags	= 0;
 	m_nOutPOC								= INT_MIN;
+	m_nPrevOutPOC							= 0;
 
 	__super::Flush();
 }
@@ -172,7 +173,14 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		return S_FALSE;
 	}
 
-	TRACE_H264("CDXVADecoderH264::DecodeFrame() : nFramePOC = %d, nOutPOC = %d[%d], rtOutStart = %I64d\n", nFramePOC, nOutPOC, m_nOutPOC, rtOutStart);
+	if (nOutPOC == m_nPrevOutPOC && m_nOutPOC != INT_MIN) {
+		TRACE_H264 ("\nCDXVADecoderH264::DecodeFrame() : The same nOutPOC = %d\n", nOutPOC);
+		Flush();
+		m_bFlushed = false;
+		return S_FALSE;
+	}
+
+	TRACE_H264 ("CDXVADecoderH264::DecodeFrame() : nFramePOC = %d, nOutPOC = %d[%d], rtOutStart = %I64d\n", nFramePOC, nOutPOC, m_nOutPOC, rtOutStart);
 
 	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength);
 	while (Nalu.ReadNext()) {
@@ -259,6 +267,8 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		m_nOutPOC		= nOutPOC;
 		m_rtOutStart	= rtOutStart;
 	}
+
+	m_nPrevOutPOC = nOutPOC;
 
 	m_bFlushed = false;
 	return hr;
