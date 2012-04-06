@@ -39,32 +39,6 @@ extern "C" {
 	int mingw_app_type = 1;
 }
 
-void CorrectComboListWidth(CComboBox& box, CFont* pWndFont)
-{
-	int cnt = box.GetCount();
-	if (cnt <= 0) {
-		return;
-	}
-
-	CDC* pDC = box.GetDC();
-	pDC->SelectObject(pWndFont);
-
-	int maxw = box.GetDroppedWidth();
-
-	for (int i = 0; i < cnt; i++) {
-		CString str;
-		box.GetLBText(i, str);
-		int w = pDC->GetTextExtent(str).cx + 22;
-		if (maxw < w) {
-			maxw = w;
-		}
-	}
-
-	box.ReleaseDC(pDC);
-
-	box.SetDroppedWidth(maxw);
-}
-
 HICON LoadIcon(CString fn, bool fSmall)
 {
 	if (fn.IsEmpty()) {

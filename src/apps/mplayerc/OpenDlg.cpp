@@ -79,7 +79,7 @@ BOOL COpenDlg::OnInitDialog()
 		if (!MRU[i].IsEmpty()) {
 			m_mrucombo.AddString(MRU[i]);
 		}
-	CorrectComboListWidth(m_mrucombo, GetFont());
+	CorrectComboListWidth(m_mrucombo);
 
 	CRecentFileList& MRUDub = AfxGetAppSettings().MRUDub;
 	MRUDub.ReadList();
@@ -88,7 +88,7 @@ BOOL COpenDlg::OnInitDialog()
 		if (!MRUDub[i].IsEmpty()) {
 			m_mrucombo2.AddString(MRUDub[i]);
 		}
-	CorrectComboListWidth(m_mrucombo2, GetFont());
+	CorrectComboListWidth(m_mrucombo2);
 
 	if (m_mrucombo.GetCount() > 0) {
 		m_mrucombo.SetCurSel(0);

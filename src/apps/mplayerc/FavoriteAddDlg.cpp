@@ -64,7 +64,7 @@ BOOL CFavoriteAddDlg::OnInitDialog()
 		m_namectrl.AddString( m_fullname );
 	}
 
-	::CorrectComboListWidth( m_namectrl, GetFont() );
+	::CorrectComboListWidth(m_namectrl);
 
 	m_bRememberPos = AfxGetAppSettings().bFavRememberPos;
 	m_bRelativeDrive = AfxGetAppSettings().bFavRelativeDrive;

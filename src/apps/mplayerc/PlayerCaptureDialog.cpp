@@ -368,8 +368,8 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 	int iDim = dim.SetCurSel(dim.FindStringExact(0, tfa.MakeDimensionName(pfe)));
 	//	if (iDim < 0 && dim.GetCount()) dim.SetCurSel(iDim = 0);
 
-	CorrectComboListWidth(type, type.GetParent()->GetFont());
-	CorrectComboListWidth(dim, dim.GetParent()->GetFont());
+	CorrectComboListWidth(type);
+	CorrectComboListWidth(dim);
 
 	if (iDim >= 0) {
 		mt = ((CFormatElem<T>*)dim.GetItemData(iDim))->mt;
@@ -406,7 +406,7 @@ static bool SetupDimension(CFormatArray<T>& tfa, CComboBox& type, CComboBox& dim
 		dim.SetItemData(dim.AddString(tfa.MakeDimensionName(pfe)), (DWORD_PTR)pfe);
 	}
 
-	CorrectComboListWidth(dim, dim.GetParent()->GetFont());
+	CorrectComboListWidth(dim);
 
 	dim.SetCurSel(dim.FindStringExact(0, str));
 	dim.EnableWindow(dim.GetCount() > 0);
@@ -468,7 +468,7 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
 
 	box.EnableWindow(box.GetCount() > 1);
 
-	CorrectComboListWidth(box, box.GetParent()->GetFont());
+	CorrectComboListWidth(box);
 
 	LoadDefaultCodec(codecs, box, cat);
 }

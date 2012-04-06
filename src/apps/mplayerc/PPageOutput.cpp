@@ -190,7 +190,7 @@ BOOL CPPageOutput::OnInitDialog()
 	}
 
 
-	CorrectComboListWidth(m_iAudioRendererTypeCtrl, GetFont());
+	CorrectComboListWidth(m_iAudioRendererTypeCtrl);
 
 	//
 	IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
@@ -231,7 +231,7 @@ BOOL CPPageOutput::OnInitDialog()
 		pD3D->Release();
 	}
 
-	CorrectComboListWidth(m_iD3D9RenderDeviceCtrl, GetFont());
+	CorrectComboListWidth(m_iD3D9RenderDeviceCtrl);
 
 	UpdateData(FALSE);
 

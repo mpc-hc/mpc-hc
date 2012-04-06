@@ -777,7 +777,7 @@ CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CS
 	CComboBox* pComboBox = DNew CInPlaceComboBox(nItem, nCol, lstItems, nSel);
 	pComboBox->Create(dwStyle, rect, this, IDC_COMBO1);
 
-	CorrectComboListWidth(*pComboBox, GetFont());
+	CorrectComboListWidth(*pComboBox);
 
 	int width = GetColumnWidth(nCol);
 	if (pComboBox->GetDroppedWidth() < width) {

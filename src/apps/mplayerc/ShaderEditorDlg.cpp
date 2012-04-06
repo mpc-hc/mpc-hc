@@ -248,7 +248,7 @@ BOOL CShaderEditorDlg::Create(CWnd* pParent)
 		const AppSettings::Shader& s = AfxGetAppSettings().m_shaders.GetNext(pos);
 		m_labels.SetItemDataPtr(m_labels.AddString(s.label), (void*)&s);
 	}
-	CorrectComboListWidth(m_labels, GetFont());
+	CorrectComboListWidth(m_labels);
 
 	m_nIDEventShader = SetTimer(1, 1000, NULL);
 
