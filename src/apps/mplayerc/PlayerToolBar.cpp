@@ -111,10 +111,9 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 			CDC dc;
 			dc.CreateCompatibleDC(NULL);
 
-			BITMAPINFOHEADER bih;
-			bih.biSize = sizeof(BITMAPINFOHEADER);
-			GetDIBits(dc, hBmp, 0, 0, NULL, reinterpret_cast<BITMAPINFO*>(&bih), DIB_RGB_COLORS);
-			int fileDepth = bih.biBitCount;
+			DIBSECTION dib;
+			::GetObject(hBmp, sizeof(dib), &dib);
+			int fileDepth = dib.dsBmih.biBitCount;
 			CImageList *imageList = new CImageList();
 			if (32 == fileDepth) {
 				imageList->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR32 | ILC_MASK, 1, 0);
