@@ -617,7 +617,6 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 					break;
 			}
 
-
 #if defined(_DEBUG) && 0
 			static REFERENCE_TIME	rtLast = 0;
 			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d) {Delta = %10I64d}   Ind = %02d  Codec=%d  Ref=%d\n",
@@ -716,4 +715,27 @@ BYTE CDXVADecoder::GetConfigIntraResidUnsigned()
 			return m_DXVA2Config.ConfigIntraResidUnsigned;
 	}
 	return 0;
+}
+
+void CDXVADecoder::EndOfStream()
+{
+	CComPtr<IMediaSample>	pSampleToDeliver;
+
+	for (int nPicIndex=0; nPicIndex<m_nPicEntryNumber; nPicIndex++) {
+		if (m_pPictureStore[nPicIndex].bInUse && !m_pPictureStore[nPicIndex].bDisplayed) {
+			switch (m_nEngine) {
+				// TODO - need check under WinXP on DXVA1
+				/*
+				case ENGINE_DXVA1 :
+					if (SUCCEEDED (GetDeliveryBuffer (m_pPictureStore[nPicIndex].rtStart, m_pPictureStore[nPicIndex].rtStop, &pSampleToDeliver)) && pSampleToDeliver) {
+						m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
+					}
+					break;
+				*/
+				case ENGINE_DXVA2 :
+					m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
+					break;
+			}
+		}
+	}
 }

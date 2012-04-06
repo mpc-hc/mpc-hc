@@ -223,6 +223,8 @@ public:
 	HRESULT			CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
 	HRESULT			DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 	HRESULT			NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate);
+	HRESULT			EndOfStream();
+
 	HRESULT			BreakConnect(PIN_DIRECTION dir);
 
 

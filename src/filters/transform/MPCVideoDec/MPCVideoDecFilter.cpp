@@ -1469,6 +1469,20 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	return __super::NewSegment (rtStart, rtStop, dRate);
 }
 
+HRESULT CMPCVideoDecFilter::EndOfStream()
+{
+	CAutoLock cAutoLock(&m_csReceive);
+
+	if (m_nDXVAMode == MODE_SOFTWARE) {
+		REFERENCE_TIME rtStart = 0, rtStop = 0;
+		SoftwareDecode(NULL, NULL, 0, rtStart, rtStop);
+	} else if(m_nDXVAMode == MODE_DXVA2) { // TODO - need check under WinXP on DXVA1
+		m_pDXVADecoder->EndOfStream();
+	}
+
+	return __super::EndOfStream();
+}
+
 HRESULT CMPCVideoDecFilter::BreakConnect(PIN_DIRECTION dir)
 {
 	if (dir == PINDIR_INPUT) {
@@ -1721,7 +1735,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			continue;
 		}
 
-		if (pIn->IsPreroll() == S_OK || rtStart < 0) {
+		if ((pIn && pIn->IsPreroll() == S_OK) || rtStart < 0) {
 			return S_OK;
 		}
 
