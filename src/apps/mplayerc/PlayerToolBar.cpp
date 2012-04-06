@@ -37,12 +37,16 @@ typedef HRESULT (__stdcall * SetWindowThemeFunct)(HWND hwnd, LPCWSTR pszSubAppNa
 
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
 CPlayerToolBar::CPlayerToolBar()
-	: m_nButtonHeight(16)
+	: m_nButtonHeight(16), m_pButtonsImages(NULL)
 {
 }
 
 CPlayerToolBar::~CPlayerToolBar()
 {
+	if (NULL != m_pButtonsImages) {
+		delete m_pButtonsImages;
+		m_pButtonsImages = NULL;
+	}
 }
 
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
@@ -114,16 +118,16 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 			DIBSECTION dib;
 			::GetObject(hBmp, sizeof(dib), &dib);
 			int fileDepth = dib.dsBmih.biBitCount;
-			CImageList *imageList = new CImageList();
+			m_pButtonsImages = new CImageList();
 			if (32 == fileDepth) {
-				imageList->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR32 | ILC_MASK, 1, 0);
-				imageList->Add(bmp, static_cast<CBitmap*>(0));	// alpha is the mask
+				m_pButtonsImages->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR32 | ILC_MASK, 1, 0);
+				m_pButtonsImages->Add(bmp, static_cast<CBitmap*>(0));	// alpha is the mask
 			} else {
-				imageList->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR24 | ILC_MASK, 1, 0);
-				imageList->Add(bmp, RGB(255, 0, 255));
+				m_pButtonsImages->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR24 | ILC_MASK, 1, 0);
+				m_pButtonsImages->Add(bmp, RGB(255, 0, 255));
 			}
 			m_nButtonHeight = bitmapBmp.bmHeight;
-			GetToolBarCtrl().SetImageList(imageList);
+			GetToolBarCtrl().SetImageList(m_pButtonsImages);
 		}
 		delete bmp;
 		DeleteObject(hBmp);

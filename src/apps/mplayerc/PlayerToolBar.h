@@ -37,6 +37,7 @@ private:
 	void SetMute(bool fMute = true);
 	int getHitButtonIdx(CPoint point);
 	int m_nButtonHeight;
+	CImageList *m_pButtonsImages;
 
 public:
 	CPlayerToolBar();
