@@ -11,11 +11,6 @@ Abstract:
     This module contains structures and definitions
     associated with CDROM IOCTls.
 
-Author:
-
-    Mike Glass
-
-Revision History:
 
 --*/
 
@@ -23,6 +18,12 @@ Revision History:
 
 #ifndef _NTDDCDRM_
 #define _NTDDCDRM_
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #if _MSC_VER >= 1200
 #pragma warning(push)
@@ -57,25 +58,37 @@ extern "C" {
 // CDROM Audio Device Control Functions
 //
 
-#define IOCTL_CDROM_READ_TOC         CTL_CODE(IOCTL_CDROM_BASE, 0x0000, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_SEEK_AUDIO_MSF   CTL_CODE(IOCTL_CDROM_BASE, 0x0001, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_STOP_AUDIO       CTL_CODE(IOCTL_CDROM_BASE, 0x0002, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_PAUSE_AUDIO      CTL_CODE(IOCTL_CDROM_BASE, 0x0003, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_RESUME_AUDIO     CTL_CODE(IOCTL_CDROM_BASE, 0x0004, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_GET_VOLUME       CTL_CODE(IOCTL_CDROM_BASE, 0x0005, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_PLAY_AUDIO_MSF   CTL_CODE(IOCTL_CDROM_BASE, 0x0006, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_SET_VOLUME       CTL_CODE(IOCTL_CDROM_BASE, 0x000A, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_READ_Q_CHANNEL   CTL_CODE(IOCTL_CDROM_BASE, 0x000B, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_GET_CONTROL      CTL_CODE(IOCTL_CDROM_BASE, 0x000D, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_GET_LAST_SESSION CTL_CODE(IOCTL_CDROM_BASE, 0x000E, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_RAW_READ         CTL_CODE(IOCTL_CDROM_BASE, 0x000F, METHOD_OUT_DIRECT,  FILE_READ_ACCESS)
-#define IOCTL_CDROM_DISK_TYPE        CTL_CODE(IOCTL_CDROM_BASE, 0x0010, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define IOCTL_CDROM_READ_TOC              CTL_CODE(IOCTL_CDROM_BASE, 0x0000, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_SEEK_AUDIO_MSF        CTL_CODE(IOCTL_CDROM_BASE, 0x0001, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_STOP_AUDIO            CTL_CODE(IOCTL_CDROM_BASE, 0x0002, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_PAUSE_AUDIO           CTL_CODE(IOCTL_CDROM_BASE, 0x0003, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_RESUME_AUDIO          CTL_CODE(IOCTL_CDROM_BASE, 0x0004, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_GET_VOLUME            CTL_CODE(IOCTL_CDROM_BASE, 0x0005, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_PLAY_AUDIO_MSF        CTL_CODE(IOCTL_CDROM_BASE, 0x0006, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_SET_VOLUME            CTL_CODE(IOCTL_CDROM_BASE, 0x000A, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_READ_Q_CHANNEL        CTL_CODE(IOCTL_CDROM_BASE, 0x000B, METHOD_BUFFERED, FILE_READ_ACCESS)
+#if (NTDDI_VERSION < NTDDI_WS03)
+#define IOCTL_CDROM_GET_CONTROL           CTL_CODE(IOCTL_CDROM_BASE, 0x000D, METHOD_BUFFERED, FILE_READ_ACCESS)
+#else
+#define OBSOLETE_IOCTL_CDROM_GET_CONTROL  CTL_CODE(IOCTL_CDROM_BASE, 0x000D, METHOD_BUFFERED, FILE_READ_ACCESS)
+#endif
+#define IOCTL_CDROM_GET_LAST_SESSION      CTL_CODE(IOCTL_CDROM_BASE, 0x000E, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_RAW_READ              CTL_CODE(IOCTL_CDROM_BASE, 0x000F, METHOD_OUT_DIRECT,  FILE_READ_ACCESS)
+#define IOCTL_CDROM_DISK_TYPE             CTL_CODE(IOCTL_CDROM_BASE, 0x0010, METHOD_BUFFERED, FILE_ANY_ACCESS)
 
 #define IOCTL_CDROM_GET_DRIVE_GEOMETRY    CTL_CODE(IOCTL_CDROM_BASE, 0x0013, METHOD_BUFFERED, FILE_READ_ACCESS)
 #define IOCTL_CDROM_GET_DRIVE_GEOMETRY_EX CTL_CODE(IOCTL_CDROM_BASE, 0x0014, METHOD_BUFFERED, FILE_READ_ACCESS)
 
-#define IOCTL_CDROM_READ_TOC_EX       CTL_CODE(IOCTL_CDROM_BASE, 0x0015, METHOD_BUFFERED, FILE_READ_ACCESS)
-#define IOCTL_CDROM_GET_CONFIGURATION CTL_CODE(IOCTL_CDROM_BASE, 0x0016, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_READ_TOC_EX           CTL_CODE(IOCTL_CDROM_BASE, 0x0015, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_GET_CONFIGURATION     CTL_CODE(IOCTL_CDROM_BASE, 0x0016, METHOD_BUFFERED, FILE_READ_ACCESS)
+
+#define IOCTL_CDROM_EXCLUSIVE_ACCESS      CTL_CODE(IOCTL_CDROM_BASE, 0x0017, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS)
+#define IOCTL_CDROM_SET_SPEED             CTL_CODE(IOCTL_CDROM_BASE, 0x0018, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_GET_INQUIRY_DATA      CTL_CODE(IOCTL_CDROM_BASE, 0x0019, METHOD_BUFFERED, FILE_READ_ACCESS)
+
+#define IOCTL_CDROM_ENABLE_STREAMING      CTL_CODE(IOCTL_CDROM_BASE, 0x001A, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_SEND_OPC_INFORMATION  CTL_CODE(IOCTL_CDROM_BASE, 0x001B, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS)
+#define IOCTL_CDROM_GET_PERFORMANCE       CTL_CODE(IOCTL_CDROM_BASE, 0x001C, METHOD_BUFFERED, FILE_READ_ACCESS)
 
 // end_winioctl
 
@@ -103,12 +116,16 @@ extern "C" {
 
 // begin_winioctl
 
+
+#define MINIMUM_CDROM_INQUIRY_SIZE  36 // RTL_SIZEOF_THROUGH_FIELD(INQUIRYDATA, ProductRevisionLevel)
+#define MAXIMUM_CDROM_INQUIRY_SIZE 260 // MAXUCHAR + RTL_SIZEOF_THROUGH_FIELD(INQUIRYDATA, AdditionalLength)
+
 //
 // The following device control code is for the SIMBAD simulated bad
 // sector facility. See SIMBAD.H in this directory for related structures.
 //
 
-#define IOCTL_CDROM_SIMBAD        CTL_CODE(IOCTL_CDROM_BASE, 0x1003, METHOD_BUFFERED, FILE_READ_ACCESS)
+#define IOCTL_CDROM_SIMBAD          CTL_CODE(IOCTL_CDROM_BASE, 0x1003, METHOD_BUFFERED, FILE_READ_ACCESS)
 
 //
 // Maximum CD Rom size
@@ -176,7 +193,7 @@ typedef struct _CDROM_TOC {
 //
 
 typedef struct _CDROM_TOC_SESSION_DATA {
-    
+
     //
     // Header
     //
@@ -212,7 +229,7 @@ typedef struct _CDROM_TOC_FULL_TOC_DATA_BLOCK {
 } CDROM_TOC_FULL_TOC_DATA_BLOCK, *PCDROM_TOC_FULL_TOC_DATA_BLOCK;
 
 typedef struct _CDROM_TOC_FULL_TOC_DATA {
-    
+
     //
     // Header
     //
@@ -225,7 +242,9 @@ typedef struct _CDROM_TOC_FULL_TOC_DATA {
     // one to N descriptors included
     //
 
+#if !defined(__midl)
     CDROM_TOC_FULL_TOC_DATA_BLOCK Descriptors[0];
+#endif
 
 } CDROM_TOC_FULL_TOC_DATA, *PCDROM_TOC_FULL_TOC_DATA;
 
@@ -234,7 +253,7 @@ typedef struct _CDROM_TOC_FULL_TOC_DATA {
 // Format 3 - Program Memory Area
 //
 typedef struct _CDROM_TOC_PMA_DATA {
-    
+
     //
     // Header
     //
@@ -247,7 +266,9 @@ typedef struct _CDROM_TOC_PMA_DATA {
     // one to N descriptors included
     //
 
+#if !defined(__midl)
     CDROM_TOC_FULL_TOC_DATA_BLOCK Descriptors[0];
+#endif
 
 } CDROM_TOC_PMA_DATA, *PCDROM_TOC_PMA_DATA;
 
@@ -272,16 +293,16 @@ typedef struct _CDROM_TOC_ATIP_DATA_BLOCK {
     UCHAR IsCdrw      : 1;
     UCHAR True2       : 1;
     UCHAR Reserved7;
-    
+
     UCHAR LeadInMsf[3];
     UCHAR Reserved8;
-    
+
     UCHAR LeadOutMsf[3];
     UCHAR Reserved9;
-    
+
     UCHAR A1Values[3];
     UCHAR Reserved10;
-    
+
     UCHAR A2Values[3];
     UCHAR Reserved11;
 
@@ -291,7 +312,7 @@ typedef struct _CDROM_TOC_ATIP_DATA_BLOCK {
 } CDROM_TOC_ATIP_DATA_BLOCK, *PCDROM_TOC_ATIP_DATA_BLOCK;
 
 typedef struct _CDROM_TOC_ATIP_DATA {
-    
+
     //
     // Header
     //
@@ -304,7 +325,9 @@ typedef struct _CDROM_TOC_ATIP_DATA {
     // zero? to N descriptors included.
     //
 
+#if !defined(__midl)
     CDROM_TOC_ATIP_DATA_BLOCK Descriptors[0];
+#endif
 
 } CDROM_TOC_ATIP_DATA, *PCDROM_TOC_ATIP_DATA;
 
@@ -328,7 +351,7 @@ typedef struct _CDROM_TOC_CD_TEXT_DATA_BLOCK {
 } CDROM_TOC_CD_TEXT_DATA_BLOCK, *PCDROM_TOC_CD_TEXT_DATA_BLOCK;
 
 typedef struct _CDROM_TOC_CD_TEXT_DATA {
-    
+
     //
     // Header
     //
@@ -336,13 +359,15 @@ typedef struct _CDROM_TOC_CD_TEXT_DATA {
     UCHAR Length[2];  // add two bytes for this field
     UCHAR Reserved1;
     UCHAR Reserved2;
-    
+
     //
     // the text info comes in discrete blocks of
     // a heavily-overloaded structure
     //
-    
+
+#if !defined(__midl)
     CDROM_TOC_CD_TEXT_DATA_BLOCK Descriptors[0];
+#endif
 
 } CDROM_TOC_CD_TEXT_DATA, *PCDROM_TOC_CD_TEXT_DATA;
 
@@ -492,14 +517,18 @@ typedef union _SUB_Q_CHANNEL_DATA {
 #define AUDIO_DATA_TRACK            0x4
 #define TWO_FOUR_CHANNEL_AUDIO      0x8
 
-//
-// Get Audio control parameters
-//
-
+#if (NTDDI_VERSION < NTDDI_WS03)
 typedef struct _CDROM_AUDIO_CONTROL {
     UCHAR LbaFormat;
     USHORT LogicalBlocksPerSecond;
 } CDROM_AUDIO_CONTROL, *PCDROM_AUDIO_CONTROL;
+#else
+#if PRAGMA_DEPRECATED_DDK
+#define _CDROM_AUDIO_CONTROL _this_is_obsoleted__CDROM_AUDIO_CONTROL
+#define CDROM_AUDIO_CONTROL  _this_is_obsoleted_CDROM_AUDIO_CONTROL
+#define PCDROM_AUDIO_CONTROL _this_is_obsoleted_PCDROM_AUDIO_CONTROL
+#endif // PRAGMA_DEPRECATED_DDK
+#endif
 
 //
 // Volume control - Volume takes a value between 1 and 0xFF.
@@ -514,8 +543,17 @@ typedef struct _VOLUME_CONTROL {
 typedef enum _TRACK_MODE_TYPE {
     YellowMode2,
     XAForm2,
-    CDDA
+    CDDA,
+    RawWithC2AndSubCode,   // CD_RAW_SECTOR_WITH_C2_AND_SUBCODE_SIZE per sector
+    RawWithC2,             // CD_RAW_SECTOR_WITH_C2_SIZE per sector
+    RawWithSubCode         // CD_RAW_SECTOR_WITH_SUBCODE_SIZE per sector
 } TRACK_MODE_TYPE, *PTRACK_MODE_TYPE;
+
+#define CD_RAW_READ_C2_SIZE                    (     296   )
+#define CD_RAW_READ_SUBCODE_SIZE               (         96)
+#define CD_RAW_SECTOR_WITH_C2_SIZE             (2352+296   )
+#define CD_RAW_SECTOR_WITH_SUBCODE_SIZE        (2352    +96)
+#define CD_RAW_SECTOR_WITH_C2_AND_SUBCODE_SIZE (2352+296+96)
 
 //
 // Passed to cdrom to describe the raw read, ie. Mode 2, Form 2, CDDA...
@@ -526,6 +564,355 @@ typedef struct __RAW_READ_INFO {
     ULONG    SectorCount;
     TRACK_MODE_TYPE TrackMode;
 } RAW_READ_INFO, *PRAW_READ_INFO;
+
+typedef enum _MEDIA_BLANK_TYPE {
+    MediaBlankTypeFull = 0,               // mandatory support
+    MediaBlankTypeMinimal = 1,            // mandatory support
+    MediaBlankTypeIncompleteTrack = 2,    // optional support
+    MediaBlankTypeUnreserveLastTrack = 3, // optional support, hairy
+    MediaBlankTypeTrackTail = 4,          // mandatory support
+    MediaBlankTypeUncloseLastSession = 5, // optional support
+    MediaBlankTypeEraseLastSession = 6,   // optional support
+    // MediaBlankType7 is reserved
+} MEDIA_BLANK_TYPE, *PMEDIA_BLANK_TYPE;
+
+//
+// IOCTL_CDROM_EXCLUSIVE_ACCESS can be used to get exclusive
+// access to the CDROM device.
+//
+
+#define CDROM_EXCLUSIVE_CALLER_LENGTH   64
+
+//
+// Input values (Flags) for ExclusiveAccessLockDevice
+//
+// CDROM_LOCK_IGNORE_VOLUME:
+//      Set it to lock the device even if the file system is mounted.
+//      WARNING: setting this may cause data corruption!
+//
+// CDROM_NO_MEDIA_NOTIFICATIONS:
+//      Set it to prevent sending of a media removal notification
+//      on exclusive access lock and a media arrival notification 
+//      on unlock.
+//
+
+#define CDROM_LOCK_IGNORE_VOLUME        (1 << 0)
+#define CDROM_NO_MEDIA_NOTIFICATIONS    (1 << 1)
+
+//
+// Output values (Flags) for ExclusiveAccessQueryState
+//
+
+#define CDROM_NOT_IN_EXCLUSIVE_MODE     0
+#define CDROM_IN_EXCLUSIVE_MODE         1
+
+
+typedef enum _EXCLUSIVE_ACCESS_REQUEST_TYPE {
+    ExclusiveAccessQueryState,
+    ExclusiveAccessLockDevice,
+    ExclusiveAccessUnlockDevice
+} EXCLUSIVE_ACCESS_REQUEST_TYPE, *PEXCLUSIVE_ACCESS_REQUEST_TYPE;
+
+
+typedef struct _CDROM_EXCLUSIVE_ACCESS {
+
+    //
+    // Request type
+    //
+    EXCLUSIVE_ACCESS_REQUEST_TYPE RequestType;
+
+    //
+    // Additional parameters for each request type
+    //
+    ULONG Flags;
+
+} CDROM_EXCLUSIVE_ACCESS, *PCDROM_EXCLUSIVE_ACCESS;
+
+
+typedef struct _CDROM_EXCLUSIVE_LOCK {
+
+    CDROM_EXCLUSIVE_ACCESS  Access;
+
+    //
+    // Caller name string
+    //
+    UCHAR CallerName[CDROM_EXCLUSIVE_CALLER_LENGTH];
+
+} CDROM_EXCLUSIVE_LOCK, *PCDROM_EXCLUSIVE_LOCK;
+
+
+typedef struct _CDROM_EXCLUSIVE_LOCK_STATE {
+
+    BOOLEAN  LockState;
+
+    //
+    // Caller name string
+    //
+    UCHAR CallerName[CDROM_EXCLUSIVE_CALLER_LENGTH];
+
+} CDROM_EXCLUSIVE_LOCK_STATE, *PCDROM_EXCLUSIVE_LOCK_STATE;
+
+//
+// Structure definitions for IOCTL_CDROM_SET_SPEED
+//
+
+typedef enum _CDROM_SPEED_REQUEST {
+    CdromSetSpeed,
+    CdromSetStreaming
+} CDROM_SPEED_REQUEST, *PCDROM_SPEED_REQUEST;
+
+typedef enum _WRITE_ROTATION {
+    CdromDefaultRotation,
+    CdromCAVRotation
+} WRITE_ROTATION, *PWRITE_ROTATION;
+
+typedef struct _CDROM_SET_SPEED {
+
+    //
+    // Request type for setting speed
+    //
+    CDROM_SPEED_REQUEST RequestType;
+
+    //
+    // Drive read speed in KB/sec.
+    //
+    USHORT ReadSpeed;
+
+    //
+    // Drive write speed in KB/sec.
+    //
+    USHORT WriteSpeed;
+
+    //
+    // Drive rotation control for write
+    //
+    WRITE_ROTATION RotationControl;
+
+} CDROM_SET_SPEED, *PCDROM_SET_SPEED;
+
+typedef struct _CDROM_SET_STREAMING {
+
+    //
+    // Request type for setting speed
+    //
+    CDROM_SPEED_REQUEST RequestType;
+
+    //
+    // Drive read size in KB per ReadTime
+    //
+    ULONG ReadSize;
+
+    //
+    // Read time in milliseconds
+    //
+    ULONG ReadTime;
+
+    //
+    // Drive write size in KB per WriteTime
+    //
+    ULONG WriteSize;
+
+    //
+    // Write time in milliseconds
+    //
+    ULONG WriteTime;
+
+    //
+    // First Logical Block Address of the request
+    //
+    ULONG StartLba;
+
+    //
+    // Last Logical Block Address of the request
+    //
+    ULONG EndLba;
+
+    //
+    // Drive rotation control for write
+    //
+    WRITE_ROTATION RotationControl;
+
+    //
+    // Restore drive defaults
+    //
+    BOOLEAN RestoreDefaults;
+
+    //
+    // Set drive to exact value given
+    //
+    BOOLEAN SetExact;
+
+    //
+    // Optimize performance for random changes
+    //
+    BOOLEAN RandomAccess;
+
+    //
+    // Restore default speed on media change
+    //
+    BOOLEAN Persistent;
+
+} CDROM_SET_STREAMING, *PCDROM_SET_STREAMING;
+
+
+//
+// Structure definitions for IOCTL_CDROM_ENABLE_STREAMING
+//
+
+typedef enum _STREAMING_CONTROL_REQUEST_TYPE {
+    CdromStreamingDisable = 1,
+    CdromStreamingEnableForReadOnly = 2,
+    CdromStreamingEnableForWriteOnly = 3,
+    CdromStreamingEnableForReadWrite = 4
+} STREAMING_CONTROL_REQUEST_TYPE, *PSTREAMING_CONTROL_REQUEST_TYPE;
+
+typedef struct _CDROM_STREAMING_CONTROL {
+
+    //
+    // Request type
+    //
+    STREAMING_CONTROL_REQUEST_TYPE   RequestType;
+
+} CDROM_STREAMING_CONTROL, *PCDROM_STREAMING_CONTROL;
+
+
+//
+// Structure definitions for IOCTL_CDROM_SEND_OPC_INFORMATION
+//
+
+typedef enum _CDROM_OPC_INFO_TYPE {
+    SimpleOpcInfo = 1
+} CDROM_OPC_INFO_TYPE, *PCDROM_OPC_INFO_TYPE;
+
+typedef struct _CDROM_SIMPLE_OPC_INFO {
+    
+    //
+    // Request type (must be SimpleOpcInfo)
+    //
+    CDROM_OPC_INFO_TYPE   RequestType;
+
+    //
+    // Exclude Layer 0 from OPC
+    //
+    BOOLEAN               Exclude0;
+
+    //
+    // Exclude Layer 1 from OPC
+    //
+    BOOLEAN               Exclude1;
+
+} CDROM_SIMPLE_OPC_INFO, *PCDROM_SIMPLE_OPC_INFO;
+
+
+//
+// Structure definitions for IOCTL_CDROM_GET_PERFORMANCE
+//
+
+typedef enum _CDROM_PERFORMANCE_REQUEST_TYPE {
+    CdromPerformanceRequest = 1,
+    CdromWriteSpeedRequest = 2
+} CDROM_PERFORMANCE_REQUEST_TYPE, *PCDROM_PERFORMANCE_REQUEST_TYPE;
+
+typedef enum _CDROM_PERFORMANCE_TYPE {
+    CdromReadPerformance = 1,
+    CdromWritePerformance = 2
+} CDROM_PERFORMANCE_TYPE, *PCDROM_PERFORMANCE_TYPE;
+
+typedef enum _CDROM_PERFORMANCE_EXCEPTION_TYPE {
+    CdromNominalPerformance = 1,
+    CdromEntirePerformanceList = 2,
+    CdromPerformanceExceptionsOnly = 3
+} CDROM_PERFORMANCE_EXCEPTION_TYPE, *PCDROM_PERFORMANCE_EXCEPTION_TYPE;
+
+typedef enum _CDROM_PERFORMANCE_TOLERANCE_TYPE {
+    Cdrom10Nominal20Exceptions = 1
+} CDROM_PERFORMANCE_TOLERANCE_TYPE, *PCDROM_PERFORMANCE_TOLERANCE_TYPE;
+
+typedef struct _CDROM_PERFORMANCE_REQUEST {
+
+    //
+    // Request type (must be CdromPerformanceRequest)
+    //
+    CDROM_PERFORMANCE_REQUEST_TYPE   RequestType;
+
+    //
+    // Performance type
+    //
+    CDROM_PERFORMANCE_TYPE           PerformanceType;
+
+    //
+    // Exceptions to be covered
+    //
+    CDROM_PERFORMANCE_EXCEPTION_TYPE Exceptions;
+
+    //
+    // Tolerance to be ensured
+    //
+    CDROM_PERFORMANCE_TOLERANCE_TYPE Tolerance;
+
+    //
+    // Starting LBA for entire performance list
+    //
+    ULONG                            StaringLba;
+
+} CDROM_PERFORMANCE_REQUEST, *PCDROM_PERFORMANCE_REQUEST;
+
+typedef struct _CDROM_WRITE_SPEED_REQUEST {
+
+    //
+    // Request type (must be CdromWriteSpeedRequest)
+    //
+    CDROM_PERFORMANCE_REQUEST_TYPE   RequestType;
+
+} CDROM_WRITE_SPEED_REQUEST, *PCDROM_WRITE_SPEED_REQUEST;
+
+// Header for data returned by IOCTL_CDROM_GET_PERFORMANCE
+typedef struct _CDROM_PERFORMANCE_HEADER {
+
+    //
+    // Size of available data (vs returned data), not including this field 
+    //
+    UCHAR                        DataLength[4];
+
+    UCHAR                        Except : 1;
+    UCHAR                        Write : 1;
+    UCHAR                        Reserved1 : 6;
+    UCHAR                        Reserved2[3];
+
+    //
+    // Contains a list of the following records (depending on the request):
+    //      CDROM_NOMINAL_PERFORMANCE_DESCRIPTOR,
+    //      CDROM_EXCEPTION_PERFORMANCE_DESCRIPTOR,
+    //      CDROM_WRITE_SPEED_DESCRIPTOR
+    //
+    UCHAR                        Data[0];
+
+} CDROM_PERFORMANCE_HEADER, *PCDROM_PERFORMANCE_HEADER;
+
+typedef struct _CDROM_NOMINAL_PERFORMANCE_DESCRIPTOR {
+    UCHAR                        StartLba[4];
+    UCHAR                        StartPerformance[4];
+    UCHAR                        EndLba[4];
+    UCHAR                        EndPerformance[4];
+} CDROM_NOMINAL_PERFORMANCE_DESCRIPTOR, *PCDROM_NOMINAL_PERFORMANCE_DESCRIPTOR;
+
+typedef struct _CDROM_EXCEPTION_PERFORMANCE_DESCRIPTOR {
+    UCHAR                        Lba[4];
+    UCHAR                        Time[2];
+} CDROM_EXCEPTION_PERFORMANCE_DESCRIPTOR, *PCDROM_EXCEPTION_PERFORMANCE_DESCRIPTOR;
+
+typedef struct _CDROM_WRITE_SPEED_DESCRIPTOR {
+    UCHAR                        MixedReadWrite : 1;
+    UCHAR                        Exact : 1;
+    UCHAR                        Reserved1 : 1;
+    UCHAR                        WriteRotationControl : 2;
+    UCHAR                        Reserved2 : 3;
+    UCHAR                        Reserved3[3];
+    UCHAR                        EndLba[4];
+    UCHAR                        ReadSpeed[4];
+    UCHAR                        WriteSpeed[4];
+} CDROM_WRITE_SPEED_DESCRIPTOR, *PCDROM_WRITE_SPEED_DESCRIPTOR;
+
 
 #ifdef __cplusplus
 }
@@ -540,6 +927,10 @@ typedef struct __RAW_READ_INFO {
 #pragma warning(default:4214) // bit fields other than int
 #endif
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // _NTDDCDRM_
 

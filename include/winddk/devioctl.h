@@ -10,10 +10,6 @@ Abstract:
 
     This module contains
 
-Author:
-
-    Andre Vachon (andreva) 21-Feb-1992
-
 
 Revision History:
 
@@ -91,7 +87,16 @@ Revision History:
 #define FILE_DEVICE_SERENUM             0x00000037
 #define FILE_DEVICE_TERMSRV             0x00000038
 #define FILE_DEVICE_KSEC                0x00000039
-#define FILE_DEVICE_FIPS		0x0000003A
+#define FILE_DEVICE_FIPS                0x0000003A
+#define FILE_DEVICE_INFINIBAND          0x0000003B
+#define FILE_DEVICE_VMBUS               0x0000003E
+#define FILE_DEVICE_CRYPT_PROVIDER      0x0000003F
+#define FILE_DEVICE_WPD                 0x00000040
+#define FILE_DEVICE_BLUETOOTH           0x00000041
+#define FILE_DEVICE_MT_COMPOSITE        0x00000042
+#define FILE_DEVICE_MT_TRANSPORT        0x00000043
+#define FILE_DEVICE_BIOMETRIC		0x00000044
+#define FILE_DEVICE_PMI                 0x00000045
 
 //
 // Macro definition for defining IOCTL and FSCTL function control codes.  Note
@@ -109,6 +114,11 @@ Revision History:
 #define DEVICE_TYPE_FROM_CTL_CODE(ctrlCode)     (((ULONG)(ctrlCode & 0xffff0000)) >> 16)
 
 //
+// Macro to extract buffering method out of the device io control code
+//
+#define METHOD_FROM_CTL_CODE(ctrlCode)          ((ULONG)(ctrlCode & 3))
+
+//
 // Define the method codes for how buffers are passed for I/O and FS controls
 //
 
@@ -116,6 +126,15 @@ Revision History:
 #define METHOD_IN_DIRECT                1
 #define METHOD_OUT_DIRECT               2
 #define METHOD_NEITHER                  3
+
+//
+// Define some easier to comprehend aliases:
+//   METHOD_DIRECT_TO_HARDWARE (writes, aka METHOD_IN_DIRECT)
+//   METHOD_DIRECT_FROM_HARDWARE (reads, aka METHOD_OUT_DIRECT)
+//
+
+#define METHOD_DIRECT_TO_HARDWARE       METHOD_IN_DIRECT
+#define METHOD_DIRECT_FROM_HARDWARE     METHOD_OUT_DIRECT
 
 //
 // Define the access check value for any access
