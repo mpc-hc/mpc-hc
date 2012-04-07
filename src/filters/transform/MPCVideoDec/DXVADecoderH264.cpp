@@ -149,7 +149,6 @@ void CDXVADecoderH264::Flush()
 	ClearRefFramesList();
 	m_DXVAPicParams.UsedForReferenceFlags	= 0;
 	m_nOutPOC								= INT_MIN;
-	m_nPrevOutPOC							= 0;
 
 	__super::Flush();
 }
@@ -170,13 +169,6 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	CComQIPtr<IMPCDXVA2Sample>	pDXVA2Sample;
 
 	if (FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, &nFramePOC, &nOutPOC, &rtOutStart) == -1) {
-		return S_FALSE;
-	}
-
-	if (nOutPOC == m_nPrevOutPOC && m_nOutPOC != INT_MIN) {
-		TRACE_H264 ("\nCDXVADecoderH264::DecodeFrame() : The same nOutPOC = %d\n", nOutPOC);
-		Flush();
-		m_bFlushed = false;
 		return S_FALSE;
 	}
 
@@ -267,8 +259,6 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		m_nOutPOC		= nOutPOC;
 		m_rtOutStart	= rtOutStart;
 	}
-
-	m_nPrevOutPOC = nOutPOC;
 
 	m_bFlushed = false;
 	return hr;
