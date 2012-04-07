@@ -132,6 +132,7 @@ public:
 	bool StoreSettingsToRegistry();
 	CString GetIniPath() const;
 	bool IsIniValid() const;
+	bool IsIniUTF16LE() const;
 	bool ChangeSettingsLocation(bool useIni);
 	void ExportSettings();
 

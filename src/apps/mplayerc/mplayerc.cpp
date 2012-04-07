@@ -430,13 +430,9 @@ bool CMPlayerCApp::StoreSettingsToIni()
 	// We can only use UTF16-LE for unicode ini files in windows. UTF8/UTF16-BE do not work.
 	// So to ensure we have correct encoding for ini files, create a file with right BOM first,
 	// then add some comments in first line to make sure it's not empty.
-
-	// If you want to try unicode ini, uncomment following code block.
-	/*
-	if (!::PathFileExists(m_pszProfileName)) // don't overwrite existing ini file
-	{
+	if (!::PathFileExists(m_pszProfileName)) { // don't overwrite existing ini file
 		LPTSTR pszComments = _T("; Media Player Classic - Home Cinema");
-		WORD wBOM = 0xFEFF;// UTF16-LE BOM(FFFE)
+		WORD wBOM = 0xFEFF; // UTF16-LE BOM (FFFE)
 		DWORD nBytes;
 
 		HANDLE hFile = ::CreateFile(m_pszProfileName, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -447,15 +443,12 @@ bool CMPlayerCApp::StoreSettingsToIni()
 			::CloseHandle(hFile);
 		}
 	}
-	*/
 
 	return true;
 }
 
 bool CMPlayerCApp::StoreSettingsToRegistry()
 {
-	_tremove(GetIniPath());
-
 	free((void*)m_pszRegistryKey);
 	m_pszRegistryKey = NULL;
 
@@ -477,6 +470,22 @@ bool CMPlayerCApp::IsIniValid() const
 {
 	CFileStatus fs;
 	return !!CFile::GetStatus(GetIniPath(), fs);
+}
+
+bool CMPlayerCApp::IsIniUTF16LE() const
+{
+	bool isUTF16LE = false;
+
+	CFile f(GetIniPath(), CFile::modeRead);
+
+	if (f) {
+		WORD bom;
+		if (f.Read(&bom, sizeof(bom)) == sizeof(bom)) {
+			isUTF16LE = (bom == 0xFEFF);
+		}
+	}
+
+	return isUTF16LE;
 }
 
 bool CMPlayerCApp::GetAppSavePath(CString& path)
@@ -511,11 +520,17 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 	AfxGetAppSettings().GetFav(FAV_DVD, DVDsFav);
 	AfxGetAppSettings().GetFav(FAV_DEVICE, devicesFav);
 
+	// In case an ini file is present, we remove it so that it will be recreated
+	_tremove(GetIniPath());
+
 	if (useIni) {
 		success = StoreSettingsToIni();
 	} else {
 		success = StoreSettingsToRegistry();
 	}
+
+	// Write settings immediately
+	m_s.UpdateData(true);
 
 	// Save favorites to the new location
 	AfxGetAppSettings().SetFav(FAV_FILE, filesFav);
@@ -1141,6 +1156,11 @@ BOOL CMPlayerCApp::InitInstance()
 	}
 
 	m_s.UpdateData(false); // read settings
+
+	// If we use an ASCII ini file, let's recreate it to switch to UTF-16LE
+	if (IsIniValid() && !IsIniUTF16LE()) {
+		ChangeSettingsLocation(true);
+	}
 
 	AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
 
