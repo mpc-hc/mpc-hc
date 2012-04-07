@@ -12,7 +12,7 @@ Legend:
 ==============================
 * Ticket #734, An unicode encoding will now be used for the ini file. Old ASCII
   ini files will be automatically converted to unicode. Favorites with unicode
-  filenames are now correctly handled when using an ini file.
+  filenames are now correctly handled when using an ini file
 * Ticket #1733/#2029, Include subfolders when opening a folder using the command
   line and by extension the explorer context menu
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
@@ -29,3 +29,5 @@ Legend:
 ! Ticket #2133, Javascript error in "player.html"
 ! Ticket #2137, Disable animation when pressing the "Boss" key
 ! Ticket #2156, Decoder must deliver all the output data at the end of stream
+! The settings location is now changed only when applying the changes in the
+  options dialog instead of immediately after changing the state of the checkbox

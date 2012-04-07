@@ -79,7 +79,6 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
-	ON_BN_CLICKED(IDC_CHECK8, OnBnClickedCheck8)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK13, OnUpdateCheck13)
 	ON_UPDATE_COMMAND_UI(IDC_DVD_POS, OnUpdatePos)
 	ON_UPDATE_COMMAND_UI(IDC_FILE_POS, OnUpdatePos)
@@ -102,7 +101,7 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_fRememberWindowSize = s.fRememberWindowSize;
 	m_fSavePnSZoom = s.fSavePnSZoom;
 	m_fSnapToDesktopEdges = s.fSnapToDesktopEdges;
-	m_fUseIni = ((CMPlayerCApp*)AfxGetApp())->IsIniValid();
+	m_fUseIni = AfxGetMyApp()->IsIniValid();
 	m_fKeepHistory = s.fKeepHistory;
 	m_fHideCDROMsSubMenu = s.fHideCDROMsSubMenu;
 	m_priority = s.dwPriority != NORMAL_PRIORITY_CLASS;
@@ -154,6 +153,11 @@ BOOL CPPagePlayer::OnApply()
 		s.MRUDub.WriteList();
 	}
 
+	// Check if the settings location need to be changed
+	if (AfxGetMyApp()->IsIniValid() != !!m_fUseIni) {
+		AfxGetMyApp()->ChangeSettingsLocation(!!m_fUseIni);
+	}
+
 	((CMainFrame*)AfxGetMainWnd())->ShowTrayIcon(s.fTrayIcon);
 
 	::SetPriorityClass(::GetCurrentProcess(), s.dwPriority);
@@ -162,15 +166,6 @@ BOOL CPPagePlayer::OnApply()
 	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);
 
 	return __super::OnApply();
-}
-
-void CPPagePlayer::OnBnClickedCheck8()
-{
-	UpdateData();
-
-	AfxGetMyApp()->ChangeSettingsLocation(!!m_fUseIni);
-
-	SetModified();
 }
 
 void CPPagePlayer::OnUpdateCheck13(CCmdUI* pCmdUI)
@@ -184,5 +179,5 @@ void CPPagePlayer::OnUpdatePos(CCmdUI* pCmdUI)
 {
 	UpdateData();
 
-	pCmdUI->Enable( !!m_fKeepHistory );
+	pCmdUI->Enable(!!m_fKeepHistory);
 }
