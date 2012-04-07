@@ -414,14 +414,95 @@ avcsuccess:
 
 				if (pTE->v.FramePerSec > 0) {
 					AvgTimePerFrame = (REFERENCE_TIME)(10000000i64 / pTE->v.FramePerSec);
-				} else if (pTE->DefaultDuration > 0) {
+				} else if (pTE->DefaultDuration > 0 && pTE->DefaultDuration != 1000000) {
 					AvgTimePerFrame = (REFERENCE_TIME)pTE->DefaultDuration / 100;
-				}
+				} else { // pTE->DefaultDuration == 1000000 or < 0
+					CMatroskaNode Root(m_pFile);
+					m_pSegment = Root.Child(0x18538067);
+					m_pCluster = m_pSegment->Child(0x1F43B675);
 
-				// Need to find another way to determine the correct FPS, but for now let us leave this dirty hack ))
-				if(AvgTimePerFrame == 10000) {
-					AvgTimePerFrame = 416667;
+					MatroskaReader::QWORD lastCueClusterPosition = (MatroskaReader::QWORD)-1;
+					UINT64 timecode1 = -1;
+					UINT64 timecode2 = -1;
+					unsigned int framecount = 0;
+					bool readmore = true;
+
+					POSITION pos1 = m_pFile->m_segment.Cues.GetHeadPosition();
+					while (pos1 && readmore) {
+						Cue* pCue = m_pFile->m_segment.Cues.GetNext(pos1);
+						POSITION pos2 = pCue->CuePoints.GetHeadPosition();
+						while (pos2 && readmore) {
+							CuePoint* pCuePoint = pCue->CuePoints.GetNext(pos2);
+							POSITION pos3 = pCuePoint->CueTrackPositions.GetHeadPosition();
+							while (pos3 && readmore) {
+								CueTrackPosition* pCueTrackPositions = pCuePoint->CueTrackPositions.GetNext(pos3);
+								if (pCueTrackPositions->CueTrack != pTE->TrackNumber) {
+									continue;
+								}
+								
+								if (lastCueClusterPosition == pCueTrackPositions->CueClusterPosition) {
+									continue;
+								}
+								lastCueClusterPosition = pCueTrackPositions->CueClusterPosition;
+
+								m_pCluster->SeekTo(m_pSegment->m_start + pCueTrackPositions->CueClusterPosition);
+								m_pCluster->Parse();
+
+								Cluster c;
+								c.ParseTimeCode(m_pCluster);
+
+								if (CAutoPtr<CMatroskaNode> pBlock = m_pCluster->GetFirstBlock()) {
+									do {
+										CBlockGroupNode bgn;
+
+										if (pBlock->m_id == 0xA0) {
+											bgn.Parse(pBlock, true);
+										} else if (pBlock->m_id == 0xA3) {
+											CAutoPtr<BlockGroup> bg(DNew BlockGroup());
+											bg->Block.Parse(pBlock, true);
+											if (!(bg->Block.Lacing & 0x80)) {
+												bg->ReferenceBlock.Set(0);    // not a kf
+											}
+											bgn.AddTail(bg);
+										}
+
+										POSITION pos4 = bgn.GetHeadPosition();
+										while (pos4) {
+											BlockGroup* bg = bgn.GetNext(pos4);
+											if (bg->Block.TrackNumber != pTE->TrackNumber) {
+												continue;
+											}
+											UINT64 tc = c.TimeCode + bg->Block.TimeCode;
+											if (tc == timecode2) {
+												continue;
+											}
+
+											if (timecode1 == -1) {
+												timecode1 = tc;
+											} else {
+												timecode2 = tc;
+												++framecount;
+											}
+
+											if (framecount >= 24) {
+												// good for 23.976, 24, 25, 30, 50, 60 fps.
+												// for 29.97 and 59,94 can give a small inaccuracy
+												readmore = false;
+												break;
+											}
+										}
+									} while (pBlock->NextBlock() && readmore);
+								}
+							}
+						}
+					}
+					if (framecount) {
+						AvgTimePerFrame = m_pFile->m_segment.SegmentInfo.TimeCodeScale*(timecode2 - timecode1) / (100*framecount);
+					}
+
+					m_pCluster.Free();
 				}
+				//if (AvgTimePerFrame < 0) AvgTimePerFrame = 0;
 
 				for (size_t i = 0; i < mts.GetCount(); i++) {
 					if (mts[i].formattype == FORMAT_VideoInfo
@@ -697,6 +778,7 @@ avcsuccess:
 						CodecID == "S_TEXT/SSF" || CodecID == "S_SSF" ? MEDIASUBTYPE_SSF :
 						CodecID == "S_TEXT/USF" || CodecID == "S_USF" ? MEDIASUBTYPE_USF :
 						CodecID == "S_HDMV/PGS" ? MEDIASUBTYPE_HDMVSUB :
+						//CodecID == "S_DVBSUB" ? MEDIASUBTYPE_DVB_SUBTITLES : // does not work
 						CodecID == "S_VOBSUB" ? MEDIASUBTYPE_VOBSUB :
 						MEDIASUBTYPE_NULL;
 
