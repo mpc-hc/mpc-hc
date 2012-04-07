@@ -4206,7 +4206,11 @@ void CMainFrame::OnFileOpenmedia()
 		return;
 	}
 
-	COpenDlg dlg;
+	static COpenDlg dlg;
+	if (dlg.IsWindowVisible()) {
+		dlg.SetForegroundWindow();
+		return;
+	}
 	if (dlg.DoModal() != IDOK || dlg.m_fns.GetCount() == 0) {
 		return;
 	}

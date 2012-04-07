@@ -33,3 +33,5 @@ Legend:
 ! Ticket #2133, Javascript error in "player.html"
 ! Ticket #2137, Disable animation when pressing the "Boss" key
 ! Ticket #2156, Decoder must deliver all the output data at the end of stream
+! Ticket #2161, Prevent the 'Open' dialog from being opened multiple times (for
+  example when double clicking on the tray icon)

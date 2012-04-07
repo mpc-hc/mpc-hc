@@ -94,6 +94,12 @@ BOOL COpenDlg::OnInitDialog()
 		m_mrucombo.SetCurSel(0);
 	}
 
+	m_fns.RemoveAll();
+	m_path = _T("");
+	m_path2 = _T("");
+	m_fMultipleFiles = false;
+	m_fAppendPlaylist = FALSE;
+
 	AddAnchor(m_mrucombo, TOP_LEFT, TOP_RIGHT);
 	AddAnchor(m_mrucombo2, TOP_LEFT, TOP_RIGHT);
 	AddAnchor(IDC_BUTTON1, TOP_RIGHT);
