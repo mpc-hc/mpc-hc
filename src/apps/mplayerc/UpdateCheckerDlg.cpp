@@ -31,13 +31,18 @@ UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, const Version& la
 	: CDialog(UpdateCheckerDlg::IDD, pParent), m_updateStatus(updateStatus)
 {
 	switch (updateStatus) {
-		case UPDATE_AVAILABLE:
+		case UPDATER_UPDATE_AVAILABLE:
 			m_text.Format(IDS_NEW_UPDATE_AVAILABLE, latestVersion.major, latestVersion.minor, latestVersion.patch, latestVersion.revision);
 			break;
-		case UPDATE_NOT_AVAILABLE:
-			m_text.Format(IDS_NO_NEW_UPDATE);
+		case UPDATER_LATEST_STABLE:
+			m_text.Format(IDS_USING_LATEST_STABLE);
 			break;
-		case UPDATE_ERROR:
+		case UPDATER_NEWER_VERSION:
+			m_text.Format(IDS_USING_NEWER_VERSION,
+						  UpdateChecker::MPC_VERSION.major, UpdateChecker::MPC_VERSION.minor, UpdateChecker::MPC_VERSION.patch, UpdateChecker::MPC_VERSION.revision,
+						  latestVersion.major, latestVersion.minor, latestVersion.patch, latestVersion.revision);
+			break;
+		case UPDATER_ERROR:
 			m_text.Format(IDS_UPDATE_ERROR);
 			break;
 		default:
@@ -67,12 +72,13 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 	__super::OnInitDialog();
 
 	switch (m_updateStatus) {
-		case UPDATE_AVAILABLE:
+		case UPDATER_UPDATE_AVAILABLE:
 			m_icon.SetIcon(LoadIcon(NULL, IDI_QUESTION));
 			break;
-		case UPDATE_NOT_AVAILABLE:
-		case UPDATE_ERROR:
-			m_icon.SetIcon(LoadIcon(NULL, (m_updateStatus == UPDATE_NOT_AVAILABLE) ? IDI_INFORMATION : IDI_WARNING));
+		case UPDATER_LATEST_STABLE:
+		case UPDATER_NEWER_VERSION:
+		case UPDATER_ERROR:
+			m_icon.SetIcon(LoadIcon(NULL, (m_updateStatus == UPDATER_ERROR) ? IDI_WARNING : IDI_INFORMATION));
 			m_okButton.ShowWindow(SW_HIDE);
 			m_cancelButton.SetWindowText(ResStr(IDS_UPDATE_CLOSE));
 			m_cancelButton.SetFocus();
@@ -86,7 +92,7 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 
 void UpdateCheckerDlg::OnOK()
 {
-	if (m_updateStatus == UPDATE_AVAILABLE) {
+	if (m_updateStatus == UPDATER_UPDATE_AVAILABLE) {
 		ShellExecute(NULL, _T("open"), _T("http://mpc-hc.sourceforge.net/download-media-player-classic-hc.html"), NULL, NULL, SW_SHOWNORMAL);
 	}
 

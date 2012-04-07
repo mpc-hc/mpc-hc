@@ -35,14 +35,17 @@ struct Version
 
 enum Update_Status
 {
-	UPDATE_ERROR = -1,
-	UPDATE_NOT_AVAILABLE,
-	UPDATE_AVAILABLE
+	UPDATER_ERROR = -1,
+	UPDATER_LATEST_STABLE,
+	UPDATER_NEWER_VERSION,
+	UPDATER_UPDATE_AVAILABLE
 };
 
 class UpdateChecker
 {
 public:
+	static const Version MPC_VERSION;
+
 	UpdateChecker(CString versionFileURL);
 	~UpdateChecker(void);
 
@@ -51,11 +54,9 @@ public:
 	const Version& getLatestVersion() const { return latestVersion; };
 
 private :
-	static const Version MPC_VERSION;
-
 	CString versionFileURL;
 	Version latestVersion;
 
 	bool parseVersion(const CString& versionStr);
-	bool isHigherVersion(const Version& v1, const Version& v2) const;
+	int compareVersion(const Version& v1, const Version& v2) const;
 };
