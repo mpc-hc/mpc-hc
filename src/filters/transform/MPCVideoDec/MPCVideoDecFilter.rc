@@ -133,7 +133,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_VDF_DXVACOMPATIBILITY "DXVA(H.264) Compatibility check"
+    IDS_VDF_DXVACOMPATIBILITY "DXVA (H.264) Compatibility check"
     IDS_VDF_DXVA_FULLCHECK  "Full check"
     IDS_VDF_DXVA_SKIP_LEVELCHECK "Skip level check"
     IDS_VDF_DXVA_SKIP_REFCHECK "Skip ref frame check"
