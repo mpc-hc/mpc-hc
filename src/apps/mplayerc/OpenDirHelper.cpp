@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "OpenDirHelper.h"
+#include "WinAPIUtils.h"
 
 
 WNDPROC COpenDirHelper::CBProc;
@@ -66,7 +67,7 @@ LRESULT APIENTRY COpenDirHelper::CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM
 	return CallWindowProc(CBProc, hwnd, uMsg, wParam, lParam);
 }
 
-int __stdcall COpenDirHelper::BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM  lpData)
+int CALLBACK COpenDirHelper::BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData)
 {
 	HWND checkbox;
 
@@ -83,33 +84,38 @@ int __stdcall COpenDirHelper::BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM
 								  WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | BS_AUTOCHECKBOX | BS_MULTILINE,
 								  0, 100, 100, 50, hwnd, 0, AfxGetApp()->m_hInstance, NULL);
 
-		HWND ListView=FindWindowEx(hwnd,NULL,_T("SysTreeView32"),NULL);
+		HWND ListView = FindWindowEx(hwnd, NULL, _T("SysTreeView32"), NULL);
 
 		HWND id_ok = GetDlgItem(hwnd, IDOK);
 		HWND id_cancel = GetDlgItem(hwnd, IDCANCEL);
 
-		GetWindowRect(hwnd,&Dialog);
+		GetWindowRect(hwnd, &Dialog);
 		MoveWindow(hwnd, Dialog.left, Dialog.top, Dialog.right-Dialog.left+50, Dialog.bottom-Dialog.top+70, TRUE);
-		GetWindowRect(hwnd,&Dialog);
+		GetWindowRect(hwnd, &Dialog);
 
-		GetClientRect(hwnd,&ClientArea);
+		GetClientRect(hwnd, &ClientArea);
 
-		GetWindowRect(ListView,&ListViewRect);
-		MoveWindow(ListView, ListViewRect.left-Dialog.left-3, ListViewRect.top-Dialog.top-55, ListViewRect.right-ListViewRect.left+49, ListViewRect.bottom-ListViewRect.top+115, TRUE);
-		GetWindowRect(ListView,&ListViewRect);
+		int offset = IsWinVistaOrLater() ? 0 : -20;
 
-		GetWindowRect(id_ok,&ButtonRect);
-		MoveWindow(id_ok, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+		GetWindowRect(ListView, &ListViewRect);
+		MoveWindow(ListView, ListViewRect.left-Dialog.left-3, ListViewRect.top-Dialog.top-55+offset, ListViewRect.right-ListViewRect.left+49, ListViewRect.bottom-ListViewRect.top+115, TRUE);
+		GetWindowRect(ListView, &ListViewRect);
 
-		GetWindowRect(id_cancel,&ButtonRect);
-		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+		offset = IsWinVistaOrLater() ? 0 : -10;
 
-		SetWindowPos(checkbox, HWND_BOTTOM, (ListViewRect.left-Dialog.left-3), ClientArea.bottom - 35, 120, 27, SWP_SHOWWINDOW);
-		SetFont(checkbox,_T("Tahoma"),13);
+		GetWindowRect(id_ok, &ButtonRect);
+		MoveWindow(id_ok, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50+offset, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+
+		GetWindowRect(id_cancel, &ButtonRect);
+		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50+offset, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+
+		SetWindowPos(checkbox, HWND_BOTTOM, ListViewRect.left-Dialog.left-3, ClientArea.bottom - 35, 180, 27, SWP_SHOWWINDOW);
+		SetFont(checkbox, _T("Tahoma"), 13);
 
 		CBProc = (WNDPROC) SetWindowLongPtr(checkbox, GWLP_WNDPROC, (LONG_PTR) CheckBoxSubclassProc);
-		SendMessage(checkbox,BM_SETCHECK,(WPARAM)m_incl_subdir,0);
+		SendMessage(checkbox, BM_SETCHECK, (WPARAM)m_incl_subdir, 0);
 	}
+
 	return 0;
 }
 

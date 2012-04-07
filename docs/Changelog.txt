@@ -17,10 +17,10 @@ Legend:
   line or via the explorer context menu
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
   reduce the amount of memory consumed by the player
+* Improved the 'Open directory' dialog: the checkbox will now use only one line
+  when possible and the overall dialog will look better when using XP
 * Updated ffmpeg
 * Updated French, Turkish and Czech translations
-! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
-  intergrated Intel adapter
 ! Ticket #1182, Unable to playback MPEG2 in AVI
 ! Ticket #1589, Crash with "Null (uncompressed)"
 ! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on
@@ -29,5 +29,7 @@ Legend:
 ! Ticket #2133, Javascript error in "player.html"
 ! Ticket #2137, Disable animation when pressing the "Boss" key
 ! Ticket #2156, Decoder must deliver all the output data at the end of stream
+! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
+  intergrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
   options dialog instead of immediately after changing the state of the checkbox

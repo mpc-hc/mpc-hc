@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -34,7 +34,7 @@ public:
 	// Subclass procedure
 	static LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
 
-	static int __stdcall BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM  lpData);
+	static int CALLBACK BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData);
 
 	static void RecurseAddDir(CString path, CAtlList<CString>* sl);
 };
