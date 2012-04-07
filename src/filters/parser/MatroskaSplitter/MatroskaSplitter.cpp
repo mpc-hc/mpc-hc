@@ -381,7 +381,12 @@ avcsuccess:
 						mts.Add(mt);
 					bHasVideo = true;
 				} else if (CodecID == "V_QUICKTIME" && pTE->CodecPrivate.GetCount() >= 8) {
-					DWORD* type = (DWORD*)(pTE->CodecPrivate.GetData() + 4);
+					DWORD* type;
+					if (m_pFile->m_ebml.DocTypeReadVersion == 1) {
+						type = (DWORD*)(pTE->CodecPrivate.GetData());
+					} else {
+						type = (DWORD*)(pTE->CodecPrivate.GetData() + 4);
+					}
 					if (*type == MAKEFOURCC('S','V','Q','3') || *type == MAKEFOURCC('S','V','Q','1') || *type == MAKEFOURCC('c','v','i','d')) {
 						mt.subtype = FOURCCMap(*type);
 						mt.formattype = FORMAT_VideoInfo;
