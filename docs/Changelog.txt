@@ -10,11 +10,11 @@ Legend:
 
 1.6.2.X - Not released yet
 ==============================
-* Ticket #734, An unicode encoding will now be used for the ini file. Old ASCII
+* Ticket #734, A unicode encoding will now be used for the ini file. Old ASCII
   ini files will be automatically converted to unicode. Favorites with unicode
   filenames are now correctly handled when using an ini file
 * Ticket #1733/#2029, Include subfolders when opening a folder using the command
-  line and by extension the explorer context menu
+  line or via the explorer context menu
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
   reduce the amount of memory consumed by the player
 * Updated ffmpeg

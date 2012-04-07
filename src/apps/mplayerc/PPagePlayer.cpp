@@ -153,7 +153,7 @@ BOOL CPPagePlayer::OnApply()
 		s.MRUDub.WriteList();
 	}
 
-	// Check if the settings location need to be changed
+	// Check if the settings location needs to be changed
 	if (AfxGetMyApp()->IsIniValid() != !!m_fUseIni) {
 		AfxGetMyApp()->ChangeSettingsLocation(!!m_fUseIni);
 	}

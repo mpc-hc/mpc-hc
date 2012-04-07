@@ -43,11 +43,11 @@ void COpenDirHelper::SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
 	hf=CreateFontIndirect(&lf);
 	SetBkMode(hdc,OPAQUE);
 
-	hfOld = (HFONT)SendMessage(hwnd,WM_GETFONT,NULL,NULL); //get old font
-	SendMessage(hwnd,WM_SETFONT,(WPARAM)hf,TRUE); // set new font
+	hfOld = (HFONT)SendMessage(hwnd,WM_GETFONT,NULL,NULL);  // get old font
+	SendMessage(hwnd,WM_SETFONT,(WPARAM)hf,TRUE);           // set new font
 
 	if (!hfOld && (hfOld!=hf)) {
-		DeleteObject(hfOld);    //if the old font is not system font or the same as newfont, release it.
+		DeleteObject(hfOld);    // if the old font is not system font or the same as newfont, release it.
 	}
 	ReleaseDC(hwnd,hdc);
 
@@ -70,7 +70,7 @@ int __stdcall COpenDirHelper::BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM
 {
 	HWND checkbox;
 
-	//Initialization callback message
+	// Initialization callback message
 	if (uMsg == BFFM_INITIALIZED) {
 		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)strLastOpenDir);
 
@@ -80,8 +80,8 @@ int __stdcall COpenDirHelper::BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM
 		RECT ButtonRect;
 
 		checkbox = CreateWindowEx(0, _T("BUTTON"), ResStr(IDS_MAINFRM_DIR_CHECK),
-								  WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | BS_AUTOCHECKBOX | BS_MULTILINE, 0, 100, 100,
-								  50, hwnd, 0, AfxGetApp()->m_hInstance, NULL);
+								  WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | BS_AUTOCHECKBOX | BS_MULTILINE,
+								  0, 100, 100, 50, hwnd, 0, AfxGetApp()->m_hInstance, NULL);
 
 		HWND ListView=FindWindowEx(hwnd,NULL,_T("SysTreeView32"),NULL);
 
