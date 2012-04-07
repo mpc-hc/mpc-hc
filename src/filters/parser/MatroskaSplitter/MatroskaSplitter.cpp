@@ -428,13 +428,13 @@ avcsuccess:
 					bool readmore = true;
 
 					POSITION pos1 = m_pFile->m_segment.Cues.GetHeadPosition();
-					while (pos1 && readmore) {
+					while (readmore && pos1) {
 						Cue* pCue = m_pFile->m_segment.Cues.GetNext(pos1);
 						POSITION pos2 = pCue->CuePoints.GetHeadPosition();
-						while (pos2 && readmore) {
+						while (readmore && pos2) {
 							CuePoint* pCuePoint = pCue->CuePoints.GetNext(pos2);
 							POSITION pos3 = pCuePoint->CueTrackPositions.GetHeadPosition();
-							while (pos3 && readmore) {
+							while (readmore && pos3) {
 								CueTrackPosition* pCueTrackPositions = pCuePoint->CueTrackPositions.GetNext(pos3);
 								if (pCueTrackPositions->CueTrack != pTE->TrackNumber) {
 									continue;
@@ -491,7 +491,7 @@ avcsuccess:
 												break;
 											}
 										}
-									} while (pBlock->NextBlock() && readmore);
+									} while (readmore && pBlock->NextBlock());
 								}
 							}
 						}
