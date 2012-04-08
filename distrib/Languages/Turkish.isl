@@ -2,7 +2,7 @@
 ; $Translator:NL=%n:TB=%t
 ; *** Inno Setup version 5.1.11+ Turkish messages ***
 ; Language     " Tükçe"               ::::::    Turkish
-; Translate by " Çeviren "            ::::::    Adil YILDIZ (Çevirmen) & Sinan Hunerel (Özelleþtirme)
+; Translate by " Çeviren "            ::::::    Adil YILDIZ
 ; E-Mail       " Elektronik Posta "   ::::::    adil@kde.org.tr
 ; Home Page    " Web Adresi "         ::::::    http://www.adilyildiz.com.tr
 ;
@@ -25,10 +25,10 @@ DialogFontName=
 [Messages]
 
 ; *** Application titles
-SetupAppTitle=Kurulum
-SetupWindowTitle=%1 - Kurulumu
-UninstallAppTitle=Kaldýrma
-UninstallAppFullTitle=%1 Uygulamasýný Kaldýr
+SetupAppTitle=Kur
+SetupWindowTitle=%1 - Kur
+UninstallAppTitle=Kaldýr
+UninstallAppFullTitle=%1 Kaldýr
 
 ; *** Misc. common
 InformationTitle=Bilgi
@@ -61,8 +61,8 @@ ErrorCreatingDir=Kur " %1 " dizinini oluþturamadý.
 ErrorTooManyFilesInDir=" %1 " dizininde bir dosya oluþturulamadý. Çünkü dizin çok fazla dosya içeriyor
 
 ; *** Setup common messages
-ExitSetupTitle=Kurulumdan Çýkýþ
-ExitSetupMessage=Kurulum henüz tamamlanmadý.%n%nKurulumu tekrar çalýþtýrarak yükleme iþlemini tamamlayabilirsiniz.%n%nKurulumdan çýkmak istediðinizden emin misiniz?
+ExitSetupTitle=Kur'dan Çýk
+ExitSetupMessage=Kurulum tamamlanmadý. Þimdi çýkarsanýz program kurulmuþ olmayacak.%n%nDaha sonra Kur'u tekrar çalýþtýrarak kurulumu tamamlayabilirsiniz.%n%nKur'dan çýkmak istediðinizden emin misiniz?
 AboutSetupMenuItem=Kur H&akkýnda...
 AboutSetupTitle=Kur Hakkýnda
 AboutSetupMessage=%1 %2 sürümü%n%3%n%n%1 internet:%n%4
@@ -89,7 +89,7 @@ SelectLanguageTitle=Kur Dilini Seçiniz
 SelectLanguageLabel=Lütfen kurulum sýrasýnda kullanacaðýnýz dili seçiniz:
 
 ; *** Common wizard text
-ClickNext=Devam etmek için Ýleri, çýkmak için Ýptal tuþuna basýnýz.
+ClickNext=Devam etmek için Ýleri'ye , çýkmak için Ýptal 'e basýnýz.
 BeveledLabel=Inno Setup 5.1+ Türkçe
 BrowseDialogTitle=Dizine Gözat
 BrowseDialogLabel=Aþaðýdaki listeden bir dizin seçip, daha sonra Tamam tuþuna basýnýz.
@@ -107,11 +107,11 @@ PasswordEditLabel=&Þifre:
 IncorrectPassword=Girdiðiniz þifre hatalý. Lütfen tekrar deneyiniz.
 
 ; *** "License Agreement" wizard page
-WizardLicense=Lisans Sözleþmesi
+WizardLicense=Lisans Anlaþmasý
 LicenseLabel=Lütfen devam etmeden önce aþaðýdaki önemli bilgileri okuyunuz.
-LicenseLabel3=Lütfen Aþaðýdaki Lisans Sözleþmesini okuyunuz. Kuruluma devam edebilmeniz için sözleþme koþullarýný kabul etmiþ olmalýsýnýz.
-LicenseAccepted=Sözleþmeyi Kabul &Ediyorum.
-LicenseNotAccepted=Sözleþmeyi Kabul Et&miyorum.
+LicenseLabel3=Lütfen Aþaðýdaki Lisans Anlaþmasýný okuyunuz. Kuruluma devam edebilmek için bu anlaþmanýn koþullarýný kabul etmiþ olmalýsýnýz.
+LicenseAccepted=Anlaþmayý Kabul &Ediyorum.
+LicenseNotAccepted=Anlaþmayý Kabul Et&miyorum.
 
 ; *** "Information" wizard pages
 WizardInfoBefore=Bilgi
@@ -130,11 +130,11 @@ UserInfoSerial=&Seri Numarasý:
 UserInfoNameRequired=Bir isim girmelisiniz.
 
 ; *** "Select Destination Directory" wizard page
-WizardSelectDir=Kurulum Yolu Seçimi
-SelectDirDesc=[name] uygulamasý kurulum dizini.
-SelectDirLabel3=[name] uygulamasý aþaðýdaki dizine kurulacaktýr.
-SelectDirBrowseLabel=Devam etmek için Ýleri, baþka bir dizin seçmek istiyorsanýz Gözat tuþuna basýnýz.
-DiskSpaceMBLabel=Bu uygulama en az [mb] MB sürücü alaný gerektirmektedir.
+WizardSelectDir=Kurulacak Dizini Seçiniz
+SelectDirDesc=[name] hangi dizine kurulsun?
+SelectDirLabel3=Kur [name] programýný aþaðýdaki dizine kuracaktýr.
+SelectDirBrowseLabel=Devam etmek için Ýleri'ye basýnýz. Baþka bir dizin seçmek istiyorsanýz, Gözat'a basýnýz.
+DiskSpaceMBLabel=Bu program en az [mb] MB disk alaný gerektirmektedir.
 ToUNCPathname=Kur UNC tipindeki dizin yollarýna (Örn:\\yol vb.) kurulum yapamaz. Eðer Að üzerinde kurulum yapmaya çalýþýyorsanýz. Bir að sürücüsü tanýtmanýz gerekir.
 InvalidPath=Sürücü ismi ile birlikte tam yolu girmelisiniz; Örneðin %nC:\APP%n%n veya bir UNC yolunu %n%n\\sunucu\paylaþým%n%n þeklinde girmelisiniz.
 InvalidDrive=Seçtiðiniz sürücü bulunamadý veya ulaþýlamýyor. Lütfen baþka bir sürücü seçiniz.
@@ -142,16 +142,16 @@ DiskSpaceWarningTitle=Yetersiz Disk Alaný
 DiskSpaceWarning=Kur en az %1 KB kullanýlabilir disk alaný gerektirmektedir. Ancak seçili diskte %2 KB boþ alan bulunmaktadýr.%n%nYine de devam etmek istiyor musunuz?
 DirNameTooLong=Dizin adý veya yolu çok uzun.
 InvalidDirName=Dizin adý geçersiz.
-BadDirName32=Dizin adý takip eden karakterlerden her hangi birini içeremez:%n%n%1
+BadDirName32=Dizin adý takib eden karakterlerden her hangi birini içeremez:%n%n%1
 DirExistsTitle=Dizin Bulundu
 DirExists=Dizin:%n%n%1%n%n zaten var. Yine de bu dizine kurmak istediðinizden emin misiniz?
 DirDoesntExistTitle=Dizin Bulunamadý
 DirDoesntExist=Dizin:%n%n%1%n%nbulunmamaktadýr. Bu dizini oluþturmak ister misiniz?
 
 ; *** "Select Components" wizard page
-WizardSelectComponents=Bileþen Seçimi
-SelectComponentsDesc=Hangi bileþenleri kurmak istiyorsunuz?
-SelectComponentsLabel2=Aþaðýdan, kurulmasýný istediðiniz bileþenleri seçtikten sonra Ýleri tuþuna basýnýz.
+WizardSelectComponents=Bileþen Seç
+SelectComponentsDesc=Hangi bileþenler kurulsun?
+SelectComponentsLabel2=Kurmak istediðiniz bileþenleri seçiniz; istemediklerinizi temizleyiniz.Devam etmeye hazýr olduðunuz zaman Ýleri'ye týklayýnýz.
 FullInstallation=Tam Kurulum
 ; if possible don't translate 'Compact' as 'Minimal' (I mean 'Minimal' in your language)
 CompactInstallation=Normal Kurulum
@@ -160,12 +160,12 @@ NoUninstallWarningTitle=Mevcut Bileþenler
 NoUninstallWarning=Kur aþaðýdaki bileþenlerin kurulu olduðunu tespit etti:%n%n%1%n%nBu bileþenlerin seçimini kaldýrmak bileþenleri silmeyecek.%n%nYine de devam etmek istiyor musunuz?
 ComponentSize1=%1 KB
 ComponentSize2=%1 MB
-ComponentsDiskSpaceMBLabel=Seçtiðiniz bileþenler için en az [mb] MB sürücü alaný gerekmektedir.
+ComponentsDiskSpaceMBLabel=Seçili bileþenler için en az [mb] MB disk alaný gerekmektedir.
 
 ; *** "Select Additional Tasks" wizard page
-WizardSelectTasks=Ek Seçenekler
-SelectTasksDesc=Ek kurulum seçenekleri.
-SelectTasksLabel2=[name] uygulamasý ile kullanmak istediðiniz ek seçenekleri iþaretleyip Ýleri tuþuna basýnýz.
+WizardSelectTasks=Ek Görevleri Seçiniz
+SelectTasksDesc=Hangi görevler yerine getirilsin?
+SelectTasksLabel2=[name] kurulurken istediðiniz ek görevleri seçip Ýleri'ye týklayýnýz.
 
 ; *** "Baþlat Menüsü Dizini Seç" sihirbaz sayfasý
 WizardSelectProgramGroup=Baþlat Menüsü Dizinini Seçiniz
@@ -179,16 +179,16 @@ BadGroupName=Dizin adý, takip eden karakterlerden her hangi birini içeremez:%n%n
 NoProgramGroupCheck2=&Baþlat menüsünde kýsayol oluþturma
 
 ; *** "Ready to Install" wizard page
-WizardReady=Kurulum Baþlýyor
-ReadyLabel1=[name] uygulamasý kurulumu için gerekli bilgiler alýndý.
-ReadyLabel2a=Yüklemeye devam etmek için Kur, ayarlarýnýzý kontrol etmek veya deðiþtirmek için Geri tuþuna týklayýnýz.
-ReadyLabel2b=Kuruluma devam etmek için Kur tuþuna týklayýnýz.
+WizardReady=Yükleme için Hazýr
+ReadyLabel1=Kur [name] programýný bilgisayarýnýza kurmak için hazýr.
+ReadyLabel2a=Kuruluma devam etmek için Kur'a , ayarlarýnýzý kontrol etmek veya deðiþtirmek için Geri'ye týklayýnýz.
+ReadyLabel2b=Kuruluma devam etmek için Kur'a týklayýnýz.
 ReadyMemoUserInfo=Kullanýcý bilgisi:
 ReadyMemoDir=Hedef dizin:
-ReadyMemoType=Kurulum biçimi:
+ReadyMemoType=Kurulum tipi:
 ReadyMemoComponents=Seçili bileþenler:
 ReadyMemoGroup=Baþlat Menüsü :
-ReadyMemoTasks=Ek seçenekler:
+ReadyMemoTasks=Ek görevler:
 
 ; *** "Kur Hazýlanýyor" sihirbaz sayfasý
 WizardPreparing=Kurulum Hazýrlanýyor
@@ -197,19 +197,19 @@ PreviousInstallNotCompleted=Bir önceki Kurulum/Kaldýr programýna ait iþlem tamam
 CannotContinue=Kur devam edemiyor. Lütfen Ýptal'e týklayýp Çýkýn.
 
 ; *** "Kuruluyor" sihirbaz
-WizardInstalling=Kurulum gerçekleþtiriliyor
-InstallingLabel=Lütfen [name] uygulamasý bilgisayarýnýza kurulurken bekleyiniz.
+WizardInstalling=Kuruluyor
+InstallingLabel=Lütfen [name] bilgisayarýnýza kurulurken bekleyiniz.
 
 ; *** "Setup Completed" wizard page
-FinishedHeadingLabel=[name] Kurulumu Tamamlandý
-FinishedLabelNoIcons=[name] uygulamasý bilgisayarýnýza baþarýyla kuruldu.
-FinishedLabel=[name] uygulamasý bilgisayarýnýza baþarýyla kuruldu. Uygulamayý yüklenen kýsayol tuþlarýna basarak çalýþtýrabilirsiniz.
-ClickFinish=Bu pencereyi kapatmak için Son tuþuna basabilirsiniz.
+FinishedHeadingLabel=[name] Kur Sihirbazý tamamlanýyor
+FinishedLabelNoIcons=Kur [name] programýný bilgisayarýnýza kurma iþlemini tamamladý.
+FinishedLabel=Kur [name] programýný bilgisayarýnýza kurma iþlemini tamamladý. Program yüklenen kýsayol ikonlarýna týklanarak çalýþtýrýlabilir.
+ClickFinish=Kur'dan çýkmak için Son'a týklayýnýz.
 FinishedRestartLabel=[name] programýnýn kurulumunu bitirmek için, Kur bilgisayarýnýzý yeniden baþlatacak. Bilgisayarýnýz yeniden baþlatýlsýn mý?
 FinishedRestartMessage=[name] kurulumunu bitirmek için, bilgisayarýnýzýn yeniden baþlatýlmasý gerekmektedir. %n%nBiligisayarýnýz yeniden baþlatýlsýn mý?
 ShowReadmeCheck=Beni Oku dosyasýný okumak istiyorum.
 YesRadio=&Evet , bilgisayar yeniden baþlatýlsýn.
-NoRadio=&Hayýr, daha sonra elle baþlatýlsýn.
+NoRadio=&Hayýr, daha sonra yeniden baþlatýrým.
 ; used for example as 'Run MyProg.exe'
 RunEntryExec=%1 uygulamasýný Çalýþtýr
 ; used for example as 'View Readme.txt'
@@ -284,8 +284,8 @@ UninstallUnknownEntry=Kaldýr Bilgi dosyasýndaki %1 adlý satýr anlaþýlamadý
 ConfirmUninstall=%1 ve bileþenlerini kaldýrmak istediðinizden emin misiniz?
 UninstallOnlyOnWin64=Bu kurulum sadece 64-bit Windows'lardan kaldýrýlabilir.
 OnlyAdminCanUninstall=Bu kurulum sadece yönetici yetkisine sahip kullanýcýlar tarafýndan kaldýrabilir.
-UninstallStatusLabel=%1 uygulamasý bilgisayarýnýzdan kaldýrýlýrken lütfen bekleyiniz...
-UninstalledAll=%1 uygulamasý bilgisayarýnýzdan baþarýyla kaldýrýldý.
+UninstallStatusLabel=Lütfen %1 programý bilgisayarýnýzdan kaldýrýlýrken bekleyin...
+UninstalledAll=%1 programý bilgisayarýnýzdan tamamen kaldýrýldý.
 UninstalledMost=%1 programýnýn kaldýrýlma iþlemi sona erdi.%n%nBazý bileþenler kaldýrýlamadý. Bu dosyalarý kendiniz silebilirsiniz.
 UninstalledAndNeedsRestart=%1 programýnýn kaldýrýlmasý tamamlandý, Bilgisayarýnýzý yeniden baþlatmalýsýnýz.%n%nÞimdi yeniden baþlatýlsýn mý?
 UninstallDataCorrupted="%1" adlý dosya bozuk. . Kaldýrma programý çalýþtýrýlamadý.
@@ -296,7 +296,7 @@ ConfirmDeleteSharedFile2=Sistemde paylaþýlan bazý dosyalarýn artýk hiçbir progra
 SharedFileNameLabel=Dosya adý:
 SharedFileLocationLabel=Yol:
 WizardUninstalling=Kaldýrma Durumu
-StatusUninstalling=%1 uygulamasý kaldýrýlýyor...
+StatusUninstalling=%1 Kaldýrýlýyor...
 [CustomMessages]
 
 NameAndVersion=%1 %2 sürümü
@@ -304,7 +304,7 @@ AdditionalIcons=Ek simgeler:
 CreateDesktopIcon=Masaüstü simg&esi oluþtur
 CreateQuickLaunchIcon=Hýzlý Baþlat simgesi &oluþtur
 ProgramOnTheWeb=%1 Web Sitesi
-UninstallProgram=%1 Uygulamasýný Kaldýr
-LaunchProgram=%1 Uygulamasýný Aç
+UninstallProgram=%1 Programýný Kaldýr
+LaunchProgram=%1 Programýný Çalýþtýr
 AssocFileExtension=%2 dosya uzantýlarýný %1 ile iliþkilendir
 AssocingFileExtension=%2 dosya uzantýlarý %1 ile iliþkilendiriliyor...
