@@ -149,7 +149,7 @@ void CRegFilterChooserDlg::OnBnClickedButton1()
 {
 	CFileDialog dlg(TRUE, NULL, NULL,
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_NOCHANGEDIR,
-					_T("DirectShow Filters (*.dll,*.ax)|*.dll;*.ax|"), this, 0);
+					_T("DirectShow Filters (*.ax,*.dll)|*.ax;*.dll|"), this, 0);
 
 	if (dlg.DoModal() == IDOK) {
 		CFilterMapper2 fm2(false);
