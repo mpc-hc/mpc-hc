@@ -104,45 +104,40 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 	int			slice_step	= 1;
 	int			nDxvaNalLength;
 
-	Nalu.SetBuffer (pBuffer, nSize, m_nNALLength);
-	
-slice_again:
-	nSize = 0;
-	while (Nalu.ReadNext()) {
-		switch (Nalu.GetType()) {
-			case NALU_TYPE_SLICE:
-			case NALU_TYPE_IDR:
-				// Skip the NALU if the data length is below 0
-				if (Nalu.GetDataLength() < 0) {
+	while (!nSlices && slice_step <= 2) {
+		Nalu.SetBuffer (pBuffer, m_nSize, slice_step == 1 ? m_nNALLength : 0);
+		nSize = 0;
+		while (Nalu.ReadNext()) {
+			switch (Nalu.GetType()) {
+				case NALU_TYPE_SLICE:
+				case NALU_TYPE_IDR:
+					// Skip the NALU if the data length is below 0
+					if (Nalu.GetDataLength() < 0) {
+						break;
+					}
+
+					// For AVC1, put startcode 0x000001
+					pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1;
+					if (Nalu.GetDataLength() < 0)
+						break;
+
+					// Copy NALU
+					__try {
+						memcpy (pDXVABuffer+3, Nalu.GetDataBuffer(), Nalu.GetDataLength());
+					} __except (EXCEPTION_EXECUTE_HANDLER) { break; }
+
+					// Update slice control buffer
+					nDxvaNalLength									= Nalu.GetDataLength()+3;
+					m_pSliceShort[nSlices].BSNALunitDataLocation	= nSize;
+					m_pSliceShort[nSlices].SliceBytesInBuffer		= nDxvaNalLength;
+
+					nSize										   += nDxvaNalLength;
+					pDXVABuffer									   += nDxvaNalLength;
+					nSlices++;
 					break;
-				}
-
-				// For AVC1, put startcode 0x000001
-				pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1;
-				if (Nalu.GetDataLength() < 0)
-					break;
-
-				// Copy NALU
-				__try {
-					memcpy (pDXVABuffer+3, Nalu.GetDataBuffer(), Nalu.GetDataLength());
-				} __except (EXCEPTION_EXECUTE_HANDLER) { break; }
-
-				// Update slice control buffer
-				nDxvaNalLength									= Nalu.GetDataLength()+3;
-				m_pSliceShort[nSlices].BSNALunitDataLocation	= nSize;
-				m_pSliceShort[nSlices].SliceBytesInBuffer		= nDxvaNalLength;
-
-				nSize										   += nDxvaNalLength;
-				pDXVABuffer									   += nDxvaNalLength;
-				nSlices++;
-				break;
+			}
 		}
-	}
-
-	if (!nSlices && slice_step == 1) {
 		slice_step++;
-		Nalu.SetBuffer (pBuffer, m_nSize, 0);
-		goto slice_again;
 	}
 
 	// Complete with zero padding (buffer size should be a multiple of 128)
@@ -184,39 +179,34 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	TRACE_H264 ("CDXVADecoderH264::DecodeFrame() : nFramePOC = %d, nOutPOC = %d[%d], rtOutStart = %I64d\n", nFramePOC, nOutPOC, m_nOutPOC, rtOutStart);
 
-	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength);
+	while (!nSlices && slice_step <= 2) {
+		Nalu.SetBuffer (pDataIn, nSize, slice_step == 1 ? m_nNALLength : 0);
+		while (Nalu.ReadNext()) {
+			switch (Nalu.GetType()) {
+				case NALU_TYPE_SLICE:
+				case NALU_TYPE_IDR:
+					if (m_bUseLongSlice) {
+						m_pSliceLong[nSlices].BSNALunitDataLocation	= nNalOffset;
+						m_pSliceLong[nSlices].SliceBytesInBuffer	= Nalu.GetDataLength()+3; //.GetRoundedDataLength();
+						m_pSliceLong[nSlices].slice_id				= nSlices;
+						FF264UpdateRefFrameSliceLong(&m_DXVAPicParams, &m_pSliceLong[nSlices], m_pFilter->GetAVCtx());
 
-slice_again:
-	while (Nalu.ReadNext()) {
-		switch (Nalu.GetType()) {
-			case NALU_TYPE_SLICE:
-			case NALU_TYPE_IDR:
-				if (m_bUseLongSlice) {
-					m_pSliceLong[nSlices].BSNALunitDataLocation	= nNalOffset;
-					m_pSliceLong[nSlices].SliceBytesInBuffer	= Nalu.GetDataLength()+3; //.GetRoundedDataLength();
-					m_pSliceLong[nSlices].slice_id				= nSlices;
-					FF264UpdateRefFrameSliceLong(&m_DXVAPicParams, &m_pSliceLong[nSlices], m_pFilter->GetAVCtx());
-
-					if (nSlices>0) {
-						m_pSliceLong[nSlices-1].NumMbsForSlice = m_pSliceLong[nSlices].NumMbsForSlice = m_pSliceLong[nSlices].first_mb_in_slice - m_pSliceLong[nSlices-1].first_mb_in_slice;
+						if (nSlices>0) {
+							m_pSliceLong[nSlices-1].NumMbsForSlice = m_pSliceLong[nSlices].NumMbsForSlice = m_pSliceLong[nSlices].first_mb_in_slice - m_pSliceLong[nSlices-1].first_mb_in_slice;
+						}
 					}
-				}
-				nSlices++;
-				nNalOffset += (UINT)(Nalu.GetDataLength() + 3);
-				if (nSlices > MAX_SLICES) {
+					nSlices++;
+					nNalOffset += (UINT)(Nalu.GetDataLength() + 3);
+					if (nSlices > MAX_SLICES) {
+						break;
+					}
 					break;
-				}
-				break;
+			}
 		}
+		slice_step++;
 	}
 
 	if (!nSlices) {
-		if(slice_step == 1) {
-			slice_step++;
-			Nalu.SetBuffer (pDataIn, nSize, 0);
-			goto slice_again;
-		}
-
 		return S_FALSE;
 	}
 
