@@ -3332,13 +3332,10 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 		}
 
 		CString key = CPPageAccelTbl::MakeAccelShortcutLabel(nID);
-		if (!key.IsEmpty()) {
-			str += _T("\t") + key;
-		}
-
-		if (key.IsEmpty() && i < 0) {
+		if (key.IsEmpty() && k < 0) {
 			continue;
 		}
+		str += _T("\t") + key;
 
 		// BUG(?): this disables menu item update ui calls for some reason...
 		//		pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, nID, str);

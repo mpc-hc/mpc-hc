@@ -1110,16 +1110,11 @@ void CPlayerSubresyncBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 	if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0 && (m_mode == VOBSUB || m_mode == TEXTSUB)) {
 		if (CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd()) {
 			int t = 0;
-			if (!ParseTime(m_list.GetItemText(lpnmlv->iItem, lpnmlv->iSubItem), t, false)) {
+			if (lpnmlv->iSubItem > COL_PREVEND || !ParseTime(m_list.GetItemText(lpnmlv->iItem, lpnmlv->iSubItem), t, false)) {
 				t = m_sts[lpnmlv->iItem].start;
 			}
 
-			REFERENCE_TIME rt =
-				lpnmlv->iSubItem == COL_START ? ((REFERENCE_TIME)t*10000) :
-				lpnmlv->iSubItem == COL_END ? ((REFERENCE_TIME)t*10000) :
-				lpnmlv->iSubItem == COL_PREVSTART ? ((REFERENCE_TIME)t*10000) :
-				lpnmlv->iSubItem == COL_PREVEND ? ((REFERENCE_TIME)t*10000) :
-				((REFERENCE_TIME)t*10000);
+			REFERENCE_TIME rt = (REFERENCE_TIME)t*10000;
 
 			pFrame->SeekTo(rt);
 		}
