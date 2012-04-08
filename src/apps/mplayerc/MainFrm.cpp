@@ -9037,6 +9037,8 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 
 	bool is_BD = false;
 
+	CString osdMsg;
+
 	if (GetPlaybackMode() == PM_FILE) {
 		CString fn =  m_wndPlaylistBar.GetCurFileName();
 		if (fn.IsEmpty()) {
@@ -9107,6 +9109,8 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 		}
 
 		s.AddFav(FAV_FILE, str);
+
+		osdMsg = ResStr(IDS_FILE_FAV_ADDED);
 	} else if (GetPlaybackMode() == PM_DVD) {
 		WCHAR path[_MAX_PATH];
 		ULONG len = 0;
@@ -9147,9 +9151,14 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 		str += fn;
 
 		s.AddFav(FAV_DVD, str);
+
+		osdMsg = ResStr(IDS_DVD_FAV_ADDED);
 	} else if (GetPlaybackMode() == PM_CAPTURE) {
 		// TODO
 	}
+
+	SendStatusMessage(osdMsg, 3000);
+	m_OSD.DisplayMessage(OSD_TOPLEFT, osdMsg, 3000);
 }
 
 void CMainFrame::OnFavoritesOrganize()

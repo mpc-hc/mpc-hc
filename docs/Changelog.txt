@@ -10,6 +10,8 @@ Legend:
 
 1.6.2.X - Not released yet
 ==============================
++ Ticket #1792, Show an OSD message and a status messages when a favorite is 
+  created using the shortcut
 * Ticket #734, A unicode encoding will now be used for the ini file. Old ASCII
   ini files will be automatically converted to unicode. Favorites with unicode
   filenames are now correctly handled when using an ini file
@@ -22,7 +24,7 @@ Legend:
 * Improved the 'Open directory' dialog: the checkbox will now use only one line
   when possible and the overall dialog will look better when using XP
 * Updated ffmpeg
-* Updated French, Turkish and Czech translations
+* Updated French, Turkish, Czech, Russian and Ukrainian translations
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
@@ -39,6 +41,7 @@ Legend:
   the font size is now correctly adapted to the font used
 ! Ticket #2133, Javascript error in "player.html"
 ! Ticket #2137, Disable animation when pressing the "Boss" key
-! Ticket #2156, Decoder must deliver all the output data at the end of stream
+! Ticket #2156, MPCVideoDec: Incorrect number of frames at the end of playback
+  with software decoding
 ! Ticket #2161, Prevent the 'Open' dialog from being opened multiple times (for
   example when double clicking on the tray icon)
