@@ -1,4 +1,4 @@
-﻿; (C) 2009-2011 see Authors.txt
+﻿; (C) 2009-2012 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -113,8 +113,8 @@ tc.WelcomeLabel2=這將會安裝 [name] 在你的電腦中。%n%n建議您關閉
 tc.WinVersionTooLowError=執行 [name] 需要 Windows XP Service Pack 3 或更新的版本。
 
 ;Turkish
-tr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-tr.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+tr.WelcomeLabel2=[name] oynatıcısı bilgisayarınıza kurulacaktır.%n%nDevam etmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
+tr.WinVersionTooLowError=[name] oynatıcısı kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
 
 ;Ukrainian
 ua.WelcomeLabel2=На ваш комп'ютер буде встановлено [name].%n%nРекомендується завершити роботу інших додатків перед продовженням.
