@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -60,4 +60,5 @@ public:
 	afx_msg void OnBnClickedBrowsebutton2();
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnUpdateDub(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateOk(CCmdUI* pCmdUI);
 };

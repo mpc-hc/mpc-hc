@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -63,6 +63,7 @@ BEGIN_MESSAGE_MAP(COpenDlg, CResizableDialog)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateDub)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateDub)
 	ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateDub)
+	ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
 END_MESSAGE_MAP()
 
 
@@ -214,6 +215,12 @@ void COpenDlg::OnBnClickedOk()
 
 void COpenDlg::OnUpdateDub(CCmdUI* pCmdUI)
 {
-	m_mrucombo.GetWindowText(m_path);
+	UpdateData();
 	pCmdUI->Enable(AfxGetAppSettings().m_Formats.GetEngine(m_path) == DirectShow);
+}
+
+void COpenDlg::OnUpdateOk(CCmdUI* pCmdUI)
+{
+	UpdateData();
+	pCmdUI->Enable(!m_path.IsEmpty() || !m_path2.IsEmpty());
 }
