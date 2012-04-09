@@ -890,26 +890,24 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
 		}
 
 		// CDROM_Audio
-		if (!(GetVersion()&0x80000000)) {
-			HANDLE hDrive = CreateFile(CString(_T("\\\\.\\")) + path, GENERIC_READ, FILE_SHARE_READ, NULL,
-									   OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
-			if (hDrive != INVALID_HANDLE_VALUE) {
-				DWORD BytesReturned;
-				CDROM_TOC TOC;
-				if (DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, NULL, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
-					for (ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++) {
-						// MMC-3 Draft Revision 10g: Table 222 – Q Sub-channel control field
-						TOC.TrackData[i-1].Control &= 5;
-						if (TOC.TrackData[i-1].Control == 0 || TOC.TrackData[i-1].Control == 1) {
-							CString fn;
-							fn.Format(_T("%s\\track%02d.cda"), path, i);
-							files.AddTail(fn);
-						}
+		HANDLE hDrive = CreateFile(CString(_T("\\\\.\\")) + path, GENERIC_READ, FILE_SHARE_READ, NULL,
+								   OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
+		if (hDrive != INVALID_HANDLE_VALUE) {
+			DWORD BytesReturned;
+			CDROM_TOC TOC;
+			if (DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, NULL, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
+				for (ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++) {
+					// MMC-3 Draft Revision 10g: Table 222 – Q Sub-channel control field
+					TOC.TrackData[i-1].Control &= 5;
+					if (TOC.TrackData[i-1].Control == 0 || TOC.TrackData[i-1].Control == 1) {
+						CString fn;
+						fn.Format(_T("%s\\track%02d.cda"), path, i);
+						files.AddTail(fn);
 					}
 				}
-
-				CloseHandle(hDrive);
 			}
+
+			CloseHandle(hDrive);
 		}
 		if (files.GetCount() > 0) {
 			return CDROM_Audio;

@@ -46,10 +46,6 @@ int g_cTemplates = countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
-	if (GetVersion()&0x80000000) {
-		return E_NOTIMPL;
-	}
-
 	SetRegKeyValue(
 		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73}"),
 		_T("0"), _T("0,12,,445644564944454F2D565453")); // "DVDVIDEO-VTS"
@@ -83,13 +79,6 @@ CVTSReader::CVTSReader(IUnknown* pUnk, HRESULT* phr)
 {
 	if (phr) {
 		*phr = S_OK;
-	}
-
-	if (GetVersion()&0x80000000) {
-		if (phr) {
-			*phr = E_NOTIMPL;
-		}
-		return;
 	}
 }
 

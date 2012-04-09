@@ -49,11 +49,6 @@ int g_cTemplates = countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
-	if (GetVersion()&0x80000000) {
-		::MessageBox(NULL, _T("Sorry, this will only run on Windows NT based operating system."), _T("CDDA Reader"), MB_OK);
-		return E_NOTIMPL;
-	}
-
 	SetRegKeyValue(
 		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{54A35221-2C8D-4a31-A5DF-6D809847E393}"),
 		_T("0"), _T("0,4,,52494646,8,4,,43444441")); // "RIFFxxxxCDDA"
@@ -92,13 +87,6 @@ CCDDAReader::CCDDAReader(IUnknown* pUnk, HRESULT* phr)
 {
 	if (phr) {
 		*phr = S_OK;
-	}
-
-	if (GetVersion()&0x80000000) {
-		if (phr) {
-			*phr = E_NOTIMPL;
-		}
-		return;
 	}
 }
 

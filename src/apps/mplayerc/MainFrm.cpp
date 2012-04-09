@@ -1629,22 +1629,18 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
 
 			CString module;
 
-			if (GetVersion()&0x80000000) {
-				module.ReleaseBufferSetLength(GetWindowModuleFileName(pWnd->m_hWnd, module.GetBuffer(_MAX_PATH), _MAX_PATH));
-			} else {
-				DWORD pid;
-				GetWindowThreadProcessId(pWnd->m_hWnd, &pid);
+			DWORD pid;
+			GetWindowThreadProcessId(pWnd->m_hWnd, &pid);
 
-				if (HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid)) {
-					HMODULE hMod;
-					DWORD cbNeeded;
+			if (HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid)) {
+				HMODULE hMod;
+				DWORD cbNeeded;
 
-					if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded)) {
-						module.ReleaseBufferSetLength(GetModuleFileNameEx(hProcess, hMod, module.GetBuffer(_MAX_PATH), _MAX_PATH));
-					}
-
-					CloseHandle(hProcess);
+				if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded)) {
+					module.ReleaseBufferSetLength(GetModuleFileNameEx(hProcess, hMod, module.GetBuffer(_MAX_PATH), _MAX_PATH));
 				}
+
+				CloseHandle(hProcess);
 			}
 
 			CPath p(module);
@@ -4670,11 +4666,6 @@ void CMainFrame::OnUpdateFileSaveAs(CCmdUI* pCmdUI)
 	CString ext = fn.Mid(fn.ReverseFind('.')+1).MakeLower();
 
 	if (fn.Find(_T("://")) >= 0) {
-		pCmdUI->Enable(FALSE);
-		return;
-	}
-
-	if ((GetVersion()&0x80000000) && (ext == _T("cda") || ext == _T("ifo"))) {
 		pCmdUI->Enable(FALSE);
 		return;
 	}

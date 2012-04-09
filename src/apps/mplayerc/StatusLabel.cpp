@@ -39,10 +39,9 @@ CStatusLabel::CStatusLabel(bool fRightAlign, bool fAddEllipses)
 
 	m_font.m_hObject = NULL;
 
-	if (!(::GetVersion()&0x80000000))
-		m_font.CreateFont(int(14.0 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
-						  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE,
-						  _T("Microsoft Sans Serif"));
+	m_font.CreateFont(int(14.0 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
+					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE,
+					  _T("Microsoft Sans Serif"));
 	if (!m_font.m_hObject)
 		m_font.CreateFont(int(14.0 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
 						  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE,

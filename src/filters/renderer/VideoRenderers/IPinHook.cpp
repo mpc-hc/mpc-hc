@@ -236,7 +236,7 @@ void UnhookNewSegmentAndReceive()
 
 bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 {
-	if (!pPinC || !pMemInputPinC || (GetVersion()&0x80000000)) {
+	if (!pPinC || !pMemInputPinC) {
 		return false;
 	}
 
