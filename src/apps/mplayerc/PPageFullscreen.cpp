@@ -158,10 +158,10 @@ BOOL CPPageFullscreen::OnInitDialog()
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER
 							|LVS_EX_GRIDLINES|LVS_EX_BORDERSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_CHECKBOXES|LVS_EX_FLATSB);
-	m_list.InsertColumn(COL_Z, _T("On/Off"), LVCFMT_LEFT, 60);
-	m_list.InsertColumn(COL_VFR_F, _T("From fps:"), LVCFMT_RIGHT, 60);
-	m_list.InsertColumn(COL_VFR_T, _T("To fps:"), LVCFMT_RIGHT, 60);
-	m_list.InsertColumn(COL_SRR, _T("Display mode (Hz)"), LVCFMT_LEFT, 135);
+	m_list.InsertColumn(COL_Z, ResStr(IDS_PPAGE_FS_CLN_ON_OFF), LVCFMT_LEFT, 60);
+	m_list.InsertColumn(COL_VFR_F, ResStr(IDS_PPAGE_FS_CLN_FROM_FPS), LVCFMT_RIGHT, 60);
+	m_list.InsertColumn(COL_VFR_T, ResStr(IDS_PPAGE_FS_CLN_TO_FPS), LVCFMT_RIGHT, 60);
+	m_list.InsertColumn(COL_SRR, ResStr(IDS_PPAGE_FS_CLN_DISPLAY_MODE), LVCFMT_LEFT, 135);
 
 	ModesUpdate();
 	UpdateData(FALSE);
@@ -487,9 +487,9 @@ void CPPageFullscreen::ModesUpdate()
 			m_list.SetItemText(n, COL_SRR, ss);
 			m_list.SetCheck(n, m_AutoChangeFullscrRes.dmFullscreenRes[n].fChecked);
 			if (n==0) {
-				m_list.SetItemText(n, COL_Z, _T("Default"));
-				m_list.SetItemText(n, COL_VFR_F, _T("other"));
-				m_list.SetItemText(n, COL_VFR_T, _T("other"));
+				m_list.SetItemText(n, COL_Z, ResStr(IDS_PPAGE_FS_DEFAULT));
+				m_list.SetItemText(n, COL_VFR_F, ResStr(IDS_PPAGE_FS_OTHER));
+				m_list.SetItemText(n, COL_VFR_T, ResStr(IDS_PPAGE_FS_OTHER));
 			} else {
 				n>9 ? ss.Format(_T("%d"), n) : ss.Format(_T("0%d"), n);
 				m_list.SetItemText(n, COL_Z, ss);
@@ -507,9 +507,9 @@ void CPPageFullscreen::ModesUpdate()
 		(dmtoset[0].dmDisplayFlags == DM_INTERLACED) ? strModes += _T("i") : strModes += _T("p");
 
 		int idx = 0;
-		m_list.InsertItem(idx, _T("Default"));
-		m_list.SetItemText(idx, COL_VFR_F, _T("other"));
-		m_list.SetItemText(idx, COL_VFR_T, _T("other"));
+		m_list.InsertItem(idx, ResStr(IDS_PPAGE_FS_DEFAULT));
+		m_list.SetItemText(idx, COL_VFR_F, ResStr(IDS_PPAGE_FS_OTHER));
+		m_list.SetItemText(idx, COL_VFR_T, ResStr(IDS_PPAGE_FS_OTHER));
 		m_list.SetItemText(idx, COL_SRR, strModes);
 		m_iSeldm[idx] = i0;
 		m_list.SetCheck(idx, 1);

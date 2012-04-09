@@ -123,7 +123,7 @@ BOOL CPPageOutput::OnInitDialog()
 
 	m_fResetDevice = s.m_RenderersSettings.fResetDevice;
 	m_AudioRendererDisplayNames.Add(_T(""));
-	m_iAudioRendererTypeCtrl.AddString(_T("1: System Default"));
+	m_iAudioRendererTypeCtrl.AddString(_T("1: ")+ResStr(IDS_PPAGE_OUTPUT_SYS_DEF));
 	m_iAudioRendererType = 0;
 
 	int i=2;

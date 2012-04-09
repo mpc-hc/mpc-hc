@@ -49,7 +49,7 @@ CPlayerPlaylistBar::~CPlayerPlaylistBar()
 
 BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd)
 {
-	if (!CSizingControlBarG::Create(_T("Playlist"), pParentWnd, ID_VIEW_PLAYLIST)) {
+	if (!CSizingControlBarG::Create(ResStr(IDS_PLAYLIST_CAPTION), pParentWnd, ID_VIEW_PLAYLIST)) {
 		return FALSE;
 	}
 

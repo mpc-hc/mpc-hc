@@ -1862,7 +1862,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 				pMS->GetTimeFormat(&tf);
 
 				if (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing) {
-					CString str = _T("Live");
+					CString str = ResStr(IDS_CAPTURE_LIVE);
 
 					long lChannel = 0, lVivSub = 0, lAudSub = 0;
 					if (pAMTuner
@@ -10573,11 +10573,11 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 	if (!(pMC && pME && pMS)
 			|| !(pVW && pBV)
 			|| !(pBA)) {
-		throw _T("Failed to query the needed interfaces for playback");
+		throw ResStr(IDS_GRAPH_INTERFACES_ERROR);
 	}
 
 	if (FAILED(pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0))) {
-		throw _T("Could not set target window for graph notification");
+		throw ResStr(IDS_GRAPH_TARGET_WND_ERROR);
 	}
 
 	m_pProv = (IUnknown*)DNew CKeyProvider();
@@ -10899,11 +10899,11 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 	if (hr == E_INVALIDARG) {
 		throw ResStr(IDS_MAINFRM_93);
 	} else if (hr == VFW_E_CANNOT_RENDER) {
-		throw _T("Failed to render all pins of the DVD Navigator filter");
+		throw ResStr(IDS_DVD_NAV_ALL_PINS_ERROR);
 	} else if (hr == VFW_S_PARTIAL_RENDER) {
-		throw _T("Failed to render some of the pins of the DVD Navigator filter");
+		throw ResStr(IDS_DVD_NAV_SOME_PINS_ERROR);
 	} else if (hr == E_NOINTERFACE || !pDVDC || !pDVDI) {
-		throw _T("Failed to query the needed interfaces for DVD playback");
+		throw ResStr(IDS_DVD_INTERFACES_ERROR);
 	} else if (hr == VFW_E_CANNOT_LOAD_SOURCE_FILTER) {
 		throw ResStr(IDS_MAINFRM_94);
 	} else if (FAILED(hr)) {
@@ -10984,7 +10984,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 
 	if (pVidCapTmp) {
 		if (FAILED(hr = pGB->AddFilter(pVidCapTmp, vidfrname))) {
-			throw _T("Can't add video capture filter to the graph");
+			throw ResStr(IDS_CAPTURE_ERROR_VID_FILTER);
 		}
 
 		pVidCap = pVidCapTmp;
@@ -11063,7 +11063,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 
 	if (pAudCapTmp) {
 		if (FAILED(hr = pGB->AddFilter(pAudCapTmp, CStringW(audfrname)))) {
-			throw _T("Can't add audio capture filter to the graph");
+			throw ResStr(IDS_CAPTURE_ERROR_AUD_FILTER);
 		}
 
 		pAudCap = pAudCapTmp;
@@ -11097,7 +11097,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 		throw ResStr(IDS_MAINFRM_108);
 	}
 
-	pODD->title = _T("Live");
+	pODD->title = ResStr(IDS_CAPTURE_LIVE);
 
 	SetPlaybackMode(PM_CAPTURE);
 }
@@ -11520,7 +11520,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 			} else if (GetPlaybackMode() == PM_DVD) {
 				fn = _T("DVD");
 			} else if (GetPlaybackMode() == PM_CAPTURE) {
-				fn = _T("Live");
+				fn = ResStr(IDS_CAPTURE_LIVE);
 			}
 		}
 		title = fn;
@@ -11784,13 +11784,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			if (s.iDefaultCaptureDevice == 1) {
 				HRESULT hr = OpenBDAGraph();
 				if (FAILED(hr)) {
-					throw _T("Could not open capture device.");
+					throw ResStr(IDS_CAPTURE_ERROR_DEVICE);
 				}
 			} else {
 				OpenCapture(pDeviceData);
 			}
 		} else {
-			throw _T("Can't open, invalid input parameters");
+			throw ResStr(IDS_INVALID_PARAMS_ERROR);
 		}
 
 		m_pCAP2 = NULL;
@@ -12298,7 +12298,7 @@ void CMainFrame::SendNowPlayingToMSN()
 					title = (LPCTSTR)path;
 					author.Empty();
 				} else if (GetPlaybackMode() == PM_CAPTURE) {
-					title = label != pli.m_fns.GetHead() ? label : _T("Live");
+					title = label != pli.m_fns.GetHead() ? label : ResStr(IDS_CAPTURE_LIVE);
 					author.Empty();
 				} else if (GetPlaybackMode() == PM_DVD) {
 					title = _T("DVD");

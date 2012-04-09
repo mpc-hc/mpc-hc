@@ -40,7 +40,7 @@ CPlayerNavigationBar::~CPlayerNavigationBar()
 
 BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd)
 {
-	if (!baseCPlayerNavigationBar::Create(_T("Navigation bar"), pParentWnd, ID_VIEW_NAVIGATION)) {
+	if (!baseCPlayerNavigationBar::Create(ResStr(IDS_NAVIGATION_BAR), pParentWnd, ID_VIEW_NAVIGATION)) {
 		return FALSE;
 	}
 

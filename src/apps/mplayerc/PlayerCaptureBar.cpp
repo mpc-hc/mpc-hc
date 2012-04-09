@@ -40,7 +40,7 @@ CPlayerCaptureBar::~CPlayerCaptureBar()
 
 BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd)
 {
-	if (!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, ID_VIEW_CAPTURE)) {
+	if (!baseCPlayerCaptureBar::Create(ResStr(IDS_CAPTURE_SETTINGS), pParentWnd, ID_VIEW_CAPTURE)) {
 		return FALSE;
 	}
 
