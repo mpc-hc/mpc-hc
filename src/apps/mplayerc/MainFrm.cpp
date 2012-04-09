@@ -1027,6 +1027,15 @@ void CMainFrame::RestoreFloatingControlBars()
 	CRect r;
 	GetWindowRect(r);
 
+	// Temporary fix: will be replaced by something better
+	CMapStringToString mapCaptionsToSettingsName;
+	mapCaptionsToSettingsName[ResStr(IDS_CAPTURE_SETTINGS)] = _T("Capture Settings");
+	mapCaptionsToSettingsName[_T("Edit List Editor")] = _T("Edit List Editor"); // should be translatable
+	mapCaptionsToSettingsName[ResStr(IDS_NAVIGATION_BAR)] = _T("Navigation bar");
+	mapCaptionsToSettingsName[ResStr(IDS_PLAYLIST_CAPTION)] = _T("Playlist");
+	mapCaptionsToSettingsName[ResStr(IDS_SHADER_EDITOR)] = _T("Shader Editor");
+	mapCaptionsToSettingsName[ResStr(IDS_SUBRESYNC_CAPTION)] = _T("Subresync");
+
 	POSITION pos = m_dockingbars.GetHeadPosition();
 	while (pos) {
 		CSizingControlBar* pBar = m_dockingbars.GetNext(pos);
@@ -1036,7 +1045,7 @@ void CMainFrame::RestoreFloatingControlBars()
 		if (str.IsEmpty()) {
 			return;
 		}
-		CString section = _T("ToolBars\\") + str;
+		CString section = _T("ToolBars\\") + mapCaptionsToSettingsName[str];
 
 		if ((pBar == &m_wndPlaylistBar) && pApp->GetProfileInt(section, _T("Visible"), FALSE)) {
 			pBar->ShowWindow(SW_SHOW);
@@ -1067,6 +1076,15 @@ void CMainFrame::SaveControlBars()
 {
 	CWinApp* pApp = AfxGetApp();
 
+	// Temporary fix: will be replaced by something better
+	CMapStringToString mapCaptionsToSettingsName;
+	mapCaptionsToSettingsName[ResStr(IDS_CAPTURE_SETTINGS)] = _T("Capture Settings");
+	mapCaptionsToSettingsName[_T("Edit List Editor")] = _T("Edit List Editor"); // should be translatable
+	mapCaptionsToSettingsName[ResStr(IDS_NAVIGATION_BAR)] = _T("Navigation bar");
+	mapCaptionsToSettingsName[ResStr(IDS_PLAYLIST_CAPTION)] = _T("Playlist");
+	mapCaptionsToSettingsName[ResStr(IDS_SHADER_EDITOR)] = _T("Shader Editor");
+	mapCaptionsToSettingsName[ResStr(IDS_SUBRESYNC_CAPTION)] = _T("Subresync");
+
 	POSITION pos = m_dockingbars.GetHeadPosition();
 	while (pos) {
 		CSizingControlBar* pBar = m_dockingbars.GetNext(pos);
@@ -1076,7 +1094,7 @@ void CMainFrame::SaveControlBars()
 		if (str.IsEmpty()) {
 			return;
 		}
-		CString section = _T("ToolBars\\") + str;
+		CString section = _T("ToolBars\\") + mapCaptionsToSettingsName[str];
 
 		pApp->WriteProfileInt(section, _T("Visible"), pBar->IsWindowVisible());
 
