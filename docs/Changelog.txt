@@ -42,6 +42,8 @@ Legend:
   the font size is now correctly adapted to the font used
 ! Ticket #2133, Javascript error in "player.html"
 ! Ticket #2137, Disable animation when pressing the "Boss" key
+! Ticket #2155, Change the background color of the options pages caption so that
+  it is readable with all Windows themes
 ! Ticket #2156, MPCVideoDec: Incorrect number of frames at the end of playback
   with software decoding
 ! Ticket #2161, Prevent the 'Open' dialog from being opened multiple times (for

@@ -285,7 +285,9 @@ CRect CPropPageFrameDefault::CalcCaptionArea()
 
 void CPropPageFrameDefault::DrawCaption(CDC *pDc, CRect rect, LPCTSTR lpszCaption, HICON hIcon)
 {
-	COLORREF	clrLeft = GetSysColor(COLOR_INACTIVECAPTION);
+	// <MPC-HC Custom Code>
+	COLORREF	clrLeft = GetSysColor(COLOR_ACTIVECAPTION);
+	// </MPC-HC Custom Code>
 	COLORREF	clrRight = pDc->GetPixel(rect.right-1, rect.top);
 	FillGradientRectH(pDc, rect, clrLeft, clrRight);
 
