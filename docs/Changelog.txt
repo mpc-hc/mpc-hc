@@ -15,6 +15,8 @@ Legend:
 * Ticket #734, A unicode encoding will now be used for the ini file. Old ASCII
   ini files will be automatically converted to unicode. Favorites with unicode
   filenames are now correctly handled when using an ini file
+* Ticket #1693, [VSFilter] Remove the feature preventing the screensaver from
+  running when VSFilter is active as it is a job for players not for filters
 * Ticket #1733/#2029, Include subfolders when opening a folder using the command
   line or via the explorer context menu
 * Ticket #2157, Show the [DXVA] indicator even when playback is paused
