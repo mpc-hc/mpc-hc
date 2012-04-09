@@ -39,6 +39,8 @@ Legend:
    - when the selected file cannot be dubbed (for example when opening an rtsp
      stream), the wrong label was grayed out
 ! Ticket #1182, Unable to playback MPEG2 in AVI
+! Ticket #1290, Fix the reversed behavior of the playlist option "Hide on fullscreen"
+  when "Launch files in fullscreen" is enabled
 ! Ticket #1589, Crash with "Null (uncompressed)"
 ! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on
 ! Ticket #2090, Better handling of font fallback in the MediaInfo dialog so that

@@ -243,6 +243,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	void ShowControls(int nCS, bool fSave = true);
 
 	void SetDefaultWindowRect(int iMonitor = 0);
+	void SetDefaultFullscreenState();
 	void RestoreDefaultWindowRect();
 	void ZoomVideoWindow(bool snap = true, double scale = -1);
 	double GetZoomAutoFitScale();

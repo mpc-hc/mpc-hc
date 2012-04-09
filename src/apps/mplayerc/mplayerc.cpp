@@ -1187,6 +1187,7 @@ BOOL CMPlayerCApp::InitInstance()
 	}
 	pFrame->SetDefaultWindowRect((m_s.nCLSwitches&CLSW_MONITOR)?m_s.iMonitor:0);
 	pFrame->RestoreFloatingControlBars();
+	pFrame->SetDefaultFullscreenState();
 	pFrame->SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), TRUE);
 	pFrame->DragAcceptFiles();
 	pFrame->ShowWindow((m_s.nCLSwitches&CLSW_MINIMIZED)?SW_SHOWMINIMIZED:SW_SHOW);

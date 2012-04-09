@@ -9519,30 +9519,33 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		CenterWindow();
 	}
 
-	// Waffs : fullscreen command line
-	if (!(s.nCLSwitches&CLSW_ADD) && (s.nCLSwitches&CLSW_FULLSCREEN) && !s.slFiles.IsEmpty()) {
-		ToggleFullscreen(true, true);
-		SetCursor(NULL);
-		AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
-		m_fFirstFSAfterLaunchOnFS = true;
-	}
-
 	if (s.fRememberWindowSize && s.fRememberWindowPos) {
 		if (lastWindowType == SIZE_MAXIMIZED) {
 			ShowWindow(SW_MAXIMIZE);
 		} else if (lastWindowType == SIZE_MINIMIZED) {
 			ShowWindow(SW_MINIMIZE);
 		}
-
-		// Casimir666 : if fullscreen was on, put it on back
-		if (!m_fFullScreen && s.fLastFullScreen) {
-			ToggleFullscreen(true, true);
-		}
 	}
 
 	if (s.fSavePnSZoom) {
 		m_ZoomX = s.dZoomX;
 		m_ZoomY = s.dZoomY;
+	}
+}
+
+void CMainFrame::SetDefaultFullscreenState()
+{
+	AppSettings& s = AfxGetAppSettings();
+
+	// Waffs : fullscreen command line
+	if (!(s.nCLSwitches&CLSW_ADD) && (s.nCLSwitches&CLSW_FULLSCREEN) && !s.slFiles.IsEmpty()) {
+		ToggleFullscreen(true, true);
+		SetCursor(NULL);
+		AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
+		m_fFirstFSAfterLaunchOnFS = true;
+	} else if (s.fRememberWindowSize && s.fRememberWindowPos && !m_fFullScreen && s.fLastFullScreen) {
+		// Casimir666 : if fullscreen was on, put it on back
+		ToggleFullscreen(true, true);
 	}
 }
 
