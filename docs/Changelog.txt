@@ -27,7 +27,8 @@ Legend:
 * Improved the 'Open directory' dialog: the checkbox will now use only one line
   when possible and the overall dialog will look better when using XP
 * Updated ffmpeg
-* Updated French, Turkish, Czech, Russian, Ukrainian and simplified Chinese translations
+* Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese
+  and traditional Chinese translations
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
