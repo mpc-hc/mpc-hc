@@ -27,6 +27,8 @@ Legend:
 * Improved the 'Open directory' dialog: the checkbox will now use only one line
   when possible and the overall dialog will look better when using XP
 * Updated ffmpeg
+* Updated MediaInfoLib to v0.7.55
+* Updated ZenLib to v0.4.26
 * Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese
   and traditional Chinese translations
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on

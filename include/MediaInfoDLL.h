@@ -434,8 +434,6 @@ namespace MediaInfoDLL
 #endif
 typedef std::basic_string<Char>        String;
 typedef std::basic_stringstream<Char>  StringStream;
-typedef std::basic_istringstream<Char> tiStringStream;
-typedef std::basic_ostringstream<Char> toStringStream;
 const size_t Error=(size_t)(-1);
 //---------------------------------------------------------------------------
 
