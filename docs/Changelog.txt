@@ -29,8 +29,8 @@ Legend:
 * Updated ffmpeg
 * Updated MediaInfoLib to v0.7.55
 * Updated ZenLib to v0.4.26
-* Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese
-  and traditional Chinese translations
+* Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese,
+  traditional Chinese and Italian translations
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
