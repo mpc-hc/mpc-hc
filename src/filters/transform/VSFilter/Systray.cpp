@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include "resource.h"
 #include "DirectVobSubFilter.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "Systray.h"
 
 // hWnd == INVALID_HANDLE_VALUE - get name, hWnd != INVALID_HANDLE_VALUE - show ppage
 static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd);
@@ -68,54 +69,6 @@ LRESULT CALLBACK HookProc(UINT code, WPARAM wParam, LPARAM lParam)
 	// Always call next hook in chain
 	return CallNextHookEx(g_hHook, code,  wParam, lParam);
 }
-
-class CSystrayWindow : public CWnd
-{
-	SystrayIconData* m_tbid;
-
-	void StepSub(int dir) {
-		int iSelected, nLangs;
-		if (FAILED(m_tbid->dvs->get_LanguageCount(&nLangs))) {
-			return;
-		}
-		if (FAILED(m_tbid->dvs->get_SelectedLanguage(&iSelected))) {
-			return;
-		}
-		if (nLangs > 0) {
-			m_tbid->dvs->put_SelectedLanguage((iSelected+dir+nLangs)%nLangs);
-		}
-	}
-
-	void ShowSub(bool fShow) {
-		m_tbid->dvs->put_HideSubtitles(!fShow);
-	}
-
-	void ToggleSub() {
-		bool fShow;
-		if (FAILED(m_tbid->dvs->get_HideSubtitles(&fShow))) {
-			return;
-		}
-		m_tbid->dvs->put_HideSubtitles(!fShow);
-	}
-
-public:
-	CSystrayWindow(SystrayIconData* tbid) : m_tbid(tbid) {}
-
-protected:
-	DECLARE_MESSAGE_MAP()
-
-public:
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnClose();
-	afx_msg void OnDestroy();
-	afx_msg LRESULT OnDVSPrevSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnDVSNextSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnDVSHideSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnDVSShowSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnDVSShowHideSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnTaskBarRestart(WPARAM, LPARAM);
-	afx_msg LRESULT OnNotifyIcon(WPARAM, LPARAM);
-};
 
 BEGIN_MESSAGE_MAP(CSystrayWindow, CWnd)
 	ON_WM_CREATE()
