@@ -2436,24 +2436,12 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 
 bool CMPlayerCApp::IsVSFilterInstalled()
 {
-	bool result = false;
-	CRegKey key;
-	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance\\{9852A670-F845-491B-9BE6-EBD841B8A613}"), KEY_READ)) {
-		result = true;
-	}
-
-	return result;
+	return IsCLSIDRegistered(_T("{9852A670-F845-491B-9BE6-EBD841B8A613}"));
 }
 
 bool CMPlayerCApp::HasEVR()
 {
-	bool result = false;
-	CRegKey key;
-	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance\\{FA10746C-9B63-4B6C-BC49-FC300EA5F256}"), KEY_READ)) {
-		result = true;
-	}
-
-	return result;
+	return IsCLSIDRegistered(_T("{FA10746C-9B63-4B6C-BC49-FC300EA5F256}"));
 }
 
 HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
