@@ -466,7 +466,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	HRESULT hr = E_FAIL;
 
-	bool b_HasVideo = false;
+	//bool b_HasVideo = false;
 
 	m_trackpos.RemoveAll();
 
@@ -487,6 +487,27 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_framesize.SetSize(640, 480);
 
 	if (AP4_Movie* movie = (AP4_Movie*)m_pFile->GetMovie()) {
+		// looking for main video track (skip tracks with motionless frames)
+		AP4_UI32 mainvideoID = 0;
+		for (AP4_List<AP4_Track>::Item* item = movie->GetTracks().FirstItem();
+				item;
+				item = item->GetNext()) {
+			AP4_Track* track = item->GetData();
+
+			if (track->GetType() != AP4_Track::TYPE_VIDEO) {
+				continue;
+			}
+			if (!mainvideoID) {
+				mainvideoID = track->GetId();
+			}
+			if (AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss"))) {
+				if (stss->m_Entries.ItemCount() > 0) {
+					mainvideoID = track->GetId();
+					break;
+				}
+			}
+		}
+		// process the tracks
 		for (AP4_List<AP4_Track>::Item* item = movie->GetTracks().FirstItem();
 				item;
 				item = item->GetNext()) {
@@ -499,7 +520,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				continue;
 			}
 
-			if (b_HasVideo && track->GetType() == AP4_Track::TYPE_VIDEO) {
+			//if (b_HasVideo && track->GetType() == AP4_Track::TYPE_VIDEO) {
+			if (track->GetType() == AP4_Track::TYPE_VIDEO && track->GetId() != mainvideoID) {
 				continue;
 			}
 
@@ -593,7 +615,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								mts.Add(mt);
 								mt.subtype = FOURCCMap(mvih->hdr.bmiHeader.biCompression = 'V4PM');
 								mts.Add(mt);
-								b_HasVideo = true;
+								//b_HasVideo = true;
 							}
 							break;
 						case AP4_JPEG_OTI:
@@ -613,7 +635,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								mvih->cbSequenceHeader = di->GetDataSize();
 								memcpy(mvih->dwSequenceHeader, di->GetData(), di->GetDataSize());
 								mts.Add(mt);
-								b_HasVideo = true;
+								//b_HasVideo = true;
 							}
 							break;
 						case AP4_MPEG2_VISUAL_SIMPLE_OTI:
@@ -875,7 +897,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 					mt.subtype = FOURCCMap(mvih->hdr.bmiHeader.biCompression = '1CVA');
 					mts.Add(mt);
-					b_HasVideo = true;
+					//b_HasVideo = true;
 				}
 			} else if (AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(
 												track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd"))) {
@@ -922,7 +944,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						if (typelwr != fourcc) {
 							mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = typelwr);
 							mts.Add(mt);
-							b_HasVideo = true;
+							//b_HasVideo = true;
 						}
 
 						_strupr((char*)&buff);
@@ -931,7 +953,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						if (typeupr != fourcc) {
 							mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = typeupr);
 							mts.Add(mt);
-							b_HasVideo = true;
+							//b_HasVideo = true;
 						}
 
 						break;
