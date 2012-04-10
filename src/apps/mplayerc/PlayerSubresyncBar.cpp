@@ -29,7 +29,7 @@
 
 // CPlayerSubresyncBar
 
-IMPLEMENT_DYNAMIC(CPlayerSubresyncBar, CSizingControlBarG)
+IMPLEMENT_DYNAMIC(CPlayerSubresyncBar, CPlayerBar)
 CPlayerSubresyncBar::CPlayerSubresyncBar()
 {
 	m_rt = 0;
@@ -41,9 +41,9 @@ CPlayerSubresyncBar::~CPlayerSubresyncBar()
 {
 }
 
-BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, CCritSec* pSubLock)
+BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* pSubLock)
 {
-	if (!CSizingControlBarG::Create(ResStr(IDS_SUBRESYNC_CAPTION), pParentWnd, ID_VIEW_SUBRESYNC)) {
+	if (!__super::Create(ResStr(IDS_SUBRESYNC_CAPTION), pParentWnd, ID_VIEW_SUBRESYNC, defDockBarID, _T("Subresync"))) {
 		return FALSE;
 	}
 

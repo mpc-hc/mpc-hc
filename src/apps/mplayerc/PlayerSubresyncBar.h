@@ -24,15 +24,15 @@
 #pragma once
 
 #include <afxcview.h>
+#include "PlayerBar.h"
 #include "PlayerListCtrl.h"
 #include "../../Subtitles/RTS.h"
 #include "../../Subtitles/VobSubFile.h"
-#include <sizecbar/scbarg.h>
 
 
 // CPlayerSubresyncBar
 
-class CPlayerSubresyncBar : public CSizingControlBarG
+class CPlayerSubresyncBar : public CPlayerBar
 {
 	DECLARE_DYNAMIC(CPlayerSubresyncBar)
 
@@ -87,7 +87,7 @@ public:
 	CPlayerSubresyncBar();
 	virtual ~CPlayerSubresyncBar();
 
-	BOOL Create(CWnd* pParentWnd, CCritSec* pSubLock);
+	BOOL Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* pSubLock);
 
 	void SetTime(__int64 rt);
 

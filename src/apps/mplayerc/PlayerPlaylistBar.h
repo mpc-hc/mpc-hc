@@ -24,13 +24,14 @@
 #pragma once
 
 #include <afxcoll.h>
+#include "PlayerBar.h"
 #include "PlayerListCtrl.h"
 #include "Playlist.h"
 
 
 class OpenMediaData;
 
-class CPlayerPlaylistBar : public CSizingControlBarG
+class CPlayerPlaylistBar : public CPlayerBar
 {
 	DECLARE_DYNAMIC(CPlayerPlaylistBar)
 
@@ -71,7 +72,10 @@ public:
 	CPlayerPlaylistBar();
 	virtual ~CPlayerPlaylistBar();
 
-	BOOL Create(CWnd* pParentWnd);
+	BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
+
+	virtual void LoadState(CFrameWnd *pParent);
+	virtual void SaveState();
 
 	CPlaylist m_pl;
 

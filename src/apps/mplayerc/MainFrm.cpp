@@ -729,40 +729,46 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_dockingbars.RemoveAll();
 
-	m_wndSubresyncBar.Create(this, &m_csSubLock);
+	m_wndSubresyncBar.Create(this, AFX_IDW_DOCKBAR_TOP, &m_csSubLock);
 	m_wndSubresyncBar.SetBarStyle(m_wndSubresyncBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndSubresyncBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndSubresyncBar.SetHeight(200);
-	LoadControlBar(&m_wndSubresyncBar, AFX_IDW_DOCKBAR_TOP);
+	m_dockingbars.AddTail(&m_wndSubresyncBar);
 
-	m_wndPlaylistBar.Create(this);
+	m_wndPlaylistBar.Create(this, AFX_IDW_DOCKBAR_BOTTOM);
 	m_wndPlaylistBar.SetBarStyle(m_wndPlaylistBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndPlaylistBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndPlaylistBar.SetHeight(100);
-	LoadControlBar(&m_wndPlaylistBar, AFX_IDW_DOCKBAR_BOTTOM);
+	m_dockingbars.AddTail(&m_wndPlaylistBar);
 	m_wndPlaylistBar.LoadPlaylist(GetRecentFile());
 
-	m_wndEditListEditor.Create(this);
+	m_wndEditListEditor.Create(this, AFX_IDW_DOCKBAR_RIGHT);
 	m_wndEditListEditor.SetBarStyle(m_wndEditListEditor.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndEditListEditor.EnableDocking(CBRS_ALIGN_ANY);
-	LoadControlBar(&m_wndEditListEditor, AFX_IDW_DOCKBAR_RIGHT);
+	m_dockingbars.AddTail(&m_wndEditListEditor);
 	m_wndEditListEditor.SetHeight(100);
 
-	m_wndCaptureBar.Create(this);
+	m_wndCaptureBar.Create(this, AFX_IDW_DOCKBAR_LEFT);
 	m_wndCaptureBar.SetBarStyle(m_wndCaptureBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndCaptureBar.EnableDocking(CBRS_ALIGN_LEFT|CBRS_ALIGN_RIGHT);
-	LoadControlBar(&m_wndCaptureBar, AFX_IDW_DOCKBAR_LEFT);
+	m_dockingbars.AddTail(&m_wndCaptureBar);
 
-	m_wndNavigationBar.Create(this);
+	m_wndNavigationBar.Create(this, AFX_IDW_DOCKBAR_LEFT);
 	m_wndNavigationBar.SetBarStyle(m_wndNavigationBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndNavigationBar.EnableDocking(CBRS_ALIGN_LEFT|CBRS_ALIGN_RIGHT);
-	LoadControlBar(&m_wndNavigationBar, AFX_IDW_DOCKBAR_LEFT);
+	m_dockingbars.AddTail(&m_wndNavigationBar);
 
-	m_wndShaderEditorBar.Create(this);
+	m_wndShaderEditorBar.Create(this, AFX_IDW_DOCKBAR_TOP);
 	m_wndShaderEditorBar.SetBarStyle(m_wndShaderEditorBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndShaderEditorBar.EnableDocking(CBRS_ALIGN_ANY);
-	LoadControlBar(&m_wndShaderEditorBar, AFX_IDW_DOCKBAR_TOP);
+	m_dockingbars.AddTail(&m_wndShaderEditorBar);
 
+	// Hide all dockable bars by default
+	POSITION pos = m_dockingbars.GetHeadPosition();
+	while (pos) {
+		m_dockingbars.GetNext(pos)->ShowWindow(SW_HIDE);
+	}
+ 
 	m_fileDropTarget.Register(this);
 
 	GetDesktopWindow()->GetWindowRect(&m_rcDesktop);
@@ -983,135 +989,27 @@ LPCTSTR CMainFrame::GetRecentFile()
 	return NULL;
 }
 
-void CMainFrame::LoadControlBar(CControlBar* pBar, UINT defDockBarID)
+void CMainFrame::RestoreControlBars()
 {
-	if (!pBar) {
-		return;
-	}
-
-	CString str;
-	pBar->GetWindowText(str);
-	if (str.IsEmpty()) {
-		return;
-	}
-	CString section = _T("ToolBars\\") + str;
-
-	CWinApp* pApp = AfxGetApp();
-
-	UINT nID = pApp->GetProfileInt(section, _T("DockState"), defDockBarID);
-
-	if (nID != AFX_IDW_DOCKBAR_FLOAT) {
-		DockControlBar(pBar, nID);
-	}
-
-	pBar->ShowWindow(
-		pApp->GetProfileInt(section, _T("Visible"), FALSE)
-		&& pBar != &m_wndSubresyncBar
-		&& pBar != &m_wndCaptureBar
-		&& pBar != &m_wndShaderEditorBar
-		&& pBar != &m_wndNavigationBar
-		&& pBar != &m_wndPlaylistBar
-		? SW_SHOW
-		: SW_HIDE);
-
-	if (CSizingControlBar* pSCB = dynamic_cast<CSizingControlBar*>(pBar)) {
-		pSCB->LoadState(section + _T("\\State"));
-		m_dockingbars.AddTail(pSCB);
-	}
-}
-
-void CMainFrame::RestoreFloatingControlBars()
-{
-	CWinApp* pApp = AfxGetApp();
-
-	CRect r;
-	GetWindowRect(r);
-
-	// Temporary fix: will be replaced by something better
-	CMapStringToString mapCaptionsToSettingsName;
-	mapCaptionsToSettingsName[ResStr(IDS_CAPTURE_SETTINGS)] = _T("Capture Settings");
-	mapCaptionsToSettingsName[_T("Edit List Editor")] = _T("Edit List Editor"); // should be translatable
-	mapCaptionsToSettingsName[ResStr(IDS_NAVIGATION_BAR)] = _T("Navigation bar");
-	mapCaptionsToSettingsName[ResStr(IDS_PLAYLIST_CAPTION)] = _T("Playlist");
-	mapCaptionsToSettingsName[ResStr(IDS_SHADER_EDITOR)] = _T("Shader Editor");
-	mapCaptionsToSettingsName[ResStr(IDS_SUBRESYNC_CAPTION)] = _T("Subresync");
-
 	POSITION pos = m_dockingbars.GetHeadPosition();
 	while (pos) {
-		CSizingControlBar* pBar = m_dockingbars.GetNext(pos);
+		CPlayerBar* pBar = dynamic_cast<CPlayerBar*>(m_dockingbars.GetNext(pos));
 
-		CString str;
-		pBar->GetWindowText(str);
-		if (str.IsEmpty()) {
-			return;
-		}
-		CString section = _T("ToolBars\\") + mapCaptionsToSettingsName[str];
-
-		if ((pBar == &m_wndPlaylistBar) && pApp->GetProfileInt(section, _T("Visible"), FALSE)) {
-			pBar->ShowWindow(SW_SHOW);
-		}
-
-		if (pApp->GetProfileInt(section, _T("DockState"), ~AFX_IDW_DOCKBAR_FLOAT) == AFX_IDW_DOCKBAR_FLOAT) {
-			CPoint p;
-			p.x = pApp->GetProfileInt(section, _T("DockPosX"), r.right);
-			p.y = pApp->GetProfileInt(section, _T("DockPosY"), r.top);
-			if (p.x < m_rcDesktop.left) {
-				p.x = m_rcDesktop.left;
-			}
-			if (p.y < m_rcDesktop.top) {
-				p.y = m_rcDesktop.top;
-			}
-			if (p.x >= m_rcDesktop.right) {
-				p.x = m_rcDesktop.right-1;
-			}
-			if (p.y >= m_rcDesktop.bottom) {
-				p.y = m_rcDesktop.bottom-1;
-			}
-			FloatControlBar(pBar, p);
+		if (pBar) {
+			pBar->LoadState(this);
 		}
 	}
 }
 
 void CMainFrame::SaveControlBars()
 {
-	CWinApp* pApp = AfxGetApp();
-
-	// Temporary fix: will be replaced by something better
-	CMapStringToString mapCaptionsToSettingsName;
-	mapCaptionsToSettingsName[ResStr(IDS_CAPTURE_SETTINGS)] = _T("Capture Settings");
-	mapCaptionsToSettingsName[_T("Edit List Editor")] = _T("Edit List Editor"); // should be translatable
-	mapCaptionsToSettingsName[ResStr(IDS_NAVIGATION_BAR)] = _T("Navigation bar");
-	mapCaptionsToSettingsName[ResStr(IDS_PLAYLIST_CAPTION)] = _T("Playlist");
-	mapCaptionsToSettingsName[ResStr(IDS_SHADER_EDITOR)] = _T("Shader Editor");
-	mapCaptionsToSettingsName[ResStr(IDS_SUBRESYNC_CAPTION)] = _T("Subresync");
-
 	POSITION pos = m_dockingbars.GetHeadPosition();
 	while (pos) {
-		CSizingControlBar* pBar = m_dockingbars.GetNext(pos);
+		CPlayerBar* pBar = dynamic_cast<CPlayerBar*>(m_dockingbars.GetNext(pos));
 
-		CString str;
-		pBar->GetWindowText(str);
-		if (str.IsEmpty()) {
-			return;
+		if (pBar) {
+			pBar->SaveState();
 		}
-		CString section = _T("ToolBars\\") + mapCaptionsToSettingsName[str];
-
-		pApp->WriteProfileInt(section, _T("Visible"), pBar->IsWindowVisible());
-
-		if (CSizingControlBar* pSCB = dynamic_cast<CSizingControlBar*>(pBar)) {
-			pSCB->SaveState(section + _T("\\State"));
-		}
-
-		UINT nID = pBar->GetParent()->GetDlgCtrlID();
-
-		if (nID == AFX_IDW_DOCKBAR_FLOAT) {
-			CRect r;
-			pBar->GetParent()->GetParent()->GetWindowRect(r);
-			pApp->WriteProfileInt(section, _T("DockPosX"), r.left);
-			pApp->WriteProfileInt(section, _T("DockPosY"), r.top);
-		}
-
-		pApp->WriteProfileInt(section, _T("DockState"), nID);
 	}
 }
 

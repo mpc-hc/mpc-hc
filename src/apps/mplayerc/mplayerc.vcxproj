@@ -208,6 +208,7 @@
     <ClCompile Include="OpenDirHelper.cpp" />
     <ClCompile Include="OpenDlg.cpp" />
     <ClCompile Include="OpenFileDlg.cpp" />
+    <ClCompile Include="PlayerBar.cpp" />
     <ClCompile Include="PlayerCaptureBar.cpp" />
     <ClCompile Include="PlayerCaptureDialog.cpp" />
     <ClCompile Include="PlayerInfoBar.cpp" />
@@ -332,6 +333,7 @@
     <ClInclude Include="OpenDirHelper.h" />
     <ClInclude Include="OpenDlg.h" />
     <ClInclude Include="OpenFileDlg.h" />
+    <ClInclude Include="PlayerBar.h" />
     <ClInclude Include="PlayerCaptureBar.h" />
     <ClInclude Include="PlayerCaptureDialog.h" />
     <ClInclude Include="PlayerInfoBar.h" />

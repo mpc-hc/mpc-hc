@@ -35,7 +35,7 @@
 #include "InternalFiltersConfig.h"
 
 
-IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CSizingControlBarG)
+IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar()
 	: m_list(0)
 	, m_nTimeColWidth(0)
@@ -47,9 +47,9 @@ CPlayerPlaylistBar::~CPlayerPlaylistBar()
 {
 }
 
-BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd)
+BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 {
-	if (!CSizingControlBarG::Create(ResStr(IDS_PLAYLIST_CAPTION), pParentWnd, ID_VIEW_PLAYLIST)) {
+	if (!__super::Create(ResStr(IDS_PLAYLIST_CAPTION), pParentWnd, ID_VIEW_PLAYLIST, defDockBarID, _T("Playlist"))) {
 		return FALSE;
 	}
 
@@ -104,6 +104,26 @@ BOOL CPlayerPlaylistBar::PreTranslateMessage(MSG* pMsg)
 	}
 
 	return CSizingControlBarG::PreTranslateMessage(pMsg);
+}
+
+void CPlayerPlaylistBar::LoadState(CFrameWnd *pParent)
+{
+	CString section = _T("ToolBars\\") + m_strSettingName;
+
+	if (AfxGetApp()->GetProfileInt(section, _T("Visible"), FALSE)) {
+		ShowWindow(SW_SHOW);
+	}
+
+	__super::LoadState(pParent);
+}
+
+void CPlayerPlaylistBar::SaveState()
+{
+	__super::SaveState();
+
+	CString section = _T("ToolBars\\") + m_strSettingName;
+
+	AfxGetApp()->WriteProfileInt(section, _T("Visible"), IsWindowVisible());
 }
 
 void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)

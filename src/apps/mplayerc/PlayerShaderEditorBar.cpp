@@ -36,9 +36,9 @@ CPlayerShaderEditorBar::~CPlayerShaderEditorBar()
 {
 }
 
-BOOL CPlayerShaderEditorBar::Create(CWnd* pParentWnd)
+BOOL CPlayerShaderEditorBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 {
-	if (!__super::Create(ResStr(IDS_SHADER_EDITOR), pParentWnd, ID_VIEW_SHADEREDITOR)) {
+	if (!__super::Create(ResStr(IDS_SHADER_EDITOR), pParentWnd, ID_VIEW_SHADEREDITOR, defDockBarID, _T("Shader Editor"))) {
 		return FALSE;
 	}
 

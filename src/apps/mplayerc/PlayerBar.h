@@ -1,8 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2012 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,36 +20,28 @@
  *
  */
 
+
 #pragma once
 
-#include "PlayerBar.h"
-#include "ShaderEditorDlg.h"
-
-#ifndef baseCPlayerShaderEditorBar
-#define baseCPlayerShaderEditorBar CPlayerBar
-#endif
+#include <sizecbar/scbarg.h>
 
 
-// CPlayerShaderEditorBar
-
-class CPlayerShaderEditorBar : public baseCPlayerShaderEditorBar
+class CPlayerBar : public CSizingControlBarG
 {
-	DECLARE_DYNAMIC(CPlayerShaderEditorBar)
+	DECLARE_DYNAMIC(CPlayerBar)
 
-public:
-	CPlayerShaderEditorBar();
-	virtual ~CPlayerShaderEditorBar();
-
-	BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
-
-public:
-	CShaderEditorDlg m_dlg;
-
-protected:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-
+protected :
 	DECLARE_MESSAGE_MAP()
 
+	UINT m_defDockBarID;
+	CString m_strSettingName;
+
 public:
-	afx_msg void OnSize(UINT nType, int cx, int cy);
+	CPlayerBar(void);
+	virtual ~CPlayerBar(void);
+
+	BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName);
+
+	virtual void LoadState(CFrameWnd *pParent);
+	virtual void SaveState();
 };

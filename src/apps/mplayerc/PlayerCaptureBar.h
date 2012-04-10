@@ -23,10 +23,11 @@
 
 #pragma once
 
+#include "PlayerBar.h"
 #include "PlayerCaptureDialog.h"
 
 #ifndef baseCPlayerCaptureBar
-#define baseCPlayerCaptureBar CSizingControlBarG
+#define baseCPlayerCaptureBar CPlayerBar
 #endif
 
 
@@ -40,7 +41,7 @@ public:
 	CPlayerCaptureBar();
 	virtual ~CPlayerCaptureBar();
 
-	BOOL Create(CWnd* pParentWnd);
+	BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
 
 public:
 	CPlayerCaptureDialog m_capdlg;

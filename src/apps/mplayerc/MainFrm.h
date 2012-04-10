@@ -562,8 +562,7 @@ protected:  // control bar embedded members
 	friend class CPPageAudioSwitcher; // TODO
 	friend class CMPlayerCApp; // TODO
 
-	void LoadControlBar(CControlBar* pBar, UINT defDockBarID);
-	void RestoreFloatingControlBars();
+	void RestoreControlBars();
 	void SaveControlBars();
 
 	// Generated message map functions

@@ -38,9 +38,9 @@ CPlayerCaptureBar::~CPlayerCaptureBar()
 {
 }
 
-BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd)
+BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 {
-	if (!baseCPlayerCaptureBar::Create(ResStr(IDS_CAPTURE_SETTINGS), pParentWnd, ID_VIEW_CAPTURE)) {
+	if (!__super::Create(ResStr(IDS_CAPTURE_SETTINGS), pParentWnd, ID_VIEW_CAPTURE, defDockBarID, _T("Capture Settings"))) {
 		return FALSE;
 	}
 

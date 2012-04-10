@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -38,9 +38,9 @@ CPlayerNavigationBar::~CPlayerNavigationBar()
 {
 }
 
-BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd)
+BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 {
-	if (!baseCPlayerNavigationBar::Create(ResStr(IDS_NAVIGATION_BAR), pParentWnd, ID_VIEW_NAVIGATION)) {
+	if (!baseCPlayerNavigationBar::Create(ResStr(IDS_NAVIGATION_BAR), pParentWnd, ID_VIEW_NAVIGATION, defDockBarID, _T("Navigation Bar"))) {
 		return FALSE;
 	}
 

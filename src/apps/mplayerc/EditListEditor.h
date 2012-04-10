@@ -23,8 +23,8 @@
 
 #pragma once
 
+#include "PlayerBar.h"
 #include "PlayerListCtrl.h"
-#include <sizecbar/scbarg.h>
 
 
 class CClip
@@ -59,7 +59,7 @@ public :
 	};
 };
 
-class CEditListEditor :	public CSizingControlBarG
+class CEditListEditor :	public CPlayerBar
 {
 	DECLARE_DYNAMIC(CEditListEditor)
 
@@ -99,13 +99,13 @@ public:
 	CEditListEditor(void);
 	~CEditListEditor(void);
 
-	BOOL Create(CWnd* pParentWnd);
+	BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
 
 	void CloseFile();
 	void OpenFile(LPCTSTR lpFileName);
-	void SetIn   (REFERENCE_TIME rtIn);
-	void SetOut  (REFERENCE_TIME rtOut);
-	void NewClip (REFERENCE_TIME rtVal);
+	void SetIn(REFERENCE_TIME rtIn);
+	void SetOut(REFERENCE_TIME rtOut);
+	void NewClip(REFERENCE_TIME rtVal);
 	void Save();
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);

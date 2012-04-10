@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -23,9 +23,10 @@
 #pragma once
 
 #include "PlayerNavigationDialog.h"
+#include "PlayerBar.h"
 
 #ifndef baseCPlayerNavigationBar
-#define baseCPlayerNavigationBar CSizingControlBarG
+#define baseCPlayerNavigationBar CPlayerBar
 #endif
 
 
@@ -39,7 +40,7 @@ public:
 	CWnd* m_pParent;
 	CPlayerNavigationBar();
 	virtual ~CPlayerNavigationBar();
-	BOOL Create(CWnd* pParentWnd);
+	BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
 	void ShowControls(CWnd* pMainfrm, bool bShow);
 
 public:

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -76,7 +76,7 @@ CString CClip::GetOut()
 	}
 }
 
-IMPLEMENT_DYNAMIC(CEditListEditor, CSizingControlBarG)
+IMPLEMENT_DYNAMIC(CEditListEditor, CPlayerBar)
 CEditListEditor::CEditListEditor(void)
 {
 	m_CurPos		= NULL;
@@ -91,7 +91,7 @@ CEditListEditor::~CEditListEditor(void)
 	SaveEditListToFile();
 }
 
-BEGIN_MESSAGE_MAP(CEditListEditor, CSizingControlBarG)
+BEGIN_MESSAGE_MAP(CEditListEditor, CPlayerBar)
 	ON_WM_SIZE()
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_EDITLIST, OnLvnItemchanged)
 	ON_NOTIFY(LVN_KEYDOWN, IDC_EDITLIST, OnLvnKeyDown)
@@ -105,9 +105,9 @@ BEGIN_MESSAGE_MAP(CEditListEditor, CSizingControlBarG)
 	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_EDITLIST, OnEndlabeleditList)
 END_MESSAGE_MAP()
 
-BOOL CEditListEditor::Create(CWnd* pParentWnd)
+BOOL CEditListEditor::Create(CWnd* pParentWnd, UINT defDockBarID)
 {
-	if (!CSizingControlBarG::Create(_T("Edit List Editor"), pParentWnd, ID_VIEW_EDITLISTEDITOR)) {
+	if (!__super::Create(ResStr(IDS_EDIT_LIST_EDITOR), pParentWnd, ID_VIEW_EDITLISTEDITOR, defDockBarID, _T("Edit List Editor"))) {
 		return FALSE;
 	}
 
