@@ -1,17 +1,17 @@
 /*
- * $Id: stdafx.cpp 1686 2010-02-20 21:26:33Z povaddict $
+ * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2012 see Authors.txt
  *
- * This file is part of mplayerc.
+ * This file is part of MPC-HC.
  *
- * Mplayerc is free software; you can redistribute it and/or modify
+ * MPC-HC is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  *
- * Mplayerc is distributed in the hope that it will be useful,
+ * MPC-HC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
