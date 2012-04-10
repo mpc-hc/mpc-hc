@@ -3670,7 +3670,6 @@ void CMainFrame::OnFilePostOpenmedia()
 		s.strPnSPreset.Empty();
 	}
 	SendNowPlayingToMSN();
-	SendNowPlayingTomIRC();
 	SendNowPlayingToApi();
 }
 
@@ -12350,42 +12349,6 @@ void CMainFrame::SendNowPlayingToMSN()
 	}
 }
 
-// mIRC
-
-void CMainFrame::SendNowPlayingTomIRC()
-{
-	if (!AfxGetAppSettings().fNotifyGTSdll) {
-		return;
-	}
-
-	for (int i = 0; i < 20; i++) {
-		HANDLE hFMap = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 1024, _T("mIRC"));
-		if (!hFMap) {
-			return;
-		}
-
-		if (GetLastError() == ERROR_ALREADY_EXISTS) {
-			CloseHandle(hFMap);
-			Sleep(50);
-			continue;
-		}
-
-		if (LPVOID lpMappingAddress = MapViewOfFile(hFMap, FILE_MAP_WRITE, 0, 0, 0)) {
-			LPCSTR cmd = m_fAudioOnly ? "/.timerAUDGTS 1 5 mpcaud" : "/.timerVIDGTS 1 5 mpcvid";
-			strcpy((char*)lpMappingAddress, cmd);
-
-			if (HWND hWnd = ::FindWindow(_T("mIRC"), NULL)) {
-				::SendMessage(hWnd, (WM_USER + 200), (WPARAM)1, (LPARAM)0);
-			}
-
-			UnmapViewOfFile(lpMappingAddress);
-		}
-
-		CloseHandle(hFMap);
-
-		break;
-	}
-}
 
 // dynamic menus
 
@@ -14505,7 +14468,6 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 			m_wndCaptureBar.m_capdlg.SetVideoChannel(p->vchannel);
 			m_wndCaptureBar.m_capdlg.SetAudioInput(p->ainput);
 			SendNowPlayingToMSN();
-			SendNowPlayingTomIRC();
 			return;
 		}
 	}

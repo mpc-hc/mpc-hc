@@ -428,8 +428,7 @@ public:
 	int				nJumpDistL;
 	bool			fLimitWindowProportions;
 	bool			fNotifyMSN;
-	bool			fNotifyGTSdll;
-
+	
 	bool			fEnableAudioSwitcher;
 	bool			fDownSampleTo441;
 	bool			fAudioTimeShift;

@@ -419,7 +419,6 @@ protected:
 	void DoTunerScan(TunerScanData* pTSD);
 
 	void SendNowPlayingToMSN();
-	void SendNowPlayingTomIRC();
 
 	CWnd *GetModalParent();
 

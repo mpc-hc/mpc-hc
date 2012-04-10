@@ -51,8 +51,6 @@ public:
 	int m_nJumpDistM;
 	int m_nJumpDistL;
 	BOOL m_fNotifyMSN;
-	BOOL m_fNotifyGTSdll;
-	CStaticLink m_GTSdllLink;
 
 	BOOL m_fPreventMinimize;
 	BOOL m_fUseWin7TaskBar;
