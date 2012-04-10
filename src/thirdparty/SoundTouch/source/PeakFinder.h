@@ -63,6 +63,10 @@ protected:
                             int direction       /// Direction where to proceed from the peak: 1 = right, -1 = left.
                             ) const;
 
+    // Finds real 'top' of a peak hump from neighnourhood of the given 'peakpos'.
+    int findTop(const float *data, int peakpos) const;
+
+
     /// Finds the 'ground' level, i.e. smallest level between two neighbouring peaks, to right- 
     /// or left-hand side of the given peak position.
     int   findGround(const float *data,     /// Data vector.

@@ -116,7 +116,7 @@
   <ItemGroup>
     <ClCompile Include="AAFilter.cpp" />
     <ClCompile Include="BPMDetect.cpp" />
-    <ClCompile Include="cpu_detect_x86_win.cpp" />
+    <ClCompile Include="cpu_detect_x86.cpp" />
     <ClCompile Include="FIFOSampleBuffer.cpp" />
     <ClCompile Include="FIRFilter.cpp" />
     <ClCompile Include="mmx_optimized.cpp" />

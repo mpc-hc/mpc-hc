@@ -73,7 +73,6 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <math.h>
-#include <stdexcept>
 #include <stdio.h>
 
 #include "SoundTouch.h"
@@ -146,7 +145,7 @@ void SoundTouch::setChannels(uint numChannels)
 {
     if (numChannels != 1 && numChannels != 2) 
     {
-        throw std::runtime_error("Illegal number of channels");
+        ST_THROW_RT_ERROR("Illegal number of channels");
     }
     channels = numChannels;
     pRateTransposer->setChannels((int)numChannels);
@@ -295,11 +294,11 @@ void SoundTouch::putSamples(const SAMPLETYPE *samples, uint nSamples)
 {
     if (bSrateSet == FALSE) 
     {
-        throw std::runtime_error("SoundTouch : Sample rate not defined");
+        ST_THROW_RT_ERROR("SoundTouch : Sample rate not defined");
     } 
     else if (channels == 0) 
     {
-        throw std::runtime_error("SoundTouch : Number of channels not defined");
+        ST_THROW_RT_ERROR("SoundTouch : Number of channels not defined");
     }
 
     // Transpose the rate of the new samples if necessary

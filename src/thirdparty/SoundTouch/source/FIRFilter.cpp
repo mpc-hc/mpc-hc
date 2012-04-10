@@ -43,7 +43,6 @@
 #include <assert.h>
 #include <math.h>
 #include <stdlib.h>
-#include <stdexcept>
 #include "FIRFilter.h"
 #include "cpu_detect.h"
 
@@ -174,7 +173,7 @@ uint FIRFilter::evaluateFilterMono(SAMPLETYPE *dest, const SAMPLETYPE *src, uint
 void FIRFilter::setCoefficients(const SAMPLETYPE *coeffs, uint newLength, uint uResultDivFactor)
 {
     assert(newLength > 0);
-    if (newLength % 8) throw std::runtime_error("FIR filter length not divisible by 8");
+    if (newLength % 8) ST_THROW_RT_ERROR("FIR filter length not divisible by 8");
 
     lengthDiv8 = newLength / 8;
     length = lengthDiv8 * 8;
@@ -222,8 +221,8 @@ uint FIRFilter::evaluate(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSample
 void * FIRFilter::operator new(size_t s)
 {
     // Notice! don't use "new FIRFilter" directly, use "newInstance" to create a new instance instead!
-    throw std::runtime_error("Error in FIRFilter::new: Don't use 'new FIRFilter', use 'newInstance' member instead!");
-    return NULL;
+    ST_THROW_RT_ERROR("Error in FIRFilter::new: Don't use 'new FIRFilter', use 'newInstance' member instead!");
+    return newInstance();
 }
 
 

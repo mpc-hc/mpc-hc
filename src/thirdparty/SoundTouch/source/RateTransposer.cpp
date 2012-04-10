@@ -42,11 +42,9 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdexcept>
 #include "RateTransposer.h"
 #include "AAFilter.h"
 
-using namespace std;
 using namespace soundtouch;
 
 
@@ -108,8 +106,8 @@ public:
 // depending on if we've a MMX/SSE/etc-capable CPU available or not.
 void * RateTransposer::operator new(size_t s)
 {
-    throw runtime_error("Error in RateTransoser::new: don't use \"new TDStretch\" directly, use \"newInstance\" to create a new instance instead!");
-    return NULL;
+    ST_THROW_RT_ERROR("Error in RateTransoser::new: don't use \"new TDStretch\" directly, use \"newInstance\" to create a new instance instead!");
+    return newInstance();
 }
 
 

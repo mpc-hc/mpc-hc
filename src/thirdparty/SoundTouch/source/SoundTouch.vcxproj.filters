@@ -58,7 +58,7 @@
     <ClCompile Include="AAFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cpu_detect_x86_win.cpp">
+    <ClCompile Include="cpu_detect_x86.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FIFOSampleBuffer.cpp">

@@ -71,7 +71,7 @@ using namespace soundtouch;
 #include <math.h>
 
 // Calculates cross correlation of two buffers
-double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) const
+double TDStretchSSE::calcCrossCorr(const float *pV1, const float *pV2) const
 {
     int i;
     const float *pVec1;
@@ -110,8 +110,9 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
     pVec2 = (const __m128*)pV2;
     vSum = vNorm = _mm_setzero_ps();
 
-    // Unroll the loop by factor of 4 * 4 operations
-    for (i = 0; i < overlapLength / 8; i ++) 
+    // Unroll the loop by factor of 4 * 4 operations. Use same routine for
+    // stereo & mono, for mono it just means twice the amount of unrolling.
+    for (i = 0; i < channels * overlapLength / 16; i ++) 
     {
         __m128 vTemp;
         // vSum += pV1[0..3] * pV2[0..3]
@@ -152,7 +153,7 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
 
     // Calculates the cross-correlation value between 'pV1' and 'pV2' vectors
     corr = norm = 0.0;
-    for (i = 0; i < overlapLength / 8; i ++) 
+    for (i = 0; i < channels * overlapLength / 16; i ++) 
     {
         corr += pV1[0] * pV2[0] +
                 pV1[1] * pV2[1] +
@@ -171,80 +172,12 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
                 pV1[14] * pV2[14] +
                 pV1[15] * pV2[15];
 
-	for (j = 0; j < 15; j ++) norm += pV1[j] * pV1[j];
+    for (j = 0; j < 15; j ++) norm += pV1[j] * pV1[j];
 
         pV1 += 16;
         pV2 += 16;
     }
     return corr / sqrt(norm);
-    */
-
-    /* This is a bit outdated, corresponding routine in assembler. This may be teeny-weeny bit
-       faster than intrinsic version, but more difficult to maintain & get compiled on multiple
-       platforms.
-
-    uint overlapLengthLocal = overlapLength;
-    float corr;
-
-    _asm 
-    {
-        // Very important note: data in 'pV2' _must_ be aligned to 
-        // 16-byte boundary!
-
-        // give prefetch hints to CPU of what data are to be needed soonish
-        // give more aggressive hints on pV1 as that changes while pV2 stays
-        // same between runs
-        prefetcht0 [pV1]
-        prefetcht0 [pV2]
-        prefetcht0 [pV1 + 32]
-
-        mov     eax, dword ptr pV1
-        mov     ebx, dword ptr pV2
-
-        xorps   xmm0, xmm0
-
-        mov     ecx, overlapLengthLocal
-        shr     ecx, 3  // div by eight
-
-    loop1:
-        prefetcht0 [eax + 64]     // give a prefetch hint to CPU what data are to be needed soonish
-        prefetcht0 [ebx + 32]     // give a prefetch hint to CPU what data are to be needed soonish
-        movups  xmm1, [eax]
-        mulps   xmm1, [ebx]
-        addps   xmm0, xmm1
-
-        movups  xmm2, [eax + 16]
-        mulps   xmm2, [ebx + 16]
-        addps   xmm0, xmm2
-
-        prefetcht0 [eax + 96]     // give a prefetch hint to CPU what data are to be needed soonish
-        prefetcht0 [ebx + 64]     // give a prefetch hint to CPU what data are to be needed soonish
-
-        movups  xmm3, [eax + 32]
-        mulps   xmm3, [ebx + 32]
-        addps   xmm0, xmm3
-
-        movups  xmm4, [eax + 48]
-        mulps   xmm4, [ebx + 48]
-        addps   xmm0, xmm4
-
-        add     eax, 64
-        add     ebx, 64
-
-        dec     ecx
-        jnz     loop1
-
-        // add the four floats of xmm0 together and return the result. 
-
-        movhlps xmm1, xmm0          // move 3 & 4 of xmm0 to 1 & 2 of xmm1
-        addps   xmm1, xmm0
-        movaps  xmm2, xmm1
-        shufps  xmm2, xmm2, 0x01    // move 2 of xmm2 as 1 of xmm2
-        addss   xmm2, xmm1
-        movss   corr, xmm2
-    }
-
-    return (double)corr;
     */
 }
 

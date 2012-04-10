@@ -29,6 +29,7 @@ Legend:
 * Updated ffmpeg
 * Updated MediaInfoLib to v0.7.55
 * Updated ZenLib to v0.4.26
+* Updated SoundTouch to v1.7.0pre r142
 * Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese,
   traditional Chinese and Italian translations
 * Removed GTSdll support

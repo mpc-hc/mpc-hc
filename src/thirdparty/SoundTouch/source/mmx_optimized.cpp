@@ -68,7 +68,7 @@ using namespace soundtouch;
 
 
 // Calculates cross correlation of two buffers
-long TDStretchMMX::calcCrossCorrStereo(const short *pV1, const short *pV2) const
+double TDStretchMMX::calcCrossCorr(const short *pV1, const short *pV2) const
 {
     const __m64 *pVec1, *pVec2;
     __m64 shifter;
@@ -82,9 +82,9 @@ long TDStretchMMX::calcCrossCorrStereo(const short *pV1, const short *pV2) const
     shifter = _m_from_int(overlapDividerBits);
     normaccu = accu = _mm_setzero_si64();
 
-    // Process 4 parallel sets of 2 * stereo samples each during each 
-    // round to improve CPU-level parallellization.
-    for (i = 0; i < overlapLength / 8; i ++)
+    // Process 4 parallel sets of 2 * stereo samples or 4 * mono samples 
+    // during each round for improved CPU-level parallellization.
+    for (i = 0; i < channels * overlapLength / 16; i ++)
     {
         __m64 temp, temp2;
 
@@ -126,7 +126,8 @@ long TDStretchMMX::calcCrossCorrStereo(const short *pV1, const short *pV2) const
     // Normalize result by dividing by sqrt(norm) - this step is easiest 
     // done using floating point operation
     if (norm == 0) norm = 1;    // to avoid div by zero
-    return (long)((double)corr * USHRT_MAX / sqrt((double)norm));
+
+    return (double)corr / sqrt((double)norm);
     // Note: Warning about the missing EMMS instruction is harmless
     // as it'll be called elsewhere.
 }
