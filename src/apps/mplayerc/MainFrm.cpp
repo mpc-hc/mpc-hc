@@ -819,9 +819,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_bToggleShaderScreenSpace = s.fToggleShaderScreenSpace;
 
 #ifdef _WIN64
-	m_strTitle.Format (L"%s x64 - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
+	m_strTitle.Format (L"%s x64", ResStr(IDR_MAINFRAME));
 #else
-	m_strTitle.Format (L"%s - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
+	m_strTitle.Format (L"%s", ResStr(IDR_MAINFRAME));
 #endif
 
 	SetWindowText(m_strTitle);
