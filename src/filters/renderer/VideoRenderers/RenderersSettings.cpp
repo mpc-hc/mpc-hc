@@ -140,7 +140,7 @@ HINSTANCE CRenderersData::GetD3X9Dll()
 		m_nDXSdkRelease = 0;
 
 		// load latest compatible version of the DLL that is available
-		for (int i=D3DX_SDK_VERSION; i>=42; i--) {
+		for (int i=D3DX_SDK_VERSION; i>=43; i--) {
 			m_strD3DX9Version.Format(_T("d3dx9_%d.dll"), i);
 			m_hD3DX9Dll = LoadLibrary (m_strD3DX9Version);
 			if (m_hD3DX9Dll) {
