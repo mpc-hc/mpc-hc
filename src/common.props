@@ -10,12 +10,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
+      <AdditionalOptions>/w34706 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>WINVER=0x0601;PSAPI_VERSION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalOptions>/w34706 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -35,6 +35,7 @@
     <ClCompile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <EnableEnhancedInstructionSet Condition="'$(Platform)'=='Win32'">StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+      <OmitFramePointers Condition="'$(Platform)'=='Win32'">true</OmitFramePointers>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
