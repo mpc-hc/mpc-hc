@@ -49,7 +49,6 @@
       <ModuleDefinitionFile>mpciconlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <NoEntryPoint>true</NoEntryPoint>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -64,7 +63,6 @@
       <ModuleDefinitionFile>mpciconlib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <NoEntryPoint>true</NoEntryPoint>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_WIN64;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>

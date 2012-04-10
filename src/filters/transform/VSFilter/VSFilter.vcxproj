@@ -93,7 +93,6 @@
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
       <DelayLoadDLLs>oleacc.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">
@@ -115,7 +114,6 @@
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
       <DelayLoadDLLs>oleacc.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">
@@ -136,7 +134,6 @@
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
       <DelayLoadDLLs>oleacc.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">
@@ -157,7 +154,6 @@
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
       <DelayLoadDLLs>oleacc.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

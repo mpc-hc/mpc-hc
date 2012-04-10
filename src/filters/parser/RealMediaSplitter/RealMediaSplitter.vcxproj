@@ -133,9 +133,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>basesplitter.lib;basevideofilter.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseSplitter.lib;BaseVideoFilter.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -145,9 +144,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>basesplitter.lib;basevideofilter.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseSplitter.lib;BaseVideoFilter.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,9 +154,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>basesplitter.lib;basevideofilter.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseSplitter.lib;BaseVideoFilter.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,9 +164,8 @@
       <PreprocessorDefinitions>_WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>basesplitter.lib;basevideofilter.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseSplitter.lib;BaseVideoFilter.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">
@@ -181,7 +177,6 @@
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;BaseVideoFilter.lib;DSUtil.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>RealMediaSplitter.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -198,7 +193,6 @@
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;BaseVideoFilter.lib;DSUtil.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>RealMediaSplitter.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -214,7 +208,6 @@
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;BaseVideoFilter.lib;DSUtil.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>RealMediaSplitter.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -230,7 +223,6 @@
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;BaseVideoFilter.lib;DSUtil.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>RealMediaSplitter.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>

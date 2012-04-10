@@ -71,9 +71,6 @@
       <PrecompiledHeaderFile>ZenLib/PreComp.h</PrecompiledHeaderFile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -83,9 +80,6 @@
       <PrecompiledHeaderFile>ZenLib/PreComp.h</PrecompiledHeaderFile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -94,9 +88,6 @@
       <PrecompiledHeaderFile>ZenLib/PreComp.h</PrecompiledHeaderFile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -105,9 +96,6 @@
       <PrecompiledHeaderFile>ZenLib/PreComp.h</PrecompiledHeaderFile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ZenLib\Conf.cpp" />

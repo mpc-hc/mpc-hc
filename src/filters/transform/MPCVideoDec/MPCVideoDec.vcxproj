@@ -136,7 +136,6 @@
       <AdditionalDependencies>libgcc.a;libmingwex.a;BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -153,7 +152,6 @@
       <AdditionalDependencies>libgcc.a;libmingwex.a;BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -169,7 +167,6 @@
       <AdditionalDependencies>libgcc.a;libmingwex.a;BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -185,7 +182,6 @@
       <AdditionalDependencies>libgcc.a;libmingwex.a;BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -201,7 +197,6 @@
     <Lib>
       <AdditionalDependencies>libavcodec.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -214,7 +209,6 @@
     <Lib>
       <AdditionalDependencies>libavcodec.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -226,7 +220,6 @@
     <Lib>
       <AdditionalDependencies>libavcodec.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -238,7 +231,6 @@
     <Lib>
       <AdditionalDependencies>libavcodec.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

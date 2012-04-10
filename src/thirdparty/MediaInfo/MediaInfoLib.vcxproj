@@ -70,9 +70,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -82,9 +79,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -93,9 +87,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -104,9 +95,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\base64\base64.h" />

@@ -136,7 +136,6 @@
       <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;SoundTouch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -153,7 +152,6 @@
       <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;SoundTouch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -169,7 +167,6 @@
       <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;SoundTouch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -185,7 +182,6 @@
       <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;SoundTouch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -199,7 +195,6 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -210,7 +205,6 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -220,7 +214,6 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -230,7 +223,6 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -68,9 +68,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -80,9 +77,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -91,9 +85,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -102,9 +93,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\lcms2.h" />

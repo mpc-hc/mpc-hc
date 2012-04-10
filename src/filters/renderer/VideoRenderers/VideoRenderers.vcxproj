@@ -72,9 +72,6 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\thirdparty;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DETOURS_X32;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -82,27 +79,18 @@
       <PreprocessorDefinitions>_WIN64;_DEBUG;_WINDOWS;DETOURS_X64;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\thirdparty;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;DETOURS_X32;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\thirdparty;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;_WINDOWS;DETOURS_X64;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AllocatorCommon.cpp" />

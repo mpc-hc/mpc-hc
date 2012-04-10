@@ -74,7 +74,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
@@ -86,7 +85,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
@@ -97,7 +95,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
@@ -109,7 +106,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
       <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
