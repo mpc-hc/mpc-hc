@@ -386,7 +386,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 			// Short list reference frames
 			pic				= h->short_ref[h->short_ref_count - i - 1];
 			AssociatedFlag	= pic->long_ref != 0;
-        } else {
+		} else {
 			// Long list reference frames
 			pic = NULL;
 			while (!pic && j < h->short_ref_count + 16) {
@@ -630,7 +630,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 
 	if (pBuffer) {
 		s1->pSliceInfo	= pSliceInfo;
-		
+
 		av_init_packet(&avpkt);
 		avpkt.data		= pBuffer;
 		avpkt.size		= nSize;
@@ -646,7 +646,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	// pPicParams->wDeblockedPictureIndex;			0 for Mpeg2
 	// pPicParams->wForwardRefPictureIndex;			set in DecodeFrame
 	// pPicParams->wBackwardRefPictureIndex;		set in DecodeFrame
-	
+
 	is_field									= s->picture_structure != PICT_FRAME;
 
 	pPicParams->wPicWidthInMBminus1				= s->mb_width-1;
@@ -716,9 +716,9 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 		DXVA_SliceInfo *slice		= &s1->pSliceInfo[i];
 
 		if (i < s1->slice_count - 1) {
-		    slice->wNumberMBsInSlice = slice[1].wNumberMBsInSlice - slice[0].wNumberMBsInSlice;
+			slice->wNumberMBsInSlice = slice[1].wNumberMBsInSlice - slice[0].wNumberMBsInSlice;
 		} else {
-		    slice->wNumberMBsInSlice = mb_count - slice[0].wNumberMBsInSlice;
+			slice->wNumberMBsInSlice = mb_count - slice[0].wNumberMBsInSlice;
 		}
 	}
 

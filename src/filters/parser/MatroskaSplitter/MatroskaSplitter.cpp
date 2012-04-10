@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -444,7 +444,7 @@ avcsuccess:
 								if (pCueTrackPositions->CueTrack != pTE->TrackNumber) {
 									continue;
 								}
-								
+
 								if (lastCueClusterPosition == pCueTrackPositions->CueClusterPosition) {
 									continue;
 								}

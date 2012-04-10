@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -50,13 +50,13 @@ public :
 	CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name);
 	~CNullVideoRendererInputPin() {
 		if (m_pD3DDeviceManager) {
-			if(m_hDevice != INVALID_HANDLE_VALUE) {
+			if (m_hDevice != INVALID_HANDLE_VALUE) {
 				m_pD3DDeviceManager->CloseDeviceHandle(m_hDevice);
 				m_hDevice = INVALID_HANDLE_VALUE;
 			}
 			m_pD3DDeviceManager = NULL;
 		}
-		if(m_pD3DDev) {
+		if (m_pD3DDev) {
 			m_pD3DDev = NULL;
 		}
 		if (m_hDXVA2Lib) {

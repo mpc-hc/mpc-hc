@@ -398,7 +398,7 @@ HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 
 	while (S_OK == m_hrDeliver
 			&& ((m_queue.GetCount() > (m_QueueMaxPackets*3/2) || m_queue.GetSize() > (MAXPACKETSIZE*3/2))
-			|| ((m_queue.GetCount() > m_QueueMaxPackets || m_queue.GetSize() > MAXPACKETSIZE) && !(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()))) {
+				|| ((m_queue.GetCount() > m_QueueMaxPackets || m_queue.GetSize() > MAXPACKETSIZE) && !(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()))) {
 		Sleep(10);
 	}
 

@@ -117,9 +117,9 @@ void CGoToDlg::OnBnClickedOk1()
 	wchar_t c3[2]; // unnecessary character
 
 	if ((swscanf_s(m_timestr, L"%f%1s", &ss, &c3, 2) == 1 || // sss[.ms]
-		 swscanf_s(m_timestr, L"%u%c%f%1s", &mm, &c2, 1, &ss, &c3, 2) == 3 && ss < 60 || // mmm:ss[.ms]
-		 swscanf_s(m_timestr, L"%u%c%u%c%f%1s", &hh, &c1, 1, &mm, &c2, 1, &ss, &c3, 2) == 5 && mm < 60  && ss < 60) && // hhh:mm:ss[.ms]
-		 c1 == L':' && c2 == L':' && ss >=0) {
+			swscanf_s(m_timestr, L"%u%c%f%1s", &mm, &c2, 1, &ss, &c3, 2) == 3 && ss < 60 || // mmm:ss[.ms]
+			swscanf_s(m_timestr, L"%u%c%u%c%f%1s", &hh, &c1, 1, &mm, &c2, 1, &ss, &c3, 2) == 5 && mm < 60  && ss < 60) && // hhh:mm:ss[.ms]
+			c1 == L':' && c2 == L':' && ss >=0) {
 
 		int time = (int)(1000*((hh*60+mm)*60+ss)+0.5);
 		m_time = time * 10000i64;

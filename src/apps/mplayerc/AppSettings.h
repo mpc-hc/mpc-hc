@@ -428,7 +428,7 @@ public:
 	int				nJumpDistL;
 	bool			fLimitWindowProportions;
 	bool			fNotifyMSN;
-	
+
 	bool			fEnableAudioSwitcher;
 	bool			fDownSampleTo441;
 	bool			fAudioTimeShift;

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2012 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -266,7 +266,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 						} else {
 							TRACE_DVB ("DVB - Page update\n");
 
-							if(m_pCurrentPage && !m_pCurrentPage->RegionCount) {
+							if (m_pCurrentPage && !m_pCurrentPage->RegionCount) {
 								m_pCurrentPage = pPage;
 								m_pCurrentPage->rtStart	= m_rtStart;
 								m_pCurrentPage->rtStop	= m_pCurrentPage->rtStart + m_pCurrentPage->PageTimeOut * 1000000;

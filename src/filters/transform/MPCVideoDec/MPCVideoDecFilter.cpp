@@ -1476,7 +1476,7 @@ HRESULT CMPCVideoDecFilter::EndOfStream()
 	if (HAS_FFMPEG_VIDEO_DECODERS && m_nDXVAMode == MODE_SOFTWARE) {
 		REFERENCE_TIME rtStart = 0, rtStop = 0;
 		SoftwareDecode(NULL, NULL, 0, rtStart, rtStop);
-	} else if(m_nDXVAMode == MODE_DXVA2) { // TODO - need check under WinXP on DXVA1
+	} else if (m_nDXVAMode == MODE_DXVA2) { // TODO - need check under WinXP on DXVA1
 		m_pDXVADecoder->EndOfStream();
 	}
 
