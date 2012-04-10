@@ -260,6 +260,7 @@ void CMediaFormats::UpdateData(bool fSave)
 #else
 		ADDFMT((_T("ra"),       ResStr(IDS_MFMT_RA),       _T("ra"), true, _T("RealPlayer or Real Alternative"), RealMedia));
 #endif
+		ADDFMT((_T("tak"),      ResStr(IDS_MFMT_TAK),      _T("tak"), true));
 		ADDFMT((_T("tta"),      ResStr(IDS_MFMT_TTA),      _T("tta"), true));
 		ADDFMT((_T("wav"),      ResStr(IDS_MFMT_WAV),      _T("wav"), true));
 		ADDFMT((_T("wma"),      ResStr(IDS_MFMT_WMA),      _T("wma"), true));

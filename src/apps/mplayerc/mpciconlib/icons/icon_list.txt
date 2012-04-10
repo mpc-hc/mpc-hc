@@ -45,3 +45,4 @@
 ("wmv"),	_T("wmv wmp wm asf")
 ("wv"),		_T("wv")
 ("other"),	_T("divx rmvb amv")
+("other"),	_T("tak")
