@@ -66,7 +66,7 @@ IDF_SHADER_DENOISE               FILE                    "res\\shaders\\denoise.
 IDF_SHADER_YV12CHROMAUP          FILE                    "res\\shaders\\YV12ChromaUpsampling.psh"
 IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
 IDF_VBR_GIF                      FILE                    "res\\web\\vbg.gif"
-IDF_VBS_GIF                      FILE                    "res\\web\\vbs.GIF"
+IDF_VBS_GIF                      FILE                    "res\\web\\vbs.gif"
 IDF_SLIDERBAR_GIF                FILE                    "res\\web\\sliderbar.gif"
 IDF_SLIDERGRIP_GIF               FILE                    "res\\web\\slidergrip.gif"
 IDF_1PIX_GIF                     FILE                    "res\\web\\1pix.gif"
