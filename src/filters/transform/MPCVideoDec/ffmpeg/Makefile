@@ -37,7 +37,7 @@ ifeq ($(64BIT),yes)
 else
     TARGET_OS     = i686-pc-mingw32
     CFLAGS       += -DWIN32 -D_WIN32 -DARCH_X86_32
-    OPTFLAGS     += -march=i686 -mmmx -msse
+    OPTFLAGS     += -m32 -march=i686 -mmmx -msse
     YASMFLAGS    += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
 endif
 
@@ -74,18 +74,18 @@ clean:
 
 # Objects
 SRCS_C=\
+    libavcodec/aac_ac3_parser.c \
     libavcodec/aacadtsdec.c \
     libavcodec/aacdec.c \
     libavcodec/aacps.c \
     libavcodec/aacsbr.c \
     libavcodec/aactab.c \
-    libavcodec/aac_ac3_parser.c \
     libavcodec/ac3.c \
+    libavcodec/ac3_parser.c \
     libavcodec/ac3dec.c \
     libavcodec/ac3dec_data.c \
     libavcodec/ac3dsp.c \
     libavcodec/ac3tab.c \
-    libavcodec/ac3_parser.c \
     libavcodec/acelp_filters.c \
     libavcodec/acelp_pitch_delay.c \
     libavcodec/acelp_vectors.c \
@@ -103,14 +103,14 @@ SRCS_C=\
     libavcodec/cabac.c \
     libavcodec/celp_filters.c \
     libavcodec/celp_math.c \
-    libavcodec/cook.c \
     libavcodec/CompilerVersion.c \
+    libavcodec/cook.c \
     libavcodec/dct.c \
     libavcodec/dct32.c \
     libavcodec/dct32_float.c \
     libavcodec/dsputil.c \
-    libavcodec/eac3dec.c \
     libavcodec/eac3_data.c \
+    libavcodec/eac3dec.c \
     libavcodec/error_resilience.c \
     libavcodec/faandct.c \
     libavcodec/faanidct.c \
@@ -119,12 +119,9 @@ SRCS_C=\
     libavcodec/fmtconvert.c \
     libavcodec/golomb.c \
     libavcodec/h263.c \
-    libavcodec/h263dec.c \
     libavcodec/h263_parser.c \
+    libavcodec/h263dec.c \
     libavcodec/h264.c \
-    libavcodec/h264dsp.c \
-    libavcodec/h264idct.c \
-    libavcodec/h264pred.c \
     libavcodec/h264_cabac.c \
     libavcodec/h264_cavlc.c \
     libavcodec/h264_direct.c \
@@ -133,6 +130,9 @@ SRCS_C=\
     libavcodec/h264_ps.c \
     libavcodec/h264_refs.c \
     libavcodec/h264_sei.c \
+    libavcodec/h264dsp.c \
+    libavcodec/h264idct.c \
+    libavcodec/h264pred.c \
     libavcodec/huffman.c \
     libavcodec/imgconvert.c \
     libavcodec/indeo3.c \
@@ -154,27 +154,27 @@ SRCS_C=\
     libavcodec/mjpegbdec.c \
     libavcodec/mjpegdec.c \
     libavcodec/mlp.c \
+    libavcodec/mlp_parser.c \
     libavcodec/mlpdec.c \
     libavcodec/mlpdsp.c \
-    libavcodec/mlp_parser.c \
     libavcodec/mpc_helper.c \
     libavcodec/mpeg12.c \
     libavcodec/mpeg12data.c \
-    libavcodec/mpegvideo_parser.c \
     libavcodec/mpeg4audio.c \
     libavcodec/mpeg4video.c \
-    libavcodec/mpeg4videodec.c \
     libavcodec/mpeg4video_parser.c \
+    libavcodec/mpeg4videodec.c \
     libavcodec/mpegaudio.c \
+    libavcodec/mpegaudio_parser.c \
     libavcodec/mpegaudiodata.c \
     libavcodec/mpegaudiodec.c \
-    libavcodec/mpegaudiodecheader.c \
     libavcodec/mpegaudiodec_float.c \
+    libavcodec/mpegaudiodecheader.c \
     libavcodec/mpegaudiodsp.c \
     libavcodec/mpegaudiodsp_float.c \
     libavcodec/mpegaudiodsp_template.c \
-    libavcodec/mpegaudio_parser.c \
     libavcodec/mpegvideo.c \
+    libavcodec/mpegvideo_parser.c \
     libavcodec/msmpeg4.c \
     libavcodec/msmpeg4data.c \
     libavcodec/msrle.c \
@@ -184,10 +184,10 @@ SRCS_C=\
     libavcodec/options.c \
     libavcodec/parser.c \
     libavcodec/pthread.c \
-    libavcodec/rdft.c \
     libavcodec/ra144.c \
     libavcodec/ra144dec.c \
     libavcodec/ra288.c \
+    libavcodec/rdft.c \
     libavcodec/rv10.c \
     libavcodec/rv30.c \
     libavcodec/rv30dsp.c \
@@ -203,8 +203,8 @@ SRCS_C=\
     libavcodec/sp5xdec.c \
     libavcodec/svq1.c \
     libavcodec/svq1dec.c \
-    libavcodec/tscc.c \
     libavcodec/svq3.c \
+    libavcodec/tscc.c \
     libavcodec/utils.c \
     libavcodec/vc1.c \
     libavcodec/vc1data.c \
@@ -292,9 +292,9 @@ SRCS_C=\
 # Yasm objects
 SRCS_YASM=\
     libavcodec/x86/ac3dsp.asm \
-    libavcodec/x86/dsputil_yasm.asm \
-    libavcodec/x86/deinterlace.asm \
     libavcodec/x86/dct32_sse.asm \
+    libavcodec/x86/deinterlace.asm \
+    libavcodec/x86/dsputil_yasm.asm \
     libavcodec/x86/fft_mmx.asm \
     libavcodec/x86/fmtconvert.asm \
     libavcodec/x86/h264_chromamc.asm \

@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 
-static char g_Gcc_Compiler[30];
+static char g_Gcc_Compiler[31];
 
 #if defined(DEBUG)
 	#define COMPILER " Debug"
@@ -26,10 +26,28 @@ static char g_Gcc_Compiler[30];
 	#define COMPILER ""
 #endif
 
-#if defined(__SSE2__)
-	#define COMPILER_SSE " (SSE2)"
-#elif defined(__SSE__)
-	#define COMPILER_SSE " (SSE)"
+#if defined(__AVX2__)
+	#define COMPILER_SSE " (AVX2)"
+#elif defined(__AVX__)
+	#define COMPILER_SSE " (AVX)"
+#elif defined(__SSE4_2__)
+	#define COMPILER_SSE " (SSE4.2)"
+#elif defined(__SSE4_1__)
+	#define COMPILER_SSE " (SSE4.1)"
+#elif defined(__SSE4__)
+	#define COMPILER_SSE " (SSE4)"
+#elif defined(__SSSE3__)
+	#define COMPILER_SSE " (SSSE3)"
+#elif defined(__SSE3__)
+	#define COMPILER_SSE " (SSE3)"
+#elif !defined(ARCH_X86_64)
+	#if defined(__SSE2__)
+		#define COMPILER_SSE " (SSE2)"
+	#elif defined(__SSE__)
+		#define COMPILER_SSE " (SSE)"
+	#elif defined(__MMX__)
+		#define COMPILER_SSE " (MMX)"
+	#endif
 #else
 	#define COMPILER_SSE ""
 #endif

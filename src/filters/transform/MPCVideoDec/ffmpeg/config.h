@@ -4,10 +4,11 @@
 #ifdef __GNUC__
   #define ARCH_X86 1
   #define HAVE_INLINE_ASM 1
-  #define HAVE_MMX 1
-  #define HAVE_MMX2 1
   #define HAVE_AMD3DNOW 1
   #define HAVE_AMD3DNOWEXT 1
+  #define HAVE_AVX 1
+  #define HAVE_MMX 1
+  #define HAVE_MMX2 1
   #define HAVE_SSE 1
   #define HAVE_SSSE3 1
 
@@ -92,7 +93,6 @@
 #define HAVE_ARMV6 0
 #define HAVE_ARMV6T2 0
 #define HAVE_ARMVFP 0
-#define HAVE_AVX 0
 #define HAVE_IWMMXT 0
 #define HAVE_MMI 0
 #define HAVE_NEON 0
