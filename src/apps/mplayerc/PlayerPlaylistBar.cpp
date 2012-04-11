@@ -39,8 +39,9 @@ IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar()
 	: m_list(0)
 	, m_nTimeColWidth(0)
+	, m_bDragging(FALSE)
+	, m_bHiddenDueToFullscreen(false)
 {
-	m_bDragging = FALSE;
 }
 
 CPlayerPlaylistBar::~CPlayerPlaylistBar()
@@ -123,7 +124,18 @@ void CPlayerPlaylistBar::SaveState()
 
 	CString section = _T("ToolBars\\") + m_strSettingName;
 
-	AfxGetApp()->WriteProfileInt(section, _T("Visible"), IsWindowVisible());
+	AfxGetApp()->WriteProfileInt(section, _T("Visible"),
+								 IsWindowVisible() || (AfxGetAppSettings().bHidePlaylistFullScreen && m_bHiddenDueToFullscreen));
+}
+
+bool CPlayerPlaylistBar::IsHiddenDueToFullscreen() const
+{
+	return m_bHiddenDueToFullscreen;
+}
+
+void CPlayerPlaylistBar::SetHiddenDueToFullscreen(bool bHiddenDueToFullscreen)
+{
+	m_bHiddenDueToFullscreen = bHiddenDueToFullscreen;
 }
 
 void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)

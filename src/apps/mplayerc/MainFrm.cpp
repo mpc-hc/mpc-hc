@@ -9626,12 +9626,11 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	HMONITOR hm_cur = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 
 	CMonitors monitors;
-	static bool m_PlayListBarVisible = false;
 
 	if (!m_fFullScreen) {
-		m_PlayListBarVisible = !!m_wndPlaylistBar.IsVisible();
-		if (s.bHidePlaylistFullScreen && m_PlayListBarVisible) {
-			ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
+		if (s.bHidePlaylistFullScreen && m_wndPlaylistBar.IsVisible()) {
+			m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
+			ShowControlBar(&m_wndPlaylistBar, FALSE, TRUE);
 		}
 
 		if (!m_fFirstFSAfterLaunchOnFS) {
@@ -9679,8 +9678,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		}
 		hMenu = (s.iCaptionMenuMode==MODE_SHOWCAPTIONMENU) ? m_hMenuDefault: NULL;
 
-		if (s.bHidePlaylistFullScreen) {
-			ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
+		if (s.bHidePlaylistFullScreen && m_wndPlaylistBar.IsHiddenDueToFullscreen()) {
+			m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
+			ShowControlBar(&m_wndPlaylistBar, TRUE, TRUE);
 		}
 	}
 

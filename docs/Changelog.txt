@@ -42,6 +42,8 @@ Legend:
      an error when clicking on "OK" while no file was selected)
    - when the selected file cannot be dubbed (for example when opening an rtsp
      stream), the wrong label was grayed out
+! Ticket #869, The playlist visibility state was incorrectly restored when MPC-HC
+  was quited in fullscreen mode while the option "Hide on fullscreen" was enabled
 ! Ticket #1182, Unable to playback MPEG2 in AVI
 ! Ticket #1290, Fix the reversed behavior of the playlist option "Hide on fullscreen"
   when "Launch files in fullscreen" is enabled

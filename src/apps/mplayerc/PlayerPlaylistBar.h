@@ -68,6 +68,8 @@ private:
 
 	void DropItemOnList();
 
+	bool m_bHiddenDueToFullscreen;
+
 public:
 	CPlayerPlaylistBar();
 	virtual ~CPlayerPlaylistBar();
@@ -76,6 +78,9 @@ public:
 
 	virtual void LoadState(CFrameWnd *pParent);
 	virtual void SaveState();
+
+	bool IsHiddenDueToFullscreen() const;
+	void SetHiddenDueToFullscreen(bool bHidenDueToFullscreen);
 
 	CPlaylist m_pl;
 
