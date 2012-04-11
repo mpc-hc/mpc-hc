@@ -31,7 +31,7 @@ Legend:
 * Updated ZenLib to v0.4.26
 * Updated SoundTouch to v1.7.0pre r142
 * Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese,
-  traditional Chinese and Italian translations
+  traditional Chinese, Italian and Polish translations
 * Removed GTSdll support
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
