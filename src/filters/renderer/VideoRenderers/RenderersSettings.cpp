@@ -133,7 +133,7 @@ LONGLONG CRenderersData::GetPerfCounter()
 HINSTANCE CRenderersData::GetD3X9Dll()
 {
 #if D3DX_SDK_VERSION < 43
-#error DirectX SDK August 2010 (v43) or newer is required to build MPC
+#error DirectX SDK June 2010 (v43) or newer is required to build MPC-HC
 #endif
 
 	if (m_hD3DX9Dll == NULL) {

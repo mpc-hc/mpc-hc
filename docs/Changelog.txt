@@ -24,7 +24,7 @@ Legend:
   the units for the sizes and the speed are now automatically adapted to the values
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
   reduce the amount of memory consumed by the player
-* Improved the 'Open directory' dialog: the checkbox will now use only one line
+* Improved the "Open directory" dialog: the checkbox will now use only one line
   when possible and the overall dialog will look better when using XP
 * Updated ffmpeg
 * Updated MediaInfoLib to v0.7.55
@@ -55,5 +55,6 @@ Legend:
   it is readable with all Windows themes
 ! Ticket #2156, MPCVideoDec: Incorrect number of frames at the end of playback
   with software decoding
-! Ticket #2161, Prevent the 'Open' dialog from being opened multiple times (for
+! Ticket #2161, Prevent the "Open" dialog from being opened multiple times (for
   example when double clicking on the tray icon)
+! Ticket #2172, MP4Splitter: skip video tracks with motionless frames
