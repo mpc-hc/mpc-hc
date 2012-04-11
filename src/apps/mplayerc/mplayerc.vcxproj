@@ -456,7 +456,7 @@
     <None Include="res\Toolbarw7.png" />
     <None Include="res\web\1pix.gif" />
     <None Include="res\web\404.html" />
-    <None Include="res\web\bottomside.PNG" />
+    <None Include="res\web\bottomside.png" />
     <None Include="res\web\browser.html" />
     <None Include="res\web\controlback.png" />
     <None Include="res\web\controlbuttondecrate.png" />
@@ -493,7 +493,7 @@
     <None Include="res\web\slidergrip.gif" />
     <None Include="res\web\variables.html" />
     <None Include="res\web\vbg.gif" />
-    <None Include="res\web\vbs.GIF" />
+    <None Include="res\web\vbs.gif" />
     <None Include="res\shaders\BT601BT709.psh" />
     <None Include="res\shaders\contour.psh" />
     <None Include="res\shaders\deinterlace (blend).psh" />
