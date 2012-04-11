@@ -768,7 +768,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	while (pos) {
 		m_dockingbars.GetNext(pos)->ShowWindow(SW_HIDE);
 	}
- 
+
 	m_fileDropTarget.Register(this);
 
 	GetDesktopWindow()->GetWindowRect(&m_rcDesktop);
