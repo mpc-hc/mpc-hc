@@ -8030,6 +8030,7 @@ void CMainFrame::OnPlayVolume(UINT nID)
 			strVolume.Format(ResStr(IDS_VOLUME_OSD), m_wndToolBar.m_volctrl.GetPos());
 		}
 		m_OSD.DisplayMessage(OSD_TOPLEFT, strVolume);
+		SendStatusMessage(strVolume, 3000);
 	}
 
 	//m_Lcd.SetVolume((m_wndToolBar.Volume > -10000 ? m_wndToolBar.m_volctrl.GetPos() : 1));
