@@ -33,6 +33,7 @@
 #include "libavutil/common.h"
 #include "libavutil/intreadwrite.h"
 #include "libavutil/log.h"
+#include "libavutil/avassert.h"
 #include "mathops.h"
 #include "config.h"
 
@@ -131,7 +132,7 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
     int bit_left;
 
     //    printf("put_bits=%d %x\n", n, value);
-    assert(n <= 31 && value < (1U << n));
+    av_assert2(n <= 31 && value < (1U << n));
 
     bit_buf = s->bit_buf;
     bit_left = s->bit_left;
@@ -141,6 +142,7 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
 #ifdef BITSTREAM_WRITER_LE
     bit_buf |= value << (32 - bit_left);
     if (n >= bit_left) {
+        av_assert2(s->buf_ptr+3<s->buf_end);
         AV_WL32(s->buf_ptr, bit_buf);
         s->buf_ptr+=4;
         bit_buf = (bit_left==32)?0:value >> bit_left;
@@ -154,6 +156,7 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
     } else {
         bit_buf<<=bit_left;
         bit_buf |= value >> (n - bit_left);
+        av_assert2(s->buf_ptr+3<s->buf_end);
         AV_WB32(s->buf_ptr, bit_buf);
         //printf("bitbuf = %08x\n", bit_buf);
         s->buf_ptr+=4;

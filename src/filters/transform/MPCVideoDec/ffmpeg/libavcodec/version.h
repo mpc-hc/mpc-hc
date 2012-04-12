@@ -20,9 +20,15 @@
 #ifndef AVCODEC_VERSION_H
 #define AVCODEC_VERSION_H
 
+/**
+ * @file
+ * @ingroup libavc
+ * Libavcodec version macros.
+ */
+
 #define LIBAVCODEC_VERSION_MAJOR 54
-#define LIBAVCODEC_VERSION_MINOR  12
-#define LIBAVCODEC_VERSION_MICRO 100
+#define LIBAVCODEC_VERSION_MINOR  14
+#define LIBAVCODEC_VERSION_MICRO 101
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \

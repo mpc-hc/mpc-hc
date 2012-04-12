@@ -48,6 +48,8 @@
 // #undef NDEBUG
 #include <assert.h>
 
+const uint16_t ff_h264_mb_sizes[4] = { 256, 384, 512, 768 };
+
 static const uint8_t rem6[QP_MAX_NUM + 1] = {
     0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2,
     3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5,
@@ -1249,8 +1251,10 @@ av_cold int ff_h264_decode_init(AVCodecContext *avctx)
     }
 
     if (avctx->extradata_size > 0 && avctx->extradata &&
-        ff_h264_decode_extradata(h, avctx->extradata, avctx->extradata_size) < 0)
+        ff_h264_decode_extradata(h, avctx->extradata, avctx->extradata_size) < 0) {
+        ff_h264_free_context(h);
         return -1;
+    }
 
     if (h->sps.bitstream_restriction_flag &&
         s->avctx->has_b_frames < h->sps.num_reorder_frames) {
@@ -2126,7 +2130,8 @@ static av_always_inline void hl_decode_mb_internal(H264Context *h, int simple,
         if (pixel_shift) {
             int j;
             GetBitContext gb;
-            init_get_bits(&gb, (uint8_t *)h->mb, 384 * bit_depth);
+            init_get_bits(&gb, (uint8_t *)h->mb,
+                          ff_h264_mb_sizes[h->sps.chroma_format_idc] * bit_depth);
 
             for (i = 0; i < 16; i++) {
                 uint16_t *tmp_y = (uint16_t *)(dest_y + i * linesize);
@@ -2157,7 +2162,7 @@ static av_always_inline void hl_decode_mb_internal(H264Context *h, int simple,
             }
         } else {
             for (i = 0; i < 16; i++)
-                memcpy(dest_y + i * linesize, h->mb + i * 8, 16);
+                memcpy(dest_y + i * linesize, (uint8_t *)h->mb + i * 16, 16);
             if (simple || !CONFIG_GRAY || !(s->flags & CODEC_FLAG_GRAY)) {
                 if (!h->sps.chroma_format_idc) {
                     for (i = 0; i < 8; i++) {
@@ -2165,9 +2170,11 @@ static av_always_inline void hl_decode_mb_internal(H264Context *h, int simple,
                         memset(dest_cr + i*uvlinesize, 1 << (bit_depth - 1), 8);
                     }
                 } else {
+                    uint8_t *src_cb = (uint8_t *)h->mb + 256;
+                    uint8_t *src_cr = (uint8_t *)h->mb + 256 + block_h * 8;
                     for (i = 0; i < block_h; i++) {
-                        memcpy(dest_cb + i * uvlinesize, h->mb + 128 + i * 4, 8);
-                        memcpy(dest_cr + i * uvlinesize, h->mb + 160 + i * 4, 8);
+                        memcpy(dest_cb + i * uvlinesize, src_cb + i * 8, 8);
+                        memcpy(dest_cr + i * uvlinesize, src_cr + i * 8, 8);
                     }
                 }
             }
@@ -2358,7 +2365,8 @@ static av_always_inline void hl_decode_mb_444_internal(H264Context *h,
         } else {
             for (p = 0; p < plane_count; p++)
                 for (i = 0; i < 16; i++)
-                    memcpy(dest[p] + i * linesize, h->mb + p * 128 + i * 8, 16);
+                    memcpy(dest[p] + i * linesize,
+                           (uint8_t *)h->mb + p * 256 + i * 16, 16);
         }
     } else {
         if (IS_INTRA(mb_type)) {
@@ -2408,17 +2416,17 @@ hl_decode_mb_simple(1, 16)
 /**
  * Process a macroblock; this handles edge cases, such as interlacing.
  */
-static void av_noinline hl_decode_mb_complex(H264Context *h)
+static av_noinline void hl_decode_mb_complex(H264Context *h)
 {
     hl_decode_mb_internal(h, 0, h->pixel_shift);
 }
 
-static void av_noinline hl_decode_mb_444_complex(H264Context *h)
+static av_noinline void hl_decode_mb_444_complex(H264Context *h)
 {
     hl_decode_mb_444_internal(h, 0, h->pixel_shift);
 }
 
-static void av_noinline hl_decode_mb_444_simple(H264Context *h)
+static av_noinline void hl_decode_mb_444_simple(H264Context *h)
 {
     hl_decode_mb_444_internal(h, 1, 0);
 }

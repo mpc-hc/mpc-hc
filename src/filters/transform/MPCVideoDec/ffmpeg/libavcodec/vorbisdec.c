@@ -687,7 +687,7 @@ static int vorbis_parse_setup_hdr_residues(vorbis_context *vc)
         res_setup->partition_size = get_bits(gb, 24) + 1;
         /* Validations to prevent a buffer overflow later. */
         if (res_setup->begin>res_setup->end ||
-            res_setup->end > (res_setup->type == 2 ? vc->avccontext->channels : 1) * vc->blocksize[1] / 2 ||
+            res_setup->end > (res_setup->type == 2 ? vc->audio_channels : 1) * vc->blocksize[1] / 2 ||
             (res_setup->end-res_setup->begin) / res_setup->partition_size > V_MAX_PARTITIONS) {
             av_log(vc->avccontext, AV_LOG_ERROR,
                    "partition out of bounds: type, begin, end, size, blocksize: %"PRIu16", %"PRIu32", %"PRIu32", %u, %"PRIu32"\n",
@@ -1726,18 +1726,18 @@ static av_cold void vorbis_decode_flush(AVCodecContext *avccontext)
 }
 
 AVCodec ff_vorbis_decoder = {
-    .name           = "vorbis",
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = CODEC_ID_VORBIS,
-    .priv_data_size = sizeof(vorbis_context),
-    .init           = vorbis_decode_init,
-    .close          = vorbis_decode_close,
-    .decode         = vorbis_decode_frame,
-    .flush          = vorbis_decode_flush,
-    .capabilities   = CODEC_CAP_DR1,
-    .long_name = NULL_IF_CONFIG_SMALL("Vorbis"),
+    .name            = "vorbis",
+    .type            = AVMEDIA_TYPE_AUDIO,
+    .id              = CODEC_ID_VORBIS,
+    .priv_data_size  = sizeof(vorbis_context),
+    .init            = vorbis_decode_init,
+    .close           = vorbis_decode_close,
+    .decode          = vorbis_decode_frame,
+    .flush           = vorbis_decode_flush,
+    .capabilities    = CODEC_CAP_DR1,
+    .long_name       = NULL_IF_CONFIG_SMALL("Vorbis"),
     .channel_layouts = ff_vorbis_channel_layouts,
-    .sample_fmts = (const enum AVSampleFormat[]) {
+    .sample_fmts     = (const enum AVSampleFormat[]) {
         AV_SAMPLE_FMT_FLT, AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE
     },
 };
