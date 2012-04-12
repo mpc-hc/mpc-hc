@@ -99,9 +99,6 @@
     <ClCompile Include="SyncClock.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SyncClock.def" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyncClock.h" />

@@ -21,39 +21,8 @@
  */
 
 #include "stdafx.h"
-#include <InitGuid.h>
 #include "SyncClock.h"
-#include "../../../DSUtil/DSUtil.h"
-#include <moreuuids.h>
 
-
-#ifdef REGISTER_FILTER
-
-const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CSyncClockFilter), L"SyncClock", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory}
-};
-
-CFactoryTemplate g_Templates[] = {
-	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CSyncClockFilter>, NULL, &sudFilter[0]}
-};
-
-int g_cTemplates = countof(g_Templates);
-
-STDAPI DllRegisterServer()
-{
-	return AMovieDllRegisterServer2(TRUE);
-}
-
-STDAPI DllUnregisterServer()
-{
-	return AMovieDllRegisterServer2(FALSE);
-}
-
-#include "../../FilterApp.h"
-
-CFilterApp theApp;
-
-#endif
 
 CSyncClockFilter::CSyncClockFilter(LPUNKNOWN pUnk, HRESULT *phr)
 	: CBaseFilter(NAME("SyncClock"), NULL, &m_Lock, CLSID_NULL)

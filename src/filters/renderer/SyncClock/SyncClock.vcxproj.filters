@@ -19,11 +19,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SyncClock.def">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Interfaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
