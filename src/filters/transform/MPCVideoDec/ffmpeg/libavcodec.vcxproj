@@ -152,7 +152,6 @@
     <ClCompile Include="libavcodec\cabac.c" />
     <ClCompile Include="libavcodec\celp_filters.c" />
     <ClCompile Include="libavcodec\celp_math.c" />
-    <ClCompile Include="libavcodec\CompilerVersion.c" />
     <ClCompile Include="libavcodec\dsputil.c" />
     <ClCompile Include="libavcodec\dsputil_template.c" />
     <ClCompile Include="libavcodec\eac3dec.c" />

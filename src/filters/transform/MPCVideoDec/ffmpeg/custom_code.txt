@@ -6,7 +6,6 @@ The following files have MPC-specific custom code (compared to ffmpeg):
 
 * libavcodec/avcodec.h
 * libavcodec/allcodecs.c
-* libavcodec/CompilerVersion.c
 * libavcodec/h264.c
 * libavcodec/h264.h
 * libavcodec/h264_dxva.h

@@ -21,8 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="gccbuild_2010.bat" />
-    <None Include="gccbuild64_2010.bat" />
     <None Include="custom_code.txt" />
     <None Include="libavcodec\x86\ac3dsp.asm">
       <Filter>libavcodec\x86</Filter>
@@ -91,6 +89,8 @@
       <Filter>libswscale\x86</Filter>
     </None>
     <None Include="config.asm" />
+    <None Include="gccbuild64.bat" />
+    <None Include="gccbuild.bat" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libavcodec\x86\ac3dsp_mmx.c">
@@ -238,9 +238,6 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\celp_math.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\CompilerVersion.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\dsputil.c">

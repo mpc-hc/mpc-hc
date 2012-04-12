@@ -44,7 +44,7 @@ endif
 ifeq ($(DEBUG),yes)
     CFLAGS       += -DDEBUG -D_DEBUG -g
 else
-    CFLAGS       += -DNDEBUG -UDEBUG
+    CFLAGS       += -DNDEBUG -UDEBUG -U_DEBUG
 endif
 
 
@@ -103,7 +103,6 @@ SRCS_C=\
     libavcodec/cabac.c \
     libavcodec/celp_filters.c \
     libavcodec/celp_math.c \
-    libavcodec/CompilerVersion.c \
     libavcodec/cook.c \
     libavcodec/dct.c \
     libavcodec/dct32.c \
