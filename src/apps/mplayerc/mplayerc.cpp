@@ -838,68 +838,6 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
 	return ret;
 }
 
-// Class ssftest is nowhere to see except here. Right now remove it from release build, should we just remove it completely?
-#ifdef _DEBUG
-#include "../../Subtitles/SSF.h"
-#include "../../Subtitles/RTS.h"
-#include "../../SubPic/MemSubPic.h"
-
-class ssftest
-{
-public:
-	ssftest() {
-		Sleep(10000);
-
-		MessageBeep((UINT)-1);
-		// 8; //
-		SubPicDesc spd;
-		spd.w = 640;
-		spd.h = 480;
-		spd.bpp = 32;
-		spd.pitch = spd.w*spd.bpp>>3;
-		spd.type = MSP_RGB32;
-		spd.vidrect = CRect(0, 0, spd.w, spd.h);
-		spd.bits = DNew BYTE[spd.pitch*spd.h];
-
-		CCritSec csLock;
-		/*
-				CRenderedTextSubtitle s(&csLock);
-				s.Open(_T("../../Subtitles/libssf/demo/demo.ssa"), 1);
-
-				for (int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 10)
-				{
-					memsetd(spd.bits, 0xff000000, spd.pitch*spd.h);
-					CRect bbox;
-					bbox.SetRectEmpty();
-					s.Render(spd, 10000i64*i, 25, bbox);
-				}
-		*/
-		try {
-			ssf::CRenderer s(&csLock);
-			s.Open(_T("../../Subtitles/libssf/demo/demo.ssf"));
-
-			for (int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 40)
-				//for (int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 1000)
-				//for (int i = 0; i < 5000; i += 40)
-			{
-				memsetd(spd.bits, 0xff000000, spd.pitch*spd.h);
-				CRect bbox;
-				bbox.SetRectEmpty();
-				s.Render(spd, 10000i64*i, 25, bbox);
-			}
-		} catch (ssf::Exception& e) {
-			UNREFERENCED_PARAMETER(e);
-			TRACE(_T("%s\n"), e.ToString());
-			ASSERT(0);
-		}
-
-		delete [] spd.bits;
-
-		::ExitProcess(0);
-	}
-};
-#endif
-
 BOOL SetHeapOptions()
 {
 	HMODULE hLib = LoadLibrary(L"kernel32.dll");
