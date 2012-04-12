@@ -154,10 +154,11 @@ class CMpegSplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
 	CAutoPtr<Packet> m_p;
 	CAutoPtrList<Packet> m_pl;
 	REFERENCE_TIME m_rtPrev, m_rtOffset, m_rtMaxShift;
-	bool m_fHasAccessUnitDelimiters;
-	bool m_bFilterDTSMA;
-	int m_type;
-	bool DD_reset;
+	bool	m_fHasAccessUnitDelimiters;
+	bool	m_bFilterDTSMA;
+	bool	DD_reset;
+	bool	m_bFlushed;
+	int		m_type;
 
 protected:
 	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);

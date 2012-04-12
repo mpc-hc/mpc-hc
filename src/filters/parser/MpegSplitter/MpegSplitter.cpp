@@ -28,6 +28,7 @@
 #include "MpegSplitter.h"
 #include <moreuuids.h>
 #include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/AudioParser.h"
 
 #include "../../../apps/mplayerc/SettingsDefines.h"
 
@@ -1591,6 +1592,7 @@ CMpegSplitterOutputPin::CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWS
 	, m_bFilterDTSMA(false)
 	, m_type(type)
 	, DD_reset(false)
+	, m_bFlushed(false)
 {
 }
 
@@ -1602,8 +1604,9 @@ HRESULT CMpegSplitterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFEREN
 {
 	{
 		CAutoLock cAutoLock(this);
-		m_rtPrev = Packet::INVALID_TIME;
-		m_rtOffset = 0;
+
+		m_rtPrev	= Packet::INVALID_TIME;
+		m_rtOffset	= 0;
 	}
 
 	return __super::DeliverNewSegment(tStart, tStop, dRate);
@@ -1613,9 +1616,11 @@ HRESULT CMpegSplitterOutputPin::DeliverEndFlush()
 {
 	{
 		CAutoLock cAutoLock(this);
+
 		m_p.Free();
 		m_pl.RemoveAll();
-		DD_reset = true;
+		DD_reset	= true;
+		m_bFlushed	= true;
 	}
 
 	return __super::DeliverEndFlush();
@@ -1642,13 +1647,11 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		m_rtPrev = p->rtStart;
 	}
 
-
 	if (p->pmt) {
 		if (*((CMediaType *)p->pmt) != m_mt) {
 			SetMediaType ((CMediaType*)p->pmt);
 		}
 	}
-
 
 	if (m_mt.subtype == MEDIASUBTYPE_AAC) { // special code for aac, the currently available decoders only like whole frame samples
 		if (m_p && m_p->GetCount() == 1 && m_p->GetAt(0) == 0xff	&& !(!p->IsEmpty() && (p->GetAt(0) & 0xf6) == 0xf0)) {
@@ -2035,8 +2038,32 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 		// HDMV LPCM
 	} else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
-		BYTE* start = p->GetData();
-		p->SetData(start + 4, p->GetCount() - 4);
+		if (!m_p) {
+			m_p.Attach(DNew Packet());
+		}
+		m_p->Append(*p);
+
+		if (m_p->GetCount() < 4) {
+			m_p.Free();
+			return S_OK;    // Should be invalid packet
+		}
+
+		BYTE* start = m_p->GetData();
+		int samplerate, channels;
+		size_t header_size = ParseHdmvLPCMHeader(start, &samplerate, &channels);
+		if (!header_size || header_size > m_p->GetCount()) {
+			if(!header_size) {
+				m_p.Free();
+			}
+			return S_OK;
+		}
+
+		if(!p->pmt && m_bFlushed) {
+			p->pmt = CreateMediaType(&m_mt);
+			m_bFlushed = false;
+		}
+		p->SetData(start + 4, m_p->GetCount() - 4);
+		m_p.Free();
 		// Dolby_AC3
 	} else if ((m_type == mpeg_ts) &&
 			   (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3) &&

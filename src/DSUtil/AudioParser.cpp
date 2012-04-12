@@ -187,3 +187,33 @@ int ParseTrueHDHeader(const BYTE *buf, int *samplerate, int *channels, int *fram
 
 	return frame_size;
 }
+
+int ParseHdmvLPCMHeader(const BYTE *buf, int *samplerate, int *channels)
+{
+	*samplerate = 0;
+	*channels   = 0;
+
+	int frame_size = buf[0] << 8 | buf[1];
+	frame_size += 4; // add header size;
+
+	static int channels_layout[] = {0, 1, 0, 2, 3, 3, 4, 4, 5, 6, 7, 8, 0, 0, 0, 0};
+	BYTE channel_layout = buf[2] >> 4;
+	*channels           = channels_layout[channel_layout];
+	if(!*channels) {
+		return 0;
+	}
+
+	static int bitspersample[] = {0, 16, 20, 24};
+	int bits_per_sample = bitspersample[buf[3] >> 6];
+	if(!(bits_per_sample == 16 || bits_per_sample == 24)) {
+		return 0;
+	}
+
+	static int freq[] = {0, 48000, 0, 0, 96000, 192000};
+	*samplerate = freq[buf[2] & 0x0f];
+	if(!(*samplerate == 48000 || *samplerate == 96000 || *samplerate == 192000)) {
+		return 0;
+	}
+
+	return frame_size;
+}

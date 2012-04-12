@@ -607,14 +607,14 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		bool fTimeValid = p->rtStart != Packet::INVALID_TIME;
-		/*
-		//if(p->TrackNumber == 1)
-		//if(p->rtStart != Packet::INVALID_TIME)
-		TRACE(_T("[%d]: d%d s%d p%d, b=%d, %I64d-%I64d \n"),
+		
+#if defined(_DEBUG) && 0
+		TRACE(_T("[%d]: d%d s%d p%d, b=%d, [%20I64d - %20I64d]\n"),
 			  p->TrackNumber,
 			  p->bDiscontinuity, p->bSyncPoint, fTimeValid && p->rtStart < 0,
 			  nBytes, p->rtStart, p->rtStop);
-		*/
+#endif
+
 		ASSERT(!p->bSyncPoint || fTimeValid);
 
 		BYTE* pData = NULL;
@@ -1048,14 +1048,13 @@ HRESULT CBaseSplitterFilter::DeliverPacket(CAutoPtr<Packet> p)
 
 	DWORD TrackNumber = p->TrackNumber;
 	BOOL bDiscontinuity = p->bDiscontinuity;
-	/*
-	//if(p->TrackNumber == 1)
-	//if(p->rtStart != Packet::INVALID_TIME)
-	TRACE(_T("[%d]: d%d s%d p%d, b=%d, %I64d-%I64d \n"),
+
+#if defined(_DEBUG) && 0
+	TRACE(_T("[%d]: d%d s%d p%d, b=%d, [%20I64d - %20I64d]\n"),
 		  p->TrackNumber,
 		  p->bDiscontinuity, p->bSyncPoint, p->rtStart != Packet::INVALID_TIME && p->rtStart < 0,
 		  p->GetCount(), p->rtStart, p->rtStop);
-	*/
+#endif
 
 	hr = pPin->QueuePacket(p);
 
