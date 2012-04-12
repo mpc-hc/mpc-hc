@@ -60,9 +60,13 @@ public:
 	afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
 	afx_msg void OnRenameBnClicked();
+	afx_msg void OnUpdateRenameBn(CCmdUI* pCmdUI);
 	afx_msg void OnDeleteBnClicked();
+	afx_msg void OnUpdateDeleteBn(CCmdUI* pCmdUI);
 	afx_msg void OnUpBnClicked();
+	afx_msg void OnUpdateUpBn(CCmdUI* pCmdUI);
 	afx_msg void OnDownBnClicked();
+	afx_msg void OnUpdateDownBn(CCmdUI* pCmdUI);
 	afx_msg void OnTcnSelchangingTab1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);

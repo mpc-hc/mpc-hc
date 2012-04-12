@@ -105,9 +105,13 @@ BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CResizableDialog)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
 	ON_WM_DRAWITEM()
 	ON_BN_CLICKED(IDC_BUTTON1, OnRenameBnClicked)
+	ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateRenameBn)
 	ON_BN_CLICKED(IDC_BUTTON2, OnDeleteBnClicked)
+	ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateDeleteBn)
 	ON_BN_CLICKED(IDC_BUTTON3, OnUpBnClicked)
+	ON_UPDATE_COMMAND_UI(IDC_BUTTON3, OnUpdateUpBn)
 	ON_BN_CLICKED(IDC_BUTTON4, OnDownBnClicked)
+	ON_UPDATE_COMMAND_UI(IDC_BUTTON4, OnUpdateDownBn)
 	ON_NOTIFY(TCN_SELCHANGING, IDC_TAB1, OnTcnSelchangingTab1)
 	ON_BN_CLICKED(IDOK, OnBnClickedOk)
 	ON_WM_ACTIVATE()
@@ -199,6 +203,11 @@ void CFavoriteOrganizeDlg::OnRenameBnClicked()
 	}
 }
 
+void CFavoriteOrganizeDlg::OnUpdateRenameBn(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(m_list.GetFirstSelectedItemPosition() != NULL);
+}
+
 void CFavoriteOrganizeDlg::OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
@@ -258,6 +267,20 @@ void CFavoriteOrganizeDlg::OnDeleteBnClicked()
 	}
 }
 
+void CFavoriteOrganizeDlg::OnUpdateDeleteBn(CCmdUI* pCmdUI)
+{
+	bool enable = false;
+
+	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+		int nItem = m_list.GetNextSelectedItem(pos);
+		if (nItem >= 0 && nItem < m_list.GetItemCount()) {
+			enable = true;
+		}
+	}
+
+	pCmdUI->Enable(enable);
+}
+
 void CFavoriteOrganizeDlg::MoveItem(int nItem, int offset)
 {
 	DWORD_PTR data = m_list.GetItemData(nItem);
@@ -279,7 +302,7 @@ void CFavoriteOrganizeDlg::OnUpBnClicked()
 {
 	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
-		if (nItem <= 0) {
+		if (nItem <= 0 || nItem >= m_list.GetItemCount()) {
 			return;
 		}
 
@@ -287,16 +310,44 @@ void CFavoriteOrganizeDlg::OnUpBnClicked()
 	}
 }
 
+void CFavoriteOrganizeDlg::OnUpdateUpBn(CCmdUI* pCmdUI)
+{
+	bool enable = false;
+
+	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+		int nItem = m_list.GetNextSelectedItem(pos);
+		if (nItem > 0 && nItem < m_list.GetItemCount()) {
+			enable = true;
+		}
+	}
+
+	pCmdUI->Enable(enable);
+}
+
 void CFavoriteOrganizeDlg::OnDownBnClicked()
 {
 	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
-		if (nItem < 0 || nItem >= m_list.GetItemCount()-1) {
+		if (nItem < 0 || nItem >= m_list.GetItemCount() - 1) {
 			return;
 		}
 
 		MoveItem(nItem, +1);
 	}
+}
+
+void CFavoriteOrganizeDlg::OnUpdateDownBn(CCmdUI* pCmdUI)
+{
+	bool enable = false;
+
+	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+		int nItem = m_list.GetNextSelectedItem(pos);
+		if (nItem >= 0 && nItem < m_list.GetItemCount() - 1) {
+			enable = true;
+		}
+	}
+
+	pCmdUI->Enable(enable);
 }
 
 void CFavoriteOrganizeDlg::OnTcnSelchangingTab1(NMHDR *pNMHDR, LRESULT *pResult)
