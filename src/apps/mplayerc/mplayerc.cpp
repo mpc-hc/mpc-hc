@@ -266,8 +266,7 @@ public:
 #if defined(__INTEL_COMPILER)
 	#if (__INTEL_COMPILER >= 1200)
 		m_MPCCompiler = _T("ICL 12.x");
-	#elif (__INTEL_COMPILER >= 1100)
-		m_MPCCompiler = _T("ICL 11.x");
+	#else
 		#error Compiler is not supported!
 	#endif
 #elif defined(_MSC_VER)
@@ -277,28 +276,17 @@ public:
 		#else
 			m_MPCCompiler = _T("MSVC 2010");
 		#endif
-	#elif (_MSC_VER == 1500)
-		#if (_MSC_FULL_VER >= 150030729)
-			m_MPCCompiler = _T("MSVC 2008 SP1");
-		#else
-			m_MPCCompiler = _T("MSVC 2008");
-		#endif
-	#elif (_MSC_VER < 1500)
+	#elif (_MSC_VER < 1600)
 		#error Compiler is not supported!
 	#endif
 #else
 	#error Please add support for your compiler
 #endif
 
-// Note: /arch:SSE and /arch:SSE2 are only available when you compile for the x86 platform.
-// Link: http://msdn.microsoft.com/en-us/library/7t5yh4fd.aspx
-// Link: http://msdn.microsoft.com/en-us/library/b0084kay.aspx
 #if !defined(_M_X64) && defined(_M_IX86_FP)
-	//#if (_M_IX86_FP == 0) // 0 if /arch was not used.
-	//	m_MPCCompiler += _T("");
-	#if (_M_IX86_FP == 1) // 1 if /arch:SSE was used.
+	#if (_M_IX86_FP == 1) // /arch:SSE was used
 		m_MPCCompiler += _T(" (SSE)");
-	#elif (_M_IX86_FP == 2) // 2 if /arch:SSE2 was used.
+	#elif (_M_IX86_FP == 2) // /arch:SSE2 was used
 		m_MPCCompiler += _T(" (SSE2)");
 	#endif
 #endif // _M_IX86_FP
