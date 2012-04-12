@@ -53,19 +53,21 @@ protected:
 	virtual BOOL OnInitDialog();
 
 	void UpdateColumnsSizes();
+	void MoveItem(int nItem, int offset);
 
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton2();
-	afx_msg void OnBnClickedButton3();
-	afx_msg void OnBnClickedButton7();
+	afx_msg void OnRenameBnClicked();
+	afx_msg void OnDeleteBnClicked();
+	afx_msg void OnUpBnClicked();
+	afx_msg void OnDownBnClicked();
 	afx_msg void OnTcnSelchangingTab1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
 	afx_msg void OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnPlayFavorite(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 };

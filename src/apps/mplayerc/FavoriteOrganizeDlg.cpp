@@ -104,15 +104,16 @@ void CFavoriteOrganizeDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CResizableDialog)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
 	ON_WM_DRAWITEM()
-	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-	ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
-	ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedButton3)
-	ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedButton7)
+	ON_BN_CLICKED(IDC_BUTTON1, OnRenameBnClicked)
+	ON_BN_CLICKED(IDC_BUTTON2, OnDeleteBnClicked)
+	ON_BN_CLICKED(IDC_BUTTON3, OnUpBnClicked)
+	ON_BN_CLICKED(IDC_BUTTON4, OnDownBnClicked)
 	ON_NOTIFY(TCN_SELCHANGING, IDC_TAB1, OnTcnSelchangingTab1)
 	ON_BN_CLICKED(IDOK, OnBnClickedOk)
 	ON_WM_ACTIVATE()
 	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST2, OnLvnEndlabeleditList2)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST2, OnPlayFavorite)
+	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST2, OnKeyPressed)
 	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
@@ -190,7 +191,7 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
 	}
 }
 
-void CFavoriteOrganizeDlg::OnBnClickedButton1()
+void CFavoriteOrganizeDlg::OnRenameBnClicked()
 {
 	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		m_list.SetFocus();
@@ -227,7 +228,20 @@ void CFavoriteOrganizeDlg::OnPlayFavorite(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 }
 
-void CFavoriteOrganizeDlg::OnBnClickedButton2()
+void CFavoriteOrganizeDlg::OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult)
+{
+   LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
+
+   if (pLVKeyDow->wVKey == VK_DELETE || pLVKeyDow->wVKey == VK_BACK) {
+	   OnDeleteBnClicked();
+
+	   *pResult = 1;
+   }
+
+   *pResult = 0;
+}
+
+void CFavoriteOrganizeDlg::OnDeleteBnClicked()
 {
 	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
@@ -244,7 +258,24 @@ void CFavoriteOrganizeDlg::OnBnClickedButton2()
 	}
 }
 
-void CFavoriteOrganizeDlg::OnBnClickedButton3()
+void CFavoriteOrganizeDlg::MoveItem(int nItem, int offset)
+{
+	DWORD_PTR data = m_list.GetItemData(nItem);
+	CString strName = m_list.GetItemText(nItem, 0);
+	CString strPos = m_list.GetItemText(nItem, 1);
+
+	m_list.DeleteItem(nItem);
+
+	nItem += offset;
+
+	m_list.InsertItem(nItem, strName);
+	m_list.SetItemData(nItem, data);
+	m_list.SetItemText(nItem, 1, strPos);
+	m_list.SetSelectionMark(nItem);
+	m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
+}
+
+void CFavoriteOrganizeDlg::OnUpBnClicked()
 {
 	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
@@ -252,23 +283,11 @@ void CFavoriteOrganizeDlg::OnBnClickedButton3()
 			return;
 		}
 
-		DWORD_PTR data = m_list.GetItemData(nItem);
-		CString strName = m_list.GetItemText(nItem, 0);
-		CString strPos = m_list.GetItemText(nItem, 1);
-
-		m_list.DeleteItem(nItem);
-
-		nItem--;
-
-		m_list.InsertItem(nItem, strName);
-		m_list.SetItemData(nItem, data);
-		m_list.SetItemText(nItem, 1, strPos);
-		m_list.SetSelectionMark(nItem);
-		m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
+		MoveItem(nItem, -1);
 	}
 }
 
-void CFavoriteOrganizeDlg::OnBnClickedButton7()
+void CFavoriteOrganizeDlg::OnDownBnClicked()
 {
 	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
@@ -276,19 +295,7 @@ void CFavoriteOrganizeDlg::OnBnClickedButton7()
 			return;
 		}
 
-		DWORD_PTR data = m_list.GetItemData(nItem);
-		CString strName = m_list.GetItemText(nItem, 0);
-		CString strPos = m_list.GetItemText(nItem, 1);
-
-		m_list.DeleteItem(nItem);
-
-		nItem++;
-
-		m_list.InsertItem(nItem, strName);
-		m_list.SetItemData(nItem, data);
-		m_list.SetItemText(nItem, 1, strPos);
-		m_list.SetSelectionMark(nItem);
-		m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
+		MoveItem(nItem, +1);
 	}
 }
 
