@@ -295,7 +295,7 @@ public:
 #endif
 
 #if HAS_FFMPEG
-		m_FFmpegCompiler.Format (A2W(GetFFmpegCompiler()));
+		m_FFmpegCompiler.Format(A2W(GetFFmpegCompiler()));
 #endif
 
 		UpdateData(FALSE);
@@ -689,7 +689,7 @@ BOOL WINAPI Mine_IsDebuggerPresent()
 
 NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength)
 {
-	NTSTATUS		nRet;
+	NTSTATUS nRet;
 
 	nRet = Real_NtQueryInformationProcess(ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength);
 
@@ -860,7 +860,7 @@ BOOL CMPlayerCApp::InitInstance()
 	// Remove the working directory from the search path to work around the DLL preloading vulnerability
 	SetDllDirectory(_T(""));
 
-	long		lError;
+	long lError;
 
 #ifdef GOTHTRACE
 	// Used for tracing when debugger can't be used, e.g. when using some commercial decoders
@@ -895,7 +895,7 @@ BOOL CMPlayerCApp::InitInstance()
 	DetourAttach(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails);
 	DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
 
-	HMODULE hNTDLL	=	LoadLibrary (_T("ntdll.dll"));
+	HMODULE hNTDLL = LoadLibrary (_T("ntdll.dll"));
 #ifndef _DEBUG	// Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
 	if (hNTDLL) {
 		Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress (hNTDLL, "NtQueryInformationProcess");
@@ -948,13 +948,13 @@ BOOL CMPlayerCApp::InitInstance()
 
 	m_s.ParseCommandLine(m_cmdln);
 
-	if (m_s.nCLSwitches&(CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH)) { // show comandline help windows
+	if (m_s.nCLSwitches & (CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH)) { // show comandline help window
 		m_s.UpdateData(false);
 		ShowCmdlnSwitches();
 		return FALSE;
 	}
 
-	if (m_s.nCLSwitches & CLSW_RESET) { // reset sittings
+	if (m_s.nCLSwitches & CLSW_RESET) { // reset settings
 		// We want the other instances to be closed before resetting the settings.
 		HWND hWnd = FindWindow(MPC_WND_CLASS_NAME, NULL);
 
@@ -2357,7 +2357,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance) {
 		FreeLibrary(AfxGetResourceHandle());
 	}
-	AfxSetResourceHandle( hMod );
+	AfxSetResourceHandle(hMod);
 }
 
 bool CMPlayerCApp::IsVSFilterInstalled()
@@ -2429,12 +2429,12 @@ void CAboutDlg::OnHomepage(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
-CRenderersData*		GetRenderersData()
+CRenderersData* GetRenderersData()
 {
 	return &AfxGetMyApp()->m_Renderers;
 }
 
-CRenderersSettings&	GetRenderersSettings()
+CRenderersSettings& GetRenderersSettings()
 {
 	return AfxGetAppSettings().m_RenderersSettings;
 }
