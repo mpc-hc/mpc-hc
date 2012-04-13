@@ -36,11 +36,12 @@ class CFavoriteOrganizeDlg : public CResizableDialog
 
 private:
 	CAtlList<CString> m_sl[3];
-	void SetupList(bool fSave);
 
 public:
 	CFavoriteOrganizeDlg(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CFavoriteOrganizeDlg();
+
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 	// Dialog Data
 	enum { IDD = IDD_FAVORGANIZE };
@@ -52,8 +53,10 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
 
+	void SetupList(bool fSave);
 	void UpdateColumnsSizes();
 	void MoveItem(int nItem, int offset);
+	void PlayFavorite(int nItem);
 
 	DECLARE_MESSAGE_MAP()
 public:

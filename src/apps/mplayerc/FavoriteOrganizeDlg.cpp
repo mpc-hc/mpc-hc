@@ -155,6 +155,17 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+BOOL CFavoriteOrganizeDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// Inhibit default handling for the Enter key when the list has the focus and an item is selected.
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
+		&& pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
+		return FALSE; 
+	}
+
+	return __super::PreTranslateMessage(pMsg);
+}
+
 void CFavoriteOrganizeDlg::OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	SetupList(false);
@@ -219,35 +230,51 @@ void CFavoriteOrganizeDlg::OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResul
 	*pResult = 0;
 }
 
+void CFavoriteOrganizeDlg::PlayFavorite(int nItem)
+{
+	switch (m_tab.GetCurSel()) {
+		case 0: // Files
+			((CMainFrame*)GetParentFrame())->PlayFavoriteFile(m_sl[0].GetAt((POSITION)m_list.GetItemData(nItem)));
+			break;
+		case 1: // DVDs
+			((CMainFrame*)GetParentFrame())->PlayFavoriteDVD(m_sl[1].GetAt((POSITION)m_list.GetItemData(nItem)));
+			break;
+		case 2: // Devices
+			break;
+	}
+}
+
 void CFavoriteOrganizeDlg::OnPlayFavorite(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 
 	if (pItemActivate->iItem >= 0) {
-		switch (m_tab.GetCurSel()) {
-			case 0: // Files
-				((CMainFrame*)GetParentFrame())->PlayFavoriteFile(m_sl[0].GetAt((POSITION)m_list.GetItemData(pItemActivate->iItem)));
-				break;
-			case 1: // DVDs
-				((CMainFrame*)GetParentFrame())->PlayFavoriteDVD(m_sl[1].GetAt((POSITION)m_list.GetItemData(pItemActivate->iItem)));
-				break;
-			case 2: // Devices
-				break;
-		}
+		PlayFavorite(pItemActivate->iItem);
 	}
 }
 
 void CFavoriteOrganizeDlg::OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult)
 {
-   LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
+	LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
 
-   if (pLVKeyDow->wVKey == VK_DELETE || pLVKeyDow->wVKey == VK_BACK) {
-	   OnDeleteBnClicked();
-
-	   *pResult = 1;
-   }
-
-   *pResult = 0;
+	switch (pLVKeyDow->wVKey) {
+		case VK_DELETE:
+		case VK_BACK:
+			OnDeleteBnClicked();
+			*pResult = 1;
+			break;
+		case VK_RETURN:
+			if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+				int nItem = m_list.GetNextSelectedItem(pos);
+				if (nItem >= 0 && nItem < m_list.GetItemCount()) {
+					PlayFavorite(nItem);
+				}
+			}
+			*pResult = 1;
+			break;
+		default:
+			*pResult = 0;
+	}
 }
 
 void CFavoriteOrganizeDlg::OnDeleteBnClicked()
