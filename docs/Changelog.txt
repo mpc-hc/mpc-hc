@@ -19,7 +19,7 @@ Legend:
   ini files will be automatically converted to unicode. Favorites with unicode
   filenames are now correctly handled when using an ini file
 * Ticket #1693, [VSFilter] Remove the feature preventing the screensaver from
-  running when VSFilter is active as it is a job for players not for filters
+  running when VSFilter is active since that's a job for players not for filters
 * Ticket #1733/#2029, Include subfolders when opening a folder using the command
   line or via the explorer context menu
 * Ticket #2157, Show the [DXVA] indicator even when playback is paused
@@ -49,7 +49,7 @@ Legend:
   was quited in fullscreen mode while the option "Hide on fullscreen" was enabled
 ! Ticket #1182, Unable to playback MPEG2 in AVI
 ! Ticket #1290, Fix the reversed behavior of the playlist option "Hide on fullscreen"
-  when "Launch files in fullscreen" is enabled
+  when the "Launch files in fullscreen" option is enabled
 ! Ticket #1447, Show volume change in the status bar (for non-OSD renderers and audio)
 ! Ticket #1589, Crash with "Null (uncompressed)"
 ! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on
