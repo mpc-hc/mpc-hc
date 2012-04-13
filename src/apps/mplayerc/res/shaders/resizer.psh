@@ -1,4 +1,3 @@
-
 sampler s0 : register(s0);
 sampler s1 : register(s1);
 sampler s2 : register(s2);
@@ -6,14 +5,14 @@ sampler s3 : register(s3);
 sampler s4 : register(s4);
 
 float4 dxdy05 : register(c0);
-float2 dxdy : register(c1);
-float2 dx : register(c2);
-float2 dy : register(c3);
+float2 dxdy :   register(c1);
+float2 dx :     register(c2);
+float2 dy :     register(c3);
 
 #define A _The_Value_Of_A_Is_Set_Here_
 
 // none of the resizers here can be used for 1:1 mapping!
-// tex * size won't be 0, 1, 2, 3, .. as you might expect, but something like 0, 0.999, 2.001, 2.999, ...
+// tex * size won't be 0, 1, 2, 3, ... as you might expect, but something like 0, 0.999, 2.001, 2.999, ...
 // this means when the fractional part becomes 0.999 we will be interpolating with the wrong value!!!
 
 struct PS_INPUT {

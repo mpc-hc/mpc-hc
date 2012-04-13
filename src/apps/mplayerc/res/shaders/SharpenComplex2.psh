@@ -1,10 +1,10 @@
 /* Sharpen complex v2 (requires ps >= 2a) */
 
 sampler s0 : register(s0);
-float4 p0 : register(c0);
-float4 p1 : register(c1);
+float4 p0 :  register(c0);
+float4 p1 :  register(c1);
 
-#define width (p0[0])
+#define width  (p0[0])
 #define height (p0[1])
 
 // "largeur" d'un pixel
@@ -15,16 +15,16 @@ float4 p1 : register(c1);
 
 // pour le calcul du flou
 #define moyenne 0.6
-#define dx (moyenne*px)
-#define dy (moyenne*py)
+#define dx (moyenne * px)
+#define dy (moyenne * py)
 
 #define CoefFlou 2
-#define CoefOri (1+ CoefFlou)
+#define CoefOri (1 + CoefFlou)
 
 // pour le sharpen
 #define SharpenEdge  0.2
 #define Sharpen_val0 2
-#define Sharpen_val1 ((Sharpen_val0-1) / 8.0)
+#define Sharpen_val1 ((Sharpen_val0 - 1) / 8.0)
 
 float4 main(float2 tex : TEXCOORD0) : COLOR {
 	// recup du pixel original
@@ -41,11 +41,11 @@ float4 main(float2 tex : TEXCOORD0) : COLOR {
 	float4 c8 = tex2D(s0, tex + float2(dx, dy));
 
 	// filtre gaussien
-	//   [ 1, 2 , 1 ]
-	//   [ 2, 4 , 2 ]
-	//   [ 1, 2 , 1 ]
+	//   [ 1, 2, 1 ]
+	//   [ 2, 4, 2 ]
+	//   [ 1, 2, 1 ]
 	// pour normaliser les valeurs, il faut diviser par la somme des coef
-	// 1 / (1+2+1+2+4+2+1+2+1) = 1 / 16 = .0625
+	// 1 / (1+2+1+2+4+2+1+2+1) = 1 / 16 = 0.0625
 	float4 flou = (c1 + c3 + c6 + c8 + 2 * (c2 + c4 + c5 + c7) + 4 * ori) * 0.0625;
 
 	// soustraction de l'image flou à l'image originale
@@ -53,9 +53,9 @@ float4 main(float2 tex : TEXCOORD0) : COLOR {
 
 	// détection des contours
 	// récuppération des 9 voisins
-	//   [ c1, c2 , c3 ]
-	//   [ c4,ori , c5 ]
-	//   [ c6, c7 , c8 ]
+	//   [ c1,  c2, c3 ]
+	//   [ c4, ori, c5 ]
+	//   [ c6,  c7, c8 ]
 	c1 = tex2D(s0, tex + float2(-px, -py));
 	c2 = tex2D(s0, tex + float2(0, -py));
 	c3 = tex2D(s0, tex + float2(px, -py));
@@ -67,21 +67,21 @@ float4 main(float2 tex : TEXCOORD0) : COLOR {
 
 	// par filtre de sobel
 	// Gradient horizontal
-	//   [ -1, 0 ,1 ]
+	//   [ -1, 0, 1 ]
 	//   [ -2, 0, 2 ]
-	//   [ -1, 0 ,1 ]
+	//   [ -1, 0, 1 ]
 	float delta1 = (c3 + 2 * c5 + c8) - (c1 + 2 * c4 + c6);
 
 	// Gradient vertical
-	//   [ -1,- 2,-1 ]
-	//   [  0,  0, 0 ]
-	//   [  1,  2, 1 ]
+	//   [ -1,- 2, -1 ]
+	//   [  0,  0,  0 ]
+	//   [  1,  2,  1 ]
 	float delta2 = (c6 + 2 * c7 + c8) - (c1 + 2 * c2 + c3);
 
 	// calcul
 	if (sqrt(mul(delta1, delta1) + mul(delta2, delta2)) > SharpenEdge) {
 		// si contour, sharpen
-		//return  float4(1,0,0,0);
+		//return float4(1, 0, 0, 0);
 		return ori * Sharpen_val0 - (c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8) * Sharpen_val1;
 	} else {
 		// sinon, image corrigée

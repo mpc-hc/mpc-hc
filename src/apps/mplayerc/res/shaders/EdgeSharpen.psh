@@ -1,13 +1,11 @@
 sampler s0 : register(s0);
-float4 p0 : register(c0);
+float4 p0 :  register(c0);
 
-#define width (p0[0])
+#define width  (p0[0])
 #define height (p0[1])
 
 #define NbPixel     1
-
 #define Edge_threshold  0.2
-
 #define Sharpen_val0    2.0
 #define Sharpen_val1    0.125
 
@@ -24,15 +22,15 @@ float4 main(float2 tex : TEXCOORD0) : COLOR {
 	//   [ 6, 7, 8 ]
 	float4 c0 = tex2D(s0, tex);
 	float4 c1 = tex2D(s0, tex + float2(-dx, -dy));
-	float4 c2 = tex2D(s0, tex + float2(0, -dy));
-	float4 c3 = tex2D(s0, tex + float2(dx, -dy));
-	float4 c4 = tex2D(s0, tex + float2(-dx, 0));
-	float4 c5 = tex2D(s0, tex + float2(dx, 0));
-	float4 c6 = tex2D(s0, tex + float2(-dx, dy));
-	float4 c7 = tex2D(s0, tex + float2(0, dy));
-	float4 c8 = tex2D(s0, tex + float2(dx, dy));
+	float4 c2 = tex2D(s0, tex + float2(  0, -dy));
+	float4 c3 = tex2D(s0, tex + float2( dx, -dy));
+	float4 c4 = tex2D(s0, tex + float2(-dx,   0));
+	float4 c5 = tex2D(s0, tex + float2( dx,   0));
+	float4 c6 = tex2D(s0, tex + float2(-dx,  dy));
+	float4 c7 = tex2D(s0, tex + float2(  0,  dy));
+	float4 c8 = tex2D(s0, tex + float2( dx,  dy));
 
-	// Calcul des 3 vecteurs dérivé (hor,vert, diag1, diag2)
+	// Calcul des 3 vecteurs dérivé (hor, vert, diag1, diag2)
 	float4 delta1 = (c6 + c4 + c1 - c3 - c5 - c8);
 	float4 delta2 = (c4 + c1 + c2 - c5 - c8 - c7);
 	float4 delta3 = (c1 + c2 + c3 - c8 - c7 - c6);
@@ -44,7 +42,7 @@ float4 main(float2 tex : TEXCOORD0) : COLOR {
 	// Si c'est un contour (vector lenght > Edge_threshold) => filtre de sharpen
 	if (value > Edge_threshold) {
 		Res = c0 * Sharpen_val0 - (c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8) * Sharpen_val1;
-		// Pour voir les contour en rouge ...
+		// Pour voir les contour en rouge...
 		//Res = float4( 1.0, 0.0, 0.0, 0.0 );
 
 		return Res;

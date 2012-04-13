@@ -1,5 +1,5 @@
 sampler s0 : register(s0);
-float4 p0 : register(c0);
+float4 p0 :  register(c0);
 
 #define clock (p0[3])
 
