@@ -28,7 +28,7 @@ float4 main_bilinear(PS_INPUT input) : COLOR {
 	float2 PixelPos = input.t0;
 	float2 dd = frac(PixelPos);
 	float2 ExactPixel = PixelPos - dd;
-	float2 samplePos = ExactPixel*dxdy + dxdy05;
+	float2 samplePos = ExactPixel * dxdy + dxdy05;
 
 	float4 c = lerp(
 		lerp(tex2D(s0, samplePos), tex2D(s0, samplePos + dx), dd.x),
@@ -39,15 +39,15 @@ float4 main_bilinear(PS_INPUT input) : COLOR {
 }
 
 static float4x4	tco = {
-	0, A, -2*A, A,
-	1, 0, -A-3, A+2,
-	0, -A, 2*A+3, -A-2,
+	0, A, -2 * A, A,
+	1, 0, -A - 3, A + 2,
+	0, -A, 2 * A + 3, -A - 2,
 	0, 0, A, -A
 };
 
 float4 taps(float t)
 {
-	return mul(tco, float4(1, t, t*t, t*t*t));
+	return mul(tco, float4(1, t, t * t, t * t * t));
 }
 
 float4 SampleX(float4 tx, float2 t0)
@@ -80,7 +80,7 @@ float4 main_bicubic1pass(PS_INPUT input) : COLOR {
 	float2 PixelPos = input.t0;
 	float2 dd = frac(PixelPos);
 	float2 ExactPixel = PixelPos - dd;
-	float2 samplePos = ExactPixel*dxdy + dxdy05;
+	float2 samplePos = ExactPixel * dxdy + dxdy05;
 	return SampleY(taps(dd.x), taps(dd.y), samplePos);
 }
 
@@ -101,7 +101,7 @@ float4 main_bicubic2pass_pass1(PS_INPUT input) : COLOR {
 	float2 PixelPos = input.t0;
 	float2 dd = frac(PixelPos);
 	float2 ExactPixel = PixelPos - dd;
-	float2 samplePos = ExactPixel*dxdy + dxdy05;
+	float2 samplePos = ExactPixel * dxdy + dxdy05;
 
 	return Sample(taps(dd.x), samplePos, dx);
 }
@@ -110,8 +110,7 @@ float4 main_bicubic2pass_pass2(PS_INPUT input) : COLOR {
 	float2 PixelPos = input.t0;
 	float2 dd = frac(PixelPos);
 	float2 ExactPixel = PixelPos - dd;
-	float2 samplePos = ExactPixel*dxdy + dxdy05;
+	float2 samplePos = ExactPixel * dxdy + dxdy05;
 
 	return Sample(taps(dd.y), samplePos, dy);
 }
-
