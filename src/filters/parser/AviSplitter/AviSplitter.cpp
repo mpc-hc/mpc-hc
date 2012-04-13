@@ -117,6 +117,7 @@ CAviSplitterApp theApp;
 CAviSplitterFilter::CAviSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	: CBaseSplitterFilter(NAME("CAviSplitterFilter"), pUnk, phr, __uuidof(this), MAXPACKETS_AVI)
 	, m_timeformat(TIME_FORMAT_MEDIA_TIME)
+	, m_maxTimeStamp(Packet::INVALID_TIME)
 {
 }
 
@@ -603,18 +604,20 @@ bool CAviSplitterFilter::DemuxLoop()
 			p->bDiscontinuity = fDiscontinuity[minTrack];
 			p->rtStart = s->GetRefTime(f, s->cs[f].size);
 			p->rtStop = s->GetRefTime(f+1, f+1 < (DWORD)s->cs.GetCount() ? s->cs[f+1].size : s->totalsize);
-
 			p->SetCount(size);
 			if (S_OK != (hr = m_pFile->ByteRead(p->GetData(), p->GetCount()))) {
 				return true;    // break;
 			}
-			/*
-						DbgLog((LOG_TRACE, 0, _T("%d (%d): %I64d - %I64d, %I64d - %I64d (size = %d)"),
-							minTrack, (int)p->bSyncPoint,
-							(p->rtStart)/10000, (p->rtStop)/10000,
-							(p->rtStart-m_rtStart)/10000, (p->rtStop-m_rtStart)/10000,
-							size));
-			*/
+#if defined(_DEBUG) && 0
+			DbgLog((LOG_TRACE, 0, 
+					_T("%d (%d): %I64d - %I64d, %I64d - %I64d (size = %d)"),
+					minTrack, (int)p->bSyncPoint,
+					(p->rtStart)/10000, (p->rtStop)/10000,
+					(p->rtStart-m_rtStart)/10000, (p->rtStop-m_rtStart)/10000,
+					size));
+#endif							
+			m_maxTimeStamp = max(m_maxTimeStamp, p->rtStart);
+
 			hr = DeliverPacket(p);
 
 			fDiscontinuity[minTrack] = false;
@@ -623,6 +626,9 @@ bool CAviSplitterFilter::DemuxLoop()
 		++f;
 	}
 
+	if(m_maxTimeStamp != Packet::INVALID_TIME) {
+		m_rtCurrent = m_maxTimeStamp;
+	}
 	return true;
 }
 

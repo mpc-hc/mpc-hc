@@ -55,6 +55,7 @@ protected:
 
 	HRESULT ReIndex(__int64 end, UINT64* pSize);
 
+	REFERENCE_TIME m_maxTimeStamp;
 public:
 	CAviSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 
