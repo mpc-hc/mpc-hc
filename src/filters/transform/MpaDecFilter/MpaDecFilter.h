@@ -48,8 +48,8 @@ struct ps2_state_t {
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 struct flac_state_t {
-	void*				pDecoder;
-	HRESULT				hr;
+	void*   pDecoder;
+	HRESULT hr;
 };
 #endif
 
@@ -91,8 +91,6 @@ protected:
 	REFERENCE_TIME m_rtStart;
 	bool m_fDiscontinuity;
 
-	float m_sample_max;
-
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
 	HRESULT ProcessLPCM();
 	HRESULT ProcessHdmvLPCM(bool bAlignOldBuffer);
@@ -127,19 +125,19 @@ protected:
 	CMediaType CreateMediaTypeSPDIF(DWORD nSamplesPerSec = 48000);
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
-	void	FlacInitDecoder();
-	void	flac_stream_finish();
+	void    FlacInitDecoder();
+	void    flac_stream_finish();
 #endif
 
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
-	bool	InitFFmpeg(enum CodecID nCodecId);
-	void	ffmpeg_stream_finish();
+	bool    InitFFmpeg(enum CodecID nCodecId);
+	void    ffmpeg_stream_finish();
 	HRESULT DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int samples, int& size);
 	HRESULT ProcessFFmpeg(enum CodecID nCodecId);
-	static void	LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
+	static void LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 
-	BYTE*	m_pFFBuffer;
-	int		m_nFFBufferSize;
+	BYTE*   m_pFFBuffer;
+	int     m_nFFBufferSize;
 
 	enum CodecID	FindCodec(const GUID subtype);
 
@@ -151,16 +149,14 @@ protected:
 		unsigned int deint_id;
 	} m_raData;
 
-	HRESULT	ParseRealAudioHeader(const BYTE *extra, const int extralen);
+	HRESULT ParseRealAudioHeader(const BYTE *extra, const int extralen);
 #endif
 
 protected:
 	CCritSec m_csProps;
 	MPCSampleFormat m_iSampleFormat;
-	bool m_fNormalize;
-	int m_iSpeakerConfig[etlast];
+	int  m_iSpeakerConfig[etlast];
 	bool m_fDynamicRangeControl[etlast];
-	float m_boost;
 
 	bool m_bResync;
 
@@ -185,7 +181,7 @@ public:
 	HRESULT StartStreaming();
 	HRESULT StopStreaming();
 
-	HRESULT	SetMediaType(PIN_DIRECTION dir, const CMediaType *pmt);
+	HRESULT SetMediaType(PIN_DIRECTION dir, const CMediaType *pmt);
 
 	// ISpecifyPropertyPages2
 
@@ -196,21 +192,17 @@ public:
 
 	STDMETHODIMP SetSampleFormat(MPCSampleFormat sf);
 	STDMETHODIMP_(MPCSampleFormat) GetSampleFormat();
-	STDMETHODIMP SetNormalize(bool fNormalize);
-	STDMETHODIMP_(bool) GetNormalize();
 	STDMETHODIMP SetSpeakerConfig(enctype et, int sc);
 	STDMETHODIMP_(int) GetSpeakerConfig(enctype et);
 	STDMETHODIMP SetDynamicRangeControl(enctype et, bool fDRC);
 	STDMETHODIMP_(bool) GetDynamicRangeControl(enctype et);
-	STDMETHODIMP SetBoost(float boost);
-	STDMETHODIMP_(float) GetBoost();
 	STDMETHODIMP_(DolbyDigitalMode) GetDolbyDigitalMode();
 
 	STDMETHODIMP SaveSettings();
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
-	void	FlacFillBuffer(BYTE buffer[], size_t *bytes);
-	void	FlacDeliverBuffer (unsigned blocksize, const __int32 * const buffer[]);
+	void    FlacFillBuffer(BYTE buffer[], size_t *bytes);
+	void    FlacDeliverBuffer (unsigned blocksize, const __int32 * const buffer[]);
 #endif
 };
 

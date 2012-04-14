@@ -41,14 +41,10 @@ public IUnknown {
 
 	STDMETHOD(SetSampleFormat(MPCSampleFormat sf)) = 0;
 	STDMETHOD_(MPCSampleFormat, GetSampleFormat()) = 0;
-	STDMETHOD(SetNormalize(bool fNormalize)) = 0;
-	STDMETHOD_(bool, GetNormalize()) = 0;
 	STDMETHOD(SetSpeakerConfig(enctype et, int sc)) = 0; // sign of sc tells if spdif is active
 	STDMETHOD_(int, GetSpeakerConfig(enctype et)) = 0;
 	STDMETHOD(SetDynamicRangeControl(enctype et, bool fDRC)) = 0;
 	STDMETHOD_(bool, GetDynamicRangeControl(enctype et)) = 0;
-	STDMETHOD(SetBoost(float boost)) = 0;
-	STDMETHOD_(float, GetBoost()) = 0;
 	STDMETHOD_(DolbyDigitalMode, GetDolbyDigitalMode()) = 0;
 
 	STDMETHOD(SaveSettings()) = 0;
