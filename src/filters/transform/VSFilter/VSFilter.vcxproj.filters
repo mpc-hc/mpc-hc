@@ -71,7 +71,7 @@
     <None Include="VSFilter.def">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="res\Icon_147.ico">
+    <None Include="res\VSFilter.ico">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

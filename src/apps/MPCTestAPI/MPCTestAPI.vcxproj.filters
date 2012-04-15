@@ -63,7 +63,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\RegisterCopyData.ico">
+    <None Include="res\MPCTestAPI.ico">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

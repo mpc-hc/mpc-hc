@@ -175,7 +175,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="VSFilter.def" />
-    <None Include="res\Icon_147.ico" />
+    <None Include="res\VSFilter.ico">
+      <FileType>ICO</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AvgLines.h" />

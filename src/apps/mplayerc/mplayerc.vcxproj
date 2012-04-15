@@ -405,13 +405,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi" />
-    <None Include="res\icon.ico" />
-    <None Include="res\Icon_114.ico" />
-    <None Include="res\Icon_116.ico" />
-    <None Include="res\Icon_41.ico" />
-    <None Include="res\logo.0.png">
-      <FileType>Document</FileType>
+    <None Include="res\icon.ico">
+      <FileType>ICO</FileType>
     </None>
+    <None Include="res\Icon_114.ico">
+      <FileType>ICO</FileType>
+    </None>
+    <None Include="res\Icon_116.ico">
+      <FileType>ICO</FileType>
+    </None>
+    <None Include="res\Icon_41.ico">
+      <FileType>ICO</FileType>
+    </None>
+    <None Include="res\logo.0.png" />
     <None Include="res\logo.1.png">
       <ExcludedFromBuild Condition="'$(PlatForm)'=='x64'">true</ExcludedFromBuild>
     </None>
@@ -430,9 +436,11 @@
     <None Include="res\logo.3_x64.png">
       <ExcludedFromBuild Condition="'$(PlatForm)'=='Win32'">true</ExcludedFromBuild>
     </None>
-    <None Include="res\mono.bmp" />
+    <None Include="res\mono.bmp">
+      <FileType>BMP</FileType>
+    </None>
     <CustomBuildStep Include="res\mplayerc.rc2">
-      <FileType>RC</FileType>
+      <FileType>RC2</FileType>
     </CustomBuildStep>
     <None Include="res\multi.ico" />
     <None Include="res\noaudio.bmp" />
@@ -447,9 +455,13 @@
     <None Include="res\toolbar.bmp" />
     <None Include="res\Toolbarw7.png" />
     <None Include="res\web\1pix.gif" />
-    <None Include="res\web\404.html" />
+    <None Include="res\web\404.html">
+      <FileType>HTML</FileType>
+    </None>
     <None Include="res\web\bottomside.png" />
-    <None Include="res\web\browser.html" />
+    <None Include="res\web\browser.html">
+      <FileType>HTML</FileType>
+    </None>
     <None Include="res\web\controlback.png" />
     <None Include="res\web\controlbuttondecrate.png" />
     <None Include="res\web\controlbuttonincrate.png" />
@@ -459,21 +471,31 @@
     <None Include="res\web\controlbuttonskipforward.png" />
     <None Include="res\web\controlbuttonstep.png" />
     <None Include="res\web\controlbuttonstop.png" />
-    <None Include="res\web\controls.html" />
+    <None Include="res\web\controls.html">
+      <FileType>HTML</FileType>
+    </None>
     <None Include="res\web\controlvolumebar.png" />
     <None Include="res\web\controlvolumegrip.png" />
     <None Include="res\web\controlvolumeoff.png" />
     <None Include="res\web\controlvolumeon.png" />
-    <None Include="res\web\default.css" />
+    <None Include="res\web\default.css">
+      <FileType>CSS</FileType>
+    </None>
     <None Include="res\web\headerback.png" />
     <None Include="res\web\headerclose.png" />
     <None Include="res\web\headericon.png" />
-    <None Include="res\web\index.html" />
-    <None Include="res\web\info.html" />
+    <None Include="res\web\index.html">
+      <FileType>HTML</FileType>
+    </None>
+    <None Include="res\web\info.html">
+      <FileType>HTML</FileType>
+    </None>
     <None Include="res\web\leftbottomside.png" />
     <None Include="res\web\leftside.png" />
     <None Include="res\web\logo.png" />
-    <None Include="res\web\player.html" />
+    <None Include="res\web\player.html">
+      <FileType>HTML</FileType>
+    </None>
     <None Include="res\web\rightbottomside.png" />
     <None Include="res\web\rightside.png" />
     <None Include="res\web\seekbargrip.png" />
@@ -483,7 +505,9 @@
     <None Include="res\web\sliderback.gif" />
     <None Include="res\web\sliderbar.gif" />
     <None Include="res\web\slidergrip.gif" />
-    <None Include="res\web\variables.html" />
+    <None Include="res\web\variables.html">
+      <FileType>HTML</FileType>
+    </None>
     <None Include="res\web\vbg.gif" />
     <None Include="res\web\vbs.gif" />
     <None Include="res\shaders\BT601BT709.psh" />

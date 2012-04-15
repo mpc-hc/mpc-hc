@@ -135,7 +135,9 @@
     <Manifest Include="res\MPCTestAPI.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\RegisterCopyData.ico" />
+    <None Include="res\MPCTestAPI.ico">
+      <FileType>ICO</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
