@@ -186,13 +186,15 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
 
 	CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
+	CBrush b;
 	if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
-		FillRect(pDC->m_hDC, rcItem, CBrush(0xf1dacc));
-		FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
+		b.CreateSolidBrush(0xf1dacc);
+		pDC->FillRect(rcItem, &b);
+		b.CreateSolidBrush(0xc56a31);
+		pDC->FrameRect(rcItem, &b);
 	} else {
-		CBrush b;
 		b.CreateSysColorBrush(COLOR_WINDOW);
-		FillRect(pDC->m_hDC, rcItem, b);
+		pDC->FillRect(rcItem, &b);
 	}
 
 	CString str;
@@ -216,7 +218,7 @@ void CFavoriteOrganizeDlg::OnRenameBnClicked()
 
 void CFavoriteOrganizeDlg::OnUpdateRenameBn(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(m_list.GetFirstSelectedItemPosition() != NULL);
+	pCmdUI->Enable(m_list.GetSelectedCount() == 1);
 }
 
 void CFavoriteOrganizeDlg::OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResult)
@@ -272,6 +274,20 @@ void CFavoriteOrganizeDlg::OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult)
 			}
 			*pResult = 1;
 			break;
+		case 'A':
+			if (GetKeyState(VK_CONTROL) < 0) { // If the high-order bit is 1, the key is down; otherwise, it is up.
+				m_list.SetItemState(-1, LVIS_SELECTED, LVIS_SELECTED);
+			}
+			*pResult = 1;
+			break;
+		case 'I':
+			if (GetKeyState(VK_CONTROL) < 0) { // If the high-order bit is 1, the key is down; otherwise, it is up.
+				for (int nItem = 0; nItem < m_list.GetItemCount(); nItem++) {
+					m_list.SetItemState(nItem, ~m_list.GetItemState(nItem, LVIS_SELECTED), LVIS_SELECTED);
+				}
+			}
+			*pResult = 1;
+			break;
 		default:
 			*pResult = 0;
 	}
@@ -279,33 +295,25 @@ void CFavoriteOrganizeDlg::OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CFavoriteOrganizeDlg::OnDeleteBnClicked()
 {
-	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
-		int nItem = m_list.GetNextSelectedItem(pos);
+	POSITION pos;
+	int nItem = -1;
+
+	while ((pos = m_list.GetFirstSelectedItemPosition()) != NULL) {
+		nItem = m_list.GetNextSelectedItem(pos);
 		if (nItem < 0 || nItem >= m_list.GetItemCount()) {
 			return;
 		}
 
 		m_list.DeleteItem(nItem);
-
-		nItem = min(nItem, m_list.GetItemCount()-1);
-
-		m_list.SetSelectionMark(nItem);
-		m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
 	}
+
+	nItem = min(nItem, m_list.GetItemCount() - 1);
+	m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
 }
 
 void CFavoriteOrganizeDlg::OnUpdateDeleteBn(CCmdUI* pCmdUI)
 {
-	bool enable = false;
-
-	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
-		int nItem = m_list.GetNextSelectedItem(pos);
-		if (nItem >= 0 && nItem < m_list.GetItemCount()) {
-			enable = true;
-		}
-	}
-
-	pCmdUI->Enable(enable);
+	pCmdUI->Enable(m_list.GetSelectedCount() > 0);
 }
 
 void CFavoriteOrganizeDlg::MoveItem(int nItem, int offset)
@@ -321,7 +329,6 @@ void CFavoriteOrganizeDlg::MoveItem(int nItem, int offset)
 	m_list.InsertItem(nItem, strName);
 	m_list.SetItemData(nItem, data);
 	m_list.SetItemText(nItem, 1, strPos);
-	m_list.SetSelectionMark(nItem);
 	m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
 }
 
@@ -340,8 +347,9 @@ void CFavoriteOrganizeDlg::OnUpBnClicked()
 void CFavoriteOrganizeDlg::OnUpdateUpBn(CCmdUI* pCmdUI)
 {
 	bool enable = false;
+	POSITION pos;
 
-	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+	if (m_list.GetSelectedCount() == 1 && (pos = m_list.GetFirstSelectedItemPosition()) != NULL) {
 		int nItem = m_list.GetNextSelectedItem(pos);
 		if (nItem > 0 && nItem < m_list.GetItemCount()) {
 			enable = true;
@@ -366,8 +374,9 @@ void CFavoriteOrganizeDlg::OnDownBnClicked()
 void CFavoriteOrganizeDlg::OnUpdateDownBn(CCmdUI* pCmdUI)
 {
 	bool enable = false;
+	POSITION pos;
 
-	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+	if (m_list.GetSelectedCount() == 1 && (pos = m_list.GetFirstSelectedItemPosition()) != NULL) {
 		int nItem = m_list.GetNextSelectedItem(pos);
 		if (nItem >= 0 && nItem < m_list.GetItemCount() - 1) {
 			enable = true;
