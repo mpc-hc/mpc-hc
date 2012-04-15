@@ -7,7 +7,7 @@
 // Copyright (c) 1992-2004 Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------------------------
 
-#include <streams.h>
+#include "streams.h"
 
 //
 //  Declare function from largeint.h we need so that PPC can build

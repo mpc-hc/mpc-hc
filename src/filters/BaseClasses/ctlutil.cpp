@@ -13,7 +13,7 @@
 // renderers and transforms to pass by IMediaPosition and IMediaSeeking
 
 
-#include <streams.h>
+#include "streams.h"
 #include <limits.h>
 #include "seekpt.h"
 

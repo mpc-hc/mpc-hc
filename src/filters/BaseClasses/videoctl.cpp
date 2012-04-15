@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------------
 
 
-#include <streams.h>
+#include "streams.h"
 #include "ddmm.h"
 
 // Load a string from the resource file string table. The buffer must be at

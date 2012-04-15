@@ -18,7 +18,7 @@
 // the threads processing loop, when it is safe to get the filter critical
 // section from within FillBuffer().
 
-#include <streams.h>
+#include "streams.h"
 
 
 //

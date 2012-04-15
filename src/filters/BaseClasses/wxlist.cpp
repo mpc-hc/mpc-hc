@@ -50,7 +50,7 @@
 */
 
 
-#include <streams.h>
+#include "streams.h"
 
 /* set cursor to the position of each element of list in turn  */
 #define INTERNALTRAVERSELIST(list, cursor)               \

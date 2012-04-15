@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-#include <streams.h>
+#include "streams.h"
 #define STRSAFE_NO_DEPRECATE
 #include <strsafe.h>
 

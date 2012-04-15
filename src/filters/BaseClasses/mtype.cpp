@@ -12,7 +12,7 @@
 // types etc. Has same data members as the struct AM_MEDIA_TYPE defined
 // in the streams IDL file, but also has (non-virtual) functions
 
-#include <streams.h>
+#include "streams.h"
 #include <MMReg.h>
 
 CMediaType::~CMediaType(){

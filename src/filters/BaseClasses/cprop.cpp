@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------------
 
 
-#include <streams.h>
+#include "streams.h"
 
 // Constructor for the base property page class. As described in the header
 // file we must be initialised with dialog and title resource identifiers.
