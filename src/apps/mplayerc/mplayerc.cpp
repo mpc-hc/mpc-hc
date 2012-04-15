@@ -23,6 +23,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "AboutDlg.h"
 #include <Tlhelp32.h>
 #include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
@@ -230,116 +231,6 @@ WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
 
 	return assignTo;
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CAboutDlg dialog used for App About
-
-extern "C" char *GetFFmpegCompiler();
-
-class CAboutDlg : public CDialog
-{
-public:
-	CAboutDlg();
-
-	// Dialog Data
-	//{{AFX_DATA(CAboutDlg)
-	enum { IDD = IDD_ABOUTBOX };
-	//}}AFX_DATA
-
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAboutDlg)
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-	// Implementation
-protected:
-	//{{AFX_MSG(CAboutDlg)
-	// No message handlers
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
-public:
-	virtual BOOL OnInitDialog() {
-		USES_CONVERSION;
-		UpdateData();
-
-#ifdef _WIN64
-		m_appname += _T(" x64");
-#endif
-
-		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
-
-#if defined(__INTEL_COMPILER)
-	#if (__INTEL_COMPILER >= 1200)
-		m_MPCCompiler = _T("ICL 12.x");
-	#else
-		#error Compiler is not supported!
-	#endif
-#elif defined(_MSC_VER)
-	#if (_MSC_VER == 1600)
-		#if (_MSC_FULL_VER >= 160040219)
-			m_MPCCompiler = _T("MSVC 2010 SP1");
-		#else
-			m_MPCCompiler = _T("MSVC 2010");
-		#endif
-	#elif (_MSC_VER < 1600)
-		#error Compiler is not supported!
-	#endif
-#else
-	#error Please add support for your compiler
-#endif
-
-#if !defined(_M_X64) && defined(_M_IX86_FP)
-	#if (_M_IX86_FP == 1) // /arch:SSE was used
-		m_MPCCompiler += _T(" (SSE)");
-	#elif (_M_IX86_FP == 2) // /arch:SSE2 was used
-		m_MPCCompiler += _T(" (SSE2)");
-	#endif
-#endif // _M_IX86_FP
-#ifdef _DEBUG
-	m_MPCCompiler += _T(" Debug");
-#endif
-
-#if HAS_FFMPEG
-		m_FFmpegCompiler.Format(A2W(GetFFmpegCompiler()));
-#endif
-
-		UpdateData(FALSE);
-		return TRUE;
-	}
-	CString m_appname;
-	CString m_strBuildNumber;
-	CString m_MPCCompiler;
-	CString m_FFmpegCompiler;
-	afx_msg void OnHomepage(NMHDR *pNMHDR, LRESULT *pResult);
-};
-
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
-	, m_strBuildNumber(_T(""))
-	, m_MPCCompiler(_T(""))
-	, m_FFmpegCompiler(_T(""))
-{
-	//{{AFX_DATA_INIT(CAboutDlg)
-	//}}AFX_DATA_INIT
-}
-
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CAboutDlg)
-	//}}AFX_DATA_MAP
-	DDX_Text(pDX, IDC_STATIC1, m_appname);
-	DDX_Text(pDX, IDC_BUILD_NUMBER, m_strBuildNumber);
-	DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
-	DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
-}
-
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
-	//{{AFX_MSG_MAP(CAboutDlg)
-	// No message handlers
-	//}}AFX_MSG_MAP
-	ON_NOTIFY(NM_CLICK, IDC_SOURCEFORGE_LINK, &CAboutDlg::OnHomepage)
-END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CMPlayerCApp
@@ -2419,12 +2310,6 @@ void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool 
 	if (bWaitProcess) {
 		WaitForSingleObject(execinfo.hProcess, INFINITE);
 	}
-}
-
-void CAboutDlg::OnHomepage(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
-	*pResult = 0;
 }
 
 CRenderersData* GetRenderersData()

@@ -73,6 +73,14 @@
       <Configuration>Release German</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Greek|Win32">
+      <Configuration>Release Greek</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Greek|x64">
+      <Configuration>Release Greek</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Hebrew|Win32">
       <Configuration>Release Hebrew</Configuration>
       <Platform>Win32</Platform>
@@ -256,6 +264,14 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Greek|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Greek|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
@@ -435,6 +451,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\..\common.props" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Greek|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\common.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Greek|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\common.props" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\..\common.props" />
@@ -562,6 +586,8 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release French|x64'">$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release German|Win32'">$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release German|x64'">$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Greek|Win32'">$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Greek|x64'">$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|Win32'">$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|x64'">$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Hungarian|Win32'">$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
@@ -597,6 +623,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Dutch'">$(ProjectName).nl</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release French'">$(ProjectName).fr</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release German'">$(ProjectName).de</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Greek'">$(ProjectName).el</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Hebrew'">$(ProjectName).he</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Hungarian'">$(ProjectName).hu</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Italian'">$(ProjectName).it</TargetName>
@@ -782,6 +809,26 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release German|x64'">
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <NoEntryPoint>true</NoEntryPoint>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Greek|Win32'">
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <NoEntryPoint>true</NoEntryPoint>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Greek|x64'">
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <NoEntryPoint>true</NoEntryPoint>
@@ -1066,6 +1113,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.de.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release German'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.el.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Greek'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.es.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Spanish'">true</ExcludedFromBuild>
