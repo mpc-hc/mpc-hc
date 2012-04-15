@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsyncReader", "src\filters\reader\AsyncReader\AsyncReader.vcxproj", "{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsyncReader", "src\thirdparty\AsyncReader\AsyncReader.vcxproj", "{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudioSwitcher", "src\filters\switcher\Audioswitcher\AudioSwitcher.vcxproj", "{D8DB3E7E-D50E-4EC3-A9B9-DAD18F5FE466}"
 EndProject

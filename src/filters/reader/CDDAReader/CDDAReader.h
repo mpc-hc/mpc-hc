@@ -27,8 +27,8 @@
 #include <winddk/devioctl.h>
 #include <winddk/ntddcdrm.h>
 #include <qnetwork.h>
-#include "../AsyncReader/asyncio.h"
-#include "../AsyncReader/asyncrdr.h"
+#include <AsyncReader/asyncio.h>
+#include <AsyncReader/asyncrdr.h>
 
 typedef struct {
 	UINT chunkID;

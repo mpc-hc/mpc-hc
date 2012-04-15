@@ -598,7 +598,7 @@
       <Project>{ae399b7e-2b2c-4a96-9016-c5c74b0a2fa0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\filters\reader\AsyncReader\AsyncReader.vcxproj">
+    <ProjectReference Include="..\..\thirdparty\AsyncReader\AsyncReader.vcxproj">
       <Project>{9f31d122-e84d-485a-a58d-09dad01a56ce}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

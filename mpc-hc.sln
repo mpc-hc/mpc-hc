@@ -98,7 +98,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSFSplitter", "src\filters\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamDriveThru", "src\filters\parser\StreamDriveThru\StreamDriveThru.vcxproj", "{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsyncReader", "src\filters\reader\AsyncReader\AsyncReader.vcxproj", "{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsyncReader", "src\thirdparty\AsyncReader\AsyncReader.vcxproj", "{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CDDAReader", "src\filters\reader\CDDAReader\CDDAReader.vcxproj", "{543D40E9-8CA6-4E4B-9936-90CBA562B268}"
 EndProject

@@ -24,13 +24,13 @@
 #pragma once
 
 #include <atlbase.h>
-#include "../AsyncReader/asyncio.h"
-#include "../AsyncReader/asyncrdr.h"
-
-#define VTSReaderName L"MPC VTS Reader"
+#include <AsyncReader/asyncio.h>
+#include <AsyncReader/asyncrdr.h>
 
 #include <ITrackInfo.h>
 #include "../../../DSUtil/DSMPropertyBag.h"
+
+#define VTSReaderName L"MPC VTS Reader"
 
 class CVobFile;
 
