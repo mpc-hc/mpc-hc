@@ -66,7 +66,7 @@ var httpRequestStatus;
 function OnReadyStateChange() {
 	if (httpRequestStatus && httpRequestStatus.readyState == 4 && httpRequestStatus.responseText) {
 		if (httpRequestStatus.responseText.charAt(0) != "<") {
-			eval(HttpRequestStatus.responseText.replace(/\\/g, '\\\\'));
+			eval(httpRequestStatus.responseText.replace(/\\/g, '\\\\'));
 		} else {
 			alert(httpRequestStatus.responseText);
 		}
