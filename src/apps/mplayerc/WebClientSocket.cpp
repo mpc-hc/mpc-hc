@@ -31,7 +31,6 @@
 #include "WebClientSocket.h"
 #include "jpeg.h"
 
-
 CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFrame)
 	: m_pWebServer(pWebServer)
 	, m_pMainFrame(pMainFrame)
@@ -263,7 +262,7 @@ void CWebClientSocket::Header()
 		}
 
 		reshdr +=
-			"Server: MPC WebServer\r\n"
+			"Server: MPC-HC WebServer\r\n"
 			"Connection: close\r\n"
 			"\r\n";
 
@@ -379,8 +378,9 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
 		wmcmd& wc = s.wmcmds.GetNext(pos);
 		CStringA str;
 		str.Format("%d", wc.cmd);
-		wmcoptions += "<option value=\"" + str + "\">"
-					  + CStringA(wc.GetName()) + "</option>\r\n";
+		CStringA valueName(wc.GetName());
+		valueName.Replace("&", "&amp;");
+		wmcoptions += "<option value=\"" + str + "\">" + valueName + "</option>\r\n";
 	}
 
 	m_pWebServer->LoadPage(IDR_HTML_INDEX, body, m_path);
@@ -394,7 +394,7 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
 	int pos = (int)(m_pMainFrame->GetPos()/10000);
 	int dur = (int)(m_pMainFrame->GetDur()/10000);
 
-	CString positionstring, durationstring, versionstring, volumelevel, resolutionstring, fpsstring, sizestring, codecstring;
+	CString positionstring, durationstring, versionstring, sizestring;
 	versionstring.Format(L"%s", AfxGetMyApp()->m_strVersion);
 	CPath file(m_pMainFrame->m_wndPlaylistBar.GetCurFileName());
 	file.StripPath();
@@ -557,7 +557,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 					"<td class=\"dirname\"><a href=\"[path]?path=" + UTF8Arg(fullpath) + "\">" + UTF8(fd.cFileName) + "</a></td>"
 					"<td class=\"dirtype\">Directory</td>"
 					"<td class=\"dirsize\">&nbsp</td>\r\n"
-					"<td class=\"dirdate\"><nobr>" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</nobr></td>";
+					"<td class=\"dirdate\"><span class=\"nobr\">" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</span></td>";
 				files += "</tr>\r\n";
 			} while (FindNextFile(hFind, &fd));
 
@@ -590,9 +590,9 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 				}
 				files +=
 					"<td class=\"filename\"><a href=\"[path]?path=" + UTF8Arg(fullpath) + "\">" + UTF8(fd.cFileName) + "</a></td>"
-					"<td class=\"filetype\"><nobr>" + UTF8(type) + "</nobr></td>"
-					"<td class=\"filesize\" align=\"right\"><nobr>" + size + "</nobr></td>\r\n"
-					"<td class=\"filedate\"><nobr>" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</nobr></td>";
+					"<td class=\"filetype\"><span class=\"nobr\">" + UTF8(type) + "</span></td>"
+					"<td class=\"filesize\" align=\"right\"><span class=\"nobr\">" + size + "</span></td>\r\n"
+					"<td class=\"filedate\"><span class=\"nobr\">" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</span></td>";
 				files += "</tr>\r\n";
 			} while (FindNextFile(hFind, &fd));
 
@@ -601,7 +601,6 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 	}
 
 	m_pWebServer->LoadPage(IDR_HTML_BROWSER, body, m_path);
-	body.Replace("[charset]", "UTF-8"); // FIXME: win9x build...
 	body.Replace("[currentdir]", UTF8(path));
 	body.Replace("[currentfiles]", files);
 
@@ -659,7 +658,6 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
 	CString reloadtime(_T("0")); // TODO
 
 	m_pWebServer->LoadPage(IDR_HTML_CONTROLS, body, m_path);
-	body.Replace("[charset]", "UTF-8"); // FIXME: win9x build...
 	body.Replace("[filepatharg]", UTF8Arg(path));
 	body.Replace("[filepath]", UTF8(path));
 	body.Replace("[filedirarg]", UTF8Arg(dir));
@@ -729,7 +727,6 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
 	CString reloadtime(_T("0")); // TODO
 
 	m_pWebServer->LoadPage(IDR_HTML_VARIABLES, body, m_path);
-	body.Replace("[charset]", "UTF-8"); // FIXME: win9x build...
 	body.Replace("[filepatharg]", UTF8Arg(path));
 	body.Replace("[filepath]", UTF8(path));
 	body.Replace("[filedirarg]", UTF8Arg(dir));
