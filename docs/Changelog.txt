@@ -12,6 +12,7 @@ Legend:
 ==============================
 + Ticket #1792, Show an OSD message and a status message when a favorite is
   created via the keyboard shortcut
++ Ticket #2193, Add PNG support for custom toolbars
 * Ticket #734, A unicode encoding will now be used for the ini file. Old ASCII
   ini files will be automatically converted to unicode. Favorites with unicode
   filenames are now correctly handled when using an ini file

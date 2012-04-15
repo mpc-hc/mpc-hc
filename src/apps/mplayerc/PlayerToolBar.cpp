@@ -28,6 +28,7 @@
 #include <afxpriv.h>
 #include "PlayerToolBar.h"
 #include "MainFrm.h"
+#include <libpng/png.h>
 
 
 typedef HRESULT (__stdcall * SetWindowThemeFunct)(HWND hwnd, LPCWSTR pszSubAppName, LPCWSTR pszSubIdList);
@@ -46,6 +47,43 @@ CPlayerToolBar::~CPlayerToolBar()
 	if (NULL != m_pButtonsImages) {
 		delete m_pButtonsImages;
 		m_pButtonsImages = NULL;
+	}
+}
+
+HBITMAP CPlayerToolBar::LoadExternalToolBar()
+{
+	CString path;
+	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
+	path.ReleaseBuffer();
+	path = path.Left(path.ReverseFind('\\')+1);
+
+	FILE* fp = _tfopen(path + _T("toolbar.png"), _T("rb"));
+	if (fp) {
+		png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+		png_infop info_ptr = png_create_info_struct(png_ptr);
+		png_init_io(png_ptr, fp);
+
+		png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_EXPAND | PNG_TRANSFORM_BGR | PNG_TRANSFORM_PACKING, 0);
+
+		png_bytep* row_pointers = png_get_rows(png_ptr, info_ptr);
+		int bpp = png_get_channels(png_ptr, info_ptr) * 8;
+		int width = png_get_image_width(png_ptr, info_ptr);
+		int memWidth = width * bpp / 8;
+		int height = png_get_image_height(png_ptr, info_ptr);
+		BYTE* pData;
+		BITMAPINFO bmi = {{sizeof(BITMAPINFOHEADER), width, -height, 1, bpp, BI_RGB, 0, 0, 0, 0, 0}};
+
+		HBITMAP hbm = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&pData, 0, 0);
+		for (int i = 0; i < height; i++) {
+			memcpy(pData + memWidth * i, row_pointers[i], memWidth);
+		}
+
+		png_destroy_read_struct(&png_ptr, &info_ptr, 0);
+		fclose(fp);
+
+		return hbm;
+	} else {
+		return (HBITMAP)LoadImage(NULL, path + _T("toolbar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	}
 }
 
@@ -102,7 +140,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
 	// quick and dirty code from foxx1337; will leak, but don't care yet
 	m_nButtonHeight = 16; //reset m_nButtonHeight
-	HBITMAP hBmp = static_cast<HBITMAP>(::LoadImage(NULL, _T("toolbar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION));
+	HBITMAP hBmp = LoadExternalToolBar();
 	if (NULL != hBmp) {
 		CBitmap *bmp = new CBitmap();
 		bmp->Attach(hBmp);

@@ -36,6 +36,8 @@ private:
 	bool IsMuted();
 	void SetMute(bool fMute = true);
 	int getHitButtonIdx(CPoint point);
+	HBITMAP LoadExternalToolBar();
+
 	int m_nButtonHeight;
 	CImageList *m_pButtonsImages;
 
