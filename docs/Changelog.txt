@@ -27,6 +27,9 @@ Legend:
     - the favorites can now be deleted using the delete key or the backspace key
     - the buttons are disabled when they cannot be used
     - pressing the "Enter" key after selecting a favorite will now start playback
+    - multiple selection is now allowed so that more than one favorite can be deleted
+      at the same time
+    - Ctrl + A will select all items and Ctrl + I inverts the selection.
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
   reduce the amount of memory consumed by the player
 * Improved the "Open directory" dialog: the checkbox will now use only one line
