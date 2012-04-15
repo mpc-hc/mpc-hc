@@ -7,11 +7,11 @@
 //------------------------------------------------------------------------------
 
 
-#include <streams.h>
+#include "streams.h"
 #include <limits.h>
 #include <dvdmedia.h>
 #include <strsafe.h>
-#include <checkbmi.h>
+#include "checkbmi.h"
 
 #define UNUSED_ALWAYS(x) x
 

@@ -7,8 +7,8 @@
 //------------------------------------------------------------------------------
 
 
-#include <streams.h>
-#include <measure.h>
+#include "streams.h"
+#include "measure.h"
 // #include <vtransfr.h>         // now in precomp file streams.h
 
 CVideoTransformFilter::CVideoTransformFilter

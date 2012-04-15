@@ -7,9 +7,9 @@
 //------------------------------------------------------------------------------
 
 
-#include <streams.h>
+#include "streams.h"
 #include <intsafe.h>
-#include <checkbmi.h>
+#include "checkbmi.h"
 
 // The control interface methods require us to be connected
 
