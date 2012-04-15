@@ -36,11 +36,11 @@
 #include <afxwin.h>			// MFC core and standard components
 #include <atlcoll.h>		// MFC core and standard components
 
-#include <streams.h>
+#include <BaseClasses/streams.h>
 #include "../../DSUtil/DSUtil.h"
 #include "../../DSUtil/vd.h"
 
-#include <streams.h>
+#include <BaseClasses/streams.h>
 
 #include <xmmintrin.h>
 #include <emmintrin.h>

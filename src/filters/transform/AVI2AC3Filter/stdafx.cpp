@@ -22,4 +22,4 @@
  */
 
 #include "stdafx.h"
-#include <streams.h>
+#include <BaseClasses/streams.h>

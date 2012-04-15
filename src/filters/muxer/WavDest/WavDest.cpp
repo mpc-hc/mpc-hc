@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#include <streams.h>
+#include <BaseClasses/streams.h>
 #include <aviriff.h>
 #include "WavDest.h"
 #include "../../../DSUtil/DSUtil.h"

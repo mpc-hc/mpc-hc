@@ -25,7 +25,7 @@
 
 #include <ks.h>
 #include <ksmedia.h>
-#include <streams.h>
+#include <BaseClasses/streams.h>
 #include <mpeg2data.h>
 #include <tuner.h>
 #include <time.h>

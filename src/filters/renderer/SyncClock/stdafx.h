@@ -33,5 +33,5 @@
 
 #include <afx.h>
 #include <afxwin.h>         // MFC core and standard components
-#include <streams.h>
+#include <BaseClasses/streams.h>
 #include <dvdmedia.h>

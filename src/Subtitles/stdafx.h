@@ -36,6 +36,6 @@
 #include <afxwin.h>			// MFC core and standard components
 #include <crtdefs.h>
 
-#include <streams.h>
+#include <BaseClasses/streams.h>
 
 #include "../DSUtil/DSUtil.h"

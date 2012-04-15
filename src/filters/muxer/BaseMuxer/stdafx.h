@@ -39,7 +39,7 @@
 #include <atlcoll.h>
 
 #include <dshow.h>
-#include <streams.h>
+#include <BaseClasses/streams.h>
 #include <dvdmedia.h>
 
 #include "../../../DSUtil/DSUtil.h"

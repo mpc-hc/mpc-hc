@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include <atlbase.h>
-#include <streams.h>
+#include <BaseClasses/streams.h>
 #include <dvdmedia.h>
 #include <ks.h>
 #include <ksmedia.h>

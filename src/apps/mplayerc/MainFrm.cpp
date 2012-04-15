@@ -52,7 +52,7 @@
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 
-#include <mtype.h>
+#include <BaseClasses/mtype.h>
 #include <Mpconfig.h>
 #include <ks.h>
 #include <ksmedia.h>

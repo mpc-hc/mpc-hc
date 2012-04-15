@@ -24,7 +24,7 @@
 #pragma once
 
 #include <atlcoll.h>
-#include <streams.h>
+#include <BaseClasses/streams.h>
 
 class CNullRenderer : public CBaseRenderer
 {

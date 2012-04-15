@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <streams.h>
+#include <BaseClasses/streams.h>
 #include <dsound.h>
 
 #include <MMReg.h>	//must be before other Wasapi headers
