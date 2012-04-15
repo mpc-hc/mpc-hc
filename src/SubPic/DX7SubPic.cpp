@@ -22,9 +22,8 @@
  */
 
 #include "stdafx.h"
-#include <ddraw.h>
-#include <d3d.h>
 #include "DX7SubPic.h"
+#include <ddraw.h>
 
 //
 // CDX7SubPic

@@ -22,9 +22,8 @@
  */
 
 #include "stdafx.h"
-#include <d3d9.h>
-#include <vmr9.h>
 #include "DX9SubPic.h"
+#include <vmr9.h>
 
 //
 // CDX9SubPic
