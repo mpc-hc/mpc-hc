@@ -58,6 +58,8 @@
 		#define COMPILER_SSE " (SSE)"
 	#elif defined(__MMX__)
 		#define COMPILER_SSE " (MMX)"
+	#else
+		#define COMPILER_SSE ""
 	#endif
 #else
 	#define COMPILER_SSE ""

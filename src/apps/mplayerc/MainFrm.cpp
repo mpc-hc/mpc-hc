@@ -532,7 +532,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_FILE_OPENDIRECTORY, OnUpdateFileOpen)
 	ON_WM_POWERBROADCAST()
 
-	// Navigation pannel
+	// Navigation panel
 	ON_COMMAND(ID_VIEW_NAVIGATION, OnViewNavigation)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
 
@@ -671,7 +671,7 @@ CMainFrame::CMainFrame() :
 
 CMainFrame::~CMainFrame()
 {
-	//	m_owner.DestroyWindow();
+	//m_owner.DestroyWindow();
 	//delete m_pFullscreenWnd; // double delete see CMainFrame::OnDestroy
 }
 
@@ -2940,7 +2940,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 		AppSettings& s = AfxGetAppSettings();
 
 		if (m_pFullscreenWnd->IsWindow() && (abs(diff.cx)+abs(diff.cy)) >= 1) {
-			//		TRACE ("==> SHOW!\n");
+			//TRACE ("==> SHOW!\n");
 			m_pFullscreenWnd->ShowCursor(true);
 
 			// Casimir666 : hide the cursor if we are not in the DVD menu
@@ -3139,10 +3139,10 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			pPopupMenu->EnableMenuItem(i, MF_BYPOSITION|fState);
 			continue;
 		}
-		if (firstSubItemID == ID_VIEW_VF_HALF         // is "Video Frame" submenu
-				|| firstSubItemID == ID_VIEW_INCSIZE       // is "Pan&Scan" submenu
-				|| firstSubItemID == ID_ASPECTRATIO_SOURCE // is "Override Aspect Ratio" submenu
-				|| firstSubItemID == ID_VIEW_ZOOM_50) {    // is "Zoom" submenu
+		if (firstSubItemID == ID_VIEW_VF_HALF				// is "Video Frame" submenu
+				|| firstSubItemID == ID_VIEW_INCSIZE		// is "Pan&Scan" submenu
+				|| firstSubItemID == ID_ASPECTRATIO_SOURCE	// is "Override Aspect Ratio" submenu
+				|| firstSubItemID == ID_VIEW_ZOOM_50) {		// is "Zoom" submenu
 			UINT fState = (m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly)
 						  ? MF_ENABLED
 						  : (MF_DISABLED|MF_GRAYED);
@@ -3249,7 +3249,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 		str += _T("\t") + key;
 
 		// BUG(?): this disables menu item update ui calls for some reason...
-		//		pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, nID, str);
+		//pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, nID, str);
 
 		// this works fine
 		MENUITEMINFO mii;
@@ -3295,7 +3295,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			CString label = s.m_pnspresets[i].Tokenize(_T(","), k);
 			pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND, ID_PANNSCAN_PRESETS_START+i, label);
 		}
-		//		if (j > 0)
+		//if (j > 0)
 		{
 			pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND, ID_PANNSCAN_PRESETS_START+i, ResStr(IDS_PANSCAN_EDIT));
 			pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND|MF_SEPARATOR);
@@ -3505,7 +3505,7 @@ void CMainFrame::OnFilePostOpenmedia()
 
 	OpenSetupStatusBar();
 
-	// OpenSetupToolBar();
+	//OpenSetupToolBar();
 
 	OpenSetupCaptureBar();
 
@@ -3515,8 +3515,8 @@ void CMainFrame::OnFilePostOpenmedia()
 
 	if (GetPlaybackMode() == PM_CAPTURE) {
 		ShowControlBar(&m_wndSubresyncBar, FALSE, TRUE);
-		//		ShowControlBar(&m_wndPlaylistBar, FALSE, TRUE);
-		//		ShowControlBar(&m_wndCaptureBar, TRUE, TRUE);
+		//ShowControlBar(&m_wndPlaylistBar, FALSE, TRUE);
+		//ShowControlBar(&m_wndCaptureBar, TRUE, TRUE);
 	}
 
 	m_nCurSubtitle		= -1;
@@ -3997,8 +3997,8 @@ void CMainFrame::OnDvdSub(UINT nID)
 		BOOL bIsDisabled;
 		if (SUCCEEDED(pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))
 				&& ulStreamsAvailable > 1) {
-			//			UINT	nNextStream = (ulCurrentStream+(nID==0?1:ulStreamsAvailable-1))%ulStreamsAvailable;
-			int		nNextStream;
+			//UINT nNextStream = (ulCurrentStream+(nID==0?1:ulStreamsAvailable-1))%ulStreamsAvailable;
+			int nNextStream;
 
 			if (!bIsDisabled) {
 				nNextStream = ulCurrentStream+ (nID==0?1:-1);
@@ -4624,7 +4624,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 			}
 
 			hr = m_pCAP->GetDIB(*ppData, (DWORD*)&size);
-			//			if (FAILED(hr)) {errmsg.Format(_T("GetDIB failed, hr = %08x"), hr); break;}
+			//if (FAILED(hr)) {errmsg.Format(_T("GetDIB failed, hr = %08x"), hr); break;}
 			if (FAILED(hr)) {
 				OnPlayPause();
 				GetMediaState(); // Pause and retry to support ffdshow queuing.
@@ -7568,7 +7568,7 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
 		long lFreqOrg = 0, lFreqNew = -1;
 		pAMTuner->get_VideoFrequency(&lFreqOrg);
 
-		//		long lSignalStrength;
+		//long lSignalStrength;
 		do {
 			if (nID == ID_PLAY_DECRATE) {
 				lChannel--;
@@ -7576,8 +7576,8 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
 				lChannel++;
 			}
 
-			//			if (lChannel < lChannelMin) lChannel = lChannelMax;
-			//			if (lChannel > lChannelMax) lChannel = lChannelMin;
+			//if (lChannel < lChannelMin) lChannel = lChannelMax;
+			//if (lChannel > lChannelMax) lChannel = lChannelMin;
 
 			if (lChannel < lChannelMin || lChannel > lChannelMax) {
 				break;
@@ -7757,7 +7757,7 @@ void CMainFrame::OnUpdatePlayChangeAudDelay(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlayFilters(UINT nID)
 {
-	//	ShowPPage(m_spparray[nID - ID_FILTERS_SUBITEM_START], m_hWnd);
+	//ShowPPage(m_spparray[nID - ID_FILTERS_SUBITEM_START], m_hWnd);
 
 	CComPtr<IUnknown> pUnk = m_pparray[nID - ID_FILTERS_SUBITEM_START];
 
@@ -8430,7 +8430,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
 {
 	// moved to the timer callback function, that runs less frequent
-	//	if (GetPlaybackMode() == PM_FILE) SetupChapters();
+	//if (GetPlaybackMode() == PM_FILE) SetupChapters();
 
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED
 				   && ((GetPlaybackMode() == PM_DVD
@@ -9462,7 +9462,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 	WINDOWPLACEMENT wp;
 	GetWindowPlacement(&wp);
 	if (!m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED
-			//	&& (GetExStyle()&WS_EX_APPWINDOW)
+			//&& (GetExStyle()&WS_EX_APPWINDOW)
 			&& !s.fRememberWindowSize) {
 		int x, y, w, h;
 
@@ -9996,7 +9996,7 @@ void CMainFrame::HideVideoWindow(bool fHide)
 	CRect vr = CRect(0,0,0,0);
 	if (m_pCAP) {
 		if (fHide) {
-			m_pCAP->SetPosition(wr, vr);    //hide
+			m_pCAP->SetPosition(wr, vr);    // hide
 		} else {
 			m_pCAP->SetPosition(wr, wr);    // show
 		}
@@ -10076,7 +10076,7 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 		h = mmi.ptMinTrackSize.y;
 	}
 
-	//Prevention of going beyond the scopes of screen
+	// Prevention of going beyond the scopes of screen
 	MONITORINFO mi;
 	mi.cbSize = sizeof(MONITORINFO);
 	GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
@@ -10129,7 +10129,7 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 		MoveWindow(r);
 	}
 
-	//	ShowWindow(SW_SHOWNORMAL);
+	//ShowWindow(SW_SHOWNORMAL);
 
 	MoveVideoWindow();
 }
@@ -10440,7 +10440,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 			m_fShockwaveGraph = true;
 		} else if (engine == QuickTime) {
 #ifdef _WIN64	// TODOX64
-			//		MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
+			//	MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
 #else
 			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr);
 			if (!pUnk) {
@@ -10941,7 +10941,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 		/*
 				if (pAMVSCCap)
 				{
-		//DumpStreamConfig(_T("c:\\mpclog.txt"), pAMVSCCap);
+					//DumpStreamConfig(_T("c:\\mpclog.txt"), pAMVSCCap);
 		            CComQIPtr<IAMVfwCaptureDialogs> pVfwCD = pVidCap;
 					if (!pAMXBar && pVfwCD)
 					{
@@ -11059,8 +11059,8 @@ void CMainFrame::OpenCustomizeGraph()
 	if (GetPlaybackMode() == PM_DVD) {
 		BeginEnumFilters(pGB, pEF, pBF) {
 			if (CComQIPtr<IDirectVobSub2> pDVS2 = pBF) {
-				//				pDVS2->AdviseSubClock(m_pSubClock = DNew CSubClock);
-				//				break;
+				//pDVS2->AdviseSubClock(m_pSubClock = DNew CSubClock);
+				//break;
 
 				// TODO: test multiple dvobsub instances with one clock
 				if (!m_pSubClock) {
@@ -11398,7 +11398,7 @@ void CMainFrame::OpenSetupStatusBar()
 	} else if (GetPlaybackMode() == PM_DVD) {
 		hIcon = LoadIcon(_T(".ifo"), true);
 	} else if (GetPlaybackMode() == PM_DVD) {
-		// hIcon = ; // TODO
+		//hIcon = ; // TODO
 	}
 
 	m_wndStatusBar.SetStatusTypeIcon(hIcon);
@@ -11978,8 +11978,8 @@ void CMainFrame::CloseMediaPrivate()
 
 	m_pCB = NULL;
 
-	//	if (pVW) pVW->put_Visible(OAFALSE);
-	//	if (pVW) pVW->put_MessageDrain((OAHWND)NULL), pVW->put_Owner((OAHWND)NULL);
+	//if (pVW) pVW->put_Visible(OAFALSE);
+	//if (pVW) pVW->put_MessageDrain((OAHWND)NULL), pVW->put_Owner((OAHWND)NULL);
 
 	m_pCAP	 = NULL; // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
 	m_pCAP2  = NULL;
@@ -13976,7 +13976,7 @@ HRESULT CMainFrame::BuildCapture(IPin* pPin, IBaseFilter* pBF[3], const GUID& ma
 
 	}
 
-	//	if (pMux)
+	//if (pMux)
 	{
 		hr = pGB->ConnectFilter(pPin, pMux);
 		if (FAILED(hr)) {
@@ -14111,7 +14111,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 	CComPtr<IPin> pVidCapPin, pVidPrevPin, pAudCapPin, pAudPrevPin;
 	BuildToCapturePreviewPin(pVidCap, &pVidCapPin, &pVidPrevPin, pAudCap, &pAudCapPin, &pAudPrevPin);
 
-	//	if (pVidCap)
+	//if (pVidCap)
 	{
 		bool fVidPrev = pVidPrevPin && fVPreview;
 		bool fVidCap = pVidCapPin && fVCapture && fFileOutput && m_wndCaptureBar.m_capdlg.m_fVidOutput;
@@ -14139,7 +14139,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 		pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, pVidCap, IID_IAMDroppedFrames, (void**)&pAMDF);
 	}
 
-	//	if (pAudCap)
+	//if (pAudCap)
 	{
 		bool fAudPrev = pAudPrevPin && fAPreview;
 		bool fAudCap = pAudCapPin && fACapture && fFileOutput && m_wndCaptureBar.m_capdlg.m_fAudOutput;
@@ -14170,17 +14170,17 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 			int nIn, nOut, nInC, nOutC;
 			CountPins(pMux, nIn, nOut, nInC, nOutC);
 			pCAM->SetMasterStream(nInC-1);
-			//			pCAM->SetMasterStream(-1);
+			//pCAM->SetMasterStream(-1);
 			pCAM->SetOutputCompatibilityIndex(FALSE);
 		}
 
 		if (CComQIPtr<IConfigInterleaving> pCI = pMux) {
-			//			if (FAILED(pCI->put_Mode(INTERLEAVE_CAPTURE)))
+			//if (FAILED(pCI->put_Mode(INTERLEAVE_CAPTURE)))
 			if (FAILED(pCI->put_Mode(INTERLEAVE_NONE_BUFFERED))) {
 				pCI->put_Mode(INTERLEAVE_NONE);
 			}
 
-			REFERENCE_TIME rtInterleave = 10000i64*AUDIOBUFFERLEN, rtPreroll = 0;//10000i64*500
+			REFERENCE_TIME rtInterleave = 10000i64*AUDIOBUFFERLEN, rtPreroll = 0;	//10000i64*500
 			pCI->put_Interleaving(&rtInterleave, &rtPreroll);
 		}
 
@@ -14220,7 +14220,7 @@ bool CMainFrame::StartCapture()
 	::SetPriorityClass(::GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 
 	// rare to see two capture filters to support IAMPushSource at the same time...
-	//	hr = CComQIPtr<IAMGraphStreams>(pGB)->SyncUsingStreamOffset(TRUE); // TODO:
+	//hr = CComQIPtr<IAMGraphStreams>(pGB)->SyncUsingStreamOffset(TRUE); // TODO:
 
 	BuildGraphVideoAudio(
 		m_wndCaptureBar.m_capdlg.m_fVidPreview, true,
@@ -14374,7 +14374,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 		CloseMedia();
 	}
 
-	//	m_iMediaLoadState = MLS_LOADING; // HACK: hides the logo
+	//m_iMediaLoadState = MLS_LOADING; // HACK: hides the logo
 
 	AppSettings& s = AfxGetAppSettings();
 
@@ -14865,7 +14865,7 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 	m_hMenuDefault = DefaultMenu;
 	DefaultMenu.Detach();
 	// TODO : destroy old menu ???
-	//	OldMenu->DestroyMenu();
+	//OldMenu->DestroyMenu();
 }
 
 afx_msg void CMainFrame::OnUpdateLanguage(CCmdUI* pCmdUI)
