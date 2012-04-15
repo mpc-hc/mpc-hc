@@ -29,4 +29,3 @@
 
 #include <afx.h>
 #include <BaseClasses/streams.h>
-
