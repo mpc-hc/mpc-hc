@@ -751,11 +751,11 @@ namespace Plugin
 		};
 
 		struct VDXFilterDefinition filterDef_textsub = {
-			NULL, NULL, NULL,       // next, prev, module
+			NULL, NULL, NULL,			// next, prev, module
 #ifdef _VSMOD
 			"TextSubMod",				// name
 #else
-			"TextSub",						// name
+			"TextSub",					// name
 #endif
 			"Adds subtitles from srt, sub, psb, smi, ssa, ass file formats.", // desc
 			"Gabest",					// maker

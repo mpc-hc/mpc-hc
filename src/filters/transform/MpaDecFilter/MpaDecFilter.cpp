@@ -35,7 +35,7 @@
 
 #include <vector>
 #include "PODtypes.h"
-#include "avcodec.h"
+#include "libavcodec/avcodec.h"
 
 #include <libflac/include/FLAC/stream_decoder.h>
 
