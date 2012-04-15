@@ -543,7 +543,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 
 		if (type == unknown) {
 			CMpegSplitterFile::aachdr h;
-			if (!m_streams[audio].Find(s) && Read(h, len, &s.mt)) {
+			if (!m_streams[audio].Find(s) && Read(h, len, &s.mt, m_type)) {
 				type = audio;
 			}
 		}

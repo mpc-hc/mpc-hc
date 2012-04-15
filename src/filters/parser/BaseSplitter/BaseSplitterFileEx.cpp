@@ -610,12 +610,12 @@ bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
 	return true;
 }
 
-bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
+bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt, MPEG_TYPES m_type)
 {
 	memset(&h, 0, sizeof(h));
 
 	__int64 pos = 0;
-	int found_fake_sync = 0;
+	int found_fake_sync = m_type == mpeg_ts ? 0 : 1;
 
 	for (;;) {
 		for (; len >= 7 && BitRead(12, true) != 0xfff; len--) {
