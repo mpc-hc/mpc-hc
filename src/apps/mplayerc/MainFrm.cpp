@@ -78,7 +78,6 @@
 #include <AllocatorCommon.h>
 #include <SyncAllocatorPresenter.h>
 
-#include "../../Subtitles/SSF.h"
 #include "ComPropertySheet.h"
 #include "LcdSupport.h"
 #include "SettingsDefines.h"
@@ -87,6 +86,7 @@
 
 #include "jpeg.h"
 #include <pngdib/pngdib.h>
+#include <comdef.h>
 
 #define DEFCLIENTW 292
 #define DEFCLIENTH 200
@@ -2319,7 +2319,6 @@ bool CMainFrame::GraphEventComplete()
 //
 // our WM_GRAPHNOTIFY handler
 //
-#include <comdef.h>
 
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {

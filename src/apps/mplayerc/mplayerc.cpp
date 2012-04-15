@@ -33,6 +33,12 @@
 #include "Monitors.h"
 #include "Version.h"
 #include "WinAPIUtils.h"
+#include <winddk/ntddcdvd.h>
+#include <detours/detours.h>
+#include <afxsock.h>
+#include <atlsync.h>
+#include <atlutil.h>
+#include <atlrx.h>
 
 
 extern "C" {
@@ -612,10 +618,6 @@ BOOL CMPlayerCApp::SendCommandLine(HWND hWnd)
 
 /////////////////////////////////////////////////////////////////////////////
 // CMPlayerCApp initialization
-
-#include <winddk/ntddcdvd.h>
-
-#include <detours/detours.h>
 
 BOOL (__stdcall * Real_IsDebuggerPresent)(void)
 	= IsDebuggerPresent;
@@ -1639,10 +1641,6 @@ void SetHandCursor(HWND m_hWnd, UINT nID)
 	SetClassLongPtr(GetDlgItem(m_hWnd, nID), GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));
 }
 
-#include <afxsock.h>
-#include <atlsync.h>
-#include <atlutil.h> // put this before the first detours macro above to see an ICE with vc71 :)
-#include <atlrx.h>
 
 typedef CAtlRegExp<CAtlRECharTraits> CAtlRegExpT;
 typedef CAtlREMatchContext<CAtlRECharTraits> CAtlREMatchContextT;

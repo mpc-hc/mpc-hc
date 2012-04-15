@@ -38,8 +38,6 @@ bool queue_ffdshow_support = false;
 //#define DISABLE_USING_D3D9EX
 
 #define FRAMERATE_MAX_DELTA			3000
-//#pragma optimize("", off)
-//#pragma inline_depth(0)
 
 using namespace DSObjects;
 using namespace std;
