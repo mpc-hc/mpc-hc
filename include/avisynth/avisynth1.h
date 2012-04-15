@@ -177,7 +177,11 @@ public:
   virtual bool __stdcall GetParity(int n) = 0;  // return field parity if field_based, else parity of first field in frame
   virtual void __stdcall GetAudio(void* buf, int start, int count, IScriptEnvironment* env) = 0;  // start and count are in samples
   virtual const VideoInfo& __stdcall GetVideoInfo() = 0;
+#if defined(__INTEL_COMPILER)
+  virtual ~IClip() {}
+#else
   virtual __stdcall ~IClip() {}
+#endif
 };
 
 
@@ -355,7 +359,11 @@ enum {
 
 class IScriptEnvironment {
 public:
+#if defined(__INTEL_COMPILER)
+  virtual ~IScriptEnvironment() {}
+#else
   virtual __stdcall ~IScriptEnvironment() {}
+#endif
 
   virtual /*static*/ long __stdcall GetCPUFlags() = 0;
 
