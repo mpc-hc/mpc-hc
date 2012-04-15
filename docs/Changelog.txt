@@ -10,6 +10,8 @@ Legend:
 
 1.6.2.X - Not released yet
 ==============================
++ MatroskaSplitter: Support for QT video formats in Matroska v1
++ Added .tak extension
 + Ticket #1792, Show an OSD message and a status message when a favorite is
   created via the keyboard shortcut
 + Ticket #2193, Add PNG support for custom toolbars
@@ -39,17 +41,25 @@ Legend:
 * Updated ZenLib to v0.4.26
 * Updated SoundTouch to v1.7.0pre r142
 * Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese,
-  traditional Chinese, Italian and Polish translations
+  traditional Chinese, Italian, German and Polish translations
 * Removed GTSdll support
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
   options dialog instead of immediately after changing the state of the checkbox
-! Improve the "Open" dialog:
+! Improve/Fix the "Open" dialog:
    - the "OK" button will be disabled until a file has been selected (this avoids
      an error when clicking on "OK" while no file was selected)
    - when the selected file cannot be dubbed (for example when opening an rtsp
-     stream), the wrong label was grayed out
+     stream) the wrong label was grayed out
+! MatroskaSplitter: Better detection of fps for some webm files
+! MPCVideoDec: Crash with some RV30/40 files when there are no input data from splitter
+! MpegSplitter: Removed crackling from LPCM tracks when switching and seeking
+! MPCVideoDec: H.264 DXVA decoder skipped broken frames on interlaced material
+! AviSplitter: Fix looping not working on short animations
+! MpegSplitter: Fix incorrect detection of MPEG Audio stream as AAC
+! WebServer: Fix a few errors and typos
+! Avoid using translated strings when storing the settings
 ! Ticket #869, The playlist visibility state was incorrectly restored when MPC-HC
   was quited in fullscreen mode while the option "Hide on fullscreen" was enabled
 ! Ticket #1182, Unable to playback MPEG2 in AVI
@@ -57,6 +67,7 @@ Legend:
   when the "Launch files in fullscreen" option is enabled
 ! Ticket #1447, Show volume change in the status bar (for non-OSD renderers and audio)
 ! Ticket #1589, Crash with "Null (uncompressed)"
+! Ticket #1706, CSS 2.1 and HTML 4.01 Validation for the WebServer files
 ! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on
 ! Ticket #2090, Better handling of font fallback in the MediaInfo dialog so that
   the font size is now correctly adapted to the font used
