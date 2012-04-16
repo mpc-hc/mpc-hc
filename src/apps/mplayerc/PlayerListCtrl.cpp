@@ -24,7 +24,6 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PlayerListCtrl.h"
-
 #include "WinHotkeyCtrl.h"
 
 // CInPlaceHotKey

@@ -21,13 +21,11 @@
  */
 
 #include "stdafx.h"
-
 #include <tchar.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <process.h>    // _beginthread, _endthread
 #include <time.h>
-
 #include "LcdSupport.h"
 
 

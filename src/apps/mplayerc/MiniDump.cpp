@@ -24,7 +24,6 @@
 #include "MiniDump.h"
 #include "resource.h"
 #include <DbgHelp.h>
-
 #include "Version.h"
 
 

@@ -175,14 +175,14 @@ void CShaderCombineDlg::OnBnClickedAdd()
 	i = m_list1.GetCurSel();
 	if (i >= 0) {
 		m_list1.InsertString(i, label);
-		UpdateShaders(SHAIDER1);
+		UpdateShaders(SHADER1);
 		return;
 	}
 
 	i = m_list2.GetCurSel();
 	if (i >= 0) {
 		m_list2.InsertString(i, label);
-		UpdateShaders(SHAIDER2);
+		UpdateShaders(SHADER2);
 		//return;
 	}
 }
@@ -197,7 +197,7 @@ void CShaderCombineDlg::OnBnClickedDel()
 		}
 		m_list1.SetCurSel(i);
 
-		UpdateShaders(SHAIDER1);
+		UpdateShaders(SHADER1);
 		return;
 	}
 
@@ -209,7 +209,7 @@ void CShaderCombineDlg::OnBnClickedDel()
 		}
 		m_list2.SetCurSel(i);
 
-		UpdateShaders(SHAIDER2);
+		UpdateShaders(SHADER2);
 		//return;
 	}
 }
@@ -225,7 +225,7 @@ void CShaderCombineDlg::OnBnClickedUp()
 		m_list1.InsertString(i, label);
 		m_list1.SetCurSel(i);
 
-		UpdateShaders(SHAIDER1);
+		UpdateShaders(SHADER1);
 		return;
 	}
 
@@ -238,7 +238,7 @@ void CShaderCombineDlg::OnBnClickedUp()
 		m_list2.InsertString(i, label);
 		m_list2.SetCurSel(i);
 
-		UpdateShaders(SHAIDER2);
+		UpdateShaders(SHADER2);
 		//return;
 	}
 }
@@ -254,7 +254,7 @@ void CShaderCombineDlg::OnBnClickedDown()
 		m_list1.InsertString(i, label);
 		m_list1.SetCurSel(i);
 
-		UpdateShaders(SHAIDER1);
+		UpdateShaders(SHADER1);
 		return;
 	}
 
@@ -267,7 +267,7 @@ void CShaderCombineDlg::OnBnClickedDown()
 		m_list2.InsertString(i, label);
 		m_list2.SetCurSel(i);
 
-		UpdateShaders(SHAIDER2);
+		UpdateShaders(SHADER2);
 		//return;
 	}
 }
@@ -276,7 +276,7 @@ void CShaderCombineDlg::OnBnClickedDown()
 
 void CShaderCombineDlg::UpdateShaders(unsigned char type)
 {
-	if (type & SHAIDER1) {
+	if (type & SHADER1) {
 		m_labels1.RemoveAll();
 		for (int i = 0, j = m_list1.GetCount()-1; i < j; i++) {
 			CString label;
@@ -287,7 +287,7 @@ void CShaderCombineDlg::UpdateShaders(unsigned char type)
 		((CMainFrame*)AfxGetMainWnd())->EnableShaders1(!!m_fcheck1);
 	}
 
-	if (type & SHAIDER2) {
+	if (type & SHADER2) {
 		m_labels2.RemoveAll();
 		for (int m = 0, n = m_list2.GetCount()-1; m < n; m++) {
 			CString label;

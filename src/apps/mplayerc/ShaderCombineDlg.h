@@ -31,9 +31,9 @@
 
 class CShaderCombineDlg : public CCmdUIDialog
 {
-#define SHAIDER1 1
-#define SHAIDER2 2
-#define SHAIDERS (SHAIDER1 | SHAIDER2)
+#define SHADER1 1
+#define SHADER2 2
+#define SHADERS (SHADER1 | SHADER2)
 
 	CListBox m_list1, m_list2;
 	CComboBox m_combo;
@@ -46,7 +46,7 @@ class CShaderCombineDlg : public CCmdUIDialog
 	CAtlList<CString> m_oldlabels1;
 	CAtlList<CString> m_oldlabels2;
 
-	void UpdateShaders(unsigned char type = SHAIDERS);
+	void UpdateShaders(unsigned char type = SHADERS);
 
 public:
 	CShaderCombineDlg(CAtlList<CString>& labels1, CAtlList<CString>& labels2, CWnd* pParent);   // standard constructor
