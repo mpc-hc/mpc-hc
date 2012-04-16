@@ -607,7 +607,7 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		bool fTimeValid = p->rtStart != Packet::INVALID_TIME;
-		
+
 #if defined(_DEBUG) && 0
 		TRACE(_T("[%d]: d%d s%d p%d, b=%d, [%20I64d - %20I64d]\n"),
 			  p->TrackNumber,

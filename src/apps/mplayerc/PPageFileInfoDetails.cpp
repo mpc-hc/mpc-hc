@@ -90,13 +90,13 @@ static bool GetProperty(IFilterGraph* pFG, LPCOLESTR propName, VARIANT* vt)
 
 static CString FormatDateTime(FILETIME tm)
 {
-	SYSTEMTIME t;
-	FileTimeToSystemTime(&tm, &t);
+	SYSTEMTIME st;
+	FileTimeToSystemTime(&tm, &st);
 	TCHAR buff[256];
-	GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &t, NULL, buff, 256);
+	GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, NULL, buff, 256);
 	CString	ret(buff);
 	ret += _T(" ");
-	GetTimeFormat(LOCALE_USER_DEFAULT, 0, &t, NULL, buff, 256);
+	GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, NULL, buff, 256);
 	ret += buff;
 	return ret;
 }
@@ -138,7 +138,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 	CComVariant vt;
 	if (::GetProperty(m_pFG, L"CurFile.TimeCreated", &vt)) {
 		if (V_VT(&vt) == VT_UI8) {
-			ULARGE_INTEGER  uli;
+			ULARGE_INTEGER uli;
 			uli.QuadPart = V_UI8(&vt);
 
 			FILETIME ft;
@@ -240,9 +240,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 BOOL CPPageFileInfoDetails::OnSetActive()
 {
 	BOOL ret = __super::OnSetActive();
-
 	PostMessage(SETPAGEFOCUS, 0, 0L);
-
 	return ret;
 }
 
@@ -250,7 +248,6 @@ LRESULT CPPageFileInfoDetails::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
 {
 	CPropertySheet* psheet = (CPropertySheet*) GetParent();
 	psheet->GetTabControl()->SetFocus();
-
 	return 0;
 }
 

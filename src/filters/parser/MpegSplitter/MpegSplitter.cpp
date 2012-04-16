@@ -2052,13 +2052,13 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		int samplerate, channels;
 		size_t header_size = ParseHdmvLPCMHeader(start, &samplerate, &channels);
 		if (!header_size || header_size > m_p->GetCount()) {
-			if(!header_size) {
+			if (!header_size) {
 				m_p.Free();
 			}
 			return S_OK;
 		}
 
-		if(!p->pmt && m_bFlushed) {
+		if (!p->pmt && m_bFlushed) {
 			p->pmt = CreateMediaType(&m_mt);
 			m_bFlushed = false;
 		}

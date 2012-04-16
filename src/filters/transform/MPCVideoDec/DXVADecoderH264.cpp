@@ -248,7 +248,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		m_nBrokenFramesFlag = 0;
 		if (m_nBrokenFramesFlag_POC) {
 			TRACE_H264 ("CDXVADecoderH264::DecodeFrame() : Detected broken frames ... flush data\n");
-			m_nBrokenFramesFlag_POC	= 0;			
+			m_nBrokenFramesFlag_POC	= 0;
 			Flush();
 			return S_FALSE;
 		}

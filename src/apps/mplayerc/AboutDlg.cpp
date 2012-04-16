@@ -76,7 +76,7 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 #endif // _M_IX86_FP
 #ifdef _DEBUG
-m_MPCCompiler += _T(" Debug");
+	m_MPCCompiler += _T(" Debug");
 #endif
 
 #if HAS_FFMPEG

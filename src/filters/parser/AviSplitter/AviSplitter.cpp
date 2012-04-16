@@ -609,13 +609,13 @@ bool CAviSplitterFilter::DemuxLoop()
 				return true;    // break;
 			}
 #if defined(_DEBUG) && 0
-			DbgLog((LOG_TRACE, 0, 
+			DbgLog((LOG_TRACE, 0,
 					_T("%d (%d): %I64d - %I64d, %I64d - %I64d (size = %d)"),
 					minTrack, (int)p->bSyncPoint,
 					(p->rtStart)/10000, (p->rtStop)/10000,
 					(p->rtStart-m_rtStart)/10000, (p->rtStop-m_rtStart)/10000,
 					size));
-#endif							
+#endif
 			m_maxTimeStamp = max(m_maxTimeStamp, p->rtStart);
 
 			hr = DeliverPacket(p);
@@ -626,7 +626,7 @@ bool CAviSplitterFilter::DemuxLoop()
 		++f;
 	}
 
-	if(m_maxTimeStamp != Packet::INVALID_TIME) {
+	if (m_maxTimeStamp != Packet::INVALID_TIME) {
 		m_rtCurrent = m_maxTimeStamp;
 	}
 	return true;
