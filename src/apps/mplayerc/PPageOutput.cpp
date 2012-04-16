@@ -38,7 +38,6 @@ CPPageOutput::CPPageOutput()
 	, m_iQTVideoRendererType(0)
 	, m_iAPSurfaceUsage(0)
 	, m_iAudioRendererType(0)
-	//	, m_fVMRSyncFix(FALSE)
 	, m_iDX9Resizer(0)
 	, m_fVMR9MixerMode(FALSE)
 	, m_fVMR9MixerYUV(FALSE)
@@ -65,7 +64,6 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_DX_SURFACE, m_iAPSurfaceUsage);
 	DDX_CBIndex(pDX, IDC_COMBO1, m_iAudioRendererType);
 	DDX_Control(pDX, IDC_COMBO1, m_iAudioRendererTypeCtrl);
-	//	DDX_Check(pDX, IDC_CHECK1, m_fVMRSyncFix);
 	DDX_CBIndex(pDX, IDC_DX9RESIZER_COMBO, m_iDX9Resizer);
 	DDX_Check(pDX, IDC_DSVMR9LOADMIXER, m_fVMR9MixerMode);
 	DDX_Check(pDX, IDC_DSVMR9YUVMIXER, m_fVMR9MixerYUV);
@@ -113,7 +111,6 @@ BOOL CPPageOutput::OnInitDialog()
 	m_iRMVideoRendererType	= s.iRMVideoRendererType;
 	m_iQTVideoRendererType	= s.iQTVideoRendererType;
 	m_iAPSurfaceUsage		= renderersSettings.iAPSurfaceUsage;
-	//	m_fVMRSyncFix			= renderersSettings.fVMRSyncFix;
 	m_iDX9Resizer			= renderersSettings.iDX9Resizer;
 	m_fVMR9MixerMode		= renderersSettings.fVMR9MixerMode;
 	m_fVMR9MixerYUV			= renderersSettings.fVMR9MixerYUV;
@@ -305,13 +302,12 @@ BOOL CPPageOutput::OnApply()
 	s.iDSVideoRendererType		= m_iDSVideoRendererType;
 	s.iRMVideoRendererType		= m_iRMVideoRendererType;
 	s.iQTVideoRendererType		= m_iQTVideoRendererType;
-	renderersSettings.iAPSurfaceUsage			= m_iAPSurfaceUsage;
-	//	renderersSettings.fVMRSyncFix				= !!m_fVMRSyncFix;
-	renderersSettings.iDX9Resizer				= m_iDX9Resizer;
-	renderersSettings.fVMR9MixerMode			= !!m_fVMR9MixerMode;
-	renderersSettings.fVMR9MixerYUV				= !!m_fVMR9MixerYUV;
-	renderersSettings.m_RenderSettings.fVMR9AlterativeVSync		= m_fVMR9AlterativeVSync != 0;
-	s.strAudioRendererDisplayName	= m_AudioRendererDisplayNames[m_iAudioRendererType];
+	renderersSettings.iAPSurfaceUsage	= m_iAPSurfaceUsage;
+	renderersSettings.iDX9Resizer		= m_iDX9Resizer;
+	renderersSettings.fVMR9MixerMode	= !!m_fVMR9MixerMode;
+	renderersSettings.fVMR9MixerYUV		= !!m_fVMR9MixerYUV;
+	renderersSettings.m_RenderSettings.fVMR9AlterativeVSync = m_fVMR9AlterativeVSync != 0;
+	s.strAudioRendererDisplayName = m_AudioRendererDisplayNames[m_iAudioRendererType];
 	s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
 
 	renderersSettings.fResetDevice = !!m_fResetDevice;

@@ -870,9 +870,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 			pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 		}
 
-		//		if(m_fVMRSyncFix = GetRenderersData()->m_s.fVMRSyncFix)
-		//			pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
-
 		if (m_pD3DEx) {
 			m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
 			m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
@@ -1608,16 +1605,6 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	bool bDoVSyncInPresent = (!bCompositionEnabled && !m_bAlternativeVSync) || !s.m_RenderSettings.iVMR9VSync;
 
 	LONGLONG PresentWaitTime = 0;
-	/*
-		if(fAll && m_fVMRSyncFix && bDoVSyncInPresent)
-			{
-				LONGLONG llPerf = pApp->GetPerfCounter();
-				D3DLOCKED_RECT lr;
-				if(SUCCEEDED(pBackBuffer->LockRect(&lr, NULL, 0)))
-					pBackBuffer->UnlockRect();
-				PresentWaitTime = pApp->GetPerfCounter() - llPerf;
-			}
-	*/
 
 	CComPtr<IDirect3DQuery9> pEventQuery;
 

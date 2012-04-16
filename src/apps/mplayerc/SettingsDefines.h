@@ -183,7 +183,6 @@
 #define IDS_RS_LAUNCHFULLSCREEN				_T("LaunchFullScreen")
 #define IDS_RS_MPABOOST						_T("MpaBoost")
 #define IDS_RS_AACSC						_T("AACSpeakerConfig")
-#define IDS_RS_VMRSYNCFIX					_T("VMRSyncFix")
 #define IDS_RS_ISDB							_T("ISDb")
 #define IDS_RS_POW2TEX						_T("SPCPow2Tex")
 #define IDS_RS_WEBROOT						_T("WebRoot")

@@ -25,6 +25,7 @@
 
 #include <d3dx9.h>
 #include "PPageBase.h"
+#include "resource.h"
 
 
 // CPPageOutput dialog
@@ -51,7 +52,6 @@ public:
 	int m_iAPSurfaceUsage;
 	int m_iAudioRendererType;
 	CComboBox m_iAudioRendererTypeCtrl;
-	//	BOOL m_fVMRSyncFix;
 	int m_iDX9Resizer;
 	BOOL m_fVMR9MixerMode;
 	BOOL m_fVMR9MixerYUV;
@@ -59,7 +59,7 @@ public:
 	BOOL m_fVMR9AlterativeVSync;
 	BOOL m_fResetDevice;
 	CString m_iEvrBuffers;
-	//
+
 	BOOL m_fD3D9RenderDevice;
 	int m_iD3D9RenderDevice;
 	CComboBox m_iD3D9RenderDeviceCtrl;

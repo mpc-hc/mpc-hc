@@ -421,7 +421,6 @@ public:
 	bool			fDisableInternalSubtitles;
 	CString			strSubtitlePaths;
 
-	bool			fDisableXPToolbars;
 	bool			fUseWMASFReader;
 	int				nJumpDistS;
 	int				nJumpDistM;

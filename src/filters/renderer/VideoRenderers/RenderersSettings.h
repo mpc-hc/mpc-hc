@@ -127,7 +127,6 @@ public:
 	CRendererSettingsEVR m_RenderSettings;
 
 	int			iAPSurfaceUsage;
-	//bool		fVMRSyncFix;
 	int			iDX9Resizer;
 	bool		fVMR9MixerMode;
 	bool		fVMR9MixerYUV;

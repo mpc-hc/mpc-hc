@@ -45,8 +45,6 @@ namespace DSObjects
 		void					UpdateAlphaBitmap();
 	protected:
 		UINT	m_RefreshRate;
-
-		//		bool	m_fVMRSyncFix;
 		bool	m_bAlternativeVSync;
 		bool	m_bCompositionEnabled;
 		bool	m_bIsEVR;
@@ -67,8 +65,8 @@ namespace DSObjects
 		HRESULT (__stdcall * m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
 		HMODULE m_hD3D9;
 
-		CCritSec					m_RenderLock;
-		CComPtr<IDirectDraw>		m_pDirectDraw;
+		CCritSec			 m_RenderLock;
+		CComPtr<IDirectDraw> m_pDirectDraw;
 
 		void LockD3DDevice() {
 			if (m_pD3DDev) {

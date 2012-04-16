@@ -128,16 +128,6 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	m_volctrl.Create(this);
 	m_volctrl.SetRange(0, 100);
 
-	if (AfxGetAppSettings().fDisableXPToolbars) {
-		if (HMODULE h = LoadLibrary(_T("uxtheme.dll"))) {
-			SetWindowThemeFunct f = (SetWindowThemeFunct)GetProcAddress(h, "SetWindowTheme");
-			if (f) {
-				f(m_hWnd, L" ", L" ");
-			}
-			FreeLibrary(h);
-		}
-	}
-
 	// quick and dirty code from foxx1337; will leak, but don't care yet
 	m_nButtonHeight = 16; //reset m_nButtonHeight
 	HBITMAP hBmp = LoadExternalToolBar();
