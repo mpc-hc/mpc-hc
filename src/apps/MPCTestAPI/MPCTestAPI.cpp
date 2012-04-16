@@ -20,7 +20,7 @@
  *
  */
 
-// RegisterCopyData.cpp : Defines the class behaviors for the application.
+// MPCTestAPI.cpp : Defines the class behaviors for the application.
 //
 
 #include "stdafx.h"

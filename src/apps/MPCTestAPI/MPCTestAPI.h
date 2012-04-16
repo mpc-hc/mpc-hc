@@ -20,15 +20,15 @@
  *
  */
 
-// RegisterCopyData.h : main header file for the REGISTERCOPYDATA application
+// MPCTestAPI.h : main header file for the MPCTestAPI application
 //
 
 #pragma once
-#include "resource.h"		// main symbols
+#include "resource.h" // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CRegisterCopyDataApp:
-// See RegisterCopyData.cpp for the implementation of this class
+// See MPCTestAPI.cpp for the implementation of this class
 //
 
 class CRegisterCopyDataApp : public CWinApp

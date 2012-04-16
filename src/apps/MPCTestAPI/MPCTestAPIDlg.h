@@ -20,7 +20,7 @@
  *
  */
 
-// RegisterCopyDataDlg.h : header file
+// MPCTestAPIDlg.h : header file
 //
 
 #pragma once

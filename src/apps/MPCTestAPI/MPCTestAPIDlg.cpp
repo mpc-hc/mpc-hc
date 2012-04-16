@@ -20,7 +20,7 @@
  *
  */
 
-// RegisterCopyDataDlg.cpp : implementation file
+// MPCTestAPIDlg.cpp : implementation file
 //
 
 #include "stdafx.h"
@@ -248,13 +248,13 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
 	STARTUPINFO			StartupInfo;
 	PROCESS_INFORMATION	ProcessInfo;
 
-	strExec.Format (_T("%s /slave %d"), m_strMPCPath, GetSafeHwnd());
+	strExec.Format(_T("%s /slave %d"), m_strMPCPath, GetSafeHwnd());
 	UpdateData(TRUE);
 
-	memset (&StartupInfo, 0, sizeof(StartupInfo));
+	memset(&StartupInfo, 0, sizeof(StartupInfo));
 	StartupInfo.cb = sizeof(StartupInfo);
 	GetStartupInfo(&StartupInfo);
-	CreateProcess (NULL, (LPTSTR)(LPCTSTR)strExec, NULL, NULL, FALSE, 0, NULL, NULL, &StartupInfo, &ProcessInfo);
+	CreateProcess(NULL, (LPTSTR)(LPCTSTR)strExec, NULL, NULL, FALSE, 0, NULL, NULL, &StartupInfo, &ProcessInfo);
 }
 
 
@@ -264,10 +264,10 @@ void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 		COPYDATASTRUCT MyCDS;
 
 		MyCDS.dwData = nCmd;
-		MyCDS.cbData = (DWORD)(_tcslen (strCommand) + 1) * sizeof(TCHAR);
+		MyCDS.cbData = (DWORD)(_tcslen(strCommand) + 1) * sizeof(TCHAR);
 		MyCDS.lpData = (LPVOID) strCommand;
 
-		::SendMessage (m_hWndMPC, WM_COPYDATA, (WPARAM)GetSafeHwnd(), (LPARAM)&MyCDS);
+		::SendMessage(m_hWndMPC, WM_COPYDATA, (WPARAM)GetSafeHwnd(), (LPARAM)&MyCDS);
 	}
 }
 
@@ -280,86 +280,86 @@ BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruc
 		m_hWndMPC = (HWND)_wtol((LPCTSTR)pCopyDataStruct->lpData);
 	}
 
-	strMsg.Format (_T("%s : %s"), GetMPCCommandName ((MPCAPI_COMMAND)pCopyDataStruct->dwData), (LPCTSTR)pCopyDataStruct->lpData);
-	m_listBox.InsertString (0, strMsg);
+	strMsg.Format(_T("%s : %s"), GetMPCCommandName((MPCAPI_COMMAND)pCopyDataStruct->dwData), (LPCTSTR)pCopyDataStruct->lpData);
+	m_listBox.InsertString(0, strMsg);
 	return CDialog::OnCopyData(pWnd, pCopyDataStruct);
 }
 
 
 void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
 {
-	CString strEmpty (_T(""));
+	CString strEmpty(_T(""));
 	UpdateData(TRUE);
 
 	switch (m_nCommandType) {
 		case 0 :
-			Senddata (CMD_OPENFILE, m_txtCommand);
+			Senddata(CMD_OPENFILE, m_txtCommand);
 			break;
 		case 1 :
-			Senddata (CMD_STOP, strEmpty);
+			Senddata(CMD_STOP, strEmpty);
 			break;
 		case 2 :
-			Senddata (CMD_CLOSEFILE, strEmpty);
+			Senddata(CMD_CLOSEFILE, strEmpty);
 			break;
 		case 3 :
-			Senddata (CMD_PLAYPAUSE, strEmpty);
+			Senddata(CMD_PLAYPAUSE, strEmpty);
 			break;
 		case 4 :
-			Senddata (CMD_ADDTOPLAYLIST, m_txtCommand);
+			Senddata(CMD_ADDTOPLAYLIST, m_txtCommand);
 			break;
 		case 5 :
-			Senddata (CMD_STARTPLAYLIST, strEmpty);
+			Senddata(CMD_STARTPLAYLIST, strEmpty);
 			break;
 		case 6 :
-			Senddata (CMD_CLEARPLAYLIST, strEmpty);
+			Senddata(CMD_CLEARPLAYLIST, strEmpty);
 			break;
 		case 7 :
-			Senddata (CMD_SETPOSITION, m_txtCommand);
+			Senddata(CMD_SETPOSITION, m_txtCommand);
 			break;
 		case 8 :
-			Senddata (CMD_SETAUDIODELAY, m_txtCommand);
+			Senddata(CMD_SETAUDIODELAY, m_txtCommand);
 			break;
 		case 9 :
-			Senddata (CMD_SETSUBTITLEDELAY, m_txtCommand);
+			Senddata(CMD_SETSUBTITLEDELAY, m_txtCommand);
 			break;
 		case 10 :
-			Senddata (CMD_GETAUDIOTRACKS, strEmpty);
+			Senddata(CMD_GETAUDIOTRACKS, strEmpty);
 			break;
 		case 11 :
-			Senddata (CMD_GETSUBTITLETRACKS, strEmpty);
+			Senddata(CMD_GETSUBTITLETRACKS, strEmpty);
 			break;
 		case 12 :
-			Senddata (CMD_GETPLAYLIST, strEmpty);
+			Senddata(CMD_GETPLAYLIST, strEmpty);
 			break;
 		case 13 :
-			Senddata (CMD_SETINDEXPLAYLIST, m_txtCommand);
+			Senddata(CMD_SETINDEXPLAYLIST, m_txtCommand);
 			break;
 		case 14 :
-			Senddata (CMD_SETAUDIOTRACK, m_txtCommand);
+			Senddata(CMD_SETAUDIOTRACK, m_txtCommand);
 			break;
 		case 15 :
-			Senddata (CMD_SETSUBTITLETRACK, m_txtCommand);
+			Senddata(CMD_SETSUBTITLETRACK, m_txtCommand);
 			break;
 		case 16 :
-			Senddata (CMD_TOGGLEFULLSCREEN, m_txtCommand);
+			Senddata(CMD_TOGGLEFULLSCREEN, m_txtCommand);
 			break;
 		case 17 :
-			Senddata (CMD_JUMPFORWARDMED, m_txtCommand);
+			Senddata(CMD_JUMPFORWARDMED, m_txtCommand);
 			break;
 		case 18 :
-			Senddata (CMD_JUMPBACKWARDMED, m_txtCommand);
+			Senddata(CMD_JUMPBACKWARDMED, m_txtCommand);
 			break;
 		case 19 :
-			Senddata (CMD_INCREASEVOLUME, m_txtCommand);
+			Senddata(CMD_INCREASEVOLUME, m_txtCommand);
 			break;
 		case 20 :
-			Senddata (CMD_DECREASEVOLUME, m_txtCommand);
+			Senddata(CMD_DECREASEVOLUME, m_txtCommand);
 			break;
 		case 21 :
-			Senddata (CMD_SHADER_TOGGLE, m_txtCommand);
+			Senddata(CMD_SHADER_TOGGLE, m_txtCommand);
 			break;
 		case 22 :
-			Senddata (CMD_CLOSEAPP, m_txtCommand);
+			Senddata(CMD_CLOSEAPP, m_txtCommand);
 			break;
 	}
 }
