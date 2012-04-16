@@ -83,7 +83,9 @@
 #include "avcodec.h"
 #include "internal.h"
 #include "get_bits.h"
+// ==> Start patch MPC
 #include "put_bits.h"
+// ==> End patch MPC
 #include "dsputil.h"
 #include "fft.h"
 #include "fmtconvert.h"
@@ -823,7 +825,9 @@ static av_cold int aac_decode_init(AVCodecContext *avctx)
 
     if (avctx->request_sample_fmt == AV_SAMPLE_FMT_FLT) {
         avctx->sample_fmt = AV_SAMPLE_FMT_FLT;
+        // ==> Start patch MPC
         output_scale_factor = 1.0; // / 32768.0;
+        // ==> End patch MPC
     } else {
         avctx->sample_fmt = AV_SAMPLE_FMT_S16;
         output_scale_factor = 1.0;
@@ -2459,7 +2463,9 @@ static int aac_decode_frame_int(AVCodecContext *avctx, void *data,
         }
 
         if (avctx->sample_fmt == AV_SAMPLE_FMT_FLT)
+            // ==> Start patch MPC
             float_interleave((float *)ac->frame.data[0], (const float **)ac->output_data,
+            // ==> End patch MPC
                                           samples, avctx->channels);
         else
             ac->fmt_conv.float_to_int16_interleave((int16_t *)ac->frame.data[0],
@@ -2523,6 +2529,7 @@ static av_cold int aac_decode_close(AVCodecContext *avctx)
     AACContext *ac = avctx->priv_data;
     int i, type;
 
+    // ==> Start patch MPC
     if (!avctx->extradata_size && ac->m4ac.object_type) {
         PutBitContext pb;
 
@@ -2537,6 +2544,7 @@ static av_cold int aac_decode_close(AVCodecContext *avctx)
         put_bits(&pb, 1, 0); //is not extension
         flush_put_bits(&pb);
     }
+    // ==> End patch MPC
 
     for (i = 0; i < MAX_ELEM_ID; i++) {
         for (type = 0; type < 4; type++) {
@@ -2602,7 +2610,10 @@ static int latm_decode_audio_specific_config(struct LATMContext *latmctx,
     if (bits_consumed < 0)
         return AVERROR_INVALIDDATA;
 
-    if (!latmctx->initialized ||
+    if (
+        // ==> Start patch MPC
+        !latmctx->initialized ||
+        // ==> End patch MPC
         ac->m4ac.sample_rate != m4ac.sample_rate ||
         ac->m4ac.chan_config != m4ac.chan_config) {
 

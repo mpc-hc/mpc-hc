@@ -2951,6 +2951,9 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
                      || 16*h->sps.mb_height * (2 - h->sps.frame_mbs_only_flag) != s->avctx->coded_height
                      || s->avctx->bits_per_raw_sample != h->sps.bit_depth_luma
                      || h->cur_chroma_format_idc != h->sps.chroma_format_idc));
+                     // ==> Start patch MPC
+                     /*|| av_cmp_q(h->sps.sar, s->avctx->sample_aspect_ratio)))*/
+                     // ==> End patch MPC
 
     if(must_reinit && (h != h0 || (s->avctx->active_thread_type & FF_THREAD_FRAME))) {
         av_log_missing_feature(s->avctx,
@@ -2984,7 +2987,10 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
         avcodec_set_dimensions(s->avctx, s->width, s->height);
         s->avctx->width  -= (2>>CHROMA444)*FFMIN(h->sps.crop_right, (8<<CHROMA444)-1);
         s->avctx->height -= (1<<s->chroma_y_shift)*FFMIN(h->sps.crop_bottom, (16>>s->chroma_y_shift)-1) * (2 - h->sps.frame_mbs_only_flag);
-
+        // ==> Start patch MPC
+        //s->avctx->sample_aspect_ratio = h->sps.sar;
+        //av_assert0(s->avctx->sample_aspect_ratio.den);
+        // ==> End patch MPC
         if (s->avctx->bits_per_raw_sample != h->sps.bit_depth_luma ||
             h->cur_chroma_format_idc != h->sps.chroma_format_idc) {
             if (h->sps.bit_depth_luma >= 8 && h->sps.bit_depth_luma <= 10 &&
@@ -3119,8 +3125,10 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
         }
     }
 
+    // ==> Start patch MPC
     s->avctx->sample_aspect_ratio= h->sps.sar;
     av_assert0(s->avctx->sample_aspect_ratio.den);
+    // ==> End patch MPC
 
     if (h == h0 && h->dequant_coeff_pps != pps_id) {
         h->dequant_coeff_pps = pps_id;

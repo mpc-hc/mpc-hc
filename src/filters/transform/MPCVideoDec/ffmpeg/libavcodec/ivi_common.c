@@ -417,7 +417,7 @@ int ff_ivi_decode_blocks(GetBitContext *gb, IVIBandDesc *band, IVITile *tile)
 
                     /* de-zigzag and dequantize */
                     scan_pos += run;
-                    if (scan_pos >= num_coeffs)
+                    if (scan_pos >= (unsigned)num_coeffs)
                         break;
                     pos = band->scan[scan_pos];
 
@@ -440,7 +440,10 @@ int ff_ivi_decode_blocks(GetBitContext *gb, IVIBandDesc *band, IVITile *tile)
                     trvec[0]      = prev_dc;
                     col_flags[0] |= !!prev_dc;
                 }
-
+                if(band->transform_size > band->blk_size){
+                    av_log(0, AV_LOG_ERROR, "Too large transform\n");
+                    return AVERROR_INVALIDDATA;
+                }
                 /* apply inverse transform */
                 band->inv_transform(trvec, band->buf + buf_offs,
                                     band->pitch, col_flags);
@@ -482,6 +485,12 @@ void ff_ivi_process_empty_tile(AVCodecContext *avctx, IVIBandDesc *band,
     int16_t         *dst;
     void (*mc_no_delta_func)(int16_t *buf, const int16_t *ref_buf, uint32_t pitch,
                              int mc_type);
+
+    if( tile->num_MBs != IVI_MBs_PER_TILE(tile->width, tile->height, band->mb_size) ){
+        av_log(avctx, AV_LOG_ERROR, "allocated tile size %d mismatches parameters %d in ff_ivi_process_empty_tile()\n",
+               tile->num_MBs, IVI_MBs_PER_TILE(tile->width, tile->height, band->mb_size));
+        return;
+    }
 
     offs       = tile->ypos * band->pitch + tile->xpos;
     mb         = tile->mbs;

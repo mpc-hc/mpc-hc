@@ -1,25 +1,32 @@
-The following files have MPC-specific custom code (compared to ffmpeg):
+The following files have MPC-HC specific custom code (compared to ffmpeg):
 
 * config.h
 * config.asm
 * makefile
 
-* libavcodec/avcodec.h
+* libavcodec/aacdec.c
+* libavcodec/aacsbr.c
 * libavcodec/allcodecs.c
+* libavcodec/avcodec.h
 * libavcodec/h264.c
 * libavcodec/h264.h
-* libavcodec/h264_dxva.h
-* libavcodec/mpc_helper.c
 * libavcodec/mpeg12.c
 * libavcodec/mpeg12.h
 * libavcodec/mpegvideo.c
 * libavcodec/pthread.c
 * libavcodec/utils.c
 * libavcodec/vc1dec.c
-* libavcodec/vc1_dxva.h
 
 * libavutil/common.h
 * libavutil/log.h
 * libavutil/mem.c
 * libavutil/mem.h
 * libavutil/samplefmt.h
+
+======
+The following files are available only in MPC-HC (compared with ffmpeg):
+
+* libavcodec/h264_dxva.h
+* libavcodec/h264_recov.c
+* libavcodec/mpc_helper.c
+* libavcodec/vc1_dxva.h
