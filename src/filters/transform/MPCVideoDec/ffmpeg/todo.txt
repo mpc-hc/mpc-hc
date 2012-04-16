@@ -1,1 +1,2 @@
 1) Stop linking ffmpeg statically
+2) Compilation fails without -msse

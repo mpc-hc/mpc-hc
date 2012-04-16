@@ -417,14 +417,12 @@ void CDX9AllocatorPresenter::VSyncThread()
 	DWORD				dwResolution;
 	DWORD				dwUser		= 0;
 
-	//DWORD				dwTaskIndex	= 0;
+	//DWORD				dwTaskIndex = 0;
 	//// Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
 	//if (pfAvSetMmThreadCharacteristicsW)
 	//	hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
 	//if (pfAvSetMmThreadPriority)
 	//	pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
-
-	//Sleep(2000);	// Remove ugly patch : create a 2s delay on opening files with Win7!
 
 	timeGetDevCaps(&tc, sizeof(TIMECAPS));
 	dwResolution	= min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
@@ -568,7 +566,7 @@ void CDX9AllocatorPresenter::VSyncThread()
 	}
 
 	timeEndPeriod (dwResolution);
-	//	if (pfAvRevertMmThreadCharacteristics) pfAvRevertMmThreadCharacteristics (hAvrt);
+	//if (pfAvRevertMmThreadCharacteristics) pfAvRevertMmThreadCharacteristics (hAvrt);
 }
 
 DWORD WINAPI CDX9AllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
@@ -750,7 +748,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	*/
 
 
-	//#define ENABLE_DDRAWSYNC
+//#define ENABLE_DDRAWSYNC
 #ifdef ENABLE_DDRAWSYNC
 	hr = DirectDrawCreate(NULL, &m_pDirectDraw, NULL) ;
 	if (hr == S_OK) {
@@ -1437,8 +1435,8 @@ bool CDX9AllocatorPresenter::WaitForVBlank(bool &_Waited, bool &_bTakenLock)
 		m_VBlankStartWait = 0;
 		return true;
 	}
-	//	_Waited = true;
-	//	return false;
+	//_Waited = true;
+	//return false;
 
 	BOOL bCompositionEnabled = m_bCompositionEnabled;
 	int WaitFor = GetVBlackPos();
@@ -1491,7 +1489,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 	CRenderersSettings& s = GetRenderersSettings();
 
-	//	TRACE("Thread: %d\n", (LONG)((CRITICAL_SECTION &)m_RenderLock).OwningThread);
+	//TRACE("Thread: %d\n", (LONG)((CRITICAL_SECTION &)m_RenderLock).OwningThread);
 
 #if 0
 	if (TryEnterCriticalSection (&(CRITICAL_SECTION &)(*((CCritSec *)this)))) {
@@ -1512,7 +1510,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		if (m_OrderedPaint) {
 			--m_OrderedPaint;
 		} else {
-			//			TRACE("UNORDERED PAINT!!!!!!\n");
+			//TRACE("UNORDERED PAINT!!!!!!\n");
 		}
 
 
@@ -1547,7 +1545,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			if (m_OrderedPaint) {
 				--m_OrderedPaint;
 			} else {
-				//				TRACE("UNORDERED PAINT!!!!!!\n");
+				//TRACE("UNORDERED PAINT!!!!!!\n");
 			}
 
 			return false;
@@ -1935,7 +1933,7 @@ void CDX9AllocatorPresenter::DrawText(const RECT &rc, const CString &strText, in
 void CDX9AllocatorPresenter::DrawStats()
 {
 	CRenderersSettings& s = GetRenderersSettings();
-	CRenderersData * pApp = GetRenderersData();
+	CRenderersData *pApp = GetRenderersData();
 	int bDetailedStats = 2;
 	switch (pApp->m_fDisplayStats) {
 		case 1:
@@ -1958,7 +1956,7 @@ void CDX9AllocatorPresenter::DrawStats()
 		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 		CString		strText;
 		int TextHeight = 25.0*m_TextScale + 0.5;
-		//		strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s)    Clock: %7.3f ms %+1.4f %%  %+1.9f  %+1.9f", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_ClockDiff/10000.0, m_ModeratedTimeSpeed*100.0 - 100.0, m_ModeratedTimeSpeedDiff, m_ClockDiffCalc/10000.0);
+		//strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s)    Clock: %7.3f ms %+1.4f %%  %+1.9f  %+1.9f", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_ClockDiff/10000.0, m_ModeratedTimeSpeed*100.0 - 100.0, m_ModeratedTimeSpeedDiff, m_ClockDiffCalc/10000.0);
 		if (bDetailedStats > 1) {
 			if (m_bIsEVR) {
 				strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0, m_ModeratedTimeSpeed*100.0);
@@ -1966,7 +1964,7 @@ void CDX9AllocatorPresenter::DrawStats()
 				strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P");
 			}
 		}
-		//			strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0);
+		//strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0);
 		else {
 			strText.Format(L"Frame rate   : %7.03f   (%.03f%s)", m_fAvrFps, GetFrameRate(), m_DetectedLock ? L" L" : L"");
 		}
@@ -2234,11 +2232,11 @@ void CDX9AllocatorPresenter::DrawStats()
 
 		DrawRect(RGB(0,0,0), Alpha, CRect(StartX, StartY, StartX + DrawWidth, StartY + DrawHeight));
 		// === Jitter Graduation
-		//		m_pLine->SetWidth(2.2);          // Width
-		//		m_pLine->SetAntialias(1);
+		//m_pLine->SetWidth(2.2);          // Width
+		//m_pLine->SetAntialias(1);
 		m_pLine->SetWidth(2.5);          // Width
 		m_pLine->SetAntialias(1);
-		//		m_pLine->SetGLLines(1);
+		//m_pLine->SetGLLines(1);
 		m_pLine->Begin();
 
 		for (int i=10; i<250*ScaleY; i+= 10*ScaleY) {

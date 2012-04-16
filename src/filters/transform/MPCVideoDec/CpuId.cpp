@@ -20,23 +20,22 @@
  *
  */
 
-
 #include "stdafx.h"
 #include "intrin_fixed.h"
 #include "CpuId.h"
 
-#define CPUID_MMX			(1<<23)
-#define CPUID_SSE			(1<<25)
-#define CPUID_SSE2			(1<<26)
-#define CPUID_SSE3			(1<<0)
+#define CPUID_MMX      (1 << 23)
+#define CPUID_SSE      (1 << 25)
+#define CPUID_SSE2     (1 << 26)
+#define CPUID_SSE3     (1 << 0)
 
 // Intel specifics
-#define CPUID_SSSE3			(1<<9)
+#define CPUID_SSSE3    (1 << 9)
 
 // AMD specifics
-#define CPUID_3DNOW			(1<<31)
-#define CPUID_3DNOWEXT		(1<<30)
-#define CPUID_MMXEXT		(1<<22)
+#define CPUID_3DNOW    (1 << 31)
+#define CPUID_3DNOWEXT (1 << 30)
+#define CPUID_MMXEXT   (1 << 22)
 
 
 CCpuId::CCpuId(void)
@@ -67,17 +66,17 @@ CCpuId::CCpuId(void)
 
 	// Get processor brand name
 	/*
-	if(nHighestFeatureEx >= 0x80000004)
+	if (nHighestFeatureEx >= 0x80000004)
 	{
 		char szCPUName[49];
 		szCPUName[0] = 0;
-		__cpuid((int*)&szCPUName[0], 0x80000002);
+		__cpuid((int*)&szCPUName[0],  0x80000002);
 		__cpuid((int*)&szCPUName[16], 0x80000003);
 		__cpuid((int*)&szCPUName[32], 0x80000004);
 		szCPUName[48] = 0;
-		for(int i=(int)strlen(szCPUName)-1; i>=0; --i)
+		for (int i = (int)strlen(szCPUName) - 1; i >= 0; --i)
 		{
-			if(szCPUName[i] == ' ')
+			if (szCPUName[i] == ' ')
 				szCPUName[i] = '\0';
 			else
 				break;
@@ -87,27 +86,27 @@ CCpuId::CCpuId(void)
 	}
 	else
 		ELog::Get().SystemFormat(L"PERF    : CPU: %S\n", szMan);
-		*/
+	*/
 
 	// Get CPU features
-	m_nCPUFeatures	= 0;
-	//szFeatures[0]	= 0;
+	m_nCPUFeatures = 0;
+	//szFeatures[0]  = 0;
 	if (nHighestFeature >= 1)
 	{
 		__cpuid(nBuff, 1);
-		if (nBuff[3] & 1<<23)	m_nCPUFeatures|=MPC_MM_MMX;
-		if (nBuff[3] & 1<<25)	m_nCPUFeatures|=MPC_MM_SSE;
-		if (nBuff[3] & 1<<26)	m_nCPUFeatures|=MPC_MM_SSE2;
-		if (nBuff[2] & 1<<0)		m_nCPUFeatures|=MPC_MM_SSE3;
+		if (nBuff[3] & 1 << 23) m_nCPUFeatures |= MPC_MM_MMX;
+		if (nBuff[3] & 1 << 25) m_nCPUFeatures |= MPC_MM_SSE;
+		if (nBuff[3] & 1 << 26) m_nCPUFeatures |= MPC_MM_SSE2;
+		if (nBuff[2] & 1 << 0)  m_nCPUFeatures |= MPC_MM_SSE3;
 
 		// Intel specific:
 		if (m_nType == PROCESSOR_INTEL)
 		{
-			if (nBuff[2] & 1<<9)	m_nCPUFeatures|=MPC_MM_SSSE3;
-			//if (nBuff[2] & 1<<7)	strcat(szFeatures, "EST ");
+			if (nBuff[2] & 1 << 9) m_nCPUFeatures |= MPC_MM_SSSE3;
+			//if (nBuff[2] & 1 << 7) strcat(szFeatures, "EST ");
 		}
 
-		//if(nBuff[3] & 1<<28)
+		//if(nBuff[3] & 1 << 28)
 		//	strcat(szFeatures, "HTT ");
 	}
 
@@ -119,13 +118,13 @@ CCpuId::CCpuId(void)
 		if (nHighestFeatureEx >= 0x80000001)
 		{
 			__cpuid(nBuff, 0x80000001);
-			if (nBuff[3] & 1<<31)	m_nCPUFeatures|=MPC_MM_3DNOW;
-			//if (nBuff[3] & 1<<30)	strcat(szFeatures, "Ex3DNow! ");
-			if (nBuff[3] & 1<<22)	m_nCPUFeatures|=MPC_MM_MMXEXT;
+			if (nBuff[3] & 1 << 31) m_nCPUFeatures |= MPC_MM_3DNOW;
+			//if (nBuff[3] & 1 << 30) strcat(szFeatures, "Ex3DNow! ");
+			if (nBuff[3] & 1 << 22) m_nCPUFeatures |= MPC_MM_MMXEXT;
 		}
 
 		// Get level 1 cache size
-		//if(nHighestFeatureEx >= 0x80000005)
+		//if (nHighestFeatureEx >= 0x80000005)
 		//{
 		//	__cpuid(nBuff, 0x80000005);
 		//	ELog::Get().SystemFormat(L"PERF    : L1 cache size: %dK\n", ((unsigned)nBuff[2])>>24);
@@ -134,7 +133,7 @@ CCpuId::CCpuId(void)
 
 	/*
 	// Get cache size
-	if(nHighestFeatureEx >= 0x80000006)
+	if (nHighestFeatureEx >= 0x80000006)
 	{
 		__cpuid(nBuff, 0x80000006);
 		ELog::Get().SystemFormat(L"PERF    : L2 cache size: %dK\n", ((unsigned)nBuff[2])>>16);
@@ -149,7 +148,7 @@ CCpuId::CCpuId(void)
 
 	// Log number of CPUs and speeds
 	ELog::Get().SystemFormat(L"PERF    : Number of CPUs: %d\n", theInfo.dwNumberOfProcessors);
-	for(DWORD i=0; i<theInfo.dwNumberOfProcessors; ++i)
+	for (DWORD i = 0; i < theInfo.dwNumberOfProcessors; ++i)
 	{
 		DWORD dwCPUSpeed = ReadCPUSpeedFromRegistry(i);
 		ELog::Get().SystemFormat(L"PERF    : * CPU %d speed: ~%dMHz\n", i, dwCPUSpeed);
@@ -171,23 +170,23 @@ CCpuId::CCpuId(void)
 	nHighestFeatureEx = (unsigned)nBuff[0];
 
 	m_nDSPFlags = 0;
-	if (m_CPUInfo[3] & CPUID_MMX)	m_nDSPFlags|=MPC_MM_MMX;
-	if (m_CPUInfo[3] & CPUID_SSE)	m_nDSPFlags|=MPC_MM_SSE;
-	if (m_CPUInfo[3] & CPUID_SSE2)	m_nDSPFlags|=MPC_MM_SSE2;
-	if (m_CPUInfo[2] & CPUID_SSE3)	m_nDSPFlags|=MPC_MM_SSE3;
+	if (m_CPUInfo[3] & CPUID_MMX)  m_nDSPFlags |= MPC_MM_MMX;
+	if (m_CPUInfo[3] & CPUID_SSE)  m_nDSPFlags |= MPC_MM_SSE;
+	if (m_CPUInfo[3] & CPUID_SSE2) m_nDSPFlags |= MPC_MM_SSE2;
+	if (m_CPUInfo[2] & CPUID_SSE3) m_nDSPFlags |= MPC_MM_SSE3;
 
 	switch (m_nType)
 	{
 	case PROCESSOR_AMD :
 		__cpuid(m_CPUAMDInfo, 0x80000000);
-		if(nHighestFeatureEx >= 0x80000001)
+		if (nHighestFeatureEx >= 0x80000001)
 		{
-			if (m_CPUAMDInfo[3] & CPUID_MMXEXT) m_nDSPFlags|=MPC_MM_MMXEXT;
-			if (m_CPUAMDInfo[3] & CPUID_3DNOW)  m_nDSPFlags|=MPC_MM_3DNOW;
+			if (m_CPUAMDInfo[3] & CPUID_MMXEXT) m_nDSPFlags |= MPC_MM_MMXEXT;
+			if (m_CPUAMDInfo[3] & CPUID_3DNOW)  m_nDSPFlags |= MPC_MM_3DNOW;
 		}
 		break;
 	case PROCESSOR_INTEL :
-		if(m_CPUInfo[2] & CPUID_SSSE3)	m_nDSPFlags|=MPC_MM_SSSE3;
+		if (m_CPUInfo[2] & CPUID_SSSE3) m_nDSPFlags |= MPC_MM_SSSE3;
 		break;
 	}
 	*/
@@ -195,7 +194,7 @@ CCpuId::CCpuId(void)
 
 int CCpuId::GetProcessorNumber()
 {
-	SYSTEM_INFO		SystemInfo;
+	SYSTEM_INFO SystemInfo;
 	GetSystemInfo(&SystemInfo);
 
 	// TODO: maybe use dwNumberOfProcessors * 3 / 2.

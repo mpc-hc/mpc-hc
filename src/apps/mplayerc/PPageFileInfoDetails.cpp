@@ -208,7 +208,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 	}
 
 	if (wh.cx > 0 && wh.cy > 0) {
-		m_res.Format(_T("%d x %d"), wh.cx, wh.cy);
+		m_res.Format(_T("%dx%d"), wh.cx, wh.cy);
 
 		int lnko = LNKO(arxy.cx, arxy.cy);
 		if (lnko > 1) {

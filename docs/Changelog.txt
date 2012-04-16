@@ -43,6 +43,7 @@ Legend:
 * Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese,
   traditional Chinese, Italian, German and Polish translations
 * Removed GTSdll support
+* Removed the option to disable XP theming
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
