@@ -50,8 +50,8 @@ public:
 	CString m_copyright;
 	CString m_rating;
 	CString m_location_str;
-	CEdit	m_location;
-	CEdit m_desc;
+	CEdit   m_location;
+	CEdit   m_desc;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

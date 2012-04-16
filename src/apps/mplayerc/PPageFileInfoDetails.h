@@ -55,7 +55,7 @@ public:
 	CString m_time;
 	CString m_res;
 	CString m_created;
-	CEdit m_encoding;
+	CEdit   m_encoding;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
