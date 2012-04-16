@@ -12,13 +12,17 @@
     %define ARCH_X86_32 0
     %define ARCH_X86_64 1
     %define HAVE_FAST_64BIT 1
+    %define HAVE_GETADDRINFO 1
 else
     %define ARCH_X86_32 1
     %define ARCH_X86_64 0
     %define HAVE_FAST_64BIT 0
+    %define HAVE_GETADDRINFO 0
 %endif
 
+%define HAVE_GNU_AS 1
 %define HAVE_W32THREADS 1
+%define HAVE_PTHREADS 0
 %define HAVE_FAST_UNALIGNED 1
 %define HAVE_ALIGNED_STACK 1
 %define HAVE_ATTRIBUTE_MAY_ALIAS 1
@@ -34,6 +38,7 @@ else
 %define HAVE_EXP2F 1
 %define HAVE_FAST_CLZ 1
 %define HAVE_FAST_CMOV 1
+%define HAVE_GETPROCESSAFFINITYMASK 1
 %define HAVE_GETPROCESSMEMORYINFO 1
 %define HAVE_GETPROCESSTIMES 1
 %define HAVE_ISATTY 1

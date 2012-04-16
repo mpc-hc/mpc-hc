@@ -17,28 +17,25 @@
     #define ARCH_X86_32 0
     #define ARCH_X86_64 1
     #define HAVE_FAST_64BIT 1
-    #define HAVE_STRUCT_TIMESPEC 1
-    #define HAVE_LOG2 0
-    #define HAVE_LOG2F 0
+    #define HAVE_GETADDRINFO 1
   #else
     #define ARCH_X86_32 1
     #define ARCH_X86_64 0
     #define HAVE_FAST_64BIT 0
-    #define HAVE_STRUCT_TIMESPEC 0
-    #define HAVE_LOG2 1
-    #define HAVE_LOG2F 1
+    #define HAVE_GETADDRINFO 0
   #endif
 
   #define PTW32_STATIC_LIB 1
   #define restrict restrict
 #else
   #define HAVE_INLINE_ASM 0
+  #define HAVE_AMD3DNOW 0
+  #define HAVE_AMD3DNOWEXT 0
+  #define HAVE_AVX 0
   #define HAVE_MMX 0
   #define HAVE_MMX2 0
   #define HAVE_SSE 0
   #define HAVE_SSSE3 0
-  #define HAVE_AMD3DNOW 0
-  #define HAVE_AMD3DNOWEXT 0
   #define ARCH_X86 0
   #define ARCH_X86_32 0
   #define ARCH_X86_64 0
@@ -123,8 +120,8 @@
 #define HAVE_FAST_CMOV 1
 #define HAVE_FCNTL 0
 #define HAVE_FORK 0
-#define HAVE_GETADDRINFO 0
 #define HAVE_GETHRTIME 0
+#define HAVE_GETPROCESSAFFINITYMASK 1
 #define HAVE_GETPROCESSMEMORYINFO 1
 #define HAVE_GETPROCESSTIMES 1
 #define HAVE_GETRUSAGE 0
@@ -134,16 +131,17 @@
 #define HAVE_ISATTY 0
 #define HAVE_LOCAL_ALIGNED_16 1
 #define HAVE_LOCAL_ALIGNED_8 1
+#define HAVE_LOG2 1
+#define HAVE_LOG2F 1
 #define HAVE_MALLOC_H 1
 #define HAVE_MEMALIGN 1
 #define HAVE_SYMVER 1
 #define HAVE_SYMVER_GNU_ASM 0
 #define HAVE_SYMVER_ASM_LABEL 1
-#define HAVE_TEN_OPERANDS 1
 #define HAVE_THREADS 1
 #define HAVE_W32THREADS 1
 #define HAVE_PTHREADS 0
-#define HAVE_VIRTUALALLOC 0
+#define HAVE_VIRTUALALLOC 1
 #define HAVE_XMM_CLOBBERS 1
 #define HAVE_YASM 1
 
