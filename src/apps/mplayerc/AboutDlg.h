@@ -31,6 +31,8 @@ class CAboutDlg : public CDialog
 	CString m_strBuildNumber;
 	CString m_MPCCompiler;
 	CString m_FFmpegCompiler;
+	CString m_Credits;
+	CString m_AuthorsPath;
 
 public:
 	CAboutDlg();
@@ -38,6 +40,7 @@ public:
 	virtual BOOL OnInitDialog();
 
 	afx_msg void OnHomepage(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnAuthors(NMHDR *pNMHDR, LRESULT *pResult);
 
 	// Dialog Data
 	//{{AFX_DATA(CAboutDlg)

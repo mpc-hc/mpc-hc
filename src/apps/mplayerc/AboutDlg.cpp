@@ -83,8 +83,22 @@ BOOL CAboutDlg::OnInitDialog()
 	m_FFmpegCompiler.Format(A2W(GetFFmpegCompiler()));
 #endif
 
+	// Build the path to Authors.txt
+	GetModuleFileName(AfxGetInstanceHandle(), m_AuthorsPath.GetBuffer(_MAX_PATH), _MAX_PATH);
+	m_AuthorsPath.ReleaseBuffer();
+	m_AuthorsPath = m_AuthorsPath.Left(m_AuthorsPath.ReverseFind('\\') + 1) + _T("Authors.txt");
+	// Check if the file exists
+	CFileStatus fs;
+	if (CFile::GetStatus(m_AuthorsPath, fs)) {
+		// If it does, we make the filename clickable
+		m_Credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
+	}
+
 	UpdateData(FALSE);
-	return TRUE;
+
+	GetDlgItem(IDOK)->SetFocus();
+
+	return FALSE;
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
@@ -96,17 +110,25 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_BUILD_NUMBER, m_strBuildNumber);
 	DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
 	DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
+	DDX_Text(pDX, IDC_AUTHORS_LINK, m_Credits);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//{{AFX_MSG_MAP(CAboutDlg)
 	// No message handlers
 	//}}AFX_MSG_MAP
-	ON_NOTIFY(NM_CLICK, IDC_SOURCEFORGE_LINK, &CAboutDlg::OnHomepage)
+	ON_NOTIFY(NM_CLICK, IDC_SOURCEFORGE_LINK, OnHomepage)
+	ON_NOTIFY(NM_CLICK, IDC_AUTHORS_LINK, OnAuthors)
 END_MESSAGE_MAP()
 
 void CAboutDlg::OnHomepage(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
+	*pResult = 0;
+}
+
+void CAboutDlg::OnAuthors(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	ShellExecute(m_hWnd, _T("open"), m_AuthorsPath, NULL, NULL, SW_SHOWDEFAULT);
 	*pResult = 0;
 }

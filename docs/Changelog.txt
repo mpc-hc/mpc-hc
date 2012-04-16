@@ -12,6 +12,8 @@ Legend:
 ==============================
 + MatroskaSplitter: Support for QT video formats in Matroska v1
 + Added .tak extension
++ Ticket #629, Add support for opening Authors.txt directly from the About dialog
+  if the file exists in the same directory as the exe
 + Ticket #1792, Show an OSD message and a status message when a favorite is
   created via the keyboard shortcut
 + Ticket #2193, Add PNG support for custom toolbars
