@@ -47,6 +47,7 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     AP4_Descriptor(AP4_DESCRIPTOR_TAG_DECODER_CONFIG, 2, 13),
     m_StreamType(stream_type),
     m_ObjectTypeIndication(oti),
+    m_UpStream(false),
     m_BufferSize(buffer_size),
     m_MaxBitrate(max_bitrate),
     m_AverageBitrate(avg_bitrate)
