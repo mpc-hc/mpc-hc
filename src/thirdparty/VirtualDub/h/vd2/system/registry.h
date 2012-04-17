@@ -147,7 +147,7 @@ private:
 
 public:
 	VDRegistryAppKey();
-	VDRegistryAppKey(const char *pszKey, bool write = true);
+	VDRegistryAppKey(const char *pszKey, bool write = true, bool global = false);
 
 	static void setDefaultKey(const char *pszAppName);
 };

@@ -40,6 +40,7 @@
 
 typedef struct HWND__	*VDZHWND;
 typedef struct HDC__	*VDZHDC;
+typedef struct HKEY__	*VDZHKEY;
 typedef unsigned		VDZUINT;
 typedef unsigned short	VDZWORD;
 typedef unsigned long	VDZDWORD;

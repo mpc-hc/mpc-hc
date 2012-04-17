@@ -41,6 +41,7 @@ public:
 		kModeSynchronous,		///< Use synchronous I/O.
 		kModeThreaded,			///< Use multithreaded I/O.
 		kModeAsynchronous,		///< Use true asynchronous I/O (Windows NT only).
+		kModeBuffered,			///< Use regular buffered synchronous I/O
 		kModeCount
 	};
 

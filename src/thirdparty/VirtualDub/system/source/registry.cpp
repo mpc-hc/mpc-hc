@@ -470,8 +470,8 @@ VDString VDRegistryAppKey::s_appbase;
 VDRegistryAppKey::VDRegistryAppKey() : VDRegistryKey(s_appbase.c_str()) {
 }
 
-VDRegistryAppKey::VDRegistryAppKey(const char *pszKey, bool write)
-	: VDRegistryKey((s_appbase + pszKey).c_str(), false, write)
+VDRegistryAppKey::VDRegistryAppKey(const char *pszKey, bool write, bool global)
+	: VDRegistryKey((s_appbase + pszKey).c_str(), global, write)
 {
 }
 

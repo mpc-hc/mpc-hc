@@ -43,7 +43,7 @@
 
 class VDFileAsync9x : public IVDFileAsync, protected VDThread {
 public:
-	VDFileAsync9x(bool useFastMode);
+	VDFileAsync9x(bool useFastMode, bool writeThrough);
 	~VDFileAsync9x();
 
 	void SetPreemptiveExtend(bool b) { mbPreemptiveExtend = b; }
@@ -79,6 +79,7 @@ protected:
 	sint64		mClientFastPointer;
 
 	const bool		mbUseFastMode;
+	const bool		mbWriteThrough;
 
 	volatile bool	mbPreemptiveExtend;
 
@@ -100,12 +101,13 @@ protected:
 
 ///////////////////////////////////////////////////////////////////////////
 
-VDFileAsync9x::VDFileAsync9x(bool useFastMode)
+VDFileAsync9x::VDFileAsync9x(bool useFastMode, bool writeThrough)
 	: mhFileSlow(INVALID_HANDLE_VALUE)
 	, mhFileFast(INVALID_HANDLE_VALUE)
 	, mClientSlowPointer(0)
 	, mClientFastPointer(0)
 	, mbUseFastMode(useFastMode)
+	, mbWriteThrough(writeThrough)
 	, mbPreemptiveExtend(false)
 	, mpError(NULL)
 {
@@ -119,7 +121,9 @@ void VDFileAsync9x::Open(const wchar_t *pszFilename, uint32 count, uint32 buffer
 	try {
 		mFilename = VDTextWToA(pszFilename);
 
-		mhFileSlow = CreateFile(mFilename.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH, NULL);
+		const DWORD slowFlags = mbWriteThrough ? FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH : FILE_ATTRIBUTE_NORMAL;
+
+		mhFileSlow = CreateFile(mFilename.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, slowFlags, NULL);
 		if (mhFileSlow == INVALID_HANDLE_VALUE)
 			throw MyWin32Error("Unable to open file \"%s\" for write: %%s", GetLastError(), mFilename.c_str());
 
@@ -910,9 +914,12 @@ IVDFileAsync *VDCreateFileAsync(IVDFileAsync::Mode mode) {
 				return new VDFileAsyncNT;
 			// Can't do async I/O. Fall-through to 9x method.
 		case IVDFileAsync::kModeThreaded:
-			return new VDFileAsync9x(true);
+			return new VDFileAsync9x(true, true);
 
 		default:
-			return new VDFileAsync9x(false);
+			return new VDFileAsync9x(false, true);
+
+		case IVDFileAsync::kModeBuffered:
+			return new VDFileAsync9x(false, false);
 	}
 }

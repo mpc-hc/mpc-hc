@@ -40,6 +40,7 @@ Legend:
 * Updated MediaInfoLib to v0.7.56
 * Updated ZenLib to v0.4.26
 * Updated SoundTouch to v1.7.0pre r142
+* Updated VirtualDub to v1.10.2-test6
 * Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese,
   traditional Chinese, Italian, German and Polish translations
 * Removed GTSdll support
