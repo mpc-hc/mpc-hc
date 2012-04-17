@@ -222,6 +222,8 @@ public:
 	HRESULT			Transform(IMediaSample* pIn);
 	HRESULT			CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
 	HRESULT			DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT			BeginFlush();
+	HRESULT			EndFlush();
 	HRESULT			NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate);
 	HRESULT			EndOfStream();
 

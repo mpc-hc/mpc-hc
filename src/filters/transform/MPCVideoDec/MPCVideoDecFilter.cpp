@@ -1438,9 +1438,29 @@ HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 	}
 }
 
+HRESULT CMPCVideoDecFilter::BeginFlush()
+{
+	return __super::BeginFlush();
+}
+
+HRESULT CMPCVideoDecFilter::EndFlush()
+{
+	CAutoLock cAutoLock(&m_csReceive);
+	return __super::EndFlush();
+}
+
 HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate)
 {
 	CAutoLock cAutoLock(&m_csReceive);
+	
+	if (m_pAVCtx) {
+		avcodec_flush_buffers (m_pAVCtx);
+	}
+
+	if (m_pDXVADecoder) {
+		m_pDXVADecoder->Flush();
+	}
+	
 	m_nPosB = 1;
 	memset (&m_BFrames, 0, sizeof(m_BFrames));
 	m_rtLastStart		= 0;
@@ -1449,17 +1469,9 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 
 	ResetBuffer();
 
-	m_h264RandomAccess.flush(m_pAVCtx->thread_count);
+	m_h264RandomAccess.flush (m_pAVCtx->thread_count);
 
 	m_bWaitingForKeyFrame = TRUE;
-
-	if (m_pAVCtx) {
-		avcodec_flush_buffers (m_pAVCtx);
-	}
-
-	if (m_pDXVADecoder) {
-		m_pDXVADecoder->Flush();
-	}
 
 	m_rtPrevStop = 0;
 

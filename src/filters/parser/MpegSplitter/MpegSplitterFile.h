@@ -177,9 +177,12 @@ public:
 
 	CAtlMap<WORD, program> m_programs;
 
+	void SearchPrograms(__int64 start, __int64 stop);
 	void UpdatePrograms(const trhdr& h, bool UpdateLang = true);
 	void UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLang = true);
 	const program* FindProgram(WORD pid, int &iStream, const CHdmvClipInfo::Stream * &_pClipInfo);
 
 	CAtlMap<DWORD, CString> m_pPMT_Lang;
+
+	bool GetStreamType(WORD pid, PES_STREAM_TYPE &stream_type);
 };

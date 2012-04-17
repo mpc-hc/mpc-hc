@@ -13846,6 +13846,9 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 	}
 	m_fEndOfStream = false;
 
+	OnTimer(TIMER_STREAMPOSPOLLER);
+	OnTimer(TIMER_STREAMPOSPOLLER2);
+
 	SendCurrentPositionToApi(true);
 }
 
