@@ -1,163 +1,242 @@
 @ECHO OFF
+REM (C) 2009-2012 see Authors.txt
+REM
+REM This file is part of MPC-HC.
+REM
+REM MPC-HC is free software; you can redistribute it and/or modify
+REM it under the terms of the GNU General Public License as published by
+REM the Free Software Foundation; either version 3 of the License, or
+REM (at your option) any later version.
+REM
+REM MPC-HC is distributed in the hope that it will be useful,
+REM but WITHOUT ANY WARRANTY; without even the implied warranty of
+REM MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+REM GNU General Public License for more details.
+REM
+REM You should have received a copy of the GNU General Public License
+REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+REM $Id$
+
 CLS
 SETLOCAL
+CD /D %~dp0
 
-IF /I "%~1"=="help"   GOTO SHOWHELP
-IF /I "%~1"=="/help"  GOTO SHOWHELP
-IF /I "%~1"=="-help"  GOTO SHOWHELP
-IF /I "%~1"=="--help" GOTO SHOWHELP
-IF /I "%~1"=="/?"     GOTO SHOWHELP
+IF /I "%~1"=="help"   GOTO ShowHelp
+IF /I "%~1"=="/help"  GOTO ShowHelp
+IF /I "%~1"=="-help"  GOTO ShowHelp
+IF /I "%~1"=="--help" GOTO ShowHelp
+IF /I "%~1"=="/?"     GOTO ShowHelp
 
 
 REM pre-build checks
 IF "%VS100COMNTOOLS%"=="" GOTO MissingVar
 IF "%MINGW32%"==""        GOTO MissingVar
 IF "%MINGW64%"==""        GOTO MissingVar
-CALL :SubDetectInnoSetup
 
 
-REM set up variables
+REM Check for the first switch
+IF "%~1" == "" (
+  SET "BUILDTYPE=Build"
+) ELSE (
+  IF /I "%~1" == "Build"     SET "BUILDTYPE=Build"   & GOTO CheckSecondArg
+  IF /I "%~1" == "/Build"    SET "BUILDTYPE=Build"   & GOTO CheckSecondArg
+  IF /I "%~1" == "-Build"    SET "BUILDTYPE=Build"   & GOTO CheckSecondArg
+  IF /I "%~1" == "--Build"   SET "BUILDTYPE=Build"   & GOTO CheckSecondArg
+  IF /I "%~1" == "Clean"     SET "BUILDTYPE=Clean"   & GOTO CheckSecondArg
+  IF /I "%~1" == "/Clean"    SET "BUILDTYPE=Clean"   & GOTO CheckSecondArg
+  IF /I "%~1" == "-Clean"    SET "BUILDTYPE=Clean"   & GOTO CheckSecondArg
+  IF /I "%~1" == "--Clean"   SET "BUILDTYPE=Clean"   & GOTO CheckSecondArg
+  IF /I "%~1" == "Rebuild"   SET "BUILDTYPE=Rebuild" & GOTO CheckSecondArg
+  IF /I "%~1" == "/Rebuild"  SET "BUILDTYPE=Rebuild" & GOTO CheckSecondArg
+  IF /I "%~1" == "-Rebuild"  SET "BUILDTYPE=Rebuild" & GOTO CheckSecondArg
+  IF /I "%~1" == "--Rebuild" SET "BUILDTYPE=Rebuild" & GOTO CheckSecondArg
+
+  ECHO.
+  ECHO Unsupported commandline switch!
+  ECHO Run "%~nx0 help" for details about the commandline switches.
+  CALL :SubMsg "ERROR" "Compilation failed!"
+)
+
+
+:CheckSecondArg
+REM Check for the second switch
+IF "%~2" == "" (
+  SET "PLATFORM=all"
+) ELSE (
+  IF /I "%~2" == "x86"   SET "PLATFORM=Win32" & GOTO CheckThirdArg
+  IF /I "%~2" == "/x86"  SET "PLATFORM=Win32" & GOTO CheckThirdArg
+  IF /I "%~2" == "-x86"  SET "PLATFORM=Win32" & GOTO CheckThirdArg
+  IF /I "%~2" == "--x86" SET "PLATFORM=Win32" & GOTO CheckThirdArg
+  IF /I "%~2" == "x64"   SET "PLATFORM=x64"   & GOTO CheckThirdArg
+  IF /I "%~2" == "/x64"  SET "PLATFORM=x64"   & GOTO CheckThirdArg
+  IF /I "%~2" == "-x64"  SET "PLATFORM=x64"   & GOTO CheckThirdArg
+  IF /I "%~2" == "--x64" SET "PLATFORM=x64"   & GOTO CheckThirdArg
+  IF /I "%~2" == "all"   SET "PLATFORM=all"   & GOTO CheckThirdArg
+  IF /I "%~2" == "/all"  SET "PLATFORM=all"   & GOTO CheckThirdArg
+  IF /I "%~2" == "-all"  SET "PLATFORM=all"   & GOTO CheckThirdArg
+  IF /I "%~2" == "--all" SET "PLATFORM=all"   & GOTO CheckThirdArg
+
+  ECHO.
+  ECHO Unsupported commandline switch!
+  ECHO Run "%~nx0 help" for details about the commandline switches.
+  CALL :SubMsg "ERROR" "Compilation failed!"
+)
+
+
+:CheckThirdArg
+REM Check for the third switch
+IF "%~3" == "" (
+  SET "CONFIG=all"
+) ELSE (
+  IF /I "%~3" == "Main"       SET "CONFIG=Main"     & GOTO CheckFourthArg
+  IF /I "%~3" == "/Main"      SET "CONFIG=Main"     & GOTO CheckFourthArg
+  IF /I "%~3" == "-Main"      SET "CONFIG=Main"     & GOTO CheckFourthArg
+  IF /I "%~3" == "--Main"     SET "CONFIG=Main"     & GOTO CheckFourthArg
+  IF /I "%~3" == "Resource"   SET "CONFIG=Resource" & GOTO CheckFourthArg
+  IF /I "%~3" == "/Resource"  SET "CONFIG=Resource" & GOTO CheckFourthArg
+  IF /I "%~3" == "-Resource"  SET "CONFIG=Resource" & GOTO CheckFourthArg
+  IF /I "%~3" == "--Resource" SET "CONFIG=Resource" & GOTO CheckFourthArg
+  IF /I "%~3" == "all"        SET "CONFIG=all"      & GOTO CheckFourthArg
+  IF /I "%~3" == "/all"       SET "CONFIG=all"      & GOTO CheckFourthArg
+  IF /I "%~3" == "-all"       SET "CONFIG=all"      & GOTO CheckFourthArg
+  IF /I "%~3" == "--all"      SET "CONFIG=all"      & GOTO CheckFourthArg
+
+  ECHO.
+  ECHO Unsupported commandline switch!
+  ECHO Run "%~nx0 help" for details about the commandline switches.
+  CALL :SubMsg "ERROR" "Compilation failed!"
+)
+
+:CheckFourthArg
+REM Check for the fourth switch
+IF "%~4" == "" (
+  SET "BUILDCONFIG=Release"
+) ELSE (
+  IF /I "%~4" == "Debug"   SET "BUILDCONFIG=Debug" & GOTO Start
+  IF /I "%~4" == "/Debug"  SET "BUILDCONFIG=Debug" & GOTO Start
+  IF /I "%~4" == "-Debug"  SET "BUILDCONFIG=Debug" & GOTO Start
+  IF /I "%~4" == "--Debug" SET "BUILDCONFIG=Debug" & GOTO Start
+
+  ECHO.
+  ECHO Unsupported commandline switch!
+  ECHO Run "%~nx0 help" for details about the commandline switches.
+  CALL :SubMsg "ERROR" "Compilation failed!"
+)
+
+
+:Start
 SET START_TIME=%DATE%-%TIME%
+IF "%PLATFORM%"=="Win32" GOTO Win32
+IF "%PLATFORM%"=="x64"   GOTO x64
 
-IF "%1"=="" (SET BUILDTYPE=Build) ELSE (SET BUILDTYPE=%1)
 
-SET build_type=x86
-IF /I "%2"=="x64" GOTO build_x64
-GOTO call_vcvarsall
+:Win32
+CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
-:build_x64
+IF "%CONFIG%"=="Resource" CALL :SubResources Win32 && GOTO x64
+CALL :SubMPCHC Win32
+IF "%CONFIG%"=="Main" GOTO x64
+
+CALL :SubResources Win32
+CALL :SubCreatePackages Win32
+
+
+:x64
+IF "%PLATFORM%"=="Win32" GOTO End
+
 IF DEFINED PROGRAMFILES(x86) (SET build_type=amd64) ELSE (SET build_type=x86_amd64)
-
-:call_vcvarsall
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
-CD /D %~dp0
 
-REM Debug build only applies to Main (mpc-hc.sln)
-IF /I "%4"=="Debug" (SET BUILDCONFIG=Debug) ELSE (SET BUILDCONFIG=Release)
+IF "%CONFIG%"=="Resource" CALL :SubResources x64 && GOTO END
+CALL :SubMPCHC x64
+IF "%CONFIG%"=="Main" GOTO End
 
-REM Do we want to build x86, x64 or both?
-IF /I "%2"=="x64" GOTO skip32
-SET OUTDIR=bin\mpc-hc_x86
-SET PLATFORM=Win32
-CALL :Sub_build_internal %*
+CALL :SubResources x64
+CALL :SubCreatePackages x64
 
 
-:skip32
-IF /I "%2"=="x86" GOTO END
-SET OUTDIR=bin\mpc-hc_x64
-SET PLATFORM=x64
-CALL :Sub_build_internal %*
-GOTO END
-
-
-:EndWithError
-TITLE Compiling MPC-HC [ERROR]
-ECHO. & ECHO.
-ECHO  **ERROR: Build failed and aborted!**
-PAUSE
-ENDLOCAL
-EXIT
-
-
-:END
+:End
 TITLE Compiling MPC-HC [FINISHED]
-ECHO. & ECHO.
-ECHO MPC-HC's compilation started on %START_TIME%
-ECHO and completed on %DATE%-%TIME%
-ECHO.
+CALL :SubMsg "INFO" "MPC-HC's compilation started on %START_TIME% and completed on %DATE%-%TIME%"
 ENDLOCAL
 EXIT /B
 
 
-:Sub_build_internal
-IF /I "%3"=="Resource" GOTO skipMain
+:SubMPCHC
+TITLE Compiling MPC-HC - %BUILDCONFIG%^|%1...
+devenv /nologo mpc-hc.sln /%BUILDTYPE% "%BUILDCONFIG%|%1"
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
+EXIT /B
 
-TITLE Compiling MPC-HC - %BUILDCONFIG%^|%PLATFORM%...
-devenv /nologo mpc-hc.sln /%BUILDTYPE% "%BUILDCONFIG%|%PLATFORM%"
-IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 
-
-:skipMain
-IF /I "%3"=="Main" GOTO skipResource
-
-TITLE Compiling mpciconlib - Release^|%PLATFORM%...
-devenv /nologo mpciconlib.sln /%BUILDTYPE% "Release|%PLATFORM%"
-IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
+:SubResources
+TITLE Compiling mpciconlib - Release^|%1...
+devenv /nologo mpciconlib.sln /%BUILDTYPE% "Release|%1"
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 
 FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese simplified" "Chinese traditional"
  "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
  "Polish" "Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
- CALL :SubMPCRES %%A
-)
-
-
-:skipResource
-IF /I "%1"=="Clean"    EXIT /B
-IF /I "%3"=="Resource" EXIT /B
-IF /I "%3"=="Main"     EXIT /B
-IF /I "%4"=="Debug"    EXIT /B
-
-XCOPY "docs\Authors.txt"   "%OUTDIR%\" /Y /V >NUL
-XCOPY "docs\Changelog.txt" "%OUTDIR%\" /Y /V >NUL
-XCOPY "COPYING.txt"        "%OUTDIR%\" /Y /V >NUL
-XCOPY "docs\Readme.txt"    "%OUTDIR%\" /Y /V >NUL
-
-IF /I "%PLATFORM%"=="x64" GOTO skipx86installer
-
-IF DEFINED InnoSetupPath (
-  TITLE Compiling x86 installer...
-  "%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss"
-  IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
-  ECHO. & ECHO x86 installer successfully built
-) ELSE (
-  ECHO. & ECHO Inno Setup wasn't found, the installer wasn't built
-  GOTO END
-)
-EXIT /B
-
-
-:skipx86installer
-IF /I "%PLATFORM%"=="Win32" GOTO END
-
-IF DEFINED InnoSetupPath (
-  TITLE Compiling x64 installer...
-  "%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" /Dx64Build
-  IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
-  ECHO. & ECHO x64 installer successfully built
-) ELSE (
-  ECHO. & ECHO Inno Setup wasn't found, the installer wasn't built
-  GOTO END
+ CALL :SubMPCRES %%A %1
 )
 EXIT /B
 
 
 :SubMPCRES
-TITLE Compiling mpcresources - %~1^|%PLATFORM%...
-devenv /nologo mpcresources.sln /%BUILDTYPE% "Release %~1|%PLATFORM%"
-IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
+TITLE Compiling mpcresources - %~1^|%2...
+devenv /nologo mpcresources.sln /%BUILDTYPE% "Release %~1|%2"
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 EXIT /B
 
 
-:SHOWHELP
-TITLE "%~nx0 %1"
-ECHO.
+:SubCreatePackages
+IF "%BUILDTYPE%"=="Clean"   EXIT /B
+IF "%BUILDCONFIG%"=="Debug" EXIT /B
+
+IF "%~1"=="Win32" SET OUTDIR=bin\mpc-hc_x86
+IF "%~1"=="x64"   SET OUTDIR=bin\mpc-hc_x64 & SET ISDefs=/Dx64Build
+
+XCOPY "COPYING.txt"        "%OUTDIR%\" /Y /V >NUL
+XCOPY "docs\Authors.txt"   "%OUTDIR%\" /Y /V >NUL
+XCOPY "docs\Changelog.txt" "%OUTDIR%\" /Y /V >NUL
+XCOPY "docs\Readme.txt"    "%OUTDIR%\" /Y /V >NUL
+
+CALL :SubDetectInnoSetup
+
+IF DEFINED InnoSetupPath (
+  TITLE Compiling %1 installer...
+  "%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" %ISDefs%
+  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
+  CALL :SubMsg "INFO" "%1 installer successfully built"
+) ELSE (
+  CALL :SubMsg "INFO" "Inno Setup wasn't found, the %1 installer wasn't built"
+)
+EXIT /B
+
+
+:ShowHelp
+TITLE %~nx0 %1
+ECHO. & ECHO.
 ECHO Usage:
-ECHO %~nx0 [clean^|build^|rebuild] [null^|x86^|x64] [null^|Main^|Resource] [Debug]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|all] [Main^|Resource^|all] [Debug]
 ECHO.
-ECHO Executing "%~nx0" without any arguments will use the default ones:
-ECHO "%~nx0 build null null"
+ECHO Notes: You can also prefix the commands with "-", "--" or "/".
+ECHO        The arguments are not case sensitive.
+ECHO. & ECHO.
+ECHO Executing %~nx0 without any arguments will use the default ones:
+ECHO "%~nx0 build all all"
 ECHO.
 ECHO Examples:
-ECHO %~nx0 build x86 Resource      -Builds the x86 resources only
-ECHO %~nx0 build null Resource     -Builds both x86 and x64 resources only
-ECHO %~nx0 build x86               -Builds x86 Main exe and the resources
-ECHO %~nx0 build x86 null Debug    -Builds x86 Main Debug exe and resources
+ECHO %~nx0 build x86 Resource     -Builds the x86 resources only
+ECHO %~nx0 build all Resource     -Builds both x86 and x64 resources only
+ECHO %~nx0 build x86              -Builds x86 Main exe and the resources
+ECHO %~nx0 build x86 all Debug    -Builds x86 Main Debug exe and resources
 ECHO.
-ECHO "null" can be replaced with anything, e.g. "all":
-ECHO "%~nx0 build x86 all Debug"
-ECHO.
-ECHO NOTE: Debug only applies to Main project [mpc-hc.sln]
+ECHO NOTES:
+ECHO Debug only applies to Main project [mpc-hc.sln]
+ECHO "%~nx0 x86" or "%~nx0 debug" won't work.
 ECHO.
 ENDLOCAL
 EXIT /B
@@ -197,3 +276,16 @@ EXIT /B
 :SubInnoSetupPath
 SET InnoSetupPath=%*
 EXIT /B
+
+
+:SubMsg
+ECHO. & ECHO ______________________________
+ECHO [%~1] %~2
+ECHO ______________________________ & ECHO.
+IF /I "%~1" == "ERROR" (
+  PAUSE
+  ENDLOCAL
+  EXIT
+) ELSE (
+  EXIT /B
+)
