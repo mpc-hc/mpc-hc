@@ -8,9 +8,9 @@
 * Redistribution is appreciated.
 *
 * $Workfile:$
-* $Revision: 126 $
+* $Revision:$
 * $Modtime:$
-* $Author: gabest $
+* $Author:$
 *
 * Revision History:
 *	$History:$
@@ -93,6 +93,7 @@ CTreePropSheet::~CTreePropSheet()
 	delete m_pwndPageTree, m_pwndPageTree = NULL;
 	delete m_pFrame, m_pFrame = NULL;
 }
+
 
 /////////////////////////////////////////////////////////////////////
 // Operationen

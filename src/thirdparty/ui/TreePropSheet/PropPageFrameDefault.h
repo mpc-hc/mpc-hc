@@ -8,9 +8,9 @@
 * Redistribution is appreciated.
 *
 * $Workfile:$
-* $Revision: 126 $
+* $Revision:$
 * $Modtime:$
-* $Author: gabest $
+* $Author:$
 *
 * Revision History:
 *	$History:$
@@ -55,7 +55,6 @@ public:
 	virtual BOOL Create(DWORD dwWindowStyle, const RECT &rect, CWnd *pwndParent, UINT nID);
 	virtual CWnd* GetWnd();
 	virtual void SetCaption(LPCTSTR lpszCaption, HICON hIcon = NULL);
-
 	
 protected:
 	virtual CRect CalcMsgArea();

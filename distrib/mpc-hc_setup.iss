@@ -144,7 +144,11 @@ Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
 
 
 [Messages]
+#ifdef x64Build
+BeveledLabel={#app_name} {#app_version} x64
+#else
 BeveledLabel={#app_name} {#app_version}
+#endif
 
 
 [Types]

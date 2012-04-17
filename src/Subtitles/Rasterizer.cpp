@@ -26,6 +26,8 @@
 #include <math.h>
 #include <vector>
 #include <algorithm>
+#include <xmmintrin.h>
+#include <emmintrin.h>
 #include "Rasterizer.h"
 #include "SeparableFilter.h"
 
@@ -893,9 +895,6 @@ static __forceinline void pixmix2(DWORD *dst, DWORD color, DWORD shapealpha, DWO
 		   | ((((*dst&0x0000ff00)*ia + (color&0x0000ff00)*a)&0x00ff0000)>>8)
 		   | ((((*dst>>8)&0x00ff0000)*ia)&0xff000000);
 }
-
-#include <xmmintrin.h>
-#include <emmintrin.h>
 
 // Alpha blend 8 pixels at once. This is just pixmix_sse2, but done in a more vectorized manner.
 static __forceinline void alpha_blend_sse2(DWORD* dst, DWORD original_color, BYTE* s, int wt)

@@ -8,9 +8,9 @@
 * Redistribution is appreciated.
 *
 * $Workfile:$
-* $Revision: 8 $
+* $Revision:$
 * $Modtime:$
-* $Author: gabest $
+* $Author:$
 *
 * Revision History:
 *	$History:$
@@ -189,10 +189,12 @@ BOOL CPropPageFrameDefault::Create(DWORD dwWindowStyle, const RECT &rect, CWnd *
 		dwWindowStyle, rect, pwndParent, nID);
 }
 
+
 CWnd* CPropPageFrameDefault::GetWnd()
 {
 	return static_cast<CWnd*>(this);
 }
+
 
 void CPropPageFrameDefault::SetCaption(LPCTSTR lpszCaption, HICON hIcon /*= NULL*/)
 {
@@ -221,6 +223,7 @@ void CPropPageFrameDefault::SetCaption(LPCTSTR lpszCaption, HICON hIcon /*= NULL
 			m_Images.DeleteImageList();
 	}
 }
+
 
 CRect CPropPageFrameDefault::CalcMsgArea()
 {
@@ -391,5 +394,7 @@ BOOL CPropPageFrameDefault::OnEraseBkgnd(CDC* pDC)
 		return CWnd::OnEraseBkgnd(pDC);
 	}
 }
+
+
 
 } //namespace TreePropSheet

@@ -8,9 +8,9 @@
 * Redistribution is appreciated.
 *
 * $Workfile:$
-* $Revision: 126 $
+* $Revision:$
 * $Modtime:$
-* $Author: gabest $
+* $Author:$
 *
 * Revision History:
 *	$History:$
