@@ -733,6 +733,7 @@ void CDXVADecoder::EndOfStream()
 					break;
 				*/
 				case ENGINE_DXVA2 :
+					SetTypeSpecificFlags(&m_pPictureStore[nPicIndex], m_pPictureStore[nPicIndex].pSample);
 					m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
 					break;
 			}
