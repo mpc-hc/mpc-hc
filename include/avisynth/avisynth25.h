@@ -354,7 +354,7 @@ class VideoFrame {
   VideoFrame(VideoFrameBuffer* _vfb, int _offset, int _pitch, int _row_size, int _height);
   VideoFrame(VideoFrameBuffer* _vfb, int _offset, int _pitch, int _row_size, int _height, int _offsetU, int _offsetV, int _pitchUV);
 
-#ifndef WIN64
+#ifndef _WIN64
   void* operator new(unsigned size);
 #else
   void* operator new(size_t size);
