@@ -1,64 +1,65 @@
-In order of appearance in the SVN:
-
 Active: (with SVN commit rights)
 --------
-Casimir666              <casimir666@users.sourceforge.net>      Code, Admin, French
 clsid                   <clsid2@users.sourceforge.net>          Code
-Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code
-tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
-jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
-XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
-xpc1000                 <xpc1000@users.sourceforge.net>         Code
+tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
 Underground78           <underground78@users.sourceforge.net>   Code, French
-v0lt                    <v0lt@users.sourceforge.net>            Code
+v0lt                    <v0lt@users.sourceforge.net>            Code, Russian
+Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code, Russian
+XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Admin
 
 
 Inactive:
 ----------
-Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
 _xxl                    <drevil_xxl@users.sourceforge.net>      FFMpeg
-MatMaul                 <matmaul@users.sourceforge.net>         Code
-Beliyaal                <beliyaal@users.sourceforge.net>        Code
-Martin Panayotov        <mvpsoft@users.sourceforge.net>         Website
+Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
 Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
+Attila T. Afra          <attila.afra@gmail.com>                 Code
+Beliyaal                <beliyaal@users.sourceforge.net>        Code
+Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       Code
+Casimir666              <casimir666@users.sourceforge.net>      Founder, Code, Admin, French
+jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
+KindDragon              <kinddragon@users.sourceforge.net>      Code
+Martin Panayotov        <mvpsoft@users.sourceforge.net>         Website
+MatMaul                 <matmaul@users.sourceforge.net>         Code
 spec-chum               <spec-chum@users.sourceforge.net>       Code
 Tomas Sen               <tomasen@users.sourceforge.net>         Code
-Attila T. Afra          <attila.afra@gmail.com>                 Code
-KindDragon              <kinddragon@users.sourceforge.net>      Code
-Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       Code
+xpc1000                 <xpc1000@users.sourceforge.net>         Code
 
 
 Translators:
 -------------
-YDY                     <ydy@users.sourceforge.net>             Russian
-Bosluk                  <bosluk@users.sourceforge.net>          Turkish
-khagaroth               <khagaroth@users.sourceforge.net>       Czech
-SquallMX                <squallmx@users.sourceforge.net>        Spanish
-Tamas Kleiber           <klei@users.sourceforge.net>            Hungarian
-XNeo                    <xneokr@users.sourceforge.net>          Korean
-arch__stanton           <arch__stanton@users.sourceforge.net>   Polish
-SigiTM                  <sigitm@users.sourceforge.net>          Italian
-Ihor Bobalo             <ibobalo@users.sourceforge.net>         Ukrainian
-Marian Hikanik          <mhikanik@users.sourceforge.net>        Slovak
-Kene Lin                <kenelin@users.sourceforge.net>         Chinese Traditional
-Bonami                  <bonami@users.sourceforge.net>          Chinese Simplified
-Mister-sh               <mister-sh@users.sourceforge.net>       Belarusian
-Roger Felipe            <rfrfrfrf@users.sourceforge.net>        Portuguese - Brazil
-Paul Tjepkema           <pietpuk123@users.sourceforge.net>      Dutch
-xiulet                  <xiulet@users.sourceforge.net>          Catalan
-arestarh                <arestarh1986@users.sourceforge.net>    Ukrainian
-Sebastiii               <sebastiii@users.sourceforge.net>       French
-roytam1                 <roytam1@users.sourceforge.net>         Japanese, Chinese Traditional, Chinese Simplified
-hrant77                 <hrant77@users.sourceforge.net>         Armenian
-Markus Gaugg            <prinzeugen@users.sourceforge.net>      German
-Superb                                                          Hebrew
+Armenian                hrant77                 <hrant77@users.sourceforge.net>
+Belarusian              Mister-sh               <mister-sh@users.sourceforge.net>
+Catalan                 xiulet                  <xiulet@users.sourceforge.net>
+Chinese Simplified      Bonami                  <bonami@users.sourceforge.net>
+Chinese Traditional     Kene Lin                <kenelin@users.sourceforge.net>
+Czech                   khagaroth               <khagaroth@users.sourceforge.net>
+Dutch                   Paul Tjepkema           <pietpuk123@users.sourceforge.net>
+French                  Sebastiii               <sebastiii@users.sourceforge.net>
+German                  Markus Gaugg            <prinzeugen@users.sourceforge.net>
+Hebrew                  Superb                  <superbsubs@users.sourceforge.net>
+Hungarian               Tamas Kleiber           <klei@users.sourceforge.net>
+Italian                 SigiTM                  <sigitm@users.sourceforge.net>
+Japanese, Chinese
+Simplified/Traditional  roytam1                 <roytam1@users.sourceforge.net>
+Korean                  XNeo                    <xneokr@users.sourceforge.net>
+Polish                  arch__stanton           <arch__stanton@users.sourceforge.net>
+Polish                  Haix                    <haix@users.sourceforge.net>
+Polish                  kasper93                <kasper93@users.sourceforge.net>
+Portuguese (Brazil)     Roger Felipe            <rfrfrfrf@users.sourceforge.net>
+Russian                 YDY                     <ydy@users.sourceforge.net>
+Slovak                  Marian Hikanik          <mhikanik@users.sourceforge.net>
+Spanish                 SquallMX                <squallmx@users.sourceforge.net>
+Turkish                 Bosluk                  <bosluk@users.sourceforge.net>
+Ukrainian               Ihor Bobalo             <ibobalo@users.sourceforge.net>
+Ukrainian               arestarh                <arestarh1986@users.sourceforge.net>
 
 
-Contributors: (listed alphabetically)
+Contributors:
 --------------
-Alexx999, foxx1337, Haix (Polish), heksesang, judelaw, madshi, mtrz,
-nielsm, skaarj1, VSFilterMod team, X-Dron
+Alexx999, foxx1337, heksesang, judelaw, madshi, mtrz, nielsm,
+skaarj1, VSFilterMod team, X-Dron
 
 
 Trac moderators:
