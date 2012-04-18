@@ -22,6 +22,8 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 CLS
 SETLOCAL
 CD /D %~dp0
+REM Check if the bin folder exists otherwise MSBuild will fail
+IF NOT EXIST "bin" MD "bin"
 
 IF /I "%~1"=="help"   GOTO ShowHelp
 IF /I "%~1"=="/help"  GOTO ShowHelp
@@ -166,29 +168,32 @@ EXIT /B
 
 :SubMPCHC
 TITLE Compiling MPC-HC - %BUILDCONFIG%^|%1...
-devenv /nologo mpc-hc.sln /%BUILDTYPE% "%BUILDCONFIG%|%1"
+"%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpc-hc.sln^
+ /target:%BUILDTYPE% /property:Configuration=%BUILDCONFIG%;Platform=%1^
+ /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
+ /flp1:LogFile=bin\errors_%1.txt;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=bin\warnings_%1.txt;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 EXIT /B
 
 
 :SubResources
 TITLE Compiling mpciconlib - Release^|%1...
-devenv /nologo mpciconlib.sln /%BUILDTYPE% "Release|%1"
+"%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpciconlib.sln^
+ /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1^
+ /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 
 FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese Simplified" "Chinese Traditional"
  "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
  "Polish" "Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
- CALL :SubMPCRES %%A %1
+ TITLE Compiling mpcresources - %%~A^|%1...
+ "%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpcresources.sln^
+  /target:%BUILDTYPE% /property:Configuration="Release %%~A";Platform=%1^
+  /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true
+ IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 )
-EXIT /B
-
-
-:SubMPCRES
-TITLE Compiling mpcresources - %~1^|%2...
-devenv /nologo mpcresources.sln /%BUILDTYPE% "Release %~1|%2"
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 EXIT /B
 
 
