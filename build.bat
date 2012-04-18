@@ -1,4 +1,6 @@
 @ECHO OFF
+REM $Id$
+REM
 REM (C) 2009-2012 see Authors.txt
 REM
 REM This file is part of MPC-HC.
@@ -16,7 +18,6 @@ REM
 REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-REM $Id$
 
 CLS
 SETLOCAL
@@ -175,7 +176,7 @@ TITLE Compiling mpciconlib - Release^|%1...
 devenv /nologo mpciconlib.sln /%BUILDTYPE% "Release|%1"
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 
-FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese simplified" "Chinese traditional"
+FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese Simplified" "Chinese Traditional"
  "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
  "Polish" "Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
