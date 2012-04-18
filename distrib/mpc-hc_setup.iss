@@ -132,7 +132,7 @@ Name: nl; MessagesFile: compiler:Languages\Dutch.isl
 Name: pl; MessagesFile: compiler:Languages\Polish.isl
 Name: ru; MessagesFile: compiler:Languages\Russian.isl
 Name: sc; MessagesFile: Languages\ChineseSimp.isl
-Name: se; MessagesFile: Languages\Swedish.isl
+Name: sv; MessagesFile: Languages\Swedish.isl
 Name: sk; MessagesFile: compiler:Languages\Slovak.isl
 Name: tc; MessagesFile: Languages\ChineseTrad.isl
 Name: tr; MessagesFile: Languages\Turkish.isl

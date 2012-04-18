@@ -101,8 +101,8 @@ sc.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 sc.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Swedish
-se.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
-se.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
+sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
+sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
 
 ;Slovakian
 sk.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -509,24 +509,24 @@ sc.ViewChangelog=查看更新日志
 
 
 ;Swedish
-se.langid=00000016
-se.comp_mpciconlib=Ikonbibliotek
-se.comp_mpcresources=Översättningar
-se.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
-se.msg_NoD3DX9DLL_found=Senaste DirectX har inte installerats!%n%nHämta ner och installera senaste DirectX ({#DIRECTX_SDK_DATE}) oavsett ditt operativsystem.
-se.msg_SetupIsRunningWarning=Konfigurering av MPC-HC pågår redan!
+sv.langid=00000016
+sv.comp_mpciconlib=Ikonbibliotek
+sv.comp_mpcresources=Översättningar
+sv.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
+sv.msg_NoD3DX9DLL_found=Senaste DirectX har inte installerats!%n%nHämta ner och installera senaste DirectX ({#DIRECTX_SDK_DATE}) oavsett ditt operativsystem.
+sv.msg_SetupIsRunningWarning=Konfigurering av MPC-HC pågår redan!
 #if defined(sse_required)
-se.msg_simd_sse=Detta bygge av MPC-HC kräver en processor med stöd för SSE-tillägget.%n%nDin processor saknar detta stöd.
+sv.msg_simd_sse=Detta bygge av MPC-HC kräver en processor med stöd för SSE-tillägget.%n%nDin processor saknar detta stöd.
 #elif defined(sse2_required)
-se.msg_simd_sse2=Detta bygge av MPC-HC kräver en processor med stöd för SSE2-tillägget.%n%nDin processor saknar detta stöd.
+sv.msg_simd_sse2=Detta bygge av MPC-HC kräver en processor med stöd för SSE2-tillägget.%n%nDin processor saknar detta stöd.
 #endif
-se.tsk_AllUsers=För alla användare
-se.tsk_CurrentUser=Endast för den aktuella användaren
-se.tsk_Other=Andra uppgifter:
-se.tsk_ResetSettings=Återställ inställningar
-se.types_DefaultInstallation=Standardinstallation
-se.types_CustomInstallation=Anpassad installation
-se.ViewChangelog=Visa ändringslogg
+sv.tsk_AllUsers=För alla användare
+sv.tsk_CurrentUser=Endast för den aktuella användaren
+sv.tsk_Other=Andra uppgifter:
+sv.tsk_ResetSettings=Återställ inställningar
+sv.types_DefaultInstallation=Standardinstallation
+sv.types_CustomInstallation=Anpassad installation
+sv.ViewChangelog=Visa ändringslogg
 
 
 ;Slovakian
