@@ -34,7 +34,7 @@
 
 #include <Version.h>
 
-#ifndef WIN64
+#ifndef _WIN64
 #define VERSION_ARCH x86
 #else
 #define VERSION_ARCH x64

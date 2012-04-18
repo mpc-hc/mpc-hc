@@ -58,7 +58,7 @@ void Scale2x_YV( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 	AvgLines8(d, h*2, dpitch);
 }
 
-#ifdef WIN64
+#ifdef _WIN64
 void Scale2x_YUY2_SSE2( BYTE* s1, BYTE* d1, int w )
 {
 	unsigned __int64 __0xffffffff00000000 = 0xffffffff00000000;
@@ -209,7 +209,7 @@ void Scale2x_YUY2_c( BYTE* s1, BYTE* d1, int w )
 void Scale2x_YUY2( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 {
 	void (*scale_func)(BYTE* s1, BYTE* d1, int w);
-#ifdef WIN64
+#ifdef _WIN64
 	scale_func = Scale2x_YUY2_SSE2;
 #else
 	scale_func = Scale2x_YUY2_MMX;
@@ -235,7 +235,7 @@ void Scale2x_YUY2( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 		d1 += dpitch;
 	}
 
-#ifndef WIN64
+#ifndef _WIN64
 	__asm emms;
 #endif
 
@@ -337,7 +337,7 @@ void Scale2x_RGB24( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 	AvgLines8(d, h*2, dpitch);
 }
 
-#ifdef WIN64
+#ifdef _WIN64
 void Scale2x_XRGB32_SSE2( BYTE* s1, BYTE* d1, int w )
 {
 	__m128i mm_zero = _mm_setzero_si128();//pxor	mm0, mm0
@@ -430,7 +430,7 @@ void Scale2x_XRGB32_c( BYTE* s1, BYTE* d1, int w )
 void Scale2x_XRGB32( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 {
 	void (*scale_func)(BYTE* s1, BYTE* d1, int w);
-#ifdef WIN64
+#ifdef _WIN64
 	scale_func = Scale2x_XRGB32_SSE2;
 #else
 	scale_func = Scale2x_XRGB32_MMX;
@@ -448,7 +448,7 @@ void Scale2x_XRGB32( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 		d1 += dpitch;
 	}
 
-#ifndef WIN64
+#ifndef _WIN64
 	__asm emms;
 #endif
 
