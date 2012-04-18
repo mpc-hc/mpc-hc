@@ -700,7 +700,11 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						case AP4_MPEG2_AAC_AUDIO_SSRP_OTI: // ???
 							if (di->GetDataSize() > 10) {
 								if (*(DWORD*)(di->GetData()+6) == 0x00534c41) { // 'ALS\0' sync word
-									continue;
+									DWORD fourcc = MAKEFOURCC('A','L','S',' ');
+									wfe->wFormatTag = (WORD)fourcc;
+									mt.subtype = FOURCCMap(fourcc); // create our own GUID - {20534C41-0000-0010-8000-00AA00389B71}
+									mts.Add(mt);
+									break;
 								}
 							}
 							mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);

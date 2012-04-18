@@ -93,12 +93,14 @@ SRCS_C=\
     libavcodec/adpcm_data.c \
     libavcodec/alac.c \
     libavcodec/allcodecs.c \
+    libavcodec/alsdec.c \
     libavcodec/amrnbdec.c \
     libavcodec/amrwbdec.c \
     libavcodec/atrac.c \
     libavcodec/atrac3.c \
     libavcodec/avfft.c \
     libavcodec/avpacket.c \
+    libavcodec/bgmc.c \
     libavcodec/bitstream.c \
     libavcodec/cabac.c \
     libavcodec/celp_filters.c \

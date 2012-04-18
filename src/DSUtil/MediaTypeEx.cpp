@@ -364,6 +364,8 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
 			str += _T("ADPCM");
 		} else if (subtype == MEDIASUBTYPE_ALAC) {
 			str += _T("Alac");
+		} else if (subtype == MEDIASUBTYPE_ALS) {
+			str += _T("ALS");
 		} else {
 			str.Format(_T("0x%04x"), wFormatTag);
 		}

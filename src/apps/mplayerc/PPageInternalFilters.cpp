@@ -107,6 +107,9 @@ static filter_t s_filters[] = {
 #if INTERNAL_DECODER_ALAC
 	{_T("ALAC"), DECODER, TRA_ALAC, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
+#if INTERNAL_DECODER_ALS
+	{_T("ALS"), DECODER, TRA_ALS, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
+#endif
 #if INTERNAL_DECODER_AMR
 	{_T("AMR"), DECODER, TRA_AMR, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
