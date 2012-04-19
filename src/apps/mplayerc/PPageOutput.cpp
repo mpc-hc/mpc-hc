@@ -314,7 +314,7 @@ BOOL CPPageOutput::OnApply()
 
 	if (!m_iEvrBuffers.IsEmpty()) {
 		int Temp = 5;
-		swscanf_s(m_iEvrBuffers.GetBuffer(), L"%d", &Temp);
+		swscanf(m_iEvrBuffers.GetBuffer(), L"%d", &Temp);
 		renderersSettings.iEvrBuffers = Temp;
 	} else {
 		renderersSettings.iEvrBuffers = 5;
