@@ -322,7 +322,7 @@ BOOL CResizableLayout::NeedsRefresh(const CResizableLayout::LayoutInfo& layout,
 	if (layout.sWndClass == WC_STATIC)
 	{
 //mpc-hc custom code start
-		DWORD style = ::GetWindowLongPtr(layout.hWnd, GWL_STYLE);
+		LONG_PTR style = ::GetWindowLongPtr(layout.hWnd, GWL_STYLE);
 //mpc-hc custom code end
 
 		switch (style & SS_TYPEMASK)
@@ -401,7 +401,7 @@ BOOL CResizableLayout::LikesClipping(const CResizableLayout::LayoutInfo& layout)
 	}
 
 //mpc-hc custom code start
-	DWORD style = ::GetWindowLongPtr(layout.hWnd, GWL_STYLE);
+	LONG_PTR style = ::GetWindowLongPtr(layout.hWnd, GWL_STYLE);
 //mpc-hc custom code end
 
 	// skip windows that wants background repainted
