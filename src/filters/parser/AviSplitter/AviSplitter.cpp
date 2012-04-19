@@ -727,7 +727,7 @@ STDMETHODIMP CAviSplitterFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID
 		for (unsigned int i = 0; i < m_pFile->m_strms.GetCount(); ++i) {
 			CAviFile::strm_t* s = m_pFile->m_strms[i];
 			if (s->strh.fccType == FCC('vids')) {
-				if (Source < 0 || Source >= s->cs.GetCount()) {
+				if (Source < 0 || Source >= (LONGLONG)s->cs.GetCount()) {
 					return E_FAIL;
 				}
 				CAviFile::strm_t::chunk& c = s->cs[(size_t)Source];
