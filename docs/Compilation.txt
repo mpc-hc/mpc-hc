@@ -13,7 +13,7 @@ Part A: Preparing the Visual Studio environment
 Part B: Preparing the GCC environment
  NOTES:
   * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
-  * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.5.2.0.
+  * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.6.2.0.
 
  1. Download and extract MSYS_MinGW_GCC_470_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_470_x86-x64.7z
     For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_470_x86-x64_components.txt
@@ -52,7 +52,7 @@ Part C: Downloading and compiling the MPC-HC source
     For Win32 platform      $(MINGW32)\lib\gcc\i686-pc-mingw32\4.7.0;$(MINGW32)\i686-pc-mingw32\lib\
     For x64 platform        $(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.7.0;$(MINGW64)\x86_64-w64-mingw32\lib\
 
-Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.7.0
+Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.7.1
 Another way to do it, is by copying the needed MinGW libs (libgcc.a and libmingwex.a) into the C:\mpc-hc\lib and C:\mpc-hc\lib64 folders.
 
 
@@ -104,7 +104,7 @@ Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
  2. checkout the MinGW64 files by running: buildmingwlibs.sh --update
  3. run the buildmingwlibs.sh script, only to compile:
       buildmingwlibs.sh --compile
-    Or
+    or
       buildmingwlibs.sh --update --compile
 
 After the compilation is done, libgcc.a and libmingwex.a will be placed in C:\mpc-hc\lib64
@@ -115,4 +115,4 @@ Part E: Building the installer
 
 Download Inno Setup Unicode v5.4.3 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup, read the first comments in the script and compile it.
-Note: ISTool does not handle Unicode well so don't use it. Use Inno Setup's built-in IDE.
+Note: Use Inno Setup's built-in IDE.

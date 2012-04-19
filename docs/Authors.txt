@@ -16,7 +16,7 @@ Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
 Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code
 Beliyaal                <beliyaal@users.sourceforge.net>        Code
-Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       Code
+Di Luo                  <sansnom05@users.sourceforge.net>       Code
 Casimir666              <casimir666@users.sourceforge.net>      Founder, Code, Admin, French
 jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
 KindDragon              <kinddragon@users.sourceforge.net>      Code
@@ -42,7 +42,7 @@ Hebrew                  Superb                  <superbsubs@users.sourceforge.ne
 Hungarian               Tamas Kleiber           <klei@users.sourceforge.net>
 Italian                 SigiTM                  <sigitm@users.sourceforge.net>
 Japanese, Chinese
-Simplified/Traditional  roytam1                 <roytam1@users.sourceforge.net>
+Simplified/Traditional  roytam                  <roytam1@users.sourceforge.net>
 Korean                  XNeo                    <xneokr@users.sourceforge.net>
 Polish                  arch__stanton           <arch__stanton@users.sourceforge.net>
 Polish                  Haix                    <haix@users.sourceforge.net>
