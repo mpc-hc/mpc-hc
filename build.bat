@@ -285,9 +285,13 @@ EXIT /B
 
 
 :SubMsg
-ECHO. & ECHO ______________________________
-ECHO [%~1] %~2
-ECHO ______________________________ & ECHO.
+ECHO. & ECHO ------------------------------
+IF /I "%~1" == "ERROR" (
+  CALL :ColorText "0C" "[%~1]" & ECHO  %~2
+) ELSE IF /I "%~1" == "INFO" (
+  CALL :ColorText "0E" "[%~1]" & ECHO  %~2
+)
+ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
   PAUSE
   ENDLOCAL
@@ -295,3 +299,12 @@ IF /I "%~1" == "ERROR" (
 ) ELSE (
   EXIT /B
 )
+
+
+:ColorText
+FOR /F "tokens=1,2 delims=#" %%a IN (
+  '"PROMPT #$H#$E# & ECHO ON & FOR %%b IN (1) DO REM"') DO (
+  SET "DEL=%%a")
+<NUL SET /p ".=%DEL%" > "%~2"
+FINDSTR /v /a:%1 /R ".18" "%~2" NUL
+DEL "%~2" > NUL 2>&1
