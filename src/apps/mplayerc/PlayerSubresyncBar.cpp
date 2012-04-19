@@ -239,7 +239,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
 
 		for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
 			int vobid, cellid, forced, spnum, c;
-			if (_stscanf(m_sts.GetStr(i), _T("%d%c%d%c%d%c%d"), &vobid, &c, &cellid, &c, &forced, &c, &spnum) != 7) {
+			if (_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d%c%d"), &vobid, &c, &cellid, &c, &forced, &c, &spnum) != 7) {
 				continue;
 			}
 			sp[spnum].start = m_sts[i].start;
@@ -409,7 +409,7 @@ void CPlayerSubresyncBar::UpdateStrings()
 	} else if (m_mode == VOBSUB) {
 		for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
 			int vobid, cellid, forced, c;
-			if (_stscanf(m_sts.GetStr(i), _T("%d%c%d%c%d"), &vobid, &c, &cellid, &c, &forced) != 5) {
+			if (_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d"), &vobid, &c, &cellid, &c, &forced) != 5) {
 				continue;
 			}
 			if (vobid < 0) {
@@ -531,7 +531,7 @@ void CPlayerSubresyncBar::FormatTime(int iItem, TCHAR* buff, size_t buffLen, int
 				   : time == 1 ? m_subtimes[iItem].newend
 				   : m_subtimes[iItem].orgend);
 
-	_stprintf(buff, buffLen, t >= 0
+	_stprintf_s(buff, buffLen, t >= 0
 			  ? _T("%02d:%02d:%02d.%03d")
 			  : _T("-%02d:%02d:%02d.%03d"),
 			  abs(t)/60/60/1000,
@@ -577,7 +577,7 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
 		sign = -1;
 	}
 
-	int n = _stscanf(str, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms);
+	int n = _stscanf_s(str, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms);
 
 	h = abs(h);
 

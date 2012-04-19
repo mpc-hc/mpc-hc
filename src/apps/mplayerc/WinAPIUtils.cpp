@@ -259,7 +259,7 @@ bool IsFontInstalled(LPCTSTR lpszFont)
 	// Any character set will do
 	lf.lfCharSet = DEFAULT_CHARSET;
 	// Set the facename to check for
-	_tcscpy(lf.lfFaceName, lpszFont);
+	_tcscpy_s(lf.lfFaceName, lpszFont);
 	LPARAM lParam = 0;
 	// Enumerate fonts
 	EnumFontFamiliesEx(dc.GetSafeHdc(), &lf, (FONTENUMPROC)EnumFontFamExProc, (LPARAM)&lParam, 0);

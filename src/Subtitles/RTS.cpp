@@ -55,7 +55,7 @@ CMyFont::CMyFont(STSStyle& style)
 #endif
 
 	if (!CreateFontIndirect(&lf)) {
-		_tcscpy(lf.lfFaceName, _T("Arial"));
+		_tcscpy_s(lf.lfFaceName, _T("Arial"));
 		CreateFontIndirect(&lf);
 	}
 
@@ -1828,7 +1828,7 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
 
 	if (!effect.CompareNoCase(_T("Banner;"))) {
 		int delay, lefttoright = 0, fadeawaywidth = 0;
-		if (_stscanf(s, _T("%d;%d;%d"), &delay, &lefttoright, &fadeawaywidth) < 1) {
+		if (_stscanf_s(s, _T("%d;%d;%d"), &delay, &lefttoright, &fadeawaywidth) < 1) {
 			return;
 		}
 
@@ -1845,7 +1845,7 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
 		sub->m_wrapStyle = 2;
 	} else if (!effect.CompareNoCase(_T("Scroll up;")) || !effect.CompareNoCase(_T("Scroll down;"))) {
 		int top, bottom, delay, fadeawayheight = 0;
-		if (_stscanf(s, _T("%d;%d;%d;%d"), &top, &bottom, &delay, &fadeawayheight) < 3) {
+		if (_stscanf_s(s, _T("%d;%d;%d;%d"), &top, &bottom, &delay, &fadeawayheight) < 3) {
 			return;
 		}
 

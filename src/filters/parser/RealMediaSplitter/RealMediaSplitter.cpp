@@ -472,7 +472,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						&& (n = strtol(key.Mid(7), NULL, 10)) > 0) {
 					int h, m, s, ms;
 					char c;
-					if (7 != sscanf(value, "%d%c%d%c%d%c%d", &h, &c, &m, &c, &s, &c, &ms)) {
+					if (7 != sscanf_s(value, "%d%c%d%c%d%c%d", &h, &c, &m, &c, &s, &c, &ms)) {
 						continue;
 					}
 
@@ -2407,7 +2407,7 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 		};
 
 		if (!_tcscmp(_T("RACP"), fourcc) || !_tcscmp(_T("\xff"), fourcc)) {
-			_tcscpy(fourcc, _T("RAAC"));
+			_tcscpy_s(fourcc, _T("RAAC"));
 		}
 
 		olddll.Format(_T("%s3260.dll"), fourcc);

@@ -700,16 +700,16 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 		}
 
 		if (!_tcsnicmp(code, _T("{c:$"), 4)) {
-			_stscanf(code, _T("{c:$%x"), &ret->colors[0]);
+			_stscanf_s(code, _T("{c:$%x"), &ret->colors[0]);
 		} else if (!_tcsnicmp(code, _T("{f:"), 3)) {
 			ret->fontName = code.Mid(3);
 		} else if (!_tcsnicmp(code, _T("{s:"), 3)) {
 			double f;
-			if (1 == _stscanf(code, _T("{s:%f"), &f)) {
+			if (1 == _stscanf_s(code, _T("{s:%f"), &f)) {
 				ret->fontSize = f;
 			}
 		} else if (!_tcsnicmp(code, _T("{h:"), 3)) {
-			_stscanf(code, _T("{h:%d"), &ret->charSet);
+			_stscanf_s(code, _T("{h:%d"), &ret->charSet);
 		} else if (!_tcsnicmp(code, _T("{y:"), 3)) {
 			code.MakeLower();
 			if (code.Find('b') >= 0) {
@@ -726,7 +726,7 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 			}
 		} else if (!_tcsnicmp(code, _T("{p:"), 3)) {
 			int p;
-			_stscanf(code, _T("{p:%d"), &p);
+			_stscanf_s(code, _T("{p:%d"), &p);
 			ret->scrAlignment = (p == 0) ? 8 : 2;
 		}
 
@@ -2294,7 +2294,7 @@ void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
 
 		CString name2 = name;
 
-		if (i < len && _stscanf(name.Right(len-i), _T("%d"), &idx) == 1) {
+		if (i < len && _stscanf_s(name.Right(len-i), _T("%d"), &idx) == 1) {
 			name2 = name.Left(i);
 		}
 

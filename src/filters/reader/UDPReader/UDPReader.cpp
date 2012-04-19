@@ -411,7 +411,7 @@ DWORD CUDPStream::ThreadProc()
 							if (buffsize >= len && !memcmp(&buff[buffsize-len], &buff[buffsize], len)) {
 								DWORD pid = ((buff[buffsize+1]<<8)|buff[buffsize+2])&0x1fff;
 								DWORD counter = buff[buffsize+3]&0xf;
-								_ftprintf(log, _T("%04d %2d DUP\n"), pid, counter);
+								_ftprintf_s(log, _T("%04d %2d DUP\n"), pid, counter);
 							}
 						}
 #endif
@@ -436,7 +436,7 @@ DWORD CUDPStream::ThreadProc()
 									DWORD pid = ((buff[i+1]<<8)|buff[i+2])&0x1fff;
 									DWORD counter = buff[i+3]&0xf;
 									if (pid2counter[pid] != ((counter-1+16)&15)) {
-										_ftprintf(log, _T("%04x %2d -> %2d\n"), pid, pid2counter[pid], counter);
+										_ftprintf_s(log, _T("%04x %2d -> %2d\n"), pid, pid2counter[pid], counter);
 									}
 									pid2counter[pid] = counter;
 								}

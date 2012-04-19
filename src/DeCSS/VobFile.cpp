@@ -512,9 +512,9 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 				int fpsMask = bytes[3] >> 6;
 				double fps = fpsMask == 0x01 ? 25 : fpsMask == 0x03 ? (30 / 1.001): 0;
 				CString tmp;
-				int hours = bytes[0]; tmp.Format(_T("%x"), hours); _stscanf(tmp, _T("%d"), &hours);
-				int minutes = bytes[1]; tmp.Format(_T("%x"), minutes); _stscanf(tmp, _T("%d"), &minutes);
-				int seconds = bytes[2]; tmp.Format(_T("%x"), seconds); _stscanf(tmp, _T("%d"), &seconds);
+				int hours = bytes[0]; tmp.Format(_T("%x"), hours); _stscanf_s(tmp, _T("%d"), &hours);
+				int minutes = bytes[1]; tmp.Format(_T("%x"), minutes); _stscanf_s(tmp, _T("%d"), &minutes);
+				int seconds = bytes[2]; tmp.Format(_T("%x"), seconds); _stscanf_s(tmp, _T("%d"), &seconds);
 				int mmseconds = 0;
 				if (fps != 0){
 					mmseconds = 1000*frames / fps;

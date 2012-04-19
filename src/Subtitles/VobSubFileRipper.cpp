@@ -64,7 +64,7 @@ void CVobSubFileRipper::Log(log_t type, LPCTSTR lpszFormat, ...)
 
 	va_list args;
 	va_start(args, lpszFormat);
-	_vstprintf(buff, sizeof(buff)/sizeof(TCHAR), lpszFormat, args);
+	_vstprintf_s(buff, countof(buff), lpszFormat, args);
 	va_end(args);
 
 	CString msg;
@@ -1081,14 +1081,14 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 					int langnum;
 
 					if (_istdigit(lang[0])) {
-						n = _stscanf(lang, _T("%d"), &langnum);
+						n = _stscanf_s(lang, _T("%d"), &langnum);
 						if (n != 1) {
 							break;
 						}
 
 						m_rd.selids[langnum] = true;
 					} else if (_istalpha(lang[0])) {
-						n = _stscanf(lang, _T("%s"), langid);
+						n = _stscanf_s(lang, _T("%s"), langid);
 						if (n != 1) {
 							break;
 						}

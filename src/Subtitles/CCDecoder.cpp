@@ -113,23 +113,23 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 {
 	if (!m_rawfn.IsEmpty()) {
 		if (FILE* f = _tfopen(m_rawfn, _T("at"))) {
-			_ftprintf(f, _T("%02d:%02d:%02d.%03d\n"),
+			_ftprintf_s(f, _T("%02d:%02d:%02d.%03d\n"),
 					  (int)(time/1000/60/60),
 					  (int)((time/1000/60)%60),
 					  (int)((time/1000)%60),
 					  (int)(time%1000));
 
 			for (ptrdiff_t i = 0; i < len; i++) {
-				_ftprintf(f, _T("%02x"), buff[i]);
+				_ftprintf_s(f, _T("%02x"), buff[i]);
 				if (i < len-1) {
-					_ftprintf(f, _T(" "));
+					_ftprintf_s(f, _T(" "));
 				}
 				if (i > 0 && (i&15)==15) {
-					_ftprintf(f, _T("\n"));
+					_ftprintf_s(f, _T("\n"));
 				}
 			}
 			if (len > 0) {
-				_ftprintf(f, _T("\n\n"));
+				_ftprintf_s(f, _T("\n\n"));
 			}
 			fclose(f);
 		}
