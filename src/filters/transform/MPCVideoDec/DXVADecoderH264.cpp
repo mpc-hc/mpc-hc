@@ -226,6 +226,11 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	// Wait I frame after a flush
 	if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag) {
 		TRACE_H264 ("CDXVADecoderH264::DecodeFrame() : Flush - wait I frame\n");
+		m_nBrokenFramesFlag		= 0;
+		m_nBrokenFramesFlag_POC	= 0;
+		m_nfield_pic_flag		= m_DXVAPicParams.field_pic_flag;
+		m_nRefPicFlag			= m_DXVAPicParams.RefPicFlag;
+		m_nPrevOutPOC			= INT_MIN;
 		return S_FALSE;
 	}
 
@@ -246,7 +251,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	if (m_nBrokenFramesFlag > 4) {
 		m_nBrokenFramesFlag = 0;
-		if (m_nBrokenFramesFlag_POC) {
+		if (m_nBrokenFramesFlag_POC > 1) {
 			TRACE_H264 ("CDXVADecoderH264::DecodeFrame() : Detected broken frames ... flush data\n");
 			m_nBrokenFramesFlag_POC	= 0;
 			Flush();
