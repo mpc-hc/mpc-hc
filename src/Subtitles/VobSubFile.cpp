@@ -776,16 +776,12 @@ bool CVobSubFile::ReadRar(CString fn)
 
 	struct RAROpenArchiveDataEx ArchiveDataEx;
 	memset(&ArchiveDataEx, 0, sizeof(ArchiveDataEx));
-#ifdef UNICODE
 	ArchiveDataEx.ArcNameW = (LPTSTR)(LPCTSTR)fn;
 	char fnA[_MAX_PATH];
 	if (wcstombs(fnA, fn, fn.GetLength()+1) == -1) {
 		fnA[0] = 0;
 	}
 	ArchiveDataEx.ArcName = fnA;
-#else
-	ArchiveDataEx.ArcName = (LPTSTR)(LPCTSTR)fn;
-#endif
 	ArchiveDataEx.OpenMode = RAR_OM_EXTRACT;
 	ArchiveDataEx.CmtBuf = 0;
 	HANDLE hrar = OpenArchiveEx(&ArchiveDataEx);
@@ -800,11 +796,7 @@ bool CVobSubFile::ReadRar(CString fn)
 	HeaderDataEx.CmtBuf = NULL;
 
 	while (ReadHeaderEx(hrar, &HeaderDataEx) == 0) {
-#ifdef UNICODE
 		CString subfn(HeaderDataEx.FileNameW);
-#else
-		CString subfn(HeaderDataEx.FileName);
-#endif
 
 		if (!subfn.Right(4).CompareNoCase(_T(".sub"))) {
 			CAutoVectorPtr<BYTE> buff;

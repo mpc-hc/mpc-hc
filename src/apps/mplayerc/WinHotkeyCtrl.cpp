@@ -67,20 +67,6 @@ void CWinHotkeyCtrl::PreSubclassWindow()
 	UpdateText();
 }
 
-#if _WIN32_WINNT < 0x500
-
-LRESULT CALLBACK CWinHotkeyCtrl::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
-{
-	LRESULT lResult = 1;
-
-	if (nCode == HC_ACTION && sm_pwhcFocus) {
-		sm_pwhcFocus->PostMessage(WM_KEY, wParam, (lParam & 0x80000000));
-	}
-	return(lResult);
-}
-
-#else // _WIN32_WINNT >= 0x500
-
 LRESULT CALLBACK CWinHotkeyCtrl::LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT lResult = 1;
@@ -92,8 +78,6 @@ LRESULT CALLBACK CWinHotkeyCtrl::LowLevelKeyboardProc(int nCode, WPARAM wParam, 
 	return(lResult);
 }
 
-#endif // _WIN32_WINNT >= 0x500
-
 BOOL CWinHotkeyCtrl::InstallKbHook()
 {
 	if (sm_pwhcFocus && sm_hhookKb) {
@@ -101,11 +85,7 @@ BOOL CWinHotkeyCtrl::InstallKbHook()
 	}
 	sm_pwhcFocus = this;
 
-#if _WIN32_WINNT < 0x500
-	sm_hhookKb = ::SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)KeyboardProc, NULL, GetCurrentThreadId());
-#else // _WIN32_WINNT >= 0x500
 	sm_hhookKb = ::SetWindowsHookEx(WH_KEYBOARD_LL, (HOOKPROC)LowLevelKeyboardProc, GetModuleHandle(NULL), NULL);
-#endif // _WIN32_WINNT >= 0x500
 
 	return(sm_hhookKb != NULL);
 }

@@ -154,17 +154,6 @@ void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
 		m_sts.ConvertToTimeBased(fps);
 		m_sts.Sort(true); /*!!m_fUnlink*/
 
-#ifndef UNICODE
-		if (!m_sts.IsEntryUnicode(0)) {
-			CFont* f = m_list.GetFont();
-			LOGFONT lf;
-			f->GetLogFont(&lf);
-			lf.lfCharSet = m_sts.GetCharSet(0);
-			m_font.DeleteObject();
-			m_font.CreateFontIndirect(&lf);
-			m_list.SetFont(&m_font);
-		}
-#endif
 		for (int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) {
 			m_list.DeleteColumn(0);
 		}

@@ -1397,11 +1397,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 					if (TCHAR* s = (TCHAR*)GlobalLock(h)) {
 						_tcscpy(s, str);
 						GlobalUnlock(h);
-#ifdef UNICODE
 						SetClipboardData(CF_UNICODETEXT, h);
-#else
-						SetClipboardData(CF_TEXT, h);
-#endif
 					}
 				}
 				CloseClipboard();

@@ -53,11 +53,7 @@ private:
 	BOOL InstallKbHook();
 	BOOL UninstallKbHook();
 
-#if _WIN32_WINNT < 0x500
-	static LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam);
-#else // _WIN32_WINNT >= 0x500
 	static LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam);
-#endif // _WIN32_WINNT >= 0x500
 
 	afx_msg LRESULT OnKey(WPARAM wParam, LPARAM lParam);
 
