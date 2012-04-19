@@ -1182,21 +1182,22 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 						break;
 					}
 					count++;
-				}
-				Seek(pos + 192);
-				if (BitRead(8, true) == 0x47) {
-					if (m_tslen != 192) {
-						count = 0;
+				} else {
+					Seek(pos + 192);
+					if (BitRead(8, true) == 0x47) {
+						if (m_tslen != 192) {
+							count = 0;
+						}
+						m_tslen = 192;    // M2TS stream
+						if (count > 1) {
+							break;
+						}
+						count++;
 					}
-					m_tslen = 192;    // M2TS stream
-					if (count > 1) {
-						break;
-					}
-					count++;
 				}
+			} else {
+				BitRead(8);
 			}
-
-			BitRead(8);
 		}
 
 		Seek(pos);
