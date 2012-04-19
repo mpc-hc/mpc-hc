@@ -58,7 +58,6 @@ void CEditWithButton_Base::DrawButton(CRect rectButton)
 {
 	CWindowDC dc(this);
 
-#ifdef UNICODE
 	HTHEME hButtonTheme = OpenThemeData(m_hWnd, _T("Button"));
 	if (hButtonTheme)
 	{
@@ -83,7 +82,6 @@ void CEditWithButton_Base::DrawButton(CRect rectButton)
 		CloseThemeData(hButtonTheme);
 	}
 	else
-#endif	//UNICODE
 	{
 		UINT uState = DFCS_BUTTONPUSH;
 		if (GetStyle() & (ES_READONLY | WS_DISABLED))
@@ -337,7 +335,6 @@ void CEditWithButton::DrawButtonContent(CDC& dc, CRect rectButton, HTHEME hButto
 {
 	CFont* pOldFont = dc.SelectObject(GetFont());
 
-#ifdef UNICODE
 	if (hButtonTheme)
 	{
 		DrawThemeText(hButtonTheme, dc.m_hDC, BP_PUSHBUTTON, GetButtonThemeState(),
@@ -345,7 +342,6 @@ void CEditWithButton::DrawButtonContent(CDC& dc, CRect rectButton, HTHEME hButto
 					  DT_CENTER | DT_VCENTER | DT_SINGLELINE, 0, rectButton);
 	}
 	else
-#endif UNICODE
 	{
 		if (GetStyle() & (ES_READONLY | WS_DISABLED))
 			dc.SetTextColor(GetSysColor(COLOR_GRAYTEXT));
