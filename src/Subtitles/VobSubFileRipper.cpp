@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "VobSubFileRipper.h"
 #include "../DeCSS/VobDec.h"
-#include "../Subtitles/CCDecoder.h"
+#include "CCDecoder.h"
 
 //
 // CVobSubFileRipper

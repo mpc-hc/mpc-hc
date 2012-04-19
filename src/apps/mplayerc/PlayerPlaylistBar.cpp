@@ -846,7 +846,7 @@ BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CSizingControlBarG)
 	ON_WM_SIZE()
 	ON_NOTIFY(LVN_KEYDOWN, IDC_PLAYLIST, OnLvnKeyDown)
 	ON_NOTIFY(NM_DBLCLK, IDC_PLAYLIST, OnNMDblclkList)
-	//	ON_NOTIFY(NM_CUSTOMDRAW, IDC_PLAYLIST, OnCustomdrawList)
+	//ON_NOTIFY(NM_CUSTOMDRAW, IDC_PLAYLIST, OnCustomdrawList)
 	ON_WM_DRAWITEM()
 	ON_COMMAND_EX(ID_PLAY_PLAY, OnPlayPlay)
 	ON_WM_DROPFILES()
@@ -1176,7 +1176,7 @@ void CPlayerPlaylistBar::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CPlayerPlaylistBar::DropItemOnList()
 {
-	m_ptDropPoint.y += 10; //
+	m_ptDropPoint.y += 10;
 	m_nDropIndex = m_list.HitTest(CPoint(10, m_ptDropPoint.y));
 
 	TCHAR szLabel[_MAX_PATH];
@@ -1302,7 +1302,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 	m_list.SubItemHitTest(&lvhti);
 
 	POSITION pos = FindPos(lvhti.iItem);
-	//	bool fSelected = (pos == m_pl.GetPos());
+	//bool fSelected = (pos == m_pl.GetPos());
 	bool fOnItem = !!(lvhti.flags&LVHT_ONITEM);
 
 	CMenu m;

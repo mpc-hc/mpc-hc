@@ -8019,7 +8019,7 @@ void CMainFrame::OnUpdatePlayLanguage(CCmdUI* pCmdUI)
 void CMainFrame::OnPlayVolume(UINT nID)
 {
 	if (m_iMediaLoadState == MLS_LOADED) {
-		CString		strVolume;
+		CString strVolume;
 		pBA->put_Volume(m_wndToolBar.Volume);
 
 		//strVolume.Format (L"Vol : %d dB", m_wndToolBar.Volume / 100);
@@ -8082,11 +8082,8 @@ void CMainFrame::OnCustomChannelMapping()
 {
 	if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
 		AppSettings& s = AfxGetAppSettings();
-
 		s.fCustomChannelMapping = !s.fCustomChannelMapping;
-
 		pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
-
 		m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(s.fCustomChannelMapping ? IDS_OSD_CUSTOM_CH_MAPPING_ON : IDS_OSD_CUSTOM_CH_MAPPING_OFF));
 	}
 }
@@ -8094,7 +8091,6 @@ void CMainFrame::OnCustomChannelMapping()
 void CMainFrame::OnUpdateCustomChannelMapping(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-
 	pCmdUI->Enable(s.fEnableAudioSwitcher);
 }
 
@@ -8116,7 +8112,6 @@ void CMainFrame::OnNormalizeRegainVolume(UINT nID)
 		}
 
 		pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost_dB);
-
 		m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
 	}
 }
@@ -8124,7 +8119,6 @@ void CMainFrame::OnNormalizeRegainVolume(UINT nID)
 void CMainFrame::OnUpdateNormalizeRegainVolume(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-
 	pCmdUI->Enable(s.fEnableAudioSwitcher);
 }
 
@@ -8132,7 +8126,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 {
 	if (m_pMC || m_pMFVP) {
 		AppSettings& s = AfxGetAppSettings();
-		COLORPROPERTY_RANGE*	cr;
+		COLORPROPERTY_RANGE* cr;
 		//ColorRanges* crs = AfxGetMyApp()->ColorControls;
 		int& brightness = s.iBrightness;
 		int& contrast   = s.iContrast;
@@ -8193,9 +8187,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 void CMainFrame::OnAfterplayback(UINT nID)
 {
 	AppSettings& s = AfxGetAppSettings();
-
 	s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK;
-
 	CString osdMsg;
 
 	switch (nID) {
@@ -8246,7 +8238,6 @@ void CMainFrame::OnAfterplayback(UINT nID)
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-
 	bool fChecked = false;
 
 	switch (pCmdUI->m_nID) {

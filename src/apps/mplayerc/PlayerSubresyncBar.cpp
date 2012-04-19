@@ -478,7 +478,7 @@ bool CPlayerSubresyncBar::ModStart(int iItem, int t, bool fReset)
 
 	SubTime& st = m_subtimes[iItem];
 
-	//	if (fStartMod || fStartAdj || st.orgstart != t || fReset)
+	//if (fStartMod || fStartAdj || st.orgstart != t || fReset)
 	{
 		fRet = (st.newstart != t);
 
@@ -504,7 +504,7 @@ bool CPlayerSubresyncBar::ModEnd(int iItem, int t, bool fReset)
 
 	SubTime& st = m_subtimes[iItem];
 
-	//	if (fEndMod || fEndAdj || st.orgend != t || fReset)
+	//if (fEndMod || fEndAdj || st.orgend != t || fReset)
 	{
 		fRet = (st.newend != t);
 
@@ -525,10 +525,10 @@ void CPlayerSubresyncBar::FormatTime(int iItem, TCHAR* buff, size_t buffLen, int
 {
 	int t = !fEnd
 			?(time == 2 ? m_sts[iItem].start
-			  : time == 1	? m_subtimes[iItem].newstart
+			  : time == 1 ? m_subtimes[iItem].newstart
 			  : m_subtimes[iItem].orgstart)
 				: (time == 2 ? m_sts[iItem].end
-				   : time == 1	? m_subtimes[iItem].newend
+				   : time == 1 ? m_subtimes[iItem].newend
 				   : m_subtimes[iItem].orgend);
 
 	_stprintf(buff, buffLen, t >= 0

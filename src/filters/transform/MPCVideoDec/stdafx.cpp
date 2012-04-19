@@ -25,7 +25,7 @@
 
 #if defined(_DEBUG) && defined(DXVA_LOGFILE_B)
 
-#define LOG_FILE				_T("dxva.log")
+#define LOG_FILE _T("dxva.log")
 
 void LOG(LPCTSTR fmt, ...)
 {

@@ -34,8 +34,8 @@ CString COpenDirHelper::strLastOpenDir;
 void COpenDirHelper::SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
 {
 	HFONT hf, hfOld;
-	LOGFONT lf= {0};
-	HDC hdc=GetDC(hwnd);
+	LOGFONT lf = {0};
+	HDC hdc = GetDC(hwnd);
 
 	GetObject(GetWindowFont(hwnd),sizeof(lf),&lf);
 	lf.lfWeight = FW_REGULAR;
