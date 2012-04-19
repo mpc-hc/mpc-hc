@@ -12440,7 +12440,7 @@ void CMainFrame::SetupFiltersSubMenu()
 						CStringW stream(ResStr(IDS_AG_UNKNOWN_STREAM));
 						size_t count = stream.GetLength()+3+1;
 						wname = (WCHAR*)CoTaskMemAlloc(count*sizeof(WCHAR));
-						swprintf_s(wname, count, L"%s %d", stream, min(i+1,999));
+						swprintf(wname, count, L"%s %d", stream, min(i+1,999));
 					}
 
 					CString name(wname);
@@ -14996,7 +14996,7 @@ void CMainFrame::SendAPICommand (MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
 
 		va_list args;
 		va_start(args, fmt);
-		_vstprintf_s(buff, countof(buff), fmt, args);
+		_vstprintf(buff, sizeof(buff)/sizeof(TCHAR), fmt, args);
 
 		CDS.cbData = (_tcslen (buff) + 1) * sizeof(TCHAR);
 		CDS.dwData = nCommand;

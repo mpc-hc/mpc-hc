@@ -129,10 +129,10 @@ BOOL COpenFileDlg::OnIncludeItem(OFNOTIFYEX* pOFNEx, LRESULT* pResult)
 		}
 		switch (s.uType) {
 			case STRRET_CSTR:
-				_tcscpy_s(buff, CString(s.cStr));
+				_tcscpy(buff, CString(s.cStr));
 				break;
 			case STRRET_WSTR:
-				_tcscpy_s(buff, CString(s.pOleStr));
+				_tcscpy(buff, CString(s.pOleStr));
 				CoTaskMemFree(s.pOleStr);
 				break;
 			default:

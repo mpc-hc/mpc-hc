@@ -472,7 +472,7 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 				if (FILE* f = _tfopen(CString((LPCWSTR)p), _T("w"))) {
 					SUBTITLEINFO* si = (SUBTITLEINFO*)mt.Format();
 
-					_ftprintf_s(f, _T("%s\n"), _T("# VobSub index file, v7 (do not modify this line!)"));
+					_ftprintf(f, _T("%s\n"), _T("# VobSub index file, v7 (do not modify this line!)"));
 
 					fwrite(mt.Format() + si->dwOffset, mt.FormatLength() - si->dwOffset, 1, f);
 
@@ -480,18 +480,18 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 					if (iso6391.IsEmpty()) {
 						iso6391 = _T("--");
 					}
-					_ftprintf_s(f, _T("\nlangidx: 0\n\nid: %s, index: 0\n"), iso6391);
+					_ftprintf(f, _T("\nlangidx: 0\n\nid: %s, index: 0\n"), iso6391);
 
 					CString alt = CString(CStringW(si->TrackName));
 					if (!alt.IsEmpty()) {
-						_ftprintf_s(f, _T("alt: %s\n"), alt);
+						_ftprintf(f, _T("alt: %s\n"), alt);
 					}
 
 					POSITION pos = m_idx.GetHeadPosition();
 					while (pos) {
 						const idx_t& i = m_idx.GetNext(pos);
 						DVD_HMSF_TIMECODE start = RT2HMSF(i.rt, 25);
-						_ftprintf_s(f, _T("timestamp: %02d:%02d:%02d:%03d, filepos: %09I64x\n"),
+						_ftprintf(f, _T("timestamp: %02d:%02d:%02d:%03d, filepos: %09I64x\n"),
 								  start.bHours, start.bMinutes, start.bSeconds, (int)((i.rt/10000)%1000),
 								  i.fp);
 					}

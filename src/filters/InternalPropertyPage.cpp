@@ -53,7 +53,7 @@ BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRec
 
 		LOGFONT lf;
 		memset(&lf, 0, sizeof(lf));
-		_tcscpy_s(lf.lfFaceName, face);
+		_tcscpy(lf.lfFaceName, face);
 		HDC hDC = ::GetDC(0);
 		lf.lfHeight = -MulDiv(height, GetDeviceCaps(hDC, LOGPIXELSY), 72);
 		::ReleaseDC(0, hDC);
@@ -64,9 +64,9 @@ BOOL CInternalPropertyPageWnd::Create(IPropertyPageSite* pPageSite, LPCRECT pRec
 		}
 
 		lf.lfHeight -= -1;
-		_tcscpy_s(lf.lfFaceName, _T("Lucida Console"));
+		_tcscpy(lf.lfFaceName, _T("Lucida Console"));
 		if (!m_monospacefont.CreateFontIndirect(&lf)) {
-			_tcscpy_s(lf.lfFaceName, _T("Courier New"));
+			_tcscpy(lf.lfFaceName, _T("Courier New"));
 			if (!m_monospacefont.CreateFontIndirect(&lf)) {
 				return FALSE;
 			}

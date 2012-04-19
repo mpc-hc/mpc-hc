@@ -316,7 +316,7 @@ void CPropPageFrameDefault::DrawCaption(CDC *pDc, CRect rect, LPCTSTR lpszCaptio
 	pSysFont->GetLogFont(&lf);
 	lf.lfHeight = rect.Height();
 	lf.lfWidth = 0;
-	_tcscpy_s(lf.lfFaceName, _T("Arial"));
+	_tcscpy(lf.lfFaceName, _T("Arial"));
 	CFont f;
 	f.CreateFontIndirect(&lf);
 	pDc->SelectObject(&f);

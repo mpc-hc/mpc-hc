@@ -40,7 +40,7 @@ void COpenDirHelper::SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
 	GetObject(GetWindowFont(hwnd),sizeof(lf),&lf);
 	lf.lfWeight = FW_REGULAR;
 	lf.lfHeight = (LONG)FontSize;
-	lstrcpy(lf.lfFaceName, FontName);
+	lstrcpy( lf.lfFaceName, FontName );
 	hf=CreateFontIndirect(&lf);
 	SetBkMode(hdc,OPAQUE);
 

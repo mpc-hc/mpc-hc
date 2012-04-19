@@ -33,7 +33,7 @@ bool CFloatEdit::GetFloat(float& f)
 {
 	CString s;
 	GetWindowText(s);
-	return(_stscanf_s(s, _T("%f"), &f) == 1);
+	return(_stscanf(s, _T("%f"), &f) == 1);
 }
 
 double CFloatEdit::operator = (double d)
@@ -49,7 +49,7 @@ CFloatEdit::operator double()
 	CString s;
 	GetWindowText(s);
 	float f = 0;
-	return(_stscanf_s(s, _T("%f"), &f) == 1 ? f : 0);
+	return(_stscanf(s, _T("%f"), &f) == 1 ? f : 0);
 }
 
 BEGIN_MESSAGE_MAP(CFloatEdit, CEdit)
@@ -122,7 +122,7 @@ bool CHexEdit::GetDWORD(DWORD& dw)
 {
 	CString s;
 	GetWindowText(s);
-	return(_stscanf_s(s, _T("%x"), &dw) == 1);
+	return(_stscanf(s, _T("%x"), &dw) == 1);
 }
 
 DWORD CHexEdit::operator = (DWORD dw)
@@ -138,7 +138,7 @@ CHexEdit::operator DWORD()
 	CString s;
 	GetWindowText(s);
 	DWORD dw;
-	return(_stscanf_s(s, _T("%x"), &dw) == 1 ? dw : 0);
+	return(_stscanf(s, _T("%x"), &dw) == 1 ? dw : 0);
 }
 
 BEGIN_MESSAGE_MAP(CHexEdit, CEdit)

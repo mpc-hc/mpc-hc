@@ -86,7 +86,7 @@ BOOL CResizableState::LoadWindowRect(LPCTSTR pszSection, BOOL bRectOnly)
 
 	RECT& rc = wp.rcNormalPosition;	// alias
 
-	if (_stscanf_s(data, PLACEMENT_FMT, &rc.left, &rc.top,
+	if (_stscanf(data, PLACEMENT_FMT, &rc.left, &rc.top,
 		&rc.right, &rc.bottom, &wp.showCmd, &wp.flags) == 6)
 	{
 		if (bRectOnly)	// restore size/pos only

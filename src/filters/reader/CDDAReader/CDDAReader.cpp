@@ -284,7 +284,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 	while (iTrackIndex > 0 && _istdigit(path[iTrackIndex-1])) {
 		iTrackIndex--;
 	}
-	if (1 != _stscanf_s(path.Mid(iTrackIndex), _T("%d"), &iTrackIndex)) {
+	if (1 != _stscanf(path.Mid(iTrackIndex), _T("%d"), &iTrackIndex)) {
 		return false;
 	}
 
