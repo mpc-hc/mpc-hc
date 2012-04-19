@@ -61,7 +61,7 @@ CPPageFormats::CPPageFormats()
 	, m_bInsufficientPrivileges(false)
 {
 	if (m_pAAR == NULL) {
-		// Default manager (requiered at least Vista)
+		// Default manager (requires at least Vista)
 		HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
 									  NULL,
 									  CLSCTX_INPROC,
@@ -246,7 +246,7 @@ int GetIconIndex(CString ext)
 bool CPPageFormats::RegisterApp()
 {
 	if (m_pAAR == NULL) {
-		// Default manager (requiered at least Vista)
+		// Default manager (requires at least Vista)
 		HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
 									  NULL,
 									  CLSCTX_INPROC,

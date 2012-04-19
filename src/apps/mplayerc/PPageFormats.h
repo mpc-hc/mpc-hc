@@ -36,8 +36,8 @@ class CPPageFormats : public CPPageBase
 
 private:
 	CImageList m_onoff;
-	bool       m_bInsufficientPrivileges;
-	bool       m_bFileExtChanged;
+	bool m_bInsufficientPrivileges;
+	bool m_bFileExtChanged;
 
 	int GetChecked(int iItem);
 	void SetChecked(int iItem, int fChecked);
