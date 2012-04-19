@@ -148,8 +148,8 @@ CALL :SubCreatePackages Win32
 :x64
 IF "%PLATFORM%" == "Win32" GOTO End
 
-IF DEFINED PROGRAMFILES(x86) (SET build_type=amd64) ELSE (SET build_type=x86_amd64)
-CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
+IF DEFINED PROGRAMFILES(x86) (SET x64_type=amd64) ELSE (SET x64_type=x86_amd64)
+CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
 
 IF "%CONFIG%" == "Resource" CALL :SubResources x64 && GOTO END
 CALL :SubMPCHC x64
@@ -161,7 +161,7 @@ CALL :SubCreatePackages x64
 
 :End
 TITLE Compiling MPC-HC [FINISHED]
-CALL :SubMsg "INFO" "MPC-HC's compilation started on %START_TIME% and completed on %DATE%-%TIME%"
+CALL :SubMsg "INFO" "Compilation started on %START_TIME% and completed on %DATE%-%TIME%"
 ENDLOCAL
 EXIT /B
 
@@ -173,7 +173,11 @@ TITLE Compiling MPC-HC - %BUILDCONFIG%^|%1...
  /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
  /flp1:LogFile=bin\errors_%1.txt;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=bin\warnings_%1.txt;warningsonly;Verbosity=diagnostic
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
+IF %ERRORLEVEL% NEQ 0 (
+  CALL :SubMsg "ERROR" "mpc-hc.sln - Compilation failed!"
+) ELSE (
+  CALL :SubMsg "INFO" "mpc-hc.sln %1 compiled successfully"
+)
 EXIT /B
 
 
@@ -182,7 +186,11 @@ TITLE Compiling mpciconlib - Release^|%1...
 "%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpciconlib.sln^
  /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1^
  /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
+IF %ERRORLEVEL% NEQ 0 (
+  CALL :SubMsg "ERROR" "mpciconlib.sln - Compilation failed!"
+) ELSE (
+  CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
+)
 
 FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese Simplified" "Chinese Traditional"
  "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
