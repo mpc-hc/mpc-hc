@@ -61,12 +61,16 @@ END
 
 STRINGTABLE
 BEGIN
-	IDS_OPTIONS_CAPTION             "Options"
-	IDS_MPEGSPLITTER_FSTREAM_CHANGE "Fast stream change"
-	IDS_MPEGSPLITTER_LANG_ORDER     "Audio language order:"
-	IDS_MPEGSPLITTER_SUB_ORDER      "Subtitles language order:"
-	IDS_MPEGSPLITTER_VC1_GUIDFLAG   "VC-1 Output compatibility:"
-	IDS_MPEGSPLITTER_SUB_FORCING    "Forced load all subtitles"
+    IDS_OPTIONS_CAPTION             "Options"
+    IDS_MPEGSPLITTER_FSTREAM_CHANGE "Fast stream change"
+    IDS_MPEGSPLITTER_LANG_ORDER     "Audio language order:"
+    IDS_MPEGSPLITTER_SUB_ORDER      "Subtitles language order:"
+    IDS_MPEGSPLITTER_VC1_GUIDFLAG   "VC-1 Output compatibility:"
+    IDS_MPEGSPLITTER_SUB_FORCING    "Forced load all subtitles"
+    IDS_MPEGSPLITTER_TRACKS_ORDER   "Change track order"
+    IDS_MPEGSPLITTER_TRUEHD_OUTPUT  "TrueHD streams output"
+    IDS_MPEGSPLITTER_THD_NOSPLIT    "As is"
+    IDS_MPEGSPLITTER_ALT_DUR_CALC   "Alternative method calculation of duration"
 END
 
 
