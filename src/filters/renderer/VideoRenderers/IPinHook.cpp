@@ -318,7 +318,7 @@ static void LOG(LPCTSTR fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	//	int		nCount	= _vsctprintf(fmt, args) + 1;
+	// int nCount = _vsctprintf(fmt, args) + 1;
 	TCHAR	buff[3000];
 	FILE*	f;
 	_vstprintf_s(buff, countof(buff), fmt, args);
