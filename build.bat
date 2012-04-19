@@ -25,17 +25,17 @@ CD /D %~dp0
 REM Check if the bin folder exists otherwise MSBuild will fail
 IF NOT EXIST "bin" MD "bin"
 
-IF /I "%~1"=="help"   GOTO ShowHelp
-IF /I "%~1"=="/help"  GOTO ShowHelp
-IF /I "%~1"=="-help"  GOTO ShowHelp
-IF /I "%~1"=="--help" GOTO ShowHelp
-IF /I "%~1"=="/?"     GOTO ShowHelp
+IF /I "%~1" == "help"   GOTO ShowHelp
+IF /I "%~1" == "/help"  GOTO ShowHelp
+IF /I "%~1" == "-help"  GOTO ShowHelp
+IF /I "%~1" == "--help" GOTO ShowHelp
+IF /I "%~1" == "/?"     GOTO ShowHelp
 
 
 REM pre-build checks
-IF "%VS100COMNTOOLS%"=="" GOTO MissingVar
-IF "%MINGW32%"==""        GOTO MissingVar
-IF "%MINGW64%"==""        GOTO MissingVar
+IF "%VS100COMNTOOLS%" == "" GOTO MissingVar
+IF "%MINGW32%" == ""        GOTO MissingVar
+IF "%MINGW64%" == ""        GOTO MissingVar
 
 
 REM Check for the first switch
@@ -130,30 +130,30 @@ IF "%~4" == "" (
 
 :Start
 SET START_TIME=%DATE%-%TIME%
-IF "%PLATFORM%"=="Win32" GOTO Win32
-IF "%PLATFORM%"=="x64"   GOTO x64
+IF "%PLATFORM%" == "Win32" GOTO Win32
+IF "%PLATFORM%" == "x64"   GOTO x64
 
 
 :Win32
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
-IF "%CONFIG%"=="Resource" CALL :SubResources Win32 && GOTO x64
+IF "%CONFIG%" == "Resource" CALL :SubResources Win32 && GOTO x64
 CALL :SubMPCHC Win32
-IF "%CONFIG%"=="Main" GOTO x64
+IF "%CONFIG%" == "Main" GOTO x64
 
 CALL :SubResources Win32
 CALL :SubCreatePackages Win32
 
 
 :x64
-IF "%PLATFORM%"=="Win32" GOTO End
+IF "%PLATFORM%" == "Win32" GOTO End
 
 IF DEFINED PROGRAMFILES(x86) (SET build_type=amd64) ELSE (SET build_type=x86_amd64)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
 
-IF "%CONFIG%"=="Resource" CALL :SubResources x64 && GOTO END
+IF "%CONFIG%" == "Resource" CALL :SubResources x64 && GOTO END
 CALL :SubMPCHC x64
-IF "%CONFIG%"=="Main" GOTO End
+IF "%CONFIG%" == "Main" GOTO End
 
 CALL :SubResources x64
 CALL :SubCreatePackages x64
@@ -198,11 +198,11 @@ EXIT /B
 
 
 :SubCreatePackages
-IF "%BUILDTYPE%"=="Clean"   EXIT /B
-IF "%BUILDCONFIG%"=="Debug" EXIT /B
+IF "%BUILDTYPE%" == "Clean"   EXIT /B
+IF "%BUILDCONFIG%" == "Debug" EXIT /B
 
-IF "%~1"=="Win32" SET OUTDIR=bin\mpc-hc_x86
-IF "%~1"=="x64"   SET OUTDIR=bin\mpc-hc_x64 & SET ISDefs=/Dx64Build
+IF "%~1" == "Win32" SET OUTDIR=bin\mpc-hc_x86
+IF "%~1" == "x64"   SET OUTDIR=bin\mpc-hc_x64 & SET ISDefs=/Dx64Build
 
 XCOPY "COPYING.txt"        "%OUTDIR%\" /Y /V >NUL
 XCOPY "docs\Authors.txt"   "%OUTDIR%\" /Y /V >NUL
@@ -217,7 +217,7 @@ IF DEFINED InnoSetupPath (
   IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
   CALL :SubMsg "INFO" "%1 installer successfully built"
 ) ELSE (
-  CALL :SubMsg "INFO" "Inno Setup wasn't found, the %1 installer wasn't built"
+  CALL :SubMsg "WARNING" "Inno Setup wasn't found, the %1 installer wasn't built"
 )
 EXIT /B
 
@@ -289,6 +289,8 @@ ECHO. & ECHO ------------------------------
 IF /I "%~1" == "ERROR" (
   CALL :ColorText "0C" "[%~1]" & ECHO  %~2
 ) ELSE IF /I "%~1" == "INFO" (
+  CALL :ColorText "0A" "[%~1]" & ECHO  %~2
+) ELSE IF /I "%~1" == "WARNING" (
   CALL :ColorText "0E" "[%~1]" & ECHO  %~2
 )
 ECHO ------------------------------ & ECHO.
