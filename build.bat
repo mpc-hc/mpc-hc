@@ -19,7 +19,6 @@ REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-CLS
 SETLOCAL
 CD /D %~dp0
 REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
@@ -37,28 +36,28 @@ SET ARG=%*
 SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
 SET ARGB=0
-SET ARGP=0
-SET ARGC=0
 SET ARGBC=0
+SET ARGC=0
+SET ARGP=0
 SET INPUT=0
 
 IF /I "%ARG%" == "?"        GOTO ShowHelp
 
 FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "help"     GOTO ShowHelp
-  IF /I "%%A" == "Build"     SET "BUILDTYPE=Build"     & Set /A ARGB+=1
-  IF /I "%%A" == "Clean"     SET "BUILDTYPE=Clean"     & Set /A ARGB+=1
-  IF /I "%%A" == "Rebuild"   SET "BUILDTYPE=Rebuild"   & Set /A ARGB+=1
-  IF /I "%%A" == "x86"       SET "PLATFORM=Win32"      & Set /A ARGP+=1
-  IF /I "%%A" == "x64"       SET "PLATFORM=x64"        & Set /A ARGP+=1
-  IF /I "%%A" == "Both"      SET "PLATFORM=Both"       & Set /A ARGP+=1
-  IF /I "%%A" == "All"       SET "CONFIG=All"          & Set /A ARGC+=1
-  IF /I "%%A" == "Main"      SET "CONFIG=Main"         & Set /A ARGC+=1
-  IF /I "%%A" == "Filters"   SET "CONFIG=Filters"      & Set /A ARGC+=1
-  IF /I "%%A" == "MPCHC"     SET "CONFIG=MPCHC"        & Set /A ARGC+=1
-  IF /I "%%A" == "Resource"  SET "CONFIG=Resource"     & Set /A ARGC+=1
-  IF /I "%%A" == "Debug"     SET "BUILDCONFIG=Debug"   & Set /A ARGBC+=1
-  IF /I "%%A" == "Release"   SET "BUILDCONFIG=Release" & Set /A ARGBC+=1
+  IF /I "%%A" == "Build"    SET "BUILDTYPE=Build"     & Set /A ARGB+=1
+  IF /I "%%A" == "Clean"    SET "BUILDTYPE=Clean"     & Set /A ARGB+=1
+  IF /I "%%A" == "Rebuild"  SET "BUILDTYPE=Rebuild"   & Set /A ARGB+=1
+  IF /I "%%A" == "Both"     SET "PLATFORM=Both"       & Set /A ARGP+=1
+  IF /I "%%A" == "x86"      SET "PLATFORM=Win32"      & Set /A ARGP+=1
+  IF /I "%%A" == "x64"      SET "PLATFORM=x64"        & Set /A ARGP+=1
+  IF /I "%%A" == "All"      SET "CONFIG=All"          & Set /A ARGC+=1
+  IF /I "%%A" == "Main"     SET "CONFIG=Main"         & Set /A ARGC+=1
+  IF /I "%%A" == "Filters"  SET "CONFIG=Filters"      & Set /A ARGC+=1
+  IF /I "%%A" == "MPCHC"    SET "CONFIG=MPCHC"        & Set /A ARGC+=1
+  IF /I "%%A" == "Resource" SET "CONFIG=Resource"     & Set /A ARGC+=1
+  IF /I "%%A" == "Debug"    SET "BUILDCONFIG=Debug"   & Set /A ARGBC+=1
+  IF /I "%%A" == "Release"  SET "BUILDCONFIG=Release" & Set /A ARGBC+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -184,13 +183,7 @@ IF "%BUILDTYPE%" == "Clean"   EXIT /B
 IF "%BUILDCONFIG%" == "Debug" EXIT /B
 IF "%CONFIG%" == "Filters"    EXIT /B
 
-IF "%~1" == "Win32" SET OUTDIR=bin\mpc-hc_x86
-IF "%~1" == "x64"   SET OUTDIR=bin\mpc-hc_x64 & SET ISDefs=/Dx64Build
-
-XCOPY "COPYING.txt"        "%OUTDIR%\" /Y /V >NUL
-XCOPY "docs\Authors.txt"   "%OUTDIR%\" /Y /V >NUL
-XCOPY "docs\Changelog.txt" "%OUTDIR%\" /Y /V >NUL
-XCOPY "docs\Readme.txt"    "%OUTDIR%\" /Y /V >NUL
+IF "%~1" == "x64" SET ISDefs=/Dx64Build
 
 CALL :SubDetectInnoSetup
 
@@ -279,7 +272,8 @@ IF /I "%~1" == "ERROR" (
 )
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
-  PAUSE
+  ECHO Press any key to exit...
+  PAUSE >NUL
   ENDLOCAL
   EXIT
 ) ELSE (
