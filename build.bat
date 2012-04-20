@@ -22,14 +22,9 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 CLS
 SETLOCAL
 CD /D %~dp0
-REM Check if the bin folder exists otherwise MSBuild will fail
-IF NOT EXIST "bin" MD "bin"
-
-IF /I "%~1" == "help"   GOTO ShowHelp
-IF /I "%~1" == "/help"  GOTO ShowHelp
-IF /I "%~1" == "-help"  GOTO ShowHelp
-IF /I "%~1" == "--help" GOTO ShowHelp
-IF /I "%~1" == "/?"     GOTO ShowHelp
+REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
+SET "LOG_DIR=bin\logs"
+IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
 
 
 REM pre-build checks
@@ -38,94 +33,52 @@ IF "%MINGW32%" == ""        GOTO MissingVar
 IF "%MINGW64%" == ""        GOTO MissingVar
 
 
-REM Check for the first switch
-IF "%~1" == "" (
-  SET "BUILDTYPE=Build"
-) ELSE (
-  IF /I "%~1" == "Build"     SET "BUILDTYPE=Build"   & GOTO CheckSecondArg
-  IF /I "%~1" == "/Build"    SET "BUILDTYPE=Build"   & GOTO CheckSecondArg
-  IF /I "%~1" == "-Build"    SET "BUILDTYPE=Build"   & GOTO CheckSecondArg
-  IF /I "%~1" == "--Build"   SET "BUILDTYPE=Build"   & GOTO CheckSecondArg
-  IF /I "%~1" == "Clean"     SET "BUILDTYPE=Clean"   & GOTO CheckSecondArg
-  IF /I "%~1" == "/Clean"    SET "BUILDTYPE=Clean"   & GOTO CheckSecondArg
-  IF /I "%~1" == "-Clean"    SET "BUILDTYPE=Clean"   & GOTO CheckSecondArg
-  IF /I "%~1" == "--Clean"   SET "BUILDTYPE=Clean"   & GOTO CheckSecondArg
-  IF /I "%~1" == "Rebuild"   SET "BUILDTYPE=Rebuild" & GOTO CheckSecondArg
-  IF /I "%~1" == "/Rebuild"  SET "BUILDTYPE=Rebuild" & GOTO CheckSecondArg
-  IF /I "%~1" == "-Rebuild"  SET "BUILDTYPE=Rebuild" & GOTO CheckSecondArg
-  IF /I "%~1" == "--Rebuild" SET "BUILDTYPE=Rebuild" & GOTO CheckSecondArg
+SET ARG=%*
+SET ARG=%ARG:/=%
+SET ARG=%ARG:-=%
+SET ARGB=0
+SET ARGP=0
+SET ARGC=0
+SET ARGBC=0
+SET INPUT=0
 
-  ECHO.
-  ECHO Unsupported commandline switch!
-  ECHO Run "%~nx0 help" for details about the commandline switches.
-  CALL :SubMsg "ERROR" "Compilation failed!"
+IF /I "%ARG%" == "?"        GOTO ShowHelp
+
+FOR %%A IN (%ARG%) DO (
+  IF /I "%%A" == "help"     GOTO ShowHelp
+  IF /I "%%A" == "Build"     SET "BUILDTYPE=Build"     & Set /A ARGB+=1
+  IF /I "%%A" == "Clean"     SET "BUILDTYPE=Clean"     & Set /A ARGB+=1
+  IF /I "%%A" == "Rebuild"   SET "BUILDTYPE=Rebuild"   & Set /A ARGB+=1
+  IF /I "%%A" == "x86"       SET "PLATFORM=Win32"      & Set /A ARGP+=1
+  IF /I "%%A" == "x64"       SET "PLATFORM=x64"        & Set /A ARGP+=1
+  IF /I "%%A" == "Both"      SET "PLATFORM=Both"       & Set /A ARGP+=1
+  IF /I "%%A" == "All"       SET "CONFIG=All"          & Set /A ARGC+=1
+  IF /I "%%A" == "Main"      SET "CONFIG=Main"         & Set /A ARGC+=1
+  IF /I "%%A" == "Filters"   SET "CONFIG=Filters"      & Set /A ARGC+=1
+  IF /I "%%A" == "MPCHC"     SET "CONFIG=MPCHC"        & Set /A ARGC+=1
+  IF /I "%%A" == "Resource"  SET "CONFIG=Resource"     & Set /A ARGC+=1
+  IF /I "%%A" == "Debug"     SET "BUILDCONFIG=Debug"   & Set /A ARGBC+=1
+  IF /I "%%A" == "Release"   SET "BUILDCONFIG=Release" & Set /A ARGBC+=1
 )
 
+FOR %%X IN (%*) DO SET /A INPUT+=1
+SET /A VALID=%ARGB%+%ARGP%+%ARGC%+%ARGBC%
 
-:CheckSecondArg
-REM Check for the second switch
-IF "%~2" == "" (
-  SET "PLATFORM=all"
-) ELSE (
-  IF /I "%~2" == "x86"   SET "PLATFORM=Win32" & GOTO CheckThirdArg
-  IF /I "%~2" == "/x86"  SET "PLATFORM=Win32" & GOTO CheckThirdArg
-  IF /I "%~2" == "-x86"  SET "PLATFORM=Win32" & GOTO CheckThirdArg
-  IF /I "%~2" == "--x86" SET "PLATFORM=Win32" & GOTO CheckThirdArg
-  IF /I "%~2" == "x64"   SET "PLATFORM=x64"   & GOTO CheckThirdArg
-  IF /I "%~2" == "/x64"  SET "PLATFORM=x64"   & GOTO CheckThirdArg
-  IF /I "%~2" == "-x64"  SET "PLATFORM=x64"   & GOTO CheckThirdArg
-  IF /I "%~2" == "--x64" SET "PLATFORM=x64"   & GOTO CheckThirdArg
-  IF /I "%~2" == "all"   SET "PLATFORM=all"   & GOTO CheckThirdArg
-  IF /I "%~2" == "/all"  SET "PLATFORM=all"   & GOTO CheckThirdArg
-  IF /I "%~2" == "-all"  SET "PLATFORM=all"   & GOTO CheckThirdArg
-  IF /I "%~2" == "--all" SET "PLATFORM=all"   & GOTO CheckThirdArg
+IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
-  ECHO.
-  ECHO Unsupported commandline switch!
-  ECHO Run "%~nx0 help" for details about the commandline switches.
-  CALL :SubMsg "ERROR" "Compilation failed!"
-)
+IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=Build")
+IF %ARGP%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGP% == 0  (SET "PLATFORM=Both")
+IF %ARGC%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0  (SET "CONFIG=MPCHC")
+IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCONFIG=Release")
+
+GOTO Start
 
 
-:CheckThirdArg
-REM Check for the third switch
-IF "%~3" == "" (
-  SET "CONFIG=all"
-) ELSE (
-  IF /I "%~3" == "Main"       SET "CONFIG=Main"     & GOTO CheckFourthArg
-  IF /I "%~3" == "/Main"      SET "CONFIG=Main"     & GOTO CheckFourthArg
-  IF /I "%~3" == "-Main"      SET "CONFIG=Main"     & GOTO CheckFourthArg
-  IF /I "%~3" == "--Main"     SET "CONFIG=Main"     & GOTO CheckFourthArg
-  IF /I "%~3" == "Resource"   SET "CONFIG=Resource" & GOTO CheckFourthArg
-  IF /I "%~3" == "/Resource"  SET "CONFIG=Resource" & GOTO CheckFourthArg
-  IF /I "%~3" == "-Resource"  SET "CONFIG=Resource" & GOTO CheckFourthArg
-  IF /I "%~3" == "--Resource" SET "CONFIG=Resource" & GOTO CheckFourthArg
-  IF /I "%~3" == "all"        SET "CONFIG=all"      & GOTO CheckFourthArg
-  IF /I "%~3" == "/all"       SET "CONFIG=all"      & GOTO CheckFourthArg
-  IF /I "%~3" == "-all"       SET "CONFIG=all"      & GOTO CheckFourthArg
-  IF /I "%~3" == "--all"      SET "CONFIG=all"      & GOTO CheckFourthArg
-
-  ECHO.
-  ECHO Unsupported commandline switch!
-  ECHO Run "%~nx0 help" for details about the commandline switches.
-  CALL :SubMsg "ERROR" "Compilation failed!"
-)
-
-:CheckFourthArg
-REM Check for the fourth switch
-IF "%~4" == "" (
-  SET "BUILDCONFIG=Release"
-) ELSE (
-  IF /I "%~4" == "Debug"   SET "BUILDCONFIG=Debug" & GOTO Start
-  IF /I "%~4" == "/Debug"  SET "BUILDCONFIG=Debug" & GOTO Start
-  IF /I "%~4" == "-Debug"  SET "BUILDCONFIG=Debug" & GOTO Start
-  IF /I "%~4" == "--Debug" SET "BUILDCONFIG=Debug" & GOTO Start
-
-  ECHO.
-  ECHO Unsupported commandline switch!
-  ECHO Run "%~nx0 help" for details about the commandline switches.
-  CALL :SubMsg "ERROR" "Compilation failed!"
-)
+:UnsupportedSwitch
+ECHO.
+ECHO Unsupported commandline switch!
+ECHO Run "%~nx0 help" for details about the commandline switches.
+CALL :SubMsg "ERROR" "Compilation failed!"
 
 
 :Start
@@ -137,12 +90,14 @@ IF "%PLATFORM%" == "x64"   GOTO x64
 :Win32
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
+IF "%CONFIG%" == "Filters"  CALL :SubFilters Win32 && GOTO x64
 IF "%CONFIG%" == "Resource" CALL :SubResources Win32 && GOTO x64
 CALL :SubMPCHC Win32
 IF "%CONFIG%" == "Main" GOTO x64
 
 CALL :SubResources Win32
 CALL :SubCreatePackages Win32
+IF "%CONFIG%" == "All"  CALL :SubFilters Win32
 
 
 :x64
@@ -151,12 +106,14 @@ IF "%PLATFORM%" == "Win32" GOTO End
 IF DEFINED PROGRAMFILES(x86) (SET x64_type=amd64) ELSE (SET x64_type=x86_amd64)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
 
+IF "%CONFIG%" == "Filters"  CALL :SubFilters x64 && GOTO END
 IF "%CONFIG%" == "Resource" CALL :SubResources x64 && GOTO END
 CALL :SubMPCHC x64
 IF "%CONFIG%" == "Main" GOTO End
 
 CALL :SubResources x64
 CALL :SubCreatePackages x64
+IF "%CONFIG%" == "All"  CALL :SubFilters Win32
 
 
 :End
@@ -166,17 +123,34 @@ ENDLOCAL
 EXIT /B
 
 
+:SubFilters
+TITLE Compiling MPC-HC Filters - %BUILDCONFIG% Filter^|%1...
+REM Call update_version.bat before building the filters
+CALL "update_version.bat"
+"%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo filters.sln^
+ /target:%BUILDTYPE% /property:Configuration="%BUILDCONFIG% Filter";Platform=%1^
+ /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
+ /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCONFIG%_%1.txt;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCONFIG%_%1.txt;warningsonly;Verbosity=diagnostic
+IF %ERRORLEVEL% NEQ 0 (
+  CALL :SubMsg "ERROR" "filters.sln - Compilation failed!"
+) ELSE (
+  CALL :SubMsg "INFO" "filters.sln %BUILDCONFIG% %1 compiled successfully"
+)
+EXIT /B
+
+
 :SubMPCHC
 TITLE Compiling MPC-HC - %BUILDCONFIG%^|%1...
 "%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpc-hc.sln^
  /target:%BUILDTYPE% /property:Configuration=%BUILDCONFIG%;Platform=%1^
  /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
- /flp1:LogFile=bin\errors_%1.txt;errorsonly;Verbosity=diagnostic^
- /flp2:LogFile=bin\warnings_%1.txt;warningsonly;Verbosity=diagnostic
+ /flp1:LogFile=%LOG_DIR%\mpc_errors_%BUILDCONFIG%_%1.txt;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=%LOG_DIR%\mpc_warnings_%BUILDCONFIG%_%1.txt;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "mpc-hc.sln - Compilation failed!"
 ) ELSE (
-  CALL :SubMsg "INFO" "mpc-hc.sln %1 compiled successfully"
+  CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCONFIG% %1 compiled successfully"
 )
 EXIT /B
 
@@ -208,6 +182,7 @@ EXIT /B
 :SubCreatePackages
 IF "%BUILDTYPE%" == "Clean"   EXIT /B
 IF "%BUILDCONFIG%" == "Debug" EXIT /B
+IF "%CONFIG%" == "Filters"    EXIT /B
 
 IF "%~1" == "Win32" SET OUTDIR=bin\mpc-hc_x86
 IF "%~1" == "x64"   SET OUTDIR=bin\mpc-hc_x64 & SET ISDefs=/Dx64Build
@@ -234,23 +209,24 @@ EXIT /B
 TITLE %~nx0 %1
 ECHO. & ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|all] [Main^|Resource^|all] [Debug]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resource^|MPCHC^|Filters^|All] [Debug^|Release]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        The arguments are not case sensitive.
 ECHO. & ECHO.
 ECHO Executing %~nx0 without any arguments will use the default ones:
-ECHO "%~nx0 build all all"
+ECHO "%~nx0 Build Both MPCHC Release"
 ECHO.
 ECHO Examples:
-ECHO %~nx0 build x86 Resource     -Builds the x86 resources only
-ECHO %~nx0 build all Resource     -Builds both x86 and x64 resources only
-ECHO %~nx0 build x86              -Builds x86 Main exe and the resources
-ECHO %~nx0 build x86 all Debug    -Builds x86 Main Debug exe and resources
+ECHO %~nx0 x86 Resource   -Builds the x86 resources
+ECHO %~nx0 Resource       -Builds both x86 and x64 resources
+ECHO %~nx0 x86            -Builds x86 Main exe and the x86 resources
+ECHO %~nx0 x86 Debug      -Builds x86 Main Debug exe and x86 resources
+ECHO %~nx0 x86 Filters    -Builds x86 Filters
+ECHO %~nx0 x86 All        -Builds x86 Main exe, x86 Filters and the x86 resources
 ECHO.
 ECHO NOTES:
-ECHO Debug only applies to Main project [mpc-hc.sln]
-ECHO "%~nx0 x86" or "%~nx0 debug" won't work.
+ECHO Debug only applies to mpc-hc.sln and filters.sln
 ECHO.
 ENDLOCAL
 EXIT /B
@@ -281,9 +257,9 @@ IF DEFINED PROGRAMFILES(x86) (
   SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 )
 
-FOR /F "delims=" %%a IN (
+FOR /F "delims=" %%A IN (
   'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path"2^>Nul^|FIND "REG_"') DO (
-  SET "InnoSetupPath=%%a" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
+  SET "InnoSetupPath=%%A" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
 EXIT /B
 
 
@@ -312,9 +288,9 @@ IF /I "%~1" == "ERROR" (
 
 
 :ColorText
-FOR /F "tokens=1,2 delims=#" %%a IN (
-  '"PROMPT #$H#$E# & ECHO ON & FOR %%b IN (1) DO REM"') DO (
-  SET "DEL=%%a")
+FOR /F "tokens=1,2 delims=#" %%A IN (
+  '"PROMPT #$H#$E# & ECHO ON & FOR %%B IN (1) DO REM"') DO (
+  SET "DEL=%%A")
 <NUL SET /p ".=%DEL%" > "%~2"
 FINDSTR /v /a:%1 /R ".18" "%~2" NUL
 DEL "%~2" > NUL 2>&1
