@@ -580,7 +580,8 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 		VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
 		VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
 
-		if (vih && vihInput && (vihInput->rcSource.right != 0) && (vihInput->rcSource.bottom != 0)) {
+		ASSERT(vih);
+		if (vihInput && (vihInput->rcSource.right != 0) && (vihInput->rcSource.bottom != 0)) {
 			vih->rcSource = vihInput->rcSource;
 			vih->rcTarget = vihInput->rcTarget;
 		} else {
