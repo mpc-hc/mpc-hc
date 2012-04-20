@@ -32,7 +32,7 @@
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
-#define LEFT_SPACING		25
+#define LEFT_SPACING		20
 #define VERTICAL_SPACING	25
 
 //
@@ -105,7 +105,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	GUID*	DxvaGui = NULL;
 
 #if HAS_FFMPEG_VIDEO_DECODERS
-	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 350, nPosY+150), this, (UINT)IDC_STATIC);
+	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (5,  nPosY, 350, nPosY+150), this, (UINT)IDC_STATIC);
 
 	// Decoding threads
 	nPosY += VERTICAL_SPACING;
@@ -156,7 +156,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	nPosY = 170;
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
-	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 350, nPosY+135), this, (UINT)IDC_STATIC);
+	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (5, nPosY, 350, nPosY+135), this, (UINT)IDC_STATIC);
 
 	// DXVA Compatibility check
 	nPosY += VERTICAL_SPACING;
