@@ -5,7 +5,6 @@ nevcairiel              <nevcairiel@users.sourceforge.net>      Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
 Underground78           <underground78@users.sourceforge.net>   Code, French
 v0lt                    <v0lt@users.sourceforge.net>            Code, Russian
-Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code, Russian
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Admin
 
 
@@ -16,14 +15,15 @@ Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
 Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code
 Beliyaal                <beliyaal@users.sourceforge.net>        Code
-Di Luo                  <sansnom05@users.sourceforge.net>       Code
 Casimir666              <casimir666@users.sourceforge.net>      Founder, Code, Admin, French
+Di Luo                  <sansnom05@users.sourceforge.net>       Code
 jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
 KindDragon              <kinddragon@users.sourceforge.net>      Code
 Martin Panayotov        <mvpsoft@users.sourceforge.net>         Website
 MatMaul                 <matmaul@users.sourceforge.net>         Code
 spec-chum               <spec-chum@users.sourceforge.net>       Code
 Tomas Sen               <tomasen@users.sourceforge.net>         Code
+Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code, Russian
 xpc1000                 <xpc1000@users.sourceforge.net>         Code
 
 
