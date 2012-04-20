@@ -112,7 +112,7 @@ IF "%CONFIG%" == "Main" GOTO End
 
 CALL :SubResources x64
 CALL :SubCreatePackages x64
-IF "%CONFIG%" == "All"  CALL :SubFilters Win32
+IF "%CONFIG%" == "All"  CALL :SubFilters x64
 
 
 :End
