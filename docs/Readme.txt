@@ -33,12 +33,13 @@ System Requirements:
 
 Links:
 -------
-Website:          http://mpc-hc.sourceforge.net
-Project Page:     http://sourceforge.net/projects/mpc-hc/
-Mirror (faster):  http://code.google.com/p/mpc-hc/source/list
-Help and Support: http://sourceforge.net/apps/trac/mpc-hc/
-IRC Channel:      #mpc-hc / #mpc-hc-dev at Freenode
-Donations:        http://sourceforge.net/donate/index.php?group_id=170561
+Website:           http://mpc-hc.sourceforge.net
+Project Page:      http://sourceforge.net/projects/mpc-hc/
+GoogleCode mirror: http://code.google.com/p/mpc-hc/source/list
+GitHub mirror:     https://github.com/mpc-hc
+IRC Channel:       #mpc-hc / #mpc-hc-dev at Freenode (http://webchat.freenode.net/)
+Help and Support:  http://sourceforge.net/apps/trac/mpc-hc/
+Donations:         http://sourceforge.net/donate/index.php?group_id=170561
 
 
 For the people involved in the development, see Authors.txt.
@@ -47,7 +48,7 @@ MPC-HC's code is licensed under GPL v3 (see COPYING.txt).
 Translations are done by various translators (see Authors.txt).
 
 
-MPC-HC makes use of the following 3rd party code:
+MPC-HC makes use of the following third-party code:
 
 Project             License                    Website
 -------------------------------------------------------------------------------------
