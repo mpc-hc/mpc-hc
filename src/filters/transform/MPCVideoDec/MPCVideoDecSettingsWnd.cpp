@@ -111,7 +111,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	nPosY += VERTICAL_SPACING;
 	m_txtThreadNumber.Create (ResStr (IDS_VDF_THREADNUMBER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 220, nPosY+15), this, (UINT)IDC_STATIC);
 	m_cbThreadNumber.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (230,  nPosY-4, 290, nPosY+90), this, IDC_PP_THREAD_NUMBER);
-	m_cbThreadNumber.AddString(_T("Auto"));
+	m_cbThreadNumber.AddString(ResStr(IDS_VDF_IDCT_AUTO));
 	CString ThreadNumberStr;
 	for (int i=0; i<16; i++) {
 		ThreadNumberStr.Format(_T("%d"), i+1);
