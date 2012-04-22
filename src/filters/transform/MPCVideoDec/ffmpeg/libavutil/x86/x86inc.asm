@@ -60,19 +60,38 @@
 ; and x264's strides are all positive), but is not guaranteed by the ABI.
 
 ; Name of the .rodata section.
-; Kludge: Something on OS X fails to align .rodata even given an align attribute,
-; so use a different read-only section.
 %macro SECTION_RODATA 0-1 16
-    %ifidn __OUTPUT_FORMAT__,macho64
-        SECTION .text align=%1
-    %elifidn __OUTPUT_FORMAT__,macho
-        SECTION .text align=%1
-        fakegot:
-    %elifidn __OUTPUT_FORMAT__,aout
+    ; Kludge: Something on OS X fails to align .rodata even given an align
+    ; attribute, so use a different read-only section. This has been fixed in
+    ; yasm 0.8.0 and nasm 2.6.
+    %ifdef __YASM_VERSION_ID__
+        %if __YASM_VERSION_ID__ < 00080000h
+            %define NEED_MACHO_RODATA_KLUDGE
+        %endif
+    %elifdef __NASM_VERSION_ID__
+        %if __NASM_VERSION_ID__ < 02060000h
+            %define NEED_MACHO_RODATA_KLUDGE
+        %endif
+    %endif
+
+    %ifidn __OUTPUT_FORMAT__,aout
         section .text
     %else
-        SECTION .rodata align=%1
+        %ifndef NEED_MACHO_RODATA_KLUDGE
+            SECTION .rodata align=%1
+        %else
+            %ifidn __OUTPUT_FORMAT__,macho64
+                SECTION .text align=%1
+            %elifidn __OUTPUT_FORMAT__,macho
+                SECTION .text align=%1
+                fakegot:
+            %else
+                SECTION .rodata align=%1
+            %endif
+        %endif
     %endif
+
+    %undef NEED_MACHO_RODATA_KLUDGE
 %endmacro
 
 ; aout does not support align=
@@ -97,7 +116,11 @@
 %endif
 
 ; Always use long nops (reduces 0x90 spam in disassembly on x86_32)
+; Not supported by NASM (except via smartalign package + ALIGNMODE k8,
+; however that fails when used together with the -M option)
+%ifdef __YASM_VER__
 CPU amdnop
+%endif
 
 ; Macros to eliminate most code duplication between x86_32 and x86_64:
 ; Currently this works only for leaf functions which load all their arguments
@@ -142,10 +165,10 @@ CPU amdnop
         %define r%1mp %2
     %elif ARCH_X86_64 ; memory
         %define r%1m [rsp + stack_offset + %6]
-        %define r%1mp qword r %+ %1m
+        %define r%1mp qword r %+ %1 %+ m
     %else
         %define r%1m [esp + stack_offset + %6]
-        %define r%1mp dword r %+ %1m
+        %define r%1mp dword r %+ %1 %+ m
     %endif
     %define r%1  %2
 %endmacro
@@ -837,7 +860,7 @@ INIT_XMM
 
 ;%1 == instruction
 ;%2 == 1 if float, 0 if int
-;%3 == 1 if 4-operand (xmm, xmm, xmm, imm), 0 if 3-operand (xmm, xmm, xmm)
+;%3 == 1 if 4-operand (xmm, xmm, xmm, imm), 0 if 2- or 3-operand (xmm, xmm, xmm)
 ;%4 == number of operands given
 ;%5+: operands
 %macro RUN_AVX_INSTR 6-7+
@@ -847,7 +870,11 @@ INIT_XMM
         %define %%size mmsize
     %endif
     %if %%size==32
-        v%1 %5, %6, %7
+        %if %0 >= 7
+            v%1 %5, %6, %7
+        %else
+            v%1 %5, %6
+        %endif
     %else
         %if %%size==8
             %define %%regmov movq
@@ -933,6 +960,8 @@ AVX_INSTR cmppd, 1, 0, 0
 AVX_INSTR cmpps, 1, 0, 0
 AVX_INSTR cmpsd, 1, 0, 0
 AVX_INSTR cmpss, 1, 0, 0
+AVX_INSTR cvtdq2ps, 1, 0, 0
+AVX_INSTR cvtps2dq, 1, 0, 0
 AVX_INSTR divpd, 1, 0, 0
 AVX_INSTR divps, 1, 0, 0
 AVX_INSTR divsd, 1, 0, 0

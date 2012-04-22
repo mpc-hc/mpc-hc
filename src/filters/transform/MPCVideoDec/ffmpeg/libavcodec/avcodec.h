@@ -1020,7 +1020,7 @@ typedef struct AVFrame {
     uint8_t *base[AV_NUM_DATA_POINTERS];
 
     /**
-     * sample aspect ratio for the video frame, 0/1 if unknown\unspecified
+     * sample aspect ratio for the video frame, 0/1 if unknown/unspecified
      * - encoding: unused
      * - decoding: Read by user.
      */
@@ -2648,15 +2648,13 @@ typedef struct AVCodecContext {
 #define FF_IDCT_SIMPLEALPHA   23
 #define FF_IDCT_BINK          24
 
+#if FF_API_DSP_MASK
     /**
-     * dsp_mask could be add used to disable unwanted CPU features
-     * CPU features (i.e. MMX, SSE. ...)
-     *
-     * With the FORCE flag you may instead enable given CPU features.
-     * (Dangerous: Usable in case of misdetection, improper usage however will
-     * result into program crash.)
+     * Unused.
+     * @deprecated use av_set_cpu_flags_mask() instead.
      */
-    unsigned dsp_mask;
+    attribute_deprecated unsigned dsp_mask;
+#endif
 
     /**
      * bits per sample/pixel from the demuxer (needed for huffyuv).

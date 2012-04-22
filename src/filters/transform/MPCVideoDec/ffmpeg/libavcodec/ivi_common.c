@@ -128,7 +128,7 @@ int ff_ivi_dec_huff_desc(GetBitContext *gb, int desc_coded, int which_tab,
                 new_huff.xbits[i] = get_bits(gb, 4);
 
             /* Have we got the same custom table? Rebuild if not. */
-            if (ff_ivi_huff_desc_cmp(&new_huff, &huff_tab->cust_desc)) {
+            if (ff_ivi_huff_desc_cmp(&new_huff, &huff_tab->cust_desc) || !huff_tab->cust_tab.table) {
                 ff_ivi_huff_desc_copy(&huff_tab->cust_desc, &new_huff);
 
                 if (huff_tab->cust_tab.table)
@@ -333,7 +333,7 @@ int ff_ivi_dec_tile_data_size(GetBitContext *gb)
 int ff_ivi_decode_blocks(GetBitContext *gb, IVIBandDesc *band, IVITile *tile)
 {
     int         mbn, blk, num_blocks, num_coeffs, blk_size, scan_pos, run, val,
-                pos, is_intra, mc_type, mv_x, mv_y, col_mask;
+                pos, is_intra, mc_type = 0, mv_x, mv_y, col_mask;
     uint8_t     col_flags[8];
     int32_t     prev_dc, trvec[64];
     uint32_t    cbp, sym, lo, hi, quant, buf_offs, q;
@@ -373,9 +373,7 @@ int ff_ivi_decode_blocks(GetBitContext *gb, IVIBandDesc *band, IVITile *tile)
         if (!is_intra) {
             mv_x = mb->mv_x;
             mv_y = mb->mv_y;
-            if (!band->is_halfpel) {
-                mc_type = 0; /* we have only fullpel vectors */
-            } else {
+            if (band->is_halfpel) {
                 mc_type = ((mv_y & 1) << 1) | (mv_x & 1);
                 mv_x >>= 1;
                 mv_y >>= 1; /* convert halfpel vectors into fullpel ones */

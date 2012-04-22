@@ -115,7 +115,7 @@
 static VLC vlc_scalefactors;
 static VLC vlc_spectral[11];
 
-static const char overread_err[] = "Input buffer exhausted before END element found\n";
+#define overread_err "Input buffer exhausted before END element found\n"
 
 static int count_channels(uint8_t (*layout)[3], int tags)
 {
@@ -377,9 +377,6 @@ static void pop_output_configuration(AACContext *ac) {
             ac->oc[1] = ac->oc[0];
             ac->avctx->channels = ac->oc[1].channels;
             ac->avctx->channel_layout = ac->oc[1].channel_layout;
-        }else{
-            ac->avctx->channels = 0;
-            ac->avctx->channel_layout = 0;
         }
     }
 }
@@ -415,6 +412,13 @@ static int output_configure(AACContext *ac,
         ret = che_configure(ac, position, type, id, &channels);
         if (ret < 0)
             return ret;
+    }
+    if (ac->oc[1].m4ac.ps == 1 && channels == 2) {
+        if (layout == AV_CH_FRONT_CENTER) {
+            layout = AV_CH_FRONT_LEFT|AV_CH_FRONT_RIGHT;
+        } else {
+            layout = 0;
+        }
     }
 
     memcpy(ac->tag_che_map, ac->che, 4 * MAX_ELEM_ID * sizeof(ac->che[0][0]));
@@ -486,7 +490,7 @@ static ChannelElement *get_che(AACContext *ac, int type, int elem_id)
         ac->oc[1].m4ac.chan_config = 2;
     }
     // And vice-versa
-    if (!ac->tags_mapped && type == TYPE_SCE && ac->oc[1].m4ac.chan_config == 2) {
+    if (!ac->tags_mapped && type == TYPE_SCE && ac->oc[1].m4ac.chan_config == 2 && 0) {
         uint8_t layout_map[MAX_ELEM_ID*4][3];
         int layout_map_tags;
         push_output_configuration(ac);
@@ -610,7 +614,7 @@ static int decode_pce(AVCodecContext *avctx, MPEG4AudioConfig *m4ac,
         skip_bits(gb, 3); // mixdown_coeff_index and pseudo_surround
 
     if (get_bits_left(gb) < 4 * (num_front + num_side + num_back + num_lfe + num_assoc_data + num_cc)) {
-        av_log(avctx, AV_LOG_ERROR, overread_err);
+        av_log(avctx, AV_LOG_ERROR, "decode_pce: " overread_err);
         return -1;
     }
     decode_channel_map(layout_map       , AAC_CHANNEL_FRONT, gb, num_front);
@@ -632,7 +636,7 @@ static int decode_pce(AVCodecContext *avctx, MPEG4AudioConfig *m4ac,
     /* comment field, first byte is length */
     comment_len = get_bits(gb, 8) * 8;
     if (get_bits_left(gb) < comment_len) {
-        av_log(avctx, AV_LOG_ERROR, overread_err);
+        av_log(avctx, AV_LOG_ERROR, "decode_pce: " overread_err);
         return -1;
     }
     skip_bits_long(gb, comment_len);
@@ -933,7 +937,7 @@ static int skip_data_stream_element(AACContext *ac, GetBitContext *gb)
         align_get_bits(gb);
 
     if (get_bits_left(gb) < 8 * count) {
-        av_log(ac->avctx, AV_LOG_ERROR, overread_err);
+        av_log(ac->avctx, AV_LOG_ERROR, "skip_data_stream_element: "overread_err);
         return -1;
     }
     skip_bits_long(gb, 8 * count);
@@ -1067,7 +1071,7 @@ static int decode_band_types(AACContext *ac, enum BandType band_type[120],
                 sect_len_incr = get_bits(gb, bits);
                 sect_end += sect_len_incr;
                 if (get_bits_left(gb) < 0) {
-                    av_log(ac->avctx, AV_LOG_ERROR, overread_err);
+                    av_log(ac->avctx, AV_LOG_ERROR, "decode_band_types: "overread_err);
                     return -1;
                 }
                 if (sect_end > ics->max_sfb) {
@@ -2472,7 +2476,7 @@ static int aac_decode_frame_int(AVCodecContext *avctx, void *data,
             if (elem_id == 15)
                 elem_id += get_bits(gb, 8) - 1;
             if (get_bits_left(gb) < 8 * elem_id) {
-                    av_log(avctx, AV_LOG_ERROR, overread_err);
+                    av_log(avctx, AV_LOG_ERROR, "TYPE_FIL: "overread_err);
                     err = -1;
                     goto fail;
             }

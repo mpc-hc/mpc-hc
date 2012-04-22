@@ -1578,7 +1578,7 @@ void CMPCVideoDecFilter::InitSwscale()
 							m_pAVCtx->width,
 							m_pAVCtx->height,
 							csp_ffdshow2lavc(m_nOutCsp),
-							sws_Flags|SWS_PRINT_INFO,
+							sws_Flags | SWS_PRINT_INFO,
 							NULL,
 							NULL,
 							NULL);
