@@ -451,7 +451,7 @@ bool CCDXAStream::LookForMediaSubType()
 
 			for (int j = 0; true; j++) {
 				TCHAR number[10];
-				_stprintf(number, sizeof(number)/sizeof(TCHAR), _T("%d"), j);
+				_stprintf_s(number, countof(number), _T("%d"), j);
 
 				TCHAR pattern[256+1];
 				ULONG len = 256;

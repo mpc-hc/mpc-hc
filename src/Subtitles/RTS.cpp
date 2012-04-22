@@ -55,7 +55,7 @@ CMyFont::CMyFont(STSStyle& style)
 #endif
 
 	if (!CreateFontIndirect(&lf)) {
-		_tcscpy(lf.lfFaceName, _T("Arial"));
+		_tcscpy_s(lf.lfFaceName, _T("Arial"));
 		CreateFontIndirect(&lf);
 	}
 

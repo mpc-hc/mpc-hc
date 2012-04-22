@@ -163,7 +163,7 @@ tp_udf_file udf_get_root(const HANDLE hDrive, const WORD partition_number)
 						root->sector = NULL;
 						root->fid = NULL;
 						root->sec_size = sec_size;
-						strcpy(root->name, "/");
+						strcpy_s(root->name, "/");
 						root->is_dir = true;
 						root->is_parent = false;
 						return root;
@@ -219,7 +219,7 @@ tp_udf_file udf_get_sub(const HANDLE hDrive, tp_udf_file f)
 				}
 
 				memset(newf, 0, sizeof(*newf));
-				strcpy(newf->name, f->name); // maybe just ""?
+				strcpy_s(newf->name, f->name); // maybe just ""?
 				newf->sec_size = f->sec_size;
 				newf->partition_lba = f->partition_lba;
 				udf_GetLBA(fe, f->sec_size, &newf->dir_lba, &newf->dir_end_lba);
@@ -322,7 +322,7 @@ tp_udf_file udf_find_file(const HANDLE hDrive, const WORD partition, const char 
 		char tokenline[udf_MAX_PATHLEN];
 		char *token;
 
-		strcpy(tokenline, name);
+		strcpy_s(tokenline, name);
 		token = strtok(tokenline, udf_PATH_DELIMITERS);
 		if (token) {
 			f2 = udf_ff_traverse(hDrive, f, token);

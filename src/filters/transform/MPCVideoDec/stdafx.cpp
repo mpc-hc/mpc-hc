@@ -35,7 +35,7 @@ void LOG(LPCTSTR fmt, ...)
 		_vstprintf(buff, fmt, args);
 		if (FILE* f = _tfopen(LOG_FILE, _T("at"))) {
 			fseek(f, 0, 2);
-			_ftprintf(f, _T("%s\n"), buff);
+			_ftprintf_s(f, _T("%s\n"), buff);
 			fclose(f);
 		}
 		delete [] buff;

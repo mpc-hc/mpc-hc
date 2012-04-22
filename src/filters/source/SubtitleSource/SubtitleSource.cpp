@@ -620,7 +620,7 @@ HRESULT CSubtitleSourceUTF8::GetMediaType(CMediaType* pmt)
 	pmt->SetFormatType(&FORMAT_SubtitleInfo);
 	SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO));
 	memset(psi, 0, pmt->FormatLength());
-	strcpy(psi->IsoLang, "eng");
+	strcpy_s(psi->IsoLang, "eng");
 
 	return NOERROR;
 }
@@ -667,7 +667,7 @@ HRESULT CSubtitleSourceSSA::GetMediaType(CMediaType* pmt)
 	SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO) + len);
 	memset(psi, 0, pmt->FormatLength());
 	psi->dwOffset = sizeof(SUBTITLEINFO);
-	strcpy(psi->IsoLang, "eng");
+	strcpy_s(psi->IsoLang, "eng");
 	f.Read(pmt->pbFormat + psi->dwOffset, len);
 	f.Close();
 
@@ -717,7 +717,7 @@ HRESULT CSubtitleSourceASS::GetMediaType(CMediaType* pmt)
 	SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO) + len);
 	memset(psi, 0, pmt->FormatLength());
 	psi->dwOffset = sizeof(SUBTITLEINFO);
-	strcpy(psi->IsoLang, "eng");
+	strcpy_s(psi->IsoLang, "eng");
 	f.Read(pmt->pbFormat + psi->dwOffset, len);
 	f.Close();
 
@@ -745,7 +745,7 @@ HRESULT CSubtitleSourceUSF::GetMediaType(CMediaType* pmt)
 	pmt->SetFormatType(&FORMAT_SubtitleInfo);
 	SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO));
 	memset(psi, 0, pmt->FormatLength());
-	strcpy(psi->IsoLang, "eng");
+	strcpy_s(psi->IsoLang, "eng");
 	// TODO: ...
 
 	return NOERROR;

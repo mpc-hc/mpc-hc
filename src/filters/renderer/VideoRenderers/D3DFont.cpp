@@ -84,8 +84,8 @@ inline FONT3DVERTEX InitFont3DVertex( const D3DXVECTOR3& p, const D3DXVECTOR3& n
 //-----------------------------------------------------------------------------
 CD3DFont::CD3DFont( const TCHAR* strFontName, DWORD dwHeight, DWORD dwFlags )
 {
-	_tcsncpy( m_strFontName, strFontName, sizeof(m_strFontName) / sizeof(TCHAR) );
-	m_strFontName[sizeof(m_strFontName) / sizeof(TCHAR) - 1] = _T('\0');
+	_tcsncpy_s( m_strFontName, strFontName, countof(m_strFontName) );
+	m_strFontName[countof(m_strFontName) - 1] = _T('\0');
 	m_dwFontHeight         = dwHeight;
 	m_dwFontFlags          = dwFlags;
 	m_dwSpacing            = 0;

@@ -170,7 +170,7 @@ bool CRealMediaPlayer::Init()
 			hr = m_pCommonClassFactory->CreateInstance(CLSID_IRMABuffer, (void**)&pBuffer);
 			hr = pBuffer->SetSize(strlen("localhost")+1);
 			pData = pBuffer->GetBuffer();
-			strcpy((char*)pData, "localhost");
+			strcpy_s((char*)pData, "localhost");
 			hr = pBuffer->Set(pData, strlen("localhost")+1);
 
 			pData = NULL;

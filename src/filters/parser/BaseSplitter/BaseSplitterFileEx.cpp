@@ -1055,7 +1055,7 @@ bool CBaseSplitterFileEx::Read(hdmvsubhdr& h, CMediaType* pmt, const char* langu
 	SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO));
 	if (psi) {
 		memset(psi, 0, pmt->FormatLength());
-		strcpy(psi->IsoLang, language_code ? language_code : "eng");
+		strcpy_s(psi->IsoLang, language_code ? language_code : "eng");
 	}
 
 	return true;

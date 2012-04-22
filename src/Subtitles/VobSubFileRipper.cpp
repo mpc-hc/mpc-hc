@@ -64,7 +64,7 @@ void CVobSubFileRipper::Log(log_t type, LPCTSTR lpszFormat, ...)
 
 	va_list args;
 	va_start(args, lpszFormat);
-	_vstprintf(buff, sizeof(buff)/sizeof(TCHAR), lpszFormat, args);
+	_vstprintf_s(buff, countof(buff), lpszFormat, args);
 	va_end(args);
 
 	CString msg;
