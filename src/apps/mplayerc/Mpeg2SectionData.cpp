@@ -70,10 +70,10 @@ CString CMpeg2DataParser::ConvertString (BYTE* pBuffer, int nLength)
 		28591,	// 09 - ??? - ISO/IEC 8859-13 - Latin alphabet No. 7
 		28591,	// 0a - ??? - ISO/IEC 8859-14 - Latin alphabet No. 8 (Celtic)
 		28605,	// 0b - ISO 8859-15 Latin 9
-		28591,	// 0c - réservé
-		28591,	// 0d - réservé
-		28591,	// 0e - réservé
-		28591,	// 0f - réservé
+		28591,	// 0c - reserved
+		28591,	// 0d - reserved
+		28591,	// 0e - reserved
+		28591,	// 0f - reserved
 
 		// TODO !
 		28591, 28591, 28591, 28591, 28591, 28591, 28591, 28591,

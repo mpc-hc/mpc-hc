@@ -301,6 +301,6 @@ private:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ fügt unmittelbar vor der vorhergehenden Zeile zusätzliche Deklarationen ein.
+// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // AFX_PROPPAGEFRAME_H__B968548B_F0B4_4C35_85DD_C44242A9D368__INCLUDED_

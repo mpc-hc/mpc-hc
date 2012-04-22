@@ -584,7 +584,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 		*nSliceType = vc1->s.pict_type;
 	}
 
-	// Cf §7.1.1.25 in VC1 specification, §3.2.14.3 in DXVA spec
+	// Cf section 7.1.1.25 in VC1 specification, section 3.2.14.3 in DXVA spec
 	pPicParams->bRcontrol	= vc1->rnd;
 
 	pPicParams->bPicDeblocked	= ((vc1->profile == PROFILE_ADVANCED && vc1->overlap == 1 &&
@@ -652,28 +652,28 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	pPicParams->wPicWidthInMBminus1				= s->mb_width-1;
 	pPicParams->wPicHeightInMBminus1			= (s->mb_height >> is_field) - 1;
 
-	pPicParams->bMacroblockWidthMinus1			= 15;	// This is equal to “15” for MPEG-1, MPEG-2, H.263, and MPEG-4
-	pPicParams->bMacroblockHeightMinus1			= 15;	// This is equal to “15” for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
+	pPicParams->bMacroblockWidthMinus1			= 15;	// This is equal to "15" for MPEG-1, MPEG-2, H.263, and MPEG-4
+	pPicParams->bMacroblockHeightMinus1			= 15;	// This is equal to "15" for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
 
-	pPicParams->bBlockWidthMinus1				= 7;	// This is equal to “7” for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
-	pPicParams->bBlockHeightMinus1				= 7;	// This is equal to “7” for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
+	pPicParams->bBlockWidthMinus1				= 7;	// This is equal to "7" for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
+	pPicParams->bBlockHeightMinus1				= 7;	// This is equal to "7" for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
 
-	pPicParams->bBPPminus1						= 7;	// It is equal to “7” for MPEG-1, MPEG-2, H.261, and H.263
+	pPicParams->bBPPminus1						= 7;	// It is equal to "7" for MPEG-1, MPEG-2, H.261, and H.263
 
 	pPicParams->bPicStructure					= s->picture_structure;
 	//pPicParams->bSecondField
 	pPicParams->bPicIntra						= (s->current_picture.f.pict_type == AV_PICTURE_TYPE_I);
 	pPicParams->bPicBackwardPrediction			= (s->current_picture.f.pict_type == AV_PICTURE_TYPE_B);
 
-	pPicParams->bBidirectionalAveragingMode		= 0;	// The value “0” indicates MPEG-1 and MPEG-2 rounded averaging (//2),
+	pPicParams->bBidirectionalAveragingMode		= 0;	// The value "0" indicates MPEG-1 and MPEG-2 rounded averaging (//2),
 	//pPicParams->bMVprecisionAndChromaRelation	= 0;	// Indicates that luminance motion vectors have half-sample precision and that chrominance motion vectors are derived from luminance motion vectors according to the rules in MPEG-2
-	pPicParams->bChromaFormat					= 0x01;	// For MPEG-1, MPEG-2 “Main Profile,” H.261 and H.263 bitstreams, this value shall always be set to ‘01’, indicating "4:2:0" format
+	pPicParams->bChromaFormat					= 0x01;	// For MPEG-1, MPEG-2 "Main Profile," H.261 and H.263 bitstreams, this value shall always be set to ‘01’, indicating "4:2:0" format
 
 	// pPicParams->bPicScanFixed				= 1;	// set in UpdatePicParams
 	// pPicParams->bPicScanMethod				= 1;	// set in UpdatePicParams
 	// pPicParams->bPicReadbackRequests;				// ??
 
-	// pPicParams->bRcontrol					= 0;	// It shall be set to “0” for all MPEG-1, and MPEG-2 bitstreams in order to conform with the rounding operator defined by those standards
+	// pPicParams->bRcontrol					= 0;	// It shall be set to "0" for all MPEG-1, and MPEG-2 bitstreams in order to conform with the rounding operator defined by those standards
 	// pPicParams->bPicSpatialResid8;					// set in UpdatePicParams
 	// pPicParams->bPicOverflowBlocks;					// set in UpdatePicParams
 	// pPicParams->bPicExtrapolation;			= 0;	// by H.263 Annex D and MPEG-4

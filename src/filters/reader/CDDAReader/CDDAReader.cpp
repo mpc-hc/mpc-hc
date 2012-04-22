@@ -307,7 +307,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 		return false;
 	}
 
-	// MMC-3 Draft Revision 10g: Table 222 – Q Sub-channel control field
+	// MMC-3 Draft Revision 10g: Table 222 - Q Sub-channel control field
 	m_TOC.TrackData[iTrackIndex-1].Control &= 5;
 	if (!(m_TOC.TrackData[iTrackIndex-1].Control == 0 || m_TOC.TrackData[iTrackIndex-1].Control == 1)) {
 		CloseHandle(m_hDrive);

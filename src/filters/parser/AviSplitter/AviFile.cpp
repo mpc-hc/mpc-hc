@@ -167,28 +167,28 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 			if (parentid == FCC('INFO') && size > 0) {
 				switch (id) {
 					case FCC('IARL'): // Archival Location. Indicates where the subject of the file is archived.
-					case FCC('IART'): // Artist. Lists the artist of the original subject of the file; for example, “Michaelangelo.”
-					case FCC('ICMS'): // Commissioned. Lists the name of the person or organization that commissioned the subject of the file; for example, “Pope Julian II.”
+					case FCC('IART'): // Artist. Lists the artist of the original subject of the file; for example, "Michaelangelo."
+					case FCC('ICMS'): // Commissioned. Lists the name of the person or organization that commissioned the subject of the file; for example, "Pope Julian II."
 					case FCC('ICMT'): // Comments. Provides general comments about the file or the subject of the file. If the comment is several sentences long, end each sentence with a period. Do not include new-line characters.
-					case FCC('ICOP'): // Copyright. Records the copyright information for the file; for example, “Copyright Encyclopedia International 1991.” If there are multiple copyrights, separate them by a semicolon followed by a space.
-					case FCC('ICRD'): // Creation date. Specifies the date the subject of the file was created. List dates in year-month-day format, padding one-digit months and days with a zero on the left; for example, “1553-05-03” for May 3, 1553.
-					case FCC('ICRP'): // Cropped. Describes whether an image has been cropped and, if so, how it was cropped; for example, “lower-right corner.”
-					case FCC('IDIM'): // Dimensions. Specifies the size of the original subject of the file; for example, “8.5 in h, 11 in w.”
-					case FCC('IDPI'): // Dots Per Inch. Stores dots per inch setting of the digitizer used to produce the file, such as “300.”
-					case FCC('IENG'): // Engineer. Stores the name of the engineer who worked on the file. If there are multiple engineers, separate the names by a semicolon and a blank; for example, “Smith, John; Adams, Joe.”
-					case FCC('IGNR'): // Genre. Describes the original work, such as “landscape,” “portrait,” “still life,” etc.
-					case FCC('IKEY'): // Keywords. Provides a list of keywords that refer to the file or subject of the file. Separate multiple keywords with a semicolon and a blank; for example, “Seattle; aerial view; scenery.”
+					case FCC('ICOP'): // Copyright. Records the copyright information for the file; for example, "Copyright Encyclopedia International 1991." If there are multiple copyrights, separate them by a semicolon followed by a space.
+					case FCC('ICRD'): // Creation date. Specifies the date the subject of the file was created. List dates in year-month-day format, padding one-digit months and days with a zero on the left; for example, "1553-05-03" for May 3, 1553.
+					case FCC('ICRP'): // Cropped. Describes whether an image has been cropped and, if so, how it was cropped; for example, "lower-right corner."
+					case FCC('IDIM'): // Dimensions. Specifies the size of the original subject of the file; for example, "8.5 in h, 11 in w."
+					case FCC('IDPI'): // Dots Per Inch. Stores dots per inch setting of the digitizer used to produce the file, such as "300."
+					case FCC('IENG'): // Engineer. Stores the name of the engineer who worked on the file. If there are multiple engineers, separate the names by a semicolon and a blank; for example, "Smith, John; Adams, Joe."
+					case FCC('IGNR'): // Genre. Describes the original work, such as "landscape," "portrait," "still life," etc.
+					case FCC('IKEY'): // Keywords. Provides a list of keywords that refer to the file or subject of the file. Separate multiple keywords with a semicolon and a blank; for example, "Seattle; aerial view; scenery."
 					case FCC('ILGT'): // Lightness. Describes the changes in lightness settings on the digitizer required to produce the file. Note that the format of this information depends on hardware used.
-					case FCC('IMED'): // Medium. Describes the original subject of the file, such as “computer image,” “drawing,” “lithograph,” and so on.
-					case FCC('INAM'): // Name. Stores the title of the subject of the file, such as “Seattle From Above.”
-					case FCC('IPLT'): // Palette Setting. Specifies the number of colors requested when digitizing an image, such as “256.”
-					case FCC('IPRD'): // Product. Specifies the name of the title the file was originally intended for, such as “Encyclopedia of Pacific Northwest Geography.”
-					case FCC('ISBJ'): // Subject. Describes the contents of the file, such as “Aerial view of Seattle.”
-					case FCC('ISFT'): // Software. Identifies the name of the software package used to create the file, such as “Microsoft WaveEdit.”
+					case FCC('IMED'): // Medium. Describes the original subject of the file, such as "computer image," "drawing," "lithograph," and so on.
+					case FCC('INAM'): // Name. Stores the title of the subject of the file, such as "Seattle From Above."
+					case FCC('IPLT'): // Palette Setting. Specifies the number of colors requested when digitizing an image, such as "256."
+					case FCC('IPRD'): // Product. Specifies the name of the title the file was originally intended for, such as "Encyclopedia of Pacific Northwest Geography."
+					case FCC('ISBJ'): // Subject. Describes the contents of the file, such as "Aerial view of Seattle."
+					case FCC('ISFT'): // Software. Identifies the name of the software package used to create the file, such as "Microsoft WaveEdit."
 					case FCC('ISHP'): // Sharpness. Identifies the changes in sharpness for the digitizer required to produce the file (the format depends on the hardware used).
-					case FCC('ISRC'): // Source. Identifies the name of the person or organization who supplied the original subject of the file; for example, “Trey Research.”
-					case FCC('ISRF'): // Source Form. Identifies the original form of the material that was digitized, such as “slide,” “paper,” “map,” and so on. This is not necessarily the same as IMED.
-					case FCC('ITCH'): { // Technician. Identifies the technician who digitized the subject file; for example, “Smith, John.”
+					case FCC('ISRC'): // Source. Identifies the name of the person or organization who supplied the original subject of the file; for example, "Trey Research."
+					case FCC('ISRF'): // Source Form. Identifies the original form of the material that was digitized, such as "slide," "paper," "map," and so on. This is not necessarily the same as IMED.
+					case FCC('ITCH'): { // Technician. Identifies the technician who digitized the subject file; for example, "Smith, John."
 						CStringA str;
 						if (S_OK != ByteRead((BYTE*)str.GetBufferSetLength(size), size)) {
 							return E_FAIL;
