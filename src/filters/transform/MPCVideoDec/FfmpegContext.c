@@ -667,7 +667,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 
 	pPicParams->bBidirectionalAveragingMode		= 0;	// The value "0" indicates MPEG-1 and MPEG-2 rounded averaging (//2),
 	//pPicParams->bMVprecisionAndChromaRelation	= 0;	// Indicates that luminance motion vectors have half-sample precision and that chrominance motion vectors are derived from luminance motion vectors according to the rules in MPEG-2
-	pPicParams->bChromaFormat					= 0x01;	// For MPEG-1, MPEG-2 "Main Profile," H.261 and H.263 bitstreams, this value shall always be set to ‘01’, indicating "4:2:0" format
+	pPicParams->bChromaFormat					= 0x01;	// For MPEG-1, MPEG-2 "Main Profile," H.261 and H.263 bitstreams, this value shall always be set to "01", indicating "4:2:0" format
 
 	// pPicParams->bPicScanFixed				= 1;	// set in UpdatePicParams
 	// pPicParams->bPicScanMethod				= 1;	// set in UpdatePicParams
