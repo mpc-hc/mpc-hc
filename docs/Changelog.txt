@@ -45,6 +45,7 @@ Legend:
   traditional Chinese, Italian, German and Polish translations
 * Removed GTSdll support
 * Removed the option to disable XP theming
+* Removed SSF support
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
@@ -68,7 +69,6 @@ Legend:
 ! Ticket #1182, Unable to playback MPEG2 in AVI
 ! Ticket #1290, Fix the reversed behavior of the playlist option "Hide on fullscreen"
   when the "Launch files in fullscreen" option is enabled
-! Ticket #1447, Show volume change in the status bar (for non-OSD renderers and audio)
 ! Ticket #1589, Crash with "Null (uncompressed)"
 ! Ticket #1706, CSS 2.1 and HTML 4.01 Validation for the WebServer files
 ! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on

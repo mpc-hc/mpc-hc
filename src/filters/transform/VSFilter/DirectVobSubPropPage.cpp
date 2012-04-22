@@ -351,7 +351,7 @@ bool CDVSMainPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 						CFileDialog fd(TRUE, NULL, NULL,
 									   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST,
-									   _T(".idx .smi .sub .srt .psb .ssa .ass .usf .ssf|*.idx;*.smi;*.sub;*.srt;*.psb;*.ssa;*.ass;*.usf;*.ssf|")
+									   _T(".idx .smi .sub .srt .psb .ssa .ass .usf|*.idx;*.smi;*.sub;*.srt;*.psb;*.ssa;*.ass;*.usf|")
 									   _T("All files (*.*)|*.*||"),
 									   CDialog::FromHandle(m_Dlg), 0);
 

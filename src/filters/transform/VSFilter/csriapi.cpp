@@ -25,7 +25,6 @@
 #include "resource.h"
 #include "../../../Subtitles/VobSubFile.h"
 #include "../../../Subtitles/RTS.h"
-#include "../../../Subtitles/SSF.h"
 #include "../../../SubPic/MemSubPic.h"
 
 #define CSRIAPI extern "C" __declspec(dllexport)

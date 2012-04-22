@@ -25,7 +25,6 @@
 #include "SubtitleInputPin.h"
 #include "VobSubFile.h"
 #include "RTS.h"
-#include "SSF.h"
 #include "RenderedHdmvSubtitle.h"
 
 #include <InitGuid.h>
@@ -64,7 +63,6 @@ HRESULT CSubtitleInputPin::CheckMediaType(const CMediaType* pmt)
 	return pmt->majortype == MEDIATYPE_Text && (pmt->subtype == MEDIASUBTYPE_NULL || pmt->subtype == FOURCCMap((DWORD)0))
 		   || pmt->majortype == MEDIATYPE_Subtitle && pmt->subtype == MEDIASUBTYPE_UTF8
 		   || pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_SSA || pmt->subtype == MEDIASUBTYPE_ASS || pmt->subtype == MEDIASUBTYPE_ASS2)
-		   || pmt->majortype == MEDIATYPE_Subtitle && pmt->subtype == MEDIASUBTYPE_SSF
 		   || pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_VOBSUB)
 		   || IsHdmvSub(pmt)
 		   ? S_OK
@@ -131,13 +129,6 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 
 				pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
 			}
-
-		} else if (m_mt.subtype == MEDIASUBTYPE_SSF) {
-			if (!(m_pSubStream = DNew ssf::CRenderer(m_pSubLock))) {
-				return E_FAIL;
-			}
-			ssf::CRenderer* pSSF = (ssf::CRenderer*)(ISubStream*)m_pSubStream;
-			pSSF->Open(ssf::MemoryInputStream(m_mt.pbFormat + dwOffset, m_mt.cbFormat - dwOffset, false, false), name);
 		} else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
 			if (!(m_pSubStream = DNew CVobSubStream(m_pSubLock))) {
 				return E_FAIL;
@@ -194,13 +185,6 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
 		CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 		pRTS->RemoveAll();
 		pRTS->CreateSegments();
-	} else if (m_mt.majortype == MEDIATYPE_Subtitle && m_mt.subtype == MEDIASUBTYPE_SSF) {
-		CAutoLock cAutoLock(m_pSubLock);
-		ssf::CRenderer* pSSF = (ssf::CRenderer*)(ISubStream*)m_pSubStream;
-		// LAME, implement RemoveSubtitles
-		DWORD dwOffset = ((SUBTITLEINFO*)m_mt.pbFormat)->dwOffset;
-		pSSF->Open(ssf::MemoryInputStream(m_mt.pbFormat + dwOffset, m_mt.cbFormat - dwOffset, false, false), _T(""));
-		// pSSF->RemoveSubtitles();
 	} else if (m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_VOBSUB)) {
 		CAutoLock cAutoLock(m_pSubLock);
 		CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
@@ -347,14 +331,6 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 							  stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
 					fInvalidate = true;
 				}
-			}
-		} else if (m_mt.subtype == MEDIASUBTYPE_SSF) {
-			ssf::CRenderer* pSSF = (ssf::CRenderer*)(ISubStream*)m_pSubStream;
-
-			CStringW str = UTF8To16(CStringA((LPCSTR)pData, len)).Trim();
-			if (!str.IsEmpty()) {
-				pSSF->Append(tStart, tStop, str);
-				fInvalidate = true;
 			}
 		} else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
 			CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;

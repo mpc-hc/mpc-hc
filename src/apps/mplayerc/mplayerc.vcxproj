@@ -616,10 +616,6 @@
       <Project>{53cf9195-19db-457d-8f55-8db1706dfa84}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\filters\parser\SSFSplitter\SSFSplitter.vcxproj">
-      <Project>{cc07b80f-d44f-41a9-9e37-5f2b47b46edc}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\..\filters\parser\StreamDriveThru\StreamDriveThru.vcxproj">
       <Project>{ae399b7e-2b2c-4a96-9016-c5c74b0a2fa0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -722,10 +718,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\SubPic\SubPic.vcxproj">
       <Project>{d514ea4d-eafb-47a9-a437-a582ca571251}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Subtitles\libssf\libssf.vcxproj">
-      <Project>{dd9d2d92-2241-408a-859e-b85d444b7e3c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\Subtitles\Subtitles.vcxproj">

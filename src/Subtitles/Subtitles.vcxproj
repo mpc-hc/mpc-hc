@@ -103,7 +103,6 @@
     <ClCompile Include="RealTextParser.cpp" />
     <ClCompile Include="RenderedHdmvSubtitle.cpp" />
     <ClCompile Include="RTS.cpp" />
-    <ClCompile Include="SSF.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -127,7 +126,6 @@
     <ClInclude Include="RenderedHdmvSubtitle.h" />
     <ClInclude Include="RTS.h" />
     <ClInclude Include="SeparableFilter.h" />
-    <ClInclude Include="SSF.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="STS.h" />
     <ClInclude Include="SubtitleInputPin.h" />

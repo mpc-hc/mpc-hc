@@ -26,7 +26,6 @@
 #include "BitStream.h"
 #include "BaseMuxerInputPin.h"
 #include "BaseMuxerRelatedPin.h"
-#include "../../../Subtitles/libssf/SubtitleFile.h"
 
 class CBaseMuxerOutputPin : public CBaseOutputPin
 {
@@ -57,8 +56,6 @@ class CBaseMuxerRawOutputPin : public CBaseMuxerOutputPin, public CBaseMuxerRela
 		__int64 fp;
 	};
 	CAtlList<idx_t> m_idx;
-
-	ssf::SubtitleFile m_ssf;
 
 public:
 	CBaseMuxerRawOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);

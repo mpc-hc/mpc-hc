@@ -393,7 +393,6 @@ CString CMediaTypeEx::GetSubtitleCodecName(const GUID& subtype)
 		names[MEDIASUBTYPE_SSA] = _T("SubStation Alpha");
 		names[MEDIASUBTYPE_ASS] = _T("Advanced SubStation Alpha");
 		names[MEDIASUBTYPE_ASS2] = _T("Advanced SubStation Alpha");
-		names[MEDIASUBTYPE_SSF] = _T("Stuctured Subtitle Format");
 		names[MEDIASUBTYPE_USF] = _T("Universal Subtitle Format");
 		names[MEDIASUBTYPE_VOBSUB] = _T("VobSub");
 		// names[''] = _T("");

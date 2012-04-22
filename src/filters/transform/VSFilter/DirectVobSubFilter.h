@@ -28,7 +28,6 @@
 #include "../BaseVideoFilter/BaseVideoFilter.h"
 #include "../../../Subtitles/VobSubFile.h"
 #include "../../../Subtitles/RTS.h"
-#include "../../../Subtitles/SSF.h"
 
 typedef struct {
 	HWND hSystrayWnd;

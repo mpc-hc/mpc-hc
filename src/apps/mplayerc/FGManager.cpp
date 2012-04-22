@@ -2742,7 +2742,6 @@ CFGManagerMuxer::CFGManagerMuxer(LPCTSTR pName, LPUNKNOWN pUnk)
 	: CFGManagerCustom(pName, pUnk)
 {
 	m_source.AddTail(DNew CFGFilterInternal<CSubtitleSourceASS>());
-	m_source.AddTail(DNew CFGFilterInternal<CSSFSourceFilter>());
 }
 
 //

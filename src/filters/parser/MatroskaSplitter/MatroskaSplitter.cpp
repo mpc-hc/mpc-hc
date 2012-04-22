@@ -782,7 +782,6 @@ avcsuccess:
 						CodecID == "S_TEXT/UTF8" ? MEDIASUBTYPE_UTF8 :
 						CodecID == "S_TEXT/SSA" || CodecID == "S_SSA" ? MEDIASUBTYPE_SSA :
 						CodecID == "S_TEXT/ASS" || CodecID == "S_ASS" ? MEDIASUBTYPE_ASS :
-						CodecID == "S_TEXT/SSF" || CodecID == "S_SSF" ? MEDIASUBTYPE_SSF :
 						CodecID == "S_TEXT/USF" || CodecID == "S_USF" ? MEDIASUBTYPE_USF :
 						CodecID == "S_HDMV/PGS" ? MEDIASUBTYPE_HDMVSUB :
 						//CodecID == "S_DVBSUB" ? MEDIASUBTYPE_DVB_SUBTITLES : // does not work

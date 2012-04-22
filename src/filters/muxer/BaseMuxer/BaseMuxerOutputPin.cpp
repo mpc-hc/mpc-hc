@@ -172,11 +172,6 @@ void CBaseMuxerRawOutputPin::MuxHeader(const CMediaType& mt)
 		if (str.Find("[Events]") < 0) {
 			pBitStream->StrWrite("\n\n[Events]\n", true);
 		}
-	} else if (mt.subtype == MEDIASUBTYPE_SSF) {
-		DWORD dwOffset = ((SUBTITLEINFO*)mt.pbFormat)->dwOffset;
-		try {
-			m_ssf.Parse(ssf::MemoryInputStream(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, false, false));
-		} catch (ssf::Exception&) {}
 	} else if (mt.subtype == MEDIASUBTYPE_VOBSUB) {
 		m_idx.RemoveAll();
 	} else if (mt.majortype == MEDIATYPE_Audio
@@ -357,11 +352,6 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 		pBitStream->StrWrite(str, true);
 
 		return;
-	} else if (mt.subtype == MEDIASUBTYPE_SSF) {
-		float start = (float)pPacket->rtStart / 10000000;
-		float stop = (float)pPacket->rtStop / 10000000;
-		m_ssf.Append(ssf::WCharInputStream(UTF8To16(CStringA((char*)pData, DataSize))), start, stop, true);
-		return;
 	} else if (mt.subtype == MEDIASUBTYPE_VOBSUB) {
 		bool fTimeValid = pPacket->IsTimeValid();
 
@@ -454,13 +444,6 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 		size -= sizeof(RIFFLIST) + sizeof(RIFFCHUNK) + mt.FormatLength();
 		pBitStream->Seek(sizeof(RIFFLIST) + sizeof(RIFFCHUNK) + mt.FormatLength() + 4);
 		pBitStream->ByteWrite(&size, 4);
-	} else if (mt.subtype == MEDIASUBTYPE_SSF) {
-		ssf::WCharOutputStream s;
-		try {
-			m_ssf.Dump(s);
-		} catch (ssf::Exception&) {}
-		CStringA str = UTF16To8(s.GetString());
-		pBitStream->StrWrite(str, true);
 	} else if (mt.subtype == MEDIASUBTYPE_VOBSUB) {
 		if (CComQIPtr<IFileSinkFilter> pFSF = GetFilterFromPin(GetConnected())) {
 			WCHAR* fn = NULL;

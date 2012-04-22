@@ -27,7 +27,6 @@
 #include "resource.h"
 #include "../../../Subtitles/VobSubFile.h"
 #include "../../../Subtitles/RTS.h"
-#include "../../../Subtitles/SSF.h"
 #include "../../../SubPic/MemSubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "vfr.h"
@@ -213,17 +212,6 @@ namespace Plugin
 		bool Open(CString fn, int CharSet = DEFAULT_CHARSET) {
 			SetFileName(_T(""));
 			m_pSubPicProvider = NULL;
-
-			if (!m_pSubPicProvider) {
-				if (ssf::CRenderer* ssf = new ssf::CRenderer(&m_csSubLock)) {
-					m_pSubPicProvider = (ISubPicProvider*)ssf;
-					if (ssf->Open(CString(fn))) {
-						SetFileName(fn);
-					} else {
-						m_pSubPicProvider = NULL;
-					}
-				}
-			}
 
 			if (!m_pSubPicProvider) {
 				if (CRenderedTextSubtitle* rts = new CRenderedTextSubtitle(&m_csSubLock)) {

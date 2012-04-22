@@ -54,8 +54,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdca", "src\thirdparty\li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libflac", "src\thirdparty\libflac\src\libFLAC\libflac.vcxproj", "{4CEFBC84-C215-11DB-8314-0800200C9A66}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "src\Subtitles\libssf\libssf.vcxproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatroskaMuxer", "src\filters\muxer\MatroskaMuxer\MatroskaMuxer.vcxproj", "{67827491-8162-4039-9132-F934ABC836A0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatroskaSplitter", "src\filters\parser\MatroskaSplitter\MatroskaSplitter.vcxproj", "{3F5EA225-F4B7-4413-AEB3-4E4E5751E438}"
@@ -79,8 +77,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RealMediaSplitter", "src\filters\parser\RealMediaSplitter\RealMediaSplitter.vcxproj", "{53CF9195-19DB-457D-8F55-8DB1706DFA84}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShoutcastSource", "src\filters\source\ShoutcastSource\ShoutcastSource.vcxproj", "{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSFSplitter", "src\filters\parser\SSFSplitter\SSFSplitter.vcxproj", "{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamDriveThru", "src\filters\parser\StreamDriveThru\StreamDriveThru.vcxproj", "{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}"
 EndProject
@@ -330,14 +326,6 @@ Global
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Filter|Win32.Build.0 = Release|Win32
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Filter|x64.ActiveCfg = Release|x64
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Filter|x64.Build.0 = Release|x64
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug Filter|Win32.ActiveCfg = Debug|Win32
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug Filter|Win32.Build.0 = Debug|Win32
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug Filter|x64.ActiveCfg = Debug|x64
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug Filter|x64.Build.0 = Debug|x64
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release Filter|Win32.ActiveCfg = Release|Win32
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release Filter|Win32.Build.0 = Release|Win32
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release Filter|x64.ActiveCfg = Release|x64
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release Filter|x64.Build.0 = Release|x64
 		{67827491-8162-4039-9132-F934ABC836A0}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
 		{67827491-8162-4039-9132-F934ABC836A0}.Debug Filter|Win32.Build.0 = Debug Filter|Win32
 		{67827491-8162-4039-9132-F934ABC836A0}.Debug Filter|x64.ActiveCfg = Debug Filter|x64
@@ -432,14 +420,6 @@ Global
 		{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}.Release Filter|Win32.Build.0 = Release Filter|Win32
 		{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}.Release Filter|x64.ActiveCfg = Release Filter|x64
 		{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}.Release Filter|x64.Build.0 = Release Filter|x64
-		{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
-		{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}.Debug Filter|Win32.Build.0 = Debug Filter|Win32
-		{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}.Debug Filter|x64.ActiveCfg = Debug Filter|x64
-		{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}.Debug Filter|x64.Build.0 = Debug Filter|x64
-		{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}.Release Filter|Win32.ActiveCfg = Release Filter|Win32
-		{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}.Release Filter|Win32.Build.0 = Release Filter|Win32
-		{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}.Release Filter|x64.ActiveCfg = Release Filter|x64
-		{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}.Release Filter|x64.Build.0 = Release Filter|x64
 		{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
 		{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}.Debug Filter|Win32.Build.0 = Debug Filter|Win32
 		{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}.Debug Filter|x64.ActiveCfg = Debug Filter|x64
@@ -553,7 +533,6 @@ Global
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F} = {8CC3BC0F-7210-4FE3-B38D-118B94E8651D}
 		{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1} = {8CC3BC0F-7210-4FE3-B38D-118B94E8651D}
 		{4CEFBC84-C215-11DB-8314-0800200C9A66} = {8CC3BC0F-7210-4FE3-B38D-118B94E8651D}
-		{DD9D2D92-2241-408A-859E-B85D444B7E3C} = {8CC3BC0F-7210-4FE3-B38D-118B94E8651D}
 		{D514EA4D-EAFB-47A9-A437-A582CA571251} = {8CC3BC0F-7210-4FE3-B38D-118B94E8651D}
 		{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4} = {8CC3BC0F-7210-4FE3-B38D-118B94E8651D}
 		{0D252872-7542-4232-8D02-53F9182AEE15} = {8CC3BC0F-7210-4FE3-B38D-118B94E8651D}
