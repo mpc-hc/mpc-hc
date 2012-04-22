@@ -1105,7 +1105,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx	= avcodec_alloc_context3(m_pAVCodec);
 			CheckPointer (m_pAVCtx, E_POINTER);
 
-			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber();
+			int nThreadNumber = m_nThreadNumber ? m_nThreadNumber : m_pCpuId->GetProcessorNumber() * 3 / 2;
 			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
 				FFSetThreadNumber(m_pAVCtx, m_nCodecId, (IsDXVASupported() || (m_nCodecId == CODEC_ID_THEORA && !m_bTheoraMTSupport)) ? 1 : nThreadNumber);
 			}

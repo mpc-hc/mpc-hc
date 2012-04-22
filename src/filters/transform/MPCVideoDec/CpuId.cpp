@@ -197,8 +197,5 @@ int CCpuId::GetProcessorNumber()
 	SYSTEM_INFO SystemInfo;
 	GetSystemInfo(&SystemInfo);
 
-	// TODO: maybe use dwNumberOfProcessors * 3 / 2.
-	// It seems to be significantly faster; 62 vs 69 fps for a 2160p sample
-	// on a i7-2600k
 	return SystemInfo.dwNumberOfProcessors;
 }
