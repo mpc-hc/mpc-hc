@@ -21,11 +21,13 @@
 #ifndef AVCODEC_AVCODEC_H
 #define AVCODEC_AVCODEC_H
 
+// ==> Start patch MPC
 #ifdef __cplusplus
     #define FF_EXPORT extern "C" 
 #else
     #define FF_EXPORT 
 #endif
+// <== End patch MPC
 
 /**
  * @file
@@ -4688,7 +4690,7 @@ int av_codec_is_decoder(AVCodec *codec);
 FF_EXPORT int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
                          const uint8_t *buf, int buf_size, int *recovery_frame_cnt);
 
-/* Media Player Classic - Homecinema specific functions */
+/* MPC-HC specific functions */
 FF_EXPORT int FFGetChannelMap(struct AVCodecContext* avctx);
 
 #endif /* AVCODEC_AVCODEC_H */
