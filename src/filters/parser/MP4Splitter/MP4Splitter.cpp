@@ -1044,7 +1044,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						mt.majortype = MEDIATYPE_Audio;
 						mt.formattype = FORMAT_WaveFormatEx;
-						wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + (type == AP4_ATOM_TYPE_MP4A ? 0 : type == AP4_ATOM_TYPE_ALAC ? 36 : db.GetDataSize()));
+						wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX));
 						memset(wfe, 0, mt.FormatLength());
 						if (!(fourcc & 0xffff0000)) {
 							wfe->wFormatTag = (WORD)fourcc;
@@ -1102,10 +1102,12 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							}
 
 							if (size >= 36) {
+								wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + 36);
 								wfe->cbSize = 36;
 								memcpy(wfe+1, data, 36);
 							}
-						} else {
+						} else if (db.GetDataSize() > 0) {
+							wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + db.GetDataSize());
 							wfe->cbSize = db.GetDataSize();
 							memcpy(wfe+1, db.GetData(), db.GetDataSize());
 						}
