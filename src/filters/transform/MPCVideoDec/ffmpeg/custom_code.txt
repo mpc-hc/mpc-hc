@@ -1,7 +1,7 @@
 The following files have MPC-HC specific custom code (compared to ffmpeg):
 
-* config.h
 * config.asm
+* config.h
 * makefile
 
 * libavcodec/aacdec.c

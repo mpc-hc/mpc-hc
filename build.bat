@@ -49,6 +49,7 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Clean"    SET "BUILDTYPE=Clean"     & Set /A ARGB+=1
   IF /I "%%A" == "Rebuild"  SET "BUILDTYPE=Rebuild"   & Set /A ARGB+=1
   IF /I "%%A" == "Both"     SET "PLATFORM=Both"       & Set /A ARGP+=1
+  IF /I "%%A" == "Win32"    SET "PLATFORM=Win32"      & Set /A ARGP+=1
   IF /I "%%A" == "x86"      SET "PLATFORM=Win32"      & Set /A ARGP+=1
   IF /I "%%A" == "x64"      SET "PLATFORM=x64"        & Set /A ARGP+=1
   IF /I "%%A" == "All"      SET "CONFIG=All"          & Set /A ARGC+=1

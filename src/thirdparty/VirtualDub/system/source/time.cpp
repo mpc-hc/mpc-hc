@@ -33,9 +33,11 @@
 #include <vd2/system/thread.h>
 #include <vd2/system/thunk.h>
 
+/* MPC-HC comment out: we use winmm.lib in the project file
 #ifdef _MSC_VER
 	#pragma comment(lib, "winmm")
 #endif
+*/
 
 uint32 VDGetCurrentTick() {
 	return (uint32)GetTickCount();
