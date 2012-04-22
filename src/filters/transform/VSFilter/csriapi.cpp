@@ -217,7 +217,7 @@ static struct csri_info csri_vsfilter_info = {
 	"VSFilter/TextSub (MPC-HC)", // longname
 #endif
 	"Gabest", // author
-	"Copyright (c) 2003-2010 by Gabest and others" // copyright
+	"Copyright (c) 2003-2012 by Gabest et al." // copyright
 };
 
 CSRIAPI struct csri_info *csri_renderer_info(csri_rend *rend) {
