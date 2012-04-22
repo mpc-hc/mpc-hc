@@ -1066,18 +1066,28 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							type == AP4_ATOM_TYPE_ALAW ||
 							type == AP4_ATOM_TYPE_ULAW) {
 							//fe->cbSize = 0;
-						} else if (type == AP4_ATOM_TYPE('m', 's', 0, 2)) {
-							const WORD ctCoefficents = 7;
-							static ADPCMCOEFSET coefficientSet[] = { {256, 0}, {512, -256}, {0,0}, {192,64}, {240,0}, {460, -208}, {392,-232} };
-							const ULONG ctBytes = sizeof(ADPCMWAVEFORMAT) + (ctCoefficents * sizeof(ADPCMCOEFSET));
-							ADPCMWAVEFORMAT* format = (ADPCMWAVEFORMAT*)mt.ReallocFormatBuffer(ctBytes);
+						} else if (type == AP4_ATOM_TYPE('m', 's', 0x00, 0x02)) {
+							const WORD numcoef = 7;
+							static ADPCMCOEFSET coef[] = { {256, 0}, {512, -256}, {0,0}, {192,64}, {240,0}, {460, -208}, {392,-232} };
+							const ULONG size = sizeof(ADPCMWAVEFORMAT) + (numcoef * sizeof(ADPCMCOEFSET));
+							ADPCMWAVEFORMAT* format = (ADPCMWAVEFORMAT*)mt.ReallocFormatBuffer(size);
 							if (format != NULL) {
 								format->wfx.wFormatTag = WAVE_FORMAT_ADPCM;
 								format->wfx.wBitsPerSample = 4;
-								format->wfx.cbSize = (WORD)(ctBytes - sizeof(WAVEFORMATEX));
+								format->wfx.cbSize = (WORD)(size - sizeof(WAVEFORMATEX));
 								format->wSamplesPerBlock = format->wfx.nBlockAlign * 2 / format->wfx.nChannels - 12;
-								format->wNumCoef = ctCoefficents;
-								memcpy( format->aCoef, coefficientSet, sizeof(coefficientSet) );
+								format->wNumCoef = numcoef;
+								memcpy( format->aCoef, coef, sizeof(coef) );
+							}
+						} else if (type == AP4_ATOM_TYPE('m', 's', 0x00, 0x11)) {
+							IMAADPCMWAVEFORMAT* format = (IMAADPCMWAVEFORMAT*)mt.ReallocFormatBuffer(sizeof(IMAADPCMWAVEFORMAT));
+							if (format != NULL) {
+								format->wfx.wFormatTag = WAVE_FORMAT_IMA_ADPCM;
+								format->wfx.wBitsPerSample = 4;
+								format->wfx.cbSize = (WORD)(sizeof(IMAADPCMWAVEFORMAT) - sizeof(WAVEFORMATEX));
+								int X = (format->wfx.nBlockAlign - (4 * format->wfx.nChannels)) * 8;
+								int Y = format->wfx.wBitsPerSample * format->wfx.nChannels;
+								format->wSamplesPerBlock = (X / Y) + 1;
 							}
 						} else if (type == AP4_ATOM_TYPE_ALAC) {
 							const AP4_Byte* data = db.GetData();
