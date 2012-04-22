@@ -2325,6 +2325,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	AppSettings& s = AfxGetAppSettings();
 	HRESULT hr = S_OK;
 
+	UpdateThumbarButton();
+
 	LONG evCode = 0;
 	LONG_PTR evParam1, evParam2;
 	while (pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
@@ -14631,9 +14633,6 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
 	} else {
 		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
 	}
-
-	// Set thumbnails button state
-	UpdateThumbarButton();
 }
 
 bool CMainFrame::CreateFullScreenWindow()
