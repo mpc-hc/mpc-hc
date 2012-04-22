@@ -780,7 +780,7 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
 		DWORD taskIndex = 0;
 
 		if (pfAvSetMmThreadCharacteristicsW) {
-			hTask = pfAvSetMmThreadCharacteristicsW(TEXT("Pro Audio"), &taskIndex);
+			hTask = pfAvSetMmThreadCharacteristicsW(_T("Pro Audio"), &taskIndex);
 			TRACE(_T("CMpcAudioRenderer::InitCoopLevel Putting thread in higher priority for Wasapi mode (lowest latency)\n"));
 			hr=GetLastError();
 			if (hTask == NULL) {

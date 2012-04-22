@@ -179,7 +179,7 @@ HRESULT CBufferFilter::Receive(IMediaSample* pSample)
 	MSR_STOP(m_idTransform);
 
 	if (FAILED(hr)) {
-		DbgLog((LOG_TRACE,1,TEXT("Error from transform")));
+		DbgLog((LOG_TRACE,1,_T("Error from transform")));
 	} else {
 		// the Transform() function can return S_FALSE to indicate that the
 		// sample should not be delivered; we only deliver the sample if it's

@@ -93,9 +93,9 @@
 
 #define MENUBARBREAK 30
 
-static UINT s_uTaskbarRestart = RegisterWindowMessage(TEXT("TaskbarCreated"));
-static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
-static UINT s_uTBBC = RegisterWindowMessage(TEXT("TaskbarButtonCreated"));
+static UINT s_uTaskbarRestart = RegisterWindowMessage(_T("TaskbarCreated"));
+static UINT WM_NOTIFYICON = RegisterWindowMessage(_T("MYWM_NOTIFYICON"));
+static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
 
 #include "../../filters/transform/VSFilter/IDirectVobSub.h"
 
@@ -1082,7 +1082,7 @@ void CMainFrame::ShowTrayIcon(bool fShow)
 			tnid.hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 			tnid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP;
 			tnid.uCallbackMessage = WM_NOTIFYICON;
-			StringCchCopy(tnid.szTip, countof(tnid.szTip), TEXT("Media Player Classic"));
+			StringCchCopy(tnid.szTip, countof(tnid.szTip), _T("Media Player Classic"));
 			Shell_NotifyIcon(NIM_ADD, &tnid);
 
 			m_fTrayIcon = true;
