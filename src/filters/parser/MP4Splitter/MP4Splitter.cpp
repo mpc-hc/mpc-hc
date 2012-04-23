@@ -104,30 +104,6 @@ CFilterApp theApp;
 
 #endif
 
-GUID GetLPCMGUID(WORD bps, DWORD flags)
-{
-	if (flags & 1) { // floating point
-		if (flags & 2) { // big endian
-			if      (bps == 32) return MEDIASUBTYPE_PCM_FL32;
-			else if (bps == 64) return MEDIASUBTYPE_PCM_FL64;
-		} else {
-			if      (bps == 32) return MEDIASUBTYPE_PCM_FL32_le;
-			else if (bps == 64) return MEDIASUBTYPE_PCM_FL64_le;
-		}
-	} else {
-		if (flags & 2) {
-			if      (bps == 16) return MEDIASUBTYPE_PCM_TWOS;
-			else if (bps == 24) return MEDIASUBTYPE_PCM_IN24;
-			else if (bps == 32) return MEDIASUBTYPE_PCM_IN32;
-		} else {
-			if      (bps == 16) return MEDIASUBTYPE_PCM_SOWT;
-			else if (bps == 24) return MEDIASUBTYPE_PCM_IN24_le;
-			else if (bps == 32) return MEDIASUBTYPE_PCM_IN32_le;
-		}
-	}
-	return FOURCCMap(MAKEFOURCC('l','p','c','m'));
-}
-
 struct SSACharacter {
 	CString pre, post;
 	WCHAR c;
@@ -966,6 +942,10 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						break;
 					} else if (AP4_AudioSampleEntry* ase = dynamic_cast<AP4_AudioSampleEntry*>(atom)) {
+						DWORD samplerate    = ase->GetSampleRate();
+						WORD  channels      = ase->GetChannelCount();
+						WORD  bitspersample = ase->GetSampleSize();
+
 						// overwrite audio fourc
 						if ((type & 0xffff0000) == AP4_ATOM_TYPE('m', 's', 0, 0)) {
 							fourcc = type & 0xffff;
@@ -994,14 +974,39 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						} else if (type == AP4_ATOM_TYPE_ALAC) {
 							fourcc = MAKEFOURCC('a','l','a','c');
 							SetTrackName(&TrackName, _T("Alac Audio"));
-						} else if (ase->GetEndian()==1 &&
-								   (type==AP4_ATOM_TYPE_IN24 || type==AP4_ATOM_TYPE_IN32 ||
-									type==AP4_ATOM_TYPE_FL32 || type==AP4_ATOM_TYPE_FL64)) {
-							fourcc = type;    //reverse fourcc
+						} else if (type == AP4_ATOM_TYPE_RAW  && bitspersample ==  8 ||
+								   type == AP4_ATOM_TYPE_SOWT && bitspersample == 16 ||
+								  (type == AP4_ATOM_TYPE_IN24 || type == AP4_ATOM_TYPE_IN32) && ase->GetEndian()==ENDIAN_LITTLE) {
+							fourcc = type = WAVE_FORMAT_PCM;
+						} else if (type == AP4_ATOM_TYPE_FL32 && ase->GetEndian()==ENDIAN_LITTLE) {
+							fourcc = type = WAVE_FORMAT_IEEE_FLOAT;
+						} else if (type == AP4_ATOM_TYPE_FL64 && ase->GetEndian()==ENDIAN_LITTLE) {
+							fourcc = type;    // reverse fourcc
+						} else if (type == AP4_ATOM_TYPE_LPCM) {
+							DWORD flags = ase->GetFormatSpecificFlags();
+							if (flags & 2) { // big endian
+								if (flags & 1) { // floating point
+									if      (bitspersample == 32) type = AP4_ATOM_TYPE_FL32;
+									else if (bitspersample == 64) type = AP4_ATOM_TYPE_FL64;
+								} else {
+									if      (bitspersample == 16) type = AP4_ATOM_TYPE_TWOS;
+									else if (bitspersample == 24) type = AP4_ATOM_TYPE_IN24;
+									else if (bitspersample == 32) type = AP4_ATOM_TYPE_IN32;
+								}
+								fourcc = ((type >> 24) & 0x000000ff) |
+										 ((type >>  8) & 0x0000ff00) |
+										 ((type <<  8) & 0x00ff0000) |
+										 ((type << 24) & 0xff000000);
+							} else {         // little endian
+								if (flags & 1) { // floating point
+									if      (bitspersample == 32) fourcc = type = WAVE_FORMAT_IEEE_FLOAT;
+									else if (bitspersample == 64) fourcc = type = AP4_ATOM_TYPE_FL64; // reverse fourcc
+								} else {
+									fourcc = type = WAVE_FORMAT_PCM;
+								}
+							}
 						}
 
-						DWORD nSampleRate = ase->GetSampleRate();
-						WORD nChannels = ase->GetChannelCount();
 						DWORD nAvgBytesPerSec = 0;
 						if (type == AP4_ATOM_TYPE_EAC3) {
 
@@ -1027,17 +1032,17 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 									BYTE sr_code = gb.BitRead(2);
 									if (sr_code == 3) {
 										BYTE sr_code2 = gb.BitRead(2);
-										nSampleRate = freq[sr_code2] / 2;
+										samplerate = freq[sr_code2] / 2;
 									} else {
 										static int eac3_blocks[4] = {1, 2, 3, 6};
 										BYTE num_blocks = eac3_blocks[gb.BitRead(2)];
-										nSampleRate = freq[sr_code];
-										nAvgBytesPerSec = frame_size * nSampleRate / (num_blocks * 256);
+										samplerate = freq[sr_code];
+										nAvgBytesPerSec = frame_size * samplerate / (num_blocks * 256);
 									}
 									BYTE acmod = gb.BitRead(3);
 									BYTE lfeon = gb.BitRead(1);
-									static int channels[] = {2, 1, 2, 3, 3, 4, 4, 5};
-									nChannels = channels[acmod] + lfeon;
+									static int channels_tbl[] = {2, 1, 2, 3, 3, 4, 4, 5};
+									channels = channels_tbl[acmod] + lfeon;
 								}
 							}
 						}
@@ -1049,22 +1054,21 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						if (!(fourcc & 0xffff0000)) {
 							wfe->wFormatTag = (WORD)fourcc;
 						}
-						wfe->nSamplesPerSec = nSampleRate;
-						wfe->nChannels = nChannels;
+						wfe->nSamplesPerSec = samplerate;
+						wfe->nChannels = channels;
 						wfe->wBitsPerSample = ase->GetSampleSize();
 						wfe->nBlockAlign = ase->GetBytesPerFrame();
 						//wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nChannels * wfe->wBitsPerSample / 8;
 						wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nBlockAlign / ase->GetSamplesPerPacket();
 
-						if (type == AP4_ATOM_TYPE_LPCM) {
-							mt.subtype = GetLPCMGUID(wfe->wBitsPerSample, ase->GetFormatSpecificFlags());
-						} else {
-							mt.subtype = FOURCCMap(fourcc);
-						}
+						mt.subtype = FOURCCMap(fourcc);
+
 
 						if (type == AP4_ATOM_TYPE_MP4A ||
 							type == AP4_ATOM_TYPE_ALAW ||
-							type == AP4_ATOM_TYPE_ULAW) {
+							type == AP4_ATOM_TYPE_ULAW ||
+							type == WAVE_FORMAT_IEEE_FLOAT) {
+							//not need any extra data
 							//fe->cbSize = 0;
 						} else if (type == AP4_ATOM_TYPE('m', 's', 0x00, 0x02)) {
 							const WORD numcoef = 7;
@@ -1106,7 +1110,17 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								wfe->cbSize = 36;
 								memcpy(wfe+1, data, 36);
 							}
+						} else if (type == WAVE_FORMAT_PCM && (channels > 2 || bitspersample > 16)) {
+							WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
+							if (wfex != NULL) {
+								wfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+								wfex->Format.cbSize = 22;
+								wfex->Samples.wValidBitsPerSample = bitspersample;
+								wfex->dwChannelMask = GetDefChannelMask(channels);
+								wfex->SubFormat = MEDIASUBTYPE_PCM;
+							}
 						} else if (db.GetDataSize() > 0) {
+							//AP4_ATOM_TYPE_QDM2
 							wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + db.GetDataSize());
 							wfe->cbSize = db.GetDataSize();
 							memcpy(wfe+1, db.GetData(), db.GetDataSize());
