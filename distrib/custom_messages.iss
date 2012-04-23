@@ -1,4 +1,6 @@
-﻿; (C) 2009-2012 see Authors.txt
+﻿; $Id$
+;
+; (C) 2009-2012 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -14,12 +16,12 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-;
-; $Id$
+
 
 ; Do NOT translate your language's name
 ; Do NOT translate [name]
 ; Do NOT change the langid
+; Do NOT change file encoding; it must be UTF-8 Signature
 ; Keep the translations close to the English strings
 
 

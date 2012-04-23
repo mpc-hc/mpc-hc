@@ -1,3 +1,5 @@
+; $Id$
+;
 ; (C) 2009-2012 see Authors.txt
 ;
 ; This file is part of MPC-HC.
@@ -14,20 +16,18 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-;
-; $Id$
 
 
 ; Requirements:
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build_2010.bat)
+; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
 #define localize
 #define sse_required
 ;#define x64Build
 
-; Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
+; Don't forget to update the DirectX SDK number in "include\Version.h" (not updated so often)
 
 
 ; From now on you shouldn't need to change anything
@@ -345,7 +345,6 @@ end;
 
 procedure CleanUpSettingsAndFiles();
 begin
-  DeleteFile(ExpandConstant('{app}\*.bak'));
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
   DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
   RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
