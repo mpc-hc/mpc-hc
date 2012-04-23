@@ -58,8 +58,8 @@ Ukrainian               arestarh                <arestarh1986@users.sourceforge.
 
 Contributors:
 --------------
-Alexx999, foxx1337, heksesang, judelaw, madshi, mtrz, nielsm,
-skaarj1, VSFilterMod team, X-Dron
+Alexx999, foxx1337, heksesang, janwillem32, judelaw, madshi, mtrz,
+nielsm, skaarj1, VSFilterMod Team, X-Dron
 
 
 Trac moderators:
