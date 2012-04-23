@@ -45,6 +45,8 @@ Legend:
   traditional Chinese, Italian, German and Polish translations
 * Removed GTSdll support
 * Removed the option to disable XP theming
+* Removed the option "Use the WM ASF Reader for Windows Media files" since it has no
+  effect on any "modern" OS (>= Windows XP)
 * Removed SSF support
 ! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
   intergrated Intel adapter

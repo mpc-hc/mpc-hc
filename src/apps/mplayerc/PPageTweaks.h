@@ -33,9 +33,6 @@ class CPPageTweaks : public CPPageBase
 {
 	DECLARE_DYNAMIC(CPPageTweaks)
 
-private:
-	bool m_fWMASFReader;
-
 public:
 	CPPageTweaks();
 	virtual ~CPPageTweaks();
@@ -68,7 +65,6 @@ protected:
 
 public:
 	afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateCheck2(CCmdUI* pCmdUI);
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnUseTimeTooltipClicked();
 	afx_msg void OnChngOSDCombo();

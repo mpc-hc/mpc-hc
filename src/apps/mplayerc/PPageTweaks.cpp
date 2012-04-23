@@ -41,8 +41,6 @@ CPPageTweaks::CPPageTweaks()
 	, m_fUseWin7TaskBar(TRUE)
 	, m_fDontUseSearchInFolder(FALSE)
 {
-	m_fWMASFReader = SUCCEEDED(CComPtr<IBaseFilter>().CoCreateInstance(
-								   GUIDFromCString(_T("{187463A0-5BB7-11D3-ACBE-0080C75E246E}")))); // WM ASF Reader
 }
 
 CPPageTweaks::~CPPageTweaks()
@@ -172,7 +170,6 @@ BOOL CPPageTweaks::OnApply()
 
 BEGIN_MESSAGE_MAP(CPPageTweaks, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateCheck3)
-	ON_UPDATE_COMMAND_UI(IDC_CHECK2, OnUpdateCheck2)
 	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)
 	ON_CBN_SELCHANGE(IDC_COMBO1, OnChngOSDCombo)
@@ -184,11 +181,6 @@ END_MESSAGE_MAP()
 
 void CPPageTweaks::OnUpdateCheck3(CCmdUI* pCmdUI)
 {
-}
-
-void CPPageTweaks::OnUpdateCheck2(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(m_fWMASFReader);
 }
 
 void CPPageTweaks::OnBnClickedButton1()
