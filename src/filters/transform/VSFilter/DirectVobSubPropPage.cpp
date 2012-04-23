@@ -786,11 +786,7 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 		case WM_INITDIALOG: {
-#ifdef _VSMOD
-			SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(MPC_VERSION_PATCH)"."MAKE_STR(MPC_VERSION_REV)" "MAKE_STR(VERSION_ARCH)", MOD\nCopyright 2001-2011 MPC-HC & VSFilterMod Teams" );
-#else
 			SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.41."MAKE_STR(MPC_VERSION_PATCH)"."MAKE_STR(MPC_VERSION_REV)" "MAKE_STR(VERSION_ARCH)"\nCopyright 2001-2012 MPC-HC Team" );
-#endif
 		}
 		break;
 		case WM_COMMAND: {
