@@ -63,7 +63,8 @@ Legend:
 ! MpegSplitter: Fix incorrect detection of MPEG Audio stream as AAC
 ! WebServer: Fix a few errors and typos
 ! The Windows 7 taskbar was sometimes not correctly updated (for example when opening
-  another video without closing the previous one)
+  another video without closing the previous one). The preview was incorrectly cropped
+  when the menu was hidden.
 ! Ticket #869, The playlist visibility state was incorrectly restored when MPC-HC
   was quited in fullscreen mode while the option "Hide on fullscreen" was enabled
 ! Ticket #1182, Unable to playback MPEG2 in AVI

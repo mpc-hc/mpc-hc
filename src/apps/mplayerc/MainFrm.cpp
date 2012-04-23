@@ -15690,10 +15690,10 @@ HRESULT CMainFrame::UpdateThumbnailClip()
 	RECT vid_rect, result_rect;
 	m_wndView.GetClientRect( &vid_rect );
 
-	// NOTE: For remove menu from thumbnail clip preview
+	// Remove the menu from thumbnail clip preview if it displayed
 	result_rect.left = 2;
 	result_rect.right = result_rect.left + (vid_rect.right - vid_rect.left) - 4;
-	result_rect.top = 22;
+	result_rect.top = (AfxGetAppSettings().iCaptionMenuMode == MODE_SHOWCAPTIONMENU) ? 22 : 2;
 	result_rect.bottom = result_rect.top + (vid_rect.bottom - vid_rect.top) - 4;
 
 	return m_pTaskbarList->SetThumbnailClip( m_hWnd, &result_rect );
