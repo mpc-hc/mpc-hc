@@ -94,7 +94,6 @@
 #define IDS_RS_SPCSIZE						_T("SPCSize")
 #define IDS_RS_SPCMAXRES					_T("SPCMaxRes")
 #define IDS_RS_INTREALMEDIA					_T("IntRealMedia")
-#define IDS_RS_DISABLEXPTOOLBARS			_T("DisableXPToolbars")
 #define IDS_RS_USEDEDYNAMIC					_T("UseDeDynamic")
 #define IDS_RS_DBLCLICKFULLSCREEN			_T("DblClickFullScreen")
 #define IDS_RS_EXITFULLSCREENATTHEEND		_T("ExitFullscreenAtTheEnd")
