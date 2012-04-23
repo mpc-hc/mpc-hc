@@ -353,30 +353,30 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
 	{
 		switch( format )
 		{
-		case AP4_ATOM_TYPE_NONE:
-		case AP4_ATOM_TYPE_RAW:
-		case AP4_ATOM_TYPE_TWOS:
-		case AP4_ATOM_TYPE_SOWT:
-			m_QtV1SamplesPerPacket = 1;
-			m_QtV1BytesPerPacket = m_SampleSize / 8;
-			m_QtV1BytesPerFrame = m_ChannelCount * m_QtV1BytesPerPacket;
-			m_QtV1BytesPerSample = m_SampleSize / 8;
-			break;
 		case AP4_ATOM_TYPE_ALAW:
 		case AP4_ATOM_TYPE_ULAW:
-			m_SampleSize = 8;
+			m_SampleSize = 8; // sometimes this value is incorrect
 			m_QtV1SamplesPerPacket = 1;
-			m_QtV1BytesPerPacket = 1;
-			m_QtV1BytesPerFrame = m_ChannelCount * m_QtV1BytesPerPacket;
-			m_QtV1BytesPerSample = 1;
+			m_QtV1BytesPerPacket   = 1;
 			break;
 		case AP4_ATOM_TYPE_IMA4:
 			m_QtV1SamplesPerPacket = 64;
-			m_QtV1BytesPerPacket = 34;
-			m_QtV1BytesPerFrame = m_ChannelCount * m_QtV1BytesPerPacket;
-			m_QtV1BytesPerSample = m_SampleSize / 8;
+			m_QtV1BytesPerPacket   = 34;
 			break;
+		case AP4_ATOM_TYPE_MAC3:
+			m_QtV1SamplesPerPacket = 3;
+			m_QtV1BytesPerPacket   = 1;
+			break;
+		case AP4_ATOM_TYPE_MAC6:
+			m_QtV1SamplesPerPacket = 6;
+			m_QtV1BytesPerPacket   = 1;
+		break;
+		default: // NONE, RAW, TWOS, SOWT and other
+			m_QtV1SamplesPerPacket = 1;
+			m_QtV1BytesPerPacket   = m_SampleSize / 8;;
 		}
+		m_QtV1BytesPerFrame    = m_ChannelCount * m_QtV1BytesPerPacket;
+		m_QtV1BytesPerSample   = m_SampleSize / 8;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 

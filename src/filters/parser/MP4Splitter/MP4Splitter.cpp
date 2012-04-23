@@ -1058,8 +1058,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						wfe->nChannels = channels;
 						wfe->wBitsPerSample = ase->GetSampleSize();
 						wfe->nBlockAlign = ase->GetBytesPerFrame();
-						//wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nChannels * wfe->wBitsPerSample / 8;
-						wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nBlockAlign / ase->GetSamplesPerPacket();
+						if (nAvgBytesPerSec == 0) {
+							wfe->nAvgBytesPerSec = wfe->nSamplesPerSec * wfe->nBlockAlign / ase->GetSamplesPerPacket();
+						}
 
 						mt.subtype = FOURCCMap(fourcc);
 
