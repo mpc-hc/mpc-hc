@@ -1064,13 +1064,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						mt.subtype = FOURCCMap(fourcc);
 
 
-						if (type == AP4_ATOM_TYPE_MP4A ||
-							type == AP4_ATOM_TYPE_ALAW ||
-							type == AP4_ATOM_TYPE_ULAW ||
-							type == WAVE_FORMAT_IEEE_FLOAT) {
-							//not need any extra data
-							//fe->cbSize = 0;
-						} else if (type == AP4_ATOM_TYPE('m', 's', 0x00, 0x02)) {
+						if (type == AP4_ATOM_TYPE('m', 's', 0x00, 0x02)) {
 							const WORD numcoef = 7;
 							static ADPCMCOEFSET coef[] = { {256, 0}, {512, -256}, {0,0}, {192,64}, {240,0}, {460, -208}, {392,-232} };
 							const ULONG size = sizeof(ADPCMWAVEFORMAT) + (numcoef * sizeof(ADPCMCOEFSET));
@@ -1119,6 +1113,13 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								wfex->dwChannelMask = GetDefChannelMask(channels);
 								wfex->SubFormat = MEDIASUBTYPE_PCM;
 							}
+						} else if (type == AP4_ATOM_TYPE_MP4A ||
+							type == AP4_ATOM_TYPE_ALAW ||
+							type == AP4_ATOM_TYPE_ULAW ||
+							type == WAVE_FORMAT_PCM    ||
+							type == WAVE_FORMAT_IEEE_FLOAT) {
+							//not need any extra data
+							//fe->cbSize = 0;
 						} else if (db.GetDataSize() > 0) {
 							//AP4_ATOM_TYPE_QDM2
 							wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + db.GetDataSize());
