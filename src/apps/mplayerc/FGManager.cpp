@@ -1529,13 +1529,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 
-	if (AfxGetAppSettings().fUseWMASFReader) {
-		pFGF = DNew CFGFilterRegistry(CLSID_WMAsfReader);
-		pFGF->m_chkbytes.AddTail(_T("0,4,,3026B275"));
-		pFGF->m_chkbytes.AddTail(_T("0,4,,D129E2D6"));
-		m_source.AddTail(pFGF);
-	}
-
 #if INTERNAL_SOURCEFILTER_AVI2AC3
 	// hmmm, shouldn't there be an option in the GUI to enable/disable this filter?
 	pFGF = DNew CFGFilterInternal<CAVI2AC3Filter>(AVI2AC3FilterName, MERIT64(0x00680000)+1);

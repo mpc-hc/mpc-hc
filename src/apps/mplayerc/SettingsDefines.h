@@ -47,7 +47,6 @@
 #define IDS_RS_DXVAFILTERS					_T("DXVAFilters")
 #define IDS_RS_FFMPEGFILTERS				_T("FFmpegFilters")
 #define IDS_RS_TITLEBARTEXTSTYLE			_T("TitleBarTextStyle")
-#define IDS_RS_USEWMASFREADER				_T("UseWMASFReader")
 #define IDS_RS_CONTROLSTATE					_T("ControlState")
 #define IDS_RS_VOLUME						_T("Volume")
 #define IDS_RS_MUTE							_T("Mute")

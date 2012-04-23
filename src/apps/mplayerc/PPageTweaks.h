@@ -40,9 +40,6 @@ public:
 	CPPageTweaks();
 	virtual ~CPPageTweaks();
 
-	BOOL m_fUseWMASFReader;
-	CButton m_fUseWMASFReaderCtrl;
-
 	// Dialog Data
 	enum { IDD = IDD_PPAGETWEAKS };
 	int m_nJumpDistS;

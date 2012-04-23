@@ -32,7 +32,6 @@
 IMPLEMENT_DYNAMIC(CPPageTweaks, CPPageBase)
 CPPageTweaks::CPPageTweaks()
 	: CPPageBase(CPPageTweaks::IDD, CPPageTweaks::IDD)
-	, m_fUseWMASFReader(FALSE)
 	, m_nJumpDistS(0)
 	, m_nJumpDistM(0)
 	, m_nJumpDistL(0)
@@ -53,8 +52,6 @@ CPPageTweaks::~CPPageTweaks()
 void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
-	DDX_Check(pDX, IDC_CHECK2, m_fUseWMASFReader);
-	DDX_Control(pDX, IDC_CHECK2, m_fUseWMASFReaderCtrl);
 	DDX_Text(pDX, IDC_EDIT1, m_nJumpDistS);
 	DDX_Text(pDX, IDC_EDIT2, m_nJumpDistM);
 	DDX_Text(pDX, IDC_EDIT3, m_nJumpDistL);
@@ -86,7 +83,6 @@ BOOL CPPageTweaks::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_fUseWMASFReader = s.fUseWMASFReader;
 	m_nJumpDistS = s.nJumpDistS;
 	m_nJumpDistM = s.nJumpDistM;
 	m_nJumpDistL = s.nJumpDistL;
@@ -150,7 +146,6 @@ BOOL CPPageTweaks::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.fUseWMASFReader = !!m_fUseWMASFReader;
 	s.nJumpDistS = m_nJumpDistS;
 	s.nJumpDistM = m_nJumpDistM;
 	s.nJumpDistL = m_nJumpDistL;
