@@ -107,6 +107,6 @@ static char g_Gcc_Compiler[31];
 
 char* GetFFmpegCompiler()
 {
-	snprintf(g_Gcc_Compiler, sizeof(g_Gcc_Compiler), "MinGW-w64 GCC %d.%d.%d%s%s", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__, COMPILER, COMPILER_SSE);
+	snprintf(g_Gcc_Compiler, sizeof(g_Gcc_Compiler), "MinGW GCC %d.%d.%d%s%s", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__, COMPILER, COMPILER_SSE);
 	return g_Gcc_Compiler;
 }
