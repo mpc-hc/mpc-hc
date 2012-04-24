@@ -370,7 +370,13 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
 		case AP4_ATOM_TYPE_MAC6:
 			m_QtV1SamplesPerPacket = 6;
 			m_QtV1BytesPerPacket   = 1;
-		break;
+			break;
+		case AP4_ATOM_TYPE_SAMR:
+			m_ChannelCount = 1; // sometimes this value is incorrect
+			m_SampleRate   = 8000<<16; // sometimes this value is zero
+			m_QtV1SamplesPerPacket = 160; // mean value, correct it if you know how.
+			m_QtV1BytesPerPacket   = 20; // mean value, correct it if you know how.
+			break;
 		default: // NONE, RAW, TWOS, SOWT and other
 			m_QtV1SamplesPerPacket = 1;
 			m_QtV1BytesPerPacket   = m_SampleSize / 8;;

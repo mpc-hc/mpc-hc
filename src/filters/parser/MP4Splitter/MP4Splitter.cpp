@@ -1055,10 +1055,10 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							wfe->wFormatTag = (WORD)fourcc;
 						}
 						wfe->nSamplesPerSec = samplerate;
-						wfe->nChannels = channels;
-						wfe->wBitsPerSample = ase->GetSampleSize();
-						wfe->nBlockAlign = ase->GetBytesPerFrame();
-						if (nAvgBytesPerSec == 0) {
+						wfe->nChannels      = channels;
+						wfe->wBitsPerSample = bitspersample;
+						wfe->nBlockAlign    = ase->GetBytesPerFrame();
+						if (nAvgBytesPerSec == 0 && ase->GetSamplesPerPacket() > 0) {
 							wfe->nAvgBytesPerSec = wfe->nSamplesPerSec * wfe->nBlockAlign / ase->GetSamplesPerPacket();
 						}
 
