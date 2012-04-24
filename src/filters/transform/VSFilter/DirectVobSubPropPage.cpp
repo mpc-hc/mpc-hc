@@ -72,11 +72,7 @@ STDMETHODIMP CDVSBasePPage::GetPageInfo(LPPROPPAGEINFO pPageInfo)
 	}
 
 	WCHAR wszTitle[STR_MAX_LENGTH];
-#ifdef UNICODE
-	wcscpy(wszTitle, str);
-#else
-	mbstowcs(wszTitle, str, str.GetLength()+1);
-#endif
+	wcscpy_s(wszTitle, str);
 
 	CheckPointer(pPageInfo, E_POINTER);
 
@@ -425,11 +421,8 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 	if (fSave) {
 		CString fn;
 		m_fnedit.GetWindowText(fn);
-#ifdef UNICODE
-		wcscpy(m_fn, fn);
-#else
-		mbstowcs(m_fn, fn, fn.GetLength()+1);
-#endif
+		wcscpy_s(m_fn, fn);
+
 		m_iSelectedLanguage = m_langs.GetCurSel();
 		m_fOverridePlacement = !!m_oplacement.GetCheck();
 		m_PlacementXperc = m_subposx.GetPos();
@@ -744,15 +737,9 @@ void CDVSTimingPPage::UpdateControlData(bool fSave)
 		if (_stscanf(fpsstr, _T("%f"), &fps) == 1) {
 			m_MediaFPS = fps;
 		}
-#if _MFC_VER >= 0x0700
 		m_SubtitleDelay = m_subdelay.GetPos32();
 		m_SubtitleSpeedMul = m_subspeedmul.GetPos32();
 		m_SubtitleSpeedDiv = m_subspeeddiv.GetPos32();
-#else
-		m_SubtitleDelay = SendMessage(GetDlgItem(m_Dlg, IDC_SPIN5), UDM_GETPOS32, 0, 0);
-		m_SubtitleSpeedMul = SendMessage(GetDlgItem(m_Dlg, IDC_SPIN6), UDM_GETPOS32, 0, 0);
-		m_SubtitleSpeedDiv = SendMessage(GetDlgItem(m_Dlg, IDC_SPIN9), UDM_GETPOS32, 0, 0);
-#endif
 	} else {
 		m_modfps.SetCheck(m_fMediaFPSEnabled);
 		CString fpsstr;
@@ -762,15 +749,9 @@ void CDVSTimingPPage::UpdateControlData(bool fSave)
 		m_subdelay.SetRange32(-180*60*1000, 180*60*1000);
 		m_subspeedmul.SetRange32(0, 1000000);
 		m_subspeeddiv.SetRange32(1, 1000000);
-#if _MFC_VER >= 0x0700
 		m_subdelay.SetPos32(m_SubtitleDelay);
 		m_subspeedmul.SetPos32(m_SubtitleSpeedMul);
 		m_subspeeddiv.SetPos32(m_SubtitleSpeedDiv);
-#else
-		SendMessage(GetDlgItem(m_Dlg, IDC_SPIN5), UDM_SETPOS32, 0, (LPARAM)m_SubtitleDelay);
-		SendMessage(GetDlgItem(m_Dlg, IDC_SPIN6), UDM_SETPOS32, 0, (LPARAM)m_SubtitleSpeedMul);
-		SendMessage(GetDlgItem(m_Dlg, IDC_SPIN9), UDM_SETPOS32, 0, (LPARAM)m_SubtitleSpeedDiv);
-#endif
 	}
 }
 

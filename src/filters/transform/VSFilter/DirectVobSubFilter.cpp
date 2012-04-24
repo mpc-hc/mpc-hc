@@ -69,7 +69,7 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
 		lf.lfHeight = -MulDiv(10, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		ReleaseDC(NULL, hdc);
 		lf.lfWeight = FW_BOLD;
-		_tcscpy(lf.lfFaceName, _T("Arial"));
+		_tcscpy_s(lf.lfFaceName, _T("Arial"));
 		m_hfont = CreateFontIndirect(&lf);
 	}
 
@@ -376,7 +376,7 @@ STDMETHODIMP CDirectVobSubFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 		return __super::QueryFilterInfo(pInfo);
 	}
 
-	wcscpy(pInfo->achName, L"DirectVobSub (forced auto-loading version)");
+	wcscpy_s(pInfo->achName, L"DirectVobSub (forced auto-loading version)");
 	pInfo->pGraph = m_pGraph;
 	if (m_pGraph) {
 		m_pGraph->AddRef();
