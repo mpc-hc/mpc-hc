@@ -6599,7 +6599,7 @@ void CMainFrame::OnViewCompact()
 	while (AfxGetAppSettings().iCaptionMenuMode!=MODE_FRAMEONLY) {
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 	}
-	ShowControls(CS_TOOLBAR);
+	ShowControls(CS_SEEKBAR);
 }
 
 void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
