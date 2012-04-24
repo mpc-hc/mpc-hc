@@ -941,21 +941,6 @@ static int ljpeg_decode_yuv_scan(MJpegDecodeContext *s, int predictor,
     return 0;
 }
 
-static av_always_inline void mjpeg_copy_block(uint8_t *dst, const uint8_t *src,
-                                              int linesize, int lowres)
-{
-    switch (lowres) {
-    case 0: copy_block8(dst, src, linesize, linesize, 8);
-        break;
-    case 1: copy_block4(dst, src, linesize, linesize, 4);
-        break;
-    case 2: copy_block2(dst, src, linesize, linesize, 2);
-        break;
-    case 3: *dst = *src;
-        break;
-    }
-}
-
 static int mjpeg_decode_scan(MJpegDecodeContext *s, int nb_components, int Ah,
                              int Al, const uint8_t *mb_bitmask,
                              const AVFrame *reference)
@@ -1026,8 +1011,8 @@ static int mjpeg_decode_scan(MJpegDecodeContext *s, int nb_components, int Ah,
                     ptr = data[c] + block_offset;
                     if (!s->progressive) {
                         if (copy_mb)
-                            mjpeg_copy_block(ptr, reference_data[c] + block_offset,
-                                             linesize[c], s->avctx->lowres);
+                            copy_block8(ptr, reference_data[c] + block_offset,
+                                        linesize[c], linesize[c], 8);
                         else {
                             s->dsp.clear_block(s->block);
                             if (decode_block(s, s->block, i,
@@ -1148,6 +1133,13 @@ int ff_mjpeg_decode_sos(MJpegDecodeContext *s, const uint8_t *mb_bitmask,
     const int block_size = s->lossless ? 1 : 8;
     int ilv, prev_shift;
 
+    if (!s->got_picture) {
+        av_log(s->avctx, AV_LOG_WARNING,
+                "Can not process SOS before SOF, skipping\n");
+        return -1;
+    }
+
+    av_assert0(s->picture_ptr->data[0]);
     /* XXX: verify len field validity */
     len = get_bits(&s->gb, 16);
     nb_components = get_bits(&s->gb, 8);
@@ -1699,11 +1691,6 @@ eoi_parser:
 
                 goto the_end;
             case SOS:
-                if (!s->got_picture) {
-                    av_log(avctx, AV_LOG_WARNING,
-                           "Can not process SOS before SOF, skipping\n");
-                    break;
-                    }
                 if (ff_mjpeg_decode_sos(s, NULL, NULL) < 0 &&
                     (avctx->err_recognition & AV_EF_EXPLODE))
                     return AVERROR_INVALIDDATA;

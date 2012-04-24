@@ -60,7 +60,6 @@ CSizingControlBar   GPLv2                      http://www.datamekanix.com/sizecb
 Detours             MSR-SSLA                   http://research.microsoft.com/en-us/projects/detours/
 ffmpeg              GPLv2                      http://www.ffmpeg.org/
 liba52              GPLv2                      http://liba52.sourceforge.net/
-libav               GPLv2                      http://libav.org/
 libdca              GPLv2                      http://www.videolan.org/developers/libdca.html
 libflac             GPLv2 / New BSD License    http://flac.sourceforge.net/
 libogg              New BSD License            http://www.xiph.org/
