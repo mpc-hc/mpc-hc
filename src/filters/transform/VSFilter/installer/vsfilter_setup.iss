@@ -66,6 +66,7 @@ VersionInfoProductTextVersion={#app_version}
 UninstallDisplayIcon={app}\VSFilter.dll
 DefaultDirName={pf}\DirectVobSub
 DefaultGroupName=DirectVobSub
+LicenseFile={#top_dir}\COPYING.txt
 OutputDir=.
 AllowNoIcons=yes
 Compression=lzma2/ultra
@@ -128,11 +129,6 @@ Source: {#top_dir}\docs\Readme.txt;    DestDir: {app}; Flags: ignoreversion
 Source: unrar_license.txt;             DestDir: {app}; Flags: ignoreversion
 
 
-[Registry]
-Root: HKCU; Subkey: Software\Gabest;          Flags: uninsdeletekeyifempty dontcreatekey
-Root: HKCU; Subkey: Software\Gabest\VSFilter; Flags: uninsdeletekey dontcreatekey
-
-
 [Icons]
 #ifdef x64_build
 Name: {group}\Configuration (x64); Filename: {sys}\rundll32.exe; Parameters: VSFilter.dll,DirectVobSub; WorkingDir: {app}; IconFilename: {app}\VSFilter.dll
@@ -169,8 +165,8 @@ end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
-  // Hide the InfoBefore and Ready page
-  if IsUpgrade() and ((PageID = wpInfoBefore) or (PageID = wpReady)) then
+  // Hide the InfoBefore, License and Ready page when upgrading
+  if IsUpgrade() and ((PageID = wpInfoBefore) or (PageID = wpReady) or (PageID = wpLicense)) then
     Result := True;
 end;
 

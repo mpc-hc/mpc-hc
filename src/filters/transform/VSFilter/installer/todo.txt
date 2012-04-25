@@ -1,6 +1,4 @@
-1) add a task to reset VSFilter's settings
-2) add a license page, disable if IsUpgrade
-3) use the defines from Version.h for MPC_COPYRIGHT_STR in VSFilter
-4) define VSFilter's version numbers in a place accessible by
+1) use the defines from Version.h for MPC_COPYRIGHT_STR in VSFilter
+2) define VSFilter's version numbers in a place accessible by
    the installer and VSFilter itself
-5) build and statically link unrar library for out of the box support of rar'ed subtitles
+3) build and statically link unrar library for out of the box support of rar'ed subtitles
