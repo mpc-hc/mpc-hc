@@ -29,6 +29,8 @@
 // * ISPP_IS_BUGGY is defined in the installer script only and it's just a workaround
 //   for ISPP being buggy and throwing an error for the various defines.
 //
+// * MPC_VERSION_ARCH is currently used in VSFilter only.
+//
 // * DIRECTX_SDK_DATE is the date of the DirectX SDK used for compilation and it's used
 //   in the error message in mpc-hc and in the installer when the DX runtime is out of date.
 //
@@ -67,6 +69,12 @@
 #endif // ISPP_IS_BUGGY
 
 #define MPC_VERSION_COMMENTS "http://sourceforge.net/projects/mpc-hc/"
+
+#ifdef _WIN64
+#define MPC_VERSION_ARCH     "x64"
+#else
+#define MPC_VERSION_ARCH     "x86"
+#endif
 
 #define DIRECTX_SDK_DATE     "June 2010"
 #define DIRECTX_SDK_NUMBER   "43"
