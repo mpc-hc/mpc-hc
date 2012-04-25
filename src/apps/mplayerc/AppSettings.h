@@ -579,7 +579,7 @@ public:
 	bool			fUseWin7TaskBar;
 	bool			fExitAfterPlayback;
 	bool			fNextInDirAfterPlayback;
-	bool			fDontUseSearchInFolder;
+	bool			fUseSearchInFolder;
 	bool			fUseTimeTooltip;
 	int				nTimeTooltipPosition;
 	int				nOSDSize;

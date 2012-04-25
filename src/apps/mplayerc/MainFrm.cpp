@@ -8428,8 +8428,8 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
 				   && ((GetPlaybackMode() == PM_DVD
 						&& m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
 						&& m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
-					   || (GetPlaybackMode() == PM_FILE  && !AfxGetAppSettings().fDontUseSearchInFolder)
-					   || (GetPlaybackMode() == PM_FILE  && AfxGetAppSettings().fDontUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
+					   || (GetPlaybackMode() == PM_FILE  && AfxGetAppSettings().fUseSearchInFolder)
+					   || (GetPlaybackMode() == PM_FILE  && !AfxGetAppSettings().fUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
 					   || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing)));
 }
 
@@ -8437,7 +8437,7 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
 {
 	if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_CAPTURE) {
 		if (m_wndPlaylistBar.GetCount() == 1) {
-			if (GetPlaybackMode() == PM_CAPTURE || AfxGetAppSettings().fDontUseSearchInFolder) {
+			if (GetPlaybackMode() == PM_CAPTURE || !AfxGetAppSettings().fUseSearchInFolder) {
 				SendMessage(WM_COMMAND, ID_PLAY_STOP); // do not remove this, unless you want a circular call with OnPlayPlay()
 				SendMessage(WM_COMMAND, ID_PLAY_PLAY);
 			} else {
@@ -8466,7 +8466,7 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
 void CMainFrame::OnUpdateNavigateSkipFile(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED
-				   && ((GetPlaybackMode() == PM_FILE && (m_wndPlaylistBar.GetCount() > 1 || !AfxGetAppSettings().fDontUseSearchInFolder))
+				   && ((GetPlaybackMode() == PM_FILE && (m_wndPlaylistBar.GetCount() > 1 || AfxGetAppSettings().fUseSearchInFolder))
 					   || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing && m_wndPlaylistBar.GetCount() > 1)));
 }
 
@@ -15589,7 +15589,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	THUMBBUTTON buttons[5] = {};
 
 	buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-	buttons[0].dwFlags = (AfxGetAppSettings().fDontUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
+	buttons[0].dwFlags = (!AfxGetAppSettings().fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
 	buttons[0].iId = IDTB_BUTTON3;
 	buttons[0].iBitmap = 0;
 	StringCchCopy( buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS) );
@@ -15605,7 +15605,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	StringCchCopy( buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE) );
 
 	buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-	buttons[3].dwFlags = (AfxGetAppSettings().fDontUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
+	buttons[3].dwFlags = (!AfxGetAppSettings().fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
 	buttons[3].iId = IDTB_BUTTON4;
 	buttons[3].iBitmap = 4;
 	StringCchCopy( buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_AG_NEXT) );

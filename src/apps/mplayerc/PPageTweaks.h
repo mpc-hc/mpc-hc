@@ -46,7 +46,7 @@ public:
 
 	BOOL m_fPreventMinimize;
 	BOOL m_fUseWin7TaskBar;
-	BOOL m_fDontUseSearchInFolder;
+	BOOL m_fUseSearchInFolder;
 	BOOL m_fUseTimeTooltip;
 	CComboBox m_TimeTooltipPosition;
 	CComboBox m_FontSize;

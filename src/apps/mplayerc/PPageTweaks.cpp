@@ -39,7 +39,7 @@ CPPageTweaks::CPPageTweaks()
 	, m_fNotifyMSN(TRUE)
 	, m_fPreventMinimize(FALSE)
 	, m_fUseWin7TaskBar(TRUE)
-	, m_fDontUseSearchInFolder(FALSE)
+	, m_fUseSearchInFolder(FALSE)
 {
 }
 
@@ -56,7 +56,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK4, m_fNotifyMSN);
 	DDX_Check(pDX, IDC_CHECK6, m_fPreventMinimize);
 	DDX_Check(pDX, IDC_CHECK_WIN7, m_fUseWin7TaskBar);
-	DDX_Check(pDX, IDC_CHECK7, m_fDontUseSearchInFolder);
+	DDX_Check(pDX, IDC_CHECK7, m_fUseSearchInFolder);
 	DDX_Check(pDX, IDC_CHECK8, m_fUseTimeTooltip);
 	DDX_Control(pDX, IDC_COMBO3, m_TimeTooltipPosition);
 	DDX_Control(pDX, IDC_COMBO1, m_FontType);
@@ -88,7 +88,7 @@ BOOL CPPageTweaks::OnInitDialog()
 
 	m_fPreventMinimize = s.fPreventMinimize;
 	m_fUseWin7TaskBar = s.fUseWin7TaskBar;
-	m_fDontUseSearchInFolder =s.fDontUseSearchInFolder;
+	m_fUseSearchInFolder =s.fUseSearchInFolder;
 
 	m_fUseTimeTooltip = s.fUseTimeTooltip;
 	m_TimeTooltipPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
@@ -151,7 +151,7 @@ BOOL CPPageTweaks::OnApply()
 
 	s.fPreventMinimize = !!m_fPreventMinimize;
 	s.fUseWin7TaskBar = !!m_fUseWin7TaskBar;
-	s.fDontUseSearchInFolder = !!m_fDontUseSearchInFolder;
+	s.fUseSearchInFolder = !!m_fUseSearchInFolder;
 	s.fUseTimeTooltip = !!m_fUseTimeTooltip;
 	s.nTimeTooltipPosition = m_TimeTooltipPosition.GetCurSel();
 	s.nOSDSize = m_OSD_Size;
