@@ -41,8 +41,8 @@ namespace DSObjects
 
 	// AVRT.dll
 	typedef HANDLE  (__stdcall *PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
-	typedef BOOL	(__stdcall *PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
-	typedef BOOL	(__stdcall *PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
+	typedef BOOL    (__stdcall *PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
+	typedef BOOL    (__stdcall *PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
 	class COuterEVR;
 
@@ -77,11 +77,11 @@ namespace DSObjects
 		STDMETHODIMP_(bool)	DisplayChange();
 
 		// IMFClockStateSink
-		STDMETHODIMP	OnClockStart(/* [in] */ MFTIME hnsSystemTime, /* [in] */ LONGLONG llClockStartOffset);
-		STDMETHODIMP	STDMETHODCALLTYPE OnClockStop(/* [in] */ MFTIME hnsSystemTime);
-		STDMETHODIMP	STDMETHODCALLTYPE OnClockPause(/* [in] */ MFTIME hnsSystemTime);
-		STDMETHODIMP	STDMETHODCALLTYPE OnClockRestart(/* [in] */ MFTIME hnsSystemTime);
-		STDMETHODIMP	STDMETHODCALLTYPE OnClockSetRate(/* [in] */ MFTIME hnsSystemTime, /* [in] */ float flRate);
+		STDMETHODIMP OnClockStart(/* [in] */ MFTIME hnsSystemTime, /* [in] */ LONGLONG llClockStartOffset);
+		STDMETHODIMP OnClockStop(/* [in] */ MFTIME hnsSystemTime);
+		STDMETHODIMP OnClockPause(/* [in] */ MFTIME hnsSystemTime);
+		STDMETHODIMP OnClockRestart(/* [in] */ MFTIME hnsSystemTime);
+		STDMETHODIMP OnClockSetRate(/* [in] */ MFTIME hnsSystemTime, /* [in] */ float flRate);
 
 		// IBaseFilter delegate
 		bool			GetState( DWORD dwMilliSecsTimeout, FILTER_STATE *State, HRESULT &_ReturnValue);

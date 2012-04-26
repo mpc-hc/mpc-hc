@@ -26,16 +26,14 @@ class CCpuId
 {
 public:
 
-	typedef enum PROCESSOR_TYPE
-	{
+	typedef enum {
 		PROCESSOR_AMD,
 		PROCESSOR_INTEL,
 		PROCESSOR_UNKNOWN
-	};
+	} PROCESSOR_TYPE;
 
 	// Enum codes identicals to FFMpeg cpu features define !
-	typedef enum PROCESSOR_FEATURES
-	{
+	typedef enum {
 		MPC_MM_MMX      = 0x0001, /* standard MMX */
 		MPC_MM_3DNOW    = 0x0004, /* AMD 3DNOW */
 		MPC_MM_MMXEXT   = 0x0002, /* SSE integer functions or AMD MMX ext */
@@ -44,7 +42,7 @@ public:
 		MPC_MM_3DNOWEXT = 0x0020, /* AMD 3DNowExt */
 		MPC_MM_SSE3     = 0x0040, /* AMD64 & PIV SSE3 functions*/
 		MPC_MM_SSSE3    = 0x0080  /* PIV Core 2 SSSE3 functions*/
-	};
+	} PROCESSOR_FEATURES;
 
 	CCpuId();
 

@@ -15,6 +15,9 @@
 #endif
 
 #pragma warning(disable:4201) // named type definition in parentheses
+#if defined(__INTEL_COMPILER)
+#pragma warning(disable:272)  // warning #272: bit field cannot contain all values of the enumerated type
+#endif
 
 #ifdef __cplusplus
 extern "C" {

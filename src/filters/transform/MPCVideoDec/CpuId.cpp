@@ -29,22 +29,24 @@
 #define CPUID_SSE2     (1 << 26)
 #define CPUID_SSE3     (1 << 0)
 
-// Intel specifics
+// Intel specific
 #define CPUID_SSSE3    (1 << 9)
+//#define CPUID_EST      (1 << 7)
+//#define CPUID_HTT      (1 << 28)
 
-// AMD specifics
+// AMD specific
 #define CPUID_3DNOW    (1 << 31)
-#define CPUID_3DNOWEXT (1 << 30)
+//#define CPUID_3DNOWEXT (1 << 30)
 #define CPUID_MMXEXT   (1 << 22)
 
 
 CCpuId::CCpuId(void)
 {
-	unsigned	nHighestFeature;
-	unsigned	nHighestFeatureEx;
-	int			nBuff[4];
-	char		szMan[13];
-	//char		szFeatures[256];
+	unsigned nHighestFeature;
+	unsigned nHighestFeatureEx;
+	int      nBuff[4];
+	char     szMan[13];
+	//char     szFeatures[256];
 
 	// Get CPU manufacturer and highest CPUID
 	__cpuid(nBuff, 0);
@@ -94,19 +96,19 @@ CCpuId::CCpuId(void)
 	if (nHighestFeature >= 1)
 	{
 		__cpuid(nBuff, 1);
-		if (nBuff[3] & 1 << 23) m_nCPUFeatures |= MPC_MM_MMX;
-		if (nBuff[3] & 1 << 25) m_nCPUFeatures |= MPC_MM_SSE;
-		if (nBuff[3] & 1 << 26) m_nCPUFeatures |= MPC_MM_SSE2;
-		if (nBuff[2] & 1 << 0)  m_nCPUFeatures |= MPC_MM_SSE3;
+		if (nBuff[3] & CPUID_MMX)  m_nCPUFeatures |= MPC_MM_MMX;
+		if (nBuff[3] & CPUID_SSE)  m_nCPUFeatures |= MPC_MM_SSE;
+		if (nBuff[3] & CPUID_SSE2) m_nCPUFeatures |= MPC_MM_SSE2;
+		if (nBuff[2] & CPUID_SSE3) m_nCPUFeatures |= MPC_MM_SSE3;
 
 		// Intel specific:
 		if (m_nType == PROCESSOR_INTEL)
 		{
-			if (nBuff[2] & 1 << 9) m_nCPUFeatures |= MPC_MM_SSSE3;
-			//if (nBuff[2] & 1 << 7) strcat(szFeatures, "EST ");
+			if (nBuff[2] & CPUID_SSSE3) m_nCPUFeatures |= MPC_MM_SSSE3;
+			//if (nBuff[2] & CPUID_EST) strcat(szFeatures, "EST ");
 		}
 
-		//if(nBuff[3] & 1 << 28)
+		//if(nBuff[3] & CPUID_HTT)
 		//	strcat(szFeatures, "HTT ");
 	}
 
@@ -118,9 +120,9 @@ CCpuId::CCpuId(void)
 		if (nHighestFeatureEx >= 0x80000001)
 		{
 			__cpuid(nBuff, 0x80000001);
-			if (nBuff[3] & 1 << 31) m_nCPUFeatures |= MPC_MM_3DNOW;
-			//if (nBuff[3] & 1 << 30) strcat(szFeatures, "Ex3DNow! ");
-			if (nBuff[3] & 1 << 22) m_nCPUFeatures |= MPC_MM_MMXEXT;
+			if (nBuff[3] & CPUID_3DNOW)    m_nCPUFeatures |= MPC_MM_3DNOW;
+			//if (nBuff[3] & CPUID_3DNOWEXT) strcat(szFeatures, "Ex3DNow! ");
+			if (nBuff[3] & CPUID_MMXEXT)   m_nCPUFeatures |= MPC_MM_MMXEXT;
 		}
 
 		// Get level 1 cache size
@@ -159,9 +161,9 @@ CCpuId::CCpuId(void)
 	unsigned nHighestFeature;
 	unsigned nHighestFeatureEx;
 
-	m_CPUInfo[0]	= -1;
-	m_CPUInfoEx[0]	= -1;
-	m_CPUAMDInfo[0]	= -1;
+	m_CPUInfo[0]    = -1;
+	m_CPUInfoEx[0]  = -1;
+	m_CPUAMDInfo[0] = -1;
 
 	__cpuid(m_CPUInfo, 0);
 	nHighestFeature = (unsigned)m_CPUInfo[0];

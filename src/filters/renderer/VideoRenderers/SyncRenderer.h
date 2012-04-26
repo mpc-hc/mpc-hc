@@ -365,15 +365,15 @@ namespace GothSync
 		STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
 		STDMETHODIMP_(bool) Paint(bool fAll);
 		STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
-		STDMETHODIMP InitializeDevice(AM_MEDIA_TYPE*	pMediaType);
+		STDMETHODIMP InitializeDevice(AM_MEDIA_TYPE* pMediaType);
 		STDMETHODIMP_(bool) ResetDevice();
 
 		// IMFClockStateSink
 		STDMETHODIMP OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset);
-		STDMETHODIMP STDMETHODCALLTYPE OnClockStop(MFTIME hnsSystemTime);
-		STDMETHODIMP STDMETHODCALLTYPE OnClockPause(MFTIME hnsSystemTime);
-		STDMETHODIMP STDMETHODCALLTYPE OnClockRestart(MFTIME hnsSystemTime);
-		STDMETHODIMP STDMETHODCALLTYPE OnClockSetRate(MFTIME hnsSystemTime, float flRate);
+		STDMETHODIMP OnClockStop(MFTIME hnsSystemTime);
+		STDMETHODIMP OnClockPause(MFTIME hnsSystemTime);
+		STDMETHODIMP OnClockRestart(MFTIME hnsSystemTime);
+		STDMETHODIMP OnClockSetRate(MFTIME hnsSystemTime, float flRate);
 
 		// IBaseFilter delegate
 		bool GetState( DWORD dwMilliSecsTimeout, FILTER_STATE *State, HRESULT &_ReturnValue);
