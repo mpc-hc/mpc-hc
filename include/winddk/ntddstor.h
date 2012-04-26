@@ -1315,6 +1315,9 @@ typedef __struct_bcount(Size) struct _STORAGE_WRITE_CACHE_PROPERTY {
 #pragma warning(disable:4200) // array[0]
 #pragma warning(disable:4201) // nameless struct/unions
 #pragma warning(disable:4214) // bit fields other than int
+#if defined(__INTEL_COMPILER)
+#pragma warning(disable:94)   // warning #94: the size of an array must be greater than zero
+#endif
 
 
 #if defined(_MSC_EXTENSIONS)

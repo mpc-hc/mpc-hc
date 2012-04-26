@@ -25,6 +25,9 @@ Abstract:
 #pragma warning(disable:4200) // zero-sized array
 #pragma warning(disable:4201) // nonstandard extension used : nameless struct/union
 #pragma warning(disable:4214) // bitfield other than int
+#if defined(__INTEL_COMPILER)
+#pragma warning(disable:94)   // warning #94: the size of an array must be greater than zero
+#endif
 
 #if _MSC_VER > 1000
 #pragma once
