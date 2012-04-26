@@ -166,7 +166,7 @@ IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
 )
 
-FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese Simplified" "Chinese Traditional"
+FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified" "Chinese Traditional"
  "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
  "Polish" "Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
