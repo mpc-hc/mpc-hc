@@ -7,6 +7,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release Armenian|Win32 = Release Armenian|Win32
 		Release Armenian|x64 = Release Armenian|x64
+		Release Basque|Win32 = Release Basque|Win32
+		Release Basque|x64 = Release Basque|x64
 		Release Belarusian|Win32 = Release Belarusian|Win32
 		Release Belarusian|x64 = Release Belarusian|x64
 		Release Catalan|Win32 = Release Catalan|Win32
@@ -59,6 +61,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Belarusian|Win32.Build.0 = Release Belarusian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Belarusian|x64.ActiveCfg = Release Belarusian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Belarusian|x64.Build.0 = Release Belarusian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Basque|Win32.ActiveCfg = Release Basque|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Basque|Win32.Build.0 = Release Basque|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Basque|x64.ActiveCfg = Release Basque|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Basque|x64.Build.0 = Release Basque|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Catalan|Win32.ActiveCfg = Release Catalan|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Catalan|Win32.Build.0 = Release Catalan|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Catalan|x64.ActiveCfg = Release Catalan|x64

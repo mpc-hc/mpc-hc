@@ -30,6 +30,7 @@ xpc1000                 <xpc1000@users.sourceforge.net>         Code
 Translators:
 -------------
 Armenian                hrant77                 <hrant77@users.sourceforge.net>
+Basque                  Xabier Aramendi         <azpidatziak@users.sourceforge.net>
 Belarusian              Mister-sh               <mister-sh@users.sourceforge.net>
 Catalan                 xiulet                  <xiulet@users.sourceforge.net>
 Chinese Simplified      Bonami                  <bonami@users.sourceforge.net>

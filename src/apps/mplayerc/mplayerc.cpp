@@ -2023,6 +2023,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 			return _T("Lang\\mpcresources.hy.dll");
 		case 22 :	// Hebrew
 			return _T("Lang\\mpcresources.he.dll");
+		case 23 :	// Basque
+			return _T("Lang\\mpcresources.eu.dll");
 	}
 	return NULL;
 }
@@ -2076,6 +2078,8 @@ LPCTSTR CMPlayerCApp::GetLanguageName(int nLanguage)
 			return _T("Armenian");
 		case 22 :	// Hebrew
 			return _T("Hebrew");
+		case 23 :	// Basque
+			return _T("Basque");
 	}
 	return NULL;
 }
@@ -2084,6 +2088,7 @@ LPCTSTR CMPlayerCApp::GetLanguageName(int nLanguage)
 int CMPlayerCApp::GetDefLanguage()
 {
 	switch (GetUserDefaultUILanguage()) {
+		// Check http://msdn.microsoft.com/en-us/goglobal/bb964664
 		case 1036:	// French
 			return 1;
 		case 1031:	// German
@@ -2128,6 +2133,8 @@ int CMPlayerCApp::GetDefLanguage()
 			return 21;
 		case 1037 : // Hebrew
 			return 22;
+		case 1069 : // Basque
+			return 23;
 		default:
 			return 0;
 	}
@@ -2138,47 +2145,49 @@ int CMPlayerCApp::GetLanguageAlph(int nLanguage)
 	switch (nLanguage) {
 		case 1 :	// Armenian
 			return 21;
-		case 2 :	// Belarusian
+		case 2 :	// Basque
+			return 23;
+		case 3 :	// Belarusian
 			return 15;
-		case 3 :	// Catalan
+		case 4 :	// Catalan
 			return 19;
-		case 4 :	// Chinese (Simplified)
+		case 5 :	// Chinese (Simplified)
 			return 13;
-		case 5 :	// Chinese (Traditional)
+		case 6 :	// Chinese (Traditional)
 			return 14;
-		case 6:		// Czech
+		case 7:		// Czech
 			return  5;
-		case 7 :	// Dutch
+		case 8 :	// Dutch
 			return 18;
-		case 8:		// French
+		case 9:		// French
 			return  1;
-		case 9:		// German
+		case 10:	// German
 			return  2;
-		case 10 :	// Hebrew
+		case 11 :	// Hebrew
 			return 22;
-		case 11:	// Hungarian
+		case 12:	// Hungarian
 			return  7;
-		case 12:	// Italian
+		case 13:	// Italian
 			return 11;
-		case 13 :	// Japanese
+		case 14 :	// Japanese
 			return 20;
-		case 14:	// Korean
+		case 15:	// Korean
 			return  8;
-		case 15:	// Polish
+		case 16:	// Polish
 			return  9;
-		case 16 :	// Portuguese (Brasil)
+		case 17 :	// Portuguese (Brasil)
 			return 17;
-		case 17:	// Russian
+		case 18:	// Russian
 			return  3;
-		case 18 :	// Slovak
+		case 19 :	// Slovak
 			return 12;
-		case 19:	// Spanish
+		case 20:	// Spanish
 			return  6;
-		case 20 :	// Swedish
+		case 21 :	// Swedish
 			return 16;
-		case 21:	// Turkish
+		case 22:	// Turkish
 			return  4;
-		case 22:	// Ukrainian
+		case 23:	// Ukrainian
 			return 10;
 		default:
 			return 0;

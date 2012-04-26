@@ -9,6 +9,14 @@
       <Configuration>Release Armenian</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Basque|Win32">
+      <Configuration>Release Basque</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Basque|x64">
+      <Configuration>Release Basque</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Belarusian|Win32">
       <Configuration>Release Belarusian</Configuration>
       <Platform>Win32</Platform>
@@ -202,6 +210,7 @@
     <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin\mpc-hc_x64\Lang\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)'=='Release Armenian'">$(ProjectName).hy</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Basque'">$(ProjectName).eu</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Belarusian'">$(ProjectName).by</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Catalan'">$(ProjectName).ca</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Chinese Simplified'">$(ProjectName).sc</TargetName>
@@ -252,6 +261,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.es.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Spanish'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.eu.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Basque'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.fr.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release French'">true</ExcludedFromBuild>
