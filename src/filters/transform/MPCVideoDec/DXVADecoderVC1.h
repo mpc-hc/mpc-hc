@@ -43,7 +43,7 @@ public:
 		VC1_PS_TOP_FIELD				= 1,
 		VC1_PS_BOTTOM_FIELD				= 2,
 		VC1_PS_PROGRESSIVE				= 3
-	};
+	} VC1_INTERLACING;
 
 	typedef enum {
 		VC1_CHROMA_420					= 1,
@@ -56,7 +56,7 @@ public:
 		VC1_CR_BICUBIC_HALF_CHROMA		= 5,
 		VC1_CR_BILINEAR_QUARTER_CHROMA	= 12,
 		VC1_CR_BILINEAR_HALF_CHROMA		= 13,
-	};
+	} VC1_CHROMA_RESIZE;
 
 	typedef enum {
 		VC1_SCAN_ZIGZAG					= 0,
