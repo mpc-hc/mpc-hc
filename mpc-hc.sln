@@ -1,3 +1,4 @@
+
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A21F07E6-A891-479C-98EA-EDB58CE4EFAB}"
@@ -731,4 +732,3 @@ Global
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C} = {F9F42BF2-3F13-4654-82C5-E27B8879EC4E}
 	EndGlobalSection
 EndGlobal
-
