@@ -108,6 +108,7 @@ SetupWindowTitle=Setup - DirectVobSub
 
 [CustomMessages]
 en.msg_DeleteSettings =Do you also want to delete DirectVobSub's settings?%n%nIf you plan on installing DirectVobSub again then you do not have to delete them.
+en.msg_SetupIsRunningWarning=DirectVobSub setup is already running!
 en.tsk_ResetSettings  =Reset DirectVobSub's settings
 
 
@@ -144,6 +145,8 @@ Filename: {sys}\rundll32.exe; Parameters: VSFilter.dll,DirectVobSub; Description
 
 
 [Code]
+const installer_mutex = 'vsfilter_setup_mutex';
+
 // Check if VSFilter's settings exist
 function SettingsExist(): Boolean;
 begin
@@ -201,4 +204,31 @@ begin
   if (CurUninstallStep = usUninstall) and SettingsExist() then
     if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
       CleanUpSettings();
+end;
+
+
+function InitializeSetup(): Boolean;
+begin
+  // Create a mutex for the installer and if it's already running display a message and stop installation
+  if CheckForMutexes(installer_mutex) and not WizardSilent() then begin
+    SuppressibleMsgBox(CustomMessage('msg_SetupIsRunningWarning'), mbError, MB_OK, MB_OK);
+    Result := False;
+  end
+  else begin
+    Result := True;
+    CreateMutex(installer_mutex);
+  end;
+end;
+
+
+function InitializeUninstall(): Boolean;
+begin
+  if CheckForMutexes(installer_mutex) then begin
+    SuppressibleMsgBox(CustomMessage('msg_SetupIsRunningWarning'), mbError, MB_OK, MB_OK);
+    Result := False;
+  end
+  else begin
+    Result := True;
+    CreateMutex(installer_mutex);
+  end;
 end;

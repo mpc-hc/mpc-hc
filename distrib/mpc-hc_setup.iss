@@ -270,7 +270,7 @@ function IsProcessorFeaturePresent(Feature: Integer): Boolean;
 external 'IsProcessorFeaturePresent@kernel32.dll stdcall';
 #endif
 
-const installer_mutex_name = 'mpchc_setup_mutex';
+const installer_mutex = 'mpchc_setup_mutex';
 
 
 function GetInstallFolder(Default: String): String;
@@ -394,13 +394,13 @@ end;
 function InitializeSetup(): Boolean;
 begin
   // Create a mutex for the installer and if it's already running display a message and stop installation
-  if CheckForMutexes(installer_mutex_name) and not WizardSilent() then begin
+  if CheckForMutexes(installer_mutex) and not WizardSilent() then begin
     SuppressibleMsgBox(CustomMessage('msg_SetupIsRunningWarning'), mbError, MB_OK, MB_OK);
     Result := False;
   end
   else begin
     Result := True;
-    CreateMutex(installer_mutex_name);
+    CreateMutex(installer_mutex);
 
 #if defined(sse2_required)
     if not Is_SSE2_Supported() then begin
@@ -414,5 +414,18 @@ begin
     end;
 #endif
 
+  end;
+end;
+
+
+function InitializeUninstall(): Boolean;
+begin
+  if CheckForMutexes(installer_mutex) then begin
+    SuppressibleMsgBox(CustomMessage('msg_SetupIsRunningWarning'), mbError, MB_OK, MB_OK);
+    Result := False;
+  end
+  else begin
+    Result := True;
+    CreateMutex(installer_mutex);
   end;
 end;
