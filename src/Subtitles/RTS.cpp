@@ -2610,31 +2610,31 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 					CPoint p;
 					CPoint p1(s->m_effects[k]->param[0], s->m_effects[k]->param[1]);
 					CPoint p2(s->m_effects[k]->param[2], s->m_effects[k]->param[3]);
-						int t1 = s->m_effects[k]->t[0];
-						int t2 = s->m_effects[k]->t[1];
+					int t1 = s->m_effects[k]->t[0];
+					int t2 = s->m_effects[k]->t[1];
 
-						if (t2 < t1) {
-							int t = t1;
-							t1 = t2;
-							t2 = t;
-						}
+					if (t2 < t1) {
+						int t = t1;
+						t1 = t2;
+						t2 = t;
+					}
 
-						if (t1 <= 0 && t2 <= 0) {
-							t1 = 0;
-							t2 = m_delay;
-						}
+					if (t1 <= 0 && t2 <= 0) {
+						t1 = 0;
+						t2 = m_delay;
+					}
 
-						if (m_time <= t1) {
-							p = p1;
-						} else if (p1 == p2) {
-							p = p1;
-						} else if (t1 < m_time && m_time < t2) {
-							double t = 1.0*(m_time-t1)/(t2-t1);
-							p.x = (int)((1-t)*p1.x + t*p2.x);
-							p.y = (int)((1-t)*p1.y + t*p2.y);
-						} else {
-							p = p2;
-						}
+					if (m_time <= t1) {
+						p = p1;
+					} else if (p1 == p2) {
+						p = p1;
+					} else if (t1 < m_time && m_time < t2) {
+						double t = 1.0*(m_time-t1)/(t2-t1);
+						p.x = (int)((1-t)*p1.x + t*p2.x);
+						p.y = (int)((1-t)*p1.y + t*p2.y);
+					} else {
+						p = p2;
+					}
 					r = CRect(
 							CPoint((s->m_scrAlignment%3) == 1 ? p.x : (s->m_scrAlignment%3) == 0 ? p.x - spaceNeeded.cx : p.x - (spaceNeeded.cx+1)/2,
 								   s->m_scrAlignment <= 3 ? p.y - spaceNeeded.cy : s->m_scrAlignment <= 6 ? p.y - (spaceNeeded.cy+1)/2 : p.y),

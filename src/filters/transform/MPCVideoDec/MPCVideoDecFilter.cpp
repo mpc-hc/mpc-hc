@@ -1452,7 +1452,7 @@ HRESULT CMPCVideoDecFilter::EndFlush()
 HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate)
 {
 	CAutoLock cAutoLock(&m_csReceive);
-	
+
 	if (m_pAVCtx) {
 		avcodec_flush_buffers (m_pAVCtx);
 	}
@@ -1460,7 +1460,7 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	if (m_pDXVADecoder) {
 		m_pDXVADecoder->Flush();
 	}
-	
+
 	m_nPosB = 1;
 	memset (&m_BFrames, 0, sizeof(m_BFrames));
 	m_rtLastStart		= 0;

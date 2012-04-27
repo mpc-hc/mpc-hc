@@ -114,10 +114,10 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 	if (!m_rawfn.IsEmpty()) {
 		if (FILE* f = _tfopen(m_rawfn, _T("at"))) {
 			_ftprintf_s(f, _T("%02d:%02d:%02d.%03d\n"),
-					  (int)(time/1000/60/60),
-					  (int)((time/1000/60)%60),
-					  (int)((time/1000)%60),
-					  (int)(time%1000));
+						(int)(time/1000/60/60),
+						(int)((time/1000/60)%60),
+						(int)((time/1000)%60),
+						(int)(time%1000));
 
 			for (ptrdiff_t i = 0; i < len; i++) {
 				_ftprintf_s(f, _T("%02x"), buff[i]);

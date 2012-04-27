@@ -475,8 +475,8 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 						const idx_t& i = m_idx.GetNext(pos);
 						DVD_HMSF_TIMECODE start = RT2HMSF(i.rt, 25);
 						_ftprintf_s(f, _T("timestamp: %02d:%02d:%02d:%03d, filepos: %09I64x\n"),
-								  start.bHours, start.bMinutes, start.bSeconds, (int)((i.rt/10000)%1000),
-								  i.fp);
+									start.bHours, start.bMinutes, start.bSeconds, (int)((i.rt/10000)%1000),
+									i.fp);
 					}
 
 					fclose(f);

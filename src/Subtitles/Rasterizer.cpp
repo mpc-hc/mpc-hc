@@ -28,8 +28,10 @@
 #include <algorithm>
 #include <xmmintrin.h>
 #include <emmintrin.h>
+#include <mmintrin.h>
 #include "Rasterizer.h"
 #include "SeparableFilter.h"
+#include "../DSUtil/vd.h" // For CPUID usage in Rasterizer::Draw
 
 #ifndef _MAX		/* avoid collision with common (nonconforming) macros */
 #define _MAX	(max)
@@ -1028,8 +1030,6 @@ static __forceinline void pixmix2_sse2(DWORD* dst, DWORD color, DWORD shapealpha
 	*dst = (DWORD)_mm_cvtsi128_si32(r);
 }
 
-#include <mmintrin.h>
-
 // Calculate a - b clamping to 0 instead of underflowing
 static __forceinline DWORD safe_subtract(DWORD a, DWORD b)
 {
@@ -1054,9 +1054,6 @@ static __forceinline DWORD safe_subtract_sse2(DWORD a, DWORD b)
 
 	return (DWORD)_mm_cvtsi128_si32(rp);
 }
-
-// For CPUID usage in Rasterizer::Draw
-#include "../DSUtil/vd.h"
 
 static const __int64 _00ff00ff00ff00ff = 0x00ff00ff00ff00ffi64;
 
@@ -1527,84 +1524,84 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 	rnfo.am = pAlphaMask + spd.w * y + x;
 	// Every remaining line in the bitmap to be rendered...
 	// Basic case of no complex clipping mask
-		if (!pAlphaMask) {
-			// If the first colour switching coordinate is at "infinite" we're
-			// never switching and can use some simpler code.
-			// ??? Is this optimisation really worth the extra readability issues it adds?
-			if (switchpts[1] == 0xFFFFFFFF) {
-				// fBody is true if we're rendering a fill or a shadow.
-				if (fBody) {
-					if (fSSE2) {
-						Draw_noAlpha_spFF_Body_sse2(rnfo);
-					} else {
-						Draw_noAlpha_spFF_Body_0(rnfo);
-					}
-				}
-				// Not painting body, ie. painting border without fill in it
-				else {
-					if (fSSE2) {
-						Draw_noAlpha_spFF_noBody_sse2(rnfo);
-					} else {
-						Draw_noAlpha_spFF_noBody_0(rnfo);
-					}
+	if (!pAlphaMask) {
+		// If the first colour switching coordinate is at "infinite" we're
+		// never switching and can use some simpler code.
+		// ??? Is this optimisation really worth the extra readability issues it adds?
+		if (switchpts[1] == 0xFFFFFFFF) {
+			// fBody is true if we're rendering a fill or a shadow.
+			if (fBody) {
+				if (fSSE2) {
+					Draw_noAlpha_spFF_Body_sse2(rnfo);
+				} else {
+					Draw_noAlpha_spFF_Body_0(rnfo);
 				}
 			}
-			// not (switchpts[1] == 0xFFFFFFFF)
+			// Not painting body, ie. painting border without fill in it
 			else {
-				// switchpts plays an important rule here
-				//const long *sw = switchpts;
-
-				if (fBody) {
-					if (fSSE2) {
-						Draw_noAlpha_sp_Body_sse2(rnfo);
-					} else {
-						Draw_noAlpha_sp_Body_0(rnfo);
-					}
-				}
-				// Not body
-				else {
-					if (fSSE2) {
-						Draw_noAlpha_sp_noBody_sse2(rnfo);
-					} else {
-						Draw_noAlpha_sp_noBody_0(rnfo);
-					}
+				if (fSSE2) {
+					Draw_noAlpha_spFF_noBody_sse2(rnfo);
+				} else {
+					Draw_noAlpha_spFF_noBody_0(rnfo);
 				}
 			}
 		}
-	// Here we *do* have an alpha mask
+		// not (switchpts[1] == 0xFFFFFFFF)
 		else {
-			if (switchpts[1] == 0xFFFFFFFF) {
-				if (fBody) {
-					if (fSSE2) {
-						Draw_Alpha_spFF_Body_sse2(rnfo);
-					} else {
-						Draw_Alpha_spFF_Body_0(rnfo);
-					}
+			// switchpts plays an important rule here
+			//const long *sw = switchpts;
+
+			if (fBody) {
+				if (fSSE2) {
+					Draw_noAlpha_sp_Body_sse2(rnfo);
 				} else {
-					if (fSSE2) {
-						Draw_Alpha_spFF_noBody_sse2(rnfo);
-					} else {
-						Draw_Alpha_spFF_noBody_0(rnfo);
-					}
+					Draw_noAlpha_sp_Body_0(rnfo);
+				}
+			}
+			// Not body
+			else {
+				if (fSSE2) {
+					Draw_noAlpha_sp_noBody_sse2(rnfo);
+				} else {
+					Draw_noAlpha_sp_noBody_0(rnfo);
+				}
+			}
+		}
+	}
+	// Here we *do* have an alpha mask
+	else {
+		if (switchpts[1] == 0xFFFFFFFF) {
+			if (fBody) {
+				if (fSSE2) {
+					Draw_Alpha_spFF_Body_sse2(rnfo);
+				} else {
+					Draw_Alpha_spFF_Body_0(rnfo);
 				}
 			} else {
-				//const long *sw = switchpts;
-
-				if (fBody) {
-					if (fSSE2) {
-						Draw_Alpha_sp_Body_sse2(rnfo);
-					} else {
-						Draw_Alpha_sp_Body_0(rnfo);
-					}
+				if (fSSE2) {
+					Draw_Alpha_spFF_noBody_sse2(rnfo);
 				} else {
-					if (fSSE2) {
-						Draw_Alpha_sp_noBody_sse2(rnfo);
-					} else {
-						Draw_Alpha_sp_noBody_0(rnfo);
-					}
+					Draw_Alpha_spFF_noBody_0(rnfo);
+				}
+			}
+		} else {
+			//const long *sw = switchpts;
+
+			if (fBody) {
+				if (fSSE2) {
+					Draw_Alpha_sp_Body_sse2(rnfo);
+				} else {
+					Draw_Alpha_sp_Body_0(rnfo);
+				}
+			} else {
+				if (fSSE2) {
+					Draw_Alpha_sp_noBody_sse2(rnfo);
+				} else {
+					Draw_Alpha_sp_noBody_0(rnfo);
 				}
 			}
 		}
+	}
 	// Remember to EMMS!
 	// Rendering fails in funny ways if we don't do this.
 	_mm_empty();
