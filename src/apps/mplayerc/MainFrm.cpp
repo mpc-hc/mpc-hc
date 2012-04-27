@@ -4116,7 +4116,7 @@ void CMainFrame::OnFileOpenmedia()
 	}
 
 	static COpenDlg dlg;
-	if (dlg.IsWindowVisible()) {
+	if (IsWindow(dlg.GetSafeHwnd()) && dlg.IsWindowVisible()) {
 		dlg.SetForegroundWindow();
 		return;
 	}
