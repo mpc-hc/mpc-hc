@@ -27,6 +27,7 @@
 #include <atlbase.h>
 #include <qnetwork.h>
 #include "../../DSUtil/DSUtil.h"
+#include "WinAPIUtils.h"
 
 
 // CPPageFileInfoClip dialog
@@ -55,24 +56,13 @@ CPPageFileInfoClip::~CPPageFileInfoClip()
 BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
 {
 	if (pMsg->message == WM_LBUTTONDBLCLK && pMsg->hwnd == m_location.m_hWnd && !m_location_str.IsEmpty()) {
-		HRESULT res = CoInitialize(NULL);
+		CString path = m_location_str;
+		if (path[path.GetLength() - 1] != '\\') {
+			path += _T("\\");
+		}
+		path += m_fn;
 
-		if (res == S_OK || res == S_FALSE) {
-			PIDLIST_ABSOLUTE pidl;
-
-			CString path = m_location_str;
-			if (path[path.GetLength() - 1] != '\\') {
-				path += _T("\\");
-			}
-			path += m_fn;
-
-			if (SHParseDisplayName(path, NULL, &pidl, 0, NULL) == S_OK) {
-				SHOpenFolderAndSelectItems(pidl, 0, NULL, 0);
-				CoTaskMemFree(pidl);
-			}
-
-			CoUninitialize();
-
+		if (ExploreToFile(path)) {
 			return TRUE;
 		}
 	}

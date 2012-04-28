@@ -36,3 +36,5 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName=_T(""));
 UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd);
 
 bool IsFontInstalled(LPCTSTR lpszFont);
+
+bool ExploreToFile(CString path);
