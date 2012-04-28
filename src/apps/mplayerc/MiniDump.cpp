@@ -29,7 +29,7 @@
 
 
 CMiniDump	_Singleton;
-bool		CMiniDump::m_bMiniDumpEnabled = false;
+bool		CMiniDump::m_bMiniDumpEnabled = true;
 
 
 typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)( HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
@@ -93,7 +93,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 	CString strDumpPath;
 
 	if ( !m_bMiniDumpEnabled ) {
-		return 0;
+		return retval;
 	}
 
 	// firstly see if dbghelp.dll is around and has the function we need

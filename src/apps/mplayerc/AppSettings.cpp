@@ -1809,8 +1809,6 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 			} else if (sw == _T("monitor") && pos) {
 				iMonitor = _tcstol(cmdln.GetNext(pos), NULL, 10);
 				nCLSwitches |= CLSW_MONITOR;
-			} else if (sw == _T("minidump")) {
-				CMiniDump::Enable();
 			} else if (sw == _T("pns")) {
 				strPnSPreset = cmdln.GetNext(pos);
 			} else if (sw == _T("webport") && pos) {
