@@ -127,15 +127,15 @@ EXIT /B
 TITLE Compiling MPC-HC Filters - %BUILDCONFIG% Filter^|%1...
 REM Call update_version.bat before building the filters
 CALL "update_version.bat"
-"%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo filters.sln^
+"%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpc-hc.sln^
  /target:%BUILDTYPE% /property:Configuration="%BUILDCONFIG% Filter";Platform=%1^
  /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
  /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCONFIG%_%1.txt;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCONFIG%_%1.txt;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "filters.sln - Compilation failed!"
+  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCONFIG% Filter %1 - Compilation failed!"
 ) ELSE (
-  CALL :SubMsg "INFO" "filters.sln %BUILDCONFIG% %1 compiled successfully"
+  CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCONFIG% Filter %1 compiled successfully"
 )
 EXIT /B
 
@@ -220,7 +220,7 @@ ECHO %~nx0 x86 Filters    -Builds x86 Filters
 ECHO %~nx0 x86 All        -Builds x86 Main exe, x86 Filters and the x86 resources
 ECHO.
 ECHO NOTES:
-ECHO Debug only applies to mpc-hc.sln and filters.sln
+ECHO Debug only applies to mpc-hc.sln
 ECHO.
 ENDLOCAL
 EXIT /B
