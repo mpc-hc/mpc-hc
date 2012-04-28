@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
   <assemblyIdentity
-    name="Gabest.VobSub.Filter"
+    name="VSFilter"
     processorArchitecture="*"
-    version="2.40.0.0"
+    version="2.41.0.0"
     type="win32"
   />
   <description>DirectVobSub</description>
