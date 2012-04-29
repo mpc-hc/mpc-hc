@@ -242,3 +242,6 @@
 #define IDS_R_SHADERS_INITIALIZED			_T("Initialized")
 #define IDS_R_SHADERS_COMBINE				_T("Combine")
 #define IDS_R_SHADERS_COMBINESCREENSPACE	_T("CombineScreenSpace")
+
+#define IDS_R_DLG_SUBTITLEDL				_T("Dialogs\\SubtitleDl")
+#define IDS_RS_DLG_SUBTITLEDL_COLWIDTH		_T("ColWidth")

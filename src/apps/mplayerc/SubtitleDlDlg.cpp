@@ -76,6 +76,7 @@ void CSubtitleDlDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CResizableDialog)
 	ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
 	ON_NOTIFY(HDN_ITEMCLICK, 0, &CSubtitleDlDlg::OnHdnItemclickList1)
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CSubtitleDlDlg message handlers
@@ -84,20 +85,38 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
+	int curPos = 0;
+	int n;
+	CArray<int> columnWidth;
+
+	CString strColumnWidth = AfxGetApp()->GetProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH, _T("400,80,50,50,250"));
+	CString token = strColumnWidth.Tokenize(_T(","), curPos);
+	while (!token.IsEmpty()) {
+		if (_stscanf(token, L"%i", &n) == 1) {
+			columnWidth.Add(n);
+			token = strColumnWidth.Tokenize(_T(","), curPos);
+		} else {
+			throw 1;
+		}
+	}
+
 	AddAnchor(IDC_LIST1, TOP_LEFT, BOTTOM_RIGHT);
 	AddAnchor(IDC_CHECK1, BOTTOM_LEFT);
 	AddAnchor(IDOK, BOTTOM_RIGHT);
 
-	CSize s(200, 150);
+	CSize s(380, 150);
 	SetMinTrackSize(s);
+
+	EnableSaveRestore(IDS_R_DLG_SUBTITLEDL);
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-	m_list.InsertColumn(COL_FILENAME, _T("File"), LVCFMT_LEFT, 160);
-	m_list.InsertColumn(COL_LANGUAGE, _T("Language"), LVCFMT_CENTER, 80);
-	m_list.InsertColumn(COL_FORMAT, _T("Format"), LVCFMT_CENTER, 50);
-	m_list.InsertColumn(COL_DISC, _T("Disc"), LVCFMT_CENTER, 50);
-	m_list.InsertColumn(COL_TITLES, _T("Title(s)"), LVCFMT_LEFT, 300);
+	ASSERT(ColumnWidth.GetCount() == 5);
+	m_list.InsertColumn(COL_FILENAME, _T("File"), LVCFMT_LEFT, columnWidth[0]);
+	m_list.InsertColumn(COL_LANGUAGE, _T("Language"), LVCFMT_CENTER, columnWidth[1]);
+	m_list.InsertColumn(COL_FORMAT, _T("Format"), LVCFMT_CENTER, columnWidth[2]);
+	m_list.InsertColumn(COL_DISC, _T("Disc"), LVCFMT_CENTER, columnWidth[3]);
+	m_list.InsertColumn(COL_TITLES, _T("Title(s)"), LVCFMT_LEFT, columnWidth[4]);
 
 	BuildList();
 
@@ -143,6 +162,21 @@ void CSubtitleDlDlg::OnHdnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	SortList();
+}
+
+void CSubtitleDlDlg::OnDestroy()
+{
+	CHeaderCtrl* pHC = m_list.GetHeaderCtrl();
+	CString strColumnWidth;
+	int w;
+
+	for (int i = 0; i < pHC->GetItemCount(); ++i) {
+		w = m_list.GetColumnWidth(i);
+		strColumnWidth.AppendFormat(L"%d,", w);
+	}
+	AfxGetApp()->WriteProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH, strColumnWidth);
+
+	__super::OnDestroy();
 }
 
 void CSubtitleDlDlg::BuildList( void )

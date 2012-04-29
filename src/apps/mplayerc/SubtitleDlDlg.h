@@ -78,4 +78,5 @@ protected:
 public:
 	afx_msg void OnUpdateOk(CCmdUI* pCmdUI);
 	afx_msg void OnHdnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnDestroy();
 };
