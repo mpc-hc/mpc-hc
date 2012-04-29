@@ -1588,6 +1588,11 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 	}
 
+	if (pApp->m_bResetStats) {
+		ResetStats();
+		pApp->m_bResetStats = false;
+	}
+
 	if (pApp->m_fDisplayStats) {
 		DrawStats();
 	}
@@ -1928,6 +1933,27 @@ void CDX9AllocatorPresenter::DrawText(const RECT &rc, const CString &strText, in
 		m_pFont->DrawText( m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
 	}
 	m_pFont->DrawText( m_pSprite, strText, -1, &Rect1, DT_NOCLIP, Color1);
+}
+
+void CDX9AllocatorPresenter::ResetStats()
+{
+	CRenderersData * pApp = GetRenderersData();
+	LONGLONG Time = pApp->GetPerfCounter();
+
+	m_PaintTime = 0;
+	m_PaintTimeMin = 0;
+	m_PaintTimeMax = 0;
+
+	m_RasterStatusWaitTime = 0;
+	m_RasterStatusWaitTimeMin = 0;
+	m_RasterStatusWaitTimeMax = 0;
+
+	m_MinSyncOffset = 0;
+	m_MaxSyncOffset = 0;
+	m_fSyncOffsetAvr = 0;
+	m_fSyncOffsetStdDev = 0;
+
+	CalculateJitter(Time);
 }
 
 void CDX9AllocatorPresenter::DrawStats()
