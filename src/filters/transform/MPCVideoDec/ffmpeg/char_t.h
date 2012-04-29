@@ -5,7 +5,7 @@
 #include <time.h>
 #include <wchar.h>
 
-#pragma warning(disable:4996)
+#pragma warning(disable:4995 4996)
 
 #undef _l
 #ifdef UNICODE
@@ -285,6 +285,6 @@ template<> template<> inline text<char>::text(const wchar_t *in,int inlen,char *
 
 #endif
 
-#pragma warning(default:4996)
+#pragma warning(default:4995 4996)
 
 #endif

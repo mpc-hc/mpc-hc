@@ -235,8 +235,6 @@ namespace Plugin
 
 	namespace VirtualDub
 	{
-		//#include <VirtualDub\VirtualDub.h>
-		//#include <vd2/OldFilterSDK/VirtualDub.h>
 #include <vd2/extras/FilterSDK/VirtualDub.h>
 
 		class CVirtualDubFilter : virtual public CFilter
@@ -782,7 +780,7 @@ namespace Plugin
 
 	namespace AviSynth1
 	{
-#include <avisynth\avisynth1.h>
+#include <avisynth/avisynth1.h>
 
 		class CAvisynthFilter : public GenericVideoFilter, virtual public CFilter
 		{
@@ -894,7 +892,7 @@ namespace Plugin
 
 	namespace AviSynth25
 	{
-#include <avisynth\avisynth25.h>
+#include <avisynth/avisynth25.h>
 
 		static bool s_fSwapUV = false;
 
@@ -1062,11 +1060,7 @@ UINT_PTR CALLBACK OpenHookProc(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM lPar
 		}
 
 		case WM_INITDIALOG: {
-#ifdef _WIN64
 			SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
-#else
-			SetWindowLongPtr(hDlg, GWL_USERDATA, lParam);
-#endif
 
 			for (ptrdiff_t i = 0; i < CharSetLen; i++) {
 				CString s;

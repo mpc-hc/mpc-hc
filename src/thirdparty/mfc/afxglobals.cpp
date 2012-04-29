@@ -13,6 +13,8 @@
 // #include "afxcontrolbarutil.h"
 #include "afxglobals.h"
 
+#pragma warning(disable:4995 4996)
+
 #if 0
 #include "afxvisualmanager.h"
 #include "afxkeyboardmanager.h"
