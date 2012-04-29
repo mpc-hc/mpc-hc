@@ -84,7 +84,7 @@ public:
         return m_pContext;
     };
 
-    DWORD GetUser() const
+    DWORD_PTR GetUser() const
     {
         return m_dwUser;
     };
