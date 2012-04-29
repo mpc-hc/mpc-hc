@@ -1624,6 +1624,19 @@ void CAppSettings::SaveCurrentDVDPosition()
 	pApp->WriteProfileString(IDS_R_SETTINGS, strDVDPos, strValue);
 }
 
+void CAppSettings::ClearDVDPositions()
+{
+	CWinApp* pApp = AfxGetApp();
+	CString strDVDPos;
+	for (int i=0; i<MAX_DVD_POSITION; i++) {
+		DvdPosition[i].llDVDGuid = 0;
+		DvdPosition[i].lTitle = 0;
+
+		strDVDPos.Format (_T("DVD Position %d"), i);
+		pApp->WriteProfileString(IDS_R_SETTINGS, strDVDPos, _T(""));
+	}
+}
+
 __int64 CAppSettings::ConvertTimeToMSec(CString& time) const
 {
 	__int64 Sec = 0;

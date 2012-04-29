@@ -75,6 +75,8 @@ Legend:
 ! AviSplitter: Fix looping not working on short animations
 ! MpegSplitter: Fix incorrect detection of MPEG Audio stream as AAC
 ! WebServer: Fix a few errors and typos
+! Fix the remember file/DVD position feature: the positions cache was not cleared when
+  disabling the feature
 ! The Windows 7 taskbar was sometimes not correctly updated (for example when opening
   another video without closing the previous one). The preview was incorrectly cropped
   when the menu was hidden.

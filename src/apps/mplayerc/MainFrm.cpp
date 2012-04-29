@@ -2485,7 +2485,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 								m_iDVDTitle	  = s.lDVDTitle;
 								s.lDVDTitle   = 0;
 								s.lDVDChapter = 0;
-							} else if (!s.NewDvd (llDVDGuid) && s.fRememberDVDPos) {
+							} else if (s.fKeepHistory && s.fRememberDVDPos && !s.NewDvd(llDVDGuid)) {
 								// Set last remembered position (if founded...)
 								DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
 
@@ -9093,15 +9093,16 @@ void CMainFrame::OnRecentFileClear()
 	AppSettings& s = AfxGetAppSettings();
 
 	for (int i = 0; i < s.MRU.GetSize(); i++) {
-		s.MRU[i] = _T("");
+		s.MRU.Remove(i);
 	}
 	for (int i = 0; i < s.MRUDub.GetSize(); i++) {
-		s.MRUDub[i] = _T("");
+		s.MRUDub.Remove(i);
 	}
 	s.MRU.WriteList();
 	s.MRUDub.WriteList();
 
 	s.ClearFilePositions();
+	s.ClearDVDPositions();
 }
 
 void CMainFrame::OnUpdateRecentFileClear(CCmdUI* pCmdUI)
@@ -10531,7 +10532,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
 		HRESULT hr = pGB->RenderFile(CStringW(fn), NULL);
 
-		if (!s.NewFile (fn) && s.fRememberFilePos) {
+		if (s.fKeepHistory && s.fRememberFilePos && !s.NewFile(fn)) {
 			REFERENCE_TIME	rtPos = s.CurrentFilePosition()->llPosition;
 			if (pMS) {
 				pMS->SetPositions (&rtPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);

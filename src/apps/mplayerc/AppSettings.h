@@ -543,6 +543,7 @@ public:
 	bool			NewFile(LPCTSTR strFileName);
 
 	void			SaveCurrentDVDPosition();
+	void			ClearDVDPositions();
 	void			SaveCurrentFilePosition();
 	void			ClearFilePositions();
 
