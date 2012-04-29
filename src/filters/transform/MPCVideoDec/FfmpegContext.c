@@ -638,7 +638,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 		avcodec_decode_video2(pAVCtx, pFrame, &got_picture, &avpkt);
 
 		*nSliceCount	= s1->slice_count;
-		*nFieldType		= s->progressive_frame ? PICT_FRAME : s->top_field_first ? PICT_TOP_FIELD : PICT_BOTTOM_FIELD;
+		*nFieldType		= s->progressive_frame ? PICT_FRAME : s->current_picture.f.top_field_first ? PICT_TOP_FIELD : PICT_BOTTOM_FIELD;
 		*nSliceType		= s->pict_type;
 	}
 
@@ -661,7 +661,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	pPicParams->bBPPminus1						= 7;	// It is equal to "7" for MPEG-1, MPEG-2, H.261, and H.263
 
 	pPicParams->bPicStructure					= s->picture_structure;
-	//pPicParams->bSecondField
+	pPicParams->bSecondField					= is_field && !s->first_field;
 	pPicParams->bPicIntra						= (s->current_picture.f.pict_type == AV_PICTURE_TYPE_I);
 	pPicParams->bPicBackwardPrediction			= (s->current_picture.f.pict_type == AV_PICTURE_TYPE_B);
 

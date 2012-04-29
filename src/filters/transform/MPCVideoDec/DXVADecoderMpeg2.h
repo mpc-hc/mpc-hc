@@ -52,7 +52,12 @@ private:
 
 	int							m_nNextCodecIndex;
 
-	REFERENCE_TIME	m_rtLastStart;
+	int							m_nSurfaceIndex;
+	CComPtr<IMediaSample>		m_pSampleToDeliver;
+	bool						m_bSecondField;
+	REFERENCE_TIME				m_rtStart, m_rtStop;
+
+	REFERENCE_TIME				m_rtLastStart;
 
 	// Private functions
 	void					Init();

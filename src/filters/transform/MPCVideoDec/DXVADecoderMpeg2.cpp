@@ -76,32 +76,59 @@ void CDXVADecoderMpeg2::Init()
 HRESULT CDXVADecoderMpeg2::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
 	HRESULT						hr;
-	int							nSurfaceIndex;
-	CComPtr<IMediaSample>		pSampleToDeliver;
 	int							nFieldType;
 	int							nSliceType;
 
 	FFMpeg2DecodeFrame (&m_PictureParams, &m_QMatrixData, m_SliceInfo, &m_nSliceCount, m_pFilter->GetAVCtx(),
 						m_pFilter->GetFrame(), &m_nNextCodecIndex, &nFieldType, &nSliceType, pDataIn, nSize);
 
+	if (m_PictureParams.bSecondField && !m_bSecondField) {
+		m_bSecondField = true;
+	}
+
 	// Wait I frame after a flush
-	if (m_bFlushed && ! m_PictureParams.bPicIntra) {
+	if (m_bFlushed && (!m_PictureParams.bPicIntra || (m_bSecondField && m_PictureParams.bSecondField))) {
+		TRACE_MPEG2 ("CDXVADecoderMpeg2::DecodeFrame() : Flush - wait I frame\n");
 		return S_FALSE;
 	}
 
-	hr = GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop);
-	if (FAILED (hr)) {
-		ASSERT (hr == VFW_E_NOT_COMMITTED);		// Normal when stop playing
-		return hr;
+	if (m_bSecondField) {
+		if(!m_PictureParams.bSecondField) {
+			m_rtStart			= rtStart;
+			m_rtStop			= rtStop;
+			m_pSampleToDeliver	= NULL;
+			hr = GetFreeSurfaceIndex (m_nSurfaceIndex, &m_pSampleToDeliver, rtStart, rtStop);
+			if (FAILED (hr)) {
+				ASSERT (hr == VFW_E_NOT_COMMITTED);		// Normal when stop playing
+				return hr;
+			}
+		}
+	} else {
+		m_rtStart			= rtStart;
+		m_rtStop			= rtStop;
+		m_pSampleToDeliver	= NULL;
+		hr = GetFreeSurfaceIndex (m_nSurfaceIndex, &m_pSampleToDeliver, rtStart, rtStop);
+		if (FAILED (hr)) {
+			ASSERT (hr == VFW_E_NOT_COMMITTED);		// Normal when stop playing
+			return hr;
+		}
 	}
 
-	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
+	if (m_pSampleToDeliver == NULL) {
+		return S_FALSE;
+	}
 
-	UpdatePictureParams(nSurfaceIndex);
+	CHECK_HR (BeginFrame(m_nSurfaceIndex, m_pSampleToDeliver));
 
-	TRACE_MPEG2 ("CDXVADecoderMpeg2::DecodeFrame() : PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
+	if (m_bSecondField) {
+		if(!m_PictureParams.bSecondField) {
+			UpdatePictureParams(m_nSurfaceIndex);
+		}
+	} else {
+		UpdatePictureParams(m_nSurfaceIndex);	
+	}
 
-	TRACE_MPEG2 ("CDXVADecoderMpeg2::DecodeFrame() : Decode frame %i\n", m_PictureParams.bPicScanMethod);
+	TRACE_MPEG2 ("CDXVADecoderMpeg2::DecodeFrame() : Surf = %d, PictureType = %d, SecondField = %d, m_nNextCodecIndex = %d, rtStart = [%I64d]\n", m_nSurfaceIndex, nSliceType, m_PictureParams.bSecondField, m_nNextCodecIndex, rtStart);
 
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
 
@@ -113,13 +140,23 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIM
 
 	// Decode frame
 	CHECK_HR (Execute());
-	CHECK_HR (EndFrame(nSurfaceIndex));
+	CHECK_HR (EndFrame(m_nSurfaceIndex));
 
-	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop,
-				false,(FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType, FFGetCodedPicture(m_pFilter->GetAVCtx()));
+	if (m_bSecondField) {
+		if(m_PictureParams.bSecondField) {
+			AddToStore (m_nSurfaceIndex, m_pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), m_rtStart, m_rtStop,
+						false, (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType, FFGetCodedPicture(m_pFilter->GetAVCtx()));
+			hr = DisplayNextFrame();
+		}
+	} else {
+		AddToStore (m_nSurfaceIndex, m_pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), m_rtStart, m_rtStop,
+					false, (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType, FFGetCodedPicture(m_pFilter->GetAVCtx()));
+		hr = DisplayNextFrame();
+	}
+		
 	m_bFlushed = false;
 
-	return DisplayNextFrame();
+	return hr;
 }
 
 void CDXVADecoderMpeg2::UpdatePictureParams(int nSurfaceIndex)
@@ -202,14 +239,21 @@ void CDXVADecoderMpeg2::Flush()
 	m_wRefPictureIndex[0] = NO_REF_FRAME;
 	m_wRefPictureIndex[1] = NO_REF_FRAME;
 
-	m_rtLastStart = 0;
+	m_nSurfaceIndex		= 0;
+	m_pSampleToDeliver	= NULL;
+	m_bSecondField		= false;
+
+	m_rtStart			= _I64_MIN;
+	m_rtStop			= _I64_MIN;
+
+	m_rtLastStart		= 0;
 
 	__super::Flush();
 }
 
 int CDXVADecoderMpeg2::FindOldestFrame()
 {
-	int					nPos	= -1;
+	int nPos	= -1;
 
 	for (int i=0; i<m_nPicEntryNumber; i++) {
 		if (!m_pPictureStore[i].bDisplayed &&
@@ -229,10 +273,14 @@ int CDXVADecoderMpeg2::FindOldestFrame()
 
 void CDXVADecoderMpeg2::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
+	TRACE(_T("\n\nrtStart = [%10I64d - %10I64d] // "), rtStart, rtStop);
+
 	if (m_rtLastStart && (rtStart == _I64_MIN || (rtStart < m_rtLastStart))) {
 		rtStart = m_rtLastStart;
 	}
-	rtStop  = rtStart + m_pFilter->GetAvrTimePerFrame() / m_pFilter->GetRate();
 
+	rtStop  = rtStart + m_pFilter->GetAvrTimePerFrame() / m_pFilter->GetRate();
 	m_rtLastStart = rtStop;
+
+	TRACE(_T("rtStart = [%10I64d - %10I64d]\n"), rtStart, rtStop);
 }
