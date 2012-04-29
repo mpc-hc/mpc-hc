@@ -67,7 +67,7 @@ protected:
 |       AP4_Array<T>::~AP4_Array<T>
 +---------------------------------------------------------------------*/
 template <typename T>
-AP4_Array<T>::~AP4_Array<T>()
+AP4_Array<T>::~AP4_Array()
 {
     delete[] m_Items;
 }

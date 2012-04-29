@@ -121,7 +121,7 @@ private:
 |       AP4_List<T>::~AP4_List<T>
 +---------------------------------------------------------------------*/
 template <typename T>
-AP4_List<T>::~AP4_List<T>()
+AP4_List<T>::~AP4_List()
 {
     Item* item = m_Head;
  
