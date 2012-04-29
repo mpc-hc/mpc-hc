@@ -130,8 +130,8 @@ CALL "update_version.bat"
 "%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpc-hc.sln^
  /target:%BUILDTYPE% /property:Configuration="%BUILDCONFIG% Filter";Platform=%1^
  /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
- /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCONFIG%_%1.txt;errorsonly;Verbosity=diagnostic^
- /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCONFIG%_%1.txt;warningsonly;Verbosity=diagnostic
+ /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCONFIG%_%1.log;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCONFIG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCONFIG% Filter %1 - Compilation failed!"
 ) ELSE (
@@ -145,8 +145,8 @@ TITLE Compiling MPC-HC - %BUILDCONFIG%^|%1...
 "%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpc-hc.sln^
  /target:%BUILDTYPE% /property:Configuration=%BUILDCONFIG%;Platform=%1^
  /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
- /flp1:LogFile=%LOG_DIR%\mpc_errors_%BUILDCONFIG%_%1.txt;errorsonly;Verbosity=diagnostic^
- /flp2:LogFile=%LOG_DIR%\mpc_warnings_%BUILDCONFIG%_%1.txt;warningsonly;Verbosity=diagnostic
+ /flp1:LogFile=%LOG_DIR%\mpc-hc_errors_%BUILDCONFIG%_%1.log;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=%LOG_DIR%\mpc-hc_warnings_%BUILDCONFIG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "mpc-hc.sln - Compilation failed!"
 ) ELSE (
