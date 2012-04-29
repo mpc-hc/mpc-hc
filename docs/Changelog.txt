@@ -10,7 +10,7 @@ Legend:
 
 1.6.2.X - Not released yet
 ==============================
-+ MatroskaSplitter: Support for QT video formats in Matroska v1
++ MatroskaSplitter: Support for QT video formats in Matroska v1 and MPEG-1
 + Added .tak extension
 + Ticket #1792, Show an OSD message and a status message when a favorite is
   created via the keyboard shortcut

@@ -24,6 +24,7 @@
 #define VerMinor  "41"
 #define copyright "2001-2012"
 #define top_dir   "..\..\..\..\.."
+#define sse_required
 ;#define x64Build
 
 #ifdef x64_build
@@ -109,6 +110,11 @@ SetupWindowTitle=Setup - DirectVobSub
 [CustomMessages]
 en.msg_DeleteSettings =Do you also want to delete DirectVobSub's settings?%n%nIf you plan on installing DirectVobSub again then you do not have to delete them.
 en.msg_SetupIsRunningWarning=DirectVobSub setup is already running!
+#if defined(sse_required)
+en.msg_simd_sse=This build of DirectVobSub requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
+#elif defined(sse2_required)
+en.msg_simd_sse2=This build of DirectVobSub requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
+#endif
 en.tsk_ResetSettings  =Reset DirectVobSub's settings
 
 
@@ -145,6 +151,11 @@ Filename: {sys}\rundll32.exe; Parameters: VSFilter.dll,DirectVobSub; Description
 
 
 [Code]
+#if defined(sse_required) || defined(sse2_required)
+function IsProcessorFeaturePresent(Feature: Integer): Boolean;
+external 'IsProcessorFeaturePresent@kernel32.dll stdcall';
+#endif
+
 const installer_mutex = 'vsfilter_setup_mutex';
 
 // Check if VSFilter's settings exist
@@ -155,6 +166,24 @@ begin
   else
     Result := False;
 end;
+
+
+#if defined(sse_required)
+function Is_SSE_Supported(): Boolean;
+begin
+  // PF_XMMI_INSTRUCTIONS_AVAILABLE
+  Result := IsProcessorFeaturePresent(6);
+end;
+
+#elif defined(sse2_required)
+
+function Is_SSE2_Supported(): Boolean;
+begin
+  // PF_XMMI64_INSTRUCTIONS_AVAILABLE
+  Result := IsProcessorFeaturePresent(10);
+end;
+
+#endif
 
 
 function IsUpgrade(): Boolean;
@@ -217,6 +246,19 @@ begin
   else begin
     Result := True;
     CreateMutex(installer_mutex);
+
+#if defined(sse2_required)
+    if not Is_SSE2_Supported() then begin
+      SuppressibleMsgBox(CustomMessage('msg_simd_sse2'), mbCriticalError, MB_OK, MB_OK);
+      Result := False;
+    end;
+#elif defined(sse_required)
+    if not Is_SSE_Supported() then begin
+      SuppressibleMsgBox(CustomMessage('msg_simd_sse'), mbCriticalError, MB_OK, MB_OK);
+      Result := False;
+    end;
+#endif
+
   end;
 end;
 
