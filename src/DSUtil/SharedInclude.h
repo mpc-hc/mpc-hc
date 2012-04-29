@@ -1,9 +1,8 @@
 #pragma once
 
-#pragma warning(disable:4244)
-#ifdef _WIN64
-#pragma warning(disable:4267)
-#endif
+// TODO: check 4731 and 4799
+// Compile Bento4 as a separate project
+//#pragma warning(disable:4244 4267)
 #pragma warning(disable:4995)
 #ifdef _DEBUG
 // Remove this if you want to see all the "unsafe" functions used
