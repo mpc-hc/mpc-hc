@@ -311,7 +311,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 		pDXVAPicParams->frame_mbs_only_flag						= cur_sps->frame_mbs_only_flag;
 		pDXVAPicParams->transform_8x8_mode_flag					= cur_pps->transform_8x8_mode;
 		pDXVAPicParams->MinLumaBipredSize8x8Flag				= h->sps.level_idc >= 31;
-		pDXVAPicParams->IntraPicFlag							= (h->slice_type == AV_PICTURE_TYPE_I );
+		pDXVAPicParams->IntraPicFlag							= (h->slice_type == AV_PICTURE_TYPE_I || h->slice_type == AV_PICTURE_TYPE_SI);
 
 		pDXVAPicParams->bit_depth_luma_minus8					= cur_sps->bit_depth_luma   - 8;	// bit_depth_luma_minus8
 		pDXVAPicParams->bit_depth_chroma_minus8					= cur_sps->bit_depth_chroma - 8;	// bit_depth_chroma_minus8
