@@ -1018,6 +1018,7 @@ STDMETHODIMP CMPCVideoDecFilter::NonDelegatingQueryInterface(REFIID riid, void**
 {
 	return
 		QI(IMPCVideoDecFilter)
+		QI(IMPCVideoDecFilter2)
 		QI(ISpecifyPropertyPages)
 		QI(ISpecifyPropertyPages2)
 		__super::NonDelegatingQueryInterface(riid, ppv);
@@ -1093,8 +1094,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			if ((ClsidSourceFilter == __uuidof(COggSourceFilter)) || (ClsidSourceFilter == __uuidof(COggSplitterFilter))) {
 				m_bTheoraMTSupport = false;
 			} else if ((ClsidSourceFilter == __uuidof(CMpegSourceFilter)) || (ClsidSourceFilter == __uuidof(CMpegSplitterFilter))) {
-				if (IBaseFilter* mpegsp = GetFilterFromPin(m_pInput->GetConnected())) {
-					m_bIsEVO = (m_nCodecId == CODEC_ID_VC1 && mpeg_ps == (static_cast<CMpegSplitterFilter*>(mpegsp))->GetMPEGType());
+				if (CComPtr<IBaseFilter> pFilter = GetFilterFromPin(m_pInput->GetConnected()) ) {
+					if (CComQIPtr<IMpegSplitterFilter> MpegSplitterFilter = pFilter ) {
+						m_bIsEVO = (m_nCodecId == CODEC_ID_VC1 && mpeg_ps == MpegSplitterFilter->GetMPEGType());
+					}
 				}
 			}
 
@@ -1511,11 +1514,14 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
 		if (SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))) {
 			props.dwTypeSpecificFlags &= ~0x7f;
 
+			m_nFrameType = PICT_BOTTOM_FIELD;
 			if (!m_pFrame->interlaced_frame) {
-				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
+				props.dwTypeSpecificFlags	|= AM_VIDEO_FLAG_WEAVE;
+				m_nFrameType				= PICT_FRAME;
 			} else {
 				if (m_pFrame->top_field_first) {
-					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
+					props.dwTypeSpecificFlags	|= AM_VIDEO_FLAG_FIELD1FIRST;
+					m_nFrameType				= PICT_TOP_FIELD;
 				}
 			}
 
@@ -1857,7 +1863,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 bool CMPCVideoDecFilter::FindPicture(int nIndex, int nStartCode)
 {
-	DWORD		dw			= 0;
+	DWORD dw = 0;
 
 	for (int i=0; i<m_nFFBufferPos-nIndex; i++) {
 		dw = (dw<<8) + m_pFFBuffer[i+nIndex];
@@ -1869,7 +1875,7 @@ bool CMPCVideoDecFilter::FindPicture(int nIndex, int nStartCode)
 				}
 			} else {
 				if ( (dw & 0xffffff00) == 0x00000100 &&
-						( (dw & 0x000000FF) == (DWORD)nStartCode ||  (dw & 0x000000FF) == 0xB3 )) {
+						((dw & 0x000000FF) == (DWORD)nStartCode || (dw & 0x000000FF) == 0xB3 )) {
 					m_nFFPicEnd = i+nIndex-3;
 					return true;
 				}
@@ -1883,8 +1889,8 @@ bool CMPCVideoDecFilter::FindPicture(int nIndex, int nStartCode)
 
 void CMPCVideoDecFilter::ResetBuffer()
 {
-	m_nFFBufferPos		= 0;
-	m_nFFPicEnd			= INT_MIN;
+	m_nFFBufferPos	= 0;
+	m_nFFPicEnd		= INT_MIN;
 
 	for (int i=0; i<MAX_BUFF_TIME; i++) {
 		m_FFBufferTime[i].nBuffPos	= INT_MIN;
@@ -1907,8 +1913,8 @@ void CMPCVideoDecFilter::PushBufferTime(int nPos, REFERENCE_TIME& rtStart, REFER
 
 void CMPCVideoDecFilter::PopBufferTime(int nPos)
 {
-	int		nDestPos = 0;
-	int		i		 = 0;
+	int nDestPos	= 0;
+	int i			= 0;
 
 	// Shift buffer time list
 	while (i<MAX_BUFF_TIME && m_FFBufferTime[i].nBuffPos!=INT_MIN) {
@@ -1949,7 +1955,7 @@ bool CMPCVideoDecFilter::AppendBuffer (BYTE* pDataIn, int nSize, REFERENCE_TIME 
 
 void CMPCVideoDecFilter::ShrinkBuffer()
 {
-	int			nRemaining = m_nFFBufferPos-m_nFFPicEnd;
+	int nRemaining = m_nFFBufferPos-m_nFFPicEnd;
 
 	ASSERT (m_nFFPicEnd != INT_MIN);
 
@@ -2458,6 +2464,11 @@ STDMETHODIMP CMPCVideoDecFilter::CreatePage(const GUID& guid, IPropertyPage** pp
 	return *ppPage ? S_OK : E_FAIL;
 }
 
+void CMPCVideoDecFilter::SetFrameType(FF_FIELD_TYPE nFrameType)
+{
+	m_nFrameType = nFrameType;
+}
+
 // IFFmpegDecFilter
 STDMETHODIMP CMPCVideoDecFilter::Apply()
 {
@@ -2485,6 +2496,8 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
 
 	return S_OK;
 }
+
+// === IMPCVideoDecFilter
 
 STDMETHODIMP CMPCVideoDecFilter::SetThreadNumber(int nValue)
 {
@@ -2603,4 +2616,11 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetDXVA_SD()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nDXVA_SD;
+}
+
+// === IMPCVideoDecFilter2
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetFrameType()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_nFrameType;
 }

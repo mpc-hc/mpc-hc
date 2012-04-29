@@ -67,8 +67,8 @@ typedef struct {
 
 typedef struct {
 	bool	video_after_seek;
-	__int64	kf_base;	///< timestamp of the prev. video keyframe
 	__int32	kf_pts;		///< timestamp of next video keyframe
+	__int64	kf_base;	///< timestamp of the prev. video keyframe
 } RMDemuxContext;
 
 class __declspec(uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4"))
@@ -77,6 +77,7 @@ class __declspec(uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4"))
 	, public TlibavcodecExt
 	, public ISpecifyPropertyPages2
 	, public IMPCVideoDecFilter
+	, public IMPCVideoDecFilter2
 {
 protected:
 
@@ -99,6 +100,8 @@ protected:
 	int										m_nARMode;
 	int										m_nDXVACheckCompatibility;
 	int										m_nDXVA_SD;
+
+	FF_FIELD_TYPE							m_nFrameType;
 
 	// === FFMpeg variables
 	AVCodec*								m_pAVCodec;
@@ -259,6 +262,9 @@ public:
 	STDMETHOD(SetDXVA_SD(int nValue));
 	STDMETHOD_(int, GetDXVA_SD());
 
+	// === IMPCVideoDecFilter2
+	STDMETHOD_(int, GetFrameType());
+
 	// === DXVA common functions
 	BOOL						IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config, bool& bIsPrefered);
 	BOOL						IsSupportedDecoderMode(const GUID& mode);
@@ -286,6 +292,8 @@ public:
 			m_pDXVADecoder->Flush();
 		}
 	}
+
+	void						SetFrameType(FF_FIELD_TYPE nFrameType);
 
 	// === DXVA1 functions
 	DDPIXELFORMAT*				GetPixelFormat()		{ return &m_PixelFormat; }

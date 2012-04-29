@@ -129,6 +129,13 @@ extern void		CorrectComboListWidth(CComboBox& m_pComboBox);
 extern void		getExtraData(const BYTE *format, const GUID *formattype, const size_t formatlen, BYTE *extra, unsigned int *extralen);
 extern void		audioFormatTypeHandler(const BYTE *format, const GUID *formattype, DWORD *pnSamples, WORD *pnChannels, WORD *pnBitsPerSample, WORD *pnBlockAlign, DWORD *pnBytesPerSec);
 
+typedef enum {
+	PICT_NONE,
+	PICT_TOP_FIELD,
+	PICT_BOTTOM_FIELD,
+	PICT_FRAME
+} FF_FIELD_TYPE;
+
 class CPinInfo : public PIN_INFO
 {
 public:

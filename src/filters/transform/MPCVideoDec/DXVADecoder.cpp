@@ -21,7 +21,6 @@
  */
 
 #include "stdafx.h"
-#include "../../../DSUtil/DSUtil.h"
 #include <dxva2api.h>
 #include <moreuuids.h>
 #include "DXVADecoderH264.h"
@@ -565,6 +564,8 @@ void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* p
 		if (SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))) {
 			props.dwTypeSpecificFlags &= ~0x7f;
 
+			m_pFilter->SetFrameType(pPicture->n1FieldType);
+
 			if (pPicture->n1FieldType == PICT_FRAME) {
 				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
 			} else if (pPicture->n1FieldType == PICT_TOP_FIELD) {
@@ -595,9 +596,8 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 {
 	HRESULT					hr = S_FALSE;
 	CComPtr<IMediaSample>	pSampleToDeliver;
-	int						nPicIndex;
+	int						nPicIndex = FindOldestFrame();
 
-	nPicIndex = FindOldestFrame();
 	if (nPicIndex != -1) {
 		if (m_pPictureStore[nPicIndex].rtStart >= 0) {
 			switch (m_nEngine) {

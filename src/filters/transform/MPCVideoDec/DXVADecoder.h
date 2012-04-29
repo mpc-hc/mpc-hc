@@ -24,6 +24,7 @@
 
 #include <dxva2api.h>
 #include <videoacc.h>
+#include "../../../DSUtil/DSUtil.h"
 
 typedef enum {
 	ENGINE_DXVA1,
@@ -35,12 +36,6 @@ typedef enum {
 	VC1_VLD,
 	MPEG2_VLD
 } DXVAMode;
-
-typedef enum {
-	PICT_TOP_FIELD     = 1,
-	PICT_BOTTOM_FIELD  = 2,
-	PICT_FRAME         = 3
-} FF_FIELD_TYPE;
 
 typedef enum {
 	I_TYPE  = 1, ///< Intra

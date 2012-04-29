@@ -245,6 +245,7 @@ namespace DSObjects
 		double					m_DetectedFrameTimeHistoryHistory[500];
 		int						m_DetectedFrameTimePos;
 		int						m_bInterlaced;
+		FF_FIELD_TYPE			m_nFrameType;
 
 		double					m_TextScale;
 

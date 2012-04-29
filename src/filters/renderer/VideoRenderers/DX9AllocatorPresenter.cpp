@@ -69,6 +69,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 	, m_hEvtQuit(NULL)
 	, m_bIsFullscreen(bFullscreen)
 	, m_Decoder(_T(""))
+	, m_nFrameType(PICT_NONE)
 {
 	HINSTANCE		hDll;
 
@@ -1985,7 +1986,11 @@ void CDX9AllocatorPresenter::DrawStats()
 		//strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s)    Clock: %7.3f ms %+1.4f %%  %+1.9f  %+1.9f", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_ClockDiff/10000.0, m_ModeratedTimeSpeed*100.0 - 100.0, m_ModeratedTimeSpeedDiff, m_ClockDiffCalc/10000.0);
 		if (bDetailedStats > 1) {
 			if (m_bIsEVR) {
-				strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0, m_ModeratedTimeSpeed*100.0);
+				if (m_nFrameType != PICT_NONE) {
+					strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_nFrameType == PICT_FRAME ? L"P" : L"I", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0, m_ModeratedTimeSpeed*100.0);
+				} else {
+					strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0, m_ModeratedTimeSpeed*100.0);
+				}
 			} else {
 				strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P");
 			}
@@ -1996,6 +2001,12 @@ void CDX9AllocatorPresenter::DrawStats()
 		}
 		DrawText(rc, strText, 1);
 		OffsetRect (&rc, 0, TextHeight);
+
+		if (m_nFrameType != PICT_NONE) {
+			strText.Format(L"Frame type   : %s", m_nFrameType == PICT_FRAME ? L"Progressive" : m_nFrameType == PICT_BOTTOM_FIELD ? L"Interlaced : Bottom field first" : L"Interlaced : Top field first");
+			DrawText(rc, strText, 1);
+			OffsetRect (&rc, 0, TextHeight);
+		}
 
 		if (bDetailedStats > 1) {
 			strText.Format(L"Settings     : ");
