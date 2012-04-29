@@ -31,18 +31,17 @@
 #include "IPinHook.h"
 #include "AllocatorCommon.h"
 
-//#define DXVA_LOGFILE_A
+#define DXVA_LOGFILE_A	0 // set to 1 for logging DXVA data to a file
+#define LOG_BITSTREAM	0 // set to 1 for logging DXVA bistream data to a file
+#define LOG_MATRIX		0 // set to 1 for logging DXVA matrix data to a file
 
-#if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
+#if defined(_DEBUG) && DXVA_LOGFILE_A
 #define LOG_FILE_DXVA				_T("dxva_ipinhook.log")
 #define LOG_FILE_PICTURE			_T("picture.log")
 #define LOG_FILE_SLICELONG			_T("slicelong.log")
 #define LOG_FILE_SLICESHORT			_T("sliceshort.log")
 #define LOG_FILE_BITSTREAM			_T("bitstream.log")
 #endif
-
-//#define LOG_BITSTREAM
-//#define LOG_MATRIX
 
 REFERENCE_TIME		g_tSegmentStart			= 0;
 REFERENCE_TIME		g_tSampleStart			= 0;
@@ -295,7 +294,7 @@ static HRESULT ( STDMETHODCALLTYPE *QueryRenderStatusOrg )( IAMVideoAcceleratorC
 static HRESULT ( STDMETHODCALLTYPE *DisplayFrameOrg )( IAMVideoAcceleratorC * This,/* [in] */ DWORD dwFlipToIndex,/* [in] */ IMediaSample *pMediaSample) = NULL;
 #endif
 
-#if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
+#if defined(_DEBUG) && DXVA_LOGFILE_A
 static void LOG_TOFILE(LPCTSTR FileName, LPCTSTR fmt, ...)
 {
 	va_list args;
@@ -979,7 +978,8 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 		} else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_BITSTREAM_DATA_BUFFER) {
 
 			LogDXVA_Bitstream(g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex], pamvaBufferInfo[i].dwDataSize);
-#if defined(LOG_BITSTREAM)
+
+#if LOG_BITSTREAM
 			char		strFile[_MAX_PATH];
 			static	int	nNb = 1;
 			sprintf (strFile, "BitStream%d.bin", nNb++);
@@ -1094,7 +1094,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 
 	res = VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
 
-#ifdef DXVA_LOGFILE_A
+#if DXVA_LOGFILE_A
 	::DeleteFile (LOG_FILE_DXVA);
 	::DeleteFile (LOG_FILE_PICTURE);
 	::DeleteFile (LOG_FILE_SLICELONG);
@@ -1194,7 +1194,8 @@ public :
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE Execute(const DXVA2_DecodeExecuteParams *pExecuteParams) {
-#if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
+
+#if defined(_DEBUG) && DXVA_LOGFILE_A
 		for (DWORD i=0; i<pExecuteParams->NumCompBuffers; i++) {
 			CString		strBuffer;
 
@@ -1235,7 +1236,7 @@ public :
 				}
 			}
 
-#if defined(LOG_MATRIX)
+#if LOG_MATRIX
 			if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_InverseQuantizationMatrixBufferType) {
 				char		strFile[_MAX_PATH];
 				static	int	nNb = 1;
@@ -1253,7 +1254,8 @@ public :
 
 			if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_BitStreamDateBufferType) {
 				LogDXVA_Bitstream(m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType], pExecuteParams->pCompressedBuffers[i].DataSize);
-#if defined(LOG_BITSTREAM)
+
+#if LOG_BITSTREAM
 				char		strFile[_MAX_PATH];
 				static	int	nNb = 1;
 				sprintf (strFile, "BitStream%d.bin", nNb++);
@@ -1547,8 +1549,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 		g_nDXVAVersion						= 0;
 	}
 
-	// TODO : remove log file !!
-#if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
+#if defined(_DEBUG) && DXVA_LOGFILE_A
 	::DeleteFile (LOG_FILE_DXVA);
 	::DeleteFile (LOG_FILE_PICTURE);
 	::DeleteFile (LOG_FILE_SLICELONG);
