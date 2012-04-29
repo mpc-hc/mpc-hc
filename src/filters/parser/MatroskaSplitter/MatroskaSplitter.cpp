@@ -403,20 +403,26 @@ avcsuccess:
 							mts.Add(mt);
 						bHasVideo = true;
 					}
-				}
-				/*
-				else if(CodecID == "V_DSHOW/MPEG1VIDEO") { // V_MPEG1
-					mt.majortype = MEDIATYPE_Video;
-					mt.subtype = MEDIASUBTYPE_MPEG1Payload;
-					mt.formattype = FORMAT_MPEGVideo;
-					MPEG1VIDEOINFO* pm1vi = (MPEG1VIDEOINFO*)mt.AllocFormatBuffer(pTE->CodecPrivate.GetCount());
-					memcpy(pm1vi, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
+				} else if (CodecID == "V_DSHOW/MPEG1VIDEO"  || CodecID == "V_MPEG1") {
+					mt.majortype	= MEDIATYPE_Video;
+					mt.subtype		= MEDIASUBTYPE_MPEG1Payload;
+					mt.formattype	= FORMAT_MPEGVideo;
+
+					MPEG1VIDEOINFO* pm1vi = (MPEG1VIDEOINFO*)mt.AllocFormatBuffer(sizeof(MPEG1VIDEOINFO) + pTE->CodecPrivate.GetCount());
+					memset(mt.Format(), 0, mt.FormatLength());
+					memcpy(mt.Format() + sizeof(MPEG1VIDEOINFO), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
+					
+					pm1vi->hdr.bmiHeader.biSize			= sizeof(pm1vi->hdr.bmiHeader);
+					pm1vi->hdr.bmiHeader.biWidth		= (LONG)pTE->v.PixelWidth;
+					pm1vi->hdr.bmiHeader.biHeight		= (LONG)pTE->v.PixelHeight;
+					pm1vi->hdr.bmiHeader.biBitCount		= 12;
+					pm1vi->hdr.bmiHeader.biSizeImage	= DIBSIZE(pm1vi->hdr.bmiHeader);
+
 					mt.SetSampleSize(pm1vi->hdr.bmiHeader.biWidth*pm1vi->hdr.bmiHeader.biHeight*4);
 					if (!bHasVideo)
 						mts.Add(mt);
 					bHasVideo = true;
 				}
-				*/
 				REFERENCE_TIME AvgTimePerFrame = 0;
 
 				if (pTE->v.FramePerSec > 0) {
@@ -514,7 +520,8 @@ avcsuccess:
 				for (size_t i = 0; i < mts.GetCount(); i++) {
 					if (mts[i].formattype == FORMAT_VideoInfo
 							|| mts[i].formattype == FORMAT_VideoInfo2
-							|| mts[i].formattype == FORMAT_MPEG2Video) {
+							|| mts[i].formattype == FORMAT_MPEG2Video
+							|| mts[i].formattype == FORMAT_MPEGVideo) {
 						if (pTE->v.PixelWidth && pTE->v.PixelHeight) {
 							RECT rect = {pTE->v.VideoPixelCropLeft, pTE->v.VideoPixelCropTop, pTE->v.PixelWidth - pTE->v.VideoPixelCropRight, pTE->v.PixelHeight - pTE->v.VideoPixelCropBottom};
 							VIDEOINFOHEADER *vih = (VIDEOINFOHEADER*)mts[i].Format();
@@ -522,6 +529,9 @@ avcsuccess:
 						}
 
 						if (AvgTimePerFrame) {
+							if (mts[i].subtype == MEDIASUBTYPE_MPEG1Payload) {
+								AvgTimePerFrame *= 2; // Need more testing, but work on all sample that i have :)
+							}
 							((VIDEOINFOHEADER*)mts[i].Format())->AvgTimePerFrame = AvgTimePerFrame;
 						}
 					}
