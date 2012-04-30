@@ -416,7 +416,7 @@ STDMETHODIMP CMP4SplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	if (m_pName && m_pName[0]==L'M' && m_pName[1]==L'P' && m_pName[2]==L'C') {
 		(void)StringCchCopyW(pInfo->achName, NUMELMS(pInfo->achName), m_pName);
 	} else {
-		wcscpy(pInfo->achName, MP4SourceName);
+		wcscpy_s(pInfo->achName, MP4SourceName);
 	}
 	pInfo->pGraph = m_pGraph;
 	if (m_pGraph) {
@@ -1190,7 +1190,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				mts[0].subtype = MEDIASUBTYPE_UTF8;
 
 				SUBTITLEINFO* si = (SUBTITLEINFO*)mts[0].ReallocFormatBuffer(sizeof(SUBTITLEINFO));
-				wcscat(si->TrackName, postfix);
+				wcscat_s(si->TrackName, postfix);
 
 				id ^= 0x80402010; // FIXME: until fixing, let's hope there won't be another track like this...
 

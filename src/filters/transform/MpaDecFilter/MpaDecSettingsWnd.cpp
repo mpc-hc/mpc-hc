@@ -38,7 +38,7 @@ static TCHAR m_strDecodeToSpeaker[50];
 
 CMpaDecSettingsWnd::CMpaDecSettingsWnd()
 {
-	wcscpy (m_strDecodeToSpeaker, ResStr(IDS_MPADECSETTINGSWND_5));
+	wcscpy_s(m_strDecodeToSpeaker, ResStr(IDS_MPADECSETTINGSWND_5));
 }
 
 bool CMpaDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)

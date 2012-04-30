@@ -92,7 +92,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 	CString strColumnWidth = AfxGetApp()->GetProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH, _T("400,80,50,50,250"));
 	CString token = strColumnWidth.Tokenize(_T(","), curPos);
 	while (!token.IsEmpty()) {
-		if (_stscanf(token, L"%i", &n) == 1) {
+		if (_stscanf_s(token, L"%i", &n) == 1) {
 			columnWidth.Add(n);
 			token = strColumnWidth.Tokenize(_T(","), curPos);
 		} else {

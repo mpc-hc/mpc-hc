@@ -729,7 +729,7 @@ void CDVSTimingPPage::UpdateControlData(bool fSave)
 		CString fpsstr;
 		m_fps.GetWindowText(fpsstr);
 		float fps;
-		if (_stscanf(fpsstr, _T("%f"), &fps) == 1) {
+		if (_stscanf_s(fpsstr, _T("%f"), &fps) == 1) {
 			m_MediaFPS = fps;
 		}
 		m_SubtitleDelay = m_subdelay.GetPos32();

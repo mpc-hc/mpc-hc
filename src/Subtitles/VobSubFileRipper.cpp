@@ -1081,7 +1081,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 					int langnum;
 
 					if (_istdigit(lang[0])) {
-						n = _stscanf(lang, _T("%d"), &langnum);
+						n = _stscanf_s(lang, _T("%d"), &langnum);
 						if (n != 1) {
 							break;
 						}

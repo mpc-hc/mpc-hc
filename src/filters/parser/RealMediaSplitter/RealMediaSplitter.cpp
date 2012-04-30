@@ -192,7 +192,7 @@ STDMETHODIMP CRealMediaSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	if (m_pName && m_pName[0]==L'M' && m_pName[1]==L'P' && m_pName[2]==L'C') {
 		(void)StringCchCopyW(pInfo->achName, NUMELMS(pInfo->achName), m_pName);
 	} else {
-		wcscpy(pInfo->achName, RMSourceName);
+		wcscpy_s(pInfo->achName, RMSourceName);
 	}
 	pInfo->pGraph = m_pGraph;
 	if (m_pGraph) {
@@ -357,7 +357,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				continue;
 			}
 
-			_strupr(fccstr);
+			_strupr_s(fccstr);
 
 			mt.subtype = FOURCCMap(fcc);
 

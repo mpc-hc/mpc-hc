@@ -547,7 +547,7 @@ static bool OpenOldSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int Char
 		}
 
 		int hh1, mm1, ss1, hh2, mm2, ss2;
-		int c = swscanf(buff, L"{%d:%d:%d}{%d:%d:%d}", &hh1, &mm1, &ss1, &hh2, &mm2, &ss2);
+		int c = swscanf_s(buff, L"{%d:%d:%d}{%d:%d:%d}", &hh1, &mm1, &ss1, &hh2, &mm2, &ss2);
 
 		if (c == 6) {
 			ret.Add(
@@ -709,7 +709,7 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 				ret->fontSize = f;
 			}
 		} else if (!_tcsnicmp(code, _T("{h:"), 3)) {
-			_stscanf(code, _T("{h:%d"), &ret->charSet);
+			_stscanf_s(code, _T("{h:%d"), &ret->charSet);
 		} else if (!_tcsnicmp(code, _T("{y:"), 3)) {
 			code.MakeLower();
 			if (code.Find('b') >= 0) {
@@ -726,7 +726,7 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 			}
 		} else if (!_tcsnicmp(code, _T("{p:"), 3)) {
 			int p;
-			_stscanf(code, _T("{p:%d"), &p);
+			_stscanf_s(code, _T("{p:%d"), &p);
 			ret->scrAlignment = (p == 0) ? 8 : 2;
 		}
 
@@ -899,10 +899,10 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		}
 
 		int start, end;
-		int c = swscanf(buff, L"{%d}{%d}", &start, &end);
+		int c = swscanf_s(buff, L"{%d}{%d}", &start, &end);
 
 		if (c != 2) {
-			c = swscanf(buff, L"{%d}{}", &start) + 1;
+			c = swscanf_s(buff, L"{%d}{}", &start) + 1;
 			end = start + 60;
 			fCheck = true;
 		}
@@ -1196,7 +1196,7 @@ static bool OpenVPlayer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		}
 
 		int hh, mm, ss;
-		int c = swscanf(buff, L"%d:%d:%d:", &hh, &mm, &ss);
+		int c = swscanf_s(buff, L"%d:%d:%d:", &hh, &mm, &ss);
 
 		if (c == 3) {
 			CStringW str = buff.Mid(buff.Find(':', buff.Find(':', buff.Find(':')+1)+1)+1);
@@ -1812,7 +1812,7 @@ static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		}
 
 		int start, end;
-		int c = swscanf(buff, L"[%d][%d]", &start, &end);
+		int c = swscanf_s(buff, L"[%d][%d]", &start, &end);
 
 		if (c == 2) {
 			ret.Add(
@@ -2149,7 +2149,7 @@ void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
 
 		CString name2 = name;
 
-		if (i < len && _stscanf(name.Right(len-i), _T("%d"), &idx) == 1) {
+		if (i < len && _stscanf_s(name.Right(len-i), _T("%d"), &idx) == 1) {
 			name2 = name.Left(i);
 		}
 

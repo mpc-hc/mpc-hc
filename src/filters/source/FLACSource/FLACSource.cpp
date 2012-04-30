@@ -113,7 +113,7 @@ STDMETHODIMP CFLACSource::QueryFilterInfo(FILTER_INFO* pInfo)
 {
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
-	wcscpy(pInfo->achName, FlacSourceName);
+	wcscpy_s(pInfo->achName, FlacSourceName);
 	pInfo->pGraph = m_pGraph;
 	if (m_pGraph) {
 		m_pGraph->AddRef();

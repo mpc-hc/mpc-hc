@@ -157,7 +157,7 @@ STDMETHODIMP COggSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	if (m_pName && m_pName[0]==L'M' && m_pName[1]==L'P' && m_pName[2]==L'C') {
 		(void)StringCchCopyW(pInfo->achName, NUMELMS(pInfo->achName), m_pName);
 	} else {
-		wcscpy(pInfo->achName, OggSourceName);
+		wcscpy_s(pInfo->achName, OggSourceName);
 	}
 	pInfo->pGraph = m_pGraph;
 	if (m_pGraph) {

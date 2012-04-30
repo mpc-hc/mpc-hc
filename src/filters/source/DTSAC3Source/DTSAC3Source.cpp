@@ -182,7 +182,7 @@ STDMETHODIMP CDTSAC3Source::QueryFilterInfo(FILTER_INFO* pInfo)
 {
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
-	wcscpy(pInfo->achName, DTSAC3SourceName);
+	wcscpy_s(pInfo->achName, DTSAC3SourceName);
 	pInfo->pGraph = m_pGraph;
 	if (m_pGraph) {
 		m_pGraph->AddRef();

@@ -215,7 +215,7 @@ STDMETHODIMP CSubtitleSource::QueryFilterInfo(FILTER_INFO* pInfo)
 {
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
-	wcscpy(pInfo->achName, SubtitleSourceName);
+	wcscpy_s(pInfo->achName, SubtitleSourceName);
 	pInfo->pGraph = m_pGraph;
 	if (m_pGraph) {
 		m_pGraph->AddRef();
@@ -655,7 +655,7 @@ HRESULT CSubtitleSourceSSA::GetMediaType(CMediaType* pmt)
 
 	_tremove(fn);
 
-	_tcscat(fn, _T(".ssa"));
+	_tcscat_s(fn, _T(".ssa"));
 
 	if (!sts.SaveAs(fn, EXTSSA, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead)) {
 		return E_FAIL;
@@ -706,7 +706,7 @@ HRESULT CSubtitleSourceASS::GetMediaType(CMediaType* pmt)
 
 	_tremove(fn);
 
-	_tcscat(fn, _T(".ass"));
+	_tcscat_s(fn, _T(".ass"));
 
 	if (!sts.SaveAs(fn, EXTASS, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead)) {
 		return E_FAIL;

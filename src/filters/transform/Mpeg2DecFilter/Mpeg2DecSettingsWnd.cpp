@@ -40,10 +40,10 @@ static TCHAR m_strSaturation[100];
 
 CMpeg2DecSettingsWnd::CMpeg2DecSettingsWnd()
 {
-	wcscpy (m_strBrightness, ResStr(IDS_MPEG2_BRIGHTNESS));
-	wcscpy (m_strContrast,	 ResStr(IDS_MPEG2_CONTRAST));
-	wcscpy (m_strHue,		 ResStr(IDS_MPEG2_HUE));
-	wcscpy (m_strSaturation, ResStr(IDS_MPEG2_SATURATION));
+	wcscpy_s(m_strBrightness, ResStr(IDS_MPEG2_BRIGHTNESS));
+	wcscpy_s(m_strContrast,   ResStr(IDS_MPEG2_CONTRAST));
+	wcscpy_s(m_strHue,        ResStr(IDS_MPEG2_HUE));
+	wcscpy_s(m_strSaturation, ResStr(IDS_MPEG2_SATURATION));
 }
 
 bool CMpeg2DecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)

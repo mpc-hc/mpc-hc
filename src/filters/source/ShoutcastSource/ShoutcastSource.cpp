@@ -246,7 +246,7 @@ STDMETHODIMP CShoutcastSource::QueryFilterInfo(FILTER_INFO* pInfo)
 {
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
-	wcscpy(pInfo->achName, ShoutcastSourceName);
+	wcscpy_s(pInfo->achName, ShoutcastSourceName);
 	pInfo->pGraph = m_pGraph;
 	if (m_pGraph) {
 		m_pGraph->AddRef();
@@ -671,9 +671,9 @@ bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
 				str.MakeLower();
 				if (str.Find("icy 200 ok") >= 0) {
 					fOK = true;
-				} else if (1 == sscanf(str, "icy-br:%d", &m_bitrate)) {
+				} else if (1 == sscanf_s(str, "icy-br:%d", &m_bitrate)) {
 					m_bitrate *= 1000;
-				} else if (1 == sscanf(str, "icy-metaint:%d", &metaint)) {
+				} else if (1 == sscanf_s(str, "icy-metaint:%d", &metaint)) {
 					metaint = metaint;
 				}
 				str.Empty();

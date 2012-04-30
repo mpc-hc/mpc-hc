@@ -757,7 +757,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 #ifdef GOTHTRACE
 	// Used for tracing when debugger can't be used, e.g. when using some commercial decoders
-	// Print traces usint _tprintf()
+	// Print traces usint _tprintf_s()
 	if (AllocConsole()) {
 		FILE * foo; // Not used
 		freopen_s(&foo, "conin$", "r", stdin); // Redirect stdin etc. to console
