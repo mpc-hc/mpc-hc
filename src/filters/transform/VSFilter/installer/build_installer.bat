@@ -79,7 +79,7 @@ EXIT /B
 
 
 :EndWithError
-Title Compiling VSFilter [ERROR]
+Title Building VSFilter installer [ERROR]
 ECHO. & ECHO.
 ECHO **ERROR: Build failed and aborted!**
 ECHO Press any key to exit...
