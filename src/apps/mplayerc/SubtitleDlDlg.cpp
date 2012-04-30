@@ -111,7 +111,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-	ASSERT(ColumnWidth.GetCount() == 5);
+	ASSERT(columnWidth.GetCount() == 5);
 	m_list.InsertColumn(COL_FILENAME, _T("File"), LVCFMT_LEFT, columnWidth[0]);
 	m_list.InsertColumn(COL_LANGUAGE, _T("Language"), LVCFMT_CENTER, columnWidth[1]);
 	m_list.InsertColumn(COL_FORMAT, _T("Format"), LVCFMT_CENTER, columnWidth[2]);
