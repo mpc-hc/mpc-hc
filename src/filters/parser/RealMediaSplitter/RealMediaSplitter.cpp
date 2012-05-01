@@ -35,6 +35,7 @@
 #include <InitGuid.h>
 #include <moreuuids.h>
 
+#define MAXPACKETS_RV	MAXPACKETS*10
 
 template<typename T>
 static void bswap(T& var)
@@ -176,7 +177,7 @@ CFilterApp theApp;
 //
 
 CRealMediaSplitterFilter::CRealMediaSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr)
-	: CBaseSplitterFilter(NAME("CRealMediaSplitterFilter"), pUnk, phr, __uuidof(this))
+	: CBaseSplitterFilter(NAME("CRealMediaSplitterFilter"), pUnk, phr, __uuidof(this), MAXPACKETS_RV)
 {
 }
 
@@ -794,7 +795,7 @@ STDMETHODIMP CRealMediaSplitterFilter::GetKeyFrames(const GUID* pFormat, REFEREN
 //
 
 CRealMediaSplitterOutputPin::CRealMediaSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
-	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr)
+	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr, 0, MAXPACKETS_RV)
 {
 }
 
