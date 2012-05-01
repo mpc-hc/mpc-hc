@@ -151,6 +151,8 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
 	AddAnchor(IDC_BUTTON4, TOP_RIGHT);
 	AddAnchor(IDOK, BOTTOM_RIGHT);
 
+	EnableSaveRestore(IDS_R_DLG_ORGANIZE_FAV);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }

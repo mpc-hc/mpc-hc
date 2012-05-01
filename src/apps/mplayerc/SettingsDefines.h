@@ -245,3 +245,5 @@
 
 #define IDS_R_DLG_SUBTITLEDL				_T("Dialogs\\SubtitleDl")
 #define IDS_RS_DLG_SUBTITLEDL_COLWIDTH		_T("ColWidth")
+
+#define IDS_R_DLG_ORGANIZE_FAV				_T("Dialogs\\OrganizeFavorites")

@@ -36,6 +36,7 @@ Legend:
     - multiple selection is now allowed so that more than one favorite can be deleted
       at the same time
     - Ctrl + A will select all items and Ctrl + I inverts the selection.
+    - the size and position of the dialog are saved
 * Ticket #2216, Show seekbar in compact mode instead of the toolbar since all toolbar
   functions can be accessed easily with keyboard shortcuts
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
