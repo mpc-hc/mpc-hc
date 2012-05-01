@@ -25,6 +25,9 @@ REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
 SET "LOG_DIR=bin\logs"
 IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
 
+SET "MSBUILD=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
+SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true"
+
 
 REM pre-build checks
 IF "%VS100COMNTOOLS%" == "" GOTO MissingVar
@@ -120,7 +123,7 @@ IF "%CONFIG%" == "All"  CALL :SubFilters x64
 :End
 TITLE Compiling MPC-HC [FINISHED]
 SET END_TIME=%TIME%
-CALL :SubDuration
+CALL :SubGetDuration
 CALL :SubMsg "INFO" "Compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
 ENDLOCAL
 EXIT /B
@@ -130,9 +133,8 @@ EXIT /B
 TITLE Compiling MPC-HC Filters - %BUILDCONFIG% Filter^|%1...
 REM Call update_version.bat before building the filters
 CALL "update_version.bat"
-"%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpc-hc.sln^
+"%MSBUILD%" mpc-hc.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="%BUILDCONFIG% Filter";Platform=%1^
- /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
  /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCONFIG%_%1.log;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCONFIG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
@@ -145,13 +147,12 @@ EXIT /B
 
 :SubMPCHC
 TITLE Compiling MPC-HC - %BUILDCONFIG%^|%1...
-"%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpc-hc.sln^
+"%MSBUILD%" mpc-hc.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=%BUILDCONFIG%;Platform=%1^
- /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true^
  /flp1:LogFile=%LOG_DIR%\mpc-hc_errors_%BUILDCONFIG%_%1.log;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\mpc-hc_warnings_%BUILDCONFIG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpc-hc.sln - Compilation failed!"
+  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCONFIG% %1 - Compilation failed!"
 ) ELSE (
   CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCONFIG% %1 compiled successfully"
 )
@@ -160,11 +161,10 @@ EXIT /B
 
 :SubResources
 TITLE Compiling mpciconlib - Release^|%1...
-"%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpciconlib.sln^
- /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1^
- /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true
+"%MSBUILD%" mpciconlib.sln %MSBUILD_SWITCHES%^
+ /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpciconlib.sln - Compilation failed!"
+  CALL :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!"
 ) ELSE (
   CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
 )
@@ -174,9 +174,8 @@ FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified" "Chi
  "Polish" "Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
  TITLE Compiling mpcresources - %%~A^|%1...
- "%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" /nologo mpcresources.sln^
-  /target:%BUILDTYPE% /property:Configuration="Release %%~A";Platform=%1^
-  /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true
+ "%MSBUILD%" mpcresources.sln %MSBUILD_SWITCHES%^
+ /target:%BUILDTYPE% /property:Configuration="Release %%~A";Platform=%1
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 )
 EXIT /B
@@ -268,11 +267,11 @@ EXIT /B
 :SubMsg
 ECHO. & ECHO ------------------------------
 IF /I "%~1" == "ERROR" (
-  CALL :ColorText "0C" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0C" "[%~1]" & ECHO  %~2
 ) ELSE IF /I "%~1" == "INFO" (
-  CALL :ColorText "0A" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0A" "[%~1]" & ECHO  %~2
 ) ELSE IF /I "%~1" == "WARNING" (
-  CALL :ColorText "0E" "[%~1]" & ECHO  %~2
+  CALL :SubColorText "0E" "[%~1]" & ECHO  %~2
 )
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
@@ -285,7 +284,7 @@ IF /I "%~1" == "ERROR" (
 )
 
 
-:ColorText
+:SubColorText
 FOR /F "tokens=1,2 delims=#" %%A IN (
   '"PROMPT #$H#$E# & ECHO ON & FOR %%B IN (1) DO REM"') DO (
   SET "DEL=%%A")
@@ -295,7 +294,7 @@ DEL "%~2" > NUL 2>&1
 EXIT /B
 
 
-:SubDuration
+:SubGetDuration
 SET START_TIME=%START_TIME: =%
 SET END_TIME=%END_TIME: =%
 
