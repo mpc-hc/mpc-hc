@@ -336,8 +336,11 @@ void CFavoriteOrganizeDlg::MoveItem(int nItem, int offset)
 
 void CFavoriteOrganizeDlg::OnUpBnClicked()
 {
-	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
-		int nItem = m_list.GetNextSelectedItem(pos);
+	POSITION pos = m_list.GetFirstSelectedItemPosition();
+	int nItem;
+
+	while (pos) {
+		nItem = m_list.GetNextSelectedItem(pos);
 		if (nItem <= 0 || nItem >= m_list.GetItemCount()) {
 			return;
 		}
@@ -348,44 +351,32 @@ void CFavoriteOrganizeDlg::OnUpBnClicked()
 
 void CFavoriteOrganizeDlg::OnUpdateUpBn(CCmdUI* pCmdUI)
 {
-	bool enable = false;
-	POSITION pos;
-
-	if (m_list.GetSelectedCount() == 1 && (pos = m_list.GetFirstSelectedItemPosition()) != NULL) {
-		int nItem = m_list.GetNextSelectedItem(pos);
-		if (nItem > 0 && nItem < m_list.GetItemCount()) {
-			enable = true;
-		}
-	}
-
-	pCmdUI->Enable(enable);
+	pCmdUI->Enable(m_list.GetSelectedCount() > 0 && !m_list.GetItemState(0, LVIS_SELECTED));
 }
 
 void CFavoriteOrganizeDlg::OnDownBnClicked()
 {
-	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
-		int nItem = m_list.GetNextSelectedItem(pos);
+	CArray<int> selectedItems;
+	POSITION pos = m_list.GetFirstSelectedItemPosition();
+	int nItem;
+
+	while (pos) {
+		nItem = m_list.GetNextSelectedItem(pos);
 		if (nItem < 0 || nItem >= m_list.GetItemCount() - 1) {
 			return;
 		}
 
-		MoveItem(nItem, +1);
+		selectedItems.Add(nItem);
+	}
+
+	for (int i = selectedItems.GetSize() - 1; i >= 0; i--) {
+		MoveItem(selectedItems[i], +1);
 	}
 }
 
 void CFavoriteOrganizeDlg::OnUpdateDownBn(CCmdUI* pCmdUI)
 {
-	bool enable = false;
-	POSITION pos;
-
-	if (m_list.GetSelectedCount() == 1 && (pos = m_list.GetFirstSelectedItemPosition()) != NULL) {
-		int nItem = m_list.GetNextSelectedItem(pos);
-		if (nItem >= 0 && nItem < m_list.GetItemCount() - 1) {
-			enable = true;
-		}
-	}
-
-	pCmdUI->Enable(enable);
+	pCmdUI->Enable(m_list.GetSelectedCount() > 0 && !m_list.GetItemState(m_list.GetItemCount() - 1, LVIS_SELECTED));
 }
 
 void CFavoriteOrganizeDlg::OnTcnSelchangingTab1(NMHDR *pNMHDR, LRESULT *pResult)

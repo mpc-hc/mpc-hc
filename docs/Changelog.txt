@@ -34,7 +34,7 @@ Legend:
     - the buttons are disabled when they cannot be used
     - pressing the "Enter" key after selecting a favorite will now start playback
     - multiple selection is now allowed so that more than one favorite can be deleted
-      at the same time
+      or moved at the same time
     - Ctrl + A will select all items and Ctrl + I inverts the selection.
     - the size and position of the dialog are saved
 * Ticket #2216, Show seekbar in compact mode instead of the toolbar since all toolbar
