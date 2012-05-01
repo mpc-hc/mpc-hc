@@ -71,10 +71,10 @@ Legend:
      stream) the wrong label was grayed out
 ! MatroskaSplitter: Better detection of fps for some webm files
 ! MPCVideoDec: Crash with some RV30/40 files when there are no input data from splitter
-! MpegSplitter: Removed crackling from LPCM tracks when switching and seeking
 ! MPCVideoDec: H.264 DXVA decoder skipped broken frames on interlaced material
-! AviSplitter: Fix looping not working on short animations
+! MpegSplitter: Removed crackling from LPCM tracks when switching and seeking
 ! MpegSplitter: Fix incorrect detection of MPEG Audio stream as AAC
+! AviSplitter: Fix looping not working on short animations
 ! WebServer: Fix a few errors and typos
 ! Fix the remember file/DVD position feature: the positions cache was not cleared when
   disabling the feature
