@@ -30,6 +30,12 @@
 #include "IMpeg2DecFilter.h"
 #include "Mpeg2DecSettingsWnd.h"
 
+#ifdef MPEG2ONLY
+#define Mpeg2DecFilterName L"MPC MPEG-2 Video Decoder"
+#else
+#define Mpeg2DecFilterName L"MPC MPEG Video Decoder"
+#endif
+
 class CSubpicInputPin;
 class CClosedCaptionOutputPin;
 class CMpeg2Dec;

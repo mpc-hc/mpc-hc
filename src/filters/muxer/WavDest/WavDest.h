@@ -25,6 +25,8 @@
 
 #include <atlbase.h>
 
+#define WavDestName L"MPC WavDest"
+
 class CWavDestOutputPin : public CTransformOutputPin
 {
 public:

@@ -23,6 +23,8 @@
 
 #pragma once
 
+#define DeCSSFilterName L"MPC DeCSSFilter"
+
 class __declspec(uuid("7B3BD419-FE03-4820-BE94-A22A4F844895"))
 	CDeCSSFilter : public CTransformFilter
 {

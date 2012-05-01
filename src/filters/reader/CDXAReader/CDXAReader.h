@@ -27,6 +27,8 @@
 #include <AsyncReader/asyncio.h>
 #include <AsyncReader/asyncrdr.h>
 
+#define CCDXAReaderName L"MPC CDXA Reader"
+
 class CCDXAStream : public CAsyncStream
 {
 private:

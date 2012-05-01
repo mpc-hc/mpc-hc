@@ -26,6 +26,8 @@
 #include "../BaseMuxer/BaseMuxer.h"
 #include <dsm/dsm.h>
 
+#define DSMMuxerName   L"MPC DSM Muxer"
+
 class __declspec(uuid("C6590B76-587E-4082-9125-680D0693A97B"))
 	CDSMMuxerFilter : public CBaseMuxerFilter
 {

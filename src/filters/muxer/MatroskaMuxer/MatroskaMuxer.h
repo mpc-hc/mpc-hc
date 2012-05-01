@@ -30,6 +30,8 @@
 #define MAXCLUSTERTIME 1000
 #define MAXBLOCKS 50
 
+#define MatroskaMuxerName L"MPC Matroska Muxer"
+
 class CMatroskaMuxerInputPin : public CBaseInputPin
 {
 	CAutoPtr<MatroskaWriter::TrackEntry> m_pTE;

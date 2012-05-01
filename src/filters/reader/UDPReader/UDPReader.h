@@ -27,6 +27,8 @@
 #include <AsyncReader/asyncio.h>
 #include <AsyncReader/asyncrdr.h>
 
+#define UDPReaderName L"MPC UDP Reader"
+
 class CUDPStream : public CAsyncStream, public CAMThread
 {
 private:

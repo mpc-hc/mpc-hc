@@ -66,11 +66,7 @@ const AMOVIESETUP_PIN sudpPins[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-#ifdef MPEG2ONLY
-	{&__uuidof(CMpeg2DecFilter), L"MPC MPEG-2 Video Decoder", 0x00600001, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-#else
-	{&__uuidof(CMpeg2DecFilter), L"MPC MPEG Video Decoder", 0x00600001, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-#endif
+	{&__uuidof(CMpeg2DecFilter), Mpeg2DecFilterName, 0x00600001, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -1066,7 +1062,7 @@ HRESULT CMpeg2DecFilter::AlterQuality(Quality q)
 		m_fDropFrames = false;
 	}
 
-	//	TRACE(_T("CMpeg2DecFilter::AlterQuality: Type=%d, Proportion=%d, Late=%I64d, TimeStamp=%I64d\n"), q.Type, q.Proportion, q.Late, q.TimeStamp);
+	//TRACE(_T("CMpeg2DecFilter::AlterQuality: Type=%d, Proportion=%d, Late=%I64d, TimeStamp=%I64d\n"), q.Type, q.Proportion, q.Late, q.TimeStamp);
 	return S_OK;
 }
 
@@ -1123,7 +1119,7 @@ void CMpeg2DecFilter::CalcBrCont(BYTE* YTbl, float bright, float cont)
 	for (int i = 0; i < 256; i++) {
 		int y = ((Cont * (i - 16)) >> 9) + Bright + 16;
 		YTbl[i] = min(max(y, 0), 255);
-		//		YTbl[i] = min(max(y, 16), 235);
+		//YTbl[i] = min(max(y, 16), 235);
 	}
 }
 
@@ -1755,7 +1751,7 @@ HRESULT CSubpicInputPin::Transform(IMediaSample* pSample)
 	}
 
 	if (fRefresh) {
-		//		((CMpeg2DecFilter*)m_pFilter)->Deliver(true);
+		//((CMpeg2DecFilter*)m_pFilter)->Deliver(true);
 	}
 
 	return S_FALSE;
@@ -1895,7 +1891,7 @@ static __inline void DrawPixel(BYTE** yuv, CPoint pt, int pitch, AM_DVD_YUV& c)
 	}
 
 	BYTE* p = &yuv[0][pt.y*pitch + pt.x];
-	//	*p = (*p*(15-contrast) + sppal[color].Y*contrast)>>4;
+	//*p = (*p*(15-contrast) + sppal[color].Y*contrast)>>4;
 	*p -= (*p - c.Y) * c.Reserved >> 4;
 
 	if (pt.y&1) {
@@ -1909,11 +1905,11 @@ static __inline void DrawPixel(BYTE** yuv, CPoint pt, int pitch, AM_DVD_YUV& c)
 	// U/V is exchanged? wierd but looks true when comparing the outputted colors from other decoders
 
 	p = &yuv[1][pt.y*pitch + pt.x];
-	//	*p = (BYTE)(((((int)*p-0x80)*(15-contrast) + ((int)sppal[color].V-0x80)*contrast) >> 4) + 0x80);
+	//*p = (BYTE)(((((int)*p-0x80)*(15-contrast) + ((int)sppal[color].V-0x80)*contrast) >> 4) + 0x80);
 	*p -= (*p - c.V) * c.Reserved >> 4;
 
 	p = &yuv[2][pt.y*pitch + pt.x];
-	//	*p = (BYTE)(((((int)*p-0x80)*(15-contrast) + ((int)sppal[color].U-0x80)*contrast) >> 4) + 0x80);
+	//*p = (BYTE)(((((int)*p-0x80)*(15-contrast) + ((int)sppal[color].U-0x80)*contrast) >> 4) + 0x80);
 	*p -= (*p - c.U) * c.Reserved >> 4;
 
 	// Neighter of the blending formulas are accurate (">>4" should be "/15").
