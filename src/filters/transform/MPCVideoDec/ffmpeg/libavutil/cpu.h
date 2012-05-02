@@ -75,9 +75,20 @@ attribute_deprecated void av_set_cpu_flags_mask(int mask);
 /**
  * Parse CPU flags from a string.
  *
+ * The returned flags contain the specified flags as well as related unspecified flags.
+ *
+ * This function exists only for compatibility with libav.
+ * Please use av_parse_cpu_caps() when possible.
  * @return a combination of AV_CPU_* flags, negative on error.
  */
 int av_parse_cpu_flags(const char *s);
+
+/**
+ * Parse CPU caps from a string and update the given AV_CPU_* flags based on that.
+ *
+ * @return negative on error.
+ */
+int av_parse_cpu_caps(unsigned *flags, const char *s);
 
 /* The following CPU-specific functions shall not be called directly. */
 int ff_get_cpu_flags_arm(void);
