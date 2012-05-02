@@ -24,8 +24,8 @@ Legend:
 * Ticket #1733/#2029, Include subfolders when opening a folder using the command
   line or via the explorer context menu
 * Ticket #2144, Improve the subtitles downloader dialog:
-    - the dialog size and position are now restored
-    - the columns sizes are saved
+    - the dialog's size and position are now saved
+    - the columns' sizes are saved
 * Ticket #2157, Show the [DXVA] indicator even when playback is paused
 * Ticket #2163, Improve the "Save As" dialog: the dialog is updated more regularly and
   the units for the sizes and the speed are now automatically adapted to the values
@@ -46,8 +46,8 @@ Legend:
 * Avoid using negative option in the Tweaks page: change "Don't use 'search in folder'
   on commands 'Skip back/forward' when only one item in playlist" into "Open next/previous
   file in folder on 'Skip back/forward' when there is only one item in playlist".
-* The minidump feature is now enabled by default. The crash dialog has been updated to redirect
-  the users to the bug tracker
+* The minidump feature is now enabled by default. The crash dialog has been updated to
+  redirect the users to the bug tracker
 * Updated ffmpeg
 * Updated MediaInfoLib to v0.7.56
 * Updated ZenLib to v0.4.26
@@ -55,12 +55,12 @@ Legend:
 * Updated VirtualDub to v1.10.2-test6
 * Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese,
   traditional Chinese, Italian, German and Polish translations
-* Removed GTSdll support
-* Removed the option to disable XP theming
+* Removed GTSdll support since it's dead
+* Removed the option to disable XP theming since it's of no use for any OS >= Windows XP
 * Removed the option "Use the WM ASF Reader for Windows Media files" since it has no
   effect on any "modern" OS (>= Windows XP)
 * Removed SSF support
-! Broken playback and picture on H.264 & MPEG2 interlaced with DXVA on
+! Broken playback and picture on H.264 and MPEG-2 interlaced with DXVA on
   intergrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
   options dialog instead of immediately after changing the state of the checkbox
@@ -76,14 +76,14 @@ Legend:
 ! MpegSplitter: Fix incorrect detection of MPEG Audio stream as AAC
 ! AviSplitter: Fix looping not working on short animations
 ! WebServer: Fix a few errors and typos
-! Fix the remember file/DVD position feature: the positions cache was not cleared when
+! Fix the remember file/DVD position feature: the positions' cache was not cleared when
   disabling the feature
 ! The Windows 7 taskbar was sometimes not correctly updated (for example when opening
   another video without closing the previous one). The preview was incorrectly cropped
   when the menu was hidden.
 ! Ticket #869, The playlist visibility state was incorrectly restored when MPC-HC
   was quited in fullscreen mode while the option "Hide on fullscreen" was enabled
-! Ticket #1182, Unable to playback MPEG2 in AVI
+! Ticket #1182, Unable to playback MPEG-2 in AVI
 ! Ticket #1290, Fix the reversed behavior of the playlist option "Hide on fullscreen"
   when the "Launch files in fullscreen" option is enabled
 ! Ticket #1589, Crash with "Null (uncompressed)"
