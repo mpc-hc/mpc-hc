@@ -39,6 +39,7 @@ function getOffsetX(m) {
 	}
 	return x;
 }
+
 OnStatus = function (title, status, pos, posstr, dur, durstr, muted, volume, filepath) {
 	var maxtitle = 70;
 	if (title.length > maxtitle) title = title.substr(0, maxtitle - 3) + '...';
@@ -61,6 +62,7 @@ OnStatus = function (title, status, pos, posstr, dur, durstr, muted, volume, fil
 		e.style.left = Math.floor(volume) + 'px';
 	}
 }
+
 var httpRequestStatus;
 
 function OnReadyStateChange() {
@@ -85,6 +87,7 @@ function StatusLoop() {
 	}
 	setTimeout("StatusLoop()", 500);
 }
+
 var snapshotcounter = 0;
 
 function LoadSnapShot() {

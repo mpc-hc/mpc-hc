@@ -58,11 +58,11 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 
 	if (m_downloads.IsEmpty()) {
 		m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
-		m_downloads[_T("/vbg.gif")] = IDF_VBR_GIF;
-		m_downloads[_T("/vbs.gif")] = IDF_VBS_GIF;
+		m_downloads[_T("/vbg.png")] = IDF_VBR_PNG;
+		m_downloads[_T("/vbs.png")] = IDF_VBS_PNG;
 		m_downloads[_T("/sliderbar.gif")] = IDF_SLIDERBAR_GIF;
 		m_downloads[_T("/slidergrip.gif")] = IDF_SLIDERGRIP_GIF;
-		m_downloads[_T("/sliderback.gif")] = IDF_SLIDERBACK_GIF;
+		m_downloads[_T("/sliderback.png")] = IDF_SLIDERBACK_PNG;
 		m_downloads[_T("/1pix.gif")] = IDF_1PIX_GIF;
 		m_downloads[_T("/headericon.png")] = IDF_HEADERICON_PNG;
 		m_downloads[_T("/headerback.png")] = IDF_HEADERBACK_PNG;

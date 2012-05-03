@@ -104,11 +104,11 @@ IDF_SEEKBARGRIP_PNG              FILE                    "res\\web\\seekbargrip.
 IDF_SEEKBARLEFT_PNG              FILE                    "res\\web\\seekbarleft.png"
 IDF_SEEKBARMID_PNG               FILE                    "res\\web\\seekbarmid.png"
 IDF_SEEKBARRIGHT_PNG             FILE                    "res\\web\\seekbarright.png"
-IDF_SLIDERBACK_GIF               FILE                    "res\\web\\sliderback.gif"
+IDF_SLIDERBACK_PNG               FILE                    "res\\web\\sliderback.png"
 IDF_SLIDERBAR_GIF                FILE                    "res\\web\\sliderbar.gif"
 IDF_SLIDERGRIP_GIF               FILE                    "res\\web\\slidergrip.gif"
-IDF_VBR_GIF                      FILE                    "res\\web\\vbg.gif"
-IDF_VBS_GIF                      FILE                    "res\\web\\vbs.gif"
+IDF_VBR_PNG                      FILE                    "res\\web\\vbg.png"
+IDF_VBS_PNG                      FILE                    "res\\web\\vbs.png"
 
 
 /////////////////////////////////////////////////////////////////////////////
