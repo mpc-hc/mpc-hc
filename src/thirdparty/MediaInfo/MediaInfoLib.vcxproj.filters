@@ -77,7 +77,7 @@
     <ClInclude Include="ThirdParty\base64\base64.h">
       <Filter>extra</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\tinyxml\tinyxml.h">
+    <ClInclude Include="ThirdParty\tinyxml2\tinyxml2.h">
       <Filter>extra</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\File__Analyse_Automatic.h">
@@ -571,13 +571,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ThirdParty\tinyxml\tinyxml.cpp">
-      <Filter>extra</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\tinyxml\tinyxmlerror.cpp">
-      <Filter>extra</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\tinyxml\tinyxmlparser.cpp">
+    <ClCompile Include="ThirdParty\tinyxml2\tinyxml2.cpp">
       <Filter>extra</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\File__Analyze.cpp">

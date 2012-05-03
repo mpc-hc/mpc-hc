@@ -49,7 +49,7 @@ Legend:
 * The minidump feature is now enabled by default. The crash dialog has been updated to
   redirect the users to the bug tracker
 * Updated ffmpeg
-* Updated MediaInfoLib to v0.7.56
+* Updated MediaInfoLib to v0.7.57
 * Updated ZenLib to v0.4.26
 * Updated SoundTouch to v1.7.0pre r142
 * Updated VirtualDub to v1.10.2-test7
