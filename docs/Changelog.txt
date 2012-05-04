@@ -54,6 +54,7 @@ Legend:
 * Updated SoundTouch to v1.7.0pre r142
 * Updated VirtualDub to v1.10.2-test7
 * Updated zlib to v1.2.7
+* Updated Detours to v3.0 build 316
 * Updated French, Turkish, Czech, Russian, Ukrainian, simplified Chinese, Japanese,
   traditional Chinese, Italian, German and Polish translations
 * Removed GTSdll support since it's dead
