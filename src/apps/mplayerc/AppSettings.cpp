@@ -1239,6 +1239,8 @@ void CAppSettings::UpdateData(bool fSave)
 		for (int f=0; f<FFM_LAST; f++) {
 			FFmpegFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], 1);
 		}
+		if (!TRA_DXVA_LAST) DXVAFilters[0] = FALSE;
+		if (!FFM_LAST) FFmpegFilters[0] = FALSE;
 
 		strLogoFileName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, _T(""));
 		nLogoId = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, DEF_LOGO);
