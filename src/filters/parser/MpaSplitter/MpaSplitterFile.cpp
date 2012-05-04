@@ -25,7 +25,9 @@
 #include <MMReg.h>
 #include "MpaSplitterFile.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <moreuuids.h>
 
 #define FRAMES_FLAG     0x0001

@@ -25,7 +25,9 @@
 #include <MMReg.h>
 #include "MpegSplitterFile.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <moreuuids.h>
 
 #define MEGABYTE 1024*1024

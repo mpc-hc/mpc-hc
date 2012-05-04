@@ -28,7 +28,9 @@
 #include "PODtypes.h"
 #include "avcodec.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include "MPCVideoDecFilter.h"
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"

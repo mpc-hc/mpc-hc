@@ -23,7 +23,9 @@
 
 #include "stdafx.h"
 #include <MMReg.h>
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <dmodshow.h>
 #include "MpegSplitter.h"
 #include <moreuuids.h>

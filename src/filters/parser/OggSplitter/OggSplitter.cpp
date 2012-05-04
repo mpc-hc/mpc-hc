@@ -26,7 +26,9 @@
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/GolombBuffer.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <moreuuids.h>
 
 #define MAKE32BITS(x)		(x[0]<<24 | x[1]<<16 | x[2]<<8 | x[3])

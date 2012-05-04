@@ -24,7 +24,9 @@
 #include "stdafx.h"
 #include "CDXAReader.h"
 #include "../../../DSUtil/DSUtil.h"
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <uuids.h>
 #include <moreuuids.h>
 

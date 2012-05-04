@@ -22,7 +22,9 @@
  */
 
 #include "stdafx.h"
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include "CDDAReader.h"
 #include "../../../DSUtil/DSUtil.h"
 

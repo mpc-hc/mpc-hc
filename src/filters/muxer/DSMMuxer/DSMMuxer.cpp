@@ -26,7 +26,9 @@
 #include "DSMMuxer.h"
 #include "../../../DSUtil/DSUtil.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <qnetwork.h>
 #include <moreuuids.h>
 

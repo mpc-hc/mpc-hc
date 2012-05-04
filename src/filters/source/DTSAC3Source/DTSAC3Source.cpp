@@ -24,7 +24,9 @@
 #include "stdafx.h"
 #include <MMReg.h>
 #include <ks.h>
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <uuids.h>
 #include <moreuuids.h>
 #include "DTSAC3Source.h"

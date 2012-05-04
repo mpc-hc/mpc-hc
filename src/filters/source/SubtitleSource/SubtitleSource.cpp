@@ -25,7 +25,9 @@
 #include "SubtitleSource.h"
 #include "../../../DSUtil/DSUtil.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <moreuuids.h>
 
 static int _WIDTH = 640;

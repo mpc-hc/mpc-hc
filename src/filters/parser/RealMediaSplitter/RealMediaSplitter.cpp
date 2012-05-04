@@ -32,7 +32,9 @@
 #include "RealMediaSplitter.h"
 #include "../../../Subtitles/SubtitleInputPin.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <moreuuids.h>
 
 #define MAXPACKETS_RV	MAXPACKETS*10

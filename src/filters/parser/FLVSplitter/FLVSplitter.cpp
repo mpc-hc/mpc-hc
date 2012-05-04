@@ -25,7 +25,9 @@
 #include "FLVSplitter.h"
 #include "../../../DSUtil/DSUtil.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <moreuuids.h>
 
 #define FLV_AUDIODATA     8

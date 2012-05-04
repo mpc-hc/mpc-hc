@@ -26,7 +26,9 @@
 #include "AVI2AC3Filter.h"
 #include "../../../DSUtil/DSUtil.h"
 
+#ifdef REGISTER_FILTER
 #include <InitGuid.h>
+#endif
 #include <moreuuids.h>
 
 #ifdef REGISTER_FILTER
