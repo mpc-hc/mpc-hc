@@ -7531,7 +7531,9 @@ void CMainFrame::OnPlayGoto()
 		EndEnumFilters;
 	}
 
-	CGoToDlg dlg(m_wndSeekBar.GetPos(), atpf > 0 ? (1.0/atpf) : 0);
+	REFERENCE_TIME start, dur = -1;
+	m_wndSeekBar.GetRange(start, dur);
+	CGoToDlg dlg(m_wndSeekBar.GetPos(), dur, atpf > 0 ? (1.0/atpf) : 0);
 	if (IDOK != dlg.DoModal() || dlg.m_time < 0) {
 		return;
 	}

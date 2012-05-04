@@ -39,6 +39,10 @@ Legend:
     - the size and position of the dialog are saved
 * Ticket #2216, Show seekbar in compact mode instead of the toolbar since all toolbar
   functions can be accessed easily with keyboard shortcuts
+* Ticket #2218, Improve the Go To dialog:
+    - use a masked edit for entering the timecode (hh:mm:ss.ms or mm:ss.ms depending on
+      the file duration)
+    - show an error message when the entered timecode is greater than the file duration
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
   reduce the amount of memory consumed by the player
 * Improved the "Open directory" dialog: the checkbox will now use only one line

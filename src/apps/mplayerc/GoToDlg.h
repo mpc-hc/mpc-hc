@@ -24,6 +24,7 @@
 #pragma once
 
 #include <afxwin.h>
+#include "afxmaskededit.h"
 
 
 // CGoToDlg dialog
@@ -33,15 +34,16 @@ class CGoToDlg : public CDialog
 	DECLARE_DYNAMIC(CGoToDlg)
 
 public:
-	CGoToDlg(REFERENCE_TIME time = -1, double fps = 0, CWnd* pParent = NULL);   // standard constructor
+	CGoToDlg(REFERENCE_TIME time = -1, REFERENCE_TIME maxTime = -1, double fps = 0, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CGoToDlg();
 
 	CString m_timestr;
 	CString m_framestr;
-	CEdit m_timeedit;
+	CMFCMaskedEdit m_timeedit;
 	CEdit m_frameedit;
 
 	REFERENCE_TIME m_time;
+	REFERENCE_TIME m_maxTime;
 	double m_fps;
 
 	// Dialog Data
@@ -57,4 +59,5 @@ protected:
 public:
 	afx_msg void OnBnClickedOk1();
 	afx_msg void OnBnClickedOk2();
+	virtual void OnOK();
 };

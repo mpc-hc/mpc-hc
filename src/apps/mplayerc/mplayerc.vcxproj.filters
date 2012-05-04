@@ -339,6 +339,9 @@
     <ClCompile Include="..\..\thirdparty\mfc\afxglobals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\thirdparty\mfc\afxmaskededit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -726,6 +729,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AboutDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\thirdparty\mfc\afxmaskededit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

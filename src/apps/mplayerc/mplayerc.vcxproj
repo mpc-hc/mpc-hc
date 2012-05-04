@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp" />
     <ClCompile Include="..\..\thirdparty\mfc\afxglobals.cpp" />
+    <ClCompile Include="..\..\thirdparty\mfc\afxmaskededit.cpp" />
     <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp" />
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="AppSettings.cpp" />
@@ -281,6 +282,7 @@
     <ClCompile Include="WinHotkeyCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\thirdparty\mfc\afxmaskededit.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />

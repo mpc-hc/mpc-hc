@@ -32,11 +32,12 @@
 // CGoToDlg dialog
 
 IMPLEMENT_DYNAMIC(CGoToDlg, CDialog)
-CGoToDlg::CGoToDlg(REFERENCE_TIME time, double fps, CWnd* pParent /*=NULL*/)
+CGoToDlg::CGoToDlg(REFERENCE_TIME time, REFERENCE_TIME maxTime, double fps, CWnd* pParent /*=NULL*/)
 	: CDialog(CGoToDlg::IDD, pParent)
 	, m_timestr(_T(""))
 	, m_framestr(_T(""))
 	, m_time(time)
+	, m_maxTime(maxTime)
 	, m_fps(fps)
 {
 	if (m_fps == 0) {
@@ -65,10 +66,25 @@ BOOL CGoToDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	int time = m_time / 10000;
+	bool showHours = (m_maxTime >= 3600*1000*10000i64);
+
+	if (showHours) {
+		m_timeedit.EnableMask(_T("DD DD DD DDD"), _T("__:__:__.___"), L'0', _T("0123456789"));
+	} else {
+		m_timeedit.EnableMask(_T("DD DD DDD"), _T("__:__.___"), L'0', _T("0123456789"));
+	}
+	m_timeedit.EnableGetMaskedCharsOnly(false);
+	m_timeedit.EnableSelectByGroup(false);
+
+	int time = (int) (m_time / 10000);
 	if (time >= 0) {
-		m_timestr.Format(_T("%02d:%02d:%02d.%03d"),
-						 (time/(1000*60*60))%60, (time/(1000*60))%60, (time/1000)%60, time%1000);
+		if (showHours) {
+			m_timestr.Format(_T("%02d:%02d:%02d.%03d"),
+							 (time/(1000*60*60))%60, (time/(1000*60))%60, (time/1000)%60, time%1000);
+		} else {
+			m_timestr.Format(_T("%02d:%02d.%03d"),
+							 (time/(1000*60))%60, (time/1000)%60, time%1000);
+		}
 
 		if (m_fps > 0) {
 			m_framestr.Format(_T("%d, %.3f"), (int)(m_fps*m_time/10000000), m_fps);
@@ -123,6 +139,7 @@ void CGoToDlg::OnBnClickedOk1()
 
 		int time = (int)(1000*((hh*60+mm)*60+ss)+0.5);
 		m_time = time * 10000i64;
+
 		OnOK();
 	} else {
 		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TIME), MB_ICONEXCLAMATION | MB_OK);
@@ -149,6 +166,15 @@ void CGoToDlg::OnBnClickedOk2()
 		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TEXT), MB_ICONEXCLAMATION | MB_OK);
 	} else {
 		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_FPS), MB_ICONEXCLAMATION | MB_OK);
+	}
+}
+
+void CGoToDlg::OnOK()
+{
+	if (m_time > m_maxTime) {
+		AfxMessageBox(ResStr(IDS_GOTO_ERROR_INVALID_TIME), MB_ICONEXCLAMATION | MB_OK);
+	} else {
+		__super::OnOK();
 	}
 }
 
