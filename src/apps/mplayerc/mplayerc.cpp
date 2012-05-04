@@ -361,13 +361,25 @@ bool CMPlayerCApp::IsIniUTF16LE() const
 {
 	bool isUTF16LE = false;
 
-	CFile f(GetIniPath(), CFile::modeRead);
+	try {
+		CFile f(GetIniPath(), CFile::modeRead);
 
-	if (f) {
-		WORD bom;
-		if (f.Read(&bom, sizeof(bom)) == sizeof(bom)) {
-			isUTF16LE = (bom == 0xFEFF);
+		if (f) {
+			WORD bom;
+			if (f.Read(&bom, sizeof(bom)) == sizeof(bom)) {
+				isUTF16LE = (bom == 0xFEFF);
+			}
 		}
+	} catch(CFileException* e) {
+		// If something goes wrong, we try to recreate the ini file
+		// instead of crashing because it seems to work in most of
+		// the cases but maybe we could do something better.
+#ifdef _DEBUG
+		TCHAR szCause[500];
+		e->GetErrorMessage(szCause, 500);
+		AfxMessageBox(szCause);
+#endif // _DEBUG
+		e->Delete();
 	}
 
 	return isUTF16LE;
