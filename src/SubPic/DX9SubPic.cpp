@@ -426,7 +426,7 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	int Width = m_maxsize.cx;
 	int Height = m_maxsize.cy;
 
-	if (m_fPow2Textures) {
+	if (m_fPow2Textures && Width < 1024 && Height < 1024) {
 		Width = Height = 1;
 		while (Width < m_maxsize.cx) {
 			Width <<= 1;

@@ -270,7 +270,7 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	ddsd.ddpfPixelFormat.dwGBitMask        = 0x0000FF00;
 	ddsd.ddpfPixelFormat.dwBBitMask        = 0x000000FF;
 
-	if (m_fPow2Textures) {
+	if (m_fPow2Textures && ddsd.dwWidth < 1024 && ddsd.dwHeight < 1024) {
 		ddsd.dwWidth = ddsd.dwHeight = 1;
 		while (ddsd.dwWidth < (DWORD)m_maxsize.cx) {
 			ddsd.dwWidth <<= 1;
