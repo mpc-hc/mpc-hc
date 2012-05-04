@@ -31,16 +31,16 @@
 #include "IPinHook.h"
 #include "AllocatorCommon.h"
 
-#define DXVA_LOGFILE_A	0 // set to 1 for logging DXVA data to a file
-#define LOG_BITSTREAM	0 // set to 1 for logging DXVA bistream data to a file
-#define LOG_MATRIX		0 // set to 1 for logging DXVA matrix data to a file
+#define DXVA_LOGFILE_A 0 // set to 1 for logging DXVA data to a file
+#define LOG_BITSTREAM  0 // set to 1 for logging DXVA bistream data to a file
+#define LOG_MATRIX     0 // set to 1 for logging DXVA matrix data to a file
 
 #if defined(_DEBUG) && DXVA_LOGFILE_A
-#define LOG_FILE_DXVA				_T("dxva_ipinhook.log")
-#define LOG_FILE_PICTURE			_T("picture.log")
-#define LOG_FILE_SLICELONG			_T("slicelong.log")
-#define LOG_FILE_SLICESHORT			_T("sliceshort.log")
-#define LOG_FILE_BITSTREAM			_T("bitstream.log")
+#define LOG_FILE_DXVA       _T("dxva_ipinhook.log")
+#define LOG_FILE_PICTURE    _T("picture.log")
+#define LOG_FILE_SLICELONG  _T("slicelong.log")
+#define LOG_FILE_SLICESHORT _T("sliceshort.log")
+#define LOG_FILE_BITSTREAM  _T("bitstream.log")
 #endif
 
 REFERENCE_TIME		g_tSegmentStart			= 0;
@@ -980,16 +980,16 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 			LogDXVA_Bitstream(g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex], pamvaBufferInfo[i].dwDataSize);
 
 #if LOG_BITSTREAM
-			char		strFile[_MAX_PATH];
-			static	int	nNb = 1;
-			sprintf (strFile, "BitStream%d.bin", nNb++);
-			FILE*		hFile = fopen (strFile, "wb");
+			char strFile[_MAX_PATH];
+			static int nNb = 1;
+			sprintf_s(strFile, "BitStream%d.bin", nNb++);
+			FILE* hFile = fopen(strFile, "wb");
 			if (hFile) {
-				fwrite (g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex],
-						1,
-						pamvaBufferInfo[i].dwDataSize,
-						hFile);
-				fclose (hFile);
+				fwrite(g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex],
+					   1,
+					   pamvaBufferInfo[i].dwDataSize,
+					   hFile);
+				fclose(hFile);
 			}
 #endif
 		}
@@ -1238,16 +1238,16 @@ public :
 
 #if LOG_MATRIX
 			if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_InverseQuantizationMatrixBufferType) {
-				char		strFile[_MAX_PATH];
-				static	int	nNb = 1;
-				sprintf (strFile, "Matrix%d.bin", nNb++);
-				FILE*		hFile = fopen (strFile, "wb");
+				char strFile[_MAX_PATH];
+				static int nNb = 1;
+				sprintf_s(strFile, "Matrix%d.bin", nNb++);
+				FILE* hFile = fopen(strFile, "wb");
 				if (hFile) {
-					fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
-							1,
-							pExecuteParams->pCompressedBuffers[i].DataSize,
-							hFile);
-					fclose (hFile);
+					fwrite(m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
+						   1,
+						   pExecuteParams->pCompressedBuffers[i].DataSize,
+						   hFile);
+					fclose(hFile);
 				}
 			}
 #endif
@@ -1256,16 +1256,16 @@ public :
 				LogDXVA_Bitstream(m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType], pExecuteParams->pCompressedBuffers[i].DataSize);
 
 #if LOG_BITSTREAM
-				char		strFile[_MAX_PATH];
-				static	int	nNb = 1;
-				sprintf (strFile, "BitStream%d.bin", nNb++);
-				FILE*		hFile = fopen (strFile, "wb");
+				char strFile[_MAX_PATH];
+				static int nNb = 1;
+				sprintf_s(strFile, "BitStream%d.bin", nNb++);
+				FILE* hFile = fopen(strFile, "wb");
 				if (hFile) {
-					fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
-							1,
-							pExecuteParams->pCompressedBuffers[i].DataSize,
-							hFile);
-					fclose (hFile);
+					fwrite(m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
+						   1,
+						   pExecuteParams->pCompressedBuffers[i].DataSize,
+						   hFile);
+					fclose(hFile);
 				}
 #endif
 			}
