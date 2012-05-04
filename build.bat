@@ -48,20 +48,20 @@ IF /I "%ARG%" == "?"        GOTO ShowHelp
 
 FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "help"     GOTO ShowHelp
-  IF /I "%%A" == "Build"    SET "BUILDTYPE=Build"     & Set /A ARGB+=1
-  IF /I "%%A" == "Clean"    SET "BUILDTYPE=Clean"     & Set /A ARGB+=1
-  IF /I "%%A" == "Rebuild"  SET "BUILDTYPE=Rebuild"   & Set /A ARGB+=1
-  IF /I "%%A" == "Both"     SET "PLATFORM=Both"       & Set /A ARGP+=1
-  IF /I "%%A" == "Win32"    SET "PLATFORM=Win32"      & Set /A ARGP+=1
-  IF /I "%%A" == "x86"      SET "PLATFORM=Win32"      & Set /A ARGP+=1
-  IF /I "%%A" == "x64"      SET "PLATFORM=x64"        & Set /A ARGP+=1
-  IF /I "%%A" == "All"      SET "CONFIG=All"          & Set /A ARGC+=1
-  IF /I "%%A" == "Main"     SET "CONFIG=Main"         & Set /A ARGC+=1
-  IF /I "%%A" == "Filters"  SET "CONFIG=Filters"      & Set /A ARGC+=1
-  IF /I "%%A" == "MPCHC"    SET "CONFIG=MPCHC"        & Set /A ARGC+=1
-  IF /I "%%A" == "Resource" SET "CONFIG=Resource"     & Set /A ARGC+=1
-  IF /I "%%A" == "Debug"    SET "BUILDCONFIG=Debug"   & Set /A ARGBC+=1
-  IF /I "%%A" == "Release"  SET "BUILDCONFIG=Release" & Set /A ARGBC+=1
+  IF /I "%%A" == "Build"    SET "BUILDTYPE=Build"   & Set /A ARGB+=1
+  IF /I "%%A" == "Clean"    SET "BUILDTYPE=Clean"   & Set /A ARGB+=1
+  IF /I "%%A" == "Rebuild"  SET "BUILDTYPE=Rebuild" & Set /A ARGB+=1
+  IF /I "%%A" == "Both"     SET "PLATFORM=Both"     & Set /A ARGP+=1
+  IF /I "%%A" == "Win32"    SET "PLATFORM=Win32"    & Set /A ARGP+=1
+  IF /I "%%A" == "x86"      SET "PLATFORM=Win32"    & Set /A ARGP+=1
+  IF /I "%%A" == "x64"      SET "PLATFORM=x64"      & Set /A ARGP+=1
+  IF /I "%%A" == "All"      SET "CONFIG=All"        & Set /A ARGC+=1
+  IF /I "%%A" == "Main"     SET "CONFIG=Main"       & Set /A ARGC+=1
+  IF /I "%%A" == "Filters"  SET "CONFIG=Filters"    & Set /A ARGC+=1
+  IF /I "%%A" == "MPCHC"    SET "CONFIG=MPCHC"      & Set /A ARGC+=1
+  IF /I "%%A" == "Resources" SET "CONFIG=Resources" & Set /A ARGC+=1
+  IF /I "%%A" == "Debug"    SET "BUILDCFG=Debug"    & Set /A ARGBC+=1
+  IF /I "%%A" == "Release"  SET "BUILDCFG=Release"  & Set /A ARGBC+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -72,7 +72,7 @@ IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=Build")
 IF %ARGP%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGP% == 0  (SET "PLATFORM=Both")
 IF %ARGC%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0  (SET "CONFIG=MPCHC")
-IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCONFIG=Release")
+IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCFG=Release")
 
 GOTO Start
 
@@ -95,7 +95,7 @@ IF "%PLATFORM%" == "x64"   GOTO x64
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
 IF "%CONFIG%" == "Filters"  CALL :SubFilters Win32 && GOTO x64
-IF "%CONFIG%" == "Resource" CALL :SubResources Win32 && GOTO x64
+IF "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
 CALL :SubMPCHC Win32
 IF "%CONFIG%" == "Main" GOTO x64
 
@@ -110,8 +110,8 @@ IF "%PLATFORM%" == "Win32" GOTO End
 IF DEFINED PROGRAMFILES(x86) (SET x64_type=amd64) ELSE (SET x64_type=x86_amd64)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
 
-IF "%CONFIG%" == "Filters"  CALL :SubFilters x64 && GOTO END
-IF "%CONFIG%" == "Resource" CALL :SubResources x64 && GOTO END
+IF "%CONFIG%" == "Filters"   CALL :SubFilters x64 && GOTO END
+IF "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
 CALL :SubMPCHC x64
 IF "%CONFIG%" == "Main" GOTO End
 
@@ -130,31 +130,31 @@ EXIT /B
 
 
 :SubFilters
-TITLE Compiling MPC-HC Filters - %BUILDCONFIG% Filter^|%1...
+TITLE Compiling MPC-HC Filters - %BUILDCFG% Filter^|%1...
 REM Call update_version.bat before building the filters
 CALL "update_version.bat"
 "%MSBUILD%" mpc-hc.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="%BUILDCONFIG% Filter";Platform=%1^
- /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCONFIG%_%1.log;errorsonly;Verbosity=diagnostic^
- /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCONFIG%_%1.log;warningsonly;Verbosity=diagnostic
+ /target:%BUILDTYPE% /property:Configuration="%BUILDCFG% Filter";Platform=%1^
+ /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCONFIG% Filter %1 - Compilation failed!"
+  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% Filter %1 - Compilation failed!"
 ) ELSE (
-  CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCONFIG% Filter %1 compiled successfully"
+  CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCFG% Filter %1 compiled successfully"
 )
 EXIT /B
 
 
 :SubMPCHC
-TITLE Compiling MPC-HC - %BUILDCONFIG%^|%1...
+TITLE Compiling MPC-HC - %BUILDCFG%^|%1...
 "%MSBUILD%" mpc-hc.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration=%BUILDCONFIG%;Platform=%1^
- /flp1:LogFile=%LOG_DIR%\mpc-hc_errors_%BUILDCONFIG%_%1.log;errorsonly;Verbosity=diagnostic^
- /flp2:LogFile=%LOG_DIR%\mpc-hc_warnings_%BUILDCONFIG%_%1.log;warningsonly;Verbosity=diagnostic
+ /target:%BUILDTYPE% /property:Configuration=%BUILDCFG%;Platform=%1^
+ /flp1:LogFile=%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=%LOG_DIR%\mpc-hc_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCONFIG% %1 - Compilation failed!"
+  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% %1 - Compilation failed!"
 ) ELSE (
-  CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCONFIG% %1 compiled successfully"
+  CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCFG% %1 compiled successfully"
 )
 EXIT /B
 
@@ -182,9 +182,9 @@ EXIT /B
 
 
 :SubCreatePackages
-IF "%BUILDTYPE%" == "Clean"   EXIT /B
-IF "%BUILDCONFIG%" == "Debug" EXIT /B
-IF "%CONFIG%" == "Filters"    EXIT /B
+IF "%BUILDTYPE%" == "Clean" EXIT /B
+IF "%BUILDCFG%" == "Debug"  EXIT /B
+IF "%CONFIG%" == "Filters"  EXIT /B
 
 IF "%~1" == "x64" SET ISDefs=/Dx64Build
 
@@ -205,7 +205,7 @@ EXIT /B
 TITLE %~nx0 %1
 ECHO. & ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resource^|MPCHC^|Filters^|All] [Debug^|Release]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|Filters^|All] [Debug^|Release]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        The arguments are not case sensitive.
@@ -214,8 +214,8 @@ ECHO Executing %~nx0 without any arguments will use the default ones:
 ECHO "%~nx0 Build Both MPCHC Release"
 ECHO.
 ECHO Examples:
-ECHO %~nx0 x86 Resource   -Builds the x86 resources
-ECHO %~nx0 Resource       -Builds both x86 and x64 resources
+ECHO %~nx0 x86 Resources  -Builds the x86 resources
+ECHO %~nx0 Resources      -Builds both x86 and x64 resources
 ECHO %~nx0 x86            -Builds x86 Main exe and the x86 resources
 ECHO %~nx0 x86 Debug      -Builds x86 Main Debug exe and x86 resources
 ECHO %~nx0 x86 Filters    -Builds x86 Filters
