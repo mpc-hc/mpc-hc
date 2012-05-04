@@ -21,6 +21,7 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SETLOCAL
 CD /D %~dp0
+
 REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
 SET "LOG_DIR=bin\logs"
 IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
@@ -44,24 +45,24 @@ SET ARGC=0
 SET ARGP=0
 SET INPUT=0
 
-IF /I "%ARG%" == "?"        GOTO ShowHelp
+IF /I "%ARG%" == "?"         GOTO ShowHelp
 
 FOR %%A IN (%ARG%) DO (
-  IF /I "%%A" == "help"     GOTO ShowHelp
-  IF /I "%%A" == "Build"    SET "BUILDTYPE=Build"   & Set /A ARGB+=1
-  IF /I "%%A" == "Clean"    SET "BUILDTYPE=Clean"   & Set /A ARGB+=1
-  IF /I "%%A" == "Rebuild"  SET "BUILDTYPE=Rebuild" & Set /A ARGB+=1
-  IF /I "%%A" == "Both"     SET "PLATFORM=Both"     & Set /A ARGP+=1
-  IF /I "%%A" == "Win32"    SET "PLATFORM=Win32"    & Set /A ARGP+=1
-  IF /I "%%A" == "x86"      SET "PLATFORM=Win32"    & Set /A ARGP+=1
-  IF /I "%%A" == "x64"      SET "PLATFORM=x64"      & Set /A ARGP+=1
-  IF /I "%%A" == "All"      SET "CONFIG=All"        & Set /A ARGC+=1
-  IF /I "%%A" == "Main"     SET "CONFIG=Main"       & Set /A ARGC+=1
-  IF /I "%%A" == "Filters"  SET "CONFIG=Filters"    & Set /A ARGC+=1
-  IF /I "%%A" == "MPCHC"    SET "CONFIG=MPCHC"      & Set /A ARGC+=1
-  IF /I "%%A" == "Resources" SET "CONFIG=Resources" & Set /A ARGC+=1
-  IF /I "%%A" == "Debug"    SET "BUILDCFG=Debug"    & Set /A ARGBC+=1
-  IF /I "%%A" == "Release"  SET "BUILDCFG=Release"  & Set /A ARGBC+=1
+  IF /I "%%A" == "help"      GOTO ShowHelp
+  IF /I "%%A" == "Build"     SET "BUILDTYPE=Build"   & Set /A ARGB+=1
+  IF /I "%%A" == "Clean"     SET "BUILDTYPE=Clean"   & Set /A ARGB+=1
+  IF /I "%%A" == "Rebuild"   SET "BUILDTYPE=Rebuild" & Set /A ARGB+=1
+  IF /I "%%A" == "Both"      SET "PLATFORM=Both"     & Set /A ARGP+=1
+  IF /I "%%A" == "Win32"     SET "PLATFORM=Win32"    & Set /A ARGP+=1
+  IF /I "%%A" == "x86"       SET "PLATFORM=Win32"    & Set /A ARGP+=1
+  IF /I "%%A" == "x64"       SET "PLATFORM=x64"      & Set /A ARGP+=1
+  IF /I "%%A" == "All"       SET "CONFIG=All"        & Set /A ARGC+=1
+  IF /I "%%A" == "Main"      SET "CONFIG=Main"       & Set /A ARGC+=1
+  IF /I "%%A" == "Filters"   SET "CONFIG=Filters"    & Set /A ARGC+=1
+  IF /I "%%A" == "MPCHC"     SET "CONFIG=MPCHC"      & Set /A ARGC+=1
+  IF /I "%%A" == "Resources" SET "CONFIG=Resources"  & Set /A ARGC+=1
+  IF /I "%%A" == "Debug"     SET "BUILDCFG=Debug"    & Set /A ARGBC+=1
+  IF /I "%%A" == "Release"   SET "BUILDCFG=Release"  & Set /A ARGBC+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -73,15 +74,6 @@ IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=B
 IF %ARGP%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGP% == 0  (SET "PLATFORM=Both")
 IF %ARGC%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0  (SET "CONFIG=MPCHC")
 IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCFG=Release")
-
-GOTO Start
-
-
-:UnsupportedSwitch
-ECHO.
-ECHO Unsupported commandline switch!
-ECHO Run "%~nx0 help" for details about the commandline switches.
-CALL :SubMsg "ERROR" "Compilation failed!"
 
 
 :Start
@@ -242,6 +234,13 @@ ECHO Press any key to exit...
 PAUSE >NUL
 ENDLOCAL
 EXIT /B
+
+
+:UnsupportedSwitch
+ECHO.
+ECHO Unsupported commandline switch!
+ECHO Run "%~nx0 help" for details about the commandline switches.
+CALL :SubMsg "ERROR" "Compilation failed!"
 
 
 :SubDetectInnoSetup
