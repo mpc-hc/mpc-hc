@@ -60,6 +60,10 @@
   #define mpchc_ini    = "mpc-hc.ini"
 #endif
 
+#ifnexist bindir + "\" + mpchc_exe
+  #error Compile MPC-HC first
+#endif
+
 
 [Setup]
 #ifdef x64Build
@@ -347,6 +351,13 @@ end;
 
 procedure CleanUpSettingsAndFiles();
 begin
+  //DeleteFile(ExpandConstant('{app}\bitstream.log'));
+  //DeleteFile(ExpandConstant('{app}\dxva_ipinhook.log'));
+  //DeleteFile(ExpandConstant('{app}\picture.log'));
+  //DeleteFile(ExpandConstant('{app}\slicelong.log'));
+  //DeleteFile(ExpandConstant('{app}\sliceshort.log'));
+  //DelTree('{app}\BitStream*.bin', False, True, False);
+  //DelTree('{app}\Matrix*.bin', False, True, False);
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
   DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
   RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
