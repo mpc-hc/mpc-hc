@@ -79,37 +79,37 @@ IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCFG=Re
 :Start
 SET START_TIME=%TIME%
 SET START_DATE=%DATE%
-IF "%PLATFORM%" == "Win32" GOTO Win32
-IF "%PLATFORM%" == "x64"   GOTO x64
+IF /I "%PLATFORM%" == "Win32" GOTO Win32
+IF /I "%PLATFORM%" == "x64"   GOTO x64
 
 
 :Win32
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
-IF "%CONFIG%" == "Filters"  CALL :SubFilters Win32 && GOTO x64
-IF "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
+IF /I "%CONFIG%" == "Filters"   CALL :SubFilters Win32 && GOTO x64
+IF /I "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
 CALL :SubMPCHC Win32
-IF "%CONFIG%" == "Main" GOTO x64
+IF /I "%CONFIG%" == "Main" GOTO x64
 
 CALL :SubResources Win32
 CALL :SubCreatePackages Win32
-IF "%CONFIG%" == "All"  CALL :SubFilters Win32
+IF /I "%CONFIG%" == "All"  CALL :SubFilters Win32
 
 
 :x64
-IF "%PLATFORM%" == "Win32" GOTO End
+IF /I "%PLATFORM%" == "Win32" GOTO End
 
 IF DEFINED PROGRAMFILES(x86) (SET x64_type=amd64) ELSE (SET x64_type=x86_amd64)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
 
-IF "%CONFIG%" == "Filters"   CALL :SubFilters x64 && GOTO END
-IF "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
+IF /I "%CONFIG%" == "Filters"   CALL :SubFilters x64 && GOTO END
+IF /I "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
 CALL :SubMPCHC x64
-IF "%CONFIG%" == "Main" GOTO End
+IF /I "%CONFIG%" == "Main" GOTO End
 
 CALL :SubResources x64
 CALL :SubCreatePackages x64
-IF "%CONFIG%" == "All"  CALL :SubFilters x64
+IF /I "%CONFIG%" == "All"  CALL :SubFilters x64
 
 
 :End
@@ -161,9 +161,10 @@ IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
 )
 
-FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified" "Chinese Traditional"
- "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
- "Polish" "Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
+FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
+ "Chinese Traditional" "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian"
+ "Italian" "Japanese" "Korean" "Polish" "Portuguese" "Russian" "Slovak" "Spanish"
+ "Swedish" "Turkish" "Ukrainian"
 ) DO (
  TITLE Compiling mpcresources - %%~A^|%1...
  "%MSBUILD%" mpcresources.sln %MSBUILD_SWITCHES%^
@@ -174,11 +175,11 @@ EXIT /B
 
 
 :SubCreatePackages
-IF "%BUILDTYPE%" == "Clean" EXIT /B
-IF "%BUILDCFG%" == "Debug"  EXIT /B
-IF "%CONFIG%" == "Filters"  EXIT /B
+IF /I "%BUILDTYPE%" == "Clean" EXIT /B
+IF /I "%BUILDCFG%" == "Debug"  EXIT /B
+IF /I "%CONFIG%" == "Filters"  EXIT /B
 
-IF "%~1" == "x64" SET ISDefs=/Dx64Build
+IF /I "%~1" == "x64" SET ISDefs=/Dx64Build
 
 CALL :SubDetectInnoSetup
 
