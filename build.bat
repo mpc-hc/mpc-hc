@@ -82,6 +82,7 @@ IF %ARGPA% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPA% == 0 (SET "PACKAGES=Fa
 :Start
 SET START_TIME=%TIME%
 SET START_DATE=%DATE%
+CALL :SubDetectWinArch
 IF /I "%PLATFORM%" == "Win32" GOTO Win32
 IF /I "%PLATFORM%" == "x64"   GOTO x64
 
@@ -117,7 +118,6 @@ IF /I "%CONFIG%" == "All" (
 :x64
 IF /I "%PLATFORM%" == "Win32" GOTO End
 
-IF DEFINED PROGRAMFILES(x86) (SET x64_type=amd64) ELSE (SET x64_type=x86_amd64)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
 
 IF /I "%CONFIG%" == "Filters" (
@@ -305,10 +305,15 @@ SET MPCHC_VER=%VerMajor%.%VerMinor%.%VerPatch%.%VerRev%
 EXIT /B
 
 
+:SubDetectWinArch
+IF DEFINED PROGRAMFILES(x86) (SET x64_type=amd64) ELSE (SET x64_type=x86_amd64)
+EXIT /B
+
+
 :SubDetectInnoSetup
 REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
 REM of Inno Setup accordingly
-IF DEFINED PROGRAMFILES(x86) (
+IF /I "%x64_type%" == "amd64" (
   SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
 ) ELSE (
   SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
@@ -327,9 +332,11 @@ IF EXIST "7za.exe"                SET "SEVENZIP=7za.exe" & EXIT /B
 FOR %%A IN (7z.exe)  DO (SET SEVENZIP=%%~$PATH:A & EXIT /B)
 FOR %%A IN (7za.exe) DO (SET SEVENZIP=%%~$PATH:A & EXIT /B)
 
-FOR /F "tokens=3" %%A IN (
-  'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
-  SET "SEVENZIP_REG=%%A"
+IF /I "%x64_type%" == "amd64" (
+  FOR /F "tokens=3" %%A IN (
+    'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
+    SET "SEVENZIP_REG=%%A"
+  )
 )
 
 FOR /F "delims=" %%A IN (
