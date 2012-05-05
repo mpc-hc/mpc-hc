@@ -8,14 +8,19 @@ IF /I "%~1"=="-help"  GOTO SHOWHELP
 IF /I "%~1"=="--help" GOTO SHOWHELP
 IF /I "%~1"=="/?"     GOTO SHOWHELP
 
-IF DEFINED MINGW32 GOTO VarOk
-ECHO ERROR: Please define MINGW32 (and/or MSYS) environment variable(s)
-ENDLOCAL
-EXIT /B
+IF EXIST "..\..\..\..\..\build.user.bat" (
+  CALL "..\..\..\..\..\build.user.bat"
+) ELSE (
+  IF DEFINED MINGW32 (SET MPCHC_MINGW32=%MINGW32%) ELSE (GOTO MissingVar)
+  IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)       ELSE (GOTO MissingVar)
+)
+
+SET "PATH=%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%PATH%"
+FOR %%X IN (gcc.exe) DO (SET FOUND=%%~$PATH:X)
+IF NOT DEFINED FOUND GOTO MissingVar
+
 
 :VarOk
-SET PATH=%MSYS%\bin;%MINGW32%\bin;%PATH%
-
 IF /I "%~2" == "Debug" SET "DEBUG=DEBUG=yes"
 
 IF "%~1" == "" (
@@ -69,6 +74,12 @@ TITLE "make %JOBS% %DEBUG% %*"
 ECHO make %JOBS% %DEBUG% %*
 make.exe %JOBS% %DEBUG% %*
 
+ENDLOCAL
+EXIT /B
+
+
+:MissingVar
+ECHO ERROR: Please define MINGW32 (and/or MSYS) environment variable(s)
 ENDLOCAL
 EXIT /B
 

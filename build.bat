@@ -32,9 +32,18 @@ SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpu
 
 REM pre-build checks
 IF "%VS100COMNTOOLS%" == "" GOTO MissingVar
-IF "%MINGW32%" == ""        GOTO MissingVar
-IF "%MINGW64%" == ""        GOTO MissingVar
 
+IF EXIST "build.user.bat" (
+  CALL "build.user.bat"
+) ELSE (
+  IF DEFINED MINGW32 (SET MPCHC_MINGW32=%MINGW32%) ELSE (GOTO MissingVar)
+  IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%) ELSE (GOTO MissingVar)
+  IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)       ELSE (GOTO MissingVar)
+)
+
+SET "PATH=%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%PATH%"
+FOR %%X IN (gcc.exe) DO (SET FOUND=%%~$PATH:X)
+IF NOT DEFINED FOUND GOTO MissingVar
 
 SET ARG=%*
 SET ARG=%ARG:/=%
