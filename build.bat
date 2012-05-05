@@ -243,48 +243,52 @@ IF /I "%~2" == "Win32"   (SET ARCH=x86) ELSE (SET ARCH=x64)
 
 PUSHD "bin"
 
-IF EXIST "%NAME%.%MPCHC_VER%.%ARCH%.7z"     DEL "%NAME%.%MPCHC_VER%.%ARCH%.7z"
-IF EXIST "%NAME%.%MPCHC_VER%.%ARCH%.pdb.7z" DEL "%NAME%.%MPCHC_VER%.%ARCH%.pdb.7z"
-IF EXIST "%NAME%.%MPCHC_VER%.%ARCH%"        RD /Q /S "%NAME%.%MPCHC_VER%.%ARCH%"
+SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%"
+
+IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
+IF EXIST "%PCKG_NAME%.pdb.7z" DEL "%PCKG_NAME%.pdb.7z"
+IF EXIST "%PCKG_NAME%"        RD /Q /S "%PCKG_NAME%"
 
 REM Compress the pdb file for mpc-hc only
 IF /I "%NAME%" == "MPC-HC" (
   PUSHD "%~1_%ARCH%"
-  TITLE Creating archive %NAME%.%MPCHC_VER%.%ARCH%.pdb.7z...
-  START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%NAME%.%MPCHC_VER%.%ARCH%.pdb.7z" "*.pdb" -m0=LZMA -mx9 -ms=on
-  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %NAME%.%MPCHC_VER%.%ARCH%.pdb.7z!"
-  CALL :SubMsg "INFO" "%NAME%.%MPCHC_VER%.%ARCH%.pdb.7z successfully created"
-  IF EXIST "%NAME%.%MPCHC_VER%.%ARCH%.pdb.7z" MOVE /Y "%NAME%.%MPCHC_VER%.%ARCH%.pdb.7z" ".." >NUL
+  TITLE Creating archive %PCKG_NAME%.pdb.7z...
+  START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.pdb.7z" "*.pdb" -m0=LZMA -mx9 -ms=on
+  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.pdb.7z!"
+  CALL :SubMsg "INFO" "%PCKG_NAME%.pdb.7z successfully created"
+  IF EXIST "%PCKG_NAME%.pdb.7z" MOVE /Y "%PCKG_NAME%.pdb.7z" ".." >NUL
   POPD
 )
 
-REM Create a text file containing the files to be excluded from the archives
-ECHO .bmp >    ExcludeList.txt
-ECHO .dmp >>   ExcludeList.txt
-ECHO .exp >>   ExcludeList.txt
-ECHO .ilk >>   ExcludeList.txt
-ECHO .ini >>   ExcludeList.txt
-ECHO .lib >>   ExcludeList.txt
-ECHO .mpcpl >> ExcludeList.txt
-ECHO .pdb >>   ExcludeList.txt
-ECHO .png >>   ExcludeList.txt
+TITLE Copying %PCKG_NAME%...
+IF NOT EXIST "%PCKG_NAME%" MD "%PCKG_NAME%"
 
-TITLE Copying %NAME%.%MPCHC_VER%.%ARCH%...
-XCOPY "%~1_%ARCH%" "%NAME%.%MPCHC_VER%.%ARCH%" /EXCLUDE:ExcludeList.txt /I /S /H /K /Q /R /Y /V >NUL
+IF /I "%NAME%" == "MPC-HC" (
+  IF NOT EXIST "%PCKG_NAME%\Lang" MD "%PCKG_NAME%\Lang"
+  IF /I "%ARCH%" == "x64" (
+    COPY /Y /V "%~1_%ARCH%\mpc-hc64.exe" "%PCKG_NAME%\mpc-hc64.exe" >NUL
+  ) ELSE (
+    COPY /Y /V "%~1_%ARCH%\mpc-hc.exe"   "%PCKG_NAME%\mpc-hc.exe" >NUL
+  )
+  COPY /Y /V "%~1_%ARCH%\mpciconlib.dll" "%PCKG_NAME%\*.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\Lang\mpcresources.??.dll" "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
+) ELSE (
+  COPY /Y /V "%~1_%ARCH%\*.ax"           "%PCKG_NAME%\*.ax" >NUL
+  COPY /Y /V "%~1_%ARCH%\VSFilter.dll"   "%PCKG_NAME%\VSFilter.dll" >NUL
+)
 
-COPY /Y /V "..\COPYING.txt"        "%NAME%.%MPCHC_VER%.%ARCH%" >NUL
-COPY /Y /V "..\docs\Authors.txt"   "%NAME%.%MPCHC_VER%.%ARCH%" >NUL
-COPY /Y /V "..\docs\Changelog.txt" "%NAME%.%MPCHC_VER%.%ARCH%" >NUL
-COPY /Y /V "..\docs\Readme.txt"    "%NAME%.%MPCHC_VER%.%ARCH%" >NUL
+COPY /Y /V "..\COPYING.txt"              "%PCKG_NAME%" >NUL
+COPY /Y /V "..\docs\Authors.txt"         "%PCKG_NAME%" >NUL
+COPY /Y /V "..\docs\Changelog.txt"       "%PCKG_NAME%" >NUL
+COPY /Y /V "..\docs\Readme.txt"          "%PCKG_NAME%" >NUL
 
-TITLE Creating archive %NAME%.%MPCHC_VER%.%ARCH%.7z...
-START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%NAME%.%MPCHC_VER%.%ARCH%.7z" "%NAME%.%MPCHC_VER%.%ARCH%"^
- -m0=LZMA -mx9 -ms=on -x@ExcludeList.txt
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %NAME%.%MPCHC_VER%.%ARCH%.7z!"
-CALL :SubMsg "INFO" "%NAME%.%MPCHC_VER%.%ARCH%.7z successfully created"
+TITLE Creating archive %PCKG_NAME%.7z...
+START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.7z" "%PCKG_NAME%"^
+ -m0=LZMA -mx9 -ms=on
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.7z!"
+CALL :SubMsg "INFO" "%PCKG_NAME%.7z successfully created"
 
-IF EXIST "ExcludeList.txt"           DEL "ExcludeList.txt"
-IF EXIST "%NAME%.%MPCHC_VER%.%ARCH%" RD /Q /S "%NAME%.%MPCHC_VER%.%ARCH%"
+IF EXIST "%PCKG_NAME%" RD /Q /S "%PCKG_NAME%"
 
 POPD
 EXIT /B
