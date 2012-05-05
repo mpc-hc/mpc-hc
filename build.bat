@@ -41,10 +41,6 @@ IF EXIST "build.user.bat" (
   IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)       ELSE (GOTO MissingVar)
 )
 
-SET 'PATH="%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%PATH%"'
-FOR %%X IN (gcc.exe) DO (SET FOUND=%%~$PATH:X)
-IF NOT DEFINED FOUND GOTO MissingVar
-
 SET ARG=%*
 SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
