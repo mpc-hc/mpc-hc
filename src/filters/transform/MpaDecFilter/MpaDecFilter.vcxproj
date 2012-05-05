@@ -134,7 +134,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>libgcc.a;libmingwex.a;BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libflac.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin\lib\Debug_$(Platform);$(SolutionDir)lib\detours;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
     </Link>
     <ResourceCompile>
@@ -149,7 +149,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>libgcc.a;libmingwex.a;BaseClasses.lib;DeCSS.lib;DSUtil.lib;Filters.lib;liba52.lib;libavcodec.lib;libdca.lib;libflac.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin\lib\Debug_$(Platform);$(SolutionDir)lib64\detours;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpaDecFilter.def</ModuleDefinitionFile>
     </Link>
     <ResourceCompile>
