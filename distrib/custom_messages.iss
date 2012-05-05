@@ -32,7 +32,7 @@ en.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 en.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 
-#ifdef localize
+#if localize == "true"
 
 ;Portuguese (Brasil)
 br.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -155,7 +155,7 @@ en.ViewChangelog=View Changelog
 
 
 
-#ifdef localize
+#if localize == "true"
 
 ;Portuguese (Brasil)
 br.langid=00000017

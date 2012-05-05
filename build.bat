@@ -212,7 +212,7 @@ IF /I "%BUILDTYPE%" == "Clean" EXIT /B
 IF /I "%BUILDCFG%" == "Debug"  EXIT /B
 IF /I "%CONFIG%" == "Filters"  EXIT /B
 
-IF /I "%~1" == "x64" SET ISDefs=/Dx64Build
+IF /I "%~1" == "x64" SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /Dx64Build
 
 CALL :SubDetectInnoSetup
 
@@ -222,7 +222,7 @@ IF NOT DEFINED InnoSetupPath (
 )
 
 TITLE Compiling %1 installer...
-"%InnoSetupPath%\ISCC.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" %ISDefs%
+"%InnoSetupPath%\ISCC.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" %MPCHC_INNO_DEF%
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
 CALL :SubMsg "INFO" "%1 installer successfully built"
 

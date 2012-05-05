@@ -22,9 +22,12 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
-#define localize
+; Include translations by default. You can bypass this by defining localize=whatever or false etc in build.bat or here
+#ifndef localize
+#define localize = "true"
+#endif
 #define sse_required
+; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
 ;#define x64Build
 
 ; Don't forget to update the DirectX SDK number in "include\Version.h" (not updated so often)
@@ -118,7 +121,7 @@ AppMutex=MediaPlayerClassicW
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
 
-#ifdef localize
+#if localize == "true"
 Name: br; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
 Name: by; MessagesFile: Languages\Belarusian.isl
 Name: ca; MessagesFile: compiler:Languages\Catalan.isl
@@ -164,7 +167,7 @@ Name: custom;             Description: {cm:types_CustomInstallation};           
 [Components]
 Name: main;               Description: {#app_name} {#app_version}; Types: default custom; Flags: fixed
 Name: mpciconlib;         Description: {cm:comp_mpciconlib};       Types: default custom
-#ifdef localize
+#if localize == "true"
 Name: mpcresources;       Description: {cm:comp_mpcresources};     Types: default custom; Flags: disablenouninstallwarning
 #endif
 
@@ -180,7 +183,7 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 [Files]
 Source: {#bindir}\{#mpchc_exe};             DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: {#bindir}\mpciconlib.dll;           DestDir: {app};      Components: mpciconlib;   Flags: ignoreversion
-#ifdef localize
+#if localize == "true"
 Source: {#bindir}\Lang\mpcresources.br.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 Source: {#bindir}\Lang\mpcresources.by.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 Source: {#bindir}\Lang\mpcresources.ca.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
@@ -241,7 +244,7 @@ Type: files; Name: {app}\AUTHORS
 Type: files; Name: {app}\ChangeLog
 Type: files; Name: {app}\COPYING
 
-#ifdef localize
+#if localize == "true"
 ; remove the old language dlls when upgrading
 Type: files; Name: {app}\mpcresources.br.dll
 Type: files; Name: {app}\mpcresources.by.dll
