@@ -51,25 +51,28 @@ SET ARGPL=0
 SET ARGPA=0
 SET INPUT=0
 
-IF /I "%ARG%" == "?"         GOTO ShowHelp
+IF /I "%ARG%" == "?"          GOTO ShowHelp
 
 FOR %%A IN (%ARG%) DO (
-  IF /I "%%A" == "help"      GOTO ShowHelp
-  IF /I "%%A" == "Build"     SET "BUILDTYPE=Build"   & Set /A ARGB+=1
-  IF /I "%%A" == "Clean"     SET "BUILDTYPE=Clean"   & Set /A ARGB+=1
-  IF /I "%%A" == "Rebuild"   SET "BUILDTYPE=Rebuild" & Set /A ARGB+=1
-  IF /I "%%A" == "Both"      SET "PLATFORM=Both"     & Set /A ARGPL+=1
-  IF /I "%%A" == "Win32"     SET "PLATFORM=Win32"    & Set /A ARGPL+=1
-  IF /I "%%A" == "x86"       SET "PLATFORM=Win32"    & Set /A ARGPL+=1
-  IF /I "%%A" == "x64"       SET "PLATFORM=x64"      & Set /A ARGPL+=1
-  IF /I "%%A" == "All"       SET "CONFIG=All"        & Set /A ARGC+=1
-  IF /I "%%A" == "Main"      SET "CONFIG=Main"       & Set /A ARGC+=1
-  IF /I "%%A" == "Filters"   SET "CONFIG=Filters"    & Set /A ARGC+=1
-  IF /I "%%A" == "MPCHC"     SET "CONFIG=MPCHC"      & Set /A ARGC+=1
-  IF /I "%%A" == "Resources" SET "CONFIG=Resources"  & Set /A ARGC+=1
-  IF /I "%%A" == "Debug"     SET "BUILDCFG=Debug"    & Set /A ARGBC+=1
-  IF /I "%%A" == "Release"   SET "BUILDCFG=Release"  & Set /A ARGBC+=1
-  IF /I "%%A" == "Packages"  SET "PACKAGES=True"     & Set /A ARGPA+=1
+  IF /I "%%A" == "help"       GOTO ShowHelp
+  IF /I "%%A" == "GetVersion" ENDLOCAL & CALL :SubGetVersion & EXIT /B
+  IF /I "%%A" == "Build"      SET "BUILDTYPE=Build"   & Set /A ARGB+=1
+  IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & Set /A ARGB+=1
+  IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & Set /A ARGB+=1
+  IF /I "%%A" == "Both"       SET "PLATFORM=Both"     & Set /A ARGPL+=1
+  IF /I "%%A" == "Win32"      SET "PLATFORM=Win32"    & Set /A ARGPL+=1
+  IF /I "%%A" == "x86"        SET "PLATFORM=Win32"    & Set /A ARGPL+=1
+  IF /I "%%A" == "x64"        SET "PLATFORM=x64"      & Set /A ARGPL+=1
+  IF /I "%%A" == "All"        SET "CONFIG=All"        & Set /A ARGC+=1
+  IF /I "%%A" == "Main"       SET "CONFIG=Main"       & Set /A ARGC+=1
+  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & Set /A ARGC+=1
+  IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & Set /A ARGC+=1
+  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & Set /A ARGC+=1
+  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & Set /A ARGC+=1
+  IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & Set /A ARGBC+=1
+  IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & Set /A ARGBC+=1
+  IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & Set /A ARGPA+=1
+  IF /I "%%A" == "Package"    SET "PACKAGES=True"     & Set /A ARGPA+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
