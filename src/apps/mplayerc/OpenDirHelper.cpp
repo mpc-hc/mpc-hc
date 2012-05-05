@@ -95,19 +95,15 @@ int CALLBACK COpenDirHelper::BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM 
 
 		GetClientRect(hwnd, &ClientArea);
 
-		int offset = IsWinVistaOrLater() ? 0 : -20;
-
 		GetWindowRect(ListView, &ListViewRect);
-		MoveWindow(ListView, ListViewRect.left-Dialog.left-3, ListViewRect.top-Dialog.top-55+offset, ListViewRect.right-ListViewRect.left+49, ListViewRect.bottom-ListViewRect.top+115, TRUE);
+		MoveWindow(ListView, ListViewRect.left-Dialog.left-3, ListViewRect.top-Dialog.top-75, ListViewRect.right-ListViewRect.left+49, ListViewRect.bottom-ListViewRect.top+115, TRUE);
 		GetWindowRect(ListView, &ListViewRect);
-
-		offset = IsWinVistaOrLater() ? 0 : -10;
 
 		GetWindowRect(id_ok, &ButtonRect);
-		MoveWindow(id_ok, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50+offset, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+		MoveWindow(id_ok, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+40, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
 
 		GetWindowRect(id_cancel, &ButtonRect);
-		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50+offset, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+40, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
 
 		SetWindowPos(checkbox, HWND_BOTTOM, ListViewRect.left-Dialog.left-3, ClientArea.bottom - 35, 180, 27, SWP_SHOWWINDOW);
 		SetFont(checkbox, _T("Tahoma"), 13);

@@ -15401,50 +15401,75 @@ void CMainFrame::OnFileOpendirectory()
 	}
 
 	AppSettings& s = AfxGetAppSettings();
+	CString path;
 
-	CString filter;
-	CAtlArray<CString> mask;
-	s.m_Formats.GetFilter(filter, mask);
+	if (IsWinVistaOrLater()) {
+		CFileDialog dlg(TRUE);
+		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
+		dlg.AddCheckButton(IDS_MAINFRM_DIR_CHECK, ResStr(IDS_MAINFRM_DIR_CHECK), TRUE);
 
-	COpenDirHelper::strLastOpenDir = s.strLastOpenDir;
+		if (openDlgPtr != NULL) {
+			openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
+			if (FAILED(openDlgPtr->Show(m_hWnd))) {
+				openDlgPtr->Release();
+				return;
+			}
+			openDlgPtr->Release();
 
-	TCHAR path[_MAX_PATH];
-	COpenDirHelper::m_incl_subdir = TRUE;
+			path = dlg.GetFolderPath();
 
-	CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
-	BROWSEINFO bi;
-	bi.hwndOwner = m_hWnd;
-	bi.pidlRoot = NULL;
-	bi.pszDisplayName = path;
-	bi.lpszTitle = strTitle;
-	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;
-	bi.lpfn = COpenDirHelper::BrowseCallbackProcDIR;
-	bi.lParam = 0;
-	bi.iImage = 0;
-
-	static LPITEMIDLIST iil;
-	iil = SHBrowseForFolder(&bi);
-	if (iil) {
-		SHGetPathFromIDList(iil, path);
-		CString _path = path;
-		_path.Replace('/', '\\');
-		if (_path[_path.GetLength()-1] != '\\') {
-			_path += '\\';
-		}
-		s.strLastOpenDir = _path;
-
-		CAtlList<CString> sl;
-		sl.AddTail(_path);
-		if (COpenDirHelper::m_incl_subdir) {
-			COpenDirHelper::RecurseAddDir(_path, &sl);
-		}
-
-		if (m_wndPlaylistBar.IsWindowVisible()) {
-			m_wndPlaylistBar.Append(sl, true);
+			BOOL recur = TRUE;
+			dlg.GetCheckButtonState(IDS_MAINFRM_DIR_CHECK, recur);
+			COpenDirHelper::m_incl_subdir = !!recur;
 		} else {
-			m_wndPlaylistBar.Open(sl, true);
-			OpenCurPlaylistItem();
+			return;
 		}
+	} else {
+		CString filter;
+		CAtlArray<CString> mask;
+		s.m_Formats.GetFilter(filter, mask);
+
+		COpenDirHelper::strLastOpenDir = s.strLastOpenDir;
+
+		TCHAR _path[_MAX_PATH];
+		COpenDirHelper::m_incl_subdir = TRUE;
+
+		CString strTitle  = ResStr(IDS_MAINFRM_DIR_TITLE);
+		BROWSEINFO bi;
+		bi.hwndOwner      = m_hWnd;
+		bi.pidlRoot       = NULL;
+		bi.pszDisplayName = _path;
+		bi.lpszTitle      = strTitle;
+		bi.ulFlags        = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;
+		bi.lpfn           = COpenDirHelper::BrowseCallbackProcDIR;
+		bi.lParam         = 0;
+		bi.iImage         = 0;
+
+		static LPITEMIDLIST iil;
+		iil = SHBrowseForFolder(&bi);
+		if (iil) {
+			SHGetPathFromIDList(iil, _path);
+		} else {
+			return;
+		}
+		path = _path;
+	}
+
+	if (path[path.GetLength()  -1] != '\\') {
+		path += '\\';
+	}
+
+	CAtlList<CString> sl;
+	sl.AddTail(path);
+	if (COpenDirHelper::m_incl_subdir) {
+		COpenDirHelper::RecurseAddDir(path, &sl);
+	}
+
+	if (m_wndPlaylistBar.IsWindowVisible()) {
+		m_wndPlaylistBar.Append(sl, true);
+	} else {
+		m_wndPlaylistBar.Open(sl, true);
+		OpenCurPlaylistItem();
 	}
 }
 
