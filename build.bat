@@ -339,14 +339,17 @@ EXIT /B
 
 
 :SubDetectSevenzipPath
-IF EXIST "%PROGRAMFILES%\7za.exe" SET "SEVENZIP=%PROGRAMFILES%\7za.exe" & EXIT /B
-IF EXIST "7za.exe"                SET "SEVENZIP=7za.exe" & EXIT /B
+IF EXIST "%PROGRAMFILES%\7za.exe" (SET "SEVENZIP=%PROGRAMFILES%\7za.exe" & EXIT /B)
+IF EXIST "7za.exe"                (SET "SEVENZIP=7za.exe" & EXIT /B)
 
-FOR %%A IN (7z.exe)  DO (SET SEVENZIP=%%~$PATH:A & EXIT /B)
-FOR %%A IN (7za.exe) DO (SET SEVENZIP=%%~$PATH:A & EXIT /B)
+FOR %%A IN (7z.exe)  DO (SET "SEVENZIP_PATH=%%~$PATH:A")
+IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
+
+FOR %%A IN (7za.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:A")
+IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 
 IF /I "%x64_type%" == "amd64" (
-  FOR /F "tokens=3" %%A IN (
+  FOR /F "delims=" %%A IN (
     'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
     SET "SEVENZIP_REG=%%A"
   )
@@ -357,7 +360,7 @@ FOR /F "delims=" %%A IN (
   SET "SEVENZIP_REG=%%A"
 )
 
-IF EXIST "%SEVENZIP_REG:*REG_SZ    =%\7z.exe" SET SEVENZIP="%SEVENZIP_REG:*REG_SZ    =%\7z.exe"
+IF EXIST "%SEVENZIP_REG:*REG_SZ    =%\7z.exe" SET "SEVENZIP=%SEVENZIP_REG:*REG_SZ    =%\7z.exe"
 EXIT /B
 
 
