@@ -125,11 +125,7 @@ int CMonitors::GetMonitorCount()
 
 CMonitor CMonitors::GetMonitor( const int index ) const
 {
-#if _MFC_VER >= 0x0700
 	ASSERT( index >= 0 && index < m_MonitorArray.GetCount() );
-#else
-	ASSERT( index >= 0 && index < m_MonitorArray.GetSize() );
-#endif
 
 	CMonitor* pMonitor = static_cast<CMonitor*>(m_MonitorArray.GetAt( index ));
 

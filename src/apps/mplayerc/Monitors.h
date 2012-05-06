@@ -37,15 +37,9 @@ public:
 	CMonitor GetMonitor( const int index ) const;
 
 
-#if _MFC_VER >= 0x0700
 	int GetCount() const {
 		return (int)m_MonitorArray.GetCount();
 	}
-#else
-	int GetCount() const {
-		return (int)m_MonitorArray.GetSize();
-	}
-#endif
 
 	//static members
 	static CMonitor GetNearestMonitor( const LPRECT lprc );
