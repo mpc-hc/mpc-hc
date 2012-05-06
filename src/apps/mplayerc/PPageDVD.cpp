@@ -25,6 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageDVD.h"
+#include "WinAPIUtils.h"
 
 
 struct {
@@ -283,21 +284,45 @@ BOOL CPPageDVD::OnApply()
 
 void CPPageDVD::OnBnClickedButton1()
 {
-	TCHAR path[_MAX_PATH];
+	CString path;
+	CString strTitle = ResStr(IDS_MAINFRM_46);
 
-	BROWSEINFO bi;
-	bi.hwndOwner = m_hWnd;
-	bi.pidlRoot = NULL;
-	bi.pszDisplayName = path;
-	bi.lpszTitle = _T("Select the path for the DVD:");
-	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
-	bi.lpfn = NULL;
-	bi.lParam = 0;
-	bi.iImage = 0;
+	if (IsWinVistaOrLater()) {
+		CFileDialog dlg(TRUE);
+		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
 
-	LPITEMIDLIST iil = SHBrowseForFolder(&bi);
-	if (iil) {
-		SHGetPathFromIDList(iil, path);
+		if (openDlgPtr != NULL) {
+			openDlgPtr->SetTitle(strTitle);
+			openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
+			if (FAILED(openDlgPtr->Show(m_hWnd))) {
+				openDlgPtr->Release();
+				return;
+			}
+			openDlgPtr->Release();
+
+			path = dlg.GetFolderPath();
+		}
+	} else {
+		TCHAR _path[_MAX_PATH];
+
+		BROWSEINFO bi;
+		bi.hwndOwner = m_hWnd;
+		bi.pidlRoot = NULL;
+		bi.pszDisplayName = _path;
+		bi.lpszTitle = strTitle;
+		bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
+		bi.lpfn = NULL;
+		bi.lParam = 0;
+		bi.iImage = 0;
+
+		LPITEMIDLIST iil = SHBrowseForFolder(&bi);
+		if (iil) {
+			SHGetPathFromIDList(iil, _path);
+			path = _path;
+		}
+	}
+
+	if (!path.IsEmpty()) {
 		m_dvdpath = path;
 
 		UpdateData(FALSE);

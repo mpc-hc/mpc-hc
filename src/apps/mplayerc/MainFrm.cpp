@@ -4382,23 +4382,46 @@ void CMainFrame::OnFileOpendvd()
 	OpenMedia(p);*/
 
 	AppSettings& s = AfxGetAppSettings();
-	TCHAR path[_MAX_PATH];
+	CString strTitle = ResStr(IDS_MAINFRM_46);
+	CString path;
 
-	CString		strTitle = ResStr(IDS_MAINFRM_46);
-	BROWSEINFO bi;
-	bi.hwndOwner = m_hWnd;
-	bi.pidlRoot = NULL;
-	bi.pszDisplayName = path;
-	bi.lpszTitle = strTitle;
-	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
-	bi.lpfn = BrowseCallbackProc;
-	bi.lParam = 0;
-	bi.iImage = 0;
+	if (IsWinVistaOrLater()) {
+		CFileDialog dlg(TRUE);
+		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
 
-	static LPITEMIDLIST iil;
-	iil = SHBrowseForFolder(&bi);
-	if (iil) {
-		SHGetPathFromIDList(iil, path);
+		if (openDlgPtr != NULL) {
+			openDlgPtr->SetTitle(strTitle);
+			openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
+			if (FAILED(openDlgPtr->Show(m_hWnd))) {
+				openDlgPtr->Release();
+				return;
+			}
+			openDlgPtr->Release();
+
+			path = dlg.GetFolderPath();
+		}
+	} else {
+		TCHAR _path[_MAX_PATH];
+
+		BROWSEINFO bi;
+		bi.hwndOwner = m_hWnd;
+		bi.pidlRoot = NULL;
+		bi.pszDisplayName = _path;
+		bi.lpszTitle = strTitle;
+		bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
+		bi.lpfn = BrowseCallbackProc;
+		bi.lParam = 0;
+		bi.iImage = 0;
+
+		static LPITEMIDLIST iil;
+		iil = SHBrowseForFolder(&bi);
+		if (iil) {
+			SHGetPathFromIDList(iil, _path);
+			path = _path;
+		}
+	}
+	
+	if (!path.IsEmpty()) {
 		s.strDVDPath = path;
 		if (!OpenBD(path)) {
 			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
@@ -15401,14 +15424,16 @@ void CMainFrame::OnFileOpendirectory()
 	}
 
 	AppSettings& s = AfxGetAppSettings();
+	CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
 	CString path;
 
 	if (IsWinVistaOrLater()) {
 		CFileDialog dlg(TRUE);
-		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
 		dlg.AddCheckButton(IDS_MAINFRM_DIR_CHECK, ResStr(IDS_MAINFRM_DIR_CHECK), TRUE);
+		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
 
 		if (openDlgPtr != NULL) {
+			openDlgPtr->SetTitle(strTitle);
 			openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
 			if (FAILED(openDlgPtr->Show(m_hWnd))) {
 				openDlgPtr->Release();
@@ -15434,7 +15459,6 @@ void CMainFrame::OnFileOpendirectory()
 		TCHAR _path[_MAX_PATH];
 		COpenDirHelper::m_incl_subdir = TRUE;
 
-		CString strTitle  = ResStr(IDS_MAINFRM_DIR_TITLE);
 		BROWSEINFO bi;
 		bi.hwndOwner      = m_hWnd;
 		bi.pidlRoot       = NULL;
@@ -15455,7 +15479,7 @@ void CMainFrame::OnFileOpendirectory()
 		path = _path;
 	}
 
-	if (path[path.GetLength()  -1] != '\\') {
+	if (path[path.GetLength() - 1] != '\\') {
 		path += '\\';
 	}
 

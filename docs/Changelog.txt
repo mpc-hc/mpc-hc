@@ -51,6 +51,7 @@ Legend:
     - when using XP the checkbox will now use only one line when possible and the overall
       dialog will look better
     - on Vista and later the dialog will use the new user interface
+* Use the new user interface for all open folder dialogs on Windows Vista and later
 * Avoid using negative option in the Tweaks page: change "Don't use 'search in folder'
   on commands 'Skip back/forward' when only one item in playlist" into "Open next/previous
   file in folder on 'Skip back/forward' when there is only one item in playlist".
