@@ -43,6 +43,8 @@ Legend:
     - use a masked edit for entering the timecode (hh:mm:ss.ms or mm:ss.ms depending on
       the file duration)
     - show an error message when the entered timecode is greater than the file duration
+* Ticket #2234, Changed some UI fonts according to the OS; more modern fonts will be used
+  on Vista and later
 * Reduced the maximum number of packets in the Queue, except for AVI. This will
   reduce the amount of memory consumed by the player
 * Improved the "Open directory" dialog:
