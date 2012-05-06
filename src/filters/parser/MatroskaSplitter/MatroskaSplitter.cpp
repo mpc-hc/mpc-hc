@@ -604,9 +604,6 @@ avcsuccess:
 				} else if (CodecID == "A_DTS") {
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_DVD_DTS);
 					mts.Add(mt);
-				} else if (CodecID == "A_PCM/FLOAT/IEEE") {
-					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_IEEE_FLOAT);
-					mts.Add(mt);
 				} else if (CodecID == "A_TTA1") {
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_TTA1);
 					wfe->cbSize = 30;
@@ -642,23 +639,36 @@ avcsuccess:
 					mts.Add(mt);
 				} else if (CodecID == "A_PCM/INT/LIT") {
 					mt.subtype = MEDIASUBTYPE_PCM;
+					mt.SetSampleSize(wfe->nBlockAlign);
 					if (pTE->a.Channels <= 2 && pTE->a.BitDepth <= 16) {
 						wfe->wFormatTag = WAVE_FORMAT_PCM;
 					} else {
-						WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
-						//memset(wfex , 0, sizeof(WAVEFORMATEXTENSIBLE));
+						WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
+						if (pTE->a.BitDepth&7) {
+							wfex->Format.wBitsPerSample = (WORD)(pTE->a.BitDepth + 7) & 0xFFF8;
+							wfex->Format.nBlockAlign = wfex->Format.nChannels * wfex->Format.wBitsPerSample / 8;
+							wfex->Format.nAvgBytesPerSec = wfex->Format.nSamplesPerSec * wfex->Format.nBlockAlign;
+							mt.SetSampleSize(wfex->Format.nBlockAlign);
+						}
 						wfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
-						wfex->Format.nChannels = (WORD)pTE->a.Channels;
-						wfex->Format.nSamplesPerSec = (DWORD)pTE->a.SamplingFrequency;
-						wfex->Format.wBitsPerSample = (WORD)(pTE->a.BitDepth + 7) & 0xFFF8;
-						wfex->Format.nBlockAlign = wfex->Format.nChannels * wfex->Format.wBitsPerSample / 8;
-						wfex->Format.nAvgBytesPerSec = wfex->Format.nSamplesPerSec * wfex->Format.nBlockAlign;
 						wfex->Format.cbSize = 22;
 						wfex->Samples.wValidBitsPerSample = (WORD)pTE->a.BitDepth;
 						wfex->dwChannelMask = GetDefChannelMask(wfex->Format.nChannels);
 						wfex->SubFormat = MEDIASUBTYPE_PCM;
-
-						mt.SetSampleSize(wfex->Format.nBlockAlign);
+					}
+					mts.Add(mt);
+				} else if (CodecID == "A_PCM/FLOAT/IEEE") {
+					mt.subtype = MEDIASUBTYPE_IEEE_FLOAT;
+					mt.SetSampleSize(wfe->nBlockAlign);
+					if (pTE->a.Channels <= 2) {
+						wfe->wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
+					} else {
+						WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
+						wfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+						wfex->Format.cbSize = 22;
+						wfex->Samples.wValidBitsPerSample = (WORD)pTE->a.BitDepth;
+						wfex->dwChannelMask = GetDefChannelMask(wfex->Format.nChannels);
+						wfex->SubFormat = MEDIASUBTYPE_IEEE_FLOAT;
 					}
 					mts.Add(mt);
 				} else if (CodecID == "A_MS/ACM") {
