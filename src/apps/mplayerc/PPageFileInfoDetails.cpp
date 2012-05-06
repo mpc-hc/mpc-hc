@@ -157,7 +157,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 		__int64 size = (__int64(wfd.nFileSizeHigh)<<32)|wfd.nFileSizeLow;
 		const int MAX_FILE_SIZE_BUFFER = 65;
 		WCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
-		StrFormatByteSizeW(size, szFileSize, sizeof(szFileSize));
+		StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
 		m_size.Format(_T("%s (%I64d bytes)"), szFileSize, size);
 
 		if (m_created.IsEmpty()) {
