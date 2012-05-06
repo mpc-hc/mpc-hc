@@ -135,7 +135,7 @@ protected:
 		if (!m_mapLayout.Lookup(hWnd, pos))
 			return FALSE;
 
-		UINT uTmpFlags;
+		UINT uTmpFlags = 0;
 		CalcNewChildPosition(m_listLayout.GetAt(pos), rectParent, rectChild,
 			(lpFlags != NULL) ? (*lpFlags) : uTmpFlags);
 		return TRUE;

@@ -5076,7 +5076,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 			__int64 size = (__int64(wfd.nFileSizeHigh)<<32)|wfd.nFileSizeLow;
 			const int MAX_FILE_SIZE_BUFFER = 65;
 			WCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
-			StrFormatByteSizeW(size, szFileSize, sizeof(szFileSize));
+			StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
 			fs.Format(ResStr(IDS_MAINFRM_58), szFileSize, size);
 		}
 

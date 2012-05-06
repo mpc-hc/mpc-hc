@@ -10577,7 +10577,7 @@ public:
 			return false;
 
 		HANDLE hToken = INVALID_HANDLE_VALUE;
-		bool bIsMember;
+		bool bIsMember = false;
 		_ATLTRY
 		{
 			if (!pContext->GetImpersonationToken(&hToken) ||
