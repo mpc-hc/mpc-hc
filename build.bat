@@ -67,6 +67,7 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Main"       SET "CONFIG=Main"       & Set /A ARGC+=1
   IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & Set /A ARGC+=1
   IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & Set /A ARGC+=1
+  IF /I "%%A" == "MPC-HC"     SET "CONFIG=MPCHC"      & Set /A ARGC+=1
   IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & Set /A ARGC+=1
   IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & Set /A ARGC+=1
   IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & Set /A ARGBC+=1
