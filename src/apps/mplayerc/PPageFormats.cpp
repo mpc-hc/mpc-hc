@@ -808,6 +808,10 @@ BOOL CPPageFormats::OnApply()
 	f_setContextFiles = m_fContextFiles.GetCheck();
 	f_setAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
 
+	if (f_setAssociatedWithIcon && !FileExists(GetProgramDir() + _T("\\mpciconlib.dll"))) {
+		AfxMessageBox(ResStr(IDS_MISSING_ICONS_LIB));
+	}
+
 	if (m_bFileExtChanged) {
 		for (int i = 0; i < m_list.GetItemCount(); i++) {
 			int iChecked = GetChecked(i);
