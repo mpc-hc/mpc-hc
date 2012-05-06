@@ -1250,10 +1250,13 @@ VIDEO_OUTPUT_FORMATS DXVAFormats[] = { // DXVA2
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AvXD'}
 };
 
-VIDEO_OUTPUT_FORMATS SoftwareFormats[] = { // Software
+VIDEO_OUTPUT_FORMATS SoftwareFormats1[] = { // Software
 	{&MEDIASUBTYPE_NV12,  2, 12, '21VN'},
 	{&MEDIASUBTYPE_YV12,  3, 12, '21VY'},
 	{&MEDIASUBTYPE_YUY2,  1, 16, '2YUY'},
+};
+
+VIDEO_OUTPUT_FORMATS SoftwareFormats2[] = { // Software
 	{&MEDIASUBTYPE_RGB32, 1, 32, BI_RGB},
 };
 
@@ -1276,15 +1279,18 @@ bool CMPCVideoDecFilter::IsDXVASupported()
 
 void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 {
-	int			nPos = 0;
-
 	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
 
-	m_nVideoOutputCount = (IsDXVASupported() ? ffCodecs[m_nCodecNb].DXVAModeCount() + countof (DXVAFormats) : 0) +
-						  (m_bUseFFmpeg   ? countof(SoftwareFormats) : 0);
+	m_nVideoOutputCount = IsDXVASupported() ? ffCodecs[m_nCodecNb].DXVAModeCount() + countof (DXVAFormats) : 0;
+	if (m_bUseFFmpeg) {
+		if (!(m_pAVCtx->width&1 || m_pAVCtx->height&1)) { // Do not use NV12, YV12 and YUY2 if width or height is not even
+			m_nVideoOutputCount += countof(SoftwareFormats1);
+		}
+		m_nVideoOutputCount += countof(SoftwareFormats2);
+	}
+	m_pVideoOutputFormat = DNew VIDEO_OUTPUT_FORMATS[m_nVideoOutputCount];
 
-	m_pVideoOutputFormat	= DNew VIDEO_OUTPUT_FORMATS[m_nVideoOutputCount];
-
+	int nPos = 0;
 	if (IsDXVASupported()) {
 		// Dynamic DXVA media types for DXVA1
 		for (nPos=0; nPos<ffCodecs[m_nCodecNb].DXVAModeCount(); nPos++) {
@@ -1298,10 +1304,13 @@ void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 		memcpy (&m_pVideoOutputFormat[nPos], DXVAFormats, sizeof(DXVAFormats));
 		nPos += countof (DXVAFormats);
 	}
-
 	// Software rendering
 	if (m_bUseFFmpeg) {
-		memcpy (&m_pVideoOutputFormat[nPos], SoftwareFormats, sizeof(SoftwareFormats));
+		if (!(m_pAVCtx->width&1 || m_pAVCtx->height&1)) { // Do not use NV12, YV12 and YUY2 if width or height is not even
+			memcpy (&m_pVideoOutputFormat[nPos], SoftwareFormats1, sizeof(SoftwareFormats1));
+			nPos += countof (SoftwareFormats1);
+		}
+		memcpy (&m_pVideoOutputFormat[nPos], SoftwareFormats2, sizeof(SoftwareFormats2));
 	}
 }
 
@@ -1409,11 +1418,6 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 		if ((ClsidSourceFilter == __uuidof(CMpegSourceFilter)) || (ClsidSourceFilter == __uuidof(CMpegSplitterFilter))) {
 			m_bReorderBFrame = false;
 		}
-	}
-
-	// Cannot use YUY2 if horizontal or vertical resolution is not even
-	if (((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_YUY2) && (m_pAVCtx->width&1 || m_pAVCtx->height&1))) {
-		return VFW_E_INVALIDMEDIATYPE;
 	}
 
 	return __super::CompleteConnect (direction, pReceivePin);
