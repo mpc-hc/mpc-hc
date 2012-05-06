@@ -23,7 +23,8 @@
 #pragma once
 
 #include <Windows.h>
-#include <d3dx9.h>
+
+struct IDirect3D9;
 
 BOOL IsWinXPOrLater();
 BOOL IsWinVistaOrLater();
