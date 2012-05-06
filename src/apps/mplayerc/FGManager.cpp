@@ -1849,10 +1849,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_IN32);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL32);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL64);
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_IN24_le); // remove it later
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_IN32_le); // remove it later
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL32_le); // remove it later
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL64_le); // remove it later
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IEEE_FLOAT); // only for 64-bit float PCM
 	/* todo: this should not depend on PCM */
 #if INTERNAL_DECODER_ADPCM

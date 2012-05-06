@@ -210,10 +210,6 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_IN32},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL32},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL64},
-	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_IN24_le}, // remove it later
-	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_IN32_le}, // remove it later
-	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL32_le}, // remove it later
-	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL64_le}, // remove it later
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_IEEE_FLOAT}, // only for 64-bit float PCM
 #endif
 #if INTERNAL_DECODER_ADPCM
@@ -659,16 +655,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 			   subtype == MEDIASUBTYPE_PCM_IN24 ||
 			   subtype == MEDIASUBTYPE_PCM_IN32) {
 		hr = ProcessPCMintBE();
-	} else if (subtype == MEDIASUBTYPE_PCM_SOWT    ||
-			   subtype == MEDIASUBTYPE_PCM_IN24_le || // remove it later
-			   subtype == MEDIASUBTYPE_PCM_IN32_le) { // remove it later
+	} else if (subtype == MEDIASUBTYPE_PCM_SOWT) {
 		hr = ProcessPCMintLE();
 	} else if (subtype == MEDIASUBTYPE_PCM_FL32 ||
 			   subtype == MEDIASUBTYPE_PCM_FL64) {
 		hr = ProcessPCMfloatBE();
-	} else if (subtype == MEDIASUBTYPE_PCM_FL32_le || // remove it later
-			   subtype == MEDIASUBTYPE_PCM_FL64_le || // remove it later
-			   subtype == MEDIASUBTYPE_IEEE_FLOAT) {
+	} else if (subtype == MEDIASUBTYPE_IEEE_FLOAT) {
 		hr = ProcessPCMfloatLE();
 	}
 #endif
