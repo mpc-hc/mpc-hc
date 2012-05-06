@@ -979,14 +979,12 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						} else if (type == AP4_ATOM_TYPE_ALAC) {
 							fourcc = MAKEFOURCC('a','l','a','c');
 							SetTrackName(&TrackName, _T("Alac Audio"));
-						} else if (type == AP4_ATOM_TYPE_RAW  && bitspersample ==  8 ||
-								   type == AP4_ATOM_TYPE_SOWT && bitspersample == 16 ||
-								  (type == AP4_ATOM_TYPE_IN24 || type == AP4_ATOM_TYPE_IN32) && ase->GetEndian()==ENDIAN_LITTLE) {
+						} else if ((type == AP4_ATOM_TYPE_NONE || type == AP4_ATOM_TYPE_RAW) && bitspersample == 8 ||
+								    type == AP4_ATOM_TYPE_SOWT && bitspersample == 16 ||
+								   (type == AP4_ATOM_TYPE_IN24 || type == AP4_ATOM_TYPE_IN32) && ase->GetEndian()==ENDIAN_LITTLE) {
 							fourcc = type = WAVE_FORMAT_PCM;
-						} else if (type == AP4_ATOM_TYPE_FL32 && ase->GetEndian()==ENDIAN_LITTLE) {
+						} else if ((type == AP4_ATOM_TYPE_FL32 || type == AP4_ATOM_TYPE_FL64) && ase->GetEndian()==ENDIAN_LITTLE) {
 							fourcc = type = WAVE_FORMAT_IEEE_FLOAT;
-						} else if (type == AP4_ATOM_TYPE_FL64 && ase->GetEndian()==ENDIAN_LITTLE) {
-							fourcc = type;    // reverse fourcc
 						} else if (type == AP4_ATOM_TYPE_LPCM) {
 							DWORD flags = ase->GetFormatSpecificFlags();
 							if (flags & 2) { // big endian
@@ -1004,8 +1002,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 										 ((type << 24) & 0xff000000);
 							} else {         // little endian
 								if (flags & 1) { // floating point
-									if      (bitspersample == 32) fourcc = type = WAVE_FORMAT_IEEE_FLOAT;
-									else if (bitspersample == 64) fourcc = type = AP4_ATOM_TYPE_FL64; // reverse fourcc
+									fourcc = type = WAVE_FORMAT_IEEE_FLOAT;
 								} else {
 									fourcc = type = WAVE_FORMAT_PCM;
 								}
@@ -1111,24 +1108,36 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								memcpy(wfe+1, data, 36);
 							}
 						} else if (type == WAVE_FORMAT_PCM) {
+							mt.SetSampleSize(wfe->nBlockAlign);
 							if (channels > 2 || bitspersample > 16) {
 								WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
 								if (wfex != NULL) {
 									wfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
 									wfex->Format.cbSize = 22;
 									wfex->Samples.wValidBitsPerSample = bitspersample;
-									wfex->dwChannelMask = GetDefChannelMask(channels);
+									wfex->dwChannelMask = GetDefChannelMask(channels); // TODO: get correct channel mask from mov file
 									wfex->SubFormat = MEDIASUBTYPE_PCM;
+								}
+							}
+						} else if (type == WAVE_FORMAT_IEEE_FLOAT) {
+							mt.SetSampleSize(wfe->nBlockAlign);
+							if (channels > 2) {
+								WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
+								if (wfex != NULL) {
+									wfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+									wfex->Format.cbSize = 22;
+									wfex->Samples.wValidBitsPerSample = bitspersample;
+									wfex->dwChannelMask = GetDefChannelMask(channels); // TODO: get correct channel mask from mov file
+									wfex->SubFormat = MEDIASUBTYPE_IEEE_FLOAT;
 								}
 							}
 						} else if (type == AP4_ATOM_TYPE_MP4A ||
 								   type == AP4_ATOM_TYPE_ALAW ||
-								   type == AP4_ATOM_TYPE_ULAW ||
-								   type == WAVE_FORMAT_IEEE_FLOAT) {
-							// not need any extra data for ALAW, ULAW, IEEE_FLOAT
+								   type == AP4_ATOM_TYPE_ULAW) {
+							// not need any extra data for ALAW, ULAW
 							// also extra data is not required for IMA4, MAC3, MAC6
 						} else if (db.GetDataSize() > 0) {
-							//always needed extra data QDM2
+							//always needed extra data for QDM2
 							wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + db.GetDataSize());
 							wfe->cbSize = db.GetDataSize();
 							memcpy(wfe+1, db.GetData(), db.GetDataSize());
