@@ -491,12 +491,12 @@ namespace MatroskaReader
 	public:
 		CUInt ChapterUID;
 		CUInt ChapterTimeStart, ChapterTimeEnd, ChapterFlagHidden, ChapterFlagEnabled;
-		//					CNode<CUInt> ChapterTracks; // TODO
+		//CNode<CUInt> ChapterTracks; // TODO
 		CNode<ChapterDisplay> ChapterDisplays;
 		CNode<ChapterAtom> ChapterAtoms;
 
 		ChapterAtom() {
-			ChapterUID.Set(rand());
+			ChapterUID.Set(0);// 0 = not set (ChapUID zero not allow by Matroska specs)
 			ChapterFlagHidden.Set(0);
 			ChapterFlagEnabled.Set(1);
 		}

@@ -929,8 +929,8 @@ void CMatroskaSplitterFilter::SetupChapters(LPCSTR lng, ChapterAtom* parent, int
 	POSITION pos = parent->ChapterAtoms.GetHeadPosition();
 	while (pos) {
 		// ChapUID zero not allow by Matroska specs
-		UINT64			ChapUID = parent->ChapterAtoms.GetNext(pos)->ChapterUID;
-		ChapterAtom*	ca		= (ChapUID == 0) ? NULL : m_pFile->m_segment.FindChapterAtom(ChapUID);
+		UINT64 ChapUID  = parent->ChapterAtoms.GetNext(pos)->ChapterUID;
+		ChapterAtom* ca = (ChapUID == 0) ? NULL : m_pFile->m_segment.FindChapterAtom(ChapUID);
 
 		if (ca) {
 			CStringW name, first;
@@ -952,8 +952,6 @@ void CMatroskaSplitterFilter::SetupChapters(LPCSTR lng, ChapterAtom* parent, int
 
 			if (!ca->ChapterAtoms.IsEmpty() && level < 5) {
 				// level < 5 - hard limit for the number of levels
-				// limit is needed because the player crash sometimes (broken files?)
-				// TODO: remake it
 				SetupChapters(lng, ca, level+1);
 			}
 		}
