@@ -94,6 +94,8 @@ extern HRESULT GUIDFromCString(CString str, GUID& guid);
 extern CString CStringFromGUID(const GUID& guid);
 extern CStringW UTF8To16(LPCSTR utf8);
 extern CStringA UTF16To8(LPCWSTR utf16);
+extern CStringW UTF8ToStringW(const char* S);
+extern CStringW LocalToStringW(const char* S);
 extern CString ISO6391ToLanguage(LPCSTR code);
 extern CString ISO6392ToLanguage(LPCSTR code);
 extern LCID    ISO6391ToLcid(LPCSTR code);

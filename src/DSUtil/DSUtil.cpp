@@ -1592,6 +1592,88 @@ CStringA UTF16To8(LPCWSTR utf16)
 	return str;
 }
 
+CStringW UTF8ToStringW(const char* S)
+{
+	CStringW str;
+	if (S==NULL) {
+		return str;
+	}
+
+	// Don't use MultiByteToWideChar(), some characters are not well decoded
+	const unsigned char* Z = (const unsigned char*)S;
+	while (*Z) //0 is end
+	{
+		//1 byte
+		if (*Z<0x80)
+		{
+			str += (wchar_t)(*Z);
+			Z++;
+		}
+		//2 bytes
+		else if ((*Z&0xE0)==0xC0)
+		{
+			if ((*(Z+1)&0xC0)==0x80)
+			{
+				str += (wchar_t)((((wchar_t)(*Z&0x1F))<<6)|(*(Z+1)&0x3F));
+				Z+=2;
+			}
+			else
+			{
+				str.Empty();
+				return str; //Bad character
+			}
+		}
+		//3 bytes
+		else if ((*Z&0xF0)==0xE0)
+		{
+			if ((*(Z+1)&0xC0)==0x80 && (*(Z+2)&0xC0)==0x80)
+			{
+				str += (wchar_t)((((wchar_t)(*Z&0x0F))<<12)|((*(Z+1)&0x3F)<<6)|(*(Z+2)&0x3F));
+				Z+=3;
+			}
+			else
+			{
+				str.Empty();
+				return str; //Bad character
+			}
+		}
+		//4 bytes
+		else if ((*Z&0xF8)==0xF0)
+		{
+			if ((*(Z+1)&0xC0)==0x80 && (*(Z+2)&0xC0)==0x80 && (*(Z+3)&0xC0)==0x80)
+			{
+				str += (wchar_t)((((wchar_t)(*Z&0x0F))<<18)|((*(Z+1)&0x3F)<<12)||((*(Z+2)&0x3F)<<6)|(*(Z+3)&0x3F));
+				Z+=4;
+			}
+			else
+			{
+				str.Empty();
+				return str; //Bad character
+			}
+		}
+		else
+		{
+			str.Empty();
+			return str; //Bad character
+		}
+	}
+	return str;
+}
+
+CStringW LocalToStringW(const char* S)
+{
+	CStringW str;
+	if (S==NULL) {
+		return str;
+	}
+
+	int Size = MultiByteToWideChar(CP_ACP, 0, S, -1, NULL, 0);
+	if (Size!=0) {
+		str.ReleaseBuffer(MultiByteToWideChar(CP_ACP, 0, S, -1, str.GetBuffer(Size), Size+1)-1);
+	}
+	return str;
+}
+
 static struct {
 	LPCSTR name, iso6392, iso6391;
 	LCID lcid;
