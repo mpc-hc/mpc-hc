@@ -426,7 +426,7 @@ IF /I "%~1" == "ERROR" (
 )
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
-  ECHO Press any key to exit...
+  ECHO Press any key to close this window...
   PAUSE >NUL
   ENDLOCAL
   EXIT

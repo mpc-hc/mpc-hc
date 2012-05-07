@@ -5,7 +5,10 @@ MPC-HC:
    which shouldn't be a lot in our code.
 2) Use the secure CRT functions in our code instead of defining the following in common.props:
    _CRT_SECURE_NO_WARNINGS and _SCL_SECURE_NO_WARNINGS
-3) Reorganize the Options
+3) Try to clean up the includes; there are a lot of unneeded includes
+4) Try to speed up compilation by doing the above and also by optimizing the included headers
+   in stadafx.h for mplayerc.vcxproj
+5) Reorganize the player's Options
 
 FFmpeg:
 1) Stop linking ffmpeg statically
