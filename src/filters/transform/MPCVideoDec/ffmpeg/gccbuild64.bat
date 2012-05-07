@@ -79,19 +79,21 @@ EXIT /B
 
 
 :MissingVar
-ECHO ERROR: Please define MINGW64 (and/or MSYS) environment variable(s)
+ECHO Not all build dependencies were found.
+ECHO.
+ECHO See "docs\Compilation.txt" for more information.
 ENDLOCAL
 EXIT /B
 
 
 :SHOWHELP
-TITLE "%~nx0 %1"
-ECHO. & ECHO.
+TITLE %~nx0 Help
+ECHO.
 ECHO Usage:   %~nx0 [Clean^|Build^|Rebuild] [Debug]
 ECHO.
 ECHO Notes:   The arguments are not case sensitive.
 ECHO. & ECHO.
-ECHO Executing "%~nx0" will use the defaults: "%~nx0 build"
+ECHO Executing %~nx0 will use the defaults: "%~nx0 build"
 ECHO.
 ENDLOCAL
 EXIT /B
