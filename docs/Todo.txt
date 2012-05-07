@@ -1,0 +1,16 @@
+MPC-HC:
+1) Try to fix all /W3 warnings for Win32 in our code.
+   See DSUtil/SharedInclude.h and common.props for the disabled warnings.
+   Also a search for "#pragma warning" will reveal any other places that warnings are disabled
+   which shouldn't be a lot in our code.
+2) Use the secure CRT functions in our code instead of defining the following in common.props:
+   _CRT_SECURE_NO_WARNINGS and _SCL_SECURE_NO_WARNINGS
+3) Reorganize the Options
+
+FFmpeg:
+1) Stop linking ffmpeg statically
+2) Compilation fails without -msse
+3) Use ffmpeg for:
+   * MPEG-1 and MPEG-2 decoding (this would remove the dependency on libmpeg2)
+   * FLAC and perhaps AC-3 and DTS decoding (this would remove the dependency on libflac, a52dec and libdca)
+Alternatively, drop all internal decoders and filters and intergrate LAVFilters, but keep DXVA1.
