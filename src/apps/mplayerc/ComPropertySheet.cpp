@@ -98,7 +98,7 @@ int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
 
 	CAUUID caGUID;
 	caGUID.pElems = NULL;
-	if (FAILED(pSPP->GetPages(&caGUID))) {
+	if (FAILED(pSPP->GetPages(&caGUID)) || caGUID.pElems == NULL) {
 		return(0);
 	}
 

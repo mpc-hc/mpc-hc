@@ -107,12 +107,14 @@ static unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 	*w = info_ptr->width;
 	*h = info_ptr->height;
 
-	for (y = 0; y < info_ptr->height; y++) {
-		row = &pic[y * info_ptr->width * 4];
+	if (pic) {
+		for (y = 0; y < info_ptr->height; y++) {
+			row = &pic[y * info_ptr->width * 4];
 
-		for (x = 0; x < info_ptr->width*3; row += 4) {
-			for (c = 0; c < 3; c++) {
-				row[c] = info_ptr->row_pointers[y][x++];
+			for (x = 0; x < info_ptr->width*3; row += 4) {
+				for (c = 0; c < 3; c++) {
+					row[c] = info_ptr->row_pointers[y][x++];
+				}
 			}
 		}
 	}

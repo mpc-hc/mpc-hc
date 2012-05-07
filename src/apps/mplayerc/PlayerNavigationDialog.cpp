@@ -114,33 +114,34 @@ void CPlayerNavigationDialog::OnChangeChannel()
 
 void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 {
-	bool bFound = FALSE;
+	bool bFound = (pChannel != NULL);
 	int nCurrentChannel;
 	AppSettings& s = AfxGetAppSettings();
 
-	if (!pChannel) {
+	if (!bFound) {
 		nCurrentChannel = s.nDVBLastChannel;
 		POSITION	pos = s.m_DVBChannels.GetHeadPosition();
 		while (pos && !bFound) {
 			pChannel = &s.m_DVBChannels.GetNext(pos);
 			if (nCurrentChannel == pChannel->GetPrefNumber()) {
-				bFound = TRUE;
-				break;
+				bFound = true;
 			}
 		}
 	}
 
-	m_ButtonInfo.EnableWindow(pChannel->GetNowNextFlag());
-	m_ComboAudio.ResetContent();
-	for (int i=0; i < pChannel->GetAudioCount(); i++) {
-		m_ComboAudio.AddString(pChannel->GetAudio(i)->Language);
-		m_audios[i].PID = pChannel->GetAudio(i)-> PID;
-		m_audios[i].Type = pChannel->GetAudio(i)->Type;
-		m_audios[i].PesType = pChannel->GetAudio(i) -> PesType;
-		m_audios[i].Language = pChannel->GetAudio(i) -> Language;
-	}
+	if (bFound) {
+		m_ButtonInfo.EnableWindow(pChannel->GetNowNextFlag());
+		m_ComboAudio.ResetContent();
+		for (int i=0; i < pChannel->GetAudioCount(); i++) {
+			m_ComboAudio.AddString(pChannel->GetAudio(i)->Language);
+			m_audios[i].PID = pChannel->GetAudio(i)-> PID;
+			m_audios[i].Type = pChannel->GetAudio(i)->Type;
+			m_audios[i].PesType = pChannel->GetAudio(i) -> PesType;
+			m_audios[i].Language = pChannel->GetAudio(i) -> Language;
+		}
 
-	m_ComboAudio.SetCurSel(pChannel->GetDefaultAudio());
+		m_ComboAudio.SetCurSel(pChannel->GetDefaultAudio());
+	}
 }
 
 void CPlayerNavigationDialog::UpdateElementList()

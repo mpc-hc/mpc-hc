@@ -158,6 +158,9 @@ static void SetupDefaultCaps(AM_MEDIA_TYPE* pmt, VIDEO_STREAM_CONFIG_CAPS& caps)
 							: (pmt->formattype == FORMAT_VideoInfo2)
 							? &((VIDEOINFOHEADER2*)pmt->pbFormat)->bmiHeader
 							: NULL;
+	if (!bih) {
+		return;
+	}
 
 	caps.guid = GUID_NULL;
 	caps.VideoStandard = 0;
@@ -713,11 +716,11 @@ void CPlayerCaptureDialog::UpdateMediaTypes()
 									: (pmt->formattype == FORMAT_VideoInfo2)
 									? &((VIDEOINFOHEADER2*)pmt->pbFormat)->bmiHeader
 									: NULL;
-
-			bih->biWidth = m_vidhor.GetPos();
-			bih->biHeight = m_vidver.GetPos();
-			bih->biSizeImage = bih->biWidth*bih->biHeight*bih->biBitCount>>3;
-
+			if (bih) {
+				bih->biWidth = m_vidhor.GetPos();
+				bih->biHeight = m_vidver.GetPos();
+				bih->biSizeImage = bih->biWidth*bih->biHeight*bih->biBitCount>>3;
+			}
 			SaveMediaType(m_VidDisplayName, pmt);
 
 			m_mtv = *pmt;
@@ -1430,6 +1433,9 @@ void CPlayerCaptureDialog::OnVideoDimension()
 							: (pvfe->mt.formattype == FORMAT_VideoInfo2)
 							? &((VIDEOINFOHEADER2*)pvfe->mt.pbFormat)->bmiHeader
 							: NULL;
+	if (!bih) {
+		return;
+	}
 
 	m_vidhor.SetRange(0, 32767);
 	m_vidver.SetRange(0, 32767);
