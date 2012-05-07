@@ -31,7 +31,7 @@ SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpu
 
 
 REM pre-build checks
-IF "%VS100COMNTOOLS%" == "" GOTO MissingVar
+IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
 
 IF EXIST "build.user.bat" (
   CALL "build.user.bat"
@@ -393,10 +393,7 @@ EXIT /B
 :MissingVar
 COLOR 0C
 TITLE Compiling MPC-HC [ERROR]
-ECHO Not all build dependencies were found. To build MPC-HC you need:
-ECHO * Visual Studio 2010 SP1 installed
-ECHO * MinGW 32bit with MSYS pointed to in MINGW32 environment variable
-ECHO * MinGW 64bit with MSYS pointed to in MINGW64 environment variable
+ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "docs\Compilation.txt" for more information.
 ECHO. & ECHO.

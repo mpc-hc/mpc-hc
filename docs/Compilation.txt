@@ -10,109 +10,105 @@ Part A: Preparing the Visual Studio environment
   2. Install Visual Studio 2010 Service Pack 1 -> http://www.microsoft.com/downloads/en/details.aspx?FamilyID=75568aa6-8107-475d-948a-ef22627e57a5&displaylang=en
   3. Install the DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
 
+
 Part B: Preparing the GCC environment
  NOTES:
   * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
   * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.6.2.0.
 
- 1. Download and extract MSYS_MinGW_GCC_470_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_470_x86-x64.7z
+ 1. Download and extract MSYS_MinGW_GCC_470_x86-x64.7z to "C:\MSYS" -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_470_x86-x64.7z
     For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_470_x86-x64_components.txt
- 2. Edit the "fstab" file in C:\MSYS\etc\ to specify your MinGW path.
+ 2. Edit the "fstab" file in "C:\MSYS\etc" to specify your MinGW path.
     Add this to it: C:\MSYS\mingw	\mingw
-    Note the tab-space between mingw and \mingw
- 3. Add the following environment variables (in System Properties->Advanced->Environment Variables):
+    Note the tab-space between "mingw" and "\mingw"
+ 3. Create a file named "build.user.bat" in "C:\mpc-hc" containing the following entries, adapted for your system:
 
-    Variable    Value
-    MSYS        C:\MSYS
-    MINGW32     C:\MSYS\mingw
-    MINGW64     C:\MSYS\mingw
-
-Modify the "Path" environment variable by adding at the end: ;%MINGW32%\bin;%MSYS%\bin
-
- * Optional, if you wish to use the cutting edge GCC branch you can instead follow these steps:
-  a. Delete everything in this folder: C:\MSYS\mingw\
-  b. Download and extract the new MinGW GCC version into C:\MSYS\mingw\ from: http://www.xvidvideo.ru/component/docman/cat_view/28-cross-mingwgcc-x86x64.html
+@ECHO OFF
+SET "MPCHC_MSYS=C:\MSYS"
+SET "MPCHC_MINGW32=%MPCHC_MSYS%\mingw"
+SET "MPCHC_MINGW64=%MPCHC_MINGW32%"
 
 
 Part C: Downloading and compiling the MPC-HC source
 
-1. Use a subversion client to checkout MPC-HC's trunk to C:\mpc-hc (or anywhere else you like)
+1. Use a subversion client to checkout MPC-HC's trunk to "C:\mpc-hc" (or anywhere else you like)
     Repository URL: https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk
     The recommended SVN client is TortoiseSVN (grab it from http://tortoisesvn.net/downloads)
 2. When using TortoiseSVN
-    a) Create an empty directory where you want to store the source files. e.g: C:\mpc-hc
+    a) Create an empty directory where you want to store the source files. e.g: "C:\mpc-hc"
     b) Right-click on that directory and choose "SVN checkout".
-    c) Put https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk in "URL of Repository" and press OK.
+    c) Put "https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk" in "URL of Repository" and press OK.
     d) Wait for the source tree to be downloaded.
-
-3. Open the solution file C:\mpc-hc\mpc-hc.sln
+3. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
 4. Right click the mpc-hc project, and open up its Properties.
    There, go to Configuration Properties->Linker->General. Add the following directories to the "Additional Library Directories":
-    For Win32 platform      $(MINGW32)\lib\gcc\i686-pc-mingw32\4.7.0;$(MINGW32)\i686-pc-mingw32\lib\
-    For x64 platform        $(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.7.0;$(MINGW64)\x86_64-w64-mingw32\lib\
+    For Win32 platform      $(MPCHC_MINGW32)\lib\gcc\i686-pc-mingw32\4.7.0;$(MPCHC_MINGW32)\i686-pc-mingw32\lib\
+    For x64 platform        $(MPCHC_MINGW64)\lib\gcc\x86_64-w64-mingw32\4.7.0;$(MPCHC_MINGW64)\x86_64-w64-mingw32\lib\
 
 Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.7.1
-Another way to do it, is by copying the needed MinGW libs (libgcc.a and libmingwex.a) into the C:\mpc-hc\lib and C:\mpc-hc\lib64 folders.
+5. Press OK to save the changes and close the Properties window.
 
+Another way to do the abpve step is by copying the needed libraries (libgcc.a and libmingwex.a)
+into the "C:\mpc-hc\lib" and "C:\mpc-hc\lib64" folders either manually or by using the following batch snippet:
 
 @ECHO OFF
 REM Save this script to your mpc-hc source dir
-REM Get the GCC version
-FOR /f "tokens=1,2 delims= " %%K IN (
-  'gcc -dumpversion'
-) DO (
-  SET "gccver=%%K" & Call :SubGCCVer %%gccver:*Z=%%
+IF EXIST "build.user.bat" (
+  CALL "build.user.bat"
+) ELSE (
+  IF DEFINED MINGW32 (SET MPCHC_MINGW32=%MINGW32%)
+  IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%)
+  IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)
 )
 
-REM Copy the needed libs
+REM Set the GCC version
+FOR /F "tokens=1,2 delims= " %%K IN ('gcc -dumpversion') DO (SET "gccver=%%K")
+
+REM Copy the needed libraries
 ECHO x86:
-COPY /V /Y "%MINGW32%\i686-pc-mingw32\lib\libmingwex.a" "lib\"
-COPY /V /Y "%MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a" "lib\"
+COPY /V /Y "%MPCHC_MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a"    "lib\"
+COPY /V /Y "%MPCHC_MINGW32%\i686-pc-mingw32\lib\libmingwex.a"             "lib\"
 ECHO x64:
 rem See Part D for libmingwex.a x64
-COPY /V /Y "%MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\"
-ECHO .
+COPY /V /Y "%MPCHC_MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\"
 
 PAUSE
 EXIT /B
 
-:SubGCCVer
-SET gccver=%*
-EXIT /B
-
-
-5. Press OK to save the changes and close the Properties window.
 6. Press F7 to build the solution.
-7. You now have mpc-hc.exe under C:\mpc-hc\bin\mpc-hc_x86
-8. Open the solution file C:\mpc-hc\mpciconlib.sln
+7. You now have "mpc-hc.exe" under "C:\mpc-hc\bin\mpc-hc_x86"
+8. Open the solution file "C:\mpc-hc\mpciconlib.sln"
 9. Press F7 to build the solution.
-10. You now have mpciconlib.dll under C:\mpc-hc\bin\mpc-hc_x86
-11. Open the solution file C:\mpc-hc\mpcresources.sln
+10. You now have "mpciconlib.dll" under "C:\mpc-hc\bin\mpc-hc_x86"
+11. Open the solution file "C:\mpc-hc\mpcresources.sln"
     In Visual Studio go to Build->Batch Build->Press Select All->Press Build
-12. You now have mpcresources.XX.dll under C:\mpc-hc\bin\mpc-hc_x86\Lang
+12. You now have "mpcresources.XX.dll" under "C:\mpc-hc\bin\mpc-hc_x86\Lang"
 
-Alternatively, you can use build.bat (run: build.bat help for more info)
+Alternatively, you can use "build.bat" which can build everything for you
+(run: build.bat help for more info)
 
 
 Part D: Building FFmpeg x64 (libavcodec) with GCC
 
-When building FFmpeg (project libavcodec) in 32 bit mode, GCC is used and according to the makefile that is automatically invoked from the solution. Doing so for 64 bit, requires some additional steps:
+When building FFmpeg (project libavcodec) GCC is used and according to the makefile that is automatically invoked from the project file. Doing so for 64 bit, requires some additional steps in order to successfully link the MinGW64 library:
  1. Run MSYS and cd to the trunk\src\filters\transform\MPCVideoDec\ffmpeg_x64 folder
 Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
-(notice that the first part will most probably differ for the exact paths)
  2. checkout the MinGW64 files by running: buildmingwlibs.sh --update
  3. run the buildmingwlibs.sh script, only to compile:
       buildmingwlibs.sh --compile
     or
       buildmingwlibs.sh --update --compile
 
-After the compilation is done, libgcc.a and libmingwex.a will be placed in C:\mpc-hc\lib64
+After the compilation is done, "libgcc.a" and "libmingwex.a" will be placed in "C:\mpc-hc\lib64"
 
-Now libavcodec can be compiled from within the MPC-HC visual studio solution file, and it will be linked correctly with the other components.
+Now libavcodec can be compiled from within the MPC-HC visual studio solution file, and everything will be linked correctly with the other components.
+
 
 Part E: Building the installer
 
 Download Inno Setup Unicode v5.4.3 or newer from: http://www.jrsoftware.org/isdl.php
-Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup, read the first comments in the script and compile it.
-Note: Use Inno Setup's built-in IDE.
+Install everything and then go to "C:\mpc-hc\distrib", open "mpc-hc_setup.iss" with Inno Setup, read the first comments in the script and compile it.
+Notes:
+* "build.bat" can build the installer by using the "packages" switch.
+* Use Inno Setup's built-in IDE if you want to edit the iss file.
