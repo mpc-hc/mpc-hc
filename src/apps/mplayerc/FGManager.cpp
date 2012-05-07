@@ -2311,7 +2311,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 	*/
 
-#if HAS_FFMPEG_VIDEO_DECODERS | HAS_DXVA_VIDEO_DECODERS
+#if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
 	CMPCVideoDecFilter::FFmpegFilters = (HAS_FFMPEG_DECODERS) ? s.FFmpegFilters : NULL;
 	CMPCVideoDecFilter::DXVAFilters = (HAS_DXVA_VIDEO_DECODERS) ? s.DXVAFilters : NULL;
 #endif
