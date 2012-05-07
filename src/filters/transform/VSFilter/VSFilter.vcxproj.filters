@@ -74,6 +74,9 @@
     <None Include="res\VSFilter.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\VSFilter.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AvgLines.h">

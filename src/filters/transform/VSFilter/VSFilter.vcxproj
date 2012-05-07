@@ -158,6 +158,7 @@
     <ClCompile Include="VSFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\VSFilter.rc2" />
     <None Include="VSFilter.def" />
     <None Include="res\VSFilter.ico">
       <FileType>ICO</FileType>
