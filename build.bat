@@ -239,6 +239,8 @@ EXIT /B
 
 
 :SubCreatePackages
+IF /I "%BUILDTYPE%" == "Clean" EXIT /B
+
 CALL :SubDetectSevenzipPath
 CALL :SubGetVersion
 
