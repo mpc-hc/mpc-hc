@@ -65,7 +65,7 @@ IF DEFINED InnoSetupPath IF NOT EXIST "%InnoSetupPath%" (
 
 IF NOT EXIST "%InnoSetupPath%" (
   FOR /F "delims=" %%a IN (
-    'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path"2^>Nul^|FIND "REG_"') DO (
+    'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path"2^>Nul^|FIND "REG_SZ"') DO (
     SET "InnoSetupPath=%%a" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
 )
 
@@ -81,8 +81,8 @@ EXIT /B
 :EndWithError
 Title Building VSFilter installer [ERROR]
 ECHO. & ECHO.
-ECHO **ERROR: Build failed and aborted!**
-ECHO Press any key to exit...
+ECHO ERROR: Build failed!
+ECHO Press any key to close this window...
 PAUSE >NUL
 ENDLOCAL
 EXIT

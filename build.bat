@@ -31,8 +31,6 @@ SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpu
 
 
 REM pre-build checks
-IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
-
 IF EXIST "build.user.bat" (
   CALL "build.user.bat"
 ) ELSE (
@@ -40,6 +38,7 @@ IF EXIST "build.user.bat" (
   IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%) ELSE (GOTO MissingVar)
   IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)       ELSE (GOTO MissingVar)
 )
+IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
 
 SET ARG=%*
 SET ARG=%ARG:/=%
