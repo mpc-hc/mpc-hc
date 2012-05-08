@@ -243,7 +243,7 @@ HRESULT CBaseSplitterOutputPin::SetName(LPCWSTR pName)
 	}
 	m_pName = DNew WCHAR[wcslen(pName)+1];
 	CheckPointer(m_pName, E_OUTOFMEMORY);
-	wcscpy(m_pName, pName);
+	wcscpy_s(m_pName, wcslen(pName) + 1, pName);
 	return S_OK;
 }
 
@@ -1284,7 +1284,7 @@ STDMETHODIMP CBaseSplitterFilter::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TY
 	if (!(*ppszFileName)) {
 		return E_OUTOFMEMORY;
 	}
-	wcscpy(*ppszFileName, m_fn);
+	wcscpy_s(*ppszFileName, m_fn.GetLength() + 1, m_fn);
 	return S_OK;
 }
 

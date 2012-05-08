@@ -31,27 +31,26 @@ WNDPROC COpenDirHelper::CBProc;
 bool COpenDirHelper::m_incl_subdir;
 CString COpenDirHelper::strLastOpenDir;
 
-void COpenDirHelper::SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
+void COpenDirHelper::SetFont(HWND hwnd, LPTSTR FontName, int FontSize)
 {
 	HFONT hf, hfOld;
 	LOGFONT lf = {0};
 	HDC hdc = GetDC(hwnd);
 
-	GetObject(GetWindowFont(hwnd),sizeof(lf),&lf);
+	GetObject(GetWindowFont(hwnd), sizeof(lf), &lf);
 	lf.lfWeight = FW_REGULAR;
 	lf.lfHeight = (LONG)FontSize;
-	StringCchCopy(lf.lfFaceName, countof(lf.lfFaceName), FontName);
-	hf=CreateFontIndirect(&lf);
+	_tcscpy_s(lf.lfFaceName, FontName);
+	hf = CreateFontIndirect(&lf);
 	SetBkMode(hdc,OPAQUE);
 
-	hfOld = (HFONT)SendMessage(hwnd,WM_GETFONT,NULL,NULL);  // get old font
-	SendMessage(hwnd,WM_SETFONT,(WPARAM)hf,TRUE);           // set new font
+	hfOld = (HFONT)SendMessage(hwnd, WM_GETFONT, NULL, NULL);  // get old font
+	SendMessage(hwnd, WM_SETFONT, (WPARAM)hf, TRUE);           // set new font
 
-	if (!hfOld && (hfOld!=hf)) {
+	if (!hfOld && (hfOld != hf)) {
 		DeleteObject(hfOld);    // if the old font is not system font or the same as newfont, release it.
 	}
-	ReleaseDC(hwnd,hdc);
-
+	ReleaseDC(hwnd, hdc);
 }
 
 // Subclass procedure

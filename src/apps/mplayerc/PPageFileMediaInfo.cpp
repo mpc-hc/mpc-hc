@@ -130,13 +130,13 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	memset(&lf, 0, sizeof(lf));
 	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
 	// The empty string will fallback to the first font that matches the other specified attributes.
-	CString fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };
+	LPCTSTR fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };
 	// Use a negative value to match the character height instead of the cell height.
 	int fonts_size[] = { -10, -11, -11 };
 	UINT i = 0;
 	BOOL success;
 	do {
-		lstrcpy(lf.lfFaceName, fonts[i]);
+		_tcscpy_s(lf.lfFaceName, fonts[i]);
 		lf.lfHeight = fonts_size[i];
 		success = IsFontInstalled(fonts[i]) && m_pCFont->CreateFontIndirect(&lf);
 		i++;
@@ -145,7 +145,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	m_mediainfo.SetWindowText(MI_Text);
 
 	// subclass the edit control
-	OldControlProc = (WNDPROC) SetWindowLongPtr(m_mediainfo.m_hWnd, GWLP_WNDPROC, (LONG_PTR) ControlProc);
+	OldControlProc = (WNDPROC)SetWindowLongPtr(m_mediainfo.m_hWnd, GWLP_WNDPROC, (LONG_PTR)ControlProc);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE

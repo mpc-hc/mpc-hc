@@ -107,7 +107,7 @@ bool CRealMediaPlayer::Init()
 
 		if (!dllpaths.IsEmpty()) {
 			char* s = DNew char[dllpaths.GetLength()+1];
-			strcpy(s, CStringA(dllpaths));
+			strcpy_s(s, dllpaths.GetLength() + 1, CStringA(dllpaths));
 			for (int i = 0, j = strlen(s); i < j; i++) {
 				if (s[i] == '|') {
 					s[i] = '\0';
@@ -241,7 +241,7 @@ char* AllocateErrorMessage(const char* msg)
 	if (len > 0) {
 		errmsg = (char*)CoTaskMemAlloc(len+1);
 		if (errmsg) {
-			strcpy(errmsg, msg);
+			strcpy_s(errmsg, len + 1, msg);
 		}
 	}
 	return errmsg;

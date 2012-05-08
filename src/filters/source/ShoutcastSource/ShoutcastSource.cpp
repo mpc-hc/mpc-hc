@@ -196,7 +196,7 @@ STDMETHODIMP CShoutcastSource::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE*
 		return E_OUTOFMEMORY;
 	}
 
-	wcscpy(*ppszFileName, m_fn);
+	wcscpy_s(*ppszFileName, m_fn.GetLength() + 1, m_fn);
 
 	return S_OK;
 }

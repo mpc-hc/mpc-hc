@@ -71,7 +71,7 @@ namespace MatroskaWriter
 		}
 		CBinary& Set(CStringA str) {
 			SetCount(str.GetLength()+1);
-			strcpy((char*)GetData(), str);
+			strcpy_s((char*)GetData(), str.GetLength() + 1, str);
 			return(*this);
 		}
 		//		CBinary& Set(CStringA str) {SetCount(str.GetLength()); memcpy((char*)GetData(), str, str.GetLength()); return(*this);}

@@ -1204,7 +1204,7 @@ void CPlayerPlaylistBar::DropItemOnList()
 		m_nDragIndex++;
 	}
 	for (int col=1; col < nColumnCount; col++) {
-		_tcscpy(lvi.pszText, (LPCTSTR)(m_list.GetItemText(m_nDragIndex, col)));
+		_tcscpy_s(lvi.pszText, _MAX_PATH, (LPCTSTR)(m_list.GetItemText(m_nDragIndex, col)));
 		lvi.iSubItem = col;
 		m_list.SetItem(&lvi);
 	}
@@ -1395,7 +1395,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 
 				if (HGLOBAL h = GlobalAlloc(GMEM_MOVEABLE, (str.GetLength()+1)*sizeof(TCHAR))) {
 					if (TCHAR* s = (TCHAR*)GlobalLock(h)) {
-						_tcscpy(s, str);
+						_tcscpy_s(s, str.GetLength() + 1, str);
 						GlobalUnlock(h);
 						SetClipboardData(CF_UNICODETEXT, h);
 					}

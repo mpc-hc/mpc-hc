@@ -2834,7 +2834,7 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 			return E_OUTOFMEMORY;
 		}
 
-		wcscpy(*ppName, CStringW(m_name));
+		wcscpy_s(*ppName, m_name.GetLength() + 1, CStringW(m_name));
 
 		if (pLCID) {
 			*pLCID = ISO6391ToLcid (W2A(*ppName));

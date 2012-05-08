@@ -182,7 +182,7 @@ void CShaderAutoCompleteDlg::OnLbnSelchangeList1()
 		if (sl.GetCount() != 2) {
 			return;
 		}
-		_tcscpy(m_ti.lpszText, sl.RemoveTail());
+		_tcscpy_s(m_ti.lpszText, countof(m_text), sl.RemoveTail());
 		CRect r;
 		GetWindowRect(r);
 		::SendMessage(m_hToolTipWnd, TTM_UPDATETIPTEXT, 0, (LPARAM)&m_ti);

@@ -1339,7 +1339,7 @@ STDMETHODIMP CVobSubFile::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID
 				return E_OUTOFMEMORY;
 			}
 
-			wcscpy(*ppName, CStringW(sl.alt));
+			wcscpy_s(*ppName, sl.alt.GetLength() + 1, CStringW(sl.alt));
 		}
 
 		if (pLCID) {
@@ -2499,7 +2499,7 @@ STDMETHODIMP CVobSubStream::GetStreamInfo(int i, WCHAR** ppName, LCID* pLCID)
 		if (!(*ppName)) {
 			return E_OUTOFMEMORY;
 		}
-		wcscpy(*ppName, CStringW(m_name));
+		wcscpy_s(*ppName, m_name.GetLength() + 1, CStringW(m_name));
 	}
 
 	if (pLCID) {

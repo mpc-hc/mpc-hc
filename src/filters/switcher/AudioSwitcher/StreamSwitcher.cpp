@@ -617,7 +617,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
 
 				WCHAR* pName = DNew WCHAR[fileName.GetLength()+1];
 				if (pName) {
-					wcscpy(pName, fileName);
+					wcscpy_s(pName, fileName.GetLength() + 1, fileName);
 					if (m_pName) {
 						delete [] m_pName;
 					}
@@ -1440,7 +1440,7 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
 	if (ppszName) {
 		*ppszName = (WCHAR*)CoTaskMemAlloc((wcslen(pPin->Name())+1)*sizeof(WCHAR));
 		if (*ppszName) {
-			wcscpy(*ppszName, pPin->Name());
+			wcscpy_s(*ppszName, wcslen(pPin->Name()) + 1, pPin->Name());
 		}
 	}
 

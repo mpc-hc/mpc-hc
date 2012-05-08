@@ -708,17 +708,21 @@ bool CRealMediaSplitterFilter::DemuxLoop()
 		p->rtStart = 0;
 		p->rtStop = 1;
 
-		p->SetCount((4+1) + (2+4+(s.name.GetLength()+1)*2) + (2+4+s.data.GetLength()));
+		size_t count = (4+1) + (2+4+(s.name.GetLength()+1)*2) + (2+4+s.data.GetLength());
+		p->SetCount(count);
 		BYTE* ptr = p->GetData();
 
-		strcpy((char*)ptr, "GAB2");
+		strcpy_s((char*)ptr, count, "GAB2");
 		ptr += 4+1;
+		count -= 4+1;
 
 		*(WORD*)ptr = 2;
 		ptr += 2;
+		count -= 2;
 		*(DWORD*)ptr = (s.name.GetLength()+1)*2;
 		ptr += 4;
-		wcscpy((WCHAR*)ptr, CStringW(s.name));
+		count -= 4;
+		wcscpy_s((WCHAR*)ptr, count / 2, CStringW(s.name));
 		ptr += (s.name.GetLength()+1)*2;
 
 		*(WORD*)ptr = 4;
