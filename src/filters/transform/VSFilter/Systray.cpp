@@ -380,7 +380,7 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 		} else {
 			ret = new TCHAR[wcslen(wstr)+1];
 			if (ret) {
-				_tcscpy(ret, CString(wstr));
+				_tcscpy_s(ret, wcslen(wstr) + 1, CString(wstr));
 			}
 		}
 	}

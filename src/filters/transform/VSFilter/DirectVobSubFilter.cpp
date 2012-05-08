@@ -854,7 +854,7 @@ STDMETHODIMP CDirectVobSubFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 			if (*ppszName == NULL) {
 				return S_FALSE;
 			}
-			wcscpy(*ppszName, str);
+			wcscpy_s(*ppszName, str.GetLength() + 1, str);
 		}
 	}
 
