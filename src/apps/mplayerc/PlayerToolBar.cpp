@@ -57,8 +57,8 @@ HBITMAP CPlayerToolBar::LoadExternalToolBar()
 	path.ReleaseBuffer();
 	path = path.Left(path.ReverseFind('\\')+1);
 
-	FILE* fp = _tfopen(path + _T("toolbar.png"), _T("rb"));
-	if (fp) {
+	FILE* fp = NULL;
+	if (!_tfopen_s(&fp, path + _T("toolbar.png"), _T("rb"))) {
 		png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
 		png_infop info_ptr = png_create_info_struct(png_ptr);
 		png_init_io(png_ptr, fp);

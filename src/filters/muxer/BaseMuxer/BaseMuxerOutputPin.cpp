@@ -452,7 +452,8 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 				p.RenameExtension(L".idx");
 				CoTaskMemFree(fn);
 
-				if (FILE* f = _tfopen(CString((LPCWSTR)p), _T("w"))) {
+				FILE* f;
+				if (!_tfopen_s(&f, CString((LPCWSTR)p), _T("w"))) {
 					SUBTITLEINFO* si = (SUBTITLEINFO*)mt.Format();
 
 					_ftprintf_s(f, _T("%s\n"), _T("# VobSub index file, v7 (do not modify this line!)"));

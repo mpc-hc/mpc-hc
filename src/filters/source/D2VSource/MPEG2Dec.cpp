@@ -3778,8 +3778,7 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 
 	CMPEG2Dec* out = this;
 
-	out->VF_File = _tfopen(path, _T("r"));
-	if (out->VF_File==NULL)
+	if (_tfopen_s(&out->VF_File, path, _T("r")))
 		return 0;
 	if (fgets(ID, 19, out->VF_File)==NULL)
 		return 0;

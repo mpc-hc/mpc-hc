@@ -382,8 +382,7 @@ bool CJpegEncoderFile::PutBytes(const void* pData, size_t len)
 
 bool CJpegEncoderFile::Encode(const BYTE* dib)
 {
-	m_file = _tfopen(m_fn, _T("wb"));
-	if (!m_file) {
+	if (_tfopen_s(&m_file, m_fn, _T("wb"))) {
 		return false;
 	}
 	bool ret = __super::Encode(dib);

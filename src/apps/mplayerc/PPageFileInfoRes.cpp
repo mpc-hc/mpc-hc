@@ -124,7 +124,8 @@ void CPPageFileInfoRes::OnSaveAs()
 				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_NOCHANGEDIR,
 				   _T("All files|*.*||"), this, 0);
 	if (fd.DoModal() == IDOK) {
-		if (FILE* f = _tfopen(fd.GetPathName(), _T("wb"))) {
+		FILE* f = NULL;
+		if (!_tfopen_s(&f, fd.GetPathName(), _T("wb"))) {
 			fwrite(r.data.GetData(), 1, r.data.GetCount(), f);
 			fclose(f);
 		}

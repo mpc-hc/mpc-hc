@@ -2683,8 +2683,8 @@ bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
 		return false;
 	}
 
-	FILE* tmp = _tfopen(fn, _T("wb"));
-	if (!tmp) {
+	FILE* tmp = NULL;
+	if (_tfopen_s(&tmp, fn, _T("wb"))) {
 		return false;
 	}
 

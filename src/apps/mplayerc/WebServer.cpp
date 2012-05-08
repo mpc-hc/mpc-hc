@@ -188,7 +188,8 @@ DWORD CWebServer::ThreadProc()
 
 static void PutFileContents(LPCTSTR fn, const CStringA& data)
 {
-	if (FILE* f = _tfopen(fn, _T("wb"))) {
+	FILE* f = NULL;
+	if (!_tfopen_s(&f, fn, _T("wb"))) {
 		fwrite((LPCSTR)data, 1, data.GetLength(), f);
 		fclose(f);
 	}
@@ -274,7 +275,8 @@ bool CWebServer::LoadPage(UINT resid, CStringA& str, CString path)
 {
 	CString redir;
 	if (ToLocalPath(path, redir)) {
-		if (FILE* f = _tfopen(path, _T("rb"))) {
+		FILE* f = NULL;
+		if (!_tfopen_s(&f, path, _T("rb"))) {
 			fseek(f, 0, 2);
 			char* buff = str.GetBufferSetLength(ftell(f));
 			fseek(f, 0, 0);
@@ -482,8 +484,8 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 			}
 			gzclose(gf);
 
-			FILE* f = fopen(fn, "rb");
-			if (!f) {
+			FILE* f = NULL;
+			if (fopen_s(&f, fn, "rb")) {
 				DeleteFileA(fn);
 				break;
 			}

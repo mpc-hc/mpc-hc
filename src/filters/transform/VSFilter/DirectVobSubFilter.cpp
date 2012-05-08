@@ -1748,7 +1748,8 @@ DWORD CDirectVobSubFilter::ThreadProc()
 				CFileStatus status;
 				if (CFileGetStatus(fn, status) && m_frd.mtime[i] != status.m_mtime) {
 					for (j = 0; j < 10; j++) {
-						if (FILE* f = _tfopen(fn, _T("rb+"))) {
+						FILE* f = NULL;
+						if (!_tfopen_s(&f, fn, _T("rb+"))) {
 							fclose(f);
 							j = 0;
 							break;

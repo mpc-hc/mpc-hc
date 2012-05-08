@@ -1802,7 +1802,8 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 			ct = _T("application/x-bdmv-playlist");
 		}
 
-		if (FILE* f = _tfopen(fn, _T("rb"))) {
+		FILE* f = NULL;
+		if (!_tfopen_s(&f, fn, _T("rb"))) {
 			CStringA str;
 			str.ReleaseBufferSetLength(fread(str.GetBuffer(10240), 1, 10240, f));
 			body = AToT(str);
