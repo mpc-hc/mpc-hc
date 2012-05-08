@@ -123,17 +123,17 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; Flags: checkedonce un
 
 
 [Files]
-Source: {#bindir}\VSFilter.dll;        DestDir: {app}; Flags: restartreplace regserver uninsrestartdelete ignoreversion
+Source: {#bindir}\VSFilter.dll;         DestDir: {app}; Flags: restartreplace regserver uninsrestartdelete ignoreversion
 #ifdef x64_build
-Source: unrar64.dll;                   DestDir: {sys}; Flags: onlyifdoesntexist sharedfile uninsnosharedfileprompt
+Source: {#top_dir}\distrib\unrar64.dll; DestDir: {sys}; Flags: onlyifdoesntexist sharedfile uninsnosharedfileprompt
 #else
-Source: unrar.dll;                     DestDir: {sys}; Flags: onlyifdoesntexist sharedfile uninsnosharedfileprompt
+Source: {#top_dir}\distrib\unrar.dll;   DestDir: {sys}; Flags: onlyifdoesntexist sharedfile uninsnosharedfileprompt
 #endif
-Source: {#top_dir}\COPYING.txt;        DestDir: {app}; Flags: ignoreversion
-Source: {#top_dir}\docs\Authors.txt;   DestDir: {app}; Flags: ignoreversion
-Source: {#top_dir}\docs\Changelog.txt; DestDir: {app}; Flags: ignoreversion
-Source: {#top_dir}\docs\Readme.txt;    DestDir: {app}; Flags: ignoreversion
-Source: unrar_license.txt;             DestDir: {app}; Flags: ignoreversion
+Source: {#top_dir}\COPYING.txt;         DestDir: {app}; Flags: ignoreversion
+Source: {#top_dir}\docs\Authors.txt;    DestDir: {app}; Flags: ignoreversion
+Source: {#top_dir}\docs\Changelog.txt;  DestDir: {app}; Flags: ignoreversion
+Source: {#top_dir}\docs\Readme.txt;     DestDir: {app}; Flags: ignoreversion
+Source: {#top_dir}\distrib\unrar_license.txt; DestDir: {app}; Flags: ignoreversion
 
 
 [Icons]
