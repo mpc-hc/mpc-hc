@@ -313,15 +313,14 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing &NowNext)
 {
 	char	DescBuffer[10];
 	time_t	tTime1 ,tTime2;
-	tm		tmTime1;
-	tm*		ptmTime;
+	tm		tmTime1, tmTime2;
 	long	nDuration;
 	long	timezone;
 	int		daylight;
 
 	//	init tm structures
 	time( &tTime1 );
-	tmTime1 = *localtime( &tTime1 );
+	localtime_s(&tmTime1, &tTime1);
 	_tzset();
 	_get_timezone(&timezone);
 	if (_get_daylight(&daylight)) {
@@ -336,9 +335,9 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing &NowNext)
 	tmTime1.tm_sec  = gb.BitRead(4)*10;
 	tmTime1.tm_sec  += gb.BitRead(4);
 	tTime1 = mktime(&tmTime1) - timezone;
-	ptmTime = localtime(&tTime1);
-	tTime1 = mktime(ptmTime);
-	strftime (DescBuffer,6,"%H:%M",ptmTime);
+	localtime_s(&tmTime2, &tTime1);
+	tTime1 = mktime(&tmTime2);
+	strftime(DescBuffer, 6, "%H:%M", &tmTime2);
 	DescBuffer[6] = 0;
 	NowNext.StartTime = static_cast<CString> (DescBuffer);
 
@@ -351,8 +350,8 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing &NowNext)
 	nDuration += gb.BitRead(4);
 
 	tTime2 = tTime1 + nDuration;
-	ptmTime = localtime(&tTime2);
-	strftime (DescBuffer,6,"%H:%M",ptmTime);
+	localtime_s(&tmTime2, &tTime2);
+	strftime(DescBuffer, 6, "%H:%M", &tmTime2);
 	DescBuffer[6] = 0;
 	NowNext.Duration = static_cast<CString> (DescBuffer);
 
