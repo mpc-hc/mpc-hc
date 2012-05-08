@@ -1,7 +1,6 @@
 #pragma once
 
 // TODO: check 4731 and 4799
-// Compile Bento4 as a separate project
 //#pragma warning(disable:4244 4267)
 #pragma warning(disable:4995)
 #ifdef _DEBUG
