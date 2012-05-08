@@ -26,6 +26,10 @@
 #ifndef localize
 #define localize = "true"
 #endif
+; Don't include unrar.dll by default. You can bypass this by defining include_unrar=true in build.bat or here
+#ifndef include_unrar
+#define include_unrar = "false"
+#endif
 #define sse_required
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
 ;#define x64Build
@@ -58,11 +62,13 @@
   #define mpchc_exe    = "mpc-hc64.exe"
   #define mpchc_ini    = "mpc-hc64.ini"
   #define OutFilename  = "MPC-HC." + app_version + ".x64"
+  #define UnrarDll     = "unrar64.dll"
 #else
   #define bindir       = "..\bin\mpc-hc_x86"
   #define mpchc_exe    = "mpc-hc.exe"
   #define mpchc_ini    = "mpc-hc.ini"
   #define OutFilename  = "MPC-HC." + app_version + ".x86"
+  #define UnrarDll     = "unrar.dll"
 #endif
 
 #if localize != "true"
@@ -217,6 +223,10 @@ Source: ..\COPYING.txt;                     DestDir: {app};      Components: mai
 Source: ..\docs\Authors.txt;                DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;              DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                 DestDir: {app};      Components: main;         Flags: ignoreversion
+#if include_unrar == "true"
+Source: {#UnrarDll};                        DestDir: {sys};      Components: main;         Flags: onlyifdoesntexist sharedfile uninsnosharedfileprompt
+Source: unrar_license.txt;                  DestDir: {app};      Components: main;         Flags: ignoreversion
+#endif
 
 
 [Icons]
