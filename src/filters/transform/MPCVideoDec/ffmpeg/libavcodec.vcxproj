@@ -142,6 +142,7 @@
     <ClCompile Include="libavcodec\aacdec.c" />
     <ClCompile Include="libavcodec\aacps.c" />
     <ClCompile Include="libavcodec\aacpsdata.c" />
+    <ClCompile Include="libavcodec\aacpsdsp.c" />
     <ClCompile Include="libavcodec\aacsbr.c" />
     <ClCompile Include="libavcodec\aactab.c" />
     <ClCompile Include="libavcodec\aac_ac3_parser.c" />
@@ -384,6 +385,7 @@
     <ClInclude Include="libavcodec\aacdectab.h" />
     <ClInclude Include="libavcodec\aacps.h" />
     <ClInclude Include="libavcodec\aacps_tablegen.h" />
+    <ClInclude Include="libavcodec\aacpsdsp.h" />
     <ClInclude Include="libavcodec\aacsbr.h" />
     <ClInclude Include="libavcodec\aacsbrdata.h" />
     <ClInclude Include="libavcodec\aactab.h" />

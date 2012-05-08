@@ -336,6 +336,9 @@
     <ClCompile Include="libavcodec\aacpsdata.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\aacpsdsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\aacsbr.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -1015,6 +1018,9 @@
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\aacps_tablegen.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\aacpsdsp.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\aacsbr.h">
