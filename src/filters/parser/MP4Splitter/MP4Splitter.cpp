@@ -927,7 +927,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						memcpy(buff, &fourcc, 4);
 						buff[4] = 0;
 
-						_strlwr((char*)&buff);
+						_strlwr_s(buff);
 						AP4_Atom::Type typelwr = *(AP4_Atom::Type*)buff;
 
 						if (typelwr != fourcc) {
@@ -936,7 +936,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							//b_HasVideo = true;
 						}
 
-						_strupr((char*)&buff);
+						_strupr_s(buff);
 						AP4_Atom::Type typeupr = *(AP4_Atom::Type*)buff;
 
 						if (typeupr != fourcc) {
