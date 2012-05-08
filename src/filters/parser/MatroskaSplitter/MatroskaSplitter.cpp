@@ -1601,8 +1601,8 @@ STDMETHODIMP_(BOOL) CMatroskaSplitterFilter::GetTrackExtendedInfo(UINT aTrackIdx
 		TrackExtendedInfoAudio* pTEIA = (TrackExtendedInfoAudio*)pStructureToFill;
 		pTEIA->BitDepth = (UINT)pTE->a.BitDepth;
 		pTEIA->Channels = (UINT)pTE->a.Channels;
-		pTEIA->OutputSamplingFrequency = pTE->a.OutputSamplingFrequency;
-		pTEIA->SamplingFreq = pTE->a.SamplingFrequency;
+		pTEIA->OutputSamplingFrequency = (FLOAT)pTE->a.OutputSamplingFrequency;
+		pTEIA->SamplingFreq = (FLOAT)pTE->a.SamplingFrequency;
 	} else {
 		return FALSE;
 	}
