@@ -78,6 +78,7 @@ SRCS_C=\
     libavcodec/aacadtsdec.c \
     libavcodec/aacdec.c \
     libavcodec/aacps.c \
+    libavcodec/aacpsdsp.c \
     libavcodec/aacsbr.c \
     libavcodec/aactab.c \
     libavcodec/ac3.c \
