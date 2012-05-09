@@ -30,19 +30,6 @@
 #define DOCTYPE_WEBM _T("webm")
 #define DOCTYPEVERSION 2
 
-static void LOG(LPCTSTR fmt, ...)
-{
-	va_list args;
-	va_start(args, fmt);
-	FILE* f = NULL;
-	if (!_tfopen_s(&f, _T("c:\\matroskasplitterlog.txt"), _T("at"))) {
-		fseek(f, 0, 2);
-		_vftprintf(f, fmt, args);
-		fclose(f);
-	}
-	va_end(args);
-}
-
 using namespace MatroskaReader;
 
 #define BeginChunk	\
