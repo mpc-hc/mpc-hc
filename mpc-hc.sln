@@ -55,7 +55,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Filters", "src\filters\Filt
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liba52", "src\thirdparty\a52dec\vc++\liba52.vcxproj", "{62FE6D94-E17C-4A8E-8D3C-7A589A70D865}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec", "src\filters\transform\MPCVideoDec\ffmpeg\libavcodec.vcxproj", "{438286B7-A9F4-411D-BCC5-948C40E37D8F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffmpeg", "src\filters\transform\MPCVideoDec\ffmpeg\ffmpeg.vcxproj", "{438286B7-A9F4-411D-BCC5-948C40E37D8F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdca", "src\thirdparty\libdca\vc++\libdca.vcxproj", "{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}"
 EndProject

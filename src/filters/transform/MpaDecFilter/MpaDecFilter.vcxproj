@@ -280,7 +280,7 @@
       <Project>{273b3149-3192-4b75-a791-470320b90812}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\MPCVideoDec\ffmpeg\libavcodec.vcxproj">
+    <ProjectReference Include="..\MPCVideoDec\ffmpeg\ffmpeg.vcxproj">
       <Project>{438286b7-a9f4-411d-bcc5-948c40e37d8f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

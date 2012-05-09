@@ -16,9 +16,9 @@ else
 endif
 
 
-OBJ_DIR        = $(BIN_DIR)/obj/$(MY_DIR_PREFIX)_$(MY_ARCH)/libavcodec/
+OBJ_DIR        = $(BIN_DIR)/obj/$(MY_DIR_PREFIX)_$(MY_ARCH)/ffmpeg/
 TARGET_LIB_DIR = $(BIN_DIR)/lib/$(MY_DIR_PREFIX)_$(MY_ARCH)
-TARGET_LIB     = $(TARGET_LIB_DIR)/libavcodec.lib
+TARGET_LIB     = $(TARGET_LIB_DIR)/ffmpeg.lib
 
 
 # Compiler and yasm flags

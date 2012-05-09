@@ -304,7 +304,7 @@
       <Project>{54dda60f-e528-4d07-a152-960a1e818680}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="ffmpeg\libavcodec.vcxproj">
+    <ProjectReference Include="ffmpeg\ffmpeg.vcxproj">
       <Project>{438286b7-a9f4-411d-bcc5-948c40e37d8f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

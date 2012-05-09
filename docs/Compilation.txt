@@ -89,9 +89,9 @@ Alternatively, you can use "build.bat" which can build everything for you
 (run: build.bat help for more info)
 
 
-Part D: Building FFmpeg x64 (libavcodec) with GCC
+Part D: Building FFmpeg x64 with GCC
 
-When building FFmpeg (project libavcodec) GCC is used and according to the makefile that is automatically invoked from the project file. Doing so for 64 bit, requires some additional steps in order to successfully link the MinGW64 library:
+When building FFmpeg GCC is used and according to the makefile that is automatically invoked from the project file. Doing so for 64 bit, requires some additional steps in order to successfully link the MinGW64 library:
  1. Run MSYS and cd to the trunk\src\filters\transform\MPCVideoDec\ffmpeg_x64 folder
 Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
  2. checkout the MinGW64 files by running: buildmingwlibs.sh --update
@@ -102,7 +102,7 @@ Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
 
 After the compilation is done, "libgcc.a" and "libmingwex.a" will be placed in "C:\mpc-hc\lib64"
 
-Now libavcodec can be compiled from within the MPC-HC visual studio solution file, and everything will be linked correctly with the other components.
+Now FFmpeg can be compiled from within the MPC-HC visual studio solution file, and everything will be linked correctly with the other components.
 
 
 Part E: Building the installer
