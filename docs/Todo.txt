@@ -1,14 +1,14 @@
 MPC-HC:
 1) Try to fix all /W3 warnings for Win32 in our code.
    See DSUtil/SharedInclude.h and common.props for the disabled warnings.
-   Also a search for "#pragma warning" will reveal any other places that warnings are disabled
+   Also a search for "#pragma warning" will reveal any other places where warnings are disabled,
    which shouldn't be a lot in our code.
-2) Use the secure CRT functions in our code instead of defining the following in common.props:
-   _CRT_SECURE_NO_WARNINGS
+2) Use the secure CRT functions in our code instead of defining _CRT_SECURE_NO_WARNINGS
 3) Try to clean up the includes; there are a lot of unneeded includes
 4) Try to speed up compilation by doing the above and also by optimizing the included headers
-   in stadafx.h for mplayerc.vcxproj
+   in stdafx.h for mplayerc.vcxproj
 5) Reorganize the player's Options
+6) Remove support for unneeded renderers
 
 FFmpeg:
 1) Stop linking ffmpeg statically
@@ -19,8 +19,6 @@ FFmpeg:
 Alternatively, drop all internal decoders and filters and intergrate LAVFilters, but keep DXVA1.
 
 VSFilter:
-1) use the defines from Version.h for MPC_COPYRIGHT_STR in VSFilter
-2) define VSFilter's version numbers in a place accessible by
-   the installer and VSFilter itself
-3) build and statically link unrar library for out of the box support of rar'ed subtitles
-   (or include unrar.dll in MPC-HC packages)
+1) Use the defines from Version.h for MPC_COPYRIGHT_STR in VSFilter
+2) Define VSFilter's version numbers in a place accessible by its installer and VSFilter itself
+3) Build and statically link unrar library for out of the box support of rar'ed subtitles
