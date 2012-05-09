@@ -51,11 +51,11 @@ private :
 	} pgci_sub_t;
 
 	typedef struct {
-		uint8_t	hour;
-		uint8_t	minute;
-		uint8_t	second;
-		uint8_t	frame_u;		// The two high bits are the frame rate.
-	}   dvd_time_t;
+		uint8_t hour;
+		uint8_t minute;
+		uint8_t second;
+		uint8_t frame_u;		// The two high bits are the frame rate.
+	} dvd_time_t;
 
 	typedef uint8_t  command_data_t[8];
 #define COMMAND_DATA_SIZE 8
@@ -68,7 +68,7 @@ private :
 		command_data_t *pre_commands;
 		command_data_t *post_commands;
 		command_data_t *cell_commands;
-	}  pgc_command_tbl_t;
+	} pgc_command_tbl_t;
 #define PGC_COMMAND_TBL_SIZE 8
 
 	typedef uint8_t  pgc_program_map_t;
@@ -80,17 +80,17 @@ private :
 		uint8_t cell_cmd;
 
 		dvd_time_t playback_time;
-		uint32_t vobu_start;  			// 1st vobu start
+		uint32_t vobu_start;			// 1st vobu start
 		uint32_t ilvu_end;
 		uint32_t vobu_last_start;
 		uint32_t vobu_last_end;
-	}  ifo_pgci_caddr_t;
+	} ifo_pgci_caddr_t;
 
 	typedef struct {			// Cell Position Information
 		uint16_t vob_id		: 16;	// Video Object Identifier
 		uint8_t  foo		: 8;	// Unknown
 		uint8_t  cell_id	: 8;	// Cell Identifier
-	}  ifo_pgc_cpos_t;
+	} ifo_pgc_cpos_t;
 
 #ifndef CLUT_T
 #define CLUT_T
@@ -100,7 +100,7 @@ private :
 		uint8_t y		: 8;
 		uint8_t cr		: 8;
 		uint8_t cb		: 8;
-	}  clut_t;
+	} clut_t;
 #endif
 
 	typedef struct {		// Audio Status
@@ -112,7 +112,7 @@ private :
 		uint8_t available	: 1;
 #endif
 		uint8_t foo		: 8; // UNKNOWN
-	}  audio_status_t;
+	} audio_status_t;
 
 
 	typedef struct {		// Subpicture status
@@ -125,14 +125,14 @@ private :
 #endif
 		uint8_t wide		: 8;
 		uint8_t letter		: 8;
-		uint8_t pan		: 8;
-	}  subp_status_t;
+		uint8_t pan			: 8;
+	} subp_status_t;
 
 
 	typedef struct {		// Program Chain Information
 		uint16_t zero_1;
-		uint8_t	 nr_of_programs;
-		uint8_t	 nr_of_cells;
+		uint8_t  nr_of_programs;
+		uint8_t  nr_of_cells;
 		dvd_time_t playback_time;
 		uint32_t prohibited_ops;	// New type?
 		audio_status_t audio_status[8];
@@ -140,8 +140,8 @@ private :
 		uint16_t next_pgc_nr;
 		uint16_t prev_pgc_nr;
 		uint16_t goup_pgc_nr;
-		uint8_t	 still_time;
-		uint8_t	 pg_playback_mode;
+		uint8_t  still_time;
+		uint8_t  pg_playback_mode;
 		clut_t   clut[16];
 		uint16_t pgc_command_tbl_offset;
 		uint16_t pgc_program_map_offset;
@@ -151,13 +151,13 @@ private :
 		pgc_program_map_t	*pgc_program_map;
 		ifo_pgci_caddr_t	*cell_playback_tbl;
 		ifo_pgc_cpos_t		*cell_position_tbl;
-	}  pgc_t;
+	} pgc_t;
 #define PGC_SIZE 236
 
 	typedef struct {
-		uint16_t num		: 16;   // number of entries
+		uint16_t num	: 16;   // number of entries
 		uint16_t		: 16;   // UNKNOWN
-		uint32_t len		: 32;   // length of table
+		uint32_t len	: 32;   // length of table
 	} ifo_hdr_t;
 
 	typedef struct {
@@ -176,17 +176,17 @@ private :
 	} lu_sub_t;
 
 
-	BYTE*			m_pBuffer;
-	DWORD			m_dwSize;
+	BYTE*       m_pBuffer;
+	DWORD       m_dwSize;
 
-	ifo_hdr_t*	m_pPGCI;
-	ifo_hdr_t*	m_pPGCIT;
+	ifo_hdr_t*  m_pPGCI;
+	ifo_hdr_t*  m_pPGCIT;
 
-	bool		IsVTS();
-	bool		IsVMG();
+	bool        IsVTS();
+	bool        IsVMG();
 
-	pgc_t*		GetFirstPGC();
-	pgc_t*		GetPGCI(const int title, const ifo_hdr_t* hdr);
-	int			GetMiscPGCI (ifo_hdr_t *hdr, int title, uint8_t **ptr);
-	void		RemovePgciUOPs (uint8_t *ptr);
+	pgc_t*      GetFirstPGC();
+	pgc_t*      GetPGCI(const int title, const ifo_hdr_t* hdr);
+	int         GetMiscPGCI (ifo_hdr_t *hdr, int title, uint8_t **ptr);
+	void        RemovePgciUOPs (uint8_t *ptr);
 };

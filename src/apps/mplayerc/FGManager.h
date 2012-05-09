@@ -27,7 +27,7 @@
 #include "IGraphBuilder2.h"
 
 #define LowMeritSuffix L" (low merit)"
-#define LowMerit(x)    (CStringW(x)+LowMeritSuffix)
+#define LowMerit(x)    (CStringW(x) + LowMeritSuffix)
 
 class CFGManager
 	: public CUnknown

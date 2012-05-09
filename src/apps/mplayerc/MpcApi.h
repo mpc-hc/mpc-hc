@@ -110,7 +110,7 @@ typedef enum MPCAPI_COMMAND {
 	//
 	// if no subtitle track present, returns -1
 	// if no file loaded, returns -2
-	CMD_LISTSUBTITLETRACKS		= 0x50000004,
+	CMD_LISTSUBTITLETRACKS	= 0x50000004,
 
 	// List of audio tracks
 	// Par 1 : Audio track name 0
@@ -120,29 +120,29 @@ typedef enum MPCAPI_COMMAND {
 	//
 	// if no audio track present, returns -1
 	// if no file loaded, returns -2
-	CMD_LISTAUDIOTRACKS			= 0x50000005,
+	CMD_LISTAUDIOTRACKS		= 0x50000005,
 
 	// Send current playback position in responce
 	// of CMD_GETCURRENTPOSITION.
 	// Par 1 : current position in seconds
-	CMD_CURRENTPOSITION			= 0x50000007,
+	CMD_CURRENTPOSITION		= 0x50000007,
 
 	// Send the current playback position after a jump.
 	// (Automatically sent after a seek event).
 	// Par 1 : new playback position (in seconds).
-	CMD_NOTIFYSEEK				= 0x50000008,
+	CMD_NOTIFYSEEK			= 0x50000008,
 
 	// Notify the end of current playback
 	// (Automatically sent).
 	// Par 1 : none.
-	CMD_NOTIFYENDOFSTREAM		= 0x50000009,
+	CMD_NOTIFYENDOFSTREAM	= 0x50000009,
 
 	// List of files in the playlist
 	// Par 1 : file path 0
 	// Par 2 : file path 1
 	// ...
 	// Par n : active file, -1 if no active file
-	CMD_PLAYLIST				= 0x50000006,
+	CMD_PLAYLIST			= 0x50000006,
 
 
 	// ==== Commands from host to MPC
@@ -199,51 +199,51 @@ typedef enum MPCAPI_COMMAND {
 
 	// Ask for a list of the subtitles tracks of the file
 	// return a CMD_LISTSUBTITLETRACKS
-	CMD_GETSUBTITLETRACKS		= 0xA0003000,
+	CMD_GETSUBTITLETRACKS	= 0xA0003000,
 
 	// Ask for the current playback position,
 	// see CMD_CURRENTPOSITION.
 	// Par 1 : current position in seconds
-	CMD_GETCURRENTPOSITION		= 0xA0003004,
+	CMD_GETCURRENTPOSITION	= 0xA0003004,
 
 	// Jump forward/backward of N seconds,
 	// Par 1 : seconds (negative values for backward)
-	CMD_JUMPOFNSECONDS			= 0xA0003005,
+	CMD_JUMPOFNSECONDS		= 0xA0003005,
 
 	// Ask for a list of the audio tracks of the file
 	// return a CMD_LISTAUDIOTRACKS
-	CMD_GETAUDIOTRACKS			= 0xA0003001,
+	CMD_GETAUDIOTRACKS		= 0xA0003001,
 
 	// Ask for the properties of the current loaded file
 	// return a CMD_NOWPLAYING
-	CMD_GETNOWPLAYING			= 0xA0003002,
+	CMD_GETNOWPLAYING		= 0xA0003002,
 
 	// Ask for the current playlist
 	// return a CMD_PLAYLIST
-	CMD_GETPLAYLIST				= 0xA0003003,
+	CMD_GETPLAYLIST			= 0xA0003003,
 
 	// Toggle FullScreen
-	CMD_TOGGLEFULLSCREEN		= 0xA0004000,
+	CMD_TOGGLEFULLSCREEN	= 0xA0004000,
 
 	// Jump forward(medium)
-	CMD_JUMPFORWARDMED			= 0xA0004001,
+	CMD_JUMPFORWARDMED		= 0xA0004001,
 
 	// Jump backward(medium)
-	CMD_JUMPBACKWARDMED			= 0xA0004002,
+	CMD_JUMPBACKWARDMED		= 0xA0004002,
 
 	// Increase Volume
-	CMD_INCREASEVOLUME			= 0xA0004003,
+	CMD_INCREASEVOLUME		= 0xA0004003,
 
 	// Decrease volume
-	CMD_DECREASEVOLUME			= 0xA0004004,
+	CMD_DECREASEVOLUME		= 0xA0004004,
 
 	// Shader toggle
-	CMD_SHADER_TOGGLE			= 0xA0004005,
+	CMD_SHADER_TOGGLE		= 0xA0004005,
 
 	// Close App
-	CMD_CLOSEAPP				= 0xA0004006,
+	CMD_CLOSEAPP			= 0xA0004006,
 
 	// show host defined OSD message string
-	CMD_OSDSHOWMESSAGE			= 0xA0005000,
+	CMD_OSDSHOWMESSAGE		= 0xA0005000,
 
 };

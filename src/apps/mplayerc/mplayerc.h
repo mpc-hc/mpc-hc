@@ -70,7 +70,7 @@ typedef enum {
 	Contrast	= 0x2,
 	Hue			= 0x4,
 	Saturation	= 0x8,
-} 	ControlType;
+} ControlType;
 
 typedef struct {
 	DWORD dwProperty;
@@ -78,7 +78,7 @@ typedef struct {
 	int   MaxValue;
 	int   DefaultValue;
 	int   StepSize;
-} 	COLORPROPERTY_RANGE;
+} COLORPROPERTY_RANGE;
 
 __inline DXVA2_Fixed32 IntToFixed(__in const int _int_, __in const SHORT divisor = 1)
 {	// special converter that is resistant to MS bugs

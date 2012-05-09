@@ -43,19 +43,19 @@
 #define LOG_FILE_BITSTREAM  _T("bitstream.log")
 #endif
 
-REFERENCE_TIME		g_tSegmentStart			= 0;
-REFERENCE_TIME		g_tSampleStart			= 0;
-GUID				g_guidDXVADecoder		= GUID_NULL;
-int					g_nDXVAVersion			= 0;
+REFERENCE_TIME		g_tSegmentStart		= 0;
+REFERENCE_TIME		g_tSampleStart		= 0;
+GUID				g_guidDXVADecoder	= GUID_NULL;
+int					g_nDXVAVersion		= 0;
 
-IPinCVtbl*			g_pPinCVtbl				= NULL;
-IMemInputPinCVtbl*	g_pMemInputPinCVtbl		= NULL;
+IPinCVtbl*			g_pPinCVtbl			= NULL;
+IMemInputPinCVtbl*	g_pMemInputPinCVtbl = NULL;
 
 /*
 typedef struct
 {
-  const GUID*			Guid;
-  const LPCTSTR			Description;
+  const GUID*   Guid;
+  const LPCTSTR Description;
 } DXVA2_DECODER;
 
 const DXVA2_DECODER DXVA2Decoder[] =
@@ -87,8 +87,8 @@ const DXVA2_DECODER DXVA2Decoder[] =
 */
 
 typedef struct {
-	const int				Format;
-	const LPCTSTR			Description;
+	const int     Format;
+	const LPCTSTR Description;
 } D3DFORMAT_TYPE;
 
 const D3DFORMAT_TYPE	D3DFormatType[] = {
@@ -147,7 +147,7 @@ const D3DFORMAT_TYPE	D3DFormatType[] = {
 	{ MAKEFOURCC('N','V','2','4') , _T("D3DFMT_NV24") },
 };
 
-const LPCTSTR		DXVAVersion[] = { _T("DXVA "), _T("DXVA1"), _T("DXVA2") };
+const LPCTSTR DXVAVersion[] = { _T("DXVA "), _T("DXVA1"), _T("DXVA2") };
 
 LPCTSTR GetDXVADecoderDescription()
 {
@@ -299,9 +299,9 @@ static void LOG_TOFILE(LPCTSTR FileName, LPCTSTR fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	int		nCount	= _vsctprintf(fmt, args) + 1;
+	int nCount = _vsctprintf(fmt, args) + 1;
 	if (TCHAR* buff = DNew TCHAR[nCount]) {
-		FILE*	f;
+		FILE* f;
 		_vstprintf_s(buff, nCount, fmt, args);
 		if (_tfopen_s(&f, FileName, _T("at")) == 0) {
 			fseek(f, 0, 2);
@@ -317,9 +317,9 @@ static void LOG(LPCTSTR fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	//int		nCount = _vsctprintf(fmt, args) + 1;
-	TCHAR	buff[3000];
-	FILE*	f;
+	//int   nCount = _vsctprintf(fmt, args) + 1;
+	TCHAR buff[3000];
+	FILE* f;
 	_vstprintf_s(buff, countof(buff), fmt, args);
 	if (_tfopen_s(&f, LOG_FILE_DXVA, _T("at")) == 0) {
 		fseek(f, 0, 2);
@@ -329,6 +329,7 @@ static void LOG(LPCTSTR fmt, ...)
 
 	va_end(args);
 }
+
 static void LOGPF(LPCTSTR prefix, const DDPIXELFORMAT* p, int n)
 {
 	for (int i = 0; i < n; i++) {
@@ -354,7 +355,6 @@ static void LOGUDI(LPCTSTR prefix, const AMVAUncompDataInfo* p, int n)
 		LOGPF(prefix2, &p[i].ddUncompPixelFormat, 1);
 	}
 }
-
 
 static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 {
@@ -396,8 +396,8 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	strRes.AppendFormat(_T("%d,"), pPic->StatusReportFeedbackNumber);
 
 	for (i =0; i<16; i++) {
-		//		strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].AssociatedFlag);
-		//		strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].bPicEntry);
+		//strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].AssociatedFlag);
+		//strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].bPicEntry);
 		strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].Index7Bits);
 	}
 
@@ -406,7 +406,7 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	for (int i=0; i<16; i++) {
 		strRes.AppendFormat(_T("%d, %d,"), pPic->FieldOrderCntList[i][0], pPic->FieldOrderCntList[i][1]);
 	}
-	//			strRes.AppendFormat(_T("%d,"), pPic->FieldOrderCntList[16][2]);
+	//strRes.AppendFormat(_T("%d,"), pPic->FieldOrderCntList[16][2]);
 
 	strRes.AppendFormat(_T("%d,"), pPic->pic_init_qs_minus26);
 	strRes.AppendFormat(_T("%d,"), pPic->chroma_qp_index_offset);   /* also used for QScb */
@@ -423,7 +423,7 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 		strRes.AppendFormat(_T("%d,"), pPic->FrameNumList[i]);
 	}
 
-	//			strRes.AppendFormat(_T("%d,"), pPic->FrameNumList[16]);
+	//strRes.AppendFormat(_T("%d,"), pPic->FrameNumList[16]);
 	strRes.AppendFormat(_T("%d,"), pPic->UsedForReferenceFlags);
 	strRes.AppendFormat(_T("%d,"), pPic->NonExistingFrameFlags);
 	strRes.AppendFormat(_T("%d,"), pPic->frame_num);
@@ -466,7 +466,7 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	//	fwrite (pPic, sizeof (DXVA_PicParams_H264), 1, hPict);
 	//}
 
-	LOG_TOFILE (LOG_FILE_PICTURE, strRes);
+	LOG_TOFILE(LOG_FILE_PICTURE, strRes);
 }
 
 static void LogH264SliceShort (DXVA_Slice_H264_Short* pSlice, int nCount)
@@ -1517,7 +1517,7 @@ static HRESULT STDMETHODCALLTYPE GetDecoderConfigurationsMine (IDirectXVideoDeco
 
 void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 {
-	IDirectXVideoDecoderServiceC*	pIDirectXVideoDecoderServiceC = (IDirectXVideoDecoderServiceC*) pIDirectXVideoDecoderService;
+	IDirectXVideoDecoderServiceC* pIDirectXVideoDecoderServiceC = (IDirectXVideoDecoderServiceC*) pIDirectXVideoDecoderService;
 
 	BOOL res;
 	DWORD flOldProtect = 0;
