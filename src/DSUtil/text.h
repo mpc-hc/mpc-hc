@@ -11,7 +11,7 @@ T Explode(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	sl.RemoveAll();
 
-	for (ptrdiff_t i = 0, j = 0; ; i = j+1) {
+	for (int i = 0, j = 0; ; i = j+1) {
 		j = str.Find(sep, i);
 
 		if (j < 0 || sl.GetCount() == limit-1) {
