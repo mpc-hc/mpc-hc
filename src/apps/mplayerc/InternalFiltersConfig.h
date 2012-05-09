@@ -29,13 +29,8 @@
 /* Uncomment to build without internal filters. */
 //#define INTERNAL_FILTERS_NONE
 
-/* Uncomment to build with a custom subset of filters. Included by default are filters that are considered useful even when primarily using external filters. */
-//#define INTERNAL_FILTERS_CUSTOM
-
 #if defined(INTERNAL_FILTERS_NONE)
 	#include "InternalFiltersConfig_none.h"
-#elif defined(INTERNAL_FILTERS_CUSTOM)
-	#include "InternalFiltersConfig_custom.h"
 #else
 	#include "InternalFiltersConfig_standard.h"
 #endif
