@@ -232,16 +232,3 @@ CAtlList<CString>& MakeUpper(CAtlList<CString>& sl)
 	return sl;
 }
 
-CAtlList<CString>& RemoveStrings(CAtlList<CString>& sl, int minlen, int maxlen)
-{
-	POSITION pos = sl.GetHeadPosition();
-	while (pos) {
-		POSITION tmp = pos;
-		CString& str = sl.GetNext(pos);
-		int len = str.GetLength();
-		if (len < minlen || len > maxlen) {
-			sl.RemoveAt(tmp);
-		}
-	}
-	return sl;
-}
