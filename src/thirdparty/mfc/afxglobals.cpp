@@ -15,6 +15,10 @@
 
 #pragma warning(disable:4995 4996)
 
+#if defined(__INTEL_COMPILER)
+#pragma warning(disable:810)
+#endif
+
 #if 0
 #include "afxvisualmanager.h"
 #include "afxkeyboardmanager.h"

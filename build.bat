@@ -22,14 +22,6 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 CD /D %~dp0
 
-REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
-SET "LOG_DIR=bin\logs"
-IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
-
-SET "MSBUILD=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
-SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true"
-
-
 REM pre-build checks
 IF EXIST "build.user.bat" (
   CALL "build.user.bat"
@@ -55,24 +47,24 @@ IF /I "%ARG%" == "?"          GOTO ShowHelp
 FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "help"       GOTO ShowHelp
   IF /I "%%A" == "GetVersion" ENDLOCAL & CALL :SubGetVersion & EXIT /B
-  IF /I "%%A" == "Build"      SET "BUILDTYPE=Build"   & Set /A ARGB+=1
-  IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & Set /A ARGB+=1
-  IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & Set /A ARGB+=1
-  IF /I "%%A" == "Both"       SET "PLATFORM=Both"     & Set /A ARGPL+=1
-  IF /I "%%A" == "Win32"      SET "PLATFORM=Win32"    & Set /A ARGPL+=1
-  IF /I "%%A" == "x86"        SET "PLATFORM=Win32"    & Set /A ARGPL+=1
-  IF /I "%%A" == "x64"        SET "PLATFORM=x64"      & Set /A ARGPL+=1
-  IF /I "%%A" == "All"        SET "CONFIG=All"        & Set /A ARGC+=1
-  IF /I "%%A" == "Main"       SET "CONFIG=Main"       & Set /A ARGC+=1
-  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & Set /A ARGC+=1
-  IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & Set /A ARGC+=1
-  IF /I "%%A" == "MPC-HC"     SET "CONFIG=MPCHC"      & Set /A ARGC+=1
-  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & Set /A ARGC+=1
-  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & Set /A ARGC+=1
-  IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & Set /A ARGBC+=1
-  IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & Set /A ARGBC+=1
-  IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & Set /A ARGPA+=1
-  IF /I "%%A" == "Package"    SET "PACKAGES=True"     & Set /A ARGPA+=1
+  IF /I "%%A" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
+  IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
+  IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
+  IF /I "%%A" == "Both"       SET "PLATFORM=Both"     & SET /A ARGPL+=1
+  IF /I "%%A" == "Win32"      SET "PLATFORM=Win32"    & SET /A ARGPL+=1
+  IF /I "%%A" == "x86"        SET "PLATFORM=Win32"    & SET /A ARGPL+=1
+  IF /I "%%A" == "x64"        SET "PLATFORM=x64"      & SET /A ARGPL+=1
+  IF /I "%%A" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
+  IF /I "%%A" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1
+  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1
+  IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & SET /A ARGC+=1
+  IF /I "%%A" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
+  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1
+  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1
+  IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1
+  IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
+  IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1
+  IF /I "%%A" == "Package"    SET "PACKAGES=True"     & SET /A ARGPA+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -90,6 +82,14 @@ IF %ARGPA% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPA% == 0 (SET "PACKAGES=Fa
 :Start
 SET START_TIME=%TIME%
 SET START_DATE=%DATE%
+
+REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
+SET "LOG_DIR=bin\logs"
+IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
+
+SET "MSBUILD=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
+SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true"
+
 CALL :SubDetectWinArch
 IF /I "%PLATFORM%" == "Win32" GOTO Win32
 IF /I "%PLATFORM%" == "x64"   GOTO x64
@@ -306,14 +306,14 @@ EXIT /B
 
 :SubGetVersion
 REM Get the version
-FOR /F "tokens=3,4 delims= " %%K IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_MAJOR" "include\Version.h"') DO (SET "VerMajor=%%K")
-FOR /F "tokens=3,4 delims= " %%K IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_MINOR" "include\Version.h"') DO (SET "VerMinor=%%K")
-FOR /F "tokens=3,4 delims= " %%K IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\Version.h"') DO (SET "VerPatch=%%K")
-FOR /F "tokens=3,4 delims= " %%K IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\Version_rev.h"') DO (SET "VerRev=%%K")
+FOR /F "tokens=3,4 delims= " %%A IN (
+  'FINDSTR /I /L /C:"define MPC_VERSION_MAJOR" "include\Version.h"') DO (SET "VerMajor=%%A")
+FOR /F "tokens=3,4 delims= " %%A IN (
+  'FINDSTR /I /L /C:"define MPC_VERSION_MINOR" "include\Version.h"') DO (SET "VerMinor=%%A")
+FOR /F "tokens=3,4 delims= " %%A IN (
+  'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\Version.h"') DO (SET "VerPatch=%%A")
+FOR /F "tokens=3,4 delims= " %%A IN (
+  'FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\Version_rev.h"') DO (SET "VerRev=%%A")
 
 SET MPCHC_VER=%VerMajor%.%VerMinor%.%VerPatch%.%VerRev%
 EXIT /B
