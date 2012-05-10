@@ -664,7 +664,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 	memset(buff, 0, sizeof(buff));
 
 	if (m_pAAR == NULL) {
-		// Default manager (requiered at least Vista)
+		// Default manager (requires at least Vista)
 		HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
 									  NULL,
 									  CLSCTX_INPROC,
