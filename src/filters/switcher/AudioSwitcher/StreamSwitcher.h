@@ -103,7 +103,7 @@ protected:
 
 public:
 	CStreamSwitcherAllocator(CStreamSwitcherInputPin* pPin, HRESULT* phr);
-#ifdef DEBUG
+#ifdef _DEBUG
 	~CStreamSwitcherAllocator();
 #endif
 

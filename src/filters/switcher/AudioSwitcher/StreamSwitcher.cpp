@@ -293,7 +293,7 @@ CStreamSwitcherAllocator::CStreamSwitcherAllocator(CStreamSwitcherInputPin* pPin
 	ASSERT(pPin);
 }
 
-#ifdef DEBUG
+#ifdef _DEBUG
 CStreamSwitcherAllocator::~CStreamSwitcherAllocator()
 {
 	ASSERT(m_bCommitted == FALSE);

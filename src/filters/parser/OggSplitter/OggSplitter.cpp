@@ -513,7 +513,7 @@ void COggSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 				m_pFile->Seek(startpos);
 			}
 
-#ifdef DEBUG
+#ifdef _DEBUG
 			// verify kf
 
 			{

@@ -152,7 +152,7 @@ HRESULT CWavDestFilter::Copy(IMediaSample* pSource, IMediaSample* pDest) const
 	BYTE* pSourceBuffer, * pDestBuffer;
 	long lSourceSize = pSource->GetActualDataLength();
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	long lDestSize	= pDest->GetSize();
 	ASSERT(lDestSize >= lSourceSize);
 #endif
