@@ -38,11 +38,7 @@ CSaveTextFileDialog::CSaveTextFileDialog(
 				lpszFilter, pParentWnd, 0, FALSE),
 	m_e(e)
 {
-	if (m_ofn.lStructSize == sizeof(OPENFILENAME)) {
-		SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL);
-	} else { /*if (m_ofn.lStructSize == OPENFILENAME_SIZE_VERSION_400)*/
-		SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL_400);
-	}
+	SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL);
 }
 
 CSaveTextFileDialog::~CSaveTextFileDialog()
