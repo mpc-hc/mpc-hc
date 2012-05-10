@@ -154,14 +154,14 @@ typedef enum {
 	FAV_DEVICE
 } favtype;
 
-#define MAX_DVD_POSITION		20
+#define MAX_DVD_POSITION 20
 typedef struct {
 	ULONGLONG			llDVDGuid;
 	ULONG				lTitle;
 	DVD_HMSF_TIMECODE	Timecode;
 } DVD_POSITION;
 
-#define MAX_FILE_POSITION		20
+#define MAX_FILE_POSITION 20
 typedef struct {
 	CString				strFile;
 	LONGLONG			llPosition;
@@ -272,9 +272,7 @@ public:
 	void SetHWND(HWND hWnd);
 	void Connect(CString addr);
 	void DisConnect();
-	int GetStatus() const {
-		return(m_nStatus);
-	}
+	int GetStatus() const { return(m_nStatus); }
 };
 
 class CWinLircClient : public CRemoteCtrlClient
@@ -322,9 +320,7 @@ public:
 	DVD_HMSF_TIMECODE	DVDPosition;
 
 	CSize sizeFixedWindow;
-	bool HasFixedWindowSize() const {
-		return sizeFixedWindow.cx > 0 || sizeFixedWindow.cy > 0;
-	}
+	bool HasFixedWindowSize() const { return sizeFixedWindow.cx > 0 || sizeFixedWindow.cy > 0; }
 	//int			iFixedWidth, iFixedHeight;
 	int				iMonitor;
 
@@ -530,7 +526,7 @@ public:
 	int				iBDAOffset;
 	bool			fBDAIgnoreEncryptedChannels;
 	UINT			nDVBLastChannel;
-	CAtlList<CDVBChannel>	m_DVBChannels;
+	CAtlList<CDVBChannel> m_DVBChannels;
 
 	HWND			hMasterWnd;
 

@@ -6,16 +6,12 @@ public:
 	Gdiplus::Bitmap* m_pBitmap;
 
 public:
-	CGdiPlusBitmap() {
-		m_pBitmap = NULL;
-	}
+	CGdiPlusBitmap() { m_pBitmap = NULL; }
 	CGdiPlusBitmap(LPCWSTR pFile) {
 		m_pBitmap = NULL;
 		Load(pFile);
 	}
-	virtual ~CGdiPlusBitmap() {
-		Empty();
-	}
+	virtual ~CGdiPlusBitmap() { Empty(); }
 
 	void Empty() {
 		delete m_pBitmap;
@@ -54,9 +50,7 @@ public:
 		m_hBuffer = NULL;
 		Load(id, type, hInst);
 	}
-	virtual ~CGdiPlusBitmapResource() {
-		Empty();
-	}
+	virtual ~CGdiPlusBitmapResource() { Empty(); }
 
 	void Empty();
 
