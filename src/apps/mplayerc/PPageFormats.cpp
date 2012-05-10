@@ -842,6 +842,8 @@ BOOL CPPageFormats::OnApply()
 				RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetDescription(), !!iChecked);
 			}
 		}
+
+		m_bFileExtChanged = false;
 	}
 	CRegKey key;
 	if (m_fContextDir.GetCheck()) {
