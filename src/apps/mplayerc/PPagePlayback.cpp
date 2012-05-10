@@ -83,7 +83,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
 
 	ON_STN_DBLCLK(IDC_STATIC_BALANCE, OnBalanceTextDblClk)
-	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolTipNotify)
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -186,11 +186,10 @@ void CPPagePlayback::OnBalanceTextDblClk()
 
 BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 {
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
 	UINT nID = pNMHDR->idFrom;
-
-	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
+	if (pTTT->uFlags & TTF_IDISHWND) {
 		nID = ::GetDlgCtrlID((HWND)nID);
 	}
 
@@ -198,25 +197,23 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 		return FALSE;
 	}
 
-	static CStringW m_strTipTextW;
+	static CString strTipText; // static string
 
 	if (nID == IDC_SLIDER1) {
-		m_strTipTextW.Format(L"%d%%", m_nVolume);
+		strTipText.Format(_T("%d%%"), m_nVolume);
 	} else if (nID == IDC_SLIDER2) {
-		if (m_nBalance == 0) {
-			m_strTipTextW = L"L = R";
+		if (m_nBalance > 0) {
+			strTipText.Format(_T("R +%d%%"), m_nBalance);
 		} else if (m_nBalance < 0) {
-			m_strTipTextW.Format(L"L +%d%%", -m_nBalance);
-		} else { //if (m_nBalance > 0)
-			m_strTipTextW.Format(L"R +%d%%", m_nBalance);
+			strTipText.Format(_T("L +%d%%"), -m_nBalance);
+		} else { //if (m_nBalance == 0)
+			strTipText = _T("L = R");
 		}
 	} else {
 		return FALSE;
 	}
 
-	if (pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
-		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
-	}
+	pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
 
 	*pResult = 0;
 

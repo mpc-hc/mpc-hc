@@ -853,7 +853,7 @@ BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CSizingControlBarG)
 	ON_NOTIFY(LVN_BEGINDRAG, IDC_PLAYLIST, OnBeginDrag)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
 	ON_WM_TIMER()
 	ON_WM_CONTEXTMENU()
 	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_PLAYLIST, OnLvnEndlabeleditList)
@@ -1237,9 +1237,9 @@ void CPlayerPlaylistBar::DropItemOnList()
 
 BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
-	if (pNMHDR->code == TTN_NEEDTEXTW && (HWND)pTTTW->lParam != m_list.m_hWnd) {
+	if ((HWND)pTTT->lParam != m_list.m_hWnd) {
 		return FALSE;
 	}
 
@@ -1252,7 +1252,7 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
 
 	CPlaylistItem& pli = m_pl.GetAt(FindPos(row));
 
-	CString strTipText;
+	static CString strTipText; // static string
 
 	if (col == COL_NAME) {
 		POSITION pos = pli.m_fns.GetHeadPosition();
@@ -1262,18 +1262,14 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
 		strTipText.Trim();
 
 		if (pli.m_type == CPlaylistItem::device) {
-			CString str;
-			str.Format(_T("Video Input %d"), pli.m_vinput);
 			if (pli.m_vinput >= 0) {
-				strTipText += _T("\n") + str;
+				strTipText.AppendFormat(_T("\nVideo Input %d"), pli.m_vinput);
 			}
-			str.Format(_T("Video Channel %d"), pli.m_vchannel);
 			if (pli.m_vchannel >= 0) {
-				strTipText += _T("\n") + str;
+				strTipText.AppendFormat(_T("\nVideo Channel %d"), pli.m_vchannel);
 			}
-			str.Format(_T("Audio Input %d"), pli.m_ainput);
 			if (pli.m_ainput >= 0) {
-				strTipText += _T("\n") + str;
+				strTipText.AppendFormat(_T("\nAudio Input %d"), pli.m_ainput);
 			}
 		}
 
@@ -1282,12 +1278,7 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
 		return FALSE;
 	}
 
-	static CStringW m_strTipTextW;
-
-	if (pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
-		m_strTipTextW = strTipText;
-		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
-	}
+	pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
 
 	*pResult = 0;
 

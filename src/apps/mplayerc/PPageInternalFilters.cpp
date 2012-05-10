@@ -246,7 +246,7 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 
 	::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, (LPARAM)(INT)1000);
 
-	static CString m_strTipText;
+	static CString m_strTipText; // static string
 
 	m_strTipText = ResStr(f->nHintID);
 

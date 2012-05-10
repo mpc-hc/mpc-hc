@@ -93,7 +93,7 @@ BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdateChannelMapping)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdateChannelMapping)
 	ON_WM_HSCROLL()
-	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolTipNotify)
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -337,25 +337,22 @@ void CPPageAudioSwitcher::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScroll
 
 BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 {
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
 	UINT nID = pNMHDR->idFrom;
-
-	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
+	if (pTTT->uFlags & TTF_IDISHWND) {
 		nID = ::GetDlgCtrlID((HWND)nID);
 	}
 
-	if (nID == 0) {
+	if (nID != IDC_SLIDER1) {
 		return FALSE;
 	}
 
-	static CStringW m_strTipTextW;
+	static CString strTipText; // static string
 
-	m_strTipTextW.Format(L"+%.1f dB", m_AudioBoostCtrl.GetPos()/10.0);
+	strTipText.Format(_T("+%.1f dB"), m_AudioBoostCtrl.GetPos()/10.0);
 
-	if (pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
-		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
-	}
+	pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
 
 	*pResult = 0;
 
