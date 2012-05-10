@@ -535,6 +535,21 @@ void CPPageFormats::SetListItemState(int nItem)
 	SetChecked(nItem, cnt);
 }
 
+bool CPPageFormats::IsNeededIconsLib()
+{
+	bool needIconLib = false;
+	int i = 0;
+
+	while (!needIconLib && i < m_list.GetItemCount()) {
+		if (GetChecked(i) == 1) {
+			needIconLib = true;
+		}
+		i++;
+	}
+
+	return needIconLib;
+}
+
 BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
 	ON_NOTIFY(NM_CLICK, IDC_LIST1, OnNMClickList1)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnLvnItemchangedList1)
@@ -808,11 +823,11 @@ BOOL CPPageFormats::OnApply()
 	f_setContextFiles = m_fContextFiles.GetCheck();
 	f_setAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
 
-	if (f_setAssociatedWithIcon && !FileExists(GetProgramDir() + _T("\\mpciconlib.dll"))) {
-		AfxMessageBox(ResStr(IDS_MISSING_ICONS_LIB));
-	}
-
 	if (m_bFileExtChanged) {
+		if (f_setAssociatedWithIcon && IsNeededIconsLib() && !FileExists(GetProgramDir() + _T("\\mpciconlib.dll"))) {
+			AfxMessageBox(ResStr(IDS_MISSING_ICONS_LIB));
+		}
+
 		for (int i = 0; i < m_list.GetItemCount(); i++) {
 			int iChecked = GetChecked(i);
 			if (iChecked == 2) {

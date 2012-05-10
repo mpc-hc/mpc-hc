@@ -52,6 +52,8 @@ private:
 	static CString GetOpenCommand();
 	static CString GetEnqueueCommand();
 
+	bool IsNeededIconsLib();
+
 public:
 	CPPageFormats();
 	virtual ~CPPageFormats();
