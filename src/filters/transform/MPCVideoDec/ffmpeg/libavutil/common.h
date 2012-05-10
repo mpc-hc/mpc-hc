@@ -62,8 +62,10 @@
 #define FFALIGN(x, a) (((x)+(a)-1)&~((a)-1))
 
 // ==> Start patch MPC
-#ifndef UINT64_C
-    #define UINT64_C(x) (x ## ULL)
+#ifdef __cplusplus
+    #ifndef UINT64_C
+        #define UINT64_C(x) (x ## ULL)
+    #endif
 #endif
 // <== End patch MPC
 
