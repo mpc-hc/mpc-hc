@@ -60,34 +60,20 @@ private :
 public :
 	CH264Nalu() { SetBuffer(NULL, 0, 0); }
 
-	NALU_TYPE GetType() const {
-		return nal_unit_type;
-	};
-	bool IsRefFrame() const {
-		return (nal_reference_idc != 0);
-	};
+	NALU_TYPE GetType() const { return nal_unit_type; };
+	bool IsRefFrame()   const { return (nal_reference_idc != 0); };
 
-	int GetDataLength() const {
-		return m_nCurPos - m_nNALDataPos;
-	};
-	BYTE* GetDataBuffer() {
-		return m_pBuffer + m_nNALDataPos;
-	};
+	int GetDataLength() const { return m_nCurPos - m_nNALDataPos; };
+	BYTE* GetDataBuffer()     { return m_pBuffer + m_nNALDataPos; };
 	int GetRoundedDataLength() const {
 		int nSize = m_nCurPos - m_nNALDataPos;
 		return nSize + 128 - (nSize %128);
 	}
 
-	int GetLength() const {
-		return m_nCurPos - m_nNALStartPos;
-	};
-	BYTE* GetNALBuffer() {
-		return m_pBuffer + m_nNALStartPos;
-	};
-	bool IsEOF() const {
-		return m_nCurPos >= m_nSize;
-	};
+	int GetLength() const { return m_nCurPos - m_nNALStartPos; };
+	BYTE* GetNALBuffer()  { return m_pBuffer + m_nNALStartPos; };
+	bool IsEOF() const    { return m_nCurPos >= m_nSize; };
 
-	void SetBuffer (BYTE* pBuffer, int nSize, int nNALSize);
+	void SetBuffer(BYTE* pBuffer, int nSize, int nNALSize);
 	bool ReadNext();
 };

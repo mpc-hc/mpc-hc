@@ -29,9 +29,7 @@
 class CNullRenderer : public CBaseRenderer
 {
 protected:
-	virtual HRESULT DoRenderSample(IMediaSample* pSample) {
-		return S_OK;
-	}
+	virtual HRESULT DoRenderSample(IMediaSample* pSample) { return S_OK; }
 
 public:
 	CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESULT* phr);
@@ -93,10 +91,6 @@ class __declspec(uuid("655D7613-C26C-4A25-BBBD-3C9C516122CC"))
 
 public:
 	CNullTextRenderer(LPUNKNOWN pUnk, HRESULT* phr);
-	int GetPinCount() {
-		return (int)!!m_pInput;
-	}
-	CBasePin* GetPin(int n) {
-		return n == 0 ? (CBasePin*)m_pInput : NULL;
-	}
+	int GetPinCount() { return (int)!!m_pInput; }
+	CBasePin* GetPin(int n) { return n == 0 ? (CBasePin*)m_pInput : NULL; }
 };
