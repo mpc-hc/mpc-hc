@@ -22,7 +22,12 @@
 
 #pragma once
 
+// TODO: remove this when it's fixed in MSVC
+// Work around warning C4005: 'XXXX' : macro redefinition
+#pragma warning(push)
+#pragma warning(disable: 4005)
 #include <stdint.h>
+#pragma warning(pop)
 
 #define MPEG2_VERSION(a,b,c) (((a)<<16)|((b)<<8)|(c))
 #define MPEG2_RELEASE MPEG2_VERSION (0, 3, 2)	/* 0.3.2 */
