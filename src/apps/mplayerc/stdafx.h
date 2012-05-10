@@ -29,8 +29,6 @@
 #include "../../../include/stdafx_common_afx2.h"
 #include "../../../include/stdafx_common_dshow.h"
 
-#define HITTEST_RET LRESULT
-
 #include "../../DSUtil/DSUtil.h"
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
