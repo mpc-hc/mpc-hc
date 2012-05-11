@@ -152,7 +152,7 @@ int av_samples_get_buffer_size(int *linesize, int nb_channels, int nb_samples,
 }
 
 int av_samples_fill_arrays(uint8_t **audio_data, int *linesize,
-                           uint8_t *buf, int nb_channels, int nb_samples,
+                           const uint8_t *buf, int nb_channels, int nb_samples,
                            enum AVSampleFormat sample_fmt, int align)
 {
     int ch, planar, buf_size, line_size;
@@ -192,5 +192,43 @@ int av_samples_alloc(uint8_t **audio_data, int *linesize, int nb_channels,
         av_free(buf);
         return size;
     }
+    return 0;
+}
+
+int av_samples_copy(uint8_t **dst, uint8_t * const *src, int dst_offset,
+                    int src_offset, int nb_samples, int nb_channels,
+                    enum AVSampleFormat sample_fmt)
+{
+    int planar      = av_sample_fmt_is_planar(sample_fmt);
+    int planes      = planar ? nb_channels : 1;
+    int block_align = av_get_bytes_per_sample(sample_fmt) * (planar ? 1 : nb_channels);
+    int data_size   = nb_samples * block_align;
+    int i;
+
+    dst_offset *= block_align;
+    src_offset *= block_align;
+
+    for (i = 0; i < planes; i++)
+        memcpy(dst[i] + dst_offset, src[i] + src_offset, data_size);
+
+    return 0;
+}
+
+int av_samples_set_silence(uint8_t **audio_data, int offset, int nb_samples,
+                           int nb_channels, enum AVSampleFormat sample_fmt)
+{
+    int planar      = av_sample_fmt_is_planar(sample_fmt);
+    int planes      = planar ? nb_channels : 1;
+    int block_align = av_get_bytes_per_sample(sample_fmt) * (planar ? 1 : nb_channels);
+    int data_size   = nb_samples * block_align;
+    int fill_char   = (sample_fmt == AV_SAMPLE_FMT_U8 ||
+                     sample_fmt == AV_SAMPLE_FMT_U8P) ? 0x80 : 0x00;
+    int i;
+
+    offset *= block_align;
+
+    for (i = 0; i < planes; i++)
+        memset(audio_data[i] + offset, fill_char, data_size);
+
     return 0;
 }

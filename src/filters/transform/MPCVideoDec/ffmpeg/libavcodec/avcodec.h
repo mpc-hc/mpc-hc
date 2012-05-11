@@ -271,6 +271,7 @@ enum CodecID {
     CODEC_ID_AVRP       = MKBETAG('A','V','R','P'),
 
     CODEC_ID_G2M        = MKBETAG( 0 ,'G','2','M'),
+    CODEC_ID_AVUI       = MKBETAG('A','V','U','I'),
     CODEC_ID_AYUV       = MKBETAG('A','Y','U','V'),
     CODEC_ID_V308       = MKBETAG('V','3','0','8'),
     CODEC_ID_V408       = MKBETAG('V','4','0','8'),
@@ -4072,15 +4073,11 @@ int attribute_deprecated avcodec_encode_audio(AVCodecContext *avctx,
  * @param[in] frame AVFrame containing the raw audio data to be encoded.
  *                  May be NULL when flushing an encoder that has the
  *                  CODEC_CAP_DELAY capability set.
- *                  There are 2 codec capabilities that affect the allowed
- *                  values of frame->nb_samples.
- *                  If CODEC_CAP_SMALL_LAST_FRAME is set, then only the final
- *                  frame may be smaller than avctx->frame_size, and all other
- *                  frames must be equal to avctx->frame_size.
  *                  If CODEC_CAP_VARIABLE_FRAME_SIZE is set, then each frame
  *                  can have any number of samples.
- *                  If neither is set, frame->nb_samples must be equal to
- *                  avctx->frame_size for all frames.
+ *                  If it is not set, frame->nb_samples must be equal to
+ *                  avctx->frame_size for all frames except the last.
+ *                  The final frame may be smaller than avctx->frame_size.
  * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the
  *                            output packet is non-empty, and to 0 if it is
  *                            empty. If the function returns an error, the
