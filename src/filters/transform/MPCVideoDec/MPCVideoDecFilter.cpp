@@ -1192,6 +1192,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				return VFW_E_INVALIDMEDIATYPE;
 			}
 
+			// if DXVA is supported in theory the file can still be incompatible
+			bool bDXVAAvailableButUnused = IsDXVASupported();
 			if (IsDXVASupported()) {
 				do {
 					m_bDXVACompatible = false;
@@ -1222,10 +1224,11 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 					}
 
 					m_bDXVACompatible = true;
+					bDXVAAvailableButUnused = false;
 				} while (false);
 			}
 
-			if (IsDXVASupported() && !m_bDXVACompatible) {
+			if (bDXVAAvailableButUnused) { // reset the threads count
 				m_bUseDXVA = false;
 				avcodec_close (m_pAVCtx);
 				if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
