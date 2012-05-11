@@ -138,15 +138,9 @@ public:
 
 	HRESULT		ReadInfo(LPCTSTR strFile);
 	Stream*		FindStream(SHORT wPID);
-	bool		IsHdmv()		const {
-		return m_bIsHdmv;
-	};
-	size_t		GetStreamNumber() {
-		return m_Streams.GetCount();
-	};
-	Stream*		GetStreamByIndex(size_t nIndex) {
-		return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL;
-	};
+	bool		IsHdmv() const { return m_bIsHdmv; };
+	size_t		GetStreamNumber() { return m_Streams.GetCount(); };
+	Stream*		GetStreamByIndex(size_t nIndex) {return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL; };
 
 	HRESULT		FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist, CAtlList<PlaylistItem>& MPLSPlaylists);
 	HRESULT		ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist);
@@ -157,7 +151,6 @@ private :
 	DWORD		ProgramInfo_start_address;
 
 	HANDLE		m_hFile;
-
 
 	CAtlArray<Stream>	m_Streams;
 	bool				m_bIsHdmv;

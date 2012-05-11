@@ -110,9 +110,7 @@ protected:
 public:
 	IDSMResourceBagImpl();
 
-	void operator += (const CDSMResource& r) {
-		m_resources.Add(r);
-	}
+	void operator += (const CDSMResource& r) { m_resources.Add(r); }
 
 	// IDSMResourceBag
 
@@ -162,10 +160,7 @@ protected:
 public:
 	IDSMChapterBagImpl();
 
-	void operator += (const CDSMChapter& c) {
-		m_chapters.Add(c);
-		m_fSorted = false;
-	}
+	void operator += (const CDSMChapter& c) { m_chapters.Add(c); m_fSorted = false; }
 
 	// IDSMChapterBag
 

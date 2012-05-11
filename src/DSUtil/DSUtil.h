@@ -141,27 +141,15 @@ typedef enum {
 class CPinInfo : public PIN_INFO
 {
 public:
-	CPinInfo() {
-		pFilter = NULL;
-	}
-	~CPinInfo() {
-		if (pFilter) {
-			pFilter->Release();
-		}
-	}
+	CPinInfo() { pFilter = NULL; }
+	~CPinInfo() { if (pFilter) { pFilter->Release(); } }
 };
 
 class CFilterInfo : public FILTER_INFO
 {
 public:
-	CFilterInfo() {
-		pGraph = NULL;
-	}
-	~CFilterInfo() {
-		if (pGraph) {
-			pGraph->Release();
-		}
-	}
+	CFilterInfo() { pGraph = NULL; }
+	~CFilterInfo() { if (pGraph) { pGraph->Release(); } }
 };
 
 #define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter) \
