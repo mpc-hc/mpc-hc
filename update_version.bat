@@ -32,4 +32,4 @@ ECHO I'll use MPC_VERSION_REV=0 for now.
 
 ECHO #define MPC_VERSION_REV 0 > "include\Version_rev.h"
 TYPE "src\apps\mplayerc\res\mpc-hc.exe.manifest.template" > "src\apps\mplayerc\res\mpc-hc.exe.manifest"
-EXIT /B
+GOTO END

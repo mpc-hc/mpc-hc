@@ -99,9 +99,9 @@ EXIT /B
 
 :SubMake
 IF DEFINED NUMBER_OF_PROCESSORS (SET JOBS=%NUMBER_OF_PROCESSORS%) ELSE (SET JOBS=4)
-IF /I "%BUILDTYPE%" == "Clean"  (SET "JOBS=1")
+IF /I "%BUILDTYPE%" == "Clean"  (SET JOBS=1)
 
-TITLE "make -j%JOBS% %*"
+TITLE make -j%JOBS% %*
 ECHO make -j%JOBS% %*
 make.exe -j%JOBS% %*
 EXIT /B
