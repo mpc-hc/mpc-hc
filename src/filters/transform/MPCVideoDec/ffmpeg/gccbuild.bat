@@ -81,6 +81,7 @@ IF /I "%ARCH%" == "x64" (SET "x64=64BIT=yes") ELSE (SET "x64=")
 IF /I "%BUILDTYPE%" == "Rebuild" (
   SET "BUILDTYPE=Clean" & CALL :SubMake %x64% %DEBUG% clean
   SET "BUILDTYPE=Build" & CALL :SubMake %x64% %DEBUG%
+  SET "BUILDTYPE=Rebuild"
   EXIT /B
 )
 
