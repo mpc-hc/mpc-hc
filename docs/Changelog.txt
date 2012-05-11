@@ -92,7 +92,6 @@ Legend:
 ! The Windows 7 taskbar was sometimes not correctly updated (for example when opening
   another video without closing the previous one). The preview was incorrectly cropped
   when the menu was hidden.
-! Fix DVBSub: the subtitles' color was incorrect
 ! Ticket #869, The playlist visibility state was incorrectly restored when MPC-HC
   was quited in fullscreen mode while the option "Hide on fullscreen" was enabled
 ! Ticket #1182, Unable to playback MPEG-2 in AVI
@@ -103,6 +102,7 @@ Legend:
 ! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on
 ! Ticket #2090, Better handling of font fallback in the MediaInfo dialog so that
   the font size is now correctly adapted to the font used
+! Ticket #2126, Fix DVBSub: the subtitles' color was incorrect
 ! Ticket #2133, Javascript error in "player.html"
 ! Ticket #2137, Disable animation when pressing the "Boss" key
 ! Ticket #2155, Change the background color of the options pages caption so that
@@ -113,4 +113,5 @@ Legend:
   example when double clicking on the tray icon)
 ! Ticket #2172, MP4Splitter: skip video tracks with motionless frames
 ! Ticket #2274, MPCVideoDecoder: the configured threads count was ignored when the
-  decoder had to fallback in software mode because of a DXVA incompatible file
+  decoder had to fallback in software mode because of a DXVA incompatible file, only
+  one decoding thread was used in this case

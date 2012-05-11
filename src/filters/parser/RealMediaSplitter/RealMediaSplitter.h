@@ -28,8 +28,10 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "../../transform/BaseVideoFilter/BaseVideoFilter.h"
 
-#define RMSplitterName L"MPC RealMedia Splitter"
-#define RMSourceName   L"MPC RealMedia Source"
+#define RMSplitterName     L"MPC RealMedia Splitter"
+#define RMSourceName       L"MPC RealMedia Source"
+#define RMVideoDecoderName L"MPC RealVideo Decoder"
+#define RMAudioDecoderName L"MPC RealAudio Decoder"
 
 #pragma pack(push, 1)
 
