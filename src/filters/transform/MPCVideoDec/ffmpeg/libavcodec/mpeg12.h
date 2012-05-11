@@ -47,6 +47,7 @@ typedef struct Mpeg1Context {
     AVRational frame_rate_ext;       ///< MPEG-2 specific framerate modificator
     int sync;                        ///< Did we reach a sync point like a GOP/SEQ/KEYFrame?
     int tmpgexs;
+    int parsed_extra;
     // ==> Start patch MPC
     DXVA_SliceInfo* pSliceInfo;
     uint8_t* prev_slice;
