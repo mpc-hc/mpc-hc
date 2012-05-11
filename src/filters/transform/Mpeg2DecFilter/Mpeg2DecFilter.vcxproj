@@ -193,7 +193,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -209,7 +208,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

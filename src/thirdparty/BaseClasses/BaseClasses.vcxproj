@@ -79,7 +79,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeaderFile>streams.h</PrecompiledHeaderFile>
     </ClCompile>
     <Lib>

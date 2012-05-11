@@ -105,7 +105,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_WINDOWS;USE_MEDIAINFO_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

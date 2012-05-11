@@ -144,7 +144,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;_WIN64;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -190,7 +189,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

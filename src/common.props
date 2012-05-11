@@ -36,7 +36,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug Filter'">
     <ClCompile>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DebugInformationFormat Condition="'$(Platform)'=='Win32'">EditAndContinue</DebugInformationFormat>
+      <DebugInformationFormat Condition="'$(Platform)'=='x64'">ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>

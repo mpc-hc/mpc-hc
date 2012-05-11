@@ -67,7 +67,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;ZENLIB_NO_WIN9X_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <PrecompiledHeaderFile>ZenLib/PreComp.h</PrecompiledHeaderFile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
@@ -76,7 +75,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;ZENLIB_NO_WIN9X_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeaderFile>ZenLib/PreComp.h</PrecompiledHeaderFile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>

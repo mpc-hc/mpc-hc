@@ -73,7 +73,6 @@
     <ClCompile>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>lcms2_internal.h</PrecompiledHeaderFile>
     </ClCompile>

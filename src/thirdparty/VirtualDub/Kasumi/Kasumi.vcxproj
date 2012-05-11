@@ -74,7 +74,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>h;..\h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
   </ItemDefinitionGroup>

@@ -76,7 +76,6 @@
       <AdditionalIncludeDirectories>..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeaderFile>pngpriv.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>

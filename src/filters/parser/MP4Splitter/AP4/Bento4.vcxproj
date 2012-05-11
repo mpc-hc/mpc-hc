@@ -73,7 +73,6 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>Core;Crypto;..\..\..\..\thirdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>

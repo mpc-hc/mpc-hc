@@ -81,7 +81,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\h;h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
@@ -102,7 +101,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\h;h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>

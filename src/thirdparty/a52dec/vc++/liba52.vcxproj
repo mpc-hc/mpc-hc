@@ -78,7 +78,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.;..\include;..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>

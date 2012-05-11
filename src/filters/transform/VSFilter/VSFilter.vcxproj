@@ -93,7 +93,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
