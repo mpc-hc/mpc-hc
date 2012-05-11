@@ -193,6 +193,8 @@ EXIT /B
 
 
 :SubResources
+IF /I "%BUILDCFG%" == "Debug" EXIT /B
+
 TITLE Compiling mpciconlib - Release^|%1...
 "%MSBUILD%" mpciconlib.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1
@@ -239,6 +241,7 @@ EXIT /B
 
 :SubCreatePackages
 IF /I "%BUILDTYPE%" == "Clean" EXIT /B
+IF /I "%BUILDCFG%" == "Debug"  EXIT /B
 
 CALL :SubDetectSevenzipPath
 CALL :SubGetVersion
