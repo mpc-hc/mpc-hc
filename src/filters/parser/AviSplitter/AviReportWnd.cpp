@@ -273,7 +273,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 		CAviFile::strm_t::chunk2 cs2last = {(DWORD)-1, 0};
 
-		while (1) {
+		for (;;) {
 			CAviFile::strm_t::chunk2 cs2min = {LONG_MAX, LONG_MAX};
 
 			DWORD n = (DWORD)-1;

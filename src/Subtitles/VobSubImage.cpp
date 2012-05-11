@@ -388,7 +388,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 
 	topleft.x = topleft.y = INT_MAX;
 
-	while (1) {
+	for (;;) {
 		cp = p;
 
 		int x = 0;
@@ -1158,7 +1158,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 		if (fSmooth) {
 			int i = 0, iFirst = -1;
 
-			while (1) {
+			for (;;) {
 				i = GrabSegment(i, o, o2);
 
 				if (i == iFirst) {

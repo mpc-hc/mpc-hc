@@ -358,7 +358,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 	CComQIPtr<IStream> pStream;
 
 	if (!m_pOutput || !(pStream = m_pOutput->GetConnected())) {
-		while (1) {
+		for (;;) {
 			DWORD cmd = GetRequest();
 			if (cmd == CMD_EXIT) {
 				CAMThread::m_hThread = NULL;
@@ -470,7 +470,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 		}
 	}
 
-	while (1) {
+	for (;;) {
 		DWORD cmd = GetRequest();
 
 		switch (cmd) {

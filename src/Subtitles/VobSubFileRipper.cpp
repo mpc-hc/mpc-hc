@@ -481,7 +481,7 @@ DWORD CVobSubFileRipper::ThreadProc()
 {
 	SetThreadPriority(m_hThread, THREAD_PRIORITY_BELOW_NORMAL);
 
-	while (1) {
+	for (;;) {
 		DWORD cmd = GetRequest();
 
 		m_fThreadActive = true;

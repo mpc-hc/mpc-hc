@@ -117,7 +117,7 @@ namespace Plugin
 			fs.m_mtime = 0;
 			CFileGetStatus(fn, fs);
 
-			while (1) {
+			for (;;) {
 				DWORD i = WaitForMultipleObjects(handles.GetCount(), handles.GetData(), FALSE, 1000);
 
 				if (WAIT_OBJECT_0 == i) {

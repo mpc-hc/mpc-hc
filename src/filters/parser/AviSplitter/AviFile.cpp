@@ -492,7 +492,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 
 	int end = 0;
 
-	while (1) {
+	for (;;) {
 		UINT64 fpmin = _I64_MAX;
 
 		DWORD n = (DWORD)-1;

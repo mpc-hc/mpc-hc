@@ -108,7 +108,7 @@ STDMETHODIMP CStreamDriveThruFilter::NonDelegatingQueryInterface(REFIID riid, vo
 
 DWORD CStreamDriveThruFilter::ThreadProc()
 {
-	while (1) {
+	for (;;) {
 		DWORD cmd = GetRequest();
 
 		switch (cmd) {

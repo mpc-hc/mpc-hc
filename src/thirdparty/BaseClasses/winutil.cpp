@@ -2288,7 +2288,7 @@ DWORD CImageDisplay::CountPrefixBits(DWORD Field)
     DWORD Mask = 1;
     DWORD Count = 0;
 
-    while (TRUE) {
+    for (;;) {
         if (Field & Mask) {
             return Count;
         }

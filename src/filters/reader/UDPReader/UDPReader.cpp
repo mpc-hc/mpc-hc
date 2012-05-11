@@ -364,7 +364,7 @@ DWORD CUDPStream::ThreadProc()
 	//	log = _tfopen(_T("c:\\udp.txt"), _T("wt"));
 #endif
 
-	while (1) {
+	for (;;) {
 		DWORD cmd = GetRequest();
 
 		switch (cmd) {

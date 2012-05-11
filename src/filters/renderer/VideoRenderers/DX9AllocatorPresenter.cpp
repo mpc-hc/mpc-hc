@@ -1248,7 +1248,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 		bOneWait = false;
 		// If we are already in the wanted interval we need to wait until we aren't, this improves sync when for example you are playing 23.976 Hz material on a 24 Hz refresh rate
 		int nInVBlank = 0;
-		while (1) {
+		for (;;) {
 			if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
 				break;
 			}
@@ -1276,7 +1276,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 			bWaited = true;
 			// If we are already in the wanted interval we need to wait until we aren't, this improves sync when for example you are playing 23.976 Hz material on a 24 Hz refresh rate
 			int LastLineDiff = ScanLineDiff;
-			while (1) {
+			for (;;) {
 				if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
 					break;
 				}
@@ -1338,7 +1338,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 
 	LONGLONG llPerfLock = 0;
 
-	while (1) {
+	for (;;) {
 		if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
 			break;
 		}

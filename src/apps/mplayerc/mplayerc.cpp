@@ -1716,7 +1716,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 			}
 
 			hdr.Empty();
-			while (1) {
+			for (;;) {
 				CStringA str;
 				str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
 				if (str.IsEmpty()) {

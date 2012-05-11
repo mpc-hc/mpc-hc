@@ -462,7 +462,7 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
 		GetConnected()->EndFlush();
 	}
 
-	while (1) {
+	for (;;) {
 		Sleep(1);
 
 		DWORD cmd;
@@ -952,7 +952,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 	}
 
 	if (!DemuxInit()) {
-		while (1) {
+		for (;;) {
 			DWORD cmd = GetRequest();
 			if (cmd == CMD_EXIT) {
 				CAMThread::m_hThread = NULL;

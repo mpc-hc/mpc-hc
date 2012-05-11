@@ -408,7 +408,7 @@ DWORD CSubPicQueue::ThreadProc()
 	SetThreadPriority(m_hThread, bDisableAnim ? THREAD_PRIORITY_LOWEST : THREAD_PRIORITY_ABOVE_NORMAL/*THREAD_PRIORITY_BELOW_NORMAL*/);
 
 	bool bAgain = true;
-	while (1) {
+	for (;;) {
 		DWORD Ret = WaitForMultipleObjects(EVENT_COUNT, m_ThreadEvents, FALSE, bAgain ? 0 : INFINITE);
 		bAgain = false;
 

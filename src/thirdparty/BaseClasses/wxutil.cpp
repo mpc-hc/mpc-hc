@@ -334,7 +334,7 @@ CMsgThread::GetThreadMsg(__out CMsg *msg)
     CMsg * pmsg = NULL;
 
     // keep trying until a message appears
-    while (TRUE) {
+    for (;;) {
         {
             CAutoLock lck(&m_Lock);
             pmsg = m_ThreadQueue.RemoveHead();

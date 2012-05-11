@@ -80,7 +80,7 @@ BOOL CAuthDlg::OnInitDialog()
 		if (hSecKey) {
 			int i = 0;
 			TCHAR username[256], password[256];
-			while (1) {
+			for (;;) {
 				DWORD unlen = countof(username);
 				DWORD pwlen = sizeof(password);
 				DWORD type = REG_SZ;

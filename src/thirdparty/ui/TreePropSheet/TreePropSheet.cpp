@@ -412,7 +412,7 @@ HTREEITEM CTreePropSheet::CreatePageTreeItem(LPCTSTR lpszPath, HTREEITEM hParent
 CString CTreePropSheet::SplitPageTreePath(CString &strRest)
 {
 	int	nSeperatorPos = 0;
-	while (TRUE)
+	for (;;)
 	{
 		nSeperatorPos = strRest.Find(_T("::"), nSeperatorPos);
 		if (nSeperatorPos == -1)
@@ -640,7 +640,7 @@ void CTreePropSheet::ActivatePreviousPage()
 			// no prev item, so cycle to the last item
 			hPrevItem = m_pwndPageTree->GetRootItem();
 
-			while (TRUE)
+			for (;;)
 			{
 				while (m_pwndPageTree->GetNextSiblingItem(hPrevItem))
 					hPrevItem = m_pwndPageTree->GetNextSiblingItem(hPrevItem);

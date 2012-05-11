@@ -383,7 +383,7 @@ HRESULT CShoutcastStream::FillBuffer(IMediaSample* pSample)
 		TRACE(_T("START BUFFERING\n"));
 		m_fBuffering = true;
 
-		while (1) {
+		for (;;) {
 			if (fExitThread) { // playback stopped?
 				return S_FALSE;
 			}

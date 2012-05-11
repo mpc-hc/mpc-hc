@@ -10465,7 +10465,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 			m_fShockwaveGraph = true;
 		} else if (engine == QuickTime) {
 #ifdef _WIN64	// TODOX64
-			//	MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
+			//MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
 #else
 			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr);
 			if (!pUnk) {

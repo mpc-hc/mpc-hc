@@ -304,7 +304,7 @@ CPullPin::StopThread()
 DWORD
 CPullPin::ThreadProc(void)
 {
-    while(1) {
+    for (;;) {
 	DWORD cmd = GetRequest();
 	switch(cmd) {
 	case TM_Exit:
@@ -572,7 +572,7 @@ CPullPin::Process(void)
 void
 CPullPin::CleanupCancelled(void)
 {
-    while (1) {
+    for (;;) {
 	IMediaSample * pSample;
 	DWORD_PTR dwUnused;
 

@@ -130,7 +130,7 @@ STDAPI_(WORD) GetBitCount(const GUID *pSubtype)
     // Scan the mapping list seeing if the source GUID matches any known
     // bitmap subtypes, the list is terminated by a GUID_NULL entry
 
-    while (TRUE) {
+    for (;;) {
         pMediaSubtype = BitCountMap[iPosition].pSubtype;
         if (IsEqualGUID(*pMediaSubtype,GUID_NULL)) {
             return USHRT_MAX;
@@ -156,7 +156,7 @@ int LocateSubtype(const GUID *pSubtype)
     // Scan the mapping list seeing if the source GUID matches any known
     // bitmap subtypes, the list is terminated by a GUID_NULL entry
 
-    while (TRUE) {
+    for (;;) {
         pMediaSubtype = BitCountMap[iPosition].pSubtype;
         if (IsEqualGUID(*pMediaSubtype,*pSubtype) ||
             IsEqualGUID(*pMediaSubtype,GUID_NULL)

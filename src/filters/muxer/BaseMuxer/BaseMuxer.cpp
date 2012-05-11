@@ -122,7 +122,7 @@ DWORD CBaseMuxerFilter::ThreadProc()
 
 	POSITION pos;
 
-	while (1) {
+	for (;;) {
 		DWORD cmd = GetRequest();
 
 		switch (cmd) {
