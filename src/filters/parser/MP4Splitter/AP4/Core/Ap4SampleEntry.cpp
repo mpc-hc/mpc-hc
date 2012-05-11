@@ -379,7 +379,7 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
 			break;
 		default: // NONE, RAW, TWOS, SOWT and other
 			m_QtV1SamplesPerPacket = 1;
-			m_QtV1BytesPerPacket   = m_SampleSize / 8;;
+			m_QtV1BytesPerPacket   = m_SampleSize / 8;
 		}
 		m_QtV1BytesPerFrame    = m_ChannelCount * m_QtV1BytesPerPacket;
 		m_QtV1BytesPerSample   = m_SampleSize / 8;
