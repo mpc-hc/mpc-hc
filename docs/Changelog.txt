@@ -92,6 +92,7 @@ Legend:
 ! The Windows 7 taskbar was sometimes not correctly updated (for example when opening
   another video without closing the previous one). The preview was incorrectly cropped
   when the menu was hidden.
+! Fix DVBSub: the subtitles' color was incorrect
 ! Ticket #869, The playlist visibility state was incorrectly restored when MPC-HC
   was quited in fullscreen mode while the option "Hide on fullscreen" was enabled
 ! Ticket #1182, Unable to playback MPEG-2 in AVI
