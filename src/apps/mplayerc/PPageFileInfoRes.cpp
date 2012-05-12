@@ -147,7 +147,7 @@ void CPPageFileInfoRes::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	CDSMResource& r = m_res.GetAt((POSITION)m_list.GetItemData(i));
 
 	CString url;
-	url.Format(_T("http://localhost:%d/convres.html?id=%x"), AfxGetAppSettings().nWebServerPort, (DWORD)&r);
+	url.Format(_T("http://localhost:%d/convres.html?id=%Ix"), AfxGetAppSettings().nWebServerPort, reinterpret_cast<uintptr_t>(&r));
 	ShellExecute(NULL, _T("open"), url, NULL, NULL, SW_SHOWDEFAULT);
 
 	*pResult = 0;

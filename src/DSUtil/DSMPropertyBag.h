@@ -99,7 +99,7 @@ public:
 
 	// global access to all resources
 	static CCritSec m_csResources;
-	static CAtlMap<DWORD, CDSMResource*> m_resources;
+	static CAtlMap<uintptr_t, CDSMResource*> m_resources;
 };
 
 class IDSMResourceBagImpl : public IDSMResourceBag

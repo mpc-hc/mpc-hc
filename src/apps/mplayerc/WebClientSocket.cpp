@@ -845,8 +845,8 @@ bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
 		return false;
 	}
 
-	DWORD key = 0;
-	if (1 != _stscanf_s(id, _T("%x"), &key) || key == 0) {
+	uintptr_t key = 0;
+	if (1 != _stscanf_s(id, _T("%Ix"), &key) || key == 0) {
 		return false;
 	}
 
