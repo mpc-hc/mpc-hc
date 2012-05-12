@@ -66,7 +66,7 @@ class CPixelShaderCompiler;
 class CShaderEditorDlg : public CResizableDialog
 {
 private:
-	UINT m_nIDEventShader;
+	UINT_PTR m_nIDEventShader;
 
 	bool m_fSplitterGrabbed;
 	bool HitTestSplitter(CPoint p);

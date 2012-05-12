@@ -239,7 +239,7 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 {
 	TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
-	filter_t* f = (filter_t*)GetItemDataPtr(pNMHDR->idFrom);
+	filter_t* f = (filter_t*)GetItemDataPtr(static_cast<int>(pNMHDR->idFrom));
 	if (f->nHintID == 0) {
 		return FALSE;
 	}

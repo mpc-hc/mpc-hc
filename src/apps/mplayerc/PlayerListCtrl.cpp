@@ -1045,7 +1045,7 @@ BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
-	UINT nID = pNMHDR->idFrom;
+	UINT_PTR nID = pNMHDR->idFrom;
 
 	if (pTTT->uFlags & TTF_IDISHWND) {
 		// idFrom is actually the HWND of the tool

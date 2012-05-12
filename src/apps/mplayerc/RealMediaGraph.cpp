@@ -108,7 +108,7 @@ bool CRealMediaPlayer::Init()
 		if (!dllpaths.IsEmpty()) {
 			char* s = DNew char[dllpaths.GetLength()+1];
 			strcpy_s(s, dllpaths.GetLength() + 1, CStringA(dllpaths));
-			for (int i = 0, j = strlen(s); i < j; i++) {
+			for (size_t i = 0, j = strlen(s); i < j; i++) {
 				if (s[i] == '|') {
 					s[i] = '\0';
 				}
@@ -237,7 +237,7 @@ STDMETHODIMP CRealMediaPlayer::NonDelegatingQueryInterface(REFIID riid, void** p
 char* AllocateErrorMessage(const char* msg)
 {
 	char* errmsg = NULL;
-	int len = strlen(msg);
+	size_t len = strlen(msg);
 	if (len > 0) {
 		errmsg = (char*)CoTaskMemAlloc(len+1);
 		if (errmsg) {

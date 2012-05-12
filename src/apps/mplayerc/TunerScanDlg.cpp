@@ -167,7 +167,7 @@ void CTunerScanDlg::OnBnClickedCheckOffset()
 
 LRESULT CTunerScanDlg::OnScanProgress(WPARAM wParam, LPARAM lParam)
 {
-	m_Progress.SetPos(wParam);
+	m_Progress.SetPos(static_cast<int>(wParam));
 	return TRUE;
 }
 

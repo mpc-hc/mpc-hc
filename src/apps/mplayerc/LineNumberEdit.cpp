@@ -394,7 +394,7 @@ LRESULT CLineNumberEdit::OnSelectLine(WPARAM wParam, LPARAM /*lParam*/ )
 {
 
 	// Calc start and end position of the line
-	int lineno = wParam + GetScrollPos( SB_VERT );
+	int lineno = static_cast<int>(wParam) + GetScrollPos( SB_VERT );
 	int start = LineIndex( lineno );
 	int end = LineIndex( lineno + 1 );
 	SetSel( start, end - 1 );
