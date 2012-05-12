@@ -436,7 +436,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 	CGolombBuffer gb(buffer, Audio_block_size);
 	int stream_count = gb.ReadShort();
 	for(int i = 0; i< min(stream_count,8); i++) {
-		byte Coding_mode = gb.BitRead(3);
+		BYTE Coding_mode = static_cast<BYTE>(gb.BitRead(3));
 		gb.BitRead(5);// skip
 		int ToAdd=0;
 		switch(Coding_mode) {
@@ -517,7 +517,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 				int seconds = bytes[2]; tmp.Format(_T("%x"), seconds); _stscanf_s(tmp, _T("%d"), &seconds);
 				int mmseconds = 0;
 				if (fps != 0){
-					mmseconds = 1000*frames / fps;
+					mmseconds = static_cast<int>(1000 * frames / fps);
 				}
 
 				REFERENCE_TIME rtCurrentTime = 10000i64*(((hours*60 + minutes)*60 + seconds)*1000 + mmseconds);

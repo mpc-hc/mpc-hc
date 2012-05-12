@@ -309,10 +309,10 @@ HRESULT CMpaSplitterFile::Init()
 		Seek(m_startpos + MPA_HEADER_SIZE + 32);
 		if (BitRead(32, true) == 'Xing' || BitRead(32, true) == 'Info') {
 			BitRead(32); // Skip ID tag
-			DWORD dwFlags = BitRead(32);
+			DWORD dwFlags = static_cast<DWORD>(BitRead(32));
 			// extract total number of frames in file
 			if (dwFlags & FRAMES_FLAG)
-				m_dwFrames = BitRead(32);
+				m_dwFrames = static_cast<DWORD>(BitRead(32));
 
 		} else if (BitRead(32, true) == 'VBRI') {
 			BitRead(32); // Skip ID tag
@@ -321,7 +321,7 @@ HRESULT CMpaSplitterFile::Init()
 			BitRead(16); // delay
 			BitRead(16); // quality
 			BitRead(32); // bytes
-			m_dwFrames = BitRead(32); // extract total number of frames in file
+			m_dwFrames = static_cast<DWORD>(BitRead(32)); // extract total number of frames in file
 		}
 
 		if (m_dwFrames) {

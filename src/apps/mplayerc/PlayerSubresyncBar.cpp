@@ -1297,7 +1297,7 @@ bool CPlayerSubresyncBar::IsShortCut(MSG* pMsg)
 
 int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
 {
-	long	lCurTime = rtPos / 10000 + (bForward ? 1 : -1);
+	long lCurTime = static_cast<long>(rtPos / 10000) + (bForward ? 1 : -1);
 
 	if (m_subtimes.GetCount() == 0) {
 		rtPos = max (0, rtPos + (bForward ? 1 : -1) * 50000000);

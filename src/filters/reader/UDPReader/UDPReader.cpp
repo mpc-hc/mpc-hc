@@ -259,14 +259,14 @@ HRESULT CUDPStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 			packet_t* p = m_packets.GetNext(pos);
 
 			if (p->m_start <= m_pos && m_pos < p->m_end) {
-				int size;
+				DWORD size;
 
 				if (m_pos < p->m_start) {
 					ASSERT(0);
-					size = min(len, p->m_start - m_pos);
+					size = static_cast<DWORD>(min(len, p->m_start - m_pos));
 					memset(ptr, 0, size);
 				} else {
-					size = min(len, p->m_end - m_pos);
+					size = static_cast<DWORD>(min(len, p->m_end - m_pos));
 					memcpy(ptr, &p->m_buff[m_pos - p->m_start], size);
 				}
 
