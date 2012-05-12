@@ -179,10 +179,10 @@
     <ClInclude Include="..\h\vd2\system\cmdline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\cpuaccel.h">
+    <ClInclude Include="..\h\vd2\system\cpuaccel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\date.h">
+    <ClInclude Include="..\h\vd2\system\date.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\debug.h">
@@ -191,7 +191,7 @@
     <ClInclude Include="..\h\vd2\system\debugx86.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\Error.h">
+    <ClInclude Include="..\h\vd2\system\Error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\event.h">
@@ -203,13 +203,13 @@
     <ClInclude Include="..\h\vd2\system\fileasync.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\filesys.h">
+    <ClInclude Include="..\h\vd2\system\filesys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\filewatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\Fraction.h">
+    <ClInclude Include="..\h\vd2\system\Fraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\halffloat.h">
@@ -218,10 +218,10 @@
     <ClInclude Include="..\h\vd2\system\hash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\int128.h">
+    <ClInclude Include="..\h\vd2\system\int128.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\list.h">
+    <ClInclude Include="..\h\vd2\system\list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\log.h">
@@ -230,13 +230,13 @@
     <ClInclude Include="..\h\vd2\system\math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\memory.h">
+    <ClInclude Include="..\h\vd2\system\memory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\profile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\progress.h">
+    <ClInclude Include="..\h\vd2\system\progress.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\protscope.h">
@@ -245,16 +245,16 @@
     <ClInclude Include="..\h\vd2\system\refcount.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\registry.h">
+    <ClInclude Include="..\h\vd2\system\registry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\strutil.h">
+    <ClInclude Include="..\h\vd2\system\strutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\text.h">
+    <ClInclude Include="..\h\vd2\system\text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\thread.h">
+    <ClInclude Include="..\h\vd2\system\thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\thunk.h">
@@ -263,34 +263,34 @@
     <ClInclude Include="..\h\vd2\system\time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\tls.h">
+    <ClInclude Include="..\h\vd2\system\tls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\unknown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\vdalloc.h">
+    <ClInclude Include="..\h\vd2\system\vdalloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\VDNamespace.h">
+    <ClInclude Include="..\h\vd2\system\VDNamespace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\VDQueue.h">
+    <ClInclude Include="..\h\vd2\system\VDQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\VDRingBuffer.h">
+    <ClInclude Include="..\h\vd2\system\VDRingBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\VDScheduler.h">
+    <ClInclude Include="..\h\vd2\system\VDScheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\vdstl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\VDString.h">
+    <ClInclude Include="..\h\vd2\system\VDString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\VD2\system\vdtypes.h">
+    <ClInclude Include="..\h\vd2\system\vdtypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\vectors.h">
