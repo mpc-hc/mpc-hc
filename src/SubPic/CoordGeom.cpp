@@ -99,7 +99,7 @@ float Vector::Angle(Vector& a, Vector& b)
 float Vector::Angle(Vector& a)
 {
 	float angle = *this | a;
-	return((angle > 1) ? 0 : (angle < -1) ? PI : acos(angle));
+	return((angle > 1) ? 0 : (angle < -1) ? (float)M_PI : acos(angle));
 }
 
 void Vector::Angle(float& u, float& v)
@@ -109,11 +109,11 @@ void Vector::Angle(float& u, float& v)
 	u = asin(n.y);
 
 	if (IsZero(n.z)) {
-		v = PI/2 * Sgn(n.x);
+		v = (float)M_PI/2 * Sgn(n.x);
 	} else if (n.z > 0) {
 		v = atan(n.x / n.z);
 	} else if (n.z < 0) {
-		v = IsZero(n.x) ? PI : (PI * Sgn(n.x) + atan(n.x / n.z));
+		v = IsZero(n.x) ? (float)M_PI : ((float)M_PI * Sgn(n.x) + atan(n.x / n.z));
 	}
 }
 
@@ -170,7 +170,7 @@ Vector Vector::Refract(Vector& N, float nFront, float nBack, float* nOut)
 		return((*this).Reflect(N));
 	}
 
-	float N_dot_T = sqrt(1.0 - len_sin_T);
+	float N_dot_T = (float)sqrt(1.0 - len_sin_T);
 	if (N_dot_D < 0) {
 		N_dot_T = -N_dot_T;
 	}
@@ -201,7 +201,7 @@ Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
 		return((*this).Reflect(N));
 	}
 
-	float N_dot_T = sqrt(1.0 - len_sin_T);
+	float N_dot_T = (float)sqrt(1.0 - len_sin_T);
 	if (N_dot_D < 0) {
 		N_dot_T = -N_dot_T;
 	}

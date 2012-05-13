@@ -23,13 +23,18 @@
 
 #pragma once
 
-#ifndef PI
-#define PI (3.141592654f)
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
+#include <math.h>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
 #endif
 
-#define DegToRad(d) ((d)*PI/180.0)
-#define RadToDeg(r) ((r)*180.0/PI)
-#define Sgn(d) (IsZero(d) ? 0 : (d) > 0 ? 1 : -1)
+#define DegToRad(d)  ((d) * M_PI / 180.0)
+#define RadToDeg(r)  ((r) * 180.0 / M_PI)
+#define Sgn(d)       (IsZero(d) ? 0 : (d) > 0 ? 1 : -1)
 #define SgnPow(d, p) (IsZero(d) ? 0 : (pow(fabs(d), p) * Sgn(d)))
 
 class Vector
@@ -46,7 +51,7 @@ public:
 	Vector Normal(Vector& a, Vector& b);
 	float Angle(Vector& a, Vector& b);
 	float Angle(Vector& a);
-	void Angle(float& u, float& v);	// returns spherical coords in radian, -PI/2 <= u <= PI/2, -PI <= v <= PI
+	void Angle(float& u, float& v);	// returns spherical coords in radian, -M_PI/2 <= u <= M_PI/2, -M_PI <= v <= M_PI
 	Vector Angle();					// does like prev., returns 'u' in 'ret.x', and 'v' in 'ret.y'
 
 	Vector Unit();
