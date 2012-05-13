@@ -1370,7 +1370,7 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 
 int CBaseSplitterFileEx::HrdParameters(CGolombBuffer& gb)
 {
-	unsigned int cnt = gb.UExpGolombRead();	// cpb_cnt_minus1
+	UINT64 cnt = gb.UExpGolombRead();	// cpb_cnt_minus1
 	if (cnt > 32U)
 		return -1;
 	gb.BitRead(4);							// bit_rate_scale
@@ -1631,14 +1631,14 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	if (!b_ident)
 		return false;
 
-	unsigned int sps_id = gb.UExpGolombRead(); // seq_parameter_set_id
+	UINT64 sps_id = gb.UExpGolombRead();	// seq_parameter_set_id
 	if (sps_id >= 32)
 		return false;
 
 	UINT64 chroma_format_idc = 0;
 	if (h.profile >= 100) {					// high profile
 		chroma_format_idc = gb.UExpGolombRead();
-		if (chroma_format_idc  == 3) {		// chroma_format_idc
+		if (chroma_format_idc == 3) {		// chroma_format_idc
 			gb.BitRead(1);					// residue_transform_flag
 		}
 
@@ -1696,11 +1696,11 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 		return false;
 	}
 
-	if (gb.BitRead(1)) {							// frame_cropping_flag
-		h.crop_left = gb.UExpGolombRead();			// frame_cropping_rect_left_offset
-		h.crop_right = gb.UExpGolombRead();			// frame_cropping_rect_right_offset
-		h.crop_top = gb.UExpGolombRead();			// frame_cropping_rect_top_offset
-		h.crop_bottom = gb.UExpGolombRead();		// frame_cropping_rect_bottom_offset
+	if (gb.BitRead(1)) {									// frame_cropping_flag
+		h.crop_left   = (unsigned int)gb.UExpGolombRead();	// frame_cropping_rect_left_offset
+		h.crop_right  = (unsigned int)gb.UExpGolombRead();	// frame_cropping_rect_right_offset
+		h.crop_top    = (unsigned int)gb.UExpGolombRead();	// frame_cropping_rect_top_offset
+		h.crop_bottom = (unsigned int)gb.UExpGolombRead();	// frame_cropping_rect_bottom_offset
 	}
 
 	if (gb.BitRead(1)) {							// vui_parameters_present_flag
@@ -1865,15 +1865,15 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 		}
 	}
 
-	UINT64 mb_Width = pic_width_in_mbs_minus1 + 1;
-	UINT64 mb_Height = (pic_height_in_map_units_minus1 + 1) * (2 - frame_mbs_only_flag);
+	unsigned int mb_Width = (unsigned int)pic_width_in_mbs_minus1 + 1;
+	unsigned int mb_Height = ((unsigned int)pic_height_in_map_units_minus1 + 1) * (2 - frame_mbs_only_flag);
 	BYTE CHROMA444 = (chroma_format_idc == 3);
 
-	h.width = 16 * mb_Width - (2>>CHROMA444) * min(h.crop_right, (8<<CHROMA444)-1);
+	h.width = 16 * mb_Width - (2u>>CHROMA444) * min(h.crop_right, (8u<<CHROMA444)-1);
 	if (frame_mbs_only_flag) {
-		h.height = 16 * mb_Height - (2>>CHROMA444) * min(h.crop_bottom, (8<<CHROMA444)-1);
+		h.height = 16 * mb_Height - (2u>>CHROMA444) * min(h.crop_bottom, (8u<<CHROMA444)-1);
 	} else {
-		h.height = 16 * mb_Height - (4>>CHROMA444) * min(h.crop_bottom, (8<<CHROMA444)-1);
+		h.height = 16 * mb_Height - (4u>>CHROMA444) * min(h.crop_bottom, (8u<<CHROMA444)-1);
 	}
 
 	if (h.height<100 || h.width<100) {
@@ -1990,9 +1990,9 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 				break;
 		}
 		pmt->formattype = FORMAT_VIDEOINFO2;
-		int len = sizeof(VIDEOINFOHEADER2) + extralen + 1;
-		VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)DNew BYTE[len];
-		memset(vi, 0, len);
+		int vi_len = sizeof(VIDEOINFOHEADER2) + (int)extralen + 1;
+		VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)DNew BYTE[vi_len];
+		memset(vi, 0, vi_len);
 		vi->AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
 
 		if (!h.sar.num) h.sar.num = 1;
@@ -2016,7 +2016,7 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		*p++ = 0;
 		Seek(extrapos);
 		ByteRead(p, extralen);
-		pmt->SetFormat((BYTE*)vi, len);
+		pmt->SetFormat((BYTE*)vi, vi_len);
 		delete [] vi;
 	}
 	return true;
