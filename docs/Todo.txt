@@ -9,6 +9,9 @@ MPC-HC:
    in stdafx.h for mplayerc.vcxproj
 5) Reorganize the player's Options
 6) Remove support for unneeded renderers
+7) Move common PreprocessorDefinitions from the projects to common.props
+8) Add <UseDebugLibraries>true</UseDebugLibraries> for Debug builds; it's incompatible with /MP
+9) Add /Gm for Debug builds; it's incompatible with /MP
 
 FFmpeg:
 1) Stop linking ffmpeg statically
@@ -18,7 +21,12 @@ FFmpeg:
    * FLAC and perhaps AC-3 and DTS decoding (this would remove the dependency on libflac, a52dec and libdca)
 Alternatively, drop all internal decoders and filters and intergrate LAVFilters, but keep DXVA1.
 
+Installer:
+1) Add detection of directx and run websetup to update if needed or include the needed dx dlls
+2) Add file association tasks, see https://sourceforge.net/apps/trac/mpc-hc/ticket/2207
+
 VSFilter:
 1) Use the defines from Version.h for MPC_COPYRIGHT_STR in VSFilter
 2) Define VSFilter's version numbers in a place accessible by its installer and VSFilter itself
 3) Build and statically link unrar library for out of the box support of rar'ed subtitles
+4) Do we need ISOLATION_AWARE_ENABLED for VSFilter?

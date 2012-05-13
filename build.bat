@@ -80,17 +80,18 @@ IF %ARGPA% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPA% == 0 (SET "PACKAGES=Fa
 
 
 :Start
-SET START_TIME=%TIME%
-SET START_DATE=%DATE%
-
 REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
 SET "LOG_DIR=bin\logs"
 IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
 
+CALL :SubDetectWinArch
+
 SET "MSBUILD=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
 SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpucount /nodeReuse:true"
 
-CALL :SubDetectWinArch
+SET START_TIME=%TIME%
+SET START_DATE=%DATE%
+
 IF /I "%PLATFORM%" == "Win32" GOTO Win32
 IF /I "%PLATFORM%" == "x64"   GOTO x64
 
