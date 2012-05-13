@@ -67,6 +67,11 @@
         #define UINT64_C(x) (x ## ULL)
     #endif
 #endif
+
+#ifdef _MSC_VER
+    #pragma warning(push)
+    #pragma warning(disable: 4244)	
+#endif
 // <== End patch MPC
 
 /* misc math functions */
@@ -362,6 +367,12 @@ static av_always_inline av_const int av_popcount64_c(uint64_t x)
 #ifdef HAVE_AV_CONFIG_H
 #    include "internal.h"
 #endif /* HAVE_AV_CONFIG_H */
+
+// ==> Start patch MPC
+#ifdef _MSC_VER
+    #pragma warning(pop)
+#endif
+// <== End patch MPC
 
 #endif /* AVUTIL_COMMON_H */
 

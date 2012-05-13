@@ -217,7 +217,7 @@ namespace DSObjects
 
 		LONG GetScanLines() {
 			if (m_DetectedRefreshRate) {
-				return m_DetectedScanlinesPerFrame;
+				return (LONG)m_DetectedScanlinesPerFrame;
 			}
 			return m_ScreenSize.cy;
 		}
