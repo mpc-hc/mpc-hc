@@ -87,7 +87,7 @@ static long audio_downsample_mono8(void *dst, void *src, long *filter_bank, int 
 		} else if (sum > 0x3fffff) {
 			*d++ = 0xff;
 		} else {
-			*d++ = static_cast<unsigned char>((sum + 0x2000) >> 14);
+			*d++ = (unsigned char)((sum + 0x2000) >> 14);
 		}
 
 		accum += samp_frac;
@@ -119,7 +119,7 @@ static long audio_downsample_mono16(void *dst, void *src, long *filter_bank, int
 		} else if (sum > 0x1fffffff) {
 			*d++ = 0x7fff;
 		} else {
-			*d++ = static_cast<signed short>((sum + 0x2000) >> 14);
+			*d++ = (signed short)((sum + 0x2000) >> 14);
 		}
 
 		accum += samp_frac;

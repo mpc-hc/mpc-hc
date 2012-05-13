@@ -993,7 +993,7 @@ HRESULT CMpeg2DecFilter::CheckInputType(const CMediaType* mtIn)
 			gb.BitRead(3); // profile
 			gb.BitRead(4); // level
 			gb.BitRead(1); // interlaced
-			BYTE chroma = static_cast<BYTE>(gb.BitRead(2));
+			BYTE chroma = (BYTE)gb.BitRead(2);
 			if (chroma >= 2) { // current support only 4:2:0 profile
 				return VFW_E_TYPE_NOT_ACCEPTED;
 			}

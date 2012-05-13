@@ -990,8 +990,8 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
 			if (UpdateLang) {
 				int	info_length = ES_info_length;
 				for (;;) {
-					BYTE descriptor_tag = static_cast<BYTE>(gb.BitRead(8));
-					BYTE descriptor_length = static_cast<BYTE>(gb.BitRead(8));
+					BYTE descriptor_tag    = (BYTE)gb.BitRead(8);
+					BYTE descriptor_length = (BYTE)gb.BitRead(8);
 					info_length -= (2 + descriptor_length);
 					if (info_length < 0)
 						break;

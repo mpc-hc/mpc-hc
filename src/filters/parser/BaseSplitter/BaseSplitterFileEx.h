@@ -375,8 +375,8 @@ public:
 		__int64 AvgTimePerFrame;
 
 		struct sar {
-			BYTE num;
-			BYTE den;
+			WORD num;
+			WORD den;
 		} sar;
 
 		spsppsdata spspps[4];

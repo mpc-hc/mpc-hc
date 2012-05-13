@@ -221,7 +221,7 @@ UINT64 CBaseSplitterFile::UExpGolombRead()
 {
 	int n = -1;
 	for (BYTE b = 0; !b; n++) {
-		b = static_cast<BYTE>(BitRead(1));
+		b = (BYTE)BitRead(1);
 	}
 	return (1ui64 << n) - 1 + BitRead(n);
 }

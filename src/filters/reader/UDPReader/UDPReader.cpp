@@ -263,10 +263,10 @@ HRESULT CUDPStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWO
 
 				if (m_pos < p->m_start) {
 					ASSERT(0);
-					size = static_cast<DWORD>(min(len, p->m_start - m_pos));
+					size = (DWORD)min(len, p->m_start - m_pos);
 					memset(ptr, 0, size);
 				} else {
-					size = static_cast<DWORD>(min(len, p->m_end - m_pos));
+					size = (DWORD)min(len, p->m_end - m_pos);
 					memcpy(ptr, &p->m_buff[m_pos - p->m_start], size);
 				}
 
