@@ -416,7 +416,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 		vi->hdr.bmiHeader.biHeight = h.height;
 		vi->hdr.bmiHeader.biXPelsPerMeter = h.width * h.ary;
 		vi->hdr.bmiHeader.biYPelsPerMeter = h.height * h.arx;
-		vi->cbSequenceHeader = shlen + shextlen;
+		vi->cbSequenceHeader = DWORD(shlen + shextlen);
 		Seek(shpos);
 		ByteRead((BYTE*)&vi->bSequenceHeader[0], shlen);
 		if (shextpos && shextlen) {
@@ -440,7 +440,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 		vi->hdr.bmiHeader.biHeight = h.height;
 		vi->dwProfile = h.profile;
 		vi->dwLevel = h.level;
-		vi->cbSequenceHeader = shlen + shextlen;
+		vi->cbSequenceHeader = DWORD(shlen + shextlen);
 		Seek(shpos);
 		ByteRead((BYTE*)&vi->dwSequenceHeader[0], shlen);
 		if (shextpos && shextlen) {
@@ -917,7 +917,7 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sy
 	};
 	int nom_bitrate = rate[h.rate];*/
 
-	__int64 bitrate = h.framebytes * 8 * wfe.nSamplesPerSec / (h.nblocks*32);
+	unsigned int bitrate = (unsigned int)(8ui64 * h.framebytes * wfe.nSamplesPerSec / (h.nblocks*32));
 
 	wfe.nAvgBytesPerSec = (bitrate + 4) / 8;
 	wfe.nBlockAlign = h.framebytes;
@@ -1363,7 +1363,7 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 
 	BitRead(8*h.prebytes);
 
-	h.length -= GetPos() - pos;
+	h.length -= (WORD)(GetPos() - pos);
 
 	return true;
 }
@@ -1936,8 +1936,8 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 				h.sar.num = pixel_aspect[ar][0];
 				h.sar.den = pixel_aspect[ar][1];
 			} else if (ar == 15) {
-				h.sar.num = (WORD)BitRead(8);
-				h.sar.den = (WORD)BitRead(8);
+				h.sar.num = (BYTE)BitRead(8);
+				h.sar.den = (BYTE)BitRead(8);
 			}
 
 			// Read framerate

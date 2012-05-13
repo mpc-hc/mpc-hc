@@ -480,7 +480,6 @@ static int cesort(const void* a, const void* b)
 	UINT64 ce2 = (static_cast<ContentEncoding*>(const_cast<void *>(b)))->ContentEncodingOrder;
 
 	return (int)ce1 - (int)ce2;
-	//return static_cast<int>(ce1) - static_cast<int>(ce2);
 }
 
 bool TrackEntry::Expand(CBinary& data, UINT64 Scope)
