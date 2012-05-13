@@ -21,7 +21,7 @@
  */
 
 #include "stdafx.h"
-#include "intrin_fixed.h"
+#include <intrin.h>
 #include "CpuId.h"
 
 #define CPUID_MMX      (1 << 23)

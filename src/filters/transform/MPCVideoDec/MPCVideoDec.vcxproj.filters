@@ -95,9 +95,6 @@
     <ClInclude Include="IMPCVideoDecFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="intrin_fixed.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MPCVideoDecFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

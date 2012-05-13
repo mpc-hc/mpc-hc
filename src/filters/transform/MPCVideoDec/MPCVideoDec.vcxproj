@@ -273,7 +273,6 @@
     <ClInclude Include="FfmpegContext.h" />
     <ClInclude Include="H264RandomAccess.h" />
     <ClInclude Include="IMPCVideoDecFilter.h" />
-    <ClInclude Include="intrin_fixed.h" />
     <ClInclude Include="MPCVideoDecFilter.h" />
     <ClInclude Include="MPCVideoDecSettingsWnd.h" />
     <ClInclude Include="resource.h">
