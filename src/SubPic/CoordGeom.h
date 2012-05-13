@@ -51,7 +51,7 @@ public:
 	Vector Normal(Vector& a, Vector& b);
 	float Angle(Vector& a, Vector& b);
 	float Angle(Vector& a);
-	void Angle(float& u, float& v);	// returns spherical coords in radian, -M_PI/2 <= u <= M_PI/2, -M_PI <= v <= M_PI
+	void Angle(float& u, float& v);	// returns spherical coords in radian, -M_PI_2 <= u <= M_PI_2, -M_PI <= v <= M_PI
 	Vector Angle();					// does like prev., returns 'u' in 'ret.x', and 'v' in 'ret.y'
 
 	Vector Unit();

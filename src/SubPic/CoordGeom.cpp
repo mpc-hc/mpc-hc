@@ -109,7 +109,7 @@ void Vector::Angle(float& u, float& v)
 	u = asin(n.y);
 
 	if (IsZero(n.z)) {
-		v = (float)M_PI/2 * Sgn(n.x);
+		v = (float)M_PI_2 * Sgn(n.x);
 	} else if (n.z > 0) {
 		v = atan(n.x / n.z);
 	} else if (n.z < 0) {
