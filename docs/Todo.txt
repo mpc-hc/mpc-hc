@@ -9,9 +9,8 @@ MPC-HC:
    in stdafx.h for mplayerc.vcxproj
 5) Reorganize the player's Options
 6) Remove support for unneeded renderers
-7) Move common PreprocessorDefinitions from the projects to common.props
-8) Add <UseDebugLibraries>true</UseDebugLibraries> for Debug builds; it's incompatible with /MP
-9) Add /Gm for Debug builds; it's incompatible with /MP
+7) Add <UseDebugLibraries>true</UseDebugLibraries> for Debug builds; it's incompatible with /MP
+8) Add /Gm for Debug builds; it's incompatible with /MP
 
 FFmpeg:
 1) Stop linking ffmpeg statically

@@ -71,7 +71,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>include;..\..\include;..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -79,7 +79,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>include;..\..\include;..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -87,7 +87,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>include;..\..\include;..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -95,7 +95,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>include;..\..\include;..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
