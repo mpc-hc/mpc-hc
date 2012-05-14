@@ -232,10 +232,9 @@ AP4_MpegSampleEntry::GetDecoderConfigDescriptor()
 {
     AP4_Atom* child = GetChild(AP4_ATOM_TYPE_ESDS);
 
-	if(!child && (child = GetChild(AP4_ATOM_TYPE_WAVE)))
-	{
-		if(AP4_ContainerAtom* wave = dynamic_cast<AP4_ContainerAtom*>(child))
-		{
+	if(!child) {
+		child = GetChild(AP4_ATOM_TYPE_WAVE);
+		if (AP4_ContainerAtom* wave = dynamic_cast<AP4_ContainerAtom*>(child)) {
 			child = wave->GetChild(AP4_ATOM_TYPE_ESDS);
 		}
 	}
