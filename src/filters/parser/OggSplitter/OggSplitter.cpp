@@ -31,10 +31,6 @@
 #endif
 #include <moreuuids.h>
 
-#define MAKE32BITS(x)		(x[0]<<24 | x[1]<<16 | x[2]<<8 | x[3])
-#define MAKE24BITS(x)		(x[0]<<16 | x[1]<<8  | x[2])
-#define MAKE16BITS(x)		(x[0]<<8  | x[1])
-
 # define TH_VERSION_CHECK(version_major,version_minor,version_subminor,_maj,_min,_sub) \
  (version_major>(_maj)||version_major==(_maj)&& \
  (version_minor>(_min)||version_minor==(_min)&& \

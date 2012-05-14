@@ -23,11 +23,6 @@
 
 #pragma once
 
-#ifndef uint8_t
-typedef unsigned char uint8_t;
-#endif
-
-
 struct AVCodecContext;
 struct AVFrame;
 

@@ -74,19 +74,19 @@ private :
 	typedef uint8_t  pgc_program_map_t;
 
 	typedef struct {			// Cell Playback Information
-		uint8_t	chain_info	: 8; // 0x5e 0xde(2 angles, no overlay), 0x5f 0x9f 0x9f 0xdf(4 angles overlay), 0x2 0xa 0x8(1 angle)
-		uint8_t foo;				// parental control ??
+		uint8_t	chain_info : 8; // 0x5e 0xde(2 angles, no overlay), 0x5f 0x9f 0x9f 0xdf(4 angles overlay), 0x2 0xa 0x8(1 angle)
+		uint8_t foo;			// parental control ??
 		uint8_t still_time;
 		uint8_t cell_cmd;
 
 		dvd_time_t playback_time;
-		uint32_t vobu_start;			// 1st vobu start
+		uint32_t vobu_start;	// 1st vobu start
 		uint32_t ilvu_end;
 		uint32_t vobu_last_start;
 		uint32_t vobu_last_end;
 	} ifo_pgci_caddr_t;
 
-	typedef struct {			// Cell Position Information
+	typedef struct {				// Cell Position Information
 		uint16_t vob_id		: 16;	// Video Object Identifier
 		uint8_t  foo		: 8;	// Unknown
 		uint8_t  cell_id	: 8;	// Cell Identifier
@@ -95,7 +95,7 @@ private :
 #ifndef CLUT_T
 #define CLUT_T
 
-	typedef struct {		// CLUT == Color LookUp Table
+	typedef struct {			// CLUT == Color LookUp Table
 		uint8_t foo		: 8;    // UNKNOWN: 0x00?
 		uint8_t y		: 8;
 		uint8_t cr		: 8;
@@ -162,11 +162,11 @@ private :
 
 	typedef struct {
 #if BYTE_ORDER == BIG_ENDIAN
-		uint16_t foo1		: 4;		// don't know
-		uint8_t menu_id		: 4;		// 0=off, 3=root, 4=spu,
+		uint16_t foo1		: 4;	// don't know
+		uint8_t menu_id		: 4;	// 0=off, 3=root, 4=spu,
 		// 5=audio, 6=angle, 7=ptt
 #else
-		uint8_t menu_id		: 4;		// 0=off, 3=root, 4=spu,
+		uint8_t menu_id		: 4;	// 0=off, 3=root, 4=spu,
 		// 5=audio, 6=angle, 7=ptt
 		uint16_t foo1		: 4;	// don't know
 #endif
