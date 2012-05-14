@@ -84,7 +84,6 @@
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_MEDIAINFO_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -104,7 +103,6 @@
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_MEDIAINFO_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -124,7 +122,6 @@
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_MEDIAINFO_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -143,7 +140,6 @@
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_MEDIAINFO_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
