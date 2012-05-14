@@ -286,7 +286,7 @@ __int64 CDSMSplitterFile::Read(__int64 len, CStringW& str)
 __int64 CDSMSplitterFile::FindSyncPoint(REFERENCE_TIME rt)
 {
 	if (/*!m_sps.IsEmpty()*/ m_sps.GetCount() > 1) {
-		int i = range_bsearch(m_sps, m_rtFirst + rt);
+		ptrdiff_t i = range_bsearch(m_sps, m_rtFirst + rt);
 		return i >= 0 ? m_sps[i].fp : 0;
 	}
 

@@ -184,31 +184,31 @@ public:
 };
 
 template<class T>
-int range_bsearch(const CAtlArray<T>& array, REFERENCE_TIME rt)
+ptrdiff_t range_bsearch(CAtlArray<T> const &tArray, REFERENCE_TIME rt)
 {
-	int i = 0, j = array.GetCount() - 1, ret = -1;
-	if (j >= 0 && rt >= array[j].rt) {
+	ptrdiff_t i = 0, j = tArray.GetCount() - 1, ret = -1;
+	if (j >= 0 && rt >= tArray[j].rt) {
 		return j;
 	}
 	while (i < j) {
-		int mid = (i + j) >> 1;
-		REFERENCE_TIME midrt = array[mid].rt;
+		size_t mid = static_cast<size_t>(i + j) >> 1;
+		REFERENCE_TIME midrt = tArray[mid].rt;
 		if (rt == midrt) {
 			ret = mid;
 			break;
 		} else if (rt < midrt) {
 			ret = -1;
 			if (j == mid) {
-				mid--;
+				--mid;
 			}
 			j = mid;
 		} else if (rt > midrt) {
 			ret = mid;
 			if (i == mid) {
-				mid++;
+				++mid;
 			}
 			i = mid;
 		}
 	}
-	return ret;
+	return ret;// in general, the return is unsigned, only when tArray is empty, the return will be -1 for status invalid
 }
