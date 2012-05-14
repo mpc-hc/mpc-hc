@@ -12,7 +12,7 @@
 #endif
 
 #ifdef __GNUC__
- #define __inline __forceinline  // GCC needs to force inlining of intrinsics functions
+  #define __inline __forceinline  // GCC needs to force inlining of intrinsics functions
 #endif
 
 #include <mmintrin.h>

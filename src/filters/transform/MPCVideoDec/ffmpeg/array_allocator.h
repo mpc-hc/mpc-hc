@@ -1,7 +1,7 @@
 #ifndef _ARRAY_ALLOCATOR_H_
 #define _ARRAY_ALLOCATOR_H_
 
-template <class T,size_t size> class array_allocator
+template <class T, size_t size> class array_allocator
 {
 private:
     T* p;
@@ -20,11 +20,11 @@ public:
     const_pointer address(const_reference r) const {return &r;}
 
     array_allocator() throw() {}
-    template <class U,size_t sz> array_allocator(const array_allocator<U,sz>& ) throw() {}
+    template <class U, size_t sz> array_allocator(const array_allocator<U, sz>&) throw() {}
     ~array_allocator() throw() {}
 
     pointer allocate(size_type n, const void* = 0) {
-        p = ((T  *)::operator new(size * sizeof (T)));
+        p = ((T *)::operator new(size * sizeof(T)));
         return p;
     }
     void deallocate(pointer p, size_type) {delete p;}
@@ -34,14 +34,14 @@ public:
     void destroy(pointer p) {((T*)p)->~T();}
 
     size_type max_size() const throw() {return size;}
-    template<class U> struct rebind {typedef array_allocator<U,size> other;};
+    template<class U> struct rebind {typedef array_allocator<U, size> other;};
 };
 
-template<class T,size_t size> struct array_vector : std::vector<T, array_allocator<T,size> > {
+template<class T, size_t size> struct array_vector : std::vector<T, array_allocator<T, size> > {
 };
 
 #if defined(__INTEL_COMPILER) || defined(__GNUC__) || (_MSC_VER >= 1300)
-template<class T,size_t a> struct allocator_traits<array_allocator<T,a> > {enum {is_static=true};};
+template<class T, size_t a> struct allocator_traits<array_allocator<T, a> > {enum {is_static = true};};
 #endif
 
 #endif

@@ -70,7 +70,7 @@
 
 #ifdef _MSC_VER
     #pragma warning(push)
-    #pragma warning(disable: 4244)	
+    #pragma warning(disable: 4244)
 #endif
 // <== End patch MPC
 
