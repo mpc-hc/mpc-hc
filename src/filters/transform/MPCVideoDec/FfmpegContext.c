@@ -820,6 +820,5 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDev
 
 #ifdef _WIN64
 // Hack to use MinGW64 from 2.x branch
-void __mingw_raise_matherr (int typ, const char *name, double a1, double a2, double rslt) {}
+void __mingw_raise_matherr(int typ, const char *name, double a1, double a2, double rslt) {}
 #endif
-

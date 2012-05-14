@@ -30,10 +30,10 @@
 
 void TlibavcodecExt::ConnectTo(AVCodecContext *pAVCtx)
 {
-	pAVCtx->opaque					= this;
-	pAVCtx->get_buffer				= get_buffer;
-	pAVCtx->reget_buffer			= reget_buffer;
-	pAVCtx->release_buffer			= release_buffer;
+	pAVCtx->opaque         = this;
+	pAVCtx->get_buffer     = get_buffer;
+	pAVCtx->reget_buffer   = reget_buffer;
+	pAVCtx->release_buffer = release_buffer;
 }
 
 int TlibavcodecExt::get_buffer(AVCodecContext *c, AVFrame *pic)
