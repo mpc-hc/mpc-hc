@@ -3786,13 +3786,17 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 		return 0;
 
 	// load DLL
-	if (RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\VFPlugin", 0, KEY_ALL_ACCESS, &key)==ERROR_SUCCESS)
+	if (RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\VFPlugin", 0, KEY_ALL_ACCESS, &key) == ERROR_SUCCESS)
 	{
-		RegQueryValueExA(key, "DVD2AVI", NULL, &value, (unsigned char*)buffer, &length);
-
-		ext = strrchr(buffer, '\\');
-		sprintf(buffer + (int)(ext-buffer) + 1, "OpenDVD.dll");
-		RegCloseKey(key);
+		if (RegQueryValueExA(key, "DVD2AVI", NULL, &value, (LPBYTE)buffer, &length) == ERROR_SUCCESS)
+		{
+			buffer[_countof(buffer) - 1] = '\0'; // ensure the string is null terminated
+			ext = strrchr(buffer, '\\');
+			if (ext) {
+				sprintf_s(ext + 1, _countof(buffer) - (ext + 1 - buffer), "OpenDVD.dll");
+			}
+			RegCloseKey(key);
+		}
 	}
 
 	if ((hLibrary = LoadLibraryA(buffer)) != NULL)
@@ -3807,11 +3811,17 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 	i = File_Limit;
 	while (i)
 	{
-		if(1 != fscanf_s(out->VF_File, "%d ", &j))
+		if(1 != fscanf_s(out->VF_File, "%d ", &j)) {
+			File_Limit = File_Limit - i;
 			return 0;
+		}
 		fgets(Infilename[File_Limit-i], j+1, out->VF_File);
-		if ((Infile[File_Limit-i] = _open(Infilename[File_Limit-i], _O_RDONLY | _O_BINARY))==-1)
+
+		if ((Infile[File_Limit-i] = _open(Infilename[File_Limit-i], _O_RDONLY | _O_BINARY)) == -1) {
+			File_Limit = File_Limit - i;
 			return 0;
+		}
+
 		i--;
 	}
 
