@@ -1088,7 +1088,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 
 						m_rd.selids[langnum] = true;
 					} else if (_istalpha(lang[0])) {
-						n = _stscanf(lang, _T("%s"), langid);
+						n = _stscanf_s(lang, _T("%s"), langid, _countof(langid));
 						if (n != 1) {
 							break;
 						}

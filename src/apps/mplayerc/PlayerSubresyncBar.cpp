@@ -577,7 +577,8 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
 		sign = -1;
 	}
 
-	int n = _stscanf(str, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms);
+	int n = _stscanf_s(str, _T("%d%c%d%c%d%c%d"), &h, &c, sizeof(TCHAR),
+					   &m, &c, sizeof(TCHAR), &s, &c, sizeof(TCHAR), &ms);
 
 	h = abs(h);
 

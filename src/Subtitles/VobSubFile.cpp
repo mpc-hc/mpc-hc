@@ -553,7 +553,8 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 
 			TCHAR c;
 			int hh, mm, ss, ms;
-			int n = _stscanf(str, _T("%d%c%d%c%d%c%d"), &hh, &c, &mm, &c, &ss, &c, &ms);
+			int n = _stscanf_s(str, _T("%d%c%d%c%d%c%d"), &hh, &c, sizeof(TCHAR),
+							   &mm, &c, sizeof(TCHAR), &ss, &c, sizeof(TCHAR), &ms);
 
 			m_toff = n == 1
 					 ? hh * (fNegative ? -1 : 1)
@@ -576,11 +577,11 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 			}
 		} else if (entry == _T("palette")) {
 			if (_stscanf_s(str, _T("%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x"),
-						 &m_orgpal[0], &m_orgpal[1], &m_orgpal[2], &m_orgpal[3],
-						 &m_orgpal[4], &m_orgpal[5], &m_orgpal[6], &m_orgpal[7],
-						 &m_orgpal[8], &m_orgpal[9], &m_orgpal[10], &m_orgpal[11],
-						 &m_orgpal[12], &m_orgpal[13], &m_orgpal[14], &m_orgpal[15]
-						) != 16) {
+						   &m_orgpal[0], &m_orgpal[1], &m_orgpal[2], &m_orgpal[3],
+						   &m_orgpal[4], &m_orgpal[5], &m_orgpal[6], &m_orgpal[7],
+						   &m_orgpal[8], &m_orgpal[9], &m_orgpal[10], &m_orgpal[11],
+						   &m_orgpal[12], &m_orgpal[13], &m_orgpal[14], &m_orgpal[15]
+						  ) != 16) {
 				fError = true;
 			}
 		} else if (entry == _T("custom colors")) {
@@ -658,7 +659,8 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 
 			TCHAR c;
 			int hh, mm, ss, ms;
-			if (_stscanf(str, _T("%d%c%d%c%d%c%d"), &hh, &c, &mm, &c, &ss, &c, &ms) != 4+3)  {
+			if (_stscanf_s(str, _T("%d%c%d%c%d%c%d"), &hh, &c, sizeof(TCHAR),
+						   &mm, &c, sizeof(TCHAR), &ss, &c, sizeof(TCHAR), &ms) != 4+3) {
 				fError = true;
 				continue;
 			}
@@ -680,7 +682,8 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 
 			TCHAR c;
 			int hh, mm, ss, ms;
-			if (_stscanf(str, _T("%d%c%d%c%d%c%d"), &hh, &c, &mm, &c, &ss, &c, &ms) != 4+3)  {
+			if (_stscanf_s(str, _T("%d%c%d%c%d%c%d"), &hh, &c, sizeof(TCHAR),
+						   &mm, &c, sizeof(TCHAR), &ss, &c, sizeof(TCHAR), &ms) != 4+3) {
 				fError = true;
 				continue;
 			}
@@ -2350,7 +2353,8 @@ void CVobSubStream::Open(CString name, BYTE* pData, int len)
 				Explode(sl.RemoveHead(), tridx, ':', 2);
 				if (tridx.RemoveHead() == _T("tridx")) {
 					TCHAR tr[4];
-					_stscanf(tridx.RemoveHead(), _T("%c%c%c%c"), &tr[0], &tr[1], &tr[2], &tr[3]);
+					_stscanf_s(tridx.RemoveHead(), _T("%c%c%c%c"), &tr[0], sizeof(TCHAR),
+							   &tr[1], sizeof(TCHAR), &tr[2], sizeof(TCHAR), &tr[3], sizeof(TCHAR));
 					for (ptrdiff_t i = 0; i < 4; i++) {
 						m_tridx |= ((tr[i]=='1')?1:0)<<i;
 					}
