@@ -584,16 +584,16 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						}
 						m_pFile->BitRead(1); // direct_8x8_inference_flag
 						BYTE crop = (BYTE)m_pFile->BitRead(1); // frame_cropping_flag
-						UINT64 crop_left = 0;
-						UINT64 crop_right = 0;
-						UINT64 crop_top = 0;
-						UINT64 crop_bottom = 0;
+						unsigned int crop_left = 0;
+						unsigned int crop_right = 0;
+						unsigned int crop_top = 0;
+						unsigned int crop_bottom = 0;
 
 						if (crop) {
-							crop_left   = m_pFile->UExpGolombRead(); // frame_cropping_rect_left_offset
-							crop_right  = m_pFile->UExpGolombRead(); // frame_cropping_rect_right_offset
-							crop_top    = m_pFile->UExpGolombRead(); // frame_cropping_rect_top_offset
-							crop_bottom = m_pFile->UExpGolombRead(); // frame_cropping_rect_bottom_offset
+							crop_left   = (unsigned int)m_pFile->UExpGolombRead(); // frame_cropping_rect_left_offset
+							crop_right  = (unsigned int)m_pFile->UExpGolombRead(); // frame_cropping_rect_right_offset
+							crop_top    = (unsigned int)m_pFile->UExpGolombRead(); // frame_cropping_rect_top_offset
+							crop_bottom = (unsigned int)m_pFile->UExpGolombRead(); // frame_cropping_rect_bottom_offset
 						}
 						struct sar {
 							WORD num;
@@ -617,16 +617,16 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								sar.den = 1;
 							}
 						}
-						UINT64 mb_Width = pic_width_in_mbs_minus1 + 1;
-						UINT64 mb_Height = (pic_height_in_map_units_minus1 + 1) * (2 - frame_mbs_only_flag);
+						unsigned int mb_Width = (unsigned int)pic_width_in_mbs_minus1 + 1;
+						unsigned int mb_Height = ((unsigned int)pic_height_in_map_units_minus1 + 1) * (2 - frame_mbs_only_flag);
 						BYTE CHROMA444 = (chroma_format_idc == 3);
 
-						UINT64 Width, Height;
-						Width = 16 * mb_Width - (2>>CHROMA444) * min(crop_right, (8<<CHROMA444)-1);
+						unsigned int Width, Height;
+						Width = 16 * mb_Width - (2u>>CHROMA444) * min(crop_right, (8u<<CHROMA444)-1);
 						if (frame_mbs_only_flag) {
-							Height = 16 * mb_Height - (2>>CHROMA444) * min(crop_bottom, (8<<CHROMA444)-1);
+							Height = 16 * mb_Height - (2u>>CHROMA444) * min(crop_bottom, (8u<<CHROMA444)-1);
 						} else {
-							Height = 16 * mb_Height - (4>>CHROMA444) * min(crop_bottom, (8<<CHROMA444)-1);
+							Height = 16 * mb_Height - (4u>>CHROMA444) * min(crop_bottom, (8u<<CHROMA444)-1);
 						}
 						if (!sar.num) sar.num = 1;
 						if (!sar.den) sar.den = 1;
@@ -748,7 +748,7 @@ void CFLVSplitterFilter::NormalSeek(REFERENCE_TIME rt)
 	bool fAudio = !!GetOutputPin(FLV_AUDIODATA);
 	bool fVideo = !!GetOutputPin(FLV_VIDEODATA);
 
-	__int64 pos = m_DataOffset + 1.0 * rt / m_rtDuration * (m_pFile->GetLength() - m_DataOffset);
+	__int64 pos = m_DataOffset + (__int64)(double(m_pFile->GetLength() - m_DataOffset) * rt / m_rtDuration);
 
 	if (!Sync(pos)) {
 		ASSERT(0);
@@ -794,7 +794,7 @@ void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
 	bool hasAudio = !!GetOutputPin(FLV_AUDIODATA);
 	bool hasVideo = !!GetOutputPin(FLV_VIDEODATA);
 
-	__int64 estimPos = m_DataOffset + 1.0 * rt / m_rtDuration * (m_pFile->GetLength() - m_DataOffset);
+	__int64 estimPos = m_DataOffset + (__int64)(double(m_pFile->GetLength() - m_DataOffset) * rt / m_rtDuration);
 
 	while (true) {
 		estimPos -= 256 * 1024;
@@ -888,7 +888,7 @@ bool CFLVSplitterFilter::DemuxLoop()
 			p->rtStart = 10000i64 * (t.TimeStamp + tsOffset);
 			p->rtStop = p->rtStart + 1;
 			p->bSyncPoint = t.TagType == FLV_VIDEODATA ? vt.FrameType == 1 : true;
-			p->SetCount(dataSize);
+			p->SetCount((size_t)dataSize);
 			m_pFile->ByteRead(p->GetData(), p->GetCount());
 			hr = DeliverPacket(p);
 		}

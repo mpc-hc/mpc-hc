@@ -225,7 +225,7 @@ HRESULT CFLACStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, l
 	FLAC__stream_decoder_get_decode_position(_DECODER_, &llNextPos);
 
 	FLAC__uint64	llCurFile = m_file.GetPosition();
-	len = llNextPos - llCurPos;
+	len = (long)(llNextPos - llCurPos);
 	ASSERT (len > 0);
 	if (len <= 0) {
 		return S_FALSE;

@@ -241,7 +241,7 @@ bool CDSMSplitterFile::Read(__int64 len, IDSMResourceBagImpl& res)
 		return false;    // TODO
 	}
 
-	r.data.SetCount(len);
+	r.data.SetCount((size_t)len);
 	ByteRead(r.data.GetData(), r.data.GetCount());
 
 	res += r;

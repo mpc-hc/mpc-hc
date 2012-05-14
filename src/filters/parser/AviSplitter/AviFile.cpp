@@ -135,7 +135,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 			}
 
 			if (m_isamv) {
-				size = end - GetPos() - 8;    // No size set in AVM : guess end of file...
+				size = (DWORD)(min(end, DWORD_MAX) - GetPos() - 8);    // No size set in AVM : guess end of file...
 			}
 			size += (size&1) + 8;
 

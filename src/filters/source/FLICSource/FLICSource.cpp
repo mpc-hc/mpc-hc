@@ -432,7 +432,7 @@ HRESULT CFLICStream::FillBuffer(IMediaSample* pSample)
 		int pitchIn = m_hdr.width;
 		int pitchOut = w*bpp>>3;
 
-		int nFrame = m_rtPosition / m_AvgTimePerFrame; // (int)(1.0 * m_rtPosition / m_AvgTimePerFrame + 0.5);
+		int nFrame = (int)(m_rtPosition / m_AvgTimePerFrame);
 
 		{
 			SeekToNearestKeyFrame(nFrame);

@@ -1917,7 +1917,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	else if (subtype == MEDIASUBTYPE_Vorbis2) {
 		VORBISFORMAT2 *vf2 = (VORBISFORMAT2 *)mt.Format();
 		scmap_t* scmap = &m_scmap_default[vf2->Channels-1];
-		*pmt = CreateMediaType(GetSampleFormat(), vf2->SamplesPerSec, vf2->Channels, scmap->dwChannelMask);
+		*pmt = CreateMediaType(GetSampleFormat(), vf2->SamplesPerSec, (WORD)vf2->Channels, scmap->dwChannelMask);
 	}
 #endif
 	else {

@@ -334,8 +334,8 @@ avcsuccess:
 				} else if (CodecID == "V_MPEG2") {
 					BYTE* seqhdr = pTE->CodecPrivate.GetData();
 					DWORD len = pTE->CodecPrivate.GetCount();
-					int w = pTE->v.PixelWidth;
-					int h = pTE->v.PixelHeight;
+					int w = (int)pTE->v.PixelWidth;
+					int h = (int)pTE->v.PixelHeight;
 
 					if (MakeMPEG2MediaType(mt, seqhdr, len, w, h)) {
 						if (!bHasVideo)
@@ -739,7 +739,7 @@ avcsuccess:
 						continue;
 					}
 
-					WORD cbSize = MakeAACInitData((BYTE*)(wfe + 1), profile, wfe->nSamplesPerSec, pTE->a.Channels);
+					WORD cbSize = MakeAACInitData((BYTE*)(wfe + 1), profile, wfe->nSamplesPerSec, (int)pTE->a.Channels);
 
 					mts.Add(mt);
 
@@ -903,7 +903,7 @@ avcsuccess:
 				AttachedFile* pF = pA->AttachedFiles.GetNext(pos);
 
 				CAtlArray<BYTE> pData;
-				pData.SetCount(pF->FileDataLen);
+				pData.SetCount((size_t)pF->FileDataLen);
 				m_pFile->Seek(pF->FileDataPos);
 				if (SUCCEEDED(m_pFile->ByteRead(pData.GetData(), pData.GetCount()))) {
 					ResAppend(pF->FileName, pF->FileDescription, CStringW(pF->FileMimeType), pData.GetData(), pData.GetCount());
