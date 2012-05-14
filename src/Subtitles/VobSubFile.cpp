@@ -781,7 +781,8 @@ bool CVobSubFile::ReadRar(CString fn)
 	memset(&ArchiveDataEx, 0, sizeof(ArchiveDataEx));
 	ArchiveDataEx.ArcNameW = (LPTSTR)(LPCTSTR)fn;
 	char fnA[_MAX_PATH];
-	if (wcstombs(fnA, fn, fn.GetLength()+1) == -1) {
+	size_t size;
+	if (wcstombs_s(&size, fnA, fn, fn.GetLength())) {
 		fnA[0] = 0;
 	}
 	ArchiveDataEx.ArcName = fnA;
