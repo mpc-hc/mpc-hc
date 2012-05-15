@@ -1,6 +1,8 @@
 People with SVN commit rights:
 --------
 clsid                   <clsid2@users.sourceforge.net>          Code
+demi_alucard            <alysson87@gmail.com>                   Code
+janwillem32             <janwillem32@users.sourceforge.net>     Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
 Underground78           <underground78@users.sourceforge.net>   Code, French
@@ -59,8 +61,8 @@ Ukrainian               arestarh                <arestarh1986@users.sourceforge.
 
 Contributors:
 --------------
-Alexx999, foxx1337, heksesang, janwillem32, judelaw, madshi, mtrz,
-nielsm, skaarj1, VSFilterMod Team, X-Dron
+Alexx999, foxx1337, heksesang, judelaw, madshi, mtrz, nielsm,
+skaarj1, VSFilterMod Team, X-Dron
 
 
 Trac moderators:
