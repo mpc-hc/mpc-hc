@@ -55,7 +55,7 @@
 /* #undef LIBA52_DJBFFT */
 
 /* a52 sample precision */
-/* #undef LIBA52_DOUBLE */
+#define LIBA52_DOUBLE //this is actually defined in a52.h
 
 /* libao al support */
 /* #undef LIBAO_AL */

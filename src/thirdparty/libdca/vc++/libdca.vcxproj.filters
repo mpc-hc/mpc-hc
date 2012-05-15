@@ -49,5 +49,8 @@
     <ClInclude Include="..\libdca\tables_vq.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -67,7 +67,7 @@
 /* #undef HAVE_UNISTD_H */
 
 /* dca sample precision */
-/* #undef LIBDCA_DOUBLE */
+#define LIBDCA_DOUBLE //this is actually defined in dca.h
 
 /* use fixed-point arithmetic */
 /* #undef LIBDCA_FIXED */
