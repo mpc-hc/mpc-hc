@@ -26,6 +26,7 @@
 #include "AppSettings.h"
 #include "MiniDump.h"
 #include "WinAPIUtils.h"
+#include "UpdateChecker.h"
 
 
 CAppSettings::CAppSettings()
@@ -879,6 +880,9 @@ void CAppSettings::UpdateData(bool fSave)
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, fRemainingTime);
 
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, nUpdaterAutoCheck);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_DELAY, nUpdaterDelay);
+
 		if (pApp->m_pszRegistryKey) {
 			// WINBUG: on win2k this would crash WritePrivateProfileString
 			pApp->WriteProfileInt(_T(""), _T(""), pApp->GetProfileInt(_T(""), _T(""), 0)?0:1);
@@ -1451,6 +1455,12 @@ void CAppSettings::UpdateData(bool fSave)
 		strShadercombineScreenSpace = pApp->GetProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINESCREENSPACE, _T(""));
 
 		fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, FALSE);
+
+		nUpdaterAutoCheck = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, AutoUpdate_Status::AUTOUPDATE_UNKNOWN);
+		nUpdaterDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_DELAY, 7);
+		if (nUpdaterDelay < 1) {
+			nUpdaterDelay = 1;
+		}
 
 		if (fLaunchfullscreen) {
 			nCLSwitches |= CLSW_FULLSCREEN;

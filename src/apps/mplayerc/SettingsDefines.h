@@ -239,6 +239,11 @@
 
 #define IDS_REMAINING_TIME					_T("RemainingTime")
 
+#define IDS_RS_UPDATER_AUTO_CHECK			_T("UpdaterAutoCheck")
+#define IDS_RS_UPDATER_LAST_CHECK			_T("UpdaterLastCheck")
+#define IDS_RS_UPDATER_DELAY				_T("UpdaterDelay")
+#define IDS_RS_UPDATER_IGNORE_VERSION		_T("UpdaterIgnoreVersion")
+
 #define IDS_R_SHADERS_INITIALIZED			_T("Initialized")
 #define IDS_R_SHADERS_COMBINE				_T("Combine")
 #define IDS_R_SHADERS_COMBINESCREENSPACE	_T("CombineScreenSpace")

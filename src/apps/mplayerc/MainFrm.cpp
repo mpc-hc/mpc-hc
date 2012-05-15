@@ -9215,19 +9215,9 @@ void CMainFrame::OnHelpHomepage()
 	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
 }
 
-UINT CMainFrame::CheckForUpdate(LPVOID pParam)
-{
-	UpdateChecker updateChecker(_T("http://mpc-hc.sourceforge.net/version.txt"));
-	UpdateCheckerDlg dlg(updateChecker.isUpdateAvailable(), updateChecker.getLatestVersion());
-	dlg.DoModal();
-
-	return 0;
-}
-
-
 void CMainFrame::OnHelpCheckForUpdate()
 {
-	AfxBeginThread(CheckForUpdate, NULL);
+	UpdateChecker::CheckForUpdate();
 }
 
 /*
@@ -9860,7 +9850,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 					}
 
 					float scale = i / 3.0f;
-					w = minw + (maxw - minw) * scale;
+					w = (int)(minw + (maxw - minw) * scale);
 					h = MulDiv(w, arxy.cy, arxy.cx);
 				}
 			}
@@ -15209,9 +15199,9 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 			lPosition = tcCur.bHours*60*60 + tcCur.bMinutes*60 + tcCur.bSeconds + nSeconds;
 
 			// revert the update position to REFERENCE_TIME format
-			tcCur.bHours	= lPosition/3600;
-			tcCur.bMinutes	= (lPosition/60) % 60;
-			tcCur.bSeconds	= lPosition%60;
+			tcCur.bHours	= (BYTE)(lPosition / 3600);
+			tcCur.bMinutes	= (lPosition / 60) % 60;
+			tcCur.bSeconds	= lPosition % 60;
 			rtCur = HMSF2RT(tcCur);
 
 			// quick and dirty trick:

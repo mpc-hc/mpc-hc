@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include "UpdateCheckerDlg.h"
-#include "afxdialogex.h"
+#include <afxdialogex.h>
 
 IMPLEMENT_DYNAMIC(UpdateCheckerDlg, CDialog)
 
@@ -32,14 +32,17 @@ UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, const Version& la
 {
 	switch (updateStatus) {
 		case UPDATER_UPDATE_AVAILABLE:
-			m_text.Format(IDS_NEW_UPDATE_AVAILABLE, latestVersion.major, latestVersion.minor, latestVersion.patch, latestVersion.revision);
+		case UPDATER_UPDATE_AVAILABLE_IGNORED:
+			m_text.Format(IDS_NEW_UPDATE_AVAILABLE,
+						  latestVersion.major, latestVersion.minor, latestVersion.patch, latestVersion.revision,
+						  UpdateChecker::MPC_HC_VERSION.major, UpdateChecker::MPC_HC_VERSION.minor, UpdateChecker::MPC_HC_VERSION.patch, UpdateChecker::MPC_HC_VERSION.revision);
 			break;
 		case UPDATER_LATEST_STABLE:
 			m_text.Format(IDS_USING_LATEST_STABLE);
 			break;
 		case UPDATER_NEWER_VERSION:
 			m_text.Format(IDS_USING_NEWER_VERSION,
-						  UpdateChecker::MPC_VERSION.major, UpdateChecker::MPC_VERSION.minor, UpdateChecker::MPC_VERSION.patch, UpdateChecker::MPC_VERSION.revision,
+						  UpdateChecker::MPC_HC_VERSION.major, UpdateChecker::MPC_HC_VERSION.minor, UpdateChecker::MPC_HC_VERSION.patch, UpdateChecker::MPC_HC_VERSION.revision,
 						  latestVersion.major, latestVersion.minor, latestVersion.patch, latestVersion.revision);
 			break;
 		case UPDATER_ERROR:
@@ -59,12 +62,16 @@ void UpdateCheckerDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_UPDATE_DLG_TEXT, m_text);
 	DDX_Control(pDX, IDC_UPDATE_ICON, m_icon);
-	DDX_Control(pDX, IDOK, m_okButton);
-	DDX_Control(pDX, IDCANCEL, m_cancelButton);
+	DDX_Control(pDX, IDC_UPDATE_DL_BUTTON, m_dlButton);
+	DDX_Control(pDX, IDC_UPDATE_LATER_BUTTON, m_laterButton);
+	DDX_Control(pDX, IDC_UPDATE_IGNORE_BUTTON, m_ignoreButton);
 }
 
 
 BEGIN_MESSAGE_MAP(UpdateCheckerDlg, CDialog)
+	ON_BN_CLICKED(IDC_UPDATE_DL_BUTTON, OnOpenDownloadPage)
+	ON_BN_CLICKED(IDC_UPDATE_LATER_BUTTON, OnUpdateLater)
+	ON_BN_CLICKED(IDC_UPDATE_IGNORE_BUTTON, OnIgnoreUpdate)
 END_MESSAGE_MAP()
 
 BOOL UpdateCheckerDlg::OnInitDialog()
@@ -73,15 +80,27 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 
 	switch (m_updateStatus) {
 		case UPDATER_UPDATE_AVAILABLE:
+		case UPDATER_UPDATE_AVAILABLE_IGNORED:
 			m_icon.SetIcon(LoadIcon(NULL, IDI_QUESTION));
 			break;
 		case UPDATER_LATEST_STABLE:
 		case UPDATER_NEWER_VERSION:
-		case UPDATER_ERROR:
+		case UPDATER_ERROR: {
 			m_icon.SetIcon(LoadIcon(NULL, (m_updateStatus == UPDATER_ERROR) ? IDI_WARNING : IDI_INFORMATION));
-			m_okButton.ShowWindow(SW_HIDE);
-			m_cancelButton.SetWindowText(ResStr(IDS_UPDATE_CLOSE));
-			m_cancelButton.SetFocus();
+			m_dlButton.ShowWindow(SW_HIDE);
+			m_laterButton.ShowWindow(SW_HIDE);
+			m_ignoreButton.SetWindowText(ResStr(IDS_UPDATE_CLOSE));
+			CRect buttonRect, windowRect;
+			m_ignoreButton.GetWindowRect(&buttonRect);
+			ScreenToClient(&buttonRect);
+			// Reduce the button width
+			buttonRect.left += 30;
+			// Center the button
+			GetWindowRect(&windowRect);
+			buttonRect.MoveToX((windowRect.Width() - buttonRect.Width()) / 2);
+			m_ignoreButton.MoveWindow(&buttonRect);
+			m_ignoreButton.SetFocus();
+		}
 			break;
 		default:
 			ASSERT(0); // should never happen
@@ -90,11 +109,19 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 	return TRUE;
 }
 
-void UpdateCheckerDlg::OnOK()
+void UpdateCheckerDlg::OnOpenDownloadPage()
 {
-	if (m_updateStatus == UPDATER_UPDATE_AVAILABLE) {
-		ShellExecute(NULL, _T("open"), _T("http://mpc-hc.sourceforge.net/download-media-player-classic-hc.html"), NULL, NULL, SW_SHOWNORMAL);
-	}
+	ShellExecute(NULL, _T("open"), _T("http://mpc-hc.sourceforge.net/download-media-player-classic-hc.html"), NULL, NULL, SW_SHOWNORMAL);
 
-	__super::OnOK();
+	EndDialog(IDC_UPDATE_DL_BUTTON);
+}
+
+void UpdateCheckerDlg::OnUpdateLater()
+{
+	EndDialog(IDC_UPDATE_LATER_BUTTON);
+}
+
+void UpdateCheckerDlg::OnIgnoreUpdate()
+{
+	EndDialog((m_updateStatus == UPDATER_UPDATE_AVAILABLE) ? IDC_UPDATE_IGNORE_BUTTON : 0);
 }

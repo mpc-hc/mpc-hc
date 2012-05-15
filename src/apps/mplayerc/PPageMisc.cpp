@@ -48,6 +48,9 @@ void CPPageMisc::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SLI_CONTRAST, m_SliContrast);
 	DDX_Control(pDX, IDC_SLI_HUE, m_SliHue);
 	DDX_Control(pDX, IDC_SLI_SATURATION, m_SliSaturation);
+	DDX_Check(pDX, IDC_CHECK1, m_nUpdaterAutoCheck);
+	DDX_Text(pDX, IDC_EDIT1, m_nUpdaterDelay);
+	DDX_Control(pDX, IDC_SPIN1, m_updaterDelaySpin);
 }
 
 
@@ -56,6 +59,8 @@ BEGIN_MESSAGE_MAP(CPPageMisc, CPPageBase)
 	ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
 	ON_BN_CLICKED(IDC_RESET_SETTINGS, OnResetSettings)
 	ON_BN_CLICKED(IDC_EXPORT_SETTINGS, OnExportSettings)
+	ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateDelayEditBox)
+	ON_UPDATE_COMMAND_UI(IDC_SPIN1, OnUpdateDelayEditBox)
 END_MESSAGE_MAP()
 
 
@@ -67,8 +72,6 @@ BOOL CPPageMisc::OnInitDialog()
 	__super::OnInitDialog();
 
 	AppSettings& s = AfxGetAppSettings();
-
-	UpdateData(FALSE);
 
 	CreateToolTip();
 
@@ -108,6 +111,12 @@ BOOL CPPageMisc::OnInitDialog()
 		m_SliSaturation.SetPos			(m_iSaturation);
 	}
 
+	m_nUpdaterAutoCheck = s.nUpdaterAutoCheck;
+	m_nUpdaterDelay = s.nUpdaterDelay;
+	m_updaterDelaySpin.SetRange32(1, 365);
+
+	UpdateData(FALSE);
+
 	return TRUE;
 }
 
@@ -121,6 +130,9 @@ BOOL CPPageMisc::OnApply()
 	s.iContrast					= m_iContrast;
 	s.iHue						= m_iHue;
 	s.iSaturation				= m_iSaturation;
+
+	s.nUpdaterAutoCheck = m_nUpdaterAutoCheck;
+	s.nUpdaterDelay = m_nUpdaterDelay;
 
 	return __super::OnApply();
 }
@@ -165,6 +177,13 @@ void CPPageMisc::OnBnClickedReset()
 	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
 
 	SetModified();
+}
+
+void CPPageMisc::OnUpdateDelayEditBox(CCmdUI* pCmdUI)
+{
+	UpdateData();
+
+	pCmdUI->Enable(m_nUpdaterAutoCheck);
 }
 
 void CPPageMisc::OnResetSettings()

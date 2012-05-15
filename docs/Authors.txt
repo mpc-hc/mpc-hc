@@ -1,7 +1,7 @@
 People with SVN commit rights:
 --------
 clsid                   <clsid2@users.sourceforge.net>          Code
-demi_alucard            <alysson87@gmail.com>                   Code
+demi_alucard            <alysson87@gmail.com>                   Code, Portuguese (Brazil)
 janwillem32             <janwillem32@users.sourceforge.net>     Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin

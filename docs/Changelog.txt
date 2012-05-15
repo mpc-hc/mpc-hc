@@ -14,6 +14,9 @@ Legend:
 + Added .tak extension
 + Ticket #1792, Show an OSD message and a status message when a favorite is
   created via the keyboard shortcut
++ Ticket #2134, Added an auto-update feature to periodically check for new
+  update. This feature can be enabled on first launch or via the Miscellaneous
+  options page. The delay between the checks is also customizable.
 + Ticket #2193, Add PNG support for custom toolbars
 + Added Basque translation
 * Ticket #734, A unicode encoding will now be used for the ini file. Old ASCII
@@ -69,7 +72,7 @@ Legend:
 * Updated zlib to v1.2.7
 * Updated Detours to v3.0 build 316
 * Updated French, Turkish, Czech, Russian, Ukrainian, Simplified Chinese, Japanese,
-  Traditional Chinese, Italian, German and Polish translations
+  Traditional Chinese, Italian, German, Polish and Portuguese (Brazil) translations
 * Removed GTSdll support since it's dead
 * Removed the option to disable XP theming since it's of no use for any OS >= Windows XP
 * Removed the option "Use the WM ASF Reader for Windows Media files" since it has no

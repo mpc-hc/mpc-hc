@@ -24,14 +24,17 @@
 #include "stdafx.h"
 #include "Version.h"
 #include "UpdateChecker.h"
+#include "UpdateCheckerDlg.h"
 
 #include <afxinet.h>
 
 #ifdef NO_VERSION_REV_NEEDED
-const Version UpdateChecker::MPC_VERSION = { MPC_VERSION_MAJOR, MPC_VERSION_MINOR, MPC_VERSION_PATCH, 0 };
+const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_MAJOR, MPC_VERSION_MINOR, MPC_VERSION_PATCH, 0 };
 #else
-const Version UpdateChecker::MPC_VERSION = { MPC_VERSION_MAJOR, MPC_VERSION_MINOR, MPC_VERSION_PATCH, MPC_VERSION_REV };
+const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_MAJOR, MPC_VERSION_MINOR, MPC_VERSION_PATCH, MPC_VERSION_REV };
 #endif // NO_VERSION_REV_NEEDED
+
+const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = _T("http://mpc-hc.sourceforge.net/version.txt");
 
 UpdateChecker::UpdateChecker(CString versionFileURL)
 	: versionFileURL(versionFileURL)
@@ -42,7 +45,7 @@ UpdateChecker::~UpdateChecker(void)
 {
 }
 
-Update_Status UpdateChecker::isUpdateAvailable(const Version& currentVersion)
+Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
 {
 	Update_Status updateAvailable = UPDATER_LATEST_STABLE;
 
@@ -64,13 +67,24 @@ Update_Status UpdateChecker::isUpdateAvailable(const Version& currentVersion)
 				latestVersionStr += buffer;
 			}
 
-			if (!parseVersion(latestVersionStr)) {
+			if (!ParseVersion(latestVersionStr, latestVersion)) {
 				updateAvailable = UPDATER_ERROR;
 			} else {
-				int comp = compareVersion(currentVersion, latestVersion);
+				time_t lastCheck = time(NULL);
+				AfxGetApp()->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_UPDATER_LAST_CHECK, (LPBYTE)&lastCheck, sizeof(time_t));
+
+				int comp = CompareVersion(currentVersion, latestVersion);
 
 				if (comp < 0) {
-					updateAvailable = UPDATER_UPDATE_AVAILABLE;
+					CString ignoredVersionStr = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_UPDATER_IGNORE_VERSION, _T("0.0.0.0"));
+					Version ignoredVersion;
+					bool ignored = false;
+
+					if (ParseVersion(ignoredVersionStr, ignoredVersion)) {
+						ignored = (CompareVersion(ignoredVersion, latestVersion) >= 0);
+					}
+
+					updateAvailable = ignored ? UPDATER_UPDATE_AVAILABLE_IGNORED : UPDATER_UPDATE_AVAILABLE;
 				} else if (comp > 0) {
 					updateAvailable = UPDATER_NEWER_VERSION;
 				}
@@ -88,12 +102,20 @@ Update_Status UpdateChecker::isUpdateAvailable(const Version& currentVersion)
 	return updateAvailable;
 }
 
-Update_Status UpdateChecker::isUpdateAvailable()
+Update_Status UpdateChecker::IsUpdateAvailable()
 {
-	return isUpdateAvailable(MPC_VERSION);
+	return IsUpdateAvailable(MPC_HC_VERSION);
 }
 
-bool UpdateChecker::parseVersion(const CString& versionStr)
+void UpdateChecker::IgnoreLatestVersion()
+{
+	CString ignoredVersionStr;
+	ignoredVersionStr.Format(_T("%u.%u.%u.%u"), latestVersion.major, latestVersion.minor, latestVersion.patch, latestVersion.revision);
+
+	AfxGetApp()->WriteProfileString(IDS_R_SETTINGS, IDS_RS_UPDATER_IGNORE_VERSION, ignoredVersionStr);
+}
+
+bool UpdateChecker::ParseVersion(const CString& versionStr, Version& version)
 {
 	bool success = false;
 
@@ -117,17 +139,17 @@ bool UpdateChecker::parseVersion(const CString& versionStr)
 		success = success && (i == _countof(v));
 
 		if (success) {
-			latestVersion.major = v[0];
-			latestVersion.minor = v[1];
-			latestVersion.patch = v[2];
-			latestVersion.revision = v[3];
+			version.major = v[0];
+			version.minor = v[1];
+			version.patch = v[2];
+			version.revision = v[3];
 		}
 	}
 
 	return success;
 }
 
-int UpdateChecker::compareVersion(const Version& v1, const Version& v2) const
+int UpdateChecker::CompareVersion(const Version& v1, const Version& v2)
 {
 	if (v1.major > v2.major) {
 		return 1;
@@ -148,4 +170,61 @@ int UpdateChecker::compareVersion(const Version& v1, const Version& v2) const
 	} else {
 		return 0;
 	}
+}
+
+bool UpdateChecker::IsAutoUpdateEnabled()
+{
+	int& status = AfxGetAppSettings().nUpdaterAutoCheck;
+	
+	if (status == AUTOUPDATE_UNKNOWN) { // First run
+		status = (AfxMessageBox(IDS_UPDATE_CONFIG_AUTO_CHECK, MB_YESNO) == IDYES) ? AUTOUPDATE_ENABLE : AUTOUPDATE_DISABLE;
+	}
+
+	return (status == AUTOUPDATE_ENABLE);
+}
+
+bool UpdateChecker::IsTimeToAutoUpdate()
+{
+	time_t *lastCheck = NULL;
+	UINT nRead;
+
+	if (!AfxGetApp()->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_UPDATER_LAST_CHECK, (LPBYTE*)&lastCheck, &nRead) || nRead != sizeof(time_t)) {
+		if (lastCheck) {
+			delete[] lastCheck;
+		}
+
+		return true;
+	}
+
+	bool isTimeToAutoUpdate = (time(NULL) >= *lastCheck + AfxGetAppSettings().nUpdaterDelay*24*3600);
+
+	delete[] lastCheck;
+
+	return isTimeToAutoUpdate;
+}
+
+UINT RunCheckForUpdateThread(LPVOID pParam)
+{
+	bool autoCheck = !!pParam;
+
+	if (!autoCheck || UpdateChecker::IsTimeToAutoUpdate()) {
+		UpdateChecker updateChecker(UpdateChecker::MPC_HC_UPDATE_URL);
+
+		Update_Status status = updateChecker.IsUpdateAvailable();
+
+		if (!autoCheck || status == UPDATER_UPDATE_AVAILABLE) {
+			UpdateCheckerDlg dlg(status, updateChecker.GetLatestVersion());
+
+			if (dlg.DoModal() == IDC_UPDATE_IGNORE_BUTTON) {
+				updateChecker.IgnoreLatestVersion();
+			}
+		}
+	}
+
+	return 0;
+}
+
+void UpdateChecker::CheckForUpdate(bool autoCheck /*= false*/)
+{
+	AfxBeginThread(RunCheckForUpdateThread, (LPVOID)autoCheck);
 }

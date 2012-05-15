@@ -39,13 +39,16 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	afx_msg virtual BOOL OnInitDialog();
-	afx_msg virtual void OnOK();
+	afx_msg void OnOpenDownloadPage();
+	afx_msg void OnUpdateLater();
+	afx_msg void OnIgnoreUpdate();
 
 	DECLARE_MESSAGE_MAP()
 private:
 	Update_Status m_updateStatus;
 	CString m_text;
 	CStatic m_icon;
-	CButton m_okButton;
-	CButton m_cancelButton;
+	CButton m_dlButton;
+	CButton m_laterButton;
+	CButton m_ignoreButton;
 };

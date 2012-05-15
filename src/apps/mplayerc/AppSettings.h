@@ -588,6 +588,9 @@ public:
 
 	bool			fRemainingTime;
 
+	int				nUpdaterAutoCheck;
+	int				nUpdaterDelay;
+
 	bool			GetAllowMultiInst();
 private:
 	void			UpdateRenderersData(bool fSave);

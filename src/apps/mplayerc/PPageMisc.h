@@ -38,6 +38,11 @@ private:
 	int m_iHue;
 	int m_iSaturation;
 
+	CSpinButtonCtrl m_updaterDelaySpin;
+
+	int m_nUpdaterAutoCheck;
+	int m_nUpdaterDelay;
+
 public:
 	CPPageMisc();
 	virtual ~CPPageMisc();
@@ -59,6 +64,8 @@ public:
 	CSliderCtrl m_SliSaturation;
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnBnClickedReset();
+
+	afx_msg void OnUpdateDelayEditBox(CCmdUI* pCmdUI);
 
 	afx_msg void OnResetSettings();
 	afx_msg void OnExportSettings();

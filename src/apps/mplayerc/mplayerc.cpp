@@ -34,6 +34,7 @@
 #include "Monitors.h"
 #include "Version.h"
 #include "WinAPIUtils.h"
+#include "UpdateChecker.h"
 #include <winddk/ntddcdvd.h>
 #include <detours/detours.h>
 #include <afxsock.h>
@@ -1055,6 +1056,11 @@ BOOL CMPlayerCApp::InitInstance()
 	}
 
 	m_mutexOneInstance.Release();
+
+	if (UpdateChecker::IsAutoUpdateEnabled()) {
+		UpdateChecker::CheckForUpdate(true);
+	}
+
 	return TRUE;
 }
 
