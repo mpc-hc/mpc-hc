@@ -49,6 +49,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
+	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);

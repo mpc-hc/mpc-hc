@@ -42,7 +42,7 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
 	if (!CSliderCtrl::Create(WS_CHILD|WS_VISIBLE|TBS_NOTICKS|TBS_HORZ|TBS_TOOLTIPS, CRect(0,0,0,0), pParentWnd, IDC_SLIDER1)) {
 		return false;
 	}
-
+	EnableToolTips(TRUE);
 	SetRange(0, 100);
 	SetPosInternal(AfxGetAppSettings().nVolume);
 	SetPageSize(5);
@@ -73,6 +73,7 @@ BEGIN_MESSAGE_MAP(CVolumeCtrl, CSliderCtrl)
 	ON_WM_SETFOCUS()
 	ON_WM_HSCROLL_REFLECT()
 	ON_WM_SETCURSOR()
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 // CVolumeCtrl message handlers
@@ -187,5 +188,18 @@ void CVolumeCtrl::HScroll(UINT nSBCode, UINT nPos)
 BOOL CVolumeCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
 	::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+	return TRUE;
+}
+
+BOOL CVolumeCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
+{
+	TOOLTIPTEXT *pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMHDR);
+	CString str;
+	str.AppendFormat(_T("%d%%"), GetPos());
+	_tcscpy_s(pTTT->szText, str);
+	pTTT->hinst = NULL;
+
+	*pResult = 0;
+
 	return TRUE;
 }
