@@ -141,7 +141,7 @@ bool CSubtitleDlDlg::Parse()
 			m_parsed_movies.Add(p);
 		}
 	}
-	
+
 	bool ret = true;
 	if (m_parsed_movies.GetCount() == 0) {
 		ret = false;
@@ -204,8 +204,8 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 	}
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()
-		| LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
-		| LVS_EX_CHECKBOXES   | LVS_EX_LABELTIP);
+							| LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
+							| LVS_EX_CHECKBOXES   | LVS_EX_LABELTIP);
 
 	if (columnWidth.GetCount() != 5) {
 		// default sizes

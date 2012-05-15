@@ -55,7 +55,7 @@ private:
 			m_hWnd(hWnd),
 			m_colIndex(colIndex),
 			m_ascending(ascending)
-			{}
+		{}
 		HWND m_hWnd;
 		UINT m_colIndex;
 		BOOL m_ascending;

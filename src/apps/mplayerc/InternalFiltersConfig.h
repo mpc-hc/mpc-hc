@@ -30,9 +30,9 @@
 //#define INTERNAL_FILTERS_NONE
 
 #if defined(INTERNAL_FILTERS_NONE)
-	#include "InternalFiltersConfig_none.h"
+#include "InternalFiltersConfig_none.h"
 #else
-	#include "InternalFiltersConfig_standard.h"
+#include "InternalFiltersConfig_standard.h"
 #endif
 
 // Groups
@@ -44,10 +44,10 @@
 
 #define HAS_OTHER_AUDIO_DECODERS \
 		(INTERNAL_DECODER_DTS || INTERNAL_DECODER_LPCM || INTERNAL_DECODER_PS2AUDIO || INTERNAL_DECODER_REALAUDIO || INTERNAL_DECODER_FLAC || INTERNAL_DECODER_PCM)
-		
+
 #define HAS_OTHER_VIDEO_DECODERS \
 		(INTERNAL_DECODER_MPEG1 || INTERNAL_DECODER_MPEG2 || INTERNAL_DECODER_REALVIDEO)
-		
+
 #define HAS_OTHER_DECODERS \
 		(HAS_OTHER_AUDIO_DECODERS || HAS_OTHER_VIDEO_DECODERS)
 

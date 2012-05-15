@@ -370,7 +370,7 @@ bool CMPlayerCApp::IsIniUTF16LE() const
 				isUTF16LE = (bom == 0xFEFF);
 			}
 		}
-	} catch(CFileException* e) {
+	} catch (CFileException* e) {
 		// If something goes wrong, we try to recreate the ini file
 		// instead of crashing because it seems to work in most of
 		// the cases but maybe we could do something better.

@@ -37,9 +37,9 @@ CComPtr<IApplicationAssociationRegistration> CPPageFormats::m_pAAR;
 // TODO: change this along with the root key for settings and the mutex name to
 //       avoid possible risks of conflict with the old MPC (non HC version).
 #ifdef _WIN64
-	#define PROGID _T("mplayerc64")
+#define PROGID _T("mplayerc64")
 #else
-	#define PROGID _T("mplayerc")
+#define PROGID _T("mplayerc")
 #endif // _WIN64
 
 LPCTSTR g_strRegisteredAppName = _T("Media Player Classic");
