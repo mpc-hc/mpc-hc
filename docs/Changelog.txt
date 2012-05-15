@@ -23,9 +23,13 @@ Legend:
   running when VSFilter is active since that's a job for players not for filters
 * Ticket #1733/#2029, Include subfolders when opening a folder using the command
   line or via the explorer context menu
-* Ticket #2144, Improve the subtitles downloader dialog:
+* Ticket #2144,2277, Improve the subtitles downloader dialog:
     - the dialog's size and position are now saved
     - the columns' sizes are saved
+    - the subtitle list is now fetched from a worker thread (this way the player won't
+      lock anymore when the dialog is being opened)
+    - reduced flicker
+    - tooltips will now be shown for clipped text
 * Ticket #2157, Show the [DXVA] indicator even when playback is paused
 * Ticket #2163, Improve the "Save As" dialog: the dialog is updated more regularly and
   the units for the sizes and the speed are now automatically adapted to the values
