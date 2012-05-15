@@ -27,7 +27,6 @@
 #include "../../DSUtil/DSUtil.h"
 
 #include <InitGuid.h>
-//#include <qedit.h>
 #include <detours/detours.h>
 
 

@@ -64,7 +64,6 @@
 #include <moreuuids.h>
 #include <qnetwork.h>
 #include <psapi.h>
-//#include <qedit.h>		// Casimir666 : incompatible with D3D.h
 
 #include "../../DSUtil/DSUtil.h"
 #include "FGManager.h"
