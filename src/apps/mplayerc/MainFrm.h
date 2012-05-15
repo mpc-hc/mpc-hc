@@ -190,6 +190,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
 	friend class CPPageFileInfoSheet;
 	friend class CPPageLogo;
+	friend class CSubtitleDlDlg;
 
 	// TODO: wrap these graph objects into a class to make it look cleaner
 

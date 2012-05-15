@@ -23,21 +23,15 @@
 
 #pragma once
 
-#include <afxwin.h>
 #include "ISDb.h"
 #include <ResizableLib/ResizableDialog.h>
 
-
-// CSubtitleDlDlg dialog
+class CInternetSession;
 
 class CSubtitleDlDlg : public CResizableDialog
 {
-	//	DECLARE_DYNAMIC(CSubtitleDlDlg)
-
 private:
-	CList<isdb_movie> m_movies;
-
-	struct isdb_movie_Parsed {
+	struct isdb_movie_parsed {
 		CString titles;
 		CString name;
 		CString language;
@@ -46,37 +40,63 @@ private:
 		DWORD_PTR ptr;
 		bool checked;
 	};
-	CArray<isdb_movie_Parsed> m_moviesParsed;
-	int iColumn;
-	bool bSortDirection;
+
+	typedef struct THREADSTRUCT {
+		HWND hWND;
+		CInternetSession is;
+		CStringA url;
+		CStringA raw_list;
+		CStringA ticket;
+		CList<isdb_movie> raw_movies;
+	} THREADSTRUCT, *PTHREADSTRUCT;
+
+	typedef struct PARAMSORT {
+		PARAMSORT(HWND hWnd, UINT colIndex, BOOL ascending) :
+			m_hWnd(hWnd),
+			m_colIndex(colIndex),
+			m_ascending(ascending)
+			{}
+		HWND m_hWnd;
+		UINT m_colIndex;
+		BOOL m_ascending;
+	} PARAMSORT, *PPARAMSORT;
 
 	enum {COL_FILENAME, COL_LANGUAGE, COL_FORMAT, COL_DISC, COL_TITLES};
+	PARAMSORT ps;
+	PTHREADSTRUCT m_pTA;
 
-	void BuildList( void );
-	void SortList( void );
+	CArray<isdb_movie_parsed> m_parsed_movies;
+	CString m_url;
+	bool m_fReplaceSubs;
 
-	friend struct sort_cmp;
+	CListCtrl m_list;
+	CList<isdb_subtitle> m_selsubs;
+	CStatusBarCtrl m_status;
 
+	void SetStatus(const CString& status);
+	bool Parse();
+	void LoadList();
+
+	static UINT RunThread(LPVOID pParam);
+	static int CALLBACK SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 public:
-	CSubtitleDlDlg(CList<isdb_movie>& movies, CWnd* pParent = NULL);   // standard constructor
+	explicit CSubtitleDlDlg(CWnd* pParent, const CStringA& url);
 	virtual ~CSubtitleDlDlg();
 
-	bool m_fReplaceSubs;
-	CList<isdb_subtitle> m_selsubs;
-
-	// Dialog Data
 	enum { IDD = IDD_SUBTITLEDL_DLG };
-	CListCtrl m_list;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 
 	DECLARE_MESSAGE_MAP()
 
-public:
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnParse();
+	afx_msg void OnFailedConnection();
 	afx_msg void OnUpdateOk(CCmdUI* pCmdUI);
-	afx_msg void OnHdnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnColumnClick(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDestroy();
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

@@ -5444,102 +5444,15 @@ void CMainFrame::OnFileISDBDownload()
 		return;
 	}
 
-	// TODO: put this on a worker thread
-
-	CStringA url = "http://" + s.strISDb + "/index.php?";
-	CStringA args;
-	args.Format("player=mpc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
-				UrlEncode(CStringA(fh.name)), fh.size, fh.mpc_filehash);
-
 	try {
-		CInternetSession is;
+		CStringA url = "http://" + s.strISDb + "/index.php?";
+		CStringA args;
+		args.Format("player=mpc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
+			UrlEncode(CStringA(fh.name)), fh.size, fh.mpc_filehash);
+		url.Append(args);
 
-		CStringA str;
-		if (!OpenUrl(is, CString(url+args), str)) {
-			AfxMessageBox(ResStr(IDS_SUBTITLES_DB_CONNECT_ERROR), MB_ICONEXCLAMATION | MB_OK);
-			return;
-		}
-
-		CStringA ticket;
-		CList<isdb_movie> movies;
-		isdb_movie m;
-		isdb_subtitle sub;
-
-		CAtlList<CStringA> sl;
-		Explode(str, sl, '\n');
-
-		POSITION pos = sl.GetHeadPosition();
-		while (pos) {
-			str = sl.GetNext(pos);
-
-			CStringA param = str.Left(max(0, str.Find('=')));
-			CStringA value = str.Mid(str.Find('=')+1);
-
-			if (param == "ticket") {
-				ticket = value;
-			} else if (param == "movie") {
-				m.reset();
-				Explode(value, m.titles, '|');
-			} else if (param == "subtitle") {
-				sub.reset();
-				sub.id = atoi(value);
-			} else if (param == "name") {
-				sub.name = value;
-			} else if (param == "discs") {
-				sub.discs = atoi(value);
-			} else if (param == "disc_no") {
-				sub.disc_no = atoi(value);
-			} else if (param == "format") {
-				sub.format = value;
-			} else if (param == "iso639_2") {
-				sub.iso639_2 = value;
-			} else if (param == "language") {
-				sub.language = value;
-			} else if (param == "nick") {
-				sub.nick = value;
-			} else if (param == "email") {
-				sub.email = value;
-			} else if (param == "" && value == "endsubtitle") {
-				m.subs.AddTail(sub);
-			} else if (param == "" && value == "endmovie") {
-				movies.AddTail(m);
-			} else if (param == "" && value == "end") {
-				break;
-			}
-		}
-
-		CSubtitleDlDlg dlg(movies, GetModalParent());
-		if (IDOK == dlg.DoModal()) {
-			if (dlg.m_fReplaceSubs) {
-				m_pSubStreams.RemoveAll();
-			}
-
-			CComPtr<ISubStream> pSubStreamToSet;
-
-			POSITION pos = dlg.m_selsubs.GetHeadPosition();
-			while (pos) {
-				isdb_subtitle& sub = dlg.m_selsubs.GetNext(pos);
-
-				CStringA url = "http://" + s.strISDb + "/dl.php?";
-				CStringA args;
-				args.Format("id=%d&ticket=%s", sub.id, UrlEncode(ticket));
-
-				if (OpenUrl(is, CString(url+args), str)) {
-					CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock, &s.subdefstyle, s.fUseDefaultSubtitlesStyle));
-					if (pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(sub.name)) && pRTS->GetStreamCount() > 0) {
-						CComPtr<ISubStream> pSubStream = pRTS.Detach();
-						m_pSubStreams.AddTail(pSubStream);
-						if (!pSubStreamToSet) {
-							pSubStreamToSet = pSubStream;
-						}
-					}
-				}
-			}
-
-			if (pSubStreamToSet) {
-				SetSubtitle(pSubStreamToSet);
-			}
-		}
+		CSubtitleDlDlg dlg(GetModalParent(), url);
+		dlg.DoModal();
 	} catch (CInternetException* ie) {
 		ie->Delete();
 		return;
