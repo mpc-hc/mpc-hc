@@ -377,7 +377,6 @@
     <ClInclude Include="array_allocator.h" />
     <ClInclude Include="char_t.h" />
     <ClInclude Include="config.h" />
-    <ClInclude Include="cpudetect.h" />
     <ClInclude Include="ffcodecs.h" />
     <ClInclude Include="ffImgfmt.h" />
     <ClInclude Include="libavcodec\aac.h" />

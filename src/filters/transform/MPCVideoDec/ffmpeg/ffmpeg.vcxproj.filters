@@ -824,17 +824,8 @@
     <ClInclude Include="array_allocator.h" />
     <ClInclude Include="char_t.h" />
     <ClInclude Include="config.h" />
-    <ClInclude Include="cpudetect.h" />
     <ClInclude Include="ffcodecs.h" />
     <ClInclude Include="ffImgfmt.h" />
-    <ClInclude Include="PODtypes.h" />
-    <ClInclude Include="array_allocator.h" />
-    <ClInclude Include="char_t.h" />
-    <ClInclude Include="config.h" />
-    <ClInclude Include="cpudetect.h" />
-    <ClInclude Include="ffcodecs.h" />
-    <ClInclude Include="ffImgfmt.h" />
-    <ClInclude Include="mp_msg.h" />
     <ClInclude Include="PODtypes.h" />
     <ClInclude Include="libswscale\rgb2rgb.h">
       <Filter>libswscale</Filter>
