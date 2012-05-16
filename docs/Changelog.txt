@@ -121,4 +121,5 @@ Legend:
 ! Ticket #2172, MP4Splitter: skip video tracks with motionless frames
 ! Ticket #2274, MPCVideoDecoder: the configured threads count was ignored when the
   decoder had to fallback in software mode because of a DXVA incompatible file, only
-  one decoding thread was used in this case
+  one thread was used in this case
+! Numerous other bugfixes and improvements
