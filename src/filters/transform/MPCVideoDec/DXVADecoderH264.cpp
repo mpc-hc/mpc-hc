@@ -25,7 +25,6 @@
 #include "DXVADecoderH264.h"
 #include "MPCVideoDecFilter.h"
 #include "VideoDecDXVAAllocator.h"
-#include "PODtypes.h"
 #include "avcodec.h"
 
 extern "C"

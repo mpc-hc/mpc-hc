@@ -25,7 +25,6 @@
 #include <atlbase.h>
 #include <MMReg.h>
 
-#include "PODtypes.h"
 #include "avcodec.h"
 
 #ifdef REGISTER_FILTER

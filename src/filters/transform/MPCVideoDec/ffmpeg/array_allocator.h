@@ -1,6 +1,8 @@
 #ifndef _ARRAY_ALLOCATOR_H_
 #define _ARRAY_ALLOCATOR_H_
 
+#include "PODtypes.h"
+
 template <class T, size_t size> class array_allocator
 {
 private:

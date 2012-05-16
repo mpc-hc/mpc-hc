@@ -23,7 +23,6 @@
 
 #include "stdafx.h"
 
-#include "PODtypes.h"
 #include "avcodec.h"
 
 #include "TlibavcodecExt.h"

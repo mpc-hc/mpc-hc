@@ -18,7 +18,6 @@
 
 #include "stdafx.h"
 #include <vector>
-#include "PODtypes.h"
 #include "avcodec.h"
 #include <uuids.h>
 #include <moreuuids.h>

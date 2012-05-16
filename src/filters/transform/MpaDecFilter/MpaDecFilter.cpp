@@ -36,7 +36,6 @@
 #include <moreuuids.h>
 
 #include <vector>
-#include "PODtypes.h"
 #include "libavcodec/avcodec.h"
 
 #include <libflac/include/FLAC/stream_decoder.h>
