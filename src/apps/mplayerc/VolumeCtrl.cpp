@@ -195,7 +195,7 @@ BOOL CVolumeCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	TOOLTIPTEXT *pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMHDR);
 	CString str;
-	str.AppendFormat(_T("%d%%"), GetPos());
+	str.Format(_T("%d%%"), GetPos());
 	_tcscpy_s(pTTT->szText, str);
 	pTTT->hinst = NULL;
 
