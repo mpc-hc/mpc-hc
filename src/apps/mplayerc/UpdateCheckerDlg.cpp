@@ -101,7 +101,7 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 			m_ignoreButton.MoveWindow(&buttonRect);
 			m_ignoreButton.SetFocus();
 		}
-			break;
+		break;
 		default:
 			ASSERT(0); // should never happen
 	}

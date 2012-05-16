@@ -1456,7 +1456,7 @@ void CAppSettings::UpdateData(bool fSave)
 
 		fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, FALSE);
 
-		nUpdaterAutoCheck = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, AutoUpdate_Status::AUTOUPDATE_UNKNOWN);
+		nUpdaterAutoCheck = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, AUTOUPDATE_UNKNOWN);
 		nUpdaterDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_DELAY, 7);
 		if (nUpdaterDelay < 1) {
 			nUpdaterDelay = 1;

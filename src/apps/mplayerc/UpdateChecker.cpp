@@ -175,7 +175,7 @@ int UpdateChecker::CompareVersion(const Version& v1, const Version& v2)
 bool UpdateChecker::IsAutoUpdateEnabled()
 {
 	int& status = AfxGetAppSettings().nUpdaterAutoCheck;
-	
+
 	if (status == AUTOUPDATE_UNKNOWN) { // First run
 		status = (AfxMessageBox(IDS_UPDATE_CONFIG_AUTO_CHECK, MB_YESNO) == IDYES) ? AUTOUPDATE_ENABLE : AUTOUPDATE_DISABLE;
 	}
