@@ -2231,8 +2231,6 @@ void CMpaDecFilter::flac_stream_finish()
 
 #pragma region FFmpeg decoder
 
-#define INT64_C(x)		((x) + (INT64_MAX - INT64_MAX))
-
 // Copy the given data into our buffer, including padding, so broken decoders do not overread and crash
 #define COPY_TO_BUFFER(data, size) { \
   if (size + FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) { \
