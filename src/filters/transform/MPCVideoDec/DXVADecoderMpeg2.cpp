@@ -30,9 +30,9 @@ extern "C"
 }
 
 #if 0
-	#define TRACE_MPEG2 TRACE
+#define TRACE_MPEG2 TRACE
 #else
-	#define TRACE_MPEG2(...)
+#define TRACE_MPEG2(...)
 #endif
 
 CDXVADecoderMpeg2::CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
@@ -93,7 +93,7 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIM
 	}
 
 	if (m_bSecondField) {
-		if(!m_PictureParams.bSecondField) {
+		if (!m_PictureParams.bSecondField) {
 			m_rtStart			= rtStart;
 			m_rtStop			= rtStop;
 			m_pSampleToDeliver	= NULL;
@@ -121,11 +121,11 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIM
 	CHECK_HR (BeginFrame(m_nSurfaceIndex, m_pSampleToDeliver));
 
 	if (m_bSecondField) {
-		if(!m_PictureParams.bSecondField) {
+		if (!m_PictureParams.bSecondField) {
 			UpdatePictureParams(m_nSurfaceIndex);
 		}
 	} else {
-		UpdatePictureParams(m_nSurfaceIndex);	
+		UpdatePictureParams(m_nSurfaceIndex);
 	}
 
 	TRACE_MPEG2 ("CDXVADecoderMpeg2::DecodeFrame() : Surf = %d, PictureType = %d, SecondField = %d, m_nNextCodecIndex = %d, rtStart = [%I64d]\n", m_nSurfaceIndex, nSliceType, m_PictureParams.bSecondField, m_nNextCodecIndex, rtStart);
@@ -143,7 +143,7 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIM
 	CHECK_HR (EndFrame(m_nSurfaceIndex));
 
 	if (m_bSecondField) {
-		if(m_PictureParams.bSecondField) {
+		if (m_PictureParams.bSecondField) {
 			AddToStore (m_nSurfaceIndex, m_pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), m_rtStart, m_rtStop,
 						false, (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType, FFGetCodedPicture(m_pFilter->GetAVCtx()));
 			hr = DisplayNextFrame();
@@ -153,7 +153,7 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIM
 					false, (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType, FFGetCodedPicture(m_pFilter->GetAVCtx()));
 		hr = DisplayNextFrame();
 	}
-		
+
 	m_bFlushed = false;
 
 	return hr;

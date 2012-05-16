@@ -230,7 +230,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_ALS},
 #endif
 #if !HAS_OTHER_AUDIO_DECODERS && !HAS_FFMPEG_AUDIO_DECODERS
-  {&MEDIATYPE_Audio,				&MEDIASUBTYPE_None} // just to prevent compilation error
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_None} // just to prevent compilation error
 #endif
 };
 

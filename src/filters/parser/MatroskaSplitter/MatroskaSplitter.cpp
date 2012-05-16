@@ -413,7 +413,7 @@ avcsuccess:
 					MPEG1VIDEOINFO* pm1vi = (MPEG1VIDEOINFO*)mt.AllocFormatBuffer(sizeof(MPEG1VIDEOINFO) + pTE->CodecPrivate.GetCount());
 					memset(mt.Format(), 0, mt.FormatLength());
 					memcpy(mt.Format() + sizeof(MPEG1VIDEOINFO), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
-					
+
 					pm1vi->hdr.bmiHeader.biSize			= sizeof(pm1vi->hdr.bmiHeader);
 					pm1vi->hdr.bmiHeader.biWidth		= (LONG)pTE->v.PixelWidth;
 					pm1vi->hdr.bmiHeader.biHeight		= (LONG)pTE->v.PixelHeight;
@@ -528,7 +528,8 @@ avcsuccess:
 							RECT rect = {(LONG)pTE->v.VideoPixelCropLeft,
 										 (LONG)pTE->v.VideoPixelCropTop,
 										 (LONG)(pTE->v.PixelWidth - pTE->v.VideoPixelCropRight),
-										 (LONG)(pTE->v.PixelHeight - pTE->v.VideoPixelCropBottom)};
+										 (LONG)(pTE->v.PixelHeight - pTE->v.VideoPixelCropBottom)
+										};
 							VIDEOINFOHEADER *vih = (VIDEOINFOHEADER*)mts[i].Format();
 							vih->rcSource = vih->rcTarget = rect;
 						}

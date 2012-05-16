@@ -31,9 +31,9 @@ extern "C"
 }
 
 #if 0
-	#define TRACE_VC1 TRACE
+#define TRACE_VC1 TRACE
 #else
-	#define TRACE_VC1(...)
+#define TRACE_VC1(...)
 #endif
 
 inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
