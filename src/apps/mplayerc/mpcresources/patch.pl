@@ -63,7 +63,7 @@ my @RcFile = readFile($rcfile, 1);
 analyseData(\@RcFile, \@Outline, $Dialogs, $Menus, $Strings, \@VersionInfo, $DesignInfos);
 
 print "\nReading string texts file...\n";
-my @TxtFile = readFile($TxtFileName, 1);
+my @TxtFile = readFile($TxtFileName, 0);
 analyseTxt(\@TxtFile, $NewDialogs, $NewMenus, $NewStrings);
 
 print "\nWriting new rc file...\n";

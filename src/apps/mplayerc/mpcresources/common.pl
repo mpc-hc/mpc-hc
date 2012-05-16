@@ -290,7 +290,10 @@ sub readFile {
 	my ($filename, $withBOM) = @_;
 
 	open(INPUT, "<$filename") || die "Cannot open $filename to read";
-	if($withBOM) {
+	if ($withBOM == 0) {
+		binmode(INPUT, ":encoding(UTF8)");
+	}
+	else {
 		binmode(INPUT, ":encoding(UTF16-LE)");
 	}
 
@@ -305,12 +308,15 @@ sub writeFile {
 
 	open(OUTPUT, ">$filename")|| die "Cannot open $filename to write";
 
-	if($withBOM==1) {
+	if ($withBOM == 0) {
+		binmode(OUTPUT, ":raw:encoding(UTF8)");
+	}
+	elsif ($withBOM == 1) {
 		binmode(OUTPUT);
-		print OUTPUT chr(0xff);	print OUTPUT chr(0xfe);	#write unicode bom
+		print OUTPUT chr(0xff); print OUTPUT chr(0xfe); #write unicode bom
 		binmode(OUTPUT, ":raw:encoding(UTF16-LE)");
 	}
-	elsif($withBOM==2) {
+	elsif ($withBOM == 2) {
 		binmode(OUTPUT, ":raw:encoding(UTF16-LE)");
 	}
 
