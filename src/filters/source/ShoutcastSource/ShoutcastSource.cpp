@@ -272,18 +272,6 @@ CShoutcastStream::CShoutcastStream(const WCHAR* wfn, CShoutcastSource* pParent, 
 		fn = _T("http://") + fn;
 	}
 
-//#if defined(REGISTER_FILTER) && defined(_DEBUG)
-	//fn = _T("http://localhost:8000/");
-	//fn = _T("http://64.236.34.141/stream/1005");
-	//fn = _T("http://218.145.30.106:11000"); // 128kbps korean
-	//fn = _T("http://65.206.46.110:8020"); // 96kbps
-	//fn = _T("http://64.236.34.72:80/stream/1003");
-	fn = _T("http://64.236.34.72:80/stream/1011");
-	//fn = _T("http://218.145.30.106:11000");
-	//fn = _T("http://radio.sluchaj.com:8000/radio.ogg"); // ogg
-	// http://www.oddsock.org/icecast2yp/ // more ogg via icecast2
-//#endif
-
 	if (!m_url.CrackUrl(fn)) {
 		*phr = E_FAIL;
 		return;
