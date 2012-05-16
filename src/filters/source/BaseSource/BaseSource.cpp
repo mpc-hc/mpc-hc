@@ -157,7 +157,7 @@ HRESULT CBaseStream::FillBuffer(IMediaSample* pSample)
 			return S_FALSE;
 		}
 
-		int nFrame = m_rtPosition / m_AvgTimePerFrame; // (int)(1.0 * m_rtPosition / m_AvgTimePerFrame + 0.5);
+		int nFrame = (int)(m_rtPosition / m_AvgTimePerFrame);
 
 		long len = pSample->GetSize();
 

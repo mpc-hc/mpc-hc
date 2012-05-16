@@ -525,7 +525,10 @@ avcsuccess:
 							|| mts[i].formattype == FORMAT_MPEG2Video
 							|| mts[i].formattype == FORMAT_MPEGVideo) {
 						if (pTE->v.PixelWidth && pTE->v.PixelHeight) {
-							RECT rect = {pTE->v.VideoPixelCropLeft, pTE->v.VideoPixelCropTop, pTE->v.PixelWidth - pTE->v.VideoPixelCropRight, pTE->v.PixelHeight - pTE->v.VideoPixelCropBottom};
+							RECT rect = {(LONG)pTE->v.VideoPixelCropLeft,
+										 (LONG)pTE->v.VideoPixelCropTop,
+										 (LONG)(pTE->v.PixelWidth - pTE->v.VideoPixelCropRight),
+										 (LONG)(pTE->v.PixelHeight - pTE->v.VideoPixelCropBottom)};
 							VIDEOINFOHEADER *vih = (VIDEOINFOHEADER*)mts[i].Format();
 							vih->rcSource = vih->rcTarget = rect;
 						}
@@ -552,7 +555,7 @@ avcsuccess:
 							memset(mt.Format() + vih1, 0, vih2 - vih1);
 							memcpy(mt.Format() + vih2, mts[i].Format() + vih1, bmi);
 
-							CSize aspect(pTE->v.DisplayWidth, pTE->v.DisplayHeight);
+							CSize aspect((int)pTE->v.DisplayWidth, (int)pTE->v.DisplayHeight);
 							int lnko = LNKO(aspect.cx, aspect.cy);
 							if (lnko > 1) {
 								aspect.cx /= lnko, aspect.cy /= lnko;
@@ -561,7 +564,7 @@ avcsuccess:
 							((VIDEOINFOHEADER2*)mt.Format())->dwPictAspectRatioY = aspect.cy;
 							mts.InsertAt(i++, mt);
 						} else if (mts[i].formattype == FORMAT_MPEG2Video) {
-							CSize aspect(pTE->v.DisplayWidth, pTE->v.DisplayHeight);
+							CSize aspect((int)pTE->v.DisplayWidth, (int)pTE->v.DisplayHeight);
 							int lnko = LNKO(aspect.cx, aspect.cy);
 							if (lnko > 1) {
 								aspect.cx /= lnko, aspect.cy /= lnko;

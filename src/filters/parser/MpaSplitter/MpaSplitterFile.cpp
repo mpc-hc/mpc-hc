@@ -244,16 +244,16 @@ HRESULT CMpaSplitterFile::Init()
 		}
 	}
 
-	__int64 searchlen = 0;
+	int searchlen    = 0;
 	__int64 startpos = 0;
-	__int64 syncpos = 0;
+	__int64 syncpos  = 0;
 
 	__int64 startpos_mp3 = m_startpos;
 	while (m_mode == none) {
 		if (!MP3_find && GetPos() >= 2048) {
 			break;
 		}
-		searchlen = min(m_endpos - startpos_mp3, 512);
+		searchlen = (int)min(m_endpos - startpos_mp3, 512);
 		Seek(startpos_mp3);
 
 		// If we fail to see sync bytes, we reposition here and search again
@@ -283,7 +283,7 @@ HRESULT CMpaSplitterFile::Init()
 		}
 	}
 
-	searchlen = min(m_endpos - m_startpos, m_startpos > 0 ? 512 : 7);
+	searchlen = (int)min(m_endpos - m_startpos, m_startpos > 0 ? 512 : 7);
 	Seek(m_startpos);
 
 	if (m_mode == none && Read(m_aachdr, searchlen, &m_mt)) {
@@ -368,7 +368,7 @@ bool CMpaSplitterFile::Sync(int& FrameSize, REFERENCE_TIME& rtDuration, int limi
 		while (GetPos() <= endpos - 4) {
 			mpahdr h;
 
-			if (Read(h, endpos - GetPos(), true)) {
+			if (Read(h, (int)(endpos - GetPos()), true)) {
 				if (m_mpahdr.version == h.version
 						&& m_mpahdr.layer == h.layer
 						&& m_mpahdr.channels == h.channels) {
@@ -388,7 +388,7 @@ bool CMpaSplitterFile::Sync(int& FrameSize, REFERENCE_TIME& rtDuration, int limi
 		while (GetPos() <= endpos - 9) {
 			aachdr h;
 
-			if (Read(h, endpos - GetPos())) {
+			if (Read(h, (int)(endpos - GetPos()))) {
 				if (m_aachdr.version == h.version
 						&& m_aachdr.layer == h.layer
 						&& m_aachdr.channels == h.channels) {

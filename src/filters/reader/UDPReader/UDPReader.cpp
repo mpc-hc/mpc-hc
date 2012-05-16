@@ -434,7 +434,7 @@ DWORD CUDPStream::ThreadProc()
 
 								for (int i = 0; i < buffsize; i += 188) {
 									DWORD pid = ((buff[i+1]<<8)|buff[i+2])&0x1fff;
-									DWORD counter = buff[i+3]&0xf;
+									BYTE counter = buff[i+3]&0xf;
 									if (pid2counter[pid] != ((counter-1+16)&15)) {
 										_ftprintf_s(log, _T("%04x %2d -> %2d\n"), pid, pid2counter[pid], counter);
 									}
@@ -460,7 +460,7 @@ CUDPStream::packet_t::packet_t(BYTE* p, __int64 start, __int64 end)
 	: m_start(start)
 	, m_end(end)
 {
-	int size = end - start;
+	size_t size = (size_t)(end - start);
 	m_buff = DNew BYTE[size];
 	memcpy(m_buff, p, size);
 }

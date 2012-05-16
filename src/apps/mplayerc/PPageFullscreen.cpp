@@ -324,7 +324,7 @@ void CPPageFullscreen::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 				if (dotpos >= 0 && str.GetLength() - dotpos > 4) {
 					str.Truncate(dotpos + 4);
 				}
-				float f = min(max(_tstof(str), 1.0), 125.999);
+				double f = min(max(_tstof(str), 1.0), 125.999);
 				str.Format(_T("%.3f"), f);
 				m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
 			}
