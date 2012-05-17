@@ -173,19 +173,19 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\");
 
-#if defined (_WIN64)
+#if defined(_WIN64)
 	m_strMPCPath += _T("mpc-hc_x64");
 #else
 	m_strMPCPath += _T("mpc-hc_x86");
 #endif // _WIN64
 
-#if defined (_DEBUG)
+#if defined(_DEBUG)
 	m_strMPCPath += _T("_Debug\\");
 #else
 	m_strMPCPath += _T("\\");
 #endif // _DEBUG
 
-#if defined (_WIN64)
+#if defined(_WIN64)
 	m_strMPCPath += _T("mpc-hc64.exe");
 #else
 	m_strMPCPath += _T("mpc-hc.exe");
