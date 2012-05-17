@@ -9,7 +9,7 @@
 /*----------------------------------------------------------------------
 |       includes
 +---------------------------------------------------------------------*/
-#include "../../stdAfx.h"
+#include "../../../filters/parser/MP4Splitter/stdafx.h"
 
 #include "Ap4AesBlockCipher.h"
 #include "Ap4Results.h"
