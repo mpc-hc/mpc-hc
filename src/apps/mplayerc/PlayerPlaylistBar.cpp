@@ -1253,6 +1253,7 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
 	CPlaylistItem& pli = m_pl.GetAt(FindPos(row));
 
 	static CString strTipText; // static string
+	strTipText.Empty();
 
 	if (col == COL_NAME) {
 		POSITION pos = pli.m_fns.GetHeadPosition();
