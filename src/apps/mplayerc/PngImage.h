@@ -27,7 +27,7 @@
 #include "mplayerc.h"
 
 
-class CPngImage : public CImage
+class MPCPngImage : public CImage
 {
 public:
 	bool LoadFromResource(UINT id);

@@ -34,7 +34,7 @@ class CChildView : public CWnd
 	CPoint m_lastlmdownpoint;
 
 	CCritSec m_csLogo;
-	CPngImage m_logo;
+	MPCPngImage m_logo;
 
 public:
 	CChildView();

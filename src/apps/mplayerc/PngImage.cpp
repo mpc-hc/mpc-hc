@@ -124,7 +124,7 @@ static unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 	return pic;
 }
 
-bool CPngImage::LoadFromResource(UINT id) {
+bool MPCPngImage::LoadFromResource(UINT id) {
 	bool ret = false;
 
 	CStringA str;
