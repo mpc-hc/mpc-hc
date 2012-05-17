@@ -25,7 +25,7 @@
 #include <atlbase.h>
 #include <MMReg.h>
 
-#include "avcodec.h"
+#include <ffmpeg/libavcodec/avcodec.h>
 
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
@@ -34,11 +34,11 @@
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"
 
-#include "ffImgfmt.h"
+#include <ffmpeg/ffImgfmt.h>
 extern "C"
 {
 #include "FfmpegContext.h"
-#include "libswscale/swscale.h"
+#include <ffmpeg/libswscale/swscale.h>
 }
 
 #include "../../../DSUtil/DSUtil.h"

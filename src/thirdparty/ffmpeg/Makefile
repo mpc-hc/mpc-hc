@@ -1,7 +1,7 @@
 CC = gcc.exe
 
-BIN_DIR  = ../../../../../bin
-ZLIB_DIR = ../../../../thirdparty/zlib
+BIN_DIR  = ../../../bin
+ZLIB_DIR = ../zlib
 
 ifeq ($(64BIT),yes)
     MY_ARCH = x64

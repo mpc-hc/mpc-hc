@@ -25,7 +25,7 @@
 #include "MPCVideoDecSettingsWnd.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#include "avcodec.h"
+#include <ffmpeg/libavcodec/avcodec.h>
 
 #include "../../../apps/mplayerc/InternalFiltersConfig.h"
 

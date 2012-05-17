@@ -21,8 +21,8 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SETLOCAL
 
-IF EXIST "..\..\..\..\..\build.user.bat" (
-  CALL "..\..\..\..\..\build.user.bat"
+IF EXIST "..\..\..\build.user.bat" (
+  CALL "..\..\..\build.user.bat"
 ) ELSE (
   IF DEFINED MINGW32 (SET MPCHC_MINGW32=%MINGW32%) ELSE (GOTO MissingVar)
   IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%) ELSE (GOTO MissingVar)

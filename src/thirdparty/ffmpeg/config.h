@@ -216,7 +216,7 @@ Note: when adding a new codec, you have to:
     line to libavcodec/allcodecs.c
 */
 
-#include "../../../../apps/mplayerc/InternalFiltersConfig.h"
+#include "../../apps/mplayerc/InternalFiltersConfig.h"
 
 #define CONFIG_AASC_DECODER 0
 #define CONFIG_AMV_DECODER INTERNAL_DECODER_AMVV

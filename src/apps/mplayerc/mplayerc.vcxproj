@@ -705,7 +705,7 @@
       <Project>{4421516d-10a6-41c1-adf3-099573bbb0c6}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\filters\transform\MPCVideoDec\ffmpeg\ffmpeg.vcxproj">
+    <ProjectReference Include="..\..\thirdparty\ffmpeg\ffmpeg.vcxproj">
       <Project>{438286b7-a9f4-411d-bcc5-948c40e37d8f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

@@ -29,15 +29,15 @@
 #include <vfwmsgs.h>
 #include <sys/timeb.h>
 #include "FfmpegContext.h"
-#include "dsputil.h"
-#include "avcodec.h"
-#include "mpegvideo.h"
-#include "golomb.h"
+#include <ffmpeg/libavcodec/dsputil.h>
+#include <ffmpeg/libavcodec/avcodec.h>
+#include <ffmpeg/libavcodec/mpegvideo.h>
+#include <ffmpeg/libavcodec/golomb.h>
 
-#include "h264.h"
-#include "h264data.h"
-#include "vc1.h"
-#include "mpeg12.h"
+#include <ffmpeg/libavcodec/h264.h>
+#include <ffmpeg/libavcodec/h264data.h>
+#include <ffmpeg/libavcodec/vc1.h>
+#include <ffmpeg/libavcodec/mpeg12.h>
 
 #if defined(REGISTER_FILTER) && _WIN64
 void *__imp_toupper = toupper;
