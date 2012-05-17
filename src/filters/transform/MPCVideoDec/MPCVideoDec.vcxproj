@@ -261,16 +261,20 @@
     <ClInclude Include="..\..\..\apps\mplayerc\WinAPIUtils.h">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="array_allocator.h" />
+    <ClInclude Include="char_t.h" />
     <ClInclude Include="CpuId.h" />
     <ClInclude Include="DXVADecoder.h" />
     <ClInclude Include="DXVADecoderH264.h" />
     <ClInclude Include="DXVADecoderMpeg2.h" />
     <ClInclude Include="DXVADecoderVC1.h" />
+    <ClInclude Include="ffImgfmt.h" />
     <ClInclude Include="FfmpegContext.h" />
     <ClInclude Include="H264RandomAccess.h" />
     <ClInclude Include="IMPCVideoDecFilter.h" />
     <ClInclude Include="MPCVideoDecFilter.h" />
     <ClInclude Include="MPCVideoDecSettingsWnd.h" />
+    <ClInclude Include="PODtypes.h" />
     <ClInclude Include="resource.h">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClInclude>

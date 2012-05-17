@@ -122,6 +122,18 @@
     <ClInclude Include="H264RandomAccess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="char_t.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ffImgfmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="array_allocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PODtypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MPCVideoDecFilter.rc">

@@ -34,7 +34,7 @@
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"
 
-#include <ffmpeg/ffImgfmt.h>
+#include "ffImgfmt.h"
 extern "C"
 {
 #include "FfmpegContext.h"

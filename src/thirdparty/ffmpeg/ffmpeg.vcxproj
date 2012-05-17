@@ -103,9 +103,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="config.asm" />
-    <None Include="custom_code.txt" />
-    <None Include="gccbuild64.bat" />
-    <None Include="gccbuild.bat" />
     <None Include="libavcodec\x86\ac3dsp.asm" />
     <None Include="libavcodec\x86\dct32_sse.asm" />
     <None Include="libavcodec\x86\deinterlace.asm" />
@@ -374,11 +371,7 @@
     <ClCompile Include="libswscale\yuv2rgb.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="array_allocator.h" />
-    <ClInclude Include="char_t.h" />
     <ClInclude Include="config.h" />
-    <ClInclude Include="ffcodecs.h" />
-    <ClInclude Include="ffImgfmt.h" />
     <ClInclude Include="libavcodec\aac.h" />
     <ClInclude Include="libavcodec\aacadtsdec.h" />
     <ClInclude Include="libavcodec\aacdectab.h" />
@@ -589,7 +582,6 @@
     <ClInclude Include="libswscale\rgb2rgb.h" />
     <ClInclude Include="libswscale\swscale.h" />
     <ClInclude Include="libswscale\swscale_internal.h" />
-    <ClInclude Include="PODtypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
