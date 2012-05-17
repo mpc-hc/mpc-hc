@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Renk kontrolleri (VMR-9 ve EVR için)"
-7		"Karşıtlık"
-8		"Parlaklık"
-9		"Renk"
-10		"Doygunluk"
+6		"Parlaklık"
+8		"Contrast"
+10		"Renk"
+12		"Doygunluk"
 14		"Sıfırla"
 15		"Update check"
 16		"Enable automatic update check"

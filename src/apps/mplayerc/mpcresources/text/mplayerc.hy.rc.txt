@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Գույների կառավարում (VMR-9 և EVR-ի համար)"
-7		"Կոնտրաստ"
-8		"Վառությունը"
-9		"Ստվերը"
-10		"Խտայնությունը"
+6		"Վառությունը"
+8		"Contrast"
+10		"Ստվերը"
+12		"Խտայնությունը"
 14		"Ետարկել"
 15		"Update check"
 16		"Enable automatic update check"

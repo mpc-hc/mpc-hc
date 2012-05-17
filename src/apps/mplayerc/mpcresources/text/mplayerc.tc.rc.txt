@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"色彩控制項 (VMR-9 及 EVR)"
-7		"對比"
-8		"亮度"
-9		"色調"
-10		"飽和度"
+6		"亮度"
+8		"Contrast"
+10		"色調"
+12		"飽和度"
 14		"重設"
 15		"Update check"
 16		"Enable automatic update check"

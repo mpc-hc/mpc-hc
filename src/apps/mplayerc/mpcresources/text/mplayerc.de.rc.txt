@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Farbeinstellungen (für den VMR-9 und EVR Renderer)"
-7		"Kontrast"
-8		"Helligkeit"
-9		"Farbton"
-10		"Sättigung"
+6		"Helligkeit"
+8		"Contrast"
+10		"Farbton"
+12		"Sättigung"
 14		"Zurücksetzen"
 15		"Auf Aktualisierungen prüfen"
 16		"Die automatische Prüfung nach Aktualisierungen aktivieren"

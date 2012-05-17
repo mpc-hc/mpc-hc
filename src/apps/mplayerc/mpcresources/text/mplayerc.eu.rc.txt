@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Margo aginteak (VMR-9 eta EVR)"
-7		"Zuribeltztasuna"
-8		"Dizdira"
-9		"Nabardura"
-10		"Margoasetasuna"
+6		"Dizdira"
+8		"Contrast"
+10		"Nabardura"
+12		"Margoasetasuna"
 14		"Berrezarri"
 15		"Eguneraketa egiaztapena"
 16		"Gaitu berezgaitasunezko eguneraketa egiaztapena"

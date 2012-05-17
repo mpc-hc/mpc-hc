@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Color controls (for VMR-9 and EVR)"
-7		"Élesség"
-8		"Világosság"
-9		"Színárnyalat"
-10		"Telítettség"
+6		"Világosság"
+8		"Contrast"
+10		"Színárnyalat"
+12		"Telítettség"
 14		"Visszaállítás"
 15		"Update check"
 16		"Enable automatic update check"

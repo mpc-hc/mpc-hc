@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"컬러 컨트롤 (VMR-9 / EVR 전용)"
-7		"대조"
-8		"밝기"
-9		"색조"
-10		"채도"
+6		"밝기"
+8		"Contrast"
+10		"색조"
+12		"채도"
 14		"리셋"
 15		"Update check"
 16		"Enable automatic update check"

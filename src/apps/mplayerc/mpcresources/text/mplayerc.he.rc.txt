@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"כלי שליטה בצבע (עבור VMR-9 ו-EVR)"
-7		"ניגודיות"
-8		"בהירות"
-9		"גוון"
-10		"הרוויה"
+6		"בהירות"
+8		"Contrast"
+10		"גוון"
+12		"הרוויה"
 14		"אפס"
 15		"Update check"
 16		"Enable automatic update check"

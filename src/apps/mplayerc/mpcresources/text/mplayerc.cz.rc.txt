@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Nastavení barev (VMR-9 a EVR)"
-7		"Kontrast"
-8		"Jas"
-9		"Odstín"
-10		"Sytost"
+6		"Jas"
+8		"Contrast"
+10		"Odstín"
+12		"Sytost"
 14		"Výchozí"
 15		"Update check"
 16		"Enable automatic update check"

@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Ovládače farieb (pre VMR-9 a EVR)"
-7		"Kontrast"
-8		"Jas"
-9		"Odtieň"
-10		"Sýtosť"
+6		"Jas"
+8		"Contrast"
+10		"Odtieň"
+12		"Sýtosť"
 14		"Obnoviť"
 15		"Update check"
 16		"Enable automatic update check"

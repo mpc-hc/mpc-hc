@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Кіраванне колерам (для VMR-9 і EVR)"
-7		"Кантраст"
-8		"Яркасць"
-9		"Адценне"
-10		"Насычанасць"
+6		"Яркасць"
+8		"Contrast"
+10		"Адценне"
+12		"Насычанасць"
 14		"Скід"
 15		"Update check"
 16		"Enable automatic update check"

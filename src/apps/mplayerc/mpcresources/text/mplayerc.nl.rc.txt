@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Color controls (for VMR-9 and EVR)"
-7		"Contrast"
-8		"Helderheid"
-9		"Tint"
-10		"Verzadiging"
+6		"Helderheid"
+8		"Contrast"
+10		"Tint"
+12		"Verzadiging"
 14		"Reset"
 15		"Update check"
 16		"Enable automatic update check"

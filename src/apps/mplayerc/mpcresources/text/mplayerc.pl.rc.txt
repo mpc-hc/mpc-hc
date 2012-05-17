@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Zarządzanie kolorami trybów VMR-9 i EVR"
-7		"Kontrast:"
-8		"Jasność:"
-9		"Odcień:"
-10		"Nasycenie:"
+6		"Jasność:"
+8		"Contrast"
+10		"Odcień:"
+12		"Nasycenie:"
 14		"Domyślne"
 15		"Aktualizacja"
 16		"Włącz automatyczne sprawdzanie aktualizacji"

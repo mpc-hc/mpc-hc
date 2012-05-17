@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Керування кольором (для VMR-9 і EVR)"
-7		"Контраст"
-8		"Яскравість"
-9		"Відтінок"
-10		"Насиченість"
+6		"Яскравість"
+8		"Contrast"
+10		"Відтінок"
+12		"Насиченість"
 14		"Скинути"
 15		"Update check"
 16		"Enable automatic update check"

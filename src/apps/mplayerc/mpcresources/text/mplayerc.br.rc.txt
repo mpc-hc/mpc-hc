@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Controles de cor (para VMR-9 e EVR apenas)"
-7		"Contraste"
-8		"Brilho"
-9		"Cor"
-10		"Saturação"
+6		"Brilho"
+8		"Contrast"
+10		"Cor"
+12		"Saturação"
 14		"Resetar"
 15		"Checagem de atualizações"
 16		"Ativar a checagem de atualizações"

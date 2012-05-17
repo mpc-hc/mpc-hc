@@ -244,10 +244,10 @@ END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
 5		"Réglages des couleurs (pour VMR-9 et EVR)"
-7		"Contraste"
-8		"Luminosité"
-9		"Teinte"
-10		"Saturation"
+6		"Luminosité"
+8		"Contrast"
+10		"Teinte"
+12		"Saturation"
 14		"Réinitialiser"
 15		"Update check"
 16		"Enable automatic update check"
