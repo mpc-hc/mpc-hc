@@ -70,9 +70,11 @@
 #pragma warning(disable: 4702) // unreachable code
 
 #include <initguid.h>
+#if (_MSC_VER <= 1600) // MPC-HC custom check
 #ifndef _WIN32_WCE
 #include <dbgautoattach.h>
 #endif // _WIN32_WCE
+#endif // _MSC_VER <= 1600
 
 #ifndef SESSION_COOKIE_NAME
 	#define SESSION_COOKIE_NAME "SESSIONID"
