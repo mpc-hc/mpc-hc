@@ -224,7 +224,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="stdafx.h" />
-    <CustomBuildStep Include="AP4\Core\Ap4DcomAtom.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MP4Splitter.def" />
