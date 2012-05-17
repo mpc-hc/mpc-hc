@@ -50,31 +50,31 @@ Translations are done by various translators (see Authors.txt).
 
 MPC-HC makes use of the following third-party code:
 
-Project             License                    Website
--------------------------------------------------------------------------------------
-ATL Server          Ms-LPL                     http://atlserver.codeplex.com/
-Bento4              GPLv2                      http://zebulon.bok.net/trac/Bento4
-CFileVersionInfo    -                          -
-CLineNumberEdit     -                          -
-CSizingControlBar   GPLv2                      http://www.datamekanix.com/sizecbar/
-Detours             MSR-SSLA                   http://research.microsoft.com/en-us/projects/detours/
-ffmpeg              GPLv2                      http://www.ffmpeg.org/
-liba52              GPLv2                      http://liba52.sourceforge.net/
-libdca              GPLv2                      http://www.videolan.org/developers/libdca.html
-libflac             GPLv2 / New BSD License    http://flac.sourceforge.net/
-libogg              New BSD License            http://www.xiph.org/
-libpng              libpng License             http://libpng.sourceforge.net/
-Little CMS          MIT License                http://www.littlecms.com/
-Logitech SDK        -                          -
-MediaInfoLib        LGPLv3                     http://mediainfo.sourceforge.net/
-MultiMon            CPOL                       http://www.codeproject.com/KB/GDI/multimon.aspx
-mpeg2dec            GPLv2                      http://libmpeg2.sourceforge.net/
-pngdib              -                          http://entropymine.com/jason/pngdib/
-QuickTime SDK       -                          -
-RealMedia SDK       -                          -
-ResizableLib        Artistic License           http://sourceforge.net/projects/resizablelib/
-SoundTouch          LGPLv2.1                   http://www.surina.net/soundtouch/
-TreePropSheet       -                          -
-VirtualDub          GPLv2                      http://www.virtualdub.org/
-ZenLib              Simplified BSD License     http://sourceforge.net/projects/zenlib/
-zlib                zlib License               http://zlib.net/
+Project             License                    Version                  Website
+---------------------------------------------------------------------------------------------
+ATL Server          Ms-LPL                     -                        http://atlserver.codeplex.com/
+Bento4              GPLv2                      1.2.3-387 (modified)     http://zebulon.bok.net/trac/Bento4
+CFileVersionInfo    -                          19 Jun '02 (modified)    http://www.codeproject.com/Articles/1502/CFileVersionInfo-Retrieving-a-File-s-full-Version
+CLineNumberEdit     -                          12 May '04 (modified)    http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
+CSizingControlBar   GPLv2                      2.45                     http://www.datamekanix.com/sizecbar/
+Detours             MSR-SSLA                   3.0 build 316            http://research.microsoft.com/en-us/projects/detours/
+ffmpeg              GPLv2                      9eb99ab git              http://www.ffmpeg.org/
+liba52              GPLv2                      0.7.4 cvs                http://liba52.sourceforge.net/
+libdca              GPLv2                      0.0.5 r90                http://www.videolan.org/developers/libdca.html
+libflac             GPLv2 / New BSD License    1.2.1                    http://flac.sourceforge.net/
+libmpeg2            GPLv2                      0.3.2 (modified)         http://libmpeg2.sourceforge.net/
+libogg              New BSD License            1.3.0                    http://www.xiph.org/
+libpng              libpng License             1.5.10                   http://libpng.sourceforge.net/
+Little CMS          MIT License                v2.3+ git 839a5b0        http://www.littlecms.com/
+Logitech SDK        -                          2.02.101                 -
+MediaInfoLib        LGPLv3                     0.7.57                   http://mediainfo.sourceforge.net/
+MultiMon            CPOL                       28 Aug '03 (modified)    http://www.codeproject.com/KB/GDI/multimon.aspx
+pngdib              -                          3.1.0                    http://entropymine.com/jason/pngdib/
+QuickTime SDK       -                          7.3                      http://developer.apple.com/quicktime/download/
+RealMedia SDK       -                          -                        -
+ResizableLib        Artistic License           1.3                      http://sourceforge.net/projects/resizablelib/
+SoundTouch          LGPLv2.1                   1.7.0pre r142            http://www.surina.net/soundtouch/
+TreePropSheet       -                          7 Mar '03 (modified)     http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P
+VirtualDub          GPLv2                      1.10.2-test6             http://www.virtualdub.org/
+ZenLib              Simplified BSD License     0.4.26                   http://sourceforge.net/projects/zenlib/
+zlib                zlib License               1.2.7                    http://zlib.net/
