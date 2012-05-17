@@ -25,10 +25,10 @@
 
 
 typedef struct {
-	const GUID*		subtype;
-	WORD			biPlanes;
-	WORD			biBitCount;
-	DWORD			biCompression;
+	const GUID* subtype;
+	WORD        biPlanes;
+	WORD        biBitCount;
+	DWORD       biCompression;
 } VIDEO_OUTPUT_FORMATS;
 
 class CBaseVideoFilter : public CTransformFilter
@@ -53,9 +53,7 @@ protected:
 
 	virtual void GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight, int& vsfilter) {}
 	virtual HRESULT Transform(IMediaSample* pIn) = 0;
-	virtual bool IsVideoInterlaced() {
-		return false;
-	}
+	virtual bool IsVideoInterlaced() {return false;}
 	virtual void GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 
 public:

@@ -37,12 +37,12 @@
 */
 
 typedef struct tagDOLBYAC3WAVEFORMAT {
-	WAVEFORMATEX     wfx;
-	BYTE             bBigEndian;       // TRUE = Big Endian, FALSE little endian
-	BYTE             bsid;
-	BYTE             lfeon;
-	BYTE             copyrightb;
-	BYTE             nAuxBitsCode;  //  Aux bits per frame
+	WAVEFORMATEX    wfx;
+	BYTE            bBigEndian;     // TRUE = Big Endian, FALSE little endian
+	BYTE            bsid;
+	BYTE            lfeon;
+	BYTE            copyrightb;
+	BYTE            nAuxBitsCode;   //  Aux bits per frame
 } DOLBYAC3WAVEFORMAT;
 
 //
