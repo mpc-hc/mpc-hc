@@ -47,9 +47,6 @@
     <ClInclude Include="attributes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\DSUtil\csimd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IMpeg2DecFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

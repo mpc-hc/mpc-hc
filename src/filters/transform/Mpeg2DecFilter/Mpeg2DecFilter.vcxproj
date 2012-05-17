@@ -230,7 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="attributes.h" />
-    <ClInclude Include="..\..\..\DSUtil\csimd.h" />
     <ClInclude Include="IMpeg2DecFilter.h" />
     <ClInclude Include="libmpeg2.h" />
     <ClInclude Include="Mpeg2DecFilter.h" />
