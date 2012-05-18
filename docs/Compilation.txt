@@ -92,8 +92,8 @@ Alternatively, you can use "build.bat" which can build everything for you
 Part D: Building FFmpeg x64 with GCC
 
 When building FFmpeg GCC is used and according to the makefile that is automatically invoked from the project file. Doing so for 64 bit, requires some additional steps in order to successfully link the MinGW64 library:
- 1. Run MSYS and cd to the trunk\src\filters\transform\MPCVideoDec\ffmpeg_x64 folder
-Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
+ 1. Run MSYS and cd to the trunk\src\thirdparty\ffmpeg_x64 folder
+Example: cd /c/mpc-hc/src/thirdparty/ffmpeg_x64/
  2. checkout the MinGW64 files by running: buildmingwlibs.sh --update
  3. run the buildmingwlibs.sh script, only to compile:
       buildmingwlibs.sh --compile
