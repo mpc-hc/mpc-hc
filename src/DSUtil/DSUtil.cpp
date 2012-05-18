@@ -2938,7 +2938,7 @@ void CorrectComboListWidth(CComboBox& m_pComboBox)
 	m_pComboBox.ReleaseDC(pDC);
 
 	// Adjust the width for the vertical scroll bar and the left and right border.
-	dx += /*::GetSystemMetrics(SM_CXVSCROLL) + */2*::GetSystemMetrics(SM_CXEDGE);
+	dx += ::GetSystemMetrics(SM_CXVSCROLL) + 2*::GetSystemMetrics(SM_CXEDGE);
 
 	// Set the width of the list box so that every item is completely visible.
 	m_pComboBox.SetDroppedWidth(dx);

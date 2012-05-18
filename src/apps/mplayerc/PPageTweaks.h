@@ -64,6 +64,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
+	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
 	afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnUseTimeTooltipClicked();

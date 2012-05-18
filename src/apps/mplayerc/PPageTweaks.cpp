@@ -101,36 +101,34 @@ BOOL CPPageTweaks::OnInitDialog()
 
 	m_fFastSeek = s.fFastSeek;
 
-	CString str;
-	int iSel = 0;
 	m_FontType.Clear();
 	m_FontSize.Clear();
 	HDC dc = CreateDC(_T("DISPLAY"), NULL, NULL, NULL);
 	CAtlArray<CString> fntl;
 	EnumFontFamilies(dc, NULL,(FONTENUMPROC)EnumFontProc, (LPARAM)&fntl);
 	DeleteDC(dc);
-	for (size_t i=0; i< fntl.GetCount(); i++) {
-		if (i>0 && fntl[i-1] == fntl[i]) {
+	for (size_t i = 0; i < fntl.GetCount(); ++i) {
+		if (i > 0 && fntl[i-1] == fntl[i]) {
 			continue;
 		}
 		m_FontType.AddString(fntl[i]);
 	}
-	for (int i=0; i< m_FontType.GetCount(); i++) {
-		m_FontType.GetLBText(i,str);
-		if (m_OSD_Font == str) {
-			iSel=i;
-		}
-	}
+	CorrectComboListWidth(m_FontType);
+	int iSel = m_FontType.FindStringExact(0, m_OSD_Font);
+	if (iSel == CB_ERR) iSel = 0;
 	m_FontType.SetCurSel(iSel);
 
-	for (int i=10; i<26; i++) {
+	CString str;
+	for (int i = 10; i < 26; ++i) {
 		str.Format(_T("%d"), i);
 		m_FontSize.AddString(str);
 		if (m_OSD_Size == i) {
-			iSel=i;
+			iSel = i;
 		}
 	}
-	m_FontSize.SetCurSel(iSel-10);
+	m_FontSize.SetCurSel(iSel - 10);
+
+	EnableToolTips(TRUE);
 
 	UpdateData(FALSE);
 
@@ -174,6 +172,7 @@ BEGIN_MESSAGE_MAP(CPPageTweaks, CPPageBase)
 	ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)
 	ON_CBN_SELCHANGE(IDC_COMBO1, OnChngOSDCombo)
 	ON_CBN_SELCHANGE(IDC_COMBO2, OnChngOSDCombo)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -208,3 +207,37 @@ void CPPageTweaks::OnUseTimeTooltipClicked()
 
 	SetModified();
 }
+
+BOOL CPPageTweaks::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult)
+{
+	TOOLTIPTEXT *pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMH);
+	int cid = ::GetDlgCtrlID((HWND)pNMH->idFrom);
+	if (cid == IDC_COMBO1) {
+		CDC* pDC = m_FontType.GetDC();
+		CFont* pFont = m_FontType.GetFont();
+		CFont* pOldFont = pDC->SelectObject(pFont);
+		TEXTMETRIC tm;
+		pDC->GetTextMetrics(&tm);
+		CRect rc;
+		m_FontType.GetWindowRect(rc);
+		rc.right -= GetSystemMetrics(SM_CXVSCROLL) * GetSystemMetrics(SM_CXEDGE);
+		int i = m_FontType.GetCurSel();
+		CString str;
+		m_FontType.GetLBText(i, str);
+		CSize sz;
+		sz = pDC->GetTextExtent(str);
+		pDC->SelectObject(pOldFont);
+		m_FontType.ReleaseDC(pDC);
+		sz.cx += tm.tmAveCharWidth;
+		str = str.Left(_countof(pTTT->szText));
+		if (sz.cx > rc.Width()) {
+			_tcscpy_s(pTTT->szText, str);
+			pTTT->hinst = NULL;
+		}
+
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
