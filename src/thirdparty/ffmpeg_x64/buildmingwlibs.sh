@@ -88,7 +88,7 @@ then
   echo "Compiling MinGW64 crt and headers..."
   cd "$BD/mingw/build-$HST"
   ../mingw-w64-crt/configure --prefix="$PF" --with-sysroot="$PF" --host="$TGT" --disable-lib32 || exit 1
-  make -j4 CFLAGS="-O2 -fno-leading-underscore -pipe" -s && make install || exit 1
-  cp "/mingw/lib/gcc/x86_64-w64-mingw32/$GCCVER/libgcc.a" "$BD/../../../../../../lib64/libgcc.a"
-  cp "$PF/x86_64-w64-mingw32/lib/libmingwex.a" "$BD/../../../../../../lib64/libmingwex.a"
+  make CFLAGS="-O2 -fno-leading-underscore -pipe" -s && make install || exit 1
+  cp "/mingw/lib/gcc/x86_64-w64-mingw32/$GCCVER/libgcc.a" "$BD/../../../../lib64/libgcc.a"
+  cp "$PF/x86_64-w64-mingw32/lib/libmingwex.a" "$BD/../../../../lib64/libmingwex.a"
 fi
