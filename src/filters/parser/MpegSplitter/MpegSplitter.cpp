@@ -32,7 +32,7 @@
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/AudioParser.h"
 
-#include "../../../apps/mplayerc/SettingsDefines.h"
+#include "../../../mpc-hc/SettingsDefines.h"
 
 TCHAR* MPEG2_Profile[]=
 {

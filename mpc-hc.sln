@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Switcher", "Switcher", "{68
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transform", "Transform", "{F9F42BF2-3F13-4654-82C5-E27B8879EC4E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpc-hc", "src\apps\mplayerc\mplayerc.vcxproj", "{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpc-hc", "src\mpc-hc\mpc-hc.vcxproj", "{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSS", "src\DeCSS\DeCSS.vcxproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
 EndProject

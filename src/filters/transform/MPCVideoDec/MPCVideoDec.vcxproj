@@ -233,7 +233,7 @@
     <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\..\apps\mplayerc\WinAPIUtils.cpp">
+    <ClCompile Include="..\..\..\mpc-hc\WinAPIUtils.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="CpuId.cpp" />
@@ -258,7 +258,7 @@
     <ClCompile Include="VideoDecOutputPin.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\apps\mplayerc\WinAPIUtils.h">
+    <ClInclude Include="..\..\..\mpc-hc\WinAPIUtils.h">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="array_allocator.h" />

@@ -35,7 +35,7 @@
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
-#include "../../../apps/mplayerc/InternalFiltersConfig.h"
+#include "../../../mpc-hc/InternalFiltersConfig.h"
 
 #define MPCAudioDecName L"MPC Audio Decoder"
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpciconlib", "src\apps\mplayerc\mpciconlib\mpciconlib.vcxproj", "{86251DC4-9298-424C-AE6C-07844F79C0B5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpciconlib", "src\mpc-hc\mpciconlib\mpciconlib.vcxproj", "{86251DC4-9298-424C-AE6C-07844F79C0B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

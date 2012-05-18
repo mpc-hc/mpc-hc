@@ -27,7 +27,7 @@
 
 #include <ffmpeg/libavcodec/avcodec.h>
 
-#include "../../../apps/mplayerc/InternalFiltersConfig.h"
+#include "../../../mpc-hc/InternalFiltersConfig.h"
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))

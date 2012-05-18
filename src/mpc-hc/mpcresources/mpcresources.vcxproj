@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release Armenian|Win32">
+      <Configuration>Release Armenian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Armenian|x64">
+      <Configuration>Release Armenian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Basque|Win32">
+      <Configuration>Release Basque</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Basque|x64">
+      <Configuration>Release Basque</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Belarusian|Win32">
+      <Configuration>Release Belarusian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Belarusian|x64">
+      <Configuration>Release Belarusian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Catalan|Win32">
+      <Configuration>Release Catalan</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Catalan|x64">
+      <Configuration>Release Catalan</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Chinese Simplified|Win32">
+      <Configuration>Release Chinese Simplified</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Chinese Simplified|x64">
+      <Configuration>Release Chinese Simplified</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Chinese Traditional|Win32">
+      <Configuration>Release Chinese Traditional</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Chinese Traditional|x64">
+      <Configuration>Release Chinese Traditional</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Czech|Win32">
+      <Configuration>Release Czech</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Czech|x64">
+      <Configuration>Release Czech</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Dutch|Win32">
+      <Configuration>Release Dutch</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Dutch|x64">
+      <Configuration>Release Dutch</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release French|Win32">
+      <Configuration>Release French</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release French|x64">
+      <Configuration>Release French</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release German|Win32">
+      <Configuration>Release German</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release German|x64">
+      <Configuration>Release German</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Hebrew|Win32">
+      <Configuration>Release Hebrew</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Hebrew|x64">
+      <Configuration>Release Hebrew</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Hungarian|Win32">
+      <Configuration>Release Hungarian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Hungarian|x64">
+      <Configuration>Release Hungarian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Italian|Win32">
+      <Configuration>Release Italian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Italian|x64">
+      <Configuration>Release Italian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Japanese|Win32">
+      <Configuration>Release Japanese</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Japanese|x64">
+      <Configuration>Release Japanese</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Korean|Win32">
+      <Configuration>Release Korean</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Korean|x64">
+      <Configuration>Release Korean</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Polish|Win32">
+      <Configuration>Release Polish</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Polish|x64">
+      <Configuration>Release Polish</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Portuguese|Win32">
+      <Configuration>Release Portuguese</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Portuguese|x64">
+      <Configuration>Release Portuguese</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Russian|Win32">
+      <Configuration>Release Russian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Russian|x64">
+      <Configuration>Release Russian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Slovak|Win32">
+      <Configuration>Release Slovak</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Slovak|x64">
+      <Configuration>Release Slovak</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Spanish|Win32">
+      <Configuration>Release Spanish</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Spanish|x64">
+      <Configuration>Release Spanish</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Swedish|Win32">
+      <Configuration>Release Swedish</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Swedish|x64">
+      <Configuration>Release Swedish</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Turkish|Win32">
+      <Configuration>Release Turkish</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Turkish|x64">
+      <Configuration>Release Turkish</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Ukrainian|Win32">
+      <Configuration>Release Ukrainian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Ukrainian|x64">
+      <Configuration>Release Ukrainian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A57CBE1A-3703-4237-950A-FC5F594FDB43}</ProjectGuid>
+    <RootNamespace>mpcresources</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)bin\mpc-hc_x86\Lang\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin\mpc-hc_x64\Lang\</OutDir>
+    <IntDir>$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)'=='Release Armenian'">$(ProjectName).hy</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Basque'">$(ProjectName).eu</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Belarusian'">$(ProjectName).by</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Catalan'">$(ProjectName).ca</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Chinese Simplified'">$(ProjectName).sc</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Chinese Traditional'">$(ProjectName).tc</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Czech'">$(ProjectName).cz</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Dutch'">$(ProjectName).nl</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release French'">$(ProjectName).fr</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release German'">$(ProjectName).de</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Hebrew'">$(ProjectName).he</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Hungarian'">$(ProjectName).hu</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Italian'">$(ProjectName).it</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Japanese'">$(ProjectName).ja</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Korean'">$(ProjectName).kr</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Polish'">$(ProjectName).pl</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Portuguese'">$(ProjectName).br</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Russian'">$(ProjectName).ru</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Slovak'">$(ProjectName).sk</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Spanish'">$(ProjectName).es</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Swedish'">$(ProjectName).sv</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Turkish'">$(ProjectName).tr</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Ukrainian'">$(ProjectName).ua</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <NoEntryPoint>true</NoEntryPoint>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ResourceCompile Include="mplayerc.br.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Portuguese'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.by.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Belarusian'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.ca.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Catalan'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.cz.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Czech'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.de.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release German'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.es.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Spanish'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.eu.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Basque'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.fr.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release French'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.he.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Hebrew'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.hu.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Hungarian'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.hy.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Armenian'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.it.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Italian'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.ja.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Japanese'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.kr.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Korean'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.nl.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Dutch'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.pl.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Polish'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.ru.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Russian'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.sc.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Chinese Simplified'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.sk.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Slovak'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.sv.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Swedish'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.tc.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Chinese Traditional'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.tr.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Turkish'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.ua.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Ukrainian'">true</ExcludedFromBuild>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\res\ani.avi" />
+    <None Include="..\res\icon.ico" />
+    <None Include="..\res\Icon_114.ico" />
+    <None Include="..\res\Icon_116.ico" />
+    <None Include="..\res\Icon_41.ico" />
+    <None Include="..\res\logo.0.png" />
+    <None Include="..\res\logo.1.png">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\res\logo.1_x64.png">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\res\logo.2.png">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\res\logo.2_x64.png">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\res\logo.3.png">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\res\logo.3_x64.png">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\res\mono.bmp" />
+    <None Include="..\res\multi.ico" />
+    <None Include="..\res\noaudio.bmp" />
+    <None Include="..\res\onoff.bmp" />
+    <None Include="..\res\single.ico" />
+    <None Include="..\res\stereo.bmp" />
+    <None Include="..\res\streamtypes.bmp" />
+    <None Include="..\res\tb_pause_16.ico" />
+    <None Include="..\res\tb_play_16.ico" />
+    <None Include="..\res\tb_stop_16.ico" />
+    <None Include="..\res\toolbar.bmp" />
+    <None Include="..\res\Toolbarw7.png" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

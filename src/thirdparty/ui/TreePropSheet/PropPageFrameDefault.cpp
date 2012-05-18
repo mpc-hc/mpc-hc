@@ -20,7 +20,7 @@
 #include "stdafx.h"
 #include "PropPageFrameDefault.h"
 // <MPC-HC Custom Code>
-#include "../../../apps/mplayerc/WinAPIUtils.h"
+#include "../../../mpc-hc/WinAPIUtils.h"
 // </MPC-HC Custom Code>
 
 

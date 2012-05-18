@@ -14,5 +14,5 @@ Here is a quick how-to release a new stable build:
 In the next commit, bump the version:
 
 1) In "include/Version.h"
-2) In "src/mplayerc/res/mpc-hc.exe.manifest.conf" and
-   "src/mplayerc/res/mpc-hc.exe.manifest.template"
+2) In "src/mpc-hc/res/mpc-hc.exe.manifest.conf" and
+   "src/mpc-hc/res/mpc-hc.exe.manifest.template"

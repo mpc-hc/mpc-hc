@@ -25,7 +25,7 @@
 #include "../SyncClock/Interfaces.h"
 #include <atlbase.h>
 #include <atlcoll.h>
-#include "../../../apps/mplayerc/resource.h"
+#include "../../../mpc-hc/resource.h"
 #include "../../../DSUtil/DSUtil.h"
 #include <strsafe.h> // Required in CGenlock
 #include <videoacc.h>

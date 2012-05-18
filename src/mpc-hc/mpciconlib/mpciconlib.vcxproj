@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{86251DC4-9298-424C-AE6C-07844F79C0B5}</ProjectGuid>
+    <RootNamespace>mpciconlib</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\mpc-hc_x86\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin\mpc-hc_x64\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ModuleDefinitionFile>mpciconlib.def</ModuleDefinitionFile>
+      <NoEntryPoint>true</NoEntryPoint>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ModuleDefinitionFile>mpciconlib.def</ModuleDefinitionFile>
+      <NoEntryPoint>true</NoEntryPoint>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp" />
+    <ClCompile Include="..\..\thirdparty\mfc\afxglobals.cpp" />
+    <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp" />
+    <ClCompile Include="mpciconlib.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mpciconlib.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="mpciconlib.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icons\aac.ico" />
+    <None Include="icons\ac3.ico" />
+    <None Include="icons\aiff.ico" />
+    <None Include="icons\alac.ico" />
+    <None Include="icons\amr.ico" />
+    <None Include="icons\ape.ico" />
+    <None Include="icons\au.ico" />
+    <None Include="icons\avi.ico" />
+    <None Include="icons\bink.ico" />
+    <None Include="icons\cda.ico" />
+    <None Include="icons\d2v.ico" />
+    <None Include="icons\dat.ico" />
+    <None Include="icons\dsm.ico" />
+    <None Include="icons\dts.ico" />
+    <None Include="icons\flac.ico" />
+    <None Include="icons\flic.ico" />
+    <None Include="icons\flv.ico" />
+    <None Include="icons\ifo.ico" />
+    <None Include="icons\ivf.ico" />
+    <None Include="icons\midi.ico" />
+    <None Include="icons\mka.ico" />
+    <None Include="icons\mkv.ico" />
+    <None Include="icons\mov.ico" />
+    <None Include="icons\mp3.ico" />
+    <None Include="icons\mp4.ico" />
+    <None Include="icons\mpa.ico" />
+    <None Include="icons\mpc.ico" />
+    <None Include="icons\mpeg.ico" />
+    <None Include="icons\ofr.ico" />
+    <None Include="icons\ogg.ico" />
+    <None Include="icons\ogm.ico" />
+    <None Include="icons\other.ico" />
+    <None Include="icons\playlist.ico" />
+    <None Include="icons\ra.ico" />
+    <None Include="icons\ratdvd.ico" />
+    <None Include="icons\rm.ico" />
+    <None Include="icons\rt.ico" />
+    <None Include="icons\smk.ico" />
+    <None Include="icons\swf.ico" />
+    <None Include="icons\ts.ico" />
+    <None Include="icons\tta.ico" />
+    <None Include="icons\vob.ico" />
+    <None Include="icons\wav.ico" />
+    <None Include="icons\webm.ico" />
+    <None Include="icons\wma.ico" />
+    <None Include="icons\wmv.ico" />
+    <None Include="icons\wv.ico" />
+    <None Include="mpciconlib.def" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

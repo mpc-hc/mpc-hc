@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "PixelShaderCompiler.h"
 #include "RenderersSettings.h"
-#include "../../../apps/mplayerc/resource.h"
+#include "../../../mpc-hc/resource.h"
 
 
 CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent)
