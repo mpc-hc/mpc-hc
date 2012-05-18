@@ -1027,23 +1027,23 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								}
 								WORD sync = (WORD)gb.BitRead(16);
 								if ((size >= 7) && (sync == 0x0b77)) {
-									static int freq[] = {48000, 44100, 32000, 0};
+									static DWORD freq[] = {48000, 44100, 32000, 0};
 									gb.BitRead(2);
 									gb.BitRead(3);
-									WORD frame_size = (gb.BitRead(11) + 1) << 1;
-									BYTE sr_code = gb.BitRead(2);
+									WORD frame_size = ((WORD)gb.BitRead(11) + 1) << 1;
+									BYTE sr_code = (BYTE)gb.BitRead(2);
 									if (sr_code == 3) {
-										BYTE sr_code2 = gb.BitRead(2);
+										BYTE sr_code2 = (BYTE)gb.BitRead(2);
 										samplerate = freq[sr_code2] / 2;
 									} else {
-										static int eac3_blocks[4] = {1, 2, 3, 6};
+										static BYTE eac3_blocks[4] = {1, 2, 3, 6};
 										BYTE num_blocks = eac3_blocks[gb.BitRead(2)];
 										samplerate = freq[sr_code];
 										nAvgBytesPerSec = frame_size * samplerate / (num_blocks * 256);
 									}
-									BYTE acmod = gb.BitRead(3);
-									BYTE lfeon = gb.BitRead(1);
-									static int channels_tbl[] = {2, 1, 2, 3, 3, 4, 4, 5};
+									BYTE acmod = (BYTE)gb.BitRead(3);
+									BYTE lfeon = (BYTE)gb.BitRead(1);
+									static WORD channels_tbl[] = {2, 1, 2, 3, 3, 4, 4, 5};
 									channels = channels_tbl[acmod] + lfeon;
 								}
 							}
