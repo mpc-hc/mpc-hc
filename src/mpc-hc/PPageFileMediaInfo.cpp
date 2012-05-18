@@ -26,7 +26,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageFileMediaInfo.h"
-#include "WinAPIUtils.h"
+#include "../DSUtil/WinAPIUtils.h"
 
 #ifdef USE_MEDIAINFO_STATIC
 #include <MediaInfo/MediaInfo.h>

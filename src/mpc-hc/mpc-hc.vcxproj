@@ -273,7 +273,6 @@
     <ClCompile Include="WebClientSocket.cpp" />
     <ClCompile Include="WebServer.cpp" />
     <ClCompile Include="WebServerSocket.cpp" />
-    <ClCompile Include="WinAPIUtils.cpp" />
     <ClCompile Include="WinHotkeyCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -399,7 +398,6 @@
     <ClInclude Include="WebClientSocket.h" />
     <ClInclude Include="WebServer.h" />
     <ClInclude Include="WebServerSocket.h" />
-    <ClInclude Include="WinAPIUtils.h" />
     <ClInclude Include="WinHotkeyCtrl.h" />
   </ItemGroup>
   <ItemGroup>

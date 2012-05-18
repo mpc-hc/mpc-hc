@@ -66,9 +66,6 @@
     <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mpc-hc\WinAPIUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="H264RandomAccess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VideoDecOutputPin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\mpc-hc\WinAPIUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="H264RandomAccess.h">

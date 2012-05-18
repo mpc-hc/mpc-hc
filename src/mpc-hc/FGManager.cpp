@@ -31,7 +31,7 @@
 #include <AllocatorCommon.h>
 #include <SyncAllocatorPresenter.h>
 #include "DeinterlacerFilter.h"
-#include "WinAPIUtils.h"
+#include "../DSUtil/WinAPIUtils.h"
 #include "../DeCSS/VobFile.h"
 #include <InitGuid.h>
 #include <dmodshow.h>

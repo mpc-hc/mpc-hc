@@ -101,6 +101,11 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TreePropSheet.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\DSUtil\DSUtil.vcxproj">
+      <Project>{fc70988b-1ae5-4381-866d-4f405e28ac42}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

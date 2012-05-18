@@ -32,7 +32,7 @@
 #include <atlrx.h>
 #include <atlsync.h>
 
-#include "WinAPIUtils.h"
+#include "../DSUtil/WinAPIUtils.h"
 #include "OpenFileDlg.h"
 #include "OpenDlg.h"
 #include "SaveDlg.h"

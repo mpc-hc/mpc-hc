@@ -27,7 +27,7 @@
 #include <atlbase.h>
 #include <qnetwork.h>
 #include "../DSUtil/DSUtil.h"
-#include "WinAPIUtils.h"
+#include "../DSUtil/WinAPIUtils.h"
 
 
 // CPPageFileInfoClip dialog

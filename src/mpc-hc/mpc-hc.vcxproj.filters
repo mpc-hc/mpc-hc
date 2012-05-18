@@ -174,9 +174,6 @@
     <ClCompile Include="Playlist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\thirdparty\pngdib\pngdib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PngImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -330,21 +327,6 @@
     <ClCompile Include="WebServerSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinAPIUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\thirdparty\mfc\afxglobals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\thirdparty\mfc\afxmaskededit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vkCodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -364,6 +346,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AboutDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\mfc\afxmaskededit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\mfc\winmdi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\pngdib\pngdib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -539,9 +536,6 @@
     <ClInclude Include="Playlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\thirdparty\pngdib\pngdib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PngImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -689,9 +683,6 @@
     <ClInclude Include="TunerScanDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\Version.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VMROSD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -705,9 +696,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WebServerSocket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WinAPIUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vkCodes.h">
@@ -731,7 +719,13 @@
     <ClInclude Include="AboutDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\thirdparty\mfc\afxmaskededit.h">
+    <ClInclude Include="..\thirdparty\mfc\afxmaskededit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\pngdib\pngdib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

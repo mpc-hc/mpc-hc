@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageDVD.h"
-#include "WinAPIUtils.h"
+#include "../DSUtil/WinAPIUtils.h"
 
 
 struct {

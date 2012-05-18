@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageOutput.h"
-#include "WinAPIUtils.h"
+#include "../DSUtil/WinAPIUtils.h"
 #include <moreuuids.h>
 #include "Monitors.h"
 

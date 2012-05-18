@@ -59,6 +59,9 @@
     <ClCompile Include="AudioParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WinAPIUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DSMPropertyBag.h">
@@ -110,6 +113,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AudioParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPIUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

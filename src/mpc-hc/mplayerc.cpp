@@ -33,7 +33,7 @@
 #include "Ifo.h"
 #include "Monitors.h"
 #include "Version.h"
-#include "WinAPIUtils.h"
+#include "../DSUtil/WinAPIUtils.h"
 #include "UpdateChecker.h"
 #include <winddk/ntddcdvd.h>
 #include <detours/detours.h>
