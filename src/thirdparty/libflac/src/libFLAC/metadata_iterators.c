@@ -46,7 +46,7 @@
 #endif
 #include <io.h> /* for chmod() */
 #include <sys/types.h> /* for off_t */
-#if _MSC_VER <= 1600 || defined __BORLANDC__ /* @@@ [2G limit] */
+#if _MSC_VER <= 1700 || defined __BORLANDC__ /* @@@ [2G limit] */
 #define fseeko fseek
 #define ftello ftell
 #endif
