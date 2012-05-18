@@ -24,13 +24,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp">
+    <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\thirdparty\mfc\afxglobals.cpp">
+    <ClCompile Include="..\thirdparty\mfc\afxglobals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp">
+    <ClCompile Include="..\thirdparty\mfc\winmdi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HScrollListBox.cpp">

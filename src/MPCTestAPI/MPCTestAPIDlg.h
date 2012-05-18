@@ -24,7 +24,7 @@
 //
 
 #pragma once
-#include "../mplayerc/MpcApi.h"
+#include "../mpc-hc/MpcApi.h"
 #include "HScrollListBox.h"
 
 
