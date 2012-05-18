@@ -172,7 +172,7 @@ CAsyncIo::Request(
         }
     }
 
-    CAsyncRequest* pRequest = new CAsyncRequest;
+    CAsyncRequest* pRequest = DNew CAsyncRequest;
     if (!pRequest)
         return E_OUTOFMEMORY;
 

@@ -233,7 +233,7 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)		// #497
 
 	if (m_pDefaultPalette == NULL || m_nDefaultPaletteNbEntry != nNbEntry) {
 		delete[] m_pDefaultPalette;
-		m_pDefaultPalette		 = new HDMV_PALETTE[nNbEntry];
+		m_pDefaultPalette		 = DNew HDMV_PALETTE[nNbEntry];
 		m_nDefaultPaletteNbEntry = nNbEntry;
 	}
 	memcpy (m_pDefaultPalette, pPalette, nNbEntry*sizeof(HDMV_PALETTE));

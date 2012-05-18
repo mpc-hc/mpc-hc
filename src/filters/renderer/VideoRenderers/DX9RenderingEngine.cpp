@@ -1021,7 +1021,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 		if (hDC != NULL) {
 			DWORD icmProfilePathSize = 0;
 			GetICMProfile(hDC, &icmProfilePathSize, NULL);
-			iccProfilePath = new TCHAR[icmProfilePathSize];
+			iccProfilePath = DNew TCHAR[icmProfilePathSize];
 			if (!GetICMProfile(hDC, &icmProfilePathSize, iccProfilePath)) {
 				delete[] iccProfilePath;
 				iccProfilePath = 0;
@@ -1048,7 +1048,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 			return hr;
 		}
 
-		float* lut3DFloat32 = new float[m_Lut3DEntryCount * 3];
+		float* lut3DFloat32 = DNew float[m_Lut3DEntryCount * 3];
 		hr = CreateIccProfileLut(iccProfilePath, lut3DFloat32);
 		delete[] iccProfilePath;
 		if (FAILED(hr)) {
@@ -1057,7 +1057,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 			return hr;
 		}
 
-		D3DXFLOAT16* lut3DFloat16 = new D3DXFLOAT16[m_Lut3DEntryCount * 3];
+		D3DXFLOAT16* lut3DFloat16 = DNew D3DXFLOAT16[m_Lut3DEntryCount * 3];
 		m_pD3DXFloat32To16Array(lut3DFloat16, lut3DFloat32, m_Lut3DEntryCount * 3);
 		delete[] lut3DFloat32;
 
@@ -1332,8 +1332,8 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
 	}
 
 	// Create the 3D LUT input
-	unsigned short* lut3DOutput = new unsigned short[m_Lut3DEntryCount * 3];
-	unsigned short* lut3DInput  = new unsigned short[m_Lut3DEntryCount * 3];
+	unsigned short* lut3DOutput = DNew unsigned short[m_Lut3DEntryCount * 3];
+	unsigned short* lut3DInput  = DNew unsigned short[m_Lut3DEntryCount * 3];
 
 	unsigned short* lut3DInputIterator = lut3DInput;
 

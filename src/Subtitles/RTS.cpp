@@ -425,7 +425,7 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 
 CWord* CText::Copy()
 {
-	return new CText(*this);
+	return DNew CText(*this);
 }
 
 bool CText::Append(CWord* w)

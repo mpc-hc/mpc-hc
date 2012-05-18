@@ -132,7 +132,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	m_nButtonHeight = 16; //reset m_nButtonHeight
 	HBITMAP hBmp = LoadExternalToolBar();
 	if (NULL != hBmp) {
-		CBitmap *bmp = new CBitmap();
+		CBitmap *bmp = DNew CBitmap();
 		bmp->Attach(hBmp);
 		BITMAP bitmapBmp;
 		bmp->GetBitmap(&bitmapBmp);
@@ -146,7 +146,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 			DIBSECTION dib;
 			::GetObject(hBmp, sizeof(dib), &dib);
 			int fileDepth = dib.dsBmih.biBitCount;
-			m_pButtonsImages = new CImageList();
+			m_pButtonsImages = DNew CImageList();
 			if (32 == fileDepth) {
 				m_pButtonsImages->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR32 | ILC_MASK, 1, 0);
 				m_pButtonsImages->Add(bmp, static_cast<CBitmap*>(0));	// alpha is the mask

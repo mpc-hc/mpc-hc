@@ -15424,7 +15424,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 		Gdiplus::GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
 
-		CGdiPlusBitmapResource* pBitmap = new CGdiPlusBitmapResource;
+		CGdiPlusBitmapResource* pBitmap = DNew CGdiPlusBitmapResource;
 		if (!pBitmap->Load(_T("W7_TOOLBAR"), _T("PNG"), AfxGetInstanceHandle())) {
 			delete pBitmap;
 			Gdiplus::GdiplusShutdown(m_gdiplusToken);

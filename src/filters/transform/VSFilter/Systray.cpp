@@ -378,7 +378,7 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 		if (hWnd != INVALID_HANDLE_VALUE) {
 			ShowPPage(pFilter, hWnd);
 		} else {
-			ret = new TCHAR[wcslen(wstr)+1];
+			ret = DNew TCHAR[wcslen(wstr)+1];
 			if (ret) {
 				_tcscpy_s(ret, wcslen(wstr) + 1, CString(wstr));
 			}

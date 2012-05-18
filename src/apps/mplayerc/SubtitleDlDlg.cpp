@@ -233,7 +233,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 	EnableSaveRestore(IDS_R_DLG_SUBTITLEDL);
 
 	// start new worker thread to download the list of subtitles
-	m_pTA = new THREADSTRUCT;
+	m_pTA = DNew THREADSTRUCT;
 	m_pTA->url = m_url;
 	m_pTA->hWND = GetSafeHwnd();
 

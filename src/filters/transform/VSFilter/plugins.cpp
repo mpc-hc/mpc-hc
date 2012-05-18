@@ -75,10 +75,10 @@ namespace Plugin
 			CSize size(dst.w, dst.h);
 
 			if (!m_pSubPicQueue) {
-				CComPtr<ISubPicAllocator> pAllocator = new CMemSubPicAllocator(dst.type, size);
+				CComPtr<ISubPicAllocator> pAllocator = DNew CMemSubPicAllocator(dst.type, size);
 
 				HRESULT hr;
-				if (!(m_pSubPicQueue = new CSubPicQueueNoThread(pAllocator, &hr)) || FAILED(hr)) {
+				if (!(m_pSubPicQueue = DNew CSubPicQueueNoThread(pAllocator, &hr)) || FAILED(hr)) {
 					m_pSubPicQueue = NULL;
 					return false;
 				}
@@ -179,7 +179,7 @@ namespace Plugin
 			SetFileName(_T(""));
 			m_pSubPicProvider = NULL;
 
-			if (CVobSubFile* vsf = new CVobSubFile(&m_csSubLock)) {
+			if (CVobSubFile* vsf = DNew CVobSubFile(&m_csSubLock)) {
 				m_pSubPicProvider = (ISubPicProvider*)vsf;
 				if (vsf->Open(CString(fn))) {
 					SetFileName(fn);
@@ -214,7 +214,7 @@ namespace Plugin
 			m_pSubPicProvider = NULL;
 
 			if (!m_pSubPicProvider) {
-				if (CRenderedTextSubtitle* rts = new CRenderedTextSubtitle(&m_csSubLock)) {
+				if (CRenderedTextSubtitle* rts = DNew CRenderedTextSubtitle(&m_csSubLock)) {
 					m_pSubPicProvider = (ISubPicProvider*)rts;
 					if (rts->Open(CString(fn), CharSet)) {
 						SetFileName(fn);
@@ -345,13 +345,13 @@ namespace Plugin
 
 		int vobsubInitProc(FilterActivation* fa, const FilterFunctions* ff)
 		{
-			*(CVirtualDubFilter**)fa->filter_data = new CVobSubVirtualDubFilter();
+			*(CVirtualDubFilter**)fa->filter_data = DNew CVobSubVirtualDubFilter();
 			return !(*(CVirtualDubFilter**)fa->filter_data);
 		}
 
 		int textsubInitProc(FilterActivation* fa, const FilterFunctions* ff)
 		{
-			*(CVirtualDubFilter**)fa->filter_data = new CTextSubVirtualDubFilter();
+			*(CVirtualDubFilter**)fa->filter_data = DNew CTextSubVirtualDubFilter();
 			return !(*(CVirtualDubFilter**)fa->filter_data);
 		}
 
@@ -402,7 +402,7 @@ namespace Plugin
 			if (f) {
 				delete f;
 			}
-			f = new CVobSubVirtualDubFilter(CString(*argv[0].asString()));
+			f = DNew CVobSubVirtualDubFilter(CString(*argv[0].asString()));
 			*(CVirtualDubFilter**)fa->filter_data = f;
 		}
 
@@ -413,7 +413,7 @@ namespace Plugin
 			if (f) {
 				delete f;
 			}
-			f = new CTextSubVirtualDubFilter(CString(*argv[0].asString()), argv[1].asInt());
+			f = DNew CTextSubVirtualDubFilter(CString(*argv[0].asString()), argv[1].asInt());
 			*(CVirtualDubFilter**)fa->filter_data = f;
 		}
 
@@ -623,12 +623,12 @@ namespace Plugin
 
 		int vobsubInitProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff)
 		{
-			return !(*(CVirtualDubFilter**)fa->filter_data = new CVobSubVirtualDubFilter());
+			return !(*(CVirtualDubFilter**)fa->filter_data = DNew CVobSubVirtualDubFilter());
 		}
 
 		int textsubInitProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff)
 		{
-			return !(*(CVirtualDubFilter**)fa->filter_data = new CTextSubVirtualDubFilter());
+			return !(*(CVirtualDubFilter**)fa->filter_data = DNew CTextSubVirtualDubFilter());
 		}
 
 		void baseDeinitProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff)
@@ -678,7 +678,7 @@ namespace Plugin
 			if (f) {
 				delete f;
 			}
-			f = new CVobSubVirtualDubFilter(CString(*argv[0].asString()));
+			f = DNew CVobSubVirtualDubFilter(CString(*argv[0].asString()));
 			*(CVirtualDubFilter**)fa->filter_data = f;
 		}
 
@@ -689,7 +689,7 @@ namespace Plugin
 			if (f) {
 				delete f;
 			}
-			f = new CTextSubVirtualDubFilter(CString(*argv[0].asString()), argv[1].asInt());
+			f = DNew CTextSubVirtualDubFilter(CString(*argv[0].asString()), argv[1].asInt());
 			*(CVirtualDubFilter**)fa->filter_data = f;
 		}
 
@@ -824,7 +824,7 @@ namespace Plugin
 
 		AVSValue __cdecl VobSubCreateS(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(new CVobSubAvisynthFilter(args[0].AsClip(), args[1].AsString(), env));
+			return(DNew CVobSubAvisynthFilter(args[0].AsClip(), args[1].AsString(), env));
 		}
 
 		class CTextSubAvisynthFilter : public CTextSubFilter, public CAvisynthFilter
@@ -840,17 +840,17 @@ namespace Plugin
 
 		AVSValue __cdecl TextSubCreateS(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(new CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString()));
+			return(DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString()));
 		}
 
 		AVSValue __cdecl TextSubCreateSI(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(new CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt()));
+			return(DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt()));
 		}
 
 		AVSValue __cdecl TextSubCreateSIF(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(new CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt(), args[3].AsFloat()));
+			return(DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt(), args[3].AsFloat()));
 		}
 
 		AVSValue __cdecl MaskSubCreateSIIFI(AVSValue args, void* user_data, IScriptEnvironment* env)
@@ -873,7 +873,7 @@ namespace Plugin
 			};
 			AVSValue clip(env->Invoke("Blackness",value,nom));
 			env->SetVar(env->SaveString("RGBA"),true);
-			return(new CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
+			return(DNew CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
 		}
 
 		extern "C" __declspec(dllexport) const char* __stdcall AvisynthPluginInit(IScriptEnvironment* env)
@@ -953,7 +953,7 @@ namespace Plugin
 
 		AVSValue __cdecl VobSubCreateS(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(new CVobSubAvisynthFilter(args[0].AsClip(), args[1].AsString(), env));
+			return(DNew CVobSubAvisynthFilter(args[0].AsClip(), args[1].AsString(), env));
 		}
 
 		class CTextSubAvisynthFilter : public CTextSubFilter, public CAvisynthFilter
@@ -976,7 +976,7 @@ namespace Plugin
 				vfr = GetVFRTranslator(args[4].AsString());
 			}
 
-			return(new CTextSubAvisynthFilter(
+			return(DNew CTextSubAvisynthFilter(
 					   args[0].AsClip(),
 					   env,
 					   args[1].AsString(),
@@ -1021,8 +1021,8 @@ namespace Plugin
 			};
 			AVSValue clip(env->Invoke("Blackness",value,nom));
 			env->SetVar(env->SaveString("RGBA"),true);
-			//return(new CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
-			return(new CTextSubAvisynthFilter(
+			//return(DNew CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
+			return(DNew CTextSubAvisynthFilter(
 					   clip.AsClip(),
 					   env,
 					   args[0].AsString(),

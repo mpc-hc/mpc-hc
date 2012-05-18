@@ -163,7 +163,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 		m_bDesktopCompositionDisabled = false;
 	}
 
-	m_pGenlock = new CGenlock(s.m_RenderSettings.fTargetSyncOffset, s.m_RenderSettings.fControlLimit, s.m_RenderSettings.iLineDelta, s.m_RenderSettings.iColumnDelta, s.m_RenderSettings.fCycleDelta, 0); // Must be done before CreateDXDevice
+	m_pGenlock = DNew CGenlock(s.m_RenderSettings.fTargetSyncOffset, s.m_RenderSettings.fControlLimit, s.m_RenderSettings.iLineDelta, s.m_RenderSettings.iColumnDelta, s.m_RenderSettings.fCycleDelta, 0); // Must be done before CreateDXDevice
 	hr = CreateDXDevice(_Error);
 	memset (m_pllJitter, 0, sizeof(m_pllJitter));
 	memset (m_pllSyncOffset, 0, sizeof(m_pllSyncOffset));
@@ -4178,8 +4178,8 @@ CGenlock::CGenlock(DOUBLE target, DOUBLE limit, INT lineD, INT colD, DOUBLE cloc
 	psWnd = NULL;
 	liveSource = FALSE;
 	powerstripTimingExists = FALSE;
-	syncOffsetFifo = new MovingAverage(64);
-	frameCycleFifo = new MovingAverage(4);
+	syncOffsetFifo = DNew MovingAverage(64);
+	frameCycleFifo = DNew MovingAverage(4);
 }
 
 CGenlock::~CGenlock()

@@ -33,7 +33,7 @@ void LOG(LPCTSTR fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	if (TCHAR* buff = new TCHAR[_vsctprintf(fmt, args) + 1]) {
+	if (TCHAR* buff = DNew TCHAR[_vsctprintf(fmt, args) + 1]) {
 		_vstprintf(buff, fmt, args);
 		if (FILE* f = _tfopen(LOG_FILE, _T("at"))) {
 			fseek(f, 0, 2);

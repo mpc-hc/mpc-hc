@@ -129,7 +129,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
 
 			BYTE*	pPrev = m_pBuffer;
 			m_nBufferSize	= max (m_nBufferWritePos+nSize, m_nBufferSize+BUFFER_CHUNK_GROW);
-			m_pBuffer		= new BYTE[m_nBufferSize];
+			m_pBuffer		= DNew BYTE[m_nBufferSize];
 			if (pPrev != NULL) {
 				memcpy_s (m_pBuffer, m_nBufferSize, pPrev, m_nBufferWritePos);
 				SAFE_DELETE (pPrev);

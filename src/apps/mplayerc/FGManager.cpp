@@ -1671,7 +1671,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #endif
 
 #if INTERNAL_DECODER_AMR
-	pFGF = new CFGFilterInternal<CMpaDecFilter>(
+	pFGF = DNew CFGFilterInternal<CMpaDecFilter>(
 		(tra[TRA_AMR]) ? MPCAudioDecName : LowMerit(MPCAudioDecName),
 		(tra[TRA_AMR]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_SAMR);
@@ -1840,7 +1840,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #endif
 
 #if INTERNAL_DECODER_PCM
-	pFGF = new CFGFilterInternal<CMpaDecFilter>(
+	pFGF = DNew CFGFilterInternal<CMpaDecFilter>(
 		(tra[TRA_PCM]) ? MPCAudioDecName : LowMerit(MPCAudioDecName),
 		(tra[TRA_PCM]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_NONE);
