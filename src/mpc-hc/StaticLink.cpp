@@ -114,7 +114,7 @@ void CStaticLink::OnLButtonDown(UINT nFlags, CPoint point)
 	// For an URL, this means opening it in the browser.
 	//
 	HINSTANCE h = m_link.Navigate();
-	if ((UINT)h > 32) {						// success!
+	if ((UINT_PTR)h > 32) {						// success!
 		m_color = g_colorVisited;				// change color
 		Invalidate();							// repaint
 	} else {

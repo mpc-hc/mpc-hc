@@ -65,7 +65,7 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
 	m_ti.hwnd = m_hWnd;
 	m_ti.hinst = AfxGetInstanceHandle();
 	m_ti.lpszText = NULL;
-	m_ti.uId = (UINT)m_hWnd;
+	m_ti.uId = (UINT_PTR)m_hWnd;
 
 	m_tooltip.SendMessage(TTM_ADDTOOL, 0, (LPARAM)&m_ti);
 

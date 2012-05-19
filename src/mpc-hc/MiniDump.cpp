@@ -70,11 +70,11 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 	}
 
 	unsigned char newJump[ 100 ];
-	DWORD dwOrgEntryAddr = (DWORD) pOrgEntry;
+	DWORD_PTR dwOrgEntryAddr = (DWORD_PTR)pOrgEntry;
 	dwOrgEntryAddr += 5; // add 5 for 5 op-codes for jmp far
 	void *pNewFunc = &MyDummySetUnhandledExceptionFilter;
-	DWORD dwNewEntryAddr = (DWORD) pNewFunc;
-	DWORD dwRelativeAddr = dwNewEntryAddr - dwOrgEntryAddr;
+	DWORD_PTR dwNewEntryAddr = (DWORD_PTR)pNewFunc;
+	DWORD_PTR dwRelativeAddr = dwNewEntryAddr - dwOrgEntryAddr;
 
 	newJump[ 0 ] = 0xE9;  // JMP absolute
 	memcpy( &newJump[ 1 ], &dwRelativeAddr, sizeof(pNewFunc) );

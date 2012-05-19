@@ -94,7 +94,7 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 	m_cbVC1_GuidFlag.AddString (_T("Cyberlink VC-1 Decoder"));
 	m_cbVC1_GuidFlag.AddString (_T("ArcSoft VC-1 Decoder"));
 
-	SetClassLongPtr(GetDlgItem(IDC_PP_VC1_GUIDFLAG)->m_hWnd, GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));
+	SetClassLongPtr(GetDlgItem(IDC_PP_VC1_GUIDFLAG)->m_hWnd, GCLP_HCURSOR, (LONG_PTR)AfxGetApp()->LoadStandardCursor(IDC_HAND));
 
 	nPosY += VERTICAL_SPACING + 5;
 	m_grpTrueHD.Create (ResStr(IDS_MPEGSPLITTER_TRUEHD_OUTPUT), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (LEFT_SPACING,  nPosY, 305, nPosY+50), this, (UINT)IDC_STATIC);

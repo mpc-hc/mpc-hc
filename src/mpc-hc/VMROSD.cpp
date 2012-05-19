@@ -339,8 +339,8 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 			m_bSeekBarVisible = false;
 			// Add new timer for removing any messages
 			if (m_pWnd) {
-				KillTimer(m_pWnd->m_hWnd, (long)this);
-				SetTimer(m_pWnd->m_hWnd, (long)this, 1000, (TIMERPROC)TimerFunc);
+				KillTimer(m_pWnd->m_hWnd, (UINT_PTR)this);
+				SetTimer(m_pWnd->m_hWnd, (UINT_PTR)this, 1000, (TIMERPROC)TimerFunc);
 			}
 			Invalidate();
 		} else {
@@ -479,9 +479,9 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 		}
 
 		if (m_pWnd) {
-			KillTimer(m_pWnd->m_hWnd, (long)this);
+			KillTimer(m_pWnd->m_hWnd, (UINT_PTR)this);
 			if (nDuration != -1) {
-				SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, (TIMERPROC)TimerFunc);
+				SetTimer(m_pWnd->m_hWnd, (UINT_PTR)this, nDuration, (TIMERPROC)TimerFunc);
 			}
 		}
 		Invalidate();

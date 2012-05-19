@@ -1610,7 +1610,7 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
 	for (size_t i = 0, j = 0, len = str.GetLength(); j <= len; j++) {
 		WCHAR c = str[j];
 
-		if (c != '\n' && c != ' ' && c != '\x00A0' && c != 0) {
+		if (c != L'\n' && c != L' ' && c != L'\x00A0' && c != 0) {
 			continue;
 		}
 
@@ -1621,12 +1621,12 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
 			}
 		}
 
-		if (c == '\n') {
+		if (c == L'\n') {
 			if (CWord* w = DNew CText(style, CStringW(), m_ktype, m_kstart, m_kend)) {
 				sub->m_words.AddTail(w);
 				m_kstart = m_kend;
 			}
-		} else if (c == ' ' || c == '\x00A0') {
+		} else if (c == L' ' || c == L'\x00A0') {
 			if (CWord* w = DNew CText(style, CStringW(c), m_ktype, m_kstart, m_kend)) {
 				sub->m_words.AddTail(w);
 				m_kstart = m_kend;

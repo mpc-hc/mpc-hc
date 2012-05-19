@@ -1063,7 +1063,7 @@ UINT_PTR CALLBACK OpenHookProc(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM lPar
 			for (ptrdiff_t i = 0; i < CharSetLen; i++) {
 				CString s;
 				s.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
-				SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LONG)(LPCTSTR)s);
+				SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)s);
 				if (CharSetList[i] == (int)((OPENFILENAME*)lParam)->lCustData) {
 					SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, i, 0);
 				}

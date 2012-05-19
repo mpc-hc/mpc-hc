@@ -95,7 +95,7 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 	m_txtSoundDevice.Create (ResStr (IDS_ARS_SOUND_DEVICE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 100, nPosY+15), this, (UINT)IDC_STATIC);
 	m_cbSoundDevice.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (110,  nPosY-4, 325, nPosY+90), this, IDC_PP_SOUND_DEVICE);
 
-	SetClassLongPtr(GetDlgItem(IDC_PP_SOUND_DEVICE)->m_hWnd, GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));
+	SetClassLongPtr(GetDlgItem(IDC_PP_SOUND_DEVICE)->m_hWnd, GCLP_HCURSOR, (LONG_PTR)AfxGetApp()->LoadStandardCursor(IDC_HAND));
 
 	DirectSoundEnumerate((LPDSENUMCALLBACK)DSEnumProc, (VOID*)&m_cbSoundDevice);
 
