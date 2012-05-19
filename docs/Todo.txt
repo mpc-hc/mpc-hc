@@ -3,13 +3,15 @@ MPC-HC:
    See DSUtil/SharedInclude.h and common.props for the disabled warnings.
    Also a search for "#pragma warning" will reveal any other places where warnings are disabled,
    which shouldn't be a lot in our code.
-2) Use the secure CRT functions in our code
-3) Try to clean up the includes; there are a lot of unneeded includes
-4) Try to speed up compilation by doing the above and also by optimizing the included headers
+2) Try to clean up the includes; there are a lot of unneeded includes
+3) Try to speed up compilation by doing the above and also by optimizing the included headers
    in stdafx.h for mplayerc.vcxproj
-5) Reorganize the player's Options
-6) Remove support for unneeded/obsolete renderers
-7) Update Bento4 library
+4) Reorganize the player's Options
+5) Remove support for unneeded/obsolete renderers
+6) Update Bento4 library
+7) Test MSVC 2011 more when it's released. With the Beta version we get hundreds of redefinitions
+   for the DX headers, linking fails if /SAFESEH:NO isn't specified and the MFC bloat workaround
+   does not work as it is.
 
 FFmpeg:
 1) Stop linking ffmpeg statically
