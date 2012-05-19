@@ -67,7 +67,7 @@ bool CRealMediaPlayer::Init()
 	}
 
 	TCHAR buff[_MAX_PATH];
-	ULONG len = sizeof(buff)/sizeof(buff[0]);
+	ULONG len = _countof(buff);
 	if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
 		return false;
 	}
@@ -90,11 +90,11 @@ bool CRealMediaPlayer::Init()
 	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, prefs, KEY_READ)) {
 		CString dllpaths;
 
-		len = sizeof(buff)/sizeof(buff[0]);
-		for (int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++,len = sizeof(buff)/sizeof(buff[0])) {
+		len = _countof(buff);
+		for (int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++,len = _countof(buff)) {
 			CRegKey key2;
 			TCHAR buff2[_MAX_PATH];
-			ULONG len2 = sizeof(buff2)/sizeof(buff2[0]);
+			ULONG len2 = _countof(buff2);
 			if (ERROR_SUCCESS != key2.Open(HKEY_CLASSES_ROOT, prefs + _T("\\") + buff, KEY_READ)
 					|| ERROR_SUCCESS != key2.QueryStringValue(NULL, buff2, &len2)) {
 				continue;

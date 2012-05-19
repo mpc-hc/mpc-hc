@@ -83,7 +83,7 @@ HICON LoadIcon(CString fn, bool fSmall)
 				break;
 			}
 
-			len = sizeof(buff)/sizeof(buff[0]);
+			len = _countof(buff);
 			memset(buff, 0, sizeof(buff));
 			if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) || (ext = buff).Trim().IsEmpty()) {
 				break;
@@ -96,7 +96,7 @@ HICON LoadIcon(CString fn, bool fSmall)
 
 		CString icon;
 
-		len = sizeof(buff)/sizeof(buff[0]);
+		len = _countof(buff);
 		memset(buff, 0, sizeof(buff));
 		if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) || (icon = buff).Trim().IsEmpty()) {
 			break;
@@ -164,7 +164,7 @@ bool LoadType(CString fn, CString& type)
 				}
 
 				while (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, tmp)) {
-					len = sizeof(buff)/sizeof(buff[0]);
+					len = _countof(buff);
 					memset(buff, 0, sizeof(buff));
 
 					if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {

@@ -51,12 +51,12 @@ void LCD_UpdateThread(void * Control)
 			// Format the current time structure into a string
 			// using %#x is the long date representation,
 			// appropriate to the current locale
-			if (wcsftime(str, sizeof(str)/sizeof(wchar_t), _T("%#x"), (const struct tm *)&thetime) &&
+			if (wcsftime(str, _countof(str), _T("%#x"), (const struct tm *)&thetime) &&
 					(ltime > ctrl->nThread_tTimeout || ltime < otime)) {	// message displayed, no update until timeout
 				ctrl->m_Manager.m_Text[0].SetText(str);
 			}
 
-			if (wcsftime(str, sizeof(str)/sizeof(wchar_t), _T("%X"), (const struct tm *)&thetime)) {
+			if (wcsftime(str, _countof(str), _T("%X"), (const struct tm *)&thetime)) {
 				ctrl->m_Manager.m_Text[1].SetText(str);
 			}
 		}

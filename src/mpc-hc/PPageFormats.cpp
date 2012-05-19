@@ -160,7 +160,7 @@ bool CPPageFormats::IsRegistered(CString ext)
 		// The 2000/XP way
 		CRegKey key;
 		TCHAR   buff[256];
-		ULONG   len = sizeof(buff)/sizeof(buff[0]);
+		ULONG   len = _countof(buff);
 		memset(buff, 0, sizeof(buff));
 
 		if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext)) {
@@ -176,7 +176,7 @@ bool CPPageFormats::IsRegistered(CString ext)
 	if (!f_setContextFiles) {
 		CRegKey key;
 		TCHAR   buff[_MAX_PATH];
-		ULONG   len = sizeof(buff)/sizeof(buff[0]);
+		ULONG   len = _countof(buff);
 
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"), KEY_READ)) {
 			CString strCommand = ResStr(IDS_OPEN_WITH_MPC);
@@ -190,7 +190,7 @@ bool CPPageFormats::IsRegistered(CString ext)
 	if (bIsDefault) {
 		CRegKey key;
 		TCHAR   buff[_MAX_PATH];
-		ULONG   len = sizeof(buff)/sizeof(buff[0]);
+		ULONG   len = _countof(buff);
 
 		bIsDefault = FALSE;
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ)) {
@@ -653,7 +653,7 @@ BOOL CPPageFormats::OnInitDialog()
 
 	CRegKey key;
 	TCHAR   buff[_MAX_PATH];
-	ULONG   len = sizeof(buff)/sizeof(buff[0]);
+	ULONG   len = _countof(buff);
 
 	int fContextDir = 0;
 	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play\\command"), KEY_READ)) {
@@ -675,7 +675,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 	CRegKey key;
 	HRESULT hr = S_OK;
 	TCHAR   buff[256];
-	ULONG   len = sizeof(buff)/sizeof(buff[0]);
+	ULONG   len = _countof(buff);
 	memset(buff, 0, sizeof(buff));
 
 	if (m_pAAR == NULL) {
@@ -743,7 +743,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 				return false;
 			}
 
-			len = sizeof(buff)/sizeof(buff[0]);
+			len = _countof(buff);
 			memset(buff, 0, sizeof(buff));
 			if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty()) {
 				extoldreg = buff;
@@ -778,7 +778,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 			*/
 		} else {
 			// Get previous association
-			len = sizeof(buff)/sizeof(buff[0]);
+			len = _countof(buff);
 			memset(buff, 0, sizeof(buff));
 			if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
 				return false;

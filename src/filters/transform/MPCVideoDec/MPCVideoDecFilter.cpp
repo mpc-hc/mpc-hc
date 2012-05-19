@@ -1029,7 +1029,7 @@ STDMETHODIMP CMPCVideoDecFilter::NonDelegatingQueryInterface(REFIID riid, void**
 
 HRESULT CMPCVideoDecFilter::CheckInputType(const CMediaType* mtIn)
 {
-	for (int i=0; i<sizeof(sudPinTypesIn)/sizeof(AMOVIESETUP_MEDIATYPE); i++) {
+	for (int i=0; i<_countof(sudPinTypesIn); i++) {
 		if ((mtIn->majortype == *sudPinTypesIn[i].clsMajorType) &&
 				(mtIn->subtype == *sudPinTypesIn[i].clsMinorType)) {
 			return S_OK;

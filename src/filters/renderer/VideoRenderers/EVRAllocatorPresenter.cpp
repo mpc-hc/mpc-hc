@@ -2440,7 +2440,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
 				static double AllowedValues[] = {60.0, 59.94, 50.0, 48.0, 47.952, 30.0, 29.97, 25.0, 24.0, 23.976};
 
-				int nAllowed = sizeof(AllowedValues) / sizeof(AllowedValues[0]);
+				int nAllowed = _countof(AllowedValues);
 				for (int i = 0; i < nAllowed; ++i) {
 					if (fabs(1.0 - DetectedRate / AllowedValues[i]) < AllowedError) {
 						DetectedRate = AllowedValues[i];

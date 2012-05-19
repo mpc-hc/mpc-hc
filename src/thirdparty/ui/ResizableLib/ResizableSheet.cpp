@@ -125,7 +125,7 @@ static UINT _propButtons[] =
 	IDOK, IDCANCEL, ID_APPLY_NOW, IDHELP,
 	ID_WIZBACK, ID_WIZNEXT, ID_WIZFINISH
 };
-const int _propButtonsCount = sizeof(_propButtons)/sizeof(UINT);
+const int _propButtonsCount = _countof(_propButtons);
 
 // horizontal line in wizard mode
 #define ID_WIZLINE	ID_WIZFINISH+1

@@ -131,7 +131,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 		if (ERROR_SUCCESS == key.QueryDWORDValue(_T("MuteFastForward"), dw)) {
 			m_bMuteFastForward = !!dw;
 		}
-		len = sizeof(buff)/sizeof(buff[0]);
+		len = _countof(buff);
 		memset(buff, 0, sizeof(buff));
 		if (ERROR_SUCCESS == key.QueryStringValue(_T("SoundDevice"), buff, &len)) {
 			m_csSound_Device = CString(buff);

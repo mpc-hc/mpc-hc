@@ -522,13 +522,13 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 			m_TrackPriority = !!dw;
 		}
 
-		len = sizeof(buff)/sizeof(buff[0]);
+		len = _countof(buff);
 		memset(buff, 0, sizeof(buff));
 		if (ERROR_SUCCESS == key.QueryStringValue(_T("AudioLanguageOrder"), buff, &len)) {
 			m_csAudioLanguageOrder = CString(buff);
 		}
 
-		len = sizeof(buff)/sizeof(buff[0]);
+		len = _countof(buff);
 		memset(buff, 0, sizeof(buff));
 		if (ERROR_SUCCESS == key.QueryStringValue(_T("SubtitlesLanguageOrder"), buff, &len)) {
 			m_csSubtitlesLanguageOrder = CString(buff);
