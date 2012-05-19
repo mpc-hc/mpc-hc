@@ -96,11 +96,11 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 	CString str(_T("MIME\\Database\\Content Type"));
 	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, str, KEY_READ)) {
 		TCHAR buff[256];
-		DWORD len = countof(buff);
-		for (int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++, len = countof(buff)) {
+		DWORD len = _countof(buff);
+		for (int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++, len = _countof(buff)) {
 			CRegKey mime;
 			TCHAR ext[64];
-			ULONG len = countof(ext);
+			ULONG len = _countof(ext);
 			if (ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
 					&& ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len)) {
 				m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();

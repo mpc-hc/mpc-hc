@@ -51,14 +51,14 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
+	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMP4SplitterFilter), MP4SplitterName, MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMP4SplitterFilter), MP4SplitterName, MERIT_NORMAL, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CMP4SourceFilter), MP4SourceName, MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CMPEG4VideoSplitterFilter), L"MPC MPEG4 Video Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMPEG4VideoSplitterFilter), L"MPC MPEG4 Video Splitter", MERIT_NORMAL, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CMPEG4VideoSourceFilter), L"MPC MPEG4 Video Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
@@ -69,7 +69,7 @@ CFactoryTemplate g_Templates[] = {
 	{sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CMPEG4VideoSourceFilter>, NULL, &sudFilter[3]},
 };
 
-int g_cTemplates = countof(g_Templates);
+int g_cTemplates = _countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
@@ -770,8 +770,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								SUBTITLEINFO* si = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + hdr.GetLength());
 								memset(si, 0, mt.FormatLength());
 								si->dwOffset = sizeof(SUBTITLEINFO);
-								strcpy_s(si->IsoLang, countof(si->IsoLang), CStringA(TrackLanguage));
-								wcscpy_s(si->TrackName, countof(si->TrackName), TrackName);
+								strcpy_s(si->IsoLang, _countof(si->IsoLang), CStringA(TrackLanguage));
+								wcscpy_s(si->TrackName, _countof(si->TrackName), TrackName);
 								memcpy(si + 1, (LPCSTR)hdr, hdr.GetLength());
 								mts.Add(mt);
 							}
@@ -805,8 +805,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						SUBTITLEINFO* si = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + hdr.GetLength());
 						memset(si, 0, mt.FormatLength());
 						si->dwOffset = sizeof(SUBTITLEINFO);
-						strcpy_s(si->IsoLang, countof(si->IsoLang), CStringA(TrackLanguage));
-						wcscpy_s(si->TrackName, countof(si->TrackName), TrackName);
+						strcpy_s(si->IsoLang, _countof(si->IsoLang), CStringA(TrackLanguage));
+						wcscpy_s(si->TrackName, _countof(si->TrackName), TrackName);
 						memcpy(si + 1, (LPCSTR)hdr, hdr.GetLength());
 						mts.Add(mt);
 					}

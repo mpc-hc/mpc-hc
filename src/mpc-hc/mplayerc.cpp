@@ -678,7 +678,7 @@ BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileS
 		return FALSE;
 	}
 
-	_wsplitpath_s (strIFOPath, NULL, 0, NULL, 0, strFileName, countof(strFileName), strExt, countof(strExt));
+	_wsplitpath_s (strIFOPath, NULL, 0, NULL, 0, strFileName, _countof(strFileName), strExt, _countof(strExt));
 	_snwprintf_s  (strFakeFile, nFakeFileSize, _TRUNCATE, L"%sMPC%s%s", szTempPath, strFileName, strExt);
 
 	if (Ifo.OpenFile (strIFOPath) &&
@@ -699,7 +699,7 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
 	p3 |= FILE_SHARE_WRITE;
 
 	if (nLen>=4 && _wcsicmp (p1 + nLen-4, L".ifo") == 0) {
-		if (CreateFakeVideoTS(p1, strFakeFile, countof(strFakeFile))) {
+		if (CreateFakeVideoTS(p1, strFakeFile, _countof(strFakeFile))) {
 			hFile = Real_CreateFileW(strFakeFile, p2, p3, p4, p5, p6, p7);
 		}
 	}
@@ -1144,7 +1144,7 @@ UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawIn
 void CMPlayerCApp::RegisterHotkeys()
 {
 	RAWINPUTDEVICELIST	InputDeviceList[50];
-	UINT				nInputDeviceCount = countof(InputDeviceList);
+	UINT				nInputDeviceCount = _countof(InputDeviceList);
 	RID_DEVICE_INFO		DevInfo;
 	RAWINPUTDEVICE		MCEInputDevice[] = {
 		//	usUsagePage		usUsage			dwFlags		hwndTarget
@@ -1154,7 +1154,7 @@ void CMPlayerCApp::RegisterHotkeys()
 	};
 
 	// Register MCE Remote Control raw input
-	for (unsigned int i=0; i<countof(MCEInputDevice); i++) {
+	for (unsigned int i=0; i<_countof(MCEInputDevice); i++) {
 		MCEInputDevice[i].hwndTarget = m_pMainWnd->m_hWnd;
 	}
 
@@ -1173,7 +1173,7 @@ void CMPlayerCApp::RegisterHotkeys()
 	}
 
 
-	RegisterRawInputDevices (MCEInputDevice, countof(MCEInputDevice), sizeof(RAWINPUTDEVICE));
+	RegisterRawInputDevices (MCEInputDevice, _countof(MCEInputDevice), sizeof(RAWINPUTDEVICE));
 
 
 	if (m_s.fGlobalMedia) {

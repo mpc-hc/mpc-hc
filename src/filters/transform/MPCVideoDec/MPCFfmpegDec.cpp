@@ -36,7 +36,7 @@ const AMOVIESETUP_PIN sudpPinsVideoDec[] = {
 
 
 const AMOVIESETUP_FILTER sudFilters[] = {
-	{&__uuidof(CMPCVideoDecFilter), MPCVideoDecName, /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPinsVideoDec), sudpPinsVideoDec, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CMPCVideoDecFilter), MPCVideoDecName, /*MERIT_DO_NOT_USE*/0x40000001, _countof(sudpPinsVideoDec), sudpPinsVideoDec, CLSID_LegacyAmFilterCategory}
 };
 
 
@@ -46,7 +46,7 @@ CFactoryTemplate g_Templates[] = {
 	{L"CMPCVideoDecPropertyPage2", &__uuidof(CMPCVideoDecCodecWnd), CreateInstance<CInternalPropertyPageTempl<CMPCVideoDecCodecWnd> >},
 };
 
-int g_cTemplates = countof(g_Templates);
+int g_cTemplates = _countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {

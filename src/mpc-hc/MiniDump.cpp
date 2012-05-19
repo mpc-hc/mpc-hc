@@ -146,15 +146,15 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 				// write the dump
 				BOOL bOK = pMiniDumpWriteDump( GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL );
 				if ( bOK ) {
-					_stprintf_s( szResult, countof(szResult), ResStr(IDS_MPC_CRASH), strDumpPath );
+					_stprintf_s( szResult, _countof(szResult), ResStr(IDS_MPC_CRASH), strDumpPath );
 					retval = EXCEPTION_EXECUTE_HANDLER;
 				} else {
-					_stprintf_s( szResult, countof(szResult), ResStr(IDS_MPC_MINIDUMP_FAIL), strDumpPath, GetLastError() );
+					_stprintf_s( szResult, _countof(szResult), ResStr(IDS_MPC_MINIDUMP_FAIL), strDumpPath, GetLastError() );
 				}
 
 				::CloseHandle( hFile );
 			} else {
-				_stprintf_s( szResult, countof(szResult), ResStr(IDS_MPC_MINIDUMP_FAIL), strDumpPath, GetLastError() );
+				_stprintf_s( szResult, _countof(szResult), ResStr(IDS_MPC_MINIDUMP_FAIL), strDumpPath, GetLastError() );
 			}
 		}
 		FreeLibrary( hDll );

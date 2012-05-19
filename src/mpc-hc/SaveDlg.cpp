@@ -249,11 +249,11 @@ void CSaveDlg::OnTimer(UINT_PTR nIDEvent)
 		REFERENCE_TIME speed = time > 0 ? pos*10000000/time : 0;
 
 		double dPos = pos / 1024.;
-		unsigned int unitPos = AdaptUnit(dPos, countof(sizeUnits));
+		unsigned int unitPos = AdaptUnit(dPos, _countof(sizeUnits));
 		double dDur = dur / 1024.;
-		unsigned int unitDur = AdaptUnit(dDur, countof(sizeUnits));
+		unsigned int unitDur = AdaptUnit(dDur, _countof(sizeUnits));
 		double dSpeed = speed / 1024.;
-		unsigned int unitSpeed = AdaptUnit(dSpeed, countof(speedUnits));
+		unsigned int unitSpeed = AdaptUnit(dSpeed, _countof(speedUnits));
 
 		str.Format(_T("%.2lf %s / %.2lf %s, %.2lf %s, %I64d s"),
 				   dPos, ResStr(sizeUnits[unitPos]), dDur, ResStr(sizeUnits[unitDur]),

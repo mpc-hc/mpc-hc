@@ -198,11 +198,11 @@ CFGFilterRegistry::CFGFilterRegistry(const CLSID& clsid, UINT64 merit)
 
 			FILETIME ft;
 			TCHAR buff[256];
-			DWORD len = countof(buff);
-			for (DWORD i = 0; ERROR_SUCCESS == catkey.EnumKey(i, buff, &len, &ft); i++, len = countof(buff)) {
+			DWORD len = _countof(buff);
+			for (DWORD i = 0; ERROR_SUCCESS == catkey.EnumKey(i, buff, &len, &ft); i++, len = _countof(buff)) {
 				if (ERROR_SUCCESS == key.Open(catkey, buff, KEY_READ)) {
 					TCHAR clsid[256];
-					len = countof(clsid);
+					len = _countof(clsid);
 					if (ERROR_SUCCESS == key.QueryStringValue(_T("CLSID"), clsid, &len) && GUIDFromCString(clsid) == m_clsid) {
 						break;
 					}

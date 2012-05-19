@@ -339,8 +339,8 @@ bool CJpegEncoder::Encode(const BYTE* dib)
 	}
 
 	if (quanttbl[0][0] == 16) {
-		for (int i = 0; i < countof(quanttbl); i++)
-			for (int j = 0; j < countof(quanttbl[0]); j++) {
+		for (int i = 0; i < _countof(quanttbl); i++)
+			for (int j = 0; j < _countof(quanttbl[0]); j++) {
 				quanttbl[i][j] >>= 2;    // the default quantization table contains a little too large values
 			}
 	}

@@ -2215,7 +2215,7 @@ CString ISO6391ToLanguage(LPCSTR code)
 	strncpy_s(tmp, code, 2);
 	tmp[2] = 0;
 	_strlwr_s(tmp);
-	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
+	for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++)
 		if (!strcmp(s_isolangs[i].iso6391, tmp)) {
 			CString ret = CString(CStringA(s_isolangs[i].name));
 			int i = ret.Find(';');
@@ -2233,7 +2233,7 @@ CString ISO6392ToLanguage(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
+	for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++) {
 		if (!strcmp(s_isolangs[i].iso6392, tmp)) {
 			CString ret = CString(CStringA(s_isolangs[i].name));
 			int i = ret.Find(';');
@@ -2252,7 +2252,7 @@ LCID ISO6391ToLcid(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
+	for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++) {
 		if (!strcmp(s_isolangs[i].iso6391, code)) {
 			return s_isolangs[i].lcid;
 		}
@@ -2266,7 +2266,7 @@ LCID ISO6392ToLcid(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
+	for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++) {
 		if (!strcmp(s_isolangs[i].iso6392, tmp)) {
 			return s_isolangs[i].lcid;
 		}
@@ -2280,7 +2280,7 @@ CString ISO6391To6392(LPCSTR code)
 	strncpy_s(tmp, code, 2);
 	tmp[2] = 0;
 	_strlwr_s(tmp);
-	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
+	for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++)
 		if (!strcmp(s_isolangs[i].iso6391, tmp)) {
 			return CString(CStringA(s_isolangs[i].iso6392));
 		}
@@ -2293,7 +2293,7 @@ CString ISO6392To6391(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
+	for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++)
 		if (!strcmp(s_isolangs[i].iso6392, tmp)) {
 			return CString(CStringA(s_isolangs[i].iso6391));
 		}
@@ -2304,7 +2304,7 @@ CString LanguageToISO6392(LPCTSTR lang)
 {
 	CString str = lang;
 	str.MakeLower();
-	for (ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++) {
+	for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++) {
 		CAtlList<CString> sl;
 		Explode(CString(s_isolangs[i].name), sl, ';');
 		POSITION pos = sl.GetHeadPosition();
@@ -2574,7 +2574,7 @@ LPCTSTR GetDXVAMode(const GUID* guidDecoder)
 {
 	int			nPos = 0;
 
-	for (int i=1; i<countof(DXVA2Decoder); i++) {
+	for (int i=1; i<_countof(DXVA2Decoder); i++) {
 		if (*guidDecoder == *DXVA2Decoder[i].Guid) {
 			nPos = i;
 			break;

@@ -42,12 +42,12 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
+	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMatroskaSplitterFilter), MatroskaSplitterName, MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMatroskaSplitterFilter), MatroskaSplitterName, MERIT_NORMAL, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CMatroskaSourceFilter), MatroskaSourceName, MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
@@ -56,7 +56,7 @@ CFactoryTemplate g_Templates[] = {
 	{sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CMatroskaSourceFilter>, NULL, &sudFilter[1]},
 };
 
-int g_cTemplates = countof(g_Templates);
+int g_cTemplates = _countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
@@ -792,7 +792,7 @@ avcsuccess:
 					mt.formattype = FORMAT_SubtitleInfo;
 					SUBTITLEINFO* psi = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + pTE->CodecPrivate.GetCount());
 					memset(psi, 0, mt.FormatLength());
-					strncpy_s(psi->IsoLang, pTE->Language, countof(psi->IsoLang)-1);
+					strncpy_s(psi->IsoLang, pTE->Language, _countof(psi->IsoLang)-1);
 					CString subtitle_Name = pTE->Name;
 					if (pTE->FlagForced) { // "Forced" overrides "Default"
 						subtitle_Name += L" [Forced]";
@@ -801,7 +801,7 @@ avcsuccess:
 					}
 					subtitle_Name = subtitle_Name.Trim();
 
-					wcsncpy_s(psi->TrackName, subtitle_Name, countof(psi->TrackName)-1);
+					wcsncpy_s(psi->TrackName, subtitle_Name, _countof(psi->TrackName)-1);
 					memcpy(mt.pbFormat + (psi->dwOffset = sizeof(SUBTITLEINFO)), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 
 					mt.subtype =

@@ -782,7 +782,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 	tSpanBuffer* pOutline[2] = {&mOutline, &mWideOutline};
 
-	for (ptrdiff_t i = countof(pOutline)-1; i >= 0; i--) {
+	for (ptrdiff_t i = _countof(pOutline)-1; i >= 0; i--) {
 		tSpanBuffer::iterator it = pOutline[i]->begin();
 		tSpanBuffer::iterator itEnd = pOutline[i]->end();
 

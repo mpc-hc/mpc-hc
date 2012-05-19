@@ -223,7 +223,7 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
 	}
 
 	int _afxPropSheetButtons[] = { IDOK, IDCANCEL, ID_APPLY_NOW, IDHELP };
-	for (int i = 0; i < countof(_afxPropSheetButtons); i++) {
+	for (int i = 0; i < _countof(_afxPropSheetButtons); i++) {
 		if (CWnd* pWnd = GetDlgItem(_afxPropSheetButtons[i])) {
 			pWnd->GetWindowRect(r);
 			ScreenToClient(r);

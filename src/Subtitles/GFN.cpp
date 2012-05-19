@@ -32,7 +32,7 @@ TCHAR* exttypestr[] = {
 	_T("xss"), _T("txt"), _T("rt"), _T("sup")
 };
 
-static TCHAR* ext[3][countof(exttypestr)] = {
+static TCHAR* ext[3][_countof(exttypestr)] = {
 	{
 		_T(".srt"), _T(".sub"), _T(".smi"), _T(".psb"),
 		_T(".ssa"), _T(".ass"), _T(".idx"), _T(".usf"),
@@ -61,8 +61,8 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 {
 	ret.RemoveAll();
 
-	int extlistnum = countof(ext);
-	int extsubnum = countof(ext[0]);
+	int extlistnum = _countof(ext);
+	int extsubnum = _countof(ext[0]);
 
 	fn.Replace('\\', '/');
 

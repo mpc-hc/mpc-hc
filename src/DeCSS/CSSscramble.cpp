@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#ifndef countof
-#define countof(array) (sizeof(array)/sizeof(array[0]))
+#ifndef _countof
+#define _countof(array) (sizeof(array)/sizeof(array[0]))
 #endif
 
 unsigned int CSStab0[11]= {5,0,1,2,3,4,0,1,2,3,4};
@@ -237,4 +237,4 @@ unsigned char g_PlayerKeys[][6] = {
 	// TODO: find more player keys
 };
 
-int g_nPlayerKeys = countof(g_PlayerKeys);
+int g_nPlayerKeys = _countof(g_PlayerKeys);

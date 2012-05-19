@@ -248,12 +248,12 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
-	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
+	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
+	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMpaDecFilter), MPCAudioDecName, /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpaDecFilter), MPCAudioDecName, /*MERIT_DO_NOT_USE*/0x40000001, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -261,7 +261,7 @@ CFactoryTemplate g_Templates[] = {
 	{L"CMpaDecPropertyPage", &__uuidof(CMpaDecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpaDecSettingsWnd> >},
 };
 
-int g_cTemplates = countof(g_Templates);
+int g_cTemplates = _countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
@@ -531,7 +531,7 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 #if defined(REGISTER_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
 enum CodecID CMpaDecFilter::FindCodec(const GUID subtype)
 {
-	for (int i=0; i<countof(ffAudioCodecs); i++)
+	for (int i=0; i<_countof(ffAudioCodecs); i++)
 		if (subtype == *ffAudioCodecs[i].clsMinorType) {
 			return ffAudioCodecs[i].nFFCodec;
 		}
@@ -897,8 +897,8 @@ HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoug
 						a52_dynrng(m_a52_state, NULL, NULL);
 					}
 
-					int scmapidx = min(flags&A52_CHANNEL_MASK, countof(s_scmap_ac3)/2);
-					scmap_t& scmap = s_scmap_ac3[scmapidx + ((flags&A52_LFE)?(countof(s_scmap_ac3)/2):0)];
+					int scmapidx = min(flags&A52_CHANNEL_MASK, _countof(s_scmap_ac3)/2);
+					scmap_t& scmap = s_scmap_ac3[scmapidx + ((flags&A52_LFE)?(_countof(s_scmap_ac3)/2):0)];
 
 					CAtlArray<float> pBuff;
 					pBuff.SetCount(6*256*scmap.nChannels);
@@ -1079,8 +1079,8 @@ HRESULT CMpaDecFilter::ProcessDTS()
 							dts_dynrng(m_dts_state, NULL, NULL);
 						}
 
-						int scmapidx = min(flags&DTS_CHANNEL_MASK, countof(s_scmap_dts)/2);
-						scmap_t& scmap = s_scmap_dts[scmapidx + ((flags&DTS_LFE)?(countof(s_scmap_dts)/2):0)];
+						int scmapidx = min(flags&DTS_CHANNEL_MASK, _countof(s_scmap_dts)/2);
+						scmap_t& scmap = s_scmap_dts[scmapidx + ((flags&DTS_LFE)?(_countof(s_scmap_dts)/2):0)];
 
 						int blocks = dts_blocks_num(m_dts_state);
 
@@ -1835,7 +1835,7 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 	}
 #endif
 
-	for (int i = 0; i < countof(sudPinTypesIn); i++) {
+	for (int i = 0; i < _countof(sudPinTypesIn); i++) {
 		if (*sudPinTypesIn[i].clsMajorType == mtIn->majortype
 				&& *sudPinTypesIn[i].clsMinorType == mtIn->subtype) {
 			return S_OK;

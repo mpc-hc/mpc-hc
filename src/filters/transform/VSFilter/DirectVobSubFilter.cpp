@@ -1309,7 +1309,7 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 		_T("GoogleDesktopCrawl."), // Google Desktop
 	};
 
-	for (ptrdiff_t i = 0; i < countof(blacklistedapps); i++) {
+	for (ptrdiff_t i = 0; i < _countof(blacklistedapps); i++) {
 		if (theApp.m_AppName.Find(blacklistedapps[i]) >= 0) {
 			return false;
 		}

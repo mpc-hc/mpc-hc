@@ -368,7 +368,7 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 	}
 
 	int index = 0;
-	for (int i = 0; i < countof(s_filters); i++) {
+	for (int i = 0; i < _countof(s_filters); i++) {
 		switch (s_filters[i].type) {
 			case SOURCE_FILTER:
 				if (m_n == 1) {
@@ -458,7 +458,7 @@ BOOL CPPageInternalFilters::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	for (int i = 0; i < countof(s_filters)-1; i++) {
+	for (int i = 0; i < _countof(s_filters)-1; i++) {
 		CPPageInternalFiltersListBox* l;
 		bool checked;
 

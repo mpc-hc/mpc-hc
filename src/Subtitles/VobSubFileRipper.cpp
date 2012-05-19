@@ -64,7 +64,7 @@ void CVobSubFileRipper::Log(log_t type, LPCTSTR lpszFormat, ...)
 
 	va_list args;
 	va_start(args, lpszFormat);
-	_vstprintf_s(buff, countof(buff), lpszFormat, args);
+	_vstprintf_s(buff, _countof(buff), lpszFormat, args);
 	va_end(args);
 
 	CString msg;
@@ -1218,11 +1218,10 @@ void VSFRipperData::Copy(VSFRipperData& rd)
 			PGC& src = rd.pgcs[i];
 			PGC& dst = pgcs[i];
 			dst.nAngles = src.nAngles;
-			for (ptrdiff_t i = 0; i < countof(dst.angles); i++) {
+			for (ptrdiff_t i = 0; i < _countof(dst.angles); i++) {
 				dst.angles[i].Copy(src.angles[i]);
 			}
-			dst.iSelAngle = src.iSelAngle;
-			memcpy(dst.pal, src.pal, sizeof(src.pal));
+			dst.iSelAngle = src.iSelAngle;			memcpy(dst.pal, src.pal, sizeof(src.pal));
 			memcpy(dst.ids, src.ids, sizeof(src.ids));
 		}
 	}

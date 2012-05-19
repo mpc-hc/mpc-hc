@@ -1186,7 +1186,7 @@ void CAppSettings::UpdateData(bool fSave)
 			UINT mouse, mouseFS, appcmd;
 			TCHAR buff[128];
 			int n;
-			if (5 > (n = _stscanf_s(str, _T("%d %x %x %s %d %u %u %u"), &cmd, &fVirt, &key, buff, countof(buff), &repcnt, &mouse, &appcmd, &mouseFS))) {
+			if (5 > (n = _stscanf_s(str, _T("%d %x %x %s %d %u %u %u"), &cmd, &fVirt, &key, buff, _countof(buff), &repcnt, &mouse, &appcmd, &mouseFS))) {
 				break;
 			}
 			if (POSITION pos = wmcmds.Find(cmd)) {

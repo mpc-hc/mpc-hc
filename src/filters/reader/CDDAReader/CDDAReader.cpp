@@ -38,18 +38,18 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 };
 
 const AMOVIESETUP_PIN sudOpPin[] = {
-	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut},
+	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut},
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CCDDAReader), CCDDAReaderName, MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CCDDAReader), CCDDAReaderName, MERIT_NORMAL, _countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] = {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CCDDAReader>, NULL, &sudFilter[0]}
 };
 
-int g_cTemplates = countof(g_Templates);
+int g_cTemplates = _countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
@@ -364,8 +364,8 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 				continue;
 			}
 
-			const int lenU = countof(pDesc->Text);
-			const int lenW = countof(pDesc->WText);
+			const int lenU = _countof(pDesc->Text);
+			const int lenW = _countof(pDesc->WText);
 
 			CString text = !pDesc->Unicode
 						   ? CString(CStringA((CHAR*)pDesc->Text, lenU))

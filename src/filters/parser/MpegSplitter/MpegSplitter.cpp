@@ -77,12 +77,12 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
+	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL},
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CMpegSplitterFilter), MpegSplitterName, MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpegSplitterFilter), MpegSplitterName, MERIT_NORMAL+1, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CMpegSourceFilter), MpegSourceName, MERIT_UNLIKELY, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
@@ -92,7 +92,7 @@ CFactoryTemplate g_Templates[] = {
 	{L"CMpegSplitterPropertyPage", &__uuidof(CMpegSplitterSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpegSplitterSettingsWnd> >},
 };
 
-int g_cTemplates = countof(g_Templates);
+int g_cTemplates = _countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
@@ -618,10 +618,10 @@ void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)
 		WCHAR		Filename[_MAX_PATH];
 		WCHAR		Ext[_MAX_EXT];
 
-		if (_wsplitpath_s (pszFileName, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0) {
+		if (_wsplitpath_s (pszFileName, Drive, _countof(Drive), Dir, _countof(Dir), Filename, _countof(Filename), Ext, _countof(Ext)) == 0) {
 			CString	strClipInfo;
 
-			_wcslwr_s(Ext, countof(Ext));
+			_wcslwr_s(Ext, _countof(Ext));
 
 			if (wcscmp(Ext, L".ssif") == 0) {
 				if (Drive[0]) {
@@ -847,7 +847,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		if (!lang.IsEmpty()) lang_list_subpic.AddTail(lang);
 	}
 
-	for (int i = 0; i < countof(m_pFile->m_streams); i++) {
+	for (int i = 0; i < _countof(m_pFile->m_streams); i++) {
 		POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
 		while (pos) {
 			CMpegSplitterFile::stream& s = m_pFile->m_streams[i].GetNext(pos);
@@ -927,7 +927,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_rtNewStart = m_rtCurrent = 0;
 	m_rtNewStop = m_rtStop = m_rtDuration = 0;
 
-	for (int i = 0; i < countof(m_pFile->m_streams); i++) {
+	for (int i = 0; i < _countof(m_pFile->m_streams); i++) {
 		POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
 		while (pos) {
 			CMpegSplitterFile::stream& s = m_pFile->m_streams[i].GetNext(pos);
@@ -1048,7 +1048,7 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 		REFERENCE_TIME rtmin = rtmax - 5000000;
 
 		if (m_rtStartOffset == 0)
-			for (int i = 0; i < countof(m_pFile->m_streams)-1; i++) {
+			for (int i = 0; i < _countof(m_pFile->m_streams)-1; i++) {
 				POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
 				while (pos) {
 					DWORD TrackNum = m_pFile->m_streams[i].GetNext(pos);
@@ -1136,7 +1136,7 @@ STDMETHODIMP CMpegSplitterFilter::Count(DWORD* pcStreams)
 
 	*pcStreams = 0;
 
-	for (int i = 0; i < countof(m_pFile->m_streams); i++) {
+	for (int i = 0; i < _countof(m_pFile->m_streams); i++) {
 		(*pcStreams) += m_pFile->m_streams[i].GetCount();
 	}
 
@@ -1149,7 +1149,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 		return E_NOTIMPL;
 	}
 
-	for (int i = 0, j = 0; i < countof(m_pFile->m_streams); i++) {
+	for (int i = 0, j = 0; i < _countof(m_pFile->m_streams); i++) {
 		int cnt = m_pFile->m_streams[i].GetCount();
 
 		if (lIndex >= j && lIndex < j+cnt) {
@@ -1186,7 +1186,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid, iProgram, pClipInfo);
 
 				if (p!=NULL && !m_ClipInfo.IsHdmv() && !m_pFile->IsHdmv()) {
-					for (int k = 0; k < countof(m_pFile->m_streams); k++) {
+					for (int k = 0; k < _countof(m_pFile->m_streams); k++) {
 						if (k == i) {
 							continue;
 						}
@@ -1198,7 +1198,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 								continue;
 							}
 
-							for (int l = 0; l < countof(p->streams); l++) {
+							for (int l = 0; l < _countof(p->streams); l++) {
 								if (const CMpegSplitterFile::stream* s = m_pFile->m_streams[k].FindStream(p->streams[l].pid)) {
 									if (from != *s) {
 										hr = RenameOutputPin(from, *s, &s->mt);
@@ -1325,7 +1325,7 @@ bool CMpegSplitterFile::stream::operator < (const stream &_Other) const
 
 STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk)
 {
-	for (int i = 0, j = 0; i < countof(m_pFile->m_streams); i++) {
+	for (int i = 0, j = 0; i < _countof(m_pFile->m_streams); i++) {
 		int cnt = m_pFile->m_streams[i].GetCount();
 
 		if (lIndex >= j && lIndex < j+cnt) {

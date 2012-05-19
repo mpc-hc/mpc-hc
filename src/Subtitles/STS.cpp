@@ -182,7 +182,7 @@ struct htmlcolor {
 
 CHtmlColorMap::CHtmlColorMap()
 {
-	for (ptrdiff_t i = 0; i < countof(hmtlcolors); i++) {
+	for (ptrdiff_t i = 0; i < _countof(hmtlcolors); i++) {
 		SetAt(hmtlcolors[i].name, hmtlcolors[i].color);
 	}
 }
@@ -237,7 +237,7 @@ TCHAR* CharSetNames[] = {
 	_T("BALTIC"),
 };
 
-int CharSetLen = countof(CharSetList);
+int CharSetLen = _countof(CharSetList);
 
 //
 
@@ -1853,7 +1853,7 @@ static OpenFunctStruct OpenFuncts[] = {
 	OpenRealText, TIME, EXTRT,
 };
 
-static int nOpenFuncts = countof(OpenFuncts);
+static int nOpenFuncts = _countof(OpenFuncts);
 
 //
 

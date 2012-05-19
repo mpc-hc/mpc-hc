@@ -1089,7 +1089,7 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
 	m_pScreenSizeTemporaryTexture[0] = NULL;
 	m_pScreenSizeTemporaryTexture[1] = NULL;
 
-	for (int i = 0; i < countof(m_pResizerPixelShader); i++) {
+	for (int i = 0; i < _countof(m_pResizerPixelShader); i++) {
 		m_pResizerPixelShader[i] = NULL;
 	}
 
@@ -1110,8 +1110,8 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
 
 	LPCSTR pEntries[] = {"main_bilinear", "main_bicubic1pass", "main_bicubic2pass_pass1", "main_bicubic2pass_pass2"};
 
-	ASSERT(countof(pEntries) == countof(m_pResizerPixelShader));
-	for (int i = 0; i < countof(pEntries); i++) {
+	ASSERT(_countof(pEntries) == _countof(m_pResizerPixelShader));
+	for (int i = 0; i < _countof(pEntries); i++) {
 		CString ErrorMessage;
 		CString DissAssembly;
 		hr = m_pPSC->CompileShader(str, pEntries[i], pProfile, 0, &m_pResizerPixelShader[i], &DissAssembly, &ErrorMessage);
@@ -1157,7 +1157,7 @@ HRESULT CBaseAP::TextureCopy(IDirect3DTexture9* pTexture)
 		{0, h, 0.5f, 2.0f, 0, 1},
 		{w, h, 0.5f, 2.0f, 1, 1},
 	};
-	for (int i = 0; i < countof(v); i++) {
+	for (int i = 0; i < _countof(v); i++) {
 		v[i].x -= 0.5;
 		v[i].y -= 0.5;
 	}
@@ -1174,7 +1174,7 @@ HRESULT CBaseAP::DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect)
 		{float(_Rect.left), float(_Rect.bottom), 0.5f, 2.0f, Color},
 		{float(_Rect.right), float(_Rect.bottom), 0.5f, 2.0f, Color},
 	};
-	for (int i = 0; i < countof(v); i++) {
+	for (int i = 0; i < _countof(v); i++) {
 		v[i].x -= 0.5;
 		v[i].y -= 0.5;
 	}
@@ -1234,7 +1234,7 @@ HRESULT CBaseAP::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4
 	};
 	AdjustQuad(v, 1.0, 1.0);
 	float fConstData[][4] = {{0.5f / w, 0.5f / h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}, {w, h, 0, 0}};
-	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[0]);
 	hr = TextureBlt(m_pD3DDev, v, D3DTEXF_POINT);
@@ -1268,7 +1268,7 @@ HRESULT CBaseAP::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector d
 	AdjustQuad(v, 1.0, 1.0);
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 	float fConstData[][4] = {{0.5f / w, 0.5f / h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}, {w, h, 0, 0}};
-	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[1]);
 	hr = TextureBlt(m_pD3DDev, v, D3DTEXF_POINT);
 	m_pD3DDev->SetPixelShader(NULL);
@@ -1339,7 +1339,7 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[2]);
 	{
 	    float fConstData[][4] = {{0.5f / Tex0_Width, 0.5f / Tex0_Height, 0, 0}, {1.0f / Tex0_Width, 1.0f / Tex0_Height, 0, 0}, {1.0f / Tex0_Width, 0, 0, 0}, {0, 1.0f / Tex0_Height, 0, 0}, {Tex0_Width, Tex0_Height, 0, 0}};
-	    hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+	    hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 	}
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 	CComPtr<IDirect3DSurface9> pRTOld;
@@ -1351,7 +1351,7 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[3]);
 	{
 	    float fConstData[][4] = {{0.5f / Tex1_Width, 0.5f / Tex1_Height, 0, 0}, {1.0f / Tex1_Width, 1.0f / Tex1_Height, 0, 0}, {1.0f / Tex1_Width, 0, 0, 0}, {0, 1.0f / Tex1_Height, 0, 0}, {Tex1_Width, Tex1_Height, 0, 0}};
-	    hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+	    hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 	}
 	hr = m_pD3DDev->SetTexture(0, m_pScreenSizeTemporaryTexture[0]);
 	hr = m_pD3DDev->SetRenderTarget(0, pRTOld);
@@ -1592,7 +1592,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 					{1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
 				};
 
-				hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+				hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 
 				CComPtr<IDirect3DSurface9> pRT;
 				hr = m_pD3DDev->GetRenderTarget(0, &pRT);
@@ -1692,7 +1692,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 					{1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
 				};
 
-				hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+				hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 
 				int src = 1, dst = 0;
 
@@ -3523,7 +3523,7 @@ void CSyncAP::MixerThread()
 	dwUser = timeBeginPeriod(dwResolution);
 
 	while (!bQuit) {
-		DWORD dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 1);
+		DWORD dwObject = WaitForMultipleObjects (_countof(hEvts), hEvts, FALSE, 1);
 		switch (dwObject) {
 			case WAIT_OBJECT_0 :
 				bQuit = true;
@@ -3679,7 +3679,7 @@ void CSyncAP::RenderThread()
 			}
 		}
 		// Wait for the next presentation time (m_lNextSampleWait) or some other event.
-		dwObject = WaitForMultipleObjects(countof(hEvts), hEvts, FALSE, (DWORD)m_lNextSampleWait);
+		dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, (DWORD)m_lNextSampleWait);
 		switch (dwObject) {
 			case WAIT_OBJECT_0: // Quit
 				bQuit = true;

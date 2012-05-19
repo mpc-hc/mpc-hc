@@ -121,7 +121,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 		/*TBBS_SEPARATOR,*/
 	};
 
-	for (int i = 0; i < countof(styles); i++) {
+	for (int i = 0; i < _countof(styles); i++) {
 		SetButtonStyle(i, styles[i]|TBBS_DISABLED);
 	}
 

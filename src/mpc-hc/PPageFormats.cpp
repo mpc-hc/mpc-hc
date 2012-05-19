@@ -419,7 +419,7 @@ void CPPageFormats::AddAutoPlayToRegistry(autoplay_t ap, bool fRegister)
 	CString exe = buff;
 
 	int i = (int)ap;
-	if (i < 0 || i >= countof(handlers)) {
+	if (i < 0 || i >= _countof(handlers)) {
 		return;
 	}
 
@@ -475,7 +475,7 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 	CString exe = buff;
 
 	int i = (int)ap;
-	if (i < 0 || i >= countof(handlers)) {
+	if (i < 0 || i >= _countof(handlers)) {
 		return false;
 	}
 
@@ -486,7 +486,7 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 								  KEY_READ)) {
 		return false;
 	}
-	len = countof(buff);
+	len = _countof(buff);
 	if (ERROR_SUCCESS != key.QueryStringValue(
 				CString(_T("MPCPlay")) + handlers[i].verb + _T("OnArrival"),
 				buff, &len)) {
@@ -499,7 +499,7 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 								  KEY_READ)) {
 		return false;
 	}
-	len = countof(buff);
+	len = _countof(buff);
 	if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
 		return false;
 	}

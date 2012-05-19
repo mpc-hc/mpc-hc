@@ -433,7 +433,7 @@ void CDX9AllocatorPresenter::VSyncThread()
 
 	while (!bQuit) {
 
-		DWORD dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 1);
+		DWORD dwObject = WaitForMultipleObjects (_countof(hEvts), hEvts, FALSE, 1);
 		switch (dwObject) {
 			case WAIT_OBJECT_0 :
 				bQuit = true;

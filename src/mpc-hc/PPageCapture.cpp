@@ -401,7 +401,7 @@ void CPPageCapture::FindAnalogDevices()
 
 	// Fill country
 	iSel = 0;
-	for (int j = 0; j < countof(s_countrycodes); j++) {
+	for (int j = 0; j < _countof(s_countrycodes); j++) {
 		CString standard;
 		switch (s_countrycodes[j].standard) {
 			case AnalogVideo_NTSC_M:

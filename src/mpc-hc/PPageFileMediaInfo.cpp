@@ -140,7 +140,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 		lf.lfHeight = fonts_size[i];
 		success = IsFontInstalled(fonts[i]) && m_pCFont->CreateFontIndirect(&lf);
 		i++;
-	} while (!success && i < countof(fonts));
+	} while (!success && i < _countof(fonts));
 	m_mediainfo.SetFont(m_pCFont);
 	m_mediainfo.SetWindowText(MI_Text);
 

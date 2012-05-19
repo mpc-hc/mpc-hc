@@ -81,7 +81,7 @@ BOOL CAuthDlg::OnInitDialog()
 			int i = 0;
 			TCHAR username[256], password[256];
 			for (;;) {
-				DWORD unlen = countof(username);
+				DWORD unlen = _countof(username);
 				DWORD pwlen = sizeof(password);
 				DWORD type = REG_SZ;
 				if (ERROR_SUCCESS == RegEnumValue(

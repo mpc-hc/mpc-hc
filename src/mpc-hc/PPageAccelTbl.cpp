@@ -1406,7 +1406,7 @@ CString CPPageAccelTbl::MakeMouseButtonLabel(UINT mouse)
 
 CString CPPageAccelTbl::MakeAppCommandLabel(UINT id)
 {
-	for (int i=0; i<countof(g_CommandList); i++) {
+	for (int i=0; i<_countof(g_CommandList); i++) {
 		if (g_CommandList[i].appcmd == id) {
 			return CString(g_CommandList[i].cmdname);
 		}
@@ -1665,7 +1665,7 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
 			break;
 		case COL_APPCMD:
-			for (int i = 0; i < countof(g_CommandList); i++) {
+			for (int i = 0; i < _countof(g_CommandList); i++) {
 				sl.AddTail(g_CommandList[i].cmdname);
 				if (wc.appcmd == g_CommandList[i].appcmd) {
 					nSel = i;
@@ -1730,7 +1730,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		break;
 		case COL_APPCMD: {
 			int i = pItem->lParam;
-			if (i >= 0 && i < countof(g_CommandList)) {
+			if (i >= 0 && i < _countof(g_CommandList)) {
 				wc.appcmd = g_CommandList[i].appcmd;
 				m_list.SetItemText(pItem->iItem, COL_APPCMD, pItem->pszText);
 				*pResult = TRUE;

@@ -143,7 +143,7 @@ bool CMpaDecSettingsWnd::OnActivate()
 	m_ac3lfe_check.Create(_T("LFE"), dwStyle|BS_AUTOCHECKBOX, CRect(CPoint(r.left, r.bottom + 3), CSize(50, m_fontheight)), this, IDC_PP_CHECK4);
 	m_ac3lfe_check.SetCheck(!!(abs(m_ac3spkcfg) & A52_LFE));
 
-	for (int i = 0, h = max(20, m_fontheight)+1; i < countof(m_ac3spkcfg_radio); i++, p.y += h) {
+	for (int i = 0, h = max(20, m_fontheight)+1; i < _countof(m_ac3spkcfg_radio); i++, p.y += h) {
 		static const TCHAR* labels[] = {m_strDecodeToSpeaker, _T("SPDIF")};
 		m_ac3spkcfg_radio[i].Create(labels[i], dwStyle|BS_AUTORADIOBUTTON|(i == 0 ? WS_GROUP : 0), CRect(p + CPoint(10, 0), CSize(140, h)), this, IDC_PP_RADIO1+i);
 	}
@@ -184,7 +184,7 @@ bool CMpaDecSettingsWnd::OnActivate()
 	m_dtslfe_check.Create(_T("LFE"), dwStyle|BS_AUTOCHECKBOX, CRect(CPoint(r.left, r.bottom + 3), CSize(50, m_fontheight)), this, IDC_PP_CHECK5);
 	m_dtslfe_check.SetCheck(!!(abs(m_dtsspkcfg) & DTS_LFE));
 
-	for (int i = 0, h = max(20, m_fontheight)+1; i < countof(m_dtsspkcfg_radio); i++, p.y += h) {
+	for (int i = 0, h = max(20, m_fontheight)+1; i < _countof(m_dtsspkcfg_radio); i++, p.y += h) {
 		static const TCHAR* labels[] = {m_strDecodeToSpeaker, _T("SPDIF")};
 		m_dtsspkcfg_radio[i].Create(labels[i], dwStyle|BS_AUTORADIOBUTTON|(i == 0 ? WS_GROUP : 0), CRect(p + CPoint(10, 0), CSize(140, h)), this, IDC_PP_RADIO3+i);
 	}

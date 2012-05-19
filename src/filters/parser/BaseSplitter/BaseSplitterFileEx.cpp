@@ -331,13 +331,13 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 
 	h.fiqm = BitRead(1);
 	if (h.fiqm)
-		for (int i = 0; i < countof(h.iqm); i++) {
+		for (int i = 0; i < _countof(h.iqm); i++) {
 			h.iqm[i] = (BYTE)BitRead(8);
 		}
 
 	h.fniqm = BitRead(1);
 	if (h.fniqm)
-		for (int i = 0; i < countof(h.niqm); i++) {
+		for (int i = 0; i < _countof(h.niqm); i++) {
 			h.niqm[i] = (BYTE)BitRead(8);
 		}
 
@@ -895,7 +895,7 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sy
 
 	static int channels[] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
 
-	if (h.amode < countof(channels)) {
+	if (h.amode < _countof(channels)) {
 		wfe.nChannels = channels[h.amode];
 		if (h.lfe > 0) {
 			++wfe.nChannels;
@@ -1488,7 +1488,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 			} else if (pos > nalstartpos) {
 				// Copy into buffer
 				Seek(nalstartpos);
-				unsigned int bufsize = countof(h.spspps[index].buffer);
+				unsigned int bufsize = _countof(h.spspps[index].buffer);
 				int len = min(bufsize - h.spspps[index].size, pos - nalstartpos);
 				ByteRead(h.spspps[index].buffer+h.spspps[index].size, len);
 				Seek(pos);

@@ -956,7 +956,7 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
 			gb.BitRead(8);
 		}
 
-		for (int i = 0; i < countof(pPair->m_value.streams) && len >= 5; i++) {
+		for (int i = 0; i < _countof(pPair->m_value.streams) && len >= 5; i++) {
 			BYTE stream_type = (BYTE)gb.BitRead(8);
 			BYTE nreserved1 = (BYTE)gb.BitRead(3);
 			WORD pid = (WORD)gb.BitRead(13);
@@ -1049,7 +1049,7 @@ const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid, int &
 	while (pos) {
 		program* p = &m_programs.GetNextValue(pos);
 
-		for (int i = 0; i < countof(p->streams); i++) {
+		for (int i = 0; i < _countof(p->streams); i++) {
 			if (p->streams[i].pid == pid) {
 				iStream = i;
 				return p;

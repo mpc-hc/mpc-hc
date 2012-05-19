@@ -181,7 +181,7 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
 			if (ERROR_SUCCESS == key.Open (HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11D0-BD40-00A0C911CE86}\\Instance\\") + CStringFromGUID(FilterClsid), KEY_READ)) {
 				ULONG len;
 				TCHAR buff[128];
-				len = countof(buff);
+				len = _countof(buff);
 				key.QueryStringValue(_T("FriendlyName"), buff, &len);
 				strName = CString (buff);
 			} else {

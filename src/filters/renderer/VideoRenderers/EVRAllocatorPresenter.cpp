@@ -1557,7 +1557,7 @@ void CEVRAllocatorPresenter::GetMixerThread()
 	dwUser		= timeBeginPeriod(dwResolution);
 
 	while (!bQuit) {
-		DWORD dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 1);
+		DWORD dwObject = WaitForMultipleObjects (_countof(hEvts), hEvts, FALSE, 1);
 		switch (dwObject) {
 			case WAIT_OBJECT_0 :
 				bQuit = true;
@@ -1957,7 +1957,7 @@ void CEVRAllocatorPresenter::RenderThread()
 		if (!s.m_RenderSettings.iVMR9VSyncAccurate && NextSleepTime == 0) {
 			NextSleepTime = 1;
 		}
-		dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
+		dwObject = WaitForMultipleObjects (_countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
 		/*		dwObject = WAIT_TIMEOUT;
 				if (m_bEvtFlush)
 					dwObject = WAIT_OBJECT_0 + 1;
@@ -1998,7 +1998,7 @@ void CEVRAllocatorPresenter::RenderThread()
 
 				//			TRACE_EVR ("EVR: RenderThread ==>> Waiting buffer\n");
 
-				//			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
+				//			if (WaitForMultipleObjects (_countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
 				{
 					CComPtr<IMFSample>		pMFSample;
 					LONGLONG	llPerf = GetRenderersData()->GetPerfCounter();

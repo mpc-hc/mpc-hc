@@ -138,7 +138,7 @@ HRESULT CMpaSplitterFile::Init()
 
 			// genre
 			BYTE genre = (BYTE)BitRead(8);
-			if (genre < countof(s_genre)) {
+			if (genre < _countof(s_genre)) {
 				m_tags['TCON'] = CStringW(s_genre[genre]);
 			}
 		}

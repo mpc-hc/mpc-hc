@@ -121,7 +121,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
 	p.y += m_fontheight + 20;
 
-	for (int i = 0, h = max(20, m_fontheight)+1; i < countof(m_procamp_slider); i++, p.y += h) {
+	for (int i = 0, h = max(20, m_fontheight)+1; i < _countof(m_procamp_slider); i++, p.y += h) {
 		static const TCHAR* labels[] = {m_strBrightness, m_strContrast,	m_strHue, m_strSaturation};
 		m_procamp_static[i].Create(labels[i], dwStyle, CRect(p, CSize(70, h)), this);
 		m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(80, 0), CSize(201, h)), this, IDC_PP_SLIDER1+i);

@@ -292,13 +292,13 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, CString(protocol), KEY_READ)) {
 			CRegKey exts;
 			if (ERROR_SUCCESS == exts.Open(key, _T("Extensions"), KEY_READ)) {
-				len = countof(buff);
+				len = _countof(buff);
 				if (ERROR_SUCCESS == exts.QueryStringValue(CString(ext), buff, &len)) {
 					fl.Insert(LookupFilterRegistry(GUIDFromCString(buff), m_override), 4);
 				}
 			}
 
-			len = countof(buff);
+			len = _countof(buff);
 			if (ERROR_SUCCESS == key.QueryStringValue(_T("Source Filter"), buff, &len)) {
 				fl.Insert(LookupFilterRegistry(GUIDFromCString(buff), m_override), 5);
 			}
@@ -311,8 +311,8 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 		CRegKey key;
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Media Type"), KEY_READ)) {
 			FILETIME ft;
-			len = countof(buff);
-			for (DWORD i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len, &ft); i++, len = countof(buff)) {
+			len = _countof(buff);
+			for (DWORD i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len, &ft); i++, len = _countof(buff)) {
 				GUID majortype;
 				if (FAILED(GUIDFromCString(buff, majortype))) {
 					continue;
@@ -320,8 +320,8 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 
 				CRegKey majorkey;
 				if (ERROR_SUCCESS == majorkey.Open(key, buff, KEY_READ)) {
-					len = countof(buff);
-					for (DWORD j = 0; ERROR_SUCCESS == majorkey.EnumKey(j, buff, &len, &ft); j++, len = countof(buff)) {
+					len = _countof(buff);
+					for (DWORD j = 0; ERROR_SUCCESS == majorkey.EnumKey(j, buff, &len, &ft); j++, len = _countof(buff)) {
 						GUID subtype;
 						if (FAILED(GUIDFromCString(buff, subtype))) {
 							continue;
@@ -329,18 +329,18 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 
 						CRegKey subkey;
 						if (ERROR_SUCCESS == subkey.Open(majorkey, buff, KEY_READ)) {
-							len = countof(buff);
+							len = _countof(buff);
 							if (ERROR_SUCCESS != subkey.QueryStringValue(_T("Source Filter"), buff, &len)) {
 								continue;
 							}
 
 							GUID clsid = GUIDFromCString(buff);
 
-							len = countof(buff);
+							len = _countof(buff);
 							len2 = sizeof(buff2);
 							for (DWORD k = 0, type;
 									clsid != GUID_NULL && ERROR_SUCCESS == RegEnumValue(subkey, k, buff2, &len2, 0, &type, (BYTE*)buff, &len);
-									k++, len = countof(buff), len2 = sizeof(buff2)) {
+									k++, len = _countof(buff), len2 = sizeof(buff2)) {
 								if (CheckBytes(hFile, CString(buff))) {
 									CFGFilter* pFGF = LookupFilterRegistry(clsid, m_override);
 									pFGF->AddType(majortype, subtype);
@@ -360,7 +360,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 
 		CRegKey key;
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Media Type\\Extensions\\") + CString(ext), KEY_READ)) {
-			ULONG len = countof(buff);
+			ULONG len = _countof(buff);
 			memset(buff, 0, sizeof(buff));
 			LONG ret = key.QueryStringValue(_T("Source Filter"), buff, &len); // QueryStringValue can return ERROR_INVALID_DATA on bogus strings (radlight mpc v1003, fixed in v1004)
 			if (ERROR_SUCCESS == ret || ERROR_INVALID_DATA == ret && GUIDFromCString(buff) != GUID_NULL) {
@@ -368,12 +368,12 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 				GUID majortype = GUID_NULL;
 				GUID subtype = GUID_NULL;
 
-				len = countof(buff);
+				len = _countof(buff);
 				if (ERROR_SUCCESS == key.QueryStringValue(_T("Media Type"), buff, &len)) {
 					majortype = GUIDFromCString(buff);
 				}
 
-				len = countof(buff);
+				len = _countof(buff);
 				if (ERROR_SUCCESS == key.QueryStringValue(_T("Subtype"), buff, &len)) {
 					subtype = GUIDFromCString(buff);
 				}
@@ -1271,7 +1271,7 @@ STDMETHODIMP CFGManager::AddToROT()
 	CComPtr<IRunningObjectTable> pROT;
 	CComPtr<IMoniker> pMoniker;
 	WCHAR wsz[256];
-	swprintf_s(wsz, countof(wsz), L"FilterGraph %08p pid %08x (MPC)", (DWORD_PTR)this, GetCurrentProcessId());
+	swprintf_s(wsz, _countof(wsz), L"FilterGraph %08p pid %08x (MPC)", (DWORD_PTR)this, GetCurrentProcessId());
 	if (SUCCEEDED(hr = GetRunningObjectTable(0, &pROT))
 			&& SUCCEEDED(hr = CreateItemMoniker(L"!", wsz, &pMoniker))) {
 		hr = pROT->Register(ROTFLAGS_REGISTRATIONKEEPSALIVE, (IGraphBuilder2*)this, pMoniker, &m_dwRegister);
@@ -2695,7 +2695,7 @@ STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpc
 			&& FAILED(hr = pDVDC->SetDVDDirectory(fn))
 			&& FAILED(hr = pDVDC->SetDVDDirectory(fn + L"VIDEO_TS"))
 			&& FAILED(hr = pDVDC->SetDVDDirectory(fn + L"\\VIDEO_TS")))
-			|| FAILED(hr = pDVDI->GetDVDDirectory(buff, countof(buff), &len)) || len == 0) {
+			|| FAILED(hr = pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) || len == 0) {
 		return E_INVALIDARG;
 	}
 

@@ -167,7 +167,7 @@ void ClearDXVAState()
 
 LPCTSTR FindD3DFormat(const D3DFORMAT Format)
 {
-	for (int i=0; i<countof(D3DFormatType); i++) {
+	for (int i=0; i<_countof(D3DFormatType); i++) {
 		if (Format == D3DFormatType[i].Format) {
 			return D3DFormatType[i].Description;
 		}
@@ -320,7 +320,7 @@ static void LOG(LPCTSTR fmt, ...)
 	//int   nCount = _vsctprintf(fmt, args) + 1;
 	TCHAR buff[3000];
 	FILE* f;
-	_vstprintf_s(buff, countof(buff), fmt, args);
+	_vstprintf_s(buff, _countof(buff), fmt, args);
 	if (_tfopen_s(&f, LOG_FILE_DXVA, _T("at")) == 0) {
 		fseek(f, 0, 2);
 		_ftprintf_s(f, _T("%s\n"), buff);

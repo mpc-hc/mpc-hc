@@ -254,7 +254,7 @@ void CPlayerPlaylistBar::ResolveLinkFiles( CAtlList<CString> &fns )
 		if (CPath(fn).GetExtension().MakeLower() != _T(".lnk")
 				|| FAILED(pPF->Load(CStringW(fn), STGM_READ))
 				|| FAILED(pSL->Resolve(NULL, SLR_ANY_MATCH|SLR_NO_UI))
-				|| FAILED(pSL->GetPath(buff, countof(buff), NULL, 0))) {
+				|| FAILED(pSL->GetPath(buff, _countof(buff), NULL, 0))) {
 			continue;
 		}
 
@@ -763,7 +763,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 	if (pli->m_type == CPlaylistItem::device) {
 		if (OpenDeviceData* p = DNew OpenDeviceData()) {
 			POSITION pos = pli->m_fns.GetHeadPosition();
-			for (int i = 0; i < countof(p->DisplayName) && pos; i++) {
+			for (int i = 0; i < _countof(p->DisplayName) && pos; i++) {
 				p->DisplayName[i] = pli->m_fns.GetNext(pos);
 			}
 			p->vinput = pli->m_vinput;
