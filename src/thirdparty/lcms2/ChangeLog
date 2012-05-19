@@ -59,6 +59,16 @@ Added compatibilty with Argyll's CGATS parser
 
 Fixed a bug in the named color devicelink generation
 Fixed uint64 to work in systems without long long native type
-Added performance improvements from several contributors, mostly artifex
+Added performance improvements from several contributors, mostly Artifex
 Fixed a bug in black preservation checking
 Added black point detection algorithm from Adobe paper
+Added support for transforms on planar data with different stride
+Added a new plug in entry for full transform
+Exposed internal overview table for tone curves
+gamma 1.0 can now operate in unbounded mode
+Fixed a bug in pipeline duplication
+Added getPipelineContextID
+Added a new plug-in type
+Internal stage structs are now accessible through plug-in API
+Fixed a bug on ending zero when saving a IT8 to memory
+Fixed a bug on IT8 reading of negative numbers.

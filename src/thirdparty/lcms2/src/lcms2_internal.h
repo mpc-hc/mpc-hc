@@ -196,6 +196,8 @@ cmsBool  _cmsRegisterMultiProcessElementPlugin(cmsPluginBase* Plugin);
 // Optimization
 cmsBool  _cmsRegisterOptimizationPlugin(cmsPluginBase* Plugin);
 
+// Transform
+cmsBool  _cmsRegisterTransformPlugin(cmsPluginBase* Plugin);
 
 // ---------------------------------------------------------------------------------------------------------
 
@@ -387,37 +389,6 @@ struct _cmsStage_struct {
     struct _cmsStage_struct* Next;
 };
 
-// Data kept in "Element" member of cmsStage
-
-// Curves
-typedef struct {                
-    cmsUInt32Number nCurves;
-    cmsToneCurve**  TheCurves;
-
-} _cmsStageToneCurvesData;
-
-// Matrix
-typedef struct {                
-    cmsFloat64Number*  Double;          // floating point for the matrix
-    cmsFloat64Number*  Offset;          // The offset
-
-} _cmsStageMatrixData;
-
-// CLUT
-typedef struct {                    
-    
-    union {                       // Can have only one of both representations at same time
-        cmsUInt16Number*  T;      // Points to the table 16 bits table
-        cmsFloat32Number* TFloat; // Points to the cmsFloat32Number table
-
-    } Tab;
-
-    cmsInterpParams* Params;
-    cmsUInt32Number  nEntries;
-    cmsBool          HasFloatValues;
-
-} _cmsStageCLutData;
-
 
 // Special Stages (cannot be saved)
 cmsStage*        _cmsStageAllocLab2XYZ(cmsContext ContextID);
@@ -544,18 +515,6 @@ typedef struct {
 } _cmsCACHE;
 
 
-// Full xform
-typedef void (* _cmsTransformFn)(struct _cmstransform_struct *Transform,
-                                 const void* InputBuffer,
-                                 void* OutputBuffer, 
-                                 cmsUInt32Number Size);
-
-typedef struct {
-
-    cmsUInt32Number InputFormat, OutputFormat; // Keep formats for further reference
-    cmsUInt32Number StrideIn, StrideOut;       // Planar support
-
-} cmsFormatterInfo;
 
 // Transformation
 typedef struct _cmstransform_struct {
@@ -575,10 +534,10 @@ typedef struct _cmstransform_struct {
     // 1-pixel cache seed for zero as input (16 bits, read only)
     _cmsCACHE Cache;
     
-    // A MPE LUT holding the full (optimized) transform
+    // A Pipeline holding the full (optimized) transform
     cmsPipeline* Lut;
     
-    // A MPE LUT holding the gamut check. It goes from the input space to bilevel
+    // A Pipeline holding the gamut check. It goes from the input space to bilevel
     cmsPipeline* GamutCheck;
 
     // Colorant tables
@@ -600,6 +559,10 @@ typedef struct _cmstransform_struct {
 
     // An id that uniquely identifies the running context. May be null.
     cmsContext ContextID;
+
+    // A user-defined pointer that can be used to store data for transform plug-ins
+    void* UserData;
+    _cmsOPTfreeDataFn FreeUserData;
 
 } _cmsTRANSFORM;
 

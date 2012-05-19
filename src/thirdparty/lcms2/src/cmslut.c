@@ -1298,14 +1298,21 @@ cmsPipeline* CMSEXPORT cmsPipelineAlloc(cmsContext ContextID, cmsUInt32Number In
        return NewLUT;
 }
 
+cmsContext CMSEXPORT cmsGetPipelineContextID(const cmsPipeline* lut)
+{
+    _cmsAssert(lut != NULL);
+    return lut ->ContextID;
+}
 
 cmsUInt32Number CMSEXPORT cmsPipelineInputChannels(const cmsPipeline* lut)
 {
+    _cmsAssert(lut != NULL);
     return lut ->InputChannels;
 }
 
 cmsUInt32Number CMSEXPORT cmsPipelineOutputChannels(const cmsPipeline* lut)
 {
+    _cmsAssert(lut != NULL);
     return lut ->OutputChannels;
 }
 
@@ -1333,6 +1340,7 @@ void CMSEXPORT cmsPipelineFree(cmsPipeline* lut)
 // Default to evaluate the LUT on 16 bit-basis. 
 void CMSEXPORT cmsPipelineEval16(const cmsUInt16Number In[], cmsUInt16Number Out[],  const cmsPipeline* lut)
 {
+    _cmsAssert(lut != NULL);
     lut ->Eval16Fn(In, Out, lut->Data);
 }
 
@@ -1340,6 +1348,7 @@ void CMSEXPORT cmsPipelineEval16(const cmsUInt16Number In[], cmsUInt16Number Out
 // Does evaluate the LUT on cmsFloat32Number-basis. 
 void CMSEXPORT cmsPipelineEvalFloat(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsPipeline* lut)
 {
+    _cmsAssert(lut != NULL);
     lut ->EvalFloatFn(In, Out, lut);
 }
 
@@ -1377,8 +1386,10 @@ cmsPipeline* CMSEXPORT cmsPipelineDup(const cmsPipeline* lut)
             Anterior = NewMPE;
     }
 
-    NewLUT ->DupDataFn  = lut ->DupDataFn;
-    NewLUT ->FreeDataFn = lut ->FreeDataFn;
+    NewLUT ->Eval16Fn    = lut ->Eval16Fn;
+    NewLUT ->EvalFloatFn = lut ->EvalFloatFn;
+    NewLUT ->DupDataFn   = lut ->DupDataFn;
+    NewLUT ->FreeDataFn  = lut ->FreeDataFn;
 
     if (NewLUT ->DupDataFn != NULL) 
         NewLUT ->Data = NewLUT ->DupDataFn(lut ->ContextID, lut->Data);

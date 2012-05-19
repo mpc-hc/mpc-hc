@@ -248,18 +248,28 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
 
     switch (Type) {
 
-    // X = Y ^ Gamma
-    case 1:
-        if (R < 0) 
-            Val = 0;
+   // X = Y ^ Gamma
+    case 1:   
+        if (R < 0) {
+
+            if (fabs(Params[0] - 1.0) < MATRIX_DET_TOLERANCE)
+                Val = R;
+            else
+                Val = 0;
+        }
         else
             Val = pow(R, Params[0]);
         break;
 
     // Type 1 Reversed: X = Y ^1/gamma
     case -1:
-        if (R < 0)
-            Val = 0;
+         if (R < 0) {
+
+            if (fabs(Params[0] - 1.0) < MATRIX_DET_TOLERANCE)
+                Val = R;
+            else
+                Val = 0;
+        }
         else
             Val = pow(R, 1/Params[0]);
         break;
@@ -521,6 +531,19 @@ cmsFloat64Number EvalSegmentedFn(const cmsToneCurve *g, cmsFloat64Number R)
     }
 
     return MINUS_INF;
+}
+
+// Access to estimated low-res table
+cmsUInt32Number CMSEXPORT cmsGetToneCurveEstimatedTableEntries(const cmsToneCurve* t)
+{
+    _cmsAssert(t != NULL);
+    return t ->nEntries;
+}
+
+const cmsUInt16Number* CMSEXPORT cmsGetToneCurveEstimatedTable(const cmsToneCurve* t)
+{
+    _cmsAssert(t != NULL);
+    return t ->Table16;
 }
 
 

@@ -270,7 +270,7 @@ Prelin16Data* PrelinOpt16alloc(cmsContext ContextID,
                                int nOutputs, cmsToneCurve** Out )
 {
     int i;
-    Prelin16Data* p16 = (Prelin16Data*) _cmsMallocZero(ContextID, sizeof(Prelin16Data));
+    Prelin16Data* p16 = _cmsMallocZero(ContextID, sizeof(Prelin16Data));
     if (p16 == NULL) return NULL;
 
     p16 ->nInputs = nInputs;
@@ -802,8 +802,8 @@ void PrelinEval8(register const cmsUInt16Number Input[],
     cmsUInt8Number         r, g, b;
     cmsS15Fixed16Number    rx, ry, rz;            
     cmsS15Fixed16Number    c0, c1, c2, c3, Rest;       
-    int        OutChan;
-    register   cmsS15Fixed16Number    X0, X1, Y0, Y1, Z0, Z1;
+    int                    OutChan;
+    register cmsS15Fixed16Number    X0, X1, Y0, Y1, Z0, Z1;
     Prelin8Data* p8 = (Prelin8Data*) D;
     register const cmsInterpParams* p = p8 ->p;
     int                    TotalOut = p -> nOutputs;
@@ -1430,12 +1430,12 @@ void FillSecondShaper(cmsUInt16Number* Table, cmsToneCurve* Curve, cmsBool Is8Bi
             // first we compute the resulting byte and then we store the byte times
             // 257. This quantization allows to round very quick by doing a >> 8, but
             // since the low byte is always equal to msb, we can do a & 0xff and this works!
-            cmsUInt16Number w = _cmsQuickSaturateWord(Val * 65535.0 + 0.5);        
+            cmsUInt16Number w = _cmsQuickSaturateWord(Val * 65535.0);        
             cmsUInt8Number  b = FROM_16_TO_8(w);
 
             Table[i] = FROM_8_TO_16(b);
         }
-        else Table[i]  = _cmsQuickSaturateWord(Val * 65535.0 + 0.5);        
+        else Table[i]  = _cmsQuickSaturateWord(Val * 65535.0);        
     }
 }
 

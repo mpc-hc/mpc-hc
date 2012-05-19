@@ -71,6 +71,7 @@ Legend:
 * Updated VirtualDub to v1.10.2-test7
 * Updated zlib to v1.2.7
 * Updated Detours to v3.0 build 316
+* Updated Little CMS to v2.4 (git 9fc6a31 19/05/2012)
 * Updated French, Turkish, Czech, Russian, Ukrainian, Simplified Chinese, Japanese,
   Traditional Chinese, Italian, German, Polish and Portuguese (Brazil) translations
 * Removed GTSdll support since it's dead

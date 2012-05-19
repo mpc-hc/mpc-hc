@@ -581,6 +581,10 @@ cmsBool CMSEXPORT cmsPlugin(void* Plug_in)
                     if (!_cmsRegisterOptimizationPlugin(Plugin)) return FALSE;
                     break;
 
+                case cmsPluginTransformSig:
+                    if (!_cmsRegisterTransformPlugin(Plugin)) return FALSE;
+                    break;
+
                 default:
                     cmsSignalError(0, cmsERROR_UNKNOWN_EXTENSION, "Unrecognized plugin type '%X'", Plugin -> Type);
                     return FALSE;
@@ -604,6 +608,7 @@ void CMSEXPORT cmsUnregisterPlugins(void)
     _cmsRegisterParametricCurvesPlugin(NULL);
     _cmsRegisterMultiProcessElementPlugin(NULL);
     _cmsRegisterOptimizationPlugin(NULL);
+    _cmsRegisterTransformPlugin(NULL);
 
     if (PluginPool != NULL)
         _cmsSubAllocDestroy(PluginPool);

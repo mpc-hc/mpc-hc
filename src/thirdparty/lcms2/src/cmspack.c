@@ -28,8 +28,8 @@
 
 // This module handles all formats supported by lcms. There are two flavors, 16 bits and 
 // floating point. Floating point is supported only in a subset, those formats holding
-// cmsFloat32Number (4 bytes per component) and double (marked as 0 bytes per component as special 
-// case)
+// cmsFloat32Number (4 bytes per component) and double (marked as 0 bytes per component 
+// as special case)
 
 // ---------------------------------------------------------------------------
 
@@ -61,16 +61,17 @@ cmsINLINE cmsUInt16Number FomLabV4ToLabV2(cmsUInt16Number x)
 typedef struct {
     cmsUInt32Number Type;
     cmsUInt32Number Mask;
-    cmsFormatter16 Frm;
+    cmsFormatter16  Frm;
 
 } cmsFormatters16;
 
 typedef struct {
     cmsUInt32Number    Type;
     cmsUInt32Number    Mask;
-    cmsFormatterFloat Frm;
+    cmsFormatterFloat  Frm;
 
 } cmsFormattersFloat;
+
 
 #define ANYSPACE        COLORSPACE_SH(31)
 #define ANYCHANNELS     CHANNELS_SH(15)
@@ -144,13 +145,14 @@ cmsUInt8Number* UnrollPlanarBytes(register _cmsTRANSFORM* info,
                                   register cmsUInt8Number* accum,
                                   register cmsUInt32Number Stride)
 {
-    int nChan = T_CHANNELS(info -> InputFormat);
-    int DoSwap= T_DOSWAP(info ->InputFormat);
-    int Reverse= T_FLAVOR(info ->InputFormat);
+    int nChan     = T_CHANNELS(info -> InputFormat);
+    int DoSwap    = T_DOSWAP(info ->InputFormat);
+    int SwapFirst = T_SWAPFIRST(info ->InputFormat);
+    int Reverse   = T_FLAVOR(info ->InputFormat);
     int i;
     cmsUInt8Number* Init = accum;
 
-    if (DoSwap) {
+    if (DoSwap ^ SwapFirst) {
         accum += T_EXTRA(info -> InputFormat) * Stride;
     }
 
@@ -1196,11 +1198,18 @@ cmsUInt8Number* PackPlanarBytes(register _cmsTRANSFORM* info,
                                 register cmsUInt8Number* output,
                                 register cmsUInt32Number Stride)
 {
-    int nChan = T_CHANNELS(info -> OutputFormat);
-    int DoSwap = T_DOSWAP(info ->OutputFormat);
-    int Reverse= T_FLAVOR(info ->OutputFormat);
+    int nChan     = T_CHANNELS(info -> OutputFormat);
+    int DoSwap    = T_DOSWAP(info ->OutputFormat);
+    int SwapFirst = T_SWAPFIRST(info ->OutputFormat);
+    int Reverse   = T_FLAVOR(info ->OutputFormat);
     int i;
     cmsUInt8Number* Init = output;
+
+
+    if (DoSwap ^ SwapFirst) {
+        output += T_EXTRA(info -> OutputFormat) * Stride;
+    }
+
 
     for (i=0; i < nChan; i++) {
 
@@ -2475,6 +2484,8 @@ cmsUInt8Number* PackXYZDoubleFromFloat(_cmsTRANSFORM* Info,
 }
 
 
+
+
 // ----------------------------------------------------------------------------------------------------------------
 
 
@@ -2510,7 +2521,7 @@ static cmsFormatters16 InputFormatters16[] = {
     { CHANNELS_SH(4)|BYTES_SH(1)|DOSWAP_SH(1),                 ANYSPACE,  Unroll4BytesSwap}, 
     { CHANNELS_SH(4)|BYTES_SH(1)|DOSWAP_SH(1)|SWAPFIRST_SH(1), ANYSPACE,  Unroll4BytesSwapSwapFirst}, 
 
-    { BYTES_SH(1)|PLANAR_SH(1),    ANYFLAVOR|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE, UnrollPlanarBytes},
+    { BYTES_SH(1)|PLANAR_SH(1), ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE, UnrollPlanarBytes},
     { BYTES_SH(1),    ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE, UnrollChunkyBytes},     
 
 
@@ -2531,7 +2542,7 @@ static cmsFormatters16 InputFormatters16[] = {
     { CHANNELS_SH(4)|BYTES_SH(2)|DOSWAP_SH(1)|SWAPFIRST_SH(1), ANYSPACE,  Unroll4WordsSwapSwapFirst}, 
 
 
-    { BYTES_SH(2)|PLANAR_SH(1),  ANYFLAVOR|ANYSWAP|ANYENDIAN|ANYEXTRA|ANYCHANNELS|ANYSPACE,  UnrollPlanarWords },
+    { BYTES_SH(2)|PLANAR_SH(1),  ANYFLAVOR|ANYSWAP|ANYENDIAN|ANYEXTRA|ANYCHANNELS|ANYSPACE,  UnrollPlanarWords},
     { BYTES_SH(2),  ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|ANYENDIAN|ANYEXTRA|ANYCHANNELS|ANYSPACE,  UnrollAnyWords}, 
 };
 
@@ -2558,9 +2569,9 @@ cmsFormatter _cmsGetStockInputFormatter(cmsUInt32Number dwInput, cmsUInt32Number
     cmsUInt32Number i;
     cmsFormatter fr;
 
+    switch (dwFlags) {
 
-    if (!(dwFlags & CMS_PACK_FLAGS_FLOAT)) {
-
+    case CMS_PACK_FLAGS_16BITS: {
         for (i=0; i < sizeof(InputFormatters16) / sizeof(cmsFormatters16); i++) {
             cmsFormatters16* f = InputFormatters16 + i;
 
@@ -2570,7 +2581,9 @@ cmsFormatter _cmsGetStockInputFormatter(cmsUInt32Number dwInput, cmsUInt32Number
             }
         }
     }
-    else {
+    break;
+
+    case CMS_PACK_FLAGS_FLOAT: {
         for (i=0; i < sizeof(InputFormattersFloat) / sizeof(cmsFormattersFloat); i++) {
             cmsFormattersFloat* f = InputFormattersFloat + i;
 
@@ -2580,7 +2593,12 @@ cmsFormatter _cmsGetStockInputFormatter(cmsUInt32Number dwInput, cmsUInt32Number
             }
         }
     }
+    break;
 
+    default:;
+        
+    }
+    
     fr.Fmt16 = NULL;
     return fr;
 }
@@ -2632,7 +2650,7 @@ static cmsFormatters16 OutputFormatters16[] = {
     { CHANNELS_SH(4)|BYTES_SH(1)|DOSWAP_SH(1)|SWAPFIRST_SH(1),     ANYSPACE,  Pack4BytesSwapSwapFirst}, 
 
     { BYTES_SH(1),                 ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE, PackAnyBytes},     
-    { BYTES_SH(1)|PLANAR_SH(1),    ANYFLAVOR|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE, PackPlanarBytes},   
+    { BYTES_SH(1)|PLANAR_SH(1),    ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE, PackPlanarBytes},   
 
     { CHANNELS_SH(1)|BYTES_SH(2),                                  ANYSPACE,  Pack1Word},
     { CHANNELS_SH(1)|BYTES_SH(2)|EXTRA_SH(1),                      ANYSPACE,  Pack1WordSkip1},
@@ -2689,19 +2707,10 @@ cmsFormatter _cmsGetStockOutputFormatter(cmsUInt32Number dwInput, cmsUInt32Numbe
     cmsFormatter fr;
 
 
-    if (dwFlags & CMS_PACK_FLAGS_FLOAT) {
+    switch (dwFlags) 
+    {
 
-        for (i=0; i < sizeof(OutputFormattersFloat) / sizeof(cmsFormattersFloat); i++) {
-            cmsFormattersFloat* f = OutputFormattersFloat + i;
-
-            if ((dwInput & ~f ->Mask) == f ->Type) {
-                fr.FmtFloat = f ->Frm;
-                return fr;
-            }
-        }
-
-    }
-    else {
+     case CMS_PACK_FLAGS_16BITS: {
 
         for (i=0; i < sizeof(OutputFormatters16) / sizeof(cmsFormatters16); i++) {
             cmsFormatters16* f = OutputFormatters16 + i;
@@ -2711,6 +2720,24 @@ cmsFormatter _cmsGetStockOutputFormatter(cmsUInt32Number dwInput, cmsUInt32Numbe
                 return fr;
             }
         }
+        }
+        break;
+
+    case CMS_PACK_FLAGS_FLOAT: {
+
+        for (i=0; i < sizeof(OutputFormattersFloat) / sizeof(cmsFormattersFloat); i++) {
+            cmsFormattersFloat* f = OutputFormattersFloat + i;
+
+            if ((dwInput & ~f ->Mask) == f ->Type) {
+                fr.FmtFloat = f ->Frm;
+                return fr;
+            }
+        }
+        }
+        break;
+
+    default:;
+       
     }
 
     fr.Fmt16 = NULL;
@@ -2754,7 +2781,7 @@ cmsBool  _cmsRegisterFormattersPlugin(cmsPluginBase* Data)
 
 cmsFormatter _cmsGetFormatter(cmsUInt32Number Type,         // Specific type, i.e. TYPE_RGB_8
                              cmsFormatterDirection Dir, 
-                             cmsUInt32Number dwFlags)       // Float or 16 bits
+                             cmsUInt32Number dwFlags)  
 {
     cmsFormattersFactoryList* f;
 

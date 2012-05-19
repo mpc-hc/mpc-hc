@@ -181,7 +181,6 @@ CMSAPI cmsS15Fixed16Number CMSEXPORT _cmsDoubleTo15Fixed16(cmsFloat64Number v);
 CMSAPI void                CMSEXPORT _cmsEncodeDateTimeNumber(cmsDateTimeNumber *Dest, const struct tm *Source);
 CMSAPI void                CMSEXPORT _cmsDecodeDateTimeNumber(const cmsDateTimeNumber *Source, struct tm *Dest);
 
-
 //----------------------------------------------------------------------------------------------------------
 
 // Plug-in foundation
@@ -196,6 +195,7 @@ CMSAPI void                CMSEXPORT _cmsDecodeDateTimeNumber(const cmsDateTimeN
 #define cmsPluginRenderingIntentSig          0x696E7448     // 'intH'
 #define cmsPluginMultiProcessElementSig      0x6D706548     // 'mpeH'
 #define cmsPluginOptimizationSig             0x6F707448     // 'optH'
+#define cmsPluginTransformSig                0x7A666D48     // 'xfmH'
 
 typedef struct _cmsPluginBaseStruct {
 
@@ -486,6 +486,39 @@ typedef struct {
 
 }  cmsPluginMultiProcessElement;
 
+
+// Data kept in "Element" member of cmsStage
+
+// Curves
+typedef struct {                
+    cmsUInt32Number nCurves;
+    cmsToneCurve**  TheCurves;
+
+} _cmsStageToneCurvesData;
+
+// Matrix
+typedef struct {                
+    cmsFloat64Number*  Double;          // floating point for the matrix
+    cmsFloat64Number*  Offset;          // The offset
+
+} _cmsStageMatrixData;
+
+// CLUT
+typedef struct {                    
+    
+    union {                       // Can have only one of both representations at same time
+        cmsUInt16Number*  T;      // Points to the table 16 bits table
+        cmsFloat32Number* TFloat; // Points to the cmsFloat32Number table
+
+    } Tab;
+
+    cmsInterpParams* Params;
+    cmsUInt32Number  nEntries;
+    cmsBool          HasFloatValues;
+
+} _cmsStageCLutData;
+
+
 //----------------------------------------------------------------------------------------------------------
 // Optimization. Using this plug-in, additional optimization strategies may be implemented.
 // The function should return TRUE if any optimization is done on the LUT, this terminates
@@ -524,6 +557,37 @@ typedef struct {
 }  cmsPluginOptimization;
 
 //----------------------------------------------------------------------------------------------------------
+// Full xform
+typedef void     (* _cmsTransformFn)(struct _cmstransform_struct *CMMcargo,
+                                     const void* InputBuffer,
+                                     void* OutputBuffer, 
+                                     cmsUInt32Number Size,
+                                     cmsUInt32Number Stride);
+
+typedef cmsBool  (* _cmsTranformFactory)(_cmsTransformFn* xform,
+                                         void** UserData,
+                                         _cmsOPTfreeDataFn* FreeUserData,
+                                         cmsPipeline** Lut,
+                                         cmsUInt32Number* InputFormat,
+                                         cmsUInt32Number* OutputFormat,
+                                         cmsUInt32Number* dwFlags);
+
+
+// Retrieve user data as specified by the factory 
+CMSAPI void * CMSEXPORT _cmsGetTransformUserData(struct _cmstransform_struct *CMMcargo);
+
+
+// FIXME: Those are hacks that should be solved somehow.
+void*             _cmsOPTgetTransformPipelinePrivateData(struct _cmstransform_struct *CMMcargo);
+
+typedef struct {
+      cmsPluginBase     base;
+
+      // Transform entry point
+      _cmsTranformFactory  Factory;
+
+}  cmsPluginTransform;
+
 
 #ifndef CMS_USE_CPP_API
 #   ifdef __cplusplus

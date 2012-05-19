@@ -65,7 +65,7 @@ libflac             GPLv2 / New BSD License    1.2.1                    http://f
 libmpeg2            GPLv2                      0.3.2 (modified)         http://libmpeg2.sourceforge.net/
 libogg              New BSD License            1.3.0                    http://www.xiph.org/
 libpng              libpng License             1.5.10                   http://libpng.sourceforge.net/
-Little CMS          MIT License                v2.3+ git 839a5b0        http://www.littlecms.com/
+Little CMS          MIT License                v2.4 git 9fc6a31         http://www.littlecms.com/
 Logitech SDK        -                          2.02.101                 -
 MediaInfoLib        LGPLv3                     0.7.57                   http://mediainfo.sourceforge.net/
 MultiMon            CPOL                       28 Aug '03 (modified)    http://www.codeproject.com/KB/GDI/multimon.aspx

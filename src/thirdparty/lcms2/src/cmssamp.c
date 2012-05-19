@@ -270,7 +270,7 @@ cmsBool CMSEXPORT cmsDetectBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROFILE hProfil
 // http://www.personal.psu.edu/jhm/f90/lectures/lsq2.html
 
 static
-cmsFloat64Number VertexOfLeastSquaresFitQuadraticCurve(int n, cmsFloat64Number x[], cmsFloat64Number y[]) 
+cmsFloat64Number RootOfLeastSquaresFitQuadraticCurve(int n, cmsFloat64Number x[], cmsFloat64Number y[]) 
 {
     double sum_x = 0, sum_x2 = 0, sum_x3 = 0, sum_x4 = 0;
     double sum_y = 0, sum_yx = 0, sum_yx2 = 0;
@@ -552,7 +552,7 @@ cmsBool CMSEXPORT cmsDetectDestinationBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROF
 	Lab.L = x[NonMonoIndx];
 
     // fit and get the vertex of quadratic curve
-    Lab.L = VertexOfLeastSquaresFitQuadraticCurve(n, x, y);
+    Lab.L = RootOfLeastSquaresFitQuadraticCurve(n, x, y);
 
     if (Lab.L < 0.0 || Lab.L > 50.0) { // clip to zero L* if the vertex is negative
         Lab.L = 0;

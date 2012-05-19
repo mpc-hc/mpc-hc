@@ -603,6 +603,14 @@ static
 cmsFloat64Number ParseFloatNumber(const char *Buffer)
 {
     cmsFloat64Number dnum = 0.0;
+    int sign = 1;
+
+    if (*Buffer == '-' || *Buffer == '+') {
+        
+         sign = (*Buffer == '-') ? -1 : 1;
+         Buffer++;
+    }
+
 
     while (*Buffer && isdigit(*Buffer)) {
 
@@ -661,8 +669,7 @@ cmsFloat64Number ParseFloatNumber(const char *Buffer)
             dnum = dnum * xpow10(e);
     }
 
-
-    return dnum;
+    return sign * dnum;
 }
 
 
@@ -1773,19 +1780,19 @@ cmsBool CMSEXPORT cmsIT8SaveToMem(cmsHANDLE hIT8, void *MemPtr, cmsUInt32Number*
         sd.Max  = *BytesNeeded;     // Write to memory?
     else 
         sd.Max  = 0;                // Just counting the needed bytes
-   
+
     for (i=0; i < it8 ->TablesCount; i++) {
 
-            cmsIT8SetTable(hIT8, i);
-            WriteHeader(it8, &sd);
-            WriteDataFormat(&sd, it8);
-            WriteData(&sd, it8);
+        cmsIT8SetTable(hIT8, i);
+        WriteHeader(it8, &sd);
+        WriteDataFormat(&sd, it8);
+        WriteData(&sd, it8);
     }
-    
+
     sd.Used++;  // The \0 at the very end
 
     if (sd.Base)
-        sd.Ptr = 0;
+        *sd.Ptr = 0;
 
     *BytesNeeded = sd.Used;
 
@@ -2198,11 +2205,11 @@ void CookPointers(cmsIT8* it8)
 
 // Try to infere if the file is a CGATS/IT8 file at all. Read first line
 // that should be something like some printable characters plus a \n
-// returns 0 if this is not like a CGATS, or an integer otherwise
+// returns 0 if this is not like a CGATS, or an integer otherwise. This integer is the number of words in first line?
 static
 int IsMyBlock(cmsUInt8Number* Buffer, int n)
 {
-    int cols = 1, space = 0, quot = 0;
+    int words = 1, space = 0, quot = 0;
     int i;
 
     if (n < 10) return 0;   // Too small
@@ -2216,7 +2223,7 @@ int IsMyBlock(cmsUInt8Number* Buffer, int n)
         {
         case '\n':
         case '\r':
-            return ((quot == 1) || (cols > 2)) ? 0 : cols;
+            return ((quot == 1) || (words > 2)) ? 0 : words;
         case '\t':
         case ' ':
             if(!quot && !space)
@@ -2228,7 +2235,7 @@ int IsMyBlock(cmsUInt8Number* Buffer, int n)
         default:
             if (Buffer[i] < 32) return 0;
             if (Buffer[i] > 127) return 0;
-            cols += space;
+            words += space;
             space = 0;
             break;
         }
