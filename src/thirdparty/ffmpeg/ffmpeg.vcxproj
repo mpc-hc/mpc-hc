@@ -347,7 +347,6 @@
     <ClCompile Include="libavutil\md5.c" />
     <ClCompile Include="libavutil\mem.c" />
     <ClCompile Include="libavutil\opt.c" />
-    <ClCompile Include="libavutil\parseutils.c" />
     <ClCompile Include="libavutil\pixdesc.c" />
     <ClCompile Include="libavutil\random_seed.c" />
     <ClCompile Include="libavutil\rational.c" />
@@ -568,7 +567,6 @@
     <ClInclude Include="libavutil\md5.h" />
     <ClInclude Include="libavutil\mem.h" />
     <ClInclude Include="libavutil\opt.h" />
-    <ClInclude Include="libavutil\parseutils.h" />
     <ClInclude Include="libavutil\pixdesc.h" />
     <ClInclude Include="libavutil\pixfmt.h" />
     <ClInclude Include="libavutil\random_seed.h" />

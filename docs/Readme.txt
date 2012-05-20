@@ -58,7 +58,7 @@ CFileVersionInfo    -                          19 Jun '02 (modified)    http://w
 CLineNumberEdit     -                          12 May '04 (modified)    http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
 CSizingControlBar   GPLv2                      2.45                     http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                   3.0 build 316            http://research.microsoft.com/en-us/projects/detours/
-ffmpeg              GPLv2                      432fe9a git              http://www.ffmpeg.org/
+ffmpeg              GPLv2                      9eb99ab git              http://www.ffmpeg.org/
 liba52              GPLv2                      0.7.4 cvs                http://liba52.sourceforge.net/
 libdca              GPLv2                      0.0.5 r90                http://www.videolan.org/developers/libdca.html
 libflac             GPLv2 / New BSD License    1.2.1                    http://flac.sourceforge.net/
