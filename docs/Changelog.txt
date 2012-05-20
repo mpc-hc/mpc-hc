@@ -65,7 +65,7 @@ Legend:
 * The minidump feature is now enabled by default. The crash dialog has been updated to
   redirect the users to the bug tracker. The minidump feature can be turned off completely
   by using the /nominidump switch
-* Updated ffmpeg
+* Updated ffmpeg (git 432fe9a)
 * Updated MediaInfoLib to v0.7.57
 * Updated ZenLib to v0.4.26
 * Updated SoundTouch to v1.7.0pre r142

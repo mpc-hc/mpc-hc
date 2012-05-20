@@ -269,6 +269,7 @@ SRCS_C=\
     libavutil/md5.c \
     libavutil/mem.c \
     libavutil/opt.c \
+    libavutil/parseutils.c \
     libavutil/pixdesc.c \
     libavutil/random_seed.c \
     libavutil/rational.c \

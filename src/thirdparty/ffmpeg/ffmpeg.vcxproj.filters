@@ -210,6 +210,9 @@
     <ClCompile Include="libavutil\opt.c">
       <Filter>libavutil</Filter>
     </ClCompile>
+    <ClCompile Include="libavutil\parseutils.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
     <ClCompile Include="libavutil\pixdesc.c">
       <Filter>libavutil</Filter>
     </ClCompile>
@@ -916,6 +919,9 @@
       <Filter>libavutil</Filter>
     </ClInclude>
     <ClInclude Include="libavutil\opt.h">
+      <Filter>libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\parseutils.h">
       <Filter>libavutil</Filter>
     </ClInclude>
     <ClInclude Include="libavutil\pixdesc.h">
