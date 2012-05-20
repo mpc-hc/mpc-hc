@@ -34,7 +34,7 @@ IDirectVobSub :
 	public IUnknown
 	{
 		STDMETHOD(get_FileName) (THIS_
-								 WCHAR* fn	// fn should point to a buffer allocated to at least the length of MAX_PATH (=260)
+								 WCHAR* fn	// fn should point to a buffer allocated to at least the length of _MAX_PATH (=260)
 								) PURE;
 
 		STDMETHOD(put_FileName) (THIS_

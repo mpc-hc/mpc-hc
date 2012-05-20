@@ -72,7 +72,7 @@ int CVSFilterApp::ExitInstance()
 HINSTANCE CVSFilterApp::LoadAppLangResourceDLL()
 {
 	CString fn;
-	fn.ReleaseBufferSetLength(::GetModuleFileName(m_hInstance, fn.GetBuffer(MAX_PATH), MAX_PATH));
+	fn.ReleaseBufferSetLength(::GetModuleFileName(m_hInstance, fn.GetBuffer(_MAX_PATH), _MAX_PATH));
 	fn = fn.Mid(fn.ReverseFind('\\')+1);
 	fn = fn.Left(fn.ReverseFind('.')+1);
 	fn = fn + _T("lang");

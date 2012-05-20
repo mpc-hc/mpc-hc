@@ -44,7 +44,7 @@ void CResizableLayout::AddAnchor(HWND hWnd, CSize sizeTypeTL, CSize sizeTypeBR)
 
 	// get control's window class
 	CString sClassName;
-	GetClassName(hWnd, sClassName.GetBufferSetLength(MAX_PATH), MAX_PATH);
+	GetClassName(hWnd, sClassName.GetBufferSetLength(_MAX_PATH), _MAX_PATH);
 	sClassName.ReleaseBuffer();
 
 	// get parent window's rect

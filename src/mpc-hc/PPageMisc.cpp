@@ -192,7 +192,7 @@ void CPPageMisc::OnResetSettings()
 		((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SendMessage(WM_CLOSE);
 
 		CString strAppPath;
-		GetModuleFileName(NULL, strAppPath.GetBuffer(MAX_PATH), MAX_PATH);
+		GetModuleFileName(NULL, strAppPath.GetBuffer(_MAX_PATH), _MAX_PATH);
 		ShellExecute(NULL, _T("open"), strAppPath, _T("/reset"), NULL, SW_SHOWNORMAL) ;
 	}
 }

@@ -229,14 +229,14 @@ HRESULT  DbgUniqueProcessName(LPCTSTR inName, LPTSTR outName)
     int dotPos = -1;
 
     //scan the input and record the last '.' position
-    while (*pIn && (pIn - inName) < MAX_PATH)
+    while (*pIn && (pIn - inName) < _MAX_PATH)
     {
         if ( TEXT('.') == *pIn )
             dotPos = (int)(pIn-inName);
         ++pIn;
     }
 
-    if (*pIn) //input should be zero-terminated within MAX_PATH
+    if (*pIn) //input should be zero-terminated within _MAX_PATH
         return E_INVALIDARG;
 
     DWORD dwProcessId = GetCurrentProcessId();
@@ -244,18 +244,18 @@ HRESULT  DbgUniqueProcessName(LPCTSTR inName, LPTSTR outName)
     if (dotPos < 0) 
     {
         //no extension in the input, appending process id to the input
-        hr = StringCchPrintf(outName, MAX_PATH, TEXT("%s_%d"), inName, dwProcessId);
+        hr = StringCchPrintf(outName, _MAX_PATH, TEXT("%s_%d"), inName, dwProcessId);
     }
     else
     {
         TCHAR pathAndBasename[_MAX_PATH] = {0};
         
         //there's an extension  - zero-terminate the path and basename first by copying
-        hr = StringCchCopyN(pathAndBasename, MAX_PATH, inName, (size_t)dotPos);
+        hr = StringCchCopyN(pathAndBasename, _MAX_PATH, inName, (size_t)dotPos);
 
         //re-combine path, basename and extension with processId appended to a basename
         if (SUCCEEDED(hr))
-            hr = StringCchPrintf(outName, MAX_PATH, TEXT("%s_%d%s"), pathAndBasename, dwProcessId, inName + dotPos);
+            hr = StringCchPrintf(outName, _MAX_PATH, TEXT("%s_%d%s"), pathAndBasename, dwProcessId, inName + dotPos);
     }
 
     return hr;
@@ -274,7 +274,7 @@ void WINAPI DbgInitLogTo (
     TCHAR szFile[_MAX_PATH] = {0};
     static const TCHAR cszKey[] = TEXT("LogToFile");
 
-    dwKeySize = MAX_PATH;
+    dwKeySize = _MAX_PATH;
     lReturn = RegQueryValueEx(
         hKey,                       // Handle to an open key
         cszKey,                     // Subkey name derivation

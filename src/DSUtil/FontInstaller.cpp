@@ -98,8 +98,8 @@ bool CFontInstaller::InstallFontFile(const void* pData, UINT len)
 	}
 
 	CFile f;
-	TCHAR path[MAX_PATH], fn[MAX_PATH];
-	if (!GetTempPath(MAX_PATH, path) || !GetTempFileName(path, _T("g_font"), 0, fn)) {
+	TCHAR path[_MAX_PATH], fn[_MAX_PATH];
+	if (!GetTempPath(_MAX_PATH, path) || !GetTempFileName(path, _T("g_font"), 0, fn)) {
 		return false;
 	}
 

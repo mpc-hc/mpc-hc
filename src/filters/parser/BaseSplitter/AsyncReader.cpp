@@ -200,7 +200,7 @@ DWORD CAsyncUrlReader::ThreadProc()
 
 		TCHAR path[_MAX_PATH], fn[_MAX_PATH];
 		CFile fout;
-		if (GetTempPath(MAX_PATH, path) && GetTempFileName(path, _T("mpc_http"), 0, fn)
+		if (GetTempPath(_MAX_PATH, path) && GetTempFileName(path, _T("mpc_http"), 0, fn)
 				&& fout.Open(fn, modeCreate|modeWrite|shareDenyWrite|typeBinary)) {
 			m_fn = fn;
 

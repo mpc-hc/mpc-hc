@@ -68,7 +68,7 @@ class __declspec(uuid("60765CF5-01C2-4ee7-A44B-C791CF25FEA0"))
 {
 	void FreeLangs(), AllocLangs(int nLangs);
 
-	WCHAR m_fn[MAX_PATH];
+	WCHAR m_fn[_MAX_PATH];
 	int m_iSelectedLanguage, m_nLangs;
 	WCHAR** m_ppLangs;
 	bool m_fOverridePlacement;

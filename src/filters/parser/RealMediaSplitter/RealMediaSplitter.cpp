@@ -2488,7 +2488,7 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 
 		if (m_hDrvDll) {
 			char buff[_MAX_PATH];
-			GetModuleFileNameA(m_hDrvDll, buff, MAX_PATH);
+			GetModuleFileNameA(m_hDrvDll, buff, _MAX_PATH);
 			CPathA p(buff);
 			p.RemoveFileSpec();
 			p.AddBackslash();
