@@ -161,9 +161,14 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 	}
 
 	if (szResult) {
-		if (MessageBox(NULL, szResult, _T("MPC-HC Mini Dump"), retval ? MB_YESNO : MB_OK) == IDYES) {
-			ShellExecute(NULL, _T("open"), _T("http://sourceforge.net/apps/trac/mpc-hc/wiki/Bugs_-_Reporting"), NULL, NULL, SW_SHOWDEFAULT);
-			ExploreToFile(strDumpPath);
+		switch (MessageBox(NULL, szResult, _T("MPC-HC Mini Dump"), retval ? MB_YESNO : MB_OK)) {
+			case IDYES:
+				ShellExecute(NULL, _T("open"), _T("http://sourceforge.net/apps/trac/mpc-hc/wiki/Bugs_-_Reporting"), NULL, NULL, SW_SHOWDEFAULT);
+				ExploreToFile(strDumpPath);
+			break;
+			case IDNO:
+				retval = EXCEPTION_CONTINUE_SEARCH; // rethrow the exception to make easier attaching a debugger
+			break;
 		}
 	}
 

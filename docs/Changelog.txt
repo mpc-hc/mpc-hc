@@ -61,9 +61,10 @@ Legend:
 * Use the new user interface for all open folder dialogs on Windows Vista and later
 * Avoid using negative option in the Tweaks page: change "Don't use 'search in folder'
   on commands 'Skip back/forward' when only one item in playlist" into "Open next/previous
-  file in folder on 'Skip back/forward' when there is only one item in playlist".
+  file in folder on 'Skip back/forward' when there is only one item in playlist"
 * The minidump feature is now enabled by default. The crash dialog has been updated to
-  redirect the users to the bug tracker
+  redirect the users to the bug tracker. The minidump feature can be turned off completely
+  by using the /nominidump switch
 * Updated ffmpeg
 * Updated MediaInfoLib to v0.7.57
 * Updated ZenLib to v0.4.26
