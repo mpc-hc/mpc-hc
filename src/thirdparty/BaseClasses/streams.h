@@ -14,7 +14,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#ifdef	_MSC_VER
+#ifdef _MSC_VER
 // disable some level-4 warnings, use #pragma warning(enable:###) to re-enable
 #pragma warning(disable:4100) // warning C4100: unreferenced formal parameter
 #pragma warning(disable:4201) // warning C4201: nonstandard extension used : nameless struct/union
@@ -27,7 +27,7 @@
 #else
 #define AM_NOVTABLE
 #endif
-#endif	// MSC_VER
+#endif // MSC_VER
 
 
 // Because of differences between Visual C++ and older Microsoft SDKs,
@@ -127,27 +127,6 @@ typedef struct {
 #ifndef DWLP_USER
   #define DWLP_USER       DWLP_DLGPROC + sizeof(DLGPROC)
 #endif
-
-
-#pragma warning(push)
-#pragma warning(disable: 4312 4244)
-// _GetWindowLongPtr
-// Templated version of GetWindowLongPtr, to suppress spurious compiler warning.
-template <class T>
-T _GetWindowLongPtr(HWND hwnd, int nIndex)
-{
-    return (T)GetWindowLongPtr(hwnd, nIndex);
-}
-
-// _SetWindowLongPtr
-// Templated version of SetWindowLongPtr, to suppress spurious compiler warning.
-template <class T>
-LONG_PTR _SetWindowLongPtr(HWND hwnd, int nIndex, T p)
-{
-    return SetWindowLongPtr(hwnd, nIndex, (LONG_PTR)p);
-}
-#pragma warning(pop)
-
 ///////////////////////////////////////////////////////////////////////////
 // End Platform SDK definitions
 ///////////////////////////////////////////////////////////////////////////
