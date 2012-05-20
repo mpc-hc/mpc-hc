@@ -22,6 +22,7 @@
 
 #include "stdafx.h"
 #include "AboutDlg.h"
+#include "InternalFiltersConfig.h" // needed for HAS_FFMPEG
 
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
