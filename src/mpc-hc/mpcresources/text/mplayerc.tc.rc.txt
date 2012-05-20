@@ -1,4 +1,4 @@
-﻿BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"關於"
 8		"Copyright © 2002-2012 請見 Authors.txt 檔案"
 10		"組建編號 :"
