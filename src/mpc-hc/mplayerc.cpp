@@ -118,7 +118,7 @@ HICON LoadIcon(CString fn, bool fSmall)
 		UINT cnt = fSmall
 				   ? ExtractIconEx(icon, id, NULL, &hIcon, 1)
 				   : ExtractIconEx(icon, id, &hIcon, NULL, 1);
-		UNUSED_ALWAYS(cnt);
+		UNREFERENCED_PARAMETER(cnt);
 		if (hIcon) {
 			return hIcon;
 		}

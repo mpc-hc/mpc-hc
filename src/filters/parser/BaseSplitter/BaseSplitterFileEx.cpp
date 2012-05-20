@@ -137,10 +137,10 @@ bool CBaseSplitterFileEx::Read(pssyshdr& h)
 
 	for (len -= 6; len > 3; len -= 3) { // TODO: also store these, somewhere, if needed
 		UINT64 stream_id = BitRead(8);
-		UNUSED_ALWAYS(stream_id);
+		UNREFERENCED_PARAMETER(stream_id);
 		EXECUTE_ASSERT(BitRead(2) == 3);
 		UINT64 p_std_buff_size_bound = (BitRead(1)?1024:128)*BitRead(13);
-		UNUSED_ALWAYS(p_std_buff_size_bound);
+		UNREFERENCED_PARAMETER(p_std_buff_size_bound);
 	}
 
 	return true;

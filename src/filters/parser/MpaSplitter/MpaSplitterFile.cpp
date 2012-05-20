@@ -158,10 +158,10 @@ HRESULT CMpaSplitterFile::Init()
 
 		BYTE major = (BYTE)BitRead(8);
 		BYTE revision = (BYTE)BitRead(8);
-		UNUSED_ALWAYS(revision);
+		UNREFERENCED_PARAMETER(revision);
 
 		BYTE flags = (BYTE)BitRead(8);
-		UNUSED_ALWAYS(flags);
+		UNREFERENCED_PARAMETER(flags);
 		DWORD size = 0;
 		if (BitRead(1) != 0) {
 			return E_FAIL;
@@ -197,7 +197,7 @@ HRESULT CMpaSplitterFile::Init()
 				size |= BitRead(8) << 8;
 				size |= BitRead(8);
 				WORD flags = (WORD)BitRead(16);
-				UNUSED_ALWAYS(flags);
+				UNREFERENCED_PARAMETER(flags);
 
 				pos += 4+4+2+size;
 

@@ -1430,7 +1430,7 @@ STDMETHODIMP CEVRAllocatorPresenter::GetVideoService(HANDLE hDevice, REFIID riid
 		pDXVAVideoDecoder->GetDecoderDeviceGuids (&nNbDecoder, &pDecoderGuid);
 	} else if (riid == __uuidof(IDirectXVideoProcessorService)) {
 		IDirectXVideoProcessorService*		pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
-		UNUSED_ALWAYS(pDXVAProcessor);
+		UNREFERENCED_PARAMETER(pDXVAProcessor);
 	}
 
 	return hr;
@@ -1663,7 +1663,7 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
 
 	double TimeChange = llPerf - m_ModeratedTimeLast;
 	double ClockChange = llClockTime - m_ModeratedClockLast;
-	UNUSED_ALWAYS(ClockChange);
+	UNREFERENCED_PARAMETER(ClockChange);
 
 	m_ModeratedTimeLast = llPerf;
 	m_ModeratedClockLast = llClockTime;
@@ -1953,7 +1953,7 @@ void CEVRAllocatorPresenter::RenderThread()
 	int NextSleepTime = 1;
 	while (!bQuit) {
 		LONGLONG	llPerf = GetRenderersData()->GetPerfCounter();
-		UNUSED_ALWAYS(llPerf);
+		UNREFERENCED_PARAMETER(llPerf);
 		if (!s.m_RenderSettings.iVMR9VSyncAccurate && NextSleepTime == 0) {
 			NextSleepTime = 1;
 		}
@@ -2002,7 +2002,7 @@ void CEVRAllocatorPresenter::RenderThread()
 				{
 					CComPtr<IMFSample>		pMFSample;
 					LONGLONG	llPerf = GetRenderersData()->GetPerfCounter();
-					UNUSED_ALWAYS(llPerf);
+					UNREFERENCED_PARAMETER(llPerf);
 					int nSamplesLeft = 0;
 					if (SUCCEEDED (GetScheduledSample(&pMFSample, nSamplesLeft))) {
 						//					pMFSample->GetUINT32 (GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
@@ -2387,7 +2387,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 			m_rtTimePerFrame = 10000000.0 / ForceFPS;
 		}
 		LONGLONG Duration = m_rtTimePerFrame;
-		UNUSED_ALWAYS(Duration);
+		UNREFERENCED_PARAMETER(Duration);
 		LONGLONG PrevTime = m_LastScheduledUncorrectedSampleTime;
 		LONGLONG Time;
 		LONGLONG SetDuration;

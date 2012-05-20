@@ -1164,7 +1164,7 @@ void CAppSettings::UpdateData(bool fSave)
 			double _16p9 = 16.0/9.0;
 			double _185p1 = 1.85/1.0;
 			double _235p1 = 2.35/1.0;
-			UNUSED_ALWAYS(_185p1);
+			UNREFERENCED_PARAMETER(_185p1);
 
 			CString str;
 			str.Format(ResStr(IDS_SCALE_16_9), 0.5, 0.5, _4p3/_4p3, _16p9/_4p3);

@@ -163,7 +163,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 
 		gb.SkipBytes(4);
 		WORD	wLength	= (WORD)gb.BitRead(16);
-		UNUSED_ALWAYS(wLength);
+		UNREFERENCED_PARAMETER(wLength);
 
 		if (gb.BitRead(2) != 2) {
 			return E_FAIL;    // type
@@ -516,9 +516,9 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
 			BYTE _2_bit		= (BYTE)gb.BitRead(1);
 			BYTE _4_bit		= (BYTE)gb.BitRead(1);
 			BYTE _8_bit		= (BYTE)gb.BitRead(1);
-			UNUSED_ALWAYS(_2_bit);
-			UNUSED_ALWAYS(_4_bit);
-			UNUSED_ALWAYS(_8_bit);
+			UNREFERENCED_PARAMETER(_2_bit);
+			UNREFERENCED_PARAMETER(_4_bit);
+			UNREFERENCED_PARAMETER(_8_bit);
 			gb.BitRead(4);	// Reserved
 
 			pClut->Palette[entry_id].entry_id = entry_id;

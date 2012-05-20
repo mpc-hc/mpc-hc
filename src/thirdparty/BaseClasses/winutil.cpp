@@ -13,8 +13,6 @@
 #include <strsafe.h>
 #include "checkbmi.h"
 
-#define UNUSED_ALWAYS(x) x
-
 static UINT MsgDestroy;
 
 // Constructor
@@ -2453,7 +2451,7 @@ HRESULT CImageDisplay::UpdateFormat(__inout VIDEOINFO *pVideoInfo)
     ASSERT(pVideoInfo);
 
     BITMAPINFOHEADER *pbmi = HEADER(pVideoInfo);
-	UNUSED_ALWAYS(pbmi);
+	UNREFERENCED_PARAMETER(pbmi);
     SetRectEmpty(&pVideoInfo->rcSource);
     SetRectEmpty(&pVideoInfo->rcTarget);
 
@@ -2686,7 +2684,7 @@ STDAPI ConvertVideoInfoToVideoInfo2(__inout AM_MEDIA_TYPE *pmt)
         return E_INVALIDARG;
     }
 	VIDEOINFO *pVideoInfo = (VIDEOINFO *)pmt->pbFormat;
-	UNUSED_ALWAYS(pVideoInfo);
+	UNREFERENCED_PARAMETER(pVideoInfo);
     DWORD dwNewSize;
     HRESULT hr = DWordAdd(pmt->cbFormat, sizeof(VIDEOINFOHEADER2) - sizeof(VIDEOINFOHEADER), &dwNewSize);
     if (FAILED(hr)) {

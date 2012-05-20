@@ -455,9 +455,9 @@ void CDX9AllocatorPresenter::VSyncThread()
 
 					int ScanLine = 0;
 					int StartScanLine = ScanLine;
-					UNUSED_ALWAYS(StartScanLine);
+					UNREFERENCED_PARAMETER(StartScanLine);
 					int LastPos = ScanLine;
-					UNUSED_ALWAYS(LastPos);
+					UNREFERENCED_PARAMETER(LastPos);
 					ScanLine = (VSyncPos + 1) % m_ScreenSize.cy;
 					if (ScanLine < 0) {
 						ScanLine += m_ScreenSize.cy;

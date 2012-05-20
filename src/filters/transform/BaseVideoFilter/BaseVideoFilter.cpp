@@ -453,7 +453,7 @@ HRESULT CBaseVideoFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_
 	ExtractBIH(&m_pOutput->CurrentMediaType(), &bih);
 
 	long cBuffers = m_pOutput->CurrentMediaType().formattype == FORMAT_VideoInfo ? 1 : m_cBuffers;
-	UNUSED_ALWAYS(cBuffers);
+	UNREFERENCED_PARAMETER(cBuffers);
 
 	pProperties->cBuffers = m_cBuffers;
 	pProperties->cbBuffer = bih.biSizeImage;

@@ -224,8 +224,8 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)		// #497
 	int		nNbEntry;
 	BYTE	palette_id				= pGBuffer->ReadByte();
 	BYTE	palette_version_number	= pGBuffer->ReadByte();
-	UNUSED_ALWAYS(palette_id);
-	UNUSED_ALWAYS(palette_version_number);
+	UNREFERENCED_PARAMETER(palette_id);
+	UNREFERENCED_PARAMETER(palette_version_number);
 
 	ASSERT ((nSize-2) % sizeof(HDMV_PALETTE) == 0);
 	nNbEntry = (nSize-2) / sizeof(HDMV_PALETTE);
@@ -246,7 +246,7 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)		// #497
 void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)	// #498
 {
 	SHORT	object_id	= pGBuffer->ReadShort();
-	UNUSED_ALWAYS(object_id);
+	UNREFERENCED_PARAMETER(object_id);
 	BYTE	m_sequence_desc;
 
 	ASSERT (m_pCurrentObject != NULL);

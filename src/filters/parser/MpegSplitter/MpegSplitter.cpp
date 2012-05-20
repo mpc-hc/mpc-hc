@@ -355,7 +355,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 				Infos.AddTail(L"DVD LPCM");
 			} else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
 				const WAVEFORMATEX_HDMV_LPCM *pInfoHDMV = GetFormatHelper(pInfoHDMV, _pMediaType);
-				UNUSED_ALWAYS(pInfoHDMV);
+				UNREFERENCED_PARAMETER(pInfoHDMV);
 				Infos.AddTail(L"HDMV LPCM");
 			}
 			if (_pMediaType->subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
@@ -1944,7 +1944,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			}
 
 			int size = next - start - 4;
-			UNUSED_ALWAYS(size);
+			UNREFERENCED_PARAMETER(size);
 
 			CAutoPtr<Packet> p2(DNew Packet());
 			p2->TrackNumber = m_p->TrackNumber;

@@ -156,8 +156,8 @@ STDMETHODIMP CRM7AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
 		DWORD w = pBitmapInfo->biWidth;
 		DWORD h = abs(pBitmapInfo->biHeight);
 		DWORD pitch = pBitmapInfo->biWidth*2;
-		UNUSED_ALWAYS(w);
-		UNUSED_ALWAYS(h);
+		UNREFERENCED_PARAMETER(w);
+		UNREFERENCED_PARAMETER(h);
 
 		BYTE* yvyu = pImageData + src.top*pitch + src.left*2;
 
@@ -181,8 +181,8 @@ STDMETHODIMP CRM7AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
 		DWORD w = pBitmapInfo->biWidth;
 		DWORD h = abs(pBitmapInfo->biHeight);
 		DWORD pitch = pBitmapInfo->biWidth*pBitmapInfo->biBitCount>>3;
-		UNUSED_ALWAYS(w);
-		UNUSED_ALWAYS(h);
+		UNREFERENCED_PARAMETER(w);
+		UNREFERENCED_PARAMETER(h);
 
 		BYTE* rgb = pImageData + src.top*pitch + src.left*(pBitmapInfo->biBitCount>>3);
 

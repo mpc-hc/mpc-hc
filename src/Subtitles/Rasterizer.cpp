@@ -881,7 +881,7 @@ static __forceinline void pixmix(DWORD *dst, DWORD color, DWORD alpha)
 	a+=1;
 
 	DWORD tmp = (((((*dst>>8)&0x00ff0000)*ia)&0xff000000)>>24)&0xFF;
-	UNUSED_ALWAYS(tmp);
+	UNREFERENCED_PARAMETER(tmp);
 	*dst = ((((*dst&0x00ff00ff)*ia + (color&0x00ff00ff)*a)&0xff00ff00)>>8)
 		   | ((((*dst&0x0000ff00)*ia + (color&0x0000ff00)*a)&0x00ff0000)>>8)
 		   | ((((*dst>>8)&0x00ff0000)*ia)&0xff000000);
@@ -1424,7 +1424,7 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 
 	int gran = min((int)rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
-	UNUSED_ALWAYS(color2);
+	UNREFERENCED_PARAMETER(color2);
 
 	while (h--) {
 		for (int wt=0; wt<gran; ++wt) {

@@ -1297,7 +1297,7 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
 	CSize SrcTextSize = CSize(desc.Width, desc.Height);
 	double w = (double)SrcRect.Width();
 	double h = (double)SrcRect.Height();
-	UNUSED_ALWAYS(w);
+	UNREFERENCED_PARAMETER(w);
 
 	CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
 
@@ -3444,7 +3444,7 @@ STDMETHODIMP CSyncAP::GetVideoService(HANDLE hDevice, REFIID riid, void **ppServ
 		pDXVAVideoDecoder->GetDecoderDeviceGuids (&nNbDecoder, &pDecoderGuid);
 	} else if (riid == __uuidof(IDirectXVideoProcessorService)) {
 		IDirectXVideoProcessorService*		pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
-		UNUSED_ALWAYS(pDXVAProcessor);
+		UNREFERENCED_PARAMETER(pDXVAProcessor);
 	}
 
 	return hr;

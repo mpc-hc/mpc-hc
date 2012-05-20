@@ -877,7 +877,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h, bool UpdateLang)
 				WORD program_number = (WORD)BitRead(16);
 				BYTE reserved = (BYTE)BitRead(3);
 				WORD pid = (WORD)BitRead(13);
-				UNUSED_ALWAYS(reserved);
+				UNREFERENCED_PARAMETER(reserved);
 				if (program_number != 0) {
 					m_programs[pid].program_number = program_number;
 					newprograms[program_number] = true;
@@ -944,9 +944,9 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
 		WORD PCR_PID = (WORD)gb.BitRead(13);
 		BYTE reserved2 = (BYTE)gb.BitRead(4);
 		WORD program_info_length = (WORD)gb.BitRead(12);
-		UNUSED_ALWAYS(reserved1);
-		UNUSED_ALWAYS(PCR_PID);
-		UNUSED_ALWAYS(reserved2);
+		UNREFERENCED_PARAMETER(reserved1);
+		UNREFERENCED_PARAMETER(PCR_PID);
+		UNREFERENCED_PARAMETER(reserved2);
 
 		len -= (4 + program_info_length);
 		if (len <= 0)
@@ -962,8 +962,8 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
 			WORD pid = (WORD)gb.BitRead(13);
 			BYTE nreserved2 = (BYTE)gb.BitRead(4);
 			WORD ES_info_length = (WORD)gb.BitRead(12);
-			UNUSED_ALWAYS(nreserved1);
-			UNUSED_ALWAYS(nreserved2);
+			UNREFERENCED_PARAMETER(nreserved1);
+			UNREFERENCED_PARAMETER(nreserved2);
 
 			pPair->m_value.streams[i].pid	= pid;
 			pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;

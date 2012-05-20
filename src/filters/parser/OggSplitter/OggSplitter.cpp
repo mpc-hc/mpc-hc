@@ -841,7 +841,7 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
 				unsigned int transformtype = bs.getbits(-16);
 				unsigned int windowtype = bs.getbits(-16);
 				unsigned int blockflag = bs.getbits(-1);
-				UNUSED_ALWAYS(mapping);
+				UNREFERENCED_PARAMETER(mapping);
 
 				if (transformtype != 0 || windowtype != 0) {
 					ASSERT(modes == cnt);

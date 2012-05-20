@@ -743,7 +743,7 @@ static bool MinMaxCosfi(COutline& o, double& mincf, double& maxcf) // not really
 
 	CPoint p = pa[len-1] - pa[0];
 	double l = vectlen(p);
-	UNUSED_ALWAYS(l);
+	UNREFERENCED_PARAMETER(l);
 
 	for (ptrdiff_t i = 2; i < len-2; i++) { // skip the endpoints, they aren't accurate
 		CPoint p1 = pa[0] - pa[i], p2 = pa[len-1] - pa[i];
@@ -1294,8 +1294,8 @@ void CVobSubImage::Scale2x()
 			DWORD A = x > 0 && y > 0 ? src[-w-1] : E;
 			DWORD B = y > 0 ? src[-w] : E;
 			DWORD C = x < w-1 && y > 0 ? src[-w+1] : E;
-			UNUSED_ALWAYS(A);
-			UNUSED_ALWAYS(C);
+			UNREFERENCED_PARAMETER(A);
+			UNREFERENCED_PARAMETER(C);
 
 			DWORD D = x > 0 ? src[-1] : E;
 			DWORD F = x < w-1 ? src[+1] : E;
@@ -1303,8 +1303,8 @@ void CVobSubImage::Scale2x()
 			DWORD G = x > 0 && y < h-1 ? src[+w-1] : E;
 			DWORD H = y < h-1 ? src[+w] : E;
 			DWORD I = x < w-1 && y < h-1 ? src[+w+1] : E;
-			UNUSED_ALWAYS(G);
-			UNUSED_ALWAYS(I);
+			UNREFERENCED_PARAMETER(G);
+			UNREFERENCED_PARAMETER(I);
 
 			DWORD E0 = D == B && B != F && D != H ? D : E;
 			DWORD E1 = B == F && B != D && F != H ? F : E;

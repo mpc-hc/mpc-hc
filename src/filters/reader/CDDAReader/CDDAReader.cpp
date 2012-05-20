@@ -449,7 +449,7 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 					 &rawreadinfo, sizeof(rawreadinfo),
 					 buff, RAW_SECTOR_SIZE,
 					 &BytesReturned, 0);
-		UNUSED_ALWAYS(b);
+		UNREFERENCED_PARAMETER(b);
 
 		size_t l = (size_t)min(min(len, size_t(RAW_SECTOR_SIZE - offset)), size_t(m_llLength - pos));
 		memcpy(pbBuffer, &buff[offset], l);

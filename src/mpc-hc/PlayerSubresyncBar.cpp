@@ -1118,7 +1118,7 @@ void CPlayerSubresyncBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 void CPlayerSubresyncBar::OnLvnKeydownList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMLVKEYDOWN pLVKeyDown = reinterpret_cast<LPNMLVKEYDOWN>(pNMHDR);
-	UNUSED_ALWAYS(pLVKeyDown);
+	UNREFERENCED_PARAMETER(pLVKeyDown);
 
 	*pResult = 0;
 }

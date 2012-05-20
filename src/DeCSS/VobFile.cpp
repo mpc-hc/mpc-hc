@@ -65,7 +65,7 @@ bool CDVDSession::BeginSession()
 				|| !DeviceIoControl(m_hDrive, IOCTL_DVD_START_SESSION, NULL, 0, &m_session, sizeof(m_session), &BytesReturned, NULL)) {
 			Close();
 			DWORD err = GetLastError();
-			UNUSED_ALWAYS(err);
+			UNREFERENCED_PARAMETER(err);
 			return false;
 		}
 	}
@@ -267,7 +267,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 	DWORD BytesReturned;
 	if(!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, key, key->KeyLength, key, key->KeyLength, &BytesReturned, NULL)) {
 		DWORD err = GetLastError();
-		UNUSED_ALWAYS(err);
+		UNREFERENCED_PARAMETER(err);
 		return false;
 	}
 

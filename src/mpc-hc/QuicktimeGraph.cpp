@@ -553,7 +553,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 			m_bm.Attach(CreateDIBSection(m_dc, (BITMAPINFO*)&bmi, DIB_RGB_COLORS, &bits, NULL, 0));
 
 			QDErr err = NewGWorldFromHBITMAP(&m_offscreenGWorld, NULL, NULL, 0, m_bm.m_hObject, m_dc.m_hDC);
-			UNUSED_ALWAYS(err);
+			UNREFERENCED_PARAMETER(err);
 
 			SetMovieGWorld(theMovie, m_offscreenGWorld, GetGWorldDevice(m_offscreenGWorld));
 

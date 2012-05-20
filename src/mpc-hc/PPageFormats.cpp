@@ -67,7 +67,7 @@ CPPageFormats::CPPageFormats()
 									  CLSCTX_INPROC,
 									  __uuidof(IApplicationAssociationRegistration),
 									  (void**)&m_pAAR);
-		UNUSED_ALWAYS(hr);
+		UNREFERENCED_PARAMETER(hr);
 	}
 }
 
@@ -252,7 +252,7 @@ bool CPPageFormats::RegisterApp()
 									  CLSCTX_INPROC,
 									  __uuidof(IApplicationAssociationRegistration),
 									  (void**)&m_pAAR);
-		UNUSED_ALWAYS(hr);
+		UNREFERENCED_PARAMETER(hr);
 	}
 
 	if (m_pAAR) {
@@ -685,7 +685,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 									  CLSCTX_INPROC,
 									  __uuidof(IApplicationAssociationRegistration),
 									  (void**)&m_pAAR);
-		UNUSED_ALWAYS(hr);
+		UNREFERENCED_PARAMETER(hr);
 	}
 
 	if (m_pAAR) {

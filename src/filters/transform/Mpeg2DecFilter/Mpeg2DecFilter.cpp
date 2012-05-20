@@ -600,8 +600,8 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 
 					REFERENCE_TIME rtStart = m_fb.rtStart;
 					REFERENCE_TIME rtStop = m_fb.rtStop;
-					UNUSED_ALWAYS(rtStart);
-					UNUSED_ALWAYS(rtStop);
+					UNREFERENCED_PARAMETER(rtStart);
+					UNREFERENCED_PARAMETER(rtStop);
 
 					//
 
@@ -1396,13 +1396,13 @@ STDMETHODIMP CMpeg2DecInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceD
 		switch (Id) {
 			case AM_RATE_SimpleRateChange: {
 				AM_SimpleRateChange* p = (AM_SimpleRateChange*)pPropertyData;
-				UNUSED_ALWAYS(p);
+				UNREFERENCED_PARAMETER(p);
 				return E_PROP_ID_UNSUPPORTED;
 			}
 			break;
 			case AM_RATE_MaxFullDataRate: {
 				AM_MaxFullDataRate* p = (AM_MaxFullDataRate*)pPropertyData;
-				UNUSED_ALWAYS(p);
+				UNREFERENCED_PARAMETER(p);
 				*p = 8*10000;
 				*pBytesReturned = sizeof(AM_MaxFullDataRate);
 			}

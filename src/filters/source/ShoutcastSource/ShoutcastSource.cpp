@@ -644,7 +644,7 @@ bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
 
 	do {
 		int len = Send((BYTE*)(LPCSTR)str, str.GetLength());
-		UNUSED_ALWAYS(len);
+		UNREFERENCED_PARAMETER(len);
 
 		m_nBytesRead = 0;
 		m_metaint = metaint = 0;

@@ -347,7 +347,7 @@ FLAC__bool StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_dat
 FLAC__StreamDecoderWriteStatus StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
 {
 	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
-	UNUSED_ALWAYS(pThis);
+	UNREFERENCED_PARAMETER(pThis);
 
 	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }

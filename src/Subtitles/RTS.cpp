@@ -1008,7 +1008,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 			bluradjust += 8;
 		}
 		double tx = w->m_style.fontAngleZ;
-		UNUSED_ALWAYS(tx);
+		UNREFERENCED_PARAMETER(tx);
 		sw[4] = sw[2];
 		sw[5] = 0x00ffffff;
 

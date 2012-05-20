@@ -949,14 +949,14 @@ void CPlayerListCtrl::OnLButtonDblClk(UINT nFlags, CPoint point)
 void CPlayerListCtrl::OnLvnMarqueeBegin(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	UNUSED_ALWAYS(pNMLV);
+	UNREFERENCED_PARAMETER(pNMLV);
 	*pResult = 1;
 }
 
 void CPlayerListCtrl::OnLvnInsertitem(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	UNUSED_ALWAYS(pNMLV);
+	UNREFERENCED_PARAMETER(pNMLV);
 	m_nItemClicked = -1;
 	*pResult = 0;
 }
@@ -964,7 +964,7 @@ void CPlayerListCtrl::OnLvnInsertitem(NMHDR* pNMHDR, LRESULT* pResult)
 void CPlayerListCtrl::OnLvnDeleteitem(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	UNUSED_ALWAYS(pNMLV);
+	UNREFERENCED_PARAMETER(pNMLV);
 	m_nItemClicked = -1;
 	*pResult = 0;
 }
@@ -1002,7 +1002,7 @@ void CPlayerListCtrl::OnLbnSelChangeList1()
 BOOL CPlayerListCtrl::OnHdnItemchanging(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
-	UNUSED_ALWAYS(phdr);
+	UNREFERENCED_PARAMETER(phdr);
 	//	SetFocus();
 	*pResult = 0;
 	return FALSE;

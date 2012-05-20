@@ -5302,7 +5302,7 @@ void CMainFrame::OnFileSaveThumbnails()
 void CMainFrame::OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI)
 {
 	OAFilterState fs = GetMediaState();
-	UNUSED_ALWAYS(fs);
+	UNREFERENCED_PARAMETER(fs);
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && (GetPlaybackMode() == PM_FILE /*|| GetPlaybackMode() == PM_DVD*/));
 }
 
@@ -9126,7 +9126,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
 void CMainFrame::OnUpdateFavoritesFile(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID - ID_FAVORITES_FILE_START;
-	UNUSED_ALWAYS(nID);
+	UNREFERENCED_PARAMETER(nID);
 }
 
 void CMainFrame::OnRecentFile(UINT nID)
@@ -9145,7 +9145,7 @@ void CMainFrame::OnRecentFile(UINT nID)
 void CMainFrame::OnUpdateRecentFile(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID - ID_RECENT_FILE_START;
-	UNUSED_ALWAYS(nID);
+	UNREFERENCED_PARAMETER(nID);
 }
 
 void CMainFrame::OnFavoritesDVD(UINT nID)
@@ -9184,7 +9184,7 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
 
 	CComPtr<IDvdState> pDvdState;
 	HRESULT hr = OleLoadFromStream((IStream*)&stream, IID_IDvdState, (void**)&pDvdState);
-	UNUSED_ALWAYS(hr);
+	UNREFERENCED_PARAMETER(hr);
 
 	CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 	if (p) {
@@ -9197,7 +9197,7 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
 void CMainFrame::OnUpdateFavoritesDVD(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID - ID_FAVORITES_DVD_START;
-	UNUSED_ALWAYS(nID);
+	UNREFERENCED_PARAMETER(nID);
 }
 
 void CMainFrame::OnFavoritesDevice(UINT nID)
@@ -9208,7 +9208,7 @@ void CMainFrame::OnFavoritesDevice(UINT nID)
 void CMainFrame::OnUpdateFavoritesDevice(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID - ID_FAVORITES_DEVICE_START;
-	UNUSED_ALWAYS(nID);
+	UNREFERENCED_PARAMETER(nID);
 }
 
 // help
@@ -13607,7 +13607,7 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
 				}
 
 				bool res = pRTS->SetDefaultStyle(style);
-				UNUSED_ALWAYS(res);
+				UNREFERENCED_PARAMETER(res);
 			}
 
 			if (pRTS->GetDefaultStyle(style) && style.relativeTo == 2) {
@@ -14067,7 +14067,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 		if (fVidCap) {
 			IBaseFilter* pBF[3] = {pVidBuffer, pVidEnc, pMux};
 			HRESULT hr = BuildCapture(pVidCapPin, pBF, MEDIATYPE_Video, &m_wndCaptureBar.m_capdlg.m_mtcv);
-			UNUSED_ALWAYS(hr);
+			UNREFERENCED_PARAMETER(hr);
 		}
 
 		pAMDF = NULL;
@@ -14091,7 +14091,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 		if (fAudCap) {
 			IBaseFilter* pBF[3] = {pAudBuffer, pAudEnc, pAudMux ? pAudMux : pMux};
 			HRESULT hr = BuildCapture(pAudCapPin, pBF, MEDIATYPE_Audio, &m_wndCaptureBar.m_capdlg.m_mtca);
-			UNUSED_ALWAYS(hr);
+			UNREFERENCED_PARAMETER(hr);
 		}
 	}
 

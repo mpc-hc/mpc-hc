@@ -2233,7 +2233,7 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 		return hr;
 	}
 	BYTE* pDataInOrg = pDataIn;
-	UNUSED_ALWAYS(pDataInOrg);
+	UNREFERENCED_PARAMETER(pDataInOrg);
 
 	long len = pIn->GetActualDataLength();
 	if (len <= 0) {
@@ -2611,7 +2611,7 @@ HRESULT CRealAudioDecoder::StartStreaming()
 	int w = m_rai.coded_frame_size;
 	int h = m_rai.sub_packet_h;
 	int sps = m_rai.sub_packet_size;
-	UNUSED_ALWAYS(sps);
+	UNREFERENCED_PARAMETER(sps);
 
 	int len = w*h;
 

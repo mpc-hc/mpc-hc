@@ -229,7 +229,7 @@ bool CDSMSplitterFile::Read(__int64 len, IDSMResourceBagImpl& res)
 {
 	BYTE compression = (BYTE)BitRead(2);
 	BYTE reserved = (BYTE)BitRead(6);
-	UNUSED_ALWAYS(reserved);
+	UNREFERENCED_PARAMETER(reserved);
 	len--;
 
 	CDSMResource r;

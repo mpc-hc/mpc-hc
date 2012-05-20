@@ -119,7 +119,7 @@ void CIfo::RemovePgciUOPs (uint8_t *ptr)
 
 	for (i=1; i<=num; i++) {
 		lu_sub_t *lu_sub = (lu_sub_t *) ptr;
-		UNUSED_ALWAYS(lu_sub);
+		UNREFERENCED_PARAMETER(lu_sub);
 
 		ptr += LU_SUB_LEN;
 	}

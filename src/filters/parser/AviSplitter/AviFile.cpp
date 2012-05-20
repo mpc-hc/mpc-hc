@@ -50,7 +50,7 @@ HRESULT CAviFile::Init()
 	m_isamv = (dw[2] == FCC('AMV '));
 	Seek(0);
 	HRESULT hr = Parse(0, GetLength());
-	UNUSED_ALWAYS(hr);
+	UNREFERENCED_PARAMETER(hr);
 	if (m_movis.GetCount() == 0) { // FAILED(hr) is allowed as long as there was a movi chunk found
 		return E_FAIL;
 	}

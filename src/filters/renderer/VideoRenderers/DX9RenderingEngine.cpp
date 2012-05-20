@@ -812,14 +812,14 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 	float Tex0_Height = desc.Height;
 
 	double dx0 = 1.0/desc.Width;
-	UNUSED_ALWAYS(dx0);
+	UNREFERENCED_PARAMETER(dx0);
 	double dy0 = 1.0/desc.Height;
-	UNUSED_ALWAYS(dy0);
+	UNREFERENCED_PARAMETER(dy0);
 
 	CSize SrcTextSize = CSize(desc.Width, desc.Height);
 	double w = (double)srcRect.Width();
 	double h = (double)srcRect.Height();
-	UNUSED_ALWAYS(w);
+	UNREFERENCED_PARAMETER(w);
 
 	CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
 
@@ -830,19 +830,19 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 	float Tex1_Height = desc.Height;
 
 	double dx1 = 1.0/desc.Width;
-	UNUSED_ALWAYS(dx1);
+	UNREFERENCED_PARAMETER(dx1);
 	double dy1 = 1.0/desc.Height;
-	UNUSED_ALWAYS(dy1);
+	UNREFERENCED_PARAMETER(dy1);
 
 	double dw = (double)dst1.Width() / desc.Width;
-	UNUSED_ALWAYS(dw);
+	UNREFERENCED_PARAMETER(dw);
 	double dh = (double)dst1.Height() / desc.Height;
-	UNUSED_ALWAYS(dh);
+	UNREFERENCED_PARAMETER(dh);
 
 	float dx2 = 1.0f/SrcTextSize.cx;
-	UNUSED_ALWAYS(dx2);
+	UNREFERENCED_PARAMETER(dx2);
 	float dy2 = 1.0f/SrcTextSize.cy;
-	UNUSED_ALWAYS(dy2);
+	UNREFERENCED_PARAMETER(dy2);
 
 	float tx0 = srcRect.left;
 	float tx1 = srcRect.right;

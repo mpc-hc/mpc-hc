@@ -544,13 +544,13 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 
 	if (CreatePipe(&hChildStdoutRd, &hChildStdoutWr, &saAttr, 0)) {
 		BOOL fSuccess = DuplicateHandle(hProcess, hChildStdoutRd, hProcess, &hChildStdoutRdDup, 0, FALSE, DUPLICATE_SAME_ACCESS);
-		UNUSED_ALWAYS(fSuccess);
+		UNREFERENCED_PARAMETER(fSuccess);
 		CloseHandle(hChildStdoutRd);
 	}
 
 	if (CreatePipe(&hChildStdinRd, &hChildStdinWr, &saAttr, 0)) {
 		BOOL fSuccess = DuplicateHandle(hProcess, hChildStdinWr, hProcess, &hChildStdinWrDup, 0, FALSE, DUPLICATE_SAME_ACCESS);
-		UNUSED_ALWAYS(fSuccess);
+		UNREFERENCED_PARAMETER(fSuccess);
 		CloseHandle(hChildStdinWr);
 	}
 

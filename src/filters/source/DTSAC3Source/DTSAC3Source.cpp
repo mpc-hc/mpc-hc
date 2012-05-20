@@ -516,7 +516,7 @@ HRESULT CDTSAC3Stream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut,
 
 	const GUID* majortype = &m_mt.majortype;
 	const GUID* subtype = &m_mt.subtype;
-	UNUSED_ALWAYS(subtype);
+	UNREFERENCED_PARAMETER(subtype);
 
 	if (*majortype == MEDIATYPE_Audio) {
 		m_file.Seek(m_dataOffset + nFrame*m_framesize, CFile::begin);

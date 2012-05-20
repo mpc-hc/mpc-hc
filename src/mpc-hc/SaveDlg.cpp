@@ -209,7 +209,7 @@ LRESULT CSaveDlg::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	LONG evCode, evParam1, evParam2;
 	while (pME && SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0))) {
 		HRESULT hr = pME->FreeEventParams(evCode, evParam1, evParam2);
-		UNUSED_ALWAYS(hr);
+		UNREFERENCED_PARAMETER(hr);
 
 		if (EC_COMPLETE == evCode) {
 			EndDialog(IDOK);

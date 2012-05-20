@@ -1418,7 +1418,7 @@ static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, double* pout)
 	int tbl_index = pin[0]>>4;
 	int shift = pin[0]&0xf;
 	int unk = pin[1]; // ?
-	UNUSED_ALWAYS(unk);
+	UNREFERENCED_PARAMETER(unk);
 
 	if (tbl_index >= 10) {
 		ASSERT(0);
@@ -1513,7 +1513,7 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 HRESULT CMpaDecFilter::ProcessFlac()
 {
 	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-	UNUSED_ALWAYS(wfein);
+	UNREFERENCED_PARAMETER(wfein);
 
 	FLAC__stream_decoder_process_single ((FLAC__StreamDecoder*) m_flac.pDecoder);
 	return m_flac.hr;
@@ -1865,7 +1865,7 @@ HRESULT CMpaDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 
 	CMediaType& mt = m_pInput->CurrentMediaType();
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
-	UNUSED_ALWAYS(wfe);
+	UNREFERENCED_PARAMETER(wfe);
 
 	pProperties->cBuffers = 4;
 	// pProperties->cbBuffer = 1;

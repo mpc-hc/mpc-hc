@@ -339,7 +339,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 			ChkLen(1)
 			BYTE n = *p-0x30;
 			p++;
-			UNUSED_ALWAYS(n);
+			UNREFERENCED_PARAMETER(n);
 
 			ChkLen(2)
 			WORD pi = *(WORD*)p;
@@ -364,7 +364,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 				ChkLen(1)
 				BYTE n = *p-0x30;
 				p++;
-				UNUSED_ALWAYS(n);
+				UNREFERENCED_PARAMETER(n);
 
 				ChkLen(2)
 				WORD ty = *(WORD*)p;

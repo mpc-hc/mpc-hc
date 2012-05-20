@@ -151,7 +151,7 @@ static void SetupDefaultCaps(AM_MEDIA_TYPE* pmt, VIDEO_STREAM_CONFIG_CAPS& caps)
 	}
 
 	VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->pbFormat;
-	UNUSED_ALWAYS(vih);
+	UNREFERENCED_PARAMETER(vih);
 
 	BITMAPINFOHEADER* bih = (pmt->formattype == FORMAT_VideoInfo)
 							? &((VIDEOINFOHEADER*)pmt->pbFormat)->bmiHeader
@@ -785,8 +785,8 @@ void CPlayerCaptureDialog::UpdateUserDefinableControls()
 	UDACCEL ua[3] = {{0,0},{2,0},{4,0}};
 
 	int w = m_vidhor.GetPos(), h = m_vidver.GetPos();
-	UNUSED_ALWAYS(w);
-	UNUSED_ALWAYS(h);
+	UNREFERENCED_PARAMETER(w);
+	UNREFERENCED_PARAMETER(h);
 
 	m_vidhor.SetRange((short)pvfe->caps.MinOutputSize.cx, (short)pvfe->caps.MaxOutputSize.cx);
 	/*	if (bih->biCompression == mmioFOURCC('Y','U','Y','2')) // FIXME: bt8x8 drivers seem to crop the right side in yuv2 mode if the width is not dividable by 64
