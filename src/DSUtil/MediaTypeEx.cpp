@@ -381,7 +381,9 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
 				   subtype == MEDIASUBTYPE_PCM_IN24 || subtype == MEDIASUBTYPE_PCM_IN32 ||
 				   subtype == MEDIASUBTYPE_PCM_FL32 || subtype == MEDIASUBTYPE_PCM_FL64) {
 			str += _T("PCM");
-		} else if (subtype == MEDIASUBTYPE_ADPCM_SWF || subtype == MEDIASUBTYPE_IMA4) {
+		} else if (subtype == MEDIASUBTYPE_IMA4      ||
+				   subtype == MEDIASUBTYPE_ADPCM_SWF ||
+				   subtype == MEDIASUBTYPE_ADPCM_AMV) {
 			str += _T("ADPCM");
 		} else if (subtype == MEDIASUBTYPE_ALAC) {
 			str += _T("Alac");

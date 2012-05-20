@@ -1856,6 +1856,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_DECODER_ADPCM
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IMA4);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_ADPCM_SWF);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_ADPCM_AMV);
 #endif
 	m_transform.AddTail(pFGF);
 #endif
