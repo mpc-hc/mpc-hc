@@ -313,7 +313,7 @@ void CSubtitleDlDlg::OnParse()
 	if (Parse()) {
 		LoadList();
 		CString msg;
-		msg.Format(ResStr(IDS_SUBDL_DLG_SUBS_AVAIL), m_list.GetItemCount());
+		msg.Format(IDS_SUBDL_DLG_SUBS_AVAIL, m_list.GetItemCount());
 		SetStatus(msg);
 	}
 	else {

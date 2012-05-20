@@ -1103,7 +1103,7 @@ void CDVSPathsPPage::UpdateObjectData(bool fSave)
 		CString chk(_T("123456789")), path, tmp;
 		int i = 0;
 		do {
-			tmp.Format(ResStr(IDS_RP_PATH), i++);
+			tmp.Format(IDS_RP_PATH, i++);
 			path = theApp.GetProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, chk);
 			if (path != chk) {
 				theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, _T(""));
@@ -1111,7 +1111,7 @@ void CDVSPathsPPage::UpdateObjectData(bool fSave)
 		} while (path != chk);
 
 		for (i = 0; i < m_paths.GetSize(); i++) {
-			tmp.Format(ResStr(IDS_RP_PATH), i);
+			tmp.Format(IDS_RP_PATH, i);
 			theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, m_paths[i]);
 		}
 	} else {
@@ -1121,7 +1121,7 @@ void CDVSPathsPPage::UpdateObjectData(bool fSave)
 			if (!path.IsEmpty()) {
 				m_paths.Add(path);
 			}
-			tmp.Format(ResStr(IDS_RP_PATH), i++);
+			tmp.Format(IDS_RP_PATH, i++);
 			path = theApp.GetProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, chk);
 		} while (path != chk);
 	}
