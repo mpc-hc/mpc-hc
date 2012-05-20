@@ -33,7 +33,6 @@ public:
     CCritSec();
     ~CCritSec();
     void Lock();
-    bool TryLock();
     void Unlock();
 #else
 
@@ -48,11 +47,6 @@ public:
 
     void Lock() {
         EnterCriticalSection(&m_CritSec);
-    };
-
-    bool TryLock() 
-	{
-        return TryEnterCriticalSection(&m_CritSec) != 0;
     };
 
     void Unlock() {
