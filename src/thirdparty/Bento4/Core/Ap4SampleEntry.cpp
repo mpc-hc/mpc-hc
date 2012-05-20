@@ -346,9 +346,10 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
     // read fields
     ReadFields(stream);
 
-	//hack to get the correct WAVEFORMATEX in MP4Splitter.cpp
-	//need more information about audio formats used in older movs (QuickTime 2.x).
-	if(m_QtVersion == 0)
+	// hack to get the correct WAVEFORMATEX in MP4Splitter.cpp
+	// (need more information about audio formats used in older movs (QuickTime 2.x))
+	if (m_QtVersion == 0 ||                            // fill QtV1 values for the old movs
+		m_QtVersion == 1 && m_QtV1BytesPerPacket == 0) // fixing empty QtV1 values for some (broken?) movs.
 	{
 		switch( format )
 		{
