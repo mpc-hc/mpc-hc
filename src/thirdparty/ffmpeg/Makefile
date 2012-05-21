@@ -1,5 +1,4 @@
 CC = gcc.exe
-
 BIN_DIR  = ../../../bin
 ZLIB_DIR = ../zlib
 
@@ -10,15 +9,14 @@ else
 endif
 
 ifeq ($(DEBUG),yes)
-    MY_DIR_PREFIX = Debug
+    OUT_DIR_PREFIX = Debug
 else
-    MY_DIR_PREFIX = Release
+    OUT_DIR_PREFIX = Release
 endif
 
-
-OBJ_DIR        = $(BIN_DIR)/obj/$(MY_DIR_PREFIX)_$(MY_ARCH)/ffmpeg/
-TARGET_LIB_DIR = $(BIN_DIR)/lib/$(MY_DIR_PREFIX)_$(MY_ARCH)
-TARGET_LIB     = $(TARGET_LIB_DIR)/ffmpeg.lib
+OBJ_DIR     = $(BIN_DIR)/obj/$(OUT_DIR_PREFIX)_$(MY_ARCH)/ffmpeg/
+OUT_LIB_DIR = $(BIN_DIR)/lib/$(OUT_DIR_PREFIX)_$(MY_ARCH)
+OUT_LIB     = $(OUT_LIB_DIR)/ffmpeg.lib
 
 
 # Compiler and yasm flags
@@ -29,22 +27,22 @@ OPTFLAGS  = -O2 -fno-common -fno-tree-vectorize -fomit-frame-pointer
 YASMFLAGS = -I. -Ilibavutil/x86 -Pconfig.asm
 
 ifeq ($(64BIT),yes)
-    FFMPEG_PREFIX = x86_64-w64-mingw32-
-    TARGET_OS     = x86_64-w64-mingw32
-    CFLAGS       += -DWIN64 -D_WIN64 -DARCH_X86_64 -DPIC
-    OPTFLAGS     += -m64 -fno-leading-underscore
-    YASMFLAGS    += -f win64 -m amd64 -DWIN64=1 -DARCH_X86_32=0 -DARCH_X86_64=1 -DPIC
+    GCC_PREFIX = x86_64-w64-mingw32-
+    TARGET_OS  = x86_64-w64-mingw32
+    CFLAGS     += -DWIN64 -D_WIN64 -DARCH_X86_64 -DPIC
+    OPTFLAGS   += -m64 -fno-leading-underscore
+    YASMFLAGS  += -f win64 -m amd64 -DWIN64=1 -DARCH_X86_32=0 -DARCH_X86_64=1 -DPIC
 else
-    TARGET_OS     = i686-pc-mingw32
-    CFLAGS       += -DWIN32 -D_WIN32 -DARCH_X86_32
-    OPTFLAGS     += -m32 -march=i686 -mmmx -msse -mfpmath=sse
-    YASMFLAGS    += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
+    TARGET_OS  = i686-pc-mingw32
+    CFLAGS     += -DWIN32 -D_WIN32 -DARCH_X86_32
+    OPTFLAGS   += -m32 -march=i686 -mmmx -msse -mfpmath=sse
+    YASMFLAGS  += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
 endif
 
 ifeq ($(DEBUG),yes)
-    CFLAGS       += -DDEBUG -D_DEBUG -g
+    CFLAGS     += -DDEBUG -D_DEBUG -g
 else
-    CFLAGS       += -DNDEBUG -UDEBUG -U_DEBUG
+    CFLAGS     += -DNDEBUG -UDEBUG -U_DEBUG
 endif
 
 
@@ -56,11 +54,11 @@ OBJ_DIRS = $(OBJ_DIR) \
     $(OBJ_DIR)libavutil/x86 \
     $(OBJ_DIR)libswscale \
     $(OBJ_DIR)libswscale/x86 \
-    $(TARGET_LIB_DIR)
+    $(OUT_LIB_DIR)
 
 
 # Targets
-all: make_objdirs $(TARGET_LIB)
+all: make_objdirs $(OUT_LIB)
 
 make_objdirs: $(OBJ_DIRS)
 $(OBJ_DIRS):
@@ -68,12 +66,12 @@ $(OBJ_DIRS):
 
 clean:
 	@echo Cleaning...
-	rm -f $(TARGET_LIB)
+	rm -f $(OUT_LIB)
 	rm -rf $(OBJ_DIR)
 
 
 # Objects
-SRCS_C=\
+SRCS_C = \
     libavcodec/aac_ac3_parser.c \
     libavcodec/aacadtsdec.c \
     libavcodec/aacdec.c \
@@ -290,9 +288,8 @@ SRCS_C=\
     libswscale/x86/yuv2rgb_mmx.c
 
 
-
 # Yasm objects
-SRCS_YASM=\
+SRCS_YASM = \
     libavcodec/x86/ac3dsp.asm \
     libavcodec/x86/dct32_sse.asm \
     libavcodec/x86/deinterlace.asm \
@@ -322,7 +319,7 @@ SRCS_YASM=\
     libswscale/x86/output.asm \
     libswscale/x86/scale.asm
 
-OBJS += \
+OBJS = \
     $(SRCS_C:%.c=$(OBJ_DIR)%.o) \
     $(SRCS_YASM:%.asm=$(OBJ_DIR)%.o)
 
@@ -330,15 +327,15 @@ OBJS += \
 # Commands
 $(OBJ_DIR)%.o: %.c
 	@echo CC $<
-	@$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) -MMD -o $@ $<
+	@$(GCC_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) -MMD -o $@ $<
 
 $(OBJ_DIR)%.o: %.asm
 	@echo YASM: Assembling $<
 	@yasm $(YASMFLAGS) -I$(<D)/ -o $@ $<
 
-$(TARGET_LIB): $(OBJS)
+$(OUT_LIB): $(OBJS)
 	@echo AR $@
-	@$(FFMPEG_PREFIX)ar rc $@ $(OBJS)
+	@$(GCC_PREFIX)ar rc $@ $(OBJS)
 
 
 .PHONY: clean make_objdirs $(OBJ_DIRS)
