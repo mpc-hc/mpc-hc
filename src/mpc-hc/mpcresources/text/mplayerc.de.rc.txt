@@ -400,7 +400,7 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 27		"Warnung"
 28		"Wenn Sie die Untertitel-Position anpassen und in den Einstellungen der Grafikkarte\nVollbild-Antialiasing auswählen, sehen die Untertitel zwar besser aus, aber die\nCPU-Belastung steigt extrem an."
 29		"Zur Information"
-30		"The internal subtitle functionality is only available when a compatible video renderer is used. You can select the desired video renderer on the Output page under Playback options. Compatible renderers are marked with '**' behind their name."
+30		"The internal subtitle functionality is only available when a compatible video renderer is used. You can select the desired video renderer on the Output page under Playback options. Compatible renderers are marked with ""**"" behind their name."
 31		"Untertitel für RealMedia und QuickTime sind möglich, wenn Sie deren spezielle\nDirectX 7 oder DirectX 9 Renderer einstellen."
 END
 
