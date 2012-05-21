@@ -22,12 +22,12 @@
 
 
 #define HAVE_AV_CONFIG_H
-#define H264_MERGE_TESTING
 
 #include <Windows.h>
 #include <WinNT.h>
 #include <vfwmsgs.h>
 #include <sys/timeb.h>
+#include <time.h> // for the _time64 workaround
 #include "FfmpegContext.h"
 #include <ffmpeg/libavcodec/dsputil.h>
 #include <ffmpeg/libavcodec/avcodec.h>
@@ -41,6 +41,12 @@
 
 #if defined(REGISTER_FILTER) && _WIN64
 void *__imp_toupper = toupper;
+void *__imp_time64 = _time64;
+#endif
+
+#ifdef _WIN64
+// Hack to use MinGW64 from 2.x branch
+void __mingw_raise_matherr(int typ, const char *name, double a1, double a2, double rslt) {}
 #endif
 
 int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rtStartTime, uint8_t *buf, int buf_size);
@@ -817,8 +823,3 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor/*, DWORD nPCIDev
 
 	return FALSE;
 }
-
-#ifdef _WIN64
-// Hack to use MinGW64 from 2.x branch
-void __mingw_raise_matherr(int typ, const char *name, double a1, double a2, double rslt) {}
-#endif

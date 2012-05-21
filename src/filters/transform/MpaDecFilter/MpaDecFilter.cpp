@@ -31,6 +31,14 @@
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER
+#ifdef _WIN64
+#ifdef _DEBUG
+extern "C" int mingw_app_type = 1; /* 0:console, 1:windows.  */
+#endif
+void *__imp_toupper = toupper;
+void *__imp_time64 = _time64;
+#endif
+
 #include <InitGuid.h>
 #endif
 #include <moreuuids.h>
@@ -238,14 +246,6 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 #ifdef REGISTER_FILTER
-
-#ifdef _WIN64
-#ifdef _DEBUG
-extern "C" int mingw_app_type = 1; /* 0:console, 1:windows.  */
-#endif
-void *__imp_toupper = toupper;
-#endif
-
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 	{&MEDIATYPE_Audio, &MEDIASUBTYPE_PCM},
 };
