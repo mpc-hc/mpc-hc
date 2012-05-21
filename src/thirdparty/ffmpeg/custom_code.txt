@@ -1,4 +1,4 @@
-The following files have MPC-HC specific custom code (compared to ffmpeg):
+The following files have MPC-HC specific custom code (compared to FFmpeg):
 
 * config.asm
 * config.h
@@ -21,10 +21,12 @@ The following files have MPC-HC specific custom code (compared to ffmpeg):
 * libavutil/log.h
 * libavutil/mem.c
 * libavutil/mem.h
+* libavutil/opt.c
+* libavutil/opt.h
 * libavutil/samplefmt.h
 
 
-The following files are available only in MPC-HC (compared to ffmpeg):
+The following files are available only in MPC-HC (compared to FFmpeg):
 
 * libavcodec/dxva.h
 * libavcodec/h264_dxva.c

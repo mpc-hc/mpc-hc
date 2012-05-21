@@ -1218,7 +1218,8 @@ int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx,
                                                   avctx->sample_fmt, 1);
         if ((ret = avcodec_fill_audio_frame(frame, avctx->channels,
                                             avctx->sample_fmt,
-                                            (const uint8_t *)samples, samples_size, 1)))
+                                            (const uint8_t *) samples,
+                                            samples_size, 1)))
             return ret;
 
         /* fabricate frame pts from sample count.
