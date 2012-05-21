@@ -1592,35 +1592,38 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
 	float* pDataIn = pBuff.GetData();
 
+#define f16max (float(INT16_MAX)/INT16_PEAK)
+#define f24max (float(INT24_MAX)/INT24_PEAK)
+#define d32max (double(INT32_MAX)/INT32_PEAK)
+#define round_f(x) ((x) > 0 ? (x) + 0.5f : (x) - 0.5f)
+#define round_d(x) ((x) > 0 ? (x) + 0.5 : (x) - 0.5)
+
 	for (unsigned int i = 0, len = pBuff.GetCount(); i < len; i++) {
 		float f = *pDataIn++;
-
-#define f16max (float(INT16_MAX)/float(INT16_PEAK))
-#define f24max (float(INT24_MAX)/float(INT24_PEAK))
-#define f32max (float(INT32_MAX)/float(INT32_PEAK))
-#define round(x) ((x) > 0 ? (x) + 0.5 : (x) - 0.5)
-
+		
 		if (f < -1) f = -1;
 		switch (sf) {
 			default:
 			case SF_PCM16:
 				if (f > f16max) f = f16max;
-				*(int16_t*)pDataOut = (int16_t)round(f * INT16_PEAK);
+				*(int16_t*)pDataOut = (int16_t)round_f(f * INT16_PEAK);
 				pDataOut += sizeof(int16_t);
 				break;
 			case SF_PCM24: {
 				if (f > f24max) f = f24max;
-				DWORD i24 = (DWORD)(int32_t)round((double)f * INT24_PEAK);
+				DWORD i24 = (DWORD)(int32_t)round_f(f * INT24_PEAK);
 				*pDataOut++ = (BYTE)(i24);
 				*pDataOut++ = (BYTE)(i24>>8);
 				*pDataOut++ = (BYTE)(i24>>16);
 			}
 			break;
-			case SF_PCM32:
-				if (f > f32max) f = f32max;
-				*(int32_t*)pDataOut = (int32_t)round((double)f * INT32_PEAK);
+			case SF_PCM32: {
+				double d = (double)f;
+				if (d > d32max) d = d32max;
+				*(int32_t*)pDataOut = (int32_t)round_d(d * INT32_PEAK);
 				pDataOut += sizeof(int32_t);
-				break;
+			}
+			break;
 			case SF_FLOAT32:
 				if (f > 1) f = 1;
 				*(float*)pDataOut = f;
