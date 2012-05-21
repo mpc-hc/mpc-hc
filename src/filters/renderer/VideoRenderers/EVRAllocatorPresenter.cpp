@@ -1567,7 +1567,7 @@ void CEVRAllocatorPresenter::GetMixerThread()
 					CComPtr<IPin> pPin;
 					CComPtr<IPin> pPinTo;
 					if (SUCCEEDED (m_pOuterEVR->FindPin(L"EVR Input0", &pPin)) &&
-						SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
+							SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
 						if (CComPtr<IBaseFilter> pFilter = GetFilterFromPin(pPinTo) ) {
 							if (CComQIPtr<IMPCVideoDecFilter2> MPCVideoDecFilter = pFilter ) {
 								m_nFrameType = (FF_FIELD_TYPE)MPCVideoDecFilter->GetFrameType();

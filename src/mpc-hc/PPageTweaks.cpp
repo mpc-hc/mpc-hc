@@ -237,7 +237,7 @@ BOOL CPPageTweaks::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult)
 
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 

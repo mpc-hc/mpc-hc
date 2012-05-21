@@ -165,10 +165,10 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 			case IDYES:
 				ShellExecute(NULL, _T("open"), _T("http://sourceforge.net/apps/trac/mpc-hc/wiki/Bugs_-_Reporting"), NULL, NULL, SW_SHOWDEFAULT);
 				ExploreToFile(strDumpPath);
-			break;
+				break;
 			case IDNO:
 				retval = EXCEPTION_CONTINUE_SEARCH; // rethrow the exception to make easier attaching a debugger
-			break;
+				break;
 		}
 	}
 

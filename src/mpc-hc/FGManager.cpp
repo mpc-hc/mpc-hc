@@ -1672,8 +1672,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_DECODER_AMR
 	pFGF = DNew CFGFilterInternal<CMpaDecFilter>(
-		(tra[TRA_AMR]) ? MPCAudioDecName : LowMerit(MPCAudioDecName),
-		(tra[TRA_AMR]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+			   (tra[TRA_AMR]) ? MPCAudioDecName : LowMerit(MPCAudioDecName),
+			   (tra[TRA_AMR]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_SAMR);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_AMR);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_SAWB);
@@ -1841,8 +1841,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_DECODER_PCM
 	pFGF = DNew CFGFilterInternal<CMpaDecFilter>(
-		(tra[TRA_PCM]) ? MPCAudioDecName : LowMerit(MPCAudioDecName),
-		(tra[TRA_PCM]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+			   (tra[TRA_PCM]) ? MPCAudioDecName : LowMerit(MPCAudioDecName),
+			   (tra[TRA_PCM]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_NONE);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_RAW);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_TWOS);
