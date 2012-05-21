@@ -20,6 +20,7 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
+PUSHD %~dp0
 
 IF EXIST "..\..\..\build.user.bat" (
   CALL "..\..\..\build.user.bat"
@@ -32,8 +33,6 @@ IF EXIST "..\..\..\build.user.bat" (
 SET PATH=%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%PATH%
 FOR %%X IN (gcc.exe) DO (SET FOUND=%%~$PATH:X)
 IF NOT DEFINED FOUND GOTO MissingVar
-
-PUSHD %~dp0
 
 SET ARG=%*
 SET ARG=%ARG:/=%

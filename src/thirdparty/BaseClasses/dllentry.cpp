@@ -259,6 +259,8 @@ DllCanUnloadNow()
 
 
 // --- standard WIN32 entrypoints --------------------------------------
+// MPC-HC custom code start
+// Do we really need this in this place???
 BOOL SetHeapOptions() {
    HMODULE hLib = LoadLibrary(L"kernel32.dll");
    if (hLib == NULL) return FALSE;
@@ -282,7 +284,7 @@ BOOL SetHeapOptions() {
 
    return fRet;
 }
-
+// MPC-HC custom code end
 extern "C" void __cdecl __security_init_cookie(void);
 extern "C" BOOL WINAPI _DllEntryPoint(HINSTANCE, ULONG, __inout_opt LPVOID);
 #pragma comment(linker, "/merge:.CRT=.rdata")
@@ -327,7 +329,9 @@ _DllEntryPoint(
         DbgInitialise(hInstance);
 
     	{
+    	    // MPC-HC custom code start
     	    SetHeapOptions();
+    	    // MPC-HC custom code end
 			// The platform identifier is used to work out whether
     	    // full unicode support is available or not.  Hence the
     	    // default will be the lowest common denominator - i.e. N/A
