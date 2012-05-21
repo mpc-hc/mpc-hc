@@ -12,7 +12,7 @@ XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, A
 
 Inactive:
 ----------
-_xxl                    <drevil_xxl@users.sourceforge.net>      FFMpeg
+_xxl                    <drevil_xxl@users.sourceforge.net>      FFmpeg
 Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
 Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code

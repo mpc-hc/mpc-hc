@@ -33,3 +33,5 @@ VSFilter:
 2) Define VSFilter's version numbers in a place accessible by its installer and VSFilter itself
 3) Build and statically link unrar library for out of the box support of rar'ed subtitles for both VSFilter and MPC-HC itself
 4) Do we need the ISOLATION_AWARE_ENABLED define?
+5) Fix the YUV2 bug
+

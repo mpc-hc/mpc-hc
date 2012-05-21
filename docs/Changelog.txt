@@ -10,12 +10,12 @@ Legend:
 
 1.6.2.X - Not released yet
 ==============================
++ MatroskaSplitter: Support for QT video formats in Matroska v1 and MPEG-1
++ Added .tak extension
 * Changed default settings
     - Global media keys are now activated by default
     - Media volume keys will now change the system's volume when MPC-HC is
       the foreground application
-+ MatroskaSplitter: Support for QT video formats in Matroska v1 and MPEG-1
-+ Added .tak extension
 + Ticket #1792, Show an OSD message and a status message when a favorite is
   created via the keyboard shortcut
 + Ticket #2134, Added an auto-update feature to periodically check for new
