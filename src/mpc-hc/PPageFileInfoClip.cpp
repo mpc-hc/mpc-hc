@@ -87,6 +87,7 @@ void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
 #define SETPAGEFOCUS WM_APP+252 // arbitrary number, can be changed if necessary
 BEGIN_MESSAGE_MAP(CPPageFileInfoClip, CPropertyPage)
 	ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify) 
 END_MESSAGE_MAP()
 
 
@@ -160,6 +161,8 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 	}
 	EndEnumFilters;
 
+	EnableToolTips(TRUE);
+
 	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -181,4 +184,18 @@ LRESULT CPPageFileInfoClip::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
 	psheet->GetTabControl()->SetFocus();
 
 	return 0;
+}
+
+BOOL CPPageFileInfoClip::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
+{
+	BOOL ret = FALSE;
+	LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMHDR);
+
+	if (pNMHDR->idFrom == (UINT_PTR)m_location.GetSafeHwnd()) {
+		_tcsncpy_s(pTTT->szText, ResStr(IDS_TOOLTIP_EXPLORE_TO_FILE), _TRUNCATE);
+		ret = TRUE;
+	}
+
+	*pResult = 0;
+	return ret;
 }

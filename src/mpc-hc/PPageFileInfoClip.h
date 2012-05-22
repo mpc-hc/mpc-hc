@@ -59,6 +59,7 @@ protected:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	virtual BOOL OnSetActive();
 	virtual LRESULT OnSetPageFocus(WPARAM wParam, LPARAM lParam);
+	BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 
 	DECLARE_MESSAGE_MAP()
 
