@@ -125,7 +125,8 @@ Legend:
 ! Ticket #2161, Prevent the "Open" dialog from being opened multiple times (for
   example when double clicking on the tray icon)
 ! Ticket #2172, MP4Splitter: skip video tracks with motionless frames
-! Ticket #2274, MPCVideoDecoder: the configured threads count was ignored when the
+! Ticket #2274, MPCVideoDec: the configured threads count was ignored when the
   decoder had to fallback in software mode because of a DXVA incompatible file, only
   one thread was used in this case
+! Ticket #2304, MpaDecFilter: PCM 32-bit output gives cracking sound
 ! Numerous other bugfixes and improvements
