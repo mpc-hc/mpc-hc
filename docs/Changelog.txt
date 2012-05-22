@@ -10,6 +10,7 @@ Legend:
 
 1.6.2.X - Not released yet
 ==============================
++ Added a new Zoom option "Auto Fit (large only)".
 + MatroskaSplitter: Support for QT video formats in Matroska v1 and MPEG-1
 + Added .tak extension
 * Changed default settings
