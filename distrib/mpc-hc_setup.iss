@@ -300,13 +300,13 @@ var
   sInstallPath: String;
 begin
   if not RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', sInstallPath) then begin
-    Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
+    Result := ExpandConstant('{pf}\MPC-HC');
   end
   else begin
     RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', sInstallPath);
     Result := ExtractFileDir(sInstallPath);
     if (Result = '') or not DirExists(Result) then begin
-      Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
+      Result := ExpandConstant('{pf}\MPC-HC');
     end;
   end;
 end;
