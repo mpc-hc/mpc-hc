@@ -2900,8 +2900,13 @@ void CorrectComboListWidth(CComboBox& m_pComboBox)
 	pDC->SelectObject(pOldFont);
 	m_pComboBox.ReleaseDC(pDC);
 
+	// Get the scrollbar width if it exists
+	int min_visible = m_pComboBox.GetMinVisible();
+	int scroll_width = (m_pComboBox.GetCount() > min_visible) ?
+		::GetSystemMetrics(SM_CXVSCROLL) : 0;
+
 	// Adjust the width for the vertical scroll bar and the left and right border.
-	dx += ::GetSystemMetrics(SM_CXVSCROLL) + 2*::GetSystemMetrics(SM_CXEDGE);
+	dx += scroll_width + 2*::GetSystemMetrics(SM_CXEDGE);
 
 	// Set the width of the list box so that every item is completely visible.
 	m_pComboBox.SetDroppedWidth(dx);
