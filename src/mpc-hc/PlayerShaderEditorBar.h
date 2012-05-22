@@ -26,14 +26,10 @@
 #include "PlayerBar.h"
 #include "ShaderEditorDlg.h"
 
-#ifndef baseCPlayerShaderEditorBar
-#define baseCPlayerShaderEditorBar CPlayerBar
-#endif
-
 
 // CPlayerShaderEditorBar
 
-class CPlayerShaderEditorBar : public baseCPlayerShaderEditorBar
+class CPlayerShaderEditorBar : public CPlayerBar
 {
 	DECLARE_DYNAMIC(CPlayerShaderEditorBar)
 

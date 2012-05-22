@@ -29,7 +29,7 @@
 
 // CPlayerCaptureBar
 
-IMPLEMENT_DYNAMIC(CPlayerNavigationBar, baseCPlayerNavigationBar)
+IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CPlayerBar)
 CPlayerNavigationBar::CPlayerNavigationBar()
 {
 }
@@ -40,7 +40,7 @@ CPlayerNavigationBar::~CPlayerNavigationBar()
 
 BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 {
-	if (!baseCPlayerNavigationBar::Create(ResStr(IDS_NAVIGATION_BAR), pParentWnd, ID_VIEW_NAVIGATION, defDockBarID, _T("Navigation Bar"))) {
+	if (!CPlayerBar::Create(ResStr(IDS_NAVIGATION_BAR), pParentWnd, ID_VIEW_NAVIGATION, defDockBarID, _T("Navigation Bar"))) {
 		return FALSE;
 	}
 
@@ -70,7 +70,7 @@ BOOL CPlayerNavigationBar::PreTranslateMessage(MSG* pMsg)
 	return __super::PreTranslateMessage(pMsg);
 }
 
-BEGIN_MESSAGE_MAP(CPlayerNavigationBar, baseCPlayerNavigationBar)
+BEGIN_MESSAGE_MAP(CPlayerNavigationBar, CPlayerBar)
 	ON_WM_SIZE()
 	ON_WM_NCLBUTTONUP()
 END_MESSAGE_MAP()

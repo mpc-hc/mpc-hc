@@ -25,14 +25,9 @@
 #include "PlayerNavigationDialog.h"
 #include "PlayerBar.h"
 
-#ifndef baseCPlayerNavigationBar
-#define baseCPlayerNavigationBar CPlayerBar
-#endif
-
-
 // CPlayerNavigationBar
 
-class CPlayerNavigationBar : public baseCPlayerNavigationBar
+class CPlayerNavigationBar : public CPlayerBar
 {
 	DECLARE_DYNAMIC(CPlayerNavigationBar)
 

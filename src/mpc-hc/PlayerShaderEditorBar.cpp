@@ -27,7 +27,7 @@
 
 // CPlayerShaderEditorBar
 
-IMPLEMENT_DYNAMIC(CPlayerShaderEditorBar, baseCPlayerShaderEditorBar)
+IMPLEMENT_DYNAMIC(CPlayerShaderEditorBar, CPlayerBar)
 CPlayerShaderEditorBar::CPlayerShaderEditorBar()
 {
 }
@@ -71,7 +71,7 @@ BOOL CPlayerShaderEditorBar::PreTranslateMessage(MSG* pMsg)
 	return __super::PreTranslateMessage(pMsg);
 }
 
-BEGIN_MESSAGE_MAP(CPlayerShaderEditorBar, baseCPlayerShaderEditorBar)
+BEGIN_MESSAGE_MAP(CPlayerShaderEditorBar, CPlayerBar)
 	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
