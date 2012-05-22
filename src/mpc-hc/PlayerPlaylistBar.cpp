@@ -587,7 +587,7 @@ int CPlayerPlaylistBar::FindItem(POSITION pos)
 		if ((POSITION)m_list.GetItemData(i) == pos) {
 			return(i);
 		}
-	return(-1);
+	return -1;
 }
 
 POSITION CPlayerPlaylistBar::FindPos(int i)

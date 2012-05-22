@@ -2818,7 +2818,7 @@ STDMETHODIMP CRenderedTextSubtitle::GetClassID(CLSID* pClassID)
 
 STDMETHODIMP_(int) CRenderedTextSubtitle::GetStreamCount()
 {
-	return(1);
+	return 1;
 }
 
 STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
@@ -2849,7 +2849,7 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 
 STDMETHODIMP_(int) CRenderedTextSubtitle::GetStream()
 {
-	return(0);
+	return 0;
 }
 
 STDMETHODIMP CRenderedTextSubtitle::SetStream(int iStream)

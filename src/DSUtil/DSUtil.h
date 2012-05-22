@@ -232,7 +232,7 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 inline int LNKO(int a, int b)
 {
 	if (a == 0 || b == 0) {
-		return(1);
+		return 1;
 	}
 	while (a != b) {
 		if (a < b) {

@@ -98,7 +98,7 @@ static int TimeToInt(CStringW str)
 	}
 
 	if (sl.GetCount() > 4) {
-		return(-1);
+		return -1;
 	}
 
 	int time = 0;
@@ -110,7 +110,7 @@ static int TimeToInt(CStringW str)
 		WCHAR* tmp = NULL;
 		int t = wcstol(s, &tmp, 10);
 		if (s >= tmp) {
-			return(-1);
+			return -1;
 		}
 		time += t * mul[i];
 	}
@@ -121,7 +121,7 @@ static int TimeToInt(CStringW str)
 static DWORD StringToDWORD(CStringW str)
 {
 	if (str.IsEmpty()) {
-		return(0);
+		return 0;
 	}
 	if (str[0] == '#') {
 		return((DWORD)wcstol(str, NULL, 16));
@@ -133,7 +133,7 @@ static DWORD StringToDWORD(CStringW str)
 static DWORD ColorToDWORD(CStringW str)
 {
 	if (str.IsEmpty()) {
-		return(0);
+		return 0;
 	}
 
 	DWORD ret = 0;

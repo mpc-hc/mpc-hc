@@ -67,7 +67,7 @@ void CJpegEncoder::Flush()
 int CJpegEncoder::GetBitWidth(short q)
 {
 	if (q == 0) {
-		return(0);
+		return 0;
 	}
 	if (q < 0) {
 		q = -q;

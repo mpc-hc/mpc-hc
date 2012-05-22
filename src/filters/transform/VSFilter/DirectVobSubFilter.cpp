@@ -665,7 +665,7 @@ int CDirectVobSubFilter::FindPreferedLanguage(bool fHideToo)
 	get_LanguageCount(&nLangs);
 
 	if (nLangs <= 0) {
-		return(0);
+		return 0;
 	}
 
 	for (ptrdiff_t i = 0; i < MAXPREFLANGS; i++) {
@@ -689,7 +689,7 @@ int CDirectVobSubFilter::FindPreferedLanguage(bool fHideToo)
 		}
 	}
 
-	return(0);
+	return 0;
 }
 
 void CDirectVobSubFilter::UpdatePreferedLanguages(CString l)

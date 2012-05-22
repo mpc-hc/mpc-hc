@@ -289,7 +289,7 @@ int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 		}
 	}
 
-	return(-1);
+	return -1;
 }
 /*
 int FindChar(CStringA str, char c, int pos, bool fUnicode, int CharSet)

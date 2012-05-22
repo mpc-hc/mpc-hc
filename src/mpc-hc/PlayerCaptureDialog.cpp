@@ -480,12 +480,12 @@ static int ShowPPage(CAtlArray<Codec>& codecs, CComboBox& box, HWND hWnd = NULL)
 {
 	int iSel = box.GetCurSel();
 	if (iSel < 0) {
-		return(-1);
+		return -1;
 	}
 
 	iSel = box.GetItemData(iSel);
 	if (iSel < 0) {
-		return(-1);
+		return -1;
 	}
 
 	Codec& c = codecs[iSel];

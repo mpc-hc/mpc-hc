@@ -93,18 +93,18 @@ CComPropertySheet::~CComPropertySheet()
 int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
 {
 	if (!pSPP) {
-		return(0);
+		return 0;
 	}
 
 	CAUUID caGUID;
 	caGUID.pElems = NULL;
 	if (FAILED(pSPP->GetPages(&caGUID)) || caGUID.pElems == NULL) {
-		return(0);
+		return 0;
 	}
 
 	IUnknown* lpUnk = NULL;
 	if (FAILED(pSPP->QueryInterface(&lpUnk))) {
-		return(0);
+		return 0;
 	}
 
 	m_spp.AddTail(pSPP);

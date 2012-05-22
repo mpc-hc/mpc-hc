@@ -749,7 +749,7 @@ static int PASCAL MyProcessDataProc(unsigned char* Addr, int Size)
 	memcpy(&RARbuff[RARpos], Addr, Size);
 	RARpos += Size;
 
-	return(1);
+	return 1;
 }
 
 bool CVobSubFile::ReadRar(CString fn)
@@ -1194,7 +1194,7 @@ bool CVobSubFile::GetFrameByTimeStamp(__int64 time)
 int CVobSubFile::GetFrameIdxByTimeStamp(__int64 time)
 {
 	if (m_iLang < 0 || m_iLang >= 32) {
-		return(-1);
+		return -1;
 	}
 
 	CAtlArray<SubPos>& sp = m_langs[m_iLang].subpos;
