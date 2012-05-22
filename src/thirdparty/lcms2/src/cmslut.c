@@ -284,6 +284,7 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
             cmsStageFree(NewMPE); 
             return NULL;
         }
+
     }
 
    return NewMPE;

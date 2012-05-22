@@ -465,6 +465,8 @@ cmsBool FixWhiteMisalignment(cmsPipeline* Lut, cmsColorSpaceSignature EntryColor
         &WhitePointOut, NULL, &nOuts)) return FALSE;
 
     // It needs to be fixed?
+    if (Lut ->InputChannels != nIns) return FALSE;
+    if (Lut ->OutputChannels != nOuts) return FALSE;
 
     cmsPipelineEval16(WhitePointIn, ObtainedOut, Lut);
 

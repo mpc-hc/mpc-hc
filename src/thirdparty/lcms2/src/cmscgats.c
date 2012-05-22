@@ -612,7 +612,7 @@ cmsFloat64Number ParseFloatNumber(const char *Buffer)
     }
 
 
-    while (*Buffer && isdigit(*Buffer)) {
+    while (*Buffer && isdigit((int) *Buffer)) {
 
         dnum = dnum * 10.0 + (*Buffer - '0');
         if (*Buffer) Buffer++;
@@ -625,7 +625,7 @@ cmsFloat64Number ParseFloatNumber(const char *Buffer)
 
         if (*Buffer) Buffer++; 
 
-        while (*Buffer && isdigit(*Buffer)) {
+        while (*Buffer && isdigit((int) *Buffer)) {
 
             frac = frac * 10.0 + (*Buffer - '0');
             prec++;
@@ -657,7 +657,7 @@ cmsFloat64Number ParseFloatNumber(const char *Buffer)
             }
 
             e = 0;
-            while (*Buffer && isdigit(*Buffer)) {
+            while (*Buffer && isdigit((int) *Buffer)) {
 
                 if ((cmsFloat64Number) e * 10L < INT_MAX)
                     e = e * 10 + (*Buffer - '0');

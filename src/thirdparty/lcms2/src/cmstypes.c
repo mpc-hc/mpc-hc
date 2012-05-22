@@ -1106,6 +1106,9 @@ void *Type_Curve_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
 
            default:  // Curve
 
+               if (Count > 0x7FFF) 
+                   return NULL; // This is to prevent bad guys for doing bad things
+
                NewGamma = cmsBuildTabulatedToneCurve16(self ->ContextID, Count, NULL);
                if (!NewGamma) return NULL;
 
@@ -1692,7 +1695,7 @@ cmsBool Write8bitTables(cmsContext ContextID, cmsIOHANDLER* io, cmsUInt32Number 
 
 // Check overflow
 static
-unsigned int uipow(cmsUInt32Number n, cmsUInt32Number a, cmsUInt32Number b) 
+size_t uipow(cmsUInt32Number n, cmsUInt32Number a, cmsUInt32Number b) 
 {
     cmsUInt32Number rv = 1, rc;
 
@@ -1704,13 +1707,13 @@ unsigned int uipow(cmsUInt32Number n, cmsUInt32Number a, cmsUInt32Number b)
         rv *= a;
 
         // Check for overflow
-        if (rv > UINT_MAX / a) return 0;
+        if (rv > UINT_MAX / a) return (size_t) -1;
 
     }
     
     rc = rv * n;
 
-    if (rv != rc / n) return 0;
+    if (rv != rc / n) return (size_t) -1;
     return rc;
 }
 
@@ -1772,6 +1775,7 @@ void *Type_LUT8_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cms
     
     // Get 3D CLUT. Check the overflow....
     nTabSize = uipow(OutputChannels, CLUTpoints, InputChannels);
+    if (nTabSize == (size_t) -1) goto Error;
     if (nTabSize > 0) {
 
         cmsUInt16Number *PtrW, *T;
@@ -1899,6 +1903,7 @@ cmsBool  Type_LUT8_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,
     if (!Write8bitTables(self ->ContextID, io, NewLUT ->InputChannels, PreMPE)) return FALSE;
 
     nTabSize = uipow(NewLUT->OutputChannels, clutPoints, NewLUT ->InputChannels);
+    if (nTabSize == (size_t) -1) return FALSE;
     if (nTabSize > 0) {
 
         // The 3D CLUT.
@@ -2055,7 +2060,6 @@ void *Type_LUT16_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
 
 
     // Only operates on 3 channels
-
     if ((InputChannels == 3) && !_cmsMAT3isIdentity((cmsMAT3*) Matrix)) {
 
         mpemat = cmsStageAllocMatrix(self ->ContextID, 3, 3, Matrix, NULL);
@@ -2063,15 +2067,18 @@ void *Type_LUT16_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
         cmsPipelineInsertStage(NewLUT, cmsAT_END, mpemat);
     }
 
-    if (!_cmsReadUInt16Number(io, &InputEntries)) return NULL;
-    if (!_cmsReadUInt16Number(io, &OutputEntries)) return NULL; 
+    if (!_cmsReadUInt16Number(io, &InputEntries)) goto Error;
+    if (!_cmsReadUInt16Number(io, &OutputEntries)) goto Error; 
 
-    
+    if (InputEntries > 0x7FFF || OutputEntries > 0x7FFF) goto Error;
+    if (CLUTpoints == 1) goto Error; // Impossible value, 0 for no CLUT and then 2 at least
+
     // Get input tables
     if (!Read16bitTables(self ->ContextID, io,  NewLUT, InputChannels, InputEntries)) goto Error;
 
     // Get 3D CLUT
     nTabSize = uipow(OutputChannels, CLUTpoints, InputChannels);
+    if (nTabSize == (size_t) -1) goto Error;
     if (nTabSize > 0) {
 
         cmsUInt16Number *T;
@@ -2212,7 +2219,7 @@ cmsBool  Type_LUT16_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io
     }
 
     nTabSize = uipow(OutputChannels, clutPoints, InputChannels);
-
+    if (nTabSize == (size_t) -1) return FALSE;
     if (nTabSize > 0) {
         // The 3D CLUT.
         if (clut != NULL) {
@@ -2304,8 +2311,12 @@ cmsStage* ReadCLUT(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cmsUI
     if (!io -> Seek(io, Offset)) return NULL;
     if (io -> Read(io, gridPoints8, cmsMAXCHANNELS, 1) != 1) return NULL;
 
-    for (i=0; i < cmsMAXCHANNELS; i++)
+
+    for (i=0; i < cmsMAXCHANNELS; i++) {
+
+        if (gridPoints8[i] == 1) return NULL; // Impossible value, 0 for no CLUT and then 2 at least
         GridPoints[i] = gridPoints8[i];
+    }
 
     if (!_cmsReadUInt8Number(io, &Precision)) return NULL;
 
@@ -2391,6 +2402,7 @@ cmsStage* ReadSetOfCurves(struct _cms_typehandler_struct* self, cmsIOHANDLER* io
         Curves[i] = ReadEmbeddedCurve(self, io);                     
         if (Curves[i] == NULL) goto Error;
         if (!_cmsReadAlignment(io)) goto Error;   
+
     }
 
     Lin = cmsStageAllocToneCurves(self ->ContextID, nCurves, Curves);
@@ -2458,27 +2470,32 @@ void* Type_LUTA2B_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, c
 
     if (offsetA!= 0) {
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetA, inputChan);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
         cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetC != 0) {
         mpe = ReadCLUT(self, io, BaseOffset + offsetC, inputChan, outputChan);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetM != 0) {
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetM, outputChan);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetMat != 0) {           
         mpe = ReadMatrix(self, io, BaseOffset + offsetMat);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetB != 0) {                                        
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetB, outputChan);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
       
     *nItems = 1;
@@ -2773,27 +2790,32 @@ void* Type_LUTB2A_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, c
     
     if (offsetB != 0) {                                        
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetB, inputChan);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetMat != 0) {           
         mpe = ReadMatrix(self, io, BaseOffset + offsetMat);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetM != 0) {
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetM, inputChan);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetC != 0) {
         mpe = ReadCLUT(self, io, BaseOffset + offsetC, inputChan, outputChan);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetA!= 0) {
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetA, outputChan);
-        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe == NULL) { cmsPipelineFree(NewLUT); return NULL; }
+        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     *nItems = 1;
