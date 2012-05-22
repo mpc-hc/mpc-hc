@@ -455,7 +455,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
 		if (m_bHighColorResolution) {
 			if (FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false))) {
-				m_strStatsMsg[MSG_ERROR].Format (L"10 bit RGB is not supported by this graphics device in this resolution.");
+				m_strStatsMsg[MSG_ERROR] = L"10 bit RGB is not supported by this graphics device in this resolution.";
 				m_bHighColorResolution = false;
 			}
 		}
@@ -510,7 +510,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
 		if (m_bHighColorResolution) {
 			if (FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false))) {
-				m_strStatsMsg[MSG_ERROR].Format (L"10 bit RGB is not supported by this graphics device in this resolution.");
+				m_strStatsMsg[MSG_ERROR] = L"10 bit RGB is not supported by this graphics device in this resolution.";
 				m_bHighColorResolution = false;
 			}
 		}
@@ -2001,7 +2001,7 @@ void CBaseAP::DrawStats()
 			}
 
 			if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0) {
-				strText.Format(L"Scan line err: Graphics device does not support scan line access. No sync is possible");
+				strText = L"Scan line err: Graphics device does not support scan line access. No sync is possible";
 				DrawText(rc, strText, 1);
 				OffsetRect(&rc, 0, TextHeight);
 			}
@@ -2015,7 +2015,7 @@ void CBaseAP::DrawStats()
 					D3DPRESENTSTATS stats;
 					hr = pSCEx->GetPresentStats(&stats);
 					if (SUCCEEDED(hr)) {
-						strText.Format(L"Graphics device present stats:");
+						strText = L"Graphics device present stats:";
 						DrawText(rc, strText, 1);
 						OffsetRect(&rc, 0, TextHeight);
 
@@ -2032,7 +2032,7 @@ void CBaseAP::DrawStats()
 						DrawText(rc, strText, 1);
 						OffsetRect(&rc, 0, TextHeight);
 					} else {
-						strText.Format(L"Graphics device does not support present stats");
+						strText = L"Graphics device does not support present stats";
 						DrawText(rc, strText, 1);
 						OffsetRect(&rc, 0, TextHeight);
 					}
@@ -2046,7 +2046,7 @@ void CBaseAP::DrawStats()
 
 			if (s.m_RenderSettings.bSynchronizeDisplay || s.m_RenderSettings.bSynchronizeVideo) {
 				if (s.m_RenderSettings.bSynchronizeDisplay && !m_pGenlock->PowerstripRunning()) {
-					strText.Format(L"Sync error   : PowerStrip is not running. No display sync is possible.");
+					strText = L"Sync error   : PowerStrip is not running. No display sync is possible.";
 					DrawText(rc, strText, 1);
 					OffsetRect(&rc, 0, TextHeight);
 				} else {
@@ -2085,7 +2085,7 @@ void CBaseAP::DrawStats()
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			strText.Format(L"Settings     : ");
+			strText = L"Settings     : ";
 
 			if (m_bIsFullscreen) {
 				strText += "D3DFS ";

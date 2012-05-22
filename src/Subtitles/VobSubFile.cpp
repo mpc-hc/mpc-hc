@@ -1017,7 +1017,7 @@ bool CVobSubFile::WriteIdx(CString fn)
 		str.Format(_T("id: %c%c, index: %d\n"), sl.id>>8, sl.id&0xff, i);
 		f.WriteString(str);
 
-		str.Format(_T("# Decomment next line to activate alternative name in DirectVobSub / Windows Media Player 6.x\n"));
+		str = _T("# Decomment next line to activate alternative name in DirectVobSub / Windows Media Player 6.x\n");
 		f.WriteString(str);
 		str.Format(_T("alt: %s\n"), sl.alt);
 		if (sl.name == sl.alt) {

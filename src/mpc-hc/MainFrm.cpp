@@ -6891,7 +6891,7 @@ void CMainFrame::OnViewAspectRatio(UINT nID)
 	if (ar.cx && ar.cy) {
 		info.Format(IDS_MAINFRM_68, ar.cx, ar.cy);
 	} else {
-		info.Format(IDS_MAINFRM_69);
+		info.LoadString(IDS_MAINFRM_69);
 	}
 	SendStatusMessage(info, 3000);
 
@@ -10959,7 +10959,7 @@ void CMainFrame::OpenCustomizeGraph()
 		HRESULT hr;
 		m_pRefClock = DNew CSyncClockFilter(NULL, &hr);
 		CStringW name;
-		name.Format(L"SyncClock Filter");
+		name = L"SyncClock Filter";
 		pGB->AddFilter(m_pRefClock, name);
 
 		CComPtr<IReferenceClock> refClock;

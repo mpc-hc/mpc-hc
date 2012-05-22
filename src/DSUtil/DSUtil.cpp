@@ -49,21 +49,17 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 		return;
 	}
 
-	s.Empty();
 	s.Format(_T("cnt %d, size %d\n"), cnt, size);
 	f.WriteString(s);
 
 	if (size == sizeof(VIDEO_STREAM_CONFIG_CAPS)) {
-		CString ss;
 		for (ptrdiff_t i = 0; i < cnt; i++) {
 			AM_MEDIA_TYPE* pmt = NULL;
 
 			VIDEO_STREAM_CONFIG_CAPS caps;
 			memset(&caps, 0, sizeof(caps));
 
-			s.Empty();
-			ss.Format(_T("%d\n"), i);
-			s += ss;
+			s.Format(_T("%d\n"), i);
 			f.WriteString(s);
 
 			if (FAILED(pAMVSCCap->GetStreamCaps(i, &pmt, (BYTE*)&caps))) {
@@ -71,33 +67,20 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 			}
 
 			{
-				s.Empty();
-				ss.Format(_T("VIDEO_STREAM_CONFIG_CAPS\n"));
-				s += ss;
-				ss.Format(_T("\tVideoStandard 0x%08x\n"), caps.VideoStandard);
-				s += ss;
-				ss.Format(_T("\tInputSize %dx%d\n"), caps.InputSize);
-				s += ss;
-				ss.Format(_T("\tCroppingSize %dx%d - %dx%d\n"), caps.MinCroppingSize, caps.MaxCroppingSize);
-				s += ss;
-				ss.Format(_T("\tCropGranularity %d, %d\n"), caps.CropGranularityX, caps.CropGranularityY);
-				s += ss;
-				ss.Format(_T("\tCropAlign %d, %d\n"), caps.CropAlignX, caps.CropAlignY);
-				s += ss;
-				ss.Format(_T("\tOutputSize %dx%d - %dx%d\n"), caps.MinOutputSize, caps.MaxOutputSize);
-				s += ss;
-				ss.Format(_T("\tOutputGranularity %d, %d\n"), caps.OutputGranularityX, caps.OutputGranularityY);
-				s += ss;
-				ss.Format(_T("\tStretchTaps %d, %d\n"), caps.StretchTapsX, caps.StretchTapsY);
-				s += ss;
-				ss.Format(_T("\tShrinkTaps %d, %d\n"), caps.ShrinkTapsX, caps.ShrinkTapsY);
-				s += ss;
-				ss.Format(_T("\tFrameInterval %I64d, %I64d (%.4f, %.4f)\n"),
-						  caps.MinFrameInterval, caps.MaxFrameInterval,
-						  (float)10000000/caps.MinFrameInterval, (float)10000000/caps.MaxFrameInterval);
-				s += ss;
-				ss.Format(_T("\tBitsPerSecond %d - %d\n"), caps.MinBitsPerSecond, caps.MaxBitsPerSecond);
-				s += ss;
+				s = _T("VIDEO_STREAM_CONFIG_CAPS\n");
+				s.AppendFormat(_T("\tVideoStandard 0x%08x\n"), caps.VideoStandard);
+				s.AppendFormat(_T("\tInputSize %dx%d\n"), caps.InputSize);
+				s.AppendFormat(_T("\tCroppingSize %dx%d - %dx%d\n"), caps.MinCroppingSize, caps.MaxCroppingSize);
+				s.AppendFormat(_T("\tCropGranularity %d, %d\n"), caps.CropGranularityX, caps.CropGranularityY);
+				s.AppendFormat(_T("\tCropAlign %d, %d\n"), caps.CropAlignX, caps.CropAlignY);
+				s.AppendFormat(_T("\tOutputSize %dx%d - %dx%d\n"), caps.MinOutputSize, caps.MaxOutputSize);
+				s.AppendFormat(_T("\tOutputGranularity %d, %d\n"), caps.OutputGranularityX, caps.OutputGranularityY);
+				s.AppendFormat(_T("\tStretchTaps %d, %d\n"), caps.StretchTapsX, caps.StretchTapsY);
+				s.AppendFormat(_T("\tShrinkTaps %d, %d\n"), caps.ShrinkTapsX, caps.ShrinkTapsY);
+				s.AppendFormat(_T("\tFrameInterval %I64d, %I64d (%.4f, %.4f)\n"),
+								caps.MinFrameInterval, caps.MaxFrameInterval,
+								(float)10000000/caps.MinFrameInterval, (float)10000000/caps.MaxFrameInterval);
+				s.AppendFormat(_T("\tBitsPerSecond %d - %d\n"), caps.MinBitsPerSecond, caps.MaxBitsPerSecond);
 				f.WriteString(s);
 			}
 
@@ -106,54 +89,34 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 				VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->pbFormat;
 				pbh = &vih->bmiHeader;
 
-				s.Empty();
-				ss.Format(_T("FORMAT_VideoInfo\n"));
-				s += ss;
-				ss.Format(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, (float)10000000/vih->AvgTimePerFrame);
-				s += ss;
-				ss.Format(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource);
-				s += ss;
-				ss.Format(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
-				s += ss;
+				s = _T("FORMAT_VideoInfo\n");
+				s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, (float)10000000/vih->AvgTimePerFrame);
+				s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource);
+				s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
 				f.WriteString(s);
 			} else if (pmt->formattype == FORMAT_VideoInfo2) {
 				VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->pbFormat;
 				pbh = &vih->bmiHeader;
 
-				s.Empty();
-				ss.Format(_T("FORMAT_VideoInfo2\n"));
-				s += ss;
-				ss.Format(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, (float)10000000/vih->AvgTimePerFrame);
-				s += ss;
-				ss.Format(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource);
-				s += ss;
-				ss.Format(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
-				s += ss;
-				ss.Format(_T("\tdwInterlaceFlags 0x%x\n"), vih->dwInterlaceFlags);
-				s += ss;
-				ss.Format(_T("\tdwPictAspectRatio %d:%d\n"), vih->dwPictAspectRatioX, vih->dwPictAspectRatioY);
-				s += ss;
+				s  = _T("FORMAT_VideoInfo2\n");
+				s.AppendFormat(_T("\tAvgTimePerFrame %I64d, %.4f\n"), vih->AvgTimePerFrame, (float)10000000/vih->AvgTimePerFrame);
+				s.AppendFormat(_T("\trcSource %d,%d,%d,%d\n"), vih->rcSource);
+				s.AppendFormat(_T("\trcTarget %d,%d,%d,%d\n"), vih->rcTarget);
+				s.AppendFormat(_T("\tdwInterlaceFlags 0x%x\n"), vih->dwInterlaceFlags);
+				s.AppendFormat(_T("\tdwPictAspectRatio %d:%d\n"), vih->dwPictAspectRatioX, vih->dwPictAspectRatioY);
 				f.WriteString(s);
 			} else {
 				DeleteMediaType(pmt);
 				continue;
 			}
 
-			s.Empty();
-			ss.Format(_T("BITMAPINFOHEADER\n"));
-			s += ss;
-			ss.Format(_T("\tbiCompression %x\n"), pbh->biCompression);
-			s += ss;
-			ss.Format(_T("\tbiWidth %d\n"), pbh->biWidth);
-			s += ss;
-			ss.Format(_T("\tbiHeight %d\n"), pbh->biHeight);
-			s += ss;
-			ss.Format(_T("\tbiBitCount %d\n"), pbh->biBitCount);
-			s += ss;
-			ss.Format(_T("\tbiPlanes %d\n"), pbh->biPlanes);
-			s += ss;
-			ss.Format(_T("\tbiSizeImage %d\n"), pbh->biSizeImage);
-			s += ss;
+			s = _T("BITMAPINFOHEADER\n");
+			s.AppendFormat(_T("\tbiCompression %x\n"), pbh->biCompression);
+			s.AppendFormat(_T("\tbiWidth %d\n"), pbh->biWidth);
+			s.AppendFormat(_T("\tbiHeight %d\n"), pbh->biHeight);
+			s.AppendFormat(_T("\tbiBitCount %d\n"), pbh->biBitCount);
+			s.AppendFormat(_T("\tbiPlanes %d\n"), pbh->biPlanes);
+			s.AppendFormat(_T("\tbiSizeImage %d\n"), pbh->biSizeImage);
 			f.WriteString(s);
 
 			DeleteMediaType(pmt);
@@ -2600,11 +2563,11 @@ void DumpBuffer(BYTE* pBuffer, int nSize)
 		if (nPos >= nSize) {
 			break;
 		}
-		strMsg.AppendFormat (L"\n");
+		strMsg.Append(L"\n");
 	}
 
 	if (nSize > 32*3) {
-		strMsg.AppendFormat (L".../...\n");
+		strMsg.Append(L".../...\n");
 		for (int j=32; j>0; j--) {
 			strMsg.AppendFormat (L"%02x ", pBuffer[nSize - j]);
 		}
@@ -2841,7 +2804,7 @@ void HexDump(CString fileName, BYTE* buf, int size)
 				dump_str.AppendFormat(_T(" %02x"), buf[i+j]);
 			}
 			else {
-				dump_str.AppendFormat(_T("   "));
+				dump_str.Append(_T("   "));
 			}
 		}
 		dump_str.Append(_T(" "));
