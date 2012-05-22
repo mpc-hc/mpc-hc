@@ -26,14 +26,9 @@
 #include "PlayerBar.h"
 #include "PlayerCaptureDialog.h"
 
-#ifndef baseCPlayerCaptureBar
-#define baseCPlayerCaptureBar CPlayerBar
-#endif
-
-
 // CPlayerCaptureBar
 
-class CPlayerCaptureBar : public baseCPlayerCaptureBar
+class CPlayerCaptureBar : public CPlayerBar
 {
 	DECLARE_DYNAMIC(CPlayerCaptureBar)
 

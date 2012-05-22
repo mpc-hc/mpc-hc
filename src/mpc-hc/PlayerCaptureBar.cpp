@@ -29,7 +29,7 @@
 
 // CPlayerCaptureBar
 
-IMPLEMENT_DYNAMIC(CPlayerCaptureBar, baseCPlayerCaptureBar)
+IMPLEMENT_DYNAMIC(CPlayerCaptureBar, CPlayerBar)
 CPlayerCaptureBar::CPlayerCaptureBar()
 {
 }
@@ -69,5 +69,5 @@ BOOL CPlayerCaptureBar::PreTranslateMessage(MSG* pMsg)
 	return __super::PreTranslateMessage(pMsg);
 }
 
-BEGIN_MESSAGE_MAP(CPlayerCaptureBar, baseCPlayerCaptureBar)
+BEGIN_MESSAGE_MAP(CPlayerCaptureBar, CPlayerBar)
 END_MESSAGE_MAP()
