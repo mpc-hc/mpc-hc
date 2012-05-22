@@ -9947,8 +9947,8 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 			s.iZoomLevel == 0 ? 0.5 :
 			s.iZoomLevel == 1 ? 1.0 :
 			s.iZoomLevel == 2 ? 2.0 :
-			s.iZoomLevel == 3 ? GetZoomAutoFitScale() :
-			1.0;
+			s.iZoomLevel == 3 ? GetZoomAutoFitScale(false) :
+			s.iZoomLevel == 4 ? GetZoomAutoFitScale(true) : 1.0;
 	}
 
 	if (m_fFullScreen) {
