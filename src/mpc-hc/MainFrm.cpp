@@ -323,6 +323,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_ZOOM_50, ID_VIEW_ZOOM_200, OnUpdateViewZoom)
 	ON_COMMAND(ID_VIEW_ZOOM_AUTOFIT, OnViewZoomAutoFit)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM_AUTOFIT, OnUpdateViewZoom)
+	ON_COMMAND(ID_VIEW_ZOOM_AUTOFIT_LARGER, OnViewZoomAutoFitLarger)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM_AUTOFIT_LARGER, OnUpdateViewZoom)
 	ON_COMMAND_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, OnViewDefaultVideoFrame)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, OnUpdateViewDefaultVideoFrame)
 	ON_COMMAND(ID_VIEW_VF_SWITCHZOOM, OnViewSwitchVideoFrame)
@@ -6588,8 +6590,14 @@ void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoomAutoFit()
 {
-	ZoomVideoWindow(true, GetZoomAutoFitScale());
+	ZoomVideoWindow(true, GetZoomAutoFitScale(false));
 	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO), 3000);
+}
+
+void CMainFrame::OnViewZoomAutoFitLarger()
+{
+	ZoomVideoWindow(true, GetZoomAutoFitScale(true));
+	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO_LARGER), 3000);
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
@@ -10056,13 +10064,16 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 	MoveVideoWindow();
 }
 
-double CMainFrame::GetZoomAutoFitScale()
+double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 {
 	if (m_iMediaLoadState != MLS_LOADED || m_fAudioOnly) {
 		return 1.0;
 	}
 
 	CSize arxy = GetVideoSize();
+	
+	if (bLargerOnly && (arxy.cx < m_rcDesktop.Width() && arxy.cy < m_rcDesktop.Height()))
+		return 1.0;
 
 	double sx = 2.0/3 * m_rcDesktop.Width() / arxy.cx;
 	double sy = 2.0/3 * m_rcDesktop.Height() / arxy.cy;

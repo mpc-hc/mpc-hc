@@ -59,6 +59,7 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
 	__super::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_SLIDER1, m_volumectrl);
 	DDX_Control(pDX, IDC_SLIDER2, m_balancectrl);
+	DDX_Control(pDX, IDC_COMBO1, m_zoomlevelctrl);
 	DDX_Slider(pDX, IDC_SLIDER1, m_nVolume);
 	DDX_Slider(pDX, IDC_SLIDER2, m_nBalance);
 	DDX_Radio(pDX, IDC_RADIO1, m_iLoopForever);
@@ -83,7 +84,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
 
 	ON_STN_DBLCLK(IDC_STATIC_BALANCE, OnBalanceTextDblClk)
-	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -117,6 +118,14 @@ BOOL CPPagePlayback::OnInitDialog()
 	m_subtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
 	m_audiosLanguageOrder = s.strAudiosLanguageOrder;
 
+	m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_50));
+	m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_100));
+	m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_200));
+	m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT));
+	m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT_LARGER));
+	CorrectComboListWidth(m_zoomlevelctrl);
+
+	EnableToolTips(TRUE);
 	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -186,7 +195,7 @@ void CPPagePlayback::OnBalanceTextDblClk()
 
 BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 {
-	TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
+	LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMHDR);
 
 	UINT_PTR nID = pNMHDR->idFrom;
 	if (pTTT->uFlags & TTF_IDISHWND) {
@@ -197,7 +206,7 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 		return FALSE;
 	}
 
-	static CString strTipText; // static string
+	CString strTipText;
 
 	if (nID == IDC_SLIDER1) {
 		strTipText.Format(_T("%d%%"), m_nVolume);
@@ -209,11 +218,14 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 		} else { //if (m_nBalance == 0)
 			strTipText = _T("L = R");
 		}
+	} else if (nID == IDC_COMBO1) {
+		int i = m_zoomlevelctrl.GetCurSel();
+		m_zoomlevelctrl.GetLBText(i, strTipText);
 	} else {
 		return FALSE;
 	}
 
-	pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
+	_tcscpy_s(pTTT->szText, strTipText.Left(_countof(pTTT->szText)));
 
 	*pResult = 0;
 

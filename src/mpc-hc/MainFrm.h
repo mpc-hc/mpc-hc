@@ -247,7 +247,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	void SetDefaultFullscreenState();
 	void RestoreDefaultWindowRect();
 	void ZoomVideoWindow(bool snap = true, double scale = -1);
-	double GetZoomAutoFitScale();
+	double GetZoomAutoFitScale(bool bLargerOnly = false);
 
 	void SetAlwaysOnTop(int i);
 
@@ -718,6 +718,7 @@ public:
 	afx_msg void OnViewZoom(UINT nID);
 	afx_msg void OnUpdateViewZoom(CCmdUI* pCmdUI);
 	afx_msg void OnViewZoomAutoFit();
+	afx_msg void OnViewZoomAutoFitLarger();
 	afx_msg void OnViewDefaultVideoFrame(UINT nID);
 	afx_msg void OnUpdateViewDefaultVideoFrame(CCmdUI* pCmdUI);
 	afx_msg void OnViewSwitchVideoFrame();

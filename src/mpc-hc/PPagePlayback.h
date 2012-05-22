@@ -56,6 +56,8 @@ public:
 	CString m_subtitlesLanguageOrder;
 	CString m_audiosLanguageOrder;
 
+	CComboBox m_zoomlevelctrl;
+
 	// Dialog Data
 	enum { IDD = IDD_PPAGEPLAYBACK };
 
