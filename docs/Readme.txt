@@ -58,7 +58,7 @@ CFileVersionInfo    -                          19 Jun '02 (modified)    http://w
 CLineNumberEdit     -                          12 May '04 (modified)    http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
 CSizingControlBar   GPLv2                      2.45                     http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                   3.0 build 316            http://research.microsoft.com/en-us/projects/detours/
-FFmpeg              GPLv2                      6374ee7 git              http://www.ffmpeg.org/
+FFmpeg              GPLv2                      ea5dab5 git              http://www.ffmpeg.org/
 liba52              GPLv2                      0.7.4 cvs                http://liba52.sourceforge.net/
 libdca              GPLv2                      0.0.5 r90                http://www.videolan.org/developers/libdca.html
 libflac             GPLv2 / New BSD License    1.2.1                    http://flac.sourceforge.net/
@@ -75,6 +75,6 @@ RealMedia SDK       -                          -                        -
 ResizableLib        Artistic License           1.3                      http://sourceforge.net/projects/resizablelib/
 SoundTouch          LGPLv2.1                   1.7.0pre r142            http://www.surina.net/soundtouch/
 TreePropSheet       -                          7 Mar '03 (modified)     http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P
-VirtualDub          GPLv2                      1.10.2-test6             http://www.virtualdub.org/
+VirtualDub          GPLv2                      1.10.2-test7             http://www.virtualdub.org/
 ZenLib              Simplified BSD License     0.4.26                   http://sourceforge.net/projects/zenlib/
 zlib                zlib License               1.2.7                    http://zlib.net/
