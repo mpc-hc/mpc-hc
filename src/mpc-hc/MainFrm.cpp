@@ -15171,12 +15171,12 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
 	if (m_iMediaLoadState == MLS_LOADED) {
 		CStringW strPos;
 
-		if (m_iPlaybackMode == PM_FILE) {
+		if (GetPlaybackMode() == PM_FILE) {
 			REFERENCE_TIME rtCur;
 			pMS->GetCurrentPosition(&rtCur);
 			strPos.Format(L"%.3f", rtCur/10000000.0);
 		}
-		else if (m_iPlaybackMode == PM_DVD) {
+		else if (GetPlaybackMode() == PM_DVD) {
 			DVD_PLAYBACK_LOCATION2 Location;
 			// get current location while playing disc, will return 0, if at a menu
 			if (pDVDI->GetCurrentLocation(&Location) == S_OK) {
@@ -15199,7 +15199,7 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 		long			lPosition = 0;
 		REFERENCE_TIME	rtCur;
 
-		if (m_iPlaybackMode == PM_FILE) {
+		if (GetPlaybackMode() == PM_FILE) {
 			pMS->GetCurrentPosition(&rtCur);
 			DVD_HMSF_TIMECODE tcCur = RT2HMSF(rtCur);
 			lPosition = tcCur.bHours*60*60 + tcCur.bMinutes*60 + tcCur.bSeconds + nSeconds;
