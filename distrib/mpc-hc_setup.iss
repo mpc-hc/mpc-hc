@@ -52,7 +52,7 @@
 #include "..\include\Version.h"
 
 #define copyright_year "2002-2012"
-#define app_name       "Media Player Classic - Home Cinema"
+#define app_name       "MPC-HC"
 #define app_version    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
 #define quick_launch   "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
@@ -61,13 +61,13 @@
   #define bindir       = "..\bin\mpc-hc_x64"
   #define mpchc_exe    = "mpc-hc64.exe"
   #define mpchc_ini    = "mpc-hc64.ini"
-  #define OutFilename  = "MPC-HC." + app_version + ".x64"
+  #define OutFilename  = app_name + "." + app_version + ".x64"
   #define UnrarDll     = "unrar64.dll"
 #else
   #define bindir       = "..\bin\mpc-hc_x86"
   #define mpchc_exe    = "mpc-hc.exe"
   #define mpchc_ini    = "mpc-hc.ini"
-  #define OutFilename  = "MPC-HC." + app_version + ".x86"
+  #define OutFilename  = app_name + "." + app_version + ".x86"
   #define UnrarDll     = "unrar.dll"
 #endif
 
@@ -259,6 +259,26 @@ Type: files; Name: {app}\AUTHORS
 Type: files; Name: {app}\ChangeLog
 Type: files; Name: {app}\COPYING
 
+; old shortcuts
+#ifdef x64Build
+Type: files; Name: {group}\Media Player Classic - Home Cinema x64.lnk;               Check: IsUpgrade()
+Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema x64.lnk;       Check: IsUpgrade()
+Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema x64.lnk;         Check: IsUpgrade()
+Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema x64.lnk;       Check: IsUpgrade()
+#else
+Type: files; Name: {group}\Media Player Classic - Home Cinema.lnk;                   Check: IsUpgrade()
+Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema.lnk;           Check: IsUpgrade()
+Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema.lnk;             Check: IsUpgrade()
+Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema.lnk;           Check: IsUpgrade()
+#endif
+Type: files; Name: {group}\{cm:ProgramOnTheWeb,Media Player Classic - Home Cinema}.url;  Check: IsUpgrade()
+Type: files; Name: {group}\{cm:UninstallProgram,Media Player Classic - Home Cinema}.lnk; Check: IsUpgrade()
+
+Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema.lnk;   Check: not IsTaskSelected('desktopicon\user')   and IsUpgrade()
+Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema.lnk; Check: not IsTaskSelected('desktopicon\common') and IsUpgrade()
+Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema.lnk; Check: not IsTaskSelected('quicklaunchicon')    and IsUpgrade(); OnlyBelowVersion: 0,6.01
+
+
 #if localize == "true"
 ; remove the old language dlls when upgrading
 Type: files; Name: {app}\mpcresources.br.dll
@@ -381,9 +401,7 @@ begin
   RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
   RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Filters');
   RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Media Player Classic');
-  RegDeleteKeyIncludingSubkeys(HKLM, 'SOFTWARE\Gabest\Media Player Classic');
   RegDeleteKeyIfEmpty(HKCU, 'Software\Gabest');
-  RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\Gabest');
 end;
 
 
@@ -396,8 +414,6 @@ begin
       CleanUpSettingsAndFiles();
 
     iLanguage := StrToInt(ExpandConstant('{cm:langid}'));
-    RegWriteStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', ExpandConstant('{app}\{#mpchc_exe}'));
-
     if IsComponentSelected('mpcresources') and FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
       SetIniInt('Settings', 'InterfaceLanguage', iLanguage, ExpandConstant('{app}\{#mpchc_ini}'))
     else
@@ -416,6 +432,11 @@ begin
   if (CurUninstallStep = usUninstall) and SettingsExistCheck() then begin
     if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
       CleanUpSettingsAndFiles();
+
+    RegDeleteValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath')
+    RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\Gabest\Media Player Classic');
+    RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\Gabest');
+
   end;
 end;
 
