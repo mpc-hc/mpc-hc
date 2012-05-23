@@ -76,10 +76,10 @@
 #define IDS_RS_SPEAKERCHANNELS				_T("SpeakerChannels")
 #define IDS_RS_SPEAKERTOCHANNELMAPPING		_T("SpeakerToChannelMapping")
 // Video
-#define IDS_RS_COLOR_BRIGHTNESS				_T("Video.Brightness")
-#define IDS_RS_COLOR_CONTRAST				_T("Video.Contrast")
-#define IDS_RS_COLOR_HUE					_T("Video.Hue")
-#define IDS_RS_COLOR_SATURATION				_T("Video.Saturation")
+#define IDS_RS_COLOR_BRIGHTNESS				_T("VideoBrightness")
+#define IDS_RS_COLOR_CONTRAST				_T("VideoContrast")
+#define IDS_RS_COLOR_HUE					_T("VideoHue")
+#define IDS_RS_COLOR_SATURATION				_T("VideoSaturation")
 // DVD/OGM
 #define IDS_RS_DVDPATH						_T("DVDPath")
 #define IDS_RS_USEDVDPATH					_T("UseDVDPath")
