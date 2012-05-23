@@ -79,7 +79,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 	}
 
 	m_pD3DXLoadSurfaceFromMemory	= NULL;
-	m_pD3DXLoadSurfaceFromSurface = NULL;
+	m_pD3DXLoadSurfaceFromSurface	= NULL;
 	m_pD3DXCreateLine				= NULL;
 	m_pD3DXCreateFont				= NULL;
 	m_pD3DXCreateSprite				= NULL;
