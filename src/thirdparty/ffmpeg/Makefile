@@ -65,7 +65,7 @@ $(OBJ_DIRS):
 	$(shell test -d $(@) || mkdir -p $(@))
 
 clean:
-	@echo Cleaning...
+	@echo Cleaning ffmpeg...
 	rm -f $(OUT_LIB)
 	rm -rf $(OBJ_DIR)
 
@@ -327,15 +327,15 @@ OBJS = \
 
 # Commands
 $(OBJ_DIR)%.o: %.c
-	@echo CC $<
+	@echo '  ' CC $<
 	@$(GCC_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) -MMD -o $@ $<
 
 $(OBJ_DIR)%.o: %.asm
-	@echo YASM: Assembling $<
+	@echo '  ' YASM: Assembling $<
 	@yasm $(YASMFLAGS) -I$(<D)/ -o $@ $<
 
 $(OUT_LIB): $(OBJS)
-	@echo AR $@
+	@echo '  ' AR $@
 	@$(GCC_PREFIX)ar rc $@ $(OBJS)
 
 
