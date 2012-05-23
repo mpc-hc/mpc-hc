@@ -10070,13 +10070,48 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 		return 1.0;
 	}
 
+	const AppSettings& s = AfxGetAppSettings();
 	CSize arxy = GetVideoSize();
-	
-	if (bLargerOnly && (arxy.cx < m_rcDesktop.Width() && arxy.cy < m_rcDesktop.Height()))
+	// get the work area
+	MONITORINFO mi;
+	mi.cbSize = sizeof(MONITORINFO);
+	HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+	GetMonitorInfo(hMonitor, &mi);
+	RECT& wa = mi.rcWork;
+
+	// vertical borders
+	arxy.cx += 2 * ::GetSystemMetrics(SM_CXSIZEFRAME);
+	// horizontal border + caption
+	arxy.cy += ::GetSystemMetrics(SM_CYSIZEFRAME) + ::GetSystemMetrics(SM_CYCAPTION);
+	RECT r;
+	if (m_wndSeekBar.IsVisible()) {
+		m_wndSeekBar.GetWindowRect(&r);
+		arxy.cy += r.bottom - r.top;
+	}
+	if (m_wndToolBar.IsVisible()) {
+		m_wndToolBar.GetWindowRect(&r);
+		arxy.cy += r.bottom - r.top;
+	}
+	if (m_wndInfoBar.IsVisible()) {
+		m_wndInfoBar.GetWindowRect(&r);
+		arxy.cy += r.bottom - r.top;
+	}
+	if (m_wndStatsBar.IsVisible()) {
+		m_wndStatsBar.GetWindowRect(&r);
+		arxy.cy += r.bottom - r.top;
+	}
+	if (m_wndStatusBar.IsVisible()) {
+		m_wndStatusBar.GetWindowRect(&r);
+		arxy.cy += r.bottom - r.top;
+	}
+
+	LONG width = wa.right - wa.left;
+	LONG height = wa.bottom - wa.top;
+	if (bLargerOnly && (arxy.cx < width && arxy.cy < height))
 		return 1.0;
 
-	double sx = 2.0/3 * m_rcDesktop.Width() / arxy.cx;
-	double sy = 2.0/3 * m_rcDesktop.Height() / arxy.cy;
+	double sx = 2.0/3.0 * (double)width / (double)arxy.cx;
+	double sy = 2.0/3.0 * (double)height / (double)arxy.cy;
 
 	return sx < sy ? sx : sy;
 }
