@@ -8,7 +8,7 @@ Legend:
 ! Fixed
 
 
-1.6.2.X - Not released yet
+1.6.2 - Not released yet
 ==============================
 + MatroskaSplitter: Support for QT video formats in Matroska v1 and MPEG-1
 + Added .tak extension
