@@ -67,6 +67,8 @@ BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 
+	m_tooltip.RelayEvent(pMsg);
+
 	return __super::PreTranslateMessage(pMsg);
 }
 
@@ -87,7 +89,6 @@ void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
 #define SETPAGEFOCUS WM_APP+252 // arbitrary number, can be changed if necessary
 BEGIN_MESSAGE_MAP(CPPageFileInfoClip, CPropertyPage)
 	ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
-	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -161,7 +162,13 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 	}
 	EndEnumFilters;
 
-	EnableToolTips(TRUE);
+	m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
+
+	m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
+	m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
+	m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
+
+	m_tooltip.AddTool(&m_location, IDS_TOOLTIP_EXPLORE_TO_FILE);
 
 	UpdateData(FALSE);
 
@@ -184,18 +191,4 @@ LRESULT CPPageFileInfoClip::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
 	psheet->GetTabControl()->SetFocus();
 
 	return 0;
-}
-
-BOOL CPPageFileInfoClip::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
-{
-	BOOL ret = FALSE;
-	LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMHDR);
-
-	if (pNMHDR->idFrom == (UINT_PTR)m_location.GetSafeHwnd()) {
-		_tcsncpy_s(pTTT->szText, ResStr(IDS_TOOLTIP_EXPLORE_TO_FILE), _TRUNCATE);
-		ret = TRUE;
-	}
-
-	*pResult = 0;
-	return ret;
 }

@@ -36,6 +36,8 @@ private:
 	CComPtr<IFilterGraph> m_pFG;
 	HICON m_hIcon;
 
+	CToolTipCtrl m_tooltip;
+
 public:
 	CPPageFileInfoClip(CString fn, IFilterGraph* pFG);
 	virtual ~CPPageFileInfoClip();
