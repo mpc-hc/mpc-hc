@@ -242,7 +242,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 11		"Bilatu..."
 END
 
-BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
+BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 5		"Margo aginteak (VMR-9 eta EVR)"
 6		"Dizdira"
 8		"Contrast"
@@ -1599,8 +1599,8 @@ STRING IDS_NORMALIZE		"Aldatu normalkuntza"
 STRING IDS_NO_MORE_MEDIA		"Ez dago multimedia gehiagorik oraingo agiritegian."
 STRING IDS_OPEN_WITH_MPC		"Irakurri MPC-HC-rekin"
 STRING IDS_OPTIONS_CAPTION		"Aukerak"
-STRING IDS_OSD_BRIGHTNESS		"Dizdira: %s%%"
-STRING IDS_OSD_CONTRAST		"Zuribeltztasuna: %d%%"
+STRING IDS_OSD_BRIGHTNESS		"Dizdira: %s"
+STRING IDS_OSD_CONTRAST		"Zuribeltztasuna: %s"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_OFF		"Egile bide mapaketa: Etenda"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_ON		"Egile bide mapaketa: Eraginda"
 STRING IDS_OSD_HUE		"Nabardura: %s°"
@@ -1663,7 +1663,7 @@ STRING IDS_OSD_RS_VSYNC_OFFSET		"VSync Oreka: %d"
 STRING IDS_OSD_RS_VSYNC_ON		"VSync: Eraginda"
 STRING IDS_OSD_RS_WAIT_OFF		"Itxaron GPU Jalgidura: Etenda"
 STRING IDS_OSD_RS_WAIT_ON		"Itxaron GPU Jalgidura: Eraginda"
-STRING IDS_OSD_SATURATION		"Margoasetasuna: %d%%"
+STRING IDS_OSD_SATURATION		"Margoasetasuna: %s"
 STRING IDS_OSD_SPEED		"Abiadura: %.2lfx"
 STRING IDS_OSD_THUMBS_SAVED		"Txikirudiak ongi gorde dira"
 STRING IDS_OSD_ZOOM		"Zooma: %.0lf%%"

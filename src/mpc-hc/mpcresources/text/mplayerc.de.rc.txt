@@ -242,7 +242,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 11		"Auswählen..."
 END
 
-BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
+BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 5		"Farbeinstellungen (für den VMR-9 und EVR Renderer)"
 6		"Helligkeit"
 8		"Contrast"
@@ -1599,8 +1599,8 @@ STRING IDS_NORMALIZE		"Normalisieren"
 STRING IDS_NO_MORE_MEDIA		"Keine weitere abspielbare Datei im aktuellen Ordner."
 STRING IDS_OPEN_WITH_MPC		"Mit MPC-HC abspielen"
 STRING IDS_OPTIONS_CAPTION		"Optionen"
-STRING IDS_OSD_BRIGHTNESS		"Helligkeit: %s%%"
-STRING IDS_OSD_CONTRAST		"Kontrast: %d%%"
+STRING IDS_OSD_BRIGHTNESS		"Helligkeit: %s"
+STRING IDS_OSD_CONTRAST		"Kontrast: %s"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_OFF		"Benutzerdefinierte Kanalzuordnung: Aus"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_ON		"Benutzerdefinierte Kanalzuordnung: Ein"
 STRING IDS_OSD_HUE		"Farbton: %s°"
@@ -1663,7 +1663,7 @@ STRING IDS_OSD_RS_VSYNC_OFFSET		"VSync Offset: %d"
 STRING IDS_OSD_RS_VSYNC_ON		"VSync: Ein"
 STRING IDS_OSD_RS_WAIT_OFF		"Auf GPU Flush warten: Aus"
 STRING IDS_OSD_RS_WAIT_ON		"Auf GPU Flush warten: Ein"
-STRING IDS_OSD_SATURATION		"Sättigung: %d%%"
+STRING IDS_OSD_SATURATION		"Sättigung: %s"
 STRING IDS_OSD_SPEED		"Geschwindigkeit: %.2lfx"
 STRING IDS_OSD_THUMBS_SAVED		"Thumbnails erfolgreich gespeichert"
 STRING IDS_OSD_ZOOM		"Zoom: %.0lf%%"

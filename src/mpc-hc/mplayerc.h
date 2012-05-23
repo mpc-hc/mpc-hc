@@ -66,10 +66,11 @@ extern WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen = false, bool
 // Casimir666
 //
 typedef enum {
-	Brightness	= 0x1,
-	Contrast	= 0x2,
-	Hue			= 0x4,
-	Saturation	= 0x8,
+	ProcAmp_Brightness = 0x1,
+	ProcAmp_Contrast   = 0x2,
+	ProcAmp_Hue        = 0x4,
+	ProcAmp_Saturation = 0x8,
+	ProcAmp_All = ProcAmp_Brightness | ProcAmp_Contrast | ProcAmp_Hue | ProcAmp_Saturation,
 } ControlType;
 
 typedef struct {

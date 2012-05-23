@@ -1879,13 +1879,13 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)
 {
 	switch (nFlag) {
-		case Brightness :
+		case ProcAmp_Brightness :
 			return &m_ColorControl[0];
-		case Contrast :
+		case ProcAmp_Contrast :
 			return &m_ColorControl[1];
-		case Hue :
+		case ProcAmp_Hue :
 			return &m_ColorControl[2];
-		case Saturation :
+		case ProcAmp_Saturation :
 			return &m_ColorControl[3];
 	}
 	return NULL;
@@ -1893,25 +1893,25 @@ COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)
 
 void CMPlayerCApp::ResetColorControlRange()
 {
-	m_ColorControl[0].dwProperty	= Brightness;
+	m_ColorControl[0].dwProperty	= ProcAmp_Brightness;
 	m_ColorControl[0].MinValue		= -100;
 	m_ColorControl[0].MaxValue		= 100;
 	m_ColorControl[0].DefaultValue	= 0;
 	m_ColorControl[0].StepSize		= 1;
-	m_ColorControl[1].dwProperty	= Contrast;
-	m_ColorControl[1].MinValue		= 0;
-	m_ColorControl[1].MaxValue		= 200;
-	m_ColorControl[1].DefaultValue	= 100;
+	m_ColorControl[1].dwProperty	= ProcAmp_Contrast;
+	m_ColorControl[1].MinValue		= -100;
+	m_ColorControl[1].MaxValue		= 100;
+	m_ColorControl[1].DefaultValue	= 0;
 	m_ColorControl[1].StepSize		= 1;
-	m_ColorControl[2].dwProperty	= Hue;
+	m_ColorControl[2].dwProperty	= ProcAmp_Hue;
 	m_ColorControl[2].MinValue		= -180;
 	m_ColorControl[2].MaxValue		= 180;
 	m_ColorControl[2].DefaultValue	= 0;
 	m_ColorControl[2].StepSize		= 1;
-	m_ColorControl[3].dwProperty	= Saturation;
-	m_ColorControl[3].MinValue		= 0;
-	m_ColorControl[3].MaxValue		= 200;
-	m_ColorControl[3].DefaultValue	= 100;
+	m_ColorControl[3].dwProperty	= ProcAmp_Saturation;
+	m_ColorControl[3].MinValue		= -100;
+	m_ColorControl[3].MaxValue		= 100;
+	m_ColorControl[3].DefaultValue	= 0;
 	m_ColorControl[3].StepSize		= 1;
 }
 
@@ -1924,9 +1924,9 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
 		m_ColorControl[0].DefaultValue	= FixedToInt(m_EVRColorControl[0].DefaultValue);
 		m_ColorControl[0].StepSize		= max(1, FixedToInt(m_EVRColorControl[0].StepSize));
 		// Contrast
-		m_ColorControl[1].MinValue		= FixedToInt(m_EVRColorControl[1].MinValue,100);
-		m_ColorControl[1].MaxValue		= FixedToInt(m_EVRColorControl[1].MaxValue,100);
-		m_ColorControl[1].DefaultValue	= FixedToInt(m_EVRColorControl[1].DefaultValue,100);
+		m_ColorControl[1].MinValue		= FixedToInt(m_EVRColorControl[1].MinValue,100) - 100;
+		m_ColorControl[1].MaxValue		= FixedToInt(m_EVRColorControl[1].MaxValue,100) - 100;
+		m_ColorControl[1].DefaultValue	= FixedToInt(m_EVRColorControl[1].DefaultValue,100) - 100;
 		m_ColorControl[1].StepSize		= max(1, FixedToInt(m_EVRColorControl[1].StepSize,100));
 		// Hue
 		m_ColorControl[2].MinValue		= FixedToInt(m_EVRColorControl[2].MinValue);
@@ -1934,9 +1934,9 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
 		m_ColorControl[2].DefaultValue	= FixedToInt(m_EVRColorControl[2].DefaultValue);
 		m_ColorControl[2].StepSize		= max(1, FixedToInt(m_EVRColorControl[2].StepSize));
 		// Saturation
-		m_ColorControl[3].MinValue		= FixedToInt(m_EVRColorControl[3].MinValue,100);
-		m_ColorControl[3].MaxValue		= FixedToInt(m_EVRColorControl[3].MaxValue,100);
-		m_ColorControl[3].DefaultValue	= FixedToInt(m_EVRColorControl[3].DefaultValue,100);
+		m_ColorControl[3].MinValue		= FixedToInt(m_EVRColorControl[3].MinValue,100) - 100;
+		m_ColorControl[3].MaxValue		= FixedToInt(m_EVRColorControl[3].MaxValue,100) - 100;
+		m_ColorControl[3].DefaultValue	= FixedToInt(m_EVRColorControl[3].DefaultValue,100) - 100;
 		m_ColorControl[3].StepSize		= max(1, FixedToInt(m_EVRColorControl[3].StepSize,100));
 	}
 	else {
@@ -1948,9 +1948,9 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
 		// Contrast
 		//if(m_VMR9ColorControl[1].MinValue == 0.0999908447265625) m_VMR9ColorControl[1].MinValue = 0.11; //fix nvidia bug
 		if (*(int*)&m_VMR9ColorControl[1].MinValue == 1036830720) m_VMR9ColorControl[1].MinValue = 0.11f; //fix nvidia bug
-		m_ColorControl[1].MinValue		= (int)floor(m_VMR9ColorControl[1].MinValue*100+0.5);
-		m_ColorControl[1].MaxValue		= (int)floor(m_VMR9ColorControl[1].MaxValue*100+0.5);
-		m_ColorControl[1].DefaultValue	= (int)floor(m_VMR9ColorControl[1].DefaultValue*100+0.5);
+		m_ColorControl[1].MinValue		= (int)floor(m_VMR9ColorControl[1].MinValue*100+0.5) - 100;
+		m_ColorControl[1].MaxValue		= (int)floor(m_VMR9ColorControl[1].MaxValue*100+0.5) - 100;
+		m_ColorControl[1].DefaultValue	= (int)floor(m_VMR9ColorControl[1].DefaultValue*100+0.5) - 100;
 		m_ColorControl[1].StepSize		= max(1, (int)(m_VMR9ColorControl[1].StepSize*100+0.5));
 		// Hue
 		m_ColorControl[2].MinValue		= (int)floor(m_VMR9ColorControl[2].MinValue+0.5);
@@ -1958,23 +1958,36 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
 		m_ColorControl[2].DefaultValue	= (int)floor(m_VMR9ColorControl[2].DefaultValue+0.5);
 		m_ColorControl[2].StepSize		= max(1,(int)(m_VMR9ColorControl[2].StepSize+0.5));
 		// Saturation
-		m_ColorControl[3].MinValue		= (int)floor(m_VMR9ColorControl[3].MinValue*100+0.5);
-		m_ColorControl[3].MaxValue		= (int)floor(m_VMR9ColorControl[3].MaxValue*100+0.5);
-		m_ColorControl[3].DefaultValue	= (int)floor(m_VMR9ColorControl[3].DefaultValue*100+0.5);
+		m_ColorControl[3].MinValue		= (int)floor(m_VMR9ColorControl[3].MinValue*100+0.5) - 100;
+		m_ColorControl[3].MaxValue		= (int)floor(m_VMR9ColorControl[3].MaxValue*100+0.5) - 100;
+		m_ColorControl[3].DefaultValue	= (int)floor(m_VMR9ColorControl[3].DefaultValue*100+0.5) - 100;
 		m_ColorControl[3].StepSize		= max(1, (int)(m_VMR9ColorControl[3].StepSize*100+0.5));
 	}
+
+	// Brightness
+	if (m_ColorControl[0].MinValue < -100) m_ColorControl[0].MinValue = -100;
+	if (m_ColorControl[0].MaxValue > 100)  m_ColorControl[0].MaxValue = 100;
+	// Contrast
+	if (m_ColorControl[1].MinValue < -100) m_ColorControl[0].MinValue = -100;
+	if (m_ColorControl[1].MaxValue > 100)  m_ColorControl[0].MaxValue = 100;
+	// Hue
+	if (m_ColorControl[2].MinValue < -180) m_ColorControl[0].MinValue = -180;
+	if (m_ColorControl[2].MaxValue > 180)  m_ColorControl[0].MaxValue = 180;
+	// Saturation
+	if (m_ColorControl[3].MinValue < -100) m_ColorControl[0].MinValue = -100;
+	if (m_ColorControl[3].MaxValue > 100)  m_ColorControl[0].MaxValue = 100;
 }
 
 VMR9ProcAmpControlRange* CMPlayerCApp::GetVMR9ColorControl(ControlType nFlag)
 {
 	switch (nFlag) {
-		case Brightness :
+		case ProcAmp_Brightness :
 			return &m_VMR9ColorControl[0];
-		case Contrast :
+		case ProcAmp_Contrast :
 			return &m_VMR9ColorControl[1];
-		case Hue :
+		case ProcAmp_Hue :
 			return &m_VMR9ColorControl[2];
-		case Saturation :
+		case ProcAmp_Saturation :
 			return &m_VMR9ColorControl[3];
 	}
 	return NULL;
@@ -1983,13 +1996,13 @@ VMR9ProcAmpControlRange* CMPlayerCApp::GetVMR9ColorControl(ControlType nFlag)
 DXVA2_ValueRange* CMPlayerCApp::GetEVRColorControl(ControlType nFlag)
 {
 	switch (nFlag) {
-		case Brightness :
+		case ProcAmp_Brightness :
 			return &m_EVRColorControl[0];
-		case Contrast :
+		case ProcAmp_Contrast :
 			return &m_EVRColorControl[1];
-		case Hue :
+		case ProcAmp_Hue :
 			return &m_EVRColorControl[2];
-		case Saturation :
+		case ProcAmp_Saturation :
 			return &m_EVRColorControl[3];
 	}
 	return NULL;

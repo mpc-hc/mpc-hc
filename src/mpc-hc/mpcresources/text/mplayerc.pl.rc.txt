@@ -242,7 +242,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 11		"Przeglądaj..."
 END
 
-BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
+BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 5		"Zarządzanie kolorami trybów VMR-9 i EVR"
 6		"Jasność:"
 8		"Kontrast:"
@@ -1598,8 +1598,8 @@ STRING IDS_NORMALIZE		"Przełącz normalizację dźwięku"
 STRING IDS_NO_MORE_MEDIA		"Nie ma więcej plików w bieżącym folderze."
 STRING IDS_OPEN_WITH_MPC		"Odtwórz w MPC-HC"
 STRING IDS_OPTIONS_CAPTION		"Ustawienia"
-STRING IDS_OSD_BRIGHTNESS		"Jasność: %s%%"
-STRING IDS_OSD_CONTRAST		"Kontrast: %d%%"
+STRING IDS_OSD_BRIGHTNESS		"Jasność: %s"
+STRING IDS_OSD_CONTRAST		"Kontrast: %s"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_OFF		"Własne mapowanie kanałów: wyłączone"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_ON		"Własne mapowanie kanałów: włączone"
 STRING IDS_OSD_HUE		"Odcień: %s°"
@@ -1662,7 +1662,7 @@ STRING IDS_OSD_RS_VSYNC_OFFSET		"Offset synchronizacji pionowej: %d"
 STRING IDS_OSD_RS_VSYNC_ON		"Synchronizacja pionowa: włączona"
 STRING IDS_OSD_RS_WAIT_OFF		"Oczekiwanie na opróżnienie bufora: wyłączone"
 STRING IDS_OSD_RS_WAIT_ON		"Oczekiwanie na opróżnienie bufora: włączone"
-STRING IDS_OSD_SATURATION		"Nasycenie: %d%%"
+STRING IDS_OSD_SATURATION		"Nasycenie: %s"
 STRING IDS_OSD_SPEED		"Prędkość: %.2lfx"
 STRING IDS_OSD_THUMBS_SAVED		"Poprawnie zapisano miniaturki"
 STRING IDS_OSD_ZOOM		"Rozmiar okna: %.0lf%%"

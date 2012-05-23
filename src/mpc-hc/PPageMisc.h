@@ -37,6 +37,10 @@ private:
 	int m_iContrast;
 	int m_iHue;
 	int m_iSaturation;
+	CString m_sBrightness;
+	CString m_sContrast;
+	CString m_sHue;
+	CString m_sSaturation;
 
 	CSpinButtonCtrl m_updaterDelaySpin;
 

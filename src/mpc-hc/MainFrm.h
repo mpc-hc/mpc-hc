@@ -932,7 +932,7 @@ public:
 	void		SetPlayState(MPC_PLAYSTATE iState);
 	bool		CreateFullScreenWindow();
 	void		SetupEVRColorControl();
-	void		SetColorControl(int iBrightness, int iContrast, int iHue, int iSaturation);
+	void		SetColorControl(DWORD flags, int& brightness, int& contrast, int& hue, int& saturation);
 	void		SetClosedCaptions(bool enable);
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR) const;
 	void		SetAudioDelay(REFERENCE_TIME rtShift);

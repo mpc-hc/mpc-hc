@@ -242,7 +242,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 11		"Sfoglia..."
 END
 
-BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
+BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 5		"Controlli colore (per VMR-9 e EVR)"
 6		"Luminosità"
 8		"Contrast"
@@ -1599,8 +1599,8 @@ STRING IDS_NORMALIZE		"Attiva/disattiva normalizzazione"
 STRING IDS_NO_MORE_MEDIA		"Terminati i file multimediali nella cartella corrente."
 STRING IDS_OPEN_WITH_MPC		"Riproduci con MPC-HC"
 STRING IDS_OPTIONS_CAPTION		"Opzioni"
-STRING IDS_OSD_BRIGHTNESS		"Luminosità: %s%%"
-STRING IDS_OSD_CONTRAST		"Contrasto: %d%%"
+STRING IDS_OSD_BRIGHTNESS		"Luminosità: %s"
+STRING IDS_OSD_CONTRAST		"Contrasto: %s"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_OFF		"Mappatura personalizzata dei canali: Off"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_ON		"Mappatura personalizzata dei canali: On"
 STRING IDS_OSD_HUE		"Tonalità: %s°"
@@ -1663,7 +1663,7 @@ STRING IDS_OSD_RS_VSYNC_OFFSET		"VSync Offset: %d"
 STRING IDS_OSD_RS_VSYNC_ON		"VSync: On"
 STRING IDS_OSD_RS_WAIT_OFF		"Wait for GPU Flush: Off"
 STRING IDS_OSD_RS_WAIT_ON		"Wait for GPU Flush: On"
-STRING IDS_OSD_SATURATION		"Saturazione: %d%%"
+STRING IDS_OSD_SATURATION		"Saturazione: %s"
 STRING IDS_OSD_SPEED		"Velocità: %.2lfx"
 STRING IDS_OSD_THUMBS_SAVED		"Miniature salvate con successo"
 STRING IDS_OSD_ZOOM		"Zoom: %.0lf%%"

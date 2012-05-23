@@ -242,7 +242,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 11		"Знайти..."
 END
 
-BEGIN DIALOGEX IDD_PPAGEMISC LINES 24
+BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 5		"Керування кольором (для VMR-9 і EVR)"
 6		"Яскравість"
 8		"Contrast"
@@ -1599,8 +1599,8 @@ STRING IDS_NORMALIZE		"Ввімк./Вимк. нормалізацію"
 STRING IDS_NO_MORE_MEDIA		"Більше немає медіафайлів в поточній теці."
 STRING IDS_OPEN_WITH_MPC		"Відтворити в MPC-HC"
 STRING IDS_OPTIONS_CAPTION		"Налаштування"
-STRING IDS_OSD_BRIGHTNESS		"Яскравість: %s%%"
-STRING IDS_OSD_CONTRAST		"Контраст: %d%%"
+STRING IDS_OSD_BRIGHTNESS		"Яскравість: %s"
+STRING IDS_OSD_CONTRAST		"Контраст: %s"
 STRING IDS_OSD_CUSTOM_CH_MAPPING_OFF		"Розподіл каналів користувача: Вимк."
 STRING IDS_OSD_CUSTOM_CH_MAPPING_ON		"Розподіл каналів користувача: Ввімк."
 STRING IDS_OSD_HUE		"Відтінок: %s°"
@@ -1663,7 +1663,7 @@ STRING IDS_OSD_RS_VSYNC_OFFSET		"Затримка VSync: %d"
 STRING IDS_OSD_RS_VSYNC_ON		"VSync: Ввімк."
 STRING IDS_OSD_RS_WAIT_OFF		"Чекати на заповнення GPU: Вимк."
 STRING IDS_OSD_RS_WAIT_ON		"Чекати на заповнення GPU: Ввімк."
-STRING IDS_OSD_SATURATION		"Насиченість: %d%%"
+STRING IDS_OSD_SATURATION		"Насиченість: %s"
 STRING IDS_OSD_SPEED		"Швидкість відтв.: %.2lfx"
 STRING IDS_OSD_THUMBS_SAVED		"Мініатюри успішно збережено"
 STRING IDS_OSD_ZOOM		"Масштаб: %.0lf%%"
