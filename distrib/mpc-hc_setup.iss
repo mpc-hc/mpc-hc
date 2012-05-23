@@ -22,6 +22,14 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
+#if VER < EncodeVer(5,4,3)
+  #error Update your Inno Setup version (5.4.3 or newer)
+#endif
+
+#ifndef UNICODE
+  #error Use the Unicode Inno Setup
+#endif
+
 ; Include translations by default. You can bypass this by defining localize=whatever or false etc in build.bat or here
 #ifndef localize
 #define localize = "true"
@@ -34,21 +42,9 @@
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
 ;#define x64Build
 
-; Don't forget to update the DirectX SDK number in "include\Version.h" (not updated so often)
-
 
 ; From now on you shouldn't need to change anything
 
-#if VER < EncodeVer(5,4,3)
-  #error Update your Inno Setup version (5.4.3 or newer)
-#endif
-
-#ifndef UNICODE
-  #error Use the Unicode Inno Setup
-#endif
-
-
-#define ISPP_IS_BUGGY
 #include "..\include\Version.h"
 
 #define copyright_year "2002-2012"
