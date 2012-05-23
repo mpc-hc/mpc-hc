@@ -8074,7 +8074,6 @@ void CMainFrame::OnPlayColor(UINT nID)
 {
 	if (m_pMC || m_pMFVP) {
 		AppSettings& s = AfxGetAppSettings();
-		COLORPROPERTY_RANGE* cr;
 		//ColorRanges* crs = AfxGetMyApp()->ColorControls;
 		int& brightness = s.iBrightness;
 		int& contrast   = s.iContrast;
