@@ -92,7 +92,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 		(FARPROC&)m_pD3DXCreateSprite			= GetProcAddress(hDll, "D3DXCreateSprite");
 	} else {
 		_Error += L"The installed DirectX End-User Runtime is outdated. Please download and install the ";
-		_Error += DIRECTX_SDK_DATE;
+		_Error += MPC_DX_SDK_MONTH " " MAKE_STR(MPC_DX_SDK_YEAR);
 		_Error += L" release or newer in order for MPC-HC to function properly.\n";
 	}
 

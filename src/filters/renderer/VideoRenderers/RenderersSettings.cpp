@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "RenderersSettings.h"
 #include "../../../mpc-hc/mplayerc.h"
+#include <Version.h>
 #include <d3dx9.h>
 
 void CRenderersSettings::UpdateData(bool fSave)
@@ -132,15 +133,15 @@ LONGLONG CRenderersData::GetPerfCounter()
 
 HINSTANCE CRenderersData::GetD3X9Dll()
 {
-#if D3DX_SDK_VERSION < 43
-#error DirectX SDK June 2010 (v43) or newer is required to build MPC-HC
+#if D3DX_SDK_VERSION < MPC_DX_SDK_NUMBER
+#pragma message("ERROR: DirectX SDK " MPC_DX_SDK_MONTH " " MAKE_STR(MPC_DX_SDK_YEAR) " (v" MAKE_STR(MPC_DX_SDK_NUMBER) ") or newer is required to build MPC-HC")
 #endif
 
 	if (m_hD3DX9Dll == NULL) {
 		m_nDXSdkRelease = 0;
 
 		// load latest compatible version of the DLL that is available
-		for (int i=D3DX_SDK_VERSION; i>=43; i--) {
+		for (int i=D3DX_SDK_VERSION; i>=MPC_DX_SDK_NUMBER; i--) {
 			m_strD3DX9Version.Format(_T("d3dx9_%d.dll"), i);
 			m_hD3DX9Dll = LoadLibrary(m_strD3DX9Version);
 			if (m_hD3DX9Dll) {

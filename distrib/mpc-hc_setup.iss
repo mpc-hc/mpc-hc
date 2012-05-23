@@ -330,7 +330,7 @@ end;
 
 function D3DX9DLLExists(): Boolean;
 begin
-  if FileExists(ExpandConstant('{sys}\D3DX9_{#DIRECTX_SDK_NUMBER}.dll')) then
+  if FileExists(ExpandConstant('{sys}\D3DX9_{#MPC_DX_SDK_NUMBER}.dll')) then
     Result := True
   else
     Result := False;
