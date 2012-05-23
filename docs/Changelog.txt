@@ -74,7 +74,7 @@ Legend:
 * Updated MediaInfoLib to v0.7.57
 * Updated ZenLib to v0.4.26
 * Updated SoundTouch to v1.7.0pre r142
-* Updated VirtualDub to v1.10.2-test7
+* Updated VirtualDub to v1.10.2-test9
 * Updated zlib to v1.2.7
 * Updated Detours to v3.0 build 316
 * Updated Little CMS to v2.4 (git 24b8bdf 23/05/2012)

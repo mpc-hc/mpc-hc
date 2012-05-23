@@ -78,8 +78,8 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 				s.AppendFormat(_T("\tStretchTaps %d, %d\n"), caps.StretchTapsX, caps.StretchTapsY);
 				s.AppendFormat(_T("\tShrinkTaps %d, %d\n"), caps.ShrinkTapsX, caps.ShrinkTapsY);
 				s.AppendFormat(_T("\tFrameInterval %I64d, %I64d (%.4f, %.4f)\n"),
-								caps.MinFrameInterval, caps.MaxFrameInterval,
-								(float)10000000/caps.MinFrameInterval, (float)10000000/caps.MaxFrameInterval);
+							   caps.MinFrameInterval, caps.MaxFrameInterval,
+							   (float)10000000/caps.MinFrameInterval, (float)10000000/caps.MaxFrameInterval);
 				s.AppendFormat(_T("\tBitsPerSecond %d - %d\n"), caps.MinBitsPerSecond, caps.MaxBitsPerSecond);
 				f.WriteString(s);
 			}
@@ -2903,7 +2903,7 @@ void CorrectComboListWidth(CComboBox& m_pComboBox)
 	// Get the scrollbar width if it exists
 	int min_visible = m_pComboBox.GetMinVisible();
 	int scroll_width = (m_pComboBox.GetCount() > min_visible) ?
-		::GetSystemMetrics(SM_CXVSCROLL) : 0;
+					   ::GetSystemMetrics(SM_CXVSCROLL) : 0;
 
 	// Adjust the width for the vertical scroll bar and the left and right border.
 	dx += scroll_width + 2*::GetSystemMetrics(SM_CXEDGE);

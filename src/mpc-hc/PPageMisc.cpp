@@ -87,12 +87,12 @@ BOOL CPPageMisc::OnInitDialog()
 	m_SliBrightness.SetRange		(-100, 100, true);
 	m_SliBrightness.SetTic			(0);
 	m_SliBrightness.SetPos			(m_iBrightness);
-	
+
 	m_SliContrast.EnableWindow		(TRUE);
 	m_SliContrast.SetRange			(-100, 100, true);
 	m_SliContrast.SetTic			(0);
 	m_SliContrast.SetPos			(m_iContrast);
-	
+
 	m_SliHue.EnableWindow			(TRUE);
 	m_SliHue.SetRange				(-180, 180, true);
 	m_SliHue.SetTic					(0);
@@ -136,7 +136,6 @@ BOOL CPPageMisc::OnApply()
 
 void CPPageMisc::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	COLORPROPERTY_RANGE* cr;
 	UpdateData();
 	if (*pScrollBar == m_SliBrightness) {
 		m_iBrightness = m_SliBrightness.GetPos();

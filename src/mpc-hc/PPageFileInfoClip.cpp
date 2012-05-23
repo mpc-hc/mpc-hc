@@ -87,7 +87,7 @@ void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
 #define SETPAGEFOCUS WM_APP+252 // arbitrary number, can be changed if necessary
 BEGIN_MESSAGE_MAP(CPPageFileInfoClip, CPropertyPage)
 	ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
-	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify) 
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 

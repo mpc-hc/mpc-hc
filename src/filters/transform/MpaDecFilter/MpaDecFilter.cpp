@@ -1600,7 +1600,7 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
 	for (unsigned int i = 0, len = pBuff.GetCount(); i < len; i++) {
 		float f = *pDataIn++;
-		
+
 		if (f < -1) f = -1;
 		switch (sf) {
 			default:
