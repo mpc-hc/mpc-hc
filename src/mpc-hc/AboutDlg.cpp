@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #include "AboutDlg.h"
 #include "InternalFiltersConfig.h" // needed for HAS_FFMPEG
+#include "Version.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
@@ -50,8 +51,9 @@ BOOL CAboutDlg::OnInitDialog()
 	m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
 #if defined(__INTEL_COMPILER)
-#if (__INTEL_COMPILER >= 1200)
-	m_MPCCompiler = _T("ICL 12.x");
+#if (__INTEL_COMPILER >= 1210)
+	m_MPCCompiler = _T("ICL ");
+	m_MPCCompiler += MAKE_STR(__INTEL_COMPILER);
 #else
 	#error Compiler is not supported!
 #endif
