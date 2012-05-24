@@ -697,17 +697,18 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 
 	memset(&h, 0, sizeof(h));
 
-	// Parse TrueHD header
+	// Parse TrueHD and MLP header
 	if (!AC3CoreOnly) {
 		BYTE buf[20];
 		int  m_channels;
 		int  m_samplerate;
 		int  m_framelength;
+		bool isTrueHD;
 
 		int fsize = 0;
 		ByteRead(buf, 20);
 
-		fsize = ParseTrueHDHeader(buf, &m_samplerate, &m_channels, &m_framelength);
+		fsize = ParseMLPHeader(buf, &m_samplerate, &m_channels, &m_framelength, &isTrueHD);
 		if (fsize) {
 
 			if (!pmt) {
@@ -717,7 +718,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 			int m_bitrate   = int ((fsize) * 8i64 * m_samplerate / m_framelength);
 
 			pmt->majortype = MEDIATYPE_Audio;
-			pmt->subtype = MEDIASUBTYPE_DOLBY_TRUEHD;
+			pmt->subtype = isTrueHD ? MEDIASUBTYPE_DOLBY_TRUEHD : MEDIASUBTYPE_MLP;
 			pmt->formattype = FORMAT_WaveFormatEx;
 
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
