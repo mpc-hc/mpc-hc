@@ -19,9 +19,9 @@
 
 
 ; Do NOT translate your language's name
-; Do NOT translate [name]
+; Do NOT translate [name]/[ver]
 ; Do NOT change the langid
-; Do NOT change file encoding; it must be UTF-8 Signature
+; Do NOT change the file encoding; it must be UTF-8 Signature
 ; Keep the translations close to the English strings
 
 
