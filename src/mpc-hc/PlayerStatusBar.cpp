@@ -50,7 +50,19 @@ CPlayerStatusBar::~CPlayerStatusBar()
 
 BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
 {
-	return CDialogBar::Create(pParentWnd, IDD_PLAYERSTATUSBAR, WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM, IDD_PLAYERSTATUSBAR);
+	BOOL ret = CDialogBar::Create(pParentWnd, IDD_PLAYERSTATUSBAR, WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM, IDD_PLAYERSTATUSBAR);
+	
+	m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
+
+	m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
+	m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
+	m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
+
+	m_time.ModifyStyle(0, SS_NOTIFY);
+
+	m_tooltip.AddTool(&m_time, IDS_TOOLTIP_REMAINING_TIME);
+	
+	return ret;
 }
 
 BOOL CPlayerStatusBar::PreCreateWindow(CREATESTRUCT& cs)
@@ -269,6 +281,7 @@ BEGIN_MESSAGE_MAP(CPlayerStatusBar, CDialogBar)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_SETCURSOR()
 	ON_WM_CTLCOLOR()
+	ON_STN_CLICKED(IDC_PLAYERTIME, OnTimeDisplayClicked)
 END_MESSAGE_MAP()
 
 
@@ -352,12 +365,6 @@ void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
 	wp.length = sizeof(wp);
 	pFrame->GetWindowPlacement(&wp);
 
-	if (m_time_rect.PtInRect(point)) {
-		AfxGetAppSettings().fRemainingTime = !AfxGetAppSettings().fRemainingTime;
-		pFrame->OnTimer(2);
-		return;
-	}
-
 	if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
 		CRect r;
 		GetClientRect(r);
@@ -411,4 +418,20 @@ HBRUSH CPlayerStatusBar::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	// TODO:  Return a different brush if the default is not desired
 	return hbr;
+}
+
+BOOL CPlayerStatusBar::PreTranslateMessage(MSG* pMsg)
+{     
+	m_tooltip.RelayEvent(pMsg);
+
+	return __super::PreTranslateMessage(pMsg);
+}
+
+void CPlayerStatusBar::OnTimeDisplayClicked()
+{     
+	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+
+	AfxGetAppSettings().fRemainingTime = !AfxGetAppSettings().fRemainingTime;
+	// This isn't particularly nice...
+	pFrame->OnTimer(2);
 }
