@@ -1738,6 +1738,8 @@ void *Type_LUT8_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cms
     if (!_cmsReadUInt8Number(io, &OutputChannels)) goto Error;
     if (!_cmsReadUInt8Number(io, &CLUTpoints)) goto Error;
 
+     if (CLUTpoints == 1) goto Error; // Impossible value, 0 for no CLUT and then 2 at least
+
     // Padding
     if (!_cmsReadUInt8Number(io, NULL)) goto Error;
 

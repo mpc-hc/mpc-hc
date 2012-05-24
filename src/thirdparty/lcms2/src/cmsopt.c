@@ -547,9 +547,6 @@ cmsBool OptimizeByResampling(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt3
     // This is a loosy optimization! does not apply in floating-point cases
     if (_cmsFormatterIsFloat(*InputFormat) || _cmsFormatterIsFloat(*OutputFormat)) return FALSE;
 
-
-
-
     ColorSpace       = _cmsICCcolorSpace(T_COLORSPACE(*InputFormat));
     OutputColorSpace = _cmsICCcolorSpace(T_COLORSPACE(*OutputFormat));
     nGridPoints      = _cmsReasonableGridpointsByColorspace(ColorSpace, *dwFlags);
