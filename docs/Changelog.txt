@@ -19,6 +19,7 @@ Legend:
 + Added a new Zoom option "Auto Fit (large only)"
 + Ticket #1792, Show an OSD message and a status message when a favorite is
   created via the keyboard shortcut
++ Ticket #1866, Added suppport for MLP audio in MpaDecFilter and DTSAC3Source
 + Ticket #2134, Added an auto-update feature to periodically check for new
   update. This feature can be enabled on first launch or via the Miscellaneous
   options page. The delay between the checks is also customizable.
@@ -70,7 +71,7 @@ Legend:
 * The minidump feature is now enabled by default. The crash dialog has been updated to
   redirect the users to the bug tracker. The minidump feature can be turned off completely
   by using the /nominidump switch
-* Updated FFmpeg (git ea5dab5)
+* Updated FFmpeg (git 171db36)
 * Updated MediaInfoLib to v0.7.57
 * Updated ZenLib to v0.4.26
 * Updated SoundTouch to v1.7.0pre r142
@@ -101,6 +102,7 @@ Legend:
 ! MpegSplitter: Fix incorrect detection of MPEG Audio stream as AAC
 ! AviSplitter: Fix looping not working on short animations
 ! WebServer: Fix a few errors and typos
+! MPCVideoDec: Fix MPEG-2 DXVA for some files
 ! Fix the remember file/DVD position feature: the positions' cache was not cleared when
   disabling the feature
 ! The Windows 7 taskbar was sometimes not correctly updated (for example when opening

@@ -3159,9 +3159,6 @@ typedef struct AVPicture {
  * @}
  */
 
-#define AVPALETTE_SIZE 1024
-#define AVPALETTE_COUNT 256
-
 enum AVSubtitleType {
     SUBTITLE_NONE,
 
