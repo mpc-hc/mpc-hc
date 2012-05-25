@@ -42,6 +42,8 @@ private:
 	CString m_sHue;
 	CString m_sSaturation;
 
+	CButton m_updaterAutoCheckCtrl;
+	CEdit m_updaterDelayCtrl;
 	CSpinButtonCtrl m_updaterDelaySpin;
 
 	int m_nUpdaterAutoCheck;

@@ -54,7 +54,16 @@ void CPPageMisc::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_STATIC4, m_sSaturation);
 	DDX_Check(pDX, IDC_CHECK1, m_nUpdaterAutoCheck);
 	DDX_Text(pDX, IDC_EDIT1, m_nUpdaterDelay);
+	DDX_Control(pDX, IDC_CHECK1, m_updaterAutoCheckCtrl);
+	DDX_Control(pDX, IDC_EDIT1, m_updaterDelayCtrl);
 	DDX_Control(pDX, IDC_SPIN1, m_updaterDelaySpin);
+
+	// Validate the delay between each check
+	if (pDX->m_bSaveAndValidate && (m_nUpdaterDelay < 1 || m_nUpdaterDelay > 365)) {
+		m_updaterDelayCtrl.ShowBalloonTip(ResStr(IDS_UPDATE_DELAY_ERROR_TITLE), ResStr(IDS_UPDATE_DELAY_ERROR_MSG), TTI_ERROR);
+		pDX->PrepareEditCtrl(IDC_EDIT1);
+		pDX->Fail();
+	}
 }
 
 
@@ -191,9 +200,7 @@ void CPPageMisc::OnBnClickedReset()
 
 void CPPageMisc::OnUpdateDelayEditBox(CCmdUI* pCmdUI)
 {
-	UpdateData();
-
-	pCmdUI->Enable(m_nUpdaterAutoCheck);
+	pCmdUI->Enable(m_updaterAutoCheckCtrl.GetCheck() == BST_CHECKED);
 }
 
 void CPPageMisc::OnResetSettings()
