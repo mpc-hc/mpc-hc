@@ -19,17 +19,8 @@
  */
 
 #include "avcodec.h"
-#include "internal.h"
 #include "ac3.h"
-#include "ac3_parser.h"
 #include "ac3dec.h"
-#include "ac3dec_data.h"
-
-#ifdef __GNUC__
-#define _aligned_malloc  __mingw_aligned_malloc
-#define _aligned_realloc __mingw_aligned_realloc
-#define _aligned_free    __mingw_aligned_free
-#endif
 
 #if defined(DEBUG) || defined(_DEBUG)
 	#define COMPILER " Debug"
@@ -78,14 +69,14 @@ int FFGetChannelMap(struct AVCodecContext *avctx)
 			// Mapping index for s_scmap_ac3
 			switch (s->channel_mode)
 			{
-				case AC3_CHMODE_DUALMONO:   return 0;
-				case AC3_CHMODE_MONO:       return 1;
-				case AC3_CHMODE_STEREO:     return 2;
-				case AC3_CHMODE_3F:         return 3;
-				case AC3_CHMODE_2F1R:       return 4;
-				case AC3_CHMODE_3F1R:       return 5;
-				case AC3_CHMODE_2F2R:       return 6;
-				case AC3_CHMODE_3F2R:       return (s->lfe_on ? 8 : 7);
+				case AC3_CHMODE_DUALMONO: return 0;
+				case AC3_CHMODE_MONO:     return 1;
+				case AC3_CHMODE_STEREO:   return 2;
+				case AC3_CHMODE_3F:       return 3;
+				case AC3_CHMODE_2F1R:     return 4;
+				case AC3_CHMODE_3F1R:     return 5;
+				case AC3_CHMODE_2F2R:     return 6;
+				case AC3_CHMODE_3F2R:     return (s->lfe_on ? 8 : 7);
 			}
 		}
 		break;
@@ -107,6 +98,7 @@ static char g_Gcc_Compiler[31];
 
 char* GetFFmpegCompiler()
 {
-	snprintf(g_Gcc_Compiler, sizeof(g_Gcc_Compiler), "MinGW GCC %d.%d.%d%s%s", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__, COMPILER, COMPILER_SSE);
+	snprintf(g_Gcc_Compiler, sizeof(g_Gcc_Compiler), "MinGW GCC %d.%d.%d%s%s",
+			 __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__, COMPILER, COMPILER_SSE);
 	return g_Gcc_Compiler;
 }
