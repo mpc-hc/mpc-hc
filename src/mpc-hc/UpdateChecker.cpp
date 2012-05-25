@@ -28,12 +28,7 @@
 
 #include <afxinet.h>
 
-#ifdef NO_VERSION_REV_NEEDED
-const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_MAJOR, MPC_VERSION_MINOR, MPC_VERSION_PATCH, 0 };
-#else
-const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_MAJOR, MPC_VERSION_MINOR, MPC_VERSION_PATCH, MPC_VERSION_REV };
-#endif // NO_VERSION_REV_NEEDED
-
+const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_NUM };
 const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = _T("http://mpc-hc.sourceforge.net/version.txt");
 
 UpdateChecker::UpdateChecker(CString versionFileURL)
