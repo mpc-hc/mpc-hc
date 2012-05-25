@@ -75,6 +75,8 @@ IF /I "%ARCH%" == "Both" (
 
 
 :Main
+IF /I "%ARCH%" == "x86" CALL :SubCopyLibs
+
 IF /I "%ARCH%" == "x64" (SET "x64=64BIT=yes") ELSE (SET "x64=")
 
 IF /I "%BUILDTYPE%" == "Rebuild" (
@@ -104,6 +106,18 @@ IF /I "%BUILDTYPE%" == "Clean"  (SET JOBS=1)
 TITLE make -j%JOBS% %*
 ECHO make -j%JOBS% %*
 make.exe -j%JOBS% %*
+EXIT /B
+
+
+:SubCopyLibs
+REM Set the GCC version
+FOR /F "tokens=1,2 delims= " %%A IN ('gcc -dumpversion') DO (SET "gccver=%%A")
+
+REM Copy the needed libraries
+COPY /V /Y "%MPCHC_MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a" "..\..\..\lib\" >NUL
+IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
+COPY /V /Y "%MPCHC_MINGW32%\i686-pc-mingw32\lib\libmingwex.a"          "..\..\..\lib\" >NUL
+IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 EXIT /B
 
 
