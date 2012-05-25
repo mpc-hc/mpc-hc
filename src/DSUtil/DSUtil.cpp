@@ -2768,7 +2768,7 @@ typedef struct tagTHREADNAME_INFO {
 	DWORD dwFlags; // reserved for future use, must be zero
 } THREADNAME_INFO;
 
-void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName)
+void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
 {
 	THREADNAME_INFO info;
 	info.dwType = 0x1000;
@@ -2779,7 +2779,7 @@ void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName)
 	__try {
 		RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD), (ULONG_PTR*)&info );
 	}
-	__except (EXCEPTION_CONTINUE_EXECUTION) {
+	__except(EXCEPTION_CONTINUE_EXECUTION) {
 	}
 }
 

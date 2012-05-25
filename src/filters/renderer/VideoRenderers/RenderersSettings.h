@@ -117,9 +117,7 @@ public:
 		bool iEVREnableFrameTimeCorrection;
 		int iEVROutputRange;
 
-		CRendererSettingsEVR() {
-			SetDefault();
-		}
+		CRendererSettingsEVR() {SetDefault();}
 		void SetDefault();
 		void SetOptimal();
 	};
@@ -161,9 +159,7 @@ public:
 
 	LONGLONG	GetPerfCounter();
 	HINSTANCE	GetD3X9Dll();
-	int			GetDXSdkRelease() {
-		return	m_nDXSdkRelease;
-	};
+	int			GetDXSdkRelease() {return m_nDXSdkRelease;};
 };
 
 extern CRenderersData*		GetRenderersData();

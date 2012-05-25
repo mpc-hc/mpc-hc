@@ -1938,7 +1938,7 @@ void CDX9AllocatorPresenter::DrawText(const RECT &rc, const CString &strText, in
 
 void CDX9AllocatorPresenter::ResetStats()
 {
-	CRenderersData * pApp = GetRenderersData();
+	CRenderersData *pApp = GetRenderersData();
 	LONGLONG Time = pApp->GetPerfCounter();
 
 	m_PaintTime = 0;

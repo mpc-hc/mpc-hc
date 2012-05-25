@@ -1528,7 +1528,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 	}
 
 	CRenderersSettings& s = GetRenderersSettings();
-	CRenderersData * pApp = GetRenderersData();
+	CRenderersData *pApp = GetRenderersData();
 	D3DRASTER_STATUS rasterStatus;
 	REFERENCE_TIME llCurRefTime = 0;
 	REFERENCE_TIME llSyncOffset = 0;
