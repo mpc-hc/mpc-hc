@@ -245,17 +245,17 @@ END
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 5		"Farbeinstellungen (für den VMR-9 und EVR Renderer)"
 6		"Helligkeit"
-8		"Contrast"
-10		"Farbton"
-12		"Sättigung"
-14		"Zurücksetzen"
-15		"Auf Aktualisierungen prüfen"
-16		"Die automatische Prüfung nach Aktualisierungen aktivieren"
-17		"Intervall zwischen jeder Prüfung:"
-20		"Tage"
-21		"Einstellungen verwalten"
-22		"Zurücksetzen"
-23		"Exportieren"
+7		"Kontrast"
+8		"Farbton"
+9		"Sättigung"
+18		"Zurücksetzen"
+19		"Auf Aktualisierungen prüfen"
+20		"Die automatische Prüfung nach Aktualisierungen aktivieren"
+21		"Intervall zwischen jeder Prüfung:"
+24		"Tage"
+25		"Einstellungen verwalten"
+26		"Zurücksetzen"
+27		"Exportieren"
 END
 
 BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 48

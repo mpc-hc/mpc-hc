@@ -245,17 +245,17 @@ END
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 5		"Controles de cor (para VMR-9 e EVR apenas)"
 6		"Brilho"
-8		"Contrast"
-10		"Cor"
-12		"Saturação"
-14		"Resetar"
-15		"Checagem de atualizações"
-16		"Ativar a checagem de atualizações"
-17		"Intervalo entre checagens:"
-20		"dias"
-21		"Gerenciamento de opções"
-22		"Resetar"
-23		"Exportar"
+7		"Contraste"
+8		"Cor"
+9		"Saturação"
+18		"Resetar"
+19		"Checagem de atualizações"
+20		"Ativar a checagem de atualizações"
+21		"Intervalo entre checagens:"
+24		"dias"
+25		"Gerenciamento de opções"
+26		"Resetar"
+27		"Exportar"
 END
 
 BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 48
