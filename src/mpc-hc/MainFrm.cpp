@@ -825,11 +825,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_bToggleShader = s.fToggleShader;
 	m_bToggleShaderScreenSpace = s.fToggleShaderScreenSpace;
 
-#ifdef _WIN64
-	m_strTitle.Format (L"%s x64", ResStr(IDR_MAINFRAME));
-#else
-	m_strTitle.Format (L"%s", ResStr(IDR_MAINFRAME));
-#endif
+	m_strTitle.LoadString(IDR_MAINFRAME);
 
 	SetWindowText(m_strTitle);
 	//m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));

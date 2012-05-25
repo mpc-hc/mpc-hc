@@ -45,7 +45,7 @@ BOOL CAboutDlg::OnInitDialog()
 	UpdateData();
 
 #ifdef _WIN64
-	m_appname += _T(" x64");
+	m_appname += _T(" (64-bit)");
 #endif
 
 	m_strBuildNumber = AfxGetMyApp()->m_strVersion;
