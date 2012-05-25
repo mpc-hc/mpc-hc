@@ -434,7 +434,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 			m_subtype = MEDIASUBTYPE_DOLBY_AC3_SPDIF;
 			m_streamtype = SPDIF_AC3;
-		// MLP
+			// MLP
 		} else if (id2 == MLP_SYNC_WORD) {
 			BYTE buf[16];
 			if (m_file.Read(&buf, 16) != 16)
@@ -445,7 +445,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			if (m_framesize == 0) {
 				break;
 			}
-			
+
 			m_streamtype = MLP;
 			m_fixedframesize = false;
 
@@ -643,11 +643,11 @@ HRESULT CDTSAC3Stream::GetMediaType(int iPosition, CMediaType* pmt)
 HRESULT CDTSAC3Stream::CheckMediaType(const CMediaType* pmt)
 {
 	return CheckDTS(pmt)
-		|| CheckDTS2(pmt)
-		|| CheckAC3(pmt)
-		|| CheckSPDIFAC3(pmt)
-		|| CheckMLP(pmt)
-		//|| CheckTrueHD(pmt)
+		   || CheckDTS2(pmt)
+		   || CheckAC3(pmt)
+		   || CheckSPDIFAC3(pmt)
+		   || CheckMLP(pmt)
+		   //|| CheckTrueHD(pmt)
 		   ? S_OK
 		   : E_INVALIDARG;
 }

@@ -6,7 +6,7 @@ MPC-HC:
    Also a search for "#pragma warning" will reveal any other places where warnings are disabled,
    which shouldn't be a lot in our code. (C4731, C4799 etc)
 2) Try to clean up the includes; there are a lot of unneeded includes, or includes which are
-   inherited from files they shouldn't be and are not included directlyin the files they need them
+   inherited from files they shouldn't be and are not included directly in the files that need them
 3) Try to speed up compilation by doing the above and also by optimizing the included headers
    in stdafx.h for mplayerc.vcxproj. Ideally add support for precompiled headers in Bento4.
 4) Reorganize the player's Options

@@ -51,7 +51,7 @@ CPlayerStatusBar::~CPlayerStatusBar()
 BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
 {
 	BOOL ret = CDialogBar::Create(pParentWnd, IDD_PLAYERSTATUSBAR, WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM, IDD_PLAYERSTATUSBAR);
-	
+
 	m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
 
 	m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
@@ -61,7 +61,7 @@ BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
 	m_time.ModifyStyle(0, SS_NOTIFY);
 
 	m_tooltip.AddTool(&m_time, IDS_TOOLTIP_REMAINING_TIME);
-	
+
 	return ret;
 }
 
@@ -421,14 +421,14 @@ HBRUSH CPlayerStatusBar::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 }
 
 BOOL CPlayerStatusBar::PreTranslateMessage(MSG* pMsg)
-{     
+{
 	m_tooltip.RelayEvent(pMsg);
 
 	return __super::PreTranslateMessage(pMsg);
 }
 
 void CPlayerStatusBar::OnTimeDisplayClicked()
-{     
+{
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 
 	AfxGetAppSettings().fRemainingTime = !AfxGetAppSettings().fRemainingTime;
