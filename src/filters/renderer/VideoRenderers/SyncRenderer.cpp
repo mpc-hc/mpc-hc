@@ -2118,7 +2118,7 @@ void CBaseAP::DrawStats()
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			strText.Format(L"DirectX SDK  : %d", GetRenderersData()->GetDXSdkRelease());
+			strText.Format(L"DirectX SDK  : %u", GetRenderersData()->GetDXSdkRelease());
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 

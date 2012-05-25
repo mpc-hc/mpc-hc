@@ -142,7 +142,7 @@ public:
 class CRenderersData
 {
 	HINSTANCE	m_hD3DX9Dll;
-	int			m_nDXSdkRelease;
+	UINT		m_nDXSdkRelease;
 
 public:
 	CRenderersData();
@@ -159,7 +159,7 @@ public:
 
 	LONGLONG	GetPerfCounter();
 	HINSTANCE	GetD3X9Dll();
-	int			GetDXSdkRelease() {return m_nDXSdkRelease;};
+	UINT		GetDXSdkRelease() {return m_nDXSdkRelease;};
 };
 
 extern CRenderersData*		GetRenderersData();

@@ -1049,6 +1049,9 @@ BOOL CMPlayerCApp::InitInstance()
 			ULONG ProcessIoPriority = 0x21;
 			NTSTATUS NtStatus = NtSetInformationProcess(GetCurrentProcess(), ProcessIoPriority, &IoPriority, sizeof(ULONG));
 			TRACE(_T("Set I/O Priority - %d\n"), NtStatus);
+#ifndef _DEBUG
+			UNREFERENCED_PARAMETER(NtStatus);
+#endif
 		}
 
 		FreeLibrary( hNTDLL );
