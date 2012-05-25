@@ -40,6 +40,8 @@ SET ARGBC=0
 SET ARGC=0
 SET ARGPL=0
 SET ARGPA=0
+SET ARGIN=0
+SET ARGZI=0
 SET INPUT=0
 
 IF /I "%ARG%" == "?"          GOTO ShowHelp
@@ -65,10 +67,12 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
   IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1
   IF /I "%%A" == "Package"    SET "PACKAGES=True"     & SET /A ARGPA+=1
+  IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A ARGIN+=1
+  IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A ARGZI+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
-SET /A VALID=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGPA%
+SET /A VALID=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGPA%+%ARGIN%+%ARGZI%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
@@ -77,6 +81,10 @@ IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "PLATFORM=Bo
 IF %ARGC%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0  (SET "CONFIG=MPCHC")
 IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCFG=Release")
 IF %ARGPA% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPA% == 0 (SET "PACKAGES=False")
+IF %ARGIN% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGIN% == 0 (SET "INSTALLER=False")
+IF %ARGZI% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGZI% == 0 (SET "ZIP=False")
+
+IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
 
 :Start
@@ -101,7 +109,7 @@ CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters Win32
-  IF /I "%PACKAGES%" == "True" CALL :SubCreatePackages Filters Win32
+  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters Win32
   GOTO x64
 )
 
@@ -113,14 +121,12 @@ IF /I "%CONFIG%" == "Main" GOTO x64
 
 CALL :SubResources Win32
 
-IF /I "%PACKAGES%" == "True" (
-  CALL :SubCreateInstaller Win32
-  CALL :SubCreatePackages MPC-HC Win32
-)
+IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller Win32
+IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC Win32
 
 IF /I "%CONFIG%" == "All" (
   CALL :SubFilters Win32
-  IF /I "%PACKAGES%" == "True" CALL :SubCreatePackages Filters Win32
+  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters Win32
 )
 
 
@@ -131,7 +137,7 @@ CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
 
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters x64
-  IF /I "%PACKAGES%" == "True" CALL :SubCreatePackages Filters x64
+  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters x64
   GOTO END
 )
 
@@ -143,14 +149,12 @@ IF /I "%CONFIG%" == "Main" GOTO End
 
 CALL :SubResources x64
 
-IF /I "%PACKAGES%" == "True" (
-  CALL :SubCreateInstaller x64
-  CALL :SubCreatePackages MPC-HC x64
-)
+IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller x64
+IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC x64
 
 IF /I "%CONFIG%" == "All" (
   CALL :SubFilters x64
-  IF /I "%PACKAGES%" == "True" CALL :SubCreatePackages Filters x64
+  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters x64
 )
 
 
@@ -373,7 +377,7 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|Filters^|All] [Debug^|Release] [Packages]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|Filters^|All] [Debug^|Release] [Packages^|Installer^|Zip]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.
@@ -389,7 +393,7 @@ ECHO %~nx0 x86           -Builds x86 Main exe and the x86 resources
 ECHO %~nx0 x86 Debug     -Builds x86 Main Debug exe and x86 resources
 ECHO %~nx0 x86 Filters   -Builds x86 Filters
 ECHO %~nx0 x86 All       -Builds x86 Main exe, x86 Filters and the x86 resources
-ECHO %~nx0 x86 Packages  -Builds x86 Main exe, x86 resources and creates the .7z package
+ECHO %~nx0 x86 Packages  -Builds x86 Main exe, x86 resources and creates the installer and the .7z package
 ECHO.
 ENDLOCAL
 EXIT /B
