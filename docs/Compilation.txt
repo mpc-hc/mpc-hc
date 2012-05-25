@@ -41,49 +41,17 @@ Part C: Downloading and compiling the MPC-HC source
     d) Wait for the source tree to be downloaded.
 3. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
-4. Right click the mpc-hc project, and open up its Properties.
-   There, go to Configuration Properties->Linker->General. Add the following directories to the "Additional Library Directories":
-    For Win32 platform      $(MPCHC_MINGW32)\lib\gcc\i686-pc-mingw32\4.7.0;$(MPCHC_MINGW32)\i686-pc-mingw32\lib\
-    For x64 platform        $(MPCHC_MINGW64)\lib\gcc\x86_64-w64-mingw32\4.7.0;$(MPCHC_MINGW64)\x86_64-w64-mingw32\lib\
 
-Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.7.1
-5. Press OK to save the changes and close the Properties window.
+See Part D for libmingwex.a x64
 
-Another way to do the abpve step is by copying the needed libraries (libgcc.a and libmingwex.a)
-into the "C:\mpc-hc\lib" and "C:\mpc-hc\lib64" folders either manually or by using the following batch snippet:
-
-@ECHO OFF
-REM Save this script to your mpc-hc source dir
-IF EXIST "build.user.bat" (
-  CALL "build.user.bat"
-) ELSE (
-  IF DEFINED MINGW32 (SET MPCHC_MINGW32=%MINGW32%)
-  IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%)
-  IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)
-)
-
-REM Set the GCC version
-FOR /F "tokens=1,2 delims= " %%K IN ('gcc -dumpversion') DO (SET "gccver=%%K")
-
-REM Copy the needed libraries
-ECHO x86:
-COPY /V /Y "%MPCHC_MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a"    "lib\"
-COPY /V /Y "%MPCHC_MINGW32%\i686-pc-mingw32\lib\libmingwex.a"             "lib\"
-ECHO x64:
-rem See Part D for libmingwex.a x64
-COPY /V /Y "%MPCHC_MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\"
-
-PAUSE
-EXIT /B
-
-6. Press F7 to build the solution.
-7. You now have "mpc-hc.exe" under "C:\mpc-hc\bin\mpc-hc_x86"
-8. Open the solution file "C:\mpc-hc\mpciconlib.sln"
-9. Press F7 to build the solution.
-10. You now have "mpciconlib.dll" under "C:\mpc-hc\bin\mpc-hc_x86"
-11. Open the solution file "C:\mpc-hc\mpcresources.sln"
+4. Press F7 to build the solution.
+5. You now have "mpc-hc.exe" under "C:\mpc-hc\bin\mpc-hc_x86"
+6. Open the solution file "C:\mpc-hc\mpciconlib.sln"
+7. Press F7 to build the solution.
+8. You now have "mpciconlib.dll" under "C:\mpc-hc\bin\mpc-hc_x86"
+9. Open the solution file "C:\mpc-hc\mpcresources.sln"
     In Visual Studio go to Build->Batch Build->Press Select All->Press Build
-12. You now have "mpcresources.XX.dll" under "C:\mpc-hc\bin\mpc-hc_x86\Lang"
+10. You now have "mpcresources.XX.dll" under "C:\mpc-hc\bin\mpc-hc_x86\Lang"
 
 Alternatively, you can use "build.bat" which can build everything for you
 (run: build.bat help for more info)
