@@ -79,12 +79,10 @@ static unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 		return NULL;
 	}
 
-#pragma warning(disable:4611)
 	if (setjmp(png_jmpbuf(png_ptr))) {
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 		return NULL;
 	}
-#pragma warning(default:4611)
 
 	png_set_sig_bytes(png_ptr, 8);
 

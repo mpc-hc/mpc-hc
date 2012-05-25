@@ -66,7 +66,6 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1
   IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
   IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1
-  IF /I "%%A" == "Package"    SET "PACKAGES=True"     & SET /A ARGPA+=1
   IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A ARGIN+=1
   IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A ARGZI+=1
 )

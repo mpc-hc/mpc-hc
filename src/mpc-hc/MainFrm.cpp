@@ -714,7 +714,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 
-	m_pFullscreenWnd	= DNew CFullscreenWnd(this);
+	m_pFullscreenWnd = DNew CFullscreenWnd(this);
 
 	m_bars.AddTail(&m_wndSeekBar);
 	m_bars.AddTail(&m_wndToolBar);
@@ -10067,7 +10067,6 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 		return 1.0;
 	}
 
-	const AppSettings& s = AfxGetAppSettings();
 	CSize arxy = GetVideoSize();
 	// get the work area
 	MONITORINFO mi;
