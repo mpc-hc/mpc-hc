@@ -9,7 +9,7 @@ Legend:
 
 
 1.6.2 - 26 May 2012
-==============================
+=========================
 + MatroskaSplitter: Support for QT video formats in Matroska v1 and MPEG-1
 + Added .tak extension
 * Changed default settings
@@ -91,10 +91,10 @@ Legend:
 ! The settings location is now changed only when applying the changes in the
   options dialog instead of immediately after changing the state of the checkbox
 ! Improve/Fix the "Open" dialog:
-   - the "OK" button will be disabled until a file has been selected (this avoids
-     an error when clicking on "OK" while no file was selected)
-   - when the selected file cannot be dubbed (for example when opening an rtsp
-     stream) the wrong label was grayed out
+   - the "OK" button will be disabled until a file has been selected
+     (this avoids an error when clicking on "OK" while no file was selected)
+   - when the selected file cannot be dubbed (for example when opening an rtsp stream)
+     the wrong label was grayed out
 ! MatroskaSplitter: Better detection of fps for some webm files
 ! MPCVideoDec: Crash with some RV30/40 files when there are no input data from splitter
 ! MPCVideoDec: H.264 DXVA decoder skipped broken frames on interlaced material
@@ -125,13 +125,13 @@ Legend:
   it is readable with all Windows themes
 ! Ticket #2156, MPCVideoDec: Incorrect number of frames at the end of playback
   with software decoding
-! Ticket #2161, Prevent the "Open" dialog from being opened multiple times (for
-  example when double clicking on the tray icon)
+! Ticket #2161, Prevent the "Open" dialog from being opened multiple times
+  (for example when double clicking on the tray icon)
 ! Ticket #2172, MP4Splitter: skip video tracks with motionless frames
 ! Ticket #2274, MPCVideoDec: the configured threads count was ignored when the
   decoder had to fallback in software mode because of a DXVA incompatible file, only
   one thread was used in this case
 ! Ticket #2304, MpaDecFilter: PCM 32-bit output gives cracking sound
-! Ticket #2313, Fix a crash related to case sensitivity when using play next/previous
+! Ticket #2313, Fix crash related to the case sensitivity when using play next/previous
   file in folder
 ! Numerous other bugfixes and improvements
