@@ -76,7 +76,7 @@ END_MESSAGE_MAP()
 
 BOOL UpdateCheckerDlg::OnInitDialog()
 {
-	__super::OnInitDialog();
+	BOOL ret = __super::OnInitDialog();
 
 	switch (m_updateStatus) {
 		case UPDATER_UPDATE_AVAILABLE:
@@ -90,6 +90,7 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 			m_dlButton.ShowWindow(SW_HIDE);
 			m_laterButton.ShowWindow(SW_HIDE);
 			m_ignoreButton.SetWindowText(ResStr(IDS_UPDATE_CLOSE));
+
 			CRect buttonRect, windowRect;
 			m_ignoreButton.GetWindowRect(&buttonRect);
 			ScreenToClient(&buttonRect);
@@ -99,14 +100,17 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 			GetWindowRect(&windowRect);
 			buttonRect.MoveToX((windowRect.Width() - buttonRect.Width()) / 2);
 			m_ignoreButton.MoveWindow(&buttonRect);
-			m_ignoreButton.SetFocus();
+
+			// Change the default button
+			SetDefID(IDC_UPDATE_IGNORE_BUTTON);
+			ret = FALSE; // Focus has been set explicitly
 		}
 		break;
 		default:
 			ASSERT(0); // should never happen
 	}
 
-	return TRUE;
+	return ret;
 }
 
 void UpdateCheckerDlg::OnOpenDownloadPage()
