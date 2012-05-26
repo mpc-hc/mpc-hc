@@ -132,4 +132,6 @@ Legend:
   decoder had to fallback in software mode because of a DXVA incompatible file, only
   one thread was used in this case
 ! Ticket #2304, MpaDecFilter: PCM 32-bit output gives cracking sound
+! Ticket #2313, Fix a crash related to case sensitivity when using play next/previous
+  file in folder
 ! Numerous other bugfixes and improvements

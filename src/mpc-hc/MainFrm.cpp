@@ -12042,7 +12042,8 @@ int compare(const void* arg1, const void* arg2)
 int CMainFrame::SearchInDir(bool DirForward)
 {
 	CAtlList<CString> Play_sl;
-	CAtlList<CString> sl;
+	// Use CStringElementTraitsI so that the search is case insensitive
+	CAtlList<CString, CStringElementTraitsI<CString>> sl;
 	CAtlArray<fileName> f_array;
 	Play_sl.RemoveAll();
 	sl.RemoveAll();
