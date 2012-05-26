@@ -14699,15 +14699,15 @@ void CMainFrame::SetColorControl(DWORD flags, int& brightness, int& contrast, in
 		cr = AfxGetMyApp()->GetColorControl(ProcAmp_Brightness);
 		brightness = min(max(brightness, cr->MinValue), cr->MaxValue);
 	}
-	else if (flags&ProcAmp_Contrast) {
+	if (flags&ProcAmp_Contrast) {
 		cr = AfxGetMyApp()->GetColorControl(ProcAmp_Contrast);
 		contrast = min(max(contrast, cr->MinValue), cr->MaxValue);
 	}
-	else if (flags&ProcAmp_Hue) {
+	if (flags&ProcAmp_Hue) {
 		cr = AfxGetMyApp()->GetColorControl(ProcAmp_Hue);
 		hue =min(max(hue, cr->MinValue), cr->MaxValue);
 	}
-	else if (flags&ProcAmp_Saturation) {
+	if (flags&ProcAmp_Saturation) {
 		cr = AfxGetMyApp()->GetColorControl(ProcAmp_Saturation);
 		saturation = min(max(saturation, cr->MinValue), cr->MaxValue);
 	}
