@@ -46,7 +46,7 @@
 
 #define MPC_VERSION_MAJOR 1
 #define MPC_VERSION_MINOR 6
-#define MPC_VERSION_PATCH 2
+#define MPC_VERSION_PATCH 3
 
 
 #ifndef ISPP_INVOKED

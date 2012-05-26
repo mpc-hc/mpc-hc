@@ -3,7 +3,7 @@
   <assemblyIdentity
     name="MPC-HC"
     processorArchitecture="*"
-    version="1.6.2.0"
+    version="1.6.3.0"
     type="win32"
   />
   <description>MPC-HC</description>
