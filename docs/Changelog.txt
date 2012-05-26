@@ -25,6 +25,7 @@ Legend:
   options page. The delay between the checks is also customizable.
 + Ticket #2193, Add PNG support for custom toolbars
 + Added Basque translation
++ Include unrar.dll in the installer; rar'ed subtitles should be supported out of the box
 * Ticket #734, A unicode encoding will now be used for the ini file. Old ASCII
   ini files will be automatically converted to unicode. Favorites with unicode
   filenames are now correctly handled when using an ini file

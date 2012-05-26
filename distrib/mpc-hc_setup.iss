@@ -34,9 +34,9 @@
 #ifndef localize
 #define localize = "true"
 #endif
-; Don't include unrar.dll by default. You can bypass this by defining include_unrar=true in build.bat or here
+; Include unrar.dll by default. You can bypass this by defining include_unrar=whatever or false etc in build.bat or here
 #ifndef include_unrar
-#define include_unrar = "false"
+#define include_unrar = "true"
 #endif
 #define sse_required
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
