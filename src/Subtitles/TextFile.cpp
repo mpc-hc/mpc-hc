@@ -187,7 +187,7 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
 		Write((LPCSTR)stra, stra.GetLength());
 	} else if (m_encoding == UTF8) {
 		str.Replace(L"\n", L"\r\n");
-		for (int i = 0; i < str.GetLength(); i++) {
+		for (unsigned int i = 0, l = str.GetLength(); i < l; i++) {
 			DWORD c = (WORD)str[i];
 
 			if (0 <= c && c < 0x80) { // 0xxxxxxx
@@ -211,7 +211,7 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
 		Write((LPCWSTR)str, str.GetLength()*2);
 	} else if (m_encoding == BE16) {
 		str.Replace(L"\n", L"\r\n");
-		for (int i = 0; i < str.GetLength(); i++) {
+		for (unsigned int i = 0, l = str.GetLength(); i < l; i++) {
 			str.SetAt(i, ((str[i]>>8)&0x00ff)|((str[i]<<8)&0xff00));
 		}
 		Write((LPCWSTR)str, str.GetLength()*2);
