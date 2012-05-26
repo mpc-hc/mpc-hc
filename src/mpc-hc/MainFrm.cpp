@@ -26,6 +26,7 @@
 #include "MainFrm.h"
 
 #include <math.h>
+#include <algorithm>
 
 #include <afxpriv.h>
 #include <atlconv.h>
@@ -2263,11 +2264,11 @@ bool CMainFrame::GraphEventComplete()
 				}
 			}
 		} else {
-			int NextMediaExist = 0;
+			bool bNextMediaExist = false;
 			if (s.fNextInDirAfterPlayback) {
-				NextMediaExist = SearchInDir(true);
+				bNextMediaExist = SearchInDir(true);
 			}
-			if (!s.fNextInDirAfterPlayback || !(NextMediaExist>1)) {
+			if (!bNextMediaExist) {
 				if (s.fRewind) {
 					SendMessage(WM_COMMAND, ID_PLAY_STOP);
 				} else {
@@ -2279,10 +2280,11 @@ bool CMainFrame::GraphEventComplete()
 				if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
 					OnViewFullscreen();
 				}
-			}
-			if (s.fNextInDirAfterPlayback && !NextMediaExist) {
-				m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
-				// Don't move it. Else OSD message "Pause" will rewrite this message.
+				
+				if (s.fNextInDirAfterPlayback) {
+					m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
+					// Don't move it. Else OSD message "Pause" will rewrite this message.
+				}
 			}
 		}
 	} else if (m_wndPlaylistBar.GetCount() > 1) {
@@ -12031,74 +12033,71 @@ void CMainFrame::ParseDirs(CAtlList<CString>& sl) {
 	}
 }
 
-typedef struct {
-	CString fn;
-} fileName;
-int compare(const void* arg1, const void* arg2)
+static bool SearchInDirCompare(const CString& str1, const CString& str2)
 {
-	return StrCmpLogicalW(((fileName*)arg1)->fn, ((fileName*)arg2)->fn);
+	return (StrCmpLogicalW(str1, str2) < 0);
 }
 
-int CMainFrame::SearchInDir(bool DirForward)
+bool CMainFrame::SearchInDir(bool bDirForward)
 {
-	CAtlList<CString> Play_sl;
-	// Use CStringElementTraitsI so that the search is case insensitive
-	CAtlList<CString, CStringElementTraitsI<CString>> sl;
-	CAtlArray<fileName> f_array;
-	Play_sl.RemoveAll();
-	sl.RemoveAll();
+	CStringArray files;
 
 	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
-	CString dir = m_LastOpenFile.Mid(0,m_LastOpenFile.ReverseFind('\\')+1);
-	CString mask = dir + _T("*.*");
-	WIN32_FIND_DATA fd;
-	HANDLE h = FindFirstFile(mask, &fd);
-	if (h != INVALID_HANDLE_VALUE) {
-		do {
-			if (fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {
-				continue;
+	CString mask = m_LastOpenFile.Left(m_LastOpenFile.ReverseFind(_T('\\')) + 1) + _T("*.*");
+	CFileFind finder;
+	BOOL bHasNext = finder.FindFile(mask);
+
+	while (bHasNext) {
+		bHasNext = finder.FindNextFile();
+
+		if (!finder.IsDirectory()) {
+			CString path = finder.GetFilePath();
+			CString ext = path.Mid(path.ReverseFind('.'));
+			if (mf.FindExt(ext)) {
+				files.Add(path);
 			}
-
-			CString fn = fd.cFileName;
-			CString ext = fn.Mid(fn.ReverseFind('.')).MakeLower();
-			CString path = dir + fd.cFileName;
-			if (mf.FindExt(ext) && mf.GetCount() > 0) {
-				fileName f_name;
-				f_name.fn = path;
-				f_array.Add(f_name);
-			}
-		} while (FindNextFile(h, &fd));
-		FindClose(h);
+		}
 	}
 
-	if (f_array.GetCount() == 1) {
-		return true;
+	finder.Close();
+
+	if (files.GetCount() <= 1) {
+		return false;
 	}
 
-	qsort(f_array.GetData(), f_array.GetCount(), sizeof(fileName), compare);
-	for (size_t i = 0; i < f_array.GetCount(); i++) {
-		sl.AddTail(f_array[i].fn);
+	std::sort(files.GetData(), files.GetData() + files.GetCount(), SearchInDirCompare);
+
+	INT_PTR current = -1;
+	for (INT_PTR i = 0, l = files.GetCount(); i < l && current < 0; i++) {
+		if (m_LastOpenFile.CompareNoCase(files[i]) == 0) {
+			current = i;
+		}
 	}
 
-	POSITION Pos;
-	Pos = sl.Find(m_LastOpenFile);
-	if (DirForward) {
-		if (Pos == sl.GetTailPosition()) {
+	if (current < 0) {
+		return false;
+	}
+
+	CAtlList<CString> sl;
+
+	if (bDirForward) {
+		current++;
+		if (current >= files.GetCount()) {
 			return false;
 		}
-		sl.GetNext(Pos);
-
 	} else {
-		if (Pos == sl.GetHeadPosition()) {
+		current--;
+		if (current < 0) {
 			return false;
 		}
-		sl.GetPrev(Pos);
 	}
-	Play_sl.AddHead(sl.GetAt(Pos));
-	m_wndPlaylistBar.Open(Play_sl,false);
+
+	sl.AddHead(files[current]);
+	m_wndPlaylistBar.Open(sl, false);
 	OpenCurPlaylistItem();
-	return(sl.GetCount());
+
+	return true;
 }
 
 void CMainFrame::DoTunerScan(TunerScanData* pTSD)

@@ -510,7 +510,7 @@ public:
 
 	bool DoAfterPlaybackEvent();
 	void ParseDirs(CAtlList<CString>& sl);
-	int SearchInDir(bool DirForward);
+	bool SearchInDir(bool bDirForward);
 
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
