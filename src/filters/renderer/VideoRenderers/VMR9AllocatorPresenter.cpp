@@ -21,6 +21,7 @@
  */
 
 #include "stdafx.h"
+#include "RenderersSettings.h"
 #include "VMR9AllocatorPresenter.h"
 #include "OuterVMR.h"
 #include "IPinHook.h"
@@ -128,7 +129,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 				// See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
 				dwPrefs |= MixerPref9_NonSquareMixing;
 				dwPrefs |= MixerPref9_NoDecimation;
-				if (s.fVMR9MixerYUV && !IsVistaOrAbove()) {
+				if (s.fVMR9MixerYUV && !IsWinVistaOrLater()) {
 					dwPrefs &= ~MixerPref9_RenderTargetMask;
 					dwPrefs |= MixerPref9_RenderTargetYUV;
 				}

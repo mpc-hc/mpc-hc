@@ -77,9 +77,7 @@ public:
 	class CRendererSettingsShared
 	{
 	public:
-		CRendererSettingsShared() {
-			SetDefault();
-		}
+		CRendererSettingsShared() {SetDefault();}
 		bool fVMR9AlterativeVSync;
 		int iVMR9VSyncOffset;
 		bool iVMR9VSyncAccurate;
@@ -166,4 +164,4 @@ extern CRenderersData*		GetRenderersData();
 extern CRenderersSettings&	GetRenderersSettings();
 
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
-extern "C" BOOL	IsVistaOrAbove();
+extern BOOL IsWinVistaOrLater();
