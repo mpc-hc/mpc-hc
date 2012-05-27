@@ -163,14 +163,14 @@ BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
 END
 
 BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
-5		"Pfad zum DVD-Laufwerk, oder ""VIDEO_TS""-Ordner"
+5		"Pfad zum DVD-Laufwerk, oder einem ""VIDEO_TS""-Ordner"
 6		"&Standard"
 7		"&Benutzerdefiniert:"
 10		"Bevorzugte Sprache für DVD-Navigator und OGM-Splitter"
 11		"&Menü"
 12		"&Audio"
 13		"&Untertitel"
-15		"weitere Einstellungen"
+15		"Weitere Einstellungen"
 16		"&Lautsprecher-Anzahl für Intervideo AC3-Dekoder automatisch ermitteln"
 18		"Untertitel im 'Line 21 Decoder' erlauben"
 END
@@ -219,7 +219,7 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 6		"Steuerleiste im &Vollbild anzeigen für"
 9		"Sek"
 10		" 0: auto-verstecken; -1: nie verstecken"
-11		"&Bei Stopp Vollbild verlassen"
+11		"&Bei ""Stopp"" Vollbild verlassen"
 13		"Ausgabemonitor bei Vollbild"
 16		"Automatische Modus Änderung aktivieren"
 19		"hinzufügen"
@@ -227,11 +227,11 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 21		"nach oben"
 22		"nach unten"
 23		"Standard-Monitormodus nach Beenden des Vollbilds aktivieren"
-25		"Auflösung wiederherstellen nach Beenden"
+25		"Nach Beenden Auflösung wiederherstellen"
 END
 
 BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Wenn Sie die Standalone-Version eines Filters, oder einen anderen\nexternen Filter verwenden möchten, haken Sie ihn hier nicht an. Eigenschaften der fett gedruckten Filter können durch Doppel-Klick angezeigt werden."
+5		"Wenn Sie die Standalone-Version eines Filters, oder einen anderen externen Filter verwenden möchten, haken Sie ihn hier nicht an. Eigenschaften der fett gedruckten Filter können durch Doppel-Klick angezeigt werden."
 6		"Quell-Filter"
 8		"Dekoder-Filter"
 END
@@ -351,11 +351,11 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
-5		"Falls verfügbar, externe Untertitel bevorzugen"
+5		"Externe Untertitel bevorzugen (wenn verfügbar)"
 7		"Interne Untertitel nicht benutzen"
 8		"Pfade, in denen automatisch nach verfügbaren Untertiteln gesucht werden soll:"
 10		"Zurücksetzen"
-11		"Online Datenbank"
+11		"Online Untertitel-Datenbank"
 12		"URL zur Online Untertitel-Datenbank:"
 15		"testen"
 END
@@ -400,7 +400,7 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 27		"Warnung"
 28		"Wenn Sie die Untertitel-Position anpassen und in den Einstellungen der Grafikkarte\nVollbild-Antialiasing auswählen, sehen die Untertitel zwar besser aus, aber die\nCPU-Belastung steigt extrem an."
 29		"Zur Information"
-30		"Die interne Untertitelfunktion ist nur verfügbar, wenn Sie einen kompatiblen Video Renderer (erkennbar an den ""**"" am Ende des Namens) ausgewählt haben. Sie können den bevorzugten Video Renderer in den Optionen unter Wiedergabe -> Ausgabe auswählen."
+30		"Die interne Untertitelfunktion ist nur verfügbar, wenn Sie einen kompatiblen Video Renderer (erkennbar an den ""**"" am Ende des Namens) ausgewählt haben. Sie können den bevorzugten Video Renderer im linken Auswahlfeld unter ""Ausgabe"" auswählen."
 31		"Untertitel für RealMedia und QuickTime sind möglich, wenn Sie deren spezielle\nDirectX 7 oder DirectX 9 Renderer einstellen."
 END
 
@@ -416,7 +416,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 19		"ms"
 20		"Regelgrenze:"
 23		"ms"
-24		"Änderungen werden erst nach Neustart der Wiedergabe wirksam."
+24		"Änderungen werden erst nach Neustart der Wiedergabe wirksam"
 END
 
 BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
@@ -505,9 +505,9 @@ END
 
 BEGIN DIALOGEX IDD_UPDATE_DIALOG LINES 11
 3		"Nach Aktualisierungen suchen"
-8		"jetzt &herunterladen"
+8		"Jetzt &herunterladen"
 9		"Später &erinnern"
-10		"&Diese Aktualisierung ignorieren"
+10		"&Aktualisierung ignorieren"
 END
 
 BEGIN MENU IDR_MAINFRAME LINES 248
@@ -1788,7 +1788,7 @@ STRING IDS_THUMB_ROWNUMBER		"Reihen:"
 STRING IDS_TIME_TOOLTIP_ABOVE		"über der Suchleiste"
 STRING IDS_TIME_TOOLTIP_BELOW		"unter der Suchleiste"
 STRING IDS_TOOLTIP_EXPLORE_TO_FILE		"Doppelklicken, um den Ordner mit dieser Datei zu öffnen"
-STRING IDS_TOOLTIP_REMAINING_TIME		"Zwischen den versch. Zeitanzeigemodis wechseln"
+STRING IDS_TOOLTIP_REMAINING_TIME		"Zwischen den verschiedenen Zeitanzeigemodis wechseln"
 STRING IDS_TOP_BACK_CENTER		"Top Hinten Mitte"
 STRING IDS_TOP_BACK_LEFT		"Top Hinten Links"
 STRING IDS_TOP_BACK_RIGHT		"Top Hinten Rechts"
