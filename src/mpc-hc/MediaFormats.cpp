@@ -227,7 +227,6 @@ void CMediaFormats::UpdateData(bool fSave)
 #endif
 		ADDFMT((_T("wmv"),      ResStr(IDS_MFMT_WMV),      _T("wmv wmp wm asf")));
 		ADDFMT((_T("videocd"),  ResStr(IDS_MFMT_VIDEOCD),  _T("dat")));
-		ADDFMT((_T("ratdvd"),   ResStr(IDS_MFMT_RATDVD),   _T("ratdvd"), false, _T("ratdvd media file")));
 		ADDFMT((_T("bink"),     ResStr(IDS_MFMT_BINK),     _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
 		ADDFMT((_T("flic"),     ResStr(IDS_MFMT_FLIC),     _T("fli flc flic")));
 		ADDFMT((_T("dsm"),      ResStr(IDS_MFMT_DSM),      _T("dsm dsv dsa dss")));

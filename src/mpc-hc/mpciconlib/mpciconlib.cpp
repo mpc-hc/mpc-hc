@@ -197,8 +197,6 @@ int get_icon_index(CString ext)
 		iconindex = IDI_RA_ICON;
 	} else if (ext.CompareNoCase(_T(".ram")) == 0) {
 		iconindex = IDI_RM_ICON;
-	} else if (ext.CompareNoCase(_T(".ratdvd")) == 0) {
-		iconindex = IDI_RATDVD_ICON;
 	} else if (ext.CompareNoCase(_T(".rm")) == 0) {
 		iconindex = IDI_RM_ICON;
 	} else if (ext.CompareNoCase(_T(".rmi")) == 0) {
