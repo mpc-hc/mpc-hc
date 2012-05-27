@@ -313,8 +313,8 @@ public:
 	CAtlList<CString>	slFiles, slDubs, slSubs, slFilters;
 
 	// Initial position (used by command line flags)
-	__int64				rtShift;
-	__int64				rtStart;
+	REFERENCE_TIME		rtShift;
+	REFERENCE_TIME		rtStart;
 	ULONG				lDVDTitle;
 	ULONG				lDVDChapter;
 	DVD_HMSF_TIMECODE	DVDPosition;
