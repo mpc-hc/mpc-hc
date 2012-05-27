@@ -32,6 +32,7 @@
 #include <psapi.h>
 #include "Ifo.h"
 #include "Monitors.h"
+#define NO_VERSION_REV_NEEDED
 #include "Version.h"
 #include "../DSUtil/WinAPIUtils.h"
 #include "UpdateChecker.h"
@@ -2261,15 +2262,10 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		if ( Version.Create(strSatellite) ) {
 			strSatVersion = Version.GetFileVersionEx();
 
-			CString needVersion = L"";
-			needVersion += MAKE_STR(MPC_VERSION_MAJOR);
-			needVersion += L".";
-			needVersion += MAKE_STR(MPC_VERSION_MINOR);
-			needVersion += L".";
-			needVersion += MAKE_STR(MPC_VERSION_PATCH);
-			needVersion += L".0";
+			CString strNeededVersion = MPC_VERSION_STR;
+			strNeededVersion.Replace(_T(", "), _T("."));
 
-			if ( strSatVersion == needVersion ) {
+			if ( strSatVersion == strNeededVersion ) {
 				hMod = LoadLibrary( strSatellite );
 				s.iLanguage = nLanguage;
 			} else {
