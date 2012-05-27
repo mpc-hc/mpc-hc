@@ -31,8 +31,6 @@
 COLORREF CStaticLink::g_colorUnvisited = RGB(0,0,255);			// blue
 COLORREF CStaticLink::g_colorVisited   = RGB(128,0,128);		// purple
 
-HCURSOR    CStaticLink::g_hCursorLink = NULL;
-
 IMPLEMENT_DYNAMIC(CStaticLink, CStatic)
 
 BEGIN_MESSAGE_MAP(CStaticLink, CStatic)
@@ -54,7 +52,7 @@ CStaticLink::CStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy)
 }
 
 //////////////////
-// Normally,    a static control does not get mouse events unless it has
+// Normally, a static control does not get mouse events unless it has
 // SS_NOTIFY. This achieves the same effect as SS_NOTIFY, but it's fewer
 // lines of code and more reliable than turning on SS_NOTIFY in OnCtlColor
 // because Windows doesn't send WM_CTLCOLOR to bitmap static controls.
@@ -125,34 +123,12 @@ void CStaticLink::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
 //////////////////
-// Set "hand" cursor to cue user that this is a link. If app has not set
-// g_hCursorLink, then try to get the cursor from winhlp32.exe,
-// resource 106, which is a pointing finger. This is a bit of a kludge,
-// but it works.
+// Set "hand" cursor to cue user that this is a link.
 //
 BOOL CStaticLink::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	if (g_hCursorLink == NULL) {
-		static BOOL bTriedOnce = FALSE;
-		if (!bTriedOnce) {
-			CString windir;
-			GetWindowsDirectory(windir.GetBuffer(_MAX_PATH), _MAX_PATH);
-			windir.ReleaseBuffer();
-			windir += _T("\\winhlp32.exe");
-			HMODULE hModule = LoadLibrary(windir);
-			if (hModule) {
-				g_hCursorLink =
-					CopyCursor(::LoadCursor(hModule, MAKEINTRESOURCE(106)));
-			}
-			FreeLibrary(hModule);
-			bTriedOnce = TRUE;
-		}
-	}
-	if (g_hCursorLink) {
-		::SetCursor(g_hCursorLink);
-		return TRUE;
-	}
-	return FALSE;
+	::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+	return TRUE;
 }
 
 //////////////////

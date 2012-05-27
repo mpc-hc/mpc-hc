@@ -63,11 +63,6 @@ public:
 	static COLORREF g_colorUnvisited;
 	static COLORREF g_colorVisited;
 
-	// Cursor used when mouse is on a link--you can set, or
-	// it will default to the standard hand with pointing finger.
-	// This is global, so it's the same for all links.
-	static HCURSOR g_hCursorLink;
-
 protected:
 	CFont	m_font;				// underline font for text control
 	bool	m_bDeleteOnDestroy;	// delete object when window destroyed?
