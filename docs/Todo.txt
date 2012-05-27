@@ -2,20 +2,21 @@ Patches are always welcome. :)
 
 MPC-HC:
 1) Try to fix all /W3 warnings for Win32 in our code.
-   See DSUtil/SharedInclude.h and common.props for the disabled warnings.
-   Also a search for "#pragma warning" will reveal any other places where warnings are disabled,
-   which shouldn't be a lot in our code. (C4731, C4799 etc)
-2) Try to clean up the includes; there are a lot of unneeded includes, or includes which are
+   See DSUtil/SharedInclude.h for the disabled warnings. Also a search for "#pragma warning"
+   will reveal any other places where warnings are disabled, which shouldn't be a lot in our code. (C4731, C4799 etc)
+2) Run /analyze and fix some of the errors; memory leaks, NULL pointer dereferencing, buffer overrun etc
+   http://pastebin.com/TX40Apkw
+3) Try to clean up the includes; there are a lot of unneeded includes, or includes which are
    inherited from files they shouldn't be and are not included directly in the files that need them
-3) Try to speed up compilation by doing the above and also by optimizing the included headers
+4) Try to speed up compilation by doing the above and also by optimizing the included headers
    in stdafx.h for mplayerc.vcxproj. Ideally add support for precompiled headers in Bento4.
-4) Reorganize the player's Options
-5) Remove support for unneeded/obsolete renderers
-6) Update Bento4 library or see if we can use ffmpeg for this job
-7) Test MSVC 2011 more when it's released. With the Beta version we get hundreds of redefinitions
+5) Reorganize the player's Options
+6) Remove support for unneeded/obsolete renderers
+7) Update Bento4 library or see if we can use ffmpeg for this job
+8) Test MSVC 2011 more when it's released. With the Beta version we get hundreds of redefinitions
    for the DX headers which seems normal since DX is moved into the SDK, linking fails
    if /SAFESEH:NO isn't specified and the MFC bloat workaround does not work as it is.
-8) Use "new" instead of "DNew" and make sure the leak detection works properly
+9) Use "new" instead of "DNew" and make sure the leak detection works properly
 
 FFmpeg:
 1) Stop linking ffmpeg statically
