@@ -1,7 +1,7 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Névjegy"
 8		"Szerzői jog © 2002-2012 lásd Authors.txt fájl"
-10		"Build szám :"
+10		"Version :"
 11		"OK"
 12		"Ez a program freeware és a GNU General Public License alatt lett kiadva."
 13		"MPC-HC Fordítóprogram :"

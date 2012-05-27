@@ -1,7 +1,7 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"En quant a"
 8		"Copyright © 2002-2012 veure l'arxiu Authors.txt"
-10		"Compilació nº :"
+10		"Version :"
 11		"OK"
 12		"Aquet programa és gratuït i distribuït sota la Llicència Pública General de GNU."
 13		"Compilador MPC-HC :"

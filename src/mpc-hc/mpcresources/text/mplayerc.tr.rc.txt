@@ -1,7 +1,7 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Hakkında"
 8		"Telif Hakkı © 2002-2012, Authors.txt dosyasına bakınız"
-10		"Sürüm numarası :"
+10		"Version :"
 11		"Tamam"
 12		"Bu program ücretsiz olup Genel Kamusal GNU Lisansı altında sunulmaktadır."
 13		"MPC-HC Derlemesi :"

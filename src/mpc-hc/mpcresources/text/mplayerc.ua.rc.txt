@@ -1,7 +1,7 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Про програму"
 8		"Copyright © 2002-2012, див. файл Authors.txt"
-10		"Збірка номер :"
+10		"Version :"
 11		"Гаразд"
 12		"Ця програма безкоштовна та розповсюджується за ліцензією GNU General Public License.\n"
 13		"MPC-HC Компілятор :"

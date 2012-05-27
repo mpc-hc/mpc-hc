@@ -1,7 +1,7 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Пра праграму"
 8		"Copyright © 2002-2012 глядзiце файл Authors.txt"
-10		"Нумар сборкi :"
+10		"Version :"
 11		"OK"
 12		"Гэтая праграма бясплатная і распаўсюджваецца пад ліцэнзіяй GNU General Public License."
 13		"Кампiлятар MPC-HC :"
