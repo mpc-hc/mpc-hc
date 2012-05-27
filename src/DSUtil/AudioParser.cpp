@@ -188,9 +188,11 @@ int ParseMLPHeader(const BYTE *buf, int *samplerate, int *channels, int *framele
 	static const int sampling_rates[]           = { 48000, 96000, 192000, 0, 0, 0, 0, 0, 44100, 88200, 176400, 0, 0, 0, 0, 0 };
 	static const unsigned char mlp_quants[16]   = { 16, 20, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	static const unsigned char mlp_channels[32] = {     1,     2,      3, 4, 3, 4, 5, 3,     4,     5,      4, 5, 6, 4, 5, 4,
-	                                                    5,     6,      5, 5, 6, 0, 0, 0,     0,     0,      0, 0, 0, 0, 0, 0 };
+														5,     6,      5, 5, 6, 0, 0, 0,     0,     0,      0, 0, 0, 0, 0, 0
+												  };
 	static const int channel_count[13] = {//   LR    C   LFE  LRs LRvh  LRc LRrs  Cs   Ts  LRsd  LRw  Cvh  LFE2
-	                                            2,   1,   1,   2,   2,   2,   2,   1,   1,   2,   2,   1,   1};
+												2,   1,   1,   2,   2,   2,   2,   1,   1,   2,   2,   1,   1
+										 };
 
 	DWORD sync = *(DWORD*)(buf+4);
 	if (sync == TRUEHD_SYNC_WORD) {
