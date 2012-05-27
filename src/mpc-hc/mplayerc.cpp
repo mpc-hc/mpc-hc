@@ -482,17 +482,17 @@ void CMPlayerCApp::PreProcessCommandLine()
 	}
 }
 
-BOOL CMPlayerCApp::SendCommandLine(HWND hWnd)
+bool CMPlayerCApp::SendCommandLine(HWND hWnd)
 {
 	if (m_cmdln.IsEmpty()) {
-		return FALSE;
+		return false;
 	}
 
 	int bufflen = sizeof(DWORD);
 
 	POSITION pos = m_cmdln.GetHeadPosition();
 	while (pos) {
-		bufflen += (m_cmdln.GetNext(pos).GetLength()+1)*sizeof(TCHAR);
+		bufflen += (m_cmdln.GetNext(pos).GetLength() + 1) * sizeof(TCHAR);
 	}
 
 	CAutoVectorPtr<BYTE> buff;
@@ -502,13 +502,13 @@ BOOL CMPlayerCApp::SendCommandLine(HWND hWnd)
 
 	BYTE* p = buff;
 
-	*(DWORD*)p = m_cmdln.GetCount();
+	*(DWORD*)p = (DWORD)m_cmdln.GetCount();
 	p += sizeof(DWORD);
 
 	pos = m_cmdln.GetHeadPosition();
 	while (pos) {
-		CString s = m_cmdln.GetNext(pos);
-		int len = (s.GetLength()+1)*sizeof(TCHAR);
+		const CString& s = m_cmdln.GetNext(pos);
+		int len = (s.GetLength() + 1) * sizeof(TCHAR);
 		memcpy(p, s, len);
 		p += len;
 	}
@@ -517,7 +517,8 @@ BOOL CMPlayerCApp::SendCommandLine(HWND hWnd)
 	cds.dwData = 0x6ABE51;
 	cds.cbData = bufflen;
 	cds.lpData = (void*)(BYTE*)buff;
-	return SendMessage(hWnd, WM_COPYDATA, (WPARAM)NULL, (LPARAM)&cds);
+
+	return !!SendMessage(hWnd, WM_COPYDATA, (WPARAM)NULL, (LPARAM)&cds);
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1741,7 +1741,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 
 	POSITION pos = cmdln.GetHeadPosition();
 	while (pos) {
-		CString param = cmdln.GetNext(pos);
+		const CString& param = cmdln.GetNext(pos);
 		if (param.IsEmpty()) {
 			continue;
 		}

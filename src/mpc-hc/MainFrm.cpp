@@ -2280,7 +2280,7 @@ bool CMainFrame::GraphEventComplete()
 				if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
 					OnViewFullscreen();
 				}
-				
+
 				if (s.fNextInDirAfterPlayback) {
 					m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
 					// Don't move it. Else OSD message "Pause" will rewrite this message.
@@ -4177,12 +4177,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
 	CAtlList<CString> cmdln;
 
-	while (len-- > 0) {
-		CString str;
-		while (pBuff < pBuffEnd && *pBuff) {
-			str += *pBuff++;
-		}
-		pBuff++;
+	while (len-- > 0 && pBuff < pBuffEnd) {
+		CString str(pBuff);
+		pBuff += str.GetLength() + 1;
+
 		cmdln.AddTail(str);
 	}
 

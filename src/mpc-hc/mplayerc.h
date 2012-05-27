@@ -113,7 +113,7 @@ class CMPlayerCApp : public CWinApp
 
 	CAtlList<CString> m_cmdln;
 	void PreProcessCommandLine();
-	BOOL SendCommandLine(HWND hWnd);
+	bool SendCommandLine(HWND hWnd);
 	UINT GetVKFromAppCommand(UINT nAppCommand);
 
 	// Casimir666 : new in CMPlayerCApp
