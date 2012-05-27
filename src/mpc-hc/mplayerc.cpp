@@ -2294,16 +2294,6 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	AfxSetResourceHandle(hMod);
 }
 
-bool CMPlayerCApp::IsVSFilterInstalled()
-{
-	return IsCLSIDRegistered(_T("{9852A670-F845-491B-9BE6-EBD841B8A613}"));
-}
-
-bool CMPlayerCApp::HasEVR()
-{
-	return IsCLSIDRegistered(_T("{FA10746C-9B63-4B6C-BC49-FC300EA5F256}"));
-}
-
 HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
 {
 	ASSERT( IsWinVistaOrLater() );

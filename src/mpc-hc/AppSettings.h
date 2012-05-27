@@ -134,7 +134,7 @@ enum MCE_RAW_INPUT {
 #define DEFAULT_SUBTITLE_PATHS _T(".;.\\subtitles;.\\subs")
 #define DEFAULT_JUMPDISTANCE_1  1000
 #define DEFAULT_JUMPDISTANCE_2  5000
-#define DEFAULT_JUMPDISTANCE_3 20000
+#define DEFAULT_JUMPDISTANCE_3  20000
 
 
 typedef enum {
@@ -592,7 +592,9 @@ public:
 	int				nUpdaterDelay;
 
 	bool			GetAllowMultiInst();
+	static bool		IsVSFilterInstalled();
+	static bool		HasEVR();
 private:
 	void			UpdateRenderersData(bool fSave);
-	friend	void	CRenderersSettings::UpdateData(bool bSave);
+	friend void		CRenderersSettings::UpdateData(bool bSave);
 };
