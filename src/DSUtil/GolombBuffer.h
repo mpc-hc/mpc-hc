@@ -44,7 +44,7 @@ public:
 	int				GetSize() const     { return m_nSize; };
 	int				RemainingSize() const { return m_nSize - m_nBitPos; };
 	bool			IsEOF() const { return m_nBitPos >= m_nSize; };
-	INT64			GetPos();
+	int				GetPos();
 	BYTE*			GetBufferPos() { return m_pBuffer + m_nBitPos; };
 
 	void			SkipBytes(int nCount);

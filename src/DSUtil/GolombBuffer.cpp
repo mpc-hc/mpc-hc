@@ -79,7 +79,7 @@ void CGolombBuffer::BitByteAlign()
 	m_bitlen &= ~7;
 }
 
-__int64 CGolombBuffer::GetPos()
+int CGolombBuffer::GetPos()
 {
 	return m_nBitPos - (m_bitlen>>3);
 }

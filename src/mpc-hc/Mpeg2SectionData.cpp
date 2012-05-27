@@ -31,7 +31,7 @@
 #define BeginEnumDescriptors(gb, nType, nLength)								\
 	{																			\
 		BYTE	DescBuffer[256];												\
-		INT64	nLimit = ((WORD)gb.BitRead(12)) + gb.GetPos();					\
+		int		nLimit = ((int)gb.BitRead(12)) + gb.GetPos();					\
 		while (gb.GetPos() < nLimit)											\
 		{																		\
 			MPEG2_DESCRIPTOR 	nType	= (MPEG2_DESCRIPTOR)gb.BitRead(8);		\

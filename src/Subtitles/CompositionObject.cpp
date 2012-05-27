@@ -157,7 +157,7 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, SHORT
 	//return;
 	SHORT	nX		= nXStart;
 	SHORT	nY		= nYStart;
-	INT64	nEnd	= gb.GetPos()+nLength;
+	int		nEnd	= gb.GetPos()+nLength;
 	while (gb.GetPos() < nEnd) {
 		BYTE	bType	= gb.ReadByte();
 		switch (bType) {
