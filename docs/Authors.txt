@@ -40,7 +40,7 @@ Chinese Traditional     Kene Lin                <kenelin@users.sourceforge.net>
 Czech                   khagaroth               <khagaroth@users.sourceforge.net>
 Dutch                   Paul Tjepkema           <pietpuk123@users.sourceforge.net>
 French                  Sebastiii               <sebastiii@users.sourceforge.net>
-German                  Markus Gaugg            <prinzeugen@users.sourceforge.net>
+German                  Markus Gaugg            <markusgaugg@users.sourceforge.net>
 Hebrew                  Superb                  <superbsubs@users.sourceforge.net>
 Hungarian               Tamas Kleiber           <klei@users.sourceforge.net>
 Italian                 SigiTM                  <sigitm@users.sourceforge.net>
