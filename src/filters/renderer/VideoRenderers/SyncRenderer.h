@@ -69,7 +69,7 @@ extern bool g_bExternalSubtitleTime;
 
 #define MAX_FIFO_SIZE 1024
 
-#define CheckHR(exp) {if(FAILED(hr = exp)) return hr;}
+#define CheckHR(exp) {if (FAILED(hr = exp)) return hr;}
 
 // Guid to tag IMFSample with DirectX surface index
 static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };

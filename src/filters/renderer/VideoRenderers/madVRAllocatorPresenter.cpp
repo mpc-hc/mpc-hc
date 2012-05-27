@@ -70,15 +70,15 @@ CmadVRAllocatorPresenter::~CmadVRAllocatorPresenter()
 STDMETHODIMP CmadVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	/*
-		if(riid == __uuidof(IVideoWindow))
+		if (riid == __uuidof(IVideoWindow))
 			return GetInterface((IVideoWindow*)this, ppv);
-		if(riid == __uuidof(IBasicVideo))
+		if (riid == __uuidof(IBasicVideo))
 			return GetInterface((IBasicVideo*)this, ppv);
-		if(riid == __uuidof(IBasicVideo2))
+		if (riid == __uuidof(IBasicVideo2))
 			return GetInterface((IBasicVideo2*)this, ppv);
 	*/
 	/*
-		if(riid == __uuidof(IVMRWindowlessControl))
+		if (riid == __uuidof(IVMRWindowlessControl))
 			return GetInterface((IVMRWindowlessControl*)this, ppv);
 	*/
 

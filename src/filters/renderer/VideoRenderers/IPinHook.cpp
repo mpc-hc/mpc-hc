@@ -791,11 +791,11 @@ static HRESULT STDMETHODCALLTYPE GetCompBufferInfoMine(IAMVideoAcceleratorC * Th
 
 	LOG(_T("hr = %08x"), hr);
 
-	//if(pdwNumTypesCompBuffers)
+	//if (pdwNumTypesCompBuffers)
 	//{
 	//	LOG(_T("[out] *pdwNumTypesCompBuffers = %d"), *pdwNumTypesCompBuffers);
 
-	//	if(pamvaUncompDataInfo)
+	//	if (pamvaUncompDataInfo)
 	//	{
 	//		LOGUDI(_T("[out] pamvaUncompDataInfo"), pamvaUncompDataInfo, *pdwNumTypesCompBuffers);
 	//	}

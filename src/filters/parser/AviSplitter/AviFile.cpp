@@ -285,7 +285,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 					}
 					break;
 				case FCC('vprp'):
-					//if(S_OK != Read(m_vprp)) return E_FAIL;
+					//if (S_OK != Read(m_vprp)) return E_FAIL;
 					break;
 				case FCC('idx1'):
 					ASSERT(m_idx1 == NULL);
@@ -477,7 +477,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 		return true;
 	}
 	/*
-		if(m_avih.dwFlags&AVIF_ISINTERLEAVED) // not reliable, nandub can write f*cked up files and still sets it
+		if (m_avih.dwFlags&AVIF_ISINTERLEAVED) // not reliable, nandub can write f*cked up files and still sets it
 			return true;
 	*/
 	for (DWORD i = 0; i < m_avih.dwStreams; ++i) {

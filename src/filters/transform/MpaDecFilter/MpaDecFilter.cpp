@@ -1426,7 +1426,7 @@ static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, double* pout)
 		ASSERT(0);
 		return;
 	}
-	// if(unk == 7) {ASSERT(0); return;} // ???
+	// if (unk == 7) {ASSERT(0); return;} // ???
 
 	static double s_tbl[] = {
 		0.0, 0.0, 0.9375, 0.0, 1.796875, -0.8125, 1.53125, -0.859375, 1.90625, -0.9375,

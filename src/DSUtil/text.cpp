@@ -29,20 +29,20 @@ CString Explode(CString str, CAtlList<CString>& sl, TCHAR sep, int limit)
 {
 	sl.RemoveAll();
 
-	if(limit == 1) {sl.AddTail(str); return _T("");}
+	if (limit == 1) {sl.AddTail(str); return _T("");}
 
-	if(!str.IsEmpty() && str[str.GetLength()-1] != sep)
+	if (!str.IsEmpty() && str[str.GetLength()-1] != sep)
 		str += sep;
 
-	for(ptrdiff_t i = 0, j = 0; (j = str.Find(sep, i)) >= 0; i = j+1)
+	for (ptrdiff_t i = 0, j = 0; (j = str.Find(sep, i)) >= 0; i = j+1)
 	{
 		CString tmp = str.Mid(i, j-i);
 		tmp.TrimLeft(sep); tmp.TrimRight(sep);
 		tmp.TrimLeft(); tmp.TrimRight();
 		sl.AddTail(tmp);
-		if(limit > 0 && sl.GetCount() == limit-1)
+		if (limit > 0 && sl.GetCount() == limit-1)
 		{
-			if(j+1 < str.GetLength())
+			if (j+1 < str.GetLength())
 			{
 				CString tmp = str.Mid(j+1);
 				tmp.TrimLeft(sep); tmp.TrimRight(sep);
@@ -53,7 +53,7 @@ CString Explode(CString str, CAtlList<CString>& sl, TCHAR sep, int limit)
 		}
 	}
 
-	if(sl.IsEmpty())
+	if (sl.IsEmpty())
 	{
 		str.TrimLeft(sep); str.TrimRight(sep);
 		str.TrimLeft(); str.TrimRight();
@@ -67,13 +67,13 @@ CString ExplodeMin(CString str, CAtlList<CString>& sl, TCHAR sep, int limit)
 {
 	Explode(str, sl, sep, limit);
 	POSITION pos = sl.GetHeadPosition();
-	while(pos)
+	while (pos)
 	{
 		POSITION tmp = pos;
-		if(sl.GetNext(pos).IsEmpty())
+		if (sl.GetNext(pos).IsEmpty())
 			sl.RemoveAt(tmp);
 	}
-	if(sl.IsEmpty()) sl.AddTail(CString()); // eh
+	if (sl.IsEmpty()) sl.AddTail(CString()); // eh
 
 	return sl.GetHead();
 }
@@ -82,10 +82,10 @@ CString Implode(CAtlList<CString>& sl, TCHAR sep)
 {
 	CString ret;
 	POSITION pos = sl.GetHeadPosition();
-	while(pos)
+	while (pos)
 	{
 		ret += sl.GetNext(pos);
-		if(pos) ret += sep;
+		if (pos) ret += sep;
 	}
 	return(ret);
 }

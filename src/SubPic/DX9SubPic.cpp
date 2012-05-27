@@ -161,7 +161,7 @@ STDMETHODIMP CDX9SubPic::ClearDirtyRect(DWORD color)
 		/*
 				DWORD* ptr = (DWORD*)bm.bits;
 				DWORD* end = ptr + bm.h*bm.wBytes/4;
-				while(ptr < end) *ptr++ = color;
+				while (ptr < end) *ptr++ = color;
 		*/
 		Unlock(NULL);
 	}
@@ -311,7 +311,7 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 		D3DCAPS9 d3dcaps9;
 		hr = pD3DDev->GetDeviceCaps(&d3dcaps9);
-		if(d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS)
+		if (d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS)
 		{
 			hr = pD3DDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x000000FE);
 			hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);

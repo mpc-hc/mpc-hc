@@ -163,7 +163,7 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 			{(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
 		};
 		/*
-				for(ptrdiff_t i = 0; i < _countof(pVertices); i++)
+				for (ptrdiff_t i = 0; i < _countof(pVertices); i++)
 				{
 					pVertices[i].x -= 0.5;
 					pVertices[i].y -= 0.5;
@@ -191,7 +191,7 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 		D3DDEVICEDESC7 d3ddevdesc;
 		m_pD3DDev->GetCaps(&d3ddevdesc);
-		if(d3ddevdesc.dpcTriCaps.dwAlphaCmpCaps & D3DPCMPCAPS_LESS)
+		if (d3ddevdesc.dpcTriCaps.dwAlphaCmpCaps & D3DPCMPCAPS_LESS)
 		{
 			m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHAREF, (DWORD)0x000000FE);
 			m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, TRUE);

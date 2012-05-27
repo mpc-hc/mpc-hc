@@ -381,7 +381,7 @@ MatroskaWriter::QWORD Segment::Size(bool fWithHeader)
 	return 0x00FFFFFFFFFFFFFFi64;
 	/*
 		MatroskaWriter::QWORD len = 0;
-		if(fWithHeader) len += HeaderSize(len);
+		if (fWithHeader) len += HeaderSize(len);
 		return len;
 	*/
 }

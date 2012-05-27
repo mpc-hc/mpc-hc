@@ -85,27 +85,27 @@ HRESULT GetPeer(CStreamSwitcherFilter* pFilter, T** ppT)
 
 #define CallPeerSeeking(call) \
 	CComPtr<IMediaSeeking> pMS; \
-	if(FAILED(GetPeer(m_pFilter, &pMS))) return E_NOTIMPL; \
+	if (FAILED(GetPeer(m_pFilter, &pMS))) return E_NOTIMPL; \
 	return pMS->##call; \
  
 #define CallPeer(call) \
 	CComPtr<IMediaPosition> pMP; \
-	if(FAILED(GetPeer(m_pFilter, &pMP))) return E_NOTIMPL; \
+	if (FAILED(GetPeer(m_pFilter, &pMP))) return E_NOTIMPL; \
 	return pMP->##call; \
  
 #define CallPeerSeekingAll(call) \
 	HRESULT hr = E_NOTIMPL; \
 	POSITION pos = m_pFilter->m_pInputs.GetHeadPosition(); \
-	while(pos) \
+	while (pos) \
 	{ \
 		CBasePin* pPin = m_pFilter->m_pInputs.GetNext(pos); \
 		CComPtr<IPin> pConnected; \
-	    if(FAILED(pPin->ConnectedTo(&pConnected))) \
+		if (FAILED(pPin->ConnectedTo(&pConnected))) \
 			continue; \
-		if(CComQIPtr<IMediaSeeking> pMS = pConnected) \
+		if (CComQIPtr<IMediaSeeking> pMS = pConnected) \
 		{ \
 			HRESULT hr2 = pMS->call; \
-			if(pPin == m_pFilter->GetInputPin()) \
+			if (pPin == m_pFilter->GetInputPin()) \
 				hr = hr2; \
 		} \
 	} \
@@ -114,16 +114,16 @@ HRESULT GetPeer(CStreamSwitcherFilter* pFilter, T** ppT)
 #define CallPeerAll(call) \
 	HRESULT hr = E_NOTIMPL; \
 	POSITION pos = m_pFilter->m_pInputs.GetHeadPosition(); \
-	while(pos) \
+	while (pos) \
 	{ \
 		CBasePin* pPin = m_pFilter->m_pInputs.GetNext(pos); \
 		CComPtr<IPin> pConnected; \
-	    if(FAILED(pPin->ConnectedTo(&pConnected))) \
+		if (FAILED(pPin->ConnectedTo(&pConnected))) \
 			continue; \
-		if(CComQIPtr<IMediaPosition> pMP = pConnected) \
+		if (CComQIPtr<IMediaPosition> pMP = pConnected) \
 		{ \
 			HRESULT hr2 = pMP->call; \
-			if(pPin == m_pFilter->GetInputPin()) \
+			if (pPin == m_pFilter->GetInputPin()) \
 				hr = hr2; \
 		} \
 	} \
@@ -848,7 +848,7 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 		m_SampleProps.dwSampleFlags |= AM_SAMPLE_TYPECHANGED/*|AM_SAMPLE_DATADISCONTINUITY|AM_SAMPLE_TIMEDISCONTINUITY*/;
 
 		/*
-				if(CComQIPtr<IPinConnection> pPC = pOut->CurrentPinConnection())
+				if (CComQIPtr<IPinConnection> pPC = pOut->CurrentPinConnection())
 				{
 					HANDLE hEOS = CreateEvent(NULL, FALSE, FALSE, NULL);
 					hr = pPC->NotifyEndOfStream(hEOS);
@@ -907,7 +907,7 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 		hr = pOut->Deliver(pOutSample);
 		m_bSampleSkipped = FALSE;
 		/*
-				if(FAILED(hr))
+				if (FAILED(hr))
 				{
 					ASSERT(0);
 				}
@@ -977,7 +977,7 @@ STDMETHODIMP CStreamSwitcherOutputPin::NonDelegatingQueryInterface(REFIID riid, 
 		return m_pStreamSwitcherPassThru->QueryInterface(riid, ppv);
 	}
 	/*
-		else if(riid == IID_IStreamBuilder)
+		else if (riid == IID_IStreamBuilder)
 		{
 			return GetInterface((IStreamBuilder*)this, ppv);
 		}
@@ -1097,8 +1097,8 @@ HRESULT CStreamSwitcherOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 	CopyMediaType(pmt, tmp);
 	DeleteMediaType(tmp);
 	/*
-		if(iPosition < 0) return E_INVALIDARG;
-	    if(iPosition > 0) return VFW_S_NO_MORE_ITEMS;
+		if (iPosition < 0) return E_INVALIDARG;
+		if (iPosition > 0) return VFW_S_NO_MORE_ITEMS;
 
 		CopyMediaType(pmt, &pIn->CurrentMediaType());
 	*/

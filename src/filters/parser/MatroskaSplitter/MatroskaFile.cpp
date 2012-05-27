@@ -36,7 +36,7 @@ using namespace MatroskaReader;
 	CheckPointer(pMN0, E_POINTER); \
 \
 	CAutoPtr<CMatroskaNode> pMN = pMN0->Child(); \
-	if(!pMN) return S_FALSE; \
+	if (!pMN) return S_FALSE; \
 \
 	do \
 	{ \
@@ -46,7 +46,7 @@ using namespace MatroskaReader;
 #define EndChunk \
 		} \
 	} \
-	while(pMN->Next()); \
+	while (pMN->Next()); \
 \
 	return S_OK; \
  
@@ -1286,38 +1286,38 @@ HRESULT CLength::Parse(CMatroskaNode* pMN)
 HRESULT CSignedLength::Parse(CMatroskaNode* pMN)
 {
 //	HRESULT hr = __super::Parse(pMN);
-//	if(FAILED(hr)) return hr;
+//	if (FAILED(hr)) return hr;
 
 	m_val = 0;
 
 	BYTE b = 0;
 	HRESULT hr = pMN->Read(b);
-	if(FAILED(hr)) return hr;
+	if (FAILED(hr)) return hr;
 
 	int nMoreBytes = 0;
 
-	if((b&0x80) == 0x80) {m_val = b&0x7f; nMoreBytes = 0;}
-	else if((b&0xc0) == 0x40) {m_val = b&0x3f; nMoreBytes = 1;}
-	else if((b&0xe0) == 0x20) {m_val = b&0x1f; nMoreBytes = 2;}
-	else if((b&0xf0) == 0x10) {m_val = b&0x0f; nMoreBytes = 3;}
-	else if((b&0xf8) == 0x08) {m_val = b&0x07; nMoreBytes = 4;}
-	else if((b&0xfc) == 0x04) {m_val = b&0x03; nMoreBytes = 5;}
-	else if((b&0xfe) == 0x02) {m_val = b&0x01; nMoreBytes = 6;}
-	else if((b&0xff) == 0x01) {m_val = b&0x00; nMoreBytes = 7;}
+	if ((b&0x80) == 0x80) {m_val = b&0x7f; nMoreBytes = 0;}
+	else if ((b&0xc0) == 0x40) {m_val = b&0x3f; nMoreBytes = 1;}
+	else if ((b&0xe0) == 0x20) {m_val = b&0x1f; nMoreBytes = 2;}
+	else if ((b&0xf0) == 0x10) {m_val = b&0x0f; nMoreBytes = 3;}
+	else if ((b&0xf8) == 0x08) {m_val = b&0x07; nMoreBytes = 4;}
+	else if ((b&0xfc) == 0x04) {m_val = b&0x03; nMoreBytes = 5;}
+	else if ((b&0xfe) == 0x02) {m_val = b&0x01; nMoreBytes = 6;}
+	else if ((b&0xff) == 0x01) {m_val = b&0x00; nMoreBytes = 7;}
 	else return E_FAIL;
 
 	//int nMoreBytesTmp = nMoreBytes;
 
 	MatroskaReader::QWORD UnknownSize = (1i64<<(7*(nMoreBytes+1)))-1;
 
-	while(nMoreBytes-- > 0)
+	while (nMoreBytes-- > 0)
 	{
 		m_val <<= 8;
 		hr = pMN->Read(*(BYTE*)&m_val);
-		if(FAILED(hr)) return hr;
+		if (FAILED(hr)) return hr;
 	}
 
-	if(m_val == UnknownSize)
+	if (m_val == UnknownSize)
 	{
 		m_val = pMN->GetLength() - pMN->GetPos();
 		TRACE(_T("CLength: Unspecified chunk size at %I64d (corrected to %I64d)\n"), pMN->GetPos(), m_val);

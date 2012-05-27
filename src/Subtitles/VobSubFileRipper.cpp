@@ -392,19 +392,19 @@ bool CVobSubFileRipper::LoadVob(CString fn)
 
 		fn = fn.Left(fn.ReverseFind('.')+1);
 		fn.TrimRight(_T(".0123456789"));
-		for(ptrdiff_t i = 0; i < 100; i++)
+		for (ptrdiff_t i = 0; i < 100; i++)
 		{
 			CString vob;
 			vob.Format(_T("%s%d.vob"), fn, i);
 
 			CFileStatus status;
-			if(!(CFileGetStatus(vob, status) && status.m_size))
+			if (!(CFileGetStatus(vob, status) && status.m_size))
 			{
-				if(i > 0) break;
+				if (i > 0) break;
 				else continue;
 			}
 
-			if(status.m_size&0x7ff)
+			if (status.m_size&0x7ff)
 			{
 				Log(LOG_ERROR, _T("Length of %s is not n*2048!"), vob);
 				m_vobs.RemoveAll();
@@ -413,7 +413,7 @@ bool CVobSubFileRipper::LoadVob(CString fn)
 
 			CString str = _T("Found ") + vob;
 
-			if(i == 0)
+			if (i == 0)
 			{
 				str += _T(" (skipping, if not a menu vob rename it)");
 			}
@@ -425,7 +425,7 @@ bool CVobSubFileRipper::LoadVob(CString fn)
 			Log(LOG_INFO, str);
 		}
 
-		if(m_vobs.GetCount() <= 0)
+		if (m_vobs.GetCount() <= 0)
 		{
 			Log(LOG_ERROR, _T("Nothing found! (%s*.vob)"), fn);
 			return false;

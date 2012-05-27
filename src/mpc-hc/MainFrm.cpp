@@ -3094,7 +3094,7 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
 		if (itemID == ID_FAVORITES) {
 			SetupFavoritesSubMenu();
 			pSubMenu = &m_favorites;
-		}/*else if(itemID == ID_RECENT_FILES) {
+		}/*else if (itemID == ID_RECENT_FILES) {
 			SetupRecentFilesSubMenu();
 			pSubMenu = &m_recentfiles;
 		}*/

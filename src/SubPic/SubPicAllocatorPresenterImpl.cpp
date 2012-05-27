@@ -71,7 +71,7 @@ void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(CSize size, SubPicDesc* pTarg
 		/*		SubPicDesc spd;
 				pSubPic->GetDesc(spd);
 
-				if(spd.w > 0 && spd.h > 0)
+				if (spd.w > 0 && spd.h > 0)
 				{
 					CRect r;
 					pSubPic->GetDirtyRect(r);
@@ -134,7 +134,7 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
 {
 	/*
-		if(m_rtNow <= rtNow && rtNow <= m_rtNow + 1000000)
+		if (m_rtNow <= rtNow && rtNow <= m_rtNow + 1000000)
 			return;
 	*/
 	m_rtNow = rtNow - m_rtSubtitleDelay;

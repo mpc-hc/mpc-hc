@@ -729,7 +729,7 @@ HRESULT COggSplitterOutputPin::UnpackPage(OggPage& page)
 				p->TrackNumber = page.m_hdr.bitstream_serial_number;
 
 				if (S_OK == UnpackPacket(p, pData + i, j-i)) {
-					//if(p->TrackNumber == 1)
+					//if (p->TrackNumber == 1)
 					//TRACE(_T("[%d]: %d, %I64d -> %I64d (skip=%d, disc=%d, sync=%d)\n"),
 					//		(int)p->TrackNumber, p->GetCount(), p->rtStart, p->rtStop,
 					//		(int)m_fSkip, (int)p->bDiscontinuity, (int)p->bSyncPoint);

@@ -266,7 +266,7 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 			if (subtype == MEDIASUBTYPE_DiracVideo) {
 				str = _T("Dirac Video");
 			}
-			// else if(subtype == ) str = _T("");
+			// else if (subtype == ) str = _T("");
 			else if (biCompression < 256) {
 				str.Format(_T("%d"), biCompression);
 			} else {

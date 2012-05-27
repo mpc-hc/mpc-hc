@@ -83,7 +83,7 @@ STDMETHODIMP COuterVMR9::GetSourcePosition(long* pLeft, long* pTop, long* pWidth
 		return GetVideoSize(pWidth, pHeight);
 	}
 	/*
-	if(CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR)
+	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR)
 	{
 	CRect s, d;
 	HRESULT hr = pWC9->GetVideoPosition(&s, &d);

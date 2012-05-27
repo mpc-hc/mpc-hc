@@ -151,7 +151,7 @@ namespace Plugin
 							handles.Add(h);
 						}
 					}
-				} else { // if(WAIT_ABANDONED_0 == i || WAIT_FAILED == i)
+				} else { // if (WAIT_ABANDONED_0 == i || WAIT_FAILED == i)
 					break;
 				}
 			}

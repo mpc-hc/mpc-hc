@@ -1175,9 +1175,9 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 			}
 		} else {
 			/*
-						for(ptrdiff_t i = 1, len = o.pa.GetSize(); i < len; i++)
+						for (ptrdiff_t i = 1, len = o.pa.GetSize(); i < len; i++)
 						{
-							if(int dir = o.da[i-1])
+							if (int dir = o.da[i-1])
 							{
 								CPoint dir2 = o.pa[i] - o.pa[i-1];
 								dir2.x /= 2; dir2.y /= 2;

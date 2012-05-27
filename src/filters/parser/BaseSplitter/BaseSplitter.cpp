@@ -1087,7 +1087,7 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
 		int count = pPin->QueueCount();
 		int size = pPin->QueueSize();
 		if (!pPin->IsDiscontinuous() && (count < MINPACKETS || size < MINPACKETSIZE)) {
-			//			if(m_priority != THREAD_PRIORITY_ABOVE_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3))
+			//			if (m_priority != THREAD_PRIORITY_ABOVE_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3))
 			if (m_priority != THREAD_PRIORITY_BELOW_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3)) {
 				// SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_ABOVE_NORMAL);
 				POSITION pos = m_pOutputs.GetHeadPosition();

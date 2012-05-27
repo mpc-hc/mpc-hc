@@ -204,8 +204,8 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	}
 
 	//	m_pOutput = DNew CMpeg2DecOutputPin(this, phr, L"Output");
-	//	if(!m_pOutput) *phr = E_OUTOFMEMORY;
-	//	if(FAILED(*phr)) return;
+	//	if (!m_pOutput) *phr = E_OUTOFMEMORY;
+	//	if (FAILED(*phr)) return;
 
 	m_pSubpicInput = DNew CSubpicInputPin(this, phr);
 	if (!m_pSubpicInput) {
@@ -1371,7 +1371,7 @@ STDMETHODIMP CMpeg2DecInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceD
 				return E_PROP_ID_UNSUPPORTED;
 		}
 	/*
-		if(PropSet == AM_KSPROPSETID_DVD_RateChange)
+		if (PropSet == AM_KSPROPSETID_DVD_RateChange)
 		switch(Id)
 		{
 		case AM_RATE_ChangeRate:
@@ -1423,7 +1423,7 @@ STDMETHODIMP CMpeg2DecInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceD
 				return E_PROP_ID_UNSUPPORTED;
 		}
 	/*
-		if(PropSet == AM_KSPROPSETID_DVD_RateChange)
+		if (PropSet == AM_KSPROPSETID_DVD_RateChange)
 		switch(Id)
 		{
 		case AM_RATE_FullDataRateMax:
@@ -1483,7 +1483,7 @@ STDMETHODIMP CMpeg2DecInputPin::QuerySupported(REFGUID PropSet, ULONG Id, ULONG*
 				return E_PROP_ID_UNSUPPORTED;
 		}
 	/*
-		if(PropSet == AM_KSPROPSETID_DVD_RateChange)
+		if (PropSet == AM_KSPROPSETID_DVD_RateChange)
 		switch(Id)
 		{
 		case AM_RATE_ChangeRate:
@@ -1557,7 +1557,7 @@ HRESULT CMpeg2DecOutputPin::Deliver(IMediaSample* pMediaSample)
 }
 
 #define CallQueue(call) \
-	if(!m_pOutputQueue) return NOERROR; \
+	if (!m_pOutputQueue) return NOERROR; \
 	m_pOutputQueue->##call; \
 	return NOERROR; \
  

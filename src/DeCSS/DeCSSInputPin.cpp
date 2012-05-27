@@ -65,15 +65,15 @@ STDMETHODIMP CDeCSSInputPin::Receive(IMediaSample* pSample)
 	long len = pSample->GetActualDataLength();
 
 	BYTE* p = NULL;
-	if(SUCCEEDED(pSample->GetPointer(&p)) && len > 0) {
-		if(m_mt.majortype == MEDIATYPE_DVD_ENCRYPTED_PACK && len == 2048 && (p[0x14]&0x30)) {
+	if (SUCCEEDED(pSample->GetPointer(&p)) && len > 0) {
+		if (m_mt.majortype == MEDIATYPE_DVD_ENCRYPTED_PACK && len == 2048 && (p[0x14]&0x30)) {
 			CSSdescramble(p, m_TitleKey);
 			p[0x14] &= ~0x30;
 
-			if(CComQIPtr<IMediaSample2> pMS2 = pSample) {
+			if (CComQIPtr<IMediaSample2> pMS2 = pSample) {
 				AM_SAMPLE2_PROPERTIES props;
 				memset(&props, 0, sizeof(props));
-				if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))
+				if (SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))
 						&& (props.dwTypeSpecificFlags & AM_UseNewCSSKey)) {
 					props.dwTypeSpecificFlags &= ~AM_UseNewCSSKey;
 					pMS2->SetProperties(sizeof(props), (BYTE*)&props);
@@ -92,19 +92,19 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
 {
 	GUID majortype = m_mt.majortype;
 
-	if(majortype == MEDIATYPE_MPEG2_PACK || majortype == MEDIATYPE_DVD_ENCRYPTED_PACK)
-		if(len > 0 && *(DWORD*)p == 0xba010000) { // MEDIATYPE_*_PACK
+	if (majortype == MEDIATYPE_MPEG2_PACK || majortype == MEDIATYPE_DVD_ENCRYPTED_PACK)
+		if (len > 0 && *(DWORD*)p == 0xba010000) { // MEDIATYPE_*_PACK
 			len -= 14;
 			p += 14;
-			if(int stuffing = (p[-1]&7)) {
+			if (int stuffing = (p[-1]&7)) {
 				len -= stuffing;
 				p += stuffing;
 			}
 			majortype = MEDIATYPE_MPEG2_PES;
 		}
 
-	if(majortype == MEDIATYPE_MPEG2_PES)
-		if(len > 0 && *(DWORD*)p == 0xbb010000) {
+	if (majortype == MEDIATYPE_MPEG2_PES)
+		if (len > 0 && *(DWORD*)p == 0xbb010000) {
 			len -= 4;
 			p += 4;
 			int hdrlen = ((p[0]<<8)|p[1]) + 2;
@@ -112,8 +112,8 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
 			p += hdrlen;
 		}
 
-	if(majortype == MEDIATYPE_MPEG2_PES)
-		if(len > 0
+	if (majortype == MEDIATYPE_MPEG2_PES)
+		if (len > 0
 				&& ((*(DWORD*)p&0xf0ffffff) == 0xe0010000
 					|| (*(DWORD*)p&0xe0ffffff) == 0xc0010000
 					|| (*(DWORD*)p&0xbdffffff) == 0xbd010000)) { // PES
@@ -126,28 +126,28 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
 			p += 2;
 			BYTE* p0 = p;
 
-			for(int i = 0; i < 16 && *p == 0xff; i++, len--, p++) {
+			for (int i = 0; i < 16 && *p == 0xff; i++, len--, p++) {
 				;
 			}
 
-			if((*p&0xc0) == 0x80) { // mpeg2
+			if ((*p&0xc0) == 0x80) { // mpeg2
 				len -= 2;
 				p += 2;
 				len -= *p+1;
 				p += *p+1;
 			} else { // mpeg1
-				if((*p&0xc0) == 0x40) {
+				if ((*p&0xc0) == 0x40) {
 					len -= 2;
 					p += 2;
 				}
 
-				if((*p&0x30) == 0x30 || (*p&0x30) == 0x20) {
+				if ((*p&0x30) == 0x30 || (*p&0x30) == 0x20) {
 					bool pts = !!(*p&0x20), dts = !!(*p&0x10);
-					if(pts) {
+					if (pts) {
 						len -= 5;
 					}
 					p += 5;
-					if(dts) {
+					if (dts) {
 						ASSERT((*p&0xf0) == 0x10);
 						len -= 5;
 						p += 5;
@@ -158,26 +158,26 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
 				}
 			}
 
-			if(ps1) {
+			if (ps1) {
 				len--;
 				p++;
-				if(m_mt.subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
+				if (m_mt.subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
 					len -= 6;
 					p += 6;
-				} else if(m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3 || m_mt.subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3
+				} else if (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3 || m_mt.subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3
 						  || m_mt.subtype == MEDIASUBTYPE_DTS || m_mt.subtype == MEDIASUBTYPE_WAVE_DTS) {
 					len -= 3;
 					p += 3;
 				}
 			}
 
-			if(expected > 0) {
+			if (expected > 0) {
 				expected -= (p - p0);
 				len = min(expected, len);
 			}
 		}
 
-	if(len < 0) {
+	if (len < 0) {
 		ASSERT(0);
 		len = 0;
 	}
@@ -187,7 +187,7 @@ void CDeCSSInputPin::StripPacket(BYTE*& p, long& len)
 
 STDMETHODIMP CDeCSSInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceData, ULONG InstanceLength, LPVOID pPropertyData, ULONG DataLength)
 {
-	if(PropSet != AM_KSPROPSETID_CopyProt) {
+	if (PropSet != AM_KSPROPSETID_CopyProt) {
 		return E_NOTIMPL;
 	}
 
@@ -196,7 +196,7 @@ STDMETHODIMP CDeCSSInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 			break;
 		case AM_PROPERTY_DVDCOPY_CHLG_KEY: { // 3. auth: receive drive nonce word, also store and encrypt the buskey made up of the two nonce words
 			AM_DVDCOPY_CHLGKEY* pChlgKey = (AM_DVDCOPY_CHLGKEY*)pPropertyData;
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				m_Challenge[i] = pChlgKey->ChlgKey[9-i];
 			}
 
@@ -210,10 +210,10 @@ STDMETHODIMP CDeCSSInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 
 			bool fSuccess = false;
 
-			for(int j = 0; j < g_nPlayerKeys; j++) {
-				for(int k = 1; k < 409; k++) {
+			for (int j = 0; j < g_nPlayerKeys; j++) {
+				for (int k = 1; k < 409; k++) {
 					BYTE DiscKey[6];
-					for(int i = 0; i < 5; i++) {
+					for (int i = 0; i < 5; i++) {
 						DiscKey[i] = pDiscKey->DiscKey[k*5+i] ^ m_KeyCheck[4-i];
 					}
 					DiscKey[5] = 0;
@@ -221,14 +221,14 @@ STDMETHODIMP CDeCSSInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 					CSSdisckey(DiscKey, g_PlayerKeys[j]);
 
 					BYTE Hash[6];
-					for(int i = 0; i < 5; i++) {
+					for (int i = 0; i < 5; i++) {
 						Hash[i] = pDiscKey->DiscKey[i] ^ m_KeyCheck[4-i];
 					}
 					Hash[5] = 0;
 
 					CSSdisckey(Hash, DiscKey);
 
-					if(!memcmp(Hash, DiscKey, 6)) {
+					if (!memcmp(Hash, DiscKey, 6)) {
 						memcpy(m_DiscKey, DiscKey, 6);
 						j = g_nPlayerKeys;
 						fSuccess = true;
@@ -237,23 +237,23 @@ STDMETHODIMP CDeCSSInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 				}
 			}
 
-			if(!fSuccess) {
+			if (!fSuccess) {
 				return E_FAIL;
 			}
 		}
 		break;
 		case AM_PROPERTY_DVDCOPY_DVD_KEY1: { // 2. auth: receive our drive-encrypted nonce word and decrypt it for verification
 			AM_DVDCOPY_BUSKEY* pKey1 = (AM_DVDCOPY_BUSKEY*)pPropertyData;
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				m_Key[i] =  pKey1->BusKey[4-i];
 			}
 
 			m_varient = -1;
 
-			for(int i = 31; i >= 0; i--) {
+			for (int i = 31; i >= 0; i--) {
 				CSSkey1(i, m_Challenge, m_KeyCheck);
 
-				if(memcmp(m_KeyCheck, &m_Key[0], 5) == 0) {
+				if (memcmp(m_KeyCheck, &m_Key[0], 5) == 0) {
 					m_varient = i;
 				}
 			}
@@ -265,7 +265,7 @@ STDMETHODIMP CDeCSSInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 			break;
 		case AM_PROPERTY_DVDCOPY_TITLE_KEY: { // 6. receive the title key and decrypt it with the disc key
 			AM_DVDCOPY_TITLEKEY* pTitleKey = (AM_DVDCOPY_TITLEKEY*)pPropertyData;
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				m_TitleKey[i] = pTitleKey->TitleKey[i] ^ m_KeyCheck[4-i];
 			}
 			m_TitleKey[5] = 0;
@@ -281,14 +281,14 @@ STDMETHODIMP CDeCSSInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 
 STDMETHODIMP CDeCSSInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceData, ULONG InstanceLength, LPVOID pPropertyData, ULONG DataLength, ULONG* pBytesReturned)
 {
-	if(PropSet != AM_KSPROPSETID_CopyProt) {
+	if (PropSet != AM_KSPROPSETID_CopyProt) {
 		return E_NOTIMPL;
 	}
 
 	switch(Id) {
 		case AM_PROPERTY_DVDCOPY_CHLG_KEY: { // 1. auth: send our nonce word
 			AM_DVDCOPY_CHLGKEY* pChlgKey = (AM_DVDCOPY_CHLGKEY*)pPropertyData;
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				pChlgKey->ChlgKey[i] = 9 - (m_Challenge[i] = i);
 			}
 			*pBytesReturned = sizeof(AM_DVDCOPY_CHLGKEY);
@@ -296,7 +296,7 @@ STDMETHODIMP CDeCSSInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 		break;
 		case AM_PROPERTY_DVDCOPY_DEC_KEY2: { // 4. auth: send back the encrypted drive nonce word to finish the authentication
 			AM_DVDCOPY_BUSKEY* pKey2 = (AM_DVDCOPY_BUSKEY*)pPropertyData;
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				pKey2->BusKey[4-i] = m_Key[5+i];
 			}
 			*pBytesReturned = sizeof(AM_DVDCOPY_BUSKEY);
@@ -324,7 +324,7 @@ STDMETHODIMP CDeCSSInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 
 STDMETHODIMP CDeCSSInputPin::QuerySupported(REFGUID PropSet, ULONG Id, ULONG* pTypeSupport)
 {
-	if(PropSet != AM_KSPROPSETID_CopyProt) {
+	if (PropSet != AM_KSPROPSETID_CopyProt) {
 		return E_NOTIMPL;
 	}
 

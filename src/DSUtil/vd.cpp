@@ -167,14 +167,14 @@ bool BitBltFromI420ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 
 bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
 {
-	if(srcpitch == 0) srcpitch = w;
+	if (srcpitch == 0) srcpitch = w;
 
 #ifndef _WIN64
-	if((g_cpuid.m_flags & CCpuID::sse2)
+	if ((g_cpuid.m_flags & CCpuID::sse2)
 		&& !((DWORD_PTR)srcy&15) && !((DWORD_PTR)srcu&15) && !((DWORD_PTR)srcv&15) && !(srcpitch&31) 
 		&& !((DWORD_PTR)dst&15) && !(dstpitch&15))
 	{
-		if(w<=0 || h<=0 || (w&1) || (h&1))
+		if (w<=0 || h<=0 || (w&1) || (h&1))
 			return false;
 
 		yv12_yuy2_sse2(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
@@ -264,7 +264,7 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 
 bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* src, int srcpitch)
 {
-	if(srcpitch == 0) srcpitch = w;
+	if (srcpitch == 0) srcpitch = w;
 
 	VDPixmap srcbm = {0};
 
@@ -302,7 +302,7 @@ bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 static void yuvtoyuy2row_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
 {
 	WORD* dstw = (WORD*)dst;
-	for(; width > 1; width -= 2)
+	for (; width > 1; width -= 2)
 	{
 		*dstw++ = (*srcu++<<8)|*srcy++;
 		*dstw++ = (*srcv++<<8)|*srcy++;
@@ -312,7 +312,7 @@ static void yuvtoyuy2row_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD 
 static void yuvtoyuy2row_avg_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
 {
 	WORD* dstw = (WORD*)dst;
-	for(; width > 1; width -= 2, srcu++, srcv++)
+	for (; width > 1; width -= 2, srcu++, srcv++)
 	{
 		*dstw++ = (((srcu[0]+srcu[pitchuv])>>1)<<8)|*srcy++;
 		*dstw++ = (((srcv[0]+srcv[pitchuv])>>1)<<8)|*srcy++;
@@ -321,16 +321,16 @@ static void yuvtoyuy2row_avg_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DW
 
 bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
 {
-	if(w<=0 || h<=0 || (w&1) || (h&1))
+	if (w<=0 || h<=0 || (w&1) || (h&1))
 		return false;
 
-	if(srcpitch == 0) srcpitch = w;
+	if (srcpitch == 0) srcpitch = w;
 
 	void (*yuvtoyuy2row)(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width) = NULL;
 	void (*yuvtoyuy2row_avg)(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv) = NULL;
 
 #ifndef _WIN64
-	if((g_cpuid.m_flags & CCpuID::sse2)
+	if ((g_cpuid.m_flags & CCpuID::sse2)
 		&& !((DWORD_PTR)srcy&15) && !((DWORD_PTR)srcu&15) && !((DWORD_PTR)srcv&15) && !(srcpitch&31) 
 		&& !((DWORD_PTR)dst&15) && !(dstpitch&15))
 	{
@@ -338,7 +338,7 @@ bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE*
 		return true;
 	}
 
-	if((g_cpuid.m_flags & CCpuID::mmx) && !(w&7))
+	if ((g_cpuid.m_flags & CCpuID::mmx) && !(w&7))
 	{
 		yuvtoyuy2row = yuvtoyuy2row_MMX;
 		yuvtoyuy2row_avg = yuvtoyuy2row_avg_MMX;
@@ -350,7 +350,7 @@ bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE*
 		yuvtoyuy2row_avg = yuvtoyuy2row_avg_c;
 	}
 
-	if(!yuvtoyuy2row)
+	if (!yuvtoyuy2row)
 		return false;
 
 	int halfsrcpitch = srcpitch/2;
@@ -364,13 +364,13 @@ bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE*
 		srcu += halfsrcpitch;
 		srcv += halfsrcpitch;
 	}
-	while((h -= 2) > 2);
+	while ((h -= 2) > 2);
 
 	yuvtoyuy2row(dst, srcy, srcu, srcv, w);
 	yuvtoyuy2row(dst + dstpitch, srcy + srcpitch, srcu, srcv, w);
 
 #ifndef _WIN64
-	if(g_cpuid.m_flags & CCpuID::mmx)
+	if (g_cpuid.m_flags & CCpuID::mmx)
 		__asm emms
 #endif
 

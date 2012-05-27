@@ -650,7 +650,7 @@ void CRealMediaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 				// search the closest keyframe to the seek time (commented out 'cause rm seems to index all of its keyframes...)
 				/*
-								if(m_seekpos)
+								if (m_seekpos)
 								{
 									DataChunk* pdc = m_pFile->m_dcs.GetAt(m_seekpos);
 
@@ -659,21 +659,21 @@ void CRealMediaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 									REFERENCE_TIME seektime = -1;
 									UINT32 seekstream = -1;
 
-									for(UINT32 i = m_seekpacket; i < pdc->nPackets; i++)
+									for (UINT32 i = m_seekpacket; i < pdc->nPackets; i++)
 									{
 										UINT64 filepos = m_pFile->GetPos();
 
 										MediaPacketHeader mph;
-										if(S_OK != m_pFile->Read(mph, false))
+										if (S_OK != m_pFile->Read(mph, false))
 											break;
 
-										if(seekstream == -1) seekstream = mph.stream;
-										if(seekstream != mph.stream) continue;
+										if (seekstream == -1) seekstream = mph.stream;
+										if (seekstream != mph.stream) continue;
 
-										if(seektime == 10000i64*mph.tStart) continue;
-										if(rt < 10000i64*mph.tStart) break;
+										if (seektime == 10000i64*mph.tStart) continue;
+										if (rt < 10000i64*mph.tStart) break;
 
-										if((mph.flags&MediaPacketHeader::PN_KEYFRAME_FLAG))
+										if ((mph.flags&MediaPacketHeader::PN_KEYFRAME_FLAG))
 										{
 											m_seekpacket = i;
 											m_seekfilepos = filepos;
@@ -2243,7 +2243,7 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 	REFERENCE_TIME rtStart, rtStop;
 	pIn->GetTime(&rtStart, &rtStop);
 	/*
-		if(pIn->IsPreroll() == S_OK || rtStart < 0)
+		if (pIn->IsPreroll() == S_OK || rtStart < 0)
 			return S_OK;
 	*/
 

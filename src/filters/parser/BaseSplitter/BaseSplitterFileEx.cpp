@@ -63,7 +63,7 @@ bool CBaseSplitterFileEx::NextMpegStartCode(BYTE& code, __int64 len)
 
 //
 
-#define MARKER if(BitRead(1) != 1) {ASSERT(0); return false;}
+#define MARKER if (BitRead(1) != 1) {ASSERT(0); return false;}
 
 bool CBaseSplitterFileEx::Read(pshdr& h)
 {
@@ -1357,7 +1357,7 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 		if (!Read(h2, b)) {
 			return false;
 		}
-		// Maybe bug, code before: if(h.fpts = h2.fpts) h.pts = h2.pts;
+		// Maybe bug, code before: if (h.fpts = h2.fpts) h.pts = h2.pts;
 		h.fpts = h2.fpts;
 		if (h.fpts) {
 			h.pts = h2.pts;
@@ -1805,60 +1805,60 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			h.views = (unsigned int) gb.UExpGolombRead()+1;
 
 			/*
-			for(unsigned int i = 0; i < h.views; i++) {
+			for (unsigned int i = 0; i < h.views; i++) {
 				gb.UExpGolombRead();		// view_id
 			}
 
-			for(unsigned int i = 1; i < h.views; i++) {
-				for(int j = 0; j < gb.UExpGolombRead(); j++) {				// num_anchor_refs_l0
+			for (unsigned int i = 1; i < h.views; i++) {
+				for (int j = 0; j < gb.UExpGolombRead(); j++) {				// num_anchor_refs_l0
 					gb.UExpGolombRead();									// anchor_refs_l0
 				}
-				for(int j = 0; j < gb.UExpGolombRead(); j++) {				// num_anchor_refs_l1
+				for (int j = 0; j < gb.UExpGolombRead(); j++) {				// num_anchor_refs_l1
 					gb.UExpGolombRead();									// anchor_refs_l1
 				}
 			}
 
-			for(unsigned int i = 1; i < h.views; i++) {
-				for(int j = 0; j < gb.UExpGolombRead(); j++) {				// num_non_anchor_refs_l0
+			for (unsigned int i = 1; i < h.views; i++) {
+				for (int j = 0; j < gb.UExpGolombRead(); j++) {				// num_non_anchor_refs_l0
 					gb.UExpGolombRead();									// non_anchor_refs_l0
 				}
-				for(int j = 0; j < gb.UExpGolombRead(); j++) {				// num_non_anchor_refs_l1
+				for (int j = 0; j < gb.UExpGolombRead(); j++) {				// num_non_anchor_refs_l1
 					gb.UExpGolombRead();									// non_anchor_refs_l1
 				}
 			}
 
-			for(unsigned int i = 0; i <= gb.UExpGolombRead(); i++) {		// num_level_values_signalled_minus1
+			for (unsigned int i = 0; i <= gb.UExpGolombRead(); i++) {		// num_level_values_signalled_minus1
 				gb.BitRead(8);												// level_idc
-				for(int j = 0; j <= gb.UExpGolombRead(); j++) {				// num_applicable_ops_minus1
+				for (int j = 0; j <= gb.UExpGolombRead(); j++) {			// num_applicable_ops_minus1
 					gb.BitRead(3);											// applicable_op_temporal_id
-					for(int k = 0; k <= gb.UExpGolombRead(); k++) {			// applicable_op_num_target_views_minus1
+					for (int k = 0; k <= gb.UExpGolombRead(); k++) {		// applicable_op_num_target_views_minus1
 						gb.UExpGolombRead();								// applicable_op_traget_view_id
 					}
 					gb.UExpGolombRead();									// applicable_op_num_views_minus1
 				}
 			}
 
-			if(gb.BitRead(1)) {													// mvc_vui_parameters_present_flag
+			if (gb.BitRead(1)) {												// mvc_vui_parameters_present_flag
 				// mvc_vui_parameters_extension
-				for(unsigned int i = 0; i <= gb.UExpGolombRead(); i++) {		// vui_mvc_num_ops_minus1
+				for (unsigned int i = 0; i <= gb.UExpGolombRead(); i++) {		// vui_mvc_num_ops_minus1
 					gb.BitRead(3);
-					for(unsigned int j = 0; j <= gb.UExpGolombRead(); j++) {	// vui_mvc_num_target_output_views_minus1
+					for (unsigned int j = 0; j <= gb.UExpGolombRead(); j++) {	// vui_mvc_num_target_output_views_minus1
 						gb.UExpGolombRead();									// vui_mvc_view_id
 					}
-					if(gb.BitRead(1)) {											// vui_mvc_timing_info_present_flag
+					if (gb.BitRead(1)) {										// vui_mvc_timing_info_present_flag
 						gb.BitRead(32);											// vui_mvc_num_units_in_tick
 						gb.BitRead(32);											// vui_mvc_time_scale
 						gb.BitRead(1);											// vui_mvc_fixed_frame_rate_flag
 					}
 					bool nalflag = gb.BitRead(1);								// vui_mvc_nal_hrd_parameters_present_flag
-					if(nalflag) {
+					if (nalflag) {
 						HrdParameters(gb);
 					}
 					bool vclflag = gb.BitRead(1);								// vui_mvc_vcl_hrd_parameters_present_flag
-					if(vclflag) {
+					if (vclflag) {
 						HrdParameters(gb);
 					}
-					if(nalflag || vclflag) {
+					if (nalflag || vclflag) {
 						gb.BitRead(1);											// vui_mvc_low_delay_hrd_flag
 					}
 					gb.BitRead(1);												// vui_mvc_pic_struct_present_flag

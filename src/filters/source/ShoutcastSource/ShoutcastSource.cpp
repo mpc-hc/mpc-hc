@@ -119,7 +119,7 @@ public:
 			return FALSE;
 		}
 		/*
-				if(!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))
+				if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))
 				{
 					AfxMessageBox(_T("AfxWinInit failed!"));
 					return FALSE;

@@ -196,7 +196,7 @@ bool CUDPStream::Load(const WCHAR* fnw)
 	}
 
 	CStringW protocol = sl.RemoveHead();
-	// if(protocol != L"udp") return false;
+	// if (protocol != L"udp") return false;
 
 	m_ip = CString(sl.RemoveHead()).TrimLeft('/');
 

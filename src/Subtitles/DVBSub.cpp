@@ -142,7 +142,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
 	return S_FALSE;
 }
 
-#define MARKER if(gb.BitRead(1) != 1) {ASSERT(0); return(E_FAIL);}
+#define MARKER if (gb.BitRead(1) != 1) {ASSERT(0); return(E_FAIL);}
 
 HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 {
@@ -216,7 +216,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 	}
 
 	//FILE* hFile = fopen ("D:\\Sources\\mpc-hc\\A garder\\TestSubRip\\dvbsub.dat", "ab");
-	//if(hFile != NULL)
+	//if (hFile != NULL)
 	//{
 	//	//BYTE	Buff[5] = {48};
 

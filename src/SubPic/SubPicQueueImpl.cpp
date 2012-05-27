@@ -65,7 +65,7 @@ STDMETHODIMP CSubPicQueueImpl::SetSubPicProvider(ISubPicProvider* pSubPicProvide
 {
 	CAutoLock cAutoLock(&m_csSubPicProvider);
 
-	//	if(m_pSubPicProvider != pSubPicProvider)
+	//	if (m_pSubPicProvider != pSubPicProvider)
 	{
 		m_pSubPicProvider = pSubPicProvider;
 
@@ -543,9 +543,9 @@ DWORD CSubPicQueue::ThreadProc()
 			}
 
 			/*
-						while(GetCount() && GetTail()->GetStop() > rtInvalidate)
+						while (GetCount() && GetTail()->GetStop() > rtInvalidate)
 						{
-							if(GetTail()->GetStart() < rtInvalidate) GetTail()->SetStop(rtInvalidate);
+							if (GetTail()->GetStart() < rtInvalidate) GetTail()->SetStop(rtInvalidate);
 							else
 							{
 								RemoveTail();

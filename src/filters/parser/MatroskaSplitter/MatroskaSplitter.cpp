@@ -881,13 +881,13 @@ avcsuccess:
 
 /*
 #ifdef _DEBUG
-	for(int i = 1, j = GetChapterCount(CHAPTER_ROOT_ID); i <= j; i++)
+	for (int i = 1, j = GetChapterCount(CHAPTER_ROOT_ID); i <= j; i++)
 	{
 		UINT id = GetChapterId(CHAPTER_ROOT_ID, i);
 		struct ChapterElement ce;
 		BOOL b = GetChapterInfo(id, &ce);
 		BSTR bstr = GetChapterStringInfo(id, "eng", "");
-		if(bstr) ::SysFreeString(bstr);
+		if (bstr) ::SysFreeString(bstr);
 	}
 #endif
 */
@@ -1167,7 +1167,7 @@ void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 					bool fFoundKeyFrame = false;
 					/*
-										if(pCueTrackPositions->CueBlockNumber > 0)
+										if (pCueTrackPositions->CueBlockNumber > 0)
 										{
 											// TODO: CueBlockNumber only tells the block num of the track and not for all mixed in the cluster
 											m_nLastBlock = (int)pCueTrackPositions->CueBlockNumber;

@@ -1070,13 +1070,13 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
 					arg.Remove('#');
 					arg.TrimLeft(); arg.TrimRight(L" >");
 
-					if(arg.GetLength() > 0)
+					if (arg.GetLength() > 0)
 					{
 						DWORD color;
 
 						CString key = WToT(arg);
 						void* val;
-						if(g_colors.Lookup(key, val)) color = (DWORD)val;
+						if (g_colors.Lookup(key, val)) color = (DWORD)val;
 						else color = wcstol(arg, NULL, 16);
 
 						arg.Format(L"%02x%02x%02x", color&0xff, (color>>8)&0xff, (color>>16)&0xff);
@@ -1640,7 +1640,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 
 		entry.MakeLower();
 
-		/*if(entry == L"version") {
+		/*if (entry == L"version") {
 			double version = GetFloat(buff);
 		} else*/ if (entry == L"screenhorizontal") {
 			try {
@@ -2574,13 +2574,13 @@ void CSimpleTextSubtitle::CreateSegments()
 
 	OnChanged();
 	/*
-		for(i = 0, j = m_segments.GetCount(); i < j; i++)
+		for (i = 0, j = m_segments.GetCount(); i < j; i++)
 		{
 			STSSegment& stss = m_segments[i];
 
 			TRACE(_T("%d - %d"), stss.start, stss.end);
 
-			for(ptrdiff_t k = 0, l = stss.subs.GetCount(); k < l; k++)
+			for (ptrdiff_t k = 0, l = stss.subs.GetCount(); k < l; k++)
 			{
 				TRACE(_T(", %d"), stss.subs[k]);
 			}

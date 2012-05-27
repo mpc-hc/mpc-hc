@@ -34,17 +34,17 @@
  
 #define BeginEnumAttribs(pNode, pChild) \
 	{CComPtr<IXMLDOMNamedNodeMap> pAttribs; \
-	if(SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != NULL) \
+	if (SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != NULL) \
 	{ \
 		CComPtr<IXMLDOMNode> pChild; \
-		for(pAttribs->nextNode(&pChild); pChild; pChild = NULL, pAttribs->nextNode(&pChild)) \
+		for (pAttribs->nextNode(&pChild); pChild; pChild = NULL, pAttribs->nextNode(&pChild)) \
 		{ \
  
 #define EndEnumAttribs }}}
 
 #define BeginEnumChildren(pNode, pChild) \
 	{CComPtr<IXMLDOMNode> pChild, pNext; \
-	for(pNode->get_firstChild(&pChild); pChild; pNext = NULL, pChild->get_nextSibling(&pNext), pChild = pNext) \
+	for (pNode->get_firstChild(&pChild); pChild; pNext = NULL, pChild->get_nextSibling(&pNext), pChild = pNext) \
 	{ \
  
 #define EndEnumChildren }}

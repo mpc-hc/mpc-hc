@@ -800,12 +800,12 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 	HRESULT hr;
 
 	// rotated?
-	if(dst[0].z != dst[1].z || dst[2].z != dst[3].z || dst[0].z != dst[3].z
+	if (dst[0].z != dst[1].z || dst[2].z != dst[3].z || dst[0].z != dst[3].z
 	|| dst[0].y != dst[1].y || dst[0].x != dst[2].x || dst[2].y != dst[3].y || dst[1].x != dst[3].x)
 	    return TextureResizeBicubic1pass(pTexture, dst, srcRect);
 
 	D3DSURFACE_DESC desc;
-	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
+	if (!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
 	    return E_FAIL;
 
 	float Tex0_Width = desc.Width;
@@ -823,7 +823,7 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 
 	CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
 
-	if(!m_pTemporaryScreenSpaceTextures[0] || FAILED(m_pTemporaryScreenSpaceTextures[0]->GetLevelDesc(0, &desc)))
+	if (!m_pTemporaryScreenSpaceTextures[0] || FAILED(m_pTemporaryScreenSpaceTextures[0]->GetLevelDesc(0, &desc)))
 	    return TextureResizeBicubic1pass(pTexture, dst, srcRect);
 
 	float Tex1_Width = desc.Width;
@@ -856,8 +856,8 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 
 	//	ASSERT(dst1.Height() == desc.Height);
 
-	if(dst1.Width() > (int)desc.Width || dst1.Height() > (int)desc.Height)
-	    // if(dst1.Width() != desc.Width || dst1.Height() != desc.Height)
+	if (dst1.Width() > (int)desc.Width || dst1.Height() > (int)desc.Height)
+	    // if (dst1.Width() != desc.Width || dst1.Height() != desc.Height)
 	    return TextureResizeBicubic1pass(pTexture, dst, srcRect);
 
 	MYD3DVERTEX<1> vx[] =
@@ -1617,7 +1617,7 @@ HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9*
 
 	D3DCAPS9 d3dcaps9;
 	hr = m_pD3DDev->GetDeviceCaps(&d3dcaps9);
-	if(d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS)
+	if (d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS)
 	{
 	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x000000FE);
 	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);

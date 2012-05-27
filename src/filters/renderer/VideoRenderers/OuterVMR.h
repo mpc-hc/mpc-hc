@@ -71,7 +71,7 @@ namespace DSObjects
 				if (riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
 					return GetInterface((IVMRffdshow9*)this, ppv);
 				}
-				/*			if(riid == __uuidof(IVMRWindowlessControl))
+				/*			if (riid == __uuidof(IVMRWindowlessControl))
 				return GetInterface((IVMRWindowlessControl*)this, ppv);
 				*/
 			}

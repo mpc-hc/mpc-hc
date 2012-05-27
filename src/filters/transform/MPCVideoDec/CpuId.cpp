@@ -108,7 +108,7 @@ CCpuId::CCpuId(void)
 			//if (nBuff[2] & CPUID_EST) strcat(szFeatures, "EST ");
 		}
 
-		//if(nBuff[3] & CPUID_HTT)
+		//if (nBuff[3] & CPUID_HTT)
 		//	strcat(szFeatures, "HTT ");
 	}
 

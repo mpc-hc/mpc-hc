@@ -329,21 +329,21 @@ HRESULT CSubtitleStream::ChangeStart()
 
 		OnThreadCreate();
 		/*
-				if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32)
+				if (m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32)
 				{
 					m_nPosition = (int)(m_rtStart/10000)*1/1000;
 				}
-				else if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32)
+				else if (m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32)
 				{
 					int m_nSegments = 0;
-					if(!m_rts.SearchSubs((int)(m_rtStart/10000), 25, &m_nPosition, &m_nSegments))
+					if (!m_rts.SearchSubs((int)(m_rtStart/10000), 25, &m_nPosition, &m_nSegments))
 						m_nPosition = m_nSegments;
 				}
 				else
 				{
 					m_nPosition = m_rts.SearchSub((int)(m_rtStart/10000), 25);
-					if(m_nPosition < 0) m_nPosition = 0;
-					else if(m_rts[m_nPosition].end <= (int)(m_rtStart/10000)) m_nPosition++;
+					if (m_nPosition < 0) m_nPosition = 0;
+					else if (m_rts[m_nPosition].end <= (int)(m_rtStart/10000)) m_nPosition++;
 				}
 		*/
 	}
@@ -358,7 +358,7 @@ HRESULT CSubtitleStream::ChangeStop()
 	/*
 	    {
 	        CAutoLock lock(CSourceSeeking::m_pLock);
-	        if(m_rtPosition < m_rtStop)
+	        if (m_rtPosition < m_rtStop)
 				return S_OK;
 	    }
 	*/

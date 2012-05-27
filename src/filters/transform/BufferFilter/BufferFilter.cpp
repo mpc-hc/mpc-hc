@@ -352,7 +352,7 @@ HRESULT CBufferFilterOutputPin::Deliver(IMediaSample* pMediaSample)
 }
 
 #define CallQueue(call) \
-		if(!m_pOutputQueue) return NOERROR; \
+		if (!m_pOutputQueue) return NOERROR; \
 		m_pOutputQueue->##call; \
 		return NOERROR; \
  
