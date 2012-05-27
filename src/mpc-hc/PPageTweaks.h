@@ -24,7 +24,6 @@
 #pragma once
 
 #include "PPageBase.h"
-#include "StaticLink.h"
 
 
 // CPPageTweaks dialog
