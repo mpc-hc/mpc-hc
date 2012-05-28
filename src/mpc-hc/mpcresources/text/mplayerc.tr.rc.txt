@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"Dahili:"
-9		"Harici:"
+7		"Harici:"
 11		"Gözat..."
 END
 

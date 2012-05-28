@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"Belső:"
-9		"Külső:"
+7		"Külső:"
 11		"Tallózás..."
 END
 

@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"Ներքին."
-9		"Արտաքին."
+7		"Արտաքին."
 11		"Ընտրել..."
 END
 

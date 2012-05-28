@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"Interní:"
-9		"Externí:"
+7		"Externí:"
 11		"Procházet..."
 END
 

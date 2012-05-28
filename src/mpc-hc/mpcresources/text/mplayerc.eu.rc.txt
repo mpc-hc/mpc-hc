@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"Barnekoa:"
-9		"Kanpokoa:"
+7		"Kanpokoa:"
 11		"Bilatu..."
 END
 

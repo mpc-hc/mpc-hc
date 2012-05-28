@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"Вбудований:"
-9		"Зовнішній:"
+7		"Зовнішній:"
 11		"Знайти..."
 END
 

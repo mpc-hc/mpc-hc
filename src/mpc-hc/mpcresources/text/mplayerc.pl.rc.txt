@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"Domyślne:"
-9		"Własne:"
+7		"Własne:"
 11		"Przeglądaj..."
 END
 

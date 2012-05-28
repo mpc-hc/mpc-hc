@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"내부:"
-9		"외부:"
+7		"외부:"
 11		"찾아보기..."
 END
 

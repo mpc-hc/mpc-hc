@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"פנימי:"
-9		"חיצוני:"
+7		"חיצוני:"
 11		"עיין..."
 END
 

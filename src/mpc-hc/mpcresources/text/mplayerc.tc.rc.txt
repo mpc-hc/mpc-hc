@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"內部:"
-9		"外部:"
+7		"外部:"
 11		"瀏覽..."
 END
 

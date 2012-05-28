@@ -238,7 +238,7 @@ END
 
 BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 6		"Intern:"
-9		"Extern:"
+7		"Extern:"
 11		"Explorar..."
 END
 
