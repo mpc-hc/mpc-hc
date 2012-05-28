@@ -40,7 +40,7 @@ using namespace MatroskaReader;
 \
 	do \
 	{ \
-		switch(pMN->m_id) \
+		switch (pMN->m_id) \
 		{ \
  
 #define EndChunk \

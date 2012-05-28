@@ -191,7 +191,7 @@ STDMETHODIMP CDeCSSInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 		return E_NOTIMPL;
 	}
 
-	switch(Id) {
+	switch (Id) {
 		case AM_PROPERTY_COPY_MACROVISION:
 			break;
 		case AM_PROPERTY_DVDCOPY_CHLG_KEY: { // 3. auth: receive drive nonce word, also store and encrypt the buskey made up of the two nonce words
@@ -285,7 +285,7 @@ STDMETHODIMP CDeCSSInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceData
 		return E_NOTIMPL;
 	}
 
-	switch(Id) {
+	switch (Id) {
 		case AM_PROPERTY_DVDCOPY_CHLG_KEY: { // 1. auth: send our nonce word
 			AM_DVDCOPY_CHLGKEY* pChlgKey = (AM_DVDCOPY_CHLGKEY*)pPropertyData;
 			for (int i = 0; i < 10; i++) {
@@ -328,7 +328,7 @@ STDMETHODIMP CDeCSSInputPin::QuerySupported(REFGUID PropSet, ULONG Id, ULONG* pT
 		return E_NOTIMPL;
 	}
 
-	switch(Id) {
+	switch (Id) {
 		case AM_PROPERTY_COPY_MACROVISION:
 			*pTypeSupport = KSPROPERTY_SUPPORT_SET;
 			break;

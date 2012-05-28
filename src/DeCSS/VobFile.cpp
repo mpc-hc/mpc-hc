@@ -200,7 +200,7 @@ bool CDVDSession::SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData)
 {
 	CAutoPtr<DVD_COPY_PROTECT_KEY> key;
 
-	switch(KeyType) {
+	switch (KeyType) {
 		case DvdChallengeKey:
 			key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_CHALLENGE_KEY_LENGTH]);
 			key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
@@ -231,7 +231,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 {
 	CAutoPtr<DVD_COPY_PROTECT_KEY> key;
 
-	switch(KeyType) {
+	switch (KeyType) {
 		case DvdChallengeKey:
 			key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_CHALLENGE_KEY_LENGTH]);
 			key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
@@ -271,7 +271,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 		return false;
 	}
 
-	switch(KeyType) {
+	switch (KeyType) {
 		case DvdChallengeKey:
 			Reverse(pKeyData, key->KeyData, 10);
 			break;
@@ -439,7 +439,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 		BYTE Coding_mode = (BYTE)gb.BitRead(3);
 		gb.BitRead(5);// skip
 		int ToAdd=0;
-		switch(Coding_mode) {
+		switch (Coding_mode) {
 			case 0:
 				ToAdd=0x80;
 				break;

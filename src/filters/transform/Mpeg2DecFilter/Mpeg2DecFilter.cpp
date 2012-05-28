@@ -1372,7 +1372,7 @@ STDMETHODIMP CMpeg2DecInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceD
 		}
 	/*
 		if (PropSet == AM_KSPROPSETID_DVD_RateChange)
-		switch(Id)
+		switch (Id)
 		{
 		case AM_RATE_ChangeRate:
 			{
@@ -1424,7 +1424,7 @@ STDMETHODIMP CMpeg2DecInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceD
 		}
 	/*
 		if (PropSet == AM_KSPROPSETID_DVD_RateChange)
-		switch(Id)
+		switch (Id)
 		{
 		case AM_RATE_FullDataRateMax:
 			{
@@ -1484,7 +1484,7 @@ STDMETHODIMP CMpeg2DecInputPin::QuerySupported(REFGUID PropSet, ULONG Id, ULONG*
 		}
 	/*
 		if (PropSet == AM_KSPROPSETID_DVD_RateChange)
-		switch(Id)
+		switch (Id)
 		{
 		case AM_RATE_ChangeRate:
 			*pTypeSupport = KSPROPERTY_SUPPORT_SET;

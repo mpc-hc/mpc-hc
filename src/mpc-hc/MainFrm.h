@@ -105,9 +105,7 @@ public:
 class OpenDeviceData : public OpenMediaData
 {
 public:
-	OpenDeviceData() {
-		vinput = vchannel = ainput = -1;
-	}
+	OpenDeviceData() {vinput = vchannel = ainput = -1;}
 	CStringW DisplayName[2];
 	int vinput, vchannel, ainput;
 };
@@ -133,9 +131,7 @@ class CGraphThread : public CWinThread
 public:
 	CGraphThread() : m_pMainFrame(NULL) {}
 
-	void SetMainFrame(CMainFrame* pMainFrame) {
-		m_pMainFrame = pMainFrame;
-	}
+	void SetMainFrame(CMainFrame* pMainFrame) {m_pMainFrame = pMainFrame;}
 
 	BOOL InitInstance();
 	int ExitInstance();
@@ -351,12 +347,8 @@ public:
 	CString GetStatusMessage() const;
 	int GetPlaybackMode() const {return m_iPlaybackMode;}
 	void SetPlaybackMode(int iNewStatus);
-	bool IsMuted() {
-		return m_wndToolBar.GetVolume() == -10000;
-	}
-	int GetVolume() {
-		return m_wndToolBar.m_volctrl.GetPos();
-	}
+	bool IsMuted() {return m_wndToolBar.GetVolume() == -10000;}
+	int GetVolume() {return m_wndToolBar.m_volctrl.GetPos();}
 
 public:
 	CMainFrame();
