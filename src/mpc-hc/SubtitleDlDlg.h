@@ -24,6 +24,7 @@
 #pragma once
 
 #include "ISDb.h"
+#include "resource.h"
 #include <ResizableLib/ResizableDialog.h>
 
 class CInternetSession;

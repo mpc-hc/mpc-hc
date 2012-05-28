@@ -25,6 +25,8 @@
 #include "Version.h"
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
+#include "SettingsDefines.h"
+#include "mplayerc.h"
 
 #include <afxinet.h>
 

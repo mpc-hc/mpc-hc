@@ -21,6 +21,7 @@
  */
 
 #include "stdafx.h"
+#include "mplayerc.h"
 #include "MiniDump.h"
 #include "resource.h"
 #include <DbgHelp.h>
@@ -45,10 +46,10 @@ CMiniDump::CMiniDump()
 
 	SetUnhandledExceptionFilter( UnhandledExceptionFilter );
 
-#ifndef _WIN64
+//#ifndef _WIN64
 	// Enable catching in CRT (http://blog.kalmbachnet.de/?postid=75)
 	//	PreventSetUnhandledExceptionFilter();
-#endif
+//#endif
 #endif
 }
 

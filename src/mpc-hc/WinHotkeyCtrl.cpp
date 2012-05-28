@@ -22,10 +22,11 @@
 
 
 #include "stdafx.h"
+#include "resource.h"
 #include "WinHotkeyCtrl.h"
 #include "vkCodes.h"
 
-#define WM_KEY	(WM_USER + 444)
+#define WM_KEY (WM_USER + 444)
 
 // CWinHotkeyCtrl
 

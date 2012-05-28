@@ -23,7 +23,7 @@
 #pragma once
 
 #include <afxwin.h>
-
+#include "resource.h"
 #include "UpdateChecker.h"
 
 class UpdateCheckerDlg : public CDialog

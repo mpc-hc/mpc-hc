@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #include "AboutDlg.h"
 #include "InternalFiltersConfig.h" // needed for HAS_FFMPEG
+#include "mplayerc.h"
 #include "Version.h"
 
 /////////////////////////////////////////////////////////////////////////////
