@@ -219,11 +219,7 @@ void CJpegEncoder::WriteSOS()
 					BYTE v = zigzagV[zigzag];
 
 					float F = 0;
-					/*
-										for (int j = 0; j < jj; j++)
-											for (int i = 0; i < ii; i++)
-												F += (signed char)m_p[((y+j)*m_w + (x+i))*4 + c] * cosuv[v][u][j][i];
-					*/
+
 					for (int j = 0; j < jj; j++) {
 						signed char* p = (signed char*)&m_p[((y+j)*m_w + x)*4 + c];
 						for (int i = 0; i < ii; i++, p += 4) {

@@ -99,8 +99,7 @@ SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpu
 SET START_TIME=%TIME%
 SET START_DATE=%DATE%
 
-IF /I "%PLATFORM%" == "Win32" GOTO Win32
-IF /I "%PLATFORM%" == "x64"   GOTO x64
+IF /I "%PLATFORM%" == "Win32" (GOTO Win32) ELSE IF /I "%PLATFORM%" == "x64" (GOTO x64)
 
 
 :Win32

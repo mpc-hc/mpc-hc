@@ -40,7 +40,7 @@ void LCD_UpdateThread(void * Control)
 	__time64_t ltime;
 	__time64_t otime = 0;
 	struct tm  thetime;
-	_tsetlocale(LC_ALL, _T(""));			// set current system locale
+	_tsetlocale(LC_ALL, _T(""));		// set current system locale
 
 	while (ctrl->Thread_Loop) {
 		EnterCriticalSection(&ctrl->cs);
@@ -62,7 +62,7 @@ void LCD_UpdateThread(void * Control)
 		}
 
 		ctrl->m_Output.Update(GetTickCount());	// This invokes OnUpdate for the active screen
-		ctrl->m_Output.Draw();			// This invokes OnDraw for the active screen
+		ctrl->m_Output.Draw();					// This invokes OnDraw for the active screen
 		LeaveCriticalSection(&ctrl->cs);
 		Sleep(LCD_UPD_TIMER);
 	}
@@ -157,18 +157,18 @@ void CLCDMyManager::OnLCDButtonUp(int nButton)
 {
 	switch (nButton) {
 		case LGLCDBUTTON_BUTTON0: {
-			/*		LOGFONT lf;
-					HFONT hFont = m_Text1.GetFont();
+			/*LOGFONT lf;
+			HFONT hFont = m_Text1.GetFont();
 
-					GetObject(hFont, sizeof(LOGFONT), &lf);
+			GetObject(hFont, sizeof(LOGFONT), &lf);
 
-					CFontDialog cfd(&lf);
-					if (cfd.DoModal() == IDOK)
-					{
-						cfd.GetCurrentFont(&lf);
-						m_Text1.SetFont(lf);
-					}
-			*/		break;
+			CFontDialog cfd(&lf);
+			if (cfd.DoModal() == IDOK)
+			{
+				cfd.GetCurrentFont(&lf);
+				m_Text1.SetFont(lf);
+			}*/
+			break;
 		}
 		case LGLCDBUTTON_BUTTON1:
 			break;
@@ -227,7 +227,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_ConnCtx.appFriendlyName		= _T(LCD_APP_NAME);
 	m_ConnCtx.isPersistent			= FALSE;
 	m_ConnCtx.isAutostartable		= FALSE;
-	m_ConnCtx.onConfigure.configCallback	= NULL;		// we don't have a configuration screen
+	m_ConnCtx.onConfigure.configCallback	= NULL;			// we don't have a configuration screen
 	m_ConnCtx.onConfigure.configContext	= NULL;
 	m_ConnCtx.connection			= LGLCD_INVALID_CONNECTION;	// the "connection" member will be returned upon return
 
@@ -244,7 +244,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_Output.LockScreen(&m_Manager);
 
 	m_Output.Update(GetTickCount());	// This invokes OnUpdate for the active screen
-	m_Output.Draw();			// This invokes OnDraw for the active screen
+	m_Output.Draw();					// This invokes OnDraw for the active screen
 
 	if (m_Output.IsOpened()) {
 		Thread_Loop = true;
