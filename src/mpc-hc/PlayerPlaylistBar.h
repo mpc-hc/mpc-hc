@@ -58,7 +58,7 @@ private:
 	void SetupList();
 	void UpdateList();
 	void EnsureVisible(POSITION pos);
-	int FindItem(POSITION pos);
+	int FindItem(POSITION pos) const;
 	POSITION FindPos(int i);
 
 	CImageList* m_pDragImage;
@@ -84,11 +84,11 @@ public:
 
 	CPlaylist m_pl;
 
-	int GetCount();
-	int GetSelIdx();
+	int GetCount() const;
+	int GetSelIdx() const;
 	void SetSelIdx(int i);
 	bool IsAtEnd();
-	bool GetCur(CPlaylistItem& pli);
+	bool GetCur(CPlaylistItem& pli) const;
 	CPlaylistItem* GetCur();
 	CString GetCurFileName();
 	bool SetNext();

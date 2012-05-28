@@ -215,7 +215,7 @@ void CPlayerToolBar::SetMute(bool fMute)
 	AfxGetAppSettings().fMute = fMute;
 }
 
-bool CPlayerToolBar::IsMuted()
+bool CPlayerToolBar::IsMuted() const
 {
 	CToolBarCtrl& tb = GetToolBarCtrl();
 	TBBUTTONINFO bi;
@@ -225,7 +225,7 @@ bool CPlayerToolBar::IsMuted()
 	return(bi.iImage==13);
 }
 
-int CPlayerToolBar::GetVolume()
+int CPlayerToolBar::GetVolume() const
 {
 	int volume = m_volctrl.GetPos(); // [0..100]
 	if (IsMuted() || volume <= 0) {
@@ -237,7 +237,7 @@ int CPlayerToolBar::GetVolume()
 	return volume;
 }
 
-int CPlayerToolBar::GetMinWidth()
+int CPlayerToolBar::GetMinWidth() const
 {
 	return m_nButtonHeight * 9 + 155;
 }

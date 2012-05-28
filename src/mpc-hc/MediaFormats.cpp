@@ -130,7 +130,7 @@ void CMediaFormatCategory::SetExts(CString exts)
 	}
 }
 
-CString CMediaFormatCategory::GetFilter()
+CString CMediaFormatCategory::GetFilter() const
 {
 	CString filter;
 	POSITION pos = m_exts.GetHeadPosition();
@@ -141,7 +141,7 @@ CString CMediaFormatCategory::GetFilter()
 	return(filter);
 }
 
-CString CMediaFormatCategory::GetExts(bool fAppendEngine)
+CString CMediaFormatCategory::GetExts(bool fAppendEngine) const
 {
 	CString exts = Implode(m_exts, ' ');
 	if (fAppendEngine) {
@@ -150,7 +150,7 @@ CString CMediaFormatCategory::GetExts(bool fAppendEngine)
 	return(exts);
 }
 
-CString CMediaFormatCategory::GetExtsWithPeriod(bool fAppendEngine)
+CString CMediaFormatCategory::GetExtsWithPeriod(bool fAppendEngine) const
 {
 	CString exts;
 	POSITION pos = m_exts.GetHeadPosition();
@@ -164,7 +164,7 @@ CString CMediaFormatCategory::GetExtsWithPeriod(bool fAppendEngine)
 	return(exts);
 }
 
-CString CMediaFormatCategory::GetBackupExtsWithPeriod(bool fAppendEngine)
+CString CMediaFormatCategory::GetBackupExtsWithPeriod(bool fAppendEngine) const
 {
 	CString exts;
 	POSITION pos = m_backupexts.GetHeadPosition();

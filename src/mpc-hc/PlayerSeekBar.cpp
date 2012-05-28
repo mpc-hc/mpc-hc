@@ -91,7 +91,7 @@ void CPlayerSeekBar::Enable(bool fEnable)
 	Invalidate();
 }
 
-void CPlayerSeekBar::GetRange(__int64& start, __int64& stop)
+void CPlayerSeekBar::GetRange(__int64& start, __int64& stop) const
 {
 	start = m_start;
 	stop = m_stop;
@@ -109,12 +109,12 @@ void CPlayerSeekBar::SetRange(__int64 start, __int64 stop)
 	}
 }
 
-__int64 CPlayerSeekBar::GetPos()
+__int64 CPlayerSeekBar::GetPos() const
 {
 	return(m_pos);
 }
 
-__int64 CPlayerSeekBar::GetPosReal()
+__int64 CPlayerSeekBar::GetPosReal() const
 {
 	return(m_posreal);
 }
@@ -150,7 +150,7 @@ void CPlayerSeekBar::SetPosInternal(__int64 pos)
 	}
 }
 
-CRect CPlayerSeekBar::GetChannelRect()
+CRect CPlayerSeekBar::GetChannelRect() const
 {
 	CRect r;
 	GetClientRect(&r);
@@ -159,7 +159,7 @@ CRect CPlayerSeekBar::GetChannelRect()
 	return(r);
 }
 
-CRect CPlayerSeekBar::GetThumbRect()
+CRect CPlayerSeekBar::GetThumbRect() const
 {
 	//	bool fEnabled = m_fEnabled || m_start >= m_stop;
 
@@ -174,7 +174,7 @@ CRect CPlayerSeekBar::GetThumbRect()
 	return(r);
 }
 
-CRect CPlayerSeekBar::GetInnerThumbRect()
+CRect CPlayerSeekBar::GetInnerThumbRect() const
 {
 	CRect r = GetThumbRect();
 

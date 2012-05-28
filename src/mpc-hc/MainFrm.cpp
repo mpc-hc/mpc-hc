@@ -975,7 +975,7 @@ DROPEFFECT CMainFrame::OnDragScroll(DWORD dwKeyState, CPoint point)
 	return DROPEFFECT_NONE;
 }
 
-LPCTSTR CMainFrame::GetRecentFile()
+LPCTSTR CMainFrame::GetRecentFile() const
 {
 	CRecentFileList& MRU = AfxGetAppSettings().MRU;
 	MRU.ReadList();
@@ -5123,7 +5123,7 @@ BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
 	return result;
 }
 
-CString CMainFrame::GetVidPos()
+CString CMainFrame::GetVidPos() const
 {
 	CString posstr = _T("");
 	if ((GetPlaybackMode() == PM_FILE) || (GetPlaybackMode() == PM_DVD)) {
@@ -9446,7 +9446,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 	}
 }
 
-OAFilterState CMainFrame::GetMediaState()
+OAFilterState CMainFrame::GetMediaState() const
 {
 	OAFilterState ret = -1;
 	if (m_iMediaLoadState == MLS_LOADED) {
@@ -9463,7 +9463,7 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
 	}
 }
 
-CSize CMainFrame::GetVideoSize()
+CSize CMainFrame::GetVideoSize() const
 {
 	bool fKeepAspectRatio = AfxGetAppSettings().fKeepAspectRatio;
 	bool fCompMonDeskARDiff = AfxGetAppSettings().fCompMonDeskARDiff;
@@ -10061,7 +10061,7 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 	MoveVideoWindow();
 }
 
-double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
+double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly) const
 {
 	if (m_iMediaLoadState != MLS_LOADED || m_fAudioOnly) {
 		return 1.0;
@@ -13747,12 +13747,12 @@ void CMainFrame::SetAudioTrackIdx(int index)
 	}
 }
 
-REFERENCE_TIME CMainFrame::GetPos()
+REFERENCE_TIME CMainFrame::GetPos() const
 {
 	return(m_iMediaLoadState == MLS_LOADED ? m_wndSeekBar.GetPos() : 0);
 }
 
-REFERENCE_TIME CMainFrame::GetDur()
+REFERENCE_TIME CMainFrame::GetDur() const
 {
 	__int64 start, stop;
 	m_wndSeekBar.GetRange(start, stop);
@@ -14269,7 +14269,7 @@ void CMainFrame::StopWebServer()
 	}
 }
 
-CString CMainFrame::GetStatusMessage()
+CString CMainFrame::GetStatusMessage() const
 {
 	CString str;
 	m_wndStatusBar.m_status.GetWindowText(str);

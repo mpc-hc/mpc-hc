@@ -55,7 +55,7 @@ public:
 	void SetLineNumberRange( UINT nMin, UINT nMax = 0 );
 	void UseSystemColours( BOOL bUseEnabled = TRUE, BOOL bUseDisabled = TRUE );
 
-	int GetLineHeight()
+	int GetLineHeight() const
 	{
 		return m_zero.cy;
 	}

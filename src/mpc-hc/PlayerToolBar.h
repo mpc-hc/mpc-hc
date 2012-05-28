@@ -33,7 +33,7 @@ class CPlayerToolBar : public CToolBar
 	DECLARE_DYNAMIC(CPlayerToolBar)
 
 private:
-	bool IsMuted();
+	bool IsMuted() const;
 	void SetMute(bool fMute = true);
 	int getHitButtonIdx(CPoint point);
 	HBITMAP LoadExternalToolBar();
@@ -45,8 +45,8 @@ public:
 	CPlayerToolBar();
 	virtual ~CPlayerToolBar();
 
-	int GetVolume();
-	int GetMinWidth();
+	int GetVolume() const;
+	int GetMinWidth() const;
 	void SetVolume(int volume);
 	__declspec(property(get=GetVolume, put=SetVolume)) int Volume;
 

@@ -591,7 +591,7 @@ public:
 	int				nUpdaterAutoCheck;
 	int				nUpdaterDelay;
 
-	bool			GetAllowMultiInst();
+	bool			GetAllowMultiInst() const;
 	static bool		IsVSFilterInstalled();
 	static bool		HasEVR();
 private:

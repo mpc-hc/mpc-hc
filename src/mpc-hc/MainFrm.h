@@ -247,7 +247,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	void SetDefaultFullscreenState();
 	void RestoreDefaultWindowRect();
 	void ZoomVideoWindow(bool snap = true, double scale = -1);
-	double GetZoomAutoFitScale(bool bLargerOnly = false);
+	double GetZoomAutoFitScale(bool bLargerOnly = false) const;
 
 	void SetAlwaysOnTop(int i);
 
@@ -348,10 +348,8 @@ public:
 	void StartWebServer(int nPort);
 	void StopWebServer();
 
-	CString GetStatusMessage();
-	int GetPlaybackMode() const {
-		return m_iPlaybackMode;
-	}
+	CString GetStatusMessage() const;
+	int GetPlaybackMode() const {return m_iPlaybackMode;}
 	void SetPlaybackMode(int iNewStatus);
 	bool IsMuted() {
 		return m_wndToolBar.GetVolume() == -10000;
@@ -468,14 +466,15 @@ public:
 	void ShowTrayIcon(bool fShow);
 	void SetTrayTip(CString str);
 
-	CSize GetVideoSize();
+	CSize GetVideoSize() const;
 	void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
 	void MoveVideoWindow(bool fShowStats = false);
 	void RepaintVideo();
 	void HideVideoWindow(bool fHide);
 
-	OAFilterState GetMediaState();
-	REFERENCE_TIME GetPos(), GetDur();
+	OAFilterState GetMediaState() const;
+	REFERENCE_TIME GetPos() const;
+	REFERENCE_TIME GetDur() const;
 	void SeekTo(REFERENCE_TIME rt, bool fSeekToKeyFrame = false);
 
 	// audio streams order functions
@@ -557,7 +556,7 @@ protected:  // control bar embedded members
 	void OnDragLeave();
 	DROPEFFECT OnDragScroll(DWORD dwKeyState, CPoint point);
 
-	LPCTSTR GetRecentFile();
+	LPCTSTR GetRecentFile() const;
 
 	friend class CPPagePlayback; // TODO
 	friend class CPPageAudioSwitcher; // TODO
@@ -956,7 +955,7 @@ public:
 	void		ShowOSDCustomMessageApi(MPC_OSDDATA *osdData);
 	void		JumpOfNSeconds(int seconds);
 
-	CString GetVidPos();
+	CString GetVidPos() const;
 
 	ITaskbarList3* m_pTaskbarList;
 	HRESULT CreateThumbnailToolbar();

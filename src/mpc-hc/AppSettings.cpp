@@ -1471,7 +1471,7 @@ void CAppSettings::UpdateData(bool fSave)
 	}
 }
 
-bool CAppSettings::GetAllowMultiInst()
+bool CAppSettings::GetAllowMultiInst() const
 {
 	return !!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MULTIINST, 0);
 }

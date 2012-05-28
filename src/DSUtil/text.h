@@ -30,7 +30,7 @@
 // extern CString Implode(CAtlList<CString>& sl, TCHAR sep);
 
 template<class T, typename SEP>
-T Explode(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
+T Explode(const T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	sl.RemoveAll();
 
@@ -49,7 +49,7 @@ T Explode(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 }
 
 template<class T, typename SEP>
-T ExplodeMin(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
+T ExplodeMin(const T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	Explode(str, sl, sep, limit);
 	POSITION pos = sl.GetHeadPosition();
@@ -67,7 +67,7 @@ T ExplodeMin(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 }
 
 template<class T, typename SEP>
-T Implode(CAtlList<T>& sl, SEP sep)
+T Implode(const CAtlList<T>& sl, SEP sep)
 {
 	T ret;
 	POSITION pos = sl.GetHeadPosition();

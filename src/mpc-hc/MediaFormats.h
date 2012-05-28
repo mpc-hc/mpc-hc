@@ -61,10 +61,10 @@ public:
 	CString GetLabel() const {return m_label;}
 
 	CString GetDescription() const {return m_description;}
-	CString GetFilter();
-	CString GetExts(bool fAppendEngine = false);
-	CString GetExtsWithPeriod(bool fAppendEngine = false);
-	CString GetBackupExtsWithPeriod(bool fAppendEngine = false);
+	CString GetFilter() const;
+	CString GetExts(bool fAppendEngine = false) const;
+	CString GetExtsWithPeriod(bool fAppendEngine = false) const;
+	CString GetBackupExtsWithPeriod(bool fAppendEngine = false) const;
 	CString GetSpecReqNote() const {return m_specreqnote;}
 	bool IsAudioOnly() const {return m_fAudioOnly;}
 	engine_t GetEngineType() const {return m_engine;}

@@ -172,8 +172,8 @@ namespace DSObjects
 		virtual void		OnResetDevice() {};
 		void				SendResetRequest();
 
-		double GetFrameTime();
-		double GetFrameRate();
+		double GetFrameTime() const;
+		double GetFrameRate() const;
 
 
 		int						m_nTearingPos;
@@ -208,14 +208,14 @@ namespace DSObjects
 		double					m_DetectedScanlineTimePrim;
 		double					m_DetectedScanlinesPerFrame;
 
-		double GetRefreshRate() {
+		double GetRefreshRate() const {
 			if (m_DetectedRefreshRate) {
 				return m_DetectedRefreshRate;
 			}
 			return m_RefreshRate;
 		}
 
-		LONG GetScanLines() {
+		LONG GetScanLines() const {
 			if (m_DetectedRefreshRate) {
 				return (LONG)m_DetectedScanlinesPerFrame;
 			}

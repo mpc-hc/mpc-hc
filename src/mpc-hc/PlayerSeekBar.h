@@ -50,9 +50,9 @@ private:
 
 	void UpdateTooltip(CPoint point);
 
-	CRect GetChannelRect();
-	CRect GetThumbRect();
-	CRect GetInnerThumbRect();
+	CRect GetChannelRect() const;
+	CRect GetThumbRect() const;
+	CRect GetInnerThumbRect() const;
 
 public:
 	CPlayerSeekBar();
@@ -60,9 +60,10 @@ public:
 
 	void Enable(bool fEnable);
 
-	void GetRange(__int64& start, __int64& stop);
+	void GetRange(__int64& start, __int64& stop) const;
 	void SetRange(__int64 start, __int64 stop);
-	__int64 GetPos(), GetPosReal();
+	__int64 GetPos() const;
+	__int64 GetPosReal() const;
 	void SetPos(__int64 pos);
 
 	void HideToolTip();

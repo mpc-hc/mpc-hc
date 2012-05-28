@@ -581,7 +581,7 @@ void CPlayerPlaylistBar::EnsureVisible(POSITION pos)
 	m_list.Invalidate();
 }
 
-int CPlayerPlaylistBar::FindItem(POSITION pos)
+int CPlayerPlaylistBar::FindItem(POSITION pos) const
 {
 	for (int i = 0; i < m_list.GetItemCount(); i++)
 		if ((POSITION)m_list.GetItemData(i) == pos) {
@@ -598,12 +598,12 @@ POSITION CPlayerPlaylistBar::FindPos(int i)
 	return((POSITION)m_list.GetItemData(i));
 }
 
-int CPlayerPlaylistBar::GetCount()
+int CPlayerPlaylistBar::GetCount() const
 {
 	return(m_pl.GetCount()); // TODO: n - .fInvalid
 }
 
-int CPlayerPlaylistBar::GetSelIdx()
+int CPlayerPlaylistBar::GetSelIdx() const
 {
 	return(FindItem(m_pl.GetPos()));
 }
@@ -628,7 +628,7 @@ bool CPlayerPlaylistBar::IsAtEnd()
 	return isAtEnd;
 }
 
-bool CPlayerPlaylistBar::GetCur(CPlaylistItem& pli)
+bool CPlayerPlaylistBar::GetCur(CPlaylistItem& pli) const
 {
 	if (!m_pl.GetPos()) {
 		return false;

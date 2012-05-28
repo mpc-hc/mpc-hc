@@ -1821,7 +1821,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	return true;
 }
 
-double CDX9AllocatorPresenter::GetFrameTime()
+double CDX9AllocatorPresenter::GetFrameTime() const
 {
 	if (m_DetectedLock) {
 		return m_DetectedFrameTime;
@@ -1830,7 +1830,7 @@ double CDX9AllocatorPresenter::GetFrameTime()
 	return m_rtTimePerFrame / 10000000.0;
 }
 
-double CDX9AllocatorPresenter::GetFrameRate()
+double CDX9AllocatorPresenter::GetFrameRate() const
 {
 	if (m_DetectedLock) {
 		return m_DetectedFrameRate;
