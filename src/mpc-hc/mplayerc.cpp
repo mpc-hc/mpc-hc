@@ -2290,7 +2290,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	AfxSetResourceHandle(hMod);
 }
 
-HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
+/*HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
 {
 	ASSERT( IsWinVistaOrLater() );
 	ASSERT( ptet );
@@ -2323,7 +2323,7 @@ HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
 	::CloseHandle( hToken );
 
 	return hResult;
-}
+}*/
 
 void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess)
 {

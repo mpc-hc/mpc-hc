@@ -159,7 +159,7 @@ public:
 	static LPCTSTR				GetLanguageName(int nLang);
 	static int					GetLanguageAlph(int nLang);
 	static int					GetDefLanguage();
-	static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
+	//static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
 	static void					RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
 
 	void						RegisterHotkeys();
