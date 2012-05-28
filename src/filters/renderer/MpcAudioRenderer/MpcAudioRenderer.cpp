@@ -92,7 +92,7 @@ bool CALLBACK DSEnumProc2(LPGUID lpGUID,
 }
 
 CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
-	: CBaseRenderer(__uuidof(this), NAME("MPC - Audio Renderer"), punk, phr)
+	: CBaseRenderer(__uuidof(this), MpcAudioRendererName, punk, phr)
 	, m_pDSBuffer		(NULL )
 	, m_pSoundTouch		(NULL )
 	, m_pDS				(NULL )

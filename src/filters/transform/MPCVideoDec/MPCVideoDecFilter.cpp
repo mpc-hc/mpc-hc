@@ -520,7 +520,7 @@ BOOL CALLBACK EnumFindProcessWnd (HWND hwnd, LPARAM lParam)
 	GetClassName (hwnd, WindowClass, _countof(WindowClass));
 
 	if (procid == GetCurrentProcessId() && _tcscmp (WindowClass, _T("MediaPlayerClassicW")) == 0) {
-		HWND*		pWnd = (HWND*) lParam;
+		HWND* pWnd = (HWND*)lParam;
 		*pWnd = hwnd;
 		return FALSE;
 	}
@@ -528,11 +528,11 @@ BOOL CALLBACK EnumFindProcessWnd (HWND hwnd, LPARAM lParam)
 }
 
 CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
-	: CBaseVideoFilter(NAME("MPC - Video decoder"), lpunk, phr, __uuidof(this))
+	: CBaseVideoFilter(MPCVideoDecName, lpunk, phr, __uuidof(this))
 {
-	HWND		hWnd = NULL;
+	HWND hWnd = NULL;
 
-	if (IsVistaOrAbove()) {
+	if (IsWinVistaOrLater()) {
 		for (int i=0; i<_countof(ffCodecs); i++) {
 			if (ffCodecs[i].nFFCodec == CODEC_ID_H264) {
 				ffCodecs[i].DXVAModes = &DXVA_H264_VISTA;
