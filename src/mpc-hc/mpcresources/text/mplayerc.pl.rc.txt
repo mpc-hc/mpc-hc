@@ -1,7 +1,7 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"O programie"
 8		"Copyright © 2002-2012 szczegóły w pliku Authors.txt"
-10		"Version :"
+10		"Wersja :"
 11		"OK"
 12		"Ten program został opublikowany na zasadach Powszechnej Licencji Publicznej GNU."
 13		"Kompilator MPC-HC :"
