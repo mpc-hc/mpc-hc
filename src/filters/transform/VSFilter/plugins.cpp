@@ -623,12 +623,12 @@ namespace Plugin
 
 		int vobsubInitProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff)
 		{
-			return !(*(CVirtualDubFilter**)fa->filter_data = DNew CVobSubVirtualDubFilter());
+			return ((*(CVirtualDubFilter**)fa->filter_data = DNew CVobSubVirtualDubFilter()) == NULL);
 		}
 
 		int textsubInitProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff)
 		{
-			return !(*(CVirtualDubFilter**)fa->filter_data = DNew CTextSubVirtualDubFilter());
+			return ((*(CVirtualDubFilter**)fa->filter_data = DNew CTextSubVirtualDubFilter()) == NULL);
 		}
 
 		void baseDeinitProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff)
@@ -754,8 +754,8 @@ namespace Plugin
 
 		extern "C" __declspec(dllexport) int __cdecl VirtualdubFilterModuleInit2(VDXFilterModule *fm, const VDXFilterFunctions *ff, int& vdfd_ver, int& vdfd_compat)
 		{
-			if (!(fd_vobsub = ff->addFilter(fm, &filterDef_vobsub, sizeof(VDXFilterDefinition)))
-					|| !(fd_textsub = ff->addFilter(fm, &filterDef_textsub, sizeof(VDXFilterDefinition)))) {
+			if (((fd_vobsub = ff->addFilter(fm, &filterDef_vobsub, sizeof(VDXFilterDefinition))) == NULL)
+					|| ((fd_textsub = ff->addFilter(fm, &filterDef_textsub, sizeof(VDXFilterDefinition))) == NULL)) {
 				return 1;
 			}
 
