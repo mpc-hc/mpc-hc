@@ -496,10 +496,10 @@ bool CAppSettings::NewFile(LPCTSTR strFileName)
 
 void CAppSettings::DeserializeHex (LPCTSTR strVal, BYTE* pBuffer, int nBufSize) const
 {
-	long		lRes;
+	long lRes;
 
 	for (int i=0; i<nBufSize; i++) {
-		_stscanf_s (strVal+(i*2), _T("%02x"), &lRes);
+		_stscanf_s(strVal+(i*2), _T("%02x"), &lRes);
 		pBuffer[i] = (BYTE)lRes;
 	}
 }

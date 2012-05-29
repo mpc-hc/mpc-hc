@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include "resource.h"
 
 // CComPropertyPage dialog
 

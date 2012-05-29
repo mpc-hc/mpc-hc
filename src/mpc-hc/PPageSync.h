@@ -23,6 +23,7 @@
 #pragma once
 
 #include "PPageBase.h"
+#include "resource.h"
 
 
 class CPPageSync: public CPPageBase

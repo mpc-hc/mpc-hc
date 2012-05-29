@@ -24,6 +24,7 @@
 #pragma once
 
 #include "FloatEdit.h"
+#include "resource.h"
 #include <ResizableLib/ResizableDialog.h>
 
 

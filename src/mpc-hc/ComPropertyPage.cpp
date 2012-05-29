@@ -66,7 +66,6 @@ BOOL CComPropertyPage::OnInitDialog()
 void CComPropertyPage::OnDestroy()
 {
 	CPropertyPage::OnDestroy();
-
 	m_pPage->Deactivate();
 }
 
@@ -86,7 +85,6 @@ BOOL CComPropertyPage::OnSetActive()
 BOOL CComPropertyPage::OnKillActive()
 {
 	SetModified(FALSE);
-
 	return CPropertyPage::OnKillActive();
 }
 
@@ -104,6 +102,5 @@ void CComPropertyPage::OnOK()
 		m_pPage->Apply();
 	}
 	SetModified(FALSE);
-
 	CPropertyPage::OnOK();
 }
