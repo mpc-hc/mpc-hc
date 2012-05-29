@@ -1131,7 +1131,7 @@ void CDVSPathsPPage::UpdateControlData(bool fSave)
 {
 	if (fSave) {
 		m_paths.RemoveAll();
-		for (ptrdiff_t i = 0; i < m_pathlist.GetCount(); i++) {
+		for (int i = 0; i < m_pathlist.GetCount(); i++) {
 			CString path;
 			m_pathlist.GetText(i, path);
 			m_paths.Add(path);

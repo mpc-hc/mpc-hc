@@ -173,7 +173,7 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 	if (SUCCEEDED(pIn->GetTime(&rtStart, &rtStop))) {
 		double dRate = m_pInput->CurrentRate();
 
-		m_tPrev = m_pInput->CurrentStartTime() + dRate*rtStart;
+		m_tPrev = m_pInput->CurrentStartTime() + (REFERENCE_TIME)(dRate*rtStart);
 
 		REFERENCE_TIME rtAvgTimePerFrame = rtStop - rtStart;
 		if (CComQIPtr<ISubClock2> pSC2 = m_pSubClock) {
@@ -675,7 +675,7 @@ int CDirectVobSubFilter::FindPreferedLanguage(bool fHideToo)
 		CString lang = theApp.GetProfileString(ResStr(IDS_R_PREFLANGS), tmp);
 
 		if (!lang.IsEmpty()) {
-			for (ptrdiff_t ret = 0; ret < nLangs; ret++) {
+			for (int ret = 0; ret < nLangs; ret++) {
 				CString l;
 				WCHAR* pName = NULL;
 				get_LanguageName(ret, &pName);
@@ -1619,7 +1619,7 @@ void CDirectVobSubFilter::AddSubStream(ISubStream* pSubStream)
 		m_pSubStreams.AddTail(pSubStream);
 	}
 
-	int len = m_pTextInput.GetCount();
+	size_t len = m_pTextInput.GetCount();
 	for (size_t i = 0; i < m_pTextInput.GetCount(); i++)
 		if (m_pTextInput[i]->IsConnected()) {
 			len--;

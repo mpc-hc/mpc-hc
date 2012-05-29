@@ -140,22 +140,22 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
 			}
 		}
 		// TODO: allow floats in these edit boxes
-		m_spacing = m_stss.fontSpacing;
+		m_spacing = (int)m_stss.fontSpacing;
 		m_spacingspin.SetRange32(-10000, 10000);
 		while (m_stss.fontAngleZ < 0) {
 			m_stss.fontAngleZ += 360;
 		}
-		m_angle = fmod(m_stss.fontAngleZ, 360);
+		m_angle = (int)fmod(m_stss.fontAngleZ, 360);
 		m_anglespin.SetRange32(0, 359);
-		m_scalex = m_stss.fontScaleX;
+		m_scalex = (int)m_stss.fontScaleX;
 		m_scalexspin.SetRange32(-10000, 10000);
-		m_scaley = m_stss.fontScaleY;
+		m_scaley = (int)m_stss.fontScaleY;
 		m_scaleyspin.SetRange32(-10000, 10000);
 
 		m_borderstyle = m_stss.borderStyle;
-		m_borderwidth = min(m_stss.outlineWidthX, m_stss.outlineWidthY);
+		m_borderwidth = (int)min(m_stss.outlineWidthX, m_stss.outlineWidthY);
 		m_borderwidthspin.SetRange32(0, 10000);
-		m_shadowdepth = min(m_stss.shadowDepthX, m_stss.shadowDepthY);
+		m_shadowdepth = (int)min(m_stss.shadowDepthX, m_stss.shadowDepthY);
 		m_shadowdepthspin.SetRange32(0, 10000);
 
 		m_screenalignment = m_stss.scrAlignment-1;
@@ -232,7 +232,7 @@ void CStyleEditorDialog::OnBnClickedButton1()
 		}
 		m_font.SetWindowText(str);
 
-		for (ptrdiff_t i = 0, j = m_charset.GetCount(); i < j; i++) {
+		for (int i = 0, j = m_charset.GetCount(); i < j; i++) {
 			if (m_charset.GetItemData(i) == lf.lfCharSet) {
 				m_charset.SetCurSel(i);
 				break;

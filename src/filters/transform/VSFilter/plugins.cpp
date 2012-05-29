@@ -850,7 +850,7 @@ namespace Plugin
 
 		AVSValue __cdecl TextSubCreateSIF(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt(), args[3].AsFloat()));
+			return(DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt(), (float)args[3].AsFloat()));
 		}
 
 		AVSValue __cdecl MaskSubCreateSIIFI(AVSValue args, void* user_data, IScriptEnvironment* env)
@@ -981,7 +981,7 @@ namespace Plugin
 					   env,
 					   args[1].AsString(),
 					   args[2].AsInt(DEFAULT_CHARSET),
-					   args[3].AsFloat(-1),
+					   (float)args[3].AsFloat(-1),
 					   vfr));
 		}
 
@@ -1027,7 +1027,7 @@ namespace Plugin
 					   env,
 					   args[0].AsString(),
 					   args[5].AsInt(DEFAULT_CHARSET),
-					   args[3].AsFloat(-1),
+					   (float)args[3].AsFloat(-1),
 					   vfr));
 		}
 

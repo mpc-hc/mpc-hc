@@ -199,7 +199,7 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 			tmp.Format(_T("queue stats: %I64d - %I64d [ms]\n"), rtStart/10000, rtStop/10000);
 			msg += tmp;
 
-			for (ptrdiff_t i = 0; i < nSubPics; i++) {
+			for (int i = 0; i < nSubPics; i++) {
 				m_pSubPicQueue->GetStats(i, rtStart, rtStop);
 				tmp.Format(_T("%d: %I64d - %I64d [ms]\n"), i, rtStart/10000, rtStop/10000);
 				msg += tmp;
@@ -249,7 +249,7 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 	pIn += pitchIn * r.top;
 	pOut += pitchOut * r.top;
 
-	for (ptrdiff_t w = min(r.right, m_w), h = r.Height(); h--; pIn += pitchIn, pOut += pitchOut) {
+	for (int w = min(r.right, m_w), h = r.Height(); h--; pIn += pitchIn, pOut += pitchOut) {
 		BltLineRGB32((DWORD*)pOut, pIn, w, subtype);
 		memsetd(pIn, 0xff000000, r.right*4);
 	}

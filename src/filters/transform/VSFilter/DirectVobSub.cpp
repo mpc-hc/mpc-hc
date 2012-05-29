@@ -304,7 +304,7 @@ STDMETHODIMP CDirectVobSub::get_TextSettings(void* lf, int lflen, COLORREF* colo
 
 		((LOGFONT*)lf)->lfCharSet = m_defStyle.charSet;
 		((LOGFONT*)lf)->lfItalic = m_defStyle.fItalic;
-		((LOGFONT*)lf)->lfHeight = m_defStyle.fontSize;
+		((LOGFONT*)lf)->lfHeight = (LONG)m_defStyle.fontSize;
 		((LOGFONT*)lf)->lfWeight = m_defStyle.fontWeight;
 		((LOGFONT*)lf)->lfStrikeOut = m_defStyle.fStrikeOut;
 		((LOGFONT*)lf)->lfUnderline = m_defStyle.fUnderline;
