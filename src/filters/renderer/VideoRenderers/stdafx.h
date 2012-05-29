@@ -25,18 +25,15 @@
 
 #include "../../../DSUtil/SharedInclude.h"
 
+#ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN	// Exclude rarely-used stuff from Windows headers
-
+#endif
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 #include <afxdisp.h>
 #include <afxole.h>
-#include <crtdefs.h>
 #include <BaseClasses/streams.h>
 #include <dvdmedia.h>
 #include <mpconfig.h>
-#ifndef _WIN64
-#include <qt/qt.h>
-#endif
 
 #include "../../../DSUtil/DSUtil.h"

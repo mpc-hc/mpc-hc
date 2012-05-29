@@ -26,7 +26,7 @@
 #pragma warning(disable:4995)
 
 #ifdef _DEBUG
-#define _CRTDBG_MAP_ALLOC // include Microsoft memory leak detection procedures
+#define _CRTDBG_MAP_ALLOC   // include Microsoft memory leak detection procedures
 
 #if 0
 #include <crtdbg.h>

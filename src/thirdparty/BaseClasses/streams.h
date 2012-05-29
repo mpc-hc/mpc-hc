@@ -22,6 +22,10 @@
 #pragma warning(disable:4512) // warning C4512: assignment operator could not be generated
 #pragma warning(disable:4514) // warning C4514: "unreferenced inline function has been removed"
 
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN   // Exclude rarely-used stuff from Windows headers
+#endif
+
 #if _MSC_VER>=1100
 #define AM_NOVTABLE __declspec(novtable)
 #else

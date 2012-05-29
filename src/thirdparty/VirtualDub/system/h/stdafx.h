@@ -9,6 +9,12 @@
 #endif
 */
 
+// Start patch MPC-HC
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
+#endif
+// End patch MPC-HC
+
 #include <vd2/system/vdtypes.h>
 #include <vd2/system/atomic.h>
 #include <vd2/system/thread.h>
