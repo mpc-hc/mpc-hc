@@ -446,5 +446,6 @@
     <ClCompile Include="Crypto\Ap4StreamCipher.cpp">
       <Filter>Crypto</Filter>
     </ClCompile>
+    <ClCompile Include="precomp.cpp" />
   </ItemGroup>
 </Project>

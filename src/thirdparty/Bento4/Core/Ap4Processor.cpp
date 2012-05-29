@@ -29,6 +29,7 @@
 /*----------------------------------------------------------------------
 |       includes
 +---------------------------------------------------------------------*/
+#include "Ap4.h"
 #include "Ap4Processor.h"
 #include "Ap4AtomSampleTable.h"
 #include "Ap4AtomFactory.h"

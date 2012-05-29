@@ -29,6 +29,7 @@
 /*----------------------------------------------------------------------
 |       includes
 +---------------------------------------------------------------------*/
+#include "Ap4.h"
 #include "Ap4SampleDescription.h"
 #include "Ap4EsDescriptor.h"
 #include "Ap4SampleEntry.h"
