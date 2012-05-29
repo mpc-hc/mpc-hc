@@ -9,7 +9,7 @@ MPC-HC:
 3) Try to clean up the includes; there are a lot of unneeded includes, or includes which are
    inherited from files they shouldn't be and are not included directly in the files that need them
 4) Try to speed up compilation by doing the above and also by optimizing the included headers
-   in stdafx.h for mplayerc.vcxproj. Ideally add support for precompiled headers in Bento4.
+   in stdafx.h for mplayerc.vcxproj.
 5) Reorganize the player's Options
 6) Remove support for unneeded/obsolete renderers
 7) Update Bento4 library or see if we can use ffmpeg for this job
@@ -24,7 +24,7 @@ FFmpeg:
 3) Use ffmpeg for:
    * MPEG-1 and MPEG-2 decoding (this would remove the dependency on libmpeg2)
    * FLAC and perhaps AC-3 and DTS decoding (this would remove the dependency on libflac, a52dec and libdca)
-Alternatively, drop all internal decoders and filters and intergrate LAVFilters, but keep DXVA1.
+Alternatively, drop all internal decoders and filters and integrate LAVFilters, but keep DXVA1.
 
 Installer:
 1) Add detection of directx and run websetup to update if needed or include the needed dx dlls
@@ -37,3 +37,5 @@ VSFilter:
    for both VSFilter and MPC-HC itself
 4) Do we need the ISOLATION_AWARE_ENABLED define?
 5) Fix the YUV2 bug causing subtitles not to show
+6) Backport a few useful patches from those VSFilter forks;  we need individual patches for that
+   and we have to make sure that everything works right for mpc-hc itself
