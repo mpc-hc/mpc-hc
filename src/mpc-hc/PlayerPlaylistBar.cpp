@@ -598,9 +598,9 @@ POSITION CPlayerPlaylistBar::FindPos(int i)
 	return((POSITION)m_list.GetItemData(i));
 }
 
-int CPlayerPlaylistBar::GetCount() const
+INT_PTR CPlayerPlaylistBar::GetCount() const
 {
-	return(m_pl.GetCount()); // TODO: n - .fInvalid
+	return m_pl.GetCount(); // TODO: n - .fInvalid
 }
 
 int CPlayerPlaylistBar::GetSelIdx() const

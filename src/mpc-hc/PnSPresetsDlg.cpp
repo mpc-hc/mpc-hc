@@ -54,7 +54,7 @@ BOOL CPnSPresetsDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	for (int i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
+	for (INT_PTR i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
 		CString label;
 		double PosX, PosY, ZoomX, ZoomY;
 		StringToParams(m_pnspresets[i], label, PosX, PosY, ZoomX, ZoomY);

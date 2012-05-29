@@ -84,7 +84,7 @@ public:
 
 	CPlaylist m_pl;
 
-	int GetCount() const;
+	INT_PTR GetCount() const;
 	int GetSelIdx() const;
 	void SetSelIdx(int i);
 	bool IsAtEnd();

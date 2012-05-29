@@ -939,7 +939,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 							sa[col] = m_list.GetItemText(iItem, col);
 						}
 
-						DWORD data = m_list.GetItemData(iItem);
+						DWORD_PTR data = m_list.GetItemData(iItem);
 						m_list.InsertItem(iItem+1, sa[0]);
 						m_list.SetItemData(iItem+1, data);
 						for (int col = 1; col < nColumnCount; col++) {

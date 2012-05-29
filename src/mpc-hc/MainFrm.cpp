@@ -3292,7 +3292,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
 	if (fPnSPresets) {
 		AppSettings& s = AfxGetAppSettings();
-		int i = 0, j = s.m_pnspresets.GetCount();
+		INT_PTR i = 0, j = s.m_pnspresets.GetCount();
 		for (; i < j; i++) {
 			int k = 0;
 			CString label = s.m_pnspresets[i].Tokenize(_T(","), k);
@@ -3845,7 +3845,7 @@ void CMainFrame::OnOgmSub(UINT nID)
 	}
 
 	CArray<int> subs;
-	int iSel = -1;
+	INT_PTR iSel = -1;
 
 	DWORD cStreams = 0;
 	if (SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
@@ -3875,7 +3875,7 @@ void CMainFrame::OnOgmSub(UINT nID)
 
 		}
 
-		int cnt = subs.GetCount();
+		INT_PTR cnt = subs.GetCount();
 		if (cnt > 1 && iSel >= 0) {
 			int nNewStream = subs[(iSel+(nID==0?1:cnt-1))%cnt];
 			pSS->Enable(nNewStream, AMSTREAMSELECTENABLE_ENABLE);

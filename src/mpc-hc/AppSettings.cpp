@@ -778,9 +778,9 @@ void CAppSettings::UpdateData(bool fSave)
 		//pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIAFPS, *((DWORD*)&dRealMediaQuickTimeFPS));
 
 		pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, NULL, NULL);
-		for (int i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
+		for (INT_PTR i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
 			CString str;
-			str.Format(_T("Preset%d"), i);
+			str.Format(_T("Preset%Id"), i);
 			pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, str, m_pnspresets[i]);
 		}
 

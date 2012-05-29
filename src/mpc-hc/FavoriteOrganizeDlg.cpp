@@ -369,7 +369,7 @@ void CFavoriteOrganizeDlg::OnDownBnClicked()
 		selectedItems.Add(nItem);
 	}
 
-	for (int i = selectedItems.GetSize() - 1; i >= 0; i--) {
+	for (INT_PTR i = selectedItems.GetSize() - 1; i >= 0; i--) {
 		MoveItem(selectedItems[i], +1);
 	}
 }
