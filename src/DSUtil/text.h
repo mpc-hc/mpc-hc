@@ -25,12 +25,12 @@
 
 #include <atlcoll.h>
 
-// extern CString ExplodeMin(CString str, CAtlList<CString>& sl, TCHAR sep, int limit = 0);
-// extern CString Explode(CString str, CAtlList<CString>& sl, TCHAR sep, int limit = 0);
+// extern CString ExplodeMin(const CString& str, CAtlList<CString>& sl, TCHAR sep, int limit = 0);
+// extern CString Explode(const CString& str, CAtlList<CString>& sl, TCHAR sep, int limit = 0);
 // extern CString Implode(CAtlList<CString>& sl, TCHAR sep);
 
 template<class T, typename SEP>
-T Explode(const T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
+T Explode(const T& str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	sl.RemoveAll();
 
@@ -49,7 +49,7 @@ T Explode(const T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 }
 
 template<class T, typename SEP>
-T ExplodeMin(const T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
+T ExplodeMin(const T& str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	Explode(str, sl, sep, limit);
 	POSITION pos = sl.GetHeadPosition();
