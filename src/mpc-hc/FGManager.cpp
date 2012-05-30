@@ -2311,7 +2311,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	// Low merit MPC Audio Decoder
 	/*
 	// TODO : not finished!
-	pFGF = DNew CFGFilterInternal<CMPCAudioDecFilter>(_T("MPC Audio Decoder (low merit)"), MERIT64_ABOVE_DSHOW);
+	pFGF = DNew CFGFilterInternal<CMPCAudioDecFilter>(LowMerit(MPCAudioDecName), MERIT64_ABOVE_DSHOW);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IMA_AMV);
 	m_transform.AddTail(pFGF);
 	*/
