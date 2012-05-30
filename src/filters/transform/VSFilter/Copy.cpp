@@ -173,43 +173,36 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 	BITMAPINFOHEADER bihOut;
 	ExtractBIH(&m_pOutput->CurrentMediaType(), &bihOut);
 
-	CString msg, tmp;
-
-	if (m_fOSD) {
-		tmp.Format(_T("in: %dx%d %s\nout: %dx%d %s\n"),
-				   m_w, m_h,
-				   Subtype2String(m_pInput->CurrentMediaType().subtype),
-				   bihOut.biWidth, bihOut.biHeight,
-				   Subtype2String(m_pOutput->CurrentMediaType().subtype));
-		msg += tmp;
-
-		tmp.Format(_T("real fps: %.3f, current fps: %.3f\nmedia time: %d, subtitle time: %d [ms]\nframe number: %d (calculated)\nrate: %.4f\n"),
-				   m_fps, m_fMediaFPSEnabled?m_MediaFPS:fabs(m_fps),
-				   (int)m_tPrev.Millisecs(), (int)(CalcCurrentTime()/10000),
-				   (int)(m_tPrev.m_time * m_fps / 10000000),
-				   m_pInput->CurrentRate());
-		msg += tmp;
-
-		CAutoLock cAutoLock(&m_csQueueLock);
-
-		if (m_pSubPicQueue) {
-			int nSubPics = -1;
-			REFERENCE_TIME rtNow = -1, rtStart = -1, rtStop = -1;
-			m_pSubPicQueue->GetStats(nSubPics, rtNow, rtStart, rtStop);
-			tmp.Format(_T("queue stats: %I64d - %I64d [ms]\n"), rtStart/10000, rtStop/10000);
-			msg += tmp;
-
-			for (int i = 0; i < nSubPics; i++) {
-				m_pSubPicQueue->GetStats(i, rtStart, rtStop);
-				tmp.Format(_T("%d: %I64d - %I64d [ms]\n"), i, rtStart/10000, rtStop/10000);
-				msg += tmp;
-			}
-
-		}
+	if (!m_fOSD) {
+		return;
 	}
 
-	if (msg.IsEmpty()) {
-		return;
+	CString msg;
+
+	msg.Format(_T("in: %dx%d %s\nout: %dx%d %s\n"),
+			   m_w, m_h,
+			   Subtype2String(m_pInput->CurrentMediaType().subtype),
+			   bihOut.biWidth, bihOut.biHeight,
+			   Subtype2String(m_pOutput->CurrentMediaType().subtype));
+
+	msg.AppendFormat(_T("real fps: %.3f, current fps: %.3f\nmedia time: %d, subtitle time: %I64d [ms]\nframe number: %d (calculated)\nrate: %.4lf\n"),
+					 m_fps, m_fMediaFPSEnabled ? m_MediaFPS : fabs(m_fps),
+					 m_tPrev.Millisecs(), CalcCurrentTime()/10000,
+					 (int)(m_tPrev.m_time * m_fps / 10000000),
+					 m_pInput->CurrentRate());
+
+	CAutoLock cAutoLock(&m_csQueueLock);
+
+	if (m_pSubPicQueue) {
+		int nSubPics = -1;
+		REFERENCE_TIME rtNow = -1, rtStart = -1, rtStop = -1;
+		m_pSubPicQueue->GetStats(nSubPics, rtNow, rtStart, rtStop);
+		msg.AppendFormat(_T("queue stats: %I64d - %I64d [ms]\n"), rtStart/10000, rtStop/10000);
+
+		for (int i = 0; i < nSubPics; i++) {
+			m_pSubPicQueue->GetStats(i, rtStart, rtStop);
+			msg.AppendFormat(_T("%d: %I64d - %I64d [ms]\n"), i, rtStart/10000, rtStop/10000);
+		}
 	}
 
 	HANDLE hOldBitmap = SelectObject(m_hdc, m_hbm);
@@ -223,12 +216,12 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 	GetObject(m_hbm, sizeof(BITMAP), &bm);
 
 	CRect r(0, 0, bm.bmWidth, bm.bmHeight);
-	DrawText(m_hdc, msg, _tcslen(msg), &r, DT_CALCRECT|DT_EXTERNALLEADING|DT_NOPREFIX|DT_WORDBREAK);
+	DrawText(m_hdc, msg, msg.GetLength(), &r, DT_CALCRECT|DT_EXTERNALLEADING|DT_NOPREFIX|DT_WORDBREAK);
 
 	r += CPoint(10, 10);
 	r &= CRect(0, 0, bm.bmWidth, bm.bmHeight);
 
-	DrawText(m_hdc, msg, _tcslen(msg), &r, DT_LEFT|DT_TOP|DT_NOPREFIX|DT_WORDBREAK);
+	DrawText(m_hdc, msg, msg.GetLength(), &r, DT_LEFT|DT_TOP|DT_NOPREFIX|DT_WORDBREAK);
 
 	BYTE* pIn = (BYTE*)bm.bmBits;
 	int pitchIn = bm.bmWidthBytes;
