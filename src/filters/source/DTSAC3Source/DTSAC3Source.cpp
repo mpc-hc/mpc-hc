@@ -56,11 +56,11 @@ enum {
 
 bool isDTSSync(const DWORD sync)
 {
-	if (sync == 0x0180fe7f || //16 bits and big endian bitstream
-			sync == 0x80017ffe || //16 bits and little endian bitstream
-			sync == 0x00e8ff1f || //14 bits and big endian bitstream
-			sync == 0xe8001fff)   //14 bits and little endian bitstream
-		return true;
+	if (sync == 0x0180fe7f || // '7FFE8001' 16 bits and big endian bitstream
+		sync == 0x80017ffe || // 'FE7F0180' 16 bits and little endian bitstream
+		sync == 0x00e8ff1f || // '1FFFE800' 14 bits and big endian bitstream
+		sync == 0xe8001fff)   // 'FF1F00E8' 14 bits and little endian bitstream
+			return true;
 	else
 		return false;
 }
@@ -228,9 +228,11 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 	do {
 		if (!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone, &ex)) {
-			hr	= AmHresultFromWin32 (ex.m_lOsError);
+			hr = AmHresultFromWin32 (ex.m_lOsError);
 			break;
 		}
+		const CString path = m_file.GetFilePath();
+		const CString ext = CPath(m_file.GetFileName()).GetExtension().MakeLower();
 
 		DWORD id = 0;
 		DWORD id2 = 0;
@@ -239,7 +241,6 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			break;
 
 		// WAVE-CD header
-		CString ext = CPath(m_file.GetFileName()).GetExtension().MakeLower();
 		if (id == RIFF_DWORD) {
 			if (ext != _T(".dtswav") && ext != _T(".dts") && ext != _T(".wav")) //check only specific extensions
 				break;
@@ -254,16 +255,27 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 		m_dataOffset = m_file.GetPosition() - sizeof(id) - (!waveheader ? sizeof(id2) : 0);
 
+		bool isFound = isDTSSync(id) || (WORD)id==AC3_SYNC_WORD || id==IEC61937_SYNC_WORD || id2==MLP_SYNC_WORD /*|| id2!=TRUEHD_SYNC_WORD*/;
+
 		// search DTS and AC3 headers (skip garbage in the beginning)
-		if (!isDTSSync(id) && (WORD)id!=AC3_SYNC_WORD && id!=IEC61937_SYNC_WORD && id2!=MLP_SYNC_WORD /*&& id2!=TRUEHD_SYNC_WORD*/) {
-			if (ext != _T(".dtswav") && ext != _T(".dts") && ext != _T(".wav") && ext != _T(".ac3") && ext != _T(".eac3")) //check only specific extensions
-				break;
+		if (!isFound) {
+			UINT buflen = 0;
+			if (waveheader && ext == _T(".wav") && PathFileExists(path.Left(path.GetLength()-ext.GetLength()) + _T(".cue"))) {
+				buflen = 64 * 1024; // for .wav+.cue sometimes need to use a more deep search
+			}
+			else if (ext == _T(".dtswav") || ext == _T(".dts") || ext == _T(".wav") || ext == _T(".ac3") || ext == _T(".eac3")) { //check only specific extensions
+				buflen = 6 * 1024;
+			}
+			else break;
+
+			if (m_dataOffset < buflen) buflen -= m_dataOffset; // tiny optimization
 			m_file.Seek(m_dataOffset, CFile::begin);
-			BYTE buf[6*1024];
-			int len = m_file.Read(&buf, 6*1024); // 6 KB
-			if (len<100) break; //100=96+4
-			bool isFound = false;
-			for (int i=1; i<len-4; i++) { // looking for DTS or AC3 sync
+
+			BYTE* buf = new BYTE[buflen];
+			int len = m_file.Read(buf, buflen);
+			if (len<100) break; // file is very small
+
+			for (int i = 1; i < len - 4; i++) { // looking for DTS or AC3 sync
 				id = *(DWORD*)(buf+i);
 				if (isDTSSync(id) || (WORD)id==AC3_SYNC_WORD) {
 					isFound = true;
@@ -271,8 +283,9 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 					break;
 				}
 			}
-			if (!isFound) break;
+			delete buf;
 		}
+		if (!isFound) break;
 
 		m_file.Seek(m_dataOffset, CFile::begin);
 		// DTS & DTS-HD
