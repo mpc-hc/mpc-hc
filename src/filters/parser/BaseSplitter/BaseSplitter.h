@@ -119,9 +119,7 @@ public:
 			DeleteMediaType(pmt);
 		}
 	}
-	virtual int GetDataSize() {
-		return GetCount();
-	}
+	virtual int GetDataSize() {return GetCount();}
 	void SetData(const void* ptr, DWORD len) {
 		SetCount(len);
 		memcpy(GetData(), ptr, len);
@@ -250,9 +248,7 @@ public:
 	HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
 	HRESULT CheckMediaType(const CMediaType* pmt);
 	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
-	CMediaType& CurrentMediaType() {
-		return m_mt;
-	}
+	CMediaType& CurrentMediaType() {return m_mt;}
 
 	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 
@@ -288,12 +284,8 @@ public:
 
 	// IBitRateInfo
 
-	STDMETHODIMP_(DWORD) GetCurrentBitRate() {
-		return m_brs.nCurrentBitRate;
-	}
-	STDMETHODIMP_(DWORD) GetAverageBitRate() {
-		return m_brs.nAverageBitRate;
-	}
+	STDMETHODIMP_(DWORD) GetCurrentBitRate() {return m_brs.nCurrentBitRate;}
+	STDMETHODIMP_(DWORD) GetAverageBitRate() {return m_brs.nAverageBitRate;}
 };
 
 class CBaseSplitterFilter
@@ -366,9 +358,7 @@ protected:
 	virtual bool DemuxInit() = 0;
 	virtual void DemuxSeek(REFERENCE_TIME rt) = 0;
 	virtual bool DemuxLoop() = 0;
-	virtual bool BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items) {
-		return false;
-	};
+	virtual bool BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items) { return false; };
 	virtual bool BuildChapters(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<CHdmvClipInfo::PlaylistChapter>& Items) { return false; };
 
 public:
@@ -431,18 +421,10 @@ public:
 
 	// IDispatch
 
-	STDMETHODIMP GetTypeInfoCount(UINT* pctinfo) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP GetIDsOfNames(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP Invoke(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr) {
-		return E_NOTIMPL;
-	}
+	STDMETHODIMP GetTypeInfoCount(UINT* pctinfo) {return E_NOTIMPL;}
+	STDMETHODIMP GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo) {return E_NOTIMPL;}
+	STDMETHODIMP GetIDsOfNames(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid) {return E_NOTIMPL;}
+	STDMETHODIMP Invoke(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr) {return E_NOTIMPL;}
 
 	// IAMMediaContent
 
@@ -451,30 +433,14 @@ public:
 	STDMETHODIMP get_Rating(BSTR* pbstrRating);
 	STDMETHODIMP get_Description(BSTR* pbstrDescription);
 	STDMETHODIMP get_Copyright(BSTR* pbstrCopyright);
-	STDMETHODIMP get_BaseURL(BSTR* pbstrBaseURL) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP get_LogoURL(BSTR* pbstrLogoURL) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP get_LogoIconURL(BSTR* pbstrLogoURL) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP get_WatermarkURL(BSTR* pbstrWatermarkURL) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP get_MoreInfoURL(BSTR* pbstrMoreInfoURL) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP get_MoreInfoBannerImage(BSTR* pbstrMoreInfoBannerImage) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText) {
-		return E_NOTIMPL;
-	}
+	STDMETHODIMP get_BaseURL(BSTR* pbstrBaseURL) {return E_NOTIMPL;}
+	STDMETHODIMP get_LogoURL(BSTR* pbstrLogoURL) {return E_NOTIMPL;}
+	STDMETHODIMP get_LogoIconURL(BSTR* pbstrLogoURL) {return E_NOTIMPL;}
+	STDMETHODIMP get_WatermarkURL(BSTR* pbstrWatermarkURL) {return E_NOTIMPL;}
+	STDMETHODIMP get_MoreInfoURL(BSTR* pbstrMoreInfoURL) {return E_NOTIMPL;}
+	STDMETHODIMP get_MoreInfoBannerImage(BSTR* pbstrMoreInfoBannerImage) {return E_NOTIMPL;}
+	STDMETHODIMP get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL) {return E_NOTIMPL;}
+	STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText) {return E_NOTIMPL;}
 
 	// IAMExtendedSeeking
 
@@ -483,12 +449,8 @@ public:
 	STDMETHODIMP get_CurrentMarker(long* pCurrentMarker);
 	STDMETHODIMP GetMarkerTime(long MarkerNum, double* pMarkerTime);
 	STDMETHODIMP GetMarkerName(long MarkerNum, BSTR* pbstrMarkerName);
-	STDMETHODIMP put_PlaybackSpeed(double Speed) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP get_PlaybackSpeed(double* pSpeed) {
-		return E_NOTIMPL;
-	}
+	STDMETHODIMP put_PlaybackSpeed(double Speed) {return E_NOTIMPL;}
+	STDMETHODIMP get_PlaybackSpeed(double* pSpeed) {return E_NOTIMPL;}
 
 	// IKeyFrameInfo
 

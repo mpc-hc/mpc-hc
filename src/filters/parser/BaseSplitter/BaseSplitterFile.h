@@ -53,9 +53,7 @@ public:
 	__int64 GetPos();
 	__int64 GetAvailable();
 	__int64 GetLength(bool fUpdate = false);
-	__int64 GetRemaining() {
-		return max(0, GetLength() - GetPos());
-	}
+	__int64 GetRemaining() {return max(0, GetLength() - GetPos());}
 	virtual void Seek(__int64 pos);
 
 	UINT64 UExpGolombRead();
@@ -65,12 +63,8 @@ public:
 	void BitByteAlign(), BitFlush();
 	HRESULT ByteRead(BYTE* pData, __int64 len);
 
-	bool IsStreaming()		const {
-		return m_fStreaming;
-	}
-	bool IsRandomAccess()	const {
-		return m_fRandomAccess;
-	}
+	bool IsStreaming() const {return m_fStreaming;}
+	bool IsRandomAccess() const {return m_fRandomAccess;}
 
 	HRESULT HasMoreData(__int64 len = 1, DWORD ms = 1);
 };
