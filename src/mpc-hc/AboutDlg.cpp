@@ -75,12 +75,13 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 
 #if !defined(_M_X64) && defined(_M_IX86_FP)
-#if (_M_IX86_FP == 1) // /arch:SSE was used
+#if (_M_IX86_FP == 1)   // /arch:SSE was used
 	m_MPCCompiler += _T(" (SSE)");
 #elif (_M_IX86_FP == 2) // /arch:SSE2 was used
 	m_MPCCompiler += _T(" (SSE2)");
 #endif
 #endif // _M_IX86_FP
+
 #ifdef _DEBUG
 	m_MPCCompiler += _T(" Debug");
 #endif
@@ -123,7 +124,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//{{AFX_MSG_MAP(CAboutDlg)
 	// No message handlers
 	//}}AFX_MSG_MAP
-	ON_NOTIFY(NM_CLICK, IDC_SOURCEFORGE_LINK, OnHomepage)
+	ON_NOTIFY(NM_CLICK, IDC_HOMEPAGE_LINK, OnHomepage)
 	ON_NOTIFY(NM_CLICK, IDC_AUTHORS_LINK, OnAuthors)
 END_MESSAGE_MAP()
 
