@@ -795,7 +795,7 @@ int attribute_align_arg avcodec_open2(AVCodecContext *avctx, AVCodec *codec, AVD
 
     if (codec->capabilities & CODEC_CAP_EXPERIMENTAL)
         if (avctx->strict_std_compliance > FF_COMPLIANCE_EXPERIMENTAL) {
-            av_log(avctx, AV_LOG_ERROR, "Codec is experimental but experimental codecs are not enabled, see -strict -2\n");
+            av_log(avctx, AV_LOG_ERROR, "Codec is experimental but experimental codecs are not enabled, try -strict -2\n");
             ret = -1;
             goto free_and_end;
         }
@@ -1783,9 +1783,14 @@ size_t av_get_codec_tag_string(char *buf, size_t buf_size, unsigned int codec_ta
 {
     int i, len, ret = 0;
 
+#define IS_PRINT(x)                                               \
+    (((x) >= '0' && (x) <= '9') ||                                \
+     ((x) >= 'a' && (x) <= 'z') || ((x) >= 'A' && (x) <= 'Z') ||  \
+     ((x) == '.' || (x) == ' '))
+
     for (i = 0; i < 4; i++) {
         len = snprintf(buf, buf_size,
-                       isprint(codec_tag&0xFF) ? "%c" : "[%d]", codec_tag&0xFF);
+                       IS_PRINT(codec_tag&0xFF) ? "%c" : "[%d]", codec_tag&0xFF);
         buf      += len;
         buf_size  = buf_size > len ? buf_size - len : 0;
         ret      += len;
