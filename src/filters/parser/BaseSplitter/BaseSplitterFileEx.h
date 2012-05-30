@@ -95,15 +95,9 @@ public:
 		BYTE hdrlen;
 
 		BYTE id_ext;
-
-		struct peshdr() {
-			memset(this, 0, sizeof(*this));
-		}
 	};
 
-	class seqhdr
-	{
-	public:
+	struct seqhdr {
 		WORD width;
 		WORD height;
 		BYTE ar:4;
@@ -127,9 +121,8 @@ public:
 		int arx, ary;
 	};
 
-	class mpahdr
+	struct mpahdr
 	{
-	public:
 		WORD sync:11;
 		WORD version:2;
 		WORD layer:2;
@@ -148,9 +141,8 @@ public:
 		REFERENCE_TIME rtDuration;
 	};
 
-	class aachdr
+	struct aachdr
 	{
-	public:
 		WORD sync:12;
 		WORD version:1;
 		WORD layer:2;
@@ -174,15 +166,13 @@ public:
 		REFERENCE_TIME rtDuration;
 	};
 
-	class latm_aachdr
+	struct latm_aachdr
 	{
-	public:
 		// nothing ;)
 	};
 
-	class ac3hdr
+	struct ac3hdr
 	{
-	public:
 		WORD sync;
 		WORD crc1;
 		BYTE fscod:2;
@@ -205,9 +195,8 @@ public:
 		// the rest is unimportant for us
 	};
 
-	class dtshdr
+	struct dtshdr
 	{
-	public:
 		DWORD sync;
 		BYTE frametype:1;
 		BYTE deficitsamplecount:5;
@@ -228,12 +217,10 @@ public:
 		BYTE aspf:1;
 		BYTE lfe:2;
 		BYTE predictor_history:1;
-
 	};
 
-	class lpcmhdr
+	struct lpcmhdr
 	{
-	public:
 		BYTE emphasis:1;
 		BYTE mute:1;
 		BYTE reserved1:1;
@@ -245,42 +232,50 @@ public:
 		BYTE drc; // 0x80: off
 	};
 
-	class hdmvlpcmhdr
+	struct dvdalpcmhdr
 	{
-	public:
+		// http://dvd-audio.sourceforge.net/spec/aob.shtml
+		WORD firstaudioframe;
+		BYTE unknown1;
+		BYTE bitpersample1:4;
+		BYTE bitpersample2:4;
+		BYTE samplerate1:4;
+		BYTE samplerate2:4;
+		BYTE unknown2;
+		BYTE groupassignment;
+		BYTE unknown3;
+	};
+
+	struct hdmvlpcmhdr
+	{
 		WORD size;
 		BYTE channels:4;
 		BYTE samplerate:4;
 		BYTE bitpersample:2;
 	};
 
-	class dvdspuhdr
+	struct dvdspuhdr
 	{
-	public:
 		// nothing ;)
 	};
 
-	class hdmvsubhdr
+	struct hdmvsubhdr
 	{
-	public:
 		// nothing ;)
 	};
 
-	class svcdspuhdr
+	struct svcdspuhdr
 	{
-	public:
 		// nothing ;)
 	};
 
-	class cvdspuhdr
+	struct cvdspuhdr
 	{
-	public:
 		// nothing ;)
 	};
 
-	class ps2audhdr
+	struct ps2audhdr
 	{
-	public:
 		// 'SShd' + len (0x18)
 		DWORD unk1;
 		DWORD freq;
@@ -291,13 +286,13 @@ public:
 		// pcm or adpcm data
 	};
 
-	class ps2subhdr
+	struct ps2subhdr
 	{
-	public:
 		// nothing ;)
 	};
 
-	struct trhdr {
+	struct trhdr
+	{
 		BYTE sync; // 0x47
 		BYTE error:1;
 		BYTE payloadstart:1;
@@ -324,7 +319,8 @@ public:
 		__int64 next;
 	};
 
-	struct trsechdr {
+	struct trsechdr
+	{
 		BYTE table_id;
 		WORD section_syntax_indicator:1;
 		WORD zero:1;
@@ -338,9 +334,9 @@ public:
 		BYTE last_section_number;
 	};
 
-	// http://www.technotrend.de/download/av_format_v1.pdf
-
-	struct pvahdr {
+	// http://multimedia.cx/mirror/av_format_v1.pdf
+	struct pvahdr
+	{
 		WORD sync; // 'VA'
 		BYTE streamid; // 1 - video, 2 - audio
 		BYTE counter;
@@ -354,20 +350,22 @@ public:
 	};
 
 	enum spsppsindex {
-		index_unknown = -1,
+		index_unknown   = -1,
 		index_subsetsps = 0,
-		index_sps = 1,
-		index_pps1 = 2,
-		index_pps2 = 3,
+		index_sps       = 1,
+		index_pps1      = 2,
+		index_pps2      = 3,
 	};
 
-	struct spsppsdata {
+	struct spsppsdata
+	{
 		BYTE buffer[MAX_SPSPPS];
 		unsigned int size;
 		bool complete;
 	};
 
-	struct avchdr {
+	struct avchdr
+	{
 		BYTE profile, level;
 		unsigned int width, height;
 		unsigned int views;
@@ -382,8 +380,7 @@ public:
 		spsppsdata spspps[4];
 		BYTE lastid;
 
-		avchdr()
-		{
+		avchdr() {
 			memset(spspps, 0, sizeof(spspps));
 			lastid = 0;
 			views = 1;
@@ -391,18 +388,19 @@ public:
 		}
 	};
 
-	struct vc1hdr {
-		BYTE		profile;
-		BYTE		level;
-		BYTE		chromaformat;
-		BYTE		frmrtq_postproc;
-		BYTE		bitrtq_postproc;
-		BYTE		postprocflag;
-		BYTE		broadcast;
-		BYTE		interlace;
-		BYTE		tfcntrflag;
-		BYTE		finterpflag;
-		BYTE		psf;
+	struct vc1hdr
+	{
+		BYTE profile;
+		BYTE level;
+		BYTE chromaformat;
+		BYTE frmrtq_postproc;
+		BYTE bitrtq_postproc;
+		BYTE postprocflag;
+		BYTE broadcast;
+		BYTE interlace;
+		BYTE tfcntrflag;
+		BYTE finterpflag;
+		BYTE psf;
 		unsigned int width, height;
 		struct sar {
 			BYTE num;
@@ -410,7 +408,9 @@ public:
 		} sar;
 	};
 
-	struct dvbsub {
+	struct dvbsub
+	{
+		// nothing ;)
 	};
 
 #pragma pack(pop)
@@ -425,6 +425,7 @@ public:
 	bool Read(ac3hdr& h, int len, CMediaType* pmt = NULL, bool find_sync = true, bool AC3CoreOnly = true);
 	bool Read(dtshdr& h, int len, CMediaType* pmt = NULL, bool find_sync = true);
 	bool Read(lpcmhdr& h, CMediaType* pmt = NULL);
+	bool Read(dvdalpcmhdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(hdmvlpcmhdr& h, CMediaType* pmt = NULL);
 	bool Read(dvdspuhdr& h, CMediaType* pmt = NULL);
 	bool Read(hdmvsubhdr& h, CMediaType* pmt = NULL, const char* language_code = NULL);

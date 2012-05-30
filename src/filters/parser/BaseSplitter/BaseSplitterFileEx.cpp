@@ -933,49 +933,6 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sy
 	return true;
 }
 
-bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
-{
-	memset(&h, 0, sizeof(h));
-
-	h.size			= (WORD)BitRead(16);
-	h.channels		= (BYTE)BitRead(4);
-	h.samplerate	= (BYTE)BitRead(4);
-	h.bitpersample	= (BYTE)BitRead(2);
-
-	if (h.channels==0 || h.channels==2 ||
-			(h.samplerate != 1 && h.samplerate!= 4  && h.samplerate!= 5) ||
-			h.bitpersample<0 || h.bitpersample>3) {
-		return false;
-	}
-
-	if (!pmt) {
-		return true;
-	}
-
-	WAVEFORMATEX_HDMV_LPCM wfe;
-	wfe.wFormatTag = WAVE_FORMAT_PCM;
-
-	static int channels[] = {0, 1, 0, 2, 3, 3, 4, 4, 5, 6, 7, 8};
-	wfe.nChannels	 = channels[h.channels];
-	wfe.channel_conf = h.channels;
-
-	static int freq[] = {0, 48000, 0, 0, 96000, 192000};
-	wfe.nSamplesPerSec = freq[h.samplerate];
-
-	static int bitspersample[] = {0, 16, 20, 24};
-	wfe.wBitsPerSample = bitspersample[h.bitpersample];
-
-	wfe.nBlockAlign		= wfe.nChannels*wfe.wBitsPerSample>>3;
-	wfe.nAvgBytesPerSec = wfe.nBlockAlign*wfe.nSamplesPerSec;
-
-	pmt->majortype	= MEDIATYPE_Audio;
-	pmt->subtype	= MEDIASUBTYPE_HDMV_LPCM_AUDIO;
-	pmt->formattype = FORMAT_WaveFormatEx;
-	pmt->SetFormat((BYTE*)&wfe, sizeof(wfe));
-
-	return true;
-}
-
 bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
@@ -1023,7 +980,107 @@ bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 	pmt->formattype = FORMAT_WaveFormatEx;
 	pmt->SetFormat((BYTE*)&wfe, sizeof(wfe));
 
-	// TODO: what to do with dvd-audio lpcm?
+	return true;
+}
+
+bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
+{
+	memset(&h, 0, sizeof(h));
+	if (len < 8) return false;
+
+	h.firstaudioframe = BitRead(16);// Byte pointer to start of first audio frame.
+	h.unknown1        = BitRead(8); // Unknown - e.g. 0x10 for stereo, 0x00 for surround
+	if (h.unknown1!= 0x10 && h.unknown1!= 0x00) 
+		return false; // this is not the aob. maybe this is a vob.
+
+	h.bitpersample1   = BitRead(4);
+	h.bitpersample2   = BitRead(4);
+	h.samplerate1     = BitRead(4);
+	h.samplerate2     = BitRead(4);
+	h.unknown2        = BitRead(8); // Unknown - e.g. 0x00
+	h.groupassignment = BitRead(8); // Channel Group Assignment
+	h.unknown3        = BitRead(8); // Unknown - e.g. 0x80
+
+	if (h.bitpersample1 > 2 || (h.samplerate1&7) > 2 || h.groupassignment > 20 ||
+		h.unknown2 != 0x00 || h.unknown3 != 0x80) {
+			return false; // poor parameters or this is a vob.
+	}
+	// decoder limitations
+	if (h.groupassignment > 1 && (h.bitpersample2 != h.bitpersample1 || h.samplerate2 != h.samplerate1)) {
+		return false; // decoder does not support different bit depth and frequency.
+	}
+
+	if (!pmt) {
+		return true;
+	}
+
+	WAVEFORMATEX wfe;
+	memset(&wfe, 0, sizeof(wfe));
+	wfe.wFormatTag = WAVE_FORMAT_UNKNOWN;
+	static const WORD depth[] = {16, 20, 24};
+	static const DWORD freq[] = {48000, 96000, 192000, 0, 0, 0, 0, 0, 44100, 88200, 1764000};
+	                              // 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+	static const WORD channels1[] = {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4};
+	static const WORD channels2[] = {0, 0, 1, 2, 1, 2, 3, 1, 2, 3, 2, 3, 4, 1, 2, 1, 2, 3, 1, 1, 2};
+	wfe.wBitsPerSample = depth[h.bitpersample1];
+	wfe.nSamplesPerSec = freq[h.samplerate1];
+	wfe.nChannels = channels1[h.groupassignment]+channels2[h.groupassignment];
+	
+	if (wfe.nChannels > 2) {
+		wfe.nBlockAlign = (depth[h.bitpersample1] * channels1[h.groupassignment] * (freq[h.samplerate1] / freq[h.samplerate2]) +
+		                   depth[h.bitpersample2] * channels2[h.groupassignment]) * 2 / 8;
+	} else {
+		wfe.nBlockAlign = depth[h.bitpersample1] * channels1[h.groupassignment] * 2 / 8;
+	}
+	wfe.nAvgBytesPerSec = wfe.nBlockAlign * wfe.nSamplesPerSec / 2;
+
+	pmt->majortype = MEDIATYPE_Audio;
+	pmt->subtype = MEDIASUBTYPE_DVD_LPCM_AUDIO;
+	pmt->formattype = FORMAT_WaveFormatEx;
+	pmt->SetFormat((BYTE*)&wfe, sizeof(wfe));
+
+	return true;
+}
+
+bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
+{
+	memset(&h, 0, sizeof(h));
+
+	h.size			= (WORD)BitRead(16);
+	h.channels		= (BYTE)BitRead(4);
+	h.samplerate	= (BYTE)BitRead(4);
+	h.bitpersample	= (BYTE)BitRead(2);
+
+	if (h.channels==0 || h.channels==2 ||
+			(h.samplerate != 1 && h.samplerate!= 4  && h.samplerate!= 5) ||
+			h.bitpersample<0 || h.bitpersample>3) {
+		return false;
+	}
+
+	if (!pmt) {
+		return true;
+	}
+
+	WAVEFORMATEX_HDMV_LPCM wfe;
+	wfe.wFormatTag = WAVE_FORMAT_PCM;
+
+	static int channels[] = {0, 1, 0, 2, 3, 3, 4, 4, 5, 6, 7, 8};
+	wfe.nChannels	 = channels[h.channels];
+	wfe.channel_conf = h.channels;
+
+	static int freq[] = {0, 48000, 0, 0, 96000, 192000};
+	wfe.nSamplesPerSec = freq[h.samplerate];
+
+	static int bitspersample[] = {0, 16, 20, 24};
+	wfe.wBitsPerSample = bitspersample[h.bitpersample];
+
+	wfe.nBlockAlign		= wfe.nChannels*wfe.wBitsPerSample>>3;
+	wfe.nAvgBytesPerSec = wfe.nBlockAlign*wfe.nSamplesPerSec;
+
+	pmt->majortype	= MEDIATYPE_Audio;
+	pmt->subtype	= MEDIASUBTYPE_HDMV_LPCM_AUDIO;
+	pmt->formattype = FORMAT_WaveFormatEx;
+	pmt->SetFormat((BYTE*)&wfe, sizeof(wfe));
 
 	return true;
 }
