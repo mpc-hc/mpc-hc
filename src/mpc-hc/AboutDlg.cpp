@@ -42,7 +42,6 @@ CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
 
 BOOL CAboutDlg::OnInitDialog()
 {
-	USES_CONVERSION;
 	UpdateData();
 
 #ifdef _WIN64
@@ -87,7 +86,7 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 
 #if HAS_FFMPEG
-	m_FFmpegCompiler.Format(A2W(GetFFmpegCompiler()));
+	m_FFmpegCompiler.Format(CA2W(GetFFmpegCompiler()));
 #endif
 
 	// Build the path to Authors.txt
