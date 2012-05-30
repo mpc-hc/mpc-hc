@@ -540,10 +540,10 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 	s.pesid = pesid;
 	s.ps1id = ps1id;
 
+	const __int64 start = GetPos();
 	int type = unknown;
 
 	if (pesid >= 0xe0 && pesid < 0xf0) { // mpeg video
-		__int64 pos = GetPos();
 
 		// MPEG2
 		if (type == unknown) {
@@ -562,7 +562,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 
 		// H.264
 		if (type == unknown) {
-			Seek(pos);
+			Seek(start);
 			// PPS and SPS can be present on differents packets
 			// and can also be split into multiple packets
 			if (!avch.Lookup(pid))
@@ -589,7 +589,6 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 #endif
 		}
 	} else if (pesid >= 0xc0 && pesid < 0xe0) { // mpeg audio
-		__int64 pos = GetPos();
 
 		// MPEG Audio
 		if (type == unknown) {
@@ -608,7 +607,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 
 		// AAC
 		if (type == unknown) {
-			Seek(pos);
+			Seek(start);
 			CMpegSplitterFile::mpahdr h;
 			if (!m_streams[audio].Find(s) && Read(h, len, false, &s.mt)) {
 				PES_STREAM_TYPE stream_type = INVALID;
@@ -624,7 +623,6 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 	} else if (pesid == 0xbd || pesid == 0xfd) { // private stream 1
 		if (s.pid) {
 			if (!m_streams[audio].Find(s) && !m_streams[video].Find(s)) {
-				__int64 pos = GetPos();
 
 				// AC3, E-AC3, TrueHD
 				if (type == unknown) {
@@ -643,7 +641,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 
 				// DTS, DTS HD, DTS HD MA
 				if (type == unknown) {
-					Seek(pos);
+					Seek(start);
 					CMpegSplitterFile::dtshdr h;
 					if (Read(h, len, &s.mt, false)) {
 						type = audio;
@@ -652,7 +650,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 
 				// VC1
 				if (type == unknown) {
-					Seek(pos);
+					Seek(start);
 					CMpegSplitterFile::vc1hdr h;
 					if (!m_streams[video].Find(s) && Read(h, len, &s.mt, m_nVC1_GuidFlag)) {
 						PES_STREAM_TYPE stream_type = INVALID;
@@ -668,7 +666,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 
 				// DVB subtitles
 				if (type == unknown) {
-					Seek(pos);
+					Seek(start);
 					CMpegSplitterFile::dvbsub h;
 					if (!m_streams[video].Find(s) && Read(h, len, &s.mt)) {
 						type = subpic;
@@ -681,7 +679,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 				if ((type == unknown) && (pProgram != NULL)) {
 					PES_STREAM_TYPE	StreamType = INVALID;
 
-					Seek(pos);
+					Seek(start);
 					StreamType = pProgram->streams[iProgram].type;
 
 					switch (StreamType) {
@@ -741,11 +739,38 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 					type = audio;
 				}
 			} else if (b >= 0xa0 && b < 0xa8) { // lpcm
-				s.ps1id = (b >= 0xa0 && b < 0xa8) ? (BYTE)(BitRead(32) >> 24) : 0xa0;
+				s.ps1id = (BYTE)BitRead(8);
 
-				CMpegSplitterFile::lpcmhdr h;
-				if (Read(h, &s.mt) && !m_streams[audio].Find(s)) { // note the reversed order, the header should be stripped always even if it's not a new stream
-					type = audio;
+				// DVD-Audio LPCM
+				if (b == 0xa0) {
+					BitRead(8); // Continuity Counter - counts from 0x00 to 0x1f and then wraps to 0x00.
+					int headersize = (int)BitRead(16); // LPCM_header_length
+					if (headersize >= 8 && headersize < len-4) {
+						CMpegSplitterFile::dvdalpcmhdr h;
+						if (Read(h, len-4, &s.mt)) {
+							Seek(start + 4 + headersize);
+							type = audio;
+						}
+					}
+				}
+				/*
+				// DVD-Audio MLP
+				else if (b == 0xa1) {
+					// empty
+				}
+				*/
+
+				// DVD LPCM
+				if (type == unknown) {
+					if (m_streams[audio].Find(s)) {
+						Seek(start + 7);
+					} else {
+						Seek(start + 4);
+						CMpegSplitterFile::lpcmhdr h;
+						if (Read(h, &s.mt)) {
+							type = audio;
+						}
+					}
 				}
 			} else if (b >= 0x20 && b < 0x40) { // DVD subpic
 				s.ps1id = (BYTE)BitRead(8);
