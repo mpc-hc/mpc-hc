@@ -37,11 +37,10 @@
   #error Compile VSFilter first
 #endif
 
-#if VER < EncodeVer(5,4,3)
-  #error Update your Inno Setup version (5.4.3 or newer)
+#if VER < EncodeVer(5,5,0)
+  #error Update your Inno Setup version (5.5.0 or newer)
 #endif
 
-#define ISPP_IS_BUGGY
 #include top_dir + "\include\Version.h"
 #define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
 
@@ -79,7 +78,7 @@ AlwaysShowGroupOnReadyPage=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
 InfoBeforeFile=InfoBefore.rtf
-MinVersion=0,5.01.2600sp3
+MinVersion=5.01.2600sp3
 #ifdef x64_build
 AppID=vsfilter64
 ArchitecturesAllowed=x64
