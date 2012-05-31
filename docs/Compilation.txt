@@ -75,8 +75,8 @@ Now FFmpeg can be compiled from within the MPC-HC visual studio solution file, a
 
 Part E: Building the installer
 
-Download Inno Setup Unicode v5.4.3 or newer from: http://www.jrsoftware.org/isdl.php
+Download Inno Setup Unicode v5.5.0 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to "C:\mpc-hc\distrib", open "mpc-hc_setup.iss" with Inno Setup, read the first comments in the script and compile it.
 Notes:
-* "build.bat" can build the installer by using the "packages" switch.
+* "build.bat" can build the installer by using the "installer" or the "packages" switch.
 * Use Inno Setup's built-in IDE if you want to edit the iss file.

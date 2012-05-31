@@ -145,7 +145,6 @@ SelectDirDesc=어디에 [name] 을(를) 설치하시겠습니까?
 SelectDirLabel3=설치 프로그램은 [name] 을(를) 다음 폴더에 설치할 것입니다.
 SelectDirBrowseLabel=계속하시려면 "다음"을 클릭하십시오. 다른 폴더를 선택하시려면, "찾아보기"를 클릭하십시오.
 DiskSpaceMBLabel=최소 [mb] MB 의 디스크 여유 공간이 설치에 필요합니다.
-ToUNCPathname=선택하신 네트워크 경로로 설치할 수 없습니다. 네트워크 드라이브에 설치하시려면, 네트워크 드라이브에 접근할 수 있어야 합니다.
 InvalidPath=드라이브 문자를 포함한 전체 경로를 입력하셔야 합니다. 예:%n%nC:\APP%n%n 네트워크 드라이브의 예:%n%n\\server\share
 InvalidDrive=설치할 드라이브나 네트워크 경로가 존재하지 않거나 접근할 수 없습니다. 다른 경로를 선택하십시오.
 DiskSpaceWarningTitle=디스크 공간 부족

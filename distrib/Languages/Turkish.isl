@@ -135,7 +135,6 @@ SelectDirDesc=[name] hangi dizine kurulsun?
 SelectDirLabel3=Kur [name] programýný aþaðýdaki dizine kuracaktýr.
 SelectDirBrowseLabel=Devam etmek için Ýleri'ye basýnýz. Baþka bir dizin seçmek istiyorsanýz, Gözat'a basýnýz.
 DiskSpaceMBLabel=Bu program en az [mb] MB disk alaný gerektirmektedir.
-ToUNCPathname=Kur UNC tipindeki dizin yollarýna (Örn:\\yol vb.) kurulum yapamaz. Eðer Að üzerinde kurulum yapmaya çalýþýyorsanýz. Bir að sürücüsü tanýtmanýz gerekir.
 InvalidPath=Sürücü ismi ile birlikte tam yolu girmelisiniz; Örneðin %nC:\APP%n%n veya bir UNC yolunu %n%n\\sunucu\paylaþým%n%n þeklinde girmelisiniz.
 InvalidDrive=Seçtiðiniz sürücü bulunamadý veya ulaþýlamýyor. Lütfen baþka bir sürücü seçiniz.
 DiskSpaceWarningTitle=Yetersiz Disk Alaný

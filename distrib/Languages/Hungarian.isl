@@ -160,7 +160,6 @@ SelectDirDesc=Hova kerüljön telepítésre a [name]?
 SelectDirLabel3=A Telepítõ a [name] alkalmazást a következõ mappába fogja telepíteni.
 SelectDirBrowseLabel=A folytatáshoz kattintson a Tovább gombra. Másik mappa kiválasztásához kattintson a Tallózás gombra.
 DiskSpaceMBLabel=Legalább [mb] MB szabad lemezterületre van szükség.
-ToUNCPathname=A Telepítõ nem tud hálózati útvonalra telepíteni. Ha hálózatra kíván telepíteni, csatlakoztatnia kell egy hálózati meghajtót.
 InvalidPath=Teljes útvonalat írjon be a meghajtó betûjelével; például:%n%nC:\Alkalmazás%n%nvagy egy hálózati útvonalat a következõ alakban:%n%n\\kiszolgáló\megosztás
 InvalidDrive=A kiválasztott meghajtó vagy hálózati megosztás nem létezik vagy nem érhetõ el. Válasszon másikat.
 DiskSpaceWarningTitle=Nincs elég szabad lemezterület a meghajtón

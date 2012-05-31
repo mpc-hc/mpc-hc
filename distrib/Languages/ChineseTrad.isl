@@ -138,7 +138,6 @@ SelectDirDesc=選擇安裝程式安裝 [name] 的位置。
 SelectDirLabel3=安裝程式將會把 [name] 安裝到下面的資料夾。
 SelectDirBrowseLabel=按 [確定] 繼續，如果您想選擇另一個資料夾，請按 [瀏覽]。
 DiskSpaceMBLabel=最少需要 [mb] MB 磁碟空間。
-ToUNCPathname=安裝程式無法安裝於 UNC 路徑名稱。如果您希望安裝於網路上其他電腦中，您必須建立一個固定連接的網路磁碟機。
 InvalidPath=您必須輸入完整的路徑名稱及磁碟機代碼。%n%n例如 C:\App 或 UNC 路徑格式 \\伺服器\共用資料夾。
 InvalidDrive=您選取的磁碟機或 UNC 名稱不存在或無法存取，請選擇其他的目的地。
 DiskSpaceWarningTitle=磁碟空間不足
