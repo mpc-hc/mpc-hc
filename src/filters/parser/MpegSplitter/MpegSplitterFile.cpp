@@ -740,28 +740,38 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 				}
 			} else if (b >= 0xa0 && b < 0xa8) { // lpcm
 				s.ps1id = (BYTE)BitRead(8);
-
-				// DVD-Audio LPCM
-				if (b == 0xa0) {
-					BitRead(8); // Continuity Counter - counts from 0x00 to 0x1f and then wraps to 0x00.
-					int headersize = (int)BitRead(16); // LPCM_header_length
-					if (headersize >= 8 && headersize < len-4) {
-						CMpegSplitterFile::dvdalpcmhdr h;
-						if (Read(h, len-4, &s.mt)) {
-							Seek(start + 4 + headersize);
-							type = audio;
+				
+				do {
+					// DVD-Audio LPCM
+					if (b == 0xa0) {
+						BitRead(8); // Continuity Counter - counts from 0x00 to 0x1f and then wraps to 0x00.
+						DWORD headersize = (DWORD)BitRead(16); // LPCM_header_length
+						if (headersize >= 8 && headersize+4 < len) {
+							CMpegSplitterFile::dvdalpcmhdr h;
+							if (Read(h, len-4, &s.mt)) {
+								Seek(start + 4 + headersize);
+								type = audio;
+								break;
+							}
 						}
 					}
-				}
-				/*
-				// DVD-Audio MLP
-				else if (b == 0xa1) {
-					// empty
-				}
-				*/
+					// DVD-Audio MLP
+					else if (b == 0xa1 && len > 10) {
+						BYTE counter = (BYTE)BitRead(8); // Continuity Counter - counts from 0x00 to 0x1f and then wraps to 0x00.
+						DWORD headersize = (DWORD)BitRead(16); // MLP_header_length (always equal 6?)
+						BitRead(32); // some important data
+						WORD unknown1 = (WORD)BitRead(16); // 0x0000 and 0x0400
+						if (counter <= 0x1f && headersize == 6 && (unknown1 == 0x0000 || unknown1 == 0x0400)) {
+							CMpegSplitterFile::ac3hdr h;
+							if (Read(h, len-10, &s.mt, false, false)) {
+								type = audio;
+							}
+							Seek(start + 10);
+							break;
+						}
+					}
 
-				// DVD LPCM
-				if (type == unknown) {
+					// DVD LPCM
 					if (m_streams[audio].Find(s)) {
 						Seek(start + 7);
 					} else {
@@ -771,7 +781,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 							type = audio;
 						}
 					}
-				}
+				} while (false);
 			} else if (b >= 0x20 && b < 0x40) { // DVD subpic
 				s.ps1id = (BYTE)BitRead(8);
 
