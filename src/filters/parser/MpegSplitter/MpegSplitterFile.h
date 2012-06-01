@@ -40,7 +40,7 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 	CAtlMap<WORD, BYTE> m_pid2pes;
 	CAtlMap<WORD, CMpegSplitterFile::avchdr> avch;
 	bool m_bIsHdmv;
-	bool m_isAOBMLP;
+	//bool m_isAOB;
 	bool m_init;
 
 	HRESULT Init(IAsyncReader* pAsyncReader);
