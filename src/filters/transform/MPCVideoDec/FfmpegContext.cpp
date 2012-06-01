@@ -28,7 +28,10 @@
 #include <vfwmsgs.h>
 #include <sys/timeb.h>
 #include <time.h> // for the _time64 workaround
+
 #include "FfmpegContext.h"
+
+extern BOOL IsWinVistaOrLater(); // requires linking with DSUtils which is always the case
 
 extern "C" {
 	#include <ffmpeg/libavcodec/dsputil.h>
@@ -76,28 +79,6 @@ const byte ZZ_SCAN8[64] = {
 	58, 59, 52, 45, 38, 31, 39, 46,
 	53, 60, 61, 54, 47, 55, 62, 63
 };
-
-BOOL IsVistaOrAbove()
-{
-	//only check once then cache the result
-	static BOOL checked = FALSE;
-	static BOOL result  = FALSE;
-	OSVERSIONINFO osver;
-
-	if (!checked) {
-		checked = TRUE;
-
-		osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
-
-		if (GetVersionEx( &osver ) &&
-				osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
-				(osver.dwMajorVersion >= 6 ) ) {
-			result = TRUE;
-		}
-	}
-
-	return result;
-}
 
 inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
 {
@@ -184,7 +165,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 
 		if (nPCIVendor == PCIV_nVidia) {
 			// nVidia cards support level 5.1 since drivers v6.14.11.7800 for XP and drivers v7.15.11.7800 for Vista/7
-			if (IsVistaOrAbove()) {
+			if (IsWinVistaOrLater()) {
 				if (DriverVersionCheck(VideoDriverVersion, 7, 15, 11, 7800)) {
 					no_level51_support = 0;
 
