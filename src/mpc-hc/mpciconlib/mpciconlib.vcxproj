@@ -118,7 +118,6 @@
     <None Include="icons\other.ico" />
     <None Include="icons\playlist.ico" />
     <None Include="icons\ra.ico" />
-    <None Include="icons\ratdvd.ico" />
     <None Include="icons\rm.ico" />
     <None Include="icons\rt.ico" />
     <None Include="icons\smk.ico" />

@@ -153,9 +153,6 @@
     <None Include="icons\ra.ico">
       <Filter>Resource Files\icons</Filter>
     </None>
-    <None Include="icons\ratdvd.ico">
-      <Filter>Resource Files\icons</Filter>
-    </None>
     <None Include="icons\rm.ico">
       <Filter>Resource Files\icons</Filter>
     </None>
