@@ -24,10 +24,7 @@
 #include "DXVADecoderMpeg2.h"
 #include "MPCVideoDecFilter.h"
 
-extern "C"
-{
 #include "FfmpegContext.h"
-}
 
 #if 0
 #define TRACE_MPEG2 TRACE

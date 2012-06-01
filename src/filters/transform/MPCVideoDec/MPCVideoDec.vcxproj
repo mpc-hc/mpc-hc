@@ -239,7 +239,7 @@
     <ClCompile Include="DXVADecoderMpeg2.cpp" />
     <ClCompile Include="DXVADecoderVC1.cpp" />
     <ClCompile Include="ffImgfmt.cpp" />
-    <ClCompile Include="FfmpegContext.c">
+    <ClCompile Include="FfmpegContext.cpp">
       <WarningLevel>Level1</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

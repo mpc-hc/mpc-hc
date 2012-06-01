@@ -33,9 +33,6 @@
     <ClCompile Include="ffImgfmt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FfmpegContext.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MPCFfmpegDec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,6 +64,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="H264RandomAccess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FfmpegContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -27,10 +27,7 @@
 #include "VideoDecDXVAAllocator.h"
 #include <ffmpeg/libavcodec/avcodec.h>
 
-extern "C"
-{
 #include "FfmpegContext.h"
-}
 
 #if 0
 #define TRACE_H264 TRACE

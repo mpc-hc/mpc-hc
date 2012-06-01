@@ -29,10 +29,7 @@
 #include "MPCVideoDecFilter.h"
 #include "VideoDecDXVAAllocator.h"
 
-extern "C"
-{
 #include "FfmpegContext.h"
-}
 
 #define MAX_RETRY_ON_PENDING		50
 #define DO_DXVA_PENDING_LOOP(x)		nTry = 0; \

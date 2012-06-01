@@ -35,9 +35,9 @@
 #include "CpuId.h"
 
 #include "ffImgfmt.h"
+#include "FfmpegContext.h"
 extern "C"
 {
-#include "FfmpegContext.h"
 #include <ffmpeg/libswscale/swscale.h>
 }
 
