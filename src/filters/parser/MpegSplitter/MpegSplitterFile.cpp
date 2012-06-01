@@ -40,7 +40,6 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
 	, m_rtMin(0), m_rtMax(0)
 	, m_posMin(0), m_posMax(0)
 	, m_bIsHdmv(bIsHdmv)
-	//, m_isAOB(false)
 	, m_ClipInfo(ClipInfo)
 	, m_nVC1_GuidFlag(guid_flag)
 	, m_ForcedSub(ForcedSub)
@@ -750,7 +749,6 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 						if (headersize >= 8 && headersize+4 < len) {
 							CMpegSplitterFile::dvdalpcmhdr h;
 							if (Read(h, len-4, &s.mt)) {
-								//m_isAOB = true;
 								Seek(start + 4 + headersize);
 								type = audio;
 								break;
@@ -767,15 +765,13 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 						if (counter <= 0x5f && headersize == 6 && (unknown1 == 0x0000 || unknown1 == 0x0400)) { // Maybe it's MLP?
 							// MLP header may be missing in the first package
 							CMpegSplitterFile::mlphdr h;
-							if (!m_streams[audio].Find(s) && Find(h, len-10, &s.mt)) {
+							if (!m_streams[audio].Find(s) && Read(h, len-10, &s.mt, true)) {
 								// This is exactly the MLP.
-								//m_isAOB = true;
 								Seek(start + 10);
 								type = audio;
 							}
 							Seek(start + 10);
 							break; 
-							//if (m_isAOB) break;
 						}
 					}
 

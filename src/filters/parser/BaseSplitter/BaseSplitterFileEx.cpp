@@ -1085,6 +1085,61 @@ bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
 	return true;
 }
 
+bool CBaseSplitterFileEx::Read(mlphdr& h, int len, CMediaType* pmt, bool find_sync)
+{
+	memset(&h, 0, sizeof(h));
+	if (len < 20) return false;
+
+	__int64 startpos = GetPos();
+
+	int samplerate, channels, framelength;
+	WORD bitdepth;
+	bool isTrueHD;
+	int fsize = 0;
+
+	BYTE buf[20];
+	int k = find_sync ? len - 20 : 1;
+	int i = 0;
+	while (i < k) {
+		Seek(startpos+i);
+		ByteRead(buf, 20);
+		if (GetMLPFrameSize(buf)) {
+			fsize = ParseMLPHeader(buf, &samplerate, &channels, &framelength, &bitdepth, &isTrueHD);
+			break;
+		}
+		++i;
+	}
+
+	if (fsize && !isTrueHD) {
+		h.size = fsize;
+
+		if (!pmt) {
+			return true;
+		}
+
+		int bitrate   = (int)(fsize * 8i64 * samplerate / framelength); // inaccurate, because fsize is not constant
+		pmt->majortype = MEDIATYPE_Audio;
+		pmt->subtype = MEDIASUBTYPE_MLP;
+		pmt->formattype = FORMAT_WaveFormatEx;
+
+		WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
+		wfe->wFormatTag      = WAVE_FORMAT_UNKNOWN;
+		wfe->nChannels       = channels;
+		wfe->nSamplesPerSec  = samplerate;
+		wfe->nAvgBytesPerSec = (bitrate + 4) /8;
+		wfe->nBlockAlign     = fsize < WORD_MAX ? fsize : WORD_MAX;
+		wfe->wBitsPerSample  = bitdepth;
+		wfe->cbSize = 0;
+
+		pmt->SetSampleSize(0);
+
+		Seek(startpos+i);
+		return true;
+	}
+
+	return false;
+}
+
 bool CBaseSplitterFileEx::Read(dvdspuhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
@@ -2094,60 +2149,6 @@ bool CBaseSplitterFileEx::Read(dvbsub& h, int len, CMediaType* pmt)
 		pmt->formattype		= FORMAT_None;
 		pmt->SetFormat ((BYTE*)&SubFormat, sizeof(SUBTITLEINFO));
 
-		return true;
-	}
-
-	return false;
-}
-
-bool CBaseSplitterFileEx::Find(mlphdr& h, int len, CMediaType* pmt)
-{
-	memset(&h, 0, sizeof(h));
-	if (len < 20) return false;
-
-	__int64 startpos = GetPos();
-
-	int samplerate, channels, framelength;
-	WORD bitdepth;
-	bool isTrueHD;
-	int fsize = 0;
-
-	BYTE buf[20];
-	int i = 0;
-	while (i+20 < len) {
-		Seek(startpos+i);
-		ByteRead(buf, 20);
-		if (GetMLPFrameSize(buf)) {
-			fsize = ParseMLPHeader(buf, &samplerate, &channels, &framelength, &bitdepth, &isTrueHD);
-			break;
-		}
-		++i;
-	}
-
-	if (fsize && !isTrueHD) {
-		h.size = fsize;
-
-		if (!pmt) {
-			return true;
-		}
-
-		int bitrate   = (int)(fsize * 8i64 * samplerate / framelength); // inaccurate, because fsize is not constant
-		pmt->majortype = MEDIATYPE_Audio;
-		pmt->subtype = MEDIASUBTYPE_MLP;
-		pmt->formattype = FORMAT_WaveFormatEx;
-
-		WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-		wfe->wFormatTag      = WAVE_FORMAT_UNKNOWN;
-		wfe->nChannels       = channels;
-		wfe->nSamplesPerSec  = samplerate;
-		wfe->nAvgBytesPerSec = (bitrate + 4) /8;
-		wfe->nBlockAlign     = fsize < WORD_MAX ? fsize : WORD_MAX;
-		wfe->wBitsPerSample  = bitdepth;
-		wfe->cbSize = 0;
-
-		pmt->SetSampleSize(0);
-
-		Seek(startpos+i);
 		return true;
 	}
 

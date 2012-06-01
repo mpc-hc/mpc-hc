@@ -435,6 +435,7 @@ public:
 	bool Read(lpcmhdr& h, CMediaType* pmt = NULL);
 	bool Read(dvdalpcmhdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(hdmvlpcmhdr& h, CMediaType* pmt = NULL);
+	bool Read(mlphdr& h, int len, CMediaType* pmt = NULL, bool find_sync = false);
 	bool Read(dvdspuhdr& h, CMediaType* pmt = NULL);
 	bool Read(hdmvsubhdr& h, CMediaType* pmt = NULL, const char* language_code = NULL);
 	bool Read(svcdspuhdr& h, CMediaType* pmt = NULL);
@@ -448,8 +449,6 @@ public:
 	bool Read(vc1hdr& h, int len, CMediaType* pmt = NULL, int guid_flag = 1);
 	bool Read(dvbsub& h, int len, CMediaType* pmt = NULL);
 	bool Read(avchdr& h, spsppsindex index);
-
-	bool Find(mlphdr& h, int len, CMediaType* pmt = NULL);
 
 	int  HrdParameters(CGolombBuffer& gb);
 	void RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length);
