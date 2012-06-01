@@ -2125,11 +2125,11 @@ bool CBaseSplitterFileEx::Find(mlphdr& h, int len, CMediaType* pmt)
 	}
 
 	if (fsize && !isTrueHD) {
+		h.size = fsize;
+
 		if (!pmt) {
 			return true;
 		}
-
-		h.size = fsize;
 
 		int bitrate   = (int)(fsize * 8i64 * samplerate / framelength); // inaccurate, because fsize is not constant
 		pmt->majortype = MEDIATYPE_Audio;
