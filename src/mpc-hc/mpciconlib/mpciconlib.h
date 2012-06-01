@@ -60,7 +60,7 @@
 #define IDI_OGM_ICON                    31
 #define IDI_PLAYLIST_ICON               32
 #define IDI_RA_ICON                     33
-// 34
+#define IDI_NONE34                      34
 #define IDI_RM_ICON                     35
 #define IDI_RT_ICON                     36
 #define IDI_SMK_ICON                    37
