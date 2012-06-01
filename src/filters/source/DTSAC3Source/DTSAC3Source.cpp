@@ -452,8 +452,8 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		}
 		// MLP
 		else if (id2 == MLP_SYNC_WORD) {
-			BYTE buf[16];
-			if (m_file.Read(&buf, 16) != 16)
+			BYTE buf[20];
+			if (m_file.Read(&buf, 20) != 20)
 				break;
 
 			bool istruehd;

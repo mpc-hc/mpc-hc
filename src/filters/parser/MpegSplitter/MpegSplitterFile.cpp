@@ -40,6 +40,7 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
 	, m_rtMin(0), m_rtMax(0)
 	, m_posMin(0), m_posMax(0)
 	, m_bIsHdmv(bIsHdmv)
+	, m_isAOBMLP(false)
 	, m_ClipInfo(ClipInfo)
 	, m_nVC1_GuidFlag(guid_flag)
 	, m_ForcedSub(ForcedSub)
@@ -757,17 +758,19 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 					}
 					// DVD-Audio MLP
 					else if (b == 0xa1 && len > 10) {
-						BYTE counter = (BYTE)BitRead(8); // Continuity Counter - counts from 0x00 to 0x1f and then wraps to 0x00.
-						DWORD headersize = (DWORD)BitRead(16); // MLP_header_length (always equal 6?)
-						BitRead(32); // some important data
-						WORD unknown1 = (WORD)BitRead(16); // 0x0000 and 0x0400
-						if (counter <= 0x1f && headersize == 6 && (unknown1 == 0x0000 || unknown1 == 0x0400)) {
-							CMpegSplitterFile::ac3hdr h;
-							if (Read(h, len-10, &s.mt, false, false)) {
+						BYTE counter = (BYTE)BitRead(8); // Continuity Counter: 0x00..0x1f or 0x20..0x3f or 0x40..0x5f
+						BitRead(8); // some unknown data
+						DWORD headersize = (DWORD)BitRead(8); // MLP_header_length (always equal 6?)
+						BitRead(32); // some unknown data
+						WORD unknown1 = (WORD)BitRead(16); // 0x0000 or 0x0400
+						if (counter <= 0x5f && headersize == 6 && (unknown1 == 0x0000 || unknown1 == 0x0400)) { // Maybe it's MLP?
+							CMpegSplitterFile::mlphdr h;
+							if (!m_streams[audio].Find(s) && Find(h, len-10, &s.mt)) {
+								m_isAOBMLP = true; // This is exactly the MLP.
+								Seek(start + 10);
 								type = audio;
 							}
-							Seek(start + 10);
-							break;
+							if (m_isAOBMLP) break;
 						}
 					}
 

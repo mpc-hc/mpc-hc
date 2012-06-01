@@ -254,6 +254,14 @@ public:
 		BYTE bitpersample:2;
 	};
 
+	struct mlphdr
+	{
+		DWORD size;
+		//DWORD samplerate;
+		//WORD bitdepth;
+		//WORD channels;
+	};
+
 	struct dvdspuhdr
 	{
 		// nothing ;)
@@ -441,6 +449,8 @@ public:
 	bool Read(dvbsub& h, int len, CMediaType* pmt = NULL);
 	bool Read(avchdr& h, spsppsindex index);
 
-	int	 HrdParameters(CGolombBuffer& gb);
+	bool Find(mlphdr& h, int len, CMediaType* pmt = NULL);
+
+	int  HrdParameters(CGolombBuffer& gb);
 	void RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length);
 };
