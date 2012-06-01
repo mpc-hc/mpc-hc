@@ -471,7 +471,7 @@ void CWebTextFile::Close()
 CStringW AToW(CStringA str)
 {
 	CStringW ret;
-	for (size_t i = 0, j = str.GetLength(); i < j; i++) {
+	for (int i = 0, j = str.GetLength(); i < j; i++) {
 		ret += (WCHAR)(BYTE)str[i];
 	}
 	return(ret);
@@ -480,7 +480,7 @@ CStringW AToW(CStringA str)
 CStringA WToA(CStringW str)
 {
 	CStringA ret;
-	for (size_t i = 0, j = str.GetLength(); i < j; i++) {
+	for (int i = 0, j = str.GetLength(); i < j; i++) {
 		ret += (CHAR)(WORD)str[i];
 	}
 	return(ret);
@@ -489,7 +489,7 @@ CStringA WToA(CStringW str)
 CString AToT(CStringA str)
 {
 	CString ret;
-	for (size_t i = 0, j = str.GetLength(); i < j; i++) {
+	for (int i = 0, j = str.GetLength(); i < j; i++) {
 		ret += (TCHAR)(BYTE)str[i];
 	}
 	return(ret);
@@ -498,7 +498,7 @@ CString AToT(CStringA str)
 CString WToT(CStringW str)
 {
 	CString ret;
-	for (size_t i = 0, j = str.GetLength(); i < j; i++) {
+	for (int i = 0, j = str.GetLength(); i < j; i++) {
 		ret += (TCHAR)(WORD)str[i];
 	}
 	return(ret);
@@ -508,7 +508,7 @@ CStringA TToA(CString str)
 {
 	CStringA ret;
 #ifdef UNICODE
-	for (size_t i = 0, j = str.GetLength(); i < j; i++) {
+	for (int i = 0, j = str.GetLength(); i < j; i++) {
 		ret += (CHAR)(BYTE)str[i];
 	}
 #else

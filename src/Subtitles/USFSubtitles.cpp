@@ -347,7 +347,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 			stss->shadowDepthX = stss->shadowDepthY = wcstol(s->fontstyle.shadow, NULL, 10);
 		}
 
-		for (ptrdiff_t i = 0; i < 4; i++) {
+		for (size_t i = 0; i < 4; i++) {
 			DWORD color = ColorToDWORD(s->fontstyle.color[i]);
 			int alpha = (BYTE)wcstol(s->fontstyle.alpha, NULL, 10);
 
@@ -414,7 +414,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 		}
 
 		WCHAR rtags[3][8] = {L"{\\rz%d}", L"{\\rx%d}", L"{\\ry%d}"};
-		for (ptrdiff_t i = 0; i < 3; i++) {
+		for (size_t i = 0; i < 3; i++) {
 			if (int angle = wcstol(t->pal.rotate[i], NULL, 10)) {
 				CStringW str;
 				str.Format(rtags[i], angle);
@@ -745,7 +745,7 @@ void CUSFSubtitles::ParseText(CComPtr<IXMLDOMNode> pNode, CStringW& str)
 			postfix += L"{\\shad}";
 		}
 
-		for (ptrdiff_t i = 0; i < 4; i++) {
+		for (size_t i = 0; i < 4; i++) {
 			if (!fs.color[i].IsEmpty()) {
 				CStringW s;
 				s.Format(L"{\\%dc&H%06x&}", i+1, ColorToDWORD(fs.color[i]));

@@ -299,7 +299,7 @@ bool CRealTextParser::GetAttributes(wstring& p_rszLine, unsigned int& p_riPos, m
 
 		if (p_rszLine.at(p_riPos) != '=') {
 			if (m_bTryToIgnoreErrors) {
-				p_riPos = p_rszLine.find_first_of('=', p_riPos);
+				p_riPos = (unsigned int)p_rszLine.find_first_of('=', p_riPos);
 				if (p_riPos == wstring::npos) {
 					return false;
 				}
@@ -365,7 +365,7 @@ int CRealTextParser::GetTimecode(const wstring& p_crszTimecode)
 
 	wstring szCurrentPart;
 
-	for (int i = p_crszTimecode.length() - 1; i >= 0; --i) {
+	for (ptrdiff_t i = p_crszTimecode.length() - 1; i >= 0; --i) {
 		if (p_crszTimecode.at(i) == '.' || p_crszTimecode.at(i) == ':') {
 			if (iMultiplier == 1) {
 				while (szCurrentPart.length() < 3) {

@@ -151,7 +151,7 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubtitleDelay(int delay_ms
 
 STDMETHODIMP_(int) CSubPicAllocatorPresenterImpl::GetSubtitleDelay()
 {
-	return (m_rtSubtitleDelay/10000);
+	return (int)(m_rtSubtitleDelay/10000);
 }
 
 STDMETHODIMP_(double) CSubPicAllocatorPresenterImpl::GetFPS()
@@ -179,15 +179,15 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::Invalidate(REFERENCE_TIME rtI
 
 void CSubPicAllocatorPresenterImpl::Transform(CRect r, Vector v[4])
 {
-	v[0] = Vector(r.left, r.top, 0);
-	v[1] = Vector(r.right, r.top, 0);
-	v[2] = Vector(r.left, r.bottom, 0);
-	v[3] = Vector(r.right, r.bottom, 0);
+	v[0] = Vector((float)r.left,  (float)r.top, 0);
+	v[1] = Vector((float)r.right, (float)r.top, 0);
+	v[2] = Vector((float)r.left,  (float)r.bottom, 0);
+	v[3] = Vector((float)r.right, (float)r.bottom, 0);
 
-	Vector center(r.CenterPoint().x, r.CenterPoint().y, 0);
-	int l = (int)(Vector(r.Size().cx, r.Size().cy, 0).Length()*1.5f)+1;
+	Vector center((float)r.CenterPoint().x, (float)r.CenterPoint().y, 0);
+	int l = (int)(Vector((float)r.Size().cx, (float)r.Size().cy, 0).Length()*1.5f)+1;
 
-	for (ptrdiff_t i = 0; i < 4; i++) {
+	for (size_t i = 0; i < 4; i++) {
 		v[i] = m_xform << (v[i] - center);
 		v[i].z = v[i].z / l + 0.5f;
 		v[i].x /= v[i].z*2;

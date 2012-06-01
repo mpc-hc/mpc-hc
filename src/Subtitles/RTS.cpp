@@ -257,21 +257,21 @@ void CWord::Transform_SSE2( CPoint &org )
 	double cay = cos((3.1415/180)*m_style.fontAngleY);
 	double say = sin((3.1415/180)*m_style.fontAngleY);
 
-	__m128 __xshift = _mm_set_ps1(m_style.fontShiftX);
-	__m128 __yshift = _mm_set_ps1(m_style.fontShiftY);
+	__m128 __xshift = _mm_set_ps1((float)m_style.fontShiftX);
+	__m128 __yshift = _mm_set_ps1((float)m_style.fontShiftY);
 
-	__m128 __xorg = _mm_set_ps1(org.x);
-	__m128 __yorg = _mm_set_ps1(org.y);
+	__m128 __xorg   = _mm_set_ps1((float)org.x);
+	__m128 __yorg   = _mm_set_ps1((float)org.y);
 
-	__m128 __xscale = _mm_set_ps1(scalex);
-	__m128 __yscale = _mm_set_ps1(scaley);
+	__m128 __xscale = _mm_set_ps1((float)scalex);
+	__m128 __yscale = _mm_set_ps1((float)scaley);
 
-	__m128 __caz = _mm_set_ps1(caz);
-	__m128 __saz = _mm_set_ps1(saz);
-	__m128 __cax = _mm_set_ps1(cax);
-	__m128 __sax = _mm_set_ps1(sax);
-	__m128 __cay = _mm_set_ps1(cay);
-	__m128 __say = _mm_set_ps1(say);
+	__m128 __caz = _mm_set_ps1((float)caz);
+	__m128 __saz = _mm_set_ps1((float)saz);
+	__m128 __cax = _mm_set_ps1((float)cax);
+	__m128 __sax = _mm_set_ps1((float)sax);
+	__m128 __cay = _mm_set_ps1((float)cay);
+	__m128 __say = _mm_set_ps1((float)say);
 
 	// this can be paralleled for openmp
 	int mPathPointsD4 = mPathPoints / 4;
@@ -281,24 +281,24 @@ void CWord::Transform_SSE2( CPoint &org )
 		__m128 __pointx, __pointy;
 		// we can't use load .-.
 		if (i != mPathPointsD4) {
-			__pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, mpPathPoints[4 * i + 1].x, mpPathPoints[4 * i + 2].x, mpPathPoints[4 * i + 3].x);
-			__pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, mpPathPoints[4 * i + 1].y, mpPathPoints[4 * i + 2].y, mpPathPoints[4 * i + 3].y);
+			__pointx = _mm_set_ps((float)mpPathPoints[4 * i + 0].x, (float)mpPathPoints[4 * i + 1].x, (float)mpPathPoints[4 * i + 2].x, (float)mpPathPoints[4 * i + 3].x);
+			__pointy = _mm_set_ps((float)mpPathPoints[4 * i + 0].y, (float)mpPathPoints[4 * i + 1].y, (float)mpPathPoints[4 * i + 2].y, (float)mpPathPoints[4 * i + 3].y);
 		} else { // last cycle
 			switch (mPathPointsM4) {
 				default:
 				case 0:
 					continue;
 				case 1:
-					__pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, 0, 0, 0);
-					__pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, 0, 0, 0);
+					__pointx = _mm_set_ps((float)mpPathPoints[4 * i + 0].x, 0, 0, 0);
+					__pointy = _mm_set_ps((float)mpPathPoints[4 * i + 0].y, 0, 0, 0);
 					break;
 				case 2:
-					__pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, mpPathPoints[4 * i + 1].x, 0, 0);
-					__pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, mpPathPoints[4 * i + 1].y, 0, 0);
+					__pointx = _mm_set_ps((float)mpPathPoints[4 * i + 0].x, (float)mpPathPoints[4 * i + 1].x, 0, 0);
+					__pointy = _mm_set_ps((float)mpPathPoints[4 * i + 0].y, (float)mpPathPoints[4 * i + 1].y, 0, 0);
 					break;
 				case 3:
-					__pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, mpPathPoints[4 * i + 1].x, mpPathPoints[4 * i + 2].x, 0);
-					__pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, mpPathPoints[4 * i + 1].y, mpPathPoints[4 * i + 2].y, 0);
+					__pointx = _mm_set_ps((float)mpPathPoints[4 * i + 0].x, (float)mpPathPoints[4 * i + 1].x, (float)mpPathPoints[4 * i + 2].x, 0);
+					__pointy = _mm_set_ps((float)mpPathPoints[4 * i + 0].y, (float)mpPathPoints[4 * i + 1].y, (float)mpPathPoints[4 * i + 2].y, 0);
 					break;
 			}
 		}
@@ -410,7 +410,7 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 		//			m_width -= (int)m_style.fontSpacing; // TODO: subtract only at the end of the line
 	} else {
 		CSize extent;
-		if (!GetTextExtentPoint32W(g_hDC, m_str, wcslen(str), &extent)) {
+		if (!GetTextExtentPoint32W(g_hDC, m_str, (int)wcslen(str), &extent)) {
 			SelectFont(g_hDC, hOldFont);
 			ASSERT(0);
 			return;
@@ -524,7 +524,7 @@ bool CPolygon::GetLONG(CStringW& str, LONG& ret)
 {
 	LPWSTR s = (LPWSTR)(LPCWSTR)str, e = s;
 	ret = wcstol(str, &e, 10);
-	str.Delete(0,e-s);
+	str.Delete(0,int(e-s));
 	return(e > s);
 }
 
@@ -693,7 +693,7 @@ bool CPolygon::CreatePath()
 		if (!mpPathTypes || !mpPathPoints) {
 			return false;
 		}
-		mPathPoints = len;
+		mPathPoints = (int)len;
 	}
 
 	memcpy(mpPathTypes, m_pathTypesOrg.GetData(), len*sizeof(BYTE));
@@ -1552,7 +1552,7 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
 		s += str.GetLength() - 1;
 	}
 	s++;
-	CString effect = str.Left(s - str);
+	CString effect = str.Left(int(s - str));
 
 	if (!effect.CompareNoCase(_T("Banner;"))) {
 		int delay, lefttoright = 0, fadeawaywidth = 0;
@@ -1607,7 +1607,7 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
 	str.Replace(L"\\n", (sub->m_wrapStyle < 2 || sub->m_wrapStyle == 3) ? L" " : L"\n");
 	str.Replace(L"\\h", L"\x00A0");
 
-	for (size_t i = 0, j = 0, len = str.GetLength(); j <= len; j++) {
+	for (int i = 0, j = 0, len = str.GetLength(); j <= len; j++) {
 		WCHAR c = str[j];
 
 		if (c != L'\n' && c != L' ' && c != L'\x00A0' && c != 0) {

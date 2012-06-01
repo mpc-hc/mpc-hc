@@ -367,8 +367,8 @@ CDX9SubPicAllocator::~CDX9SubPicAllocator()
 void CDX9SubPicAllocator::GetStats(int &_nFree, int &_nAlloc)
 {
 	CAutoLock Lock(&ms_SurfaceQueueLock);
-	_nFree = m_FreeSurfaces.GetCount();
-	_nAlloc = m_AllocatedSurfaces.GetCount();
+	_nFree = (int)m_FreeSurfaces.GetCount();
+	_nAlloc = (int)m_AllocatedSurfaces.GetCount();
 }
 
 void CDX9SubPicAllocator::ClearCache()
