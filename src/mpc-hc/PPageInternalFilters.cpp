@@ -86,7 +86,7 @@ static filter_t s_filters[] = {
 	{_T("AAC"), DECODER, TRA_AAC, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_AC3
-	{_T("AC3"), DECODER, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},
+	{_T("AC3/E-AC3/TrueHD/MLP"), DECODER, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_DTS
 	{_T("DTS"), DECODER, TRA_DTS, IDS_TRA_DTS, CreateInstance<CMpaDecFilter>},
