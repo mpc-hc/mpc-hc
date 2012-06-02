@@ -48,6 +48,35 @@ extern "C" {
 	int mingw_app_type = 1;
 }
 
+const LanguageResource CMPlayerCApp::languageResources[] = {
+	{ID_LANGUAGE_ARMENIAN,				1067,	_T("Armenian"),					_T("Lang\\mpcresources.hy.dll")},
+	{ID_LANGUAGE_BASQUE,				1069,	_T("Basque"),					_T("Lang\\mpcresources.eu.dll")},
+	{ID_LANGUAGE_BELARUSIAN,			1059,	_T("Belarusian"),				_T("Lang\\mpcresources.by.dll")},
+	{ID_LANGUAGE_CATALAN,				1027,	_T("Catalan"),					_T("Lang\\mpcresources.ca.dll")},
+	{ID_LANGUAGE_CHINESE_SIMPLIFIED,	2052,	_T("Chinese (Simplified)"),		_T("Lang\\mpcresources.sc.dll")},
+	{ID_LANGUAGE_CHINESE_TRADITIONAL,	3076,	_T("Chinese (Traditional)"),	_T("Lang\\mpcresources.tc.dll")},
+	{ID_LANGUAGE_CZECH,					1029,	_T("Czech"),					_T("Lang\\mpcresources.cz.dll")},
+	{ID_LANGUAGE_DUTCH,					1043,	_T("Dutch"),					_T("Lang\\mpcresources.nl.dll")},
+	{ID_LANGUAGE_ENGLISH,				0,		_T("English"),					NULL},
+	{ID_LANGUAGE_FRENCH,				1036,	_T("French"),					_T("Lang\\mpcresources.fr.dll")},
+	{ID_LANGUAGE_GERMAN,				1031,	_T("German"),					_T("Lang\\mpcresources.de.dll")},
+	{ID_LANGUAGE_HEBREW,				1037,	_T("Hebrew"),					_T("Lang\\mpcresources.he.dll")},
+	{ID_LANGUAGE_HUNGARIAN,				1042,	_T("Hungarian"),				_T("Lang\\mpcresources.hu.dll")},
+	{ID_LANGUAGE_ITALIAN,				1040,	_T("Italian"),					_T("Lang\\mpcresources.it.dll")},
+	{ID_LANGUAGE_JAPANESE,				1041,	_T("Japanese"),					_T("Lang\\mpcresources.ja.dll")},
+	{ID_LANGUAGE_KOREAN,				1038,	_T("Korean"),					_T("Lang\\mpcresources.kr.dll")},
+	{ID_LANGUAGE_POLISH,				1045,	_T("Polish"),					_T("Lang\\mpcresources.pl.dll")},
+	{ID_LANGUAGE_PORTUGUESE_BR,			1046,	_T("Portuguese (Brazil)"),		_T("Lang\\mpcresources.br.dll")},
+	{ID_LANGUAGE_RUSSIAN,				1049,	_T("Russian"),					_T("Lang\\mpcresources.ru.dll")},
+	{ID_LANGUAGE_SLOVAK,				1053,	_T("Slovak"),					_T("Lang\\mpcresources.sk.dll")},
+	{ID_LANGUAGE_SWEDISH,				1051,	_T("Swedish"),					_T("Lang\\mpcresources.sv.dll")},
+	{ID_LANGUAGE_SPANISH,				1034,	_T("Spanish"),					_T("Lang\\mpcresources.es.dll")},
+	{ID_LANGUAGE_TURKISH,				1055,	_T("Turkish"),					_T("Lang\\mpcresources.tr.dll")},
+	{ID_LANGUAGE_UKRAINIAN,				1058,	_T("Ukrainian"),				_T("Lang\\mpcresources.ua.dll")}
+};
+
+const size_t CMPlayerCApp::languageResourcesCount = _countof(CMPlayerCApp::languageResources);
+
 HICON LoadIcon(CString fn, bool fSmall)
 {
 	if (fn.IsEmpty()) {
@@ -2013,222 +2042,41 @@ DXVA2_ValueRange* CMPlayerCApp::GetEVRColorControl(ControlType nFlag)
 	return NULL;
 }
 
-LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
+const LanguageResource& CMPlayerCApp::GetLanguageResourceByResourceID(UINT resourceID)
 {
-	switch (nLanguage) {
-		case 1:		// French
-			return _T("Lang\\mpcresources.fr.dll");
-		case 2:		// German
-			return _T("Lang\\mpcresources.de.dll");
-		case 3:		// Russian
-			return _T("Lang\\mpcresources.ru.dll");
-		case 4:		// Turkish
-			return _T("Lang\\mpcresources.tr.dll");
-		case 5:		// Czech
-			return _T("Lang\\mpcresources.cz.dll");
-		case 6:		// Spanish
-			return _T("Lang\\mpcresources.es.dll");
-		case 7:		// Hungarian
-			return _T("Lang\\mpcresources.hu.dll");
-		case 8:		// Korean
-			return _T("Lang\\mpcresources.kr.dll");
-		case 9:		// Polish
-			return _T("Lang\\mpcresources.pl.dll");
-		case 10:	// Ukrainian
-			return _T("Lang\\mpcresources.ua.dll");
-		case 11:	// Italian
-			return _T("Lang\\mpcresources.it.dll");
-		case 12 :	// Slovak
-			return _T("Lang\\mpcresources.sk.dll");
-		case 13 :	// Chinese (Simplified)
-			return _T("Lang\\mpcresources.sc.dll");
-		case 14 :	// Chinese (Traditional)
-			return _T("Lang\\mpcresources.tc.dll");
-		case 15 :	// Belarusian
-			return _T("Lang\\mpcresources.by.dll");
-		case 16 :	// Swedish
-			return _T("Lang\\mpcresources.sv.dll");
-		case 17 :	// Portuguese (Brasil)
-			return _T("Lang\\mpcresources.br.dll");
-		case 18 :	// Dutch
-			return _T("Lang\\mpcresources.nl.dll");
-		case 19 :	// Catalan
-			return _T("Lang\\mpcresources.ca.dll");
-		case 20 :	// Japanese
-			return _T("Lang\\mpcresources.ja.dll");
-		case 21 :	// Armenian
-			return _T("Lang\\mpcresources.hy.dll");
-		case 22 :	// Hebrew
-			return _T("Lang\\mpcresources.he.dll");
-		case 23 :	// Basque
-			return _T("Lang\\mpcresources.eu.dll");
+	size_t defaultResource;
+
+	for (size_t i = 0; i < languageResourcesCount; i++) {
+		if (resourceID == languageResources[i].resourceID) {
+			return languageResources[i];
+		} else if (ID_LANGUAGE_ENGLISH == languageResources[i].resourceID) {
+			defaultResource = i;
+		}
 	}
-	return NULL;
+
+	return languageResources[defaultResource];
 }
 
-LPCTSTR CMPlayerCApp::GetLanguageName(int nLanguage)
+const LanguageResource& CMPlayerCApp::GetLanguageResourceByLocaleID(LANGID localeID)
 {
-	switch (nLanguage) {
-		case 0:		// English
-			return _T("English");
-		case 1:		// French
-			return _T("French");
-		case 2:		// German
-			return _T("German");
-		case 3:		// Russian
-			return _T("Russian");
-		case 4:		// Turkish
-			return _T("Turkish");
-		case 5:		// Czech
-			return _T("Czech");
-		case 6:		// Spanish
-			return _T("Spanish");
-		case 7:		// Hungarian
-			return _T("Hungarian");
-		case 8:		// Korean
-			return _T("Korean");
-		case 9:		// Polish
-			return _T("Polish");
-		case 10:	// Ukrainian
-			return _T("Ukrainian");
-		case 11:	// Italian
-			return _T("Italian");
-		case 12 :	// Slovak
-			return _T("Slovak");
-		case 13 :	// Chinese (Simplified)
-			return _T("Chinese (Simplified)");
-		case 14 :	// Chinese (Traditional)
-			return _T("Chinese (Traditional)");
-		case 15 :	// Belarusian
-			return _T("Belarusian");
-		case 16 :	// Swedish
-			return _T("Swedish");
-		case 17 :	// Portuguese (Brasil)
-			return _T("Portuguese (Brasil)");
-		case 18 :	// Dutch
-			return _T("Dutch");
-		case 19 :	// Catalan
-			return _T("Catalan");
-		case 20 :	// Japanese
-			return _T("Japanese");
-		case 21 :	// Armenian
-			return _T("Armenian");
-		case 22 :	// Hebrew
-			return _T("Hebrew");
-		case 23 :	// Basque
-			return _T("Basque");
+	size_t defaultResource;
+
+	for (size_t i = 0; i < languageResourcesCount; i++) {
+		if (localeID == languageResources[i].localeID) {
+			return languageResources[i];
+		} else if (0 == languageResources[i].localeID) {
+			defaultResource = i;
+		}
 	}
-	return NULL;
+
+	return languageResources[defaultResource];
 }
 
-
-int CMPlayerCApp::GetDefLanguage()
+void CMPlayerCApp::SetDefaultLanguage()
 {
-	switch (GetUserDefaultUILanguage()) {
-		// Check http://msdn.microsoft.com/en-us/goglobal/bb964664
-		case 1036:	// French
-			return 1;
-		case 1031:	// German
-			return 2;
-		case 1049:	// Russian
-			return 3;
-		case 1055:	// Turkish
-			return 4;
-		case 1029:	// Czech
-			return 5;
-		case 1034:	// Spanish
-			return 6;
-		case 1038:	// Hungarian
-			return 7;
-		case 1042:	// Korean
-			return 8;
-		case 1045:	// Polish
-			return 9;
-		case 1058:	// Ukrainian
-			return 10;
-		case 1040:	// Italian
-			return 11;
-		case 1051 :	// Slovak
-			return 12;
-		case 2052 :	// Chinese (simplified)
-			return 13;
-		case 3076 :	// Chinese (traditional)
-			return 14;
-		case 1059 :	// Belarusian
-			return 15;
-		case 1053 :	// Swedish
-			return 16;
-		case 1046 :	// Portuguese (brasil)
-			return 17;
-		case 1043 :	// Dutch
-			return 18;
-		case 1027 :	// Catalan
-			return 19;
-		case 1041 :	// Japanese
-			return 20;
-		case 1067 : // Armenian
-			return 21;
-		case 1037 : // Hebrew
-			return 22;
-		case 1069 : // Basque
-			return 23;
-		default:
-			return 0;
-	}
-}
+	const LanguageResource& languageResource = GetLanguageResourceByLocaleID(GetUserDefaultUILanguage());
 
-int CMPlayerCApp::GetLanguageAlph(int nLanguage)
-{
-	switch (nLanguage) {
-		case 1 :	// Armenian
-			return 21;
-		case 2 :	// Basque
-			return 23;
-		case 3 :	// Belarusian
-			return 15;
-		case 4 :	// Catalan
-			return 19;
-		case 5 :	// Chinese (Simplified)
-			return 13;
-		case 6 :	// Chinese (Traditional)
-			return 14;
-		case 7:		// Czech
-			return  5;
-		case 8 :	// Dutch
-			return 18;
-		case 9:		// French
-			return  1;
-		case 10:	// German
-			return  2;
-		case 11 :	// Hebrew
-			return 22;
-		case 12:	// Hungarian
-			return  7;
-		case 13:	// Italian
-			return 11;
-		case 14 :	// Japanese
-			return 20;
-		case 15:	// Korean
-			return  8;
-		case 16:	// Polish
-			return  9;
-		case 17 :	// Portuguese (Brasil)
-			return 17;
-		case 18:	// Russian
-			return  3;
-		case 19 :	// Slovak
-			return 12;
-		case 20:	// Spanish
-			return  6;
-		case 21 :	// Swedish
-			return 16;
-		case 22:	// Turkish
-			return  4;
-		case 23:	// Ukrainian
-			return 10;
-		default:
-			return 0;
-	}
+	SetLanguage(languageResource);
 }
 
 LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM lParam)
@@ -2248,46 +2096,52 @@ LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM l
 	return CallNextHookEx(NULL, code, wParam, lParam);
 }
 
-void CMPlayerCApp::SetLanguage (int nLanguage)
+void CMPlayerCApp::SetLanguage(const LanguageResource& languageResource)
 {
 	AppSettings&	s = AfxGetAppSettings();
 	HMODULE			hMod = NULL;
-	LPCTSTR			strSatellite;
 
-	strSatellite = GetSatelliteDll( nLanguage );
-	if ( strSatellite ) {
-		CFileVersionInfo	Version;
-		CString				strSatVersion;
+	if (languageResource.dllPath) {
+		hMod = LoadLibrary(languageResource.dllPath);
+		if (hMod == NULL) {
+			MessageBox(NULL, _T("Error loading the chosen language.\n\nPlease reinstall MPC-HC."),
+					   _T("Media Player Classic - Home Cinema"), MB_ICONWARNING | MB_OK);
+		} else {
+			CFileVersionInfo	Version;
+			CString				strSatVersion;
 
-		if ( Version.Create(strSatellite) ) {
-			strSatVersion = Version.GetFileVersionEx();
+			if (Version.Create(languageResource.dllPath)) {
+				strSatVersion = Version.GetFileVersionEx();
 
-			CString strNeededVersion = MPC_VERSION_STR;
-			strNeededVersion.Replace(_T(", "), _T("."));
+				CString strNeededVersion = MPC_VERSION_STR;
+				strNeededVersion.Replace(_T(", "), _T("."));
 
-			if ( strSatVersion == strNeededVersion ) {
-				hMod = LoadLibrary( strSatellite );
-				s.iLanguage = nLanguage;
-			} else {
-				// This message should stay in English!
-				MessageBox(NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."),
-						   _T("Media Player Classic - Home Cinema"), MB_OK);
+				if (strSatVersion == strNeededVersion) {
+					s.language = languageResource.localeID;
+				} else {
+					// This message should stay in English!
+					MessageBox(NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."),
+							   _T("Media Player Classic - Home Cinema"), MB_ICONWARNING | MB_OK);
+				}
 			}
 		}
+	} else {
+		hMod = AfxGetApp()->m_hInstance;
+		s.language = 0;
 	}
 
-	if ( hMod == NULL ) {
-		hMod = AfxGetApp()->m_hInstance;
-		s.iLanguage = 0;
-	} else if (nLanguage == 22) {
-		// Hebrew needs the RTL flag.
-		SetProcessDefaultLayout(LAYOUT_RTL);
-		SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, NULL, GetCurrentThreadId());
+	if (hMod) {
+		if (languageResource.resourceID == ID_LANGUAGE_HEBREW) {
+			// Hebrew needs the RTL flag.
+			SetProcessDefaultLayout(LAYOUT_RTL);
+			SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, NULL, GetCurrentThreadId());
+		}
+
+		if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance) {
+			FreeLibrary(AfxGetResourceHandle());
+		}
+		AfxSetResourceHandle(hMod);
 	}
-	if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance) {
-		FreeLibrary(AfxGetResourceHandle());
-	}
-	AfxSetResourceHandle(hMod);
 }
 
 /*HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )

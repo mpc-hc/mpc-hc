@@ -445,7 +445,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND_RANGE(ID_SHIFT_SUB_DOWN, ID_SHIFT_SUB_UP, OnShiftSubtitle)
 	ON_COMMAND_RANGE(ID_SUB_DELAY_DOWN, ID_SUB_DELAY_UP, OnSubtitleDelay)
 	ON_COMMAND_RANGE(ID_LANGUAGE_ENGLISH, ID_LANGUAGE_LAST, OnLanguage)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_LANGUAGE_ENGLISH, ID_LANGUAGE_LAST, OnUpdateLanguage)
 
 	ON_COMMAND(ID_PLAY_PLAY, OnPlayPlay)
 	ON_COMMAND(ID_PLAY_PAUSE, OnPlayPause)
@@ -12454,32 +12453,38 @@ void CMainFrame::SetupFiltersSubMenu()
 
 void CMainFrame::SetupLanguageMenu()
 {
-	CMenu* pSub = &m_language;
-	int iCount = 0;
+	const AppSettings& s = AfxGetAppSettings();
 
-	if (!IsMenu(pSub->m_hMenu)) {
-		pSub->CreatePopupMenu();
-	} else while (pSub->RemoveMenu(0, MF_BYPOSITION)) {
-			;
-		}
-	for (int i=1; i<ID_LANGUAGE_LAST-ID_LANGUAGE_ENGLISH; i++) {
-		UINT nID = AfxGetMyApp()->GetLanguageAlph(i);
-		if (nID == 1) {
-			pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_LANGUAGE_ENGLISH, AfxGetMyApp()->GetLanguageName(0));
-		}
-		LPCTSTR strSatellite = AfxGetMyApp()->GetSatelliteDll(nID);
-		if (strSatellite) {
-			HMODULE lib = NULL;
-			if ((lib = LoadLibrary(strSatellite)) != NULL) {
-				FreeLibrary(lib);
-				pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, nID+ID_LANGUAGE_ENGLISH, AfxGetMyApp()->GetLanguageName(nID));
-				iCount++;
+	if (!IsMenu(m_language.m_hMenu)) {
+		m_language.CreatePopupMenu();
+	} else {
+		// Empty the menu
+		while (m_language.RemoveMenu(0, MF_BYPOSITION));
+	}
+	
+	UINT uiCount = 0;
+	CFileStatus fs;
+	CString appPath;
+	GetModuleFileName(AfxGetInstanceHandle(), appPath.GetBuffer(_MAX_PATH), _MAX_PATH);
+	appPath.ReleaseBuffer();
+	appPath = appPath.Left(appPath.ReverseFind(_T('\\')) + 1);
+
+	for (size_t i = 0; i < CMPlayerCApp::languageResourcesCount; i++) {
+		const LanguageResource& lr = CMPlayerCApp::languageResources[i];
+
+		if (lr.dllPath == NULL || CFile::GetStatus(appPath + lr.dllPath, fs)) {
+			m_language.AppendMenu(MF_STRING | MF_ENABLED, lr.resourceID, lr.name);
+
+			if (lr.localeID == s.language) {
+				m_language.CheckMenuItem(uiCount, MF_BYPOSITION | MF_CHECKED);
 			}
+
+			uiCount++;
 		}
 	}
 
-	if (!iCount) {
-		pSub->RemoveMenu(0, MF_BYPOSITION);
+	if (uiCount <= 1) {
+		m_language.RemoveMenu(0, MF_BYPOSITION);
 	}
 }
 
@@ -14815,14 +14820,12 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 	CMenu	DefaultMenu;
 	CMenu*	OldMenu;
 
-	nID -= ID_LANGUAGE_ENGLISH;
-
-	if (nID == 22) { // Show a warning when switching to Hebrew (must not be translated)
+	if (nID == ID_LANGUAGE_HEBREW) { // Show a warning when switching to Hebrew (must not be translated)
 		MessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
 				   _T("Media Player Classic - Home Cinema"), MB_ICONINFORMATION | MB_OK);
 	}
 
-	AfxGetMyApp()->SetLanguage(nID);
+	CMPlayerCApp::SetLanguage(CMPlayerCApp::GetLanguageResourceByResourceID(nID));
 
 	m_opencds.DestroyMenu();
 	m_filters.DestroyMenu();
@@ -14849,24 +14852,6 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 	DefaultMenu.Detach();
 	// TODO : destroy old menu ???
 	//OldMenu->DestroyMenu();
-}
-
-afx_msg void CMainFrame::OnUpdateLanguage(CCmdUI* pCmdUI)
-{
-	AppSettings &s            = AfxGetAppSettings();
-	int          nLang        = pCmdUI->m_nID - ID_LANGUAGE_ENGLISH;
-	LPCTSTR	     strSatellite = AfxGetMyApp()->GetSatelliteDll(nLang);
-
-	if (strSatellite) {
-		HMODULE lib = NULL;
-		if ((lib = LoadLibrary(strSatellite)) != NULL) {
-			FreeLibrary(lib);
-		}
-
-		pCmdUI->Enable(lib != NULL);
-	}
-
-	pCmdUI->SetCheck(nLang == s.iLanguage);
 }
 
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)

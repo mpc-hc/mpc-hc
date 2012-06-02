@@ -107,6 +107,14 @@ extern void SetAudioRenderer(int AudioDevNo);
 
 extern void SetHandCursor(HWND m_hWnd, UINT nID);
 
+struct LanguageResource
+{
+	const UINT resourceID;
+	const LANGID localeID; // Check http://msdn.microsoft.com/en-us/goglobal/bb964664
+	const LPCTSTR name;
+	const LPCTSTR dllPath;
+};
+
 class CMPlayerCApp : public CWinApp
 {
 	ATL::CMutex m_mutexOneInstance;
@@ -154,11 +162,15 @@ public:
 	void						UpdateColorControlRange(bool isEVR);
 	VMR9ProcAmpControlRange*	GetVMR9ColorControl(ControlType nFlag);
 	DXVA2_ValueRange*			GetEVRColorControl(ControlType nFlag);
-	static void					SetLanguage (int nLanguage);
-	static LPCTSTR				GetSatelliteDll(int nLang);
-	static LPCTSTR				GetLanguageName(int nLang);
-	static int					GetLanguageAlph(int nLang);
-	static int					GetDefLanguage();
+
+	static const LanguageResource languageResources[];
+	static const size_t languageResourcesCount;
+
+	static const LanguageResource& GetLanguageResourceByResourceID(UINT resourceID);
+	static const LanguageResource& GetLanguageResourceByLocaleID(LANGID localeID);
+	static void SetLanguage(const LanguageResource& languageResource);
+	static void SetDefaultLanguage();
+
 	//static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
 	static void					RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
 

@@ -657,7 +657,7 @@ void CAppSettings::UpdateData(bool fSave)
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, (int)fShowOSD);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, (int)fEnableEDLEditor);
-		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, (int)iLanguage);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, language);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_FASTSEEK_KEYFRAME, (int)fFastSeek);
 
 		// Save analog capture settings
@@ -907,10 +907,17 @@ void CAppSettings::UpdateData(bool fSave)
 		}
 
 		// Set interface language first!
-		iLanguage  = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, CMPlayerCApp::GetDefLanguage());
-		if (iLanguage != 0) {
-			CMPlayerCApp::SetLanguage(iLanguage);
+		language = (LANGID)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, -1);
+		if (language == (LANGID)-1) {
+			CMPlayerCApp::SetDefaultLanguage();
+		} else if (language != 0) {
+			if (language <= 23) { // Here for compatibility with old settings
+				CMPlayerCApp::SetLanguage(CMPlayerCApp::GetLanguageResourceByResourceID(language + ID_LANGUAGE_ENGLISH));
+			} else {
+				CMPlayerCApp::SetLanguage(CMPlayerCApp::GetLanguageResourceByLocaleID(language));
+			}
 		}
+
 		CreateCommands();
 
 		iCaptionMenuMode = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECAPTIONMENU, MODE_SHOWCAPTIONMENU);

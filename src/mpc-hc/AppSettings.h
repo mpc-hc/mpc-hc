@@ -507,7 +507,7 @@ public:
 	bool			fRememberDVDPos;
 	bool			fRememberFilePos;
 	bool			fShowOSD;
-	int				iLanguage;
+	LANGID			language;
 	bool			fFastSeek;
 
 	// BDA configuration
