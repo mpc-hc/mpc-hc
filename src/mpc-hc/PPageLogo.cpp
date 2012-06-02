@@ -186,7 +186,7 @@ void CPPageLogo::GetDataFromRes()
 	if (IDF_LOGO0 != id) {
 		m_logobm.LoadFromResource(id);
 		if (!m_author.LoadString(id)) {
-			m_author = ResStr(IDS_LOGO_AUTHOR);
+			m_author.LoadString(IDS_LOGO_AUTHOR);
 		}
 	}
 	m_logopreview.SetBitmap(m_logobm);

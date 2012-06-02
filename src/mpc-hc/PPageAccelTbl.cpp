@@ -200,7 +200,7 @@ CString CPPageAccelTbl::MakeAccelModLabel(BYTE fVirt)
 		str += _T("Shift");
 	}
 	if (str.IsEmpty()) {
-		str = ResStr(IDS_AG_NONE);
+		str.LoadString(IDS_AG_NONE);
 	}
 	return str;
 }
@@ -1347,7 +1347,7 @@ CString CPPageAccelTbl::MakeMouseButtonLabel(UINT mouse)
 	switch (mouse) {
 		case wmcmd::NONE:
 		default:
-			ret = ResStr(IDS_AG_NONE);
+			ret.LoadString(IDS_AG_NONE);
 			break;
 		case wmcmd::LDOWN:
 			ret = _T("Left Down");

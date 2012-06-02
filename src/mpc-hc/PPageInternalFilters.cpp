@@ -248,7 +248,7 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 
 	static CString m_strTipText; // static string
 
-	m_strTipText = ResStr(f->nHintID);
+	m_strTipText.LoadString(f->nHintID);
 
 	pTTT->lpszText = m_strTipText.GetBuffer();
 

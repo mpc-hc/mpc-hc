@@ -132,7 +132,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 	}
 
 	if (!LoadType(ext, m_type)) {
-		m_type = ResStr(IDS_AG_NOT_KNOWN);
+		m_type.LoadString(IDS_AG_NOT_KNOWN);
 	}
 
 	CComVariant vt;

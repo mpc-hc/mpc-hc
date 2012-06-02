@@ -625,13 +625,13 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
 	CString statestring;
 	switch (fs) {
 		case State_Stopped:
-			statestring = ResStr(IDS_CONTROLS_STOPPED);
+			statestring.LoadString(IDS_CONTROLS_STOPPED);
 			break;
 		case State_Paused:
-			statestring = ResStr(IDS_CONTROLS_PAUSED);
+			statestring.LoadString(IDS_CONTROLS_PAUSED);
 			break;
 		case State_Running:
-			statestring = ResStr(IDS_CONTROLS_PLAYING);
+			statestring.LoadString(IDS_CONTROLS_PLAYING);
 			break;
 		default:
 			statestring = _T("n/a");
@@ -694,13 +694,13 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
 	CString statestring;
 	switch (fs) {
 		case State_Stopped:
-			statestring = ResStr(IDS_CONTROLS_STOPPED);
+			statestring.LoadString(IDS_CONTROLS_STOPPED);
 			break;
 		case State_Paused:
-			statestring = ResStr(IDS_CONTROLS_PAUSED);
+			statestring.LoadString(IDS_CONTROLS_PAUSED);
 			break;
 		case State_Running:
-			statestring = ResStr(IDS_CONTROLS_PLAYING);
+			statestring.LoadString(IDS_CONTROLS_PLAYING);
 			break;
 		default:
 			statestring = _T("n/a");
@@ -769,13 +769,13 @@ bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
 	OAFilterState fs = m_pMainFrame->GetMediaState();
 	switch (fs) {
 		case State_Stopped:
-			status = ResStr(IDS_CONTROLS_STOPPED);
+			status.LoadString(IDS_CONTROLS_STOPPED);
 			break;
 		case State_Paused:
-			status = ResStr(IDS_CONTROLS_PAUSED);
+			status.LoadString(IDS_CONTROLS_PAUSED);
 			break;
 		case State_Running:
-			status = ResStr(IDS_CONTROLS_PLAYING);
+			status.LoadString(IDS_CONTROLS_PLAYING);
 			break;
 		default:
 			status = _T("n/a");

@@ -108,7 +108,8 @@ void CPPageSubMisc::OnBnClickedButton1()
 
 void CPPageSubMisc::OnBnClickedButton2()
 {
-	CString ISDb, ver, msg, str;
+	CString ISDb, ver, str;
+	UINT msg;
 
 	m_ISDbCombo.GetWindowText(ISDb);
 	ISDb.TrimRight('/');
@@ -119,15 +120,15 @@ void CPPageSubMisc::OnBnClickedButton2()
 	UINT nIconType = MB_ICONEXCLAMATION;
 
 	if (wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver) {
-		msg = ResStr(IDS_PPSDB_URLCORRECT);
+		msg = IDS_PPSDB_URLCORRECT;
 		nIconType = MB_ICONINFORMATION;
 	} else if (str.Find(_T("ISDb v")) == 0) {
-		msg = ResStr(IDS_PPSDB_PROTOCOLERR);
+		msg = IDS_PPSDB_PROTOCOLERR;
 	} else {
-		msg = ResStr(IDS_PPSDB_BADURL);
+		msg = IDS_PPSDB_BADURL;
 	}
 
-	AfxMessageBox(msg, nIconType | MB_OK);
+	AfxMessageBox(msg, nIconType | MB_OK, 0);
 }
 
 void CPPageSubMisc::OnUpdateButton2(CCmdUI* pCmdUI)

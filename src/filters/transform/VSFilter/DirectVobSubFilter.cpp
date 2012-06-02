@@ -832,18 +832,18 @@ STDMETHODIMP CDirectVobSubFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 
 		CStringW str;
 		if (i == -1) {
-			str = ResStr(IDS_M_SHOWSUBTITLES);
+			str.LoadString(IDS_M_SHOWSUBTITLES);
 		} else if (i >= 0 && i < nLangs) {
 			get_LanguageName(i, ppszName);
 		} else if (i == nLangs) {
-			str = ResStr(IDS_M_HIDESUBTITLES);
+			str.LoadString(IDS_M_HIDESUBTITLES);
 		} else if (i == nLangs+1) {
-			str = ResStr(IDS_M_ORIGINALPICTURE);
+			str.LoadString(IDS_M_ORIGINALPICTURE);
 			if (pdwGroup) {
 				(*pdwGroup)++;
 			}
 		} else if (i == nLangs+2) {
-			str = ResStr(IDS_M_FLIPPEDPICTURE);
+			str.LoadString(IDS_M_FLIPPEDPICTURE);
 			if (pdwGroup) {
 				(*pdwGroup)++;
 			}
