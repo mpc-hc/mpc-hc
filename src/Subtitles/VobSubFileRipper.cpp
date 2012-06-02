@@ -1221,7 +1221,8 @@ void VSFRipperData::Copy(VSFRipperData& rd)
 			for (size_t j = 0; j < _countof(dst.angles); j++) {
 				dst.angles[j].Copy(src.angles[j]);
 			}
-			dst.iSelAngle = src.iSelAngle;			memcpy(dst.pal, src.pal, sizeof(src.pal));
+			dst.iSelAngle = src.iSelAngle;
+			memcpy(dst.pal, src.pal, sizeof(src.pal));
 			memcpy(dst.ids, src.ids, sizeof(src.ids));
 		}
 	}

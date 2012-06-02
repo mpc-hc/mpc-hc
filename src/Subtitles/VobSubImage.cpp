@@ -937,7 +937,8 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 	return start;
 }
 
-void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2){
+void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2)
+{
 	size_t len = o.pa.GetCount();
 	if (len < 4) {
 		return;
