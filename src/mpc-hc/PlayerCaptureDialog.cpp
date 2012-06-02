@@ -227,7 +227,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 		}
 
 		if (iSize == sizeof(VIDEO_STREAM_CONFIG_CAPS)) {
-			for (int i = 0, cnt = tfa.GetCount(); i < cnt; i++) {
+			for (size_t i = 0, cnt = tfa.GetCount(); i < cnt; i++) {
 				if (tfa[i]->GetCount() != 1) {
 					continue;
 				}
@@ -258,7 +258,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 				BITMAPINFOHEADER bihCur;
 				ExtractBIH(&pfe->mt, &bihCur);
 
-				for (int j = 0; j < _countof(presets); j++) {
+				for (size_t j = 0; j < _countof(presets); j++) {
 					if (presets[j].cx == bihCur.biWidth
 							&& presets[j].cy == abs(bihCur.biHeight)
 							|| presets[j].cx < pcaps->MinOutputSize.cx
@@ -339,7 +339,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 		}
 	}
 
-	for (int i = 0; i < (int)tfa.GetCount(); i++) {
+	for (size_t i = 0, cnt = tfa.GetCount(); i < cnt; i++) {
 		CFormat<T>* pf = tfa[i];
 		int j = type.AddString(pf->name);
 		type.SetItemData(j, (DWORD_PTR)pf);
@@ -358,7 +358,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 		return;
 	}
 
-	for (int i = 0; i < (int)pf->GetCount(); i++) {
+	for (size_t i = 0, cnt = pf->GetCount(); i < cnt; i++) {
 		CFormatElem<T>* pfe = pf->GetAt(i);
 		int j = dim.AddString(tfa.MakeDimensionName(pfe));
 		dim.SetItemData(j, (DWORD_PTR)pfe);

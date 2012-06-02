@@ -1537,7 +1537,7 @@ BOOL CPPageAccelTbl::OnApply()
 	if (s.hAccel) {
 		DestroyAcceleratorTable(s.hAccel);
 	}
-	s.hAccel = CreateAcceleratorTable(pAccel.GetData(), pAccel.GetCount());
+	s.hAccel = CreateAcceleratorTable(pAccel.GetData(), (int)pAccel.GetCount());
 
 	GetParentFrame()->m_hAccelTable = s.hAccel;
 

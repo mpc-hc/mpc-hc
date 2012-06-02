@@ -1222,7 +1222,7 @@ void CAppSettings::UpdateData(bool fSave)
 		for (int i = 0; pos; i++) {
 			pAccel[i] = wmcmds.GetNext(pos);
 		}
-		hAccel = CreateAcceleratorTable(pAccel.GetData(), pAccel.GetCount());
+		hAccel = CreateAcceleratorTable(pAccel.GetData(), (int)pAccel.GetCount());
 
 		strWinLircAddr = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_WINLIRCADDR, _T("127.0.0.1:8765"));
 		fWinLirc = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WINLIRC, 0);

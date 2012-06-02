@@ -712,9 +712,9 @@ HRESULT CBlock::Write(IStream* pStream)
 		while (pos) {
 			CBinary* b = BlockData.GetNext(pos);
 			if (pos) {
-				int len = b->GetCount();
+				INT_PTR len = b->GetCount();
 				while (len >= 0) {
-					n = min(len, 255);
+					n = (BYTE)min(len, 255);
 					pStream->Write(&n, 1, NULL);
 					len -= 255;
 				}

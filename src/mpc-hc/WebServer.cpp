@@ -280,7 +280,7 @@ bool CWebServer::LoadPage(UINT resid, CStringA& str, CString path)
 			fseek(f, 0, 2);
 			char* buff = str.GetBufferSetLength(ftell(f));
 			fseek(f, 0, 0);
-			int len = fread(buff, 1, str.GetLength(), f);
+			int len = (int)fread(buff, 1, str.GetLength(), f);
 			fclose(f);
 			return len == str.GetLength();
 		}
@@ -492,9 +492,11 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 			fseek(f, 0, 2);
 			CHAR* s = body.GetBufferSetLength(ftell(f));
 			fseek(f, 0, 0);
-			int len = fread(s, 1, body.GetLength(), f);
+			int len = (int)fread(s, 1, body.GetLength(), f);
 			ASSERT(len == body.GetLength());
+#ifndef _DEBUG
 			UNREFERENCED_PARAMETER(len);
+#endif
 			fclose(f);
 			DeleteFileA(fn);
 

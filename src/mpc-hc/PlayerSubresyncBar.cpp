@@ -125,9 +125,9 @@ void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
 		_ASSERT(pVSF->m_iLang >= 0);
 		CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_iLang].subpos;
 
-		for (int i = 0, j = sp.GetCount(); i < j; i++) {
+		for (size_t i = 0, j = sp.GetCount(); i < j; i++) {
 			CString str;
-			str.Format(_T("%d,%d,%d,%d"), sp[i].vobid, sp[i].cellid, sp[i].fForced, i);
+			str.Format(_T("%d,%d,%d,%Iu"), sp[i].vobid, sp[i].cellid, sp[i].fForced, i);
 			m_sts.Add(TToW(str), false, (int)sp[i].start, (int)sp[i].stop);
 		}
 
@@ -173,7 +173,7 @@ void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
 
 	m_subtimes.SetCount(m_sts.GetCount());
 
-	for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+	for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
 		m_subtimes[i].orgstart = m_sts[i].start;
 		m_subtimes[i].orgend = m_sts[i].end;
 	}

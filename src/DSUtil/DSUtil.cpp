@@ -53,7 +53,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 	f.WriteString(s);
 
 	if (size == sizeof(VIDEO_STREAM_CONFIG_CAPS)) {
-		for (ptrdiff_t i = 0; i < cnt; i++) {
+		for (int i = 0; i < cnt; i++) {
 			AM_MEDIA_TYPE* pmt = NULL;
 
 			VIDEO_STREAM_CONFIG_CAPS caps;
