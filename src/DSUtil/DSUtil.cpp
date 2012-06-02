@@ -766,17 +766,17 @@ void CStringToBin(CString str, CAtlArray<BYTE>& data)
 	str.MakeUpper();
 	for (size_t i = 0, j = str.GetLength(); i < j; i++) {
 		TCHAR c = str[i];
-		if (c >= '0' && c <= '9') {
+		if (c >= _T('0') && c <= _T('9')) {
 			if (!(i&1)) {
-				b = ((char(c-'0')<<4)&0xf0)|(b&0x0f);
+				b = ((char(c-_T('0'))<<4)&0xf0)|(b&0x0f);
 			} else {
-				b = (char(c-'0')&0x0f)|(b&0xf0);
+				b = (char(c-_T('0'))&0x0f)|(b&0xf0);
 			}
-		} else if (c >= 'A' && c <= 'F') {
+		} else if (c >= _T('A') && c <= _T('F')) {
 			if (!(i&1)) {
-				b = ((char(c-'A'+10)<<4)&0xf0)|(b&0x0f);
+				b = ((char(c-_T('A')+10)<<4)&0xf0)|(b&0x0f);
 			} else {
-				b = (char(c-'A'+10)&0x0f)|(b&0xf0);
+				b = (char(c-_T('A')+10)&0x0f)|(b&0xf0);
 			}
 		} else {
 			break;
@@ -789,23 +789,21 @@ void CStringToBin(CString str, CAtlArray<BYTE>& data)
 	}
 }
 
-CString BinToCString(BYTE* ptr, int len)
+CString BinToCString(const BYTE* ptr, size_t len)
 {
 	CString ret;
+	TCHAR high, low;
 
 	while (len-- > 0) {
-		TCHAR high, low;
-		high = (*ptr>>4) >= 10 ? (*ptr>>4)-10 + 'A' : (*ptr>>4) + '0';
-		low = (*ptr&0xf) >= 10 ? (*ptr&0xf)-10 + 'A' : (*ptr&0xf) + '0';
+		high = (*ptr>>4) >= 10 ? (*ptr>>4)-10 + _T('A') : (*ptr>>4) + _T('0');
+		low = (*ptr&0xf) >= 10 ? (*ptr&0xf)-10 + _T('A') : (*ptr&0xf) + _T('0');
 
-		CString str;
-		str.Format(_T("%c%c"), high, low);
-		ret += str;
+		ret.AppendFormat(_T("%c%c"), high, low);
 
 		ptr++;
 	}
 
-	return(ret);
+	return ret;
 }
 
 static void FindFiles(CString fn, CAtlList<CString>& files)
