@@ -515,7 +515,7 @@ DWORD CVobSubFileRipper::ThreadProc()
 
 static int SubPosSortProc(const void* e1, const void* e2)
 {
-	return((int)(((CVobSubFile::SubPos*)e1)->start - ((CVobSubFile::SubPos*)e2)->start));
+	return ((int)(((CVobSubFile::SubPos*)e1)->start - ((CVobSubFile::SubPos*)e2)->start));
 }
 
 bool CVobSubFileRipper::Create()

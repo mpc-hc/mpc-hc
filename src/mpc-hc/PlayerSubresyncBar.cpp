@@ -494,7 +494,7 @@ bool CPlayerSubresyncBar::ModStart(int iItem, int t, bool fReset)
 		SetCheck(iItem, !fReset, fEndMod);
 	}
 
-	return(fRet);
+	return fRet;
 }
 
 bool CPlayerSubresyncBar::ModEnd(int iItem, int t, bool fReset)
@@ -520,7 +520,7 @@ bool CPlayerSubresyncBar::ModEnd(int iItem, int t, bool fReset)
 		SetCheck(iItem, fStartMod, !fReset);
 	}
 
-	return(fRet);
+	return fRet;
 }
 
 void CPlayerSubresyncBar::FormatTime(int iItem, TCHAR* buff, size_t buffLen, int time, bool fEnd)
@@ -748,7 +748,7 @@ void CPlayerSubresyncBar::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 
 static int uintcomp(const void* i1, const void* i2)
 {
-	return(*((UINT*)i2) - *((UINT*)i1));
+	return (*((UINT*)i2) - *((UINT*)i1));
 }
 
 void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)

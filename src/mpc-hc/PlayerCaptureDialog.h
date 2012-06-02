@@ -60,7 +60,7 @@ public:
 	CFormat<T>* Find(CString name, bool fCreate = false) {
 		for (size_t i = 0; i < GetCount(); ++i) {
 			if (GetAt(i)->name == name) {
-				return(GetAt(i));
+				return GetAt(i);
 			}
 		}
 
@@ -68,10 +68,10 @@ public:
 			CAutoPtr<CFormat<T> > pf(DNew CFormat<T>(name));
 			CFormat<T>* tmp = pf;
 			Add(pf);
-			return(tmp);
+			return tmp;
 		}
 
-		return(NULL);
+		return NULL;
 	}
 
 	bool FindFormat(AM_MEDIA_TYPE* pmt, CFormat<T>** ppf) {
@@ -166,7 +166,7 @@ public:
 		CString str(_T("Default"));
 
 		if (!pmt) {
-			return(str);
+			return str;
 		}
 
 		BITMAPINFOHEADER* bih = (pmt->formattype == FORMAT_VideoInfo)
@@ -188,7 +188,7 @@ public:
 						   (TCHAR)((pmt->subtype.Data1>>16)&0xff), (TCHAR)((pmt->subtype.Data1>>24)&0xff));
 			}
 
-			return(str);
+			return str;
 		}
 
 		switch (bih->biCompression) {
@@ -217,14 +217,14 @@ public:
 				break;
 		}
 
-		return(str);
+		return str;
 	}
 
 	CString MakeDimensionName(CVidFormatElem* pfe) {
 		CString str(_T("Default"));
 
 		if (!pfe) {
-			return(str);
+			return str;
 		}
 
 		BITMAPINFOHEADER* bih = (pfe->mt.formattype == FORMAT_VideoInfo)
@@ -234,7 +234,7 @@ public:
 								: NULL;
 
 		if (bih == NULL) {
-			return(str);
+			return str;
 		}
 
 		str.Format(_T("%dx%d %.2f"), bih->biWidth, bih->biHeight, (float)10000000/((VIDEOINFOHEADER*)pfe->mt.pbFormat)->AvgTimePerFrame);
@@ -246,7 +246,7 @@ public:
 			str += str2;
 		}
 
-		return(str);
+		return str;
 	}
 };
 
@@ -260,7 +260,7 @@ public:
 		CString str(_T("Unknown"));
 
 		if (!pmt) {
-			return(str);
+			return str;
 		}
 
 		WAVEFORMATEX* wfe = (pmt->formattype == FORMAT_WaveFormatEx)
@@ -276,7 +276,7 @@ public:
 				str.Format(_T("0x%04x"), pmt->subtype.Data1);
 			}
 
-			return(str);
+			return str;
 		}
 
 		switch (wfe->wFormatTag) {
@@ -288,14 +288,14 @@ public:
 				break;
 		}
 
-		return(str);
+		return str;
 	}
 
 	CString MakeDimensionName(CAudFormatElem* pfe) {
 		CString str(_T("Unknown"));
 
 		if (!pfe) {
-			return(str);
+			return str;
 		}
 
 		WAVEFORMATEX* wfe = (pfe->mt.formattype == FORMAT_WaveFormatEx)
@@ -303,7 +303,7 @@ public:
 							: NULL;
 
 		if (!wfe) {
-			return(str);
+			return str;
 		}
 
 		str.Empty();
@@ -331,7 +331,7 @@ public:
 		str2.Format(_T("%3dkbps "), wfe->nAvgBytesPerSec*8/1000);
 		str += str2;
 
-		return(str);
+		return str;
 	}
 };
 

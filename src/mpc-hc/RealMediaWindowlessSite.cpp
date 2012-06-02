@@ -619,7 +619,7 @@ bool CRealMediaWindowlessSite::GetBltService(IRMAVideoSurface** ppBltService)
 		}
 	}
 
-	return(fRet);
+	return fRet;
 }
 
 void CRealMediaWindowlessSite::SetBltService(IRMAVideoSurface* pBltService)

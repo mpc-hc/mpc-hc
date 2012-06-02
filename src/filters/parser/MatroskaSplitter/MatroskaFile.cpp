@@ -286,7 +286,7 @@ UINT64 Segment::GetMasterTrack()
 ChapterAtom* ChapterAtom::FindChapterAtom(UINT64 id)
 {
 	if (ChapterUID == id) {
-		return(this);
+		return this;
 	}
 
 	POSITION pos = ChapterAtoms.GetHeadPosition();
@@ -297,7 +297,7 @@ ChapterAtom* ChapterAtom::FindChapterAtom(UINT64 id)
 		}
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 ChapterAtom* Segment::FindChapterAtom(UINT64 id, int nEditionEntry)
@@ -316,7 +316,7 @@ ChapterAtom* Segment::FindChapterAtom(UINT64 id, int nEditionEntry)
 		}
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 HRESULT Info::Parse(CMatroskaNode* pMN0)
@@ -1106,7 +1106,7 @@ HRESULT CANSI::Parse(CMatroskaNode* pMN)
 		*this += c;
 	}
 
-	return(len == -1 ? S_OK : E_FAIL);
+	return (len == -1 ? S_OK : E_FAIL);
 }
 
 HRESULT CUTF8::Parse(CMatroskaNode* pMN)
@@ -1445,7 +1445,7 @@ bool CMatroskaNode::Find(DWORD id, bool fSearch)
 		}
 	}
 
-	return(m_id == id);
+	return (m_id == id);
 }
 
 void CMatroskaNode::SeekTo(MatroskaReader::QWORD pos)
@@ -1502,7 +1502,7 @@ CAutoPtr<CMatroskaNode> CMatroskaNode::Copy()
 	pNewNode->m_len.Set(m_len);
 	pNewNode->m_filepos = m_filepos;
 	pNewNode->m_start = m_start;
-	return(pNewNode);
+	return pNewNode;
 }
 
 CAutoPtr<CMatroskaNode> CMatroskaNode::GetFirstBlock()
@@ -1565,7 +1565,7 @@ bool CMatroskaNode::Resync()
 				case 0x1043A770: // Chapters
 				case 0x1254C367: // Tags
 					SeekTo(GetPos()-4);
-					return(SUCCEEDED(Parse()));
+					return SUCCEEDED(Parse());
 				default:
 					SeekTo(GetPos()-3);
 					break;

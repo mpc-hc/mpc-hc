@@ -652,7 +652,7 @@ bool CFLICStream::_colorchunk(bool f64)
 		}
 	}
 
-	return(nColorsUpdated == 256);
+	return (nColorsUpdated == 256);
 }
 
 void CFLICStream::_brunchunk()

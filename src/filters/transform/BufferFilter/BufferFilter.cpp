@@ -130,19 +130,19 @@ STDMETHODIMP CBufferFilter::SetBuffers(int nBuffers)
 
 STDMETHODIMP_(int) CBufferFilter::GetBuffers()
 {
-	return(m_nSamplesToBuffer);
+	return m_nSamplesToBuffer;
 }
 
 STDMETHODIMP_(int) CBufferFilter::GetFreeBuffers()
 {
 	CBufferFilterOutputPin* pPin = static_cast<CBufferFilterOutputPin*>(m_pOutput);
-	return(pPin && pPin->m_pOutputQueue ? (m_nSamplesToBuffer - pPin->m_pOutputQueue->GetQueueCount()) : 0);
+	return (pPin && pPin->m_pOutputQueue ? (m_nSamplesToBuffer - pPin->m_pOutputQueue->GetQueueCount()) : 0);
 }
 
 STDMETHODIMP CBufferFilter::SetPriority(DWORD dwPriority)
 {
 	CBufferFilterOutputPin* pPin = static_cast<CBufferFilterOutputPin*>(m_pOutput);
-	return(pPin && pPin->m_pOutputQueue ? (pPin->m_pOutputQueue->SetPriority(dwPriority) ? S_OK : E_FAIL) : E_UNEXPECTED);
+	return (pPin && pPin->m_pOutputQueue ? (pPin->m_pOutputQueue->SetPriority(dwPriority) ? S_OK : E_FAIL) : E_UNEXPECTED);
 }
 
 //
@@ -269,7 +269,7 @@ HRESULT CBufferFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 		return hr;
 	}
 
-	return(pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
+	return (pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
 		   ? E_FAIL
 		   : NOERROR);
 }

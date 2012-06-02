@@ -191,7 +191,7 @@ bool CWord::CreateOpaqueBox()
 
 	m_pOpaqueBox = DNew CPolygon(style, str, 0, 0, 0, 1.0/8, 1.0/8, 0);
 
-	return(!!m_pOpaqueBox);
+	return !!m_pOpaqueBox;
 }
 
 void CWord::Transform_C( CPoint &org )
@@ -430,7 +430,7 @@ CWord* CText::Copy()
 
 bool CText::Append(CWord* w)
 {
-	return(dynamic_cast<CText*>(w) && CWord::Append(w));
+	return (dynamic_cast<CText*>(w) && CWord::Append(w));
 }
 
 bool CText::CreatePath()
@@ -504,7 +504,7 @@ CPolygon::~CPolygon()
 
 CWord* CPolygon::Copy()
 {
-	return(DNew CPolygon(*this));
+	return (DNew CPolygon(*this));
 }
 
 bool CPolygon::Append(CWord* w)
@@ -525,12 +525,12 @@ bool CPolygon::GetLONG(CStringW& str, LONG& ret)
 	LPWSTR s = (LPWSTR)(LPCWSTR)str, e = s;
 	ret = wcstol(str, &e, 10);
 	str.Delete(0,int(e-s));
-	return(e > s);
+	return (e > s);
 }
 
 bool CPolygon::GetPOINT(CStringW& str, POINT& ret)
 {
-	return(GetLONG(str, ret.x) && GetLONG(str, ret.y));
+	return (GetLONG(str, ret.x) && GetLONG(str, ret.y));
 }
 
 bool CPolygon::ParseStr()
@@ -876,7 +876,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 		CWord* w = GetNext(pos);
 
 		if (w->m_fLineBreak) {
-			return(bbox);    // should not happen since this class is just a line of text without any breaks
+			return bbox;    // should not happen since this class is just a line of text without any breaks
 		}
 
 		if (w->m_style.shadowDepthX != 0 || w->m_style.shadowDepthY != 0) {
@@ -904,7 +904,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 		p.x += w->m_width;
 	}
 
-	return(bbox);
+	return bbox;
 }
 
 CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha)
@@ -916,7 +916,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 		CWord* w = GetNext(pos);
 
 		if (w->m_fLineBreak) {
-			return(bbox);    // should not happen since this class is just a line of text without any breaks
+			return bbox;    // should not happen since this class is just a line of text without any breaks
 		}
 
 		if (w->m_style.outlineWidthX+w->m_style.outlineWidthY > 0 && !(w->m_ktype == 2 && time < w->m_kstart)) {
@@ -941,7 +941,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 		p.x += w->m_width;
 	}
 
-	return(bbox);
+	return bbox;
 }
 
 CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha)
@@ -953,7 +953,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 		CWord* w = GetNext(pos);
 
 		if (w->m_fLineBreak) {
-			return(bbox);    // should not happen since this class is just a line of text without any breaks
+			return bbox;    // should not happen since this class is just a line of text without any breaks
 		}
 
 		int x = p.x;
@@ -1020,7 +1020,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 		p.x += w->m_width;
 	}
 
-	return(bbox);
+	return bbox;
 }
 
 
@@ -1078,7 +1078,7 @@ int CSubtitle::GetFullWidth()
 		width += m_words.GetNext(pos)->m_width;
 	}
 
-	return(width);
+	return width;
 }
 
 int CSubtitle::GetFullLineWidth(POSITION pos)
@@ -1093,7 +1093,7 @@ int CSubtitle::GetFullLineWidth(POSITION pos)
 		width += w->m_width;
 	}
 
-	return(width);
+	return width;
 }
 
 int CSubtitle::GetWrapWidth(POSITION pos, int maxwidth)
@@ -1127,18 +1127,18 @@ int CSubtitle::GetWrapWidth(POSITION pos, int maxwidth)
 		maxwidth = INT_MAX;
 	}
 
-	return(maxwidth);
+	return maxwidth;
 }
 
 CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
 {
 	if (pos == NULL) {
-		return(NULL);
+		return NULL;
 	}
 
 	CLine* ret = DNew CLine();
 	if (!ret) {
-		return(NULL);
+		return NULL;
 	}
 
 	ret->m_width = ret->m_ascent = ret->m_descent = ret->m_borderX = ret->m_borderY = 0;
@@ -1172,7 +1172,7 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
 
 			ret->Compact();
 
-			return(ret);
+			return ret;
 		}
 
 		fEmptyLine = false;
@@ -1214,7 +1214,7 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
 
 	ret->Compact();
 
-	return(ret);
+	return ret;
 }
 
 void CSubtitle::CreateClippers(CSize size)
@@ -1406,7 +1406,7 @@ CRect CScreenLayoutAllocator::AllocRect(CSubtitle* s, int segment, int entry, in
 	while (pos) {
 		SubRect& sr = m_subrects.GetNext(pos);
 		if (sr.segment == segment && sr.entry == entry) {
-			return(sr.r + CRect(0, -s->m_topborder, 0, -s->m_bottomborder));
+			return (sr.r + CRect(0, -s->m_topborder, 0, -s->m_bottomborder));
 		}
 	}
 
@@ -1444,7 +1444,7 @@ CRect CScreenLayoutAllocator::AllocRect(CSubtitle* s, int segment, int entry, in
 	sr.layer = layer;
 	m_subrects.AddTail(sr);
 
-	return(sr.r + CRect(0, -s->m_topborder, 0, -s->m_bottomborder));
+	return (sr.r + CRect(0, -s->m_topborder, 0, -s->m_bottomborder));
 }
 
 // CRenderedTextSubtitle
@@ -2151,7 +2151,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 		}
 	}
 
-	//	return(nUnrecognizedTags < nTags);
+	//	return (nUnrecognizedTags < nTags);
 	return true; // there are ppl keeping coments inside {}, lets make them happy now
 }
 
@@ -2276,7 +2276,7 @@ double CRenderedTextSubtitle::CalcAnimation(double dst, double src, bool fAnimat
 		//		else dst = dst;
 	}
 
-	return(dst);
+	return dst;
 }
 
 CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
@@ -2287,13 +2287,13 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 			delete sub;
 			sub = NULL;
 		} else {
-			return(sub);
+			return sub;
 		}
 	}
 
 	sub = DNew CSubtitle();
 	if (!sub) {
-		return(NULL);
+		return NULL;
 	}
 
 	CStringW str = GetStrW(entry, true);
@@ -2451,7 +2451,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
 	m_subtitleCache[entry] = sub;
 
-	return(sub);
+	return sub;
 }
 
 //
@@ -2479,7 +2479,7 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetStartPosition(REFERENCE_TIME r
 		iSegment = 0;
 	}
 
-	return(GetNext((POSITION)iSegment));
+	return GetNext((POSITION)iSegment);
 }
 
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
@@ -2492,17 +2492,17 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 		stss = GetSegment(iSegment);
 	}
 
-	return(stss ? (POSITION)(iSegment+1) : NULL);
+	return (stss ? (POSITION)(iSegment+1) : NULL);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStart(POSITION pos, double fps)
 {
-	return(10000i64 * TranslateSegmentStart((int)pos-1, fps));
+	return (10000i64 * TranslateSegmentStart((int)pos-1, fps));
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, double fps)
 {
-	return(10000i64 * TranslateSegmentEnd((int)pos-1, fps));
+	return (10000i64 * TranslateSegmentEnd((int)pos-1, fps));
 }
 
 STDMETHODIMP_(bool) CRenderedTextSubtitle::IsAnimated(POSITION pos)
@@ -2520,7 +2520,7 @@ static int lscomp(const void* ls1, const void* ls2)
 	if (!ret) {
 		ret = ((LSub*)ls1)->readorder - ((LSub*)ls2)->readorder;
 	}
-	return(ret);
+	return ret;
 }
 
 STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)

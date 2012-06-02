@@ -77,7 +77,7 @@ int CJpegEncoder::GetBitWidth(short q)
 	for (; !(q&0x4000); q <<= 1, width--) {
 		;
 	}
-	return(width);
+	return width;
 }
 
 ///////

@@ -58,7 +58,7 @@ LRESULT CCmdUIDialog::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		SendMessage(WM_KICKIDLE);
 	}
 
-	return(ret);
+	return ret;
 }
 
 BEGIN_MESSAGE_MAP(CCmdUIDialog, CDialog)
@@ -180,7 +180,7 @@ LRESULT CCmdUIPropertyPage::DefWindowProc(UINT message, WPARAM wParam, LPARAM lP
 		SendMessage(WM_KICKIDLE);
 	}
 
-	return(ret);
+	return ret;
 }
 
 BEGIN_MESSAGE_MAP(CCmdUIPropertyPage, CPropertyPage)

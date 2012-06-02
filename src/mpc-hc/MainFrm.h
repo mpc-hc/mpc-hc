@@ -365,22 +365,22 @@ public:
 	CComPtr<ISyncClock> m_pSyncClock;
 
 	bool IsFrameLessWindow() const {
-		return(m_fFullScreen || AfxGetAppSettings().iCaptionMenuMode==MODE_BORDERLESS);
+		return (m_fFullScreen || AfxGetAppSettings().iCaptionMenuMode==MODE_BORDERLESS);
 	}
 	bool IsCaptionHidden() const {//If no caption, there is no menu bar. But if is no menu bar, then the caption can be.
-		return(!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode>MODE_HIDEMENU);//!=MODE_SHOWCAPTIONMENU && !=MODE_HIDEMENU
+		return (!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode>MODE_HIDEMENU);//!=MODE_SHOWCAPTIONMENU && !=MODE_HIDEMENU
 	}
 	bool IsMenuHidden() const {
-		return(!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode!=MODE_SHOWCAPTIONMENU);
+		return (!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode!=MODE_SHOWCAPTIONMENU);
 	}
 	bool IsSomethingLoaded() const {
-		return((m_iMediaLoadState == MLS_LOADING || m_iMediaLoadState == MLS_LOADED) && !IsD3DFullScreenMode());
+		return ((m_iMediaLoadState == MLS_LOADING || m_iMediaLoadState == MLS_LOADED) && !IsD3DFullScreenMode());
 	}
 	bool IsPlaylistEmpty() {
-		return(m_wndPlaylistBar.GetCount() == 0);
+		return (m_wndPlaylistBar.GetCount() == 0);
 	}
 	bool IsInteractiveVideo() const {
-		return(AfxGetAppSettings().fIntRealMedia && m_fRealMediaGraph || m_fShockwaveGraph);
+		return (AfxGetAppSettings().fIntRealMedia && m_fRealMediaGraph || m_fShockwaveGraph);
 	}
 	bool IsD3DFullScreenMode() const;
 

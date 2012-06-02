@@ -45,7 +45,7 @@ public:
 public:
 	void SetVideoRect(CRect r = CRect(0,0,0,0));
 	CRect GetVideoRect() const {
-		return(m_vrect);
+		return m_vrect;
 	}
 
 	void LoadLogo();

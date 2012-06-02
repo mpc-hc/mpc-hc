@@ -343,7 +343,7 @@ HRESULT CBaseSplitterOutputPin::DeliverBeginFlush()
 	if (S_OK != hr) {
 		m_eEndFlush.Set();
 	}
-	return(hr);
+	return hr;
 }
 
 HRESULT CBaseSplitterOutputPin::DeliverEndFlush()

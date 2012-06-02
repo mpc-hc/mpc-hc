@@ -108,7 +108,7 @@ CString CPnSPresetsDlg::ParamsToString(CString label, double PosX, double PosY, 
 {
 	CString str;
 	str.Format(_T("%s,%.3f,%.3f,%.3f,%.3f"), label, PosX, PosY, ZoomX, ZoomY);
-	return(str);
+	return str;
 }
 
 BEGIN_MESSAGE_MAP(CPnSPresetsDlg, CCmdUIDialog)

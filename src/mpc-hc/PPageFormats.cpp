@@ -99,7 +99,7 @@ int CPPageFormats::GetChecked(int iItem)
 	lvi.iSubItem = 0;
 	lvi.mask = LVIF_IMAGE;
 	m_list.GetItem(&lvi);
-	return(lvi.iImage);
+	return lvi.iImage;
 }
 
 void CPPageFormats::SetChecked(int iItem, int iChecked)

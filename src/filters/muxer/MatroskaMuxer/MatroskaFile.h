@@ -64,7 +64,7 @@ namespace MatroskaWriter
 		CBinary(DWORD id) : CID(id) {}
 		CBinary& operator = (const CBinary& b) {
 			Copy(b);
-			return(*this);
+			return *this;
 		}
 		operator BYTE*() {
 			return (BYTE*)GetData();
@@ -72,9 +72,9 @@ namespace MatroskaWriter
 		CBinary& Set(CStringA str) {
 			SetCount(str.GetLength()+1);
 			strcpy_s((char*)GetData(), str.GetLength() + 1, str);
-			return(*this);
+			return *this;
 		}
-		//		CBinary& Set(CStringA str) {SetCount(str.GetLength()); memcpy((char*)GetData(), str, str.GetLength()); return(*this);}
+		//		CBinary& Set(CStringA str) {SetCount(str.GetLength()); memcpy((char*)GetData(), str, str.GetLength()); return *this;}
 		QWORD Size(bool fWithHeader = true);
 		HRESULT Write(IStream* pStream);
 	};
@@ -85,7 +85,7 @@ namespace MatroskaWriter
 		CANSI(DWORD id) : CID(id) {}
 		CANSI& Set(CStringA str) {
 			CStringA::operator = (str);
-			return(*this);
+			return *this;
 		}
 		QWORD Size(bool fWithHeader = true);
 		HRESULT Write(IStream* pStream);
@@ -97,7 +97,7 @@ namespace MatroskaWriter
 		CUTF8(DWORD id) : CID(id) {}
 		CUTF8& Set(CStringW str) {
 			CStringW::operator = (str);
-			return(*this);
+			return *this;
 		}
 		QWORD Size(bool fWithHeader = true);
 		HRESULT Write(IStream* pStream);
@@ -119,7 +119,7 @@ namespace MatroskaWriter
 		BASE& Set(T val) {
 			m_val = val;
 			m_fSet = true;
-			return(*(BASE*)this);
+			return (*(BASE*)this);
 		}
 		void UnSet() {
 			m_fSet = false;

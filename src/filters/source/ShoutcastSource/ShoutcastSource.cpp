@@ -74,7 +74,7 @@ typedef struct {
 		channels = s_channels[(buff[3]>>6)&3];
 		framesize = freq ? ((((version&1)?144:72) * bitrate / freq) + ((buff[2]>>1)&1)) : 0;
 
-		return(sync == 0xfff && layer == 3 && bitrate != 0 && freq != 0);
+		return (sync == 0xfff && layer == 3 && bitrate != 0 && freq != 0);
 	}
 
 } mp3hdr;
@@ -318,13 +318,13 @@ LONGLONG CShoutcastStream::GetBufferFullness()
 		return 0;
 	}
 	LONGLONG ret = 100i64*(m_queue.GetTail().rtStart - m_queue.GetHead().rtStart) / AVGBUFFERLENGTH;
-	return(min(ret, 100));
+	return min(ret, 100);
 }
 
 CString CShoutcastStream::GetTitle()
 {
 	CAutoLock cAutoLock(&m_queue);
-	return(m_title);
+	return m_title;
 }
 
 HRESULT CShoutcastStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
@@ -698,7 +698,7 @@ bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
 	m_metaint = metaint;
 	m_nBytesRead = 0;
 
-	return(FindSync());
+	return FindSync();
 }
 
 bool CShoutcastStream::CShoutcastSocket::FindSync()

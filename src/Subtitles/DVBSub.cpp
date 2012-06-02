@@ -142,7 +142,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
 	return S_FALSE;
 }
 
-#define MARKER if (gb.BitRead(1) != 1) {ASSERT(0); return(E_FAIL);}
+#define MARKER if (gb.BitRead(1) != 1) {ASSERT(0); return E_FAIL;}
 
 HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 {
@@ -188,7 +188,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 			BYTE b = (BYTE)gb.BitRead(4);
 			if (!(fdts && b == 3 || !fdts && b == 2)) {
 				ASSERT(0);
-				return(E_FAIL);
+				return E_FAIL;
 			}
 
 			REFERENCE_TIME	pts = 0;

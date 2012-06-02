@@ -76,7 +76,7 @@ LRESULT CALLBACK CWinHotkeyCtrl::LowLevelKeyboardProc(int nCode, WPARAM wParam, 
 							   wParam == WM_KEYUP || wParam == WM_SYSKEYUP) && sm_pwhcFocus) {
 		sm_pwhcFocus->PostMessage(WM_KEY, ((PKBDLLHOOKSTRUCT)lParam)->vkCode, (wParam & 1));
 	}
-	return(lResult);
+	return lResult;
 }
 
 BOOL CWinHotkeyCtrl::InstallKbHook()
@@ -88,7 +88,7 @@ BOOL CWinHotkeyCtrl::InstallKbHook()
 
 	sm_hhookKb = ::SetWindowsHookEx(WH_KEYBOARD_LL, (HOOKPROC)LowLevelKeyboardProc, GetModuleHandle(NULL), NULL);
 
-	return(sm_hhookKb != NULL);
+	return (sm_hhookKb != NULL);
 }
 
 BOOL CWinHotkeyCtrl::UninstallKbHook()
@@ -99,7 +99,7 @@ BOOL CWinHotkeyCtrl::UninstallKbHook()
 		sm_hhookKb = NULL;
 	}
 	sm_pwhcFocus = NULL;
-	return(fOk);
+	return fOk;
 }
 
 
@@ -113,14 +113,14 @@ void CWinHotkeyCtrl::UpdateText()
 
 DWORD CWinHotkeyCtrl::GetWinHotkey()
 {
-	return(MAKEWORD(m_vkCode, m_fModSet));
+	return MAKEWORD(m_vkCode, m_fModSet);
 }
 
 BOOL CWinHotkeyCtrl::GetWinHotkey(UINT* pvkCode, UINT* pfModifiers)
 {
 	*pvkCode = m_vkCode;
 	*pfModifiers = m_fModSet;
-	return(m_vkCode != 0);
+	return (m_vkCode != 0);
 }
 
 void CWinHotkeyCtrl::SetWinHotkey(DWORD dwHk)
@@ -209,7 +209,7 @@ LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
 		UpdateText();
 	}
 
-	return(0L);
+	return 0L;
 }
 
 LRESULT CWinHotkeyCtrl::OnLeftClick(WPARAM wParam, LPARAM lParam)

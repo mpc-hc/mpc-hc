@@ -439,7 +439,7 @@ STDMETHODIMP CStreamSwitcherInputPin::DynamicDisconnect()
 STDMETHODIMP_(bool) CStreamSwitcherInputPin::IsActive()
 {
 	// TODO: lock onto something here
-	return(this == (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetInputPin());
+	return (this == (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetInputPin());
 }
 
 //
@@ -1033,7 +1033,7 @@ HRESULT CStreamSwitcherOutputPin::DecideBufferSize(IMemAllocator* pAllocator, AL
 		return hr;
 	}
 
-	return(pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
+	return (pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
 		   ? E_FAIL
 		   : NOERROR);
 }
@@ -1221,7 +1221,7 @@ int CStreamSwitcherFilter::GetPinCount()
 {
 	CAutoLock cAutoLock(&m_csPins);
 
-	return(1 + (int)m_pInputs.GetCount());
+	return (1 + (int)m_pInputs.GetCount());
 }
 
 CBasePin* CStreamSwitcherFilter::GetPin(int n)
@@ -1250,7 +1250,7 @@ int CStreamSwitcherFilter::GetConnectedInputPinCount()
 		}
 	}
 
-	return(nConnected);
+	return nConnected;
 }
 
 CStreamSwitcherInputPin* CStreamSwitcherFilter::GetConnectedInputPin(int n)
@@ -1261,7 +1261,7 @@ CStreamSwitcherInputPin* CStreamSwitcherFilter::GetConnectedInputPin(int n)
 			CStreamSwitcherInputPin* pPin = m_pInputs.GetNext(pos);
 			if (pPin->IsConnected()) {
 				if (n == 0) {
-					return(pPin);
+					return pPin;
 				}
 				n--;
 			}

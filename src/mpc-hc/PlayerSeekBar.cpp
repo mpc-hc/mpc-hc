@@ -111,12 +111,12 @@ void CPlayerSeekBar::SetRange(__int64 start, __int64 stop)
 
 __int64 CPlayerSeekBar::GetPos() const
 {
-	return(m_pos);
+	return m_pos;
 }
 
 __int64 CPlayerSeekBar::GetPosReal() const
 {
-	return(m_posreal);
+	return m_posreal;
 }
 
 void CPlayerSeekBar::SetPos(__int64 pos)
@@ -156,7 +156,7 @@ CRect CPlayerSeekBar::GetChannelRect() const
 	GetClientRect(&r);
 	r.DeflateRect(8, 9, 9, 0);
 	r.bottom = r.top + 5;
-	return(r);
+	return r;
 }
 
 CRect CPlayerSeekBar::GetThumbRect() const
@@ -171,7 +171,7 @@ CRect CPlayerSeekBar::GetThumbRect() const
 	r.SetRect(x, y, x, y);
 	r.InflateRect(6, 7, 7, 8);
 
-	return(r);
+	return r;
 }
 
 CRect CPlayerSeekBar::GetInnerThumbRect() const
@@ -181,7 +181,7 @@ CRect CPlayerSeekBar::GetInnerThumbRect() const
 	bool fEnabled = m_fEnabled && m_start < m_stop;
 	r.DeflateRect(3, fEnabled ? 5 : 4, 3, fEnabled ? 5 : 4);
 
-	return(r);
+	return r;
 }
 
 __int64 CPlayerSeekBar::CalculatePosition(CPoint point)

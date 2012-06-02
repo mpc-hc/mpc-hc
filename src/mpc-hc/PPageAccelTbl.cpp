@@ -202,7 +202,7 @@ CString CPPageAccelTbl::MakeAccelModLabel(BYTE fVirt)
 	if (str.IsEmpty()) {
 		str = ResStr(IDS_AG_NONE);
 	}
-	return(str);
+	return str;
 }
 
 CString CPPageAccelTbl::MakeAccelVkeyLabel(WORD key, bool fVirtKey)
@@ -760,7 +760,7 @@ CString CPPageAccelTbl::MakeAccelVkeyLabel(WORD key, bool fVirtKey)
 			break;
 	}
 
-	return(str);
+	return str;
 }
 
 CString CPPageAccelTbl::MakeAccelShortcutLabel(UINT id)
@@ -770,11 +770,11 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(UINT id)
 	while (pos) {
 		ACCEL& a = wmcmds.GetNext(pos);
 		if (a.cmd == id) {
-			return(MakeAccelShortcutLabel(a));
+			return (MakeAccelShortcutLabel(a));
 		}
 	}
 
-	return(_T(""));
+	return _T("");
 }
 
 CString CPPageAccelTbl::MakeAccelShortcutLabel(ACCEL& a)
@@ -1338,7 +1338,7 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(ACCEL& a)
 
 	str.Replace(_T(" + "), _T("+"));
 
-	return(str);
+	return str;
 }
 
 CString CPPageAccelTbl::MakeMouseButtonLabel(UINT mouse)

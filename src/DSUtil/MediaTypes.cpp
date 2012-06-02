@@ -333,7 +333,7 @@ CString VIH2String(int i)
 	if (*vihs[i].subtype == MEDIASUBTYPE_I420) {
 		ret = _T("I420");    // FIXME
 	}
-	return(ret);
+	return ret;
 }
 
 CString Subtype2String(const GUID& subtype)
@@ -345,7 +345,7 @@ CString Subtype2String(const GUID& subtype)
 	if (subtype == MEDIASUBTYPE_I420) {
 		ret = _T("I420");    // FIXME
 	}
-	return(ret);
+	return ret;
 }
 
 void CorrectMediaType(AM_MEDIA_TYPE* pmt)

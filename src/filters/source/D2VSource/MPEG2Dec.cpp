@@ -1115,7 +1115,7 @@ int CMPEG2Dec::extra_bit_information()
 		Byte_Count ++;
 	}
 
-	return(Byte_Count);
+	return Byte_Count;
 }
 
 /* Copyright extension */
@@ -3762,7 +3762,7 @@ static char* myfgets(char* buff, int len, FILE* file)
 		ret = fgets(buff, len, file);
 	}
 
-	return(ret);
+	return ret;
 }
 
 int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)

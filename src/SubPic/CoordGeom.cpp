@@ -49,57 +49,57 @@ void Vector::Set(float x, float y, float z)
 
 float Vector::Length()
 {
-	return(sqrt(x * x + y * y + z * z));
+	return sqrt(x * x + y * y + z * z);
 }
 
 float Vector::Sum()
 {
-	return(x + y + z);
+	return (x + y + z);
 }
 
 float Vector::CrossSum()
 {
-	return(x*y + x*z + y*z);
+	return (x*y + x*z + y*z);
 }
 
 Vector Vector::Cross()
 {
-	return(Vector(x*y, x*z, y*z));
+	return Vector(x*y, x*z, y*z);
 }
 
 Vector Vector::Pow(float exp)
 {
-	return(exp == 0 ? Vector(1, 1, 1) : exp == 1 ? *this : Vector(pow(x, exp), pow(y, exp), pow(z, exp)));
+	return (exp == 0 ? Vector(1, 1, 1) : exp == 1 ? *this : Vector(pow(x, exp), pow(y, exp), pow(z, exp)));
 }
 
 Vector Vector::Unit()
 {
 	float l = Length();
 	if (!l || l == 1) {
-		return(*this);
+		return *this;
 	}
-	return(*this * (1 / l));
+	return (*this * (1 / l));
 }
 
 Vector& Vector::Unitalize()
 {
-	return(*this = Unit());
+	return (*this = Unit());
 }
 
 Vector Vector::Normal(Vector& a, Vector& b)
 {
-	return((a - *this) % (b - a));
+	return ((a - *this) % (b - a));
 }
 
 float Vector::Angle(Vector& a, Vector& b)
 {
-	return(((a - *this).Unit()).Angle((b - *this).Unit()));
+	return (((a - *this).Unit()).Angle((b - *this).Unit()));
 }
 
 float Vector::Angle(Vector& a)
 {
 	float angle = *this | a;
-	return((angle > 1) ? 0 : (angle < -1) ? (float)M_PI : acos(angle));
+	return ((angle > 1) ? 0 : (angle < -1) ? (float)M_PI : acos(angle));
 }
 
 void Vector::Angle(float& u, float& v)
@@ -122,7 +122,7 @@ Vector Vector::Angle()
 	Vector ret;
 	Angle(ret.x, ret.y);
 	ret.z = 0;
-	return(ret);
+	return ret;
 }
 
 Vector& Vector::Min(Vector& a)
@@ -130,7 +130,7 @@ Vector& Vector::Min(Vector& a)
 	x = (x < a.x) ? x : a.x;
 	y = (y < a.y) ? y : a.y;
 	z = (z < a.z) ? z : a.z;
-	return(*this);
+	return *this;
 }
 
 Vector& Vector::Max(Vector& a)
@@ -138,17 +138,17 @@ Vector& Vector::Max(Vector& a)
 	x = (x > a.x) ? x : a.x;
 	y = (y > a.y) ? y : a.y;
 	z = (z > a.z) ? z : a.z;
-	return(*this);
+	return *this;
 }
 
 Vector Vector::Abs()
 {
-	return(Vector(fabs(x), fabs(y), fabs(z)));
+	return Vector(fabs(x), fabs(y), fabs(z));
 }
 
 Vector Vector::Reflect(Vector& n)
 {
-	return(n * ((-*this) | n) * 2 - (-*this));
+	return (n * ((-*this) | n) * 2 - (-*this));
 }
 
 Vector Vector::Refract(Vector& N, float nFront, float nBack, float* nOut)
@@ -167,7 +167,7 @@ Vector Vector::Refract(Vector& N, float nFront, float nBack, float* nOut)
 		if (nOut) {
 			*nOut = N_dot_D >= 0 ? nFront : nBack;
 		}
-		return((*this).Reflect(N));
+		return this->Reflect(N);
 	}
 
 	float N_dot_T = (float)sqrt(1.0 - len_sin_T);
@@ -179,7 +179,7 @@ Vector Vector::Refract(Vector& N, float nFront, float nBack, float* nOut)
 		*nOut = N_dot_D >= 0 ? nBack : nFront;
 	}
 
-	return(sin_T - (N * N_dot_T));
+	return (sin_T - (N * N_dot_T));
 }
 
 Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
@@ -198,7 +198,7 @@ Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
 		if (nOut) {
 			*nOut = nFrom;
 		}
-		return((*this).Reflect(N));
+		return this->Reflect(N);
 	}
 
 	float N_dot_T = (float)sqrt(1.0 - len_sin_T);
@@ -210,27 +210,27 @@ Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
 		*nOut = nTo;
 	}
 
-	return(sin_T - (N * N_dot_T));
+	return (sin_T - (N * N_dot_T));
 }
 
 float Vector::operator | (Vector& v)
 {
-	return(x * v.x + y * v.y + z * v.z);
+	return (x * v.x + y * v.y + z * v.z);
 }
 
 Vector Vector::operator % (Vector& v)
 {
-	return(Vector(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x));
+	return Vector(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
 
 float& Vector::operator [] (size_t i)
 {
-	return(!i ? x : (i == 1) ? y : z);
+	return (!i ? x : (i == 1) ? y : z);
 }
 
 Vector Vector::operator - ()
 {
-	return(Vector(-x, -y, -z));
+	return Vector(-x, -y, -z);
 }
 
 bool Vector::operator == (const Vector& v) const
@@ -243,47 +243,47 @@ bool Vector::operator == (const Vector& v) const
 
 bool Vector::operator != (const Vector& v) const
 {
-	return((*this == v) ? false : true);
+	return ((*this == v) ? false : true);
 }
 
 Vector Vector::operator + (float d)
 {
-	return(Vector(x + d, y + d, z + d));
+	return Vector(x + d, y + d, z + d);
 }
 
 Vector Vector::operator + (Vector& v)
 {
-	return(Vector(x + v.x, y + v.y, z + v.z));
+	return Vector(x + v.x, y + v.y, z + v.z);
 }
 
 Vector Vector::operator - (float d)
 {
-	return(Vector(x - d, y - d, z - d));
+	return Vector(x - d, y - d, z - d);
 }
 
 Vector Vector::operator - (Vector& v)
 {
-	return(Vector(x - v.x, y - v.y, z - v.z));
+	return Vector(x - v.x, y - v.y, z - v.z);
 }
 
 Vector Vector::operator * (float d)
 {
-	return(Vector(x * d, y * d, z * d));
+	return Vector(x * d, y * d, z * d);
 }
 
 Vector Vector::operator * (Vector& v)
 {
-	return(Vector(x * v.x, y * v.y, z * v.z));
+	return Vector(x * v.x, y * v.y, z * v.z);
 }
 
 Vector Vector::operator / (float d)
 {
-	return(Vector(x / d, y / d, z / d));
+	return Vector(x / d, y / d, z / d);
 }
 
 Vector Vector::operator / (Vector& v)
 {
-	return(Vector(x / v.x, y / v.y, z / v.z));
+	return Vector(x / v.x, y / v.y, z / v.z);
 }
 
 Vector& Vector::operator += (float d)
@@ -291,7 +291,7 @@ Vector& Vector::operator += (float d)
 	x += d;
 	y += d;
 	z += d;
-	return(*this);
+	return *this;
 }
 
 Vector& Vector::operator += (Vector& v)
@@ -299,7 +299,7 @@ Vector& Vector::operator += (Vector& v)
 	x += v.x;
 	y += v.y;
 	z += v.z;
-	return(*this);
+	return *this;
 }
 
 Vector& Vector::operator -= (float d)
@@ -307,7 +307,7 @@ Vector& Vector::operator -= (float d)
 	x -= d;
 	y -= d;
 	z -= d;
-	return(*this);
+	return *this;
 }
 
 Vector& Vector::operator -= (Vector& v)
@@ -315,7 +315,7 @@ Vector& Vector::operator -= (Vector& v)
 	x -= v.x;
 	y -= v.y;
 	z -= v.z;
-	return(*this);
+	return *this;
 }
 
 Vector& Vector::operator *= (float d)
@@ -323,7 +323,7 @@ Vector& Vector::operator *= (float d)
 	x *= d;
 	y *= d;
 	z *= d;
-	return(*this);
+	return *this;
 }
 
 Vector& Vector::operator *= (Vector& v)
@@ -331,7 +331,7 @@ Vector& Vector::operator *= (Vector& v)
 	x *= v.x;
 	y *= v.y;
 	z *= v.z;
-	return(*this);
+	return *this;
 }
 
 Vector& Vector::operator /= (float d)
@@ -339,7 +339,7 @@ Vector& Vector::operator /= (float d)
 	x /= d;
 	y /= d;
 	z /= d;
-	return(*this);
+	return *this;
 }
 
 Vector& Vector::operator /= (Vector& v)
@@ -347,7 +347,7 @@ Vector& Vector::operator /= (Vector& v)
 	x /= v.x;
 	y /= v.y;
 	z /= v.z;
-	return(*this);
+	return *this;
 }
 
 //
@@ -370,20 +370,20 @@ float Ray::GetDistanceFrom(Ray& r)
 {
 	float t = (d | r.d);
 	if (IsZero(t)) {
-		return(-BIGNUMBER);    // plane is paralell to the ray, return -infinite
+		return -BIGNUMBER;    // plane is paralell to the ray, return -infinite
 	}
-	return(((r.p - p) | r.d) / t);
+	return (((r.p - p) | r.d) / t);
 }
 
 float Ray::GetDistanceFrom(Vector& v)
 {
 	float t = ((v - p) | d) / (d | d);
-	return(((p + d*t) - v).Length());
+	return ((p + d*t) - v).Length();
 }
 
 Vector Ray::operator [] (float t)
 {
-	return(p + d*t);
+	return (p + d*t);
 }
 
 //
@@ -491,7 +491,7 @@ Vector XForm::operator < (Vector& n)
 			n.y * m.mat[1][2] +
 			n.z * m.mat[2][2];
 
-	return(ret);
+	return ret;
 }
 
 Vector XForm::operator << (Vector& v)
@@ -511,12 +511,12 @@ Vector XForm::operator << (Vector& v)
 			v.z * m.mat[2][2] +
 			m.mat[3][2];
 
-	return(ret);
+	return ret;
 }
 
 Ray XForm::operator << (Ray& r)
 {
-	return(Ray(*this << r.p, *this < r.d));
+	return Ray(*this << r.p, *this < r.d);
 }
 
 //
@@ -565,10 +565,10 @@ XForm::Matrix XForm::Matrix::operator * (Matrix& m)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 XForm::Matrix& XForm::Matrix::operator *= (XForm::Matrix& m)
 {
-	return(*this = *this * m);
+	return (*this = *this * m);
 }

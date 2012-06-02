@@ -230,7 +230,7 @@ public:
 	}
 
 	bool operator == (const wmcmd& wc) const {
-		return(cmd > 0 && cmd == wc.cmd);
+		return (cmd > 0 && cmd == wc.cmd);
 	}
 
 	CString GetName() const {
@@ -272,7 +272,7 @@ public:
 	void SetHWND(HWND hWnd);
 	void Connect(CString addr);
 	void DisConnect();
-	int GetStatus() const { return(m_nStatus); }
+	int GetStatus() const { return m_nStatus; }
 };
 
 class CWinLircClient : public CRemoteCtrlClient

@@ -210,7 +210,7 @@ CVTSStream::~CVTSStream()
 bool CVTSStream::Load(const WCHAR* fnw)
 {
 	CAtlList<CString> sl;
-	return(m_vob && m_vob->Open(CString(fnw), sl) /*&& m_vob->IsDVD()*/);
+	return (m_vob && m_vob->Open(CString(fnw), sl) /*&& m_vob->IsDVD()*/);
 }
 
 HRESULT CVTSStream::SetPointer(LONGLONG llPos)
@@ -261,7 +261,7 @@ LONGLONG CVTSStream::Size(LONGLONG* pSizeAvailable)
 	if (pSizeAvailable) {
 		*pSizeAvailable = len;
 	}
-	return(len);
+	return len;
 }
 
 DWORD CVTSStream::Alignment()

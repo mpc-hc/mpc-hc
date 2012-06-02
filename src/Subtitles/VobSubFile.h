@@ -122,7 +122,7 @@ public:
 	void Close();
 
 	CString GetTitle() {
-		return(m_title);
+		return m_title;
 	}
 
 	DECLARE_IUNKNOWN

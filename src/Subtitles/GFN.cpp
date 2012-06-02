@@ -54,7 +54,7 @@ static TCHAR* ext[3][_countof(exttypestr)] = {
 
 static int SubFileCompare(const void* elem1, const void* elem2)
 {
-	return(((SubFile*)elem1)->fn.CompareNoCase(((SubFile*)elem2)->fn));
+	return ((SubFile*)elem1)->fn.CompareNoCase(((SubFile*)elem2)->fn);
 }
 
 void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& ret)

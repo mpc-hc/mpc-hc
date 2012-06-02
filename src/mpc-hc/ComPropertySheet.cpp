@@ -142,7 +142,7 @@ int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
 	}
 	lpUnk->Release();
 
-	return(nPages);
+	return nPages;
 }
 
 bool CComPropertySheet::AddPage(IPropertyPage* pPage, IUnknown* pUnk)

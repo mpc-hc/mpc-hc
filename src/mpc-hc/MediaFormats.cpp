@@ -138,7 +138,7 @@ CString CMediaFormatCategory::GetFilter() const
 		filter += _T("*.") + m_exts.GetNext(pos) + _T(";");
 	}
 	filter.TrimRight(_T(';')); // cheap...
-	return(filter);
+	return filter;
 }
 
 CString CMediaFormatCategory::GetExts(bool fAppendEngine) const
@@ -147,7 +147,7 @@ CString CMediaFormatCategory::GetExts(bool fAppendEngine) const
 	if (fAppendEngine) {
 		exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
 	}
-	return(exts);
+	return exts;
 }
 
 CString CMediaFormatCategory::GetExtsWithPeriod(bool fAppendEngine) const
@@ -161,7 +161,7 @@ CString CMediaFormatCategory::GetExtsWithPeriod(bool fAppendEngine) const
 	if (fAppendEngine) {
 		exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
 	}
-	return(exts);
+	return exts;
 }
 
 CString CMediaFormatCategory::GetBackupExtsWithPeriod(bool fAppendEngine) const
@@ -175,7 +175,7 @@ CString CMediaFormatCategory::GetBackupExtsWithPeriod(bool fAppendEngine) const
 	if (fAppendEngine) {
 		exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
 	}
-	return(exts);
+	return exts;
 }
 
 //
@@ -291,7 +291,7 @@ void CMediaFormats::SetRtspHandler(engine_t e, bool fRtspFileExtFirst)
 
 bool CMediaFormats::IsUsingEngine(CString path, engine_t e)
 {
-	return(GetEngine(path) == e);
+	return (GetEngine(path) == e);
 }
 
 engine_t CMediaFormats::GetEngine(CString path)

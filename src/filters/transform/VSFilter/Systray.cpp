@@ -392,5 +392,5 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 		free(wstr);
 	}
 
-	return(ret);
+	return ret;
 }

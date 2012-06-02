@@ -1454,7 +1454,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 	CRect bbox(0, 0, 0, 0);
 
 	if (!switchpts || !fBody && !fBorder) {
-		return(bbox);
+		return bbox;
 	}
 
 	// Limit drawn area to intersection of rendering surface and rectangular clip area
@@ -1490,7 +1490,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 
 	// Check if there's actually anything to render
 	if (w <= 0 || h <= 0) {
-		return(bbox);
+		return bbox;
 	}
 
 	bbox.SetRect(x, y, x+w, y+h);

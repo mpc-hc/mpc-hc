@@ -222,7 +222,7 @@ bool CPlayerToolBar::IsMuted() const
 	bi.cbSize = sizeof(bi);
 	bi.dwMask = TBIF_IMAGE;
 	tb.GetButtonInfo(ID_VOLUME_MUTE, &bi);
-	return(bi.iImage==13);
+	return (bi.iImage == 13);
 }
 
 int CPlayerToolBar::GetVolume() const

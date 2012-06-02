@@ -191,11 +191,11 @@ int find_lang(unsigned short id)
 		} else if (id > lang_tbl[mid].id) {
 			lo = mid + 1;
 		} else {
-			return(mid);
+			return mid;
 		}
 	}
 
-	return(id == lang_tbl[lo].id ? lo : 0);
+	return (id == lang_tbl[lo].id ? lo : 0);
 }
 
 CString FindLangFromId(WORD id)
@@ -718,7 +718,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 		}
 	}
 
-	return(!fError);
+	return !fError;
 }
 
 bool CVobSubFile::ReadSub(CString fn)
@@ -1141,7 +1141,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
 		}
 	} while (false);
 
-	return(ret);
+	return ret;
 }
 
 bool CVobSubFile::GetFrame(int idx, int iLang)
@@ -1182,12 +1182,12 @@ bool CVobSubFile::GetFrame(int idx, int iLang)
 		m_img.iLang = iLang;
 	}
 
-	return(m_fOnlyShowForcedSubs ? m_img.fForced : true);
+	return (m_fOnlyShowForcedSubs ? m_img.fForced : true);
 }
 
 bool CVobSubFile::GetFrameByTimeStamp(__int64 time)
 {
-	return(GetFrame(GetFrameIdxByTimeStamp(time)));
+	return GetFrame(GetFrameIdxByTimeStamp(time));
 }
 
 int CVobSubFile::GetFrameIdxByTimeStamp(__int64 time)
@@ -1201,7 +1201,7 @@ int CVobSubFile::GetFrameIdxByTimeStamp(__int64 time)
 	int i = 0, j = (int)sp.GetCount() - 1, ret = -1;
 
 	if (j >= 0 && time >= sp[j].start) {
-		return(j);
+		return j;
 	}
 
 	while (i < j) {
@@ -1226,7 +1226,7 @@ int CVobSubFile::GetFrameIdxByTimeStamp(__int64 time)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 //
@@ -1254,34 +1254,34 @@ STDMETHODIMP_(POSITION) CVobSubFile::GetStartPosition(REFERENCE_TIME rt, double 
 	int i = GetFrameIdxByTimeStamp(rt);
 
 	if (!GetFrame(i)) {
-		return(NULL);
+		return NULL;
 	}
 
 	if (rt >= (m_img.start + m_img.delay)) {
 		if (!GetFrame(++i)) {
-			return(NULL);
+			return NULL;
 		}
 	}
 
-	return((POSITION)(i+1));
+	return (POSITION)(i+1);
 }
 
 STDMETHODIMP_(POSITION) CVobSubFile::GetNext(POSITION pos)
 {
 	int i = (int)pos;
-	return(GetFrame(i) ? (POSITION)(i+1) : NULL);
+	return (GetFrame(i) ? (POSITION)(i+1) : NULL);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CVobSubFile::GetStart(POSITION pos, double fps)
 {
 	int i = (int)pos-1;
-	return(GetFrame(i) ? 10000i64*m_img.start : 0);
+	return (GetFrame(i) ? 10000i64*m_img.start : 0);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CVobSubFile::GetStop(POSITION pos, double fps)
 {
 	int i = (int)pos-1;
-	return(GetFrame(i) ? 10000i64*(m_img.start + m_img.delay) : 0);
+	return (GetFrame(i) ? 10000i64*(m_img.start + m_img.delay) : 0);
 }
 
 STDMETHODIMP_(bool) CVobSubFile::IsAnimated(POSITION pos)
@@ -1324,7 +1324,7 @@ STDMETHODIMP_(int) CVobSubFile::GetStreamCount()
 		if (m_langs[i].subpos.GetCount()) {
 			iStreamCount++;
 		}
-	return(iStreamCount);
+	return iStreamCount;
 }
 
 STDMETHODIMP CVobSubFile::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
@@ -1364,7 +1364,7 @@ STDMETHODIMP_(int) CVobSubFile::GetStream()
 			iStream++;
 		}
 
-	return(iStream);
+	return iStream;
 }
 
 STDMETHODIMP CVobSubFile::SetStream(int iStream)
@@ -1525,7 +1525,7 @@ bool CVobSubSettings::GetCustomPal(RGBQUAD* cuspal, int& tridx)
 {
 	memcpy(cuspal, m_cuspal, sizeof(RGBQUAD)*4);
 	tridx = m_tridx;
-	return(m_fCustomPal);
+	return m_fCustomPal;
 }
 
 void CVobSubSettings::SetCustomPal(RGBQUAD* cuspal, int tridx)
@@ -1653,7 +1653,7 @@ static bool CompressFile(CString fn)
 		CloseHandle(h);
 	}
 
-	return(!!b);
+	return !!b;
 }
 
 bool CVobSubFile::SaveVobSub(CString fn)
@@ -2427,7 +2427,7 @@ STDMETHODIMP_(POSITION) CVobSubStream::GetStartPosition(REFERENCE_TIME rt, doubl
 			break;
 		}
 	}
-	return(pos);
+	return pos;
 }
 
 STDMETHODIMP_(POSITION) CVobSubStream::GetNext(POSITION pos)

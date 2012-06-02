@@ -80,7 +80,7 @@ const size_t CMPlayerCApp::languageResourcesCount = _countof(CMPlayerCApp::langu
 HICON LoadIcon(CString fn, bool fSmall)
 {
 	if (fn.IsEmpty()) {
-		return(NULL);
+		return NULL;
 	}
 
 	CString ext = fn.Left(fn.Find(_T("://"))+1).TrimRight(':');
@@ -92,13 +92,13 @@ HICON LoadIcon(CString fn, bool fSmall)
 
 	if (!ext.CompareNoCase(_T(".ifo"))) {
 		if (HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_DVD), IMAGE_ICON, size.cx, size.cy, 0)) {
-			return(hIcon);
+			return hIcon;
 		}
 	}
 
 	if (!ext.CompareNoCase(_T(".cda"))) {
 		if (HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_AUDIOCD), IMAGE_ICON, size.cx, size.cy, 0)) {
-			return(hIcon);
+			return hIcon;
 		}
 	}
 
@@ -154,7 +154,7 @@ HICON LoadIcon(CString fn, bool fSmall)
 		}
 	} while (0);
 
-	return((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_UNKNOWN), IMAGE_ICON, size.cx, size.cy, 0));
+	return (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_UNKNOWN), IMAGE_ICON, size.cx, size.cy, 0);
 }
 
 bool LoadType(CString fn, CString& type)
@@ -379,7 +379,7 @@ CString CMPlayerCApp::GetIniPath() const
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
 	path.ReleaseBuffer();
 	path = path.Left(path.ReverseFind('.')+1) + _T("ini");
-	return(path);
+	return path;
 }
 
 bool CMPlayerCApp::IsIniValid() const

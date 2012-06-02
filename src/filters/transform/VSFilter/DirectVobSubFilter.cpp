@@ -632,7 +632,7 @@ bool CDirectVobSubFilter::AdjustFrameSize(CSize& s)
 		s.cy = (s.cy + 1) & ~1;
 	}
 
-	return(fRet);
+	return fRet;
 }
 
 STDMETHODIMP CDirectVobSubFilter::Count(DWORD* pcStreams)
@@ -683,7 +683,7 @@ int CDirectVobSubFilter::FindPreferedLanguage(bool fHideToo)
 				CoTaskMemFree(pName);
 
 				if (!l.CompareNoCase(lang)) {
-					return(ret);
+					return ret;
 				}
 			}
 		}
@@ -1145,13 +1145,13 @@ STDMETHODIMP CDirectVobSubFilter::HasConfigDialog(int iSelected)
 	}
 	return E_FAIL;
 	// TODO: temporally disabled since we don't have a new textsub/vobsub editor dlg for dvs yet
-	//	return(nLangs >= 0 && iSelected < nLangs ? S_OK : E_FAIL);
+	//	return (nLangs >= 0 && iSelected < nLangs ? S_OK : E_FAIL);
 }
 
 STDMETHODIMP CDirectVobSubFilter::ShowConfigDialog(int iSelected, HWND hWndParent)
 {
 	// TODO: temporally disabled since we don't have a new textsub/vobsub editor dlg for dvs yet
-	return(E_FAIL);
+	return E_FAIL;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -1176,7 +1176,7 @@ HRESULT CDirectVobSubFilter2::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 		CFilterInfo fi;
 		if (SUCCEEDED(pi.pFilter->QueryFilterInfo(&fi))
 				&& !_wcsnicmp(fi.achName, L"Overlay Mixer", 13)) {
-			return(E_FAIL);
+			return E_FAIL;
 		}
 	} else {
 	}
@@ -1392,7 +1392,7 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 		}
 	}
 
-	return(fRet);
+	return fRet;
 }
 
 void CDirectVobSubFilter2::GetRidOfInternalScriptRenderer()
@@ -1484,7 +1484,7 @@ bool CDirectVobSubFilter::Open()
 
 	m_frd.RefreshEvent.Set();
 
-	return(m_pSubStreams.GetCount() > 0);
+	return (m_pSubStreams.GetCount() > 0);
 }
 
 void CDirectVobSubFilter::UpdateSubtitle(bool fApplyDefStyle)

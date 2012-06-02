@@ -138,7 +138,7 @@ public:
 		return S_OK;
 	}
 	STDMETHODIMP_(REFERENCE_TIME) GetTime() {
-		return(m_rt);
+		return m_rt;
 	}
 };
 
@@ -7340,7 +7340,7 @@ static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
 	int i = 0, j = rta.GetCount() - 1, ret = -1;
 
 	if (j >= 0 && val >= rta[j]) {
-		return(j);
+		return j;
 	}
 
 	while (i < j) {
@@ -7364,7 +7364,7 @@ static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 void CMainFrame::OnPlaySeekKey(UINT nID)
@@ -9451,7 +9451,7 @@ OAFilterState CMainFrame::GetMediaState() const
 	if (m_iMediaLoadState == MLS_LOADED) {
 		pMC->GetState(0, &ret);
 	}
-	return(ret);
+	return ret;
 }
 
 void CMainFrame::SetPlaybackMode(int iNewStatus)
@@ -11920,7 +11920,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	}
 	m_bIsBDPlay = false;
 
-	return(err.IsEmpty());
+	return err.IsEmpty();
 }
 
 void CMainFrame::CloseMediaPrivate()
@@ -12835,7 +12835,7 @@ static CString StripPath(CString path)
 	CString p = path;
 	p.Replace('\\', '/');
 	p = p.Mid(p.ReverseFind('/')+1);
-	return(p.IsEmpty() ? path : p);
+	return (p.IsEmpty() ? path : p);
 }
 
 void CMainFrame::SetupNavChaptersSubMenu()
@@ -13564,7 +13564,7 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream **actualStream)
 		}
 	}
 
-	return(!!pSubStream);
+	return !!pSubStream;
 }
 
 void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
@@ -13754,14 +13754,14 @@ void CMainFrame::SetAudioTrackIdx(int index)
 
 REFERENCE_TIME CMainFrame::GetPos() const
 {
-	return(m_iMediaLoadState == MLS_LOADED ? m_wndSeekBar.GetPos() : 0);
+	return (m_iMediaLoadState == MLS_LOADED ? m_wndSeekBar.GetPos() : 0);
 }
 
 REFERENCE_TIME CMainFrame::GetDur() const
 {
 	__int64 start, stop;
 	m_wndSeekBar.GetRange(start, stop);
-	return(m_iMediaLoadState == MLS_LOADED ? stop : 0);
+	return (m_iMediaLoadState == MLS_LOADED ? stop : 0);
 }
 
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)

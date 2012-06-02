@@ -87,7 +87,7 @@ CString Implode(CAtlList<CString>& sl, TCHAR sep)
 		ret += sl.GetNext(pos);
 		if (pos) ret += sep;
 	}
-	return(ret);
+	return ret;
 }
 */
 
@@ -234,7 +234,7 @@ CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
 		tag = i+1 < tag.GetLength() ? tag.Mid(i+1) : _T("");
 	}
 
-	return(type);
+	return type;
 }
 
 CAtlList<CString>& MakeLower(CAtlList<CString>& sl)

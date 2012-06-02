@@ -453,7 +453,7 @@ OSErr CQuicktimeWindow::MyMovieDrawingCompleteProc(Movie theMovie, long refCon)
 		pQW->Invalidate();
 	}*/
 
-	return(noErr);
+	return noErr;
 }
 
 bool CQuicktimeWindow::OpenMovie(CString fn)
@@ -564,7 +564,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 		}
 	}
 
-	return(theMovie != NULL);
+	return (theMovie != NULL);
 }
 
 void CQuicktimeWindow::CloseMovie()

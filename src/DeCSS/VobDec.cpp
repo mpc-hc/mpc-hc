@@ -139,7 +139,7 @@ bool CVobDec::FindKey(BYTE* buff)
 		}
 	}
 
-	return(m_fFoundKey);
+	return m_fFoundKey;
 }
 
 void CVobDec::Decrypt(BYTE* buff)

@@ -152,21 +152,21 @@ int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC)
 	}
 	EndEnumPins
 
-	return(nIn+nOut);
+	return (nIn + nOut);
 }
 
 bool IsSplitter(IBaseFilter* pBF, bool fCountConnectedOnly)
 {
 	int nIn, nOut, nInC, nOutC;
 	CountPins(pBF, nIn, nOut, nInC, nOutC);
-	return(fCountConnectedOnly ? nOutC > 1 : nOut > 1);
+	return (fCountConnectedOnly ? nOutC > 1 : nOut > 1);
 }
 
 bool IsMultiplexer(IBaseFilter* pBF, bool fCountConnectedOnly)
 {
 	int nIn, nOut, nInC, nOutC;
 	CountPins(pBF, nIn, nOut, nInC, nOutC);
-	return(fCountConnectedOnly ? nInC > 1 : nIn > 1);
+	return (fCountConnectedOnly ? nInC > 1 : nIn > 1);
 }
 
 bool IsStreamStart(IBaseFilter* pBF)
@@ -180,7 +180,7 @@ bool IsStreamStart(IBaseFilter* pBF)
 	CountPins(pBF, nIn, nOut, nInC, nOutC);
 	AM_MEDIA_TYPE mt;
 	CComPtr<IPin> pIn = GetFirstPin(pBF);
-	return((nOut > 1)
+	return ((nOut > 1)
 		   || (nOut > 0 && nIn == 1 && pIn && SUCCEEDED(pIn->ConnectionMediaType(&mt)) && mt.majortype == MEDIATYPE_Stream));
 }
 
@@ -188,7 +188,7 @@ bool IsStreamEnd(IBaseFilter* pBF)
 {
 	int nIn, nOut, nInC, nOutC;
 	CountPins(pBF, nIn, nOut, nInC, nOutC);
-	return(nOut == 0);
+	return (nOut == 0);
 }
 
 bool IsVideoRenderer(IBaseFilter* pBF)
@@ -205,7 +205,7 @@ bool IsVideoRenderer(IBaseFilter* pBF)
 
 			FreeMediaType(mt);
 
-			return(!!(mt.majortype == MEDIATYPE_Video));
+			return !!(mt.majortype == MEDIATYPE_Video);
 			/*&& (mt.formattype == FORMAT_VideoInfo || mt.formattype == FORMAT_VideoInfo2));*/
 		}
 		EndEnumPins
@@ -215,7 +215,7 @@ bool IsVideoRenderer(IBaseFilter* pBF)
 	memcpy(&clsid, &GUID_NULL, sizeof(clsid));
 	pBF->GetClassID(&clsid);
 
-	return(clsid == CLSID_VideoRenderer || clsid == CLSID_VideoRendererDefault);
+	return (clsid == CLSID_VideoRenderer || clsid == CLSID_VideoRendererDefault);
 }
 
 DEFINE_GUID(CLSID_ReClock,
@@ -235,8 +235,8 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
 
 			FreeMediaType(mt);
 
-			return(!!(mt.majortype == MEDIATYPE_Audio)
-				   /*&& mt.formattype == FORMAT_WaveFormatEx*/);
+			return !!(mt.majortype == MEDIATYPE_Audio);
+				   /*&& mt.formattype == FORMAT_WaveFormatEx);*/
 		}
 		EndEnumPins
 	}
@@ -245,7 +245,7 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
 	memcpy(&clsid, &GUID_NULL, sizeof(clsid));
 	pBF->GetClassID(&clsid);
 
-	return(clsid == CLSID_DSoundRender || clsid == CLSID_AudioRender || clsid == CLSID_ReClock
+	return (clsid == CLSID_DSoundRender || clsid == CLSID_AudioRender || clsid == CLSID_ReClock
 		   || clsid == __uuidof(CNullAudioRenderer) || clsid == __uuidof(CNullUAudioRenderer));
 }
 
@@ -267,18 +267,18 @@ IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin)
 				&& SUCCEEDED(pPin->ConnectedTo(&pPinConnectedTo))) {
 			IPin* pRet = pPinConnectedTo.Detach();
 			pRet->Release();
-			return(pRet);
+			return pRet;
 		}
 	}
 	EndEnumPins
 
-	return(NULL);
+	return NULL;
 }
 
 IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 {
 	if (!pBF) {
-		return(NULL);
+		return NULL;
 	}
 
 	BeginEnumPins(pBF, pEP, pPin) {
@@ -287,18 +287,18 @@ IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 		if (dir == dir2) {
 			IPin* pRet = pPin.Detach();
 			pRet->Release();
-			return(pRet);
+			return pRet;
 		}
 	}
 	EndEnumPins
 
-	return(NULL);
+	return NULL;
 }
 
 IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 {
 	if (!pBF) {
-		return(NULL);
+		return NULL;
 	}
 
 	BeginEnumPins(pBF, pEP, pPin) {
@@ -308,19 +308,19 @@ IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir)
 		if (dir == dir2 && (S_OK != pPin->ConnectedTo(&pPinTo))) {
 			IPin* pRet = pPin.Detach();
 			pRet->Release();
-			return(pRet);
+			return pRet;
 		}
 	}
 	EndEnumPins
 
-	return(NULL);
+	return NULL;
 }
 
 IBaseFilter* FindFilter(LPCWSTR clsid, IFilterGraph* pFG)
 {
 	CLSID clsid2;
 	CLSIDFromString(CComBSTR(clsid), &clsid2);
-	return(FindFilter(clsid2, pFG));
+	return FindFilter(clsid2, pFG);
 }
 
 IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG)
@@ -328,7 +328,7 @@ IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG)
 	BeginEnumFilters(pFG, pEF, pBF) {
 		CLSID clsid2;
 		if (SUCCEEDED(pBF->GetClassID(&clsid2)) && clsid == clsid2) {
-			return(pBF);
+			return pBF;
 		}
 	}
 	EndEnumFilters
@@ -383,7 +383,7 @@ CStringW GetFilterName(IBaseFilter* pBF)
 		}
 	}
 
-	return(name);
+	return name;
 }
 
 CStringW GetPinName(IPin* pPin)
@@ -394,7 +394,7 @@ CStringW GetPinName(IPin* pPin)
 		name = pi.achName;
 	}
 
-	return(name);
+	return name;
 }
 
 IFilterGraph* GetGraphFromFilter(IBaseFilter* pBF)
@@ -407,7 +407,7 @@ IFilterGraph* GetGraphFromFilter(IBaseFilter* pBF)
 	if (pBF && SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
 		pGraph = fi.pGraph;
 	}
-	return(pGraph);
+	return pGraph;
 }
 
 IBaseFilter* GetFilterFromPin(IPin* pPin)
@@ -420,7 +420,7 @@ IBaseFilter* GetFilterFromPin(IPin* pPin)
 	if (pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
 		pBF = pi.pFilter;
 	}
-	return(pBF);
+	return pBF;
 }
 
 IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
@@ -506,7 +506,7 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 		}
 	} while (false);
 
-	return(pRet);
+	return pRet;
 }
 
 IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
@@ -598,7 +598,7 @@ IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
 		pPin = pToFrom;
 	} while (false);
 
-	return(pPin);
+	return pPin;
 }
 
 void ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types)
@@ -725,12 +725,12 @@ CLSID GetCLSID(IBaseFilter* pBF)
 	if (pBF) {
 		pBF->GetClassID(&clsid);
 	}
-	return(clsid);
+	return clsid;
 }
 
 CLSID GetCLSID(IPin* pPin)
 {
-	return(GetCLSID(GetFilterFromPin(pPin)));
+	return GetCLSID(GetFilterFromPin(pPin));
 }
 
 bool IsCLSIDRegistered(LPCTSTR clsid)
@@ -752,7 +752,7 @@ bool IsCLSIDRegistered(const CLSID& clsid)
 		CoTaskMemFree(pStr);
 	}
 
-	return(fRet);
+	return fRet;
 }
 
 void CStringToBin(CString str, CAtlArray<BYTE>& data)
@@ -895,7 +895,7 @@ CString GetDriveLabel(TCHAR drive)
 		label = VolumeNameBuffer;
 	}
 
-	return(label);
+	return label;
 }
 
 bool GetKeyFrames(CString fn, CUIntArray& kfs)
@@ -943,7 +943,7 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
 		AVIFileExit();
 	}
 
-	return(kfs.GetCount() > 0);
+	return (kfs.GetCount() > 0);
 }
 
 DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps) // use to remember the current position
@@ -1085,7 +1085,7 @@ bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih)
 	if (pmt) {
 		bool fRet = ExtractBIH(pmt, bih);
 		DeleteMediaType(pmt);
-		return(fRet);
+		return fRet;
 	}
 
 	return false;
@@ -1334,7 +1334,7 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
 			}
 
 			if (SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo, NULL))) {
-				return(pBF);
+				return pBF;
 			}
 		}
 		EndEnumFilters
@@ -1342,7 +1342,7 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
 		pGB->RemoveFilter(pBF);
 	} while (false);
 
-	return(NULL);
+	return NULL;
 }
 
 CStringW GetFriendlyName(CStringW DisplayName)
@@ -2185,7 +2185,7 @@ CString ISO6391ToLanguage(LPCSTR code)
 			}
 			return ret;
 		}
-	return(_T(""));
+	return _T("");
 }
 
 CString ISO6392ToLanguage(LPCSTR code)
@@ -2349,7 +2349,7 @@ int MakeAACInitData(BYTE* pData, int profile, int freq, int channels)
 		ret = 5;
 	}
 
-	return(ret);
+	return ret;
 }
 
 BOOL CFileGetStatus(LPCTSTR lpszFileName, CFileStatus& status)

@@ -97,7 +97,7 @@ public:
 	}
 	bool hasbits(int cnt) {
 		int pos = m_pos+cnt;
-		return(pos >= 0 && pos < m_len);
+		return (pos >= 0 && pos < m_len);
 	}
 	unsigned int showbits(int cnt) { // a bit unclean, but works and can read backwards too! :P
 		if (!hasbits(cnt)) {

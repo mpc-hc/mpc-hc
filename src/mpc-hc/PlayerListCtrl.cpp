@@ -557,7 +557,7 @@ int CPlayerListCtrl::GetBottomIndex() const
 		}
 	}
 
-	return(nBottomIndex);
+	return nBottomIndex;
 }
 
 CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
@@ -655,7 +655,7 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 		lpPoint->y = cCompleteRect.top;
 	}
 
-	return(pCompleteImageList);
+	return pCompleteImageList;
 }
 
 bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
@@ -705,7 +705,7 @@ CWinHotkeyCtrl* CPlayerListCtrl::ShowInPlaceWinHotkey(int nItem, int nCol)
 {
 	CRect rect;
 	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
-		return(NULL);
+		return NULL;
 	}
 
 	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL|ES_LEFT;
@@ -727,7 +727,7 @@ CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
 {
 	CRect rect;
 	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
-		return(NULL);
+		return NULL;
 	}
 
 	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL;
@@ -751,7 +751,7 @@ CEdit* CPlayerListCtrl::ShowInPlaceFloatEdit(int nItem, int nCol)
 {
 	CRect rect;
 	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
-		return(NULL);
+		return NULL;
 	}
 
 	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL|ES_RIGHT;
@@ -768,7 +768,7 @@ CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CS
 {
 	CRect rect;
 	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
-		return(NULL);
+		return NULL;
 	}
 
 	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|WS_VSCROLL/*|WS_HSCROLL*/
@@ -796,7 +796,7 @@ CListBox* CPlayerListCtrl::ShowInPlaceListBox(int nItem, int nCol, CAtlList<CStr
 {
 	CRect rect;
 	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
-		return(NULL);
+		return NULL;
 	}
 
 	DWORD dwStyle = WS_BORDER|WS_CHILD|WS_VISIBLE|WS_VSCROLL/*|WS_HSCROLL*/|LBS_NOTIFY;

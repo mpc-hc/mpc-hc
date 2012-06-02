@@ -332,7 +332,7 @@ REFERENCE_TIME CAviFile::GetTotalTime()
 		t = 10i64*m_avih.dwMicroSecPerFrame*m_avih.dwTotalFrames;
 	}
 
-	return(t);
+	return t;
 }
 
 HRESULT CAviFile::BuildIndex()
@@ -571,7 +571,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 		}
 	}
 
-	return(fInterleaved);
+	return fInterleaved;
 }
 
 REFERENCE_TIME CAviFile::strm_t::GetRefTime(DWORD frame, UINT64 size)
@@ -630,7 +630,7 @@ DWORD CAviFile::strm_t::GetKeyFrame(REFERENCE_TIME rt)
 			break;
 		}
 	}
-	return(i);
+	return i;
 }
 
 DWORD CAviFile::strm_t::GetChunkSize(DWORD size)

@@ -224,7 +224,7 @@ bool CDVDSession::SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData)
 	key->KeyFlags = 0;
 
 	DWORD BytesReturned;
-	return(!!DeviceIoControl(m_hDrive, IOCTL_DVD_SEND_KEY, key, key->KeyLength, NULL, 0, &BytesReturned, NULL));
+	return !!DeviceIoControl(m_hDrive, IOCTL_DVD_SEND_KEY, key, key->KeyLength, NULL, 0, &BytesReturned, NULL);
 }
 
 bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
@@ -311,14 +311,14 @@ CLBAFile::~CLBAFile()
 
 bool CLBAFile::IsOpen()
 {
-	return(m_hFile != hFileNull);
+	return (m_hFile != hFileNull);
 }
 
 bool CLBAFile::Open(LPCTSTR path)
 {
 	Close();
 
-	return(!!CFile::Open(path, modeRead|typeBinary|shareDenyNone|osSequentialScan));
+	return !!CFile::Open(path, modeRead|typeBinary|shareDenyNone|osSequentialScan);
 }
 
 void CLBAFile::Close()
@@ -694,12 +694,12 @@ void CVobFile::Close()
 
 int CVobFile::GetLength()
 {
-	return(m_size - m_offset);
+	return (m_size - m_offset);
 }
 
 int CVobFile::GetPosition()
 {
-	return(m_pos - m_offset);
+	return (m_pos - m_offset);
 }
 
 int CVobFile::Seek(int pos)
@@ -716,7 +716,7 @@ int CVobFile::Seek(int pos)
 
 	if(i != m_iFile && i < (int)m_files.GetCount()) {
 		if(!m_file.Open(m_files[i].fn)) {
-			return(m_pos);
+			return m_pos;
 		}
 
 		m_iFile = i;
@@ -727,7 +727,7 @@ int CVobFile::Seek(int pos)
 	pos -= (size - m_files[i].size);
 	m_file.Seek(pos);
 
-	return(GetPosition());
+	return GetPosition();
 }
 
 bool CVobFile::Read(BYTE* buff)

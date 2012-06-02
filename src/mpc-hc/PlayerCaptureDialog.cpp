@@ -37,12 +37,12 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
 	bool fRet = false;
 
 	if (!ppmt) {
-		return(fRet);
+		return fRet;
 	}
 
 	*ppmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
 	if (!*ppmt) {
-		return(fRet);
+		return fRet;
 	}
 
 	memset(*ppmt, 0, sizeof(AM_MEDIA_TYPE));
@@ -52,7 +52,7 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
 	if (AfxGetApp()->GetProfileBinary(IDS_RS_CAPTURE _T("\\") + CString(DisplayName), _T("MediaType"), &pData, &len)) {
 		if ( len != sizeof(AM_MEDIA_TYPE) ) {
 			delete [] pData;
-			return(fRet);
+			return fRet;
 		}
 		memcpy(*ppmt, pData, len);
 		delete [] pData;
@@ -65,7 +65,7 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
 		if (AfxGetApp()->GetProfileBinary(IDS_RS_CAPTURE _T("\\") + CString(DisplayName), _T("Format"), &pData, &len)) {
 			if ( !len ) {
 				delete [] pData;
-				return(fRet);
+				return fRet;
 			}
 			(*ppmt)->cbFormat = len;
 			(*ppmt)->pbFormat = (BYTE*)CoTaskMemAlloc(len);
@@ -75,7 +75,7 @@ static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)
 		}
 	}
 
-	return(fRet);
+	return fRet;
 }
 
 static void SaveMediaType(CStringW DisplayName, AM_MEDIA_TYPE* pmt)
@@ -414,7 +414,7 @@ static bool SetupDimension(CFormatArray<T>& tfa, CComboBox& type, CComboBox& dim
 	dim.SetCurSel(dim.FindStringExact(0, str));
 	dim.EnableWindow(dim.GetCount() > 0);
 
-	return(dim.GetCurSel() >= 0);
+	return (dim.GetCurSel() >= 0);
 }
 
 static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& cat)
@@ -517,7 +517,7 @@ static int ShowPPage(CAtlArray<Codec>& codecs, CComboBox& box, HWND hWnd = NULL)
 		}
 	}
 
-	return(iSel);
+	return iSel;
 }
 
 // CPlayerCaptureDialog dialog
@@ -1200,7 +1200,7 @@ bool CPlayerCaptureDialog::IsTunerActive()
 	}
 
 	long PinIndexRelated = -1, PhysicalType = -1;
-	return(m_pAMXB
+	return (m_pAMXB
 		   && SUCCEEDED(m_pAMXB->get_CrossbarPinInfo(TRUE, iSel, &PinIndexRelated, &PhysicalType))
 		   && PhysicalType == PhysConn_Video_Tuner);
 }

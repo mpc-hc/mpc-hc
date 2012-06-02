@@ -77,7 +77,7 @@ T Implode(const CAtlList<T>& sl, SEP sep)
 			ret += sep;
 		}
 	}
-	return(ret);
+	return ret;
 }
 
 extern CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing);

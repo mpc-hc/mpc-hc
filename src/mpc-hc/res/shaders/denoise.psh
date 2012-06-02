@@ -30,5 +30,5 @@ float4 main(float2 tex : TEXCOORD0) : COLOR {
 		fTap  += 0.1f;
 	}
 
-	return(cAccum / 16.0f);
+	return (cAccum / 16.0f);
 }

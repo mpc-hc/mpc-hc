@@ -49,28 +49,28 @@ STDMETHODIMP CSubPicImpl::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
 STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetStart()
 {
-	return(m_rtStart);
+	return m_rtStart;
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetStop()
 {
-	return(m_rtStop);
+	return m_rtStop;
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetSegmentStart()
 {
 	if (m_rtSegmentStart) {
-		return(m_rtSegmentStart);
+		return m_rtSegmentStart;
 	}
-	return(m_rtStart);
+	return m_rtStart;
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetSegmentStop()
 {
 	if (m_rtSegmentStop) {
-		return(m_rtSegmentStop);
+		return m_rtSegmentStop;
 	}
-	return(m_rtStop);
+	return m_rtStop;
 }
 
 STDMETHODIMP_(void) CSubPicImpl::SetSegmentStart(REFERENCE_TIME rtStart)
@@ -256,7 +256,7 @@ STDMETHODIMP CSubPicAllocatorImpl::AllocDynamic(ISubPic** ppSubPic)
 
 STDMETHODIMP_(bool) CSubPicAllocatorImpl::IsDynamicWriteOnly()
 {
-	return(m_fDynamicWriteOnly);
+	return m_fDynamicWriteOnly;
 }
 
 STDMETHODIMP CSubPicAllocatorImpl::ChangeDevice(IUnknown* pDev)

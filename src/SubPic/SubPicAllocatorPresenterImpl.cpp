@@ -101,7 +101,7 @@ STDMETHODIMP_(SIZE) CSubPicAllocatorPresenterImpl::GetVideoSize(bool fCorrectAR)
 		VideoSize.cx = (LONGLONG(VideoSize.cy)*LONGLONG(m_AspectRatio.cx))/LONGLONG(m_AspectRatio.cy);
 	}
 
-	return(VideoSize);
+	return VideoSize;
 }
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
@@ -156,7 +156,7 @@ STDMETHODIMP_(int) CSubPicAllocatorPresenterImpl::GetSubtitleDelay()
 
 STDMETHODIMP_(double) CSubPicAllocatorPresenterImpl::GetFPS()
 {
-	return(m_fps);
+	return m_fps;
 }
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProvider* pSubPicProvider)

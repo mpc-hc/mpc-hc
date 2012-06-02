@@ -288,7 +288,7 @@ PCTSTR GetKeyName(UINT vkCode)
 		_T("Unknown")
 	};
 
-	return(s_pszKeys[vkCode]);
+	return s_pszKeys[vkCode];
 }
 
 //-----------------------------------------------------------------
@@ -310,7 +310,7 @@ BOOL HotkeyToString(UINT vkCode, UINT fModifiers, CString& s) {
 		s.Format(_T("%s%s"), (LPCTSTR)s, GetKeyName(vkCode));
 	}
 
-	return(!s.IsEmpty());
+	return !s.IsEmpty();
 }
 
 BOOL HotkeyModToString(UINT vkCode, BYTE fModifiers, CString& s)
@@ -330,9 +330,9 @@ BOOL HotkeyModToString(UINT vkCode, BYTE fModifiers, CString& s)
 		s.Format(_T("%s%s"), (LPCTSTR)s, GetKeyName(vkCode));
 	}
 
-	return(!s.IsEmpty());
+	return !s.IsEmpty();
 }
 
 BOOL HotkeyToString(DWORD dwHk, CString& s) {
-	return(HotkeyToString(LOBYTE(LOWORD(dwHk)), HIBYTE(LOWORD(dwHk)), s));
+	return HotkeyToString(LOBYTE(LOWORD(dwHk)), HIBYTE(LOWORD(dwHk)), s);
 }

@@ -252,7 +252,7 @@ static DWORD CharSetToCodePage(DWORD dwCharSet)
 int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 {
 	if (fUnicode) {
-		return(str.Find(c, pos));
+		return str.Find(c, pos);
 	}
 
 	int fStyleMod = 0;
@@ -267,7 +267,7 @@ int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 			i++;
 		} else if (i >= pos) {
 			if (c2 == c) {
-				return(i);
+				return i;
 			}
 		}
 
@@ -297,7 +297,7 @@ int FindChar(CStringA str, char c, int pos, bool fUnicode, int CharSet)
 {
 	ASSERT(!fUnicode);
 
-	return(FindChar(AToW(str), c, pos, false, CharSet));
+	return FindChar(AToW(str), c, pos, false, CharSet);
 }
 */
 static CStringW ToMBCS(CStringW str, DWORD CharSet)
@@ -320,7 +320,7 @@ static CStringW ToMBCS(CStringW str, DWORD CharSet)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 static CStringW UnicodeSSAToMBCS(CStringW str, DWORD CharSet)
@@ -364,7 +364,7 @@ static CStringW UnicodeSSAToMBCS(CStringW str, DWORD CharSet)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 static CStringW ToUnicode(CStringW str, DWORD CharSet)
@@ -394,7 +394,7 @@ static CStringW ToUnicode(CStringW str, DWORD CharSet)
 		ret += wc;
 	}
 
-	return(ret);
+	return ret;
 }
 
 static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
@@ -440,7 +440,7 @@ static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
@@ -462,7 +462,7 @@ CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
 	str.Replace(L"\\n", L"\n");
 	str.Replace(L"\\h", L" ");
 
-	return(str);
+	return str;
 }
 
 //
@@ -476,7 +476,7 @@ static CStringW SubRipper2SSA(CStringW str, int CharSet)
 	str.Replace(L"<u>", L"{\\u1}");
 	str.Replace(L"</u>", L"{\\u}");
 
-	return(str);
+	return str;
 }
 
 static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -529,7 +529,7 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 	}
 
-	return(ret.GetCount() > 0);
+	return (ret.GetCount() > 0);
 }
 
 static bool OpenOldSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -562,7 +562,7 @@ static bool OpenOldSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int Char
 		}
 	}
 
-	return(ret.GetCount() > 0);
+	return (ret.GetCount() > 0);
 }
 
 static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -672,14 +672,14 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 	}
 
-	return(ret.GetCount() > 0);
+	return (ret.GetCount() > 0);
 }
 
 static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 {
 	STSStyle* ret = DNew STSStyle();
 	if (!ret) {
-		return(NULL);
+		return NULL;
 	}
 
 	for (int i = 0, len = str.GetLength(); i < len; i++) {
@@ -736,7 +736,7 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 		i = k;
 	}
 
-	return(ret);
+	return ret;
 }
 
 static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
@@ -885,7 +885,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 		ret += L"\\N";
 	}
 
-	return(ret);
+	return ret;
 }
 
 static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -950,7 +950,7 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		}
 	}
 
-	return(ret.GetCount() > 0);
+	return (ret.GetCount() > 0);
 }
 
 static void ReplaceNoCase(CStringW& str, CStringW from, CStringW to)
@@ -1100,7 +1100,7 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
 		j = str.GetLength();
 	}
 
-	return(str);
+	return str;
 }
 
 static bool OpenSami(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -1212,7 +1212,7 @@ static bool OpenVPlayer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		}
 	}
 
-	return(ret.GetCount() > 0);
+	return (ret.GetCount() > 0);
 }
 
 CStringW GetStr(CStringW& buff, char sep = ',') //throw(...)
@@ -1232,7 +1232,7 @@ CStringW GetStr(CStringW& buff, char sep = ',') //throw(...)
 		buff = buff.Mid(pos+1);
 	}
 
-	return(ret);
+	return ret;
 }
 
 int GetInt(CStringW& buff, char sep = ',') //throw(...)
@@ -1251,7 +1251,7 @@ int GetInt(CStringW& buff, char sep = ',') //throw(...)
 		throw 1;
 	}
 
-	return(ret);
+	return ret;
 }
 
 double GetFloat(CStringW& buff, char sep = ',') //throw(...)
@@ -1617,7 +1617,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 		}
 	}
 
-	return(fRet);
+	return fRet;
 }
 
 static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -1767,7 +1767,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 	}
 
-	return(ret.GetCount() > 0);
+	return (ret.GetCount() > 0);
 }
 
 static bool OpenUSF(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -1825,7 +1825,7 @@ static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		}
 	}
 
-	return(ret.GetCount() > 0);
+	return (ret.GetCount() > 0);
 }
 
 typedef bool (*STSOpenFunct)(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet);
@@ -1883,7 +1883,7 @@ CSimpleTextSubtitle& CSimpleTextSubtitle::operator = (CSimpleTextSubtitle& sts)
 {
 	Copy(sts);
 
-	return(*this);
+	return *this;
 }
 */
 
@@ -2236,7 +2236,7 @@ int CSimpleTextSubtitle::SearchSub(int t, double fps)
 	int i = 0, j = (int)GetCount() - 1, ret = -1;
 
 	if (j >= 0 && t >= TranslateStart(j, fps)) {
-		return(j);
+		return j;
 	}
 
 	while (i < j) {
@@ -2281,7 +2281,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 		if (iSegment) {
 			*iSegment = j;
 		}
-		return(&m_segments[j]);
+		return &m_segments[j];
 	}
 
 	// after last segment
@@ -2289,7 +2289,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 		if (iSegment) {
 			*iSegment = j+1;
 		}
-		return(NULL);
+		return NULL;
 	}
 
 	// before first segment
@@ -2297,7 +2297,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 		if (iSegment) {
 			*iSegment = -1;
 		}
-		return(NULL);
+		return NULL;
 	}
 
 	while (i < j) {
@@ -2332,15 +2332,15 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 	if (0 <= ret && (size_t)ret < m_segments.GetCount()
 			&& m_segments[ret].subs.GetCount() > 0
 			&& TranslateSegmentStart(ret, fps) <= t && t < TranslateSegmentEnd(ret, fps)) {
-		return(&m_segments[ret]);
+		return &m_segments[ret];
 	}
 
-	return(NULL);
+	return NULL;
 }
 
 int CSimpleTextSubtitle::TranslateStart(int i, double fps)
 {
-	return(i < 0 || GetCount() <= (size_t)i ? -1 :
+	return (i < 0 || GetCount() <= (size_t)i ? -1 :
 		   m_mode == TIME ? GetAt(i).start :
 		   m_mode == FRAME ? (int)(GetAt(i).start*1000/fps) :
 		   0);
@@ -2348,7 +2348,7 @@ int CSimpleTextSubtitle::TranslateStart(int i, double fps)
 
 int CSimpleTextSubtitle::TranslateEnd(int i, double fps)
 {
-	return(i < 0 || GetCount() <= (size_t)i ? -1 :
+	return (i < 0 || GetCount() <= (size_t)i ? -1 :
 		   m_mode == TIME ? GetAt(i).end :
 		   m_mode == FRAME ? (int)(GetAt(i).end*1000/fps) :
 		   0);
@@ -2356,7 +2356,7 @@ int CSimpleTextSubtitle::TranslateEnd(int i, double fps)
 
 int CSimpleTextSubtitle::TranslateSegmentStart(int i, double fps)
 {
-	return(i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
+	return (i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
 		   m_mode == TIME ? m_segments[i].start :
 		   m_mode == FRAME ? (int)(m_segments[i].start*1000/fps) :
 		   0);
@@ -2364,7 +2364,7 @@ int CSimpleTextSubtitle::TranslateSegmentStart(int i, double fps)
 
 int CSimpleTextSubtitle::TranslateSegmentEnd(int i, double fps)
 {
-	return(i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
+	return (i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
 		   m_mode == TIME ? m_segments[i].end :
 		   m_mode == FRAME ? (int)(m_segments[i].end*1000/fps) :
 		   0);
@@ -2424,12 +2424,12 @@ int CSimpleTextSubtitle::GetCharSet(int i)
 {
 	STSStyle stss;
 	GetStyle(i, stss);
-	return(stss.charSet);
+	return stss.charSet;
 }
 
 bool CSimpleTextSubtitle::IsEntryUnicode(int i)
 {
-	return(GetAt(i).fUnicode);
+	return GetAt(i).fUnicode;
 }
 
 void CSimpleTextSubtitle::ConvertUnicode(int i, bool fUnicode)
@@ -2449,7 +2449,7 @@ void CSimpleTextSubtitle::ConvertUnicode(int i, bool fUnicode)
 
 CStringA CSimpleTextSubtitle::GetStrA(int i, bool fSSA)
 {
-	return(WToA(GetStrWA(i, fSSA)));
+	return WToA(GetStrWA(i, fSSA));
 }
 
 CStringW CSimpleTextSubtitle::GetStrW(int i, bool fSSA)
@@ -2467,7 +2467,7 @@ CStringW CSimpleTextSubtitle::GetStrW(int i, bool fSSA)
 		str = RemoveSSATags(str, fUnicode, CharSet);
 	}
 
-	return(str);
+	return str;
 }
 
 CStringW CSimpleTextSubtitle::GetStrWA(int i, bool fSSA)
@@ -2485,7 +2485,7 @@ CStringW CSimpleTextSubtitle::GetStrWA(int i, bool fSSA)
 		str = RemoveSSATags(str, fUnicode, CharSet);
 	}
 
-	return(str);
+	return str;
 }
 
 void CSimpleTextSubtitle::SetStr(int i, CStringA str, bool fUnicode)
@@ -2517,12 +2517,12 @@ static int comp1(const void* a, const void* b)
 	if (ret == 0) {
 		ret = ((STSEntry*)a)->readorder - ((STSEntry*)b)->readorder;
 	}
-	return(ret);
+	return ret;
 }
 
 static int comp2(const void* a, const void* b)
 {
-	return(((STSEntry*)a)->readorder - ((STSEntry*)b)->readorder);
+	return (((STSEntry*)a)->readorder - ((STSEntry*)b)->readorder);
 }
 
 void CSimpleTextSubtitle::Sort(bool fRestoreReadorder)
@@ -2533,7 +2533,7 @@ void CSimpleTextSubtitle::Sort(bool fRestoreReadorder)
 
 static int intcomp(const void* i1, const void* i2)
 {
-	return(*((int*)i1) - *((int*)i2));
+	return (*((int*)i1) - *((int*)i2));
 }
 
 void CSimpleTextSubtitle::CreateSegments()
@@ -2609,7 +2609,7 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
 		}
 	}
 
-	return(Open(&f, CharSet, name));
+	return Open(&f, CharSet, name);
 }
 
 static int CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to)
@@ -2620,7 +2620,7 @@ static int CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to)
 	while (f->ReadString(s) && f->GetPosition() < to) {
 		n++;
 	}
-	return(n);
+	return n;
 }
 
 bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
@@ -2703,7 +2703,7 @@ bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
 
 	_tremove(fn);
 
-	return(fRet);
+	return fRet;
 }
 
 bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::enc e)
@@ -2982,7 +2982,7 @@ void STSStyle::SetDefault()
 
 bool STSStyle::operator == (STSStyle& s)
 {
-	return(marginRect == s.marginRect
+	return (marginRect == s.marginRect
 		   && scrAlignment == s.scrAlignment
 		   && borderStyle == s.borderStyle
 		   && outlineWidthX == s.outlineWidthX
@@ -3005,7 +3005,7 @@ bool STSStyle::operator == (STSStyle& s)
 
 bool STSStyle::IsFontStyleEqual(STSStyle& s)
 {
-	return(
+	return (
 			  charSet == s.charSet
 			  && fontName == s.fontName
 			  && fontSize == s.fontSize
@@ -3050,7 +3050,7 @@ LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 	lfa.lfItalic = s.fItalic?-1:0;
 	lfa.lfUnderline = s.fUnderline?-1:0;
 	lfa.lfStrikeOut = s.fStrikeOut?-1:0;
-	return(lfa);
+	return lfa;
 }
 
 LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
@@ -3064,7 +3064,7 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 	lfw.lfItalic = s.fItalic?-1:0;
 	lfw.lfUnderline = s.fUnderline?-1:0;
 	lfw.lfStrikeOut = s.fStrikeOut?-1:0;
-	return(lfw);
+	return lfw;
 }
 
 CString& operator <<= (CString& style, STSStyle& s)
@@ -3083,7 +3083,7 @@ CString& operator <<= (CString& style, STSStyle& s)
 				 s.fontAngleZ, s.fontAngleX, s.fontAngleY,
 				 s.relativeTo);
 
-	return(style);
+	return style;
 }
 
 STSStyle& operator <<= (STSStyle& s, CString& style)
@@ -3130,7 +3130,7 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 		s.SetDefault();
 	}
 
-	return(s);
+	return s;
 }
 
 static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -3167,5 +3167,5 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 	//	std::wofstream wofsOut(L"c:/zzz.srt");
 	//	RealTextParser.OutputSRT(wofsOut);
 
-	return(ret.GetCount() > 0);
+	return (ret.GetCount() > 0);
 }

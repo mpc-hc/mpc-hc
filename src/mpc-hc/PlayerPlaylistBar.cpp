@@ -227,7 +227,7 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 		}
 	}
 
-	return(sl.GetCount() > 1
+	return (sl.GetCount() > 1
 		   || sl.GetCount() == 1 && sl.GetHead().CompareNoCase(mask)
 		   || sl.GetCount() == 0 && mask.FindOneOf(_T("?*")) >= 0);
 }
@@ -585,7 +585,7 @@ int CPlayerPlaylistBar::FindItem(POSITION pos) const
 {
 	for (int i = 0; i < m_list.GetItemCount(); i++)
 		if ((POSITION)m_list.GetItemData(i) == pos) {
-			return(i);
+			return (i);
 		}
 	return -1;
 }
@@ -593,9 +593,9 @@ int CPlayerPlaylistBar::FindItem(POSITION pos) const
 POSITION CPlayerPlaylistBar::FindPos(int i)
 {
 	if (i < 0) {
-		return(NULL);
+		return NULL;
 	}
-	return((POSITION)m_list.GetItemData(i));
+	return (POSITION)m_list.GetItemData(i);
 }
 
 INT_PTR CPlayerPlaylistBar::GetCount() const
@@ -605,7 +605,7 @@ INT_PTR CPlayerPlaylistBar::GetCount() const
 
 int CPlayerPlaylistBar::GetSelIdx() const
 {
-	return(FindItem(m_pl.GetPos()));
+	return FindItem(m_pl.GetPos());
 }
 
 void CPlayerPlaylistBar::SetSelIdx(int i)
@@ -652,7 +652,7 @@ CString CPlayerPlaylistBar::GetCurFileName()
 	if (pli && !pli->m_fns.IsEmpty()) {
 		fn = pli->m_fns.GetHead();
 	}
-	return(fn);
+	return fn;
 }
 
 bool CPlayerPlaylistBar::SetNext()

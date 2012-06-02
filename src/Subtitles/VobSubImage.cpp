@@ -257,7 +257,7 @@ BYTE CVobSubImage::GetNibble(BYTE* lpData)
 	BYTE ret = (lpData[off] >> (fAligned << 2)) & 0x0f;
 	fAligned = !fAligned;
 	off += fAligned;
-	return(ret);
+	return ret;
 }
 
 void CVobSubImage::DrawPixels(CPoint p, int length, int colorid)
@@ -532,7 +532,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 		}
 	}
 
-	return(ol);
+	return ol;
 }
 
 static bool FitLine(COutline& o, int& start, int& end)
@@ -656,7 +656,7 @@ static bool FitLine(COutline& o, int& start, int& end)
 		}
 	}
 
-	return((maxerr-minerr)/l < 0.1  || err/l < 1.5 || (fabs(maxerr) < 8 && fabs(minerr) < 8));
+	return ((maxerr-minerr)/l < 0.1  || err/l < 1.5 || (fabs(maxerr) < 8 && fabs(minerr) < 8));
 }
 
 static int CalcPossibleCurveDegree(COutline& o)
@@ -715,17 +715,17 @@ static int CalcPossibleCurveDegree(COutline& o)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 inline double vectlen(CPoint p)
 {
-	return(sqrt((double)(p.x*p.x+p.y*p.y)));
+	return sqrt((double)(p.x*p.x+p.y*p.y));
 }
 
 inline double vectlen(CPoint p1, CPoint p2)
 {
-	return(vectlen(p2 - p1));
+	return vectlen(p2 - p1);
 }
 
 static bool MinMaxCosfi(COutline& o, double& mincf, double& maxcf) // not really cosfi, it is weighted by the distance from the segment endpoints, and since it would be always between -1 and 0, the applied sign marks side
@@ -925,7 +925,7 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 
 			ret.Add(endp, 0);
 
-			return(last);
+			return last;
 		}
 
 		lastDir = o.da[cur];
@@ -934,11 +934,10 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 
 	ASSERT(0);
 
-	return(start);
+	return start;
 }
 
-void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2)
-{
+void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2){
 	size_t len = o.pa.GetCount();
 	if (len < 4) {
 		return;

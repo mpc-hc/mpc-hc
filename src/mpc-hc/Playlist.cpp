@@ -71,7 +71,7 @@ CPlaylistItem& CPlaylistItem::operator = (const CPlaylistItem& pli)
 		m_ainput = pli.m_ainput;
 		m_country = pli.m_country;
 	}
-	return(*this);
+	return *this;
 }
 
 POSITION CPlaylistItem::FindFile(LPCTSTR path)
@@ -83,7 +83,7 @@ POSITION CPlaylistItem::FindFile(LPCTSTR path)
 		}
 		m_fns.GetNext(pos);
 	}
-	return(NULL);
+	return NULL;
 }
 
 static CString StripPath(CString path)
@@ -91,7 +91,7 @@ static CString StripPath(CString path)
 	CString p = path;
 	p.Replace('\\', '/');
 	p = p.Mid(p.ReverseFind('/')+1);
-	return(p.IsEmpty() ? path : p);
+	return (p.IsEmpty() ? path : p);
 }
 
 CString CPlaylistItem::GetLabel(int i)
@@ -140,7 +140,7 @@ bool FindFileInList(CAtlList<CString>& sl, CString fn)
 			fFound = true;
 		}
 	}
-	return(fFound);
+	return fFound;
 }
 
 void CPlaylistItem::AutoLoadFiles()
@@ -352,7 +352,7 @@ void CPlaylist::Randomize()
 
 POSITION CPlaylist::GetPos() const
 {
-	return(m_pos);
+	return m_pos;
 }
 
 void CPlaylist::SetPos(POSITION pos)
@@ -402,7 +402,7 @@ CPlaylistItem& CPlaylist::GetNextWrap(POSITION& pos)
 		}
 	}
 
-	return(GetAt(pos));
+	return GetAt(pos);
 }
 
 CPlaylistItem& CPlaylist::GetPrevWrap(POSITION& pos)
@@ -411,5 +411,5 @@ CPlaylistItem& CPlaylist::GetPrevWrap(POSITION& pos)
 	if (!pos) {
 		pos = GetTailPosition();
 	}
-	return(GetAt(pos));
+	return GetAt(pos);
 }

@@ -55,12 +55,12 @@ namespace MatroskaReader
 		BASE& operator = (const BASE& v) {
 			m_val = v.m_val;
 			m_fValid = true;
-			return(*this);
+			return *this;
 		}
 		BASE& operator = (T val) {
 			m_val = val;
 			m_fValid = true;
-			return(*this);
+			return *this;
 		}
 		operator T() const {
 			return m_val;
@@ -68,7 +68,7 @@ namespace MatroskaReader
 		BASE& Set(T val) {
 			m_val = val;
 			m_fValid = true;
-			return(*(BASE*)this);
+			return (*(BASE*)this);
 		}
 		bool IsValid() const {
 			return m_fValid;
@@ -117,7 +117,7 @@ namespace MatroskaReader
 	public:
 		CBinary& operator = (const CBinary& b) {
 			Copy(b);
-			return(*this);
+			return *this;
 		}
 		CStringA ToString() {
 			return CStringA((LPCSTR)GetData(), GetCount());

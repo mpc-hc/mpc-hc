@@ -54,7 +54,7 @@ static CStringW GetText(CComPtr<IXMLDOMNode> pNode)
 	CComBSTR bstr;
 	pNode->get_text(&bstr);
 
-	return(CStringW(bstr));
+	return CStringW(bstr);
 }
 
 static CStringW GetXML(CComPtr<IXMLDOMNode> pNode)
@@ -69,7 +69,7 @@ static CStringW GetXML(CComPtr<IXMLDOMNode> pNode)
 			str.Delete(i);
 		}
 	}
-	return(str);
+	return str;
 }
 
 static CStringW GetAttrib(CStringW attrib, CComPtr<IXMLDOMNode> pNode)
@@ -86,7 +86,7 @@ static CStringW GetAttrib(CStringW attrib, CComPtr<IXMLDOMNode> pNode)
 	}
 	EndEnumAttribs
 
-	return(ret);
+	return ret;
 }
 
 static int TimeToInt(CStringW str)
@@ -115,7 +115,7 @@ static int TimeToInt(CStringW str)
 		time += t * mul[i];
 	}
 
-	return(time);
+	return time;
 }
 
 static DWORD StringToDWORD(CStringW str)
@@ -124,9 +124,9 @@ static DWORD StringToDWORD(CStringW str)
 		return 0;
 	}
 	if (str[0] == '#') {
-		return((DWORD)wcstol(str, NULL, 16));
+		return (DWORD)wcstol(str, NULL, 16);
 	} else {
-		return((DWORD)wcstol(str, NULL, 10));
+		return (DWORD)wcstol(str, NULL, 10);
 	}
 }
 
@@ -146,7 +146,7 @@ static DWORD ColorToDWORD(CStringW str)
 
 	ret = ((ret&0xff)<<16)|(ret&0xff00ff00)|((ret>>16)&0xff);
 
-	return(ret);
+	return ret;
 }
 
 static int TranslateAlignment(CStringW alignment)
@@ -175,7 +175,7 @@ static int TranslateMargin(CStringW margin, int wndsize)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 ////////////////

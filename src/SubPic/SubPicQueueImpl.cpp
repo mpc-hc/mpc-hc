@@ -273,7 +273,7 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISu
 #endif
 	}
 
-	return(!!ppSubPic);
+	return !!ppSubPic;
 }
 
 STDMETHODIMP CSubPicQueue::GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
@@ -383,7 +383,7 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
 		}
 	}
 
-	return(rtNow);
+	return rtNow;
 }
 
 int CSubPicQueue::GetQueueCount()
@@ -657,7 +657,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
 		}
 	}
 
-	return(!!ppSubPic);
+	return !!ppSubPic;
 }
 
 STDMETHODIMP CSubPicQueueNoThread::GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)

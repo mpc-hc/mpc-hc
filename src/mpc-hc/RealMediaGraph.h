@@ -111,7 +111,7 @@ namespace DSObjects
 		void Deinit();
 
 		virtual CSize GetVideoSize() {
-			return(m_VideoSize);
+			return m_VideoSize;
 		}
 		virtual void SetWindowRect(CRect r) {}
 		virtual void SetDestRect(CRect r) {}

@@ -206,7 +206,7 @@ namespace Plugin
 		}
 
 		int GetCharSet() {
-			return(m_CharSet);
+			return m_CharSet;
 		}
 
 		bool Open(CString fn, int CharSet = DEFAULT_CHARSET) {
@@ -806,7 +806,7 @@ namespace Plugin
 
 				Render(dst, (REFERENCE_TIME)(10000000i64 * n / fps), fps);
 
-				return(frame);
+				return frame;
 			}
 		};
 
@@ -824,7 +824,7 @@ namespace Plugin
 
 		AVSValue __cdecl VobSubCreateS(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(DNew CVobSubAvisynthFilter(args[0].AsClip(), args[1].AsString(), env));
+			return (DNew CVobSubAvisynthFilter(args[0].AsClip(), args[1].AsString(), env));
 		}
 
 		class CTextSubAvisynthFilter : public CTextSubFilter, public CAvisynthFilter
@@ -840,17 +840,17 @@ namespace Plugin
 
 		AVSValue __cdecl TextSubCreateS(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString()));
+			return (DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString()));
 		}
 
 		AVSValue __cdecl TextSubCreateSI(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt()));
+			return (DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt()));
 		}
 
 		AVSValue __cdecl TextSubCreateSIF(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt(), (float)args[3].AsFloat()));
+			return (DNew CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt(), (float)args[3].AsFloat()));
 		}
 
 		AVSValue __cdecl MaskSubCreateSIIFI(AVSValue args, void* user_data, IScriptEnvironment* env)
@@ -873,7 +873,7 @@ namespace Plugin
 			};
 			AVSValue clip(env->Invoke("Blackness",value,nom));
 			env->SetVar(env->SaveString("RGBA"),true);
-			return(DNew CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
+			return (DNew CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
 		}
 
 		extern "C" __declspec(dllexport) const char* __stdcall AvisynthPluginInit(IScriptEnvironment* env)
@@ -884,7 +884,7 @@ namespace Plugin
 			env->AddFunction("TextSub", "csif", TextSubCreateSIF, 0);
 			env->AddFunction("MaskSub", "siifi", MaskSubCreateSIIFI, 0);
 			env->SetVar(env->SaveString("RGBA"),false);
-			return(NULL);
+			return NULL;
 		}
 	}
 
@@ -935,7 +935,7 @@ namespace Plugin
 
 				Render(dst, timestamp, fps);
 
-				return(frame);
+				return frame;
 			}
 		};
 
@@ -953,7 +953,7 @@ namespace Plugin
 
 		AVSValue __cdecl VobSubCreateS(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
-			return(DNew CVobSubAvisynthFilter(args[0].AsClip(), args[1].AsString(), env));
+			return (DNew CVobSubAvisynthFilter(args[0].AsClip(), args[1].AsString(), env));
 		}
 
 		class CTextSubAvisynthFilter : public CTextSubFilter, public CAvisynthFilter
@@ -976,7 +976,7 @@ namespace Plugin
 				vfr = GetVFRTranslator(args[4].AsString());
 			}
 
-			return(DNew CTextSubAvisynthFilter(
+			return (DNew CTextSubAvisynthFilter(
 					   args[0].AsClip(),
 					   env,
 					   args[1].AsString(),
@@ -988,7 +988,7 @@ namespace Plugin
 		AVSValue __cdecl TextSubSwapUV(AVSValue args, void* user_data, IScriptEnvironment* env)
 		{
 			s_fSwapUV = args[0].AsBool(false);
-			return(AVSValue());
+			return AVSValue();
 		}
 
 		AVSValue __cdecl MaskSubCreate(AVSValue args, void* user_data, IScriptEnvironment* env)/*SIIFI*/
@@ -1021,8 +1021,8 @@ namespace Plugin
 			};
 			AVSValue clip(env->Invoke("Blackness",value,nom));
 			env->SetVar(env->SaveString("RGBA"),true);
-			//return(DNew CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
-			return(DNew CTextSubAvisynthFilter(
+			//return (DNew CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
+			return (DNew CTextSubAvisynthFilter(
 					   clip.AsClip(),
 					   env,
 					   args[0].AsString(),
@@ -1038,7 +1038,7 @@ namespace Plugin
 			env->AddFunction("TextSubSwapUV", "b", TextSubSwapUV, 0);
 			env->AddFunction("MaskSub", "[file]s[width]i[height]i[fps]f[length]i[charset]i[vfr]s", MaskSubCreate, 0);
 			env->SetVar(env->SaveString("RGBA"),false);
-			return(NULL);
+			return NULL;
 		}
 	}
 
