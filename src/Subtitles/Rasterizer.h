@@ -61,7 +61,7 @@ class Rasterizer
 protected:
 	BYTE* mpPathTypes;
 	POINT* mpPathPoints;
-	size_t mPathPoints;
+	int mPathPoints;
 
 private:
 	int mWidth, mHeight;
@@ -77,10 +77,10 @@ private:
 		int next;
 		int posandflag;
 	} *mpEdgeBuffer;
-	size_t mEdgeHeapSize;
-	size_t mEdgeNext;
+	unsigned int mEdgeHeapSize;
+	unsigned int mEdgeNext;
 
-	size_t* mpScanBuffer;
+	unsigned int* mpScanBuffer;
 
 	typedef unsigned char byte;
 

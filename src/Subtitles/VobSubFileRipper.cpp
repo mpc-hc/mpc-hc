@@ -197,7 +197,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 		m_rd.pgcs.RemoveAll();
 		m_rd.pgcs.SetCount(nPGC);
 
-		for (ptrdiff_t i = 0; i < nPGC; i++) {
+		for (size_t i = 0; i < nPGC; i++) {
 			PGC& pgc = m_rd.pgcs[i];
 
 			f.Seek(pgcpos + 8 + i*8 + 4, CFile::begin);
@@ -221,7 +221,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 			f.Seek(offset + 0x1c, CFile::begin);
 			f.Read(splinfo, 32*4);
 
-			for (ptrdiff_t j = 0; j < 32; j++) {
+			for (size_t j = 0; j < 32; j++) {
 				if (splinfo[j].id1 || splinfo[i].id2) {
 					WORD tmpids[32];
 					memset(tmpids, 0, sizeof(tmpids));
@@ -243,7 +243,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
 			f.Seek(offset + 0xa4, CFile::begin);
 
-			for (ptrdiff_t j = 0; j < 16; j++) {
+			for (size_t j = 0; j < 16; j++) {
 				BYTE y, u, v, tmp;
 
 				f.Read(&tmp, 1);
@@ -283,7 +283,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 			//
 
 			f.Seek(offset + vobcelloff, CFile::begin);
-			for (ptrdiff_t j = 0; j < nCells; j++) {
+			for (size_t j = 0; j < nCells; j++) {
 				ReadBEw(pgc.angles[0][j].vob);
 				ReadBEw(pgc.angles[0][j].cell);
 			}
@@ -297,7 +297,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 			pgc.nAngles = 0;
 
 			f.Seek(offset + celladdroff, CFile::begin);
-			for (ptrdiff_t j = 0; j < nCells; j++) {
+			for (size_t j = 0; j < nCells; j++) {
 				BYTE b;
 				ReadBEb(b);
 				switch (b>>6) {
@@ -356,7 +356,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 			for (iAngle = 1; iAngle <= 9; iAngle++) {
 				tOffset = tTotal = 0;
 
-				for (ptrdiff_t j = 0, k = 0; j < nCells; j++) {
+				for (size_t j = 0, k = 0; j < nCells; j++) {
 					if (pgc.angles[0][j].iAngle != 0
 							&& pgc.angles[0][j].iAngle != iAngle) {
 						continue;
@@ -392,7 +392,7 @@ bool CVobSubFileRipper::LoadVob(CString fn)
 
 		fn = fn.Left(fn.ReverseFind('.')+1);
 		fn.TrimRight(_T(".0123456789"));
-		for (ptrdiff_t i = 0; i < 100; i++)
+		for (int i = 0; i < 100; i++)
 		{
 			CString vob;
 			vob.Format(_T("%s%d.vob"), fn, i);
@@ -771,7 +771,7 @@ bool CVobSubFileRipper::Create()
 			if (*(DWORD*)&buff[0x0e] == 0xe0010000) {
 				if (fDiscontinuity) {
 					if (PTS < minPTSframeoffset) {
-						selvcmap[vcid] = PTSframeoffset = PTS;
+						selvcmap[vcid] = PTSframeoffset = (int)PTS;
 					}
 
 					fDiscontinuity = false;
@@ -829,7 +829,7 @@ bool CVobSubFileRipper::Create()
 
 	for (ptrdiff_t i = 0; i < 32; i++) {
 		if (m_iLang == -1 && m_langs[i].subpos.GetCount() > 0) {
-			m_iLang = i;
+			m_iLang = (int)i;
 		}
 		m_langs[i].id = pgc.ids[i];
 		m_langs[i].name = m_langs[i].alt = FindLangFromId(m_langs[i].id);
@@ -846,7 +846,7 @@ bool CVobSubFileRipper::Create()
 
 				sp[j].fValid = false;
 				int packetsize = 0, datasize = 0;
-				if (BYTE* buff = GetPacket(j, packetsize, datasize, i)) {
+				if (BYTE* buff = GetPacket((int)j, packetsize, datasize, (int)i)) {
 					m_img.GetPacketInfo(buff, packetsize, datasize);
 					sp[j].fValid = m_img.fForced;
 					delete [] buff;
@@ -901,7 +901,7 @@ bool CVobSubFileRipper::LoadChunks(CAtlArray<vcchunk>& chunks)
 		f.Read(&voblen, sizeof(voblen));
 		f.Read(&chunklen, sizeof(chunklen));
 		chunks.SetCount(chunklen);
-		f.Read(chunks.GetData(), sizeof(vcchunk)*chunks.GetCount());
+		f.Read(chunks.GetData(), UINT(sizeof(vcchunk)*chunks.GetCount()));
 	}
 	f.Close();
 
@@ -935,7 +935,7 @@ bool CVobSubFileRipper::SaveChunks(CAtlArray<vcchunk>& chunks)
 	TrimExtension(fn);
 	fn += _T(".chunks");
 
-	DWORD chksum = 0, chunklen = chunks.GetCount();
+	DWORD chksum = 0, chunklen = (DWORD)chunks.GetCount();
 	__int64 voblen = m_vob.GetLength();
 
 	if (!f.Open(m_infn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
@@ -1060,7 +1060,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 			phase = P_LANGS;
 		} else if (phase == 4) {
 			if (!line.CompareNoCase(_T("ALL"))) {
-				for (ptrdiff_t i = 0; i < 32; i++) {
+				for (BYTE i = 0; i < 32; i++) {
 					m_rd.selids[i] = true;
 				}
 				m_rd.fClosedCaption = true;
@@ -1212,14 +1212,14 @@ void VSFRipperData::Copy(VSFRipperData& rd)
 
 	vidsize = rd.vidsize;
 	vidinfo = rd.vidinfo;
-	if (int len = rd.pgcs.GetCount()) {
+	if (size_t len = rd.pgcs.GetCount()) {
 		pgcs.SetCount(len);
-		for (ptrdiff_t i = 0; i < len; i++) {
+		for (size_t i = 0; i < len; i++) {
 			PGC& src = rd.pgcs[i];
 			PGC& dst = pgcs[i];
 			dst.nAngles = src.nAngles;
-			for (ptrdiff_t i = 0; i < _countof(dst.angles); i++) {
-				dst.angles[i].Copy(src.angles[i]);
+			for (size_t j = 0; j < _countof(dst.angles); j++) {
+				dst.angles[j].Copy(src.angles[j]);
 			}
 			dst.iSelAngle = src.iSelAngle;			memcpy(dst.pal, src.pal, sizeof(src.pal));
 			memcpy(dst.ids, src.ids, sizeof(src.ids));

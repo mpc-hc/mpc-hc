@@ -206,7 +206,7 @@ void CWord::Transform_C( CPoint &org )
 	double cay = cos((3.1415/180)*m_style.fontAngleY);
 	double say = sin((3.1415/180)*m_style.fontAngleY);
 
-	for (size_t i = 0; i < mPathPoints; i++) {
+	for (ptrdiff_t i = 0; i < mPathPoints; i++) {
 		double x, y, z, xx, yy, zz;
 
 		x = mpPathPoints[i].x;
@@ -558,7 +558,7 @@ bool CPolygon::ParseStr()
 		s.TrimLeft(L"mnlbspc ");
 		switch (c) {
 			case 'm':
-				lastmoveto = m_pathTypesOrg.GetCount();
+				lastmoveto = (int)m_pathTypesOrg.GetCount();
 				if (firstmoveto == -1) {
 					firstmoveto = lastmoveto;
 				}
@@ -583,7 +583,7 @@ bool CPolygon::ParseStr()
 				}
 				break;
 			case 'b':
-				j = m_pathTypesOrg.GetCount();
+				j = (int)m_pathTypesOrg.GetCount();
 				if (j < 1) {
 					break;
 				}
@@ -592,7 +592,7 @@ bool CPolygon::ParseStr()
 					m_pathPointsOrg.Add(p);
 					j++;
 				}
-				j = m_pathTypesOrg.GetCount() - ((m_pathTypesOrg.GetCount() - j) % 3);
+				j = (int)(m_pathTypesOrg.GetCount() - ((m_pathTypesOrg.GetCount() - j) % 3));
 				m_pathTypesOrg.SetCount(j);
 				m_pathPointsOrg.SetCount(j);
 				break;
@@ -600,7 +600,7 @@ bool CPolygon::ParseStr()
 				if (m_pathPointsOrg.GetCount() < 1) {
 					break;
 				}
-				j = lastsplinestart = m_pathTypesOrg.GetCount();
+				j = lastsplinestart = (int)m_pathTypesOrg.GetCount();
 				i = 3;
 				while (i-- && GetPOINT(s, p)) {
 					m_pathTypesOrg.Add(PT_BSPLINETO);

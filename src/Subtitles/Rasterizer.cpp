@@ -300,7 +300,7 @@ bool Rasterizer::EndPath(HDC hdc)
 		mpPathTypes = (BYTE*)malloc(sizeof(BYTE) * mPathPoints);
 		mpPathPoints = (POINT*)malloc(sizeof(POINT) * mPathPoints);
 
-		if (mPathPoints == (size_t)GetPath(hdc, mpPathPoints, mpPathTypes, mPathPoints)) {
+		if (mPathPoints == GetPath(hdc, mpPathPoints, mpPathTypes, mPathPoints)) {
 			return true;
 		}
 	}
@@ -375,8 +375,8 @@ bool Rasterizer::PartialEndPath(HDC hdc, long dx, long dy)
 
 bool Rasterizer::ScanConvert()
 {
-	size_t lastmoveto = (size_t)-1;
-	size_t i;
+	int lastmoveto = INT_MAX;
+	int i;
 
 	// Drop any outlines we may have.
 
@@ -392,14 +392,14 @@ bool Rasterizer::ScanConvert()
 		return 0;
 	}
 
-	ptrdiff_t minx = INT_MAX;
-	ptrdiff_t miny = INT_MAX;
-	ptrdiff_t maxx = INT_MIN;
-	ptrdiff_t maxy = INT_MIN;
+	int minx = INT_MAX;
+	int miny = INT_MAX;
+	int maxx = INT_MIN;
+	int maxy = INT_MIN;
 
 	for (i=0; i<mPathPoints; ++i) {
-		ptrdiff_t ix = mpPathPoints[i].x;
-		ptrdiff_t iy = mpPathPoints[i].y;
+		int ix = mpPathPoints[i].x;
+		int iy = mpPathPoints[i].y;
 
 		if (ix < minx) {
 			minx = ix;
@@ -446,8 +446,8 @@ bool Rasterizer::ScanConvert()
 
 	// Initialize scanline list.
 
-	mpScanBuffer = DNew size_t[mHeight];
-	memset(mpScanBuffer, 0, mHeight*sizeof(size_t));
+	mpScanBuffer = DNew unsigned int[mHeight];
+	memset(mpScanBuffer, 0, mHeight*sizeof(unsigned int));
 
 	// Scan convert the outline.  Yuck, Bezier curves....
 
@@ -523,7 +523,7 @@ bool Rasterizer::ScanConvert()
 
 		// Detangle scanline into edge heap.
 
-		for (size_t ptr = (mpScanBuffer[y]&size_t(-1)); ptr; ptr = mpEdgeBuffer[ptr].next) {
+		for (size_t ptr = (mpScanBuffer[y]&(unsigned int)(-1)); ptr; ptr = mpEdgeBuffer[ptr].next) {
 			heap.push_back(mpEdgeBuffer[ptr].posandflag);
 		}
 
@@ -705,7 +705,7 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
 	if (ry > 0) {
 		// Do a half circle.
 		// _OverlapRegion mirrors this so both halves are done.
-		for (ptrdiff_t y = -ry; y <= ry; ++y) {
+		for (int y = -ry; y <= ry; ++y) {
 			int x = (int)(0.5 + sqrt(float(ry*ry - y*y)) * float(rx)/float(ry));
 
 			_OverlapRegion(mWideOutline, mOutline, x, y);
@@ -788,15 +788,15 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 		for (; it!=itEnd; ++it) {
 			unsigned __int64 f = (*it).first;
-			size_t y = (f >> 32) - 0x40000000 + ysub;
-			size_t x1 = (f & 0xffffffff) - 0x40000000 + xsub;
+			unsigned int y = (f >> 32) - 0x40000000 + ysub;
+			unsigned int x1 = (f & 0xffffffff) - 0x40000000 + xsub;
 
 			unsigned __int64 s = (*it).second;
-			size_t x2 = (s & 0xffffffff) - 0x40000000 + xsub;
+			unsigned int x2 = (s & 0xffffffff) - 0x40000000 + xsub;
 
 			if (x2 > x1) {
-				size_t first = x1>>3;
-				size_t last = (x2-1)>>3;
+				unsigned int first = x1>>3;
+				unsigned int last = (x2-1)>>3;
 				byte* dst = mpOverlayBuffer + 2*(mOverlayWidth*(y>>3) + first) + i;
 
 				if (first == last) {
