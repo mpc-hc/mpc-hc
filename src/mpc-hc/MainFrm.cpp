@@ -2642,13 +2642,13 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				TRACE(_T("\t%d %d\n"), evParam1, evParam2);
 				break;
 			case EC_VIDEO_SIZE_CHANGED: {
-				TRACE(_T("\t%dx%d\n"), CSize(evParam1));
+				TRACE(_T("\t%dx%d\n"), CSize((DWORD)evParam1));
 
 				WINDOWPLACEMENT wp;
 				wp.length = sizeof(wp);
 				GetWindowPlacement(&wp);
 
-				CSize size(evParam1);
+				CSize size((DWORD)evParam1);
 				m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
 
 				if (s.fRememberZoomLevel
@@ -2667,7 +2667,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			break;
 			case EC_BG_AUDIO_CHANGED:
 				if (m_fCustomGraph) {
-					int nAudioChannels = evParam1;
+					int nAudioChannels = (int)evParam1;
 
 					m_wndStatusBar.SetStatusBitmap(nAudioChannels == 1 ? IDB_MONO
 												   : nAudioChannels >= 2 ? IDB_STEREO
@@ -3768,7 +3768,7 @@ void CMainFrame::OnOgmAudio(UINT nID)
 	}
 
 	CAtlArray<int> snds;
-	int iSel = -1;
+	INT_PTR iSel = -1;
 
 	DWORD cStreams = 0;
 	if (SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
@@ -3798,7 +3798,7 @@ void CMainFrame::OnOgmAudio(UINT nID)
 
 		}
 
-		int cnt = snds.GetCount();
+		size_t cnt = snds.GetCount();
 		if (cnt > 1 && iSel >= 0) {
 			int nNewStream = snds[(iSel+(nID==0?1:cnt-1))%cnt];
 			pSS->Enable(nNewStream, AMSTREAMSELECTENABLE_ENABLE);
@@ -14972,7 +14972,7 @@ void CMainFrame::SendAPICommand (MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
 		va_start(args, fmt);
 		_vstprintf_s(buff, _countof(buff), fmt, args);
 
-		CDS.cbData = (_tcslen (buff) + 1) * sizeof(TCHAR);
+		CDS.cbData = (DWORD)(_tcslen(buff) + 1) * sizeof(TCHAR);
 		CDS.dwData = nCommand;
 		CDS.lpData = (LPVOID)buff;
 

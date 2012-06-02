@@ -347,7 +347,7 @@ bool CMPlayerCApp::StoreSettingsToIni()
 	// So to ensure we have correct encoding for ini files, create a file with right BOM first,
 	// then add some comments in first line to make sure it's not empty.
 	if (!::PathFileExists(m_pszProfileName)) { // don't overwrite existing ini file
-		LPTSTR pszComments = _T("; Media Player Classic - Home Cinema");
+		LPCTSTR pszComments = _T("; Media Player Classic - Home Cinema");
 		WORD wBOM = 0xFEFF; // UTF16-LE BOM (FFFE)
 		DWORD nBytes;
 
@@ -355,7 +355,7 @@ bool CMPlayerCApp::StoreSettingsToIni()
 		if (hFile != INVALID_HANDLE_VALUE)
 		{
 			::WriteFile(hFile, &wBOM, sizeof(WORD), &nBytes, NULL);
-			::WriteFile(hFile, pszComments, (_tcslen(pszComments)+1)*(sizeof(TCHAR)), &nBytes, NULL);
+			::WriteFile(hFile, pszComments, sizeof(pszComments), &nBytes, NULL);
 			::CloseHandle(hFile);
 		}
 	}
@@ -725,11 +725,11 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
 {
 	HANDLE	hFile = INVALID_HANDLE_VALUE;
 	WCHAR	strFakeFile[_MAX_PATH];
-	int		nLen  = wcslen(p1);
+	size_t	nLen  = wcslen(p1);
 
 	p3 |= FILE_SHARE_WRITE;
 
-	if (nLen>=4 && _wcsicmp (p1 + nLen-4, L".ifo") == 0) {
+	if (nLen >= 4 && _wcsicmp(p1 + nLen - 4, L".ifo") == 0) {
 		if (CreateFakeVideoTS(p1, strFakeFile, _countof(strFakeFile))) {
 			hFile = Real_CreateFileW(strFakeFile, p2, p3, p4, p5, p6, p7);
 		}
@@ -1845,7 +1845,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 		FILE* f = NULL;
 		if (!_tfopen_s(&f, fn, _T("rb"))) {
 			CStringA str;
-			str.ReleaseBufferSetLength(fread(str.GetBuffer(10240), 1, 10240, f));
+			str.ReleaseBufferSetLength((int)fread(str.GetBuffer(10240), 1, 10240, f));
 			body = AToT(str);
 			fclose(f);
 		}
