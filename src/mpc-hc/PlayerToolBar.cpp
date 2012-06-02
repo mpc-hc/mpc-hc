@@ -31,9 +31,6 @@
 #include <libpng/png.h>
 
 
-typedef HRESULT (__stdcall * SetWindowThemeFunct)(HWND hwnd, LPCWSTR pszSubAppName, LPCWSTR pszSubIdList);
-
-
 // CPlayerToolBar
 
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
@@ -89,19 +86,14 @@ HBITMAP CPlayerToolBar::LoadExternalToolBar()
 
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 {
-	if (!__super::CreateEx(pParentWnd,
-						   TBSTYLE_FLAT|TBSTYLE_TRANSPARENT|TBSTYLE_AUTOSIZE,
-						   WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM|CBRS_TOOLTIPS, CRect(2,2,0,3))) {
-		return FALSE;
-	}
-	if (!LoadToolBar(IDB_PLAYERTOOLBAR)) {
-		return FALSE;
-	}
+	VERIFY(__super::CreateEx(pParentWnd,
+						TBSTYLE_FLAT|TBSTYLE_TRANSPARENT|TBSTYLE_AUTOSIZE|TBSTYLE_CUSTOMERASE,
+						WS_CHILD|WS_VISIBLE|CBRS_BOTTOM|CBRS_TOOLTIPS, CRect(2,2,0,1)));
+
+	VERIFY(LoadToolBar(IDB_PLAYERTOOLBAR));
 
 	// Should never be RTLed
 	ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
-
-	GetToolBarCtrl().SetExtendedStyle(TBSTYLE_EX_DRAWDDARROWS);
 
 	CToolBarCtrl& tb = GetToolBarCtrl();
 	tb.DeleteButton(tb.GetButtonCount()-1);
@@ -114,15 +106,14 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 		TBBS_SEPARATOR,
 		TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON,
 		TBBS_SEPARATOR,
-		TBBS_BUTTON/*|TBSTYLE_DROPDOWN*/,
+		TBBS_BUTTON,
 		TBBS_SEPARATOR,
 		TBBS_SEPARATOR,
 		TBBS_CHECKBOX,
-		/*TBBS_SEPARATOR,*/
 	};
 
-	for (int i = 0; i < _countof(styles); i++) {
-		SetButtonStyle(i, styles[i]|TBBS_DISABLED);
+	for (int i = 0; i < _countof(styles); ++i) {
+		SetButtonStyle(i, styles[i] | TBBS_DISABLED);
 	}
 
 	m_volctrl.Create(this);
@@ -164,19 +155,6 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	return TRUE;
 }
 
-BOOL CPlayerToolBar::PreCreateWindow(CREATESTRUCT& cs)
-{
-	if (!__super::PreCreateWindow(cs)) {
-		return FALSE;
-	}
-
-	m_dwStyle &= ~CBRS_BORDER_TOP;
-	m_dwStyle &= ~CBRS_BORDER_BOTTOM;
-	//	m_dwStyle |= CBRS_SIZE_FIXED;
-
-	return TRUE;
-}
-
 void CPlayerToolBar::ArrangeControls()
 {
 	if (!::IsWindow(m_volctrl.m_hWnd)) {
@@ -193,7 +171,7 @@ void CPlayerToolBar::ArrangeControls()
 
 	CRect vr;
 	m_volctrl.GetClientRect(&vr);
-	CRect vr2(r.right + br.right - 60, r.bottom - 25, r.right +br.right + 6, r.bottom);
+	CRect vr2(r.right + br.right - 60, r.bottom - 25, r.right + br.right + 6, r.bottom);
 	m_volctrl.MoveWindow(vr2);
 
 	UINT nID;
@@ -209,7 +187,7 @@ void CPlayerToolBar::SetMute(bool fMute)
 	TBBUTTONINFO bi;
 	bi.cbSize = sizeof(bi);
 	bi.dwMask = TBIF_IMAGE;
-	bi.iImage = fMute?13:12;
+	bi.iImage = fMute ? 13 : 12;
 	tb.SetButtonInfo(ID_VOLUME_MUTE, &bi);
 
 	AfxGetAppSettings().fMute = fMute;
@@ -231,7 +209,7 @@ int CPlayerToolBar::GetVolume() const
 	if (IsMuted() || volume <= 0) {
 		volume = -10000;
 	} else {
-		volume = min((int)(4000*log10(volume/100.0f)), 0); // 4000=2.0*100*20, where 2.0 is a special factor
+		volume = min((int)(4000 * log10(volume / 100.0f)), 0); // 4000=2.0*100*20, where 2.0 is a special factor
 	}
 
 	return volume;
@@ -244,15 +222,11 @@ int CPlayerToolBar::GetMinWidth() const
 
 void CPlayerToolBar::SetVolume(int volume)
 {
-	/*
-		volume = (int)pow(10, ((double)volume)/5000+2);
-		volume = max(min(volume, 100), 1);
-	*/
 	m_volctrl.SetPosInternal(volume);
 }
 
 BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
-	ON_WM_PAINT()
+	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
 	ON_WM_SIZE()
 	ON_MESSAGE_VOID(WM_INITIALUPDATE, OnInitialUpdate)
 	ON_COMMAND_EX(ID_VOLUME_MUTE, OnVolumeMute)
@@ -266,25 +240,40 @@ END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
 
-void CPlayerToolBar::OnPaint()
+void CPlayerToolBar::OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	if (m_bDelayedButtonLayout) {
-		Layout();
+	LPNMTBCUSTOMDRAW pTBCD = reinterpret_cast<LPNMTBCUSTOMDRAW>(pNMHDR);
+	LRESULT lr = CDRF_DODEFAULT;
+	switch (pTBCD->nmcd.dwDrawStage) {
+	case CDDS_PREPAINT: {
+		// paint the control background, this is needed for XP
+		CDC dc;
+		dc.Attach(pTBCD->nmcd.hdc);
+		RECT r;
+		GetClientRect(&r);
+		dc.FillSolidRect(&r, ::GetSysColor(COLOR_BTNFACE));
+		dc.Detach();
+		}
+		lr |= CDRF_NOTIFYITEMDRAW;
+		break;
+	case CDDS_ITEMPREPAINT:
+		// notify we want to paint after the system's paint cycle
+		lr |= CDRF_NOTIFYPOSTPAINT;
+		lr |= CDRF_NOTIFYITEMDRAW;
+		break;
+	case CDDS_ITEMPOSTPAINT:
+		// paint over the duplicated separator
+		CDC dc;
+		dc.Attach(pTBCD->nmcd.hdc);
+		RECT r;
+		GetItemRect(11, &r);
+		dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
+		dc.Detach();
+		lr |= CDRF_SKIPDEFAULT;
+		break;
 	}
 
-	CPaintDC dc(this); // device context for painting
-
-	DefWindowProc(WM_PAINT, WPARAM(dc.m_hDC), 0);
-
-	{
-		UINT nID;
-		UINT nStyle = 0;
-		int iImage = 0;
-		GetButtonInfo(11, nID, nStyle, iImage);
-		CRect ItemRect;
-		GetItemRect(11, ItemRect);
-		dc.FillSolidRect(ItemRect, GetSysColor(COLOR_BTNFACE));
-	}
+	*pResult = lr;
 }
 
 void CPlayerToolBar::OnSize(UINT nType, int cx, int cy)

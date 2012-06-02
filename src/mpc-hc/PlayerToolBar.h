@@ -58,13 +58,12 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CPlayerToolBar)
 	virtual BOOL Create(CWnd* pParentWnd);
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
 	// Generated message map functions
 protected:
 	//{{AFX_MSG(CPlayerToolBar)
-	afx_msg void OnPaint();
+	afx_msg void OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnInitialUpdate();
 	afx_msg BOOL OnVolumeMute(UINT nID);
