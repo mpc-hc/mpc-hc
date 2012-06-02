@@ -48,9 +48,9 @@ void CPacketQueue::Add(CAutoPtr<Packet> p)
 				&& p->rtStart == Packet::INVALID_TIME
 				&& !IsEmpty() && GetTail()->rtStart != Packet::INVALID_TIME) {
 			Packet* tail = GetTail();
-			int oldsize = tail->GetCount();
-			int newsize = tail->GetCount() + p->GetCount();
-			tail->SetCount(newsize, max(1024, newsize)); // doubles the reserved buffer size
+			size_t oldsize = tail->GetCount();
+			size_t newsize = tail->GetCount() + p->GetCount();
+			tail->SetCount(newsize, max(1024, (int)newsize)); // doubles the reserved buffer size
 			memcpy(tail->GetData() + oldsize, p->GetData(), p->GetCount());
 			/*
 			GetTail()->Append(*p); // too slow
@@ -83,7 +83,7 @@ void CPacketQueue::RemoveAll()
 int CPacketQueue::GetCount()
 {
 	CAutoLock cAutoLock(this);
-	return __super::GetCount();
+	return (int)__super::GetCount();
 }
 
 int CPacketQueue::GetSize()
@@ -512,7 +512,7 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 {
 	HRESULT hr;
 
-	INT_PTR nBytes = p->GetCount();
+	long nBytes = (long)p->GetCount();
 
 	if (nBytes == 0) {
 		return S_OK;
@@ -1162,7 +1162,7 @@ HRESULT CBaseSplitterFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin)
 
 int CBaseSplitterFilter::GetPinCount()
 {
-	return (m_pInput ? 1 : 0) + m_pOutputs.GetCount();
+	return (m_pInput ? 1 : 0) + (int)m_pOutputs.GetCount();
 }
 
 CBasePin* CBaseSplitterFilter::GetPin(int n)
@@ -1594,7 +1594,7 @@ STDMETHODIMP_(int) CBaseSplitterFilter::GetCount()
 {
 	CAutoLock cAutoLock(m_pLock);
 
-	return m_pOutputs.GetCount();
+	return (int)m_pOutputs.GetCount();
 }
 
 STDMETHODIMP CBaseSplitterFilter::GetStatus(int i, int& samples, int& size)

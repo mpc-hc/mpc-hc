@@ -56,7 +56,7 @@ HRESULT CAviFile::Init()
 	}
 
 	if (m_avih.dwStreams == 0 && m_strms.GetCount() > 0) {
-		m_avih.dwStreams = m_strms.GetCount();
+		m_avih.dwStreams = (DWORD)m_strms.GetCount();
 	}
 
 	if (m_avih.dwStreams != m_strms.GetCount()) {
@@ -324,7 +324,7 @@ REFERENCE_TIME CAviFile::GetTotalTime()
 
 	for (DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		strm_t* s = m_strms[i];
-		REFERENCE_TIME t2 = s->GetRefTime(s->cs.GetCount(), s->totalsize);
+		REFERENCE_TIME t2 = s->GetRefTime((DWORD)s->cs.GetCount(), s->totalsize);
 		t = max(t, t2);
 	}
 
@@ -615,7 +615,7 @@ DWORD CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
 		frame = (DWORD)(double(rt) * strh.dwRate / (strh.dwScale * 10000000.0));
 		// need calculate in double, because the (rt * strh.dwRate) can give overflow (verified in practice)
 		if (frame >= cs.GetCount()) {
-			frame = cs.GetCount() - 1;
+			frame = (DWORD)cs.GetCount() - 1;
 		}
 	}
 

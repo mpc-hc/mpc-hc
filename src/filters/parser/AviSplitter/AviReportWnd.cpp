@@ -16,7 +16,7 @@ bool CAviReportWnd::DoModal(CAviFile* pAF, bool fHideChecked, bool fShowWarningT
 	m_rtDur = 0;
 
 	for (DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
-		unsigned int cnt = pAF->m_strms[i]->cs2.GetCount();
+		size_t cnt = pAF->m_strms[i]->cs2.GetCount();
 		if (cnt == 0) {
 			continue;
 		}
@@ -243,7 +243,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 	DWORD nmax = 0, tmax = 0;
 
 	for (DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
-		unsigned int cnt = pAF->m_strms[i]->cs2.GetCount();
+		size_t cnt = pAF->m_strms[i]->cs2.GetCount();
 		if (cnt == 0) {
 			continue;
 		}

@@ -119,7 +119,7 @@ public:
 			DeleteMediaType(pmt);
 		}
 	}
-	virtual int GetDataSize() {return GetCount();}
+	virtual int GetDataSize() {return (int)GetCount();}
 	void SetData(const void* ptr, DWORD len) {
 		SetCount(len);
 		memcpy(GetData(), ptr, len);

@@ -120,7 +120,7 @@ namespace MatroskaReader
 			return *this;
 		}
 		CStringA ToString() {
-			return CStringA((LPCSTR)GetData(), GetCount());
+			return CStringA((LPCSTR)GetData(), (int)GetCount());
 		}
 		bool Compress(ContentCompression& cc), Decompress(ContentCompression& cc);
 		HRESULT Parse(CMatroskaNode* pMN);

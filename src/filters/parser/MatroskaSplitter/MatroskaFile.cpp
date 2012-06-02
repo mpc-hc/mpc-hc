@@ -495,7 +495,7 @@ bool TrackEntry::Expand(CBinary& data, UINT64 Scope)
 	}
 	qsort(cearray.GetData(), cearray.GetCount(), sizeof(ContentEncoding*), cesort);
 
-	for (int i = cearray.GetCount()-1; i >= 0; i--) {
+	for (int i = (int)cearray.GetCount()-1; i >= 0; i--) {
 		ContentEncoding* ce = cearray[i];
 
 		if (!(ce->ContentEncodingScope & Scope)) {
@@ -1025,7 +1025,7 @@ bool CBinary::Compress(ContentCompression& cc)
 		}
 
 		c_stream.next_in = GetData();
-		c_stream.avail_in = GetCount();
+		c_stream.avail_in = (uInt)GetCount();
 
 		BYTE* dst = NULL;
 		int n = 0;
@@ -1067,7 +1067,7 @@ bool CBinary::Decompress(ContentCompression& cc)
 		}
 
 		d_stream.next_in = GetData();
-		d_stream.avail_in = GetCount();
+		d_stream.avail_in = (uInt)GetCount();
 
 		BYTE* dst = NULL;
 		int n = 0;

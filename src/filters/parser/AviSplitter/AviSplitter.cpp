@@ -243,7 +243,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					mt.subtype = FOURCCMap(pbmi->biCompression);
 			}
 			mt.formattype = FORMAT_VideoInfo;
-			VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + s->strf.GetCount() - sizeof(BITMAPINFOHEADER));
+			VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + (ULONG)s->strf.GetCount() - sizeof(BITMAPINFOHEADER));
 			memset(mt.Format(), 0, mt.FormatLength());
 			memcpy(&pvih->bmiHeader, s->strf.GetData(), s->strf.GetCount());
 			if (s->strh.dwRate > 0) {
@@ -282,7 +282,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				mt.subtype = FOURCCMap(pwfe->wFormatTag);
 			}
 			mt.formattype = FORMAT_WaveFormatEx;
-			mt.SetFormat(s->strf.GetData(), max(s->strf.GetCount(), sizeof(WAVEFORMATEX)));
+			mt.SetFormat(s->strf.GetData(), max((ULONG)s->strf.GetCount(), sizeof(WAVEFORMATEX)));
 			pwfe = (WAVEFORMATEX*)mt.Format();
 			if (s->strf.GetCount() == sizeof(PCMWAVEFORMAT)) {
 				pwfe->cbSize = 0;
@@ -325,7 +325,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			mt.majortype = MEDIATYPE_Interleaved;
 			mt.subtype = FOURCCMap(s->strh.fccHandler);
 			mt.formattype = FORMAT_DvInfo;
-			mt.SetFormat(s->strf.GetData(), max(s->strf.GetCount(), sizeof(DVINFO)));
+			mt.SetFormat(s->strf.GetData(), max((ULONG)s->strf.GetCount(), sizeof(DVINFO)));
 			mt.SetSampleSize(s->strh.dwSuggestedBufferSize > 0
 							 ? s->strh.dwSuggestedBufferSize*3/2
 							 : (1024*1024));
@@ -468,7 +468,7 @@ HRESULT CAviSplitterFilter::ReIndex(__int64 end, UINT64* pSize)
 
 					pSize[TrackNumber] += s->GetChunkSize(size);
 
-					REFERENCE_TIME rt = s->GetRefTime(s->cs.GetCount()-1, pSize[TrackNumber]);
+					REFERENCE_TIME rt = s->GetRefTime((DWORD)s->cs.GetCount()-1, pSize[TrackNumber]);
 					m_rtDuration = max(rt, m_rtDuration);
 				}
 			}
@@ -532,14 +532,14 @@ bool CAviSplitterFilter::DemuxLoop()
 {
 	HRESULT hr = S_OK;
 
-	unsigned int nTracks = m_pFile->m_strms.GetCount();
+	size_t nTracks = m_pFile->m_strms.GetCount();
 
 	CAtlArray<BOOL> fDiscontinuity;
 	fDiscontinuity.SetCount(nTracks);
 	memset(fDiscontinuity.GetData(), 0, nTracks*sizeof(bool));
 
 	while (SUCCEEDED(hr) && !CheckRequest(NULL)) {
-		unsigned int minTrack = nTracks;
+		size_t minTrack = nTracks;
 		UINT64 minFilePos = _I64_MAX;
 
 		for (unsigned int i = 0; i < nTracks; ++i) {
@@ -599,7 +599,7 @@ bool CAviSplitterFilter::DemuxLoop()
 
 			CAutoPtr<Packet> p(DNew Packet());
 
-			p->TrackNumber = minTrack;
+			p->TrackNumber = (DWORD)minTrack;
 			p->bSyncPoint = (BOOL)s->cs[f].fKeyFrame;
 			p->bDiscontinuity = fDiscontinuity[minTrack];
 			p->rtStart = s->GetRefTime(f, s->cs[f].size);

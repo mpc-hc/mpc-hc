@@ -213,7 +213,7 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					BYTE sps = pTE->CodecPrivate[5] & 0x1f;
 
 					std::vector<BYTE> avcC;
-					for (int i = 0, j = pTE->CodecPrivate.GetCount(); i < j; i++) {
+					for (size_t i = 0, j = pTE->CodecPrivate.GetCount(); i < j; i++) {
 						avcC.push_back(pTE->CodecPrivate[i]);
 					}
 
@@ -279,7 +279,7 @@ avcsuccess:
 					pm2vi->dwFlags = (pTE->CodecPrivate[4] & 3) + 1;
 					BYTE* pSequenceHeader = (BYTE*)pm2vi->dwSequenceHeader;
 					memcpy(pSequenceHeader, data.GetData(), data.GetCount());
-					pm2vi->cbSequenceHeader = data.GetCount();
+					pm2vi->cbSequenceHeader = (DWORD)data.GetCount();
 					if (!bHasVideo)
 						mts.Add(mt);
 					bHasVideo = true;
@@ -296,7 +296,7 @@ avcsuccess:
 					pm2vi->hdr.bmiHeader.biBitCount = 24;
 					BYTE* pSequenceHeader = (BYTE*)pm2vi->dwSequenceHeader;
 					memcpy(pSequenceHeader, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
-					pm2vi->cbSequenceHeader = pTE->CodecPrivate.GetCount();
+					pm2vi->cbSequenceHeader = (DWORD)pTE->CodecPrivate.GetCount();
 					if (!bHasVideo)
 						mts.Add(mt);
 					bHasVideo = true;
@@ -326,14 +326,14 @@ avcsuccess:
 
 					BYTE* pSequenceHeader = (BYTE*)dvih->dwSequenceHeader;
 					memcpy(pSequenceHeader, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
-					dvih->cbSequenceHeader = pTE->CodecPrivate.GetCount();
+					dvih->cbSequenceHeader = (DWORD)pTE->CodecPrivate.GetCount();
 
 					if (!bHasVideo)
 						mts.Add(mt);
 					bHasVideo = true;
 				} else if (CodecID == "V_MPEG2") {
 					BYTE* seqhdr = pTE->CodecPrivate.GetData();
-					DWORD len = pTE->CodecPrivate.GetCount();
+					DWORD len = (DWORD)pTE->CodecPrivate.GetCount();
 					int w = (int)pTE->v.PixelWidth;
 					int h = (int)pTE->v.PixelHeight;
 
@@ -365,7 +365,7 @@ avcsuccess:
 					vih->hdr.dwPictAspectRatioY = (thdr[17]<<16)|(thdr[18]<<8)|thdr[19];
 					mt.bFixedSizeSamples = 0;
 
-					vih->cbSequenceHeader = pTE->CodecPrivate.GetCount();
+					vih->cbSequenceHeader = (DWORD)pTE->CodecPrivate.GetCount();
 					memcpy (&vih->dwSequenceHeader, pTE->CodecPrivate.GetData(), vih->cbSequenceHeader);
 
 					if (!bHasVideo)
@@ -621,19 +621,19 @@ avcsuccess:
 					mts.Add(mt);
 				} else if (CodecID == "A_AAC") {
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
-					wfe->cbSize = pTE->CodecPrivate.GetCount();
+					wfe->cbSize = (WORD)pTE->CodecPrivate.GetCount();
 					wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
 					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					mts.Add(mt);
 				} else if (CodecID == "A_WAVPACK4") {
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_WAVPACK4);
-					wfe->cbSize = pTE->CodecPrivate.GetCount();
+					wfe->cbSize = (WORD)pTE->CodecPrivate.GetCount();
 					wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
 					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					mts.Add(mt);
 				} else if (CodecID == "A_FLAC") {
 					wfe->wFormatTag = WAVE_FORMAT_FLAC;
-					wfe->cbSize = pTE->CodecPrivate.GetCount();
+					wfe->cbSize = (WORD)pTE->CodecPrivate.GetCount();
 					wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
 					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 
@@ -757,7 +757,7 @@ avcsuccess:
 				} else if (CodecID.Find("A_REAL/") == 0 && CodecID.GetLength() >= 11) {
 					mt.subtype = FOURCCMap((DWORD)CodecID[7]|((DWORD)CodecID[8]<<8)|((DWORD)CodecID[9]<<16)|((DWORD)CodecID[10]<<24));
 					mt.bTemporalCompression = TRUE;
-					wfe->cbSize = pTE->CodecPrivate.GetCount();
+					wfe->cbSize = (WORD)pTE->CodecPrivate.GetCount();
 					wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
 					memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					wfe->cbSize = 0; // IMPORTANT: this is screwed, but cbSize has to be 0 and the extra data from codec priv must be after WAVEFORMATEX
@@ -766,7 +766,7 @@ avcsuccess:
 					DWORD* type = (DWORD*)(pTE->CodecPrivate.GetData() + 4);
 					if (*type == MAKEFOURCC('Q','D','M','2') || *type == MAKEFOURCC('Q','D','M','C')) {
 						mt.subtype = FOURCCMap(*type);
-						wfe->cbSize = pTE->CodecPrivate.GetCount();
+						wfe->cbSize = (WORD)pTE->CodecPrivate.GetCount();
 						wfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
 						memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 						mts.Add(mt);
@@ -908,7 +908,7 @@ avcsuccess:
 				pData.SetCount((size_t)pF->FileDataLen);
 				m_pFile->Seek(pF->FileDataPos);
 				if (SUCCEEDED(m_pFile->ByteRead(pData.GetData(), pData.GetCount()))) {
-					ResAppend(pF->FileName, pF->FileDescription, CStringW(pF->FileMimeType), pData.GetData(), pData.GetCount());
+					ResAppend(pF->FileName, pF->FileDescription, CStringW(pF->FileMimeType), pData.GetData(), (DWORD)pData.GetCount());
 				}
 			}
 		}
@@ -1313,7 +1313,7 @@ STDMETHODIMP CMatroskaSplitterFilter::GetKeyFrameCount(UINT& nKFs)
 
 	POSITION pos = m_pFile->m_segment.Cues.GetHeadPosition();
 	while (pos) {
-		nKFs += m_pFile->m_segment.Cues.GetNext(pos)->CuePoints.GetCount();
+		nKFs += (UINT)m_pFile->m_segment.Cues.GetNext(pos)->CuePoints.GetCount();
 	}
 
 	return hr;
@@ -1559,7 +1559,7 @@ TrackEntry* CMatroskaSplitterFilter::GetTrackEntryAt(UINT aTrackIdx)
 
 STDMETHODIMP_(UINT) CMatroskaSplitterFilter::GetTrackCount()
 {
-	return m_pTrackEntryMap.GetCount();
+	return (UINT)m_pTrackEntryMap.GetCount();
 }
 
 STDMETHODIMP_(BOOL) CMatroskaSplitterFilter::GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill)

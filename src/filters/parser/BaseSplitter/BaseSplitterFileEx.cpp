@@ -406,7 +406,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 	if (type == mpeg1) {
 		pmt->subtype = MEDIASUBTYPE_MPEG1Payload;
 		pmt->formattype = FORMAT_MPEGVideo;
-		int len = FIELD_OFFSET(MPEG1VIDEOINFO, bSequenceHeader) + shlen + shextlen;
+		int len = FIELD_OFFSET(MPEG1VIDEOINFO, bSequenceHeader) + int(shlen + shextlen);
 		MPEG1VIDEOINFO* vi = (MPEG1VIDEOINFO*)DNew BYTE[len];
 		memset(vi, 0, len);
 		vi->hdr.dwBitRate = h.bitrate;
@@ -428,7 +428,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 	} else if (type == mpeg2) {
 		pmt->subtype = MEDIASUBTYPE_MPEG2_VIDEO;
 		pmt->formattype = FORMAT_MPEG2_VIDEO;
-		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + shlen + shextlen;
+		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + int(shlen + shextlen);
 		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DNew BYTE[len];
 		memset(vi, 0, len);
 		vi->hdr.dwBitRate = h.bitrate;
@@ -539,12 +539,12 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 		return true;
 	}
 
-	/*int*/ len = h.layer == 3
+	size_t size = h.layer == 3
 				  ? sizeof(WAVEFORMATEX/*MPEGLAYER3WAVEFORMAT*/) // no need to overcomplicate this...
 				  : sizeof(MPEG1WAVEFORMAT);
-	WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[len];
-	memset(wfe, 0, len);
-	wfe->cbSize = len - sizeof(WAVEFORMATEX);
+	WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[size];
+	memset(wfe, 0, size);
+	wfe->cbSize = WORD(size - sizeof(WAVEFORMATEX));
 
 	if (h.layer == 3) {
 		wfe->wFormatTag = WAVE_FORMAT_MP3;
@@ -988,18 +988,18 @@ bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
 	memset(&h, 0, sizeof(h));
 	if (len < 8) return false;
 
-	h.firstaudioframe = BitRead(16);// Byte pointer to start of first audio frame.
-	h.unknown1        = BitRead(8); // Unknown - e.g. 0x10 for stereo, 0x00 for surround
+	h.firstaudioframe = (WORD)BitRead(16);// Byte pointer to start of first audio frame.
+	h.unknown1        = (BYTE)BitRead(8); // Unknown - e.g. 0x10 for stereo, 0x00 for surround
 	if (h.unknown1!= 0x10 && h.unknown1!= 0x00) 
 		return false; // this is not the aob. maybe this is a vob.
 
-	h.bitpersample1   = BitRead(4);
-	h.bitpersample2   = BitRead(4);
-	h.samplerate1     = BitRead(4);
-	h.samplerate2     = BitRead(4);
-	h.unknown2        = BitRead(8); // Unknown - e.g. 0x00
-	h.groupassignment = BitRead(8); // Channel Group Assignment
-	h.unknown3        = BitRead(8); // Unknown - e.g. 0x80
+	h.bitpersample1   = (BYTE)BitRead(4);
+	h.bitpersample2   = (BYTE)BitRead(4);
+	h.samplerate1     = (BYTE)BitRead(4);
+	h.samplerate2     = (BYTE)BitRead(4);
+	h.unknown2        = (BYTE)BitRead(8); // Unknown - e.g. 0x00
+	h.groupassignment = (BYTE)BitRead(8); // Channel Group Assignment
+	h.unknown3        = (BYTE)BitRead(8); // Unknown - e.g. 0x80
 
 	if (h.bitpersample1 > 2 || (h.samplerate1&7) > 2 || h.groupassignment > 20 ||
 		h.unknown2 != 0x00 || h.unknown3 != 0x80) {
@@ -1027,7 +1027,7 @@ bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
 	wfe.nChannels = channels1[h.groupassignment]+channels2[h.groupassignment];
 	
 	if (wfe.nChannels > 2) {
-		wfe.nBlockAlign = (depth[h.bitpersample1] * channels1[h.groupassignment] * (freq[h.samplerate1] / freq[h.samplerate2]) +
+		wfe.nBlockAlign = (depth[h.bitpersample1] * channels1[h.groupassignment] * (WORD)(freq[h.samplerate1] / freq[h.samplerate2]) +
 		                   depth[h.bitpersample2] * channels2[h.groupassignment]) * 2 / 8;
 	} else {
 		wfe.nBlockAlign = depth[h.bitpersample1] * channels1[h.groupassignment] * 2 / 8;
@@ -1604,7 +1604,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 				// Copy into buffer
 				Seek(nalstartpos);
 				unsigned int bufsize = _countof(h.spspps[index].buffer);
-				int len = min(bufsize - h.spspps[index].size, pos - nalstartpos);
+				int len = min(int(bufsize - h.spspps[index].size), int(pos - nalstartpos));
 				ByteRead(h.spspps[index].buffer+h.spspps[index].size, len);
 				Seek(pos);
 				h.spspps[index].size += len;
