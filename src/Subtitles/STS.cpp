@@ -708,7 +708,7 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 			ret->fontName = code.Mid(3);
 		} else if (!_tcsnicmp(code, _T("{s:"), 3)) {
 			double f;
-			if (1 == _stscanf_s(code, _T("{s:%f"), &f)) {
+			if (1 == _stscanf_s(code, _T("{s:%lf"), &f)) {
 				ret->fontSize = f;
 			}
 		} else if (!_tcsnicmp(code, _T("{h:"), 3)) {
@@ -793,7 +793,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 					code.MakeLower();
 
 					double size;
-					swscanf_s(code, L"{s:%f", &size);
+					swscanf_s(code, L"{s:%lf", &size);
 					code.Format(L"{\\fs%f}", size);
 					ret += code;
 				} else if (!_wcsnicmp(code, L"{h:", 3)) {
