@@ -347,7 +347,7 @@ bool CMPlayerCApp::StoreSettingsToIni()
 	// So to ensure we have correct encoding for ini files, create a file with right BOM first,
 	// then add some comments in first line to make sure it's not empty.
 	if (!::PathFileExists(m_pszProfileName)) { // don't overwrite existing ini file
-		LPCTSTR pszComments = _T("; Media Player Classic - Home Cinema");
+		const TCHAR pszComments[] = _T("; Media Player Classic - Home Cinema");
 		WORD wBOM = 0xFEFF; // UTF16-LE BOM (FFFE)
 		DWORD nBytes;
 
