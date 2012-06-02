@@ -26,6 +26,7 @@
 #include "TextFile.h"
 #include <unrar.h>
 #include "VobSubFile.h"
+#include "RTS.h"
 
 //
 
@@ -1613,8 +1614,6 @@ void CVobSubSettings::SetAlignment(bool fAlign, int x, int y, int hor, int ver)
 		m_org.y = m_y;
 	}
 }
-
-#include "RTS.h"
 
 HRESULT CVobSubSettings::Render(SubPicDesc& spd, RECT& bbox)
 {

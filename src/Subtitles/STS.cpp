@@ -27,6 +27,7 @@
 
 #include "RealTextParser.h"
 #include <fstream>
+#include "USFSubtitles.h"
 
 // gathered from http://www.netwave.or.jp/~shikai/shikai/shcolor.htm
 
@@ -1768,8 +1769,6 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 
 	return(ret.GetCount() > 0);
 }
-
-#include "USFSubtitles.h"
 
 static bool OpenUSF(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {

@@ -23,6 +23,8 @@
 
 #include "stdafx.h"
 #include "VobSubImage.h"
+#include "RTS.h"
+#include <math.h>
 
 CVobSubImage::CVobSubImage()
 {
@@ -354,9 +356,6 @@ void CVobSubImage::TrimSubImage()
 }
 
 ////////////////////////////////
-
-#include "RTS.h"
-#include <math.h>
 
 #define GP(xx, yy) (((xx) < 0 || (yy) < 0 || (xx) >= w || (yy) >= h) ? 0 : p[(yy)*w+(xx)])
 
