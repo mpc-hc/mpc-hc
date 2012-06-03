@@ -14,5 +14,6 @@ Legend:
 * Updated MediaInfoLib to v0.7.58
 * Updated ZenLib to v0.4.27
 * Updated FFmpeg (git a1fc1d2)
+* Updated Czech translation
 ! The hand cursor wasn't shown in the web links in Keys and WebServer options page
 ! Ticket #2330, Fix the radio buttons in the Logo options page
