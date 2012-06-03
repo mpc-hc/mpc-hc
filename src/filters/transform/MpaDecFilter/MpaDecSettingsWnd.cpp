@@ -205,8 +205,8 @@ bool CMpaDecSettingsWnd::OnActivate()
 
 void CMpaDecSettingsWnd::OnDeactivate()
 {
-	m_outputformat = m_outputformat_combo.GetItemData(m_outputformat_combo.GetCurSel());
-	m_ac3spkcfg = m_ac3spkcfg_combo.GetItemData(m_ac3spkcfg_combo.GetCurSel());
+	m_outputformat = (int)m_outputformat_combo.GetItemData(m_outputformat_combo.GetCurSel());
+	m_ac3spkcfg = (int)m_ac3spkcfg_combo.GetItemData(m_ac3spkcfg_combo.GetCurSel());
 	if (!!m_ac3lfe_check.GetCheck()) {
 		m_ac3spkcfg |= A52_LFE;
 	}
@@ -214,7 +214,7 @@ void CMpaDecSettingsWnd::OnDeactivate()
 		m_ac3spkcfg = -m_ac3spkcfg;
 	}
 	m_ac3drc = !!m_ac3spkcfg_check.GetCheck();
-	m_dtsspkcfg = m_dtsspkcfg_combo.GetItemData(m_dtsspkcfg_combo.GetCurSel());
+	m_dtsspkcfg = (int)m_dtsspkcfg_combo.GetItemData(m_dtsspkcfg_combo.GetCurSel());
 	if (!!m_dtslfe_check.GetCheck()) {
 		m_dtsspkcfg |= DTS_LFE;
 	}

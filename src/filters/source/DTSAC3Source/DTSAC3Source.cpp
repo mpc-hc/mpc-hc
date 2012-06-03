@@ -268,7 +268,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			}
 			else break;
 
-			if (m_dataOffset < buflen) buflen -= m_dataOffset; // tiny optimization
+			if (m_dataOffset < buflen) buflen -= (UINT)m_dataOffset; // tiny optimization
 			m_file.Seek(m_dataOffset, CFile::begin);
 
 			BYTE* buf = new BYTE[buflen];
@@ -567,7 +567,7 @@ HRESULT CDTSAC3Stream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut,
 		pOut += m_framesize;
 	}
 
-	len = pOut - pOutOrg;
+	len = (long)(pOut - pOutOrg);
 
 	return S_OK;
 }
