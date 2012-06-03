@@ -1580,10 +1580,6 @@ static void sbr_hf_assemble(float Y1[38][64][2],
         0.11516383427084,
         0.03183050093751,
     };
-    static const int8_t phi[2][4] = {
-        {  1,  0, -1,  0}, // real
-        {  0,  1,  0, -1}, // imaginary
-    };
     float (*g_temp)[48] = ch_data->g_temp, (*q_temp)[48] = ch_data->q_temp;
     int indexnoise = ch_data->f_indexnoise;
     int indexsine  = ch_data->f_indexsine;
@@ -1607,7 +1603,6 @@ static void sbr_hf_assemble(float Y1[38][64][2],
 
     for (e = 0; e < ch_data->bs_num_env; e++) {
         for (i = 2 * ch_data->t_env[e]; i < 2 * ch_data->t_env[e + 1]; i++) {
-            int phi_sign = (1 - 2*(kx & 1));
             LOCAL_ALIGNED_16(float, g_filt_tab, [48]);
             LOCAL_ALIGNED_16(float, q_filt_tab, [48]);
             float *g_filt, *q_filt;
@@ -1637,13 +1632,17 @@ static void sbr_hf_assemble(float Y1[38][64][2],
                                                    q_filt, indexnoise,
                                                    kx, m_max);
             } else {
-                for (m = 0; m < m_max; m++) {
-                    Y1[i][m + kx][0] +=
-                        sbr->s_m[e][m] * phi[0][indexsine];
-                    Y1[i][m + kx][1] +=
-                        sbr->s_m[e][m] * (phi[1][indexsine] * phi_sign);
-                    phi_sign = -phi_sign;
+                int idx = indexsine&1;
+                int A = (1-((indexsine+(kx & 1))&2));
+                int B = (A^(-idx)) + idx;
+                float *out = &Y1[i][kx][idx];
+                float *in  = sbr->s_m[e];
+                for (m = 0; m+1 < m_max; m+=2) {
+                    out[2*m  ] += in[m  ] * A;
+                    out[2*m+2] += in[m+1] * B;
                 }
+                if(m_max&1)
+                    out[2*m  ] += in[m  ] * A;
             }
             indexnoise = (indexnoise + m_max) & 0x1ff;
             indexsine = (indexsine + 1) & 3;
