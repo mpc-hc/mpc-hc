@@ -191,7 +191,7 @@ CStringA UrlDecode(CStringA str, bool fRaw)
 		s2++;
 	}
 
-	str.ReleaseBuffer(s2 - s);
+	str.ReleaseBuffer(int(s2 - s));
 
 	return str;
 }

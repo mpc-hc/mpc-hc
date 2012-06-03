@@ -221,7 +221,7 @@ IDSMResourceBagImpl::IDSMResourceBagImpl()
 
 STDMETHODIMP_(DWORD) IDSMResourceBagImpl::ResGetCount()
 {
-	return m_resources.GetCount();
+	return (DWORD)m_resources.GetCount();
 }
 
 STDMETHODIMP IDSMResourceBagImpl::ResGet(DWORD iIndex, BSTR* ppName, BSTR* ppDesc, BSTR* ppMime, BYTE** ppData, DWORD* pDataLen, DWORD_PTR* pTag)
@@ -246,7 +246,7 @@ STDMETHODIMP IDSMResourceBagImpl::ResGet(DWORD iIndex, BSTR* ppName, BSTR* ppDes
 		*ppMime = r.mime.AllocSysString();
 	}
 	if (ppData) {
-		*pDataLen = r.data.GetCount();
+		*pDataLen = (DWORD)r.data.GetCount();
 		memcpy(*ppData = (BYTE*)CoTaskMemAlloc(*pDataLen), r.data.GetData(), *pDataLen);
 	}
 	if (pTag) {
@@ -286,7 +286,7 @@ STDMETHODIMP IDSMResourceBagImpl::ResSet(DWORD iIndex, LPCWSTR pName, LPCWSTR pD
 
 STDMETHODIMP IDSMResourceBagImpl::ResAppend(LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime, BYTE* pData, DWORD len, DWORD_PTR tag)
 {
-	return ResSet(m_resources.Add(CDSMResource()), pName, pDesc, pMime, pData, len, tag);
+	return ResSet((DWORD)m_resources.Add(CDSMResource()), pName, pDesc, pMime, pData, len, tag);
 }
 
 STDMETHODIMP IDSMResourceBagImpl::ResRemoveAt(DWORD iIndex)
@@ -370,7 +370,7 @@ IDSMChapterBagImpl::IDSMChapterBagImpl()
 
 STDMETHODIMP_(DWORD) IDSMChapterBagImpl::ChapGetCount()
 {
-	return m_chapters.GetCount();
+	return (DWORD)m_chapters.GetCount();
 }
 
 STDMETHODIMP IDSMChapterBagImpl::ChapGet(DWORD iIndex, REFERENCE_TIME* prt, BSTR* ppName)
@@ -411,7 +411,7 @@ STDMETHODIMP IDSMChapterBagImpl::ChapSet(DWORD iIndex, REFERENCE_TIME rt, LPCWST
 
 STDMETHODIMP IDSMChapterBagImpl::ChapAppend(REFERENCE_TIME rt, LPCWSTR pName)
 {
-	return ChapSet(m_chapters.Add(CDSMChapter()), rt, pName);
+	return ChapSet((DWORD)m_chapters.Add(CDSMChapter()), rt, pName);
 }
 
 STDMETHODIMP IDSMChapterBagImpl::ChapRemoveAt(DWORD iIndex)

@@ -764,7 +764,7 @@ void CStringToBin(CString str, CAtlArray<BYTE>& data)
 	BYTE b = 0;
 
 	str.MakeUpper();
-	for (size_t i = 0, j = str.GetLength(); i < j; i++) {
+	for (int i = 0, j = str.GetLength(); i < j; i++) {
 		TCHAR c = str[i];
 		if (c >= _T('0') && c <= _T('9')) {
 			if (!(i&1)) {
@@ -919,11 +919,11 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
 
 				if (afi.dwCaps&AVIFILECAPS_ALLKEYFRAMES) {
 					kfs.SetSize(si.dwLength);
-					for (ptrdiff_t kf = 0; kf < (int)si.dwLength; kf++) {
+					for (DWORD kf = 0; kf < si.dwLength; kf++) {
 						kfs[kf] = kf;
 					}
 				} else {
-					for (ptrdiff_t kf = 0; ; kf++) {
+					for (LONG kf = 0; ; kf++) {
 						kf = pavi->FindSample(kf, FIND_KEY|FIND_NEXT);
 						if (kf < 0 || kfs.GetCount() > 0 && kfs[kfs.GetCount()-1] >= (UINT)kf) {
 							break;
@@ -1194,7 +1194,7 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
 		if (*(DWORD*)seqhdr_end == 0xb5010000) {
 			seqhdr_ext = seqhdr_end;
 			seqhdr_end += 10;
-			len = seqhdr_end - seqhdr;
+			len = (DWORD)(seqhdr_end - seqhdr);
 			break;
 		}
 		seqhdr_end++;
@@ -2401,7 +2401,7 @@ bool SetRegKeyValue(LPCTSTR pszKey, LPCTSTR pszSubkey, LPCTSTR pszValueName, LPC
 		if (pszValue != 0) {
 			ec = ::RegSetValueEx(hKey, pszValueName, 0, REG_SZ,
 								 reinterpret_cast<BYTE*>(const_cast<LPTSTR>(pszValue)),
-								 (_tcslen(pszValue) + 1) * sizeof(TCHAR));
+								 (DWORD)(_tcslen(pszValue) + 1) * sizeof(TCHAR));
 		}
 
 		bOK = (ec == ERROR_SUCCESS);
@@ -2928,7 +2928,7 @@ void getExtraData(const BYTE *format, const GUID *formattype, const size_t forma
 {
 	// code from LAV ...
 	const BYTE *extraposition = NULL;
-	unsigned extralength = 0;
+	size_t extralength = 0;
 	if (*formattype == FORMAT_WaveFormatEx) {
 		WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
 		extraposition = format + sizeof(WAVEFORMATEX);
@@ -2953,7 +2953,7 @@ void getExtraData(const BYTE *format, const GUID *formattype, const size_t forma
 		if (extra && extralength)
 			memcpy(extra, format + sizeof(VORBISFORMAT2), extralength);
 		if (extralen)
-			*extralen = extralength + offset;
+			*extralen = (unsigned int)extralength + offset;
 
 		return;
 	} else if (*formattype == FORMAT_VideoInfo) {
@@ -2975,7 +2975,7 @@ void getExtraData(const BYTE *format, const GUID *formattype, const size_t forma
 	if (extra && extralength)
 		memcpy(extra, extraposition, extralength);
 	if (extralen)
-		*extralen = extralength;
+		*extralen = (unsigned int)extralength;
 }
 
 void audioFormatTypeHandler(const BYTE *format, const GUID *formattype, DWORD *pnSamples, WORD *pnChannels, WORD *pnBitsPerSample, WORD *pnBlockAlign, DWORD *pnBytesPerSec)

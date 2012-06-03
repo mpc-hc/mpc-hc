@@ -45,7 +45,7 @@ CFontInstaller::~CFontInstaller()
 
 bool CFontInstaller::InstallFont(const CAtlArray<BYTE>& data)
 {
-	return InstallFont(data.GetData(), data.GetCount());
+	return InstallFont(data.GetData(), (UINT)data.GetCount());
 }
 
 bool CFontInstaller::InstallFont(const void* pData, UINT len)
