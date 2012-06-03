@@ -142,7 +142,7 @@ void CGoToDlg::OnBnClickedOk1()
 
 		OnOK();
 	} else {
-		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TIME), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_GOTO_ERROR_PARSING_TIME, MB_ICONEXCLAMATION | MB_OK, 0);
 	}
 }
 
@@ -163,16 +163,16 @@ void CGoToDlg::OnBnClickedOk2()
 		m_time = (REFERENCE_TIME)ceil(10000000.0*frame/fps);
 		OnOK();
 	} else if (result == 0 || c1[0] != L',') {
-		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TEXT), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_GOTO_ERROR_PARSING_TEXT, MB_ICONEXCLAMATION | MB_OK, 0);
 	} else {
-		AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_FPS), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_GOTO_ERROR_PARSING_FPS, MB_ICONEXCLAMATION | MB_OK, 0);
 	}
 }
 
 void CGoToDlg::OnOK()
 {
 	if (m_time > m_maxTime) {
-		AfxMessageBox(ResStr(IDS_GOTO_ERROR_INVALID_TIME), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_GOTO_ERROR_INVALID_TIME, MB_ICONEXCLAMATION | MB_OK, 0);
 	} else {
 		__super::OnOK();
 	}

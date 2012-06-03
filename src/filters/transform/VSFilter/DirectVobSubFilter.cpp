@@ -340,7 +340,7 @@ HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName
 				//DWORD dwWindowsMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
 
 				if (dwVersion < 0x80000000 && dwWindowsMajorVersion >= 5) {
-					AfxMessageBox(IDS_DIVX_WARNING);
+					AfxMessageBox(IDS_DIVX_WARNING, MB_ICONWARNING | MB_OK, 0);
 					theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 1);
 				}
 			}

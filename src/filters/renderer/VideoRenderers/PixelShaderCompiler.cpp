@@ -42,9 +42,9 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
 
 	if (!fStaySilent) {
 		if (!hDll) {
-			AfxMessageBox(ResStr(IDS_PIXELSHADERCOMPILER_0), MB_OK);
+			AfxMessageBox(IDS_PIXELSHADERCOMPILER_0, MB_ICONWARNING | MB_OK, 0);
 		} else if (!m_pD3DXCompileShader || !m_pD3DXDisassembleShader) {
-			AfxMessageBox(ResStr(IDS_PIXELSHADERCOMPILER_1), MB_OK);
+			AfxMessageBox(IDS_PIXELSHADERCOMPILER_1, MB_ICONWARNING | MB_OK, 0);
 		}
 	}
 }

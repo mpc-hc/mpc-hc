@@ -594,7 +594,7 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
 	}
 
 	if (fWarn) {
-		AfxMessageBox(ResStr(IDS_SUBRESYNC_TIME_FORMAT), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_SUBRESYNC_TIME_FORMAT, MB_ICONEXCLAMATION | MB_OK, 0);
 	}
 	return false;
 }

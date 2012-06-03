@@ -358,7 +358,7 @@ void CShaderEditorDlg::OnBnClickedButton2()
 		return;
 	}
 
-	if (IDYES != AfxMessageBox(ResStr(IDS_SHADEREDITORDLG_0), MB_YESNO)) {
+	if (IDYES != AfxMessageBox(IDS_SHADEREDITORDLG_0, MB_ICONQUESTION | MB_YESNO, 0)) {
 		return;
 	}
 

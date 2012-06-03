@@ -825,7 +825,7 @@ BOOL CPPageFormats::OnApply()
 
 	if (m_bFileExtChanged) {
 		if (f_setAssociatedWithIcon && IsNeededIconsLib() && !FileExists(GetProgramDir() + _T("\\mpciconlib.dll"))) {
-			AfxMessageBox(ResStr(IDS_MISSING_ICONS_LIB));
+			AfxMessageBox(IDS_MISSING_ICONS_LIB, MB_ICONEXCLAMATION | MB_OK, 0);
 		}
 
 		for (int i = 0; i < m_list.GetItemCount(); i++) {

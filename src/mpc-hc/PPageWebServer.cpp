@@ -76,7 +76,7 @@ BOOL CPPageWebServer::PreTranslateMessage(MSG* pMsg)
 		if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
 			if (m_fEnableWebServer) {
 				if (s.nWebServerPort != m_nWebServerPort) {
-					AfxMessageBox(ResStr(IDS_WEBSERVER_ERROR_TEST), MB_ICONEXCLAMATION | MB_OK);
+					AfxMessageBox(IDS_WEBSERVER_ERROR_TEST, MB_ICONEXCLAMATION | MB_OK, 0);
 					return TRUE;
 				}
 			}

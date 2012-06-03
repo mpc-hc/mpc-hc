@@ -174,7 +174,7 @@ bool UpdateChecker::IsAutoUpdateEnabled()
 	int& status = AfxGetAppSettings().nUpdaterAutoCheck;
 
 	if (status == AUTOUPDATE_UNKNOWN) { // First run
-		status = (AfxMessageBox(IDS_UPDATE_CONFIG_AUTO_CHECK, MB_YESNO) == IDYES) ? AUTOUPDATE_ENABLE : AUTOUPDATE_DISABLE;
+		status = (AfxMessageBox(IDS_UPDATE_CONFIG_AUTO_CHECK, MB_ICONQUESTION | MB_YESNO, 0) == IDYES) ? AUTOUPDATE_ENABLE : AUTOUPDATE_DISABLE;
 	}
 
 	return (status == AUTOUPDATE_ENABLE);

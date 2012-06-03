@@ -4746,7 +4746,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
 			fclose(f);
 		} else {
-			AfxMessageBox(ResStr(IDS_MAINFRM_53), MB_OK);
+			AfxMessageBox(IDS_MAINFRM_53, MB_ICONWARNING | MB_OK, 0);
 		}
 	} else if (ext == _T(".png")) {
 		DWORD bmpsize = size;
@@ -4827,7 +4827,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 	REFERENCE_TIME rtDur = GetDur();
 
 	if (rtDur <= 0) {
-		AfxMessageBox(ResStr(IDS_MAINFRM_54));
+		AfxMessageBox(IDS_MAINFRM_54, MB_ICONWARNING | MB_OK, 0);
 		return;
 	}
 
@@ -4854,7 +4854,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 	}
 
 	if (wh.cx <= 0 || wh.cy <= 0) {
-		AfxMessageBox(ResStr(IDS_MAINFRM_55));
+		AfxMessageBox(IDS_MAINFRM_55, MB_ICONWARNING | MB_OK, 0);
 		return;
 	}
 
@@ -4881,7 +4881,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	CAutoVectorPtr<BYTE> dib;
 	if (!dib.Allocate(dibsize)) {
-		AfxMessageBox(ResStr(IDS_MAINFRM_56));
+		AfxMessageBox(IDS_MAINFRM_56, MB_ICONWARNING | MB_OK, 0);
 		return;
 	}
 
@@ -4928,7 +4928,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 		if (FAILED(hr)) {
 			pBA->put_Volume(m_VolumeBeforeFrameStepping);
-			AfxMessageBox(ResStr(IDS_FRAME_STEP_ERROR_RENDERER), MB_ICONEXCLAMATION | MB_OK);
+			AfxMessageBox(IDS_FRAME_STEP_ERROR_RENDERER, MB_ICONEXCLAMATION | MB_OK, 0);
 			return;
 		}
 
@@ -5103,19 +5103,19 @@ BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
 	AppSettings& s = AfxGetAppSettings();
 
 	if (m_fRealMediaGraph && (s.iRMVideoRendererType == VIDRNDT_RM_DEFAULT)) {
-		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_REAL), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_SCREENSHOT_ERROR_REAL, MB_ICONEXCLAMATION | MB_OK, 0);
 		result = FALSE;
 	} else if (m_fQuicktimeGraph && (s.iQTVideoRendererType == VIDRNDT_QT_DEFAULT)) {
-		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_QT), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_SCREENSHOT_ERROR_QT, MB_ICONEXCLAMATION | MB_OK, 0);
 		result = FALSE;
 	} else if (m_fShockwaveGraph) {
-		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_SHOCKWAVE), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_SCREENSHOT_ERROR_SHOCKWAVE, MB_ICONEXCLAMATION | MB_OK, 0);
 		result = FALSE;
 	} else if (s.iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
-		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_OVERLAY), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_SCREENSHOT_ERROR_OVERLAY, MB_ICONEXCLAMATION | MB_OK, 0);
 		result = FALSE;
 	} else if (s.iDSVideoRendererType == VIDRNDT_DS_MADVR) {
-		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_MADVR), MB_ICONEXCLAMATION | MB_OK);
+		AfxMessageBox(IDS_SCREENSHOT_ERROR_MADVR, MB_ICONEXCLAMATION | MB_OK, 0);
 		result = FALSE;
 	}
 
@@ -6413,7 +6413,7 @@ void CMainFrame::OnViewEditListEditor()
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	if (s.fEnableEDLEditor || (AfxMessageBox(ResStr(IDS_MB_SHOW_EDL_EDITOR), MB_ICONQUESTION | MB_YESNO) == IDYES)) {
+	if (s.fEnableEDLEditor || (AfxMessageBox(IDS_MB_SHOW_EDL_EDITOR, MB_ICONQUESTION | MB_YESNO, 0) == IDYES)) {
 		s.fEnableEDLEditor = true;
 		ShowControlBar(&m_wndEditListEditor, !m_wndEditListEditor.IsWindowVisible(), TRUE);
 	}
@@ -9030,7 +9030,7 @@ void CMainFrame::OnUpdateFavoritesOrganize(CCmdUI* pCmdUI)
 
 void CMainFrame::OnRecentFileClear()
 {
-	if (IDYES != AfxMessageBox(ResStr(IDS_RECENT_FILES_QUESTION), MB_YESNO)) {
+	if (IDYES != AfxMessageBox(IDS_RECENT_FILES_QUESTION, MB_ICONQUESTION | MB_YESNO, 0)) {
 		return;
 	}
 

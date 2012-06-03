@@ -498,7 +498,7 @@ void CPPageExternalFilters::OnAddMajorType()
 		POSITION pos = f->guids.GetHeadPosition();
 		while (pos) {
 			if (f->guids.GetNext(pos) == dlg.m_guid) {
-				AfxMessageBox(ResStr(IDS_EXTERNAL_FILTERS_ERROR_MT), MB_ICONEXCLAMATION | MB_OK);
+				AfxMessageBox(IDS_EXTERNAL_FILTERS_ERROR_MT, MB_ICONEXCLAMATION | MB_OK, 0);
 				return;
 			}
 			f->guids.GetNext(pos);
@@ -550,7 +550,7 @@ void CPPageExternalFilters::OnAddSubType()
 			pos = (POSITION)m_tree.GetItemData(child);
 			f->guids.GetNext(pos);
 			if (f->guids.GetAt(pos) == dlg.m_guid) {
-				AfxMessageBox(ResStr(IDS_EXTERNAL_FILTERS_ERROR_MT), MB_ICONEXCLAMATION | MB_OK);
+				AfxMessageBox(IDS_EXTERNAL_FILTERS_ERROR_MT, MB_ICONEXCLAMATION | MB_OK, 0);
 				return;
 			}
 		}
