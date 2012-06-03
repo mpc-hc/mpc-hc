@@ -9036,10 +9036,10 @@ void CMainFrame::OnRecentFileClear()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	for (int i = 0; i < s.MRU.GetSize(); i++) {
+	for (int i = s.MRU.GetSize() - 1; i >= 0; i--) {
 		s.MRU.Remove(i);
 	}
-	for (int i = 0; i < s.MRUDub.GetSize(); i++) {
+	for (int i = s.MRUDub.GetSize() - 1; i >= 0; i--) {
 		s.MRUDub.Remove(i);
 	}
 	s.MRU.WriteList();
