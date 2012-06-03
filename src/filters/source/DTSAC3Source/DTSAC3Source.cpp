@@ -283,7 +283,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 					break;
 				}
 			}
-			delete buf;
+			delete [] buf;
 		}
 		if (!isFound) break;
 

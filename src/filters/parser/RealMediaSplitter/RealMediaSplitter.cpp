@@ -2423,7 +2423,7 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 
 		CRegKey key;
 		TCHAR buff[_MAX_PATH];
-		ULONG len = sizeof(buff);
+		ULONG len = _countof(buff);
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Software\\RealNetworks\\Preferences\\DT_Codecs"), KEY_READ)
 				&& ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && _tcslen(buff) > 0) {
 			oldpath = buff;
@@ -2433,7 +2433,7 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 			}
 			key.Close();
 		}
-		len = sizeof(buff);
+		len = _countof(buff);
 		if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Helix\\HelixSDK\\10.0\\Preferences\\DT_Codecs"), KEY_READ)
 				&& ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && _tcslen(buff) > 0) {
 			newpath = buff;

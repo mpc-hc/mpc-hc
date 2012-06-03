@@ -447,7 +447,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		pp.BackBufferWidth = d3ddm.Width;
 		pp.BackBufferHeight = d3ddm.Height;
 		pp.hDeviceWindow = m_hWnd;
-		DEBUG_ONLY(_tprintf_s(_T("Wnd in CreateDXDevice: %d\n"), m_hWnd));
+		DEBUG_ONLY(_tprintf_s(_T("Wnd in CreateDXDevice: %p\n"), m_hWnd));
 		pp.BackBufferCount = 3;
 		pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
@@ -2151,7 +2151,7 @@ void CBaseAP::DrawStats()
 		for (int i = 0; i <= DrawHeight; i += 5) {
 			Points[0].x = (FLOAT)StartX;
 			Points[0].y = (FLOAT)(StartY + i);
-			Points[1].x = (FLOAT)(StartX + ((i + 25) % 25 ? 50 : 625));
+			Points[1].x = (FLOAT)(StartX + (((i + 25) % 25) ? 50 : 625));
 			Points[1].y = (FLOAT)(StartY + i);
 			m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
 		}
@@ -4226,9 +4226,9 @@ HRESULT CGenlock::GetTiming()
 	GlobalGetAtomName(getTiming, savedTiming, MAX_LOADSTRING);
 
 	while (params < TIMING_PARAM_CNT) {
-		while (savedTiming[i] != ',' && savedTiming[i] != '\0') {
+		while (savedTiming[i] !=  _T(',') && savedTiming[i] !=  _T('\0')) {
 			tmpStr[j++] = savedTiming[i];
-			tmpStr[j] = '\0';
+			tmpStr[j] = _T('\0');
 			i++;
 		}
 		i++; // Skip trailing comma
