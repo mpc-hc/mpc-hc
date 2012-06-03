@@ -28,7 +28,8 @@ struct IDirect3D9;
 
 BOOL IsWinXPOrLater();
 BOOL IsWinVistaOrLater();
-BOOL IsWinSeven();
+BOOL IsWinSevenOrLater();
+BOOL IsWinEight();
 
 bool SetPrivilege(LPCTSTR privilege, bool bEnable=true);
 

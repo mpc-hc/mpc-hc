@@ -60,7 +60,7 @@ BOOL IsWinVistaOrLater()
 	return VerifyVersionInfo(&osvi, VER_MAJORVERSION, dwlConditionMask);
 }
 
-BOOL IsWinSeven()
+BOOL IsWinSevenOrLater()
 {
 	OSVERSIONINFOEX osvi = {0};
 	DWORDLONG dwlConditionMask = 0;
@@ -69,6 +69,24 @@ BOOL IsWinSeven()
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	osvi.dwMajorVersion = 6;
 	osvi.dwMinorVersion = 1;
+
+	// Initialize the condition mask.
+	VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION, VER_GREATER_EQUAL);
+	VER_SET_CONDITION(dwlConditionMask, VER_MINORVERSION, VER_GREATER_EQUAL);
+
+	// Perform the test.
+	return VerifyVersionInfo(&osvi, VER_MAJORVERSION|VER_MINORVERSION, dwlConditionMask);
+}
+
+BOOL IsWinEight()
+{
+	OSVERSIONINFOEX osvi = {0};
+	DWORDLONG dwlConditionMask = 0;
+
+	// Initialize the OSVERSIONINFOEX structure.
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	osvi.dwMajorVersion = 6;
+	osvi.dwMinorVersion = 2;
 
 	// Initialize the condition mask.
 	VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION|VER_MINORVERSION, VER_EQUAL);
