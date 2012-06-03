@@ -25,6 +25,7 @@
 #include "mplayerc.h"
 #include "PPageTweaks.h"
 #include "MainFrm.h"
+#include "../DSUtil/WinAPIUtils.h"
 
 
 // CPPageTweaks dialog
@@ -87,8 +88,13 @@ BOOL CPPageTweaks::OnInitDialog()
 	m_fNotifyMSN = s.fNotifyMSN;
 
 	m_fPreventMinimize = s.fPreventMinimize;
+
 	m_fUseWin7TaskBar = s.fUseWin7TaskBar;
-	m_fUseSearchInFolder =s.fUseSearchInFolder;
+	if (!IsWinSevenOrLater()) {
+		GetDlgItem(IDC_CHECK_WIN7)->EnableWindow(FALSE);
+	}
+
+	m_fUseSearchInFolder = s.fUseSearchInFolder;
 
 	m_fUseTimeTooltip = s.fUseTimeTooltip;
 	m_TimeTooltipPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
