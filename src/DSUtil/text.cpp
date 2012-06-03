@@ -114,8 +114,8 @@ CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet)
 
 	int len = MultiByteToWideChar(
 				  CharSetToCodePage(SrcCharSet), 0,
-				  str.GetBuffer(str.GetLength()), str.GetLength(),
-				  utf16, (str.GetLength()+1)*sizeof(WCHAR));
+				  str, -1, // null terminated string
+				  utf16, str.GetLength()+1);
 
 	len = WideCharToMultiByte(
 			  CharSetToCodePage(DstCharSet), 0,
