@@ -440,7 +440,7 @@ STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookup(REFERENCE_TIME* prt, BSTR* pp
 
 	ChapSort();
 
-	ptrdiff_t i = range_bsearch(m_chapters, *prt);
+	int i = range_bsearch(m_chapters, *prt);
 	if (i < 0) {
 		return -1;
 	}
@@ -450,7 +450,7 @@ STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookup(REFERENCE_TIME* prt, BSTR* pp
 		*ppName = m_chapters[i].name.AllocSysString();
 	}
 
-	return static_cast<long>(i);
+	return i;
 }
 
 STDMETHODIMP IDSMChapterBagImpl::ChapSort()
