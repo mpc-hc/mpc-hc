@@ -5298,12 +5298,7 @@ void CMainFrame::OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI)
 void CMainFrame::OnFileLoadsubtitle()
 {
 	if (!m_pCAP) {
-		AfxMessageBox(ResStr(IDS_MAINFRM_60)+
-					  ResStr(IDS_MAINFRM_61)+
-					  ResStr(IDS_MAINFRM_62)+
-					  ResStr(IDS_MAINFRM_63)+
-					  ResStr(IDS_MAINFRM_64)
-					  , MB_OK);
+		AfxMessageBox(IDS_MAINFRM_60, MB_ICONINFORMATION | MB_OK, 0);
 		return;
 	}
 
