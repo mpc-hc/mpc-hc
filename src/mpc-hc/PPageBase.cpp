@@ -94,6 +94,5 @@ BOOL CPPageBase::OnSetActive()
 void CPPageBase::OnDestroy()
 {
 	__super::OnDestroy();
-
 	m_wndToolTip.DestroyWindow();
 }

@@ -46,7 +46,7 @@ public:
 	int m_fadein, m_fadeout;	// ms
 	bool m_fAlign;
 	int m_alignhor, m_alignver; // 0: left/top, 1: center, 2: right/bottom
-	unsigned int m_toff;				// ms
+	unsigned int m_toff;		// ms
 	bool m_fOnlyShowForcedSubs;
 	bool m_fCustomPal;
 	int m_tridx;
@@ -54,9 +54,7 @@ public:
 
 	CVobSubImage m_img;
 
-	CVobSubSettings() {
-		InitSettings();
-	}
+	CVobSubSettings() {InitSettings();}
 	void InitSettings();
 
 	bool GetCustomPal(RGBQUAD* cuspal, int& tridx);
@@ -121,9 +119,7 @@ public:
 	bool Save(CString fn, SubFormat sf = VobSub);
 	void Close();
 
-	CString GetTitle() {
-		return m_title;
-	}
+	CString GetTitle() {return m_title;}
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -187,7 +183,5 @@ public:
 	STDMETHODIMP GetStreamInfo(int i, WCHAR** ppName, LCID* pLCID);
 	STDMETHODIMP_(int) GetStream();
 	STDMETHODIMP SetStream(int iStream);
-	STDMETHODIMP Reload() {
-		return E_NOTIMPL;
-	}
+	STDMETHODIMP Reload() {return E_NOTIMPL;}
 };

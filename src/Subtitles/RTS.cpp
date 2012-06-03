@@ -2151,8 +2151,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 		}
 	}
 
-	//	return (nUnrecognizedTags < nTags);
-	return true; // there are ppl keeping coments inside {}, lets make them happy now
+	//return (nUnrecognizedTags < nTags);
+	return true; // there are people keeping comments inside {}, lets make them happy now
 }
 
 bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle& style, STSStyle& org)
