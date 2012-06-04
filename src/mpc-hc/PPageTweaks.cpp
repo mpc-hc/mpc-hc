@@ -90,7 +90,7 @@ BOOL CPPageTweaks::OnInitDialog()
 	m_fPreventMinimize = s.fPreventMinimize;
 
 	m_fUseWin7TaskBar = s.fUseWin7TaskBar;
-	if (!IsWinSevenOrLater()) {
+	if (!IsWin7OrLater()) {
 		GetDlgItem(IDC_CHECK_WIN7)->EnableWindow(FALSE);
 	}
 

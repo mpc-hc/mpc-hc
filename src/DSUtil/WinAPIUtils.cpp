@@ -60,7 +60,7 @@ BOOL IsWinVistaOrLater()
 	return VerifyVersionInfo(&osvi, VER_MAJORVERSION, dwlConditionMask);
 }
 
-BOOL IsWinSevenOrLater()
+BOOL IsWin7OrLater()
 {
 	OSVERSIONINFOEX osvi = {0};
 	DWORDLONG dwlConditionMask = 0;
@@ -78,7 +78,7 @@ BOOL IsWinSevenOrLater()
 	return VerifyVersionInfo(&osvi, VER_MAJORVERSION|VER_MINORVERSION, dwlConditionMask);
 }
 
-BOOL IsWinEight()
+BOOL IsWin8()
 {
 	OSVERSIONINFOEX osvi = {0};
 	DWORDLONG dwlConditionMask = 0;

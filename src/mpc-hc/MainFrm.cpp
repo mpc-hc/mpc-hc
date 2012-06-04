@@ -15448,7 +15448,7 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-	if (!AfxGetAppSettings().fUseWin7TaskBar || !IsWinSevenOrLater()) {
+	if (!AfxGetAppSettings().fUseWin7TaskBar || !IsWin7OrLater()) {
 		return E_FAIL;
 	}
 
