@@ -127,7 +127,7 @@ CSize CPlayerInfoBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
 	CRect r;
 	GetParent()->GetClientRect(&r);
-	r.bottom = r.top + m_label.GetCount() * 17 + (m_label.GetCount() ? 4 : 0);
+	r.bottom = r.top + (LONG)m_label.GetCount() * 17 + (m_label.GetCount() ? 4 : 0);
 	return r.Size();
 }
 

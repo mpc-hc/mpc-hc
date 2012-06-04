@@ -233,7 +233,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
 		_ASSERT(pVSF->m_iLang >= 0);
 		CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_iLang].subpos;
 
-		for (int i = 0, j = sp.GetCount(); i < j; i++) {
+		for (size_t i = 0, j = sp.GetCount(); i < j; i++) {
 			sp[i].fValid = false;
 		}
 
@@ -839,7 +839,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 				if (m_mode == TEXTSUB) {
 					CMapStringToPtr actormap;
 
-					for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+					for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
 						actormap[m_sts[i].actor] = NULL;
 					}
 
@@ -867,7 +867,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 				if (m_mode == TEXTSUB) {
 					CMapStringToPtr effectmap;
 
-					for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+					for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
 						effectmap[m_sts[i].effect] = NULL;
 					}
 
@@ -921,7 +921,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 
 					qsort(items.GetData(), items.GetCount(), sizeof(UINT), uintcomp);
 
-					for (int i = 0; i < items.GetCount(); i++) {
+					for (INT_PTR i = 0, l = items.GetCount(); i < l; i++) {
 						iItem = items[i];
 
 						STSEntry stse = m_sts[iItem];
@@ -959,7 +959,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 
 					qsort(items.GetData(), items.GetCount(), sizeof(UINT), uintcomp);
 
-					for (int i = 0; i < items.GetCount(); i++) {
+					for (INT_PTR i = 0, l = items.GetCount(); i < l; i++) {
 						iItem = items[i];
 						m_sts.RemoveAt(iItem);
 						m_subtimes.RemoveAt(iItem);
@@ -1031,12 +1031,12 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 						}
 
 						CPropertySheet dlg(_T("Styles..."), this, iSelPage);
-						for (int i = 0; i < (int)pages.GetCount(); i++) {
+						for (size_t i = 0, l = pages.GetCount(); i < l; i++) {
 							dlg.AddPage(pages[i]);
 						}
 
 						if (dlg.DoModal() == IDOK) {
-							for (int j = 0; j < (int)pages.GetCount(); j++) {
+							for (size_t j = 0, l = pages.GetCount(); j < l; j++) {
 								stss = styles[j];
 								pages[j]->GetStyle(*stss);
 
@@ -1170,7 +1170,7 @@ void CPlayerSubresyncBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 			clrText |= 0xFF;
 		}
 
-		int nCheck = (int)m_list.GetItemData(pLVCD->nmcd.dwItemSpec);
+		int nCheck = (int)m_list.GetItemData((int)pLVCD->nmcd.dwItemSpec);
 
 		if ((nCheck&1) && (pLVCD->iSubItem == COL_START || pLVCD->iSubItem == COL_PREVSTART)) {
 			clrTextBk = 0xffddbb;

@@ -204,7 +204,7 @@ BOOL CPPageSubStyle::OnApply()
 	UpdateData();
 
 	if (m_iCharset >= 0) {
-		m_stss.charSet = m_charset.GetItemData(m_iCharset);
+		m_stss.charSet = (int)m_charset.GetItemData(m_iCharset);
 	}
 	m_stss.fontSpacing = m_spacing;
 	m_stss.fontAngleZ = m_angle;

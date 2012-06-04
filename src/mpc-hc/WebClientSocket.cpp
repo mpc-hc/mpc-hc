@@ -462,7 +462,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 			CAutoVectorPtr<BYTE> buff;
 			if (buff.Allocate(4+len)) {
 				BYTE* p = buff;
-				*(DWORD*)p = cmdln.GetCount();
+				*(DWORD*)p = (DWORD)cmdln.GetCount();
 				p += sizeof(DWORD);
 
 				POSITION pos = cmdln.GetHeadPosition();
@@ -475,7 +475,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 
 				COPYDATASTRUCT cds;
 				cds.dwData = 0x6ABE51;
-				cds.cbData = p - buff;
+				cds.cbData = DWORD(p - buff);
 				cds.lpData = (void*)(BYTE*)buff;
 				m_pMainFrame->SendMessage(WM_COPYDATA, (WPARAM)NULL, (LPARAM)&cds);
 			}

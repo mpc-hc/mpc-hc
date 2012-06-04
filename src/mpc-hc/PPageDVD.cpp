@@ -342,7 +342,7 @@ void CPPageDVD::OnLbnSelchangeList1()
 				 : m_iDVDLangType == 1 ? m_idAudioLang
 				 : m_idSubtitlesLang;
 
-	lcid = m_lcids.GetItemData(m_lcids.GetCurSel());
+	lcid = (LCID)m_lcids.GetItemData(m_lcids.GetCurSel());
 
 	SetModified();
 }

@@ -181,7 +181,7 @@ void CPPageFullscreen::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 		*pResult = CDRF_NOTIFYSUBITEMDRAW;
 	} else if ( (CDDS_ITEMPREPAINT | CDDS_SUBITEM) == pLVCD->nmcd.dwDrawStage ) {
 		COLORREF crText;
-		if (m_list.GetCheck(pLVCD->nmcd.dwItemSpec)==0) {
+		if (m_list.GetCheck((int)pLVCD->nmcd.dwItemSpec) == 0) {
 			crText = RGB(128,128,128);
 		} else {
 			crText = RGB(0,0,0);
@@ -312,7 +312,7 @@ void CPPageFullscreen::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	switch (pItem->iSubItem) {
 		case COL_SRR:
 			if (pItem->lParam >= 0) {
-				m_iSeldm[pItem->iItem] = m_iSel = pItem->lParam;
+				m_iSeldm[pItem->iItem] = m_iSel = (int)pItem->lParam;
 				m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
 			}
 			break;

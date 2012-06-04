@@ -1132,7 +1132,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 			HRESULT hr = Connect(pPin, pPinIn);
 
 			if (SUCCEEDED(hr)) {
-				for (int i = m_deadends.GetCount()-1; i >= 0; i--)
+				for (ptrdiff_t i = m_deadends.GetCount()-1; i >= 0; i--)
 					if (m_deadends[i]->Compare(m_streampath)) {
 						m_deadends.RemoveAt(i);
 					}

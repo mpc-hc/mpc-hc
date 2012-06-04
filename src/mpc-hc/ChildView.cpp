@@ -267,7 +267,7 @@ BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 LRESULT CChildView::OnNcHitTest(CPoint point)
 {
-	UINT nHitTest = CWnd::OnNcHitTest(point);
+	LRESULT nHitTest = CWnd::OnNcHitTest(point);
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 	bool fLeftMouseBtnUnassigned = !AssignedToCmd(wmcmd::LDOWN);

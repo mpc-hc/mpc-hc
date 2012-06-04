@@ -1729,7 +1729,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		}
 		break;
 		case COL_APPCMD: {
-			int i = pItem->lParam;
+			ptrdiff_t i = pItem->lParam;
 			if (i >= 0 && i < _countof(g_CommandList)) {
 				wc.appcmd = g_CommandList[i].appcmd;
 				m_list.SetItemText(pItem->iItem, COL_APPCMD, pItem->pszText);
@@ -1738,11 +1738,11 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		}
 		break;
 		case COL_MOUSE:
-			wc.mouse = pItem->lParam;
+			wc.mouse = (UINT)pItem->lParam;
 			m_list.SetItemText(pItem->iItem, COL_MOUSE, pItem->pszText);
 			break;
 		case COL_MOUSE_FS:
-			wc.mouseFS = pItem->lParam;
+			wc.mouseFS = (UINT)pItem->lParam;
 			m_list.SetItemText(pItem->iItem, COL_MOUSE_FS, pItem->pszText);
 			break;
 		case COL_RMCMD:

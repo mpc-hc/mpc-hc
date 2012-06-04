@@ -1060,5 +1060,5 @@ BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = 0;
 
-	return GetParent()->SendMessage(WM_NOTIFY, id, (LPARAM)pNMHDR);
+	return !!GetParent()->SendMessage(WM_NOTIFY, id, (LPARAM)pNMHDR);
 }
