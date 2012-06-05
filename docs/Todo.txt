@@ -13,9 +13,10 @@ MPC-HC:
 5) Reorganize the player's Options
 6) Remove support for unneeded/obsolete renderers
 7) Update Bento4 library or see if we can use ffmpeg for this job
-8) Test MSVC 2012 more when it's released. With the Beta version we get hundreds of redefinitions
-   for the DX headers which seems normal since DX is moved into the SDK, linking fails
-   if /SAFESEH:NO isn't specified and the MFC bloat workaround does not work as it is.
+8) Test MSVC 2012 more when it's released. With the RC we get random new errors when building Virtualdub/system.
+   With the Beta we got hundreds of redefinitions for the DX headers which seems normal
+   since DX is moved into the SDK, linking fails if /SAFESEH:NO isn't specified and the MFC
+   bloat workaround does not work as it is.
 9) Use "new" instead of "DNew" and make sure the leak detection works properly
 10) Replace the default old looking toolbar with a more modern one
 
