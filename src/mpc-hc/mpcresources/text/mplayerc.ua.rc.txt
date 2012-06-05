@@ -1,4 +1,4 @@
-﻿BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Про програму"
 8		"Copyright © 2002-2012, див. файл Authors.txt"
 10		"Версія :"
