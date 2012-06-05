@@ -1875,9 +1875,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 
 	// High merit MPC Video Decoder
-#if HAS_FFMPEG_VIDEO_DECODERS | HAS_DXVA_VIDEO_DECODERS
+#if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
 	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(MPCVideoDecName, MERIT64_ABOVE_DSHOW);
-
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
 
 #if INTERNAL_DECODER_FLV
@@ -1999,7 +1998,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv2);
 	}
 #endif
-#if INTERNAL_DECODER_WMV | INTERNAL_DECODER_WMV3_DXVA
+#if INTERNAL_DECODER_WMV || INTERNAL_DECODER_WMV3_DXVA
 	if ((ffmpeg_filters[FFM_WMV]) || (dxva_filters[TRA_DXVA_WMV3])) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV3);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv3);
@@ -2083,14 +2082,19 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_IV50);
 	}
 #endif
-
 	m_transform.AddTail(pFGF);
+#endif /* #if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS */
 
+#if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
+	CMPCVideoDecFilter::FFmpegFilters = (HAS_FFMPEG_DECODERS) ? s.FFmpegFilters : NULL;
+	CMPCVideoDecFilter::DXVAFilters = (HAS_DXVA_VIDEO_DECODERS) ? s.DXVAFilters : NULL;
+#endif
+
+#if 0 /* low merit instance doesn't work because the values in array CMPCVideoDecFilter::FFmpegFilters/DXVAFilters are 0 when formats are disabled in normal merit filter */
+#if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
 	// Low merit MPC Video Decoder
 	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(LowMerit(MPCVideoDecName), MERIT64_DO_USE);
-
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
-
 #if INTERNAL_DECODER_FLV
 	if (!(ffmpeg_filters[FFM_FLV4])) {
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
@@ -2293,7 +2297,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 	m_transform.AddTail(pFGF);
-#endif
+#endif /* HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS */
+#endif /* 0 */
 
 #if INTERNAL_DECODER_MPEG2
 	// Keep software decoder after DXVA decoder !
@@ -2306,19 +2311,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPG2);
 	m_transform.AddTail(pFGF);
-#endif
-
-	// Low merit MPC Audio Decoder
-	/*
-	// TODO : not finished!
-	pFGF = DNew CFGFilterInternal<CMPCAudioDecFilter>(LowMerit(MPCAudioDecName), MERIT64_ABOVE_DSHOW);
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IMA_AMV);
-	m_transform.AddTail(pFGF);
-	*/
-
-#if HAS_FFMPEG_VIDEO_DECODERS || HAS_DXVA_VIDEO_DECODERS
-	CMPCVideoDecFilter::FFmpegFilters = (HAS_FFMPEG_DECODERS) ? s.FFmpegFilters : NULL;
-	CMPCVideoDecFilter::DXVAFilters = (HAS_DXVA_VIDEO_DECODERS) ? s.DXVAFilters : NULL;
 #endif
 
 	// Blocked filters
