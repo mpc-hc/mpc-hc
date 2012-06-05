@@ -2,8 +2,8 @@ Patches are always welcome. :)
 
 MPC-HC:
 1) Try to fix all /W3 warnings for Win32 in our code.
-   See DSUtil/SharedInclude.h for the disabled warnings. Also a search for "#pragma warning"
-   will reveal any other places where warnings are disabled, which shouldn't be a lot in our code. (C4731, C4799 etc)
+   A search for "#pragma warning" will reveal any places where warnings are disabled,
+   which shouldn't be a lot in our code. (C4731, C4799 etc)
 2) Run /analyze and fix some of the errors; memory leaks, NULL pointer dereferencing, buffer overrun etc
    http://pastebin.com/TX40Apkw
 3) Try to clean up the includes; there are a lot of unneeded includes, or includes which are
@@ -17,6 +17,11 @@ MPC-HC:
    for the DX headers which seems normal since DX is moved into the SDK, linking fails
    if /SAFESEH:NO isn't specified and the MFC bloat workaround does not work as it is.
 9) Use "new" instead of "DNew" and make sure the leak detection works properly
+10) Replace the default old looking toolbar with a more modern one
+
+MPCIconLib:
+1) Rewrite mpciconlib without MFC, so that it's smaller and we no longer need any hacks to get the size to normal
+2) Replace the file association icons with better looking ones
 
 FFmpeg:
 1) Stop linking ffmpeg statically
