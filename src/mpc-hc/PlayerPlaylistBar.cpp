@@ -228,8 +228,8 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 	}
 
 	return (sl.GetCount() > 1
-		   || sl.GetCount() == 1 && sl.GetHead().CompareNoCase(mask)
-		   || sl.GetCount() == 0 && mask.FindOneOf(_T("?*")) >= 0);
+			|| sl.GetCount() == 1 && sl.GetHead().CompareNoCase(mask)
+			|| sl.GetCount() == 0 && mask.FindOneOf(_T("?*")) >= 0);
 }
 
 void CPlayerPlaylistBar::ParsePlayList(CString fn, CAtlList<CString>* subs)

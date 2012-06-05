@@ -187,8 +187,8 @@ HRESULT CTextPassThruOutputPin::DecideBufferSize(IMemAllocator* pAllocator, ALLO
 	}
 
 	return (pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
-		   ? E_FAIL
-		   : NOERROR);
+			? E_FAIL
+			: NOERROR);
 }
 
 HRESULT CTextPassThruOutputPin::GetMediaType(int iPosition, CMediaType* pmt)

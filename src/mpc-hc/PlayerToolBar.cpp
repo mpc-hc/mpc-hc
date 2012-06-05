@@ -87,8 +87,8 @@ HBITMAP CPlayerToolBar::LoadExternalToolBar()
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 {
 	VERIFY(__super::CreateEx(pParentWnd,
-						TBSTYLE_FLAT|TBSTYLE_TRANSPARENT|TBSTYLE_AUTOSIZE|TBSTYLE_CUSTOMERASE,
-						WS_CHILD|WS_VISIBLE|CBRS_BOTTOM|CBRS_TOOLTIPS, CRect(2,2,0,1)));
+							 TBSTYLE_FLAT|TBSTYLE_TRANSPARENT|TBSTYLE_AUTOSIZE|TBSTYLE_CUSTOMERASE,
+							 WS_CHILD|WS_VISIBLE|CBRS_BOTTOM|CBRS_TOOLTIPS, CRect(2,2,0,1)));
 
 	VERIFY(LoadToolBar(IDB_PLAYERTOOLBAR));
 
@@ -245,32 +245,32 @@ void CPlayerToolBar::OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMTBCUSTOMDRAW pTBCD = reinterpret_cast<LPNMTBCUSTOMDRAW>(pNMHDR);
 	LRESULT lr = CDRF_DODEFAULT;
 	switch (pTBCD->nmcd.dwDrawStage) {
-	case CDDS_PREPAINT: {
-		// paint the control background, this is needed for XP
-		CDC dc;
-		dc.Attach(pTBCD->nmcd.hdc);
-		RECT r;
-		GetClientRect(&r);
-		dc.FillSolidRect(&r, ::GetSysColor(COLOR_BTNFACE));
-		dc.Detach();
+		case CDDS_PREPAINT: {
+			// paint the control background, this is needed for XP
+			CDC dc;
+			dc.Attach(pTBCD->nmcd.hdc);
+			RECT r;
+			GetClientRect(&r);
+			dc.FillSolidRect(&r, ::GetSysColor(COLOR_BTNFACE));
+			dc.Detach();
 		}
 		lr |= CDRF_NOTIFYITEMDRAW;
 		break;
-	case CDDS_ITEMPREPAINT:
-		// notify we want to paint after the system's paint cycle
-		lr |= CDRF_NOTIFYPOSTPAINT;
-		lr |= CDRF_NOTIFYITEMDRAW;
-		break;
-	case CDDS_ITEMPOSTPAINT:
-		// paint over the duplicated separator
-		CDC dc;
-		dc.Attach(pTBCD->nmcd.hdc);
-		RECT r;
-		GetItemRect(11, &r);
-		dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
-		dc.Detach();
-		lr |= CDRF_SKIPDEFAULT;
-		break;
+		case CDDS_ITEMPREPAINT:
+			// notify we want to paint after the system's paint cycle
+			lr |= CDRF_NOTIFYPOSTPAINT;
+			lr |= CDRF_NOTIFYITEMDRAW;
+			break;
+		case CDDS_ITEMPOSTPAINT:
+			// paint over the duplicated separator
+			CDC dc;
+			dc.Attach(pTBCD->nmcd.hdc);
+			RECT r;
+			GetItemRect(11, &r);
+			dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
+			dc.Detach();
+			lr |= CDRF_SKIPDEFAULT;
+			break;
 	}
 
 	*pResult = lr;

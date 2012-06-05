@@ -1201,8 +1201,8 @@ bool CPlayerCaptureDialog::IsTunerActive()
 
 	long PinIndexRelated = -1, PhysicalType = -1;
 	return (m_pAMXB
-		   && SUCCEEDED(m_pAMXB->get_CrossbarPinInfo(TRUE, iSel, &PinIndexRelated, &PhysicalType))
-		   && PhysicalType == PhysConn_Video_Tuner);
+			&& SUCCEEDED(m_pAMXB->get_CrossbarPinInfo(TRUE, iSel, &PinIndexRelated, &PhysicalType))
+			&& PhysicalType == PhysConn_Video_Tuner);
 }
 
 bool CPlayerCaptureDialog::SetVideoInput(int input)

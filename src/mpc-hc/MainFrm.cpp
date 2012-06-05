@@ -12465,7 +12465,7 @@ void CMainFrame::SetupLanguageMenu()
 		// Empty the menu
 		while (m_language.RemoveMenu(0, MF_BYPOSITION));
 	}
-	
+
 	UINT uiCount = 0;
 	CFileStatus fs;
 	CString appPath;
