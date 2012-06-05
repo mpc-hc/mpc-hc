@@ -368,7 +368,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 	EventInformationSection InfoEvent;
 	int nLen;
 	int descriptorNumber;
-	int nbItems;
+	int itemsLength;
 	CString itemDesc, itemText;
 	CString text;
 
@@ -427,14 +427,18 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 						gb.BitRead(4); // last_descriptor_number
 						gb.BitRead(24); // ISO_639_language_code
 
-						nbItems = (UINT8)gb.BitRead(8); // length_of_items
-						for (int i=0; i<nbItems; i++) {
+						itemsLength = (UINT8)gb.BitRead(8); // length_of_items
+						while (itemsLength > 0) {
 							nLen = (UINT8)gb.BitRead(8); // item_description_length
 							gb.ReadBuffer(DescBuffer, nLen);
 							itemDesc = ConvertString(DescBuffer, nLen);
+							itemsLength -= nLen + 1;
+
 							nLen = (UINT8)gb.BitRead(8); // item_length
 							gb.ReadBuffer(DescBuffer, nLen);
 							itemText = ConvertString(DescBuffer, nLen);
+							itemsLength -= nLen + 1;
+
 							NowNext.ExtendedDescriptorsItems.SetAt(itemDesc, itemText);
 						}
 
