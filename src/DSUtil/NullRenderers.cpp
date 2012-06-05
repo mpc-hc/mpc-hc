@@ -152,7 +152,6 @@ private :
 };
 
 
-
 CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name)
 	: CRendererInputPin(pRenderer, phr, Name)
 	, m_hDXVA2Lib(NULL)

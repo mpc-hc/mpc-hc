@@ -26,7 +26,6 @@
 #include "PPageBase.h"
 #include "SettingsDefines.h"
 
-
 // CPPageBase dialog
 
 IMPLEMENT_DYNAMIC(CPPageBase, CCmdUIPropertyPage)

@@ -22,7 +22,6 @@
 
 #pragma once
 
-
 enum PES_STREAM_TYPE {
 	INVALID								= 0,
 	VIDEO_STREAM_MPEG1					= 0x01,

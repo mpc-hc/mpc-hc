@@ -27,7 +27,6 @@
 #include "resource.h"
 #include <ResizableLib/ResizableDialog.h>
 
-
 // CPnSPresetsDlg dialog
 
 class CPnSPresetsDlg : public CCmdUIDialog

@@ -25,7 +25,6 @@
 
 #include <ResizableLib/ResizableDialog.h>
 
-
 // CPPageBase dialog
 
 class CPPageBase : public CCmdUIPropertyPage

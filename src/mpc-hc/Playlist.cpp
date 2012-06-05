@@ -26,7 +26,6 @@
 #include "Playlist.h"
 #include "SettingsDefines.h"
 
-
 //
 // CPlaylistItem
 //

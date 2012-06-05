@@ -20,7 +20,6 @@
  *
  */
 
-
 #pragma once
 
 #define FORMAT_VERSION_0			0

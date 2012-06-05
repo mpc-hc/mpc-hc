@@ -25,7 +25,6 @@
 #include "../DSUtil/GolombBuffer.h"
 
 
-
 CompositionObject::CompositionObject()
 {
 	m_rtStart		= 0;

@@ -26,7 +26,6 @@
 #include <afxcmn.h>
 #include <afxwin.h>
 
-
 // CPPageCapture dialog
 
 class CPPageCapture : public CPPageBase

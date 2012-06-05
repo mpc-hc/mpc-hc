@@ -20,7 +20,6 @@
  *
  */
 
-
 #include "stdafx.h"
 #include "HdmvSub.h"
 #include "DVBSub.h"
@@ -49,7 +48,6 @@ CRenderedHdmvSubtitle::~CRenderedHdmvSubtitle(void)
 {
 	delete m_pSub;
 }
-
 
 STDMETHODIMP CRenderedHdmvSubtitle::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
