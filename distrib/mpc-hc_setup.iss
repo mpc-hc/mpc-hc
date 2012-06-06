@@ -121,9 +121,8 @@ AllowNoIcons=yes
 ShowTasksTreeLines=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
-MinVersion=5.1sp2
+MinVersion=5.01.2600sp3
 AppMutex=MediaPlayerClassicW
-ChangesAssociations=yes
 
 
 [Languages]
@@ -192,7 +191,29 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 Source: {#bindir}\{#mpchc_exe};             DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: {#bindir}\mpciconlib.dll;           DestDir: {app};      Components: mpciconlib;   Flags: ignoreversion
 #if localize == "true"
-Source: {#bindir}\Lang\mpcresources.*.dll;  DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.br.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.by.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.ca.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.cz.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.de.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.es.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.eu.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.fr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.he.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.hu.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.hy.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.it.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.ja.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.kr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.nl.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.pl.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.ru.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.sc.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.sk.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.sv.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.tc.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.tr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.ua.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
 Source: ..\COPYING.txt;                     DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Authors.txt;                DestDir: {app};      Components: main;         Flags: ignoreversion
@@ -256,7 +277,28 @@ Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema.lnk; Check
 
 #if localize == "true"
 ; remove the old language dlls when upgrading
-Type: files; Name: {app}\mpcresources.*.dll
+Type: files; Name: {app}\mpcresources.br.dll
+Type: files; Name: {app}\mpcresources.by.dll
+Type: files; Name: {app}\mpcresources.ca.dll
+Type: files; Name: {app}\mpcresources.cz.dll
+Type: files; Name: {app}\mpcresources.de.dll
+Type: files; Name: {app}\mpcresources.es.dll
+Type: files; Name: {app}\mpcresources.fr.dll
+Type: files; Name: {app}\mpcresources.he.dll
+Type: files; Name: {app}\mpcresources.hu.dll
+Type: files; Name: {app}\mpcresources.hy.dll
+Type: files; Name: {app}\mpcresources.it.dll
+Type: files; Name: {app}\mpcresources.ja.dll
+Type: files; Name: {app}\mpcresources.kr.dll
+Type: files; Name: {app}\mpcresources.nl.dll
+Type: files; Name: {app}\mpcresources.pl.dll
+Type: files; Name: {app}\mpcresources.ru.dll
+Type: files; Name: {app}\mpcresources.sc.dll
+Type: files; Name: {app}\mpcresources.sk.dll
+Type: files; Name: {app}\mpcresources.sv.dll
+Type: files; Name: {app}\mpcresources.tc.dll
+Type: files; Name: {app}\mpcresources.tr.dll
+Type: files; Name: {app}\mpcresources.ua.dll
 #endif
 
 
