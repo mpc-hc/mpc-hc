@@ -190,6 +190,8 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 [Files]
 Source: {#bindir}\{#mpchc_exe};             DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: {#bindir}\mpciconlib.dll;           DestDir: {app};      Components: mpciconlib;   Flags: ignoreversion
+Source: {#bindir}\D3DCompiler_{#MPC_DX_SDK_NUMBER}.dll; DestDir: {app}; Components: main;  Flags: ignoreversion
+Source: {#bindir}\d3dx9_{#MPC_DX_SDK_NUMBER}.dll;       DestDir: {app}; Components: main;  Flags: ignoreversion
 #if localize == "true"
 Source: {#bindir}\Lang\mpcresources.br.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 Source: {#bindir}\Lang\mpcresources.by.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
@@ -328,16 +330,6 @@ begin
 end;
 
 
-function D3DX9DLLExists(): Boolean;
-begin
-  if FileExists(ExpandConstant('{app}\D3DX9_{#MPC_DX_SDK_NUMBER}.dll'))
-   or FileExists(ExpandConstant('{sys}\D3DX9_{#MPC_DX_SDK_NUMBER}.dll')) then
-    Result := True
-  else
-    Result := False;
-end;
-
-
 #if defined(sse_required)
 function Is_SSE_Supported(): Boolean;
 begin
@@ -416,9 +408,6 @@ begin
     else
       RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', iLanguage);
   end;
-
-  if (CurStep = ssDone) and not WizardSilent() and not D3DX9DLLExists() then
-    SuppressibleMsgBox(CustomMessage('msg_NoD3DX9DLL_found'), mbError, MB_OK, MB_OK);
 
 end;
 

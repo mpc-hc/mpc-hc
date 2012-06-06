@@ -31,18 +31,10 @@ Main Features:
 * 23 translations available
 
 
-Supported Operating Systems:
------------------------------
-* Windows XP SP3, Vista, 7 32-bit/64-bit
-
-
 System Requirements:
 ---------------------
 * An SSE capable CPU
-* The latest DirectX 9.0c runtime (June 2010). Install it regardless of
-  the operating system, they all need it.
-  Web installer:  http://www.microsoft.com/download/en/details.aspx?id=35
-  Full:           http://www.microsoft.com/download/en/details.aspx?id=8109
+* Windows XP SP3, Vista, 7 32-bit/64-bit
 
 
 Links:

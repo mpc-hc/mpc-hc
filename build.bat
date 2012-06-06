@@ -220,12 +220,23 @@ FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
 EXIT /B
 
 
+:SubCopyDXDll
+PUSHD "bin"
+EXPAND "%DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~1.cab" -F:D3DCompiler_43.dll mpc-hc_%~1 >NUL
+EXPAND "%DXSDK_DIR%\Redist\Jun2010_d3dx9_43_%~1.cab" -F:d3dx9_43.dll mpc-hc_%~1 >NUL
+POPD
+EXIT /B
+
+
 :SubCreateInstaller
 IF /I "%BUILDTYPE%" == "Clean" EXIT /B
 IF /I "%BUILDCFG%" == "Debug"  EXIT /B
 IF /I "%CONFIG%" == "Filters"  EXIT /B
 
-IF /I "%~1" == "x64" SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /Dx64Build
+IF /I "%~1" == "x64" (
+  SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /Dx64Build
+  CALL :SubCopyDXDll x64
+) ELSE CALL :SubCopyDXDll x86
 
 CALL :SubDetectInnoSetup
 
@@ -255,7 +266,13 @@ IF NOT DEFINED SEVENZIP (
 )
 
 IF /I "%~1" == "Filters" (SET "NAME=MPC-HC_standalone_filters") ELSE (SET "NAME=MPC-HC")
-IF /I "%~2" == "Win32"   (SET ARCH=x86) ELSE (SET ARCH=x64)
+IF /I "%~2" == "Win32" (
+  SET ARCH=x86
+  CALL :SubCopyDXDll x86
+) ELSE (
+  SET ARCH=x64
+  CALL :SubCopyDXDll x64
+)
 
 PUSHD "bin"
 
@@ -286,8 +303,10 @@ IF /I "%NAME%" == "MPC-HC" (
   ) ELSE (
     COPY /Y /V "%~1_%ARCH%\mpc-hc.exe"   "%PCKG_NAME%\mpc-hc.exe" >NUL
   )
-  COPY /Y /V "%~1_%ARCH%\mpciconlib.dll" "%PCKG_NAME%\*.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\mpciconlib.dll"           "%PCKG_NAME%\*.dll" >NUL
   COPY /Y /V "%~1_%ARCH%\Lang\mpcresources.??.dll" "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\D3DCompiler_43.dll"       "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\d3dx9_43.dll"             "%PCKG_NAME%\d3dx9_43.dll" >NUL
 ) ELSE (
   COPY /Y /V "%~1_%ARCH%\*.ax"           "%PCKG_NAME%\*.ax" >NUL
   COPY /Y /V "%~1_%ARCH%\VSFilter.dll"   "%PCKG_NAME%\VSFilter.dll" >NUL

@@ -138,7 +138,6 @@ en.langid=00000000
 en.comp_mpciconlib=Icon Library
 en.comp_mpcresources=Translations
 en.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%n%nIf you plan on installing MPC-HC again then you do not have to delete them.
-en.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed!%n%nPlease download and install the latest DirectX runtime ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) regardless of your operating system.
 en.msg_SetupIsRunningWarning=MPC-HC setup is already running!
 #if defined(sse_required)
 en.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
@@ -162,7 +161,6 @@ br.langid=00000017
 br.comp_mpciconlib=Biblioteca de ícones
 br.comp_mpcresources=Traduções
 br.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC?%n%nSe você quiser instalar o MPC-HC novamente então não precisa excluí-las.
-br.msg_NoD3DX9DLL_found=A versão mais recente do DirectX não está instalada!%n%nPor favor baixe e instale a versão mais recente ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) adequado ao seu sistema operacional.
 br.msg_SetupIsRunningWarning=A instalação do MPC-HC ja está sendo executada!
 #if defined(sse_required)
 br.msg_simd_sse=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE.%n%nSua CPU não tem esse suporte.
@@ -183,7 +181,6 @@ by.langid=00000015
 by.comp_mpciconlib=Бібліятэка значкоў
 by.comp_mpcresources=Пераклады
 by.msg_DeleteSettings=Ці хочаце таксама выдаліць налады MPC-HC?%n%nКалі вы збіраецеся зноў усталяваць MPC-HC, тады іх можна пакінуць.
-by.msg_NoD3DX9DLL_found=Найноўшая бібліятэка DirectX не ўсталяваная!%n%nСцягніце і ўсталюйце яе (версія {#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}), незалежна ад таго, якая ў вас аперацыйная сістэма.
 by.msg_SetupIsRunningWarning=Праграма ўсталявання MPC-HC ужо працуе!
 #if defined(sse_required)
 by.msg_simd_sse=Гэтая будова MPC-HC вымагае працэсар, здольны выконваць інструкцыі SSE.%n%nВаш працэсар гэтага не ўмее.
@@ -204,7 +201,6 @@ eu.langid=00000023
 eu.comp_mpciconlib=Ikur Liburutegia
 eu.comp_mpcresources=Itzulpenak
 eu.msg_DeleteSettings=MPC-HC ezarpenak kentzea ere nahi dituzu?%n%nMPC-HC berriro ezartzeko asmoa baduzu ez dituzu ezabatu behar.
-eu.msg_NoD3DX9DLL_found=Azken DirectX bertsioa ez dago ezarrita!%n%nMesedez jeitsi eta ezarri azken DirectX bertsioa ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) sistema eragileari kasu egin gabe.
 eu.msg_SetupIsRunningWarning=MPC-HC ezarpena jadanik ekinean dago!
 #if defined(sse_required)
 eu.msg_simd_sse=MPC-HC eraiketa honek SSE hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
@@ -225,7 +221,6 @@ ca.langid=00000019
 ca.comp_mpciconlib=Llibreria d'icones
 ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Vols eliminar les preferències del MPC-HC?%n%nSi planeges instal.lar altre cop el MPC-HC no necessites eliminar-les.
-ca.msg_NoD3DX9DLL_found=No està instal.lada la darrera versió de DirectX!%n%nSisplau instal.lar la darrera versió DirectX runtime ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) independentment del sistema operatiu.
 ca.msg_SetupIsRunningWarning=La instal.lació del MPC-HC ja se està executant!
 #if defined(sse_required)
 ca.msg_simd_sse=Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE.%n%nLa teva CPU no cumpleix aquestes característiques.
@@ -246,7 +241,6 @@ cz.langid=00000005
 cz.comp_mpciconlib=Ikony typů souborů
 cz.comp_mpcresources=Jazykové soubory
 cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC?%n%nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
-cz.msg_NoD3DX9DLL_found=Nainstalovaná verze DirectX není dostatečně aktuální!%n%nStáhněte a nainstalujte nejnovější aktualizaci DirectX ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}).%n%nPozor, aktualizace je pro všechny verze DirectX, nejen pro DirectX 9!
 cz.msg_SetupIsRunningWarning=Instalátor MPC-HC je již spuštěn!
 #if defined(sse_required)
 cz.msg_simd_sse=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE.%n%nVáš procesor tato rozšíření nepodporuje.
@@ -267,7 +261,6 @@ de.langid=00000002
 de.comp_mpciconlib=Symbole für Mediendateien
 de.comp_mpcresources=Übersetzungen
 de.msg_DeleteSettings=Wollen Sie auch die Einstellungen des MPC-HC löschen?%n%nWenn Sie den MPC-HC wieder installieren wollen, dann müssen Sie diese nicht unbedingt löschen.
-de.msg_NoD3DX9DLL_found=Die neueste DirectX-Runtime ist nicht installiert!%n%nBitte laden und installieren Sie die neueste DirectX-Runtime ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) unabhängig von Ihrem Betriebssystem.
 de.msg_SetupIsRunningWarning=MPC-HC Setup wird bereits ausgeführt!
 #if defined(sse_required)
 de.msg_simd_sse=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE-Unterstützung.%n%nIhr Prozessor besitzt nicht diese Eigenschaft.
@@ -288,7 +281,6 @@ es.langid=00000006
 es.comp_mpciconlib=Librería de iconos
 es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
-es.msg_NoD3DX9DLL_found=¡No está instalada la última versión de DirectX!%n%nPor favor descargue e instale DirectX runtime ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) independientemente de su sistema operativo.
 es.msg_SetupIsRunningWarning=La instalación de MPC-HC ya se esta ejecutando!
 #if defined(sse_required)
 es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE.%n%nSu CPU carece de esta característica.
@@ -309,7 +301,6 @@ fr.langid=00000001
 fr.comp_mpciconlib=Bibliothèque d'icône
 fr.comp_mpcresources=Traductions
 fr.msg_DeleteSettings=Souhaitez-vous supprimer également les paramètres de MPC-HC?%n%nSi vous réinstallez MPC-HC, il est conseillé de ne pas les supprimer.
-fr.msg_NoD3DX9DLL_found=La dernière version des composants d'exécution DirectX n'est pas installée !%n%nCelle-ci est nécessaire quelque soit votre système d'exploitation, veuillez la télécharger et l'installer ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}).
 fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution!
 #if defined(sse_required)
 fr.msg_simd_sse=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE.%n%nVotre CPU n'a pas cette capacité.
@@ -330,7 +321,6 @@ he.langid=00000022
 he.comp_mpciconlib=ספריית אייקונים
 he.comp_mpcresources=תרגומים
 he.msg_DeleteSettings=האם ברצונך גם למחוק את ההגדרות של MPC-HC?%n%nאם אתה מתכנן להתקין את MPC-HC בשנית, אינך חייב להסירן.
-he.msg_NoD3DX9DLL_found=סביבת הריצה של ה-DirectX הכי חדש אינה מותקנת.%n%nאנא הורד והתקן את סביבת הריצה הכי חדשה ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) בלי קשר למערכת ההפעלה שברשותך.
 he.msg_SetupIsRunningWarning=ההתקנה של MPC-HC כבר רצה!
 #if defined(sse_required)
 he.msg_simd_sse=גרסה זו של MPC-HC דורשת מעבד עם תמיכה בהרחבת SSE.%n%nהמעבד שברשותך אינו תומך בכך.
@@ -351,7 +341,6 @@ hu.langid=00000007
 hu.comp_mpciconlib=Ikon Gyűjtemény
 hu.comp_mpcresources=Fordítások
 hu.msg_DeleteSettings=Az MPC-HC beállításokat is törölni szeretné?%n%nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket.
-hu.msg_NoD3DX9DLL_found=A legújabb DirectX nincs telepítve!%n%nKérjük töltse le és telepítse a legújabb DirectX runtime ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) verziót függetlenül az operációs rendszerétől.
 hu.msg_SetupIsRunningWarning=Az MPC-HC telepítő már fut!
 #if defined(sse_required)
 hu.msg_simd_sse=Az MPC-HC jelen változatához SSE támogatással bíró CPU-ra van szüksége.%n%nAz ön CPU-ja nem rendelkezik ilyen támogatással.
@@ -372,7 +361,6 @@ hy.langid=00000021
 hy.comp_mpciconlib=Պատկերների գրադարան
 hy.comp_mpcresources=Թարգմանություններ
 hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%n%nԵթե նախատեսում եք վերատեղակայել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
-hy.msg_NoD3DX9DLL_found=Վերջին DirectX-ը տեղակայված չէ!%n%nԽնդրում ենք տեղակայել վերջին DirectX-ը({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR})։
 hy.msg_SetupIsRunningWarning=MPC-HC-ի տեղակայիչը արդեն բացված է!
 #if defined(sse_required)
 hy.msg_simd_sse=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
@@ -393,7 +381,6 @@ it.langid=00000011
 it.comp_mpciconlib=Libreria icone
 it.comp_mpcresources=Traduzioni
 it.msg_DeleteSettings=Vou eliminare anche le impostazioni di MPC-HC?%n%nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
-it.msg_NoD3DX9DLL_found=La libreria di runtime DirectX più recente non è installata!%n%nScarica e installa la libreria di runtime DirectX più recente ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) indipendentemente dal tuo sistema operativo.
 it.msg_SetupIsRunningWarning=L'installazione di MPC-HC è già in corso!
 #if defined(sse_required)
 it.msg_simd_sse=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE.%n%nLa tua CPU non dispone di questa caratteristica.
@@ -414,7 +401,6 @@ ja.langid=00000020
 ja.comp_mpciconlib=アイコン ライブラリー
 ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
-ja.msg_NoD3DX9DLL_found=最新の DirectX ランタイムはインストールされません！%n%nオペレーティングシステムにかかわらず最新の DirectX ランタイム ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) をダウンロードして、インストールしてください。
 ja.msg_SetupIsRunningWarning=MPC-HC のインストーラーは既に実行されています！
 #if defined(sse_required)
 ja.msg_simd_sse=このバージョンの MPC-HC は CPU の SSE サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
@@ -435,7 +421,6 @@ kr.langid=00000008
 kr.comp_mpciconlib=아이콘 라이브러리
 kr.comp_mpcresources=번역
 kr.msg_DeleteSettings=MPC-HC 의 설정도 삭제하시겠습니까?%n%nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
-kr.msg_NoD3DX9DLL_found=최신 DirectX 런타임이 설치되어있지않습니다!%n%n사용하는 운영체제에 맞는 최신 DirectX 런타임 ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) 을 다운로드하여 설치하세요.
 kr.msg_SetupIsRunningWarning=MPC-HC 설치프로그램이 이미 실행중입니다!
 #if defined(sse_required)
 kr.msg_simd_sse=이 버전의 MPC-HC 는 SSE 기술을 지원하는 CPU가 필요합니다.%n%n이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
@@ -456,7 +441,6 @@ nl.langid=00000018
 nl.comp_mpciconlib=Iconen voor mediabestanden
 nl.comp_mpcresources=Localisaties
 nl.msg_DeleteSettings=Wil je ook de instellingen vab MPC-HC verwijderen?%n%nAls je MPC-HC opnieuw gaat installeren is dit niet nodig.
-nl.msg_NoD3DX9DLL_found=De nieuwste DirectX runtime is niet geinstalleerd!%n%nGraag de nieuwste DirectX runtime ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) downloaden en installeren ongeacht je windows versie.
 nl.msg_SetupIsRunningWarning=MPC-HC installatie is al gestart!
 #if defined(sse_required)
 nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt.%n%nJouw processor ondersteund dit niet.
@@ -477,7 +461,6 @@ pl.langid=00000009
 pl.comp_mpciconlib=Ikony plików multimedialnych
 pl.comp_mpcresources=Tłumaczenia
 pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC?%n%nJeśli planujesz ponownie zainstalować MPC-HC, wtedy nie trzeba ich usuwać.
-pl.msg_NoD3DX9DLL_found=Najnowszy DirectX runtime nie został zainstalowany!%n%nProszę pobrać i zainstalować najnowszy DirectX runtime ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) niezależnie od systemu operacyjnego.
 pl.msg_SetupIsRunningWarning=Instalator MPC-HC jest już uruchomiony!
 #if defined(sse_required)
 pl.msg_simd_sse=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE.%n%nTwój procesor ich nie obsługuje.
@@ -498,7 +481,6 @@ ru.langid=00000003
 ru.comp_mpciconlib=Библиотека значков
 ru.comp_mpcresources=Локализации
 ru.msg_DeleteSettings=Удалить также настроенные параметры MPC-HC?%n%nЕсли запланирована переустановка MPC-HC, эти параметры не нужно удалять.
-ru.msg_NoD3DX9DLL_found=Не установлена последняя версия системы DirectX!%n%nЗагрузите и установите последнюю версию DirectX ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) независимо от версии установленной операционной системы.
 ru.msg_SetupIsRunningWarning=Программа установки MPC-HC уже запущена!
 #if defined(sse_required)
 ru.msg_simd_sse=Для этой сборки MPC-HC требуется процессор с поддержкой SSE-инструкций.%n%nВ данном процессоре они не поддерживаются.
@@ -519,7 +501,6 @@ sc.langid=00000013
 sc.comp_mpciconlib=图标库
 sc.comp_mpcresources=翻译
 sc.msg_DeleteSettings=是否同时删除 MPC-HC 设置?%n%n如果您打算再次安装 MPC-HC 则无需删除。
-sc.msg_NoD3DX9DLL_found=还没安装最新版本的 DirectX 运行库!%n%n不论您所使用的作业系统请下载及更新至最新版本的 DirectX 运行库 ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR})。
 sc.msg_SetupIsRunningWarning=MPC-HC 安装程序已在运行中！
 #if defined(sse_required)
 sc.msg_simd_sse=这个编译版的 MPC-HC 需要一个支持 SSE 指令集的 CPU。%n%n但是您的 CPU 并不支持这个功能。
@@ -540,7 +521,6 @@ sv.langid=00000016
 sv.comp_mpciconlib=Ikonbibliotek
 sv.comp_mpcresources=Översättningar
 sv.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
-sv.msg_NoD3DX9DLL_found=Senaste DirectX har inte installerats!%n%nHämta ner och installera senaste DirectX ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) oavsett ditt operativsystem.
 sv.msg_SetupIsRunningWarning=Konfigurering av MPC-HC pågår redan!
 #if defined(sse_required)
 sv.msg_simd_sse=Detta bygge av MPC-HC kräver en processor med stöd för SSE-tillägget.%n%nDin processor saknar detta stöd.
@@ -561,7 +541,6 @@ sk.langid=00000012
 sk.comp_mpciconlib=Knižnica ikon
 sk.comp_mpcresources=Preklady
 sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC?%n%nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
-sk.msg_NoD3DX9DLL_found=Najnovšie rozhranie DirectX nie je nainštalované!%n%nProsím stiahnite a nainštalujte si ho ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) bez ohľadu na verziu operačného systému.
 sk.msg_SetupIsRunningWarning=Inštalácia programu MPC-HC je už spustená!
 #if defined(sse_required)
 sk.msg_simd_sse=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE.%n%nVáš procesor ich nepodporuje.
@@ -582,7 +561,6 @@ tc.langid=00000014
 tc.comp_mpciconlib=圖示庫
 tc.comp_mpcresources=翻譯
 tc.msg_DeleteSettings=您是否也要刪除 MPC-HC 設定？%n%n如果您打算再次安裝 MPC-HC 則無需刪除。
-tc.msg_NoD3DX9DLL_found=未安裝最新版本的 DirectX Runtime！%n%n不論您使用的作業系統為何，請下載並更新至最新版本的 DirectX Runtime ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR})。
 tc.msg_SetupIsRunningWarning=已在執行 MPC-HC 安裝程式！
 #if defined(sse_required)
 tc.msg_simd_sse=此版的 MPC-HC 需要有支援 SSE 延伸指令集的 CPU。%n%n您的 CPU 並未相容這些功能。
@@ -603,7 +581,6 @@ tr.langid=00000004
 tr.comp_mpciconlib=Simge Kütüphanesi
 tr.comp_mpcresources=Çeviriler
 tr.msg_DeleteSettings=MPC-HC ayarlarını silmek istiyor musunuz?%n%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemeniz önerilir.
-tr.msg_NoD3DX9DLL_found=En son DirectX çalıştırılabilir paketi yüklü değil!%n%nLütfen en son DirectX paketini ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) innDirip kurunuz. İşletim sistemi sürümünüz, bu aşamada önemli değildir.
 tr.msg_SetupIsRunningWarning=MPC-HC kurulumu zaten çalışıyor.
 #if defined(sse_required)
 tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz bu özelliği desteklemiyor.
@@ -624,7 +601,6 @@ ua.langid=00000010
 ua.comp_mpciconlib=Бібліотека іконок
 ua.comp_mpcresources=Локалізації
 ua.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC?%n%nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
-ua.msg_NoD3DX9DLL_found=Останню версію DirectX не встановлено!%n%nБудь ласка, завантажте і встановіть останню версію DirectX ({#MPC_DX_SDK_MONTH} {#MPC_DX_SDK_YEAR}) відповідно до операційної системи, яку ви використовуєте.
 ua.msg_SetupIsRunningWarning=Встановлення MPC-HC вже запущено!
 #if defined(sse_required)
 ua.msg_simd_sse=Для використання даної версії MPC-HC необхідно, щоб ваш процесор підтримував SSE розширення.%n%nАле ваш процесор не підтримує їх.

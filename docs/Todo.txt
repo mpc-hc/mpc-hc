@@ -9,14 +9,15 @@ MPC-HC:
 3) Try to clean up the includes; there are a lot of unneeded includes, or includes which are
    inherited from files they shouldn't be and are not included directly in the files that need them
 4) Try to speed up compilation by doing the above and also by optimizing the included headers
-   in stdafx.h for mplayerc.vcxproj.
+   in stdafx.h for mpc-hc.vcxproj.
 5) Reorganize the player's Options
 6) Remove support for unneeded/obsolete renderers
 7) Update Bento4 library or see if we can use ffmpeg for this job
 8) Test MSVC 2012 more when it's released. With the RC we get random new errors when building Virtualdub/system.
    With the Beta we got hundreds of redefinitions for the DX headers which seems normal
-   since DX is moved into the SDK, linking fails if /SAFESEH:NO isn't specified and the MFC
-   bloat workaround does not work as it is.
+   since DX is moved into the SDK but we have to use the DX SDK for d3dx9, linking fails if /SAFESEH:NO
+   isn't specified (still happens with the RC for Win32) and the MFC bloat workaround does not work as it is
+   and unfortunately it is still needed.
 9) Use "new" instead of "DNew" and make sure the leak detection works properly
 10) Replace the default old looking toolbar with a more modern one
 
@@ -33,8 +34,7 @@ FFmpeg:
 Alternatively, drop all internal decoders and filters and integrate LAVFilters, but keep DXVA1.
 
 Installer:
-1) Add detection of directx and run websetup to update if needed or include the needed dx dlls
-2) Add file association tasks, see https://sourceforge.net/apps/trac/mpc-hc/ticket/2207
+1) Add file association tasks, see https://sourceforge.net/apps/trac/mpc-hc/ticket/2207
 
 VSFilter:
 1) Use the defines from Version.h for MPC_COPYRIGHT_STR in VSFilter
