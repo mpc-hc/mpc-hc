@@ -96,9 +96,7 @@ public:
 	virtual ~CPPageSheet();
 	afx_msg void OnContextMenu(CWnd *pWnd, CPoint point);
 
-	void LockPage() {
-		m_bLockPage = true;
-	};
+	void LockPage() {m_bLockPage = true;};
 protected:
 	DECLARE_MESSAGE_MAP()
 public:

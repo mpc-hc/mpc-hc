@@ -26,9 +26,6 @@
 #include "PPageSheet.h"
 #include "SettingsDefines.h"
 
-using namespace TreePropSheet;
-
-
 // CPPageSheet
 
 IMPLEMENT_DYNAMIC(CPPageSheet, CTreePropSheet)
