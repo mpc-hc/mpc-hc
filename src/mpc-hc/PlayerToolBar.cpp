@@ -245,6 +245,10 @@ void CPlayerToolBar::OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMTBCUSTOMDRAW pTBCD = reinterpret_cast<LPNMTBCUSTOMDRAW>(pNMHDR);
 	LRESULT lr = CDRF_DODEFAULT;
 	switch (pTBCD->nmcd.dwDrawStage) {
+		case CDDS_PREERASE:
+			m_volctrl.Invalidate();
+			lr = CDRF_DODEFAULT;
+			break;
 		case CDDS_PREPAINT: {
 			// paint the control background, this is needed for XP
 			CDC dc;
