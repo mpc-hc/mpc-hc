@@ -77,7 +77,7 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 	if (i >= 0 && i < m_fn.GetLength()-1) {
 		m_fn = m_fn.Mid(i+1);
 	}
-	m_fn = m_fn+_T(".MediaInfo.txt");
+	m_fn = m_fn + _T(".MediaInfo.txt");
 
 	GetDlgItem(IDCANCEL)->ShowWindow(SW_HIDE);
 	GetDlgItem(ID_APPLY_NOW)->ShowWindow(SW_HIDE);
@@ -106,11 +106,11 @@ void CPPageFileInfoSheet::OnSaveAs()
 						 _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||"), NULL);
 
 	if (filedlg.DoModal() == IDOK) { // user has chosen a file, so
-		_TCHAR bom = (_TCHAR)0xFEFF;
+		TCHAR bom = (TCHAR)0xFEFF;
 		CFile mFile;
 		if (mFile.Open(filedlg.GetPathName(), CFile::modeCreate | CFile::modeWrite)) {
-			mFile.Write(&bom, sizeof(_TCHAR));
-			mFile.Write(LPCTSTR(m_mi.MI_Text), m_mi.MI_Text.GetLength()*sizeof(_TCHAR));
+			mFile.Write(&bom, sizeof(TCHAR));
+			mFile.Write(LPCTSTR(m_mi.MI_Text), m_mi.MI_Text.GetLength()*sizeof(TCHAR));
 			mFile.Close();
 		}
 	}

@@ -69,11 +69,11 @@ public:
 	CMPC_Lcd();
 	~CMPC_Lcd();
 
-	void SetMediaTitle(const _TCHAR * text);
+	void SetMediaTitle(const TCHAR * text);
 	void SetMediaRange(__int64 nStart, __int64 nStop);
 	void SetMediaPos(__int64 nPos);
 	void SetVolumeRange(__int64 nStart, __int64 nStop);
 	void SetVolume(__int64 nVol);
-	void SetStatusMessage(const _TCHAR * text, int nTimeOut);
+	void SetStatusMessage(const TCHAR * text, int nTimeOut);
 	void SetPlayState(PlayState ps);
 };

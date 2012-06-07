@@ -89,8 +89,8 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 {
 	LONG	retval	= EXCEPTION_CONTINUE_SEARCH;
 	HMODULE	hDll	= NULL;
-	_TCHAR	szResult[ 800 ];
-	_TCHAR	szDbgHelpPath[ _MAX_PATH ];
+	TCHAR	szResult[ 800 ];
+	TCHAR	szDbgHelpPath[ _MAX_PATH ];
 	CString strDumpPath;
 
 	if ( !m_bMiniDumpEnabled ) {
@@ -102,7 +102,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 	// (e.g. Windows 2000)
 
 	if ( GetModuleFileName(NULL, szDbgHelpPath, _MAX_PATH) ) {
-		_TCHAR *pSlash = _tcsrchr( szDbgHelpPath, _T('\\') );
+		TCHAR *pSlash = _tcsrchr( szDbgHelpPath, _T('\\') );
 		if ( pSlash != NULL ) {
 			_tcscpy_s( pSlash + 1, _MAX_PATH + szDbgHelpPath - pSlash, _T("DBGHELP.DLL") );
 			hDll = ::LoadLibrary( szDbgHelpPath );

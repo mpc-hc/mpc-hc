@@ -272,7 +272,7 @@ CMPC_Lcd::~CMPC_Lcd(void)
 }
 
 /* update title name */
-void CMPC_Lcd::SetMediaTitle(const _TCHAR * text)
+void CMPC_Lcd::SetMediaTitle(const TCHAR * text)
 {
 	EnterCriticalSection(&cs);
 	m_Manager.m_Text1.SetText(text);
@@ -313,7 +313,7 @@ void CMPC_Lcd::SetMediaPos(__int64 nPos)
 }
 
 /* update status message (displayed for nTimeOut milliseconds) */
-void CMPC_Lcd::SetStatusMessage(const _TCHAR * text, int nTimeOut)
+void CMPC_Lcd::SetStatusMessage(const TCHAR * text, int nTimeOut)
 {
 	if (!m_Output.IsOpened()) {
 		return;
