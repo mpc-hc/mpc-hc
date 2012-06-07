@@ -207,7 +207,7 @@ CString CPPageAccelTbl::MakeAccelModLabel(BYTE fVirt)
 
 CString CPPageAccelTbl::MakeAccelVkeyLabel(WORD key, bool fVirtKey)
 {
-	// Reference page for Virtual-Key Codes: http://msdn.microsoft.com/en-us/library/ms645540
+	// Reference page for Virtual-Key Codes: http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731%28v=vs.100%29.aspx
 	CString str;
 
 	switch (key) {
@@ -779,7 +779,7 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(UINT id)
 
 CString CPPageAccelTbl::MakeAccelShortcutLabel(ACCEL& a)
 {
-	// Reference page for Virtual-Key Codes: http://msdn.microsoft.com/en-us/library/ms645540
+	// Reference page for Virtual-Key Codes: http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731%28v=vs.100%29.aspx
 	CString str;
 
 	switch (a.key) {
@@ -811,7 +811,7 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(ACCEL& a)
 			str = _T("Clear");
 			break;
 		case VK_RETURN:
-			str = _T("Return");
+			str = _T("Enter");
 			break;
 		case VK_SHIFT:
 			str = _T("Shift");
