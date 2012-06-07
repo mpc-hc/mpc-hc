@@ -2467,16 +2467,16 @@ void UnRegisterSourceFilter(const GUID& subtype)
 }
 
 typedef struct {
-	const GUID*				Guid;
-	const LPCTSTR			Description;
+	const GUID*   Guid;
+	const LPCTSTR Description;
 } DXVA2_DECODER;
 
 static const DXVA2_DECODER DXVA2Decoder[] = {
 	{&GUID_NULL,						_T("Unknown")},
 	{&GUID_NULL,						_T("Not using DXVA")},
-	{&DXVA_Intel_H264_ClearVideo,		_T("H.264 bitstream decoder, ClearVideo(tm)")},// Intel ClearVideo H264 bitstream decoder
-	{&DXVA_Intel_VC1_ClearVideo,		_T("VC-1 bitstream decoder, ClearVideo(tm)")},// Intel ClearVideo VC-1 bitstream decoder
-	{&DXVA_MPEG4_ASP,					_T("MPEG-4 ASP bitstream decoder")},// Nvidia MPEG-4 ASP bitstream decoder
+	{&DXVA_Intel_H264_ClearVideo,		_T("H.264 bitstream decoder, ClearVideo(tm)")}, // Intel ClearVideo H264 bitstream decoder
+	{&DXVA_Intel_VC1_ClearVideo,		_T("VC-1 bitstream decoder, ClearVideo(tm)")},  // Intel ClearVideo VC-1 bitstream decoder
+	{&DXVA_MPEG4_ASP,					_T("MPEG-4 ASP bitstream decoder")},            // Nvidia MPEG-4 ASP bitstream decoder
 	{&DXVA_ModeNone,					_T("Mode none")},
 	{&DXVA_ModeH261_A,					_T("H.261 A, post processing")},
 	{&DXVA_ModeH261_B,					_T("H.261 B, deblocking")},
@@ -2488,9 +2488,9 @@ static const DXVA2_DECODER DXVA2Decoder[] = {
 	{&DXVA_ModeH263_F,					_T("H.263 F, bitstream decoder, FGT")},
 	{&DXVA_ModeMPEG1_A,					_T("MPEG-1 A, post processing")},
 	{&DXVA_ModeMPEG2_A,					_T("MPEG-2 A, motion compensation")},
-	{&DXVA_ModeMPEG2_B,					_T("MPEG-2 B, motion compensation+blending")},
+	{&DXVA_ModeMPEG2_B,					_T("MPEG-2 B, motion compensation + blending")},
 	{&DXVA_ModeMPEG2_C,					_T("MPEG-2 C, IDCT")},
-	{&DXVA_ModeMPEG2_D,					_T("MPEG-2 D, IDCT+blending")},
+	{&DXVA_ModeMPEG2_D,					_T("MPEG-2 D, IDCT + blending")},
 	{&DXVA_ModeH264_A,					_T("H.264 A, motion compensation, no FGT")},
 	{&DXVA_ModeH264_B,					_T("H.264 B, motion compensation, FGT")},
 	{&DXVA_ModeH264_C,					_T("H.264 C, IDCT, no FGT")},

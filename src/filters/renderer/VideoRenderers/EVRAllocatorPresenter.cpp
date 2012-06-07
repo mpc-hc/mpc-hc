@@ -21,7 +21,6 @@
  */
 
 #include "stdafx.h"
-
 #include "EVRAllocatorPresenter.h"
 #include "OuterEVR.h"
 #include <Mferror.h>

@@ -23,6 +23,8 @@
 
 #pragma once
 
+#include <videoacc.h>
+
 interface IPinC;
 
 typedef struct IPinCVtbl {
@@ -77,8 +79,6 @@ extern void UnhookNewSegmentAndReceive();
 extern REFERENCE_TIME g_tSegmentStart, g_tSampleStart, g_rtTimePerFrame;
 
 //
-
-#include <videoacc.h>
 
 interface IAMVideoAcceleratorC;
 
