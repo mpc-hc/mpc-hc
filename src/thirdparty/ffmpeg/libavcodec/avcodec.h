@@ -414,6 +414,7 @@ enum CodecID {
     CODEC_ID_8SVX_FIB,
     CODEC_ID_BMV_AUDIO,
     CODEC_ID_RALF,
+    CODEC_ID_IAC,
     CODEC_ID_FFWAVESYNTH = MKBETAG('F','F','W','S'),
     CODEC_ID_8SVX_RAW    = MKBETAG('8','S','V','X'),
     CODEC_ID_SONIC       = MKBETAG('S','O','N','C'),
@@ -1288,6 +1289,16 @@ typedef struct AVFrame {
      */
     int64_t pkt_pos;
 
+    /**
+     * duration of the corresponding packet, expressed in
+     * AVStream->time_base units, 0 if unknown.
+     * Code outside libavcodec should access this field using:
+     * av_frame_get_pkt_duration(frame)
+     * - encoding: unused
+     * - decoding: Read by user.
+     */
+    int64_t pkt_duration;
+
     /* ffdshow custom code (begin) */
     int h264_poc_decoded;
     int h264_poc_outputed;
@@ -1302,10 +1313,12 @@ typedef struct AVFrame {
  * they should not be accessed directly outside libavcodec.
  */
 int64_t av_frame_get_best_effort_timestamp(const AVFrame *frame);
+int64_t av_frame_get_pkt_duration         (const AVFrame *frame);
 int64_t av_frame_get_pkt_pos              (const AVFrame *frame);
 int64_t av_frame_get_channel_layout       (const AVFrame *frame);
 int     av_frame_get_sample_rate          (const AVFrame *frame);
 void    av_frame_set_best_effort_timestamp(AVFrame *frame, int64_t val);
+void    av_frame_set_pkt_duration         (AVFrame *frame, int64_t val);
 void    av_frame_set_pkt_pos              (AVFrame *frame, int64_t val);
 void    av_frame_set_channel_layout       (AVFrame *frame, int64_t val);
 void    av_frame_set_sample_rate          (AVFrame *frame, int     val);
