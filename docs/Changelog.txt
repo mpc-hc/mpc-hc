@@ -18,6 +18,6 @@ Legend:
 * Updated FFmpeg (git 8d1de44)
 * Updated Czech, Russian and Ukrainian translations
 ! The hand cursor wasn't shown in the web links in Keys and WebServer options page
-! [DVB] Fix the parsing of the event's informations
+! Ticket #2362, [DVB] EGP: Fix the parsing of the event's informations and the characters encoding.
 ! Ticket #2330, Fix the radio buttons in the Logo options page
 ! Ticket #2349, Recent Files: "Clear List" did not remove all files from the list
