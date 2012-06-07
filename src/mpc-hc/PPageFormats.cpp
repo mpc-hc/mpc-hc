@@ -562,6 +562,8 @@ BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
 	ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedButton14)
 	ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedButton13)
 	ON_BN_CLICKED(IDC_BUTTON5, OnBnVistaModify)
+	ON_BN_CLICKED(IDC_CHECK7, OnFilesAssocModified)
+	ON_BN_CLICKED(IDC_CHECK8, OnFilesAssocModified)
 	ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButtonDefault)
 	ON_UPDATE_COMMAND_UI(IDC_BUTTON_EXT_SET, OnUpdateButtonSet)
 END_MESSAGE_MAP()
@@ -1091,6 +1093,12 @@ void CPPageFormats::OnBnClickedButton11()
 	SetListItemState(m_list.GetSelectionMark());
 	UpdateData(FALSE);
 
+	SetModified();
+}
+
+void CPPageFormats::OnFilesAssocModified()
+{
+	m_bFileExtChanged = true;
 	SetModified();
 }
 

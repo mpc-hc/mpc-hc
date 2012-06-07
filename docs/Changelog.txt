@@ -18,9 +18,11 @@ Legend:
 * Updated FFmpeg (git 8d1de44)
 * Updated Czech, Russian and Ukrainian translations
 ! The hand cursor wasn't shown in the web links in Keys and WebServer options page
+! Ticket #2330, Fix the radio buttons in the Logo options page
+! Ticket #2349, Recent Files: "Clear List" did not remove all files from the list
+! Ticket #2356, The "With icons" and "File(s)" options on the Formats properties page were not applied
+  if no association was previously modified
 ! Ticket #2362, [DVB] Fix the Electronic Program Guide:
     - Fix the parsing of the event's informations
     - Fix the parsing of the characters encoding
     - Fix the display of the start and end time when DST is observed.
-! Ticket #2330, Fix the radio buttons in the Logo options page
-! Ticket #2349, Recent Files: "Clear List" did not remove all files from the list
