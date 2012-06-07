@@ -50,7 +50,6 @@
 //#define DISABLE_USING_D3D9EX
 
 using namespace GothSync;
-using namespace std;
 
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 
@@ -667,8 +666,8 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 	}
 
 	CComPtr<IEnumPins> rendererInputEnum;
-	vector<CComPtr<IPin>> decoderOutput;
-	vector<CComPtr<IPin>> rendererInput;
+	std::vector<CComPtr<IPin>> decoderOutput;
+	std::vector<CComPtr<IPin>> rendererInput;
 	FILTER_INFO filterInfo;
 
 	bool disconnected = FALSE;
@@ -1713,7 +1712,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 					hr = m_pD3DDev->SetPixelShader(Shader.m_pPixelShader);
 					TextureCopy(m_pScreenSizeTemporaryTexture[src]);
 
-					swap(src, dst);
+					std::swap(src, dst);
 				}
 
 				hr = m_pD3DDev->SetPixelShader(NULL);

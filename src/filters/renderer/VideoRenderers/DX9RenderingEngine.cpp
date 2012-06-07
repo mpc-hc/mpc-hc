@@ -143,7 +143,6 @@ static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4]
 
 
 using namespace DSObjects;
-using namespace std;
 
 CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString *_pError)
 	: CSubPicAllocatorPresenterImpl(hWnd, hr, _pError)
@@ -407,7 +406,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 				TextureCopy(m_pTemporaryVideoTextures[src]);
 			}
 
-			swap(src, dest);
+			std::swap(src, dest);
 		}
 
 		pVideoTexture = m_pTemporaryVideoTextures[src];
@@ -583,7 +582,7 @@ HRESULT CDX9RenderingEngine::BeginScreenSpacePass()
 {
 	HRESULT hr;
 
-	swap(m_ScreenSpacePassSrc, m_ScreenSpacePassDest);
+	std::swap(m_ScreenSpacePassSrc, m_ScreenSpacePassDest);
 	--m_ScreenSpacePassCount;
 
 	if (m_ScreenSpacePassCount > 0) {

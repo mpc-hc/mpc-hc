@@ -40,7 +40,6 @@ bool queue_ffdshow_support = false;
 #define FRAMERATE_MAX_DELTA			3000
 
 using namespace DSObjects;
-using namespace std;
 
 // CDX9AllocatorPresenter
 
