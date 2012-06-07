@@ -26,13 +26,7 @@
 #include <tchar.h>
 #include <d3dx9.h>
 #include "D3DFont.h"
-
-//-----------------------------------------------------------------------------
-// Miscellaneous helper functions
-//-----------------------------------------------------------------------------
-#define SAFE_DELETE(p)       { if (p) { delete (p);     (p)=NULL; } }
-#define SAFE_DELETE_ARRAY(p) { if (p) { delete[] (p);   (p)=NULL; } }
-#define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=NULL; } }
+#include "../../../DSUtil/DSUtil.h"
 
 //-----------------------------------------------------------------------------
 // Custom vertex types for rendering text
