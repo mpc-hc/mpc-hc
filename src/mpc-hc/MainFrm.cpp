@@ -11396,14 +11396,13 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 					}
 					EndEnumFilters;
 				}
-
-				title = fn;
 			} else if (GetPlaybackMode() == PM_DVD) {
-				title = _T("DVD");
+				fn = _T("DVD");
 			} else if (GetPlaybackMode() == PM_CAPTURE) {
-				title.LoadString(IDS_CAPTURE_LIVE);
+				fn.LoadString(IDS_CAPTURE_LIVE);
 			}
 		}
+		title = fn;
 	}
 
 	SetWindowText(title);
