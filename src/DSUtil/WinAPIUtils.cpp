@@ -78,7 +78,7 @@ BOOL IsWin7OrLater()
 	return VerifyVersionInfo(&osvi, VER_MAJORVERSION|VER_MINORVERSION, dwlConditionMask);
 }
 
-BOOL IsWin8()
+/*BOOL IsWin8()
 {
 	OSVERSIONINFOEX osvi = {0};
 	DWORDLONG dwlConditionMask = 0;
@@ -93,7 +93,7 @@ BOOL IsWin8()
 
 	// Perform the test.
 	return VerifyVersionInfo(&osvi, VER_MAJORVERSION|VER_MINORVERSION, dwlConditionMask);
-}
+}*/
 
 bool SetPrivilege(LPCTSTR privilege, bool bEnable)
 {
