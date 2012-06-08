@@ -17,7 +17,7 @@ Legend:
 * Updated MediaInfoLib to v0.7.58
 * Updated ZenLib to v0.4.27
 * Updated FFmpeg (git 8d1de44)
-* Updated Czech, Russian and Ukrainian translations
+* Updated Czech, Russian, Ukrainian, Basque and Polish translations
 ! The hand cursor wasn't shown in the web links in Keys and WebServer options page
 ! Toolbar code cleanup and background fix for Windows XP
 ! Ticket #2330, Fix the radio buttons in the Logo options page
