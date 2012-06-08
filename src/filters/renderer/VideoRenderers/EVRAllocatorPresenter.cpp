@@ -629,7 +629,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
 		case MFVP_MESSAGE_STEP :					// Requests a frame step.
 			TRACE_EVR ("EVR: MFVP_MESSAGE_STEP\n");
-			m_nStepCount = ulParam;
+			m_nStepCount = (int)ulParam;
 			hr = S_OK;
 			break;
 
@@ -1012,9 +1012,9 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 		}
 
 		if (SUCCEEDED(hr)) {
-			int nTypes = ValidMixerTypes.GetCount();
-			int iInsertPos = 0;
-			for (int i = 0; i < nTypes; ++i) {
+			size_t nTypes = ValidMixerTypes.GetCount();
+			size_t iInsertPos = 0;
+			for (size_t i = 0; i < nTypes; ++i) {
 				int ThisMerit;
 				GetMediaTypeMerit(ValidMixerTypes[i], &ThisMerit);
 
@@ -1031,15 +1031,15 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 	}
 
 
-	int nValidTypes = ValidMixerTypes.GetCount();
+	size_t nValidTypes = ValidMixerTypes.GetCount();
 #ifdef _DEBUG
-	for (int i = 0; i < nValidTypes; ++i) {
+	for (size_t i = 0; i < nValidTypes; ++i) {
 		// Step 3. Adjust the mixer's type to match our requirements.
 		pType = ValidMixerTypes[i];
 		TRACE_EVR("EVR: Valid mixer output type: %ws\n", GetMediaTypeFormatDesc(pType));
 	}
 #endif
-	for (int i = 0; i < nValidTypes; ++i) {
+	for (size_t i = 0; i < nValidTypes; ++i) {
 		// Step 3. Adjust the mixer's type to match our requirements.
 		pType = ValidMixerTypes[i];
 
@@ -2323,7 +2323,7 @@ HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample, int &_C
 	CAutoLock lock(&m_SampleQueueLock);
 	HRESULT		hr = S_OK;
 
-	_Count = m_ScheduledSamples.GetCount();
+	_Count = (int)m_ScheduledSamples.GetCount();
 	if (_Count > 0) {
 		*ppSample = m_ScheduledSamples.RemoveHead().Detach();
 		--_Count;

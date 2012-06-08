@@ -2883,7 +2883,7 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
 			break;
 
 		case MFVP_MESSAGE_STEP:
-			m_nStepCount = ulParam;
+			m_nStepCount = (int)ulParam;
 			m_bStepping = true;
 			break;
 
@@ -3078,9 +3078,9 @@ HRESULT CSyncAP::RenegotiateMediaType()
 		if (SUCCEEDED(hr)) {
 			LONGLONG Merit = GetMediaTypeMerit(pType);
 
-			int nTypes = ValidMixerTypes.GetCount();
-			int iInsertPos = 0;
-			for (int i = 0; i < nTypes; ++i) {
+			size_t nTypes = ValidMixerTypes.GetCount();
+			size_t iInsertPos = 0;
+			for (size_t i = 0; i < nTypes; ++i) {
 				LONGLONG ThisMerit = GetMediaTypeMerit(ValidMixerTypes[i]);
 				if (Merit > ThisMerit) {
 					iInsertPos = i;
@@ -3093,12 +3093,12 @@ HRESULT CSyncAP::RenegotiateMediaType()
 		}
 	}
 
-	int nValidTypes = ValidMixerTypes.GetCount();
-	for (int i = 0; i < nValidTypes; ++i) {
+	size_t nValidTypes = ValidMixerTypes.GetCount();
+	for (size_t i = 0; i < nValidTypes; ++i) {
 		pType = ValidMixerTypes[i];
 	}
 
-	for (int i = 0; i < nValidTypes; ++i) {
+	for (size_t i = 0; i < nValidTypes; ++i) {
 		pType = ValidMixerTypes[i];
 		hr = SetMediaType(pType);
 		if (SUCCEEDED(hr)) {
@@ -3825,7 +3825,7 @@ HRESULT CSyncAP::GetScheduledSample(IMFSample** ppSample, int &_Count)
 	CAutoLock lock(&m_SampleQueueLock);
 	HRESULT		hr = S_OK;
 
-	_Count = m_ScheduledSamples.GetCount();
+	_Count = (int)m_ScheduledSamples.GetCount();
 	if (_Count > 0) {
 		*ppSample = m_ScheduledSamples.RemoveHead().Detach();
 		--_Count;

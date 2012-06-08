@@ -327,13 +327,13 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 		bCustomScreenSpacePixelShaders = !m_pCustomScreenSpacePixelShaders.IsEmpty();
 
 		if (bCustomScreenSpacePixelShaders) {
-			screenSpacePassCount += m_pCustomScreenSpacePixelShaders.GetCount();
+			screenSpacePassCount += (int)m_pCustomScreenSpacePixelShaders.GetCount();
 		}
 
 		// Custom pixel shaders
 		bCustomPixelShaders = !m_pCustomPixelShaders.IsEmpty();
 
-		hr = InitTemporaryVideoTextures(min(m_pCustomPixelShaders.GetCount(), 2));
+		hr = InitTemporaryVideoTextures(min((int)m_pCustomPixelShaders.GetCount(), 2));
 		if (FAILED(hr)) {
 			bCustomPixelShaders = false;
 		}
