@@ -82,14 +82,15 @@ namespace soundtouch
         ///   also in GNU environment, then please #undef the INTEGER_SAMPLE
         ///   and FLOAT_SAMPLE defines first as in comments above.
 
-        // mpc-hc patch: define SOUNDTOUCH_INTEGER_SAMPLES
+        // MPC-HC patch: define SOUNDTOUCH_INTEGER_SAMPLES
         // the default is SOUNDTOUCH_FLOAT_SAMPLES
         #define SOUNDTOUCH_INTEGER_SAMPLES     1    //< 16bit integer samples
         //#define SOUNDTOUCH_FLOAT_SAMPLES       1    //< 32bit float samples
      
     #endif
 
-    #ifndef _M_X64 // MPC-HC custom code: disable optimizations for x64; it fails when linking
+    #if (_M_IX86 || __i386__ || __x86_64__) /* MPC-HC patch: don't use optimizations for x64 (_M_X64);
+                                               The __m64 data type is not supported on x64 processors */
         /// Define this to allow X86-specific assembler/intrinsic optimizations. 
         /// Notice that library contains also usual C++ versions of each of these
         /// these routines, so if you're having difficulties getting the optimized 

@@ -44,7 +44,7 @@
 
 // if you get a compilation error on AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED,
 // uncomment the #define below
-#define AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED	AUDCLNT_ERR(0x019)
+#define AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED  AUDCLNT_ERR(0x019)
 
 class __declspec(uuid("601D2A2B-9CDE-40bd-8650-0485E3522727"))
 	CMpcAudioRenderer : public CBaseRenderer
