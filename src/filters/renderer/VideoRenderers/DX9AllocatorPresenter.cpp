@@ -1152,8 +1152,8 @@ void CDX9AllocatorPresenter::CalculateJitter(LONGLONG PerfCounter)
 		m_fJitterMean = FrameTimeMean;
 		double DeviationSum = 0;
 		for (int i=0; i<NB_JITTER; i++) {
-			LONGLONG DevInt = m_pllJitter[i] - FrameTimeMean;
-			double Deviation = DevInt;
+			LONGLONG DevInt = m_pllJitter[i] - (LONGLONG)FrameTimeMean;
+			double Deviation = (double)DevInt;
 			DeviationSum += Deviation*Deviation;
 			m_MaxJitter = max(m_MaxJitter, DevInt);
 			m_MinJitter = min(m_MinJitter, DevInt);
@@ -1981,7 +1981,7 @@ void CDX9AllocatorPresenter::DrawStats()
 	if (m_pFont && m_pSprite) {
 		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 		CString		strText;
-		int TextHeight = 25.0*m_TextScale + 0.5;
+		int TextHeight = int(25.0*m_TextScale + 0.5);
 		//strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s)    Clock: %7.3f ms %+1.4f %%  %+1.9f  %+1.9f", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_ClockDiff/10000.0, m_ModeratedTimeSpeed*100.0 - 100.0, m_ModeratedTimeSpeedDiff, m_ClockDiffCalc/10000.0);
 		if (bDetailedStats > 1) {
 			if (m_bIsEVR) {

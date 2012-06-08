@@ -202,15 +202,15 @@ CBaseAP::~CBaseAP()
 template<int texcoords>
 void CBaseAP::AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 {
-	double offset = 0.5;
+	float offset = 0.5;
 
 	for (int i = 0; i < 4; i++) {
 		v[i].x -= offset;
 		v[i].y -= offset;
 
 		for (int j = 0; j < max(texcoords-1, 1); j++) {
-			v[i].t[j].u -= offset*dx;
-			v[i].t[j].v -= offset*dy;
+			v[i].t[j].u -= (float)(offset*dx);
+			v[i].t[j].v -= (float)(offset*dy);
 		}
 
 		if (texcoords > 1) {
@@ -1192,8 +1192,8 @@ HRESULT CBaseAP::TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTE
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
 
-	float dx2 = 1.0/w;
-	float dy2 = 1.0/h;
+	float dx2 = 1.0f/w;
+	float dy2 = 1.0f/h;
 
 	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  SrcRect.left * dx2, SrcRect.top * dy2},
@@ -1220,10 +1220,10 @@ HRESULT CBaseAP::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
 
-	float tx0 = SrcRect.left;
-	float tx1 = SrcRect.right;
-	float ty0 = SrcRect.top;
-	float ty1 = SrcRect.bottom;
+	float tx0 = (float)SrcRect.left;
+	float tx1 = (float)SrcRect.right;
+	float ty0 = (float)SrcRect.top;
+	float ty1 = (float)SrcRect.bottom;
 
 	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0},
@@ -1250,13 +1250,13 @@ HRESULT CBaseAP::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector d
 		return E_FAIL;
 	}
 
-	double w = (double)desc.Width;
-	double h = (double)desc.Height;
+	float w = (float)desc.Width;
+	float h = (float)desc.Height;
 
-	float tx0 = SrcRect.left;
-	float tx1 = SrcRect.right;
-	float ty0 = SrcRect.top;
-	float ty1 = SrcRect.bottom;
+	float tx0 = (float)SrcRect.left;
+	float tx1 = (float)SrcRect.right;
+	float ty0 = (float)SrcRect.top;
+	float ty1 = (float)SrcRect.bottom;
 
 	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0},
@@ -1458,8 +1458,8 @@ void CBaseAP::SyncStats(LONGLONG syncTime)
 	double DeviationSum = 0;
 
 	for (int i=0; i<NB_JITTER; i++) {
-		LONGLONG DevInt = m_pllJitter[i] - m_fJitterMean;
-		double Deviation = DevInt;
+		LONGLONG DevInt = m_pllJitter[i] - (LONGLONG)m_fJitterMean;
+		double Deviation = (double)DevInt;
 		DeviationSum += Deviation*Deviation;
 		m_MaxJitter = max(m_MaxJitter, DevInt);
 		m_MinJitter = min(m_MinJitter, DevInt);
@@ -1969,8 +1969,8 @@ void CBaseAP::DrawStats()
 	// pApp->m_fDisplayStats = 1 for full stats, 2 for little less, 3 for basic, 0 for no stats
 	if (m_pFont && m_pSprite) {
 		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
-		CString	strText;
-		int TextHeight = 25.0*m_TextScale + 0.5;
+		CString strText;
+		int TextHeight = (int)(25.0*m_TextScale + 0.5);
 
 		strText.Format(L"Frames drawn from stream start: %d | Sample time stamp: %d ms", m_pcFramesDrawn, (LONG)(m_llSampleTime / 10000));
 		DrawText(rc, strText, 1);

@@ -46,15 +46,15 @@ struct MYD3DVERTEX<0> {
 template<int texcoords>
 static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 {
-	double offset = 0.5;
+	float offset = 0.5;
 
 	for (int i = 0; i < 4; i++) {
 		v[i].x -= offset;
 		v[i].y -= offset;
 
 		for (int j = 0; j < max(texcoords-1, 1); j++) {
-			v[i].t[j].u -= offset*dx;
-			v[i].t[j].v -= offset*dy;
+			v[i].t[j].u -= (float)(offset*dx);
+			v[i].t[j].v -= (float)(offset*dy);
 		}
 
 		if (texcoords > 1) {
@@ -698,8 +698,8 @@ HRESULT CDX9RenderingEngine::TextureResize(IDirect3DTexture9* pTexture, Vector d
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
 
-	float dx2 = 1.0/w;
-	float dy2 = 1.0/h;
+	float dx2 = 1.0f/w;
+	float dy2 = 1.0f/h;
 
 	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  srcRect.left * dx2, srcRect.top * dy2},
@@ -729,10 +729,10 @@ HRESULT CDX9RenderingEngine::TextureResizeBilinear(IDirect3DTexture9* pTexture, 
 	// make const to give compiler a chance of optimising, also float faster than double and converted to float to sent to PS anyway
 	const float dx = 1.0f/(float)desc.Width;
 	const float dy = 1.0f/(float)desc.Height;
-	const float tx0 = srcRect.left;
-	const float tx1 = srcRect.right;
-	const float ty0 = srcRect.top;
-	const float ty1 = srcRect.bottom;
+	const float tx0 = (float)srcRect.left;
+	const float tx1 = (float)srcRect.right;
+	const float ty0 = (float)srcRect.top;
+	const float ty1 = (float)srcRect.bottom;
 
 	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0},
@@ -767,10 +767,10 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic1pass(IDirect3DTexture9* pTextu
 	// make const to give compiler a chance of optimising, also float faster than double and converted to float to sent to PS anyway
 	const float dx = 1.0f/(float)desc.Width;
 	const float dy = 1.0f/(float)desc.Height;
-	const float tx0 = srcRect.left;
-	const float tx1 = srcRect.right;
-	const float ty0 = srcRect.top;
-	const float ty1 = srcRect.bottom;
+	const float tx0 = (float)srcRect.left;
+	const float tx1 = (float)srcRect.right;
+	const float ty0 = (float)srcRect.top;
+	const float ty1 = (float)srcRect.bottom;
 
 	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0},
