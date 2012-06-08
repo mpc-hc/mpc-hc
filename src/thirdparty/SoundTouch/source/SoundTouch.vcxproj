@@ -120,11 +120,15 @@
     <ClCompile Include="cpu_detect_x86.cpp" />
     <ClCompile Include="FIFOSampleBuffer.cpp" />
     <ClCompile Include="FIRFilter.cpp" />
-    <ClCompile Include="mmx_optimized.cpp" />
+    <ClCompile Include="mmx_optimized.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="PeakFinder.cpp" />
     <ClCompile Include="RateTransposer.cpp" />
     <ClCompile Include="SoundTouch.cpp" />
-    <ClCompile Include="sse_optimized.cpp" />
+    <ClCompile Include="sse_optimized.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="TDStretch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
