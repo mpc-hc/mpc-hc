@@ -18,7 +18,7 @@ Header & Footer Packets:
 - Required: MediaType
 - Optional: StreamInfo, Chapters, SyncPoints, Resource
 
-Notes: 
+Notes:
 - SyncPoints is optional because seeking can be performed simply by searching for packet syncpoints and their timestamps.
 - This layout is fine for streaming. On connection send everything up to Sample packets, build the graph at the other end, then the rest when playing. (TODO: introduce NewSegment packet, to support seeking over network)
 - The resolution of timestamp and duration is 100ns.
@@ -66,7 +66,7 @@ string
 
 Notes:
 - Parsers should not open files with higher "version" than they were compiled for.
-- Suggested values of "id": 
+- Suggested values of "id":
     "TITL": Title
     "AUTH": Author
     "RTNG": Rating
@@ -108,7 +108,7 @@ string
 ... repeated n times ...
 
 Notes:
-- Suggested values of "id": 
+- Suggested values of "id":
     "NAME": Stream name
     "SGRP": Stream group (groupped streams can be useful if the splitter is able to group and switch between them, but it's not a strict requirement towards dsm splitters)
     "LANG": Language code (ISO 639-2)
@@ -128,7 +128,7 @@ string
 
 ... repeated n times ...
 
-Notes: 
+Notes:
 - "timestamp delta" holds the difference to the previous value, starts at 0.
 
 Sample : extends Packet (DSMP_SAMPLE)
@@ -167,7 +167,7 @@ file position delta (0-7 bytes)
 
 ... repeated n times ...
 
-Notes: 
+Notes:
 - "timestamp delta" / "file position delta" holds the difference to the previous value, both start at 0.
 
 The algorithm of SyncPoints generation
@@ -180,13 +180,13 @@ stream 2: 2,3,6,7,9 (audio)
 stream 3: 4 (subtitle)
 
 1 ----|               1->2   1      +2        -> 1 (t 1, fp 1)
-      |---- 2         2->3   1,2    +3 -2     -> 1 
+      |---- 2         2->3   1,2    +3 -2     -> 1
       |---- 3         3->4   1,3    +4        -> 1
     +-|-- 4 (start)   4->5   1,3,4  +5 -1     -> 1
 5 --|-|               5->6   3,4,5  +6 -3     -> 3 (t 5, fp 3)
     | |---- 6         6->7   4,5,6  +7 -6     -> 4 (t 6, fp 4)
     | |---- 7         7->8   4,5,7  +8 -7 -4  -> 4
-    +-|-- 4 (stop)    
+    +-|-- 4 (stop)
       |---- 8         8->9   5,8    +9 -5     -> 5 (t 8, fp 5)
 9 ----|               9->10  8,9   +10 -8     -> 8 (t 9, fp 8)
       |---- 10        10->   9,10             -> 9 (t 10, fp 9)
@@ -202,9 +202,9 @@ In the end it represents the following: (timestamp ranges mapped to file positio
 9->10: [8]
 10->:  [9]
 
-Example usage: 
+Example usage:
 
-Seeking to 7 would mean we need to start decoding at the file position of 4, which 
+Seeking to 7 would mean we need to start decoding at the file position of 4, which
 makes sure we hit at least one syncpoint from every stream (4,5,7 and 6 too, but 6
 can be skipped) until we reach 7.
 
@@ -222,17 +222,17 @@ stream 2: 2,3 (subtitle)
    +-|-|- 3 (start)   3->4   1,2    +4 -1     -> 1
 4 -|-|-|              4->5   2,4    +5 -4     -> 2 (t 4, fp 2)
 5 -|-|-|              5->6   2,5    +6 -5 -2  -> 2
-   +-|-|- 3 (stop)    
-     +-|--- 2 (stop)  
+   +-|-|- 3 (stop)
+     +-|--- 2 (stop)
 6 -----|              6->7   6      +7 -6     -> 6 (t 6, fp 6)
 7 -----|              7->    7                -> 7 (t 7, fp 7)
 
-The problem with subtitles that they are discontinous, overlapped and can totally hide 
-other syncpoints, just like 2 hides 4, 5 and even 3 fully (which requires special handling, 
-see "NOT!"). That means such a subtitle, when it is too long, can influence seeking time 
-by a lot. It might be wise and worth limiting the duration of samples to a couple of minutes, 
-possibly sacrificing a bit of correctness by it. Splitters can also choose to ignore the 
-suggested seek position, when it falls too far from the required, and go on searching the 
+The problem with subtitles that they are discontinous, overlapped and can totally hide
+other syncpoints, just like 2 hides 4, 5 and even 3 fully (which requires special handling,
+see "NOT!"). That means such a subtitle, when it is too long, can influence seeking time
+by a lot. It might be wise and worth limiting the duration of samples to a couple of minutes,
+possibly sacrificing a bit of correctness by it. Splitters can also choose to ignore the
+suggested seek position, when it falls too far from the required, and go on searching the
 stream for syncpoints themselves.
 
 Resource : extends Packet (DSMP_RESOURCE)
