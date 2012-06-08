@@ -664,7 +664,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	ff_avcodec_default_reget_buffer		= avcodec_default_reget_buffer;
 
 	avcodec_register_all();
-	av_log_set_callback(LogLibAVCodec);
+	av_log_set_callback(LogLibavcodec);
 
 	EnumWindows(EnumFindProcessWnd, (LPARAM)&hWnd);
 	DetectVideoCard(hWnd);
@@ -1000,7 +1000,7 @@ void CMPCVideoDecFilter::CalcAvgTimePerFrame()
 	m_rtAvrTimePerFrame = max (1, m_rtAvrTimePerFrame);
 }
 
-void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_list valist)
+void CMPCVideoDecFilter::LogLibavcodec(void* par,int level,const char *fmt,va_list valist)
 {
 #if defined(_DEBUG) && 0
 	char		Msg [500];

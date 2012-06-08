@@ -2483,7 +2483,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 	bool bRet = false;
 
 	avcodec_register_all();
-	av_log_set_callback(LogLibAVCodec);
+	av_log_set_callback(LogLibavcodec);
 
 	if (m_pAVCodec) {
 		ffmpeg_stream_finish();
@@ -2580,7 +2580,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 	return bRet;
 }
 
-void CMpaDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_list valist)
+void CMpaDecFilter::LogLibavcodec(void* par,int level,const char *fmt,va_list valist)
 {
 #if defined(_DEBUG) && 0
 	char		Msg [500];

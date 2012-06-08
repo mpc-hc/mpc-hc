@@ -82,7 +82,7 @@ class __declspec(uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4"))
 protected:
 
 	// === FFMpeg callbacks
-	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
+	static void		LogLibavcodec(void* par,int level,const char *fmt,va_list valist);
 	virtual void	OnGetBuffer(AVFrame *pic);
 
 	friend class CVideoDecDXVAAllocator;
