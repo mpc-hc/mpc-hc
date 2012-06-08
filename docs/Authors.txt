@@ -1,6 +1,6 @@
-People with SVN commit rights:
+People with SVN commit rights (sorted by name):
 --------
-bobdylan                <bobdylan@users.sourceforge.net>        Code
+bobdynlan               <bobdynlan@users.sourceforge.net>       Code
 clsid                   <clsid2@users.sourceforge.net>          Code
 demi_alucard            <alysson87@gmail.com>                   Code, Portuguese (Brazil)
 janwillem32             <janwillem32@users.sourceforge.net>     Code
