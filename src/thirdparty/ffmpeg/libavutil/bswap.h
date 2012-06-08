@@ -30,6 +30,13 @@
 #include "libavutil/avconfig.h"
 #include "attributes.h"
 
+// ==> Start patch MPC
+#ifdef _MSC_VER
+    #pragma warning(push)
+    #pragma warning(disable: 4244)
+#endif
+// <== End patch MPC
+
 #ifdef HAVE_AV_CONFIG_H
 
 #include "config.h"
@@ -105,5 +112,11 @@ static inline uint64_t av_const av_bswap64(uint64_t x)
 #define AV_LE2NE16C(x) AV_LE2NEC(16, x)
 #define AV_LE2NE32C(x) AV_LE2NEC(32, x)
 #define AV_LE2NE64C(x) AV_LE2NEC(64, x)
+
+// ==> Start patch MPC 
+#ifdef _MSC_VER 
+    #pragma warning(pop) 
+#endif 
+// <== End patch MPC 
 
 #endif /* AVUTIL_BSWAP_H */

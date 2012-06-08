@@ -45,6 +45,7 @@ void *__imp_time64 = _time64;
 
 #include <vector>
 #include <ffmpeg/libavcodec/avcodec.h>
+#include <ffmpeg/libavutil/intreadwrite.h>
 
 #include <libflac/include/FLAC/stream_decoder.h>
 
@@ -2616,20 +2617,6 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 	}
 	m_nFFBufferSize = 0;
 }
-
-#ifndef AV_RB16
-#   define AV_RB16(x)                           \
-    ((((const uint8_t*)(x))[0] << 8) |          \
-      ((const uint8_t*)(x))[1])
-#endif
-
-#ifndef AV_RB32
-#   define AV_RB32(x)                                \
-    (((uint32_t)((const uint8_t*)(x))[0] << 24) |    \
-               (((const uint8_t*)(x))[1] << 16) |    \
-               (((const uint8_t*)(x))[2] <<  8) |    \
-                ((const uint8_t*)(x))[3])
-#endif
 
 HRESULT CMpaDecFilter::ParseRealAudioHeader(const BYTE *extra, const int extralen)
 {
