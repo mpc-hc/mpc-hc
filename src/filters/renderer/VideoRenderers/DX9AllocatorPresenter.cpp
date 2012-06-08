@@ -1008,8 +1008,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		double Scale = double(CurrentSize) / double(MinSize);
 		m_TextScale = Scale;
 		m_pD3DXCreateFont( m_pD3DDev,					// D3D device
-						   -24.0*Scale,					// Height
-						   -11.0*Scale,					// Width
+						   (int)(-24.0*Scale),			// Height
+						   (UINT)(-11.0*Scale),					// Width
 						   CurrentSize < 800 ? FW_NORMAL : FW_BOLD,		// Weight
 						   0,							// MipLevels, 0 = autogen mipmaps
 						   FALSE,						// Italic

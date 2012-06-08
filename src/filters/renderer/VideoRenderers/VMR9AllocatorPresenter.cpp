@@ -221,8 +221,8 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 	int arx = lpAllocInfo->szAspectRatio.cx;
 	int ary = lpAllocInfo->szAspectRatio.cy;
 	if (arx > 0 && ary > 0) {
-		arx = arx / ((float) m_NativeVideoSize.cx / VideoSize.cx);
-		ary = ary / ((float) m_NativeVideoSize.cy / VideoSize.cy);
+		arx = arx * VideoSize.cx / m_NativeVideoSize.cx;
+		ary = ary * VideoSize.cy / m_NativeVideoSize.cy;
 		m_AspectRatio.SetSize(arx, ary);
 	} else {
 		m_AspectRatio = VideoSize;
@@ -431,8 +431,8 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 	int arx = lpPresInfo->szAspectRatio.cx;
 	int ary = lpPresInfo->szAspectRatio.cy;
 	if (arx > 0 && ary > 0) {
-		arx = arx / ((float) m_NativeVideoSize.cx / VideoSize.cx);
-		ary = ary / ((float) m_NativeVideoSize.cy / VideoSize.cy);
+		arx = arx * VideoSize.cx / m_NativeVideoSize.cx;
+		ary = ary * VideoSize.cy / m_NativeVideoSize.cy;
 		VideoSize.cx = VideoSize.cy*arx/ary;
 	}
 	if (VideoSize != GetVideoSize()) {
