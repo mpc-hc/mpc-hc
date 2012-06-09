@@ -9791,112 +9791,125 @@ void CMainFrame::AutoChangeMonitorMode()
 
 void CMainFrame::MoveVideoWindow(bool fShowStats)
 {
-	if (m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && IsWindowVisible()) {
-		CRect wr;
+	if ((m_iMediaLoadState == MLS_LOADED) && !m_fAudioOnly && IsWindowVisible()) {
+		RECT wr;
+		// fullscreen
 		if (m_pFullscreenWnd->IsWindow()) {
 			m_pFullscreenWnd->GetClientRect(&wr);
-		} else if (!m_fFullScreen) {
+		}
+		// windowed Mode
+		else if (!m_fFullScreen) {
 			m_wndView.GetClientRect(&wr);
-		} else {
+		}
+		// fullscreen on non-primary monitor
+		else {
 			GetWindowRect(&wr);
-
-			// it's code need for work in fullscreen on secondary monitor;
-			CRect r;
+			RECT r;
 			m_wndView.GetWindowRect(&r);
-			wr -= r.TopLeft();
+			wr.left   -= r.left;
+			wr.right  -= r.left;
+			wr.top    -= r.top;
+			wr.bottom -= r.top;
 		}
 
-		CRect vr = CRect(0,0,0,0);
+		double dWRWidth  = (double)(wr.right - wr.left);
+		double dWRHeight = (double)(wr.bottom - wr.top);
+
+		RECT vr = {0, 0, 0, 0};
 
 		OAFilterState fs = GetMediaState();
-		if (fs == State_Paused || fs == State_Running || fs == State_Stopped && (m_fShockwaveGraph || m_fQuicktimeGraph)) {
-			CSize arxy = GetVideoSize();
+		if ((fs == State_Paused) || (fs == State_Running) || (fs == State_Stopped) && (m_fShockwaveGraph || m_fQuicktimeGraph)) {
+			SIZE arxy = GetVideoSize();
+			double dARx = (double)(arxy.cx);
+			double dARy = (double)(arxy.cy);
 
-			dvstype iDefaultVideoSize = (dvstype)AfxGetAppSettings().iDefaultVideoSize;
+			dvstype iDefaultVideoSize = static_cast<dvstype>(AfxGetAppSettings().iDefaultVideoSize);
+			double dVRWidth, dVRHeight;
+			if (iDefaultVideoSize == DVS_HALF) {
+				dVRWidth  = dARx * 0.5;
+				dVRHeight = dARy * 0.5;
+			}
+			else if (iDefaultVideoSize == DVS_NORMAL) {
+				dVRWidth  = dARx;
+				dVRHeight = dARy;
+			}
+			else if (iDefaultVideoSize == DVS_DOUBLE) {
+				dVRWidth  = dARx * 2.0;
+				dVRHeight = dARy * 2.0;
+			} else {
+				dVRWidth  = dWRWidth;
+				dVRHeight = dWRHeight;
+			}
 
-			CSize ws =
-				iDefaultVideoSize == DVS_HALF ? CSize(arxy.cx/2, arxy.cy/2) :
-				iDefaultVideoSize == DVS_NORMAL ? arxy :
-				iDefaultVideoSize == DVS_DOUBLE ? CSize(arxy.cx*2, arxy.cy*2) :
-				wr.Size();
+			if (!m_fShockwaveGraph) { // && !m_fQuicktimeGraph)
+				double dCRWidth = dVRHeight * dARx / dARy;
 
-			int w = ws.cx;
-			int h = ws.cy;
-
-			if (!m_fShockwaveGraph) { //&& !m_fQuicktimeGraph)
-				if (iDefaultVideoSize == DVS_FROMINSIDE || iDefaultVideoSize == DVS_FROMOUTSIDE ||
-						iDefaultVideoSize == DVS_ZOOM1 || iDefaultVideoSize == DVS_ZOOM2) {
-					int dh = ws.cy;
-					int dw = MulDiv(dh, arxy.cx, arxy.cy);
-
-					int i = 0;
-					switch (iDefaultVideoSize) {
-						case DVS_ZOOM1:
-							i = 1;
-							break;
-						case DVS_ZOOM2:
-							i = 2;
-							break;
-						case DVS_FROMOUTSIDE:
-							i = 3;
-							break;
+				if (iDefaultVideoSize == DVS_FROMINSIDE) {
+					if (dVRWidth < dCRWidth) {
+						dVRHeight = dVRWidth * dARy / dARx;
+					} else {
+						dVRWidth = dCRWidth;
 					}
-					int minw = dw;
-					int maxw = dw;
-					if (ws.cx < dw) {
-						minw = ws.cx;
-					} else if (ws.cx > dw) {
-						maxw = ws.cx;
+				}
+				else if (iDefaultVideoSize == DVS_FROMOUTSIDE) {
+					if (dVRWidth > dCRWidth) {
+						dVRHeight = dVRWidth * dARy / dARx;
+					} else {
+						dVRWidth = dCRWidth;
+					}
+				}
+				else if ((iDefaultVideoSize == DVS_ZOOM1) || (iDefaultVideoSize == DVS_ZOOM2)) {
+					double minw = dCRWidth;
+					double maxw = dCRWidth;
+
+					if (dVRWidth < dCRWidth) {
+						minw = dVRWidth;
+					}
+					else {
+						maxw = dVRWidth;
 					}
 
-					float scale = i / 3.0f;
-					w = (int)(minw + (maxw - minw) * scale);
-					h = MulDiv(w, arxy.cy, arxy.cx);
+					double scale = (iDefaultVideoSize == DVS_ZOOM1) ?
+						1.0 / 3.0 :
+						2.0 / 3.0;
+					dVRWidth  = minw + (maxw - minw) * scale;
+					dVRHeight = dVRWidth * dARy / dARx;
 				}
 			}
 
-			CSize size(
-				(int)(m_ZoomX*w),
-				(int)(m_ZoomY*h));
+			// either flooring or ceiling is required here, else the left-to-right and top-to-bottom sizes will get distorted through rounding twice each
+			double dPPLeft = floor(m_PosX * (dWRWidth * 3.0 - m_ZoomX * dVRWidth) - dWRWidth);
+			double dPPTop  = floor(m_PosY * (dWRHeight * 3.0 - m_ZoomY * dVRHeight) - dWRHeight);
+			// left and top parts are allowed to be negative
+			vr.left   = (LONG)(dPPLeft);
+			vr.top    = (LONG)(dPPTop);
+			// right and bottom parts are always at picture center or beyond, so never negative
+			vr.right  = (LONG)(m_ZoomX * dVRWidth + dPPLeft);
+			vr.bottom = (LONG)(m_ZoomY * dVRHeight + dPPTop);
 
-			CPoint pos(
-				(int)(m_PosX*(wr.Width()*3 - m_ZoomX*w) - wr.Width()),
-				(int)(m_PosY*(wr.Height()*3 - m_ZoomY*h) - wr.Height()));
-
-			/*			CPoint pos(
-							(int)(m_PosX*(wr.Width() - size.cx)),
-							(int)(m_PosY*(wr.Height() - size.cy)));
-
-			*/
-			vr = CRect(pos, size);
-		}
-
-		// What does this do exactly ?
-		// Add comments when you add this kind of code !
-		//wr |= CRect(0,0,0,0);
-		//vr |= CRect(0,0,0,0);
-
-		if (m_pCAP) {
-			m_pCAP->SetPosition(wr, vr);
-			m_pCAP->SetVideoAngle(Vector(DegToRad(m_AngleX), DegToRad(m_AngleY), DegToRad(m_AngleZ)));
-		} else {
-			HRESULT hr;
-			hr = pBV->SetDefaultSourcePosition();
-			hr = pBV->SetDestinationPosition(vr.left, vr.top, vr.Width(), vr.Height());
-			hr = pVW->SetWindowPosition(wr.left, wr.top, wr.Width(), wr.Height());
-
-			if (m_pMFVDC) {
-				m_pMFVDC->SetVideoPosition (NULL, wr);
+			if (fShowStats) {
+				CString info;
+				info.Format(_T("Pos %.2f %.2f, Zoom %.2f %.2f, AR %.2f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, dVRWidth / dVRHeight);
+				SendStatusMessage(info, 3000);
 			}
 		}
 
-		m_wndView.SetVideoRect(wr);
+		if (m_pCAP) {
+			m_pCAP->SetPosition(wr, vr);
+			Vector v(DegToRad(m_AngleX), DegToRad(m_AngleY), DegToRad(m_AngleZ));
+			m_pCAP->SetVideoAngle(v);
+		} else {
+			HRESULT hr;
+			hr = pBV->SetDefaultSourcePosition();
+			hr = pBV->SetDestinationPosition(vr.left, vr.top, vr.right - vr.left, vr.bottom - vr.top);
+			hr = pVW->SetWindowPosition(wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top);
 
-		if (fShowStats && vr.Height() > 0) {
-			CString info;
-			info.Format(_T("Pos %.2f %.2f, Zoom %.2f %.2f, AR %.2f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, (float)vr.Width()/vr.Height());
-			SendStatusMessage(info, 3000);
+			if (m_pMFVDC) {
+				m_pMFVDC->SetVideoPosition(NULL, &wr);
+			}
 		}
+
+		m_wndView.SetVideoRect(&wr);
 	} else {
 		m_wndView.SetVideoRect();
 	}

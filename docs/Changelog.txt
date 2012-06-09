@@ -29,3 +29,5 @@ Legend:
     - Fix the parsing of the characters' encoding
     - Fix the display of the start and end time when DST is observed
 ! Ticket #2365, The volume slider wasn't properly redrawn in some cases
+! Ticket #504, Fixed rounding errors that prevented a properly centered image
+! Fixed off by one in video size which caused unneeded resizing
