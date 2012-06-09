@@ -2044,7 +2044,7 @@ DXVA2_ValueRange* CMPlayerCApp::GetEVRColorControl(ControlType nFlag)
 
 const LanguageResource& CMPlayerCApp::GetLanguageResourceByResourceID(UINT resourceID)
 {
-	size_t defaultResource;
+	size_t defaultResource = 0;
 
 	for (size_t i = 0; i < languageResourcesCount; i++) {
 		if (resourceID == languageResources[i].resourceID) {
@@ -2059,7 +2059,7 @@ const LanguageResource& CMPlayerCApp::GetLanguageResourceByResourceID(UINT resou
 
 const LanguageResource& CMPlayerCApp::GetLanguageResourceByLocaleID(LANGID localeID)
 {
-	size_t defaultResource;
+	size_t defaultResource = 0;
 
 	for (size_t i = 0; i < languageResourcesCount; i++) {
 		if (localeID == languageResources[i].localeID) {
