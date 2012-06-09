@@ -11683,13 +11683,16 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		 (void**)&pMFVMB,  TRUE);
 		pMVTO = m_pCAP;
 
-		if (pMVTO && s.fShowOSD) {
-			m_OSD.Start (m_pVideoWnd, pMVTO);
-		} else if (pVMB && s.fShowOSD) {
-			m_OSD.Start (m_pVideoWnd, pVMB);
-		} else if (pMFVMB && s.fShowOSD) {
-			m_OSD.Start (m_pVideoWnd, pMFVMB);
+		if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
+			if (pMVTO) {
+				m_OSD.Start(m_pVideoWnd, pMVTO);
+			} else if (pVMB) {
+				m_OSD.Start(m_pVideoWnd, pVMB);
+			} else if (pMFVMB) {
+				m_OSD.Start(m_pVideoWnd, pMFVMB);
+			}
 		}
+
 		if (m_pMC) {
 			m_pMC->GetProcAmpControlRange (0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Brightness));
 			m_pMC->GetProcAmpControlRange (0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Contrast));
