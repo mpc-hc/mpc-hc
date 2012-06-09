@@ -32,6 +32,7 @@
 #include "dict.h"
 #include "log.h"
 #include "parseutils.h"
+#include "pixdesc.h"
 
 #if FF_API_FIND_OPT
 //FIXME order them and do a bin search
@@ -249,6 +250,18 @@ int av_opt_set(void *obj, const char *name, const char *val, int search_flags)
         if (ret < 0)
             av_log(obj, AV_LOG_ERROR, "Unable to parse option value \"%s\" as image size\n", val);
         return ret;
+    case AV_OPT_TYPE_PIXEL_FMT:
+        ret = av_get_pix_fmt(val);
+        if (ret == PIX_FMT_NONE) {
+            char *tail;
+            ret = strtol(val, &tail, 0);
+            if (*tail || (unsigned)ret >= PIX_FMT_NB) {
+                av_log(obj, AV_LOG_ERROR, "Unable to parse option value \"%s\" as pixel format\n", val);
+                return AVERROR(EINVAL);
+            }
+        }
+        *(enum PixelFormat *)dst = ret;
+        return 0;
     }
 
     av_log(obj, AV_LOG_ERROR, "Invalid option type.\n");
@@ -434,6 +447,9 @@ int av_opt_get(void *obj, const char *name, int search_flags, uint8_t **out_val)
     case AV_OPT_TYPE_IMAGE_SIZE:
         ret = snprintf(buf, sizeof(buf), "%dx%d", ((int *)dst)[0], ((int *)dst)[1]);
         break;
+    case AV_OPT_TYPE_PIXEL_FMT:
+        ret = snprintf(buf, sizeof(buf), "%s", (char *)av_x_if_null(av_get_pix_fmt_name(*(enum PixelFormat *)dst), "?"));
+        break;
     default:
         return AVERROR(EINVAL);
     }
@@ -606,6 +622,9 @@ static void opt_list(void *obj, void *av_log_obj, const char *unit,
             case AV_OPT_TYPE_IMAGE_SIZE:
                 av_log(av_log_obj, AV_LOG_INFO, "%-7s ", "<image_size>");
                 break;
+            case AV_OPT_TYPE_PIXEL_FMT:
+                av_log(av_log_obj, AV_LOG_INFO, "%-7s ", "<pix_fmt>");
+                break;
             case AV_OPT_TYPE_CONST:
             default:
                 av_log(av_log_obj, AV_LOG_INFO, "%-7s ", "");
@@ -684,6 +703,7 @@ void av_opt_set_defaults2(void *s, int mask, int flags)
             break;
             case AV_OPT_TYPE_STRING:
             case AV_OPT_TYPE_IMAGE_SIZE:
+            case AV_OPT_TYPE_PIXEL_FMT:
                 av_opt_set(s, opt->name, opt->default_val.str, 0);
                 break;
             case AV_OPT_TYPE_BINARY:
@@ -870,6 +890,8 @@ typedef struct TestContext
     char *string;
     int flags;
     AVRational rational;
+    int w, h;
+    enum PixelFormat pix_fmt;
 } TestContext;
 
 #define OFFSET(x) offsetof(TestContext, x)
@@ -887,6 +909,8 @@ static const AVOption test_options[]= {
 {"cool",     "set cool flag ", 0,                AV_OPT_TYPE_CONST,    {TEST_FLAG_COOL}, INT_MIN,  INT_MAX, 0, "flags" },
 {"lame",     "set lame flag ", 0,                AV_OPT_TYPE_CONST,    {TEST_FLAG_LAME}, INT_MIN,  INT_MAX, 0, "flags" },
 {"mu",       "set mu flag ",   0,                AV_OPT_TYPE_CONST,    {TEST_FLAG_MU},   INT_MIN,  INT_MAX, 0, "flags" },
+{"size",     "set size",       OFFSET(w),        AV_OPT_TYPE_IMAGE_SIZE,{0},             0,        0                   },
+{"pix_fmt",  "set pixfmt",     OFFSET(pix_fmt),  AV_OPT_TYPE_PIXEL_FMT,{0},              0,        0                   },
 {NULL},
 };
 
@@ -907,7 +931,7 @@ int main(void)
 
     printf("\nTesting av_set_options_string()\n");
     {
-        TestContext test_ctx;
+        TestContext test_ctx = { 0 };
         const char *options[] = {
             "",
             ":",
@@ -928,6 +952,12 @@ int main(void)
             "num=42 : string=blahblah",
             "rational=0 : rational=1/2 : rational=1/-1",
             "rational=-1/0",
+            "size=1024x768",
+            "size=pal",
+            "size=bogus",
+            "pix_fmt=yuv420p",
+            "pix_fmt=2",
+            "pix_fmt=bogus",
         };
 
         test_ctx.class = &test_class;
@@ -942,6 +972,7 @@ int main(void)
                 av_log(&test_ctx, AV_LOG_ERROR, "Error setting options string: '%s'\n", options[i]);
             printf("\n");
         }
+        av_freep(&test_ctx.string);
     }
 
     return 0;

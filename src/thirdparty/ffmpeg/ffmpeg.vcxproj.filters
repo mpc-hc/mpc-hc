@@ -112,6 +112,9 @@
     <None Include="libavcodec\x86\vp56dsp.asm">
       <Filter>libavcodec\x86</Filter>
     </None>
+    <None Include="libavutil\x86\float_dsp.asm">
+      <Filter>libavutil\x86</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libswscale\x86\rgb2rgb.c">
@@ -819,6 +822,15 @@
     <ClCompile Include="libavcodec\xiph.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavutil\bprint.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="libavutil\float_dsp.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="libavutil\x86\float_dsp_init.c">
+      <Filter>libavutil\x86</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
@@ -1454,6 +1466,12 @@
     </ClInclude>
     <ClInclude Include="libavcodec\xvmc_internal.h">
       <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\bprint.h">
+      <Filter>libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\float_dsp.h">
+      <Filter>libavutil</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

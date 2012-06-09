@@ -17,6 +17,7 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 * libavcodec/utils.c
 * libavcodec/vc1dec.c
 
+* libavutil/bswap.h
 * libavutil/common.h
 * libavutil/log.h
 * libavutil/mem.c

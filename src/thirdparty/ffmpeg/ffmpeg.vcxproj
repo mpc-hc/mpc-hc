@@ -128,6 +128,7 @@
     <None Include="libavcodec\x86\vp3dsp.asm" />
     <None Include="libavcodec\x86\vp56dsp.asm" />
     <None Include="libavcodec\x86\vp8dsp.asm" />
+    <None Include="libavutil\x86\float_dsp.asm" />
     <None Include="libavutil\x86\x86inc.asm" />
     <None Include="libavutil\x86\x86util.asm" />
     <None Include="libswscale\x86\input.asm" />
@@ -332,10 +333,12 @@
     <ClCompile Include="libavcodec\xiph.c" />
     <ClCompile Include="libavutil\audioconvert.c" />
     <ClCompile Include="libavutil\avstring.c" />
+    <ClCompile Include="libavutil\bprint.c" />
     <ClCompile Include="libavutil\cpu.c" />
     <ClCompile Include="libavutil\crc.c" />
     <ClCompile Include="libavutil\dict.c" />
     <ClCompile Include="libavutil\eval.c" />
+    <ClCompile Include="libavutil\float_dsp.c" />
     <ClCompile Include="libavutil\imgutils.c" />
     <ClCompile Include="libavutil\intfloat_readwrite.c" />
     <ClCompile Include="libavutil\inverse.c" />
@@ -355,6 +358,7 @@
     <ClCompile Include="libavutil\timecode.c" />
     <ClCompile Include="libavutil\utils.c" />
     <ClCompile Include="libavutil\x86\cpu.c" />
+    <ClCompile Include="libavutil\x86\float_dsp_init.c" />
     <ClCompile Include="libswscale\input.c" />
     <ClCompile Include="libswscale\options.c" />
     <ClCompile Include="libswscale\output.c" />
@@ -544,6 +548,7 @@
     <ClInclude Include="libavutil\avconfig.h" />
     <ClInclude Include="libavutil\avstring.h" />
     <ClInclude Include="libavutil\avutil.h" />
+    <ClInclude Include="libavutil\bprint.h" />
     <ClInclude Include="libavutil\bswap.h" />
     <ClInclude Include="libavutil\colorspace.h" />
     <ClInclude Include="libavutil\common.h" />
@@ -553,6 +558,7 @@
     <ClInclude Include="libavutil\dict.h" />
     <ClInclude Include="libavutil\error.h" />
     <ClInclude Include="libavutil\eval.h" />
+    <ClInclude Include="libavutil\float_dsp.h" />
     <ClInclude Include="libavutil\imgutils.h" />
     <ClInclude Include="libavutil\internal.h" />
     <ClInclude Include="libavutil\intfloat.h" />
