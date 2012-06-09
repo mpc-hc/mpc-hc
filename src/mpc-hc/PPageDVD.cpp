@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageDVD.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/SysVersion.h"
 
 
 struct {
@@ -287,7 +287,7 @@ void CPPageDVD::OnBnClickedButton1()
 	CString path;
 	CString strTitle = ResStr(IDS_MAINFRM_46);
 
-	if (IsWinVistaOrLater()) {
+	if (SysVersion::IsVistaOrLater()) {
 		CFileDialog dlg(TRUE);
 		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
 

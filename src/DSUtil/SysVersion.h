@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2011-2012 see Authors.txt
+ * (C) 2012 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,15 +24,23 @@
 
 #include <Windows.h>
 
-struct IDirect3D9;
+class SysVersion
+{
+	SysVersion() {};
 
+	static OSVERSIONINFOEX InitFullVersion();
 
-bool SetPrivilege(LPCTSTR privilege, bool bEnable=true);
+	static const OSVERSIONINFOEX fullVersion;
+	static const DWORD version;
 
-bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName=_T(""));
+public:
+	static OSVERSIONINFOEX GetFullVersion() { return fullVersion; }
+	static DWORD GetVersion() { return version; }
 
-UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd);
-
-bool IsFontInstalled(LPCTSTR lpszFont);
-
-bool ExploreToFile(CString path);
+	static bool IsXPOrLater() { return (version >= 0x0501); }
+	static bool IsVista() { return (version == 0x0600); }
+	static bool IsVistaOrLater() { return (version >= 0x0600); }
+	static bool Is7() { return (version == 0x0601); }
+	static bool Is7OrLater() { return (version >= 0x0601); }
+	//static bool Is8() { return (version == 0x0602); }
+};

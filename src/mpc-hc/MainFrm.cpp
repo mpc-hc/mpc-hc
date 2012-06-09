@@ -33,6 +33,7 @@
 #include <atlrx.h>
 #include <atlsync.h>
 
+#include "../DSUtil/SysVersion.h"
 #include "../DSUtil/WinAPIUtils.h"
 #include "OpenFileDlg.h"
 #include "OpenDlg.h"
@@ -4375,7 +4376,7 @@ void CMainFrame::OnFileOpendvd()
 	CString strTitle = ResStr(IDS_MAINFRM_46);
 	CString path;
 
-	if (IsWinVistaOrLater()) {
+	if (SysVersion::IsVistaOrLater()) {
 		CFileDialog dlg(TRUE);
 		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
 
@@ -5739,7 +5740,7 @@ void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_SYNC) &&
 					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D &&
-					  IsWinVistaOrLater());
+					  SysVersion::IsVistaOrLater());
 
 	pCmdUI->Enable(supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iVMRDisableDesktopComposition);
@@ -15373,7 +15374,7 @@ void CMainFrame::OnFileOpendirectory()
 	CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
 	CString path;
 
-	if (IsWinVistaOrLater()) {
+	if (SysVersion::IsVistaOrLater()) {
 		CFileDialog dlg(TRUE);
 		dlg.AddCheckButton(IDS_MAINFRM_DIR_CHECK, ResStr(IDS_MAINFRM_DIR_CHECK), TRUE);
 		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
@@ -15447,7 +15448,7 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-	if (!AfxGetAppSettings().fUseWin7TaskBar || !IsWin7OrLater()) {
+	if (!AfxGetAppSettings().fUseWin7TaskBar || !SysVersion::Is7OrLater()) {
 		return E_FAIL;
 	}
 

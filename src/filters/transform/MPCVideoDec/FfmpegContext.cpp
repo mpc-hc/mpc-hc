@@ -31,7 +31,7 @@
 
 #include "FfmpegContext.h"
 
-extern BOOL IsWinVistaOrLater(); // requires linking with DSUtil which is always the case
+#include "../../../DSUtil/SysVersion.h"
 
 extern "C" {
 	#include <ffmpeg/libavcodec/dsputil.h>
@@ -165,7 +165,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 
 		if (nPCIVendor == PCIV_nVidia) {
 			// nVidia cards support level 5.1 since drivers v6.14.11.7800 for XP and drivers v7.15.11.7800 for Vista/7
-			if (IsWinVistaOrLater()) {
+			if (SysVersion::IsVistaOrLater()) {
 				if (DriverVersionCheck(VideoDriverVersion, 7, 15, 11, 7800)) {
 					no_level51_support = 0;
 

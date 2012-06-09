@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageOutput.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/SysVersion.h"
 #include <moreuuids.h>
 #include "Monitors.h"
 
@@ -259,7 +259,7 @@ BOOL CPPageOutput::OnInitDialog()
 	}
 
 	// YUV mixing is not compatible with Vista
-	if (IsWinVistaOrLater()) {
+	if (SysVersion::IsVistaOrLater()) {
 		GetDlgItem(IDC_DSVMR9YUVMIXER)->ShowWindow (SW_HIDE);
 	}
 

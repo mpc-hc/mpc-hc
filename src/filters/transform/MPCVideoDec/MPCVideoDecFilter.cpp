@@ -43,14 +43,14 @@ extern "C"
 
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"
+#include "../../../DSUtil/SysVersion.h"
+#include "../../../DSUtil/WinAPIUtils.h"
 #include "../../parser/MpegSplitter/MpegSplitter.h"
 #include "../../parser/OggSplitter/OggSplitter.h"
 #include "../../parser/RealMediaSplitter/RealMediaSplitter.h"
 #include <moreuuids.h>
 #include "DXVADecoderH264.h"
 #include "../../../mpc-hc/FilterEnum.h"
-
-#include "../../../DSUtil/WinAPIUtils.h"
 
 #define MAX_SUPPORTED_MODE			5
 #define ROUND_FRAMERATE(var,FrameRate)	if (labs ((long)(var - FrameRate)) < FrameRate*1/100) var = FrameRate;
@@ -532,7 +532,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 {
 	HWND hWnd = NULL;
 
-	if (IsWinVistaOrLater()) {
+	if (SysVersion::IsVistaOrLater()) {
 		for (int i=0; i<_countof(ffCodecs); i++) {
 			if (ffCodecs[i].nFFCodec == CODEC_ID_H264) {
 				ffCodecs[i].DXVAModes = &DXVA_H264_VISTA;

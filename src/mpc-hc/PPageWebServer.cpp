@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageWebServer.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/SysVersion.h"
 
 
 // CPPageWebServer dialog
@@ -182,7 +182,7 @@ bool CPPageWebServer::PickDir(CString& dir)
 	CString strTitle = ResStr(IDS_PPAGEWEBSERVER_0);
 	bool success = false;
 
-	if (IsWinVistaOrLater()) {
+	if (SysVersion::IsVistaOrLater()) {
 		CFileDialog dlg(TRUE);
 		IFileOpenDialog *openDlgPtr = dlg.GetIFileOpenDialog();
 

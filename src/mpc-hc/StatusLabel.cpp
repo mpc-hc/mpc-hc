@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "StatusLabel.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/SysVersion.h"
 
 
 // CStatusLabel
@@ -39,8 +39,8 @@ CStatusLabel::CStatusLabel(bool fRightAlign, bool fAddEllipses)
 	::ReleaseDC(0, hdc);
 
 	m_font.m_hObject = NULL;
-	int size = IsWinVistaOrLater() ? 16 : 14;
-	CString face = IsWinVistaOrLater() ? _T("Segoe UI") : _T("Microsoft Sans Serif");
+	int size = SysVersion::IsVistaOrLater() ? 16 : 14;
+	CString face = SysVersion::IsVistaOrLater() ? _T("Segoe UI") : _T("Microsoft Sans Serif");
 	m_font.CreateFont(int(size * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
 					  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE,
 					  face);

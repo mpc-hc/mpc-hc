@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageFormats.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/SysVersion.h"
 #include <psapi.h>
 #include <string>
 
@@ -630,7 +630,7 @@ BOOL CPPageFormats::OnInitDialog()
 	CreateToolTip();
 
 
-	if (IsWinVistaOrLater() && !IsUserAnAdmin()) {
+	if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
 		GetDlgItem(IDC_BUTTON1)->ShowWindow (SW_HIDE);
 		GetDlgItem(IDC_BUTTON3)->ShowWindow (SW_HIDE);
 		GetDlgItem(IDC_BUTTON4)->ShowWindow (SW_HIDE);

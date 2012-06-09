@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2011-2012 see Authors.txt
+ * (C) 2012 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,19 +20,18 @@
  *
  */
 
-#pragma once
-
-#include <Windows.h>
-
-struct IDirect3D9;
+#include "stdafx.h"
+#include "SysVersion.h"
 
 
-bool SetPrivilege(LPCTSTR privilege, bool bEnable=true);
+const OSVERSIONINFOEX SysVersion::fullVersion = InitFullVersion();
+const DWORD SysVersion::version = MAKEWORD(fullVersion.dwMinorVersion, fullVersion.dwMajorVersion);
 
-bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName=_T(""));
+OSVERSIONINFOEX SysVersion::InitFullVersion()
+{
+	OSVERSIONINFOEX fullVersion = {0};
+	fullVersion.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	GetVersionEx((LPOSVERSIONINFO)&fullVersion);
 
-UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd);
-
-bool IsFontInstalled(LPCTSTR lpszFont);
-
-bool ExploreToFile(CString path);
+	return fullVersion;
+}

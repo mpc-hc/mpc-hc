@@ -39,7 +39,7 @@
 #include "DVBChannel.h"
 #include "Mpeg2SectionData.h"
 #include "MainFrm.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/SysVersion.h"
 
 
 /// Format, Video MPEG2
@@ -258,7 +258,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	m_DVBStreams[DVB_EPG]	= CDVBStream(L"epg",	&mt_Epg);
 
 	// Warning : MEDIA_ELEMENTARY_STREAM didn't work for subtitles with Windows XP!
-	if (IsWinVistaOrLater()) {
+	if (SysVersion::IsVistaOrLater()) {
 		m_DVBStreams[DVB_SUB]	= CDVBStream(L"sub",	&mt_Subtitle/*, false, MEDIA_TRANSPORT_PAYLOAD*/);
 	} else {
 		m_DVBStreams[DVB_SUB]	= CDVBStream(L"sub",	&mt_Subtitle, false, MEDIA_TRANSPORT_PAYLOAD);

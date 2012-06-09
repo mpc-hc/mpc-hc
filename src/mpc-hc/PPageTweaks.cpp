@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "PPageTweaks.h"
 #include "MainFrm.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/SysVersion.h"
 
 
 // CPPageTweaks dialog
@@ -90,7 +90,7 @@ BOOL CPPageTweaks::OnInitDialog()
 	m_fPreventMinimize = s.fPreventMinimize;
 
 	m_fUseWin7TaskBar = s.fUseWin7TaskBar;
-	if (!IsWin7OrLater()) {
+	if (!SysVersion::Is7OrLater()) {
 		GetDlgItem(IDC_CHECK_WIN7)->EnableWindow(FALSE);
 	}
 
