@@ -87,10 +87,10 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 
 LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevelExceptionFilter )
 {
-	LONG	retval	= EXCEPTION_CONTINUE_SEARCH;
-	HMODULE	hDll	= NULL;
-	TCHAR	szResult[ 800 ];
-	TCHAR	szDbgHelpPath[ _MAX_PATH ];
+	LONG    retval = EXCEPTION_CONTINUE_SEARCH;
+	HMODULE hDll   = NULL;
+	TCHAR   szResult[800];
+	TCHAR   szDbgHelpPath[_MAX_PATH];
 	CString strDumpPath;
 
 	if ( !m_bMiniDumpEnabled ) {
@@ -104,14 +104,14 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 	if ( GetModuleFileName(NULL, szDbgHelpPath, _MAX_PATH) ) {
 		TCHAR *pSlash = _tcsrchr( szDbgHelpPath, _T('\\') );
 		if ( pSlash != NULL ) {
-			_tcscpy_s( pSlash + 1, _MAX_PATH + szDbgHelpPath - pSlash, _T("DBGHELP.DLL") );
+			_tcscpy_s( pSlash + 1, _MAX_PATH + szDbgHelpPath - pSlash, _T("dbghelp.dll") );
 			hDll = ::LoadLibrary( szDbgHelpPath );
 		}
 	}
 
 	if ( hDll == NULL ) {
 		// load any version we can
-		hDll = ::LoadLibrary( _T("DBGHELP.DLL") );
+		hDll = ::LoadLibrary( _T("dbghelp.dll") );
 	}
 
 	if ( hDll != NULL ) {

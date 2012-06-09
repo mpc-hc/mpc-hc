@@ -146,7 +146,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 
 
 	// Load Vista specifics DLLs
-	hLib = LoadLibrary (L"AVRT.dll");
+	hLib = LoadLibrary (L"avrt.dll");
 	if (hLib != NULL) {
 		pfAvSetMmThreadCharacteristicsW		= (PTR_AvSetMmThreadCharacteristicsW)	GetProcAddress (hLib, "AvSetMmThreadCharacteristicsW");
 		pfAvRevertMmThreadCharacteristics	= (PTR_AvRevertMmThreadCharacteristics)	GetProcAddress (hLib, "AvRevertMmThreadCharacteristics");
