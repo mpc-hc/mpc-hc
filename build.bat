@@ -111,7 +111,9 @@ IF /I "%CONFIG%" == "Filters" (
   GOTO x64
 )
 
-IF /I "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
+IF /I NOT "%BUILDCFG%" == "Debug" (
+  IF /I "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
+)
 
 CALL :SubMPCHC Win32
 
@@ -139,7 +141,9 @@ IF /I "%CONFIG%" == "Filters" (
   GOTO END
 )
 
-IF /I "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
+IF /I NOT "%BUILDCFG%" == "Debug" (
+  IF /I "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
+)
 
 CALL :SubMPCHC x64
 
@@ -196,7 +200,10 @@ EXIT /B
 
 
 :SubResources
-IF /I "%BUILDCFG%" == "Debug" EXIT /B
+IF /I "%BUILDCFG%" == "Debug" (
+  CALL :SubMsg "WARNING" "/debug was used with /resource, ignoring /resource"
+  EXIT /B
+)
 
 TITLE Compiling mpciconlib - Release^|%1...
 "%MSBUILD%" mpciconlib.sln %MSBUILD_SWITCHES%^
@@ -229,9 +236,18 @@ EXIT /B
 
 
 :SubCreateInstaller
-IF /I "%BUILDTYPE%" == "Clean" EXIT /B
-IF /I "%BUILDCFG%" == "Debug"  EXIT /B
-IF /I "%CONFIG%" == "Filters"  EXIT /B
+IF /I "%BUILDTYPE%" == "Clean" (
+  CALL :SubMsg "WARNING" "/clean was used with /installer, ignoring /installer"
+  EXIT /B
+)
+IF /I "%BUILDCFG%" == "Debug" (
+  CALL :SubMsg "WARNING" "/debug was used with /installer, ignoring /installer"
+  EXIT /B
+)
+IF /I "%CONFIG%" == "Filters" (
+  CALL :SubMsg "WARNING" "/filters was used with /installer, ignoring /installer"
+  EXIT /B
+)
 
 IF /I "%~1" == "x64" (
   SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /Dx64Build
@@ -254,8 +270,14 @@ EXIT /B
 
 
 :SubCreatePackages
-IF /I "%BUILDTYPE%" == "Clean" EXIT /B
-IF /I "%BUILDCFG%" == "Debug"  EXIT /B
+IF /I "%BUILDTYPE%" == "Clean" (
+  CALL :SubMsg "WARNING" "/clean was used with /packages, ignoring /packages"
+  EXIT /B
+)
+IF /I "%BUILDCFG%" == "Debug" (
+  CALL :SubMsg "WARNING" "/debug was used with /packages, ignoring /packages"
+  EXIT /B
+)
 
 CALL :SubDetectSevenzipPath
 CALL :SubGetVersion
