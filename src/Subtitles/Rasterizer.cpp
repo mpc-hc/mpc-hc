@@ -33,14 +33,8 @@
 #include "SeparableFilter.h"
 #include "../DSUtil/vd.h" // For CPUID usage in Rasterizer::Draw
 
-#ifndef _MAX		/* avoid collision with common (nonconforming) macros */
-#define _MAX	(max)
-#define _MIN	(min)
-#define _IMPL_MAX max
-#define _IMPL_MIN min
-#else
-#define _IMPL_MAX _MAX
-#define _IMPL_MIN _MIN
+#ifndef _MAX	/* avoid collision with common (nonconforming) macros */
+#define _MAX	(std::max)
 #endif
 
 // Statics constants for use by alpha_blend_sse2
@@ -576,8 +570,6 @@ bool Rasterizer::ScanConvert()
 
 	return true;
 }
-
-using namespace std;
 
 void Rasterizer::_OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int dy)
 {
