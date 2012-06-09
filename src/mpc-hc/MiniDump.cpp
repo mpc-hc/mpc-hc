@@ -90,29 +90,13 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 	LONG    retval = EXCEPTION_CONTINUE_SEARCH;
 	HMODULE hDll   = NULL;
 	TCHAR   szResult[800];
-	TCHAR   szDbgHelpPath[_MAX_PATH];
 	CString strDumpPath;
 
 	if ( !m_bMiniDumpEnabled ) {
 		return retval;
 	}
 
-	// firstly see if dbghelp.dll is around and has the function we need
-	// look next to the EXE first, as the one in System32 might be old
-	// (e.g. Windows 2000)
-
-	if ( GetModuleFileName(NULL, szDbgHelpPath, _MAX_PATH) ) {
-		TCHAR *pSlash = _tcsrchr( szDbgHelpPath, _T('\\') );
-		if ( pSlash != NULL ) {
-			_tcscpy_s( pSlash + 1, _MAX_PATH + szDbgHelpPath - pSlash, _T("dbghelp.dll") );
-			hDll = ::LoadLibrary( szDbgHelpPath );
-		}
-	}
-
-	if ( hDll == NULL ) {
-		// load any version we can
-		hDll = ::LoadLibrary( _T("dbghelp.dll") );
-	}
+	hDll = ::LoadLibrary( _T("dbghelp.dll") );
 
 	if ( hDll != NULL ) {
 		MINIDUMPWRITEDUMP pMiniDumpWriteDump = (MINIDUMPWRITEDUMP)::GetProcAddress( hDll, "MiniDumpWriteDump" );
