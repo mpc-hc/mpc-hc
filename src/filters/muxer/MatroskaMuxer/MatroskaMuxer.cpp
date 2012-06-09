@@ -927,7 +927,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			DWORD nSamplesPerSec = wfe->nSamplesPerSec;
 
 			int profile = (p[0]>>3)-1;
-			int	rate1 = ((p[0]&7)<<1)|(p[1]>>7);
+			int rate1 = ((p[0]&7)<<1)|(p[1]>>7);
 			int channels = ((p[1]>>3)&15);
 			int exttype = 0;
 			int rate2 = rate1;

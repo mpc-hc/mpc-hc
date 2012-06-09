@@ -250,13 +250,13 @@ HRESULT CFLACStream::GetMediaType(int iPosition, CMediaType* pmt)
 		pmt->formattype			= FORMAT_WaveFormatEx;
 		WAVEFORMATEX* wfe		= (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
 		memset(wfe, 0, sizeof(WAVEFORMATEX));
-		wfe->cbSize = sizeof(WAVEFORMATEX);
 		wfe->wFormatTag			= WAVE_FORMAT_FLAC;
+		wfe->nChannels			= m_nChannels;
 		wfe->nSamplesPerSec		= m_nSamplesPerSec;
 		wfe->nAvgBytesPerSec	= m_nAvgBytesPerSec;
-		wfe->nChannels			= m_nChannels;
 		wfe->nBlockAlign		= 1;
 		wfe->wBitsPerSample		= m_wBitsPerSample;
+		wfe->cbSize				= 0;
 	} else {
 		return VFW_S_NO_MORE_ITEMS;
 	}
@@ -298,17 +298,16 @@ void CFLACStream::UpdateFromMetadata (void* pBuffer)
 
 FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
 {
-	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
-	UINT			nRead;
+	CFLACStream*	pThis = static_cast<CFLACStream*>(client_data);
+	UINT			nRead = pThis->GetFile()->Read(buffer, (UINT)*bytes);
 
-	nRead				= pThis->GetFile()->Read (buffer, *bytes);
 	pThis->m_bIsEOF	= (nRead != *bytes);
-	*bytes				= nRead;
+	*bytes			= nRead;
 
 	return (*bytes == 0) ?  FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM : FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
 }
 
-FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)
+FLAC__StreamDecoderSeekStatus StreamDecoderSeek(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)
 {
 	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 
@@ -317,14 +316,14 @@ FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decod
 	return FLAC__STREAM_DECODER_SEEK_STATUS_OK;
 }
 
-FLAC__StreamDecoderTellStatus	StreamDecoderTell(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)
+FLAC__StreamDecoderTellStatus StreamDecoderTell(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)
 {
 	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 	*absolute_byte_offset = pThis->GetFile()->GetPosition();
 	return FLAC__STREAM_DECODER_TELL_STATUS_OK;
 }
 
-FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)
+FLAC__StreamDecoderLengthStatus StreamDecoderLength(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)
 {
 	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 	CFile*			pFile = pThis->GetFile();

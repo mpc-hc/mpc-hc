@@ -251,7 +251,7 @@ CSubtitleStream::CSubtitleStream(const WCHAR* wfn, CSubtitleSource* pParent, HRE
 	m_rts.Sort();
 
 	m_rtDuration = 0;
-	for (int i = 0, cnt = m_rts.GetCount(); i < cnt; i++) {
+	for (size_t i = 0, cnt = m_rts.GetCount(); i < cnt; i++) {
 		m_rtDuration = max(m_rtDuration, 10000i64*m_rts[i].end);
 	}
 
@@ -367,10 +367,10 @@ HRESULT CSubtitleStream::OnThreadCreate()
 	CAutoLock cAutoLockShared(&m_cSharedState);
 
 	if (m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32) {
-		m_nPosition = m_rtStart/_ATPF;
+		m_nPosition = (int)(m_rtStart/_ATPF);
 	} else if (m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32) {
 		int m_nSegments = 0;
-		if (!m_rts.SearchSubs((int)(m_rtStart/10000), 10000000/_ATPF, &m_nPosition, &m_nSegments)) {
+		if (!m_rts.SearchSubs((int)(m_rtStart/10000), 10000000.0/_ATPF, &m_nPosition, &m_nSegments)) {
 			m_nPosition = m_nSegments;
 		}
 	} else {
