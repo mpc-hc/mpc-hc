@@ -70,37 +70,35 @@ int g_cTemplates = _countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
-	/*
-		CString clsid = CStringFromGUID(__uuidof(CSubtitleSourcePreview));
+	/*CString clsid = CStringFromGUID(__uuidof(CSubtitleSourcePreview));
 
-		SetRegKeyValue(
-			_T("Media Type\\Extensions"), _T(".sub"),
-			_T("Source Filter"), clsid);
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".sub"),
+		_T("Source Filter"), clsid);
 
-		SetRegKeyValue(
-			_T("Media Type\\Extensions"), _T(".srt"),
-			_T("Source Filter"), clsid);
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".srt"),
+		_T("Source Filter"), clsid);
 
-		SetRegKeyValue(
-			_T("Media Type\\Extensions"), _T(".smi"),
-			_T("Source Filter"), clsid);
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".smi"),
+		_T("Source Filter"), clsid);
 
-		SetRegKeyValue(
-			_T("Media Type\\Extensions"), _T(".ssa"),
-			_T("Source Filter"), clsid);
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".ssa"),
+		_T("Source Filter"), clsid);
 
-		SetRegKeyValue(
-			_T("Media Type\\Extensions"), _T(".ass"),
-			_T("Source Filter"), clsid);
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".ass"),
+		_T("Source Filter"), clsid);
 
-		SetRegKeyValue(
-			_T("Media Type\\Extensions"), _T(".xss"),
-			_T("Source Filter"), clsid);
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".xss"),
+		_T("Source Filter"), clsid);
 
-		SetRegKeyValue(
-			_T("Media Type\\Extensions"), _T(".usf"),
-			_T("Source Filter"), clsid);
-	*/
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".usf"),
+		_T("Source Filter"), clsid);*/
 	return AMovieDllRegisterServer2(TRUE);
 }
 
@@ -328,24 +326,22 @@ HRESULT CSubtitleStream::ChangeStart()
 		CAutoLock lock(CSourceSeeking::m_pLock);
 
 		OnThreadCreate();
-		/*
-				if (m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32)
-				{
-					m_nPosition = (int)(m_rtStart/10000)*1/1000;
-				}
-				else if (m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32)
-				{
-					int m_nSegments = 0;
-					if (!m_rts.SearchSubs((int)(m_rtStart/10000), 25, &m_nPosition, &m_nSegments))
-						m_nPosition = m_nSegments;
-				}
-				else
-				{
-					m_nPosition = m_rts.SearchSub((int)(m_rtStart/10000), 25);
-					if (m_nPosition < 0) m_nPosition = 0;
-					else if (m_rts[m_nPosition].end <= (int)(m_rtStart/10000)) m_nPosition++;
-				}
-		*/
+		/*if (m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32)
+		{
+			m_nPosition = (int)(m_rtStart/10000)*1/1000;
+		}
+		else if (m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32)
+		{
+			int m_nSegments = 0;
+			if (!m_rts.SearchSubs((int)(m_rtStart/10000), 25, &m_nPosition, &m_nSegments))
+				m_nPosition = m_nSegments;
+		}
+		else
+		{
+			m_nPosition = m_rts.SearchSub((int)(m_rtStart/10000), 25);
+			if (m_nPosition < 0) m_nPosition = 0;
+			else if (m_rts[m_nPosition].end <= (int)(m_rtStart/10000)) m_nPosition++;
+		}*/
 	}
 
 	UpdateFromSeek();
@@ -355,13 +351,11 @@ HRESULT CSubtitleStream::ChangeStart()
 
 HRESULT CSubtitleStream::ChangeStop()
 {
-	/*
-	    {
-	        CAutoLock lock(CSourceSeeking::m_pLock);
-	        if (m_rtPosition < m_rtStop)
-				return S_OK;
-	    }
-	*/
+/*{
+	CAutoLock lock(CSourceSeeking::m_pLock);
+	if (m_rtPosition < m_rtStop)
+		return S_OK;
+}*/
 	// We're already past the new stop time -- better flush the graph.
 	UpdateFromSeek();
 
@@ -393,7 +387,7 @@ HRESULT CSubtitleStream::OnThreadCreate()
 
 HRESULT CSubtitleStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
-	//    CAutoLock cAutoLock(m_pFilter->pStateLock());
+	//CAutoLock cAutoLock(m_pFilter->pStateLock());
 
 	ASSERT(pAlloc);
 	ASSERT(pProperties);

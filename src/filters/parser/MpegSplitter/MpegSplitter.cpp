@@ -613,10 +613,10 @@ STDMETHODIMP CMpegSplitterFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)
 {
 	if (wcslen (pszFileName) > 0) {
-		WCHAR		Drive[_MAX_DRIVE];
-		WCHAR		Dir[_MAX_PATH];
-		WCHAR		Filename[_MAX_PATH];
-		WCHAR		Ext[_MAX_EXT];
+		WCHAR Drive[_MAX_DRIVE];
+		WCHAR Dir[_MAX_PATH];
+		WCHAR Filename[_MAX_PATH];
+		WCHAR Ext[_MAX_EXT];
 
 		if (_wsplitpath_s (pszFileName, Drive, _countof(Drive), Dir, _countof(Dir), Filename, _countof(Filename), Ext, _countof(Ext)) == 0) {
 			CString	strClipInfo;
@@ -1891,7 +1891,8 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		return S_OK;
-	} else if (m_mt.subtype == FOURCCMap('1CVW') || m_mt.subtype == FOURCCMap('1cvw') || m_mt.subtype == MEDIASUBTYPE_WVC1_CYBERLINK || m_mt.subtype == MEDIASUBTYPE_WVC1_ARCSOFT) { // just like aac, this has to be starting nalus, more can be packed together
+	} else if (m_mt.subtype == FOURCCMap('1CVW') || m_mt.subtype == FOURCCMap('1cvw') ||
+			   m_mt.subtype == MEDIASUBTYPE_WVC1_CYBERLINK || m_mt.subtype == MEDIASUBTYPE_WVC1_ARCSOFT) { // just like aac, this has to be starting nalus, more can be packed together
 		if (!m_p) {
 			m_p.Attach(DNew Packet());
 			m_p->TrackNumber = p->TrackNumber;
