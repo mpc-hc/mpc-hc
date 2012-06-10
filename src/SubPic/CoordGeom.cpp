@@ -366,7 +366,7 @@ float Ray::GetDistanceFrom(Ray& r)
 {
 	float t = (d | r.d);
 	if (IsZero(t)) {
-		return (float)-BIGNUMBER;    // plane is paralell to the ray, return -infinite
+		return -BIGNUMBER;    // plane is paralell to the ray, return -infinite
 	}
 	return (((r.p - p) | r.d) / t);
 }
