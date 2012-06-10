@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #include <d3dx9.h>
 #include "WinAPIUtils.h"
+#include "SysVersion.h"
 
 
 bool SetPrivilege(LPCTSTR privilege, bool bEnable)
@@ -194,6 +195,30 @@ int CALLBACK EnumFontFamExProc(ENUMLOGFONTEX* /*lpelfe*/, NEWTEXTMETRICEX* /*lpn
 	LPARAM* l = (LPARAM*)lParam;
 	*l = TRUE;
 	return TRUE;
+}
+
+void GetMessageFont(LOGFONT* lf)
+{
+	SecureZeroMemory(lf, sizeof(LOGFONT));
+	NONCLIENTMETRICS ncm;
+	ncm.cbSize = sizeof(NONCLIENTMETRICS);
+	if (!SysVersion::IsVistaOrLater())
+		ncm.cbSize -= sizeof(ncm.iPaddedBorderWidth);
+
+	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0);
+	*lf = ncm.lfMessageFont;
+}
+
+void GetStatusFont(LOGFONT* lf)
+{
+	SecureZeroMemory(lf, sizeof(LOGFONT));
+	NONCLIENTMETRICS ncm;
+	ncm.cbSize = sizeof(NONCLIENTMETRICS);
+	if (!SysVersion::IsVistaOrLater())
+		ncm.cbSize -= sizeof(ncm.iPaddedBorderWidth);
+
+	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0);
+	*lf = ncm.lfStatusFont;
 }
 
 bool IsFontInstalled(LPCTSTR lpszFont)

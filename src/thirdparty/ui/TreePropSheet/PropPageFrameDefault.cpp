@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "PropPageFrameDefault.h"
 // <MPC-HC Custom Code>
+#include "../../../DSUtil/WinAPIUtils.h"
 #include "../../../DSUtil/SysVersion.h"
 // </MPC-HC Custom Code>
 
@@ -314,14 +315,15 @@ void CPropPageFrameDefault::DrawCaption(CDC *pDc, CRect rect, LPCTSTR lpszCaptio
 	int				nBkStyle = pDc->SetBkMode(TRANSPARENT);
 	CFont			*pFont = (CFont*)pDc->SelectStockObject(SYSTEM_FONT);
 
-	CFont* pSysFont = pDc->GetCurrentFont();
-	LOGFONT lf;
-	pSysFont->GetLogFont(&lf);
-	lf.lfHeight = rect.Height();
-	lf.lfWidth = 0;
 	// <MPC-HC Custom Code>
-	CString face = SysVersion::IsVistaOrLater() ? _T("Segoe UI") : _T("Arial");
-	_tcscpy_s(lf.lfFaceName, face);
+	LOGFONT lf;
+	GetMessageFont(&lf);
+	lf.lfHeight = rect.Height();
+	lf.lfWeight = FW_BOLD;
+
+	if (!SysVersion::IsVistaOrLater()) {
+		_tcscpy_s(lf.lfFaceName, _T("Arial"));
+	}
 	// <MPC-HC Custom Code>
 	CFont f;
 	f.CreateFontIndirect(&lf);

@@ -33,6 +33,9 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName=_T(""));
 
 UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd);
 
+void GetMessageFont(LOGFONT* lf);
+void GetStatusFont(LOGFONT* lf);
+
 bool IsFontInstalled(LPCTSTR lpszFont);
 
 bool ExploreToFile(CString path);

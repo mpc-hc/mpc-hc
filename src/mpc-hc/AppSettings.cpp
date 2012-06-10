@@ -26,6 +26,7 @@
 #include "AppSettings.h"
 #include "MiniDump.h"
 #include "../DSUtil/SysVersion.h"
+#include "../DSUtil/WinAPIUtils.h"
 #include "UpdateChecker.h"
 
 
@@ -968,7 +969,14 @@ void CAppSettings::UpdateData(bool fSave)
 		fUseTimeTooltip = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, TRUE);
 		nTimeTooltipPosition = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, TIME_TOOLTIP_ABOVE_SEEKBAR);
 		nOSDSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_OSD_SIZE, SysVersion::IsVistaOrLater() ? 18 : 20);
-		strOSDFont= pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_MPC_OSD_FONT, SysVersion::IsVistaOrLater() ? _T("Calibri") : _T("Arial"));
+		if (SysVersion::IsVistaOrLater()) {
+			LOGFONT lf;
+			GetMessageFont(&lf);
+			strOSDFont = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_MPC_OSD_FONT, lf.lfFaceName);
+		}
+		else {
+			strOSDFont= pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_MPC_OSD_FONT, _T("Arial"));
+		}
 
 		// Associated types with icon or not...
 		fAssociatedWithIcons = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASSOCIATED_WITH_ICON, 1);
