@@ -3513,6 +3513,7 @@ void CMainFrame::OnFilePostOpenmedia()
 
 	if (GetPlaybackMode() == PM_CAPTURE) {
 		ShowControlBar(&m_wndSubresyncBar, FALSE, TRUE);
+		ShowControls(m_nCS & ~CS_SEEKBAR, true);
 		//ShowControlBar(&m_wndPlaylistBar, FALSE, TRUE);
 		//ShowControlBar(&m_wndCaptureBar, TRUE, TRUE);
 	}
@@ -3601,6 +3602,12 @@ void CMainFrame::OnFilePostClosemedia()
 		ShowControlBar(&m_wndCaptureBar, FALSE, TRUE);
 		m_wndCaptureBar.m_capdlg.SetupVideoControls(_T(""), NULL, NULL, NULL);
 		m_wndCaptureBar.m_capdlg.SetupAudioControls(_T(""), NULL, CInterfaceArray<IAMAudioInputMixer>());
+	}
+
+	if (GetPlaybackMode() == PM_CAPTURE) {
+		// Restore the controls
+		m_nCS = AfxGetAppSettings().nCS;
+		ShowControls(m_nCS);
 	}
 
 	RecalcLayout();
@@ -6388,6 +6395,10 @@ void CMainFrame::OnUpdateViewControlBar(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID - ID_VIEW_SEEKER;
 	pCmdUI->SetCheck(!!(m_nCS & (1<<nID)));
+
+	if (pCmdUI->m_nID == ID_VIEW_SEEKER) {
+		pCmdUI->Enable(GetPlaybackMode() != PM_CAPTURE);
+	}
 }
 
 void CMainFrame::OnViewSubresync()
@@ -6554,6 +6565,10 @@ void CMainFrame::SetUIPreset(int iCaptionMenuMode, UINT nCS)
 
 	// Remember the change
 	AfxGetAppSettings().nCS = nCS;
+	// Hide seek bar on capture mode
+	if (GetPlaybackMode() == PM_CAPTURE) {
+		nCS &= ~CS_SEEKBAR;
+	}
 	ShowControls(nCS, true);
 }
 
