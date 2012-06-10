@@ -166,8 +166,6 @@ public:
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY); \
 	} \
  
-using namespace DSObjects;
-
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
@@ -10383,7 +10381,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 			//if (!IsRealEngineCompatible(p->fns.GetHead()))
 			//	throw ResStr(IDS_REALVIDEO_INCOMPATIBLE);
 
-			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CRealMediaGraph(m_pVideoWnd->m_hWnd, hr);
+			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CRealMediaGraph(m_pVideoWnd->m_hWnd, hr);
 			if (!pUnk) {
 				throw (UINT)IDS_AG_OUT_OF_MEMORY;
 			}
@@ -10395,7 +10393,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 				}
 			}
 		} else if (engine == ShockWave) {
-			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CShockwaveGraph(m_pVideoWnd->m_hWnd, hr);
+			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CShockwaveGraph(m_pVideoWnd->m_hWnd, hr);
 			if (!pUnk) {
 				throw (UINT)IDS_AG_OUT_OF_MEMORY;
 			}
@@ -10411,7 +10409,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 #ifdef _WIN64	// TODOX64
 			//MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
 #else
-			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr);
+			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr);
 			if (!pUnk) {
 				throw (UINT)IDS_AG_OUT_OF_MEMORY;
 			}
