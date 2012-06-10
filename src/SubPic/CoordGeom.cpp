@@ -25,10 +25,6 @@
 #include <math.h>
 #include "CoordGeom.h"
 
-#define EPSILON (1e-7)
-#define BIGNUMBER (1e+9)
-#define IsZero(d) (fabs(d) < EPSILON)
-
 //
 // Vector
 //
@@ -370,7 +366,7 @@ float Ray::GetDistanceFrom(Ray& r)
 {
 	float t = (d | r.d);
 	if (IsZero(t)) {
-		return -BIGNUMBER;    // plane is paralell to the ray, return -infinite
+		return (float)-BIGNUMBER;    // plane is paralell to the ray, return -infinite
 	}
 	return (((r.p - p) | r.d) / t);
 }

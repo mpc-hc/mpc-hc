@@ -49,8 +49,10 @@
 
 using namespace soundtouch;
 
-#define PI        3.141592655357989
-#define TWOPI    (2 * PI)
+#ifndef M_PI
+#define M_PI      3.14159265358979323846
+#endif
+#define TWOPI    (2 * M_PI)
 
 /*****************************************************************************
  *
@@ -113,7 +115,7 @@ void AAFilter::calculateCoeffs()
     coeffs = new SAMPLETYPE[length];
 
     fc2 = 2.0 * cutoffFreq; 
-    wc = PI * fc2;
+    wc = M_PI * fc2;
     tempCoeff = TWOPI / (double)length;
 
     sum = 0;

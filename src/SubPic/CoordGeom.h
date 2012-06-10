@@ -29,19 +29,18 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-#define DegToRad(d)  ((d) * M_PI / 180.0)
-#define RadToDeg(r)  ((r) * 180.0 / M_PI)
+#define EPSILON      (1e-7)
+#define BIGNUMBER    (1e+9)
+#define IsZero(d)    (fabs(d) < EPSILON)
 #define Sgn(d)       (IsZero(d) ? 0 : (d) > 0 ? 1 : -1)
-#define SgnPow(d, p) (IsZero(d) ? 0 : (pow(fabs(d), p) * Sgn(d)))
+//#define SgnPow(d, p) (IsZero(d) ? 0 : (pow(fabs(d), p) * Sgn(d)))
 
 class Vector
 {
 public:
 	float x, y, z;
 
-	Vector() {
-		x = y = z = 0;
-	}
+	Vector() { x = y = z = 0; }
 	Vector(float x, float y, float z);
 	void Set(float x, float y, float z);
 
@@ -92,6 +91,8 @@ public:
 	Vector& operator *= (Vector& v);
 	Vector& operator /= (float d);
 	Vector& operator /= (Vector& v);
+
+	template<typename T> static float DegToRad(T angle) { return (float)(angle * M_PI / 180); }
 };
 
 class Ray
