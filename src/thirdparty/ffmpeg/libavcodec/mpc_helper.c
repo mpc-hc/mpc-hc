@@ -19,8 +19,6 @@
  */
 
 #include "avcodec.h"
-#include "ac3.h"
-#include "ac3dec.h"
 
 #if defined(DEBUG) || defined(_DEBUG)
 	#define COMPILER " Debug"
@@ -55,44 +53,6 @@
 #else
 	#define COMPILER_SSE ""
 #endif
-
-
-int FFGetChannelMap(struct AVCodecContext *avctx)
-{
-	switch (avctx->codec_id)
-	{
-		case CODEC_ID_EAC3:
-		case CODEC_ID_AC3:
-		{
-			AC3DecodeContext *s = avctx->priv_data;
-
-			// Mapping index for s_scmap_ac3
-			switch (s->channel_mode)
-			{
-				case AC3_CHMODE_DUALMONO: return 0;
-				case AC3_CHMODE_MONO:     return 1;
-				case AC3_CHMODE_STEREO:   return 2;
-				case AC3_CHMODE_3F:       return 3;
-				case AC3_CHMODE_2F1R:     return 4;
-				case AC3_CHMODE_3F1R:     return 5;
-				case AC3_CHMODE_2F2R:     return 6;
-				case AC3_CHMODE_3F2R:     return (s->lfe_on ? 8 : 7);
-			}
-		}
-		break;
-		case CODEC_ID_MLP:
-		{
-			// Mapping index for s_scmap_lpcm
-			if (avctx->channels <= 8)
-				return avctx->channels - 1;
-			else
-				return -1;
-		}
-		default:
-			return 2;
-	}
-	return -1;
-}
 
 static char g_Gcc_Compiler[31];
 
