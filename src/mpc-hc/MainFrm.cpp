@@ -631,6 +631,7 @@ CMainFrame::CMainFrame() :
 	m_fHideCursor(false),
 	m_lastMouseMove(-1, -1),
 	m_pLastBar(NULL),
+	m_nCS(0),
 	m_nLoops(0),
 	m_iSubtitleSel(-1),
 	m_ZoomX(1), m_ZoomY(1), m_PosX(0.5), m_PosY(0.5),
@@ -777,7 +778,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	AppSettings& s = AfxGetAppSettings();
 
-	ShowControls(s.nCS);
+	// Load the controls
+	m_nCS = s.nCS;
+	ShowControls(m_nCS);
 
 	SetAlwaysOnTop(s.iOnTop);
 
@@ -1815,7 +1818,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 			CWnd* pWnd = WindowFromPoint(p);
 			if (pWnd && (m_wndView == *pWnd || m_wndView.IsChild(pWnd) || fCursorOutside)) {
 				if (AfxGetAppSettings().nShowBarsWhenFullScreenTimeOut >= 0) {
-					ShowControls(CS_NONE, false);
+					ShowControls(CS_NONE);
 				}
 			}
 		}
@@ -2957,7 +2960,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 			if (nTimeOut < 0) {
 				m_fHideCursor = false;
 				if (s.fShowBarsWhenFullScreen) {
-					ShowControls(s.nCS);
+					ShowControls(m_nCS);
 					if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && s.iDefaultCaptureDevice == 1) {
 						m_wndNavigationBar.m_navdlg.UpdateElementList();
 						m_wndNavigationBar.ShowControls(this, TRUE);
@@ -2975,7 +2978,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 				for (int i = 1; pos; i <<= 1) {
 					CControlBar* pNext = m_bars.GetNext(pos);
 					CSize size = pNext->CalcFixedLayout(FALSE, TRUE);
-					if (s.nCS&i) {
+					if (m_nCS & i) {
 						r.top -= size.cy;
 					}
 				}
@@ -2992,11 +2995,11 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 
 				if (r.PtInRect(point)) {
 					if (s.fShowBarsWhenFullScreen) {
-						ShowControls(s.nCS);
+						ShowControls(m_nCS);
 					}
 				} else {
 					if (s.fShowBarsWhenFullScreen) {
-						ShowControls(CS_NONE, false);
+						ShowControls(CS_NONE);
 					}
 				}
 
@@ -3026,7 +3029,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 			} else {
 				m_fHideCursor = false;
 				if (s.fShowBarsWhenFullScreen) {
-					ShowControls(s.nCS);
+					ShowControls(m_nCS);
 				}
 
 				SetTimer(TIMER_FULLSCREENCONTROLBARHIDER, nTimeOut*1000, NULL);
@@ -6373,13 +6376,18 @@ void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 void CMainFrame::OnViewControlBar(UINT nID)
 {
 	nID -= ID_VIEW_SEEKER;
-	ShowControls(AfxGetAppSettings().nCS ^ (1<<nID));
+	UINT bitID = (1u << nID);
+
+	// Remember the change
+	AfxGetAppSettings().nCS ^= bitID;
+
+	ShowControls(m_nCS ^ bitID, true);
 }
 
 void CMainFrame::OnUpdateViewControlBar(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID - ID_VIEW_SEEKER;
-	pCmdUI->SetCheck(!!(AfxGetAppSettings().nCS & (1<<nID)));
+	pCmdUI->SetCheck(!!(m_nCS & (1<<nID)));
 }
 
 void CMainFrame::OnViewSubresync()
@@ -6513,10 +6521,7 @@ void CMainFrame::OnUpdateViewShaderEditor(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewMinimal()
 {
-	while (AfxGetAppSettings().iCaptionMenuMode!=MODE_BORDERLESS) {
-		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-	}
-	ShowControls(CS_NONE);
+	SetUIPreset(MODE_BORDERLESS, CS_NONE);
 }
 
 void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
@@ -6525,10 +6530,7 @@ void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewCompact()
 {
-	while (AfxGetAppSettings().iCaptionMenuMode!=MODE_FRAMEONLY) {
-		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-	}
-	ShowControls(CS_SEEKBAR);
+	SetUIPreset(MODE_FRAMEONLY, CS_SEEKBAR);
 }
 
 void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
@@ -6537,14 +6539,22 @@ void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewNormal()
 {
-	while (AfxGetAppSettings().iCaptionMenuMode!=MODE_SHOWCAPTIONMENU) {
-		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-	}
-	ShowControls(CS_SEEKBAR|CS_TOOLBAR|CS_STATUSBAR|CS_INFOBAR);
+	SetUIPreset(MODE_SHOWCAPTIONMENU, CS_SEEKBAR|CS_TOOLBAR|CS_STATUSBAR|CS_INFOBAR);
 }
 
 void CMainFrame::OnUpdateViewNormal(CCmdUI* pCmdUI)
 {
+}
+
+void CMainFrame::SetUIPreset(int iCaptionMenuMode, UINT nCS)
+{
+	while (AfxGetAppSettings().iCaptionMenuMode != iCaptionMenuMode) {
+		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
+	}
+
+	// Remember the change
+	AfxGetAppSettings().nCS = nCS;
+	ShowControls(nCS, true);
 }
 
 void CMainFrame::OnViewFullscreen()
@@ -9651,14 +9661,14 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		if (s.fShowBarsWhenFullScreen) {
 			int nTimeOut = s.nShowBarsWhenFullScreenTimeOut;
 			if (nTimeOut == 0) {
-				ShowControls(CS_NONE, false);
+				ShowControls(CS_NONE);
 				ShowControlBar(&m_wndNavigationBar, false, TRUE);
 			} else if (nTimeOut > 0) {
 				SetTimer(TIMER_FULLSCREENCONTROLBARHIDER, nTimeOut*1000, NULL);
 				SetTimer(TIMER_FULLSCREENMOUSEHIDER, max(nTimeOut*1000, 2000), NULL);
 			}
 		} else {
-			ShowControls(CS_NONE, false);
+			ShowControls(CS_NONE);
 			ShowControlBar(&m_wndNavigationBar, false, TRUE);
 		}
 
@@ -9672,7 +9682,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
 		KillTimer(TIMER_FULLSCREENMOUSEHIDER);
 		m_fHideCursor = false;
-		ShowControls(s.nCS);
+		ShowControls(m_nCS);
 		if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1) {
 			ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
 		}
@@ -13362,9 +13372,9 @@ void CMainFrame::SetupShadersSubMenu()
 
 /////////////
 
-void CMainFrame::ShowControls(int nCS, bool fSave)
+void CMainFrame::ShowControls(int nCS, bool fSave /*= false*/)
 {
-	int nCSprev = AfxGetAppSettings().nCS;
+	int nCSprev = m_nCS;
 	int hbefore = 0, hafter = 0;
 
 	m_pLastBar = NULL;
@@ -13372,16 +13382,16 @@ void CMainFrame::ShowControls(int nCS, bool fSave)
 	POSITION pos = m_bars.GetHeadPosition();
 	for (int i = 1; pos; i <<= 1) {
 		CControlBar* pNext = m_bars.GetNext(pos);
-		ShowControlBar(pNext, !!(nCS&i), TRUE);
-		if (nCS&i) {
+		ShowControlBar(pNext, !!(nCS & i), TRUE);
+		if (nCS & i) {
 			m_pLastBar = pNext;
 		}
 
 		CSize s = pNext->CalcFixedLayout(FALSE, TRUE);
-		if (nCSprev&i) {
+		if (nCSprev & i) {
 			hbefore += s.cy;
 		}
-		if (nCS&i) {
+		if (nCS & i) {
 			hafter += s.cy;
 		}
 	}
@@ -13393,11 +13403,11 @@ void CMainFrame::ShowControls(int nCS, bool fSave)
 	if (wp.showCmd != SW_SHOWMAXIMIZED && !m_fFullScreen) {
 		CRect r;
 		GetWindowRect(r);
-		MoveWindow(r.left, r.top, r.Width(), r.Height()+(hafter-hbefore));
+		MoveWindow(r.left, r.top, r.Width(), r.Height() + hafter - hbefore);
 	}
 
 	if (fSave) {
-		AfxGetAppSettings().nCS = nCS;
+		m_nCS = nCS;
 	}
 
 	RecalcLayout();

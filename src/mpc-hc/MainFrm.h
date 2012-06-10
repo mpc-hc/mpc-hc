@@ -237,7 +237,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
 	CRect m_rcDesktop;
 
-	void ShowControls(int nCS, bool fSave = true);
+	void ShowControls(int nCS, bool fSave = false);
+	void SetUIPreset(int iCaptionMenuMode, UINT nCS);
 
 	void SetDefaultWindowRect(int iMonitor = 0);
 	void SetDefaultFullscreenState();
@@ -524,6 +525,7 @@ protected:  // control bar embedded members
 
 	CChildView m_wndView;
 
+	UINT m_nCS;
 	CPlayerSeekBar m_wndSeekBar;
 	CPlayerToolBar m_wndToolBar;
 	CPlayerInfoBar m_wndInfoBar;
