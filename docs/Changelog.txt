@@ -13,6 +13,8 @@ Legend:
 + The DirectX runtime dlls are included in the distribution packages
   so it's no longer needed to install the DirectX runtime
 + MpegSplitter: support for DVD-Audio LPCM and MLP in .aob files
+* MPC-HC will now use the Windows theme font for the Statusbar, OSD messages and a
+  few other places on Windows Vista and newer.
 * Updated unrar.dll to v4.20b3
 * Updated MediaInfoLib to v0.7.58
 * Updated ZenLib to v0.4.27
