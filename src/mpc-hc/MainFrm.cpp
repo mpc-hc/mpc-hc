@@ -3606,8 +3606,7 @@ void CMainFrame::OnFilePostClosemedia()
 
 	if (GetPlaybackMode() == PM_CAPTURE) {
 		// Restore the controls
-		m_nCS = AfxGetAppSettings().nCS;
-		ShowControls(m_nCS);
+		ShowControls(AfxGetAppSettings().nCS, true);
 	}
 
 	RecalcLayout();
