@@ -38,6 +38,8 @@
 #endif
 #include <moreuuids.h>
 
+#define INT24_MAX       8388607
+#define INT24_MIN     (-8388608)
 
 #ifdef REGISTER_FILTER
 
@@ -157,7 +159,7 @@ __forceinline void mix(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
 }
 
 template<>
-__forceinline void mix<int, INT64, (-1<<24), (+1<<24)-1>(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
+__forceinline void mix<int, INT64, INT24_MIN, INT24_MAX>(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
 {
 	INT64 sum = 0;
 
@@ -169,7 +171,7 @@ __forceinline void mix<int, INT64, (-1<<24), (+1<<24)-1>(DWORD mask, int ch, int
 		}
 	}
 
-	sum = min(max(sum, (-1<<24)), (+1<<24)-1);
+	sum = min(max(sum, INT24_MIN), INT24_MAX);
 
 	memcpy(dst, (BYTE*)&sum, 3);
 }
@@ -312,7 +314,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 					}
 				} else if (fPCM && wfe->wBitsPerSample == 24) {
 					for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
-						mix<int, INT64, (-1<<24), (+1<<24)-1>(mask, channels, bps, src, dst);
+						mix<int, INT64, INT24_MIN, INT24_MAX>(mask, channels, bps, src, dst);
 					}
 				} else if (fPCM && wfe->wBitsPerSample == 32) {
 					for (int k = 0; k < len; k++, src += srcstep, dst += dststep) {
