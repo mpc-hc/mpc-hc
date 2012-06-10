@@ -38,6 +38,9 @@ SET ARG=%ARG:-=%
 SET ARGB=0
 SET ARGBC=0
 SET ARGC=0
+SET ARGCL=0
+SET ARGD=0
+SET ARGF=0
 SET ARGPL=0
 SET ARGPA=0
 SET ARGIN=0
@@ -50,7 +53,7 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "help"       GOTO ShowHelp
   IF /I "%%A" == "GetVersion" ENDLOCAL & CALL :SubGetVersion & EXIT /B
   IF /I "%%A" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
-  IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
+  IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1  & SET /A ARGCL+=1
   IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
   IF /I "%%A" == "Both"       SET "PLATFORM=Both"     & SET /A ARGPL+=1
   IF /I "%%A" == "Win32"      SET "PLATFORM=Win32"    & SET /A ARGPL+=1
@@ -58,16 +61,16 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "x64"        SET "PLATFORM=x64"      & SET /A ARGPL+=1
   IF /I "%%A" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
   IF /I "%%A" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1
-  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1
+  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1
   IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & SET /A ARGC+=1
   IF /I "%%A" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
-  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1
-  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1
-  IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1
+  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
+  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
+  IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
-  IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1
-  IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A ARGIN+=1
-  IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A ARGZI+=1
+  IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1
+  IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A ARGIN+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1
+  IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -82,6 +85,9 @@ IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCFG=Re
 IF %ARGPA% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPA% == 0 (SET "PACKAGES=False")
 IF %ARGIN% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGIN% == 0 (SET "INSTALLER=False")
 IF %ARGZI% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGZI% == 0 (SET "ZIP=False")
+IF %ARGCL% GTR 1 (GOTO UnsupportedSwitch)
+IF %ARGD%  GTR 1 (GOTO UnsupportedSwitch)
+IF %ARGF%  GTR 1 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
@@ -111,9 +117,7 @@ IF /I "%CONFIG%" == "Filters" (
   GOTO x64
 )
 
-IF /I NOT "%BUILDCFG%" == "Debug" (
-  IF /I "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
-)
+IF /I "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
 
 CALL :SubMPCHC Win32
 
@@ -141,9 +145,7 @@ IF /I "%CONFIG%" == "Filters" (
   GOTO END
 )
 
-IF /I NOT "%BUILDCFG%" == "Debug" (
-  IF /I "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
-)
+IF /I "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
 
 CALL :SubMPCHC x64
 
@@ -201,8 +203,8 @@ EXIT /B
 
 :SubResources
 IF /I "%BUILDCFG%" == "Debug" (
-  CALL :SubMsg "WARNING" "/debug was used with /resource, ignoring /resource"
-  EXIT /B
+  CALL :SubMsg "WARNING" "/debug was used, resources will not be built."
+EXIT /B
 )
 
 TITLE Compiling mpciconlib - Release^|%1...
@@ -236,19 +238,6 @@ EXIT /B
 
 
 :SubCreateInstaller
-IF /I "%BUILDTYPE%" == "Clean" (
-  CALL :SubMsg "WARNING" "/clean was used with /installer, ignoring /installer"
-  EXIT /B
-)
-IF /I "%BUILDCFG%" == "Debug" (
-  CALL :SubMsg "WARNING" "/debug was used with /installer, ignoring /installer"
-  EXIT /B
-)
-IF /I "%CONFIG%" == "Filters" (
-  CALL :SubMsg "WARNING" "/filters was used with /installer, ignoring /installer"
-  EXIT /B
-)
-
 IF /I "%~1" == "x64" (
   SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /Dx64Build
   CALL :SubCopyDXDll x64
@@ -270,15 +259,6 @@ EXIT /B
 
 
 :SubCreatePackages
-IF /I "%BUILDTYPE%" == "Clean" (
-  CALL :SubMsg "WARNING" "/clean was used with /packages, ignoring /packages"
-  EXIT /B
-)
-IF /I "%BUILDCFG%" == "Debug" (
-  CALL :SubMsg "WARNING" "/debug was used with /packages, ignoring /packages"
-  EXIT /B
-)
-
 CALL :SubDetectSevenzipPath
 CALL :SubGetVersion
 
@@ -454,6 +434,9 @@ EXIT /B
 :UnsupportedSwitch
 ECHO.
 ECHO Unsupported commandline switch!
+ECHO.
+ECHO "build.bat %*"
+ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
 CALL :SubMsg "ERROR" "Compilation failed!"
 
