@@ -90,9 +90,6 @@
     <ClCompile Include="ISDb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jpeg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KeyProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -172,9 +169,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Playlist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PngImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PnSPresetsDlg.cpp">
@@ -360,7 +354,7 @@
     <ClCompile Include="..\thirdparty\mfc\winmdi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\thirdparty\pngdib\pngdib.c">
+    <ClCompile Include="MPCPngImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -372,9 +366,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseGraph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CGdiPlusBitmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ChildView.h">
@@ -444,12 +435,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ISDb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jpeg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jpeg_tables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyProvider.h">
@@ -534,9 +519,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Playlist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PngImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PnSPresetsDlg.h">
@@ -722,10 +704,10 @@
     <ClInclude Include="..\thirdparty\mfc\afxmaskededit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\thirdparty\pngdib\pngdib.h">
+    <ClInclude Include="..\..\include\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Version.h">
+    <ClInclude Include="MPCPngImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

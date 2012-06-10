@@ -29,7 +29,6 @@
 #include "../Subtitles/TextFile.h"
 #include "WebServer.h"
 #include "WebClientSocket.h"
-#include "jpeg.h"
 
 CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFrame)
 	: m_pWebServer(pWebServer)
@@ -821,23 +820,68 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
 
 	BYTE* pData = NULL;
 	long size = 0;
-	CAtlArray<BYTE> jpeg;
 	if (m_pMainFrame->GetDIB(&pData, size, true)) {
-		if (CJpegEncoderMem().Encode(pData, jpeg)) {
+		PBITMAPINFO bi = reinterpret_cast<PBITMAPINFO>(pData);
+		PBITMAPINFOHEADER bih = &bi->bmiHeader;
+
+		int bpp = bih->biBitCount;
+		if (bpp != 16 && bpp != 24 && bpp != 32) { return false; }
+		int w = bih->biWidth;
+		int h = abs(bih->biHeight);
+		BYTE* p = DNew BYTE[w * h * 4];
+
+		const BYTE* src = pData + sizeof(*bih);
+		if (bpp <= 8) {
+			if (bih->biClrUsed) {
+				src += bih->biClrUsed * sizeof(bi->bmiColors[0]);
+			} else {
+				src += (1 << bpp) * DWORD(sizeof(bi->bmiColors[0]));
+			}
+		}
+
+		int srcpitch = w * (bpp >> 3);
+		int dstpitch = w * 4;
+
+		BitBltFromRGBToRGB(w, h, p, dstpitch, 32, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+
+		{
+			CBitmap bmp;
+			bmp.CreateBitmap(w, h, bih->biPlanes, bpp, p);
+			delete [] p;
+
+			CImage img;
+			img.Attach(bmp);
+			IStream *pStream = NULL;
+			CByteArray ba;
+			if (SUCCEEDED(CreateStreamOnHGlobal(NULL, TRUE, &pStream))) {
+				if (SUCCEEDED(img.Save(pStream, Gdiplus::ImageFormatJPEG))) {
+					ULARGE_INTEGER ulnSize;
+					LARGE_INTEGER lnOffset;
+					lnOffset.QuadPart = 0;
+					if (SUCCEEDED(pStream->Seek(lnOffset, STREAM_SEEK_END, &ulnSize))) {
+						if (SUCCEEDED(pStream->Seek(lnOffset, STREAM_SEEK_SET, 0))) {
+							ULONG ulBytesRead;
+							ba.SetSize((INT_PTR)ulnSize.QuadPart);
+							pStream->Read(ba.GetData(), (INT_PTR)ulnSize.QuadPart, &ulBytesRead);
+						}
+					}
+				}
+			}
+
+			pStream->Release();
+			delete [] pData;
+
 			hdr +=
 				"Expires: Thu, 19 Nov 1981 08:52:00 GMT\r\n"
 				"Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0\r\n"
 				"Pragma: no-cache\r\n";
-			body = CStringA((char*)jpeg.GetData(), jpeg.GetCount());
+			body = CStringA((char*)ba.GetData(), ba.GetCount());
 			mime = "image/jpeg";
 			fRet = true;
 		}
-
-		delete [] pData;
 	}
 
-	return fRet;
-}
+	return fRet;}
 
 bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
 {

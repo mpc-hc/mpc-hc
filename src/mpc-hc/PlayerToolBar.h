@@ -25,8 +25,7 @@
 
 #include "VolumeCtrl.h"
 
-
-// CPlayerToolBar
+#include <atlimage.h>
 
 class CPlayerToolBar : public CToolBar
 {
@@ -36,7 +35,7 @@ private:
 	bool IsMuted() const;
 	void SetMute(bool fMute = true);
 	int getHitButtonIdx(CPoint point);
-	HBITMAP LoadExternalToolBar();
+	void LoadExternalToolBar(CImage* bmp);
 
 	int m_nButtonHeight;
 	CImageList *m_pButtonsImages;

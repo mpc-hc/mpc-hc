@@ -178,7 +178,6 @@
     <ClCompile Include="GoToDlg.cpp" />
     <ClCompile Include="Ifo.cpp" />
     <ClCompile Include="ISDb.cpp" />
-    <ClCompile Include="jpeg.cpp" />
     <ClCompile Include="KeyProvider.cpp" />
     <ClCompile Include="LcdSupport.cpp" />
     <ClCompile Include="LineNumberEdit.cpp" />
@@ -187,6 +186,7 @@
     <ClCompile Include="MediaTypesDlg.cpp" />
     <ClCompile Include="MiniDump.cpp" />
     <ClCompile Include="Monitors.cpp" />
+    <ClCompile Include="MPCPngImage.cpp" />
     <ClCompile Include="Mpeg2SectionData.cpp" />
     <ClCompile Include="mplayerc.cpp" />
     <ClCompile Include="MultiMonitor.cpp" />
@@ -207,11 +207,6 @@
     <ClCompile Include="PlayerSubresyncBar.cpp" />
     <ClCompile Include="PlayerToolBar.cpp" />
     <ClCompile Include="Playlist.cpp" />
-    <ClCompile Include="..\thirdparty\pngdib\pngdib.c">
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="PngImage.cpp" />
     <ClCompile Include="PnSPresetsDlg.cpp" />
     <ClCompile Include="PPageAccelTbl.cpp" />
     <ClCompile Include="PPageAudioSwitcher.cpp" />
@@ -277,7 +272,6 @@
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />
     <ClInclude Include="BaseGraph.h" />
-    <ClInclude Include="CGdiPlusBitmap.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
@@ -302,8 +296,6 @@
     <ClInclude Include="IGraphBuilder2.h" />
     <ClInclude Include="InternalFiltersConfig.h" />
     <ClInclude Include="ISDb.h" />
-    <ClInclude Include="jpeg.h" />
-    <ClInclude Include="jpeg_tables.h" />
     <ClInclude Include="KeyProvider.h" />
     <ClInclude Include="LcdSupport.h" />
     <ClInclude Include="LineNumberEdit.h" />
@@ -313,6 +305,7 @@
     <ClInclude Include="MiniDump.h" />
     <ClInclude Include="Monitors.h" />
     <ClInclude Include="MpcApi.h" />
+    <ClInclude Include="MPCPngImage.h" />
     <ClInclude Include="Mpeg2SectionData.h" />
     <ClInclude Include="mplayerc.h" />
     <ClInclude Include="MultiMonitor.h" />
@@ -333,8 +326,6 @@
     <ClInclude Include="PlayerSubresyncBar.h" />
     <ClInclude Include="PlayerToolBar.h" />
     <ClInclude Include="Playlist.h" />
-    <ClInclude Include="..\thirdparty\pngdib\pngdib.h" />
-    <ClInclude Include="PngImage.h" />
     <ClInclude Include="PnSPresetsDlg.h" />
     <ClInclude Include="PPageAccelTbl.h" />
     <ClInclude Include="PPageAudioSwitcher.h" />
@@ -733,10 +724,6 @@
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\libflac\src\libFLAC\libflac.vcxproj">
       <Project>{4cefbc84-c215-11db-8314-0800200c9a66}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\thirdparty\libpng\libpng.vcxproj">
-      <Project>{fc8080d1-603c-45ec-bcfa-7172e2f3d989}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">

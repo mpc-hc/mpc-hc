@@ -23,10 +23,9 @@
 
 #pragma once
 
-#include "PngImage.h"
-
-
 // CPPageLogo dialog
+
+#include "MPCPngImage.h"
 
 class CPPageLogo : public CPPageBase
 {
@@ -35,7 +34,7 @@ class CPPageLogo : public CPPageBase
 private:
 	CList<UINT> m_logoids;
 	POSITION m_logoidpos;
-	MPCPngImage m_logobm;
+	CMPCPngImage m_logo;
 	void GetDataFromRes();
 
 public:
@@ -56,8 +55,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnBnClickedRadio1();
-	afx_msg void OnBnClickedRadio2();
+	afx_msg void OnBnClickedInternalRadio();
+	afx_msg void OnBnClickedExternalRadio();
 	afx_msg void OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedButton2();
 	CString m_author;

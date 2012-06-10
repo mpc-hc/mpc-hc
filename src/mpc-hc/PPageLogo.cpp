@@ -26,7 +26,6 @@
 #include "MainFrm.h"
 #include "PPageLogo.h"
 
-
 // CPPageLogo dialog
 
 IMPLEMENT_DYNAMIC(CPPageLogo, CPPageBase)
@@ -57,8 +56,8 @@ void CPPageLogo::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CPPageLogo, CPPageBase)
-	ON_BN_CLICKED(IDC_RADIO1, OnBnClickedRadio1)
-	ON_BN_CLICKED(IDC_RADIO2, OnBnClickedRadio2)
+	ON_BN_CLICKED(IDC_RADIO1, OnBnClickedInternalRadio)
+	ON_BN_CLICKED(IDC_RADIO2, OnBnClickedExternalRadio)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN1, OnDeltaposSpin1)
 	ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
 END_MESSAGE_MAP()
@@ -70,7 +69,7 @@ BOOL CPPageLogo::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	AppSettings& s = AfxGetAppSettings();
+	const AppSettings& s = AfxGetAppSettings();
 
 	m_intext = s.fLogoExternal?1:0;
 	m_logofn = s.strLogoFileName;
@@ -86,9 +85,9 @@ BOOL CPPageLogo::OnInitDialog()
 	}
 
 	if (!m_intext) {
-		OnBnClickedRadio1();
+		OnBnClickedInternalRadio();
 	} else {
-		OnBnClickedRadio2();
+		OnBnClickedExternalRadio();
 	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -110,7 +109,7 @@ BOOL CPPageLogo::OnApply()
 	return __super::OnApply();
 }
 
-void CPPageLogo::OnBnClickedRadio1()
+void CPPageLogo::OnBnClickedInternalRadio()
 {
 	ASSERT(m_logoidpos);
 
@@ -123,15 +122,15 @@ void CPPageLogo::OnBnClickedRadio1()
 	SetModified();
 }
 
-void CPPageLogo::OnBnClickedRadio2()
+void CPPageLogo::OnBnClickedExternalRadio()
 {
 	UpdateData();
 
 	m_author.Empty();
 
-	m_logobm.Destroy();
-	m_logobm.Load(m_logofn);
-	m_logopreview.SetBitmap(m_logobm);
+	m_logo.Detach();
+	m_logo.LoadFromFile(m_logofn);
+	m_logopreview.SetBitmap(m_logo);
 	Invalidate();
 
 	m_intext = 1;
@@ -173,21 +172,21 @@ void CPPageLogo::OnBnClickedButton2()
 	if (dlg.DoModal() == IDOK) {
 		m_logofn = dlg.GetPathName();
 		UpdateData(FALSE);
-		OnBnClickedRadio2();
+		OnBnClickedExternalRadio();
 	}
 }
 
 void CPPageLogo::GetDataFromRes()
 {
 	m_author.Empty();
+	m_logo.Detach();
 
-	m_logobm.Destroy();
 	UINT id = m_logoids.GetAt(m_logoidpos);
 	if (IDF_LOGO0 != id) {
-		m_logobm.LoadFromResource(id);
+		m_logo.Load(id);
 		if (!m_author.LoadString(id)) {
 			m_author.LoadString(IDS_LOGO_AUTHOR);
 		}
 	}
-	m_logopreview.SetBitmap(m_logobm);
+	m_logopreview.SetBitmap(m_logo);
 }

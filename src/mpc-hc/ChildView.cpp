@@ -26,7 +26,6 @@
 #include "ChildView.h"
 #include "MainFrm.h"
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CChildView
 
@@ -124,18 +123,18 @@ void CChildView::LoadLogo()
 
 	CAutoLock cAutoLock(&m_csLogo);
 
-	m_logo.Destroy();
+	m_logo.Detach();
 
 	if (s.fLogoExternal) {
-		bHaveLogo = SUCCEEDED(m_logo.Load(s.strLogoFileName));
+		bHaveLogo = !!m_logo.LoadFromFile(s.strLogoFileName);
 	}
 
 	if (!bHaveLogo) {
 		s.fLogoExternal = false; // use the built-in logo instead
 		s.strLogoFileName = ""; // clear logo file name
 
-		if (!m_logo.LoadFromResource(s.nLogoId)) { // try the latest selected build-in logo
-			m_logo.LoadFromResource(s.nLogoId=DEF_LOGO);    // if fail then use the default logo, should never fail
+		if (!m_logo.Load(s.nLogoId)) { // try the latest selected build-in logo
+			m_logo.Load(s.nLogoId = DEF_LOGO);    // if fail then use the default logo, should and must never fail
 		}
 	}
 
@@ -146,11 +145,7 @@ void CChildView::LoadLogo()
 
 CSize CChildView::GetLogoSize() const
 {
-	CSize ret(0,0);
-	if (!m_logo.IsNull()) {
-		ret.SetSize(m_logo.GetWidth(), m_logo.GetHeight());
-	}
-	return ret;
+	return m_logo.GetBitmapDimension();
 }
 
 IMPLEMENT_DYNAMIC(CChildView, CWnd)
@@ -190,28 +185,25 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 
 	CAutoLock cAutoLock(&m_csLogo);
 
+	CImage img;
+	img.Attach(m_logo);
+
 	if (((CMainFrame*)GetParentFrame())->IsSomethingLoaded()) {
 		pDC->ExcludeClipRect(m_vrect);
-	} else if (!m_logo.IsNull() /*&& ((CMainFrame*)GetParentFrame())->IsPlaylistEmpty()*/) {
-		BITMAP bm;
-		GetObject(m_logo, sizeof(bm), &bm);
-
+	} else if (!img.IsNull()) {
 		GetClientRect(r);
-		int w = min(bm.bmWidth, r.Width());
-		int h = min(abs(bm.bmHeight), r.Height());
-		//		int w = min(m_logo.GetWidth(), r.Width());
-		//		int h = min(m_logo.GetHeight(), r.Height());
+		int w = min(img.GetWidth(), r.Width());
+		int h = min(img.GetHeight(), r.Height());
 		int x = (r.Width() - w) / 2;
 		int y = (r.Height() - h) / 2;
 		r = CRect(CPoint(x, y), CSize(w, h));
 
 		int oldmode = pDC->SetStretchBltMode(STRETCH_HALFTONE);
-		m_logo.StretchBlt(*pDC, r, CRect(0,0,bm.bmWidth,abs(bm.bmHeight)));
-		//		m_logo.Draw(*pDC, r);
+		img.StretchBlt(*pDC, r, CRect(0, 0, img.GetWidth(), img.GetHeight()));
 		pDC->SetStretchBltMode(oldmode);
-
 		pDC->ExcludeClipRect(r);
 	}
+	img.Detach();
 
 	GetClientRect(r);
 	pDC->FillSolidRect(r, 0);

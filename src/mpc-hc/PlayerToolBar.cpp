@@ -26,10 +26,9 @@
 #include <math.h>
 #include <atlbase.h>
 #include <afxpriv.h>
+#include "MPCPngImage.h"
 #include "PlayerToolBar.h"
 #include "MainFrm.h"
-#include <libpng/png.h>
-
 
 // CPlayerToolBar
 
@@ -47,40 +46,20 @@ CPlayerToolBar::~CPlayerToolBar()
 	}
 }
 
-HBITMAP CPlayerToolBar::LoadExternalToolBar()
+void CPlayerToolBar::LoadExternalToolBar(CImage* image)
 {
 	CString path;
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
 	path.ReleaseBuffer();
-	path = path.Left(path.ReverseFind('\\')+1);
+	path = path.Left(path.ReverseFind('\\') + 1);
 
-	FILE* fp = NULL;
-	if (!_tfopen_s(&fp, path + _T("toolbar.png"), _T("rb"))) {
-		png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
-		png_infop info_ptr = png_create_info_struct(png_ptr);
-		png_init_io(png_ptr, fp);
-
-		png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_EXPAND | PNG_TRANSFORM_BGR | PNG_TRANSFORM_PACKING, 0);
-
-		png_bytep* row_pointers = png_get_rows(png_ptr, info_ptr);
-		int bpp = png_get_channels(png_ptr, info_ptr) * 8;
-		int width = png_get_image_width(png_ptr, info_ptr);
-		int memWidth = width * bpp / 8;
-		int height = png_get_image_height(png_ptr, info_ptr);
-		BYTE* pData;
-		BITMAPINFO bmi = {{sizeof(BITMAPINFOHEADER), width, -height, 1, bpp, BI_RGB, 0, 0, 0, 0, 0}};
-
-		HBITMAP hbm = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&pData, 0, 0);
-		for (int i = 0; i < height; i++) {
-			memcpy(pData + memWidth * i, row_pointers[i], memWidth);
+	if (SUCCEEDED(image->Load(path + _T("toolbar.png")))) {
+		;
+	} else { // toolbar.bmp
+		HBITMAP hBmp = (HBITMAP)LoadImage(NULL, path + _T("toolbar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+		if (!!hBmp) {
+			image->Attach(hBmp);
 		}
-
-		png_destroy_read_struct(&png_ptr, &info_ptr, 0);
-		fclose(fp);
-
-		return hbm;
-	} else {
-		return (HBITMAP)LoadImage(NULL, path + _T("toolbar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	}
 }
 
@@ -119,37 +98,30 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	m_volctrl.Create(this);
 	m_volctrl.SetRange(0, 100);
 
-	// quick and dirty code from foxx1337; will leak, but don't care yet
 	m_nButtonHeight = 16; //reset m_nButtonHeight
-	HBITMAP hBmp = LoadExternalToolBar();
-	if (NULL != hBmp) {
-		CBitmap *bmp = DNew CBitmap();
-		bmp->Attach(hBmp);
-		BITMAP bitmapBmp;
-		bmp->GetBitmap(&bitmapBmp);
-		if (bitmapBmp.bmWidth == bitmapBmp.bmHeight * 15) {
+	CImage image;
+	LoadExternalToolBar(&image);
+	if (!image.IsNull()) {
+		CBitmap *bmp = CBitmap::FromHandle((HBITMAP)image);
+		int width = image.GetWidth();
+		int height = image.GetHeight();
+		int bpp = image.GetBPP();
+		if (width == height * 15) {
 			// the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
-			SetSizes(CSize(bitmapBmp.bmHeight + 7, bitmapBmp.bmHeight + 6), CSize(bitmapBmp.bmHeight, bitmapBmp.bmHeight));
+			SetSizes(CSize(height + 7, height + 6), CSize(height, height));
 
-			CDC dc;
-			dc.CreateCompatibleDC(NULL);
-
-			DIBSECTION dib;
-			::GetObject(hBmp, sizeof(dib), &dib);
-			int fileDepth = dib.dsBmih.biBitCount;
 			m_pButtonsImages = DNew CImageList();
-			if (32 == fileDepth) {
-				m_pButtonsImages->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR32 | ILC_MASK, 1, 0);
+			if (bpp == 32) {
+				m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
 				m_pButtonsImages->Add(bmp, static_cast<CBitmap*>(0));	// alpha is the mask
 			} else {
-				m_pButtonsImages->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR24 | ILC_MASK, 1, 0);
+				m_pButtonsImages->Create(height, height, ILC_COLOR24 | ILC_MASK, 1, 0);
 				m_pButtonsImages->Add(bmp, RGB(255, 0, 255));
 			}
-			m_nButtonHeight = bitmapBmp.bmHeight;
+			m_nButtonHeight = height;
 			GetToolBarCtrl().SetImageList(m_pButtonsImages);
 		}
-		delete bmp;
-		DeleteObject(hBmp);
+		image.Destroy();
 	}
 
 	return TRUE;

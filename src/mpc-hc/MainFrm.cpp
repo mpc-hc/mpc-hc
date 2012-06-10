@@ -85,9 +85,8 @@
 
 #include <IPinHook.h>
 
-#include "jpeg.h"
-#include <pngdib/pngdib.h>
 #include <comdef.h>
+#include "MPCPngImage.h"
 
 #define DEFCLIENTW 292
 #define DEFCLIENTH 200
@@ -102,7 +101,6 @@ static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
 
 #include "Monitors.h"
 #include "MultiMonitor.h"
-#include "CGdiPlusBitmap.h"
 
 #ifdef USE_MEDIAINFO_STATIC
 #include <MediaInfo/MediaInfo.h>
@@ -4731,87 +4729,57 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 
 void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 {
-	CString ext = CString(CPath(fn).GetExtension()).MakeLower();
+	PBITMAPINFO bi = reinterpret_cast<PBITMAPINFO>(pData);
+	PBITMAPINFOHEADER bih = &bi->bmiHeader;
 
-	if (ext == _T(".bmp")) {
-		if (FILE* f = _tfopen(fn, _T("wb"))) {
-			BITMAPINFO* bi = (BITMAPINFO*)pData;
+	int bpp = bih->biBitCount;
+	if (bpp != 16 && bpp != 24 && bpp != 32) {
+		AfxMessageBox(IDS_MAINFRM_53, MB_ICONWARNING | MB_OK, 0);
+		return;
+	}
+	int w = bih->biWidth;
+	int h = abs(bih->biHeight);
+	BYTE* p = DNew BYTE[w * h * 4];
 
-			BITMAPFILEHEADER bfh;
-			bfh.bfType = 'MB';
-			bfh.bfOffBits = sizeof(bfh) + sizeof(bi->bmiHeader);
-			bfh.bfSize = sizeof(bfh) + size;
-			bfh.bfReserved1 = bfh.bfReserved2 = 0;
-
-			if (bi->bmiHeader.biBitCount <= 8) {
-				if (bi->bmiHeader.biClrUsed) {
-					bfh.bfOffBits += bi->bmiHeader.biClrUsed * sizeof(bi->bmiColors[0]);
-				} else {
-					bfh.bfOffBits += (1 << bi->bmiHeader.biBitCount) * DWORD(sizeof(bi->bmiColors[0]));
-				}
-			}
-
-			fwrite(&bfh, 1, sizeof(bfh), f);
-			fwrite(pData, 1, size, f);
-
-			fclose(f);
+	const BYTE* src = pData + sizeof(*bih);
+	if (bpp <= 8) {
+		if (bih->biClrUsed) {
+			src += bih->biClrUsed * sizeof(bi->bmiColors[0]);
 		} else {
-			AfxMessageBox(IDS_MAINFRM_53, MB_ICONWARNING | MB_OK, 0);
+			src += (1 << bpp) * DWORD(sizeof(bi->bmiColors[0]));
 		}
-	} else if (ext == _T(".png")) {
-		DWORD bmpsize = size;
-		LPBITMAPINFOHEADER pdib;
-		LPBITMAPFILEHEADER pbmfh;
-		void *pbits;
-		PNGDIB *pngdib;
-		int ret;
-
-		BITMAPINFO* bi = (BITMAPINFO*)pData;
-
-		BITMAPFILEHEADER bfh;
-		bfh.bfType = 'MB';
-		bfh.bfOffBits = sizeof(bfh) + sizeof(bi->bmiHeader);
-		bfh.bfSize = sizeof(bfh) + size;
-		bfh.bfReserved1 = bfh.bfReserved2 = 0;
-
-		if (bi->bmiHeader.biBitCount <= 8) {
-			if (bi->bmiHeader.biClrUsed) {
-				bfh.bfOffBits += bi->bmiHeader.biClrUsed * sizeof(bi->bmiColors[0]);
-			} else {
-				bfh.bfOffBits += (1 << bi->bmiHeader.biBitCount) * DWORD(sizeof(bi->bmiColors[0]));
-			}
-		}
-		pbmfh = (LPBITMAPFILEHEADER)&bfh;
-		pbits = &pData[pbmfh->bfOffBits-sizeof(bfh)];
-		pdib = (LPBITMAPINFOHEADER)pData;
-		pngdib = pngdib_d2p_init();
-		pngdib_d2p_set_dib(pngdib,pdib,bmpsize,pbits,0);
-		pngdib_d2p_set_png_filename(pngdib, fn);
-		pngdib_d2p_set_gamma_label(pngdib, 1, PNGDIB_DEFAULT_FILE_GAMMA);
-		ret = pngdib_d2p_run(pngdib);
-		pngdib_done(pngdib);
-		if (ret) {
-			CString err_str;
-			err_str.Format(_T("%s\n%s (%d)"), IDS_MAINFRM_53, pngdib_get_error_msg(pngdib), ret);
-			AfxMessageBox(err_str, MB_OK);
-		}
-	} else if (ext == _T(".jpg")) {
-		CJpegEncoderFile(fn).Encode(pData);
 	}
 
-	CString fName(fn);
-	fName.Replace(_T("\\\\"), _T("\\"));
+	int srcpitch = w * (bpp >> 3);
+	int dstpitch = w * 4;
 
-	CPath p(fName);
+	BitBltFromRGBToRGB(w, h, p, dstpitch, 32, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+
+	{
+		CBitmap bmp;
+		bmp.CreateBitmap(w, h, bih->biPlanes, bpp, p);
+		delete [] p;
+
+		CImage img;
+		img.Attach(bmp);
+
+		if (FAILED(img.Save(fn))) {
+			AfxMessageBox(IDS_MAINFRM_53, MB_ICONWARNING | MB_OK, 0);
+			return;
+		}
+	}
+
+	CPath path(fn);
+	path.m_strPath.Replace(_T("\\\\"), _T("\\"));
 
 	if (CDC* pDC = m_wndStatusBar.m_status.GetDC()) {
 		CRect r;
 		m_wndStatusBar.m_status.GetClientRect(r);
-		p.CompactPath(pDC->m_hDC, r.Width());
+		path.CompactPath(pDC->m_hDC, r.Width());
 		m_wndStatusBar.m_status.ReleaseDC(pDC);
 	}
 
-	SendStatusMessage((LPCTSTR)p, 3000);
+	SendStatusMessage((LPCTSTR)path, 3000);
 }
 
 void CMainFrame::SaveImage(LPCTSTR fn)
@@ -5176,14 +5144,16 @@ void CMainFrame::OnFileSaveImage()
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc,
 				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
-				   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
+				   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|GIF - GIF Image (*.gif)|*.gif|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
 
 	if (s.strSnapShotExt == _T(".bmp")) {
 		fd.m_pOFN->nFilterIndex = 1;
-	} else if (s.strSnapShotExt == _T(".jpg")) {
+	} else if (s.strSnapShotExt == _T(".gif")) {
 		fd.m_pOFN->nFilterIndex = 2;
-	} else if (s.strSnapShotExt == _T(".png")) {
+	} else if (s.strSnapShotExt == _T(".jpg")) {
 		fd.m_pOFN->nFilterIndex = 3;
+	} else if (s.strSnapShotExt == _T(".png")) {
+		fd.m_pOFN->nFilterIndex = 4;
 	}
 
 	if (fd.DoModal() != IDOK) {
@@ -5193,9 +5163,11 @@ void CMainFrame::OnFileSaveImage()
 	if (fd.m_pOFN->nFilterIndex == 1) {
 		s.strSnapShotExt = _T(".bmp");
 	} else if (fd.m_pOFN->nFilterIndex == 2) {
+		s.strSnapShotExt = _T(".gif");
+	} else if (fd.m_pOFN->nFilterIndex == 3) {
 		s.strSnapShotExt = _T(".jpg");
 	} else {
-		fd.m_pOFN->nFilterIndex = 3;
+		fd.m_pOFN->nFilterIndex = 4;
 		s.strSnapShotExt = _T(".png");
 	}
 
@@ -5260,14 +5232,16 @@ void CMainFrame::OnFileSaveThumbnails()
 	CSaveThumbnailsDialog fd(
 		s.iThumbRows, s.iThumbCols, s.iThumbWidth,
 		0, (LPCTSTR)psrc,
-		_T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
+		_T("BMP - Windows Bitmap (*.bmp)|*.bmp|GIF - GIF Image (*.gif)|*.gif|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
 
 	if (s.strSnapShotExt == _T(".bmp")) {
 		fd.m_pOFN->nFilterIndex = 1;
-	} else if (s.strSnapShotExt == _T(".jpg")) {
+	} else if (s.strSnapShotExt == _T(".gif")) {
 		fd.m_pOFN->nFilterIndex = 2;
-	} else if (s.strSnapShotExt == _T(".png")) {
+	} else if (s.strSnapShotExt == _T(".jpg")) {
 		fd.m_pOFN->nFilterIndex = 3;
+	} else if (s.strSnapShotExt == _T(".png")) {
+		fd.m_pOFN->nFilterIndex = 4;
 	}
 
 	if (fd.DoModal() != IDOK) {
@@ -5277,9 +5251,11 @@ void CMainFrame::OnFileSaveThumbnails()
 	if (fd.m_pOFN->nFilterIndex == 1) {
 		s.strSnapShotExt = _T(".bmp");
 	} else if (fd.m_pOFN->nFilterIndex == 2) {
+		s.strSnapShotExt = _T(".gif");
+	} else if (fd.m_pOFN->nFilterIndex == 3) {
 		s.strSnapShotExt = _T(".jpg");
 	} else {
-		fd.m_pOFN->nFilterIndex = 3;
+		fd.m_pOFN->nFilterIndex = 4;
 		s.strSnapShotExt = _T(".png");
 	}
 
@@ -15484,8 +15460,6 @@ void CMainFrame::OnFileOpendirectory()
 	}
 }
 
-#define GetAValue(rgb) (rgb >> 24)
-
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
 	if (!AfxGetAppSettings().fUseWin7TaskBar || !SysVersion::Is7OrLater()) {
@@ -15497,50 +15471,20 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 	}
 	HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
 	if (SUCCEEDED(hr)) {
-		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-		Gdiplus::GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
-
-		CGdiPlusBitmapResource* pBitmap = DNew CGdiPlusBitmapResource;
-		if (!pBitmap->Load(_T("W7_TOOLBAR"), _T("PNG"), AfxGetInstanceHandle())) {
-			delete pBitmap;
-			Gdiplus::GdiplusShutdown(m_gdiplusToken);
+		CMPCPngImage image;
+		if (!image.Load(MAKEINTRESOURCE(ID_W7_TOOLBAR))) {
 			m_pTaskbarList->Release();
-			return E_FAIL;
-		}
-		unsigned long Color = 0xFFFFFFFF;
-		unsigned int A = GetAValue(Color);
-		unsigned int R = GetRValue(Color);
-		unsigned int G = GetGValue(Color);
-		unsigned int B = GetBValue(Color);
-		Gdiplus::Color co(A,R,G,B);
-		HBITMAP hB = 0;
-		pBitmap->m_pBitmap->GetHBITMAP(co,&hB);
-
-		if (!hB) {
-			m_pTaskbarList->Release();
-			delete pBitmap;
-			Gdiplus::GdiplusShutdown(m_gdiplusToken);
+			image.CleanUp();
 			return E_FAIL;
 		}
 
-		// Check dimensions
-		BITMAP bi = {0};
-		GetObject((HANDLE)hB,sizeof(bi),&bi);
-		if (bi.bmHeight == 0) {
-			DeleteObject(hB);
-			m_pTaskbarList->Release();
-			delete pBitmap;
-			Gdiplus::GdiplusShutdown(m_gdiplusToken);
-			return E_FAIL;
-		}
+		BITMAP bi;
+		image.GetBitmap(&bi);
+		int nI = bi.bmWidth / bi.bmHeight;
+		HIMAGELIST hImageList = ImageList_Create(bi.bmHeight, bi.bmHeight, ILC_COLOR32, nI, 0);
 
-		int nI = bi.bmWidth/bi.bmHeight;
-		HIMAGELIST himl = ImageList_Create(bi.bmHeight,bi.bmHeight,ILC_COLOR32,nI,0);
-
-		// Add the bitmap
-		ImageList_Add(himl,hB,0);
-		hr = m_pTaskbarList->ThumbBarSetImageList(m_hWnd,himl);
-		DeleteObject(hB);
+		ImageList_Add(hImageList, (HBITMAP)image, 0);
+		hr = m_pTaskbarList->ThumbBarSetImageList(m_hWnd, hImageList);
 
 		if (SUCCEEDED(hr)) {
 			THUMBBUTTON buttons[5] = {};
@@ -15582,9 +15526,8 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 
 			hr = m_pTaskbarList->ThumbBarAddButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
 		}
-		ImageList_Destroy(himl);
-		delete pBitmap;
-		Gdiplus::GdiplusShutdown(m_gdiplusToken);
+		ImageList_Destroy(hImageList);
+		image.CleanUp();
 	}
 
 	return hr;
