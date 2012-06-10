@@ -9894,8 +9894,8 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 					}
 
 					double scale = (iDefaultVideoSize == DVS_ZOOM1) ?
-						1.0 / 3.0 :
-						2.0 / 3.0;
+								   1.0 / 3.0 :
+								   2.0 / 3.0;
 					dVRWidth  = minw + (maxw - minw) * scale;
 					dVRHeight = dVRWidth * dARy / dARx;
 				}

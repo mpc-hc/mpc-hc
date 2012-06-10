@@ -181,7 +181,7 @@ bool IsStreamStart(IBaseFilter* pBF)
 	AM_MEDIA_TYPE mt;
 	CComPtr<IPin> pIn = GetFirstPin(pBF);
 	return ((nOut > 1)
-		   || (nOut > 0 && nIn == 1 && pIn && SUCCEEDED(pIn->ConnectionMediaType(&mt)) && mt.majortype == MEDIATYPE_Stream));
+			|| (nOut > 0 && nIn == 1 && pIn && SUCCEEDED(pIn->ConnectionMediaType(&mt)) && mt.majortype == MEDIATYPE_Stream));
 }
 
 bool IsStreamEnd(IBaseFilter* pBF)
@@ -236,7 +236,7 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
 			FreeMediaType(mt);
 
 			return !!(mt.majortype == MEDIATYPE_Audio);
-				   /*&& mt.formattype == FORMAT_WaveFormatEx);*/
+			/*&& mt.formattype == FORMAT_WaveFormatEx);*/
 		}
 		EndEnumPins
 	}
@@ -246,7 +246,7 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
 	pBF->GetClassID(&clsid);
 
 	return (clsid == CLSID_DSoundRender || clsid == CLSID_AudioRender || clsid == CLSID_ReClock
-		   || clsid == __uuidof(CNullAudioRenderer) || clsid == __uuidof(CNullUAudioRenderer));
+			|| clsid == __uuidof(CNullAudioRenderer) || clsid == __uuidof(CNullUAudioRenderer));
 }
 
 IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin)

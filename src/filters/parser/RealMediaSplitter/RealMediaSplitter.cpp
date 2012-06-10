@@ -2554,8 +2554,8 @@ HRESULT CRealAudioDecoder::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR
 	}
 
 	return (pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
-		   ? E_FAIL
-		   : NOERROR);
+			? E_FAIL
+			: NOERROR);
 }
 
 HRESULT CRealAudioDecoder::GetMediaType(int iPosition, CMediaType* pmt)

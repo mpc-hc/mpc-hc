@@ -990,7 +990,7 @@ bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
 
 	h.firstaudioframe = (WORD)BitRead(16);// Byte pointer to start of first audio frame.
 	h.unknown1        = (BYTE)BitRead(8); // Unknown - e.g. 0x10 for stereo, 0x00 for surround
-	if (h.unknown1!= 0x10 && h.unknown1!= 0x00) 
+	if (h.unknown1!= 0x10 && h.unknown1!= 0x00)
 		return false; // this is not the aob. maybe this is a vob.
 
 	h.bitpersample1   = (BYTE)BitRead(4);
@@ -1002,8 +1002,8 @@ bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
 	h.unknown3        = (BYTE)BitRead(8); // Unknown - e.g. 0x80
 
 	if (h.bitpersample1 > 2 || (h.samplerate1&7) > 2 || h.groupassignment > 20 ||
-		h.unknown2 != 0x00 || h.unknown3 != 0x80) {
-			return false; // poor parameters or this is a vob.
+			h.unknown2 != 0x00 || h.unknown3 != 0x80) {
+		return false; // poor parameters or this is a vob.
 	}
 	// decoder limitations
 	if (h.groupassignment > 1 && (h.bitpersample2 != h.bitpersample1 || h.samplerate2 != h.samplerate1)) {
@@ -1019,16 +1019,16 @@ bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
 	wfe.wFormatTag = WAVE_FORMAT_UNKNOWN;
 	static const WORD depth[] = {16, 20, 24};
 	static const DWORD freq[] = {48000, 96000, 192000, 0, 0, 0, 0, 0, 44100, 88200, 1764000};
-	                              // 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+	// 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 	static const WORD channels1[] = {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4};
 	static const WORD channels2[] = {0, 0, 1, 2, 1, 2, 3, 1, 2, 3, 2, 3, 4, 1, 2, 1, 2, 3, 1, 1, 2};
 	wfe.wBitsPerSample = depth[h.bitpersample1];
 	wfe.nSamplesPerSec = freq[h.samplerate1];
 	wfe.nChannels = channels1[h.groupassignment]+channels2[h.groupassignment];
-	
+
 	if (wfe.nChannels > 2) {
 		wfe.nBlockAlign = (depth[h.bitpersample1] * channels1[h.groupassignment] * (WORD)(freq[h.samplerate1] / freq[h.samplerate2]) +
-		                   depth[h.bitpersample2] * channels2[h.groupassignment]) * 2 / 8;
+						   depth[h.bitpersample2] * channels2[h.groupassignment]) * 2 / 8;
 	} else {
 		wfe.nBlockAlign = depth[h.bitpersample1] * channels1[h.groupassignment] * 2 / 8;
 	}

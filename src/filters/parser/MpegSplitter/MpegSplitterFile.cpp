@@ -740,7 +740,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 				}
 			} else if (b >= 0xa0 && b < 0xa8) { // lpcm
 				s.ps1id = (BYTE)BitRead(8);
-				
+
 				do {
 					// DVD-Audio LPCM
 					if (b == 0xa0) {
@@ -771,7 +771,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 								type = audio;
 							}
 							Seek(start + 10);
-							break; 
+							break;
 						}
 					}
 

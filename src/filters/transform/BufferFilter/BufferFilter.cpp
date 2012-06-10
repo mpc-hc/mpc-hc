@@ -270,8 +270,8 @@ HRESULT CBufferFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 	}
 
 	return (pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
-		   ? E_FAIL
-		   : NOERROR);
+			? E_FAIL
+			: NOERROR);
 }
 
 HRESULT CBufferFilter::GetMediaType(int iPosition, CMediaType* pMediaType)

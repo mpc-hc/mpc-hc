@@ -2341,33 +2341,33 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 int CSimpleTextSubtitle::TranslateStart(int i, double fps)
 {
 	return (i < 0 || GetCount() <= (size_t)i ? -1 :
-		   m_mode == TIME ? GetAt(i).start :
-		   m_mode == FRAME ? (int)(GetAt(i).start*1000/fps) :
-		   0);
+			m_mode == TIME ? GetAt(i).start :
+			m_mode == FRAME ? (int)(GetAt(i).start*1000/fps) :
+			0);
 }
 
 int CSimpleTextSubtitle::TranslateEnd(int i, double fps)
 {
 	return (i < 0 || GetCount() <= (size_t)i ? -1 :
-		   m_mode == TIME ? GetAt(i).end :
-		   m_mode == FRAME ? (int)(GetAt(i).end*1000/fps) :
-		   0);
+			m_mode == TIME ? GetAt(i).end :
+			m_mode == FRAME ? (int)(GetAt(i).end*1000/fps) :
+			0);
 }
 
 int CSimpleTextSubtitle::TranslateSegmentStart(int i, double fps)
 {
 	return (i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
-		   m_mode == TIME ? m_segments[i].start :
-		   m_mode == FRAME ? (int)(m_segments[i].start*1000/fps) :
-		   0);
+			m_mode == TIME ? m_segments[i].start :
+			m_mode == FRAME ? (int)(m_segments[i].start*1000/fps) :
+			0);
 }
 
 int CSimpleTextSubtitle::TranslateSegmentEnd(int i, double fps)
 {
 	return (i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
-		   m_mode == TIME ? m_segments[i].end :
-		   m_mode == FRAME ? (int)(m_segments[i].end*1000/fps) :
-		   0);
+			m_mode == TIME ? m_segments[i].end :
+			m_mode == FRAME ? (int)(m_segments[i].end*1000/fps) :
+			0);
 }
 
 STSStyle* CSimpleTextSubtitle::GetStyle(int i)
@@ -2983,45 +2983,45 @@ void STSStyle::SetDefault()
 bool STSStyle::operator == (STSStyle& s)
 {
 	return (marginRect == s.marginRect
-		   && scrAlignment == s.scrAlignment
-		   && borderStyle == s.borderStyle
-		   && outlineWidthX == s.outlineWidthX
-		   && outlineWidthY == s.outlineWidthY
-		   && shadowDepthX == s.shadowDepthX
-		   && shadowDepthY == s.shadowDepthY
-		   && *((int*)&colors[0]) == *((int*)&s.colors[0])
-		   && *((int*)&colors[1]) == *((int*)&s.colors[1])
-		   && *((int*)&colors[2]) == *((int*)&s.colors[2])
-		   && *((int*)&colors[3]) == *((int*)&s.colors[3])
-		   && alpha[0] == s.alpha[0]
-		   && alpha[1] == s.alpha[1]
-		   && alpha[2] == s.alpha[2]
-		   && alpha[3] == s.alpha[3]
-		   && fBlur == s.fBlur
-		   && fGaussianBlur == s.fGaussianBlur
-		   && relativeTo == s.relativeTo
-		   && IsFontStyleEqual(s));
+			&& scrAlignment == s.scrAlignment
+			&& borderStyle == s.borderStyle
+			&& outlineWidthX == s.outlineWidthX
+			&& outlineWidthY == s.outlineWidthY
+			&& shadowDepthX == s.shadowDepthX
+			&& shadowDepthY == s.shadowDepthY
+			&& *((int*)&colors[0]) == *((int*)&s.colors[0])
+			&& *((int*)&colors[1]) == *((int*)&s.colors[1])
+			&& *((int*)&colors[2]) == *((int*)&s.colors[2])
+			&& *((int*)&colors[3]) == *((int*)&s.colors[3])
+			&& alpha[0] == s.alpha[0]
+			&& alpha[1] == s.alpha[1]
+			&& alpha[2] == s.alpha[2]
+			&& alpha[3] == s.alpha[3]
+			&& fBlur == s.fBlur
+			&& fGaussianBlur == s.fGaussianBlur
+			&& relativeTo == s.relativeTo
+			&& IsFontStyleEqual(s));
 }
 
 bool STSStyle::IsFontStyleEqual(STSStyle& s)
 {
 	return (
-			  charSet == s.charSet
-			  && fontName == s.fontName
-			  && fontSize == s.fontSize
-			  && fontScaleX == s.fontScaleX
-			  && fontScaleY == s.fontScaleY
-			  && fontSpacing == s.fontSpacing
-			  && fontWeight == s.fontWeight
-			  && fItalic == s.fItalic
-			  && fUnderline == s.fUnderline
-			  && fStrikeOut == s.fStrikeOut
-			  && fontAngleZ == s.fontAngleZ
-			  && fontAngleX == s.fontAngleX
-			  && fontAngleY == s.fontAngleY
-			  // patch f001. fax fay patch (many instances at line)
-			  && fontShiftX == s.fontShiftX
-			  && fontShiftY == s.fontShiftY);
+			   charSet == s.charSet
+			   && fontName == s.fontName
+			   && fontSize == s.fontSize
+			   && fontScaleX == s.fontScaleX
+			   && fontScaleY == s.fontScaleY
+			   && fontSpacing == s.fontSpacing
+			   && fontWeight == s.fontWeight
+			   && fItalic == s.fItalic
+			   && fUnderline == s.fUnderline
+			   && fStrikeOut == s.fStrikeOut
+			   && fontAngleZ == s.fontAngleZ
+			   && fontAngleX == s.fontAngleX
+			   && fontAngleY == s.fontAngleY
+			   // patch f001. fax fay patch (many instances at line)
+			   && fontShiftX == s.fontShiftX
+			   && fontShiftY == s.fontShiftY);
 }
 
 STSStyle& STSStyle::operator = (LOGFONT& lf)

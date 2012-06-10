@@ -1034,8 +1034,8 @@ HRESULT CStreamSwitcherOutputPin::DecideBufferSize(IMemAllocator* pAllocator, AL
 	}
 
 	return (pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
-		   ? E_FAIL
-		   : NOERROR);
+			? E_FAIL
+			: NOERROR);
 }
 
 // virtual

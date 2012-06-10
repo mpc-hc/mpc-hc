@@ -49,10 +49,10 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
 	try {
 		CInternetSession internet;
 		CHttpFile* versionFile = (CHttpFile*) internet.OpenURL(versionFileURL,
-															   1,
-															   INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
-															   NULL,
-															   0);
+								 1,
+								 INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
+								 NULL,
+								 0);
 
 		if (versionFile) {
 			CString latestVersionStr;

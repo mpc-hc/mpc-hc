@@ -977,12 +977,12 @@ namespace Plugin
 			}
 
 			return (DNew CTextSubAvisynthFilter(
-					   args[0].AsClip(),
-					   env,
-					   args[1].AsString(),
-					   args[2].AsInt(DEFAULT_CHARSET),
-					   (float)args[3].AsFloat(-1),
-					   vfr));
+						args[0].AsClip(),
+						env,
+						args[1].AsString(),
+						args[2].AsInt(DEFAULT_CHARSET),
+						(float)args[3].AsFloat(-1),
+						vfr));
 		}
 
 		AVSValue __cdecl TextSubSwapUV(AVSValue args, void* user_data, IScriptEnvironment* env)
@@ -1023,12 +1023,12 @@ namespace Plugin
 			env->SetVar(env->SaveString("RGBA"),true);
 			//return (DNew CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
 			return (DNew CTextSubAvisynthFilter(
-					   clip.AsClip(),
-					   env,
-					   args[0].AsString(),
-					   args[5].AsInt(DEFAULT_CHARSET),
-					   (float)args[3].AsFloat(-1),
-					   vfr));
+						clip.AsClip(),
+						env,
+						args[0].AsString(),
+						args[5].AsInt(DEFAULT_CHARSET),
+						(float)args[3].AsFloat(-1),
+						vfr));
 		}
 
 		extern "C" __declspec(dllexport) const char* __stdcall AvisynthPluginInit2(IScriptEnvironment* env)

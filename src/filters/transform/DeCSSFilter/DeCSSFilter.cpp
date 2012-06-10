@@ -223,8 +223,8 @@ HRESULT CDeCSSFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROP
 	}
 
 	return (pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
-		   ? E_FAIL
-		   : NOERROR);
+			? E_FAIL
+			: NOERROR);
 }
 
 HRESULT CDeCSSFilter::GetMediaType(int iPosition, CMediaType* pmt)

@@ -57,10 +57,10 @@ enum {
 bool isDTSSync(const DWORD sync)
 {
 	if (sync == 0x0180fe7f || // '7FFE8001' 16 bits and big endian bitstream
-		sync == 0x80017ffe || // 'FE7F0180' 16 bits and little endian bitstream
-		sync == 0x00e8ff1f || // '1FFFE800' 14 bits and big endian bitstream
-		sync == 0xe8001fff)   // 'FF1F00E8' 14 bits and little endian bitstream
-			return true;
+			sync == 0x80017ffe || // 'FE7F0180' 16 bits and little endian bitstream
+			sync == 0x00e8ff1f || // '1FFFE800' 14 bits and big endian bitstream
+			sync == 0xe8001fff)   // 'FF1F00E8' 14 bits and little endian bitstream
+		return true;
 	else
 		return false;
 }
@@ -660,11 +660,11 @@ HRESULT CDTSAC3Stream::GetMediaType(int iPosition, CMediaType* pmt)
 HRESULT CDTSAC3Stream::CheckMediaType(const CMediaType* pmt)
 {
 	return CheckDTS(pmt)
-		|| CheckDTS2(pmt)
-		|| CheckAC3(pmt)
-		|| CheckSPDIFAC3(pmt)
-		|| CheckMLP(pmt)
-		//|| CheckTrueHD(pmt)
+		   || CheckDTS2(pmt)
+		   || CheckAC3(pmt)
+		   || CheckSPDIFAC3(pmt)
+		   || CheckMLP(pmt)
+		   //|| CheckTrueHD(pmt)
 		   ? S_OK
 		   : E_INVALIDARG;
 }

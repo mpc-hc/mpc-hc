@@ -2039,7 +2039,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		else if (!p->pmt) {
 			return S_OK;
 		}
-	// HDMV LPCM
+		// HDMV LPCM
 	} else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
 		if (!m_p) {
 			m_p.Attach(DNew Packet());
@@ -2067,7 +2067,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 		p->SetData(start + 4, m_p->GetCount() - 4);
 		m_p.Free();
-	// Dolby_AC3
+		// Dolby_AC3
 	} else if ((m_type == mpeg_ts) &&
 			   (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3) &&
 			   (static_cast<CMpegSplitterFilter*>(m_pFilter))->StreamIsTrueHD(p->TrackNumber) &&
@@ -2079,7 +2079,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		if (*(WORD*)start != 0x770b) { // skip none AC3
 			return S_OK;
 		}
-	// TrueHD
+		// TrueHD
 	} else if (m_mt.subtype == MEDIASUBTYPE_DOLBY_TRUEHD && (static_cast<CMpegSplitterFilter*>(m_pFilter))->GetTrueHD() != 2) {
 		if (p->GetCount() < 8) {
 			return S_OK;    // Should be invalid packet
