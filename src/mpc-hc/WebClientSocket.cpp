@@ -881,7 +881,8 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
 		}
 	}
 
-	return fRet;}
+	return fRet;
+}
 
 bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
 {

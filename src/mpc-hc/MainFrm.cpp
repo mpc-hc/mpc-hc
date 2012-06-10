@@ -5144,16 +5144,14 @@ void CMainFrame::OnFileSaveImage()
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc,
 				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
-				   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|GIF - GIF Image (*.gif)|*.gif|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
+				   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
 
 	if (s.strSnapShotExt == _T(".bmp")) {
 		fd.m_pOFN->nFilterIndex = 1;
-	} else if (s.strSnapShotExt == _T(".gif")) {
-		fd.m_pOFN->nFilterIndex = 2;
 	} else if (s.strSnapShotExt == _T(".jpg")) {
-		fd.m_pOFN->nFilterIndex = 3;
+		fd.m_pOFN->nFilterIndex = 2;
 	} else if (s.strSnapShotExt == _T(".png")) {
-		fd.m_pOFN->nFilterIndex = 4;
+		fd.m_pOFN->nFilterIndex = 3;
 	}
 
 	if (fd.DoModal() != IDOK) {
@@ -5163,11 +5161,9 @@ void CMainFrame::OnFileSaveImage()
 	if (fd.m_pOFN->nFilterIndex == 1) {
 		s.strSnapShotExt = _T(".bmp");
 	} else if (fd.m_pOFN->nFilterIndex == 2) {
-		s.strSnapShotExt = _T(".gif");
-	} else if (fd.m_pOFN->nFilterIndex == 3) {
 		s.strSnapShotExt = _T(".jpg");
 	} else {
-		fd.m_pOFN->nFilterIndex = 4;
+		fd.m_pOFN->nFilterIndex = 3;
 		s.strSnapShotExt = _T(".png");
 	}
 
@@ -5232,16 +5228,14 @@ void CMainFrame::OnFileSaveThumbnails()
 	CSaveThumbnailsDialog fd(
 		s.iThumbRows, s.iThumbCols, s.iThumbWidth,
 		0, (LPCTSTR)psrc,
-		_T("BMP - Windows Bitmap (*.bmp)|*.bmp|GIF - GIF Image (*.gif)|*.gif|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
+		_T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
 
 	if (s.strSnapShotExt == _T(".bmp")) {
 		fd.m_pOFN->nFilterIndex = 1;
-	} else if (s.strSnapShotExt == _T(".gif")) {
-		fd.m_pOFN->nFilterIndex = 2;
 	} else if (s.strSnapShotExt == _T(".jpg")) {
-		fd.m_pOFN->nFilterIndex = 3;
+		fd.m_pOFN->nFilterIndex = 2;
 	} else if (s.strSnapShotExt == _T(".png")) {
-		fd.m_pOFN->nFilterIndex = 4;
+		fd.m_pOFN->nFilterIndex = 3;
 	}
 
 	if (fd.DoModal() != IDOK) {
@@ -5251,11 +5245,9 @@ void CMainFrame::OnFileSaveThumbnails()
 	if (fd.m_pOFN->nFilterIndex == 1) {
 		s.strSnapShotExt = _T(".bmp");
 	} else if (fd.m_pOFN->nFilterIndex == 2) {
-		s.strSnapShotExt = _T(".gif");
-	} else if (fd.m_pOFN->nFilterIndex == 3) {
 		s.strSnapShotExt = _T(".jpg");
 	} else {
-		fd.m_pOFN->nFilterIndex = 4;
+		fd.m_pOFN->nFilterIndex = 3;
 		s.strSnapShotExt = _T(".png");
 	}
 
