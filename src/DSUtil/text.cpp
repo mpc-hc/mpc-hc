@@ -24,73 +24,6 @@
 #include "stdafx.h"
 #include "text.h"
 
-/*
-CString Explode(CString str, CAtlList<CString>& sl, TCHAR sep, int limit)
-{
-	sl.RemoveAll();
-
-	if (limit == 1) {sl.AddTail(str); return _T("");}
-
-	if (!str.IsEmpty() && str[str.GetLength()-1] != sep)
-		str += sep;
-
-	for (ptrdiff_t i = 0, j = 0; (j = str.Find(sep, i)) >= 0; i = j+1)
-	{
-		CString tmp = str.Mid(i, j-i);
-		tmp.TrimLeft(sep); tmp.TrimRight(sep);
-		tmp.TrimLeft(); tmp.TrimRight();
-		sl.AddTail(tmp);
-		if (limit > 0 && sl.GetCount() == limit-1)
-		{
-			if (j+1 < str.GetLength())
-			{
-				CString tmp = str.Mid(j+1);
-				tmp.TrimLeft(sep); tmp.TrimRight(sep);
-				tmp.TrimLeft(); tmp.TrimRight();
-				sl.AddTail(tmp);
-			}
-			break;
-		}
-	}
-
-	if (sl.IsEmpty())
-	{
-		str.TrimLeft(sep); str.TrimRight(sep);
-		str.TrimLeft(); str.TrimRight();
-		sl.AddTail(str);
-	}
-
-	return sl.GetHead();
-}
-
-CString ExplodeMin(CString str, CAtlList<CString>& sl, TCHAR sep, int limit)
-{
-	Explode(str, sl, sep, limit);
-	POSITION pos = sl.GetHeadPosition();
-	while (pos)
-	{
-		POSITION tmp = pos;
-		if (sl.GetNext(pos).IsEmpty())
-			sl.RemoveAt(tmp);
-	}
-	if (sl.IsEmpty()) sl.AddTail(CString()); // eh
-
-	return sl.GetHead();
-}
-
-CString Implode(CAtlList<CString>& sl, TCHAR sep)
-{
-	CString ret;
-	POSITION pos = sl.GetHeadPosition();
-	while (pos)
-	{
-		ret += sl.GetNext(pos);
-		if (pos) ret += sep;
-	}
-	return ret;
-}
-*/
-
 DWORD CharSetToCodePage(DWORD dwCharSet)
 {
 	if (dwCharSet == CP_UTF8) {
@@ -254,4 +187,3 @@ CAtlList<CString>& MakeUpper(CAtlList<CString>& sl)
 	}
 	return sl;
 }
-
