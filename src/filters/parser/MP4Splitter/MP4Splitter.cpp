@@ -24,8 +24,8 @@
 #include "stdafx.h"
 #include <MMreg.h>
 #include "MP4Splitter.h"
-#include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/GolombBuffer.h"
+#include "../../../DSUtil/AudioParser.h"
 
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>

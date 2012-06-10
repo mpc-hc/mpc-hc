@@ -29,7 +29,6 @@
 #include <dmodshow.h>
 #include "MpegSplitter.h"
 #include <moreuuids.h>
-#include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/AudioParser.h"
 
 #include "../../../mpc-hc/SettingsDefines.h"

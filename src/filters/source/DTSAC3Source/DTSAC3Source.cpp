@@ -30,7 +30,6 @@
 #include <uuids.h>
 #include <moreuuids.h>
 #include "DTSAC3Source.h"
-#include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/AudioParser.h"
 #include <atlpath.h>
 // TODO: remove this when it's fixed in MSVC

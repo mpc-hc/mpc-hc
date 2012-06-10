@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include <MMReg.h>
 #include "MatroskaSplitter.h"
-#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/AudioParser.h"
 
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>

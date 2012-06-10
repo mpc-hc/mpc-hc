@@ -125,7 +125,6 @@ extern void		TraceFilterInfo(IBaseFilter* pBF);
 extern void		TracePinInfo(IPin* pPin);
 extern void		SetThreadName( DWORD dwThreadID, LPCSTR szThreadName);
 extern void		HexDump(CString fName, BYTE* buf, int size);
-extern DWORD	GetDefChannelMask(WORD nChannels);
 extern void		CorrectComboListWidth(CComboBox& m_pComboBox);
 
 extern void		getExtraData(const BYTE *format, const GUID *formattype, const size_t formatlen, BYTE *extra, unsigned int *extralen);
