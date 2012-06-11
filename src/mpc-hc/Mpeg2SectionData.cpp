@@ -135,7 +135,7 @@ CString CMpeg2DataParser::ConvertString (BYTE* pBuffer, int nLength)
 			nLength--;
 		} else { // No code page indication, use the default
 			cp = codepages[0];
- 		}
+		}
 	}
 
 	nDestSize = MultiByteToWideChar (cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, nLength, NULL, 0);
