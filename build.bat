@@ -450,7 +450,8 @@ SET "SEVENZIP=%*\7z.exe"
 EXIT /B
 
 :SubMsg
-ECHO. & ECHO ------------------------------IF /I "%~1" == "ERROR" (
+ECHO. & ECHO ------------------------------
+IF /I "%~1" == "ERROR" (
   CALL :SubColorText "0C" "[%~1]" & ECHO  %~2
 ) ELSE IF /I "%~1" == "INFO" (
   CALL :SubColorText "0A" "[%~1]" & ECHO  %~2
