@@ -32,13 +32,13 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd);
 
 static HHOOK g_hHook = (HHOOK)INVALID_HANDLE_VALUE;
 
-static UINT WM_DVSPREVSUB = RegisterWindowMessage(TEXT("WM_DVSPREVSUB"));
-static UINT WM_DVSNEXTSUB = RegisterWindowMessage(TEXT("WM_DVSNEXTSUB"));
-static UINT WM_DVSHIDESUB = RegisterWindowMessage(TEXT("WM_DVSHIDESUB"));
-static UINT WM_DVSSHOWSUB = RegisterWindowMessage(TEXT("WM_DVSSHOWSUB"));
-static UINT WM_DVSSHOWHIDESUB = RegisterWindowMessage(TEXT("WM_DVSSHOWHIDESUB"));
-static UINT s_uTaskbarRestart = RegisterWindowMessage(TEXT("TaskbarCreated"));
-static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
+static UINT WM_DVSPREVSUB = RegisterWindowMessage(_T("WM_DVSPREVSUB"));
+static UINT WM_DVSNEXTSUB = RegisterWindowMessage(_T("WM_DVSNEXTSUB"));
+static UINT WM_DVSHIDESUB = RegisterWindowMessage(_T("WM_DVSHIDESUB"));
+static UINT WM_DVSSHOWSUB = RegisterWindowMessage(_T("WM_DVSSHOWSUB"));
+static UINT WM_DVSSHOWHIDESUB = RegisterWindowMessage(_T("WM_DVSSHOWHIDESUB"));
+static UINT s_uTaskbarRestart = RegisterWindowMessage(_T("TaskbarCreated"));
+static UINT WM_NOTIFYICON = RegisterWindowMessage(_T("MYWM_NOTIFYICON"));
 
 LRESULT CALLBACK HookProc(UINT code, WPARAM wParam, LPARAM lParam)
 {
@@ -163,10 +163,10 @@ LRESULT CSystrayWindow::OnTaskBarRestart(WPARAM, LPARAM)
 		tnid.hWnd = m_hWnd;
 		tnid.uID = IDI_ICON1;
 		tnid.hIcon = (HICON)LoadIcon(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON1));
-		//		tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
+		//tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
 		tnid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 		tnid.uCallbackMessage = WM_NOTIFYICON;
-		lstrcpyn(tnid.szTip, TEXT("DirectVobSub"), sizeof(tnid.szTip));
+		lstrcpyn(tnid.szTip, _T("DirectVobSub"), sizeof(tnid.szTip));
 
 		BOOL res = Shell_NotifyIcon(NIM_ADD, &tnid);
 
