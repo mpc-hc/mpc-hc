@@ -4,8 +4,8 @@ MPC-HC:
 1) Try to fix all /W3 warnings for Win32 in our code.
    A search for "#pragma warning" will reveal any places where warnings are disabled,
    which shouldn't be a lot in our code. (C4731, C4799 etc)
-2) Run /analyze and fix some of the errors; memory leaks, NULL pointer dereferencing, buffer overrun etc
-   http://pastebin.com/TX40Apkw
+2) Run /analyze and fix some of the errors; memory leaks, NULL pointer dereferencing, buffer overruns etc
+   See  http://pastebin.com/TX40Apkw
 3) Try to clean up the includes; there are a lot of unneeded includes, or includes which are
    inherited from files they shouldn't be and are not included directly in the files that need them
 4) Try to speed up compilation by doing the above and also by optimizing the included headers

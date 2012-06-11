@@ -65,7 +65,7 @@ CFileVersionInfo    -                          19 Jun '02 (modified)    http://w
 CLineNumberEdit     -                          12 May '04 (modified)    http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
 CSizingControlBar   GPLv2                      2.45                     http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                   3.0 build 316            http://research.microsoft.com/en-us/projects/detours/
-FFmpeg              GPLv2                      72261fa git              http://www.ffmpeg.org/
+FFmpeg              GPLv2                      66531c7 git              http://www.ffmpeg.org/
 liba52              GPLv2                      0.7.4 cvs                http://liba52.sourceforge.net/
 libdca              GPLv2                      0.0.5 r90                http://www.videolan.org/developers/libdca.html
 libflac             GPLv2 / New BSD License    1.2.1                    http://flac.sourceforge.net/
@@ -73,7 +73,7 @@ libmpeg2            GPLv2                      0.3.2 (modified)         http://l
 libogg              New BSD License            1.3.0                    http://www.xiph.org/
 Little CMS          MIT License                v2.4 git 9e246ec         http://www.littlecms.com/
 Logitech SDK        -                          2.02.101                 -
-MediaInfoLib        LGPLv3                     0.7.57                   http://mediainfo.sourceforge.net/
+MediaInfoLib        LGPLv3                     0.7.58                   http://mediainfo.sourceforge.net/
 MultiMon            CPOL                       28 Aug '03 (modified)    http://www.codeproject.com/KB/GDI/multimon.aspx
 QuickTime SDK       -                          7.3                      http://developer.apple.com/quicktime/download/
 RealMedia SDK       -                          -                        -
@@ -82,5 +82,5 @@ SoundTouch          LGPLv2.1                   1.7.0pre r142            http://w
 TreePropSheet       -                          7 Mar '03 (modified)     http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P
 UnRAR.dll           freeware                   4.20b3                   http://www.rarlab.com/rar_add.htm
 VirtualDub          GPLv2                      1.10.2-test9             http://www.virtualdub.org/
-ZenLib              Simplified BSD License     0.4.26                   http://sourceforge.net/projects/zenlib/
+ZenLib              Simplified BSD License     0.4.27                   http://sourceforge.net/projects/zenlib/
 zlib                zlib License               1.2.7                    http://zlib.net/
