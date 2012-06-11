@@ -1,7 +1,8 @@
 // #included by h264.c
-av_cold int avcodec_h264_decode_init_is_avc(AVCodecContext *avctx){
-    if(avctx->extradata_size > 0 && avctx->extradata &&
-       (*(char *)avctx->extradata == 1 || (avctx->codec_tag == 0x31637661 || avctx->codec_tag == 0x31435641))){
+av_cold int avcodec_h264_decode_init_is_avc(AVCodecContext *avctx)
+{
+    if (avctx->extradata_size > 0 && avctx->extradata &&
+            (*(char *)avctx->extradata == 1 || (avctx->codec_tag == 0x31637661 || avctx->codec_tag == 0x31435641))) {
         return 1;
     } else {
         return 0;
@@ -21,7 +22,7 @@ static int is_I_slice(int slice_type)
  * @return   0: no recovery point, 1:I-frame 2:Recovery Point SEI (GDR), 3:IDR, -1:error
  */
 int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
-                         const uint8_t *buf, int buf_size, int *recovery_frame_cnt)
+                                       const uint8_t *buf, int buf_size, int *recovery_frame_cnt)
 {
     H264Context *h;
     MpegEncContext *s;
@@ -40,60 +41,60 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
 
     h->nal_length_size = avctx->nal_length_size ? avctx->nal_length_size : 4;
 
-    for(;;){
+    for (;;) {
         int consumed;
         int dst_length;
         int bit_length;
         const uint8_t *ptr;
         int i, nalsize = 0;
 
-        if(h->is_avc) {
-            if(buf_index >= buf_size) break;
+        if (h->is_avc) {
+            if (buf_index >= buf_size) break;
             nalsize = 0;
-            for(i = 0; i < h->nal_length_size; i++)
+            for (i = 0; i < h->nal_length_size; i++)
                 nalsize = (nalsize << 8) | buf[buf_index++];
-            if(nalsize <= 1 || (nalsize+buf_index > buf_size)){
-                if(nalsize == 1){
+            if (nalsize <= 1 || (nalsize + buf_index > buf_size)) {
+                if (nalsize == 1) {
                     buf_index++;
                     continue;
-                }else{
+                } else {
                     av_log(h->s.avctx, AV_LOG_ERROR, "AVC: nal size %d\n", nalsize);
                     break;
                 }
             }
         } else {
             // start code prefix search
-            for(; buf_index + 3 < buf_size; buf_index++){
+            for (; buf_index + 3 < buf_size; buf_index++) {
                 // This should always succeed in the first iteration.
-                if(buf[buf_index] == 0 && buf[buf_index+1] == 0 && buf[buf_index+2] == 1)
+                if (buf[buf_index] == 0 && buf[buf_index + 1] == 0 && buf[buf_index + 2] == 1)
                     break;
             }
 
-            if(buf_index+3 >= buf_size) break;
+            if (buf_index + 3 >= buf_size) break;
 
-            buf_index+=3;
+            buf_index += 3;
         }
 
-        ptr= ff_h264_decode_nal(h, buf + buf_index, &dst_length, &consumed, h->is_avc ? nalsize : buf_size - buf_index);
-        if (ptr==NULL || dst_length < 0){
+        ptr = ff_h264_decode_nal(h, buf + buf_index, &dst_length, &consumed, h->is_avc ? nalsize : buf_size - buf_index);
+        if (ptr == NULL || dst_length < 0) {
             found = -1;
             goto end;
         }
-        while(ptr[dst_length - 1] == 0 && dst_length > 0)
+        while (ptr[dst_length - 1] == 0 && dst_length > 0)
             dst_length--;
-        bit_length= !dst_length ? 0 : (8*dst_length - decode_rbsp_trailing(h, ptr + dst_length - 1));
+        bit_length = !dst_length ? 0 : (8 * dst_length - decode_rbsp_trailing(h, ptr + dst_length - 1));
 
-        if (h->is_avc && (nalsize != consumed)){
+        if (h->is_avc && (nalsize != consumed)) {
             av_log(h->s.avctx, AV_LOG_ERROR, "AVC: Consumed only %d bytes instead of %d\n", consumed, nalsize);
-            consumed= nalsize;
+            consumed = nalsize;
         }
 
         buf_index += consumed;
 
 
-        switch(h->nal_unit_type){
+        switch (h->nal_unit_type) {
         case NAL_SEI:
-            if (ptr[0] == 6/* Recovery Point SEI */){
+            if (ptr[0] == 6/* Recovery Point SEI */) {
                 init_get_bits(&s->gb, ptr, bit_length);
                 ff_h264_decode_sei(h);
                 if (found < 2)
@@ -105,11 +106,11 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
             init_get_bits(&s->gb, ptr, bit_length);
             ff_h264_decode_seq_parameter_set(h);
 
-            if(s->flags& CODEC_FLAG_LOW_DELAY)
-                s->low_delay=1;
+            if (s->flags & CODEC_FLAG_LOW_DELAY)
+                s->low_delay = 1;
 
-            if(avctx->has_b_frames < 2)
-                avctx->has_b_frames= !s->low_delay;
+            if (avctx->has_b_frames < 2)
+                avctx->has_b_frames = !s->low_delay;
             break;
         case NAL_PPS:
             init_get_bits(&s->gb, ptr, bit_length);
@@ -117,8 +118,7 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
             ff_h264_decode_picture_parameter_set(h, bit_length);
 
             break;
-        case NAL_AUD:
-        {
+        case NAL_AUD: {
             int primary_pic_type;
             init_get_bits(&s->gb, ptr, bit_length);
             primary_pic_type = get_bits(&s->gb, 3);
@@ -132,7 +132,7 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
             // decode part of slice header and find I frame
             init_get_bits(&s->gb, ptr, bit_length);
             int first_mb_in_slice = get_ue_golomb(&s->gb);
-            unsigned int slice_type= get_ue_golomb(&s->gb);
+            unsigned int slice_type = get_ue_golomb(&s->gb);
             if (!is_I_slice(slice_type))
                 goto end;
 

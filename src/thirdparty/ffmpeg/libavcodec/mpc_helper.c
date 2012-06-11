@@ -21,44 +21,44 @@
 #include "avcodec.h"
 
 #if defined(DEBUG) || defined(_DEBUG)
-	#define COMPILER " Debug"
+    #define COMPILER " Debug"
 #else
-	#define COMPILER ""
+    #define COMPILER ""
 #endif
 
 #if defined(__AVX2__)
-	#define COMPILER_SSE " (AVX2)"
+    #define COMPILER_SSE " (AVX2)"
 #elif defined(__AVX__)
-	#define COMPILER_SSE " (AVX)"
+    #define COMPILER_SSE " (AVX)"
 #elif defined(__SSE4_2__)
-	#define COMPILER_SSE " (SSE4.2)"
+    #define COMPILER_SSE " (SSE4.2)"
 #elif defined(__SSE4_1__)
-	#define COMPILER_SSE " (SSE4.1)"
+    #define COMPILER_SSE " (SSE4.1)"
 #elif defined(__SSE4__)
-	#define COMPILER_SSE " (SSE4)"
+    #define COMPILER_SSE " (SSE4)"
 #elif defined(__SSSE3__)
-	#define COMPILER_SSE " (SSSE3)"
+    #define COMPILER_SSE " (SSSE3)"
 #elif defined(__SSE3__)
-	#define COMPILER_SSE " (SSE3)"
+    #define COMPILER_SSE " (SSE3)"
 #elif !ARCH_X86_64
-	#if defined(__SSE2__)
-		#define COMPILER_SSE " (SSE2)"
-	#elif defined(__SSE__)
-		#define COMPILER_SSE " (SSE)"
-	#elif defined(__MMX__)
-		#define COMPILER_SSE " (MMX)"
-	#else
-		#define COMPILER_SSE ""
-	#endif
+    #if defined(__SSE2__)
+        #define COMPILER_SSE " (SSE2)"
+    #elif defined(__SSE__)
+        #define COMPILER_SSE " (SSE)"
+    #elif defined(__MMX__)
+        #define COMPILER_SSE " (MMX)"
+    #else
+        #define COMPILER_SSE ""
+    #endif
 #else
-	#define COMPILER_SSE ""
+    #define COMPILER_SSE ""
 #endif
 
 static char g_Gcc_Compiler[31];
 
 char* GetFFmpegCompiler()
 {
-	snprintf(g_Gcc_Compiler, sizeof(g_Gcc_Compiler)/sizeof(g_Gcc_Compiler[0]), "MinGW GCC %d.%d.%d%s%s",
-			 __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__, COMPILER, COMPILER_SSE);
-	return g_Gcc_Compiler;
+    snprintf(g_Gcc_Compiler, sizeof(g_Gcc_Compiler)/sizeof(g_Gcc_Compiler[0]), "MinGW GCC %d.%d.%d%s%s",
+             __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__, COMPILER, COMPILER_SSE);
+    return g_Gcc_Compiler;
 }

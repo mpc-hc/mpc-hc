@@ -32,7 +32,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
     } *slices = NULL, *tmp;
 
     v->second_field = 0;
-    *nFrameSize = 0;	
+    *nFrameSize = 0;
 
     //for advanced profile we may need to parse and unescape data
     if (avctx->codec_id == CODEC_ID_VC1 || avctx->codec_id == CODEC_ID_VC1IMAGE) {
@@ -56,7 +56,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
                 case VC1_CODE_FIELD: {
                     int buf_size3;
                     buf_start_second_field = start;
-                    slices = av_realloc(slices, sizeof(*slices) * (n_slices+1));
+                    slices = av_realloc(slices, sizeof(*slices) * (n_slices + 1));
                     if (!slices)
                         goto err;
                     slices[n_slices].buf = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
@@ -79,7 +79,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
                     break;
                 case VC1_CODE_SLICE: {
                     int buf_size3;
-                    slices = av_realloc(slices, sizeof(*slices) * (n_slices+1));
+                    slices = av_realloc(slices, sizeof(*slices) * (n_slices + 1));
                     if (!slices)
                         goto err;
                     slices[n_slices].buf = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
@@ -104,8 +104,8 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
                 av_log(avctx, AV_LOG_ERROR, "Error in WVC1 interlaced frame\n");
                 goto err;
             } else { // found field marker, unescape second field
-            	buf_start_second_field = divider;
-                tmp = av_realloc(slices, sizeof(*slices) * (n_slices+1));
+                buf_start_second_field = divider;
+                tmp = av_realloc(slices, sizeof(*slices) * (n_slices + 1));
                 if (!tmp)
                     goto err;
                 slices = tmp;
@@ -122,14 +122,14 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
         } else {
             buf_size2 = vc1_unescape_buffer(buf, buf_size, buf2);
         }
-        init_get_bits(&s->gb, buf2, buf_size2*8);
+        init_get_bits(&s->gb, buf2, buf_size2 * 8);
     } else
-        init_get_bits(&s->gb, buf, buf_size*8);
+        init_get_bits(&s->gb, buf, buf_size * 8);
 
 
     if (s->context_initialized &&
-        (s->width  != avctx->coded_width ||
-         s->height != avctx->coded_height)) {
+            (s->width  != avctx->coded_width ||
+             s->height != avctx->coded_height)) {
         vc1_decode_end(avctx);
     }
 
@@ -156,9 +156,9 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
     v->pic_header_flag = 0;
 
     if (v->profile < PROFILE_ADVANCED) {
-			ff_vc1_parse_frame_header(v, &s->gb);
+        ff_vc1_parse_frame_header(v, &s->gb);
     } else {
-			ff_vc1_parse_frame_header_adv(v, &s->gb);
+        ff_vc1_parse_frame_header_adv(v, &s->gb);
     }
 
     if (v->field_mode && buf_start_second_field) {
