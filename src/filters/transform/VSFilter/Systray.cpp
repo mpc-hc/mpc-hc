@@ -166,7 +166,7 @@ LRESULT CSystrayWindow::OnTaskBarRestart(WPARAM, LPARAM)
 		//tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
 		tnid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 		tnid.uCallbackMessage = WM_NOTIFYICON;
-		lstrcpyn(tnid.szTip, _T("DirectVobSub"), sizeof(tnid.szTip));
+		_tcscpy_s(tnid.szTip, _T("DirectVobSub"));
 
 		BOOL res = Shell_NotifyIcon(NIM_ADD, &tnid);
 
@@ -174,7 +174,7 @@ LRESULT CSystrayWindow::OnTaskBarRestart(WPARAM, LPARAM)
 			DestroyIcon(tnid.hIcon);
 		}
 
-		return res?0:-1;
+		return res ? 0 : -1;
 	}
 
 	return 0;
