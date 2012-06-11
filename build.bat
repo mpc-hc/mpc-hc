@@ -381,16 +381,14 @@ IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 IF /I "%x64_type%" == "amd64" (
   FOR /F "delims=" %%A IN (
     'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
-    SET "SEVENZIP_REG=%%A"
+    SET "SEVENZIP_REG=%%A" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
   )
 )
 
 FOR /F "delims=" %%A IN (
   'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
-  SET "SEVENZIP_REG=%%A"
+  SET "SEVENZIP_REG=%%A" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
 )
-
-IF EXIST "%SEVENZIP_REG:*REG_SZ    =%\7z.exe" SET "SEVENZIP=%SEVENZIP_REG:*REG_SZ    =%\7z.exe"
 EXIT /B
 
 
@@ -447,10 +445,12 @@ CALL :SubMsg "ERROR" "Compilation failed!"
 SET InnoSetupPath=%*
 EXIT /B
 
+:SubSevenzipPath
+SET "SEVENZIP=%*\7z.exe"
+EXIT /B
 
 :SubMsg
-ECHO. & ECHO ------------------------------
-IF /I "%~1" == "ERROR" (
+ECHO. & ECHO ------------------------------IF /I "%~1" == "ERROR" (
   CALL :SubColorText "0C" "[%~1]" & ECHO  %~2
 ) ELSE IF /I "%~1" == "INFO" (
   CALL :SubColorText "0A" "[%~1]" & ECHO  %~2
