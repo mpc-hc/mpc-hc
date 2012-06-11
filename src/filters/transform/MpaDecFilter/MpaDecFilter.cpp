@@ -379,9 +379,9 @@ static DWORD get_lav_channel_layout(uint64_t layout)
 			layout = (layout & ~AV_CH_SURROUND_DIRECT_LEFT) | AV_CH_SIDE_LEFT;
 		if (layout & AV_CH_SURROUND_DIRECT_RIGHT)
 			layout = (layout & ~AV_CH_SURROUND_DIRECT_RIGHT) | AV_CH_SIDE_RIGHT;
-  }
+	}
 
-  return (DWORD)layout;
+	return (DWORD)layout;
 }
 
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
@@ -2120,7 +2120,7 @@ void CMpaDecFilter::FlacFillBuffer(BYTE buffer[], size_t *bytes)
 void CMpaDecFilter::FlacDeliverBuffer(unsigned blocksize, const __int32 * const buffer[])
 {
 	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-	
+
 	WORD  nChannels     = wfein->nChannels;
 	DWORD dwChannelMask = GetVorbisChannelMask(nChannels);
 
@@ -2381,14 +2381,13 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 
 		if (got_frame) {
 			CAtlArray<float> pBuff;
-			int              nRemap;
 			float*           pDataOut;
 
 			nChannels = m_pAVCtx->channels;
 			if (m_pAVCtx->channel_layout)
-					dwChannelMask = get_lav_channel_layout(m_pAVCtx->channel_layout);
-				else
-					dwChannelMask = GetDefChannelMask(nChannels);
+				dwChannelMask = get_lav_channel_layout(m_pAVCtx->channel_layout);
+			else
+				dwChannelMask = GetDefChannelMask(nChannels);
 
 			if (nChannels && dwChannelMask) {
 
