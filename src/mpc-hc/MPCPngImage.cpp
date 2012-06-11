@@ -38,7 +38,13 @@ BOOL CMPCPngImage::Load(LPCTSTR lpszResourceName, HINSTANCE hinstRes)
 	HRSRC hRsrc = ::FindResource(hinstRes, lpszResourceName, _T("PNG"));
 	if (hRsrc == NULL)
 	{
-		return FALSE;
+		// Fallback to the instance handle
+		hinstRes = AfxGetInstanceHandle();
+		hRsrc = ::FindResource(hinstRes, lpszResourceName, _T("PNG"));
+		if (hRsrc == NULL)
+		{
+			return FALSE;
+		}
 	}
 
 	HGLOBAL hGlobal = LoadResource(hinstRes, hRsrc);
