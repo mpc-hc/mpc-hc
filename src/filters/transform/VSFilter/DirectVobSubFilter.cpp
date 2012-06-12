@@ -283,7 +283,7 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 
 		if (m_pSubPicQueue) {
 			CComPtr<ISubPic> pSubPic;
-			if (SUCCEEDED(m_pSubPicQueue->LookupSubPic(CalcCurrentTime(), pSubPic)) && pSubPic) {
+			if ((m_pSubPicQueue->LookupSubPic(CalcCurrentTime(), pSubPic)) && pSubPic) {
 				CRect r;
 				pSubPic->GetDirtyRect(r);
 
