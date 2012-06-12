@@ -48,8 +48,6 @@ void *__imp_time64 = _time64;
 #include <ffmpeg/libavcodec/avcodec.h>
 #include <ffmpeg/libavutil/intreadwrite.h>
 
-#include <libflac/include/FLAC/stream_decoder.h>
-
 #define INT8_PEAK       128
 #define INT16_PEAK      32768
 #define INT24_PEAK      8388608
@@ -116,20 +114,23 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
 #endif
 #if INTERNAL_DECODER_REALAUDIO
 	// RealMedia Audio
-	{ &MEDIASUBTYPE_14_4,		CODEC_ID_RA_144	},
-	{ &MEDIASUBTYPE_28_8,		CODEC_ID_RA_288	},
-	{ &MEDIASUBTYPE_ATRC,		CODEC_ID_ATRAC3	},
-	{ &MEDIASUBTYPE_COOK,		CODEC_ID_COOK	},
-	{ &MEDIASUBTYPE_SIPR,		CODEC_ID_SIPR	},
-	{ &MEDIASUBTYPE_RAAC,		CODEC_ID_AAC	},
-	{ &MEDIASUBTYPE_RACP,		CODEC_ID_AAC	},
+	{ &MEDIASUBTYPE_14_4,		CODEC_ID_RA_144 },
+	{ &MEDIASUBTYPE_28_8,		CODEC_ID_RA_288 },
+	{ &MEDIASUBTYPE_ATRC,		CODEC_ID_ATRAC3 },
+	{ &MEDIASUBTYPE_COOK,		CODEC_ID_COOK   },
+	{ &MEDIASUBTYPE_SIPR,		CODEC_ID_SIPR   },
+	{ &MEDIASUBTYPE_RAAC,		CODEC_ID_AAC    },
+	{ &MEDIASUBTYPE_RACP,		CODEC_ID_AAC    },
 #endif
 #if INTERNAL_DECODER_AC3
-	{ &MEDIASUBTYPE_DOLBY_DDPLUS, CODEC_ID_EAC3   },
-	{ &MEDIASUBTYPE_DOLBY_TRUEHD, CODEC_ID_TRUEHD },
-	{ &MEDIASUBTYPE_MLP,          CODEC_ID_MLP    },
+	{ &MEDIASUBTYPE_DOLBY_DDPLUS,	CODEC_ID_EAC3   },
+	{ &MEDIASUBTYPE_DOLBY_TRUEHD,	CODEC_ID_TRUEHD },
+	{ &MEDIASUBTYPE_MLP,			CODEC_ID_MLP    },
 #endif
-	{ &MEDIASUBTYPE_None,		CODEC_ID_NONE },
+#if INTERNAL_DECODER_FLAC
+	{ &MEDIASUBTYPE_FLAC_FRAMED,	CODEC_ID_FLAC },
+#endif
+	{ &MEDIASUBTYPE_None,			CODEC_ID_NONE },
 };
 #endif
 
@@ -424,10 +425,6 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nFFBufferSize				= 0;
 #endif
 
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	memset (&m_flac, 0, sizeof(m_flac));
-#endif
-
 #if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
 	m_a52_state = NULL;
 #endif
@@ -506,11 +503,6 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 #if defined(REGISTER_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
 	if (m_pAVCtx) {
 		avcodec_flush_buffers (m_pAVCtx);
-	}
-#endif
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	if (m_flac.pDecoder) {
-		FLAC__stream_decoder_flush((FLAC__StreamDecoder*) m_flac.pDecoder);
 	}
 #endif
 
@@ -631,11 +623,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		hr = ProcessPS2PCM();
 	} else if (subtype == MEDIASUBTYPE_PS2_ADPCM) {
 		hr = ProcessPS2ADPCM();
-	}
-#endif
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	else if (subtype == MEDIASUBTYPE_FLAC_FRAMED) {
-		hr = ProcessFlac();
 	}
 #endif
 #if defined(REGISTER_FILTER) || INTERNAL_DECODER_PCM
@@ -819,7 +806,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount(nFrames*nChannels); //nSamples
-	float*	pDataOut = pBuff.GetData();
+	float* pDataOut = pBuff.GetData();
 
 	switch (wfein->wBitsPerSample) {
 		case 16 :
@@ -1490,17 +1477,6 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 }
 #endif /* INTERNAL_DECODER_PS2AUDIO */
 
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-HRESULT CMpaDecFilter::ProcessFlac()
-{
-	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-	UNREFERENCED_PARAMETER(wfein);
-
-	FLAC__stream_decoder_process_single ((FLAC__StreamDecoder*) m_flac.pDecoder);
-	return m_flac.hr;
-}
-#endif /* INTERNAL_DECODER_FLAC */
-
 HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
 {
 	HRESULT hr;
@@ -1929,9 +1905,6 @@ HRESULT CMpaDecFilter::StartStreaming()
 #endif
 
 	m_ps2_state.reset();
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	FlacInitDecoder();
-#endif
 
 	m_fDiscontinuity = false;
 
@@ -1952,10 +1925,6 @@ HRESULT CMpaDecFilter::StopStreaming()
 		dts_free(m_dts_state);
 		m_dts_state = NULL;
 	}
-#endif
-
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	flac_stream_finish();
 #endif
 
 #if defined(REGISTER_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
@@ -2099,123 +2068,6 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
 	: CDeCSSInputPin(NAME("CMpaDecInputPin"), pFilter, phr, pName)
 {
 }
-
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-
-#pragma region Flac callback
-
-void CMpaDecFilter::FlacFillBuffer(BYTE buffer[], size_t *bytes)
-{
-	UINT nSize = min (*bytes, m_buff.GetCount());
-
-	if (nSize > 0) {
-		memcpy_s (buffer, *bytes, m_buff.GetData(), nSize);
-		memmove(m_buff.GetData(), m_buff.GetData() + nSize, m_buff.GetCount() - nSize);
-		m_buff.SetCount(m_buff.GetCount() - nSize);
-
-	}
-	*bytes = nSize;
-}
-
-void CMpaDecFilter::FlacDeliverBuffer(unsigned blocksize, const __int32 * const buffer[])
-{
-	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-
-	WORD  nChannels     = wfein->nChannels;
-	DWORD dwChannelMask = GetVorbisChannelMask(nChannels);
-
-	//unsigned int nSamples = blocksize * nChannels;
-
-	CAtlArray<float> pBuff;
-	pBuff.SetCount(blocksize * nChannels);
-	float* pDataOut = pBuff.GetData();
-
-	switch (wfein->wBitsPerSample) {
-		case 16 :
-			for (unsigned int i = 0; i < blocksize; ++i) {
-				for (unsigned int k = 0; k < nChannels; ++k) {
-					FLAC__int16 nVal = (FLAC__int16)buffer[k][i];
-					*pDataOut = (float)nVal / INT16_PEAK;
-					pDataOut++;
-				}
-			}
-			break;
-		case 20 :
-		case 24 :
-			for (unsigned int i = 0; i < blocksize; ++i) {
-				for (unsigned int k = 0; k < nChannels; ++k) {
-					FLAC__int32 nVal = (FLAC__int32)buffer[k][i];
-					*pDataOut = (float)nVal / INT24_PEAK;
-					pDataOut++;
-				}
-			}
-			break;
-	}
-
-	m_flac.hr = Deliver(pBuff, wfein->nSamplesPerSec, wfein->nChannels, dwChannelMask);
-}
-
-
-static FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
-{
-	CMpaDecFilter* pThis = static_cast<CMpaDecFilter*> (client_data);
-
-	pThis->FlacFillBuffer (buffer, bytes);
-
-	return (*bytes == 0) ?  FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM : FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
-}
-
-static FLAC__StreamDecoderWriteStatus StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
-{
-	CMpaDecFilter* pThis = static_cast<CMpaDecFilter*> (client_data);
-
-	pThis->FlacDeliverBuffer (frame->header.blocksize, buffer);
-
-	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
-}
-
-static void StreamDecoderError(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)
-{
-}
-
-
-static void StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
-{
-}
-
-void CMpaDecFilter::FlacInitDecoder()
-{
-	if (!m_flac.pDecoder) {
-		m_flac.pDecoder = FLAC__stream_decoder_new();
-		if (m_flac.pDecoder) {
-			FLAC__stream_decoder_init_stream ((FLAC__StreamDecoder*)m_flac.pDecoder,
-											  StreamDecoderRead,
-											  NULL,
-											  NULL,
-											  NULL,
-											  NULL,
-											  StreamDecoderWrite,
-											  StreamDecoderMetadata,
-											  StreamDecoderError,
-											  this);
-		}
-	} else {
-		FLAC__stream_decoder_reset ((FLAC__StreamDecoder*)m_flac.pDecoder);
-	}
-}
-
-
-void CMpaDecFilter::flac_stream_finish()
-{
-	if (m_flac.pDecoder) {
-		FLAC__stream_decoder_delete ((FLAC__StreamDecoder*)m_flac.pDecoder);
-		m_flac.pDecoder = NULL;
-	}
-}
-
-#pragma endregion
-
-#endif /* INTERNAL_DECODER_FLAC */
 
 #if defined(REGISTER_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
 

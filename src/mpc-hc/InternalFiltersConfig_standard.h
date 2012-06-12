@@ -46,7 +46,6 @@
 #define INTERNAL_DECODER_LPCM           1
 #define INTERNAL_DECODER_PS2AUDIO       1
 #define INTERNAL_DECODER_REALAUDIO      1
-#define INTERNAL_DECODER_FLAC           1
 #define INTERNAL_DECODER_PCM            1
 
 // Internal audio decoders (FFmpeg)
@@ -59,6 +58,7 @@
 #define INTERNAL_DECODER_NELLYMOSER     1
 #define INTERNAL_DECODER_AMR            1
 #define INTERNAL_DECODER_ADPCM          1
+#define INTERNAL_DECODER_FLAC           1
 
 // Internal video decoders
 #define INTERNAL_DECODER_MPEG1          1

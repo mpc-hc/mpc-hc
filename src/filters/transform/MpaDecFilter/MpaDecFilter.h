@@ -51,13 +51,6 @@ struct ps2_state_t {
 	}
 };
 
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-struct flac_state_t {
-	void*   pDecoder;
-	HRESULT hr;
-};
-#endif
-
 struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
@@ -79,9 +72,7 @@ protected:
 	dts_state_t*			m_dts_state;
 #endif
 	ps2_state_t				m_ps2_state;
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	flac_state_t			m_flac;
-#endif
+
 	DolbyDigitalMode		m_DolbyDigitalMode;
 
 #if defined(REGISTER_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
@@ -111,9 +102,6 @@ protected:
 	HRESULT ProcessPS2PCM();
 	HRESULT ProcessPS2ADPCM();
 #endif
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	HRESULT ProcessFlac();
-#endif
 #if defined(REGISTER_FILTER) || INTERNAL_DECODER_PCM
 	HRESULT ProcessPCMraw();
 	HRESULT ProcessPCMintBE();
@@ -128,11 +116,6 @@ protected:
 	HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
 	CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
 	CMediaType CreateMediaTypeSPDIF(DWORD nSamplesPerSec = 48000);
-
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	void    FlacInitDecoder();
-	void    flac_stream_finish();
-#endif
 
 #if defined(REGISTER_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
 	bool    InitFFmpeg(enum CodecID nCodecId);
@@ -204,11 +187,6 @@ public:
 	STDMETHODIMP_(DolbyDigitalMode) GetDolbyDigitalMode();
 
 	STDMETHODIMP SaveSettings();
-
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_FLAC
-	void    FlacFillBuffer(BYTE buffer[], size_t *bytes);
-	void    FlacDeliverBuffer (unsigned blocksize, const __int32 * const buffer[]);
-#endif
 };
 
 class CMpaDecInputPin : public CDeCSSInputPin

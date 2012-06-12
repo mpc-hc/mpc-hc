@@ -115,6 +115,9 @@ SRCS_C = \
     libavcodec/faandct.c \
     libavcodec/faanidct.c \
     libavcodec/fft.c \
+    libavcodec/flac.c \
+    libavcodec/flacdata.c \
+    libavcodec/flacdec.c \
     libavcodec/flvdec.c \
     libavcodec/fmtconvert.c \
     libavcodec/golomb.c \

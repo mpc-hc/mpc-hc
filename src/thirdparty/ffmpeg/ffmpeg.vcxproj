@@ -182,6 +182,9 @@
     <ClCompile Include="libavcodec\faandct.c" />
     <ClCompile Include="libavcodec\faanidct.c" />
     <ClCompile Include="libavcodec\fft.c" />
+    <ClCompile Include="libavcodec\flac.c" />
+    <ClCompile Include="libavcodec\flacdata.c" />
+    <ClCompile Include="libavcodec\flacdec.c" />
     <ClCompile Include="libavcodec\flvdec.c" />
     <ClCompile Include="libavcodec\fmtconvert.c" />
     <ClCompile Include="libavcodec\golomb.c" />
@@ -428,6 +431,8 @@
     <ClInclude Include="libavcodec\faanidct.h" />
     <ClInclude Include="libavcodec\fft-internal.h" />
     <ClInclude Include="libavcodec\fft.h" />
+    <ClInclude Include="libavcodec\flac.h" />
+    <ClInclude Include="libavcodec\flacdata.h" />
     <ClInclude Include="libavcodec\flv.h" />
     <ClInclude Include="libavcodec\fmtconvert.h" />
     <ClInclude Include="libavcodec\get_bits.h" />

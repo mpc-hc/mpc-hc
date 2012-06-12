@@ -99,7 +99,7 @@ static filter_t s_filters[] = {
 	{_T("Vorbis"), DECODER, TRA_VORBIS, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_FLAC
-	{_T("FLAC"), DECODER, TRA_FLAC, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+	{_T("FLAC"), DECODER, TRA_FLAC, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_NELLYMOSER
 	{_T("Nellymoser"), DECODER, TRA_NELLY, IDS_TRA_FFMPEG, CreateInstance<CMpaDecFilter>},
