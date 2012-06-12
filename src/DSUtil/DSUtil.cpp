@@ -2894,7 +2894,7 @@ void getExtraData(const BYTE *format, const GUID *formattype, const size_t forma
 	const BYTE *extraposition = NULL;
 	size_t extralength = 0;
 	if (*formattype == FORMAT_WaveFormatEx) {
-		WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
+		//WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
 		extraposition = format + sizeof(WAVEFORMATEX);
 		// Protected against over-reads
 		extralength   = formatlen - sizeof(WAVEFORMATEX);

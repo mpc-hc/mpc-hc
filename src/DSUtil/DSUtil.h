@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include <afxstr.h>
 #include "NullRenderers.h"
 #include "HdmvClipInfo.h"
 #include "H264Nalu.h"
@@ -200,7 +201,7 @@ public:
  
 #define EndEnumSysDev }}}
 
-#define QI(i) (riid == __uuidof(i)) ? GetInterface((i*)this, ppv) :
+#define QI(i)  (riid == __uuidof(i)) ? GetInterface((i*)this, ppv) :
 #define QI2(i) (riid == IID_##i) ? GetInterface((i*)this, ppv) :
 
 template <typename T> __inline void INITDDSTRUCT(T& dd)
