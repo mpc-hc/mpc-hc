@@ -2,7 +2,6 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <ExecutablePath>$(ExecutablePath);%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%MSYS%\bin;%MINGW32%\bin</ExecutablePath>
     <IntDir>$(SolutionDir)bin\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)bin\lib\$(Configuration)_$(PlatformName)\</OutDir>
     <LinkIncremental Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug Filter'">true</LinkIncremental>
