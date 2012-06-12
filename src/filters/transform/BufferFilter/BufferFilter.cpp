@@ -351,11 +351,11 @@ HRESULT CBufferFilterOutputPin::Deliver(IMediaSample* pMediaSample)
 	return m_pOutputQueue->Receive(pMediaSample);
 }
 
-#define CallQueue(call) \
-		if (!m_pOutputQueue) return NOERROR; \
-		m_pOutputQueue->##call; \
-		return NOERROR; \
- 
+#define CallQueue(call)                  \
+    if (!m_pOutputQueue) return NOERROR; \
+    m_pOutputQueue->##call;              \
+    return NOERROR;
+
 HRESULT CBufferFilterOutputPin::DeliverEndOfStream()
 {
 	CallQueue(EOS());

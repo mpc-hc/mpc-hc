@@ -515,15 +515,15 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 	return S_OK;
 }
 
-#define IsMpegAudio(stream_type)	(stream_type == AUDIO_STREAM_MPEG1 || stream_type == AUDIO_STREAM_MPEG2)
-#define IsAACAudio(stream_type)		(stream_type == AUDIO_STREAM_AAC)
-#define IsAC3Audio(stream_type)		(\
-									stream_type == AUDIO_STREAM_AC3 || stream_type == AUDIO_STREAM_AC3_PLUS || \
-									stream_type == AUDIO_STREAM_AC3_TRUE_HD || stream_type == SECONDARY_AUDIO_AC3_PLUS || \
-									stream_type == PES_PRIVATE)
-#define IsMPEG2Video(stream_type)	(stream_type == VIDEO_STREAM_MPEG2)
-#define IsH264Video(stream_type)	(stream_type == VIDEO_STREAM_H264)
-#define IsVC1Video(stream_type)		(stream_type == VIDEO_STREAM_VC1)
+#define IsMpegAudio(stream_type)    (stream_type == AUDIO_STREAM_MPEG1 || stream_type == AUDIO_STREAM_MPEG2)
+#define IsAACAudio(stream_type)     (stream_type == AUDIO_STREAM_AAC)
+#define IsAC3Audio(stream_type)     (                                                                                     \
+                                    stream_type == AUDIO_STREAM_AC3 || stream_type == AUDIO_STREAM_AC3_PLUS ||            \
+                                    stream_type == AUDIO_STREAM_AC3_TRUE_HD || stream_type == SECONDARY_AUDIO_AC3_PLUS || \
+                                    stream_type == PES_PRIVATE)
+#define IsMPEG2Video(stream_type)   (stream_type == VIDEO_STREAM_MPEG2)
+#define IsH264Video(stream_type)    (stream_type == VIDEO_STREAM_H264)
+#define IsVC1Video(stream_type)     (stream_type == VIDEO_STREAM_VC1)
 
 DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
 {

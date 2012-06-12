@@ -31,14 +31,14 @@
 
 #include "FfmpegContext.h"
 
-#define MAX_RETRY_ON_PENDING		50
-#define DO_DXVA_PENDING_LOOP(x)		nTry = 0; \
-									while (FAILED(hr = x) && nTry<MAX_RETRY_ON_PENDING) \
-									{ \
-										if (hr != E_PENDING) break; \
-										Sleep(3); \
-										nTry++; \
-									}
+#define MAX_RETRY_ON_PENDING    50
+#define DO_DXVA_PENDING_LOOP(x) nTry = 0;                                             \
+                                while (FAILED(hr = x) && nTry < MAX_RETRY_ON_PENDING) \
+                                {                                                     \
+                                    if (hr != E_PENDING) break;                       \
+                                    Sleep(3);                                         \
+                                    nTry++;                                           \
+                                }
 
 CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
 {

@@ -143,29 +143,29 @@ public:
 
 //
 
-#define SaveMediaState \
-	OAFilterState __fs = GetMediaState(); \
- \
-	REFERENCE_TIME __rt = 0; \
-	if (m_iMediaLoadState == MLS_LOADED) __rt = GetPos(); \
- \
-	if (__fs != State_Stopped) \
-		SendMessage(WM_COMMAND, ID_PLAY_STOP); \
- 
+#define SaveMediaState                                    \
+    OAFilterState __fs = GetMediaState();                 \
+                                                          \
+    REFERENCE_TIME __rt = 0;                              \
+    if (m_iMediaLoadState == MLS_LOADED) __rt = GetPos(); \
+                                                          \
+    if (__fs != State_Stopped)                            \
+        SendMessage(WM_COMMAND, ID_PLAY_STOP);
 
-#define RestoreMediaState \
-	if (m_iMediaLoadState == MLS_LOADED) \
-	{ \
-		SeekTo(__rt); \
- \
-		if (__fs == State_Stopped) \
-			SendMessage(WM_COMMAND, ID_PLAY_STOP); \
-		else if (__fs == State_Paused) \
-			SendMessage(WM_COMMAND, ID_PLAY_PAUSE); \
-		else if (__fs == State_Running) \
-			SendMessage(WM_COMMAND, ID_PLAY_PLAY); \
-	} \
- 
+
+#define RestoreMediaState                                 \
+    if (m_iMediaLoadState == MLS_LOADED)                  \
+    {                                                     \
+        SeekTo(__rt);                                     \
+                                                          \
+        if (__fs == State_Stopped)                        \
+            SendMessage(WM_COMMAND, ID_PLAY_STOP);        \
+        else if (__fs == State_Paused)                    \
+            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);       \
+        else if (__fs == State_Running)                   \
+            SendMessage(WM_COMMAND, ID_PLAY_PLAY);        \
+    }
+
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 

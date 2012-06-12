@@ -841,12 +841,12 @@ bool CVobSubFile::ReadRar(CString fn)
 	return true;
 }
 
-#define ReadBEdw(var) \
+#define ReadBEdw(var)             \
     f.Read(&((BYTE*)&var)[3], 1); \
 	f.Read(&((BYTE*)&var)[2], 1); \
 	f.Read(&((BYTE*)&var)[1], 1); \
-	f.Read(&((BYTE*)&var)[0], 1); \
- 
+	f.Read(&((BYTE*)&var)[0], 1);
+
 bool CVobSubFile::ReadIfo(CString fn)
 {
 	CFile f;

@@ -929,8 +929,8 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				}
 
 #define GetWORD(var) \
-					var = (var<<8)|(*pIn++); \
-					var = (var<<8)|(*pIn++); \
+    var = (var << 8) | (*pIn++); \
+    var = (var << 8) | (*pIn++);
  
 				GetWORD(packetlen);
 				if (packetlen&0x8000) {

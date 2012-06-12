@@ -1556,11 +1556,11 @@ HRESULT CMpeg2DecOutputPin::Deliver(IMediaSample* pMediaSample)
 	return m_pOutputQueue->Receive(pMediaSample);
 }
 
-#define CallQueue(call) \
-	if (!m_pOutputQueue) return NOERROR; \
-	m_pOutputQueue->##call; \
-	return NOERROR; \
- 
+#define CallQueue(call)                  \
+    if (!m_pOutputQueue) return NOERROR; \
+    m_pOutputQueue->##call;              \
+    return NOERROR;
+
 HRESULT CMpeg2DecOutputPin::DeliverEndOfStream()
 {
 	CallQueue(EOS());

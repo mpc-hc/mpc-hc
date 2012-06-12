@@ -106,19 +106,19 @@ void CVobSubFileRipper::Finished(bool fSucceeded)
 	m_pCallback->OnFinished(fSucceeded);
 }
 
-#define ReadBEb(var) \
-	f.Read(&((BYTE*)&var)[0], 1); \
- 
-#define ReadBEw(var) \
-	f.Read(&((BYTE*)&var)[1], 1); \
-	f.Read(&((BYTE*)&var)[0], 1); \
- 
-#define ReadBEdw(var) \
-	f.Read(&((BYTE*)&var)[3], 1); \
-	f.Read(&((BYTE*)&var)[2], 1); \
-	f.Read(&((BYTE*)&var)[1], 1); \
-	f.Read(&((BYTE*)&var)[0], 1); \
- 
+#define ReadBEb(var)              \
+    f.Read(&((BYTE*)&var)[0], 1);
+
+#define ReadBEw(var)              \
+    f.Read(&((BYTE*)&var)[1], 1); \
+    f.Read(&((BYTE*)&var)[0], 1);
+
+#define ReadBEdw(var)             \
+    f.Read(&((BYTE*)&var)[3], 1); \
+    f.Read(&((BYTE*)&var)[2], 1); \
+    f.Read(&((BYTE*)&var)[1], 1); \
+    f.Read(&((BYTE*)&var)[0], 1);
+
 bool CVobSubFileRipper::LoadIfo(CString fn)
 {
 	CString str;

@@ -28,21 +28,21 @@
 #include "Mpeg2SectionData.h"
 
 
-#define BeginEnumDescriptors(gb, nType, nLength)								\
-	{																			\
-		BYTE	DescBuffer[256];												\
-		int		nLimit = ((int)gb.BitRead(12)) + gb.GetPos();					\
-		while (gb.GetPos() < nLimit)											\
-		{																		\
-			MPEG2_DESCRIPTOR 	nType	= (MPEG2_DESCRIPTOR)gb.BitRead(8);		\
-			WORD			 	nLength	= (WORD)gb.BitRead(8);
+#define BeginEnumDescriptors(gb, nType, nLength)                       \
+    {                                                                  \
+        BYTE DescBuffer[256];                                          \
+        int  nLimit = ((int)gb.BitRead(12)) + gb.GetPos();             \
+        while (gb.GetPos() < nLimit)                                   \
+        {                                                              \
+            MPEG2_DESCRIPTOR nType = (MPEG2_DESCRIPTOR)gb.BitRead(8);  \
+            WORD             nLength = (WORD)gb.BitRead(8);
 
-#define SkipDescriptor(gb, nType, nLength)										\
-			gb.ReadBuffer(DescBuffer, nLength);									\
-			TRACE ("Skipped descriptor : 0x%02x\n", nType);						\
-			UNREFERENCED_PARAMETER(nType);
+#define SkipDescriptor(gb, nType, nLength)                             \
+    gb.ReadBuffer(DescBuffer, nLength);                                \
+    TRACE("Skipped descriptor : 0x%02x\n", nType);                     \
+    UNREFERENCED_PARAMETER(nType);
 
-#define EndEnumDescriptors	}}
+#define EndEnumDescriptors }}
 
 
 CMpeg2DataParser::CMpeg2DataParser(IBaseFilter* pFilter)

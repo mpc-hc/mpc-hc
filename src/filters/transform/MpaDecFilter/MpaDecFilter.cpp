@@ -2074,17 +2074,17 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
 #pragma region FFmpeg decoder
 
 // Copy the given data into our buffer, including padding, so broken decoders do not overread and crash
-#define COPY_TO_BUFFER(data, size) { \
-  if (size + FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) { \
-    m_nFFBufferSize = size+FF_INPUT_BUFFER_PADDING_SIZE; \
-    m_pFFBuffer = (BYTE*)av_realloc(m_pFFBuffer, m_nFFBufferSize); \
-    if (!m_pFFBuffer) { \
-      m_nFFBufferSize = 0; \
-      return E_FAIL; \
-    } \
-  }\
-  memcpy(m_pFFBuffer, data, size); \
-  memset(m_pFFBuffer+size, 0, FF_INPUT_BUFFER_PADDING_SIZE); \
+#define COPY_TO_BUFFER(data, size) {                                   \
+    if (size + FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {       \
+        m_nFFBufferSize = size + FF_INPUT_BUFFER_PADDING_SIZE;         \
+        m_pFFBuffer = (BYTE*)av_realloc(m_pFFBuffer, m_nFFBufferSize); \
+        if (!m_pFFBuffer) {                                            \
+            m_nFFBufferSize = 0;                                       \
+            return E_FAIL;                                             \
+        }                                                              \
+    }                                                                  \
+    memcpy(m_pFFBuffer, data, size);                                   \
+    memset(m_pFFBuffer+size, 0, FF_INPUT_BUFFER_PADDING_SIZE);         \
 }
 
 HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsize, int& size)

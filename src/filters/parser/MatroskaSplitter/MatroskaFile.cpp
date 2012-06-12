@@ -32,24 +32,25 @@
 
 using namespace MatroskaReader;
 
-#define BeginChunk	\
-	CheckPointer(pMN0, E_POINTER); \
-\
-	CAutoPtr<CMatroskaNode> pMN = pMN0->Child(); \
-	if (!pMN) return S_FALSE; \
-\
-	do \
-	{ \
-		switch (pMN->m_id) \
-		{ \
- 
-#define EndChunk \
-		} \
-	} \
-	while (pMN->Next()); \
-\
-	return S_OK; \
- 
+#define BeginChunk                               \
+    CheckPointer(pMN0, E_POINTER);               \
+                                                 \
+    CAutoPtr<CMatroskaNode> pMN = pMN0->Child(); \
+    if (!pMN) return S_FALSE;                    \
+                                                 \
+    do                                           \
+    {                                            \
+        switch (pMN->m_id)                       \
+        {
+
+#define EndChunk                                 \
+        }                                        \
+    }                                            \
+    while (pMN->Next());                         \
+                                                 \
+    return S_OK;
+
+
 static void bswap(BYTE* s, int len)
 {
 	for (BYTE* d = s + len-1; s < d; s++, d--) {

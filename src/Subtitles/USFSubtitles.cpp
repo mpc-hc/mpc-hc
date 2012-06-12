@@ -26,27 +26,27 @@
 #include <MsXml.h>
 
 #define DeclareNameAndValue(pNode, name, val) \
-	CComBSTR name; \
-	pNode->get_nodeName(&name); \
-	name.ToLower(); \
-	CComVariant val; \
-	pNode->get_nodeValue(&val); \
- 
-#define BeginEnumAttribs(pNode, pChild) \
-	{CComPtr<IXMLDOMNamedNodeMap> pAttribs; \
-	if (SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != NULL) \
-	{ \
-		CComPtr<IXMLDOMNode> pChild; \
-		for (pAttribs->nextNode(&pChild); pChild; pChild = NULL, pAttribs->nextNode(&pChild)) \
-		{ \
- 
+    CComBSTR name;                            \
+    pNode->get_nodeName(&name);               \
+    name.ToLower();                           \
+    CComVariant val;                          \
+    pNode->get_nodeValue(&val);
+
+#define BeginEnumAttribs(pNode, pChild)                                                       \
+    {CComPtr<IXMLDOMNamedNodeMap> pAttribs;                                                   \
+    if (SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != NULL)                      \
+    {                                                                                         \
+        CComPtr<IXMLDOMNode> pChild;                                                          \
+        for (pAttribs->nextNode(&pChild); pChild; pChild = NULL, pAttribs->nextNode(&pChild)) \
+        {
+
 #define EndEnumAttribs }}}
 
-#define BeginEnumChildren(pNode, pChild) \
-	{CComPtr<IXMLDOMNode> pChild, pNext; \
-	for (pNode->get_firstChild(&pChild); pChild; pNext = NULL, pChild->get_nextSibling(&pNext), pChild = pNext) \
-	{ \
- 
+#define BeginEnumChildren(pNode, pChild)                                                                        \
+    {CComPtr<IXMLDOMNode> pChild, pNext;                                                                        \
+    for (pNode->get_firstChild(&pChild); pChild; pNext = NULL, pChild->get_nextSibling(&pNext), pChild = pNext) \
+    {
+
 #define EndEnumChildren }}
 
 static CStringW GetText(CComPtr<IXMLDOMNode> pNode)
