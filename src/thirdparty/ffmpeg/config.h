@@ -90,6 +90,9 @@
 #define HAVE_ARMV6T2 0
 #define HAVE_ARMVFP 0
 #define HAVE_MIPSFPU 0
+#define HAVE_MIPS32R2 0
+#define HAVE_MIPSDSPR1 0
+#define HAVE_MIPSDSPR2 0
 #define HAVE_MMI 0
 #define HAVE_NEON 0
 #define HAVE_PPC4XX 0

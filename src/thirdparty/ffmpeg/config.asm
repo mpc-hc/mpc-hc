@@ -106,6 +106,9 @@ else
 %define HAVE_MAPVIEWOFFILE 1
 %define HAVE_MEMALIGN 0
 %define HAVE_MIPSFPU 0
+%define HAVE_MIPS32R2 0
+%define HAVE_MIPSDSPR1 0
+%define HAVE_MIPSDSPR2 0
 %define HAVE_MKSTEMP 0
 %define HAVE_MMAP 0
 %define HAVE_MMI 0
