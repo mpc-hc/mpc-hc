@@ -244,7 +244,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="H264RandomAccess.cpp" />
-    <ClCompile Include="MPCFfmpegDec.cpp" />
+    <ClCompile Include="MPCFfmpegDec.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="MPCVideoDecFilter.cpp" />
     <ClCompile Include="MPCVideoDecSettingsWnd.cpp" />
     <ClCompile Include="stdafx.cpp">

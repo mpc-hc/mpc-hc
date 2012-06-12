@@ -129,7 +129,9 @@
     <ClCompile Include="SysVersion.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="vd.cpp" />
-    <ClCompile Include="vd_asm.cpp" />
+    <ClCompile Include="vd_asm.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="WinAPIUtils.cpp" />
   </ItemGroup>
   <ItemGroup>

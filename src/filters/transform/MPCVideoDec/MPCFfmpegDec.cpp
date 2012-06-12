@@ -24,9 +24,7 @@
 #include "MPCVideoDecFilter.h"
 #include "../../../DSUtil/DSUtil.h"
 
-
 #ifdef REGISTER_FILTER
-
 
 // Workaround: graphedit crashes when a filter exposes more than 115 input MediaTypes!
 const AMOVIESETUP_PIN sudpPinsVideoDec[] = {
@@ -34,11 +32,9 @@ const AMOVIESETUP_PIN sudpPinsVideoDec[] = {
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, CMPCVideoDecFilter::sudPinTypesOutCount, CMPCVideoDecFilter::sudPinTypesOut}
 };
 
-
 const AMOVIESETUP_FILTER sudFilters[] = {
 	{&__uuidof(CMPCVideoDecFilter), MPCVideoDecName, /*MERIT_DO_NOT_USE*/0x40000001, _countof(sudpPinsVideoDec), sudpPinsVideoDec, CLSID_LegacyAmFilterCategory}
 };
-
 
 CFactoryTemplate g_Templates[] = {
 	{sudFilters[0].strName, &__uuidof(CMPCVideoDecFilter), CreateInstance<CMPCVideoDecFilter>, NULL, &sudFilters[0]},
@@ -57,7 +53,6 @@ STDAPI DllUnregisterServer()
 {
 	return AMovieDllRegisterServer2(FALSE);
 }
-
 
 #include "../../FilterApp.h"
 
