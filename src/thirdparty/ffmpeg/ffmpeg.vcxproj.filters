@@ -1155,13 +1155,13 @@
     <ClInclude Include="libavcodec\fft.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
+    <ClInclude Include="libavcodec\fft-internal.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
     <ClInclude Include="libavcodec\flac.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\flacdata.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\fft-internal.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\flv.h">
