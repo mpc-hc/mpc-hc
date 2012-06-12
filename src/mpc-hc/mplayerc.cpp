@@ -2076,7 +2076,9 @@ void CMPlayerCApp::SetDefaultLanguage()
 {
 	const LanguageResource& languageResource = GetLanguageResourceByLocaleID(GetUserDefaultUILanguage());
 
-	SetLanguage(languageResource);
+	// Try to set the language resource but don't fail if it can't be loaded
+	// English will we used instead in case of error
+	SetLanguage(languageResource, false);
 }
 
 LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM lParam)
@@ -2096,17 +2098,21 @@ LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM l
 	return CallNextHookEx(NULL, code, wParam, lParam);
 }
 
-void CMPlayerCApp::SetLanguage(const LanguageResource& languageResource)
+bool CMPlayerCApp::SetLanguage(const LanguageResource& languageResource, bool showErrorMsg /*= true*/)
 {
 	AppSettings&	s = AfxGetAppSettings();
 	HMODULE			hMod = NULL;
+	bool			success = false;
 
+	// Try to load the resource dll if any
 	if (languageResource.dllPath) {
 		hMod = LoadLibrary(languageResource.dllPath);
-		if (hMod == NULL) {
-			MessageBox(NULL, _T("Error loading the chosen language.\n\nPlease reinstall MPC-HC."),
-					   _T("Media Player Classic - Home Cinema"), MB_ICONWARNING | MB_OK);
-		} else {
+		if (hMod == NULL) { // The dll failed to load for some reason
+			if (showErrorMsg) {
+				MessageBox(NULL, _T("Error loading the chosen language.\n\nPlease reinstall MPC-HC."),
+						   _T("Media Player Classic - Home Cinema"), MB_ICONWARNING | MB_OK);
+			}
+		} else { // Check if the version of the resource dll is correct
 			CFileVersionInfo	Version;
 			CString				strSatVersion;
 
@@ -2118,30 +2124,45 @@ void CMPlayerCApp::SetLanguage(const LanguageResource& languageResource)
 
 				if (strSatVersion == strNeededVersion) {
 					s.language = languageResource.localeID;
-				} else {
-					// This message should stay in English!
-					MessageBox(NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."),
-							   _T("Media Player Classic - Home Cinema"), MB_ICONWARNING | MB_OK);
+					success = true;
 				}
 			}
+
+			if (!success) { // The version wasn't correct
+				if (showErrorMsg) {
+					// This message should stay in English!
+					MessageBox(NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."),
+								_T("Media Player Classic - Home Cinema"), MB_ICONWARNING | MB_OK);
+				}
+				// Free the loaded resource dll
+				FreeLibrary(hMod);
+				hMod = NULL;
+			}
 		}
-	} else {
+	}
+
+	// In case no dll was loaded, load the English translation from the executable
+	if (hMod == NULL) {
 		hMod = AfxGetApp()->m_hInstance;
 		s.language = 0;
+		// If a resource dll was supposed to be loaded we had an error
+		success = (languageResource.dllPath == NULL);
+	}
+	// In case a dll was loaded, check if some special action is needed
+	else if (languageResource.resourceID == ID_LANGUAGE_HEBREW) {
+		// Hebrew needs the RTL flag.
+		SetProcessDefaultLayout(LAYOUT_RTL);
+		SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, NULL, GetCurrentThreadId());
 	}
 
-	if (hMod) {
-		if (languageResource.resourceID == ID_LANGUAGE_HEBREW) {
-			// Hebrew needs the RTL flag.
-			SetProcessDefaultLayout(LAYOUT_RTL);
-			SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, NULL, GetCurrentThreadId());
-		}
-
-		if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance) {
-			FreeLibrary(AfxGetResourceHandle());
-		}
-		AfxSetResourceHandle(hMod);
+	// Free the old resource if it was a dll
+	if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance) {
+		FreeLibrary(AfxGetResourceHandle());
 	}
+	// Set the new resource
+	AfxSetResourceHandle(hMod);
+
+	return success;
 }
 
 /*HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )

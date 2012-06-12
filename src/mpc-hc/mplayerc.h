@@ -168,7 +168,7 @@ public:
 
 	static const LanguageResource& GetLanguageResourceByResourceID(UINT resourceID);
 	static const LanguageResource& GetLanguageResourceByLocaleID(LANGID localeID);
-	static void SetLanguage(const LanguageResource& languageResource);
+	static bool SetLanguage(const LanguageResource& languageResource, bool showErrorMsg = true);
 	static void SetDefaultLanguage();
 
 	//static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
