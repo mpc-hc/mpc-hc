@@ -32,6 +32,7 @@
 
 using namespace MatroskaReader;
 
+
 #define BeginChunk                               \
     CheckPointer(pMN0, E_POINTER);               \
                                                  \
@@ -42,6 +43,7 @@ using namespace MatroskaReader;
     {                                            \
         switch (pMN->m_id)                       \
         {
+
 
 #define EndChunk                                 \
         }                                        \

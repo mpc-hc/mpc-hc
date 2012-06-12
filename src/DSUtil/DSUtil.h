@@ -152,19 +152,19 @@ public:
 	~CFilterInfo() { if (pGraph) { pGraph->Release(); } }
 };
 
-#define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter)                   \
-    {CComPtr<IEnumFilters> pEnumFilters;                                            \
-    if (pFilterGraph && SUCCEEDED(pFilterGraph->EnumFilters(&pEnumFilters)))        \
-    {                                                                               \
+#define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter)                                                  \
+    {CComPtr<IEnumFilters> pEnumFilters;                                                                           \
+    if (pFilterGraph && SUCCEEDED(pFilterGraph->EnumFilters(&pEnumFilters)))                                       \
+    {                                                                                                              \
         for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
     {
 
 #define EndEnumFilters }}}
 
-#define BeginEnumCachedFilters(pGraphConfig, pEnumFilters, pBaseFilter)             \
-    {CComPtr<IEnumFilters> pEnumFilters;                                            \
-    if (pGraphConfig && SUCCEEDED(pGraphConfig->EnumCacheFilter(&pEnumFilters)))    \
-    {                                                                               \
+#define BeginEnumCachedFilters(pGraphConfig, pEnumFilters, pBaseFilter)                                            \
+    {CComPtr<IEnumFilters> pEnumFilters;                                                                           \
+    if (pGraphConfig && SUCCEEDED(pGraphConfig->EnumCacheFilter(&pEnumFilters)))                                   \
+    {                                                                                                              \
         for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
         {
 
@@ -179,23 +179,23 @@ public:
 
 #define EndEnumPins }}}
 
-#define BeginEnumMediaTypes(pPin, pEnumMediaTypes, pMediaType)                      \
-    {CComPtr<IEnumMediaTypes> pEnumMediaTypes;                                      \
-    if (pPin && SUCCEEDED(pPin->EnumMediaTypes(&pEnumMediaTypes)))                  \
-    {                                                                               \
-        AM_MEDIA_TYPE* pMediaType = NULL;                                           \
+#define BeginEnumMediaTypes(pPin, pEnumMediaTypes, pMediaType)                                                      \
+    {CComPtr<IEnumMediaTypes> pEnumMediaTypes;                                                                      \
+    if (pPin && SUCCEEDED(pPin->EnumMediaTypes(&pEnumMediaTypes)))                                                  \
+    {                                                                                                               \
+        AM_MEDIA_TYPE* pMediaType = NULL;                                                                           \
         for (; S_OK == pEnumMediaTypes->Next(1, &pMediaType, NULL); DeleteMediaType(pMediaType), pMediaType = NULL) \
         {
 
 #define EndEnumMediaTypes(pMediaType) } if (pMediaType) DeleteMediaType(pMediaType); }}
 
-#define BeginEnumSysDev(clsid, pMoniker)                                                    \
-    {CComPtr<ICreateDevEnum> pDevEnum4$##clsid;                                             \
-    pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum);                             \
-    CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                              \
-    if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0)) \
-    && pClassEnum4$##clsid)                                                                 \
-    {                                                                                       \
+#define BeginEnumSysDev(clsid, pMoniker)                                                                      \
+    {CComPtr<ICreateDevEnum> pDevEnum4$##clsid;                                                               \
+    pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum);                                               \
+    CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                                                \
+    if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0))                   \
+    && pClassEnum4$##clsid)                                                                                   \
+    {                                                                                                         \
         for (CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = NULL) \
         {
 

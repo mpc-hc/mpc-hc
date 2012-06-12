@@ -83,52 +83,53 @@ HRESULT GetPeer(CStreamSwitcherFilter* pFilter, T** ppT)
 	return E_NOTIMPL;
 }
 
-#define CallPeerSeeking(call) \
-	CComPtr<IMediaSeeking> pMS; \
-	if (FAILED(GetPeer(m_pFilter, &pMS))) return E_NOTIMPL; \
-	return pMS->##call; \
- 
-#define CallPeer(call) \
-	CComPtr<IMediaPosition> pMP; \
-	if (FAILED(GetPeer(m_pFilter, &pMP))) return E_NOTIMPL; \
-	return pMP->##call; \
- 
-#define CallPeerSeekingAll(call) \
-	HRESULT hr = E_NOTIMPL; \
-	POSITION pos = m_pFilter->m_pInputs.GetHeadPosition(); \
-	while (pos) \
-	{ \
-		CBasePin* pPin = m_pFilter->m_pInputs.GetNext(pos); \
-		CComPtr<IPin> pConnected; \
-		if (FAILED(pPin->ConnectedTo(&pConnected))) \
-			continue; \
-		if (CComQIPtr<IMediaSeeking> pMS = pConnected) \
-		{ \
-			HRESULT hr2 = pMS->call; \
-			if (pPin == m_pFilter->GetInputPin()) \
-				hr = hr2; \
-		} \
-	} \
-	return hr; \
- 
-#define CallPeerAll(call) \
-	HRESULT hr = E_NOTIMPL; \
-	POSITION pos = m_pFilter->m_pInputs.GetHeadPosition(); \
-	while (pos) \
-	{ \
-		CBasePin* pPin = m_pFilter->m_pInputs.GetNext(pos); \
-		CComPtr<IPin> pConnected; \
-		if (FAILED(pPin->ConnectedTo(&pConnected))) \
-			continue; \
-		if (CComQIPtr<IMediaPosition> pMP = pConnected) \
-		{ \
-			HRESULT hr2 = pMP->call; \
-			if (pPin == m_pFilter->GetInputPin()) \
-				hr = hr2; \
-		} \
-	} \
-	return hr; \
- 
+
+#define CallPeerSeeking(call)                               \
+    CComPtr<IMediaSeeking> pMS;                             \
+    if (FAILED(GetPeer(m_pFilter, &pMS))) return E_NOTIMPL; \
+    return pMS->##call;
+
+#define CallPeer(call)                                      \
+    CComPtr<IMediaPosition> pMP;                            \
+    if (FAILED(GetPeer(m_pFilter, &pMP))) return E_NOTIMPL; \
+    return pMP->##call;
+
+#define CallPeerSeekingAll(call)                            \
+    HRESULT hr = E_NOTIMPL;                                 \
+    POSITION pos = m_pFilter->m_pInputs.GetHeadPosition();  \
+    while (pos)                                             \
+    {                                                       \
+        CBasePin* pPin = m_pFilter->m_pInputs.GetNext(pos); \
+        CComPtr<IPin> pConnected;                           \
+        if (FAILED(pPin->ConnectedTo(&pConnected)))         \
+            continue;                                       \
+        if (CComQIPtr<IMediaSeeking> pMS = pConnected)      \
+        {                                                   \
+            HRESULT hr2 = pMS->call;                        \
+            if (pPin == m_pFilter->GetInputPin())           \
+                hr = hr2;                                   \
+        }                                                   \
+    }                                                       \
+    return hr;
+
+#define CallPeerAll(call)                                   \
+    HRESULT hr = E_NOTIMPL;                                 \
+    POSITION pos = m_pFilter->m_pInputs.GetHeadPosition();  \
+    while (pos)                                             \
+    {                                                       \
+        CBasePin* pPin = m_pFilter->m_pInputs.GetNext(pos); \
+        CComPtr<IPin> pConnected;                           \
+        if (FAILED(pPin->ConnectedTo(&pConnected)))         \
+            continue;                                       \
+        if (CComQIPtr<IMediaPosition> pMP = pConnected)     \
+        {                                                   \
+            HRESULT hr2 = pMP->call;                        \
+            if (pPin == m_pFilter->GetInputPin())           \
+                hr = hr2;                                   \
+        }                                                   \
+    }                                                       \
+    return hr;
+
 
 // IMediaSeeking
 
