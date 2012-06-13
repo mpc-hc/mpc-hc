@@ -167,20 +167,24 @@ ECHO Downloading MinGW64 crt and headers...
 svn -q co "https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/stable/v2.x" .
 IF %ERRORLEVEL% NEQ 0 ECHO Downloading MinGW64 crt and headers failed! & EXIT /B
 
-ECHO Applying Mingw64 compatibility patch...
+ECHO. ECHO Applying Mingw64 compatibility patch...
 patch -p0 -i ../../mpchc_Mingw64.patch
 IF %ERRORLEVEL% NEQ 0 ECHO patching failed! & EXIT /B
 
-ECHO Copying includes...
+ECHO. ECHO Copying includes...
 ECHO \.svn\> exclude.txt
 XCOPY "mingw-w64-headers\include\*" "%PF%\%TGT%\include\" /C /E /H /I /Q /Y /EXCLUDE:exclude.txt
 IF EXIST "exclude.txt" DEL "exclude.txt"
 
-ECHO Compiling MinGW64 crt...
+ECHO. ECHO Compiling MinGW64 crt...
 PUSHD "%BD%/mingw/build-%HST%"
+
 sh ../mingw-w64-crt/configure --prefix="%PF%" --with-sysroot="%PF%" --host="%TGT%" --disable-lib32
-make CFLAGS="-O2 -fno-leading-underscore -pipe" -s
+IF %ERRORLEVEL% NEQ 0 ECHO Compiling MinGW64 crt failed! (in configure) & EXIT /B
+
+CALL :SubMake CFLAGS="-O2 -fno-leading-underscore -pipe" -s
 IF %ERRORLEVEL% NEQ 0 ECHO Compiling MinGW64 crt failed! & EXIT /B
+
 make install
 POPD
 
