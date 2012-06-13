@@ -32,16 +32,16 @@
 #define MpegSourceName   L"MPC MPEG Source"
 
 
-#define PauseGraph                                                              \
-    CComQIPtr<IMediaControl> _pMC(m_pGraph);                                    \
-    OAFilterState _fs = -1;                                                     \
-    if (_pMC) _pMC->GetState(1000, &_fs);                                       \
-    if (_fs == State_Running)                                                   \
-        _pMC->Pause();                                                          \
-                                                                                \
-    HRESULT _hr = E_FAIL;                                                       \
-    CComQIPtr<IMediaSeeking> _pMS((IUnknown*)(INonDelegatingUnknown*)m_pGraph); \
-    LONGLONG _rtNow = 0;                                                        \
+#define PauseGraph                                                                                         \
+    CComQIPtr<IMediaControl> _pMC(m_pGraph);                                                               \
+    OAFilterState _fs = -1;                                                                                \
+    if (_pMC) _pMC->GetState(1000, &_fs);                                                                  \
+    if (_fs == State_Running)                                                                              \
+        _pMC->Pause();                                                                                     \
+                                                                                                           \
+    HRESULT _hr = E_FAIL;                                                                                  \
+    CComQIPtr<IMediaSeeking> _pMS((IUnknown*)(INonDelegatingUnknown*)m_pGraph);                            \
+    LONGLONG _rtNow = 0;                                                                                   \
     if (_pMS) _hr = _pMS->GetCurrentPosition(&_rtNow);
 
 #define ResumeGraph                                                                                        \
@@ -88,9 +88,7 @@ private:
 
 public:
 	CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid = __uuidof(CMpegSplitterFilter));
-	void SetPipo(bool bPipo) {
-		m_pPipoBimbo = bPipo;
-	};
+	void SetPipo(bool bPipo) { m_pPipoBimbo = bPipo; };
 
 	bool StreamIsTrueHD(const WORD pid);
 
@@ -170,8 +168,6 @@ protected:
 public:
 	CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int type);
 	virtual ~CMpegSplitterOutputPin();
-	STDMETHODIMP	Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt);
-	void			SetMaxShift(REFERENCE_TIME rtMaxShift) {
-		m_rtMaxShift = rtMaxShift;
-	};
+	STDMETHODIMP    Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt);
+	void            SetMaxShift(REFERENCE_TIME rtMaxShift) { m_rtMaxShift = rtMaxShift; };
 };

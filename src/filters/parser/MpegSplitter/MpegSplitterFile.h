@@ -28,8 +28,8 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "../../../DSUtil/GolombBuffer.h"
 
-#define NO_SUBTITLE_PID			1		// Fake PID use for the "No subtitle" entry
-#define NO_SUBTITLE_NAME		_T("No subtitle")
+#define NO_SUBTITLE_PID     1          // Fake PID use for the "No subtitle" entry
+#define NO_SUBTITLE_NAME    _T("No subtitle")
 
 #define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
@@ -155,15 +155,13 @@ public:
 	DWORD AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len);
 	void  AddHdmvPGStream(WORD pid, const char* language_code);
 	CAtlList<stream>* GetMasterStream();
-	bool IsHdmv() {
-		return m_bIsHdmv;
-	};
+	bool IsHdmv() { return m_bIsHdmv; };
 
 	struct program {
-		WORD					program_number;
+		WORD                program_number;
 		struct stream {
-			WORD				pid;
-			PES_STREAM_TYPE		type;
+			WORD            pid;
+			PES_STREAM_TYPE type;
 
 		};
 		stream streams[64];
