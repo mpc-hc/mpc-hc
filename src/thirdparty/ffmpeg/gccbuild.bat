@@ -43,6 +43,7 @@ SET ARGB=0
 SET ARGBC=0
 SET ARGLI=0
 SET ARGPL=0
+SET ARG86=0
 SET INPUT=0
 
 IF /I "%ARG%" == "?"          GOTO ShowHelp
@@ -53,14 +54,14 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
   IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
   IF /I "%%A" == "Both"       SET "ARCH=Both"         & SET /A ARGPL+=1
-  IF /I "%%A" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1
-  IF /I "%%A" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1
+  IF /I "%%A" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1 & SET /A ARG86+=1
+  IF /I "%%A" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1 & SET /A ARG86+=1
   IF /I "%%A" == "x64"        SET "ARCH=x64"          & SET /A ARGPL+=1
   IF /I "%%A" == "Debug"      SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
   IF /I "%%A" == "Release"    SET "DEBUG="            & SET /A ARGBC+=1
-  IF /I "%%A" == "libmingwex" SET "LIBMINGWEX=true"   & SET /A ARGLI+=1
-  IF /I "%%A" == "mingw"      SET "LIBMINGWEX=true"   & SET /A ARGLI+=1
-  IF /I "%%A" == "mingw64"    SET "LIBMINGWEX=true"   & SET /A ARGLI+=1
+  IF /I "%%A" == "libmingwex" SET "LIBMINGWEX=true"   & SET /A ARGLI+=1 & SET /A ARG86+=1
+  IF /I "%%A" == "mingw"      SET "LIBMINGWEX=true"   & SET /A ARGLI+=1 & SET /A ARG86+=1
+  IF /I "%%A" == "mingw64"    SET "LIBMINGWEX=true"   & SET /A ARGLI+=1 & SET /A ARG86+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -72,6 +73,7 @@ IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=B
 IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "ARCH=Both")
 IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "DEBUG=")
 IF %ARGLI% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGLI% == 0 (SET "LIBMINGWEX=false")
+IF %ARG86% GTR 1 (GOTO UnsupportedSwitch)
 
 
 IF /I "%ARCH%" == "Both" (
@@ -133,11 +135,9 @@ EXIT /B
 IF /I "%BUILDTYPE%" == "Rebuild" (
   IF EXIST "%ROOT_DIR%\lib64\libmingwex.a" DEL "%ROOT_DIR%\lib64\libmingwex.a"
 ) ELSE IF EXIST "%ROOT_DIR%\lib64\libmingwex.a" (
-  ECHO.
   ECHO "%ROOT_DIR%\lib64\libmingwex.a" is present.
   EXIT /B
   ) ELSE (
-  ECHO.
   ECHO "%ROOT_DIR%\lib64\libmingwex.a" is not present.
 )
 
@@ -207,6 +207,9 @@ EXIT /B
 :UnsupportedSwitch
 ECHO.
 ECHO Unsupported commandline switch!
+ECHO.
+ECHO "%~nx0 %*"
+ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
 ENDLOCAL
 EXIT /B
