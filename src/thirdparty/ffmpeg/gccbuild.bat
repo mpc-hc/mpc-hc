@@ -22,8 +22,10 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 PUSHD %~dp0
 
-IF EXIST "..\..\..\build.user.bat" (
-  CALL "..\..\..\build.user.bat"
+SET ROOT_DIR=..\..\..
+
+IF EXIST "%ROOT_DIR%\build.user.bat" (
+  CALL "%ROOT_DIR%\build.user.bat"
 ) ELSE (
   IF DEFINED MINGW32 (SET MPCHC_MINGW32=%MINGW32%) ELSE (GOTO MissingVar)
   IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%) ELSE (GOTO MissingVar)
@@ -39,6 +41,7 @@ SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
 SET ARGB=0
 SET ARGBC=0
+SET ARGLI=0
 SET ARGPL=0
 SET INPUT=0
 
@@ -55,16 +58,20 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "x64"        SET "ARCH=x64"          & SET /A ARGPL+=1
   IF /I "%%A" == "Debug"      SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
   IF /I "%%A" == "Release"    SET "DEBUG="            & SET /A ARGBC+=1
+  IF /I "%%A" == "libmingwex" SET "LIBMINGWEX=true"   & SET /A ARGLI+=1
+  IF /I "%%A" == "mingw"      SET "LIBMINGWEX=true"   & SET /A ARGLI+=1
+  IF /I "%%A" == "mingw64"    SET "LIBMINGWEX=true"   & SET /A ARGLI+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
-SET /A VALID=%ARGB%+%ARGPL%+%ARGBC%
+SET /A VALID=%ARGB%+%ARGPL%+%ARGBC%+%ARGLI%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
 IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=Build")
 IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "ARCH=Both")
 IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "DEBUG=")
+IF %ARGLI% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGLI% == 0 (SET "LIBMINGWEX=false")
 
 
 IF /I "%ARCH%" == "Both" (
@@ -75,9 +82,9 @@ IF /I "%ARCH%" == "Both" (
 
 
 :Main
-CALL :SubCopyLibs
-
 IF /I "%ARCH%" == "x64" (SET "x64=64BIT=yes") ELSE (SET "x64=")
+
+CALL :SubCopyLibs
 
 IF /I "%BUILDTYPE%" == "Rebuild" (
   SET "BUILDTYPE=Clean" & CALL :SubMake %x64% %DEBUG% clean
@@ -114,17 +121,69 @@ REM Set the GCC version
 FOR /F "tokens=1,2 delims= " %%A IN ('gcc -dumpversion') DO (SET "gccver=%%A")
 
 REM Copy the needed libraries
-COPY /V /Y "%MPCHC_MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a"    "..\..\..\lib\" >NUL
-COPY /V /Y "%MPCHC_MINGW32%\i686-pc-mingw32\lib\libmingwex.a"             "..\..\..\lib\" >NUL
-COPY /V /Y "%MPCHC_MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "..\..\..\lib64\" >NUL
+COPY /V /Y "%MPCHC_MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a"    "%ROOT_DIR%\lib\" >NUL
+COPY /V /Y "%MPCHC_MINGW32%\i686-pc-mingw32\lib\libmingwex.a"             "%ROOT_DIR%\lib\" >NUL
+COPY /V /Y "%MPCHC_MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "%ROOT_DIR%\lib64\" >NUL
 REM libmingwex.a needs to be compiled separately for x64
+IF /I "%ARCH%" == "x64" IF /I "%LIBMINGWEX%" == "true" CALL :SubLibmingwex
+EXIT /B
+
+
+:SubLibmingwex
+IF EXIST "%ROOT_DIR%\lib64\libmingwex.a" ECHO "%ROOT_DIR%\lib64\libmingwex.a" is present. & EXIT /B
+
+ECHO. & ECHO "%ROOT_DIR%\lib64\libmingwex.a" is not present.
+
+SET "SEARCHLIB=patches\root-i686-pc-mingw32\x86_64-w64-mingw32\lib\libmingwex.a"
+IF EXIST %SEARCHLIB% COPY /V /Y "%SEARCHLIB%" "%ROOT_DIR%\lib64\" >NUL & EXIT /B
+
+SET "CC=x86_64-w64-mingw32-gcc"
+SET "HST=i686-pc-mingw32"
+SET "TGT=x86_64-w64-mingw32"
+SET "RT=root-%HST%"
+
+IF NOT EXIST "patches\build\mingw\build-%HST%" MD "patches\build\mingw\build-%HST%"
+IF NOT EXIST "patches\%RT%\%TGT%"              MD "patches\%RT%\%TGT%"
+
+SET "PF=patches\%RT%"
+SET "BD=patches\build"
+
+PUSHD "%BD%\mingw"
+
+rem Removing patched files...
+IF EXIST "mingw-w64-crt/misc/delayimp.c" DEL /F /Q "mingw-w64-crt\misc\delayimp.c"
+
+ECHO Downloading MinGW64 crt and headers...
+svn -q co "https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/stable/v2.x" .
+
+ECHO Applying Mingw64 compatibility patch...
+patch -p0 -i ../../mpchc_Mingw64.patch
+
+ECHO Copying includes...
+SET "dest=%PF%\%TGT%\include\"
+ECHO \.svn\> exclude.txt
+XCOPY "mingw-w64-headers\include\*" "%dest%" /C /E /H /I /Q /Y /EXCLUDE:exclude.txt
+IF EXIST "exclude.txt" DEL "exclude.txt"
+
+ECHO "Compiling MinGW64 crt..."
+PUSHD "%BD%/mingw/build-%HST%"
+sh ../mingw-w64-crt/configure --prefix="%PF%" --with-sysroot="%PF%" --host="%TGT%" --disable-lib32
+make CFLAGS="-O2 -fno-leading-underscore -pipe" -s
+make install
+POPD
+
+POPD
+
+IF EXIST "%PF%\%TGT%\lib\libmingwex.a" COPY /Y /V "%PF%\%TGT%\lib\libmingwex.a" "%ROOT_DIR%\lib64\" >NUL
+rem IF EXIST "patches\build" RD /Q /S "patches\build"
+rem IF EXIST "patches\%RT%"  RD /Q /S "patches\%RT%"
 EXIT /B
 
 
 :MissingVar
 ECHO Not all build dependencies were found.
 ECHO.
-ECHO See "docs\Compilation.txt" for more information.
+ECHO See "%ROOT_DIR%\docs\Compilation.txt" for more information.
 ENDLOCAL
 EXIT /B
 
@@ -141,7 +200,9 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Debug^|Release]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Debug^|Release] [libmingwex]
+ECHO.
+ECHO libmingwex: If you already have libmingwex.a in %ROOT_DIR%\lib64 it will be skipped.
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        The arguments are not case sensitive and can be ommitted.
