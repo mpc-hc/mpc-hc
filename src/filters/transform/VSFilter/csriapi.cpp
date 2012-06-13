@@ -62,11 +62,11 @@ CSRIAPI csri_inst* csri_open_file(csri_rend* renderer, const char* filename, str
     inst->cs = new CCritSec();
     inst->rts = new CRenderedTextSubtitle(inst->cs);
     if (inst->rts->Open(CString(namebuf), DEFAULT_CHARSET)) {
-        delete[] namebuf;
+        delete [] namebuf;
         inst->readorder = 0;
         return inst;
     } else {
-        delete[] namebuf;
+        delete [] namebuf;
         delete inst->rts;
         delete inst->cs;
         delete inst;

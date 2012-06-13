@@ -259,5 +259,5 @@ bool CIfo::SaveFile(LPCTSTR strFile)
 
 CIfo::~CIfo(void)
 {
-    delete[] m_pBuffer;
+    delete [] m_pBuffer;
 }

@@ -1673,7 +1673,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
         }
 
         if (aspect.cx * 2 < aspect.cy) {
-            delete[] vi;
+            delete [] vi;
             return false;
         }
 

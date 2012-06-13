@@ -187,7 +187,7 @@ bool UpdateChecker::IsTimeToAutoUpdate()
 
     if (!AfxGetApp()->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_UPDATER_LAST_CHECK, (LPBYTE*)&lastCheck, &nRead) || nRead != sizeof(time_t)) {
         if (lastCheck) {
-            delete[] lastCheck;
+            delete [] lastCheck;
         }
 
         return true;
@@ -195,7 +195,7 @@ bool UpdateChecker::IsTimeToAutoUpdate()
 
     bool isTimeToAutoUpdate = (time(NULL) >= *lastCheck + AfxGetAppSettings().nUpdaterDelay * 24 * 3600);
 
-    delete[] lastCheck;
+    delete [] lastCheck;
 
     return isTimeToAutoUpdate;
 }

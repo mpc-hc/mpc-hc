@@ -140,6 +140,6 @@ struct GaussianKernel {
         }
     }
     inline ~GaussianKernel() {
-        delete[] kernel;
+        delete [] kernel;
     }
 };

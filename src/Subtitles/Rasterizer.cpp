@@ -351,15 +351,15 @@ bool Rasterizer::PartialEndPath(HDC hdc, long dx, long dy)
 
             mPathPoints += nPoints;
 
-            delete[] pTypes;
-            delete[] pPoints;
+            delete [] pTypes;
+            delete [] pPoints;
             return true;
         } else {
             DebugBreak();
         }
 
-        delete[] pTypes;
-        delete[] pPoints;
+        delete [] pTypes;
+        delete [] pPoints;
     }
 
     ::AbortPath(hdc);
@@ -826,7 +826,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
             SeparableFilterX<2>(src, tmp, mOverlayWidth, mOverlayHeight, pitch, filter.kernel, filter.width, filter.divisor);
             SeparableFilterY<2>(tmp, src, mOverlayWidth, mOverlayHeight, pitch, filter.kernel, filter.width, filter.divisor);
 
-            delete[] tmp;
+            delete [] tmp;
         }
     }
 

@@ -38,7 +38,7 @@ CompositionObject::CompositionObject()
 
 CompositionObject::~CompositionObject()
 {
-    delete[] m_pRLEData;
+    delete [] m_pRLEData;
 }
 
 void CompositionObject::SetPalette(int nNbEntry, HDMV_PALETTE* pPalette, bool bIsHD)
@@ -56,7 +56,7 @@ void CompositionObject::SetPalette(int nNbEntry, HDMV_PALETTE* pPalette, bool bI
 
 void CompositionObject::SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize)
 {
-    delete[] m_pRLEData;
+    delete [] m_pRLEData;
     m_pRLEData      = DNew BYTE[nTotalSize];
     m_nRLEDataSize  = nTotalSize;
     m_nRLEPos       = nSize;

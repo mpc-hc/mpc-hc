@@ -1022,7 +1022,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
             GetICMProfile(hDC, &icmProfilePathSize, NULL);
             iccProfilePath = DNew TCHAR[icmProfilePathSize];
             if (!GetICMProfile(hDC, &icmProfilePathSize, iccProfilePath)) {
-                delete[] iccProfilePath;
+                delete [] iccProfilePath;
                 iccProfilePath = 0;
             }
 
@@ -1042,23 +1042,23 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
                                             NULL);
 
         if (FAILED(hr)) {
-            delete[] iccProfilePath;
+            delete [] iccProfilePath;
             CleanupFinalPass();
             return hr;
         }
 
         float* lut3DFloat32 = DNew float[m_Lut3DEntryCount * 3];
         hr = CreateIccProfileLut(iccProfilePath, lut3DFloat32);
-        delete[] iccProfilePath;
+        delete [] iccProfilePath;
         if (FAILED(hr)) {
-            delete[] lut3DFloat32;
+            delete [] lut3DFloat32;
             CleanupFinalPass();
             return hr;
         }
 
         D3DXFLOAT16* lut3DFloat16 = DNew D3DXFLOAT16[m_Lut3DEntryCount * 3];
         m_pD3DXFloat32To16Array(lut3DFloat16, lut3DFloat32, m_Lut3DEntryCount * 3);
-        delete[] lut3DFloat32;
+        delete [] lut3DFloat32;
 
         const float oneFloat32 = 1.0f;
         D3DXFLOAT16 oneFloat16;
@@ -1067,7 +1067,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
         D3DLOCKED_BOX lockedBox;
         hr = m_pLut3DTexture->LockBox(0, &lockedBox, NULL, D3DLOCK_DISCARD);
         if (FAILED(hr)) {
-            delete[] lut3DFloat16;
+            delete [] lut3DFloat16;
             CleanupFinalPass();
             return hr;
         }
@@ -1097,7 +1097,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
         }
 
         hr = m_pLut3DTexture->UnlockBox(0);
-        delete[] lut3DFloat16;
+        delete [] lut3DFloat16;
         if (FAILED(hr)) {
             CleanupFinalPass();
             return hr;
@@ -1355,8 +1355,8 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
     }
 
     // Cleanup
-    delete[] lut3DOutput;
-    delete[] lut3DInput;
+    delete [] lut3DOutput;
+    delete [] lut3DInput;
     cmsDeleteTransform(hTransform);
 
     return S_OK;

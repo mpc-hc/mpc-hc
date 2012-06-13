@@ -675,7 +675,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             vih->cbSequenceHeader += len;
                         }
 
-                        delete[] headerData;
+                        delete [] headerData;
 
                         mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = '1CVA');
                         name += L" H.264";

@@ -52,8 +52,8 @@ CHdmvSub::~CHdmvSub()
 {
     Reset();
 
-    delete[] m_pSegBuffer;
-    delete[] m_pDefaultPalette;
+    delete [] m_pSegBuffer;
+    delete [] m_pDefaultPalette;
     delete m_pCurrentObject;
 }
 
@@ -61,7 +61,7 @@ CHdmvSub::~CHdmvSub()
 void CHdmvSub::AllocSegment(int nSize)
 {
     if (nSize > m_nTotalSegBuffer) {
-        delete[] m_pSegBuffer;
+        delete [] m_pSegBuffer;
         m_pSegBuffer        = DNew BYTE[nSize];
         m_nTotalSegBuffer   = nSize;
     }
@@ -232,7 +232,7 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)      // #497
     HDMV_PALETTE*   pPalette = (HDMV_PALETTE*)pGBuffer->GetBufferPos();
 
     if (m_pDefaultPalette == NULL || m_nDefaultPaletteNbEntry != nNbEntry) {
-        delete[] m_pDefaultPalette;
+        delete [] m_pDefaultPalette;
         m_pDefaultPalette        = DNew HDMV_PALETTE[nNbEntry];
         m_nDefaultPaletteNbEntry = nNbEntry;
     }

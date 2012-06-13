@@ -136,12 +136,12 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
                            GetHiveName(hKeyRoot), keyName, valueName);
                 AfxMessageBox(msg, MB_ICONERROR | MB_OK);
             }
-            delete[] data;
+            delete [] data;
             return false;
         }
     }
 
-    delete[] data;
+    delete [] data;
 
     file.WriteString(_T("\n"));
 
