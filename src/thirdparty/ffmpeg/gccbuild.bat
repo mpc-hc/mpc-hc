@@ -155,8 +155,8 @@ SET "RT=root-%HST%"
 IF NOT EXIST "patches\build\mingw\build-%HST%" MD "patches\build\mingw\build-%HST%"
 IF NOT EXIST "patches\%RT%\%TGT%"              MD "patches\%RT%\%TGT%"
 
-SET "PF=patches\%RT%"
-SET "BD=patches\build"
+SET "PF=%~dp0patches\%RT%"
+SET "BD=%~dp0patches\build"
 
 PUSHD "%BD%\mingw"
 
@@ -165,19 +165,22 @@ IF EXIST "mingw-w64-crt/misc/delayimp.c" DEL "mingw-w64-crt\misc\delayimp.c"
 
 ECHO Downloading MinGW64 crt and headers...
 svn -q co "https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/stable/v2.x" .
+IF %ERRORLEVEL% NEQ 0 ECHO Downloading MinGW64 crt and headers failed! & EXIT /B
 
 ECHO Applying Mingw64 compatibility patch...
 patch -p0 -i ../../mpchc_Mingw64.patch
+IF %ERRORLEVEL% NEQ 0 ECHO patching failed! & EXIT /B
 
 ECHO Copying includes...
 ECHO \.svn\> exclude.txt
 XCOPY "mingw-w64-headers\include\*" "%PF%\%TGT%\include\" /C /E /H /I /Q /Y /EXCLUDE:exclude.txt
 IF EXIST "exclude.txt" DEL "exclude.txt"
 
-ECHO "Compiling MinGW64 crt..."
+ECHO Compiling MinGW64 crt...
 PUSHD "%BD%/mingw/build-%HST%"
 sh ../mingw-w64-crt/configure --prefix="%PF%" --with-sysroot="%PF%" --host="%TGT%" --disable-lib32
 make CFLAGS="-O2 -fno-leading-underscore -pipe" -s
+IF %ERRORLEVEL% NEQ 0 ECHO Compiling MinGW64 crt failed! & EXIT /B
 make install
 POPD
 
@@ -211,7 +214,8 @@ ECHO.
 ECHO Usage:
 ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Debug^|Release] [libmingwex]
 ECHO.
-ECHO libmingwex: If you already have libmingwex.a in %ROOT_DIR%\lib64 it will be skipped.
+ECHO libmingwex: If you already have libmingwex.a in %ROOT_DIR%\lib64 it will be skipped
+ECHO             unless /rebuild is used too.
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        The arguments are not case sensitive and can be ommitted.
