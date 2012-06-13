@@ -1,8 +1,8 @@
 Index: src/common.props
 ===================================================================
---- src/common.props	(revision 5083)
+--- src/common.props	(revision 5114)
 +++ src/common.props	(working copy)
-@@ -10,7 +10,8 @@
+@@ -9,7 +9,8 @@
    </PropertyGroup>
    <ItemDefinitionGroup>
      <ClCompile>

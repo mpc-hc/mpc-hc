@@ -1,8 +1,8 @@
 Index: src/common.props
 ===================================================================
---- src/common.props	(revision 5083)
+--- src/common.props	(revision 5114)
 +++ src/common.props	(working copy)
-@@ -66,10 +66,15 @@
+@@ -65,10 +65,15 @@
        <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
        <StringPooling>true</StringPooling>
