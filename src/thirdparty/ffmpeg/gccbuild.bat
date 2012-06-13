@@ -53,8 +53,8 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
   IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
   IF /I "%%A" == "Both"       SET "ARCH=Both"         & SET /A ARGPL+=1
-  IF /I "%%A" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1 & SET /A ARGLI+=1
-  IF /I "%%A" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1 & SET /A ARGLI+=1
+  IF /I "%%A" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1
+  IF /I "%%A" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1
   IF /I "%%A" == "x64"        SET "ARCH=x64"          & SET /A ARGPL+=1
   IF /I "%%A" == "Debug"      SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
   IF /I "%%A" == "Release"    SET "DEBUG="            & SET /A ARGBC+=1
