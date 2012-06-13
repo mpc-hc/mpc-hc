@@ -659,28 +659,31 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     if (!di) {
                         di = &empty;
                     }
+                    const BYTE* extdata = di->GetData();
+                    size_t      extsize = di->GetDataSize();
+                    ASSERT(extsize <= WORD_MAX);
 
                     mt.majortype = MEDIATYPE_Audio;
                     mt.formattype = FORMAT_WaveFormatEx;
 
                     wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + di->GetDataSize());
                     memset(wfe, 0, mt.FormatLength());
-                    wfe->nSamplesPerSec = audio_desc->GetSampleRate();
+                    wfe->nSamplesPerSec  = audio_desc->GetSampleRate();
                     wfe->nAvgBytesPerSec = audio_desc->GetAvgBitrate() / 8;
-                    wfe->nChannels = audio_desc->GetChannelCount();
-                    wfe->wBitsPerSample = audio_desc->GetSampleSize();
-                    wfe->cbSize = (WORD)di->GetDataSize();
-                    wfe->nBlockAlign = (WORD)((wfe->nChannels * wfe->wBitsPerSample) / 8);
+                    wfe->nChannels       = audio_desc->GetChannelCount();
+                    wfe->wBitsPerSample  = audio_desc->GetSampleSize();
+                    wfe->cbSize          = (WORD)extsize;
+                    wfe->nBlockAlign     = wfe->nChannels * wfe->wBitsPerSample / 8;
 
-                    memcpy(wfe + 1, di->GetData(), di->GetDataSize());
+                    memcpy(wfe + 1, extdata, extsize);
 
                     switch (audio_desc->GetObjectTypeId()) {
                         case AP4_MPEG4_AUDIO_OTI:
                         case AP4_MPEG2_AAC_AUDIO_MAIN_OTI: // ???
                         case AP4_MPEG2_AAC_AUDIO_LC_OTI: // ???
                         case AP4_MPEG2_AAC_AUDIO_SSRP_OTI: // ???
-                            if (di->GetDataSize() > 10) {
-                                if (*(DWORD*)(di->GetData() + 6) == 0x00534c41) { // 'ALS\0' sync word
+                            if (extsize > 10) {
+                                if (*(DWORD*)(extdata + 6) == 0x00534c41) { // 'ALS\0' sync word
                                     wfe->wFormatTag = WAVE_FORMAT_UNKNOWN;
                                     mt.subtype = FOURCCMap(MAKEFOURCC('A', 'L', 'S', ' ')); // create our own GUID - {20534C41-0000-0010-8000-00AA00389B71}
                                     mts.Add(mt);
@@ -688,9 +691,12 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                                 }
                             }
                             mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
-                            if (wfe->cbSize >= 2 && wfe->nChannels < 8) {
-                                wfe->nChannels = (((BYTE*)(wfe + 1))[1] >> 3) & 0xf;
-                                wfe->nBlockAlign = (WORD)((wfe->nChannels * wfe->wBitsPerSample) / 8);
+                            if (extsize >= 2 && wfe->nChannels < 8) {
+                                WORD channels = (extdata[1] >> 3) & 0xf;
+                                if (channels) { // not the best solution
+                                    wfe->nChannels   = channels;
+                                    wfe->nBlockAlign = channels * wfe->wBitsPerSample / 8;
+                                }
                             }
                             mts.Add(mt);
                             break;
