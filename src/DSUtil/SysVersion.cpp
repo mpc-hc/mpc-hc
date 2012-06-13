@@ -29,9 +29,9 @@ const DWORD SysVersion::version = MAKEWORD(fullVersion.dwMinorVersion, fullVersi
 
 OSVERSIONINFOEX SysVersion::InitFullVersion()
 {
-	OSVERSIONINFOEX fullVersion = {0};
-	fullVersion.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-	GetVersionEx((LPOSVERSIONINFO)&fullVersion);
+    OSVERSIONINFOEX fullVersion = {0};
+    fullVersion.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+    GetVersionEx((LPOSVERSIONINFO)&fullVersion);
 
-	return fullVersion;
+    return fullVersion;
 }

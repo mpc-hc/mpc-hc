@@ -35,25 +35,25 @@ class CMainFrame;
 
 class CPPageFileInfoSheet : public CPropertySheet
 {
-	DECLARE_DYNAMIC(CPPageFileInfoSheet)
+    DECLARE_DYNAMIC(CPPageFileInfoSheet)
 
 private:
-	CPPageFileInfoClip m_clip;
-	CPPageFileInfoDetails m_details;
-	CPPageFileInfoRes m_res;
-	CPPageFileMediaInfo m_mi;
+    CPPageFileInfoClip m_clip;
+    CPPageFileInfoDetails m_details;
+    CPPageFileInfoRes m_res;
+    CPPageFileMediaInfo m_mi;
 
-	CButton m_Button_MI;
+    CButton m_Button_MI;
 
 public:
-	CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWnd* pParentWnd);
-	virtual ~CPPageFileInfoSheet();
+    CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWnd* pParentWnd);
+    virtual ~CPPageFileInfoSheet();
 
-	afx_msg void OnSaveAs();
+    afx_msg void OnSaveAs();
 
-	CString m_fn;
+    CString m_fn;
 protected:
-	virtual BOOL OnInitDialog();
+    virtual BOOL OnInitDialog();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };

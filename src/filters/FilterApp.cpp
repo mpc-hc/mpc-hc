@@ -32,22 +32,22 @@ CFilterApp::CFilterApp()
 
 BOOL CFilterApp::InitInstance()
 {
-	if (!__super::InitInstance()) {
-		return FALSE;
-	}
+    if (!__super::InitInstance()) {
+        return FALSE;
+    }
 
-	SetRegistryKey(_T("Gabest"));
+    SetRegistryKey(_T("Gabest"));
 
-	DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_ATTACH, 0);
+    DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_ATTACH, 0);
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CFilterApp::ExitInstance()
 {
-	DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_DETACH, 0);
+    DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_DETACH, 0);
 
-	return __super::ExitInstance();
+    return __super::ExitInstance();
 }
 
 BEGIN_MESSAGE_MAP(CFilterApp, CWinApp)

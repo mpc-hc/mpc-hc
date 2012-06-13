@@ -29,29 +29,29 @@
 
 class CPPageSubMisc : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageSubMisc)
+    DECLARE_DYNAMIC(CPPageSubMisc)
 
 public:
-	CPPageSubMisc();
-	virtual ~CPPageSubMisc();
+    CPPageSubMisc();
+    virtual ~CPPageSubMisc();
 
-	// Dialog Data
-	enum { IDD = IDD_PPAGESUBMISC };
-	BOOL m_fPrioritizeExternalSubtitles;
-	BOOL m_fDisableInternalSubtitles;
-	CString m_szAutoloadPaths;
-	CComboBox m_ISDbCombo;
-	CString m_ISDb;
+    // Dialog Data
+    enum { IDD = IDD_PPAGESUBMISC };
+    BOOL m_fPrioritizeExternalSubtitles;
+    BOOL m_fDisableInternalSubtitles;
+    CString m_szAutoloadPaths;
+    CComboBox m_ISDbCombo;
+    CString m_ISDb;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton2();
-	afx_msg void OnUpdateButton2(CCmdUI* pCmdUI);
-	afx_msg void OnURLModified();
+    afx_msg void OnBnClickedButton1();
+    afx_msg void OnBnClickedButton2();
+    afx_msg void OnUpdateButton2(CCmdUI* pCmdUI);
+    afx_msg void OnURLModified();
 };

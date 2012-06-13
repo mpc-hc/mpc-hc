@@ -35,62 +35,62 @@ class CAviFile;
 class CAviSplitterOutputPin : public CBaseSplitterOutputPin
 {
 public:
-	CAviSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+    CAviSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 
-	HRESULT CheckConnect(IPin* pPin);
+    HRESULT CheckConnect(IPin* pPin);
 };
 
 class __declspec(uuid("9736D831-9D6C-4E72-B6E7-560EF9181001"))
-	CAviSplitterFilter : public CBaseSplitterFilter
+    CAviSplitterFilter : public CBaseSplitterFilter
 {
-	CAutoVectorPtr<DWORD> m_tFrame;
+    CAutoVectorPtr<DWORD> m_tFrame;
 
 protected:
-	CAutoPtr<CAviFile> m_pFile;
-	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
+    CAutoPtr<CAviFile> m_pFile;
+    HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
-	bool DemuxInit();
-	void DemuxSeek(REFERENCE_TIME rt);
-	bool DemuxLoop();
+    bool DemuxInit();
+    void DemuxSeek(REFERENCE_TIME rt);
+    bool DemuxLoop();
 
-	HRESULT ReIndex(__int64 end, UINT64* pSize);
+    HRESULT ReIndex(__int64 end, UINT64* pSize);
 
-	REFERENCE_TIME m_maxTimeStamp;
+    REFERENCE_TIME m_maxTimeStamp;
 public:
-	CAviSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CAviSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// CBaseFilter
+    // CBaseFilter
 
-	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+    STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 
-	// IMediaSeeking
+    // IMediaSeeking
 
-	STDMETHODIMP GetDuration(LONGLONG* pDuration);
+    STDMETHODIMP GetDuration(LONGLONG* pDuration);
 
-	// TODO: this is too ugly, integrate this with the baseclass somehow
-	GUID m_timeformat;
-	STDMETHODIMP IsFormatSupported(const GUID* pFormat);
-	STDMETHODIMP GetTimeFormat(GUID* pFormat);
-	STDMETHODIMP IsUsingTimeFormat(const GUID* pFormat);
-	STDMETHODIMP SetTimeFormat(const GUID* pFormat);
-	STDMETHODIMP GetStopPosition(LONGLONG* pStop);
-	STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
-	STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
+    // TODO: this is too ugly, integrate this with the baseclass somehow
+    GUID m_timeformat;
+    STDMETHODIMP IsFormatSupported(const GUID* pFormat);
+    STDMETHODIMP GetTimeFormat(GUID* pFormat);
+    STDMETHODIMP IsUsingTimeFormat(const GUID* pFormat);
+    STDMETHODIMP SetTimeFormat(const GUID* pFormat);
+    STDMETHODIMP GetStopPosition(LONGLONG* pStop);
+    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
+    STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
 
-	HRESULT SetPositionsInternal(void* id, LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+    HRESULT SetPositionsInternal(void* id, LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
 
-	// IKeyFrameInfo
+    // IKeyFrameInfo
 
-	STDMETHODIMP GetKeyFrameCount(UINT& nKFs);
-	STDMETHODIMP GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
+    STDMETHODIMP GetKeyFrameCount(UINT& nKFs);
+    STDMETHODIMP GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
 };
 
 class __declspec(uuid("CEA8DEFF-0AF7-4DB9-9A38-FB3C3AEFC0DE"))
-	CAviSourceFilter : public CAviSplitterFilter
+    CAviSourceFilter : public CAviSplitterFilter
 {
 public:
-	CAviSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CAviSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };

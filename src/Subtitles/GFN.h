@@ -30,7 +30,7 @@ extern TCHAR* exttypestr[];
 
 
 typedef struct {
-	CString fn; /*exttype ext;*/
+    CString fn; /*exttype ext;*/
 } SubFile;
 
 

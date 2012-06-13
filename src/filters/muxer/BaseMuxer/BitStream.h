@@ -26,34 +26,34 @@
 interface __declspec(uuid("30AB78C7-5259-4594-AEFE-9C0FC2F08A5E"))
 IBitStream :
 public IUnknown {
-	STDMETHOD_(UINT64, GetPos) () = 0;
-	STDMETHOD_(UINT64, Seek) (UINT64 pos) = 0; // it's a _stream_, please don't seek if you don't have to
-	STDMETHOD(ByteWrite) (const void* pData, int len) = 0;
-	STDMETHOD(BitWrite) (UINT64 data, int len) = 0;
-	STDMETHOD(BitFlush) () = 0;
-	STDMETHOD(StrWrite) (LPCSTR pData, BOOL bFixNewLine) = 0;
+    STDMETHOD_(UINT64, GetPos)() = 0;
+    STDMETHOD_(UINT64, Seek)(UINT64 pos) = 0;  // it's a _stream_, please don't seek if you don't have to
+    STDMETHOD(ByteWrite)(const void * pData, int len) = 0;
+    STDMETHOD(BitWrite)(UINT64 data, int len) = 0;
+    STDMETHOD(BitFlush)() = 0;
+    STDMETHOD(StrWrite)(LPCSTR pData, BOOL bFixNewLine) = 0;
 };
 
 class CBitStream : public CUnknown, public IBitStream
 {
-	CComPtr<IStream> m_pStream;
-	bool m_fThrowError;
-	UINT64 m_bitbuff;
-	int m_bitlen;
+    CComPtr<IStream> m_pStream;
+    bool m_fThrowError;
+    UINT64 m_bitbuff;
+    int m_bitlen;
 
 public:
-	CBitStream(IStream* pStream, bool m_fThrowError = false);
-	virtual ~CBitStream();
+    CBitStream(IStream* pStream, bool m_fThrowError = false);
+    virtual ~CBitStream();
 
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// IBitStream
+    // IBitStream
 
-	STDMETHODIMP_(UINT64) GetPos();
-	STDMETHODIMP_(UINT64) Seek(UINT64 pos);
-	STDMETHODIMP ByteWrite(const void* pData, int len);
-	STDMETHODIMP BitWrite(UINT64 data, int len);
-	STDMETHODIMP BitFlush();
-	STDMETHODIMP StrWrite(LPCSTR pData, BOOL bFixNewLine);
+    STDMETHODIMP_(UINT64) GetPos();
+    STDMETHODIMP_(UINT64) Seek(UINT64 pos);
+    STDMETHODIMP ByteWrite(const void* pData, int len);
+    STDMETHODIMP BitWrite(UINT64 data, int len);
+    STDMETHODIMP BitFlush();
+    STDMETHODIMP StrWrite(LPCSTR pData, BOOL bFixNewLine);
 };

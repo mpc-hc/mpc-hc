@@ -116,40 +116,40 @@ extern LPCTSTR GetDXVAMode(const GUID* guidDecoder);
 extern void DumpBuffer(BYTE* pBuffer, int nSize);
 extern CString ReftimeToString(const REFERENCE_TIME& rtVal);
 extern CString ReftimeToString2(const REFERENCE_TIME& rtVal);
-extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours=false);
+extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours = false);
 extern REFERENCE_TIME StringToReftime(LPCTSTR strVal);
 extern COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb);
 extern COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb);
-extern DWORD	YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
-extern DWORD	YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
-extern void		TraceFilterInfo(IBaseFilter* pBF);
-extern void		TracePinInfo(IPin* pPin);
-extern void		SetThreadName( DWORD dwThreadID, LPCSTR szThreadName);
-extern void		HexDump(CString fName, BYTE* buf, int size);
-extern void		CorrectComboListWidth(CComboBox& m_pComboBox);
+extern DWORD    YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
+extern DWORD    YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
+extern void     TraceFilterInfo(IBaseFilter* pBF);
+extern void     TracePinInfo(IPin* pPin);
+extern void     SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
+extern void     HexDump(CString fName, BYTE* buf, int size);
+extern void     CorrectComboListWidth(CComboBox& m_pComboBox);
 
-extern void		getExtraData(const BYTE *format, const GUID *formattype, const size_t formatlen, BYTE *extra, unsigned int *extralen);
-extern void		audioFormatTypeHandler(const BYTE *format, const GUID *formattype, DWORD *pnSamples, WORD *pnChannels, WORD *pnBitsPerSample, WORD *pnBlockAlign, DWORD *pnBytesPerSec);
+extern void     getExtraData(const BYTE* format, const GUID* formattype, const size_t formatlen, BYTE* extra, unsigned int* extralen);
+extern void     audioFormatTypeHandler(const BYTE* format, const GUID* formattype, DWORD* pnSamples, WORD* pnChannels, WORD* pnBitsPerSample, WORD* pnBlockAlign, DWORD* pnBytesPerSec);
 
 typedef enum {
-	PICT_NONE,
-	PICT_TOP_FIELD,
-	PICT_BOTTOM_FIELD,
-	PICT_FRAME
+    PICT_NONE,
+    PICT_TOP_FIELD,
+    PICT_BOTTOM_FIELD,
+    PICT_FRAME
 } FF_FIELD_TYPE;
 
 class CPinInfo : public PIN_INFO
 {
 public:
-	CPinInfo() { pFilter = NULL; }
-	~CPinInfo() { if (pFilter) { pFilter->Release(); } }
+    CPinInfo() { pFilter = NULL; }
+    ~CPinInfo() { if (pFilter) { pFilter->Release(); } }
 };
 
 class CFilterInfo : public FILTER_INFO
 {
 public:
-	CFilterInfo() { pGraph = NULL; }
-	~CFilterInfo() { if (pGraph) { pGraph->Release(); } }
+    CFilterInfo() { pGraph = NULL; }
+    ~CFilterInfo() { if (pGraph) { pGraph->Release(); } }
 };
 
 #define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter)                                                  \
@@ -206,8 +206,8 @@ public:
 
 template <typename T> __inline void INITDDSTRUCT(T& dd)
 {
-	ZeroMemory(&dd, sizeof(dd));
-	dd.dwSize = sizeof(dd);
+    ZeroMemory(&dd, sizeof(dd));
+    dd.dwSize = sizeof(dd);
 }
 
 #ifndef _countof
@@ -217,12 +217,12 @@ template <typename T> __inline void INITDDSTRUCT(T& dd)
 template <class T>
 static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
-	*phr = S_OK;
-	CUnknown* punk = DNew T(lpunk, phr);
-	if (punk == NULL) {
-		*phr = E_OUTOFMEMORY;
-	}
-	return punk;
+    *phr = S_OK;
+    CUnknown* punk = DNew T(lpunk, phr);
+    if (punk == NULL) {
+        *phr = E_OUTOFMEMORY;
+    }
+    return punk;
 }
 
 #define SAFE_DELETE(p)       { if (p) { delete (p);     (p) = NULL; } }
@@ -231,15 +231,15 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 
 inline int LNKO(int a, int b)
 {
-	if (a == 0 || b == 0) {
-		return 1;
-	}
-	while (a != b) {
-		if (a < b) {
-			b -= a;
-		} else if (a > b) {
-			a -= b;
-		}
-	}
-	return a;
+    if (a == 0 || b == 0) {
+        return 1;
+    }
+    while (a != b) {
+        if (a < b) {
+            b -= a;
+        } else if (a > b) {
+            a -= b;
+        }
+    }
+    return a;
 }

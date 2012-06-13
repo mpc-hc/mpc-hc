@@ -27,20 +27,20 @@
 
 class CPlayerBar : public CSizingControlBarG
 {
-	DECLARE_DYNAMIC(CPlayerBar)
+    DECLARE_DYNAMIC(CPlayerBar)
 
 protected :
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
-	UINT m_defDockBarID;
-	CString m_strSettingName;
+    UINT m_defDockBarID;
+    CString m_strSettingName;
 
 public:
-	CPlayerBar(void);
-	virtual ~CPlayerBar(void);
+    CPlayerBar(void);
+    virtual ~CPlayerBar(void);
 
-	BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName);
+    BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName);
 
-	virtual void LoadState(CFrameWnd *pParent);
-	virtual void SaveState();
+    virtual void LoadState(CFrameWnd* pParent);
+    virtual void SaveState();
 };

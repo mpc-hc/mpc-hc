@@ -28,27 +28,27 @@
 
 class UpdateCheckerDlg : public CDialog
 {
-	DECLARE_DYNAMIC(UpdateCheckerDlg)
+    DECLARE_DYNAMIC(UpdateCheckerDlg)
 
 public:
-	UpdateCheckerDlg(Update_Status updateStatus, const Version& latestVersion, CWnd* pParent = NULL);
-	virtual ~UpdateCheckerDlg();
+    UpdateCheckerDlg(Update_Status updateStatus, const Version& latestVersion, CWnd* pParent = NULL);
+    virtual ~UpdateCheckerDlg();
 
-	enum { IDD = IDD_UPDATE_DIALOG };
+    enum { IDD = IDD_UPDATE_DIALOG };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);
-	afx_msg virtual BOOL OnInitDialog();
-	afx_msg void OnOpenDownloadPage();
-	afx_msg void OnUpdateLater();
-	afx_msg void OnIgnoreUpdate();
+    virtual void DoDataExchange(CDataExchange* pDX);
+    afx_msg virtual BOOL OnInitDialog();
+    afx_msg void OnOpenDownloadPage();
+    afx_msg void OnUpdateLater();
+    afx_msg void OnIgnoreUpdate();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 private:
-	Update_Status m_updateStatus;
-	CString m_text;
-	CStatic m_icon;
-	CButton m_dlButton;
-	CButton m_laterButton;
-	CButton m_ignoreButton;
+    Update_Status m_updateStatus;
+    CString m_text;
+    CStatic m_icon;
+    CButton m_dlButton;
+    CButton m_laterButton;
+    CButton m_ignoreButton;
 };

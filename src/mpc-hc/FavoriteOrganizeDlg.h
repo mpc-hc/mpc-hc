@@ -32,49 +32,49 @@
 
 class CFavoriteOrganizeDlg : public CResizableDialog
 {
-	//	DECLARE_DYNAMIC(CFavoriteOrganizeDlg)
+    //  DECLARE_DYNAMIC(CFavoriteOrganizeDlg)
 
 private:
-	CAtlList<CString> m_sl[3];
+    CAtlList<CString> m_sl[3];
 
 public:
-	CFavoriteOrganizeDlg(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CFavoriteOrganizeDlg();
+    CFavoriteOrganizeDlg(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CFavoriteOrganizeDlg();
 
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	// Dialog Data
-	enum { IDD = IDD_FAVORGANIZE };
+    // Dialog Data
+    enum { IDD = IDD_FAVORGANIZE };
 
-	CTabCtrl m_tab;
-	CListCtrl m_list;
+    CTabCtrl m_tab;
+    CListCtrl m_list;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
 
-	void SetupList(bool fSave);
-	void UpdateColumnsSizes();
-	void MoveItem(int nItem, int offset);
-	void PlayFavorite(int nItem);
+    void SetupList(bool fSave);
+    void UpdateColumnsSizes();
+    void MoveItem(int nItem, int offset);
+    void PlayFavorite(int nItem);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
-	afx_msg void OnRenameBnClicked();
-	afx_msg void OnUpdateRenameBn(CCmdUI* pCmdUI);
-	afx_msg void OnDeleteBnClicked();
-	afx_msg void OnUpdateDeleteBn(CCmdUI* pCmdUI);
-	afx_msg void OnUpBnClicked();
-	afx_msg void OnUpdateUpBn(CCmdUI* pCmdUI);
-	afx_msg void OnDownBnClicked();
-	afx_msg void OnUpdateDownBn(CCmdUI* pCmdUI);
-	afx_msg void OnTcnSelchangingTab1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnBnClickedOk();
-	afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
-	afx_msg void OnLvnEndlabeleditList2(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnPlayFavorite(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
+    afx_msg void OnRenameBnClicked();
+    afx_msg void OnUpdateRenameBn(CCmdUI* pCmdUI);
+    afx_msg void OnDeleteBnClicked();
+    afx_msg void OnUpdateDeleteBn(CCmdUI* pCmdUI);
+    afx_msg void OnUpBnClicked();
+    afx_msg void OnUpdateUpBn(CCmdUI* pCmdUI);
+    afx_msg void OnDownBnClicked();
+    afx_msg void OnUpdateDownBn(CCmdUI* pCmdUI);
+    afx_msg void OnTcnSelchangingTab1(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnBnClickedOk();
+    afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
+    afx_msg void OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnPlayFavorite(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnSize(UINT nType, int cx, int cy);
 };

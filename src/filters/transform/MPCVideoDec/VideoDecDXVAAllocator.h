@@ -34,68 +34,68 @@ class CVideoDecDXVAAllocator;
 interface __declspec(uuid("AE7EC2A2-1913-4a80-8DD6-DF1497ABA494"))
 IMPCDXVA2Sample :
 public IUnknown {
-	STDMETHOD_(int, GetDXSurfaceId()) = 0;
+    STDMETHOD_(int, GetDXSurfaceId()) = 0;
 };
 
 class CDXVA2Sample : public CMediaSample, public IMFGetService, public IMPCDXVA2Sample
 {
-	friend class CVideoDecDXVAAllocator;
+    friend class CVideoDecDXVAAllocator;
 
 public:
 
-	CDXVA2Sample(CVideoDecDXVAAllocator *pAlloc, HRESULT *phr);
+    CDXVA2Sample(CVideoDecDXVAAllocator* pAlloc, HRESULT* phr);
 
-	//Note: CMediaSample does not derive from CUnknown, so we cannot use the
-	//		DECLARE_IUNKNOWN macro that is used by most of the filter classes.
+    //Note: CMediaSample does not derive from CUnknown, so we cannot use the
+    //      DECLARE_IUNKNOWN macro that is used by most of the filter classes.
 
-	STDMETHODIMP			QueryInterface(REFIID riid, __deref_out void **ppv);
-	STDMETHODIMP_(ULONG)	AddRef();
-	STDMETHODIMP_(ULONG)	Release();
+    STDMETHODIMP            QueryInterface(REFIID riid, __deref_out void** ppv);
+    STDMETHODIMP_(ULONG)    AddRef();
+    STDMETHODIMP_(ULONG)    Release();
 
-	// IMFGetService::GetService
-	STDMETHODIMP GetService(REFGUID guidService, REFIID riid, LPVOID *ppv);
+    // IMFGetService::GetService
+    STDMETHODIMP GetService(REFGUID guidService, REFIID riid, LPVOID* ppv);
 
-	// IMPCDXVA2Sample
-	STDMETHODIMP_(int) GetDXSurfaceId();
+    // IMPCDXVA2Sample
+    STDMETHODIMP_(int) GetDXSurfaceId();
 
-	// Override GetPointer because this class does not manage a system memory buffer.
-	// The EVR uses the MR_BUFFER_SERVICE service to get the Direct3D surface.
-	STDMETHODIMP GetPointer(BYTE ** ppBuffer);
+    // Override GetPointer because this class does not manage a system memory buffer.
+    // The EVR uses the MR_BUFFER_SERVICE service to get the Direct3D surface.
+    STDMETHODIMP GetPointer(BYTE** ppBuffer);
 
 private:
 
-	// Sets the pointer to the Direct3D surface.
-	void SetSurface(DWORD surfaceId, IDirect3DSurface9 *pSurf);
+    // Sets the pointer to the Direct3D surface.
+    void SetSurface(DWORD surfaceId, IDirect3DSurface9* pSurf);
 
-	CComPtr<IDirect3DSurface9>	m_pSurface;
-	DWORD						m_dwSurfaceId;
+    CComPtr<IDirect3DSurface9>  m_pSurface;
+    DWORD                       m_dwSurfaceId;
 };
 
 
 class CVideoDecDXVAAllocator : public CBaseAllocator
 {
 public:
-	CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter, HRESULT* phr);
-	virtual ~CVideoDecDXVAAllocator();
+    CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter, HRESULT* phr);
+    virtual ~CVideoDecDXVAAllocator();
 
-	//	STDMETHODIMP GetBuffer(__deref_out IMediaSample **ppBuffer,		// Try for a circular buffer!
-	//                          __in_opt REFERENCE_TIME * pStartTime,
-	//                          __in_opt REFERENCE_TIME * pEndTime,
-	//                          DWORD dwFlags);
-	//
-	//	STDMETHODIMP ReleaseBuffer(IMediaSample *pBuffer);
-	//	CAtlList<int>			m_FreeSurface;
+    //  STDMETHODIMP GetBuffer(__deref_out IMediaSample **ppBuffer,     // Try for a circular buffer!
+    //                          __in_opt REFERENCE_TIME * pStartTime,
+    //                          __in_opt REFERENCE_TIME * pEndTime,
+    //                          DWORD dwFlags);
+    //
+    //  STDMETHODIMP ReleaseBuffer(IMediaSample *pBuffer);
+    //  CAtlList<int>           m_FreeSurface;
 
 
 protected:
-	HRESULT		Alloc(void);
-	void		Free(void);
+    HRESULT     Alloc(void);
+    void        Free(void);
 
 
 private :
-	CMPCVideoDecFilter*		m_pVideoDecFilter;
+    CMPCVideoDecFilter*     m_pVideoDecFilter;
 
-	IDirect3DSurface9**		m_ppRTSurfaceArray;
-	UINT					m_nSurfaceArrayCount;
+    IDirect3DSurface9**     m_ppRTSurfaceArray;
+    UINT                    m_nSurfaceArrayCount;
 
 };

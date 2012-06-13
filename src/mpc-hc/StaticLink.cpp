@@ -28,16 +28,16 @@
 
 // CStaticLink
 
-COLORREF CStaticLink::g_colorUnvisited = RGB(0,0,255);			// blue
-COLORREF CStaticLink::g_colorVisited   = RGB(128,0,128);		// purple
+COLORREF CStaticLink::g_colorUnvisited = RGB(0, 0, 255);        // blue
+COLORREF CStaticLink::g_colorVisited   = RGB(128, 0, 128);      // purple
 
 IMPLEMENT_DYNAMIC(CStaticLink, CStatic)
 
 BEGIN_MESSAGE_MAP(CStaticLink, CStatic)
-	ON_WM_NCHITTEST()
-	ON_WM_CTLCOLOR_REFLECT()
-	ON_WM_LBUTTONDOWN()
-	ON_WM_SETCURSOR()
+    ON_WM_NCHITTEST()
+    ON_WM_CTLCOLOR_REFLECT()
+    ON_WM_LBUTTONDOWN()
+    ON_WM_SETCURSOR()
 END_MESSAGE_MAP()
 
 ///////////////////
@@ -46,9 +46,9 @@ END_MESSAGE_MAP()
 //
 CStaticLink::CStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy)
 {
-	m_link = lpText;							// link text (NULL ==> window text)
-	m_color = g_colorUnvisited;					// not visited yet
-	m_bDeleteOnDestroy = bDeleteOnDestroy;		// delete object with window?
+    m_link = lpText;                            // link text (NULL ==> window text)
+    m_color = g_colorUnvisited;                 // not visited yet
+    m_bDeleteOnDestroy = bDeleteOnDestroy;      // delete object with window?
 }
 
 //////////////////
@@ -59,7 +59,7 @@ CStaticLink::CStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy)
 //
 LRESULT CStaticLink::OnNcHitTest(CPoint point)
 {
-	return HTCLIENT;
+    return HTCLIENT;
 }
 
 //////////////////
@@ -69,30 +69,30 @@ LRESULT CStaticLink::OnNcHitTest(CPoint point)
 //
 HBRUSH CStaticLink::CtlColor(CDC* pDC, UINT nCtlColor)
 {
-	ASSERT(nCtlColor == CTLCOLOR_STATIC);
-	DWORD dwStyle = GetStyle();
+    ASSERT(nCtlColor == CTLCOLOR_STATIC);
+    DWORD dwStyle = GetStyle();
 
-	HBRUSH hbr = NULL;
-	if ((dwStyle & 0xFF) <= SS_RIGHT) {
+    HBRUSH hbr = NULL;
+    if ((dwStyle & 0xFF) <= SS_RIGHT) {
 
-		// this is a text control: set up font and colors
-		if (!(HFONT)m_font) {
-			// first time init: create font
-			LOGFONT lf;
-			GetFont()->GetObject(sizeof(lf), &lf);
-			lf.lfUnderline = TRUE;
-			m_font.CreateFontIndirect(&lf);
-		}
+        // this is a text control: set up font and colors
+        if (!(HFONT)m_font) {
+            // first time init: create font
+            LOGFONT lf;
+            GetFont()->GetObject(sizeof(lf), &lf);
+            lf.lfUnderline = TRUE;
+            m_font.CreateFontIndirect(&lf);
+        }
 
-		// use underline font and visited/unvisited colors
-		pDC->SelectObject(&m_font);
-		pDC->SetTextColor(m_color);
-		pDC->SetBkMode(TRANSPARENT);
+        // use underline font and visited/unvisited colors
+        pDC->SelectObject(&m_font);
+        pDC->SetTextColor(m_color);
+        pDC->SetBkMode(TRANSPARENT);
 
-		// return hollow brush to preserve parent background color
-		hbr = (HBRUSH)::GetStockObject(HOLLOW_BRUSH);
-	}
-	return hbr;
+        // return hollow brush to preserve parent background color
+        hbr = (HBRUSH)::GetStockObject(HOLLOW_BRUSH);
+    }
+    return hbr;
 }
 
 /////////////////
@@ -100,26 +100,26 @@ HBRUSH CStaticLink::CtlColor(CDC* pDC, UINT nCtlColor)
 //
 void CStaticLink::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if (m_link.IsEmpty()) {
-		// no link: try to load from resource string or window text
-		m_link.LoadString(GetDlgCtrlID()) || (GetWindowText(m_link),1);
-		if (m_link.IsEmpty()) {
-			return;
-		}
-	}
+    if (m_link.IsEmpty()) {
+        // no link: try to load from resource string or window text
+        m_link.LoadString(GetDlgCtrlID()) || (GetWindowText(m_link), 1);
+        if (m_link.IsEmpty()) {
+            return;
+        }
+    }
 
-	// Call ShellExecute to run the file.
-	// For an URL, this means opening it in the browser.
-	//
-	HINSTANCE h = m_link.Navigate();
-	if ((UINT_PTR)h > 32) {						// success!
-		m_color = g_colorVisited;				// change color
-		Invalidate();							// repaint
-	} else {
-		MessageBeep(0);							// unable to execute file!
-		TRACE(_T("*** WARNING: CStaticLink: unable to navigate link %s\n"),
-			  (LPCTSTR)m_link);
-	}
+    // Call ShellExecute to run the file.
+    // For an URL, this means opening it in the browser.
+    //
+    HINSTANCE h = m_link.Navigate();
+    if ((UINT_PTR)h > 32) {                     // success!
+        m_color = g_colorVisited;               // change color
+        Invalidate();                           // repaint
+    } else {
+        MessageBeep(0);                         // unable to execute file!
+        TRACE(_T("*** WARNING: CStaticLink: unable to navigate link %s\n"),
+              (LPCTSTR)m_link);
+    }
 }
 
 //////////////////
@@ -127,8 +127,8 @@ void CStaticLink::OnLButtonDown(UINT nFlags, CPoint point)
 //
 BOOL CStaticLink::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
-	return TRUE;
+    ::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+    return TRUE;
 }
 
 //////////////////
@@ -141,7 +141,7 @@ BOOL CStaticLink::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 //
 void CStaticLink::PostNcDestroy()
 {
-	if (m_bDeleteOnDestroy) {
-		delete this;
-	}
+    if (m_bDeleteOnDestroy) {
+        delete this;
+    }
 }

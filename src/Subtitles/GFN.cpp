@@ -27,146 +27,146 @@
 #include "GFN.h"
 
 TCHAR* exttypestr[] = {
-	_T("srt"), _T("sub"), _T("smi"), _T("psb"),
-	_T("ssa"), _T("ass"), _T("idx"), _T("usf"),
-	_T("xss"), _T("txt"), _T("rt"), _T("sup")
+    _T("srt"), _T("sub"), _T("smi"), _T("psb"),
+    _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
+    _T("xss"), _T("txt"), _T("rt"), _T("sup")
 };
 
 static TCHAR* ext[3][_countof(exttypestr)] = {
-	{
-		_T(".srt"), _T(".sub"), _T(".smi"), _T(".psb"),
-		_T(".ssa"), _T(".ass"), _T(".idx"), _T(".usf"),
-		_T(".xss"), _T(".txt"), _T(".rt"), _T(".sup")
-	},
-	{
-		_T(".*.srt"), _T(".*.sub"), _T(".*.smi"), _T(".*.psb"),
-		_T(".*.ssa"), _T(".*.ass"), _T(".*.dummyidx"), _T(".*.usf"),
-		_T(".*.xss"), _T(".*.txt"), _T(".*.rt"), _T(".*.sup")
-	},
-	{
-		_T("-*.srt"), _T("-*.sub"), _T("-*.smi"), _T("-*.psb"),
-		_T("-*.ssa"), _T("-*.ass"), _T("-*.dummyidx"), _T("-*.usf"),
-		_T("-*.xss"), _T("-*.txt"), _T("-*.rt"), _T("-*.sup")
-	},
+    {
+        _T(".srt"), _T(".sub"), _T(".smi"), _T(".psb"),
+        _T(".ssa"), _T(".ass"), _T(".idx"), _T(".usf"),
+        _T(".xss"), _T(".txt"), _T(".rt"), _T(".sup")
+    },
+    {
+        _T(".*.srt"), _T(".*.sub"), _T(".*.smi"), _T(".*.psb"),
+        _T(".*.ssa"), _T(".*.ass"), _T(".*.dummyidx"), _T(".*.usf"),
+        _T(".*.xss"), _T(".*.txt"), _T(".*.rt"), _T(".*.sup")
+    },
+    {
+        _T("-*.srt"), _T("-*.sub"), _T("-*.smi"), _T("-*.psb"),
+        _T("-*.ssa"), _T("-*.ass"), _T("-*.dummyidx"), _T("-*.usf"),
+        _T("-*.xss"), _T("-*.txt"), _T("-*.rt"), _T("-*.sup")
+    },
 };
 
 #define WEBSUBEXT _T(".wse")
 
 static int SubFileCompare(const void* elem1, const void* elem2)
 {
-	return ((SubFile*)elem1)->fn.CompareNoCase(((SubFile*)elem2)->fn);
+    return ((SubFile*)elem1)->fn.CompareNoCase(((SubFile*)elem2)->fn);
 }
 
 void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& ret)
 {
-	ret.RemoveAll();
+    ret.RemoveAll();
 
-	int extlistnum = _countof(ext);
-	int extsubnum = _countof(ext[0]);
+    int extlistnum = _countof(ext);
+    int extsubnum = _countof(ext[0]);
 
-	fn.Replace('\\', '/');
+    fn.Replace('\\', '/');
 
-	bool fWeb = false;
-	{
-		//		int i = fn.Find(_T("://"));
-		int i = fn.Find(_T("http://"));
-		if (i > 0) {
-			fn = _T("http") + fn.Mid(i);
-			fWeb = true;
-		}
-	}
+    bool fWeb = false;
+    {
+        //      int i = fn.Find(_T("://"));
+        int i = fn.Find(_T("http://"));
+        if (i > 0) {
+            fn = _T("http") + fn.Mid(i);
+            fWeb = true;
+        }
+    }
 
-	int	l = fn.GetLength(), l2 = l;
-	l2 = fn.ReverseFind('.');
-	l = fn.ReverseFind('/') + 1;
-	if (l2 < l) {
-		l2 = l;
-	}
+    int l = fn.GetLength(), l2 = l;
+    l2 = fn.ReverseFind('.');
+    l = fn.ReverseFind('/') + 1;
+    if (l2 < l) {
+        l2 = l;
+    }
 
-	CString orgpath = fn.Left(l);
-	CString title = fn.Mid(l, l2-l);
-	CString filename = title + _T(".nooneexpectsthespanishinquisition");
+    CString orgpath = fn.Left(l);
+    CString title = fn.Mid(l, l2 - l);
+    CString filename = title + _T(".nooneexpectsthespanishinquisition");
 
-	if (!fWeb) {
-		// struct _tfinddata_t file, file2;
-		// long hFile, hFile2 = 0;
+    if (!fWeb) {
+        // struct _tfinddata_t file, file2;
+        // long hFile, hFile2 = 0;
 
-		WIN32_FIND_DATA wfd, wfd2;
-		HANDLE hFile, hFile2;
+        WIN32_FIND_DATA wfd, wfd2;
+        HANDLE hFile, hFile2;
 
-		for (size_t k = 0; k < paths.GetCount(); k++) {
-			CString path = paths[k];
-			path.Replace('\\', '/');
+        for (size_t k = 0; k < paths.GetCount(); k++) {
+            CString path = paths[k];
+            path.Replace('\\', '/');
 
-			l = path.GetLength();
-			if (l > 0 && path[l-1] != '/') {
-				path += '/';
-			}
+            l = path.GetLength();
+            if (l > 0 && path[l - 1] != '/') {
+                path += '/';
+            }
 
-			if (path.Find(':') == -1 && path.Find(_T("\\\\")) != 0) {
-				path = orgpath + path;
-			}
+            if (path.Find(':') == -1 && path.Find(_T("\\\\")) != 0) {
+                path = orgpath + path;
+            }
 
-			path.Replace(_T("/./"), _T("/"));
-			path.Replace('/', '\\');
+            path.Replace(_T("/./"), _T("/"));
+            path.Replace('/', '\\');
 
-			// CAtlList<CString> sl;
+            // CAtlList<CString> sl;
 
-			bool fEmpty = true;
+            bool fEmpty = true;
 
-			if ((hFile = FindFirstFile(path + title + _T("*"), &wfd)) != INVALID_HANDLE_VALUE) {
-				do {
-					if (filename.CompareNoCase(wfd.cFileName) != 0) {
-						fEmpty = false;
-						// sl.AddTail(path + file.name);
-					}
-				} while (FindNextFile(hFile, &wfd));
+            if ((hFile = FindFirstFile(path + title + _T("*"), &wfd)) != INVALID_HANDLE_VALUE) {
+                do {
+                    if (filename.CompareNoCase(wfd.cFileName) != 0) {
+                        fEmpty = false;
+                        // sl.AddTail(path + file.name);
+                    }
+                } while (FindNextFile(hFile, &wfd));
 
-				FindClose(hFile);
-			}
+                FindClose(hFile);
+            }
 
-			// TODO: use 'sl' in the next step to find files (already a nice speedup as it is now...)
-			if (fEmpty) {
-				continue;
-			}
+            // TODO: use 'sl' in the next step to find files (already a nice speedup as it is now...)
+            if (fEmpty) {
+                continue;
+            }
 
-			for (ptrdiff_t j = 0; j < extlistnum; j++) {
-				for (ptrdiff_t i = 0; i < extsubnum; i++) {
-					if ((hFile = FindFirstFile(path + title + ext[j][i], &wfd)) != INVALID_HANDLE_VALUE) {
-						do {
-							CString fn = path + wfd.cFileName;
+            for (ptrdiff_t j = 0; j < extlistnum; j++) {
+                for (ptrdiff_t i = 0; i < extsubnum; i++) {
+                    if ((hFile = FindFirstFile(path + title + ext[j][i], &wfd)) != INVALID_HANDLE_VALUE) {
+                        do {
+                            CString fn = path + wfd.cFileName;
 
-							hFile2 = INVALID_HANDLE_VALUE;
+                            hFile2 = INVALID_HANDLE_VALUE;
 
-							if (j == 0 || (hFile2 = FindFirstFile(fn.Left(fn.ReverseFind('.')) + _T(".avi"), &wfd2)) == INVALID_HANDLE_VALUE) {
-								SubFile f;
-								f.fn = fn;
-								ret.Add(f);
-							}
+                            if (j == 0 || (hFile2 = FindFirstFile(fn.Left(fn.ReverseFind('.')) + _T(".avi"), &wfd2)) == INVALID_HANDLE_VALUE) {
+                                SubFile f;
+                                f.fn = fn;
+                                ret.Add(f);
+                            }
 
-							if (hFile2 != INVALID_HANDLE_VALUE) {
-								FindClose(hFile2);
-							}
-						} while (FindNextFile(hFile, &wfd));
+                            if (hFile2 != INVALID_HANDLE_VALUE) {
+                                FindClose(hFile2);
+                            }
+                        } while (FindNextFile(hFile, &wfd));
 
-						FindClose(hFile);
-					}
-				}
-			}
-		}
-	} else if (l > 7) {
-		CWebTextFile wtf; // :)
-		if (wtf.Open(orgpath + title + WEBSUBEXT)) {
-			CString fn;
-			while (wtf.ReadString(fn) && fn.Find(_T("://")) >= 0) {
-				SubFile f;
-				f.fn = fn;
-				ret.Add(f);
-			}
-		}
-	}
+                        FindClose(hFile);
+                    }
+                }
+            }
+        }
+    } else if (l > 7) {
+        CWebTextFile wtf; // :)
+        if (wtf.Open(orgpath + title + WEBSUBEXT)) {
+            CString fn;
+            while (wtf.ReadString(fn) && fn.Find(_T("://")) >= 0) {
+                SubFile f;
+                f.fn = fn;
+                ret.Add(f);
+            }
+        }
+    }
 
-	// sort files, this way the user can define the order (movie.00.English.srt, movie.01.Hungarian.srt, etc)
+    // sort files, this way the user can define the order (movie.00.English.srt, movie.01.Hungarian.srt, etc)
 
-	qsort(ret.GetData(), ret.GetCount(), sizeof(SubFile), SubFileCompare);
+    qsort(ret.GetData(), ret.GetCount(), sizeof(SubFile), SubFileCompare);
 }

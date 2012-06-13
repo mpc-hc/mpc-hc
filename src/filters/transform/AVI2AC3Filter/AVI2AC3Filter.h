@@ -37,12 +37,12 @@
 */
 
 typedef struct tagDOLBYAC3WAVEFORMAT {
-	WAVEFORMATEX    wfx;
-	BYTE            bBigEndian;     // TRUE = Big Endian, FALSE little endian
-	BYTE            bsid;
-	BYTE            lfeon;
-	BYTE            copyrightb;
-	BYTE            nAuxBitsCode;   //  Aux bits per frame
+    WAVEFORMATEX    wfx;
+    BYTE            bBigEndian;     // TRUE = Big Endian, FALSE little endian
+    BYTE            bsid;
+    BYTE            lfeon;
+    BYTE            copyrightb;
+    BYTE            nAuxBitsCode;   //  Aux bits per frame
 } DOLBYAC3WAVEFORMAT;
 
 //
@@ -50,20 +50,20 @@ typedef struct tagDOLBYAC3WAVEFORMAT {
 //
 
 class __declspec(uuid("93230DD0-7B3C-4efb-AFBB-DC380FEC9E6B"))
-	CAVI2AC3Filter : public CTransformFilter
+    CAVI2AC3Filter : public CTransformFilter
 {
-	bool CheckAC3(const CMediaType* pmt);
-	bool CheckDTS(const CMediaType* pmt);
-	bool CheckWAVEAC3(const CMediaType* pmt);
-	bool CheckWAVEDTS(const CMediaType* pmt);
+    bool CheckAC3(const CMediaType* pmt);
+    bool CheckDTS(const CMediaType* pmt);
+    bool CheckWAVEAC3(const CMediaType* pmt);
+    bool CheckWAVEDTS(const CMediaType* pmt);
 
 public:
-	CAVI2AC3Filter(LPUNKNOWN lpunk, HRESULT* phr);
-	virtual ~CAVI2AC3Filter();
+    CAVI2AC3Filter(LPUNKNOWN lpunk, HRESULT* phr);
+    virtual ~CAVI2AC3Filter();
 
-	HRESULT Transform(IMediaSample* pIn, IMediaSample* pOut);
-	HRESULT CheckInputType(const CMediaType* mtIn);
-	HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
-	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
-	HRESULT GetMediaType(int iPosition, CMediaType* pMediaType);
+    HRESULT Transform(IMediaSample* pIn, IMediaSample* pOut);
+    HRESULT CheckInputType(const CMediaType* mtIn);
+    HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
+    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+    HRESULT GetMediaType(int iPosition, CMediaType* pMediaType);
 };

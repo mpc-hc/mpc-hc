@@ -29,35 +29,35 @@
 
 class CPPageLogo : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageLogo)
+    DECLARE_DYNAMIC(CPPageLogo)
 
 private:
-	CList<UINT> m_logoids;
-	POSITION m_logoidpos;
-	CMPCPngImage m_logo;
-	void GetDataFromRes();
+    CList<UINT> m_logoids;
+    POSITION m_logoidpos;
+    CMPCPngImage m_logo;
+    void GetDataFromRes();
 
 public:
-	CPPageLogo();
-	virtual ~CPPageLogo();
+    CPPageLogo();
+    virtual ~CPPageLogo();
 
-	// Dialog Data
-	enum { IDD = IDD_PPAGELOGO };
-	int m_intext;
-	CString m_logofn;
-	CStatic m_logopreview;
+    // Dialog Data
+    enum { IDD = IDD_PPAGELOGO };
+    int m_intext;
+    CString m_logofn;
+    CStatic m_logopreview;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnBnClickedInternalRadio();
-	afx_msg void OnBnClickedExternalRadio();
-	afx_msg void OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnBnClickedButton2();
-	CString m_author;
+    afx_msg void OnBnClickedInternalRadio();
+    afx_msg void OnBnClickedExternalRadio();
+    afx_msg void OnDeltaposSpin1(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnBnClickedButton2();
+    CString m_author;
 };

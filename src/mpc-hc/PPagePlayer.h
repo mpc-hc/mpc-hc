@@ -30,42 +30,42 @@
 
 class CPPagePlayer : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPagePlayer)
+    DECLARE_DYNAMIC(CPPagePlayer)
 
 public:
-	CPPagePlayer();
-	virtual ~CPPagePlayer();
+    CPPagePlayer();
+    virtual ~CPPagePlayer();
 
-	int m_iAllowMultipleInst;
-	int m_iTitleBarTextStyle;
-	BOOL m_bTitleBarTextTitle;
-	BOOL m_iAlwaysOnTop;
-	BOOL m_fRememberWindowPos;
-	BOOL m_fRememberWindowSize;
-	BOOL m_fSavePnSZoom;
-	BOOL m_fSnapToDesktopEdges;
-	BOOL m_fUseIni;
-	BOOL m_fTrayIcon;
-	BOOL m_fKeepHistory;
-	BOOL m_fHideCDROMsSubMenu;
-	BOOL m_priority;
-	BOOL m_fShowOSD;
-	BOOL m_fLimitWindowProportions;
-	BOOL m_fRememberDVDPos;
-	BOOL m_fRememberFilePos;
+    int m_iAllowMultipleInst;
+    int m_iTitleBarTextStyle;
+    BOOL m_bTitleBarTextTitle;
+    BOOL m_iAlwaysOnTop;
+    BOOL m_fRememberWindowPos;
+    BOOL m_fRememberWindowSize;
+    BOOL m_fSavePnSZoom;
+    BOOL m_fSnapToDesktopEdges;
+    BOOL m_fUseIni;
+    BOOL m_fTrayIcon;
+    BOOL m_fKeepHistory;
+    BOOL m_fHideCDROMsSubMenu;
+    BOOL m_priority;
+    BOOL m_fShowOSD;
+    BOOL m_fLimitWindowProportions;
+    BOOL m_fRememberDVDPos;
+    BOOL m_fRememberFilePos;
 
-	// Dialog Data
-	enum { IDD = IDD_PPAGEPLAYER };
+    // Dialog Data
+    enum { IDD = IDD_PPAGEPLAYER };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateCheck13(CCmdUI* pCmdUI);
-	afx_msg void OnUpdatePos(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateCheck13(CCmdUI* pCmdUI);
+    afx_msg void OnUpdatePos(CCmdUI* pCmdUI);
 };

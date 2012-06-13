@@ -30,40 +30,40 @@
 
 class CPPageFileInfoClip : public CPropertyPage
 {
-	DECLARE_DYNAMIC(CPPageFileInfoClip)
+    DECLARE_DYNAMIC(CPPageFileInfoClip)
 
 private:
-	CComPtr<IFilterGraph> m_pFG;
-	HICON m_hIcon;
+    CComPtr<IFilterGraph> m_pFG;
+    HICON m_hIcon;
 
-	CToolTipCtrl m_tooltip;
+    CToolTipCtrl m_tooltip;
 
 public:
-	CPPageFileInfoClip(CString fn, IFilterGraph* pFG);
-	virtual ~CPPageFileInfoClip();
+    CPPageFileInfoClip(CString fn, IFilterGraph* pFG);
+    virtual ~CPPageFileInfoClip();
 
-	// Dialog Data
-	enum { IDD = IDD_FILEPROPCLIP };
+    // Dialog Data
+    enum { IDD = IDD_FILEPROPCLIP };
 
-	CStatic m_icon;
-	CString m_fn;
-	CString m_clip;
-	CString m_author;
-	CString m_copyright;
-	CString m_rating;
-	CString m_location_str;
-	CEdit   m_location;
-	CEdit   m_desc;
+    CStatic m_icon;
+    CString m_fn;
+    CString m_clip;
+    CString m_author;
+    CString m_copyright;
+    CString m_rating;
+    CString m_location_str;
+    CEdit   m_location;
+    CEdit   m_desc;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	virtual BOOL OnSetActive();
-	virtual LRESULT OnSetPageFocus(WPARAM wParam, LPARAM lParam);
-	BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL OnSetActive();
+    virtual LRESULT OnSetPageFocus(WPARAM wParam, LPARAM lParam);
+    BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
 };

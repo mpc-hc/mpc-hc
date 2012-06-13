@@ -30,72 +30,72 @@
 
 class CPPageFullscreen : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageFullscreen)
+    DECLARE_DYNAMIC(CPPageFullscreen)
 
-	//	private:
-	CAtlArray<dispmode> m_dms;
-	CAtlArray<CString> sl;
-	CStringArray m_MonitorDisplayNames;
+    //  private:
+    CAtlArray<dispmode> m_dms;
+    CAtlArray<CString> sl;
+    CStringArray m_MonitorDisplayNames;
 
 public:
-	CPPageFullscreen();
-	virtual ~CPPageFullscreen();
+    CPPageFullscreen();
+    virtual ~CPPageFullscreen();
 
-	BOOL m_launchfullscreen;
-	BOOL m_fSetFullscreenRes;
-	BOOL m_fSetDefault;
+    BOOL m_launchfullscreen;
+    BOOL m_fSetFullscreenRes;
+    BOOL m_fSetDefault;
 
-	CPlayerListCtrl m_list;
-	enum {COL_Z, COL_VFR_F, COL_VFR_T, COL_SRR};
+    CPlayerListCtrl m_list;
+    enum {COL_Z, COL_VFR_F, COL_VFR_T, COL_SRR};
 
-	AChFR m_AutoChangeFullscrRes;
-	CStringW m_f_hmonitor;
-	int m_iMonitorType;
-	CComboBox m_iMonitorTypeCtrl;
+    AChFR m_AutoChangeFullscrRes;
+    CStringW m_f_hmonitor;
+    int m_iMonitorType;
+    CComboBox m_iMonitorTypeCtrl;
 
-	BOOL m_iShowBarsWhenFullScreen;
-	int m_nShowBarsWhenFullScreenTimeOut;
-	BOOL m_fExitFullScreenAtTheEnd;
-	CSpinButtonCtrl m_nTimeOutCtrl;
-	BOOL m_fRestoreResAfterExit;
+    BOOL m_iShowBarsWhenFullScreen;
+    int m_nShowBarsWhenFullScreenTimeOut;
+    BOOL m_fExitFullScreenAtTheEnd;
+    CSpinButtonCtrl m_nTimeOutCtrl;
+    BOOL m_fRestoreResAfterExit;
 
-	int m_iSel;
-	int m_iSeldm[MaxFpsCount];
+    int m_iSel;
+    int m_iSeldm[MaxFpsCount];
 
-	// Dialog Data
-	enum { IDD = IDD_PPAGEFULLSCREEN };
+    // Dialog Data
+    enum { IDD = IDD_PPAGEFULLSCREEN };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnUpdateList(CCmdUI* pCmdUI);
-	afx_msg void OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnCheckChangeList();
-	afx_msg void OnUpdateApplyDefault(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateFullScrCombo();
-	afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateRestoreRes(CCmdUI* pCmdUI);
-	afx_msg void OnRemove();
-	afx_msg void OnUpdateRemove(CCmdUI* pCmdUI);
-	afx_msg void OnAdd();
-	afx_msg void OnUpdateAdd(CCmdUI* pCmdUI);
-	afx_msg void OnMoveUp();
-	afx_msg void OnMoveDown();
-	afx_msg void OnUpdateUp(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateDown(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateList(CCmdUI* pCmdUI);
+    afx_msg void OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnCheckChangeList();
+    afx_msg void OnUpdateApplyDefault(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateFullScrCombo();
+    afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateRestoreRes(CCmdUI* pCmdUI);
+    afx_msg void OnRemove();
+    afx_msg void OnUpdateRemove(CCmdUI* pCmdUI);
+    afx_msg void OnAdd();
+    afx_msg void OnUpdateAdd(CCmdUI* pCmdUI);
+    afx_msg void OnMoveUp();
+    afx_msg void OnMoveDown();
+    afx_msg void OnUpdateUp(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateDown(CCmdUI* pCmdUI);
 
-	void ReindexList();
-	void ReindexListSubItem();
-	void GetCurDispModeString(CString& strMode);
-	void ModesUpdate();
+    void ReindexList();
+    void ReindexListSubItem();
+    void GetCurDispModeString(CString& strMode);
+    void ModesUpdate();
 };

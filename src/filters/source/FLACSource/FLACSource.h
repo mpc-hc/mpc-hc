@@ -31,48 +31,48 @@
 class CFLACStream;
 
 class __declspec(uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2"))
-	CFLACSource : public CBaseSource<CFLACStream>
+    CFLACSource : public CBaseSource<CFLACStream>
 {
 public:
-	CFLACSource(LPUNKNOWN lpunk, HRESULT* phr);
-	virtual ~CFLACSource();
+    CFLACSource(LPUNKNOWN lpunk, HRESULT* phr);
+    virtual ~CFLACSource();
 
-	// CBaseFilter
-	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+    // CBaseFilter
+    STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 };
 
 class CGolombBuffer;
 
 class CFLACStream : public CBaseStream
 {
-	CFile		m_file;
-	void*		m_pDecoder;
+    CFile       m_file;
+    void*       m_pDecoder;
 
-	int			m_nMaxFrameSize;
-	int			m_nSamplesPerSec;
-	int			m_nChannels;
-	WORD		m_wBitsPerSample;
-	__int64		m_i64TotalNumSamples;
-	int			m_nAvgBytesPerSec;
+    int         m_nMaxFrameSize;
+    int         m_nSamplesPerSec;
+    int         m_nChannels;
+    WORD        m_wBitsPerSample;
+    __int64     m_i64TotalNumSamples;
+    int         m_nAvgBytesPerSec;
 
-	ULONGLONG	m_llOffset;				// Position of first frame in file
-	ULONGLONG	m_llFileSize;			// Size of the file
+    ULONGLONG   m_llOffset;             // Position of first frame in file
+    ULONGLONG   m_llFileSize;           // Size of the file
 
 public:
-	CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr);
-	virtual ~CFLACStream();
+    CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr);
+    virtual ~CFLACStream();
 
-	HRESULT			FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len);
+    HRESULT         FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len);
 
-	HRESULT			DecideBufferSize(IMemAllocator* pIMemAlloc, ALLOCATOR_PROPERTIES* pProperties);
-	HRESULT			CheckMediaType(const CMediaType* pMediaType);
-	HRESULT			GetMediaType(int iPosition, CMediaType* pmt);
+    HRESULT         DecideBufferSize(IMemAllocator* pIMemAlloc, ALLOCATOR_PROPERTIES* pProperties);
+    HRESULT         CheckMediaType(const CMediaType* pMediaType);
+    HRESULT         GetMediaType(int iPosition, CMediaType* pmt);
 
-	void			UpdateFromMetadata (void* pBuffer);
-	inline CFile*	GetFile() {
-		return &m_file;
-	};
+    void            UpdateFromMetadata(void* pBuffer);
+    inline CFile*   GetFile() {
+        return &m_file;
+    };
 
-	bool			m_bIsEOF;
+    bool            m_bIsEOF;
 };
 

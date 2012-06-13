@@ -25,17 +25,17 @@
 
 #pragma pack(1)
 struct VIH {
-	VIDEOINFOHEADER vih;
-	UINT mask[3];
-	int size;
-	const GUID* subtype;
+    VIDEOINFOHEADER vih;
+    UINT mask[3];
+    int size;
+    const GUID* subtype;
 };
 
 struct VIH2 {
-	VIDEOINFOHEADER2 vih;
-	UINT mask[3];
-	int size;
-	const GUID* subtype;
+    VIDEOINFOHEADER2 vih;
+    UINT mask[3];
+    int size;
+    const GUID* subtype;
 };
 #pragma pack()
 

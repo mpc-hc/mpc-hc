@@ -44,39 +44,39 @@ extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
 
 BOOL CVSFilterApp::InitInstance()
 {
-	if (!CWinApp::InitInstance()) {
-		return FALSE;
-	}
+    if (!CWinApp::InitInstance()) {
+        return FALSE;
+    }
 
-	SetRegistryKey(_T("Gabest"));
+    SetRegistryKey(_T("Gabest"));
 
-	DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_ATTACH, 0); // "DllMain" of the dshow baseclasses
+    DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_ATTACH, 0); // "DllMain" of the dshow baseclasses
 
-	STARTUPINFO si;
-	GetStartupInfo(&si);
-	m_AppName = CString(si.lpTitle);
-	m_AppName.Replace('\\', '/');
-	m_AppName = m_AppName.Mid(m_AppName.ReverseFind('/')+1);
-	m_AppName.MakeLower();
+    STARTUPINFO si;
+    GetStartupInfo(&si);
+    m_AppName = CString(si.lpTitle);
+    m_AppName.Replace('\\', '/');
+    m_AppName = m_AppName.Mid(m_AppName.ReverseFind('/') + 1);
+    m_AppName.MakeLower();
 
-	return TRUE;
+    return TRUE;
 }
 
 int CVSFilterApp::ExitInstance()
 {
-	DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_DETACH, 0); // "DllMain" of the dshow baseclasses
+    DllEntryPoint(AfxGetInstanceHandle(), DLL_PROCESS_DETACH, 0); // "DllMain" of the dshow baseclasses
 
-	return CWinApp::ExitInstance();
+    return CWinApp::ExitInstance();
 }
 
 HINSTANCE CVSFilterApp::LoadAppLangResourceDLL()
 {
-	CString fn;
-	fn.ReleaseBufferSetLength(::GetModuleFileName(m_hInstance, fn.GetBuffer(_MAX_PATH), _MAX_PATH));
-	fn = fn.Mid(fn.ReverseFind('\\')+1);
-	fn = fn.Left(fn.ReverseFind('.')+1);
-	fn = fn + _T("lang");
-	return ::LoadLibrary(fn);
+    CString fn;
+    fn.ReleaseBufferSetLength(::GetModuleFileName(m_hInstance, fn.GetBuffer(_MAX_PATH), _MAX_PATH));
+    fn = fn.Mid(fn.ReverseFind('\\') + 1);
+    fn = fn.Left(fn.ReverseFind('.') + 1);
+    fn = fn + _T("lang");
+    return ::LoadLibrary(fn);
 }
 
 CVSFilterApp theApp;
@@ -84,49 +84,49 @@ CVSFilterApp theApp;
 //////////////////////////////////////////////////////////////////////////
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
-	{&MEDIATYPE_NULL, &MEDIASUBTYPE_NULL},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_YUY2},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_YV12},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_I420},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_IYUV},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_RGB32},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_RGB565},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_RGB555},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_RGB24},
+    {&MEDIATYPE_NULL, &MEDIASUBTYPE_NULL},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_YUY2},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_YV12},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_I420},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_IYUV},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_RGB32},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_RGB565},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_RGB555},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_RGB24},
 };
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn2[] = {
-	{&MEDIATYPE_Text, &MEDIASUBTYPE_NULL},
-	{&MEDIATYPE_Subtitle, &MEDIASUBTYPE_NULL},
+    {&MEDIATYPE_Text, &MEDIASUBTYPE_NULL},
+    {&MEDIATYPE_Subtitle, &MEDIASUBTYPE_NULL},
 };
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_None},
+    {&MEDIATYPE_Video, &MEDIASUBTYPE_None},
 };
 
 const AMOVIESETUP_PIN sudpPins[] = {
-	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
-	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut},
-	{L"Input2", TRUE, FALSE, FALSE, TRUE, &CLSID_NULL, NULL, _countof(sudPinTypesIn2), sudPinTypesIn2}
+    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesIn), sudPinTypesIn},
+    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, _countof(sudPinTypesOut), sudPinTypesOut},
+    {L"Input2", TRUE, FALSE, FALSE, TRUE, &CLSID_NULL, NULL, _countof(sudPinTypesIn2), sudPinTypesIn2}
 };
 
 /*const*/
 AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CDirectVobSubFilter), L"DirectVobSub", MERIT_DO_NOT_USE, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
-	{&__uuidof(CDirectVobSubFilter2), L"DirectVobSub (auto-loading version)", MERIT_PREFERRED+2, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CDirectVobSubFilter), L"DirectVobSub", MERIT_DO_NOT_USE, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+    {&__uuidof(CDirectVobSubFilter2), L"DirectVobSub (auto-loading version)", MERIT_PREFERRED + 2, _countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] = {
-	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CDirectVobSubFilter>, NULL, &sudFilter[0]},
-	{sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CDirectVobSubFilter2>, NULL, &sudFilter[1]},
-	{L"DVSMainPPage", &__uuidof(CDVSMainPPage), CreateInstance<CDVSMainPPage>},
-	{L"DVSGeneralPPage", &__uuidof(CDVSGeneralPPage), CreateInstance<CDVSGeneralPPage>},
-	{L"DVSMiscPPage", &__uuidof(CDVSMiscPPage), CreateInstance<CDVSMiscPPage>},
-	{L"DVSTimingPPage", &__uuidof(CDVSTimingPPage), CreateInstance<CDVSTimingPPage>},
-	{L"DVSZoomPPage", &__uuidof(CDVSZoomPPage), CreateInstance<CDVSZoomPPage>},
-	{L"DVSColorPPage", &__uuidof(CDVSColorPPage), CreateInstance<CDVSColorPPage>},
-	{L"DVSPathsPPage", &__uuidof(CDVSPathsPPage), CreateInstance<CDVSPathsPPage>},
-	{L"DVSAboutPPage", &__uuidof(CDVSAboutPPage), CreateInstance<CDVSAboutPPage>},
+    {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CDirectVobSubFilter>, NULL, &sudFilter[0]},
+    {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CDirectVobSubFilter2>, NULL, &sudFilter[1]},
+    {L"DVSMainPPage", &__uuidof(CDVSMainPPage), CreateInstance<CDVSMainPPage>},
+    {L"DVSGeneralPPage", &__uuidof(CDVSGeneralPPage), CreateInstance<CDVSGeneralPPage>},
+    {L"DVSMiscPPage", &__uuidof(CDVSMiscPPage), CreateInstance<CDVSMiscPPage>},
+    {L"DVSTimingPPage", &__uuidof(CDVSTimingPPage), CreateInstance<CDVSTimingPPage>},
+    {L"DVSZoomPPage", &__uuidof(CDVSZoomPPage), CreateInstance<CDVSZoomPPage>},
+    {L"DVSColorPPage", &__uuidof(CDVSColorPPage), CreateInstance<CDVSColorPPage>},
+    {L"DVSPathsPPage", &__uuidof(CDVSPathsPPage), CreateInstance<CDVSPathsPPage>},
+    {L"DVSAboutPPage", &__uuidof(CDVSAboutPPage), CreateInstance<CDVSAboutPPage>},
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -135,42 +135,42 @@ int g_cTemplates = _countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+    AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0) != 1) {
-		theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0);
-	}
+    if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0) != 1) {
+        theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0);
+    }
 
-	if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_VMRZOOMENABLED), -1) == -1) {
-		theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_VMRZOOMENABLED), 0);
-	}
+    if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_VMRZOOMENABLED), -1) == -1) {
+        theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_VMRZOOMENABLED), 0);
+    }
 
-	if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), -1) == -1) {
-		theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), 0);
-	}
+    if (theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), -1) == -1) {
+        theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), 0);
+    }
 
-	return AMovieDllRegisterServer2(TRUE);
+    return AMovieDllRegisterServer2(TRUE);
 }
 
 STDAPI DllUnregisterServer()
 {
-	//	DVS_WriteProfileInt2(IDS_R_GENERAL, IDS_RG_SEENDIVXWARNING, 0);
+    //  DVS_WriteProfileInt2(IDS_R_GENERAL, IDS_RG_SEENDIVXWARNING, 0);
 
-	return AMovieDllRegisterServer2(FALSE);
+    return AMovieDllRegisterServer2(FALSE);
 }
 
 void CALLBACK DirectVobSub(HWND hwnd, HINSTANCE hinst, LPSTR lpszCmdLine, int nCmdShow)
 {
-	if (FAILED(::CoInitialize(0))) {
-		return;
-	}
+    if (FAILED(::CoInitialize(0))) {
+        return;
+    }
 
-	CComPtr<IBaseFilter> pFilter;
-	CComQIPtr<ISpecifyPropertyPages> pSpecify;
+    CComPtr<IBaseFilter> pFilter;
+    CComQIPtr<ISpecifyPropertyPages> pSpecify;
 
-	if (SUCCEEDED(pFilter.CoCreateInstance(__uuidof(CDirectVobSubFilter))) && (pSpecify = pFilter)) {
-		ShowPPage(pFilter, hwnd);
-	}
+    if (SUCCEEDED(pFilter.CoCreateInstance(__uuidof(CDirectVobSubFilter))) && (pSpecify = pFilter)) {
+        ShowPPage(pFilter, hwnd);
+    }
 
-	::CoUninitialize();
+    ::CoUninitialize();
 }

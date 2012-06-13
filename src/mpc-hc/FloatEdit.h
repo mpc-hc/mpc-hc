@@ -29,15 +29,15 @@
 class CFloatEdit : public CEdit
 {
 public:
-	bool GetFloat(float& f);
-	double operator = (double d);
-	operator double();
+    bool GetFloat(float& f);
+    double operator = (double d);
+    operator double();
 
-	DECLARE_DYNAMIC(CFloatEdit)
-	DECLARE_MESSAGE_MAP()
+    DECLARE_DYNAMIC(CFloatEdit)
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+    afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 // CIntEdit
@@ -45,11 +45,11 @@ public:
 class CIntEdit : public CEdit
 {
 public:
-	DECLARE_DYNAMIC(CIntEdit)
-	DECLARE_MESSAGE_MAP()
+    DECLARE_DYNAMIC(CIntEdit)
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+    afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 // CHexEdit
@@ -57,13 +57,13 @@ public:
 class CHexEdit : public CEdit
 {
 public:
-	bool GetDWORD(DWORD& dw);
-	DWORD operator = (DWORD dw);
-	operator DWORD();
+    bool GetDWORD(DWORD& dw);
+    DWORD operator = (DWORD dw);
+    operator DWORD();
 
-	DECLARE_DYNAMIC(CHexEdit)
-	DECLARE_MESSAGE_MAP()
+    DECLARE_DYNAMIC(CHexEdit)
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+    afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };

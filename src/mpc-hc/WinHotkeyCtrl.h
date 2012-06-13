@@ -28,44 +28,44 @@
 
 class CWinHotkeyCtrl : public CEditWithButton
 {
-	DECLARE_DYNAMIC(CWinHotkeyCtrl)
+    DECLARE_DYNAMIC(CWinHotkeyCtrl)
 
 public:
-	CWinHotkeyCtrl();
-	virtual ~CWinHotkeyCtrl();
+    CWinHotkeyCtrl();
+    virtual ~CWinHotkeyCtrl();
 
-	void UpdateText();
-	DWORD GetWinHotkey();
-	BOOL GetWinHotkey(UINT* pvkCode, UINT* pfModifiers);
-	void SetWinHotkey(DWORD dwHk);
-	void SetWinHotkey(UINT vkCode, UINT fModifiers);
-
-private:
-	static HHOOK sm_hhookKb;
-	static CWinHotkeyCtrl* sm_pwhcFocus;
-
-	UINT m_vkCode, m_vkCode_def;
-	DWORD m_fModSet, m_fModRel, m_fModSet_def;
-	BOOL m_fIsPressed;
+    void UpdateText();
+    DWORD GetWinHotkey();
+    BOOL GetWinHotkey(UINT* pvkCode, UINT* pfModifiers);
+    void SetWinHotkey(DWORD dwHk);
+    void SetWinHotkey(UINT vkCode, UINT fModifiers);
 
 private:
-	BOOL InstallKbHook();
-	BOOL UninstallKbHook();
+    static HHOOK sm_hhookKb;
+    static CWinHotkeyCtrl* sm_pwhcFocus;
 
-	static LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam);
+    UINT m_vkCode, m_vkCode_def;
+    DWORD m_fModSet, m_fModRel, m_fModSet_def;
+    BOOL m_fIsPressed;
 
-	afx_msg LRESULT OnKey(WPARAM wParam, LPARAM lParam);
+private:
+    BOOL InstallKbHook();
+    BOOL UninstallKbHook();
+
+    static LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam);
+
+    afx_msg LRESULT OnKey(WPARAM wParam, LPARAM lParam);
 
 protected:
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
-	afx_msg void OnSetFocus(CWnd* pOldWnd);
-	afx_msg void OnKillFocus(CWnd* pNewWnd);
-	afx_msg void OnContextMenu(CWnd*, CPoint pt);
-	afx_msg void OnDestroy();
-	afx_msg LRESULT OnLeftClick(WPARAM wParam, LPARAM lParam);
+    afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+    afx_msg void OnSetFocus(CWnd* pOldWnd);
+    afx_msg void OnKillFocus(CWnd* pNewWnd);
+    afx_msg void OnContextMenu(CWnd*, CPoint pt);
+    afx_msg void OnDestroy();
+    afx_msg LRESULT OnLeftClick(WPARAM wParam, LPARAM lParam);
 protected:
-	virtual void PreSubclassWindow();
+    virtual void PreSubclassWindow();
 };

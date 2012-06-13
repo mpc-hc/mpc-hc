@@ -44,12 +44,12 @@
 
 
 enum {
-	WM_GRAPHNOTIFY = WM_RESET_DEVICE+1,
-	WM_RESUMEFROMSTATE,
-	WM_TUNER_SCAN_PROGRESS,
-	WM_TUNER_SCAN_END,
-	WM_TUNER_STATS,
-	WM_TUNER_NEW_CHANNEL
+    WM_GRAPHNOTIFY = WM_RESET_DEVICE + 1,
+    WM_RESUMEFROMSTATE,
+    WM_TUNER_SCAN_PROGRESS,
+    WM_TUNER_SCAN_END,
+    WM_TUNER_STATS,
+    WM_TUNER_NEW_CHANNEL
 };
 
 #define WM_MYMOUSELAST WM_XBUTTONDBLCLK
@@ -66,32 +66,34 @@ extern WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen = false, bool
 // Casimir666
 //
 typedef enum {
-	ProcAmp_Brightness = 0x1,
-	ProcAmp_Contrast   = 0x2,
-	ProcAmp_Hue        = 0x4,
-	ProcAmp_Saturation = 0x8,
-	ProcAmp_All = ProcAmp_Brightness | ProcAmp_Contrast | ProcAmp_Hue | ProcAmp_Saturation,
+    ProcAmp_Brightness = 0x1,
+    ProcAmp_Contrast   = 0x2,
+    ProcAmp_Hue        = 0x4,
+    ProcAmp_Saturation = 0x8,
+    ProcAmp_All = ProcAmp_Brightness | ProcAmp_Contrast | ProcAmp_Hue | ProcAmp_Saturation,
 } ControlType;
 
 typedef struct {
-	DWORD dwProperty;
-	int   MinValue;
-	int   MaxValue;
-	int   DefaultValue;
-	int   StepSize;
+    DWORD dwProperty;
+    int   MinValue;
+    int   MaxValue;
+    int   DefaultValue;
+    int   StepSize;
 } COLORPROPERTY_RANGE;
 
 __inline DXVA2_Fixed32 IntToFixed(__in const int _int_, __in const SHORT divisor = 1)
-{	// special converter that is resistant to MS bugs
-	DXVA2_Fixed32 _fixed_;
-	_fixed_.Value = _int_ / divisor;
-	_fixed_.Fraction = (_int_ % divisor * 0x10000 + divisor/2) / divisor;
-	return _fixed_;
+{
+    // special converter that is resistant to MS bugs
+    DXVA2_Fixed32 _fixed_;
+    _fixed_.Value = _int_ / divisor;
+    _fixed_.Fraction = (_int_ % divisor * 0x10000 + divisor / 2) / divisor;
+    return _fixed_;
 }
 
 __inline int FixedToInt(__in const DXVA2_Fixed32 _fixed_, __in const SHORT factor = 1)
-{	// special converter that is resistant to MS bugs
-	return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;
+{
+    // special converter that is resistant to MS bugs
+    return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -107,90 +109,89 @@ extern void SetAudioRenderer(int AudioDevNo);
 
 extern void SetHandCursor(HWND m_hWnd, UINT nID);
 
-struct LanguageResource
-{
-	const UINT resourceID;
-	const LANGID localeID; // Check http://msdn.microsoft.com/en-us/goglobal/bb964664
-	const LPCTSTR name;
-	const LPCTSTR dllPath;
+struct LanguageResource {
+    const UINT resourceID;
+    const LANGID localeID; // Check http://msdn.microsoft.com/en-us/goglobal/bb964664
+    const LPCTSTR name;
+    const LPCTSTR dllPath;
 };
 
 class CMPlayerCApp : public CWinApp
 {
-	ATL::CMutex m_mutexOneInstance;
+    ATL::CMutex m_mutexOneInstance;
 
-	CAtlList<CString> m_cmdln;
-	void PreProcessCommandLine();
-	bool SendCommandLine(HWND hWnd);
-	UINT GetVKFromAppCommand(UINT nAppCommand);
+    CAtlList<CString> m_cmdln;
+    void PreProcessCommandLine();
+    bool SendCommandLine(HWND hWnd);
+    UINT GetVKFromAppCommand(UINT nAppCommand);
 
-	// Casimir666 : new in CMPlayerCApp
-	COLORPROPERTY_RANGE		m_ColorControl[4];
-	VMR9ProcAmpControlRange	m_VMR9ColorControl[4];
-	DXVA2_ValueRange		m_EVRColorControl[4];
+    // Casimir666 : new in CMPlayerCApp
+    COLORPROPERTY_RANGE     m_ColorControl[4];
+    VMR9ProcAmpControlRange m_VMR9ColorControl[4];
+    DXVA2_ValueRange        m_EVRColorControl[4];
 
-	static UINT	GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
-	static UINT	GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
-
-public:
-	CMPlayerCApp();
-
-	void ShowCmdlnSwitches() const;
-
-	bool StoreSettingsToIni();
-	bool StoreSettingsToRegistry();
-	CString GetIniPath() const;
-	bool IsIniValid() const;
-	bool IsIniUTF16LE() const;
-	bool ChangeSettingsLocation(bool useIni);
-	void ExportSettings();
-
-	bool GetAppSavePath(CString& path);
-
-	// Casimir666 : new in CMPlayerCApp
-	CRenderersData m_Renderers;
-	CString		m_strVersion;
-	CString		m_AudioRendererDisplayName_CL;
-
-	CAppSettings m_s;
-
-	typedef UINT (*PTR_GetRemoteControlCode)(UINT nInputcode, HRAWINPUT hRawInput);
-
-	PTR_GetRemoteControlCode	GetRemoteControlCode;
-	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
-	void						ResetColorControlRange();
-	void						UpdateColorControlRange(bool isEVR);
-	VMR9ProcAmpControlRange*	GetVMR9ColorControl(ControlType nFlag);
-	DXVA2_ValueRange*			GetEVRColorControl(ControlType nFlag);
-
-	static const LanguageResource languageResources[];
-	static const size_t languageResourcesCount;
-
-	static const LanguageResource& GetLanguageResourceByResourceID(UINT resourceID);
-	static const LanguageResource& GetLanguageResourceByLocaleID(LANGID localeID);
-	static bool SetLanguage(const LanguageResource& languageResource, bool showErrorMsg = true);
-	static void SetDefaultLanguage();
-
-	//static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
-	static void					RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
-
-	void						RegisterHotkeys();
-	void						UnregisterHotkeys();
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMPlayerCApp)
-public:
-	virtual BOOL InitInstance();
-	virtual int ExitInstance();
-	//}}AFX_VIRTUAL
-
-	// Implementation
+    static UINT GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
+    static UINT GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
 
 public:
-	DECLARE_MESSAGE_MAP()
-	afx_msg void OnAppAbout();
-	afx_msg void OnFileExit();
-	afx_msg void OnHelpShowcommandlineswitches();
+    CMPlayerCApp();
+
+    void ShowCmdlnSwitches() const;
+
+    bool StoreSettingsToIni();
+    bool StoreSettingsToRegistry();
+    CString GetIniPath() const;
+    bool IsIniValid() const;
+    bool IsIniUTF16LE() const;
+    bool ChangeSettingsLocation(bool useIni);
+    void ExportSettings();
+
+    bool GetAppSavePath(CString& path);
+
+    // Casimir666 : new in CMPlayerCApp
+    CRenderersData m_Renderers;
+    CString     m_strVersion;
+    CString     m_AudioRendererDisplayName_CL;
+
+    CAppSettings m_s;
+
+    typedef UINT(*PTR_GetRemoteControlCode)(UINT nInputcode, HRAWINPUT hRawInput);
+
+    PTR_GetRemoteControlCode    GetRemoteControlCode;
+    COLORPROPERTY_RANGE*        GetColorControl(ControlType nFlag);
+    void                        ResetColorControlRange();
+    void                        UpdateColorControlRange(bool isEVR);
+    VMR9ProcAmpControlRange*    GetVMR9ColorControl(ControlType nFlag);
+    DXVA2_ValueRange*           GetEVRColorControl(ControlType nFlag);
+
+    static const LanguageResource languageResources[];
+    static const size_t languageResourcesCount;
+
+    static const LanguageResource& GetLanguageResourceByResourceID(UINT resourceID);
+    static const LanguageResource& GetLanguageResourceByLocaleID(LANGID localeID);
+    static bool SetLanguage(const LanguageResource& languageResource, bool showErrorMsg = true);
+    static void SetDefaultLanguage();
+
+    //static HRESULT                GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
+    static void                 RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
+
+    void                        RegisterHotkeys();
+    void                        UnregisterHotkeys();
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMPlayerCApp)
+public:
+    virtual BOOL InitInstance();
+    virtual int ExitInstance();
+    //}}AFX_VIRTUAL
+
+    // Implementation
+
+public:
+    DECLARE_MESSAGE_MAP()
+    afx_msg void OnAppAbout();
+    afx_msg void OnFileExit();
+    afx_msg void OnHelpShowcommandlineswitches();
 };
 
 #define AfxGetMyApp() static_cast<CMPlayerCApp*>(AfxGetApp())

@@ -29,13 +29,13 @@ class CDirectVobSubFilter;
 
 class CTextInputPin : public CSubtitleInputPin
 {
-	CDirectVobSubFilter* m_pDVS;
+    CDirectVobSubFilter* m_pDVS;
 
 protected:
-	void AddSubStream(ISubStream* pSubStream);
-	void RemoveSubStream(ISubStream* pSubStream);
-	void InvalidateSubtitle(REFERENCE_TIME rtStart, ISubStream* pSubStream);
+    void AddSubStream(ISubStream* pSubStream);
+    void RemoveSubStream(ISubStream* pSubStream);
+    void InvalidateSubtitle(REFERENCE_TIME rtStart, ISubStream* pSubStream);
 
 public:
-	CTextInputPin(CDirectVobSubFilter* pFilter, CCritSec* pLock, CCritSec* pSubLock, HRESULT* phr);
+    CTextInputPin(CDirectVobSubFilter* pFilter, CCritSec* pLock, CCritSec* pSubLock, HRESULT* phr);
 };

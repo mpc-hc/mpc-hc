@@ -29,68 +29,68 @@
 class CNullRenderer : public CBaseRenderer
 {
 protected:
-	virtual HRESULT DoRenderSample(IMediaSample* pSample) { return S_OK; }
+    virtual HRESULT DoRenderSample(IMediaSample* pSample) { return S_OK; }
 
 public:
-	CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESULT* phr);
+    CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESULT* phr);
 };
 
 class __declspec(uuid("579883A0-4E2D-481F-9436-467AAFAB7DE8"))
-	CNullVideoRenderer : public CNullRenderer
+    CNullVideoRenderer : public CNullRenderer
 {
 protected:
-	HRESULT CheckMediaType(const CMediaType* pmt);
+    HRESULT CheckMediaType(const CMediaType* pmt);
 
 public:
-	CNullVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr);
+    CNullVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
 class __declspec(uuid("DD9ED57D-6ABF-42E8-89A2-11D04798DC58"))
-	CNullUVideoRenderer : public CNullRenderer
+    CNullUVideoRenderer : public CNullRenderer
 {
 protected:
-	HRESULT CheckMediaType(const CMediaType* pmt);
+    HRESULT CheckMediaType(const CMediaType* pmt);
 
 public:
-	CNullUVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr);
-	virtual HRESULT DoRenderSample(IMediaSample* pSample);
+    CNullUVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr);
+    virtual HRESULT DoRenderSample(IMediaSample* pSample);
 };
 
 class __declspec(uuid("0C38BDFD-8C17-4E00-A344-F89397D3E22A"))
-	CNullAudioRenderer : public CNullRenderer
+    CNullAudioRenderer : public CNullRenderer
 {
 protected:
-	HRESULT CheckMediaType(const CMediaType* pmt);
+    HRESULT CheckMediaType(const CMediaType* pmt);
 
 public:
-	CNullAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr);
+    CNullAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
 class __declspec(uuid("64A45125-7343-4772-9DA4-179FAC9D462C"))
-	CNullUAudioRenderer : public CNullRenderer
+    CNullUAudioRenderer : public CNullRenderer
 {
 protected:
-	HRESULT CheckMediaType(const CMediaType* pmt);
+    HRESULT CheckMediaType(const CMediaType* pmt);
 
 public:
-	CNullUAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr);
+    CNullUAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
 class __declspec(uuid("655D7613-C26C-4A25-BBBD-3C9C516122CC"))
-	CNullTextRenderer : public CBaseFilter, public CCritSec
+    CNullTextRenderer : public CBaseFilter, public CCritSec
 {
-	class CTextInputPin : public CBaseInputPin
-	{
-	public:
-		CTextInputPin(CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
-			: CBaseInputPin(NAME("CTextInputPin"), pFilter, pLock, phr, L"In") {}
-		HRESULT CheckMediaType(const CMediaType* pmt);
-	};
+    class CTextInputPin : public CBaseInputPin
+    {
+    public:
+        CTextInputPin(CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+            : CBaseInputPin(NAME("CTextInputPin"), pFilter, pLock, phr, L"In") {}
+        HRESULT CheckMediaType(const CMediaType* pmt);
+    };
 
-	CAutoPtr<CTextInputPin> m_pInput;
+    CAutoPtr<CTextInputPin> m_pInput;
 
 public:
-	CNullTextRenderer(LPUNKNOWN pUnk, HRESULT* phr);
-	int GetPinCount() { return (int)!!m_pInput; }
-	CBasePin* GetPin(int n) { return n == 0 ? (CBasePin*)m_pInput : NULL; }
+    CNullTextRenderer(LPUNKNOWN pUnk, HRESULT* phr);
+    int GetPinCount() { return (int)!!m_pInput; }
+    CBasePin* GetPin(int n) { return n == 0 ? (CBasePin*)m_pInput : NULL; }
 };

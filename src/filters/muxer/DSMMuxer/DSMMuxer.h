@@ -29,40 +29,40 @@
 #define DSMMuxerName   L"MPC DSM Muxer"
 
 class __declspec(uuid("C6590B76-587E-4082-9125-680D0693A97B"))
-	CDSMMuxerFilter : public CBaseMuxerFilter
+    CDSMMuxerFilter : public CBaseMuxerFilter
 {
-	bool m_fAutoChap, m_fAutoRes;
+    bool m_fAutoChap, m_fAutoRes;
 
-	struct SyncPoint {
-		BYTE id;
-		REFERENCE_TIME rtStart, rtStop;
-		__int64 fp;
-	};
-	struct IndexedSyncPoint {
-		BYTE id;
-		REFERENCE_TIME rt, rtfp;
-		__int64 fp;
-	};
-	CAtlList<SyncPoint> m_sps;
-	CAtlList<IndexedSyncPoint> m_isps;
-	REFERENCE_TIME m_rtPrevSyncPoint;
-	void IndexSyncPoint(const MuxerPacket* p, __int64 fp);
+    struct SyncPoint {
+        BYTE id;
+        REFERENCE_TIME rtStart, rtStop;
+        __int64 fp;
+    };
+    struct IndexedSyncPoint {
+        BYTE id;
+        REFERENCE_TIME rt, rtfp;
+        __int64 fp;
+    };
+    CAtlList<SyncPoint> m_sps;
+    CAtlList<IndexedSyncPoint> m_isps;
+    REFERENCE_TIME m_rtPrevSyncPoint;
+    void IndexSyncPoint(const MuxerPacket* p, __int64 fp);
 
-	void MuxPacketHeader(IBitStream* pBS, dsmp_t type, UINT64 len);
-	void MuxFileInfo(IBitStream* pBS);
-	void MuxStreamInfo(IBitStream* pBS, CBaseMuxerInputPin* pPin);
+    void MuxPacketHeader(IBitStream* pBS, dsmp_t type, UINT64 len);
+    void MuxFileInfo(IBitStream* pBS);
+    void MuxStreamInfo(IBitStream* pBS, CBaseMuxerInputPin* pPin);
 
 protected:
-	void MuxInit();
+    void MuxInit();
 
-	void MuxHeader(IBitStream* pBS);
-	void MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket);
-	void MuxFooter(IBitStream* pBS);
+    void MuxHeader(IBitStream* pBS);
+    void MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket);
+    void MuxFooter(IBitStream* pBS);
 
 public:
-	CDSMMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr, bool fAutoChap = true, bool fAutoRes = true);
-	virtual ~CDSMMuxerFilter();
+    CDSMMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr, bool fAutoChap = true, bool fAutoRes = true);
+    virtual ~CDSMMuxerFilter();
 
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 };

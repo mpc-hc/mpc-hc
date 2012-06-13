@@ -26,25 +26,25 @@
 struct AVCodecContext;
 struct AVFrame;
 
-typedef int  (*FUNC_AV_DEFAULT_GET_BUFFER)(AVCodecContext *s, AVFrame *pic);
-typedef void (*FUNC_AV_DEFAULT_RELEASE_BUFFER)(AVCodecContext *s, AVFrame *pic);
-typedef int  (*FUNC_AV_DEFAULT_REGET_BUFFER)(AVCodecContext *s, AVFrame *pic);
+typedef int (*FUNC_AV_DEFAULT_GET_BUFFER)(AVCodecContext* s, AVFrame* pic);
+typedef void (*FUNC_AV_DEFAULT_RELEASE_BUFFER)(AVCodecContext* s, AVFrame* pic);
+typedef int (*FUNC_AV_DEFAULT_REGET_BUFFER)(AVCodecContext* s, AVFrame* pic);
 
 
 struct TlibavcodecExt {
 protected:
-	static int get_buffer(AVCodecContext *s, AVFrame *pic);
-	static void release_buffer(AVCodecContext *s, AVFrame *pic);
-	static int reget_buffer(AVCodecContext *s, AVFrame *pic);
+    static int get_buffer(AVCodecContext* s, AVFrame* pic);
+    static void release_buffer(AVCodecContext* s, AVFrame* pic);
+    static int reget_buffer(AVCodecContext* s, AVFrame* pic);
 
-	FUNC_AV_DEFAULT_GET_BUFFER     ff_avcodec_default_get_buffer;
-	FUNC_AV_DEFAULT_RELEASE_BUFFER ff_avcodec_default_release_buffer;
-	FUNC_AV_DEFAULT_REGET_BUFFER   ff_avcodec_default_reget_buffer;
+    FUNC_AV_DEFAULT_GET_BUFFER     ff_avcodec_default_get_buffer;
+    FUNC_AV_DEFAULT_RELEASE_BUFFER ff_avcodec_default_release_buffer;
+    FUNC_AV_DEFAULT_REGET_BUFFER   ff_avcodec_default_reget_buffer;
 
 public:
-	virtual ~TlibavcodecExt() {}
-	void         ConnectTo(AVCodecContext *pAVCtx);
-	virtual void OnGetBuffer(AVFrame *pic) {}
-	virtual void OnRegetBuffer(AVFrame *pic) {}
-	virtual void OnReleaseBuffer(AVFrame *pic) {}
+    virtual ~TlibavcodecExt() {}
+    void         ConnectTo(AVCodecContext* pAVCtx);
+    virtual void OnGetBuffer(AVFrame* pic) {}
+    virtual void OnRegetBuffer(AVFrame* pic) {}
+    virtual void OnReleaseBuffer(AVFrame* pic) {}
 };

@@ -26,41 +26,41 @@
 #include <dxva.h>
 #include "DXVADecoder.h"
 
-#define MAX_SLICE		1024 // Max slice number for Mpeg2 streams
+#define MAX_SLICE       1024 // Max slice number for Mpeg2 streams
 
-class CDXVADecoderMpeg2 :	public CDXVADecoder
+class CDXVADecoderMpeg2 :   public CDXVADecoder
 {
 public:
-	CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
-	CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config);
-	virtual ~CDXVADecoderMpeg2(void);
+    CDXVADecoderMpeg2(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
+    CDXVADecoderMpeg2(CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config);
+    virtual ~CDXVADecoderMpeg2(void);
 
-	// === Public functions
-	virtual HRESULT DecodeFrame   (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
-	virtual void	CopyBitstream (BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
-	virtual void	Flush();
+    // === Public functions
+    virtual HRESULT DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
+    virtual void    CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
+    virtual void    Flush();
 
 protected :
 
-	virtual int		FindOldestFrame();
+    virtual int     FindOldestFrame();
 private:
-	DXVA_PictureParameters		m_PictureParams;
-	DXVA_QmatrixData			m_QMatrixData;
-	WORD						m_wRefPictureIndex[2];
-	DXVA_SliceInfo				m_SliceInfo[MAX_SLICE];
-	int							m_nSliceCount;
+    DXVA_PictureParameters      m_PictureParams;
+    DXVA_QmatrixData            m_QMatrixData;
+    WORD                        m_wRefPictureIndex[2];
+    DXVA_SliceInfo              m_SliceInfo[MAX_SLICE];
+    int                         m_nSliceCount;
 
-	int							m_nNextCodecIndex;
+    int                         m_nNextCodecIndex;
 
-	int							m_nSurfaceIndex;
-	CComPtr<IMediaSample>		m_pSampleToDeliver;
-	bool						m_bSecondField;
-	REFERENCE_TIME				m_rtStart, m_rtStop;
+    int                         m_nSurfaceIndex;
+    CComPtr<IMediaSample>       m_pSampleToDeliver;
+    bool                        m_bSecondField;
+    REFERENCE_TIME              m_rtStart, m_rtStop;
 
-	REFERENCE_TIME				m_rtLastStart;
+    REFERENCE_TIME              m_rtLastStart;
 
-	// Private functions
-	void					Init();
-	void					UpdatePictureParams(int nSurfaceIndex);
-	void					UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
+    // Private functions
+    void                    Init();
+    void                    UpdatePictureParams(int nSurfaceIndex);
+    void                    UpdateFrameTime(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 };

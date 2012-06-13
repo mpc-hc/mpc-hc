@@ -26,15 +26,15 @@
 class COpenDirHelper
 {
 public:
-	static WNDPROC CBProc;
-	static bool m_incl_subdir;
-	static CString strLastOpenDir;
+    static WNDPROC CBProc;
+    static bool m_incl_subdir;
+    static CString strLastOpenDir;
 
-	static void SetFont(HWND hwnd,LPTSTR FontName,int FontSize);
-	// Subclass procedure
-	static LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
+    static void SetFont(HWND hwnd, LPTSTR FontName, int FontSize);
+    // Subclass procedure
+    static LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	static int CALLBACK BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData);
+    static int CALLBACK BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData);
 
-	static void RecurseAddDir(CString path, CAtlList<CString>* sl);
+    static void RecurseAddDir(CString path, CAtlList<CString>* sl);
 };

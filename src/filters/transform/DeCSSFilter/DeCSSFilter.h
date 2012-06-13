@@ -26,17 +26,17 @@
 #define DeCSSFilterName L"MPC DeCSSFilter"
 
 class __declspec(uuid("7B3BD419-FE03-4820-BE94-A22A4F844895"))
-	CDeCSSFilter : public CTransformFilter
+    CDeCSSFilter : public CTransformFilter
 {
-	friend class CKsPSInputPin;
+    friend class CKsPSInputPin;
 
 public:
-	CDeCSSFilter(LPUNKNOWN lpunk, HRESULT* phr);
-	virtual ~CDeCSSFilter();
+    CDeCSSFilter(LPUNKNOWN lpunk, HRESULT* phr);
+    virtual ~CDeCSSFilter();
 
-	HRESULT Transform(IMediaSample* pIn, IMediaSample* pOut);
-	HRESULT CheckInputType(const CMediaType* mtIn);
-	HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
-	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
-	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+    HRESULT Transform(IMediaSample* pIn, IMediaSample* pOut);
+    HRESULT CheckInputType(const CMediaType* mtIn);
+    HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
+    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
 };

@@ -32,33 +32,33 @@
 namespace DSObjects
 {
 
-	class CRM7AllocatorPresenter
-		: public CDX7AllocatorPresenter
-		, public IRMAVideoSurface
-	{
-		CComPtr<IDirectDrawSurface7> m_pVideoSurfaceOff;
-		CComPtr<IDirectDrawSurface7> m_pVideoSurfaceYUY2;
+    class CRM7AllocatorPresenter
+        : public CDX7AllocatorPresenter
+        , public IRMAVideoSurface
+    {
+        CComPtr<IDirectDrawSurface7> m_pVideoSurfaceOff;
+        CComPtr<IDirectDrawSurface7> m_pVideoSurfaceYUY2;
 
-		RMABitmapInfoHeader m_bitmapInfo;
-		RMABitmapInfoHeader m_lastBitmapInfo;
+        RMABitmapInfoHeader m_bitmapInfo;
+        RMABitmapInfoHeader m_lastBitmapInfo;
 
-	protected:
-		HRESULT AllocSurfaces();
-		void DeleteSurfaces();
+    protected:
+        HRESULT AllocSurfaces();
+        void DeleteSurfaces();
 
-	public:
-		CRM7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+    public:
+        CRM7AllocatorPresenter(HWND hWnd, HRESULT& hr);
 
-		DECLARE_IUNKNOWN
-		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+        DECLARE_IUNKNOWN
+        STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-		// IRMAVideoSurface
-		STDMETHODIMP Blt(UCHAR*	pImageData, RMABitmapInfoHeader* pBitmapInfo, REF(PNxRect) inDestRect, REF(PNxRect) inSrcRect);
-		STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* pBitmapInfo);
-		STDMETHODIMP OptimizedBlt(UCHAR* pImageBits, REF(PNxRect) rDestRect, REF(PNxRect) rSrcRect);
-		STDMETHODIMP EndOptimizedBlt();
-		STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) ulType);
-		STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) ulType);
-	};
+        // IRMAVideoSurface
+        STDMETHODIMP Blt(UCHAR* pImageData, RMABitmapInfoHeader* pBitmapInfo, REF(PNxRect) inDestRect, REF(PNxRect) inSrcRect);
+        STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* pBitmapInfo);
+        STDMETHODIMP OptimizedBlt(UCHAR* pImageBits, REF(PNxRect) rDestRect, REF(PNxRect) rSrcRect);
+        STDMETHODIMP EndOptimizedBlt();
+        STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) ulType);
+        STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) ulType);
+    };
 
 }

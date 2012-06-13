@@ -28,57 +28,57 @@
 namespace DSObjects
 {
 
-	class CVMR7AllocatorPresenter
-		: public CDX7AllocatorPresenter
-		, public IVMRSurfaceAllocator
-		, public IVMRImagePresenter
-		, public IVMRWindowlessControl
-	{
-		CComPtr<IVMRSurfaceAllocatorNotify> m_pIVMRSurfAllocNotify;
-		CComPtr<IVMRSurfaceAllocator> m_pSA;
+    class CVMR7AllocatorPresenter
+        : public CDX7AllocatorPresenter
+        , public IVMRSurfaceAllocator
+        , public IVMRImagePresenter
+        , public IVMRWindowlessControl
+    {
+        CComPtr<IVMRSurfaceAllocatorNotify> m_pIVMRSurfAllocNotify;
+        CComPtr<IVMRSurfaceAllocator> m_pSA;
 
-		HRESULT CreateDevice();
-		void DeleteSurfaces();
+        HRESULT CreateDevice();
+        void DeleteSurfaces();
 
-		bool m_fUseInternalTimer;
+        bool m_fUseInternalTimer;
 
-	public:
-		CVMR7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+    public:
+        CVMR7AllocatorPresenter(HWND hWnd, HRESULT& hr);
 
-		DECLARE_IUNKNOWN
-		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+        DECLARE_IUNKNOWN
+        STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-		// ISubPicAllocatorPresenter
-		STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-		STDMETHODIMP_(void) SetTime(REFERENCE_TIME rtNow);
+        // ISubPicAllocatorPresenter
+        STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
+        STDMETHODIMP_(void) SetTime(REFERENCE_TIME rtNow);
 
-		// IVMRSurfaceAllocator
-		STDMETHODIMP AllocateSurface(DWORD_PTR dwUserID, VMRALLOCATIONINFO* lpAllocInfo, DWORD* lpdwBuffer, LPDIRECTDRAWSURFACE7* lplpSurface);
-		STDMETHODIMP FreeSurface(DWORD_PTR dwUserID);
-		STDMETHODIMP PrepareSurface(DWORD_PTR dwUserID, IDirectDrawSurface7* lpSurface, DWORD dwSurfaceFlags);
-		STDMETHODIMP AdviseNotify(IVMRSurfaceAllocatorNotify* lpIVMRSurfAllocNotify);
+        // IVMRSurfaceAllocator
+        STDMETHODIMP AllocateSurface(DWORD_PTR dwUserID, VMRALLOCATIONINFO* lpAllocInfo, DWORD* lpdwBuffer, LPDIRECTDRAWSURFACE7* lplpSurface);
+        STDMETHODIMP FreeSurface(DWORD_PTR dwUserID);
+        STDMETHODIMP PrepareSurface(DWORD_PTR dwUserID, IDirectDrawSurface7* lpSurface, DWORD dwSurfaceFlags);
+        STDMETHODIMP AdviseNotify(IVMRSurfaceAllocatorNotify* lpIVMRSurfAllocNotify);
 
-		// IVMRImagePresenter
-		STDMETHODIMP StartPresenting(DWORD_PTR dwUserID);
-		STDMETHODIMP StopPresenting(DWORD_PTR dwUserID);
-		STDMETHODIMP PresentImage(DWORD_PTR dwUserID, VMRPRESENTATIONINFO* lpPresInfo);
+        // IVMRImagePresenter
+        STDMETHODIMP StartPresenting(DWORD_PTR dwUserID);
+        STDMETHODIMP StopPresenting(DWORD_PTR dwUserID);
+        STDMETHODIMP PresentImage(DWORD_PTR dwUserID, VMRPRESENTATIONINFO* lpPresInfo);
 
-		// IVMRWindowlessControl
-		STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
-		STDMETHODIMP GetMinIdealVideoSize(LONG* lpWidth, LONG* lpHeight);
-		STDMETHODIMP GetMaxIdealVideoSize(LONG* lpWidth, LONG* lpHeight);
-		STDMETHODIMP SetVideoPosition(const LPRECT lpSRCRect, const LPRECT lpDSTRect);
-		STDMETHODIMP GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect);
-		STDMETHODIMP GetAspectRatioMode(DWORD* lpAspectRatioMode);
-		STDMETHODIMP SetAspectRatioMode(DWORD AspectRatioMode);
-		STDMETHODIMP SetVideoClippingWindow(HWND hwnd);
-		STDMETHODIMP RepaintVideo(HWND hwnd, HDC hdc);
-		STDMETHODIMP DisplayModeChanged();
-		STDMETHODIMP GetCurrentImage(BYTE** lpDib);
-		STDMETHODIMP SetBorderColor(COLORREF Clr);
-		STDMETHODIMP GetBorderColor(COLORREF* lpClr);
-		STDMETHODIMP SetColorKey(COLORREF Clr);
-		STDMETHODIMP GetColorKey(COLORREF* lpClr);
-	};
+        // IVMRWindowlessControl
+        STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
+        STDMETHODIMP GetMinIdealVideoSize(LONG* lpWidth, LONG* lpHeight);
+        STDMETHODIMP GetMaxIdealVideoSize(LONG* lpWidth, LONG* lpHeight);
+        STDMETHODIMP SetVideoPosition(const LPRECT lpSRCRect, const LPRECT lpDSTRect);
+        STDMETHODIMP GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect);
+        STDMETHODIMP GetAspectRatioMode(DWORD* lpAspectRatioMode);
+        STDMETHODIMP SetAspectRatioMode(DWORD AspectRatioMode);
+        STDMETHODIMP SetVideoClippingWindow(HWND hwnd);
+        STDMETHODIMP RepaintVideo(HWND hwnd, HDC hdc);
+        STDMETHODIMP DisplayModeChanged();
+        STDMETHODIMP GetCurrentImage(BYTE** lpDib);
+        STDMETHODIMP SetBorderColor(COLORREF Clr);
+        STDMETHODIMP GetBorderColor(COLORREF* lpClr);
+        STDMETHODIMP SetColorKey(COLORREF Clr);
+        STDMETHODIMP GetColorKey(COLORREF* lpClr);
+    };
 
 }

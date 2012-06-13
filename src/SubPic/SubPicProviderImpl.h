@@ -28,29 +28,29 @@
 class CSubPicProviderImpl : public CUnknown, public ISubPicProvider
 {
 protected:
-	CCritSec* m_pLock;
+    CCritSec* m_pLock;
 
 public:
-	CSubPicProviderImpl(CCritSec* pLock);
-	virtual ~CSubPicProviderImpl();
+    CSubPicProviderImpl(CCritSec* pLock);
+    virtual ~CSubPicProviderImpl();
 
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// ISubPicProvider
+    // ISubPicProvider
 
-	STDMETHODIMP Lock();
-	STDMETHODIMP Unlock();
+    STDMETHODIMP Lock();
+    STDMETHODIMP Unlock();
 
-	STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps) = 0;
-	STDMETHODIMP_(POSITION) GetNext(POSITION pos) = 0;
+    STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps) = 0;
+    STDMETHODIMP_(POSITION) GetNext(POSITION pos) = 0;
 
-	STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps) = 0;
-	STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps) = 0;
+    STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps) = 0;
+    STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps) = 0;
 
-	STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) = 0;
-	STDMETHODIMP GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) {
-		return E_NOTIMPL;
-	};
+    STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) = 0;
+    STDMETHODIMP GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) {
+        return E_NOTIMPL;
+    };
 };
 

@@ -32,33 +32,33 @@
 
 class CGoToDlg : public CDialog
 {
-	DECLARE_DYNAMIC(CGoToDlg)
+    DECLARE_DYNAMIC(CGoToDlg)
 
 public:
-	CGoToDlg(REFERENCE_TIME time = -1, REFERENCE_TIME maxTime = -1, double fps = 0, CWnd* pParent = NULL);   // standard constructor
-	virtual ~CGoToDlg();
+    CGoToDlg(REFERENCE_TIME time = -1, REFERENCE_TIME maxTime = -1, double fps = 0, CWnd* pParent = NULL);   // standard constructor
+    virtual ~CGoToDlg();
 
-	CString m_timestr;
-	CString m_framestr;
-	CMFCMaskedEdit m_timeedit;
-	CEdit m_frameedit;
+    CString m_timestr;
+    CString m_framestr;
+    CMFCMaskedEdit m_timeedit;
+    CEdit m_frameedit;
 
-	REFERENCE_TIME m_time;
-	REFERENCE_TIME m_maxTime;
-	double m_fps;
+    REFERENCE_TIME m_time;
+    REFERENCE_TIME m_maxTime;
+    double m_fps;
 
-	// Dialog Data
-	enum { IDD = IDD_GOTO_DLG };
+    // Dialog Data
+    enum { IDD = IDD_GOTO_DLG };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnBnClickedOk1();
-	afx_msg void OnBnClickedOk2();
-	virtual void OnOK();
+    afx_msg void OnBnClickedOk1();
+    afx_msg void OnBnClickedOk2();
+    virtual void OnOK();
 };

@@ -28,52 +28,52 @@
 template<class T, typename SEP>
 T Explode(const T& str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
-	sl.RemoveAll();
+    sl.RemoveAll();
 
-	for (int i = 0, j = 0; ; i = j+1) {
-		j = str.Find(sep, i);
+    for (int i = 0, j = 0; ; i = j + 1) {
+        j = str.Find(sep, i);
 
-		if (j < 0 || sl.GetCount() == limit-1) {
-			sl.AddTail(str.Mid(i).Trim());
-			break;
-		} else {
-			sl.AddTail(str.Mid(i, j-i).Trim());
-		}
-	}
+        if (j < 0 || sl.GetCount() == limit - 1) {
+            sl.AddTail(str.Mid(i).Trim());
+            break;
+        } else {
+            sl.AddTail(str.Mid(i, j - i).Trim());
+        }
+    }
 
-	return sl.GetHead();
+    return sl.GetHead();
 }
 
 template<class T, typename SEP>
 T ExplodeMin(const T& str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
-	Explode(str, sl, sep, limit);
-	POSITION pos = sl.GetHeadPosition();
-	while (pos) {
-		POSITION tmp = pos;
-		if (sl.GetNext(pos).IsEmpty()) {
-			sl.RemoveAt(tmp);
-		}
-	}
-	if (sl.IsEmpty()) {
-		sl.AddTail(T());    // eh
-	}
+    Explode(str, sl, sep, limit);
+    POSITION pos = sl.GetHeadPosition();
+    while (pos) {
+        POSITION tmp = pos;
+        if (sl.GetNext(pos).IsEmpty()) {
+            sl.RemoveAt(tmp);
+        }
+    }
+    if (sl.IsEmpty()) {
+        sl.AddTail(T());    // eh
+    }
 
-	return sl.GetHead();
+    return sl.GetHead();
 }
 
 template<class T, typename SEP>
 T Implode(const CAtlList<T>& sl, SEP sep)
 {
-	T ret;
-	POSITION pos = sl.GetHeadPosition();
-	while (pos) {
-		ret += sl.GetNext(pos);
-		if (pos) {
-			ret += sep;
-		}
-	}
-	return ret;
+    T ret;
+    POSITION pos = sl.GetHeadPosition();
+    while (pos) {
+        ret += sl.GetNext(pos);
+        if (pos) {
+            ret += sep;
+        }
+    }
+    return ret;
 }
 
 extern CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing);

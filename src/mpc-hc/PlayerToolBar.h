@@ -29,49 +29,49 @@
 
 class CPlayerToolBar : public CToolBar
 {
-	DECLARE_DYNAMIC(CPlayerToolBar)
+    DECLARE_DYNAMIC(CPlayerToolBar)
 
 private:
-	bool IsMuted() const;
-	void SetMute(bool fMute = true);
-	int getHitButtonIdx(CPoint point);
-	void LoadExternalToolBar(CImage* bmp);
+    bool IsMuted() const;
+    void SetMute(bool fMute = true);
+    int getHitButtonIdx(CPoint point);
+    void LoadExternalToolBar(CImage* bmp);
 
-	int m_nButtonHeight;
-	CImageList *m_pButtonsImages;
+    int m_nButtonHeight;
+    CImageList* m_pButtonsImages;
 
 public:
-	CPlayerToolBar();
-	virtual ~CPlayerToolBar();
+    CPlayerToolBar();
+    virtual ~CPlayerToolBar();
 
-	int GetVolume() const;
-	int GetMinWidth() const;
-	void SetVolume(int volume);
-	__declspec(property(get=GetVolume, put=SetVolume)) int Volume;
+    int GetVolume() const;
+    int GetMinWidth() const;
+    void SetVolume(int volume);
+    __declspec(property(get = GetVolume, put = SetVolume)) int Volume;
 
-	void ArrangeControls();
+    void ArrangeControls();
 
-	CVolumeCtrl m_volctrl;
+    CVolumeCtrl m_volctrl;
 
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CPlayerToolBar)
-	virtual BOOL Create(CWnd* pParentWnd);
-	//}}AFX_VIRTUAL
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CPlayerToolBar)
+    virtual BOOL Create(CWnd* pParentWnd);
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CPlayerToolBar)
-	afx_msg void OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnInitialUpdate();
-	afx_msg BOOL OnVolumeMute(UINT nID);
-	afx_msg void OnUpdateVolumeMute(CCmdUI* pCmdUI);
-	afx_msg BOOL OnVolumeUp(UINT nID);
-	afx_msg BOOL OnVolumeDown(UINT nID);
-	afx_msg void OnNcPaint();
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CPlayerToolBar)
+    afx_msg void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnInitialUpdate();
+    afx_msg BOOL OnVolumeMute(UINT nID);
+    afx_msg void OnUpdateVolumeMute(CCmdUI* pCmdUI);
+    afx_msg BOOL OnVolumeUp(UINT nID);
+    afx_msg BOOL OnVolumeDown(UINT nID);
+    afx_msg void OnNcPaint();
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };

@@ -31,238 +31,238 @@ using namespace DSObjects;
 //
 
 CRM7AllocatorPresenter::CRM7AllocatorPresenter(HWND hWnd, HRESULT& hr)
-	: CDX7AllocatorPresenter(hWnd, hr)
+    : CDX7AllocatorPresenter(hWnd, hr)
 {
 }
 
 STDMETHODIMP CRM7AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-	CheckPointer(ppv, E_POINTER);
+    CheckPointer(ppv, E_POINTER);
 
-	return
-		QI2(IRMAVideoSurface)
-		__super::NonDelegatingQueryInterface(riid, ppv);
+    return
+        QI2(IRMAVideoSurface)
+        __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 HRESULT CRM7AllocatorPresenter::AllocSurfaces()
 {
-	CAutoLock cAutoLock(this);
+    CAutoLock cAutoLock(this);
 
-	m_pVideoSurfaceOff = NULL;
-	m_pVideoSurfaceYUY2 = NULL;
+    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceYUY2 = NULL;
 
-	DDSURFACEDESC2 ddsd;
-	DDBLTFX fx;
+    DDSURFACEDESC2 ddsd;
+    DDBLTFX fx;
 
-	INITDDSTRUCT(ddsd);
-	ddsd.dwFlags = DDSD_CAPS|DDSD_WIDTH|DDSD_HEIGHT|DDSD_PIXELFORMAT;
-	ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN;
-	ddsd.dwWidth = m_NativeVideoSize.cx;
-	ddsd.dwHeight = m_NativeVideoSize.cy;
-	ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
-	ddsd.ddpfPixelFormat.dwFlags = DDPF_RGB;
-	ddsd.ddpfPixelFormat.dwRGBBitCount = 32;
-	ddsd.ddpfPixelFormat.dwRGBAlphaBitMask	= 0xFF000000;
-	ddsd.ddpfPixelFormat.dwRBitMask			= 0x00FF0000;
-	ddsd.ddpfPixelFormat.dwGBitMask			= 0x0000FF00;
-	ddsd.ddpfPixelFormat.dwBBitMask			= 0x000000FF;
+    INITDDSTRUCT(ddsd);
+    ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT | DDSD_PIXELFORMAT;
+    ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN;
+    ddsd.dwWidth = m_NativeVideoSize.cx;
+    ddsd.dwHeight = m_NativeVideoSize.cy;
+    ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
+    ddsd.ddpfPixelFormat.dwFlags = DDPF_RGB;
+    ddsd.ddpfPixelFormat.dwRGBBitCount = 32;
+    ddsd.ddpfPixelFormat.dwRGBAlphaBitMask  = 0xFF000000;
+    ddsd.ddpfPixelFormat.dwRBitMask         = 0x00FF0000;
+    ddsd.ddpfPixelFormat.dwGBitMask         = 0x0000FF00;
+    ddsd.ddpfPixelFormat.dwBBitMask         = 0x000000FF;
 
-	HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceOff, NULL);
-	if (FAILED(hr)) {
-		return E_FAIL;
-	}
+    HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceOff, NULL);
+    if (FAILED(hr)) {
+        return E_FAIL;
+    }
 
-	INITDDSTRUCT(fx);
-	fx.dwFillColor = 0;
-	m_pVideoSurfaceOff->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
+    INITDDSTRUCT(fx);
+    fx.dwFillColor = 0;
+    m_pVideoSurfaceOff->Blt(NULL, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
-	INITDDSTRUCT(ddsd);
-	ddsd.dwFlags = DDSD_CAPS|DDSD_WIDTH|DDSD_HEIGHT|DDSD_PIXELFORMAT;
-	ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN;
-	ddsd.dwWidth = m_NativeVideoSize.cx;
-	ddsd.dwHeight = m_NativeVideoSize.cy;
-	ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
-	ddsd.ddpfPixelFormat.dwFlags = DDPF_FOURCC;
-	ddsd.ddpfPixelFormat.dwYUVBitCount = 16;
-	ddsd.ddpfPixelFormat.dwFourCC = '2YUY';
+    INITDDSTRUCT(ddsd);
+    ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT | DDSD_PIXELFORMAT;
+    ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN;
+    ddsd.dwWidth = m_NativeVideoSize.cx;
+    ddsd.dwHeight = m_NativeVideoSize.cy;
+    ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
+    ddsd.ddpfPixelFormat.dwFlags = DDPF_FOURCC;
+    ddsd.ddpfPixelFormat.dwYUVBitCount = 16;
+    ddsd.ddpfPixelFormat.dwFourCC = '2YUY';
 
-	hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceYUY2, NULL);
+    hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceYUY2, NULL);
 
-	if (FAILED(m_pVideoSurfaceOff->Blt(NULL, m_pVideoSurfaceYUY2, NULL, DDBLT_WAIT, NULL))) {
-		m_pVideoSurfaceYUY2 = NULL;
-	}
+    if (FAILED(m_pVideoSurfaceOff->Blt(NULL, m_pVideoSurfaceYUY2, NULL, DDBLT_WAIT, NULL))) {
+        m_pVideoSurfaceYUY2 = NULL;
+    }
 
-	if (m_pVideoSurfaceYUY2) {
-		INITDDSTRUCT(fx);
-		fx.dwFillColor = 0x80108010;
-		m_pVideoSurfaceYUY2->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
-	}
+    if (m_pVideoSurfaceYUY2) {
+        INITDDSTRUCT(fx);
+        fx.dwFillColor = 0x80108010;
+        m_pVideoSurfaceYUY2->Blt(NULL, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
+    }
 
-	return __super::AllocSurfaces();
+    return __super::AllocSurfaces();
 }
 
 void CRM7AllocatorPresenter::DeleteSurfaces()
 {
-	CAutoLock cAutoLock(this);
+    CAutoLock cAutoLock(this);
 
-	m_pVideoSurfaceOff = NULL;
-	m_pVideoSurfaceYUY2 = NULL;
+    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceYUY2 = NULL;
 
-	__super::DeleteSurfaces();
+    __super::DeleteSurfaces();
 }
 
 // IRMAVideoSurface
 
 STDMETHODIMP CRM7AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader* pBitmapInfo, REF(PNxRect) inDestRect, REF(PNxRect) inSrcRect)
 {
-	if (!m_pVideoSurface || !m_pVideoSurfaceOff) {
-		return E_FAIL;
-	}
+    if (!m_pVideoSurface || !m_pVideoSurfaceOff) {
+        return E_FAIL;
+    }
 
-	bool fRGB = false;
-	bool fYUY2 = false;
+    bool fRGB = false;
+    bool fYUY2 = false;
 
-	CRect src((RECT*)&inSrcRect), dst((RECT*)&inDestRect), src2(CPoint(0,0), src.Size());
-	if (src.Width() > dst.Width() || src.Height() > dst.Height()) {
-		return E_FAIL;
-	}
+    CRect src((RECT*)&inSrcRect), dst((RECT*)&inDestRect), src2(CPoint(0, 0), src.Size());
+    if (src.Width() > dst.Width() || src.Height() > dst.Height()) {
+        return E_FAIL;
+    }
 
-	DDSURFACEDESC2 ddsd;
+    DDSURFACEDESC2 ddsd;
 
-	if (pBitmapInfo->biCompression == '024I') {
-		DWORD pitch = pBitmapInfo->biWidth;
-		DWORD size = pitch*abs(pBitmapInfo->biHeight);
+    if (pBitmapInfo->biCompression == '024I') {
+        DWORD pitch = pBitmapInfo->biWidth;
+        DWORD size = pitch * abs(pBitmapInfo->biHeight);
 
-		BYTE* y = pImageData					+ src.top*pitch + src.left;
-		BYTE* u = pImageData + size				+ src.top*(pitch/2) + src.left/2;
-		BYTE* v = pImageData + size + size/4	+ src.top*(pitch/2) + src.left/2;
+        BYTE* y = pImageData                    + src.top * pitch + src.left;
+        BYTE* u = pImageData + size             + src.top * (pitch / 2) + src.left / 2;
+        BYTE* v = pImageData + size + size / 4    + src.top * (pitch / 2) + src.left / 2;
 
-		if (m_pVideoSurfaceYUY2) {
-			INITDDSTRUCT(ddsd);
-			if (SUCCEEDED(m_pVideoSurfaceYUY2->Lock(src2, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_WRITEONLY, NULL))) {
-				BitBltFromI420ToYUY2(src.Width(), src.Height(), (BYTE*)ddsd.lpSurface, ddsd.lPitch, y, u, v, pitch);
-				m_pVideoSurfaceYUY2->Unlock(src2);
-				fYUY2 = true;
-			}
-		} else {
-			INITDDSTRUCT(ddsd);
-			if (SUCCEEDED(m_pVideoSurfaceOff->Lock(src2, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_WRITEONLY, NULL))) {
-				BitBltFromI420ToRGB(src.Width(), src.Height(), (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount, y, u, v, pitch);
-				m_pVideoSurfaceOff->Unlock(src2);
-				fRGB = true;
-			}
-		}
-	} else if (pBitmapInfo->biCompression == '2YUY') {
-		DWORD w = pBitmapInfo->biWidth;
-		DWORD h = abs(pBitmapInfo->biHeight);
-		DWORD pitch = pBitmapInfo->biWidth*2;
-		UNREFERENCED_PARAMETER(w);
-		UNREFERENCED_PARAMETER(h);
+        if (m_pVideoSurfaceYUY2) {
+            INITDDSTRUCT(ddsd);
+            if (SUCCEEDED(m_pVideoSurfaceYUY2->Lock(src2, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_WRITEONLY, NULL))) {
+                BitBltFromI420ToYUY2(src.Width(), src.Height(), (BYTE*)ddsd.lpSurface, ddsd.lPitch, y, u, v, pitch);
+                m_pVideoSurfaceYUY2->Unlock(src2);
+                fYUY2 = true;
+            }
+        } else {
+            INITDDSTRUCT(ddsd);
+            if (SUCCEEDED(m_pVideoSurfaceOff->Lock(src2, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_WRITEONLY, NULL))) {
+                BitBltFromI420ToRGB(src.Width(), src.Height(), (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount, y, u, v, pitch);
+                m_pVideoSurfaceOff->Unlock(src2);
+                fRGB = true;
+            }
+        }
+    } else if (pBitmapInfo->biCompression == '2YUY') {
+        DWORD w = pBitmapInfo->biWidth;
+        DWORD h = abs(pBitmapInfo->biHeight);
+        DWORD pitch = pBitmapInfo->biWidth * 2;
+        UNREFERENCED_PARAMETER(w);
+        UNREFERENCED_PARAMETER(h);
 
-		BYTE* yvyu = pImageData + src.top*pitch + src.left*2;
+        BYTE* yvyu = pImageData + src.top * pitch + src.left * 2;
 
-		if (m_pVideoSurfaceYUY2) {
-			INITDDSTRUCT(ddsd);
-			if (SUCCEEDED(m_pVideoSurfaceYUY2->Lock(src2, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_WRITEONLY, NULL))) {
-				BitBltFromYUY2ToYUY2(src.Width(), src.Height(), (BYTE*)ddsd.lpSurface, ddsd.lPitch, yvyu, pitch);
-				m_pVideoSurfaceYUY2->Unlock(src2);
-				fYUY2 = true;
-			}
-		} else {
-			INITDDSTRUCT(ddsd);
-			if (SUCCEEDED(m_pVideoSurfaceOff->Lock(src2, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_WRITEONLY, NULL))) {
-				BitBltFromYUY2ToRGB(src.Width(), src.Height(), (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount, yvyu, pitch);
-				m_pVideoSurfaceOff->Unlock(src2);
-				fRGB = true;
-			}
-		}
-	} else if (pBitmapInfo->biCompression == 0 || pBitmapInfo->biCompression == 3
-			   || pBitmapInfo->biCompression == 'BGRA') {
-		DWORD w = pBitmapInfo->biWidth;
-		DWORD h = abs(pBitmapInfo->biHeight);
-		DWORD pitch = pBitmapInfo->biWidth*pBitmapInfo->biBitCount>>3;
-		UNREFERENCED_PARAMETER(w);
-		UNREFERENCED_PARAMETER(h);
+        if (m_pVideoSurfaceYUY2) {
+            INITDDSTRUCT(ddsd);
+            if (SUCCEEDED(m_pVideoSurfaceYUY2->Lock(src2, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_WRITEONLY, NULL))) {
+                BitBltFromYUY2ToYUY2(src.Width(), src.Height(), (BYTE*)ddsd.lpSurface, ddsd.lPitch, yvyu, pitch);
+                m_pVideoSurfaceYUY2->Unlock(src2);
+                fYUY2 = true;
+            }
+        } else {
+            INITDDSTRUCT(ddsd);
+            if (SUCCEEDED(m_pVideoSurfaceOff->Lock(src2, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_WRITEONLY, NULL))) {
+                BitBltFromYUY2ToRGB(src.Width(), src.Height(), (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount, yvyu, pitch);
+                m_pVideoSurfaceOff->Unlock(src2);
+                fRGB = true;
+            }
+        }
+    } else if (pBitmapInfo->biCompression == 0 || pBitmapInfo->biCompression == 3
+               || pBitmapInfo->biCompression == 'BGRA') {
+        DWORD w = pBitmapInfo->biWidth;
+        DWORD h = abs(pBitmapInfo->biHeight);
+        DWORD pitch = pBitmapInfo->biWidth * pBitmapInfo->biBitCount >> 3;
+        UNREFERENCED_PARAMETER(w);
+        UNREFERENCED_PARAMETER(h);
 
-		BYTE* rgb = pImageData + src.top*pitch + src.left*(pBitmapInfo->biBitCount>>3);
+        BYTE* rgb = pImageData + src.top * pitch + src.left * (pBitmapInfo->biBitCount >> 3);
 
-		INITDDSTRUCT(ddsd);
-		if (SUCCEEDED(m_pVideoSurfaceOff->Lock(src2, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_WRITEONLY, NULL))) {
-			BYTE* lpSurface = (BYTE*)ddsd.lpSurface;
-			if (pBitmapInfo->biHeight > 0) {
-				lpSurface += ddsd.lPitch*(src.Height()-1);
-				ddsd.lPitch = -ddsd.lPitch;
-			}
-			BitBltFromRGBToRGB(src.Width(), src.Height(), lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount, rgb, pitch, pBitmapInfo->biBitCount);
-			fRGB = true;
-			m_pVideoSurfaceOff->Unlock(src2);
-		}
-	}
+        INITDDSTRUCT(ddsd);
+        if (SUCCEEDED(m_pVideoSurfaceOff->Lock(src2, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_WRITEONLY, NULL))) {
+            BYTE* lpSurface = (BYTE*)ddsd.lpSurface;
+            if (pBitmapInfo->biHeight > 0) {
+                lpSurface += ddsd.lPitch * (src.Height() - 1);
+                ddsd.lPitch = -ddsd.lPitch;
+            }
+            BitBltFromRGBToRGB(src.Width(), src.Height(), lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount, rgb, pitch, pBitmapInfo->biBitCount);
+            fRGB = true;
+            m_pVideoSurfaceOff->Unlock(src2);
+        }
+    }
 
-	if (!fRGB && !fYUY2) {
-		DDBLTFX fx;
-		INITDDSTRUCT(fx);
-		fx.dwFillColor = 0;
-		m_pVideoSurfaceOff->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
+    if (!fRGB && !fYUY2) {
+        DDBLTFX fx;
+        INITDDSTRUCT(fx);
+        fx.dwFillColor = 0;
+        m_pVideoSurfaceOff->Blt(NULL, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
-		HDC hDC;
-		if (SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC))) {
-			CString str;
-			str.Format(_T("Sorry, this format is not supported"));
+        HDC hDC;
+        if (SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC))) {
+            CString str;
+            str.Format(_T("Sorry, this format is not supported"));
 
-			SetBkColor(hDC, 0);
-			SetTextColor(hDC, 0x404040);
-			TextOut(hDC, 10, 10, str, str.GetLength());
+            SetBkColor(hDC, 0);
+            SetTextColor(hDC, 0x404040);
+            TextOut(hDC, 10, 10, str, str.GetLength());
 
-			m_pVideoSurfaceOff->ReleaseDC(hDC);
+            m_pVideoSurfaceOff->ReleaseDC(hDC);
 
-			fRGB = true;
-		}
-	}
+            fRGB = true;
+        }
+    }
 
 
-	HRESULT hr;
+    HRESULT hr;
 
-	if (fRGB) {
-		hr = m_pVideoSurface->Blt(dst, m_pVideoSurfaceOff, src2, DDBLT_WAIT, NULL);
-	}
-	if (fYUY2) {
-		hr = m_pVideoSurface->Blt(dst, m_pVideoSurfaceYUY2, src2, DDBLT_WAIT, NULL);
-	}
+    if (fRGB) {
+        hr = m_pVideoSurface->Blt(dst, m_pVideoSurfaceOff, src2, DDBLT_WAIT, NULL);
+    }
+    if (fYUY2) {
+        hr = m_pVideoSurface->Blt(dst, m_pVideoSurfaceYUY2, src2, DDBLT_WAIT, NULL);
+    }
 
-	Paint(true);
+    Paint(true);
 
-	return PNR_OK;
+    return PNR_OK;
 }
 
 STDMETHODIMP CRM7AllocatorPresenter::BeginOptimizedBlt(RMABitmapInfoHeader* pBitmapInfo)
 {
-	CAutoLock cAutoLock(this);
-	DeleteSurfaces();
-	m_NativeVideoSize = m_AspectRatio = CSize(pBitmapInfo->biWidth, abs(pBitmapInfo->biHeight));
-	if (FAILED(AllocSurfaces())) {
-		return E_FAIL;
-	}
-	return PNR_NOTIMPL;
+    CAutoLock cAutoLock(this);
+    DeleteSurfaces();
+    m_NativeVideoSize = m_AspectRatio = CSize(pBitmapInfo->biWidth, abs(pBitmapInfo->biHeight));
+    if (FAILED(AllocSurfaces())) {
+        return E_FAIL;
+    }
+    return PNR_NOTIMPL;
 }
 
 STDMETHODIMP CRM7AllocatorPresenter::OptimizedBlt(UCHAR* pImageBits, REF(PNxRect) rDestRect, REF(PNxRect) rSrcRect)
 {
-	return PNR_NOTIMPL;
+    return PNR_NOTIMPL;
 }
 
 STDMETHODIMP CRM7AllocatorPresenter::EndOptimizedBlt()
 {
-	return PNR_NOTIMPL;
+    return PNR_NOTIMPL;
 }
 
 STDMETHODIMP CRM7AllocatorPresenter::GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) ulType)
 {
-	return PNR_NOTIMPL;
+    return PNR_NOTIMPL;
 }
 
 STDMETHODIMP CRM7AllocatorPresenter::GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) ulType)
 {
-	ulType = RMA_I420;
-	return PNR_OK;
+    ulType = RMA_I420;
+    return PNR_OK;
 }

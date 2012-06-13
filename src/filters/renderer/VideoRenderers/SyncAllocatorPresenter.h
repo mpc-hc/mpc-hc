@@ -29,7 +29,7 @@ DEFINE_GUID(CLSID_SyncAllocatorPresenter, 0xf9f62627, 0xe3ef, 0x4a2e, 0xb6, 0xc9
 interface __declspec(uuid("F891C2A9-1DFF-45e0-9129-30C0990C5A9F"))
 ISyncClockAdviser :
 public IUnknown {
-	STDMETHOD (AdviseSyncClock)(ISyncClock* sC) PURE;
+    STDMETHOD(AdviseSyncClock)(ISyncClock * sC) PURE;
 };
 
 HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP);

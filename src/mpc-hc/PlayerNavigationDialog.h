@@ -38,41 +38,41 @@ class CPlayerNavigationDialog : public CResizableDialog //CDialog
 {
 
 public:
-	CPlayerNavigationDialog();   // standard constructor
-	virtual ~CPlayerNavigationDialog();
+    CPlayerNavigationDialog();   // standard constructor
+    virtual ~CPlayerNavigationDialog();
 
-	BOOL Create(CWnd* pParent = NULL);
-	void UpdateElementList();
-	void UpdatePos(int nID);
-	void SetupAudioSwitcherSubMenu(CDVBChannel* Channel = NULL);
-	int p_nItems[MAX_CHANNELS_ALLOWED];
-	DVBStreamInfo m_audios[DVB_MAX_AUDIO];
-	bool m_bTVStations;
+    BOOL Create(CWnd* pParent = NULL);
+    void UpdateElementList();
+    void UpdatePos(int nID);
+    void SetupAudioSwitcherSubMenu(CDVBChannel* Channel = NULL);
+    int p_nItems[MAX_CHANNELS_ALLOWED];
+    DVBStreamInfo m_audios[DVB_MAX_AUDIO];
+    bool m_bTVStations;
 
-	// Dialog Data
-	enum { IDD = IDD_NAVIGATION_DLG };
+    // Dialog Data
+    enum { IDD = IDD_NAVIGATION_DLG };
 
-	CListBox m_ChannelList;
-	CComboBox m_ComboAudio;
-	CButton m_ButtonInfo;
-	CButton m_ButtonScan;
-	CButton m_ButtonFilterStations;
-	CWnd* m_pParent;
-	//	CMenu m_subtitles, m_audios;
+    CListBox m_ChannelList;
+    CComboBox m_ComboAudio;
+    CButton m_ButtonInfo;
+    CButton m_ButtonScan;
+    CButton m_ButtonFilterStations;
+    CWnd* m_pParent;
+    //  CMenu m_subtitles, m_audios;
 
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	virtual BOOL OnInitDialog();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL OnInitDialog();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnDestroy();
-	afx_msg void OnChangeChannel();
-	afx_msg void OnTunerScan();
-	afx_msg void OnSelChangeComboAudio();
-	afx_msg void OnButtonInfo();
-	afx_msg void OnTvRadioStations();
+    afx_msg void OnDestroy();
+    afx_msg void OnChangeChannel();
+    afx_msg void OnTunerScan();
+    afx_msg void OnSelChangeComboAudio();
+    afx_msg void OnButtonInfo();
+    afx_msg void OnTvRadioStations();
 };

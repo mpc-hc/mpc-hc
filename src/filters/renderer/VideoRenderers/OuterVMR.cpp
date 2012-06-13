@@ -27,134 +27,146 @@
 
 using namespace DSObjects;
 
-STDMETHODIMP COuterVMR9::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight) {
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
-		return pWC9->GetNativeVideoSize(lpWidth, lpHeight, lpARWidth, lpARHeight);
-	}
+STDMETHODIMP COuterVMR9::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight)
+{
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+        return pWC9->GetNativeVideoSize(lpWidth, lpHeight, lpARWidth, lpARHeight);
+    }
 
-	return E_NOTIMPL;
+    return E_NOTIMPL;
 }
 
-STDMETHODIMP COuterVMR9::GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect) {
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
-		return pWC9->GetVideoPosition(lpSRCRect, lpDSTRect);
-	}
+STDMETHODIMP COuterVMR9::GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect)
+{
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+        return pWC9->GetVideoPosition(lpSRCRect, lpDSTRect);
+    }
 
-	return E_NOTIMPL;
+    return E_NOTIMPL;
 }
 
-STDMETHODIMP COuterVMR9::GetAspectRatioMode(DWORD* lpAspectRatioMode) {
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
-		*lpAspectRatioMode = VMR_ARMODE_NONE;
-		return S_OK;
-	}
+STDMETHODIMP COuterVMR9::GetAspectRatioMode(DWORD* lpAspectRatioMode)
+{
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+        *lpAspectRatioMode = VMR_ARMODE_NONE;
+        return S_OK;
+    }
 
-	return E_NOTIMPL;
+    return E_NOTIMPL;
 }
 
 // IVideoWindow
-STDMETHODIMP COuterVMR9::get_Width(long* pWidth) {
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
-		CRect s, d;
-		HRESULT hr = pWC9->GetVideoPosition(&s, &d);
-		*pWidth = d.Width();
-		return hr;
-	}
+STDMETHODIMP COuterVMR9::get_Width(long* pWidth)
+{
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+        CRect s, d;
+        HRESULT hr = pWC9->GetVideoPosition(&s, &d);
+        *pWidth = d.Width();
+        return hr;
+    }
 
-	return E_NOTIMPL;
+    return E_NOTIMPL;
 }
 
-STDMETHODIMP COuterVMR9::get_Height(long* pHeight) {
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
-		CRect s, d;
-		HRESULT hr = pWC9->GetVideoPosition(&s, &d);
-		*pHeight = d.Height();
-		return hr;
-	}
+STDMETHODIMP COuterVMR9::get_Height(long* pHeight)
+{
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+        CRect s, d;
+        HRESULT hr = pWC9->GetVideoPosition(&s, &d);
+        *pHeight = d.Height();
+        return hr;
+    }
 
-	return E_NOTIMPL;
+    return E_NOTIMPL;
 }
 
 // IBasicVideo2
-STDMETHODIMP COuterVMR9::GetSourcePosition(long* pLeft, long* pTop, long* pWidth, long* pHeight) {
-	// DVD Nav. bug workaround fix
-	{
-		*pLeft = *pTop = 0;
-		return GetVideoSize(pWidth, pHeight);
-	}
-	/*
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR)
-	{
-	CRect s, d;
-	HRESULT hr = pWC9->GetVideoPosition(&s, &d);
-	*pLeft = s.left;
-	*pTop = s.top;
-	*pWidth = s.Width();
-	*pHeight = s.Height();
-	return hr;
-	}
-	return E_NOTIMPL;
-	*/
+STDMETHODIMP COuterVMR9::GetSourcePosition(long* pLeft, long* pTop, long* pWidth, long* pHeight)
+{
+    // DVD Nav. bug workaround fix
+    {
+        *pLeft = *pTop = 0;
+        return GetVideoSize(pWidth, pHeight);
+    }
+    /*
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR)
+    {
+    CRect s, d;
+    HRESULT hr = pWC9->GetVideoPosition(&s, &d);
+    *pLeft = s.left;
+    *pTop = s.top;
+    *pWidth = s.Width();
+    *pHeight = s.Height();
+    return hr;
+    }
+    return E_NOTIMPL;
+    */
 }
 
-STDMETHODIMP COuterVMR9::GetDestinationPosition(long* pLeft, long* pTop, long* pWidth, long* pHeight) {
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
-		CRect s, d;
-		HRESULT hr = pWC9->GetVideoPosition(&s, &d);
-		*pLeft = d.left;
-		*pTop = d.top;
-		*pWidth = d.Width();
-		*pHeight = d.Height();
-		return hr;
-	}
+STDMETHODIMP COuterVMR9::GetDestinationPosition(long* pLeft, long* pTop, long* pWidth, long* pHeight)
+{
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+        CRect s, d;
+        HRESULT hr = pWC9->GetVideoPosition(&s, &d);
+        *pLeft = d.left;
+        *pTop = d.top;
+        *pWidth = d.Width();
+        *pHeight = d.Height();
+        return hr;
+    }
 
-	return E_NOTIMPL;
+    return E_NOTIMPL;
 }
 
-STDMETHODIMP COuterVMR9::GetVideoSize(long* pWidth, long* pHeight) {
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
-		LONG aw, ah;
-		//			return pWC9->GetNativeVideoSize(pWidth, pHeight, &aw, &ah);
-		// DVD Nav. bug workaround fix
-		HRESULT hr = pWC9->GetNativeVideoSize(pWidth, pHeight, &aw, &ah);
-		*pWidth = *pHeight * aw / ah;
-		return hr;
-	}
+STDMETHODIMP COuterVMR9::GetVideoSize(long* pWidth, long* pHeight)
+{
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+        LONG aw, ah;
+        //          return pWC9->GetNativeVideoSize(pWidth, pHeight, &aw, &ah);
+        // DVD Nav. bug workaround fix
+        HRESULT hr = pWC9->GetNativeVideoSize(pWidth, pHeight, &aw, &ah);
+        *pWidth = *pHeight * aw / ah;
+        return hr;
+    }
 
-	return E_NOTIMPL;
+    return E_NOTIMPL;
 }
 
-STDMETHODIMP COuterVMR9::GetPreferredAspectRatio(long* plAspectX, long* plAspectY) {
-	if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
-		LONG w, h;
-		return pWC9->GetNativeVideoSize(&w, &h, plAspectX, plAspectY);
-	}
+STDMETHODIMP COuterVMR9::GetPreferredAspectRatio(long* plAspectX, long* plAspectY)
+{
+    if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
+        LONG w, h;
+        return pWC9->GetNativeVideoSize(&w, &h, plAspectX, plAspectY);
+    }
 
-	return E_NOTIMPL;
+    return E_NOTIMPL;
 }
 
 // IVMRMixerBitmap9
-STDMETHODIMP COuterVMR9::GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms) {
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (pBmpParms, m_pVMR9AlphaBitmap, sizeof(VMR9AlphaBitmap));
-	return S_OK;
+STDMETHODIMP COuterVMR9::GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms)
+{
+    CheckPointer(pBmpParms, E_POINTER);
+    CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
+    memcpy(pBmpParms, m_pVMR9AlphaBitmap, sizeof(VMR9AlphaBitmap));
+    return S_OK;
 }
 
-STDMETHODIMP COuterVMR9::SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms) {
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
-	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
-	m_pAllocatorPresenter->UpdateAlphaBitmap();
-	return S_OK;
+STDMETHODIMP COuterVMR9::SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms)
+{
+    CheckPointer(pBmpParms, E_POINTER);
+    CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
+    memcpy(m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
+    m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
+    m_pAllocatorPresenter->UpdateAlphaBitmap();
+    return S_OK;
 }
 
-STDMETHODIMP COuterVMR9::UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms) {
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
-	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
-	m_pAllocatorPresenter->UpdateAlphaBitmap();
-	return S_OK;
+STDMETHODIMP COuterVMR9::UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms)
+{
+    CheckPointer(pBmpParms, E_POINTER);
+    CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
+    memcpy(m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
+    m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
+    m_pAllocatorPresenter->UpdateAlphaBitmap();
+    return S_OK;
 }

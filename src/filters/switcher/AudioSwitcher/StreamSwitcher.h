@@ -52,45 +52,45 @@ class CStreamSwitcherFilter;
 class CStreamSwitcherPassThru : public IMediaSeeking, public CMediaPosition
 {
 protected:
-	CStreamSwitcherFilter* m_pFilter;
+    CStreamSwitcherFilter* m_pFilter;
 
 public:
-	CStreamSwitcherPassThru(LPUNKNOWN, HRESULT* phr, CStreamSwitcherFilter* pFilter);
+    CStreamSwitcherPassThru(LPUNKNOWN, HRESULT* phr, CStreamSwitcherFilter* pFilter);
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// IMediaSeeking methods
-	STDMETHODIMP GetCapabilities(DWORD* pCapabilities);
-	STDMETHODIMP CheckCapabilities(DWORD* pCapabilities);
-	STDMETHODIMP SetTimeFormat(const GUID* pFormat);
-	STDMETHODIMP GetTimeFormat(GUID* pFormat);
-	STDMETHODIMP IsUsingTimeFormat(const GUID* pFormat);
-	STDMETHODIMP IsFormatSupported(const GUID* pFormat);
-	STDMETHODIMP QueryPreferredFormat(GUID* pFormat);
-	STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
-	STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD CurrentFlags, LONGLONG* pStop, DWORD StopFlags);
-	STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
-	STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
-	STDMETHODIMP GetStopPosition(LONGLONG* pStop);
-	STDMETHODIMP SetRate(double dRate);
-	STDMETHODIMP GetRate(double* pdRate);
-	STDMETHODIMP GetDuration(LONGLONG* pDuration);
-	STDMETHODIMP GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest);
-	STDMETHODIMP GetPreroll(LONGLONG* pllPreroll);
+    // IMediaSeeking methods
+    STDMETHODIMP GetCapabilities(DWORD* pCapabilities);
+    STDMETHODIMP CheckCapabilities(DWORD* pCapabilities);
+    STDMETHODIMP SetTimeFormat(const GUID* pFormat);
+    STDMETHODIMP GetTimeFormat(GUID* pFormat);
+    STDMETHODIMP IsUsingTimeFormat(const GUID* pFormat);
+    STDMETHODIMP IsFormatSupported(const GUID* pFormat);
+    STDMETHODIMP QueryPreferredFormat(GUID* pFormat);
+    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
+    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD CurrentFlags, LONGLONG* pStop, DWORD StopFlags);
+    STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
+    STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
+    STDMETHODIMP GetStopPosition(LONGLONG* pStop);
+    STDMETHODIMP SetRate(double dRate);
+    STDMETHODIMP GetRate(double* pdRate);
+    STDMETHODIMP GetDuration(LONGLONG* pDuration);
+    STDMETHODIMP GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest);
+    STDMETHODIMP GetPreroll(LONGLONG* pllPreroll);
 
-	// IMediaPosition properties
-	STDMETHODIMP get_Duration(REFTIME* plength);
-	STDMETHODIMP put_CurrentPosition(REFTIME llTime);
-	STDMETHODIMP get_StopTime(REFTIME* pllTime);
-	STDMETHODIMP put_StopTime(REFTIME llTime);
-	STDMETHODIMP get_PrerollTime(REFTIME* pllTime);
-	STDMETHODIMP put_PrerollTime(REFTIME llTime);
-	STDMETHODIMP get_Rate(double* pdRate);
-	STDMETHODIMP put_Rate(double dRate);
-	STDMETHODIMP get_CurrentPosition(REFTIME* pllTime);
-	STDMETHODIMP CanSeekForward(LONG* pCanSeekForward);
-	STDMETHODIMP CanSeekBackward(LONG* pCanSeekBackward);
+    // IMediaPosition properties
+    STDMETHODIMP get_Duration(REFTIME* plength);
+    STDMETHODIMP put_CurrentPosition(REFTIME llTime);
+    STDMETHODIMP get_StopTime(REFTIME* pllTime);
+    STDMETHODIMP put_StopTime(REFTIME llTime);
+    STDMETHODIMP get_PrerollTime(REFTIME* pllTime);
+    STDMETHODIMP put_PrerollTime(REFTIME llTime);
+    STDMETHODIMP get_Rate(double* pdRate);
+    STDMETHODIMP put_Rate(double dRate);
+    STDMETHODIMP get_CurrentPosition(REFTIME* pllTime);
+    STDMETHODIMP CanSeekForward(LONG* pCanSeekForward);
+    STDMETHODIMP CanSeekBackward(LONG* pCanSeekBackward);
 };
 
 class CStreamSwitcherInputPin;
@@ -98,202 +98,202 @@ class CStreamSwitcherInputPin;
 class CStreamSwitcherAllocator : public CMemAllocator
 {
 protected:
-	CStreamSwitcherInputPin* m_pPin;
+    CStreamSwitcherInputPin* m_pPin;
 
-	CMediaType m_mt;
-	bool m_fMediaTypeChanged;
+    CMediaType m_mt;
+    bool m_fMediaTypeChanged;
 
 public:
-	CStreamSwitcherAllocator(CStreamSwitcherInputPin* pPin, HRESULT* phr);
+    CStreamSwitcherAllocator(CStreamSwitcherInputPin* pPin, HRESULT* phr);
 #ifdef _DEBUG
-	~CStreamSwitcherAllocator();
+    ~CStreamSwitcherAllocator();
 #endif
 
-	STDMETHODIMP_(ULONG) NonDelegatingAddRef();
-	STDMETHODIMP_(ULONG) NonDelegatingRelease();
+    STDMETHODIMP_(ULONG) NonDelegatingAddRef();
+    STDMETHODIMP_(ULONG) NonDelegatingRelease();
 
-	STDMETHODIMP GetBuffer(
-		IMediaSample** ppBuffer,
-		REFERENCE_TIME* pStartTime, REFERENCE_TIME* pEndTime,
-		DWORD dwFlags);
+    STDMETHODIMP GetBuffer(
+        IMediaSample** ppBuffer,
+        REFERENCE_TIME* pStartTime, REFERENCE_TIME* pEndTime,
+        DWORD dwFlags);
 
-	void NotifyMediaType(const CMediaType& mt);
+    void NotifyMediaType(const CMediaType& mt);
 };
 
 interface __declspec(uuid("DA395FA3-4A3E-4D85-805E-0BEFF53D4BCD"))
 IStreamSwitcherInputPin :
 public IUnknown {
-	STDMETHOD_(bool, IsActive)() = 0;
+    STDMETHOD_(bool, IsActive)() = 0;
 };
 
 class CStreamSwitcherInputPin : public CBaseInputPin, public IPinConnection, public IStreamSwitcherInputPin
 {
-	friend class CStreamSwitcherAllocator;
+    friend class CStreamSwitcherAllocator;
 
-	CStreamSwitcherAllocator m_Allocator;
+    CStreamSwitcherAllocator m_Allocator;
 
-	BOOL m_bSampleSkipped;
-	BOOL m_bQualityChanged;
-	BOOL m_bUsingOwnAllocator;
+    BOOL m_bSampleSkipped;
+    BOOL m_bQualityChanged;
+    BOOL m_bUsingOwnAllocator;
 
-	CAMEvent m_evBlock;
-	bool m_fCanBlock;
-	HRESULT Active();
-	HRESULT Inactive();
+    CAMEvent m_evBlock;
+    bool m_fCanBlock;
+    HRESULT Active();
+    HRESULT Inactive();
 
-	HRESULT QueryAcceptDownstream(const AM_MEDIA_TYPE* pmt);
+    HRESULT QueryAcceptDownstream(const AM_MEDIA_TYPE* pmt);
 
-	HRESULT InitializeOutputSample(IMediaSample* pInSample, IMediaSample** ppOutSample);
+    HRESULT InitializeOutputSample(IMediaSample* pInSample, IMediaSample** ppOutSample);
 
-	HANDLE m_hNotifyEvent;
+    HANDLE m_hNotifyEvent;
 
 public:
-	CStreamSwitcherInputPin(CStreamSwitcherFilter* pFilter, HRESULT* phr, LPCWSTR pName);
+    CStreamSwitcherInputPin(CStreamSwitcherFilter* pFilter, HRESULT* phr, LPCWSTR pName);
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	CMediaType& CurrentMediaType() {
-		return m_mt;
-	}
-	IMemAllocator* CurrentAllocator() {
-		return m_pAllocator;
-	}
+    CMediaType& CurrentMediaType() {
+        return m_mt;
+    }
+    IMemAllocator* CurrentAllocator() {
+        return m_pAllocator;
+    }
 
-	bool IsUsingOwnAllocator() {
-		return m_bUsingOwnAllocator == TRUE;
-	}
+    bool IsUsingOwnAllocator() {
+        return m_bUsingOwnAllocator == TRUE;
+    }
 
-	void Block(bool fBlock);
+    void Block(bool fBlock);
 
-	CCritSec m_csReceive;
+    CCritSec m_csReceive;
 
-	// pure virtual
-	HRESULT CheckMediaType(const CMediaType* pmt);
+    // pure virtual
+    HRESULT CheckMediaType(const CMediaType* pmt);
 
-	// virtual
-	HRESULT CheckConnect(IPin* pPin);
-	HRESULT CompleteConnect(IPin* pReceivePin);
+    // virtual
+    HRESULT CheckConnect(IPin* pPin);
+    HRESULT CompleteConnect(IPin* pReceivePin);
 
-	// IPin
-	STDMETHODIMP QueryAccept(const AM_MEDIA_TYPE* pmt);
-	STDMETHODIMP ReceiveConnection(IPin* pConnector, const AM_MEDIA_TYPE* pmt);
-	STDMETHODIMP GetAllocator(IMemAllocator** ppAllocator);
-	STDMETHODIMP NotifyAllocator(IMemAllocator* pAllocator, BOOL bReadOnly);
-	STDMETHODIMP BeginFlush();
-	STDMETHODIMP EndFlush();
-	STDMETHODIMP EndOfStream();
+    // IPin
+    STDMETHODIMP QueryAccept(const AM_MEDIA_TYPE* pmt);
+    STDMETHODIMP ReceiveConnection(IPin* pConnector, const AM_MEDIA_TYPE* pmt);
+    STDMETHODIMP GetAllocator(IMemAllocator** ppAllocator);
+    STDMETHODIMP NotifyAllocator(IMemAllocator* pAllocator, BOOL bReadOnly);
+    STDMETHODIMP BeginFlush();
+    STDMETHODIMP EndFlush();
+    STDMETHODIMP EndOfStream();
 
-	// IMemInputPin
-	STDMETHODIMP Receive(IMediaSample* pSample);
-	STDMETHODIMP NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+    // IMemInputPin
+    STDMETHODIMP Receive(IMediaSample* pSample);
+    STDMETHODIMP NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
-	// IPinConnection
-	STDMETHODIMP DynamicQueryAccept(const AM_MEDIA_TYPE* pmt);
-	STDMETHODIMP NotifyEndOfStream(HANDLE hNotifyEvent);
-	STDMETHODIMP IsEndPin();
-	STDMETHODIMP DynamicDisconnect();
+    // IPinConnection
+    STDMETHODIMP DynamicQueryAccept(const AM_MEDIA_TYPE* pmt);
+    STDMETHODIMP NotifyEndOfStream(HANDLE hNotifyEvent);
+    STDMETHODIMP IsEndPin();
+    STDMETHODIMP DynamicDisconnect();
 
-	// IStreamSwitcherInputPin
-	STDMETHODIMP_(bool) IsActive();
+    // IStreamSwitcherInputPin
+    STDMETHODIMP_(bool) IsActive();
 };
 
 class CStreamSwitcherOutputPin : public CBaseOutputPin, public IStreamBuilder
 {
-	CComPtr<IUnknown> m_pStreamSwitcherPassThru;
-	CComPtr<IPinConnection> m_pPinConnection;
+    CComPtr<IUnknown> m_pStreamSwitcherPassThru;
+    CComPtr<IPinConnection> m_pPinConnection;
 
-	HRESULT QueryAcceptUpstream(const AM_MEDIA_TYPE* pmt);
+    HRESULT QueryAcceptUpstream(const AM_MEDIA_TYPE* pmt);
 
 public:
-	CStreamSwitcherOutputPin(CStreamSwitcherFilter* pFilter, HRESULT* phr);
+    CStreamSwitcherOutputPin(CStreamSwitcherFilter* pFilter, HRESULT* phr);
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	CMediaType& CurrentMediaType() {
-		return m_mt;
-	}
-	IMemAllocator* CurrentAllocator() {
-		return m_pAllocator;
-	}
-	IPinConnection* CurrentPinConnection() {
-		return m_pPinConnection;
-	}
+    CMediaType& CurrentMediaType() {
+        return m_mt;
+    }
+    IMemAllocator* CurrentAllocator() {
+        return m_pAllocator;
+    }
+    IPinConnection* CurrentPinConnection() {
+        return m_pPinConnection;
+    }
 
-	// pure virtual
-	HRESULT	DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+    // pure virtual
+    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 
-	// virtual
-	HRESULT CheckConnect(IPin* pPin);
-	HRESULT BreakConnect();
-	HRESULT CompleteConnect(IPin* pReceivePin);
+    // virtual
+    HRESULT CheckConnect(IPin* pPin);
+    HRESULT BreakConnect();
+    HRESULT CompleteConnect(IPin* pReceivePin);
 
-	HRESULT CheckMediaType(const CMediaType* pmt);
-	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+    HRESULT CheckMediaType(const CMediaType* pmt);
+    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
 
-	// IPin
-	STDMETHODIMP QueryAccept(const AM_MEDIA_TYPE* pmt);
+    // IPin
+    STDMETHODIMP QueryAccept(const AM_MEDIA_TYPE* pmt);
 
-	// IQualityControl
-	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
+    // IQualityControl
+    STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 
-	// IStreamBuilder
-	STDMETHODIMP Render(IPin* ppinOut, IGraphBuilder* pGraph);
-	STDMETHODIMP Backout(IPin* ppinOut, IGraphBuilder* pGraph);
+    // IStreamBuilder
+    STDMETHODIMP Render(IPin* ppinOut, IGraphBuilder* pGraph);
+    STDMETHODIMP Backout(IPin* ppinOut, IGraphBuilder* pGraph);
 };
 
 class CStreamSwitcherFilter : public CBaseFilter, public IAMStreamSelect
 {
-	friend class CStreamSwitcherInputPin;
-	friend class CStreamSwitcherOutputPin;
-	friend class CStreamSwitcherPassThru;
+    friend class CStreamSwitcherInputPin;
+    friend class CStreamSwitcherOutputPin;
+    friend class CStreamSwitcherPassThru;
 
-	CAtlList<CStreamSwitcherInputPin*> m_pInputs;
-	CStreamSwitcherInputPin* m_pInput;
-	CStreamSwitcherOutputPin* m_pOutput;
+    CAtlList<CStreamSwitcherInputPin*> m_pInputs;
+    CStreamSwitcherInputPin* m_pInput;
+    CStreamSwitcherOutputPin* m_pOutput;
 
-	CCritSec m_csState, m_csPins;
+    CCritSec m_csState, m_csPins;
 
-	HRESULT CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin, IPin* pReceivePin);
+    HRESULT CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin, IPin* pReceivePin);
 
 protected:
-	void SelectInput(CStreamSwitcherInputPin* pInput);
+    void SelectInput(CStreamSwitcherInputPin* pInput);
 
 public:
-	CStreamSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr, const CLSID& clsid);
-	virtual ~CStreamSwitcherFilter();
+    CStreamSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr, const CLSID& clsid);
+    virtual ~CStreamSwitcherFilter();
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	int GetPinCount();
-	CBasePin* GetPin(int n);
+    int GetPinCount();
+    CBasePin* GetPin(int n);
 
-	int GetConnectedInputPinCount();
-	CStreamSwitcherInputPin* GetConnectedInputPin(int n);
-	CStreamSwitcherInputPin* GetInputPin();
-	CStreamSwitcherOutputPin* GetOutputPin();
+    int GetConnectedInputPinCount();
+    CStreamSwitcherInputPin* GetConnectedInputPin(int n);
+    CStreamSwitcherInputPin* GetInputPin();
+    CStreamSwitcherOutputPin* GetOutputPin();
 
-	bool m_fResetOutputMediaType;
-	void ResetOutputMediaType() {
-		m_fResetOutputMediaType = true;
-	}
+    bool m_fResetOutputMediaType;
+    void ResetOutputMediaType() {
+        m_fResetOutputMediaType = true;
+    }
 
-	// override these
-	virtual HRESULT CheckMediaType(const CMediaType* pmt) = 0;
-	virtual HRESULT Transform(IMediaSample* pIn, IMediaSample* pOut);
-	virtual CMediaType CreateNewOutputMediaType(CMediaType mt, long& cbBuffer);
-	virtual void OnNewOutputMediaType(const CMediaType& mtIn, const CMediaType& mtOut) {}
+    // override these
+    virtual HRESULT CheckMediaType(const CMediaType* pmt) = 0;
+    virtual HRESULT Transform(IMediaSample* pIn, IMediaSample* pOut);
+    virtual CMediaType CreateNewOutputMediaType(CMediaType mt, long& cbBuffer);
+    virtual void OnNewOutputMediaType(const CMediaType& mtIn, const CMediaType& mtOut) {}
 
-	// and maybe these
-	virtual HRESULT DeliverEndOfStream();
-	virtual HRESULT DeliverBeginFlush();
-	virtual HRESULT DeliverEndFlush();
-	virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+    // and maybe these
+    virtual HRESULT DeliverEndOfStream();
+    virtual HRESULT DeliverBeginFlush();
+    virtual HRESULT DeliverEndFlush();
+    virtual HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
-	// IAMStreamSelect
-	STDMETHODIMP Count(DWORD* pcStreams);
-	STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
-	STDMETHODIMP Enable(long lIndex, DWORD dwFlags);
+    // IAMStreamSelect
+    STDMETHODIMP Count(DWORD* pcStreams);
+    STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
+    STDMETHODIMP Enable(long lIndex, DWORD dwFlags);
 };

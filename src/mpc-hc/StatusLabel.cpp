@@ -32,23 +32,22 @@
 
 IMPLEMENT_DYNAMIC(CStatusLabel, CStatic)
 CStatusLabel::CStatusLabel(bool fRightAlign, bool fAddEllipses)
-	: m_fRightAlign(fRightAlign)
-	, m_fAddEllipses(fAddEllipses)
+    : m_fRightAlign(fRightAlign)
+    , m_fAddEllipses(fAddEllipses)
 {
-	m_font.m_hObject = NULL;
-	if (SysVersion::IsVistaOrLater()) {
-		LOGFONT lf;
-		GetStatusFont(&lf);
-		VERIFY(m_font.CreateFontIndirect(&lf));
-	}
-	else {
-		HDC hdc = ::GetDC(NULL);
-		double scale = 1.0*GetDeviceCaps(hdc, LOGPIXELSY) / 96.0;
-		::ReleaseDC(0, hdc);
-		VERIFY(m_font.CreateFont(int(14 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
-								 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE,
-								 _T("Microsoft Sans Serif")));
-	}
+    m_font.m_hObject = NULL;
+    if (SysVersion::IsVistaOrLater()) {
+        LOGFONT lf;
+        GetStatusFont(&lf);
+        VERIFY(m_font.CreateFontIndirect(&lf));
+    } else {
+        HDC hdc = ::GetDC(NULL);
+        double scale = 1.0 * GetDeviceCaps(hdc, LOGPIXELSY) / 96.0;
+        ::ReleaseDC(0, hdc);
+        VERIFY(m_font.CreateFont(int(14 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
+                                 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+                                 _T("Microsoft Sans Serif")));
+    }
 }
 
 CStatusLabel::~CStatusLabel()
@@ -56,42 +55,42 @@ CStatusLabel::~CStatusLabel()
 }
 
 BEGIN_MESSAGE_MAP(CStatusLabel, CStatic)
-	ON_WM_ERASEBKGND()
+    ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CStatusLabel message handlers
 
 void CStatusLabel::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-	CDC dc;
-	dc.Attach(lpDrawItemStruct->hDC);
-	CString str;
-	GetWindowText(str);
-	CRect r;
-	GetClientRect(&r);
-	CFont* old = dc.SelectObject(&m_font);
-	dc.SetTextColor(0xffffff);
-	dc.SetBkColor(0);
-	CSize size = dc.GetTextExtent(str);
-	CPoint p = CPoint(m_fRightAlign ? r.Width() - size.cx : 0, (r.Height()-size.cy)/2);
+    CDC dc;
+    dc.Attach(lpDrawItemStruct->hDC);
+    CString str;
+    GetWindowText(str);
+    CRect r;
+    GetClientRect(&r);
+    CFont* old = dc.SelectObject(&m_font);
+    dc.SetTextColor(0xffffff);
+    dc.SetBkColor(0);
+    CSize size = dc.GetTextExtent(str);
+    CPoint p = CPoint(m_fRightAlign ? r.Width() - size.cx : 0, (r.Height() - size.cy) / 2);
 
-	if (m_fAddEllipses)
-		while (size.cx > r.Width()-3 && str.GetLength() > 3) {
-			str = str.Left(str.GetLength()-4) + _T("...");
-			size = dc.GetTextExtent(str);
-		}
+    if (m_fAddEllipses)
+        while (size.cx > r.Width() - 3 && str.GetLength() > 3) {
+            str = str.Left(str.GetLength() - 4) + _T("...");
+            size = dc.GetTextExtent(str);
+        }
 
-	dc.TextOut(p.x, p.y, str);
-	dc.ExcludeClipRect(CRect(p, size));
-	dc.SelectObject(&old);
-	dc.FillSolidRect(&r, 0);
-	dc.Detach();
+    dc.TextOut(p.x, p.y, str);
+    dc.ExcludeClipRect(CRect(p, size));
+    dc.SelectObject(&old);
+    dc.FillSolidRect(&r, 0);
+    dc.Detach();
 }
 
 BOOL CStatusLabel::OnEraseBkgnd(CDC* pDC)
 {
-	CRect r;
-	GetClientRect(&r);
-	pDC->FillSolidRect(&r, 0);
-	return TRUE;
+    CRect r;
+    GetClientRect(&r);
+    pDC->FillSolidRect(&r, 0);
+    return TRUE;
 }

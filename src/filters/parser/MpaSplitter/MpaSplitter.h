@@ -30,35 +30,35 @@
 #define MpaSourceName   L"MPC Mpa Source"
 
 class __declspec(uuid("0E9D4BF7-CBCB-46C7-BD80-4EF223A3DC2B"))
-	CMpaSplitterFilter : public CBaseSplitterFilter
+    CMpaSplitterFilter : public CBaseSplitterFilter
 {
-	REFERENCE_TIME m_rtStart;
+    REFERENCE_TIME m_rtStart;
 
 protected:
-	CAutoPtr<CMpaSplitterFile> m_pFile;
-	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
+    CAutoPtr<CMpaSplitterFile> m_pFile;
+    HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
-	STDMETHODIMP GetDuration(LONGLONG* pDuration);
+    STDMETHODIMP GetDuration(LONGLONG* pDuration);
 
-	bool DemuxInit();
-	void DemuxSeek(REFERENCE_TIME rt);
-	bool DemuxLoop();
+    bool DemuxInit();
+    void DemuxSeek(REFERENCE_TIME rt);
+    bool DemuxLoop();
 
 public:
-	CMpaSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CMpaSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// CBaseFilter
+    // CBaseFilter
 
-	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+    STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 
 };
 
 class __declspec(uuid("59A0DB73-0287-4C9A-9D3C-8CFF39F8E5DB"))
-	CMpaSourceFilter : public CMpaSplitterFilter
+    CMpaSourceFilter : public CMpaSplitterFilter
 {
 public:
-	CMpaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CMpaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };

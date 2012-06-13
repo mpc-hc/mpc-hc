@@ -26,10 +26,10 @@
 class CFilterApp : public CWinApp
 {
 public:
-	CFilterApp();
+    CFilterApp();
 
-	BOOL InitInstance();
-	BOOL ExitInstance();
+    BOOL InitInstance();
+    BOOL ExitInstance();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };

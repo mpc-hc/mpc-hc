@@ -37,62 +37,62 @@ class CVobFile;
 class CVTSStream : public CAsyncStream
 {
 private:
-	CCritSec m_csLock;
+    CCritSec m_csLock;
 
-	CAutoPtr<CVobFile> m_vob;
-	int m_off;
+    CAutoPtr<CVobFile> m_vob;
+    int m_off;
 
 public:
-	CVTSStream();
-	virtual ~CVTSStream();
+    CVTSStream();
+    virtual ~CVTSStream();
 
-	bool Load(const WCHAR* fnw);
+    bool Load(const WCHAR* fnw);
 
-	HRESULT SetPointer(LONGLONG llPos);
-	HRESULT Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWORD pdwBytesRead);
-	LONGLONG Size(LONGLONG* pSizeAvailable);
-	DWORD Alignment();
-	void Lock();
-	void Unlock();
+    HRESULT SetPointer(LONGLONG llPos);
+    HRESULT Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWORD pdwBytesRead);
+    LONGLONG Size(LONGLONG* pSizeAvailable);
+    DWORD Alignment();
+    void Lock();
+    void Unlock();
 
-	BSTR GetTrackName(UINT aTrackIdx);
-	int GetChaptersCount();
-	REFERENCE_TIME GetChapterOffset(UINT ChapterNumber);
+    BSTR GetTrackName(UINT aTrackIdx);
+    int GetChaptersCount();
+    REFERENCE_TIME GetChapterOffset(UINT ChapterNumber);
 };
 
 class __declspec(uuid("773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73"))
-	CVTSReader
-	: public CAsyncReader
-	, public IFileSourceFilter
-	, public ITrackInfo
-	, public IDSMChapterBagImpl
+    CVTSReader
+    : public CAsyncReader
+    , public IFileSourceFilter
+    , public ITrackInfo
+    , public IDSMChapterBagImpl
 {
-	CVTSStream m_stream;
-	CStringW m_fn;
+    CVTSStream m_stream;
+    CStringW m_fn;
 
 public:
-	CVTSReader(IUnknown* pUnk, HRESULT* phr);
-	~CVTSReader();
+    CVTSReader(IUnknown* pUnk, HRESULT* phr);
+    ~CVTSReader();
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// CBaseFilter
+    // CBaseFilter
 
-	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+    STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 
-	// IFileSourceFilter
-	STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
-	STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt);
+    // IFileSourceFilter
+    STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
+    STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt);
 
-	// ITrackInfo
+    // ITrackInfo
 
-	STDMETHODIMP_(UINT) GetTrackCount();
-	STDMETHODIMP_(BOOL) GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill);
-	STDMETHODIMP_(BOOL) GetTrackExtendedInfo(UINT aTrackIdx, void* pStructureToFill);
-	STDMETHODIMP_(BSTR) GetTrackName(UINT aTrackIdx);
-	STDMETHODIMP_(BSTR) GetTrackCodecID(UINT aTrackIdx);
-	STDMETHODIMP_(BSTR) GetTrackCodecName(UINT aTrackIdx);
-	STDMETHODIMP_(BSTR) GetTrackCodecInfoURL(UINT aTrackIdx);
-	STDMETHODIMP_(BSTR) GetTrackCodecDownloadURL(UINT aTrackIdx);
+    STDMETHODIMP_(UINT) GetTrackCount();
+    STDMETHODIMP_(BOOL) GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill);
+    STDMETHODIMP_(BOOL) GetTrackExtendedInfo(UINT aTrackIdx, void* pStructureToFill);
+    STDMETHODIMP_(BSTR) GetTrackName(UINT aTrackIdx);
+    STDMETHODIMP_(BSTR) GetTrackCodecID(UINT aTrackIdx);
+    STDMETHODIMP_(BSTR) GetTrackCodecName(UINT aTrackIdx);
+    STDMETHODIMP_(BSTR) GetTrackCodecInfoURL(UINT aTrackIdx);
+    STDMETHODIMP_(BSTR) GetTrackCodecDownloadURL(UINT aTrackIdx);
 };

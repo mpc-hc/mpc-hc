@@ -26,8 +26,8 @@
 #include "../DSUtil/DSUtil.h"
 
 CSubPicProviderImpl::CSubPicProviderImpl(CCritSec* pLock)
-	: CUnknown(NAME("CSubPicProviderImpl"), NULL)
-	, m_pLock(pLock)
+    : CUnknown(NAME("CSubPicProviderImpl"), NULL)
+    , m_pLock(pLock)
 {
 }
 
@@ -37,19 +37,19 @@ CSubPicProviderImpl::~CSubPicProviderImpl()
 
 STDMETHODIMP CSubPicProviderImpl::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-	return
-		QI(ISubPicProvider)
-		__super::NonDelegatingQueryInterface(riid, ppv);
+    return
+        QI(ISubPicProvider)
+        __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 // CSubPicProviderImpl
 
 STDMETHODIMP CSubPicProviderImpl::Lock()
 {
-	return m_pLock ? m_pLock->Lock(), S_OK : E_FAIL;
+    return m_pLock ? m_pLock->Lock(), S_OK : E_FAIL;
 }
 
 STDMETHODIMP CSubPicProviderImpl::Unlock()
 {
-	return m_pLock ? m_pLock->Unlock(), S_OK : E_FAIL;
+    return m_pLock ? m_pLock->Unlock(), S_OK : E_FAIL;
 }

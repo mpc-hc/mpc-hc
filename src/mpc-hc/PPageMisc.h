@@ -30,51 +30,51 @@
 
 class CPPageMisc : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageMisc)
+    DECLARE_DYNAMIC(CPPageMisc)
 
 private:
-	int m_iBrightness;
-	int m_iContrast;
-	int m_iHue;
-	int m_iSaturation;
-	CString m_sBrightness;
-	CString m_sContrast;
-	CString m_sHue;
-	CString m_sSaturation;
+    int m_iBrightness;
+    int m_iContrast;
+    int m_iHue;
+    int m_iSaturation;
+    CString m_sBrightness;
+    CString m_sContrast;
+    CString m_sHue;
+    CString m_sSaturation;
 
-	CButton m_updaterAutoCheckCtrl;
-	CEdit m_updaterDelayCtrl;
-	CSpinButtonCtrl m_updaterDelaySpin;
+    CButton m_updaterAutoCheckCtrl;
+    CEdit m_updaterDelayCtrl;
+    CSpinButtonCtrl m_updaterDelaySpin;
 
-	int m_nUpdaterAutoCheck;
-	int m_nUpdaterDelay;
+    int m_nUpdaterAutoCheck;
+    int m_nUpdaterDelay;
 
 public:
-	CPPageMisc();
-	virtual ~CPPageMisc();
+    CPPageMisc();
+    virtual ~CPPageMisc();
 
-	// Dialog Data
-	enum { IDD = IDD_PPAGEMISC };
+    // Dialog Data
+    enum { IDD = IDD_PPAGEMISC };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	CSliderCtrl m_SliContrast;
-	CSliderCtrl m_SliBrightness;
-	CSliderCtrl m_SliHue;
-	CSliderCtrl m_SliSaturation;
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg void OnBnClickedReset();
+    CSliderCtrl m_SliContrast;
+    CSliderCtrl m_SliBrightness;
+    CSliderCtrl m_SliHue;
+    CSliderCtrl m_SliSaturation;
+    afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+    afx_msg void OnBnClickedReset();
 
-	afx_msg void OnUpdateDelayEditBox(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateDelayEditBox(CCmdUI* pCmdUI);
 
-	afx_msg void OnResetSettings();
-	afx_msg void OnExportSettings();
+    afx_msg void OnResetSettings();
+    afx_msg void OnExportSettings();
 
-	virtual void OnCancel();
+    virtual void OnCancel();
 };

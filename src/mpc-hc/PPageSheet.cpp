@@ -31,46 +31,46 @@
 IMPLEMENT_DYNAMIC(CPPageSheet, CTreePropSheet)
 
 CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage)
-	: CTreePropSheet(pszCaption, pParentWnd, 0)
-	, m_audioswitcher(pFG)
-	, m_bLockPage(false)
+    : CTreePropSheet(pszCaption, pParentWnd, 0)
+    , m_audioswitcher(pFG)
+    , m_bLockPage(false)
 {
-	SetTreeWidth(180);
-	AddPage(&m_player);
-	AddPage(&m_formats);
-	AddPage(&m_acceltbl);
-	AddPage(&m_logo);
-	AddPage(&m_webserver);
-	AddPage(&m_playback);
-	AddPage(&m_dvd);
-	AddPage(&m_output);
-	AddPage(&m_fullscreen);
-	AddPage(&m_sync);
-	AddPage(&m_tuner);
-	AddPage(&m_internalfilters);
-	AddPage(&m_audioswitcher);
-	AddPage(&m_externalfilters);
-	AddPage(&m_subtitles);
-	AddPage(&m_substyle);
-	AddPage(&m_subMisc);
-	AddPage(&m_tweaks);
-	AddPage(&m_misc);
+    SetTreeWidth(180);
+    AddPage(&m_player);
+    AddPage(&m_formats);
+    AddPage(&m_acceltbl);
+    AddPage(&m_logo);
+    AddPage(&m_webserver);
+    AddPage(&m_playback);
+    AddPage(&m_dvd);
+    AddPage(&m_output);
+    AddPage(&m_fullscreen);
+    AddPage(&m_sync);
+    AddPage(&m_tuner);
+    AddPage(&m_internalfilters);
+    AddPage(&m_audioswitcher);
+    AddPage(&m_externalfilters);
+    AddPage(&m_subtitles);
+    AddPage(&m_substyle);
+    AddPage(&m_subMisc);
+    AddPage(&m_tweaks);
+    AddPage(&m_misc);
 
-	EnableStackedTabs(FALSE);
+    EnableStackedTabs(FALSE);
 
-	SetTreeViewMode(TRUE, TRUE, FALSE);
+    SetTreeViewMode(TRUE, TRUE, FALSE);
 
-	if (!idPage) {
-		idPage = AfxGetAppSettings().nLastUsedPage;
-	}
-	if (idPage) {
-		for (int i = 0; i < GetPageCount(); i++) {
-			if (GetPage(i)->m_pPSP->pszTemplate == MAKEINTRESOURCE(idPage)) {
-				SetActivePage(i);
-				break;
-			}
-		}
-	}
+    if (!idPage) {
+        idPage = AfxGetAppSettings().nLastUsedPage;
+    }
+    if (idPage) {
+        for (int i = 0; i < GetPageCount(); i++) {
+            if (GetPage(i)->m_pPSP->pszTemplate == MAKEINTRESOURCE(idPage)) {
+                SetActivePage(i);
+                break;
+            }
+        }
+    }
 }
 
 CPPageSheet::~CPPageSheet()
@@ -79,33 +79,33 @@ CPPageSheet::~CPPageSheet()
 
 CTreeCtrl* CPPageSheet::CreatePageTreeObject()
 {
-	return DNew CTreePropSheetTreeCtrl();
+    return DNew CTreePropSheetTreeCtrl();
 }
 
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)
-	ON_WM_CONTEXTMENU()
+    ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
 
 BOOL CPPageSheet::OnInitDialog()
 {
-	BOOL bResult = __super::OnInitDialog();
+    BOOL bResult = __super::OnInitDialog();
 
-	if (CTreeCtrl* pTree = GetPageTreeControl()) {
-		for (HTREEITEM node = pTree->GetRootItem(); node; node = pTree->GetNextSiblingItem(node)) {
-			pTree->Expand(node, TVE_EXPAND);
-		}
-	}
+    if (CTreeCtrl* pTree = GetPageTreeControl()) {
+        for (HTREEITEM node = pTree->GetRootItem(); node; node = pTree->GetNextSiblingItem(node)) {
+            pTree->Expand(node, TVE_EXPAND);
+        }
+    }
 
-	if (m_bLockPage) {
-		GetPageTreeControl()->EnableWindow (FALSE);
-	}
+    if (m_bLockPage) {
+        GetPageTreeControl()->EnableWindow(FALSE);
+    }
 
-	return bResult;
+    return bResult;
 }
 
 void CPPageSheet::OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/)
 {
-	// display your own context menu handler or do nothing
+    // display your own context menu handler or do nothing
 }
 
 // CTreePropSheetTreeCtrl
@@ -127,8 +127,8 @@ END_MESSAGE_MAP()
 
 BOOL CTreePropSheetTreeCtrl::PreCreateWindow(CREATESTRUCT& cs)
 {
-	cs.dwExStyle |= WS_EX_CLIENTEDGE;
-	//	cs.style &= ~TVS_LINESATROOT;
+    cs.dwExStyle |= WS_EX_CLIENTEDGE;
+    //  cs.style &= ~TVS_LINESATROOT;
 
-	return __super::PreCreateWindow(cs);
+    return __super::PreCreateWindow(cs);
 }

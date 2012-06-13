@@ -28,54 +28,54 @@
 class CTextFile : protected CStdioFile
 {
 public:
-	typedef enum {ASCII, UTF8, LE16, BE16, ANSI} enc;
+    typedef enum {ASCII, UTF8, LE16, BE16, ANSI} enc;
 
 private:
-	enc m_encoding, m_defaultencoding;
-	int m_offset;
+    enc m_encoding, m_defaultencoding;
+    int m_offset;
 
 public:
-	CTextFile(enc e = ASCII);
+    CTextFile(enc e = ASCII);
 
-	virtual bool Open(LPCTSTR lpszFileName);
-	virtual bool Save(LPCTSTR lpszFileName, enc e /*= ASCII*/);
+    virtual bool Open(LPCTSTR lpszFileName);
+    virtual bool Save(LPCTSTR lpszFileName, enc e /*= ASCII*/);
 
-	void SetEncoding(enc e);
-	enc GetEncoding();
-	bool IsUnicode();
+    void SetEncoding(enc e);
+    enc GetEncoding();
+    bool IsUnicode();
 
-	// CFile
+    // CFile
 
-	CString GetFilePath() const;
+    CString GetFilePath() const;
 
-	// CStdioFile
+    // CStdioFile
 
-	ULONGLONG GetPosition() const;
-	ULONGLONG GetLength() const;
-	ULONGLONG Seek(LONGLONG lOff, UINT nFrom);
+    ULONGLONG GetPosition() const;
+    ULONGLONG GetLength() const;
+    ULONGLONG Seek(LONGLONG lOff, UINT nFrom);
 
-	void WriteString(LPCSTR lpsz/*CStringA str*/);
-	void WriteString(LPCWSTR lpsz/*CStringW str*/);
-	BOOL ReadString(CStringA& str);
-	BOOL ReadString(CStringW& str);
+    void WriteString(LPCSTR lpsz/*CStringA str*/);
+    void WriteString(LPCWSTR lpsz/*CStringW str*/);
+    BOOL ReadString(CStringA& str);
+    BOOL ReadString(CStringW& str);
 };
 
 class CWebTextFile : public CTextFile
 {
-	LONGLONG m_llMaxSize;
-	CString m_tempfn;
+    LONGLONG m_llMaxSize;
+    CString m_tempfn;
 
 public:
-	CWebTextFile(LONGLONG llMaxSize = 1024*1024);
+    CWebTextFile(LONGLONG llMaxSize = 1024 * 1024);
 
-	bool Open(LPCTSTR lpszFileName);
-	bool Save(LPCTSTR lpszFileName, enc e /*= ASCII*/);
-	void Close();
+    bool Open(LPCTSTR lpszFileName);
+    bool Save(LPCTSTR lpszFileName, enc e /*= ASCII*/);
+    void Close();
 };
 
 extern CStringW AToW(CStringA str);
 extern CStringA WToA(CStringW str);
-extern CString AToT(CStringA str);
-extern CString WToT(CStringW str);
-extern CStringA TToA(CString str);
-extern CStringW TToW(CString str);
+extern CString  AToT(CStringA str);
+extern CString  WToT(CStringW str);
+extern CStringA TToA(CString  str);
+extern CStringW TToW(CString  str);

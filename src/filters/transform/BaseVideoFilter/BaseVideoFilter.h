@@ -25,81 +25,81 @@
 
 
 typedef struct {
-	const GUID* subtype;
-	WORD        biPlanes;
-	WORD        biBitCount;
-	DWORD       biCompression;
+    const GUID* subtype;
+    WORD        biPlanes;
+    WORD        biBitCount;
+    DWORD       biCompression;
 } VIDEO_OUTPUT_FORMATS;
 
 class CBaseVideoFilter : public CTransformFilter
 {
 private:
-	HRESULT Receive(IMediaSample* pIn);
+    HRESULT Receive(IMediaSample* pIn);
 
-	// these are private for a reason, don't bother them
-	int m_win, m_hin, m_arxin, m_aryin;
-	int m_wout, m_hout, m_arxout, m_aryout;
+    // these are private for a reason, don't bother them
+    int m_win, m_hin, m_arxin, m_aryin;
+    int m_wout, m_hout, m_arxout, m_aryout;
 
-	long m_cBuffers;
+    long m_cBuffers;
 
 protected:
-	CCritSec m_csReceive;
+    CCritSec m_csReceive;
 
-	int m_w, m_h, m_arx, m_ary;
+    int m_w, m_h, m_arx, m_ary;
 
-	HRESULT GetDeliveryBuffer(int w, int h, IMediaSample** ppOut);
-	HRESULT CopyBuffer(BYTE* pOut, BYTE* pIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
-	HRESULT CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
+    HRESULT GetDeliveryBuffer(int w, int h, IMediaSample** ppOut);
+    HRESULT CopyBuffer(BYTE* pOut, BYTE* pIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
+    HRESULT CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
 
-	virtual void GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight, int& vsfilter) {}
-	virtual HRESULT Transform(IMediaSample* pIn) = 0;
-	virtual bool IsVideoInterlaced() {return false;}
-	virtual void GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
+    virtual void GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight, int& vsfilter) {}
+    virtual HRESULT Transform(IMediaSample* pIn) = 0;
+    virtual bool IsVideoInterlaced() {return false;}
+    virtual void GetOutputFormats(int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 
 public:
-	CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers = 1);
-	virtual ~CBaseVideoFilter();
+    CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers = 1);
+    virtual ~CBaseVideoFilter();
 
-	HRESULT ReconnectOutput(int w, int h, bool bSendSample = true, int realWidth = -1, int realHeight = -1);
-	int GetPinCount();
-	CBasePin* GetPin(int n);
+    HRESULT ReconnectOutput(int w, int h, bool bSendSample = true, int realWidth = -1, int realHeight = -1);
+    int GetPinCount();
+    CBasePin* GetPin(int n);
 
-	HRESULT CheckInputType(const CMediaType* mtIn);
-	HRESULT CheckOutputType(const CMediaType& mtOut);
-	HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
-	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
-	HRESULT GetMediaType(int iPosition, CMediaType* pMediaType);
-	HRESULT SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt);
+    HRESULT CheckInputType(const CMediaType* mtIn);
+    HRESULT CheckOutputType(const CMediaType& mtOut);
+    HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
+    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+    HRESULT GetMediaType(int iPosition, CMediaType* pMediaType);
+    HRESULT SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt);
 
-	void SetAspect(CSize aspect);
+    void SetAspect(CSize aspect);
 };
 
 class CBaseVideoInputAllocator : public CMemAllocator
 {
-	CMediaType m_mt;
+    CMediaType m_mt;
 
 public:
-	CBaseVideoInputAllocator(HRESULT* phr);
-	void SetMediaType(const CMediaType& mt);
-	STDMETHODIMP GetBuffer(IMediaSample** ppBuffer, REFERENCE_TIME* pStartTime, REFERENCE_TIME* pEndTime, DWORD dwFlags);
+    CBaseVideoInputAllocator(HRESULT* phr);
+    void SetMediaType(const CMediaType& mt);
+    STDMETHODIMP GetBuffer(IMediaSample** ppBuffer, REFERENCE_TIME* pStartTime, REFERENCE_TIME* pEndTime, DWORD dwFlags);
 };
 
 class CBaseVideoInputPin : public CTransformInputPin
 {
-	CBaseVideoInputAllocator* m_pAllocator;
+    CBaseVideoInputAllocator* m_pAllocator;
 
 public:
-	CBaseVideoInputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
-	~CBaseVideoInputPin();
+    CBaseVideoInputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
+    ~CBaseVideoInputPin();
 
-	STDMETHODIMP GetAllocator(IMemAllocator** ppAllocator);
-	STDMETHODIMP ReceiveConnection(IPin* pConnector, const AM_MEDIA_TYPE* pmt);
+    STDMETHODIMP GetAllocator(IMemAllocator** ppAllocator);
+    STDMETHODIMP ReceiveConnection(IPin* pConnector, const AM_MEDIA_TYPE* pmt);
 };
 
 class CBaseVideoOutputPin : public CTransformOutputPin
 {
 public:
-	CBaseVideoOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
+    CBaseVideoOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
 
-	HRESULT CheckMediaType(const CMediaType* mtOut);
+    HRESULT CheckMediaType(const CMediaType* mtOut);
 };

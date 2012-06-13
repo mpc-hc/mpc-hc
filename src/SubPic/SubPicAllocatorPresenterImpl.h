@@ -29,81 +29,81 @@
 #include "CoordGeom.h"
 
 class CSubPicAllocatorPresenterImpl
-	: public CUnknown
-	, public CCritSec
-	, public ISubPicAllocatorPresenter2
+    : public CUnknown
+    , public CCritSec
+    , public ISubPicAllocatorPresenter2
 {
 protected:
-	HWND m_hWnd;
-	CSize m_spMaxSize; // TODO:
-	int m_spMaxQueued; // TODO:
-	REFERENCE_TIME m_rtSubtitleDelay;
+    HWND m_hWnd;
+    CSize m_spMaxSize; // TODO:
+    int m_spMaxQueued; // TODO:
+    REFERENCE_TIME m_rtSubtitleDelay;
 
-	CSize m_NativeVideoSize, m_AspectRatio;
-	CRect m_VideoRect, m_WindowRect;
+    CSize m_NativeVideoSize, m_AspectRatio;
+    CRect m_VideoRect, m_WindowRect;
 
-	REFERENCE_TIME m_rtNow;
-	double m_fps;
+    REFERENCE_TIME m_rtNow;
+    double m_fps;
 
-	CComPtr<ISubPicProvider> m_SubPicProvider;
-	CComPtr<ISubPicAllocator> m_pAllocator;
-	CComPtr<ISubPicQueue> m_pSubPicQueue;
+    CComPtr<ISubPicProvider> m_SubPicProvider;
+    CComPtr<ISubPicAllocator> m_pAllocator;
+    CComPtr<ISubPicQueue> m_pSubPicQueue;
 
-	bool m_bDeviceResetRequested;
-	bool m_bPendingResetDevice;
+    bool m_bDeviceResetRequested;
+    bool m_bPendingResetDevice;
 
-	void AlphaBltSubPic(CSize size, SubPicDesc* pTarget = NULL);
+    void AlphaBltSubPic(CSize size, SubPicDesc* pTarget = NULL);
 
-	XForm m_xform;
-	void Transform(CRect r, Vector v[4]);
+    XForm m_xform;
+    void Transform(CRect r, Vector v[4]);
 
 public:
-	CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString *_pError);
-	virtual ~CSubPicAllocatorPresenterImpl();
+    CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError);
+    virtual ~CSubPicAllocatorPresenterImpl();
 
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// ISubPicAllocatorPresenter
+    // ISubPicAllocatorPresenter
 
-	STDMETHODIMP CreateRenderer(IUnknown** ppRenderer) = 0;
+    STDMETHODIMP CreateRenderer(IUnknown** ppRenderer) = 0;
 
-	STDMETHODIMP_(SIZE) GetVideoSize(bool fCorrectAR = true);
-	STDMETHODIMP_(SIZE) GetVisibleVideoSize() {
-		return m_NativeVideoSize;
-	};
-	STDMETHODIMP_(void) SetPosition(RECT w, RECT v);
-	STDMETHODIMP_(bool) Paint(bool fAll) = 0;
+    STDMETHODIMP_(SIZE) GetVideoSize(bool fCorrectAR = true);
+    STDMETHODIMP_(SIZE) GetVisibleVideoSize() {
+        return m_NativeVideoSize;
+    };
+    STDMETHODIMP_(void) SetPosition(RECT w, RECT v);
+    STDMETHODIMP_(bool) Paint(bool fAll) = 0;
 
-	STDMETHODIMP_(void) SetTime(REFERENCE_TIME rtNow);
-	STDMETHODIMP_(void) SetSubtitleDelay(int delay_ms);
-	STDMETHODIMP_(int) GetSubtitleDelay();
-	STDMETHODIMP_(double) GetFPS();
+    STDMETHODIMP_(void) SetTime(REFERENCE_TIME rtNow);
+    STDMETHODIMP_(void) SetSubtitleDelay(int delay_ms);
+    STDMETHODIMP_(int) GetSubtitleDelay();
+    STDMETHODIMP_(double) GetFPS();
 
-	STDMETHODIMP_(void) SetSubPicProvider(ISubPicProvider* pSubPicProvider);
-	STDMETHODIMP_(void) Invalidate(REFERENCE_TIME rtInvalidate = -1);
+    STDMETHODIMP_(void) SetSubPicProvider(ISubPicProvider* pSubPicProvider);
+    STDMETHODIMP_(void) Invalidate(REFERENCE_TIME rtInvalidate = -1);
 
-	STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size) {
-		return E_NOTIMPL;
-	}
+    STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size) {
+        return E_NOTIMPL;
+    }
 
-	STDMETHODIMP_(bool) ResetDevice() {
-		return false;
-	}
+    STDMETHODIMP_(bool) ResetDevice() {
+        return false;
+    }
 
-	STDMETHODIMP_(bool) DisplayChange() {
-		return false;
-	}
+    STDMETHODIMP_(bool) DisplayChange() {
+        return false;
+    }
 
-	STDMETHODIMP SetVideoAngle(Vector v, bool fRepaint = true);
-	STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) {
-		return E_NOTIMPL;
-	}
-	STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) {
-		if (!bScreenSpace) {
-			return SetPixelShader(pSrcData, pTarget);
-		}
-		return E_NOTIMPL;
-	}
+    STDMETHODIMP SetVideoAngle(Vector v, bool fRepaint = true);
+    STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) {
+        return E_NOTIMPL;
+    }
+    STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) {
+        if (!bScreenSpace) {
+            return SetPixelShader(pSrcData, pTarget);
+        }
+        return E_NOTIMPL;
+    }
 };
 

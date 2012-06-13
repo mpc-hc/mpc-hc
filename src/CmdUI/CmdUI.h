@@ -29,22 +29,22 @@
 
 class CCmdUIDialog : public CDialog
 {
-	DECLARE_DYNAMIC(CCmdUIDialog)
+    DECLARE_DYNAMIC(CCmdUIDialog)
 
 public:
-	CCmdUIDialog();
-	CCmdUIDialog(UINT nIDTemplate, CWnd* pParent = NULL);
-	CCmdUIDialog(LPCTSTR lpszTemplateName, CWnd* pParent = NULL);
-	virtual ~CCmdUIDialog();
+    CCmdUIDialog();
+    CCmdUIDialog(UINT nIDTemplate, CWnd* pParent = NULL);
+    CCmdUIDialog(LPCTSTR lpszTemplateName, CWnd* pParent = NULL);
+    virtual ~CCmdUIDialog();
 
 protected:
-	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnKickIdle();
-	afx_msg void OnInitMenuPopup(CMenu *pPopupMenu, UINT nIndex,BOOL bSysMenu);
+    afx_msg void OnKickIdle();
+    afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
 };
 
 
@@ -52,17 +52,17 @@ public:
 
 class CCmdUIPropertyPage : public CPropertyPage
 {
-	DECLARE_DYNAMIC(CCmdUIPropertyPage)
+    DECLARE_DYNAMIC(CCmdUIPropertyPage)
 
 public:
-	CCmdUIPropertyPage(UINT nIDTemplate, UINT nIDCaption = 0);   // standard constructor
-	virtual ~CCmdUIPropertyPage();
+    CCmdUIPropertyPage(UINT nIDTemplate, UINT nIDCaption = 0);   // standard constructor
+    virtual ~CCmdUIPropertyPage();
 
 protected:
-	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnKickIdle();
+    afx_msg void OnKickIdle();
 };

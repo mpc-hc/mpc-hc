@@ -29,9 +29,9 @@
 class VFRTranslator
 {
 public:
-	virtual double TimeStampFromFrameNumber(int n) = 0;
+    virtual double TimeStampFromFrameNumber(int n) = 0;
 };
 
-VFRTranslator *GetVFRTranslator(const char *vfrfile);
+VFRTranslator* GetVFRTranslator(const char* vfrfile);
 
 #endif

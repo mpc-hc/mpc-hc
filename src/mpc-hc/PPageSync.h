@@ -28,37 +28,37 @@
 
 class CPPageSync: public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageSync)
+    DECLARE_DYNAMIC(CPPageSync)
 
 public:
-	CPPageSync();
-	virtual ~CPPageSync();
+    CPPageSync();
+    virtual ~CPPageSync();
 
-	enum {IDD = IDD_PPAGESYNC};
-	BOOL m_bSynchronizeVideo;
-	BOOL m_bSynchronizeDisplay;
-	BOOL m_bSynchronizeNearest;
+    enum {IDD = IDD_PPAGESYNC};
+    BOOL m_bSynchronizeVideo;
+    BOOL m_bSynchronizeDisplay;
+    BOOL m_bSynchronizeNearest;
 
-	int m_iLineDelta;
-	int m_iColumnDelta;
-	double m_fCycleDelta;
+    int m_iLineDelta;
+    int m_iColumnDelta;
+    double m_fCycleDelta;
 
-	double m_fTargetSyncOffset;
-	double m_fControlLimit;
+    double m_fTargetSyncOffset;
+    double m_fControlLimit;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnSetActive();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnSetActive();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnBnClickedSyncVideo();
-	afx_msg void OnBnClickedSyncDisplay();
-	afx_msg void OnBnClickedSyncNearest();
+    afx_msg void OnBnClickedSyncVideo();
+    afx_msg void OnBnClickedSyncDisplay();
+    afx_msg void OnBnClickedSyncNearest();
 
 private:
-	void InitDialogPrivate();
+    void InitDialogPrivate();
 };

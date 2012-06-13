@@ -40,11 +40,11 @@ CBaseMuxerRelatedPin::~CBaseMuxerRelatedPin()
 
 STDMETHODIMP CBaseMuxerRelatedPin::SetRelatedPin(CBasePin* pPin)
 {
-	m_pRelatedPin = pPin;
-	return S_OK;
+    m_pRelatedPin = pPin;
+    return S_OK;
 }
 
 STDMETHODIMP_(CBasePin*) CBaseMuxerRelatedPin::GetRelatedPin()
 {
-	return m_pRelatedPin;
+    return m_pRelatedPin;
 }

@@ -25,12 +25,12 @@
 class CMiniDump
 {
 public:
-	CMiniDump();
-	static void Enable()  {m_bMiniDumpEnabled = true;};
-	static void Disable() {m_bMiniDumpEnabled = false;};
+    CMiniDump();
+    static void Enable()  { m_bMiniDumpEnabled = true; };
+    static void Disable() { m_bMiniDumpEnabled = false; };
 
 private :
-	static LONG WINAPI	UnhandledExceptionFilter(_EXCEPTION_POINTERS *lpTopLevelExceptionFilter);
-	static BOOL			PreventSetUnhandledExceptionFilter();
-	static bool			m_bMiniDumpEnabled;
+    static LONG WINAPI  UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelExceptionFilter);
+    static BOOL         PreventSetUnhandledExceptionFilter();
+    static bool         m_bMiniDumpEnabled;
 };

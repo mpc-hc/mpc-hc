@@ -27,56 +27,56 @@
 #include <afxcmn.h>
 
 class __declspec(uuid("44FCB62D-3AEB-401C-A7E1-8A984C017923"))
-	CMpegSplitterSettingsWnd : public CInternalPropertyPageWnd
+    CMpegSplitterSettingsWnd : public CInternalPropertyPageWnd
 {
 private :
-	CComQIPtr<IMpegSplitterFilter> m_pMSF;
+    CComQIPtr<IMpegSplitterFilter> m_pMSF;
 
-	CButton		m_grpDefault;
-	CButton		m_cbFastStreamChange;
-	CButton		m_cbForcedSub;
-	CButton		m_cbTrackPriority;
-	CButton		m_cbAlternativeDuration;
-	CStatic		m_txtAudioLanguageOrder;
-	CEdit		m_edtAudioLanguageOrder;
-	CStatic		m_txtSubtitlesLanguageOrder;
-	CEdit		m_edtSubtitlesLanguageOrder;
-	CStatic		m_txtVC1_GuidFlag;
-	CComboBox	m_cbVC1_GuidFlag;
+    CButton     m_grpDefault;
+    CButton     m_cbFastStreamChange;
+    CButton     m_cbForcedSub;
+    CButton     m_cbTrackPriority;
+    CButton     m_cbAlternativeDuration;
+    CStatic     m_txtAudioLanguageOrder;
+    CEdit       m_edtAudioLanguageOrder;
+    CStatic     m_txtSubtitlesLanguageOrder;
+    CEdit       m_edtSubtitlesLanguageOrder;
+    CStatic     m_txtVC1_GuidFlag;
+    CComboBox   m_cbVC1_GuidFlag;
 
-	CButton		m_grpTrueHD;
-	CButton		m_cbTrueHD;
-	CButton		m_cbAC3Core;
-	CButton		m_cbAsIs;
+    CButton     m_grpTrueHD;
+    CButton     m_cbTrueHD;
+    CButton     m_cbAC3Core;
+    CButton     m_cbAsIs;
 
-	enum {
-		IDC_PP_FAST_STREAM_SELECT = 10000,
-		IDC_PP_SUBTITLE_FORCED,
-		IDC_PP_TRACK_PRIORITY,
-		IDC_PP_AUDIO_LANGUAGE_ORDER,
-		IDC_PP_SUBTITLES_LANGUAGE_ORDER,
-		IDC_PP_VC1_GUIDFLAG,
-		IDC_PP_TRUEHD,
-		IDC_PP_AC3CORE,
-		IDC_PP_ASIS,
-		IDC_PP_ALTERNATIVE_DURATION
-	};
+    enum {
+        IDC_PP_FAST_STREAM_SELECT = 10000,
+        IDC_PP_SUBTITLE_FORCED,
+        IDC_PP_TRACK_PRIORITY,
+        IDC_PP_AUDIO_LANGUAGE_ORDER,
+        IDC_PP_SUBTITLES_LANGUAGE_ORDER,
+        IDC_PP_VC1_GUIDFLAG,
+        IDC_PP_TRUEHD,
+        IDC_PP_AC3CORE,
+        IDC_PP_ASIS,
+        IDC_PP_ALTERNATIVE_DURATION
+    };
 
 public:
-	CMpegSplitterSettingsWnd(void);
+    CMpegSplitterSettingsWnd(void);
 
-	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
-	void OnDisconnect();
-	bool OnActivate();
-	void OnDeactivate();
-	bool OnApply();
+    bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+    void OnDisconnect();
+    bool OnActivate();
+    void OnDeactivate();
+    bool OnApply();
 
-	static LPCTSTR GetWindowTitle() {
-		return _T("Settings");
-	}
-	static CSize GetWindowSize() {
-		return CSize(320, 310);
-	}
+    static LPCTSTR GetWindowTitle() {
+        return _T("Settings");
+    }
+    static CSize GetWindowSize() {
+        return CSize(320, 310);
+    }
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };

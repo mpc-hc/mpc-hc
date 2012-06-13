@@ -4,29 +4,27 @@
 
 class CMPCPngImage : public CBitmap
 {
-	// Construction/Destruction
+    // Construction/Destruction
 public:
-	CMPCPngImage();
-	virtual ~CMPCPngImage();
+    CMPCPngImage();
+    virtual ~CMPCPngImage();
 
-	// Attributes:
+    // Attributes:
 protected:
-	static ATL::CImage* m_pImage;
+    static ATL::CImage* m_pImage;
 
-	// Operations:
+    // Operations:
 public:
-	BOOL Load (UINT uiResID, HINSTANCE hinstRes = NULL);
-	BOOL Load (LPCTSTR lpszResourceName, HINSTANCE hinstRes = NULL);
+    BOOL Load(UINT uiResID, HINSTANCE hinstRes = NULL);
+    BOOL Load(LPCTSTR lpszResourceName, HINSTANCE hinstRes = NULL);
 
-	BOOL LoadFromFile (LPCTSTR lpszPath);
-	BOOL LoadFromBuffer (LPBYTE lpBuffer, UINT uiSize);
+    BOOL LoadFromFile(LPCTSTR lpszPath);
+    BOOL LoadFromBuffer(LPBYTE lpBuffer, UINT uiSize);
 
-	static void __stdcall CleanUp ()
-	{
-		if (m_pImage != NULL)
-		{
-			delete m_pImage;
-			m_pImage = NULL;
-		}
-	}
+    static void __stdcall CleanUp() {
+        if (m_pImage != NULL) {
+            delete m_pImage;
+            m_pImage = NULL;
+        }
+    }
 };

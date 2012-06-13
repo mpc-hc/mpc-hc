@@ -29,45 +29,45 @@
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
-extern "C" char *GetFFmpegCompiler();
+extern "C" char* GetFFmpegCompiler();
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
-	, m_strBuildNumber(_T(""))
-	, m_MPCCompiler(_T(""))
-	, m_FFmpegCompiler(_T(""))
+    , m_strBuildNumber(_T(""))
+    , m_MPCCompiler(_T(""))
+    , m_FFmpegCompiler(_T(""))
 {
-	//{{AFX_DATA_INIT(CAboutDlg)
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(CAboutDlg)
+    //}}AFX_DATA_INIT
 }
 
 BOOL CAboutDlg::OnInitDialog()
 {
-	UpdateData();
+    UpdateData();
 
 #ifdef _WIN64
-	m_appname += _T(" (64-bit)");
+    m_appname += _T(" (64-bit)");
 #endif
 
-	m_strBuildNumber = AfxGetMyApp()->m_strVersion;
+    m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
 #if defined(__INTEL_COMPILER)
 #if (__INTEL_COMPILER >= 1210)
-	m_MPCCompiler = _T("ICL ");
-	m_MPCCompiler += MAKE_STR(__INTEL_COMPILER);
+    m_MPCCompiler = _T("ICL ");
+    m_MPCCompiler += MAKE_STR(__INTEL_COMPILER);
 #else
-	#error Compiler is not supported!
+#error Compiler is not supported!
 #endif
 #elif defined(_MSC_VER)
 #if (_MSC_VER == 1700)
-	m_MPCCompiler = _T("MSVC 2012");
+    m_MPCCompiler = _T("MSVC 2012");
 #elif (_MSC_VER == 1600)
-	#if (_MSC_FULL_VER >= 160040219)
-		m_MPCCompiler = _T("MSVC 2010 SP1");
-	#else
-		m_MPCCompiler = _T("MSVC 2010");
-	#endif
+#if (_MSC_FULL_VER >= 160040219)
+    m_MPCCompiler = _T("MSVC 2010 SP1");
+#else
+    m_MPCCompiler = _T("MSVC 2010");
+#endif
 #elif (_MSC_VER < 1600)
-	#error Compiler is not supported!
+#error Compiler is not supported!
 #endif
 #else
 #error Please add support for your compiler
@@ -75,66 +75,66 @@ BOOL CAboutDlg::OnInitDialog()
 
 #if !defined(_M_X64) && defined(_M_IX86_FP)
 #if (_M_IX86_FP == 1)   // /arch:SSE was used
-	m_MPCCompiler += _T(" (SSE)");
+    m_MPCCompiler += _T(" (SSE)");
 #elif (_M_IX86_FP == 2) // /arch:SSE2 was used
-	m_MPCCompiler += _T(" (SSE2)");
+    m_MPCCompiler += _T(" (SSE2)");
 #endif
 #endif // _M_IX86_FP
 
 #ifdef _DEBUG
-	m_MPCCompiler += _T(" Debug");
+    m_MPCCompiler += _T(" Debug");
 #endif
 
 #if HAS_FFMPEG
-	m_FFmpegCompiler.Format(CA2W(GetFFmpegCompiler()));
+    m_FFmpegCompiler.Format(CA2W(GetFFmpegCompiler()));
 #endif
 
-	// Build the path to Authors.txt
-	GetModuleFileName(AfxGetInstanceHandle(), m_AuthorsPath.GetBuffer(_MAX_PATH), _MAX_PATH);
-	m_AuthorsPath.ReleaseBuffer();
-	m_AuthorsPath = m_AuthorsPath.Left(m_AuthorsPath.ReverseFind('\\') + 1) + _T("Authors.txt");
-	// Check if the file exists
-	CFileStatus fs;
-	if (CFile::GetStatus(m_AuthorsPath, fs)) {
-		// If it does, we make the filename clickable
-		m_Credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
-	}
+    // Build the path to Authors.txt
+    GetModuleFileName(AfxGetInstanceHandle(), m_AuthorsPath.GetBuffer(_MAX_PATH), _MAX_PATH);
+    m_AuthorsPath.ReleaseBuffer();
+    m_AuthorsPath = m_AuthorsPath.Left(m_AuthorsPath.ReverseFind('\\') + 1) + _T("Authors.txt");
+    // Check if the file exists
+    CFileStatus fs;
+    if (CFile::GetStatus(m_AuthorsPath, fs)) {
+        // If it does, we make the filename clickable
+        m_Credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
+    }
 
-	UpdateData(FALSE);
+    UpdateData(FALSE);
 
-	GetDlgItem(IDOK)->SetFocus();
+    GetDlgItem(IDOK)->SetFocus();
 
-	return FALSE;
+    return FALSE;
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CAboutDlg)
-	//}}AFX_DATA_MAP
-	DDX_Text(pDX, IDC_STATIC1, m_appname);
-	DDX_Text(pDX, IDC_BUILD_NUMBER, m_strBuildNumber);
-	DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
-	DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
-	DDX_Text(pDX, IDC_AUTHORS_LINK, m_Credits);
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CAboutDlg)
+    //}}AFX_DATA_MAP
+    DDX_Text(pDX, IDC_STATIC1, m_appname);
+    DDX_Text(pDX, IDC_BUILD_NUMBER, m_strBuildNumber);
+    DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
+    DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
+    DDX_Text(pDX, IDC_AUTHORS_LINK, m_Credits);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
-	//{{AFX_MSG_MAP(CAboutDlg)
-	// No message handlers
-	//}}AFX_MSG_MAP
-	ON_NOTIFY(NM_CLICK, IDC_HOMEPAGE_LINK, OnHomepage)
-	ON_NOTIFY(NM_CLICK, IDC_AUTHORS_LINK, OnAuthors)
+    //{{AFX_MSG_MAP(CAboutDlg)
+    // No message handlers
+    //}}AFX_MSG_MAP
+    ON_NOTIFY(NM_CLICK, IDC_HOMEPAGE_LINK, OnHomepage)
+    ON_NOTIFY(NM_CLICK, IDC_AUTHORS_LINK, OnAuthors)
 END_MESSAGE_MAP()
 
-void CAboutDlg::OnHomepage(NMHDR *pNMHDR, LRESULT *pResult)
+void CAboutDlg::OnHomepage(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
-	*pResult = 0;
+    ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
+    *pResult = 0;
 }
 
-void CAboutDlg::OnAuthors(NMHDR *pNMHDR, LRESULT *pResult)
+void CAboutDlg::OnAuthors(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	ShellExecute(m_hWnd, _T("open"), m_AuthorsPath, NULL, NULL, SW_SHOWDEFAULT);
-	*pResult = 0;
+    ShellExecute(m_hWnd, _T("open"), m_AuthorsPath, NULL, NULL, SW_SHOWDEFAULT);
+    *pResult = 0;
 }

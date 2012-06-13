@@ -27,42 +27,42 @@
 
 class CChildView : public CWnd
 {
-	CRect m_vrect;
+    CRect m_vrect;
 
-	DWORD m_lastlmdowntime;
-	CPoint m_lastlmdownpoint;
+    DWORD m_lastlmdowntime;
+    CPoint m_lastlmdownpoint;
 
-	CCritSec m_csLogo;
-	CMPCPngImage m_logo;
-
-public:
-	CChildView();
-	virtual ~CChildView();
-
-	DECLARE_DYNAMIC(CChildView)
+    CCritSec m_csLogo;
+    CMPCPngImage m_logo;
 
 public:
-	void SetVideoRect(CRect r = CRect(0,0,0,0));
-	CRect GetVideoRect() const {
-		return m_vrect;
-	}
+    CChildView();
+    virtual ~CChildView();
 
-	void LoadLogo();
-	CSize GetLogoSize() const;
+    DECLARE_DYNAMIC(CChildView)
+
+public:
+    void SetVideoRect(CRect r = CRect(0, 0, 0, 0));
+    CRect GetVideoRect() const {
+        return m_vrect;
+    }
+
+    void LoadLogo();
+    CSize GetLogoSize() const;
 
 protected:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	afx_msg void OnPaint();
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg BOOL OnPlayPlayPauseStop(UINT nID);
-	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+    afx_msg void OnPaint();
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg BOOL OnPlayPlayPauseStop(UINT nID);
+    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnSetFocus(CWnd* pOldWnd);
-	afx_msg LRESULT OnNcHitTest(CPoint point);
-	afx_msg void OnNcLButtonDown(UINT nHitTest, CPoint point);
+    afx_msg void OnSetFocus(CWnd* pOldWnd);
+    afx_msg LRESULT OnNcHitTest(CPoint point);
+    afx_msg void OnNcLButtonDown(UINT nHitTest, CPoint point);
 };

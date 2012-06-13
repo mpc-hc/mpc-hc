@@ -31,68 +31,68 @@
 #define FlvSourceName   L"MPC FLV Source"
 
 class __declspec(uuid("47E792CF-0BBE-4F7A-859C-194B0768650A"))
-	CFLVSplitterFilter : public CBaseSplitterFilter
+    CFLVSplitterFilter : public CBaseSplitterFilter
 {
-	UINT32 m_DataOffset;
-	bool m_IgnorePrevSizes;
+    UINT32 m_DataOffset;
+    bool m_IgnorePrevSizes;
 
-	bool Sync(__int64& pos);
+    bool Sync(__int64& pos);
 
-	struct VideoTweak {
-		BYTE x;
-		BYTE y;
-	};
+    struct VideoTweak {
+        BYTE x;
+        BYTE y;
+    };
 
-	bool ReadTag(VideoTweak& t);
+    bool ReadTag(VideoTweak& t);
 
-	struct Tag {
-		UINT32 PreviousTagSize;
-		BYTE TagType;
-		UINT32 DataSize;
-		UINT32 TimeStamp;
-		UINT32 StreamID;
-	};
+    struct Tag {
+        UINT32 PreviousTagSize;
+        BYTE TagType;
+        UINT32 DataSize;
+        UINT32 TimeStamp;
+        UINT32 StreamID;
+    };
 
-	bool ReadTag(Tag& t);
+    bool ReadTag(Tag& t);
 
-	struct AudioTag {
-		BYTE SoundFormat;
-		BYTE SoundRate;
-		BYTE SoundSize;
-		BYTE SoundType;
-	};
+    struct AudioTag {
+        BYTE SoundFormat;
+        BYTE SoundRate;
+        BYTE SoundSize;
+        BYTE SoundType;
+    };
 
-	bool ReadTag(AudioTag& at);
+    bool ReadTag(AudioTag& at);
 
-	struct VideoTag {
-		BYTE FrameType;
-		BYTE CodecID;
-	};
+    struct VideoTag {
+        BYTE FrameType;
+        BYTE CodecID;
+    };
 
-	bool ReadTag(VideoTag& vt);
+    bool ReadTag(VideoTag& vt);
 
-	void NormalSeek(REFERENCE_TIME rt);
-	void AlternateSeek(REFERENCE_TIME rt);
+    void NormalSeek(REFERENCE_TIME rt);
+    void AlternateSeek(REFERENCE_TIME rt);
 
 protected:
-	CAutoPtr<CBaseSplitterFileEx> m_pFile;
-	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
+    CAutoPtr<CBaseSplitterFileEx> m_pFile;
+    HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
-	bool DemuxInit();
-	void DemuxSeek(REFERENCE_TIME rt);
-	bool DemuxLoop();
+    bool DemuxInit();
+    void DemuxSeek(REFERENCE_TIME rt);
+    bool DemuxLoop();
 
 public:
-	CFLVSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CFLVSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 
-	// CBaseFilter
-	STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
+    // CBaseFilter
+    STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
 
 };
 
 class __declspec(uuid("C9ECE7B3-1D8E-41F5-9F24-B255DF16C087"))
-	CFLVSourceFilter : public CFLVSplitterFilter
+    CFLVSourceFilter : public CFLVSplitterFilter
 {
 public:
-	CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };

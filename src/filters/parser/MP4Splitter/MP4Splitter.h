@@ -32,78 +32,78 @@
 #define MP4SourceName   L"MPC MP4/MOV Source"
 
 class __declspec(uuid("61F47056-E400-43d3-AF1E-AB7DFFD4C4AD"))
-	CMP4SplitterFilter : public CBaseSplitterFilter
+    CMP4SplitterFilter : public CBaseSplitterFilter
 {
-	struct trackpos {
-		DWORD /*AP4_Ordinal*/ index;
-		unsigned __int64 /*AP4_TimeStamp*/ ts;
-	};
-	CAtlMap<DWORD, trackpos> m_trackpos;
-	CSize m_framesize;
+    struct trackpos {
+        DWORD /*AP4_Ordinal*/ index;
+        unsigned __int64 /*AP4_TimeStamp*/ ts;
+    };
+    CAtlMap<DWORD, trackpos> m_trackpos;
+    CSize m_framesize;
 
 protected:
-	CAutoPtr<CMP4SplitterFile> m_pFile;
-	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
+    CAutoPtr<CMP4SplitterFile> m_pFile;
+    HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
-	bool DemuxInit();
-	void DemuxSeek(REFERENCE_TIME rt);
-	bool DemuxLoop();
+    bool DemuxInit();
+    void DemuxSeek(REFERENCE_TIME rt);
+    bool DemuxLoop();
 
 public:
-	CMP4SplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
-	virtual ~CMP4SplitterFilter();
+    CMP4SplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    virtual ~CMP4SplitterFilter();
 
-	// CBaseFilter
-	STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
+    // CBaseFilter
+    STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
 
-	// IKeyFrameInfo
+    // IKeyFrameInfo
 
-	STDMETHODIMP_(HRESULT) GetKeyFrameCount(UINT& nKFs);
-	STDMETHODIMP_(HRESULT) GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
+    STDMETHODIMP_(HRESULT) GetKeyFrameCount(UINT& nKFs);
+    STDMETHODIMP_(HRESULT) GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
 };
 
 class __declspec(uuid("3CCC052E-BDEE-408a-BEA7-90914EF2964B"))
-	CMP4SourceFilter : public CMP4SplitterFilter
+    CMP4SourceFilter : public CMP4SplitterFilter
 {
 public:
-	CMP4SourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CMP4SourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
 // for raw mpeg4 elementary streams:
 
 class __declspec(uuid("D3D9D58B-45B5-48AB-B199-B8C40560AEC7"))
-	CMPEG4VideoSplitterFilter : public CBaseSplitterFilter
+    CMPEG4VideoSplitterFilter : public CBaseSplitterFilter
 {
-	__int64 m_seqhdrsize;
-	int NextStartCode();
-	void SkipUserData();
+    __int64 m_seqhdrsize;
+    int NextStartCode();
+    void SkipUserData();
 
 protected:
-	CAutoPtr<CBaseSplitterFileEx> m_pFile;
-	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
+    CAutoPtr<CBaseSplitterFileEx> m_pFile;
+    HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
-	bool DemuxInit();
-	void DemuxSeek(REFERENCE_TIME rt);
-	bool DemuxLoop();
+    bool DemuxInit();
+    void DemuxSeek(REFERENCE_TIME rt);
+    bool DemuxLoop();
 
 public:
-	CMPEG4VideoSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CMPEG4VideoSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
 class __declspec(uuid("E2B98EEA-EE55-4E9B-A8C1-6E5288DF785A"))
-	CMPEG4VideoSourceFilter : public CMPEG4VideoSplitterFilter
+    CMPEG4VideoSourceFilter : public CMPEG4VideoSplitterFilter
 {
 public:
-	CMPEG4VideoSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CMPEG4VideoSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
 class CMP4SplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
 {
 public:
-	CMP4SplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
-	virtual ~CMP4SplitterOutputPin();
+    CMP4SplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+    virtual ~CMP4SplitterOutputPin();
 
-	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
-	HRESULT DeliverPacket(CAutoPtr<Packet> p);
-	HRESULT DeliverEndFlush();
+    HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+    HRESULT DeliverPacket(CAutoPtr<Packet> p);
+    HRESULT DeliverEndFlush();
 };

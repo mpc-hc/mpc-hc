@@ -30,103 +30,103 @@
 
 
 typedef enum {
-	OSD_TRANSPARENT,
-	OSD_BACKGROUND,
-	OSD_BORDER,
-	OSD_TEXT,
-	OSD_BAR,
-	OSD_CURSOR,
-	OSD_DEBUGCLR,
-	OSD_LAST
+    OSD_TRANSPARENT,
+    OSD_BACKGROUND,
+    OSD_BORDER,
+    OSD_TEXT,
+    OSD_BAR,
+    OSD_CURSOR,
+    OSD_DEBUGCLR,
+    OSD_LAST
 } OSD_COLORS;
 
 typedef enum {
-	OSD_NOMESSAGE,
-	OSD_TOPLEFT,
-	OSD_TOPRIGHT,
-	OSD_DEBUG,
+    OSD_NOMESSAGE,
+    OSD_TOPLEFT,
+    OSD_TOPRIGHT,
+    OSD_DEBUG,
 } OSD_MESSAGEPOS;
 
 
 class CVMROSD
 {
 public:
-	CVMROSD(void);
-	~CVMROSD(void);
+    CVMROSD(void);
+    ~CVMROSD(void);
 
-	void Start (CWnd* pWnd, IVMRMixerBitmap9* pVMB);
-	void Start (CWnd* pWnd, IMFVideoMixerBitmap* pVMB);
-	void Start (CWnd* pWnd, IMadVRTextOsd* pMVTO);
-	void Stop();
+    void Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB);
+    void Start(CWnd* pWnd, IMFVideoMixerBitmap* pVMB);
+    void Start(CWnd* pWnd, IMadVRTextOsd* pMVTO);
+    void Stop();
 
-	void DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000, int FontSize = 0, CString OSD_Font = _T(""));
-	void DebugMessage( LPCTSTR format, ... );
-	void ClearMessage(bool hide=false);
-	void HideMessage(bool hide);
-	void EnableShowMessage(bool enabled = true);
+    void DisplayMessage(OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000, int FontSize = 0, CString OSD_Font = _T(""));
+    void DebugMessage(LPCTSTR format, ...);
+    void ClearMessage(bool hide = false);
+    void HideMessage(bool hide);
+    void EnableShowMessage(bool enabled = true);
 
-	__int64 GetPos() const;
-	void SetPos(__int64 pos);
-	void SetRange(__int64 start,  __int64 stop);
-	void GetRange(__int64& start, __int64& stop);
+    __int64 GetPos() const;
+    void SetPos(__int64 pos);
+    void SetRange(__int64 start,  __int64 stop);
+    void GetRange(__int64& start, __int64& stop);
 
-	void OnSize(UINT nType, int cx, int cy);
-	bool OnMouseMove(UINT nFlags, CPoint point);
-	bool OnLButtonDown(UINT nFlags, CPoint point);
-	bool OnLButtonUp(UINT nFlags, CPoint point);
+    void OnSize(UINT nType, int cx, int cy);
+    bool OnMouseMove(UINT nFlags, CPoint point);
+    bool OnLButtonDown(UINT nFlags, CPoint point);
+    bool OnLButtonUp(UINT nFlags, CPoint point);
 
 private :
-	CComPtr<IVMRMixerBitmap9>		m_pVMB;
-	CComPtr<IMFVideoMixerBitmap>	m_pMFVMB;
-	CComPtr<IMadVRTextOsd>			m_pMVTO;
+    CComPtr<IVMRMixerBitmap9>       m_pVMB;
+    CComPtr<IMFVideoMixerBitmap>    m_pMFVMB;
+    CComPtr<IMadVRTextOsd>          m_pMVTO;
 
-	CWnd*							m_pWnd;
+    CWnd*                           m_pWnd;
 
-	CCritSec			m_Lock;
-	CDC					m_MemDC;
-	VMR9AlphaBitmap		m_VMR9AlphaBitmap;
-	MFVideoAlphaBitmap	m_MFVideoAlphaBitmap;
-	BITMAP				m_BitmapInfo;
+    CCritSec            m_Lock;
+    CDC                 m_MemDC;
+    VMR9AlphaBitmap     m_VMR9AlphaBitmap;
+    MFVideoAlphaBitmap  m_MFVideoAlphaBitmap;
+    BITMAP              m_BitmapInfo;
 
-	CFont	m_MainFont;
-	CPen	m_penBorder;
-	CPen	m_penCursor;
-	CBrush	m_brushBack;
-	CBrush	m_brushBar;
-	CPen	m_debugPenBorder;
-	CBrush	m_debugBrushBack;
-	int		m_FontSize;
-	CString	m_OSD_Font;
+    CFont   m_MainFont;
+    CPen    m_penBorder;
+    CPen    m_penCursor;
+    CBrush  m_brushBack;
+    CBrush  m_brushBar;
+    CPen    m_debugPenBorder;
+    CBrush  m_debugBrushBack;
+    int     m_FontSize;
+    CString m_OSD_Font;
 
-	CRect		m_rectWnd;
-	COLORREF	m_Color[OSD_LAST];
+    CRect       m_rectWnd;
+    COLORREF    m_Color[OSD_LAST];
 
-	// Curseur de calage
-	CRect	m_rectSeekBar;
-	CRect	m_rectCursor;
-	CRect	m_rectBar;
-	bool	m_bCursorMoving;
-	bool	m_bSeekBarVisible;
-	__int64	m_llSeekMin;
-	__int64	m_llSeekMax;
-	__int64	m_llSeekPos;
+    // Curseur de calage
+    CRect   m_rectSeekBar;
+    CRect   m_rectCursor;
+    CRect   m_rectBar;
+    bool    m_bCursorMoving;
+    bool    m_bSeekBarVisible;
+    __int64 m_llSeekMin;
+    __int64 m_llSeekMax;
+    __int64 m_llSeekPos;
 
-	bool	m_bShowMessage;
+    bool    m_bShowMessage;
 
-	// Messages
-	CString			m_strMessage;
-	OSD_MESSAGEPOS	m_nMessagePos;
-	CList<CString>	m_debugMessages;
+    // Messages
+    CString         m_strMessage;
+    OSD_MESSAGEPOS  m_nMessagePos;
+    CList<CString>  m_debugMessages;
 
-	void UpdateBitmap();
-	void CalcRect();
-	void UpdateSeekBarPos(CPoint point);
-	void DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPos);
-	void DrawRect(CRect* rect, CBrush* pBrush = NULL, CPen* pPen = NULL);
-	void Invalidate();
-	void DrawMessage();
-	void DrawDebug();
+    void UpdateBitmap();
+    void CalcRect();
+    void UpdateSeekBarPos(CPoint point);
+    void DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPos);
+    void DrawRect(CRect* rect, CBrush* pBrush = NULL, CPen* pPen = NULL);
+    void Invalidate();
+    void DrawMessage();
+    void DrawDebug();
 
-	static void CALLBACK TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime);
+    static void CALLBACK TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime);
 
 };

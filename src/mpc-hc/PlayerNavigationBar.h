@@ -29,24 +29,24 @@
 
 class CPlayerNavigationBar : public CPlayerBar
 {
-	DECLARE_DYNAMIC(CPlayerNavigationBar)
+    DECLARE_DYNAMIC(CPlayerNavigationBar)
 
 public:
-	CWnd* m_pParent;
-	CPlayerNavigationBar();
-	virtual ~CPlayerNavigationBar();
-	BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
-	void ShowControls(CWnd* pMainfrm, bool bShow);
+    CWnd* m_pParent;
+    CPlayerNavigationBar();
+    virtual ~CPlayerNavigationBar();
+    BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
+    void ShowControls(CWnd* pMainfrm, bool bShow);
 
 public:
-	CPlayerNavigationDialog m_navdlg;
+    CPlayerNavigationDialog m_navdlg;
 
 protected:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnNcLButtonUp(UINT nHitTest, CPoint point);
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnNcLButtonUp(UINT nHitTest, CPoint point);
 };

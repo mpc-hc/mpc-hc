@@ -15,10 +15,10 @@ IF %ERRORLEVEL% NEQ 0 (
 
 rem current command
 astyle.exe^
- --indent=force-tab --indent-switches --indent-namespaces --indent-col1-comments^
- --pad-header --lineend=windows --preserve-date^
- --keep-one-line-blocks --keep-one-line-statements^
- --suffix=none --ignore-exclude-errors --ignore-exclude-errors-x --recursive^
+ --indent=spaces=4 --style=kr --indent-switches --indent-namespaces --indent-col1-comments^
+ --pad-header --pad-oper --unpad-paren --align-pointer=type --align-reference=type^
+ --add-brackets --lineend=windows --preserve-date --keep-one-line-blocks --keep-one-line-statements^
+ --convert-tabs --suffix=none --ignore-exclude-errors --ignore-exclude-errors-x --recursive^
  --exclude=FileVersionInfo.cpp --exclude=FileVersionInfo.h --exclude=LineNumberEdit.cpp^
  --exclude=LineNumberEdit.h --exclude=Struct.h --exclude=atl --exclude=avisynth^
  --exclude=detours --exclude=dx --exclude=lglcd --exclude=ogg --exclude=qt^
@@ -32,14 +32,7 @@ astyle.exe^
  --exclude=H264RandomAccess.cpp --exclude=H264RandomAccess.h --exclude=array_allocator.h^
  --exclude=char_t.h --exclude=HScrollListBox.cpp --exclude=HScrollListBox.h ..\*.h ..\*.cpp
 
-rem TODO:        --indent=spaces=4 --style=kr --add-brackets --pad-header --pad-oper --convert-tabs
-rem maybe TODO:  --align-pointer=type --align-reference=type: there is a problem when the type isn't known like *dump
-rem              --unpad-paren: HANDLE ()-> HANDLE() while the space should be kept
-
-IF %ERRORLEVEL% NEQ 0 (
-  ECHO.
-  ECHO ERROR: Something went wrong!
-)
+IF %ERRORLEVEL% NEQ 0 ECHO. & ECHO ERROR: Something went wrong!
 
 :END
 POPD

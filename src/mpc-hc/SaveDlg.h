@@ -32,34 +32,34 @@
 
 class CSaveDlg : public CCmdUIDialog
 {
-	DECLARE_DYNAMIC(CSaveDlg)
+    DECLARE_DYNAMIC(CSaveDlg)
 
 private:
-	CString m_in, m_out;
-	CComPtr<IGraphBuilder> pGB;
-	CComQIPtr<IMediaControl> pMC;
-	CComQIPtr<IMediaEventEx> pME;
-	CComQIPtr<IMediaSeeking> pMS;
-	UINT_PTR m_nIDTimerEvent;
+    CString m_in, m_out;
+    CComPtr<IGraphBuilder> pGB;
+    CComQIPtr<IMediaControl> pMC;
+    CComQIPtr<IMediaEventEx> pME;
+    CComQIPtr<IMediaSeeking> pMS;
+    UINT_PTR m_nIDTimerEvent;
 
 public:
-	CSaveDlg(CString in, CString out, CWnd* pParent = NULL);   // standard constructor
-	virtual ~CSaveDlg();
+    CSaveDlg(CString in, CString out, CWnd* pParent = NULL);   // standard constructor
+    virtual ~CSaveDlg();
 
-	// Dialog Data
-	enum { IDD = IDD_SAVE_DLG };
-	CAnimateCtrl m_anim;
-	CProgressCtrl m_progress;
-	CStatic m_report;
-	CStatic m_fromto;
+    // Dialog Data
+    enum { IDD = IDD_SAVE_DLG };
+    CAnimateCtrl m_anim;
+    CProgressCtrl m_progress;
+    CStatic m_report;
+    CStatic m_fromto;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedCancel();
-	afx_msg void OnTimer(UINT_PTR nIDEvent);
-	afx_msg LRESULT OnGraphNotify(WPARAM wParam, LPARAM lParam);
+    afx_msg void OnBnClickedCancel();
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
+    afx_msg LRESULT OnGraphNotify(WPARAM wParam, LPARAM lParam);
 };

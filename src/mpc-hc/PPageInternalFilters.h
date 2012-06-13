@@ -28,66 +28,66 @@
 
 
 struct filter_t {
-	LPCTSTR label;
-	int type;
-	int flag;
-	UINT nHintID;
-	CUnknown* (WINAPI * CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr);
+    LPCTSTR label;
+    int type;
+    int flag;
+    UINT nHintID;
+    CUnknown* (WINAPI* CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr);
 };
 
 class CPPageInternalFiltersListBox : public CCheckListBox
 {
-	DECLARE_DYNAMIC(CPPageInternalFiltersListBox)
+    DECLARE_DYNAMIC(CPPageInternalFiltersListBox)
 
 public:
-	CPPageInternalFiltersListBox(int n);
+    CPPageInternalFiltersListBox(int n);
 
 protected:
-	virtual void PreSubclassWindow();
-	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
+    virtual void PreSubclassWindow();
+    virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 
-	DECLARE_MESSAGE_MAP()
-	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+    DECLARE_MESSAGE_MAP()
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 
-	CFont m_bold;
-	int m_n;
-	unsigned int m_nbFiltersPerType[FILTER_TYPE_NB];
-	unsigned int m_nbChecked[FILTER_TYPE_NB];
+    CFont m_bold;
+    int m_n;
+    unsigned int m_nbFiltersPerType[FILTER_TYPE_NB];
+    unsigned int m_nbChecked[FILTER_TYPE_NB];
 
 public:
-	virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
-	virtual int AddFilter(filter_t* filter, bool checked);
-	virtual void UpdateCheckState();
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+    virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
+    virtual int AddFilter(filter_t* filter, bool checked);
+    virtual void UpdateCheckState();
+    afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 };
 
 // CPPageInternalFilters dialog
 
 class CPPageInternalFilters : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageInternalFilters)
+    DECLARE_DYNAMIC(CPPageInternalFilters)
 
 public:
-	CPPageInternalFilters();
-	virtual ~CPPageInternalFilters();
+    CPPageInternalFilters();
+    virtual ~CPPageInternalFilters();
 
-	// Dialog Data
-	enum { IDD = IDD_PPAGEINTERNALFILTERS };
-	CPPageInternalFiltersListBox m_listSrc;
-	CPPageInternalFiltersListBox m_listTra;
+    // Dialog Data
+    enum { IDD = IDD_PPAGEINTERNALFILTERS };
+    CPPageInternalFiltersListBox m_listSrc;
+    CPPageInternalFiltersListBox m_listTra;
 
-	void ShowPPage(CPPageInternalFiltersListBox& l);
+    void ShowPPage(CPPageInternalFiltersListBox& l);
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnLbnDblclkList1();
-	afx_msg void OnLbnDblclkList2();
-	afx_msg void OnSelChange();
-	afx_msg void OnCheckBoxChange();
+    afx_msg void OnLbnDblclkList1();
+    afx_msg void OnLbnDblclkList2();
+    afx_msg void OnSelChange();
+    afx_msg void OnCheckBoxChange();
 };

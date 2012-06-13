@@ -30,92 +30,92 @@ class CHdmvSub : public CBaseSub
 {
 public:
 
-	static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
+    static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
 
-	enum HDMV_SEGMENT_TYPE {
-		NO_SEGMENT			= 0xFFFF,
-		PALETTE				= 0x14,
-		OBJECT				= 0x15,
-		PRESENTATION_SEG	= 0x16,
-		WINDOW_DEF			= 0x17,
-		INTERACTIVE_SEG		= 0x18,
-		END_OF_DISPLAY		= 0x80,
-		HDMV_SUB1			= 0x81,
-		HDMV_SUB2			= 0x82
-	};
-
-
-	struct VIDEO_DESCRIPTOR {
-		SHORT		nVideoWidth;
-		SHORT		nVideoHeight;
-		BYTE		bFrameRate;		// <= Frame rate here!
-	};
-
-	struct COMPOSITION_DESCRIPTOR {
-		SHORT		nNumber;
-		BYTE		bState;
-	};
-
-	struct SEQUENCE_DESCRIPTOR {
-		BYTE		bFirstIn  : 1;
-		BYTE		bLastIn	  : 1;
-		BYTE		bReserved : 8;
-	};
-
-	CHdmvSub();
-	~CHdmvSub();
-
-	HRESULT			ParseSample (IMediaSample* pSample);
+    enum HDMV_SEGMENT_TYPE {
+        NO_SEGMENT       = 0xFFFF,
+        PALETTE          = 0x14,
+        OBJECT           = 0x15,
+        PRESENTATION_SEG = 0x16,
+        WINDOW_DEF       = 0x17,
+        INTERACTIVE_SEG  = 0x18,
+        END_OF_DISPLAY   = 0x80,
+        HDMV_SUB1        = 0x81,
+        HDMV_SUB2        = 0x82
+    };
 
 
-	POSITION		GetStartPosition(REFERENCE_TIME rt, double fps);
-	POSITION		GetNext(POSITION pos) {
-		m_pObjects.GetNext(pos);
-		return pos;
-	};
+    struct VIDEO_DESCRIPTOR {
+        SHORT nVideoWidth;
+        SHORT nVideoHeight;
+        BYTE  bFrameRate;     // <= Frame rate here!
+    };
+
+    struct COMPOSITION_DESCRIPTOR {
+        SHORT nNumber;
+        BYTE  bState;
+    };
+
+    struct SEQUENCE_DESCRIPTOR {
+        BYTE  bFirstIn  : 1;
+        BYTE  bLastIn   : 1;
+        BYTE  bReserved : 8;
+    };
+
+    CHdmvSub();
+    ~CHdmvSub();
+
+    HRESULT   ParseSample(IMediaSample* pSample);
 
 
-	virtual REFERENCE_TIME	GetStart(POSITION nPos) {
-		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
-		return pObject!=NULL ? pObject->m_rtStart : INVALID_TIME;
-	};
-	virtual REFERENCE_TIME	GetStop(POSITION nPos) {
-		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
-		return pObject!=NULL ? pObject->m_rtStop : INVALID_TIME;
-	};
+    POSITION  GetStartPosition(REFERENCE_TIME rt, double fps);
+    POSITION  GetNext(POSITION pos) {
+        m_pObjects.GetNext(pos);
+        return pos;
+    };
 
-	void			Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
-	HRESULT			GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
-	void			Reset();
+
+    virtual REFERENCE_TIME  GetStart(POSITION nPos) {
+        CompositionObject*  pObject = m_pObjects.GetAt(nPos);
+        return pObject != NULL ? pObject->m_rtStart : INVALID_TIME;
+    };
+    virtual REFERENCE_TIME  GetStop(POSITION nPos) {
+        CompositionObject*  pObject = m_pObjects.GetAt(nPos);
+        return pObject != NULL ? pObject->m_rtStop : INVALID_TIME;
+    };
+
+    void      Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
+    HRESULT   GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
+    void      Reset();
 
 private :
 
-	HDMV_SEGMENT_TYPE				m_nCurSegment;
-	BYTE*							m_pSegBuffer;
-	int								m_nTotalSegBuffer;
-	int								m_nSegBufferPos;
-	int								m_nSegSize;
+    HDMV_SEGMENT_TYPE            m_nCurSegment;
+    BYTE*                        m_pSegBuffer;
+    int                          m_nTotalSegBuffer;
+    int                          m_nSegBufferPos;
+    int                          m_nSegSize;
 
-	VIDEO_DESCRIPTOR				m_VideoDescriptor;
+    VIDEO_DESCRIPTOR             m_VideoDescriptor;
 
-	CompositionObject*				m_pCurrentObject;
-	CAtlList<CompositionObject*>	m_pObjects;
+    CompositionObject*           m_pCurrentObject;
+    CAtlList<CompositionObject*> m_pObjects;
 
-	HDMV_PALETTE*					m_pDefaultPalette;
-	int								m_nDefaultPaletteNbEntry;
+    HDMV_PALETTE*                m_pDefaultPalette;
+    int                          m_nDefaultPaletteNbEntry;
 
-	int								m_nColorNumber;
+    int                          m_nColorNumber;
 
 
-	int					ParsePresentationSegment(CGolombBuffer* pGBuffer);
-	void				ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize);
-	void				ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize);
+    int                 ParsePresentationSegment(CGolombBuffer* pGBuffer);
+    void                ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize);
+    void                ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize);
 
-	void				ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
-	void				ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
-	void				ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
+    void                ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
+    void                ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
+    void                ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
 
-	void				AllocSegment(int nSize);
+    void                AllocSegment(int nSize);
 
-	CompositionObject*	FindObject(REFERENCE_TIME rt);
+    CompositionObject*  FindObject(REFERENCE_TIME rt);
 };

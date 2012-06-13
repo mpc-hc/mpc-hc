@@ -30,14 +30,14 @@
 class CD2VStream;
 
 class __declspec(uuid("47CE0591-C4D5-4b41-BED7-28F59AD76228"))
-	CD2VSource : public CBaseSource<CD2VStream>
+    CD2VSource : public CBaseSource<CD2VStream>
 {
 public:
-	CD2VSource(LPUNKNOWN lpunk, HRESULT* phr);
-	virtual ~CD2VSource();
+    CD2VSource(LPUNKNOWN lpunk, HRESULT* phr);
+    virtual ~CD2VSource();
 
-	// CBaseFilter
-	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+    // CBaseFilter
+    STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 };
 
 class CMPEG2Dec;
@@ -45,21 +45,21 @@ class CMPEG2Dec;
 class CD2VStream : public CBaseStream
 {
 private:
-	CAutoPtr<CMPEG2Dec> m_pDecoder;
-	CAutoVectorPtr<BYTE> m_pFrameBuffer;
+    CAutoPtr<CMPEG2Dec> m_pDecoder;
+    CAutoVectorPtr<BYTE> m_pFrameBuffer;
 
-	bool GetDim(int& w, int& h, int& bpp);
+    bool GetDim(int& w, int& h, int& bpp);
 
 public:
-	CD2VStream(const WCHAR* fn, CSource* pParent, HRESULT* phr);
-	virtual ~CD2VStream();
+    CD2VStream(const WCHAR* fn, CSource* pParent, HRESULT* phr);
+    virtual ~CD2VStream();
 
-	HRESULT FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len /*in+out*/);
+    HRESULT FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len /*in+out*/);
 
-	HRESULT DecideBufferSize(IMemAllocator* pIMemAlloc, ALLOCATOR_PROPERTIES* pProperties);
-	HRESULT CheckMediaType(const CMediaType* pMediaType);
-	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
-	HRESULT SetMediaType(const CMediaType* pmt);
+    HRESULT DecideBufferSize(IMemAllocator* pIMemAlloc, ALLOCATOR_PROPERTIES* pProperties);
+    HRESULT CheckMediaType(const CMediaType* pMediaType);
+    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+    HRESULT SetMediaType(const CMediaType* pmt);
 
-	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
+    STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 };

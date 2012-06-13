@@ -26,7 +26,7 @@
 #include "../../../DSUtil/SharedInclude.h"
 
 #ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN	// Exclude rarely-used stuff from Windows headers
+#define VC_EXTRALEAN    // Exclude rarely-used stuff from Windows headers
 #endif
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 

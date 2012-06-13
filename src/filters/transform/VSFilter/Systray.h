@@ -25,50 +25,50 @@
 
 class CSystrayWindow : public CWnd
 {
-	SystrayIconData* m_tbid;
+    SystrayIconData* m_tbid;
 
-	void StepSub(int dir) {
-		int iSelected, nLangs;
-		if (FAILED(m_tbid->dvs->get_LanguageCount(&nLangs))) {
-			return;
-		}
-		if (FAILED(m_tbid->dvs->get_SelectedLanguage(&iSelected))) {
-			return;
-		}
-		if (nLangs > 0) {
-			m_tbid->dvs->put_SelectedLanguage((iSelected+dir+nLangs)%nLangs);
-		}
-	}
+    void StepSub(int dir) {
+        int iSelected, nLangs;
+        if (FAILED(m_tbid->dvs->get_LanguageCount(&nLangs))) {
+            return;
+        }
+        if (FAILED(m_tbid->dvs->get_SelectedLanguage(&iSelected))) {
+            return;
+        }
+        if (nLangs > 0) {
+            m_tbid->dvs->put_SelectedLanguage((iSelected + dir + nLangs) % nLangs);
+        }
+    }
 
-	void ShowSub(bool fShow) {
-		m_tbid->dvs->put_HideSubtitles(!fShow);
-	}
+    void ShowSub(bool fShow) {
+        m_tbid->dvs->put_HideSubtitles(!fShow);
+    }
 
-	void ToggleSub() {
-		bool fShow;
-		if (FAILED(m_tbid->dvs->get_HideSubtitles(&fShow))) {
-			return;
-		}
-		m_tbid->dvs->put_HideSubtitles(!fShow);
-	}
+    void ToggleSub() {
+        bool fShow;
+        if (FAILED(m_tbid->dvs->get_HideSubtitles(&fShow))) {
+            return;
+        }
+        m_tbid->dvs->put_HideSubtitles(!fShow);
+    }
 
 public:
-	CSystrayWindow(SystrayIconData* tbid) : m_tbid(tbid) {}
+    CSystrayWindow(SystrayIconData* tbid) : m_tbid(tbid) {}
 
 protected:
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnClose();
-	afx_msg void OnDestroy();
-	afx_msg LRESULT OnDVSPrevSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnDVSNextSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnDVSHideSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnDVSShowSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnDVSShowHideSub(WPARAM, LPARAM);
-	afx_msg LRESULT OnTaskBarRestart(WPARAM, LPARAM);
-	afx_msg LRESULT OnNotifyIcon(WPARAM, LPARAM);
+    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    afx_msg void OnClose();
+    afx_msg void OnDestroy();
+    afx_msg LRESULT OnDVSPrevSub(WPARAM, LPARAM);
+    afx_msg LRESULT OnDVSNextSub(WPARAM, LPARAM);
+    afx_msg LRESULT OnDVSHideSub(WPARAM, LPARAM);
+    afx_msg LRESULT OnDVSShowSub(WPARAM, LPARAM);
+    afx_msg LRESULT OnDVSShowHideSub(WPARAM, LPARAM);
+    afx_msg LRESULT OnTaskBarRestart(WPARAM, LPARAM);
+    afx_msg LRESULT OnNotifyIcon(WPARAM, LPARAM);
 };
 
 extern DWORD CALLBACK SystrayThreadProc(void* pParam);

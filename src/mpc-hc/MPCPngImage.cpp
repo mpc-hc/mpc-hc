@@ -25,100 +25,90 @@ CMPCPngImage::~CMPCPngImage()
 
 BOOL CMPCPngImage::Load(UINT uiResID, HINSTANCE hinstRes)
 {
-	return Load(MAKEINTRESOURCE(uiResID), hinstRes);
+    return Load(MAKEINTRESOURCE(uiResID), hinstRes);
 }
 
 BOOL CMPCPngImage::Load(LPCTSTR lpszResourceName, HINSTANCE hinstRes)
 {
-	if (hinstRes == NULL)
-	{
-		hinstRes = AfxFindResourceHandle(lpszResourceName, _T("PNG"));
-	}
+    if (hinstRes == NULL) {
+        hinstRes = AfxFindResourceHandle(lpszResourceName, _T("PNG"));
+    }
 
-	HRSRC hRsrc = ::FindResource(hinstRes, lpszResourceName, _T("PNG"));
-	if (hRsrc == NULL)
-	{
-		// Fallback to the instance handle
-		hinstRes = AfxGetInstanceHandle();
-		hRsrc = ::FindResource(hinstRes, lpszResourceName, _T("PNG"));
-		if (hRsrc == NULL)
-		{
-			return FALSE;
-		}
-	}
+    HRSRC hRsrc = ::FindResource(hinstRes, lpszResourceName, _T("PNG"));
+    if (hRsrc == NULL) {
+        // Fallback to the instance handle
+        hinstRes = AfxGetInstanceHandle();
+        hRsrc = ::FindResource(hinstRes, lpszResourceName, _T("PNG"));
+        if (hRsrc == NULL) {
+            return FALSE;
+        }
+    }
 
-	HGLOBAL hGlobal = LoadResource(hinstRes, hRsrc);
-	if (hGlobal == NULL)
-	{
-		return FALSE;
-	}
+    HGLOBAL hGlobal = LoadResource(hinstRes, hRsrc);
+    if (hGlobal == NULL) {
+        return FALSE;
+    }
 
-	LPVOID lpBuffer = ::LockResource(hGlobal);
-	if (lpBuffer == NULL)
-	{
-		FreeResource(hGlobal);
-		return FALSE;
-	}
+    LPVOID lpBuffer = ::LockResource(hGlobal);
+    if (lpBuffer == NULL) {
+        FreeResource(hGlobal);
+        return FALSE;
+    }
 
-	BOOL bRes = LoadFromBuffer((LPBYTE) lpBuffer, (UINT) ::SizeofResource(hinstRes, hRsrc));
+    BOOL bRes = LoadFromBuffer((LPBYTE) lpBuffer, (UINT) ::SizeofResource(hinstRes, hRsrc));
 
-	UnlockResource(hGlobal);
-	FreeResource(hGlobal);
+    UnlockResource(hGlobal);
+    FreeResource(hGlobal);
 
-	return bRes;
+    return bRes;
 }
 //*******************************************************************************
 BOOL CMPCPngImage::LoadFromFile(LPCTSTR lpszPath)
 {
-	BOOL bRes = FALSE;
+    BOOL bRes = FALSE;
 
-	if (m_pImage == NULL)
-	{
-		m_pImage = new CImage;
-		ENSURE(m_pImage != NULL);
-	}
+    if (m_pImage == NULL) {
+        m_pImage = new CImage;
+        ENSURE(m_pImage != NULL);
+    }
 
-	if (m_pImage->Load(lpszPath) == S_OK)
-	{
-		bRes = Attach(m_pImage->Detach());
-	}
+    if (m_pImage->Load(lpszPath) == S_OK) {
+        bRes = Attach(m_pImage->Detach());
+    }
 
-	return bRes;
+    return bRes;
 }
 //*******************************************************************************
 BOOL CMPCPngImage::LoadFromBuffer(LPBYTE lpBuffer, UINT uiSize)
 {
-	ASSERT(lpBuffer != NULL);
+    ASSERT(lpBuffer != NULL);
 
-	HGLOBAL hRes = ::GlobalAlloc(GMEM_MOVEABLE, uiSize);
-	if (hRes == NULL)
-	{
-		return FALSE;
-	}
+    HGLOBAL hRes = ::GlobalAlloc(GMEM_MOVEABLE, uiSize);
+    if (hRes == NULL) {
+        return FALSE;
+    }
 
-	IStream* pStream = NULL;
-	LPVOID lpResBuffer = ::GlobalLock(hRes);
-	ASSERT (lpResBuffer != NULL);
+    IStream* pStream = NULL;
+    LPVOID lpResBuffer = ::GlobalLock(hRes);
+    ASSERT(lpResBuffer != NULL);
 
-	memcpy(lpResBuffer, lpBuffer, uiSize);
+    memcpy(lpResBuffer, lpBuffer, uiSize);
 
-	HRESULT hResult = ::CreateStreamOnHGlobal(hRes, FALSE, &pStream);
+    HRESULT hResult = ::CreateStreamOnHGlobal(hRes, FALSE, &pStream);
 
-	if (hResult != S_OK)
-	{
-		return FALSE;
-	}
+    if (hResult != S_OK) {
+        return FALSE;
+    }
 
-	if (m_pImage == NULL)
-	{
-		m_pImage = new CImage;
-		ENSURE(m_pImage != NULL);
-	}
+    if (m_pImage == NULL) {
+        m_pImage = new CImage;
+        ENSURE(m_pImage != NULL);
+    }
 
-	m_pImage->Load(pStream);
-	pStream->Release();
+    m_pImage->Load(pStream);
+    pStream->Release();
 
-	BOOL bRes = Attach(m_pImage->Detach());
+    BOOL bRes = Attach(m_pImage->Detach());
 
-	return bRes;
+    return bRes;
 }

@@ -27,12 +27,12 @@
 interface __declspec(uuid("495D2C66-D430-439b-9DEE-40F9B7929BBA"))
 IMpcAudioRendererFilter :
 public IUnknown {
-	STDMETHOD(Apply()) = 0;
+    STDMETHOD(Apply()) = 0;
 
-	STDMETHOD(SetWasapiMode(BOOL nValue)) = 0;
-	STDMETHOD_(BOOL, GetWasapiMode()) = 0;
-	STDMETHOD(SetMuteFastForward(BOOL nValue)) = 0;
-	STDMETHOD_(BOOL, GetMuteFastForward()) = 0;
-	STDMETHOD(SetSoundDevice(CString nValue)) = 0;
-	STDMETHOD_(CString, GetSoundDevice()) = 0;
+    STDMETHOD(SetWasapiMode(BOOL nValue)) = 0;
+    STDMETHOD_(BOOL, GetWasapiMode()) = 0;
+    STDMETHOD(SetMuteFastForward(BOOL nValue)) = 0;
+    STDMETHOD_(BOOL, GetMuteFastForward()) = 0;
+    STDMETHOD(SetSoundDevice(CString nValue)) = 0;
+    STDMETHOD_(CString, GetSoundDevice()) = 0;
 };

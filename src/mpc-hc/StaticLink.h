@@ -29,19 +29,19 @@
 class CHyperlink : public CString
 {
 public:
-	CHyperlink(LPCTSTR lpLink = NULL) : CString(lpLink) { }
-	~CHyperlink() { }
-	const CHyperlink& operator=(LPCTSTR lpsz) {
-		CString::operator=(lpsz);
-		return *this;
-	}
-	operator LPCTSTR() {
-		return CString::operator LPCTSTR();
-	}
-	/*virtual*/ HINSTANCE Navigate() {
-		return IsEmpty() ? NULL :
-			   ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
-	}
+    CHyperlink(LPCTSTR lpLink = NULL) : CString(lpLink) { }
+    ~CHyperlink() { }
+    const CHyperlink& operator=(LPCTSTR lpsz) {
+        CString::operator=(lpsz);
+        return *this;
+    }
+    operator LPCTSTR() {
+        return CString::operator LPCTSTR();
+    }
+    /*virtual*/ HINSTANCE Navigate() {
+        return IsEmpty() ? NULL :
+               ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
+    }
 };
 
 // CStaticLink
@@ -49,30 +49,30 @@ public:
 class CStaticLink : public CStatic
 {
 public:
-	DECLARE_DYNAMIC(CStaticLink)
-	CStaticLink(LPCTSTR lpText = NULL, bool bDeleteOnDestroy = false);
-	~CStaticLink() { }
+    DECLARE_DYNAMIC(CStaticLink)
+    CStaticLink(LPCTSTR lpText = NULL, bool bDeleteOnDestroy = false);
+    ~CStaticLink() { }
 
-	// Hyperlink contains URL/filename. If NULL, I will use the window text.
-	// (GetWindowText) to get the target.
-	CHyperlink	m_link;
-	COLORREF	m_color;
+    // Hyperlink contains URL/filename. If NULL, I will use the window text.
+    // (GetWindowText) to get the target.
+    CHyperlink  m_link;
+    COLORREF    m_color;
 
-	// Default colors you can change
-	// These are global, so they're the same for all links.
-	static COLORREF g_colorUnvisited;
-	static COLORREF g_colorVisited;
+    // Default colors you can change
+    // These are global, so they're the same for all links.
+    static COLORREF g_colorUnvisited;
+    static COLORREF g_colorVisited;
 
 protected:
-	CFont	m_font;				// underline font for text control
-	bool	m_bDeleteOnDestroy;	// delete object when window destroyed?
+    CFont   m_font;             // underline font for text control
+    bool    m_bDeleteOnDestroy; // delete object when window destroyed?
 
-	virtual void PostNcDestroy();
+    virtual void PostNcDestroy();
 
-	// message handlers
-	DECLARE_MESSAGE_MAP()
-	afx_msg LRESULT	OnNcHitTest(CPoint point);
-	afx_msg HBRUSH	CtlColor(CDC* pDC, UINT nCtlColor);
-	afx_msg void	OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg BOOL	OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+    // message handlers
+    DECLARE_MESSAGE_MAP()
+    afx_msg LRESULT OnNcHitTest(CPoint point);
+    afx_msg HBRUSH  CtlColor(CDC* pDC, UINT nCtlColor);
+    afx_msg void    OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg BOOL    OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 };

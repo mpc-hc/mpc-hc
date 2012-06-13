@@ -29,42 +29,42 @@
 
 class CBaseMuxerOutputPin : public CBaseOutputPin
 {
-	CComPtr<IBitStream> m_pBitStream;
+    CComPtr<IBitStream> m_pBitStream;
 
 public:
-	CBaseMuxerOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
-	virtual ~CBaseMuxerOutputPin() {}
+    CBaseMuxerOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+    virtual ~CBaseMuxerOutputPin() {}
 
-	IBitStream* GetBitStream();
+    IBitStream* GetBitStream();
 
-	HRESULT BreakConnect();
+    HRESULT BreakConnect();
 
-	HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
+    HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
 
-	HRESULT CheckMediaType(const CMediaType* pmt);
-	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+    HRESULT CheckMediaType(const CMediaType* pmt);
+    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
 
-	HRESULT DeliverEndOfStream();
+    HRESULT DeliverEndOfStream();
 
-	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
+    STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 };
 
 class CBaseMuxerRawOutputPin : public CBaseMuxerOutputPin, public CBaseMuxerRelatedPin
 {
-	struct idx_t {
-		REFERENCE_TIME rt;
-		__int64 fp;
-	};
-	CAtlList<idx_t> m_idx;
+    struct idx_t {
+        REFERENCE_TIME rt;
+        __int64 fp;
+    };
+    CAtlList<idx_t> m_idx;
 
 public:
-	CBaseMuxerRawOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
-	virtual ~CBaseMuxerRawOutputPin() {}
+    CBaseMuxerRawOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+    virtual ~CBaseMuxerRawOutputPin() {}
 
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	virtual void MuxHeader(const CMediaType& mt);
-	virtual void MuxPacket(const CMediaType& mt, const MuxerPacket* pPacket);
-	virtual void MuxFooter(const CMediaType& mt);
+    virtual void MuxHeader(const CMediaType& mt);
+    virtual void MuxPacket(const CMediaType& mt, const MuxerPacket* pPacket);
+    virtual void MuxFooter(const CMediaType& mt);
 };

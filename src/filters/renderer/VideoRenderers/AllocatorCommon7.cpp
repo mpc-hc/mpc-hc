@@ -34,12 +34,12 @@
 
 bool IsVMR7InGraph(IFilterGraph* pFG)
 {
-	BeginEnumFilters(pFG, pEF, pBF)
-	if (CComQIPtr<IVMRWindowlessControl>(pBF)) {
-		return true;
-	}
-	EndEnumFilters
-	return false;
+    BeginEnumFilters(pFG, pEF, pBF)
+    if (CComQIPtr<IVMRWindowlessControl>(pBF)) {
+        return true;
+    }
+    EndEnumFilters
+    return false;
 }
 
 using namespace DSObjects;
@@ -48,35 +48,32 @@ using namespace DSObjects;
 
 HRESULT CreateAP7(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP)
 {
-	CheckPointer(ppAP, E_POINTER);
+    CheckPointer(ppAP, E_POINTER);
 
-	*ppAP = NULL;
+    *ppAP = NULL;
 
-	HRESULT hr = S_OK;
+    HRESULT hr = S_OK;
 
-	if ( IsEqualCLSID(clsid, CLSID_VMR7AllocatorPresenter) ) {
-		*ppAP = DNew CVMR7AllocatorPresenter(hWnd, hr);
-	}
-	else if ( IsEqualCLSID(clsid, CLSID_RM7AllocatorPresenter) ) {
-		*ppAP = DNew CRM7AllocatorPresenter(hWnd, hr);
-	}
-	else if ( IsEqualCLSID(clsid, CLSID_QT7AllocatorPresenter) ) {
-		*ppAP = DNew CQT7AllocatorPresenter(hWnd, hr);
-	}
-	else {
-		return E_FAIL;
-	}
+    if (IsEqualCLSID(clsid, CLSID_VMR7AllocatorPresenter)) {
+        *ppAP = DNew CVMR7AllocatorPresenter(hWnd, hr);
+    } else if (IsEqualCLSID(clsid, CLSID_RM7AllocatorPresenter)) {
+        *ppAP = DNew CRM7AllocatorPresenter(hWnd, hr);
+    } else if (IsEqualCLSID(clsid, CLSID_QT7AllocatorPresenter)) {
+        *ppAP = DNew CQT7AllocatorPresenter(hWnd, hr);
+    } else {
+        return E_FAIL;
+    }
 
-	if ( *ppAP == NULL ) {
-		return E_OUTOFMEMORY;
-	}
+    if (*ppAP == NULL) {
+        return E_OUTOFMEMORY;
+    }
 
-	(*ppAP)->AddRef();
+    (*ppAP)->AddRef();
 
-	if (FAILED(hr)) {
-		(*ppAP)->Release();
-		*ppAP = NULL;
-	}
+    if (FAILED(hr)) {
+        (*ppAP)->Release();
+        *ppAP = NULL;
+    }
 
-	return hr;
+    return hr;
 }

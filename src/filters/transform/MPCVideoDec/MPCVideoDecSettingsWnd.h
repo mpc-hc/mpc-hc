@@ -27,87 +27,87 @@
 #include <afxcmn.h>
 
 class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
-	CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
+    CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 {
-	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
+    CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 
-	CButton		m_grpFFMpeg;
-	CStatic		m_txtThreadNumber;
-	CComboBox	m_cbThreadNumber;
-	CStatic		m_txtDiscardMode;
-	CComboBox	m_cbDiscardMode;
-	CStatic		m_txtErrorRecognition;
-	CComboBox	m_cbErrorRecognition;
-	CStatic		m_txtIDCTAlgo;
-	CComboBox	m_cbIDCTAlgo;
+    CButton     m_grpFFMpeg;
+    CStatic     m_txtThreadNumber;
+    CComboBox   m_cbThreadNumber;
+    CStatic     m_txtDiscardMode;
+    CComboBox   m_cbDiscardMode;
+    CStatic     m_txtErrorRecognition;
+    CComboBox   m_cbErrorRecognition;
+    CStatic     m_txtIDCTAlgo;
+    CComboBox   m_cbIDCTAlgo;
 
-	CButton		m_grpDXVA;
-	CStatic		m_txtDXVAMode;
-	CEdit		m_edtDXVAMode;
-	CStatic		m_txtVideoCardDescription;
-	CEdit		m_edtVideoCardDescription;
+    CButton     m_grpDXVA;
+    CStatic     m_txtDXVAMode;
+    CEdit       m_edtDXVAMode;
+    CStatic     m_txtVideoCardDescription;
+    CEdit       m_edtVideoCardDescription;
 
-	CButton		m_cbARMode;
+    CButton     m_cbARMode;
 
-	CStatic		m_txtDXVACompatibilityCheck;
-	CComboBox	m_cbDXVACompatibilityCheck;
+    CStatic     m_txtDXVACompatibilityCheck;
+    CComboBox   m_cbDXVACompatibilityCheck;
 
-	CButton		m_cbDXVA_SD;
+    CButton     m_cbDXVA_SD;
 
-	enum {
-		IDC_PP_THREAD_NUMBER = 10000,
-		IDC_PP_ENABLE_DEBLOCKING,
-		IDC_PP_DISCARD_MODE,
-		IDC_PP_ERROR_RECOGNITION,
-		IDC_PP_AR,
-		IDC_PP_DXVA_CHECK,
-		IDC_PP_DXVA_SD
-	};
+    enum {
+        IDC_PP_THREAD_NUMBER = 10000,
+        IDC_PP_ENABLE_DEBLOCKING,
+        IDC_PP_DISCARD_MODE,
+        IDC_PP_ERROR_RECOGNITION,
+        IDC_PP_AR,
+        IDC_PP_DXVA_CHECK,
+        IDC_PP_DXVA_SD
+    };
 
 public:
-	CMPCVideoDecSettingsWnd();
+    CMPCVideoDecSettingsWnd();
 
-	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
-	void OnDisconnect();
-	bool OnActivate();
-	void OnDeactivate();
-	bool OnApply();
+    bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+    void OnDisconnect();
+    bool OnActivate();
+    void OnDeactivate();
+    bool OnApply();
 
-	static LPCTSTR GetWindowTitle() {
-		return _T("Settings");
-	}
-	static CSize GetWindowSize() {
-		return CSize(350, 325);
-	}
+    static LPCTSTR GetWindowTitle() {
+        return _T("Settings");
+    }
+    static CSize GetWindowSize() {
+        return CSize(350, 325);
+    }
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };
 
 
 class __declspec(uuid("3C395D46-8B0F-440d-B962-2F4A97355453"))
-	CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
+    CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
 {
-	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
+    CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 
-	CButton		m_grpSelectedCodec;
-	CCheckListBox	m_lstCodecs;
-	CImageList	m_onoff;
+    CButton     m_grpSelectedCodec;
+    CCheckListBox   m_lstCodecs;
+    CImageList  m_onoff;
 
 public:
-	CMPCVideoDecCodecWnd();
+    CMPCVideoDecCodecWnd();
 
-	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
-	void OnDisconnect();
-	bool OnActivate();
-	void OnDeactivate();
-	bool OnApply();
+    bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+    void OnDisconnect();
+    bool OnActivate();
+    void OnDeactivate();
+    bool OnApply();
 
-	static LPCTSTR GetWindowTitle() {
-		return _T("Codecs");
-	}
-	static CSize GetWindowSize() {
-		return CSize(350, 300);
-	}
+    static LPCTSTR GetWindowTitle() {
+        return _T("Codecs");
+    }
+    static CSize GetWindowSize() {
+        return CSize(350, 300);
+    }
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };

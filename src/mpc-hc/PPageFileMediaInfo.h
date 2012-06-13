@@ -26,33 +26,33 @@
 
 class CPPageFileMediaInfo : public CPropertyPage
 {
-	DECLARE_DYNAMIC(CPPageFileMediaInfo)
+    DECLARE_DYNAMIC(CPPageFileMediaInfo)
 
 private:
-	CComPtr<IFilterGraph> m_pFG;
+    CComPtr<IFilterGraph> m_pFG;
 
 public:
-	CPPageFileMediaInfo(CString fn, IFilterGraph* pFG);
-	virtual ~CPPageFileMediaInfo();
+    CPPageFileMediaInfo(CString fn, IFilterGraph* pFG);
+    virtual ~CPPageFileMediaInfo();
 
-	// Dialog Data
-	enum { IDD = IDD_FILEMEDIAINFO };
+    // Dialog Data
+    enum { IDD = IDD_FILEMEDIAINFO };
 
-	CEdit m_mediainfo;
-	CString m_fn;
-	CFont* m_pCFont;
+    CEdit m_mediainfo;
+    CString m_fn;
+    CFont* m_pCFont;
 
-	CString MI_Text;
+    CString MI_Text;
 
 #ifndef USE_MEDIAINFO_STATIC
-	static bool HasMediaInfo();
+    static bool HasMediaInfo();
 #endif
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+    afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };

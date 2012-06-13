@@ -30,68 +30,68 @@
 
 class CPlayerSeekBar : public CDialogBar
 {
-	DECLARE_DYNAMIC(CPlayerSeekBar)
+    DECLARE_DYNAMIC(CPlayerSeekBar)
 
 private:
-	enum tooltip_state_t { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE };
+    enum tooltip_state_t { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE };
 
-	__int64 m_start, m_stop, m_pos, m_posreal;
-	bool m_fEnabled;
-	CToolTipCtrl m_tooltip;
-	TOOLINFO m_ti;
-	tooltip_state_t m_tooltipState;
-	__int64 m_tooltipPos, m_tooltipLastPos;
-	CString m_tooltipText;
-	UINT_PTR m_tooltipTimer;
+    __int64 m_start, m_stop, m_pos, m_posreal;
+    bool m_fEnabled;
+    CToolTipCtrl m_tooltip;
+    TOOLINFO m_ti;
+    tooltip_state_t m_tooltipState;
+    __int64 m_tooltipPos, m_tooltipLastPos;
+    CString m_tooltipText;
+    UINT_PTR m_tooltipTimer;
 
-	void MoveThumb(CPoint point);
-	__int64 CalculatePosition(CPoint point);
-	void SetPosInternal(__int64 pos);
+    void MoveThumb(CPoint point);
+    __int64 CalculatePosition(CPoint point);
+    void SetPosInternal(__int64 pos);
 
-	void UpdateTooltip(CPoint point);
+    void UpdateTooltip(CPoint point);
 
-	CRect GetChannelRect() const;
-	CRect GetThumbRect() const;
-	CRect GetInnerThumbRect() const;
+    CRect GetChannelRect() const;
+    CRect GetThumbRect() const;
+    CRect GetInnerThumbRect() const;
 
 public:
-	CPlayerSeekBar();
-	virtual ~CPlayerSeekBar();
+    CPlayerSeekBar();
+    virtual ~CPlayerSeekBar();
 
-	void Enable(bool fEnable);
+    void Enable(bool fEnable);
 
-	void GetRange(__int64& start, __int64& stop) const;
-	void SetRange(__int64 start, __int64 stop);
-	__int64 GetPos() const;
-	__int64 GetPosReal() const;
-	void SetPos(__int64 pos);
+    void GetRange(__int64& start, __int64& stop) const;
+    void SetRange(__int64 start, __int64 stop);
+    __int64 GetPos() const;
+    __int64 GetPosReal() const;
+    void SetPos(__int64 pos);
 
-	void HideToolTip();
-	void UpdateToolTipPosition(CPoint& point);
-	void UpdateToolTipText();
+    void HideToolTip();
+    void UpdateToolTipPosition(CPoint& point);
+    void UpdateToolTipText();
 
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CPlayerSeekBar)
-	virtual BOOL Create(CWnd* pParentWnd);
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	//}}AFX_VIRTUAL
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CPlayerSeekBar)
+    virtual BOOL Create(CWnd* pParentWnd);
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CPlayerSeekBar)
-	afx_msg void OnPaint();
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
-	afx_msg void OnTimer(UINT_PTR nIDEvent);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CPlayerSeekBar)
+    afx_msg void OnPaint();
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    afx_msg LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg BOOL OnPlayStop(UINT nID);
+    afx_msg BOOL OnPlayStop(UINT nID);
 };

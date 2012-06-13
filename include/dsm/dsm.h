@@ -23,17 +23,17 @@
 
 #pragma once
 
-#define DSMF_VERSION	0x01
+#define DSMF_VERSION  0x01
 
-#define DSMSW			0x44534D53ui64
-#define DSMSW_SIZE		4
+#define DSMSW         0x44534D53ui64
+#define DSMSW_SIZE    4
 
 enum dsmp_t {
-	DSMP_FILEINFO		= 0,
-	DSMP_STREAMINFO		= 1,
-	DSMP_MEDIATYPE		= 2,
-	DSMP_CHAPTERS		= 3,
-	DSMP_SAMPLE			= 4,
-	DSMP_SYNCPOINTS		= 5,
-	DSMP_RESOURCE		= 6
+    DSMP_FILEINFO     = 0,
+    DSMP_STREAMINFO   = 1,
+    DSMP_MEDIATYPE    = 2,
+    DSMP_CHAPTERS     = 3,
+    DSMP_SAMPLE       = 4,
+    DSMP_SYNCPOINTS   = 5,
+    DSMP_RESOURCE     = 6
 };

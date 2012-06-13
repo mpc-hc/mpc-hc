@@ -35,99 +35,99 @@
 class MatroskaPacket : public Packet
 {
 protected:
-	int GetDataSize() {
-		size_t size = 0;
-		POSITION pos = bg->Block.BlockData.GetHeadPosition();
-		while (pos) {
-			size += bg->Block.BlockData.GetNext(pos)->GetCount();
-		}
-		return (int)size;
-	}
+    int GetDataSize() {
+        size_t size = 0;
+        POSITION pos = bg->Block.BlockData.GetHeadPosition();
+        while (pos) {
+            size += bg->Block.BlockData.GetNext(pos)->GetCount();
+        }
+        return (int)size;
+    }
 public:
-	CAutoPtr<MatroskaReader::BlockGroup> bg;
+    CAutoPtr<MatroskaReader::BlockGroup> bg;
 };
 
 class CMatroskaSplitterOutputPin : public CBaseSplitterOutputPin
 {
-	HRESULT DeliverBlock(MatroskaPacket* p);
+    HRESULT DeliverBlock(MatroskaPacket* p);
 
-	unsigned int m_nMinCache;
-	REFERENCE_TIME m_rtDefaultDuration;
+    unsigned int m_nMinCache;
+    REFERENCE_TIME m_rtDefaultDuration;
 
-	CCritSec m_csQueue;
-	CAutoPtrList<MatroskaPacket> m_packets;
-	CAtlList<MatroskaPacket*> m_rob;
+    CCritSec m_csQueue;
+    CAutoPtrList<MatroskaPacket> m_packets;
+    CAtlList<MatroskaPacket*> m_rob;
 
-	typedef struct {
-		REFERENCE_TIME rtStart, rtStop;
-	} timeoverride;
-	CAtlList<timeoverride> m_tos;
+    typedef struct {
+        REFERENCE_TIME rtStart, rtStop;
+    } timeoverride;
+    CAtlList<timeoverride> m_tos;
 
 protected:
-	HRESULT DeliverPacket(CAutoPtr<Packet> p);
+    HRESULT DeliverPacket(CAutoPtr<Packet> p);
 
 public:
-	CMatroskaSplitterOutputPin(
-		unsigned int nMinCache, REFERENCE_TIME rtDefaultDuration,
-		CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
-	virtual ~CMatroskaSplitterOutputPin();
+    CMatroskaSplitterOutputPin(
+        unsigned int nMinCache, REFERENCE_TIME rtDefaultDuration,
+        CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+    virtual ~CMatroskaSplitterOutputPin();
 
-	HRESULT DeliverEndFlush();
-	HRESULT DeliverEndOfStream();
+    HRESULT DeliverEndFlush();
+    HRESULT DeliverEndOfStream();
 };
 
 class __declspec(uuid("149D2E01-C32E-4939-80F6-C07B81015A7A"))
-	CMatroskaSplitterFilter : public CBaseSplitterFilter, public ITrackInfo
+    CMatroskaSplitterFilter : public CBaseSplitterFilter, public ITrackInfo
 {
-	void SetupChapters(LPCSTR lng, MatroskaReader::ChapterAtom* parent, int level = 0);
-	void InstallFonts();
-	void SendVorbisHeaderSample();
+    void SetupChapters(LPCSTR lng, MatroskaReader::ChapterAtom* parent, int level = 0);
+    void InstallFonts();
+    void SendVorbisHeaderSample();
 
-	CAutoPtr<MatroskaReader::CMatroskaNode> m_pSegment, m_pCluster, m_pBlock;
+    CAutoPtr<MatroskaReader::CMatroskaNode> m_pSegment, m_pCluster, m_pBlock;
 
 protected:
-	CAutoPtr<MatroskaReader::CMatroskaFile> m_pFile;
-	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
+    CAutoPtr<MatroskaReader::CMatroskaFile> m_pFile;
+    HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
-	CAtlMap<DWORD, MatroskaReader::TrackEntry*> m_pTrackEntryMap;
-	CAtlArray<MatroskaReader::TrackEntry* > m_pOrderedTrackArray;
-	MatroskaReader::TrackEntry* GetTrackEntryAt(UINT aTrackIdx);
+    CAtlMap<DWORD, MatroskaReader::TrackEntry*> m_pTrackEntryMap;
+    CAtlArray<MatroskaReader::TrackEntry* > m_pOrderedTrackArray;
+    MatroskaReader::TrackEntry* GetTrackEntryAt(UINT aTrackIdx);
 
-	bool DemuxInit();
-	void DemuxSeek(REFERENCE_TIME rt);
-	bool DemuxLoop();
+    bool DemuxInit();
+    void DemuxSeek(REFERENCE_TIME rt);
+    bool DemuxLoop();
 
 public:
-	CMatroskaSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
-	virtual ~CMatroskaSplitterFilter();
+    CMatroskaSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    virtual ~CMatroskaSplitterFilter();
 
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// CBaseFilter
+    // CBaseFilter
 
-	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+    STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 
-	// IKeyFrameInfo
+    // IKeyFrameInfo
 
-	STDMETHODIMP GetKeyFrameCount(UINT& nKFs);
-	STDMETHODIMP GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
+    STDMETHODIMP GetKeyFrameCount(UINT& nKFs);
+    STDMETHODIMP GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
 
-	// ITrackInfo
+    // ITrackInfo
 
-	STDMETHODIMP_(UINT) GetTrackCount();
-	STDMETHODIMP_(BOOL) GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill);
-	STDMETHODIMP_(BOOL) GetTrackExtendedInfo(UINT aTrackIdx, void* pStructureToFill);
-	STDMETHODIMP_(BSTR) GetTrackName(UINT aTrackIdx);
-	STDMETHODIMP_(BSTR) GetTrackCodecID(UINT aTrackIdx);
-	STDMETHODIMP_(BSTR) GetTrackCodecName(UINT aTrackIdx);
-	STDMETHODIMP_(BSTR) GetTrackCodecInfoURL(UINT aTrackIdx);
-	STDMETHODIMP_(BSTR) GetTrackCodecDownloadURL(UINT aTrackIdx);
+    STDMETHODIMP_(UINT) GetTrackCount();
+    STDMETHODIMP_(BOOL) GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill);
+    STDMETHODIMP_(BOOL) GetTrackExtendedInfo(UINT aTrackIdx, void* pStructureToFill);
+    STDMETHODIMP_(BSTR) GetTrackName(UINT aTrackIdx);
+    STDMETHODIMP_(BSTR) GetTrackCodecID(UINT aTrackIdx);
+    STDMETHODIMP_(BSTR) GetTrackCodecName(UINT aTrackIdx);
+    STDMETHODIMP_(BSTR) GetTrackCodecInfoURL(UINT aTrackIdx);
+    STDMETHODIMP_(BSTR) GetTrackCodecDownloadURL(UINT aTrackIdx);
 };
 
 class __declspec(uuid("0A68C3B5-9164-4a54-AFAF-995B2FF0E0D4"))
-	CMatroskaSourceFilter : public CMatroskaSplitterFilter
+    CMatroskaSourceFilter : public CMatroskaSplitterFilter
 {
 public:
-	CMatroskaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CMatroskaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };

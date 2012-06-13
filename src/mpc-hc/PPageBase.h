@@ -29,25 +29,25 @@
 
 class CPPageBase : public CCmdUIPropertyPage
 {
-	DECLARE_DYNAMIC(CPPageBase)
+    DECLARE_DYNAMIC(CPPageBase)
 
 protected:
-	CToolTipCtrl m_wndToolTip;
-	void CreateToolTip();
+    CToolTipCtrl m_wndToolTip;
+    void CreateToolTip();
 
 public:
-	CPPageBase(UINT nIDTemplate, UINT nIDCaption = 0);
-	virtual ~CPPageBase();
+    CPPageBase(UINT nIDTemplate, UINT nIDCaption = 0);
+    virtual ~CPPageBase();
 
-	// Dialog Data
+    // Dialog Data
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	virtual BOOL OnSetActive();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL OnSetActive();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnDestroy();
+    afx_msg void OnDestroy();
 };

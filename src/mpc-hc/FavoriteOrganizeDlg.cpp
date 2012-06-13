@@ -31,7 +31,7 @@
 
 //IMPLEMENT_DYNAMIC(CFavoriteOrganizeDlg, CResizableDialog)
 CFavoriteOrganizeDlg::CFavoriteOrganizeDlg(CWnd* pParent /*=NULL*/)
-	: CResizableDialog(CFavoriteOrganizeDlg::IDD, pParent)
+    : CResizableDialog(CFavoriteOrganizeDlg::IDD, pParent)
 {
 }
 
@@ -41,84 +41,84 @@ CFavoriteOrganizeDlg::~CFavoriteOrganizeDlg()
 
 void CFavoriteOrganizeDlg::SetupList(bool fSave)
 {
-	int i = m_tab.GetCurSel();
+    int i = m_tab.GetCurSel();
 
-	if (fSave) {
-		CAtlList<CString> sl;
+    if (fSave) {
+        CAtlList<CString> sl;
 
-		for (int j = 0; j < m_list.GetItemCount(); j++) {
-			CString desc = m_list.GetItemText(j, 0);
-			desc.Remove(';');
-			CString str = m_sl[i].GetAt((POSITION)m_list.GetItemData(j));
-			sl.AddTail(desc + str.Mid(str.Find(';')));
-		}
+        for (int j = 0; j < m_list.GetItemCount(); j++) {
+            CString desc = m_list.GetItemText(j, 0);
+            desc.Remove(';');
+            CString str = m_sl[i].GetAt((POSITION)m_list.GetItemData(j));
+            sl.AddTail(desc + str.Mid(str.Find(';')));
+        }
 
-		m_sl[i].RemoveAll();
-		m_sl[i].AddTailList(&sl);
-	} else {
-		m_list.DeleteAllItems();
+        m_sl[i].RemoveAll();
+        m_sl[i].AddTailList(&sl);
+    } else {
+        m_list.DeleteAllItems();
 
-		POSITION pos = m_sl[i].GetHeadPosition(), tmp;
-		while (pos) {
-			tmp = pos;
+        POSITION pos = m_sl[i].GetHeadPosition(), tmp;
+        while (pos) {
+            tmp = pos;
 
-			CAtlList<CString> sl;
-			Explode(m_sl[i].GetNext(pos), sl, ';', 3);
+            CAtlList<CString> sl;
+            Explode(m_sl[i].GetNext(pos), sl, ';', 3);
 
-			int n = m_list.InsertItem(m_list.GetItemCount(), sl.RemoveHead());
-			m_list.SetItemData(n, (DWORD_PTR)tmp);
+            int n = m_list.InsertItem(m_list.GetItemCount(), sl.RemoveHead());
+            m_list.SetItemData(n, (DWORD_PTR)tmp);
 
-			if (!sl.IsEmpty()) {
-				REFERENCE_TIME rt = 0;
-				if (1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {
-					DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
+            if (!sl.IsEmpty()) {
+                REFERENCE_TIME rt = 0;
+                if (1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {
+                    DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
 
-					CString str;
-					str.Format(_T("[%02d:%02d:%02d]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
-					m_list.SetItemText(n, 1, str);
-				}
-			}
-		}
+                    CString str;
+                    str.Format(_T("[%02d:%02d:%02d]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+                    m_list.SetItemText(n, 1, str);
+                }
+            }
+        }
 
-		UpdateColumnsSizes();
-	}
+        UpdateColumnsSizes();
+    }
 }
 
 void CFavoriteOrganizeDlg::UpdateColumnsSizes()
 {
-	CRect r;
-	m_list.GetClientRect(r);
-	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
-	m_list.SetColumnWidth(1, LVSCW_AUTOSIZE);
-	m_list.SetColumnWidth(1, max(m_list.GetColumnWidth(1), r.Width() - m_list.GetColumnWidth(0)));
+    CRect r;
+    m_list.GetClientRect(r);
+    m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
+    m_list.SetColumnWidth(1, LVSCW_AUTOSIZE);
+    m_list.SetColumnWidth(1, max(m_list.GetColumnWidth(1), r.Width() - m_list.GetColumnWidth(0)));
 }
 
 void CFavoriteOrganizeDlg::DoDataExchange(CDataExchange* pDX)
 {
-	__super::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_TAB1, m_tab);
-	DDX_Control(pDX, IDC_LIST2, m_list);
+    __super::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_TAB1, m_tab);
+    DDX_Control(pDX, IDC_LIST2, m_list);
 }
 
 
 BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CResizableDialog)
-	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
-	ON_WM_DRAWITEM()
-	ON_BN_CLICKED(IDC_BUTTON1, OnRenameBnClicked)
-	ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateRenameBn)
-	ON_BN_CLICKED(IDC_BUTTON2, OnDeleteBnClicked)
-	ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateDeleteBn)
-	ON_BN_CLICKED(IDC_BUTTON3, OnUpBnClicked)
-	ON_UPDATE_COMMAND_UI(IDC_BUTTON3, OnUpdateUpBn)
-	ON_BN_CLICKED(IDC_BUTTON4, OnDownBnClicked)
-	ON_UPDATE_COMMAND_UI(IDC_BUTTON4, OnUpdateDownBn)
-	ON_NOTIFY(TCN_SELCHANGING, IDC_TAB1, OnTcnSelchangingTab1)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_WM_ACTIVATE()
-	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST2, OnLvnEndlabeleditList2)
-	ON_NOTIFY(NM_DBLCLK, IDC_LIST2, OnPlayFavorite)
-	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST2, OnKeyPressed)
-	ON_WM_SIZE()
+    ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
+    ON_WM_DRAWITEM()
+    ON_BN_CLICKED(IDC_BUTTON1, OnRenameBnClicked)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateRenameBn)
+    ON_BN_CLICKED(IDC_BUTTON2, OnDeleteBnClicked)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateDeleteBn)
+    ON_BN_CLICKED(IDC_BUTTON3, OnUpBnClicked)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON3, OnUpdateUpBn)
+    ON_BN_CLICKED(IDC_BUTTON4, OnDownBnClicked)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON4, OnUpdateDownBn)
+    ON_NOTIFY(TCN_SELCHANGING, IDC_TAB1, OnTcnSelchangingTab1)
+    ON_BN_CLICKED(IDOK, OnBnClickedOk)
+    ON_WM_ACTIVATE()
+    ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST2, OnLvnEndlabeleditList2)
+    ON_NOTIFY(NM_DBLCLK, IDC_LIST2, OnPlayFavorite)
+    ON_NOTIFY(LVN_KEYDOWN, IDC_LIST2, OnKeyPressed)
+    ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -126,291 +126,291 @@ END_MESSAGE_MAP()
 
 BOOL CFavoriteOrganizeDlg::OnInitDialog()
 {
-	__super::OnInitDialog();
+    __super::OnInitDialog();
 
-	m_tab.InsertItem(0, ResStr(IDS_FAVFILES));
-	m_tab.InsertItem(1, ResStr(IDS_FAVDVDS));
-	//	m_tab.InsertItem(2, ResStr(IDS_FAVDEVICES));
-	m_tab.SetCurSel(0);
+    m_tab.InsertItem(0, ResStr(IDS_FAVFILES));
+    m_tab.InsertItem(1, ResStr(IDS_FAVDVDS));
+    //  m_tab.InsertItem(2, ResStr(IDS_FAVDEVICES));
+    m_tab.SetCurSel(0);
 
-	m_list.InsertColumn(0, _T(""));
-	m_list.InsertColumn(1, _T(""));
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT);
+    m_list.InsertColumn(0, _T(""));
+    m_list.InsertColumn(1, _T(""));
+    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
-	AfxGetAppSettings().GetFav(FAV_FILE, m_sl[0]);
-	AfxGetAppSettings().GetFav(FAV_DVD, m_sl[1]);
-	AfxGetAppSettings().GetFav(FAV_DEVICE, m_sl[2]);
+    AfxGetAppSettings().GetFav(FAV_FILE, m_sl[0]);
+    AfxGetAppSettings().GetFav(FAV_DVD, m_sl[1]);
+    AfxGetAppSettings().GetFav(FAV_DEVICE, m_sl[2]);
 
-	SetupList(false);
+    SetupList(false);
 
-	AddAnchor(IDC_TAB1, TOP_LEFT, BOTTOM_RIGHT);
-	AddAnchor(IDC_LIST2, TOP_LEFT, BOTTOM_RIGHT);
-	AddAnchor(IDC_BUTTON1, TOP_RIGHT);
-	AddAnchor(IDC_BUTTON2, TOP_RIGHT);
-	AddAnchor(IDC_BUTTON3, TOP_RIGHT);
-	AddAnchor(IDC_BUTTON4, TOP_RIGHT);
-	AddAnchor(IDOK, BOTTOM_RIGHT);
+    AddAnchor(IDC_TAB1, TOP_LEFT, BOTTOM_RIGHT);
+    AddAnchor(IDC_LIST2, TOP_LEFT, BOTTOM_RIGHT);
+    AddAnchor(IDC_BUTTON1, TOP_RIGHT);
+    AddAnchor(IDC_BUTTON2, TOP_RIGHT);
+    AddAnchor(IDC_BUTTON3, TOP_RIGHT);
+    AddAnchor(IDC_BUTTON4, TOP_RIGHT);
+    AddAnchor(IDOK, BOTTOM_RIGHT);
 
-	EnableSaveRestore(IDS_R_DLG_ORGANIZE_FAV);
+    EnableSaveRestore(IDS_R_DLG_ORGANIZE_FAV);
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	// EXCEPTION: OCX Property Pages should return FALSE
+    return TRUE;  // return TRUE unless you set the focus to a control
+    // EXCEPTION: OCX Property Pages should return FALSE
 }
 
 BOOL CFavoriteOrganizeDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// Inhibit default handling for the Enter key when the list has the focus and an item is selected.
-	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
-			&& pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
-		return FALSE;
-	}
+    // Inhibit default handling for the Enter key when the list has the focus and an item is selected.
+    if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
+            && pMsg->hwnd == m_list.GetSafeHwnd() && m_list.GetSelectedCount() > 0) {
+        return FALSE;
+    }
 
-	return __super::PreTranslateMessage(pMsg);
+    return __super::PreTranslateMessage(pMsg);
 }
 
 void CFavoriteOrganizeDlg::OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	SetupList(false);
+    SetupList(false);
 
-	m_list.SetWindowPos(&wndTop, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+    m_list.SetWindowPos(&wndTop, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
-	*pResult = 0;
+    *pResult = 0;
 }
 
 void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-	if (nIDCtl != IDC_LIST2) {
-		return;
-	}
+    if (nIDCtl != IDC_LIST2) {
+        return;
+    }
 
-	int nItem = lpDrawItemStruct->itemID;
-	CRect rcItem = lpDrawItemStruct->rcItem;
+    int nItem = lpDrawItemStruct->itemID;
+    CRect rcItem = lpDrawItemStruct->rcItem;
 
-	CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+    CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-	CBrush b;
-	if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
-		b.CreateSolidBrush(0xf1dacc);
-		pDC->FillRect(rcItem, &b);
-		b.CreateSolidBrush(0xc56a31);
-		pDC->FrameRect(rcItem, &b);
-	} else {
-		b.CreateSysColorBrush(COLOR_WINDOW);
-		pDC->FillRect(rcItem, &b);
-	}
+    CBrush b;
+    if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
+        b.CreateSolidBrush(0xf1dacc);
+        pDC->FillRect(rcItem, &b);
+        b.CreateSolidBrush(0xc56a31);
+        pDC->FrameRect(rcItem, &b);
+    } else {
+        b.CreateSysColorBrush(COLOR_WINDOW);
+        pDC->FillRect(rcItem, &b);
+    }
 
-	CString str;
-	pDC->SetTextColor(0);
+    CString str;
+    pDC->SetTextColor(0);
 
-	str = m_list.GetItemText(nItem, 0);
-	pDC->TextOut(rcItem.left + 3, (rcItem.top+rcItem.bottom - pDC->GetTextExtent(str).cy) / 2, str);
-	str = m_list.GetItemText(nItem, 1);
-	if (!str.IsEmpty()) {
-		pDC->TextOut(rcItem.right - pDC->GetTextExtent(str).cx - 3, (rcItem.top+rcItem.bottom - pDC->GetTextExtent(str).cy) / 2, str);
-	}
+    str = m_list.GetItemText(nItem, 0);
+    pDC->TextOut(rcItem.left + 3, (rcItem.top + rcItem.bottom - pDC->GetTextExtent(str).cy) / 2, str);
+    str = m_list.GetItemText(nItem, 1);
+    if (!str.IsEmpty()) {
+        pDC->TextOut(rcItem.right - pDC->GetTextExtent(str).cx - 3, (rcItem.top + rcItem.bottom - pDC->GetTextExtent(str).cy) / 2, str);
+    }
 }
 
 void CFavoriteOrganizeDlg::OnRenameBnClicked()
 {
-	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
-		m_list.SetFocus();
-		m_list.EditLabel(m_list.GetNextSelectedItem(pos));
-	}
+    if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+        m_list.SetFocus();
+        m_list.EditLabel(m_list.GetNextSelectedItem(pos));
+    }
 }
 
 void CFavoriteOrganizeDlg::OnUpdateRenameBn(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(m_list.GetSelectedCount() == 1);
+    pCmdUI->Enable(m_list.GetSelectedCount() == 1);
 }
 
 void CFavoriteOrganizeDlg::OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
-	if (pDispInfo->item.iItem >= 0 && pDispInfo->item.pszText) {
-		m_list.SetItemText(pDispInfo->item.iItem, 0, pDispInfo->item.pszText);
-	}
-	UpdateColumnsSizes();
+    NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
+    if (pDispInfo->item.iItem >= 0 && pDispInfo->item.pszText) {
+        m_list.SetItemText(pDispInfo->item.iItem, 0, pDispInfo->item.pszText);
+    }
+    UpdateColumnsSizes();
 
-	*pResult = 0;
+    *pResult = 0;
 }
 
 void CFavoriteOrganizeDlg::PlayFavorite(int nItem)
 {
-	switch (m_tab.GetCurSel()) {
-		case 0: // Files
-			((CMainFrame*)GetParentFrame())->PlayFavoriteFile(m_sl[0].GetAt((POSITION)m_list.GetItemData(nItem)));
-			break;
-		case 1: // DVDs
-			((CMainFrame*)GetParentFrame())->PlayFavoriteDVD(m_sl[1].GetAt((POSITION)m_list.GetItemData(nItem)));
-			break;
-		case 2: // Devices
-			break;
-	}
+    switch (m_tab.GetCurSel()) {
+        case 0: // Files
+            ((CMainFrame*)GetParentFrame())->PlayFavoriteFile(m_sl[0].GetAt((POSITION)m_list.GetItemData(nItem)));
+            break;
+        case 1: // DVDs
+            ((CMainFrame*)GetParentFrame())->PlayFavoriteDVD(m_sl[1].GetAt((POSITION)m_list.GetItemData(nItem)));
+            break;
+        case 2: // Devices
+            break;
+    }
 }
 
-void CFavoriteOrganizeDlg::OnPlayFavorite(NMHDR *pNMHDR, LRESULT *pResult)
+void CFavoriteOrganizeDlg::OnPlayFavorite(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	LPNMITEMACTIVATE pItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+    LPNMITEMACTIVATE pItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 
-	if (pItemActivate->iItem >= 0) {
-		PlayFavorite(pItemActivate->iItem);
-	}
+    if (pItemActivate->iItem >= 0) {
+        PlayFavorite(pItemActivate->iItem);
+    }
 }
 
 void CFavoriteOrganizeDlg::OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
+    LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
 
-	switch (pLVKeyDow->wVKey) {
-		case VK_DELETE:
-		case VK_BACK:
-			OnDeleteBnClicked();
-			*pResult = 1;
-			break;
-		case VK_RETURN:
-			if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
-				int nItem = m_list.GetNextSelectedItem(pos);
-				if (nItem >= 0 && nItem < m_list.GetItemCount()) {
-					PlayFavorite(nItem);
-				}
-			}
-			*pResult = 1;
-			break;
-		case 'A':
-			if (GetKeyState(VK_CONTROL) < 0) { // If the high-order bit is 1, the key is down; otherwise, it is up.
-				m_list.SetItemState(-1, LVIS_SELECTED, LVIS_SELECTED);
-			}
-			*pResult = 1;
-			break;
-		case 'I':
-			if (GetKeyState(VK_CONTROL) < 0) { // If the high-order bit is 1, the key is down; otherwise, it is up.
-				for (int nItem = 0; nItem < m_list.GetItemCount(); nItem++) {
-					m_list.SetItemState(nItem, ~m_list.GetItemState(nItem, LVIS_SELECTED), LVIS_SELECTED);
-				}
-			}
-			*pResult = 1;
-			break;
-		default:
-			*pResult = 0;
-	}
+    switch (pLVKeyDow->wVKey) {
+        case VK_DELETE:
+        case VK_BACK:
+            OnDeleteBnClicked();
+            *pResult = 1;
+            break;
+        case VK_RETURN:
+            if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+                int nItem = m_list.GetNextSelectedItem(pos);
+                if (nItem >= 0 && nItem < m_list.GetItemCount()) {
+                    PlayFavorite(nItem);
+                }
+            }
+            *pResult = 1;
+            break;
+        case 'A':
+            if (GetKeyState(VK_CONTROL) < 0) { // If the high-order bit is 1, the key is down; otherwise, it is up.
+                m_list.SetItemState(-1, LVIS_SELECTED, LVIS_SELECTED);
+            }
+            *pResult = 1;
+            break;
+        case 'I':
+            if (GetKeyState(VK_CONTROL) < 0) { // If the high-order bit is 1, the key is down; otherwise, it is up.
+                for (int nItem = 0; nItem < m_list.GetItemCount(); nItem++) {
+                    m_list.SetItemState(nItem, ~m_list.GetItemState(nItem, LVIS_SELECTED), LVIS_SELECTED);
+                }
+            }
+            *pResult = 1;
+            break;
+        default:
+            *pResult = 0;
+    }
 }
 
 void CFavoriteOrganizeDlg::OnDeleteBnClicked()
 {
-	POSITION pos;
-	int nItem = -1;
+    POSITION pos;
+    int nItem = -1;
 
-	while ((pos = m_list.GetFirstSelectedItemPosition()) != NULL) {
-		nItem = m_list.GetNextSelectedItem(pos);
-		if (nItem < 0 || nItem >= m_list.GetItemCount()) {
-			return;
-		}
+    while ((pos = m_list.GetFirstSelectedItemPosition()) != NULL) {
+        nItem = m_list.GetNextSelectedItem(pos);
+        if (nItem < 0 || nItem >= m_list.GetItemCount()) {
+            return;
+        }
 
-		m_list.DeleteItem(nItem);
-	}
+        m_list.DeleteItem(nItem);
+    }
 
-	nItem = min(nItem, m_list.GetItemCount() - 1);
-	m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
+    nItem = min(nItem, m_list.GetItemCount() - 1);
+    m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
 }
 
 void CFavoriteOrganizeDlg::OnUpdateDeleteBn(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(m_list.GetSelectedCount() > 0);
+    pCmdUI->Enable(m_list.GetSelectedCount() > 0);
 }
 
 void CFavoriteOrganizeDlg::MoveItem(int nItem, int offset)
 {
-	DWORD_PTR data = m_list.GetItemData(nItem);
-	CString strName = m_list.GetItemText(nItem, 0);
-	CString strPos = m_list.GetItemText(nItem, 1);
+    DWORD_PTR data = m_list.GetItemData(nItem);
+    CString strName = m_list.GetItemText(nItem, 0);
+    CString strPos = m_list.GetItemText(nItem, 1);
 
-	m_list.DeleteItem(nItem);
+    m_list.DeleteItem(nItem);
 
-	nItem += offset;
+    nItem += offset;
 
-	m_list.InsertItem(nItem, strName);
-	m_list.SetItemData(nItem, data);
-	m_list.SetItemText(nItem, 1, strPos);
-	m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
+    m_list.InsertItem(nItem, strName);
+    m_list.SetItemData(nItem, data);
+    m_list.SetItemText(nItem, 1, strPos);
+    m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
 }
 
 void CFavoriteOrganizeDlg::OnUpBnClicked()
 {
-	POSITION pos = m_list.GetFirstSelectedItemPosition();
-	int nItem;
+    POSITION pos = m_list.GetFirstSelectedItemPosition();
+    int nItem;
 
-	while (pos) {
-		nItem = m_list.GetNextSelectedItem(pos);
-		if (nItem <= 0 || nItem >= m_list.GetItemCount()) {
-			return;
-		}
+    while (pos) {
+        nItem = m_list.GetNextSelectedItem(pos);
+        if (nItem <= 0 || nItem >= m_list.GetItemCount()) {
+            return;
+        }
 
-		MoveItem(nItem, -1);
-	}
+        MoveItem(nItem, -1);
+    }
 }
 
 void CFavoriteOrganizeDlg::OnUpdateUpBn(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(m_list.GetSelectedCount() > 0 && !m_list.GetItemState(0, LVIS_SELECTED));
+    pCmdUI->Enable(m_list.GetSelectedCount() > 0 && !m_list.GetItemState(0, LVIS_SELECTED));
 }
 
 void CFavoriteOrganizeDlg::OnDownBnClicked()
 {
-	CArray<int> selectedItems;
-	POSITION pos = m_list.GetFirstSelectedItemPosition();
-	int nItem;
+    CArray<int> selectedItems;
+    POSITION pos = m_list.GetFirstSelectedItemPosition();
+    int nItem;
 
-	while (pos) {
-		nItem = m_list.GetNextSelectedItem(pos);
-		if (nItem < 0 || nItem >= m_list.GetItemCount() - 1) {
-			return;
-		}
+    while (pos) {
+        nItem = m_list.GetNextSelectedItem(pos);
+        if (nItem < 0 || nItem >= m_list.GetItemCount() - 1) {
+            return;
+        }
 
-		selectedItems.Add(nItem);
-	}
+        selectedItems.Add(nItem);
+    }
 
-	for (INT_PTR i = selectedItems.GetSize() - 1; i >= 0; i--) {
-		MoveItem(selectedItems[i], +1);
-	}
+    for (INT_PTR i = selectedItems.GetSize() - 1; i >= 0; i--) {
+        MoveItem(selectedItems[i], +1);
+    }
 }
 
 void CFavoriteOrganizeDlg::OnUpdateDownBn(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(m_list.GetSelectedCount() > 0 && !m_list.GetItemState(m_list.GetItemCount() - 1, LVIS_SELECTED));
+    pCmdUI->Enable(m_list.GetSelectedCount() > 0 && !m_list.GetItemState(m_list.GetItemCount() - 1, LVIS_SELECTED));
 }
 
-void CFavoriteOrganizeDlg::OnTcnSelchangingTab1(NMHDR *pNMHDR, LRESULT *pResult)
+void CFavoriteOrganizeDlg::OnTcnSelchangingTab1(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	SetupList(true);
+    SetupList(true);
 
-	*pResult = 0;
+    *pResult = 0;
 }
 
 void CFavoriteOrganizeDlg::OnBnClickedOk()
 {
-	SetupList(true);
+    SetupList(true);
 
-	AfxGetAppSettings().SetFav(FAV_FILE, m_sl[0]);
-	AfxGetAppSettings().SetFav(FAV_DVD, m_sl[1]);
-	AfxGetAppSettings().SetFav(FAV_DEVICE, m_sl[2]);
+    AfxGetAppSettings().SetFav(FAV_FILE, m_sl[0]);
+    AfxGetAppSettings().SetFav(FAV_DVD, m_sl[1]);
+    AfxGetAppSettings().SetFav(FAV_DEVICE, m_sl[2]);
 
-	OnOK();
+    OnOK();
 }
 
 void CFavoriteOrganizeDlg::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
-	__super::OnActivate(nState, pWndOther, bMinimized);
+    __super::OnActivate(nState, pWndOther, bMinimized);
 
-	if (nState == WA_ACTIVE) {
-		m_list.SetWindowPos(&wndTop, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
-	}
+    if (nState == WA_ACTIVE) {
+        m_list.SetWindowPos(&wndTop, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
 }
 
 void CFavoriteOrganizeDlg::OnSize(UINT nType, int cx, int cy)
 {
-	__super::OnSize(nType, cx, cy);
+    __super::OnSize(nType, cx, cy);
 
-	if (IsWindow(m_list)) {
-		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
-	}
+    if (IsWindow(m_list)) {
+        m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+    }
 }

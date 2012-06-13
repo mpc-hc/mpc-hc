@@ -31,22 +31,22 @@
 
 class CPlayerShaderEditorBar : public CPlayerBar
 {
-	DECLARE_DYNAMIC(CPlayerShaderEditorBar)
+    DECLARE_DYNAMIC(CPlayerShaderEditorBar)
 
 public:
-	CPlayerShaderEditorBar();
-	virtual ~CPlayerShaderEditorBar();
+    CPlayerShaderEditorBar();
+    virtual ~CPlayerShaderEditorBar();
 
-	BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
+    BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
 
 public:
-	CShaderEditorDlg m_dlg;
+    CShaderEditorDlg m_dlg;
 
 protected:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnSize(UINT nType, int cx, int cy);
 };

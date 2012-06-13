@@ -32,66 +32,66 @@
 class CUDPStream : public CAsyncStream, public CAMThread
 {
 private:
-	CCritSec m_csLock;
+    CCritSec m_csLock;
 
-	class packet_t
-	{
-	public:
-		BYTE* m_buff;
-		__int64 m_start, m_end;
-		packet_t(BYTE* p, __int64 start, __int64 end);
-		virtual ~packet_t() {
-			delete [] m_buff;
-		}
-	};
+    class packet_t
+    {
+    public:
+        BYTE* m_buff;
+        __int64 m_start, m_end;
+        packet_t(BYTE* p, __int64 start, __int64 end);
+        virtual ~packet_t() {
+            delete [] m_buff;
+        }
+    };
 
-	int m_port;
-	CString m_ip;
-	SOCKET m_socket;
-	GUID m_subtype;
-	__int64 m_pos, m_len;
-	bool m_drop;
-	CAtlList<packet_t*> m_packets;
+    int m_port;
+    CString m_ip;
+    SOCKET m_socket;
+    GUID m_subtype;
+    __int64 m_pos, m_len;
+    bool m_drop;
+    CAtlList<packet_t*> m_packets;
 
-	void Clear();
-	void Append(BYTE* buff, int len);
+    void Clear();
+    void Append(BYTE* buff, int len);
 
-	enum {CMD_EXIT, CMD_RUN};
-	DWORD ThreadProc();
+    enum {CMD_EXIT, CMD_RUN};
+    DWORD ThreadProc();
 
 public:
-	CUDPStream();
-	virtual ~CUDPStream();
+    CUDPStream();
+    virtual ~CUDPStream();
 
-	bool Load(const WCHAR* fnw);
-	const GUID& GetSubType() {
-		return m_subtype;
-	}
+    bool Load(const WCHAR* fnw);
+    const GUID& GetSubType() {
+        return m_subtype;
+    }
 
-	HRESULT SetPointer(LONGLONG llPos);
-	HRESULT Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWORD pdwBytesRead);
-	LONGLONG Size(LONGLONG* pSizeAvailable);
-	DWORD Alignment();
-	void Lock();
-	void Unlock();
+    HRESULT SetPointer(LONGLONG llPos);
+    HRESULT Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWORD pdwBytesRead);
+    LONGLONG Size(LONGLONG* pSizeAvailable);
+    DWORD Alignment();
+    void Lock();
+    void Unlock();
 };
 
 class __declspec(uuid("0E4221A9-9718-48D5-A5CF-4493DAD4A015"))
-	CUDPReader
-	: public CAsyncReader
-	, public IFileSourceFilter
+    CUDPReader
+    : public CAsyncReader
+    , public IFileSourceFilter
 {
-	CUDPStream m_stream;
-	CStringW m_fn;
+    CUDPStream m_stream;
+    CStringW m_fn;
 
 public:
-	CUDPReader(IUnknown* pUnk, HRESULT* phr);
-	~CUDPReader();
+    CUDPReader(IUnknown* pUnk, HRESULT* phr);
+    ~CUDPReader();
 
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// IFileSourceFilter
-	STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
-	STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt);
+    // IFileSourceFilter
+    STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
+    STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt);
 };

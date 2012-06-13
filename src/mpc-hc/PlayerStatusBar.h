@@ -30,49 +30,49 @@
 
 class CPlayerStatusBar : public CDialogBar
 {
-	DECLARE_DYNAMIC(CPlayerStatusBar)
+    DECLARE_DYNAMIC(CPlayerStatusBar)
 
-	CStatic m_type;
-	CStatusLabel m_status, m_time;
-	CBitmap m_bm;
-	UINT m_bmid;
-	HICON m_hIcon;
+    CStatic m_type;
+    CStatusLabel m_status, m_time;
+    CBitmap m_bm;
+    UINT m_bmid;
+    HICON m_hIcon;
 
-	CRect m_time_rect;
+    CRect m_time_rect;
 
-	CToolTipCtrl m_tooltip;
+    CToolTipCtrl m_tooltip;
 
-	void Relayout();
+    void Relayout();
 
 public:
-	CPlayerStatusBar();
-	virtual ~CPlayerStatusBar();
+    CPlayerStatusBar();
+    virtual ~CPlayerStatusBar();
 
-	void Clear();
+    void Clear();
 
-	void SetStatusBitmap(UINT id);
-	void SetStatusTypeIcon(HICON hIcon);
-	void SetStatusMessage(CString str);
-	void SetStatusTimer(CString str);
-	void SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision, const GUID* pTimeFormat = &TIME_FORMAT_MEDIA_TIME);
+    void SetStatusBitmap(UINT id);
+    void SetStatusTypeIcon(HICON hIcon);
+    void SetStatusMessage(CString str);
+    void SetStatusTimer(CString str);
+    void SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision, const GUID* pTimeFormat = &TIME_FORMAT_MEDIA_TIME);
 
-	CString GetStatusTimer();
-	void ShowTimer(bool fShow);
+    CString GetStatusTimer();
+    void ShowTimer(bool fShow);
 
-	// Overrides
-	virtual BOOL Create(CWnd* pParentWnd);
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    // Overrides
+    virtual BOOL Create(CWnd* pParentWnd);
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 protected:
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void OnPaint();
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	afx_msg BOOL PreTranslateMessage(MSG* pMsg);
-	afx_msg void OnTimeDisplayClicked();
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg void OnPaint();
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+    afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+    afx_msg BOOL PreTranslateMessage(MSG* pMsg);
+    afx_msg void OnTimeDisplayClicked();
 };

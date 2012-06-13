@@ -28,18 +28,18 @@
 class CVSFilterApp : public CWinApp
 {
 public:
-	CVSFilterApp();
+    CVSFilterApp();
 
-	CString m_AppName;
+    CString m_AppName;
 
 protected:
-	HINSTANCE LoadAppLangResourceDLL();
+    HINSTANCE LoadAppLangResourceDLL();
 
 public:
-	BOOL InitInstance();
-	BOOL ExitInstance();
+    BOOL InitInstance();
+    BOOL ExitInstance();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };
 
 extern CVSFilterApp theApp;

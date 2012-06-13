@@ -31,29 +31,29 @@
 
 class CSelectMediaType : public CCmdUIDialog
 {
-	DECLARE_DYNAMIC(CSelectMediaType)
+    DECLARE_DYNAMIC(CSelectMediaType)
 
 private:
-	CAtlArray<GUID>& m_guids;
+    CAtlArray<GUID>& m_guids;
 
 public:
-	CSelectMediaType(CAtlArray<GUID>& guids, GUID guid, CWnd* pParent = NULL);   // standard constructor
-	virtual ~CSelectMediaType();
+    CSelectMediaType(CAtlArray<GUID>& guids, GUID guid, CWnd* pParent = NULL);   // standard constructor
+    virtual ~CSelectMediaType();
 
-	GUID m_guid;
+    GUID m_guid;
 
-	// Dialog Data
-	enum { IDD = IDD_SELECTMEDIATYPE };
-	CString m_guidstr;
-	CComboBox m_guidsctrl;
+    // Dialog Data
+    enum { IDD = IDD_SELECTMEDIATYPE };
+    CString m_guidstr;
+    CComboBox m_guidsctrl;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual void OnOK();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual void OnOK();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnCbnEditchangeCombo1();
-	afx_msg void OnUpdateOK(CCmdUI* pCmdUI);
+    afx_msg void OnCbnEditchangeCombo1();
+    afx_msg void OnUpdateOK(CCmdUI* pCmdUI);
 };

@@ -27,36 +27,36 @@
 
 class CAboutDlg : public CDialog
 {
-	CString m_appname;
-	CString m_strBuildNumber;
-	CString m_MPCCompiler;
-	CString m_FFmpegCompiler;
-	CString m_Credits;
-	CString m_AuthorsPath;
+    CString m_appname;
+    CString m_strBuildNumber;
+    CString m_MPCCompiler;
+    CString m_FFmpegCompiler;
+    CString m_Credits;
+    CString m_AuthorsPath;
 
 public:
-	CAboutDlg();
+    CAboutDlg();
 
-	virtual BOOL OnInitDialog();
+    virtual BOOL OnInitDialog();
 
-	afx_msg void OnHomepage(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnAuthors(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnHomepage(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnAuthors(NMHDR* pNMHDR, LRESULT* pResult);
 
-	// Dialog Data
-	//{{AFX_DATA(CAboutDlg)
-	enum { IDD = IDD_ABOUTBOX };
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CAboutDlg)
+    enum { IDD = IDD_ABOUTBOX };
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAboutDlg)
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CAboutDlg)
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Implementation
+    // Implementation
 protected:
-	//{{AFX_MSG(CAboutDlg)
-	// No message handlers
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CAboutDlg)
+    // No message handlers
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };

@@ -28,30 +28,30 @@
 
 class CVolumeCtrl : public CSliderCtrl
 {
-	DECLARE_DYNAMIC(CVolumeCtrl)
+    DECLARE_DYNAMIC(CVolumeCtrl)
 
 private:
-	bool m_fSelfDrawn;
+    bool m_fSelfDrawn;
 
 public:
-	CVolumeCtrl(bool fSelfDrawn = true);
-	virtual ~CVolumeCtrl();
+    CVolumeCtrl(bool fSelfDrawn = true);
+    virtual ~CVolumeCtrl();
 
-	bool Create(CWnd* pParentWnd);
+    bool Create(CWnd* pParentWnd);
 
-	void IncreaseVolume(), DecreaseVolume();
+    void IncreaseVolume(), DecreaseVolume();
 
-	void SetPosInternal(int pos);
+    void SetPosInternal(int pos);
 
 protected:
-	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+    afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnSetFocus(CWnd* pOldWnd);
-	afx_msg void HScroll(UINT nSBCode, UINT nPos);
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnSetFocus(CWnd* pOldWnd);
+    afx_msg void HScroll(UINT nSBCode, UINT nPos);
 };

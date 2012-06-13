@@ -30,42 +30,42 @@
 
 class CPPageTweaks : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageTweaks)
+    DECLARE_DYNAMIC(CPPageTweaks)
 
 public:
-	CPPageTweaks();
-	virtual ~CPPageTweaks();
+    CPPageTweaks();
+    virtual ~CPPageTweaks();
 
-	// Dialog Data
-	enum { IDD = IDD_PPAGETWEAKS };
-	int m_nJumpDistS;
-	int m_nJumpDistM;
-	int m_nJumpDistL;
-	BOOL m_fNotifyMSN;
+    // Dialog Data
+    enum { IDD = IDD_PPAGETWEAKS };
+    int m_nJumpDistS;
+    int m_nJumpDistM;
+    int m_nJumpDistL;
+    BOOL m_fNotifyMSN;
 
-	BOOL m_fPreventMinimize;
-	BOOL m_fUseWin7TaskBar;
-	BOOL m_fUseSearchInFolder;
-	BOOL m_fUseTimeTooltip;
-	CComboBox m_TimeTooltipPosition;
-	CComboBox m_FontSize;
-	CComboBox m_FontType;
-	int m_OSD_Size;
-	CString	m_OSD_Font;
+    BOOL m_fPreventMinimize;
+    BOOL m_fUseWin7TaskBar;
+    BOOL m_fUseSearchInFolder;
+    BOOL m_fUseTimeTooltip;
+    CComboBox m_TimeTooltipPosition;
+    CComboBox m_FontSize;
+    CComboBox m_FontType;
+    int m_OSD_Size;
+    CString m_OSD_Font;
 
-	BOOL m_fFastSeek;
+    BOOL m_fFastSeek;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
-	afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnUseTimeTooltipClicked();
-	afx_msg void OnChngOSDCombo();
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
+    afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
+    afx_msg void OnBnClickedButton1();
+    afx_msg void OnUseTimeTooltipClicked();
+    afx_msg void OnChngOSDCombo();
 };

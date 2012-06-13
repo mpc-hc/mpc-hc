@@ -39,65 +39,65 @@ END_MESSAGE_MAP()
 
 BOOL CPlayerBar::Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName)
 {
-	m_defDockBarID = defDockBarID;
-	m_strSettingName = strSettingName;
+    m_defDockBarID = defDockBarID;
+    m_strSettingName = strSettingName;
 
-	return __super::Create(lpszWindowName, pParentWnd, nID);
+    return __super::Create(lpszWindowName, pParentWnd, nID);
 }
 
-void CPlayerBar::LoadState(CFrameWnd *pParent)
+void CPlayerBar::LoadState(CFrameWnd* pParent)
 {
-	CWinApp* pApp = AfxGetApp();
+    CWinApp* pApp = AfxGetApp();
 
-	CRect r;
-	pParent->GetWindowRect(r);
-	CRect rDesktop;
-	GetDesktopWindow()->GetWindowRect(&rDesktop);
+    CRect r;
+    pParent->GetWindowRect(r);
+    CRect rDesktop;
+    GetDesktopWindow()->GetWindowRect(&rDesktop);
 
-	CString section = _T("ToolBars\\") + m_strSettingName;
+    CString section = _T("ToolBars\\") + m_strSettingName;
 
-	__super::LoadState(section + _T("\\State"));
+    __super::LoadState(section + _T("\\State"));
 
-	UINT dockBarID = pApp->GetProfileInt(section, _T("DockState"), m_defDockBarID);
+    UINT dockBarID = pApp->GetProfileInt(section, _T("DockState"), m_defDockBarID);
 
-	if (dockBarID == AFX_IDW_DOCKBAR_FLOAT) {
-		CPoint p;
-		p.x = pApp->GetProfileInt(section, _T("DockPosX"), r.right);
-		p.y = pApp->GetProfileInt(section, _T("DockPosY"), r.top);
-		if (p.x < rDesktop.left) {
-			p.x = rDesktop.left;
-		}
-		if (p.y < rDesktop.top) {
-			p.y = rDesktop.top;
-		}
-		if (p.x >= rDesktop.right) {
-			p.x = rDesktop.right-1;
-		}
-		if (p.y >= rDesktop.bottom) {
-			p.y = rDesktop.bottom-1;
-		}
-		pParent->FloatControlBar(this, p);
-	} else {
-		pParent->DockControlBar(this, dockBarID);
-	}
+    if (dockBarID == AFX_IDW_DOCKBAR_FLOAT) {
+        CPoint p;
+        p.x = pApp->GetProfileInt(section, _T("DockPosX"), r.right);
+        p.y = pApp->GetProfileInt(section, _T("DockPosY"), r.top);
+        if (p.x < rDesktop.left) {
+            p.x = rDesktop.left;
+        }
+        if (p.y < rDesktop.top) {
+            p.y = rDesktop.top;
+        }
+        if (p.x >= rDesktop.right) {
+            p.x = rDesktop.right - 1;
+        }
+        if (p.y >= rDesktop.bottom) {
+            p.y = rDesktop.bottom - 1;
+        }
+        pParent->FloatControlBar(this, p);
+    } else {
+        pParent->DockControlBar(this, dockBarID);
+    }
 }
 
 void CPlayerBar::SaveState()
 {
-	CWinApp* pApp = AfxGetApp();
+    CWinApp* pApp = AfxGetApp();
 
-	CString section = _T("ToolBars\\") + m_strSettingName;
+    CString section = _T("ToolBars\\") + m_strSettingName;
 
-	__super::SaveState(section + _T("\\State"));
+    __super::SaveState(section + _T("\\State"));
 
-	UINT dockBarID = GetParent()->GetDlgCtrlID();
+    UINT dockBarID = GetParent()->GetDlgCtrlID();
 
-	if (dockBarID == AFX_IDW_DOCKBAR_FLOAT) {
-		CRect r;
-		GetParent()->GetParent()->GetWindowRect(r);
-		pApp->WriteProfileInt(section, _T("DockPosX"), r.left);
-		pApp->WriteProfileInt(section, _T("DockPosY"), r.top);
-	}
+    if (dockBarID == AFX_IDW_DOCKBAR_FLOAT) {
+        CRect r;
+        GetParent()->GetParent()->GetWindowRect(r);
+        pApp->WriteProfileInt(section, _T("DockPosX"), r.left);
+        pApp->WriteProfileInt(section, _T("DockPosY"), r.top);
+    }
 
-	pApp->WriteProfileInt(section, _T("DockState"), dockBarID);
+    pApp->WriteProfileInt(section, _T("DockState"), dockBarID);
 }

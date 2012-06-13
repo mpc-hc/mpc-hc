@@ -32,32 +32,32 @@
 #define DSMSourceName   L"MPC DSM Source"
 
 class __declspec(uuid("0912B4DD-A30A-4568-B590-7179EBB420EC"))
-	CDSMSplitterFilter : public CBaseSplitterFilter
+    CDSMSplitterFilter : public CBaseSplitterFilter
 {
 protected:
-	CAutoPtr<CDSMSplitterFile> m_pFile;
-	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
+    CAutoPtr<CDSMSplitterFile> m_pFile;
+    HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
-	bool DemuxInit();
-	void DemuxSeek(REFERENCE_TIME rt);
-	bool DemuxLoop();
+    bool DemuxInit();
+    void DemuxSeek(REFERENCE_TIME rt);
+    bool DemuxLoop();
 
 public:
-	CDSMSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
-	virtual ~CDSMSplitterFilter();
+    CDSMSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    virtual ~CDSMSplitterFilter();
 
-	// CBaseFilter
-	STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
+    // CBaseFilter
+    STDMETHODIMP_(HRESULT) QueryFilterInfo(FILTER_INFO* pInfo);
 
-	// IKeyFrameInfo
+    // IKeyFrameInfo
 
-	STDMETHODIMP_(HRESULT) GetKeyFrameCount(UINT& nKFs);
-	STDMETHODIMP_(HRESULT) GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
+    STDMETHODIMP_(HRESULT) GetKeyFrameCount(UINT& nKFs);
+    STDMETHODIMP_(HRESULT) GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
 };
 
 class __declspec(uuid("803E8280-F3CE-4201-982C-8CD8FB512004"))
-	CDSMSourceFilter : public CDSMSplitterFilter
+    CDSMSourceFilter : public CDSMSplitterFilter
 {
 public:
-	CDSMSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
+    CDSMSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };

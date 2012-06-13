@@ -30,19 +30,19 @@
 
 class CPlayerCaptureBar : public CPlayerBar
 {
-	DECLARE_DYNAMIC(CPlayerCaptureBar)
+    DECLARE_DYNAMIC(CPlayerCaptureBar)
 
 public:
-	CPlayerCaptureBar();
-	virtual ~CPlayerCaptureBar();
+    CPlayerCaptureBar();
+    virtual ~CPlayerCaptureBar();
 
-	BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
+    BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
 
 public:
-	CPlayerCaptureDialog m_capdlg;
+    CPlayerCaptureDialog m_capdlg;
 
 protected:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };

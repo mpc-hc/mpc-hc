@@ -26,20 +26,20 @@
 interface __declspec(uuid("EE6F2741-7DB4-4AAD-A3CB-545208EE4C0A"))
 IBaseMuxerRelatedPin :
 public IUnknown {
-	STDMETHOD(SetRelatedPin) (CBasePin* pPin) = 0;
-	STDMETHOD_(CBasePin*, GetRelatedPin) () = 0;
+    STDMETHOD(SetRelatedPin)(CBasePin * pPin) = 0;
+    STDMETHOD_(CBasePin*, GetRelatedPin)() = 0;
 };
 
 class CBaseMuxerRelatedPin : public IBaseMuxerRelatedPin
 {
-	CBasePin* m_pRelatedPin; // should not hold a reference because it would be circular
+    CBasePin* m_pRelatedPin; // should not hold a reference because it would be circular
 
 public:
-	CBaseMuxerRelatedPin();
-	virtual ~CBaseMuxerRelatedPin();
+    CBaseMuxerRelatedPin();
+    virtual ~CBaseMuxerRelatedPin();
 
-	// IBaseMuxerRelatedPin
+    // IBaseMuxerRelatedPin
 
-	STDMETHODIMP SetRelatedPin(CBasePin* pPin);
-	STDMETHODIMP_(CBasePin*) GetRelatedPin();
+    STDMETHODIMP SetRelatedPin(CBasePin* pPin);
+    STDMETHODIMP_(CBasePin*) GetRelatedPin();
 };
