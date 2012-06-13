@@ -57,7 +57,7 @@ void* __imp_time64 = _time64;
 #define INT24_MIN     (-8388607i32 - 1)
 
 #define AC3_HEADER_SIZE 7
-#define MAX_JITTER      1000000i64 // +-100ms jitter is allowed for now 
+#define MAX_JITTER      1000000i64 // +-100ms jitter is allowed for now
 
 #if HAS_FFMPEG_AUDIO_DECODERS
 typedef struct {

@@ -17,14 +17,14 @@
 
 /////////////////////////////////////////////////////////////////////////////
 BEGIN_MESSAGE_MAP(CHScrollListBox, CListBox)
-	//{{AFX_MSG_MAP(CHScrollListBox)
-	// NOTE - the ClassWizard will add and remove mapping macros here.
-	//}}AFX_MSG_MAP
-	ON_MESSAGE(LB_ADDSTRING, OnAddString)
-	ON_MESSAGE(LB_INSERTSTRING, OnInsertString)
-	ON_MESSAGE(LB_DELETESTRING, OnDeleteString)
-	ON_MESSAGE(LB_DIR, OnDir)
-	ON_MESSAGE(LB_RESETCONTENT, OnResetContent)
+    //{{AFX_MSG_MAP(CHScrollListBox)
+    // NOTE - the ClassWizard will add and remove mapping macros here.
+    //}}AFX_MSG_MAP
+    ON_MESSAGE(LB_ADDSTRING, OnAddString)
+    ON_MESSAGE(LB_INSERTSTRING, OnInsertString)
+    ON_MESSAGE(LB_DELETESTRING, OnDeleteString)
+    ON_MESSAGE(LB_DIR, OnDir)
+    ON_MESSAGE(LB_RESETCONTENT, OnResetContent)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -42,15 +42,15 @@ CHScrollListBox::~CHScrollListBox()
 /////////////////////////////////////////////////////////////////////////////
 void CHScrollListBox::PreSubclassWindow()
 {
-	CListBox::PreSubclassWindow();
+    CListBox::PreSubclassWindow();
 
 #ifdef _DEBUG
-	// NOTE: this list box is designed to work as a single column, system-drawn
-	//		 list box. The asserts below will ensure of that.
-	DWORD dwStyle = GetStyle();
-	ASSERT((dwStyle & LBS_MULTICOLUMN) == 0);
-	ASSERT((dwStyle & LBS_OWNERDRAWFIXED) == 0);
-	ASSERT((dwStyle & LBS_OWNERDRAWVARIABLE) == 0);
+    // NOTE: this list box is designed to work as a single column, system-drawn
+    //       list box. The asserts below will ensure of that.
+    DWORD dwStyle = GetStyle();
+    ASSERT((dwStyle & LBS_MULTICOLUMN) == 0);
+    ASSERT((dwStyle & LBS_OWNERDRAWFIXED) == 0);
+    ASSERT((dwStyle & LBS_OWNERDRAWVARIABLE) == 0);
 #endif
 }
 
@@ -59,55 +59,55 @@ void CHScrollListBox::PreSubclassWindow()
 ///////////////////////////////////////////////////////////////////////////////
 int CHScrollListBox::GetTextLen(LPCTSTR lpszText)
 {
-	ASSERT(AfxIsValidString(lpszText));
+    ASSERT(AfxIsValidString(lpszText));
 
-	CDC *pDC = GetDC();
-	ASSERT(pDC);
+    CDC *pDC = GetDC();
+    ASSERT(pDC);
 
-	CSize size;
-	CFont* pOldFont = pDC->SelectObject(GetFont());
-	if ((GetStyle() & LBS_USETABSTOPS) == 0) {
-		size = pDC->GetTextExtent(lpszText, (int) _tcslen(lpszText));
-		size.cx += 3;
-	} else {
-		// Expand tabs as well
-		size = pDC->GetTabbedTextExtent(lpszText, (int) _tcslen(lpszText), 0, NULL);
-		size.cx += 2;
-	}
-	pDC->SelectObject(pOldFont);
-	ReleaseDC(pDC);
+    CSize size;
+    CFont* pOldFont = pDC->SelectObject(GetFont());
+    if ((GetStyle() & LBS_USETABSTOPS) == 0) {
+        size = pDC->GetTextExtent(lpszText, (int) _tcslen(lpszText));
+        size.cx += 3;
+    } else {
+        // Expand tabs as well
+        size = pDC->GetTabbedTextExtent(lpszText, (int) _tcslen(lpszText), 0, NULL);
+        size.cx += 2;
+    }
+    pDC->SelectObject(pOldFont);
+    ReleaseDC(pDC);
 
-	return size.cx;
+    return size.cx;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void CHScrollListBox::ResetHExtent()
 {
-	if (GetCount() == 0) {
-		SetHorizontalExtent(0);
-		return;
-	}
+    if (GetCount() == 0) {
+        SetHorizontalExtent(0);
+        return;
+    }
 
-	CWaitCursor cwc;
-	int iMaxHExtent = 0;
-	for (int i = 0; i < GetCount(); i++) {
-		CString csText;
-		GetText(i, csText);
-		int iExt = GetTextLen(csText);
-		if (iExt > iMaxHExtent) {
-			iMaxHExtent = iExt;
-		}
-	}
-	SetHorizontalExtent(iMaxHExtent);
+    CWaitCursor cwc;
+    int iMaxHExtent = 0;
+    for (int i = 0; i < GetCount(); i++) {
+        CString csText;
+        GetText(i, csText);
+        int iExt = GetTextLen(csText);
+        if (iExt > iMaxHExtent) {
+            iMaxHExtent = iExt;
+        }
+    }
+    SetHorizontalExtent(iMaxHExtent);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void CHScrollListBox::SetNewHExtent(LPCTSTR lpszNewString)
 {
-	int iExt = GetTextLen(lpszNewString);
-	if (iExt > GetHorizontalExtent()) {
-		SetHorizontalExtent(iExt);
-	}
+    int iExt = GetTextLen(lpszNewString);
+    if (iExt > GetHorizontalExtent()) {
+        SetHorizontalExtent(iExt);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -115,11 +115,11 @@ void CHScrollListBox::SetNewHExtent(LPCTSTR lpszNewString)
 ///////////////////////////////////////////////////////////////////////////////
 LRESULT CHScrollListBox::OnAddString(WPARAM /*wParam*/, LPARAM lParam)
 {
-	LRESULT lResult = Default();
-	if (!((lResult == LB_ERR) || (lResult == LB_ERRSPACE))) {
-		SetNewHExtent((LPCTSTR) lParam);
-	}
-	return lResult;
+    LRESULT lResult = Default();
+    if (!((lResult == LB_ERR) || (lResult == LB_ERRSPACE))) {
+        SetNewHExtent((LPCTSTR) lParam);
+    }
+    return lResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -127,11 +127,11 @@ LRESULT CHScrollListBox::OnAddString(WPARAM /*wParam*/, LPARAM lParam)
 ///////////////////////////////////////////////////////////////////////////////
 LRESULT CHScrollListBox::OnInsertString(WPARAM /*wParam*/, LPARAM lParam)
 {
-	LRESULT lResult = Default();
-	if (!((lResult == LB_ERR) || (lResult == LB_ERRSPACE))) {
-		SetNewHExtent((LPCTSTR) lParam);
-	}
-	return lResult;
+    LRESULT lResult = Default();
+    if (!((lResult == LB_ERR) || (lResult == LB_ERRSPACE))) {
+        SetNewHExtent((LPCTSTR) lParam);
+    }
+    return lResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -139,11 +139,11 @@ LRESULT CHScrollListBox::OnInsertString(WPARAM /*wParam*/, LPARAM lParam)
 ///////////////////////////////////////////////////////////////////////////////
 LRESULT CHScrollListBox::OnDeleteString(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-	LRESULT lResult = Default();
-	if (!((lResult == LB_ERR) || (lResult == LB_ERRSPACE))) {
-		ResetHExtent();
-	}
-	return lResult;
+    LRESULT lResult = Default();
+    if (!((lResult == LB_ERR) || (lResult == LB_ERRSPACE))) {
+        ResetHExtent();
+    }
+    return lResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -151,11 +151,11 @@ LRESULT CHScrollListBox::OnDeleteString(WPARAM /*wParam*/, LPARAM /*lParam*/)
 ///////////////////////////////////////////////////////////////////////////////
 LRESULT CHScrollListBox::OnDir(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-	LRESULT lResult = Default();
-	if (!((lResult == LB_ERR) || (lResult == LB_ERRSPACE))) {
-		ResetHExtent();
-	}
-	return lResult;
+    LRESULT lResult = Default();
+    if (!((lResult == LB_ERR) || (lResult == LB_ERRSPACE))) {
+        ResetHExtent();
+    }
+    return lResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -163,8 +163,8 @@ LRESULT CHScrollListBox::OnDir(WPARAM /*wParam*/, LPARAM /*lParam*/)
 ///////////////////////////////////////////////////////////////////////////////
 LRESULT CHScrollListBox::OnResetContent(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-	LRESULT lResult = Default();
-	SetHorizontalExtent(0);
-	return lResult;
+    LRESULT lResult = Default();
+    SetHorizontalExtent(0);
+    return lResult;
 }
 

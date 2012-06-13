@@ -33,7 +33,7 @@ public:
   void judgeFrameUsability(AVFrame *pFrame, int *got_picture_ptr);
 
 private:
-  int m_RecoveryMode; // 0: OK; 1: Searching; 2: Found; 3: 
+  int m_RecoveryMode; // 0: OK; 1: Searching; 2: Found; 3:
   int m_RecoveryFrameCount;
   int m_RecoveryPOC;
   int m_ThreadDelay;

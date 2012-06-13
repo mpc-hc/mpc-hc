@@ -95,11 +95,11 @@ uint8_t mpeg2_scan_alt[64];
 static uint8_t mpeg2_clip[3840 * 2 + 256];
 #define CLIP(i) ((mpeg2_clip + 3840)[i])
 
-#define BUTTERFLY(t0,t1,W0,W1,d0,d1)	\
-{										\
-    int tmp = W0 * (d0 + d1);			\
-    t0 = tmp + (W1 - W0) * d1;			\
-    t1 = tmp - (W1 + W0) * d0;			\
+#define BUTTERFLY(t0,t1,W0,W1,d0,d1)    \
+{                                       \
+    int tmp = W0 * (d0 + d1);           \
+    t0 = tmp + (W1 - W0) * d1;          \
+    t1 = tmp - (W1 + W0) * d0;          \
 }
 
 static void __inline idct_row(int16_t* block)
@@ -110,14 +110,14 @@ static void __inline idct_row(int16_t* block)
 
     /* shortcut */
     if(!(block[1] | ((int32_t *)block)[1] | ((int32_t *)block)[2] | ((int32_t *)block)[3]))
-	{
-		uint32_t tmp = (uint16_t) (block[0] << 3);
-		tmp |= tmp << 16;
-		((int32_t *)block)[0] = tmp;
-		((int32_t *)block)[1] = tmp;
-		((int32_t *)block)[2] = tmp;
-		((int32_t *)block)[3] = tmp;
-		return;
+    {
+        uint32_t tmp = (uint16_t) (block[0] << 3);
+        tmp |= tmp << 16;
+        ((int32_t *)block)[0] = tmp;
+        ((int32_t *)block)[1] = tmp;
+        ((int32_t *)block)[2] = tmp;
+        ((int32_t *)block)[3] = tmp;
+        return;
     }
 
     d0 = (block[0] << 11) + 128;
@@ -198,84 +198,84 @@ static void __inline idct_col(int16_t* block)
 
 static void mpeg2_idct_copy_c(int16_t* block, uint8_t* dest, const int stride)
 {
-	for(int i = 0; i < 8; i++) idct_row(block + 8 * i);
-	for(int i = 0; i < 8; i++) idct_col(block + i);
+    for(int i = 0; i < 8; i++) idct_row(block + 8 * i);
+    for(int i = 0; i < 8; i++) idct_col(block + i);
     for(int i = 0; i < 8; i++)
-	{
-		dest[0] = CLIP(block[0]);
-		dest[1] = CLIP(block[1]);
-		dest[2] = CLIP(block[2]);
-		dest[3] = CLIP(block[3]);
-		dest[4] = CLIP(block[4]);
-		dest[5] = CLIP(block[5]);
-		dest[6] = CLIP(block[6]);
-		dest[7] = CLIP(block[7]);
+    {
+        dest[0] = CLIP(block[0]);
+        dest[1] = CLIP(block[1]);
+        dest[2] = CLIP(block[2]);
+        dest[3] = CLIP(block[3]);
+        dest[4] = CLIP(block[4]);
+        dest[5] = CLIP(block[5]);
+        dest[6] = CLIP(block[6]);
+        dest[7] = CLIP(block[7]);
 
-		block[0] = 0; block[1] = 0; block[2] = 0; block[3] = 0;
-		block[4] = 0; block[5] = 0; block[6] = 0; block[7] = 0;
+        block[0] = 0; block[1] = 0; block[2] = 0; block[3] = 0;
+        block[4] = 0; block[5] = 0; block[6] = 0; block[7] = 0;
 
-		dest += stride;
-		block += 8;
+        dest += stride;
+        block += 8;
     }
 }
 
 static void mpeg2_idct_add_c(const int last, int16_t* block, uint8_t* dest, const int stride)
 {
     if(last != 129 || (block[0] & 7) == 4)
-	{
-		for(int i = 0; i < 8; i++) idct_row(block + 8 * i);
-		for(int i = 0; i < 8; i++) idct_col(block + i);
-		for(int i = 0; i < 8; i++)
-		{
-			dest[0] = CLIP(block[0] + dest[0]);
-			dest[1] = CLIP(block[1] + dest[1]);
-			dest[2] = CLIP(block[2] + dest[2]);
-			dest[3] = CLIP(block[3] + dest[3]);
-			dest[4] = CLIP(block[4] + dest[4]);
-			dest[5] = CLIP(block[5] + dest[5]);
-			dest[6] = CLIP(block[6] + dest[6]);
-			dest[7] = CLIP(block[7] + dest[7]);
+    {
+        for(int i = 0; i < 8; i++) idct_row(block + 8 * i);
+        for(int i = 0; i < 8; i++) idct_col(block + i);
+        for(int i = 0; i < 8; i++)
+        {
+            dest[0] = CLIP(block[0] + dest[0]);
+            dest[1] = CLIP(block[1] + dest[1]);
+            dest[2] = CLIP(block[2] + dest[2]);
+            dest[3] = CLIP(block[3] + dest[3]);
+            dest[4] = CLIP(block[4] + dest[4]);
+            dest[5] = CLIP(block[5] + dest[5]);
+            dest[6] = CLIP(block[6] + dest[6]);
+            dest[7] = CLIP(block[7] + dest[7]);
 
-			block[0] = 0;	block[1] = 0;	block[2] = 0;	block[3] = 0;
-			block[4] = 0;	block[5] = 0;	block[6] = 0;	block[7] = 0;
+            block[0] = 0;   block[1] = 0;   block[2] = 0;   block[3] = 0;
+            block[4] = 0;   block[5] = 0;   block[6] = 0;   block[7] = 0;
 
-			dest += stride;
-			block += 8;
-		}
+            dest += stride;
+            block += 8;
+        }
     }
-	else
-	{
-		int DC = (block[0] + 4) >> 3;
-		block[0] = block[63] = 0;
-		for(int i = 0; i < 8; i++)
-		{
-			dest[0] = CLIP(DC + dest[0]);
-			dest[1] = CLIP(DC + dest[1]);
-			dest[2] = CLIP(DC + dest[2]);
-			dest[3] = CLIP(DC + dest[3]);
-			dest[4] = CLIP(DC + dest[4]);
-			dest[5] = CLIP(DC + dest[5]);
-			dest[6] = CLIP(DC + dest[6]);
-			dest[7] = CLIP(DC + dest[7]);
-			dest += stride;
-		}
+    else
+    {
+        int DC = (block[0] + 4) >> 3;
+        block[0] = block[63] = 0;
+        for(int i = 0; i < 8; i++)
+        {
+            dest[0] = CLIP(DC + dest[0]);
+            dest[1] = CLIP(DC + dest[1]);
+            dest[2] = CLIP(DC + dest[2]);
+            dest[3] = CLIP(DC + dest[3]);
+            dest[4] = CLIP(DC + dest[4]);
+            dest[5] = CLIP(DC + dest[5]);
+            dest[6] = CLIP(DC + dest[6]);
+            dest[7] = CLIP(DC + dest[7]);
+            dest += stride;
+        }
     }
 }
 
 static void mpeg2_idct_init_c()
 {
-	for(int i = -3840; i < 3840 + 256; i++)
-	{
-		CLIP(i) = (i < 0) ? 0 : ((i > 255) ? 255 : i);
-	}
+    for(int i = -3840; i < 3840 + 256; i++)
+    {
+        CLIP(i) = (i < 0) ? 0 : ((i > 255) ? 255 : i);
+    }
 
-	// only needed with idct_c
+    // only needed with idct_c
 
-	for(int i = 0; i < 64; i++)
-	{
-		mpeg2_scan_norm_2[i] = ((mpeg2_scan_norm_2[i] & 0x36) >> 1) | ((mpeg2_scan_norm_2[i] & 0x09) << 2);
-		mpeg2_scan_alt_2[i] = ((mpeg2_scan_alt_2[i] & 0x36) >> 1) | ((mpeg2_scan_alt_2[i] & 0x09) << 2);
-	}
+    for(int i = 0; i < 64; i++)
+    {
+        mpeg2_scan_norm_2[i] = ((mpeg2_scan_norm_2[i] & 0x36) >> 1) | ((mpeg2_scan_norm_2[i] & 0x09) << 2);
+        mpeg2_scan_alt_2[i] = ((mpeg2_scan_alt_2[i] & 0x36) >> 1) | ((mpeg2_scan_alt_2[i] & 0x09) << 2);
+    }
 }
 
 // mc (c)
@@ -293,44 +293,44 @@ static void mpeg2_idct_init_c()
 
 /* mc function template */
 
-#define MC_FUNC(op,xy)							\
-static void MC_##op##_##xy##_16_c (uint8_t* dest, const uint8_t* ref, const int stride, int height)	\
-{												\
-    do {										\
-	op (predict_##xy, 0);						\
-	op (predict_##xy, 1);						\
-	op (predict_##xy, 2);						\
-	op (predict_##xy, 3);						\
-	op (predict_##xy, 4);						\
-	op (predict_##xy, 5);						\
-	op (predict_##xy, 6);						\
-	op (predict_##xy, 7);						\
-	op (predict_##xy, 8);						\
-	op (predict_##xy, 9);						\
-	op (predict_##xy, 10);						\
-	op (predict_##xy, 11);						\
-	op (predict_##xy, 12);						\
-	op (predict_##xy, 13);						\
-	op (predict_##xy, 14);						\
-	op (predict_##xy, 15);						\
-	ref += stride;								\
-	dest += stride;								\
-    } while (--height);							\
-}												\
-static void MC_##op##_##xy##_8_c (uint8_t * dest, const uint8_t * ref, const int stride, int height)	\
-{												\
-    do {										\
-	op (predict_##xy, 0);						\
-	op (predict_##xy, 1);						\
-	op (predict_##xy, 2);						\
-	op (predict_##xy, 3);						\
-	op (predict_##xy, 4);						\
-	op (predict_##xy, 5);						\
-	op (predict_##xy, 6);						\
-	op (predict_##xy, 7);						\
-	ref += stride;								\
-	dest += stride;								\
-    } while (--height);							\
+#define MC_FUNC(op,xy)                          \
+static void MC_##op##_##xy##_16_c (uint8_t* dest, const uint8_t* ref, const int stride, int height) \
+{                                               \
+    do {                                        \
+    op (predict_##xy, 0);                       \
+    op (predict_##xy, 1);                       \
+    op (predict_##xy, 2);                       \
+    op (predict_##xy, 3);                       \
+    op (predict_##xy, 4);                       \
+    op (predict_##xy, 5);                       \
+    op (predict_##xy, 6);                       \
+    op (predict_##xy, 7);                       \
+    op (predict_##xy, 8);                       \
+    op (predict_##xy, 9);                       \
+    op (predict_##xy, 10);                      \
+    op (predict_##xy, 11);                      \
+    op (predict_##xy, 12);                      \
+    op (predict_##xy, 13);                      \
+    op (predict_##xy, 14);                      \
+    op (predict_##xy, 15);                      \
+    ref += stride;                              \
+    dest += stride;                             \
+    } while (--height);                         \
+}                                               \
+static void MC_##op##_##xy##_8_c (uint8_t * dest, const uint8_t * ref, const int stride, int height)    \
+{                                               \
+    do {                                        \
+    op (predict_##xy, 0);                       \
+    op (predict_##xy, 1);                       \
+    op (predict_##xy, 2);                       \
+    op (predict_##xy, 3);                       \
+    op (predict_##xy, 4);                       \
+    op (predict_##xy, 5);                       \
+    op (predict_##xy, 6);                       \
+    op (predict_##xy, 7);                       \
+    ref += stride;                              \
+    dest += stride;                             \
+    } while (--height);                         \
 }
 
 /* definitions of the actual mc functions */
@@ -344,11 +344,11 @@ MC_FUNC(avg,y)
 MC_FUNC(put,xy)
 MC_FUNC(avg,xy)
 
-#define MPEG2_MC_EXTERN(x) mpeg2_mc_t mpeg2_mc_##x = {						\
-    {MC_put_o_16_##x, MC_put_x_16_##x, MC_put_y_16_##x, MC_put_xy_16_##x,	\
-     MC_put_o_8_##x,  MC_put_x_8_##x,  MC_put_y_8_##x,  MC_put_xy_8_##x},	\
-    {MC_avg_o_16_##x, MC_avg_x_16_##x, MC_avg_y_16_##x, MC_avg_xy_16_##x,	\
-     MC_avg_o_8_##x,  MC_avg_x_8_##x,  MC_avg_y_8_##x,  MC_avg_xy_8_##x}	\
+#define MPEG2_MC_EXTERN(x) mpeg2_mc_t mpeg2_mc_##x = {                      \
+    {MC_put_o_16_##x, MC_put_x_16_##x, MC_put_y_16_##x, MC_put_xy_16_##x,   \
+     MC_put_o_8_##x,  MC_put_x_8_##x,  MC_put_y_8_##x,  MC_put_xy_8_##x},   \
+    {MC_avg_o_16_##x, MC_avg_x_16_##x, MC_avg_y_16_##x, MC_avg_xy_16_##x,   \
+     MC_avg_o_8_##x,  MC_avg_x_8_##x,  MC_avg_y_8_##x,  MC_avg_xy_8_##x}    \
 };
 
 MPEG2_MC_EXTERN(c)
@@ -361,9 +361,9 @@ extern "C" void mpeg2_idct_add_mmx(const int last, int16_t* block, uint8_t* dest
 static void mpeg2_idct_init_mmx()
 {
     for(int i = 0; i < 64; i++)
-	{
-		mpeg2_scan_norm_2[i] = (mpeg2_scan_norm_2[i] & 0x38) | ((mpeg2_scan_norm_2[i] & 6) >> 1) | ((mpeg2_scan_norm_2[i] & 1) << 2);
-		mpeg2_scan_alt_2[i] = (mpeg2_scan_alt_2[i] & 0x38) | ((mpeg2_scan_alt_2[i] & 6) >> 1) | ((mpeg2_scan_alt_2[i] & 1) << 2);
+    {
+        mpeg2_scan_norm_2[i] = (mpeg2_scan_norm_2[i] & 0x38) | ((mpeg2_scan_norm_2[i] & 6) >> 1) | ((mpeg2_scan_norm_2[i] & 1) << 2);
+        mpeg2_scan_alt_2[i] = (mpeg2_scan_alt_2[i] & 0x38) | ((mpeg2_scan_alt_2[i] & 6) >> 1) | ((mpeg2_scan_alt_2[i] & 1) << 2);
     }
 }
 
@@ -399,11 +399,11 @@ CMpeg2Dec::CMpeg2Dec()
 {
     m_shift = 0;
     m_is_display_initialized = 0;
-	m_action = NULL;
+    m_action = NULL;
     m_state = STATE_BUFFER;
     m_ext_state = 0;
 
-	m_chunk_buffer = m_chunk_start = m_chunk_ptr = NULL;
+    m_chunk_buffer = m_chunk_start = m_chunk_ptr = NULL;
     m_code = 0;
 
     m_pts_current = m_pts_previous = 0;
@@ -417,7 +417,7 @@ CMpeg2Dec::CMpeg2Dec()
     memset(&m_sequence, 0, sizeof(m_sequence));
     memset(&m_gop, 0, sizeof(m_gop));
     memset(&m_pictures, 0, sizeof(m_pictures));
-	m_picture = NULL;
+    m_picture = NULL;
     memset(&m_fbuf, 0, sizeof(m_fbuf));
     memset(&m_fbuf_alloc, 0, sizeof(m_fbuf_alloc));
 
@@ -429,288 +429,288 @@ CMpeg2Dec::CMpeg2Dec()
     memset(&m_intra_quantizer_matrix, 0, sizeof(m_intra_quantizer_matrix));
     memset(&m_non_intra_quantizer_matrix, 0, sizeof(m_non_intra_quantizer_matrix));
 
-	//
+    //
 
-	mpeg2_init();
+    mpeg2_init();
 }
 
 CMpeg2Dec::~CMpeg2Dec()
 {
-	mpeg2_close();
+    mpeg2_close();
 }
 
 void CMpeg2Dec::mpeg2_init()
 {
-	m_chunk_buffer = (uint8_t*)_aligned_malloc(BUFFER_SIZE + 4, 16);
-	m_shift = 0xffffff00;
-	m_code = 0xb4;
-	m_action = &CMpeg2Dec::mpeg2_seek_sequence;
-	m_sequence.width = (unsigned)-1;
+    m_chunk_buffer = (uint8_t*)_aligned_malloc(BUFFER_SIZE + 4, 16);
+    m_shift = 0xffffff00;
+    m_code = 0xb4;
+    m_action = &CMpeg2Dec::mpeg2_seek_sequence;
+    m_sequence.width = (unsigned)-1;
 }
 
 void CMpeg2Dec::mpeg2_close()
 {
-	/* static uint8_t finalizer[] = {0,0,1,0xb4}; */
-	/* mpeg2_decode_data (mpeg2dec, finalizer, finalizer+4); */
+    /* static uint8_t finalizer[] = {0,0,1,0xb4}; */
+    /* mpeg2_decode_data (mpeg2dec, finalizer, finalizer+4); */
 
-	mpeg2_header_state_init();
-	_aligned_free(m_chunk_buffer);
+    mpeg2_header_state_init();
+    _aligned_free(m_chunk_buffer);
 }
 
 //
 
 int CMpeg2Dec::skip_chunk(int bytes)
 {
-	if(!bytes)
-		return 0;
+    if(!bytes)
+        return 0;
 
-	int len = 0;
+    int len = 0;
 
-	uint8_t* current = m_buf_start;
-	uint8_t* limit = current + bytes;
+    uint8_t* current = m_buf_start;
+    uint8_t* limit = current + bytes;
 
-	while(current < limit)
-	{
-		if(m_shift == 0x00000100)
-		{
-			m_shift = 0xffffff00;
-			len = ++current - m_buf_start;
-			break;
-		}
+    while(current < limit)
+    {
+        if(m_shift == 0x00000100)
+        {
+            m_shift = 0xffffff00;
+            len = ++current - m_buf_start;
+            break;
+        }
 
-		m_shift = (m_shift | *current++) << 8;
-	}
+        m_shift = (m_shift | *current++) << 8;
+    }
 
-	m_buf_start = current;
+    m_buf_start = current;
 
-	return len;
+    return len;
 }
 
 int CMpeg2Dec::copy_chunk(int bytes)
 {
-	if(!bytes)
-		return 0;
+    if(!bytes)
+        return 0;
 
-	int len = 0;
+    int len = 0;
 
-	// this assembly gives us a nice speed up
-	// 36 sec down to 32 sec decoding the ts.stream.tpr test file
-	// (idtc, mc was set to null)
+    // this assembly gives us a nice speed up
+    // 36 sec down to 32 sec decoding the ts.stream.tpr test file
+    // (idtc, mc was set to null)
 #ifndef _WIN64
-	__asm
-	{
-		mov ebx, this
-		mov esi, [ebx].m_buf_start
-		mov edi, [ebx].m_chunk_ptr
-		mov ecx, bytes
-		mov edx, [ebx].m_shift
+    __asm
+    {
+        mov ebx, this
+        mov esi, [ebx].m_buf_start
+        mov edi, [ebx].m_chunk_ptr
+        mov ecx, bytes
+        mov edx, [ebx].m_shift
 
-	copy_chunk_loop:
+    copy_chunk_loop:
 
-		cmp edx, 0x00000100
-		jne copy_chunk_continue
-		mov edx, 0xffffff00
+        cmp edx, 0x00000100
+        jne copy_chunk_continue
+        mov edx, 0xffffff00
 
-		inc edi
-		mov [ebx].m_chunk_ptr, edi
+        inc edi
+        mov [ebx].m_chunk_ptr, edi
 
-		inc esi
-		mov eax, esi
-		sub eax, [ebx].m_buf_start
-		mov len, eax
+        inc esi
+        mov eax, esi
+        sub eax, [ebx].m_buf_start
+        mov len, eax
 
-		jmp copy_chunk_end
+        jmp copy_chunk_end
 
-	copy_chunk_continue:
+    copy_chunk_continue:
 
-		movzx eax, byte ptr [esi]
-		or edx, eax
-		shl edx, 8
-		mov byte ptr [edi], al
-		inc esi
-		inc edi
-		dec	ecx
-		jnz copy_chunk_loop
+        movzx eax, byte ptr [esi]
+        or edx, eax
+        shl edx, 8
+        mov byte ptr [edi], al
+        inc esi
+        inc edi
+        dec ecx
+        jnz copy_chunk_loop
 
-	copy_chunk_end:
+    copy_chunk_end:
 
-		mov [ebx].m_buf_start, esi
-		mov [ebx].m_shift, edx
-	}
+        mov [ebx].m_buf_start, esi
+        mov [ebx].m_shift, edx
+    }
 #else
-	uint8_t* chunk_ptr = m_chunk_ptr;
-	uint8_t* current = m_buf_start;
-	uint8_t* limit = current + bytes;
+    uint8_t* chunk_ptr = m_chunk_ptr;
+    uint8_t* current = m_buf_start;
+    uint8_t* limit = current + bytes;
 
-	while(current < limit)
-	{
-		if(m_shift == 0x00000100)
-		{
-			m_shift = 0xffffff00;
-			len = ++current - m_buf_start;
-			m_chunk_ptr = ++chunk_ptr;
-			break;
-		}
+    while(current < limit)
+    {
+        if(m_shift == 0x00000100)
+        {
+            m_shift = 0xffffff00;
+            len = ++current - m_buf_start;
+            m_chunk_ptr = ++chunk_ptr;
+            break;
+        }
 
-		m_shift = (m_shift | (*chunk_ptr++ = *current++)) << 8;
-	}
+        m_shift = (m_shift | (*chunk_ptr++ = *current++)) << 8;
+    }
 
-	m_buf_start = current;
+    m_buf_start = current;
 #endif
-	return len;
+    return len;
 }
 
 mpeg2_state_t CMpeg2Dec::seek_chunk()
 {
-	int size = m_buf_end - m_buf_start;
+    int size = m_buf_end - m_buf_start;
 
-	if(int skipped = skip_chunk(size))
-	{
-		m_bytes_since_pts += skipped;
-		m_code = m_buf_start[-1];
-		return (mpeg2_state_t)-1;
-	}
+    if(int skipped = skip_chunk(size))
+    {
+        m_bytes_since_pts += skipped;
+        m_code = m_buf_start[-1];
+        return (mpeg2_state_t)-1;
+    }
 
-	m_bytes_since_pts += size;
-	return STATE_BUFFER;
+    m_bytes_since_pts += size;
+    return STATE_BUFFER;
 }
 
 mpeg2_state_t CMpeg2Dec::seek_header()
 {
-	while(m_code != 0xb3 && (m_code != 0xb7 && m_code != 0xb8 && m_code || m_sequence.width == (unsigned)-1))
-	{
-		if(seek_chunk() == STATE_BUFFER)
-			return STATE_BUFFER;
-	}
+    while(m_code != 0xb3 && (m_code != 0xb7 && m_code != 0xb8 && m_code || m_sequence.width == (unsigned)-1))
+    {
+        if(seek_chunk() == STATE_BUFFER)
+            return STATE_BUFFER;
+    }
 
-	m_chunk_start = m_chunk_ptr = m_chunk_buffer;
+    m_chunk_start = m_chunk_ptr = m_chunk_buffer;
 
-	return m_code 
-		? mpeg2_parse_header()
-		: mpeg2_header_picture_start();
+    return m_code
+        ? mpeg2_parse_header()
+        : mpeg2_header_picture_start();
 }
 
 mpeg2_state_t CMpeg2Dec::seek_sequence()
 {
-	mpeg2_header_state_init();
-	m_action = &CMpeg2Dec::seek_header;
-	return seek_header();
+    mpeg2_header_state_init();
+    m_action = &CMpeg2Dec::seek_header;
+    return seek_header();
 }
 
 //
 
 void CMpeg2Dec::mpeg2_buffer(uint8_t* start, uint8_t* end)
 {
-	m_buf_start = start;
-	m_buf_end = end;
+    m_buf_start = start;
+    m_buf_end = end;
 }
 
 int CMpeg2Dec::mpeg2_getpos()
 {
-	return m_buf_end - m_buf_start;
+    return m_buf_end - m_buf_start;
 }
 
 //
 
 mpeg2_state_t CMpeg2Dec::mpeg2_parse()
 {
-	if(m_action)
-	{
-		mpeg2_state_t state = (this->*m_action)();
-		if((int)state >= 0)
-			return state;
-	}
+    if(m_action)
+    {
+        mpeg2_state_t state = (this->*m_action)();
+        if((int)state >= 0)
+            return state;
+    }
 
-	while(1)
-	{
-		while((unsigned)(m_code - m_first_decode_slice) < m_nb_decode_slices)
-		{
-			int size_buffer = m_buf_end - m_buf_start;
-			int size_chunk = (m_chunk_buffer + BUFFER_SIZE - m_chunk_ptr);
-			int copied;
+    while(1)
+    {
+        while((unsigned)(m_code - m_first_decode_slice) < m_nb_decode_slices)
+        {
+            int size_buffer = m_buf_end - m_buf_start;
+            int size_chunk = (m_chunk_buffer + BUFFER_SIZE - m_chunk_ptr);
+            int copied;
 
-			if(size_buffer <= size_chunk)
-			{
-				copied = copy_chunk(size_buffer);
-				if(!copied)
-				{
-					m_bytes_since_pts += size_buffer;
-					m_chunk_ptr += size_buffer;
-					return STATE_BUFFER;
-				}
-			}
-			else
-			{
-				copied = copy_chunk(size_chunk);
-				if(!copied)
-				{
-					/* filled the chunk buffer without finding a start code */
-					m_bytes_since_pts += size_chunk;
-					m_action = &CMpeg2Dec::seek_chunk;
-					return STATE_INVALID;
-				}
-			}
+            if(size_buffer <= size_chunk)
+            {
+                copied = copy_chunk(size_buffer);
+                if(!copied)
+                {
+                    m_bytes_since_pts += size_buffer;
+                    m_chunk_ptr += size_buffer;
+                    return STATE_BUFFER;
+                }
+            }
+            else
+            {
+                copied = copy_chunk(size_chunk);
+                if(!copied)
+                {
+                    /* filled the chunk buffer without finding a start code */
+                    m_bytes_since_pts += size_chunk;
+                    m_action = &CMpeg2Dec::seek_chunk;
+                    return STATE_INVALID;
+                }
+            }
 
-			m_bytes_since_pts += copied;
+            m_bytes_since_pts += copied;
 
-			m_decoder.mpeg2_slice(m_code, m_chunk_start);
-			m_code = m_buf_start[-1];
-			m_chunk_ptr = m_chunk_start;
-		}
+            m_decoder.mpeg2_slice(m_code, m_chunk_start);
+            m_code = m_buf_start[-1];
+            m_chunk_ptr = m_chunk_start;
+        }
 
-		if((unsigned)(m_code - 1) >= 0xb0 - 1)
-			break;
-		if(seek_chunk() == STATE_BUFFER)
-			return STATE_BUFFER;
-	}
+        if((unsigned)(m_code - 1) >= 0xb0 - 1)
+            break;
+        if(seek_chunk() == STATE_BUFFER)
+            return STATE_BUFFER;
+    }
 
-	switch(m_code)
-	{
-	case 0x00:
-		m_action = &CMpeg2Dec::mpeg2_header_picture_start;
-		return m_state;
-	case 0xb7:
-		m_action = &CMpeg2Dec::mpeg2_header_end;
-		break;
-	case 0xb3:
-	case 0xb8:
-		m_action = &CMpeg2Dec::mpeg2_parse_header;
-		break;
-	case 0xbe:
-		m_action = &CMpeg2Dec::seek_chunk;
-		return STATE_PADDING;
-	default:
-		m_action = &CMpeg2Dec::seek_chunk;
-		return STATE_INVALID;
-	}
+    switch(m_code)
+    {
+    case 0x00:
+        m_action = &CMpeg2Dec::mpeg2_header_picture_start;
+        return m_state;
+    case 0xb7:
+        m_action = &CMpeg2Dec::mpeg2_header_end;
+        break;
+    case 0xb3:
+    case 0xb8:
+        m_action = &CMpeg2Dec::mpeg2_parse_header;
+        break;
+    case 0xbe:
+        m_action = &CMpeg2Dec::seek_chunk;
+        return STATE_PADDING;
+    default:
+        m_action = &CMpeg2Dec::seek_chunk;
+        return STATE_INVALID;
+    }
 
-	if(m_state != STATE_SLICE)
-		m_state = STATE_INVALID;
+    if(m_state != STATE_SLICE)
+        m_state = STATE_INVALID;
 
-	return m_state;
+    return m_state;
 }
 
 
 void CMpeg2Dec::mpeg2_skip(int skip)
 {
-	m_first_decode_slice = 1;
-	m_nb_decode_slices = skip ? 0 : (0xb0 - 1);
+    m_first_decode_slice = 1;
+    m_nb_decode_slices = skip ? 0 : (0xb0 - 1);
 }
 
 void CMpeg2Dec::mpeg2_slice_region(int start, int end)
 {
-	start = (start < 1) ? 1 : (start > 0xb0) ? 0xb0 : start;
-	end = (end < start) ? start : (end > 0xb0) ? 0xb0 : end;
-	m_first_decode_slice = start;
-	m_nb_decode_slices = end - start;
+    start = (start < 1) ? 1 : (start > 0xb0) ? 0xb0 : start;
+    end = (end < start) ? start : (end > 0xb0) ? 0xb0 : end;
+    m_first_decode_slice = start;
+    m_nb_decode_slices = end - start;
 }
 
 void CMpeg2Dec::mpeg2_pts(uint32_t pts)
 {
-	m_pts_previous = m_pts_current;
-	m_pts_current = pts;
-	m_num_pts++;
-	m_bytes_since_pts = 0;
+    m_pts_previous = m_pts_current;
+    m_pts_current = pts;
+    m_num_pts++;
+    m_bytes_since_pts = 0;
 }
 
 //
@@ -721,101 +721,101 @@ void CMpeg2Dec::mpeg2_pts(uint32_t pts)
 
 mpeg2_state_t CMpeg2Dec::mpeg2_seek_sequence()
 {
-	mpeg2_header_state_init();
-	m_action = &CMpeg2Dec::seek_header;
-	return seek_header();
+    mpeg2_header_state_init();
+    m_action = &CMpeg2Dec::seek_header;
+    return seek_header();
 }
 
 mpeg2_state_t CMpeg2Dec::mpeg2_parse_header()
 {
-	static int (CMpeg2Dec::* process_header[]) () =
-	{
-		&CMpeg2Dec::mpeg2_header_picture, 
-		&CMpeg2Dec::mpeg2_header_extension, 
-		&CMpeg2Dec::mpeg2_header_user_data,
-		&CMpeg2Dec::mpeg2_header_sequence, 
-		NULL, NULL, NULL, NULL, 
-		&CMpeg2Dec::mpeg2_header_gop
-	};
+    static int (CMpeg2Dec::* process_header[]) () =
+    {
+        &CMpeg2Dec::mpeg2_header_picture,
+        &CMpeg2Dec::mpeg2_header_extension,
+        &CMpeg2Dec::mpeg2_header_user_data,
+        &CMpeg2Dec::mpeg2_header_sequence,
+        NULL, NULL, NULL, NULL,
+        &CMpeg2Dec::mpeg2_header_gop
+    };
 
-	m_action = &CMpeg2Dec::mpeg2_parse_header;
+    m_action = &CMpeg2Dec::mpeg2_parse_header;
 
-	while(1)
-	{
-		int size_buffer = m_buf_end - m_buf_start;
-		int size_chunk = (m_chunk_buffer + BUFFER_SIZE - m_chunk_ptr);
-		int copied;
-		if(size_buffer <= size_chunk)
-		{
-			copied = copy_chunk(size_buffer);
-			if(!copied)
-			{
-				m_bytes_since_pts += size_buffer;
-				m_chunk_ptr += size_buffer;
-				return STATE_BUFFER;
-			}
-		}
-		else
-		{
-			copied = copy_chunk(size_chunk);
-			if(!copied)
-			{
-				/* filled the chunk buffer without finding a start code */
-				m_bytes_since_pts += size_chunk;
-				m_code = 0xb4;
-				m_action = &CMpeg2Dec::seek_header;
-				return STATE_INVALID;
-			}
-		}
-		m_bytes_since_pts += copied;
+    while(1)
+    {
+        int size_buffer = m_buf_end - m_buf_start;
+        int size_chunk = (m_chunk_buffer + BUFFER_SIZE - m_chunk_ptr);
+        int copied;
+        if(size_buffer <= size_chunk)
+        {
+            copied = copy_chunk(size_buffer);
+            if(!copied)
+            {
+                m_bytes_since_pts += size_buffer;
+                m_chunk_ptr += size_buffer;
+                return STATE_BUFFER;
+            }
+        }
+        else
+        {
+            copied = copy_chunk(size_chunk);
+            if(!copied)
+            {
+                /* filled the chunk buffer without finding a start code */
+                m_bytes_since_pts += size_chunk;
+                m_code = 0xb4;
+                m_action = &CMpeg2Dec::seek_header;
+                return STATE_INVALID;
+            }
+        }
+        m_bytes_since_pts += copied;
 
-		if((this->*(process_header[m_code & 0x0b]))())
-		{
-			m_code = m_buf_start[-1];
-			m_action = &CMpeg2Dec::seek_header;
-			return STATE_INVALID;
-		}
+        if((this->*(process_header[m_code & 0x0b]))())
+        {
+            m_code = m_buf_start[-1];
+            m_action = &CMpeg2Dec::seek_header;
+            return STATE_INVALID;
+        }
 
-		m_code = m_buf_start[-1];
+        m_code = m_buf_start[-1];
 
-		switch(RECEIVED(m_code, m_state))
-		{
-		/* state transition after a sequence header */
-		case RECEIVED(0x00, STATE_SEQUENCE):
-			m_action = &CMpeg2Dec::mpeg2_header_picture_start;
-		case RECEIVED(0xb8, STATE_SEQUENCE):
-			mpeg2_header_sequence_finalize();
-			break;
+        switch(RECEIVED(m_code, m_state))
+        {
+        /* state transition after a sequence header */
+        case RECEIVED(0x00, STATE_SEQUENCE):
+            m_action = &CMpeg2Dec::mpeg2_header_picture_start;
+        case RECEIVED(0xb8, STATE_SEQUENCE):
+            mpeg2_header_sequence_finalize();
+            break;
 
-		/* other legal state transitions */
-		case RECEIVED (0x00, STATE_GOP):
-			m_action = &CMpeg2Dec::mpeg2_header_picture_start;
-			break;
-		case RECEIVED (0x01, STATE_PICTURE):	
-		case RECEIVED (0x01, STATE_PICTURE_2ND):
-			mpeg2_header_matrix_finalize();
-			m_action = &CMpeg2Dec::mpeg2_header_slice_start;
-			break;
+        /* other legal state transitions */
+        case RECEIVED (0x00, STATE_GOP):
+            m_action = &CMpeg2Dec::mpeg2_header_picture_start;
+            break;
+        case RECEIVED (0x01, STATE_PICTURE):
+        case RECEIVED (0x01, STATE_PICTURE_2ND):
+            mpeg2_header_matrix_finalize();
+            m_action = &CMpeg2Dec::mpeg2_header_slice_start;
+            break;
 
-		/* legal headers within a given state */
-		case RECEIVED (0xb2, STATE_SEQUENCE):
-		case RECEIVED (0xb2, STATE_GOP):
-		case RECEIVED (0xb2, STATE_PICTURE):
-		case RECEIVED (0xb2, STATE_PICTURE_2ND):
-		case RECEIVED (0xb5, STATE_SEQUENCE):
-		case RECEIVED (0xb5, STATE_PICTURE):
-		case RECEIVED (0xb5, STATE_PICTURE_2ND):
-			m_chunk_ptr = m_chunk_start;
-			continue;
+        /* legal headers within a given state */
+        case RECEIVED (0xb2, STATE_SEQUENCE):
+        case RECEIVED (0xb2, STATE_GOP):
+        case RECEIVED (0xb2, STATE_PICTURE):
+        case RECEIVED (0xb2, STATE_PICTURE_2ND):
+        case RECEIVED (0xb5, STATE_SEQUENCE):
+        case RECEIVED (0xb5, STATE_PICTURE):
+        case RECEIVED (0xb5, STATE_PICTURE_2ND):
+            m_chunk_ptr = m_chunk_start;
+            continue;
 
-		default:
-			m_action = &CMpeg2Dec::seek_header;
-			return STATE_INVALID;
-		}
+        default:
+            m_action = &CMpeg2Dec::seek_header;
+            return STATE_INVALID;
+        }
 
-		m_chunk_start = m_chunk_ptr = m_chunk_buffer;
-		return m_state;
-	}
+        m_chunk_start = m_chunk_ptr = m_chunk_buffer;
+        return m_state;
+    }
 }
 
 /* header.c */
@@ -823,21 +823,21 @@ mpeg2_state_t CMpeg2Dec::mpeg2_parse_header()
 void CMpeg2Dec::mpeg2_header_state_init()
 {
     if(m_sequence.width != (unsigned)-1)
-	{
-		m_sequence.width = (unsigned)-1;
-		for(int i = 0; i < m_alloc_index; i++)
-			_aligned_free(m_fbuf_alloc[i].buf[0]);
+    {
+        m_sequence.width = (unsigned)-1;
+        for(int i = 0; i < m_alloc_index; i++)
+            _aligned_free(m_fbuf_alloc[i].buf[0]);
     }
 
-	m_decoder.m_scan = mpeg2_scan_norm_2;
-	m_picture = m_pictures;
-	m_fbuf[0] = &m_fbuf_alloc[0];
-	m_fbuf[1] = &m_fbuf_alloc[1];
-	m_fbuf[2] = &m_fbuf_alloc[2];
-	m_first = true;
-	m_alloc_index = 0;
-	m_first_decode_slice = 1;
-	m_nb_decode_slices = 0xb0 - 1;
+    m_decoder.m_scan = mpeg2_scan_norm_2;
+    m_picture = m_pictures;
+    m_fbuf[0] = &m_fbuf_alloc[0];
+    m_fbuf[1] = &m_fbuf_alloc[1];
+    m_fbuf[2] = &m_fbuf_alloc[2];
+    m_first = true;
+    m_alloc_index = 0;
+    m_first_decode_slice = 1;
+    m_nb_decode_slices = 0xb0 - 1;
 }
 
 int CMpeg2Dec::mpeg2_header_sequence()
@@ -846,23 +846,23 @@ int CMpeg2Dec::mpeg2_header_sequence()
     mpeg2_sequence_t* sequence = &m_new_sequence;
     static unsigned int frame_period[9] = {0, 1126125, 1125000, 1080000, 900900, 900000, 540000, 450450, 450000};
 
-    if((buffer[6] & 0x20) != 0x20)	/* missing marker_bit */
-		return 1;
+    if((buffer[6] & 0x20) != 0x20)  /* missing marker_bit */
+        return 1;
 
     int i = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
-	sequence->display_width = sequence->picture_width = i >> 12;
+    sequence->display_width = sequence->picture_width = i >> 12;
     if(!sequence->display_width)
-		return 1;
-	sequence->display_height = sequence->picture_height = i & 0xfff;
+        return 1;
+    sequence->display_height = sequence->picture_height = i & 0xfff;
     if(!sequence->display_height)
-		return 1;
+        return 1;
 
     sequence->width = (sequence->picture_width + 15) & ~15;
     sequence->height = (sequence->picture_height + 15) & ~15;
     sequence->chroma_width = sequence->width >> 1;
     sequence->chroma_height = sequence->height >> 1;
     sequence->flags = (SEQ_FLAG_PROGRESSIVE_SEQUENCE | SEQ_VIDEO_FORMAT_UNSPECIFIED);
-    sequence->pixel_width = buffer[3] >> 4;	/* aspect ratio */
+    sequence->pixel_width = buffer[3] >> 4; /* aspect ratio */
     sequence->frame_period = 0;
     if((buffer[3] & 15) < 9) sequence->frame_period = frame_period[buffer[3] & 15];
     sequence->byte_rate = (buffer[4]<<10) | (buffer[5]<<2) | (buffer[6]>>6);
@@ -871,27 +871,27 @@ int CMpeg2Dec::mpeg2_header_sequence()
 
     m_copy_matrix = 3;
     if(buffer[7] & 2)
-	{
-		for(i = 0; i < 64; i++) 
-			m_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = (buffer[i+7] << 7) | (buffer[i+8] >> 1);
-		buffer += 64;
+    {
+        for(i = 0; i < 64; i++)
+            m_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = (buffer[i+7] << 7) | (buffer[i+8] >> 1);
+        buffer += 64;
     }
-	else
-	{
-		for (i = 0; i < 64; i++)
-			m_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = default_intra_quantizer_matrix[i];
-	}
+    else
+    {
+        for (i = 0; i < 64; i++)
+            m_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = default_intra_quantizer_matrix[i];
+    }
 
     if(buffer[7] & 1)
-	{
-		for(i = 0; i < 64; i++)
+    {
+        for(i = 0; i < 64; i++)
             m_non_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = buffer[i+8];
-	}
+    }
     else
-	{
-		for(i = 0; i < 64; i++)
-			m_non_intra_quantizer_matrix[i] = 16;
-	}
+    {
+        for(i = 0; i < 64; i++)
+            m_non_intra_quantizer_matrix[i] = 16;
+    }
 
     sequence->profile_level_id = 0x80;
     sequence->colour_primaries = 0;
@@ -911,9 +911,9 @@ int CMpeg2Dec::mpeg2_header_sequence()
 int CMpeg2Dec::mpeg2_header_gop()
 {
     uint8_t* buffer = m_chunk_start;
-	m_info.Reset();
-    if(!(buffer[1] & 8)) 
-		return 1;
+    m_info.Reset();
+    if(!(buffer[1] & 8))
+        return 1;
     m_info.m_gop = &m_gop;
     m_gop.hours = (buffer[0] >> 2) & 31;
     m_gop.minutes = ((buffer[0] << 4) | (buffer[1] >> 4)) & 63;
@@ -926,167 +926,167 @@ int CMpeg2Dec::mpeg2_header_gop()
 
 mpeg2_state_t CMpeg2Dec::mpeg2_header_picture_start()
 {
-	{
-		mpeg2_picture_t* picture;
+    {
+        mpeg2_picture_t* picture;
 
-		if(m_state != STATE_SLICE_1ST)
-		{
-			m_state = STATE_PICTURE;
-			picture = m_pictures;
-			if((m_decoder.m_coding_type != PIC_FLAG_CODING_TYPE_B) ^ (m_picture >= m_pictures + 2))
-				picture += 2;
-		}
-		else
-		{
-			m_state = STATE_PICTURE_2ND;
-			picture = m_picture + 1;	/* second field picture */
-		}
+        if(m_state != STATE_SLICE_1ST)
+        {
+            m_state = STATE_PICTURE;
+            picture = m_pictures;
+            if((m_decoder.m_coding_type != PIC_FLAG_CODING_TYPE_B) ^ (m_picture >= m_pictures + 2))
+                picture += 2;
+        }
+        else
+        {
+            m_state = STATE_PICTURE_2ND;
+            picture = m_picture + 1;    /* second field picture */
+        }
 
-		m_picture = picture;
-	}
+        m_picture = picture;
+    }
 
     m_picture->flags = 0;
 
     if(m_num_pts)
-	{
-		if(m_bytes_since_pts >= 4)
-		{
-			m_num_pts = 0;
-			m_picture->pts = m_pts_current;
-			m_picture->flags = PIC_FLAG_PTS;
-		}
-		else if(m_num_pts > 1)
-		{
-		    m_num_pts = 1;
-			m_picture->pts = m_pts_previous;
-			m_picture->flags = PIC_FLAG_PTS;
-		}
+    {
+        if(m_bytes_since_pts >= 4)
+        {
+            m_num_pts = 0;
+            m_picture->pts = m_pts_current;
+            m_picture->flags = PIC_FLAG_PTS;
+        }
+        else if(m_num_pts > 1)
+        {
+            m_num_pts = 1;
+            m_picture->pts = m_pts_previous;
+            m_picture->flags = PIC_FLAG_PTS;
+        }
     }
 
-    m_picture->display_offset[0].x = 
-	m_picture->display_offset[1].x =
-	m_picture->display_offset[2].x = m_display_offset_x;
-    m_picture->display_offset[0].y = 
-	m_picture->display_offset[1].y =
-	m_picture->display_offset[2].y = m_display_offset_y;
+    m_picture->display_offset[0].x =
+    m_picture->display_offset[1].x =
+    m_picture->display_offset[2].x = m_display_offset_x;
+    m_picture->display_offset[0].y =
+    m_picture->display_offset[1].y =
+    m_picture->display_offset[2].y = m_display_offset_y;
 
     return mpeg2_parse_header();
 }
 
 int CMpeg2Dec::mpeg2_header_picture()
 {
-	uint8_t* buffer = m_chunk_start;
-	mpeg2_picture_t* picture = m_picture;
-	int type;
-	int low_delay;
+    uint8_t* buffer = m_chunk_start;
+    mpeg2_picture_t* picture = m_picture;
+    int type;
+    int low_delay;
 
-	type = (buffer [1] >> 3) & 7;
-	low_delay = m_sequence.flags & SEQ_FLAG_LOW_DELAY;
+    type = (buffer [1] >> 3) & 7;
+    low_delay = m_sequence.flags & SEQ_FLAG_LOW_DELAY;
 
-	if(m_state == STATE_PICTURE)
-	{
-		mpeg2_picture_t* other;
+    if(m_state == STATE_PICTURE)
+    {
+        mpeg2_picture_t* other;
 
-		m_decoder.m_second_field = 0;
-		other = m_pictures;
-		if(other == picture)
-			other += 2;
-		if(m_decoder.m_coding_type != PIC_FLAG_CODING_TYPE_B)
-		{
-			m_fbuf[2] = m_fbuf[1];
-			m_fbuf[1] = m_fbuf[0];
-		}
-		m_fbuf[0] = NULL;
-		m_info.Reset();
-		m_info.m_current_picture = picture;
-		m_info.m_display_picture = picture;
-		if(type != PIC_FLAG_CODING_TYPE_B)
-		{
-			if(!low_delay)
-			{
-				if(m_first) {
-					m_info.m_display_picture = NULL;
-					m_first = false;
-				}
-				else
-				{
-					m_info.m_display_picture = other;
-					if(other->nb_fields == 1)
-						m_info.m_display_picture_2nd = other + 1;
-					m_info.m_display_fbuf = m_fbuf[1];
-				}
-			}
-			
-			if(!low_delay + !NULL/*m_convert_start*/)
-				m_info.m_discard_fbuf = m_fbuf[!low_delay + !NULL/*m_convert_start*/];
-		}
+        m_decoder.m_second_field = 0;
+        other = m_pictures;
+        if(other == picture)
+            other += 2;
+        if(m_decoder.m_coding_type != PIC_FLAG_CODING_TYPE_B)
+        {
+            m_fbuf[2] = m_fbuf[1];
+            m_fbuf[1] = m_fbuf[0];
+        }
+        m_fbuf[0] = NULL;
+        m_info.Reset();
+        m_info.m_current_picture = picture;
+        m_info.m_display_picture = picture;
+        if(type != PIC_FLAG_CODING_TYPE_B)
+        {
+            if(!low_delay)
+            {
+                if(m_first) {
+                    m_info.m_display_picture = NULL;
+                    m_first = false;
+                }
+                else
+                {
+                    m_info.m_display_picture = other;
+                    if(other->nb_fields == 1)
+                        m_info.m_display_picture_2nd = other + 1;
+                    m_info.m_display_fbuf = m_fbuf[1];
+                }
+            }
 
-		while(m_alloc_index < 3)
-		{
-			mpeg2_fbuf_t* fbuf = &m_fbuf_alloc[m_alloc_index++];
-			fbuf->id = NULL;
+            if(!low_delay + !NULL/*m_convert_start*/)
+                m_info.m_discard_fbuf = m_fbuf[!low_delay + !NULL/*m_convert_start*/];
+        }
 
-			int size = m_decoder.m_width * m_decoder.m_height;
-			fbuf->buf[0] = (uint8_t*)_aligned_malloc(6 * size >> 2, 16);
-			fbuf->buf[1] = fbuf->buf[0] + size;
-			fbuf->buf[2] = fbuf->buf[1] + (size >> 2);
-			memset(fbuf->buf[0], 0x10, size);
-			memset(fbuf->buf[1], 0x80, size >> 2);
-			memset(fbuf->buf[2], 0x80, size >> 2);
-		}
-		mpeg2_set_fbuf(type);
-	}
-	else
-	{
-		m_decoder.m_second_field = 1;
-		m_info.m_current_picture_2nd = picture;
-		m_info.m_user_data = NULL; m_info.m_user_data_len = 0;
-		if(low_delay || type == PIC_FLAG_CODING_TYPE_B)
-			m_info.m_display_picture_2nd = picture;
-	}
-	m_ext_state = PIC_CODING_EXT;
+        while(m_alloc_index < 3)
+        {
+            mpeg2_fbuf_t* fbuf = &m_fbuf_alloc[m_alloc_index++];
+            fbuf->id = NULL;
 
-	picture->temporal_reference = (buffer[0] << 2) | (buffer[1] >> 6);
+            int size = m_decoder.m_width * m_decoder.m_height;
+            fbuf->buf[0] = (uint8_t*)_aligned_malloc(6 * size >> 2, 16);
+            fbuf->buf[1] = fbuf->buf[0] + size;
+            fbuf->buf[2] = fbuf->buf[1] + (size >> 2);
+            memset(fbuf->buf[0], 0x10, size);
+            memset(fbuf->buf[1], 0x80, size >> 2);
+            memset(fbuf->buf[2], 0x80, size >> 2);
+        }
+        mpeg2_set_fbuf(type);
+    }
+    else
+    {
+        m_decoder.m_second_field = 1;
+        m_info.m_current_picture_2nd = picture;
+        m_info.m_user_data = NULL; m_info.m_user_data_len = 0;
+        if(low_delay || type == PIC_FLAG_CODING_TYPE_B)
+            m_info.m_display_picture_2nd = picture;
+    }
+    m_ext_state = PIC_CODING_EXT;
 
-	m_decoder.m_coding_type = type;
-	picture->flags |= type;
+    picture->temporal_reference = (buffer[0] << 2) | (buffer[1] >> 6);
 
-	if(type == PIC_FLAG_CODING_TYPE_P || type == PIC_FLAG_CODING_TYPE_B)
-	{
-		/* forward_f_code and backward_f_code - used in mpeg1 only */
-		m_decoder.m_f_motion.f_code[1] = (buffer[3] >> 2) & 1;
-		m_decoder.m_f_motion.f_code[0] = (((buffer[3] << 1) | (buffer[4] >> 7)) & 7) - 1;
-		m_decoder.m_b_motion.f_code[1] = (buffer[4] >> 6) & 1;
-		m_decoder.m_b_motion.f_code[0] = ((buffer[4] >> 3) & 7) - 1;
-	}
+    m_decoder.m_coding_type = type;
+    picture->flags |= type;
 
-	/* XXXXXX decode extra_information_picture as well */
+    if(type == PIC_FLAG_CODING_TYPE_P || type == PIC_FLAG_CODING_TYPE_B)
+    {
+        /* forward_f_code and backward_f_code - used in mpeg1 only */
+        m_decoder.m_f_motion.f_code[1] = (buffer[3] >> 2) & 1;
+        m_decoder.m_f_motion.f_code[0] = (((buffer[3] << 1) | (buffer[4] >> 7)) & 7) - 1;
+        m_decoder.m_b_motion.f_code[1] = (buffer[4] >> 6) & 1;
+        m_decoder.m_b_motion.f_code[0] = ((buffer[4] >> 3) & 7) - 1;
+    }
 
-	picture->nb_fields = 2;
+    /* XXXXXX decode extra_information_picture as well */
 
-	m_decoder.m_intra_dc_precision = 0;
-	m_decoder.m_frame_pred_frame_dct = 1;
-	m_decoder.m_q_scale_type = 0;
-	m_decoder.m_concealment_motion_vectors = 0;
-	m_decoder.m_scan = mpeg2_scan_norm_2;
-	m_decoder.m_picture_structure = FRAME_PICTURE;
-	m_copy_matrix = 0;
+    picture->nb_fields = 2;
 
-	return 0;
+    m_decoder.m_intra_dc_precision = 0;
+    m_decoder.m_frame_pred_frame_dct = 1;
+    m_decoder.m_q_scale_type = 0;
+    m_decoder.m_concealment_motion_vectors = 0;
+    m_decoder.m_scan = mpeg2_scan_norm_2;
+    m_decoder.m_picture_structure = FRAME_PICTURE;
+    m_copy_matrix = 0;
+
+    return 0;
 }
 
 int CMpeg2Dec::mpeg2_header_extension()
 {
     static int (CMpeg2Dec::* parser[]) () =
-	{
-		NULL, 
-		&CMpeg2Dec::sequence_ext, 
-		&CMpeg2Dec::sequence_display_ext, 
-		&CMpeg2Dec::quant_matrix_ext,
-		&CMpeg2Dec::copyright_ext, 
-		NULL, NULL, 
-		&CMpeg2Dec::picture_display_ext, 
-		&CMpeg2Dec::picture_coding_ext
+    {
+        NULL,
+        &CMpeg2Dec::sequence_ext,
+        &CMpeg2Dec::sequence_display_ext,
+        &CMpeg2Dec::quant_matrix_ext,
+        &CMpeg2Dec::copyright_ext,
+        NULL, NULL,
+        &CMpeg2Dec::picture_display_ext,
+        &CMpeg2Dec::picture_coding_ext
     };
 
     int ext, ext_bit;
@@ -1095,7 +1095,7 @@ int CMpeg2Dec::mpeg2_header_extension()
     ext_bit = 1 << ext;
 
     if(!(m_ext_state & ext_bit)) /* ignore illegal extensions */
-		return 0;
+        return 0;
     m_ext_state &= ~ext_bit;
     return (this->*parser[ext])();
 }
@@ -1105,7 +1105,7 @@ int CMpeg2Dec::mpeg2_header_user_data()
     if(!m_info.m_user_data_len) m_info.m_user_data = m_chunk_start;
     else m_info.m_user_data_len += 3;
 
-	m_info.m_user_data_len += (m_chunk_ptr - 4 - m_chunk_start);
+    m_info.m_user_data_len += (m_chunk_ptr - 4 - m_chunk_start);
     m_chunk_start = m_chunk_ptr - 1;
 
     return 0;
@@ -1114,10 +1114,10 @@ int CMpeg2Dec::mpeg2_header_user_data()
 void CMpeg2Dec::mpeg2_header_matrix_finalize()
 {
     if(m_copy_matrix & 1)
-		memcpy(m_decoder.m_intra_quantizer_matrix, m_intra_quantizer_matrix, 64);
+        memcpy(m_decoder.m_intra_quantizer_matrix, m_intra_quantizer_matrix, 64);
 
     if(m_copy_matrix & 2)
-		memcpy(m_decoder.m_non_intra_quantizer_matrix, m_non_intra_quantizer_matrix, 64);
+        memcpy(m_decoder.m_non_intra_quantizer_matrix, m_non_intra_quantizer_matrix, 64);
 }
 
 void mpeg2_sequence_t::finalize()
@@ -1127,54 +1127,54 @@ void mpeg2_sequence_t::finalize()
     byte_rate *= 50;
 
     if(flags & SEQ_FLAG_MPEG2)
-	{
-		switch(pixel_width)
-		{
-		case 1:		/* square pixels */
-			pixel_width = pixel_height = 1;	return;
-		case 2:		/* 4:3 aspect ratio */
-			w = 4; h = 3; break;
-		case 3:		/* 16:9 aspect ratio */
-			w = 16; h = 9; break;
-		case 4:		/* 2.21:1 aspect ratio */
-			w = 221; h = 100; break;
-		default:	/* illegal */
-			pixel_width = pixel_height = 0; return;
-		}
+    {
+        switch(pixel_width)
+        {
+        case 1:     /* square pixels */
+            pixel_width = pixel_height = 1; return;
+        case 2:     /* 4:3 aspect ratio */
+            w = 4; h = 3; break;
+        case 3:     /* 16:9 aspect ratio */
+            w = 16; h = 9; break;
+        case 4:     /* 2.21:1 aspect ratio */
+            w = 221; h = 100; break;
+        default:    /* illegal */
+            pixel_width = pixel_height = 0; return;
+        }
 
-		w *= display_height;
-		h *= display_width;
+        w *= display_height;
+        h *= display_width;
     }
-	else 
-	{
-		if(byte_rate == 50 * 0x3ffff) 
-			byte_rate = 0;        /* mpeg-1 VBR */ 
+    else
+    {
+        if(byte_rate == 50 * 0x3ffff)
+            byte_rate = 0;        /* mpeg-1 VBR */
 
-		switch(pixel_width)
-		{
-		case 0:	case 15:	/* illegal */
-			pixel_width = pixel_height = 0; return;
-		case 1:	/* square pixels */
-			pixel_width = pixel_height = 1; return;
-		case 3:	/* 720x576 16:9 */
-			pixel_width = 64; pixel_height = 45; return;
-		case 6:	/* 720x480 16:9 */
-			pixel_width = 32; pixel_height = 27; return;
-		case 12:	/* 720*480 4:3 */
-			pixel_width = 8; pixel_height = 9; return;
-		default:
-			h = 88 * pixel_width + 1171;
-			w = 2000;
-		}
+        switch(pixel_width)
+        {
+        case 0: case 15:    /* illegal */
+            pixel_width = pixel_height = 0; return;
+        case 1: /* square pixels */
+            pixel_width = pixel_height = 1; return;
+        case 3: /* 720x576 16:9 */
+            pixel_width = 64; pixel_height = 45; return;
+        case 6: /* 720x480 16:9 */
+            pixel_width = 32; pixel_height = 27; return;
+        case 12:    /* 720*480 4:3 */
+            pixel_width = 8; pixel_height = 9; return;
+        default:
+            h = 88 * pixel_width + 1171;
+            w = 2000;
+        }
     }
 
     pixel_width = w;
     pixel_height = h;
 
-	/* find greatest common divisor */
+    /* find greatest common divisor */
     while(w) {int tmp = w; w = h % tmp; h = tmp;}
 
-	pixel_width /= h;
+    pixel_width /= h;
     pixel_height /= h;
 }
 
@@ -1199,21 +1199,21 @@ void CMpeg2Dec::mpeg2_header_sequence_finalize()
      * repeat sequence headers.
      */
 
-	// EDIT: some dvds will work if we allow the last three fields to vary (which aren't needed anyway)
-	// EDIT2: vbv_buffer_size can be ignored as well, not used by libmpeg2
+    // EDIT: some dvds will work if we allow the last three fields to vary (which aren't needed anyway)
+    // EDIT2: vbv_buffer_size can be ignored as well, not used by libmpeg2
 
-	m_sequence.byte_rate = sequence->byte_rate;
-	m_sequence.vbv_buffer_size = sequence->vbv_buffer_size;
+    m_sequence.byte_rate = sequence->byte_rate;
+    m_sequence.vbv_buffer_size = sequence->vbv_buffer_size;
 
-    if(!memcmp(&m_sequence, sequence, FIELD_OFFSET(mpeg2_sequence_t, colour_primaries) /*sizeof(mpeg2_sequence_t)*/)) 
-	{
-		m_state = STATE_SEQUENCE_REPEATED;
-	}
+    if(!memcmp(&m_sequence, sequence, FIELD_OFFSET(mpeg2_sequence_t, colour_primaries) /*sizeof(mpeg2_sequence_t)*/))
+    {
+        m_state = STATE_SEQUENCE_REPEATED;
+    }
     else if(m_sequence.width != (unsigned)-1)
-	{
-		m_action = &CMpeg2Dec::mpeg2_seek_sequence;
-		m_state = STATE_INVALID;	/* XXXX STATE_INVALID_END ? */
-		return;
+    {
+        m_action = &CMpeg2Dec::mpeg2_seek_sequence;
+        m_state = STATE_INVALID;    /* XXXX STATE_INVALID_END ? */
+        return;
     }
 
     m_sequence = *sequence;
@@ -1222,132 +1222,132 @@ void CMpeg2Dec::mpeg2_header_sequence_finalize()
 
 mpeg2_state_t CMpeg2Dec::mpeg2_header_slice_start()
 {
-	m_info.m_user_data = NULL; 
-	m_info.m_user_data_len = 0;
-	m_state = (m_picture->nb_fields > 1 || m_state == STATE_PICTURE_2ND) ? STATE_SLICE : STATE_SLICE_1ST;
+    m_info.m_user_data = NULL;
+    m_info.m_user_data_len = 0;
+    m_state = (m_picture->nb_fields > 1 || m_state == STATE_PICTURE_2ND) ? STATE_SLICE : STATE_SLICE_1ST;
 
-	if(!m_nb_decode_slices)
-	{
-		m_picture->flags |= PIC_FLAG_SKIP;
-	}
-	else
-	{
-		int b_type = m_decoder.m_coding_type == B_TYPE;
-		m_decoder.mpeg2_init_fbuf(m_fbuf[0]->buf, m_fbuf[b_type + 1]->buf, m_fbuf[b_type]->buf);
-	}
+    if(!m_nb_decode_slices)
+    {
+        m_picture->flags |= PIC_FLAG_SKIP;
+    }
+    else
+    {
+        int b_type = m_decoder.m_coding_type == B_TYPE;
+        m_decoder.mpeg2_init_fbuf(m_fbuf[0]->buf, m_fbuf[b_type + 1]->buf, m_fbuf[b_type]->buf);
+    }
 
-	m_action = NULL;
+    m_action = NULL;
 
-	return (mpeg2_state_t)-1;
+    return (mpeg2_state_t)-1;
 }
 
 mpeg2_state_t CMpeg2Dec::mpeg2_header_end()
 {
-	mpeg2_picture_t* picture = m_pictures;
+    mpeg2_picture_t* picture = m_pictures;
 
-	int b_type = m_decoder.m_coding_type == B_TYPE;
+    int b_type = m_decoder.m_coding_type == B_TYPE;
 
-	if((m_picture >= picture + 2) ^ b_type)
-		picture = m_pictures + 2;
+    if((m_picture >= picture + 2) ^ b_type)
+        picture = m_pictures + 2;
 
-	m_state = STATE_END;
-	m_info.Reset();
-	
-	if(!(m_sequence.flags & SEQ_FLAG_LOW_DELAY))
-	{
-		m_info.m_display_picture = picture;
-		if(picture->nb_fields == 1)
-			m_info.m_display_picture_2nd = picture + 1;
-		m_info.m_display_fbuf = m_fbuf[b_type];
-		m_info.m_discard_fbuf = m_fbuf[b_type + 1];
-	}
-	else
-	{
-		m_info.m_discard_fbuf = m_fbuf[b_type];
-	}
+    m_state = STATE_END;
+    m_info.Reset();
 
-	m_action = &CMpeg2Dec::mpeg2_seek_sequence;
-	m_first = true;
+    if(!(m_sequence.flags & SEQ_FLAG_LOW_DELAY))
+    {
+        m_info.m_display_picture = picture;
+        if(picture->nb_fields == 1)
+            m_info.m_display_picture_2nd = picture + 1;
+        m_info.m_display_fbuf = m_fbuf[b_type];
+        m_info.m_discard_fbuf = m_fbuf[b_type + 1];
+    }
+    else
+    {
+        m_info.m_discard_fbuf = m_fbuf[b_type];
+    }
 
-	return STATE_END;
+    m_action = &CMpeg2Dec::mpeg2_seek_sequence;
+    m_first = true;
+
+    return STATE_END;
 }
 
 void CMpeg2Dec::mpeg2_set_fbuf(int coding_type)
 {
     for(int i = 0; i < 3; i++)
-	{
-		if(m_fbuf[1] != &m_fbuf_alloc[i] && m_fbuf[2] != &m_fbuf_alloc[i])
-		{
-			m_fbuf[0] = &m_fbuf_alloc[i];
-			m_info.m_current_fbuf = m_fbuf[0];
-			if(coding_type == B_TYPE || (m_sequence.flags & SEQ_FLAG_LOW_DELAY))
-			{
-				if(coding_type == B_TYPE)
-					m_info.m_discard_fbuf = m_fbuf[0];
-				m_info.m_display_fbuf = m_fbuf[0];
-			}
-			break;
-		}
-	}
+    {
+        if(m_fbuf[1] != &m_fbuf_alloc[i] && m_fbuf[2] != &m_fbuf_alloc[i])
+        {
+            m_fbuf[0] = &m_fbuf_alloc[i];
+            m_info.m_current_fbuf = m_fbuf[0];
+            if(coding_type == B_TYPE || (m_sequence.flags & SEQ_FLAG_LOW_DELAY))
+            {
+                if(coding_type == B_TYPE)
+                    m_info.m_discard_fbuf = m_fbuf[0];
+                m_info.m_display_fbuf = m_fbuf[0];
+            }
+            break;
+        }
+    }
 }
 
 //
 
 int CMpeg2Dec::sequence_ext()
 {
-	uint8_t* buffer = m_chunk_start;
-	mpeg2_sequence_t* sequence = &m_new_sequence;
+    uint8_t* buffer = m_chunk_start;
+    mpeg2_sequence_t* sequence = &m_new_sequence;
 
-	if(!(buffer[3]&1))
-		return 1;
+    if(!(buffer[3]&1))
+        return 1;
 
-	sequence->profile_level_id = (buffer[0] << 4) | (buffer[1] >> 4);
+    sequence->profile_level_id = (buffer[0] << 4) | (buffer[1] >> 4);
 
-	sequence->display_width = 
-		sequence->picture_width += ((buffer[1] << 13) | (buffer[2] << 5)) & 0x3000;
-	sequence->display_height = 
-		sequence->picture_height += (buffer[2] << 7) & 0x3000;
+    sequence->display_width =
+        sequence->picture_width += ((buffer[1] << 13) | (buffer[2] << 5)) & 0x3000;
+    sequence->display_height =
+        sequence->picture_height += (buffer[2] << 7) & 0x3000;
 
-	sequence->width = (sequence->picture_width + 15) & ~15;
-	sequence->height = (sequence->picture_height + 15) & ~15;
+    sequence->width = (sequence->picture_width + 15) & ~15;
+    sequence->height = (sequence->picture_height + 15) & ~15;
 
-	sequence->flags |= SEQ_FLAG_MPEG2;
+    sequence->flags |= SEQ_FLAG_MPEG2;
 
-	if(!(buffer[1] & 8))
-	{
-		sequence->flags &= ~SEQ_FLAG_PROGRESSIVE_SEQUENCE;
-		sequence->width = (sequence->width + 31) & ~31;
-		sequence->height = (sequence->height + 31) & ~31;
-	}
+    if(!(buffer[1] & 8))
+    {
+        sequence->flags &= ~SEQ_FLAG_PROGRESSIVE_SEQUENCE;
+        sequence->width = (sequence->width + 31) & ~31;
+        sequence->height = (sequence->height + 31) & ~31;
+    }
 
-	if(buffer[5] & 0x80)
-	{
-		sequence->flags |= SEQ_FLAG_LOW_DELAY;
-	}
+    if(buffer[5] & 0x80)
+    {
+        sequence->flags |= SEQ_FLAG_LOW_DELAY;
+    }
 
-	sequence->chroma_width = sequence->width;
-	sequence->chroma_height = sequence->height;
+    sequence->chroma_width = sequence->width;
+    sequence->chroma_height = sequence->height;
 
-	switch(buffer[1] & 6)
-	{
-	case 0:	/* invalid */
-		return 1;
-	case 2:	/* 4:2:0 */
-		sequence->chroma_height >>= 1;
-	case 4:	/* 4:2:2 */
-		sequence->chroma_width >>= 1;
-	}
+    switch(buffer[1] & 6)
+    {
+    case 0: /* invalid */
+        return 1;
+    case 2: /* 4:2:0 */
+        sequence->chroma_height >>= 1;
+    case 4: /* 4:2:2 */
+        sequence->chroma_width >>= 1;
+    }
 
-	sequence->byte_rate += ((buffer[2]<<25) | (buffer[3]<<17)) & 0x3ffc0000;
+    sequence->byte_rate += ((buffer[2]<<25) | (buffer[3]<<17)) & 0x3ffc0000;
 
-	sequence->vbv_buffer_size |= buffer[4] << 21;
+    sequence->vbv_buffer_size |= buffer[4] << 21;
 
-	sequence->frame_period = 
-		sequence->frame_period * ((buffer[5]&31)+1) / (((buffer[5]>>2)&3)+1);
+    sequence->frame_period =
+        sequence->frame_period * ((buffer[5]&31)+1) / (((buffer[5]>>2)&3)+1);
 
-	m_ext_state = SEQ_DISPLAY_EXT;
+    m_ext_state = SEQ_DISPLAY_EXT;
 
-	return 0;
+    return 0;
 }
 
 int CMpeg2Dec::sequence_display_ext()
@@ -1357,21 +1357,21 @@ int CMpeg2Dec::sequence_display_ext()
 
     uint32_t flags = (sequence->flags & ~SEQ_MASK_VIDEO_FORMAT) | ((buffer[0]<<4) & SEQ_MASK_VIDEO_FORMAT);
     if(buffer[0] & 1)
-	{
-		flags |= SEQ_FLAG_COLOUR_DESCRIPTION;
-		sequence->colour_primaries = buffer[1];
-		sequence->transfer_characteristics = buffer[2];
-		sequence->matrix_coefficients = buffer[3];
-		buffer += 3;
+    {
+        flags |= SEQ_FLAG_COLOUR_DESCRIPTION;
+        sequence->colour_primaries = buffer[1];
+        sequence->transfer_characteristics = buffer[2];
+        sequence->matrix_coefficients = buffer[3];
+        buffer += 3;
     }
 
-    if(!(buffer[2] & 2))	/* missing marker_bit */
-		return 1;
+    if(!(buffer[2] & 2))    /* missing marker_bit */
+        return 1;
 
-	// ???
-//	sequence->flags = flags;
+    // ???
+//  sequence->flags = flags;
 
-	sequence->display_width = (buffer[1] << 6) | (buffer[2] >> 2);
+    sequence->display_width = (buffer[1] << 6) | (buffer[2] >> 2);
     sequence->display_height = ((buffer[2]& 1 ) << 13) | (buffer[3] << 5) | (buffer[4] >> 3);
 
     return 0;
@@ -1382,18 +1382,18 @@ int CMpeg2Dec::quant_matrix_ext()
     uint8_t* buffer = m_chunk_start;
 
     if(buffer[0] & 8)
-	{
-		for(int i = 0; i < 64; i++)
-			m_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = (buffer[i] << 5) | (buffer[i+1] >> 3);
-		m_copy_matrix |= 1;
-		buffer += 64;
+    {
+        for(int i = 0; i < 64; i++)
+            m_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = (buffer[i] << 5) | (buffer[i+1] >> 3);
+        m_copy_matrix |= 1;
+        buffer += 64;
     }
 
     if(buffer[0] & 4)
-	{
-		for(int i = 0; i < 64; i++)
-			m_non_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = (buffer[i] << 6) | (buffer[i+1] >> 2);
-		m_copy_matrix |= 2;
+    {
+        for(int i = 0; i < 64; i++)
+            m_non_intra_quantizer_matrix[mpeg2_scan_norm_2[i]] = (buffer[i] << 6) | (buffer[i+1] >> 2);
+        m_copy_matrix |= 2;
     }
 
     return 0;
@@ -1411,27 +1411,27 @@ int CMpeg2Dec::picture_display_ext()
 
     int nb_pos = picture->nb_fields;
     if(m_sequence.flags & SEQ_FLAG_PROGRESSIVE_SEQUENCE)
-		nb_pos >>= 1;
+        nb_pos >>= 1;
 
-	int i = 0;
+    int i = 0;
 
     for(; i < nb_pos; i++)
-	{
-		int x = ((buffer[4*i] << 24) | (buffer[4*i+1] << 16) |
-			(buffer[4*i+2] << 8) | buffer[4*i+3]) >> (11-2*i);
-		int y = ((buffer[4*i+2] << 24) | (buffer[4*i+3] << 16) |
-			(buffer[4*i+4] << 8) | buffer[4*i+5]) >> (10-2*i);
-		if(!(x&y&1))
-			return 1;
+    {
+        int x = ((buffer[4*i] << 24) | (buffer[4*i+1] << 16) |
+            (buffer[4*i+2] << 8) | buffer[4*i+3]) >> (11-2*i);
+        int y = ((buffer[4*i+2] << 24) | (buffer[4*i+3] << 16) |
+            (buffer[4*i+4] << 8) | buffer[4*i+5]) >> (10-2*i);
+        if(!(x&y&1))
+            return 1;
 
-		picture->display_offset[i].x = m_display_offset_x = x >> 1;
-		picture->display_offset[i].y = m_display_offset_y = y >> 1;
-	}
+        picture->display_offset[i].x = m_display_offset_x = x >> 1;
+        picture->display_offset[i].y = m_display_offset_y = y >> 1;
+    }
 
     for(; i < 3; i++)
-	{
-		picture->display_offset[i].x = m_display_offset_x;
-		picture->display_offset[i].y = m_display_offset_y;
+    {
+        picture->display_offset[i].x = m_display_offset_x;
+        picture->display_offset[i].y = m_display_offset_y;
     }
 
     return 0;
@@ -1451,25 +1451,25 @@ int CMpeg2Dec::picture_coding_ext()
     m_decoder.m_intra_dc_precision = (buffer[2] >> 2) & 3;
     m_decoder.m_picture_structure = buffer[2] & 3;
     switch(m_decoder.m_picture_structure)
-	{
+    {
     case TOP_FIELD:
-		picture->flags |= PIC_FLAG_TOP_FIELD_FIRST;
+        picture->flags |= PIC_FLAG_TOP_FIELD_FIRST;
     case BOTTOM_FIELD:
-		picture->nb_fields = 1;
-		break;
+        picture->nb_fields = 1;
+        break;
     case FRAME_PICTURE:
-		if(!(m_sequence.flags & SEQ_FLAG_PROGRESSIVE_SEQUENCE))
-		{
-			picture->nb_fields = (buffer[3] & 2) ? 3 : 2;
-			picture->flags |= (buffer[3] & 128) ? PIC_FLAG_TOP_FIELD_FIRST : 0;
-		}
-		else
-		{
-			picture->nb_fields = (buffer[3]&2) ? ((buffer[3]&128) ? 6 : 4) : 2;
-		}
-		break;
+        if(!(m_sequence.flags & SEQ_FLAG_PROGRESSIVE_SEQUENCE))
+        {
+            picture->nb_fields = (buffer[3] & 2) ? 3 : 2;
+            picture->flags |= (buffer[3] & 128) ? PIC_FLAG_TOP_FIELD_FIRST : 0;
+        }
+        else
+        {
+            picture->nb_fields = (buffer[3]&2) ? ((buffer[3]&128) ? 6 : 4) : 2;
+        }
+        break;
     default:
-		return 1;
+        return 1;
     }
 
     m_decoder.m_top_field_first = buffer[3] >> 7;
@@ -1479,12 +1479,12 @@ int CMpeg2Dec::picture_coding_ext()
     m_decoder.m_intra_vlc_format = (buffer[3] >> 3) & 1;
     m_decoder.m_scan = (buffer[3] & 4) ? mpeg2_scan_alt_2 : mpeg2_scan_norm_2;
 
-	if(buffer[3] & 2)
-		picture->flags |= PIC_FLAG_REPEAT_FIRST_FIELD;
+    if(buffer[3] & 2)
+        picture->flags |= PIC_FLAG_REPEAT_FIRST_FIELD;
 
     picture->flags |= (buffer[4] & 0x80) ? PIC_FLAG_PROGRESSIVE_FRAME : 0;
     if(buffer[4] & 0x40)
-		picture->flags |= (((buffer[4]<<26) | (buffer[5]<<18) | (buffer[6]<<10)) & PIC_MASK_COMPOSITE_DISPLAY) | PIC_FLAG_COMPOSITE_DISPLAY;
+        picture->flags |= (((buffer[4]<<26) | (buffer[5]<<18) | (buffer[6]<<10)) & PIC_MASK_COMPOSITE_DISPLAY) | PIC_FLAG_COMPOSITE_DISPLAY;
 
     m_ext_state = PIC_DISPLAY_EXT | COPYRIGHT_EXT | QUANT_MATRIX_EXT;
 
@@ -1496,34 +1496,34 @@ int CMpeg2Dec::picture_coding_ext()
 
 // vlc
 
-#define GETWORD(bit_buf,shift,bit_ptr)				\
-do {								\
-    bit_buf |= ((bit_ptr[0] << 8) | bit_ptr[1]) << (shift);	\
-    bit_ptr += 2;						\
+#define GETWORD(bit_buf,shift,bit_ptr)              \
+do {                                \
+    bit_buf |= ((bit_ptr[0] << 8) | bit_ptr[1]) << (shift); \
+    bit_ptr += 2;                       \
 } while (0)
 /*
 void bitstream_init(const uint8_t * start)
 {
     m_bitstream_buf =
-	(start[0] << 24) | (start[1] << 16) | (start[2] << 8) | start[3];
+    (start[0] << 24) | (start[1] << 16) | (start[2] << 8) | start[3];
     m_bitstream_ptr = start + 4;
     m_bitstream_bits = -16;
 }
 */
 /* make sure that there are at least 16 valid bits in bit_buf */
-#define NEEDBITS		\
-do {						\
-    if (bits > 0) {			\
-	GETWORD (bit_buf, bits, bit_ptr);	\
-	bits -= 16;				\
-    }						\
+#define NEEDBITS        \
+do {                        \
+    if (bits > 0) {         \
+    GETWORD (bit_buf, bits, bit_ptr);   \
+    bits -= 16;             \
+    }                       \
 } while (0)
 
 /* remove num valid bits from bit_buf */
-#define DUMPBITS(num)	\
-do {					\
-    bit_buf <<= (num);			\
-    bits += (num);			\
+#define DUMPBITS(num)   \
+do {                    \
+    bit_buf <<= (num);          \
+    bits += (num);          \
 } while (0)
 
 /* take num bits from the high part of bit_buf and zero extend them */
@@ -1598,7 +1598,7 @@ static const MBtab MB_B [] = {
     {0,                 0}, {INTRA|QUANT,       6},
     {BWD|CODED|QUANT,   6}, {FWD|CODED|QUANT,   6},
     {INTER|CODED|QUANT, 5}, {INTER|CODED|QUANT, 5},
-					{INTRA,       5}, {INTRA,       5},
+                    {INTRA,       5}, {INTRA,       5},
     {FWD,         4}, {FWD,         4}, {FWD,         4}, {FWD,         4},
     {FWD|CODED,   4}, {FWD|CODED,   4}, {FWD|CODED,   4}, {FWD|CODED,   4},
     {BWD,         3}, {BWD,         3}, {BWD,         3}, {BWD,         3},
@@ -1775,7 +1775,7 @@ static const DCTtab DCT_B14_8 [] = {
 };
 
 static const DCTtab DCT_B14AC_5 [] = {
-		 {  1, 3, 5}, {  5, 1, 5}, {  4, 1, 5},
+         {  1, 3, 5}, {  5, 1, 5}, {  4, 1, 5},
     {  1, 2, 4}, {  1, 2, 4}, {  3, 1, 4}, {  3, 1, 4},
     {  2, 1, 3}, {  2, 1, 3}, {  2, 1, 3}, {  2, 1, 3},
     {129, 0, 2}, {129, 0, 2}, {129, 0, 2}, {129, 0, 2},
@@ -1785,7 +1785,7 @@ static const DCTtab DCT_B14AC_5 [] = {
 };
 
 static const DCTtab DCT_B14DC_5 [] = {
-		 {  1, 3, 5}, {  5, 1, 5}, {  4, 1, 5},
+         {  1, 3, 5}, {  5, 1, 5}, {  4, 1, 5},
     {  1, 2, 4}, {  1, 2, 4}, {  3, 1, 4}, {  3, 1, 4},
     {  2, 1, 3}, {  2, 1, 3}, {  2, 1, 3}, {  2, 1, 3},
     {  1, 1, 1}, {  1, 1, 1}, {  1, 1, 1}, {  1, 1, 1},
@@ -1867,7 +1867,7 @@ static const DCTtab DCT_B15_8 [] = {
 
 
 static const MBAtab MBA_5 [] = {
-		    {6, 5}, {5, 5}, {4, 4}, {4, 4}, {3, 4}, {3, 4},
+            {6, 5}, {5, 5}, {4, 4}, {4, 4}, {3, 4}, {3, 4},
     {2, 3}, {2, 3}, {2, 3}, {2, 3}, {1, 3}, {1, 3}, {1, 3}, {1, 3},
     {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1},
     {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}, {0, 1}
@@ -1916,29 +1916,29 @@ bool CMpeg2Decoder::m_idct_initialized = false;
 
 CMpeg2Decoder::CMpeg2Decoder()
 {
-	memset(&m_b_motion, 0, sizeof(m_b_motion));
-	memset(&m_f_motion, 0, sizeof(m_f_motion));
+    memset(&m_b_motion, 0, sizeof(m_b_motion));
+    memset(&m_f_motion, 0, sizeof(m_f_motion));
 
-	m_DCTblock = (int16_t*)_aligned_malloc(64*sizeof(int16_t), 16);
-	memset(m_DCTblock, 0, 64*sizeof(int16_t));
+    m_DCTblock = (int16_t*)_aligned_malloc(64*sizeof(int16_t), 16);
+    memset(m_DCTblock, 0, 64*sizeof(int16_t));
 
     m_bitstream_buf = 0;
     m_bitstream_bits = 0;
     m_bitstream_ptr = NULL;
-    
-	memset(&m_dest, 0, sizeof(m_dest));
-	memset(&m_picture_dest, 0, sizeof(m_picture_dest));
+
+    memset(&m_dest, 0, sizeof(m_dest));
+    memset(&m_picture_dest, 0, sizeof(m_picture_dest));
 
     m_offset = m_stride = m_uv_stride = 0;
     m_limit_x = m_limit_y_16 = m_limit_y_8 = m_limit_y = 0;
 
-	memset(&m_dc_dct_pred, 0, sizeof(m_dc_dct_pred));
+    memset(&m_dc_dct_pred, 0, sizeof(m_dc_dct_pred));
 
     m_quantizer_scale = m_dmv_offset = 0;
     m_v_offset = 0;
 
-	memset(&m_intra_quantizer_matrix, 0, sizeof(m_intra_quantizer_matrix));
-	memset(&m_non_intra_quantizer_matrix, 0, sizeof(m_non_intra_quantizer_matrix));
+    memset(&m_intra_quantizer_matrix, 0, sizeof(m_intra_quantizer_matrix));
+    memset(&m_non_intra_quantizer_matrix, 0, sizeof(m_non_intra_quantizer_matrix));
 
     m_width = m_height = 0;
     m_vertical_position_extension = 0;
@@ -1947,171 +1947,171 @@ CMpeg2Decoder::CMpeg2Decoder()
 
     m_intra_dc_precision = 0;
     m_picture_structure = 0;
-	m_frame_pred_frame_dct = 0;
+    m_frame_pred_frame_dct = 0;
     m_concealment_motion_vectors = 0;
     m_q_scale_type = 0;
     m_intra_vlc_format = 0;
     m_top_field_first = 0;
 
-	m_scan = NULL;
+    m_scan = NULL;
 
     m_second_field = 0;
 
-	m_mpeg1 = 0;
+    m_mpeg1 = 0;
 
-	if(g_cpuid.m_flags&CCpuID::sse2)
-	{
-		m_idct_init = mpeg2_idct_init_sse2;
-		m_idct_copy = mpeg2_idct_copy_sse2;
-		m_idct_add = mpeg2_idct_add_sse2;
-		m_mc = &mpeg2_mc_sse2;
-	}
+    if(g_cpuid.m_flags&CCpuID::sse2)
+    {
+        m_idct_init = mpeg2_idct_init_sse2;
+        m_idct_copy = mpeg2_idct_copy_sse2;
+        m_idct_add = mpeg2_idct_add_sse2;
+        m_mc = &mpeg2_mc_sse2;
+    }
 #ifndef _WIN64
-	else if(g_cpuid.m_flags&CCpuID::mmx)
-	{
-		m_idct_init = mpeg2_idct_init_mmx;
-		m_idct_copy = mpeg2_idct_copy_mmx;
-		m_idct_add = mpeg2_idct_add_mmx;
-		m_mc = &mpeg2_mc_mmx;
-	}
-	else
+    else if(g_cpuid.m_flags&CCpuID::mmx)
+    {
+        m_idct_init = mpeg2_idct_init_mmx;
+        m_idct_copy = mpeg2_idct_copy_mmx;
+        m_idct_add = mpeg2_idct_add_mmx;
+        m_mc = &mpeg2_mc_mmx;
+    }
+    else
 #endif
-	{
-		m_idct_init = mpeg2_idct_init_c;
-		m_idct_copy = mpeg2_idct_copy_c;
-		m_idct_add = mpeg2_idct_add_c;
-		m_mc = &mpeg2_mc_c;
-	}
-	if(!m_idct_initialized)
-	{
-		m_idct_init();
-		m_idct_initialized = true;
-	}
+    {
+        m_idct_init = mpeg2_idct_init_c;
+        m_idct_copy = mpeg2_idct_copy_c;
+        m_idct_add = mpeg2_idct_add_c;
+        m_mc = &mpeg2_mc_c;
+    }
+    if(!m_idct_initialized)
+    {
+        m_idct_init();
+        m_idct_initialized = true;
+    }
 }
 
 CMpeg2Decoder::~CMpeg2Decoder()
 {
-	if(m_DCTblock) _aligned_free(m_DCTblock);
+    if(m_DCTblock) _aligned_free(m_DCTblock);
 }
 
 #define bit_buf (m_bitstream_buf)
 #define bits (m_bitstream_bits)
 #define bit_ptr (m_bitstream_ptr)
-	
+
 int CMpeg2Decoder::get_macroblock_modes()
 {
-	int macroblock_modes;
+    int macroblock_modes;
     const MBtab* tab;
 
     switch(m_coding_type)
-	{
-	case P_TYPE:
-		tab = MB_P + UBITS(bit_buf, 5);
-		DUMPBITS(tab->len);
-		macroblock_modes = tab->modes;
+    {
+    case P_TYPE:
+        tab = MB_P + UBITS(bit_buf, 5);
+        DUMPBITS(tab->len);
+        macroblock_modes = tab->modes;
 
-		if(m_picture_structure != FRAME_PICTURE)
-		{
-			if(macroblock_modes & MACROBLOCK_MOTION_FORWARD)
-			{
-				macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
-				DUMPBITS(2);
-			}
+        if(m_picture_structure != FRAME_PICTURE)
+        {
+            if(macroblock_modes & MACROBLOCK_MOTION_FORWARD)
+            {
+                macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
+                DUMPBITS(2);
+            }
 
-			return macroblock_modes;
-		}
-		else if(m_frame_pred_frame_dct)
-		{
-			if(macroblock_modes & MACROBLOCK_MOTION_FORWARD)
-				macroblock_modes |= MC_FRAME;
+            return macroblock_modes;
+        }
+        else if(m_frame_pred_frame_dct)
+        {
+            if(macroblock_modes & MACROBLOCK_MOTION_FORWARD)
+                macroblock_modes |= MC_FRAME;
 
-			return macroblock_modes;
-		}
+            return macroblock_modes;
+        }
 
-		if(macroblock_modes & MACROBLOCK_MOTION_FORWARD)
-		{
-			macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
-			DUMPBITS(2);
-		}
+        if(macroblock_modes & MACROBLOCK_MOTION_FORWARD)
+        {
+            macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
+            DUMPBITS(2);
+        }
 
-		if(macroblock_modes & (MACROBLOCK_INTRA|MACROBLOCK_PATTERN))
-		{
-			macroblock_modes |= UBITS(bit_buf, 1) * DCT_TYPE_INTERLACED;
-			DUMPBITS(1);
-		}
+        if(macroblock_modes & (MACROBLOCK_INTRA|MACROBLOCK_PATTERN))
+        {
+            macroblock_modes |= UBITS(bit_buf, 1) * DCT_TYPE_INTERLACED;
+            DUMPBITS(1);
+        }
 
-		return macroblock_modes;
+        return macroblock_modes;
 
-	case B_TYPE:
-		tab = MB_B + UBITS(bit_buf, 6);
-		DUMPBITS(tab->len);
-		macroblock_modes = tab->modes;
+    case B_TYPE:
+        tab = MB_B + UBITS(bit_buf, 6);
+        DUMPBITS(tab->len);
+        macroblock_modes = tab->modes;
 
-		if(m_picture_structure != FRAME_PICTURE)
-		{
-			if(!(macroblock_modes & MACROBLOCK_INTRA))
-			{
-				macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
-				DUMPBITS(2);
-			}
+        if(m_picture_structure != FRAME_PICTURE)
+        {
+            if(!(macroblock_modes & MACROBLOCK_INTRA))
+            {
+                macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
+                DUMPBITS(2);
+            }
 
-			return macroblock_modes;
-		}
-		else if(m_frame_pred_frame_dct)
-		{
-			// if(!(macroblock_modes & MACROBLOCK_INTRA))
-				macroblock_modes |= MC_FRAME;
+            return macroblock_modes;
+        }
+        else if(m_frame_pred_frame_dct)
+        {
+            // if(!(macroblock_modes & MACROBLOCK_INTRA))
+                macroblock_modes |= MC_FRAME;
 
-			return macroblock_modes;
-		}
+            return macroblock_modes;
+        }
 /*
-		if(macroblock_modes & MACROBLOCK_INTRA)
-			goto intra;
+        if(macroblock_modes & MACROBLOCK_INTRA)
+            goto intra;
 
-		macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
-		DUMPBITS(2);
+        macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
+        DUMPBITS(2);
 
-		if(macroblock_modes & (MACROBLOCK_INTRA|MACROBLOCK_PATTERN))
-		{
+        if(macroblock_modes & (MACROBLOCK_INTRA|MACROBLOCK_PATTERN))
+        {
 intra:
-			macroblock_modes |= UBITS(bit_buf, 1) * DCT_TYPE_INTERLACED;
-			DUMPBITS(1);
-		}
+            macroblock_modes |= UBITS(bit_buf, 1) * DCT_TYPE_INTERLACED;
+            DUMPBITS(1);
+        }
 */
-		if(!(macroblock_modes & MACROBLOCK_INTRA))
-		{
-			macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
-			DUMPBITS(2);
-		}
+        if(!(macroblock_modes & MACROBLOCK_INTRA))
+        {
+            macroblock_modes |= UBITS(bit_buf, 2) * MOTION_TYPE_BASE;
+            DUMPBITS(2);
+        }
 
-		if(macroblock_modes & (MACROBLOCK_INTRA|MACROBLOCK_PATTERN))
-		{
-			macroblock_modes |= UBITS(bit_buf, 1) * DCT_TYPE_INTERLACED;
-			DUMPBITS(1);
-		}
+        if(macroblock_modes & (MACROBLOCK_INTRA|MACROBLOCK_PATTERN))
+        {
+            macroblock_modes |= UBITS(bit_buf, 1) * DCT_TYPE_INTERLACED;
+            DUMPBITS(1);
+        }
 
-		return macroblock_modes;
+        return macroblock_modes;
 
     case I_TYPE:
-		tab = MB_I + UBITS(bit_buf, 1);
-		DUMPBITS(tab->len);
-		macroblock_modes = tab->modes;
+        tab = MB_I + UBITS(bit_buf, 1);
+        DUMPBITS(tab->len);
+        macroblock_modes = tab->modes;
 
-		if(!m_frame_pred_frame_dct && m_picture_structure == FRAME_PICTURE)
-		{
-			macroblock_modes |= UBITS(bit_buf, 1) * DCT_TYPE_INTERLACED;
-			DUMPBITS(1);
-		}
+        if(!m_frame_pred_frame_dct && m_picture_structure == FRAME_PICTURE)
+        {
+            macroblock_modes |= UBITS(bit_buf, 1) * DCT_TYPE_INTERLACED;
+            DUMPBITS(1);
+        }
 
-		return macroblock_modes;
+        return macroblock_modes;
 
-	case D_TYPE:
+    case D_TYPE:
 
-		DUMPBITS(1);
-		return MACROBLOCK_INTRA;
-	}
-    
-	return 0;
+        DUMPBITS(1);
+        return MACROBLOCK_INTRA;
+    }
+
+    return 0;
 }
 
 int CMpeg2Decoder::get_quantizer_scale()
@@ -2119,9 +2119,9 @@ int CMpeg2Decoder::get_quantizer_scale()
     int quantizer_scale_code = UBITS(bit_buf, 5);
     DUMPBITS(5);
 
-    return m_q_scale_type 
-		? non_linear_quantizer_scale[quantizer_scale_code]
-		: (quantizer_scale_code << 1);
+    return m_q_scale_type
+        ? non_linear_quantizer_scale[quantizer_scale_code]
+        : (quantizer_scale_code << 1);
 }
 
 int CMpeg2Decoder::get_motion_delta(const int f_code)
@@ -2131,47 +2131,47 @@ int CMpeg2Decoder::get_motion_delta(const int f_code)
     const MVtab* tab;
 
     if(bit_buf & 0x80000000)
-	{
-		DUMPBITS(1);
-		return 0;
+    {
+        DUMPBITS(1);
+        return 0;
     }
-	else if(bit_buf >= 0x0c000000)
-	{
-		tab = MV_4 + UBITS(bit_buf, 4);
-		delta = (tab->delta << f_code) + 1;
-		bits += tab->len + f_code + 1;
-		bit_buf <<= tab->len;
+    else if(bit_buf >= 0x0c000000)
+    {
+        tab = MV_4 + UBITS(bit_buf, 4);
+        delta = (tab->delta << f_code) + 1;
+        bits += tab->len + f_code + 1;
+        bit_buf <<= tab->len;
 
-		sign = SBITS(bit_buf, 1);
-		bit_buf <<= 1;
+        sign = SBITS(bit_buf, 1);
+        bit_buf <<= 1;
 
-		if(f_code)
-		{
-			delta += UBITS(bit_buf, f_code);
-		}
+        if(f_code)
+        {
+            delta += UBITS(bit_buf, f_code);
+        }
 
-		bit_buf <<= f_code;
+        bit_buf <<= f_code;
 
-		return (delta ^ sign) - sign;
+        return (delta ^ sign) - sign;
     }
-	else
-	{
-		tab = MV_10 + UBITS(bit_buf, 10);
-		delta = (tab->delta << f_code) + 1;
-		bits += tab->len + 1;
-		bit_buf <<= tab->len;
+    else
+    {
+        tab = MV_10 + UBITS(bit_buf, 10);
+        delta = (tab->delta << f_code) + 1;
+        bits += tab->len + 1;
+        bit_buf <<= tab->len;
 
-		sign = SBITS(bit_buf, 1);
-		bit_buf <<= 1;
+        sign = SBITS(bit_buf, 1);
+        bit_buf <<= 1;
 
-		if(f_code)
-		{
-		    NEEDBITS;
-			delta += UBITS(bit_buf, f_code);
-			DUMPBITS(f_code);
-		}
+        if(f_code)
+        {
+            NEEDBITS;
+            delta += UBITS(bit_buf, f_code);
+            DUMPBITS(f_code);
+        }
 
-		return (delta ^ sign) - sign;
+        return (delta ^ sign) - sign;
     }
 }
 
@@ -2194,16 +2194,16 @@ int CMpeg2Decoder::get_coded_block_pattern()
     NEEDBITS;
 
     if(bit_buf >= 0x20000000)
-	{
-		tab = CBP_7 + (UBITS(bit_buf, 7) - 16);
-		DUMPBITS(tab->len);
-		return tab->cbp;
+    {
+        tab = CBP_7 + (UBITS(bit_buf, 7) - 16);
+        DUMPBITS(tab->len);
+        return tab->cbp;
     }
-	else
-	{
-		tab = CBP_9 + UBITS(bit_buf, 9);
-		DUMPBITS(tab->len);
-		return tab->cbp;
+    else
+    {
+        tab = CBP_9 + UBITS(bit_buf, 9);
+        DUMPBITS(tab->len);
+        return tab->cbp;
     }
 }
 
@@ -2214,33 +2214,33 @@ int CMpeg2Decoder::get_luma_dc_dct_diff()
     int dc_diff;
 
     if(bit_buf < 0xf8000000)
-	{
-		tab = DC_lum_5 + UBITS(bit_buf, 5);
-		size = tab->size;
-		if(size)
-		{
-			bits += tab->len + size;
-			bit_buf <<= tab->len;
-			dc_diff = UBITS(bit_buf, size) - UBITS(SBITS(~bit_buf, 1), size);
-			bit_buf <<= size;
-			return dc_diff;
-		}
-		else
-		{
-			DUMPBITS(3);
-			return 0;
-		}
-	}
-	else
-	{
-		tab = DC_long + (UBITS(bit_buf, 9) - 0x1e0);
-		size = tab->size;
-		DUMPBITS(tab->len);
-		NEEDBITS;
-		dc_diff = UBITS(bit_buf, size) - UBITS(SBITS(~bit_buf, 1), size);
-		DUMPBITS(size);
-		return dc_diff;
-	}
+    {
+        tab = DC_lum_5 + UBITS(bit_buf, 5);
+        size = tab->size;
+        if(size)
+        {
+            bits += tab->len + size;
+            bit_buf <<= tab->len;
+            dc_diff = UBITS(bit_buf, size) - UBITS(SBITS(~bit_buf, 1), size);
+            bit_buf <<= size;
+            return dc_diff;
+        }
+        else
+        {
+            DUMPBITS(3);
+            return 0;
+        }
+    }
+    else
+    {
+        tab = DC_long + (UBITS(bit_buf, 9) - 0x1e0);
+        size = tab->size;
+        DUMPBITS(tab->len);
+        NEEDBITS;
+        dc_diff = UBITS(bit_buf, size) - UBITS(SBITS(~bit_buf, 1), size);
+        DUMPBITS(size);
+        return dc_diff;
+    }
 }
 
 int CMpeg2Decoder::get_chroma_dc_dct_diff()
@@ -2250,44 +2250,44 @@ int CMpeg2Decoder::get_chroma_dc_dct_diff()
     int dc_diff;
 
     if(bit_buf < 0xf8000000)
-	{
-		tab = DC_chrom_5 + UBITS(bit_buf, 5);
-		size = tab->size;
+    {
+        tab = DC_chrom_5 + UBITS(bit_buf, 5);
+        size = tab->size;
 
-		if(size)
-		{
-			bits += tab->len + size;
-			bit_buf <<= tab->len;
-			dc_diff = UBITS(bit_buf, size) - UBITS(SBITS(~bit_buf, 1), size);
-			bit_buf <<= size;
-			return dc_diff;
-		}
-		else
-		{
-			DUMPBITS(2);
-			return 0;
-		}
-	}
-	else
-	{
-		tab = DC_long + (UBITS(bit_buf, 10) - 0x3e0);
-		size = tab->size;
-		DUMPBITS(tab->len + 1);
-		NEEDBITS;
-		dc_diff = UBITS(bit_buf, size) - UBITS(SBITS(~bit_buf, 1), size);
-		DUMPBITS(size);
-		return dc_diff;
-	}
+        if(size)
+        {
+            bits += tab->len + size;
+            bit_buf <<= tab->len;
+            dc_diff = UBITS(bit_buf, size) - UBITS(SBITS(~bit_buf, 1), size);
+            bit_buf <<= size;
+            return dc_diff;
+        }
+        else
+        {
+            DUMPBITS(2);
+            return 0;
+        }
+    }
+    else
+    {
+        tab = DC_long + (UBITS(bit_buf, 10) - 0x3e0);
+        size = tab->size;
+        DUMPBITS(tab->len + 1);
+        NEEDBITS;
+        dc_diff = UBITS(bit_buf, size) - UBITS(SBITS(~bit_buf, 1), size);
+        DUMPBITS(size);
+        return dc_diff;
+    }
 }
 
 #undef bit_buf
 #undef bits
 #undef bit_ptr
 
-#define SATURATE(val)					\
-do {							\
-    if((uint32_t)(val + 2048) > 4095)	\
-	val = SBITS(val, 1) ^ 2047;			\
+#define SATURATE(val)                   \
+do {                            \
+    if((uint32_t)(val + 2048) > 4095)   \
+    val = SBITS(val, 1) ^ 2047;         \
 } while (0)
 
 void CMpeg2Decoder::get_intra_block_B14()
@@ -2315,101 +2315,101 @@ void CMpeg2Decoder::get_intra_block_B14()
     NEEDBITS;
 
     while(1)
-	{
-		if(bit_buf >= 0x28000000)
-		{
-			tab = DCT_B14AC_5 + (UBITS(bit_buf, 5) - 5);
+    {
+        if(bit_buf >= 0x28000000)
+        {
+            tab = DCT_B14AC_5 + (UBITS(bit_buf, 5) - 5);
 
-			i += tab->run;
-			if(i >= 64)
-				break;	/* end of block */
+            i += tab->run;
+            if(i >= 64)
+                break;  /* end of block */
 
 normal_code:
-			j = scan[i];
-			bit_buf <<= tab->len;
-			bits += tab->len + 1;
-			val = (tab->level * quantizer_scale * quant_matrix[j]) >> 4;
+            j = scan[i];
+            bit_buf <<= tab->len;
+            bits += tab->len + 1;
+            val = (tab->level * quantizer_scale * quant_matrix[j]) >> 4;
 
-			// if(bitstream_get (1)) val = -val;
-				val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
+            // if(bitstream_get (1)) val = -val;
+                val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
 
-			SATURATE(val);
-			dest[j] = val;
-			mismatch ^= val;
+            SATURATE(val);
+            dest[j] = val;
+            mismatch ^= val;
 
-			bit_buf <<= 1;
-			NEEDBITS;
+            bit_buf <<= 1;
+            NEEDBITS;
 
-			continue;
-		}
-		else if(bit_buf >= 0x04000000)
-		{
-			tab = DCT_B14_8 + (UBITS(bit_buf, 8) - 4);
+            continue;
+        }
+        else if(bit_buf >= 0x04000000)
+        {
+            tab = DCT_B14_8 + (UBITS(bit_buf, 8) - 4);
 
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
 
-			/* escape code */
+            /* escape code */
 
-			i += UBITS(bit_buf << 6, 6) - 64;
-			if(i >= 64)
-				break;	/* illegal, check needed to avoid buffer overflow */
+            i += UBITS(bit_buf << 6, 6) - 64;
+            if(i >= 64)
+                break;  /* illegal, check needed to avoid buffer overflow */
 
-			j = scan[i];
+            j = scan[i];
 
-			DUMPBITS(12);
-			NEEDBITS;
-			val = (SBITS(bit_buf, 12) * quantizer_scale * quant_matrix[j]) / 16;
+            DUMPBITS(12);
+            NEEDBITS;
+            val = (SBITS(bit_buf, 12) * quantizer_scale * quant_matrix[j]) / 16;
 
-			SATURATE(val);
-			dest[j] = val;
-			mismatch ^= val;
+            SATURATE(val);
+            dest[j] = val;
+            mismatch ^= val;
 
-			DUMPBITS(12);
-			NEEDBITS;
+            DUMPBITS(12);
+            NEEDBITS;
 
-			continue;
-		}
-		else if(bit_buf >= 0x02000000)
-		{
-			tab = DCT_B14_10 + (UBITS(bit_buf, 10) - 8);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00800000)
-		{
-			tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00200000)
-		{
-			tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else
-		{
-			tab = DCT_16 + UBITS(bit_buf, 16);
-			bit_buf <<= 16;
-			GETWORD (bit_buf, bits + 16, bit_ptr);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
+            continue;
+        }
+        else if(bit_buf >= 0x02000000)
+        {
+            tab = DCT_B14_10 + (UBITS(bit_buf, 10) - 8);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00800000)
+        {
+            tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00200000)
+        {
+            tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else
+        {
+            tab = DCT_16 + UBITS(bit_buf, 16);
+            bit_buf <<= 16;
+            GETWORD (bit_buf, bits + 16, bit_ptr);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
 
-		break;	/* illegal, check needed to avoid buffer overflow */
-	}
+        break;  /* illegal, check needed to avoid buffer overflow */
+    }
 
-	dest[63] ^= mismatch & 1;
-	DUMPBITS(2);	/* dump end of block code */
-	m_bitstream_buf = bit_buf;
-	m_bitstream_bits = bits;
-	m_bitstream_ptr = bit_ptr;
+    dest[63] ^= mismatch & 1;
+    DUMPBITS(2);    /* dump end of block code */
+    m_bitstream_buf = bit_buf;
+    m_bitstream_bits = bits;
+    m_bitstream_ptr = bit_ptr;
 }
 
 void CMpeg2Decoder::get_intra_block_B15()
@@ -2436,102 +2436,102 @@ void CMpeg2Decoder::get_intra_block_B15()
 
     NEEDBITS;
 
-	while(1)
-	{
-		if(bit_buf >= 0x04000000)
-		{
-			tab = DCT_B15_8 + (UBITS(bit_buf, 8) - 4);
+    while(1)
+    {
+        if(bit_buf >= 0x04000000)
+        {
+            tab = DCT_B15_8 + (UBITS(bit_buf, 8) - 4);
 
-			i += tab->run;
-			if(i < 64)
-			{
+            i += tab->run;
+            if(i < 64)
+            {
 normal_code:
-				j = scan[i];
-				bit_buf <<= tab->len;
-				bits += tab->len + 1;
-				val = (tab->level * quantizer_scale * quant_matrix[j]) >> 4;
+                j = scan[i];
+                bit_buf <<= tab->len;
+                bits += tab->len + 1;
+                val = (tab->level * quantizer_scale * quant_matrix[j]) >> 4;
 
-				// if(bitstream_get (1)) val = -val;
-					val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
+                // if(bitstream_get (1)) val = -val;
+                    val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
 
-				SATURATE(val);
-				dest[j] = val;
-				mismatch ^= val;
+                SATURATE(val);
+                dest[j] = val;
+                mismatch ^= val;
 
-				bit_buf <<= 1;
-				NEEDBITS;
+                bit_buf <<= 1;
+                NEEDBITS;
 
-				continue;
-			}
-			else
-			{
-				/* end of block. I commented out this code because if we */
-				/* dont exit here we will still exit at the later test :) */
+                continue;
+            }
+            else
+            {
+                /* end of block. I commented out this code because if we */
+                /* dont exit here we will still exit at the later test :) */
 
-				/* if(i >= 128) break;	*/	/* end of block */
+                /* if(i >= 128) break;  */  /* end of block */
 
-				/* escape code */
+                /* escape code */
 
-				i += UBITS(bit_buf << 6, 6) - 64;
-				if(i >= 64)
-					break;	/* illegal, check against buffer overflow */
+                i += UBITS(bit_buf << 6, 6) - 64;
+                if(i >= 64)
+                    break;  /* illegal, check against buffer overflow */
 
-				j = scan[i];
+                j = scan[i];
 
-				DUMPBITS(12);
-				NEEDBITS;
-				val = (SBITS(bit_buf, 12) *
-					quantizer_scale * quant_matrix[j]) / 16;
+                DUMPBITS(12);
+                NEEDBITS;
+                val = (SBITS(bit_buf, 12) *
+                    quantizer_scale * quant_matrix[j]) / 16;
 
-				SATURATE(val);
-				dest[j] = val;
-				mismatch ^= val;
+                SATURATE(val);
+                dest[j] = val;
+                mismatch ^= val;
 
-				DUMPBITS(12);
-				NEEDBITS;
+                DUMPBITS(12);
+                NEEDBITS;
 
-				continue;
-			}
-		}
-		else if(bit_buf >= 0x02000000)
-		{
-			tab = DCT_B15_10 + (UBITS(bit_buf, 10) - 8);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00800000)
-		{
-			tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00200000)
-		{
-			tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else
-		{
-			tab = DCT_16 + UBITS(bit_buf, 16);
-			bit_buf <<= 16;
-			GETWORD(bit_buf, bits + 16, bit_ptr);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
+                continue;
+            }
+        }
+        else if(bit_buf >= 0x02000000)
+        {
+            tab = DCT_B15_10 + (UBITS(bit_buf, 10) - 8);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00800000)
+        {
+            tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00200000)
+        {
+            tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else
+        {
+            tab = DCT_16 + UBITS(bit_buf, 16);
+            bit_buf <<= 16;
+            GETWORD(bit_buf, bits + 16, bit_ptr);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
 
-		break;	/* illegal, check needed to avoid buffer overflow */
-	}
+        break;  /* illegal, check needed to avoid buffer overflow */
+    }
 
-	dest[63] ^= mismatch & 1;
-	DUMPBITS(4);	/* dump end of block code */
-	m_bitstream_buf = bit_buf;
-	m_bitstream_bits = bits;
-	m_bitstream_ptr = bit_ptr;
+    dest[63] ^= mismatch & 1;
+    DUMPBITS(4);    /* dump end of block code */
+    m_bitstream_buf = bit_buf;
+    m_bitstream_bits = bits;
+    m_bitstream_ptr = bit_ptr;
 }
 
 int CMpeg2Decoder::get_non_intra_block()
@@ -2558,115 +2558,115 @@ int CMpeg2Decoder::get_non_intra_block()
 
     NEEDBITS;
     if(bit_buf >= 0x28000000)
-	{
-		tab = DCT_B14DC_5 + (UBITS(bit_buf, 5) - 5);
-		goto entry_1;
+    {
+        tab = DCT_B14DC_5 + (UBITS(bit_buf, 5) - 5);
+        goto entry_1;
     }
-	else
-	{
-		goto entry_2;
-	}
+    else
+    {
+        goto entry_2;
+    }
 
     while(1)
-	{
-		if(bit_buf >= 0x28000000)
-		{
-			tab = DCT_B14AC_5 + (UBITS(bit_buf, 5) - 5);
+    {
+        if(bit_buf >= 0x28000000)
+        {
+            tab = DCT_B14AC_5 + (UBITS(bit_buf, 5) - 5);
 entry_1:
-			i += tab->run;
-			if(i >= 64)
-				break;	/* end of block */
+            i += tab->run;
+            if(i >= 64)
+                break;  /* end of block */
 normal_code:
-			j = scan[i];
-			bit_buf <<= tab->len;
-			bits += tab->len + 1;
-			val = ((2*tab->level+1) * quantizer_scale * quant_matrix[j]) >> 5;
+            j = scan[i];
+            bit_buf <<= tab->len;
+            bits += tab->len + 1;
+            val = ((2*tab->level+1) * quantizer_scale * quant_matrix[j]) >> 5;
 
-			/* if(bitstream_get (1)) val = -val; */
-			val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
+            /* if(bitstream_get (1)) val = -val; */
+            val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
 
-			SATURATE(val);
-			dest[j] = val;
-			mismatch ^= val;
+            SATURATE(val);
+            dest[j] = val;
+            mismatch ^= val;
 
-			bit_buf <<= 1;
-			NEEDBITS;
+            bit_buf <<= 1;
+            NEEDBITS;
 
-			continue;
-		}
+            continue;
+        }
 
 entry_2:
-		if(bit_buf >= 0x04000000)
-		{
-			tab = DCT_B14_8 + (UBITS(bit_buf, 8) - 4);
+        if(bit_buf >= 0x04000000)
+        {
+            tab = DCT_B14_8 + (UBITS(bit_buf, 8) - 4);
 
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
 
-			/* escape code */
+            /* escape code */
 
-			i += UBITS(bit_buf << 6, 6) - 64;
-			if(i >= 64)
-				break;	/* illegal, check needed to avoid buffer overflow */
+            i += UBITS(bit_buf << 6, 6) - 64;
+            if(i >= 64)
+                break;  /* illegal, check needed to avoid buffer overflow */
 
-			j = scan[i];
+            j = scan[i];
 
-			DUMPBITS(12);
-			NEEDBITS;
-			val = 2 * (SBITS(bit_buf, 12) + SBITS(bit_buf, 1)) + 1;
-			val = (val * quantizer_scale * quant_matrix[j]) / 32;
+            DUMPBITS(12);
+            NEEDBITS;
+            val = 2 * (SBITS(bit_buf, 12) + SBITS(bit_buf, 1)) + 1;
+            val = (val * quantizer_scale * quant_matrix[j]) / 32;
 
-			SATURATE(val);
-			dest[j] = val;
-			mismatch ^= val;
+            SATURATE(val);
+            dest[j] = val;
+            mismatch ^= val;
 
-			DUMPBITS(12);
-			NEEDBITS;
+            DUMPBITS(12);
+            NEEDBITS;
 
-			continue;
-		}
-		else if(bit_buf >= 0x02000000)
-		{
-			tab = DCT_B14_10 + (UBITS(bit_buf, 10) - 8);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00800000)
-		{
-			tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00200000)
-		{
-			tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else
-		{
-			tab = DCT_16 + UBITS(bit_buf, 16);
-			bit_buf <<= 16;
-			GETWORD (bit_buf, bits + 16, bit_ptr);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
+            continue;
+        }
+        else if(bit_buf >= 0x02000000)
+        {
+            tab = DCT_B14_10 + (UBITS(bit_buf, 10) - 8);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00800000)
+        {
+            tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00200000)
+        {
+            tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else
+        {
+            tab = DCT_16 + UBITS(bit_buf, 16);
+            bit_buf <<= 16;
+            GETWORD (bit_buf, bits + 16, bit_ptr);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
 
-		break;	/* illegal, check needed to avoid buffer overflow */
-	}
+        break;  /* illegal, check needed to avoid buffer overflow */
+    }
 
-	dest[63] ^= mismatch & 1;
-	DUMPBITS(2);	/* dump end of block code */
-	m_bitstream_buf = bit_buf;
-	m_bitstream_bits = bits;
-	m_bitstream_ptr = bit_ptr;
+    dest[63] ^= mismatch & 1;
+    DUMPBITS(2);    /* dump end of block code */
+    m_bitstream_buf = bit_buf;
+    m_bitstream_bits = bits;
+    m_bitstream_ptr = bit_ptr;
 
-	return i;
+    return i;
 }
 
 void CMpeg2Decoder::get_mpeg1_intra_block()
@@ -2692,109 +2692,109 @@ void CMpeg2Decoder::get_mpeg1_intra_block()
     NEEDBITS;
 
     while(1)
-	{
-		if(bit_buf >= 0x28000000)
-		{
-			tab = DCT_B14AC_5 + (UBITS(bit_buf, 5) - 5);
+    {
+        if(bit_buf >= 0x28000000)
+        {
+            tab = DCT_B14AC_5 + (UBITS(bit_buf, 5) - 5);
 
-			i += tab->run;
-			if(i >= 64)
-				break;	/* end of block */
+            i += tab->run;
+            if(i >= 64)
+                break;  /* end of block */
 normal_code:
-			j = scan[i];
-			bit_buf <<= tab->len;
-			bits += tab->len + 1;
-			val = (tab->level * quantizer_scale * quant_matrix[j]) >> 4;
+            j = scan[i];
+            bit_buf <<= tab->len;
+            bits += tab->len + 1;
+            val = (tab->level * quantizer_scale * quant_matrix[j]) >> 4;
 
-			/* oddification */
-			val = (val - 1) | 1;
+            /* oddification */
+            val = (val - 1) | 1;
 
-			/* if(bitstream_get (1)) val = -val; */
-			val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
+            /* if(bitstream_get (1)) val = -val; */
+            val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
 
-			SATURATE(val);
-			dest[j] = val;
+            SATURATE(val);
+            dest[j] = val;
 
-			bit_buf <<= 1;
-			NEEDBITS;
+            bit_buf <<= 1;
+            NEEDBITS;
 
-			continue;
-		}
-		else if(bit_buf >= 0x04000000)
-		{
-			tab = DCT_B14_8 + (UBITS(bit_buf, 8) - 4);
+            continue;
+        }
+        else if(bit_buf >= 0x04000000)
+        {
+            tab = DCT_B14_8 + (UBITS(bit_buf, 8) - 4);
 
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
 
-			/* escape code */
+            /* escape code */
 
-			i += UBITS(bit_buf << 6, 6) - 64;
-			if(i >= 64)
-				break;	/* illegal, check needed to avoid buffer overflow */
+            i += UBITS(bit_buf << 6, 6) - 64;
+            if(i >= 64)
+                break;  /* illegal, check needed to avoid buffer overflow */
 
-			j = scan[i];
+            j = scan[i];
 
-			DUMPBITS(12);
-			NEEDBITS;
-			val = SBITS(bit_buf, 8);
-			if(!(val & 0x7f))
-			{
-				DUMPBITS(8);
-				val = UBITS(bit_buf, 8) + 2 * val;
-			}
-			val = (val * quantizer_scale * quant_matrix[j]) / 16;
+            DUMPBITS(12);
+            NEEDBITS;
+            val = SBITS(bit_buf, 8);
+            if(!(val & 0x7f))
+            {
+                DUMPBITS(8);
+                val = UBITS(bit_buf, 8) + 2 * val;
+            }
+            val = (val * quantizer_scale * quant_matrix[j]) / 16;
 
-			/* oddification */
-			val = (val + ~SBITS(val, 1)) | 1;
+            /* oddification */
+            val = (val + ~SBITS(val, 1)) | 1;
 
-			SATURATE(val);
-			dest[j] = val;
+            SATURATE(val);
+            dest[j] = val;
 
-			DUMPBITS(8);
-			NEEDBITS;
+            DUMPBITS(8);
+            NEEDBITS;
 
-			continue;
-		}
-		else if(bit_buf >= 0x02000000)
-		{
-			tab = DCT_B14_10 + (UBITS(bit_buf, 10) - 8);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00800000)
-		{
-			tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00200000)
-		{
-			tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else
-		{
-			tab = DCT_16 + UBITS(bit_buf, 16);
-			bit_buf <<= 16;
-			GETWORD(bit_buf, bits + 16, bit_ptr);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
+            continue;
+        }
+        else if(bit_buf >= 0x02000000)
+        {
+            tab = DCT_B14_10 + (UBITS(bit_buf, 10) - 8);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00800000)
+        {
+            tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00200000)
+        {
+            tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else
+        {
+            tab = DCT_16 + UBITS(bit_buf, 16);
+            bit_buf <<= 16;
+            GETWORD(bit_buf, bits + 16, bit_ptr);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
 
-		break;	/* illegal, check needed to avoid buffer overflow */
-	}
+        break;  /* illegal, check needed to avoid buffer overflow */
+    }
 
-	DUMPBITS(2);	/* dump end of block code */
-	m_bitstream_buf = bit_buf;
-	m_bitstream_bits = bits;
-	m_bitstream_ptr = bit_ptr;
+    DUMPBITS(2);    /* dump end of block code */
+    m_bitstream_buf = bit_buf;
+    m_bitstream_bits = bits;
+    m_bitstream_ptr = bit_ptr;
 }
 
 int CMpeg2Decoder::get_mpeg1_non_intra_block()
@@ -2819,124 +2819,124 @@ int CMpeg2Decoder::get_mpeg1_non_intra_block()
 
     NEEDBITS;
     if(bit_buf >= 0x28000000)
-	{
-		tab = DCT_B14DC_5 + (UBITS(bit_buf, 5) - 5);
-		goto entry_1;
-	}
-	else
-	{
-		goto entry_2;
-	}
+    {
+        tab = DCT_B14DC_5 + (UBITS(bit_buf, 5) - 5);
+        goto entry_1;
+    }
+    else
+    {
+        goto entry_2;
+    }
 
-	while(1)
-	{
-		if(bit_buf >= 0x28000000)
-		{
-			tab = DCT_B14AC_5 + (UBITS(bit_buf, 5) - 5);
+    while(1)
+    {
+        if(bit_buf >= 0x28000000)
+        {
+            tab = DCT_B14AC_5 + (UBITS(bit_buf, 5) - 5);
 entry_1:
-			i += tab->run;
-			if(i >= 64)
-				break;	/* end of block */
+            i += tab->run;
+            if(i >= 64)
+                break;  /* end of block */
 normal_code:
-			j = scan[i];
-			bit_buf <<= tab->len;
-			bits += tab->len + 1;
-			val = ((2*tab->level+1) * quantizer_scale * quant_matrix[j]) >> 5;
+            j = scan[i];
+            bit_buf <<= tab->len;
+            bits += tab->len + 1;
+            val = ((2*tab->level+1) * quantizer_scale * quant_matrix[j]) >> 5;
 
-			/* oddification */
-			val = (val - 1) | 1;
+            /* oddification */
+            val = (val - 1) | 1;
 
-			/* if(bitstream_get (1)) val = -val; */
-			val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
+            /* if(bitstream_get (1)) val = -val; */
+            val = (val ^ SBITS(bit_buf, 1)) - SBITS(bit_buf, 1);
 
-			SATURATE(val);
-			dest[j] = val;
+            SATURATE(val);
+            dest[j] = val;
 
-			bit_buf <<= 1;
-			NEEDBITS;
+            bit_buf <<= 1;
+            NEEDBITS;
 
-			continue;
-		}
+            continue;
+        }
 
 entry_2:
-		if(bit_buf >= 0x04000000)
-		{
-			tab = DCT_B14_8 + (UBITS(bit_buf, 8) - 4);
+        if(bit_buf >= 0x04000000)
+        {
+            tab = DCT_B14_8 + (UBITS(bit_buf, 8) - 4);
 
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
 
-			/* escape code */
+            /* escape code */
 
-			i += UBITS(bit_buf << 6, 6) - 64;
-			if(i >= 64)
-				break;	/* illegal, check needed to avoid buffer overflow */
+            i += UBITS(bit_buf << 6, 6) - 64;
+            if(i >= 64)
+                break;  /* illegal, check needed to avoid buffer overflow */
 
-			j = scan[i];
+            j = scan[i];
 
-			DUMPBITS(12);
-			NEEDBITS;
-			val = SBITS(bit_buf, 8);
-			if(!(val & 0x7f))
-			{
-				DUMPBITS(8);
-				val = UBITS(bit_buf, 8) + 2 * val;
-			}
-			val = 2 * (val + SBITS(val, 1)) + 1;
-			val = (val * quantizer_scale * quant_matrix[j]) / 32;
+            DUMPBITS(12);
+            NEEDBITS;
+            val = SBITS(bit_buf, 8);
+            if(!(val & 0x7f))
+            {
+                DUMPBITS(8);
+                val = UBITS(bit_buf, 8) + 2 * val;
+            }
+            val = 2 * (val + SBITS(val, 1)) + 1;
+            val = (val * quantizer_scale * quant_matrix[j]) / 32;
 
-			/* oddification */
-			val = (val + ~SBITS(val, 1)) | 1;
+            /* oddification */
+            val = (val + ~SBITS(val, 1)) | 1;
 
-			SATURATE(val);
-			dest[j] = val;
+            SATURATE(val);
+            dest[j] = val;
 
-			DUMPBITS(8);
-			NEEDBITS;
+            DUMPBITS(8);
+            NEEDBITS;
 
-			continue;
-		}
-		else if(bit_buf >= 0x02000000)
-		{
-			tab = DCT_B14_10 + (UBITS(bit_buf, 10) - 8);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00800000)
-		{
-			tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else if(bit_buf >= 0x00200000)
-		{
-			tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
-		else
-		{
-			tab = DCT_16 + UBITS(bit_buf, 16);
-			bit_buf <<= 16;
-			GETWORD (bit_buf, bits + 16, bit_ptr);
-			i += tab->run;
-			if(i < 64)
-				goto normal_code;
-		}
+            continue;
+        }
+        else if(bit_buf >= 0x02000000)
+        {
+            tab = DCT_B14_10 + (UBITS(bit_buf, 10) - 8);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00800000)
+        {
+            tab = DCT_13 + (UBITS(bit_buf, 13) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else if(bit_buf >= 0x00200000)
+        {
+            tab = DCT_15 + (UBITS(bit_buf, 15) - 16);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
+        else
+        {
+            tab = DCT_16 + UBITS(bit_buf, 16);
+            bit_buf <<= 16;
+            GETWORD (bit_buf, bits + 16, bit_ptr);
+            i += tab->run;
+            if(i < 64)
+                goto normal_code;
+        }
 
-		break;	/* illegal, check needed to avoid buffer overflow */
-	}
+        break;  /* illegal, check needed to avoid buffer overflow */
+    }
 
-	DUMPBITS(2);	/* dump end of block code */
-	m_bitstream_buf = bit_buf;
-	m_bitstream_bits = bits;
-	m_bitstream_ptr = bit_ptr;
+    DUMPBITS(2);    /* dump end of block code */
+    m_bitstream_buf = bit_buf;
+    m_bitstream_bits = bits;
+    m_bitstream_ptr = bit_ptr;
 
-	return i;
+    return i;
 }
 
 #define bit_buf (m_bitstream_buf)
@@ -2948,106 +2948,106 @@ void CMpeg2Decoder::slice_intra_DCT(const int cc, uint8_t* dest, int stride)
     NEEDBITS;
 
     /* Get the intra DC coefficient and inverse quantize it */
-	m_dc_dct_pred[cc] += (cc == 0)
-		? get_luma_dc_dct_diff()
-		: get_chroma_dc_dct_diff();
-    
-	m_DCTblock[0] = m_dc_dct_pred[cc] << (3 - m_intra_dc_precision);
+    m_dc_dct_pred[cc] += (cc == 0)
+        ? get_luma_dc_dct_diff()
+        : get_chroma_dc_dct_diff();
+
+    m_DCTblock[0] = m_dc_dct_pred[cc] << (3 - m_intra_dc_precision);
 
     if(m_mpeg1)
-	{
-		if(m_coding_type != D_TYPE)
-			get_mpeg1_intra_block();
+    {
+        if(m_coding_type != D_TYPE)
+            get_mpeg1_intra_block();
     }
-	else if(m_intra_vlc_format)
-	{
-		get_intra_block_B15();
-	}
+    else if(m_intra_vlc_format)
+    {
+        get_intra_block_B15();
+    }
     else
-	{
-		get_intra_block_B14();
-	}
+    {
+        get_intra_block_B14();
+    }
 
     m_idct_copy(m_DCTblock, dest, stride);
 }
 
 void CMpeg2Decoder::slice_non_intra_DCT(uint8_t* dest, int stride)
 {
-    int last = m_mpeg1 
-		? get_mpeg1_non_intra_block()
-		: get_non_intra_block ();
-    
-	m_idct_add(last, m_DCTblock, dest, stride);
+    int last = m_mpeg1
+        ? get_mpeg1_non_intra_block()
+        : get_non_intra_block ();
+
+    m_idct_add(last, m_DCTblock, dest, stride);
 }
 
 void CMpeg2Decoder::MOTION(
-	mpeg2_mc_fct * const * const table, uint8_t** ref, 
-	int motion_x, int motion_y, 
-	unsigned int size, unsigned int y, unsigned int limit_y)
-{
-	unsigned int pos_x, pos_y, xy_half, offset, dest_offset;
-
-	pos_x = 2 * m_offset + motion_x;
-	pos_y = 2 * m_v_offset + motion_y + 2 * y;
-
-	if(pos_x > m_limit_x)
-	{
-		pos_x = ((int)pos_x < 0) ? 0 : m_limit_x;
-		motion_x = pos_x - 2 * m_offset;
-	}
-
-	if(pos_y > limit_y)
-	{
-		pos_y = ((int)pos_y < 0) ? 0 : limit_y;
-		motion_y = pos_y - 2 * m_v_offset - 2 * y;
-	}
-
-	xy_half = ((pos_y & 1) << 1) | (pos_x & 1);
-	offset = (pos_x >> 1) + (pos_y >> 1) * m_stride;
-	table[xy_half] (m_dest[0] + y * m_stride + m_offset, ref[0] + offset, m_stride, size);
-
-	motion_x /= 2;	motion_y /= 2;
-
-	xy_half = ((motion_y & 1) << 1) | (motion_x & 1);
-	offset = ((m_offset + motion_x) >> 1) + ((((m_v_offset + motion_y) >> 1) + y/2) * m_uv_stride);
-	dest_offset = y/2 * m_uv_stride + (m_offset >> 1);
-	table[4+xy_half] (m_dest[1] + dest_offset, ref[1] + offset, m_uv_stride, size/2);
-	table[4+xy_half] (m_dest[2] + dest_offset, ref[2] + offset, m_uv_stride, size/2);
-}
-
-void CMpeg2Decoder::MOTION_FIELD(
-	mpeg2_mc_fct * const * const table, uint8_t** ref, 
-	int motion_x, int motion_y, 
-	int dest_field, int src_field, unsigned int op)
+    mpeg2_mc_fct * const * const table, uint8_t** ref,
+    int motion_x, int motion_y,
+    unsigned int size, unsigned int y, unsigned int limit_y)
 {
     unsigned int pos_x, pos_y, xy_half, offset, dest_offset;
 
-	pos_x = 2 * m_offset + motion_x;
-	pos_y = m_v_offset + motion_y;
+    pos_x = 2 * m_offset + motion_x;
+    pos_y = 2 * m_v_offset + motion_y + 2 * y;
 
-	if(pos_x > m_limit_x)
-	{
-		pos_x = ((int)pos_x < 0) ? 0 : m_limit_x;
-		motion_x = pos_x - 2 * m_offset;
-	}
+    if(pos_x > m_limit_x)
+    {
+        pos_x = ((int)pos_x < 0) ? 0 : m_limit_x;
+        motion_x = pos_x - 2 * m_offset;
+    }
 
-	if(pos_y > m_limit_y)
-	{
-		pos_y = ((int)pos_y < 0) ? 0 : m_limit_y;
-		motion_y = pos_y - m_v_offset;
-	}
+    if(pos_y > limit_y)
+    {
+        pos_y = ((int)pos_y < 0) ? 0 : limit_y;
+        motion_y = pos_y - 2 * m_v_offset - 2 * y;
+    }
 
-	xy_half = ((pos_y & 1) << 1) | (pos_x & 1);
-	offset = (pos_x >> 1) + ((op ? (pos_y | 1) : (pos_y & ~1)) + src_field) * m_stride;
-	table[xy_half] (m_dest[0] + dest_field * m_stride + m_offset, ref[0] + offset, 2 * m_stride, 8);
-	
-	motion_x /= 2;	motion_y /= 2;
+    xy_half = ((pos_y & 1) << 1) | (pos_x & 1);
+    offset = (pos_x >> 1) + (pos_y >> 1) * m_stride;
+    table[xy_half] (m_dest[0] + y * m_stride + m_offset, ref[0] + offset, m_stride, size);
 
-	xy_half = ((motion_y & 1) << 1) | (motion_x & 1);
-	offset = ((m_offset + motion_x) >> 1) + (((m_v_offset >> 1) + (op ? (motion_y | 1) :(motion_y & ~1)) + src_field) * m_uv_stride);
-	dest_offset = dest_field * m_uv_stride + (m_offset >> 1);
-	table[4+xy_half] (m_dest[1] + dest_offset, ref[1] + offset, 2 * m_uv_stride, 4);
-	table[4+xy_half] (m_dest[2] + dest_offset, ref[2] + offset, 2 * m_uv_stride, 4);
+    motion_x /= 2;  motion_y /= 2;
+
+    xy_half = ((motion_y & 1) << 1) | (motion_x & 1);
+    offset = ((m_offset + motion_x) >> 1) + ((((m_v_offset + motion_y) >> 1) + y/2) * m_uv_stride);
+    dest_offset = y/2 * m_uv_stride + (m_offset >> 1);
+    table[4+xy_half] (m_dest[1] + dest_offset, ref[1] + offset, m_uv_stride, size/2);
+    table[4+xy_half] (m_dest[2] + dest_offset, ref[2] + offset, m_uv_stride, size/2);
+}
+
+void CMpeg2Decoder::MOTION_FIELD(
+    mpeg2_mc_fct * const * const table, uint8_t** ref,
+    int motion_x, int motion_y,
+    int dest_field, int src_field, unsigned int op)
+{
+    unsigned int pos_x, pos_y, xy_half, offset, dest_offset;
+
+    pos_x = 2 * m_offset + motion_x;
+    pos_y = m_v_offset + motion_y;
+
+    if(pos_x > m_limit_x)
+    {
+        pos_x = ((int)pos_x < 0) ? 0 : m_limit_x;
+        motion_x = pos_x - 2 * m_offset;
+    }
+
+    if(pos_y > m_limit_y)
+    {
+        pos_y = ((int)pos_y < 0) ? 0 : m_limit_y;
+        motion_y = pos_y - m_v_offset;
+    }
+
+    xy_half = ((pos_y & 1) << 1) | (pos_x & 1);
+    offset = (pos_x >> 1) + ((op ? (pos_y | 1) : (pos_y & ~1)) + src_field) * m_stride;
+    table[xy_half] (m_dest[0] + dest_field * m_stride + m_offset, ref[0] + offset, 2 * m_stride, 8);
+
+    motion_x /= 2;  motion_y /= 2;
+
+    xy_half = ((motion_y & 1) << 1) | (motion_x & 1);
+    offset = ((m_offset + motion_x) >> 1) + (((m_v_offset >> 1) + (op ? (motion_y | 1) :(motion_y & ~1)) + src_field) * m_uv_stride);
+    dest_offset = dest_field * m_uv_stride + (m_offset >> 1);
+    table[4+xy_half] (m_dest[1] + dest_offset, ref[1] + offset, 2 * m_uv_stride, 4);
+    table[4+xy_half] (m_dest[2] + dest_offset, ref[2] + offset, 2 * m_uv_stride, 4);
 }
 
 void CMpeg2Decoder::motion_mp1(motion_t* motion, mpeg2_mc_fct * const * const table)
@@ -3150,22 +3150,22 @@ void CMpeg2Decoder::motion_fr_dmv(motion_t* motion, mpeg2_mc_fct * const * const
     pos_x = 2 * m_offset + motion_x;
     pos_y = m_v_offset + motion_y;
     if(pos_x > m_limit_x)
-	{
-		pos_x = ((int)pos_x < 0) ? 0 : m_limit_x;
-		motion_x = pos_x - 2 * m_offset;
+    {
+        pos_x = ((int)pos_x < 0) ? 0 : m_limit_x;
+        motion_x = pos_x - 2 * m_offset;
     }
     if(pos_y > m_limit_y)
-	{
-		pos_y = ((int)pos_y < 0) ? 0 : m_limit_y;
-		motion_y = pos_y - m_v_offset;
+    {
+        pos_y = ((int)pos_y < 0) ? 0 : m_limit_y;
+        motion_y = pos_y - m_v_offset;
     }
 
     xy_half = ((pos_y & 1) << 1) | (pos_x & 1);
     offset = (pos_x >> 1) + (pos_y & ~1) * m_stride;
     m_mc->avg[xy_half](m_dest[0] + m_offset, motion->ref[0][0] + offset, 2 * m_stride, 8);
     m_mc->avg[xy_half](m_dest[0] + m_stride + m_offset, motion->ref[0][0] + m_stride + offset, 2 * m_stride, 8);
-    motion_x /= 2; 
-	motion_y /= 2;
+    motion_x /= 2;
+    motion_y /= 2;
     xy_half = ((motion_y & 1) << 1) | (motion_x & 1);
     offset = ((m_offset + motion_x) >> 1) + ((m_v_offset >> 1) + (motion_y & ~1)) * m_uv_stride;
     m_mc->avg[4+xy_half](m_dest[1] + (m_offset >> 1), motion->ref[0][1] + offset, 2 * m_uv_stride, 4);
@@ -3308,26 +3308,26 @@ void CMpeg2Decoder::motion_fi_conceal()
     DUMPBITS(1); /* remove marker_bit */
 }
 
-#define MOTION_CALL(routine, direction)				\
-do {								\
-    if((direction) & MACROBLOCK_MOTION_FORWARD)		\
-	routine(&m_f_motion, m_mc->put);	\
-    if((direction) & MACROBLOCK_MOTION_BACKWARD)		\
-	routine(&m_b_motion, (direction & MACROBLOCK_MOTION_FORWARD) ? m_mc->avg : m_mc->put);	\
+#define MOTION_CALL(routine, direction)             \
+do {                                \
+    if((direction) & MACROBLOCK_MOTION_FORWARD)     \
+    routine(&m_f_motion, m_mc->put);    \
+    if((direction) & MACROBLOCK_MOTION_BACKWARD)        \
+    routine(&m_b_motion, (direction & MACROBLOCK_MOTION_FORWARD) ? m_mc->avg : m_mc->put);  \
 } while (0)
 
-#define NEXT_MACROBLOCK							\
-do {									\
-    m_offset += 16;						\
-    if(m_offset == m_width) {				\
-	    m_dest[0] += 16 * m_stride;			\
-	    m_dest[1] += 4 * m_stride;			\
-	    m_dest[2] += 4 * m_stride;			\
-		m_v_offset += 16;					\
-		if(m_v_offset > m_limit_y)			\
-			return;							\
-		m_offset = 0;						\
-    }									\
+#define NEXT_MACROBLOCK                         \
+do {                                    \
+    m_offset += 16;                     \
+    if(m_offset == m_width) {               \
+        m_dest[0] += 16 * m_stride;         \
+        m_dest[1] += 4 * m_stride;          \
+        m_dest[2] += 4 * m_stride;          \
+        m_v_offset += 16;                   \
+        if(m_v_offset > m_limit_y)          \
+            return;                         \
+        m_offset = 0;                       \
+    }                                   \
 } while (0)
 
 void CMpeg2Decoder::mpeg2_init_fbuf(uint8_t* current_fbuf[3], uint8_t* forward_fbuf[3], uint8_t* backward_fbuf[3])
@@ -3352,35 +3352,35 @@ void CMpeg2Decoder::mpeg2_init_fbuf(uint8_t* current_fbuf[3], uint8_t* forward_f
     m_b_motion.ref[0][2] = backward_fbuf[2] + (offset >> 1);
 
     if(m_picture_structure != FRAME_PICTURE)
-	{
-		m_dmv_offset = bottom_field ? 1 : -1;
-		m_f_motion.ref2[0] = m_f_motion.ref[bottom_field];
-		m_f_motion.ref2[1] = m_f_motion.ref[!bottom_field];
-		m_b_motion.ref2[0] = m_b_motion.ref[bottom_field];
-		m_b_motion.ref2[1] = m_b_motion.ref[!bottom_field];
-		offset = stride - offset;
+    {
+        m_dmv_offset = bottom_field ? 1 : -1;
+        m_f_motion.ref2[0] = m_f_motion.ref[bottom_field];
+        m_f_motion.ref2[1] = m_f_motion.ref[!bottom_field];
+        m_b_motion.ref2[0] = m_b_motion.ref[bottom_field];
+        m_b_motion.ref2[1] = m_b_motion.ref[!bottom_field];
+        offset = stride - offset;
 
-		if(m_second_field && (m_coding_type != B_TYPE))
-			forward_fbuf = current_fbuf;
+        if(m_second_field && (m_coding_type != B_TYPE))
+            forward_fbuf = current_fbuf;
 
-		m_f_motion.ref[1][0] = forward_fbuf[0] + offset;
-		m_f_motion.ref[1][1] = forward_fbuf[1] + (offset >> 1);
-		m_f_motion.ref[1][2] = forward_fbuf[2] + (offset >> 1);
+        m_f_motion.ref[1][0] = forward_fbuf[0] + offset;
+        m_f_motion.ref[1][1] = forward_fbuf[1] + (offset >> 1);
+        m_f_motion.ref[1][2] = forward_fbuf[2] + (offset >> 1);
 
-		m_b_motion.ref[1][0] = backward_fbuf[0] + offset;
-		m_b_motion.ref[1][1] = backward_fbuf[1] + (offset >> 1);
-		m_b_motion.ref[1][2] = backward_fbuf[2] + (offset >> 1);
+        m_b_motion.ref[1][0] = backward_fbuf[0] + offset;
+        m_b_motion.ref[1][1] = backward_fbuf[1] + (offset >> 1);
+        m_b_motion.ref[1][2] = backward_fbuf[2] + (offset >> 1);
 
-		stride <<= 1;
-		height >>= 1;
-	}
+        stride <<= 1;
+        height >>= 1;
+    }
 
-	m_stride = stride;
-	m_uv_stride = stride >> 1;
-	m_limit_x = 2 * m_width - 32;
-	m_limit_y_16 = 2 * height - 32;
-	m_limit_y_8 = 2 * height - 16;
-	m_limit_y = height - 16;
+    m_stride = stride;
+    m_uv_stride = stride >> 1;
+    m_limit_x = 2 * m_width - 32;
+    m_limit_y_16 = 2 * height - 32;
+    m_limit_y_8 = 2 * height - 16;
+    m_limit_y = height - 16;
 }
 
 int CMpeg2Decoder::slice_init(int code)
@@ -3389,7 +3389,7 @@ int CMpeg2Decoder::slice_init(int code)
     const MBAtab* mba;
 
     m_dc_dct_pred[0] = m_dc_dct_pred[1] =
-	m_dc_dct_pred[2] = 128 << m_intra_dc_precision;
+    m_dc_dct_pred[2] = 128 << m_intra_dc_precision;
 
     m_f_motion.pmv[0][0] = m_f_motion.pmv[0][1] = 0;
     m_f_motion.pmv[1][0] = m_f_motion.pmv[1][1] = 0;
@@ -3397,9 +3397,9 @@ int CMpeg2Decoder::slice_init(int code)
     m_b_motion.pmv[1][0] = m_b_motion.pmv[1][1] = 0;
 
     if(m_vertical_position_extension)
-	{
-		code += UBITS(bit_buf, 3) << 7;
-		DUMPBITS(3);
+    {
+        code += UBITS(bit_buf, 3) << 7;
+        DUMPBITS(3);
     }
 
     m_v_offset = (code - 1) * 16;
@@ -3413,61 +3413,61 @@ int CMpeg2Decoder::slice_init(int code)
 
     /* ignore intra_slice and all the extra data */
     while(bit_buf & 0x80000000)
-	{
-		DUMPBITS(9);
-		NEEDBITS;
+    {
+        DUMPBITS(9);
+        NEEDBITS;
     }
 
     /* decode initial macroblock address increment */
     offset = 0;
     while(1)
-	{
-		if(bit_buf >= 0x08000000)
-		{
-			mba = MBA_5 + (UBITS(bit_buf, 6) - 2);
-			break;
-		}
-		else if(bit_buf >= 0x01800000)
-		{
-			mba = MBA_11 + (UBITS(bit_buf, 12) - 24);
-			break;
-		}
-		else 
-		{
-			switch(UBITS(bit_buf, 12))
-			{
-			case 8:		/* macroblock_escape */
-				offset += 33;
-				DUMPBITS(11);
-				NEEDBITS;
-				continue;
-			case 15:	/* macroblock_stuffing (MPEG1 only) */
-				bit_buf &= 0xfffff;
-				DUMPBITS(11);
-				NEEDBITS;
-				continue;
-			default:	/* error */
-				return 1;
-			}
-		}
-	}
+    {
+        if(bit_buf >= 0x08000000)
+        {
+            mba = MBA_5 + (UBITS(bit_buf, 6) - 2);
+            break;
+        }
+        else if(bit_buf >= 0x01800000)
+        {
+            mba = MBA_11 + (UBITS(bit_buf, 12) - 24);
+            break;
+        }
+        else
+        {
+            switch(UBITS(bit_buf, 12))
+            {
+            case 8:     /* macroblock_escape */
+                offset += 33;
+                DUMPBITS(11);
+                NEEDBITS;
+                continue;
+            case 15:    /* macroblock_stuffing (MPEG1 only) */
+                bit_buf &= 0xfffff;
+                DUMPBITS(11);
+                NEEDBITS;
+                continue;
+            default:    /* error */
+                return 1;
+            }
+        }
+    }
 
-	DUMPBITS(mba->len + 1);
-	m_offset = (offset + mba->mba) << 4;
+    DUMPBITS(mba->len + 1);
+    m_offset = (offset + mba->mba) << 4;
 
-	while(m_offset - m_width >= 0)
-	{
-		m_offset -= m_width;
-		m_dest[0] += 16 * m_stride;
-		m_dest[1] += 4 * m_stride;
-		m_dest[2] += 4 * m_stride;
-		m_v_offset += 16;
-	}
+    while(m_offset - m_width >= 0)
+    {
+        m_offset -= m_width;
+        m_dest[0] += 16 * m_stride;
+        m_dest[1] += 4 * m_stride;
+        m_dest[2] += 4 * m_stride;
+        m_v_offset += 16;
+    }
 
-	if(m_v_offset > m_limit_y)
-		return 1;
+    if(m_v_offset > m_limit_y)
+        return 1;
 
-	return 0;
+    return 0;
 }
 
 void CMpeg2Decoder::mpeg2_slice(int code, const uint8_t* buffer)
@@ -3477,233 +3477,233 @@ void CMpeg2Decoder::mpeg2_slice(int code, const uint8_t* buffer)
     m_bitstream_bits = -16;
 
     if(slice_init(code))
-		return;
+        return;
 
-	while(1)
-	{
-		int macroblock_modes;
-		int mba_inc;
-		const MBAtab * mba;
+    while(1)
+    {
+        int macroblock_modes;
+        int mba_inc;
+        const MBAtab * mba;
 
-		NEEDBITS;
+        NEEDBITS;
 
-		macroblock_modes = get_macroblock_modes();
+        macroblock_modes = get_macroblock_modes();
 
-		/* maybe integrate MACROBLOCK_QUANT test into get_macroblock_modes ? */
-		if(macroblock_modes & MACROBLOCK_QUANT)
-			m_quantizer_scale = get_quantizer_scale();
+        /* maybe integrate MACROBLOCK_QUANT test into get_macroblock_modes ? */
+        if(macroblock_modes & MACROBLOCK_QUANT)
+            m_quantizer_scale = get_quantizer_scale();
 
-		if(macroblock_modes & MACROBLOCK_INTRA)
-		{
-			int DCT_offset, DCT_stride;
-			int offset;
-			uint8_t* dest_y;
+        if(macroblock_modes & MACROBLOCK_INTRA)
+        {
+            int DCT_offset, DCT_stride;
+            int offset;
+            uint8_t* dest_y;
 
-			if(m_concealment_motion_vectors)
-			{
-				if(m_picture_structure == FRAME_PICTURE) motion_fr_conceal();
-				else motion_fi_conceal();
-			}
-			else
-			{
-				m_f_motion.pmv[0][0] = m_f_motion.pmv[0][1] = 0;
-				m_f_motion.pmv[1][0] = m_f_motion.pmv[1][1] = 0;
-				m_b_motion.pmv[0][0] = m_b_motion.pmv[0][1] = 0;
-				m_b_motion.pmv[1][0] = m_b_motion.pmv[1][1] = 0;
-			}
+            if(m_concealment_motion_vectors)
+            {
+                if(m_picture_structure == FRAME_PICTURE) motion_fr_conceal();
+                else motion_fi_conceal();
+            }
+            else
+            {
+                m_f_motion.pmv[0][0] = m_f_motion.pmv[0][1] = 0;
+                m_f_motion.pmv[1][0] = m_f_motion.pmv[1][1] = 0;
+                m_b_motion.pmv[0][0] = m_b_motion.pmv[0][1] = 0;
+                m_b_motion.pmv[1][0] = m_b_motion.pmv[1][1] = 0;
+            }
 
-			if(macroblock_modes & DCT_TYPE_INTERLACED)
-			{
-				DCT_offset = m_stride;
-				DCT_stride = m_stride * 2;
-			}
-			else
-			{
-				DCT_offset = m_stride * 8;
-				DCT_stride = m_stride;
-			}
+            if(macroblock_modes & DCT_TYPE_INTERLACED)
+            {
+                DCT_offset = m_stride;
+                DCT_stride = m_stride * 2;
+            }
+            else
+            {
+                DCT_offset = m_stride * 8;
+                DCT_stride = m_stride;
+            }
 
-			offset = m_offset;
-			dest_y = m_dest[0] + offset;
-			slice_intra_DCT(0, dest_y, DCT_stride);
-			slice_intra_DCT(0, dest_y + 8, DCT_stride);
-			slice_intra_DCT(0, dest_y + DCT_offset, DCT_stride);
-			slice_intra_DCT(0, dest_y + DCT_offset + 8, DCT_stride);
-			slice_intra_DCT(1, m_dest[1] + (offset >> 1), m_uv_stride);
-			slice_intra_DCT (2, m_dest[2] + (offset >> 1), m_uv_stride);
+            offset = m_offset;
+            dest_y = m_dest[0] + offset;
+            slice_intra_DCT(0, dest_y, DCT_stride);
+            slice_intra_DCT(0, dest_y + 8, DCT_stride);
+            slice_intra_DCT(0, dest_y + DCT_offset, DCT_stride);
+            slice_intra_DCT(0, dest_y + DCT_offset + 8, DCT_stride);
+            slice_intra_DCT(1, m_dest[1] + (offset >> 1), m_uv_stride);
+            slice_intra_DCT (2, m_dest[2] + (offset >> 1), m_uv_stride);
 
-			if(m_coding_type == D_TYPE)
-			{
-				NEEDBITS;
-				DUMPBITS(1);
-			}
-		}
-		else
-		{
-			if(m_picture_structure == FRAME_PICTURE)
-			{
-				switch((macroblock_modes >> 6) & 3) // macroblock_modes & MOTION_TYPE_MASK
-				{
-				case 0:
-					// non-intra mb without forward mv in a P picture //
-					m_f_motion.pmv[0][0] = 0;
-					m_f_motion.pmv[0][1] = 0;
-					m_f_motion.pmv[1][0] = 0;
-					m_f_motion.pmv[1][1] = 0;
-					MOTION_CALL(motion_zero, MACROBLOCK_MOTION_FORWARD);
-					break;
+            if(m_coding_type == D_TYPE)
+            {
+                NEEDBITS;
+                DUMPBITS(1);
+            }
+        }
+        else
+        {
+            if(m_picture_structure == FRAME_PICTURE)
+            {
+                switch((macroblock_modes >> 6) & 3) // macroblock_modes & MOTION_TYPE_MASK
+                {
+                case 0:
+                    // non-intra mb without forward mv in a P picture //
+                    m_f_motion.pmv[0][0] = 0;
+                    m_f_motion.pmv[0][1] = 0;
+                    m_f_motion.pmv[1][0] = 0;
+                    m_f_motion.pmv[1][1] = 0;
+                    MOTION_CALL(motion_zero, MACROBLOCK_MOTION_FORWARD);
+                    break;
 
-				case 1: // MC_FIELD:
-					MOTION_CALL(motion_fr_field, macroblock_modes);
-					break;
+                case 1: // MC_FIELD:
+                    MOTION_CALL(motion_fr_field, macroblock_modes);
+                    break;
 
-				case 2: // MC_FRAME:
+                case 2: // MC_FRAME:
 
-					if(m_mpeg1) MOTION_CALL(motion_mp1, macroblock_modes);
-					else MOTION_CALL (motion_fr_frame, macroblock_modes);
-					break;
+                    if(m_mpeg1) MOTION_CALL(motion_mp1, macroblock_modes);
+                    else MOTION_CALL (motion_fr_frame, macroblock_modes);
+                    break;
 
-				case 3: // MC_DMV:
-					MOTION_CALL(motion_fr_dmv, MACROBLOCK_MOTION_FORWARD);
-					break;
+                case 3: // MC_DMV:
+                    MOTION_CALL(motion_fr_dmv, MACROBLOCK_MOTION_FORWARD);
+                    break;
 
-				default:
-					__assume(0);
-				}
-			}
-			else
-			{
-				switch((macroblock_modes >> 6) & 3) // macroblock_modes & MOTION_TYPE_MASK
-				{
-				case 0:
-					/* non-intra mb without forward mv in a P picture */
-					m_f_motion.pmv[0][0] = 0;
-					m_f_motion.pmv[0][1] = 0;
-					m_f_motion.pmv[1][0] = 0;
-					m_f_motion.pmv[1][1] = 0;
-					MOTION_CALL(motion_zero, MACROBLOCK_MOTION_FORWARD);
-					break;
+                default:
+                    __assume(0);
+                }
+            }
+            else
+            {
+                switch((macroblock_modes >> 6) & 3) // macroblock_modes & MOTION_TYPE_MASK
+                {
+                case 0:
+                    /* non-intra mb without forward mv in a P picture */
+                    m_f_motion.pmv[0][0] = 0;
+                    m_f_motion.pmv[0][1] = 0;
+                    m_f_motion.pmv[1][0] = 0;
+                    m_f_motion.pmv[1][1] = 0;
+                    MOTION_CALL(motion_zero, MACROBLOCK_MOTION_FORWARD);
+                    break;
 
-				case 1: // MC_FIELD
-					MOTION_CALL(motion_fi_field, macroblock_modes);
-					break;
+                case 1: // MC_FIELD
+                    MOTION_CALL(motion_fi_field, macroblock_modes);
+                    break;
 
-				case 2: // MC_16X8
-					MOTION_CALL(motion_fi_16x8, macroblock_modes);
-					break;
+                case 2: // MC_16X8
+                    MOTION_CALL(motion_fi_16x8, macroblock_modes);
+                    break;
 
-				case 3: // MC_DMV
-					MOTION_CALL(motion_fi_dmv, MACROBLOCK_MOTION_FORWARD);
-					break;
+                case 3: // MC_DMV
+                    MOTION_CALL(motion_fi_dmv, MACROBLOCK_MOTION_FORWARD);
+                    break;
 
-				default:
-					__assume(0);
-				}
-			}
+                default:
+                    __assume(0);
+                }
+            }
 
-			if(macroblock_modes & MACROBLOCK_PATTERN)
-			{
-				int coded_block_pattern;
-				int DCT_offset, DCT_stride;
-				int offset;
-				uint8_t* dest_y;
+            if(macroblock_modes & MACROBLOCK_PATTERN)
+            {
+                int coded_block_pattern;
+                int DCT_offset, DCT_stride;
+                int offset;
+                uint8_t* dest_y;
 
-				if(macroblock_modes & DCT_TYPE_INTERLACED)
-				{
-					DCT_offset = m_stride;
-					DCT_stride = m_stride * 2;
-				}
-				else
-				{
-					DCT_offset = m_stride * 8;
-					DCT_stride = m_stride;
-				}
+                if(macroblock_modes & DCT_TYPE_INTERLACED)
+                {
+                    DCT_offset = m_stride;
+                    DCT_stride = m_stride * 2;
+                }
+                else
+                {
+                    DCT_offset = m_stride * 8;
+                    DCT_stride = m_stride;
+                }
 
-				coded_block_pattern = get_coded_block_pattern();
+                coded_block_pattern = get_coded_block_pattern();
 
-				offset = m_offset;
-				dest_y = m_dest[0] + offset;
+                offset = m_offset;
+                dest_y = m_dest[0] + offset;
 
-				if(coded_block_pattern & 0x20)
-					slice_non_intra_DCT(dest_y, DCT_stride);
-				if(coded_block_pattern & 0x10)
-					slice_non_intra_DCT(dest_y + 8, DCT_stride);
-				if(coded_block_pattern & 0x08)
-					slice_non_intra_DCT(dest_y + DCT_offset, DCT_stride);
-				if(coded_block_pattern & 0x04)
-					slice_non_intra_DCT(dest_y + DCT_offset + 8, DCT_stride);
-				if(coded_block_pattern & 0x2)
-					slice_non_intra_DCT(m_dest[1] + (offset >> 1), m_uv_stride);
-				if(coded_block_pattern & 0x1)
-					slice_non_intra_DCT(m_dest[2] + (offset >> 1), m_uv_stride);
-			}
+                if(coded_block_pattern & 0x20)
+                    slice_non_intra_DCT(dest_y, DCT_stride);
+                if(coded_block_pattern & 0x10)
+                    slice_non_intra_DCT(dest_y + 8, DCT_stride);
+                if(coded_block_pattern & 0x08)
+                    slice_non_intra_DCT(dest_y + DCT_offset, DCT_stride);
+                if(coded_block_pattern & 0x04)
+                    slice_non_intra_DCT(dest_y + DCT_offset + 8, DCT_stride);
+                if(coded_block_pattern & 0x2)
+                    slice_non_intra_DCT(m_dest[1] + (offset >> 1), m_uv_stride);
+                if(coded_block_pattern & 0x1)
+                    slice_non_intra_DCT(m_dest[2] + (offset >> 1), m_uv_stride);
+            }
 
-			m_dc_dct_pred[0] = 
-			m_dc_dct_pred[1] = 
-			m_dc_dct_pred[2] = 128 << m_intra_dc_precision;
-		}
+            m_dc_dct_pred[0] =
+            m_dc_dct_pred[1] =
+            m_dc_dct_pred[2] = 128 << m_intra_dc_precision;
+        }
 
-		NEXT_MACROBLOCK;
+        NEXT_MACROBLOCK;
 
-		NEEDBITS;
-		mba_inc = 0;
-		while(1)
-		{
-			if(bit_buf >= 0x10000000)
-			{
-				mba = MBA_5 + (UBITS(bit_buf, 5) - 2);
-				break;
-			}
-			else if(bit_buf >= 0x03000000)
-			{
-				mba = MBA_11 + (UBITS(bit_buf, 11) - 24);
-				break;
-			}
-			else
-			{
-				switch(UBITS(bit_buf, 11))
-				{
-				case 8:		/* macroblock_escape */
-					mba_inc += 33;
-					/* pass through */
-				case 15:	/* macroblock_stuffing (MPEG1 only) */
-					DUMPBITS(11);
-					NEEDBITS;
-					continue;
-				default:	/* end of slice, or error */
-					return;
-				}
-			}
-		}
+        NEEDBITS;
+        mba_inc = 0;
+        while(1)
+        {
+            if(bit_buf >= 0x10000000)
+            {
+                mba = MBA_5 + (UBITS(bit_buf, 5) - 2);
+                break;
+            }
+            else if(bit_buf >= 0x03000000)
+            {
+                mba = MBA_11 + (UBITS(bit_buf, 11) - 24);
+                break;
+            }
+            else
+            {
+                switch(UBITS(bit_buf, 11))
+                {
+                case 8:     /* macroblock_escape */
+                    mba_inc += 33;
+                    /* pass through */
+                case 15:    /* macroblock_stuffing (MPEG1 only) */
+                    DUMPBITS(11);
+                    NEEDBITS;
+                    continue;
+                default:    /* end of slice, or error */
+                    return;
+                }
+            }
+        }
 
-		DUMPBITS(mba->len);
-		mba_inc += mba->mba;
+        DUMPBITS(mba->len);
+        mba_inc += mba->mba;
 
-		if(mba_inc)
-		{
-			m_dc_dct_pred[0] = 
-			m_dc_dct_pred[1] =
-			m_dc_dct_pred[2] = 128 << m_intra_dc_precision;
+        if(mba_inc)
+        {
+            m_dc_dct_pred[0] =
+            m_dc_dct_pred[1] =
+            m_dc_dct_pred[2] = 128 << m_intra_dc_precision;
 
-			if(m_coding_type == P_TYPE)
-			{
-				m_f_motion.pmv[0][0] = m_f_motion.pmv[0][1] = 0;
-				m_f_motion.pmv[1][0] = m_f_motion.pmv[1][1] = 0;
+            if(m_coding_type == P_TYPE)
+            {
+                m_f_motion.pmv[0][0] = m_f_motion.pmv[0][1] = 0;
+                m_f_motion.pmv[1][0] = m_f_motion.pmv[1][1] = 0;
 
-				do {
-					MOTION_CALL(motion_zero, MACROBLOCK_MOTION_FORWARD);
-					NEXT_MACROBLOCK;
-				} while(--mba_inc);
-			}
-			else
-			{
-				do {
-					MOTION_CALL (motion_reuse, macroblock_modes);
-					NEXT_MACROBLOCK;
-				} while(--mba_inc);
-			}
-		}
-	}
+                do {
+                    MOTION_CALL(motion_zero, MACROBLOCK_MOTION_FORWARD);
+                    NEXT_MACROBLOCK;
+                } while(--mba_inc);
+            }
+            else
+            {
+                do {
+                    MOTION_CALL (motion_reuse, macroblock_modes);
+                    NEXT_MACROBLOCK;
+                } while(--mba_inc);
+            }
+        }
+    }
 }
 
 #undef bit_buf
@@ -3715,9 +3715,9 @@ void CMpeg2Decoder::mpeg2_slice(int code, const uint8_t* buffer)
 
 CMpeg2Info::CMpeg2Info()
 {
-	m_sequence = NULL;
+    m_sequence = NULL;
     m_gop = NULL;
-	Reset();
+    Reset();
 }
 
 CMpeg2Info::~CMpeg2Info()
@@ -3730,6 +3730,6 @@ void CMpeg2Info::Reset()
     m_display_picture = m_display_picture_2nd = NULL;
     m_current_fbuf = m_display_fbuf = m_discard_fbuf = NULL;
     m_user_data = NULL;
-	m_user_data_len = 0;
+    m_user_data_len = 0;
 }
 

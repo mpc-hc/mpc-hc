@@ -19,44 +19,44 @@
 /////////////////////////////////////////////////////////////////////////////
 class CHScrollListBox : public CListBox
 {
-	// Construction
+    // Construction
 public:
-	CHScrollListBox();
+    CHScrollListBox();
 
-	// Attributes
-public:
-
-	// Operations
+    // Attributes
 public:
 
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CHScrollListBox)
+    // Operations
+public:
+
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CHScrollListBox)
 protected:
-	virtual void PreSubclassWindow();
-	//}}AFX_VIRTUAL
+    virtual void PreSubclassWindow();
+    //}}AFX_VIRTUAL
 
-	// Implementation
+    // Implementation
 public:
-	virtual ~CHScrollListBox();
+    virtual ~CHScrollListBox();
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CHScrollListBox)
-	// NOTE - the ClassWizard will add and remove member functions here.
-	//}}AFX_MSG
+    //{{AFX_MSG(CHScrollListBox)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //}}AFX_MSG
 
-	afx_msg LRESULT OnAddString(WPARAM wParam, LPARAM lParam); // wParam - none, lParam - string, returns - int
-	afx_msg LRESULT OnInsertString(WPARAM wParam, LPARAM lParam); // wParam - index, lParam - string, returns - int
-	afx_msg LRESULT OnDeleteString(WPARAM wParam, LPARAM lParam); // wParam - index, lParam - none, returns - int
-	afx_msg LRESULT OnResetContent(WPARAM wParam, LPARAM lParam); // wParam - none, lParam - none, returns - int
-	afx_msg LRESULT OnDir(WPARAM wParam, LPARAM lParam); // wParam - attr, lParam - wildcard, returns - int
+    afx_msg LRESULT OnAddString(WPARAM wParam, LPARAM lParam); // wParam - none, lParam - string, returns - int
+    afx_msg LRESULT OnInsertString(WPARAM wParam, LPARAM lParam); // wParam - index, lParam - string, returns - int
+    afx_msg LRESULT OnDeleteString(WPARAM wParam, LPARAM lParam); // wParam - index, lParam - none, returns - int
+    afx_msg LRESULT OnResetContent(WPARAM wParam, LPARAM lParam); // wParam - none, lParam - none, returns - int
+    afx_msg LRESULT OnDir(WPARAM wParam, LPARAM lParam); // wParam - attr, lParam - wildcard, returns - int
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 private:
-	void ResetHExtent();
-	void SetNewHExtent(LPCTSTR lpszNewString);
-	int GetTextLen(LPCTSTR lpszText);
+    void ResetHExtent();
+    void SetNewHExtent(LPCTSTR lpszNewString);
+    int GetTextLen(LPCTSTR lpszText);
 
 };
