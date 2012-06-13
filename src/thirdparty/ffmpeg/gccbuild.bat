@@ -53,8 +53,8 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
   IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
   IF /I "%%A" == "Both"       SET "ARCH=Both"         & SET /A ARGPL+=1
-  IF /I "%%A" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1
-  IF /I "%%A" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1
+  IF /I "%%A" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1 & SET /A ARGLI+=1
+  IF /I "%%A" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1 & SET /A ARGLI+=1
   IF /I "%%A" == "x64"        SET "ARCH=x64"          & SET /A ARGPL+=1
   IF /I "%%A" == "Debug"      SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
   IF /I "%%A" == "Release"    SET "DEBUG="            & SET /A ARGBC+=1
@@ -130,12 +130,22 @@ EXIT /B
 
 
 :SubLibmingwex
-IF EXIST "%ROOT_DIR%\lib64\libmingwex.a" ECHO "%ROOT_DIR%\lib64\libmingwex.a" is present. & EXIT /B
-
-ECHO. & ECHO "%ROOT_DIR%\lib64\libmingwex.a" is not present.
+IF /I "%BUILDTYPE%" == "Rebuild" (
+  IF EXIST "%ROOT_DIR%\lib64\libmingwex.a" DEL "%ROOT_DIR%\lib64\libmingwex.a"
+) ELSE IF EXIST "%ROOT_DIR%\lib64\libmingwex.a" (
+  ECHO.
+  ECHO "%ROOT_DIR%\lib64\libmingwex.a" is present.
+  EXIT /B
+  ) ELSE (
+  ECHO.
+  ECHO "%ROOT_DIR%\lib64\libmingwex.a" is not present.
+)
 
 SET "SEARCHLIB=patches\root-i686-pc-mingw32\x86_64-w64-mingw32\lib\libmingwex.a"
-IF EXIST %SEARCHLIB% COPY /V /Y "%SEARCHLIB%" "%ROOT_DIR%\lib64\" >NUL & EXIT /B
+IF EXIST %SEARCHLIB% (
+  COPY /V /Y "%SEARCHLIB%" "%ROOT_DIR%\lib64\" >NUL
+  EXIT /B
+)
 
 SET "CC=x86_64-w64-mingw32-gcc"
 SET "HST=i686-pc-mingw32"
@@ -151,7 +161,7 @@ SET "BD=patches\build"
 PUSHD "%BD%\mingw"
 
 rem Removing patched files...
-IF EXIST "mingw-w64-crt/misc/delayimp.c" DEL /F /Q "mingw-w64-crt\misc\delayimp.c"
+IF EXIST "mingw-w64-crt/misc/delayimp.c" DEL "mingw-w64-crt\misc\delayimp.c"
 
 ECHO Downloading MinGW64 crt and headers...
 svn -q co "https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/stable/v2.x" .
@@ -160,9 +170,8 @@ ECHO Applying Mingw64 compatibility patch...
 patch -p0 -i ../../mpchc_Mingw64.patch
 
 ECHO Copying includes...
-SET "dest=%PF%\%TGT%\include\"
 ECHO \.svn\> exclude.txt
-XCOPY "mingw-w64-headers\include\*" "%dest%" /C /E /H /I /Q /Y /EXCLUDE:exclude.txt
+XCOPY "mingw-w64-headers\include\*" "%PF%\%TGT%\include\" /C /E /H /I /Q /Y /EXCLUDE:exclude.txt
 IF EXIST "exclude.txt" DEL "exclude.txt"
 
 ECHO "Compiling MinGW64 crt..."
