@@ -72,10 +72,10 @@ BEGIN
             VALUE "CompanyName", MPC_COMP_NAME_STR
             VALUE "FileDescription", "MPEG-2 Decoder Filter for DirectShow"
             VALUE "FileVersion", MPC_VERSION_STR
-            VALUE "InternalName", " Mpeg2Dec Filter"
+            VALUE "InternalName", "Mpeg2Dec Filter"
             VALUE "LegalCopyright", MPC_COPYRIGHT_STR
             VALUE "OriginalFilename", "Mpeg2DecFilter.ax"
-            VALUE "ProductName", " Mpeg2Dec Filter"
+            VALUE "ProductName", "Mpeg2Dec Filter"
             VALUE "ProductVersion", MPC_VERSION_STR
         END
     END
