@@ -169,7 +169,6 @@ namespace GothSync
         HANDLE m_hEvtQuit; // Stop rendering thread event
         LONGLONG m_LastAdapterCheck;
         UINT m_CurrentAdapter;
-        UINT GetAdapter(IDirect3D9* pD3D);
 
         float m_bicubicA;
         HRESULT InitResizers(float bicubicA, bool bNeedScreenSizeTexture);

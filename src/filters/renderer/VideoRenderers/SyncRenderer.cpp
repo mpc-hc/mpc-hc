@@ -27,6 +27,7 @@
 #include <atlcoll.h>
 #include "../../../mpc-hc/resource.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/WinAPIUtils.h"
 #include <strsafe.h> // Required in CGenlock
 #include <videoacc.h>
 #include <InitGuid.h>
@@ -417,7 +418,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    m_CurrentAdapter = GetAdapter(m_pD3D);
+    m_CurrentAdapter = GetAdapter(m_pD3D, m_hWnd);
     if (FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))) {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
@@ -726,7 +727,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    if (FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm))) {
+    if (FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))) {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
     }
@@ -763,7 +764,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         ZeroMemory(&DisplayMode, sizeof(DisplayMode));
         DisplayMode.Size = sizeof(DisplayMode);
         if (m_pD3DDevEx) {
-            m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx), &DisplayMode, NULL);
+            m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx, m_hWnd), &DisplayMode, NULL);
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
             if FAILED(m_pD3DDevEx->Reset(&pp)) {
@@ -974,26 +975,6 @@ void CBaseAP::DeleteSurfaces()
         m_pVideoTexture[i] = NULL;
         m_pVideoSurface[i] = NULL;
     }
-}
-
-UINT CBaseAP::GetAdapter(IDirect3D9* pD3D)
-{
-    if (m_hWnd == NULL || pD3D == NULL) {
-        return D3DADAPTER_DEFAULT;
-    }
-
-    HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-    if (hMonitor == NULL) {
-        return D3DADAPTER_DEFAULT;
-    }
-
-    for (UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
-        HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
-        if (hAdpMon == hMonitor) {
-            return adp;
-        }
-    }
-    return D3DADAPTER_DEFAULT;
 }
 
 // ISubPicAllocatorPresenter
@@ -1863,12 +1844,12 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
                 ASSERT(Parameters.AdapterOrdinal == m_CurrentAdapter);
             }
 #endif
-            if (m_CurrentAdapter != GetAdapter(m_pD3D)) {
+            if (m_CurrentAdapter != GetAdapter(m_pD3D, m_hWnd)) {
                 fResetDevice = true;
             }
 #ifdef _DEBUG
             else {
-                ASSERT(m_pD3D->GetAdapterMonitor(m_CurrentAdapter) == m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)));
+                ASSERT(m_pD3D->GetAdapterMonitor(m_CurrentAdapter) == m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D, m_hWnd)));
             }
 #endif
         }
@@ -1898,7 +1879,7 @@ STDMETHODIMP_(bool) CBaseAP::ResetDevice()
         m_bDeviceResetRequested = false;
         return false;
     }
-    m_pGenlock->SetMonitor(GetAdapter(m_pD3D));
+    m_pGenlock->SetMonitor(GetAdapter(m_pD3D, m_hWnd));
     m_pGenlock->GetTiming();
     OnResetDevice();
     m_bDeviceResetRequested = false;
@@ -3270,7 +3251,7 @@ STDMETHODIMP CSyncAP::GetIdealVideoSize(SIZE* pszMin, SIZE* pszMax)
         D3DDISPLAYMODE  d3ddm;
 
         ZeroMemory(&d3ddm, sizeof(d3ddm));
-        if (SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm))) {
+        if (SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))) {
             pszMax->cx  = d3ddm.Width;
             pszMax->cy  = d3ddm.Height;
         }
@@ -3908,7 +3889,7 @@ HRESULT CSyncAP::BeginStreaming()
     if (filterInfo.pGraph) {
         filterInfo.pGraph->Release();
     }
-    m_pGenlock->SetMonitor(GetAdapter(m_pD3D));
+    m_pGenlock->SetMonitor(GetAdapter(m_pD3D, m_hWnd));
     m_pGenlock->GetTiming();
 
     ResetStats();
