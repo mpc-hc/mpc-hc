@@ -1,0 +1,20 @@
+Index: src/common.props
+===================================================================
+--- src/common.props	(revision 5083)
++++ src/common.props	(working copy)
+@@ -66,10 +66,15 @@
+       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <StringPooling>true</StringPooling>
++      <WholeProgramOptimization>true</WholeProgramOptimization>
+     </ClCompile>
++    <Lib>
++      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
++    </Lib>
+     <Link>
+       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+       <LargeAddressAware Condition="'$(Platform)'=='Win32'">true</LargeAddressAware>
++      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+       <MergeSections>.rdata=.text</MergeSections>
+       <OptimizeReferences>true</OptimizeReferences>
+       <SetChecksum>true</SetChecksum>

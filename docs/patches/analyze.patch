@@ -1,0 +1,14 @@
+Index: src/common.props
+===================================================================
+--- src/common.props	(revision 5083)
++++ src/common.props	(working copy)
+@@ -10,7 +10,8 @@
+   </PropertyGroup>
+   <ItemDefinitionGroup>
+     <ClCompile>
+-      <AdditionalOptions>/w34706 %(AdditionalOptions)</AdditionalOptions>
++      <AdditionalOptions>/wd4244 /wd4267 /wd4996 %(AdditionalOptions)</AdditionalOptions>
++      <EnablePREfast Condition="'$(Platform)'=='Win32'">true</EnablePREfast>
+       <BufferSecurityCheck>true</BufferSecurityCheck>
+       <ExceptionHandling>Sync</ExceptionHandling>
+       <FunctionLevelLinking>true</FunctionLevelLinking>
