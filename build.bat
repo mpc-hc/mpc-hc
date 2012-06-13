@@ -437,7 +437,7 @@ EXIT /B
 ECHO.
 ECHO Unsupported commandline switch!
 ECHO.
-ECHO "build.bat %*"
+ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
 CALL :SubMsg "ERROR" "Compilation failed!"
