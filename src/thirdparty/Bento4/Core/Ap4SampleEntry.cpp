@@ -434,6 +434,10 @@ AP4_AudioSampleEntry::GetSampleRate()
 {
     if (m_QtVersion == 2) {
         return (AP4_UI32)(m_QtV2SampleRate64);
+// mpc-hc custom code start
+	} else if (m_SampleRate>>16 == 0) {
+		return m_SampleRate;
+// mpc-hc custom code end
     } else {
         return m_SampleRate>>16;
     }
