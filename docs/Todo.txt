@@ -27,7 +27,7 @@ MPCIconLib:
 
 FFmpeg:
 1) Stop linking ffmpeg statically
-2) Compilation fails without -msse
+2) Compilation fails without -msse, see  http://pastebin.com/zZSUVXkW
 3) Use ffmpeg for:
    * MPEG-1 and MPEG-2 decoding (this would remove the dependency on libmpeg2)
    * FLAC and perhaps AC-3 and DTS decoding (this would remove the dependency on libflac, a52dec and libdca)
