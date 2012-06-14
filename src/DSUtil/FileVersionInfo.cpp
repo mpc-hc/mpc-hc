@@ -26,18 +26,18 @@
 bool CFileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
 {
     bool success = false;
-    
+
     // Get the buffer size required for the version information
     DWORD dwFileVersionInfoSize = GetFileVersionInfoSize(filePath, NULL);
-	if (dwFileVersionInfoSize) {
+    if (dwFileVersionInfoSize) {
         // Allocate the buffer
-		LPVOID lpData = (LPVOID)DNew BYTE[dwFileVersionInfoSize];
-	    if (lpData) {
-	        // Load the file-version information
+        LPVOID lpData = (LPVOID)DNew BYTE[dwFileVersionInfoSize];
+        if (lpData) {
+            // Load the file-version information
             if (GetFileVersionInfo(filePath, 0, dwFileVersionInfoSize, lpData)) {
-		        // Parse the version information
-	            VS_FIXEDFILEINFO *lpInfo;
-	            UINT unInfoLen;
+                // Parse the version information
+                VS_FIXEDFILEINFO* lpInfo;
+                UINT unInfoLen;
                 if (VerQueryValue(lpData, _T("\\"), (LPVOID*)&lpInfo, &unInfoLen) && unInfoLen == sizeof(VS_FIXEDFILEINFO)) {
                     fileInfo = *lpInfo;
                     success = true;
@@ -47,7 +47,7 @@ bool CFileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
             delete [] lpData;
         }
     }
-    
+
     return success;
 }
 
@@ -57,11 +57,11 @@ CString CFileVersionInfo::GetFileVersionStr(LPCTSTR filePath)
     CString strFileVersion;
 
     if (LoadInfo(filePath, fileInfo)) {
-	    strFileVersion.Format(_T("%d.%d.%d.%d"),
-					          (fileInfo.dwFileVersionMS & 0xFFFF0000) >> 16,
-					          (fileInfo.dwFileVersionMS & 0x0000FFFF),
-					          (fileInfo.dwFileVersionLS & 0xFFFF0000) >> 16,
-					          (fileInfo.dwFileVersionLS & 0x0000FFFF));
+        strFileVersion.Format(_T("%d.%d.%d.%d"),
+                              (fileInfo.dwFileVersionMS & 0xFFFF0000) >> 16,
+                              (fileInfo.dwFileVersionMS & 0x0000FFFF),
+                              (fileInfo.dwFileVersionLS & 0xFFFF0000) >> 16,
+                              (fileInfo.dwFileVersionLS & 0x0000FFFF));
     }
 
     return strFileVersion;
