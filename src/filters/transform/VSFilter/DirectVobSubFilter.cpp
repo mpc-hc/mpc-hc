@@ -29,6 +29,7 @@
 #include "DirectVobSubPropPage.h"
 #include "VSFilter.h"
 #include "Systray.h"
+#include "../../../DSUtil/FileVersionInfo.h"
 #include "../../../DSUtil/MediaTypes.h"
 #include "../../../SubPic/MemSubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
@@ -333,7 +334,7 @@ HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName
         AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
         if (!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0)) {
-            unsigned __int64 ver = GetFileVersion(_T("divx_c32.ax"));
+            QWORD ver = CFileVersionInfo::GetFileVersionNum(_T("divx_c32.ax"));
             if (((ver >> 48) & 0xffff) == 4 && ((ver >> 32) & 0xffff) == 2) {
                 DWORD dwVersion = GetVersion();
                 DWORD dwWindowsMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
@@ -432,10 +433,10 @@ HRESULT CDirectVobSubFilter::CompleteConnect(PIN_DIRECTION dir, IPin* pReceivePi
 
         // needed when we have a decoder with a version number of 3.x
         if (SUCCEEDED(m_pGraph->FindFilterByName(L"DivX MPEG-4 DVD Video Decompressor ", &pFilter))
-                && (GetFileVersion(_T("divx_c32.ax")) >> 48) <= 4
+                && (CFileVersionInfo::GetFileVersionNum(_T("divx_c32.ax")) >> 48) <= 4
                 || SUCCEEDED(m_pGraph->FindFilterByName(L"Microcrap MPEG-4 Video Decompressor", &pFilter))
                 || SUCCEEDED(m_pGraph->FindFilterByName(L"Microsoft MPEG-4 Video Decompressor", &pFilter))
-                && (GetFileVersion(_T("mpg4ds32.ax")) >> 48) <= 3) {
+                && (CFileVersionInfo::GetFileVersionNum(_T("mpg4ds32.ax")) >> 48) <= 3) {
             m_fMSMpeg4Fix = true;
         }
     } else if (dir == PINDIR_OUTPUT) {

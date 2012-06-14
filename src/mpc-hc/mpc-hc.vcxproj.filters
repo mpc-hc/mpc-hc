@@ -72,9 +72,6 @@
     <ClCompile Include="FileDropTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileVersionInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FloatEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -408,9 +405,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileDropTarget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileVersionInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FilterEnum.h">

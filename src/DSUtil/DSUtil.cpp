@@ -1235,30 +1235,6 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
     return true;
 }
 
-unsigned __int64 GetFileVersion(LPCTSTR fn)
-{
-    unsigned __int64 ret = 0;
-
-    DWORD buff[4];
-    VS_FIXEDFILEINFO* pvsf = (VS_FIXEDFILEINFO*)buff;
-    DWORD d; // a variable that GetFileVersionInfoSize sets to zero (but why is it needed ?????????????????????????????? :)
-    DWORD len = GetFileVersionInfoSize((TCHAR*)fn, &d);
-
-    if (len) {
-        TCHAR* b1 = DNew TCHAR[len];
-        if (b1) {
-            UINT uLen;
-            if (GetFileVersionInfo((TCHAR*)fn, 0, len, b1) && VerQueryValue(b1, _T("\\"), (void**)&pvsf, &uLen)) {
-                ret = ((unsigned __int64)pvsf->dwFileVersionMS << 32) | pvsf->dwFileVersionLS;
-            }
-
-            delete [] b1;
-        }
-    }
-
-    return ret;
-}
-
 bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyName)
 {
     if (!ppBF) {

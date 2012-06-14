@@ -172,7 +172,6 @@
     <ClCompile Include="FGManager.cpp" />
     <ClCompile Include="FGManagerBDA.cpp" />
     <ClCompile Include="FileDropTarget.cpp" />
-    <ClCompile Include="FileVersionInfo.cpp" />
     <ClCompile Include="FloatEdit.cpp" />
     <ClCompile Include="FullscreenWnd.cpp" />
     <ClCompile Include="GoToDlg.cpp" />
@@ -287,7 +286,6 @@
     <ClInclude Include="FGManager.h" />
     <ClInclude Include="FGManagerBDA.h" />
     <ClInclude Include="FileDropTarget.h" />
-    <ClInclude Include="FileVersionInfo.h" />
     <ClInclude Include="FilterEnum.h" />
     <ClInclude Include="FloatEdit.h" />
     <ClInclude Include="FullscreenWnd.h" />

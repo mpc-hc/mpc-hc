@@ -26,12 +26,13 @@
 #include "mplayerc.h"
 #include "FGManager.h"
 #include "../DSUtil/DSUtil.h"
+#include "../DSUtil/FileVersionInfo.h"
+#include "../DSUtil/WinAPIUtils.h"
 #include "../filters/Filters.h"
 #include <AllocatorCommon7.h>
 #include <AllocatorCommon.h>
 #include <SyncAllocatorPresenter.h>
 #include "DeinterlacerFilter.h"
-#include "../DSUtil/WinAPIUtils.h"
 #include "../DeCSS/VobFile.h"
 #include <InitGuid.h>
 #include <dmodshow.h>
@@ -2348,7 +2349,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
         if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\") + clsid + _T("\\InprocServer32"), KEY_READ)
                 && ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len)
-                && GetFileVersion(buff) < 0x0001000000030000ui64) {
+                && CFileVersionInfo::GetFileVersionNum(buff) < 0x0001000000030000ui64) {
             m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(clsid), MERIT64_DO_NOT_USE));
         }
     }

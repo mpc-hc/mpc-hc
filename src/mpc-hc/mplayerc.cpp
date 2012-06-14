@@ -27,8 +27,8 @@
 #include <Tlhelp32.h>
 #include "MainFrm.h"
 #include "../DSUtil/DSUtil.h"
+#include "../DSUtil/FileVersionInfo.h"
 #include "Struct.h"
-#include "FileVersionInfo.h"
 #include <psapi.h>
 #include "Ifo.h"
 #include "Monitors.h"
@@ -280,12 +280,10 @@ END_MESSAGE_MAP()
 CMPlayerCApp::CMPlayerCApp()
 //  : m_hMutexOneInstance(NULL)
 {
-    CFileVersionInfo    Version;
-    TCHAR               strApp [_MAX_PATH];
+    TCHAR strApp[_MAX_PATH];
 
     GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, _MAX_PATH);
-    Version.Create(strApp);
-    m_strVersion = Version.GetFileVersionEx();
+    m_strVersion = CFileVersionInfo::GetFileVersionStr(strApp);
 
     memset(&m_ColorControl, 0, sizeof(m_ColorControl));
     ResetColorControlRange();
@@ -2110,19 +2108,14 @@ bool CMPlayerCApp::SetLanguage(const LanguageResource& languageResource, bool sh
                            _T("Media Player Classic - Home Cinema"), MB_ICONWARNING | MB_OK);
             }
         } else { // Check if the version of the resource dll is correct
-            CFileVersionInfo    Version;
-            CString             strSatVersion;
+            CString strSatVersion = CFileVersionInfo::GetFileVersionStr(languageResource.dllPath);
 
-            if (Version.Create(languageResource.dllPath)) {
-                strSatVersion = Version.GetFileVersionEx();
+            CString strNeededVersion = MPC_VERSION_STR;
+            strNeededVersion.Replace(_T(", "), _T("."));
 
-                CString strNeededVersion = MPC_VERSION_STR;
-                strNeededVersion.Replace(_T(", "), _T("."));
-
-                if (strSatVersion == strNeededVersion) {
-                    s.language = languageResource.localeID;
-                    success = true;
-                }
+            if (strSatVersion == strNeededVersion) {
+                s.language = languageResource.localeID;
+                success = true;
             }
 
             if (!success) { // The version wasn't correct
