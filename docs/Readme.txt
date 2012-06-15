@@ -61,7 +61,6 @@ Project             License                    Version                  Website
 ---------------------------------------------------------------------------------------------
 ATL Server          Ms-LPL                     -                        http://atlserver.codeplex.com/
 Bento4              GPLv2                      1.2.3-387 (modified)     http://zebulon.bok.net/trac/Bento4
-CFileVersionInfo    -                          19 Jun '02 (modified)    http://www.codeproject.com/Articles/1502/CFileVersionInfo-Retrieving-a-File-s-full-Version
 CLineNumberEdit     -                          12 May '04 (modified)    http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
 CSizingControlBar   GPLv2                      2.45                     http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                   3.0 build 316            http://research.microsoft.com/en-us/projects/detours/
