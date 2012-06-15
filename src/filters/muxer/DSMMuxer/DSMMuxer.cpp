@@ -30,7 +30,7 @@
 #include <InitGuid.h>
 #endif
 #include <qnetwork.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #ifdef REGISTER_FILTER
 

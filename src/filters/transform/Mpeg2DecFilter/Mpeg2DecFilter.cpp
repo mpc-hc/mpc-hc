@@ -39,8 +39,9 @@
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
 #endif
-#include <moreuuids.h>
-#include <IFilterVersion.h>
+#include "moreuuids.h"
+#include "IFilterVersion.h"
+#include "detours/detours.h"
 
 #define EPSILON 1e-4
 
@@ -89,8 +90,6 @@ STDAPI DllUnregisterServer()
 }
 
 //
-
-#include <detours/detours.h>
 
 BOOL (__stdcall* Real_IsDebuggerPresent)(void)
     = IsDebuggerPresent;

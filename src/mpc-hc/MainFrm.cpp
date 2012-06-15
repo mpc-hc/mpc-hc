@@ -54,7 +54,7 @@
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 
-#include <BaseClasses/mtype.h>
+#include "BaseClasses/mtype.h"
 #include <Mpconfig.h>
 #include <ks.h>
 #include <ksmedia.h>
@@ -63,7 +63,7 @@
 
 #include <InitGuid.h>
 #include <uuids.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 #include <qnetwork.h>
 #include <psapi.h>
 
@@ -75,15 +75,15 @@
 #include "../filters/Filters.h"
 #include "../filters/PinInfoWnd.h"
 
-#include <AllocatorCommon7.h>
-#include <AllocatorCommon.h>
-#include <SyncAllocatorPresenter.h>
+#include "AllocatorCommon7.h"
+#include "AllocatorCommon.h"
+#include "SyncAllocatorPresenter.h"
 
 #include "ComPropertySheet.h"
 #include "LcdSupport.h"
 #include "SettingsDefines.h"
 
-#include <IPinHook.h>
+#include "IPinHook.h"
 
 #include <comdef.h>
 #include "MPCPngImage.h"
@@ -103,10 +103,10 @@ static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
 #include "MultiMonitor.h"
 
 #ifdef USE_MEDIAINFO_STATIC
-#include <MediaInfo/MediaInfo.h>
+#include "MediaInfo/MediaInfo.h"
 using namespace MediaInfoLib;
 #else
-#include <MediaInfoDLL.h>
+#include "MediaInfoDLL.h"
 using namespace MediaInfoDLL;
 #endif
 

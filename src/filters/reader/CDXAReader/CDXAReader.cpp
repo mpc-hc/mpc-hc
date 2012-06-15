@@ -28,7 +28,7 @@
 #include <InitGuid.h>
 #endif
 #include <uuids.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 /////////
 

@@ -31,7 +31,7 @@
 #include "RegFilterChooserDlg.h"
 #include "SelectMediaType.h"
 #include "FGFilter.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 
 // CPPageExternalFilters dialog

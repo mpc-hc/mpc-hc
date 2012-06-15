@@ -23,23 +23,23 @@
 
 #pragma once
 
-#include <realmedia/pntypes.h>
-#include <realmedia/pnwintyp.h>
-#include <realmedia/pncom.h>
-#include <realmedia/rmapckts.h>
-#include <realmedia/rmacomm.h>
-#include <realmedia/rmamon.h>
-#include <realmedia/rmafiles.h>
-#include <realmedia/rmaengin.h>
-#include <realmedia/rmacore.h>
-#include <realmedia/rmaclsnk.h>
-#include <realmedia/rmaerror.h>
-#include <realmedia/rmaauth.h>
-#include <realmedia/rmawin.h>
-#include <realmedia/rmasite2.h>
-#include <realmedia/rmaausvc.h>
-#include <realmedia/rmavsurf.h>
-#include <realmedia/rmaevent.h>
+#include "realmedia/pntypes.h"
+#include "realmedia/pnwintyp.h"
+#include "realmedia/pncom.h"
+#include "realmedia/rmapckts.h"
+#include "realmedia/rmacomm.h"
+#include "realmedia/rmamon.h"
+#include "realmedia/rmafiles.h"
+#include "realmedia/rmaengin.h"
+#include "realmedia/rmacore.h"
+#include "realmedia/rmaclsnk.h"
+#include "realmedia/rmaerror.h"
+#include "realmedia/rmaauth.h"
+#include "realmedia/rmawin.h"
+#include "realmedia/rmasite2.h"
+#include "realmedia/rmaausvc.h"
+#include "realmedia/rmavsurf.h"
+#include "realmedia/rmaevent.h"
 
 
 namespace DSObjects

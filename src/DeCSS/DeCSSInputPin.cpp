@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include <atlbase.h>
-#include <BaseClasses/streams.h>
+#include "BaseClasses/streams.h"
 #include <dvdmedia.h>
 #include <ks.h>
 #include <ksmedia.h>
@@ -33,7 +33,7 @@
 #include "CSSscramble.h"
 
 #include <InitGuid.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 //
 // CDeCSSInputPin

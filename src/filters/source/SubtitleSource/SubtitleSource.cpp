@@ -28,7 +28,7 @@
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
 #endif
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 static int _WIDTH = 640;
 static int _HEIGHT = 480;

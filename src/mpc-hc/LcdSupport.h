@@ -24,7 +24,7 @@
 #pragma once
 
 #include <Windows.h>
-#include <lglcd/lglcd.h>
+#include "lglcd/lglcd.h"
 #include <LCDUI/LCDManager.h>
 #include <LCDUI/LCDOutput.h>
 #include <LCDUI/LCDScrollingText.h>

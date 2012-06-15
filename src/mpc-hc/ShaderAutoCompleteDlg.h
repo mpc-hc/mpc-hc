@@ -24,7 +24,7 @@
 #pragma once
 
 #include "resource.h"
-#include <ResizableLib/ResizableDialog.h>
+#include "ResizableLib/ResizableDialog.h"
 
 
 // CShaderAutoCompleteDlg dialog

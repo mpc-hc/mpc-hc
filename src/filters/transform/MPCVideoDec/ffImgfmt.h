@@ -1,7 +1,7 @@
 #ifndef _FFIMGFMT_H_
 #define _FFIMGFMT_H_
 
-#include <ffmpeg/libavutil/pixfmt.h>
+#include "ffmpeg/libavutil/pixfmt.h"
 
 //================================ ffdshow ==================================
 // the RGB related values in this enum refers to the "memory byte order" (byte order as stored in memory).

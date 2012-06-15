@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include "NullRenderers.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #define USE_DXVA
 

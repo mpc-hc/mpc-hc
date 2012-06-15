@@ -26,7 +26,7 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "MpegSplitterFile.h"
 #include "MpegSplitterSettingsWnd.h"
-#include <ITrackInfo.h>
+#include "ITrackInfo.h"
 
 #define MpegSplitterName L"MPC MPEG Splitter"
 #define MpegSourceName   L"MPC MPEG Source"

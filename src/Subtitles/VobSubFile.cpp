@@ -29,9 +29,9 @@
 #define USE_UNRAR_STATIC
 #endif
 #ifndef USE_UNRAR_STATIC
-#include <unrar.h>
+#include "unrar.h"
 #else
-#include <unrar/dll.hpp>
+#include "unrar/dll.hpp"
 #endif
 #include "RTS.h"
 

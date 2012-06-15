@@ -30,4 +30,4 @@
 #endif
 
 #include <afx.h>
-#include <BaseClasses/streams.h>
+#include "BaseClasses/streams.h"

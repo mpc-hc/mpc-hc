@@ -25,7 +25,7 @@
 #include <atlbase.h>
 #include <MMReg.h>
 
-#include <ffmpeg/libavcodec/avcodec.h>
+#include "ffmpeg/libavcodec/avcodec.h"
 
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
@@ -38,7 +38,7 @@
 #include "FfmpegContext.h"
 extern "C"
 {
-#include <ffmpeg/libswscale/swscale.h>
+#include "ffmpeg/libswscale/swscale.h"
 }
 
 #include "../../../DSUtil/DSUtil.h"
@@ -48,7 +48,7 @@ extern "C"
 #include "../../parser/MpegSplitter/MpegSplitter.h"
 #include "../../parser/OggSplitter/OggSplitter.h"
 #include "../../parser/RealMediaSplitter/RealMediaSplitter.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 #include "DXVADecoderH264.h"
 #include "../../../mpc-hc/FilterEnum.h"
 

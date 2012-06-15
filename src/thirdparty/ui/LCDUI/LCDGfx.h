@@ -15,7 +15,7 @@
 
 #include <windows.h>
 #include <tchar.h>
-#include <lglcd/lglcd.h>
+#include "lglcd/lglcd.h"
 
 #if _MSC_VER >= 1400  
 #define LCDUI_tcsncpy(x, y, z)       _tcsncpy_s(x, _countof(x), y, z)

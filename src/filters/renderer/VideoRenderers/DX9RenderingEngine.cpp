@@ -22,7 +22,7 @@
 
 #include "stdafx.h"
 #include <algorithm>
-#include <lcms2/include/lcms2.h>
+#include "lcms2/include/lcms2.h"
 #include "../../../mpc-hc/resource.h"
 #include "Dither.h"
 #include "DX9RenderingEngine.h"

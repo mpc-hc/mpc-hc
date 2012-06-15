@@ -30,9 +30,9 @@
 #include <InitGuid.h>
 #include "RealMediaGraph.h"
 #include "RealMediaWindowlessSite.h"
-#include <realmedia/rmavsurf.h>
-#include <realmedia/rmaevent.h>
-#include <realmedia/rmaprefs.h>
+#include "realmedia/rmavsurf.h"
+#include "realmedia/rmaevent.h"
+#include "realmedia/rmaprefs.h"
 #include "../DSUtil/DSUtil.h"
 #include "AuthDlg.h"
 

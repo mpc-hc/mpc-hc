@@ -235,7 +235,7 @@ namespace Plugin
 
     namespace VirtualDub
     {
-#include <vd2/extras/FilterSDK/VirtualDub.h>
+#include "vd2/extras/FilterSDK/VirtualDub.h"
 
         class CVirtualDubFilter : virtual public CFilter
         {
@@ -506,8 +506,8 @@ namespace Plugin
     //
     namespace VirtualDubNew
     {
-#include <vd2/plugin/vdplugin.h>
-#include <vd2/plugin/vdvideofilt.h>
+#include "vd2/plugin/vdplugin.h"
+#include "vd2/plugin/vdvideofilt.h"
 
         class CVirtualDubFilter : virtual public CFilter
         {
@@ -778,7 +778,7 @@ namespace Plugin
 
     namespace AviSynth1
     {
-#include <avisynth/avisynth1.h>
+#include "avisynth/avisynth1.h"
 
         class CAvisynthFilter : public GenericVideoFilter, virtual public CFilter
         {
@@ -891,7 +891,7 @@ namespace Plugin
 
     namespace AviSynth25
     {
-#include <avisynth/avisynth25.h>
+#include "avisynth/avisynth25.h"
 
         static bool s_fSwapUV = false;
 

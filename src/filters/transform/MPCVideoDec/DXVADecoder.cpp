@@ -22,7 +22,7 @@
 
 #include "stdafx.h"
 #include <dxva2api.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 #include "DXVADecoderH264.h"
 #include "DXVADecoderVC1.h"
 #include "DXVADecoderMpeg2.h"

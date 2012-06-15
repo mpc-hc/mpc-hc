@@ -29,7 +29,7 @@
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
-#include <Version.h>
+#include "Version.h"
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;

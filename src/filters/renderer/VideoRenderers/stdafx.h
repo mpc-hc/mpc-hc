@@ -32,7 +32,7 @@
 
 #include <afxdisp.h>
 #include <afxole.h>
-#include <BaseClasses/streams.h>
+#include "BaseClasses/streams.h"
 #include <dvdmedia.h>
 #include <mpconfig.h>
 

@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 
-#include <ffmpeg/libavcodec/avcodec.h>
+#include "ffmpeg/libavcodec/avcodec.h"
 
 #include "TlibavcodecExt.h"
 

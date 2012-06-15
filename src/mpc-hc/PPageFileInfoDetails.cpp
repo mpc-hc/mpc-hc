@@ -28,7 +28,7 @@
 #include "../DSUtil/DSUtil.h"
 #include <d3d9.h>
 #include <vmr9.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 
 // CPPageFileInfoDetails dialog

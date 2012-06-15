@@ -34,18 +34,18 @@
 #include "../../../DSUtil/SysVersion.h"
 
 extern "C" {
-#include <ffmpeg/libavcodec/dsputil.h>
-#include <ffmpeg/libavcodec/avcodec.h>
-    // This is kind of an hack but it avoids using a C++ keyword as a struct member name
+#include "ffmpeg/libavcodec/dsputil.h"
+#include "ffmpeg/libavcodec/avcodec.h"
+    // This is kind of a hack but it avoids using a C++ keyword as a struct member name
 #define class classFFMPEG
-#include <ffmpeg/libavcodec/mpegvideo.h>
+#include "ffmpeg/libavcodec/mpegvideo.h"
 #undef class
-#include <ffmpeg/libavcodec/golomb.h>
+#include "ffmpeg/libavcodec/golomb.h"
 
-#include <ffmpeg/libavcodec/h264.h>
-#include <ffmpeg/libavcodec/h264data.h>
-#include <ffmpeg/libavcodec/vc1.h>
-#include <ffmpeg/libavcodec/mpeg12.h>
+#include "ffmpeg/libavcodec/h264.h"
+#include "ffmpeg/libavcodec/h264data.h"
+#include "ffmpeg/libavcodec/vc1.h"
+#include "ffmpeg/libavcodec/mpeg12.h"
 
     int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rtStartTime, uint8_t* buf, int buf_size);
     int av_vc1_decode_frame(AVCodecContext* avctx, uint8_t* buf, int buf_size, int* nFrameSize);

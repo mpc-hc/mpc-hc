@@ -17,9 +17,9 @@
 
 #include "stdafx.h"
 #include <emmintrin.h>
-#include <vd2/system/memory.h>
-#include <vd2/system/cpuaccel.h>
-#include <vd2/system/vdstl.h>
+#include "vd2/system/memory.h"
+#include "vd2/system/cpuaccel.h"
+#include "vd2/system/vdstl.h"
 
 #pragma warning(disable: 4799)      // warning C4799: function has no EMMS instruction
 

@@ -30,7 +30,7 @@
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
 #endif
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #include "Ap4.h"
 #include "Ap4File.h"

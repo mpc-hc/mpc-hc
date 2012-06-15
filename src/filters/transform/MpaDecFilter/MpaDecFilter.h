@@ -30,8 +30,8 @@
 #pragma warning(disable: 4005)
 #include <stdint.h>
 #pragma warning(pop)
-#include <a52dec/include/a52.h>
-#include <libdca/include/dts.h>
+#include "a52dec/include/a52.h"
+#include "libdca/include/dts.h"
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"

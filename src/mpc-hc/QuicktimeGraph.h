@@ -24,11 +24,11 @@
 #pragma once
 
 #include "BaseGraph.h"
-#include <AllocatorCommon7.h>
-#include <AllocatorCommon.h>
+#include "AllocatorCommon7.h"
+#include "AllocatorCommon.h"
 
 #ifndef _WIN64
-#include <qt/qt.h>
+#include "qt/qt.h"
 #endif
 
 

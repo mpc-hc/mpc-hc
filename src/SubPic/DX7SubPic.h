@@ -25,7 +25,7 @@
 
 #include "SubPicImpl.h"
 #include "SubPicAllocatorPresenterImpl.h"
-#include <dx/d3d.h>
+#include "dx/d3d.h"
 
 // CDX7SubPic
 

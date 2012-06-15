@@ -24,7 +24,7 @@
 #pragma once
 
 #include "../BaseMuxer/BaseMuxer.h"
-#include <dsm/dsm.h>
+#include "dsm/dsm.h"
 
 #define DSMMuxerName   L"MPC DSM Muxer"
 

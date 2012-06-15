@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <BaseClasses/streams.h>
+#include "BaseClasses/streams.h"
 #include <dsound.h>
 
 #include <MMReg.h>  //must be before other Wasapi headers
@@ -34,7 +34,7 @@
 #include <FunctionDiscoveryKeys_devpkey.h>
 
 #include "MpcAudioRendererSettingsWnd.h"
-#include <SoundTouch/include/SoundTouch.h>
+#include "SoundTouch/include/SoundTouch.h"
 
 #define MpcAudioRendererName L"MPC Audio Renderer"
 

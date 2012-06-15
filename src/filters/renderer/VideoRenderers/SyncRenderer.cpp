@@ -40,12 +40,12 @@
 #include <vector>
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
 #include "SyncRenderer.h"
-#include <Version.h>
+#include "Version.h"
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX

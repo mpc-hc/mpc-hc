@@ -27,13 +27,13 @@
 #include "vd_asm.h"
 #include <intrin.h>
 
-#include <vd2/system/cpuaccel.h>
-#include <vd2/system/memory.h>
-#include <vd2/system/vdstl.h>
+#include "vd2/system/cpuaccel.h"
+#include "vd2/system/memory.h"
+#include "vd2/system/vdstl.h"
 
-#include <vd2/Kasumi/pixmap.h>
-#include <vd2/Kasumi/pixmaputils.h>
-#include <vd2/Kasumi/pixmapops.h>
+#include "vd2/Kasumi/pixmap.h"
+#include "vd2/Kasumi/pixmaputils.h"
+#include "vd2/Kasumi/pixmapops.h"
 
 #pragma warning(disable : 4799) // no emms... blahblahblah
 

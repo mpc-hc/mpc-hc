@@ -27,7 +27,7 @@
 #include <atlcoll.h>
 #include "MatroskaFile.h"
 #include "../BaseSplitter/BaseSplitter.h"
-#include <ITrackInfo.h>
+#include "ITrackInfo.h"
 
 #define MatroskaSplitterName L"MPC Matroska Splitter"
 #define MatroskaSourceName   L"MPC Matroska Source"

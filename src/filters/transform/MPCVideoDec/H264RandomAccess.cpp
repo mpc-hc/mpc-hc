@@ -18,7 +18,7 @@
  */
 
 #include "stdafx.h"
-#include <ffmpeg/libavcodec/avcodec.h>
+#include "ffmpeg/libavcodec/avcodec.h"
 #include "H264RandomAccess.h"
 
 CH264RandomAccess::CH264RandomAccess()

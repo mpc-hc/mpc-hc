@@ -35,7 +35,7 @@
 #include "../../../SubPic/SubPicQueueImpl.h"
 
 #include <InitGuid.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 ///////////////////////////////////////////////////////////////////////////
 

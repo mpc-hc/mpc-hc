@@ -28,7 +28,7 @@
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
 #endif
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #define FRAMES_FLAG     0x0001
 #define MPA_HEADER_SIZE 4   // MPEG-Audio Header Size

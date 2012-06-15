@@ -27,7 +27,7 @@
 #endif
 #include "ShoutcastSource.h"
 #include "../../../DSUtil/DSUtil.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #define MAXFRAMESIZE ((144 * 320000 / 8000) + 1)
 #define BUFFERS 2

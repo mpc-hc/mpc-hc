@@ -24,10 +24,10 @@
 #pragma once
 
 #include <atlbase.h>
-#include <AsyncReader/asyncio.h>
-#include <AsyncReader/asyncrdr.h>
+#include "AsyncReader/asyncio.h"
+#include "AsyncReader/asyncrdr.h"
 
-#include <ITrackInfo.h>
+#include "ITrackInfo.h"
 #include "../../../DSUtil/DSMPropertyBag.h"
 
 #define VTSReaderName L"MPC VTS Reader"

@@ -29,9 +29,9 @@
 #include "../DSUtil/FileVersionInfo.h"
 #include "../DSUtil/WinAPIUtils.h"
 #include "../filters/Filters.h"
-#include <AllocatorCommon7.h>
-#include <AllocatorCommon.h>
-#include <SyncAllocatorPresenter.h>
+#include "AllocatorCommon7.h"
+#include "AllocatorCommon.h"
+#include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include "../DeCSS/VobFile.h"
 #include <InitGuid.h>
@@ -41,7 +41,7 @@
 #include <evr.h>
 #include <evr9.h>
 #include <ksproxy.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 
 // {212690FB-83E5-4526-8FD7-74478B7939CD} from wmcodecdsp.h

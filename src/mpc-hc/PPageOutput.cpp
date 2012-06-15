@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "PPageOutput.h"
 #include "../DSUtil/SysVersion.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 #include "Monitors.h"
 
 // CPPageOutput dialog

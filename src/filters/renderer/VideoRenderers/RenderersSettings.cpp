@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "RenderersSettings.h"
 #include "../../../mpc-hc/mplayerc.h"
-#include <Version.h>
+#include "Version.h"
 #include <d3dx9.h>
 
 void CRenderersSettings::UpdateData(bool fSave)

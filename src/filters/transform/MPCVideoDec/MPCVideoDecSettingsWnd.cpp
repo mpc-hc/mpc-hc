@@ -25,11 +25,11 @@
 #include "MPCVideoDecSettingsWnd.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#include <ffmpeg/libavcodec/avcodec.h>
+#include "ffmpeg/libavcodec/avcodec.h"
 
 #include "../../../mpc-hc/InternalFiltersConfig.h"
 
-// ==>>> Resource identifier from "resource.h" present in mplayerc project!
+// ==>>> Resource identifier from "resource.h" present in mpc-hc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 #define LEFT_SPACING        20

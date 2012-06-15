@@ -28,7 +28,7 @@
 #include "../../../DSUtil/GolombBuffer.h"
 #include "../../../DSUtil/AudioParser.h"
 #include <InitGuid.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 //
 // CBaseSplitterFileEx

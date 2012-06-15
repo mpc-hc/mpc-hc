@@ -25,7 +25,7 @@
 
 #include "FloatEdit.h"
 #include "resource.h"
-#include <ResizableLib/ResizableDialog.h>
+#include "ResizableLib/ResizableDialog.h"
 
 // CPnSPresetsDlg dialog
 

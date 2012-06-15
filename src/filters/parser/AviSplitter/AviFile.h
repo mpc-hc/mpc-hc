@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include <Aviriff.h> // conflicts with vfw.h...
+#include <aviriff.h> // conflicts with vfw.h...
 #include "../BaseSplitter/BaseSplitter.h"
 
 class CAviFile : public CBaseSplitterFile

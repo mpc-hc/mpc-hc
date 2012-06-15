@@ -28,10 +28,10 @@
 #include <InitGuid.h>
 #endif
 #include <uuids.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 #include "FLACSource.h"
 #include "../../../DSUtil/DSUtil.h"
-#include <libflac/include/FLAC/stream_decoder.h>
+#include "libflac/include/FLAC/stream_decoder.h"
 
 #define _DECODER_   (FLAC__StreamDecoder*)m_pDecoder
 

@@ -52,9 +52,9 @@
 #endif /* _WIN64 */
 #include "ShockwaveGraph.h"
 
-#include <IChapterInfo.h>
-#include <IKeyFrameInfo.h>
-#include <IBufferInfo.h>
+#include "IChapterInfo.h"
+#include "IKeyFrameInfo.h"
+#include "IBufferInfo.h"
 
 #include "WebServer.h"
 #include <d3d9.h>
@@ -66,7 +66,7 @@
 #include "LcdSupport.h"
 #include "MpcApi.h"
 #include "../filters/renderer/SyncClock/SyncClock.h"
-#include <sizecbar/scbarg.h>
+#include "sizecbar/scbarg.h"
 
 
 class CFullscreenWnd;

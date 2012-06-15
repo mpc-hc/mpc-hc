@@ -34,8 +34,8 @@
 #include "Monitors.h"
 #include "../DSUtil/WinAPIUtils.h"
 #include "UpdateChecker.h"
-#include <winddk/ntddcdvd.h>
-#include <detours/detours.h>
+#include "winddk/ntddcdvd.h"
+#include "detours/detours.h"
 #include <afxsock.h>
 #include <atlsync.h>
 #include <atlutil.h>

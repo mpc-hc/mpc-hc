@@ -36,7 +36,7 @@
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
 #endif
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #define INT24_MAX       8388607
 #define INT24_MIN     (-8388608)

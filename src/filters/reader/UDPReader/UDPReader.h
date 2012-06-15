@@ -24,8 +24,8 @@
 #pragma once
 
 #include <atlbase.h>
-#include <AsyncReader/asyncio.h>
-#include <AsyncReader/asyncrdr.h>
+#include "AsyncReader/asyncio.h"
+#include "AsyncReader/asyncrdr.h"
 
 #define UDPReaderName L"MPC UDP Reader"
 

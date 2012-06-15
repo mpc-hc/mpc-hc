@@ -25,7 +25,7 @@
 #include "MainFrm.h"
 #include "PlayerNavigationDialog.h"
 #include "../DSUtil/DSUtil.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 
 // CPlayerNavigationDialog dialog

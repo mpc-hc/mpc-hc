@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "DeinterlacerFilter.h"
 #include "../DSUtil/MediaTypes.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 
 CDeinterlacerFilter::CDeinterlacerFilter(LPUNKNOWN punk, HRESULT* phr)

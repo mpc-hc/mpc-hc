@@ -28,7 +28,7 @@
 #include "../../../DSUtil/MediaTypes.h"
 
 #include <InitGuid.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CVSFilterApp

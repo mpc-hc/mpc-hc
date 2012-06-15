@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 // For CPUID usage
 #include "../../../DSUtil/vd.h"

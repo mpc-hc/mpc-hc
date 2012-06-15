@@ -29,7 +29,7 @@
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
 #endif
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 # define TH_VERSION_CHECK(version_major,version_minor,version_subminor,_maj,_min,_sub) \
  (version_major>(_maj)||version_major==(_maj)&& \

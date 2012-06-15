@@ -27,7 +27,7 @@
 
 #include <MMReg.h>
 #include <InitGuid.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #pragma pack(push, 1)
 typedef struct {

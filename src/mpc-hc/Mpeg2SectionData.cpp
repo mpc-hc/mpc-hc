@@ -21,7 +21,7 @@
  */
 
 #include "stdafx.h"
-#include <BaseClasses/streams.h>
+#include "BaseClasses/streams.h"
 #include <mpeg2data.h>
 
 #include "../DSUtil/GolombBuffer.h"

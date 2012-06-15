@@ -14,7 +14,7 @@
 #define _CLCDOUTPUT_H_INCLUDED_ 
 
 #include "LCDManager.h"
-#include <lglcd/lglcd.h>
+#include "lglcd/lglcd.h"
 #include <vector>
 
 using namespace std;

@@ -27,7 +27,7 @@
 #include <InitGuid.h>
 #endif
 #include "MpaSplitter.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #ifdef REGISTER_FILTER
 

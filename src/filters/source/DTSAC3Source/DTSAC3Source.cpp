@@ -28,7 +28,7 @@
 #include <InitGuid.h>
 #endif
 #include <uuids.h>
-#include <moreuuids.h>
+#include "moreuuids.h"
 #include "DTSAC3Source.h"
 #include "../../../DSUtil/AudioParser.h"
 #include <atlpath.h>
@@ -38,7 +38,7 @@
 #pragma warning(disable: 4005)
 #include <stdint.h>
 #pragma warning(pop)
-#include <libdca/include/dts.h>
+#include "libdca/include/dts.h"
 
 enum {
     unknown,

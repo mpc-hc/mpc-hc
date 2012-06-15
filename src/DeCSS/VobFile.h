@@ -2,7 +2,7 @@
 
 #include <atlbase.h>
 #include <atlcoll.h>
-#include <winddk/ntddcdvd.h>
+#include "winddk/ntddcdvd.h"
 
 class CDVDSession
 {

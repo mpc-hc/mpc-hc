@@ -42,11 +42,11 @@ void* __imp_time64 = _time64;
 
 #include <InitGuid.h>
 #endif
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #include <vector>
-#include <ffmpeg/libavcodec/avcodec.h>
-#include <ffmpeg/libavutil/intreadwrite.h>
+#include "ffmpeg/libavcodec/avcodec.h"
+#include "ffmpeg/libavutil/intreadwrite.h"
 
 #define INT8_PEAK       128
 #define INT16_PEAK      32768

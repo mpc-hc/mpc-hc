@@ -29,10 +29,10 @@
 #include "../DSUtil/WinAPIUtils.h"
 
 #ifdef USE_MEDIAINFO_STATIC
-#include <MediaInfo/MediaInfo.h>
+#include "MediaInfo/MediaInfo.h"
 using namespace MediaInfoLib;
 #else
-#include <MediaInfoDLL.h>
+#include "MediaInfoDLL.h"
 using namespace MediaInfoDLL;
 #endif
 

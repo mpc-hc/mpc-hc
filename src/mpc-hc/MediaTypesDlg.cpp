@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "MediaTypesDlg.h"
 #include "../DSUtil/DSUtil.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 
 // CMediaTypesDlg dialog

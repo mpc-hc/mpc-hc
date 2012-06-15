@@ -23,10 +23,10 @@
 #pragma once
 
 #include "DX9AllocatorPresenter.h"
-#include <realmedia/pntypes.h>
-#include <realmedia/pnwintyp.h>
-#include <realmedia/pncom.h>
-#include <realmedia/rmavsurf.h>
+#include "realmedia/pntypes.h"
+#include "realmedia/pnwintyp.h"
+#include "realmedia/pncom.h"
+#include "realmedia/rmavsurf.h"
 #include "IQTVideoSurface.h"
 
 namespace DSObjects

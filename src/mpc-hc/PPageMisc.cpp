@@ -24,7 +24,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageOutput.h"
-#include <moreuuids.h>
+#include "moreuuids.h"
 #include "PPageMisc.h"
 #include <psapi.h>
 

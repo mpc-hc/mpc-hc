@@ -25,7 +25,7 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
-#include <ResizableLib/ResizableDialog.h>
+#include "ResizableLib/ResizableDialog.h"
 
 
 // CSaveDlg dialog

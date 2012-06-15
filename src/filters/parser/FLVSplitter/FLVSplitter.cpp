@@ -28,7 +28,7 @@
 #ifdef REGISTER_FILTER
 #include <InitGuid.h>
 #endif
-#include <moreuuids.h>
+#include "moreuuids.h"
 
 #define FLV_AUDIODATA     8
 #define FLV_VIDEODATA     9
