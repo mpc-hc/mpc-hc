@@ -32,8 +32,6 @@
 #include <psapi.h>
 #include "Ifo.h"
 #include "Monitors.h"
-#define NO_VERSION_REV_NEEDED
-#include "Version.h"
 #include "../DSUtil/WinAPIUtils.h"
 #include "UpdateChecker.h"
 #include <winddk/ntddcdvd.h>
@@ -2110,8 +2108,8 @@ bool CMPlayerCApp::SetLanguage(const LanguageResource& languageResource, bool sh
         } else { // Check if the version of the resource dll is correct
             CString strSatVersion = CFileVersionInfo::GetFileVersionStr(languageResource.dllPath);
 
-            CString strNeededVersion = MPC_VERSION_STR;
-            strNeededVersion.Replace(_T(", "), _T("."));
+            const CString& v = AfxGetMyApp()->m_strVersion;
+            CString strNeededVersion = v.Left(v.ReverseFind(_T('.')) + 1) + _T('0');
 
             if (strSatVersion == strNeededVersion) {
                 s.language = languageResource.localeID;
