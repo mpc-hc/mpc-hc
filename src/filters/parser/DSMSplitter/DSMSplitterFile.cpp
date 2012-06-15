@@ -309,8 +309,8 @@ __int64 CDSMSplitterFile::Read(__int64 len, CStringW& str)
 __int64 CDSMSplitterFile::FindSyncPoint(REFERENCE_TIME rt)
 {
     if (/*!m_sps.IsEmpty()*/ m_sps.GetCount() > 1) {
-        ptrdiff_t i = range_bsearch(m_sps, m_rtFirst + rt);
-        return i >= 0 ? m_sps[i].fp : 0;
+        size_t i = range_bsearch(m_sps, m_rtFirst + rt);
+        return (i != MAXSIZE_T) ? m_sps[i].fp : 0;
     }
 
     if (m_rtDuration <= 0 || rt <= m_rtFirst) {

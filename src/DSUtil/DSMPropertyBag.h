@@ -184,20 +184,27 @@ public:
 };
 
 template<class T>
-ptrdiff_t range_bsearch(CAtlArray<T> const& tArray, REFERENCE_TIME rt)
+__declspec(nothrow noalias) __forceinline size_t range_bsearch(CAtlArray<T> const& tArray, REFERENCE_TIME rt)
 {
-    ptrdiff_t i = 0, j = tArray.GetCount() - 1, ret = -1;
-    if (j >= 0 && rt >= tArray[j].rt) {
-        return j;
+    // MAXSIZE_T is returned by this function for status invalid
+    ptrdiff_t k = tArray.GetCount() - 1;
+    if ((k < 0) || (rt >= tArray[k].rt)) {
+        return k;
     }
-    while (i < j) {
-        size_t mid = static_cast<size_t>(i + j) >> 1;
+    size_t ret = MAXSIZE_T;
+    if (!k) {
+        return ret;
+    }
+
+    size_t i = 0, j = k;
+    do {
+        size_t mid = (i + j) >> 1;
         REFERENCE_TIME midrt = tArray[mid].rt;
         if (rt == midrt) {
             ret = mid;
             break;
         } else if (rt < midrt) {
-            ret = -1;
+            ret = MAXSIZE_T;
             if (j == mid) {
                 --mid;
             }
@@ -209,6 +216,6 @@ ptrdiff_t range_bsearch(CAtlArray<T> const& tArray, REFERENCE_TIME rt)
             }
             i = mid;
         }
-    }
-    return ret;// in general, the return is unsigned, only when tArray is empty, the return will be -1 for status invalid
+    } while (i < j);
+    return ret;
 }
