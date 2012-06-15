@@ -134,6 +134,12 @@
     <ClInclude Include="VobSubFileRipper.h" />
     <ClInclude Include="VobSubImage.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\thirdparty\unrar\unrar.vcxproj">
+      <Project>{da8461c4-7683-4360-9372-2a9e0f1795c2}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

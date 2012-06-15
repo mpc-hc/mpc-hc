@@ -22,7 +22,8 @@ MPC-HC:
 10) Replace the default old looking toolbar with a more modern one
 
 MPCIconLib:
-1) Rewrite mpciconlib without MFC, so that it's smaller and we no longer need any hacks to get the size to normal
+1) Rewrite mpciconlib without MFC, so that it's smaller and we no longer
+   need any hacks to get the size to normal, see a first patch  http://pastebin.com/EYhrQ2ah
 2) Replace the file association icons with better looking ones
 
 FFmpeg:
@@ -39,9 +40,7 @@ Installer:
 VSFilter:
 1) Use the defines from Version.h for MPC_COPYRIGHT_STR in VSFilter
 2) Define VSFilter's version numbers in a place accessible by its installer and VSFilter itself
-3) Build and statically link unrar library for out of the box support of rar'ed subtitles
-   for both VSFilter and MPC-HC itself
-4) Do we need the ISOLATION_AWARE_ENABLED define?
-5) Fix the YUV2 bug causing subtitles not to show
-6) Backport a few useful patches from those VSFilter forks;  we need individual patches for that
+3) Do we need the ISOLATION_AWARE_ENABLED define?
+4) Fix the YUV2 bug causing subtitles not to show
+5) Backport a few useful patches from those VSFilter forks;  we need individual patches for that
    and we have to make sure that everything works right for mpc-hc itself

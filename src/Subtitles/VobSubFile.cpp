@@ -24,8 +24,15 @@
 #include "stdafx.h"
 #include <winioctl.h>
 #include "TextFile.h"
-#include <unrar.h>
 #include "VobSubFile.h"
+#ifndef USE_UNRAR_STATIC
+#define USE_UNRAR_STATIC
+#endif
+#ifndef USE_UNRAR_STATIC
+#include <unrar.h>
+#else
+#include <unrar/dll.hpp>
+#endif
 #include "RTS.h"
 
 //
@@ -740,6 +747,7 @@ bool CVobSubFile::ReadSub(CString fn)
     return true;
 }
 
+// Do we really need MyProcessDataProc??
 static unsigned char* RARbuff = NULL;
 static unsigned int RARpos = 0;
 
@@ -755,6 +763,7 @@ static int PASCAL MyProcessDataProc(unsigned char* Addr, int Size)
 
 bool CVobSubFile::ReadRar(CString fn)
 {
+#ifndef USE_UNRAR_STATIC
 #ifdef _WIN64
     HMODULE h = LoadLibrary(_T("unrar64.dll"));
 #else
@@ -764,22 +773,32 @@ bool CVobSubFile::ReadRar(CString fn)
         return false;
     }
 
-    RAROpenArchiveEx OpenArchiveEx = (RAROpenArchiveEx)GetProcAddress(h, "RAROpenArchiveEx");
-    RARCloseArchive CloseArchive = (RARCloseArchive)GetProcAddress(h, "RARCloseArchive");
-    RARReadHeaderEx ReadHeaderEx = (RARReadHeaderEx)GetProcAddress(h, "RARReadHeaderEx");
-    RARProcessFile ProcessFile = (RARProcessFile)GetProcAddress(h, "RARProcessFile");
-    RARSetChangeVolProc SetChangeVolProc = (RARSetChangeVolProc)GetProcAddress(h, "RARSetChangeVolProc");
-    RARSetProcessDataProc SetProcessDataProc = (RARSetProcessDataProc)GetProcAddress(h, "RARSetProcessDataProc");
-    RARSetPassword SetPassword = (RARSetPassword)GetProcAddress(h, "RARSetPassword");
+#endif /* USE_UNRAR_STATIC */
 
-    if (!(OpenArchiveEx && CloseArchive && ReadHeaderEx && ProcessFile
-            && SetChangeVolProc && SetProcessDataProc && SetPassword)) {
+#ifndef USE_UNRAR_STATIC
+    RAROpenArchiveEx OpenArchiveEx = (RAROpenArchiveEx)GetProcAddress(h, "RAROpenArchiveEx");
+    RARCloseArchive  CloseArchive  = (RARCloseArchive)GetProcAddress(h, "RARCloseArchive");
+    RARReadHeaderEx  ReadHeaderEx  = (RARReadHeaderEx)GetProcAddress(h, "RARReadHeaderEx");
+    RARProcessFile   ProcessFile   = (RARProcessFile)GetProcAddress(h, "RARProcessFile");
+    RARSetProcessDataProc SetProcessDataProc = (RARSetProcessDataProc)GetProcAddress(h, "RARSetProcessDataProc");
+
+    if (!(OpenArchiveEx && CloseArchive && ReadHeaderEx && ProcessFile && SetProcessDataProc)) {
         FreeLibrary(h);
         return false;
     }
 
+#else
+#define OpenArchiveEx      RAROpenArchiveEx
+#define CloseArchive       RARCloseArchive
+#define ReadHeaderEx       RARReadHeaderEx
+#define ProcessFile        RARProcessFile
+#define SetProcessDataProc RARSetProcessDataProc
+#endif
+    // TODO: struct here is not needed
     struct RAROpenArchiveDataEx ArchiveDataEx;
+    //RAROpenArchiveDataEx ArchiveDataEx = { 0 };
     memset(&ArchiveDataEx, 0, sizeof(ArchiveDataEx));
+    // Are these filename conversions needed??
     ArchiveDataEx.ArcNameW = (LPTSTR)(LPCTSTR)fn;
     char fnA[_MAX_PATH];
     size_t size;
@@ -791,12 +810,15 @@ bool CVobSubFile::ReadRar(CString fn)
     ArchiveDataEx.CmtBuf = 0;
     HANDLE hrar = OpenArchiveEx(&ArchiveDataEx);
     if (!hrar) {
+#ifndef USE_UNRAR_STATIC
         FreeLibrary(h);
+#endif
         return false;
     }
 
     SetProcessDataProc(hrar, MyProcessDataProc);
 
+    // TODO: struct here is not needed
     struct RARHeaderDataEx HeaderDataEx;
     HeaderDataEx.CmtBuf = NULL;
 
@@ -807,7 +829,9 @@ bool CVobSubFile::ReadRar(CString fn)
             CAutoVectorPtr<BYTE> buff;
             if (!buff.Allocate(HeaderDataEx.UnpSize)) {
                 CloseArchive(hrar);
+#ifndef USE_UNRAR_STATIC
                 FreeLibrary(h);
+#endif
                 return false;
             }
 
@@ -816,7 +840,9 @@ bool CVobSubFile::ReadRar(CString fn)
 
             if (ProcessFile(hrar, RAR_TEST, NULL, NULL)) {
                 CloseArchive(hrar);
+#ifndef USE_UNRAR_STATIC
                 FreeLibrary(h);
+#endif
 
                 return false;
             }
@@ -836,7 +862,9 @@ bool CVobSubFile::ReadRar(CString fn)
     }
 
     CloseArchive(hrar);
+#ifndef USE_UNRAR_STATIC
     FreeLibrary(h);
+#endif
 
     return true;
 }

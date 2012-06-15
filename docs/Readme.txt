@@ -79,7 +79,7 @@ RealMedia SDK       -                          -                        -
 ResizableLib        Artistic License           1.3                      http://sourceforge.net/projects/resizablelib/
 SoundTouch          LGPLv2.1                   1.7.0pre r142            http://www.surina.net/soundtouch/
 TreePropSheet       -                          7 Mar '03 (modified)     http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P
-UnRAR.dll           freeware                   4.20                     http://www.rarlab.com/rar_add.htm
+UnRAR               freeware                   4.20                     http://www.rarlab.com/rar_add.htm
 VirtualDub          GPLv2                      1.10.2-test9             http://www.virtualdub.org/
 ZenLib              Simplified BSD License     0.4.27                   http://sourceforge.net/projects/zenlib/
 zlib                zlib License               1.2.7                    http://zlib.net/
