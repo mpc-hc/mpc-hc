@@ -242,6 +242,9 @@
       <Project>{5e56335f-0fb1-4eea-b240-d8dc5e0608e4}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\unrar\unrar.vcxproj">
+      <Project>{da8461c4-7683-4360-9372-2a9e0f1795c2}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\thirdparty\VirtualDub\Kasumi\Kasumi.vcxproj">
       <Project>{0d252872-7542-4232-8d02-53f9182aee15}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
