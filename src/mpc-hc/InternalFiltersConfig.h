@@ -26,8 +26,9 @@
 
 #pragma once
 
-/* Uncomment to build without internal filters. */
-//#define INTERNAL_FILTERS_NONE
+#ifdef MPCHC_LITE
+#define INTERNAL_FILTERS_NONE
+#endif
 
 #if defined(INTERNAL_FILTERS_NONE)
 #include "InternalFiltersConfig_none.h"

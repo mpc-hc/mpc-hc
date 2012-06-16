@@ -827,6 +827,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_strTitle.LoadString(IDR_MAINFRAME);
 
+#ifdef MPCHC_LITE
+    m_strTitle += _T(" Lite");
+#endif
+
     SetWindowText(m_strTitle);
     //m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 

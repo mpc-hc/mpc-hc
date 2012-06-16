@@ -31,8 +31,12 @@
 #endif
 
 ; Include translations by default. You can bypass this by defining localize=whatever or false etc in build.bat or here
-#ifndef localize
-#define localize = "true"
+#if !defined(localize)
+  #if defined(MPCHC_LITE)
+    #define localize = "false"
+  #else
+    #define localize = "true"
+  #endif
 #endif
 #define sse_required
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)

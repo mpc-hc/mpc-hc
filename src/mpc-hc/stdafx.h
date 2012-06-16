@@ -36,10 +36,15 @@
 template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 
-#define CheckAndLog(x, msg)     hr = ##x; if (FAILED (hr)) { TRACE(msg" : 0x%08x\n", hr); return hr; }
-#define CheckNoLog(x)           hr = ##x; if (FAILED (hr)) { return hr; }
+#define CheckAndLog(x, msg)  hr = ##x; if (FAILED (hr)) { TRACE(msg" : 0x%08x\n", hr); return hr; }
+#define CheckNoLog(x)        hr = ##x; if (FAILED (hr)) { return hr; }
 
-#ifndef USE_MEDIAINFO_STATIC
+/* Uncomment to build the "Lite" version without internal filters */
+/*#ifndef MPCHC_LITE
+#define MPCHC_LITE
+#endif*/
+
+#if !defined(USE_MEDIAINFO_STATIC) && !defined(MPCHC_LITE)
 #define USE_MEDIAINFO_STATIC
 #endif
 

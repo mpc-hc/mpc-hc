@@ -48,6 +48,10 @@ BOOL CAboutDlg::OnInitDialog()
     m_appname += _T(" (64-bit)");
 #endif
 
+#ifdef MPCHC_LITE
+    m_appname += _T(" Lite");
+#endif
+
     m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
 #if defined(__INTEL_COMPILER)

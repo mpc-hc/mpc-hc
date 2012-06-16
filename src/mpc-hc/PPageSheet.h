@@ -80,7 +80,9 @@ private:
     CPPageFullscreen m_fullscreen;
     CPPageSync m_sync;
     CPPageCapture m_tuner;
+#ifndef MPCHC_LITE
     CPPageInternalFilters m_internalfilters;
+#endif
     CPPageAudioSwitcher m_audioswitcher;
     CPPageExternalFilters m_externalfilters;
     CPPageSubtitles m_subtitles;
