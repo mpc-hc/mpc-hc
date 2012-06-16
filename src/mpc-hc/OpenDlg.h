@@ -24,7 +24,7 @@
 #pragma once
 
 #include "resource.h"
-#include "ResizableLib/ResizableDialog.h"
+#include "ui/ResizableLib/ResizableDialog.h"
 
 
 // COpenDlg dialog

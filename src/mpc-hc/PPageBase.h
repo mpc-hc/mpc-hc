@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "ResizableLib/ResizableDialog.h"
+#include "ui/ResizableLib/ResizableDialog.h"
 
 // CPPageBase dialog
 

@@ -66,7 +66,7 @@
 #include "LcdSupport.h"
 #include "MpcApi.h"
 #include "../filters/renderer/SyncClock/SyncClock.h"
-#include "sizecbar/scbarg.h"
+#include "ui/sizecbar/scbarg.h"
 
 
 class CFullscreenWnd;

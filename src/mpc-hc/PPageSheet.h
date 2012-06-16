@@ -42,7 +42,7 @@
 #include "PPageTweaks.h"
 #include "PPageMisc.h"
 #include "PPageCapture.h"
-#include "TreePropSheet/TreePropSheet.h"
+#include "ui/TreePropSheet/TreePropSheet.h"
 
 
 // CTreePropSheetTreeCtrl

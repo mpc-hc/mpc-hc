@@ -24,7 +24,7 @@
 #pragma once
 
 #include <afxwin.h>
-#include "ResizableLib/ResizableDialog.h"
+#include "ui/ResizableLib/ResizableDialog.h"
 
 
 // CShaderCombineDlg dialog

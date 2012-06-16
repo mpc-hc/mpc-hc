@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "sizecbar/scbarg.h"
+#include "ui/sizecbar/scbarg.h"
 
 
 class CPlayerBar : public CSizingControlBarG

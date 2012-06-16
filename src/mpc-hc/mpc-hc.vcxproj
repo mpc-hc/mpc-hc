@@ -83,7 +83,7 @@
       <Command>..\..\update_version.bat</Command>
     </PreBuildEvent>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\atl;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo;..\thirdparty\ui;..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\atl;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo;..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -101,7 +101,7 @@
       <Command>..\..\update_version.bat</Command>
     </PreBuildEvent>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\atl;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo;..\thirdparty\ui;..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\atl;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo;..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -119,7 +119,7 @@
       <Command>..\..\update_version.bat</Command>
     </PreBuildEvent>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\atl;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo;..\thirdparty\ui;..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\atl;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo;..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -136,7 +136,7 @@
       <Command>..\..\update_version.bat</Command>
     </PreBuildEvent>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\..\include\atl;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo;..\thirdparty\ui;..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\atl;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo;..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

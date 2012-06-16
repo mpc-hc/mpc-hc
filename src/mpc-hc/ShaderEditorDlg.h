@@ -26,7 +26,7 @@
 #include "LineNumberEdit.h"
 #include "ShaderAutoCompleteDlg.h"
 #include "mplayerc.h"
-#include "ResizableLib/ResizableDialog.h"
+#include "ui/ResizableLib/ResizableDialog.h"
 
 
 // Q174667

@@ -25,11 +25,11 @@
 
 #include <Windows.h>
 #include "lglcd/lglcd.h"
-#include <LCDUI/LCDManager.h>
-#include <LCDUI/LCDOutput.h>
-#include <LCDUI/LCDScrollingText.h>
-#include <LCDUI/LCDProgressBar.h>
-#include <LCDUI/LCDAnimatedBitmap.h>
+#include "ui/LCDUI/LCDManager.h"
+#include "ui/LCDUI/LCDOutput.h"
+#include "ui/LCDUI/LCDScrollingText.h"
+#include "ui/LCDUI/LCDProgressBar.h"
+#include "ui/LCDUI/LCDAnimatedBitmap.h"
 
 
 class CLCDMyManager : public CLCDManager
