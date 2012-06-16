@@ -32,7 +32,11 @@
 
 IMPLEMENT_DYNAMIC(CPPageAudioSwitcher, CPPageBase)
 CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
+#ifdef MPCHC_LITE
+    : CPPageBase(CPPageAudioSwitcher::IDD, IDS_AUDIOSWITCHER)
+#else
     : CPPageBase(CPPageAudioSwitcher::IDD, CPPageAudioSwitcher::IDD)
+#endif
     , m_fAudioNormalize(FALSE)
     , m_fAudioNormalizeRecover(FALSE)
     , m_fDownSampleTo441(FALSE)
