@@ -25,7 +25,7 @@
 #include "FLICSource.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
     {&MEDIATYPE_Video, &MEDIASUBTYPE_RGB32},

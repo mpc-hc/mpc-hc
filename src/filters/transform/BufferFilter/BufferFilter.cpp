@@ -25,7 +25,7 @@
 #include "BufferFilter.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_NULL, &MEDIASUBTYPE_NULL},

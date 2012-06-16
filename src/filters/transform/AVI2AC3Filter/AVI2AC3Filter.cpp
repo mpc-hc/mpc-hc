@@ -26,12 +26,12 @@
 #include "AVI2AC3Filter.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Audio, &MEDIASUBTYPE_WAVE_DOLBY_AC3},

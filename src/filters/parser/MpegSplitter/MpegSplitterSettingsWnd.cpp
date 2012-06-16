@@ -117,7 +117,7 @@ bool CMpegSplitterSettingsWnd::OnActivate()
         m_cbAlternativeDuration.SetCheck(m_pMSF->GetAlternativeDuration());
     }
 
-#ifndef REGISTER_FILTER
+#ifndef STANDALONE_FILTER
     m_edtAudioLanguageOrder.EnableWindow(FALSE);
     m_edtSubtitlesLanguageOrder.EnableWindow(FALSE);
 #endif
@@ -146,7 +146,7 @@ bool CMpegSplitterSettingsWnd::OnApply()
         m_pMSF->SetTrueHD(m_cbTrueHD.GetCheck() ? 0 : m_cbAC3Core.GetCheck() ? 1 : 2);
         m_pMSF->SetAlternativeDuration(m_cbAlternativeDuration.GetCheck());
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
         CString str = _T("");
         m_edtAudioLanguageOrder.GetWindowText(str);
         m_pMSF->SetAudioLanguageOrder(str.GetBuffer());

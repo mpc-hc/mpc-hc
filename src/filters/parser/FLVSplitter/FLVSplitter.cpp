@@ -25,7 +25,7 @@
 #include "FLVSplitter.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
@@ -57,7 +57,7 @@
 #define FLV_VIDEO_SCREEN2 6 // Screen video version 2
 #define FLV_VIDEO_AVC     7 // AVC
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_FLV},

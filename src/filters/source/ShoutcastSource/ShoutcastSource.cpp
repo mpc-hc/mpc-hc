@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "ShoutcastSource.h"
@@ -79,7 +79,7 @@ typedef struct {
 
 } mp3hdr;
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
     {&MEDIATYPE_Audio, &MEDIASUBTYPE_MP3},
@@ -145,7 +145,7 @@ CShoutcastSourceApp theApp;
 CShoutcastSource::CShoutcastSource(LPUNKNOWN lpunk, HRESULT* phr)
     : CSource(NAME("CShoutcastSource"), lpunk, __uuidof(this))
 {
-#ifndef REGISTER_FILTER
+#ifndef STANDALONE_FILTER
     AfxSocketInit();
 #endif
 }

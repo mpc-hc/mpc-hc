@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include <MMReg.h>
 #include <ks.h>
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include <uuids.h>
@@ -35,7 +35,7 @@
 
 #define _DECODER_   (FLAC__StreamDecoder*)m_pDecoder
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
     {&MEDIATYPE_Audio, &MEDIASUBTYPE_FLAC_FRAMED}

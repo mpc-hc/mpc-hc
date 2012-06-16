@@ -57,7 +57,7 @@ extern "C" {
 #endif
 }
 
-#if defined(REGISTER_FILTER) && _WIN64
+#if defined(STANDALONE_FILTER) && _WIN64
 void* __imp_toupper = toupper;
 void* __imp_time64 = _time64;
 #endif

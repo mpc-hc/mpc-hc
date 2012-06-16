@@ -26,7 +26,7 @@
 #include "MatroskaSplitter.h"
 #include "../../../DSUtil/AudioParser.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
@@ -34,7 +34,7 @@
 
 using namespace MatroskaReader;
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_Matroska},

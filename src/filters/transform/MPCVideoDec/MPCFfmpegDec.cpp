@@ -24,7 +24,7 @@
 #include "MPCVideoDecFilter.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 // Workaround: graphedit crashes when a filter exposes more than 115 input MediaTypes!
 const AMOVIESETUP_PIN sudpPinsVideoDec[] = {

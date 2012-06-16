@@ -36,7 +36,7 @@
 #include "../../../DSUtil/MediaTypes.h"
 #include "../../../DSUtil/GolombBuffer.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
@@ -45,7 +45,7 @@
 
 #define EPSILON 1e-4
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_MPEG2_VIDEO},
@@ -232,7 +232,7 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     EnableInterlaced(false);
     EnableReadARFromStream(true);
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     CRegKey key;
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Video Decoder"), KEY_READ)) {
         DWORD dw;
@@ -301,7 +301,7 @@ CMpeg2DecFilter::~CMpeg2DecFilter()
 
 STDMETHODIMP CMpeg2DecFilter::Apply()
 {
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     CRegKey key;
     if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Video Decoder"))) {
         key.SetDWORDValue(_T("DeinterlaceMethod"), m_ditype);

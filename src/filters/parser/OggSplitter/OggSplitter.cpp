@@ -26,7 +26,7 @@
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/GolombBuffer.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
@@ -36,7 +36,7 @@
  (version_minor>(_min)||version_minor==(_min)&& \
  version_subminor>=(_sub)))
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_NULL},

@@ -22,7 +22,7 @@
 
 #include "stdafx.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
@@ -33,7 +33,7 @@
 #include "MpcAudioRenderer.h"
 
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&GUID_NULL},
@@ -117,7 +117,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
 {
     HMODULE hLib;
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     CRegKey key;
     TCHAR   buff[256];
     ULONG   len;
@@ -556,7 +556,7 @@ STDMETHODIMP CMpcAudioRenderer::CreatePage(const GUID& guid, IPropertyPage** ppP
 // === IMpcAudioRendererFilter
 STDMETHODIMP CMpcAudioRenderer::Apply()
 {
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     CRegKey key;
     if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Audio Renderer"))) {
         key.SetDWORDValue(_T("UseWasapi"), m_useWASAPIAfterRestart);

@@ -65,17 +65,17 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 protected:
     CCritSec m_csReceive;
 
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
     a52_state_t*            m_a52_state;
 #endif
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_DTS
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
     dts_state_t*            m_dts_state;
 #endif
     ps2_state_t             m_ps2_state;
 
     DolbyDigitalMode        m_DolbyDigitalMode;
 
-#if defined(REGISTER_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
+#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     // === FFMpeg variables
     AVCodec*                m_pAVCodec;
     AVCodecContext*         m_pAVCtx;
@@ -87,22 +87,22 @@ protected:
     REFERENCE_TIME m_rtStart;
     bool m_fDiscontinuity;
 
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_LPCM
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_LPCM
     HRESULT ProcessLPCM();
     HRESULT ProcessHdmvLPCM(bool bAlignOldBuffer);
 #endif
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
     HRESULT ProcessAC3();
     HRESULT ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoughData);
 #endif
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_DTS
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
     HRESULT ProcessDTS();
 #endif
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_PS2AUDIO
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_PS2AUDIO
     HRESULT ProcessPS2PCM();
     HRESULT ProcessPS2ADPCM();
 #endif
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_PCM
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_PCM
     HRESULT ProcessPCMraw();
     HRESULT ProcessPCMintBE();
     HRESULT ProcessPCMintLE();
@@ -117,7 +117,7 @@ protected:
     CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
     CMediaType CreateMediaTypeSPDIF(DWORD nSamplesPerSec = 48000);
 
-#if defined(REGISTER_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
+#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     bool    InitFFmpeg(enum CodecID nCodecId);
     void    ffmpeg_stream_finish();
     HRESULT DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int samples, int& size);

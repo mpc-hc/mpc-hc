@@ -33,7 +33,7 @@
 #include "Audio.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
@@ -41,7 +41,7 @@
 #define INT24_MAX       8388607
 #define INT24_MIN     (-8388608)
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Audio, &MEDIASUBTYPE_NULL}

@@ -32,7 +32,7 @@
 #include "RealMediaSplitter.h"
 #include "../../../Subtitles/SubtitleInputPin.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
@@ -90,7 +90,7 @@ void rainfo5::bswap()
 
 using namespace RMFF;
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_NULL},

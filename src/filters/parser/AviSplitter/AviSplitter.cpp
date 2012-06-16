@@ -29,7 +29,7 @@
 
 #define MAXPACKETS_AVI  MAXPACKETS*10
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_Avi},
@@ -167,7 +167,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     bool fShowWarningText = !m_pFile->IsInterleaved(fShiftDown);
 
     if (SUCCEEDED(hr) && (fShowWarningText || fShiftDown)) {
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
         AFX_MANAGE_STATE(AfxGetStaticModuleState());
 #endif
         bool fHideWarning = !!AfxGetApp()->GetProfileInt(_T("Settings"), _T("HideAviSplitterWarning"), 0);

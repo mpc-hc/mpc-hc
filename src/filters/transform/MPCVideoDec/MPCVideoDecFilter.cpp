@@ -27,7 +27,7 @@
 
 #include "ffmpeg/libavcodec/avcodec.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "MPCVideoDecFilter.h"
@@ -605,7 +605,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_bFrame_repeat_pict    = false;
     m_bIsEVO                = false;
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     CRegKey key;
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ)) {
         DWORD dw;
@@ -777,7 +777,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 {
     for (int i = 0; i < _countof(ffCodecs); i++)
         if (mtIn->subtype == *ffCodecs[i].clsMinorType) {
-#ifndef REGISTER_FILTER
+#ifndef STANDALONE_FILTER
             switch (ffCodecs[i].nFFCodec) {
                 case CODEC_ID_H264 :
 #if INTERNAL_DECODER_H264_DXVA
@@ -2444,7 +2444,7 @@ STDMETHODIMP CMPCVideoDecFilter::GetPages(CAUUID* pPages)
 {
     CheckPointer(pPages, E_POINTER);
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     pPages->cElems      = 2;
 #else
     pPages->cElems      = 1;
@@ -2486,7 +2486,7 @@ void CMPCVideoDecFilter::SetFrameType(FF_FIELD_TYPE nFrameType)
 // IFFmpegDecFilter
 STDMETHODIMP CMPCVideoDecFilter::Apply()
 {
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     CRegKey key;
     if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"))) {
         key.SetDWORDValue(_T("ThreadNumber"), m_nThreadNumber);

@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include <MMReg.h>
 #include <ks.h>
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include <uuids.h>
@@ -96,7 +96,7 @@ int ParseAC3IEC61937Header(const BYTE* buf)
     return 0;
 }
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
     {&MEDIATYPE_Audio, &MEDIASUBTYPE_DTS},

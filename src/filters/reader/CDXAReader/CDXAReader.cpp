@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "CDXAReader.h"
 #include "../../../DSUtil/DSUtil.h"
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include <uuids.h>
@@ -113,7 +113,7 @@ static DWORD build_edc(const void* in, unsigned from, unsigned upto)
 
 /////////
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_NULL}

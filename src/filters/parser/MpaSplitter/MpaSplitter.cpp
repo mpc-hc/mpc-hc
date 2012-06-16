@@ -23,13 +23,13 @@
 
 #include "stdafx.h"
 #include <MMReg.h>
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "MpaSplitter.h"
 #include "moreuuids.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_MPEG1Audio},

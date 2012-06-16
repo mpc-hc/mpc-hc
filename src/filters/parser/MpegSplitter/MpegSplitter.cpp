@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include <MMReg.h>
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include <dmodshow.h>
@@ -63,7 +63,7 @@ TCHAR* MPEG2_Level[] = {
     L"11",
 };
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_MPEG1System},
@@ -499,7 +499,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
     , m_nVC1_GuidFlag(1)
     , m_AlternativeDuration(false)
 {
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     CRegKey key;
     TCHAR buff[256];
     ULONG len;
@@ -1435,7 +1435,7 @@ STDMETHODIMP CMpegSplitterFilter::CreatePage(const GUID& guid, IPropertyPage** p
 // IMpegSplitterFilter
 STDMETHODIMP CMpegSplitterFilter::Apply()
 {
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
     CRegKey key;
     if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Splitter"))) {
         key.SetDWORDValue(_T("UseFastStreamChange"), m_useFastStreamChange);

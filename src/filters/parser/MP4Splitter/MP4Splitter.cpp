@@ -27,7 +27,7 @@
 #include "../../../DSUtil/GolombBuffer.h"
 #include "../../../DSUtil/AudioParser.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
@@ -43,7 +43,7 @@
 #include "Ap4DataAtom.h"
 #include "Ap4PaspAtom.h"
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_MP4},

@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
 #include "CDDAReader.h"
@@ -31,7 +31,7 @@
 #define RAW_SECTOR_SIZE 2352
 #define MSF2UINT(hgs)   ((hgs[1] * 4500) + (hgs[2] * 75) + (hgs[3]))
 
-#ifdef REGISTER_FILTER
+#ifdef STANDALONE_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_WAVE},
