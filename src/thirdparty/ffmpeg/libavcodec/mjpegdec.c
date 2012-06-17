@@ -103,17 +103,17 @@ av_cold int ff_mjpeg_decode_init(AVCodecContext *avctx)
     build_basic_mjpeg_vlc(s);
 
     if (s->extern_huff) {
-        av_log(avctx, AV_LOG_INFO, "mjpeg: using external huffman table\n");
+        av_log(avctx, AV_LOG_INFO, "using external huffman table\n");
         init_get_bits(&s->gb, avctx->extradata, avctx->extradata_size * 8);
         if (ff_mjpeg_decode_dht(s)) {
             av_log(avctx, AV_LOG_ERROR,
-                   "mjpeg: error using external huffman table, switching back to internal\n");
+                   "error using external huffman table, switching back to internal\n");
             build_basic_mjpeg_vlc(s);
         }
     }
     if (avctx->field_order == AV_FIELD_BB) { /* quicktime icefloe 019 */
         s->interlace_polarity = 1;           /* bottom field first */
-        av_log(avctx, AV_LOG_DEBUG, "mjpeg bottom field first\n");
+        av_log(avctx, AV_LOG_DEBUG, "bottom field first\n");
     }
     if (avctx->codec->id == CODEC_ID_AMV)
         s->flipped = 1;
@@ -1445,7 +1445,7 @@ static int mjpeg_decode_com(MJpegDecodeContext *s)
                 cbuf[i] = 0;
 
             if (s->avctx->debug & FF_DEBUG_PICT_INFO)
-                av_log(s->avctx, AV_LOG_INFO, "mjpeg comment: '%s'\n", cbuf);
+                av_log(s->avctx, AV_LOG_INFO, "comment: '%s'\n", cbuf);
 
             /* buggy avid, it puts EOI only at every 10th frame */
             if (!strcmp(cbuf, "AVID")) {
@@ -1774,7 +1774,7 @@ the_end:
             dst -= s->linesize[s->upscale_v];
         }
     }
-    av_log(avctx, AV_LOG_DEBUG, "mjpeg decode frame unused %td bytes\n",
+    av_log(avctx, AV_LOG_DEBUG, "decode frame unused %td bytes\n",
            buf_end - buf_ptr);
 //  return buf_end - buf_ptr;
     return buf_ptr - buf;
@@ -1804,6 +1804,7 @@ av_cold int ff_mjpeg_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+#if CONFIG_MJPEG_DECODER
 #define OFFSET(x) offsetof(MJpegDecodeContext, x)
 #define VD AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_DECODING_PARAM
 static const AVOption options[] = {
@@ -1832,7 +1833,8 @@ AVCodec ff_mjpeg_decoder = {
     .long_name      = NULL_IF_CONFIG_SMALL("MJPEG (Motion JPEG)"),
     .priv_class     = &mjpegdec_class,
 };
-
+#endif
+#if CONFIG_THP_DECODER
 AVCodec ff_thp_decoder = {
     .name           = "thp",
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1845,3 +1847,4 @@ AVCodec ff_thp_decoder = {
     .max_lowres     = 3,
     .long_name      = NULL_IF_CONFIG_SMALL("Nintendo Gamecube THP video"),
 };
+#endif

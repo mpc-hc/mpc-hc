@@ -889,7 +889,9 @@ int attribute_align_arg avcodec_open2(AVCodecContext *avctx, AVCodec *codec, AVD
             for (i = 0; avctx->codec->pix_fmts[i] != PIX_FMT_NONE; i++)
                 if (avctx->pix_fmt == avctx->codec->pix_fmts[i])
                     break;
-            if (avctx->codec->pix_fmts[i] == PIX_FMT_NONE) {
+            if (avctx->codec->pix_fmts[i] == PIX_FMT_NONE
+                && !((avctx->codec_id == CODEC_ID_MJPEG || avctx->codec_id == CODEC_ID_LJPEG)
+                     && avctx->strict_std_compliance <= FF_COMPLIANCE_UNOFFICIAL)) {
                 av_log(avctx, AV_LOG_ERROR, "Specified pix_fmt is not supported\n");
                 ret = AVERROR(EINVAL);
                 goto free_and_end;
@@ -1465,7 +1467,7 @@ int attribute_align_arg avcodec_decode_video2(AVCodecContext *avctx, AVFrame *pi
 
     *got_picture_ptr= 0;
     if((avctx->coded_width||avctx->coded_height) && av_image_check_size(avctx->coded_width, avctx->coded_height, 0, avctx))
-        return -1;
+        return AVERROR(EINVAL);
 
     if((avctx->codec->capabilities & CODEC_CAP_DELAY) || avpkt->size || (avctx->active_thread_type&FF_THREAD_FRAME)){
         int did_split = av_packet_split_side_data(&tmp);
