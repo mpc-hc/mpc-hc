@@ -52,14 +52,14 @@ private:
     } THREADSTRUCT, *PTHREADSTRUCT;
 
     typedef struct PARAMSORT {
-        PARAMSORT(HWND hWnd, UINT colIndex, BOOL ascending) :
+        PARAMSORT(HWND hWnd, int colIndex, bool ascending) :
             m_hWnd(hWnd),
             m_colIndex(colIndex),
             m_ascending(ascending)
         {}
         HWND m_hWnd;
-        UINT m_colIndex;
-        BOOL m_ascending;
+        int m_colIndex;
+        bool m_ascending;
     } PARAMSORT, *PPARAMSORT;
 
     enum {COL_FILENAME, COL_LANGUAGE, COL_FORMAT, COL_DISC, COL_TITLES};

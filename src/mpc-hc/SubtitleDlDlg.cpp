@@ -121,17 +121,17 @@ bool CSubtitleDlDlg::Parse()
     // Parse movies
     pos = m_pTA->raw_movies.GetHeadPosition();
     while (pos) {
-        isdb_movie& m = m_pTA->raw_movies.GetNext(pos);
+        isdb_movie& raw_movie = m_pTA->raw_movies.GetNext(pos);
         isdb_movie_parsed p;
 
-        CStringA titlesA = Implode(m.titles, '|');
+        CStringA titlesA = Implode(raw_movie.titles, '|');
         titlesA.Replace("|", ", ");
         p.titles = UTF8To16(titlesA);
         p.checked = false;
 
-        POSITION pos2 = m.subs.GetHeadPosition();
+        POSITION pos2 = raw_movie.subs.GetHeadPosition();
         while (pos2) {
-            const isdb_subtitle& s = m.subs.GetNext(pos2);
+            const isdb_subtitle& s = raw_movie.subs.GetNext(pos2);
             p.name = UTF8To16(s.name);
             p.language = s.language;
             p.format = s.format;
@@ -329,7 +329,7 @@ void CSubtitleDlDlg::OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult)
     if (phdr->iItem == ps.m_colIndex) {
         ps.m_ascending = !ps.m_ascending;
     } else {
-        ps.m_ascending = TRUE;
+        ps.m_ascending = true;
     }
     ps.m_colIndex = phdr->iItem;
     ps.m_hWnd = m_list.GetSafeHwnd();
