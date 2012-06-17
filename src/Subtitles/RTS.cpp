@@ -682,7 +682,7 @@ bool CPolygon::ParseStr()
 
 bool CPolygon::CreatePath()
 {
-    size_t len = m_pathTypesOrg.GetCount();
+    int len = (int)m_pathTypesOrg.GetCount();
     if (len == 0) {
         return false;
     }
@@ -693,7 +693,7 @@ bool CPolygon::CreatePath()
         if (!mpPathTypes || !mpPathPoints) {
             return false;
         }
-        mPathPoints = (int)len;
+        mPathPoints = len;
     }
 
     memcpy(mpPathTypes, m_pathTypesOrg.GetData(), len * sizeof(BYTE));
