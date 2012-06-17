@@ -380,8 +380,8 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             }
 
             BYTE bsid = (buf[5] >> 3);
-            int fsize   = 0;
-            int HD_size = 0;
+            int fsize = 0;
+            //int HD_size = 0;
 
             // AC3 header
             if (bsid < 12) {
