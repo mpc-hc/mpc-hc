@@ -47,20 +47,20 @@ YASMFLAGS = -I. -Ilibavutil/x86 -Pconfig.asm
 ifeq ($(64BIT),yes)
     GCC_PREFIX = x86_64-w64-mingw32-
     TARGET_OS  = x86_64-w64-mingw32
-    CFLAGS     += -DWIN64 -D_WIN64 -DARCH_X86_64 -DPIC
-    OPTFLAGS   += -m64 -fno-leading-underscore
-    YASMFLAGS  += -f win64 -m amd64 -DWIN64=1 -DARCH_X86_32=0 -DARCH_X86_64=1 -DPIC
+    CFLAGS    += -DWIN64 -D_WIN64 -DARCH_X86_64 -DPIC
+    OPTFLAGS  += -m64 -fno-leading-underscore
+    YASMFLAGS += -f win64 -m amd64 -DWIN64=1 -DARCH_X86_32=0 -DARCH_X86_64=1 -DPIC
 else
     TARGET_OS  = i686-pc-mingw32
-    CFLAGS     += -DWIN32 -D_WIN32 -DARCH_X86_32
-    OPTFLAGS   += -m32 -march=i686 -mmmx -msse -mfpmath=sse
-    YASMFLAGS  += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
+    CFLAGS    += -DWIN32 -D_WIN32 -DARCH_X86_32
+    OPTFLAGS  += -m32 -march=i686 -mmmx -msse -mfpmath=sse
+    YASMFLAGS += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX
 endif
 
 ifeq ($(DEBUG),yes)
-    CFLAGS     += -DDEBUG -D_DEBUG -g
+    CFLAGS    += -DDEBUG -D_DEBUG -g
 else
-    CFLAGS     += -DNDEBUG -UDEBUG -U_DEBUG
+    CFLAGS    += -DNDEBUG -UDEBUG -U_DEBUG
 endif
 
 
