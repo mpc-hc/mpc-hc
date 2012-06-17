@@ -31,8 +31,10 @@
 class CDVBStream
 {
 public :
-    CDVBStream() :
-        m_ulMappedPID(0) {
+    CDVBStream()
+        : m_ulMappedPID(0)
+        , m_pmt(0)
+        , m_bFindExisting(0) {
     }
 
     CDVBStream(LPWSTR strName, const AM_MEDIA_TYPE* pmt, bool bFindExisting = false, MEDIA_SAMPLE_CONTENT nMsc = MEDIA_ELEMENTARY_STREAM) :

@@ -46,7 +46,7 @@ namespace DSObjects
 {
 
     struct REGION {
-        REGION() : rects(0), pOSRegion(0) {}
+        REGION() : rects(0), pOSRegion(0), size(0), numRects(0) {}
         long size;
         long numRects;
         PNxRect* rects;

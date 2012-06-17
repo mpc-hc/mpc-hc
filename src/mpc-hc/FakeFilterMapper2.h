@@ -42,8 +42,13 @@ public:
     int iLoadType;
     DWORD dwMerit;
 
-    FilterOverride() {
-        fTemporary = false;
+    FilterOverride()
+        : fDisabled(false)
+        , fTemporary(false)
+        , type(0)
+        , clsid(0)
+        , iLoadType(0)
+        , dwMerit(0) {
     }
     FilterOverride(FilterOverride* f) {
         fDisabled = f->fDisabled;

@@ -212,7 +212,8 @@ public:
     CStringA rmcmd;
     int rmrepcnt;
 
-    wmcmd(WORD cmd = 0) {
+    wmcmd(WORD cmd = 0)
+        : rmrepcnt(0) {
         this->cmd = cmd;
     }
 

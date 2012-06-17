@@ -63,7 +63,8 @@ class __declspec(uuid("39F498AF-1A09-4275-B193-673B0BA3D478"))
         REFERENCE_TIME rtStart, rtStop;
         DWORD flags;
         ditype di;
-        framebuf() {
+        framebuf()
+            : di(0) {
             w = h = pitch = 0;
             buf_base = NULL;
             memset(&buf, 0, sizeof(buf));

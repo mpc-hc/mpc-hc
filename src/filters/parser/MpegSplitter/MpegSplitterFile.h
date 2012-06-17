@@ -69,7 +69,8 @@ public:
         WORD pid;
         BYTE pesid, ps1id;
         bool operator < (const stream& _Other) const;
-        struct stream() {
+        struct stream()
+            : m_pFile(0) {
             pid = pesid = ps1id = 0;
         }
         operator DWORD() const {

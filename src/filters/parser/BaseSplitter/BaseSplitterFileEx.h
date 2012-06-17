@@ -372,7 +372,13 @@ public:
         spsppsdata spspps[4];
         BYTE lastid;
 
-        avchdr() {
+        avchdr()
+            : width(0)
+            , height(0)
+            , crop_left(0)
+            , crop_right(0)
+            , crop_top(0)
+            , crop_bottom(0) {
             memset(spspps, 0, sizeof(spspps));
             lastid = 0;
             views = 1;
