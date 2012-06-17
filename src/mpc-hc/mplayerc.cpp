@@ -42,10 +42,6 @@
 #include <atlrx.h>
 
 
-extern "C" {
-    int mingw_app_type = 1;
-}
-
 const LanguageResource CMPlayerCApp::languageResources[] = {
     {ID_LANGUAGE_ARMENIAN,              1067,   _T("Armenian"),                 _T("Lang\\mpcresources.hy.dll")},
     {ID_LANGUAGE_BASQUE,                1069,   _T("Basque"),                   _T("Lang\\mpcresources.eu.dll")},

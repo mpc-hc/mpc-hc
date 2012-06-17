@@ -33,9 +33,6 @@
 
 #ifdef STANDALONE_FILTER
 #ifdef _WIN64
-#ifdef _DEBUG
-extern "C" int mingw_app_type = 1; /* 0:console, 1:windows.  */
-#endif //_DEBUG
 void* __imp_toupper = toupper;
 void* __imp_time64 = _time64;
 void* __imp_vscprintf = _vscprintf;
