@@ -123,9 +123,9 @@ REM Set the GCC version
 FOR /F "tokens=1,2 delims= " %%A IN ('gcc -dumpversion') DO (SET "gccver=%%A")
 
 REM Copy the needed libraries
-COPY /V /Y "%MPCHC_MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a"    "%ROOT_DIR%\lib\" >NUL
-COPY /V /Y "%MPCHC_MINGW32%\i686-pc-mingw32\lib\libmingwex.a"             "%ROOT_DIR%\lib\" >NUL
-COPY /V /Y "%MPCHC_MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "%ROOT_DIR%\lib64\" >NUL
+COPY /Y /V "%MPCHC_MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a"    "%ROOT_DIR%\lib\" >NUL
+COPY /Y /V "%MPCHC_MINGW32%\i686-pc-mingw32\lib\libmingwex.a"             "%ROOT_DIR%\lib\" >NUL
+COPY /Y /V "%MPCHC_MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "%ROOT_DIR%\lib64\" >NUL
 REM libmingwex.a needs to be compiled separately for x64
 IF /I "%ARCH%" == "x64" IF /I "%LIBMINGWEX%" == "true" CALL :SubLibmingwex
 EXIT /B
@@ -139,18 +139,19 @@ IF /I "%BUILDTYPE%" == "Rebuild" (
   EXIT /B
   ) ELSE (
   ECHO "%ROOT_DIR%\lib64\libmingwex.a" is not present.
-)
-
-SET "SEARCHLIB=patches\root-i686-pc-mingw32\x86_64-w64-mingw32\lib\libmingwex.a"
-IF EXIST %SEARCHLIB% (
-  COPY /V /Y "%SEARCHLIB%" "%ROOT_DIR%\lib64\" >NUL
-  EXIT /B
+  CALL :SubPause
 )
 
 SET "CC=x86_64-w64-mingw32-gcc"
 SET "HST=i686-pc-mingw32"
 SET "TGT=x86_64-w64-mingw32"
 SET "RT=root-%HST%"
+
+SET "SEARCHLIB=patches\root-i686-pc-mingw32\x86_64-w64-mingw32\lib\libmingwex.a"
+IF EXIST %SEARCHLIB% (
+  COPY /Y /V "%SEARCHLIB%" "%ROOT_DIR%\lib64\"
+  EXIT /B
+)
 
 IF NOT EXIST "patches\build\mingw\build-%HST%" MD "patches\build\mingw\build-%HST%"
 IF NOT EXIST "patches\%RT%\%TGT%"              MD "patches\%RT%\%TGT%"
@@ -165,11 +166,19 @@ IF EXIST "mingw-w64-crt/misc/delayimp.c" DEL "mingw-w64-crt\misc\delayimp.c"
 
 ECHO Downloading MinGW64 crt and headers...
 svn -q co "https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/stable/v2.x" .
-IF %ERRORLEVEL% NEQ 0 ECHO Downloading MinGW64 crt and headers failed! & EXIT /B
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO Downloading MinGW64 crt and headers failed!
+  CALL :SubPause
+  EXIT /B
+)
 
 ECHO. & ECHO Applying Mingw64 compatibility patch...
 patch -p0 -i ../../mpchc_Mingw64.patch
-IF %ERRORLEVEL% NEQ 0 ECHO patching failed! & EXIT /B
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO patching failed!
+  CALL :SubPause
+  EXIT /B
+)
 
 ECHO. & ECHO Copying includes...
 ECHO \.svn\> exclude.txt
@@ -180,17 +189,37 @@ ECHO. & ECHO Compiling MinGW64 crt...
 PUSHD "%BD%/mingw/build-%HST%"
 
 sh ../mingw-w64-crt/configure --prefix="%PF%" --with-sysroot="%PF%" --host="%TGT%" --disable-lib32
-IF %ERRORLEVEL% NEQ 0 ECHO Compiling MinGW64 crt failed! (in configure) & EXIT /B
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO Compiling MinGW64 crt failed in configure!
+  CALL :SubPause
+  EXIT /B
+)
 
 CALL :SubMake CFLAGS="-O2 -fno-leading-underscore -pipe" -s
-IF %ERRORLEVEL% NEQ 0 ECHO Compiling MinGW64 crt failed! & EXIT /B
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO Compiling MinGW64 crt failed in make!
+  CALL :SubPause
+  EXIT /B
+)
 
+TITLE make install
 make install
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO Compiling MinGW64 crt failed in make install!
+  CALL :SubPause
+  EXIT /B
+)
 POPD
 
 POPD
 
-IF EXIST "%PF%\%TGT%\lib\libmingwex.a" COPY /Y /V "%PF%\%TGT%\lib\libmingwex.a" "%ROOT_DIR%\lib64\" >NUL
+IF EXIST "%PF%\%TGT%\lib\libmingwex.a" (
+  COPY /Y /V "%PF%\%TGT%\lib\libmingwex.a" "%ROOT_DIR%\lib64\"
+) ELSE (
+  ECHO Compiling MinGW64 crt failed; "%PF%\%TGT%\lib\libmingwex.a" is not present!
+  CALL :SubPause
+)
+
 rem IF EXIST "patches\build" RD /Q /S "patches\build"
 rem IF EXIST "patches\%RT%"  RD /Q /S "patches\%RT%"
 EXIT /B
@@ -212,6 +241,11 @@ ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
 ENDLOCAL
+EXIT /B
+
+
+:SubPause
+PING -n 5 127.0.0.1 >NUL
 EXIT /B
 
 
