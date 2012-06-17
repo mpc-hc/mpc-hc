@@ -45,8 +45,7 @@ public:
     FilterOverride()
         : fDisabled(false)
         , fTemporary(false)
-        , type(0)
-        , clsid(0)
+        , type(EXTERNAL)
         , iLoadType(0)
         , dwMerit(0) {
     }

@@ -64,7 +64,7 @@ class __declspec(uuid("39F498AF-1A09-4275-B193-673B0BA3D478"))
         DWORD flags;
         ditype di;
         framebuf()
-            : di(0) {
+            : di(DIAuto) {
             w = h = pitch = 0;
             buf_base = NULL;
             memset(&buf, 0, sizeof(buf));
