@@ -50,8 +50,6 @@ static TCHAR* ext[3][_countof(exttypestr)] = {
     },
 };
 
-#define WEBSUBEXT _T(".wse")
-
 static int SubFileCompare(const void* elem1, const void* elem2)
 {
     return ((SubFile*)elem1)->fn.CompareNoCase(((SubFile*)elem2)->fn);
@@ -156,7 +154,7 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
         }
     } else if (l > 7) {
         CWebTextFile wtf; // :)
-        if (wtf.Open(orgpath + title + WEBSUBEXT)) {
+        if (wtf.Open(orgpath + title + _T(".wse"))) {
             CString fn;
             while (wtf.ReadString(fn) && fn.Find(_T("://")) >= 0) {
                 SubFile f;
