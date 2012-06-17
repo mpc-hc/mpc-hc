@@ -8,7 +8,7 @@
 #include "../DSUtil/GolombBuffer.h"
 #include "../DSUtil/DSUtil.h"
 
-#define Audio_block_size 66
+#define Audio_block_size    66
 #define Subtitle_block_size 194
 
 //

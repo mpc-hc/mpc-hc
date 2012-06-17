@@ -23,7 +23,6 @@
 #include "stdafx.h"
 #include "SyncClock.h"
 
-
 CSyncClockFilter::CSyncClockFilter(LPUNKNOWN pUnk, HRESULT* phr)
     : CBaseFilter(NAME("SyncClock"), NULL, &m_Lock, CLSID_NULL)
     , m_Clock(static_cast<IBaseFilter*>(this), phr)

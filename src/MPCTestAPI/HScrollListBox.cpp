@@ -167,4 +167,3 @@ LRESULT CHScrollListBox::OnResetContent(WPARAM /*wParam*/, LPARAM /*lParam*/)
     SetHorizontalExtent(0);
     return lResult;
 }
-
