@@ -41,21 +41,12 @@ struct MuxerPacket {
         flags = empty;
         index = -1;
     }
-    bool IsTimeValid() const {
-        return !!(flags & timevalid);
-    }
-    bool IsSyncPoint() const {
-        return !!(flags & syncpoint);
-    }
-    bool IsDiscontinuity() const {
-        return !!(flags & discontinuity);
-    }
-    bool IsEOS() const {
-        return !!(flags & eos);
-    }
-    bool IsBogus() const {
-        return !!(flags & bogus);
-    }
+
+    bool IsTimeValid() const { return !!(flags & timevalid); }
+    bool IsSyncPoint() const { return !!(flags & syncpoint); }
+    bool IsDiscontinuity() const { return !!(flags & discontinuity); }
+    bool IsEOS() const { return !!(flags & eos); }
+    bool IsBogus() const { return !!(flags & bogus); }
 };
 
 class CBaseMuxerInputPin : public CBaseInputPin, public CBaseMuxerRelatedPin, public IDSMPropertyBagImpl
@@ -83,15 +74,9 @@ public:
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    REFERENCE_TIME GetDuration() {
-        return m_rtDuration;
-    }
-    int GetID() {
-        return m_iID;
-    }
-    CMediaType& CurrentMediaType() {
-        return m_mt;
-    }
+    REFERENCE_TIME GetDuration() { return m_rtDuration; }
+    int GetID() { return m_iID; }
+    CMediaType& CurrentMediaType() { return m_mt; }
     bool IsSubtitleStream();
 
     HRESULT CheckMediaType(const CMediaType* pmt);

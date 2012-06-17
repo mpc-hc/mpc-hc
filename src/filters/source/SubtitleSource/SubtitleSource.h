@@ -74,9 +74,7 @@ class CSubtitleStream
 
     HRESULT ChangeStart();
     HRESULT ChangeStop();
-    HRESULT ChangeRate() {
-        return S_OK;
-    }
+    HRESULT ChangeRate() { return S_OK; }
 
 protected:
     CRenderedTextSubtitle m_rts;

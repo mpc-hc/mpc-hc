@@ -75,9 +75,7 @@ class CSTSStyleMap : public CAtlMap<CString, STSStyle*, CStringElementTraits<CSt
 {
 public:
     CSTSStyleMap() {}
-    virtual ~CSTSStyleMap() {
-        Free();
-    }
+    virtual ~CSTSStyleMap() { Free(); }
     void Free();
 };
 
@@ -141,9 +139,9 @@ public:
     CSTSStyleMap m_styles;
 
     enum EPARCompensationType {
-        EPCTDisabled = 0,
-        EPCTDownscale = 1,
-        EPCTUpscale = 2,
+        EPCTDisabled     = 0,
+        EPCTDownscale    = 1,
+        EPCTUpscale      = 2,
         EPCTAccurateSize = 3
     };
 

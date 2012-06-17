@@ -44,7 +44,5 @@ public:
     virtual ~CCDecoder();
     void DecodeCC(BYTE* buff, int len, __int64 time);
     void ExtractCC(BYTE* buff, int len, __int64 time);
-    CSimpleTextSubtitle& GetSTS() {
-        return m_sts;
-    }
+    CSimpleTextSubtitle& GetSTS() { return m_sts; }
 };

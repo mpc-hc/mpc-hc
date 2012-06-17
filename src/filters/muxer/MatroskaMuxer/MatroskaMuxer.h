@@ -49,9 +49,7 @@ public:
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    MatroskaWriter::TrackEntry* GetTrackEntry() {
-        return m_pTE;
-    }
+    MatroskaWriter::TrackEntry* GetTrackEntry() { return m_pTE; }
 
     REFERENCE_TIME m_rtDur;
 

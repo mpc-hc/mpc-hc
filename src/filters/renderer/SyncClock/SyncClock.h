@@ -35,9 +35,7 @@ public:
     CSyncClock(LPUNKNOWN pUnk, HRESULT* phr);
 
     REFERENCE_TIME GetPrivateTime();
-    IUnknown* pUnk() {
-        return static_cast<IUnknown*>(static_cast<IReferenceClock*>(this));
-    }
+    IUnknown* pUnk() { return static_cast<IUnknown*>(static_cast<IReferenceClock*>(this)); }
     DOUBLE adjustment; // For adjusting speed temporarily
     DOUBLE bias; // For changing speed permanently
 

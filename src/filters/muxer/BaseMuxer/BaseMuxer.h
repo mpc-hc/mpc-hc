@@ -54,9 +54,7 @@ private:
 
 protected:
     CAtlList<CBaseMuxerInputPin*> m_pPins;
-    CBaseMuxerOutputPin* GetOutputPin() {
-        return m_pOutput;
-    }
+    CBaseMuxerOutputPin* GetOutputPin() { return m_pOutput; }
 
     virtual void MuxInit() = 0;
 

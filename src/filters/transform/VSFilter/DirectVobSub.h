@@ -96,12 +96,8 @@ public:
     STDMETHODIMP put_MediaFPS(bool fEnabled, double fps);
     STDMETHODIMP get_ZoomRect(NORMALIZEDRECT* rect);
     STDMETHODIMP put_ZoomRect(NORMALIZEDRECT* rect);
-    STDMETHODIMP get_ColorFormat(int* iPosition) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP put_ColorFormat(int iPosition) {
-        return E_NOTIMPL;
-    }
+    STDMETHODIMP get_ColorFormat(int* iPosition) { return E_NOTIMPL; }
+    STDMETHODIMP put_ColorFormat(int iPosition) { return E_NOTIMPL; }
 
     STDMETHODIMP UpdateRegistry();
 

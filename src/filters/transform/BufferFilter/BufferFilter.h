@@ -77,9 +77,7 @@ class CBufferFilterOutputPin : public CTransformOutputPin
             : COutputQueue(pInputPin, phr, bAuto, bQueue, lBatchSize, bBatchExact, lListSize, dwPriority, bFlushingOpt) {
         }
 
-        int GetQueueCount() {
-            return m_List ? m_List->GetCount() : -1;
-        }
+        int GetQueueCount() { return m_List ? m_List->GetCount() : -1; }
 
         bool SetPriority(DWORD dwPriority) {
             return m_hThread ? !!::SetThreadPriority(m_hThread, dwPriority) : false;

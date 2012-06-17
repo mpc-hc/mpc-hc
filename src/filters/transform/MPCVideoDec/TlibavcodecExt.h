@@ -43,7 +43,7 @@ protected:
 
 public:
     virtual ~TlibavcodecExt() {}
-    void         ConnectTo(AVCodecContext* pAVCtx);
+    void ConnectTo(AVCodecContext* pAVCtx);
     virtual void OnGetBuffer(AVFrame* pic) {}
     virtual void OnRegetBuffer(AVFrame* pic) {}
     virtual void OnReleaseBuffer(AVFrame* pic) {}

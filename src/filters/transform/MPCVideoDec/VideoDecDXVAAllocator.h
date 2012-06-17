@@ -30,7 +30,6 @@
 class CMPCVideoDecFilter;
 class CVideoDecDXVAAllocator;
 
-
 interface __declspec(uuid("AE7EC2A2-1913-4a80-8DD6-DF1497ABA494"))
 IMPCDXVA2Sample :
 public IUnknown {
@@ -48,9 +47,9 @@ public:
     //Note: CMediaSample does not derive from CUnknown, so we cannot use the
     //      DECLARE_IUNKNOWN macro that is used by most of the filter classes.
 
-    STDMETHODIMP            QueryInterface(REFIID riid, __deref_out void** ppv);
-    STDMETHODIMP_(ULONG)    AddRef();
-    STDMETHODIMP_(ULONG)    Release();
+    STDMETHODIMP QueryInterface(REFIID riid, __deref_out void** ppv);
+    STDMETHODIMP_(ULONG) AddRef();
+    STDMETHODIMP_(ULONG) Release();
 
     // IMFGetService::GetService
     STDMETHODIMP GetService(REFGUID guidService, REFIID riid, LPVOID* ppv);
@@ -78,24 +77,15 @@ public:
     CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter, HRESULT* phr);
     virtual ~CVideoDecDXVAAllocator();
 
-    //  STDMETHODIMP GetBuffer(__deref_out IMediaSample **ppBuffer,     // Try for a circular buffer!
-    //                          __in_opt REFERENCE_TIME * pStartTime,
-    //                          __in_opt REFERENCE_TIME * pEndTime,
-    //                          DWORD dwFlags);
-    //
-    //  STDMETHODIMP ReleaseBuffer(IMediaSample *pBuffer);
-    //  CAtlList<int>           m_FreeSurface;
-
-
 protected:
-    HRESULT     Alloc(void);
-    void        Free(void);
+    HRESULT Alloc(void);
+    void    Free(void);
 
 
 private :
-    CMPCVideoDecFilter*     m_pVideoDecFilter;
+    CMPCVideoDecFilter* m_pVideoDecFilter;
 
-    IDirect3DSurface9**     m_ppRTSurfaceArray;
-    UINT                    m_nSurfaceArrayCount;
+    IDirect3DSurface9** m_ppRTSurfaceArray;
+    UINT                m_nSurfaceArrayCount;
 
 };

@@ -33,11 +33,10 @@ enum DolbyDigitalMode {
     DD_MLP          // Meridian Lossless Packing
 };
 
-
 interface __declspec(uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C"))
 IMpaDecFilter :
 public IUnknown {
-    enum enctype {ac3, dts, etlast};
+    enum enctype { ac3, dts, etlast };
 
     STDMETHOD(SetSampleFormat(MPCSampleFormat sf)) = 0;
     STDMETHOD_(MPCSampleFormat, GetSampleFormat()) = 0;

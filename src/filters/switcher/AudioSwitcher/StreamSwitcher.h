@@ -153,16 +153,10 @@ public:
     DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    CMediaType& CurrentMediaType() {
-        return m_mt;
-    }
-    IMemAllocator* CurrentAllocator() {
-        return m_pAllocator;
-    }
+    CMediaType& CurrentMediaType() { return m_mt; }
+    IMemAllocator* CurrentAllocator() { return m_pAllocator; }
 
-    bool IsUsingOwnAllocator() {
-        return m_bUsingOwnAllocator == TRUE;
-    }
+    bool IsUsingOwnAllocator() { return m_bUsingOwnAllocator == TRUE; }
 
     void Block(bool fBlock);
 
@@ -211,15 +205,9 @@ public:
     DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    CMediaType& CurrentMediaType() {
-        return m_mt;
-    }
-    IMemAllocator* CurrentAllocator() {
-        return m_pAllocator;
-    }
-    IPinConnection* CurrentPinConnection() {
-        return m_pPinConnection;
-    }
+    CMediaType& CurrentMediaType() { return m_mt; }
+    IMemAllocator* CurrentAllocator() { return m_pAllocator; }
+    IPinConnection* CurrentPinConnection() { return m_pPinConnection; }
 
     // pure virtual
     HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
@@ -276,9 +264,7 @@ public:
     CStreamSwitcherOutputPin* GetOutputPin();
 
     bool m_fResetOutputMediaType;
-    void ResetOutputMediaType() {
-        m_fResetOutputMediaType = true;
-    }
+    void ResetOutputMediaType() { m_fResetOutputMediaType = true; }
 
     // override these
     virtual HRESULT CheckMediaType(const CMediaType* pmt) = 0;
@@ -294,6 +280,8 @@ public:
 
     // IAMStreamSelect
     STDMETHODIMP Count(DWORD* pcStreams);
-    STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
+    STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags,
+                      LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName,
+                      IUnknown** ppObject, IUnknown** ppUnk);
     STDMETHODIMP Enable(long lIndex, DWORD dwFlags);
 };

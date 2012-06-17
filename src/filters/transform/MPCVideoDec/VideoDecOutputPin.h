@@ -39,20 +39,20 @@ public:
 
     ~CVideoDecOutputPin();
 
-    HRESULT         InitAllocator(IMemAllocator** ppAlloc);
+    HRESULT InitAllocator(IMemAllocator** ppAlloc);
 
     DECLARE_IUNKNOWN
-    STDMETHODIMP    NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
     // IAMVideoAcceleratorNotify
-    STDMETHODIMP    GetUncompSurfacesInfo(const GUID* pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo);
-    STDMETHODIMP    SetUncompSurfacesInfo(DWORD dwActualUncompSurfacesAllocated);
-    STDMETHODIMP    GetCreateVideoAcceleratorData(const GUID* pGuid, LPDWORD pdwSizeMiscData, LPVOID* ppMiscData);
+    STDMETHODIMP GetUncompSurfacesInfo(const GUID* pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo);
+    STDMETHODIMP SetUncompSurfacesInfo(DWORD dwActualUncompSurfacesAllocated);
+    STDMETHODIMP GetCreateVideoAcceleratorData(const GUID* pGuid, LPDWORD pdwSizeMiscData, LPVOID* ppMiscData);
 
 private :
-    CMPCVideoDecFilter*         m_pVideoDecFilter;
-    CVideoDecDXVAAllocator*     m_pDXVA2Allocator;
-    DWORD                       m_dwDXVA1SurfaceCount;
-    GUID                        m_GuidDecoderDXVA1;
-    DDPIXELFORMAT               m_ddUncompPixelFormat;
+    CMPCVideoDecFilter*     m_pVideoDecFilter;
+    CVideoDecDXVAAllocator* m_pDXVA2Allocator;
+    DWORD                   m_dwDXVA1SurfaceCount;
+    GUID                    m_GuidDecoderDXVA1;
+    DDPIXELFORMAT           m_ddUncompPixelFormat;
 };

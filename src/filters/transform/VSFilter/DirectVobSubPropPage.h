@@ -36,9 +36,7 @@ public:
 protected:
     CComQIPtr<IDirectVobSub2> m_pDirectVobSub;
 
-    virtual bool OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
-        return false;
-    }
+    virtual bool OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) { return false; }
     virtual void UpdateObjectData(bool fSave) {}
     virtual void UpdateControlData(bool fSave) {}
 

@@ -82,7 +82,6 @@ public IUnknown {
     STDMETHOD_(void, SetSegmentStop)(REFERENCE_TIME rtStop) PURE;
 };
 
-
 //
 // ISubPicAllocator
 //
@@ -101,7 +100,6 @@ public IUnknown {
     STDMETHOD(ChangeDevice)(IUnknown * pDev) PURE;
     STDMETHOD(SetMaxTextureSize)(SIZE MaxTextureSize) PURE;
 };
-
 
 //
 // ISubPicProvider
@@ -125,7 +123,6 @@ public IUnknown {
     STDMETHOD(GetTextureSize)(POSITION pos, SIZE & MaxTextureSize, SIZE & VirtualSize, POINT & VirtualTopLeft) PURE;
 };
 
-
 //
 // ISubPicQueue
 //
@@ -145,7 +142,6 @@ public IUnknown {
     STDMETHOD(GetStats)(int & nSubPics, REFERENCE_TIME & rtNow, REFERENCE_TIME & rtStart, REFERENCE_TIME& rtStop /*[out]*/) PURE;
     STDMETHOD(GetStats)(int nSubPic /*[in]*/, REFERENCE_TIME & rtStart, REFERENCE_TIME& rtStop /*[out]*/) PURE;
 };
-
 
 //
 // ISubPicAllocatorPresenter
@@ -174,7 +170,6 @@ public IUnknown {
     STDMETHOD(SetPixelShader)(LPCSTR pSrcData, LPCSTR pTarget) PURE;
 
     STDMETHOD_(bool, ResetDevice)() PURE;
-
     STDMETHOD_(bool, DisplayChange)() PURE;
 };
 
@@ -184,7 +179,6 @@ public ISubPicAllocatorPresenter {
     STDMETHOD(SetPixelShader2)(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) PURE;
     STDMETHOD_(SIZE, GetVisibleVideoSize)() PURE;
 };
-
 
 //
 // ISubStream

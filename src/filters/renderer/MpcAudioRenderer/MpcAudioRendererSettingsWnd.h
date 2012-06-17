@@ -50,7 +50,6 @@ private :
 public:
     CMpcAudioRendererSettingsWnd(void);
 
-
     bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
     void OnDisconnect();
     bool OnActivate();
@@ -59,12 +58,8 @@ public:
 
     HRESULT GetAvailableAudioDevices();
 
-    static LPCTSTR GetWindowTitle() {
-        return _T("Settings");
-    }
-    static CSize GetWindowSize() {
-        return CSize(350, 325);
-    }
+    static LPCTSTR GetWindowTitle() { return _T("Settings"); }
+    static CSize GetWindowSize() { return CSize(350, 325); }
 
     DECLARE_MESSAGE_MAP()
 };

@@ -27,12 +27,8 @@ public:
     bool Open(LPCTSTR path);
     void Close();
 
-    operator HANDLE() const {
-        return m_hDrive;
-    }
-    operator DVD_SESSION_ID() const {
-        return m_session;
-    }
+    operator HANDLE() const { return m_hDrive; }
+    operator DVD_SESSION_ID() const { return m_session; }
 
     bool SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData);
     bool ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba = 0);
@@ -62,6 +58,7 @@ class CVobFile : public CDVDSession
         CString fn;
         int size;
     } file_t;
+
     CAtlArray<file_t> m_files;
     int m_iFile;
     int m_pos, m_size, m_offset;
@@ -99,9 +96,9 @@ public:
     LONGLONG GetChapterOffset(UINT ChapterNumber);
 
 private:
-    CFile       m_ifoFile;
-    DWORD       ReadDword();
-    SHORT       ReadShort();
-    BYTE        ReadByte();
-    void        ReadBuffer(BYTE* pBuff, DWORD nLen);
+    CFile   m_ifoFile;
+    DWORD   ReadDword();
+    SHORT   ReadShort();
+    BYTE    ReadByte();
+    void    ReadBuffer(BYTE* pBuff, DWORD nLen);
 };

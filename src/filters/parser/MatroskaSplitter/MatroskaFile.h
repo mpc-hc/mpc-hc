@@ -154,9 +154,7 @@ namespace MatroskaReader
         CInt DateUTC;
         CUTF8 Title, MuxingApp, WritingApp;
 
-        Info() {
-            TimeCodeScale.Set(1000000ui64);
-        }
+        Info() { TimeCodeScale.Set(1000000ui64); }
         HRESULT Parse(CMatroskaNode* pMN);
     };
 
@@ -209,9 +207,7 @@ namespace MatroskaReader
         CInt BlockAddID;
         CBinary BlockAdditional;
 
-        BlockMore() {
-            BlockAddID.Set(1);
-        }
+        BlockMore() { BlockAddID.Set(1); }
         HRESULT Parse(CMatroskaNode* pMN);
     };
 
@@ -227,7 +223,7 @@ namespace MatroskaReader
     {
     public:
         SimpleBlock Block;
-        //              BlockVirtual
+        //BlockVirtual
         CUInt BlockDuration;
         CUInt ReferencePriority;
         CInt ReferenceBlock;
@@ -305,9 +301,7 @@ namespace MatroskaReader
         enum {ZLIB, BZLIB, LZO1X, HDRSTRIP};
         CBinary ContentCompSettings;
 
-        ContentCompression() {
-            ContentCompAlgo.Set(ZLIB);
-        }
+        ContentCompression() { ContentCompAlgo.Set(ZLIB); }
         HRESULT Parse(CMatroskaNode* pMN);
     };
 
@@ -459,9 +453,7 @@ namespace MatroskaReader
         QWORD FileDataPos, FileDataLen; // BYTE* FileData
         CUInt FileUID;
 
-        AttachedFile() {
-            FileDataPos = FileDataLen = 0;
-        }
+        AttachedFile() { FileDataPos = FileDataLen = 0; }
         HRESULT Parse(CMatroskaNode* pMN);
     };
 
@@ -480,9 +472,7 @@ namespace MatroskaReader
         CANSI ChapLanguage;
         CANSI ChapCountry;
 
-        ChapterDisplay() {
-            ChapLanguage.CStringA::operator = ("eng");
-        }
+        ChapterDisplay() { ChapLanguage.CStringA::operator = ("eng"); }
         HRESULT Parse(CMatroskaNode* pMN);
     };
 
@@ -579,9 +569,7 @@ namespace MatroskaReader
         CMatroskaNode(CMatroskaFile* pMF); // creates the root
         CMatroskaNode(CMatroskaNode* pParent);
 
-        CMatroskaNode* Parent() {
-            return m_pParent;
-        }
+        CMatroskaNode* Parent() { return m_pParent; }
         CAutoPtr<CMatroskaNode> Child(DWORD id = 0, bool fSearch = true);
         bool Next(bool fSame = false);
         bool Find(DWORD id, bool fSearch = true);
@@ -598,8 +586,6 @@ namespace MatroskaReader
         CAutoPtr<CMatroskaNode> GetFirstBlock();
         bool NextBlock();
 
-        bool IsRandomAccess() {
-            return m_pMF->IsRandomAccess();
-        }
+        bool IsRandomAccess() { return m_pMF->IsRandomAccess(); }
     };
 }

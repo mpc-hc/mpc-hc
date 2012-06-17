@@ -60,55 +60,27 @@ public:
     STDMETHODIMP AbortOperation();
 
     // IAMMediaContent
-    STDMETHODIMP GetTypeInfoCount(UINT* pctinfo) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo) {
-        return E_NOTIMPL;
-    }
+    STDMETHODIMP GetTypeInfoCount(UINT* pctinfo) { return E_NOTIMPL; }
+    STDMETHODIMP GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo) { return E_NOTIMPL; }
     STDMETHODIMP GetIDsOfNames(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid) {
         return E_NOTIMPL;
     }
     STDMETHODIMP Invoke(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr) {
         return E_NOTIMPL;
     }
-    STDMETHODIMP get_AuthorName(BSTR* pbstrAuthorName) {
-        return E_NOTIMPL;
-    }
+    STDMETHODIMP get_AuthorName(BSTR* pbstrAuthorName) { return E_NOTIMPL; }
     STDMETHODIMP get_Title(BSTR* pbstrTitle);
-    STDMETHODIMP get_Rating(BSTR* pbstrRating) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_Description(BSTR* pbstrDescription) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_Copyright(BSTR* pbstrCopyright) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_BaseURL(BSTR* pbstrBaseURL) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_LogoURL(BSTR* pbstrLogoURL) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_LogoIconURL(BSTR* pbstrLogoURL) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_WatermarkURL(BSTR* pbstrWatermarkURL) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_MoreInfoURL(BSTR* pbstrMoreInfoURL) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_MoreInfoBannerImage(BSTR* pbstrMoreInfoBannerImage) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL) {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText) {
-        return E_NOTIMPL;
-    }
+    STDMETHODIMP get_Rating(BSTR* pbstrRating) { return E_NOTIMPL; }
+    STDMETHODIMP get_Description(BSTR* pbstrDescription) { return E_NOTIMPL; }
+    STDMETHODIMP get_Copyright(BSTR* pbstrCopyright) { return E_NOTIMPL; }
+    STDMETHODIMP get_BaseURL(BSTR* pbstrBaseURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_LogoURL(BSTR* pbstrLogoURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_LogoIconURL(BSTR* pbstrLogoURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_WatermarkURL(BSTR* pbstrWatermarkURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_MoreInfoURL(BSTR* pbstrMoreInfoURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_MoreInfoBannerImage(BSTR* pbstrMoreInfoBannerImage) { return E_NOTIMPL; }
+    STDMETHODIMP get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText) { return E_NOTIMPL; }
 
     // CBaseFilter
     STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
@@ -128,12 +100,8 @@ class CShoutcastStream : public CSourceStream
             pData = len ? DNew BYTE[len] : NULL;
             rtStart = rtStop = 0;
         }
-        mp3frame(const mp3frame& f) {
-            *this = f;
-        }
-        ~mp3frame() {
-            delete pData;
-        }
+        mp3frame(const mp3frame& f) { *this = f; }
+        ~mp3frame() { delete pData; }
         mp3frame& operator = (const mp3frame& f) {
             if (this != &f) {
                 len = f.len;
@@ -154,9 +122,7 @@ class CShoutcastStream : public CSourceStream
         DWORD m_nBytesRead;
 
     public:
-        CShoutcastSocket() {
-            m_metaint = m_bitrate = m_freq = m_channels = 0;
-        }
+        CShoutcastSocket() { m_metaint = m_bitrate = m_freq = m_channels = 0; }
         int Receive(void* lpBuf, int nBufLen, int nFlags = 0);
 
         DWORD m_metaint, m_bitrate, m_freq, m_channels;
@@ -188,9 +154,7 @@ public:
     HRESULT CheckMediaType(const CMediaType* pMediaType);
     HRESULT GetMediaType(int iPosition, CMediaType* pmt);
 
-    STDMETHODIMP Notify(IBaseFilter* pSender, Quality q) {
-        return E_NOTIMPL;
-    }
+    STDMETHODIMP Notify(IBaseFilter* pSender, Quality q) { return E_NOTIMPL; }
 
     HRESULT OnThreadCreate();
     HRESULT OnThreadDestroy();

@@ -58,20 +58,20 @@ public:
 
     static const AMOVIESETUP_FILTER sudASFilter;
 
-    HRESULT                 CheckInputType(const CMediaType* mtIn);
-    virtual HRESULT         CheckMediaType(const CMediaType* pmt);
-    virtual HRESULT         DoRenderSample(IMediaSample* pMediaSample);
-    virtual void            OnReceiveFirstSample(IMediaSample* pMediaSample);
-    BOOL                    ScheduleSample(IMediaSample* pMediaSample);
-    virtual HRESULT         SetMediaType(const CMediaType* pmt);
-    virtual HRESULT         CompleteConnect(IPin* pReceivePin);
+    HRESULT CheckInputType(const CMediaType* mtIn);
+    virtual HRESULT CheckMediaType(const CMediaType* pmt);
+    virtual HRESULT DoRenderSample(IMediaSample* pMediaSample);
+    virtual void OnReceiveFirstSample(IMediaSample* pMediaSample);
+    BOOL ScheduleSample(IMediaSample* pMediaSample);
+    virtual HRESULT SetMediaType(const CMediaType* pmt);
+    virtual HRESULT CompleteConnect(IPin* pReceivePin);
 
     HRESULT EndOfStream(void);
 
 
     DECLARE_IUNKNOWN
 
-    STDMETHODIMP                NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
     // === IMediaFilter
     STDMETHOD(Run)(REFERENCE_TIME tStart);
@@ -91,72 +91,72 @@ public:
     STDMETHOD(get_Balance)(long* plBalance);
 
     // === ISpecifyPropertyPages2
-    STDMETHODIMP                GetPages(CAUUID* pPages);
-    STDMETHODIMP                CreatePage(const GUID& guid, IPropertyPage** ppPage);
+    STDMETHODIMP GetPages(CAUUID* pPages);
+    STDMETHODIMP CreatePage(const GUID& guid, IPropertyPage** ppPage);
 
     // === IMpcAudioRendererFilter
-    STDMETHODIMP                Apply();
-    STDMETHODIMP                SetWasapiMode(BOOL nValue);
-    STDMETHODIMP_(BOOL)         GetWasapiMode();
-    STDMETHODIMP                SetMuteFastForward(BOOL nValue);
-    STDMETHODIMP_(BOOL)         GetMuteFastForward();
-    STDMETHODIMP                SetSoundDevice(CString nValue);
-    STDMETHODIMP_(CString)      GetSoundDevice();
+    STDMETHODIMP Apply();
+    STDMETHODIMP SetWasapiMode(BOOL nValue);
+    STDMETHODIMP_(BOOL) GetWasapiMode();
+    STDMETHODIMP SetMuteFastForward(BOOL nValue);
+    STDMETHODIMP_(BOOL) GetMuteFastForward();
+    STDMETHODIMP SetSoundDevice(CString nValue);
+    STDMETHODIMP_(CString) GetSoundDevice();
 
     // CMpcAudioRenderer
 private:
 
-    HRESULT                 DoRenderSampleDirectSound(IMediaSample* pMediaSample);
+    HRESULT DoRenderSampleDirectSound(IMediaSample* pMediaSample);
 
-    HRESULT                 InitCoopLevel();
-    HRESULT                 ClearBuffer();
-    HRESULT                 CreateDSBuffer();
-    HRESULT                 GetReferenceClockInterface(REFIID riid, void** ppv);
-    HRESULT                 WriteSampleToDSBuffer(IMediaSample* pMediaSample, bool* looped);
+    HRESULT InitCoopLevel();
+    HRESULT ClearBuffer();
+    HRESULT CreateDSBuffer();
+    HRESULT GetReferenceClockInterface(REFIID riid, void** ppv);
+    HRESULT WriteSampleToDSBuffer(IMediaSample* pMediaSample, bool* looped);
 
-    LPDIRECTSOUND8          m_pDS;
-    LPDIRECTSOUNDBUFFER     m_pDSBuffer;
-    DWORD                   m_dwDSWriteOff;
-    WAVEFORMATEX*            m_pWaveFileFormat;
-    int                     m_nDSBufSize;
-    CBaseReferenceClock*    m_pReferenceClock;
-    double                  m_dRate;
-    long                    m_lVolume;
+    LPDIRECTSOUND8 m_pDS;
+    LPDIRECTSOUNDBUFFER m_pDSBuffer;
+    DWORD m_dwDSWriteOff;
+    WAVEFORMATEX* m_pWaveFileFormat;
+    int m_nDSBufSize;
+    CBaseReferenceClock* m_pReferenceClock;
+    double m_dRate;
+    long m_lVolume;
     soundtouch::SoundTouch* m_pSoundTouch;
-    CCritSec                m_csProps;
+    CCritSec m_csProps;
 
     // CMpcAudioRenderer WASAPI methods
-    HRESULT                 GetAvailableAudioDevices(IMMDeviceCollection** ppMMDevices);
-    HRESULT                 GetAudioDevice(IMMDevice** ppMMDevice);
-    HRESULT                 CreateAudioClient(IMMDevice* pMMDevice, IAudioClient** ppAudioClient);
-    HRESULT                 InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioClient* pAudioClient, IAudioRenderClient** ppRenderClient);
-    HRESULT                 CheckAudioClient(WAVEFORMATEX* pWaveFormatEx);
-    bool                    CheckFormatChanged(WAVEFORMATEX* pWaveFormatEx, WAVEFORMATEX** ppNewWaveFormatEx);
-    HRESULT                 DoRenderSampleWasapi(IMediaSample* pMediaSample);
-    HRESULT                 GetBufferSize(WAVEFORMATEX* pWaveFormatEx, REFERENCE_TIME* pHnsBufferPeriod);
+    HRESULT GetAvailableAudioDevices(IMMDeviceCollection** ppMMDevices);
+    HRESULT GetAudioDevice(IMMDevice** ppMMDevice);
+    HRESULT CreateAudioClient(IMMDevice* pMMDevice, IAudioClient** ppAudioClient);
+    HRESULT InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioClient* pAudioClient, IAudioRenderClient** ppRenderClient);
+    HRESULT CheckAudioClient(WAVEFORMATEX* pWaveFormatEx);
+    bool CheckFormatChanged(WAVEFORMATEX* pWaveFormatEx, WAVEFORMATEX** ppNewWaveFormatEx);
+    HRESULT DoRenderSampleWasapi(IMediaSample* pMediaSample);
+    HRESULT GetBufferSize(WAVEFORMATEX* pWaveFormatEx, REFERENCE_TIME* pHnsBufferPeriod);
 
 
     // WASAPI variables
-    bool                    m_useWASAPI;
-    bool                    m_useWASAPIAfterRestart;
-    bool                    m_bMuteFastForward;
-    CString                 m_csSound_Device;
-    IMMDevice*               pMMDevice;
-    IAudioClient*            pAudioClient;
-    IAudioRenderClient*      pRenderClient;
-    UINT32                  nFramesInBuffer;
-    REFERENCE_TIME          hnsPeriod, hnsActualDuration;
-    HANDLE                  hTask;
-    CCritSec                m_csCheck;
-    UINT32                  bufferSize;
-    bool                    isAudioClientStarted;
-    DWORD                   lastBufferTime;
+    bool m_useWASAPI;
+    bool m_useWASAPIAfterRestart;
+    bool m_bMuteFastForward;
+    CString m_csSound_Device;
+    IMMDevice* pMMDevice;
+    IAudioClient* pAudioClient;
+    IAudioRenderClient* pRenderClient;
+    UINT32 nFramesInBuffer;
+    REFERENCE_TIME hnsPeriod, hnsActualDuration;
+    HANDLE hTask;
+    CCritSec m_csCheck;
+    UINT32 bufferSize;
+    bool isAudioClientStarted;
+    DWORD lastBufferTime;
 
     // AVRT.dll (Vista or greater
     typedef HANDLE(__stdcall* PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
     typedef BOOL (__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
-    PTR_AvSetMmThreadCharacteristicsW       pfAvSetMmThreadCharacteristicsW;
-    PTR_AvRevertMmThreadCharacteristics     pfAvRevertMmThreadCharacteristics;
+    PTR_AvSetMmThreadCharacteristicsW pfAvSetMmThreadCharacteristicsW;
+    PTR_AvRevertMmThreadCharacteristics pfAvRevertMmThreadCharacteristics;
 
 };

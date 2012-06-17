@@ -20,9 +20,7 @@
  *
  */
 
-
 #pragma once
-
 
 interface __declspec(uuid("495D2C66-D430-439b-9DEE-40F9B7929BBA"))
 IMpcAudioRendererFilter :

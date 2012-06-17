@@ -71,12 +71,8 @@ public:
     void OnDeactivate();
     bool OnApply();
 
-    static LPCTSTR GetWindowTitle() {
-        return _T("Settings");
-    }
-    static CSize GetWindowSize() {
-        return CSize(320, 310);
-    }
+    static LPCTSTR GetWindowTitle() { return _T("Settings"); }
+    static CSize GetWindowSize() { return CSize(320, 310); }
 
     DECLARE_MESSAGE_MAP()
 };

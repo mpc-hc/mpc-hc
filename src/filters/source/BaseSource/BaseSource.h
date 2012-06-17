@@ -75,7 +75,7 @@ public:
     }
 
     STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt) {
-        size_t      nCount;
+        size_t nCount;
         if (!ppszFileName) {
             return E_POINTER;
         }
@@ -119,9 +119,7 @@ private:
 
     HRESULT ChangeStart();
     HRESULT ChangeStop();
-    HRESULT ChangeRate() {
-        return S_OK;
-    }
+    HRESULT ChangeRate() { return S_OK; }
 
 public:
     CBaseStream(TCHAR* name, CSource* pParent, HRESULT* phr);

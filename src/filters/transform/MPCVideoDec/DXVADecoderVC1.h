@@ -86,23 +86,22 @@ public:
         VC1_PANSCAN_FLAG                = 0x0040,
     } VC1_PIC_SPATIAL_RESID8;
 
-
 protected :
 
 private:
-    DXVA_PictureParameters      m_PictureParams;
-    DXVA_SliceInfo              m_SliceInfo;
-    WORD                        m_wRefPictureIndex[2];
+    DXVA_PictureParameters  m_PictureParams;
+    DXVA_SliceInfo          m_SliceInfo;
+    WORD                    m_wRefPictureIndex[2];
 
-    int                         m_nDelayedSurfaceIndex;
-    REFERENCE_TIME              m_rtStartDelayed;
-    REFERENCE_TIME              m_rtStopDelayed;
+    int                     m_nDelayedSurfaceIndex;
+    REFERENCE_TIME          m_rtStartDelayed;
+    REFERENCE_TIME          m_rtStopDelayed;
 
-    BOOL                        m_bFrame_repeat_pict;
+    BOOL                    m_bFrame_repeat_pict;
 
     // Private functions
-    void                        Init();
-    HRESULT                     DisplayStatus();
-    BYTE*                       FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize);
+    void                    Init();
+    HRESULT                 DisplayStatus();
+    BYTE*                   FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize);
 
 };

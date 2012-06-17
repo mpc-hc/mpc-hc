@@ -158,9 +158,9 @@ public:
     bool IsHdmv() { return m_bIsHdmv; };
 
     struct program {
-        WORD                program_number;
+        WORD program_number;
         struct stream {
-            WORD            pid;
+            WORD pid;
             PES_STREAM_TYPE type;
 
         };
@@ -169,8 +169,8 @@ public:
             memset(this, 0, sizeof(*this));
         }
 
-        BYTE    ts_buffer[1024];
-        WORD    ts_len_cur, ts_len_packet;
+        BYTE ts_buffer[1024];
+        WORD ts_len_cur, ts_len_packet;
     };
 
     CAtlMap<WORD, program> m_programs;

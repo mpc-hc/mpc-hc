@@ -30,36 +30,44 @@
 typedef struct {
     CStringW name, email, url;
 } author_t;
+
 typedef struct {
     CStringW code, text;
 } language_t;
+
 typedef struct {
     CStringW title, date, comment;
     author_t author;
     language_t language, languageext;
 } metadata_t;
+
 // style
 typedef struct {
     CStringW alignment, relativeto, horizontal_margin, vertical_margin, rotate[3];
 } posattriblist_t;
+
 typedef struct {
     CStringW face, size, color[4], weight, italic, underline, alpha, outline, shadow, wrap;
 } fontstyle_t;
+
 typedef struct {
     CStringW name;
     fontstyle_t fontstyle;
     posattriblist_t pal;
 } style_t;
+
 // effect
 typedef struct {
     CStringW position;
     fontstyle_t fontstyle;
     posattriblist_t pal;
 } keyframe_t;
+
 typedef struct {
     CStringW name;
     CAutoPtrList<keyframe_t> keyframes;
 } effect_t;
+
 // subtitle/text
 typedef struct {
     int start, stop;

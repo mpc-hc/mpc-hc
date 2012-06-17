@@ -89,8 +89,8 @@ struct FLIC_FRAME {
 };
 
 struct FLIC_CHUNK {
-    DWORD size;     // Bytes in this chunk.
-    WORD  type;     // Type of chunk
+    DWORD size;         // Bytes in this chunk.
+    WORD  type;         // Type of chunk
 };
 #pragma pack(pop)
 
@@ -149,15 +149,13 @@ class CFLICStream
 
     HRESULT ChangeStart();
     HRESULT ChangeStop();
-    HRESULT ChangeRate() {
-        return S_OK;
-    }
+    HRESULT ChangeRate() { return S_OK; }
 
 private:
     int m_nLastFrameNum;
     DWORD m_pPalette[256];
     CAutoVectorPtr<BYTE> m_pFrameBuffer;
-    int                  m_nBufferSize;
+    int m_nBufferSize;
 
     void SeekToNearestKeyFrame(int nFrame);
     void ExtractFrame(int nFrame);

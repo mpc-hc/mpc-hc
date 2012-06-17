@@ -47,7 +47,6 @@ public:
     afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
 };
 
-
 // CCmdUIPropertyPage
 
 class CCmdUIPropertyPage : public CPropertyPage

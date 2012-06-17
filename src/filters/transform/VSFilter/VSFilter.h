@@ -29,7 +29,6 @@ class CVSFilterApp : public CWinApp
 {
 public:
     CVSFilterApp();
-
     CString m_AppName;
 
 protected:

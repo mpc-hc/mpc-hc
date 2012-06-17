@@ -76,12 +76,8 @@ public:
     bool OnApply();
     LPCTSTR GetDolbyMode(DolbyDigitalMode ddmode);
 
-    static LPCTSTR GetWindowTitle() {
-        return _T("Settings");
-    }
-    static CSize GetWindowSize() {
-        return CSize(320, 305);
-    }
+    static LPCTSTR GetWindowTitle() { return _T("Settings"); }
+    static CSize GetWindowSize() { return CSize(320, 305); }
 
     DECLARE_MESSAGE_MAP()
 };

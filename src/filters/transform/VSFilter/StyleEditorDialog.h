@@ -39,9 +39,7 @@ public:
     CColorStatic(CWnd* pParent = NULL) : m_pColor(NULL) {}
     virtual ~CColorStatic() {}
 
-    void SetColorPtr(COLORREF* pColor) {
-        m_pColor = pColor;
-    }
+    void SetColorPtr(COLORREF* pColor) { m_pColor = pColor; }
 
     DECLARE_MESSAGE_MAP()
 

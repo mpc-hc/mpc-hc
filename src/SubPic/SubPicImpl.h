@@ -138,4 +138,3 @@ public:
         return E_NOTIMPL;
     };
 };
-

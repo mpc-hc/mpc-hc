@@ -28,10 +28,8 @@
 enum exttype {EXTSRT = 0, EXTSUB, EXTSMI, EXTPSB, EXTSSA, EXTASS, EXTIDX, EXTUSF, EXTXSS, EXTRT};
 extern TCHAR* exttypestr[];
 
-
 typedef struct {
     CString fn; /*exttype ext;*/
 } SubFile;
-
 
 extern void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& ret);

@@ -34,9 +34,7 @@
 class OggPacket : public Packet
 {
 public:
-    OggPacket() {
-        fSkip = false;
-    }
+    OggPacket() { fSkip = false; }
     bool fSkip;
 };
 
@@ -96,19 +94,17 @@ public:
     COggVorbisOutputPin(OggVorbisIdHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 
     HRESULT UnpackInitPage(OggPage& page);
-    bool IsInitialized() {
-        return m_initpackets.GetCount() >= 3;
-    }
+    bool IsInitialized() { return m_initpackets.GetCount() >= 3; }
 };
 
 class COggFlacOutputPin : public COggSplitterOutputPin
 {
     CAutoPtrList<OggPacket> m_initpackets;
 
-    int         m_nSamplesPerSec;
-    int         m_nChannels;
-    WORD        m_wBitsPerSample;
-    int         m_nAvgBytesPerSec;
+    int  m_nSamplesPerSec;
+    int  m_nChannels;
+    WORD m_wBitsPerSample;
+    int  m_nAvgBytesPerSec;
 
     DWORD m_blocksize[2], m_lastblocksize;
     CAtlArray<bool> m_blockflags;
@@ -122,9 +118,7 @@ class COggFlacOutputPin : public COggSplitterOutputPin
 public:
     COggFlacOutputPin(BYTE* h, int nCount, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 
-    bool IsInitialized() {
-        return m_initpackets.GetCount() >= 3;
-    }
+    bool IsInitialized() { return m_initpackets.GetCount() >= 3; }
 };
 
 class COggDirectShowOutputPin : public COggSplitterOutputPin
@@ -182,9 +176,7 @@ public:
     COggTheoraOutputPin(BYTE* p, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 
     HRESULT UnpackInitPage(OggPage& page);
-    bool IsInitialized() {
-        return m_initpackets.GetCount() >= 3;
-    }
+    bool IsInitialized() { return m_initpackets.GetCount() >= 3; }
 };
 
 class __declspec(uuid("9FF48807-E133-40AA-826F-9B2959E5232D"))
