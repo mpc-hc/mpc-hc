@@ -1643,7 +1643,8 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 
         /*if (entry == L"version") {
             double version = GetFloat(buff);
-        } else*/ if (entry == L"screenhorizontal") {
+        } else*/
+        if (entry == L"screenhorizontal") {
             try {
                 ret.m_dstScreenSize.cx = GetInt(buff);
             } catch (...) {

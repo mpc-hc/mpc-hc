@@ -1865,7 +1865,8 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
         if (gb.BitRead(1)) {                // timing_info_present_flag
             __int64 num_units_in_tick   = gb.BitRead(32);
             __int64 time_scale          = gb.BitRead(32);
-            /*long fixed_frame_rate_flag    = */gb.BitRead(1);
+            /*long fixed_frame_rate_flag    = */
+            gb.BitRead(1);
 
             // Trick for weird parameters
             if ((num_units_in_tick < 1000) || (num_units_in_tick > 1001)) {
@@ -2110,11 +2111,14 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
     {
         pmt->majortype = MEDIATYPE_Video;
         switch (guid_flag) {
-            case 1: pmt->subtype = FOURCCMap('1CVW');
+            case 1:
+                pmt->subtype = FOURCCMap('1CVW');
                 break;
-            case 2: pmt->subtype = MEDIASUBTYPE_WVC1_CYBERLINK;
+            case 2:
+                pmt->subtype = MEDIASUBTYPE_WVC1_CYBERLINK;
                 break;
-            case 3: pmt->subtype = MEDIASUBTYPE_WVC1_ARCSOFT;
+            case 3:
+                pmt->subtype = MEDIASUBTYPE_WVC1_ARCSOFT;
                 break;
         }
         pmt->formattype = FORMAT_VIDEOINFO2;

@@ -113,7 +113,8 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
                     }
 
                     // For AVC1, put startcode 0x000001
-                    pDXVABuffer[0] = pDXVABuffer[1] = 0; pDXVABuffer[2] = 1;
+                    pDXVABuffer[0] = pDXVABuffer[1] = 0;
+                    pDXVABuffer[2] = 1;
                     if (Nalu.GetDataLength() < 0) {
                         break;
                     }

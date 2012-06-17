@@ -123,7 +123,8 @@ STDMETHODIMP CVTSReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 
     ChapRemoveAll();
     for (int i = 0; i < m_stream.GetChaptersCount(); i++) {
-        CString chap; chap.Format(_T("Chapter %d"), i + 1);
+        CString chap;
+        chap.Format(_T("Chapter %d"), i + 1);
         ChapAppend(m_stream.GetChapterOffset(i), chap);
     }
 
