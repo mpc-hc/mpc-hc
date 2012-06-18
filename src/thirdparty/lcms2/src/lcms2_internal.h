@@ -26,6 +26,10 @@
 
 #ifndef _lcms_internal_H
 
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
+#endif
+
 // Include plug-in foundation
 #ifndef _lcms_plugin_H
 #   include "lcms2_plugin.h"
