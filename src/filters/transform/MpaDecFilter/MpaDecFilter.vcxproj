@@ -250,10 +250,6 @@
       <Project>{c2082189-3ecb-4079-91fa-89d3c8a305c0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\thirdparty\a52dec\vc++\liba52.vcxproj">
-      <Project>{62fe6d94-e17c-4a8e-8d3c-7a589a70d865}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\thirdparty\libdca\vc++\libdca.vcxproj">
       <Project>{fae14dbe-b508-4ab3-929d-75c68e4ebbc1}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
