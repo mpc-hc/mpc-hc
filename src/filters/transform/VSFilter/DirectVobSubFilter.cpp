@@ -541,10 +541,10 @@ void CDirectVobSubFilter::InitSubPicQueue()
     m_spd.w = m_w;
     m_spd.h = m_h;
     m_spd.bpp = (m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) ? 8 : bihIn.biBitCount;
-    m_spd.pitch = m_spd.w * m_spd.bpp >> 3;
+    m_spd.pitch = m_spd.w*m_spd.bpp>>3;
     m_spd.bits = (void*)m_pTempPicBuff;
 
-    CComPtr<ISubPicAllocator> pSubPicAllocator = new CMemSubPicAllocator(m_spd.type, CSize(m_w, m_h));
+    CComPtr<ISubPicAllocator> pSubPicAllocator = DNew CMemSubPicAllocator(m_spd.type, CSize(m_w, m_h));
 
     CSize video(bihIn.biWidth, bihIn.biHeight), window = video;
     if (AdjustFrameSize(window)) {
