@@ -41,6 +41,7 @@
 #define sse_required
 ; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
 ;#define x64Build
+;#define MPCHC_LITE
 
 
 ; From now on you shouldn't need to change anything
@@ -219,7 +220,6 @@ Source: ..\COPYING.txt;                     DestDir: {app};      Components: mai
 Source: ..\docs\Authors.txt;                DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;              DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                 DestDir: {app};      Components: main;         Flags: ignoreversion
-Source: ..\src\thirdparty\unrar\license.txt; DestDir: {app}; DestName: unrar_license.txt; Components: main; Flags: ignoreversion
 
 
 [Icons]

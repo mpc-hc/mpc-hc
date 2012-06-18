@@ -83,7 +83,7 @@ MinVersion=5.01.2600sp3
 AppID=vsfilter64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
-UninstallDisplayName=DirectVobSub {#app_version} (x64)
+UninstallDisplayName=DirectVobSub {#app_version} (64-bit)
 OutputBaseFilename=DirectVobSub_{#app_version}_x64
 #else
 AppID=vsfilter
@@ -98,7 +98,7 @@ Name: en; MessagesFile: compiler:Default.isl
 
 [Messages]
 #ifdef x64Build
-BeveledLabel=DirectVobSub {#app_version} x64
+BeveledLabel=DirectVobSub {#app_version} (64-bit)
 #else
 BeveledLabel=DirectVobSub {#app_version}
 #endif
@@ -107,14 +107,14 @@ SetupWindowTitle=Setup - DirectVobSub
 
 
 [CustomMessages]
-en.msg_DeleteSettings =Do you also want to delete DirectVobSub's settings?%n%nIf you plan on installing DirectVobSub again then you do not have to delete them.
+en.msg_DeleteSettings=Do you also want to delete DirectVobSub's settings?%n%nIf you plan on installing DirectVobSub again then you do not have to delete them.
 en.msg_SetupIsRunningWarning=DirectVobSub setup is already running!
 #if defined(sse_required)
 en.msg_simd_sse=This build of DirectVobSub requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
 #elif defined(sse2_required)
 en.msg_simd_sse2=This build of DirectVobSub requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
 #endif
-en.tsk_ResetSettings  =Reset DirectVobSub's settings
+en.tsk_ResetSettings=Reset DirectVobSub's settings
 
 
 [Tasks]
@@ -127,7 +127,6 @@ Source: {#top_dir}\COPYING.txt;         DestDir: {app}; Flags: ignoreversion
 Source: {#top_dir}\docs\Authors.txt;    DestDir: {app}; Flags: ignoreversion
 Source: {#top_dir}\docs\Changelog.txt;  DestDir: {app}; Flags: ignoreversion
 Source: {#top_dir}\docs\Readme.txt;     DestDir: {app}; Flags: ignoreversion
-Source: {#top_dir}\src\thirdparty\unrar\license.txt; DestDir: {app}; DestName: unrar_license.txt; Flags: ignoreversion
 
 
 [Icons]
