@@ -21,7 +21,7 @@ Legend:
 * Updated MediaInfoLib to v0.7.58
 * Updated ZenLib to v0.4.27
 * Updated FFmpeg (git bc4da77)
-* Updated Czech, Russian, Ukrainian, Basque and Polish translations
+* Updated Czech, Russian, Ukrainian, Basque, Polish and Catalan translations
 * Ticket #2227, Hide the seek bar in capture mode
 * Ticket #2342, MPC-HC will now use the Windows theme font for the Statusbar, OSD messages
   and a few other places on Windows Vista and newer
