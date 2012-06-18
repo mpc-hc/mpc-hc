@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "FakeFilterMapper2.h"
 #include "MacrovisionKicker.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 
 #include <InitGuid.h>
 #include "detours/detours.h"

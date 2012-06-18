@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageOutput.h"
-#include "../DSUtil/SysVersion.h"
+#include "SysVersion.h"
 #include "moreuuids.h"
 #include "Monitors.h"
 

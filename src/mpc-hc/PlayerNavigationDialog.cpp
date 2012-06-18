@@ -24,7 +24,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PlayerNavigationDialog.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include "moreuuids.h"
 
 

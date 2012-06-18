@@ -33,8 +33,8 @@
 #include <atlrx.h>
 #include <atlsync.h>
 
-#include "../DSUtil/SysVersion.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "SysVersion.h"
+#include "WinAPIUtils.h"
 #include "OpenFileDlg.h"
 #include "OpenDlg.h"
 #include "SaveDlg.h"
@@ -67,7 +67,7 @@
 #include <qnetwork.h>
 #include <psapi.h>
 
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include "FGManager.h"
 #include "FGManagerBDA.h"
 

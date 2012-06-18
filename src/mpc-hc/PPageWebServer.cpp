@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageWebServer.h"
-#include "../DSUtil/SysVersion.h"
+#include "SysVersion.h"
 
 
 // CPPageWebServer dialog

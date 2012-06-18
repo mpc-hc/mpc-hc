@@ -33,7 +33,7 @@
 #include "realmedia/rmavsurf.h"
 #include "realmedia/rmaevent.h"
 #include "realmedia/rmaprefs.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include "AuthDlg.h"
 
 using namespace DSObjects;

@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PlayerCaptureDialog.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include "moreuuids.h"
 #include "../filters/muxer/WavDest/WavDest.h"
 #include "../filters/muxer/MatroskaMuxer/MatroskaMuxer.h"

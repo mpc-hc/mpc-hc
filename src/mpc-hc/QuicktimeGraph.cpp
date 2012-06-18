@@ -27,7 +27,7 @@
 #include "IQTVideoSurface.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 
 using namespace DSObjects;
 

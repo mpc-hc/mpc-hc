@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "PlayerStatusBar.h"
 #include "MainFrm.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 
 
 // CPlayerStatusBar

@@ -26,7 +26,7 @@
 #include "resource.h"
 #include <DbgHelp.h>
 #include "Version.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "WinAPIUtils.h"
 
 
 CMiniDump   _Singleton;

@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "../DSUtil/SharedInclude.h"
+#include "SharedInclude.h"
 #include "../../include/stdafx_common.h"
 #undef _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
 #include "../../include/stdafx_common_afx2.h"
@@ -71,7 +71,7 @@
 #include "../Subtitles/RTS.h"
 #include "../Subtitles/STS.h"
 
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 

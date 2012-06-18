@@ -32,7 +32,7 @@
 
 #include "mplayerc.h"
 #include "PPageCapture.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 
 
 static struct cc_t {

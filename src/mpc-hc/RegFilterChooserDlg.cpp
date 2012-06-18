@@ -26,7 +26,7 @@
 #include <dmo.h>
 #include "RegFilterChooserDlg.h"
 #include "FGFilter.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 
 
 // CRegFilterChooserDlg dialog

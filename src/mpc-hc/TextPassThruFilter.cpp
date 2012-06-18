@@ -28,7 +28,7 @@
 #include "MainFrm.h"
 #include "TextPassThruFilter.h"
 #include "moreuuids.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include "../Subtitles/SubtitleInputPin.h"
 
 //

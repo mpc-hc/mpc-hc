@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "EditListEditor.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 
 
 CClip::CClip()

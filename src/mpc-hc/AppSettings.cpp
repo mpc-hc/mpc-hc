@@ -25,8 +25,8 @@
 #include "mplayerc.h"
 #include "AppSettings.h"
 #include "MiniDump.h"
-#include "../DSUtil/SysVersion.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "SysVersion.h"
+#include "WinAPIUtils.h"
 #include "UpdateChecker.h"
 
 

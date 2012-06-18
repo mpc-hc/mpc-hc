@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageFormats.h"
-#include "../DSUtil/SysVersion.h"
+#include "SysVersion.h"
 #include <psapi.h>
 #include <string>
 

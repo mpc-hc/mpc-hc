@@ -28,7 +28,7 @@
 #include <atlutil.h>
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include "SaveTextFileDialog.h"
 #include "PlayerPlaylistBar.h"
 #include "SettingsDefines.h"

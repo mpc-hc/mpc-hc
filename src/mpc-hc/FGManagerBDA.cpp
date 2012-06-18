@@ -30,8 +30,8 @@
 #include <time.h>
 #include <dvbsiparser.h>
 
-#include "../DSUtil/DSUtil.h"
-#include "../DSUtil/GolombBuffer.h"
+#include "DSUtil.h"
+#include "GolombBuffer.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 #include "moreuuids.h"
 #include "mplayerc.h"
@@ -39,7 +39,7 @@
 #include "DVBChannel.h"
 #include "Mpeg2SectionData.h"
 #include "MainFrm.h"
-#include "../DSUtil/SysVersion.h"
+#include "SysVersion.h"
 
 
 /// Format, Video MPEG2

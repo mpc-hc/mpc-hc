@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "MediaTypesDlg.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include "moreuuids.h"
 
 

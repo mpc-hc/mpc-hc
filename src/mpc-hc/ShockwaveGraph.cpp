@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "ShockwaveGraph.h"
 #include "resource.h"
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include <math.h>
 
 using namespace DSObjects;

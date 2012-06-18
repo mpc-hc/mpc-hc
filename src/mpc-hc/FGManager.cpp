@@ -25,9 +25,9 @@
 #include <mpconfig.h>
 #include "mplayerc.h"
 #include "FGManager.h"
-#include "../DSUtil/DSUtil.h"
-#include "../DSUtil/FileVersionInfo.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "DSUtil.h"
+#include "FileVersionInfo.h"
+#include "WinAPIUtils.h"
 #include "../filters/Filters.h"
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"

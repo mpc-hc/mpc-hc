@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "OpenDirHelper.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "WinAPIUtils.h"
 
 
 WNDPROC COpenDirHelper::CBProc;

@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageDVD.h"
-#include "../DSUtil/SysVersion.h"
+#include "SysVersion.h"
 
 
 struct {

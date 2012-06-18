@@ -25,7 +25,7 @@
 
 #include <afxwin.h>
 #include <afxcmn.h>
-#include "../DSUtil/DSMPropertyBag.h"
+#include "DSMPropertyBag.h"
 #include "PPageBase.h"
 
 

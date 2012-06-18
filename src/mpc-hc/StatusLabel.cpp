@@ -24,8 +24,8 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "StatusLabel.h"
-#include "../DSUtil/WinAPIUtils.h"
-#include "../DSUtil/SysVersion.h"
+#include "WinAPIUtils.h"
+#include "SysVersion.h"
 
 
 // CStatusLabel

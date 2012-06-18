@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "PPageFileInfoDetails.h"
 #include <atlbase.h>
-#include "../DSUtil/DSUtil.h"
+#include "DSUtil.h"
 #include <d3d9.h>
 #include <vmr9.h>
 #include "moreuuids.h"

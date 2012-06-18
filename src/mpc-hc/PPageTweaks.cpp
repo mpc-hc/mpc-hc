@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "PPageTweaks.h"
 #include "MainFrm.h"
-#include "../DSUtil/SysVersion.h"
+#include "SysVersion.h"
 
 
 // CPPageTweaks dialog
