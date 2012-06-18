@@ -13,6 +13,7 @@ Legend:
 + The DirectX runtime dlls are included in the distribution packages
   so it's no longer needed to install the DirectX runtime
 + MpegSplitter: support for DVD-Audio LPCM and MLP in .aob files
++ Use FFmpeg for AC3 decoding
 * Replaced all custom and thirdparty image loading code in favor of Windows's CImage.
   This gives us support for other formats and we get rid of a couple of 3rd party libraries.
 * Unrar is statically linked and so MPC-HC and VSFilter no longer need the unrar dll.

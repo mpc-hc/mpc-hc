@@ -120,19 +120,19 @@ bool CMpaDecSettingsWnd::OnActivate()
     p.y += m_fontheight + 5;
 
     m_ac3spkcfg_combo.Create(dwStyle | WS_DISABLED | CBS_DROPDOWNLIST, CRect(p + CSize(150, 0), CSize(100, 200)), this, IDC_PP_COMBO2);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Mono")), /*A52_MONO*/1);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Dual Mono")), /*A52_CHANNEL*/0);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Stereo")), /*A52_STEREO*/2);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Dolby Stereo")), /*A52_DOLBY*/10);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F)), /*A52_3F*/3);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_2F_1R)), /*A52_2F1R*/4);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F_1R)), /*A52_3F1R*/5);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_2F_2R)), /*A52_2F2R*/6);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F_2R)), /*A52_3F2R*/7);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_CHANNEL_1)), /*A52_CHANNEL1*/8);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_CHANNEL_2)), /*A52_CHANNEL2*/9);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Mono")), 1);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Dual Mono")), 0);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Stereo")), 2);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Dolby Stereo")), 10);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F)), 3);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_2F_1R)), 4);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F_1R)), 5);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_2F_2R)), 6);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F_2R)), 7);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_CHANNEL_1)), 8);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_CHANNEL_2)), 9);
 
-    for (int i = 0, sel = abs(m_ac3spkcfg) & /*A52_CHANNEL_MASK*/15; i < m_ac3spkcfg_combo.GetCount(); i++)
+    for (int i = 0, sel = abs(m_ac3spkcfg) & 15; i < m_ac3spkcfg_combo.GetCount(); i++)
         if ((int)m_ac3spkcfg_combo.GetItemData(i) == sel) {
             m_ac3spkcfg_combo.SetCurSel(i);
         }
@@ -141,7 +141,7 @@ bool CMpaDecSettingsWnd::OnActivate()
     ScreenToClient(r);
 
     m_ac3lfe_check.Create(_T("LFE"), dwStyle | WS_DISABLED | BS_AUTOCHECKBOX, CRect(CPoint(r.left, r.bottom + 3), CSize(50, m_fontheight)), this, IDC_PP_CHECK4);
-    m_ac3lfe_check.SetCheck(!!(abs(m_ac3spkcfg) & /*A52_LFE*/16));
+    m_ac3lfe_check.SetCheck(!!(abs(m_ac3spkcfg) & 16));
 
     for (int i = 0, h = max(20, m_fontheight) + 1; i < _countof(m_ac3spkcfg_radio); i++, p.y += h) {
         static const TCHAR* labels[] = {m_strDecodeToSpeaker, _T("SPDIF")};
@@ -165,8 +165,6 @@ bool CMpaDecSettingsWnd::OnActivate()
     m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Mono")), DTS_MONO);
     m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Dual Mono")), DTS_CHANNEL);
     m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Stereo")), DTS_STEREO);
-    //m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Stereo ..")), DTS_STEREO_SUMDIFF);
-    //m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Stereo ..")), DTS_STEREO_TOTAL);
     m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_3F)), DTS_3F);
     m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_2F_1R)), DTS_2F1R);
     m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_3F_1R)), DTS_3F1R);
@@ -208,7 +206,7 @@ void CMpaDecSettingsWnd::OnDeactivate()
     m_outputformat = (int)m_outputformat_combo.GetItemData(m_outputformat_combo.GetCurSel());
     m_ac3spkcfg = (int)m_ac3spkcfg_combo.GetItemData(m_ac3spkcfg_combo.GetCurSel());
     if (!!m_ac3lfe_check.GetCheck()) {
-        m_ac3spkcfg |= /*A52_LFE*/16;
+        m_ac3spkcfg |= 16;
     }
     if (IsDlgButtonChecked(IDC_PP_RADIO2)) {
         m_ac3spkcfg = -m_ac3spkcfg;

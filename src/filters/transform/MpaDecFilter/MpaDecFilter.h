@@ -30,7 +30,6 @@
 #pragma warning(disable: 4005)
 #include <stdint.h>
 #pragma warning(pop)
-//#include "a52dec/include/a52.h"
 #include "libdca/include/dts.h"
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
@@ -65,9 +64,6 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 protected:
     CCritSec m_csReceive;
 
-/*#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
-    a52_state_t*            m_a52_state;
-#endif*/
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
     dts_state_t*            m_dts_state;
 #endif
@@ -92,8 +88,6 @@ protected:
     HRESULT ProcessHdmvLPCM(bool bAlignOldBuffer);
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
-    //HRESULT ProcessAC3();
-    //HRESULT ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoughData);
     HRESULT ProcessAC3SPDIF();
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
