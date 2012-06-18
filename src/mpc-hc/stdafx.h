@@ -40,9 +40,7 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 #define CheckNoLog(x)        hr = ##x; if (FAILED (hr)) { return hr; }
 
 /* Uncomment to build the "Lite" version without internal filters */
-/*#ifndef MPCHC_LITE
-#define MPCHC_LITE
-#endif*/
+//#define MPCHC_LITE
 
 #if !defined(USE_MEDIAINFO_STATIC) && !defined(MPCHC_LITE)
 #define USE_MEDIAINFO_STATIC

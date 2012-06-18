@@ -22,6 +22,9 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 CD /D %~dp0
 
+REM Uncomment the following line or set MPCHC_LITE=whatever to build the Lite build
+REM SET MPCHC_LITE=true
+
 REM pre-build checks
 IF EXIST "build.user.bat" (
   CALL "build.user.bat"
