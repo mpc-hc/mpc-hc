@@ -13,13 +13,14 @@ MPC-HC:
 5) Reorganize the player's Options
 6) Remove support for unneeded/obsolete renderers
 7) Update Bento4 library or see if we can use ffmpeg for this job
-8) Test MSVC 2012 more when it's released. With the RC we get random new errors when building Virtualdub/system.
-   With the Beta we got hundreds of redefinitions for the DX headers which seems normal
-   since DX is moved into the SDK but we have to use the DX SDK for d3dx9, linking fails if /SAFESEH:NO
-   isn't specified (still happens with the RC for Win32) and the MFC bloat workaround does not work as it is
-   and unfortunately it is still needed.
-9) Use "new" instead of "DNew" and make sure the leak detection works properly
-10) Replace the default old looking toolbar with a more modern one
+8) Use "new" instead of "DNew" and make sure the leak detection works properly
+9) Replace the default old looking toolbar with a more modern one
+10) Work around the __mingw_raise_matherr linker error when using /LTCG and MPCHC_LITE
+11) Test MSVC 2012 more when it's released. With the RC we get random new errors when building Virtualdub/system.
+    With the Beta we got hundreds of redefinitions for the DX headers which seems normal
+    since DX is moved into the SDK but we have to use the DX SDK for d3dx9, linking fails if /SAFESEH:NO
+    isn't specified (still happens with the RC for Win32) and the MFC bloat workaround does not work as it is
+    and unfortunately it is still needed.
 
 MPCIconLib:
 1) Rewrite mpciconlib without MFC, so that it's smaller and we no longer
