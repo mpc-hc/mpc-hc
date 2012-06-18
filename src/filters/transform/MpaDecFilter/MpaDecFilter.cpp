@@ -824,7 +824,7 @@ HRESULT CMpaDecFilter::ProcessAC3SPDIF()
     BYTE* p = base;
     BYTE* end = base + m_buff.GetCount();
 
-    while (p < end && (end - p) >= AC3_HEADER_SIZE) {
+    while (p + AC3_HEADER_SIZE <= end) {
         int size = 0;
         int samplerate, channels, framelength, bitrate;
 
@@ -834,7 +834,7 @@ HRESULT CMpaDecFilter::ProcessAC3SPDIF()
             p++;
             continue;
         }
-        if (size > (end - p)) {
+        if (p + size > end) {
             break;
         }
 
@@ -878,8 +878,6 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 
     p += size;
     memmove(base, p, end - p);
-    end = base + (end - p);
-    p = base;
     m_buff.SetCount(end - p);
 
     return hr;
@@ -2084,6 +2082,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
                 // do it better!
                 got_frame = 0;
             }
+            ASSERT(buffsize >= used_bytes);
 
             size        += used_bytes;
             buffsize    -= used_bytes;
