@@ -44,34 +44,51 @@ int GetAC3FrameSize(const BYTE* buf)
     if (*(WORD*)buf != AC3_SYNC_WORD) { // syncword
         return 0;
     }
+    if ((buf[5] >> 3) > 10) { // bsid
+        return 0;
+    }
+    int frmsizecod = buf[4] & 0x3F;
+    if (frmsizecod >= 38) {
+        return 0;
+    }
 
     int frame_size;
+    static const int rates[] = {32,  40,  48,  56,  64,  80,  96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640};
 
-    if (buf[5] >> 3 <= 10) {   // Normal AC-3
-        static const int rates[] = {32,  40,  48,  56,  64,  80,  96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640};
-
-        int frmsizecod = buf[4] & 0x3F;
-        if (frmsizecod >= 38) {
+    int rate  = rates[frmsizecod >> 1];
+    switch (buf[4] & 0xc0) {
+        case 0:
+            frame_size = 4 * rate;
+            break;
+        case 0x40:
+            frame_size = 2 * (320 * rate / 147 + (frmsizecod & 1));
+            break;
+        case 0x80:
+            frame_size = 6 * rate;
+            break;
+        default:
             return 0;
-        }
-
-        int rate  = rates[frmsizecod >> 1];
-        switch (buf[4] & 0xc0) {
-            case 0:
-                frame_size = 4 * rate;
-                break;
-            case 0x40:
-                frame_size = 2 * (320 * rate / 147 + (frmsizecod & 1));
-                break;
-            case 0x80:
-                frame_size = 6 * rate;
-                break;
-            default:
-                return 0;
-        }
-    } else {   /// Enhanced AC-3
-        frame_size = (((buf[2] & 0x03) << 8) + buf[3] + 1) * 2;
     }
+
+
+    return frame_size;
+}
+
+int GetEAC3FrameSize(const BYTE* buf)
+{
+    if (*(WORD*)buf != AC3_SYNC_WORD) { // syncword
+        return 0;
+    }
+    BYTE bsid = buf[5] >> 3; // bsid
+    if (bsid < 11 || bsid > 16) {
+        return 0;
+    }
+    if ((buf[4] >> 4) == 0xf) {
+        return 0;
+    }
+
+    int frame_size = (((buf[2] & 0x03) << 8) + buf[3] + 1) * 2;
+
     return frame_size;
 }
 
@@ -91,7 +108,8 @@ int ParseAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framele
         return 0;
     }
 
-    if (buf[5] >> 3 >= 11) { // bsid
+    BYTE bsid = buf[5] >> 3; // bsid
+    if (bsid > 10) {
         return 0;
     }
 
@@ -104,7 +122,7 @@ int ParseAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framele
         return 0;
     }
 
-    int half = halfrate[buf[5] >> 3];
+    int half = halfrate[bsid];
     int rate  = rates[frmsizecod >> 1];
     *bitrate  = (rate * 1000) >> half;
     int frame_size;
@@ -162,7 +180,8 @@ int ParseEAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framel
         return 0;
     }
 
-    if (buf[5] >> 3 <= 10) { // bsid
+    BYTE bsid = buf[5] >> 3; // bsid
+    if (bsid < 11 || bsid > 16) {
         return 0;
     }
 

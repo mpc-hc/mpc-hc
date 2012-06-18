@@ -384,7 +384,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             //int HD_size = 0;
 
             // AC3 header
-            if (bsid < 12) {
+            if (bsid <= 10) {
                 fsize = ParseAC3Header(buf, &m_samplerate, &m_channels, &m_framelength, &m_bitrate);
                 if (fsize == 0) {
                     break;
@@ -404,7 +404,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
                 */
             }
             // E-AC3 header
-            else if (bsid == 16) {
+            else if (bsid <= 16) {
                 int frametype;
                 fsize = ParseEAC3Header(buf, &m_samplerate, &m_channels, &m_framelength, &frametype);
                 if (fsize == 0) {
