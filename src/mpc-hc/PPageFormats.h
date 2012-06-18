@@ -42,15 +42,7 @@ private:
     int GetChecked(int iItem);
     void SetChecked(int iItem, int fChecked);
 
-    typedef enum {AP_VIDEO = 0, AP_MUSIC, AP_AUDIOCD, AP_DVDMOVIE} autoplay_t;
-    void AddAutoPlayToRegistry(autoplay_t ap, bool fRegister);
-    bool IsAutoPlayRegistered(autoplay_t ap);
-
     void SetListItemState(int nItem);
-    static CComPtr<IApplicationAssociationRegistration> m_pAAR;
-    static BOOL SetFileAssociation(CString strExt, CString extfile, bool fRegister);
-    static CString GetOpenCommand();
-    static CString GetEnqueueCommand();
 
     bool IsNeededIconsLib();
 
@@ -58,11 +50,7 @@ public:
     CPPageFormats();
     virtual ~CPPageFormats();
 
-    static bool RegisterApp();
-    static bool IsRegistered(CString ext);
-    static bool RegisterExt(CString ext, CString strLabel, bool fRegister);
-
-    enum {COL_CATEGORY, COL_ENGINE};
+    enum { COL_CATEGORY, COL_ENGINE };
     CPlayerListCtrl m_list;
     CString m_exts;
     CStatic m_autoplay;

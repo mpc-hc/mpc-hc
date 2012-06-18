@@ -354,6 +354,9 @@
     <ClCompile Include="MPCPngImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileAssoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -702,6 +705,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MPCPngImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileAssoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

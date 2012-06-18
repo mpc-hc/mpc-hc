@@ -33,6 +33,7 @@
 #include "Ifo.h"
 #include "Monitors.h"
 #include "WinAPIUtils.h"
+#include "FileAssoc.h"
 #include "UpdateChecker.h"
 #include "winddk/ntddcdvd.h"
 #include "detours/detours.h"
@@ -923,7 +924,7 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     if (m_s.nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) { // register file types
-        CPPageFormats::RegisterApp();
+        CFileAssoc::RegisterApp();
 
         CMediaFormats& mf = m_s.m_Formats;
         mf.UpdateData(false);
@@ -939,32 +940,26 @@ BOOL CMPlayerCApp::InitInstance()
 
             bAudioOnly = mf[i].IsAudioOnly();
 
-            int j = 0;
-            CString str = mf[i].GetExtsWithPeriod();
-            for (CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j)) {
-                if (((m_s.nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
-                        ((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
-                        ((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
-                    CPPageFormats::RegisterExt(ext, mf[i].GetDescription(), true);
-                }
+            if (((m_s.nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
+                ((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
+                ((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
+                    CFileAssoc::Register(mf[i], true, false, true);
             }
         }
+
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
         return FALSE;
     }
 
-    if ((m_s.nCLSwitches & CLSW_UNREGEXT)) { // unregistered file types
+    if (m_s.nCLSwitches & CLSW_UNREGEXT) { // unregistered file types
         CMediaFormats& mf = m_s.m_Formats;
         mf.UpdateData(false);
 
         for (unsigned int i = 0; i < mf.GetCount(); i++) {
-            int j = 0;
-            CString str = mf[i].GetExtsWithPeriod();
-            for (CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j)) {
-                CPPageFormats::RegisterExt(ext, mf[i].GetDescription(), false);
-            }
+            CFileAssoc::Register(mf[i], false, false, false);
         }
+
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
         return FALSE;
