@@ -2939,8 +2939,8 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
     if (m_AspectRatio.cx >= 1 && m_AspectRatio.cy >= 1) {
         while (bDoneSomething) {
             bDoneSomething = false;
-            INT MinNum = min(m_AspectRatio.cx, m_AspectRatio.cy);
-            INT i;
+            int MinNum = min(m_AspectRatio.cx, m_AspectRatio.cy);
+            int i;
             for (i = 2; i < MinNum + 1; ++i) {
                 if (m_AspectRatio.cx % i == 0 && m_AspectRatio.cy % i == 0) {
                     break;
@@ -4141,7 +4141,7 @@ STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
     return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
-CGenlock::CGenlock(DOUBLE target, DOUBLE limit, INT lineD, INT colD, DOUBLE clockD, UINT mon):
+CGenlock::CGenlock(DOUBLE target, DOUBLE limit, int lineD, int colD, DOUBLE clockD, UINT mon):
     targetSyncOffset(target), // Target sync offset, typically around 10 ms
     controlLimit(limit), // How much sync offset is allowed to drift from target sync offset before control kicks in
     lineDelta(lineD), // Number of rows used in display frequency adjustment, typically 1 (one)
@@ -4195,9 +4195,9 @@ HRESULT CGenlock::GetTiming()
     ATOM getTiming;
     LPARAM lParam = NULL;
     WPARAM wParam = monitor;
-    INT i = 0;
-    INT j = 0;
-    INT params = 0;
+    int i = 0;
+    int j = 0;
+    int params = 0;
     TCHAR tmpStr[MAX_LOADSTRING];
 
     CAutoLock lock(&csGenlockLock);

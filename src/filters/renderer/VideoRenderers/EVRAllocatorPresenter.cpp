@@ -768,8 +768,8 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     if (m_AspectRatio.cx >= 1 && m_AspectRatio.cy >= 1) { //if any of these is 0, it will stuck into a infinite loop
         while (bDoneSomething) {
             bDoneSomething = false;
-            INT MinNum = min(m_AspectRatio.cx, m_AspectRatio.cy);
-            INT i;
+            int MinNum = min(m_AspectRatio.cx, m_AspectRatio.cy);
+            int i;
             for (i = 2; i < MinNum + 1; ++i) {
                 if (m_AspectRatio.cx % i == 0 && m_AspectRatio.cy % i == 0) {
                     break;

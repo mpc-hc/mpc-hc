@@ -115,8 +115,8 @@ HRESULT CD3DFont::CreateGDIFont(HDC hDC, HFONT* pFont)
 {
     // Create a font.  By specifying ANTIALIASED_QUALITY, we might get an
     // antialiased font, but this is not guaranteed.
-    INT nHeight    = -MulDiv(m_dwFontHeight,
-                             (INT)(GetDeviceCaps(hDC, LOGPIXELSY) * m_fTextScale),
+    int nHeight    = -MulDiv(m_dwFontHeight,
+                             (int)(GetDeviceCaps(hDC, LOGPIXELSY) * m_fTextScale),
                              72);
     DWORD dwBold   = (m_dwFontFlags & D3DFONT_BOLD)   ? FW_BOLD : FW_NORMAL;
     DWORD dwItalic = (m_dwFontFlags & D3DFONT_ITALIC) ? TRUE    : FALSE;

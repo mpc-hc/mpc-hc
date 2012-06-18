@@ -587,14 +587,14 @@ namespace GothSync
         class MovingAverage
         {
         public:
-            MovingAverage(INT size):
+            MovingAverage(int size):
                 fifoSize(size),
                 oldestSample(0),
                 sum(0) {
                 if (fifoSize > MAX_FIFO_SIZE) {
                     fifoSize = MAX_FIFO_SIZE;
                 }
-                for (INT i = 0; i < MAX_FIFO_SIZE; i++) {
+                for (int i = 0; i < MAX_FIFO_SIZE; i++) {
                     fifo[i] = 0;
                 }
             }
@@ -613,13 +613,13 @@ namespace GothSync
             }
 
         private:
-            INT fifoSize;
+            int fifoSize;
             double fifo[MAX_FIFO_SIZE];
-            INT oldestSample;
+            int oldestSample;
             double sum;
         };
 
-        CGenlock(DOUBLE target, DOUBLE limit, INT rowD, INT colD, DOUBLE clockD, UINT mon);
+        CGenlock(DOUBLE target, DOUBLE limit, int rowD, int colD, DOUBLE clockD, UINT mon);
         ~CGenlock();
 
         BOOL PowerstripRunning(); // TRUE if PowerStrip is running
@@ -641,9 +641,9 @@ namespace GothSync
 
         BOOL powerstripTimingExists; // TRUE if display timing has been got through Powerstrip
         BOOL liveSource; // TRUE if live source -> display sync is the only option
-        INT adjDelta; // -1 for display slower in relation to video, 0 for keep, 1 for faster
-        INT lineDelta; // The number of rows added or subtracted when adjusting display fps
-        INT columnDelta; // The number of colums added or subtracted when adjusting display fps
+        int adjDelta; // -1 for display slower in relation to video, 0 for keep, 1 for faster
+        int lineDelta; // The number of rows added or subtracted when adjusting display fps
+        int columnDelta; // The number of colums added or subtracted when adjusting display fps
         DOUBLE cycleDelta; // Adjustment factor for cycle time as fraction of nominal value
         UINT displayAdjustmentsMade; // The number of adjustments made to display refresh rate
         UINT clockAdjustmentsMade; // The number of adjustments made to clock frequency
@@ -668,8 +668,8 @@ namespace GothSync
 
     private:
         HWND psWnd; // PowerStrip window
-        const static INT TIMING_PARAM_CNT = 10;
-        const static INT MAX_LOADSTRING = 100;
+        const static int TIMING_PARAM_CNT = 10;
+        const static int MAX_LOADSTRING = 100;
         UINT displayTiming[TIMING_PARAM_CNT]; // Display timing parameters
         UINT displayTimingSave[TIMING_PARAM_CNT]; // So that we can reset the display at exit
         TCHAR faster[MAX_LOADSTRING]; // String corresponding to faster display frequency
