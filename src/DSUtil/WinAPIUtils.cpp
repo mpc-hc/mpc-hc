@@ -85,7 +85,8 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 
     DWORD subKeysCount = 0, maxSubKeyLen = 0;
     DWORD valuesCount = 0, maxValueNameLen = 0, maxValueDataLen = 0;
-    if (RegQueryInfoKey(hKey, NULL, NULL, NULL, &subKeysCount, &maxSubKeyLen, NULL, &valuesCount, &maxValueNameLen, &maxValueDataLen, NULL, NULL) != ERROR_SUCCESS) {
+    if (RegQueryInfoKey(hKey, NULL, NULL, NULL, &subKeysCount, &maxSubKeyLen,
+                        NULL, &valuesCount, &maxValueNameLen, &maxValueDataLen, NULL, NULL) != ERROR_SUCCESS) {
         return false;
     }
     maxSubKeyLen += 1;
@@ -104,7 +105,8 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
         valueNameLen = maxValueNameLen;
         valueDataLen = maxValueDataLen;
 
-        if (RegEnumValue(hKey, indexValue, valueName.GetBuffer(maxValueNameLen), &valueNameLen, NULL, &type, data, &valueDataLen) != ERROR_SUCCESS) {
+        if (RegEnumValue(hKey, indexValue, valueName.GetBuffer(maxValueNameLen),
+                         &valueNameLen, NULL, &type, data, &valueDataLen) != ERROR_SUCCESS) {
             return false;
         }
 
@@ -151,7 +153,8 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
     for (DWORD indexSubKey = 0; indexSubKey < subKeysCount; indexSubKey++) {
         subKeyLen = maxSubKeyLen;
 
-        if (RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen), &subKeyLen, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
+        if (RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen),
+                         &subKeyLen, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
             return false;
         }
 

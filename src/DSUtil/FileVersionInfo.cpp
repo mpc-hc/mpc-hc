@@ -38,7 +38,8 @@ bool CFileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
                 // Parse the version information
                 VS_FIXEDFILEINFO* lpInfo;
                 UINT unInfoLen;
-                if (VerQueryValue(lpData, _T("\\"), (LPVOID*)&lpInfo, &unInfoLen) && unInfoLen == sizeof(VS_FIXEDFILEINFO)) {
+                if (VerQueryValue(lpData, _T("\\"), (LPVOID*)&lpInfo, &unInfoLen)
+                        && unInfoLen == sizeof(VS_FIXEDFILEINFO)) {
                     fileInfo = *lpInfo;
                     success = true;
                 }

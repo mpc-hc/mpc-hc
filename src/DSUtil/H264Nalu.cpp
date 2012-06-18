@@ -95,9 +95,9 @@ bool CH264Nalu::ReadNext()
         MoveToNextAnnexBStartcode();
     }
 
-    forbidden_bit       = (m_pBuffer[m_nNALDataPos] >> 7) & 1;
-    nal_reference_idc   = (m_pBuffer[m_nNALDataPos] >> 5) & 3;
-    nal_unit_type       = (NALU_TYPE)(m_pBuffer[m_nNALDataPos] & 0x1f);
+    forbidden_bit     = (m_pBuffer[m_nNALDataPos] >> 7) & 1;
+    nal_reference_idc = (m_pBuffer[m_nNALDataPos] >> 5) & 3;
+    nal_unit_type     = (NALU_TYPE)(m_pBuffer[m_nNALDataPos] & 0x1f);
 
     return true;
 }

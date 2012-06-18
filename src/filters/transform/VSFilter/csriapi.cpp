@@ -58,7 +58,7 @@ CSRIAPI csri_inst* csri_open_file(csri_rend* renderer, const char* filename, str
     namebuf = DNew wchar_t[namesize];
     MultiByteToWideChar(CP_UTF8, 0, filename, -1, namebuf, namesize);
 
-    csri_inst *inst = DNew csri_inst();
+    csri_inst* inst = DNew csri_inst();
     inst->cs = DNew CCritSec();
     inst->rts = DNew CRenderedTextSubtitle(inst->cs);
     if (inst->rts->Open(CString(namebuf), DEFAULT_CHARSET)) {
@@ -78,7 +78,7 @@ CSRIAPI csri_inst* csri_open_mem(csri_rend* renderer, const void* data, size_t l
 {
     // This is actually less effecient than opening a file, since this first writes the memory data to a temp file,
     // then opens that file and parses from that.
-    csri_inst *inst = DNew csri_inst();
+    csri_inst* inst = DNew csri_inst();
     inst->cs = DNew CCritSec();
     inst->rts = DNew CRenderedTextSubtitle(inst->cs);
     if (inst->rts->Open((BYTE*)data, (int)length, DEFAULT_CHARSET, _T("CSRI memory subtitles"))) {

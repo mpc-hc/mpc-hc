@@ -31,9 +31,9 @@
 
 #include <d3d9.h>
 #include <dxva.h>
-#include <dxva2api.h>       // DXVA2
+#include <dxva2api.h>   // DXVA2
 #include <evr.h>
-#include <mfapi.h>  // API Media Foundation
+#include <mfapi.h>      // API Media Foundation
 #include <Mferror.h>
 
 // dxva.dll
@@ -65,92 +65,63 @@ public :
     }
 
     DECLARE_IUNKNOWN
-    STDMETHODIMP    NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    STDMETHODIMP    GetAllocator(IMemAllocator** ppAllocator) {
+    STDMETHODIMP GetAllocator(IMemAllocator** ppAllocator) {
         // Renderer shouldn't manage allocator for DXVA
         return E_NOTIMPL;
     }
 
-    STDMETHODIMP    GetAllocatorRequirements(ALLOCATOR_PROPERTIES* pProps) {
+    STDMETHODIMP GetAllocatorRequirements(ALLOCATOR_PROPERTIES* pProps) {
         // 1 buffer required
         memset(pProps, 0, sizeof(ALLOCATOR_PROPERTIES));
         pProps->cbBuffer = 1;
         return S_OK;
     }
 
-
     // IMFGetService
-    STDMETHODIMP    GetService(REFGUID guidService, REFIID riid, LPVOID* ppvObject);
+    STDMETHODIMP GetService(REFGUID guidService, REFIID riid, LPVOID* ppvObject);
 
     // IDirectXVideoMemoryConfiguration
-    STDMETHODIMP    GetAvailableSurfaceTypeByIndex(DWORD dwTypeIndex, DXVA2_SurfaceType* pdwType);
-    STDMETHODIMP    SetSurfaceType(DXVA2_SurfaceType dwType);
+    STDMETHODIMP GetAvailableSurfaceTypeByIndex(DWORD dwTypeIndex, DXVA2_SurfaceType* pdwType);
+    STDMETHODIMP SetSurfaceType(DXVA2_SurfaceType dwType);
 
 
     // IMFVideoDisplayControl
-    STDMETHODIMP    GetNativeVideoSize(SIZE* pszVideo, SIZE* pszARVideo) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    GetIdealVideoSize(SIZE* pszMin, SIZE* pszMax) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    SetVideoPosition(const MFVideoNormalizedRect* pnrcSource, const LPRECT prcDest) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    GetVideoPosition(MFVideoNormalizedRect* pnrcSource, LPRECT prcDest) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    SetAspectRatioMode(DWORD dwAspectRatioMode) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    GetAspectRatioMode(DWORD* pdwAspectRatioMode) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    SetVideoWindow(HWND hwndVideo) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    GetVideoWindow(HWND* phwndVideo);
-    STDMETHODIMP    RepaintVideo(void) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    GetCurrentImage(BITMAPINFOHEADER* pBih, BYTE** pDib, DWORD* pcbDib, LONGLONG* pTimeStamp) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    SetBorderColor(COLORREF Clr) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    GetBorderColor(COLORREF* pClr) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    SetRenderingPrefs(DWORD dwRenderFlags) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    GetRenderingPrefs(DWORD* pdwRenderFlags) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    SetFullscreen(BOOL fFullscreen) {
-        return E_NOTIMPL;
-    };
-    STDMETHODIMP    GetFullscreen(BOOL* pfFullscreen) {
-        return E_NOTIMPL;
-    };
+    STDMETHODIMP GetNativeVideoSize(SIZE* pszVideo, SIZE* pszARVideo) { return E_NOTIMPL; };
+    STDMETHODIMP GetIdealVideoSize(SIZE* pszMin, SIZE* pszMax) { return E_NOTIMPL; };
+    STDMETHODIMP SetVideoPosition(const MFVideoNormalizedRect* pnrcSource,
+                                  const LPRECT prcDest) { return E_NOTIMPL; };
+    STDMETHODIMP GetVideoPosition(MFVideoNormalizedRect* pnrcSource,
+                                  LPRECT prcDest) { return E_NOTIMPL; };
+    STDMETHODIMP SetAspectRatioMode(DWORD dwAspectRatioMode) { return E_NOTIMPL; };
+    STDMETHODIMP GetAspectRatioMode(DWORD* pdwAspectRatioMode) { return E_NOTIMPL; };
+    STDMETHODIMP SetVideoWindow(HWND hwndVideo) { return E_NOTIMPL; };
+    STDMETHODIMP GetVideoWindow(HWND* phwndVideo);
+    STDMETHODIMP RepaintVideo(void) { return E_NOTIMPL; };
+    STDMETHODIMP GetCurrentImage(BITMAPINFOHEADER* pBih, BYTE** pDib,
+                                 DWORD* pcbDib, LONGLONG* pTimeStamp) { return E_NOTIMPL; };
+    STDMETHODIMP SetBorderColor(COLORREF Clr) { return E_NOTIMPL; };
+    STDMETHODIMP GetBorderColor(COLORREF* pClr) { return E_NOTIMPL; };
+    STDMETHODIMP SetRenderingPrefs(DWORD dwRenderFlags) { return E_NOTIMPL; };
+    STDMETHODIMP GetRenderingPrefs(DWORD* pdwRenderFlags) { return E_NOTIMPL; };
+    STDMETHODIMP SetFullscreen(BOOL fFullscreen) { return E_NOTIMPL; };
+    STDMETHODIMP GetFullscreen(BOOL* pfFullscreen) { return E_NOTIMPL; };
 
 private :
-    HMODULE                                 m_hDXVA2Lib;
-    PTR_DXVA2CreateDirect3DDeviceManager9   pfDXVA2CreateDirect3DDeviceManager9;
-    PTR_DXVA2CreateVideoService             pfDXVA2CreateVideoService;
+    HMODULE m_hDXVA2Lib;
+    PTR_DXVA2CreateDirect3DDeviceManager9 pfDXVA2CreateDirect3DDeviceManager9;
+    PTR_DXVA2CreateVideoService pfDXVA2CreateVideoService;
 
-    CComPtr<IDirect3D9>                     m_pD3D;
-    CComPtr<IDirect3DDevice9>               m_pD3DDev;
-    CComPtr<IDirect3DDeviceManager9>        m_pD3DDeviceManager;
-    UINT                                    m_nResetTocken;
-    HANDLE                                  m_hDevice;
-    HWND                                    m_hWnd;
+    CComPtr<IDirect3D9> m_pD3D;
+    CComPtr<IDirect3DDevice9> m_pD3DDev;
+    CComPtr<IDirect3DDeviceManager9> m_pD3DDeviceManager;
+    UINT m_nResetTocken;
+    HANDLE m_hDevice;
+    HWND m_hWnd;
 
-    void        CreateSurface();
+    void CreateSurface();
 };
-
 
 CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer, HRESULT* phr, LPCWSTR Name)
     : CRendererInputPin(pRenderer, phr, Name)
@@ -176,10 +147,9 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer,
     }
 }
 
-
 void CNullVideoRendererInputPin::CreateSurface()
 {
-    HRESULT     hr;
+    HRESULT hr;
     m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
     if (!m_pD3D) {
         m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
@@ -205,7 +175,7 @@ void CNullVideoRendererInputPin::CreateSurface()
 
     hr = m_pD3D->CreateDevice(
              D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
-             D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
+             D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, //| D3DCREATE_MANAGED,
              &pp, &m_pD3DDev);
 }
 
@@ -238,17 +208,9 @@ STDMETHODIMP CNullVideoRendererInputPin::GetService(REFGUID guidService, REFIID 
             return S_OK;
         }
     }
-    //else if (guidService == MR_VIDEO_MIXER_SERVICE)
-    //{
-    //  if (riid == __uuidof(IMFVideoMixerBitmap))
-    //  {
-    //      GetInterface ((IMFVideoMixerBitmap*)this, ppvObject);
-    //      return S_OK;
-    //  }
-    //}
+
     return E_NOINTERFACE;
 }
-
 
 STDMETHODIMP CNullVideoRendererInputPin::GetAvailableSurfaceTypeByIndex(DWORD dwTypeIndex, DXVA2_SurfaceType* pdwType)
 {
@@ -265,7 +227,6 @@ STDMETHODIMP CNullVideoRendererInputPin::SetSurfaceType(DXVA2_SurfaceType dwType
     return S_OK;
 }
 
-
 STDMETHODIMP CNullVideoRendererInputPin::GetVideoWindow(HWND* phwndVideo)
 {
     CheckPointer(phwndVideo, E_POINTER);
@@ -274,7 +235,7 @@ STDMETHODIMP CNullVideoRendererInputPin::GetVideoWindow(HWND* phwndVideo)
 }
 
 
-#endif
+#endif // USE_DXVA
 
 //
 // CNullRenderer
@@ -310,7 +271,7 @@ CNullUVideoRenderer::CNullUVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr)
     : CNullRenderer(__uuidof(this), NAME("Null Video Renderer (Uncompressed)"), pUnk, phr)
 {
 #ifdef USE_DXVA
-    m_pInputPin = DNew CNullVideoRendererInputPin(this,phr,L"In");
+    m_pInputPin = DNew CNullVideoRendererInputPin(this, phr, L"In");
 #endif
 }
 
@@ -347,7 +308,7 @@ HRESULT CNullUVideoRenderer::CheckMediaType(const CMediaType* pmt)
 HRESULT CNullUVideoRenderer::DoRenderSample(IMediaSample* pSample)
 {
 #ifdef USE_DXVA
-    CComQIPtr<IMFGetService>        pService = pSample;
+    CComQIPtr<IMFGetService> pService = pSample;
     if (pService != NULL) {
         CComPtr<IDirect3DSurface9>  pSurface;
         pService->GetService(MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**)&pSurface);

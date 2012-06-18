@@ -50,9 +50,9 @@ public:
     void            SkipBytes(int nCount);
 
 private :
-    BYTE*       m_pBuffer;
-    int         m_nSize;
-    int         m_nBitPos;
-    int         m_bitlen;
-    INT64       m_bitbuff;
+    BYTE*           m_pBuffer;
+    int             m_nSize;
+    int             m_nBitPos;
+    int             m_bitlen;
+    INT64           m_bitbuff;
 };

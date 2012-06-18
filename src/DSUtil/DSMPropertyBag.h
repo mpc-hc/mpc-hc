@@ -115,9 +115,12 @@ public:
     // IDSMResourceBag
 
     STDMETHODIMP_(DWORD) ResGetCount();
-    STDMETHODIMP ResGet(DWORD iIndex, BSTR* ppName, BSTR* ppDesc, BSTR* ppMime, BYTE** ppData, DWORD* pDataLen, DWORD_PTR* pTag = NULL);
-    STDMETHODIMP ResSet(DWORD iIndex, LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime, BYTE* pData, DWORD len, DWORD_PTR tag = 0);
-    STDMETHODIMP ResAppend(LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime, BYTE* pData, DWORD len, DWORD_PTR tag = 0);
+    STDMETHODIMP ResGet(DWORD iIndex, BSTR* ppName, BSTR* ppDesc, BSTR* ppMime,
+                        BYTE** ppData, DWORD* pDataLen, DWORD_PTR* pTag = NULL);
+    STDMETHODIMP ResSet(DWORD iIndex, LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime,
+                        BYTE* pData, DWORD len, DWORD_PTR tag = 0);
+    STDMETHODIMP ResAppend(LPCWSTR pName, LPCWSTR pDesc, LPCWSTR pMime,
+                           BYTE* pData, DWORD len, DWORD_PTR tag = 0);
     STDMETHODIMP ResRemoveAt(DWORD iIndex);
     STDMETHODIMP ResRemoveAll(DWORD_PTR tag = 0);
 };

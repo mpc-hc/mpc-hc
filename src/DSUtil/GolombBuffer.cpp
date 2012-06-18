@@ -33,7 +33,7 @@ CGolombBuffer::CGolombBuffer(BYTE* pBuffer, int nSize)
 
 UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
 {
-    //  ASSERT(nBits >= 0 && nBits <= 64);
+    //ASSERT(nBits >= 0 && nBits <= 64);
 
     while (m_bitlen < nBits) {
         m_bitbuff <<= 8;
