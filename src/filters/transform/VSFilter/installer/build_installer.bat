@@ -80,6 +80,7 @@ EXIT /B
 
 :EndWithError
 Title Building VSFilter installer [ERROR]
+COLOR 0C
 ECHO. & ECHO.
 ECHO ERROR: Build failed!
 ECHO Press any key to close this window...

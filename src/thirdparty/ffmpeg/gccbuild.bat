@@ -167,6 +167,7 @@ IF EXIST "mingw-w64-crt/misc/delayimp.c" DEL "mingw-w64-crt\misc\delayimp.c"
 ECHO Downloading MinGW64 crt and headers...
 svn -q co "https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/stable/v2.x" .
 IF %ERRORLEVEL% NEQ 0 (
+  COLOR 0C
   ECHO Downloading MinGW64 crt and headers failed!
   CALL :SubPause
   EXIT /B
@@ -175,6 +176,7 @@ IF %ERRORLEVEL% NEQ 0 (
 ECHO. & ECHO Applying Mingw64 compatibility patch...
 patch -p0 -i ../../mpchc_Mingw64.patch
 IF %ERRORLEVEL% NEQ 0 (
+  COLOR 0C
   ECHO patching failed!
   CALL :SubPause
   EXIT /B
@@ -190,6 +192,7 @@ PUSHD "%BD%/mingw/build-%HST%"
 
 sh ../mingw-w64-crt/configure --prefix="%PF%" --with-sysroot="%PF%" --host="%TGT%" --disable-lib32
 IF %ERRORLEVEL% NEQ 0 (
+  COLOR 0C
   ECHO Compiling MinGW64 crt failed in configure!
   CALL :SubPause
   EXIT /B
@@ -197,6 +200,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 CALL :SubMake CFLAGS="-O2 -fno-leading-underscore -pipe" -s
 IF %ERRORLEVEL% NEQ 0 (
+  COLOR 0C
   ECHO Compiling MinGW64 crt failed in make!
   CALL :SubPause
   EXIT /B
@@ -205,6 +209,7 @@ IF %ERRORLEVEL% NEQ 0 (
 TITLE make install
 make install
 IF %ERRORLEVEL% NEQ 0 (
+  COLOR 0C
   ECHO Compiling MinGW64 crt failed in make install!
   CALL :SubPause
   EXIT /B

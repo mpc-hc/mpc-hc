@@ -7,10 +7,11 @@ PUSHD %~dp0
 astyle.exe --version 1>&2 2>NUL
 
 IF %ERRORLEVEL% NEQ 0 (
+  COLOR 0C
   ECHO ERROR: Astyle wasn't found!
   CHOICE /C yn /M "Do you want to visit its webpage now"
   IF ERRORLEVEL 2 ECHO. & GOTO END
-  START "" http://astyle.sourceforge.net/
+  START "" "http://astyle.sourceforge.net/"
   GOTO END
 )
 
