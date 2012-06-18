@@ -29,6 +29,48 @@
 #include "../../include/stdafx_common_afx2.h"
 #include "../../include/stdafx_common_dshow.h"
 
+#include <Windows.h>
+#include <algorithm>
+#include <afxadv.h>
+#include <afxcview.h>
+#include <afxcmn.h>
+#include <afxpriv.h>
+#include <afxsock.h>
+#include <afxwin.h>
+#include <afxinet.h>
+#include <atlbase.h>
+#include <atlcoll.h>
+#include <atlconv.h>
+#include <atlimage.h>
+#include <atlpath.h>
+#include <atlsync.h>
+#include <comdef.h>
+#include <commdlg.h>
+
+#include <dlgs.h>
+#include <ks.h>
+#include <ksmedia.h>
+#include <mpconfig.h>
+#include <psapi.h>
+#include <shlobj.h>
+
+#include <d3d9.h>
+#include <d3dx9.h>
+#include <dxva2api.h>
+#include <dvdevcod.h>
+#include <dsound.h>
+#include <evr.h>
+#include <evr9.h>
+#include <vmr9.h>
+
+#include <Il21dec.h>
+
+#include "ui/sizecbar/scbarg.h"
+#include "ui/ResizableLib/ResizableDialog.h"
+
+#include "../Subtitles/RTS.h"
+#include "../Subtitles/STS.h"
+
 #include "../DSUtil/DSUtil.h"
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
