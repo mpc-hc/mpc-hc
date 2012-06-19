@@ -1757,7 +1757,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                                          : Location.TimeCodeFlags == DVD_TC_FLAG_DropFrame ? 29.97
                                          : 25.0;
 
-                            LONGLONG rtTimeCode = HMSF2RT(Location.TimeCode, fps);
+                            REFERENCE_TIME rtTimeCode = HMSF2RT(Location.TimeCode, fps);
                             m_pCAP->SetTime(rtTimeCode);
                         } else {
                             m_pCAP->SetTime(/*rtNow*/m_wndSeekBar.GetPos());
@@ -15236,8 +15236,8 @@ void CMainFrame::ShowOSDCustomMessageApi(MPC_OSDDATA* osdData)
 void CMainFrame::JumpOfNSeconds(int nSeconds)
 {
     if (m_iMediaLoadState == MLS_LOADED) {
-        long            lPosition = 0;
-        REFERENCE_TIME  rtCur;
+        long lPosition = 0;
+        REFERENCE_TIME rtCur;
 
         if (GetPlaybackMode() == PM_FILE) {
             pMS->GetCurrentPosition(&rtCur);

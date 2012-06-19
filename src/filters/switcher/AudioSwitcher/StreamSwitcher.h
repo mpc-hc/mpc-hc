@@ -36,7 +36,7 @@
                                                                                                             \
     HRESULT _hr = E_FAIL;                                                                                   \
     CComQIPtr<IMediaSeeking> _pMS((IUnknown*)(INonDelegatingUnknown*)m_pGraph);                             \
-    LONGLONG _rtNow = 0;                                                                                    \
+    REFERENCE_TIME _rtNow = 0;                                                                              \
     if (_pMS) _hr = _pMS->GetCurrentPosition(&_rtNow);
 
 #define ResumeGraph                                                                                         \
