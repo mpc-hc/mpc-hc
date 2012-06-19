@@ -36,12 +36,12 @@
 struct FONT2DVERTEX {
     D3DXVECTOR4 p;
     DWORD color;
-    FLOAT tu, tv;
+    float tu, tv;
 };
 struct FONT3DVERTEX {
     D3DXVECTOR3 p;
     D3DXVECTOR3 n;
-    FLOAT tu, tv;
+    float tu, tv;
 };
 
 #define D3DFVF_FONT2DVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
@@ -49,7 +49,7 @@ struct FONT3DVERTEX {
 
 
 inline FONT2DVERTEX InitFont2DVertex(const D3DXVECTOR4& p, D3DCOLOR color,
-                                     FLOAT tu, FLOAT tv)
+                                     float tu, float tv)
 {
     FONT2DVERTEX v;
     v.p = p;
@@ -60,7 +60,7 @@ inline FONT2DVERTEX InitFont2DVertex(const D3DXVECTOR4& p, D3DCOLOR color,
 }
 
 inline FONT3DVERTEX InitFont3DVertex(const D3DXVECTOR3& p, const D3DXVECTOR3& n,
-                                     FLOAT tu, FLOAT tv)
+                                     float tu, float tv)
 {
     FONT3DVERTEX v;
     v.p = p;
@@ -178,10 +178,10 @@ HRESULT CD3DFont::PaintAlphabet(HDC hDC, BOOL bMeasureOnly)
                 return E_FAIL;
             }
 
-            m_fTexCoords[c - 32][0] = ((FLOAT)(x + 0       - m_dwSpacing)) / m_dwTexWidth;
-            m_fTexCoords[c - 32][1] = ((FLOAT)(y + 0       + 0)) / m_dwTexHeight;
-            m_fTexCoords[c - 32][2] = ((FLOAT)(x + size.cx + m_dwSpacing)) / m_dwTexWidth;
-            m_fTexCoords[c - 32][3] = ((FLOAT)(y + size.cy + 0)) / m_dwTexHeight;
+            m_fTexCoords[c - 32][0] = ((float)(x + 0       - m_dwSpacing)) / m_dwTexWidth;
+            m_fTexCoords[c - 32][1] = ((float)(y + 0       + 0)) / m_dwTexHeight;
+            m_fTexCoords[c - 32][2] = ((float)(x + size.cx + m_dwSpacing)) / m_dwTexWidth;
+            m_fTexCoords[c - 32][3] = ((float)(y + size.cy + 0)) / m_dwTexHeight;
         }
 
         x += size.cx + (2 * m_dwSpacing);
@@ -241,7 +241,7 @@ HRESULT CD3DFont::InitDeviceObjects(LPDIRECT3DDEVICE9 pd3dDevice)
     m_pd3dDevice->GetDeviceCaps(&d3dCaps);
 
     if (m_dwTexWidth > d3dCaps.MaxTextureWidth) {
-        m_fTextScale = (FLOAT)d3dCaps.MaxTextureWidth / (FLOAT)m_dwTexWidth;
+        m_fTextScale = (float)d3dCaps.MaxTextureWidth / (float)m_dwTexWidth;
         m_dwTexWidth = m_dwTexHeight = d3dCaps.MaxTextureWidth;
 
         bool bFirstRun = true; // Flag clear after first run
@@ -480,10 +480,10 @@ HRESULT CD3DFont::GetTextExtent(const TCHAR* strText, SIZE* pSize)
         return E_FAIL;
     }
 
-    FLOAT fRowWidth  = 0.0f;
-    FLOAT fRowHeight = (m_fTexCoords[0][3] - m_fTexCoords[0][1]) * m_dwTexHeight;
-    FLOAT fWidth     = 0.0f;
-    FLOAT fHeight    = fRowHeight;
+    float fRowWidth  = 0.0f;
+    float fRowHeight = (m_fTexCoords[0][3] - m_fTexCoords[0][1]) * m_dwTexHeight;
+    float fWidth     = 0.0f;
+    float fHeight    = fRowHeight;
 
     while (*strText) {
         TCHAR c = *strText++;
@@ -497,8 +497,8 @@ HRESULT CD3DFont::GetTextExtent(const TCHAR* strText, SIZE* pSize)
             continue;
         }
 
-        FLOAT tx1 = m_fTexCoords[c - 32][0];
-        FLOAT tx2 = m_fTexCoords[c - 32][2];
+        float tx1 = m_fTexCoords[c - 32][0];
+        float tx2 = m_fTexCoords[c - 32][2];
 
         fRowWidth += (tx2 - tx1) * m_dwTexWidth - 2 * m_dwSpacing;
 
@@ -523,8 +523,8 @@ HRESULT CD3DFont::GetTextExtent(const TCHAR* strText, SIZE* pSize)
 //       1/8th of the screen width.  This allows you to output text at a fixed
 //       fraction of the viewport, even if the screen or window size changes.
 //-----------------------------------------------------------------------------
-HRESULT CD3DFont::DrawTextScaled(FLOAT x, FLOAT y, FLOAT z,
-                                 FLOAT fXScale, FLOAT fYScale, DWORD dwColor,
+HRESULT CD3DFont::DrawTextScaled(float x, float y, float z,
+                                 float fXScale, float fYScale, DWORD dwColor,
                                  const TCHAR* strText, DWORD dwFlags)
 {
     if (m_pd3dDevice == NULL) {
@@ -546,7 +546,7 @@ HRESULT CD3DFont::DrawTextScaled(FLOAT x, FLOAT y, FLOAT z,
 
     D3DVIEWPORT9 vp;
     m_pd3dDevice->GetViewport(&vp);
-    FLOAT fLineHeight = (m_fTexCoords[0][3] - m_fTexCoords[0][1]) * m_dwTexHeight;
+    float fLineHeight = (m_fTexCoords[0][3] - m_fTexCoords[0][1]) * m_dwTexHeight;
 
     // Center the text block in the viewport
     if (dwFlags & D3DFONT_CENTERED_X) {
@@ -563,10 +563,10 @@ HRESULT CD3DFont::DrawTextScaled(FLOAT x, FLOAT y, FLOAT z,
                 continue;
             }
 
-            FLOAT tx1 = m_fTexCoords[c - 32][0];
-            FLOAT tx2 = m_fTexCoords[c - 32][2];
+            float tx1 = m_fTexCoords[c - 32][0];
+            float tx2 = m_fTexCoords[c - 32][2];
 
-            FLOAT w = (tx2 - tx1) * m_dwTexWidth;
+            float w = (tx2 - tx1) * m_dwTexWidth;
 
             w *= (fXScale * vp.Height) / fLineHeight;
 
@@ -579,14 +579,14 @@ HRESULT CD3DFont::DrawTextScaled(FLOAT x, FLOAT y, FLOAT z,
         y = -fLineHeight / vp.Height;
     }
 
-    FLOAT sx  = (x + 1.0f) * vp.Width / 2;
-    FLOAT sy  = (y + 1.0f) * vp.Height / 2;
-    FLOAT sz  = z;
-    FLOAT rhw = 1.0f;
+    float sx  = (x + 1.0f) * vp.Width / 2;
+    float sy  = (y + 1.0f) * vp.Height / 2;
+    float sz  = z;
+    float rhw = 1.0f;
 
     // Adjust for character spacing
     sx -= m_dwSpacing * (fXScale * vp.Height) / fLineHeight;
-    FLOAT fStartX = sx;
+    float fStartX = sx;
 
     // Fill vertex buffer
     FONT2DVERTEX* pVertices;
@@ -605,13 +605,13 @@ HRESULT CD3DFont::DrawTextScaled(FLOAT x, FLOAT y, FLOAT z,
             continue;
         }
 
-        FLOAT tx1 = m_fTexCoords[c - 32][0];
-        FLOAT ty1 = m_fTexCoords[c - 32][1];
-        FLOAT tx2 = m_fTexCoords[c - 32][2];
-        FLOAT ty2 = m_fTexCoords[c - 32][3];
+        float tx1 = m_fTexCoords[c - 32][0];
+        float ty1 = m_fTexCoords[c - 32][1];
+        float tx2 = m_fTexCoords[c - 32][2];
+        float ty2 = m_fTexCoords[c - 32][3];
 
-        FLOAT w = (tx2 - tx1) * m_dwTexWidth;
-        FLOAT h = (ty2 - ty1) * m_dwTexHeight;
+        float w = (tx2 - tx1) * m_dwTexWidth;
+        float h = (ty2 - ty1) * m_dwTexHeight;
 
         w *= (fXScale * vp.Height) / fLineHeight;
         h *= (fYScale * vp.Height) / fLineHeight;
@@ -655,7 +655,7 @@ HRESULT CD3DFont::DrawTextScaled(FLOAT x, FLOAT y, FLOAT z,
 // Name: DrawText()
 // Desc: Draws 2D text. Note that sx and sy are in pixels
 //-----------------------------------------------------------------------------
-HRESULT CD3DFont::DrawText(FLOAT sx, FLOAT sy, DWORD dwColor,
+HRESULT CD3DFont::DrawText(float sx, float sy, DWORD dwColor,
                            const TCHAR* strText, DWORD dwFlags)
 {
     if (m_pd3dDevice == NULL) {
@@ -692,10 +692,10 @@ HRESULT CD3DFont::DrawText(FLOAT sx, FLOAT sy, DWORD dwColor,
                 continue;
             }
 
-            FLOAT tx1 = m_fTexCoords[c - 32][0];
-            FLOAT tx2 = m_fTexCoords[c - 32][2];
+            float tx1 = m_fTexCoords[c - 32][0];
+            float tx2 = m_fTexCoords[c - 32][2];
 
-            FLOAT w = (tx2 - tx1) *  m_dwTexWidth / m_fTextScale;
+            float w = (tx2 - tx1) *  m_dwTexWidth / m_fTextScale;
 
             xFinal += w - (2 * m_dwSpacing);
         }
@@ -711,7 +711,7 @@ HRESULT CD3DFont::DrawText(FLOAT sx, FLOAT sy, DWORD dwColor,
 
     // Adjust for character spacing
     sx -= m_dwSpacing;
-    FLOAT fStartX = sx;
+    float fStartX = sx;
 
     // Fill vertex buffer
     FONT2DVERTEX* pVertices = NULL;
@@ -730,13 +730,13 @@ HRESULT CD3DFont::DrawText(FLOAT sx, FLOAT sy, DWORD dwColor,
             continue;
         }
 
-        FLOAT tx1 = m_fTexCoords[c - 32][0];
-        FLOAT ty1 = m_fTexCoords[c - 32][1];
-        FLOAT tx2 = m_fTexCoords[c - 32][2];
-        FLOAT ty2 = m_fTexCoords[c - 32][3];
+        float tx1 = m_fTexCoords[c - 32][0];
+        float ty1 = m_fTexCoords[c - 32][1];
+        float tx2 = m_fTexCoords[c - 32][2];
+        float ty2 = m_fTexCoords[c - 32][3];
 
-        FLOAT w = (tx2 - tx1) *  m_dwTexWidth / m_fTextScale;
-        FLOAT h = (ty2 - ty1) * m_dwTexHeight / m_fTextScale;
+        float w = (tx2 - tx1) *  m_dwTexWidth / m_fTextScale;
+        float h = (ty2 - ty1) * m_dwTexHeight / m_fTextScale;
 
         if (c != _T(' ')) {
             *pVertices++ = InitFont2DVertex(D3DXVECTOR4(sx + 0 - 0.5f, sy + h - 0.5f, 0.9f, 1.0f), dwColor, tx1, ty2);
@@ -798,19 +798,19 @@ HRESULT CD3DFont::Render3DText(const TCHAR* strText, DWORD dwFlags)
     }
 
     // Position for each text element
-    FLOAT x = 0.0f;
-    FLOAT y = 0.0f;
+    float x = 0.0f;
+    float y = 0.0f;
 
     // Center the text block at the origin (not the viewport)
     if (dwFlags & D3DFONT_CENTERED_X) {
         SIZE sz;
         GetTextExtent(strText, &sz);
-        x = -(((FLOAT)sz.cx) / 10.0f) / 2.0f;
+        x = -(((float)sz.cx) / 10.0f) / 2.0f;
     }
     if (dwFlags & D3DFONT_CENTERED_Y) {
         SIZE sz;
         GetTextExtent(strText, &sz);
-        y = -(((FLOAT)sz.cy) / 10.0f) / 2.0f;
+        y = -(((float)sz.cy) / 10.0f) / 2.0f;
     }
 
     // Turn off culling for two-sided text
@@ -820,7 +820,7 @@ HRESULT CD3DFont::Render3DText(const TCHAR* strText, DWORD dwFlags)
 
     // Adjust for character spacing
     x -= m_dwSpacing / 10.0f;
-    FLOAT fStartX = x;
+    float fStartX = x;
     TCHAR c;
 
     // Fill vertex buffer
@@ -838,13 +838,13 @@ HRESULT CD3DFont::Render3DText(const TCHAR* strText, DWORD dwFlags)
             continue;
         }
 
-        FLOAT tx1 = m_fTexCoords[c - 32][0];
-        FLOAT ty1 = m_fTexCoords[c - 32][1];
-        FLOAT tx2 = m_fTexCoords[c - 32][2];
-        FLOAT ty2 = m_fTexCoords[c - 32][3];
+        float tx1 = m_fTexCoords[c - 32][0];
+        float ty1 = m_fTexCoords[c - 32][1];
+        float tx2 = m_fTexCoords[c - 32][2];
+        float ty2 = m_fTexCoords[c - 32][3];
 
-        FLOAT w = (tx2 - tx1) * m_dwTexWidth  / (10.0f * m_fTextScale);
-        FLOAT h = (ty2 - ty1) * m_dwTexHeight / (10.0f * m_fTextScale);
+        float w = (tx2 - tx1) * m_dwTexWidth  / (10.0f * m_fTextScale);
+        float h = (ty2 - ty1) * m_dwTexHeight / (10.0f * m_fTextScale);
 
         if (c != _T(' ')) {
             *pVertices++ = InitFont3DVertex(D3DXVECTOR3(x + 0, y + 0, 0), D3DXVECTOR3(0, 0, -1), tx1, ty2);

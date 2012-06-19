@@ -2277,10 +2277,10 @@ void CDX9AllocatorPresenter::DrawStats()
         m_pLine->Begin();
 
         for (int i = 10; i < 250 * ScaleY; i += 10 * ScaleY) {
-            Points[0].x = (FLOAT)StartX;
-            Points[0].y = (FLOAT)(StartY + i);
-            Points[1].x = (FLOAT)(StartX + ((i - 10) % 40 ? 50 : 625 * ScaleX));
-            Points[1].y = (FLOAT)(StartY + i);
+            Points[0].x = (float)StartX;
+            Points[0].y = (float)(StartY + i);
+            Points[1].x = (float)(StartX + ((i - 10) % 40 ? 50 : 625 * ScaleX));
+            Points[1].y = (float)(StartY + i);
             if (i == 130) {
                 Points[1].x += 50;
             }
@@ -2295,8 +2295,8 @@ void CDX9AllocatorPresenter::DrawStats()
                     nIndex += NB_JITTER;
                 }
                 double Jitter = m_pllJitter[nIndex] - m_fJitterMean;
-                Points[i].x  = (FLOAT)(StartX + (i * 5 * ScaleX + 5));
-                Points[i].y  = (FLOAT)(StartY + ((Jitter * ScaleY) / 5000.0 + 125.0 * ScaleY));
+                Points[i].x  = (float)(StartX + (i * 5 * ScaleX + 5));
+                Points[i].y  = (float)(StartY + ((Jitter * ScaleY) / 5000.0 + 125.0 * ScaleY));
             }
             m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
 
@@ -2306,8 +2306,8 @@ void CDX9AllocatorPresenter::DrawStats()
                     if (nIndex < 0) {
                         nIndex += NB_JITTER;
                     }
-                    Points[i].x  = (FLOAT)(StartX + (i * 5 * ScaleX + 5));
-                    Points[i].y  = (FLOAT)(StartY + ((m_pllSyncOffset[nIndex] * ScaleY) / 5000 + 125 * ScaleY));
+                    Points[i].x  = (float)(StartX + (i * 5 * ScaleX + 5));
+                    Points[i].y  = (float)(StartY + ((m_pllSyncOffset[nIndex] * ScaleY) / 5000 + 125 * ScaleY));
                 }
                 m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(100, 200, 100));
             }

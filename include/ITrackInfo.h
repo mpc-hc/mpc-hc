@@ -58,8 +58,8 @@ struct TrackExtendedInfoVideo {
 
 struct TrackExtendedInfoAudio {
     WORD Size;                      // Size of this structure
-    FLOAT SamplingFreq;             // Sampling frequency in Hz.
-    FLOAT OutputSamplingFrequency;  // Real output sampling frequency in Hz (used for SBR techniques).
+    float SamplingFreq;             // Sampling frequency in Hz.
+    float OutputSamplingFrequency;  // Real output sampling frequency in Hz (used for SBR techniques).
     UINT Channels;                  // Numbers of channels in the track.
     UINT BitDepth;                  // Bits per sample, mostly used for PCM.
 };

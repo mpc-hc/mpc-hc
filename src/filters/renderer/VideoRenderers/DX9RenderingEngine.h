@@ -106,7 +106,7 @@ namespace DSObjects
         // D3DX functions
         typedef D3DXFLOAT16* (WINAPI* D3DXFloat32To16ArrayPtr)(
             D3DXFLOAT16* pOut,
-            CONST FLOAT* pIn,
+            CONST float* pIn,
             UINT         n);
 
 

@@ -2132,18 +2132,18 @@ void CBaseAP::DrawStats()
         m_pLine->Begin();
 
         for (int i = 0; i <= DrawHeight; i += 5) {
-            Points[0].x = (FLOAT)StartX;
-            Points[0].y = (FLOAT)(StartY + i);
-            Points[1].x = (FLOAT)(StartX + (((i + 25) % 25) ? 50 : 625));
-            Points[1].y = (FLOAT)(StartY + i);
+            Points[0].x = (float)StartX;
+            Points[0].y = (float)(StartY + i);
+            Points[1].x = (float)(StartX + (((i + 25) % 25) ? 50 : 625));
+            Points[1].y = (float)(StartY + i);
             m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
         }
 
         for (int i = 0; i < DrawWidth; i += 125) { // Every 25:th sample
-            Points[0].x = (FLOAT)(StartX + i);
-            Points[0].y = (FLOAT)(StartY + DrawHeight / 2);
-            Points[1].x = (FLOAT)(StartX + i);
-            Points[1].y = (FLOAT)(StartY + DrawHeight / 2 + 10);
+            Points[0].x = (float)(StartX + i);
+            Points[0].y = (float)(StartY + DrawHeight / 2);
+            Points[1].x = (float)(StartX + i);
+            Points[1].y = (float)(StartY + DrawHeight / 2 + 10);
             m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
         }
 
@@ -2153,8 +2153,8 @@ void CBaseAP::DrawStats()
                 nIndex += NB_JITTER;
             }
             double Jitter = m_pllJitter[nIndex] - m_fJitterMean;
-            Points[i].x  = (FLOAT)(StartX + (i * 5));
-            Points[i].y  = (FLOAT)(StartY + (Jitter / 2000.0 + 125.0));
+            Points[i].x  = (float)(StartX + (i * 5));
+            Points[i].y  = (float)(StartY + (Jitter / 2000.0 + 125.0));
         }
         m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
 
@@ -2164,8 +2164,8 @@ void CBaseAP::DrawStats()
                 if (nIndex < 0) {
                     nIndex += NB_JITTER;
                 }
-                Points[i].x  = (FLOAT)(StartX + (i * 5));
-                Points[i].y  = (FLOAT)(StartY + ((m_pllSyncOffset[nIndex]) / 2000 + 125));
+                Points[i].x  = (float)(StartX + (i * 5));
+                Points[i].y  = (float)(StartY + ((m_pllSyncOffset[nIndex]) / 2000 + 125));
             }
             m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(100, 200, 100));
         }
