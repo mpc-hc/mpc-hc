@@ -488,21 +488,21 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         sl.AddTail(_T(""));
 
         if (formattype == FORMAT_VideoInfo2 || formattype == FORMAT_MPEG2_VIDEO) {
-            VIDEOINFOHEADER2& vih = *(VIDEOINFOHEADER2*)pbFormat;
-            bih = &vih.bmiHeader;
+            VIDEOINFOHEADER2& vih2 = *(VIDEOINFOHEADER2*)pbFormat;
+            bih = &vih2.bmiHeader;
 
             sl.AddTail(_T("VIDEOINFOHEADER2:"));
-            str.Format(_T("dwInterlaceFlags: 0x%08x"), vih.dwInterlaceFlags);
+            str.Format(_T("dwInterlaceFlags: 0x%08x"), vih2.dwInterlaceFlags);
             sl.AddTail(str);
-            str.Format(_T("dwCopyProtectFlags: 0x%08x"), vih.dwCopyProtectFlags);
+            str.Format(_T("dwCopyProtectFlags: 0x%08x"), vih2.dwCopyProtectFlags);
             sl.AddTail(str);
-            str.Format(_T("dwPictAspectRatioX: %d"), vih.dwPictAspectRatioX);
+            str.Format(_T("dwPictAspectRatioX: %d"), vih2.dwPictAspectRatioX);
             sl.AddTail(str);
-            str.Format(_T("dwPictAspectRatioY: %d"), vih.dwPictAspectRatioY);
+            str.Format(_T("dwPictAspectRatioY: %d"), vih2.dwPictAspectRatioY);
             sl.AddTail(str);
-            str.Format(_T("dwControlFlags: 0x%08x"), vih.dwControlFlags);
+            str.Format(_T("dwControlFlags: 0x%08x"), vih2.dwControlFlags);
             sl.AddTail(str);
-            str.Format(_T("dwReserved2: 0x%08x"), vih.dwReserved2);
+            str.Format(_T("dwReserved2: 0x%08x"), vih2.dwReserved2);
             sl.AddTail(str);
 
             sl.AddTail(_T(""));

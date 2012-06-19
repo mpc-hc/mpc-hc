@@ -423,9 +423,9 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
         }
 
         if (t->style.CompareNoCase(L"Default") != 0) {
-            POSITION pos = styles.GetHeadPosition();
-            while (pos) {
-                style_t* s = styles.GetNext(pos);
+            POSITION pos2 = styles.GetHeadPosition();
+            while (pos2) {
+                style_t* s = styles.GetNext(pos2);
                 if (s->name == t->style && !s->fontstyle.wrap.IsEmpty()) {
                     int WrapStyle =
                         !s->fontstyle.wrap.CompareNoCase(L"no") ? 2 :

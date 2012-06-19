@@ -1303,8 +1303,8 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
         }
 
         BeginEnumPins(pBF, pEP, pPinTo) {
-            PIN_DIRECTION dir;
-            if (FAILED(pPinTo->QueryDirection(&dir)) || dir != PINDIR_INPUT) {
+            PIN_DIRECTION dir2;
+            if (FAILED(pPinTo->QueryDirection(&dir2)) || dir2 != PINDIR_INPUT) {
                 continue;
             }
 
@@ -2138,9 +2138,9 @@ CString ISO6391ToLanguage(LPCSTR code)
     for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++)
         if (!strcmp(s_isolangs[i].iso6391, tmp)) {
             CString ret = CString(CStringA(s_isolangs[i].name));
-            int i = ret.Find(';');
-            if (i > 0) {
-                ret = ret.Left(i);
+            int k = ret.Find(';');
+            if (k > 0) {
+                ret = ret.Left(k);
             }
             return ret;
         }
@@ -2156,9 +2156,9 @@ CString ISO6392ToLanguage(LPCSTR code)
     for (ptrdiff_t i = 0, j = _countof(s_isolangs); i < j; i++) {
         if (!strcmp(s_isolangs[i].iso6392, tmp)) {
             CString ret = CString(CStringA(s_isolangs[i].name));
-            int i = ret.Find(';');
-            if (i > 0) {
-                ret = ret.Left(i);
+            int k = ret.Find(';');
+            if (k > 0) {
+                ret = ret.Left(k);
             }
             return ret;
         }

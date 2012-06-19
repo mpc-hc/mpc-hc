@@ -649,20 +649,20 @@ bool CPolygon::ParseStr()
 
     int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
 
-    for (size_t k = 0; k < m_pathTypesOrg.GetCount(); k++) {
-        m_pathPointsOrg[k].x = (int)(64 * m_scalex * m_pathPointsOrg[k].x);
-        m_pathPointsOrg[k].y = (int)(64 * m_scaley * m_pathPointsOrg[k].y);
-        if (minx > m_pathPointsOrg[k].x) {
-            minx = m_pathPointsOrg[k].x;
+    for (size_t p = 0; p < m_pathTypesOrg.GetCount(); p++) {
+        m_pathPointsOrg[p].x = (int)(64 * m_scalex * m_pathPointsOrg[p].x);
+        m_pathPointsOrg[p].y = (int)(64 * m_scaley * m_pathPointsOrg[p].y);
+        if (minx > m_pathPointsOrg[p].x) {
+            minx = m_pathPointsOrg[p].x;
         }
-        if (miny > m_pathPointsOrg[k].y) {
-            miny = m_pathPointsOrg[k].y;
+        if (miny > m_pathPointsOrg[p].y) {
+            miny = m_pathPointsOrg[p].y;
         }
-        if (maxx < m_pathPointsOrg[k].x) {
-            maxx = m_pathPointsOrg[k].x;
+        if (maxx < m_pathPointsOrg[p].x) {
+            maxx = m_pathPointsOrg[p].x;
         }
-        if (maxy < m_pathPointsOrg[k].y) {
-            maxy = m_pathPointsOrg[k].y;
+        if (maxy < m_pathPointsOrg[p].y) {
+            maxy = m_pathPointsOrg[p].y;
         }
     }
 

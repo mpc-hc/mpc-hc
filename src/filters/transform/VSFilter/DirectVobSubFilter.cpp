@@ -1767,10 +1767,10 @@ DWORD CDirectVobSubFilter::ThreadProc()
             } else {
                 Sleep(500);
 
-                POSITION pos = m_frd.files.GetHeadPosition();
-                for (ptrdiff_t i = 0; pos; i++) {
+                POSITION pos2 = m_frd.files.GetHeadPosition();
+                for (ptrdiff_t i = 0; pos2; i++) {
                     CFileStatus status;
-                    if (CFileGetStatus(m_frd.files.GetNext(pos), status)
+                    if (CFileGetStatus(m_frd.files.GetNext(pos2), status)
                             && m_frd.mtime[i] != status.m_mtime) {
                         Open();
                         SetupFRD(paths, handles);

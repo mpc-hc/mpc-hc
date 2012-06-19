@@ -132,13 +132,13 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
                 for (ptrdiff_t i = 0; i < extsubnum; i++) {
                     if ((hFile = FindFirstFile(path + title + ext[j][i], &wfd)) != INVALID_HANDLE_VALUE) {
                         do {
-                            CString fn = path + wfd.cFileName;
+                            CString fn2 = path + wfd.cFileName;
 
                             hFile2 = INVALID_HANDLE_VALUE;
 
-                            if (j == 0 || (hFile2 = FindFirstFile(fn.Left(fn.ReverseFind('.')) + _T(".avi"), &wfd2)) == INVALID_HANDLE_VALUE) {
+                            if (j == 0 || (hFile2 = FindFirstFile(fn2.Left(fn2.ReverseFind('.')) + _T(".avi"), &wfd2)) == INVALID_HANDLE_VALUE) {
                                 SubFile f;
-                                f.fn = fn;
+                                f.fn = fn2;
                                 ret.Add(f);
                             }
 
@@ -155,10 +155,10 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
     } else if (l > 7) {
         CWebTextFile wtf; // :)
         if (wtf.Open(orgpath + title + _T(".wse"))) {
-            CString fn;
-            while (wtf.ReadString(fn) && fn.Find(_T("://")) >= 0) {
+            CString fn2;
+            while (wtf.ReadString(fn2) && fn2.Find(_T("://")) >= 0) {
                 SubFile f;
-                f.fn = fn;
+                f.fn = fn2;
                 ret.Add(f);
             }
         }
