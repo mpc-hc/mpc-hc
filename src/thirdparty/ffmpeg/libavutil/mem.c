@@ -95,7 +95,8 @@ void *av_malloc(size_t size)
     if (posix_memalign(&ptr,ALIGN,size))
         ptr = NULL;
 #elif HAVE_ALIGNED_MALLOC
-    ptr = _aligned_malloc(size, ALIGN);
+    //ptr = _aligned_malloc(size, ALIGN);
+    ptr = __mingw_aligned_malloc(size, ALIGN); // MPC-HC patch
 #elif HAVE_MEMALIGN
     ptr = memalign(ALIGN,size);
     /* Why 64?
@@ -148,7 +149,8 @@ void *av_realloc(void *ptr, size_t size)
     if(ptr) ptr = (char*)ptr + diff;
     return ptr;
 #elif HAVE_ALIGNED_MALLOC
-    return _aligned_realloc(ptr, size + !size, ALIGN);
+    //return _aligned_realloc(ptr, size + !size, ALIGN);
+    return __mingw_aligned_realloc(ptr, size + !size, ALIGN); // MPC-HC patch
 #else
     return realloc(ptr, size + !size);
 #endif
@@ -175,7 +177,8 @@ void av_free(void *ptr)
     if (ptr)
         free((char*)ptr - ((char*)ptr)[-1]);
 #elif HAVE_ALIGNED_MALLOC
-    _aligned_free(ptr);
+    //_aligned_free(ptr);
+    __mingw_aligned_free(ptr); // MPC-HC patch
 #else
     free(ptr);
 #endif
