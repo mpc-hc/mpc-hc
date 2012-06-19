@@ -30,7 +30,7 @@
 #include "MpegSplitter.h"
 #include "moreuuids.h"
 #include "../../../DSUtil/AudioParser.h"
-
+#include "../../../DSUtil/DSUtil.h"
 #include "../../../mpc-hc/SettingsDefines.h"
 
 TCHAR* MPEG2_Profile[] = {
