@@ -941,9 +941,9 @@ BOOL CMPlayerCApp::InitInstance()
             bAudioOnly = mf[i].IsAudioOnly();
 
             if (((m_s.nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
-                ((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
-                ((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
-                    CFileAssoc::Register(mf[i], true, false, true);
+                    ((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
+                    ((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
+                CFileAssoc::Register(mf[i], true, false, true);
             }
         }
 

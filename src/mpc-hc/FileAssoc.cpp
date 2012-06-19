@@ -108,7 +108,7 @@ CString CFileAssoc::GetEnqueueCommand()
 
 IApplicationAssociationRegistration* CFileAssoc::CreateRegistrationManager()
 {
-    IApplicationAssociationRegistration *pAAR = NULL;
+    IApplicationAssociationRegistration* pAAR = NULL;
 
     // Default manager (requires at least Vista)
     HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
@@ -461,7 +461,7 @@ bool CFileAssoc::AreRegisteredFileContextMenuEntries(CString strExt)
     return registered;
 }
 
-bool CFileAssoc::Register(CMediaFormatCategory &mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon)
+bool CFileAssoc::Register(CMediaFormatCategory& mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon)
 {
     CAtlList<CString> exts;
     ExplodeMin(mfc.GetExtsWithPeriod(), exts, ' ');
@@ -477,7 +477,7 @@ bool CFileAssoc::Register(CMediaFormatCategory &mfc, bool bRegister, bool bRegis
     return res;
 }
 
-CFileAssoc::reg_state_t CFileAssoc::IsRegistered(CMediaFormatCategory &mfc)
+CFileAssoc::reg_state_t CFileAssoc::IsRegistered(CMediaFormatCategory& mfc)
 {
     CAtlList<CString> exts;
     ExplodeMin(mfc.GetExtsWithPeriod(), exts, ' ');
@@ -503,7 +503,7 @@ CFileAssoc::reg_state_t CFileAssoc::IsRegistered(CMediaFormatCategory &mfc)
     return res;
 }
 
-CFileAssoc::reg_state_t CFileAssoc::AreRegisteredFileContextMenuEntries(CMediaFormatCategory &mfc)
+CFileAssoc::reg_state_t CFileAssoc::AreRegisteredFileContextMenuEntries(CMediaFormatCategory& mfc)
 {
     CAtlList<CString> exts;
     ExplodeMin(mfc.GetExtsWithPeriod(), exts, ' ');
@@ -578,7 +578,7 @@ bool CFileAssoc::AreRegisteredFolderContextMenuEntries()
             registered = (strOpenCommand.CompareNoCase(CString(buff)) == 0);
         }
     }
-    
+
     return registered;
 }
 
@@ -614,15 +614,15 @@ void CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)
         key.Close();
 
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT,
-            CString(CStringA("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"))) {
-                return;
+                                        CString(CStringA("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"))) {
+            return;
         }
         key.SetStringValue(NULL, _T("\"") + exe + _T("\"") + handlers[i].cmd);
         key.Close();
 
         if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
-            CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\Handlers\\MPCPlay") + handlers[i].verb + "OnArrival"))) {
-                return;
+                                        CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\Handlers\\MPCPlay") + handlers[i].verb + "OnArrival"))) {
+            return;
         }
         key.SetStringValue(_T("Action"), ResStr(handlers[i].action));
         key.SetStringValue(_T("Provider"), _T("Media Player Classic"));
@@ -632,15 +632,15 @@ void CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)
         key.Close();
 
         if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
-            CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"))) {
-                return;
+                                        CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"))) {
+            return;
         }
         key.SetStringValue(CString(CStringA("MPCPlay") + handlers[i].verb + "OnArrival"), _T(""));
         key.Close();
     } else {
         if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
-            CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"))) {
-                return;
+                                        CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"))) {
+            return;
         }
         key.DeleteValue(CString(CStringA("MPCPlay") + handlers[i].verb + "OnArrival"));
         key.Close();
@@ -664,22 +664,22 @@ bool CFileAssoc::IsAutoPlayRegistered(autoplay_t ap)
     CRegKey key;
 
     if (ERROR_SUCCESS != key.Open(HKEY_LOCAL_MACHINE,
-        CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"),
-        KEY_READ)) {
-            return false;
+                                  CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"),
+                                  KEY_READ)) {
+        return false;
     }
     len = _countof(buff);
     if (ERROR_SUCCESS != key.QueryStringValue(
-        CString(_T("MPCPlay")) + handlers[i].verb + _T("OnArrival"),
-        buff, &len)) {
-            return false;
+                CString(_T("MPCPlay")) + handlers[i].verb + _T("OnArrival"),
+                buff, &len)) {
+        return false;
     }
     key.Close();
 
     if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT,
-        CString(CStringA("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"),
-        KEY_READ)) {
-            return false;
+                                  CString(CStringA("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"),
+                                  KEY_READ)) {
+        return false;
     }
     len = _countof(buff);
     if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
