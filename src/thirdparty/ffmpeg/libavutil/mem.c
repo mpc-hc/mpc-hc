@@ -75,12 +75,29 @@ void av_max_alloc(size_t max){
 void *av_malloc(size_t size)
 {
     void *ptr = NULL;
+#if CONFIG_MEMALIGN_HACK
+    long diff;
+#endif
 
     /* let's disallow possible ambiguous cases */
     if (size > (max_alloc_size-32))
         return NULL;
 
-    ptr = __mingw_aligned_malloc(size, ALIGN);
+#if CONFIG_MEMALIGN_HACK
+    ptr = malloc(size+ALIGN);
+    if(!ptr)
+        return ptr;
+    diff= ((-(long)ptr - 1)&(ALIGN-1)) + 1;
+    ptr = (char*)ptr + diff;
+    ((char*)ptr)[-1]= diff;
+#elif HAVE_POSIX_MEMALIGN
+    if (size) //OS X on SDK 10.6 has a broken posix_memalign implementation
+    if (posix_memalign(&ptr,ALIGN,size))
+        ptr = NULL;
+#elif HAVE_ALIGNED_MALLOC
+    ptr = _aligned_malloc(size, ALIGN);
+#elif HAVE_MEMALIGN
+    ptr = memalign(ALIGN,size);
     /* Why 64?
        Indeed, we should align it:
          on 4 for 386
@@ -105,6 +122,9 @@ void *av_malloc(size_t size)
 
         BTW, malloc seems to do 8-byte alignment by default here.
      */
+#else
+    ptr = malloc(size);
+#endif
     if(!ptr && !size)
         ptr= av_malloc(1);
     return ptr;
@@ -112,11 +132,26 @@ void *av_malloc(size_t size)
 
 void *av_realloc(void *ptr, size_t size)
 {
+#if CONFIG_MEMALIGN_HACK
+    int diff;
+#endif
+
     /* let's disallow possible ambiguous cases */
     if (size > (max_alloc_size-32))
         return NULL;
 
-    return __mingw_aligned_realloc(ptr, size, ALIGN);
+#if CONFIG_MEMALIGN_HACK
+    //FIXME this isn't aligned correctly, though it probably isn't needed
+    if(!ptr) return av_malloc(size);
+    diff= ((char*)ptr)[-1];
+    ptr= realloc((char*)ptr - diff, size + diff);
+    if(ptr) ptr = (char*)ptr + diff;
+    return ptr;
+#elif HAVE_ALIGNED_MALLOC
+    return _aligned_realloc(ptr, size + !size, ALIGN);
+#else
+    return realloc(ptr, size + !size);
+#endif
 }
 
 void *av_realloc_f(void *ptr, size_t nelem, size_t elsize)
@@ -136,7 +171,14 @@ void *av_realloc_f(void *ptr, size_t nelem, size_t elsize)
 
 void av_free(void *ptr)
 {
-    __mingw_aligned_free(ptr);
+#if CONFIG_MEMALIGN_HACK
+    if (ptr)
+        free((char*)ptr - ((char*)ptr)[-1]);
+#elif HAVE_ALIGNED_MALLOC
+    _aligned_free(ptr);
+#else
+    free(ptr);
+#endif
 }
 
 void av_freep(void *arg)

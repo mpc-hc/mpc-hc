@@ -43,12 +43,12 @@ static const uint8_t color[16 + AV_CLASS_CATEGORY_NB] = {
     [AV_LOG_VERBOSE/8] = 10,
     [AV_LOG_DEBUG  /8] = 10,
     [16+AV_CLASS_CATEGORY_NA              ] =  7,
-    [16+AV_CLASS_CATEGORY_INPUT           ] =  3,
-    [16+AV_CLASS_CATEGORY_OUTPUT          ] = 11,
-    [16+AV_CLASS_CATEGORY_MUXER           ] =  3,
-    [16+AV_CLASS_CATEGORY_DEMUXER         ] = 11,
-    [16+AV_CLASS_CATEGORY_ENCODER         ] =  5,
-    [16+AV_CLASS_CATEGORY_DECODER         ] = 13,
+    [16+AV_CLASS_CATEGORY_INPUT           ] =  5,
+    [16+AV_CLASS_CATEGORY_OUTPUT          ] = 13,
+    [16+AV_CLASS_CATEGORY_MUXER           ] =  5,
+    [16+AV_CLASS_CATEGORY_DEMUXER         ] = 13,
+    [16+AV_CLASS_CATEGORY_ENCODER         ] =  3,
+    [16+AV_CLASS_CATEGORY_DECODER         ] = 11,
     [16+AV_CLASS_CATEGORY_FILTER          ] =  1,
     [16+AV_CLASS_CATEGORY_BITSTREAM_FILTER] =  9,
 };
@@ -68,12 +68,12 @@ static const uint8_t color[16 + AV_CLASS_CATEGORY_NB] = {
     [AV_LOG_VERBOSE/8] = 0x02,
     [AV_LOG_DEBUG  /8] = 0x02,
     [16+AV_CLASS_CATEGORY_NA              ] =    9,
-    [16+AV_CLASS_CATEGORY_INPUT           ] = 0x06,
-    [16+AV_CLASS_CATEGORY_OUTPUT          ] = 0x16,
-    [16+AV_CLASS_CATEGORY_MUXER           ] = 0x06,
-    [16+AV_CLASS_CATEGORY_DEMUXER         ] = 0x16,
-    [16+AV_CLASS_CATEGORY_ENCODER         ] = 0x05,
-    [16+AV_CLASS_CATEGORY_DECODER         ] = 0x15,
+    [16+AV_CLASS_CATEGORY_INPUT           ] = 0x05,
+    [16+AV_CLASS_CATEGORY_OUTPUT          ] = 0x15,
+    [16+AV_CLASS_CATEGORY_MUXER           ] = 0x05,
+    [16+AV_CLASS_CATEGORY_DEMUXER         ] = 0x15,
+    [16+AV_CLASS_CATEGORY_ENCODER         ] = 0x06,
+    [16+AV_CLASS_CATEGORY_DECODER         ] = 0x16,
     [16+AV_CLASS_CATEGORY_FILTER          ] = 0x04,
     [16+AV_CLASS_CATEGORY_BITSTREAM_FILTER] = 0x14,
 };
@@ -121,6 +121,11 @@ const char *av_default_item_name(void *ptr)
     return (*(AVClass **) ptr)->class_name;
 }
 
+AVClassCategory av_default_get_category(void *ptr)
+{
+    return (*(AVClass **) ptr)->category;
+}
+
 static void sanitize(uint8_t *line){
     while(*line){
         if(*line < 0x08 || (*line > 0x0D && *line < 0x20))
@@ -129,11 +134,15 @@ static void sanitize(uint8_t *line){
     }
 }
 
-static int get_category(AVClass *avc){
+static int get_category(void *ptr){
+    AVClass *avc = *(AVClass **) ptr;
     if(    !avc
         || (avc->version&0xFF)<100
-        ||  avc->version < (51 << 16 | 56 << 8)
+        ||  avc->version < (51 << 16 | 59 << 8)
         ||  avc->category >= AV_CLASS_CATEGORY_NB) return AV_CLASS_CATEGORY_NA + 16;
+
+    if(avc->get_category)
+        return avc->get_category(ptr) + 16;
 
     return avc->category + 16;
 }
@@ -151,12 +160,12 @@ static void format_line(void *ptr, int level, const char *fmt, va_list vl,
             if (parent && *parent) {
                 snprintf(part[0], part_size, "[%s @ %p] ",
                          (*parent)->item_name(parent), parent);
-                if(type) type[0] = get_category(*parent);
+                if(type) type[0] = get_category(((uint8_t *) ptr) + avc->parent_log_context_offset);
             }
         }
         snprintf(part[1], part_size, "[%s @ %p] ",
                  avc->item_name(ptr), ptr);
-        if(type) type[1] = get_category(avc);
+        if(type) type[1] = get_category(ptr);
     }
 
     vsnprintf(part[2], part_size, fmt, vl);

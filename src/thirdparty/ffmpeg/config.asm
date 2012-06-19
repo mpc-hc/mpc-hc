@@ -38,6 +38,7 @@ else
 %define ARCH_SPARC 0
 %define ARCH_SPARC64 0
 %define ARCH_TOMI 0
+%define HAVE_ALIGNED_MALLOC 0
 %define HAVE_ALSA_ASOUNDLIB_H 0
 %define HAVE_ALTIVEC 0
 %define HAVE_ALTIVEC_H 0

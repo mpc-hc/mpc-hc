@@ -99,6 +99,7 @@
 #define HAVE_VFPV3 0
 #define HAVE_VIS 0
 
+#define HAVE_ALIGNED_MALLOC 1
 #define HAVE_ALIGNED_STACK 1
 #define HAVE_ALSA_ASOUNDLIB_H 0
 #define HAVE_ALTIVEC_H 0
@@ -152,7 +153,7 @@
 #define HAVE_MACHINE_IOCTL_METEOR_H 0
 #define HAVE_MAKEINFO 1
 #define HAVE_MALLOC_H 1
-#define HAVE_MEMALIGN 1 // this is 0 in vanilla ffmpeg
+#define HAVE_MEMALIGN 0
 #define HAVE_MAPVIEWOFFILE 1
 #define HAVE_MKSTEMP 0
 #define HAVE_MMAP 0
