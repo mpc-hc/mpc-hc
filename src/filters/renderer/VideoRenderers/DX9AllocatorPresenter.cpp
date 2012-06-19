@@ -2279,7 +2279,7 @@ void CDX9AllocatorPresenter::DrawStats()
         for (int i = 10; i < 250 * ScaleY; i += 10 * ScaleY) {
             Points[0].x = (float)StartX;
             Points[0].y = (float)(StartY + i);
-            Points[1].x = (float)(StartX + ((i - 10) % 40 ? 50 : 625 * ScaleX));
+            Points[1].x = (float)(StartX + (((i - 10) % 40) ? 50 : 625 * ScaleX));
             Points[1].y = (float)(StartY + i);
             if (i == 130) {
                 Points[1].x += 50;
