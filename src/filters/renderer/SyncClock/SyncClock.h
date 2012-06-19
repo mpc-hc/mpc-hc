@@ -36,8 +36,8 @@ public:
 
     REFERENCE_TIME GetPrivateTime();
     IUnknown* pUnk() { return static_cast<IUnknown*>(static_cast<IReferenceClock*>(this)); }
-    DOUBLE adjustment; // For adjusting speed temporarily
-    DOUBLE bias; // For changing speed permanently
+    double adjustment; // For adjusting speed temporarily
+    double bias; // For changing speed permanently
 
 private:
     REFERENCE_TIME m_rtPrivateTime;
@@ -60,9 +60,9 @@ public:
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
     // ISyncClock
-    STDMETHODIMP AdjustClock(DOUBLE adjustment);
-    STDMETHODIMP SetBias(DOUBLE bias);
-    STDMETHODIMP GetBias(DOUBLE* bias);
+    STDMETHODIMP AdjustClock(double adjustment);
+    STDMETHODIMP SetBias(double bias);
+    STDMETHODIMP GetBias(double* bias);
     STDMETHODIMP GetStartTime(REFERENCE_TIME* startTime);
 
     //  CBaseFilter methods

@@ -33,19 +33,19 @@ CSyncClockFilter::~CSyncClockFilter()
 {
 }
 
-STDMETHODIMP CSyncClockFilter::AdjustClock(DOUBLE adjustment)
+STDMETHODIMP CSyncClockFilter::AdjustClock(double adjustment)
 {
     m_Clock.adjustment = adjustment;
     return S_OK;
 }
 
-STDMETHODIMP CSyncClockFilter::SetBias(DOUBLE bias)
+STDMETHODIMP CSyncClockFilter::SetBias(double bias)
 {
     m_Clock.bias = bias;
     return S_OK;
 }
 
-STDMETHODIMP CSyncClockFilter::GetBias(DOUBLE* bias)
+STDMETHODIMP CSyncClockFilter::GetBias(double* bias)
 {
     *bias = m_Clock.bias;
     return S_OK;
@@ -103,7 +103,7 @@ REFERENCE_TIME CSyncClock::GetPrivateTime()
     // We ignore that rtTime may wrap around. Not gonna happen too often
     m_rtPrevTime = rtTime;
 
-    delta = (REFERENCE_TIME)((DOUBLE)delta * adjustment * bias);
+    delta = (REFERENCE_TIME)((double)delta * adjustment * bias);
     m_rtPrivateTime = m_rtPrivateTime + delta;
     return m_rtPrivateTime;
 }

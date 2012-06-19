@@ -4141,7 +4141,7 @@ STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
     return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
-CGenlock::CGenlock(DOUBLE target, DOUBLE limit, int lineD, int colD, DOUBLE clockD, UINT mon):
+CGenlock::CGenlock(double target, double limit, int lineD, int colD, double clockD, UINT mon):
     targetSyncOffset(target), // Target sync offset, typically around 10 ms
     controlLimit(limit), // How much sync offset is allowed to drift from target sync offset before control kicks in
     lineDelta(lineD), // Number of rows used in display frequency adjustment, typically 1 (one)
@@ -4268,9 +4268,9 @@ HRESULT CGenlock::GetTiming()
     totalColumns = displayTiming[HACTIVE] + displayTiming[HFRONTPORCH] + displayTiming[HSYNCWIDTH] + displayTiming[HBACKPORCH];
     totalLines = displayTiming[VACTIVE] + displayTiming[VFRONTPORCH] + displayTiming[VSYNCWIDTH] + displayTiming[VBACKPORCH];
     pixelClock = 1000 * displayTiming[PIXELCLOCK]; // Pixels/s
-    displayFreqCruise = (DOUBLE)pixelClock / (totalLines * totalColumns); // Frames/s
-    displayFreqSlower = (DOUBLE)pixelClock / ((totalLines + lineDelta) * (totalColumns + columnDelta));
-    displayFreqFaster = (DOUBLE)pixelClock / ((totalLines - lineDelta) * (totalColumns - columnDelta));
+    displayFreqCruise = (double)pixelClock / (totalLines * totalColumns); // Frames/s
+    displayFreqSlower = (double)pixelClock / ((totalLines + lineDelta) * (totalColumns + columnDelta));
+    displayFreqFaster = (double)pixelClock / ((totalLines - lineDelta) * (totalColumns - columnDelta));
     curDisplayFreq = displayFreqCruise;
     GlobalDeleteAtom(getTiming);
     adjDelta = 0;
@@ -4313,7 +4313,7 @@ HRESULT CGenlock::ResetClock()
     }
 }
 
-HRESULT CGenlock::SetTargetSyncOffset(DOUBLE targetD)
+HRESULT CGenlock::SetTargetSyncOffset(double targetD)
 {
     targetSyncOffset = targetD;
     lowSyncOffset = targetD - controlLimit;
@@ -4321,19 +4321,19 @@ HRESULT CGenlock::SetTargetSyncOffset(DOUBLE targetD)
     return S_OK;
 }
 
-HRESULT CGenlock::GetTargetSyncOffset(DOUBLE* targetD)
+HRESULT CGenlock::GetTargetSyncOffset(double* targetD)
 {
     *targetD = targetSyncOffset;
     return S_OK;
 }
 
-HRESULT CGenlock::SetControlLimit(DOUBLE cL)
+HRESULT CGenlock::SetControlLimit(double cL)
 {
     controlLimit = cL;
     return S_OK;
 }
 
-HRESULT CGenlock::GetControlLimit(DOUBLE* cL)
+HRESULT CGenlock::GetControlLimit(double* cL)
 {
     *cL = controlLimit;
     return S_OK;
