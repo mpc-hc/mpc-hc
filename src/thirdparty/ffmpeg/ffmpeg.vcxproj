@@ -358,6 +358,7 @@
     <ClCompile Include="libavutil\random_seed.c" />
     <ClCompile Include="libavutil\rational.c" />
     <ClCompile Include="libavutil\samplefmt.c" />
+    <ClCompile Include="libavutil\sha.c" />
     <ClCompile Include="libavutil\timecode.c" />
     <ClCompile Include="libavutil\utils.c" />
     <ClCompile Include="libavutil\x86\cpu.c" />
@@ -585,6 +586,7 @@
     <ClInclude Include="libavutil\random_seed.h" />
     <ClInclude Include="libavutil\rational.h" />
     <ClInclude Include="libavutil\samplefmt.h" />
+    <ClInclude Include="libavutil\sha.h" />
     <ClInclude Include="libavutil\timecode.h" />
     <ClInclude Include="libavutil\timer.h" />
     <ClInclude Include="libavutil\x86\bswap.h" />
