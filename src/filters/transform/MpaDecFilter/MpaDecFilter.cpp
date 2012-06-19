@@ -588,7 +588,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
     else if (subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
         hr = ProcessLPCM();
     } else if (subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
-        hr = ProcessHdmvLPCM(!!pIn->IsSyncPoint());
+        hr = ProcessHdmvLPCM((SUCCEEDED(pIn->IsSyncPoint())));
     }
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
