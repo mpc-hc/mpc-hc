@@ -33,6 +33,25 @@
 // CPPageFormats dialog
 
 
+static CString GetProgramDir()
+{
+    CString path;
+
+    ::GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
+    path.ReleaseBuffer();
+    path = path.Left(path.ReverseFind(_T('\\')));
+
+    return path;
+}
+
+static bool FileExists(LPCTSTR fileName)
+{
+    DWORD fileAttr;
+    fileAttr = ::GetFileAttributes(fileName);
+
+    return (0xFFFFFFFF != fileAttr);
+}
+
 IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
     : CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
@@ -65,7 +84,7 @@ void CPPageFormats::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_CHECK8, m_fAssociatedWithIcons);
 }
 
-int CPPageFormats::GetChecked(int iItem)
+int CPPageFormats::IsCheckedMediaCategory(int iItem)
 {
     LVITEM lvi;
     lvi.iItem = iItem;
@@ -75,7 +94,7 @@ int CPPageFormats::GetChecked(int iItem)
     return lvi.iImage;
 }
 
-void CPPageFormats::SetChecked(int iItem, int iChecked)
+void CPPageFormats::SetCheckedMediaCategory(int iItem, int iChecked)
 {
     LVITEM lvi;
     lvi.iItem = iItem;
@@ -85,63 +104,43 @@ void CPPageFormats::SetChecked(int iItem, int iChecked)
     m_list.SetItem(&lvi);
 }
 
-CString GetProgramDir()
+void CPPageFormats::UpdateMediaCategoryState(int iItem)
 {
-    CString RtnVal;
-    TCHAR    FileName[_MAX_PATH];
-    ::GetModuleFileName(AfxGetInstanceHandle(), FileName, _MAX_PATH);
-    RtnVal = FileName;
-    RtnVal = RtnVal.Left(RtnVal.ReverseFind('\\'));
-    return RtnVal;
-}
-
-int FileExists(const TCHAR* fileName)
-{
-    DWORD fileAttr;
-    fileAttr = ::GetFileAttributes(fileName);
-    if (0xFFFFFFFF == fileAttr) {
-        return false;
-    }
-    return true;
-}
-
-void CPPageFormats::SetListItemState(int nItem)
-{
-    if (nItem < 0) {
+    if (iItem < 0) {
         return;
     }
 
-    CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(AfxGetAppSettings().m_Formats[(int)m_list.GetItemData(nItem)]);
+    CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(AfxGetAppSettings().m_Formats[m_list.GetItemData(iItem)]);
 
-    SetChecked(nItem, (state == CFileAssoc::ALL_REGISTERED) ? 1 : (state == CFileAssoc::NOT_REGISTERED) ? 0 : 2);
+    SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
 }
 
 bool CPPageFormats::IsNeededIconsLib()
 {
-    bool needIconLib = false;
+    bool needIconsLib = false;
     int i = 0;
 
-    while (!needIconLib && i < m_list.GetItemCount()) {
-        if (GetChecked(i) == 1) {
-            needIconLib = true;
+    while (!needIconsLib && i < m_list.GetItemCount()) {
+        if (IsCheckedMediaCategory(i) == 1) {
+            needIconsLib = true;
         }
         i++;
     }
 
-    return needIconLib;
+    return needIconsLib;
 }
 
 BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
-    ON_NOTIFY(NM_CLICK, IDC_LIST1, OnNMClickList1)
-    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnLvnItemchangedList1)
-    ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginlabeleditList)
-    ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDolabeleditList)
-    ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndlabeleditList)
-    ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-    ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton12)
-    ON_BN_CLICKED(IDC_BUTTON_EXT_SET, OnBnClickedButton11)
-    ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedButton14)
-    ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedButton13)
+    ON_NOTIFY(NM_CLICK, IDC_LIST1, OnMediaCategoryClicked)
+    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnMediaCategorySelected)
+    ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginEditMediaCategoryEngine)
+    ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnEditMediaCategoryEngine)
+    ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndEditMediaCategoryEngine)
+    ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedSelectAllFormats)
+    ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedResetExtensionsList)
+    ON_BN_CLICKED(IDC_BUTTON_EXT_SET, OnBnClickedSetExtensionsList)
+    ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedSelectVideoFormats)
+    ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedSelectAudioFormats)
     ON_BN_CLICKED(IDC_BUTTON5, OnBnVistaModify)
     ON_BN_CLICKED(IDC_CHECK7, OnFilesAssocModified)
     ON_BN_CLICKED(IDC_CHECK8, OnFilesAssocModified)
@@ -169,7 +168,7 @@ BOOL CPPageFormats::OnInitDialog()
 
     CMediaFormats& mf = AfxGetAppSettings().m_Formats;
     mf.UpdateData(FALSE);
-    for (int i = 0; i < (int)mf.GetCount(); i++) {
+    for (int i = 0, cnt = (int)mf.GetCount(); i < cnt; i++) {
         CString label;
         label.Format(_T("%s (%s)"), mf[i].GetDescription(), mf[i].GetExts());
 
@@ -183,19 +182,18 @@ BOOL CPPageFormats::OnInitDialog()
                            e == ShockWave ? _T("ShockWave") : _T("-"));
 
         CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(mf[i]);
-        SetChecked(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
+        SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
 
         if (!fSetContextFiles && CFileAssoc::AreRegisteredFileContextMenuEntries(mf[i]) != CFileAssoc::NOT_REGISTERED) {
             fSetContextFiles = TRUE;
         }
     }
 
-    //  m_list.SetColumnWidth(COL_CATEGORY, LVSCW_AUTOSIZE);
     m_list.SetColumnWidth(COL_ENGINE, LVSCW_AUTOSIZE_USEHEADER);
 
     m_list.SetSelectionMark(0);
     m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
-    m_exts = mf[(int)m_list.GetItemData(0)].GetExtsWithPeriod();
+    m_exts = mf[m_list.GetItemData(0)].GetExtsWithPeriod();
 
     AppSettings& s = AfxGetAppSettings();
     bool fRtspFileExtFirst;
@@ -247,20 +245,17 @@ BOOL CPPageFormats::OnApply()
 {
     UpdateData();
 
-    {
-        int i = m_list.GetSelectionMark();
-        if (i >= 0) {
-            i = (int)m_list.GetItemData(i);
-        }
-        if (i >= 0) {
-            CMediaFormats& mf = AfxGetAppSettings().m_Formats;
-            mf[i].SetExts(m_exts);
-            m_exts = mf[i].GetExtsWithPeriod();
-            UpdateData(FALSE);
-        }
-    }
+    AppSettings& s = AfxGetAppSettings();
+    CMediaFormats& mf = s.m_Formats;
 
-    CMediaFormats& mf = AfxGetAppSettings().m_Formats;
+    int iSelectedItem = m_list.GetSelectionMark();
+    if (iSelectedItem >= 0) {
+        DWORD_PTR i = m_list.GetItemData(iSelectedItem);
+
+        mf[i].SetExts(m_exts);
+        m_exts = mf[i].GetExtsWithPeriod();
+        UpdateData(FALSE);
+    }
 
     CFileAssoc::RegisterApp();
 
@@ -272,13 +267,13 @@ BOOL CPPageFormats::OnApply()
             AfxMessageBox(IDS_MISSING_ICONS_LIB, MB_ICONEXCLAMATION | MB_OK, 0);
         }
 
-        for (int i = 0; i < m_list.GetItemCount(); i++) {
-            int iChecked = GetChecked(i);
+        for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
+            int iChecked = IsCheckedMediaCategory(i);
             if (iChecked == 2) {
                 continue;
             }
 
-            CFileAssoc::Register(mf[(int)m_list.GetItemData(i)], !!iChecked, !!fSetContextFiles, !!fSetAssociatedWithIcon);
+            CFileAssoc::Register(mf[m_list.GetItemData(i)], !!iChecked, !!fSetContextFiles, !!fSetAssociatedWithIcon);
         }
 
         m_bFileExtChanged = false;
@@ -286,15 +281,14 @@ BOOL CPPageFormats::OnApply()
 
     CFileAssoc::RegisterFolderContextMenuEntries(!!m_fContextDir.GetCheck());
 
-    SetListItemState(m_list.GetSelectionMark());
+    UpdateMediaCategoryState(m_list.GetSelectionMark());
 
     CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_VIDEO, !!m_apvideo.GetCheck());
     CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_MUSIC, !!m_apmusic.GetCheck());
     CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_AUDIOCD, !!m_apaudiocd.GetCheck());
     CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_DVDMOVIE, !!m_apdvd.GetCheck());
 
-    AppSettings& s = AfxGetAppSettings();
-    s.m_Formats.SetRtspHandler(m_iRtspHandler == 0 ? RealMedia : m_iRtspHandler == 1 ? QuickTime : DirectShow, !!m_fRtspFileExtFirst);
+    mf.SetRtspHandler(m_iRtspHandler == 0 ? RealMedia : m_iRtspHandler == 1 ? QuickTime : DirectShow, !!m_fRtspFileExtFirst);
     s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
 
     SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
@@ -302,10 +296,11 @@ BOOL CPPageFormats::OnApply()
     return __super::OnApply();
 }
 
-void CPPageFormats::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageFormats::OnMediaCategoryClicked(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
 
+    // Check or uncheck the media category
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem == COL_CATEGORY) {
         CRect r;
         m_list.GetItemRect(lpnmlv->iItem, r, LVIR_ICON);
@@ -313,7 +308,7 @@ void CPPageFormats::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
             if (m_bInsufficientPrivileges) {
                 MessageBox(ResStr(IDS_CANNOT_CHANGE_FORMAT));
             } else {
-                SetChecked(lpnmlv->iItem, (GetChecked(lpnmlv->iItem) & 1) == 0 ? 1 : 0);
+                SetCheckedMediaCategory(lpnmlv->iItem, (IsCheckedMediaCategory(lpnmlv->iItem) != 1));
                 m_bFileExtChanged = true;
                 SetModified();
             }
@@ -323,10 +318,11 @@ void CPPageFormats::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-void CPPageFormats::OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageFormats::OnMediaCategorySelected(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
+    // Update the extensions' list
     if (pNMLV->iItem >= 0 && pNMLV->iSubItem == COL_CATEGORY
             && (pNMLV->uChanged & LVIF_STATE) && (pNMLV->uNewState & LVIS_SELECTED)) {
         m_exts = AfxGetAppSettings().m_Formats[(int)m_list.GetItemData(pNMLV->iItem)].GetExtsWithPeriod();
@@ -336,38 +332,29 @@ void CPPageFormats::OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-void CPPageFormats::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageFormats::OnBeginEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;
 
     *pResult = FALSE;
 
-    if (pItem->iItem < 0) {
-        return;
-    }
-
-    if (pItem->iSubItem == COL_ENGINE) {
+    if (pItem->iItem >= 0 && pItem->iSubItem == COL_ENGINE) {
         *pResult = TRUE;
     }
 }
 
-void CPPageFormats::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageFormats::OnEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;
 
     *pResult = FALSE;
 
-    if (pItem->iItem < 0) {
-        return;
-    }
+    if (pItem->iItem >= 0 && pItem->iSubItem == COL_ENGINE) {
+        CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
 
-    CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
-
-    CAtlList<CString> sl;
-
-    if (pItem->iSubItem == COL_ENGINE) {
+        CAtlList<CString> sl;
         sl.AddTail(_T("DirectShow"));
         sl.AddTail(_T("RealMedia"));
         sl.AddTail(_T("QuickTime"));
@@ -381,133 +368,128 @@ void CPPageFormats::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
     }
 }
 
-void CPPageFormats::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageFormats::OnEndEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;
 
     *pResult = FALSE;
 
-    if (!m_list.m_fInPlaceDirty) {
-        return;
-    }
+    if (m_list.m_fInPlaceDirty && pItem->iItem >= 0 && pItem->iSubItem == COL_ENGINE && pItem->lParam >= 0) {
+        CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
 
-    if (pItem->iItem < 0) {
-        return;
-    }
-
-    CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
-
-    if (pItem->iSubItem == COL_ENGINE && pItem->lParam >= 0) {
         mfc.SetEngineType((engine_t)pItem->lParam);
         m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
         *pResult = TRUE;
-    }
 
-    if (*pResult) {
         SetModified();
     }
 }
 
-void CPPageFormats::OnBnClickedButton1()
+void CPPageFormats::OnBnClickedSelectAllFormats()
 {
-    for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
-        SetChecked(i, 1);
+    for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
+        SetCheckedMediaCategory(i, 1);
     }
+
+    m_apvideo.SetCheck(BST_CHECKED);
+    m_apmusic.SetCheck(BST_CHECKED);
+    m_apaudiocd.SetCheck(BST_CHECKED);
+    m_apdvd.SetCheck(BST_CHECKED);
+
     m_bFileExtChanged = true;
-
-    m_apvideo.SetCheck(1);
-    m_apmusic.SetCheck(1);
-    m_apaudiocd.SetCheck(1);
-    m_apdvd.SetCheck(1);
-
     SetModified();
 }
 
-void CPPageFormats::OnBnClickedButton14()
+void CPPageFormats::OnBnClickedSelectVideoFormats()
 {
     CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
-    for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
+    for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
         if (!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(_T("pls"))) {
-            SetChecked(i, 0);
-            continue;
+            SetCheckedMediaCategory(i, 0);
+        } else {
+            SetCheckedMediaCategory(i, !mf[(int)m_list.GetItemData(i)].IsAudioOnly());
         }
-        SetChecked(i, mf[(int)m_list.GetItemData(i)].IsAudioOnly() ? 0 : 1);
     }
+
+    m_apvideo.SetCheck(BST_CHECKED);
+    m_apmusic.SetCheck(BST_UNCHECKED);
+    m_apaudiocd.SetCheck(BST_UNCHECKED);
+    m_apdvd.SetCheck(BST_CHECKED);
+
     m_bFileExtChanged = true;
-
-    m_apvideo.SetCheck(1);
-    m_apmusic.SetCheck(0);
-    m_apaudiocd.SetCheck(0);
-    m_apdvd.SetCheck(1);
-
     SetModified();
 }
 
-void CPPageFormats::OnBnClickedButton13()
+void CPPageFormats::OnBnClickedSelectAudioFormats()
 {
     CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
-    for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
-        SetChecked(i, mf[(int)m_list.GetItemData(i)].IsAudioOnly() ? 1 : 0);
+    for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
+        SetCheckedMediaCategory(i, mf[(int)m_list.GetItemData(i)].IsAudioOnly());
     }
+
+    m_apvideo.SetCheck(BST_UNCHECKED);
+    m_apmusic.SetCheck(BST_CHECKED);
+    m_apaudiocd.SetCheck(BST_CHECKED);
+    m_apdvd.SetCheck(BST_UNCHECKED);
+
     m_bFileExtChanged = true;
-
-    m_apvideo.SetCheck(0);
-    m_apmusic.SetCheck(1);
-    m_apaudiocd.SetCheck(1);
-    m_apdvd.SetCheck(0);
-
     SetModified();
 }
 
 void CPPageFormats::OnBnVistaModify()
 {
-    CString strCmd;
     TCHAR   strApp[_MAX_PATH];
+    CString strCmd;
 
-    strCmd.Format(_T("/adminoption %d"), IDD);
     GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, _MAX_PATH);
+    strCmd.Format(_T("/adminoption %d"), IDD);
 
     AfxGetMyApp()->RunAsAdministrator(strApp, strCmd, true);
 
-    for (int i = 0; i < m_list.GetItemCount(); i++) {
-        SetListItemState(i);
+    for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
+        UpdateMediaCategoryState(i);
     }
 }
 
-void CPPageFormats::OnBnClickedButton12()
+void CPPageFormats::OnBnClickedResetExtensionsList()
 {
-    int i = m_list.GetSelectionMark();
-    if (i < 0) {
-        return;
-    }
-    i = (int)m_list.GetItemData(i);
-    CMediaFormats& mf = AfxGetAppSettings().m_Formats;
-    mf[i].RestoreDefaultExts();
-    m_exts = mf[i].GetExtsWithPeriod();
-    SetListItemState(m_list.GetSelectionMark());
-    UpdateData(FALSE);
+    int iItem = m_list.GetSelectionMark();
 
-    SetModified();
+    if (iItem >= 0) {
+        DWORD_PTR i = m_list.GetItemData(iItem);
+        CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[i];
+
+        mfc.RestoreDefaultExts();
+        m_exts = mfc.GetExtsWithPeriod();
+
+        UpdateMediaCategoryState(iItem);
+        UpdateData(FALSE);
+
+        SetModified();
+    }
 }
 
-void CPPageFormats::OnBnClickedButton11()
+void CPPageFormats::OnBnClickedSetExtensionsList()
 {
     UpdateData();
-    int i = m_list.GetSelectionMark();
-    if (i < 0) {
-        return;
-    }
-    i = (int)m_list.GetItemData(i);
-    CMediaFormats& mf = AfxGetAppSettings().m_Formats;
-    mf[i].SetExts(m_exts);
-    m_exts = mf[i].GetExtsWithPeriod();
-    SetListItemState(m_list.GetSelectionMark());
-    UpdateData(FALSE);
 
-    SetModified();
+    int iItem = m_list.GetSelectionMark();
+
+    if (iItem >= 0) {
+        DWORD_PTR i = m_list.GetItemData(iItem);
+        CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[i];
+
+        mfc.SetExts(m_exts);
+        m_exts = mfc.GetExtsWithPeriod();
+
+        UpdateMediaCategoryState(iItem);
+        UpdateData(FALSE);
+
+        SetModified();
+    }
 }
 
 void CPPageFormats::OnFilesAssocModified()

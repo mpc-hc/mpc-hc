@@ -35,31 +35,36 @@ class CPPageFormats : public CPPageBase
     DECLARE_DYNAMIC(CPPageFormats)
 
 private:
+
+    CPlayerListCtrl m_list;
     CImageList m_onoff;
+    CButton m_fContextDir;
+    CButton m_fContextFiles;
+    CButton m_fAssociatedWithIcons;
+    CStatic m_autoplay;
+    CButton m_apvideo;
+    CButton m_apmusic;
+    CButton m_apaudiocd;
+    CButton m_apdvd;
+
+    CString m_exts;
     bool m_bInsufficientPrivileges;
     bool m_bFileExtChanged;
+    int m_iRtspHandler;
+    BOOL m_fRtspFileExtFirst;
 
-    int GetChecked(int iItem);
-    void SetChecked(int iItem, int fChecked);
+    enum { COL_CATEGORY, COL_ENGINE };
 
-    void SetListItemState(int nItem);
+    int IsCheckedMediaCategory(int iItem);
+    void SetCheckedMediaCategory(int iItem, int fChecked);
+
+    void UpdateMediaCategoryState(int iItem);
 
     bool IsNeededIconsLib();
 
 public:
     CPPageFormats();
     virtual ~CPPageFormats();
-
-    enum { COL_CATEGORY, COL_ENGINE };
-    CPlayerListCtrl m_list;
-    CString m_exts;
-    CStatic m_autoplay;
-    CButton m_apvideo;
-    CButton m_apmusic;
-    CButton m_apaudiocd;
-    CButton m_apdvd;
-    int m_iRtspHandler;
-    BOOL m_fRtspFileExtFirst;
 
     // Dialog Data
     enum { IDD = IDD_PPAGEFORMATS };
@@ -71,22 +76,18 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
-public:
-    afx_msg void OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnBnClickedButton1();
-    afx_msg void OnBnClickedButton14();
-    afx_msg void OnBnClickedButton13();
-    afx_msg void OnBnClickedButton12();
-    afx_msg void OnBnClickedButton11();
+    afx_msg void OnMediaCategoryClicked(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnMediaCategorySelected(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnBeginEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnEndEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnBnVistaModify();
+    afx_msg void OnBnClickedSelectAllFormats();
+    afx_msg void OnBnClickedSelectVideoFormats();
+    afx_msg void OnBnClickedSelectAudioFormats();
+    afx_msg void OnBnClickedResetExtensionsList();
+    afx_msg void OnBnClickedSetExtensionsList();
     afx_msg void OnFilesAssocModified();
     afx_msg void OnUpdateButtonDefault(CCmdUI* pCmdUI);
     afx_msg void OnUpdateButtonSet(CCmdUI* pCmdUI);
-    CButton m_fContextDir;
-    CButton m_fContextFiles;
-    CButton m_fAssociatedWithIcons;
 };
