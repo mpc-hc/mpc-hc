@@ -34,10 +34,10 @@
 #include "../../../DSUtil/DSMPropertyBag.h"
 #include "../../../DSUtil/FontInstaller.h"
 
-#define MINPACKETS 100          // Beliyaal: Changed the min number of packets to allow Bluray playback over network
+#define MINPACKETS    100       // Beliyaal: Changed the min number of packets to allow Bluray playback over network
 #define MINPACKETSIZE 256*1024  // Beliyaal: Changed the min packet size to allow Bluray playback over network
-#define MAXPACKETS 1000
-#define MAXPACKETSIZE 1024*1024*128
+#define MAXPACKETS    1400
+#define MAXPACKETSIZE 128*1024*1024
 
 enum {
     /* various PCM "codecs" */
