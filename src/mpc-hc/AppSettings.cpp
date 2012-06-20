@@ -892,19 +892,6 @@ void CAppSettings::UpdateData(bool fSave)
             return;
         }
 
-        iDXVer = 0;
-        CRegKey dxver;
-        if (ERROR_SUCCESS == dxver.Open(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\DirectX"), KEY_READ)) {
-            CString str;
-            ULONG len = 64;
-            if (ERROR_SUCCESS == dxver.QueryStringValue(_T("Version"), str.GetBuffer(len), &len)) {
-                str.ReleaseBuffer(len);
-                int ver[4];
-                _stscanf_s(str, _T("%d.%d.%d.%d"), ver + 0, ver + 1, ver + 2, ver + 3);
-                iDXVer = ver[1];
-            }
-        }
-
         // Set interface language first!
         language = (LANGID)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, -1);
         if (language == (LANGID) - 1) {

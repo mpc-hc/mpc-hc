@@ -234,9 +234,7 @@ public:
         return (cmd > 0 && cmd == wc.cmd);
     }
 
-    CString GetName() const {
-        return ResStr(dwname);
-    }
+    CString GetName() const { return ResStr(dwname); }
 
     void Restore() {
         *(ACCEL*)this = backup;
@@ -333,7 +331,6 @@ public:
     // Added a Debug display to the screen (/debug option)
     bool            fShowDebugInfo;
 
-    int             iDXVer;
     int             iAdminOption;
 
     UINT            nCS; // Control state for toolbars
