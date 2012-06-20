@@ -27,6 +27,7 @@
 #include "../filters/transform/BufferFilter/BufferFilter.h"
 #include "FloatEdit.h"
 #include "DVBChannel.h"
+#include "resource.h"
 #include "ui/ResizableLib/ResizableDialog.h"
 
 

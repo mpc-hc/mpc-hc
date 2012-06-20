@@ -23,6 +23,7 @@
 
 #include "stdafx.h"
 #include "FileAssoc.h"
+#include "resource.h"
 
 
 // TODO: change this along with the root key for settings and the mutex name to
