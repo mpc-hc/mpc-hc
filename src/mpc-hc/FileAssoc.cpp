@@ -45,7 +45,7 @@ CComPtr<IApplicationAssociationRegistration> CFileAssoc::m_pAAR;
 static CString GetProgramDir()
 {
     CString RtnVal;
-    TCHAR    FileName[_MAX_PATH];
+    TCHAR FileName[_MAX_PATH];
     ::GetModuleFileName(AfxGetInstanceHandle(), FileName, _MAX_PATH);
     RtnVal = FileName;
     RtnVal = RtnVal.Left(RtnVal.ReverseFind('\\'));
@@ -294,7 +294,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                 return false;
             }
 
-            WCHAR*      pszCurrentAssociation;
+            WCHAR* pszCurrentAssociation;
             // Save current application associated
             if (SUCCEEDED(m_pAAR->QueryCurrentDefault(strExt, AT_FILEEXTENSION, AL_EFFECTIVE, &pszCurrentAssociation))) {
                 if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {

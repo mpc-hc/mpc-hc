@@ -122,9 +122,7 @@ public:
     CFilterMapper2(bool fRefCounted, bool fAllowUnreg = false, LPUNKNOWN pUnkOuter = NULL);
     virtual ~CFilterMapper2();
 
-    void SetInner(IUnknown* pUnk) {
-        m_pFM2 = pUnk;
-    }
+    void SetInner(IUnknown* pUnk) { m_pFM2 = pUnk; }
 
     static void Init();
 

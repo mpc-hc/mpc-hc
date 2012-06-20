@@ -45,22 +45,14 @@ public :
         m_ulMappedPID(0)
     {}
 
-    LPWSTR                  GetName() {     /*const*/
-        return m_Name;
-    };
-    const AM_MEDIA_TYPE*    GetMediaType() {    /*const*/
-        return m_pmt;
-    };
-    bool                    GetFindExisting()   const {
-        return m_bFindExisting;
-    };
-    IBaseFilter*            GetFilter() {
-        return m_pFilter;
-    };
+    LPWSTR GetName() { return m_Name; };
+    const AM_MEDIA_TYPE* GetMediaType() { return m_pmt; };
+    bool GetFindExisting() const { return m_bFindExisting; };
+    IBaseFilter* GetFilter() { return m_pFilter; };
 
-    void                    SetPin(IPin* pPin) {
-        CComPtr<IPin>       pPinOut;
-        PIN_INFO            PinInfo;
+    void SetPin(IPin* pPin) {
+        CComPtr<IPin> pPinOut;
+        PIN_INFO PinInfo;
 
         m_pMap = pPin;
         if (m_pMap &&
@@ -83,9 +75,7 @@ public :
         return m_pMap->UnmapPID(1, &ulPID);
     }
 
-    ULONG GetMappedPID() const {
-        return m_ulMappedPID;
-    }
+    ULONG GetMappedPID() const { return m_ulMappedPID; }
 
 private :
     CComQIPtr<IMPEG2PIDMap> m_pMap;
@@ -97,8 +87,8 @@ private :
     ULONG                   m_ulMappedPID;
 
     void ClearMaps() {
-        HRESULT                 hr;
-        CComPtr<IEnumPIDMap>    pEnumMap;
+        HRESULT hr;
+        CComPtr<IEnumPIDMap> pEnumMap;
 
         if (SUCCEEDED(hr = m_pMap->EnumPIDMap(&pEnumMap))) {
             PID_MAP maps[8];
@@ -106,7 +96,7 @@ private :
 
             if (pEnumMap->Next(_countof(maps), maps, &nbPids) == S_OK) {
                 for (ULONG i = 0; i < nbPids; i++) {
-                    ULONG   pid = maps[i].ulPID;
+                    ULONG pid = maps[i].ulPID;
 
                     m_pMap->UnmapPID(1, &pid);
                 }
@@ -145,16 +135,16 @@ public:
 
 private :
 
-    CComQIPtr<IBDA_DeviceControl>           m_pBDAControl;
-    CComPtr<IBDA_FrequencyFilter>           m_pBDAFreq;
-    CComPtr<IBDA_SignalStatistics>          m_pBDAStats;
-    CAtlMap<DVB_STREAM_TYPE, CDVBStream>    m_DVBStreams;
+    CComQIPtr<IBDA_DeviceControl>        m_pBDAControl;
+    CComPtr<IBDA_FrequencyFilter>        m_pBDAFreq;
+    CComPtr<IBDA_SignalStatistics>       m_pBDAStats;
+    CAtlMap<DVB_STREAM_TYPE, CDVBStream> m_DVBStreams;
 
-    DVB_STREAM_TYPE                         m_nCurVideoType;
-    DVB_STREAM_TYPE                         m_nCurAudioType;
-    CString                                 m_BDANetworkProvider;
-    bool                                    m_fHideWindow;
-    CComPtr<IPin>                           m_pPin_h264;
+    DVB_STREAM_TYPE m_nCurVideoType;
+    DVB_STREAM_TYPE m_nCurAudioType;
+    CString         m_BDANetworkProvider;
+    bool            m_fHideWindow;
+    CComPtr<IPin>   m_pPin_h264;
 
     HRESULT         CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStringW& DisplayName);
     HRESULT         ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFilter);
@@ -166,8 +156,8 @@ private :
 
     template <class ITF>
     HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, CComPtr<ITF>& pItf) {
-        CComPtr<IUnknown>   pUnk;
-        HRESULT             hr = SearchIBDATopology(pTuner, __uuidof(ITF), pUnk);
+        CComPtr<IUnknown> pUnk;
+        HRESULT hr = SearchIBDATopology(pTuner, __uuidof(ITF), pUnk);
 
         if (SUCCEEDED(hr)) {
             hr = pUnk.QueryInterface(&pItf);
@@ -175,7 +165,7 @@ private :
         return !pItf ? E_NOINTERFACE : hr;
     }
 
-    HRESULT     SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
+    HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
 
     void Sleep(unsigned int mseconds) {
         clock_t goal = mseconds + clock();
@@ -192,9 +182,9 @@ static void LOG(LPCTSTR fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    //int       nCount = _vsctprintf(fmt, args) + 1;
-    TCHAR   buff[3000];
-    FILE*   f;
+    //int nCount = _vsctprintf(fmt, args) + 1;
+    TCHAR buff[3000];
+    FILE* f;
     _vstprintf_s(buff, _countof(buff), fmt, args);
     if (_tfopen_s(&f, LOG_FILE, _T("at")) == 0) {
         fseek(f, 0, 2);

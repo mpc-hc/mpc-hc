@@ -51,18 +51,10 @@ public:
     CFGFilter(const CLSID& clsid, CStringW name = L"", UINT64 merit = MERIT64_DO_USE);
     virtual ~CFGFilter() {}
 
-    CLSID GetCLSID() const {
-        return m_clsid;
-    }
-    CStringW GetName() const {
-        return m_name;
-    }
-    UINT64 GetMerit() const {
-        return m_merit.val;
-    }
-    DWORD GetMeritForDirectShow() const {
-        return m_merit.mid;
-    }
+    CLSID GetCLSID() const { return m_clsid; }
+    CStringW GetName() const { return m_name; }
+    UINT64 GetMerit() const { return m_merit.val; }
+    DWORD GetMeritForDirectShow() const { return m_merit.mid; }
     const CAtlList<GUID>& GetTypes() const;
     void SetTypes(const CAtlList<GUID>& types);
     void AddType(const GUID& majortype, const GUID& subtype);
@@ -86,12 +78,8 @@ public:
     CFGFilterRegistry(CStringW DisplayName, UINT64 merit = MERIT64_DO_USE);
     CFGFilterRegistry(const CLSID& clsid, UINT64 merit = MERIT64_DO_USE);
 
-    CStringW GetDisplayName() {
-        return m_DisplayName;
-    }
-    IMoniker* GetMoniker() {
-        return m_pMoniker;
-    }
+    CStringW GetDisplayName() { return m_DisplayName; }
+    IMoniker* GetMoniker() { return m_pMoniker; }
 
     HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 private:
@@ -158,9 +146,7 @@ public:
     CFGFilterList();
     virtual ~CFGFilterList();
 
-    bool IsEmpty() {
-        return m_filters.IsEmpty();
-    }
+    bool IsEmpty() { return m_filters.IsEmpty(); }
     void RemoveAll();
     void Insert(CFGFilter* pFGF, int group, bool exactmatch = false, bool autodelete = true);
 

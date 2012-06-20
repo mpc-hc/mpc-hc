@@ -29,33 +29,25 @@
 class CClip
 {
 private :
-    REFERENCE_TIME      m_rtIn;
-    REFERENCE_TIME      m_rtOut;
-    CString             m_strName;
+    REFERENCE_TIME m_rtIn;
+    REFERENCE_TIME m_rtOut;
+    CString m_strName;
 public :
 
     CClip();
 
-    bool        HaveIn() {
-        return m_rtIn  != _I64_MIN;
-    };
-    bool        HaveOut() {
-        return m_rtOut != _I64_MIN;
-    };
+    bool HaveIn() { return m_rtIn != _I64_MIN; };
+    bool HaveOut() { return m_rtOut != _I64_MIN; };
 
-    void        SetOut(LPCTSTR strVal);
-    void        SetIn(LPCTSTR strVal);
-    void        SetIn(REFERENCE_TIME rtVal);
-    void        SetOut(REFERENCE_TIME rtVal);
-    void        SetName(LPCTSTR strName) {
-        m_strName = strName;
-    };
+    void SetOut(LPCTSTR strVal);
+    void SetIn(LPCTSTR strVal);
+    void SetIn(REFERENCE_TIME rtVal);
+    void SetOut(REFERENCE_TIME rtVal);
+    void SetName(LPCTSTR strName) { m_strName = strName; };
 
-    CString     GetIn();
-    CString     GetOut();
-    CString     GetName() const {
-        return m_strName;
-    };
+    CString GetIn();
+    CString GetOut();
+    CString GetName() const { return m_strName; };
 };
 
 class CEditListEditor : public CPlayerBar

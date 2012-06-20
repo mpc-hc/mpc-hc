@@ -43,9 +43,7 @@ public:
 
 public:
     void SetVideoRect(CRect r = CRect(0, 0, 0, 0));
-    CRect GetVideoRect() const {
-        return m_vrect;
-    }
+    CRect GetVideoRect() const { return m_vrect; }
 
     void LoadLogo();
     CSize GetLogoSize() const;
