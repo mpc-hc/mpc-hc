@@ -6,6 +6,7 @@ demi_alucard            <alysson87@gmail.com>                   Code, Portuguese
 janwillem32             <janwillem32@users.sourceforge.net>     Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
+thevbm                  <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 Underground78           <underground78@users.sourceforge.net>   Code, French
 v0lt                    <v0lt@users.sourceforge.net>            Code, Russian
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Admin
@@ -68,7 +69,7 @@ skaarj1, VSFilterMod Team, X-Dron
 
 Trac moderators:
 -----------------
-namaiki, thevbm
+namaiki
 
 
 Many thanks to everyone who supported development without having access to the source repository.
