@@ -56,8 +56,7 @@ BOOL CAboutDlg::OnInitDialog()
 
 #if defined(__INTEL_COMPILER)
 #if (__INTEL_COMPILER >= 1210)
-    m_MPCCompiler = _T("ICL ");
-    m_MPCCompiler += MAKE_STR(__INTEL_COMPILER);
+    m_MPCCompiler = _T("ICL ") _T(MAKE_STR(__INTEL_COMPILER)) _T(" Build ") _T(MAKE_STR(__INTEL_COMPILER_BUILD_DATE));
 #else
 #error Compiler is not supported!
 #endif
@@ -77,13 +76,19 @@ BOOL CAboutDlg::OnInitDialog()
 #error Please add support for your compiler
 #endif
 
-#if !defined(_M_X64) && defined(_M_IX86_FP)
-#if (_M_IX86_FP == 1)   // /arch:SSE was used
-    m_MPCCompiler += _T(" (SSE)");
-#elif (_M_IX86_FP == 2) // /arch:SSE2 was used
+#if (__AVX__)
+    m_MPCCompiler += _T(" (AVX)");
+#elif (__SSSE3__)
+    m_MPCCompiler += _T(" (SSSE3)");
+#elif (__SSE3__)
+    m_MPCCompiler += _T(" (SSE3)");
+#elif !defined(_M_X64) && defined(_M_IX86_FP)
+#if (_M_IX86_FP == 2)   // /arch:SSE2 was used
     m_MPCCompiler += _T(" (SSE2)");
+#elif (_M_IX86_FP == 1) // /arch:SSE was used
+    m_MPCCompiler += _T(" (SSE)");
 #endif
-#endif // _M_IX86_FP
+#endif
 
 #ifdef _DEBUG
     m_MPCCompiler += _T(" Debug");
