@@ -664,12 +664,12 @@ STDMETHODIMP CFilterMapper2::RegisterFilter(REFCLSID clsidFilter, LPCWSTR Name, 
                         continue;
                     }
 
-                    for (UINT i = 0; i < rgPin.nMediaTypes; i++) {
-                        if (!rgPin.lpMediaType[i].clsMajorType || !rgPin.lpMediaType[i].clsMinorType) {
+                    for (UINT j = 0; j < rgPin.nMediaTypes; j++) {
+                        if (!rgPin.lpMediaType[j].clsMajorType || !rgPin.lpMediaType[j].clsMinorType) {
                             break;
                         }
-                        f->guids.AddTail(*rgPin.lpMediaType[i].clsMajorType);
-                        f->guids.AddTail(*rgPin.lpMediaType[i].clsMinorType);
+                        f->guids.AddTail(*rgPin.lpMediaType[j].clsMajorType);
+                        f->guids.AddTail(*rgPin.lpMediaType[j].clsMinorType);
                     }
                 }
             } else if (prf2->dwVersion == 2) {
@@ -679,12 +679,12 @@ STDMETHODIMP CFilterMapper2::RegisterFilter(REFCLSID clsidFilter, LPCWSTR Name, 
                         continue;
                     }
 
-                    for (UINT i = 0; i < rgPin.nMediaTypes; i++) {
-                        if (!rgPin.lpMediaType[i].clsMajorType || !rgPin.lpMediaType[i].clsMinorType) {
+                    for (UINT j = 0; j < rgPin.nMediaTypes; j++) {
+                        if (!rgPin.lpMediaType[j].clsMajorType || !rgPin.lpMediaType[j].clsMinorType) {
                             break;
                         }
-                        f->guids.AddTail(*rgPin.lpMediaType[i].clsMajorType);
-                        f->guids.AddTail(*rgPin.lpMediaType[i].clsMinorType);
+                        f->guids.AddTail(*rgPin.lpMediaType[j].clsMajorType);
+                        f->guids.AddTail(*rgPin.lpMediaType[j].clsMinorType);
                     }
                 }
             }

@@ -722,12 +722,12 @@ bool CVobSubFileRipper::Create()
 
                 tOffset = tTotal = 0;
 
-                for (size_t i = 0; i < angle.GetCount(); i++) {
-                    if (angle[i].vob == vob && angle[i].cell == cell) {
+                for (size_t j = 0; j < angle.GetCount(); j++) {
+                    if (angle[j].vob == vob && angle[j].cell == cell) {
                         tPrevOffset = tOffset;
-                        tOffset = (__int64)angle[i].tOffset;
-                        tTotal = (__int64)angle[i].tTotal;
-                        fDiscontinuity = angle[i].fDiscontinuity;
+                        tOffset = (__int64)angle[j].tOffset;
+                        tTotal = (__int64)angle[j].tTotal;
+                        fDiscontinuity = angle[j].fDiscontinuity;
                         fDiscontinuityFixApplied = false;
                         break;
                     }

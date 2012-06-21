@@ -83,11 +83,11 @@ BOOL CPPageFileInfoRes::OnInitDialog()
     BeginEnumFilters(m_pFG, pEF, pBF) {
         if (CComQIPtr<IDSMResourceBag> pRB = pBF)
             if (pRB && pRB->ResGetCount() > 0) {
-                for (DWORD i = 0; i < pRB->ResGetCount(); i++) {
+                for (DWORD j = 0; j < pRB->ResGetCount(); j++) {
                     CComBSTR name, desc, mime;
                     BYTE* pData = NULL;
                     DWORD len = 0;
-                    if (SUCCEEDED(pRB->ResGet(i, &name, &desc, &mime, &pData, &len, NULL))) {
+                    if (SUCCEEDED(pRB->ResGet(j, &name, &desc, &mime, &pData, &len, NULL))) {
                         CDSMResource r;
                         r.name = name;
                         r.desc = desc;

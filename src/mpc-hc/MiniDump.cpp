@@ -29,8 +29,8 @@
 #include "WinAPIUtils.h"
 
 
-CMiniDump   _Singleton;
-bool        CMiniDump::m_bMiniDumpEnabled = true;
+CMiniDump _Singleton;
+bool      CMiniDump::m_bMiniDumpEnabled = true;
 
 
 typedef BOOL (WINAPI* MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
@@ -70,15 +70,15 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
         return FALSE;
     }
 
-    unsigned char newJump[ 100 ];
+    unsigned char newJump[100];
     DWORD_PTR dwOrgEntryAddr = (DWORD_PTR)pOrgEntry;
     dwOrgEntryAddr += 5; // add 5 for 5 op-codes for jmp far
     void* pNewFunc = &MyDummySetUnhandledExceptionFilter;
     DWORD_PTR dwNewEntryAddr = (DWORD_PTR)pNewFunc;
     DWORD_PTR dwRelativeAddr = dwNewEntryAddr - dwOrgEntryAddr;
 
-    newJump[ 0 ] = 0xE9;  // JMP absolute
-    memcpy(&newJump[ 1 ], &dwRelativeAddr, sizeof(pNewFunc));
+    newJump[0] = 0xE9;  // JMP absolute
+    memcpy(&newJump[1], &dwRelativeAddr, sizeof(pNewFunc));
     SIZE_T bytesWritten;
     BOOL bRet = WriteProcessMemory(GetCurrentProcess(), pOrgEntry, newJump, sizeof(pNewFunc) + 1, &bytesWritten);
     FreeLibrary(hKernel32);
@@ -88,7 +88,7 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelExceptionFilter)
 {
     LONG    retval = EXCEPTION_CONTINUE_SEARCH;
-    HMODULE hDll   = NULL;
+    HMODULE hDll = NULL;
     TCHAR   szResult[800];
     CString strDumpPath;
 

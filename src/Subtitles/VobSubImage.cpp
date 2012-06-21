@@ -1075,9 +1075,9 @@ void CVobSubImage::AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray
             pathTypes.Add(PT_BSPLINETO);
             pathPoints.Add(o.pa[2]);
 
-            for (ptrdiff_t i = 3; i <= start; i++) {
+            for (ptrdiff_t k = 3; k <= start; k++) {
                 pathTypes.Add(PT_BSPLINEPATCHTO);
-                pathPoints.Add(o.pa[i]);
+                pathPoints.Add(o.pa[k]);
             }
 
             pathTypes.Add(PT_BSPLINEPATCHTO);

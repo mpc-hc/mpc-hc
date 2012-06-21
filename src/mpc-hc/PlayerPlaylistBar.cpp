@@ -439,22 +439,22 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
         if (pli.m_type == CPlaylistItem::file) {
             pos2 = pli.m_fns.GetHeadPosition();
             while (pos2) {
-                CString fn = pli.m_fns.GetNext(pos2);
+                CString fn2 = pli.m_fns.GetNext(pos2);
                 if (fRemovePath) {
-                    CPath p(fn);
+                    CPath p(fn2);
                     p.StripPath();
-                    fn = (LPCTSTR)p;
+                    fn2 = (LPCTSTR)p;
                 }
                 f.WriteString(idx + _T(",filename,") + fn + _T("\n"));
             }
 
             pos2 = pli.m_subs.GetHeadPosition();
             while (pos2) {
-                CString fn = pli.m_subs.GetNext(pos2);
+                CString fn2 = pli.m_subs.GetNext(pos2);
                 if (fRemovePath) {
-                    CPath p(fn);
+                    CPath p(fn2);
                     p.StripPath();
-                    fn = (LPCTSTR)p;
+                    fn2 = (LPCTSTR)p;
                 }
                 f.WriteString(idx + _T(",subtitle,") + fn + _T("\n"));
             }

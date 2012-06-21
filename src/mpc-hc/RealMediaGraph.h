@@ -110,9 +110,7 @@ namespace DSObjects
         bool Init();
         void Deinit();
 
-        virtual CSize GetVideoSize() {
-            return m_VideoSize;
-        }
+        virtual CSize GetVideoSize() { return m_VideoSize; }
         virtual void SetWindowRect(CRect r) {}
         virtual void SetDestRect(CRect r) {}
         virtual bool CreateSite(IRMASite** pSite) = 0;
