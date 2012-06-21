@@ -179,7 +179,7 @@ BeveledLabel={#app_name} {#app_version} (64-bit)
 #ifdef MPCHC_LITE
 BeveledLabel={#app_name} {#app_version} Lite
 #else
-BeveledLabel={#app_name} {#app_version} 
+BeveledLabel={#app_name} {#app_version}
 #endif
 #endif
 
