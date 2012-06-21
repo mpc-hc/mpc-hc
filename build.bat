@@ -120,24 +120,33 @@ CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters Win32
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters Win32
   GOTO x64
 )
 
-IF /I "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
+IF /I "%CONFIG%" == "Resources" (
+  CALL :SubResources Win32
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  GOTO x64
+)
 
 CALL :SubMPCHC Win32
+IF %ERRORLEVEL% NEQ 0 GOTO EOF
 
 IF /I "%CONFIG%" == "Main" GOTO x64
 
 CALL :SubResources Win32
+IF %ERRORLEVEL% NEQ 0 GOTO EOF
 
-IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller Win32
+IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller Win32 & IF %ERRORLEVEL% NEQ 0 GOTO EOF
 IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC Win32
 
 IF /I "%CONFIG%" == "All" (
   CALL :SubFilters Win32
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters Win32
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
 )
 
 
@@ -148,24 +157,34 @@ CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
 
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters x64
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters x64
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
   GOTO END
 )
 
-IF /I "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
+IF /I "%CONFIG%" == "Resources" (
+  CALL :SubResources x64
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  GOTO END
+)
 
 CALL :SubMPCHC x64
+IF %ERRORLEVEL% NEQ 0 GOTO EOF
 
 IF /I "%CONFIG%" == "Main" GOTO End
 
 CALL :SubResources x64
+IF %ERRORLEVEL% NEQ 0 GOTO EOF
 
-IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller x64
-IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC x64
+IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller x64 & IF %ERRORLEVEL% NEQ 0 GOTO EOF
+IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC x64 & IF %ERRORLEVEL% NEQ 0 GOTO EOF
 
 IF /I "%CONFIG%" == "All" (
   CALL :SubFilters x64
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters x64
+  IF %ERRORLEVEL% NEQ 0 GOTO EOF
 )
 
 
@@ -187,11 +206,11 @@ CALL "update_version.bat"
  /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% Filter %1 - Compilation failed!"
+  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% Filter %1 - Compilation failed!" & EXIT /B 1
 ) ELSE (
   CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCFG% Filter %1 compiled successfully"
 )
-EXIT /B
+EXIT /B 0
 
 
 :SubMPCHC
@@ -201,24 +220,24 @@ TITLE Compiling MPC-HC - %BUILDCFG%^|%1...
  /flp1:LogFile=%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\mpc-hc_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% %1 - Compilation failed!"
+  CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% %1 - Compilation failed!" & EXIT /B 1
 ) ELSE (
   CALL :SubMsg "INFO" "mpc-hc.sln %BUILDCFG% %1 compiled successfully"
 )
-EXIT /B
+EXIT /B 0
 
 
 :SubResources
 IF /I "%BUILDCFG%" == "Debug" (
   CALL :SubMsg "WARNING" "/debug was used, resources will not be built."
-EXIT /B
+EXIT /B 0
 )
 
 TITLE Compiling mpciconlib - Release^|%1...
 "%MSBUILD%" mpciconlib.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!"
+  CALL :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!" & EXIT /B 1
 ) ELSE (
   CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
 )
@@ -231,9 +250,9 @@ FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  TITLE Compiling mpcresources - %%~A^|%1...
  "%MSBUILD%" mpcresources.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="Release %%~A";Platform=%1
- IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
+ IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B 1
 )
-EXIT /B
+EXIT /B 0
 
 
 :SubCopyDXDll
@@ -255,15 +274,15 @@ CALL :SubDetectInnoSetup
 
 IF NOT DEFINED InnoSetupPath (
   CALL :SubMsg "WARNING" "Inno Setup wasn't found, the %1 installer wasn't built"
-  EXIT /B
+  EXIT /B 0
 )
 
 TITLE Compiling %1 installer...
 "%InnoSetupPath%\ISCC.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" %MPCHC_INNO_DEF%
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!"
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B 1
 CALL :SubMsg "INFO" "%1 installer successfully built"
 
-EXIT /B
+EXIT /B 0
 
 
 :SubCreatePackages
@@ -272,7 +291,7 @@ CALL :SubGetVersion
 
 IF NOT DEFINED SEVENZIP (
   CALL :SubMsg "WARNING" "7-Zip wasn't found, the %1 %2 package wasn't built"
-  EXIT /B
+  EXIT /B 0
 )
 
 IF /I "%~1" == "Filters" (SET "NAME=MPC-HC_standalone_filters") ELSE (SET "NAME=MPC-HC")
@@ -301,7 +320,7 @@ IF /I "%NAME%" == "MPC-HC" (
   PUSHD "%~1_%ARCH%"
   TITLE Creating archive %PCKG_NAME%.pdb.7z...
   START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.pdb.7z" "*.pdb" -m0=LZMA -mx9 -ms=on
-  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.pdb.7z!"
+  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.pdb.7z!" & EXIT /B 1
   CALL :SubMsg "INFO" "%PCKG_NAME%.pdb.7z successfully created"
   IF EXIST "%PCKG_NAME%.pdb.7z" MOVE /Y "%PCKG_NAME%.pdb.7z" ".." >NUL
   POPD
@@ -338,13 +357,13 @@ COPY /Y /V "..\docs\Readme.txt"          "%PCKG_NAME%" >NUL
 TITLE Creating archive %PCKG_NAME%.7z...
 START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.7z" "%PCKG_NAME%"^
  -m0=LZMA -mx9 -ms=on
-IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.7z!"
+IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.7z!" & EXIT /B 1
 CALL :SubMsg "INFO" "%PCKG_NAME%.7z successfully created"
 
 IF EXIST "%PCKG_NAME%" RD /Q /S "%PCKG_NAME%"
 
 POPD
-EXIT /B
+EXIT /B 0
 
 
 :SubGetVersion
@@ -452,7 +471,7 @@ ECHO.
 ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
-CALL :SubMsg "ERROR" "Compilation failed!"
+CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B 1
 
 
 :SubInnoSetupPath
@@ -474,12 +493,10 @@ IF /I "%~1" == "ERROR" (
 )
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
-  ECHO Press any key to close this window...
-  PAUSE >NUL
-  ENDLOCAL
-  EXIT
+  PAUSE
+  EXIT /B 1
 ) ELSE (
-  EXIT /B
+  EXIT /B 0
 )
 
 
@@ -519,4 +536,8 @@ IF %DURATIONS%  EQU 0 (SET DURATIONS=)  ELSE (SET DURATIONS=%DURATIONS%s )
 IF %DURATIONHS% EQU 0 (SET DURATIONHS=) ELSE (SET DURATIONHS=%DURATIONHS%ms)
 
 SET "DURATION=%DURATIONH%%DURATIONM%%DURATIONS%%DURATIONHS%"
+EXIT /B
+
+:EOF
+ENDLOCAL
 EXIT /B
