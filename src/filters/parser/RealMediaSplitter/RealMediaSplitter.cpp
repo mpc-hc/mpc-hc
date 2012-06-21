@@ -37,7 +37,7 @@
 #endif
 #include "moreuuids.h"
 
-#define MAXPACKETS_RV   MAXPACKETS*10
+#define MAXPACKETS_RV   10000
 
 template<typename T>
 static void bswap(T& var)

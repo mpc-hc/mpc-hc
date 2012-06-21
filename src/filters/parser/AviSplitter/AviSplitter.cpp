@@ -27,7 +27,7 @@
 #include "AviReportWnd.h"
 #include "AviSplitter.h"
 
-#define MAXPACKETS_AVI  MAXPACKETS*10
+#define MAXPACKETS_AVI  10000
 
 #ifdef STANDALONE_FILTER
 
