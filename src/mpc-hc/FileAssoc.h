@@ -59,8 +59,8 @@ public:
     static bool AreRegisteredFileContextMenuEntries(CString strExt);
 
     static bool Register(CMediaFormatCategory& mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
-    static reg_state_t IsRegistered(CMediaFormatCategory& mfc);
-    static reg_state_t AreRegisteredFileContextMenuEntries(CMediaFormatCategory& mfc);
+    static reg_state_t IsRegistered(const CMediaFormatCategory& mfc);
+    static reg_state_t AreRegisteredFileContextMenuEntries(const CMediaFormatCategory& mfc);
 
     static bool RegisterFolderContextMenuEntries(bool bRegister);
     static bool AreRegisteredFolderContextMenuEntries();

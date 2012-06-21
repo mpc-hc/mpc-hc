@@ -478,7 +478,7 @@ bool CFileAssoc::Register(CMediaFormatCategory& mfc, bool bRegister, bool bRegis
     return res;
 }
 
-CFileAssoc::reg_state_t CFileAssoc::IsRegistered(CMediaFormatCategory& mfc)
+CFileAssoc::reg_state_t CFileAssoc::IsRegistered(const CMediaFormatCategory& mfc)
 {
     CAtlList<CString> exts;
     ExplodeMin(mfc.GetExtsWithPeriod(), exts, ' ');
@@ -504,7 +504,7 @@ CFileAssoc::reg_state_t CFileAssoc::IsRegistered(CMediaFormatCategory& mfc)
     return res;
 }
 
-CFileAssoc::reg_state_t CFileAssoc::AreRegisteredFileContextMenuEntries(CMediaFormatCategory& mfc)
+CFileAssoc::reg_state_t CFileAssoc::AreRegisteredFileContextMenuEntries(const CMediaFormatCategory& mfc)
 {
     CAtlList<CString> exts;
     ExplodeMin(mfc.GetExtsWithPeriod(), exts, ' ');

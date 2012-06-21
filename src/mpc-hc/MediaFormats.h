@@ -54,7 +54,7 @@ public:
     void SetExts(CAtlList<CString>& exts);
     void SetExts(CString exts);
 
-    bool FindExt(CString ext) {
+    bool FindExt(CString ext) const {
         return m_exts.Find(ext.TrimLeft(_T('.')).MakeLower()) != NULL;
     }
 
@@ -83,15 +83,15 @@ public:
 
     void UpdateData(bool fSave);
 
-    engine_t GetRtspHandler(bool& fRtspFileExtFirst);
+    engine_t GetRtspHandler(bool& fRtspFileExtFirst) const;
     void SetRtspHandler(engine_t e, bool fRtspFileExtFirst);
 
-    bool IsUsingEngine(CString path, engine_t e);
-    engine_t GetEngine(CString path);
+    bool IsUsingEngine(CString path, engine_t e) const;
+    engine_t GetEngine(CString path) const;
 
-    bool FindExt(CString ext, bool fAudioOnly = false);
-    CMediaFormatCategory* FindMediaByExt(CString ext, bool fAudioOnly = false);
+    bool FindExt(CString ext, bool fAudioOnly = false) const;
+    const CMediaFormatCategory* FindMediaByExt(CString ext, bool fAudioOnly = false) const;
 
-    void GetFilter(CString& filter, CAtlArray<CString>& mask);
-    void GetAudioFilter(CString& filter, CAtlArray<CString>& mask);
+    void GetFilter(CString& filter, CAtlArray<CString>& mask) const;
+    void GetAudioFilter(CString& filter, CAtlArray<CString>& mask) const;
 };

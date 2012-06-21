@@ -277,7 +277,7 @@ void CMediaFormats::UpdateData(bool fSave)
     }
 }
 
-engine_t CMediaFormats::GetRtspHandler(bool& fRtspFileExtFirst)
+engine_t CMediaFormats::GetRtspHandler(bool& fRtspFileExtFirst) const
 {
     fRtspFileExtFirst = m_fRtspFileExtFirst;
     return m_iRtspHandler;
@@ -289,12 +289,12 @@ void CMediaFormats::SetRtspHandler(engine_t e, bool fRtspFileExtFirst)
     m_fRtspFileExtFirst = fRtspFileExtFirst;
 }
 
-bool CMediaFormats::IsUsingEngine(CString path, engine_t e)
+bool CMediaFormats::IsUsingEngine(CString path, engine_t e) const
 {
     return (GetEngine(path) == e);
 }
 
-engine_t CMediaFormats::GetEngine(CString path)
+engine_t CMediaFormats::GetEngine(CString path) const
 {
     path.Trim().MakeLower();
 
@@ -315,7 +315,7 @@ engine_t CMediaFormats::GetEngine(CString path)
         }
 
         for (size_t i = 0; i < GetCount(); i++) {
-            CMediaFormatCategory& mfc = GetAt(i);
+            const CMediaFormatCategory& mfc = GetAt(i);
             if (mfc.FindExt(ext)) {
                 return mfc.GetEngineType();
             }
@@ -329,18 +329,18 @@ engine_t CMediaFormats::GetEngine(CString path)
     return DirectShow;
 }
 
-bool CMediaFormats::FindExt(CString ext, bool fAudioOnly)
+bool CMediaFormats::FindExt(CString ext, bool fAudioOnly) const
 {
     return (FindMediaByExt(ext, fAudioOnly) != NULL);
 }
 
-CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly)
+const CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly) const
 {
     ext.TrimLeft(_T('.'));
 
     if (!ext.IsEmpty()) {
         for (size_t i = 0; i < GetCount(); i++) {
-            CMediaFormatCategory& mfc = GetAt(i);
+            const CMediaFormatCategory& mfc = GetAt(i);
             if ((!fAudioOnly || mfc.IsAudioOnly()) && mfc.FindExt(ext)) {
                 return &mfc;
             }
@@ -350,9 +350,9 @@ CMediaFormatCategory* CMediaFormats::FindMediaByExt(CString ext, bool fAudioOnly
     return NULL;
 }
 
-void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
+void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask) const
 {
-    CString     strTemp;
+    CString strTemp;
 
     filter += ResStr(IDS_AG_MEDIAFILES);
     mask.Add(_T(""));
@@ -367,7 +367,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
     filter += _T("|");
 
     for (size_t i = 0; i < GetCount(); i++) {
-        CMediaFormatCategory& mfc = GetAt(i);
+        const CMediaFormatCategory& mfc = GetAt(i);
         filter += mfc.GetDescription() + _T("|" + GetAt(i).GetFilter() + _T("|"));
         mask.Add(mfc.GetFilter());
     }
@@ -378,14 +378,15 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
     filter += _T("|");
 }
 
-void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
+void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask) const
 {
-    CString     strTemp;
+    CString strTemp;
+
     filter += ResStr(IDS_AG_AUDIOFILES);
     mask.Add(_T(""));
 
     for (size_t i = 0; i < GetCount(); i++) {
-        CMediaFormatCategory& mfc = GetAt(i);
+        const CMediaFormatCategory& mfc = GetAt(i);
         if (!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) {
             continue;
         }
@@ -399,7 +400,7 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
     filter += _T("|");
 
     for (size_t i = 0; i < GetCount(); i++) {
-        CMediaFormatCategory& mfc = GetAt(i);
+        const CMediaFormatCategory& mfc = GetAt(i);
         if (!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) {
             continue;
         }

@@ -163,7 +163,7 @@ bool LoadType(CString fn, CString& type)
         }
 
         // Try MPC-HC's internal formats list
-        CMediaFormatCategory* mfc = AfxGetAppSettings().m_Formats.FindMediaByExt(ext);
+        const CMediaFormatCategory* mfc = AfxGetAppSettings().m_Formats.FindMediaByExt(ext);
 
         if (mfc != NULL) {
             found = true;
