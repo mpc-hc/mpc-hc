@@ -22,9 +22,6 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 CD /D %~dp0
 
-REM Uncomment the following line or set MPCHC_LITE=whatever to build the Lite build
-REM SET MPCHC_LITE=true
-
 REM pre-build checks
 IF EXIST "build.user.bat" (
   CALL "build.user.bat"
@@ -49,6 +46,8 @@ SET ARGPL=0
 SET ARGPA=0
 SET ARGIN=0
 SET ARGZI=0
+SET ARGLI=0
+SET ARGL=0
 SET INPUT=0
 
 IF /I "%ARG%" == "?"          GOTO ShowHelp
@@ -65,22 +64,23 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "x64"        SET "PLATFORM=x64"      & SET /A ARGPL+=1
   IF /I "%%A" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
   IF /I "%%A" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1  & SET /A ARGM+=1
-  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1
-  IF /I "%%A" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1
+  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGLI+=1
+  IF /I "%%A" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGLI+=1
   IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & SET /A ARGC+=1
   IF /I "%%A" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
-  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
-  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
+  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGLI+=1
+  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGLI+=1
   IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
   IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A ARGIN+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%A" == "7z"         SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
+  IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A ARGL+=1  & SET /A ARGLI+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
-SET /A VALID=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGPA%+%ARGIN%+%ARGZI%
+SET /A VALID=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGPA%+%ARGIN%+%ARGZI%+%ARGL%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
@@ -95,6 +95,7 @@ IF %ARGCL% GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGD%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGF%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%  GTR 1 (GOTO UnsupportedSwitch)
+IF %ARGLI% GTR 1 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
@@ -230,7 +231,7 @@ EXIT /B 0
 :SubResources
 IF /I "%BUILDCFG%" == "Debug" (
   CALL :SubMsg "WARNING" "/debug was used, resources will not be built."
-EXIT /B 0
+  EXIT /B 0
 )
 
 TITLE Compiling mpciconlib - Release^|%1...
@@ -240,6 +241,11 @@ IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!" & EXIT /B 1
 ) ELSE (
   CALL :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
+)
+
+IF DEFINED MPCHC_LITE (
+  CALL :SubMsg "WARNING" "/lite was used, translations will not be built."
+  EXIT /B
 )
 
 FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
