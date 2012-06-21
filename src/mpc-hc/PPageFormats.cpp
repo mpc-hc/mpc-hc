@@ -110,7 +110,7 @@ void CPPageFormats::UpdateMediaCategoryState(int iItem)
         return;
     }
 
-    CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(AfxGetAppSettings().m_Formats[m_list.GetItemData(iItem)]);
+    CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(m_mf[m_list.GetItemData(iItem)]);
 
     SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
 }
@@ -166,25 +166,26 @@ BOOL CPPageFormats::OnInitDialog()
 
     int fSetContextFiles = FALSE;
 
-    CMediaFormats& mf = AfxGetAppSettings().m_Formats;
-    mf.UpdateData(FALSE);
-    for (int i = 0, cnt = (int)mf.GetCount(); i < cnt; i++) {
+    const AppSettings& s = AfxGetAppSettings();
+    m_mf = s.m_Formats;
+
+    for (int i = 0, cnt = (int)m_mf.GetCount(); i < cnt; i++) {
         CString label;
-        label.Format(_T("%s (%s)"), mf[i].GetDescription(), mf[i].GetExts());
+        label.Format(_T("%s (%s)"), m_mf[i].GetDescription(), m_mf[i].GetExts());
 
         int iItem = m_list.InsertItem(i, label);
         m_list.SetItemData(iItem, i);
-        engine_t e = mf[i].GetEngineType();
+        engine_t e = m_mf[i].GetEngineType();
         m_list.SetItemText(iItem, COL_ENGINE,
                            e == DirectShow ? _T("DirectShow") :
                            e == RealMedia ? _T("RealMedia") :
                            e == QuickTime ? _T("QuickTime") :
                            e == ShockWave ? _T("ShockWave") : _T("-"));
 
-        CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(mf[i]);
+        CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(m_mf[i]);
         SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
 
-        if (!fSetContextFiles && CFileAssoc::AreRegisteredFileContextMenuEntries(mf[i]) != CFileAssoc::NOT_REGISTERED) {
+        if (!fSetContextFiles && CFileAssoc::AreRegisteredFileContextMenuEntries(m_mf[i]) != CFileAssoc::NOT_REGISTERED) {
             fSetContextFiles = TRUE;
         }
     }
@@ -193,11 +194,10 @@ BOOL CPPageFormats::OnInitDialog()
 
     m_list.SetSelectionMark(0);
     m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
-    m_exts = mf[m_list.GetItemData(0)].GetExtsWithPeriod();
+    m_exts = m_mf[m_list.GetItemData(0)].GetExtsWithPeriod();
 
-    AppSettings& s = AfxGetAppSettings();
     bool fRtspFileExtFirst;
-    engine_t e = s.m_Formats.GetRtspHandler(fRtspFileExtFirst);
+    engine_t e = m_mf.GetRtspHandler(fRtspFileExtFirst);
     m_iRtspHandler = (e == RealMedia ? 0 : e == QuickTime ? 1 : 2);
     m_fRtspFileExtFirst = fRtspFileExtFirst;
 
@@ -245,15 +245,12 @@ BOOL CPPageFormats::OnApply()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
-    CMediaFormats& mf = s.m_Formats;
-
     int iSelectedItem = m_list.GetSelectionMark();
     if (iSelectedItem >= 0) {
         DWORD_PTR i = m_list.GetItemData(iSelectedItem);
 
-        mf[i].SetExts(m_exts);
-        m_exts = mf[i].GetExtsWithPeriod();
+        m_mf[i].SetExts(m_exts);
+        m_exts = m_mf[i].GetExtsWithPeriod();
         UpdateData(FALSE);
     }
 
@@ -273,7 +270,7 @@ BOOL CPPageFormats::OnApply()
                 continue;
             }
 
-            CFileAssoc::Register(mf[m_list.GetItemData(i)], !!iChecked, !!fSetContextFiles, !!fSetAssociatedWithIcon);
+            CFileAssoc::Register(m_mf[m_list.GetItemData(i)], !!iChecked, !!fSetContextFiles, !!fSetAssociatedWithIcon);
         }
 
         m_bFileExtChanged = false;
@@ -288,7 +285,10 @@ BOOL CPPageFormats::OnApply()
     CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_AUDIOCD, !!m_apaudiocd.GetCheck());
     CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_DVDMOVIE, !!m_apdvd.GetCheck());
 
-    mf.SetRtspHandler(m_iRtspHandler == 0 ? RealMedia : m_iRtspHandler == 1 ? QuickTime : DirectShow, !!m_fRtspFileExtFirst);
+    m_mf.SetRtspHandler(m_iRtspHandler == 0 ? RealMedia : m_iRtspHandler == 1 ? QuickTime : DirectShow, !!m_fRtspFileExtFirst);
+
+    AppSettings& s = AfxGetAppSettings();
+    s.m_Formats = m_mf;
     s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
 
     SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
@@ -325,7 +325,7 @@ void CPPageFormats::OnMediaCategorySelected(NMHDR* pNMHDR, LRESULT* pResult)
     // Update the extensions' list
     if (pNMLV->iItem >= 0 && pNMLV->iSubItem == COL_CATEGORY
             && (pNMLV->uChanged & LVIF_STATE) && (pNMLV->uNewState & LVIS_SELECTED)) {
-        m_exts = AfxGetAppSettings().m_Formats[(int)m_list.GetItemData(pNMLV->iItem)].GetExtsWithPeriod();
+        m_exts = m_mf[m_list.GetItemData(pNMLV->iItem)].GetExtsWithPeriod();
         UpdateData(FALSE);
     }
 
@@ -352,7 +352,7 @@ void CPPageFormats::OnEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = FALSE;
 
     if (pItem->iItem >= 0 && pItem->iSubItem == COL_ENGINE) {
-        CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
+        const CMediaFormatCategory& mfc = m_mf[m_list.GetItemData(pItem->iItem)];
 
         CAtlList<CString> sl;
         sl.AddTail(_T("DirectShow"));
@@ -376,7 +376,7 @@ void CPPageFormats::OnEndEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult
     *pResult = FALSE;
 
     if (m_list.m_fInPlaceDirty && pItem->iItem >= 0 && pItem->iSubItem == COL_ENGINE && pItem->lParam >= 0) {
-        CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
+        CMediaFormatCategory& mfc = m_mf[m_list.GetItemData(pItem->iItem)];
 
         mfc.SetEngineType((engine_t)pItem->lParam);
         m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
@@ -403,13 +403,11 @@ void CPPageFormats::OnBnClickedSelectAllFormats()
 
 void CPPageFormats::OnBnClickedSelectVideoFormats()
 {
-    CMediaFormats& mf = AfxGetAppSettings().m_Formats;
-
     for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
-        if (!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(_T("pls"))) {
+        if (!m_mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(_T("pls"))) {
             SetCheckedMediaCategory(i, 0);
         } else {
-            SetCheckedMediaCategory(i, !mf[(int)m_list.GetItemData(i)].IsAudioOnly());
+            SetCheckedMediaCategory(i, !m_mf[m_list.GetItemData(i)].IsAudioOnly());
         }
     }
 
@@ -424,10 +422,8 @@ void CPPageFormats::OnBnClickedSelectVideoFormats()
 
 void CPPageFormats::OnBnClickedSelectAudioFormats()
 {
-    CMediaFormats& mf = AfxGetAppSettings().m_Formats;
-
     for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
-        SetCheckedMediaCategory(i, mf[(int)m_list.GetItemData(i)].IsAudioOnly());
+        SetCheckedMediaCategory(i, m_mf[m_list.GetItemData(i)].IsAudioOnly());
     }
 
     m_apvideo.SetCheck(BST_UNCHECKED);
@@ -460,7 +456,7 @@ void CPPageFormats::OnBnClickedResetExtensionsList()
 
     if (iItem >= 0) {
         DWORD_PTR i = m_list.GetItemData(iItem);
-        CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[i];
+        CMediaFormatCategory& mfc = m_mf[i];
 
         mfc.RestoreDefaultExts();
         m_exts = mfc.GetExtsWithPeriod();
@@ -480,7 +476,7 @@ void CPPageFormats::OnBnClickedSetExtensionsList()
 
     if (iItem >= 0) {
         DWORD_PTR i = m_list.GetItemData(iItem);
-        CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[i];
+        CMediaFormatCategory& mfc = m_mf[i];
 
         mfc.SetExts(m_exts);
         m_exts = mfc.GetExtsWithPeriod();
@@ -500,34 +496,34 @@ void CPPageFormats::OnFilesAssocModified()
 
 void CPPageFormats::OnUpdateButtonDefault(CCmdUI* pCmdUI)
 {
-    int i = m_list.GetSelectionMark();
-    if (i < 0) {
+    int iItem = m_list.GetSelectionMark();
+    if (iItem < 0) {
         pCmdUI->Enable(FALSE);
-        return;
+    } else {
+        DWORD_PTR i = m_list.GetItemData(iItem);
+
+        CString orgexts, newexts;
+        GetDlgItem(IDC_EDIT1)->GetWindowText(newexts);
+        newexts.Trim();
+        orgexts = m_mf[i].GetBackupExtsWithPeriod();
+
+        pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
     }
-    i = (int)m_list.GetItemData(i);
-
-    CString orgexts, newexts;
-    GetDlgItem(IDC_EDIT1)->GetWindowText(newexts);
-    newexts.Trim();
-    orgexts = AfxGetAppSettings().m_Formats[i].GetBackupExtsWithPeriod();
-
-    pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
 }
 
 void CPPageFormats::OnUpdateButtonSet(CCmdUI* pCmdUI)
 {
-    int i = m_list.GetSelectionMark();
-    if (i < 0) {
+    int iItem = m_list.GetSelectionMark();
+    if (iItem < 0) {
         pCmdUI->Enable(FALSE);
-        return;
+    } else {
+	    DWORD_PTR i = m_list.GetItemData(iItem);
+
+	    CString orgexts, newexts;
+	    GetDlgItem(IDC_EDIT1)->GetWindowText(newexts);
+	    newexts.Trim();
+	    orgexts = m_mf[i].GetExtsWithPeriod();
+
+        pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
     }
-    i = (int)m_list.GetItemData(i);
-
-    CString orgexts, newexts;
-    GetDlgItem(IDC_EDIT1)->GetWindowText(newexts);
-    newexts.Trim();
-    orgexts = AfxGetAppSettings().m_Formats[i].GetExtsWithPeriod();
-
-    pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
 }

@@ -81,6 +81,16 @@ public:
     CMediaFormats();
     virtual ~CMediaFormats();
 
+    //CMediaFormats(const CMediaFormats& mf) { *this = mf; }
+    CMediaFormats& operator=(const CMediaFormats& mf) {
+        m_iRtspHandler = mf.m_iRtspHandler;
+        m_fRtspFileExtFirst = mf.m_fRtspFileExtFirst;
+
+        Copy(mf);
+
+        return *this;
+    }
+
     void UpdateData(bool fSave);
 
     engine_t GetRtspHandler(bool& fRtspFileExtFirst) const;
