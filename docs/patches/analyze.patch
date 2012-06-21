@@ -7,7 +7,7 @@ Index: src/common.props
    <ItemDefinitionGroup>
      <ClCompile>
 -      <AdditionalOptions>/w34706 %(AdditionalOptions)</AdditionalOptions>
-+      <AdditionalOptions>/wd4244 /wd4267 /wd4996 /wd6031 /wd6309 /wd6387 %(AdditionalOptions)</AdditionalOptions>
++      <AdditionalOptions>/wd4244 /wd4996 /wd6031 /wd6309 /wd6387 %(AdditionalOptions)</AdditionalOptions>
 +      <EnablePREfast Condition="'$(Platform)'=='Win32'">true</EnablePREfast>
        <BufferSecurityCheck>true</BufferSecurityCheck>
        <ExceptionHandling>Sync</ExceptionHandling>

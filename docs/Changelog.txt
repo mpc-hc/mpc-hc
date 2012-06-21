@@ -10,6 +10,7 @@ Legend:
 
 1.6.3 - not released yet
 =========================
++ New webpage
 + The DirectX runtime dlls are included in the distribution packages
   so it's no longer needed to install the DirectX runtime
 + MpegSplitter: support for DVD-Audio LPCM and MLP in .aob files
