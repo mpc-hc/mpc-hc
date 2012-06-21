@@ -510,8 +510,8 @@ bool CCDXAStream::LookForMediaSubType()
                                             }
                                         }
 
-                                        for (unsigned int i = 0; i < cb; i++) {
-                                            pData[i] &= (BYTE)mask[i];
+                                        for (unsigned int ui = 0; ui < cb; ui++) {
+                                            pData[ui] &= (BYTE)mask[ui];
                                         }
 
                                         if (memcmp(pData, val.GetData(), cb) == 0) {

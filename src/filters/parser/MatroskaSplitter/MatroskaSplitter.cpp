@@ -844,9 +844,9 @@ avcsuccess:
                 Name = Name + L" [Default]";
             }
 
-            HRESULT hr;
+            HRESULT hr2;
 
-            CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr));
+            CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2));
             if (!pTE->Name.IsEmpty()) {
                 pPinOut->SetProperty(L"NAME", pTE->Name);
             }
@@ -855,10 +855,10 @@ avcsuccess:
             }
 
             if (!isSub) {
-                pinOut.InsertAt((iVideo + iAudio - 3), DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr), 1);
+                pinOut.InsertAt((iVideo + iAudio - 3), DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2), 1);
                 pinOutTE.InsertAt((iVideo + iAudio - 3), pTE, 1);
             } else {
-                pinOut.Add(DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr));
+                pinOut.Add(DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2));
                 pinOutTE.Add(pTE);
             }
 

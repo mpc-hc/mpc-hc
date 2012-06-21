@@ -555,7 +555,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             m_pFile->UExpGolombRead(); // bit_depth_chroma_minus8
                             m_pFile->BitRead(1); // qpprime_y_zero_transform_bypass_flag
                             if (m_pFile->BitRead(1)) // seq_scaling_matrix_present_flag
-                                for (int i = 0; i < 8; i++)
+                                for (int k = 0; k < 8; k++)
                                     if (m_pFile->BitRead(1)) // seq_scaling_list_present_flag
                                         for (int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j) {
                                             next = (next + m_pFile->SExpGolombRead() + 256) & 255;
@@ -570,8 +570,8 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             m_pFile->SExpGolombRead(); // offset_for_non_ref_pic
                             m_pFile->SExpGolombRead(); // offset_for_top_to_bottom_field
                             UINT64 num_ref_frames_in_pic_order_cnt_cycle = m_pFile->UExpGolombRead();
-                            for (int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++) {
-                                m_pFile->SExpGolombRead();    // offset_for_ref_frame[i]
+                            for (int k = 0; k < num_ref_frames_in_pic_order_cnt_cycle; k++) {
+                                m_pFile->SExpGolombRead();    // offset_for_ref_frame[k]
                             }
                         }
                         m_pFile->UExpGolombRead(); // num_ref_frames

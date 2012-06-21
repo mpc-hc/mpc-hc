@@ -1056,19 +1056,19 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
                         REFERENCE_TIME pdt = _I64_MIN;
 
                         for (int j = 0; j < 10; j++) {
-                            REFERENCE_TIME rt = m_pFile->NextPTS(TrackNum);
+                            REFERENCE_TIME rt2 = m_pFile->NextPTS(TrackNum);
 
-                            if (rt < 0) {
+                            if (rt2 < 0) {
                                 break;
                             }
 
-                            REFERENCE_TIME dt = rt - rtmax;
+                            REFERENCE_TIME dt = rt2 - rtmax;
                             if (dt > 0 && dt == pdt) {
                                 dt = 10000000i64;
                             }
 
 
-                            if (rtmin <= rt && rt <= rtmax || pdt > 0 && dt < 0) {
+                            if (rtmin <= rt2 && rt2 <= rtmax || pdt > 0 && dt < 0) {
                                 minseekpos = min(minseekpos, curpos);
                                 break;
                             }

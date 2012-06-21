@@ -100,13 +100,13 @@ STDMETHODIMP CAsyncFileReader::SyncRead(LONGLONG llPosition, LONG lLength, BYTE*
             CString fn = m_strFileName;
             try {
                 Close();
-            } catch (CFileException* e) {
-                e->Delete();
+            } catch (CFileException* fe) {
+                fe->Delete();
             }
             try {
                 Open(fn, modeRead | shareDenyNone | typeBinary | osSequentialScan);
-            } catch (CFileException* e) {
-                e->Delete();
+            } catch (CFileException* fe) {
+                fe->Delete();
             }
             m_strFileName = fn;
         }
@@ -213,9 +213,9 @@ DWORD CAsyncUrlReader::ThreadProc()
             Reply(S_OK);
 
             while (!CheckRequest(&cmd)) {
-                int len = fin->Read(buff, sizeof(buff));
-                if (len > 0) {
-                    fout.Write(buff, len);
+                int len2 = fin->Read(buff, sizeof(buff));
+                if (len2 > 0) {
+                    fout.Write(buff, len2);
                 }
             }
         } else {

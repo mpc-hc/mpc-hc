@@ -252,8 +252,8 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
             if (s->cs.GetCount() && pvih->AvgTimePerFrame > 0) {
                 UINT64 size = 0;
-                for (unsigned int i = 0; i < s->cs.GetCount(); ++i) {
-                    size += s->cs[i].orgsize;
+                for (unsigned int j = 0; j < s->cs.GetCount(); ++j) {
+                    size += s->cs[j].orgsize;
                 }
                 pvih->dwBitRate = (DWORD)(10000000.0 * size * 8 / (s->cs.GetCount() * pvih->AvgTimePerFrame) + 0.5);
                 // need calculate in double, because the (10000000ui64 * size * 8) can give overflow

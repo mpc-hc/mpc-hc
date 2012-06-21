@@ -304,16 +304,10 @@ public:
     HRESULT SetMediaType(const CMediaType* mtIn);
 
     // we shouldn't pass these to the filter from this pin
-    STDMETHODIMP EndOfStream() {
-        return S_OK;
-    }
-    STDMETHODIMP BeginFlush() {
-        return S_OK;
-    }
+    STDMETHODIMP EndOfStream() { return S_OK; }
+    STDMETHODIMP BeginFlush() { return S_OK; }
     STDMETHODIMP EndFlush();
-    STDMETHODIMP NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate) {
-        return S_OK;
-    }
+    STDMETHODIMP NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate) { return S_OK; }
 
     // IKsPropertySet
     STDMETHODIMP Set(REFGUID PropSet, ULONG Id, LPVOID InstanceData, ULONG InstanceLength, LPVOID PropertyData, ULONG DataLength);
@@ -329,9 +323,7 @@ public:
     HRESULT GetMediaType(int iPosition, CMediaType* pmt);
     HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 
-    CMediaType& CurrentMediaType() {
-        return m_mt;
-    }
+    CMediaType& CurrentMediaType() { return m_mt; }
 
     HRESULT Deliver(const void* ptr, int len);
 };

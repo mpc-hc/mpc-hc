@@ -951,8 +951,8 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h, bool UpdateLang)
                     pPair->m_value.ts_len_packet = len;
                     memcpy(pPair->m_value.ts_buffer, buffer, max_len);
                 } else {
-                    CGolombBuffer gb(buffer, len);
-                    UpdatePrograms(gb, h.pid, UpdateLang);
+                    CGolombBuffer gb2(buffer, len);
+                    UpdatePrograms(gb2, h.pid, UpdateLang);
                 }
             }
         } else {
@@ -1044,7 +1044,7 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
                         case 0x59: // Subtitling descriptor
                             gb.ReadBuffer((BYTE*)ch, 3);
                             ch[3] = 0;
-                            for (int i = 3; i < descriptor_length; i++) {
+                            for (int j = 3; j < descriptor_length; j++) {
                                 gb.BitRead(8);
                             }
                             if (!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
@@ -1052,7 +1052,7 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
                             }
                             break;
                         default:
-                            for (int i = 0; i < descriptor_length; i++) {
+                            for (int j = 0; j < descriptor_length; j++) {
                                 gb.BitRead(8);
                             }
                             break;

@@ -597,10 +597,10 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
                     }
                     m_fb.rtStop = m_fb.rtStart + m_AvgTimePerFrame * picture->nb_fields / (m_dec->m_info.m_display_picture_2nd ? 1 : 2);
 
-                    REFERENCE_TIME rtStart = m_fb.rtStart;
-                    REFERENCE_TIME rtStop = m_fb.rtStop;
-                    UNREFERENCED_PARAMETER(rtStart);
-                    UNREFERENCED_PARAMETER(rtStop);
+                    REFERENCE_TIME rtStart2 = m_fb.rtStart;
+                    REFERENCE_TIME rtStop2 = m_fb.rtStop;
+                    UNREFERENCED_PARAMETER(rtStart2);
+                    UNREFERENCED_PARAMETER(rtStop2);
 
                     //
 

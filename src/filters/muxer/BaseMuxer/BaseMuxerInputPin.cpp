@@ -172,9 +172,9 @@ HRESULT CBaseMuxerInputPin::CompleteConnect(IPin* pReceivePin)
                         continue;
                     }
 
-                    HRESULT hr;
+                    HRESULT hr2;
                     CComVariant var;
-                    if (SUCCEEDED(pPB->Read(1, &PropBag, NULL, &var, &hr)) && SUCCEEDED(hr)) {
+                    if (SUCCEEDED(pPB->Read(1, &PropBag, NULL, &var, &hr2)) && SUCCEEDED(hr2)) {
                         SetProperty(PropBag.pstrName, &var);
                     }
 

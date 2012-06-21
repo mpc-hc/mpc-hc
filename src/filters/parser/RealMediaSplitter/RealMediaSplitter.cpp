@@ -497,9 +497,9 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             continue;
         }
 
-        HRESULT hr;
+        HRESULT hr2;
 
-        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CRealMediaSplitterOutputPin(mts, name, this, this, &hr));
+        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CRealMediaSplitterOutputPin(mts, name, this, this, &hr2));
         if (SUCCEEDED(AddOutputPin((DWORD)pmp->stream, pPinOut))) {
             if (!m_rtStop) {
                 m_pFile->m_p.tDuration = max(m_pFile->m_p.tDuration, pmp->tDuration);
@@ -524,9 +524,9 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         CAtlArray<CMediaType> mts;
         mts.Add(mt);
 
-        HRESULT hr;
+        HRESULT hr2;
 
-        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CRealMediaSplitterOutputPin(mts, name, this, this, &hr));
+        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CRealMediaSplitterOutputPin(mts, name, this, this, &hr2));
         AddOutputPin((DWORD)~stream, pPinOut);
     }
 
@@ -1659,8 +1659,8 @@ HRESULT CRealVideoDecoder::InitRV(const CMediaType* pmt)
         UINT32* pWH = DNew UINT32[nWidthHeight * 2];
         pWH[0] = rvi.w;
         pWH[1] = rvi.h;
-        for (int i = 2; i < nWidthHeight * 2; i++) {
-            pWH[i] = rvi.morewh[i - 2] * 4;
+        for (int j = 2; j < nWidthHeight * 2; j++) {
+            pWH[j] = rvi.morewh[j - 2] * 4;
         }
 #pragma pack(push, 1)
         struct {

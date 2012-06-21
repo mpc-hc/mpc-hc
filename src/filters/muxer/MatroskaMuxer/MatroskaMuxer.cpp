@@ -1097,8 +1097,8 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 
             *dst++ = 2;
             for (int i = 0; i < 2; i++)
-                for (int len = pvf2->HeaderSize[i]; len >= 0; len -= 255) {
-                    *dst++ = min(len, 255);
+                for (int len2 = pvf2->HeaderSize[i]; len2 >= 0; len2 -= 255) {
+                    *dst++ = min(len2, 255);
                 }
 
             memcpy(dst, src, pvf2->HeaderSize[0]);

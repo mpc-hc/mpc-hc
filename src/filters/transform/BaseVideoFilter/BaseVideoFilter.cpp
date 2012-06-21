@@ -234,8 +234,8 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
                 if (SUCCEEDED(hr2 = m_pOutput->GetDeliveryBuffer(&pOut, NULL, NULL, 0))) {
                     AM_MEDIA_TYPE* pmt;
                     if (SUCCEEDED(pOut->GetMediaType(&pmt)) && pmt) {
-                        CMediaType mt = *pmt;
-                        m_pOutput->SetMediaType(&mt);
+                        CMediaType mt2 = *pmt;
+                        m_pOutput->SetMediaType(&mt2);
                         DeleteMediaType(pmt);
                     } else { // stupid overlay mixer won't let us know the new pitch...
                         long size = pOut->GetSize();
