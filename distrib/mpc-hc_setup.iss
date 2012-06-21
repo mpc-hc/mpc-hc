@@ -30,6 +30,10 @@
   #error Use the Unicode Inno Setup
 #endif
 
+; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
+;#define x64Build
+;#define MPCHC_LITE
+
 ; Include translations by default. You can bypass this by defining localize=whatever or false etc in build.bat or here
 #if !defined(localize)
   #if defined(MPCHC_LITE)
@@ -39,9 +43,6 @@
   #endif
 #endif
 #define sse_required
-; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build.bat)
-;#define x64Build
-;#define MPCHC_LITE
 
 
 ; From now on you shouldn't need to change anything
@@ -66,7 +67,9 @@
   #define OutFilename  = app_name + "." + app_version + ".x86"
 #endif
 
-#if localize != "true"
+#if localize != "true" && defined(MPCHC_LITE)
+  #define OutFilename  = OutFilename + ".Lite"
+#else
   #define OutFilename  = OutFilename + ".en"
 #endif
 
@@ -79,13 +82,21 @@
 #ifdef x64Build
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 DefaultGroupName={#app_name} x64
+#if defined(MPCHC_LITE)
+UninstallDisplayName={#app_name} {#app_version} Lite (64-bit)
+#else
 UninstallDisplayName={#app_name} {#app_version} (64-bit)
+#endif
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 #else
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 DefaultGroupName={#app_name}
+#if defined(MPCHC_LITE)
+UninstallDisplayName={#app_name} {#app_version} Lite
+#else
 UninstallDisplayName={#app_name} {#app_version}
+#endif
 #endif
 
 AppName={#app_name}
@@ -159,9 +170,17 @@ Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
 
 [Messages]
 #ifdef x64Build
-BeveledLabel={#app_name} {#app_version} (64-bit)
+#ifdef MPCHC_LITE
+BeveledLabel={#app_name} {#app_version} Lite (64-bit)
 #else
-BeveledLabel={#app_name} {#app_version}
+BeveledLabel={#app_name} {#app_version} (64-bit)
+#endif
+#else
+#ifdef MPCHC_LITE
+BeveledLabel={#app_name} {#app_version} Lite
+#else
+BeveledLabel={#app_name} {#app_version} 
+#endif
 #endif
 
 
