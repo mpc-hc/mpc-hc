@@ -69,7 +69,7 @@
 
 #if localize != "true" && defined(MPCHC_LITE)
   #define OutFilename  = OutFilename + ".Lite"
-#else
+#elif localize != "true"
   #define OutFilename  = OutFilename + ".en"
 #endif
 
