@@ -36,7 +36,7 @@
 
 #define MINPACKETS    100       // Beliyaal: Changed the min number of packets to allow Bluray playback over network
 #define MINPACKETSIZE 256*1024  // Beliyaal: Changed the min packet size to allow Bluray playback over network
-#define MAXPACKETS    1400
+#define MAXPACKETS    2000
 #define MAXPACKETSIZE 128*1024*1024
 
 enum {
