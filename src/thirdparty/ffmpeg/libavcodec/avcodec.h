@@ -265,6 +265,7 @@ enum CodecID {
     CODEC_ID_CDXL,
     CODEC_ID_XBM,
     CODEC_ID_ZEROCODEC,
+    CODEC_ID_MSS1,
     CODEC_ID_Y41P       = MKBETAG('Y','4','1','P'),
     CODEC_ID_ESCAPE130  = MKBETAG('E','1','3','0'),
     CODEC_ID_EXR        = MKBETAG('0','E','X','R'),
@@ -276,6 +277,7 @@ enum CodecID {
     CODEC_ID_V308       = MKBETAG('V','3','0','8'),
     CODEC_ID_V408       = MKBETAG('V','4','0','8'),
     CODEC_ID_YUV4       = MKBETAG('Y','U','V','4'),
+    CODEC_ID_SANM       = MKBETAG('S','A','N','M'),
 
     /* various PCM "codecs" */
     CODEC_ID_FIRST_AUDIO = 0x10000,     ///< A dummy id pointing at the start of audio codecs
@@ -339,6 +341,7 @@ enum CodecID {
     CODEC_ID_ADPCM_IMA_ISS,
     CODEC_ID_ADPCM_G722,
     CODEC_ID_ADPCM_IMA_APC,
+    CODEC_ID_VIMA       = MKBETAG('V','I','M','A'),
 
     /* AMR */
     CODEC_ID_AMR_NB = 0x12000,
