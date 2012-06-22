@@ -143,7 +143,7 @@ void CMatroskaMuxerFilter::AddInput()
 
 int CMatroskaMuxerFilter::GetPinCount()
 {
-    return m_pInputs.GetCount() + (m_pOutput ? 1 : 0);
+    return (int)m_pInputs.GetCount() + (m_pOutput ? 1 : 0);
 }
 
 CBasePin* CMatroskaMuxerFilter::GetPin(int n)
@@ -1229,10 +1229,9 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
         return VFW_E_SAMPLE_TIME_NOT_SET;
     }
 
-    //  rtStart += m_tStart;
-    //  rtStop += m_tStart;
+    //rtStart += m_tStart;
+    //rtStop += m_tStart;
 
-    /**/
     TRACE(_T("Received (%d): %I64d-%I64d (c=%d, co=%dms), len=%d, d%d p%d s%d\n"),
           (static_cast<CMatroskaMuxerFilter*>(m_pFilter))->GetTrackNumber(this),
           rtStart, rtStop, (int)((rtStart / 10000) / MAXCLUSTERTIME), (int)((rtStart / 10000) % MAXCLUSTERTIME),

@@ -517,12 +517,12 @@ void CPPageFormats::OnUpdateButtonSet(CCmdUI* pCmdUI)
     if (iItem < 0) {
         pCmdUI->Enable(FALSE);
     } else {
-	    DWORD_PTR i = m_list.GetItemData(iItem);
+        DWORD_PTR i = m_list.GetItemData(iItem);
 
-	    CString orgexts, newexts;
-	    GetDlgItem(IDC_EDIT1)->GetWindowText(newexts);
-	    newexts.Trim();
-	    orgexts = m_mf[i].GetExtsWithPeriod();
+        CString orgexts, newexts;
+        GetDlgItem(IDC_EDIT1)->GetWindowText(newexts);
+        newexts.Trim();
+        orgexts = m_mf[i].GetExtsWithPeriod();
 
         pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
     }
