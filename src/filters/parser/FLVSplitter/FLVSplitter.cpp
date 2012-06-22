@@ -610,7 +610,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                                     sar.num = pixel_aspect[aspect_ratio_idc][0];
                                     sar.den = pixel_aspect[aspect_ratio_idc][1];
                                 } else {
-                                    return false;
+                                    return E_FAIL;
                                 }
                             } else {
                                 sar.num = 1;
