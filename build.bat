@@ -46,7 +46,6 @@ SET ARGPL=0
 SET ARGPA=0
 SET ARGIN=0
 SET ARGZI=0
-SET ARGLI=0
 SET ARGL=0
 SET INPUT=0
 
@@ -64,19 +63,21 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "x64"        SET "PLATFORM=x64"      & SET /A ARGPL+=1
   IF /I "%%A" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
   IF /I "%%A" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1  & SET /A ARGM+=1
-  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGLI+=1
-  IF /I "%%A" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGLI+=1
+  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1
+  IF /I "%%A" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1
   IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & SET /A ARGC+=1
   IF /I "%%A" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
-  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGLI+=1
-  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1 & SET /A ARGLI+=1
+  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
+  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
   IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
+  IF /I "%%A" == "Lite"       SET "BUILDCFG=Release Lite" & SET "MPCHC_LITE=True" & SET /A ARGBC+=1
+  IF /I "%%A" == "Debug Lite"   SET "BUILDCFG=Debug Lite" & SET "MPCHC_LITE=True" & SET /A ARGBC+=1
+  IF /I "%%A" == "Release Lite" SET "BUILDCFG=Release Lite" & SET "MPCHC_LITE=True" & SET /A ARGBC+=1
   IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A ARGIN+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%A" == "7z"         SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A ARGL+=1  & SET /A ARGLI+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -95,7 +96,6 @@ IF %ARGCL% GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGD%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGF%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%  GTR 1 (GOTO UnsupportedSwitch)
-IF %ARGLI% GTR 1 (GOTO UnsupportedSwitch)
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
@@ -217,9 +217,9 @@ EXIT /B 0
 :SubMPCHC
 TITLE Compiling MPC-HC - %BUILDCFG%^|%1...
 "%MSBUILD%" mpc-hc.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration=%BUILDCFG%;Platform=%1^
- /flp1:LogFile=%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
- /flp2:LogFile=%LOG_DIR%\mpc-hc_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
+ /target:%BUILDTYPE% /property:Configuration="%BUILDCFG%";Platform=%1^
+ /flp1:LogFile="%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log";errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile="%LOG_DIR%\mpc-hc_warnings_%BUILDCFG%_%1.log";warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% %1 - Compilation failed!" & EXIT /B 1
 ) ELSE (
@@ -435,7 +435,7 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|Filters^|All] [Debug^|Release] [Packages^|Installer^|Zip]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|Filters^|All] [Debug^|Release^|Debug Lite^|Release Lite] [Packages^|Installer^|Zip]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.

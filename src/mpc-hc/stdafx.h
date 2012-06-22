@@ -81,9 +81,6 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 #define CheckAndLog(x, msg)  hr = ##x; if (FAILED (hr)) { TRACE(msg" : 0x%08x\n", hr); return hr; }
 #define CheckNoLog(x)        hr = ##x; if (FAILED (hr)) { return hr; }
 
-/* Uncomment to build the "Lite" version without internal filters */
-//#define MPCHC_LITE
-
 #if !defined(USE_MEDIAINFO_STATIC) && !defined(MPCHC_LITE)
 #define USE_MEDIAINFO_STATIC
 #endif
