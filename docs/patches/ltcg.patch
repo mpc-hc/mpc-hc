@@ -1,6 +1,6 @@
 Index: src/common.props
 ===================================================================
---- src/common.props	(revision 5114)
+--- src/common.props	(revision 5234)
 +++ src/common.props	(working copy)
 @@ -65,10 +65,15 @@
        <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
