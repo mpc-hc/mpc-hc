@@ -43,11 +43,8 @@ SET ARGD=0
 SET ARGF=0
 SET ARGM=0
 SET ARGPL=0
-SET ARGPA=0
-SET ARGIN=0
-SET ARGZI=0
-SET ARGL=0
 SET INPUT=0
+SET VALID=0
 
 IF /I "%ARG%" == "?"          GOTO ShowHelp
 
@@ -71,15 +68,15 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
   IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
-  IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A ARGIN+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "7z"         SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A ARGL+=1
+  IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
+  IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
+  IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
+  IF /I "%%A" == "7z"         SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
+  IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A VALID+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
-SET /A VALID=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGPA%+%ARGIN%+%ARGZI%+%ARGL%
+SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
@@ -87,13 +84,11 @@ IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=B
 IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "PLATFORM=Both")
 IF %ARGC%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0  (SET "CONFIG=MPCHC")
 IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCFG=Release")
-IF %ARGPA% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPA% == 0 (SET "PACKAGES=False")
-IF %ARGIN% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGIN% == 0 (SET "INSTALLER=False")
-IF %ARGZI% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGZI% == 0 (SET "ZIP=False")
 IF %ARGCL% GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGD%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGF%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%  GTR 1 (GOTO UnsupportedSwitch)
+
 
 :Start
 REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
