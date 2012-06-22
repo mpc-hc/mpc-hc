@@ -71,13 +71,11 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
   IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
   IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
-  IF /I "%%A" == "Lite"       SET "BUILDCFG=Release Lite" & SET "MPCHC_LITE=True" & SET /A ARGBC+=1
-  IF /I "%%A" == "Debug Lite"   SET "BUILDCFG=Debug Lite" & SET "MPCHC_LITE=True" & SET /A ARGBC+=1
-  IF /I "%%A" == "Release Lite" SET "BUILDCFG=Release Lite" & SET "MPCHC_LITE=True" & SET /A ARGBC+=1
   IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A ARGPA+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A ARGIN+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%A" == "7z"         SET "ZIP=True"          & SET /A ARGZI+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
+  IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A ARGL+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -97,13 +95,13 @@ IF %ARGD%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGF%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%  GTR 1 (GOTO UnsupportedSwitch)
 
-IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
-
-
 :Start
 REM Check if the %LOG_DIR% folder exists otherwise MSBuild will fail
 SET "LOG_DIR=bin\logs"
 IF NOT EXIST "%LOG_DIR%" MD "%LOG_DIR%"
+
+IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
+IF DEFINED MPCHC_LITE SET "BUILDCFG=%BUILDCFG% Lite"
 
 CALL :SubDetectWinArch
 
