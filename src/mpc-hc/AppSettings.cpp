@@ -681,11 +681,11 @@ void CAppSettings::UpdateData(bool fSave)
         int         iChannel = 0;
         POSITION    pos = m_DVBChannels.GetHeadPosition();
         while (pos) {
-            CString         strTemp;
+            CString         strTemp2;
             CString         strChannel;
             CDVBChannel&    Channel = m_DVBChannels.GetNext(pos);
-            strTemp.Format(_T("%d"), iChannel);
-            pApp->WriteProfileString(IDS_RS_DVB, strTemp, Channel.ToString());
+            strTemp2.Format(_T("%d"), iChannel);
+            pApp->WriteProfileString(IDS_RS_DVB, strTemp2, Channel.ToString());
             iChannel++;
         }
 
@@ -1110,9 +1110,9 @@ void CAppSettings::UpdateData(bool fSave)
                 }
 
                 f->backup.RemoveAll();
-                for (unsigned int i = 0; ; i++) {
+                for (unsigned int k = 0; ; k++) {
                     CString val;
-                    val.Format(_T("org%04u"), i);
+                    val.Format(_T("org%04u"), k);
                     CString guid = pApp->GetProfileString(key, val, _T(""));
                     if (guid.IsEmpty()) {
                         break;
@@ -1121,9 +1121,9 @@ void CAppSettings::UpdateData(bool fSave)
                 }
 
                 f->guids.RemoveAll();
-                for (unsigned int i = 0; ; i++) {
+                for (unsigned int k = 0; ; k++) {
                     CString val;
-                    val.Format(_T("mod%04u"), i);
+                    val.Format(_T("mod%04u"), k);
                     CString guid = pApp->GetProfileString(key, val, _T(""));
                     if (guid.IsEmpty()) {
                         break;
@@ -1150,13 +1150,13 @@ void CAppSettings::UpdateData(bool fSave)
 
         m_pnspresets.RemoveAll();
         for (int i = 0; i < (ID_PANNSCAN_PRESETS_END - ID_PANNSCAN_PRESETS_START); i++) {
-            CString str;
-            str.Format(_T("Preset%d"), i);
-            str = pApp->GetProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, str, _T(""));
-            if (str.IsEmpty()) {
+            CString str2;
+            str2.Format(_T("Preset%d"), i);
+            str2 = pApp->GetProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, str2, _T(""));
+            if (str2.IsEmpty()) {
                 break;
             }
-            m_pnspresets.Add(str);
+            m_pnspresets.Add(str2);
         }
 
         if (m_pnspresets.IsEmpty()) {
@@ -1166,27 +1166,27 @@ void CAppSettings::UpdateData(bool fSave)
             double _235p1 = 2.35 / 1.0;
             UNREFERENCED_PARAMETER(_185p1);
 
-            CString str;
-            str.Format(IDS_SCALE_16_9, 0.5, 0.5, _4p3 / _4p3, _16p9 / _4p3);
-            m_pnspresets.Add(str);
-            str.Format(IDS_SCALE_WIDESCREEN, 0.5, 0.5, _16p9 / _4p3, _16p9 / _4p3);
-            m_pnspresets.Add(str);
-            str.Format(IDS_SCALE_ULTRAWIDE, 0.5, 0.5, _235p1 / _4p3, _235p1 / _4p3);
-            m_pnspresets.Add(str);
+            CString str2;
+            str2.Format(IDS_SCALE_16_9, 0.5, 0.5, _4p3 / _4p3, _16p9 / _4p3);
+            m_pnspresets.Add(str2);
+            str2.Format(IDS_SCALE_WIDESCREEN, 0.5, 0.5, _16p9 / _4p3, _16p9 / _4p3);
+            m_pnspresets.Add(str2);
+            str2.Format(IDS_SCALE_ULTRAWIDE, 0.5, 0.5, _235p1 / _4p3, _235p1 / _4p3);
+            m_pnspresets.Add(str2);
         }
 
         for (int i = 0; i < wmcmds.GetCount(); i++) {
-            CString str;
-            str.Format(_T("CommandMod%d"), i);
-            str = pApp->GetProfileString(IDS_R_COMMANDS, str, _T(""));
-            if (str.IsEmpty()) {
+            CString str2;
+            str2.Format(_T("CommandMod%d"), i);
+            str2 = pApp->GetProfileString(IDS_R_COMMANDS, str2, _T(""));
+            if (str2.IsEmpty()) {
                 break;
             }
             int cmd, fVirt, key, repcnt;
             UINT mouse, mouseFS, appcmd;
             TCHAR buff[128];
             int n;
-            if (5 > (n = _stscanf_s(str, _T("%d %x %x %s %d %u %u %u"), &cmd, &fVirt, &key, buff, _countof(buff), &repcnt, &mouse, &appcmd, &mouseFS))) {
+            if (5 > (n = _stscanf_s(str2, _T("%d %x %x %s %d %u %u %u"), &cmd, &fVirt, &key, buff, _countof(buff), &repcnt, &mouse, &appcmd, &mouseFS))) {
                 break;
             }
             if (POSITION pos = wmcmds.Find(cmd)) {
@@ -1318,12 +1318,12 @@ void CAppSettings::UpdateData(bool fSave)
         shaders[_T("YV12 Chroma Upsampling")] = IDF_SHADER_YV12CHROMAUP;
 
         for (int iShader = 0; ; iShader++) {
-            CString str;
-            str.Format(_T("%d"), iShader);
-            str = pApp->GetProfileString(IDS_R_SHADERS, str);
+            CString str2;
+            str2.Format(_T("%d"), iShader);
+            str2 = pApp->GetProfileString(IDS_R_SHADERS, str2);
 
             CAtlList<CString> sl;
-            CString label = Explode(str, sl, '|');
+            CString label = Explode(str2, sl, '|');
             if (label.IsEmpty()) {
                 break;
             }

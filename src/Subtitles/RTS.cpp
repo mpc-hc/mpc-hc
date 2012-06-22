@@ -649,20 +649,20 @@ bool CPolygon::ParseStr()
 
     int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
 
-    for (size_t p = 0; p < m_pathTypesOrg.GetCount(); p++) {
-        m_pathPointsOrg[p].x = (int)(64 * m_scalex * m_pathPointsOrg[p].x);
-        m_pathPointsOrg[p].y = (int)(64 * m_scaley * m_pathPointsOrg[p].y);
-        if (minx > m_pathPointsOrg[p].x) {
-            minx = m_pathPointsOrg[p].x;
+    for (size_t m = 0; m < m_pathTypesOrg.GetCount(); m++) {
+        m_pathPointsOrg[m].x = (int)(64 * m_scalex * m_pathPointsOrg[m].x);
+        m_pathPointsOrg[m].y = (int)(64 * m_scaley * m_pathPointsOrg[m].y);
+        if (minx > m_pathPointsOrg[m].x) {
+            minx = m_pathPointsOrg[m].x;
         }
-        if (miny > m_pathPointsOrg[p].y) {
-            miny = m_pathPointsOrg[p].y;
+        if (miny > m_pathPointsOrg[m].y) {
+            miny = m_pathPointsOrg[m].y;
         }
-        if (maxx < m_pathPointsOrg[p].x) {
-            maxx = m_pathPointsOrg[p].x;
+        if (maxx < m_pathPointsOrg[m].x) {
+            maxx = m_pathPointsOrg[m].x;
         }
-        if (maxy < m_pathPointsOrg[p].y) {
-            maxy = m_pathPointsOrg[p].y;
+        if (maxy < m_pathPointsOrg[m].y) {
+            maxy = m_pathPointsOrg[m].y;
         }
     }
 
@@ -766,9 +766,9 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
     }
 
     if (inverse) {
-        BYTE* dst = m_pAlphaMask;
-        for (ptrdiff_t i = size.cx * size.cy; i > 0; --i, ++dst) {
-            *dst = 0x40 - *dst;    // mask is 6 bit
+        BYTE* inv_dst = m_pAlphaMask;
+        for (ptrdiff_t i = size.cx * size.cy; i > 0; --i, ++inv_dst) {
+            *inv_dst = 0x40 - *inv_dst;    // mask is 6 bit
         }
     }
 }
@@ -1689,14 +1689,14 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
             param.Trim();
 
             while (!param.IsEmpty()) {
-                int i = param.Find(','), j = param.Find('\\');
+                int k = param.Find(','), l = param.Find('\\');
 
-                if (i >= 0 && (j < 0 || i < j)) {
-                    CStringW s = param.Left(i).Trim();
+                if (k >= 0 && (l < 0 || k < l)) {
+                    CStringW s = param.Left(k).Trim();
                     if (!s.IsEmpty()) {
                         params.Add(s);
                     }
-                    param = i + 1 < param.GetLength() ? param.Mid(i + 1) : L"";
+                    param = k + 1 < param.GetLength() ? param.Mid(k + 1) : L"";
                 } else {
                     param.Trim();
                     if (!param.IsEmpty()) {
@@ -1798,27 +1798,27 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
         CStringW p = params.GetCount() > 0 ? params[0] : L"";
 
         if (cmd == "1c" || cmd == L"2c" || cmd == L"3c" || cmd == L"4c") {
-            int i = cmd[0] - '1';
+            int k = cmd[0] - '1';
 
             DWORD c = wcstol(p, NULL, 16);
-            style.colors[i] = !p.IsEmpty()
-                              ? (((int)CalcAnimation(c & 0xff, style.colors[i] & 0xff, fAnimate)) & 0xff
-                                 | ((int)CalcAnimation(c & 0xff00, style.colors[i] & 0xff00, fAnimate)) & 0xff00
-                                 | ((int)CalcAnimation(c & 0xff0000, style.colors[i] & 0xff0000, fAnimate)) & 0xff0000)
-                              : org.colors[i];
+            style.colors[k] = !p.IsEmpty()
+                              ? (((int)CalcAnimation(c & 0xff, style.colors[k] & 0xff, fAnimate)) & 0xff
+                                 | ((int)CalcAnimation(c & 0xff00, style.colors[k] & 0xff00, fAnimate)) & 0xff00
+                                 | ((int)CalcAnimation(c & 0xff0000, style.colors[k] & 0xff0000, fAnimate)) & 0xff0000)
+                              : org.colors[k];
         } else if (cmd == L"1a" || cmd == L"2a" || cmd == L"3a" || cmd == L"4a") {
             DWORD al = wcstol(p, NULL, 16) & 0xff;
-            int i = cmd[0] - '1';
+            int k = cmd[0] - '1';
 
-            style.alpha[i] = !p.IsEmpty()
-                             ? (BYTE)CalcAnimation(al, style.alpha[i], fAnimate)
-                             : org.alpha[i];
+            style.alpha[k] = !p.IsEmpty()
+                             ? (BYTE)CalcAnimation(al, style.alpha[k], fAnimate)
+                             : org.alpha[k];
         } else if (cmd == L"alpha") {
-            for (ptrdiff_t i = 0; i < 4; i++) {
+            for (ptrdiff_t k = 0; k < 4; k++) {
                 DWORD al = wcstol(p, NULL, 16) & 0xff;
-                style.alpha[i] = !p.IsEmpty()
-                                 ? (BYTE)CalcAnimation(al, style.alpha[i], fAnimate)
-                                 : org.alpha[i];
+                style.alpha[k] = !p.IsEmpty()
+                                 ? (BYTE)CalcAnimation(al, style.alpha[k], fAnimate)
+                                 : org.alpha[k];
             }
         } else if (cmd == L"an") {
             int n = wcstol(p, NULL, 10);
@@ -1901,11 +1901,11 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
         } else if (cmd == L"fade" || cmd == L"fad") {
             if (params.GetCount() == 7 && !sub->m_effects[EF_FADE]) { // {\fade(a1=param[0], a2=param[1], a3=param[2], t1=t[0], t2=t[1], t3=t[2], t4=t[3])
                 if (Effect* e = DNew Effect) {
-                    for (ptrdiff_t i = 0; i < 3; i++) {
-                        e->param[i] = wcstol(params[i], NULL, 10);
+                    for (ptrdiff_t k = 0; k < 3; k++) {
+                        e->param[k] = wcstol(params[k], NULL, 10);
                     }
-                    for (ptrdiff_t i = 0; i < 4; i++) {
-                        e->t[i] = wcstol(params[3 + i], NULL, 10);
+                    for (ptrdiff_t k = 0; k < 4; k++) {
+                        e->t[k] = wcstol(params[3 + k], NULL, 10);
                     }
 
                     sub->m_effects[EF_FADE] = e;
@@ -1914,8 +1914,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                 if (Effect* e = DNew Effect) {
                     e->param[0] = e->param[2] = 0xff;
                     e->param[1] = 0x00;
-                    for (ptrdiff_t i = 1; i < 3; i++) {
-                        e->t[i] = wcstol(params[i - 1], NULL, 10);
+                    for (ptrdiff_t k = 1; k < 3; k++) {
+                        e->t[k] = wcstol(params[k - 1], NULL, 10);
                     }
                     e->t[0] = e->t[3] = -1; // will be substituted with "start" and "end"
 
@@ -2018,8 +2018,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                     e->t[0] = e->t[1] = -1;
 
                     if (params.GetCount() == 6) {
-                        for (ptrdiff_t i = 0; i < 2; i++) {
-                            e->t[i] = wcstol(params[4 + i], NULL, 10);
+                        for (ptrdiff_t k = 0; k < 2; k++) {
+                            e->t[k] = wcstol(params[4 + k], NULL, 10);
                         }
                     }
 
@@ -2190,37 +2190,37 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
         style.fStrikeOut = !fClosing ? true : org.fStrikeOut;
     } else if (tag == L"font") {
         if (!fClosing) {
-            for (size_t i = 0; i < attribs.GetCount(); i++) {
-                if (params[i].IsEmpty()) {
+            for (size_t j = 0; j < attribs.GetCount(); j++) {
+                if (params[j].IsEmpty()) {
                     continue;
                 }
 
                 int nColor = -1;
 
-                if (attribs[i] == L"face") {
-                    style.fontName = params[i];
-                } else if (attribs[i] == L"size") {
-                    if (params[i][0] == '+') {
-                        style.fontSize += wcstol(params[i], NULL, 10);
-                    } else if (params[i][0] == '-') {
-                        style.fontSize -= wcstol(params[i], NULL, 10);
+                if (attribs[j] == L"face") {
+                    style.fontName = params[j];
+                } else if (attribs[j] == L"size") {
+                    if (params[j][0] == '+') {
+                        style.fontSize += wcstol(params[j], NULL, 10);
+                    } else if (params[j][0] == '-') {
+                        style.fontSize -= wcstol(params[j], NULL, 10);
                     } else {
-                        style.fontSize = wcstol(params[i], NULL, 10);
+                        style.fontSize = wcstol(params[j], NULL, 10);
                     }
-                } else if (attribs[i] == L"color") {
+                } else if (attribs[j] == L"color") {
                     nColor = 0;
-                } else if (attribs[i] == L"outline-color") {
+                } else if (attribs[j] == L"outline-color") {
                     nColor = 2;
-                } else if (attribs[i] == L"outline-level") {
-                    style.outlineWidthX = style.outlineWidthY = wcstol(params[i], NULL, 10);
-                } else if (attribs[i] == L"shadow-color") {
+                } else if (attribs[j] == L"outline-level") {
+                    style.outlineWidthX = style.outlineWidthY = wcstol(params[j], NULL, 10);
+                } else if (attribs[j] == L"shadow-color") {
                     nColor = 3;
-                } else if (attribs[i] == L"shadow-level") {
-                    style.shadowDepthX = style.shadowDepthY = wcstol(params[i], NULL, 10);
+                } else if (attribs[j] == L"shadow-level") {
+                    style.shadowDepthX = style.shadowDepthY = wcstol(params[j], NULL, 10);
                 }
 
                 if (nColor >= 0 && nColor < 4) {
-                    CString key = WToT(params[i]).TrimLeft('#');
+                    CString key = WToT(params[j]).TrimLeft('#');
                     DWORD val;
                     if (g_colors.Lookup(key, val)) {
                         style.colors[nColor] = val;

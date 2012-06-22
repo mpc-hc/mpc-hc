@@ -346,9 +346,9 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             name.Format(L"%s (%s %u)", CStringW(s->strn), label, i);
         }
 
-        HRESULT hr;
+        HRESULT hr2;
 
-        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CAviSplitterOutputPin(mts, name, this, this, &hr));
+        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CAviSplitterOutputPin(mts, name, this, this, &hr2));
         AddOutputPin(i, pPinOut);
     }
 

@@ -510,8 +510,8 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                 }
 
                 int num2;
-                WCHAR c;
-                if (swscanf_s(tmp, L"%d%c", &num2, &c, sizeof(WCHAR)) == 1 && fFoundEmpty) {
+                WCHAR wc;
+                if (swscanf_s(tmp, L"%d%c", &num2, &wc, sizeof(WCHAR)) == 1 && fFoundEmpty) {
                     num = num2;
                     break;
                 }
@@ -800,9 +800,9 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
                     fRestore[COLOR] = (_istupper(code[1]) == 0);
                     code.MakeLower();
 
-                    int CharSet;
-                    swscanf_s(code, L"{h:%d", &CharSet);
-                    code.Format(L"{\\fe%d}", CharSet);
+                    int iCharSet;
+                    swscanf_s(code, L"{h:%d", &iCharSet);
+                    code.Format(L"{\\fe%d}", iCharSet);
                     ret += code;
                 } else if (!_wcsnicmp(code, L"{y:", 3)) {
                     bool f = (_istupper(code[1]) == 0);
@@ -2166,8 +2166,8 @@ void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
         m_styles.RemoveKey(name);
         m_styles[name3] = val;
 
-        for (size_t i = 0, j = GetCount(); i < j; i++) {
-            STSEntry& stse = GetAt(i);
+        for (size_t k = 0, j = GetCount(); k < j; i++) {
+            STSEntry& stse = GetAt(k);
             if (stse.style == name) {
                 stse.style = name3;
             }
