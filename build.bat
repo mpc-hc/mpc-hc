@@ -121,33 +121,33 @@ CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
 
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters Win32
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters Win32
   GOTO x64
 )
 
 IF /I "%CONFIG%" == "Resources" (
   CALL :SubResources Win32
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
   GOTO x64
 )
 
 CALL :SubMPCHC Win32
-IF %ERRORLEVEL% NEQ 0 GOTO EOF
+IF %ERRORLEVEL% NEQ 0 GOTO :EOF
 
 IF /I "%CONFIG%" == "Main" GOTO x64
 
 CALL :SubResources Win32
-IF %ERRORLEVEL% NEQ 0 GOTO EOF
+IF %ERRORLEVEL% NEQ 0 GOTO :EOF
 
-IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller Win32 & IF %ERRORLEVEL% NEQ 0 GOTO EOF
+IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller Win32 & IF %ERRORLEVEL% NEQ 0 GOTO :EOF
 IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC Win32
 
 IF /I "%CONFIG%" == "All" (
   CALL :SubFilters Win32
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters Win32
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
 )
 
 
@@ -158,34 +158,34 @@ CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
 
 IF /I "%CONFIG%" == "Filters" (
   CALL :SubFilters x64
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters x64
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
   GOTO END
 )
 
 IF /I "%CONFIG%" == "Resources" (
   CALL :SubResources x64
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
   GOTO END
 )
 
 CALL :SubMPCHC x64
-IF %ERRORLEVEL% NEQ 0 GOTO EOF
+IF %ERRORLEVEL% NEQ 0 GOTO :EOF
 
 IF /I "%CONFIG%" == "Main" GOTO End
 
 CALL :SubResources x64
-IF %ERRORLEVEL% NEQ 0 GOTO EOF
+IF %ERRORLEVEL% NEQ 0 GOTO :EOF
 
-IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller x64 & IF %ERRORLEVEL% NEQ 0 GOTO EOF
-IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC x64 & IF %ERRORLEVEL% NEQ 0 GOTO EOF
+IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller x64 & IF %ERRORLEVEL% NEQ 0 GOTO :EOF
+IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC x64 & IF %ERRORLEVEL% NEQ 0 GOTO :EOF
 
 IF /I "%CONFIG%" == "All" (
   CALL :SubFilters x64
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
   IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters x64
-  IF %ERRORLEVEL% NEQ 0 GOTO EOF
+  IF %ERRORLEVEL% NEQ 0 GOTO :EOF
 )
 
 
@@ -500,9 +500,9 @@ IF /I "%~1" == "ERROR" (
 ECHO ------------------------------ & ECHO.
 IF /I "%~1" == "ERROR" (
   PAUSE
-  EXIT /B 1
+  EXIT /B
 ) ELSE (
-  EXIT /B 0
+  EXIT /B
 )
 
 
@@ -542,8 +542,4 @@ IF %DURATIONS%  EQU 0 (SET DURATIONS=)  ELSE (SET DURATIONS=%DURATIONS%s )
 IF %DURATIONHS% EQU 0 (SET DURATIONHS=) ELSE (SET DURATIONHS=%DURATIONHS%ms)
 
 SET "DURATION=%DURATIONH%%DURATIONM%%DURATIONS%%DURATIONHS%"
-EXIT /B
-
-:EOF
-ENDLOCAL
 EXIT /B
