@@ -445,7 +445,7 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
                     p.StripPath();
                     fn2 = (LPCTSTR)p;
                 }
-                f.WriteString(idx + _T(",filename,") + fn + _T("\n"));
+                f.WriteString(idx + _T(",filename,") + fn2 + _T("\n"));
             }
 
             pos2 = pli.m_subs.GetHeadPosition();
@@ -456,7 +456,7 @@ bool CPlayerPlaylistBar::SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRem
                     p.StripPath();
                     fn2 = (LPCTSTR)p;
                 }
-                f.WriteString(idx + _T(",subtitle,") + fn + _T("\n"));
+                f.WriteString(idx + _T(",subtitle,") + fn2 + _T("\n"));
             }
         } else if (pli.m_type == CPlaylistItem::device && pli.m_fns.GetCount() == 2) {
             f.WriteString(idx + _T(",video,") + pli.m_fns.GetHead() + _T("\n"));
