@@ -10381,7 +10381,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
             pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CRealMediaGraph(m_pVideoWnd->m_hWnd, hr);
             if (!pUnk) {
-                throw (UINT)IDS_AG_OUT_OF_MEMORY;
+                throw(UINT)IDS_AG_OUT_OF_MEMORY;
             }
 
             if (SUCCEEDED(hr)) {
@@ -10393,14 +10393,14 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         } else if (engine == ShockWave) {
             pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CShockwaveGraph(m_pVideoWnd->m_hWnd, hr);
             if (!pUnk) {
-                throw (UINT)IDS_AG_OUT_OF_MEMORY;
+                throw(UINT)IDS_AG_OUT_OF_MEMORY;
             }
 
             if (SUCCEEDED(hr)) {
                 pGB = CComQIPtr<IGraphBuilder>(pUnk);
             }
             if (FAILED(hr) || !pGB) {
-                throw (UINT)IDS_MAINFRM_77;
+                throw(UINT)IDS_MAINFRM_77;
             }
             m_fShockwaveGraph = true;
         } else if (engine == QuickTime) {
@@ -10409,7 +10409,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 #else
             pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr);
             if (!pUnk) {
-                throw (UINT)IDS_AG_OUT_OF_MEMORY;
+                throw(UINT)IDS_AG_OUT_OF_MEMORY;
             }
 
             if (SUCCEEDED(hr)) {
@@ -10437,7 +10437,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     }
 
     if (!pGB) {
-        throw (UINT)IDS_MAINFRM_80;
+        throw(UINT)IDS_MAINFRM_80;
     }
 
     pGB->AddToROT();
@@ -10453,11 +10453,11 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     if (!(pMC && pME && pMS)
             || !(pVW && pBV)
             || !(pBA)) {
-        throw (UINT)IDS_GRAPH_INTERFACES_ERROR;
+        throw(UINT)IDS_GRAPH_INTERFACES_ERROR;
     }
 
     if (FAILED(pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0))) {
-        throw (UINT)IDS_GRAPH_TARGET_WND_ERROR;
+        throw(UINT)IDS_GRAPH_TARGET_WND_ERROR;
     }
 
     m_pProv = (IUnknown*)DNew CKeyProvider();
@@ -10482,7 +10482,7 @@ CWnd* CMainFrame::GetModalParent()
 void CMainFrame::OpenFile(OpenFileData* pOFD)
 {
     if (pOFD->fns.IsEmpty()) {
-        throw (UINT)IDS_MAINFRM_81;
+        throw(UINT)IDS_MAINFRM_81;
     }
 
     AppSettings& s = AfxGetAppSettings();
@@ -10777,17 +10777,17 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     EndEnumFilters;
 
     if (hr == E_INVALIDARG) {
-        throw (UINT)IDS_MAINFRM_93;
+        throw(UINT)IDS_MAINFRM_93;
     } else if (hr == VFW_E_CANNOT_RENDER) {
-        throw (UINT)IDS_DVD_NAV_ALL_PINS_ERROR;
+        throw(UINT)IDS_DVD_NAV_ALL_PINS_ERROR;
     } else if (hr == VFW_S_PARTIAL_RENDER) {
-        throw (UINT)IDS_DVD_NAV_SOME_PINS_ERROR;
+        throw(UINT)IDS_DVD_NAV_SOME_PINS_ERROR;
     } else if (hr == E_NOINTERFACE || !pDVDC || !pDVDI) {
-        throw (UINT)IDS_DVD_INTERFACES_ERROR;
+        throw(UINT)IDS_DVD_INTERFACES_ERROR;
     } else if (hr == VFW_E_CANNOT_LOAD_SOURCE_FILTER) {
-        throw (UINT)IDS_MAINFRM_94;
+        throw(UINT)IDS_MAINFRM_94;
     } else if (FAILED(hr)) {
-        throw (UINT)IDS_AG_FAILED;
+        throw(UINT)IDS_AG_FAILED;
     }
 
     WCHAR buff[_MAX_PATH];
@@ -10834,7 +10834,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 
     if (!m_VidDispName.IsEmpty()) {
         if (!CreateFilter(m_VidDispName, &pVidCapTmp, vidfrname)) {
-            throw (UINT)IDS_MAINFRM_96;
+            throw(UINT)IDS_MAINFRM_96;
         }
     }
 
@@ -10842,12 +10842,12 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 
     if (!m_AudDispName.IsEmpty()) {
         if (!CreateFilter(m_AudDispName, &pAudCapTmp, audfrname)) {
-            throw (UINT)IDS_MAINFRM_96;
+            throw(UINT)IDS_MAINFRM_96;
         }
     }
 
     if (!pVidCapTmp && !pAudCapTmp) {
-        throw (UINT)IDS_MAINFRM_98;
+        throw(UINT)IDS_MAINFRM_98;
     }
 
     pCGB = NULL;
@@ -10855,7 +10855,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
     pAudCap = NULL;
 
     if (FAILED(pCGB.CoCreateInstance(CLSID_CaptureGraphBuilder2))) {
-        throw (UINT)IDS_MAINFRM_99;
+        throw(UINT)IDS_MAINFRM_99;
     }
 
     HRESULT hr;
@@ -10864,7 +10864,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 
     if (pVidCapTmp) {
         if (FAILED(hr = pGB->AddFilter(pVidCapTmp, vidfrname))) {
-            throw (UINT)IDS_CAPTURE_ERROR_VID_FILTER;
+            throw(UINT)IDS_CAPTURE_ERROR_VID_FILTER;
         }
 
         pVidCap = pVidCapTmp;
@@ -10943,7 +10943,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
 
     if (pAudCapTmp) {
         if (FAILED(hr = pGB->AddFilter(pAudCapTmp, CStringW(audfrname)))) {
-            throw (UINT)IDS_CAPTURE_ERROR_AUD_FILTER;
+            throw(UINT)IDS_CAPTURE_ERROR_AUD_FILTER;
         }
 
         pAudCap = pAudCapTmp;
@@ -10974,7 +10974,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
     }
 
     if (!(pVidCap || pAudCap)) {
-        throw (UINT)IDS_MAINFRM_108;
+        throw(UINT)IDS_MAINFRM_108;
     }
 
     pODD->title.LoadString(IDS_CAPTURE_LIVE);
@@ -11642,19 +11642,19 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         CComPtr<IMFVideoMixerBitmap>    pMFVMB;
         CComPtr<IMadVRTextOsd>          pMVTO;
         if (m_fOpeningAborted) {
-            throw (UINT)IDS_AG_ABORTED;
+            throw(UINT)IDS_AG_ABORTED;
         }
 
         OpenCreateGraphObject(pOMD);
 
         if (m_fOpeningAborted) {
-            throw (UINT)IDS_AG_ABORTED;
+            throw(UINT)IDS_AG_ABORTED;
         }
 
         SetupIViAudReg();
 
         if (m_fOpeningAborted) {
-            throw (UINT)IDS_AG_ABORTED;
+            throw(UINT)IDS_AG_ABORTED;
         }
 
         if (pFileData) {
@@ -11665,13 +11665,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             if (s.iDefaultCaptureDevice == 1) {
                 HRESULT hr = OpenBDAGraph();
                 if (FAILED(hr)) {
-                    throw (UINT)IDS_CAPTURE_ERROR_DEVICE;
+                    throw(UINT)IDS_CAPTURE_ERROR_DEVICE;
                 }
             } else {
                 OpenCapture(pDeviceData);
             }
         } else {
-            throw (UINT)IDS_INVALID_PARAMS_ERROR;
+            throw(UINT)IDS_INVALID_PARAMS_ERROR;
         }
 
         m_pCAP2 = NULL;
@@ -11732,25 +11732,25 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         EndEnumFilters;
 
         if (m_fOpeningAborted) {
-            throw (UINT)IDS_AG_ABORTED;
+            throw(UINT)IDS_AG_ABORTED;
         }
 
         OpenCustomizeGraph();
 
         if (m_fOpeningAborted) {
-            throw (UINT)IDS_AG_ABORTED;
+            throw(UINT)IDS_AG_ABORTED;
         }
 
         OpenSetupVideo();
 
         if (m_fOpeningAborted) {
-            throw (UINT)IDS_AG_ABORTED;
+            throw(UINT)IDS_AG_ABORTED;
         }
 
         OpenSetupAudio();
 
         if (m_fOpeningAborted) {
-            throw (UINT)IDS_AG_ABORTED;
+            throw(UINT)IDS_AG_ABORTED;
         }
 
         if (m_pCAP && (!m_fAudioOnly || m_fRealMediaGraph)) {
@@ -11795,7 +11795,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
 
         if (m_fOpeningAborted) {
-            throw (UINT)IDS_AG_ABORTED;
+            throw(UINT)IDS_AG_ABORTED;
         }
 
         OpenSetupWindowTitle(pOMD->title);
