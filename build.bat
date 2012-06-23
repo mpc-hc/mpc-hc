@@ -88,6 +88,7 @@ IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCFG=Re
 IF %ARGCL% GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGD%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGF%  GTR 1 (GOTO UnsupportedSwitch)
+IF %ARGL%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%  GTR 1 (GOTO UnsupportedSwitch)
 
 
