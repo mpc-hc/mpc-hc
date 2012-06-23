@@ -324,6 +324,7 @@
     <ClCompile Include="FloatEdit.cpp" />
     <ClCompile Include="FullscreenWnd.cpp" />
     <ClCompile Include="GoToDlg.cpp" />
+    <ClCompile Include="GraphThread.cpp" />
     <ClCompile Include="Ifo.cpp" />
     <ClCompile Include="ISDb.cpp" />
     <ClCompile Include="KeyProvider.cpp" />
@@ -440,6 +441,7 @@
     <ClInclude Include="FloatEdit.h" />
     <ClInclude Include="FullscreenWnd.h" />
     <ClInclude Include="GoToDlg.h" />
+    <ClInclude Include="GraphThread.h" />
     <ClInclude Include="Ifo.h" />
     <ClInclude Include="IGraphBuilder2.h" />
     <ClInclude Include="InternalFiltersConfig.h" />
