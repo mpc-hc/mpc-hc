@@ -22,7 +22,9 @@
 
 #include "stdafx.h"
 #include "AboutDlg.h"
+#ifndef MPCHC_LITE
 #include "InternalFiltersConfig.h" // needed for HAS_FFMPEG
+#endif
 #include "mplayerc.h"
 #include "Version.h"
 
@@ -34,7 +36,9 @@ extern "C" char* GetFFmpegCompiler();
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
     , m_strBuildNumber(_T(""))
     , m_MPCCompiler(_T(""))
+#ifndef MPCHC_LITE
     , m_FFmpegCompiler(_T(""))
+#endif
 {
     //{{AFX_DATA_INIT(CAboutDlg)
     //}}AFX_DATA_INIT
@@ -94,8 +98,11 @@ BOOL CAboutDlg::OnInitDialog()
     m_MPCCompiler += _T(" Debug");
 #endif
 
-#if HAS_FFMPEG
+#if defined(HAS_FFMPEG) && !defined(MPCHC_LITE)
     m_FFmpegCompiler.Format(CA2W(GetFFmpegCompiler()));
+#else
+    GetDlgItem(IDC_FFMPEG_TEXT)->ShowWindow(SW_HIDE);
+    GetDlgItem(IDC_FFMPEG_COMPILER)->ShowWindow(SW_HIDE);
 #endif
 
     // Build the path to Authors.txt
@@ -124,7 +131,9 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_STATIC1, m_appname);
     DDX_Text(pDX, IDC_BUILD_NUMBER, m_strBuildNumber);
     DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
+#ifndef MPCHC_LITE
     DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
+#endif
     DDX_Text(pDX, IDC_AUTHORS_LINK, m_Credits);
 }
 
