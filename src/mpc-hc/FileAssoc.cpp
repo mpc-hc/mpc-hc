@@ -86,7 +86,7 @@ CString CFileAssoc::GetOpenCommand()
     CString path;
     TCHAR buff[_MAX_PATH];
 
-    if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) {
+    if (::GetModuleFileName(NULL, buff, _MAX_PATH) == 0) {
         return _T("");
     }
 
@@ -99,7 +99,7 @@ CString CFileAssoc::GetEnqueueCommand()
     CString path;
     TCHAR buff[_MAX_PATH];
 
-    if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) {
+    if (::GetModuleFileName(NULL, buff, _MAX_PATH) == 0) {
         return _T("");
     }
 
