@@ -376,8 +376,7 @@ CString CMPlayerCApp::GetIniPath() const
 
 bool CMPlayerCApp::IsIniValid() const
 {
-    CFileStatus fs;
-    return !!CFile::GetStatus(GetIniPath(), fs);
+    return FileExists(GetIniPath());
 }
 
 bool CMPlayerCApp::IsIniUTF16LE() const
@@ -912,8 +911,7 @@ BOOL CMPlayerCApp::InitInstance()
             CPath playlistPath;
             playlistPath.Combine(strSavePath, _T("default.mpcpl"));
 
-            CFileStatus status;
-            if (CFile::GetStatus(playlistPath, status)) {
+            if (FileExists(playlistPath)) {
                 CFile::Remove(playlistPath);
             }
         }

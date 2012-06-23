@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "FileAssoc.h"
 #include "resource.h"
+#include "WinAPIUtils.h"
 
 
 // TODO: change this along with the root key for settings and the mutex name to
@@ -51,16 +52,6 @@ static CString GetProgramDir()
     RtnVal = FileName;
     RtnVal = RtnVal.Left(RtnVal.ReverseFind('\\'));
     return RtnVal;
-}
-
-static int FileExists(const TCHAR* fileName)
-{
-    DWORD fileAttr;
-    fileAttr = ::GetFileAttributes(fileName);
-    if (0xFFFFFFFF == fileAttr) {
-        return false;
-    }
-    return true;
 }
 
 typedef int (*GetIconIndexFunc)(CString);

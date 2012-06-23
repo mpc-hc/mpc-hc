@@ -26,6 +26,7 @@
 #include "PPageFormats.h"
 #include "FileAssoc.h"
 #include "SysVersion.h"
+#include "WinAPIUtils.h"
 #include <psapi.h>
 #include <string>
 
@@ -42,14 +43,6 @@ static CString GetProgramDir()
     path = path.Left(path.ReverseFind(_T('\\')));
 
     return path;
-}
-
-static bool FileExists(LPCTSTR fileName)
-{
-    DWORD fileAttr;
-    fileAttr = ::GetFileAttributes(fileName);
-
-    return (0xFFFFFFFF != fileAttr);
 }
 
 IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)

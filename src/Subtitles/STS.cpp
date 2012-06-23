@@ -29,6 +29,8 @@
 #include <fstream>
 #include "USFSubtitles.h"
 
+#include "../DSUtil/WinAPIUtils.h"
+
 // gathered from http://www.netwave.or.jp/~shikai/shikai/shcolor.htm
 
 struct htmlcolor {
@@ -1323,8 +1325,7 @@ static bool LoadFont(CString& font)
         CString fn;
         fn.Format(_T("%sfont%08x.ttf"), path, chksum);
 
-        CFileStatus fs;
-        if (!CFileGetStatus(fn, fs)) {
+        if (!FileExists(fn)) {
             CFile f;
             if (f.Open(fn, CFile::modeCreate | CFile::modeWrite | CFile::typeBinary | CFile::shareDenyNone)) {
                 f.Write(pData, datalen);

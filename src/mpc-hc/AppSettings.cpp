@@ -1711,8 +1711,7 @@ CString CAppSettings::ParseFileName(CString const& param)
     if (param.Find(_T(":")) < 0) {
         fullPathName.ReleaseBuffer(GetFullPathName(param, _MAX_PATH, fullPathName.GetBuffer(_MAX_PATH), NULL));
 
-        CFileStatus fs;
-        if (!fullPathName.IsEmpty() && CFileGetStatus(fullPathName, fs)) {
+        if (!fullPathName.IsEmpty() && FileExists(fullPathName)) {
             return fullPathName;
         }
     }

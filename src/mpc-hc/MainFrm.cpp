@@ -12472,7 +12472,6 @@ void CMainFrame::SetupLanguageMenu()
     }
 
     UINT uiCount = 0;
-    CFileStatus fs;
     CString appPath;
     GetModuleFileName(AfxGetInstanceHandle(), appPath.GetBuffer(_MAX_PATH), _MAX_PATH);
     appPath.ReleaseBuffer();
@@ -12481,7 +12480,7 @@ void CMainFrame::SetupLanguageMenu()
     for (size_t i = 0; i < CMPlayerCApp::languageResourcesCount; i++) {
         const LanguageResource& lr = CMPlayerCApp::languageResources[i];
 
-        if (lr.dllPath == NULL || CFile::GetStatus(appPath + lr.dllPath, fs)) {
+        if (lr.dllPath == NULL || FileExists(appPath + lr.dllPath)) {
             m_language.AppendMenu(MF_STRING | MF_ENABLED, lr.resourceID, lr.name);
 
             if (lr.localeID == s.language) {

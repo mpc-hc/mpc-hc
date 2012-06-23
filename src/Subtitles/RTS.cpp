@@ -26,6 +26,7 @@
 #include <time.h>
 #include <emmintrin.h>
 #include "RTS.h"
+#include "../DSUtil/WinAPIUtils.h"
 
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
@@ -2843,8 +2844,7 @@ STDMETHODIMP CRenderedTextSubtitle::SetStream(int iStream)
 
 STDMETHODIMP CRenderedTextSubtitle::Reload()
 {
-    CFileStatus s;
-    if (!CFile::GetStatus(m_path, s)) {
+    if (!FileExists(m_path)) {
         return E_FAIL;
     }
     return !m_path.IsEmpty() && Open(m_path, DEFAULT_CHARSET) ? S_OK : E_FAIL;

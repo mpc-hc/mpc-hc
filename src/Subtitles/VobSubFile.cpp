@@ -34,6 +34,7 @@
 #include "unrar/dll.hpp"
 #endif
 #include "RTS.h"
+#include "../DSUtil/WinAPIUtils.h"
 
 //
 
@@ -1416,12 +1417,10 @@ STDMETHODIMP CVobSubFile::SetStream(int iStream)
 
 STDMETHODIMP CVobSubFile::Reload()
 {
-    CFileStatus s;
-    if (!CFile::GetStatus(m_title + _T(".idx"), s)) {
+    if (!FileExists(m_title + _T(".idx"))) {
         return E_FAIL;
     }
-    return !m_title.IsEmpty() && Open(m_title) ? S_OK : E_FAIL;
-}
+    return !m_title.IsEmpty() && Open(m_title) ? S_OK : E_FAIL;}
 
 // StretchBlt
 

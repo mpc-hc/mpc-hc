@@ -38,4 +38,6 @@ void GetStatusFont(LOGFONT* lf);
 
 bool IsFontInstalled(LPCTSTR lpszFont);
 
-bool ExploreToFile(CString path);
+bool ExploreToFile(LPCTSTR path);
+
+bool FileExists(LPCTSTR fileName);

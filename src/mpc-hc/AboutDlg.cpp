@@ -27,6 +27,7 @@
 #endif
 #include "mplayerc.h"
 #include "Version.h"
+#include "WinAPIUtils.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
@@ -110,8 +111,7 @@ BOOL CAboutDlg::OnInitDialog()
     m_AuthorsPath.ReleaseBuffer();
     m_AuthorsPath = m_AuthorsPath.Left(m_AuthorsPath.ReverseFind('\\') + 1) + _T("Authors.txt");
     // Check if the file exists
-    CFileStatus fs;
-    if (CFile::GetStatus(m_AuthorsPath, fs)) {
+    if (FileExists(m_AuthorsPath)) {
         // If it does, we make the filename clickable
         m_Credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
     }

@@ -244,7 +244,7 @@ bool IsFontInstalled(LPCTSTR lpszFont)
     return lParam ? true : false;
 }
 
-bool ExploreToFile(CString path)
+bool ExploreToFile(LPCTSTR path)
 {
     bool success = false;
     HRESULT res = CoInitialize(NULL);
@@ -261,4 +261,9 @@ bool ExploreToFile(CString path)
     }
 
     return success;
+}
+
+bool FileExists(LPCTSTR fileName)
+{
+    return (INVALID_FILE_ATTRIBUTES != ::GetFileAttributes(fileName));
 }
