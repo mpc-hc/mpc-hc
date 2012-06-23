@@ -41,6 +41,7 @@ SET ARGC=0
 SET ARGCL=0
 SET ARGD=0
 SET ARGF=0
+SET ARGL=0
 SET ARGM=0
 SET ARGPL=0
 SET INPUT=0
@@ -60,8 +61,8 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "x64"        SET "PLATFORM=x64"      & SET /A ARGPL+=1
   IF /I "%%A" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
   IF /I "%%A" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1  & SET /A ARGM+=1
-  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1
-  IF /I "%%A" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1
+  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
+  IF /I "%%A" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
   IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & SET /A ARGC+=1
   IF /I "%%A" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
   IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
@@ -72,7 +73,7 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
   IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%A" == "7z"         SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A VALID+=1 & SET /A ARGF+=1
+  IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A VALID+=1 & SET /A ARGL+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
