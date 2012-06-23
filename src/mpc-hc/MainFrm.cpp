@@ -9081,9 +9081,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
     //       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
     if (bRelativeDrive) {
         // Get the drive MPC-HC is on and apply it to the path list
-        CString exePath;
-        DWORD dwLength = GetModuleFileName(AfxGetInstanceHandle(), exePath.GetBuffer(_MAX_PATH), _MAX_PATH);
-        exePath.ReleaseBuffer(dwLength);
+        CString exePath = GetProgramPath(true);
 
         CPath exeDrive(exePath);
 
@@ -12472,10 +12470,7 @@ void CMainFrame::SetupLanguageMenu()
     }
 
     UINT uiCount = 0;
-    CString appPath;
-    GetModuleFileName(AfxGetInstanceHandle(), appPath.GetBuffer(_MAX_PATH), _MAX_PATH);
-    appPath.ReleaseBuffer();
-    appPath = appPath.Left(appPath.ReverseFind(_T('\\')) + 1);
+    CString appPath = GetProgramPath();
 
     for (size_t i = 0; i < CMPlayerCApp::languageResourcesCount; i++) {
         const LanguageResource& lr = CMPlayerCApp::languageResources[i];

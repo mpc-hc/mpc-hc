@@ -26,6 +26,7 @@
 #include "MainFrm.h"
 #include "PPageWebServer.h"
 #include "SysVersion.h"
+#include "WinAPIUtils.h"
 
 
 // CPPageWebServer dialog
@@ -148,16 +149,6 @@ BOOL CPPageWebServer::OnApply()
     return __super::OnApply();
 }
 
-CString CPPageWebServer::GetMPCDir()
-{
-    CString dir;
-    GetModuleFileName(AfxGetInstanceHandle(), dir.GetBuffer(_MAX_PATH), _MAX_PATH);
-    dir.ReleaseBuffer();
-    CPath path(dir);
-    path.RemoveFileSpec();
-    return (LPCTSTR)path;
-}
-
 CString CPPageWebServer::GetCurWebRoot()
 {
     CString WebRoot;
@@ -165,7 +156,7 @@ CString CPPageWebServer::GetCurWebRoot()
     WebRoot.Replace('/', '\\');
 
     CPath path;
-    path.Combine(GetMPCDir(), WebRoot);
+    path.Combine(GetProgramPath(), WebRoot);
     return path.IsDirectory() ? (LPCTSTR)path : _T("");
 }
 
@@ -264,7 +255,7 @@ void CPPageWebServer::OnBnClickedButton1()
     CString dir = GetCurWebRoot();
     if (PickDir(dir)) {
         CPath path;
-        if (path.RelativePathTo(GetMPCDir(), FILE_ATTRIBUTE_DIRECTORY, dir, FILE_ATTRIBUTE_DIRECTORY)) {
+        if (path.RelativePathTo(GetProgramPath(), FILE_ATTRIBUTE_DIRECTORY, dir, FILE_ATTRIBUTE_DIRECTORY)) {
             dir = (LPCTSTR)path;
         }
         m_WebRoot = dir;

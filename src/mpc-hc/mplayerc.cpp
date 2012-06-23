@@ -367,9 +367,7 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
 
 CString CMPlayerCApp::GetIniPath() const
 {
-    CString path;
-    GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
-    path.ReleaseBuffer();
+    CString path = GetProgramPath(true);
     path = path.Left(path.ReverseFind('.') + 1) + _T("ini");
     return path;
 }
@@ -412,9 +410,7 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
     path.Empty();
 
     if (IsIniValid()) { // If settings ini file found, store stuff in the same folder as the exe file
-        GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
-        path.ReleaseBuffer();
-        path.Truncate(path.ReverseFind('\\'));
+        path = GetProgramPath();
     } else {
         HRESULT hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, path.GetBuffer(_MAX_PATH));
         path.ReleaseBuffer();
@@ -1018,10 +1014,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     CRegKey key;
     if (ERROR_SUCCESS == key.Create(HKEY_LOCAL_MACHINE, _T("Software\\Gabest\\Media Player Classic"))) {
-        CString path;
-        GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
-        path.ReleaseBuffer();
-        key.SetStringValue(_T("ExePath"), path);
+        key.SetStringValue(_T("ExePath"), GetProgramPath(true));
     }
 
     AfxEnableControlContainer();

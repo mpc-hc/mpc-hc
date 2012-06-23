@@ -31,6 +31,7 @@
 #include "WebServerSocket.h"
 #include "WebClientSocket.h"
 #include "WebServer.h"
+#include "WinAPIUtils.h"
 
 
 CAtlStringMap<CWebServer::RequestHandler> CWebServer::m_internalpages;
@@ -117,10 +118,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     m_mimes[".png"] = "image/png";
     m_mimes[".js"] = "text/javascript";
 
-    GetModuleFileName(AfxGetInstanceHandle(), str.GetBuffer(_MAX_PATH), _MAX_PATH);
-    str.ReleaseBuffer();
-    m_webroot = CPath(str);
-    m_webroot.RemoveFileSpec();
+    m_webroot = CPath(GetProgramPath());
 
     CString WebRoot = AfxGetAppSettings().strWebRoot;
     WebRoot.Replace('/', '\\');

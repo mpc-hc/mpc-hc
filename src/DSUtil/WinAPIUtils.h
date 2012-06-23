@@ -41,3 +41,5 @@ bool IsFontInstalled(LPCTSTR lpszFont);
 bool ExploreToFile(LPCTSTR path);
 
 bool FileExists(LPCTSTR fileName);
+
+CString GetProgramPath(bool bWithExecutableName = false);

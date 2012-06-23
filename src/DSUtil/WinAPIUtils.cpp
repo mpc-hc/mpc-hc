@@ -267,3 +267,17 @@ bool FileExists(LPCTSTR fileName)
 {
     return (INVALID_FILE_ATTRIBUTES != ::GetFileAttributes(fileName));
 }
+
+CString GetProgramPath(bool bWithExecutableName /*= false*/)
+{
+    CString path;
+
+    DWORD dwLength = ::GetModuleFileName(NULL, path.GetBuffer(_MAX_PATH), _MAX_PATH);
+    path.ReleaseBuffer((int)dwLength);
+
+    if (!bWithExecutableName) {
+        path = path.Left(path.ReverseFind(_T('\\')) + 1);
+    }
+
+    return path;
+}

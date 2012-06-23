@@ -107,9 +107,7 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 
     // Build the path to Authors.txt
-    GetModuleFileName(AfxGetInstanceHandle(), m_AuthorsPath.GetBuffer(_MAX_PATH), _MAX_PATH);
-    m_AuthorsPath.ReleaseBuffer();
-    m_AuthorsPath = m_AuthorsPath.Left(m_AuthorsPath.ReverseFind('\\') + 1) + _T("Authors.txt");
+    m_AuthorsPath = GetProgramPath() + _T("Authors.txt");
     // Check if the file exists
     if (FileExists(m_AuthorsPath)) {
         // If it does, we make the filename clickable

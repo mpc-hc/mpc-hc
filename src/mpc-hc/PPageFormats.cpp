@@ -34,17 +34,6 @@
 // CPPageFormats dialog
 
 
-static CString GetProgramDir()
-{
-    CString path;
-
-    ::GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
-    path.ReleaseBuffer();
-    path = path.Left(path.ReverseFind(_T('\\')));
-
-    return path;
-}
-
 IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
     : CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
@@ -253,7 +242,7 @@ BOOL CPPageFormats::OnApply()
     int fSetAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
 
     if (m_bFileExtChanged) {
-        if (fSetAssociatedWithIcon && IsNeededIconsLib() && !FileExists(GetProgramDir() + _T("\\mpciconlib.dll"))) {
+        if (fSetAssociatedWithIcon && IsNeededIconsLib() && !FileExists(GetProgramPath() + _T("mpciconlib.dll"))) {
             AfxMessageBox(IDS_MISSING_ICONS_LIB, MB_ICONEXCLAMATION | MB_OK, 0);
         }
 

@@ -44,16 +44,6 @@ const CString CFileAssoc::strEnqueueCommand = CFileAssoc::GetEnqueueCommand();
 
 CComPtr<IApplicationAssociationRegistration> CFileAssoc::m_pAAR;
 
-static CString GetProgramDir()
-{
-    CString RtnVal;
-    TCHAR FileName[_MAX_PATH];
-    ::GetModuleFileName(AfxGetInstanceHandle(), FileName, _MAX_PATH);
-    RtnVal = FileName;
-    RtnVal = RtnVal.Left(RtnVal.ReverseFind('\\'));
-    return RtnVal;
-}
-
 typedef int (*GetIconIndexFunc)(CString);
 
 static int GetIconIndex(CString ext)
@@ -74,28 +64,12 @@ static int GetIconIndex(CString ext)
 
 CString CFileAssoc::GetOpenCommand()
 {
-    CString path;
-    TCHAR buff[_MAX_PATH];
-
-    if (::GetModuleFileName(NULL, buff, _MAX_PATH) == 0) {
-        return _T("");
-    }
-
-    path = buff;
-    return _T("\"") + path + _T("\" \"%1\"");
+    return _T("\"") + GetProgramPath(true) + _T("\" \"%1\"");
 }
 
 CString CFileAssoc::GetEnqueueCommand()
 {
-    CString path;
-    TCHAR buff[_MAX_PATH];
-
-    if (::GetModuleFileName(NULL, buff, _MAX_PATH) == 0) {
-        return _T("");
-    }
-
-    path = buff;
-    return _T("\"") + path + _T("\" /add \"%1\"");
+    return _T("\"") + GetProgramPath(true) + _T("\" /add \"%1\"");
 }
 
 IApplicationAssociationRegistration* CFileAssoc::CreateRegistrationManager()
@@ -120,14 +94,7 @@ bool CFileAssoc::RegisterApp()
     }
 
     if (m_pAAR) {
-        CString AppIcon = _T("");
-        TCHAR buff[_MAX_PATH];
-
-        if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH)) {
-            AppIcon = buff;
-            AppIcon = "\"" + AppIcon + "\"";
-            AppIcon += _T(",0");
-        }
+        CString AppIcon = "\"" + GetProgramPath(true) + "\",0";
 
         // Register MPC for the windows "Default application" manager
         CRegKey key;
@@ -223,10 +190,9 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
     }
 
     if (bAssociatedWithIcon) {
-        CString AppIcon = _T("");
-        TCHAR buff[_MAX_PATH];
+        CString AppIcon;
 
-        CString mpciconlib = GetProgramDir() + _T("\\mpciconlib.dll");
+        CString mpciconlib = GetProgramPath() + _T("mpciconlib.dll");
 
         if (FileExists(mpciconlib)) {
             int icon_index = GetIconIndex(ext);
@@ -240,10 +206,8 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
         }
 
         /* no icon was found for the file extension, so use MPC's icon */
-        if ((AppIcon.IsEmpty()) && (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH))) {
-            AppIcon = buff;
-            AppIcon = "\"" + AppIcon + "\"";
-            AppIcon += _T(",0");
+        if (AppIcon.IsEmpty()) {
+            AppIcon = "\"" + GetProgramPath(true) + "\",0";
         }
 
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))) {
@@ -585,11 +549,7 @@ static struct {
 
 void CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)
 {
-    TCHAR buff[_MAX_PATH];
-    if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) {
-        return;
-    }
-    CString exe = buff;
+    CString exe = GetProgramPath(true);
 
     int i = (int)ap;
     if (i < 0 || i >= _countof(handlers)) {
@@ -642,10 +602,7 @@ bool CFileAssoc::IsAutoPlayRegistered(autoplay_t ap)
 {
     ULONG len;
     TCHAR buff[_MAX_PATH];
-    if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) {
-        return false;
-    }
-    CString exe = buff;
+    CString exe = GetProgramPath(true);
 
     int i = (int)ap;
     if (i < 0 || i >= _countof(handlers)) {

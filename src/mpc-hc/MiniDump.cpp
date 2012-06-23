@@ -112,8 +112,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
                 strDumpPath.Append(AfxGetApp()->m_pszExeName);
                 strDumpPath.Append(_T(".exe"));
             } else {
-                GetModuleFileName(NULL, strDumpPath.GetBuffer(_MAX_PATH), _MAX_PATH);
-                strDumpPath.ReleaseBuffer();
+                strDumpPath = GetProgramPath(true);
             }
             strDumpPath.AppendFormat(_T(".%d.%d.%d.%d.dmp"), MPC_VERSION_NUM);
 

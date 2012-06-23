@@ -29,6 +29,7 @@
 #include "MPCPngImage.h"
 #include "PlayerToolBar.h"
 #include "MainFrm.h"
+#include "WinAPIUtils.h"
 
 // CPlayerToolBar
 
@@ -48,10 +49,7 @@ CPlayerToolBar::~CPlayerToolBar()
 
 void CPlayerToolBar::LoadExternalToolBar(CImage* image)
 {
-    CString path;
-    GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
-    path.ReleaseBuffer();
-    path = path.Left(path.ReverseFind('\\') + 1);
+    CString path = GetProgramPath();
 
     if (SUCCEEDED(image->Load(path + _T("toolbar.png")))) {
         ;
