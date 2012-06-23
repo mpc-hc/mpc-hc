@@ -1184,7 +1184,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 }
             }
 
-            for (int i = 0, j = mts.GetCount(); i < j; ++i) {
+            for (size_t i = 0, j = mts.GetCount(); i < j; ++i) {
                 BITMAPINFOHEADER bih;
                 if (ExtractBIH(&mts[i], &bih)) {
                     m_framesize.cx = bih.biWidth;

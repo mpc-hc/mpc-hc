@@ -315,7 +315,7 @@ void CDSMMuxerFilter::MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket)
     }
 
     if (pPacket->pPin->CurrentMediaType().majortype == MEDIATYPE_Text) {
-        CStringA str((char*)pPacket->pData.GetData(), pPacket->pData.GetCount());
+        CStringA str((char*)pPacket->pData.GetData(), (int)pPacket->pData.GetCount());
         str.Replace("\xff", " ");
         str.Replace("&nbsp;", " ");
         str.Replace("&nbsp", " ");
@@ -343,7 +343,7 @@ void CDSMMuxerFilter::MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket)
         IndexSyncPoint(pPacket, pBS->GetPos());
     }
 
-    int len = 2 + iTimeStamp + iDuration + pPacket->pData.GetCount(); // id + flags + data
+    UINT64 len = 2 + iTimeStamp + iDuration + pPacket->pData.GetCount(); // id + flags + data
 
     MuxPacketHeader(pBS, DSMP_SAMPLE, len);
     pBS->BitWrite(pPacket->pPin->GetID(), 8);

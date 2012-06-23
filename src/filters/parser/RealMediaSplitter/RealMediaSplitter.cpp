@@ -278,7 +278,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             mts.Add(mt);
 
             BYTE* extra     = pmp->typeSpecData.GetData();
-            int extralen    = pmp->typeSpecData.GetCount();
+            ULONG extralen  = (ULONG)pmp->typeSpecData.GetCount();
 
             if (extralen > 26) {
                 extra       += 26;
@@ -900,7 +900,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
             || m_mt.subtype == MEDIASUBTYPE_RV41) {
         CAutoLock cAutoLock(&m_csQueue);
 
-        int len = p->GetCount();
+        int len = (int)p->GetCount();
         BYTE* pIn = p->GetData();
         BYTE* pInOrg = pIn;
 
@@ -983,9 +983,9 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         BYTE* ptr = p->GetData() + 2;
 
         CAtlList<WORD> sizes;
-        int total = 0;
-        int remaining = p->GetCount() - 2;
-        int expected = *(ptr - 1) >> 4;
+        size_t total = 0;
+        size_t remaining = p->GetCount() - 2;
+        size_t expected = *(ptr - 1) >> 4;
 
         while (total < remaining) {
             int size = (ptr[0] << 8) | (ptr[1]);
@@ -1523,7 +1523,7 @@ void CRMFile::GetDimensions()
 
                 BYTE* p = mph.pData.GetData();
                 BYTE* p0 = p;
-                int len = mph.pData.GetCount();
+                int len = (int)mph.pData.GetCount();
 
                 BYTE hdr = *p++;
                 DWORD packetlen = 0, packetoffset = 0;

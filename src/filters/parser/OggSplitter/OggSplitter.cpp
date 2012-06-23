@@ -240,13 +240,13 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             } else if (type == 3 && !memcmp(p, "vorbis", 6)) {
                 if (COggSplitterOutputPin* pOggPin =
                             dynamic_cast<COggSplitterOutputPin*>(GetOutputPin(page.m_hdr.bitstream_serial_number))) {
-                    pOggPin->AddComment(p + 6, page.GetCount() - 6 - 1);
+                    pOggPin->AddComment(p + 6, (int)page.GetCount() - 6 - 1);
                 }
             } else if (type == 0x7F && page.GetCount() > 12 && *(long*)(p + 8) == 0x43614C66) { // Flac
                 // Ogg Flac : method 1
                 CAutoPtr<CBaseSplitterOutputPin> pPinOut;
                 name.Format(L"FLAC %d", i);
-                pPinOut.Attach(DNew COggFlacOutputPin(p + 12, page.GetCount() - 14, name, this, this, &hr2));
+                pPinOut.Attach(DNew COggFlacOutputPin(p + 12, (int)page.GetCount() - 14, name, this, this, &hr2));
                 AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
             } else if (*(long*)(p - 1) == 0x43614C66) {
                 //bFlac = true;
@@ -255,7 +255,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     CAutoPtr<CBaseSplitterOutputPin> pPinOut;
                     name.Format(L"FLAC %d", i);
                     p = page.GetData();
-                    pPinOut.Attach(DNew COggFlacOutputPin(p, page.GetCount(), name, this, this, &hr2));
+                    pPinOut.Attach(DNew COggFlacOutputPin(p, (int)page.GetCount(), name, this, this, &hr2));
                     AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
                 }
             } else if (!(type & 1) && nWaitForMore == 0) {
@@ -700,7 +700,7 @@ HRESULT COggSplitterOutputPin::UnpackPage(OggPage& page)
                 //              ASSERT(m_lastpacket);
 
                 if (m_lastpacket) {
-                    int size = m_lastpacket->GetCount();
+                    size_t size = m_lastpacket->GetCount();
                     m_lastpacket->SetCount(size + j - i);
                     memcpy(m_lastpacket->GetData() + size, pData + i, j - i);
 
@@ -830,7 +830,7 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
 
         if (p->GetCount() >= 6 && p->GetAt(0) == 0x05) {
             // yeah, right, we are going to be parsing this backwards! :P
-            bitstream bs(p->GetData(), p->GetCount(), true);
+            bitstream bs(p->GetData(), (int)p->GetCount(), true);
             while (bs.hasbits(-1) && bs.getbits(-1) != 1) {
                 ;
             }
@@ -853,7 +853,7 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
             }
         }
 
-        int cnt = m_initpackets.GetCount();
+        size_t cnt = m_initpackets.GetCount();
         if (cnt <= 3 && (p->GetCount() >= 6 && p->GetAt(0) == 1 + cnt * 2)) {
             VORBISFORMAT2* vf2 = (VORBISFORMAT2*)m_mts[0].Format();
             vf2->HeaderSize[cnt] = p->GetCount();
@@ -878,7 +878,8 @@ HRESULT COggVorbisOutputPin::UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, i
     if (len > 0 && m_blockflags.GetCount()) {
         bitstream bs(pData, len);
         if (bs.getbits(1) == 0) {
-            int x = m_blockflags.GetCount() - 1, n = 0;
+            size_t x = m_blockflags.GetCount() - 1;
+            int n = 0;
             while (x) {
                 n++;
                 x >>= 1;
@@ -1266,7 +1267,7 @@ HRESULT COggTheoraOutputPin::UnpackInitPage(OggPage& page)
         Packet* p = m_packets.GetHead();
 
         CMediaType& mt = m_mts[0];
-        int size = p->GetCount();
+        int size = (int)p->GetCount();
         ASSERT(size <= 0xffff);
         MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.ReallocFormatBuffer(
                                   FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) +

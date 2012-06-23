@@ -518,7 +518,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
             CString token;
             for (int j = 0; j < 3; j++) {
                 token = str.Tokenize(_T(" "), k);
-                if (token.IsEmpty()) break;
+                if (token.IsEmpty()) { break; }
 
                 if (j == 0) {
                     if (token == _T("on") || token == _T("1")) {

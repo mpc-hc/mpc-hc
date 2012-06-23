@@ -693,10 +693,10 @@ avcsuccess:
                     mts.Add(mt);
                 } else if (CodecID == "A_VORBIS") {
                     BYTE* p = pTE->CodecPrivate.GetData();
-                    CAtlArray<int> sizes;
-                    int totalsize = 0;
+                    CAtlArray<size_t> sizes;
+                    size_t totalsize = 0;
                     for (BYTE n = *p++; n > 0; n--) {
-                        int size = 0;
+                        size_t size = 0;
                         do {
                             size += *p;
                         } while (*p++ == 0xff);
@@ -709,7 +709,7 @@ avcsuccess:
                     if (sizes.GetCount() == 3) {
                         mt.subtype = MEDIASUBTYPE_Vorbis2;
                         mt.formattype = FORMAT_VorbisFormat2;
-                        VORBISFORMAT2* pvf2 = (VORBISFORMAT2*)mt.AllocFormatBuffer(sizeof(VORBISFORMAT2) + totalsize);
+                        VORBISFORMAT2* pvf2 = (VORBISFORMAT2*)mt.AllocFormatBuffer(sizeof(VORBISFORMAT2) + (ULONG)totalsize);
                         memset(pvf2, 0, mt.FormatLength());
                         pvf2->Channels = (WORD)pTE->a.Channels;
                         pvf2->SamplesPerSec = (DWORD)pTE->a.SamplingFrequency;

@@ -903,7 +903,7 @@ bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
         return false;
     }
 
-    body = CStringA((const char*)res->data.GetData(), res->data.GetCount());
+    body = CStringA((const char*)res->data.GetData(), (int)res->data.GetCount());
     mime = CString(res->mime);
 
     return true;

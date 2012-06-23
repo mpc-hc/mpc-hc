@@ -83,20 +83,18 @@ STDMETHODIMP_(UINT64) CBitStream::Seek(UINT64 pos)
     return linew.QuadPart;
 }
 
-STDMETHODIMP CBitStream::ByteWrite(const void* pData, int len)
+STDMETHODIMP CBitStream::ByteWrite(const void* pData, size_t len)
 {
     HRESULT hr = S_OK;
 
     BitFlush();
 
-    if (len > 0) {
-        ULONG cbWritten = 0;
-        hr = m_pStream->Write(pData, len, &cbWritten);
+    ULONG cbWritten = 0;
+    hr = m_pStream->Write(pData, (ULONG)len, &cbWritten);
 
-        ASSERT(SUCCEEDED(hr));
-        if (m_fThrowError && FAILED(hr)) {
-            throw hr;
-        }
+    ASSERT(SUCCEEDED(hr));
+    if (m_fThrowError && FAILED(hr)) {
+        throw hr;
     }
 
     return hr;

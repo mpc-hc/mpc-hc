@@ -564,10 +564,9 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
         m_bResync = false;
     }
 
-    int bufflen = m_buff.GetCount();
+    size_t bufflen = m_buff.GetCount();
     m_buff.SetCount(bufflen + len, 4096);
     memcpy(m_buff.GetData() + bufflen, pDataIn, len);
-    len += bufflen;
 
 #if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
     if (GetSpeakerConfig(ac3) < 0 &&
@@ -639,7 +638,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     BYTE*    pDataIn   = m_buff.GetData();
     int BytesPerDoubleSample        = (wfein->wBitsPerSample * 2) / 8;
     int BytesPerDoubleChannelSample = BytesPerDoubleSample * nChannels;
-    int      nInBytes  = m_buff.GetCount();
+    int      nInBytes  = (int)m_buff.GetCount();
     int      len       = (nInBytes / BytesPerDoubleChannelSample) * (BytesPerDoubleChannelSample); // We always code 2 samples at a time
 
     CAtlArray<float> pBuff;
@@ -777,7 +776,8 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
     int BytesPerFrame  = BytesPerSample * xChannels;
 
     BYTE* pDataIn      = m_buff.GetData();
-    int len            = m_buff.GetCount() - (m_buff.GetCount() % BytesPerFrame);
+    int buffCnt        = (int)m_buff.GetCount();
+    int len            = buffCnt - (buffCnt % BytesPerFrame);
     if (bAlignOldBuffer) {
         m_buff.SetCount(len);
     }
@@ -1378,7 +1378,7 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
     CMediaType mt = CreateMediaType(sf, nSamplesPerSec, nChannels, dwChannelMask);
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 
-    int nSamples = pBuff.GetCount() / wfe->nChannels;
+    int nSamples = (int)pBuff.GetCount() / wfe->nChannels;
 
     if (FAILED(hr = ReconnectOutput(nSamples, mt))) {
         return hr;

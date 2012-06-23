@@ -190,7 +190,7 @@ void CPlayerSubresyncBar::ResetSubtitle()
 
         int prevstart = INT_MIN;
 
-        for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+        for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
             m_subtimes[i].newstart = m_subtimes[i].orgstart;
             m_subtimes[i].newend = m_subtimes[i].orgend;
             FormatTime(i, buff, _countof(buff), 0, false);
@@ -237,7 +237,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
             sp[i].fValid = false;
         }
 
-        for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+        for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
             int vobid, cellid, forced, spnum;
             TCHAR c;
             if (_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d%c%d"), &vobid,
@@ -266,7 +266,7 @@ void CPlayerSubresyncBar::UpdatePreview()
 {
     if (m_mode == VOBSUB || m_mode == TEXTSUB) {
         if (0/*m_fUnlink*/) {
-            for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+            for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
                 bool fStartMod, fEndMod, fStartAdj, fEndAdj;
                 GetCheck(i, fStartMod, fEndMod, fStartAdj, fEndAdj);
                 m_sts[i].start = (fStartMod || fStartAdj) ? m_subtimes[i].newstart : m_subtimes[i].orgstart;
@@ -275,7 +275,7 @@ void CPlayerSubresyncBar::UpdatePreview()
         } else {
             CAtlArray<int> schk;
 
-            for (int i = 0, j = m_sts.GetCount(); i < j;) {
+            for (int i = 0, j = (int)m_sts.GetCount(); i < j;) {
                 schk.RemoveAll();
 
                 int start = i, end;
@@ -312,7 +312,7 @@ void CPlayerSubresyncBar::UpdatePreview()
                     double m = 0;
 
                     int k, l;
-                    for (k = 0, l = schk.GetCount() - 1; k < l; k++) {
+                    for (k = 0, l = (int)schk.GetCount() - 1; k < l; k++) {
                         i0 = schk[k];
                         i1 = schk[k + 1];
 
@@ -342,7 +342,7 @@ void CPlayerSubresyncBar::UpdatePreview()
 
         m_sts.CreateSegments();
 
-        for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+        for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
             TCHAR buff[32];
             FormatTime(i, buff, _countof(buff), 2, false);
             m_list.SetItemText(i, COL_PREVSTART, buff);
@@ -394,7 +394,7 @@ void CPlayerSubresyncBar::UpdateStrings()
     CString str;
 
     if (m_mode == TEXTSUB) {
-        for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+        for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
             STSStyle stss;
             m_sts.GetStyle(i, stss);
 
@@ -410,7 +410,7 @@ void CPlayerSubresyncBar::UpdateStrings()
             m_list.SetItemText(i, COL_EFFECT, m_sts[i].effect);
         }
     } else if (m_mode == VOBSUB) {
-        for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
+        for (int i = 0, j = (int)m_sts.GetCount(); i < j; i++) {
             int vobid, cellid, forced;
             TCHAR c;
             if (_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d"), &vobid,
@@ -1044,7 +1044,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                                 stss = styles[j];
                                 pages[j]->GetStyle(*stss);
 
-                                for (size_t i = 0; i < m_sts.GetCount(); i++) {
+                                for (int i = 0; i < (int)m_sts.GetCount(); i++) {
                                     if (m_sts.GetStyle(i) == stss) {
                                         CString str;
                                         m_list.SetItemText(i, COL_TEXT, m_sts.GetStr(i, true));
@@ -1316,7 +1316,7 @@ int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
         return 0;
     }
 
-    for (int i = 1, j = m_sts.GetCount(); i < j; i++) {
+    for (int i = 1, j = (int)m_sts.GetCount(); i < j; i++) {
         if ((lCurTime >= m_subtimes[i - 1].newstart) && (lCurTime < m_subtimes[i].newstart)) {
             rtPos = bForward ? (__int64)m_subtimes[i].newstart * 10000 : (__int64)m_subtimes[i - 1].newstart * 10000;
             return bForward ? i : i - 1;

@@ -1145,7 +1145,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
     }
 
     for (int i = 0, j = 0; i < _countof(m_pFile->m_streams); i++) {
-        int cnt = m_pFile->m_streams[i].GetCount();
+        int cnt = (int)m_pFile->m_streams[i].GetCount();
 
         if (lIndex >= j && lIndex < j + cnt) {
             lIndex -= j;
@@ -1321,7 +1321,7 @@ bool CMpegSplitterFile::stream::operator < (const stream& _Other) const
 STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk)
 {
     for (int i = 0, j = 0; i < _countof(m_pFile->m_streams); i++) {
-        int cnt = m_pFile->m_streams[i].GetCount();
+        int cnt = (int)m_pFile->m_streams[i].GetCount();
 
         if (lIndex >= j && lIndex < j + cnt) {
             lIndex -= j;
