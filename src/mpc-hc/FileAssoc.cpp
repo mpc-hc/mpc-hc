@@ -389,7 +389,6 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
 
 bool CFileAssoc::IsRegistered(CString ext)
 {
-    HRESULT hr;
     BOOL    bIsDefault = FALSE;
     CString strProgID = PROGID + ext;
 
@@ -399,7 +398,7 @@ bool CFileAssoc::IsRegistered(CString ext)
 
     if (m_pAAR) {
         // The Vista way
-        hr = m_pAAR->QueryAppIsDefault(ext, AT_FILEEXTENSION, AL_EFFECTIVE, strRegisteredAppName, &bIsDefault);
+        m_pAAR->QueryAppIsDefault(ext, AT_FILEEXTENSION, AL_EFFECTIVE, strRegisteredAppName, &bIsDefault);
     } else {
         // The 2000/XP way
         CRegKey key;

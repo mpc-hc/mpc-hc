@@ -115,11 +115,10 @@ void CPlayerNavigationDialog::OnChangeChannel()
 void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 {
     bool bFound = (pChannel != NULL);
-    int nCurrentChannel;
     AppSettings& s = AfxGetAppSettings();
 
     if (!bFound) {
-        nCurrentChannel = s.nDVBLastChannel;
+        int nCurrentChannel = s.nDVBLastChannel;
         POSITION    pos = s.m_DVBChannels.GetHeadPosition();
         while (pos && !bFound) {
             pChannel = &s.m_DVBChannels.GetNext(pos);

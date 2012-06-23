@@ -3778,10 +3778,10 @@ void CMainFrame::OnOgmAudio(UINT nID)
     }
 
     CAtlArray<int> snds;
-    INT_PTR iSel = -1;
 
     DWORD cStreams = 0;
     if (SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
+        INT_PTR iSel = -1;
         for (int i = 0; i < (int)cStreams; i++) {
             AM_MEDIA_TYPE* pmt = NULL;
             DWORD dwFlags = 0;
@@ -3854,10 +3854,10 @@ void CMainFrame::OnOgmSub(UINT nID)
     }
 
     CArray<int> subs;
-    INT_PTR iSel = -1;
 
     DWORD cStreams = 0;
     if (SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
+        INT_PTR iSel = -1;
         for (int i = 0; i < (int)cStreams; i++) {
             AM_MEDIA_TYPE* pmt = NULL;
             DWORD dwFlags = 0;
@@ -3943,7 +3943,6 @@ void CMainFrame::OnDvdAngle(UINT nID)
 
 void CMainFrame::OnDvdAudio(UINT nID)
 {
-    HRESULT     hr;
     nID -= ID_DVD_AUDIO_NEXT;
 
     if (m_iMediaLoadState != MLS_LOADED) {
@@ -3951,6 +3950,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
     }
 
     if (pDVDI && pDVDC) {
+        HRESULT hr;
         ULONG nStreamsAvailable, nCurrentStream;
         if (SUCCEEDED(pDVDI->GetCurrentAudio(&nStreamsAvailable, &nCurrentStream)) && nStreamsAvailable > 1) {
             DVD_AudioAttributes     AATR;
@@ -3989,7 +3989,6 @@ void CMainFrame::OnDvdAudio(UINT nID)
 
 void CMainFrame::OnDvdSub(UINT nID)
 {
-    HRESULT     hr;
     nID -= ID_DVD_SUB_NEXT;
 
     if (m_iMediaLoadState != MLS_LOADED) {
@@ -3997,6 +3996,7 @@ void CMainFrame::OnDvdSub(UINT nID)
     }
 
     if (pDVDI && pDVDC) {
+        HRESULT hr;
         ULONG ulStreamsAvailable, ulCurrentStream;
         BOOL bIsDisabled;
         if (SUCCEEDED(pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))
@@ -7362,12 +7362,12 @@ static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
 void CMainFrame::OnPlaySeekKey(UINT nID)
 {
     if (m_kfs.GetCount() > 0) {
-        HRESULT hr;
 
         if (GetMediaState() == State_Stopped) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
+        HRESULT hr;
         REFERENCE_TIME rtCurrent, rtDur;
         hr = pMS->GetCurrentPosition(&rtCurrent);
         hr = pMS->GetDuration(&rtDur);
@@ -11860,7 +11860,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
     } catch (LPCTSTR msg) {
         err = msg;
-    } catch (CString msg) {
+    } catch (CString& msg) {
         err = msg;
     } catch (UINT msg) {
         err.LoadString(msg);
@@ -13798,8 +13798,6 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
-        HRESULT hr;
-
         if (fSeekToKeyFrame) {
             if (!m_kfs.IsEmpty()) {
                 int i = rangebsearch(rtPos, m_kfs);
@@ -13810,7 +13808,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
         }
         m_nSeekDirection = SEEK_DIRECTION_NONE;
 
-        hr = pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
+        HRESULT hr = pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
         if (fs != State_Running) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
@@ -14225,8 +14223,6 @@ bool CMainFrame::StopCapture()
         return false;
     }
 
-    HRESULT hr;
-
     m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_COMPLETING));
 
     m_fCapturing = false;
@@ -14235,7 +14231,7 @@ bool CMainFrame::StopCapture()
         m_wndCaptureBar.m_capdlg.m_fVidPreview, false,
         m_wndCaptureBar.m_capdlg.m_fAudPreview, false);
 
-    hr = pME->RestoreDefaultHandling(EC_REPAINT);
+    HRESULT hr = pME->RestoreDefaultHandling(EC_REPAINT);
 
     ::SetPriorityClass(::GetCurrentProcess(), AfxGetAppSettings().dwPriority);
 
@@ -14694,9 +14690,9 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName(DVD_AudioAttributes& ATR) const
 afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 {
     OnPlayPause();
-    m_rtCurSubPos       = m_wndSeekBar.GetPosReal();
-    m_lSubtitleShift    = 0;
-    m_nCurSubtitle      = m_wndSubresyncBar.FindNearestSub(m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
+    m_rtCurSubPos    = m_wndSeekBar.GetPosReal();
+    m_lSubtitleShift = 0;
+    m_nCurSubtitle   = m_wndSubresyncBar.FindNearestSub(m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
     if ((m_nCurSubtitle != -1) && pMS) {
         pMS->SetPositions(&m_rtCurSubPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
     }
@@ -14705,8 +14701,8 @@ afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 afx_msg void CMainFrame::OnShiftSubtitle(UINT nID)
 {
     if (m_nCurSubtitle >= 0) {
-        long        lShift = (nID == ID_SHIFT_SUB_DOWN) ? -100 : 100;
-        CString     strSubShift;
+        long    lShift = (nID == ID_SHIFT_SUB_DOWN) ? -100 : 100;
+        CString strSubShift;
 
         if (m_wndSubresyncBar.ShiftSubtitle(m_nCurSubtitle, lShift, m_rtCurSubPos)) {
             m_lSubtitleShift += lShift;
@@ -14743,8 +14739,8 @@ afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 
 afx_msg void CMainFrame::OnLanguage(UINT nID)
 {
-    CMenu   DefaultMenu;
-    CMenu*  OldMenu;
+    CMenu  DefaultMenu;
+    CMenu* OldMenu;
 
     if (nID == ID_LANGUAGE_HEBREW) { // Show a warning when switching to Hebrew (must not be translated)
         MessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
@@ -14782,8 +14778,8 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 {
-    CAtlList<CString>   fns;
-    REFERENCE_TIME      rtPos   = 0;
+    CAtlList<CString> fns;
+    REFERENCE_TIME    rtPos = 0;
 
     switch (pCDS->dwData) {
         case CMD_OPENFILE :
@@ -14826,7 +14822,7 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
             break;
         case CMD_SETAUDIODELAY :
-            rtPos           = _wtol((LPCWSTR)pCDS->lpData) * 10000;
+            rtPos = _wtol((LPCWSTR)pCDS->lpData) * 10000;
             SetAudioDelay(rtPos);
             break;
         case CMD_SETSUBTITLEDELAY :
@@ -14888,11 +14884,11 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 
 void CMainFrame::SendAPICommand(MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
 {
-    AppSettings&    s = AfxGetAppSettings();
+    AppSettings& s = AfxGetAppSettings();
 
     if (s.hMasterWnd) {
-        COPYDATASTRUCT  CDS;
-        TCHAR           buff[800];
+        COPYDATASTRUCT CDS;
+        TCHAR          buff[800];
 
         va_list args;
         va_start(args, fmt);
@@ -14916,11 +14912,11 @@ void CMainFrame::SendNowPlayingToApi()
 
 
     if (m_iMediaLoadState == MLS_LOADED) {
-        CPlaylistItem   pli;
-        CString         title, author, description;
-        CString         label;
-        long            lDuration = 0;
-        REFERENCE_TIME  rtDur;
+        CPlaylistItem  pli;
+        CString        title, author, description;
+        CString        label;
+        long           lDuration = 0;
+        REFERENCE_TIME rtDur;
 
         if (GetPlaybackMode() == PM_FILE) {
             m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
@@ -15001,8 +14997,8 @@ void CMainFrame::SendNowPlayingToApi()
 
 void CMainFrame::SendSubtitleTracksToApi()
 {
-    CStringW    strSubs;
-    POSITION    pos = m_pSubStreams.GetHeadPosition();
+    CStringW strSubs;
+    POSITION pos = m_pSubStreams.GetHeadPosition();
 
     if (m_iMediaLoadState == MLS_LOADED) {
         if (pos) {
@@ -15042,7 +15038,7 @@ void CMainFrame::SendSubtitleTracksToApi()
 
 void CMainFrame::SendAudioTracksToApi()
 {
-    CStringW    strAudios;
+    CStringW strAudios;
 
     if (m_iMediaLoadState == MLS_LOADED) {
         CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
@@ -15092,7 +15088,7 @@ void CMainFrame::SendAudioTracksToApi()
 
 void CMainFrame::SendPlaylistToApi()
 {
-    CStringW        strPlaylist;
+    CStringW strPlaylist;
     int index;
 
     POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition(), pos2;
@@ -15153,13 +15149,12 @@ void CMainFrame::ShowOSDCustomMessageApi(MPC_OSDDATA* osdData)
 void CMainFrame::JumpOfNSeconds(int nSeconds)
 {
     if (m_iMediaLoadState == MLS_LOADED) {
-        long lPosition = 0;
         REFERENCE_TIME rtCur;
 
         if (GetPlaybackMode() == PM_FILE) {
             pMS->GetCurrentPosition(&rtCur);
             DVD_HMSF_TIMECODE tcCur = RT2HMSF(rtCur);
-            lPosition = tcCur.bHours * 60 * 60 + tcCur.bMinutes * 60 + tcCur.bSeconds + nSeconds;
+            long lPosition = tcCur.bHours * 60 * 60 + tcCur.bMinutes * 60 + tcCur.bSeconds + nSeconds;
 
             // revert the update position to REFERENCE_TIME format
             tcCur.bHours    = (BYTE)(lPosition / 3600);
@@ -15187,11 +15182,11 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 // TODO : to be finished !
 //void CMainFrame::AutoSelectTracks()
 //{
-//  LCID        DefAudioLanguageLcid    [2] = {MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT), MAKELCID( MAKELANGID(LANG_ENGLISH, SUBLANG_DEFAULT), SORT_DEFAULT)};
-//  int         DefAudioLanguageIndex   [2] = {-1, -1};
-//  LCID        DefSubtitleLanguageLcid [2] = {0, MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT)};
-//  int         DefSubtitleLanguageIndex[2] = {-1, -1};
-//  LCID        Language = MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT);
+//  LCID DefAudioLanguageLcid    [2] = {MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT), MAKELCID( MAKELANGID(LANG_ENGLISH, SUBLANG_DEFAULT), SORT_DEFAULT)};
+//  int  DefAudioLanguageIndex   [2] = {-1, -1};
+//  LCID DefSubtitleLanguageLcid [2] = {0, MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT)};
+//  int  DefSubtitleLanguageIndex[2] = {-1, -1};
+//  LCID Language = MAKELCID(MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT);
 //
 //  if ((m_iMediaLoadState == MLS_LOADING) || (m_iMediaLoadState == MLS_LOADED))
 //  {

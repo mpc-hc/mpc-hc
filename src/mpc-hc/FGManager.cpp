@@ -1025,8 +1025,6 @@ STDMETHODIMP CFGManager::RenderEx(IPin* pPinOut, DWORD dwFlags, DWORD* pvContext
         return E_INVALIDARG;
     }
 
-    HRESULT hr;
-
     if (dwFlags & AM_RENDEREX_RENDERTOEXISTINGRENDERERS) {
         CInterfaceList<IBaseFilter> pBFs;
 
@@ -1048,6 +1046,8 @@ STDMETHODIMP CFGManager::RenderEx(IPin* pPinOut, DWORD dwFlags, DWORD* pvContext
             }
         }
         EndEnumFilters;
+
+        HRESULT hr;
 
         while (!pBFs.IsEmpty()) {
             if (SUCCEEDED(hr = ConnectFilter(pPinOut, pBFs.RemoveHead()))) {
@@ -1343,7 +1343,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 {
     AppSettings& s = AfxGetAppSettings();
 
-    bool        bOverrideBroadcom          = false;
+    bool        bOverrideBroadcom = false;
     CFGFilter*  pFGF;
 
     bool* src = s.SrcFilters;

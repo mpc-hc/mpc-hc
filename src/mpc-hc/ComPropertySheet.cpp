@@ -151,11 +151,10 @@ bool CComPropertySheet::AddPage(IPropertyPage* pPage, IUnknown* pUnk)
         return false;
     }
 
-    HRESULT hr;
-    hr = pPage->SetPageSite(m_pSite);
-    hr = pPage->SetObjects(1, &pUnk);
+    pPage->SetPageSite(m_pSite);
+    pPage->SetObjects(1, &pUnk);
     PROPPAGEINFO ppi;
-    hr = pPage->GetPageInfo(&ppi);
+    pPage->GetPageInfo(&ppi);
     m_size.cx = max(m_size.cx, ppi.size.cx);
     m_size.cy = max(m_size.cy, ppi.size.cy);
     CAutoPtr<CComPropertyPage> p(DNew CComPropertyPage(pPage));
