@@ -503,15 +503,15 @@ bool CCDXAStream::LookForMediaSubType()
                                     DWORD BytesRead = 0;
                                     if (S_OK == Read(pData, cb, 1, &BytesRead) && cb == BytesRead) {
                                         if (mask.GetCount() < cb) {
-                                            size_t i = mask.GetCount();
+                                            size_t x = mask.GetCount();
                                             mask.SetCount(cb);
-                                            for (; i < cb; i++) {
-                                                mask[i] = 0xff;
+                                            for (; x < cb; x++) {
+                                                mask[x] = 0xff;
                                             }
                                         }
 
-                                        for (unsigned int ui = 0; ui < cb; ui++) {
-                                            pData[ui] &= (BYTE)mask[ui];
+                                        for (unsigned int x = 0; x < cb; x++) {
+                                            pData[x] &= (BYTE)mask[x];
                                         }
 
                                         if (memcmp(pData, val.GetData(), cb) == 0) {

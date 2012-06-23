@@ -941,7 +941,6 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h, bool UpdateLang)
 
                 BYTE buffer[1024];
                 ByteRead(buffer, len);
-                CGolombBuffer gb(buffer, len);
 
                 int max_len = h.bytes - 9;
 
@@ -951,8 +950,8 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h, bool UpdateLang)
                     pPair->m_value.ts_len_packet = len;
                     memcpy(pPair->m_value.ts_buffer, buffer, max_len);
                 } else {
-                    CGolombBuffer gb2(buffer, len);
-                    UpdatePrograms(gb2, h.pid, UpdateLang);
+                    CGolombBuffer gb(buffer, len);
+                    UpdatePrograms(gb, h.pid, UpdateLang);
                 }
             }
         } else {
