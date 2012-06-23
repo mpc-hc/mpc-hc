@@ -1420,7 +1420,8 @@ STDMETHODIMP CVobSubFile::Reload()
     if (!FileExists(m_title + _T(".idx"))) {
         return E_FAIL;
     }
-    return !m_title.IsEmpty() && Open(m_title) ? S_OK : E_FAIL;}
+    return !m_title.IsEmpty() && Open(m_title) ? S_OK : E_FAIL;
+}
 
 // StretchBlt
 

@@ -1,5 +1,5 @@
 /*
- * $Id: GraphThread.cpp 5148 2012-06-16 13:50:05Z XhmikosR $
+ * $Id$
  *
  * (C) 2003-2006 Gabest
  * (C) 2006-2012 see Authors.txt
