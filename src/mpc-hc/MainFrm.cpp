@@ -2382,7 +2382,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 break;
             case EC_DVD_TITLE_CHANGE: {
                 // Casimir666 : Save current chapter
-                DVD_POSITION*   DvdPos = s.CurrentDVDPosition();
+                DVD_POSITION* DvdPos = s.CurrentDVDPosition();
                 if (DvdPos) {
                     DvdPos->lTitle = (DWORD)evParam1;
                 }
@@ -2507,7 +2507,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                                     m_iDVDTitle = DvdPos->lTitle;
                                 }
                             }
-                            AppSettings& s = AfxGetAppSettings();
+
                             if (s.fRememberZoomLevel && !m_fFullScreen && !s.IsD3DFullscreen()) { // Hack to the normal initial zoom for DVD + DXVA ...
                                 ZoomVideoWindow();
                             }
@@ -3518,8 +3518,8 @@ void CMainFrame::OnFilePostOpenmedia()
         //ShowControlBar(&m_wndCaptureBar, TRUE, TRUE);
     }
 
-    m_nCurSubtitle      = -1;
-    m_lSubtitleShift    = 0;
+    m_nCurSubtitle   = -1;
+    m_lSubtitleShift = 0;
     if (m_pCAP) {
         m_pCAP->SetSubtitleDelay(0);
     }
@@ -4931,9 +4931,9 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         int col = (i - 1) % cols;
         int row = (i - 1) / cols;
 
-        CSize s((width - margin * 2) / cols, (height - margin * 2 - infoheight) / rows);
-        CPoint p(margin + col * s.cx, margin + row * s.cy + infoheight);
-        CRect r(p, s);
+        CSize siz((width - margin * 2) / cols, (height - margin * 2 - infoheight) / rows);
+        CPoint p(margin + col * siz.cx, margin + row * siz.cy + infoheight);
+        CRect r(p, siz);
         r.DeflateRect(margin, margin);
 
         CRenderedTextSubtitle rts(&csSubLock);
@@ -4963,9 +4963,9 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         if (bi->bmiHeader.biBitCount != 32) {
             delete [] pData;
-            CString str;
-            str.Format(IDS_MAINFRM_57, bi->bmiHeader.biBitCount);
-            AfxMessageBox(str);
+            CString strTemp;
+            strTemp.Format(IDS_MAINFRM_57, bi->bmiHeader.biBitCount);
+            AfxMessageBox(strTemp);
             return;
         }
 
@@ -5035,7 +5035,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         CPath path(m_wndPlaylistBar.GetCurFileName());
         path.StripPath();
-        CStringW fn = (LPCTSTR)path;
+        CStringW fnp = (LPCTSTR)path;
 
         CStringW fs;
         WIN32_FIND_DATA wfd;
@@ -5056,7 +5056,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         }
 
         str.Format(IDS_MAINFRM_59,
-                   fn, fs, wh.cx, wh.cy, ar, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+                   fnp, fs, wh.cx, wh.cy, ar, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
         rts.Add(str, true, 0, 1, _T("thumbs"));
 
         rts.Render(spd, 0, 25, bbox);
@@ -7794,13 +7794,13 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
         ShowOptions(CPPageSubtitles::IDD);
     } else if (i == -4) {
         // styles
-        int i = m_iSubtitleSel;
+        int j = m_iSubtitleSel;
 
         POSITION pos = m_pSubStreams.GetHeadPosition();
-        while (pos && i >= 0) {
+        while (pos && j >= 0) {
             CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
 
-            if (i < pSubStream->GetStreamCount()) {
+            if (j < pSubStream->GetStreamCount()) {
                 CLSID clsid;
                 if (FAILED(pSubStream->GetClassID(&clsid))) {
                     continue;
@@ -7813,7 +7813,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     CAtlArray<STSStyle*> styles;
 
                     POSITION pos = pRTS->m_styles.GetStartPosition();
-                    for (int i = 0; pos; i++) {
+                    for (int k = 0; pos; k++) {
                         CString key;
                         STSStyle* val;
                         pRTS->m_styles.GetNextAssoc(pos, key, val);
@@ -7825,18 +7825,18 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     }
 
                     CString m_style = ResStr(IDS_SUBTITLES_STYLES);
-                    int i = m_style.Find(_T("&"));
-                    if (i != -1) {
-                        m_style.Delete(i, 1);
+                    int k = m_style.Find(_T("&"));
+                    if (k != -1) {
+                        m_style.Delete(k, 1);
                     }
                     CPropertySheet dlg(m_style, GetModalParent());
-                    for (int i = 0; i < (int)pages.GetCount(); i++) {
-                        dlg.AddPage(pages[i]);
+                    for (int l = 0; l < (int)pages.GetCount(); l++) {
+                        dlg.AddPage(pages[l]);
                     }
 
                     if (dlg.DoModal() == IDOK) {
-                        for (int j = 0; j < (int)pages.GetCount(); j++) {
-                            pages[j]->GetStyle(*styles[j]);
+                        for (int l = 0; l < (int)pages.GetCount(); l++) {
+                            pages[l]->GetStyle(*styles[l]);
                         }
                         UpdateSubtitle(false, false);
                     }
@@ -7845,7 +7845,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                 }
             }
 
-            i -= pSubStream->GetStreamCount();
+            j -= pSubStream->GetStreamCount();
         }
     } else if (i == -3) {
         // reload
@@ -7883,13 +7883,13 @@ void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
         // styles
         pCmdUI->Enable(FALSE);
 
-        int i = m_iSubtitleSel;
+        int j = m_iSubtitleSel;
 
         POSITION pos = m_pSubStreams.GetHeadPosition();
-        while (pos && i >= 0) {
+        while (pos && j >= 0) {
             CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
 
-            if (i < pSubStream->GetStreamCount()) {
+            if (j < pSubStream->GetStreamCount()) {
                 CLSID clsid;
                 if (FAILED(pSubStream->GetClassID(&clsid))) {
                     continue;
@@ -7901,7 +7901,7 @@ void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
                 }
             }
 
-            i -= pSubStream->GetStreamCount();
+            j -= pSubStream->GetStreamCount();
         }
     } else if (i == -2) {
         // enabled
@@ -9992,8 +9992,8 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
         }
 
         if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && !m_fFullScreen && !m_wndNavigationBar.IsVisible()) {
-            CSize r = m_wndNavigationBar.CalcFixedLayout(FALSE, TRUE);
-            w += r.cx;
+            CSize r3 = m_wndNavigationBar.CalcFixedLayout(FALSE, TRUE);
+            w += r3.cx;
         }
 
         w = max(w, mmi.ptMinTrackSize.x);
@@ -14109,8 +14109,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 
         if (fVidCap) {
             IBaseFilter* pBF[3] = {pVidBuffer, pVidEnc, pMux};
-            HRESULT hr = BuildCapture(pVidCapPin, pBF, MEDIATYPE_Video, &m_wndCaptureBar.m_capdlg.m_mtcv);
-            UNREFERENCED_PARAMETER(hr);
+            HRESULT hr2 = BuildCapture(pVidCapPin, pBF, MEDIATYPE_Video, &m_wndCaptureBar.m_capdlg.m_mtcv);
+            UNREFERENCED_PARAMETER(hr2);
         }
 
         pAMDF = NULL;
@@ -14133,8 +14133,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 
         if (fAudCap) {
             IBaseFilter* pBF[3] = {pAudBuffer, pAudEnc, pAudMux ? pAudMux : pMux};
-            HRESULT hr = BuildCapture(pAudCapPin, pBF, MEDIATYPE_Audio, &m_wndCaptureBar.m_capdlg.m_mtca);
-            UNREFERENCED_PARAMETER(hr);
+            HRESULT hr2 = BuildCapture(pAudCapPin, pBF, MEDIATYPE_Audio, &m_wndCaptureBar.m_capdlg.m_mtca);
+            UNREFERENCED_PARAMETER(hr2);
         }
     }
 

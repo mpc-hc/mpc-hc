@@ -100,9 +100,9 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
         for (int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++, len = _countof(buff)) {
             CRegKey mime;
             TCHAR ext[64];
-            ULONG len = _countof(ext);
+            ULONG len2 = _countof(ext);
             if (ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
-                    && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len)) {
+                    && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len2)) {
                 m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
             }
         }

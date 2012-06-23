@@ -866,7 +866,7 @@ HRESULT CBaseSplitterFilter::RenameOutputPin(DWORD TrackNumSrc, DWORD TrackNumDs
         m_pPinMap[TrackNumDst] = pPin;
 
         if (pmt) {
-            CAutoLock cAutoLock(&m_csmtnew);
+            CAutoLock cAutoLock2(&m_csmtnew);
             m_mtnew[TrackNumDst] = *pmt;
         }
 

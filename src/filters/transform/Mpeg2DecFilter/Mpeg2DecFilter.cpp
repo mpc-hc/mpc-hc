@@ -731,7 +731,7 @@ HRESULT CMpeg2DecFilter::DeliverFast()
     }
 
     if (CMpeg2DecInputPin* pPin = dynamic_cast<CMpeg2DecInputPin*>(m_pInput)) {
-        CAutoLock cAutoLock(&pPin->m_csRateLock);
+        CAutoLock cAutoLock2(&pPin->m_csRateLock);
 
         if (m_rate.Rate != pPin->m_ratechange.Rate) {
             m_rate.Rate = pPin->m_ratechange.Rate;
@@ -896,7 +896,7 @@ HRESULT CMpeg2DecFilter::Deliver(bool fRepeatLast)
     //
 
     if (CMpeg2DecInputPin* pPin = dynamic_cast<CMpeg2DecInputPin*>(m_pInput)) {
-        CAutoLock cAutoLock(&pPin->m_csRateLock);
+        CAutoLock cAutoLock2(&pPin->m_csRateLock);
 
         if (m_rate.Rate != pPin->m_ratechange.Rate) {
             m_rate.Rate = pPin->m_ratechange.Rate;

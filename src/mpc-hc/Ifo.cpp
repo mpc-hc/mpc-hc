@@ -125,10 +125,10 @@ void CIfo::RemovePgciUOPs(uint8_t* ptr)
     }
 
     for (i = 0; i < be2me_16(hdr->num); i++) {
-        uint8_t* ptr;
+        uint8_t* ptr2;
 
-        if (GetMiscPGCI(hdr, i, &ptr) >= 0) {
-            pgc_t*      pgc = (pgc_t*) ptr;
+        if (GetMiscPGCI(hdr, i, &ptr2) >= 0) {
+            pgc_t*      pgc = (pgc_t*) ptr2;
             pgc->prohibited_ops = 0;
         }
     }

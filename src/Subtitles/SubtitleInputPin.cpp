@@ -181,16 +181,16 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
                 || m_mt.subtype == MEDIASUBTYPE_SSA
                 || m_mt.subtype == MEDIASUBTYPE_ASS
                 || m_mt.subtype == MEDIASUBTYPE_ASS2)) {
-        CAutoLock cAutoLock(m_pSubLock);
+        CAutoLock cAutoLock2(m_pSubLock);
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
         pRTS->RemoveAll();
         pRTS->CreateSegments();
     } else if (m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_VOBSUB)) {
-        CAutoLock cAutoLock(m_pSubLock);
+        CAutoLock cAutoLock2(m_pSubLock);
         CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
         pVSS->RemoveAll();
     } else if (IsHdmvSub(&m_mt)) {
-        CAutoLock cAutoLock(m_pSubLock);
+        CAutoLock cAutoLock2(m_pSubLock);
         CRenderedHdmvSubtitle* pHdmvSubtitle = (CRenderedHdmvSubtitle*)(ISubStream*)m_pSubStream;
         pHdmvSubtitle->NewSegment(tStart, tStop, dRate);
     }
@@ -232,7 +232,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
     bool fInvalidate = false;
 
     if (m_mt.majortype == MEDIATYPE_Text) {
-        CAutoLock cAutoLock(m_pSubLock);
+        CAutoLock cAutoLock2(m_pSubLock);
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 
         if (!strncmp((char*)pData, __GAB1__, strlen(__GAB1__))) {
@@ -290,7 +290,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
             }
         }
     } else if (m_mt.majortype == MEDIATYPE_Subtitle) {
-        CAutoLock cAutoLock(m_pSubLock);
+        CAutoLock cAutoLock2(m_pSubLock);
 
         if (m_mt.subtype == MEDIASUBTYPE_UTF8) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
@@ -336,7 +336,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
             CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
             pVSS->Add(tStart, tStop, pData, len);
         } else if (IsHdmvSub(&m_mt)) {
-            CAutoLock cAutoLock(m_pSubLock);
+            CAutoLock cAutoLock3(m_pSubLock);
             CRenderedHdmvSubtitle* pHdmvSubtitle = (CRenderedHdmvSubtitle*)(ISubStream*)m_pSubStream;
             pHdmvSubtitle->ParseSample(pSample);
         }

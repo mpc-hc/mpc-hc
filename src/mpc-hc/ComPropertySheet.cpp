@@ -215,10 +215,10 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
         if (CWnd* pChild = pPage->GetWindow(GW_CHILD)) {
             pChild->MoveWindow(bounds);
         }
-        CRect r = twr;
-        pTC->AdjustRect(FALSE, r);
-        ScreenToClient(r);
-        pPage->MoveWindow(CRect(r.TopLeft(), bounds.Size()));
+        CRect r2 = twr;
+        pTC->AdjustRect(FALSE, r2);
+        ScreenToClient(r2);
+        pPage->MoveWindow(CRect(r2.TopLeft(), bounds.Size()));
     }
 
     int _afxPropSheetButtons[] = { IDOK, IDCANCEL, ID_APPLY_NOW, IDHELP };

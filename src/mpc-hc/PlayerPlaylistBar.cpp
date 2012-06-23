@@ -158,9 +158,9 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
     }
 
     if (subs) {
-        POSITION pos = subs->GetHeadPosition();
-        while (pos) {
-            CString fn = subs->GetNext(pos);
+        POSITION posSub = subs->GetHeadPosition();
+        while (posSub) {
+            CString fn = subs->GetNext(posSub);
             if (!fn.Trim().IsEmpty()) {
                 pli.m_subs.AddTail(fn);
             }
@@ -1379,15 +1379,15 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
                 CString str;
 
                 CPlaylistItem& pli = m_pl.GetAt(pos);
-                POSITION pos = pli.m_fns.GetHeadPosition();
-                while (pos) {
-                    str += _T("\r\n") + pli.m_fns.GetNext(pos);
+                POSITION pos2 = pli.m_fns.GetHeadPosition();
+                while (pos2) {
+                    str += _T("\r\n") + pli.m_fns.GetNext(pos2);
                 }
                 str.Trim();
 
                 if (HGLOBAL h = GlobalAlloc(GMEM_MOVEABLE, (str.GetLength() + 1) * sizeof(TCHAR))) {
-                    if (TCHAR* s = (TCHAR*)GlobalLock(h)) {
-                        _tcscpy_s(s, str.GetLength() + 1, str);
+                    if (TCHAR* cp = (TCHAR*)GlobalLock(h)) {
+                        _tcscpy_s(cp, str.GetLength() + 1, str);
                         GlobalUnlock(h);
                         SetClipboardData(CF_UNICODETEXT, h);
                     }
