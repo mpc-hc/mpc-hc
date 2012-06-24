@@ -106,7 +106,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
                 case VIDEO_STREAM_MPEG2:
                 case VIDEO_STREAM_H264:
                 case VIDEO_STREAM_VC1: {
-                    uint8 Temp = ReadByte();
+                    UINT8 Temp = ReadByte();
                     BDVM_VideoFormat VideoFormat = (BDVM_VideoFormat)(Temp >> 4);
                     BDVM_FrameRate FrameRate = (BDVM_FrameRate)(Temp & 0xf);
                     Temp = ReadByte();
@@ -128,7 +128,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
                 case AUDIO_STREAM_DTS_HD_MASTER_AUDIO:
                 case SECONDARY_AUDIO_AC3_PLUS:
                 case SECONDARY_AUDIO_DTS_HD: {
-                    uint8 Temp = ReadByte();
+                    UINT8 Temp = ReadByte();
                     BDVM_ChannelLayout ChannelLayout = (BDVM_ChannelLayout)(Temp >> 4);
                     BDVM_SampleRate SampleRate = (BDVM_SampleRate)(Temp & 0xF);
 
@@ -261,8 +261,8 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
     Path.RemoveFileSpec();
     Path.RemoveFileSpec();
 
-    m_hFile   = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-                           OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    m_hFile = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
         ReadBuffer(Buff, 4);
@@ -336,8 +336,8 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
     Path.RemoveFileSpec();
     Path.RemoveFileSpec();
 
-    m_hFile   = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-                           OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    m_hFile = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
         REFERENCE_TIME* rtOffset = DNew REFERENCE_TIME[PlaylistItems.GetCount()];
@@ -378,12 +378,12 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         for (size_t i = 0; i < nMarkCount; i++) {
             PlaylistChapter Chapter;
 
-            ReadByte();                                             // reserved_for_future_use
-            Chapter.m_nMarkType     = (PlaylistMarkType)ReadByte(); // mark_type
-            Chapter.m_nPlayItemId   = ReadShort();                  // ref_to_PlayItem_id
-            Chapter.m_rtTimestamp   = 20000i64 * ReadDword() / 90 + rtOffset[Chapter.m_nPlayItemId];    // mark_time_stamp
-            Chapter.m_nEntryPID     = ReadShort();                  // entry_ES_PID
-            Chapter.m_rtDuration    = 20000i64 * ReadDword() / 90;  // duration
+            ReadByte();                                            // reserved_for_future_use
+            Chapter.m_nMarkType    = (PlaylistMarkType)ReadByte(); // mark_type
+            Chapter.m_nPlayItemId  = ReadShort();                  // ref_to_PlayItem_id
+            Chapter.m_rtTimestamp  = 20000i64 * ReadDword() / 90 + rtOffset[Chapter.m_nPlayItemId];    // mark_time_stamp
+            Chapter.m_nEntryPID    = ReadShort();                  // entry_ES_PID
+            Chapter.m_rtDuration   = 20000i64 * ReadDword() / 90;  // duration
 
             Chapters.AddTail(Chapter);
 

@@ -649,18 +649,18 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     switch (wfein->wBitsPerSample) {
         case 16 : {
             long nSamples = len / (BytesPerDoubleChannelSample);
-            int16 Temp[2][8];
+            INT16 Temp[2][8];
             for (int i = 0; i < nSamples; i++) {
                 for (int j = 0; j < nChannels; j++) {
-                    uint16 All = *((uint16*)pDataIn);
+                    UINT16 All = *((UINT16*)pDataIn);
                     pDataIn += 2;
-                    int16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
+                    INT16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
                     Temp[0][j] = Part1;
                 }
                 for (int j = 0; j < nChannels; j++) {
-                    uint16 All = *((uint16*)pDataIn);
+                    UINT16 All = *((UINT16*)pDataIn);
                     pDataIn += 2;
-                    int16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
+                    INT16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
                     Temp[1][j] = Part1;
                 }
 
@@ -678,32 +678,32 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 
         case 24 : {
             long nSamples = len / (BytesPerDoubleChannelSample);
-            int32 Temp[2][8];
+            INT32 Temp[2][8];
             for (int i = 0; i < nSamples; i++) {
                 // Start by upper 16 bits
                 for (int j = 0; j < nChannels; j++) {
-                    uint32 All = *((uint16*)pDataIn);
+                    UINT32 All = *((UINT16*)pDataIn);
                     pDataIn += 2;
-                    uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
+                    UINT32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
                     Temp[0][j] = Part1;
                 }
                 for (int j = 0; j < nChannels; j++) {
-                    uint32 All = *((uint16*)pDataIn);
+                    UINT32 All = *((UINT16*)pDataIn);
                     pDataIn += 2;
-                    uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
+                    UINT32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
                     Temp[1][j] = Part1;
                 }
 
                 // Continue with lower bits
                 for (int j = 0; j < nChannels; j++) {
-                    uint32 All = *((uint8*)pDataIn);
+                    UINT32 All = *((UINT8*)pDataIn);
                     pDataIn += 1;
-                    Temp[0][j] = int32(Temp[0][j] | (All << 8)) >> 8;
+                    Temp[0][j] = INT32(Temp[0][j] | (All << 8)) >> 8;
                 }
                 for (int j = 0; j < nChannels; j++) {
-                    uint32 All = *((uint8*)pDataIn);
+                    UINT32 All = *((UINT8*)pDataIn);
                     pDataIn += 1;
-                    Temp[1][j] = int32(Temp[1][j] | (All << 8)) >> 8;
+                    Temp[1][j] = INT32(Temp[1][j] | (All << 8)) >> 8;
                 }
 
                 // Convert into float
@@ -720,28 +720,28 @@ HRESULT CMpaDecFilter::ProcessLPCM()
         break;
         case 20 : {
             long nSamples = len / (BytesPerDoubleChannelSample);
-            int32 Temp[2][8];
+            INT32 Temp[2][8];
             for (int i = 0; i < nSamples; i++) {
                 // Start by upper 16 bits
                 for (int j = 0; j < nChannels; j++) {
-                    uint32 All = *((uint16*)pDataIn);
+                    UINT32 All = *((UINT16*)pDataIn);
                     pDataIn += 2;
-                    uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
+                    UINT32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
                     Temp[0][j] = Part1;
                 }
                 for (int j = 0; j < nChannels; j++) {
-                    uint32 All = *((uint16*)pDataIn);
+                    UINT32 All = *((UINT16*)pDataIn);
                     pDataIn += 2;
-                    uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
+                    UINT32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
                     Temp[1][j] = Part1;
                 }
 
                 // Continue with lower bits
                 for (int j = 0; j < nChannels; j++) {
-                    uint32 All = *((uint8*)pDataIn);
+                    UINT32 All = *((UINT8*)pDataIn);
                     pDataIn += 1;
-                    Temp[0][j] = int32(Temp[0][j] | ((All & 0xf0) << 8)) >> 8;
-                    Temp[1][j] = int32(Temp[1][j] | ((All & 0x0f) << 12)) >> 8;
+                    Temp[0][j] = INT32(Temp[0][j] | ((All & 0xf0) << 8)) >> 8;
+                    Temp[1][j] = INT32(Temp[1][j] | ((All & 0x0f) << 12)) >> 8;
                 }
 
                 // Convert into float

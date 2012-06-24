@@ -69,16 +69,6 @@ enum BDVM_SampleRate {
     BDVM_SampleRate_48_96 = 14
 };
 
-typedef unsigned char uint8;
-typedef signed char int8;
-
-typedef unsigned short uint16;
-typedef short int16;
-
-typedef unsigned long uint32;
-typedef long int32;
-
-
 class CHdmvClipInfo
 {
 public:
@@ -108,9 +98,7 @@ public:
         REFERENCE_TIME          m_rtIn;
         REFERENCE_TIME          m_rtOut;
 
-        REFERENCE_TIME Duration() const {
-            return m_rtOut - m_rtIn;
-        }
+        REFERENCE_TIME Duration() const { return m_rtOut - m_rtIn; }
 
         bool operator == (const PlaylistItem& pi) const {
             return pi.m_strFileName == m_strFileName;

@@ -193,7 +193,7 @@ namespace DSObjects
         bool                                    m_bEvtFlush;
 
         bool                                    m_fUseInternalTimer;
-        int32                                   m_LastSetOutputRange;
+        INT32                                   m_LastSetOutputRange;
         bool                                    m_bPendingRenegotiate;
         bool                                    m_bPendingMediaFinished;
 

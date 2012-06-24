@@ -31,6 +31,13 @@
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "vfr.h"
 
+#ifndef _WIN64
+#include "vd2/extras/FilterSDK/VirtualDub.h"
+#else
+#include "vd2/plugin/vdplugin.h"
+#include "vd2/plugin/vdvideofilt.h"
+#endif
+
 //
 // Generic interface
 //
@@ -235,8 +242,6 @@ namespace Plugin
 
     namespace VirtualDub
     {
-#include "vd2/extras/FilterSDK/VirtualDub.h"
-
         class CVirtualDubFilter : virtual public CFilter
         {
         public:
@@ -506,9 +511,6 @@ namespace Plugin
     //
     namespace VirtualDubNew
     {
-#include "vd2/plugin/vdplugin.h"
-#include "vd2/plugin/vdvideofilt.h"
-
         class CVirtualDubFilter : virtual public CFilter
         {
         public:

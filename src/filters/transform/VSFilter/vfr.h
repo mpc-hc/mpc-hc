@@ -23,8 +23,7 @@
 
 // VFR translation functions for OverLua
 
-#ifndef VFR_H
-#define VFR_H
+#pragma once
 
 class VFRTranslator
 {
@@ -33,5 +32,3 @@ public:
 };
 
 VFRTranslator* GetVFRTranslator(const char* vfrfile);
-
-#endif
