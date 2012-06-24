@@ -894,16 +894,21 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     mts.Add(mt);
                     //b_HasVideo = true;
                 }
-            } else if (AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(
-                                                track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd"))) {
+            } else if (AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd"))) {
                 const AP4_DataBuffer& db = stsd->GetDataBuffer();
 
+                int k = 0;
                 for (AP4_List<AP4_Atom>::Item* item = stsd->GetChildren().FirstItem();
                         item;
-                        item = item->GetNext()) {
-                    AP4_Atom* atom = item->GetData();
+                        item = item->GetNext(), ++k) {
 
+                    AP4_Atom* atom = item->GetData();
                     AP4_Atom::Type type = atom->GetType();
+
+                    if (k == 0 && stsd->GetChildren().ItemCount() > 1 && type == AP4_ATOM_TYPE_JPEG) {
+                        continue; // Multiple fourcc, we skip first JPEG.
+                    }
+
                     DWORD fourcc =
                         ((type >> 24) & 0x000000ff) |
                         ((type >>  8) & 0x0000ff00) |
