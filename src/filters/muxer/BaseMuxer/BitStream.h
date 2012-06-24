@@ -28,7 +28,7 @@ IBitStream :
 public IUnknown {
     STDMETHOD_(UINT64, GetPos)() = 0;
     STDMETHOD_(UINT64, Seek)(UINT64 pos) = 0;  // it's a _stream_, please don't seek if you don't have to
-    STDMETHOD(ByteWrite)(const void * pData, size_t len) = 0;
+    STDMETHOD(ByteWrite)(const void * pData, int len) = 0;
     STDMETHOD(BitWrite)(UINT64 data, int len) = 0;
     STDMETHOD(BitFlush)() = 0;
     STDMETHOD(StrWrite)(LPCSTR pData, BOOL bFixNewLine) = 0;
@@ -52,7 +52,7 @@ public:
 
     STDMETHODIMP_(UINT64) GetPos();
     STDMETHODIMP_(UINT64) Seek(UINT64 pos);
-    STDMETHODIMP ByteWrite(const void* pData, size_t len);
+    STDMETHODIMP ByteWrite(const void* pData, int len);
     STDMETHODIMP BitWrite(UINT64 data, int len);
     STDMETHODIMP BitFlush();
     STDMETHODIMP StrWrite(LPCSTR pData, BOOL bFixNewLine);

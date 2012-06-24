@@ -567,6 +567,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
     size_t bufflen = m_buff.GetCount();
     m_buff.SetCount(bufflen + len, 4096);
     memcpy(m_buff.GetData() + bufflen, pDataIn, len);
+    len += (long)bufflen;
 
 #if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
     if (GetSpeakerConfig(ac3) < 0 &&
@@ -776,8 +777,8 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
     int BytesPerFrame  = BytesPerSample * xChannels;
 
     BYTE* pDataIn      = m_buff.GetData();
-    int buffCnt        = (int)m_buff.GetCount();
-    int len            = buffCnt - (buffCnt % BytesPerFrame);
+    int len            = (int)m_buff.GetCount();
+    len -= len % BytesPerFrame;
     if (bAlignOldBuffer) {
         m_buff.SetCount(len);
     }

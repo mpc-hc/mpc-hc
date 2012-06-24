@@ -133,7 +133,7 @@ public:
 class CFGFilterList
 {
     struct filter_t {
-        size_t index;
+        int index;
         CFGFilter* pFGF;
         int group;
         bool exactmatch, autodelete;

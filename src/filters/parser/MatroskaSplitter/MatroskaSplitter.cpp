@@ -693,10 +693,10 @@ avcsuccess:
                     mts.Add(mt);
                 } else if (CodecID == "A_VORBIS") {
                     BYTE* p = pTE->CodecPrivate.GetData();
-                    CAtlArray<size_t> sizes;
-                    size_t totalsize = 0;
+                    CAtlArray<int> sizes;
+                    int totalsize = 0;
                     for (BYTE n = *p++; n > 0; n--) {
-                        size_t size = 0;
+                        int size = 0;
                         do {
                             size += *p;
                         } while (*p++ == 0xff);

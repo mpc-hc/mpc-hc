@@ -278,7 +278,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             mts.Add(mt);
 
             BYTE* extra     = pmp->typeSpecData.GetData();
-            ULONG extralen  = (ULONG)pmp->typeSpecData.GetCount();
+            DWORD extralen  = (DWORD)pmp->typeSpecData.GetCount();
 
             if (extralen > 26) {
                 extra       += 26;
@@ -401,7 +401,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     mts.InsertAt(0, mt);
                 } else if (fcc == 'RAAC' || fcc == 'RACP') {
                     mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_AAC);
-                    int extralen = *(DWORD*)extra;
+                    DWORD extralen = *(DWORD*)extra;
                     extra += 4;
                     ::bswap(extralen);
                     ASSERT(*extra == 2);    // always 2? why? what does it mean?
@@ -983,9 +983,9 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         BYTE* ptr = p->GetData() + 2;
 
         CAtlList<WORD> sizes;
-        size_t total = 0;
-        size_t remaining = p->GetCount() - 2;
-        size_t expected = *(ptr - 1) >> 4;
+        int total = 0;
+        int remaining = (int)p->GetCount() - 2;
+        int expected = *(ptr - 1) >> 4;
 
         while (total < remaining) {
             int size = (ptr[0] << 8) | (ptr[1]);

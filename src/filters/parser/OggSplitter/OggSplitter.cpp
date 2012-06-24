@@ -853,7 +853,7 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
             }
         }
 
-        size_t cnt = m_initpackets.GetCount();
+        int cnt = (int)m_initpackets.GetCount();
         if (cnt <= 3 && (p->GetCount() >= 6 && p->GetAt(0) == 1 + cnt * 2)) {
             VORBISFORMAT2* vf2 = (VORBISFORMAT2*)m_mts[0].Format();
             vf2->HeaderSize[cnt] = p->GetCount();
@@ -878,7 +878,7 @@ HRESULT COggVorbisOutputPin::UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, i
     if (len > 0 && m_blockflags.GetCount()) {
         bitstream bs(pData, len);
         if (bs.getbits(1) == 0) {
-            size_t x = m_blockflags.GetCount() - 1;
+            unsigned int x = (unsigned int)m_blockflags.GetCount() - 1;
             int n = 0;
             while (x) {
                 n++;
