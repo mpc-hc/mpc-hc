@@ -314,18 +314,18 @@ CBasePin* CDirectVobSubFilter::GetPin(int n)
 
     n -= __super::GetPinCount();
 
-    if (n >= 0 && (size_t)n < m_pTextInput.GetCount()) {
+    if (n >= 0 && n < (int)m_pTextInput.GetCount()) {
         return m_pTextInput[n];
     }
 
-    n -= m_pTextInput.GetCount();
+    n -= (int)m_pTextInput.GetCount();
 
     return NULL;
 }
 
 int CDirectVobSubFilter::GetPinCount()
 {
-    return __super::GetPinCount() + m_pTextInput.GetCount();
+    return __super::GetPinCount() + (int)m_pTextInput.GetCount();
 }
 
 HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName)
@@ -434,7 +434,6 @@ HRESULT CDirectVobSubFilter::CompleteConnect(PIN_DIRECTION dir, IPin* pReceivePi
         // needed when we have a decoder with a version number of 3.x
         if (SUCCEEDED(m_pGraph->FindFilterByName(L"DivX MPEG-4 DVD Video Decompressor ", &pFilter))
                 && (CFileVersionInfo::GetFileVersionNum(_T("divx_c32.ax")) >> 48) <= 4
-                || SUCCEEDED(m_pGraph->FindFilterByName(L"Microcrap MPEG-4 Video Decompressor", &pFilter))
                 || SUCCEEDED(m_pGraph->FindFilterByName(L"Microsoft MPEG-4 Video Decompressor", &pFilter))
                 && (CFileVersionInfo::GetFileVersionNum(_T("mpg4ds32.ax")) >> 48) <= 3) {
             m_fMSMpeg4Fix = true;
