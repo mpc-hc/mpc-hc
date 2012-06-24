@@ -1247,17 +1247,17 @@ HRESULT CRMFile::Init()
                     if (S_OK != (hr = Read(mp->tDuration))) {
                         return hr;
                     }
-                    UINT8 slen;
-                    if (S_OK != (hr = Read(slen))) {
+                    UINT8 len;
+                    if (S_OK != (hr = Read(len))) {
                         return hr;
                     }
-                    if (slen > 0 && S_OK != (hr = ByteRead((BYTE*)mp->name.GetBufferSetLength(slen), slen))) {
+                    if (len > 0 && S_OK != (hr = ByteRead((BYTE*)mp->name.GetBufferSetLength(len), len))) {
                         return hr;
                     }
-                    if (S_OK != (hr = Read(slen))) {
+                    if (S_OK != (hr = Read(len))) {
                         return hr;
                     }
-                    if (slen > 0 && S_OK != (hr = ByteRead((BYTE*)mp->mime.GetBufferSetLength(slen), slen))) {
+                    if (len > 0 && S_OK != (hr = ByteRead((BYTE*)mp->mime.GetBufferSetLength(len), len))) {
                         return hr;
                     }
                     UINT32 tsdlen;
@@ -1789,10 +1789,10 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
     BYTE* pI420[3] = {m_pI420, m_pI420Tmp, NULL};
 
     if (interlaced) {
-        int size = m_w * m_h;
+        int iSize = m_w * m_h;
         DeinterlaceBlend(pI420[1], pI420[0], m_w, m_h, m_w, m_w);
-        DeinterlaceBlend(pI420[1] + size, pI420[0] + size, m_w / 2, m_h / 2, m_w / 2, m_w / 2);
-        DeinterlaceBlend(pI420[1] + size * 5 / 4, pI420[0] + size * 5 / 4, m_w / 2, m_h / 2, m_w / 2, m_w / 2);
+        DeinterlaceBlend(pI420[1] + iSize, pI420[0] + iSize, m_w / 2, m_h / 2, m_w / 2, m_w / 2);
+        DeinterlaceBlend(pI420[1] + iSize * 5 / 4, pI420[0] + iSize * 5 / 4, m_w / 2, m_h / 2, m_w / 2, m_w / 2);
         pI420[2] = pI420[1], pI420[1] = pI420[0], pI420[0] = pI420[2];
     }
 
@@ -2487,9 +2487,9 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
         }
 
         if (m_hDrvDll) {
-            char buff[_MAX_PATH];
-            GetModuleFileNameA(m_hDrvDll, buff, _MAX_PATH);
-            CPathA p(buff);
+            char chbuff[_MAX_PATH];
+            GetModuleFileNameA(m_hDrvDll, chbuff, _MAX_PATH);
+            CPathA p(chbuff);
             p.RemoveFileSpec();
             p.AddBackslash();
             m_dllpath = p.m_strPath;
