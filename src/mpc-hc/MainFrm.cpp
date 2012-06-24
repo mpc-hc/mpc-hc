@@ -3950,13 +3950,12 @@ void CMainFrame::OnDvdAudio(UINT nID)
     }
 
     if (pDVDI && pDVDC) {
-        HRESULT hr;
         ULONG nStreamsAvailable, nCurrentStream;
         if (SUCCEEDED(pDVDI->GetCurrentAudio(&nStreamsAvailable, &nCurrentStream)) && nStreamsAvailable > 1) {
-            DVD_AudioAttributes     AATR;
-            UINT                    nNextStream = (nCurrentStream + (nID == 0 ? 1 : nStreamsAvailable - 1)) % nStreamsAvailable;
+            DVD_AudioAttributes AATR;
+            UINT                nNextStream = (nCurrentStream + (nID == 0 ? 1 : nStreamsAvailable - 1)) % nStreamsAvailable;
 
-            hr = pDVDC->SelectAudioStream(nNextStream, DVD_CMD_FLAG_Block, NULL);
+            HRESULT hr = pDVDC->SelectAudioStream(nNextStream, DVD_CMD_FLAG_Block, NULL);
             if (SUCCEEDED(pDVDI->GetAudioAttributes(nNextStream, &AATR))) {
                 CString lang;
                 CString strMessage;
@@ -3996,7 +3995,6 @@ void CMainFrame::OnDvdSub(UINT nID)
     }
 
     if (pDVDI && pDVDC) {
-        HRESULT hr;
         ULONG ulStreamsAvailable, ulCurrentStream;
         BOOL bIsDisabled;
         if (SUCCEEDED(pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled))
@@ -4014,7 +4012,7 @@ void CMainFrame::OnDvdSub(UINT nID)
                 pDVDC->SetSubpictureState(FALSE, DVD_CMD_FLAG_Block, NULL);
                 m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_SUBTITLE_STREAM_OFF));
             } else {
-                hr = pDVDC->SelectSubpictureStream(nNextStream, DVD_CMD_FLAG_Block, NULL);
+                HRESULT hr = pDVDC->SelectSubpictureStream(nNextStream, DVD_CMD_FLAG_Block, NULL);
 
                 DVD_SubpictureAttributes SATR;
                 pDVDC->SetSubpictureState(TRUE, DVD_CMD_FLAG_Block, NULL);

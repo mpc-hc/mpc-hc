@@ -440,7 +440,7 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
         }
     }
     if (!fStatic) {
-        CAutoLock cAutoLock(&ms_SurfaceQueueLock);
+        CAutoLock cAutoLock2(&ms_SurfaceQueueLock);
         POSITION FreeSurf = m_FreeSurfaces.GetHeadPosition();
         if (FreeSurf) {
             pSurface = m_FreeSurfaces.GetHead();
@@ -467,7 +467,7 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     (*ppSubPic)->AddRef();
 
     if (!fStatic) {
-        CAutoLock cAutoLock(&ms_SurfaceQueueLock);
+        CAutoLock cAutoLock3(&ms_SurfaceQueueLock);
         m_AllocatedSurfaces.AddHead((CDX9SubPic*)*ppSubPic);
     }
 
