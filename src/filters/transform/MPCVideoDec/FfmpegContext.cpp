@@ -51,13 +51,11 @@ extern "C" {
     int av_vc1_decode_frame(AVCodecContext* avctx, uint8_t* buf, int buf_size, int* nFrameSize);
     void av_init_packet(AVPacket* pkt);
 
-#ifdef _WIN64
     // Hack to use MinGW64 from 2.x branch
     void __mingw_raise_matherr(int typ, const char* name, double a1, double a2, double rslt) {}
-#endif
 }
 
-#if defined(STANDALONE_FILTER) && defined(_WIN64)
+#if defined(STANDALONE_FILTER)
 void* __imp_toupper = toupper;
 void* __imp_time64 = _time64;
 void* __imp_vscprintf = _vscprintf;

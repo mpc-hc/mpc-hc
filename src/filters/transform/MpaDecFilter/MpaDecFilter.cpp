@@ -32,14 +32,15 @@
 #include "../../../DSUtil/AudioParser.h"
 
 #ifdef STANDALONE_FILTER
-#ifdef _WIN64
 void* __imp_toupper = toupper;
 void* __imp_time64 = _time64;
 void* __imp_vscprintf = _vscprintf;
-#endif //_WIN64
 
 #include <InitGuid.h>
-#endif
+extern "C" {
+    void __mingw_raise_matherr(int typ, const char* name, double a1, double a2, double rslt) {}
+}
+#endif // STANDALONE_FILTER
 #include "moreuuids.h"
 
 #include <vector>

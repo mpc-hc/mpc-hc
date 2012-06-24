@@ -52,7 +52,7 @@ ifeq ($(64BIT),yes)
     OPTFLAGS  += -m64 -fno-leading-underscore
     YASMFLAGS += -f win64 -m amd64 -DWIN64=1 -DARCH_X86_32=0 -DARCH_X86_64=1 -DPIC
 else
-    TARGET_OS  = i686-pc-mingw32
+    TARGET_OS  = i686-w64-mingw32
     CFLAGS    += -DWIN32 -D_WIN32 -DARCH_X86_32
     OPTFLAGS  += -m32 -march=i686 -mmmx -msse -mfpmath=sse
     YASMFLAGS += -f win32 -m x86 -DWIN32=1 -DARCH_X86_32=1 -DARCH_X86_64=0 -DPREFIX

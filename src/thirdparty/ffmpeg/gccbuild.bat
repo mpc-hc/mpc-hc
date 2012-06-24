@@ -123,8 +123,8 @@ REM Set the GCC version
 FOR /F "tokens=1,2 delims= " %%A IN ('gcc -dumpversion') DO (SET "gccver=%%A")
 
 REM Copy the needed libraries
-COPY /Y /V "%MPCHC_MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a"    "%ROOT_DIR%\lib\" >NUL
-COPY /Y /V "%MPCHC_MINGW32%\i686-pc-mingw32\lib\libmingwex.a"             "%ROOT_DIR%\lib\" >NUL
+COPY /Y /V "%MPCHC_MINGW32%\lib\gcc\i686-w64-mingw32\%gccver%\libgcc.a"   "%ROOT_DIR%\lib\" >NUL
+COPY /Y /V "%MPCHC_MINGW32%\i686-w64-mingw32\lib\libmingwex.a"            "%ROOT_DIR%\lib\" >NUL
 COPY /Y /V "%MPCHC_MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "%ROOT_DIR%\lib64\" >NUL
 REM libmingwex.a needs to be compiled separately for x64
 IF /I "%ARCH%" == "x64" IF /I "%LIBMINGWEX%" == "true" CALL :SubLibmingwex
@@ -143,11 +143,11 @@ IF /I "%BUILDTYPE%" == "Rebuild" (
 )
 
 SET "CC=x86_64-w64-mingw32-gcc"
-SET "HST=i686-pc-mingw32"
+SET "HST=i686-w64-mingw32"
 SET "TGT=x86_64-w64-mingw32"
 SET "RT=root-%HST%"
 
-SET "SEARCHLIB=patches\root-i686-pc-mingw32\x86_64-w64-mingw32\lib\libmingwex.a"
+SET "SEARCHLIB=patches\root-i686-w64-mingw32\x86_64-w64-mingw32\lib\libmingwex.a"
 IF EXIST %SEARCHLIB% (
   COPY /Y /V "%SEARCHLIB%" "%ROOT_DIR%\lib64\"
   EXIT /B
