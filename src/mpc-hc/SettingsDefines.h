@@ -249,6 +249,9 @@
 #define IDS_RS_UPDATER_DELAY                _T("UpdaterDelay")
 #define IDS_RS_UPDATER_IGNORE_VERSION       _T("UpdaterIgnoreVersion")
 
+#define IDS_RS_GOTO_LAST_USED               _T("gotoluf")
+#define IDS_RS_GOTO_FPS                     _T("fps")
+
 #define IDS_R_SHADERS_INITIALIZED           _T("Initialized")
 #define IDS_R_SHADERS_COMBINE               _T("Combine")
 #define IDS_R_SHADERS_COMBINESCREENSPACE    _T("CombineScreenSpace")

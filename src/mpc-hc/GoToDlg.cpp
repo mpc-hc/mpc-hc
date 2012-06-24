@@ -41,7 +41,7 @@ CGoToDlg::CGoToDlg(REFERENCE_TIME time, REFERENCE_TIME maxTime, double fps, CWnd
     , m_fps(fps)
 {
     if (m_fps == 0) {
-        CString str = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, _T("fps"), _T("0"));
+        CString str = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_GOTO_FPS, _T("0"));
         float fps2;
         if (_stscanf_s(str, _T("%f"), &fps2) == 1) {
             m_fps = fps2;
@@ -92,13 +92,13 @@ BOOL CGoToDlg::OnInitDialog()
 
         UpdateData(FALSE);
 
-        switch (AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("gotoluf"), 0)) {
+        switch (AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_GOTO_LAST_USED, TYPE_TIME)) {
             default:
-            case 0:
+            case TYPE_TIME:
                 m_timeedit.SetFocus();
                 m_timeedit.SetSel(0, 0);
                 break;
-            case 1:
+            case TYPE_FRAME:
                 m_frameedit.SetFocus();
                 m_frameedit.SetSel(0, m_framestr.Find(','));
                 break;
@@ -125,6 +125,8 @@ void CGoToDlg::OnBnClickedOk1()
 {
     UpdateData();
 
+    AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_GOTO_LAST_USED, TYPE_TIME);
+
     unsigned int hh = 0;
     unsigned int mm = 0;
     float ss = 0.0;
@@ -149,6 +151,8 @@ void CGoToDlg::OnBnClickedOk1()
 void CGoToDlg::OnBnClickedOk2()
 {
     UpdateData();
+
+    AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_GOTO_LAST_USED, TYPE_FRAME);
 
     unsigned int frame;
     float fps;
