@@ -1773,7 +1773,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 slFilters.AddTail(cmdln.GetNext(pos));
             } else if (sw == _T("dvd")) {
                 nCLSwitches |= CLSW_DVD;
-            } else if (sw == _T("dvdpos")) {
+            } else if (sw == _T("dvdpos") && pos) {
                 ExtractDVDStartPos(cmdln.GetNext(pos));
             } else if (sw == _T("cd")) {
                 nCLSwitches |= CLSW_CD;
@@ -1815,10 +1815,10 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_LOCK;
             } else if (sw == _T("d3dfs")) {
                 nCLSwitches |= CLSW_D3DFULLSCREEN;
-            } else if (sw == _T("adminoption")) {
+            } else if (sw == _T("adminoption") && pos) {
                 nCLSwitches |= CLSW_ADMINOPTION;
                 iAdminOption = _ttoi(cmdln.GetNext(pos));
-            } else if (sw == _T("slave")) {
+            } else if (sw == _T("slave") && pos) {
                 nCLSwitches |= CLSW_SLAVE;
                 hMasterWnd = (HWND)_ttol(cmdln.GetNext(pos));
             } else if (sw == _T("fixedsize") && pos) {
@@ -1833,7 +1833,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             } else if (sw == _T("monitor") && pos) {
                 iMonitor = _tcstol(cmdln.GetNext(pos), NULL, 10);
                 nCLSwitches |= CLSW_MONITOR;
-            } else if (sw == _T("pns")) {
+            } else if (sw == _T("pns") && pos) {
                 strPnSPreset = cmdln.GetNext(pos);
             } else if (sw == _T("webport") && pos) {
                 int tmpport = _tcstol(cmdln.GetNext(pos), NULL, 10);
