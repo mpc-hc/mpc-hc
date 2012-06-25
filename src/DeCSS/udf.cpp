@@ -8,6 +8,10 @@
 #include "stdafx.h"
 #include "udf.h"
 
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 static bool aspi_GetSectorInfo(const HANDLE hDrive, DWORD* sec_size, DWORD* max_sec)
 {
     LARGE_INTEGER size = {0, 0};

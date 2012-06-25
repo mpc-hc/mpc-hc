@@ -25,7 +25,7 @@
 
 class CDeCSSInputPin : public CTransformInputPin, public IKsPropertySet
 {
-    int  m_varient;
+    int m_varient;
     BYTE m_Challenge[10], m_KeyCheck[5], m_Key[10];
     BYTE m_DiscKey[6], m_TitleKey[6];
 

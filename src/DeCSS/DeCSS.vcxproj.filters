@@ -43,9 +43,6 @@
     <ClInclude Include="CSSscramble.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DeCSS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DeCSSInputPin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
