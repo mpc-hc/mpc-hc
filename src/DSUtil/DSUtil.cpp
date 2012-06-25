@@ -2864,9 +2864,8 @@ void getExtraData(const BYTE* format, const GUID* formattype, const size_t forma
             offset += lav_xiphlacing(extra + offset, vf2->HeaderSize[1]);
             extra += offset;
         } else {
-            BYTE dummy[192];
-            offset += lav_xiphlacing(dummy, vf2->HeaderSize[0]);
-            offset += lav_xiphlacing(dummy, vf2->HeaderSize[1]);
+            offset += vf2->HeaderSize[0] / 255 + 1;
+            offset += vf2->HeaderSize[1] / 255 + 1;
         }
         extralength = vf2->HeaderSize[0] + vf2->HeaderSize[1] + vf2->HeaderSize[2];
         extralength = min(extralength, formatlen - sizeof(VORBISFORMAT2));
