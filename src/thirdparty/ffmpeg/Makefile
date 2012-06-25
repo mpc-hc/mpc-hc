@@ -139,6 +139,7 @@ SRCS_C = \
     libavcodec/flacdec.c \
     libavcodec/flvdec.c \
     libavcodec/fmtconvert.c \
+    libavcodec/frame_thread_encoder.c \
     libavcodec/golomb.c \
     libavcodec/h263.c \
     libavcodec/h263_parser.c \
@@ -255,7 +256,6 @@ SRCS_C = \
     libavcodec/x86/fft.c \
     libavcodec/x86/fft_3dn.c \
     libavcodec/x86/fft_3dn2.c \
-    libavcodec/x86/fft_sse.c \
     libavcodec/x86/fmtconvert_mmx.c \
     libavcodec/x86/h264_intrapred_init.c \
     libavcodec/x86/h264dsp_mmx.c \
@@ -281,6 +281,7 @@ SRCS_C = \
     libavutil/crc.c \
     libavutil/dict.c \
     libavutil/eval.c \
+    libavutil/fifo.c \
     libavutil/float_dsp.c \
     libavutil/imgutils.c \
     libavutil/intfloat_readwrite.c \

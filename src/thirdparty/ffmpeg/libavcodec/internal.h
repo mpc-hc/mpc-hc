@@ -82,6 +82,8 @@ typedef struct AVCodecInternal {
      */
     uint8_t *byte_buffer;
     unsigned int byte_buffer_size;
+
+    void *frame_thread_encoder;
 } AVCodecInternal;
 
 struct AVCodecDefault {
@@ -166,5 +168,7 @@ static av_always_inline int64_t ff_samples_to_time_base(AVCodecContext *avctx,
 }
 
 int ff_thread_can_start_frame(AVCodecContext *avctx);
+
+int ff_get_logical_cpus(AVCodecContext *avctx);
 
 #endif /* AVCODEC_INTERNAL_H */

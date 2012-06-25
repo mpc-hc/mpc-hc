@@ -187,6 +187,7 @@
     <ClCompile Include="libavcodec\flacdec.c" />
     <ClCompile Include="libavcodec\flvdec.c" />
     <ClCompile Include="libavcodec\fmtconvert.c" />
+    <ClCompile Include="libavcodec\frame_thread_encoder.c" />
     <ClCompile Include="libavcodec\golomb.c" />
     <ClCompile Include="libavcodec\h261.c" />
     <ClCompile Include="libavcodec\h263.c" />
@@ -313,7 +314,6 @@
     <ClCompile Include="libavcodec\x86\fft.c" />
     <ClCompile Include="libavcodec\x86\fft_3dn.c" />
     <ClCompile Include="libavcodec\x86\fft_3dn2.c" />
-    <ClCompile Include="libavcodec\x86\fft_sse.c" />
     <ClCompile Include="libavcodec\x86\fmtconvert_mmx.c" />
     <ClCompile Include="libavcodec\x86\h264dsp_mmx.c" />
     <ClCompile Include="libavcodec\x86\h264_intrapred_init.c" />
@@ -341,6 +341,7 @@
     <ClCompile Include="libavutil\crc.c" />
     <ClCompile Include="libavutil\dict.c" />
     <ClCompile Include="libavutil\eval.c" />
+    <ClCompile Include="libavutil\fifo.c" />
     <ClCompile Include="libavutil\float_dsp.c" />
     <ClCompile Include="libavutil\imgutils.c" />
     <ClCompile Include="libavutil\intfloat_readwrite.c" />
@@ -436,6 +437,7 @@
     <ClInclude Include="libavcodec\flacdata.h" />
     <ClInclude Include="libavcodec\flv.h" />
     <ClInclude Include="libavcodec\fmtconvert.h" />
+    <ClInclude Include="libavcodec\frame_thread_encoder.h" />
     <ClInclude Include="libavcodec\get_bits.h" />
     <ClInclude Include="libavcodec\golomb.h" />
     <ClInclude Include="libavcodec\h261.h" />
@@ -564,6 +566,7 @@
     <ClInclude Include="libavutil\dict.h" />
     <ClInclude Include="libavutil\error.h" />
     <ClInclude Include="libavutil\eval.h" />
+    <ClInclude Include="libavutil\fifo.h" />
     <ClInclude Include="libavutil\float_dsp.h" />
     <ClInclude Include="libavutil\imgutils.h" />
     <ClInclude Include="libavutil\internal.h" />
@@ -589,6 +592,7 @@
     <ClInclude Include="libavutil\sha.h" />
     <ClInclude Include="libavutil\timecode.h" />
     <ClInclude Include="libavutil\timer.h" />
+    <ClInclude Include="libavutil\version.h" />
     <ClInclude Include="libavutil\x86\bswap.h" />
     <ClInclude Include="libavutil\x86\intmath.h" />
     <ClInclude Include="libavutil\x86\intreadwrite.h" />

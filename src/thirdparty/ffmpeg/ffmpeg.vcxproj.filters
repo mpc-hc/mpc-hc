@@ -264,9 +264,6 @@
     <ClCompile Include="libavcodec\x86\fft_3dn2.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\fft_sse.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
     <ClCompile Include="libavcodec\x86\fmtconvert_mmx.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
@@ -842,6 +839,12 @@
     </ClCompile>
     <ClCompile Include="libavutil\sha.c">
       <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="libavutil\fifo.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\frame_thread_encoder.c">
+      <Filter>libavcodec</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1493,6 +1496,15 @@
     </ClInclude>
     <ClInclude Include="libavutil\sha.h">
       <Filter>libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\fifo.h">
+      <Filter>libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\version.h">
+      <Filter>libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\frame_thread_encoder.h">
+      <Filter>libavcodec</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

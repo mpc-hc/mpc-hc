@@ -26,7 +26,7 @@
 
 #include "config.h"
 
-#if HAVE_ISATTY
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #include <stdlib.h>
@@ -40,6 +40,7 @@ static int flags;
 
 #if defined(_WIN32) && !defined(__MINGW32CE__)
 #include <windows.h>
+#include <io.h>
 static const uint8_t color[16 + AV_CLASS_CATEGORY_NB] = {
     [AV_LOG_PANIC  /8] = 12,
     [AV_LOG_FATAL  /8] = 12,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 Mans Rullgard <mans@mansr.com>
+ * Copyright (c) 2012 Michael Niedermayer <michaelni@gmx.at>
  *
  * This file is part of FFmpeg.
  *
@@ -18,20 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVUTIL_X86_INTMATH_H
-#define AVUTIL_X86_INTMATH_H
+#include "avcodec.h"
 
-#if HAVE_INLINE_ASM
-#define FASTDIV(a,b) \
-    ({\
-        int ret, dmy;\
-        __asm__ volatile(\
-            "mull %3"\
-            :"=d"(ret), "=a"(dmy)\
-            :"1"((unsigned int)(a)), "rm"(ff_inverse[b])\
-            );\
-        ret;\
-    })
-#endif
+int ff_frame_thread_encoder_init(AVCodecContext *avctx);
+void ff_frame_thread_encoder_free(AVCodecContext *avctx);
+int ff_thread_video_encode_frame(AVCodecContext *avctx, AVPacket *pkt, const AVFrame *frame, int *got_packet_ptr);
 
-#endif /* AVUTIL_X86_INTMATH_H */
