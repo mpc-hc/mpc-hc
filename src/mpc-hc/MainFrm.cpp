@@ -800,9 +800,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     // Casimir666 : reload Shaders
     {
-        CString     strList = s.strShaderList;
-        CString     strRes;
-        int         curPos = 0;
+        CString strList = s.strShaderList;
+        CString strRes;
+        int curPos = 0;
 
         strRes = strList.Tokenize(_T("|"), curPos);
         while (strRes != _T("")) {
@@ -811,9 +811,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         }
     }
     {
-        CString     strList = s.strShaderListScreenSpace;
-        CString     strRes;
-        int         curPos = 0;
+        CString strList = s.strShaderListScreenSpace;
+        CString strRes;
+        int curPos = 0;
 
         strRes = strList.Tokenize(_T("|"), curPos);
         while (strRes != _T("")) {
@@ -877,8 +877,8 @@ void CMainFrame::OnClose()
     AppSettings& s = AfxGetAppSettings();
     // Casimir666 : save shaders list
     {
-        POSITION    pos;
-        CString     strList = "";
+        POSITION pos;
+        CString strList = "";
 
         pos = m_shaderlabels.GetHeadPosition();
         while (pos) {
@@ -888,8 +888,8 @@ void CMainFrame::OnClose()
         s.strShaderList = strList;
     }
     {
-        POSITION    pos;
-        CString     strList = "";
+        POSITION pos;
+        CString  strList = "";
 
         pos = m_shaderlabelsScreenSpace.GetHeadPosition();
         while (pos) {
@@ -1128,10 +1128,10 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 {
     if (pMsg->message == WM_KEYDOWN) {
-        /*      if (m_fShockwaveGraph
-                && (pMsg->wParam == VK_LEFT || pMsg->wParam == VK_RIGHT
-                    || pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN))
-                    return FALSE;
+        /*if (m_fShockwaveGraph
+          && (pMsg->wParam == VK_LEFT || pMsg->wParam == VK_RIGHT
+              || pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN))
+              return FALSE;
         */
         if (pMsg->wParam == VK_ESCAPE) {
             bool fEscapeNotAssigned = !AssignedToCmd(VK_ESCAPE, m_fFullScreen, false);
@@ -1460,15 +1460,15 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 
     GetDesktopWindow()->GetWindowRect(&m_rcDesktop);
     if (m_pFullscreenWnd && m_pFullscreenWnd->IsWindow()) {
-        MONITORINFO     MonitorInfo;
-        HMONITOR        hMonitor;
+        MONITORINFO MonitorInfo;
+        HMONITOR    hMonitor;
         ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
         MonitorInfo.cbSize  = sizeof(MonitorInfo);
         hMonitor            = MonitorFromWindow(m_pFullscreenWnd->m_hWnd, 0);
         if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
             CRect MonitorRect = CRect(MonitorInfo.rcMonitor);
-            m_fullWndSize.cx    = MonitorRect.Width();
-            m_fullWndSize.cy    = MonitorRect.Height();
+            m_fullWndSize.cx  = MonitorRect.Width();
+            m_fullWndSize.cy  = MonitorRect.Height();
             m_pFullscreenWnd->SetWindowPos(NULL,
                                            MonitorRect.left,
                                            MonitorRect.top,
@@ -1609,8 +1609,8 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
 
 void CMainFrame::OnRawInput(UINT nInputcode, HRAWINPUT hRawInput)
 {
-    AppSettings&    s           = AfxGetAppSettings();
-    UINT            nMceCmd     = 0;
+    AppSettings& s = AfxGetAppSettings();
+    UINT nMceCmd = 0;
 
     nMceCmd = AfxGetMyApp()->GetRemoteControlCode(nInputcode, hRawInput);
     switch (nMceCmd) {
@@ -6259,11 +6259,11 @@ void CMainFrame::OnShaderToggleScreenSpace()
 
 void CMainFrame::OnD3DFullscreenToggle()
 {
-    AppSettings&    s = AfxGetAppSettings();
-    CString         strMsg;
+    AppSettings& s = AfxGetAppSettings();
+    CString strMsg;
 
-    s.fD3DFullscreen    = !s.fD3DFullscreen;
-    strMsg              = s.fD3DFullscreen ? ResStr(IDS_OSD_RS_D3D_FULLSCREEN_ON) : ResStr(IDS_OSD_RS_D3D_FULLSCREEN_OFF);
+    s.fD3DFullscreen = !s.fD3DFullscreen;
+    strMsg = s.fD3DFullscreen ? ResStr(IDS_OSD_RS_D3D_FULLSCREEN_ON) : ResStr(IDS_OSD_RS_D3D_FULLSCREEN_OFF);
 
     if (m_iMediaLoadState == MLS_CLOSED) {
         m_closingmsg = strMsg;
@@ -7228,7 +7228,7 @@ void CMainFrame::OnPlayFramestep(UINT nID)
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
-        REFERENCE_TIME      rtAvgTime = 0;
+        REFERENCE_TIME rtAvgTime = 0;
         BeginEnumFilters(pGB, pEF, pBF) {
             BeginEnumPins(pBF, pEP, pPin) {
                 AM_MEDIA_TYPE mt;
@@ -8645,7 +8645,7 @@ void CMainFrame::OnUpdateNavigateMenuItem(CCmdUI* pCmdUI)
 
 void CMainFrame::OnTunerScan()
 {
-    CTunerScanDlg       Dlg;
+    CTunerScanDlg Dlg;
     Dlg.DoModal();
 }
 
@@ -9606,8 +9606,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     bool fAudioOnly = m_fAudioOnly;
     m_fAudioOnly = true;
 
-    m_fFullScreen       = !m_fFullScreen;
-    s.fLastFullScreen   = m_fFullScreen;
+    m_fFullScreen     = !m_fFullScreen;
+    s.fLastFullScreen = m_fFullScreen;
 
     ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
     ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
@@ -10730,7 +10730,10 @@ void CMainFrame::SetupChapters()
 
                     int h, m, s, ms;
                     WCHAR wc;
-                    if (7 != swscanf_s(CStringW(var), L"%d%c%d%c%d%c%d", &h, &wc, sizeof(WCHAR), &m, &wc, sizeof(WCHAR), &s, &wc, sizeof(WCHAR), &ms)) {
+                    if (7 != swscanf_s(CStringW(var), L"%d%c%d%c%d%c%d", &h,
+                                        &wc, sizeof(WCHAR), &m,
+                                        &wc, sizeof(WCHAR), &s,
+                                        &wc, sizeof(WCHAR), &ms)) {
                         break;
                     }
 
@@ -11634,9 +11637,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     BeginWaitCursor();
 
     try {
-        CComPtr<IVMRMixerBitmap9>       pVMB;
-        CComPtr<IMFVideoMixerBitmap>    pMFVMB;
-        CComPtr<IMadVRTextOsd>          pMVTO;
+        CComPtr<IVMRMixerBitmap9>    pVMB;
+        CComPtr<IMFVideoMixerBitmap> pMFVMB;
+        CComPtr<IMadVRTextOsd>       pMVTO;
         if (m_fOpeningAborted) {
             throw(UINT)IDS_AG_ABORTED;
         }
@@ -12105,16 +12108,16 @@ bool CMainFrame::SearchInDir(bool bDirForward)
 void CMainFrame::DoTunerScan(TunerScanData* pTSD)
 {
     if (GetPlaybackMode() == PM_CAPTURE) {
-        CComQIPtr<IBDATuner>    pTun = pGB;
+        CComQIPtr<IBDATuner> pTun = pGB;
         if (pTun) {
-            BOOLEAN             bPresent;
-            BOOLEAN             bLocked;
-            LONG                lStrength;
-            LONG                lQuality;
-            int                 nProgress;
-            int                 nOffset = pTSD->Offset ? 3 : 1;
-            LONG                lOffsets[3] = {0, pTSD->Offset, -pTSD->Offset};
-            bool                bSucceeded;
+            BOOLEAN          bPresent;
+            BOOLEAN          bLocked;
+            LONG             lStrength;
+            LONG             lQuality;
+            int              nProgress;
+            int              nOffset = pTSD->Offset ? 3 : 1;
+            LONG             lOffsets[3] = {0, pTSD->Offset, -pTSD->Offset};
+            bool             bSucceeded;
             m_bStopTunerScan = false;
 
             for (ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency <= pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth) {
@@ -14456,10 +14459,10 @@ void CMainFrame::StopTunerScan()
 
 void CMainFrame::DisplayCurrentChannelOSD()
 {
-    AppSettings&    s        = AfxGetAppSettings();
-    CDVBChannel*    pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-    CString         osd;
-    int             i        = osd.Find(_T("\n"));
+    AppSettings& s = AfxGetAppSettings();
+    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+    CString osd;
+    int i = osd.Find(_T("\n"));
     PresentFollowing NowNext;
 
     if (pChannel != NULL) {
@@ -14479,9 +14482,9 @@ void CMainFrame::DisplayCurrentChannelOSD()
 
 void CMainFrame::DisplayCurrentChannelInfo()
 {
-    AppSettings&     s       = AfxGetAppSettings();
-    CDVBChannel*     pChannel = s.FindChannelByPref(s.nDVBLastChannel);
-    CString          osd;
+    AppSettings& s = AfxGetAppSettings();
+    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+    CString osd;
     PresentFollowing NowNext;
 
     if (pChannel != NULL) {
@@ -14505,7 +14508,7 @@ void CMainFrame::DisplayCurrentChannelInfo()
 // ==== Added by CASIMIR666
 void CMainFrame::SetLoadState(MPC_LOADSTATE iState)
 {
-    m_iMediaLoadState   = iState;
+    m_iMediaLoadState = iState;
     SendAPICommand(CMD_STATE, L"%d", m_iMediaLoadState);
 }
 
@@ -14528,9 +14531,9 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
 
 bool CMainFrame::CreateFullScreenWindow()
 {
-    HMONITOR        hMonitor;
-    MONITORINFOEX   MonitorInfo;
-    CRect           MonitorRect;
+    HMONITOR      hMonitor;
+    MONITORINFOEX MonitorInfo;
+    CRect         MonitorRect;
 
     if (m_pFullscreenWnd->IsWindow()) {
         m_pFullscreenWnd->DestroyWindow();
@@ -14568,9 +14571,9 @@ bool CMainFrame::CreateFullScreenWindow()
     if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
         MonitorRect = CRect(MonitorInfo.rcMonitor);
         // Window creation
-        DWORD dwStyle       = WS_POPUP  | WS_VISIBLE ;
-        m_fullWndSize.cx    = MonitorRect.Width();
-        m_fullWndSize.cy    = MonitorRect.Height();
+        DWORD dwStyle    = WS_POPUP | WS_VISIBLE;
+        m_fullWndSize.cx = MonitorRect.Width();
+        m_fullWndSize.cy = MonitorRect.Height();
 
         m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), dwStyle, MonitorRect.left, MonitorRect.top, MonitorRect.Width(), MonitorRect.Height(), NULL, NULL, NULL);
         //SetWindowLongPtr(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST); // TODO : still freezing sometimes...
@@ -14694,7 +14697,7 @@ afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 afx_msg void CMainFrame::OnShiftSubtitle(UINT nID)
 {
     if (m_nCurSubtitle >= 0) {
-        long    lShift = (nID == ID_SHIFT_SUB_DOWN) ? -100 : 100;
+        long lShift = (nID == ID_SHIFT_SUB_DOWN) ? -100 : 100;
         CString strSubShift;
 
         if (m_wndSubresyncBar.ShiftSubtitle(m_nCurSubtitle, lShift, m_rtCurSubPos)) {
@@ -14772,7 +14775,7 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 {
     CAtlList<CString> fns;
-    REFERENCE_TIME    rtPos = 0;
+    REFERENCE_TIME rtPos = 0;
 
     switch (pCDS->dwData) {
         case CMD_OPENFILE :
@@ -14881,7 +14884,7 @@ void CMainFrame::SendAPICommand(MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
 
     if (s.hMasterWnd) {
         COPYDATASTRUCT CDS;
-        TCHAR          buff[800];
+        TCHAR buff[800];
 
         va_list args;
         va_start(args, fmt);
@@ -14905,10 +14908,10 @@ void CMainFrame::SendNowPlayingToApi()
 
 
     if (m_iMediaLoadState == MLS_LOADED) {
-        CPlaylistItem  pli;
-        CString        title, author, description;
-        CString        label;
-        long           lDuration = 0;
+        CPlaylistItem pli;
+        CString title, author, description;
+        CString label;
+        long lDuration = 0;
         REFERENCE_TIME rtDur;
 
         if (GetPlaybackMode() == PM_FILE) {
@@ -15645,7 +15648,7 @@ UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
     return __super::OnPowerBroadcast(nPowerEvent, nEventData);
 }
 
-#define NOTIFY_FOR_THIS_SESSION     0
+#define NOTIFY_FOR_THIS_SESSION 0
 
 void CMainFrame::OnSessionChange(UINT nSessionState, UINT nId)
 {
@@ -15737,8 +15740,8 @@ void CMainFrame::EnableShaders2(bool enable)
 
 bool CMainFrame::OpenBD(CString Path)
 {
-    CHdmvClipInfo       ClipInfo;
-    CString             strPlaylistFile;
+    CHdmvClipInfo ClipInfo;
+    CString strPlaylistFile;
     CAtlList<CHdmvClipInfo::PlaylistItem>   MainPlaylist;
 
     m_LastOpenBDPath = Path;
