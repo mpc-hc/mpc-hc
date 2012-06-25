@@ -219,6 +219,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 CAutoPtr<CBaseSplitterOutputPin> pPinOut;
 
                 if (!memcmp(p, "vorbis", 6)) {
+                    if ((*(OggVorbisIdHeader*)(p + 6)).audio_sample_rate == 0) return E_FAIL; // fix crash on broken files
                     name.Format(L"Vorbis %d", i);
                     pPinOut.Attach(DNew COggVorbisOutputPin((OggVorbisIdHeader*)(p + 6), name, this, this, &hr2));
                     nWaitForMore++;
