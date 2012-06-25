@@ -836,8 +836,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_OpenFile = false;
 
-    SendAPICommand(CMD_CONNECT, L"%d", GetSafeHwnd());
-
     WTSRegisterSessionNotification();
 
     return 0;
@@ -4164,19 +4162,19 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     AppSettings& s = AfxGetAppSettings();
 
-    if (s.hMasterWnd) {
-        ProcessAPICommand(pCDS);
-        return TRUE;
+    if (pCDS->dwData != 0x6ABE51 || pCDS->cbData < sizeof(DWORD)) {
+        if (s.hMasterWnd) {
+            ProcessAPICommand(pCDS);
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 
     /*
     if (m_iMediaLoadState == MLS_LOADING || !IsWindow(m_wndPlaylistBar))
         return FALSE;
     */
-
-    if (pCDS->dwData != 0x6ABE51 || pCDS->cbData < sizeof(DWORD)) {
-        return FALSE;
-    }
 
     DWORD len = *((DWORD*)pCDS->lpData);
     TCHAR* pBuff = (TCHAR*)((DWORD*)pCDS->lpData + 1);
