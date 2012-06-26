@@ -31,8 +31,8 @@ namespace DSObjects
         , public IVMRMixerBitmap9
         , public IBaseFilter
     {
-        CComPtr<IUnknown>   m_pEVR;
-        VMR9AlphaBitmap*    m_pVMR9AlphaBitmap;
+        CComPtr<IUnknown> m_pEVR;
+        VMR9AlphaBitmap*  m_pVMR9AlphaBitmap;
         CEVRAllocatorPresenter* m_pAllocatorPresenter;
 
     public:
@@ -93,7 +93,7 @@ namespace DSObjects
 
         // IVMRMixerBitmap9
         STDMETHODIMP GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms);
-        STDMETHODIMP SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms);
+        STDMETHODIMP SetAlphaBitmap(const VMR9AlphaBitmap* pBmpParms);
         STDMETHODIMP UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms);
     };
 }

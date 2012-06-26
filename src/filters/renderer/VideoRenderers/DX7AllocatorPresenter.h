@@ -37,14 +37,14 @@ namespace DSObjects
     protected:
         CSize   m_ScreenSize;
 
-        CComPtr<IDirectDraw7>   m_pDD;
-        CComQIPtr<IDirect3D7, &IID_IDirect3D7>  m_pD3D;
-        CComPtr<IDirect3DDevice7>   m_pD3DDev;
+        CComPtr<IDirectDraw7> m_pDD;
+        CComQIPtr<IDirect3D7, &IID_IDirect3D7> m_pD3D;
+        CComPtr<IDirect3DDevice7> m_pD3DDev;
 
-        CComPtr<IDirectDrawSurface7>    m_pPrimary;
-        CComPtr<IDirectDrawSurface7>    m_pBackBuffer;
-        CComPtr<IDirectDrawSurface7>    m_pVideoTexture;
-        CComPtr<IDirectDrawSurface7>    m_pVideoSurface;
+        CComPtr<IDirectDrawSurface7> m_pPrimary;
+        CComPtr<IDirectDrawSurface7> m_pBackBuffer;
+        CComPtr<IDirectDrawSurface7> m_pVideoTexture;
+        CComPtr<IDirectDrawSurface7> m_pVideoSurface;
 
         virtual HRESULT CreateDevice();
         virtual HRESULT AllocSurfaces();

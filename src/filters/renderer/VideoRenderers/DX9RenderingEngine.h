@@ -172,12 +172,12 @@ namespace DSObjects
 
         // Final pass
         HRESULT InitFinalPass();
-        void CleanupFinalPass();
+        void    CleanupFinalPass();
         HRESULT CreateIccProfileLut(TCHAR* profilePath, float* lut3D);
         HRESULT FinalPass(IDirect3DTexture9* pTexture);
 
         HRESULT TextureCopy(IDirect3DTexture9* pTexture);
-        bool ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d);
+        bool    ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d);
     };
 
 }

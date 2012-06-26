@@ -37,18 +37,18 @@
 
 class CD3DFont
 {
-    TCHAR   m_strFontName[80];              // Font properties
+    TCHAR   m_strFontName[80];         // Font properties
     DWORD   m_dwFontHeight;
     DWORD   m_dwFontFlags;
 
-    LPDIRECT3DDEVICE9       m_pd3dDevice;   // A D3DDevice used for rendering
-    LPDIRECT3DTEXTURE9      m_pTexture;     // The d3d texture for this font
-    LPDIRECT3DVERTEXBUFFER9 m_pVB;          // VertexBuffer for rendering text
-    DWORD m_dwTexWidth;                     // Texture dimensions
+    LPDIRECT3DDEVICE9  m_pd3dDevice;   // A D3DDevice used for rendering
+    LPDIRECT3DTEXTURE9 m_pTexture;     // The d3d texture for this font
+    LPDIRECT3DVERTEXBUFFER9 m_pVB;     // VertexBuffer for rendering text
+    DWORD m_dwTexWidth;                // Texture dimensions
     DWORD m_dwTexHeight;
     float m_fTextScale;
     float m_fTexCoords[128 - 32][4];
-    DWORD m_dwSpacing;                      // Character pixel spacing per side
+    DWORD m_dwSpacing;                 // Character pixel spacing per side
 
     // Stateblocks for setting and restoring render states
     LPDIRECT3DSTATEBLOCK9 m_pStateBlockSaved;
@@ -59,8 +59,7 @@ class CD3DFont
 
 public:
     // 2D and 3D text drawing functions
-    HRESULT DrawText(float x, float y, DWORD dwColor,
-                     const TCHAR* strText, DWORD dwFlags = 0L);
+    HRESULT DrawText(float x, float y, DWORD dwColor, const TCHAR* strText, DWORD dwFlags = 0L);
     HRESULT DrawTextScaled(float x, float y, float z,
                            float fXScale, float fYScale, DWORD dwColor,
                            const TCHAR* strText, DWORD dwFlags = 0L);

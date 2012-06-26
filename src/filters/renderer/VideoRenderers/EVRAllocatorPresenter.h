@@ -87,41 +87,41 @@ namespace DSObjects
         bool            GetState(DWORD dwMilliSecsTimeout, FILTER_STATE* State, HRESULT& _ReturnValue);
 
         // IQualProp (EVR statistics window)
-        STDMETHODIMP    get_FramesDroppedInRenderer(int* pcFrames);
-        STDMETHODIMP    get_FramesDrawn(int* pcFramesDrawn);
-        STDMETHODIMP    get_AvgFrameRate(int* piAvgFrameRate);
-        STDMETHODIMP    get_Jitter(int* iJitter);
-        STDMETHODIMP    get_AvgSyncOffset(int* piAvg);
-        STDMETHODIMP    get_DevSyncOffset(int* piDev);
+        STDMETHODIMP get_FramesDroppedInRenderer(int* pcFrames);
+        STDMETHODIMP get_FramesDrawn(int* pcFramesDrawn);
+        STDMETHODIMP get_AvgFrameRate(int* piAvgFrameRate);
+        STDMETHODIMP get_Jitter(int* iJitter);
+        STDMETHODIMP get_AvgSyncOffset(int* piAvg);
+        STDMETHODIMP get_DevSyncOffset(int* piDev);
 
 
         // IMFRateSupport
-        STDMETHODIMP    GetSlowestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float* pflRate);
-        STDMETHODIMP    GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float* pflRate);
-        STDMETHODIMP    IsRateSupported(BOOL fThin, float flRate, float* pflNearestSupportedRate);
+        STDMETHODIMP GetSlowestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float* pflRate);
+        STDMETHODIMP GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float* pflRate);
+        STDMETHODIMP IsRateSupported(BOOL fThin, float flRate, float* pflNearestSupportedRate);
 
-        float           GetMaxRate(BOOL bThin);
+        float        GetMaxRate(BOOL bThin);
 
 
         // IMFVideoPresenter
-        STDMETHODIMP    ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulParam);
-        STDMETHODIMP    GetCurrentMediaType(__deref_out  IMFVideoMediaType** ppMediaType);
+        STDMETHODIMP ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulParam);
+        STDMETHODIMP GetCurrentMediaType(__deref_out  IMFVideoMediaType** ppMediaType);
 
         // IMFTopologyServiceLookupClient
-        STDMETHODIMP    InitServicePointers(/* [in] */ __in  IMFTopologyServiceLookup* pLookup);
-        STDMETHODIMP    ReleaseServicePointers();
+        STDMETHODIMP InitServicePointers(/* [in] */ __in  IMFTopologyServiceLookup* pLookup);
+        STDMETHODIMP ReleaseServicePointers();
 
         // IMFVideoDeviceID
-        STDMETHODIMP    GetDeviceID(/* [out] */ __out  IID* pDeviceID);
+        STDMETHODIMP GetDeviceID(/* [out] */ __out  IID* pDeviceID);
 
         // IMFGetService
-        STDMETHODIMP    GetService(/* [in] */ __RPC__in REFGUID guidService,
-                                              /* [in] */ __RPC__in REFIID riid,
-                                              /* [iid_is][out] */ __RPC__deref_out_opt LPVOID* ppvObject);
+        STDMETHODIMP GetService(/* [in] */ __RPC__in REFGUID guidService,
+                                           /* [in] */ __RPC__in REFIID riid,
+                                           /* [iid_is][out] */ __RPC__deref_out_opt LPVOID* ppvObject);
 
         // IMFAsyncCallback
-        STDMETHODIMP    GetParameters(/* [out] */ __RPC__out DWORD* pdwFlags, /* [out] */ __RPC__out DWORD* pdwQueue);
-        STDMETHODIMP    Invoke(/* [in] */ __RPC__in_opt IMFAsyncResult* pAsyncResult);
+        STDMETHODIMP GetParameters(/* [out] */ __RPC__out DWORD* pdwFlags, /* [out] */ __RPC__out DWORD* pdwQueue);
+        STDMETHODIMP Invoke(/* [in] */ __RPC__in_opt IMFAsyncResult* pAsyncResult);
 
         // IMFVideoDisplayControl
         STDMETHODIMP GetNativeVideoSize(SIZE* pszVideo, SIZE* pszARVideo);
@@ -148,125 +148,125 @@ namespace DSObjects
         STDMETHODIMP DisableImageExport(BOOL bDisable);
 
         // IDirect3DDeviceManager9
-        STDMETHODIMP    ResetDevice(IDirect3DDevice9* pDevice, UINT resetToken);
-        STDMETHODIMP    OpenDeviceHandle(HANDLE* phDevice);
-        STDMETHODIMP    CloseDeviceHandle(HANDLE hDevice);
-        STDMETHODIMP    TestDevice(HANDLE hDevice);
-        STDMETHODIMP    LockDevice(HANDLE hDevice, IDirect3DDevice9** ppDevice, BOOL fBlock);
-        STDMETHODIMP    UnlockDevice(HANDLE hDevice, BOOL fSaveState);
-        STDMETHODIMP    GetVideoService(HANDLE hDevice, REFIID riid, void** ppService);
+        STDMETHODIMP ResetDevice(IDirect3DDevice9* pDevice, UINT resetToken);
+        STDMETHODIMP OpenDeviceHandle(HANDLE* phDevice);
+        STDMETHODIMP CloseDeviceHandle(HANDLE hDevice);
+        STDMETHODIMP TestDevice(HANDLE hDevice);
+        STDMETHODIMP LockDevice(HANDLE hDevice, IDirect3DDevice9** ppDevice, BOOL fBlock);
+        STDMETHODIMP UnlockDevice(HANDLE hDevice, BOOL fSaveState);
+        STDMETHODIMP GetVideoService(HANDLE hDevice, REFIID riid, void** ppService);
 
     protected :
-        void            OnResetDevice();
-        virtual void    OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter);
+        void          OnResetDevice();
+        virtual void  OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter);
 
-        double          m_ModeratedTime;
-        LONGLONG        m_ModeratedTimeLast;
-        LONGLONG        m_ModeratedClockLast;
-        LONGLONG        m_ModeratedTimer;
-        MFCLOCK_STATE   m_LastClockState;
-        LONGLONG        GetClockTime(LONGLONG PerformanceCounter);
+        double        m_ModeratedTime;
+        LONGLONG      m_ModeratedTimeLast;
+        LONGLONG      m_ModeratedClockLast;
+        LONGLONG      m_ModeratedTimer;
+        MFCLOCK_STATE m_LastClockState;
+        LONGLONG      GetClockTime(LONGLONG PerformanceCounter);
 
     private :
 
         typedef enum {
             Started = State_Running,
             Stopped = State_Stopped,
-            Paused = State_Paused,
+            Paused  = State_Paused,
             Shutdown = State_Running + 1
         } RENDER_STATE;
 
-        COuterEVR*                              m_pOuterEVR;
-        CComPtr<IMFClock>                       m_pClock;
-        CComPtr<IDirect3DDeviceManager9>        m_pD3DManager;
-        CComPtr<IMFTransform>                   m_pMixer;
-        CComPtr<IMediaEventSink>                m_pSink;
-        CComPtr<IMFVideoMediaType>              m_pMediaType;
-        MFVideoAspectRatioMode                  m_dwVideoAspectRatioMode;
-        MFVideoRenderPrefs                      m_dwVideoRenderPrefs;
-        COLORREF                                m_BorderColor;
+        COuterEVR*                       m_pOuterEVR;
+        CComPtr<IMFClock>                m_pClock;
+        CComPtr<IDirect3DDeviceManager9> m_pD3DManager;
+        CComPtr<IMFTransform>            m_pMixer;
+        CComPtr<IMediaEventSink>         m_pSink;
+        CComPtr<IMFVideoMediaType>       m_pMediaType;
+        MFVideoAspectRatioMode           m_dwVideoAspectRatioMode;
+        MFVideoRenderPrefs               m_dwVideoRenderPrefs;
+        COLORREF                         m_BorderColor;
 
 
-        HANDLE                                  m_hEvtQuit;         // Stop rendering thread event
-        bool                                    m_bEvtQuit;
-        HANDLE                                  m_hEvtFlush;        // Discard all buffers
-        bool                                    m_bEvtFlush;
+        HANDLE                           m_hEvtQuit;         // Stop rendering thread event
+        bool                             m_bEvtQuit;
+        HANDLE                           m_hEvtFlush;        // Discard all buffers
+        bool                             m_bEvtFlush;
 
-        bool                                    m_fUseInternalTimer;
-        INT32                                   m_LastSetOutputRange;
-        bool                                    m_bPendingRenegotiate;
-        bool                                    m_bPendingMediaFinished;
+        bool                             m_fUseInternalTimer;
+        INT32                            m_LastSetOutputRange;
+        bool                             m_bPendingRenegotiate;
+        bool                             m_bPendingMediaFinished;
 
-        HANDLE                                  m_hThread;
-        HANDLE                                  m_hGetMixerThread;
-        RENDER_STATE                            m_nRenderState;
+        HANDLE                           m_hThread;
+        HANDLE                           m_hGetMixerThread;
+        RENDER_STATE                     m_nRenderState;
 
-        CCritSec                                m_SampleQueueLock;
-        CCritSec                                m_ImageProcessingLock;
+        CCritSec                         m_SampleQueueLock;
+        CCritSec                         m_ImageProcessingLock;
 
-        CInterfaceList<IMFSample, &IID_IMFSample>       m_FreeSamples;
-        CInterfaceList<IMFSample, &IID_IMFSample>       m_ScheduledSamples;
-        IMFSample*                              m_pCurrentDisplaydSample;
-        bool                                    m_bWaitingSample;
-        bool                                    m_bLastSampleOffsetValid;
-        LONGLONG                                m_LastScheduledSampleTime;
-        double                                  m_LastScheduledSampleTimeFP;
-        LONGLONG                                m_LastScheduledUncorrectedSampleTime;
-        LONGLONG                                m_MaxSampleDuration;
-        LONGLONG                                m_LastSampleOffset;
-        LONGLONG                                m_VSyncOffsetHistory[5];
-        LONGLONG                                m_LastPredictedSync;
-        int                                     m_VSyncOffsetHistoryPos;
+        CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
+        CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;
+        IMFSample*                       m_pCurrentDisplaydSample;
+        bool                             m_bWaitingSample;
+        bool                             m_bLastSampleOffsetValid;
+        LONGLONG                         m_LastScheduledSampleTime;
+        double                           m_LastScheduledSampleTimeFP;
+        LONGLONG                         m_LastScheduledUncorrectedSampleTime;
+        LONGLONG                         m_MaxSampleDuration;
+        LONGLONG                         m_LastSampleOffset;
+        LONGLONG                         m_VSyncOffsetHistory[5];
+        LONGLONG                         m_LastPredictedSync;
+        int                              m_VSyncOffsetHistoryPos;
 
-        UINT                                    m_nResetToken;
-        int                                     m_nStepCount;
+        UINT                             m_nResetToken;
+        int                              m_nStepCount;
 
-        bool                                    m_bSignaledStarvation;
-        LONGLONG                                m_StarvationClock;
+        bool                             m_bSignaledStarvation;
+        LONGLONG                         m_StarvationClock;
 
         // Stats variable for IQualProp
-        UINT                                    m_pcFrames;
-        UINT                                    m_nDroppedUpdate;
-        UINT                                    m_pcFramesDrawn;    // Retrieves the number of frames drawn since streaming started
-        UINT                                    m_piAvg;
-        UINT                                    m_piDev;
+        UINT                             m_pcFrames;
+        UINT                             m_nDroppedUpdate;
+        UINT                             m_pcFramesDrawn;    // Retrieves the number of frames drawn since streaming started
+        UINT                             m_piAvg;
+        UINT                             m_piDev;
 
 
-        void                                    GetMixerThread();
-        static DWORD WINAPI                     GetMixerThreadStatic(LPVOID lpParam);
+        void                             GetMixerThread();
+        static DWORD WINAPI              GetMixerThreadStatic(LPVOID lpParam);
 
-        bool                                    GetImageFromMixer();
-        void                                    RenderThread();
-        static DWORD WINAPI                     PresentThread(LPVOID lpParam);
-        void                                    ResetStats();
-        void                                    StartWorkerThreads();
-        void                                    StopWorkerThreads();
-        HRESULT                                 CheckShutdown() const;
-        void                                    CompleteFrameStep(bool bCancel);
-        void                                    CheckWaitingSampleFromMixer();
+        bool                             GetImageFromMixer();
+        void                             RenderThread();
+        static DWORD WINAPI              PresentThread(LPVOID lpParam);
+        void                             ResetStats();
+        void                             StartWorkerThreads();
+        void                             StopWorkerThreads();
+        HRESULT                          CheckShutdown() const;
+        void                             CompleteFrameStep(bool bCancel);
+        void                             CheckWaitingSampleFromMixer();
 
-        void                                    RemoveAllSamples();
-        HRESULT                                 GetFreeSample(IMFSample** ppSample);
-        HRESULT                                 GetScheduledSample(IMFSample** ppSample, int& _Count);
-        void                                    MoveToFreeList(IMFSample* pSample, bool bTail);
-        void                                    MoveToScheduledList(IMFSample* pSample, bool _bSorted);
-        void                                    FlushSamples();
-        void                                    FlushSamplesInternal();
+        void                             RemoveAllSamples();
+        HRESULT                          GetFreeSample(IMFSample** ppSample);
+        HRESULT                          GetScheduledSample(IMFSample** ppSample, int& _Count);
+        void                             MoveToFreeList(IMFSample* pSample, bool bTail);
+        void                             MoveToScheduledList(IMFSample* pSample, bool _bSorted);
+        void                             FlushSamples();
+        void                             FlushSamplesInternal();
 
         // === Media type negotiation functions
-        HRESULT                                 RenegotiateMediaType();
-        HRESULT                                 IsMediaTypeSupported(IMFMediaType* pMixerType);
-        HRESULT                                 CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
-        HRESULT                                 SetMediaType(IMFMediaType* pType);
-        HRESULT                                 GetMediaTypeFourCC(IMFMediaType* pType, DWORD* pFourCC);
-        HRESULT                                 GetMediaTypeMerit(IMFMediaType* pType, int* pMerit);
-        LPCTSTR                                 GetMediaTypeFormatDesc(IMFMediaType* pMediaType);
+        HRESULT                          RenegotiateMediaType();
+        HRESULT                          IsMediaTypeSupported(IMFMediaType* pMixerType);
+        HRESULT                          CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
+        HRESULT                          SetMediaType(IMFMediaType* pType);
+        HRESULT                          GetMediaTypeFourCC(IMFMediaType* pType, DWORD* pFourCC);
+        HRESULT                          GetMediaTypeMerit(IMFMediaType* pType, int* pMerit);
+        LPCTSTR                          GetMediaTypeFormatDesc(IMFMediaType* pMediaType);
 
-        // === Functions pointers on Vista / .Net3 specifics library
-        PTR_DXVA2CreateDirect3DDeviceManager9   pfDXVA2CreateDirect3DDeviceManager9;
-        PTR_MFCreateDXSurfaceBuffer             pfMFCreateDXSurfaceBuffer;
-        PTR_MFCreateVideoSampleFromSurface      pfMFCreateVideoSampleFromSurface;
-        PTR_MFCreateVideoMediaType              pfMFCreateVideoMediaType;
+        // === Functions pointers on Vista / .NET3 specific library
+        PTR_DXVA2CreateDirect3DDeviceManager9 pfDXVA2CreateDirect3DDeviceManager9;
+        PTR_MFCreateDXSurfaceBuffer           pfMFCreateDXSurfaceBuffer;
+        PTR_MFCreateVideoSampleFromSurface    pfMFCreateVideoSampleFromSurface;
+        PTR_MFCreateVideoMediaType            pfMFCreateVideoMediaType;
 
 #if 0
         HRESULT(__stdcall* pMFCreateMediaType)(__deref_out IMFMediaType**  ppMFType);
@@ -274,9 +274,9 @@ namespace DSObjects
         HRESULT(__stdcall* pMFInitAMMediaTypeFromMFMediaType)(__in IMFMediaType* pMFType, __in GUID guidFormatBlockType, __inout AM_MEDIA_TYPE* pAMType);
 #endif
 
-        PTR_AvSetMmThreadCharacteristicsW       pfAvSetMmThreadCharacteristicsW;
-        PTR_AvSetMmThreadPriority               pfAvSetMmThreadPriority;
-        PTR_AvRevertMmThreadCharacteristics     pfAvRevertMmThreadCharacteristics;
+        PTR_AvSetMmThreadCharacteristicsW     pfAvSetMmThreadCharacteristicsW;
+        PTR_AvSetMmThreadPriority             pfAvSetMmThreadPriority;
+        PTR_AvRevertMmThreadCharacteristics   pfAvRevertMmThreadCharacteristics;
     };
 
 }
