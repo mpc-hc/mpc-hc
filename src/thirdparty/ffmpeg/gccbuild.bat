@@ -79,8 +79,10 @@ IF %ARG86% GTR 1 (GOTO UnsupportedSwitch)
 IF /I "%ARCH%" == "Both" (
   SET "ARCH=x86" & CALL :Main
   SET "ARCH=x64" & CALL :Main
-  GOTO End
+) ELSE (
+  CALL :Main
 )
+GOTO End
 
 
 :Main

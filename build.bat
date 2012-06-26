@@ -108,68 +108,38 @@ SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpu
 SET START_TIME=%TIME%
 SET START_DATE=%DATE%
 
-IF /I "%PLATFORM%" == "Win32" (GOTO Win32) ELSE IF /I "%PLATFORM%" == "x64" (GOTO x64)
-
-
-:Win32
-CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" x86
-
-IF /I "%CONFIG%" == "Filters" (
-  CALL :SubFilters Win32
-  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters Win32
-  GOTO x64
+IF /I "%PLATFORM%" == "Both" (
+  SET "PLATFORM=Win32" & CALL :Main
+  SET "PLATFORM=x64"   & CALL :Main
+) ELSE (
+  CALL :Main
 )
-
-IF /I "%CONFIG%" == "Resources" (
-  CALL :SubResources Win32
-  GOTO x64
-)
-
-CALL :SubMPCHC Win32
-
-IF /I "%CONFIG%" == "Main" GOTO x64
-
-CALL :SubResources Win32
-
-IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller Win32
-IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC Win32
-
-IF /I "%CONFIG%" == "All" (
-  CALL :SubFilters Win32
-  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters Win32
-)
+GOTO End
 
 
-:x64
+:Main
 IF %ERRORLEVEL% NEQ 0 EXIT /B
-IF /I "%PLATFORM%" == "Win32" GOTO End
 
-CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %x64_type%
+IF /I "%PLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
+CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
 
 IF /I "%CONFIG%" == "Filters" (
-  CALL :SubFilters x64
-  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters x64
-  GOTO END
+  CALL :SubFilters %PLATFORM%
+  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters %PLATFORM%
+  EXIT /B
 )
 
-IF /I "%CONFIG%" == "Resources" (
-  CALL :SubResources x64
-  GOTO END
-)
+IF /I "%CONFIG%" NEQ "Resources" CALL :SubMPCHC %PLATFORM%
+IF /I "%CONFIG%" NEQ "Main"      CALL :SubResources %PLATFORM%
 
-CALL :SubMPCHC x64
-
-IF /I "%CONFIG%" == "Main" GOTO End
-
-CALL :SubResources x64
-
-IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller x64
-IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC x64
+IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller %PLATFORM%
+IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC %PLATFORM%
 
 IF /I "%CONFIG%" == "All" (
-  CALL :SubFilters x64
-  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters x64
+  CALL :SubFilters %PLATFORM%
+  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters %PLATFORM%
 )
+EXIT /B
 
 
 :End
