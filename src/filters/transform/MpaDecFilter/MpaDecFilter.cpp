@@ -1934,17 +1934,17 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
 #pragma region FFmpeg decoder
 
 // Copy the given data into our buffer, including padding, so broken decoders do not overread and crash
-#define COPY_TO_BUFFER(data, size) {                                   \
-    if (size + FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {       \
-        m_nFFBufferSize = size + FF_INPUT_BUFFER_PADDING_SIZE;         \
-        m_pFFBuffer = (BYTE*)av_realloc(m_pFFBuffer, m_nFFBufferSize); \
-        if (!m_pFFBuffer) {                                            \
-            m_nFFBufferSize = 0;                                       \
-            return E_FAIL;                                             \
-        }                                                              \
-    }                                                                  \
-    memcpy(m_pFFBuffer, data, size);                                   \
-    memset(m_pFFBuffer+size, 0, FF_INPUT_BUFFER_PADDING_SIZE);         \
+#define COPY_TO_BUFFER(data, size) {                                                       \
+    if (size > m_nFFBufferSize) {                                                          \
+        m_pFFBuffer = (BYTE*)av_realloc(m_pFFBuffer, size + FF_INPUT_BUFFER_PADDING_SIZE); \
+        if (!m_pFFBuffer) {                                                                \
+            m_nFFBufferSize = 0;                                                           \
+            return E_FAIL;                                                                 \
+        }                                                                                  \
+        m_nFFBufferSize = size;                                                            \
+    }                                                                                      \
+    memcpy(m_pFFBuffer, data, size);                                                       \
+    memset(m_pFFBuffer+size, 0, FF_INPUT_BUFFER_PADDING_SIZE);                             \
 }
 
 HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsize, int& size)
@@ -1960,11 +1960,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 
     bool b_use_parse = m_pParser && ((nCodecId == CODEC_ID_TRUEHD) ? ((buffsize > 2000) ? true : false) : true); // Dirty hack for use with MPC MPEGSplitter
 
-    BYTE* pDataInBuff = p;
-    CAtlArray<float> pBuffOut;
-
-    WORD  nChannels     = 0;
-    DWORD dwChannelMask = 0;
+    BYTE* pDataBuff = NULL;
 
     BYTE* tmpProcessBuf = NULL;
 
@@ -1981,7 +1977,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
         if (buffsize >= len) {
             tmpProcessBuf = (BYTE*)av_mallocz(len + FF_INPUT_BUFFER_PADDING_SIZE);
             if (sps > 0 && m_raData.deint_id == MAKEFOURCC('r', 'n', 'e', 'g')) { // COOK and ATRAC codec
-                const BYTE* srcBuf = pDataInBuff;
+                const BYTE* srcBuf = p;
                 for (int y = 0; y < h; y++) {
                     for (int x = 0, w2 = w / sps; x < w2; x++) {
                         memcpy(tmpProcessBuf + sps * (h * x + ((h + 1) / 2) * (y & 1) + (y >> 1)), srcBuf, sps);
@@ -1989,7 +1985,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
                     }
                 }
             } else if (m_raData.deint_id == MAKEFOURCC('r', 'p', 'i', 's')) { // SIPR codec
-                memcpy(tmpProcessBuf, pDataInBuff, len);
+                memcpy(tmpProcessBuf, p, len);
 
                 // http://mplayerhq.hu/pipermail/mplayer-dev-eng/2002-August/010569.html
                 static BYTE sipr_swaps[38][2] = {
@@ -2023,22 +2019,26 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
                     }
                 }
             }
-            pDataInBuff = tmpProcessBuf;
+            pDataBuff = tmpProcessBuf;
             buffsize = len;
         } else {
             size = 0;
             return S_OK;
         }
     }
+    //
+    else {
+        COPY_TO_BUFFER(p, buffsize);
+        pDataBuff = m_pFFBuffer;
+    }
 
     while (buffsize > 0) {
         got_frame = 0;
-        COPY_TO_BUFFER(pDataInBuff, buffsize);
 
         if (b_use_parse) {
             BYTE* pOut = NULL;
             int pOut_size = 0;
-            int used_bytes = av_parser_parse2(m_pParser, m_pAVCtx, &pOut, &pOut_size, m_pFFBuffer, buffsize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
+            int used_bytes = av_parser_parse2(m_pParser, m_pAVCtx, &pOut, &pOut_size, pDataBuff, buffsize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
             if (used_bytes < 0) {
                 TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - audio parsing failed (ret: %d)\n"), -used_bytes);
                 goto fail;
@@ -2048,13 +2048,12 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
             }
 
             if (used_bytes > 0) {
-                size        += used_bytes;
-                buffsize    -= used_bytes;
-                pDataInBuff += used_bytes;
+                buffsize  -= used_bytes;
+                pDataBuff += used_bytes;
+                size      += used_bytes;
             }
             if (pOut_size > 0) {
-                COPY_TO_BUFFER(pOut, pOut_size);
-                avpkt.data = (uint8_t*)m_pFFBuffer;
+                avpkt.data = pOut;
                 avpkt.size = pOut_size;
 
                 int ret2 = avcodec_decode_audio4(m_pAVCtx, m_pFrame, &got_frame, &avpkt);
@@ -2067,7 +2066,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
                 continue;
             }
         } else {
-            avpkt.data = (uint8_t*)m_pFFBuffer;
+            avpkt.data = pDataBuff;
             avpkt.size = buffsize;
 
             int used_bytes = avcodec_decode_audio4(m_pAVCtx, m_pFrame, &got_frame, &avpkt);
@@ -2087,63 +2086,54 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
             }
             ASSERT(buffsize >= used_bytes);
 
-            size        += used_bytes;
-            buffsize    -= used_bytes;
-            pDataInBuff += used_bytes;
+            buffsize  -= used_bytes;
+            pDataBuff += used_bytes;
+            size      += used_bytes;
         }
 
         if (got_frame) {
-            CAtlArray<float> pBuff;
-            float*           pDataOut;
+            WORD   nChannels = m_pAVCtx->channels;
+            size_t nSamples  = m_pFrame->nb_samples * nChannels;
 
-            nChannels = m_pAVCtx->channels;
-            if (m_pAVCtx->channel_layout) {
-                dwChannelMask = get_lav_channel_layout(m_pAVCtx->channel_layout);
-            } else {
-                dwChannelMask = GetDefChannelMask(nChannels);
-            }
+            if (nSamples) {
+                DWORD dwChannelMask;
+                if (m_pAVCtx->channel_layout)
+                    dwChannelMask = get_lav_channel_layout(m_pAVCtx->channel_layout);
+                else 
+                    dwChannelMask = GetDefChannelMask(nChannels);
 
-            if (nChannels && dwChannelMask) {
+                CAtlArray<float> pBuffOut;
+                float*           pDataOut;
 
-                DWORD dwPCMSize = m_pFrame->nb_samples * nChannels * av_get_bytes_per_sample(m_pAVCtx->sample_fmt);
+                pBuffOut.SetCount(nSamples);
+                pDataOut = pBuffOut.GetData();
+
                 switch (m_pAVCtx->sample_fmt) {
                     case AV_SAMPLE_FMT_S16 :
-                        pBuff.SetCount(dwPCMSize / 2);
-                        pDataOut = pBuff.GetData();
-
-                        for (size_t i = 0; i < pBuff.GetCount(); ++i) {
+                        for (size_t i = 0; i < nSamples; ++i) {
                             *pDataOut = (float)((int16_t*)m_pFrame->data[0])[i] / INT16_PEAK;
                             pDataOut++;
                         }
                         break;
-
                     case AV_SAMPLE_FMT_S32 :
-                        pBuff.SetCount(dwPCMSize / 4);
-                        pDataOut = pBuff.GetData();
-
-                        for (size_t i = 0; i < pBuff.GetCount(); ++i) {
+                        for (size_t i = 0; i < nSamples; ++i) {
                             *pDataOut = (float)((int32_t*)m_pFrame->data[0])[i] / INT32_PEAK;
                             pDataOut++;
                         }
                         break;
                     case AV_SAMPLE_FMT_FLT:
-                        pBuff.SetCount(dwPCMSize / 4);
-                        pDataOut = pBuff.GetData();
-                        memcpy(pDataOut, m_pFrame->data[0], dwPCMSize);
+                        memcpy(pDataOut, m_pFrame->data[0], nSamples * 4);
                         break;
                     default :
                         ASSERT(FALSE);
                         break;
                 }
 
-                if (pBuff.GetCount() > 0) {
-                    hr = Deliver(pBuff, m_pAVCtx->sample_rate, nChannels, dwChannelMask);
-                    if (FAILED(hr)) {
-                        TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - Deliver failed\n"));
-                        goto fail;
-                    }
+                hr = Deliver(pBuffOut, m_pAVCtx->sample_rate, nChannels, dwChannelMask);
+                if (FAILED(hr)) {
+                    TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - Deliver failed\n"));
+                    goto fail;
                 }
-
             }
         }
     }
