@@ -32,7 +32,7 @@ IF EXIST "build.user.bat" (
 )
 IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
 
-SET ARG=%*
+SET ARG=%* 
 SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
 SET ARGB=0
@@ -251,7 +251,7 @@ IF NOT DEFINED InnoSetupPath (
 )
 
 TITLE Compiling %1 installer...
-"%InnoSetupPath%\ISCC.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" %MPCHC_INNO_DEF%
+"%InnoSetupPath%" /Q /O"bin" "distrib\mpc-hc_setup.iss" %MPCHC_INNO_DEF%
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 CALL :SubMsg "INFO" "%1 installer successfully built"
 
@@ -450,7 +450,7 @@ CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 
 
 :SubInnoSetupPath
-SET InnoSetupPath=%*
+SET "InnoSetupPath=%*\ISCC.exe"
 EXIT /B
 
 :SubSevenzipPath
