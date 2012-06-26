@@ -31,6 +31,7 @@ Legend:
 ! The last textbox used in the Goto dialog was not remembered since r3964 and r3965
 ! Always show an error message instead of crashing when the argument of a command line
   switch is missing
+! OggSplitter: Fix crash with some files
 ! Ticket #504, Fixed rounding errors that prevented a properly centered image
   and caused unneeded resizing because the video size was off by one
 ! Ticket #2330, Fix the radio buttons in the Logo options page

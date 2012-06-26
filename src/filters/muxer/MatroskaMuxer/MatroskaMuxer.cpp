@@ -1247,12 +1247,12 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
         m_pVorbisHdrs.Add(data);
 
         if (m_pVorbisHdrs.GetCount() == 3) {
-            int len = 1; 
-            for (size_t i = 0; i < 2; i++) { 
-                len += (int)m_pVorbisHdrs[i]->GetCount() / 255 + 1; 
-            } 
-            for (size_t i = 0; i < 3; i++) { 
-                len += (int)m_pVorbisHdrs[i]->GetCount(); 
+            int len = 1;
+            for (size_t i = 0; i < 2; i++) {
+                len += (int)m_pVorbisHdrs[i]->GetCount() / 255 + 1;
+            }
+            for (size_t i = 0; i < 3; i++) {
+                len += (int)m_pVorbisHdrs[i]->GetCount();
             }
             m_pTE->CodecPrivate.SetCount(len);
 

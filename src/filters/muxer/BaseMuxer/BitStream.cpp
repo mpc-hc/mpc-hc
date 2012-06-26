@@ -89,13 +89,13 @@ STDMETHODIMP CBitStream::ByteWrite(const void* pData, int len)
 
     BitFlush();
 
-if (len > 0) { 
-        ULONG cbWritten = 0; 
+    if (len > 0) {
+        ULONG cbWritten = 0;
         hr = m_pStream->Write(pData, len, &cbWritten);
 
-        ASSERT(SUCCEEDED(hr)); 
-        if (m_fThrowError && FAILED(hr)) { 
-            throw hr; 
+        ASSERT(SUCCEEDED(hr));
+        if (m_fThrowError && FAILED(hr)) {
+            throw hr;
         }
     }
 
