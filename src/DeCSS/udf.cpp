@@ -8,10 +8,6 @@
 #include "stdafx.h"
 #include "udf.h"
 
-#ifndef _CRT_SECURE_NO_WARNINGS
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-
 static bool aspi_GetSectorInfo(const HANDLE hDrive, DWORD* sec_size, DWORD* max_sec)
 {
     LARGE_INTEGER size = {0, 0};
@@ -291,6 +287,9 @@ void udf_free(tp_udf_file f)
     }
 }
 
+#pragma warning(push)
+#pragma warning(disable:4995 4996)
+
 #define udf_PATH_DELIMITERS "/\\"
 
 static tp_udf_file udf_ff_traverse(const HANDLE hDrive, tp_udf_file f, char *token)
@@ -335,6 +334,8 @@ tp_udf_file udf_find_file(const HANDLE hDrive, const WORD partition, const char 
     }
     return f2;
 }
+
+#pragma warning(pop)
 
 bool udf_get_lba(const HANDLE hDrive, const tp_udf_file f, DWORD *start_lba, DWORD *end_lba)
 {
