@@ -6,7 +6,7 @@ http://sourceforge.net/apps/trac/mpc-hc/wiki/How_to_compile_the_MPC
 Part A: Preparing the Visual Studio environment
 
  Visual Studio 2010
-  1. Install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine).
+  1. Install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine)
   2. Install Visual Studio 2010 Service Pack 1 -> http://www.microsoft.com/downloads/en/details.aspx?FamilyID=75568aa6-8107-475d-948a-ef22627e57a5&displaylang=en
   3. Install the DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
 
@@ -41,9 +41,6 @@ Part C: Downloading and compiling the MPC-HC source
     d) Wait for the source tree to be downloaded.
 3. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
-
-See Part D for libmingwex.a x64
-
 4. Press F7 to build the solution.
 5. You now have "mpc-hc.exe" under "C:\mpc-hc\bin\mpc-hc_x86"
 6. Open the solution file "C:\mpc-hc\mpciconlib.sln"
@@ -57,16 +54,7 @@ Alternatively, you can use "build.bat" which can build everything for you
 (run: build.bat help for more info)
 
 
-Part D: Building FFmpeg x64 with GCC
-
-Run "C:\mpc-hc\src\thirdparty\ffmpeg\gccbuild.bat" x64 libmingwex
-
-After the compilation is done, "libgcc.a" and "libmingwex.a" will be placed in "C:\mpc-hc\lib64"
-
-Now FFmpeg can be compiled from within the MPC-HC visual studio solution file, and everything will be linked correctly with the other components.
-
-
-Part E: Building the installer
+Part D: Building the installer
 
 Download Inno Setup Unicode v5.5.0 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to "C:\mpc-hc\distrib", open "mpc-hc_setup.iss" with Inno Setup, read the first comments in the script and compile it.
