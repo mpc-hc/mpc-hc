@@ -147,10 +147,10 @@ private :
         uint16_t pgc_program_map_offset;
         uint16_t cell_playback_tbl_offset;
         uint16_t cell_position_tbl_offset;
-        pgc_command_tbl_t*   pgc_command_tbl;
-        pgc_program_map_t*   pgc_program_map;
-        ifo_pgci_caddr_t*    cell_playback_tbl;
-        ifo_pgc_cpos_t*      cell_position_tbl;
+        pgc_command_tbl_t* pgc_command_tbl;
+        pgc_program_map_t* pgc_program_map;
+        ifo_pgci_caddr_t*  cell_playback_tbl;
+        ifo_pgc_cpos_t*    cell_position_tbl;
     } pgc_t;
 #define PGC_SIZE 236
 
@@ -162,17 +162,17 @@ private :
 
     typedef struct {
 #if BYTE_ORDER == BIG_ENDIAN
-        uint16_t foo1       : 4;    // don't know
-        uint8_t menu_id     : 4;    // 0=off, 3=root, 4=spu,
+        uint16_t foo1   : 4;    // don't know
+        uint8_t menu_id : 4;    // 0=off, 3=root, 4=spu,
         // 5=audio, 6=angle, 7=ptt
 #else
-        uint8_t menu_id     : 4;    // 0=off, 3=root, 4=spu,
+        uint8_t menu_id : 4;    // 0=off, 3=root, 4=spu,
         // 5=audio, 6=angle, 7=ptt
-        uint16_t foo1       : 4;    // don't know
+        uint16_t foo1   : 4;    // don't know
 #endif
-        uint16_t foo2       : 8;    // don't know
-        uint16_t bar        : 16;   // don't know
-        uint32_t start      : 32;   // Start of unit
+        uint16_t foo2   : 8;    // don't know
+        uint16_t bar    : 16;   // don't know
+        uint32_t start  : 32;   // Start of unit
     } lu_sub_t;
 
 

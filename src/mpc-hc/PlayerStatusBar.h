@@ -54,7 +54,8 @@ public:
     void SetStatusTypeIcon(HICON hIcon);
     void SetStatusMessage(CString str);
     void SetStatusTimer(CString str);
-    void SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision, const GUID* pTimeFormat = &TIME_FORMAT_MEDIA_TIME);
+    void SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision,
+                        const GUID* pTimeFormat = &TIME_FORMAT_MEDIA_TIME);
 
     CString GetStatusTimer();
     void ShowTimer(bool fShow);

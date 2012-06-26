@@ -129,7 +129,7 @@ public:
             DeleteMediaType(pmt);
             return false;
         }
-        //      if (pmt->formattype == FORMAT_VideoInfo2) {DeleteMediaType(pmt); return false;} // TODO
+        //if (pmt->formattype == FORMAT_VideoInfo2) {DeleteMediaType(pmt); return false;} // TODO
 
         CFormat<T>* pf = Find(MakeFormatName(pmt), true);
         if (!pf) {

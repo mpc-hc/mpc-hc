@@ -34,8 +34,10 @@ class CPnSPresetsDlg : public CCmdUIDialog
     DECLARE_DYNAMIC(CPnSPresetsDlg)
 
 private:
-    void StringToParams(CString str, CString& label, double& PosX, double& PosY, double& ZoomX, double& ZoomY);
-    CString ParamsToString(CString label, double PosX, double PosY, double ZoomX, double ZoomY);
+    void StringToParams(CString str, CString& label, double& PosX,
+                        double& PosY, double& ZoomX, double& ZoomY);
+    CString ParamsToString(CString label, double PosX, double PosY,
+                           double ZoomX, double ZoomY);
 
 public:
     CPnSPresetsDlg(CWnd* pParent = NULL);   // standard constructor
@@ -49,8 +51,8 @@ public:
     CFloatEdit m_PosY;
     CFloatEdit m_ZoomX;
     CFloatEdit m_ZoomY;
-    CString m_label;
-    CListBox m_list;
+    CString    m_label;
+    CListBox   m_list;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

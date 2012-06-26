@@ -172,11 +172,11 @@ public:
     static bool SetLanguage(const LanguageResource& languageResource, bool showErrorMsg = true);
     static void SetDefaultLanguage();
 
-    //static HRESULT                GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
-    static void                 RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
+    //static HRESULT GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
+    static void RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
 
-    void                        RegisterHotkeys();
-    void                        UnregisterHotkeys();
+    void RegisterHotkeys();
+    void UnregisterHotkeys();
     // Overrides
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CMPlayerCApp)

@@ -470,9 +470,8 @@ public:
     // capturing
     bool m_fCapturing;
     HRESULT BuildCapture(IPin* pPin, IBaseFilter* pBF[3], const GUID& majortype, AM_MEDIA_TYPE* pmt); // pBF: 0 buff, 1 enc, 2 mux, pmt is for 1 enc
-    bool BuildToCapturePreviewPin(
-        IBaseFilter* pVidCap, IPin** pVidCapPin, IPin** pVidPrevPin,
-        IBaseFilter* pAudCap, IPin** pAudCapPin, IPin** pAudPrevPin);
+    bool BuildToCapturePreviewPin(IBaseFilter* pVidCap, IPin** pVidCapPin, IPin** pVidPrevPin,
+                                  IBaseFilter* pAudCap, IPin** pAudCapPin, IPin** pAudPrevPin);
     bool BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPreview, bool fACapture);
     bool DoCapture(), StartCapture(), StopCapture();
 
@@ -792,7 +791,6 @@ public:
     afx_msg void OnShiftSubtitle(UINT nID);
     afx_msg void OnSubtitleDelay(UINT nID);
 
-
     afx_msg void OnPlayPlay();
     afx_msg void OnPlayPause();
     afx_msg void OnPlayPauseI();
@@ -862,7 +860,6 @@ public:
     afx_msg void OnUpdateRecentFileClear(CCmdUI* pCmdUI);
     afx_msg void OnRecentFile(UINT nID);
     afx_msg void OnUpdateRecentFile(CCmdUI* pCmdUI);
-
 
     afx_msg void OnHelpHomepage();
     afx_msg void OnHelpCheckForUpdate();

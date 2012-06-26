@@ -105,7 +105,8 @@ namespace DSObjects
         // IMediaSeeking
         STDMETHODIMP GetDuration(LONGLONG* pDuration);
         STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
-        STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+        STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags,
+                                  LONGLONG* pStop, DWORD dwStopFlags);
         STDMETHODIMP SetRate(double dRate);
         STDMETHODIMP GetRate(double* pdRate);
 

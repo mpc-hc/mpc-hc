@@ -39,8 +39,7 @@ public:
         return CString::operator LPCTSTR();
     }
     /*virtual*/ HINSTANCE Navigate() {
-        return IsEmpty() ? NULL :
-               ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
+        return IsEmpty() ? NULL : ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
     }
 };
 
@@ -51,12 +50,12 @@ class CStaticLink : public CStatic
 public:
     DECLARE_DYNAMIC(CStaticLink)
     CStaticLink(LPCTSTR lpText = NULL, bool bDeleteOnDestroy = false);
-    ~CStaticLink() { }
+    ~CStaticLink() {}
 
     // Hyperlink contains URL/filename. If NULL, I will use the window text.
     // (GetWindowText) to get the target.
-    CHyperlink  m_link;
-    COLORREF    m_color;
+    CHyperlink m_link;
+    COLORREF   m_color;
 
     // Default colors you can change
     // These are global, so they're the same for all links.
@@ -64,8 +63,8 @@ public:
     static COLORREF g_colorVisited;
 
 protected:
-    CFont   m_font;             // underline font for text control
-    bool    m_bDeleteOnDestroy; // delete object when window destroyed?
+    CFont m_font;             // underline font for text control
+    bool  m_bDeleteOnDestroy; // delete object when window destroyed?
 
     virtual void PostNcDestroy();
 

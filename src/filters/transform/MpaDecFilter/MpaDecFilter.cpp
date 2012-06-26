@@ -2095,10 +2095,11 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 
             if (nSamples) {
                 DWORD dwChannelMask;
-                if (m_pAVCtx->channel_layout)
+                if (m_pAVCtx->channel_layout) {
                     dwChannelMask = get_lav_channel_layout(m_pAVCtx->channel_layout);
-                else 
+                } else {
                     dwChannelMask = GetDefChannelMask(nChannels);
+                }
 
                 CAtlArray<float> pBuffOut;
                 float*           pDataOut;

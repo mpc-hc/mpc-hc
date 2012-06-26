@@ -76,17 +76,17 @@ public:
     bool OnLButtonUp(UINT nFlags, CPoint point);
 
 private :
-    CComPtr<IVMRMixerBitmap9>       m_pVMB;
-    CComPtr<IMFVideoMixerBitmap>    m_pMFVMB;
-    CComPtr<IMadVRTextOsd>          m_pMVTO;
+    CComPtr<IVMRMixerBitmap9>    m_pVMB;
+    CComPtr<IMFVideoMixerBitmap> m_pMFVMB;
+    CComPtr<IMadVRTextOsd>       m_pMVTO;
 
-    CWnd*                           m_pWnd;
+    CWnd* m_pWnd;
 
-    CCritSec            m_Lock;
-    CDC                 m_MemDC;
-    VMR9AlphaBitmap     m_VMR9AlphaBitmap;
-    MFVideoAlphaBitmap  m_MFVideoAlphaBitmap;
-    BITMAP              m_BitmapInfo;
+    CCritSec           m_Lock;
+    CDC                m_MemDC;
+    VMR9AlphaBitmap    m_VMR9AlphaBitmap;
+    MFVideoAlphaBitmap m_MFVideoAlphaBitmap;
+    BITMAP             m_BitmapInfo;
 
     CFont   m_MainFont;
     CPen    m_penBorder;
@@ -98,8 +98,8 @@ private :
     int     m_FontSize;
     CString m_OSD_Font;
 
-    CRect       m_rectWnd;
-    COLORREF    m_Color[OSD_LAST];
+    CRect    m_rectWnd;
+    COLORREF m_Color[OSD_LAST];
 
     // Curseur de calage
     CRect   m_rectSeekBar;
@@ -114,9 +114,9 @@ private :
     bool    m_bShowMessage;
 
     // Messages
-    CString         m_strMessage;
-    OSD_MESSAGEPOS  m_nMessagePos;
-    CList<CString>  m_debugMessages;
+    CString        m_strMessage;
+    OSD_MESSAGEPOS m_nMessagePos;
+    CList<CString> m_debugMessages;
 
     void UpdateBitmap();
     void CalcRect();

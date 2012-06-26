@@ -37,9 +37,7 @@ public:
     CColorStatic(CWnd* pParent = NULL) : m_pColor(NULL) {}
     virtual ~CColorStatic() {}
 
-    void SetColorPtr(COLORREF* pColor) {
-        m_pColor = pColor;
-    }
+    void SetColorPtr(COLORREF* pColor) { m_pColor = pColor; }
 
     //  DECLARE_MESSAGE_MAP()
 
@@ -69,9 +67,7 @@ public:
     virtual ~CPPageSubStyle();
 
     void InitStyle(CString title, STSStyle& stss);
-    void GetStyle(STSStyle& stss) {
-        stss = m_stss;
-    }
+    void GetStyle(STSStyle& stss) { stss = m_stss; }
 
     // Dialog Data
     enum { IDD = IDD_PPAGESUBSTYLE };
