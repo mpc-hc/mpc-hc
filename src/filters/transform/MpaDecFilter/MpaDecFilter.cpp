@@ -1949,11 +1949,10 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
 
 HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsize, int& size)
 {
+    size = 0;
     HRESULT hr = S_OK;
-    int got_frame = 0;
     if (!m_pAVCtx || nCodecId != m_pAVCtx->codec_id) {
         if (!InitFFmpeg(nCodecId)) {
-            size = 0;
             return E_FAIL;
         }
     }
@@ -2022,7 +2021,6 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
             pDataBuff = tmpProcessBuf;
             buffsize = len;
         } else {
-            size = 0;
             return S_OK;
         }
     }
@@ -2033,7 +2031,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
     }
 
     while (buffsize > 0) {
-        got_frame = 0;
+        int got_frame = 0;
 
         if (b_use_parse) {
             BYTE* pOut = NULL;
