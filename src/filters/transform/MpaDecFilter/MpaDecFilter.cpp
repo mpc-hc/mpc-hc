@@ -1929,9 +1929,9 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
 {
 }
 
-#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
-
 #pragma region FFmpeg decoder
+
+#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
 
 // Copy the given data into our buffer, including padding, so broken decoders do not overread and crash
 #define COPY_TO_BUFFER(data, size) {                                                       \
@@ -2077,7 +2077,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
                 TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - could not process buffer while decoding\n"));
                 break;
             } else if (m_pAVCtx->channels > 8) {
-                // sometimes avcodec_decode_audio4 can not identify the garbage and produces incorrect data.
+                // sometimes avcodec_decode_audio4 cannot identify the garbage and produces incorrect data.
                 // this code does not solve the problem, it only reduces the likelihood of crash.
                 // do it better!
                 got_frame = 0;
@@ -2350,6 +2350,6 @@ HRESULT CMpaDecFilter::ParseRealAudioHeader(const BYTE* extra, const int extrale
     return S_OK;
 }
 
-#pragma endregion
+#endif // STANDALONE_FILTER || HAS_FFMPEG_AUDIO_DECODERS
 
-#endif /* HAS_FFMPEG_AUDIO_DECODERS */
+#pragma endregion
