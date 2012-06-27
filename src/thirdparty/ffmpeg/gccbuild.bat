@@ -78,6 +78,7 @@ GOTO End
 
 
 :Main
+IF %ERRORLEVEL% NEQ 0 EXIT /B
 IF /I "%ARCH%" == "x64" (SET "x64=64BIT=yes") ELSE (SET "x64=")
 
 CALL :SubCopyLibs
@@ -128,7 +129,7 @@ ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "%ROOT_DIR%\docs\Compilation.txt" for more information.
 ENDLOCAL
-EXIT /B
+EXIT /B 1
 
 
 :UnsupportedSwitch
@@ -139,7 +140,7 @@ ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
 ENDLOCAL
-EXIT /B
+EXIT /B 1
 
 
 :ShowHelp
