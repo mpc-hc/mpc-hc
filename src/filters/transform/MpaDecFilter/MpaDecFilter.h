@@ -50,6 +50,18 @@ struct ps2_state_t {
     }
 };
 
+struct DD_stats_t
+{
+protected:
+    int mode;
+    unsigned int ac3_frames;
+    unsigned int eac3_frames;
+
+public:
+    void Reset();
+    bool Desired(int type);
+};
+
 struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
@@ -88,6 +100,7 @@ protected:
     HRESULT ProcessHdmvLPCM(bool bAlignOldBuffer);
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
+    HRESULT ProcessAC3();
     HRESULT ProcessAC3SPDIF();
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
@@ -142,6 +155,7 @@ protected:
     bool m_fDynamicRangeControl[etlast];
 
     bool m_bResync;
+    DD_stats_t m_DDstats;
 
 public:
     CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr);

@@ -123,11 +123,11 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
     { &MEDIASUBTYPE_SIPR,       CODEC_ID_SIPR   },
     { &MEDIASUBTYPE_RAAC,       CODEC_ID_AAC    },
     { &MEDIASUBTYPE_RACP,       CODEC_ID_AAC    },
-    { &MEDIASUBTYPE_DNET,       CODEC_ID_AC3    },
+//  { &MEDIASUBTYPE_DNET,       CODEC_ID_AC3    },
 #endif
 #if INTERNAL_DECODER_AC3
-    { &MEDIASUBTYPE_DOLBY_AC3,      CODEC_ID_AC3    },
-    { &MEDIASUBTYPE_WAVE_DOLBY_AC3, CODEC_ID_AC3    },
+//  { &MEDIASUBTYPE_DOLBY_AC3,      CODEC_ID_AC3    },
+//  { &MEDIASUBTYPE_WAVE_DOLBY_AC3, CODEC_ID_AC3    },
     { &MEDIASUBTYPE_DOLBY_DDPLUS,   CODEC_ID_EAC3   },
     { &MEDIASUBTYPE_DOLBY_TRUEHD,   CODEC_ID_TRUEHD },
     { &MEDIASUBTYPE_MLP,            CODEC_ID_MLP    },
@@ -367,6 +367,37 @@ static DWORD get_lav_channel_layout(uint64_t layout)
     return (DWORD)layout;
 }
 
+void DD_stats_t::Reset()
+{
+    mode = CODEC_ID_NONE;
+    ac3_frames = 0;
+    eac3_frames = 0;
+}
+
+bool DD_stats_t::Desired(int type)
+{
+    if (mode != CODEC_ID_NONE) {
+        return (mode == type);
+    };
+    // unknown mode
+    if (type == CODEC_ID_AC3) {
+        ++ac3_frames;
+    } else if (type == CODEC_ID_EAC3) {
+        ++eac3_frames;
+    }
+
+    if (ac3_frames + eac3_frames >= 4) {
+        if (eac3_frames > 2*ac3_frames) {
+            mode = CODEC_ID_EAC3; // EAC3
+        } else {
+            mode = CODEC_ID_AC3;  // AC3 or mixed AC3+EAC3
+        }
+        return (mode == type);
+    }
+
+    return true;
+}
+
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     : CTransformFilter(NAME("CMpaDecFilter"), lpunk, __uuidof(this))
     , m_iSampleFormat(SF_PCM16)
@@ -398,6 +429,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_fDynamicRangeControl[ac3] = false;
     m_fDynamicRangeControl[dts] = false;
     m_DolbyDigitalMode          = DD_Unknown;
+    m_DDstats.Reset();
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     m_pAVCodec                  = NULL;
     m_pAVCtx                    = NULL;
@@ -571,11 +603,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
     len += (long)bufflen;
 
 #if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
-    if (GetSpeakerConfig(ac3) < 0 &&
-            (subtype == MEDIASUBTYPE_DOLBY_AC3      ||
-             subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
-             subtype == MEDIASUBTYPE_DNET)) {
+    if ((subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 || subtype == MEDIASUBTYPE_DNET)) {
+        if (GetSpeakerConfig(ac3) < 0) {
         return ProcessAC3SPDIF();
+        } else {
+            return ProcessAC3();
+        }
     }
 #endif
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
@@ -820,6 +853,46 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 #endif /* INTERNAL_DECODER_LPCM */
 
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
+HRESULT CMpaDecFilter::ProcessAC3()
+{
+    HRESULT hr;
+    BYTE* base = m_buff.GetData();
+    BYTE* p = base;
+    BYTE* end = base + m_buff.GetCount();
+
+    while (p + 8 <= end) {
+        if (*(WORD*)p != 0x770b) {
+            p++;
+            continue;
+        }
+
+        CodecID ftype;
+        int size;
+        if ((size = GetAC3FrameSize(p)) > 0) {
+            ftype = CODEC_ID_AC3;
+        } else if ((size = GetEAC3FrameSize(p)) > 0) {
+            ftype = CODEC_ID_EAC3;
+        } else {
+            p += 2;
+            continue;
+        }
+
+        if (p + size > end) {
+            break;
+        }
+
+        if (m_DDstats.Desired(ftype)) {
+            hr = DeliverFFmpeg(ftype, p, size, size);
+        }
+        p += size;
+    }
+
+    memmove(base, p, end - p);
+    m_buff.SetCount(end - p);
+
+    return S_OK;
+}
+
 HRESULT CMpaDecFilter::ProcessAC3SPDIF()
 {
     HRESULT hr;
