@@ -32,7 +32,7 @@ IF EXIST "build.user.bat" (
 )
 IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
 
-SET ARG=%* 
+SET ARG=/%*
 SET ARG=%ARG:/=%
 SET ARG=%ARG:-=%
 SET ARGB=0
