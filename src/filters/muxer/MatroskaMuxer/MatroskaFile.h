@@ -28,8 +28,6 @@
 
 namespace MatroskaWriter
 {
-    typedef unsigned __int64 QWORD;
-
     class CID
     {
     protected:
@@ -74,7 +72,7 @@ namespace MatroskaWriter
             strcpy_s((char*)GetData(), str.GetLength() + 1, str);
             return *this;
         }
-        //      CBinary& Set(CStringA str) {SetCount(str.GetLength()); memcpy((char*)GetData(), str, str.GetLength()); return *this;}
+        //CBinary& Set(CStringA str) {SetCount(str.GetLength()); memcpy((char*)GetData(), str, str.GetLength()); return *this;}
         QWORD Size(bool fWithHeader = true);
         HRESULT Write(IStream* pStream);
     };
@@ -300,7 +298,7 @@ namespace MatroskaWriter
         CInt ReferenceVirtual;
         CBinary CodecState;
         CBlock Block;
-        //              CNode<TimeSlice> TimeSlices;
+        //CNode<TimeSlice> TimeSlices;
 
         BlockGroup(DWORD id = 0xA0);
         QWORD Size(bool fWithHeader = true);
@@ -318,16 +316,16 @@ namespace MatroskaWriter
         HRESULT Write(IStream* pStream);
     };
 
-    /*                  class CueReference : public CID
-                        {
-                        public:
-                            CUInt CueRefTime, CueRefCluster, CueRefNumber, CueRefCodecState;
+    /*class CueReference : public CID
+    {
+    public:
+        CUInt CueRefTime, CueRefCluster, CueRefNumber, CueRefCodecState;
 
-                            CueReference(DWORD id = 0xDB);
-                            QWORD Size(bool fWithHeader = true);
-                            HRESULT Write(IStream* pStream);
-                        };
-    */
+        CueReference(DWORD id = 0xDB);
+        QWORD Size(bool fWithHeader = true);
+        HRESULT Write(IStream* pStream);
+    };*/
+
     class CueTrackPosition : public CID
     {
     public:
