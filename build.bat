@@ -410,7 +410,7 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|Filters^|All] [Debug^|Release] [Lite] [Packages^|Installer^|Zip]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|Filters^|All] [Debug^|Release] [Lite] [Packages^|Installer^|Zip] [FFmpeg]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.
@@ -427,6 +427,7 @@ ECHO %~nx0 x86 Debug     -Builds x86 Main Debug exe and x86 resources
 ECHO %~nx0 x86 Filters   -Builds x86 Filters
 ECHO %~nx0 x86 All       -Builds x86 Main exe, x86 Filters and the x86 resources
 ECHO %~nx0 x86 Packages  -Builds x86 Main exe, x86 resources and creates the installer and the .7z package
+ECHO %~nx0 x64 7z        -Rebuilds FFmpeg, builds x64 Main exe, x64 resources and creates the .7z package
 ECHO.
 ENDLOCAL
 EXIT /B
