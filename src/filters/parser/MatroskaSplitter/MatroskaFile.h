@@ -31,6 +31,8 @@ namespace MatroskaReader
 {
     class CMatroskaNode;
 
+    typedef unsigned __int64 QWORD;
+
     class CANSI : public CStringA
     {
     public:
