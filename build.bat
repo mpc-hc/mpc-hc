@@ -44,6 +44,7 @@ SET ARGF=0
 SET ARGL=0
 SET ARGM=0
 SET ARGPL=0
+SET ARGRE=0
 SET INPUT=0
 SET VALID=0
 
@@ -54,7 +55,7 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "GetVersion" ENDLOCAL & CALL :SubGetVersion & EXIT /B
   IF /I "%%A" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
   IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1  & SET /A ARGCL+=1
-  IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
+  IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1  & SET /A ARGRE+=1
   IF /I "%%A" == "Both"       SET "PPLATFORM=Both"    & SET /A ARGPL+=1
   IF /I "%%A" == "Win32"      SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
   IF /I "%%A" == "x86"        SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
@@ -74,6 +75,7 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%A" == "7z"         SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
   IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A VALID+=1 & SET /A ARGL+=1
+  IF /I "%%A" == "FFmpeg"     SET "Rebuild=FFmpeg"    & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGRE+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -90,6 +92,7 @@ IF %ARGD%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGF%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGL%  GTR 1 (GOTO UnsupportedSwitch)
 IF %ARGM%  GTR 1 (GOTO UnsupportedSwitch)
+IF %ARGRE% GTR 1 (GOTO UnsupportedSwitch)
 
 
 :Start
@@ -118,6 +121,9 @@ GOTO End
 
 
 :Main
+IF %ERRORLEVEL% NEQ 0 EXIT /B
+
+IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild %PPLATFORM% %BUILDCFG%
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
