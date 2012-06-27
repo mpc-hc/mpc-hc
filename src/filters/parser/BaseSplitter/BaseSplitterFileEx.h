@@ -26,27 +26,28 @@
 #include "BaseSplitterFile.h"
 #include "../../../DSUtil/Mpeg2Def.h"
 
-#define MAX_SPSPPS          256         // Max size for a SPS/PPS packet
+#define MAX_SPSPPS  256         // Max size for a SPS/PPS packet
+
 class CGolombBuffer;
 
 static const byte pixel_aspect[17][2] = {
-    {0, 1},
-    {1, 1},
-    {12, 11},
-    {10, 11},
-    {16, 11},
-    {40, 33},
-    {24, 11},
-    {20, 11},
-    {32, 11},
-    {80, 33},
-    {18, 11},
-    {15, 11},
-    {64, 33},
+    {0,    1},
+    {1,    1},
+    {12,  11},
+    {10,  11},
+    {16,  11},
+    {40,  33},
+    {24,  11},
+    {20,  11},
+    {32,  11},
+    {80,  33},
+    {18,  11},
+    {15,  11},
+    {64,  33},
     {160, 99},
-    {4, 3},
-    {3, 2},
-    {2, 1},
+    {4,    3},
+    {3,    2},
+    {2,    1},
 };
 
 class CBaseSplitterFileEx : public CBaseSplitterFile

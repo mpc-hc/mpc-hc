@@ -84,7 +84,8 @@ public:
 
     STDMETHODIMP Count(DWORD* pcStreams);
     STDMETHODIMP Enable(long lIndex, DWORD dwFlags);
-    STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
+    STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid,
+                      DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
 
     // ISpecifyPropertyPages2
 
@@ -148,5 +149,5 @@ public:
     CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int type);
     virtual ~CMpegSplitterOutputPin();
     STDMETHODIMP Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt);
-    void         SetMaxShift(REFERENCE_TIME rtMaxShift) { m_rtMaxShift = rtMaxShift; };
+    void SetMaxShift(REFERENCE_TIME rtMaxShift) { m_rtMaxShift = rtMaxShift; };
 };

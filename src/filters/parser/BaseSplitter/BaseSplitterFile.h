@@ -45,7 +45,9 @@ protected:
     virtual void OnComplete() {}
 
 public:
-    CBaseSplitterFile(IAsyncReader* pReader, HRESULT& hr, int cachelen = DEFAULT_CACHE_LENGTH, bool fRandomAccess = true, bool fStreaming = false);
+    CBaseSplitterFile(IAsyncReader* pReader, HRESULT& hr,
+                      int cachelen = DEFAULT_CACHE_LENGTH,
+                      bool fRandomAccess = true, bool fStreaming = false);
     virtual ~CBaseSplitterFile() {}
 
     bool SetCacheSize(int cachelen = DEFAULT_CACHE_LENGTH);

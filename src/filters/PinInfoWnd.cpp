@@ -104,7 +104,19 @@ bool CPinInfoWnd::OnActivate()
 
     p.y += m_fontheight + 20;
 
-    m_info_edit.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), _T(""), dwStyle | WS_BORDER | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY, CRect(p, CSize(480, m_fontheight * 20)), this, IDC_PP_EDIT1);
+    m_info_edit.CreateEx(WS_EX_CLIENTEDGE,
+                         _T("EDIT"),
+                         _T(""),
+                         dwStyle |
+                         WS_BORDER |
+                         WS_VSCROLL |
+                         WS_HSCROLL |
+                         ES_MULTILINE |
+                         ES_AUTOHSCROLL |
+                         ES_READONLY,
+                         CRect(p, CSize(480, m_fontheight * 20)),
+                         this,
+                         IDC_PP_EDIT1);
     m_info_edit.SetLimitText(60000);
 
     OnCbnSelchangeCombo1();
@@ -116,7 +128,7 @@ bool CPinInfoWnd::OnActivate()
     m_info_edit.SetFont(&m_monospacefont);
 
     // subclass the edit control
-    OldControlProc = (WNDPROC) SetWindowLongPtr(m_info_edit.m_hWnd, GWLP_WNDPROC, (LONG_PTR) ControlProc);
+    OldControlProc = (WNDPROC)SetWindowLongPtr(m_info_edit.m_hWnd, GWLP_WNDPROC, (LONG_PTR)ControlProc);
 
     return true;
 }
@@ -169,14 +181,14 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
 
     CString str;
 
-    PIN_INFO    PinInfo;
+    PIN_INFO PinInfo;
     if (SUCCEEDED(pPin->QueryPinInfo(&PinInfo))) {
-        CString     strName;
-        CLSID       FilterClsid;
+        CString strName;
+        CLSID   FilterClsid;
         FILTER_INFO FilterInfo;
 
         if (SUCCEEDED(PinInfo.pFilter->QueryFilterInfo(&FilterInfo))) {
-            CRegKey     key;
+            CRegKey key;
             PinInfo.pFilter->GetClassID(&FilterClsid);
             if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11D0-BD40-00A0C911CE86}\\Instance\\") + CStringFromGUID(FilterClsid), KEY_READ)) {
                 ULONG len;

@@ -227,8 +227,10 @@ protected:
     STDMETHODIMP GetDuration(LONGLONG* pDuration);
     STDMETHODIMP GetStopPosition(LONGLONG* pStop);
     STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
-    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
-    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat,
+                                   LONGLONG Source, const GUID* pSourceFormat);
+    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags,
+                              LONGLONG* pStop, DWORD dwStopFlags);
     STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
     STDMETHODIMP GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest);
     STDMETHODIMP SetRate(double dRate);
@@ -236,8 +238,14 @@ protected:
     STDMETHODIMP GetPreroll(LONGLONG* pllPreroll);
 
 public:
-    CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers = 0, int QueueMaxPackets = MAXPACKETS);
-    CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int nBuffers = 0, int QueueMaxPackets = MAXPACKETS);
+    CBaseSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName,
+                           CBaseFilter* pFilter, CCritSec* pLock,
+                           HRESULT* phr, int nBuffers = 0,
+                           int QueueMaxPackets = MAXPACKETS);
+    CBaseSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter,
+                           CCritSec* pLock, HRESULT* phr,
+                           int nBuffers = 0,
+                           int QueueMaxPackets = MAXPACKETS);
     virtual ~CBaseSplitterOutputPin();
 
     DECLARE_IUNKNOWN;
@@ -362,7 +370,8 @@ protected:
     virtual bool BuildChapters(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<CHdmvClipInfo::PlaylistChapter>& Items) { return false; };
 
 public:
-    CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid, int QueueMaxPackets = MAXPACKETS);
+    CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr,
+                        const CLSID& clsid, int QueueMaxPackets = MAXPACKETS);
     virtual ~CBaseSplitterFilter();
 
     DECLARE_IUNKNOWN;
@@ -397,8 +406,10 @@ public:
     STDMETHODIMP GetDuration(LONGLONG* pDuration);
     STDMETHODIMP GetStopPosition(LONGLONG* pStop);
     STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
-    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
-    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat,
+                                   LONGLONG Source, const GUID* pSourceFormat);
+    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags,
+                              LONGLONG* pStop, DWORD dwStopFlags);
     STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
     STDMETHODIMP GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest);
     STDMETHODIMP SetRate(double dRate);
@@ -407,7 +418,9 @@ public:
 
 protected:
     friend class CBaseSplitterOutputPin;
-    virtual HRESULT SetPositionsInternal(void* id, LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+    virtual HRESULT SetPositionsInternal(void* id, LONGLONG* pCurrent,
+                                         DWORD dwCurrentFlags, LONGLONG* pStop,
+                                         DWORD dwStopFlags);
 
 private:
     REFERENCE_TIME m_rtLastStart, m_rtLastStop;

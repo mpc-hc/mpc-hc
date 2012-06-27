@@ -79,7 +79,7 @@ public:
     CAutoPtr<AVIOLDINDEX> m_idx1;
 
     CAtlList<UINT64> m_movis;
-    bool             m_isamv;
+    bool m_isamv;
 
     REFERENCE_TIME GetTotalTime();
     HRESULT BuildIndex();
@@ -87,5 +87,5 @@ public:
     bool IsInterleaved(bool fKeepInfo = false);
 };
 
-#define TRACKNUM(fcc) (10*((fcc&0xff)-0x30) + (((fcc>>8)&0xff)-0x30))
-#define TRACKTYPE(fcc) ((WORD)((((DWORD)fcc>>24)&0xff)|((fcc>>8)&0xff00)))
+#define TRACKNUM(fcc) (10 * ((fcc & 0xff) - 0x30) + (((fcc >> 8) & 0xff) - 0x30))
+#define TRACKTYPE(fcc) ((WORD)((((DWORD)fcc >> 24) & 0xff) | ((fcc >> 8) & 0xff00)))

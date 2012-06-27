@@ -144,7 +144,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     m_useWASAPIAfterRestart = m_useWASAPI;
 
 
-    // Load Vista specifics DLLs
+    // Load Vista specific DLLs
     hLib = LoadLibrary(L"avrt.dll");
     if (hLib != NULL) {
         pfAvSetMmThreadCharacteristicsW   = (PTR_AvSetMmThreadCharacteristicsW)   GetProcAddress(hLib, "AvSetMmThreadCharacteristicsW");
@@ -528,10 +528,10 @@ STDMETHODIMP CMpcAudioRenderer::GetPages(CAUUID* pPages)
 {
     CheckPointer(pPages, E_POINTER);
 
-    pPages->cElems      = 1;
+    pPages->cElems = 1;
 
-    pPages->pElems      = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
-    pPages->pElems[0]   = __uuidof(CMpcAudioRendererSettingsWnd);
+    pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
+    pPages->pElems[0] = __uuidof(CMpcAudioRendererSettingsWnd);
 
     return S_OK;
 }
@@ -647,8 +647,7 @@ HRESULT CMpcAudioRenderer::EndOfStream(void)
     return CBaseRenderer::EndOfStream();
 }
 
-
-#pragma region // ==== DirectSound
+#pragma region DirectSound
 
 HRESULT CMpcAudioRenderer::CreateDSBuffer()
 {
@@ -656,20 +655,20 @@ HRESULT CMpcAudioRenderer::CreateDSBuffer()
         return E_POINTER;
     }
 
-    HRESULT                 hr              = S_OK;
-    LPDIRECTSOUNDBUFFER     pDSBPrimary     = NULL;
-    DSBUFFERDESC            dsbd;
-    DSBUFFERDESC            cDSBufferDesc;
-    DSBCAPS                 bufferCaps;
-    DWORD                   dwDSBufSize     = m_pWaveFileFormat->nAvgBytesPerSec * 4;
+    HRESULT hr = S_OK;
+    LPDIRECTSOUNDBUFFER pDSBPrimary = NULL;
+    DSBUFFERDESC dsbd;
+    DSBUFFERDESC cDSBufferDesc;
+    DSBCAPS bufferCaps;
+    DWORD dwDSBufSize = m_pWaveFileFormat->nAvgBytesPerSec * 4;
 
     ZeroMemory(&bufferCaps, sizeof(bufferCaps));
     ZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
 
-    dsbd.dwSize         = sizeof(DSBUFFERDESC);
-    dsbd.dwFlags        = DSBCAPS_PRIMARYBUFFER;
-    dsbd.dwBufferBytes  = 0;
-    dsbd.lpwfxFormat    = NULL;
+    dsbd.dwSize = sizeof(DSBUFFERDESC);
+    dsbd.dwFlags = DSBCAPS_PRIMARYBUFFER;
+    dsbd.dwBufferBytes = 0;
+    dsbd.lpwfxFormat = NULL;
     if (SUCCEEDED(hr = m_pDS->CreateSoundBuffer(&dsbd, &pDSBPrimary, NULL))) {
         hr = pDSBPrimary->SetFormat(m_pWaveFileFormat);
         ATLASSERT(SUCCEEDED(hr));
@@ -678,18 +677,15 @@ HRESULT CMpcAudioRenderer::CreateDSBuffer()
 
 
     SAFE_RELEASE(m_pDSBuffer);
-    cDSBufferDesc.dwSize            = sizeof(DSBUFFERDESC);
-    cDSBufferDesc.dwFlags           = DSBCAPS_GLOBALFOCUS           |
-                                      DSBCAPS_GETCURRENTPOSITION2   |
-                                      DSBCAPS_CTRLVOLUME            |
-                                      DSBCAPS_CTRLPAN               |
-                                      DSBCAPS_CTRLFREQUENCY;
-    cDSBufferDesc.dwBufferBytes     = dwDSBufSize;
-    cDSBufferDesc.dwReserved        = 0;
-    cDSBufferDesc.lpwfxFormat       = m_pWaveFileFormat;
-    cDSBufferDesc.guid3DAlgorithm   = GUID_NULL;
+    cDSBufferDesc.dwSize = sizeof(DSBUFFERDESC);
+    cDSBufferDesc.dwFlags = DSBCAPS_GLOBALFOCUS | DSBCAPS_GETCURRENTPOSITION2 |
+                            DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLPAN | DSBCAPS_CTRLFREQUENCY;
+    cDSBufferDesc.dwBufferBytes = dwDSBufSize;
+    cDSBufferDesc.dwReserved = 0;
+    cDSBufferDesc.lpwfxFormat = m_pWaveFileFormat;
+    cDSBufferDesc.guid3DAlgorithm = GUID_NULL;
 
-    hr = m_pDS->CreateSoundBuffer(&cDSBufferDesc,  &m_pDSBuffer, NULL);
+    hr = m_pDS->CreateSoundBuffer(&cDSBufferDesc, &m_pDSBuffer, NULL);
 
     m_nDSBufSize = 0;
     if (SUCCEEDED(hr)) {
@@ -707,9 +703,9 @@ HRESULT CMpcAudioRenderer::CreateDSBuffer()
 
 HRESULT CMpcAudioRenderer::ClearBuffer()
 {
-    HRESULT         hr              = S_FALSE;
-    VOID*           pDSLockedBuffer = NULL;
-    DWORD           dwDSLockedSize  = 0;
+    HRESULT hr = S_FALSE;
+    VOID* pDSLockedBuffer = NULL;
+    DWORD dwDSLockedSize = 0;
 
     if (m_pDSBuffer) {
         m_dwDSWriteOff = 0;
@@ -727,10 +723,10 @@ HRESULT CMpcAudioRenderer::ClearBuffer()
 
 HRESULT CMpcAudioRenderer::InitCoopLevel()
 {
-    HRESULT             hr              = S_OK;
-    IVideoWindow*       pVideoWindow    = NULL;
-    HWND                hWnd            = NULL;
-    CComBSTR            bstrCaption;
+    HRESULT hr = S_OK;
+    IVideoWindow* pVideoWindow = NULL;
+    HWND hWnd = NULL;
+    CComBSTR bstrCaption;
 
     hr = m_pGraph->QueryInterface(__uuidof(IVideoWindow), (void**) &pVideoWindow);
     if (SUCCEEDED(hr)) {
@@ -764,11 +760,11 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
 
 HRESULT CMpcAudioRenderer::DoRenderSampleDirectSound(IMediaSample* pMediaSample)
 {
-    HRESULT         hr                  = S_OK;
-    DWORD           dwStatus            = 0;
-    const long      lSize               = pMediaSample->GetActualDataLength();
-    DWORD           dwPlayCursor        = 0;
-    DWORD           dwWriteCursor       = 0;
+    HRESULT hr = S_OK;
+    DWORD dwStatus = 0;
+    const long lSize = pMediaSample->GetActualDataLength();
+    DWORD dwPlayCursor = 0;
+    DWORD dwWriteCursor = 0;
 
     hr = m_pDSBuffer->GetStatus(&dwStatus);
 
@@ -786,7 +782,7 @@ HRESULT CMpcAudioRenderer::DoRenderSampleDirectSound(IMediaSample* pMediaSample)
     }
 
     if (SUCCEEDED(hr)) {
-        if (((dwPlayCursor < dwWriteCursor)     &&
+        if (((dwPlayCursor < dwWriteCursor) &&
                 (
                     ((m_dwDSWriteOff >= dwPlayCursor) && (m_dwDSWriteOff <=  dwWriteCursor))
                     ||
@@ -819,14 +815,14 @@ HRESULT CMpcAudioRenderer::WriteSampleToDSBuffer(IMediaSample* pMediaSample, boo
         return E_POINTER;
     }
 
-    REFERENCE_TIME  rtStart             = 0;
-    REFERENCE_TIME  rtStop              = 0;
-    HRESULT         hr                  = S_OK;
-    bool            loop                = false;
-    VOID*           pDSLockedBuffers[2] = { NULL, NULL };
-    DWORD           dwDSLockedSize[2]   = {    0,    0 };
-    BYTE*           pMediaBuffer        = NULL;
-    long            lSize               = pMediaSample->GetActualDataLength();
+    REFERENCE_TIME rtStart = 0;
+    REFERENCE_TIME rtStop = 0;
+    HRESULT hr = S_OK;
+    bool loop = false;
+    VOID* pDSLockedBuffers[2] = { NULL, NULL };
+    DWORD dwDSLockedSize[2] = { 0, 0 };
+    BYTE* pMediaBuffer = NULL;
+    long lSize = pMediaSample->GetActualDataLength();
 
     hr = pMediaSample->GetPointer(&pMediaBuffer);
 
@@ -839,12 +835,12 @@ HRESULT CMpcAudioRenderer::WriteSampleToDSBuffer(IMediaSample* pMediaSample, boo
     pMediaSample->GetTime(&rtStart, &rtStop);
 
     if (rtStart < 0) {
-        DWORD       dwPercent   = (DWORD)((-rtStart * 100) / (rtStop - rtStart));
-        DWORD       dwRemove    = (lSize * dwPercent / 100);
+        DWORD dwPercent = (DWORD)((-rtStart * 100) / (rtStop - rtStart));
+        DWORD dwRemove = (lSize * dwPercent / 100);
 
-        dwRemove         = (dwRemove / m_pWaveFileFormat->nBlockAlign) * m_pWaveFileFormat->nBlockAlign;
-        pMediaBuffer    += dwRemove;
-        lSize           -= dwRemove;
+        dwRemove = (dwRemove / m_pWaveFileFormat->nBlockAlign) * m_pWaveFileFormat->nBlockAlign;
+        pMediaBuffer += dwRemove;
+        lSize -= dwRemove;
     }
 
     if (SUCCEEDED(hr)) {
@@ -875,19 +871,19 @@ HRESULT CMpcAudioRenderer::WriteSampleToDSBuffer(IMediaSample* pMediaSample, boo
 
 #pragma endregion
 
-#pragma region // ==== WASAPI
+#pragma region WASAPI
 
 HRESULT CMpcAudioRenderer::DoRenderSampleWasapi(IMediaSample* pMediaSample)
 {
     HRESULT hr  = S_OK;
-    REFERENCE_TIME  rtStart         = 0;
-    REFERENCE_TIME  rtStop          = 0;
-    BYTE* pMediaBuffer      = NULL;
+    REFERENCE_TIME rtStart = 0;
+    REFERENCE_TIME rtStop = 0;
+    BYTE* pMediaBuffer = NULL;
     BYTE* pInputBufferPointer = NULL;
     BYTE* pInputBufferEnd = NULL;
     BYTE* pData;
     bufferSize = pMediaSample->GetActualDataLength();
-    const long  lSize = bufferSize;
+    const long lSize = bufferSize;
     pMediaSample->GetTime(&rtStart, &rtStop);
 
     AM_MEDIA_TYPE* pmt;

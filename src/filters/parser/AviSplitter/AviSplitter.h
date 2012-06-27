@@ -77,10 +77,12 @@ public:
     STDMETHODIMP IsUsingTimeFormat(const GUID* pFormat);
     STDMETHODIMP SetTimeFormat(const GUID* pFormat);
     STDMETHODIMP GetStopPosition(LONGLONG* pStop);
-    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
+    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat,
+                                   LONGLONG Source, const GUID* pSourceFormat);
     STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
 
-    HRESULT SetPositionsInternal(void* id, LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+    HRESULT SetPositionsInternal(void* id, LONGLONG* pCurrent, DWORD dwCurrentFlags,
+                                 LONGLONG* pStop, DWORD dwStopFlags);
 
     // IKeyFrameInfo
 

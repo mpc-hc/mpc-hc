@@ -100,8 +100,10 @@ public:
     STDMETHODIMP GetDuration(LONGLONG* pDuration);
     STDMETHODIMP GetStopPosition(LONGLONG* pStop);
     STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
-    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
-    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat,
+                                   LONGLONG Source, const GUID* pSourceFormat);
+    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags,
+                              LONGLONG* pStop, DWORD dwStopFlags);
     STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
     STDMETHODIMP GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest);
     STDMETHODIMP SetRate(double dRate);

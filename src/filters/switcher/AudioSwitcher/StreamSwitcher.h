@@ -47,8 +47,10 @@ public:
     STDMETHODIMP IsUsingTimeFormat(const GUID* pFormat);
     STDMETHODIMP IsFormatSupported(const GUID* pFormat);
     STDMETHODIMP QueryPreferredFormat(GUID* pFormat);
-    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat);
-    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD CurrentFlags, LONGLONG* pStop, DWORD StopFlags);
+    STDMETHODIMP ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat,
+                                   LONGLONG Source, const GUID* pSourceFormat);
+    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD CurrentFlags,
+                              LONGLONG* pStop, DWORD StopFlags);
     STDMETHODIMP GetPositions(LONGLONG* pCurrent, LONGLONG* pStop);
     STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
     STDMETHODIMP GetStopPosition(LONGLONG* pStop);

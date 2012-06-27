@@ -32,14 +32,14 @@ class __declspec(uuid("1E53BA32-3BCC-4dff-9342-34E46BE3F5A5"))
 private :
     CComQIPtr<IMpcAudioRendererFilter> m_pMAR;
 
-    CButton     m_grpDefault;
+    CButton m_grpDefault;
 
-    CStatic     m_txtWasapiMode;
-    CButton     m_cbWasapiMode;
-    CButton     m_cbMuteFastForward;
+    CStatic m_txtWasapiMode;
+    CButton m_cbWasapiMode;
+    CButton m_cbMuteFastForward;
 
-    CStatic     m_txtSoundDevice;
-    CComboBox   m_cbSoundDevice;
+    CStatic m_txtSoundDevice;
+    CComboBox m_cbSoundDevice;
 
     enum {
         IDC_PP_WASAPI_MODE = 10000,
