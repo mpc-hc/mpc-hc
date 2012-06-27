@@ -55,10 +55,10 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
   IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1  & SET /A ARGCL+=1
   IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
-  IF /I "%%A" == "Both"       SET "PLATFORM=Both"     & SET /A ARGPL+=1
-  IF /I "%%A" == "Win32"      SET "PLATFORM=Win32"    & SET /A ARGPL+=1
-  IF /I "%%A" == "x86"        SET "PLATFORM=Win32"    & SET /A ARGPL+=1
-  IF /I "%%A" == "x64"        SET "PLATFORM=x64"      & SET /A ARGPL+=1
+  IF /I "%%A" == "Both"       SET "PPLATFORM=Both"    & SET /A ARGPL+=1
+  IF /I "%%A" == "Win32"      SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
+  IF /I "%%A" == "x86"        SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
+  IF /I "%%A" == "x64"        SET "PPLATFORM=x64"     & SET /A ARGPL+=1
   IF /I "%%A" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
   IF /I "%%A" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1  & SET /A ARGM+=1
   IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
@@ -82,7 +82,7 @@ SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
 IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=Build")
-IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "PLATFORM=Both")
+IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "PPLATFORM=Both")
 IF %ARGC%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0  (SET "CONFIG=MPCHC")
 IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "BUILDCFG=Release")
 IF %ARGCL% GTR 1 (GOTO UnsupportedSwitch)
@@ -108,9 +108,9 @@ SET "MSBUILD_SWITCHES=/nologo /consoleloggerparameters:Verbosity=minimal /maxcpu
 SET START_TIME=%TIME%
 SET START_DATE=%DATE%
 
-IF /I "%PLATFORM%" == "Both" (
-  SET "PLATFORM=Win32" & CALL :Main
-  SET "PLATFORM=x64"   & CALL :Main
+IF /I "%PPLATFORM%" == "Both" (
+  SET "PPLATFORM=Win32" & CALL :Main
+  SET "PPLATFORM=x64"   & CALL :Main
 ) ELSE (
   CALL :Main
 )
@@ -120,24 +120,24 @@ GOTO End
 :Main
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-IF /I "%PLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
+IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %ARCH%
 
 IF /I "%CONFIG%" == "Filters" (
-  CALL :SubFilters %PLATFORM%
-  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters %PLATFORM%
+  CALL :SubFilters %PPLATFORM%
+  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters %PPLATFORM%
   EXIT /B
 )
 
-IF /I "%CONFIG%" NEQ "Resources" CALL :SubMPCHC %PLATFORM%
-IF /I "%CONFIG%" NEQ "Main"      CALL :SubResources %PLATFORM%
+IF /I "%CONFIG%" NEQ "Resources" CALL :SubMPCHC %PPLATFORM%
+IF /I "%CONFIG%" NEQ "Main"      CALL :SubResources %PPLATFORM%
 
-IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller %PLATFORM%
-IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC %PLATFORM%
+IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller %PPLATFORM%
+IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-HC %PPLATFORM%
 
 IF /I "%CONFIG%" == "All" (
-  CALL :SubFilters %PLATFORM%
-  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters %PLATFORM%
+  CALL :SubFilters %PPLATFORM%
+  IF /I "%ZIP%" == "True" CALL :SubCreatePackages Filters %PPLATFORM%
 )
 EXIT /B
 
@@ -161,7 +161,7 @@ REM Call update_version.bat before building the filters
 CALL "update_version.bat"
 
 "%MSBUILD%" mpc-hc.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="%BUILDCFG% Filter";Platform=%1^
+ /target:%BUILDTYPE% /property:Configuration="%BUILDCFG% Filter";PPLATFORM=%1^
  /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
@@ -178,7 +178,7 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 TITLE Compiling MPC-HC - %BUILDCFG%^|%1...
 "%MSBUILD%" mpc-hc.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="%BUILDCFG%";Platform=%1^
+ /target:%BUILDTYPE% /property:Configuration="%BUILDCFG%";PPLATFORM=%1^
  /flp1:LogFile="%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log";errorsonly;Verbosity=diagnostic^
  /flp2:LogFile="%LOG_DIR%\mpc-hc_warnings_%BUILDCFG%_%1.log";warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
@@ -200,7 +200,7 @@ IF /I "%BUILDCFG%" == "Debug" (
 
 TITLE Compiling mpciconlib - Release^|%1...
 "%MSBUILD%" mpciconlib.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1
+ /target:%BUILDTYPE% /property:Configuration=Release;PPLATFORM=%1
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!"
   EXIT /B
@@ -220,7 +220,7 @@ FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
 ) DO (
  TITLE Compiling mpcresources - %%~A^|%1...
  "%MSBUILD%" mpcresources.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="Release %%~A";Platform=%1
+ /target:%BUILDTYPE% /property:Configuration="Release %%~A";PPLATFORM=%1
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 )
 EXIT /B
