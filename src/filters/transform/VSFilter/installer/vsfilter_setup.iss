@@ -51,9 +51,9 @@ AppVerName=DirectVobSub {#app_version}
 AppVersion={#app_version}
 AppPublisher=MPC-HC Team
 AppPublisherURL=http://mpc-hc.sourceforge.net/
-AppSupportURL=http://mpc-hc.sourceforge.net/
+AppSupportURL=http://mpc-hc.sourceforge.net/bug-reports/
 AppUpdatesURL=http://mpc-hc.sourceforge.net/
-AppContact=http://mpc-hc.sourceforge.net/
+AppContact=http://mpc-hc.sourceforge.net/contact-us/
 AppCopyright=Copyright © {#copyright}, see Authors.txt file
 VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright=Copyright © {#copyright}, MPC-HC Team
@@ -122,11 +122,11 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; Flags: checkedonce un
 
 
 [Files]
-Source: {#bindir}\VSFilter.dll;         DestDir: {app}; Flags: restartreplace regserver uninsrestartdelete ignoreversion
-Source: {#top_dir}\COPYING.txt;         DestDir: {app}; Flags: ignoreversion
-Source: {#top_dir}\docs\Authors.txt;    DestDir: {app}; Flags: ignoreversion
-Source: {#top_dir}\docs\Changelog.txt;  DestDir: {app}; Flags: ignoreversion
-Source: {#top_dir}\docs\Readme.txt;     DestDir: {app}; Flags: ignoreversion
+Source: {#bindir}\VSFilter.dll;        DestDir: {app}; Flags: restartreplace regserver uninsrestartdelete ignoreversion
+Source: {#top_dir}\COPYING.txt;        DestDir: {app}; Flags: ignoreversion
+Source: {#top_dir}\docs\Authors.txt;   DestDir: {app}; Flags: ignoreversion
+Source: {#top_dir}\docs\Changelog.txt; DestDir: {app}; Flags: ignoreversion
+Source: {#top_dir}\docs\Readme.txt;    DestDir: {app}; Flags: ignoreversion
 
 
 [Icons]
