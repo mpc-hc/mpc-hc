@@ -7325,7 +7325,7 @@ void CMainFrame::KillTimersStop()
 
 static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
 {
-    int i = 0, j = rta.GetCount() - 1, ret = -1;
+    int i = 0, j = (int)rta.GetCount() - 1, ret = -1;
 
     if (j >= 0 && val >= rta[j]) {
         return j;
@@ -8507,7 +8507,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
         }
 
         if (m_MPLSPlaylist.GetCount() > 1) {
-            id -= m_MPLSPlaylist.GetCount();
+            id -= (int)m_MPLSPlaylist.GetCount();
         }
 
         if (id >= 0 && id < (int)m_pCB->ChapGetCount() && m_pCB->ChapGetCount() > 1) {

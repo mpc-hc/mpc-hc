@@ -551,7 +551,7 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
           group, exactmatch, pFGF->GetMerit(),
           pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()) : CString(pFGF->GetName()));
 
-    filter_t f = {m_filters.GetCount(), pFGF, group, exactmatch, autodelete};
+    filter_t f = {(int)m_filters.GetCount(), pFGF, group, exactmatch, autodelete};
     m_filters.AddTail(f);
 
     m_sortedfilters.RemoveAll();

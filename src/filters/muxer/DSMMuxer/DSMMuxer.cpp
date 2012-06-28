@@ -353,7 +353,7 @@ void CDSMMuxerFilter::MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket)
     pBS->BitWrite(iDuration, 3);
     pBS->BitWrite(myabs(rtTimeStamp), iTimeStamp << 3);
     pBS->BitWrite(rtDuration, iDuration << 3);
-    pBS->ByteWrite(pPacket->pData.GetData(), pPacket->pData.GetCount());
+    pBS->ByteWrite(pPacket->pData.GetData(), (int)pPacket->pData.GetCount());
 }
 
 void CDSMMuxerFilter::MuxFooter(IBitStream* pBS)
