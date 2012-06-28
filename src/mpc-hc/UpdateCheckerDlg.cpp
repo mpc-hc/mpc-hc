@@ -115,7 +115,7 @@ BOOL UpdateCheckerDlg::OnInitDialog()
 
 void UpdateCheckerDlg::OnOpenDownloadPage()
 {
-    ShellExecute(NULL, _T("open"), _T("http://mpc-hc.sourceforge.net/download-media-player-classic-hc.html"), NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, _T("open"), _T("http://mpc-hc.sourceforge.net/downloads/"), NULL, NULL, SW_SHOWNORMAL);
 
     EndDialog(IDC_UPDATE_DL_BUTTON);
 }
