@@ -1601,8 +1601,6 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 
 void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor)
 {
-    bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
-
     for (int wy = y; wy < y + nHeight; wy++) {
         DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
         for (int wt = 0; wt < nWidth; ++wt) {
