@@ -5136,7 +5136,7 @@ void CMainFrame::OnFileSaveImage()
         path.StripPath();
         prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
     } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("snapshot_dvd_%s"), GetVidPos());
+        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
     }
     psrc.Combine(s.strSnapShotPath, MakeSnapshotFileName(prefix));
 
@@ -5191,7 +5191,7 @@ void CMainFrame::OnFileSaveImageAuto()
         path.StripPath();
         prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
     } else if (GetPlaybackMode() == PM_DVD) {
-        prefix.Format(_T("snapshot_dvd_%s"), GetVidPos());
+        prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
     }
 
     CString fn;
