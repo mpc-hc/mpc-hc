@@ -523,40 +523,42 @@ cmsBool GetXFormColorSpaces(int nProfiles, cmsHPROFILE hProfiles[], cmsColorSpac
     cmsColorSpaceSignature PostColorSpace;   
     int i;
 
+    if (nProfiles <= 0) return FALSE;
     if (hProfiles[0] == NULL) return FALSE;
 
     *Input = PostColorSpace = cmsGetColorSpace(hProfiles[0]);
 
-    // Special handling for named color profiles as devicelinks
-    if (nProfiles == 1 && cmsGetDeviceClass(hProfiles[0]) == cmsSigNamedColorClass) {
-            *Input  = cmsSig1colorData;
-            *Output = PostColorSpace;
-            return TRUE;
-    }
-
     for (i=0; i < nProfiles; i++) {
 
+        cmsProfileClassSignature cls;
         cmsHPROFILE hProfile = hProfiles[i];
 
         int lIsInput = (PostColorSpace != cmsSigXYZData) &&
                        (PostColorSpace != cmsSigLabData);
-
-        int lIsDeviceLink;
-               
+                               
         if (hProfile == NULL) return FALSE;
 
-        lIsDeviceLink = (cmsGetDeviceClass(hProfile) == cmsSigLinkClass);
+        cls = cmsGetDeviceClass(hProfile);        
+        
+        if (cls == cmsSigNamedColorClass) {
 
-        if (lIsInput || lIsDeviceLink) {
+            ColorSpaceIn    = cmsSig1colorData; 
+            ColorSpaceOut   = (nProfiles > 1) ? cmsGetPCS(hProfile) : cmsGetColorSpace(hProfile);
+        }
+        else
+        if (lIsInput || (cls == cmsSigLinkClass)) {
 
             ColorSpaceIn    = cmsGetColorSpace(hProfile);
             ColorSpaceOut   = cmsGetPCS(hProfile);
-        }
-        else {
-
+        }               
+        else
+        {
             ColorSpaceIn    = cmsGetPCS(hProfile);
             ColorSpaceOut   = cmsGetColorSpace(hProfile);
         }
+
+        if (i==0) 
+            *Input = ColorSpaceIn;
 
         PostColorSpace = ColorSpaceOut;     
     }  

@@ -26,10 +26,6 @@
 
 #ifndef _lcms_internal_H
 
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
-#endif
-
 // Include plug-in foundation
 #ifndef _lcms_plugin_H
 #   include "lcms2_plugin.h"
@@ -504,6 +500,11 @@ cmsBool         _cmsFormatterIs8bit(cmsUInt32Number Type);
 cmsFormatter    _cmsGetFormatter(cmsUInt32Number Type,          // Specific type, i.e. TYPE_RGB_8
                                  cmsFormatterDirection Dir, 
                                  cmsUInt32Number dwFlags);
+
+
+// Half float
+cmsFloat32Number _cmsHalf2Float(cmsUInt16Number h);
+cmsUInt16Number  _cmsFloat2Half(cmsFloat32Number flt);
 
 
 // Transform logic ------------------------------------------------------------------------------------------------------

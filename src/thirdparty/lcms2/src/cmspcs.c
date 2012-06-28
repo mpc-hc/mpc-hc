@@ -869,6 +869,7 @@ cmsUInt32Number CMSEXPORT cmsChannelsOf(cmsColorSpaceSignature ColorSpace)
 {
     switch (ColorSpace) {
 
+    case cmsSig1colorData:
     case cmsSigGrayData: return 1;
 
     case cmsSig2colorData:  return 2;

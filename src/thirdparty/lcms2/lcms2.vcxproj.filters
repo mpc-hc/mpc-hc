@@ -40,6 +40,9 @@
     <ClCompile Include="src\cmsgmt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cmshalf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\cmsintrp.c">
       <Filter>Source Files</Filter>
     </ClCompile>

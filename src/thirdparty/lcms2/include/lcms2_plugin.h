@@ -576,10 +576,6 @@ typedef cmsBool  (* _cmsTranformFactory)(_cmsTransformFn* xform,
 // Retrieve user data as specified by the factory 
 CMSAPI void * CMSEXPORT _cmsGetTransformUserData(struct _cmstransform_struct *CMMcargo);
 
-
-// FIXME: Those are hacks that should be solved somehow.
-void*             _cmsOPTgetTransformPipelinePrivateData(struct _cmstransform_struct *CMMcargo);
-
 typedef struct {
       cmsPluginBase     base;
 

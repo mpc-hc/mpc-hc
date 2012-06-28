@@ -73,3 +73,7 @@ Internal stage structs are now accessible through plug-in API
 Fixed a bug on ending zero when saving a IT8 to memory
 Fixed a bug on IT8 reading of negative numbers.
 Increased security checks, thanks to Mateusz Jurczyk, from Google.
+Added half float support
+Fixed a typo on tificc and jpgicc names, thanks to Elle Stone for reporting.
+Fixed a bug on named color profiles.
+

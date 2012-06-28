@@ -106,6 +106,7 @@
     <ClCompile Include="src\cmserr.c" />
     <ClCompile Include="src\cmsgamma.c" />
     <ClCompile Include="src\cmsgmt.c" />
+    <ClCompile Include="src\cmshalf.c" />
     <ClCompile Include="src\cmsintrp.c" />
     <ClCompile Include="src\cmsio0.c" />
     <ClCompile Include="src\cmsio1.c" />
