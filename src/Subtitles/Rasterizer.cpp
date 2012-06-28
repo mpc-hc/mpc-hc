@@ -57,6 +57,8 @@ Rasterizer::Rasterizer() : mpPathTypes(NULL), mpPathPoints(NULL), mPathPoints(0)
     mOverlayWidth = mOverlayHeight = 0;
     mPathOffsetX = mPathOffsetY = 0;
     mOffsetX = mOffsetY = 0;
+    // CPUID from VDub
+    bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 }
 
 Rasterizer::~Rasterizer()
@@ -1486,9 +1488,6 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 
     bbox.SetRect(x, y, x + w, y + h);
     bbox &= CRect(0, 0, spd.w, spd.h);
-
-    // CPUID from VDub
-    bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 
     // fill rasterize info
     RasterizerNfo rnfo;
