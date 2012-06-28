@@ -703,7 +703,7 @@ avcsuccess:
                         sizes.Add(size);
                         totalsize += size;
                     }
-                    sizes.Add((int)pTE->CodecPrivate.GetCount() - (p - pTE->CodecPrivate.GetData()) - totalsize);
+                    sizes.Add((int)(pTE->CodecPrivate.GetData() + pTE->CodecPrivate.GetCount() - p) - totalsize);
                     totalsize += sizes[sizes.GetCount() - 1];
 
                     if (sizes.GetCount() == 3) {
@@ -1030,7 +1030,7 @@ void CMatroskaSplitterFilter::SendVorbisHeaderSample()
             BYTE* ptr = pTE->CodecPrivate.GetData();
 
             CAtlList<int> sizes;
-            long last = 0;
+            int last = 0;
             for (BYTE n = *ptr++; n > 0; n--) {
                 int size = 0;
                 do {
@@ -1039,7 +1039,7 @@ void CMatroskaSplitterFilter::SendVorbisHeaderSample()
                 sizes.AddTail(size);
                 last += size;
             }
-            sizes.AddTail((int)pTE->CodecPrivate.GetCount() - (ptr - pTE->CodecPrivate.GetData()) - last);
+            sizes.AddTail((int)(pTE->CodecPrivate.GetData() + pTE->CodecPrivate.GetCount() - ptr) - last);
 
             hr = S_OK;
 
