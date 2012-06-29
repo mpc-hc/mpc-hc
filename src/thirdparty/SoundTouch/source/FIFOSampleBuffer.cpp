@@ -259,3 +259,16 @@ void FIFOSampleBuffer::clear()
     samplesInBuffer = 0;
     bufferPos = 0;
 }
+
+
+/// allow trimming (downwards) amount of samples in pipeline.
+/// Returns adjusted amount of samples
+uint FIFOSampleBuffer::adjustAmountOfSamples(uint numSamples)
+{
+    if (numSamples < samplesInBuffer)
+    {
+        samplesInBuffer = numSamples;
+    }
+    return samplesInBuffer;
+}
+

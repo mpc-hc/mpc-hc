@@ -89,7 +89,7 @@ private:
 
     /// Returns current capacity.
     uint getCapacity() const;
- 
+
 public:
 
     /// Constructor
@@ -167,6 +167,10 @@ public:
 
     /// Clears all the samples.
     virtual void clear();
+
+    /// allow trimming (downwards) amount of samples in pipeline.
+    /// Returns adjusted amount of samples
+    uint adjustAmountOfSamples(uint numSamples);
 };
 
 }
