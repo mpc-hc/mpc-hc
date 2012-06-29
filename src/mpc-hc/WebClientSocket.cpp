@@ -883,28 +883,3 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
 
     return fRet;
 }
-
-bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
-{
-    CString id;
-    if (!m_get.Lookup(_T("id"), id)) {
-        return false;
-    }
-
-    uintptr_t key = 0;
-    if (1 != _stscanf_s(id, _T("%Ix"), &key) || key == 0) {
-        return false;
-    }
-
-    CAutoLock cAutoLock(&CDSMResource::m_csResources);
-
-    CDSMResource* res = NULL;
-    if (!CDSMResource::m_resources.Lookup(key, res) || !res) {
-        return false;
-    }
-
-    body = CStringA((const char*)res->data.GetData(), (int)res->data.GetCount());
-    mime = CString(res->mime);
-
-    return true;
-}

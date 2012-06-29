@@ -54,7 +54,6 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
         m_internalpages[_T("/variables.html")] = &CWebClientSocket::OnVariables;
         m_internalpages[_T("/snapshot.jpg")] = &CWebClientSocket::OnSnapShotJpeg;
         m_internalpages[_T("/404.html")] = &CWebClientSocket::OnError404;
-        m_internalpages[_T("/convres.html")] = &CWebClientSocket::OnConvRes;
     }
 
     if (m_downloads.IsEmpty()) {
