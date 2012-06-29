@@ -58,7 +58,7 @@ Rasterizer::Rasterizer() : mpPathTypes(NULL), mpPathPoints(NULL), mPathPoints(0)
     mPathOffsetX = mPathOffsetY = 0;
     mOffsetX = mOffsetY = 0;
     // CPUID from VDub
-    bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
+    fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 }
 
 Rasterizer::~Rasterizer()
