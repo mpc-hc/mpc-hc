@@ -506,7 +506,9 @@ void CAviSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
         for (unsigned int j = 0; j < m_pFile->m_strms.GetCount(); ++j) {
             CAviFile::strm_t* s = m_pFile->m_strms[j];
 
-            if (s->IsRawSubtitleStream()) { continue; }
+            if (s->IsRawSubtitleStream()) {
+                continue;
+            }
 
             //ASSERT(s->GetFrame(rt) == s->GetKeyFrame(rt)); // fast seek test
             UINT64 fp = s->cs[s->GetKeyFrame(rt)].filepos;

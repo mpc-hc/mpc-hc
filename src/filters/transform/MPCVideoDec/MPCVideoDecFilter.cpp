@@ -2251,7 +2251,9 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin* pPin)
             if (bFoundDXVA2Configuration) {
                 // Found a good configuration. Save the GUID.
                 guidDecoder = pDecoderGuids[iGuid];
-                if (!bHasIntelGuid) { break; }
+                if (!bHasIntelGuid) {
+                    break;
+                }
             }
         }
     }

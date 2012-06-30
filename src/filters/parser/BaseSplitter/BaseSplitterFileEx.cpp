@@ -211,7 +211,10 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
     if (h.fpts) {
         if (h.type == mpeg2) {
             BYTE b = (BYTE)BitRead(4);
-            if (!(h.fdts && b == 3 || !h.fdts && b == 2)) {/*ASSERT(0); */return false;}
+            if (!(h.fdts && b == 3 || !h.fdts && b == 2)) {
+                /*ASSERT(0);*/
+                return false;
+            }
         }
 
         h.pts = 0;
@@ -225,7 +228,10 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
     }
 
     if (h.fdts) {
-        if ((BYTE)BitRead(4) != 1) {/*ASSERT(0); */return false;}
+        if ((BYTE)BitRead(4) != 1) {
+            /*ASSERT(0);*/
+            return false;
+        }
 
         h.dts = 0;
         h.dts |= BitRead(3) << 30;
@@ -987,7 +993,9 @@ bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
 {
     memset(&h, 0, sizeof(h));
-    if (len < 8) { return false; }
+    if (len < 8) {
+        return false;
+    }
 
     h.firstaudioframe = (WORD)BitRead(16);// Byte pointer to start of first audio frame.
     h.unknown1        = (BYTE)BitRead(8); // Unknown - e.g. 0x10 for stereo, 0x00 for surround
@@ -1090,7 +1098,9 @@ bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
 bool CBaseSplitterFileEx::Read(mlphdr& h, int len, CMediaType* pmt, bool find_sync)
 {
     memset(&h, 0, sizeof(h));
-    if (len < 20) { return false; }
+    if (len < 20) {
+        return false;
+    }
 
     __int64 startpos = GetPos();
 
@@ -1664,8 +1674,12 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
         memset(vi, 0, len);
         // vi->hdr.dwBitRate = ;
         vi->hdr.AvgTimePerFrame = h.AvgTimePerFrame;
-        if (!h.sar.num) { h.sar.num = 1; }
-        if (!h.sar.den) { h.sar.den = 1; }
+        if (!h.sar.num) {
+            h.sar.num = 1;
+        }
+        if (!h.sar.den) {
+            h.sar.den = 1;
+        }
         CSize aspect(h.width * h.sar.num, h.height * h.sar.den);
         int lnko = LNKO(aspect.cx, aspect.cy);
         if (lnko > 1) {
@@ -2127,8 +2141,12 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
         memset(vi, 0, vi_len);
         vi->AvgTimePerFrame = (10000000I64 * nFrameRateNum) / nFrameRateDen;
 
-        if (!h.sar.num) { h.sar.num = 1; }
-        if (!h.sar.den) { h.sar.den = 1; }
+        if (!h.sar.num) {
+            h.sar.num = 1;
+        }
+        if (!h.sar.den) {
+            h.sar.den = 1;
+        }
         CSize aspect = CSize(h.width * h.sar.num, h.height * h.sar.den);
         if (h.width == h.sar.num && h.height == h.sar.den) {
             aspect = CSize(h.width, h.height);

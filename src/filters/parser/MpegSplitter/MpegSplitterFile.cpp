@@ -458,7 +458,9 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
                                     CHdmvClipInfo::Stream* stream = m_ClipInfo.GetStreamByIndex(i);
                                     if (stream->m_Type == VIDEO_STREAM_H264 && m_rtMin == 116506666) {
                                         CComQIPtr<ISyncReader>  pReader = pAsyncReader;
-                                        if (pReader) { pReader->SetPTSOffset(&m_rtPTSOffset); }
+                                        if (pReader) {
+                                            pReader->SetPTSOffset(&m_rtPTSOffset);
+                                        }
                                         //TRACE ("UPDATE m_rtPTSOffset(SearchStreams)=%S\n", ReftimeToString(m_rtPTSOffset));
                                         //TRACE ("m_rtMin(Boucle)=%S\n", ReftimeToString(m_rtMin));
                                         //TRACE ("stream=%d\n", stream->m_Type);
@@ -1056,7 +1058,9 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
                             }
                             break;
                     }
-                    if (info_length <= 2) { break; }
+                    if (info_length <= 2) {
+                        break;
+                    }
                 }
             } else {
                 while (ES_info_length-- > 0) {

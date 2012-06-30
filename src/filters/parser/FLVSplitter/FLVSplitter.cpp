@@ -278,7 +278,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     m_pFile->Seek(m_DataOffset);
 
     for (int i = 0; ReadTag(t) && (fTypeFlagsVideo || fTypeFlagsAudio); i++) {
-        if (!t.DataSize) { continue; } // skip empty Tag
+        if (!t.DataSize) {
+            continue;    // skip empty Tag
+        }
 
         UINT64 next = m_pFile->GetPos() + t.DataSize;
 
@@ -628,8 +630,12 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         } else {
                             Height = 16 * mb_Height - (4u >> CHROMA444) * min(crop_bottom, (8u << CHROMA444) - 1);
                         }
-                        if (!sar.num) { sar.num = 1; }
-                        if (!sar.den) { sar.den = 1; }
+                        if (!sar.num) {
+                            sar.num = 1;
+                        }
+                        if (!sar.den) {
+                            sar.den = 1;
+                        }
                         CSize aspect(Width * sar.num, Height * sar.den);
                         int lnko = LNKO(aspect.cx, aspect.cy);
                         if (lnko > 1) {
@@ -798,7 +804,9 @@ void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
 
     while (true) {
         estimPos -= 256 * 1024;
-        if (estimPos < m_DataOffset) { estimPos = m_DataOffset; }
+        if (estimPos < m_DataOffset) {
+            estimPos = m_DataOffset;
+        }
 
         bool foundAudio = !hasAudio;
         bool foundVideo = !hasVideo;

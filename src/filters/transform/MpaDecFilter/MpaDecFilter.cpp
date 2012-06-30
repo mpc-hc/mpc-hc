@@ -123,11 +123,11 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
     { &MEDIASUBTYPE_SIPR,       CODEC_ID_SIPR   },
     { &MEDIASUBTYPE_RAAC,       CODEC_ID_AAC    },
     { &MEDIASUBTYPE_RACP,       CODEC_ID_AAC    },
-//  { &MEDIASUBTYPE_DNET,       CODEC_ID_AC3    },
+    //  { &MEDIASUBTYPE_DNET,       CODEC_ID_AC3    },
 #endif
 #if INTERNAL_DECODER_AC3
-//  { &MEDIASUBTYPE_DOLBY_AC3,      CODEC_ID_AC3    },
-//  { &MEDIASUBTYPE_WAVE_DOLBY_AC3, CODEC_ID_AC3    },
+    //  { &MEDIASUBTYPE_DOLBY_AC3,      CODEC_ID_AC3    },
+    //  { &MEDIASUBTYPE_WAVE_DOLBY_AC3, CODEC_ID_AC3    },
     { &MEDIASUBTYPE_DOLBY_DDPLUS,   CODEC_ID_EAC3   },
     { &MEDIASUBTYPE_DOLBY_TRUEHD,   CODEC_ID_TRUEHD },
     { &MEDIASUBTYPE_MLP,            CODEC_ID_MLP    },
@@ -387,7 +387,7 @@ bool DD_stats_t::Desired(int type)
     }
 
     if (ac3_frames + eac3_frames >= 4) {
-        if (eac3_frames > 2*ac3_frames) {
+        if (eac3_frames > 2 * ac3_frames) {
             mode = CODEC_ID_EAC3; // EAC3
         } else {
             mode = CODEC_ID_AC3;  // AC3 or mixed AC3+EAC3
@@ -605,7 +605,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 #if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
     if ((subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 || subtype == MEDIASUBTYPE_DNET)) {
         if (GetSpeakerConfig(ac3) < 0) {
-        return ProcessAC3SPDIF();
+            return ProcessAC3SPDIF();
         } else {
             return ProcessAC3();
         }
@@ -1504,16 +1504,22 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
     for (unsigned int i = 0, len = pBuff.GetCount(); i < len; i++) {
         float f = *pDataIn++;
 
-        if (f < -1) { f = -1; }
+        if (f < -1) {
+            f = -1;
+        }
         switch (sf) {
             default:
             case SF_PCM16:
-                if (f > f16max) { f = f16max; }
+                if (f > f16max) {
+                    f = f16max;
+                }
                 *(int16_t*)pDataOut = (int16_t)round_f(f * INT16_PEAK);
                 pDataOut += sizeof(int16_t);
                 break;
             case SF_PCM24: {
-                if (f > f24max) { f = f24max; }
+                if (f > f24max) {
+                    f = f24max;
+                }
                 DWORD i24 = (DWORD)(int32_t)round_f(f * INT24_PEAK);
                 *pDataOut++ = (BYTE)(i24);
                 *pDataOut++ = (BYTE)(i24 >> 8);
@@ -1522,13 +1528,17 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
             break;
             case SF_PCM32: {
                 double d = (double)f;
-                if (d > d32max) { d = d32max; }
+                if (d > d32max) {
+                    d = d32max;
+                }
                 *(int32_t*)pDataOut = (int32_t)round_d(d * INT32_PEAK);
                 pDataOut += sizeof(int32_t);
             }
             break;
             case SF_FLOAT32:
-                if (f > 1) { f = 1; }
+                if (f > 1) {
+                    f = 1;
+                }
                 *(float*)pDataOut = f;
                 pDataOut += sizeof(float);
                 break;

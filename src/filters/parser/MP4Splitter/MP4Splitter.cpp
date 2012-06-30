@@ -1000,12 +1000,19 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             DWORD flags = ase->GetFormatSpecificFlags();
                             if (flags & 2) { // big endian
                                 if (flags & 1) { // floating point
-                                    if (bitspersample == 32) { type = AP4_ATOM_TYPE_FL32; }
-                                    else if (bitspersample == 64) { type = AP4_ATOM_TYPE_FL64; }
+                                    if (bitspersample == 32) {
+                                        type = AP4_ATOM_TYPE_FL32;
+                                    } else if (bitspersample == 64) {
+                                        type = AP4_ATOM_TYPE_FL64;
+                                    }
                                 } else {
-                                    if (bitspersample == 16) { type = AP4_ATOM_TYPE_TWOS; }
-                                    else if (bitspersample == 24) { type = AP4_ATOM_TYPE_IN24; }
-                                    else if (bitspersample == 32) { type = AP4_ATOM_TYPE_IN32; }
+                                    if (bitspersample == 16) {
+                                        type = AP4_ATOM_TYPE_TWOS;
+                                    } else if (bitspersample == 24) {
+                                        type = AP4_ATOM_TYPE_IN24;
+                                    } else if (bitspersample == 32) {
+                                        type = AP4_ATOM_TYPE_IN32;
+                                    }
                                 }
                                 fourcc = ((type >> 24) & 0x000000ff) |
                                          ((type >>  8) & 0x0000ff00) |
@@ -1490,7 +1497,9 @@ bool CMP4SplitterFilter::DemuxLoop()
                         p->rtStart = p->rtStop = (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetCts());
                         fFirst = false;
                     } else {
-                        for (int i = 0; i < size; ++i) { p->Add(ptr[i]); }
+                        for (int i = 0; i < size; ++i) {
+                            p->Add(ptr[i]);
+                        }
                     }
 
                     p->rtStop += (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetDuration());

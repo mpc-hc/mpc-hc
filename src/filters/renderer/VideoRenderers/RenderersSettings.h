@@ -77,7 +77,7 @@ public:
     class CRendererSettingsShared
     {
     public:
-        CRendererSettingsShared() {SetDefault();}
+        CRendererSettingsShared() { SetDefault(); }
         bool fVMR9AlterativeVSync;
         int iVMR9VSyncOffset;
         bool iVMR9VSyncAccurate;
@@ -115,7 +115,7 @@ public:
         bool iEVREnableFrameTimeCorrection;
         int iEVROutputRange;
 
-        CRendererSettingsEVR() {SetDefault();}
+        CRendererSettingsEVR() { SetDefault(); }
         void SetDefault();
         void SetOptimal();
     };
@@ -157,7 +157,7 @@ public:
 
     LONGLONG    GetPerfCounter();
     HINSTANCE   GetD3X9Dll();
-    UINT        GetDXSdkRelease() {return m_nDXSdkRelease;};
+    UINT        GetDXSdkRelease() { return m_nDXSdkRelease; };
 };
 
 extern CRenderersData*      GetRenderersData();

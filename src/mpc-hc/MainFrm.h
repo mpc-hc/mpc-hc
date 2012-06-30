@@ -106,7 +106,9 @@ public:
 class OpenDeviceData : public OpenMediaData
 {
 public:
-    OpenDeviceData() {vinput = vchannel = ainput = -1;}
+    OpenDeviceData() {
+        vinput = vchannel = ainput = -1;
+    }
     CStringW DisplayName[2];
     int vinput, vchannel, ainput;
 };
@@ -322,10 +324,10 @@ public:
     void StopWebServer();
 
     CString GetStatusMessage() const;
-    int GetPlaybackMode() const {return m_iPlaybackMode;}
+    int GetPlaybackMode() const { return m_iPlaybackMode; }
     void SetPlaybackMode(int iNewStatus);
-    bool IsMuted() {return m_wndToolBar.GetVolume() == -10000;}
-    int GetVolume() {return m_wndToolBar.m_volctrl.GetPos();}
+    bool IsMuted() { return m_wndToolBar.GetVolume() == -10000; }
+    int GetVolume() { return m_wndToolBar.m_volctrl.GetPos(); }
 
 public:
     CMainFrame();

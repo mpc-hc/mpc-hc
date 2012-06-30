@@ -58,17 +58,17 @@ public:
         return m_exts.Find(ext.TrimLeft(_T('.')).MakeLower()) != NULL;
     }
 
-    CString GetLabel() const {return m_label;}
+    CString GetLabel() const { return m_label; }
 
-    CString GetDescription() const {return m_description;}
+    CString GetDescription() const { return m_description; }
     CString GetFilter() const;
     CString GetExts(bool fAppendEngine = false) const;
     CString GetExtsWithPeriod(bool fAppendEngine = false) const;
     CString GetBackupExtsWithPeriod(bool fAppendEngine = false) const;
-    CString GetSpecReqNote() const {return m_specreqnote;}
-    bool IsAudioOnly() const {return m_fAudioOnly;}
-    engine_t GetEngineType() const {return m_engine;}
-    void SetEngineType(engine_t e) {m_engine = e;}
+    CString GetSpecReqNote() const { return m_specreqnote; }
+    bool IsAudioOnly() const { return m_fAudioOnly; }
+    engine_t GetEngineType() const { return m_engine; }
+    void SetEngineType(engine_t e) { m_engine = e; }
 };
 
 class CMediaFormats : public CAtlArray<CMediaFormatCategory>

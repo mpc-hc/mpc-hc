@@ -178,14 +178,18 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
     CString fn(wfn);
 
     if (!m_flic.Open(fn, CFile::modeRead | CFile::shareDenyNone)) {
-        if (phr) { *phr = E_FAIL; }
+        if (phr) {
+            *phr = E_FAIL;
+        }
         return;
     }
 
     if (m_flic.Read(&m_hdr, sizeof(m_hdr)) != sizeof(m_hdr)
             || (m_hdr.type != 0xAF11 && m_hdr.type != 0xAF12)
             || m_hdr.depth != 8) {
-        if (phr) { *phr = E_FAIL; }
+        if (phr) {
+            *phr = E_FAIL;
+        }
         return;
     }
 
@@ -232,7 +236,9 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
             ULONGLONG pos = m_flic.GetPosition() + fc.size - sizeof(fc);
             if (pos < m_flic.GetLength()) {
                 m_flic.Seek(pos, CFile::begin);
-            } else { break; }
+            } else {
+                break;
+            }
 
             chunk++;
         }
@@ -243,7 +249,9 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
         ULONGLONG pos = ffe.pos + ffe.hdr.size - sizeof(ffe.hdr);
         if (pos < m_flic.GetLength()) {
             m_flic.Seek(pos, CFile::begin);
-        } else { break; }
+        } else {
+            break;
+        }
 
         m_frames[nFrames] = ffe;
         nFrames++;
@@ -252,7 +260,9 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
         m_frames.SetCount(nFrames); // if the file is incomplete, then truncate the index
         m_frames[0].fKeyframe = true;
     } else {
-        if (phr) { *phr = E_FAIL; }
+        if (phr) {
+            *phr = E_FAIL;
+        }
         return;
     }
 
@@ -260,7 +270,9 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
     memset(m_pPalette, 0, sizeof(m_pPalette));
     m_nBufferSize = m_hdr.width * m_hdr.height * 32 >> 3;
     if (!m_pFrameBuffer.Allocate(m_nBufferSize)) {
-        if (phr) { *phr = E_OUTOFMEMORY; }
+        if (phr) {
+            *phr = E_OUTOFMEMORY;
+        }
         return;
     }
 

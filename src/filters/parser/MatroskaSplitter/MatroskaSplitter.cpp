@@ -689,7 +689,9 @@ avcsuccess:
                     memcpy(wfe, (WAVEFORMATEX*)pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
                     if (wfe->wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe->cbSize == 22) {
                         mt.subtype = ((WAVEFORMATEXTENSIBLE*)wfe)->SubFormat;
-                    } else { mt.subtype = FOURCCMap(wfe->wFormatTag); }
+                    } else {
+                        mt.subtype = FOURCCMap(wfe->wFormatTag);
+                    }
                     mts.Add(mt);
                 } else if (CodecID == "A_VORBIS") {
                     BYTE* p = pTE->CodecPrivate.GetData();

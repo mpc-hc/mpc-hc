@@ -267,14 +267,20 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
                 buflen = 64 * 1024; // for .wav+.cue sometimes need to use a more deep search
             } else if (ext == _T(".dtswav") || ext == _T(".dts") || ext == _T(".wav") || ext == _T(".ac3") || ext == _T(".eac3")) { //check only specific extensions
                 buflen = 6 * 1024;
-            } else { break; }
+            } else {
+                break;
+            }
 
-            if (m_dataOffset < buflen) { buflen -= (UINT)m_dataOffset; } // tiny optimization
+            if (m_dataOffset < buflen) {
+                buflen -= (UINT)m_dataOffset;    // tiny optimization
+            }
             m_file.Seek(m_dataOffset, CFile::begin);
 
             BYTE* buf = new BYTE[buflen];
             int len = m_file.Read(buf, buflen);
-            if (len < 100) { break; } // file is very small
+            if (len < 100) {
+                break;    // file is very small
+            }
 
             for (int i = 1; i < len - 4; i++) { // looking for DTS or AC3 sync
                 id = *(DWORD*)(buf + i);
@@ -286,7 +292,9 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             }
             delete [] buf;
         }
-        if (!isFound) { break; }
+        if (!isFound) {
+            break;
+        }
 
         m_file.Seek(m_dataOffset, CFile::begin);
 
@@ -362,7 +370,9 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
                 m_channels = 6;
             } else {
                 m_channels = channels[flags & 0x0f];
-                if (flags & DCA_LFE) { m_channels += 1; } //+LFE
+                if (flags & DCA_LFE) {
+                    m_channels += 1;    //+LFE
+                }
             }
 
             if (m_bitrate != 0) {

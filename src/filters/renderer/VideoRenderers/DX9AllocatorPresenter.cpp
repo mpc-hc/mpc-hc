@@ -533,8 +533,12 @@ void CDX9AllocatorPresenter::VSyncThread()
                                 m_DetectedRefreshTime = ThisValue;
                                 m_DetectedRefreshTimePrim = 0;
                             }
-                            if (_isnan(m_DetectedRefreshTime)) {m_DetectedRefreshTime = 0.0;}
-                            if (_isnan(m_DetectedRefreshTimePrim)) {m_DetectedRefreshTimePrim = 0.0;}
+                            if (_isnan(m_DetectedRefreshTime)) {
+                                m_DetectedRefreshTime = 0.0;
+                            }
+                            if (_isnan(m_DetectedRefreshTimePrim)) {
+                                m_DetectedRefreshTimePrim = 0.0;
+                            }
 
                             ModerateFloat(m_DetectedRefreshTime, ThisValue, m_DetectedRefreshTimePrim, 1.5);
                             if (m_DetectedRefreshTime > 0.0) {
@@ -2344,13 +2348,17 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     if (m_bFullFloatingPointProcessing || m_bHalfFloatingPointProcessing || m_bHighColorResolution) {
         CComPtr<IDirect3DSurface9> fSurface = m_pVideoSurface[m_nCurSurface];
         if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &fSurface, NULL))
-                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(fSurface, NULL, NULL, m_pVideoSurface[m_nCurSurface], NULL, NULL, D3DX_DEFAULT, 0))) { return hr; }
+                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(fSurface, NULL, NULL, m_pVideoSurface[m_nCurSurface], NULL, NULL, D3DX_DEFAULT, 0))) {
+            return hr;
+        }
         pSurface = fSurface;
         if (FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
             pSurface = NULL;
             if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
                     || FAILED(hr = m_pD3DDev->GetRenderTargetData(fSurface, pSurface))
-                    || FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) { return hr; }
+                    || FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
+                return hr;
+            }
         }
     } else {
         pSurface = m_pVideoSurface[m_nCurSurface];
@@ -2358,7 +2366,9 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
             pSurface = NULL;
             if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
                     || FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
-                    || FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) { return hr; }
+                    || FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
+                return hr;
+            }
         }
     }
 

@@ -124,7 +124,9 @@ void CWord::Paint(CPoint p, CPoint org)
         Transform(CPoint((org.x - p.x) * 8, (org.y - p.y) * 8));
 
         __try {
-            if (!ScanConvert()) { return; }
+            if (!ScanConvert()) {
+                return;
+            }
         } __except (EXCEPTION_EXECUTE_HANDLER) {
             return;
         }
@@ -1860,7 +1862,9 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                 sub->m_pClipper = DNew CClipper(params[0], CSize(m_size.cx >> 3, m_size.cy >> 3), sub->m_scalex, sub->m_scaley, invert, (sub->m_relativeTo == 1) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0));
             } else if (params.GetCount() == 2 && !sub->m_pClipper) {
                 long scale = wcstol(p, NULL, 10);
-                if (scale < 1) { scale = 1; }
+                if (scale < 1) {
+                    scale = 1;
+                }
                 sub->m_pClipper = DNew CClipper(params[1], CSize(m_size.cx >> 3, m_size.cy >> 3), sub->m_scalex / (1 << (scale - 1)), sub->m_scaley / (1 << (scale - 1)), invert, (sub->m_relativeTo == 1) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0));
             } else if (params.GetCount() == 4) {
                 CRect r;

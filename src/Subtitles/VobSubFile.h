@@ -54,7 +54,7 @@ public:
 
     CVobSubImage m_img;
 
-    CVobSubSettings() {InitSettings();}
+    CVobSubSettings() { InitSettings(); }
     void InitSettings();
 
     bool GetCustomPal(RGBQUAD* cuspal, int& tridx);
@@ -119,7 +119,7 @@ public:
     bool Save(CString fn, SubFormat sf = VobSub);
     void Close();
 
-    CString GetTitle() {return m_title;}
+    CString GetTitle() { return m_title; }
 
     DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -183,5 +183,5 @@ public:
     STDMETHODIMP GetStreamInfo(int i, WCHAR** ppName, LCID* pLCID);
     STDMETHODIMP_(int) GetStream();
     STDMETHODIMP SetStream(int iStream);
-    STDMETHODIMP Reload() {return E_NOTIMPL;}
+    STDMETHODIMP Reload() { return E_NOTIMPL; }
 };

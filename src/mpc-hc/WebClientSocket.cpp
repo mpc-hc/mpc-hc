@@ -825,7 +825,9 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
         PBITMAPINFOHEADER bih = &bi->bmiHeader;
 
         int bpp = bih->biBitCount;
-        if (bpp != 16 && bpp != 24 && bpp != 32) { return false; }
+        if (bpp != 16 && bpp != 24 && bpp != 32) {
+            return false;
+        }
         int w = bih->biWidth;
         int h = abs(bih->biHeight);
         BYTE* p = DNew BYTE[w * h * 4];

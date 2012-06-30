@@ -50,8 +50,7 @@ struct ps2_state_t {
     }
 };
 
-struct DD_stats_t
-{
+struct DD_stats_t {
 protected:
     int mode;
     unsigned int ac3_frames;

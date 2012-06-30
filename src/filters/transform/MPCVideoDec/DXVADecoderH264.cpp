@@ -122,7 +122,9 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
                     // Copy NALU
                     __try {
                         memcpy(pDXVABuffer + 3, Nalu.GetDataBuffer(), Nalu.GetDataLength());
-                    } __except (EXCEPTION_EXECUTE_HANDLER) { break; }
+                    } __except (EXCEPTION_EXECUTE_HANDLER) {
+                        break;
+                    }
 
                     // Update slice control buffer
                     nDxvaNalLength                                  = Nalu.GetDataLength() + 3;

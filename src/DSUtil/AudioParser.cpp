@@ -168,7 +168,9 @@ int ParseAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framele
             *channels = 5;
             break;
     }
-    if (flags & AC3_LFE) { (*channels)++; }
+    if (flags & AC3_LFE) {
+        (*channels)++;
+    }
 
     *framelength = 1536;
     return frame_size;

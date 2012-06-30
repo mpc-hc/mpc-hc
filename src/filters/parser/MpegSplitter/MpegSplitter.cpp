@@ -827,20 +827,28 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         int tPos = 0;
         lang = m_csAudioLanguageOrder.Tokenize(_T(",; "), tPos);
         while (tPos != -1) {
-            if (!lang.IsEmpty()) { lang_list_audio.AddTail(lang); }
+            if (!lang.IsEmpty()) {
+                lang_list_audio.AddTail(lang);
+            }
             lang = m_csAudioLanguageOrder.Tokenize(_T(",; "), tPos);
         }
-        if (!lang.IsEmpty()) { lang_list_audio.AddTail(lang); }
+        if (!lang.IsEmpty()) {
+            lang_list_audio.AddTail(lang);
+        }
     }
 
     if (!m_csSubtitlesLanguageOrder.IsEmpty()) {
         int tPos = 0;
         lang = m_csSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         while (tPos != -1) {
-            if (!lang.IsEmpty()) { lang_list_subpic.AddTail(lang); }
+            if (!lang.IsEmpty()) {
+                lang_list_subpic.AddTail(lang);
+            }
             lang = m_csSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         }
-        if (!lang.IsEmpty()) { lang_list_subpic.AddTail(lang); }
+        if (!lang.IsEmpty()) {
+            lang_list_subpic.AddTail(lang);
+        }
     }
 
     for (int i = 0; i < _countof(m_pFile->m_streams); i++) {
@@ -897,7 +905,9 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         idx++;
                     }
                 }
-                if (!Idx_audio && !cs_audioProgram.IsEmpty()) { break; }
+                if (!Idx_audio && !cs_audioProgram.IsEmpty()) {
+                    break;
+                }
             }
             if (i == CMpegSplitterFile::subpic) {
                 if (lang_list_subpic.GetCount() > 0) {
@@ -915,7 +925,9 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         idx++;
                     }
                 }
-                if (!Idx_subpic && !cs_subpicProgram.IsEmpty()) { break; }
+                if (!Idx_subpic && !cs_subpicProgram.IsEmpty()) {
+                    break;
+                }
             }
         }
     }

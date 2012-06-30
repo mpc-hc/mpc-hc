@@ -126,7 +126,7 @@ public:
     Stream*     FindStream(SHORT wPID);
     bool        IsHdmv() const { return m_bIsHdmv; };
     size_t      GetStreamNumber() { return m_Streams.GetCount(); };
-    Stream*     GetStreamByIndex(size_t nIndex) {return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL; };
+    Stream*     GetStreamByIndex(size_t nIndex) { return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL; };
 
     HRESULT     FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist, CAtlList<PlaylistItem>& MPLSPlaylists);
     HRESULT     ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist);
