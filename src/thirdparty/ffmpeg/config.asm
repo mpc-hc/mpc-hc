@@ -87,6 +87,8 @@ else
 %define HAVE_INET_ATON 0
 %define HAVE_INLINE_ASM 1
 %define HAVE_ISATTY 1
+%define HAVE_ISINF 1
+%define HAVE_ISNAN 1
 %define HAVE_JACK_PORT_GET_LATENCY_RANGE 0
 %define HAVE_KBHIT 1
 %define HAVE_LDBRX 0

@@ -1109,8 +1109,10 @@ int attribute_align_arg avcodec_encode_audio2(AVCodecContext *avctx,
     /* check for valid frame size */
     if (frame) {
         if (avctx->codec->capabilities & CODEC_CAP_SMALL_LAST_FRAME) {
-            if (frame->nb_samples > avctx->frame_size)
+            if (frame->nb_samples > avctx->frame_size) {
+                av_log(avctx, AV_LOG_ERROR, "more samples than frame size (avcodec_encode_audio2)\n");
                 return AVERROR(EINVAL);
+            }
         } else if (!(avctx->codec->capabilities & CODEC_CAP_VARIABLE_FRAME_SIZE)) {
             if (frame->nb_samples < avctx->frame_size &&
                 !avctx->internal->last_audio_frame) {
@@ -1122,8 +1124,10 @@ int attribute_align_arg avcodec_encode_audio2(AVCodecContext *avctx,
                 avctx->internal->last_audio_frame = 1;
             }
 
-            if (frame->nb_samples != avctx->frame_size)
+            if (frame->nb_samples != avctx->frame_size) {
+                av_log(avctx, AV_LOG_ERROR, "nb_samples (%d) != frame_size (%d) (avcodec_encode_audio2)\n", frame->nb_samples, avctx->frame_size);
                 return AVERROR(EINVAL);
+            }
         }
     }
 
@@ -1715,7 +1719,7 @@ static enum CodecID remap_deprecated_codec_id(enum CodecID id)
 {
     switch(id){
         //This is for future deprecatec codec ids, its empty since
-        //last major bump but will fill up again over time, please dont remove it
+        //last major bump but will fill up again over time, please don't remove it
 //         case CODEC_ID_UTVIDEO_DEPRECATED: return CODEC_ID_UTVIDEO;
         default                         : return id;
     }

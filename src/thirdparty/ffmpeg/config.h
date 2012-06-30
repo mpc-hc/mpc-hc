@@ -23,39 +23,15 @@
     #define HAVE_FAST_64BIT 0
     #define HAVE_GETADDRINFO 0
   #endif
-
-  #define PTW32_STATIC_LIB 1
   #define restrict restrict
 #else
-  #define HAVE_INLINE_ASM 0
-  #define HAVE_AMD3DNOW 0
-  #define HAVE_AMD3DNOWEXT 0
-  #define HAVE_AVX 0
-  #define HAVE_MMX 0
-  #define HAVE_MMX2 0
-  #define HAVE_SSE 0
-  #define HAVE_SSSE3 0
-  #define ARCH_X86 0
-  #define ARCH_X86_32 0
-  #define ARCH_X86_64 0
-  #define HAVE_FAST_64BIT 0
-
   #define restrict
   #define __asm__ __asm
   #define inline __inline
 #endif
 
-// Use DPRINTF instead of av_log. To be used for debug purpose because DPRINTF will be always called (the
-// registry switch is not read)
-#define USE_DPRINTF 0
-
 #define FFMPEG_CONFIGURATION "ffmpeg configuration"
 #define FFMPEG_LICENSE "GPL version 2 or later"
-
-#define CC_TYPE "gcc"
-#define CC_VERSION __VERSION__
-
-#define ASMALIGN(ZEROBITS) ".p2align " #ZEROBITS "\n\t"
 
 // MPC custom code for linking with MSVC
 #if defined(__GNUC__) && ARCH_X86_64
@@ -63,7 +39,6 @@
 #else
   #define EXTERN_PREFIX "_"
 #endif
-#define EXTERN_ASM _
 
 #define ARCH_ALPHA 0
 #define ARCH_ARM 0
@@ -211,38 +186,21 @@
 #define HAVE_XMM_CLOBBERS 1
 #define HAVE_YASM 1
 
-#ifdef __GNUC__
-  #define HAVE_ATTRIBUTE_PACKED 1
-  #define HAVE_ATTRIBUTE_MAY_ALIAS 1
+#define HAVE_ATTRIBUTE_PACKED 1
+#define HAVE_ATTRIBUTE_MAY_ALIAS 1
 
-  #define HAVE_EXP2 1
-  #define HAVE_EXP2F 1
-  #define HAVE_LLRINT 1
-  #define HAVE_LRINT 1
-  #define HAVE_LRINTF 1
-  #define HAVE_ROUND 1
-  #define HAVE_ROUNDF 1
-  #define HAVE_TRUNC 1
-  #define HAVE_TRUNCF 1
+#define HAVE_EXP2 1
+#define HAVE_EXP2F 1
+#define HAVE_ISINF 1
+#define HAVE_ISNAN 1
+#define HAVE_LLRINT 1
+#define HAVE_LRINT 1
+#define HAVE_LRINTF 1
+#define HAVE_ROUND 1
+#define HAVE_ROUNDF 1
+#define HAVE_TRUNC 1
+#define HAVE_TRUNCF 1
 
-#else
-  #define HAVE_ATTRIBUTE_PACKED 0
-  #define HAVE_ATTRIBUTE_MAY_ALIAS 0
-  #define EMULATE_FAST_INT
-
-  #define HAVE_EXP2 1
-  #define HAVE_EXP2F 1
-  #define HAVE_LLRINT 0
-  #define HAVE_LOG2 1
-  #define HAVE_LOG2F 1
-  #define HAVE_LRINT 0
-  #define HAVE_LRINTF 0
-  #define HAVE_ROUND 0
-  #define HAVE_ROUNDF 1
-  #define HAVE_TRUNCF 1
-  #define rint(x) (int)(x+0.5)
-  #define cbrtf(x) pow((float)x, (float)1.0/3)
-#endif
 
 #define CONFIG_AC3ENC_FLOAT 0
 #define CONFIG_AUDIO_FLOAT 1
