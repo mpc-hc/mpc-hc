@@ -85,4 +85,6 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 #define USE_MEDIAINFO_STATIC
 #endif
 
-#include "mplayerc.h"
+#include "resource.h"
+#include "FakeFilterMapper2.h"
+#include "AppSettings.h"
