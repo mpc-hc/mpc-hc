@@ -559,7 +559,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                             if (m_pFile->BitRead(1)) // seq_scaling_matrix_present_flag
                                 for (int k = 0; k < 8; k++)
                                     if (m_pFile->BitRead(1)) // seq_scaling_list_present_flag
-                                        for (int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j) {
+                                        for (int j = 0, size = (k < 6) ? 16 : 64, next = 8; j < size && next != 0; ++j) {
                                             next = (next + m_pFile->SExpGolombRead() + 256) & 255;
                                         }
                         }
