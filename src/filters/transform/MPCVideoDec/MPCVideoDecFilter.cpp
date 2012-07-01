@@ -1214,11 +1214,17 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction, const CMediaTy
                                 break;
                             }
                         }
+                    } else if (m_nCodecId == CODEC_ID_MPEG2VIDEO) {
+                        // DSP is disable for DXVA decoding (to keep default idct_permutation)
+                        m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
+                        if (!MPEG2CheckCompatibility(m_pAVCtx, m_pFrame)) {
+                            break;
+                        }
                     } else if (m_nCodecId == CODEC_ID_WMV3) {
                         if (PictWidthRounded() < 1280) { // fixes playback problem for some wmv3 (most are older files)
                             break;
                         }
-                    } else if (m_nCodecId == CODEC_ID_MPEG2VIDEO)
+                    }
 
                     m_bDXVACompatible = true;
                     bDXVAAvailableButUnused = false;
