@@ -130,11 +130,11 @@ void CChildView::LoadLogo()
     }
 
     if (!bHaveLogo) {
-        s.fLogoExternal = false; // use the built-in logo instead
-        s.strLogoFileName = ""; // clear logo file name
+        s.fLogoExternal = false;                // use the built-in logo instead
+        s.strLogoFileName = "";                 // clear logo file name
 
-        if (!m_logo.Load(s.nLogoId)) { // try the latest selected build-in logo
-            m_logo.Load(s.nLogoId = DEF_LOGO);    // if fail then use the default logo, should and must never fail
+        if (!m_logo.Load(s.nLogoId)) {          // try the latest selected build-in logo
+            m_logo.Load(s.nLogoId = DEF_LOGO);  // if fail then use the default logo, should and must never fail
         }
     }
 

@@ -166,7 +166,7 @@ static void make_downsample_filter(long* filter_bank, int filter_width, long sam
             v += filter_bank[i + j];
         }
 
-        //      _RPT2(0,"error[%02x] = %04x\n", i/filter_width, 0x4000 - v);
+        //_RPT2(0,"error[%02x] = %04x\n", i/filter_width, 0x4000 - v);
 
         v = (0x4000 - v) / filter_width;
         for (j = 0; j < filter_width; j++) {

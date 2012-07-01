@@ -50,8 +50,8 @@ CDVBChannel::~CDVBChannel(void)
 
 void CDVBChannel::FromString(CString strValue)
 {
-    int     i = 0;
-    int     nVersion;
+    int i = 0;
+    int nVersion;
 
     nVersion        = _tstol(strValue.Tokenize(_T("|"), i));
     m_strName       = strValue.Tokenize(_T("|"), i);
@@ -78,23 +78,23 @@ void CDVBChannel::FromString(CString strValue)
     m_nSubtitleCount = _tstol(strValue.Tokenize(_T("|"), i));
 
     for (int j = 0; j < m_nAudioCount; j++) {
-        m_Audios[j].PID         = _tstol(strValue.Tokenize(_T("|"), i));
-        m_Audios[j].Type        = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-        m_Audios[j].PesType     = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-        m_Audios[j].Language    = strValue.Tokenize(_T("|"), i);
+        m_Audios[j].PID = _tstol(strValue.Tokenize(_T("|"), i));
+        m_Audios[j].Type = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_Audios[j].PesType = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_Audios[j].Language = strValue.Tokenize(_T("|"), i);
     }
 
     for (int j = 0; j < m_nSubtitleCount; j++) {
-        m_Subtitles[j].PID      = _tstol(strValue.Tokenize(_T("|"), i));
-        m_Subtitles[j].Type     = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-        m_Subtitles[j].PesType  = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_Subtitles[j].PID = _tstol(strValue.Tokenize(_T("|"), i));
+        m_Subtitles[j].Type = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+        m_Subtitles[j].PesType = (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
         m_Subtitles[j].Language = strValue.Tokenize(_T("|"), i);
     }
 }
 
 CString CDVBChannel::ToString()
 {
-    CString     strValue;
+    CString strValue;
     strValue.AppendFormat(_T("%d|%s|%ld|%d|%d|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%d|%ld"),
                           FORMAT_VERSION_CURRENT,
                           m_strName,
@@ -135,26 +135,26 @@ void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_T
     switch (nType) {
         case DVB_MPV :
         case DVB_H264 :
-            m_ulVideoPID    = ulPID;
-            m_nVideoType    = nType;
+            m_ulVideoPID = ulPID;
+            m_nVideoType = nType;
             break;
         case DVB_MPA :
         case DVB_AC3 :
         case DVB_EAC3 :
             if (m_nAudioCount < DVB_MAX_AUDIO) {
-                m_Audios[m_nAudioCount].PID         = ulPID;
-                m_Audios[m_nAudioCount].Type        = nType;
-                m_Audios[m_nAudioCount].PesType     = nPesType;
-                m_Audios[m_nAudioCount].Language    = strLanguage;
+                m_Audios[m_nAudioCount].PID = ulPID;
+                m_Audios[m_nAudioCount].Type = nType;
+                m_Audios[m_nAudioCount].PesType = nPesType;
+                m_Audios[m_nAudioCount].Language = strLanguage;
                 m_nAudioCount++;
             }
             break;
         case DVB_SUBTITLE :
             if (m_nSubtitleCount < DVB_MAX_SUBTITLE) {
-                m_Subtitles[m_nSubtitleCount].PID       = ulPID;
-                m_Subtitles[m_nSubtitleCount].Type      = nType;
-                m_Subtitles[m_nSubtitleCount].PesType   = nPesType;
-                m_Subtitles[m_nSubtitleCount].Language  = strLanguage;
+                m_Subtitles[m_nSubtitleCount].PID = ulPID;
+                m_Subtitles[m_nSubtitleCount].Type = nType;
+                m_Subtitles[m_nSubtitleCount].PesType = nPesType;
+                m_Subtitles[m_nSubtitleCount].Language = strLanguage;
                 m_nSubtitleCount++;
             }
             break;

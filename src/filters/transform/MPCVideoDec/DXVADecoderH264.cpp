@@ -55,32 +55,32 @@ CDXVADecoderH264::~CDXVADecoderH264()
 
 void CDXVADecoderH264::Init()
 {
-    memset(&m_DXVAPicParams,   0, sizeof(m_DXVAPicParams));
-    memset(&m_DXVAPicParams,   0, sizeof(DXVA_PicParams_H264));
-    memset(&m_pSliceLong,      0, sizeof(DXVA_Slice_H264_Long) *MAX_SLICES);
-    memset(&m_pSliceShort,     0, sizeof(DXVA_Slice_H264_Short)*MAX_SLICES);
+    memset(&m_DXVAPicParams, 0, sizeof(m_DXVAPicParams));
+    memset(&m_DXVAPicParams, 0, sizeof(DXVA_PicParams_H264));
+    memset(&m_pSliceLong, 0, sizeof(DXVA_Slice_H264_Long) * MAX_SLICES);
+    memset(&m_pSliceShort, 0, sizeof(DXVA_Slice_H264_Short) * MAX_SLICES);
 
-    m_DXVAPicParams.MbsConsecutiveFlag                  = 1;
+    m_DXVAPicParams.MbsConsecutiveFlag = 1;
     if (m_pFilter->GetPCIVendor() == PCIV_Intel) {
-        m_DXVAPicParams.Reserved16Bits                  = 0x534c;
+        m_DXVAPicParams.Reserved16Bits = 0x534c;
     } else {
-        m_DXVAPicParams.Reserved16Bits                  = 0;
+        m_DXVAPicParams.Reserved16Bits = 0;
     }
-    m_DXVAPicParams.ContinuationFlag                    = 1;
-    m_DXVAPicParams.Reserved8BitsA                      = 0;
-    m_DXVAPicParams.Reserved8BitsB                      = 0;
-    m_DXVAPicParams.MinLumaBipredSize8x8Flag            = 1;    // Improve accelerator performances
-    m_DXVAPicParams.StatusReportFeedbackNumber          = 0;    // Use to report status
+    m_DXVAPicParams.ContinuationFlag = 1;
+    m_DXVAPicParams.Reserved8BitsA = 0;
+    m_DXVAPicParams.Reserved8BitsB = 0;
+    m_DXVAPicParams.MinLumaBipredSize8x8Flag = 1;    // Improve accelerator performances
+    m_DXVAPicParams.StatusReportFeedbackNumber = 0;   // Use to report status
 
     for (int i = 0; i < 16; i++) {
-        m_DXVAPicParams.RefFrameList[i].AssociatedFlag  = 1;
-        m_DXVAPicParams.RefFrameList[i].bPicEntry       = 255;
-        m_DXVAPicParams.RefFrameList[i].Index7Bits      = 127;
+        m_DXVAPicParams.RefFrameList[i].AssociatedFlag = 1;
+        m_DXVAPicParams.RefFrameList[i].bPicEntry = 255;
+        m_DXVAPicParams.RefFrameList[i].Index7Bits = 127;
     }
 
 
-    m_nNALLength        = 4;
-    m_nMaxSlices        = 0;
+    m_nNALLength = 4;
+    m_nMaxSlices = 0;
 
     switch (GetMode()) {
         case H264_VLD :
@@ -93,12 +93,12 @@ void CDXVADecoderH264::Init()
 
 void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
-    CH264Nalu   Nalu;
-    int         nDummy;
-    int         nSlices     = 0;
-    UINT        m_nSize     = nSize;
-    int         slice_step  = 1;
-    int         nDxvaNalLength;
+    CH264Nalu Nalu;
+    int nDummy;
+    int nSlices = 0;
+    UINT m_nSize = nSize;
+    int slice_step = 1;
+    int nDxvaNalLength;
 
     while (!nSlices && slice_step <= 2) {
         Nalu.SetBuffer(pBuffer, m_nSize, slice_step == 1 ? m_nNALLength : 0);
@@ -127,12 +127,12 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
                     }
 
                     // Update slice control buffer
-                    nDxvaNalLength                                  = Nalu.GetDataLength() + 3;
-                    m_pSliceShort[nSlices].BSNALunitDataLocation    = nSize;
-                    m_pSliceShort[nSlices].SliceBytesInBuffer       = nDxvaNalLength;
+                    nDxvaNalLength = Nalu.GetDataLength() + 3;
+                    m_pSliceShort[nSlices].BSNALunitDataLocation = nSize;
+                    m_pSliceShort[nSlices].SliceBytesInBuffer = nDxvaNalLength;
 
-                    nSize                                          += nDxvaNalLength;
-                    pDXVABuffer                                    += nDxvaNalLength;
+                    nSize += nDxvaNalLength;
+                    pDXVABuffer += nDxvaNalLength;
                     nSlices++;
                     break;
             }
@@ -141,43 +141,43 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
     }
 
     // Complete with zero padding (buffer size should be a multiple of 128)
-    nDummy  = 128 - (nSize % 128);
+    nDummy = 128 - (nSize % 128);
 
     memset(pDXVABuffer, 0, nDummy);
     m_pSliceShort[nSlices - 1].SliceBytesInBuffer += nDummy;
-    nSize                                       += nDummy;
+    nSize += nDummy;
 }
 
 void CDXVADecoderH264::Flush()
 {
     ClearRefFramesList();
-    m_DXVAPicParams.UsedForReferenceFlags   = 0;
-    m_nOutPOC                               = INT_MIN;
-    m_nPrevOutPOC                           = INT_MIN;
+    m_DXVAPicParams.UsedForReferenceFlags = 0;
+    m_nOutPOC = INT_MIN;
+    m_nPrevOutPOC = INT_MIN;
 
-    m_nfield_pic_flag                       = 1;
-    m_nRefPicFlag                           = 1;
-    m_nBrokenFramesFlag                     = 0;
-    m_nBrokenFramesFlag_POC                 = 0;
+    m_nfield_pic_flag = 1;
+    m_nRefPicFlag = 1;
+    m_nBrokenFramesFlag = 0;
+    m_nBrokenFramesFlag_POC = 0;
 
     __super::Flush();
 }
 
 HRESULT CDXVADecoderH264::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
-    HRESULT                     hr              = S_FALSE;
-    UINT                        nSlices         = 0;
-    int                         nSurfaceIndex   = -1;
-    int                         nFieldType      = -1;
-    int                         nSliceType      = -1;
-    int                         nFramePOC       = INT_MIN;
-    int                         nOutPOC         = INT_MIN;
-    REFERENCE_TIME              rtOutStart      = _I64_MIN;
-    CH264Nalu                   Nalu;
-    UINT                        nNalOffset      = 0;
-    CComPtr<IMediaSample>       pSampleToDeliver;
-    CComQIPtr<IMPCDXVA2Sample>  pDXVA2Sample;
-    int                         slice_step      = 1;
+    HRESULT hr = S_FALSE;
+    UINT nSlices = 0;
+    int nSurfaceIndex = -1;
+    int nFieldType = -1;
+    int nSliceType = -1;
+    int nFramePOC = INT_MIN;
+    int nOutPOC = INT_MIN;
+    REFERENCE_TIME rtOutStart = _I64_MIN;
+    CH264Nalu Nalu;
+    UINT nNalOffset = 0;
+    CComPtr<IMediaSample> pSampleToDeliver;
+    CComQIPtr<IMPCDXVA2Sample> pDXVA2Sample;
+    int slice_step = 1;
 
     if (FFH264DecodeBuffer(m_pFilter->GetAVCtx(), pDataIn, nSize, &nFramePOC, &nOutPOC, &rtOutStart) == -1) {
         return S_FALSE;
@@ -191,8 +191,8 @@ HRESULT CDXVADecoderH264::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
                 case NALU_TYPE_IDR:
                     if (m_bUseLongSlice) {
                         m_pSliceLong[nSlices].BSNALunitDataLocation = nNalOffset;
-                        m_pSliceLong[nSlices].SliceBytesInBuffer    = Nalu.GetDataLength() + 3; //.GetRoundedDataLength();
-                        m_pSliceLong[nSlices].slice_id              = nSlices;
+                        m_pSliceLong[nSlices].SliceBytesInBuffer = Nalu.GetDataLength() + 3; //.GetRoundedDataLength();
+                        m_pSliceLong[nSlices].slice_id = nSlices;
                         FF264UpdateRefFrameSliceLong(&m_DXVAPicParams, &m_pSliceLong[nSlices], m_pFilter->GetAVCtx());
 
                         if (nSlices > 0) {
@@ -226,11 +226,11 @@ HRESULT CDXVADecoderH264::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
     // Wait I frame after a flush
     if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag) {
         TRACE_H264("CDXVADecoderH264::DecodeFrame() : Flush - wait I frame\n");
-        m_nBrokenFramesFlag     = 0;
+        m_nBrokenFramesFlag = 0;
         m_nBrokenFramesFlag_POC = 0;
-        m_nfield_pic_flag       = m_DXVAPicParams.field_pic_flag;
-        m_nRefPicFlag           = m_DXVAPicParams.RefPicFlag;
-        m_nPrevOutPOC           = INT_MIN;
+        m_nfield_pic_flag = m_DXVAPicParams.field_pic_flag;
+        m_nRefPicFlag = m_DXVAPicParams.RefPicFlag;
+        m_nPrevOutPOC = INT_MIN;
         return S_FALSE;
     }
 
@@ -305,8 +305,8 @@ HRESULT CDXVADecoderH264::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
     }
 
     if (nOutPOC != INT_MIN) {
-        m_nOutPOC       = nOutPOC;
-        m_rtOutStart    = rtOutStart;
+        m_nOutPOC = nOutPOC;
+        m_rtOutStart = rtOutStart;
     }
 
     m_bFlushed = false;
@@ -339,8 +339,8 @@ void CDXVADecoderH264::ClearUnusedRefFrames()
 
 void CDXVADecoderH264::SetExtraData(BYTE* pDataIn, UINT nSize)
 {
-    AVCodecContext* pAVCtx  = m_pFilter->GetAVCtx();
-    m_nNALLength            = pAVCtx->nal_length_size;
+    AVCodecContext* pAVCtx = m_pFilter->GetAVCtx();
+    m_nNALLength = pAVCtx->nal_length_size;
 
     FFH264DecodeBuffer(pAVCtx, pDataIn, nSize, NULL, NULL, NULL);
     FFH264SetDxvaSliceLong(pAVCtx, m_pSliceLong);
@@ -358,8 +358,8 @@ void CDXVADecoderH264::ClearRefFramesList()
 
 HRESULT CDXVADecoderH264::DisplayStatus()
 {
-    HRESULT             hr = E_INVALIDARG;
-    DXVA_Status_H264    Status;
+    HRESULT hr = E_INVALIDARG;
+    DXVA_Status_H264 Status;
 
     memset(&Status, 0, sizeof(Status));
     CHECK_HR(hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
@@ -375,8 +375,8 @@ HRESULT CDXVADecoderH264::DisplayStatus()
 
 int CDXVADecoderH264::FindOldestFrame()
 {
-    int             nPos  = -1;
-    REFERENCE_TIME  rtPos = _I64_MAX;
+    int nPos  = -1;
+    REFERENCE_TIME rtPos = _I64_MAX;
 
     for (int i = 0; i < m_nPicEntryNumber; i++) {
         if (m_pPictureStore[i].bInUse && !m_pPictureStore[i].bDisplayed) {

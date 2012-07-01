@@ -20,7 +20,6 @@
  *
  */
 
-
 #pragma once
 
 #include <videoacc.h>
@@ -50,9 +49,9 @@ public:
     STDMETHODIMP GetCreateVideoAcceleratorData(const GUID* pGuid, LPDWORD pdwSizeMiscData, LPVOID* ppMiscData);
 
 private :
-    CMPCVideoDecFilter*     m_pVideoDecFilter;
+    CMPCVideoDecFilter* m_pVideoDecFilter;
     CVideoDecDXVAAllocator* m_pDXVA2Allocator;
-    DWORD                   m_dwDXVA1SurfaceCount;
-    GUID                    m_GuidDecoderDXVA1;
-    DDPIXELFORMAT           m_ddUncompPixelFormat;
+    DWORD m_dwDXVA1SurfaceCount;
+    GUID m_GuidDecoderDXVA1;
+    DDPIXELFORMAT m_ddUncompPixelFormat;
 };

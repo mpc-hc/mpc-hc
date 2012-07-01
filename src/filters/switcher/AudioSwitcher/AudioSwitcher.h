@@ -23,9 +23,10 @@
 
 #pragma once
 
+#include "StreamSwitcher.h"
+
 #define AudioSwitcherName L"MPC AudioSwitcher"
 
-#include "StreamSwitcher.h"
 
 interface __declspec(uuid("CEDB2890-53AE-4231-91A3-B0AAFCD1DBDE"))
 IAudioSwitcherFilter :

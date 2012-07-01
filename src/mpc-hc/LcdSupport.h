@@ -56,15 +56,15 @@ public:
 
 private:
     lgLcdConnectContext m_ConnCtx;
-    HANDLE              hLCD_UpdateThread;
-    HBITMAP             hBmp[PS_UNUSED];
+    HANDLE hLCD_UpdateThread;
+    HBITMAP hBmp[PS_UNUSED];
 
 public:
-    CLCDOutput          m_Output;
-    CLCDMyManager       m_Manager;
-    bool                Thread_Loop;
-    __time64_t          nThread_tTimeout;
-    CRITICAL_SECTION    cs;
+    CLCDOutput m_Output;
+    CLCDMyManager m_Manager;
+    bool Thread_Loop;
+    __time64_t nThread_tTimeout;
+    CRITICAL_SECTION cs;
 
     CMPC_Lcd();
     ~CMPC_Lcd();

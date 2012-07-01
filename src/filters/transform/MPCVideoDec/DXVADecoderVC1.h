@@ -35,20 +35,20 @@ public:
 
     // === Public functions
     virtual HRESULT DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
-    virtual void    SetExtraData(BYTE* pDataIn, UINT nSize);
-    virtual void    CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
-    virtual void    Flush();
+    virtual void SetExtraData(BYTE* pDataIn, UINT nSize);
+    virtual void CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
+    virtual void Flush();
 
     typedef enum {
-        VC1_PS_TOP_FIELD                = 1,
-        VC1_PS_BOTTOM_FIELD             = 2,
-        VC1_PS_PROGRESSIVE              = 3
+        VC1_PS_TOP_FIELD    = 1,
+        VC1_PS_BOTTOM_FIELD = 2,
+        VC1_PS_PROGRESSIVE  = 3
     } VC1_INTERLACING;
 
     typedef enum {
-        VC1_CHROMA_420                  = 1,
-        VC1_CHROMA_422                  = 2,
-        VC1_CHROMA_444                  = 3
+        VC1_CHROMA_420  = 1,
+        VC1_CHROMA_422  = 2,
+        VC1_CHROMA_444  = 3
     } VC1_CHROMA_FORMAT;
 
     typedef enum {
@@ -65,43 +65,42 @@ public:
         VC1_SCAN_ARBITRARY              = 3     // Use when bConfigHostInverseScan = 1
     } VC1_PIC_SCAN_METHOD;
 
-    typedef enum {                          // Values for bPicDeblockConfined when bConfigBitstreamRaw = 1
-        VC1_EXTENDED_DMV                = 0x0001,
-        VC1_PSF                         = 0x0002,
-        VC1_REFPICFLAG                  = 0x0004,
-        VC1_FINTERPFLAG                 = 0x0008,
-        VC1_TFCNTRFLAG                  = 0x0010,
-        VC1_INTERLACE                   = 0x0020,
-        VC1_PULLDOWN                    = 0x0040,
-        VC1_POSTPROCFLAG                = 0x0080
+    typedef enum {          // Values for bPicDeblockConfined when bConfigBitstreamRaw = 1
+        VC1_EXTENDED_DMV    = 0x0001,
+        VC1_PSF             = 0x0002,
+        VC1_REFPICFLAG      = 0x0004,
+        VC1_FINTERPFLAG     = 0x0008,
+        VC1_TFCNTRFLAG      = 0x0010,
+        VC1_INTERLACE       = 0x0020,
+        VC1_PULLDOWN        = 0x0040,
+        VC1_POSTPROCFLAG    = 0x0080
     } VC1_DEBLOCK_CONFINED;
 
-    typedef enum {                          // Values for bPicSpatialResid8
-        VC1_VSTRANSFORM                 = 0x0001,
-        VC1_DQUANT                      = 0x0002,
-        VC1_EXTENDED_MV                 = 0x0004,
-        VC1_FASTUVMC                    = 0x0008,
-        VC1_LOOPFILTER                  = 0x0010,
-        VC1_REDIST_FLAG                 = 0x0020,
-        VC1_PANSCAN_FLAG                = 0x0040,
+    typedef enum {          // Values for bPicSpatialResid8
+        VC1_VSTRANSFORM     = 0x0001,
+        VC1_DQUANT          = 0x0002,
+        VC1_EXTENDED_MV     = 0x0004,
+        VC1_FASTUVMC        = 0x0008,
+        VC1_LOOPFILTER      = 0x0010,
+        VC1_REDIST_FLAG     = 0x0020,
+        VC1_PANSCAN_FLAG    = 0x0040,
     } VC1_PIC_SPATIAL_RESID8;
 
 protected :
 
 private:
-    DXVA_PictureParameters  m_PictureParams;
-    DXVA_SliceInfo          m_SliceInfo;
-    WORD                    m_wRefPictureIndex[2];
+    DXVA_PictureParameters m_PictureParams;
+    DXVA_SliceInfo m_SliceInfo;
+    WORD m_wRefPictureIndex[2];
 
-    int                     m_nDelayedSurfaceIndex;
-    REFERENCE_TIME          m_rtStartDelayed;
-    REFERENCE_TIME          m_rtStopDelayed;
+    int m_nDelayedSurfaceIndex;
+    REFERENCE_TIME m_rtStartDelayed;
+    REFERENCE_TIME m_rtStopDelayed;
 
-    BOOL                    m_bFrame_repeat_pict;
+    BOOL m_bFrame_repeat_pict;
 
-    // Private functions
-    void                    Init();
-    HRESULT                 DisplayStatus();
-    BYTE*                   FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize);
+    void Init();
+    HRESULT DisplayStatus();
+    BYTE* FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize);
 
 };

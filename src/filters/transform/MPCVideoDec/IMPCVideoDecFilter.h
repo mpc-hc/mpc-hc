@@ -20,7 +20,6 @@
  *
  */
 
-
 #pragma once
 
 // Internal codec list (use to enable/disable codec in standalone mode)

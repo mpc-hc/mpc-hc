@@ -20,7 +20,6 @@
  *
  */
 
-
 #pragma once
 
 struct AVCodecContext;

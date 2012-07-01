@@ -51,9 +51,9 @@ CDXVADecoderMpeg2::~CDXVADecoderMpeg2(void)
 
 void CDXVADecoderMpeg2::Init()
 {
-    memset(&m_PictureParams,   0, sizeof(m_PictureParams));
-    memset(&m_SliceInfo,       0, sizeof(m_SliceInfo));
-    memset(&m_QMatrixData,     0, sizeof(m_QMatrixData));
+    memset(&m_PictureParams, 0, sizeof(m_PictureParams));
+    memset(&m_SliceInfo,     0, sizeof(m_SliceInfo));
+    memset(&m_QMatrixData,   0, sizeof(m_QMatrixData));
 
     m_nMaxWaiting           = 5;
     m_wRefPictureIndex[0]   = NO_REF_FRAME;
@@ -72,9 +72,9 @@ void CDXVADecoderMpeg2::Init()
 // === Public functions
 HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
-    HRESULT                     hr;
-    int                         nFieldType;
-    int                         nSliceType;
+    HRESULT hr;
+    int nFieldType;
+    int nSliceType;
 
     FFMpeg2DecodeFrame(&m_PictureParams, &m_QMatrixData, m_SliceInfo, &m_nSliceCount, m_pFilter->GetAVCtx(),
                        m_pFilter->GetFrame(), &m_nNextCodecIndex, &nFieldType, &nSliceType, pDataIn, nSize);
@@ -91,9 +91,9 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
     if (m_bSecondField) {
         if (!m_PictureParams.bSecondField) {
-            m_rtStart           = rtStart;
-            m_rtStop            = rtStop;
-            m_pSampleToDeliver  = NULL;
+            m_rtStart = rtStart;
+            m_rtStop = rtStop;
+            m_pSampleToDeliver = NULL;
             hr = GetFreeSurfaceIndex(m_nSurfaceIndex, &m_pSampleToDeliver, rtStart, rtStop);
             if (FAILED(hr)) {
                 ASSERT(hr == VFW_E_NOT_COMMITTED);      // Normal when stop playing
@@ -101,9 +101,9 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME
             }
         }
     } else {
-        m_rtStart           = rtStart;
-        m_rtStop            = rtStop;
-        m_pSampleToDeliver  = NULL;
+        m_rtStart = rtStart;
+        m_rtStop = rtStop;
+        m_pSampleToDeliver = NULL;
         hr = GetFreeSurfaceIndex(m_nSurfaceIndex, &m_pSampleToDeliver, rtStart, rtStop);
         if (FAILED(hr)) {
             ASSERT(hr == VFW_E_NOT_COMMITTED);      // Normal when stop playing
@@ -158,9 +158,9 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 void CDXVADecoderMpeg2::UpdatePictureParams(int nSurfaceIndex)
 {
-    DXVA2_ConfigPictureDecode*  cpd = GetDXVA2Config();     // Ok for DXVA1 too (parameters have been copied)
+    DXVA2_ConfigPictureDecode* cpd = GetDXVA2Config();     // Ok for DXVA1 too (parameters have been copied)
 
-    m_PictureParams.wDecodedPictureIndex    = nSurfaceIndex;
+    m_PictureParams.wDecodedPictureIndex = nSurfaceIndex;
 
     // Manage reference picture list
     if (!m_PictureParams.bPicBackwardPrediction) {
@@ -170,8 +170,8 @@ void CDXVADecoderMpeg2::UpdatePictureParams(int nSurfaceIndex)
         m_wRefPictureIndex[0] = m_wRefPictureIndex[1];
         m_wRefPictureIndex[1] = nSurfaceIndex;
     }
-    m_PictureParams.wForwardRefPictureIndex     = (m_PictureParams.bPicIntra == 0)              ? m_wRefPictureIndex[0] : NO_REF_FRAME;
-    m_PictureParams.wBackwardRefPictureIndex    = (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : NO_REF_FRAME;
+    m_PictureParams.wForwardRefPictureIndex = (m_PictureParams.bPicIntra == 0) ? m_wRefPictureIndex[0] : NO_REF_FRAME;
+    m_PictureParams.wBackwardRefPictureIndex = (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : NO_REF_FRAME;
 
     // Shall be 0 if bConfigResidDiffHost is 0 or if BPP > 8
     if (cpd->ConfigResidDiffHost == 0 || m_PictureParams.bBPPminus1 > 7) {
@@ -224,7 +224,7 @@ void CDXVADecoderMpeg2::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nS
 
 void CDXVADecoderMpeg2::Flush()
 {
-    m_nNextCodecIndex       = INT_MIN;
+    m_nNextCodecIndex = INT_MIN;
 
     if (m_wRefPictureIndex[0] != NO_REF_FRAME) {
         RemoveRefFrame(m_wRefPictureIndex[0]);
@@ -236,21 +236,21 @@ void CDXVADecoderMpeg2::Flush()
     m_wRefPictureIndex[0] = NO_REF_FRAME;
     m_wRefPictureIndex[1] = NO_REF_FRAME;
 
-    m_nSurfaceIndex     = 0;
-    m_pSampleToDeliver  = NULL;
-    m_bSecondField      = false;
+    m_nSurfaceIndex = 0;
+    m_pSampleToDeliver = NULL;
+    m_bSecondField = false;
 
-    m_rtStart           = _I64_MIN;
-    m_rtStop            = _I64_MIN;
+    m_rtStart = _I64_MIN;
+    m_rtStop = _I64_MIN;
 
-    m_rtLastStart       = 0;
+    m_rtLastStart = 0;
 
     __super::Flush();
 }
 
 int CDXVADecoderMpeg2::FindOldestFrame()
 {
-    int nPos    = -1;
+    int nPos = -1;
 
     for (int i = 0; i < m_nPicEntryNumber; i++) {
         if (!m_pPictureStore[i].bDisplayed &&
@@ -276,7 +276,7 @@ void CDXVADecoderMpeg2::UpdateFrameTime(REFERENCE_TIME& rtStart, REFERENCE_TIME&
         rtStart = m_rtLastStart;
     }
 
-    rtStop  = rtStart + m_pFilter->GetAvrTimePerFrame() / m_pFilter->GetRate();
+    rtStop = rtStart + m_pFilter->GetAvrTimePerFrame() / m_pFilter->GetRate();
     m_rtLastStart = rtStop;
 
     TRACE(_T("rtStart = [%10I64d - %10I64d]\n"), rtStart, rtStop);

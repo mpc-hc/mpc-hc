@@ -80,10 +80,14 @@ BOOL CGoToDlg::OnInitDialog()
     if (time >= 0) {
         if (showHours) {
             m_timestr.Format(_T("%02d:%02d:%02d.%03d"),
-                             (time / (1000 * 60 * 60)) % 60, (time / (1000 * 60)) % 60, (time / 1000) % 60, time % 1000);
+                             (time / (1000 * 60 * 60)) % 60,
+                             (time / (1000 * 60)) % 60,
+                             (time / 1000) % 60, time % 1000);
         } else {
             m_timestr.Format(_T("%02d:%02d.%03d"),
-                             (time / (1000 * 60)) % 60, (time / 1000) % 60, time % 1000);
+                             (time / (1000 * 60)) % 60,
+                             (time / 1000) % 60,
+                             time % 1000);
         }
 
         if (m_fps > 0) {

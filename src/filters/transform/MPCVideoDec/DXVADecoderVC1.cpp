@@ -36,11 +36,11 @@
 inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
 {
     REFERENCE_TIME  rtTemp = rtFirst;
-    rtFirst     = rtSecond;
-    rtSecond    = rtTemp;
+    rtFirst = rtSecond;
+    rtSecond = rtTemp;
 }
 
-CDXVADecoderVC1::CDXVADecoderVC1(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
+CDXVADecoderVC1::CDXVADecoderVC1(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator* pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
     : CDXVADecoder(pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
 {
     Init();
@@ -60,9 +60,9 @@ CDXVADecoderVC1::~CDXVADecoderVC1(void)
 void CDXVADecoderVC1::Init()
 {
     memset(&m_PictureParams, 0, sizeof(m_PictureParams));
-    memset(&m_SliceInfo,     0, sizeof(m_SliceInfo));
+    memset(&m_SliceInfo, 0, sizeof(m_SliceInfo));
 
-    m_nMaxWaiting         = 5;
+    m_nMaxWaiting = 5;
     m_wRefPictureIndex[0] = NO_REF_FRAME;
     m_wRefPictureIndex[1] = NO_REF_FRAME;
 
@@ -80,11 +80,11 @@ void CDXVADecoderVC1::Init()
 // === Public functions
 HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
-    HRESULT                     hr;
-    int                         nSurfaceIndex;
-    CComPtr<IMediaSample>       pSampleToDeliver;
-    int                         nFieldType, nSliceType;
-    UINT                        nFrameSize, nSize_Result;
+    HRESULT hr;
+    int nSurfaceIndex;
+    CComPtr<IMediaSample> pSampleToDeliver;
+    int nFieldType, nSliceType;
+    UINT nFrameSize, nSize_Result;
 
     FFVC1UpdatePictureParam(&m_PictureParams, m_pFilter->GetAVCtx(), &nFieldType, &nSliceType, pDataIn, nSize, &nFrameSize, FALSE, &m_bFrame_repeat_pict);
 
@@ -107,8 +107,8 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
 
     TRACE_VC1("CDXVADecoderVC1::DecodeFrame() : PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
 
-    m_PictureParams.wDecodedPictureIndex    = nSurfaceIndex;
-    m_PictureParams.wDeblockedPictureIndex  = m_PictureParams.wDecodedPictureIndex;
+    m_PictureParams.wDecodedPictureIndex = nSurfaceIndex;
+    m_PictureParams.wDeblockedPictureIndex = m_PictureParams.wDecodedPictureIndex;
 
     // Manage reference picture list
     if (!m_PictureParams.bPicBackwardPrediction) {
@@ -118,13 +118,13 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
         m_wRefPictureIndex[0] = m_wRefPictureIndex[1];
         m_wRefPictureIndex[1] = nSurfaceIndex;
     }
-    m_PictureParams.wForwardRefPictureIndex     = (m_PictureParams.bPicIntra == 0)              ? m_wRefPictureIndex[0] : NO_REF_FRAME;
-    m_PictureParams.wBackwardRefPictureIndex    = (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : NO_REF_FRAME;
+    m_PictureParams.wForwardRefPictureIndex = (m_PictureParams.bPicIntra == 0) ? m_wRefPictureIndex[0] : NO_REF_FRAME;
+    m_PictureParams.wBackwardRefPictureIndex = (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : NO_REF_FRAME;
 
-    m_PictureParams.bPic4MVallowed              = (m_PictureParams.wBackwardRefPictureIndex == NO_REF_FRAME && m_PictureParams.bPicStructure == 3) ? 1 : 0;
-    m_PictureParams.bPicDeblockConfined         |= (m_PictureParams.wBackwardRefPictureIndex == NO_REF_FRAME) ? 0x04 : 0;
+    m_PictureParams.bPic4MVallowed = (m_PictureParams.wBackwardRefPictureIndex == NO_REF_FRAME && m_PictureParams.bPicStructure == 3) ? 1 : 0;
+    m_PictureParams.bPicDeblockConfined |= (m_PictureParams.wBackwardRefPictureIndex == NO_REF_FRAME) ? 0x04 : 0;
 
-    m_PictureParams.bPicScanMethod++;                   // Use for status reporting sections 3.8.1 and 3.8.2
+    m_PictureParams.bPicScanMethod++;       // Use for status reporting sections 3.8.1 and 3.8.2
 
     TRACE_VC1("CDXVADecoderVC1::DecodeFrame() : Decode frame %i\n", m_PictureParams.bPicScanMethod);
 
@@ -134,7 +134,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
     // Send bitstream to accelerator
     CHECK_HR(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nFrameSize ? nFrameSize : nSize, pDataIn, &nSize_Result));
 
-    m_SliceInfo.wQuantizerScaleCode = 1;        // TODO : 1->31 ???
+    m_SliceInfo.wQuantizerScaleCode = 1;    // TODO : 1->31 ???
     m_SliceInfo.dwSliceBitsInBuffer = nSize_Result * 8;
     CHECK_HR(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(m_SliceInfo), &m_SliceInfo));
 
@@ -202,23 +202,23 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
 
 void CDXVADecoderVC1::SetExtraData(BYTE* pDataIn, UINT nSize)
 {
-    m_PictureParams.bMacroblockWidthMinus1          = 15;
-    m_PictureParams.bMacroblockHeightMinus1         = 15;
-    m_PictureParams.bBlockWidthMinus1               = 7;
-    m_PictureParams.bBlockHeightMinus1              = 7;
-    m_PictureParams.bBPPminus1                      = 7;
+    m_PictureParams.bMacroblockWidthMinus1 = 15;
+    m_PictureParams.bMacroblockHeightMinus1 = 15;
+    m_PictureParams.bBlockWidthMinus1 = 7;
+    m_PictureParams.bBlockHeightMinus1 = 7;
+    m_PictureParams.bBPPminus1 = 7;
 
-    m_PictureParams.bChromaFormat                   = VC1_CHROMA_420;
+    m_PictureParams.bChromaFormat = VC1_CHROMA_420;
 
-    m_PictureParams.bPicScanFixed                   = 0;    // Use for status reporting sections 3.8.1 and 3.8.2
-    m_PictureParams.bPicReadbackRequests            = 0;
+    m_PictureParams.bPicScanFixed = 0;  // Use for status reporting sections 3.8.1 and 3.8.2
+    m_PictureParams.bPicReadbackRequests = 0;
 
-    m_PictureParams.bPicBinPB                       = 0;    // TODO
-    m_PictureParams.bMV_RPS                         = 0;    // TODO
+    m_PictureParams.bPicBinPB = 0;      // TODO
+    m_PictureParams.bMV_RPS = 0;        // TODO
 
-    m_PictureParams.bReservedBits                   = 0;
+    m_PictureParams.bReservedBits = 0;
 
-    // iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0        | Section 3.2.5
+    // iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0 | Section 3.2.5
     m_PictureParams.bBidirectionalAveragingMode     = (1 << 7) |
             (GetConfigIntraResidUnsigned()   << 6) |    // i9IRU
             (GetConfigResidDiffAccelerator() << 5);     // iOHIT
@@ -226,8 +226,8 @@ void CDXVADecoderVC1::SetExtraData(BYTE* pDataIn, UINT nSize)
 
 BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize)
 {
-    BYTE*       pStart  = pBuffer;
-    BYTE        bCode   = 0;
+    BYTE* pStart = pBuffer;
+    BYTE bCode = 0;
     for (UINT i = 0; i < nSize - 4; i++) {
         if (((*((DWORD*)(pBuffer + i)) & 0x00FFFFFF) == 0x00010000) || (i >= nSize - 5)) {
             if (bCode == 0) {
@@ -257,7 +257,7 @@ BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacke
 
 void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
-    int     nDummy;
+    int nDummy;
 
     if (m_PictureParams.bSecondField) {
         memcpy(pDXVABuffer, (BYTE*)pBuffer, nSize);
@@ -274,8 +274,8 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
                 nSize  += 4;
             }
         } else {
-            BYTE*   pStart;
-            UINT    nPacketSize;
+            BYTE* pStart;
+            UINT nPacketSize;
 
             pStart = FindNextStartCode(pBuffer, nSize, nPacketSize);
             if (pStart) {
@@ -296,9 +296,9 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 
 void CDXVADecoderVC1::Flush()
 {
-    m_nDelayedSurfaceIndex  = -1;
-    m_rtStartDelayed        = _I64_MAX;
-    m_rtStopDelayed         = _I64_MAX;
+    m_nDelayedSurfaceIndex = -1;
+    m_rtStartDelayed = _I64_MAX;
+    m_rtStopDelayed = _I64_MAX;
 
     if (m_wRefPictureIndex[0] != NO_REF_FRAME) {
         RemoveRefFrame(m_wRefPictureIndex[0]);
@@ -315,7 +315,7 @@ void CDXVADecoderVC1::Flush()
 
 HRESULT CDXVADecoderVC1::DisplayStatus()
 {
-    HRESULT         hr = E_INVALIDARG;
+    HRESULT hr = E_INVALIDARG;
     DXVA_Status_VC1 Status;
 
     memset(&Status, 0, sizeof(Status));

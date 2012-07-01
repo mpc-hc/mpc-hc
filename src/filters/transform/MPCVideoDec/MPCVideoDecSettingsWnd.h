@@ -84,9 +84,9 @@ class __declspec(uuid("3C395D46-8B0F-440d-B962-2F4A97355453"))
 {
     CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 
-    CButton       m_grpSelectedCodec;
+    CButton m_grpSelectedCodec;
     CCheckListBox m_lstCodecs;
-    CImageList    m_onoff;
+    CImageList m_onoff;
 
 public:
     CMPCVideoDecCodecWnd();

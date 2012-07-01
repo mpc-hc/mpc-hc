@@ -57,18 +57,18 @@ typedef enum {
 } DXVA_MODE;
 
 typedef struct {
-    REFERENCE_TIME  rtStart;
-    REFERENCE_TIME  rtStop;
+    REFERENCE_TIME rtStart;
+    REFERENCE_TIME rtStop;
 } B_FRAME;
 
 typedef struct {
-    REFERENCE_TIME  rtStart;
-    REFERENCE_TIME  rtStop;
-    int             nBuffPos;
+    REFERENCE_TIME rtStart;
+    REFERENCE_TIME rtStop;
+    int nBuffPos;
 } BUFFER_TIME;
 
 typedef struct {
-    bool    video_after_seek;
+    bool video_after_seek;
     __int32 kf_pts;     ///< timestamp of next video keyframe
     __int64 kf_base;    ///< timestamp of the prev. video keyframe
 } RMDemuxContext;
@@ -117,8 +117,8 @@ protected:
     bool m_bReorderBFrame;
     B_FRAME m_BFrames[2];
     int m_nPosB;
-    int m_nWidth;               // Frame width give to input pin
-    int m_nHeight;              // Frame height give to input pin
+    int m_nWidth;       // Frame width given to input pin
+    int m_nHeight;      // Frame height given to input pin
 
     bool m_bTheoraMTSupport;
     bool m_bIsEVO;

@@ -22,16 +22,14 @@
 
 
 #include "stdafx.h"
-
 #include "ffmpeg/libavcodec/avcodec.h"
-
 #include "TlibavcodecExt.h"
 
 void TlibavcodecExt::ConnectTo(AVCodecContext* pAVCtx)
 {
-    pAVCtx->opaque         = this;
-    pAVCtx->get_buffer     = get_buffer;
-    pAVCtx->reget_buffer   = reget_buffer;
+    pAVCtx->opaque = this;
+    pAVCtx->get_buffer = get_buffer;
+    pAVCtx->reget_buffer = reget_buffer;
     pAVCtx->release_buffer = release_buffer;
 }
 

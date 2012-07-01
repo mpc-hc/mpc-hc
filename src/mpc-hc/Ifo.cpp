@@ -80,11 +80,11 @@ unsigned __int32 get4bytes(const BYTE* buf)
 
 
 // VMG files
-#define OFF_VMGM_PGCI_UT(buf)        get4bytes (buf + 200)
+#define OFF_VMGM_PGCI_UT(buf)   get4bytes (buf + 200)
 
 // VTS files
-#define OFF_VTSM_PGCI_UT(buf)        get4bytes (buf + 208)
-#define OFF_VTS_PGCIT(buf)           get4bytes (buf + 204)
+#define OFF_VTSM_PGCI_UT(buf)   get4bytes (buf + 208)
+#define OFF_VTS_PGCIT(buf)      get4bytes (buf + 204)
 
 
 CIfo::CIfo()
@@ -99,9 +99,9 @@ int CIfo::GetMiscPGCI(CIfo::ifo_hdr_t* hdr, int title, uint8_t** ptr)
 {
     pgci_sub_t* pgci_sub;
 
-    *ptr      = (uint8_t*) hdr;
-    *ptr     += IFO_HDR_LEN;
-    pgci_sub  = (pgci_sub_t*) *ptr + title;
+    *ptr = (uint8_t*) hdr;
+    *ptr += IFO_HDR_LEN;
+    pgci_sub = (pgci_sub_t*) *ptr + title;
 
     *ptr = (uint8_t*) hdr + be2me_32(pgci_sub->start);
 
@@ -110,9 +110,9 @@ int CIfo::GetMiscPGCI(CIfo::ifo_hdr_t* hdr, int title, uint8_t** ptr)
 
 void CIfo::RemovePgciUOPs(uint8_t* ptr)
 {
-    ifo_hdr_t*  hdr = (ifo_hdr_t*) ptr;
-    uint16_t    num;
-    int         i;
+    ifo_hdr_t* hdr = (ifo_hdr_t*) ptr;
+    uint16_t num;
+    int i;
 
     ptr += IFO_HDR_LEN;
     num  = be2me_16(hdr->num);
@@ -128,7 +128,7 @@ void CIfo::RemovePgciUOPs(uint8_t* ptr)
         uint8_t* ptr2;
 
         if (GetMiscPGCI(hdr, i, &ptr2) >= 0) {
-            pgc_t*      pgc = (pgc_t*) ptr2;
+            pgc_t* pgc = (pgc_t*) ptr2;
             pgc->prohibited_ops = 0;
         }
     }
@@ -184,11 +184,11 @@ bool CIfo::IsVMG()
 
 bool CIfo::OpenFile(LPCTSTR strFile)
 {
-    bool    bRet = false;
-    HANDLE  hFile;
+    bool bRet = false;
+    HANDLE hFile;
     LARGE_INTEGER size;
 
-    hFile    = Real_CreateFileW((LPTSTR) strFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     ASSERT(hFile != INVALID_HANDLE_VALUE);
 
     if (hFile != INVALID_HANDLE_VALUE && GetFileSizeEx(hFile, &size) &&
@@ -212,7 +212,7 @@ bool CIfo::OpenFile(LPCTSTR strFile)
 
 bool CIfo::RemoveUOPs()
 {
-    pgc_t*  pgc;
+    pgc_t* pgc;
 
     if (m_pPGCI) {
         pgc = GetFirstPGC();
@@ -238,16 +238,16 @@ bool CIfo::RemoveUOPs()
 
 bool CIfo::SaveFile(LPCTSTR strFile)
 {
-    bool    bRet = false;
-    HANDLE  m_hFile;
+    bool bRet = false;
+    HANDLE m_hFile;
 
     if (m_pBuffer) {
-        m_hFile  = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+        m_hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
                                     NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         ASSERT(m_hFile != INVALID_HANDLE_VALUE);
 
         if (m_hFile != INVALID_HANDLE_VALUE) {
-            DWORD       dwSize;
+            DWORD dwSize;
             WriteFile(m_hFile, m_pBuffer, m_dwSize, &dwSize, NULL);
             CloseHandle(m_hFile);
             bRet = true;

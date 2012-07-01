@@ -101,8 +101,8 @@ void CMPCVideoDecSettingsWnd::OnDisconnect()
 
 bool CMPCVideoDecSettingsWnd::OnActivate()
 {
-    int     nPosY   = 10;
-    GUID*   DxvaGui = NULL;
+    int nPosY = 10;
+    GUID* DxvaGui = NULL;
 
 #if HAS_FFMPEG_VIDEO_DECODERS
     m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(5,  nPosY, 350, nPosY + 150), this, (UINT)IDC_STATIC);
@@ -286,9 +286,9 @@ void CMPCVideoDecCodecWnd::OnDisconnect()
 
 bool CMPCVideoDecCodecWnd::OnActivate()
 {
-    DWORD               dwStyle = WS_VISIBLE | WS_CHILD | WS_BORDER;
-    int                 nPos    = 0;
-    MPC_VIDEO_CODEC     nActiveCodecs = (MPC_VIDEO_CODEC)(m_pMDF ? m_pMDF->GetActiveCodecs() : 0);
+    DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_BORDER;
+    int nPos = 0;
+    MPC_VIDEO_CODEC nActiveCodecs = (MPC_VIDEO_CODEC)(m_pMDF ? m_pMDF->GetActiveCodecs() : 0);
 
     m_grpSelectedCodec.Create(_T("Selected codecs"), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(10,  10, 330, 280), this, (UINT)IDC_STATIC);
 
@@ -367,8 +367,8 @@ bool CMPCVideoDecCodecWnd::OnApply()
     OnDeactivate();
 
     if (m_pMDF) {
-        int         nActiveCodecs = 0;
-        int         nPos          = 0;
+        int nActiveCodecs = 0;
+        int nPos = 0;
 
 #if INTERNAL_DECODER_H264_DXVA
         if (m_lstCodecs.GetCheck(nPos++)) {

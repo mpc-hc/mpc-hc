@@ -29,10 +29,10 @@
 CVideoDecOutputPin::CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
     : CBaseVideoOutputPin(pObjectName, pFilter, phr, pName)
 {
-    m_pVideoDecFilter       = static_cast<CMPCVideoDecFilter*>(pFilter);
-    m_pDXVA2Allocator       = NULL;
-    m_dwDXVA1SurfaceCount   = 0;
-    m_GuidDecoderDXVA1      = GUID_NULL;
+    m_pVideoDecFilter = static_cast<CMPCVideoDecFilter*>(pFilter);
+    m_pDXVA2Allocator = NULL;
+    m_dwDXVA1SurfaceCount = 0;
+    m_GuidDecoderDXVA1 = GUID_NULL;
     memset(&m_ddUncompPixelFormat, 0, sizeof(m_ddUncompPixelFormat));
 }
 
@@ -70,14 +70,14 @@ STDMETHODIMP CVideoDecOutputPin::NonDelegatingQueryInterface(REFIID riid, void**
 // === IAMVideoAcceleratorNotify
 STDMETHODIMP CVideoDecOutputPin::GetUncompSurfacesInfo(const GUID* pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo)
 {
-    HRESULT         hr = E_INVALIDARG;
+    HRESULT hr = E_INVALIDARG;
 
     if (SUCCEEDED(m_pVideoDecFilter->CheckDXVA1Decoder(pGuid))) {
-        CComQIPtr<IAMVideoAccelerator>      pAMVideoAccelerator = GetConnected();
+        CComQIPtr<IAMVideoAccelerator> pAMVideoAccelerator = GetConnected();
 
         if (pAMVideoAccelerator) {
-            pUncompBufferInfo->dwMaxNumSurfaces     = m_pVideoDecFilter->GetPicEntryNumber();
-            pUncompBufferInfo->dwMinNumSurfaces     = m_pVideoDecFilter->GetPicEntryNumber();
+            pUncompBufferInfo->dwMaxNumSurfaces = m_pVideoDecFilter->GetPicEntryNumber();
+            pUncompBufferInfo->dwMinNumSurfaces = m_pVideoDecFilter->GetPicEntryNumber();
 
             hr = m_pVideoDecFilter->FindDXVA1DecoderConfiguration(pAMVideoAccelerator, pGuid, &pUncompBufferInfo->ddUncompPixelFormat);
             if (SUCCEEDED(hr)) {
@@ -97,17 +97,17 @@ STDMETHODIMP CVideoDecOutputPin::SetUncompSurfacesInfo(DWORD dwActualUncompSurfa
 
 STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID* pGuid, LPDWORD pdwSizeMiscData, LPVOID* ppMiscData)
 {
-    HRESULT                             hr                      = E_UNEXPECTED;
-    AMVAUncompDataInfo                  UncompInfo;
-    AMVACompBufferInfo                  CompInfo[30];
-    DWORD                               dwNumTypesCompBuffers   = _countof(CompInfo);
-    CComQIPtr<IAMVideoAccelerator>      pAMVideoAccelerator     = GetConnected();
-    DXVA_ConnectMode*                   pConnectMode;
+    HRESULT hr = E_UNEXPECTED;
+    AMVAUncompDataInfo UncompInfo;
+    AMVACompBufferInfo CompInfo[30];
+    DWORD dwNumTypesCompBuffers = _countof(CompInfo);
+    CComQIPtr<IAMVideoAccelerator> pAMVideoAccelerator = GetConnected();
+    DXVA_ConnectMode* pConnectMode;
 
     if (pAMVideoAccelerator) {
         memcpy(&UncompInfo.ddUncompPixelFormat, &m_ddUncompPixelFormat, sizeof(DDPIXELFORMAT));
-        UncompInfo.dwUncompWidth        = m_pVideoDecFilter->PictWidthRounded();
-        UncompInfo.dwUncompHeight       = m_pVideoDecFilter->PictHeightRounded();
+        UncompInfo.dwUncompWidth = m_pVideoDecFilter->PictWidthRounded();
+        UncompInfo.dwUncompHeight = m_pVideoDecFilter->PictHeightRounded();
         hr = pAMVideoAccelerator->GetCompBufferInfo(&m_GuidDecoderDXVA1, &UncompInfo, &dwNumTypesCompBuffers, CompInfo);
 
         if (SUCCEEDED(hr)) {
@@ -116,15 +116,14 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID* pGuid
             if (SUCCEEDED(hr)) {
                 m_pVideoDecFilter->SetDXVA1Params(&m_GuidDecoderDXVA1, &m_ddUncompPixelFormat);
 
-                pConnectMode                    = (DXVA_ConnectMode*)CoTaskMemAlloc(sizeof(DXVA_ConnectMode));
-                pConnectMode->guidMode          = m_GuidDecoderDXVA1;
-                pConnectMode->wRestrictedMode   = m_pVideoDecFilter->GetDXVA1RestrictedMode();
-                *pdwSizeMiscData                = sizeof(DXVA_ConnectMode);
-                *ppMiscData                     = pConnectMode;
+                pConnectMode = (DXVA_ConnectMode*)CoTaskMemAlloc(sizeof(DXVA_ConnectMode));
+                pConnectMode->guidMode = m_GuidDecoderDXVA1;
+                pConnectMode->wRestrictedMode = m_pVideoDecFilter->GetDXVA1RestrictedMode();
+                *pdwSizeMiscData = sizeof(DXVA_ConnectMode);
+                *ppMiscData = pConnectMode;
             }
         }
     }
-
 
     return hr;
 }

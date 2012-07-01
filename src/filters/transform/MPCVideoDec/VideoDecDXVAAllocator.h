@@ -20,7 +20,6 @@
  *
  */
 
-
 #pragma once
 
 #include <dxva.h>
@@ -66,8 +65,8 @@ private:
     // Sets the pointer to the Direct3D surface.
     void SetSurface(DWORD surfaceId, IDirect3DSurface9* pSurf);
 
-    CComPtr<IDirect3DSurface9>  m_pSurface;
-    DWORD                       m_dwSurfaceId;
+    CComPtr<IDirect3DSurface9> m_pSurface;
+    DWORD m_dwSurfaceId;
 };
 
 
@@ -79,13 +78,11 @@ public:
 
 protected:
     HRESULT Alloc(void);
-    void    Free(void);
-
+    void Free(void);
 
 private :
     CMPCVideoDecFilter* m_pVideoDecFilter;
-
     IDirect3DSurface9** m_ppRTSurfaceArray;
-    UINT                m_nSurfaceArrayCount;
+    UINT m_nSurfaceArrayCount;
 
 };
