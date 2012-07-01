@@ -143,9 +143,11 @@ void CChildView::LoadLogo()
     }
 }
 
-CSize CChildView::GetLogoSize() const
+CSize CChildView::GetLogoSize()
 {
-    return m_logo.GetBitmapDimension();
+    BITMAP bitmap = {0};
+    m_logo.GetBitmap(&bitmap);
+    return CSize(bitmap.bmWidth, bitmap.bmHeight);
 }
 
 IMPLEMENT_DYNAMIC(CChildView, CWnd)

@@ -46,7 +46,7 @@ public:
     CRect GetVideoRect() const { return m_vrect; }
 
     void LoadLogo();
-    CSize GetLogoSize() const;
+    CSize GetLogoSize();
 
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
