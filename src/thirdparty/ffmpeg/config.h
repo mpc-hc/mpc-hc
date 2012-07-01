@@ -23,15 +23,17 @@
     #define HAVE_FAST_64BIT 0
     #define HAVE_GETADDRINFO 0
   #endif
-  #define restrict restrict
+  #define av_restrict restrict
 #else
   #define restrict
   #define __asm__ __asm
-  #define inline __inline
 #endif
 
 #define FFMPEG_CONFIGURATION "ffmpeg configuration"
 #define FFMPEG_LICENSE "GPL version 2 or later"
+
+#define CC_TYPE "gcc"
+#define CC_VERSION __VERSION__
 
 // MPC custom code for linking with MSVC
 #if defined(__GNUC__) && ARCH_X86_64
@@ -39,6 +41,7 @@
 #else
   #define EXTERN_PREFIX "_"
 #endif
+#define EXTERN_ASM _
 
 #define ARCH_ALPHA 0
 #define ARCH_ARM 0
@@ -231,12 +234,12 @@
 
 /* 
 Note: when adding a new codec, you have to:
-1)  Add a
-    #define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>
-    depending on the type of codec you are adding
-2)  Add a
-    REGISTER_<ENCODER|DECODER|PARSER> (<codec suffix>, <codec suffix lowercase>);
-    line to libavcodec/allcodecs.c
+1) Add a
+   #define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>
+   depending on the type of codec you are adding
+2) Add a
+   REGISTER_<ENCODER|DECODER|PARSER> (<codec suffix>, <codec suffix lowercase>);
+   line to libavcodec/allcodecs.c
 */
 
 #include "../../mpc-hc/InternalFiltersConfig.h"
