@@ -23,7 +23,6 @@
 
 #pragma once
 
-
 // CStatusLabel
 
 class CStatusLabel : public CStatic

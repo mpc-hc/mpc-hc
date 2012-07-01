@@ -23,7 +23,6 @@
 
 #pragma once
 
-
 typedef struct {
     const GUID* subtype;
     WORD        biPlanes;

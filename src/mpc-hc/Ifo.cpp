@@ -89,10 +89,10 @@ unsigned __int32 get4bytes(const BYTE* buf)
 
 CIfo::CIfo()
 {
-    m_pBuffer   = NULL;
-    m_pPGCI     = NULL;
-    m_pPGCIT    = NULL;
-    m_dwSize    = 0;
+    m_pBuffer = NULL;
+    m_pPGCI   = NULL;
+    m_pPGCIT  = NULL;
+    m_dwSize  = 0;
 }
 
 int CIfo::GetMiscPGCI(CIfo::ifo_hdr_t* hdr, int title, uint8_t** ptr)
@@ -243,7 +243,7 @@ bool CIfo::SaveFile(LPCTSTR strFile)
 
     if (m_pBuffer) {
         m_hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-                                    NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                                   NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         ASSERT(m_hFile != INVALID_HANDLE_VALUE);
 
         if (m_hFile != INVALID_HANDLE_VALUE) {

@@ -22,7 +22,6 @@
 
 #pragma once
 
-
 #define IDS_R_SETTINGS                      _T("Settings")
 #define IDS_R_FILTERS                       _T("Filters")
 #define IDS_R_INTERNAL_FILTERS              _T("Internal Filters")

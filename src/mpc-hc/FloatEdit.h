@@ -23,7 +23,6 @@
 
 #pragma once
 
-
 // CFloatEdit
 
 class CFloatEdit : public CEdit

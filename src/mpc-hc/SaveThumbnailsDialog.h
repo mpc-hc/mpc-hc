@@ -23,7 +23,6 @@
 
 #pragma once
 
-
 // CSaveThumbnailsDialog
 
 class CSaveThumbnailsDialog : public CFileDialog

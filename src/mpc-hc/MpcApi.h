@@ -48,7 +48,6 @@
 
 #pragma once
 
-
 typedef enum MPC_LOADSTATE {
     MLS_CLOSED,
     MLS_LOADING,

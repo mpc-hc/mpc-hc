@@ -23,7 +23,6 @@
 
 // For configuring which internal filters are included into the build.
 
-
 #pragma once
 
 #ifdef MPCHC_LITE

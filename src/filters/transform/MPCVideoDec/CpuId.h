@@ -46,11 +46,11 @@ public:
 
     CCpuId();
 
-    int GetFeatures()   const { return m_nCPUFeatures; };
-    PROCESSOR_TYPE      GetType() const { return m_nType; };
-    int                 GetProcessorNumber();
+    int GetFeatures() const { return m_nCPUFeatures; };
+    PROCESSOR_TYPE GetType() const { return m_nType; };
+    int GetProcessorNumber();
 
 private:
-    int             m_nCPUFeatures;
-    PROCESSOR_TYPE  m_nType;
+    int m_nCPUFeatures;
+    PROCESSOR_TYPE m_nType;
 };

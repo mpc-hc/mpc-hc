@@ -23,7 +23,6 @@
 
 #pragma once
 
-
 class CWebServer;
 
 class CWebClientSocket : public CAsyncSocket
