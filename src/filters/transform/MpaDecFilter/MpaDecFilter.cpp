@@ -123,11 +123,11 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
     { &MEDIASUBTYPE_SIPR,       CODEC_ID_SIPR   },
     { &MEDIASUBTYPE_RAAC,       CODEC_ID_AAC    },
     { &MEDIASUBTYPE_RACP,       CODEC_ID_AAC    },
-    //  { &MEDIASUBTYPE_DNET,       CODEC_ID_AC3    },
+    //{ &MEDIASUBTYPE_DNET,       CODEC_ID_AC3    },
 #endif
 #if INTERNAL_DECODER_AC3
-    //  { &MEDIASUBTYPE_DOLBY_AC3,      CODEC_ID_AC3    },
-    //  { &MEDIASUBTYPE_WAVE_DOLBY_AC3, CODEC_ID_AC3    },
+    //{ &MEDIASUBTYPE_DOLBY_AC3,      CODEC_ID_AC3    },
+    //{ &MEDIASUBTYPE_WAVE_DOLBY_AC3, CODEC_ID_AC3    },
     { &MEDIASUBTYPE_DOLBY_DDPLUS,   CODEC_ID_EAC3   },
     { &MEDIASUBTYPE_DOLBY_TRUEHD,   CODEC_ID_TRUEHD },
     { &MEDIASUBTYPE_MLP,            CODEC_ID_MLP    },
@@ -346,6 +346,24 @@ s_scmap_hdmv[] = {
 };
 #pragma warning(default : 4245)
 
+static struct channel_mode_t {
+    WORD channels;
+    uint64_t av_ch_layout;
+    uint8_t  dts_ch_layout;
+}
+channel_mode[] = {
+//   n  libavcodec (for ac3)        libdca          ID  Name                 libavcodec internal
+    {0, 0                          , -1        }, // 0 "As is"                  AC3          DTS
+    {1, AV_CH_LAYOUT_MONO          , DTS_MONO  }, // 1 "Mono"             AC3_CHMODE_MONO   DCA_MONO
+    {2, AV_CH_LAYOUT_STEREO        , DTS_STEREO}, // 2 "Stereo"           AC3_CHMODE_STEREO DCA_STEREO
+    {3, -1/*AV_CH_LAYOUT_SURROUND*/, DTS_3F    }, // 3 "3 Front"          AC3_CHMODE_3F     DCA_3F  
+    {3, -1/*AV_CH_LAYOUT_2_1     */, DTS_2F1R  }, // 4 "2 Front + 1 Rear" AC3_CHMODE_2F1R   DCA_2F1R
+    {4, -1/*AV_CH_LAYOUT_4POINT0 */, DTS_3F1R  }, // 5 "3 Front + 1 Rear" AC3_CHMODE_3F1R   DCA_3F1R
+    {4, -1/*AV_CH_LAYOUT_QUAD    */, DTS_2F2R  }, // 6 "2 Front + 2 Rear" AC3_CHMODE_2F2R   DCA_2F2R
+    {5, -1/*AV_CH_LAYOUT_5POINT0 */, DTS_3F2R  }, // 7 "3 Front + 2 Rear" AC3_CHMODE_3F2R   DCA_3F2R
+};
+
+
 static DWORD get_lav_channel_layout(uint64_t layout)
 {
     if (layout > UINT32_MAX) {
@@ -400,7 +418,6 @@ bool DD_stats_t::Desired(int type)
 
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     : CTransformFilter(NAME("CMpaDecFilter"), lpunk, __uuidof(this))
-    , m_iSampleFormat(SF_PCM16)
     , m_bResync(false)
 {
     if (phr) {
@@ -424,25 +441,29 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         return;
     }
 
-    m_iSpeakerConfig[ac3] = 2;
-    m_iSpeakerConfig[dts] = DTS_STEREO;
-    m_fDynamicRangeControl[ac3] = false;
-    m_fDynamicRangeControl[dts] = false;
-    m_DolbyDigitalMode          = DD_Unknown;
     m_DDstats.Reset();
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
-    m_pAVCodec                  = NULL;
-    m_pAVCtx                    = NULL;
-    m_pParser                   = NULL;
-    m_pFrame                    = NULL;
-    m_pFFBuffer                 = NULL;
-    m_nFFBufferSize             = 0;
+    m_pAVCodec      = NULL;
+    m_pAVCtx        = NULL;
+    m_pParser       = NULL;
+    m_pFrame        = NULL;
+    m_pFFBuffer     = NULL;
+    m_nFFBufferSize = 0;
 #endif
 
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
     m_dts_state = NULL;
 #endif
 
+    // default settings
+    m_iSampleFormat       = SF_PCM16;
+    m_iSpeakerConfig[ac3] = CH_ASIS;
+    m_iSpeakerConfig[dts] = CH_ASIS;
+    m_fDRC[ac3]           = false;
+    m_fDRC[dts]           = false;
+    m_fSPDIF[ac3]         = false;
+    m_fSPDIF[dts]         = false;
+    // read settings
 #ifdef STANDALONE_FILTER
     CRegKey key;
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"), KEY_READ)) {
@@ -450,26 +471,41 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SampleFormat"), dw)) {
             m_iSampleFormat = (MPCSampleFormat)dw;
         }
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3SpeakerConfig"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SpeakerConfig_ac3"), dw)) {
             m_iSpeakerConfig[ac3] = (int)dw;
         }
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsSpeakerConfig"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SpeakerConfig_dts"), dw)) {
             m_iSpeakerConfig[dts] = (int)dw;
         }
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3DynamicRangeControl"), dw)) {
-            m_fDynamicRangeControl[ac3] = !!dw;
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DRC_ac3"), dw)) {
+            m_fDRC[ac3] = !!dw;
         }
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsDynamicRangeControl"), dw)) {
-            m_fDynamicRangeControl[dts] = !!dw;
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DRC_dts"), dw)) {
+            m_fDRC[dts] = !!dw;
+        }
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SPDIF_ac3"), dw)) {
+            m_fSPDIF[ac3] = !!dw;
+        }
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SPDIF_ac3"), dw)) {
+            m_fSPDIF[dts] = !!dw;
         }
     }
 #else
     m_iSampleFormat = (MPCSampleFormat)AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SampleFormat"), m_iSampleFormat);
-    m_iSpeakerConfig[ac3] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
-    m_iSpeakerConfig[dts] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
-    m_fDynamicRangeControl[ac3] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
-    m_fDynamicRangeControl[dts] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
+    m_iSpeakerConfig[ac3] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SpeakerConfig_ac3"), m_iSpeakerConfig[ac3]);
+    m_iSpeakerConfig[dts] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SpeakerConfig_dts"), m_iSpeakerConfig[dts]);
+    m_fDRC[ac3] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DRC_ac3"), m_fDRC[ac3]);
+    m_fDRC[dts] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DRC_dts"), m_fDRC[dts]);
+    m_fSPDIF[ac3] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SPDIF_ac3"), m_fSPDIF[ac3]);
+    m_fSPDIF[dts] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SPDIF_dts"), m_fSPDIF[dts]);
 #endif
+    // filtered bad data
+    if (m_iSpeakerConfig[ac3] < CH_ASIS || m_iSpeakerConfig[ac3] > CH_STEREO) {
+        m_iSpeakerConfig[ac3] = CH_ASIS;
+    }
+    if ((m_iSpeakerConfig[dts]&~CH_LFE) < CH_ASIS || (m_iSpeakerConfig[dts]&~CH_LFE) > CH_3F2R) {
+        m_iSpeakerConfig[dts] = CH_ASIS;
+    }
 }
 
 CMpaDecFilter::~CMpaDecFilter()
@@ -509,7 +545,6 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
     CAutoLock cAutoLock(&m_csReceive);
     m_buff.RemoveAll();
     m_ps2_state.sync = false;
-    m_DolbyDigitalMode = DD_Unknown;
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     if (m_pAVCtx) {
         avcodec_flush_buffers(m_pAVCtx);
@@ -551,7 +586,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
         m_pInput->SetMediaType(&mt);
         DeleteMediaType(pmt);
         pmt = NULL;
-        m_DolbyDigitalMode = DD_Unknown;
     }
 
     BYTE* pDataIn = NULL;
@@ -604,7 +638,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 #if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
     if ((subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 || subtype == MEDIASUBTYPE_DNET)) {
-        if (GetSpeakerConfig(ac3) < 0) {
+        if (GetSPDIF(ac3)) {
             return ProcessAC3SPDIF();
         } else {
             return ProcessAC3();
@@ -950,8 +984,6 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
         return hr;
     }
 
-    m_DolbyDigitalMode = (nCodecId == CODEC_ID_TRUEHD) ? DD_TRUEHD : (nCodecId == CODEC_ID_EAC3) ? DD_EAC3 : DD_Unknown;
-
     p += size;
     memmove(base, p, end - p);
     m_buff.SetCount(end - p);
@@ -977,16 +1009,20 @@ HRESULT CMpaDecFilter::ProcessDTS()
             bool fEnoughData = p + size <= end;
 
             if (fEnoughData) {
-                int iSpeakerConfig = GetSpeakerConfig(dts);
-
-                if (iSpeakerConfig < 0) {
+                if (GetSPDIF(dts)) {
                     HRESULT hr;
                     if (S_OK != (hr = DeliverBitstream(p, size, sample_rate, frame_length, 0x000b))) {
                         return hr;
                     }
                 } else {
-                    flags = iSpeakerConfig & (DTS_CHANNEL_MASK | DTS_LFE);
-                    flags |= DTS_ADJUST_LEVEL;
+                    int sc = GetSpeakerConfig(dts);
+                    if (sc&CH_MASK) {
+                        flags = channel_mode[sc&CH_MASK].dts_ch_layout;
+                        if (sc&CH_LFE) {
+                            flags |= DTS_LFE;
+                        }
+                        flags |= DTS_ADJUST_LEVEL;
+                    }
 
                     sample_t level = 1, gain = 1, bias = 0;
                     level *= gain;
@@ -1819,12 +1855,9 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
     }
 
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3 || INTERNAL_DECODER_DTS
-    if (GetSpeakerConfig(ac3) < 0 && (subtype == MEDIASUBTYPE_DOLBY_AC3 ||
-                                      subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
-                                      subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
-                                      subtype == MEDIASUBTYPE_DOLBY_TRUEHD)
-            || GetSpeakerConfig(dts) < 0 && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
-        *pmt = CreateMediaTypeSPDIF();
+    if (GetSPDIF(ac3) && (subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3) ||
+        GetSPDIF(dts) && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
+            *pmt = CreateMediaTypeSPDIF();
     }
 #else
     if (0) {}
@@ -1911,7 +1944,15 @@ STDMETHODIMP CMpaDecFilter::SetSpeakerConfig(enctype et, int sc)
     CAutoLock cAutoLock(&m_csProps);
     if (et >= 0 && et < etlast) {
         m_iSpeakerConfig[et] = sc;
+    } else {
+        return E_INVALIDARG;
     }
+
+    if (et == ac3 && m_pAVCtx && (m_pAVCtx->codec_id == CODEC_ID_AC3 || m_pAVCtx->codec_id == CODEC_ID_EAC3)) {
+        m_pAVCtx->request_channels = channel_mode[sc&CH_MASK].channels;
+        m_pAVCtx->request_channel_layout = channel_mode[sc&CH_MASK].av_ch_layout;
+    }
+
     return S_OK;
 }
 
@@ -1928,10 +1969,15 @@ STDMETHODIMP CMpaDecFilter::SetDynamicRangeControl(enctype et, bool fDRC)
 {
     CAutoLock cAutoLock(&m_csProps);
     if (et >= 0 && et < etlast) {
-        m_fDynamicRangeControl[et] = fDRC;
+        m_fDRC[et] = fDRC;
     } else {
         return E_INVALIDARG;
     }
+
+    if (et == ac3 && m_pAVCtx) {
+        av_opt_set_double(m_pAVCtx, "drc_scale", fDRC ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
+    }
+
     return S_OK;
 }
 
@@ -1939,15 +1985,30 @@ STDMETHODIMP_(bool) CMpaDecFilter::GetDynamicRangeControl(enctype et)
 {
     CAutoLock cAutoLock(&m_csProps);
     if (et >= 0 && et < etlast) {
-        return m_fDynamicRangeControl[et];
+        return m_fDRC[et];
     }
     return false;
 }
 
-STDMETHODIMP_(DolbyDigitalMode) CMpaDecFilter::GetDolbyDigitalMode()
+STDMETHODIMP CMpaDecFilter::SetSPDIF(enctype et, bool fSPDIF)
 {
     CAutoLock cAutoLock(&m_csProps);
-    return m_DolbyDigitalMode;
+    if (et >= 0 && et < etlast) {
+        m_fSPDIF[et] = fSPDIF;
+    } else {
+        return E_INVALIDARG;
+    }
+
+    return S_OK;
+}
+
+STDMETHODIMP_(bool) CMpaDecFilter::GetSPDIF(enctype et)
+{
+    CAutoLock cAutoLock(&m_csProps);
+    if (et >= 0 && et < etlast) {
+        return m_fSPDIF[et];
+    }
+    return false;
 }
 
 STDMETHODIMP CMpaDecFilter::SaveSettings()
@@ -1957,17 +2018,21 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
     CRegKey key;
     if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"))) {
         key.SetDWORDValue(_T("SampleFormat"), m_iSampleFormat);
-        key.SetDWORDValue(_T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
-        key.SetDWORDValue(_T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
-        key.SetDWORDValue(_T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
-        key.SetDWORDValue(_T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
+        key.SetDWORDValue(_T("SpeakerConfig_ac3"), m_iSpeakerConfig[ac3]);
+        key.SetDWORDValue(_T("SpeakerConfig_dts"), m_iSpeakerConfig[dts]);
+        key.SetDWORDValue(_T("DRC_ac3"), m_fDRC[ac3]);
+        key.SetDWORDValue(_T("DRC_dts"), m_fDRC[dts]);
+        key.SetDWORDValue(_T("SPDIF_ac3"), m_fSPDIF[ac3]);
+        key.SetDWORDValue(_T("SPDIF_dts"), m_fSPDIF[dts]);
     }
 #else
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SampleFormat"), m_iSampleFormat);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SpeakerConfig_ac3"), m_iSpeakerConfig[ac3]);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SpeakerConfig_dts"), m_iSpeakerConfig[dts]);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DRC_ac3"), m_fDRC[ac3]);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DRC_dts"), m_fDRC[dts]);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SPDIF_ac3"), m_fSPDIF[ac3]);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SPDIF_dts"), m_fSPDIF[dts]);
 #endif
 
     return S_OK;
@@ -2276,6 +2341,13 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
         if (m_pAVCodec->capabilities & CODEC_CAP_TRUNCATED) {
             m_pAVCtx->flags            |= CODEC_FLAG_TRUNCATED;
         }
+
+        if (nCodecId == CODEC_ID_AC3 || nCodecId == CODEC_ID_EAC3) {
+            int sc = GetSpeakerConfig(ac3);
+            m_pAVCtx->request_channels = channel_mode[sc&CH_MASK].channels;
+            m_pAVCtx->request_channel_layout = channel_mode[sc&CH_MASK].av_ch_layout;
+        }
+        av_opt_set_double(m_pAVCtx, "drc_scale", GetDynamicRangeControl(ac3) ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
 
         if (nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
             m_pParser = av_parser_init(nCodecId);

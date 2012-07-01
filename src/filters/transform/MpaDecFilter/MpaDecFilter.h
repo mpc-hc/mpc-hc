@@ -38,6 +38,20 @@
 
 #define MPCAudioDecName L"MPC Audio Decoder"
 
+enum {
+    CH_ASIS = 0,
+    CH_MONO,
+    CH_STEREO,
+    CH_3F,
+    CH_2F1R,
+    CH_3F1R,
+    CH_2F2R,
+    CH_3F2R,
+};
+#define CH_MAX  CH_3F2R
+#define CH_MASK 0x0f
+#define CH_LFE  0x10
+
 struct ps2_state_t {
     bool sync;
     double a[2], b[2];
@@ -79,8 +93,6 @@ protected:
     dts_state_t*            m_dts_state;
 #endif
     ps2_state_t             m_ps2_state;
-
-    DolbyDigitalMode        m_DolbyDigitalMode;
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     // === FFMpeg variables
@@ -151,7 +163,8 @@ protected:
     CCritSec m_csProps;
     MPCSampleFormat m_iSampleFormat;
     int  m_iSpeakerConfig[etlast];
-    bool m_fDynamicRangeControl[etlast];
+    bool m_fDRC[etlast];
+    bool m_fSPDIF[etlast];
 
     bool m_bResync;
     DD_stats_t m_DDstats;
@@ -192,7 +205,8 @@ public:
     STDMETHODIMP_(int) GetSpeakerConfig(enctype et);
     STDMETHODIMP SetDynamicRangeControl(enctype et, bool fDRC);
     STDMETHODIMP_(bool) GetDynamicRangeControl(enctype et);
-    STDMETHODIMP_(DolbyDigitalMode) GetDolbyDigitalMode();
+    STDMETHODIMP SetSPDIF(enctype et, bool fSPDIF);
+    STDMETHODIMP_(bool) GetSPDIF(enctype et);
 
     STDMETHODIMP SaveSettings();
 };

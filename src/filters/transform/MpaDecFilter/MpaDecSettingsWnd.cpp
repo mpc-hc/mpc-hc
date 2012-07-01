@@ -57,11 +57,12 @@ bool CMpaDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>
     }
 
     m_outputformat = m_pMDF->GetSampleFormat();
-    m_ac3spkcfg = m_pMDF->GetSpeakerConfig(IMpaDecFilter::ac3);
-    m_ac3drc = m_pMDF->GetDynamicRangeControl(IMpaDecFilter::ac3);
-    m_dtsspkcfg = m_pMDF->GetSpeakerConfig(IMpaDecFilter::dts);
-    m_dtsdrc = m_pMDF->GetDynamicRangeControl(IMpaDecFilter::dts);
-    m_ddmode = m_pMDF->GetDolbyDigitalMode();
+    m_spkcfg_ac3 = m_pMDF->GetSpeakerConfig(IMpaDecFilter::ac3);
+    m_drc_ac3 = m_pMDF->GetDynamicRangeControl(IMpaDecFilter::ac3);
+    m_spkcfg_dts = m_pMDF->GetSpeakerConfig(IMpaDecFilter::dts);
+    m_drc_dts = m_pMDF->GetDynamicRangeControl(IMpaDecFilter::dts);
+    m_spdif_ac3 = m_pMDF->GetSPDIF(IMpaDecFilter::ac3);
+    m_spdif_dts = m_pMDF->GetSPDIF(IMpaDecFilter::dts);
 
     return true;
 }
@@ -69,22 +70,6 @@ bool CMpaDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>
 void CMpaDecSettingsWnd::OnDisconnect()
 {
     m_pMDF.Release();
-}
-
-LPCTSTR CMpaDecSettingsWnd::GetDolbyMode(DolbyDigitalMode ddmode)
-{
-    switch (ddmode) {
-        case DD_AC3 :
-            return _T(" (AC3)");
-        case DD_EAC3 :
-            return _T(" (Dolby Digital Plus)");
-        case DD_TRUEHD :
-            return _T(" (Dolby True HD)");
-        case DD_MLP :
-            return _T(" (MLP)");
-        default :
-            return _T("");
-    }
 }
 
 bool CMpaDecSettingsWnd::OnActivate()
@@ -113,47 +98,35 @@ bool CMpaDecSettingsWnd::OnActivate()
 
     p.y += 30;
 
-    CString strSpeak;
-    strSpeak.Format(_T("%s%s"), ResStr(IDS_MPADECSETTINGSWND_1), GetDolbyMode(m_ddmode));
-    m_ac3spkcfg_static.Create(ResStr(IDS_MPADECSETTINGSWND_1) + GetDolbyMode(m_ddmode), dwStyle, CRect(p, CSize(220, m_fontheight)), this);
+    m_ac3spkcfg_static.Create(ResStr(IDS_MPADECSETTINGSWND_1), dwStyle, CRect(p, CSize(220, m_fontheight)), this);
 
     p.y += m_fontheight + 5;
 
-    m_ac3spkcfg_combo.Create(dwStyle | WS_DISABLED | CBS_DROPDOWNLIST, CRect(p + CSize(150, 0), CSize(100, 200)), this, IDC_PP_COMBO2);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Mono")), 1);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Dual Mono")), 0);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Stereo")), 2);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Dolby Stereo")), 10);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F)), 3);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_2F_1R)), 4);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F_1R)), 5);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_2F_2R)), 6);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_3F_2R)), 7);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_CHANNEL_1)), 8);
-    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(ResStr(IDS_MPA_CHANNEL_2)), 9);
+    m_ac3spkcfg_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CSize(150, 0), CSize(100, 200)), this, IDC_PP_COMBO2);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("As is")),  CH_ASIS);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Mono")),   CH_MONO);
+    m_ac3spkcfg_combo.SetItemData(m_ac3spkcfg_combo.AddString(_T("Stereo")), CH_STEREO);
 
-    for (int i = 0, sel = abs(m_ac3spkcfg) & 15; i < m_ac3spkcfg_combo.GetCount(); i++)
+    for (int i = 0, sel = m_spkcfg_ac3&CH_MASK; i < m_ac3spkcfg_combo.GetCount(); i++)
         if ((int)m_ac3spkcfg_combo.GetItemData(i) == sel) {
             m_ac3spkcfg_combo.SetCurSel(i);
+            break;
         }
 
     m_ac3spkcfg_combo.GetWindowRect(r);
     ScreenToClient(r);
-
-    m_ac3lfe_check.Create(_T("LFE"), dwStyle | WS_DISABLED | BS_AUTOCHECKBOX, CRect(CPoint(r.left, r.bottom + 3), CSize(50, m_fontheight)), this, IDC_PP_CHECK4);
-    m_ac3lfe_check.SetCheck(!!(abs(m_ac3spkcfg) & 16));
 
     for (int i = 0, h = max(20, m_fontheight) + 1; i < _countof(m_ac3spkcfg_radio); i++, p.y += h) {
         static const TCHAR* labels[] = {m_strDecodeToSpeaker, _T("SPDIF")};
         m_ac3spkcfg_radio[i].Create(labels[i], dwStyle | BS_AUTORADIOBUTTON | (i == 0 ? WS_GROUP : 0), CRect(p + CPoint(10, 0), CSize(140, h)), this, IDC_PP_RADIO1 + i);
     }
 
-    CheckRadioButton(IDC_PP_RADIO1, IDC_PP_RADIO2, m_ac3spkcfg >= 0 ? IDC_PP_RADIO1 : IDC_PP_RADIO2);
+    CheckRadioButton(IDC_PP_RADIO1, IDC_PP_RADIO2, m_spdif_ac3 ? IDC_PP_RADIO2 : IDC_PP_RADIO1);
 
     p.y += 5;
 
-    m_ac3spkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(205, m_fontheight)), this, IDC_PP_CHECK1);
-    m_ac3spkcfg_check.SetCheck(m_ac3drc);
+    m_ac3spkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(205, m_fontheight)), this, IDC_PP_CHECK2);
+    m_ac3spkcfg_check.SetCheck(m_drc_ac3);
 
     p.y += m_fontheight + 10;
 
@@ -162,37 +135,38 @@ bool CMpaDecSettingsWnd::OnActivate()
     p.y += m_fontheight + 5;
 
     m_dtsspkcfg_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CSize(150, 0), CSize(100, 200)), this, IDC_PP_COMBO3);
-    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Mono")), DTS_MONO);
-    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Dual Mono")), DTS_CHANNEL);
-    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Stereo")), DTS_STEREO);
-    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_3F)), DTS_3F);
-    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_2F_1R)), DTS_2F1R);
-    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_3F_1R)), DTS_3F1R);
-    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_2F_2R)), DTS_2F2R);
-    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_3F_2R)), DTS_3F2R);
+    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("As is")),           CH_ASIS);
+    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Mono")),            CH_MONO);
+    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(_T("Stereo")),          CH_STEREO);
+    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_3F)),    CH_3F);
+    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_2F_1R)), CH_2F1R);
+    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_3F_1R)), CH_3F1R);
+    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_2F_2R)), CH_2F2R);
+    m_dtsspkcfg_combo.SetItemData(m_dtsspkcfg_combo.AddString(ResStr(IDS_MPA_3F_2R)), CH_3F2R);
 
-    for (int i = 0, sel = abs(m_dtsspkcfg) & DTS_CHANNEL_MASK; i < m_dtsspkcfg_combo.GetCount(); i++)
+    for (int i = 0, sel = m_spkcfg_dts&CH_MASK; i < m_dtsspkcfg_combo.GetCount(); i++)
         if ((int)m_dtsspkcfg_combo.GetItemData(i) == sel) {
             m_dtsspkcfg_combo.SetCurSel(i);
+            break;
         }
 
     m_dtsspkcfg_combo.GetWindowRect(r);
     ScreenToClient(r);
 
-    m_dtslfe_check.Create(_T("LFE"), dwStyle | BS_AUTOCHECKBOX, CRect(CPoint(r.left, r.bottom + 3), CSize(50, m_fontheight)), this, IDC_PP_CHECK5);
-    m_dtslfe_check.SetCheck(!!(abs(m_dtsspkcfg) & DTS_LFE));
+    m_dtslfe_check.Create(_T("LFE"), dwStyle | BS_AUTOCHECKBOX, CRect(CPoint(r.left, r.bottom + 3), CSize(50, m_fontheight)), this, IDC_PP_CHECK3);
+    m_dtslfe_check.SetCheck(!!(m_spkcfg_dts&CH_LFE));
 
     for (int i = 0, h = max(20, m_fontheight) + 1; i < _countof(m_dtsspkcfg_radio); i++, p.y += h) {
         static const TCHAR* labels[] = {m_strDecodeToSpeaker, _T("SPDIF")};
         m_dtsspkcfg_radio[i].Create(labels[i], dwStyle | BS_AUTORADIOBUTTON | (i == 0 ? WS_GROUP : 0), CRect(p + CPoint(10, 0), CSize(140, h)), this, IDC_PP_RADIO3 + i);
     }
 
-    CheckRadioButton(IDC_PP_RADIO3, IDC_PP_RADIO4, m_dtsspkcfg >= 0 ? IDC_PP_RADIO3 : IDC_PP_RADIO4);
+    CheckRadioButton(IDC_PP_RADIO3, IDC_PP_RADIO4, m_spdif_dts ? IDC_PP_RADIO4 : IDC_PP_RADIO3);
 
     p.y += 5;
 
-    m_dtsspkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle | WS_DISABLED | BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(205, m_fontheight)), this, IDC_PP_CHECK2);
-    m_dtsspkcfg_check.SetCheck(m_dtsdrc);
+    m_dtsspkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle | WS_DISABLED | BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(205, m_fontheight)), this, IDC_PP_CHECK4);
+    m_dtsspkcfg_check.SetCheck(m_drc_dts);
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
         pWnd->SetFont(&m_font, FALSE);
@@ -204,22 +178,15 @@ bool CMpaDecSettingsWnd::OnActivate()
 void CMpaDecSettingsWnd::OnDeactivate()
 {
     m_outputformat = (int)m_outputformat_combo.GetItemData(m_outputformat_combo.GetCurSel());
-    m_ac3spkcfg = (int)m_ac3spkcfg_combo.GetItemData(m_ac3spkcfg_combo.GetCurSel());
-    if (!!m_ac3lfe_check.GetCheck()) {
-        m_ac3spkcfg |= 16;
-    }
-    if (IsDlgButtonChecked(IDC_PP_RADIO2)) {
-        m_ac3spkcfg = -m_ac3spkcfg;
-    }
-    m_ac3drc = !!m_ac3spkcfg_check.GetCheck();
-    m_dtsspkcfg = (int)m_dtsspkcfg_combo.GetItemData(m_dtsspkcfg_combo.GetCurSel());
+    m_spkcfg_ac3 = (int)m_ac3spkcfg_combo.GetItemData(m_ac3spkcfg_combo.GetCurSel());
+    m_drc_ac3 = !!m_ac3spkcfg_check.GetCheck();
+    m_spkcfg_dts = (int)m_dtsspkcfg_combo.GetItemData(m_dtsspkcfg_combo.GetCurSel());
     if (!!m_dtslfe_check.GetCheck()) {
-        m_dtsspkcfg |= DTS_LFE;
+        m_spkcfg_dts |= CH_LFE;
     }
-    if (IsDlgButtonChecked(IDC_PP_RADIO4)) {
-        m_dtsspkcfg = -m_dtsspkcfg;
-    }
-    m_dtsdrc = !!m_dtsspkcfg_check.GetCheck();
+    m_drc_dts = !!m_dtsspkcfg_check.GetCheck();
+    m_spdif_ac3 = !!IsDlgButtonChecked(IDC_PP_RADIO2);
+    m_spdif_dts = !!IsDlgButtonChecked(IDC_PP_RADIO4);
 }
 
 bool CMpaDecSettingsWnd::OnApply()
@@ -228,10 +195,12 @@ bool CMpaDecSettingsWnd::OnApply()
 
     if (m_pMDF) {
         m_pMDF->SetSampleFormat((MPCSampleFormat)m_outputformat);
-        m_pMDF->SetSpeakerConfig(IMpaDecFilter::ac3, m_ac3spkcfg);
-        m_pMDF->SetDynamicRangeControl(IMpaDecFilter::ac3, m_ac3drc);
-        m_pMDF->SetSpeakerConfig(IMpaDecFilter::dts, m_dtsspkcfg);
-        m_pMDF->SetDynamicRangeControl(IMpaDecFilter::dts, m_dtsdrc);
+        m_pMDF->SetSpeakerConfig(IMpaDecFilter::ac3, m_spkcfg_ac3);
+        m_pMDF->SetDynamicRangeControl(IMpaDecFilter::ac3, m_drc_ac3);
+        m_pMDF->SetSpeakerConfig(IMpaDecFilter::dts, m_spkcfg_dts);
+        m_pMDF->SetDynamicRangeControl(IMpaDecFilter::dts, m_drc_dts);
+        m_pMDF->SetSPDIF(IMpaDecFilter::ac3, m_spdif_ac3);
+        m_pMDF->SetSPDIF(IMpaDecFilter::dts, m_spdif_dts);
 
         m_pMDF->SaveSettings();
     }
