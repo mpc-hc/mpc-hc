@@ -56,7 +56,7 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1
   IF /I "%%A" == "x64"        SET "ARCH=x64"          & SET /A ARGPL+=1
   IF /I "%%A" == "Debug"      SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
-  IF /I "%%A" == "Release"    SET "DEBUG="            & SET /A ARGBC+=1
+  IF /I "%%A" == "Release"    SET "DEBUG= "           & SET /A ARGBC+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -66,7 +66,7 @@ IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
 IF %ARGB%  GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0  (SET "BUILDTYPE=Build")
 IF %ARGPL% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0 (SET "ARCH=Both")
-IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "DEBUG=")
+IF %ARGBC% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0 (SET "DEBUG= ")
 
 IF /I "%ARCH%" == "Both" (
   SET "ARCH=x86" & CALL :Main
@@ -79,7 +79,7 @@ GOTO End
 
 :Main
 IF %ERRORLEVEL% NEQ 0 EXIT /B
-IF /I "%ARCH%" == "x64" (SET "x64=64BIT=yes") ELSE (SET "x64=")
+IF /I "%ARCH%" == "x64" (SET "x64=64BIT=yes") ELSE (SET "x64= ")
 
 CALL :SubCopyLibs
 
