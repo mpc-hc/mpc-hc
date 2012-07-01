@@ -32,16 +32,23 @@ class CFileAssoc
 private:
     CFileAssoc();
 
+    typedef int (*GetIconIndexFunc)(CString);
+
     static CString GetOpenCommand();
     static CString GetEnqueueCommand();
 
     static IApplicationAssociationRegistration* CreateRegistrationManager();
+
+    static CString m_iconLibPath;
+    static HMODULE m_hIconLib;
+    static GetIconIndexFunc GetIconIndex;
 
     static bool SetFileAssociation(CString strExt, CString strProgID, bool bRegister);
 
     static LPCTSTR strRegisteredAppName;
     static LPCTSTR strOldAssocKey;
     static LPCTSTR strRegisteredAppKey;
+    static LPCTSTR strRegAppFileAssocKey;
 
     static const CString strOpenCommand;
     static const CString strEnqueueCommand;
@@ -51,6 +58,9 @@ private:
 public:
     enum reg_state_t { NOT_REGISTERED, SOME_REGISTERED, ALL_REGISTERED };
     enum autoplay_t { AP_VIDEO, AP_MUSIC, AP_AUDIOCD, AP_DVDMOVIE };
+
+    static bool LoadIconsLib();
+    static bool FreeIconsLib();
 
     static bool RegisterApp();
 
@@ -65,6 +75,6 @@ public:
     static bool RegisterFolderContextMenuEntries(bool bRegister);
     static bool AreRegisteredFolderContextMenuEntries();
 
-    static void RegisterAutoPlay(autoplay_t ap, bool bRegister);
+    static bool RegisterAutoPlay(autoplay_t ap, bool bRegister);
     static bool IsAutoPlayRegistered(autoplay_t ap);
 };
