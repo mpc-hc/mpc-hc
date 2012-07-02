@@ -372,10 +372,10 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
 
     // generate page
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos) {
-        wmcmd& wc = s.wmcmds.GetNext(pos);
+        const wmcmd& wc = s.wmcmds.GetNext(pos);
         CStringA str;
         str.Format("%d", wc.cmd);
         CStringA valueName(wc.GetName());

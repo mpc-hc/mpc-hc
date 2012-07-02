@@ -506,8 +506,8 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] = {
 
 const int CMPCVideoDecFilter::sudPinTypesInCount = _countof(CMPCVideoDecFilter::sudPinTypesIn);
 
-bool* CMPCVideoDecFilter::FFmpegFilters = NULL;
-bool* CMPCVideoDecFilter::DXVAFilters = NULL;
+const bool* CMPCVideoDecFilter::FFmpegFilters = NULL;
+const bool* CMPCVideoDecFilter::DXVAFilters = NULL;
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] = {
     {&MEDIATYPE_Video, &MEDIASUBTYPE_NV12},

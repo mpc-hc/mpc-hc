@@ -72,7 +72,7 @@ BOOL CPPageWebServer::PreTranslateMessage(MSG* pMsg)
     if (pMsg->message == WM_LBUTTONDOWN && pMsg->hwnd == m_launch.m_hWnd) {
         UpdateData();
 
-        CAppSettings& s = AfxGetAppSettings();
+        const CAppSettings& s = AfxGetAppSettings();
 
         if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
             if (m_fEnableWebServer) {
@@ -91,7 +91,7 @@ BOOL CPPageWebServer::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_fEnableWebServer = s.fEnableWebServer;
     m_nWebServerPort = s.nWebServerPort;

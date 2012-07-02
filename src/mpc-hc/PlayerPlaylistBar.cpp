@@ -268,7 +268,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
         return;
     }
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     ResolveLinkFiles(fns);
 
@@ -930,7 +930,7 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0) {
         CAppSettings& s = AfxGetAppSettings();
-        FILE_POSITION*  FilePosition = s.CurrentFilePosition();
+        FILE_POSITION* FilePosition = s.CurrentFilePosition();
         if (FilePosition)   {
             FilePosition->llPosition = 0;
         }

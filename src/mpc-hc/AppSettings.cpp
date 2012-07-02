@@ -1861,7 +1861,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
     }
 }
 
-void CAppSettings::GetFav(favtype ft, CAtlList<CString>& sl)
+void CAppSettings::GetFav(favtype ft, CAtlList<CString>& sl) const
 {
     sl.RemoveAll();
 

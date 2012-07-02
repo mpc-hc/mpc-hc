@@ -238,7 +238,7 @@ BOOL CPPageDVD::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_iDVDLocation = s.fUseDVDPath ? 1 : 0;
     m_dvdpath = s.strDVDPath;

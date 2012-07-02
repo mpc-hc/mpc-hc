@@ -456,7 +456,7 @@ BOOL CPPageInternalFilters::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     for (int i = 0; i < _countof(s_filters) - 1; i++) {
         CPPageInternalFiltersListBox* l;

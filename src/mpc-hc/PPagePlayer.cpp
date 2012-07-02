@@ -90,7 +90,7 @@ BOOL CPPagePlayer::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_iAllowMultipleInst = s.fAllowMultipleInst;
     m_iTitleBarTextStyle = s.iTitleBarTextStyle;

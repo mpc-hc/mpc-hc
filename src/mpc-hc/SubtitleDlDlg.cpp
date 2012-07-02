@@ -262,12 +262,12 @@ void CSubtitleDlDlg::OnOK()
         pMF->m_pSubStreams.RemoveAll();
     }
 
+	CAppSettings& s = AfxGetAppSettings();
     CComPtr<ISubStream> pSubStreamToSet;
 
     POSITION pos = m_selsubs.GetHeadPosition();
     while (pos) {
         const isdb_subtitle& sub = m_selsubs.GetNext(pos);
-        CAppSettings& s = AfxGetAppSettings();
         CInternetSession is;
         CStringA url = "http://" + s.strISDb + "/dl.php?";
         CStringA args, ticket, str;

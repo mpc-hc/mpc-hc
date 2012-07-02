@@ -146,7 +146,7 @@ private :
     bool            m_fHideWindow;
     CComPtr<IPin>   m_pPin_h264;
 
-    HRESULT         CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStringW& DisplayName);
+    HRESULT         CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, const CStringW& DisplayName);
     HRESULT         ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFilter);
     HRESULT         CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBaseFilter>& pMpeg2Demux);
     HRESULT         SetChannelInternal(CDVBChannel* pChannel);

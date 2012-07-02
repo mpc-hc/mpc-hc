@@ -75,7 +75,7 @@ BOOL CShaderCombineDlg::OnInitDialog()
     //AddAnchor(IDOK, TOP_RIGHT);
     //AddAnchor(IDCANCEL, TOP_RIGHT);
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     // remember the initial state
     m_fcheck1 = m_oldcheck1 = ((CMainFrame*)AfxGetMainWnd())->m_bToggleShader;

@@ -45,7 +45,7 @@ public:
     BOOL Create(CWnd* pParent = NULL);
     void UpdateElementList();
     void UpdatePos(int nID);
-    void SetupAudioSwitcherSubMenu(CDVBChannel* Channel = NULL);
+    void SetupAudioSwitcherSubMenu(const CDVBChannel* pChannel = NULL);
     int p_nItems[MAX_CHANNELS_ALLOWED];
     DVBStreamInfo m_audios[DVB_MAX_AUDIO];
     bool m_bTVStations;

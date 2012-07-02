@@ -104,7 +104,7 @@ __inline int FixedToInt(__in const DXVA2_Fixed32 _fixed_, __in const SHORT facto
 
 extern void GetCurDispMode(dispmode& dm, CString& DisplayName);
 extern bool GetDispMode(int i, dispmode& dm, CString& DisplayName);
-extern void SetDispMode(dispmode& dm, CString& DisplayName);
+extern void SetDispMode(const dispmode& dm, CString& DisplayName);
 extern void SetAudioRenderer(int AudioDevNo);
 
 extern void SetHandCursor(HWND m_hWnd, UINT nID);

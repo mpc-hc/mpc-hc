@@ -99,7 +99,7 @@ BOOL CPPageFullscreen::OnInitDialog()
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_launchfullscreen = s.fLaunchfullscreen;
     m_AutoChangeFullscrRes = s.AutoChangeFullscrRes;

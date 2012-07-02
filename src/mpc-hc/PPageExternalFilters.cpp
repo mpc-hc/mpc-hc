@@ -295,7 +295,7 @@ BOOL CPPageExternalFilters::OnInitDialog()
 
     DragAcceptFiles(TRUE);
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_pFilters.RemoveAll();
 

@@ -96,7 +96,7 @@ BOOL CPPagePlayback::OnInitDialog()
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_volumectrl.SetRange(0, 100);
     m_volumectrl.SetTicFreq(10);
@@ -234,7 +234,7 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPPagePlayback::OnCancel()
 {
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     if (m_nVolume != m_oldVolume) {
         ((CMainFrame*)GetParentFrame())->m_wndToolBar.Volume = m_oldVolume;    //not very nice solution

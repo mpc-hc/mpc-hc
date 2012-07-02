@@ -80,10 +80,12 @@ public:
     int GetDefaultAudio() const { return m_nDefaultAudio; };
     int GetSubtitleCount() const { return m_nSubtitleCount; };
     DVBStreamInfo* GetAudio(int nIndex) { return &m_Audios[nIndex]; };
+    const DVBStreamInfo* GetAudio(int nIndex) const { return &m_Audios[nIndex]; };
     DVBStreamInfo* GetSubtitle(int nIndex) { return &m_Subtitles[nIndex]; };
-    bool HasName() { return !m_strName.IsEmpty(); };
-    bool IsEncrypted() { return m_bEncrypted; };
-    bool GetNowNextFlag() { return m_bNowNextFlag; };
+    const DVBStreamInfo* GetSubtitle(int nIndex) const { return &m_Subtitles[nIndex]; };
+    bool HasName() const { return !m_strName.IsEmpty(); };
+    bool IsEncrypted() const { return m_bEncrypted; };
+    bool GetNowNextFlag() const { return m_bNowNextFlag; };
 
     void SetName(BYTE* Value);
     void SetName(LPCTSTR Value) { m_strName = Value; };

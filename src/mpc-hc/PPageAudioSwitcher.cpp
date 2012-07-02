@@ -107,7 +107,7 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_fEnableAudioSwitcher = s.fEnableAudioSwitcher;
     m_fAudioNormalize = s.fAudioNormalize;
@@ -365,7 +365,7 @@ BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResu
 
 void CPPageAudioSwitcher::OnCancel()
 {
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     if (m_AudioBoostPos != (int)(s.dAudioBoost_dB * 10 + 0.1)) {
         ((CMainFrame*)GetParentFrame())->SetVolumeBoost(s.dAudioBoost_dB);

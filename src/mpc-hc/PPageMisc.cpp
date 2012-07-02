@@ -84,7 +84,7 @@ BOOL CPPageMisc::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     CreateToolTip();
 

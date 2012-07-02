@@ -288,7 +288,7 @@ CFGManagerBDA::~CFGManagerBDA()
     LOG(_T("\nCFGManagerBDA object destroyed."));
 }
 
-HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStringW& DisplayName)
+HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, const CStringW& DisplayName)
 {
     HRESULT hr = VFW_E_NOT_FOUND;
     BeginEnumSysDev(KSCategory, pMoniker) {
@@ -393,7 +393,7 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
 STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList)
 {
     HRESULT hr;
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
     CComPtr<IBaseFilter> pNetwork;
     CComPtr<IBaseFilter> pTuner;
     CComPtr<IBaseFilter> pReceiver;
@@ -513,7 +513,7 @@ STDMETHODIMP CFGManagerBDA::SetAudio(int nAudioIndex)
 STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 {
     HRESULT hr;
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 

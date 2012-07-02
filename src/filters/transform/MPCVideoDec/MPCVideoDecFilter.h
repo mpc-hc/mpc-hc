@@ -204,8 +204,8 @@ public:
     const static AMOVIESETUP_MEDIATYPE sudPinTypesOut[];
     const static int sudPinTypesOutCount;
 
-    static bool* FFmpegFilters;
-    static bool* DXVAFilters;
+    static const bool* FFmpegFilters;
+    static const bool* DXVAFilters;
 
     CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
     virtual ~CMPCVideoDecFilter();

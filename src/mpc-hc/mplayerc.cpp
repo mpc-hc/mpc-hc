@@ -236,11 +236,11 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
 {
     WORD assignTo = 0;
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos && !assignTo) {
-        wmcmd& wc = s.wmcmds.GetNext(pos);
+        const wmcmd& wc = s.wmcmds.GetNext(pos);
 
         if (bCheckMouse) {
             if (bIsFullScreen) {
@@ -1498,7 +1498,7 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
     return true;
 }
 
-void SetDispMode(dispmode& dm, CString& DisplayName)
+void SetDispMode(const dispmode& dm, CString& DisplayName)
 {
     dispmode dm1;
     GetCurDispMode(dm1, DisplayName);

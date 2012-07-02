@@ -57,7 +57,7 @@ BOOL CPPageSubMisc::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_fPrioritizeExternalSubtitles = s.fPrioritizeExternalSubtitles;
     m_fDisableInternalSubtitles = s.fDisableInternalSubtitles;

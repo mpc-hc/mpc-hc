@@ -46,7 +46,7 @@ CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=NULL*/)
     : CDialog(CTunerScanDlg::IDD, pParent)
     , m_bInProgress(false)
 {
-    CAppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_ulFrequencyStart = s.iBDAScanFreqStart;
     m_ulFrequencyEnd = s.iBDAScanFreqEnd;

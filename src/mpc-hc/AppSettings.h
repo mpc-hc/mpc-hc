@@ -32,7 +32,7 @@
 
 #include <afxsock.h>
 
-// flags for AppSettings::nCS
+// flags for CAppSettings::nCS
 enum {
     CS_NONE = 0,
     CS_SEEKBAR = 1,
@@ -565,7 +565,7 @@ public:
     virtual ~CAppSettings();
     void            UpdateData(bool fSave);
 
-    void            GetFav(favtype ft, CAtlList<CString>& sl);
+    void            GetFav(favtype ft, CAtlList<CString>& sl) const;
     void            SetFav(favtype ft, CAtlList<CString>& sl);
     void            AddFav(favtype ft, CString s);
     CDVBChannel*    FindChannelByPref(int nPrefNumber);
