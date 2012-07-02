@@ -27,9 +27,7 @@
 #include <math.h>
 #include "config.h"
 #include "attributes.h"
-// ==> Start patch MPC
-//#include "intfloat.h"
-// <== End patch MPC
+#include "intfloat.h"
 
 #if HAVE_MIPSFPU && HAVE_INLINE_ASM
 #include "libavutil/mips/libm_mips.h"
