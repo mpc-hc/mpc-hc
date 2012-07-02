@@ -3,22 +3,22 @@
 //  Little Color Management System
 //  Copyright (c) 1998-2011 Marti Maria Saguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the Software 
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the Software
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in 
+// The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
-// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //---------------------------------------------------------------------------------
@@ -27,26 +27,26 @@
 #include "lcms2_internal.h"
 
 
-// Link several profiles to obtain a single LUT modelling the whole color transform. Intents, Black point 
+// Link several profiles to obtain a single LUT modelling the whole color transform. Intents, Black point
 // compensation and Adaptation parameters may vary across profiles. BPC and Adaptation refers to the PCS
 // after the profile. I.e, BPC[0] refers to connexion between profile(0) and profile(1)
-cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID, 
+cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID,
                               cmsUInt32Number nProfiles,
-                              cmsUInt32Number Intents[], 
-                              cmsHPROFILE     hProfiles[], 
+                              cmsUInt32Number Intents[],
+                              cmsHPROFILE     hProfiles[],
                               cmsBool         BPC[],
                               cmsFloat64Number AdaptationStates[],
                               cmsUInt32Number dwFlags);
-                                                        
+
 //---------------------------------------------------------------------------------
 
-// This is the default routine for ICC-style intents. A user may decide to override it by using a plugin. 
+// This is the default routine for ICC-style intents. A user may decide to override it by using a plugin.
 // Supported intents are perceptual, relative colorimetric, saturation and ICC-absolute colorimetric
-static 
-cmsPipeline* DefaultICCintents(cmsContext     ContextID, 
+static
+cmsPipeline* DefaultICCintents(cmsContext     ContextID,
                                cmsUInt32Number nProfiles,
-                               cmsUInt32Number Intents[], 
-                               cmsHPROFILE     hProfiles[], 
+                               cmsUInt32Number Intents[],
+                               cmsHPROFILE     hProfiles[],
                                cmsBool         BPC[],
                                cmsFloat64Number AdaptationStates[],
                                cmsUInt32Number dwFlags);
@@ -56,10 +56,10 @@ cmsPipeline* DefaultICCintents(cmsContext     ContextID,
 // This is the entry for black-preserving K-only intents, which are non-ICC. Last profile have to be a output profile
 // to do the trick (no devicelinks allowed at that position)
 static
-cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID, 
+cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
                                           cmsUInt32Number nProfiles,
-                                          cmsUInt32Number Intents[], 
-                                          cmsHPROFILE     hProfiles[], 
+                                          cmsUInt32Number Intents[],
+                                          cmsHPROFILE     hProfiles[],
                                           cmsBool         BPC[],
                                           cmsFloat64Number AdaptationStates[],
                                           cmsUInt32Number dwFlags);
@@ -69,10 +69,10 @@ cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
 // This is the entry for black-plane preserving, which are non-ICC. Again, Last profile have to be a output profile
 // to do the trick (no devicelinks allowed at that position)
 static
-cmsPipeline*  BlackPreservingKPlaneIntents(cmsContext     ContextID, 
+cmsPipeline*  BlackPreservingKPlaneIntents(cmsContext     ContextID,
                                            cmsUInt32Number nProfiles,
-                                           cmsUInt32Number Intents[], 
-                                           cmsHPROFILE     hProfiles[], 
+                                           cmsUInt32Number Intents[],
+                                           cmsHPROFILE     hProfiles[],
                                            cmsBool         BPC[],
                                            cmsFloat64Number AdaptationStates[],
                                            cmsUInt32Number dwFlags);
@@ -92,7 +92,7 @@ typedef struct _cms_intents_list {
 
 
 // Built-in intents
-static cmsIntentsList DefaultIntents[] = { 
+static cmsIntentsList DefaultIntents[] = {
 
     { INTENT_PERCEPTUAL,                            "Perceptual",                                   DefaultICCintents,            &DefaultIntents[1] },
     { INTENT_RELATIVE_COLORIMETRIC,                 "Relative colorimetric",                        DefaultICCintents,            &DefaultIntents[2] },
@@ -103,7 +103,7 @@ static cmsIntentsList DefaultIntents[] = {
     { INTENT_PRESERVE_K_ONLY_SATURATION,            "Saturation preserving black ink",              BlackPreservingKOnlyIntents,  &DefaultIntents[7] },
     { INTENT_PRESERVE_K_PLANE_PERCEPTUAL,           "Perceptual preserving black plane",            BlackPreservingKPlaneIntents, &DefaultIntents[8] },
     { INTENT_PRESERVE_K_PLANE_RELATIVE_COLORIMETRIC,"Relative colorimetric preserving black plane", BlackPreservingKPlaneIntents, &DefaultIntents[9] },
-    { INTENT_PRESERVE_K_PLANE_SATURATION,           "Saturation preserving black plane",            BlackPreservingKPlaneIntents, NULL } 
+    { INTENT_PRESERVE_K_PLANE_SATURATION,           "Saturation preserving black plane",            BlackPreservingKPlaneIntents, NULL }
 };
 
 
@@ -111,7 +111,7 @@ static cmsIntentsList DefaultIntents[] = {
 static cmsIntentsList *Intents = DefaultIntents;
 
 // Search the list for a suitable intent. Returns NULL if not found
-static 
+static
 cmsIntentsList* SearchIntent(cmsUInt32Number Intent)
 {
     cmsIntentsList* pt;
@@ -122,16 +122,16 @@ cmsIntentsList* SearchIntent(cmsUInt32Number Intent)
     return NULL;
 }
 
-// Black point compensation. Implemented as a linear scaling in XYZ. Black points 
+// Black point compensation. Implemented as a linear scaling in XYZ. Black points
 // should come relative to the white point. Fills an matrix/offset element m
 // which is organized as a 4x4 matrix.
 static
-void ComputeBlackPointCompensation(const cmsCIEXYZ* BlackPointIn, 
+void ComputeBlackPointCompensation(const cmsCIEXYZ* BlackPointIn,
                                    const cmsCIEXYZ* BlackPointOut,
                                    cmsMAT3* m, cmsVEC3* off)
-{ 
+{
   cmsFloat64Number ax, ay, az, bx, by, bz, tx, ty, tz;
-   
+
    // Now we need to compute a matrix plus an offset m and of such of
    // [m]*bpin + off = bpout
    // [m]*D50  + off = D50
@@ -199,7 +199,7 @@ static
     cmsCIEXYZ White;
     cmsCIExyY ChromaticityOfWhite;
 
-    cmsWhitePointFromTemp(&ChromaticityOfWhite, Temp);  
+    cmsWhitePointFromTemp(&ChromaticityOfWhite, Temp);
     cmsxyY2XYZ(&White, &ChromaticityOfWhite);
     _cmsAdaptationMatrix(Chad, NULL, &White, cmsD50_XYZ());
 }
@@ -208,7 +208,7 @@ static
 // Result is stored in a 3x3 matrix
 static
 cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
-                               const cmsCIEXYZ* WhitePointIn,    
+                               const cmsCIEXYZ* WhitePointIn,
                                const cmsMAT3* ChromaticAdaptationMatrixIn,
                                const cmsCIEXYZ* WhitePointOut,
                                const cmsMAT3* ChromaticAdaptationMatrixOut,
@@ -219,7 +219,7 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
     // Adaptation state
     if (AdaptationState == 1.0) {
 
-        // Observer is fully adapted. Keep chromatic adaptation. 
+        // Observer is fully adapted. Keep chromatic adaptation.
         // That is the standard V4 behaviour
         _cmsVEC3init(&m->v[0], WhitePointIn->X / WhitePointOut->X, 0, 0);
         _cmsVEC3init(&m->v[1], 0, WhitePointIn->Y / WhitePointOut->Y, 0);
@@ -257,8 +257,8 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
             _cmsMAT3per(&m3, &m2, &Scale);
             // m3 holds CHAD from input white to D50 times abs. col. scaling
 
-            TempSrc  = CHAD2Temp(ChromaticAdaptationMatrixIn);  
-            TempDest = CHAD2Temp(ChromaticAdaptationMatrixOut); 
+            TempSrc  = CHAD2Temp(ChromaticAdaptationMatrixIn);
+            TempDest = CHAD2Temp(ChromaticAdaptationMatrixOut);
 
             if (TempSrc < 0.0 || TempDest < 0.0) return FALSE; // Something went wrong
 
@@ -288,12 +288,12 @@ cmsBool IsEmptyLayer(cmsMAT3* m, cmsVEC3* off)
     cmsFloat64Number diff = 0;
     cmsMAT3 Ident;
     int i;
-    
+
     if (m == NULL && off == NULL) return TRUE;  // NULL is allowed as an empty layer
     if (m == NULL && off != NULL) return FALSE; // This is an internal error
 
     _cmsMAT3identity(&Ident);
-    
+
     for (i=0; i < 3*3; i++)
         diff += fabs(((cmsFloat64Number*)m)[i] - ((cmsFloat64Number*)&Ident)[i]);
 
@@ -307,10 +307,10 @@ cmsBool IsEmptyLayer(cmsMAT3* m, cmsVEC3* off)
 
 // Compute the conversion layer
 static
-cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[], 
-                                 cmsUInt32Number Intent, 
-                                 cmsBool BPC, 
-                                 cmsFloat64Number AdaptationState, 
+cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[],
+                                 cmsUInt32Number Intent,
+                                 cmsBool BPC,
+                                 cmsFloat64Number AdaptationState,
                                  cmsMAT3* m, cmsVEC3* off)
 {
 
@@ -324,7 +324,7 @@ cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[],
     if (Intent == INTENT_ABSOLUTE_COLORIMETRIC) {
 
         cmsCIEXYZ WhitePointIn, WhitePointOut;
-        cmsMAT3 ChromaticAdaptationMatrixIn, ChromaticAdaptationMatrixOut;  
+        cmsMAT3 ChromaticAdaptationMatrixIn, ChromaticAdaptationMatrixOut;
 
         _cmsReadMediaWhitePoint(&WhitePointIn,  hProfiles[i-1]);
         _cmsReadCHAD(&ChromaticAdaptationMatrixIn, hProfiles[i-1]);
@@ -332,8 +332,8 @@ cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[],
         _cmsReadMediaWhitePoint(&WhitePointOut,  hProfiles[i]);
         _cmsReadCHAD(&ChromaticAdaptationMatrixOut, hProfiles[i]);
 
-        if (!ComputeAbsoluteIntent(AdaptationState, 
-                                  &WhitePointIn,  &ChromaticAdaptationMatrixIn, 
+        if (!ComputeAbsoluteIntent(AdaptationState,
+                                  &WhitePointIn,  &ChromaticAdaptationMatrixIn,
                                   &WhitePointOut, &ChromaticAdaptationMatrixOut, m)) return FALSE;
 
     }
@@ -350,19 +350,19 @@ cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[],
             // If black points are equal, then do nothing
             if (BlackPointIn.X != BlackPointOut.X ||
                 BlackPointIn.Y != BlackPointOut.Y ||
-                BlackPointIn.Z != BlackPointOut.Z) 
+                BlackPointIn.Z != BlackPointOut.Z)
                     ComputeBlackPointCompensation(&BlackPointIn, &BlackPointOut, m, off);
         }
     }
 
     // Offset should be adjusted because the encoding. We encode XYZ normalized to 0..1.0,
     // to do that, we divide by MAX_ENCODEABLE_XZY. The conversion stage goes XYZ -> XYZ so
-    // we have first to convert from encoded to XYZ and then convert back to encoded. 
+    // we have first to convert from encoded to XYZ and then convert back to encoded.
     // y = Mx + Off
     // x = x'c
     // y = M x'c + Off
     // y = y'c; y' = y / c
-    // y' = (Mx'c + Off) /c = Mx' + (Off / c) 
+    // y' = (Mx'c + Off) /c = Mx' + (Off / c)
 
     for (k=0; k < 3; k++) {
         off ->n[k] /= MAX_ENCODEABLE_XYZ;
@@ -372,7 +372,7 @@ cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[],
 }
 
 
-// Add a conversion stage if needed. If a matrix/offset m is given, it applies to XYZ space 
+// Add a conversion stage if needed. If a matrix/offset m is given, it applies to XYZ space
 static
 cmsBool AddConversion(cmsPipeline* Result, cmsColorSpaceSignature InPCS, cmsColorSpaceSignature OutPCS, cmsMAT3* m, cmsVEC3* off)
 {
@@ -416,8 +416,8 @@ cmsBool AddConversion(cmsPipeline* Result, cmsColorSpaceSignature InPCS, cmsColo
 
             case cmsSigLabData:  // Lab -> Lab
 
-                if (!IsEmptyLayer(m, off)) {            
-                    cmsPipelineInsertStage(Result, cmsAT_END, _cmsStageAllocLab2XYZ(Result ->ContextID));        
+                if (!IsEmptyLayer(m, off)) {
+                    cmsPipelineInsertStage(Result, cmsAT_END, _cmsStageAllocLab2XYZ(Result ->ContextID));
                     cmsPipelineInsertStage(Result, cmsAT_END, cmsStageAllocMatrix(Result ->ContextID, 3, 3, m_as_dbl, off_as_dbl));
                     cmsPipelineInsertStage(Result, cmsAT_END, _cmsStageAllocXYZ2Lab(Result ->ContextID));
                 }
@@ -460,10 +460,10 @@ cmsBool ColorSpaceIsCompatible(cmsColorSpaceSignature a, cmsColorSpaceSignature 
 
 // Default handler for ICC-style intents
 static
-cmsPipeline* DefaultICCintents(cmsContext       ContextID, 
+cmsPipeline* DefaultICCintents(cmsContext       ContextID,
                                cmsUInt32Number  nProfiles,
-                               cmsUInt32Number  TheIntents[], 
-                               cmsHPROFILE      hProfiles[], 
+                               cmsUInt32Number  TheIntents[],
+                               cmsHPROFILE      hProfiles[],
                                cmsBool          BPC[],
                                cmsFloat64Number AdaptationStates[],
                                cmsUInt32Number  dwFlags)
@@ -472,7 +472,7 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
     cmsHPROFILE hProfile;
     cmsMAT3 m;
     cmsVEC3 off;
-    cmsColorSpaceSignature ColorSpaceIn, ColorSpaceOut, CurrentColorSpace; 
+    cmsColorSpaceSignature ColorSpaceIn, ColorSpaceOut, CurrentColorSpace;
     cmsProfileClassSignature ClassSig;
     cmsUInt32Number  i, Intent;
 
@@ -483,7 +483,7 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
     Result = cmsPipelineAlloc(ContextID, 0, 0);
     if (Result == NULL) return NULL;
 
-    CurrentColorSpace = cmsGetColorSpace(hProfiles[0]);    
+    CurrentColorSpace = cmsGetColorSpace(hProfiles[0]);
 
     for (i=0; i < nProfiles; i++) {
 
@@ -522,8 +522,8 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
             goto Error;
         }
 
-        // If devicelink is found, then no custom intent is allowed and we can 
-        // read the LUT to be applied. Settings don't apply here.       
+        // If devicelink is found, then no custom intent is allowed and we can
+        // read the LUT to be applied. Settings don't apply here.
         if (lIsDeviceLink || ((ClassSig == cmsSigNamedColorClass) && (nProfiles == 1))) {
 
             // Get the involved LUT from the profile
@@ -538,7 +538,7 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
                 _cmsMAT3identity(&m);
                 _cmsVEC3init(&off, 0, 0, 0);
              }
-        
+
 
             if (!AddConversion(Result, CurrentColorSpace, ColorSpaceIn, &m, &off)) goto Error;
 
@@ -547,13 +547,13 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
 
             if (lIsInput) {
                 // Input direction means non-pcs connection, so proceed like devicelinks
-                Lut = _cmsReadInputLUT(hProfile, Intent);       
+                Lut = _cmsReadInputLUT(hProfile, Intent);
                 if (Lut == NULL) goto Error;
             }
             else {
 
                 // Output direction means PCS connection. Intent may apply here
-                Lut = _cmsReadOutputLUT(hProfile, Intent); 
+                Lut = _cmsReadOutputLUT(hProfile, Intent);
                 if (Lut == NULL) goto Error;
 
 
@@ -565,10 +565,10 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
 
         // Concatenate to the output LUT
         cmsPipelineCat(Result, Lut);
-        cmsPipelineFree(Lut);                            
+        cmsPipelineFree(Lut);
 
         // Update current space
-        CurrentColorSpace = ColorSpaceOut;              
+        CurrentColorSpace = ColorSpaceOut;
     }
 
     return Result;
@@ -583,10 +583,10 @@ Error:
 
 
 // Wrapper for DLL calling convention
-cmsPipeline*  CMSEXPORT _cmsDefaultICCintents(cmsContext     ContextID, 
+cmsPipeline*  CMSEXPORT _cmsDefaultICCintents(cmsContext     ContextID,
                                               cmsUInt32Number nProfiles,
-                                              cmsUInt32Number TheIntents[], 
-                                              cmsHPROFILE     hProfiles[], 
+                                              cmsUInt32Number TheIntents[],
+                                              cmsHPROFILE     hProfiles[],
                                               cmsBool         BPC[],
                                               cmsFloat64Number AdaptationStates[],
                                               cmsUInt32Number dwFlags)
@@ -603,7 +603,7 @@ int TranslateNonICCIntents(int Intent)
     switch (Intent) {
         case INTENT_PRESERVE_K_ONLY_PERCEPTUAL:
         case INTENT_PRESERVE_K_PLANE_PERCEPTUAL:
-            return INTENT_PERCEPTUAL; 
+            return INTENT_PERCEPTUAL;
 
         case INTENT_PRESERVE_K_ONLY_RELATIVE_COLORIMETRIC:
         case INTENT_PRESERVE_K_PLANE_RELATIVE_COLORIMETRIC:
@@ -648,10 +648,10 @@ int BlackPreservingGrayOnlySampler(register const cmsUInt16Number In[], register
 
 // This is the entry for black-preserving K-only intents, which are non-ICC
 static
-cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID, 
+cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
                                           cmsUInt32Number nProfiles,
-                                          cmsUInt32Number TheIntents[], 
-                                          cmsHPROFILE     hProfiles[], 
+                                          cmsUInt32Number TheIntents[],
+                                          cmsHPROFILE     hProfiles[],
                                           cmsBool         BPC[],
                                           cmsFloat64Number AdaptationStates[],
                                           cmsUInt32Number dwFlags)
@@ -667,12 +667,12 @@ cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
     if (nProfiles < 1 || nProfiles > 255) return NULL;
 
     // Translate black-preserving intents to ICC ones
-    for (i=0; i < nProfiles; i++) 
-        ICCIntents[i] = TranslateNonICCIntents(TheIntents[i]); 
+    for (i=0; i < nProfiles; i++)
+        ICCIntents[i] = TranslateNonICCIntents(TheIntents[i]);
 
     // Check for non-cmyk profiles
     if (cmsGetColorSpace(hProfiles[0]) != cmsSigCmykData ||
-        cmsGetColorSpace(hProfiles[nProfiles-1]) != cmsSigCmykData) 
+        cmsGetColorSpace(hProfiles[nProfiles-1]) != cmsSigCmykData)
            return DefaultICCintents(ContextID, nProfiles, ICCIntents, hProfiles, BPC, AdaptationStates, dwFlags);
 
     memset(&bp, 0, sizeof(bp));
@@ -682,32 +682,32 @@ cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
     if (Result == NULL) return NULL;
 
     // Create a LUT holding normal ICC transform
-    bp.cmyk2cmyk = DefaultICCintents(ContextID, 
+    bp.cmyk2cmyk = DefaultICCintents(ContextID,
         nProfiles,
-        ICCIntents, 
-        hProfiles, 
+        ICCIntents,
+        hProfiles,
         BPC,
         AdaptationStates,
         dwFlags);
 
     if (bp.cmyk2cmyk == NULL) goto Error;
-    
+
     // Now, compute the tone curve
-    bp.KTone = _cmsBuildKToneCurve(ContextID, 
-        4096, 
+    bp.KTone = _cmsBuildKToneCurve(ContextID,
+        4096,
         nProfiles,
-        ICCIntents, 
-        hProfiles, 
+        ICCIntents,
+        hProfiles,
         BPC,
         AdaptationStates,
         dwFlags);
-    
+
     if (bp.KTone == NULL) goto Error;
 
-    
+
     // How many gridpoints are we going to use?
     nGridPoints = _cmsReasonableGridpointsByColorspace(cmsSigCmykData, dwFlags);
-    
+
     // Create the CLUT. 16 bits
     CLUT = cmsStageAllocCLut16bit(ContextID, nGridPoints, 4, 4, NULL);
     if (CLUT == NULL) goto Error;
@@ -716,9 +716,9 @@ cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
     cmsPipelineInsertStage(Result, cmsAT_BEGIN, CLUT);
 
     // Sample it. We cannot afford pre/post linearization this time.
-    if (!cmsStageSampleCLut16bit(CLUT, BlackPreservingGrayOnlySampler, (void*) &bp, 0)) 
+    if (!cmsStageSampleCLut16bit(CLUT, BlackPreservingGrayOnlySampler, (void*) &bp, 0))
         goto Error;
-    
+
     // Get rid of xform and tone curve
     cmsPipelineFree(bp.cmyk2cmyk);
     cmsFreeToneCurve(bp.KTone);
@@ -745,9 +745,9 @@ typedef struct {
     cmsPipeline*     LabK2cmyk;     // The output profile
     cmsFloat64Number MaxError;
 
-    cmsHTRANSFORM    hRoundTrip;               
+    cmsHTRANSFORM    hRoundTrip;
     cmsFloat64Number MaxTAC;
-    
+
 
 } PreserveKPlaneParams;
 
@@ -758,18 +758,18 @@ int BlackPreservingSampler(register const cmsUInt16Number In[], register cmsUInt
 {
     int i;
     cmsFloat32Number Inf[4], Outf[4];
-    cmsFloat32Number LabK[4];   
+    cmsFloat32Number LabK[4];
     cmsFloat64Number SumCMY, SumCMYK, Error, Ratio;
     cmsCIELab ColorimetricLab, BlackPreservingLab;
     PreserveKPlaneParams* bp = (PreserveKPlaneParams*) Cargo;
-    
+
     // Convert from 16 bits to floating point
-    for (i=0; i < 4; i++) 
+    for (i=0; i < 4; i++)
         Inf[i] = (cmsFloat32Number) (In[i] / 65535.0);
 
     // Get the K across Tone curve
     LabK[3] = cmsEvalToneCurveFloat(bp ->KTone, Inf[3]);
-    
+
     // If going across black only, keep black only
     if (In[0] == 0 && In[1] == 0 && In[2] == 0) {
 
@@ -777,28 +777,28 @@ int BlackPreservingSampler(register const cmsUInt16Number In[], register cmsUInt
         Out[3] = _cmsQuickSaturateWord(LabK[3] * 65535.0);
         return TRUE;
     }
-    
-    // Try the original transform, 
-    cmsPipelineEvalFloat( Inf, Outf, bp ->cmyk2cmyk);  
-    
+
+    // Try the original transform,
+    cmsPipelineEvalFloat( Inf, Outf, bp ->cmyk2cmyk);
+
     // Store a copy of the floating point result into 16-bit
-    for (i=0; i < 4; i++) 
+    for (i=0; i < 4; i++)
             Out[i] = _cmsQuickSaturateWord(Outf[i] * 65535.0);
 
     // Maybe K is already ok (mostly on K=0)
     if ( fabs(Outf[3] - LabK[3]) < (3.0 / 65535.0) ) {
         return TRUE;
     }
-    
+
     // K differ, mesure and keep Lab measurement for further usage
     // this is done in relative colorimetric intent
     cmsDoTransform(bp->hProofOutput, Out, &ColorimetricLab, 1);
-    
+
     // Is not black only and the transform doesn't keep black.
     // Obtain the Lab of output CMYK. After that we have Lab + K
     cmsDoTransform(bp ->cmyk2Lab, Outf, LabK, 1);
 
-    // Obtain the corresponding CMY using reverse interpolation 
+    // Obtain the corresponding CMY using reverse interpolation
     // (K is fixed in LabK[3])
     if (!cmsPipelineEvalReverseFloat(LabK, Outf, Outf, bp ->LabK2cmyk)) {
 
@@ -809,10 +809,10 @@ int BlackPreservingSampler(register const cmsUInt16Number In[], register cmsUInt
 
     // Make sure to pass thru K (which now is fixed)
     Outf[3] = LabK[3];
-       
-    // Apply TAC if needed    
+
+    // Apply TAC if needed
     SumCMY   = Outf[0]  + Outf[1] + Outf[2];
-    SumCMYK  = SumCMY + Outf[3];      
+    SumCMYK  = SumCMY + Outf[3];
 
     if (SumCMYK > bp ->MaxTAC) {
 
@@ -829,9 +829,9 @@ int BlackPreservingSampler(register const cmsUInt16Number In[], register cmsUInt
     Out[3] = _cmsQuickSaturateWord(Outf[3] * 65535.0);
 
     // Estimate the error (this goes 16 bits to Lab DBL)
-    cmsDoTransform(bp->hProofOutput, Out, &BlackPreservingLab, 1);  
-    Error = cmsDeltaE(&ColorimetricLab, &BlackPreservingLab);                   
-    if (Error > bp -> MaxError) 
+    cmsDoTransform(bp->hProofOutput, Out, &BlackPreservingLab, 1);
+    Error = cmsDeltaE(&ColorimetricLab, &BlackPreservingLab);
+    if (Error > bp -> MaxError)
         bp->MaxError = Error;
 
     return TRUE;
@@ -839,10 +839,10 @@ int BlackPreservingSampler(register const cmsUInt16Number In[], register cmsUInt
 
 // This is the entry for black-plane preserving, which are non-ICC
 static
-cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID, 
+cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
                                           cmsUInt32Number nProfiles,
-                                          cmsUInt32Number TheIntents[], 
-                                          cmsHPROFILE     hProfiles[], 
+                                          cmsUInt32Number TheIntents[],
+                                          cmsHPROFILE     hProfiles[],
                                           cmsBool         BPC[],
                                           cmsFloat64Number AdaptationStates[],
                                           cmsUInt32Number dwFlags)
@@ -851,27 +851,27 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
     cmsPipeline*    Result = NULL;
     cmsUInt32Number ICCIntents[256];
     cmsStage*         CLUT;
-    cmsUInt32Number i, nGridPoints;    
+    cmsUInt32Number i, nGridPoints;
     cmsHPROFILE hLab;
 
     // Sanity check
     if (nProfiles < 1 || nProfiles > 255) return NULL;
 
     // Translate black-preserving intents to ICC ones
-    for (i=0; i < nProfiles; i++) 
-        ICCIntents[i] = TranslateNonICCIntents(TheIntents[i]); 
+    for (i=0; i < nProfiles; i++)
+        ICCIntents[i] = TranslateNonICCIntents(TheIntents[i]);
 
     // Check for non-cmyk profiles
     if (cmsGetColorSpace(hProfiles[0]) != cmsSigCmykData ||
         !(cmsGetColorSpace(hProfiles[nProfiles-1]) == cmsSigCmykData ||
-        cmsGetDeviceClass(hProfiles[nProfiles-1]) == cmsSigOutputClass)) 
+        cmsGetDeviceClass(hProfiles[nProfiles-1]) == cmsSigOutputClass))
            return  DefaultICCintents(ContextID, nProfiles, ICCIntents, hProfiles, BPC, AdaptationStates, dwFlags);
 
     // Allocate an empty LUT for holding the result
     Result = cmsPipelineAlloc(ContextID, 4, 4);
     if (Result == NULL) return NULL;
 
-   
+
     memset(&bp, 0, sizeof(bp));
 
     // We need the input LUT of the last profile, assuming this one is responsible of
@@ -887,8 +887,8 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
     // Create a LUT holding normal ICC transform
     bp.cmyk2cmyk = DefaultICCintents(ContextID,
                                          nProfiles,
-                                         ICCIntents, 
-                                         hProfiles, 
+                                         ICCIntents,
+                                         hProfiles,
                                          BPC,
                                          AdaptationStates,
                                          dwFlags);
@@ -896,26 +896,26 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
 
     // Now the tone curve
     bp.KTone = _cmsBuildKToneCurve(ContextID, 4096, nProfiles,
-                                   ICCIntents, 
-                                   hProfiles, 
-                                   BPC, 
+                                   ICCIntents,
+                                   hProfiles,
+                                   BPC,
                                    AdaptationStates,
                                    dwFlags);
     if (bp.KTone == NULL) goto Cleanup;
 
     // To measure the output, Last profile to Lab
     hLab = cmsCreateLab4ProfileTHR(ContextID, NULL);
-    bp.hProofOutput = cmsCreateTransformTHR(ContextID, hProfiles[nProfiles-1], 
-                                         CHANNELS_SH(4)|BYTES_SH(2), hLab, TYPE_Lab_DBL, 
-                                         INTENT_RELATIVE_COLORIMETRIC, 
+    bp.hProofOutput = cmsCreateTransformTHR(ContextID, hProfiles[nProfiles-1],
+                                         CHANNELS_SH(4)|BYTES_SH(2), hLab, TYPE_Lab_DBL,
+                                         INTENT_RELATIVE_COLORIMETRIC,
                                          cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
     if ( bp.hProofOutput == NULL) goto Cleanup;
 
     // Same as anterior, but lab in the 0..1 range
-    bp.cmyk2Lab = cmsCreateTransformTHR(ContextID, hProfiles[nProfiles-1], 
-                                         FLOAT_SH(1)|CHANNELS_SH(4)|BYTES_SH(4), hLab, 
-                                         FLOAT_SH(1)|CHANNELS_SH(3)|BYTES_SH(4), 
-                                         INTENT_RELATIVE_COLORIMETRIC, 
+    bp.cmyk2Lab = cmsCreateTransformTHR(ContextID, hProfiles[nProfiles-1],
+                                         FLOAT_SH(1)|CHANNELS_SH(4)|BYTES_SH(4), hLab,
+                                         FLOAT_SH(1)|CHANNELS_SH(3)|BYTES_SH(4),
+                                         INTENT_RELATIVE_COLORIMETRIC,
                                          cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
     if (bp.cmyk2Lab == NULL) goto Cleanup;
     cmsCloseProfile(hLab);
@@ -926,7 +926,7 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
     // How many gridpoints are we going to use?
     nGridPoints = _cmsReasonableGridpointsByColorspace(cmsSigCmykData, dwFlags);
 
-    
+
     CLUT = cmsStageAllocCLut16bit(ContextID, nGridPoints, 4, 4, NULL);
     if (CLUT == NULL) goto Cleanup;
 
@@ -937,10 +937,10 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
 Cleanup:
 
     if (bp.cmyk2cmyk) cmsPipelineFree(bp.cmyk2cmyk);
-    if (bp.cmyk2Lab) cmsDeleteTransform(bp.cmyk2Lab);       
+    if (bp.cmyk2Lab) cmsDeleteTransform(bp.cmyk2Lab);
     if (bp.hProofOutput) cmsDeleteTransform(bp.hProofOutput);
-    
-    if (bp.KTone) cmsFreeToneCurve(bp.KTone);   
+
+    if (bp.KTone) cmsFreeToneCurve(bp.KTone);
     if (bp.LabK2cmyk) cmsPipelineFree(bp.LabK2cmyk);
 
     return Result;
@@ -949,12 +949,12 @@ Cleanup:
 // Link routines ------------------------------------------------------------------------------------------------------
 
 // Chain several profiles into a single LUT. It just checks the parameters and then calls the handler
-// for the first intent in chain. The handler may be user-defined. Is up to the handler to deal with the 
+// for the first intent in chain. The handler may be user-defined. Is up to the handler to deal with the
 // rest of intents in chain. A maximum of 255 profiles at time are supported, which is pretty reasonable.
-cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID, 
+cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID,
                               cmsUInt32Number nProfiles,
-                              cmsUInt32Number TheIntents[], 
-                              cmsHPROFILE     hProfiles[], 
+                              cmsUInt32Number TheIntents[],
+                              cmsHPROFILE     hProfiles[],
                               cmsBool         BPC[],
                               cmsFloat64Number AdaptationStates[],
                               cmsUInt32Number dwFlags)
@@ -970,9 +970,9 @@ cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID,
 
     for (i=0; i < nProfiles; i++) {
 
-        // Check if black point is really needed or allowed. Note that 
+        // Check if black point is really needed or allowed. Note that
         // following Adobe's document:
-        // BPC does not apply to devicelink profiles, nor to abs colorimetric, 
+        // BPC does not apply to devicelink profiles, nor to abs colorimetric,
         // and applies always on V4 perceptual and saturation.
 
         if (TheIntents[i] == INTENT_ABSOLUTE_COLORIMETRIC)
@@ -983,7 +983,7 @@ cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID,
             // Force BPC for V4 profiles in perceptual and saturation
             if (cmsGetProfileVersion(hProfiles[i]) >= 4.0)
                 BPC[i] = TRUE;
-        }      
+        }
     }
 
     // Search for a handler. The first intent in the chain defines the handler. That would
@@ -1003,8 +1003,8 @@ cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID,
 
 // -------------------------------------------------------------------------------------------------
 
-// Get information about available intents. nMax is the maximum space for the supplied "Codes" 
-// and "Descriptions" the function returns the total number of intents, which may be greater 
+// Get information about available intents. nMax is the maximum space for the supplied "Codes"
+// and "Descriptions" the function returns the total number of intents, which may be greater
 // than nMax, although the matrices are not populated beyond this level.
 cmsUInt32Number CMSEXPORT cmsGetSupportedIntents(cmsUInt32Number nMax, cmsUInt32Number* Codes, char** Descriptions)
 {
@@ -1014,10 +1014,10 @@ cmsUInt32Number CMSEXPORT cmsGetSupportedIntents(cmsUInt32Number nMax, cmsUInt32
     for (nIntents=0, pt = Intents; pt != NULL; pt = pt -> Next)
     {
         if (nIntents < nMax) {
-            if (Codes != NULL) 
+            if (Codes != NULL)
                 Codes[nIntents] = pt ->Intent;
 
-            if (Descriptions != NULL) 
+            if (Descriptions != NULL)
                 Descriptions[nIntents] = pt ->Description;
         }
 
@@ -1035,7 +1035,7 @@ cmsBool  _cmsRegisterRenderingIntentPlugin(cmsPluginBase* Data)
 
     // Do we have to reset the intents?
     if (Data == NULL) {
-    
+
        Intents = DefaultIntents;
        return TRUE;
     }

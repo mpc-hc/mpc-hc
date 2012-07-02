@@ -387,7 +387,7 @@ typedef struct _cms_typehandler_struct {
                             void *Ptr);
 
         // Additional parameters used by the calling thread
-        cmsContext       ContextID; 
+        cmsContext       ContextID;
         cmsUInt32Number  ICCVersion;
 
 } cmsTagTypeHandler;
@@ -490,22 +490,22 @@ typedef struct {
 // Data kept in "Element" member of cmsStage
 
 // Curves
-typedef struct {                
+typedef struct {
     cmsUInt32Number nCurves;
     cmsToneCurve**  TheCurves;
 
 } _cmsStageToneCurvesData;
 
 // Matrix
-typedef struct {                
+typedef struct {
     cmsFloat64Number*  Double;          // floating point for the matrix
     cmsFloat64Number*  Offset;          // The offset
 
 } _cmsStageMatrixData;
 
 // CLUT
-typedef struct {                    
-    
+typedef struct {
+
     union {                       // Can have only one of both representations at same time
         cmsUInt16Number*  T;      // Points to the table 16 bits table
         cmsFloat32Number* TFloat; // Points to the cmsFloat32Number table
@@ -560,7 +560,7 @@ typedef struct {
 // Full xform
 typedef void     (* _cmsTransformFn)(struct _cmstransform_struct *CMMcargo,
                                      const void* InputBuffer,
-                                     void* OutputBuffer, 
+                                     void* OutputBuffer,
                                      cmsUInt32Number Size,
                                      cmsUInt32Number Stride);
 
@@ -573,7 +573,7 @@ typedef cmsBool  (* _cmsTranformFactory)(_cmsTransformFn* xform,
                                          cmsUInt32Number* dwFlags);
 
 
-// Retrieve user data as specified by the factory 
+// Retrieve user data as specified by the factory
 CMSAPI void * CMSEXPORT _cmsGetTransformUserData(struct _cmstransform_struct *CMMcargo);
 
 typedef struct {

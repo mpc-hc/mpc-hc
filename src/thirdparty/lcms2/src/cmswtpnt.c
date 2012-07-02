@@ -3,22 +3,22 @@
 //  Little Color Management System
 //  Copyright (c) 1998-2010 Marti Maria Saguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the Software 
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the Software
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in 
+// The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
-// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //---------------------------------------------------------------------------------
@@ -95,15 +95,15 @@ cmsBool  CMSEXPORT cmsWhitePointFromTemp(cmsCIExyY* WhitePoint, cmsFloat64Number
 
 typedef struct {
 
-    cmsFloat64Number mirek;  // temp (in microreciprocal kelvin) 
-    cmsFloat64Number ut;     // u coord of intersection w/ blackbody locus  
-    cmsFloat64Number vt;     // v coord of intersection w/ blackbody locus 
-    cmsFloat64Number tt;     // slope of ISOTEMPERATURE. line 
+    cmsFloat64Number mirek;  // temp (in microreciprocal kelvin)
+    cmsFloat64Number ut;     // u coord of intersection w/ blackbody locus
+    cmsFloat64Number vt;     // v coord of intersection w/ blackbody locus
+    cmsFloat64Number tt;     // slope of ISOTEMPERATURE. line
 
     } ISOTEMPERATURE;
 
 static ISOTEMPERATURE isotempdata[] = {
-//  {Mirek, Ut,       Vt,      Tt      } 
+//  {Mirek, Ut,       Vt,      Tt      }
     {0,     0.18006,  0.26352,  -0.24341},
     {10,    0.18066,  0.26589,  -0.25479},
     {20,    0.18133,  0.26846,  -0.26876},
@@ -155,7 +155,7 @@ cmsBool  CMSEXPORT cmsTempFromWhitePoint(cmsFloat64Number* TempK, const cmsCIExy
 	xs = WhitePoint -> x;
 	ys = WhitePoint -> y;
 
-	// convert (x,y) to CIE 1960 (u,WhitePoint) 
+	// convert (x,y) to CIE 1960 (u,WhitePoint)
 
 	us = (2*xs) / (-xs + 6*ys + 1.5);
 	vs = (3*ys) / (-xs + 6*ys + 1.5);
@@ -186,7 +186,7 @@ cmsBool  CMSEXPORT cmsTempFromWhitePoint(cmsFloat64Number* TempK, const cmsCIExy
 }
 
 
-// Compute chromatic adaptation matrix using Chad as cone matrix 
+// Compute chromatic adaptation matrix using Chad as cone matrix
 
 static
 cmsBool ComputeChromaticAdaptation(cmsMAT3* Conversion,
@@ -195,7 +195,7 @@ cmsBool ComputeChromaticAdaptation(cmsMAT3* Conversion,
                                 const cmsMAT3* Chad)
 
 {
-      
+
     cmsMAT3 Chad_Inv;
     cmsVEC3 ConeSourceXYZ, ConeSourceRGB;
     cmsVEC3 ConeDestXYZ, ConeDestRGB;
@@ -242,14 +242,14 @@ cmsBool  _cmsAdaptationMatrix(cmsMAT3* r, const cmsMAT3* ConeMatrix, const cmsCI
 	if (ConeMatrix == NULL)
 		ConeMatrix = &LamRigg;
 
-	return ComputeChromaticAdaptation(r, FromIll, ToIll, ConeMatrix);	
+	return ComputeChromaticAdaptation(r, FromIll, ToIll, ConeMatrix);
 }
 
 // Same as anterior, but assuming D50 destination. White point is given in xyY
 static
 cmsBool _cmsAdaptMatrixToD50(cmsMAT3* r, const cmsCIExyY* SourceWhitePt)
 {
-	cmsCIEXYZ Dn;      
+	cmsCIEXYZ Dn;
 	cmsMAT3 Bradford;
 	cmsMAT3 Tmp;
 
@@ -317,15 +317,15 @@ cmsBool _cmsBuildRGB2XYZtransferMatrix(cmsMAT3* r, const cmsCIExyY* WhitePt, con
 
 
 	return _cmsAdaptMatrixToD50(r, WhitePt);
-	
+
 }
 
 
 // Adapts a color to a given illuminant. Original color is expected to have
-// a SourceWhitePt white point. 
-cmsBool CMSEXPORT cmsAdaptToIlluminant(cmsCIEXYZ* Result, 
-							 const cmsCIEXYZ* SourceWhitePt, 
-							 const cmsCIEXYZ* Illuminant, 
+// a SourceWhitePt white point.
+cmsBool CMSEXPORT cmsAdaptToIlluminant(cmsCIEXYZ* Result,
+							 const cmsCIEXYZ* SourceWhitePt,
+							 const cmsCIEXYZ* Illuminant,
 							 const cmsCIEXYZ* Value)
 {
 	cmsMAT3 Bradford;

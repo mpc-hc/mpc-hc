@@ -3,22 +3,22 @@
 //  Little Color Management System
 //  Copyright (c) 1998-2010 Marti Maria Saguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the Software 
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the Software
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in 
+// The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
-// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //---------------------------------------------------------------------------------
@@ -43,18 +43,18 @@ int CMSEXPORT cmsstrcasecmp(const char* s1, const char* s2)
 // long int because C99 specifies ftell in such way (7.19.9.2)
 long int CMSEXPORT cmsfilelength(FILE* f)
 {
-    long int p , n; 
+    long int p , n;
 
-    p = ftell(f); // register current file position 
+    p = ftell(f); // register current file position
 
-    if (fseek(f, 0, SEEK_END) != 0) { 
-        return -1; 
-    } 
+    if (fseek(f, 0, SEEK_END) != 0) {
+        return -1;
+    }
 
-    n = ftell(f); 
-    fseek(f, p, SEEK_SET); // file position restored 
+    n = ftell(f);
+    fseek(f, p, SEEK_SET); // file position restored
 
-    return n; 
+    return n;
 }
 
 
@@ -62,23 +62,23 @@ long int CMSEXPORT cmsfilelength(FILE* f)
 //
 // This is the interface to low-level memory management routines. By default a simple
 // wrapping to malloc/free/realloc is provided, although there is a limit on the max
-// amount of memoy that can be reclaimed. This is mostly as a safety feature to 
+// amount of memoy that can be reclaimed. This is mostly as a safety feature to
 // prevent bogus or malintentionated code to allocate huge blocks that otherwise lcms
 // would never need.
 
 #define MAX_MEMORY_FOR_ALLOC  ((cmsUInt32Number)(1024U*1024U*512U))
 
 // User may override this behaviour by using a memory plug-in, which basically replaces
-// the default memory management functions. In this case, no check is performed and it 
-// is up to the plug-in writter to keep in the safe side. There are only three functions 
-// required to be implemented: malloc, realloc and free, although the user may want to 
+// the default memory management functions. In this case, no check is performed and it
+// is up to the plug-in writter to keep in the safe side. There are only three functions
+// required to be implemented: malloc, realloc and free, although the user may want to
 // replace the optional mallocZero, calloc and dup as well.
 
 cmsBool   _cmsRegisterMemHandlerPlugin(cmsPluginBase* Plugin);
 
 // *********************************************************************************
 
-// This is the default memory allocation function. It does a very coarse 
+// This is the default memory allocation function. It does a very coarse
 // check of amout of memory, just to prevent exploits
 static
 void* _cmsMallocDefaultFn(cmsContext ContextID, cmsUInt32Number size)
@@ -109,13 +109,13 @@ void _cmsFreeDefaultFn(cmsContext ContextID, void *Ptr)
     // free(NULL) is defined a no-op by C99, therefore it is safe to
     // avoid the check, but it is here just in case...
 
-    if (Ptr) free(Ptr); 
+    if (Ptr) free(Ptr);
 
     cmsUNUSED_PARAMETER(ContextID);
 }
 
-// The default realloc function. Again it check for exploits. If Ptr is NULL, 
-// realloc behaves the same way as malloc and allocates a new block of size bytes. 
+// The default realloc function. Again it check for exploits. If Ptr is NULL,
+// realloc behaves the same way as malloc and allocates a new block of size bytes.
 static
 void* _cmsReallocDefaultFn(cmsContext ContextID, void* Ptr, cmsUInt32Number size)
 {
@@ -139,13 +139,13 @@ void* _cmsCallocDefaultFn(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Nu
     if (Total == 0) return NULL;
 
     // Safe check for overflow.
-    if (num >= UINT_MAX / size) return NULL; 
+    if (num >= UINT_MAX / size) return NULL;
 
     // Check for overflow
     if (Total < num || Total < size) {
         return NULL;
     }
-    
+
     if (Total > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never alloc over 512Mb
 
     return _cmsMallocZero(ContextID, Total);
@@ -156,7 +156,7 @@ static
 void* _cmsDupDefaultFn(cmsContext ContextID, const void* Org, cmsUInt32Number size)
 {
     void* mem;
-    
+
     if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never dup over 512Mb
 
     mem = _cmsMalloc(ContextID, size);
@@ -171,7 +171,7 @@ void* _cmsDupDefaultFn(cmsContext ContextID, const void* Org, cmsUInt32Number si
 static void * (* MallocPtr)(cmsContext ContextID, cmsUInt32Number size)                     = _cmsMallocDefaultFn;
 static void * (* MallocZeroPtr)(cmsContext ContextID, cmsUInt32Number size)                 = _cmsMallocZeroDefaultFn;
 static void   (* FreePtr)(cmsContext ContextID, void *Ptr)                                  = _cmsFreeDefaultFn;
-static void * (* ReallocPtr)(cmsContext ContextID, void *Ptr, cmsUInt32Number NewSize)      = _cmsReallocDefaultFn; 
+static void * (* ReallocPtr)(cmsContext ContextID, void *Ptr, cmsUInt32Number NewSize)      = _cmsReallocDefaultFn;
 static void * (* CallocPtr)(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)= _cmsCallocDefaultFn;
 static void * (* DupPtr)(cmsContext ContextID, const void* Org, cmsUInt32Number size)       = _cmsDupDefaultFn;
 
@@ -186,7 +186,7 @@ cmsBool  _cmsRegisterMemHandlerPlugin(cmsPluginBase *Data)
         MallocPtr    = _cmsMallocDefaultFn;
         MallocZeroPtr= _cmsMallocZeroDefaultFn;
         FreePtr      = _cmsFreeDefaultFn;
-        ReallocPtr   = _cmsReallocDefaultFn; 
+        ReallocPtr   = _cmsReallocDefaultFn;
         CallocPtr    = _cmsCallocDefaultFn;
         DupPtr       = _cmsDupDefaultFn;
         return TRUE;
@@ -249,7 +249,7 @@ void* CMSEXPORT _cmsDupMem(cmsContext ContextID, const void* Org, cmsUInt32Numbe
 
 // Sub allocation takes care of many pointers of small size. The memory allocated in
 // this way have be freed at once. Next function allocates a single chunk for linked list
-// I prefer this method over realloc due to the big inpact on xput realloc may have if 
+// I prefer this method over realloc due to the big inpact on xput realloc may have if
 // memory is being swapped to disk. This approach is safer (although that may not be true on all platforms)
 static
 _cmsSubAllocator_chunk* _cmsCreateSubAllocChunk(cmsContext ContextID, cmsUInt32Number Initial)
@@ -329,7 +329,7 @@ void*  _cmsSubAlloc(_cmsSubAllocator* sub, cmsUInt32Number size)
 
     size = _cmsALIGNMEM(size);
 
-    // Check for memory. If there is no room, allocate a new chunk of double memory size.   
+    // Check for memory. If there is no room, allocate a new chunk of double memory size.
     if (size > Free) {
 
         _cmsSubAllocator_chunk* chunk;
@@ -346,7 +346,7 @@ void*  _cmsSubAlloc(_cmsSubAllocator* sub, cmsUInt32Number size)
         sub ->h    = chunk;
 
     }
-            
+
     ptr =  sub -> h ->Block + sub -> h ->Used;
     sub -> h -> Used += size;
 
@@ -359,7 +359,7 @@ void*  _cmsSubAlloc(_cmsSubAllocator* sub, cmsUInt32Number size)
 // For example, all create functions does return NULL on failure. Other return FALSE
 // It may be interesting, for the developer, to know why the function is failing.
 // for that reason, lcms2 does offer a logging function. This function does recive
-// a ENGLISH string with some clues on what is going wrong. You can show this 
+// a ENGLISH string with some clues on what is going wrong. You can show this
 // info to the end user, or just create some sort of log.
 // The logging function should NOT terminate the program, as this obviously can leave
 // resources. It is the programmer's responsability to check each function return code
@@ -383,7 +383,7 @@ void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorC
 {
     // fprintf(stderr, "[lcms]: %s\n", Text);
     // fflush(stderr);
-   
+
      cmsUNUSED_PARAMETER(ContextID);
      cmsUNUSED_PARAMETER(ErrorCode);
      cmsUNUSED_PARAMETER(Text);
@@ -392,13 +392,13 @@ void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorC
 // Change log error
 void CMSEXPORT cmsSetLogErrorHandler(cmsLogErrorHandlerFunction Fn)
 {
-    if (Fn == NULL) 
+    if (Fn == NULL)
         LogErrorHandler = DefaultLogErrorHandlerFunction;
     else
         LogErrorHandler = Fn;
 }
 
-// Log an error 
+// Log an error
 // ErrorText is a text holding an english description of error.
 void CMSEXPORT cmsSignalError(cmsContext ContextID, cmsUInt32Number ErrorCode, const char *ErrorText, ...)
 {
@@ -407,7 +407,7 @@ void CMSEXPORT cmsSignalError(cmsContext ContextID, cmsUInt32Number ErrorCode, c
 
     va_start(args, ErrorText);
     vsnprintf(Buffer, MAX_ERROR_MESSAGE_LEN-1, ErrorText, args);
-    va_end(args);   
+    va_end(args);
 
     // Call handler
     LogErrorHandler(ContextID, ErrorCode, Buffer);
@@ -421,7 +421,7 @@ void _cmsTagSignature2String(char String[5], cmsTagSignature sig)
     // Convert to big endian
     be = _cmsAdjustEndianess32((cmsUInt32Number) sig);
 
-    // Move chars 
+    // Move chars
     memmove(String, &be, 4);
 
     // Make sure of terminator

@@ -3,22 +3,22 @@
 //  Little Color Management System
 //  Copyright (c) 1998-2010 Marti Maria Saguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the Software 
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the Software
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in 
+// The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
-// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //---------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ void byteReverse(cmsUInt8Number * buf, cmsUInt32Number longs)
 }
 
 #else
-#define byteReverse(buf, len)   
+#define byteReverse(buf, len)
 #endif
 
 
@@ -66,7 +66,7 @@ typedef struct {
 
 static
 void MD5_Transform(cmsUInt32Number buf[4], cmsUInt32Number in[16])
-    
+
 {
     register cmsUInt32Number a, b, c, d;
 
@@ -176,14 +176,14 @@ void MD5add(cmsHANDLE Handle, cmsUInt8Number* buf, cmsUInt32Number len)
 {
     _cmsMD5* ctx = (_cmsMD5*) Handle;
     cmsUInt32Number t;
-    
+
     t = ctx->bits[0];
     if ((ctx->bits[0] = t + (len << 3)) < t)
-        ctx->bits[1]++; 
+        ctx->bits[1]++;
 
     ctx->bits[1] += len >> 29;
 
-    t = (t >> 3) & 0x3f;    
+    t = (t >> 3) & 0x3f;
 
     if (t) {
 
@@ -265,7 +265,7 @@ cmsBool CMSEXPORT cmsMD5computeID(cmsHPROFILE hProfile)
     cmsUInt8Number* Mem = NULL;
     cmsHANDLE  MD5 = NULL;
     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    _cmsICCPROFILE Keep;              
+    _cmsICCPROFILE Keep;
 
 	_cmsAssert(hProfile != NULL);
 
@@ -273,7 +273,7 @@ cmsBool CMSEXPORT cmsMD5computeID(cmsHPROFILE hProfile)
 
     // Save a copy of the profile header
     memmove(&Keep, Icc, sizeof(_cmsICCPROFILE));
-    
+
     // Set RI, attributes and ID
     memset(&Icc ->attributes, 0, sizeof(Icc ->attributes));
     Icc ->RenderingIntent = 0;
@@ -288,7 +288,7 @@ cmsBool CMSEXPORT cmsMD5computeID(cmsHPROFILE hProfile)
 
     // Save to temporary storage
     if (!cmsSaveProfileToMem(hProfile, Mem, &BytesNeeded)) goto Error;
-     
+
     // Create MD5 object
     MD5 = MD5alloc(ContextID);
     if (MD5 == NULL) goto Error;
@@ -298,7 +298,7 @@ cmsBool CMSEXPORT cmsMD5computeID(cmsHPROFILE hProfile)
 
     // Temp storage is no longer needed
     _cmsFree(ContextID, Mem);
-    
+
     // Restore header
     memmove(Icc, &Keep, sizeof(_cmsICCPROFILE));
 

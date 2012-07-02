@@ -78,9 +78,9 @@ extern "C" {
 typedef unsigned char        cmsUInt8Number;   // That is guaranteed by the C99 spec
 typedef signed char          cmsInt8Number;    // That is guaranteed by the C99 spec
 
-#if CHAR_BIT != 8 
+#if CHAR_BIT != 8
 #  error "Unable to find 8 bit type, unsupported compiler"
-#endif 
+#endif
 
 // IEEE float storage numbers
 typedef float                cmsFloat32Number;
@@ -276,11 +276,11 @@ typedef enum {
     cmsSigUInt16ArrayType                   = 0x75693136,  // 'ui16'
     cmsSigUInt32ArrayType                   = 0x75693332,  // 'ui32'
     cmsSigUInt64ArrayType                   = 0x75693634,  // 'ui64'
-    cmsSigUInt8ArrayType                    = 0x75693038,  // 'ui08' 
+    cmsSigUInt8ArrayType                    = 0x75693038,  // 'ui08'
     cmsSigVcgtType                          = 0x76636774,  // 'vcgt'
     cmsSigViewingConditionsType             = 0x76696577,  // 'view'
     cmsSigXYZType                           = 0x58595A20   // 'XYZ '
-   
+
 
 } cmsTagTypeSignature;
 
@@ -613,7 +613,7 @@ typedef void* cmsHTRANSFORM;
 // Format of pixel is defined by one cmsUInt32Number, using bit fields as follows
 //
 //                               2                1          0
-//                          3 2 10987 6 5 4 3 2 1 098 7654 321  
+//                          3 2 10987 6 5 4 3 2 1 098 7654 321
 //                          A O TTTTT U Y F P X S EEE CCCC BBB
 //
 //            A: Floating point -- With this flag we can differentiate 16 bits as float and as int
@@ -863,7 +863,7 @@ typedef void* cmsHTRANSFORM;
 #define TYPE_RGBA_FLT         (FLOAT_SH(1)|COLORSPACE_SH(PT_RGB)|EXTRA_SH(1)|CHANNELS_SH(3)|BYTES_SH(4))
 #define TYPE_CMYK_FLT         (FLOAT_SH(1)|COLORSPACE_SH(PT_CMYK)|CHANNELS_SH(4)|BYTES_SH(4))
 
-// Floating point formatters.  
+// Floating point formatters.
 // NOTE THAT 'BYTES' FIELD IS SET TO ZERO ON DLB because 8 bytes overflows the bitfield
 #define TYPE_XYZ_DBL          (FLOAT_SH(1)|COLORSPACE_SH(PT_XYZ)|CHANNELS_SH(3)|BYTES_SH(0))
 #define TYPE_Lab_DBL          (FLOAT_SH(1)|COLORSPACE_SH(PT_Lab)|CHANNELS_SH(3)|BYTES_SH(0))
@@ -1360,9 +1360,9 @@ CMSAPI cmsInt32Number    CMSEXPORT cmsReadRawTag(cmsHPROFILE hProfile, cmsTagSig
 CMSAPI cmsBool           CMSEXPORT cmsWriteRawTag(cmsHPROFILE hProfile, cmsTagSignature sig, const void* data, cmsUInt32Number Size);
 
 // Access header data
-#define cmsEmbeddedProfileFalse    0x00000000 
-#define cmsEmbeddedProfileTrue     0x00000001 
-#define cmsUseAnywhere             0x00000000 
+#define cmsEmbeddedProfileFalse    0x00000000
+#define cmsEmbeddedProfileTrue     0x00000001
+#define cmsUseAnywhere             0x00000000
 #define cmsUseWithEmbeddedDataOnly 0x00000002
 
 CMSAPI cmsUInt32Number   CMSEXPORT cmsGetHeaderFlags(cmsHPROFILE hProfile);
@@ -1669,8 +1669,8 @@ CMSAPI cmsUInt32Number CMSEXPORT cmsGetTransformInputFormat(cmsHTRANSFORM hTrans
 CMSAPI cmsUInt32Number CMSEXPORT cmsGetTransformOutputFormat(cmsHTRANSFORM hTransform);
 
 // For backwards compatibility
-CMSAPI cmsBool          CMSEXPORT cmsChangeBuffersFormat(cmsHTRANSFORM hTransform, 
-                                                         cmsUInt32Number InputFormat, 
+CMSAPI cmsBool          CMSEXPORT cmsChangeBuffersFormat(cmsHTRANSFORM hTransform,
+                                                         cmsUInt32Number InputFormat,
                                                          cmsUInt32Number OutputFormat);
 
 

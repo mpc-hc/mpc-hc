@@ -3,22 +3,22 @@
 //  Little Color Management System
 //  Copyright (c) 1998-2011 Marti Maria Saguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the Software 
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the Software
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in 
+// The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
-// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //---------------------------------------------------------------------------------
@@ -47,14 +47,14 @@
 #endif
 
 // BorlandC 5.5, VC2003 are broken on that
-#if defined(__BORLANDC__) || (_MSC_VER < 1400) // 1400 == VC++ 8.0 
+#if defined(__BORLANDC__) || (_MSC_VER < 1400) // 1400 == VC++ 8.0
 #define sinf(x) (float)sin((float)x)
 #define sqrtf(x) (float)sqrt((float)x)
 #endif
 
 
 // Alignment of ICC file format uses 4 bytes (cmsUInt32Number)
-#define _cmsALIGNLONG(x) (((x)+(sizeof(cmsUInt32Number)-1)) & ~(sizeof(cmsUInt32Number)-1))  
+#define _cmsALIGNLONG(x) (((x)+(sizeof(cmsUInt32Number)-1)) & ~(sizeof(cmsUInt32Number)-1))
 
 // Alignment to memory pointer
 #define _cmsALIGNMEM(x)  (((x)+(sizeof(void *) - 1)) & ~(sizeof(void *) - 1))
@@ -70,7 +70,7 @@
 #define MAX_STAGE_CHANNELS  128
 
 // Unused parameter warning supression
-#define cmsUNUSED_PARAMETER(x) ((void)x) 
+#define cmsUNUSED_PARAMETER(x) ((void)x)
 
 // The specification for "inline" is section 6.7.4 of the C99 standard (ISO/IEC 9899:1999).
 // unfortunately VisualC++ does not conform that
@@ -92,7 +92,7 @@
 
 
 // A fast way to convert from/to 16 <-> 8 bits
-#define FROM_8_TO_16(rgb) (cmsUInt16Number) ((((cmsUInt16Number) (rgb)) << 8)|(rgb)) 
+#define FROM_8_TO_16(rgb) (cmsUInt16Number) ((((cmsUInt16Number) (rgb)) << 8)|(rgb))
 #define FROM_16_TO_8(rgb) (cmsUInt8Number) ((((rgb) * 65281 + 8388608) >> 24) & 0xFF)
 
 // Code analysis is broken on asserts
@@ -119,12 +119,12 @@
 #define ROUND_FIXED_TO_INT(x)   (((x)+0x8000)>>16)
 
 cmsINLINE cmsS15Fixed16Number _cmsToFixedDomain(int a)                   { return a + ((a + 0x7fff) / 0xffff); }
-cmsINLINE int                 _cmsFromFixedDomain(cmsS15Fixed16Number a) { return a - ((a + 0x7fff) >> 16); }   
+cmsINLINE int                 _cmsFromFixedDomain(cmsS15Fixed16Number a) { return a - ((a + 0x7fff) >> 16); }
 
 // -----------------------------------------------------------------------------------------------------------
 
-// Fast floor conversion logic. Thanks to Sree Kotay and Stuart Nixon 
-// note than this only works in the range ..-32767...+32767 because 
+// Fast floor conversion logic. Thanks to Sree Kotay and Stuart Nixon
+// note than this only works in the range ..-32767...+32767 because
 // mantissa is interpreted as 15.16 fixed point.
 // The union is to avoid pointer aliasing overoptimization.
 cmsINLINE int _cmsQuickFloor(cmsFloat64Number val)
@@ -137,9 +137,9 @@ cmsINLINE int _cmsQuickFloor(cmsFloat64Number val)
         cmsFloat64Number val;
         int halves[2];
     } temp;
-    
+
     temp.val = val + _lcms_double2fixmagic;
-    
+
 #ifdef CMS_USE_BIG_ENDIAN
     return temp.halves[1] >> 16;
 #else
@@ -149,13 +149,13 @@ cmsINLINE int _cmsQuickFloor(cmsFloat64Number val)
 }
 
 // Fast floor restricted to 0..65535.0
-cmsINLINE cmsUInt16Number _cmsQuickFloorWord(cmsFloat64Number d) 
-{ 
-    return (cmsUInt16Number) _cmsQuickFloor(d - 32767.0) + 32767U; 
+cmsINLINE cmsUInt16Number _cmsQuickFloorWord(cmsFloat64Number d)
+{
+    return (cmsUInt16Number) _cmsQuickFloor(d - 32767.0) + 32767U;
 }
 
 // Floor to word, taking care of saturation
-cmsINLINE cmsUInt16Number _cmsQuickSaturateWord(cmsFloat64Number d) 
+cmsINLINE cmsUInt16Number _cmsQuickSaturateWord(cmsFloat64Number d)
 {
     d += 0.5;
     if (d <= 0) return 0;
@@ -231,7 +231,7 @@ void*             _cmsSubAlloc(_cmsSubAllocator* s, cmsUInt32Number size);
 typedef struct {
 
     cmsUInt16Number Language;
-    cmsUInt16Number Country;   
+    cmsUInt16Number Country;
 
     cmsUInt32Number StrW;       // Offset to current unicode string
     cmsUInt32Number Len;        // Lenght in bytes
@@ -239,22 +239,22 @@ typedef struct {
 } _cmsMLUentry;
 
 struct _cms_MLU_struct {
- 
+
     cmsContext ContextID;
 
     // The directory
-    int AllocatedEntries; 
+    int AllocatedEntries;
     int UsedEntries;
     _cmsMLUentry* Entries;     // Array of pointers to strings allocated in MemPool
 
     // The Pool
     cmsUInt32Number PoolSize;  // The maximum allocated size
     cmsUInt32Number PoolUsed;  // The used size
-    void*  MemPool;            // Pointer to begin of memory pool  
+    void*  MemPool;            // Pointer to begin of memory pool
 };
 
 // Named color list internal representation
-typedef struct {    
+typedef struct {
 
     char Name[cmsMAX_PATH];
     cmsUInt16Number PCS[3];
@@ -264,12 +264,12 @@ typedef struct {
 
 struct _cms_NAMEDCOLORLIST_struct {
 
-    cmsUInt32Number nColors;                
+    cmsUInt32Number nColors;
     cmsUInt32Number Allocated;
-    cmsUInt32Number ColorantCount;  
+    cmsUInt32Number ColorantCount;
 
     char Prefix[33];      // Prefix and suffix are defined to be 32 characters at most
-    char Suffix[33];     
+    char Suffix[33];
 
     _cmsNAMEDCOLOR* List;
 
@@ -295,7 +295,7 @@ typedef struct _cms_iccprofile_struct {
     // Creation time
     struct tm                Created;
 
-    // Only most important items found in ICC profiles   
+    // Only most important items found in ICC profiles
     cmsUInt32Number          Version;
     cmsProfileClassSignature DeviceClass;
     cmsColorSpaceSignature   ColorSpace;
@@ -319,7 +319,7 @@ typedef struct _cms_iccprofile_struct {
                                                                  // depending on profile version, so we keep track of the                                                             // type handler for each tag in the list.
     // Special
     cmsBool                  IsWrite;
-    
+
 } _cmsICCPROFILE;
 
 // IO helpers for profiles
@@ -359,19 +359,19 @@ struct _cms_curve_struct {
 
     cmsParametricCurveEvaluator* Evals;  // Evaluators (one per segment)
 
-    // 16 bit Table-based representation follows    
+    // 16 bit Table-based representation follows
     cmsUInt32Number    nEntries;      // Number of table elements
-    cmsUInt16Number*   Table16;       // The table itself. 
-}; 
+    cmsUInt16Number*   Table16;       // The table itself.
+};
 
 
 //  Pipelines & Stages ---------------------------------------------------------------------------------------------
 
 // A single stage
 struct _cmsStage_struct {
-    
+
     cmsContext          ContextID;
-    
+
     cmsStageSignature   Type;           // Identifies the stage
     cmsStageSignature   Implements;     // Identifies the *function* of the stage (for optimizations)
 
@@ -405,20 +405,20 @@ cmsStage*        _cmsStageNormalizeFromXyzFloat(cmsContext ContextID);
 cmsStage*        _cmsStageNormalizeToLabFloat(cmsContext ContextID);
 cmsStage*        _cmsStageNormalizeToXyzFloat(cmsContext ContextID);
 
-// For curve set only  
+// For curve set only
 cmsToneCurve**     _cmsStageGetPtrToCurveSet(const cmsStage* mpe);
 
 
 // Pipeline Evaluator (in floating point)
-typedef void (* _cmsPipelineEvalFloatFn)(const cmsFloat32Number In[], 
-                                         cmsFloat32Number Out[], 
-                                         const void* Data); 
+typedef void (* _cmsPipelineEvalFloatFn)(const cmsFloat32Number In[],
+                                         cmsFloat32Number Out[],
+                                         const void* Data);
 
 struct _cmsPipeline_struct {
 
-    cmsStage* Elements;                                // Points to elements chain 
-    cmsUInt32Number InputChannels, OutputChannels;  
-   
+    cmsStage* Elements;                                // Points to elements chain
+    cmsUInt32Number InputChannels, OutputChannels;
+
     // Data & evaluators
     void *Data;
 
@@ -426,7 +426,7 @@ struct _cmsPipeline_struct {
    _cmsPipelineEvalFloatFn EvalFloatFn;
    _cmsOPTfreeDataFn       FreeDataFn;
    _cmsOPTdupDataFn        DupDataFn;
-    
+
     cmsContext ContextID;            // Environment
 
     cmsBool  SaveAs8Bits;            // Implementation-specific: save as 8 bits if possible
@@ -447,10 +447,10 @@ cmsBool           _cmsReadCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile);
 
 // Profile linker --------------------------------------------------------------------------------------------------
 
-cmsPipeline* _cmsLinkProfiles(cmsContext         ContextID, 
+cmsPipeline* _cmsLinkProfiles(cmsContext         ContextID,
                               cmsUInt32Number    nProfiles,
-                              cmsUInt32Number    TheIntents[], 
-                              cmsHPROFILE        hProfiles[], 
+                              cmsUInt32Number    TheIntents[],
+                              cmsHPROFILE        hProfiles[],
                               cmsBool            BPC[],
                               cmsFloat64Number   AdaptationStates[],
                               cmsUInt32Number    dwFlags);
@@ -467,14 +467,14 @@ cmsSEQ* _cmsCompileProfileSequence(cmsContext ContextID, cmsUInt32Number nProfil
 cmsUInt16Number  _cmsQuantizeVal(cmsFloat64Number i, int MaxSamples);
 int              _cmsReasonableGridpointsByColorspace(cmsColorSpaceSignature Colorspace, cmsUInt32Number dwFlags);
 
-cmsBool          _cmsEndPointsBySpace(cmsColorSpaceSignature Space, 
-                                      cmsUInt16Number **White, 
+cmsBool          _cmsEndPointsBySpace(cmsColorSpaceSignature Space,
+                                      cmsUInt16Number **White,
                                       cmsUInt16Number **Black,
                                       cmsUInt32Number *nOutputs);
 
-cmsBool          _cmsOptimizePipeline(cmsPipeline**    Lut,                                              
+cmsBool          _cmsOptimizePipeline(cmsPipeline**    Lut,
                                       int              Intent,
-                                      cmsUInt32Number* InputFormat, 
+                                      cmsUInt32Number* InputFormat,
                                       cmsUInt32Number* OutputFormat,
                                       cmsUInt32Number* dwFlags );
 
@@ -482,11 +482,11 @@ cmsBool          _cmsOptimizePipeline(cmsPipeline**    Lut,
 // Hi level LUT building ----------------------------------------------------------------------------------------------
 
 cmsPipeline*     _cmsCreateGamutCheckPipeline(cmsContext ContextID,
-                                              cmsHPROFILE hProfiles[], 
-                                              cmsBool  BPC[], 
-                                              cmsUInt32Number Intents[], 
+                                              cmsHPROFILE hProfiles[],
+                                              cmsBool  BPC[],
+                                              cmsUInt32Number Intents[],
                                               cmsFloat64Number AdaptationStates[],
-                                              cmsUInt32Number nGamutPCSposition, 
+                                              cmsUInt32Number nGamutPCSposition,
                                               cmsHPROFILE hGamut);
 
 
@@ -498,7 +498,7 @@ cmsBool         _cmsFormatterIsFloat(cmsUInt32Number Type);
 cmsBool         _cmsFormatterIs8bit(cmsUInt32Number Type);
 
 cmsFormatter    _cmsGetFormatter(cmsUInt32Number Type,          // Specific type, i.e. TYPE_RGB_8
-                                 cmsFormatterDirection Dir, 
+                                 cmsFormatterDirection Dir,
                                  cmsUInt32Number dwFlags);
 
 
@@ -535,13 +535,13 @@ typedef struct _cmstransform_struct {
 
     cmsFormatterFloat FromInputFloat;
     cmsFormatterFloat ToOutputFloat;
-    
+
     // 1-pixel cache seed for zero as input (16 bits, read only)
     _cmsCACHE Cache;
-    
+
     // A Pipeline holding the full (optimized) transform
     cmsPipeline* Lut;
-    
+
     // A Pipeline holding the gamut check. It goes from the input space to bilevel
     cmsPipeline* GamutCheck;
 
@@ -552,12 +552,12 @@ typedef struct _cmstransform_struct {
     // Informational only
     cmsColorSpaceSignature EntryColorSpace;
     cmsColorSpaceSignature ExitColorSpace;
-    
+
     // Profiles used to create the transform
     cmsSEQ* Sequence;
 
-    cmsUInt32Number  dwOriginalFlags;      
-    cmsFloat64Number AdaptationState;              
+    cmsUInt32Number  dwOriginalFlags;
+    cmsFloat64Number AdaptationState;
 
     // The intent of this transform. That is usually the last intent in the profilechain, but may differ
     cmsUInt32Number RenderingIntent;
@@ -577,18 +577,18 @@ cmsHTRANSFORM _cmsChain2Lab(cmsContext             ContextID,
                             cmsUInt32Number        nProfiles,
                             cmsUInt32Number        InputFormat,
                             cmsUInt32Number        OutputFormat,
-                            const cmsUInt32Number  Intents[], 
-                            const cmsHPROFILE      hProfiles[], 
+                            const cmsUInt32Number  Intents[],
+                            const cmsHPROFILE      hProfiles[],
                             const cmsBool          BPC[],
                             const cmsFloat64Number AdaptationStates[],
                             cmsUInt32Number        dwFlags);
 
 
-cmsToneCurve* _cmsBuildKToneCurve(cmsContext       ContextID, 
+cmsToneCurve* _cmsBuildKToneCurve(cmsContext       ContextID,
                             cmsUInt32Number        nPoints,
                             cmsUInt32Number        nProfiles,
-                            const cmsUInt32Number  Intents[], 
-                            const cmsHPROFILE      hProfiles[], 
+                            const cmsUInt32Number  Intents[],
+                            const cmsHPROFILE      hProfiles[],
                             const cmsBool          BPC[],
                             const cmsFloat64Number AdaptationStates[],
                             cmsUInt32Number        dwFlags);

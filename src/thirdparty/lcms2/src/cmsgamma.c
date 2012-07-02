@@ -3,40 +3,40 @@
 //  Little Color Management System
 //  Copyright (c) 1998-2010 Marti Maria Saguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining 
-// a copy of this software and associated documentation files (the "Software"), 
-// to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-// and/or sell copies of the Software, and to permit persons to whom the Software 
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the Software
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in 
+// The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
-// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 //---------------------------------------------------------------------------------
 //
 #include "lcms2_internal.h"
 
-// Tone curves are powerful constructs that can contain curves specified in diverse ways. 
+// Tone curves are powerful constructs that can contain curves specified in diverse ways.
 // The curve is stored in segments, where each segment can be sampled or specified by parameters.
-// a 16.bit simplification of the *whole* curve is kept for optimization purposes. For float operation, 
-// each segment is evaluated separately. Plug-ins may be used to define new parametric schemes, 
-// each plug-in may define up to MAX_TYPES_IN_LCMS_PLUGIN functions types. For defining a function, 
+// a 16.bit simplification of the *whole* curve is kept for optimization purposes. For float operation,
+// each segment is evaluated separately. Plug-ins may be used to define new parametric schemes,
+// each plug-in may define up to MAX_TYPES_IN_LCMS_PLUGIN functions types. For defining a function,
 // the plug-in should provide the type id, how many parameters each type has, and a pointer to
-// a procedure that evaluates the function. In the case of reverse evaluation, the evaluator will 
-// be called with the type id as a negative value, and a sampled version of the reversed curve 
+// a procedure that evaluates the function. In the case of reverse evaluation, the evaluator will
+// be called with the type id as a negative value, and a sampled version of the reversed curve
 // will be built.
 
 // ----------------------------------------------------------------- Implementation
-// Maxim number of nodes 
+// Maxim number of nodes
 #define MAX_NODES_IN_CURVE   4097
 #define MINUS_INF            (-1E22F)
 #define PLUS_INF             (+1E22F)
@@ -54,11 +54,11 @@ typedef struct _cmsParametricCurvesCollection_st {
 } _cmsParametricCurvesCollection;
 
 
-// This is the default (built-in) evaluator 
+// This is the default (built-in) evaluator
 static cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Number Params[], cmsFloat64Number R);
 
 // The built-in list
-static _cmsParametricCurvesCollection DefaultCurves = { 
+static _cmsParametricCurvesCollection DefaultCurves = {
     9,                                  // # of curve types
     { 1, 2, 3, 4, 5, 6, 7, 8, 108 },    // Parametric curve ID
     { 1, 3, 4, 5, 7, 4, 5, 5, 1 },      // Parameters by type
@@ -74,9 +74,9 @@ cmsBool _cmsRegisterParametricCurvesPlugin(cmsPluginBase* Data)
 {
     cmsPluginParametricCurves* Plugin = (cmsPluginParametricCurves*) Data;
     _cmsParametricCurvesCollection* fl;
-    
+
     if (Data == NULL) {
-    
+
           ParametricCurves =  &DefaultCurves;
           return TRUE;
     }
@@ -130,7 +130,7 @@ _cmsParametricCurvesCollection *GetParametricCurveByType(int Type, int* index)
         Position = IsInSet(Type, c);
 
         if (Position != -1) {
-            if (index != NULL) 
+            if (index != NULL)
                 *index = Position;
             return c;
         }
@@ -139,12 +139,12 @@ _cmsParametricCurvesCollection *GetParametricCurveByType(int Type, int* index)
     return NULL;
 }
 
-// Low level allocate, which takes care of memory details. nEntries may be zero, and in this case 
+// Low level allocate, which takes care of memory details. nEntries may be zero, and in this case
 // no optimation curve is computed. nSegments may also be zero in the inverse case, where only the
 // optimization curve is given. Both features simultaneously is an error
 static
-cmsToneCurve* AllocateToneCurveStruct(cmsContext ContextID, cmsInt32Number nEntries, 
-                                      cmsInt32Number nSegments, const cmsCurveSegment* Segments, 
+cmsToneCurve* AllocateToneCurveStruct(cmsContext ContextID, cmsInt32Number nEntries,
+                                      cmsInt32Number nSegments, const cmsCurveSegment* Segments,
                                       const cmsUInt16Number* Values)
 {
     cmsToneCurve* p;
@@ -179,7 +179,7 @@ cmsToneCurve* AllocateToneCurveStruct(cmsContext ContextID, cmsInt32Number nEntr
     }
 
     p -> nSegments = nSegments;
-    
+
     // This 16-bit table contains a limited precision representation of the whole curve and is kept for
     // increasing xput on certain operations.
     if (nEntries <= 0) {
@@ -189,13 +189,13 @@ cmsToneCurve* AllocateToneCurveStruct(cmsContext ContextID, cmsInt32Number nEntr
        p ->Table16 = (cmsUInt16Number*)  _cmsCalloc(ContextID, nEntries, sizeof(cmsUInt16Number));
        if (p ->Table16 == NULL) goto Error;
     }
-   
+
     p -> nEntries  = nEntries;
-    
+
     // Initialize members if requested
     if (Values != NULL && (nEntries > 0)) {
 
-        for (i=0; i < nEntries; i++) 
+        for (i=0; i < nEntries; i++)
             p ->Table16[i] = Values[i];
     }
 
@@ -227,7 +227,7 @@ cmsToneCurve* AllocateToneCurveStruct(cmsContext ContextID, cmsInt32Number nEntr
                     p ->Evals[i] = c ->Evaluator;
         }
     }
-    
+
     p ->InterpParams = _cmsComputeInterpParams(ContextID, p ->nEntries, 1, 1, p->Table16, CMS_LERP_FLAGS_16BITS);
     return p;
 
@@ -249,7 +249,7 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
     switch (Type) {
 
    // X = Y ^ Gamma
-    case 1:   
+    case 1:
         if (R < 0) {
 
             if (fabs(Params[0] - 1.0) < MATRIX_DET_TOLERANCE)
@@ -295,14 +295,14 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
 
      // Type 2 Reversed
      // X = (Y ^1/g  - b) / a
-     case -2: 
+     case -2:
          if (R < 0)
              Val = 0;
          else
              Val = (pow(R, 1.0/Params[0]) - Params[2]) / Params[1];
 
          if (Val < 0)
-              Val = 0;                            
+              Val = 0;
          break;
 
 
@@ -316,7 +316,7 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
 
         if (R >= disc) {
 
-            e = Params[1]*R + Params[2];  
+            e = Params[1]*R + Params[2];
 
             if (e > 0)
                 Val = pow(e, Params[0]) + Params[3];
@@ -330,15 +330,15 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
 
     // Type 3 reversed
     // X=((Y-c)^1/g - b)/a      | (Y>=c)
-    // X=-b/a                   | (Y<c) 
+    // X=-b/a                   | (Y<c)
     case -3:
         if (R >= Params[3])  {
-            
+
             e = R - Params[3];
 
             if (e > 0)
                 Val = (pow(e, 1/Params[0]) - Params[2]) / Params[1];
-            else 
+            else
                 Val = 0;
         }
         else {
@@ -395,7 +395,7 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
                 Val = pow(e, Params[0]) + Params[5];
             else
                 Val = 0;
-        }        
+        }
         else
             Val = R*Params[3] + Params[6];
         break;
@@ -410,7 +410,7 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
         if (R >= disc) {
 
             e = R - Params[5];
-            if (e < 0) 
+            if (e < 0)
                 Val = 0;
             else
                 Val = (pow(e, 1.0/Params[0]) - Params[2]) / Params[1];
@@ -423,29 +423,29 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
 
     // Types 6,7,8 comes from segmented curves as described in ICCSpecRevision_02_11_06_Float.pdf
     // Type 6 is basically identical to type 5 without d
-    
+
     // Y = (a * X + b) ^ Gamma + c
-    case 6:    
+    case 6:
         e = Params[1]*R + Params[2];
 
-        if (e < 0) 
+        if (e < 0)
             Val = 0;
-        else 
+        else
             Val = pow(e, Params[0]) + Params[3];
         break;
 
-    // ((Y - c) ^1/Gamma - b) / a                        
+    // ((Y - c) ^1/Gamma - b) / a
     case -6:
         e = R - Params[3];
         if (e < 0)
             Val = 0;
-        else 
+        else
         Val = (pow(e, 1.0/Params[0]) - Params[2]) / Params[1];
         break;
 
 
     // Y = a * log (b * X^Gamma + c) + d
-    case 7:                   
+    case 7:
 
        e = Params[2] * pow(R, Params[0]) + Params[3];
        if (e <= 0)
@@ -456,13 +456,13 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
 
     // (Y - d) / a = log(b * X ^Gamma + c)
     // pow(10, (Y-d) / a) = b * X ^Gamma + c
-    // pow((pow(10, (Y-d) / a) - c) / b, 1/g) = X 
+    // pow((pow(10, (Y-d) / a) - c) / b, 1/g) = X
     case -7:
        Val = pow((pow(10.0, (R-Params[4]) / Params[1]) - Params[3]) / Params[2], 1.0 / Params[0]);
        break;
 
 
-   //Y = a * b^(c*X+d) + e          
+   //Y = a * b^(c*X+d) + e
    case 8:
        Val = (Params[0] * pow(Params[1], Params[2] * R + Params[3]) + Params[4]);
        break;
@@ -471,14 +471,14 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
    // Y = (log((y-e) / a) / log(b) - d ) / c
    // a=0, b=1, c=2, d=3, e=4,
    case -8:
-             
+
        disc = R - Params[4];
        if (disc < 0) Val = 0;
-       else 
-           Val = (log(disc / Params[0]) / log(Params[1]) - Params[3]) / Params[2];         
+       else
+           Val = (log(disc / Params[0]) / log(Params[1]) - Params[3]) / Params[2];
        break;
 
-   // S-Shaped: (1 - (1-x)^1/g)^1/g                    
+   // S-Shaped: (1 - (1-x)^1/g)^1/g
    case 108:
       Val = pow(1.0 - pow(1 - R, 1/Params[0]), 1/Params[0]);
       break;
@@ -501,7 +501,7 @@ cmsFloat64Number DefaultEvalParametricFn(cmsInt32Number Type, const cmsFloat64Nu
 }
 
 // Evaluate a segmented funtion for a single value. Return -1 if no valid segment found .
-// If fn type is 0, perform an interpolation on the table 
+// If fn type is 0, perform an interpolation on the table
 static
 cmsFloat64Number EvalSegmentedFn(const cmsToneCurve *g, cmsFloat64Number R)
 {
@@ -519,10 +519,10 @@ cmsFloat64Number EvalSegmentedFn(const cmsToneCurve *g, cmsFloat64Number R)
                 cmsFloat32Number Out;
 
                 // Setup the table (TODO: clean that)
-                g ->SegInterp[i]-> Table = g ->Segments[i].SampledPoints; 
+                g ->SegInterp[i]-> Table = g ->Segments[i].SampledPoints;
 
                 g ->SegInterp[i] -> Interpolation.LerpFloat(&R1, &Out, g ->SegInterp[i]);
-                
+
                 return Out;
             }
             else
@@ -563,17 +563,17 @@ int EntriesByGamma(cmsFloat64Number Gamma)
 
 
 // Create a segmented gamma, fill the table
-cmsToneCurve* CMSEXPORT cmsBuildSegmentedToneCurve(cmsContext ContextID, 
+cmsToneCurve* CMSEXPORT cmsBuildSegmentedToneCurve(cmsContext ContextID,
                                                    cmsInt32Number nSegments, const cmsCurveSegment Segments[])
 {
     int i;
     cmsFloat64Number R, Val;
     cmsToneCurve* g;
     int nGridPoints = 4096;
-        
+
     _cmsAssert(Segments != NULL);
 
-    // Optimizatin for identity curves. 
+    // Optimizatin for identity curves.
     if (nSegments == 1 && Segments[0].Type == 1) {
 
         nGridPoints = EntriesByGamma(Segments[0].Params[0]);
@@ -615,7 +615,7 @@ cmsToneCurve* CMSEXPORT cmsBuildTabulatedToneCurveFloat(cmsContext ContextID, cm
 
     // From zero to any
     Seg[1].x0 = 0;
-    Seg[1].x1 = 1.0;   
+    Seg[1].x1 = 1.0;
     Seg[1].Type = 0;
 
     Seg[1].nGridPoints = nEntries;
@@ -639,7 +639,7 @@ cmsToneCurve* CMSEXPORT cmsBuildParametricToneCurve(cmsContext ContextID, cmsInt
     _cmsAssert(Params != NULL);
 
     if (c == NULL) {
-         cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Invalid parametric curve type %d", Type);     
+         cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Invalid parametric curve type %d", Type);
         return NULL;
     }
 
@@ -668,27 +668,27 @@ cmsToneCurve* CMSEXPORT cmsBuildGamma(cmsContext ContextID, cmsFloat64Number Gam
 void CMSEXPORT cmsFreeToneCurve(cmsToneCurve* Curve)
 {
     cmsContext ContextID;
-    
+
     if (Curve == NULL) return;
 
     ContextID = Curve ->InterpParams->ContextID;
 
     _cmsFreeInterpParams(Curve ->InterpParams);
-    
+
     if (Curve -> Table16)
         _cmsFree(ContextID, Curve ->Table16);
 
     if (Curve ->Segments) {
 
         cmsUInt32Number i;
-        
+
         for (i=0; i < Curve ->nSegments; i++) {
 
             if (Curve ->Segments[i].SampledPoints) {
                 _cmsFree(ContextID, Curve ->Segments[i].SampledPoints);
             }
 
-            if (Curve ->SegInterp[i] != 0) 
+            if (Curve ->SegInterp[i] != 0)
                 _cmsFreeInterpParams(Curve->SegInterp[i]);
         }
 
@@ -718,18 +718,18 @@ void CMSEXPORT cmsFreeToneCurveTriple(cmsToneCurve* Curve[3])
 
 // Duplicate a gamma table
 cmsToneCurve* CMSEXPORT cmsDupToneCurve(const cmsToneCurve* In)
-{   
+{
     if (In == NULL) return NULL;
 
     return  AllocateToneCurveStruct(In ->InterpParams ->ContextID, In ->nEntries, In ->nSegments, In ->Segments, In ->Table16);
 }
 
 // Joins two curves for X and Y. Curves should be monotonic.
-// We want to get 
+// We want to get
 //
-//      y = Y^-1(X(t)) 
+//      y = Y^-1(X(t))
 //
-cmsToneCurve* CMSEXPORT cmsJoinToneCurve(cmsContext ContextID, 
+cmsToneCurve* CMSEXPORT cmsJoinToneCurve(cmsContext ContextID,
                                       const cmsToneCurve* X,
                                       const cmsToneCurve* Y, cmsUInt32Number nResultingPoints)
 {
@@ -748,7 +748,7 @@ cmsToneCurve* CMSEXPORT cmsJoinToneCurve(cmsContext ContextID,
 
     Res = (cmsFloat32Number*) _cmsCalloc(ContextID, nResultingPoints, sizeof(cmsFloat32Number));
     if (Res == NULL) goto Error;
-    
+
     //Iterate
     for (i=0; i <  nResultingPoints; i++) {
 
@@ -759,7 +759,7 @@ cmsToneCurve* CMSEXPORT cmsJoinToneCurve(cmsContext ContextID,
 
     // Allocate space for output
     out = cmsBuildTabulatedToneCurveFloat(ContextID, nResultingPoints, Res);
-    
+
 Error:
 
     if (Res != NULL) _cmsFree(ContextID, Res);
@@ -770,25 +770,25 @@ Error:
 
 
 
-// Get the surrounding nodes. This is tricky on non-monotonic tables 
+// Get the surrounding nodes. This is tricky on non-monotonic tables
 static
 int GetInterval(cmsFloat64Number In, const cmsUInt16Number LutTable[], const struct _cms_interp_struc* p)
-{   
+{
     int i;
     int y0, y1;
-    
+
     // A 1 point table is not allowed
     if (p -> Domain[0] < 1) return -1;
 
-    // Let's see if ascending or descending. 
+    // Let's see if ascending or descending.
     if (LutTable[0] < LutTable[p ->Domain[0]]) {
 
         // Table is overall ascending
         for (i=p->Domain[0]-1; i >=0; --i) {
 
-            y0 = LutTable[i]; 
+            y0 = LutTable[i];
             y1 = LutTable[i+1];
-            
+
             if (y0 <= y1) { // Increasing
                 if (In >= y0 && In <= y1) return i;
             }
@@ -802,7 +802,7 @@ int GetInterval(cmsFloat64Number In, const cmsUInt16Number LutTable[], const str
         // Table is overall descending
         for (i=0; i < (int) p -> Domain[0]; i++) {
 
-            y0 = LutTable[i]; 
+            y0 = LutTable[i];
             y1 = LutTable[i+1];
 
             if (y0 <= y1) { // Increasing
@@ -825,18 +825,18 @@ cmsToneCurve* CMSEXPORT cmsReverseToneCurveEx(cmsInt32Number nResultSamples, con
     cmsFloat64Number a = 0, b = 0, y, x1, y1, x2, y2;
     int i, j;
     int Ascending;
-    
+
     _cmsAssert(InCurve != NULL);
 
     // Try to reverse it analytically whatever possible
     if (InCurve ->nSegments == 1 && InCurve ->Segments[0].Type > 0 && InCurve -> Segments[0].Type <= 5) {
 
-        return cmsBuildParametricToneCurve(InCurve ->InterpParams->ContextID, 
-                                       -(InCurve -> Segments[0].Type), 
+        return cmsBuildParametricToneCurve(InCurve ->InterpParams->ContextID,
+                                       -(InCurve -> Segments[0].Type),
                                        InCurve -> Segments[0].Params);
     }
 
-    // Nope, reverse the table. 
+    // Nope, reverse the table.
     out = cmsBuildTabulatedToneCurve16(InCurve ->InterpParams->ContextID, nResultSamples, NULL);
     if (out == NULL)
         return NULL;
@@ -849,18 +849,18 @@ cmsToneCurve* CMSEXPORT cmsReverseToneCurveEx(cmsInt32Number nResultSamples, con
 
         y = (cmsFloat64Number) i * 65535.0 / (nResultSamples - 1);
 
-        // Find interval in which y is within. 
+        // Find interval in which y is within.
         j = GetInterval(y, InCurve->Table16, InCurve->InterpParams);
         if (j >= 0) {
 
 
             // Get limits of interval
-            x1 = InCurve ->Table16[j]; 
+            x1 = InCurve ->Table16[j];
             x2 = InCurve ->Table16[j+1];
 
             y1 = (cmsFloat64Number) (j * 65535.0) / (InCurve ->nEntries - 1);
             y2 = (cmsFloat64Number) ((j+1) * 65535.0 ) / (InCurve ->nEntries - 1);
-    
+
             // If collapsed, then use any
             if (x1 == x2) {
 
@@ -869,12 +869,12 @@ cmsToneCurve* CMSEXPORT cmsReverseToneCurveEx(cmsInt32Number nResultSamples, con
 
             } else {
 
-                // Interpolate      
+                // Interpolate
                 a = (y2 - y1) / (x2 - x1);
                 b = y2 - a * x2;
             }
         }
-           
+
         out ->Table16[i] = _cmsQuickSaturateWord(a* y + b);
     }
 
@@ -910,7 +910,7 @@ cmsBool smooth2(cmsContext ContextID, cmsFloat32Number w[], cmsFloat32Number y[]
     c = (cmsFloat32Number*) _cmsCalloc(ContextID, MAX_NODES_IN_CURVE, sizeof(cmsFloat32Number));
     d = (cmsFloat32Number*) _cmsCalloc(ContextID, MAX_NODES_IN_CURVE, sizeof(cmsFloat32Number));
     e = (cmsFloat32Number*) _cmsCalloc(ContextID, MAX_NODES_IN_CURVE, sizeof(cmsFloat32Number));
-    
+
     if (c != NULL && d != NULL && e != NULL) {
 
 
@@ -922,7 +922,7 @@ cmsBool smooth2(cmsContext ContextID, cmsFloat32Number w[], cmsFloat32Number y[]
     c[2] = (-4 * lambda - d[1] * c[1] * e[1]) / d[2];
     e[2] = lambda / d[2];
     z[2] = w[2] * y[2] - c[1] * z[1];
-    
+
     for (i = 3; i < m - 1; i++) {
         i1 = i - 1; i2 = i - 2;
         d[i]= w[i] + 6 * lambda - c[i1] * c[i1] * d[i1] - e[i2] * e[i2] * d[i2];
@@ -930,18 +930,18 @@ cmsBool smooth2(cmsContext ContextID, cmsFloat32Number w[], cmsFloat32Number y[]
         e[i] = lambda / d[i];
         z[i] = w[i] * y[i] - c[i1] * z[i1] - e[i2] * z[i2];
     }
-    
+
     i1 = m - 2; i2 = m - 3;
-    
+
     d[m - 1] = w[m - 1] + 5 * lambda -c[i1] * c[i1] * d[i1] - e[i2] * e[i2] * d[i2];
     c[m - 1] = (-2 * lambda - d[i1] * c[i1] * e[i1]) / d[m - 1];
     z[m - 1] = w[m - 1] * y[m - 1] - c[i1] * z[i1] - e[i2] * z[i2];
     i1 = m - 1; i2 = m - 2;
-    
+
     d[m] = w[m] + lambda - c[i1] * c[i1] * d[i1] - e[i2] * e[i2] * d[i2];
     z[m] = (w[m] * y[m] - c[i1] * z[i1] - e[i2] * z[i2]) / d[m];
     z[m - 1] = z[m - 1] / d[m - 1] - c[m - 1] * z[m];
-    
+
     for (i = m - 2; 1<= i; i--)
         z[i] = z[i] / d[i] - c[i] * z[i + 1] - e[i] * z[i + 2];
 
@@ -956,7 +956,7 @@ cmsBool smooth2(cmsContext ContextID, cmsFloat32Number w[], cmsFloat32Number y[]
     return st;
 }
 
-// Smooths a curve sampled at regular intervals. 
+// Smooths a curve sampled at regular intervals.
 cmsBool  CMSEXPORT cmsSmoothToneCurve(cmsToneCurve* Tab, cmsFloat64Number lambda)
 {
     cmsFloat32Number w[MAX_NODES_IN_CURVE], y[MAX_NODES_IN_CURVE], z[MAX_NODES_IN_CURVE];
@@ -1034,14 +1034,14 @@ cmsBool  CMSEXPORT cmsIsToneCurveMonotonic(const cmsToneCurve* t)
     cmsBool lDescending;
 
     _cmsAssert(t != NULL);
-   
+
     // Degenerated curves are monotonic? Ok, let's pass them
     n = t ->nEntries;
     if (n < 2) return TRUE;
 
     // Curve direction
-    lDescending = cmsIsToneCurveDescending(t);     
-   
+    lDescending = cmsIsToneCurveDescending(t);
+
     if (lDescending) {
 
         last = t ->Table16[0];
@@ -1060,7 +1060,7 @@ cmsBool  CMSEXPORT cmsIsToneCurveMonotonic(const cmsToneCurve* t)
         last = t ->Table16[n-1];
 
         for (i = n-2; i >= 0; --i) {
-          
+
             if (t ->Table16[i] - last > 2)
                 return FALSE;
             else
@@ -1106,10 +1106,10 @@ cmsFloat32Number CMSEXPORT cmsEvalToneCurveFloat(const cmsToneCurve* Curve, cmsF
     if (Curve ->nSegments == 0) {
 
         cmsUInt16Number In, Out;
-        
+
         In = (cmsUInt16Number) _cmsQuickSaturateWord(v * 65535.0);
         Out = cmsEvalToneCurve16(Curve, In);
-        
+
         return (cmsFloat32Number) (Out / 65535.0);
     }
 
@@ -1129,21 +1129,21 @@ cmsUInt16Number CMSEXPORT cmsEvalToneCurve16(const cmsToneCurve* Curve, cmsUInt1
 
 
 // Least squares fitting.
-// A mathematical procedure for finding the best-fitting curve to a given set of points by 
-// minimizing the sum of the squares of the offsets ("the residuals") of the points from the curve. 
-// The sum of the squares of the offsets is used instead of the offset absolute values because 
-// this allows the residuals to be treated as a continuous differentiable quantity. 
+// A mathematical procedure for finding the best-fitting curve to a given set of points by
+// minimizing the sum of the squares of the offsets ("the residuals") of the points from the curve.
+// The sum of the squares of the offsets is used instead of the offset absolute values because
+// this allows the residuals to be treated as a continuous differentiable quantity.
 //
 // y = f(x) = x ^ g
 //
 // R  = (yi - (xi^g))
 // R2 = (yi - (xi^g))2
 // SUM R2 = SUM (yi - (xi^g))2
-// 
-// dR2/dg = -2 SUM x^g log(x)(y - x^g)    
-// solving for dR2/dg = 0 
-// 
-// g = 1/n * SUM(log(y) / log(x)) 
+//
+// dR2/dg = -2 SUM x^g log(x)(y - x^g)
+// solving for dR2/dg = 0
+//
+// g = 1/n * SUM(log(y) / log(x))
 
 cmsFloat64Number CMSEXPORT cmsEstimateGamma(const cmsToneCurve* t, cmsFloat64Number Precision)
 {
@@ -1155,13 +1155,13 @@ cmsFloat64Number CMSEXPORT cmsEstimateGamma(const cmsToneCurve* t, cmsFloat64Num
 
     sum = sum2 = n = 0;
 
-    // Excluding endpoints   
+    // Excluding endpoints
     for (i=1; i < (MAX_NODES_IN_CURVE-1); i++) {
 
         x = (cmsFloat64Number) i / (MAX_NODES_IN_CURVE-1);
         y = (cmsFloat64Number) cmsEvalToneCurveFloat(t, (cmsFloat32Number) x);
 
-        // Avoid 7% on lower part to prevent 
+        // Avoid 7% on lower part to prevent
         // artifacts due to linear ramps
 
         if (y > 0. && y < 1. && x > 0.07) {
