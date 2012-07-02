@@ -262,7 +262,7 @@ void CSubtitleDlDlg::OnOK()
         pMF->m_pSubStreams.RemoveAll();
     }
 
-	CAppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CComPtr<ISubStream> pSubStreamToSet;
 
     POSITION pos = m_selsubs.GetHeadPosition();

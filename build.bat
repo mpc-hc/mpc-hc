@@ -200,7 +200,7 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 IF /I "%BUILDCFG%" == "Debug" (
-  CALL :SubMsg "WARNING" "/debug was used, resources will not be built."
+  CALL :SubMsg "WARNING" "/debug was used, resources will not be built"
   EXIT /B
 )
 
@@ -215,7 +215,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 IF DEFINED MPCHC_LITE (
-  CALL :SubMsg "WARNING" "/lite was used, translations will not be built."
+  CALL :SubMsg "WARNING" "/lite was used, translations will not be built"
   EXIT /B
 )
 

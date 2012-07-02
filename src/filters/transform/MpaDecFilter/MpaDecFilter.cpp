@@ -37,10 +37,12 @@ void* __imp_time64 = _time64;
 void* __imp_vscprintf = _vscprintf;
 
 #include <InitGuid.h>
+
 extern "C" {
     void __mingw_raise_matherr(int typ, const char* name, double a1, double a2, double rslt) {}
 }
 #endif // STANDALONE_FILTER
+
 #include "moreuuids.h"
 
 #include <vector>
@@ -102,9 +104,9 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
     // Qt ADPCM
     { &MEDIASUBTYPE_IMA4,       CODEC_ID_ADPCM_IMA_QT },
     // FLV ADPCM
-    { &MEDIASUBTYPE_ADPCM_SWF,  CODEC_ID_ADPCM_SWF    },
+    { &MEDIASUBTYPE_ADPCM_SWF,  CODEC_ID_ADPCM_SWF },
     // AMV IMA ADPCM
-    { &MEDIASUBTYPE_ADPCM_AMV,  CODEC_ID_ADPCM_IMA_AMV},
+    { &MEDIASUBTYPE_ADPCM_AMV,  CODEC_ID_ADPCM_IMA_AMV },
 #endif
 #if INTERNAL_DECODER_MPEGAUDIO
     // MPEG Audio
@@ -141,117 +143,117 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 #if INTERNAL_DECODER_MPEGAUDIO
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_MP3},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_MPEG1AudioPayload},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_MPEG1Payload},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_MPEG1Packet},
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_MPEG2_AUDIO},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_MPEG2_AUDIO},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_MPEG2_AUDIO},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_MPEG2_AUDIO},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_MP3 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_MPEG1AudioPayload },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_MPEG1Payload },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_MPEG1Packet },
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_MPEG2_AUDIO },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_MPEG2_AUDIO },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_MPEG2_AUDIO },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_MPEG2_AUDIO },
 #endif
 #if INTERNAL_DECODER_AC3
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DOLBY_AC3},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DOLBY_AC3},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DOLBY_AC3},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_DOLBY_AC3},
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DOLBY_DDPLUS},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DOLBY_DDPLUS},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DOLBY_DDPLUS},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_DOLBY_DDPLUS},
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DOLBY_TRUEHD},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DOLBY_TRUEHD},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DOLBY_TRUEHD},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_DOLBY_TRUEHD},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_WAVE_DOLBY_AC3},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_MLP},
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DOLBY_AC3 },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DOLBY_AC3 },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DOLBY_AC3 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_DOLBY_AC3 },
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DOLBY_DDPLUS },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DOLBY_DDPLUS },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DOLBY_DDPLUS },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_DOLBY_DDPLUS },
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DOLBY_TRUEHD },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DOLBY_TRUEHD },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DOLBY_TRUEHD },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_DOLBY_TRUEHD },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_WAVE_DOLBY_AC3 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_MLP },
 #endif
 #if INTERNAL_DECODER_DTS
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DTS},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DTS},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DTS},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_DTS},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_WAVE_DTS},
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DTS },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DTS },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DTS },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_DTS },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_WAVE_DTS },
 #endif
 #if INTERNAL_DECODER_LPCM
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DVD_LPCM_AUDIO},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DVD_LPCM_AUDIO},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DVD_LPCM_AUDIO},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_DVD_LPCM_AUDIO},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_HDMV_LPCM_AUDIO},
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_DVD_LPCM_AUDIO },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_DVD_LPCM_AUDIO },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_DVD_LPCM_AUDIO },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_DVD_LPCM_AUDIO },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_HDMV_LPCM_AUDIO },
 #endif
 #if INTERNAL_DECODER_AAC
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_AAC},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_AAC},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_AAC},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_AAC},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_LATM_AAC},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_AAC_ADTS},
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_MP4A},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_MP4A},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_MP4A},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_MP4A},
-    {&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_mp4a},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_mp4a},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_mp4a},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_mp4a},
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_AAC },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_AAC },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_AAC },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_AAC },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_LATM_AAC },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_AAC_ADTS },
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_MP4A },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_MP4A },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_MP4A },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_MP4A },
+    { &MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_mp4a },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_mp4a },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_mp4a },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_mp4a },
 #endif
 #if INTERNAL_DECODER_AMR
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_AMR},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_SAMR},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_SAWB},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_AMR },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_SAMR },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_SAWB },
 #endif
 #if INTERNAL_DECODER_PS2AUDIO
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_PS2_PCM},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_PS2_PCM},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PS2_PCM},
-    {&MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_PS2_ADPCM},
-    {&MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_PS2_ADPCM},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PS2_ADPCM},
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_PS2_PCM },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_PS2_PCM },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PS2_PCM },
+    { &MEDIATYPE_MPEG2_PACK,         &MEDIASUBTYPE_PS2_ADPCM },
+    { &MEDIATYPE_MPEG2_PES,          &MEDIASUBTYPE_PS2_ADPCM },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PS2_ADPCM },
 #endif
 #if INTERNAL_DECODER_VORBIS
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_Vorbis2},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_Vorbis2 },
 #endif
 #if INTERNAL_DECODER_FLAC
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_FLAC_FRAMED},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_FLAC_FRAMED },
 #endif
 #if INTERNAL_DECODER_NELLYMOSER
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_NELLYMOSER},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_NELLYMOSER },
 #endif
 #if INTERNAL_DECODER_PCM
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_NONE},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_RAW},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_TWOS},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_SOWT},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_IN24},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_IN32},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_FL32},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_FL64},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_IEEE_FLOAT}, // only for 64-bit float PCM
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_NONE },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_RAW },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_TWOS },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_SOWT },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_IN24 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_IN32 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_FL32 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_PCM_FL64 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_IEEE_FLOAT }, // only for 64-bit float PCM
 #endif
 #if INTERNAL_DECODER_ADPCM
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_IMA4},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_ADPCM_SWF},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_ADPCM_AMV},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_IMA4 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_ADPCM_SWF },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_ADPCM_AMV },
 #endif
 #if INTERNAL_DECODER_REALAUDIO
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_14_4},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_28_8},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_ATRC},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_COOK},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_DNET},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_SIPR},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_RAAC},
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_RACP},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_14_4 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_28_8 },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_ATRC },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_COOK },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_DNET },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_SIPR },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_RAAC },
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_RACP },
 #endif
 #if INTERNAL_DECODER_ALAC
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_ALAC},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_ALAC },
 #endif
 #if INTERNAL_DECODER_ALS
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_ALS},
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_ALS },
 #endif
 #if !HAS_OTHER_AUDIO_DECODERS && !HAS_FFMPEG_AUDIO_DECODERS
-    {&MEDIATYPE_Audio,              &MEDIASUBTYPE_None} // just to prevent compilation error
+    { &MEDIATYPE_Audio,              &MEDIASUBTYPE_None } // just to prevent compilation error
 #endif
 };
 
@@ -352,11 +354,11 @@ static struct channel_mode_t {
     uint8_t  dts_ch_layout;
 }
 channel_mode[] = {
-//   n  libavcodec (for ac3)        libdca          ID  Name                 libavcodec internal
+    //n  libavcodec (for ac3)       libdca          ID  Name                 libavcodec internal
     {0, 0                          , -1        }, // 0 "As is"                  AC3          DTS
     {1, AV_CH_LAYOUT_MONO          , DTS_MONO  }, // 1 "Mono"             AC3_CHMODE_MONO   DCA_MONO
     {2, AV_CH_LAYOUT_STEREO        , DTS_STEREO}, // 2 "Stereo"           AC3_CHMODE_STEREO DCA_STEREO
-    {3, -1/*AV_CH_LAYOUT_SURROUND*/, DTS_3F    }, // 3 "3 Front"          AC3_CHMODE_3F     DCA_3F  
+    {3, -1/*AV_CH_LAYOUT_SURROUND*/, DTS_3F    }, // 3 "3 Front"          AC3_CHMODE_3F     DCA_3F
     {3, -1/*AV_CH_LAYOUT_2_1     */, DTS_2F1R  }, // 4 "2 Front + 1 Rear" AC3_CHMODE_2F1R   DCA_2F1R
     {4, -1/*AV_CH_LAYOUT_4POINT0 */, DTS_3F1R  }, // 5 "3 Front + 1 Rear" AC3_CHMODE_3F1R   DCA_3F1R
     {4, -1/*AV_CH_LAYOUT_QUAD    */, DTS_2F2R  }, // 6 "2 Front + 2 Rear" AC3_CHMODE_2F2R   DCA_2F2R
@@ -702,13 +704,13 @@ HRESULT CMpaDecFilter::ProcessLPCM()
         return ERROR_NOT_SUPPORTED;
     }
 
-    int      nChannels = wfein->nChannels;
+    int nChannels = wfein->nChannels;
 
-    BYTE*    pDataIn   = m_buff.GetData();
-    int BytesPerDoubleSample        = (wfein->wBitsPerSample * 2) / 8;
+    BYTE* pDataIn = m_buff.GetData();
+    int BytesPerDoubleSample = (wfein->wBitsPerSample * 2) / 8;
     int BytesPerDoubleChannelSample = BytesPerDoubleSample * nChannels;
-    int      nInBytes  = (int)m_buff.GetCount();
-    int      len       = (nInBytes / BytesPerDoubleChannelSample) * (BytesPerDoubleChannelSample); // We always code 2 samples at a time
+    int nInBytes = (int)m_buff.GetCount();
+    int len = (nInBytes / BytesPerDoubleChannelSample) * (BytesPerDoubleChannelSample); // We always code 2 samples at a time
 
     CAtlArray<float> pBuff;
     pBuff.SetCount((len / BytesPerDoubleSample) * 2);
@@ -1016,9 +1018,9 @@ HRESULT CMpaDecFilter::ProcessDTS()
                     }
                 } else {
                     int sc = GetSpeakerConfig(dts);
-                    if (sc&CH_MASK) {
-                        flags = channel_mode[sc&CH_MASK].dts_ch_layout;
-                        if (sc&CH_LFE) {
+                    if (sc & CH_MASK) {
+                        flags = channel_mode[sc & CH_MASK].dts_ch_layout;
+                        if (sc & CH_LFE) {
                             flags |= DTS_LFE;
                         }
                         flags |= DTS_ADJUST_LEVEL;
@@ -1531,9 +1533,9 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
     float* pDataIn = pBuff.GetData();
 
-#define f16max (float(INT16_MAX)/INT16_PEAK)
-#define f24max (float(INT24_MAX)/INT24_PEAK)
-#define d32max (double(INT32_MAX)/INT32_PEAK)
+#define f16max (float(INT16_MAX) / INT16_PEAK)
+#define f24max (float(INT24_MAX) / INT24_PEAK)
+#define d32max (double(INT32_MAX) / INT32_PEAK)
 #define round_f(x) ((x) > 0 ? (x) + 0.5f : (x) - 0.5f)
 #define round_d(x) ((x) > 0 ? (x) + 0.5 : (x) - 0.5)
 
@@ -1856,8 +1858,8 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3 || INTERNAL_DECODER_DTS
     if (GetSPDIF(ac3) && (subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3) ||
-        GetSPDIF(dts) && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
-            *pmt = CreateMediaTypeSPDIF();
+            GetSPDIF(dts) && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
+        *pmt = CreateMediaTypeSPDIF();
     }
 #else
     if (0) {}
@@ -1950,8 +1952,8 @@ STDMETHODIMP CMpaDecFilter::SetSpeakerConfig(enctype et, int sc)
 
 #if HAS_FFMPEG_AUDIO_DECODERS
     if (et == ac3 && m_pAVCtx && (m_pAVCtx->codec_id == CODEC_ID_AC3 || m_pAVCtx->codec_id == CODEC_ID_EAC3)) {
-        m_pAVCtx->request_channels = channel_mode[sc&CH_MASK].channels;
-        m_pAVCtx->request_channel_layout = channel_mode[sc&CH_MASK].av_ch_layout;
+        m_pAVCtx->request_channels = channel_mode[sc & CH_MASK].channels;
+        m_pAVCtx->request_channel_layout = channel_mode[sc & CH_MASK].av_ch_layout;
     }
 #endif
 
@@ -2096,7 +2098,7 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
         m_nFFBufferSize = size;                                                            \
     }                                                                                      \
     memcpy(m_pFFBuffer, data, size);                                                       \
-    memset(m_pFFBuffer+size, 0, FF_INPUT_BUFFER_PADDING_SIZE);                             \
+    memset(m_pFFBuffer + size, 0, FF_INPUT_BUFFER_PADDING_SIZE);                           \
 }
 
 HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsize, int& size)
@@ -2140,7 +2142,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
 
                 // http://mplayerhq.hu/pipermail/mplayer-dev-eng/2002-August/010569.html
                 static BYTE sipr_swaps[38][2] = {
-                    {0, 63}, {1, 22}, {2, 44}, {3, 90}, {5, 81}, {7, 31}, {8, 86}, {9, 58}, {10, 36}, {12, 68},
+                    {0,  63}, {1,  22}, {2,  44}, {3,  90}, {5,  81}, {7,  31}, {8,  86}, {9,  58}, {10, 36}, {12, 68},
                     {13, 39}, {14, 73}, {15, 53}, {16, 69}, {17, 57}, {19, 88}, {20, 34}, {21, 71}, {24, 46},
                     {25, 94}, {26, 54}, {28, 75}, {29, 50}, {32, 70}, {33, 92}, {35, 74}, {38, 85}, {40, 56},
                     {42, 87}, {43, 65}, {45, 59}, {48, 79}, {49, 93}, {51, 89}, {55, 95}, {61, 76}, {67, 83},
@@ -2331,7 +2333,7 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
             nSamples  = 8000;
         }
 
-        m_pAVCtx                        = avcodec_alloc_context3(m_pAVCodec);
+        m_pAVCtx = avcodec_alloc_context3(m_pAVCodec);
         CheckPointer(m_pAVCtx, false);
 
         m_pAVCtx->sample_rate           = nSamples;
@@ -2348,8 +2350,8 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 
         if (nCodecId == CODEC_ID_AC3 || nCodecId == CODEC_ID_EAC3) {
             int sc = GetSpeakerConfig(ac3);
-            m_pAVCtx->request_channels = channel_mode[sc&CH_MASK].channels;
-            m_pAVCtx->request_channel_layout = channel_mode[sc&CH_MASK].av_ch_layout;
+            m_pAVCtx->request_channels = channel_mode[sc & CH_MASK].channels;
+            m_pAVCtx->request_channel_layout = channel_mode[sc & CH_MASK].av_ch_layout;
         }
         av_opt_set_double(m_pAVCtx, "drc_scale", GetDynamicRangeControl(ac3) ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
 
