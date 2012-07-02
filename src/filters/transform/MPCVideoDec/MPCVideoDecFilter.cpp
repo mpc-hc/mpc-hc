@@ -26,10 +26,14 @@
 #include <MMReg.h>
 
 #include "ffmpeg/libavcodec/avcodec.h"
+#if HAS_FFMPEG_VIDEO_DECODERS
+#include "ffmpeg/libavutil/common.h"
+#endif
 
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
+
 #include "MPCVideoDecFilter.h"
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"
@@ -52,9 +56,8 @@ extern "C"
 #include "DXVADecoderH264.h"
 #include "../../../mpc-hc/FilterEnum.h"
 
-#define MAX_SUPPORTED_MODE          5
-#define ROUND_FRAMERATE(var,FrameRate)  if (labs ((long)(var - FrameRate)) < FrameRate*1/100) var = FrameRate;
-#define AVRTIMEPERFRAME_VC1_EVO 417083
+#define MAX_SUPPORTED_MODE       5
+#define AVRTIMEPERFRAME_VC1_EVO  417083
 
 typedef struct {
     const int   PicEntryNumber;
@@ -1006,7 +1009,7 @@ void CMPCVideoDecFilter::CalcAvgTimePerFrame()
 void CMPCVideoDecFilter::LogLibavcodec(void* par, int level, const char* fmt, va_list valist)
 {
 #if defined(_DEBUG) && 0
-    char        Msg [500];
+    char Msg [500];
     vsnprintf_s(Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
     TRACE("AVLIB : %s", Msg);
 #endif
@@ -1694,8 +1697,6 @@ void copyPlane(BYTE* dstp, stride_t dst_pitch, const BYTE* srcp, stride_t src_pi
         }
     }
 }
-
-#define FFALIGN(x, a) (((x) + (a) - 1) &~ ((a) - 1))
 
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
