@@ -118,7 +118,7 @@ void CChildView::SetVideoRect(CRect r)
 
 void CChildView::LoadLogo()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     bool bHaveLogo = false;
 
     CAutoLock cAutoLock(&m_csLogo);

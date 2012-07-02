@@ -372,7 +372,7 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
 
     // generate page
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos) {
         wmcmd& wc = s.wmcmds.GetNext(pos);

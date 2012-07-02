@@ -1099,7 +1099,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 
     int nTotal = 0, nRendered = 0;
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     BeginEnumPins(pBF, pEP, pPin) {
         if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
@@ -1169,7 +1169,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)
         return VFW_E_INVALID_DIRECTION;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     BeginEnumPins(pBF, pEP, pPin) {
         if (S_OK == IsPinDirection(pPin, PINDIR_INPUT)
@@ -1197,7 +1197,7 @@ STDMETHODIMP CFGManager::ConnectFilterDirect(IPin* pPinOut, IBaseFilter* pBF, co
         return VFW_E_INVALID_DIRECTION;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     BeginEnumPins(pBF, pEP, pPin) {
         if (S_OK == IsPinDirection(pPin, PINDIR_INPUT)
@@ -1341,7 +1341,7 @@ STDMETHODIMP CFGManager::GetDeadEnd(int iIndex, CAtlList<CStringW>& path, CAtlLi
 CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     : CFGManager(pName, pUnk)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     bool        bOverrideBroadcom = false;
     CFGFilter*  pFGF;
@@ -2445,7 +2445,7 @@ STDMETHODIMP CFGManagerCustom::AddFilter(IBaseFilter* pBF, LPCWSTR pName)
         return hr;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (GetCLSID(pBF) == CLSID_DMOWrapperFilter) {
         if (CComQIPtr<IPropertyBag> pPB = pBF) {
@@ -2477,7 +2477,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     TRACE("--> CFGManagerPlayer::CFGManagerPlayer on thread: %d\n", GetCurrentThreadId());
     CFGFilter* pFGF;
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (m_pFM) {
         CComPtr<IEnumMoniker> pEM;
@@ -2618,7 +2618,7 @@ STDMETHODIMP CFGManagerPlayer::ConnectDirect(IPin* pPinOut, IPin* pPinIn, const 
 CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     : CFGManagerPlayer(pName, pUnk, hWnd)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     // have to avoid the old video renderer
     if (s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER) {

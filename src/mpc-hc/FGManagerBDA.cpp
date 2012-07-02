@@ -393,7 +393,7 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
 STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList)
 {
     HRESULT hr;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CComPtr<IBaseFilter> pNetwork;
     CComPtr<IBaseFilter> pTuner;
     CComPtr<IBaseFilter> pReceiver;
@@ -491,7 +491,7 @@ STDMETHODIMP CFGManagerBDA::ConnectDirect(IPin* pPinOut, IPin* pPinIn, const AM_
 STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
 {
     HRESULT hr = E_INVALIDARG;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
 
     if (pChannel != NULL) {
@@ -513,7 +513,7 @@ STDMETHODIMP CFGManagerBDA::SetAudio(int nAudioIndex)
 STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 {
     HRESULT hr;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 
@@ -562,7 +562,7 @@ STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& 
 STDMETHODIMP CFGManagerBDA::Count(DWORD* pcStreams)
 {
     CheckPointer(pcStreams, E_POINTER);
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
 
     *pcStreams = 0;
@@ -577,7 +577,7 @@ STDMETHODIMP CFGManagerBDA::Count(DWORD* pcStreams)
 STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
 {
     HRESULT hr = E_INVALIDARG;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     DVBStreamInfo* pStreamInfo = NULL;
     CDVBStream* pStream = NULL;
@@ -613,7 +613,7 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
 STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk)
 {
     HRESULT hr = E_INVALIDARG;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     DVBStreamInfo* pStreamInfo = NULL;
     CDVBStream* pStream = NULL;
@@ -813,7 +813,7 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE n
 HRESULT CFGManagerBDA::UpdatePSI(PresentFollowing& NowNext)
 {
     HRESULT hr = S_FALSE;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 

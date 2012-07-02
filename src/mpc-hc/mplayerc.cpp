@@ -236,7 +236,7 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
 {
     WORD assignTo = 0;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos && !assignTo) {
@@ -2095,7 +2095,7 @@ LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM l
 
 bool CMPlayerCApp::SetLanguage(const LanguageResource& languageResource, bool showErrorMsg /*= true*/)
 {
-    AppSettings&    s = AfxGetAppSettings();
+    CAppSettings&    s = AfxGetAppSettings();
     HMODULE         hMod = NULL;
     bool            success = false;
 

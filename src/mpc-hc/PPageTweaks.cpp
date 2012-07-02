@@ -80,7 +80,7 @@ BOOL CPPageTweaks::OnInitDialog()
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     m_nJumpDistS = s.nJumpDistS;
     m_nJumpDistM = s.nJumpDistM;
@@ -148,7 +148,7 @@ BOOL CPPageTweaks::OnApply()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     s.nJumpDistS = m_nJumpDistS;
     s.nJumpDistM = m_nJumpDistM;

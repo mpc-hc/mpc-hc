@@ -326,7 +326,7 @@ BOOL CPPageCapture::OnInitDialog()
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     FindAnalogDevices();
     FindDigitalDevices();
@@ -340,7 +340,7 @@ BOOL CPPageCapture::OnInitDialog()
 
 void CPPageCapture::FindAnalogDevices()
 {
-    AppSettings&    s    = AfxGetAppSettings();
+    CAppSettings&    s    = AfxGetAppSettings();
     int             iSel = 0;
 
     // List video devised
@@ -483,7 +483,7 @@ void CPPageCapture::FindAnalogDevices()
 
 void CPPageCapture::FindDigitalDevices()
 {
-    AppSettings&    s    = AfxGetAppSettings();
+    CAppSettings&    s    = AfxGetAppSettings();
     int             iSel = 0;
 
     BeginEnumSysDev(KSCATEGORY_BDA_NETWORK_PROVIDER, pMoniker) {
@@ -560,7 +560,7 @@ BOOL CPPageCapture::OnApply()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     s.iDefaultCaptureDevice = m_iDefaultDevice;
 

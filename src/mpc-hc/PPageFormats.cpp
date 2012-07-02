@@ -148,7 +148,7 @@ BOOL CPPageFormats::OnInitDialog()
 
     int fSetContextFiles = FALSE;
 
-    const AppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
     m_mf = s.m_Formats;
 
     for (int i = 0, cnt = (int)m_mf.GetCount(); i < cnt; i++) {
@@ -273,7 +273,7 @@ BOOL CPPageFormats::OnApply()
 
     m_mf.SetRtspHandler(m_iRtspHandler == 0 ? RealMedia : m_iRtspHandler == 1 ? QuickTime : DirectShow, !!m_fRtspFileExtFirst);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     s.m_Formats = m_mf;
     s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
 

@@ -196,4 +196,3 @@ public:
 
 #define AfxGetMyApp() static_cast<CMPlayerCApp*>(AfxGetApp())
 #define AfxGetAppSettings() static_cast<CMPlayerCApp*>(AfxGetApp())->m_s
-#define AppSettings CAppSettings

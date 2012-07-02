@@ -245,7 +245,7 @@ BOOL CShaderEditorDlg::Create(CWnd* pParent)
 
     POSITION pos = AfxGetAppSettings().m_shaders.GetHeadPosition();
     while (pos) {
-        const AppSettings::Shader& s = AfxGetAppSettings().m_shaders.GetNext(pos);
+        const CAppSettings::Shader& s = AfxGetAppSettings().m_shaders.GetNext(pos);
         m_labels.SetItemDataPtr(m_labels.AddString(s.label), (void*)&s);
     }
     CorrectComboListWidth(m_labels);
@@ -329,7 +329,7 @@ void CShaderEditorDlg::OnCbnSelchangeCombo1()
         CStringA srcdata;
         LoadResource(IDF_SHADER_EMPTY, srcdata, _T("FILE"));
 
-        AppSettings::Shader s;
+        CAppSettings::Shader s;
         s.label = label;
         s.target = _T("ps_2_0");
         s.srcdata = CString(srcdata);
@@ -341,7 +341,7 @@ void CShaderEditorDlg::OnCbnSelchangeCombo1()
         m_labels.SetItemDataPtr(i, (void*)&AfxGetAppSettings().m_shaders.GetAt(pos));
     }
 
-    m_pShader = (AppSettings::Shader*)m_labels.GetItemDataPtr(i);
+    m_pShader = (CAppSettings::Shader*)m_labels.GetItemDataPtr(i);
 
     m_targets.SetWindowText(m_pShader->target);
 
@@ -362,7 +362,7 @@ void CShaderEditorDlg::OnBnClickedButton2()
         return;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     for (POSITION pos = s.m_shaders.GetHeadPosition(); pos; s.m_shaders.GetNext(pos)) {
         if (m_pShader == &s.m_shaders.GetAt(pos)) {

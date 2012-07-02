@@ -77,7 +77,7 @@ BOOL CPPageSync::OnSetActive()
 
 void CPPageSync::InitDialogPrivate()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CMainFrame* pFrame;
     pFrame = (CMainFrame*)(AfxGetApp()->m_pMainWnd);
     if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE)) {
@@ -107,7 +107,7 @@ BOOL CPPageSync::OnApply()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CRenderersSettings::CRendererSettingsEVR& rendererSettings = s.m_RenderersSettings.m_RenderSettings;
     rendererSettings.bSynchronizeVideo = !!m_bSynchronizeVideo;

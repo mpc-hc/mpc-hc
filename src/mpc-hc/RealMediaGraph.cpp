@@ -554,7 +554,7 @@ void CRealMediaPlayerWindowed::DestroySite(IRMASite* pSite)
 CRealMediaPlayerWindowless::CRealMediaPlayerWindowless(HWND hWndParent, CRealMediaGraph* pRMG)
     : CRealMediaPlayer(hWndParent, pRMG)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     bool bFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
     switch (s.iRMVideoRendererType) {

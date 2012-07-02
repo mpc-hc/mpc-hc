@@ -104,7 +104,7 @@ BOOL CPPageOutput::OnInitDialog()
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CRenderersSettings& renderersSettings = s.m_RenderersSettings;
     m_iDSVideoRendererType  = s.iDSVideoRendererType;
@@ -296,7 +296,7 @@ BOOL CPPageOutput::OnApply()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CRenderersSettings& renderersSettings = s.m_RenderersSettings;
     s.iDSVideoRendererType      = m_iDSVideoRendererType;

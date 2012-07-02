@@ -772,7 +772,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     GetDesktopWindow()->GetWindowRect(&m_rcDesktop);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     // Load the controls
     m_nCS = s.nCS;
@@ -872,7 +872,7 @@ void CMainFrame::OnClose()
 {
     m_fClosingState = true;
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     // Casimir666 : save shaders list
     {
         POSITION pos;
@@ -1228,7 +1228,7 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 
 void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     DWORD style = GetStyle();
 
     lpMMI->ptMinTrackSize.x = 16;
@@ -1352,7 +1352,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
     }
 
     if (!m_fFirstFSAfterLaunchOnFS && IsWindowVisible() && !m_fFullScreen) {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
         if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED) {
             GetWindowRect(s.rcLastWindowPos);
         }
@@ -1364,7 +1364,7 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 {
     __super::OnSizing(fwSide, pRect);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     bool fCtrl = !!(GetAsyncKeyState(VK_CONTROL) & 0x80000000);
 
@@ -1476,7 +1476,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
         }
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     if (s.iDSVideoRendererType != VIDRNDT_DS_MADVR && s.iDSVideoRendererType != VIDRNDT_DS_DXR) {
         IDirect3D9* pD3D9 = NULL;
         DWORD m_nPCIVendor = 0;
@@ -1585,7 +1585,7 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
             cmd == APPCOMMAND_MEDIA_PLAY || cmd == APPCOMMAND_MEDIA_PAUSE || cmd == APPCOMMAND_MEDIA_CHANNEL_UP ||
             cmd == APPCOMMAND_MEDIA_CHANNEL_DOWN || cmd == APPCOMMAND_MEDIA_RECORD ||
             cmd == APPCOMMAND_MEDIA_FAST_FORWARD || cmd == APPCOMMAND_MEDIA_REWIND) {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
 
         BOOL fRet = FALSE;
 
@@ -1607,7 +1607,7 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
 
 void CMainFrame::OnRawInput(UINT nInputcode, HRAWINPUT hRawInput)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     UINT nMceCmd = 0;
 
     nMceCmd = AfxGetMyApp()->GetRemoteControlCode(nInputcode, hRawInput);
@@ -1647,7 +1647,7 @@ void CMainFrame::OnRawInput(UINT nInputcode, HRAWINPUT hRawInput)
 
 LRESULT CMainFrame::OnHotKey(WPARAM wParam, LPARAM lParam)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     BOOL fRet = FALSE;
 
     if (GetActiveWindow() == this || s.fGlobalMedia == TRUE) {
@@ -1692,7 +1692,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     }
 
                     if (!m_fEndOfStream) {
-                        AppSettings& s = AfxGetAppSettings();
+                        CAppSettings& s = AfxGetAppSettings();
                         FILE_POSITION*  FilePosition = s.CurrentFilePosition();
                         if (FilePosition) {
                             FilePosition->llPosition = rtNow;
@@ -2199,7 +2199,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
 bool CMainFrame::DoAfterPlaybackEvent()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     bool fExit = (s.nCLSwitches & CLSW_CLOSE) || s.fExitAfterPlayback;
 
@@ -2235,7 +2235,7 @@ bool CMainFrame::DoAfterPlaybackEvent()
 //
 bool CMainFrame::GraphEventComplete()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     FILE_POSITION*  FilePosition = s.CurrentFilePosition();
     if (FilePosition) {
         FilePosition->llPosition = 0;
@@ -2324,7 +2324,7 @@ bool CMainFrame::GraphEventComplete()
 
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     HRESULT hr = S_OK;
 
     UpdateThumbarButton();
@@ -2941,7 +2941,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
         }
 
         CSize diff = m_lastMouseMove - point;
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
 
         if (m_pFullscreenWnd->IsWindow() && (abs(diff.cx) + abs(diff.cy)) >= 1) {
             //TRACE ("==> SHOW!\n");
@@ -3292,7 +3292,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
     }
 
     if (fPnSPresets) {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
         INT_PTR i = 0, j = s.m_pnspresets.GetCount();
         for (; i < j; i++) {
             int k = 0;
@@ -3319,7 +3319,7 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
     if (!pMenu) {
         return FALSE;
     }
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     // Do not show popup menu in D3D fullscreen for Sync Renderer. It has several adverse effects.
     if (IsD3DFullScreenMode() && s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
         return FALSE;
@@ -3523,7 +3523,7 @@ void CMainFrame::OnFilePostOpenmedia()
     }
 
     SetLoadState(MLS_LOADED);
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     // IMPORTANT: must not call any windowing msgs before
     // this point, it will deadlock when OpenMediaPrivate is
@@ -4055,7 +4055,7 @@ void CMainFrame::OnFileOpenQuick()
         return;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CString filter;
     CAtlArray<CString> mask;
@@ -4160,7 +4160,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         return FALSE;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (pCDS->dwData != 0x6ABE51 || pCDS->cbData < sizeof(DWORD)) {
         if (s.hMasterWnd) {
@@ -4367,7 +4367,7 @@ void CMainFrame::OnFileOpendvd()
     CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
     if (p)
     {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
         if (s.fUseDVDPath && !s.strDVDPath.IsEmpty())
         {
             p->path = s.strDVDPath;
@@ -4377,7 +4377,7 @@ void CMainFrame::OnFileOpendvd()
     }
     OpenMedia(p);*/
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CString strTitle = ResStr(IDS_MAINFRM_46);
     CString path;
 
@@ -4434,7 +4434,7 @@ void CMainFrame::OnFileOpendvd()
 
 void CMainFrame::OnFileOpendevice()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (m_iMediaLoadState == MLS_LOADING) {
         return;
@@ -4844,7 +4844,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     //
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     int cols = max(1, min(10, s.iThumbCols)), rows = max(1, min(20, s.iThumbRows));
 
@@ -5076,7 +5076,7 @@ static CString MakeSnapshotFileName(LPCTSTR prefix)
 BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
 {
     BOOL result = TRUE;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (m_fRealMediaGraph && (s.iRMVideoRendererType == VIDRNDT_RM_DEFAULT)) {
         AfxMessageBox(IDS_SCREENSHOT_ERROR_REAL, MB_ICONEXCLAMATION | MB_OK, 0);
@@ -5121,7 +5121,7 @@ CString CMainFrame::GetVidPos() const
 
 void CMainFrame::OnFileSaveImage()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     /* Check if a compatible renderer is being used */
     if (!IsRendererCompatibleWithSaveImage()) {
@@ -5178,7 +5178,7 @@ void CMainFrame::OnFileSaveImage()
 
 void CMainFrame::OnFileSaveImageAuto()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     /* Check if a compatible renderer is being used */
     if (!IsRendererCompatibleWithSaveImage()) {
@@ -5207,7 +5207,7 @@ void CMainFrame::OnUpdateFileSaveImage(CCmdUI* pCmdUI)
 
 void CMainFrame::OnFileSaveThumbnails()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     /* Check if a compatible renderer is being used */
     if (!IsRendererCompatibleWithSaveImage()) {
@@ -5398,7 +5398,7 @@ void CMainFrame::OnUpdateFileISDBUpload(CCmdUI* pCmdUI)
 
 void CMainFrame::OnFileISDBDownload()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     filehash fh;
     if (!::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
         MessageBeep((UINT) - 1);
@@ -5454,7 +5454,7 @@ void CMainFrame::OnViewTearingTest()
 
 void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                       s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
@@ -5484,7 +5484,7 @@ void CMainFrame::OnViewDisplayStatsSC()
 
 void CMainFrame::OnUpdateViewVSync(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
@@ -5496,7 +5496,7 @@ void CMainFrame::OnUpdateViewVSync(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewVSyncOffset(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
@@ -5511,7 +5511,7 @@ void CMainFrame::OnUpdateViewVSyncOffset(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
@@ -5523,7 +5523,7 @@ void CMainFrame::OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewSynchronizeVideo(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && GetPlaybackMode() == PM_NONE);
 
@@ -5533,7 +5533,7 @@ void CMainFrame::OnUpdateViewSynchronizeVideo(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewSynchronizeDisplay(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && GetPlaybackMode() == PM_NONE);
 
@@ -5543,7 +5543,7 @@ void CMainFrame::OnUpdateViewSynchronizeDisplay(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewSynchronizeNearest(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
 
@@ -5553,7 +5553,7 @@ void CMainFrame::OnUpdateViewSynchronizeNearest(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewColorManagementEnable(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CRenderersData& rd = AfxGetMyApp()->m_Renderers;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -5567,7 +5567,7 @@ void CMainFrame::OnUpdateViewColorManagementEnable(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewColorManagementInput(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CRenderersData& rd = AfxGetMyApp()->m_Renderers;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -5599,7 +5599,7 @@ void CMainFrame::OnUpdateViewColorManagementInput(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewColorManagementAmbientLight(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CRenderersData& rd = AfxGetMyApp()->m_Renderers;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -5627,7 +5627,7 @@ void CMainFrame::OnUpdateViewColorManagementAmbientLight(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewColorManagementIntent(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CRenderersData& rd = AfxGetMyApp()->m_Renderers;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -5659,7 +5659,7 @@ void CMainFrame::OnUpdateViewColorManagementIntent(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewEVROutputRange(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_SYNC) &&
@@ -5676,7 +5676,7 @@ void CMainFrame::OnUpdateViewEVROutputRange(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
@@ -5696,7 +5696,7 @@ void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewD3DFullscreen(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
@@ -5709,7 +5709,7 @@ void CMainFrame::OnUpdateViewD3DFullscreen(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
@@ -5723,7 +5723,7 @@ void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
@@ -5735,7 +5735,7 @@ void CMainFrame::OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
                        s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
@@ -5747,7 +5747,7 @@ void CMainFrame::OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewHighColorResolution(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CRenderersData& rd = AfxGetMyApp()->m_Renderers;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -5761,7 +5761,7 @@ void CMainFrame::OnUpdateViewHighColorResolution(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewForceInputHighColorResolution(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CRenderersData& rd = AfxGetMyApp()->m_Renderers;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) &&
@@ -5774,7 +5774,7 @@ void CMainFrame::OnUpdateViewForceInputHighColorResolution(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CRenderersData& rd = AfxGetMyApp()->m_Renderers;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -5788,7 +5788,7 @@ void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewHalfFloatingPointProcessing(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CRenderersData& rd = AfxGetMyApp()->m_Renderers;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -5802,7 +5802,7 @@ void CMainFrame::OnUpdateViewHalfFloatingPointProcessing(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewEnableFrameTimeCorrection(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) &&
                       r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
@@ -5813,7 +5813,7 @@ void CMainFrame::OnUpdateViewEnableFrameTimeCorrection(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewVSyncOffsetIncrease(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = s.iDSVideoRendererType == VIDRNDT_DS_SYNC ||
                      (((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -5826,7 +5826,7 @@ void CMainFrame::OnUpdateViewVSyncOffsetIncrease(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateViewVSyncOffsetDecrease(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     bool supported = s.iDSVideoRendererType == VIDRNDT_DS_SYNC ||
                      (((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -6052,7 +6052,7 @@ void CMainFrame::OnViewFlushGPUWait()
 
 void CMainFrame::OnViewD3DFullScreen()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     s.fD3DFullscreen = !s.fD3DFullscreen;
     s.UpdateData(true);
     m_OSD.DisplayMessage(OSD_TOPRIGHT,
@@ -6155,7 +6155,7 @@ void CMainFrame::OnViewEnableFrameTimeCorrection()
 
 void CMainFrame::OnViewVSyncOffsetIncrease()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CString strOSD;
     if (s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
@@ -6171,7 +6171,7 @@ void CMainFrame::OnViewVSyncOffsetIncrease()
 
 void CMainFrame::OnViewVSyncOffsetDecrease()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     CString strOSD;
     if (s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
@@ -6187,7 +6187,7 @@ void CMainFrame::OnViewVSyncOffsetDecrease()
 
 void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     pCmdUI->Enable(s.fShowOSD && (m_iMediaLoadState != MLS_CLOSED));
     pCmdUI->SetCheck(m_bRemainingTime);
 }
@@ -6257,7 +6257,7 @@ void CMainFrame::OnShaderToggleScreenSpace()
 
 void CMainFrame::OnD3DFullscreenToggle()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CString strMsg;
 
     s.fD3DFullscreen = !s.fD3DFullscreen;
@@ -6285,7 +6285,7 @@ void CMainFrame::OnUpdateFileClose(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewCaptionmenu()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     s.iCaptionMenuMode++;
     s.iCaptionMenuMode %= MODE_COUNT; // three states: normal->borderless->frame only->
 
@@ -6391,7 +6391,7 @@ void CMainFrame::OnUpdateViewPlaylist(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewEditListEditor()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (s.fEnableEDLEditor || (AfxMessageBox(IDS_MB_SHOW_EDL_EDITOR, MB_ICONQUESTION | MB_YESNO, 0) == IDYES)) {
         s.fEnableEDLEditor = true;
@@ -6459,7 +6459,7 @@ void CMainFrame::OnUpdateEDLSave(CCmdUI* pCmdUI)
 // Navigation menu
 void CMainFrame::OnViewNavigation()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     s.fHideNavigation = !s.fHideNavigation;
     m_wndNavigationBar.m_navdlg.UpdateElementList();
     if (GetPlaybackMode() == PM_CAPTURE) {
@@ -6759,7 +6759,7 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
         return;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     nID -= ID_PANNSCAN_PRESETS_START;
 
@@ -6822,7 +6822,7 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
 void CMainFrame::OnUpdateViewPanNScanPresets(CCmdUI* pCmdUI)
 {
     int nID = pCmdUI->m_nID - ID_PANNSCAN_PRESETS_START;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && nID >= 0 && nID <= s.m_pnspresets.GetCount());
 }
 
@@ -7283,7 +7283,7 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlaySeek(UINT nID)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     REFERENCE_TIME dt =
         nID == ID_PLAY_SEEKBACKWARDSMALL ? -10000i64 * s.nJumpDistS :
@@ -7968,7 +7968,7 @@ void CMainFrame::OnPlayVolume(UINT nID)
 
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     int i = (int)(s.dAudioBoost_dB * 10 + 0.1);
 
@@ -8012,7 +8012,7 @@ void CMainFrame::OnUpdatePlayVolumeBoost(CCmdUI* pCmdUI)
 void CMainFrame::OnCustomChannelMapping()
 {
     if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
         s.fCustomChannelMapping = !s.fCustomChannelMapping;
         pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(s.fCustomChannelMapping ? IDS_OSD_CUSTOM_CH_MAPPING_ON : IDS_OSD_CUSTOM_CH_MAPPING_OFF));
@@ -8021,14 +8021,14 @@ void CMainFrame::OnCustomChannelMapping()
 
 void CMainFrame::OnUpdateCustomChannelMapping(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     pCmdUI->Enable(s.fEnableAudioSwitcher);
 }
 
 void CMainFrame::OnNormalizeRegainVolume(UINT nID)
 {
     if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
         WORD osdMessage;
 
         switch (nID) {
@@ -8049,14 +8049,14 @@ void CMainFrame::OnNormalizeRegainVolume(UINT nID)
 
 void CMainFrame::OnUpdateNormalizeRegainVolume(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     pCmdUI->Enable(s.fEnableAudioSwitcher);
 }
 
 void CMainFrame::OnPlayColor(UINT nID)
 {
     if (m_pMC || m_pMFVP) {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
         //ColorRanges* crs = AfxGetMyApp()->ColorControls;
         int& brightness = s.iBrightness;
         int& contrast   = s.iContrast;
@@ -8118,7 +8118,7 @@ void CMainFrame::OnPlayColor(UINT nID)
 
 void CMainFrame::OnAfterplayback(UINT nID)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK;
     WORD osdMsg;
 
@@ -8169,7 +8169,7 @@ void CMainFrame::OnAfterplayback(UINT nID)
 
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     bool fChecked = false;
 
     switch (pCmdUI->m_nID) {
@@ -8326,7 +8326,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             CComQIPtr<IBDATuner>    pTun = pGB;
             if (pTun) {
                 int nCurrentChannel;
-                AppSettings&    s        = AfxGetAppSettings();
+                CAppSettings&    s        = AfxGetAppSettings();
 
                 nCurrentChannel = s.nDVBLastChannel;
 
@@ -8578,7 +8578,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
         }
     } else if (GetPlaybackMode() == PM_CAPTURE) {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
 
         nID -= ID_NAVIGATE_CHAP_SUBITEM_START;
 
@@ -8730,7 +8730,7 @@ public:
 
 void CMainFrame::OnFavoritesAdd()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     bool is_BD = false;
 
@@ -8862,7 +8862,7 @@ void CMainFrame::OnUpdateFavoritesAdd(CCmdUI* pCmdUI)
 // TODO: OnFavoritesAdd and OnFavoritesQuickAddFavorite use nearly the same code, do something about it
 void CMainFrame::OnFavoritesQuickAddFavorite()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     bool is_BD = false;
 
@@ -9001,7 +9001,7 @@ void CMainFrame::OnFavoritesOrganize()
 
 void CMainFrame::OnUpdateFavoritesOrganize(CCmdUI* pCmdUI)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CAtlList<CString> sl;
     s.GetFav(FAV_FILE, sl);
@@ -9020,7 +9020,7 @@ void CMainFrame::OnRecentFileClear()
         return;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     for (int i = s.MRU.GetSize() - 1; i >= 0; i--) {
         s.MRU.Remove(i);
@@ -9236,7 +9236,7 @@ static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT l
 
 void CMainFrame::SetDefaultWindowRect(int iMonitor)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     int w, h, x, y;
 
     if (s.HasFixedWindowSize()) {
@@ -9356,7 +9356,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
 void CMainFrame::SetDefaultFullscreenState()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     // Waffs : fullscreen command line
     if (!(s.nCLSwitches & CLSW_ADD) && (s.nCLSwitches & CLSW_FULLSCREEN) && !s.slFiles.IsEmpty()) {
@@ -9372,7 +9372,7 @@ void CMainFrame::SetDefaultFullscreenState()
 
 void CMainFrame::RestoreDefaultWindowRect()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     WINDOWPLACEMENT wp;
     GetWindowPlacement(&wp);
@@ -9529,7 +9529,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         return;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRect r;
     DWORD dwRemove = 0, dwAdd = 0;
     DWORD dwRemoveEx = 0, dwAddEx = 0;
@@ -9723,7 +9723,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 void CMainFrame::AutoChangeMonitorMode()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CStringW mf_hmonitor = s.strFullScreenMonitor;
     double MediaFPS = 0.0;
 
@@ -9931,7 +9931,7 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
         return;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (scale <= 0) {
         scale =
@@ -10120,13 +10120,13 @@ void CMainFrame::SetShaders()
         return;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
-    CAtlStringMap<const AppSettings::Shader*> s2s;
+    CAtlStringMap<const CAppSettings::Shader*> s2s;
 
     POSITION pos = s.m_shaders.GetHeadPosition();
     while (pos) {
-        const AppSettings::Shader* pShader = &s.m_shaders.GetNext(pos);
+        const CAppSettings::Shader* pShader = &s.m_shaders.GetNext(pos);
         s2s[pShader->label] = pShader;
     }
 
@@ -10156,7 +10156,7 @@ void CMainFrame::SetShaders()
 
         pos = pLabels->GetHeadPosition();
         while (pos) {
-            const AppSettings::Shader* pShader = NULL;
+            const CAppSettings::Shader* pShader = NULL;
             if (s2s.Lookup(pLabels->GetNext(pos), pShader)) {
                 CStringA target = pShader->target;
                 CStringA srcdata = pShader->srcdata;
@@ -10328,7 +10328,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     m_fCustomGraph = false;
     m_fRealMediaGraph = m_fShockwaveGraph = m_fQuicktimeGraph = false;
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     // CASIMIR666 todo
     if (s.IsD3DFullscreen() &&
@@ -10465,7 +10465,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
 CWnd* CMainFrame::GetModalParent()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CWnd* pParentWnd = this;
     if (m_pFullscreenWnd->IsWindow() && s.m_RenderersSettings.m_RenderSettings.iVMR9FullscreenGUISupport) {
         pParentWnd = m_pFullscreenWnd;
@@ -10479,7 +10479,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         throw(UINT)IDS_MAINFRM_81;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     bool fFirst = true;
 
@@ -10757,7 +10757,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 {
     HRESULT hr = pGB->RenderFile(CStringW(pODD->path), NULL);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (s.fReportFailedPins) {
         CComQIPtr<IGraphBuilderDeadEnd> pGBDE = pGB;
@@ -10993,7 +10993,7 @@ void CMainFrame::OpenCustomizeGraph()
         }
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
     if (r.m_RenderSettings.bSynchronizeVideo && s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
         HRESULT hr;
@@ -11370,7 +11370,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 {
     CString title = ResStr(IDR_MAINFRAME);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     int i = s.iTitleBarTextStyle;
 
@@ -11495,7 +11495,7 @@ void CMainFrame::SetupAudioStreams()
 
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (m_iMediaLoadState != MLS_CLOSED) {
         ASSERT(0);
@@ -12459,7 +12459,7 @@ void CMainFrame::SetupFiltersSubMenu()
 
 void CMainFrame::SetupLanguageMenu()
 {
-    const AppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     if (!IsMenu(m_language.m_hMenu)) {
         m_language.CreatePopupMenu();
@@ -12988,7 +12988,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
             pSub->AppendMenu(flags, id++, str);
         }
     } else if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1) {
-        AppSettings& s = AfxGetAppSettings();
+        CAppSettings& s = AfxGetAppSettings();
 
         POSITION    pos = s.m_DVBChannels.GetHeadPosition();
         while (pos) {
@@ -13201,7 +13201,7 @@ void CMainFrame::SetupFavoritesSubMenu()
             ;
         }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_FAVORITES_ADD, ResStr(IDS_FAVORITES_ADD));
     pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, ID_FAVORITES_ORGANIZE, ResStr(IDS_FAVORITES_ORGANIZE));
@@ -13609,7 +13609,7 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
 
 void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (pSubStream) {
         CLSID clsid;
@@ -14238,7 +14238,7 @@ bool CMainFrame::StopCapture()
 
 void CMainFrame::ShowOptions(int idPage)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), pGB, GetModalParent(), idPage);
 
@@ -14346,7 +14346,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     //m_iMediaLoadState = MLS_LOADING; // HACK: hides the logo
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     bool fUseThread = m_pGraphThread && AfxGetAppSettings().fEnableWorkerThreadForOpening
                       // don't use a worker thread in D3DFullscreen mode except madVR
@@ -14457,7 +14457,7 @@ void CMainFrame::StopTunerScan()
 
 void CMainFrame::DisplayCurrentChannelOSD()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     CString osd;
     int i = osd.Find(_T("\n"));
@@ -14480,7 +14480,7 @@ void CMainFrame::DisplayCurrentChannelOSD()
 
 void CMainFrame::DisplayCurrentChannelInfo()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     CString osd;
     PresentFollowing NowNext;
@@ -14543,7 +14543,7 @@ bool CMainFrame::CreateFullScreenWindow()
     CMonitors monitors;
     CString str;
     CMonitor monitor;
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     hMonitor = NULL;
 
     if (!s.iMonitor) {
@@ -14878,7 +14878,7 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 
 void CMainFrame::SendAPICommand(MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (s.hMasterWnd) {
         COPYDATASTRUCT CDS;
@@ -15279,7 +15279,7 @@ void CMainFrame::OnFileOpendirectory()
         return;
     }
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
     CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
     CString path;
 

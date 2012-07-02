@@ -47,7 +47,7 @@ CQuicktimeGraph::CQuicktimeGraph(HWND hWndParent, HRESULT& hr)
 
     DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (s.iQTVideoRendererType == VIDRNDT_QT_DX7) {
         if (SUCCEEDED(CreateAP7(CLSID_QT7AllocatorPresenter, hWndParent, &m_pQTAP))) {

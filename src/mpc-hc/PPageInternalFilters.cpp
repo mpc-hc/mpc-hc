@@ -456,7 +456,7 @@ BOOL CPPageInternalFilters::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     for (int i = 0; i < _countof(s_filters) - 1; i++) {
         CPPageInternalFiltersListBox* l;
@@ -502,7 +502,7 @@ BOOL CPPageInternalFilters::OnApply()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CPPageInternalFiltersListBox* list = &m_listSrc;
     for (int l = 0; l < 2; l++) {

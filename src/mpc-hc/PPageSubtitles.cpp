@@ -126,7 +126,7 @@ BOOL CPPageSubtitles::OnInitDialog()
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     m_fOverridePlacement = s.fOverridePlacement;
     m_nHorPos = s.nHorPos;
@@ -162,7 +162,7 @@ BOOL CPPageSubtitles::OnApply()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (s.fOverridePlacement != !!m_fOverridePlacement
             || s.nHorPos != m_nHorPos

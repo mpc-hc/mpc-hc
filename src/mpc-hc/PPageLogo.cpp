@@ -69,7 +69,7 @@ BOOL CPPageLogo::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    const AppSettings& s = AfxGetAppSettings();
+    const CAppSettings& s = AfxGetAppSettings();
 
     m_intext = s.fLogoExternal ? 1 : 0;
     m_logofn = s.strLogoFileName;
@@ -98,7 +98,7 @@ BOOL CPPageLogo::OnApply()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     s.fLogoExternal = !!m_intext;
     s.strLogoFileName = m_logofn;

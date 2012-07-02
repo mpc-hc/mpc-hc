@@ -1463,7 +1463,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     m_wmcmds.RemoveAll();
     m_wmcmds.AddTail(&s.wmcmds);
@@ -1523,7 +1523,7 @@ BOOL CPPageAccelTbl::OnApply()
     AfxGetMyApp()->UnregisterHotkeys();
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     s.wmcmds.RemoveAll();
     s.wmcmds.AddTail(&m_wmcmds);
@@ -1827,7 +1827,7 @@ BOOL CPPageAccelTbl::OnKillActive()
 
 void CPPageAccelTbl::OnCancel()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (!s.fWinLirc) {
         s.WinLircClient.DisConnect();

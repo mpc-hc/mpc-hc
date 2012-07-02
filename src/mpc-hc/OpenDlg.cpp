@@ -131,7 +131,7 @@ void COpenDlg::OnBnClickedBrowsebutton()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CString filter;
     CAtlArray<CString> mask;
@@ -178,7 +178,7 @@ void COpenDlg::OnBnClickedBrowsebutton2()
 {
     UpdateData();
 
-    AppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CString filter;
     CAtlArray<CString> mask;
