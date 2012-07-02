@@ -1948,10 +1948,12 @@ STDMETHODIMP CMpaDecFilter::SetSpeakerConfig(enctype et, int sc)
         return E_INVALIDARG;
     }
 
+#if HAS_FFMPEG_AUDIO_DECODERS
     if (et == ac3 && m_pAVCtx && (m_pAVCtx->codec_id == CODEC_ID_AC3 || m_pAVCtx->codec_id == CODEC_ID_EAC3)) {
         m_pAVCtx->request_channels = channel_mode[sc&CH_MASK].channels;
         m_pAVCtx->request_channel_layout = channel_mode[sc&CH_MASK].av_ch_layout;
     }
+#endif
 
     return S_OK;
 }
@@ -1974,9 +1976,11 @@ STDMETHODIMP CMpaDecFilter::SetDynamicRangeControl(enctype et, bool fDRC)
         return E_INVALIDARG;
     }
 
+#if HAS_FFMPEG_AUDIO_DECODERS
     if (et == ac3 && m_pAVCtx) {
         av_opt_set_double(m_pAVCtx, "drc_scale", fDRC ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
     }
+#endif
 
     return S_OK;
 }
