@@ -459,8 +459,8 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
     // default settings
     m_iSampleFormat       = SF_PCM16;
-    m_iSpeakerConfig[ac3] = CH_ASIS;
-    m_iSpeakerConfig[dts] = CH_ASIS;
+    m_iSpeakerConfig[ac3] = CH_STEREO;
+    m_iSpeakerConfig[dts] = CH_STEREO;
     m_fDRC[ac3]           = false;
     m_fDRC[dts]           = false;
     m_fSPDIF[ac3]         = false;
