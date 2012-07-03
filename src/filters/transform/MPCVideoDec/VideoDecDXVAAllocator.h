@@ -24,6 +24,7 @@
 
 #include <dxva.h>
 #include <dxva2api.h>
+#include <evr.h>
 
 
 class CMPCVideoDecFilter;

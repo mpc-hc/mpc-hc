@@ -21,14 +21,15 @@
  */
 
 #include "stdafx.h"
+#include <d3dx9.h>
 #include <dxva2api.h>
+#include <evr.h>
 #include "moreuuids.h"
 #include "DXVADecoderH264.h"
 #include "DXVADecoderVC1.h"
 #include "DXVADecoderMpeg2.h"
 #include "MPCVideoDecFilter.h"
 #include "VideoDecDXVAAllocator.h"
-
 #include "FfmpegContext.h"
 
 #define MAX_RETRY_ON_PENDING    50

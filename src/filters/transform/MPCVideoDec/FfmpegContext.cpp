@@ -20,9 +20,6 @@
  *
  */
 
-
-#define HAVE_AV_CONFIG_H
-
 #include <Windows.h>
 #include <WinNT.h>
 #include <vfwmsgs.h>
@@ -30,20 +27,18 @@
 #include <time.h> // for the _time64 workaround
 
 #include "FfmpegContext.h"
-
 #include "../../../DSUtil/SysVersion.h"
 
+#define HAVE_AV_CONFIG_H
+
 extern "C" {
-#include "ffmpeg/libavcodec/dsputil.h"
 #include "ffmpeg/libavcodec/avcodec.h"
     // This is kind of a hack but it avoids using a C++ keyword as a struct member name
 #define class classFFMPEG
 #include "ffmpeg/libavcodec/mpegvideo.h"
 #undef class
-#include "ffmpeg/libavcodec/golomb.h"
 
 #include "ffmpeg/libavcodec/h264.h"
-#include "ffmpeg/libavcodec/h264data.h"
 #include "ffmpeg/libavcodec/vc1.h"
 #include "ffmpeg/libavcodec/mpeg12.h"
 
@@ -81,17 +76,17 @@ const byte ZZ_SCAN8[64] = {
 
 inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
 {
-    Mpeg1Context*       s1;
-    MpegEncContext*     s = NULL;
+    Mpeg1Context*  s1;
+    MpegEncContext* s = NULL;
 
     switch (pAVCtx->codec_id) {
         case CODEC_ID_VC1 :
         case CODEC_ID_H264 :
-            s   = (MpegEncContext*)pAVCtx->priv_data;
+            s = (MpegEncContext*)pAVCtx->priv_data;
             break;
         case CODEC_ID_MPEG2VIDEO:
-            s1  = (Mpeg1Context*)pAVCtx->priv_data;
-            s   = (MpegEncContext*)&s1->mpeg_enc_ctx;
+            s1 = (Mpeg1Context*)pAVCtx->priv_data;
+            s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
             break;
     }
     return s;
@@ -134,15 +129,15 @@ BOOL DriverVersionCheck(LARGE_INTEGER VideoDriverVersion, int A, int B, int C, i
 
 int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, DWORD nPCIVendor, DWORD nPCIDevice, LARGE_INTEGER VideoDriverVersion)
 {
-    H264Context*    pContext = (H264Context*) pAVCtx->priv_data;
-    SPS*            cur_sps;
-    PPS*            cur_pps;
+    H264Context* pContext = (H264Context*) pAVCtx->priv_data;
+    SPS* cur_sps;
+    PPS* cur_pps;
 
-    int video_is_level51            = 0;
-    int no_level51_support          = 1;
-    int too_much_ref_frames         = 0;
-    int profile_higher_than_high    = 0;
-    int max_ref_frames_dpb41        = min(11, 8388608 / (nWidth * nHeight));
+    int video_is_level51         = 0;
+    int no_level51_support       = 1;
+    int too_much_ref_frames      = 0;
+    int profile_higher_than_high = 0;
+    int max_ref_frames_dpb41     = min(11, 8388608 / (nWidth * nHeight));
 
     if (pBuffer != NULL) {
         av_h264_decode_frame(pAVCtx, NULL, NULL, pBuffer, nSize);

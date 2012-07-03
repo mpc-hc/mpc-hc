@@ -29,10 +29,7 @@
 
 #include <d3dx9.h>
 #include <evr.h>
-#include <mfapi.h>
-#include <Mferror.h>
 #include <atlcoll.h>
-#include <vector>
 
 #if defined(_DEBUG) && defined(DXVA_LOGFILE_B)
 void LOG(LPCTSTR fmt, ...);

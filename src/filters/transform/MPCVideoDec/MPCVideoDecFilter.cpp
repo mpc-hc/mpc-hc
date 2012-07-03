@@ -24,6 +24,8 @@
 #include <math.h>
 #include <atlbase.h>
 #include <MMReg.h>
+#include <evr.h>
+#include <vector>
 
 #include "ffmpeg/libavcodec/avcodec.h"
 #if HAS_FFMPEG_VIDEO_DECODERS
