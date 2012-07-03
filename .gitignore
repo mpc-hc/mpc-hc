@@ -1,0 +1,16 @@
+/distrib/*.exe
+/include/Version_rev.h
+/src/mpc-hc/res/mpc-hc.exe.manifest
+/src/filters/transform/VSFilter/installer/*.exe
+/build.user.bat
+/bin
+ipch
+newrc
+*.a
+*.aps
+*.old
+*.opensdf
+*.psess
+*.sdf
+*.suo
+*.user
