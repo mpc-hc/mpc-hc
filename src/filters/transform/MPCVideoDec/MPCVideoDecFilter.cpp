@@ -1226,6 +1226,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction, const CMediaTy
                         if (!MPEG2CheckCompatibility(m_pAVCtx, m_pFrame)) {
                             break;
                         }
+                    } else if (m_nCodecId == CODEC_ID_WMV3) {
+                        if (PictWidthRounded() <= 640) { // fixes color problem for some old wmv files
+                            break;
+                        }
                     }
 
                     m_bDXVACompatible = true;
