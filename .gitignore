@@ -1,4 +1,5 @@
 /distrib/*.exe
+/docs/astyle.exe
 /include/Version_rev.h
 /src/mpc-hc/res/mpc-hc.exe.manifest
 /src/filters/transform/VSFilter/installer/*.exe
