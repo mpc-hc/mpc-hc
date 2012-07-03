@@ -146,6 +146,7 @@
     <ClInclude Include="DXRAllocatorPresenter.h" />
     <ClInclude Include="EVRAllocatorPresenter.h" />
     <ClInclude Include="IPinHook.h" />
+    <ClInclude Include="IQTVideoSurface.h" />
     <ClInclude Include="MacrovisionKicker.h" />
     <ClInclude Include="madVRAllocatorPresenter.h" />
     <ClInclude Include="OuterEVR.h" />
