@@ -171,7 +171,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
 
     // Update timestamp & Re-order B frames
     if (m_bFrame_repeat_pict || m_pFilter->IsReorderBFrame()) {
-        if (m_bFrame_repeat_pict) {
+        if (m_bFrame_repeat_pict || m_pFilter->GetCodec() == CODEC_ID_WMV3) {
             m_pFilter->UpdateFrameTime(rtStart, rtStop, !!m_bFrame_repeat_pict);
         }
         if (m_pFilter->IsReorderBFrame() || m_pFilter->IsEvo()) {
