@@ -1227,7 +1227,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction, const CMediaTy
                             break;
                         }
                     } else if (m_nCodecId == CODEC_ID_WMV3) {
-                        if (PictWidthRounded() <= 640) { // fixes color problem for some old wmv files
+                        if (PictWidth() <= 720) { // fixes color problem for some wmv files (profile <= MP@ML)
                             break;
                         }
                     }
