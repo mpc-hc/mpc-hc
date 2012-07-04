@@ -232,7 +232,7 @@
 #define CONFIG_SWSCALE_ALPHA 1
 #define CONFIG_POSTPROC 0
 
-/* 
+/*
 Note: when adding a new codec, you have to:
 1) Add a
    #define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>

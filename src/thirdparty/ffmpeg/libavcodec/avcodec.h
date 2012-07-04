@@ -23,9 +23,9 @@
 
 // ==> Start patch MPC
 #ifdef __cplusplus
-    #define FF_EXPORT extern "C" 
+    #define FF_EXPORT extern "C"
 #else
-    #define FF_EXPORT 
+    #define FF_EXPORT
 #endif
 // <== End patch MPC
 
