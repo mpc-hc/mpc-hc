@@ -325,12 +325,6 @@ HWND g_hWnd = NULL;
 bool CMPlayerCApp::StoreSettingsToIni()
 {
     CString ini = GetIniPath();
-    /*
-        FILE* f;
-        if (!(f = _tfopen(ini, _T("r+"))) && !(f = _tfopen(ini, _T("w"))))
-            return StoreSettingsToRegistry();
-        fclose(f);
-    */
     free((void*)m_pszRegistryKey);
     m_pszRegistryKey = NULL;
     free((void*)m_pszProfileName);
@@ -593,7 +587,7 @@ MMRESULT(__stdcall* Real_mixerSetControlDetails)(HMIXEROBJ hmxobj,
 
 
 typedef NTSTATUS(WINAPI* FUNC_NTQUERYINFORMATIONPROCESS)(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
-static FUNC_NTQUERYINFORMATIONPROCESS       Real_NtQueryInformationProcess = NULL;
+static FUNC_NTQUERYINFORMATIONPROCESS Real_NtQueryInformationProcess = NULL;
 /*
 NTSTATUS (* Real_NtQueryInformationProcess) (HANDLE             ProcessHandle,
                                              PROCESSINFOCLASS   ProcessInformationClass,
@@ -618,16 +612,16 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
     nRet = Real_NtQueryInformationProcess(ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength);
 
     if (ProcessInformationClass == ProcessBasicInformation) {
-        PROCESS_BASIC_INFORMATION*      pbi = (PROCESS_BASIC_INFORMATION*)ProcessInformation;
-        PEB_NT*                         pPEB;
-        PEB_NT                          PEB;
+        PROCESS_BASIC_INFORMATION* pbi = (PROCESS_BASIC_INFORMATION*)ProcessInformation;
+        PEB_NT* pPEB;
+        PEB_NT PEB;
 
         pPEB = (PEB_NT*)pbi->PebBaseAddress;
         ReadProcessMemory(ProcessHandle, pPEB, &PEB, sizeof(PEB), NULL);
         PEB.BeingDebugged = 0;
         WriteProcessMemory(ProcessHandle, pPEB, &PEB, sizeof(PEB), NULL);
     } else if (ProcessInformationClass == 7) { // ProcessDebugPort
-        BOOL*       pDebugPort = (BOOL*)ProcessInformation;
+        BOOL* pDebugPort = (BOOL*)ProcessInformation;
         *pDebugPort = FALSE;
     }
 
@@ -686,11 +680,11 @@ HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBU
 
 BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileSize)
 {
-    BOOL        bRet = FALSE;
-    WCHAR       szTempPath[_MAX_PATH];
-    WCHAR       strFileName[_MAX_PATH];
-    WCHAR       strExt[_MAX_EXT];
-    CIfo        Ifo;
+    BOOL    bRet = FALSE;
+    WCHAR   szTempPath[_MAX_PATH];
+    WCHAR   strFileName[_MAX_PATH];
+    WCHAR   strExt[_MAX_EXT];
+    CIfo    Ifo;
 
     if (!GetTempPathW(_MAX_PATH, szTempPath)) {
         return FALSE;
@@ -1081,16 +1075,16 @@ BOOL CMPlayerCApp::InitInstance()
 
 UINT CMPlayerCApp::GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput)
 {
-    UINT        dwSize      = 0;
-    BYTE*       pRawBuffer  = NULL;
-    UINT        nMceCmd     = 0;
+    UINT  dwSize = 0;
+    BYTE* pRawBuffer = NULL;
+    UINT  nMceCmd = 0;
 
     // Support for MCE remote control
     GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
     if (dwSize > 0) {
         pRawBuffer = DNew BYTE[dwSize];
         if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1) {
-            RAWINPUT*   raw = (RAWINPUT*) pRawBuffer;
+            RAWINPUT* raw = (RAWINPUT*) pRawBuffer;
             if (raw->header.dwType == RIM_TYPEHID) {
                 nMceCmd = 0x10000 + (raw->data.hid.bRawData[1] | raw->data.hid.bRawData[2] << 8);
             }
@@ -1103,15 +1097,15 @@ UINT CMPlayerCApp::GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRaw
 
 UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput)
 {
-    UINT        dwSize      = 0;
-    BYTE*       pRawBuffer  = NULL;
-    UINT        nMceCmd     = 0;
+    UINT  dwSize = 0;
+    BYTE* pRawBuffer = NULL;
+    UINT  nMceCmd = 0;
 
     GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
     if (dwSize > 21) {
         pRawBuffer = DNew BYTE[dwSize];
         if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1) {
-            RAWINPUT*   raw = (RAWINPUT*) pRawBuffer;
+            RAWINPUT* raw = (RAWINPUT*) pRawBuffer;
 
             // data.hid.bRawData[21] set to one when key is pressed
             if (raw->header.dwType == RIM_TYPEHID && raw->data.hid.bRawData[21] == 1) {
@@ -1162,10 +1156,10 @@ void CMPlayerCApp::RegisterHotkeys()
     UINT                nInputDeviceCount = _countof(InputDeviceList);
     RID_DEVICE_INFO     DevInfo;
     RAWINPUTDEVICE      MCEInputDevice[] = {
-        //  usUsagePage     usUsage         dwFlags     hwndTarget
-        {   0xFFBC,         0x88,               0,      NULL},
-        {   0x000C,         0x01,               0,      NULL},
-        {   0x000C,         0x80,               0,      NULL}
+        // usUsagePage     usUsage         dwFlags     hwndTarget
+        {  0xFFBC,         0x88,           0,          NULL},
+        {  0x000C,         0x01,           0,          NULL},
+        {  0x000C,         0x80,           0,          NULL}
     };
 
     // Register MCE Remote Control raw input
@@ -1180,8 +1174,8 @@ void CMPlayerCApp::RegisterHotkeys()
         if (GetRawInputDeviceInfo(InputDeviceList[i].hDevice, RIDI_DEVICEINFO, &DevInfo, &nTemp) > 0) {
             if (DevInfo.hid.dwVendorId == 0x00000471 &&         // Philips HID vendor id
                     DevInfo.hid.dwProductId == 0x00000617) {    // IEEE802.15.4 RF Dongle (SRM 7500)
-                MCEInputDevice[0].usUsagePage   = DevInfo.hid.usUsagePage;
-                MCEInputDevice[0].usUsage       = DevInfo.hid.usUsage;
+                MCEInputDevice[0].usUsagePage = DevInfo.hid.usUsagePage;
+                MCEInputDevice[0].usUsage = DevInfo.hid.usUsage;
                 GetRemoteControlCode = GetRemoteControlCodeSRM7500;
             }
         }
@@ -1220,41 +1214,41 @@ void CMPlayerCApp::UnregisterHotkeys()
 UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 {
     switch (nAppCommand) {
-        case APPCOMMAND_BROWSER_BACKWARD    :
+        case APPCOMMAND_BROWSER_BACKWARD :
             return VK_BROWSER_BACK;
-        case APPCOMMAND_BROWSER_FORWARD     :
+        case APPCOMMAND_BROWSER_FORWARD :
             return VK_BROWSER_FORWARD;
-        case APPCOMMAND_BROWSER_REFRESH     :
+        case APPCOMMAND_BROWSER_REFRESH :
             return VK_BROWSER_REFRESH;
-        case APPCOMMAND_BROWSER_STOP        :
+        case APPCOMMAND_BROWSER_STOP :
             return VK_BROWSER_STOP;
-        case APPCOMMAND_BROWSER_SEARCH      :
+        case APPCOMMAND_BROWSER_SEARCH :
             return VK_BROWSER_SEARCH;
-        case APPCOMMAND_BROWSER_FAVORITES   :
+        case APPCOMMAND_BROWSER_FAVORITES :
             return VK_BROWSER_FAVORITES;
-        case APPCOMMAND_BROWSER_HOME        :
+        case APPCOMMAND_BROWSER_HOME :
             return VK_BROWSER_HOME;
-        case APPCOMMAND_VOLUME_MUTE         :
+        case APPCOMMAND_VOLUME_MUTE :
             return VK_VOLUME_MUTE;
-        case APPCOMMAND_VOLUME_DOWN         :
+        case APPCOMMAND_VOLUME_DOWN :
             return VK_VOLUME_DOWN;
-        case APPCOMMAND_VOLUME_UP           :
+        case APPCOMMAND_VOLUME_UP :
             return VK_VOLUME_UP;
-        case APPCOMMAND_MEDIA_NEXTTRACK     :
+        case APPCOMMAND_MEDIA_NEXTTRACK :
             return VK_MEDIA_NEXT_TRACK;
         case APPCOMMAND_MEDIA_PREVIOUSTRACK :
             return VK_MEDIA_PREV_TRACK;
-        case APPCOMMAND_MEDIA_STOP          :
+        case APPCOMMAND_MEDIA_STOP :
             return VK_MEDIA_STOP;
-        case APPCOMMAND_MEDIA_PLAY_PAUSE    :
+        case APPCOMMAND_MEDIA_PLAY_PAUSE :
             return VK_MEDIA_PLAY_PAUSE;
-        case APPCOMMAND_LAUNCH_MAIL         :
+        case APPCOMMAND_LAUNCH_MAIL :
             return VK_LAUNCH_MAIL;
         case APPCOMMAND_LAUNCH_MEDIA_SELECT :
             return VK_LAUNCH_MEDIA_SELECT;
-        case APPCOMMAND_LAUNCH_APP1         :
+        case APPCOMMAND_LAUNCH_APP1 :
             return VK_LAUNCH_APP1;
-        case APPCOMMAND_LAUNCH_APP2         :
+        case APPCOMMAND_LAUNCH_APP2 :
             return VK_LAUNCH_APP2;
     }
 
@@ -2154,41 +2148,6 @@ bool CMPlayerCApp::SetLanguage(const LanguageResource& languageResource, bool sh
 
     return success;
 }
-
-/*HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
-{
-    ASSERT( SysVersion::IsVistaOrLater() );
-    ASSERT( ptet );
-
-    HRESULT hResult = E_FAIL; // assume an error occurred
-    HANDLE hToken   = NULL;
-
-    if ( !::OpenProcessToken(
-                ::GetCurrentProcess(),
-                TOKEN_QUERY,
-                &hToken ) ) {
-        ASSERT( FALSE );
-        return hResult;
-    }
-
-    DWORD dwReturnLength = 0;
-
-    if ( !::GetTokenInformation(
-                hToken,
-                TokenElevationType,
-                ptet,
-                sizeof( *ptet ),
-                &dwReturnLength ) ) {
-        ASSERT( FALSE );
-    } else {
-        ASSERT( dwReturnLength == sizeof( *ptet ) );
-        hResult = S_OK;
-    }
-
-    ::CloseHandle( hToken );
-
-    return hResult;
-}*/
 
 void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess)
 {

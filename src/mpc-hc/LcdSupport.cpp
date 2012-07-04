@@ -43,7 +43,7 @@ void LCD_UpdateThread(void* Control)
     wchar_t str[40];
     __time64_t ltime;
     __time64_t otime = 0;
-    struct tm  thetime;
+    struct tm thetime;
     _locale_t locale = _create_locale(LC_TIME, "");
 
     while (ctrl->Thread_Loop) {
@@ -195,7 +195,7 @@ HRESULT CLCDMyMonoPage::Initialize()
     HFONT hFont;
     unsigned int x, y;
 
-    // max dims: 160 x 43
+    // max dimensions: 160 x 43
     x = 10;
     y = 0;
 
@@ -387,7 +387,7 @@ HRESULT CLCDMyColorPage::Initialize()
     HFONT hFont;
     unsigned int x, y;
 
-    // max dims: 320 x 240
+    // max dimensions: 320 x 240
     x = 20;
     y = 0;
 

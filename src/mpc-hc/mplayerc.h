@@ -62,9 +62,6 @@ extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 extern CStringA GetContentType(CString fn, CAtlList<CString>* redir = NULL);
 extern WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen = false, bool bCheckMouse = true);
 
-/////////////////////////////////////////////////////////////////////////////
-// Casimir666
-//
 typedef enum {
     ProcAmp_Brightness = 0x1,
     ProcAmp_Contrast   = 0x2,
@@ -96,12 +93,6 @@ __inline int FixedToInt(__in const DXVA2_Fixed32 _fixed_, __in const SHORT facto
     return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CMPlayerCApp:
-// See mplayerc.cpp for the implementation of this class
-//
-
-
 extern void GetCurDispMode(dispmode& dm, CString& DisplayName);
 extern bool GetDispMode(int i, dispmode& dm, CString& DisplayName);
 extern void SetDispMode(const dispmode& dm, CString& DisplayName);
@@ -125,7 +116,6 @@ class CMPlayerCApp : public CWinApp
     bool SendCommandLine(HWND hWnd);
     UINT GetVKFromAppCommand(UINT nAppCommand);
 
-    // Casimir666 : new in CMPlayerCApp
     COLORPROPERTY_RANGE     m_ColorControl[4];
     VMR9ProcAmpControlRange m_VMR9ColorControl[4];
     DXVA2_ValueRange        m_EVRColorControl[4];
@@ -148,7 +138,6 @@ public:
 
     bool GetAppSavePath(CString& path);
 
-    // Casimir666 : new in CMPlayerCApp
     CRenderersData m_Renderers;
     CString     m_strVersion;
     CString     m_AudioRendererDisplayName_CL;
@@ -172,7 +161,6 @@ public:
     static bool SetLanguage(const LanguageResource& languageResource, bool showErrorMsg = true);
     static void SetDefaultLanguage();
 
-    //static HRESULT GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
     static void RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
 
     void RegisterHotkeys();
