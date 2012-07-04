@@ -429,7 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 16		"Otwieranie plików z folderu podczas zmiany odtwarzanego pliku, gdy na liście odtwarzania znajduje się tylko jeden element."
 18		"Użycie dymka z czasem:"
 20		"Czcionka OSD:"
-23		"Enable Logitech LCD support (experimental)"
+23		"Włącz obsługę wyświetlacza LCD Logitech (eksperymentalna)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
