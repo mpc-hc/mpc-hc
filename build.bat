@@ -369,7 +369,7 @@ EXIT /B
 
 :SubDetectInnoSetup
 REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
-REM of Inno Setup accordingly
+REM of Inno Setup accordingly since Inno Setup is a 32-bit application
 IF /I "%x64_type%" == "amd64" (
   SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
 ) ELSE (
@@ -460,9 +460,11 @@ CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 SET "InnoSetupPath=%*\ISCC.exe"
 EXIT /B
 
+
 :SubSevenzipPath
 SET "SEVENZIP=%*\7z.exe"
 EXIT /B
+
 
 :SubMsg
 ECHO. & ECHO ------------------------------

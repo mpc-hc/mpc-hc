@@ -315,7 +315,6 @@ SRCS_C = \
     libswscale/x86/swscale_mmx.c \
     libswscale/x86/yuv2rgb_mmx.c
 
-
 # Yasm objects
 SRCS_YASM = \
     libavcodec/x86/ac3dsp.asm \

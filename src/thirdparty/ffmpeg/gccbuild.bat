@@ -124,6 +124,7 @@ COPY /Y /V "%MPCHC_MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "%ROOT
 COPY /Y /V "%MPCHC_MINGW64%\x86_64-w64-mingw32\lib\libmingwex.a"          "%ROOT_DIR%\lib64\" >NUL
 EXIT /B
 
+
 :MissingVar
 ECHO Not all build dependencies were found.
 ECHO.
