@@ -24,7 +24,7 @@ Legend:
 * Updated FFmpeg (git b286383)
 * Updated Little CMS to v2.4 (git cd4601a)
 * Updated SoundTouch to v1.7.0pre r143
-* Updated Armenian, Basque, Catalan, Czech, Polish, Russian, and Ukrainian translations
+* Updated Armenian, Basque, Catalan, Czech, Polish, Russian, Ukrainian and German translations
 * Ticket #2227, Hide the seek bar in capture mode
 * Ticket #2342, MPC-HC will now use the Windows theme font for the Statusbar, OSD messages
   and a few other places on Windows Vista and newer
