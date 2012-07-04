@@ -185,18 +185,34 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
     case PIX_FMT_YUV420P9BE:
     case PIX_FMT_YUV420P10LE:
     case PIX_FMT_YUV420P10BE:
+    case PIX_FMT_YUV420P12LE:
+    case PIX_FMT_YUV420P12BE:
+    case PIX_FMT_YUV420P14LE:
+    case PIX_FMT_YUV420P14BE:
     case PIX_FMT_YUV422P9LE:
     case PIX_FMT_YUV422P9BE:
     case PIX_FMT_YUV422P10LE:
     case PIX_FMT_YUV422P10BE:
+    case PIX_FMT_YUV422P12LE:
+    case PIX_FMT_YUV422P12BE:
+    case PIX_FMT_YUV422P14LE:
+    case PIX_FMT_YUV422P14BE:
     case PIX_FMT_YUV444P9LE:
     case PIX_FMT_YUV444P9BE:
     case PIX_FMT_YUV444P10LE:
     case PIX_FMT_YUV444P10BE:
+    case PIX_FMT_YUV444P12LE:
+    case PIX_FMT_YUV444P12BE:
+    case PIX_FMT_YUV444P14LE:
+    case PIX_FMT_YUV444P14BE:
     case PIX_FMT_GBRP9LE:
     case PIX_FMT_GBRP9BE:
     case PIX_FMT_GBRP10LE:
     case PIX_FMT_GBRP10BE:
+    case PIX_FMT_GBRP12LE:
+    case PIX_FMT_GBRP12BE:
+    case PIX_FMT_GBRP14LE:
+    case PIX_FMT_GBRP14BE:
         w_align = 16; //FIXME assume 16 pixel per macroblock
         h_align = 16 * 2; // interlaced needs 2 macroblocks height
         break;
@@ -427,8 +443,10 @@ static int video_get_buffer(AVCodecContext *s, AVFrame *pic)
         return -1;
     }
 
-    if(av_image_check_size(w, h, 0, s) || s->pix_fmt<0)
+    if(av_image_check_size(w, h, 0, s) || s->pix_fmt<0) {
+        av_log(s, AV_LOG_ERROR, "video_get_buffer: image parameters invalid\n");
         return -1;
+    }
 
     if (!avci->buffer) {
         avci->buffer = av_mallocz((INTERNAL_BUFFER_SIZE+1) *
@@ -493,7 +511,8 @@ static int video_get_buffer(AVCodecContext *s, AVFrame *pic)
             buf->linesize[i]= picture.linesize[i];
 
             buf->base[i]= av_malloc(size[i]+16); //FIXME 16
-            if(buf->base[i]==NULL) return -1;
+            if(buf->base[i]==NULL)
+                return AVERROR(ENOMEM);
             memset(buf->base[i], 128, size[i]);
 
             // no edge if EDGE EMU or not planar YUV
