@@ -25,7 +25,7 @@
 
 #include <Windows.h>
 #include "lglcd/lglcd.h"
-#include "ui/LCDUI/LCDUI.h"
+#include "LCDUI/LCDUI.h"
 
 class CLCDMyProgressBar : public CLCDProgressBar
 {

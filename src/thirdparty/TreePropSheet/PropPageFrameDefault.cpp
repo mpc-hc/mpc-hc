@@ -20,8 +20,8 @@
 #include "stdafx.h"
 #include "PropPageFrameDefault.h"
 // <MPC-HC Custom Code>
-#include "../../../DSUtil/WinAPIUtils.h"
-#include "../../../DSUtil/SysVersion.h"
+#include "../../DSUtil/WinAPIUtils.h"
+#include "../../DSUtil/SysVersion.h"
 // </MPC-HC Custom Code>
 
 

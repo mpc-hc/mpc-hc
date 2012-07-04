@@ -28,7 +28,7 @@
 #include "FloatEdit.h"
 #include "DVBChannel.h"
 #include "resource.h"
-#include "ui/ResizableLib/ResizableDialog.h"
+#include "ResizableLib/ResizableDialog.h"
 
 
 #define MAX_CHANNELS_ALLOWED 200

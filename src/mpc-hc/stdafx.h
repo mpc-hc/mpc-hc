@@ -65,8 +65,8 @@
 
 #include <Il21dec.h>
 
-#include "ui/sizecbar/scbarg.h"
-#include "ui/ResizableLib/ResizableDialog.h"
+#include "sizecbar/scbarg.h"
+#include "ResizableLib/ResizableDialog.h"
 
 #include "../Subtitles/RTS.h"
 #include "../Subtitles/STS.h"

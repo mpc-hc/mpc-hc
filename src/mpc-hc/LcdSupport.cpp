@@ -29,7 +29,7 @@
 #include <locale.h>
 
 #include "LcdSupport.h"
-#include "ui/LCDUI/LCDUI.h"
+#include "LCDUI/LCDUI.h"
 
 #include "mplayerc.h"
 

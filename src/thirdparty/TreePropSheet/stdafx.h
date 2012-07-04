@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "../../../DSUtil/SharedInclude.h"
+#include "../../DSUtil/SharedInclude.h"
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers

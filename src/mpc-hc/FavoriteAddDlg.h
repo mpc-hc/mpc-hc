@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "ui/ResizableLib/ResizableDialog.h"
+#include "ResizableLib/ResizableDialog.h"
 
 
 // CFavoriteAddDlg dialog
