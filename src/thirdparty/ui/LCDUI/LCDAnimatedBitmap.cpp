@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDAnimatedBitmap.cpp
 //
@@ -8,11 +16,10 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
-#include "stdafx.h"
-#include "LCDAnimatedBitmap.h"
+#include "LCDUI.h"
 
 
 //************************************************************************
@@ -21,9 +28,10 @@
 //
 //************************************************************************
 
-CLCDAnimatedBitmap::CLCDAnimatedBitmap()
+CLCDAnimatedBitmap::CLCDAnimatedBitmap(void)
 {
-    m_dwCurrSubpic = m_dwTotalSubpics = 0;
+    m_dwCurrSubpic = 0;
+    m_dwTotalSubpics = 0;
 }
 
 
@@ -33,7 +41,7 @@ CLCDAnimatedBitmap::CLCDAnimatedBitmap()
 //
 //************************************************************************
 
-CLCDAnimatedBitmap::~CLCDAnimatedBitmap()
+CLCDAnimatedBitmap::~CLCDAnimatedBitmap(void)
 {
 
 }
@@ -51,7 +59,7 @@ HRESULT CLCDAnimatedBitmap::Initialize(void)
     m_dwElapsedTime = 0;
     m_dwLastUpdate = GetTickCount();
 
-    return CLCDBitmap::Initialize();
+    return S_OK;
 }
 
 
@@ -120,43 +128,18 @@ void CLCDAnimatedBitmap::SetAnimationRate(DWORD dwRate)
 void CLCDAnimatedBitmap::OnUpdate(DWORD dwTimestamp)
 {
     m_dwElapsedTime = (dwTimestamp - m_dwLastUpdate);
-}
 
-
-//************************************************************************
-//
-// CLCDAnimatedBitmap::OnDraw
-//
-//************************************************************************
-
-void CLCDAnimatedBitmap::OnDraw(CLCDGfx &rGfx)
-{
-    if(m_dwTotalSubpics > 0)
+    // Just update the logical origin
+	int lo_x = (int)(GetZoomLevel() * (-1 * (float)m_dwSubpicWidth * (float)m_dwCurrSubpic));
+    SetLogicalOrigin(lo_x, 0);
+	
+    DWORD increment = m_dwElapsedTime / m_dwRate;
+    if(increment > 0)
     {
-        int xoffs = m_dwCurrSubpic * m_dwSubpicWidth;
-
-        DWORD increment = m_dwElapsedTime / m_dwRate;
-        if(increment > 0)
-        {
-            m_dwCurrSubpic += increment;
-            m_dwCurrSubpic %= m_dwTotalSubpics;
-            m_dwElapsedTime %= m_dwRate;
-            m_dwLastUpdate = GetTickCount();
-        }
-        
-        // stolen from: CLCDBitmap::OnDraw(rGfx);
-        if(m_hBitmap)
-        {
-            HDC hCompatibleDC = CreateCompatibleDC(rGfx.GetHDC());
-            HBITMAP hOldBitmap = (HBITMAP)SelectObject(hCompatibleDC, m_hBitmap);
-            
-            // get
-            BitBlt(rGfx.GetHDC(), 0, 0, m_Size.cx, m_Size.cy, hCompatibleDC, xoffs, 0, m_dwROP);
-            
-            // restores
-            SelectObject(hCompatibleDC, hOldBitmap);
-            DeleteDC(hCompatibleDC);
-        }
+        m_dwCurrSubpic += increment;
+        m_dwCurrSubpic %= m_dwTotalSubpics;
+        m_dwElapsedTime %= m_dwRate;
+        m_dwLastUpdate = GetTickCount();
     }
 }
 

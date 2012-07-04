@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"设置在关闭并重新播放时生效。"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"步进距离 (小，中，大。单位: 毫秒)"
 9		"默认"
 10		"快速寻找(在关键帧)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"当播放列表里只有一个项目时执行 '向后跳转/向前跳转' 将会是打开文件夹里的下一个/上一个文件"
 18		"使用时间提示:"
 20		"OSD 字体:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

@@ -55,6 +55,8 @@ public:
 
     BOOL m_fFastSeek;
 
+    BOOL m_fLCDSupport;
+
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();

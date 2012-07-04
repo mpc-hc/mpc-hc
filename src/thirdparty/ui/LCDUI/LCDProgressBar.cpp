@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDProgressBar.cpp
 //
@@ -6,11 +14,11 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
-#include "stdafx.h"
-#include "LCDProgressBar.h"
+#include "LCDUI.h"
+
 
 //************************************************************************
 //
@@ -18,14 +26,15 @@
 //
 //************************************************************************
 
-CLCDProgressBar::CLCDProgressBar()
+CLCDProgressBar::CLCDProgressBar(void)
+:   m_fPos(0.0f),
+    m_eStyle(STYLE_CURSOR),
+    m_hBrush(NULL),
+    m_hPen(NULL),
+    m_nCursorWidth(5)
 {
-    m_Pos = 0;
-    m_eStyle = STYLE_CURSOR;
     m_Range.nMin = 0;
     m_Range.nMax = 100;
-    m_nCursorWidth = 5;
-	m_hPen = NULL;
 }
 
 
@@ -35,13 +44,13 @@ CLCDProgressBar::CLCDProgressBar()
 //
 //************************************************************************
 
-CLCDProgressBar::~CLCDProgressBar()
+CLCDProgressBar::~CLCDProgressBar(void)
 {
-	if (m_hPen != NULL)
-	{
-		::DeleteObject(m_hPen);
-		m_hPen = NULL;
-	}
+    if (m_hPen != NULL)
+    {
+        ::DeleteObject(m_hPen);
+        m_hPen = NULL;
+    }
 }
 
 
@@ -51,13 +60,12 @@ CLCDProgressBar::~CLCDProgressBar()
 //
 //************************************************************************
 
-HRESULT CLCDProgressBar::Initialize()
+HRESULT CLCDProgressBar::Initialize(void)
 {
-
     m_hBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	m_hPen = ::CreatePen(PS_DOT, 1, RGB(255, 255, 255));
+    m_hPen = ::CreatePen(PS_DOT, 1, RGB(255, 255, 255));
 
-    return CLCDBase::Initialize();
+    return S_OK;
 }
 
 
@@ -67,70 +75,53 @@ HRESULT CLCDProgressBar::Initialize()
 //
 //************************************************************************
 
-void CLCDProgressBar::OnDraw(CLCDGfx &rGfx)
-{  
-	HPEN	hOldPen;
-
-	rGfx.ClearScreen();
-
-	// draw the border
-	RECT r = { 0, 0, GetWidth(), GetHeight() };
+void CLCDProgressBar::OnDraw(CLCDGfxBase &rGfx)
+{
+    // draw the border
+    RECT r = { 0, 0, GetWidth(), GetHeight() };
     
-	FrameRect(rGfx.GetHDC(), &r, m_hBrush);
+    FrameRect(rGfx.GetHDC(), &r, m_hBrush);
 
-	// draw the progress
-	switch(m_eStyle)
-	{
-	case STYLE_CURSOR:
-	{
-		int nCursorPos = (int)Scalef((float)m_Range.nMin, (float)m_Range.nMax,
+    // draw the progress
+    switch(m_eStyle)
+    {
+    case STYLE_CURSOR:
+        {
+            int nCursorPos = (int)Scalef((float)m_Range.nMin, (float)m_Range.nMax,
                                    (float)1, (float)(GetWidth() - m_nCursorWidth-1),
-                                   m_Pos);
-		r.left = nCursorPos;
-		r.right = r.left + m_nCursorWidth;
-		FillRect(rGfx.GetHDC(), &r, m_hBrush);
-	}
-		break;
-	case STYLE_FILLED_V:
-	case STYLE_FILLED_H:
-	{
-		int nBar = (int)Scalef((float)m_Range.nMin, (float)m_Range.nMax,
-                                  0.0f, (m_eStyle == STYLE_FILLED_H ? (float)GetWidth() : (float)GetHeight())-4,
-                                  m_Pos);
-		r.left   = r.left+2;
-		r.bottom = r.bottom-2;
-		if (m_eStyle == STYLE_FILLED_H)
-		{
-			r.right = nBar+2;
-			r.top   = r.top+2;
-		}
-		else
-		{
-			r.right = r.right-2;
-			r.top   = r.bottom-nBar;
-		}
+                                   m_fPos);
+            r.left = nCursorPos;
+            r.right = r.left + m_nCursorWidth;
+            FillRect(rGfx.GetHDC(), &r, m_hBrush);
+        }
+        break;
+    case STYLE_FILLED:
+        {
+            int nBarWidth = (int)Scalef((float)m_Range.nMin, (float)m_Range.nMax,
+                                  0.0f, (float)GetWidth(),
+                                  m_fPos);
+            r.right = nBarWidth;
+            FillRect(rGfx.GetHDC(), &r, m_hBrush);
+        }
+        break;
+    case STYLE_DASHED_CURSOR:
+        {
+            int nCursorPos = (int)Scalef((float)m_Range.nMin, (float)m_Range.nMax,
+                (float)1, (float)(GetWidth() - m_nCursorWidth-1),
+                m_fPos);
+            r.left = nCursorPos;
+            r.right = r.left + m_nCursorWidth;
+            FillRect(rGfx.GetHDC(), &r, m_hBrush);
+            HPEN hOldPen = (HPEN)::SelectObject(rGfx.GetHDC(), m_hPen);
 
-		FillRect(rGfx.GetHDC(), &r, m_hBrush);
-	}
-		break;
-	case STYLE_DASHED_CURSOR:
-	{
-		int nCursorPos = (int)Scalef((float)m_Range.nMin, (float)m_Range.nMax,
-                                   (float)1, (float)(GetWidth() - m_nCursorWidth-1),
-                                   m_Pos);
-		r.left = nCursorPos;
-		r.right = r.left + m_nCursorWidth;
-		FillRect(rGfx.GetHDC(), &r, m_hBrush);
-		hOldPen = (HPEN)::SelectObject(rGfx.GetHDC(), m_hPen);
-
-		::MoveToEx(rGfx.GetHDC(), 0, (r.bottom - r.top)/2, NULL);
-		::LineTo(rGfx.GetHDC(), nCursorPos, (r.bottom - r.top)/2);
-		::SelectObject(rGfx.GetHDC(), hOldPen);
-	}
-		break;
-	default:
-		break;
-	}
+            ::MoveToEx(rGfx.GetHDC(), 0, (r.bottom - r.top)/2, NULL);
+            ::LineTo(rGfx.GetHDC(), nCursorPos, (r.bottom - r.top)/2);
+            ::SelectObject(rGfx.GetHDC(), hOldPen);
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 
@@ -140,9 +131,8 @@ void CLCDProgressBar::OnDraw(CLCDGfx &rGfx)
 //
 //************************************************************************
 
-void CLCDProgressBar::ResetUpdate()
+void CLCDProgressBar::ResetUpdate(void)
 {
-
 }
 
 
@@ -152,7 +142,7 @@ void CLCDProgressBar::ResetUpdate()
 //
 //************************************************************************
 
-void CLCDProgressBar::SetRange(__int64 nMin, __int64 nMax)
+void CLCDProgressBar::SetRange(int nMin, int nMax)
 {
     m_Range.nMin = nMin;
     m_Range.nMax = nMax;
@@ -177,7 +167,7 @@ void CLCDProgressBar::SetRange(RANGE& Range)
 //
 //************************************************************************
 
-RANGE& CLCDProgressBar::GetRange()
+RANGE& CLCDProgressBar::GetRange(void)
 {
     return m_Range;
 }
@@ -189,9 +179,9 @@ RANGE& CLCDProgressBar::GetRange()
 //
 //************************************************************************
 
-__int64 CLCDProgressBar::SetPos(__int64 Pos)
+float CLCDProgressBar::SetPos(float fPos)
 {
-    return ( m_Pos = max(m_Range.nMin, min(Pos, m_Range.nMax)) );
+    return ( m_fPos = max((float)m_Range.nMin, min(fPos, (float)m_Range.nMax)) );
 }
 
 
@@ -201,9 +191,9 @@ __int64 CLCDProgressBar::SetPos(__int64 Pos)
 //
 //************************************************************************
 
-__int64 CLCDProgressBar::GetPos()
+float CLCDProgressBar::GetPos(void)
 {
-    return m_Pos;
+    return m_fPos;
 }
 
 
@@ -215,8 +205,9 @@ __int64 CLCDProgressBar::GetPos()
 
 void CLCDProgressBar::EnableCursor(BOOL bEnable)
 {
-    m_eStyle = bEnable ? STYLE_CURSOR : STYLE_FILLED_H;
+    m_eStyle = bEnable ? STYLE_CURSOR : STYLE_FILLED;
 }
+
 
 //************************************************************************
 //
@@ -226,8 +217,9 @@ void CLCDProgressBar::EnableCursor(BOOL bEnable)
 
 void CLCDProgressBar::SetProgressStyle(ePROGRESS_STYLE eStyle)
 {
-	m_eStyle = eStyle;
+    m_eStyle = eStyle;
 }
+
 
 //************************************************************************
 //
@@ -236,7 +228,7 @@ void CLCDProgressBar::SetProgressStyle(ePROGRESS_STYLE eStyle)
 //************************************************************************
 
 float CLCDProgressBar::Scalef(float fFromMin, float fFromMax,
-                             float fToMin, float fToMax, __int64 fFromValue)
+                              float fToMin, float fToMax, float fFromValue)
 {
 
     // normalize the input
@@ -256,14 +248,14 @@ float CLCDProgressBar::Scalef(float fFromMin, float fFromMax,
 //************************************************************************
 
 int CLCDProgressBar::Scale(int nFromMin, int nFromMax,
-                           int nToMin, int nToMax, __int64 nFromValue)
+                           int nToMin, int nToMax, int nFromValue)
 {
     return (int)Scalef(
         (float)nFromMin,
         (float)nFromMax,
         (float)nToMin,
         (float)nToMax,
-        nFromValue
+        (float)nFromValue
         );
 }
 

@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"현재 파일을 닫고 다시 시작해야만 설정이 적용됩니다."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"이동 간격 (최소/중간/최대 간격을 밀리초 단위로 입력)"
 9		"기본값"
 10		"빠른 탐색 (키프레임)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
 18		"시간 툴팁 사용:"
 20		"OSD 글꼴:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

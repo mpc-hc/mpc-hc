@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"As mudanças apenas terão efeito após o fechamento do vídeo."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Distâncias para pulos (curto, médio, longo em ms)"
 9		"Padrão"
 10		"Pular diretamente para quadros-chave"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Ir para o próximo arquivo ao clicar nos botões de Pular mesmo quando houver apenas um item na lista de reprodução"
 18		"Mostrar tempo na barra de progresso:"
 20		"Fonte do OSD:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

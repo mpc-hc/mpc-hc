@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Ցուցադրել մոտագույն vsync-ի հետ"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Անցման ձևը (կարճ, միջին, երկար) մ/վ-ով"
 9		"Ըստ ծրագրայինի"
 10		"Fast seek (on keyframe)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Բացել հաջորդ/նախորդ ֆայլը թղթապանակում ""Հետ/Առաջ""-ի միջոցով, եթե խաղացանկում առկա է մեկ ֆայլ։"
 18		"Օգտ. ժամանակի հուշումը"
 20		"OSD տառատեսակ:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

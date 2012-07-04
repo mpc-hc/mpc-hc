@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Le modifiche saranno effettive dopo un riavvio della riproduzione."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Intervalli di salto (piccolo, medio, grande in ms)"
 9		"Default"
 10		"Ricerca veloce (sui keyframe)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
 18		"Visualizza tempo:"
 20		"Carattere OSD:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

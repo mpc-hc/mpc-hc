@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Änderungen werden erst nach Neustart der Wiedergabe wirksam"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Sprung-Intervalle (klein, mittel, groß; in ms)"
 9		"Standard"
 10		"schnelle Suche (bei Keyframes)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Öffne nächste/vorige Datei eines Ordners beim Vor- und Zurückspulen, wenn nur eine Datei in der Wiedergabeliste ist"
 18		"Zeit Tooltip verwenden:"
 20		"OSD Schrift:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

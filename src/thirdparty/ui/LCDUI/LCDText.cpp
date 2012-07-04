@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDText.cpp
 //
@@ -6,11 +14,10 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
-#include "stdafx.h"
-#include "LCDText.h"
+#include "LCDUI.h"
 
 
 //************************************************************************
@@ -19,19 +26,19 @@
 //
 //************************************************************************
 
-CLCDText::CLCDText()
+CLCDText::CLCDText(void)
+:   m_hFont(NULL),
+    m_nTextLength(0),
+    m_nTextFormat(DT_LEFT | DT_NOPREFIX),
+    m_bRecalcExtent(TRUE),
+    m_nTextAlignment(DT_LEFT)
 {
-    m_nTextLength = 0;
-    m_hFont = NULL;
-    m_sText.erase(m_sText.begin(), m_sText.end());
-    m_crColor = RGB(255, 255, 255); // white
-    m_bRecalcExtent = TRUE;
     ZeroMemory(&m_dtp, sizeof(DRAWTEXTPARAMS));
     m_dtp.cbSize = sizeof(DRAWTEXTPARAMS);
-    m_nTextFormat = m_nTextAlignment = (DT_LEFT | DT_NOPREFIX);
-    m_nTextAlignment = DT_LEFT;
     ZeroMemory(&m_sizeVExtent, sizeof(m_sizeVExtent));
     ZeroMemory(&m_sizeHExtent, sizeof(m_sizeHExtent));
+    SetBackgroundMode(TRANSPARENT);
+    Initialize();
 }
 
 
@@ -41,9 +48,8 @@ CLCDText::CLCDText()
 //
 //************************************************************************
 
-CLCDText::~CLCDText()
+CLCDText::~CLCDText(void)
 {
-
     if (m_hFont)
     {
         DeleteObject(m_hFont);
@@ -60,13 +66,12 @@ CLCDText::~CLCDText()
 
 HRESULT CLCDText::Initialize()
 {
-
     m_hFont = (HFONT) GetStockObject(DEFAULT_GUI_FONT);
     if(NULL != m_hFont)
     {
         SetFontPointSize(DEFAULT_POINTSIZE);
     }
-
+    SetForegroundColor(RGB(255, 255, 255));
     return (NULL != m_hFont) ? S_OK : E_OUTOFMEMORY;
 }
 
@@ -112,14 +117,14 @@ void CLCDText::SetFontFaceName(LPCTSTR szFontName)
 {
     // if NULL, uses the default gui font
     if (NULL == szFontName)
+    {
         return;
+    }
 
     LOGFONT lf;
     ZeroMemory(&lf, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
-    //_tcsncpy(lf.lfFaceName, szFontName, LF_FACESIZE);
-    //_tcsncpy_s(lf.lfFaceName, LF_FACESIZE, szFontName, LF_FACESIZE);
     LCDUI_tcsncpy(lf.lfFaceName, szFontName, LF_FACESIZE);
 
     SetFont(lf);
@@ -159,6 +164,18 @@ void CLCDText::SetFontWeight(int nWeight)
     lf.lfWeight = nWeight;
 
     SetFont(lf);
+}
+
+
+//************************************************************************
+//
+// CLCDText::SetFontColor
+//
+//************************************************************************
+
+void CLCDText::SetFontColor(COLORREF color)
+{
+    SetForegroundColor(color);
 }
 
 
@@ -288,6 +305,56 @@ SIZE& CLCDText::GetHExtent()
 
 //************************************************************************
 //
+// CLCDText::CalculateExtent
+//
+//************************************************************************
+
+void CLCDText::CalculateExtent(BOOL bSingleLine)
+{
+    HDC hdc = CreateCompatibleDC(NULL);
+
+    int nOldMapMode = SetMapMode(hdc, MM_TEXT);
+    int nOldBkMode = SetBkMode(hdc, GetBackgroundMode());
+    // select current font
+    HFONT hOldFont = (HFONT)SelectObject(hdc, m_hFont);
+
+    int nTextFormat;
+    RECT rExtent;
+
+    if(bSingleLine)
+    {
+        // calculate horizontal extent w/ single line, we can get the line height
+        nTextFormat = (m_nTextFormat | DT_SINGLELINE | DT_CALCRECT);
+        rExtent.left = rExtent.top = 0;
+        rExtent.right = m_Size.cx;
+        rExtent.bottom = m_Size.cy;
+        DrawTextEx(hdc, (LPTSTR)m_sText.c_str(), static_cast<int>(m_nTextLength), &rExtent, nTextFormat, &m_dtp);
+        m_sizeHExtent.cx = rExtent.right;
+        m_sizeHExtent.cy = rExtent.bottom;
+    }
+    else
+    {
+        // calculate vertical extent with word wrap
+        nTextFormat = (m_nTextFormat | DT_WORDBREAK | DT_CALCRECT);
+        rExtent.left = rExtent.top = 0;
+        rExtent.right = m_Size.cx;
+        rExtent.bottom = m_Size.cy;
+        DrawTextEx(hdc, (LPTSTR)m_sText.c_str(), static_cast<int>(m_nTextLength), &rExtent, nTextFormat, &m_dtp);
+        m_sizeVExtent.cx = rExtent.right;
+        m_sizeVExtent.cy = rExtent.bottom;
+    }
+
+    // restores
+    SetMapMode(hdc, nOldMapMode);
+    SetBkMode(hdc, nOldBkMode);
+    SelectObject(hdc, hOldFont);
+
+    DeleteDC(hdc);
+}
+
+
+//************************************************************************
+//
 // CLCDText::SetAlignment
 //
 //************************************************************************
@@ -306,15 +373,11 @@ void CLCDText::SetAlignment(int nAlignment)
 //
 //************************************************************************
 
-void CLCDText::DrawText(CLCDGfx &rGfx)
+void CLCDText::DrawText(CLCDGfxBase &rGfx)
 {
     // draw the text
     RECT rBoundary = { 0, 0,0 + GetLogicalSize().cx, 0 + GetLogicalSize().cy }; 
     DrawTextEx(rGfx.GetHDC(), (LPTSTR)m_sText.c_str(), static_cast<int>(m_nTextLength), &rBoundary, m_nTextFormat, &m_dtp);
-    
-//    LCDUITRACE(_T("Drawing %s at (%d,%d)-(%d-%d) lmargin=%d, rmargin=%d\n"),
-//         m_sText.c_str(), m_Origin.x, m_Origin.y, GetWidth(), GetHeight(),
-//         m_dtp.iLeftMargin, m_dtp.iRightMargin);
 
     if (m_bInverted)
     {
@@ -329,18 +392,21 @@ void CLCDText::DrawText(CLCDGfx &rGfx)
 //
 //************************************************************************
 
-void CLCDText::OnDraw(CLCDGfx &rGfx)
+void CLCDText::OnDraw(CLCDGfxBase &rGfx)
 {
-
     if (GetBackgroundMode() == OPAQUE)
     {
+        HBRUSH hBackBrush = CreateSolidBrush(m_crBackgroundColor);
+
         // clear the clipped area
         RECT rcClp = { 0, 0, m_Size.cx, m_Size.cy };
         FillRect(rGfx.GetHDC(), &rcClp, (HBRUSH) GetStockObject(BLACK_BRUSH));
     
         // clear the logical area
         RECT rcLog = { 0, 0, m_sizeLogical.cx, m_sizeLogical.cy };
-        FillRect(rGfx.GetHDC(), &rcLog, (HBRUSH) GetStockObject(BLACK_BRUSH));
+        FillRect(rGfx.GetHDC(), &rcLog, hBackBrush);
+
+        DeleteObject(hBackBrush);
     }
     
     if (m_nTextLength)
@@ -349,12 +415,13 @@ void CLCDText::OnDraw(CLCDGfx &rGfx)
         // map mode text, with transparency
         int nOldMapMode = SetMapMode(rGfx.GetHDC(), MM_TEXT);
         int nOldBkMode = SetBkMode(rGfx.GetHDC(), GetBackgroundMode()); 
+        COLORREF nOldBkColor = SetBkColor(rGfx.GetHDC(), m_crBackgroundColor);
 
         // select current font
         HFONT hOldFont = (HFONT)SelectObject(rGfx.GetHDC(), m_hFont);   
 
         // select color
-        COLORREF crOldTextColor = SetTextColor(rGfx.GetHDC(), m_crColor);
+        COLORREF crOldTextColor = SetTextColor(rGfx.GetHDC(), m_crForegroundColor);
         
         if (m_bRecalcExtent)
         {
@@ -391,6 +458,7 @@ void CLCDText::OnDraw(CLCDGfx &rGfx)
         SetMapMode(rGfx.GetHDC(), nOldMapMode);
         SetTextColor(rGfx.GetHDC(), crOldTextColor);
         SetBkMode(rGfx.GetHDC(), nOldBkMode);
+        SetBkColor(rGfx.GetHDC(), nOldBkColor);
         SelectObject(rGfx.GetHDC(), hOldFont);
     }
 }

@@ -25,23 +25,69 @@
 
 #include <Windows.h>
 #include "lglcd/lglcd.h"
-#include "ui/LCDUI/LCDManager.h"
-#include "ui/LCDUI/LCDOutput.h"
-#include "ui/LCDUI/LCDScrollingText.h"
-#include "ui/LCDUI/LCDProgressBar.h"
-#include "ui/LCDUI/LCDAnimatedBitmap.h"
+#include "ui/LCDUI/LCDUI.h"
 
-
-class CLCDMyManager : public CLCDManager
+class CLCDMyProgressBar : public CLCDProgressBar
 {
 public:
+    enum eMY_PROGRESS_STYLE { STYLE_FILLED_H, STYLE_CURSOR, STYLE_DASHED_CURSOR, STYLE_FILLED_V };
+
+    virtual void OnDraw(CLCDGfxBase& rGfx);
+    virtual void SetProgressStyle(ePROGRESS_STYLE eStyle);
+    virtual void SetProgressStyle(eMY_PROGRESS_STYLE eMyStyle);
+
+protected:
+    eMY_PROGRESS_STYLE m_eMyStyle;
+};
+
+class CLCDMyMonoPage : public CLCDPage
+{
+public:
+    enum PlayState {
+        PS_PLAY   = 0,
+        PS_PAUSE  = 1,
+        PS_STOP   = 2,
+        PS_UNUSED = 3
+    };
+
     virtual HRESULT Initialize(void);
     virtual void OnLCDButtonUp(int nButton);
+    void SetPlayState(PlayState ps);
 
-    CLCDScrollingText   m_Text1;
-    CLCDText            m_Text[2];
-    CLCDProgressBar     m_ProgBar[2];
-    CLCDAnimatedBitmap  m_PlayState;
+    CLCDMyMonoPage();
+    ~CLCDMyMonoPage();
+
+    CLCDScrollingText  m_Text1;
+    CLCDText           m_Text[2];
+    CLCDMyProgressBar  m_ProgBar[2];
+    CLCDAnimatedBitmap m_PlayState;
+private:
+    HBITMAP            hBmp[PS_UNUSED];
+};
+
+class CLCDMyColorPage : public CLCDPage
+{
+public:
+    enum PlayState {
+        PS_PLAY   = 0,
+        PS_PAUSE  = 1,
+        PS_STOP   = 2,
+        PS_UNUSED = 3
+    };
+
+    virtual HRESULT Initialize(void);
+    virtual void OnLCDButtonUp(int nButton);
+    void SetPlayState(PlayState ps);
+
+    CLCDMyColorPage();
+    ~CLCDMyColorPage();
+
+    CLCDScrollingText  m_Text1;
+    CLCDText           m_Text[2];
+    CLCDMyProgressBar  m_ProgBar[2];
+    CLCDAnimatedBitmap m_PlayState;
+private:
+    HBITMAP            hBmp[PS_UNUSED];
 };
 
 class CMPC_Lcd
@@ -55,16 +101,25 @@ public:
     };
 
 private:
-    lgLcdConnectContext m_ConnCtx;
-    HANDLE hLCD_UpdateThread;
-    HBITMAP hBmp[PS_UNUSED];
+    lgLcdConnectContextEx m_ConnCtx;
+    HANDLE                hLCD_UpdateThread;
+
+    __int64               m_nMediaStart;
+    __int64               m_nMediaStop;
+    __int64               m_nVolumeStart;
+    __int64               m_nVolumeStop;
+
+    HRESULT SetAsForeground(BOOL setAsForeground);
 
 public:
-    CLCDOutput m_Output;
-    CLCDMyManager m_Manager;
-    bool Thread_Loop;
-    __time64_t nThread_tTimeout;
-    CRITICAL_SECTION cs;
+    CLCDConnection        m_Connection;
+    CLCDOutput*           m_MonoOutput;
+    CLCDOutput*           m_ColorOutput;
+    CLCDMyMonoPage        m_MonoPage;
+    CLCDMyColorPage       m_ColorPage;
+    bool                  Thread_Loop;
+    __time64_t            nThread_tTimeout;
+    CRITICAL_SECTION      cs;
 
     CMPC_Lcd();
     ~CMPC_Lcd();

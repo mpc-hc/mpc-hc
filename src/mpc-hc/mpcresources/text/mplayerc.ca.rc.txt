@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Els canvis tindran efecte després de tencar i reiniciar la reproducció."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Distàncies de salt (curt, mig, llarg en ms)"
 9		"Original"
 10		"Desplaçament Ràpid(al fotograma clau)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Obrir el fitxer de la carpeta següent/anterior amb ""Skip back/forward"" quan només hi ha un element de llista de reproducció"
 18		"Usar la descripció emergent de temps:"
 20		"Estil del OSD:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -1075,7 +1076,7 @@ STRING IDC_DSVMR9WIN		"Només disponible si tens instal.lat DirectX 9. Té les m
 STRING IDC_DX9RESIZER_COMBO		"Si no hi ha suport per Pixel Shader 2.0, s'usarà automàticament el rendimensionament bilineal sencill."
 STRING IDC_QTDX7		"La Sortida del motor de QuickTime será renderitzat per el ""Allocator-Presenter"" basat en DX7 de VMR-7 (sense renderitzar)."
 STRING IDC_QTDX9		"La Sortida del motor de QuickTime será renderitzat per el ""Allocator-Presenter"" basat en DX9 de VMR-9 (sense renderitzar)."
-STRING IDC_QTSYSDEF	"El render propi del Quictime, es torna una mica lent quant l'àrea del video es redimensiona o bé queda parcialment coberta per una altre finestra. Quant l'Overlay no esta disponible li agrada tornar al mòde GDI(interfície de dispositiu gràfic)."
+STRING IDC_QTSYSDEF		"El render propi del Quictime, es torna una mica lent quant l'àrea del video es redimensiona o bé queda parcialment coberta per una altre finestra. Quant l'Overlay no esta disponible li agrada tornar al mòde GDI(interfície de dispositiu gràfic)."
 STRING IDC_REGULARSURF		"La superfície del vídeo serà asignada com una de regular en una zona fora de la pantalla."
 STRING IDC_RMDX7		"La sortida del motor Real serà renderitzat per el ""Allocator-Presenter"" basat en DX7 de VMR-7 (sense renderitzar)."
 STRING IDC_RMDX9		"La sortida del motor Real serà renderitzat per el ""Allocator-Presenter"" basat en DX9 de VMR-9 (sense renderitzar)."

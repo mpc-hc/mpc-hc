@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Les changements prennent effet après que la lecture soit arretée et redémarrée."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Intervalles de saut (petit, moyen, grand en ms)"
 9		"Par défaut"
 10		"Déplacement rapide (à l'image clé)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Ouvrir le fichier suivant/précédent dans le dossier lorsque ""Fichier suivant/précédent"" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
 18		"Utiliser l'infobulle :"
 20		"Police OSD :"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

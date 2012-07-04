@@ -1,16 +1,24 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDCollection.cpp
 //
-// The CLCDCollection class is a generic collection of CLCDBase objects.
+// Holds a collection of base items.  Its draw will draw everything
+// in its list.
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
-#include "stdafx.h"
-#include "LCDCollection.h"
+#include "LCDUI.h"
 
 
 //************************************************************************
@@ -32,6 +40,19 @@ CLCDCollection::CLCDCollection(void)
 
 CLCDCollection::~CLCDCollection(void)
 {
+
+}
+
+
+//************************************************************************
+//
+// CLCDCollection::GetObjectCount
+//
+//************************************************************************
+
+int CLCDCollection::GetObjectCount(void)
+{
+    return (int)m_Objects.size();
 }
 
 
@@ -41,11 +62,10 @@ CLCDCollection::~CLCDCollection(void)
 //
 //************************************************************************
 
-BOOL CLCDCollection::AddObject(CLCDBase* pObject)
+bool CLCDCollection::AddObject(CLCDBase* pObject)
 {
-    //TODO: handle addition of same object twice...
     m_Objects.push_back(pObject);
-    return TRUE;
+    return true;
 }
 
 
@@ -55,19 +75,68 @@ BOOL CLCDCollection::AddObject(CLCDBase* pObject)
 //
 //************************************************************************
 
-BOOL CLCDCollection::RemoveObject(CLCDBase* pObject)
+bool CLCDCollection::RemoveObject(CLCDBase* pObject)
 {
-    LCD_OBJECT_LIST::iterator it = m_Objects.begin();
-    while(it != m_Objects.end())
+    LCD_OBJECT_LIST::iterator it = 
+        std::find(m_Objects.begin(), m_Objects.end(), pObject);
+    if(it != m_Objects.end())
     {
-        if (*it == pObject)
-        {
-            m_Objects.erase(it);
-            break;
-        }
-        ++it;
+        m_Objects.erase(it);
+        return true;
     }
-    return FALSE;
+
+    return false;
+}
+
+
+//************************************************************************
+//
+// CLCDCollection::RemoveObject
+//
+//************************************************************************
+
+bool CLCDCollection::RemoveObject(int objpos)
+{
+    if(!m_Objects.empty())
+    {
+        if((0 <= objpos) && (objpos < (int) m_Objects.size()))
+        {
+            m_Objects.erase(m_Objects.begin() + objpos);
+            return true;
+        }
+    }
+    return false;
+}
+
+
+//************************************************************************
+//
+// CLCDCollection::RemoveAll
+//
+//************************************************************************
+
+void CLCDCollection::RemoveAll()
+{
+    m_Objects.clear();
+}
+
+
+//************************************************************************
+//
+// CLCDCollection::RetrieveObject
+//
+//************************************************************************
+
+CLCDBase* CLCDCollection::RetrieveObject(int objpos)
+{
+    if(!m_Objects.empty())
+    {
+        if((0 <= objpos) && (objpos < (int) m_Objects.size()))
+        {
+            return m_Objects[objpos];
+        }
+    }
+    return NULL;
 }
 
 
@@ -77,60 +146,63 @@ BOOL CLCDCollection::RemoveObject(CLCDBase* pObject)
 //
 //************************************************************************
 
-void CLCDCollection::OnDraw(CLCDGfx &rGfx)
+void CLCDCollection::OnDraw(CLCDGfxBase &rGfx)
 {
+    if(!IsVisible())
+    {
+        return;
+    }
+
+    //iterate through your objects and draw them
     LCD_OBJECT_LIST::iterator it = m_Objects.begin();
     while(it != m_Objects.end())
     {
-        CLCDBase *pObject = *it;
+        CLCDBase *pObject = *it++;
         LCDUIASSERT(NULL != pObject);
 
-        if (!pObject->IsVisible())
+        if (pObject->IsVisible())
         {
-            ++it;
-            continue;
+            pObject->OnPrepareDraw(rGfx);
+
+            // create the clip region
+            HRGN hRgn = CreateRectRgn(pObject->GetOrigin().x, pObject->GetOrigin().y,
+                                      pObject->GetOrigin().x + pObject->GetWidth(),
+                                      pObject->GetOrigin().y + pObject->GetHeight());
+
+            // ensure that controls only draw within their specified region
+            SelectClipRgn(rGfx.GetHDC(), hRgn);
+
+            // free the region (a copy is used in the call above)
+            DeleteObject(hRgn);
+
+            // offset the control at its origin so controls use (0,0)
+            POINT ptPrevViewportOrg = { 0, 0 };
+            SetViewportOrgEx(rGfx.GetHDC(),
+                             pObject->GetOrigin().x,
+                             pObject->GetOrigin().y,
+                             &ptPrevViewportOrg);
+
+            // allow controls to supply additional translation
+            // this allows controls to move freely within the confined viewport
+            OffsetViewportOrgEx(rGfx.GetHDC(),
+                                pObject->GetLogicalOrigin().x,
+                                pObject->GetLogicalOrigin().y,
+                                NULL);
+
+            pObject->OnDraw(rGfx);
+
+            // set the clipping region to nothing
+            SelectClipRgn(rGfx.GetHDC(), NULL);
+
+            // restore the viewport origin
+            SetViewportOrgEx(rGfx.GetHDC(),
+                ptPrevViewportOrg.x,
+                ptPrevViewportOrg.y,
+                NULL);
+
+            // restore the viewport origin offset
+            OffsetViewportOrgEx(rGfx.GetHDC(), 0, 0, NULL);
         }
-
-        // create the clip region
-        HRGN hRgn = CreateRectRgn(pObject->GetOrigin().x, pObject->GetOrigin().y,
-                                  pObject->GetOrigin().x + pObject->GetWidth(),
-                                  pObject->GetOrigin().y + pObject->GetHeight());
-        
-        // ensure that controls only draw within their specified region
-        SelectClipRgn(rGfx.GetHDC(), hRgn);
-
-        // free the region (a copy is used in the call above)
-        DeleteObject(hRgn);
-
-        // offset the control at its origin so controls use (0,0)
-        POINT ptPrevViewportOrg = { 0, 0 };
-        SetViewportOrgEx(rGfx.GetHDC(),
-                         pObject->GetOrigin().x,
-                         pObject->GetOrigin().y,
-                         &ptPrevViewportOrg);
-
-        // allow controls to supply additional translation
-        // this allows controls to move freely within the confined viewport
-        OffsetViewportOrgEx(rGfx.GetHDC(),
-                            pObject->GetLogicalOrigin().x,
-                            pObject->GetLogicalOrigin().y,
-                            NULL);
-
-        pObject->OnDraw(rGfx);
-
-        // set the clipping region to nothing
-        SelectClipRgn(rGfx.GetHDC(), NULL);
-
-        // restore the viewport origin
-        SetViewportOrgEx(rGfx.GetHDC(),
-            ptPrevViewportOrg.x,
-            ptPrevViewportOrg.y,
-            NULL);
-
-        // restore the viewport origin offset
-        OffsetViewportOrgEx(rGfx.GetHDC(), 0, 0, NULL);
-
-        ++it;
     }
 }
 
@@ -143,54 +215,18 @@ void CLCDCollection::OnDraw(CLCDGfx &rGfx)
 
 void CLCDCollection::OnUpdate(DWORD dwTimestamp)
 {
+    //iterate through your objects and update them
     LCD_OBJECT_LIST::iterator it = m_Objects.begin();
     while(it != m_Objects.end())
     {
-        CLCDBase *pObject = *it;
+        CLCDBase *pObject = *it++;
         LCDUIASSERT(NULL != pObject);
+
         pObject->OnUpdate(dwTimestamp);
-        ++it;
-    }
-}
-
-
-//************************************************************************
-//
-// CLCDCollection::ResetUpdate
-//
-//************************************************************************
-
-void CLCDCollection::ResetUpdate(void)
-{
-    LCD_OBJECT_LIST::iterator it = m_Objects.begin();
-    while(it != m_Objects.end())
-    {
-        CLCDBase *pObject = *it;
-        LCDUIASSERT(NULL != pObject);
-        pObject->ResetUpdate();
-        ++it;
-    }
-}
-
-
-//************************************************************************
-//
-// CLCDCollection::Show
-//
-//************************************************************************
-
-void CLCDCollection::Show(BOOL bShow)
-{
-    LCD_OBJECT_LIST::iterator it = m_Objects.begin();
-    while(it != m_Objects.end())
-    {
-        CLCDBase *pObject = *it;
-        LCDUIASSERT(NULL != pObject);
-        pObject->Show(bShow);
-        ++it;
     }
 
-    CLCDBase::Show(bShow);
+    //and update yourself
+    CLCDBase::OnUpdate(dwTimestamp);
 }
 
 

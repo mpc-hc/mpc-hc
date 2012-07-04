@@ -1,107 +1,107 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDOutput.h
 //
-// The CLCDOutput class manages LCD hardware enumeration and screen
-// management.
+// The CLCDOutput manages the actual device and the various pages that
+// are sent to that device
+//
+// This class is now managed by CLCDConnection. You no longer need to 
+// derive or instantiate this class yourself
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
 #ifndef _CLCDOUTPUT_H_INCLUDED_ 
 #define _CLCDOUTPUT_H_INCLUDED_ 
 
-#include "LCDManager.h"
-#include "lglcd/lglcd.h"
-#include <vector>
+#include "LCDCollection.h"
+#include "LCDGfxBase.h"
+#include "LCDPage.h"
 
-using namespace std;
 
-typedef vector <CLCDManager*> LCD_MGR_LIST;
-typedef LCD_MGR_LIST::iterator LCD_MGR_LIST_ITER;
-
-class CLCDOutput : public CLCDManager
+class CLCDOutput : public CLCDCollection
 {
-
 public:
-    CLCDOutput();
-    virtual ~CLCDOutput();
+    CLCDOutput(void);
+    virtual ~CLCDOutput(void);
 
-    void AddScreen(CLCDManager* pScreen);
+    // Assign the type of graphics this output supports.
+    // This is set by CLCDConnection.
+    void SetGfx(CLCDGfxBase *gfx);
 
-    void LockScreen(CLCDManager* pScreen);
-    void UnlockScreen();
-    BOOL IsLocked();
+    void AddPage(CLCDPage *pPage);
+    void RemovePage(CLCDPage *pPage);
+    void ShowPage(CLCDPage *pPage, BOOL bShow = TRUE);
+    CLCDPage* GetShowingPage(void);
 
-    BOOL IsOpened();
-    void SetAsForeground(BOOL bSetAsForeground);
-    BOOL AnyDeviceOfThisFamilyPresent(DWORD dwDeviceFamilyWanted, DWORD dwReserved1);
-    void SetDeviceFamiliesSupported(DWORD dwDeviceFamiliesSupported, DWORD dwReserved1);
+    BOOL Open(lgLcdOpenContext &OpenContext);
+    BOOL OpenByType(lgLcdOpenByTypeContext &OpenContext);
+    void Close(void);
+    void Shutdown(void);
 
     void SetScreenPriority(DWORD priority);
-    DWORD GetScreenPriority();
+    DWORD GetScreenPriority(void);
 
-    INT GetDeviceHandle();
+    BOOL IsOpened(void);
+    HRESULT SetAsForeground(BOOL bSetAsForeground);
 
-    HRESULT Initialize(lgLcdConnectContext* pContext, BOOL bUseWindow = FALSE);
-    HRESULT Initialize(lgLcdConnectContextEx* pContextEx, BOOL bUseWindow = FALSE);
-
-    // returns TRUE if a new display was enumerated
-    BOOL HasHardwareChanged(void);
-
-    // CLCDBase
-    virtual HRESULT Initialize();
-    virtual HRESULT Draw();
-    virtual void Update(DWORD dwTimestamp);
-    virtual void Shutdown(void);
-
-    // CLCDManager
-    lgLcdBitmap160x43x1 *GetLCDScreen(void);
-    BITMAPINFO *GetBitmapInfo(void);
-
-protected:
-    void ActivateScreen(CLCDManager* pScreen);
-    void ReadButtons();
-    void HandleButtonState(DWORD dwButtonState, DWORD dwButton);
-    void HandleErrorFromAPI(DWORD dwRes);
-    void CloseAndDisconnect();
-
+    virtual BOOL OnDraw(void);
+    virtual void OnUpdate(DWORD dwTimestamp );
     virtual void OnLCDButtonDown(int nButton);
     virtual void OnLCDButtonUp(int nButton);
 
+    virtual void OnSoftButtonEvent(DWORD dwButtonState);
+    DWORD GetSoftButtonState(void);
+
+    // This returns true, if the device got opened through
+    // OpenByType(), instead of regular Open().
+    BOOL HasBeenOpenedByDeviceType(void);
+
+    // This is being called when we receive a device removal
+    // notification. After that, we can't reopen devices anymore
+    // (until the next device arrival comes in)
+    void StopOpeningByDeviceType(void);
+
+    // This is called, when a device function fails. This can
+    // sometimes happen during plug/unplug and two same devices
+    // are present.
+    BOOL ReOpenDeviceType(void);
+
+    int GetDeviceId(void);
+
 protected:
-    virtual void OnScreenExpired(CLCDManager* pScreen);
+    virtual BOOL DoesBitmapNeedUpdate(lgLcdBitmap* pBitmap);
+    virtual void OnPageShown(CLCDCollection* pScreen);
+    virtual void OnPageExpired(CLCDCollection* pScreen);
+    virtual void OnEnteringIdle(void);
     virtual void OnClosingDevice(int hDevice);
-    virtual void OnDisconnecting(int hConnection);
+    virtual void OnOpenedDevice(int hDevice);
 
-protected:
-    BOOL DoesBitmapNeedUpdate(lgLcdBitmap160x43x1* pCurrentBitmap);
-    void ClearBitmap(lgLcdBitmap160x43x1* pCurrentBitmap);
-    lgLcdBitmap160x43x1* m_pLastBitmap;
-    BOOL m_bPriorityHasChanged;
-
-protected:
-    CLCDManager* m_pActiveScreen;
-
-    // list 
-    LCD_MGR_LIST m_LCDMgrList;
-
-    void EnumerateDevices();
-    int m_hConnection;
     int m_hDevice;
+    CLCDPage* m_pActivePage;
     DWORD m_nPriority;
-    BOOL m_bLocked, m_bDisplayLocked;
-    DWORD m_dwButtonState;
-    BOOL m_bSetAsForeground;
+    CLCDGfxBase* m_pGfx;
 
-//    lgLcdConnectContext m_lcdConnectCtx;
-    lgLcdConnectContextEx m_lcdConnectCtxEx;
-    DWORD   m_dwDeviceFamiliesSupported;
-    DWORD   m_dwDeviceFamiliesSupportedReserved1;
+private:
+    HRESULT HandleErrorFromAPI(DWORD dwRes);
+    void HandleButtonState(DWORD dwButtonState, DWORD dwButton);
+
+    BOOL m_bSetAsForeground;
+    DWORD m_dwButtonState;
+
+    lgLcdOpenByTypeContext m_OpenByTypeContext;
 };
 
-#endif // !_CLCDOUTPUT_H_INCLUDED_ 
+#endif
 
-//** end of CLCDOutput.h *************************************************
+//** end of LCDOutput.h **************************************************

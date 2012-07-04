@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Изменения применятся после остановки и перезапуска воспроизведения."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Расстояния перехода (короткое, среднее, длинное) в мс"
 9		"По умолчанию"
 10		"Быстрая перемотка (по ключевым кадрам)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Открывать следующий/предыдущий файл в папке через 'Вперед/Назад', когда в плейлисте только один пункт"
 18		"Показывать время"
 20		"Шрифт OSD:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

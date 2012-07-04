@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Aldaketek eragina dute irakurketa itxi eta berrabiarazi ondoren."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Jauzi hurruntasunak (txikia, ertaina, luzea sm-tan)"
 9		"Berezkoa"
 10		"Bilaketa azkarra (giltza-framean)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Ireki agiritegiko hurrengo/aurreko agiria 'Jauzi atzera/aurrera' irakur-zerrendan gai bakarra dagoenean"
 18		"Denbora tresnaburua:"
 20		"OSD hizkia:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"A módosítások akkor lépnek érvénybe, ha a lejátszót bezárta és újraindította."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Ugrás távolságok (kicsi, közepes, nagy, ezredmásodpercben)"
 9		"Alapértelmezés"
 10		"Fast seek (on keyframe)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
 18		"Use time tooltip:"
 20		"OSD betűtípus:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

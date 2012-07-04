@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDScrollingText.h
 //
@@ -6,14 +14,17 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
+
 
 #ifndef _LCDSCROLLINGTEXT_H_INCLUDED_ 
 #define _LCDSCROLLINGTEXT_H_INCLUDED_ 
 
 #include "LCDBase.h"
 #include "LCDText.h"
+
+enum eSCROLL_DIR { SCROLL_HORZ, SCROLL_VERT };
 
 class CLCDScrollingText : public CLCDText
 {
@@ -33,14 +44,13 @@ public:
     void EnableRepeat(BOOL bEnable);
     void SetSpeed(DWORD dwSpeed);
 
-    enum eSCROLL_DIR { SCROLL_HORZ, SCROLL_VERT};
     void SetScrollDirection(eSCROLL_DIR eScrollDir);
-    eSCROLL_DIR GetScrollDirection();
-    BOOL IsScrollingDone();
+    eSCROLL_DIR GetScrollDirection(void);
+    BOOL IsScrollingDone(void);
 
 protected:
     virtual void OnUpdate(DWORD dwTimestamp);
-    virtual void OnDraw(CLCDGfx &rGfx);
+    virtual void OnDraw(CLCDGfxBase &rGfx);
 
 private:
     enum eSCROLL_STATES { STATE_START_DELAY, STATE_SCROLL, STATE_END_DELAY, STATE_DONE};

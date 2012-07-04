@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDBase.h
 //
@@ -6,18 +14,17 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
 #ifndef _LCDBASE_H_INCLUDED_
 #define _LCDBASE_H_INCLUDED_
 
-#include "LCDGfx.h"
-
+#include "LCDGfxBase.h"
 
 typedef enum
 {
-    LG_SCROLLING_TEXT, LG_STATIC_TEXT, LG_ICON, LG_PROGRESS_BAR, LG_UNKNOWN
+    LG_SCROLLING_TEXT, LG_STATIC_TEXT, LG_ICON, LG_PROGRESS_BAR, LG_UNKNOWN, LG_RIGHTFOCUS_TEXT, LG_BOTTOMFOCUS_TEXT
 } LGObjectType;
 
 class CLCDBase
@@ -37,7 +44,7 @@ public:
     virtual void SetSize(SIZE& size);
     virtual void SetSize(int nCX, int nCY);
     virtual SIZE& GetSize(void);
-    
+
     virtual int GetWidth(void) { return GetSize().cx; }
     virtual int GetHeight(void) { return GetSize().cy; };
 
@@ -60,9 +67,13 @@ public:
 
     virtual const LGObjectType GetObjectType();
     virtual void SetObjectType(const LGObjectType type);
-    
+
+    virtual void SetForegroundColor(COLORREF crForeground);
+    virtual void SetBackgroundColor(COLORREF crBackground);
+
 public:
-    virtual void OnDraw(CLCDGfx &rGfx) = 0;
+    virtual void OnPrepareDraw(CLCDGfxBase &rGfx);
+    virtual void OnDraw(CLCDGfxBase &rGfx);
     virtual void OnUpdate(DWORD dwTimestamp);
 
 protected:    
@@ -76,6 +87,8 @@ protected:
     int m_nBkMode;
 
     LGObjectType m_objectType;
+
+    COLORREF m_crBackgroundColor, m_crForegroundColor;
 };
 
 

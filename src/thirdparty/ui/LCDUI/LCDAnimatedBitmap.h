@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDAnimatedBitmap.h
 //
@@ -8,8 +16,9 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
+
 
 #ifndef _LCDANIMATEDBITMAP_H_INCLUDED_ 
 #define _LCDANIMATEDBITMAP_H_INCLUDED_ 
@@ -20,8 +29,8 @@
 class CLCDAnimatedBitmap : public CLCDBitmap
 {
 public:
-    CLCDAnimatedBitmap();
-    virtual ~CLCDAnimatedBitmap();
+    CLCDAnimatedBitmap(void);
+    virtual ~CLCDAnimatedBitmap(void);
 
     virtual HRESULT Initialize(void);
     virtual void ResetUpdate(void);
@@ -31,7 +40,6 @@ public:
 
 protected:
     virtual void OnUpdate(DWORD dwTimestamp);
-    virtual void OnDraw(CLCDGfx &rGfx);
 
 private:
     DWORD m_dwElapsedTime;  // elapsed time in state

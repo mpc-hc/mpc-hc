@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDText.h
 //
@@ -6,7 +14,7 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
 #ifndef _LCDTEXT_H_INCLUDED_ 
@@ -14,15 +22,18 @@
 
 #include "LCDBase.h"
 
-#include <string>
-using namespace std;
-
 class CLCDText : public CLCDBase
 {
+public:
+#ifdef UNICODE
+    typedef std::wstring lcdstring;
+#else
+    typedef std::string lcdstring;
+#endif
 
 public:
-    CLCDText();
-    virtual ~CLCDText();
+    CLCDText(void);
+    virtual ~CLCDText(void);
 
     virtual HRESULT Initialize(void);
     
@@ -30,34 +41,32 @@ public:
     virtual void SetFontFaceName(LPCTSTR szFontName);
     virtual void SetFontPointSize(int nPointSize);
     virtual void SetFontWeight(int nWeight);
+    virtual void SetFontColor(COLORREF color);
 
-    virtual HFONT GetFont();
+    virtual HFONT GetFont(void);
     virtual void SetText(LPCTSTR szText);
-    virtual LPCTSTR GetText();
+    virtual LPCTSTR GetText(void);
     virtual void SetWordWrap(BOOL bEnable);
-    virtual SIZE& GetVExtent();
-    virtual SIZE& GetHExtent();
+    virtual SIZE& GetVExtent(void);
+    virtual SIZE& GetHExtent(void);
+    virtual void CalculateExtent(BOOL bSingleLine);
     virtual void SetLeftMargin(int nLeftMargin);
     virtual int GetLeftMargin(void);
     virtual void SetRightMargin(int nRightMargin);
     virtual int GetRightMargin(void);
     virtual void SetAlignment(int nAlignment = DT_LEFT);
 
-    virtual void OnDraw(CLCDGfx &rGfx);
+    // CLCDBase
+    virtual void OnDraw(CLCDGfxBase &rGfx);
 
     enum { DEFAULT_DPI = 96, DEFAULT_POINTSIZE = 8 };
 
 protected:
-    void DrawText(CLCDGfx &rGfx);
+    void DrawText(CLCDGfxBase &rGfx);
 
-#ifdef UNICODE
-    std::wstring m_sText;
-#else
-    std::string m_sText;
-#endif
+    lcdstring m_sText;
     HFONT m_hFont;
-    COLORREF m_crColor;
-    basic_string <TCHAR>::size_type m_nTextLength;
+    lcdstring::size_type m_nTextLength;
     UINT m_nTextFormat;
     BOOL m_bRecalcExtent;
     DRAWTEXTPARAMS m_dtp;

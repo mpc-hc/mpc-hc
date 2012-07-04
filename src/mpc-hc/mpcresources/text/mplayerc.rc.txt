@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Changes take effect after the playback has been closed and restarted."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Jump distances (small, medium, large in ms)"
 9		"Default"
 10		"Fast seek (on keyframe)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
 18		"Use time tooltip:"
 20		"OSD font:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

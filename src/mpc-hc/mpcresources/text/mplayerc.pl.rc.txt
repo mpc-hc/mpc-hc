@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Zmiany zostaną wprowadzone po ponownym uruchomieniu programu."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Odstępy przejść (mały, średni, duży w ms)"
 9		"Domyślne"
 10		"Szybkie przewijanie (na klatkę)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Otwieranie plików z folderu podczas zmiany odtwarzanego pliku, gdy na liście odtwarzania znajduje się tylko jeden element."
 18		"Użycie dymka z czasem:"
 20		"Czcionka OSD:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

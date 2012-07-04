@@ -241,6 +241,8 @@
 
 #define IDS_FASTSEEK_KEYFRAME               _T("FastSeek")
 
+#define IDS_LCD_SUPPORT                     _T("LcdSupport")
+
 #define IDS_REMAINING_TIME                  _T("RemainingTime")
 
 #define IDS_RS_UPDATER_AUTO_CHECK           _T("UpdaterAutoCheck")

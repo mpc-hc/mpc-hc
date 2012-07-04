@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Зміни набудуть чинності після перезапуску плеєра."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Крок переходу (короткого, середнього, довгого) в мс"
 9		"Типово"
 10		"Швидке перемотування (по ключовим кадрам)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Відкривати попередній/наступний файл в теці при виконанні команд 'Крок назад/вперед' коли лише один файл у списку відтворення"
 18		"Відображати час:"
 20		"Шрифт OSD:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

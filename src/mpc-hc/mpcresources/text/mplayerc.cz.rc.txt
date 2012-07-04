@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Změny se projeví až po zastavení a opětovném spuštění přehrávání."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"Velikosti skoků  [malý | střední | velký]  (ms)"
 9		"Výchozí"
 10		"Rychlé procházení (po klíčových snímcích)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"Pokud je v playlistu jen jen jedna položka, otevřít pomocí příkazů 'Skočit zpět/vpřed' předchozí/následující soubor v adresáři"
 18		"Zobrazit v popisku čas:"
 20		"Písmo pro OSD:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

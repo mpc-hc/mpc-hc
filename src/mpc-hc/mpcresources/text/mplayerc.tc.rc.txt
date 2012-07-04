@@ -419,7 +419,7 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"要關閉或是重新啟動播放後, 變更才會有效。"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 5		"跳躍距離 (分別為小, 中, 大, 以毫秒為單位)"
 9		"預設值"
 10		"快速搜尋 (於關鍵影格)"
@@ -429,6 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 23
 16		"當播放清單中只有一個項目時執行 ""前一段/後一段"" 時開啟前/後一個檔案"
 18		"使用時間工具提示:"
 20		"OSD 字型:"
+23		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

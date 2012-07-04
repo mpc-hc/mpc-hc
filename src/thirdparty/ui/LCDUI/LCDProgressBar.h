@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDProgressBar.h
 //
@@ -6,7 +14,7 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
 #ifndef _LCDPROGRESSBAR_H_INCLUDED_ 
@@ -16,47 +24,45 @@
 
 typedef struct RANGE
 {
-    __int64 nMin;
-    __int64 nMax;
+    int nMin;
+    int nMax;
 
 }RANGE, *LPRANGE;
 
-enum ePROGRESS_STYLE { STYLE_FILLED_H, STYLE_FILLED_V, STYLE_CURSOR, STYLE_DASHED_CURSOR };
-
 class CLCDProgressBar : public CLCDBase
 {
-public:
-	enum ePROGRESS_STYLE { STYLE_FILLED_H, STYLE_FILLED_V, STYLE_CURSOR, STYLE_DASHED_CURSOR };
-    
-    CLCDProgressBar();
-    virtual ~CLCDProgressBar();
+public:    
+    enum ePROGRESS_STYLE { STYLE_FILLED, STYLE_CURSOR, STYLE_DASHED_CURSOR };
+
+    CLCDProgressBar(void);
+    virtual ~CLCDProgressBar(void);
 
     // CLCDBase
     virtual HRESULT Initialize(void);
-    virtual void OnDraw(CLCDGfx &rGfx);
+    virtual void OnDraw(CLCDGfxBase &rGfx);
     virtual void ResetUpdate(void);
     
     // CLCDProgressBar
-    virtual void SetRange(__int64 nMin, __int64 nMax);
+    virtual void SetRange(int nMin, int nMax);
     virtual void SetRange(RANGE& Range);
     virtual RANGE& GetRange(void);
-    virtual __int64 SetPos(__int64 fPos);
-    virtual __int64 GetPos(void);
+    virtual float SetPos(float fPos);
+    virtual float GetPos(void);
     virtual void EnableCursor(BOOL bEnable);
-	virtual void SetProgressStyle(ePROGRESS_STYLE eStyle);
+    virtual void SetProgressStyle(ePROGRESS_STYLE eStyle);
 
 protected:
     float Scalef(float fFromMin, float fFromMax,
-                 float fToMin, float fToMax, __int64 fFromValue);
+                 float fToMin, float fToMax, float fFromValue);
     int Scale(int nFromMin, int nFromMax,
-              int nToMin, int nToMax, __int64 nFromValue);
+              int nToMin, int nToMax, int nFromValue);
 
-private:
+protected:
     RANGE m_Range;
-    __int64 m_Pos;
+    float m_fPos;
     ePROGRESS_STYLE m_eStyle;
     HBRUSH m_hBrush;
-	HPEN m_hPen;
+    HPEN m_hPen;
     int m_nCursorWidth;
 };
 

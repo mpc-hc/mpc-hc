@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDScrollingText.cpp
 //
@@ -6,11 +14,10 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
-#include "stdafx.h"
-#include "LCDScrollingText.h"
+#include "LCDUI.h"
 
 
 //************************************************************************
@@ -19,7 +26,7 @@
 //
 //************************************************************************
 
-CLCDScrollingText::CLCDScrollingText()
+CLCDScrollingText::CLCDScrollingText(void)
 {
     m_eState = STATE_START_DELAY;
     m_eScrollDir = SCROLL_HORZ;
@@ -33,9 +40,8 @@ CLCDScrollingText::CLCDScrollingText()
 //
 //************************************************************************
 
-CLCDScrollingText::~CLCDScrollingText()
+CLCDScrollingText::~CLCDScrollingText(void)
 {
-
 }
 
 
@@ -138,7 +144,7 @@ void CLCDScrollingText::SetScrollDirection(eSCROLL_DIR eScrollDir)
 //
 //************************************************************************
 
-CLCDScrollingText::eSCROLL_DIR CLCDScrollingText::GetScrollDirection()
+eSCROLL_DIR CLCDScrollingText::GetScrollDirection()
 {
     return m_eScrollDir;
 }
@@ -203,10 +209,12 @@ void CLCDScrollingText::OnUpdate(DWORD dwTimestamp)
 //
 //************************************************************************
 
-void CLCDScrollingText::OnDraw(CLCDGfx &rGfx)
+void CLCDScrollingText::OnDraw(CLCDGfxBase &rGfx)
 {
     if (!m_nTextLength)
+    {
         return;
+    }
 
     // calculate the scrolling distance
     if (-1 == m_nScrollingDistance)
@@ -239,6 +247,7 @@ void CLCDScrollingText::OnDraw(CLCDGfx &rGfx)
             m_dwLastUpdate = GetTickCount();
         }
         break;
+
     case STATE_END_DELAY:
         if (m_dwEllapsedTime > m_dwEndDelay)
         {
@@ -252,6 +261,7 @@ void CLCDScrollingText::OnDraw(CLCDGfx &rGfx)
             m_eState = STATE_DONE;
         }
         break;
+
     case STATE_SCROLL:
         {
             // TODO: add some anti-aliasing on the movement
@@ -281,6 +291,7 @@ void CLCDScrollingText::OnDraw(CLCDGfx &rGfx)
             }
         }
         break;
+
     case STATE_DONE:
         break;
 

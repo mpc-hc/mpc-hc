@@ -1,4 +1,12 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDBitmap.h
 //
@@ -6,7 +14,7 @@
 // 
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
 #ifndef _LCDBITMAP_H_INCLUDED_ 
@@ -18,15 +26,24 @@ class CLCDBitmap : public CLCDBase
 {
 public:
     CLCDBitmap();
-    virtual ~CLCDBitmap();
+    virtual ~CLCDBitmap(); 
+
+    // CLCDBase
+    virtual void OnDraw(CLCDGfxBase &rGfx);
 
     void SetBitmap(HBITMAP hBitmap);
+    HBITMAP GetBitmap(void);
     void SetROP(DWORD dwROP);
+    void SetZoomLevel(float fzoom);
+    float GetZoomLevel(void);
+    void SetAlpha(BOOL bAlpha);
 
-protected:
-    virtual void OnDraw(CLCDGfx &rGfx);
+protected:   
     HBITMAP m_hBitmap;
-    DWORD m_dwROP;
+    DWORD   m_dwROP;
+    float   m_fZoom;
+    // this indicates the bitmap has an alpha channel
+    BOOL    m_bAlpha;
 
 private:
 };

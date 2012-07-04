@@ -1,23 +1,28 @@
 //************************************************************************
+//  The Logitech LCD SDK, including all acompanying documentation,
+//  is protected by intellectual property laws.  All use of the Logitech
+//  LCD SDK is subject to the License Agreement found in the
+//  "Logitech LCD SDK License Agreement" file and in the Reference Manual.  
+//  All rights not expressly granted by Logitech are reserved.
+//************************************************************************
+
+//************************************************************************
 //
 // LCDOutput.cpp
 //
-// The CLCDOutput class manages LCD hardware enumeration and screen 
-// management.
+// The CLCDOutput manages the actual device and the various pages that
+// are sent to that device
 // 
+// This class is now managed by CLCDConnection. You no longer need to 
+// derive or instantiate this class yourself
+//
 // Logitech LCD SDK
 //
-// Copyright 2005 Logitech Inc.
+// Copyright 2010 Logitech Inc.
 //************************************************************************
 
-#include "stdafx.h"
-#include "../../../DSUtil/SharedInclude.h"
-#include <afx.h>
-#include "LCDOutput.h"
+#include "LCDUI.h"
 
-// to keep track of clients that use multiple CLCDOutput instances
-// within the same app
-static LONG lInitCount = 0;
 
 //************************************************************************
 //
@@ -25,28 +30,17 @@ static LONG lInitCount = 0;
 //
 //************************************************************************
 
-CLCDOutput::CLCDOutput()
+CLCDOutput::CLCDOutput(void)
+:   m_pActivePage(NULL),
+    m_hDevice(LGLCD_INVALID_DEVICE),
+    m_bSetAsForeground(FALSE),
+    m_dwButtonState(0),
+    m_nPriority(LGLCD_PRIORITY_NORMAL),
+    m_pGfx(NULL)
 {
-    m_pActiveScreen = NULL;
-    m_bLocked = FALSE;
-    m_hDevice = LGLCD_INVALID_DEVICE;
-    m_hConnection = LGLCD_INVALID_CONNECTION;
-    m_nPriority = LGLCD_PRIORITY_NORMAL;
-    ZeroMemory(&m_lcdConnectCtxEx, sizeof(m_lcdConnectCtxEx));
-    m_bDisplayLocked = FALSE;
-    m_bSetAsForeground = FALSE;
-    
-    // Setup default device families
-    m_dwDeviceFamiliesSupported = LGLCD_DEVICE_FAMILY_KEYBOARD_G15 | 
-                        LGLCD_DEVICE_FAMILY_JACKBOX |
-                        LGLCD_DEVICE_FAMILY_SPEAKERS_Z10;
-    m_dwDeviceFamiliesSupportedReserved1 = 0; 
-
-    m_pLastBitmap = DNew lgLcdBitmap160x43x1;
-    ClearBitmap(m_pLastBitmap);
-    // Allow the first update to go through
-    m_bPriorityHasChanged = TRUE;
+    ZeroMemory(&m_OpenByTypeContext, sizeof(m_OpenByTypeContext));
 }
+
 
 //************************************************************************
 //
@@ -54,141 +48,138 @@ CLCDOutput::CLCDOutput()
 //
 //************************************************************************
 
-CLCDOutput::~CLCDOutput()
+CLCDOutput::~CLCDOutput(void)
 {
-    delete m_pLastBitmap;
-    m_pLastBitmap = NULL;
+    Shutdown();
 }
 
 
 //************************************************************************
 //
-// CLCDOutput::Initialize
+// CLCDOutput::SetGfx
 //
 //************************************************************************
 
-HRESULT CLCDOutput::Initialize()
+void CLCDOutput::SetGfx(CLCDGfxBase *gfx)
 {
-    return Initialize((lgLcdConnectContext *)NULL, FALSE);
+    m_pGfx = gfx;
 }
 
 
 //************************************************************************
 //
-// CLCDOutput::Initialize
+// CLCDOutput::Open
 //
-// NOTE: Initialize should always return S_OK
 //************************************************************************
 
-HRESULT CLCDOutput::Initialize(lgLcdConnectContext* pContext, BOOL bUseWindow)
-{    
+BOOL CLCDOutput::Open(lgLcdOpenContext & OpenContext)
+{
+    //Close the old device if there is one
+    Close();
 
-    UNREFERENCED_PARAMETER(bUseWindow);
-
-    DWORD res = ERROR_SUCCESS;
-
-    CLCDManager::Initialize();
-
-    // initialize our screens
-    LCD_MGR_LIST::iterator it = m_LCDMgrList.begin();
-    while(it != m_LCDMgrList.end())
+    DWORD res = lgLcdOpen(&OpenContext);
+    if (ERROR_SUCCESS != res)
     {
-        CLCDManager *pMgr = *it;
-        LCDUIASSERT(NULL != pMgr);
-
-        pMgr->Initialize();
-        ++it;
-    }
-
-    // LCD Stuff
-    LCDUIASSERT(lInitCount >= 0);
-    if(1 == InterlockedIncrement(&lInitCount))
-    {
-        // need to call lgLcdInit once
-        res = lgLcdInit();
-        if (ERROR_SUCCESS != res)
+        if( res == ERROR_INVALID_PARAMETER )
         {
-            InterlockedDecrement(&lInitCount);
-            LCDUITRACE(_T("WARNING: lgLcdInit failed\n"));
-            return E_FAIL;
+            LCDUITRACE( _T("Open failed: invalid parameter.\n") );
+            return FALSE;
         }
-    }
-
-    m_lcdConnectCtxEx.appFriendlyName = _T("My App");
-    m_lcdConnectCtxEx.isPersistent = FALSE;
-    m_lcdConnectCtxEx.isAutostartable = FALSE;
-    m_lcdConnectCtxEx.connection = LGLCD_INVALID_CONNECTION;
-
-    // Initialize the added version 3.0 API fields
-    m_lcdConnectCtxEx.dwAppletCapabilitiesSupported = LGLCD_APPLET_CAP_BASIC;
-    m_lcdConnectCtxEx.dwReserved1 = 0;
-    m_lcdConnectCtxEx.onNotify.notificationCallback = NULL;
-    m_lcdConnectCtxEx.onNotify.notifyContext = NULL;
-
-    // if user passed in the context, fill it up
-    if (NULL != pContext)
-    {
-        memcpy(&m_lcdConnectCtxEx, pContext, sizeof(lgLcdConnectContext));
-    }
-
-    return S_OK;
-}
-
-//************************************************************************
-//
-// CLCDOutput::Initialize
-//
-// NOTE: Initialize should always return S_OK
-//************************************************************************
-
-HRESULT CLCDOutput::Initialize(lgLcdConnectContextEx* pContextEx, BOOL bUseWindow)
-{    
-
-    UNREFERENCED_PARAMETER(bUseWindow);
-
-    DWORD res = ERROR_SUCCESS;
-
-    CLCDManager::Initialize();
-
-    // initialize our screens
-    LCD_MGR_LIST::iterator it = m_LCDMgrList.begin();
-    while(it != m_LCDMgrList.end())
-    {
-        CLCDManager *pMgr = *it;
-        LCDUIASSERT(NULL != pMgr);
-
-        pMgr->Initialize();
-        ++it;
-    }
-
-    // LCD Stuff
-    LCDUIASSERT(lInitCount >= 0);
-    if(1 == InterlockedIncrement(&lInitCount))
-    {
-        // need to call lgLcdInit once
-        res = lgLcdInit();
-        if (ERROR_SUCCESS != res)
+        else if( res == ERROR_ALREADY_EXISTS )
         {
-            InterlockedDecrement(&lInitCount);
-            LCDUITRACE(_T("WARNING: lgLcdInit failed\n"));
-            return E_FAIL;
+            LCDUITRACE( _T("Open failed: already exists.\n") );
+            return FALSE;
         }
+        return FALSE;
     }
 
-    
-    m_lcdConnectCtxEx.appFriendlyName = _T("My App");
-    m_lcdConnectCtxEx.isPersistent = FALSE;
-    m_lcdConnectCtxEx.isAutostartable = FALSE;
-    m_lcdConnectCtxEx.connection = LGLCD_INVALID_CONNECTION;
+    m_hDevice = OpenContext.device;
+    m_dwButtonState = 0;
 
-    // if user passed in the context, fill it up
-    if (NULL != pContextEx)
-    {
-        memcpy(&m_lcdConnectCtxEx, pContextEx, sizeof(lgLcdConnectContextEx));
-    }
+    // restores
+    SetAsForeground(m_bSetAsForeground);
 
-    return S_OK;
+    OnOpenedDevice(m_hDevice);
+
+    return TRUE;
 }
+
+
+//************************************************************************
+//
+// CLCDOutput::OpenByType
+//
+//************************************************************************
+
+BOOL CLCDOutput::OpenByType(lgLcdOpenByTypeContext &OpenContext)
+{
+    //Close the old device if there is one
+    Close();
+
+    DWORD res = lgLcdOpenByType(&OpenContext);
+    if (ERROR_SUCCESS != res)
+    {
+        if( res == ERROR_INVALID_PARAMETER )
+        {
+            LCDUITRACE( _T("Open failed: invalid parameter.\n") );
+            return FALSE;
+        }
+        else if( res == ERROR_ALREADY_EXISTS )
+        {
+            LCDUITRACE( _T("Open failed: already exists.\n") );
+            return FALSE;
+        }
+        return FALSE;
+    }
+
+    m_hDevice = OpenContext.device;
+    m_dwButtonState = 0;
+
+    // restores
+    SetAsForeground(m_bSetAsForeground);
+
+    m_OpenByTypeContext = OpenContext;
+
+    OnOpenedDevice(m_hDevice);
+
+    return TRUE;
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::ReOpenDeviceType
+//
+//************************************************************************
+
+BOOL CLCDOutput::ReOpenDeviceType(void)
+{
+    // The device type must be active
+    if (!HasBeenOpenedByDeviceType())
+    {
+        return FALSE;
+    }
+
+    return OpenByType(m_OpenByTypeContext);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::Close
+//
+//************************************************************************
+
+void CLCDOutput::Close(void)
+{
+    if( LGLCD_INVALID_DEVICE != m_hDevice )
+    {
+        OnClosingDevice(m_hDevice);
+        lgLcdClose(m_hDevice);
+        m_hDevice = LGLCD_INVALID_DEVICE;
+    }
+}
+
 
 //************************************************************************
 //
@@ -198,50 +189,273 @@ HRESULT CLCDOutput::Initialize(lgLcdConnectContextEx* pContextEx, BOOL bUseWindo
 
 void CLCDOutput::Shutdown(void)
 {
-    CloseAndDisconnect();
-    if(0 == InterlockedDecrement(&lInitCount))
-    {
-        lgLcdDeInit();
-    }
-    LCDUIASSERT(lInitCount >= 0);
+    Close();
 }
 
 
 //************************************************************************
 //
-// CLCDOutput::Draw
+// CLCDOutput::AddPage
 //
 //************************************************************************
 
-HRESULT CLCDOutput::Draw()
+void CLCDOutput::AddPage(CLCDPage *pPage)
+{
+    pPage->Initialize();
+    AddObject(pPage);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::RemovePage
+//
+//************************************************************************
+
+void CLCDOutput::RemovePage(CLCDPage *pPage)
+{
+    RemoveObject(pPage);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::ShowPage
+//
+//************************************************************************
+
+void CLCDOutput::ShowPage(CLCDPage *pPage, BOOL bShow)
+{
+    LCDUIASSERT(NULL != pPage);
+
+    if (bShow)
+    {
+        m_pActivePage = pPage;
+
+        OnPageShown(pPage);
+    }
+    else
+    {
+        // Expire it and update
+        pPage->SetExpiration(0);
+        OnUpdate(GetTickCount());
+    }
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::GetShowingPage
+//
+//************************************************************************
+
+CLCDPage* CLCDOutput::GetShowingPage(void)
+{
+    return m_pActivePage;
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::SetScreenPriority
+//
+//************************************************************************
+
+void CLCDOutput::SetScreenPriority(DWORD priority)
+{
+    // Priority has changed
+    // If we're going into idle, send an idle frame
+    if (LGLCD_PRIORITY_IDLE_NO_SHOW == priority)
+    {
+        lgLcdUpdateBitmap(m_hDevice, &m_pGfx->GetLCDScreen()->bmp_mono.hdr,
+            LGLCD_ASYNC_UPDATE(LGLCD_PRIORITY_IDLE_NO_SHOW));
+    }
+
+    m_nPriority = priority;
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::GetScreenPriority
+//
+//************************************************************************
+
+DWORD CLCDOutput::GetScreenPriority(void)
+{
+    return m_nPriority;
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::IsOpened
+//
+//************************************************************************
+
+BOOL CLCDOutput::IsOpened(void)
+{
+    return (LGLCD_INVALID_DEVICE != m_hDevice);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::SetAsForeground
+//
+//************************************************************************
+
+HRESULT CLCDOutput::SetAsForeground(BOOL bSetAsForeground)
+{
+    m_bSetAsForeground = bSetAsForeground;
+    if (LGLCD_INVALID_DEVICE != m_hDevice)
+    {
+        DWORD dwRes = lgLcdSetAsLCDForegroundApp(m_hDevice, bSetAsForeground);
+        if(ERROR_SUCCESS != dwRes)
+        {
+            return MAKE_HRESULT(SEVERITY_ERROR, 0, dwRes);
+        }
+    }
+    return E_FAIL;
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::OnDraw
+//
+//************************************************************************
+
+BOOL CLCDOutput::OnDraw(void)
 {
     DWORD dwPriorityToUse = LGLCD_ASYNC_UPDATE(m_nPriority);
-    
-    if ( (NULL == m_pActiveScreen)              ||
-         (LGLCD_INVALID_DEVICE == m_hDevice)    ||
-         (LGLCD_PRIORITY_IDLE_NO_SHOW == dwPriorityToUse) )
+
+    if ( (NULL == m_pActivePage) ||
+        (LGLCD_INVALID_DEVICE == m_hDevice) ||
+        (LGLCD_PRIORITY_IDLE_NO_SHOW == dwPriorityToUse) )
     {
         // don't submit the bitmap
-        return S_OK;
+        return TRUE;
     }
 
     // Render the active screen
-    m_pActiveScreen->Draw();
-    
+    m_pGfx->BeginDraw();
+    m_pGfx->ClearScreen();
+    m_pActivePage->OnDraw(*m_pGfx);
+    m_pGfx->EndDraw(); 
+
     // Get the active bitmap
-    lgLcdBitmap160x43x1* pScreen = m_pActiveScreen->GetLCDScreen();
+    lgLcdBitmap* pBitmap = m_pGfx->GetLCDScreen();
 
     // Only submit if the bitmap needs to be updated
     // (If the priority or bitmap have changed)
     DWORD res = ERROR_SUCCESS;
-    if (DoesBitmapNeedUpdate(pScreen))
+    if (DoesBitmapNeedUpdate(pBitmap))
     {
-        res = lgLcdUpdateBitmap(m_hDevice, &pScreen->hdr, dwPriorityToUse);
+        res = lgLcdUpdateBitmap(m_hDevice, &pBitmap->bmp_mono.hdr, dwPriorityToUse);
         HandleErrorFromAPI(res);
     }
 
-    // read the soft buttons
-    ReadButtons();
+    return (LGLCD_INVALID_DEVICE != m_hDevice);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::OnUpdate
+//
+//************************************************************************
+
+void CLCDOutput::OnUpdate(DWORD dwTimestamp)
+{
+    if (m_pActivePage)
+    {
+        m_pActivePage->OnUpdate(dwTimestamp);
+    }
+
+    // check for expiration
+    if (m_pActivePage && m_pActivePage->HasExpired())
+    {
+        m_pActivePage = NULL;
+        //m_nPriority = LGLCD_PRIORITY_FYI; -> needs to go so that if a 
+        // program sets priority to LGLCD_PRIORITY_BACKGROUND, that 
+        // priority sticks.
+
+        OnPageExpired(m_pActivePage);
+
+        // find the next active screen
+        for (size_t i = 0; i < m_Objects.size(); i++)
+        {
+            CLCDPage *pPage = dynamic_cast<CLCDPage*>(m_Objects[i]);
+            LCDUIASSERT(NULL != pPage);
+
+            if (!pPage->HasExpired())
+            {
+                ShowPage(pPage);
+                //m_nPriority = LGLCD_PRIORITY_FYI;  -> needs to go so that if a 
+                // program sets priority to LGLCD_PRIORITY_BACKGROUND, that 
+                // priority sticks.
+                break;
+            }
+        }
+
+        // if no screen found, empty the screen at idle priority
+        if (NULL == m_pActivePage)
+        {
+            OnEnteringIdle();
+            if (LGLCD_INVALID_DEVICE != m_hDevice)
+            {
+                m_pGfx->ClearScreen();
+                lgLcdUpdateBitmap(m_hDevice, &m_pGfx->GetLCDScreen()->bmp_mono.hdr,
+                    LGLCD_ASYNC_UPDATE(LGLCD_PRIORITY_IDLE_NO_SHOW));
+            }
+        }
+    }
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::GetSoftButtonState
+//
+//************************************************************************
+
+DWORD CLCDOutput::GetSoftButtonState(void)
+{
+    return IsOpened() ? m_dwButtonState : 0;
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::HandleErrorFromAPI
+//
+//************************************************************************
+
+HRESULT CLCDOutput::HandleErrorFromAPI(DWORD dwRes)
+{
+    switch(dwRes)
+    {
+        // all is well
+    case ERROR_SUCCESS:
+    case RPC_S_PROTOCOL_ERROR:
+        break;
+        // we lost our device
+    case ERROR_DEVICE_NOT_CONNECTED:
+        LCDUITRACE(_T("lgLcdAPI returned with ERROR_DEVICE_NOT_CONNECTED, closing device\n"));
+        Close();
+        break;
+    default:
+        LCDUITRACE(_T("lgLcdAPI returned with other error (0x%08x) closing device\n"));
+        Close();
+        // something else happened, such as LCDMon that was terminated
+        break;
+    }
+
+    if(ERROR_SUCCESS != dwRes)
+    {
+        return MAKE_HRESULT(SEVERITY_ERROR, 0, dwRes);
+    }
 
     return S_OK;
 }
@@ -249,156 +463,104 @@ HRESULT CLCDOutput::Draw()
 
 //************************************************************************
 //
-// CLCDOutput::Update
+// CLCDOutput::DoesBitmapNeedUpdate
 //
 //************************************************************************
 
-void CLCDOutput::Update(DWORD dwTimestamp)
+BOOL CLCDOutput::DoesBitmapNeedUpdate(lgLcdBitmap* pBitmap)
 {
-    if (m_pActiveScreen)
-    {
-        m_pActiveScreen->Update(dwTimestamp);
-    }
-
-    // check for expiration
-    if (m_pActiveScreen && m_pActiveScreen->HasExpired())
-    {
-        m_pActiveScreen = NULL;
-        //m_nPriority = LGLCD_PRIORITY_FYI; -> needs to go so that if a 
-		// program sets priority to LGLCD_PRIORITY_BACKGROUND, that 
-		// priority sticks.
-
-        OnScreenExpired(m_pActiveScreen);
-
-        // Clear the bitmap
-        ClearBitmap(m_pLastBitmap);
-
-        // find the next active screen
-        LCD_MGR_LIST::iterator it = m_LCDMgrList.begin();
-        while(it != m_LCDMgrList.end())
-        {
-            CLCDManager *pMgr = *it;
-            LCDUIASSERT(NULL != pMgr);
-
-            if (!pMgr->HasExpired())
-            {
-                ActivateScreen(pMgr);
-                //m_nPriority = LGLCD_PRIORITY_FYI;  -> needs to go so that if a 
-				// program sets priority to LGLCD_PRIORITY_BACKGROUND, that 
-				// priority sticks.
-                break;
-            }
-
-            ++it;
-        }
-
-        // if no screen found, empty the screen at idle priority
-        if (NULL == m_pActiveScreen)
-        {
-            if (LGLCD_INVALID_DEVICE != m_hDevice)
-            {
-                lgLcdUpdateBitmap(m_hDevice, &CLCDManager::GetLCDScreen()->hdr,
-                    LGLCD_ASYNC_UPDATE(LGLCD_PRIORITY_IDLE_NO_SHOW));
-            }
-        }
-    }
-
-    // check for lcd devices
-    if (LGLCD_INVALID_DEVICE == m_hDevice)
-    {
-        EnumerateDevices();
-    }
+    UNREFERENCED_PARAMETER(pBitmap);
+    // For now, always update
+    return TRUE;
 }
 
 
 //************************************************************************
 //
-// CLCDOutput::HasHardwareChanged
+// CLCDOutput::OnPageExpired
 //
 //************************************************************************
 
-BOOL CLCDOutput::HasHardwareChanged(void)
+void CLCDOutput::OnPageExpired(CLCDCollection* pScreen)
 {
-    if(LGLCD_INVALID_DEVICE != m_hDevice)
-    {
-        // ping to see whether we're still alive
-        DWORD dwButtonState = 0;
-        
-        DWORD res = lgLcdReadSoftButtons(m_hDevice, &dwButtonState);
+    UNREFERENCED_PARAMETER(pScreen);
+}
 
-        HandleErrorFromAPI(res);
-    }
 
-    // check for lcd devices
-    if (LGLCD_INVALID_DEVICE == m_hDevice)
+//************************************************************************
+//
+// CLCDOutput::OnPageShown
+//
+//************************************************************************
+
+void CLCDOutput::OnPageShown(CLCDCollection* pScreen)
+{
+    UNREFERENCED_PARAMETER(pScreen);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::OnEnteringIdle
+//
+//************************************************************************
+
+void CLCDOutput::OnEnteringIdle(void)
+{
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::OnClosingDevice
+//
+//************************************************************************
+
+void CLCDOutput::OnClosingDevice(int hDevice)
+{
+    UNREFERENCED_PARAMETER(hDevice);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::OnOpenedDevice
+//
+//************************************************************************
+
+void CLCDOutput::OnOpenedDevice(int hDevice)
+{
+    UNREFERENCED_PARAMETER(hDevice);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::OnSoftButtonEvent
+//
+//************************************************************************
+
+void CLCDOutput::OnSoftButtonEvent(DWORD dwButtonState)
+{
+    if (LGLCD_DEVICE_FAMILY_QVGA_BASIC == m_pGfx->GetFamily())
     {
-        EnumerateDevices();
+        HandleButtonState(dwButtonState, LGLCDBUTTON_LEFT);
+        HandleButtonState(dwButtonState, LGLCDBUTTON_RIGHT);
+        HandleButtonState(dwButtonState, LGLCDBUTTON_OK);
+        HandleButtonState(dwButtonState, LGLCDBUTTON_CANCEL);
+        HandleButtonState(dwButtonState, LGLCDBUTTON_UP);
+        HandleButtonState(dwButtonState, LGLCDBUTTON_DOWN);
+        HandleButtonState(dwButtonState, LGLCDBUTTON_MENU);
     }
     else
     {
-        // we still have our device;
-        return FALSE;
-    }
-
-    // we got a new device
-    return LGLCD_INVALID_DEVICE != m_hDevice;
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::GetLCDScreen
-//
-//************************************************************************
-
-lgLcdBitmap160x43x1 *CLCDOutput::GetLCDScreen(void)
-{
-    return m_pActiveScreen ? m_pActiveScreen->GetLCDScreen() : CLCDManager::GetLCDScreen();
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::GetBitmapInfo
-//
-//************************************************************************
-
-BITMAPINFO *CLCDOutput::GetBitmapInfo(void)
-{
-    return m_pActiveScreen ? m_pActiveScreen->GetBitmapInfo() : CLCDManager::GetBitmapInfo();
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::ReadButtons
-//
-//************************************************************************
-
-void CLCDOutput::ReadButtons()
-{
-    if(IsOpened())
-    {
-        DWORD dwButtonState = 0;
-        
-        DWORD res = lgLcdReadSoftButtons(m_hDevice, &dwButtonState);
-        if (ERROR_SUCCESS != res)
-        {
-            LCDUITRACE(_T("lgLcdReadSoftButtons failed: unplug?\n"));
-            HandleErrorFromAPI(res);
-        }
-        
-        if (m_dwButtonState == dwButtonState)
-            return;
-        
-        // handle the buttons
         HandleButtonState(dwButtonState, LGLCDBUTTON_BUTTON0);
         HandleButtonState(dwButtonState, LGLCDBUTTON_BUTTON1);
         HandleButtonState(dwButtonState, LGLCDBUTTON_BUTTON2);
         HandleButtonState(dwButtonState, LGLCDBUTTON_BUTTON3);
-        
-        m_dwButtonState = dwButtonState;
     }
+
+    m_dwButtonState = dwButtonState;
 }
 
 
@@ -431,9 +593,9 @@ void CLCDOutput::HandleButtonState(DWORD dwButtonState, DWORD dwButton)
 
 void CLCDOutput::OnLCDButtonDown(int nButton)
 {
-    if (m_pActiveScreen)
+    if (m_pActivePage)
     {
-        m_pActiveScreen->OnLCDButtonDown(nButton);
+        m_pActivePage->OnLCDButtonDown(nButton);
     }
 }
 
@@ -446,452 +608,47 @@ void CLCDOutput::OnLCDButtonDown(int nButton)
 
 void CLCDOutput::OnLCDButtonUp(int nButton)
 {
-    if (m_pActiveScreen)
+    if (m_pActivePage)
     {
-        m_pActiveScreen->OnLCDButtonUp(nButton);
+        m_pActivePage->OnLCDButtonUp(nButton);
     }
 }
 
 
 //************************************************************************
 //
-// CLCDOutput::ActivateScreen
+// CLCDOutput::GetDeviceId
 //
 //************************************************************************
 
-void CLCDOutput::ActivateScreen(CLCDManager* pScreen)
-{
-    if (m_bLocked)
-        return;
-    m_pActiveScreen = pScreen;
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::LockScreen
-//
-//************************************************************************
-
-void CLCDOutput::LockScreen(CLCDManager* pScreen)
-{
-    if (m_bLocked)
-        return;
-
-    m_pActiveScreen = pScreen;
-    m_bLocked = TRUE;
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::UnlockScreen
-//
-//************************************************************************
-
-void CLCDOutput::UnlockScreen()
-{
-    m_bLocked = FALSE;
-    m_pActiveScreen = NULL;
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::IsLocked
-//
-//************************************************************************
-
-BOOL CLCDOutput::IsLocked()
-{
-    return m_bLocked;
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::AddScreen
-//
-//************************************************************************
-
-void CLCDOutput::AddScreen(CLCDManager* pScreen)
-{
-    m_LCDMgrList.push_back(pScreen);
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::AnyDeviceOfThisFamilyPresent
-//
-//************************************************************************
-
-BOOL CLCDOutput::AnyDeviceOfThisFamilyPresent(DWORD dwDeviceFamilyWanted, DWORD dwReserved1)
-{
-    lgLcdDeviceDescEx   descEx;
-
-    if (LGLCD_INVALID_CONNECTION == m_hConnection)
-    {
-        if (ERROR_SUCCESS == lgLcdConnectEx(&m_lcdConnectCtxEx))
-        {
-            // make sure we don't work with a stale device handle
-            m_hConnection = m_lcdConnectCtxEx.connection;
-            m_hDevice = LGLCD_INVALID_CONNECTION;
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
-
-    // Setup the device family to use next time
-    lgLcdSetDeviceFamiliesToUse(m_hConnection, dwDeviceFamilyWanted, dwReserved1);
-
-    ZeroMemory(&descEx, sizeof(lgLcdDeviceDescEx));
-    DWORD res = ERROR_SUCCESS;
-    
-    res = lgLcdEnumerateEx(m_hConnection, 0, &descEx);
-
-    if (ERROR_SUCCESS != res)
-    {
-        if(ERROR_NO_MORE_ITEMS != res)
-        {
-            // something happened. Let's close this.
-            CloseAndDisconnect();
-            return FALSE;
-        }
-
-        // Go back to the previous device family we were using
-        lgLcdSetDeviceFamiliesToUse(m_hConnection, m_dwDeviceFamiliesSupported, 
-                                    m_dwDeviceFamiliesSupportedReserved1);
-
-        return FALSE;
-    }
-
-    // Go back to what was being used
-    lgLcdSetDeviceFamiliesToUse(m_hConnection, m_dwDeviceFamiliesSupported, 
-                                m_dwDeviceFamiliesSupportedReserved1);
-
-    return TRUE;
-}
-
-//************************************************************************
-//
-// CLCDOutput::SetDeviceFamiliesSupported
-//
-//************************************************************************
-
-void CLCDOutput::SetDeviceFamiliesSupported(DWORD dwDeviceFamiliesSupported, DWORD dwReserved1)
-{
-    m_dwDeviceFamiliesSupported = dwDeviceFamiliesSupported;
-    m_dwDeviceFamiliesSupportedReserved1 = dwReserved1;
-
-    if (LGLCD_INVALID_CONNECTION == m_hConnection)
-    {
-        if (ERROR_SUCCESS == lgLcdConnectEx(&m_lcdConnectCtxEx))
-        {
-            // make sure we don't work with a stale device handle
-            m_hConnection = m_lcdConnectCtxEx.connection;
-            m_hDevice = LGLCD_INVALID_CONNECTION;
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    // close the lcd device before we open up another
-    if (LGLCD_INVALID_DEVICE != m_hDevice)
-    {
-        lgLcdClose(m_hDevice);
-        m_hDevice = LGLCD_INVALID_DEVICE;
-
-    }
-    
-    // Setup the device family to use next time
-    lgLcdSetDeviceFamiliesToUse(m_hConnection, m_dwDeviceFamiliesSupported, m_dwDeviceFamiliesSupportedReserved1);
-}
-
-//************************************************************************
-//
-// CLCDOutput::EnumerateDevices
-//
-//************************************************************************
-
-void CLCDOutput::EnumerateDevices()
-{
-    lgLcdDeviceDescEx descEx;
-
-    if (LGLCD_INVALID_CONNECTION == m_hConnection)
-    {
-        if (ERROR_SUCCESS == lgLcdConnectEx(&m_lcdConnectCtxEx))
-        {
-            // make sure we don't work with a stale device handle
-            m_hConnection = m_lcdConnectCtxEx.connection;
-            m_hDevice = LGLCD_INVALID_CONNECTION;
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    // close the lcd device before we open up another
-    if (LGLCD_INVALID_DEVICE != m_hDevice)
-    {
-        lgLcdClose(m_hDevice);
-        m_hDevice = LGLCD_INVALID_DEVICE;
-
-    }
-    
-    // Setup the device family to use next time
-    lgLcdSetDeviceFamiliesToUse(m_hConnection, m_dwDeviceFamiliesSupported, m_dwDeviceFamiliesSupportedReserved1);
- 
-    ZeroMemory(&descEx, sizeof(lgLcdDeviceDescEx));
-    DWORD res = ERROR_SUCCESS;
-    
-    res = lgLcdEnumerateEx(m_hConnection, 0, &descEx);
-    if (ERROR_SUCCESS != res)
-    {
-        if(ERROR_NO_MORE_ITEMS != res)
-        {
-            // something happened. Let's close this.
-            CloseAndDisconnect();
-        }
-        return;
-    }
-// ERROR_NO_MORE_ITEMS
-    lgLcdOpenContext open_ctx;
-    ZeroMemory(&open_ctx, sizeof(open_ctx));
-
-    open_ctx.connection = m_hConnection;
-    open_ctx.index = 0;
-    res = lgLcdOpen(&open_ctx);
-    if (ERROR_SUCCESS != res)
-        return;
-    m_hDevice = open_ctx.device;
-    m_dwButtonState = 0;
-
-    // restores
-    SetAsForeground(m_bSetAsForeground);
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::HandleErrorFromAPI
-//
-//************************************************************************
-void CLCDOutput::HandleErrorFromAPI(DWORD dwRes)
-{
-    switch(dwRes)
-    {
-        // all is well
-    case ERROR_SUCCESS:
-        break;
-        // we lost our device
-    case ERROR_DEVICE_NOT_CONNECTED:
-        LCDUITRACE(_T("lgLcdAPI returned with ERROR_DEVICE_NOT_CONNECTED, closing device\n"));
-        OnClosingDevice(m_hDevice);
-        break;
-    default:
-        LCDUITRACE(_T("lgLcdAPI returned with other error (0x%08x) closing device and connection\n"));
-        OnClosingDevice(m_hDevice);
-        OnDisconnecting(m_hConnection);
-        // something else happened, such as LCDMon that was terminated
-        break;
-    }
-}
-
-//************************************************************************
-//
-// CLCDOutput::SetScreenPriority
-//
-//************************************************************************
-void CLCDOutput::SetScreenPriority(DWORD priority)
-{
-    if (priority == m_nPriority)
-    {
-        // Nothing to do
-        return;
-    }
-
-    // Clear the bitmap
-    ClearBitmap(m_pLastBitmap);
-
-    m_nPriority = priority;
-    m_bPriorityHasChanged = TRUE;
-
-    if (LGLCD_PRIORITY_IDLE_NO_SHOW == m_nPriority)
-    {
-        // send an empty bitmap at idle priority
-        if (LGLCD_INVALID_DEVICE != m_hDevice)
-        {
-            lgLcdUpdateBitmap(m_hDevice, &m_pLastBitmap->hdr,
-                LGLCD_ASYNC_UPDATE(LGLCD_PRIORITY_IDLE_NO_SHOW));
-        }
-    }
-}
-
-//************************************************************************
-//
-// CLCDOutput::GetScreenPriority
-//
-//************************************************************************
-DWORD CLCDOutput::GetScreenPriority()
-{
-    return m_nPriority;
-}
-
-//************************************************************************
-//
-// CLCDOutput::GetDeviceHandle
-//
-//************************************************************************
-INT CLCDOutput::GetDeviceHandle()
+int CLCDOutput::GetDeviceId(void)
 {
     return m_hDevice;
 }
 
+
 //************************************************************************
 //
-// CLCDOutput::CloseAndDisconnect
+// CLCDOutput::StopOpeningByDeviceType
 //
 //************************************************************************
 
-void CLCDOutput::CloseAndDisconnect()
+void CLCDOutput::StopOpeningByDeviceType(void)
 {
-    OnClosingDevice(m_hDevice);
-    OnDisconnecting(m_hConnection);
+    m_OpenByTypeContext.deviceType = 0;
 }
 
 
 //************************************************************************
 //
-// CLCDOutput::OnScreenExpired
+// CLCDOutput::HasBeenOpenedByDeviceType
 //
 //************************************************************************
 
-void CLCDOutput::OnScreenExpired(CLCDManager* pScreen)
+BOOL CLCDOutput::HasBeenOpenedByDeviceType(void)
 {
-    UNREFERENCED_PARAMETER(pScreen);
-    UnlockScreen();
+    return (0 != m_OpenByTypeContext.deviceType);
 }
 
-
-//************************************************************************
-//
-// CLCDOutput::OnClosingDevice
-//
-//************************************************************************
-
-void CLCDOutput::OnClosingDevice(int hDevice)
-{
-    UNREFERENCED_PARAMETER(hDevice);
-    LCDUITRACE(_T("CLCDOutput::OnClosingDevice\n"));
-    if (IsOpened())
-    {
-        lgLcdClose(m_hDevice);
-        m_hDevice = LGLCD_INVALID_DEVICE;
-    }
-    ClearBitmap(m_pLastBitmap);
-}
-
-//************************************************************************
-//
-// CLCDOutput::OnDisconnecting
-//
-//************************************************************************
-
-void CLCDOutput::OnDisconnecting(int hConnection)
-{
-    UNREFERENCED_PARAMETER(hConnection);
-    LCDUITRACE(_T("CLCDOutput::OnDisconnecting\n"));
-    // let's hope our device is already gone
-    LCDUIASSERT(!IsOpened());
-
-    if (LGLCD_INVALID_CONNECTION != m_hConnection)
-    {
-        lgLcdDisconnect(m_hConnection);
-        m_hConnection = LGLCD_INVALID_CONNECTION;
-        ZeroMemory(m_pLastBitmap, sizeof(lgLcdBitmap160x43x1));
-    }
-}
-
-//************************************************************************
-//
-// CLCDOutput::IsOpened
-//
-//************************************************************************
-
-BOOL CLCDOutput::IsOpened()
-{
-	return (LGLCD_INVALID_DEVICE != m_hDevice);
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::SetAsForeground
-//
-//************************************************************************
-
-void CLCDOutput::SetAsForeground(BOOL bSetAsForeground)
-{
-    /*DWORD dwSet = */bSetAsForeground ? LGLCD_LCD_FOREGROUND_APP_YES : LGLCD_LCD_FOREGROUND_APP_NO;
-    m_bSetAsForeground = bSetAsForeground;
-    if (LGLCD_INVALID_DEVICE != m_hDevice)
-    {
-        lgLcdSetAsLCDForegroundApp(m_hDevice, bSetAsForeground);
-    }
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::DoesBitmapNeedUpdate
-//
-//************************************************************************
-
-BOOL CLCDOutput::DoesBitmapNeedUpdate(lgLcdBitmap160x43x1* pCurrentBitmap)
-{
-    // The bitmap is different from the last one sent
-    // send the bitmap
-    BOOL bBitmapChanged = 0 != memcmp(pCurrentBitmap, m_pLastBitmap, sizeof(lgLcdBitmap160x43x1));
-    BOOL bPriorityChanged = m_bPriorityHasChanged;
-
-    if (bBitmapChanged)
-    {
-        LCDUITRACE(_T("Resubmitting bitmap (bitmap changed)\n"));
-    }
-    else if (bPriorityChanged)
-    {
-        LCDUITRACE(_T("Resubmitting bitmap (priority changed)\n"));
-    }
-
-    // Save the current bitmap
-    memcpy(m_pLastBitmap, pCurrentBitmap, sizeof(lgLcdBitmap160x43x1));
-    // Reset the priority change
-    m_bPriorityHasChanged = FALSE;
-
-    return (bBitmapChanged || bPriorityChanged);
-}
-
-
-//************************************************************************
-//
-// CLCDOutput::ClearBitmap
-//
-//************************************************************************
-
-void CLCDOutput::ClearBitmap(lgLcdBitmap160x43x1* pCurrentBitmap)
-{
-    LCDUIASSERT(NULL != pCurrentBitmap);
-    if (pCurrentBitmap)
-    {
-        pCurrentBitmap->hdr.Format = LGLCD_BMP_FORMAT_160x43x1;
-        ZeroMemory(pCurrentBitmap->pixels, sizeof(pCurrentBitmap->pixels));
-    }
-}
 
 //** end of LCDOutput.cpp ************************************************

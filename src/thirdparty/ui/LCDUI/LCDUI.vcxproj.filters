@@ -23,19 +23,49 @@
     <ClCompile Include="LCDCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LCDGfx.cpp">
+    <ClCompile Include="LCDColorProgressBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LCDManager.cpp">
+    <ClCompile Include="LCDColorText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDConnection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDGfxBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDGfxColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDGfxMono.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDIcon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LCDOutput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDPaginateText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LCDProgressBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LCDScrollingText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDSkinnedProgressBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDStreamingText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LCDText.cpp">
@@ -58,13 +88,37 @@
     <ClInclude Include="LCDCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LCDGfx.h">
+    <ClInclude Include="LCDColorProgressBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LCDManager.h">
+    <ClInclude Include="LCDColorText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDGfxBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDGfxColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDGfxMono.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDIcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LCDOutput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDPaginateText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LCDProgressBar.h">
@@ -73,10 +127,16 @@
     <ClInclude Include="LCDScrollingText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LCDSkinnedProgressBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCDStreamingText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="LCDText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="LCDUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
