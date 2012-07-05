@@ -503,10 +503,10 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 #endif
     // filtered bad data
     if (m_iSpeakerConfig[ac3] < CH_ASIS || m_iSpeakerConfig[ac3] > CH_STEREO) {
-        m_iSpeakerConfig[ac3] = CH_ASIS;
+        m_iSpeakerConfig[ac3] = CH_STEREO;
     }
     if ((m_iSpeakerConfig[dts]&~CH_LFE) < CH_ASIS || (m_iSpeakerConfig[dts]&~CH_LFE) > CH_3F2R) {
-        m_iSpeakerConfig[dts] = CH_ASIS;
+        m_iSpeakerConfig[dts] = CH_STEREO;
     }
 }
 
