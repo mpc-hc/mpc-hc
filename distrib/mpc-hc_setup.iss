@@ -148,7 +148,7 @@ Name: es; MessagesFile: compiler:Languages\Spanish.isl
 Name: eu; MessagesFile: compiler:Languages\Basque.isl
 Name: fr; MessagesFile: compiler:Languages\French.isl
 Name: he; MessagesFile: compiler:Languages\Hebrew.isl
-Name: hu; MessagesFile: Languages\Hungarian.isl
+Name: hu; MessagesFile: compiler:Languages\Hungarian.isl
 Name: hy; MessagesFile: Languages\Armenian.islu
 Name: it; MessagesFile: compiler:Languages\Italian.isl
 Name: ja; MessagesFile: compiler:Languages\Japanese.isl
