@@ -205,6 +205,8 @@
     <ClCompile Include="libavcodec\h264_direct.c" />
     <ClCompile Include="libavcodec\h264_dxva.c" />
     <ClCompile Include="libavcodec\h264_loopfilter.c" />
+    <ClCompile Include="libavcodec\h264_mb_template.c" />
+    <ClCompile Include="libavcodec\h264_mc_template.c" />
     <ClCompile Include="libavcodec\h264_parser.c" />
     <ClCompile Include="libavcodec\h264_ps.c" />
     <ClCompile Include="libavcodec\h264_recov.c" />

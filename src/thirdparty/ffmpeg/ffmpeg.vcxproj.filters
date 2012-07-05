@@ -441,6 +441,12 @@
     <ClCompile Include="libavcodec\h264_loopfilter.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\h264_mb_template.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\h264_mc_template.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\h264_parser.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
