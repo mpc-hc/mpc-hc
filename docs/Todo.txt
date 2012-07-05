@@ -20,6 +20,7 @@ MPC-HC:
     since DX is moved into the SDK but we have to use the DX SDK for d3dx9, linking fails if /SAFESEH:NO
     isn't specified (still happens with the RC for Win32) and the MFC bloat workaround does not work as it is
     and unfortunately it is still needed.
+11) Switch to git; we need a proper script to get the revision number
 
 MPCIconLib:
 1) Rewrite mpciconlib without MFC, so that it's smaller and we no longer
