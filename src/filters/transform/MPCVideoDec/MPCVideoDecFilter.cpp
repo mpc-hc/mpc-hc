@@ -743,7 +743,7 @@ void CMPCVideoDecFilter::UpdateFrameTime(REFERENCE_TIME& rtStart, REFERENCE_TIME
 void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight)
 {
 #if 1
-    RealWidth = m_nWidth;
+    RealWidth  = m_nWidth;
     RealHeight = m_nHeight;
     w = PictWidthRounded();
     h = PictHeightRounded();
@@ -752,7 +752,7 @@ void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& 
         w = m_nWidth;
         h = m_nHeight;
     } else {
-        // DXVA surface are multiple of 16 pixels!
+        // DXVA surfaces are multiple of 16 pixels!
         w = PictWidthRounded();
         h = PictHeightRounded();
     }
@@ -835,7 +835,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 
             return ((m_bUseDXVA || m_bUseFFmpeg) ? i : -1);
 #else
-            bool    bCodecActivated = false;
+            bool bCodecActivated = false;
             switch (ffCodecs[i].nFFCodec) {
                 case CODEC_ID_FLV1 :
                 case CODEC_ID_VP6F :

@@ -92,7 +92,7 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME
     if (m_bSecondField) {
         if (!m_PictureParams.bSecondField) {
             m_rtStart = rtStart;
-            m_rtStop = rtStop;
+            m_rtStop  = rtStop;
             m_pSampleToDeliver = NULL;
             hr = GetFreeSurfaceIndex(m_nSurfaceIndex, &m_pSampleToDeliver, rtStart, rtStop);
             if (FAILED(hr)) {
@@ -102,7 +102,7 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME
         }
     } else {
         m_rtStart = rtStart;
-        m_rtStop = rtStop;
+        m_rtStop  = rtStop;
         m_pSampleToDeliver = NULL;
         hr = GetFreeSurfaceIndex(m_nSurfaceIndex, &m_pSampleToDeliver, rtStart, rtStop);
         if (FAILED(hr)) {
@@ -128,7 +128,6 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME
     TRACE_MPEG2("CDXVADecoderMpeg2::DecodeFrame() : Surf = %d, PictureType = %d, SecondField = %d, m_nNextCodecIndex = %d, rtStart = [%I64d]\n", m_nSurfaceIndex, nSliceType, m_PictureParams.bSecondField, m_nNextCodecIndex, rtStart);
 
     CHECK_HR(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
-
     CHECK_HR(AddExecuteBuffer(DXVA2_InverseQuantizationMatrixBufferType, sizeof(m_QMatrixData), &m_QMatrixData));
 
     // Send bitstream to accelerator
@@ -241,7 +240,7 @@ void CDXVADecoderMpeg2::Flush()
     m_bSecondField = false;
 
     m_rtStart = _I64_MIN;
-    m_rtStop = _I64_MIN;
+    m_rtStop  = _I64_MIN;
 
     m_rtLastStart = 0;
 
@@ -256,8 +255,8 @@ int CDXVADecoderMpeg2::FindOldestFrame()
         if (!m_pPictureStore[i].bDisplayed &&
                 m_pPictureStore[i].bInUse &&
                 (m_pPictureStore[i].nCodecSpecific == m_nNextCodecIndex)) {
-            m_nNextCodecIndex   = INT_MIN;
-            nPos    = i;
+            m_nNextCodecIndex = INT_MIN;
+            nPos = i;
         }
     }
 
