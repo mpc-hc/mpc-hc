@@ -1,12 +1,9 @@
-; Translation made with Stonevoice Translator 2.1 (http://www.stonevoice.com/auto/translator)
-; $Translator:NL=%n:TB=%t
-; *** Inno Setup version 5.1.11+ Turkish messages ***
-; Language     " Tükçe"               ::::::    Turkish
-; Translate by " Çeviren "            ::::::    Adil YILDIZ
-; E-Mail       " Elektronik Posta "   ::::::    adil@kde.org.tr
-; Home Page    " Web Adresi "         ::::::    http://www.adilyildiz.com.tr
+; *** Inno Setup version 5.5.0++ Turkish messages ***
+; Language	"Turkce"	Turkish
+; Translate by	"Ceviren"	Adil Yildiz		adil@kde.org.tr
+; Updated   by	"Guncelleme"	Taner Dag		tanerdag@gmail.com
 ;
-; $jrsoftware: issrc/Files/Default.isl,v 1.66 2005/02/25 20:23:48 mlaan Exp $
+
 [LangOptions]
 LanguageName=T<00FC>rk<00E7>e
 LanguageID=$041f
@@ -21,7 +18,7 @@ LanguageCodePage=1254
 ;TitleFontSize=29
 ;CopyrightFontName=Arial
 ;CopyrightFontSize=8
-DialogFontName=
+
 [Messages]
 
 ; *** Application titles
@@ -45,6 +42,10 @@ LastErrorMessage=%1.%n%nHata %2: %3
 SetupFileMissing=%1 adlý dosya kurulum dizininde bulunamadý. Lütfen problemi düzeltiniz veya programýn yeni bir kopyasýný edininiz.
 SetupFileCorrupt=Kurulum dosyalarý bozulmuþ. Lütfen programýn yeni bir kopyasýný edininiz.
 SetupFileCorruptOrWrongVer=Kurulum dosyalarý bozulmuþ veya kurulumun bu sürümü ile uyuþmuyor olabilir. Lütfen problemi düzeltiniz veya Programýn yeni bir kopyasýný edininiz.
+InvalidParameter=Komut satýrýna geçersiz bir parametre girildi:%n%n%1
+SetupAlreadyRunning=Kur zaten çalýþýyor.
+WindowsVersionNotSupported=Bu program bilgisayarýnýzda çalýþan Windows sürümünü desteklemiyor.
+WindowsServicePackRequired=Bu program için %1 Service Pack %2 veya sonrasý gerekmektedir.
 NotOnThisPlatform=Bu program %1 üzerinde çalýþtýrýlamaz.
 OnlyOnThisPlatform=Bu program sadece %1 üzerinde çalýþtýrýlmalýdýr.
 OnlyOnTheseArchitectures=Bu program sadece aþaðýdaki mimarilere sahip Windows sürümlerinde çalýþýr:%n%n%1
@@ -67,7 +68,7 @@ AboutSetupMenuItem=Kur H&akkýnda...
 AboutSetupTitle=Kur Hakkýnda
 AboutSetupMessage=%1 %2 sürümü%n%3%n%n%1 internet:%n%4
 AboutSetupNote=
-TranslatorNote=Ýyi bir kurulum programý arýyorsanýz buldunuz...%nhttp://www.adilyildiz.com.tr
+TranslatorNote=
 
 ; *** Buttons
 ButtonBack=< G&eri
@@ -90,7 +91,7 @@ SelectLanguageLabel=Lütfen kurulum sýrasýnda kullanacaðýnýz dili seçiniz:
 
 ; *** Common wizard text
 ClickNext=Devam etmek için Ýleri'ye , çýkmak için Ýptal 'e basýnýz.
-BeveledLabel=Inno Setup 5.1+ Türkçe
+BeveledLabel=Express Bilgisayar
 BrowseDialogTitle=Dizine Gözat
 BrowseDialogLabel=Aþaðýdaki listeden bir dizin seçip, daha sonra Tamam tuþuna basýnýz.
 NewFolderName=Yeni Dizin
@@ -135,6 +136,8 @@ SelectDirDesc=[name] hangi dizine kurulsun?
 SelectDirLabel3=Kur [name] programýný aþaðýdaki dizine kuracaktýr.
 SelectDirBrowseLabel=Devam etmek için Ýleri'ye basýnýz. Baþka bir dizin seçmek istiyorsanýz, Gözat'a basýnýz.
 DiskSpaceMBLabel=Bu program en az [mb] MB disk alaný gerektirmektedir.
+CannotInstallToNetworkDrive=Kur bir að sürücüsüne kurulum yapamaz.
+CannotInstallToUNCPath=Kur UNC tipindeki dizin yollarýna (Örnek: \\yol vb.) kurulum yapamaz.
 InvalidPath=Sürücü ismi ile birlikte tam yolu girmelisiniz; Örneðin %nC:\APP%n%n veya bir UNC yolunu %n%n\\sunucu\paylaþým%n%n þeklinde girmelisiniz.
 InvalidDrive=Seçtiðiniz sürücü bulunamadý veya ulaþýlamýyor. Lütfen baþka bir sürücü seçiniz.
 DiskSpaceWarningTitle=Yetersiz Disk Alaný
@@ -194,6 +197,10 @@ WizardPreparing=Kurulum Hazýrlanýyor
 PreparingDesc=Kur [name] programýný bilgisayarýnýza kurmak için hazýrlanýyor.
 PreviousInstallNotCompleted=Bir önceki Kurulum/Kaldýr programýna ait iþlem tamamlanmamýþ.Önceki kurulum iþleminin tamamlanmasý için bilgisayarýnýzý yeniden baþlatmalýsýnýz.%n%nBilgisayarýnýz tekrar baþladýktan sonra,Kurulum'u tekrar çalýþtýrarak [name] programýný kurma iþlemine devam edebilirsiniz.
 CannotContinue=Kur devam edemiyor. Lütfen Ýptal'e týklayýp Çýkýn.
+ApplicationsFound=Aþaðýdaki uygulamalar, Kur tarafýndan güncelleþtirilmesi gereken dosyalarý kullanýyor. Kur tarafýndan, bu uygulamalarýn otomatik kapatýlmasýna izin vermenizi öneririz.
+ApplicationsFound2=Aþaðýdaki uygulamalar, Kur tarafýndan güncelleþtirilmesi gereken dosyalarý kullanýyor. Kur tarafýndan, bu uygulamalarýn otomatik kapatýlmasýna izin vermenizi öneririz. Yükleme tamamlandýktan sonra, Kur uygulamalarý yeniden baþlatmaya çalýþacaktýr.
+CloseApplications=&Uygulamalarý otomatik kapat
+DontCloseApplications=Uygulamalarý &kapatma
 
 ; *** "Kuruluyor" sihirbaz
 WizardInstalling=Kuruluyor
@@ -202,7 +209,7 @@ InstallingLabel=Lütfen [name] bilgisayarýnýza kurulurken bekleyiniz.
 ; *** "Setup Completed" wizard page
 FinishedHeadingLabel=[name] Kur Sihirbazý tamamlanýyor
 FinishedLabelNoIcons=Kur [name] programýný bilgisayarýnýza kurma iþlemini tamamladý.
-FinishedLabel=Kur [name] programýný bilgisayarýnýza kurma iþlemini tamamladý. Program yüklenen kýsayol ikonlarýna týklanarak çalýþtýrýlabilir.
+FinishedLabel=Kur [name] programýný bilgisayarýnýza kurma iþlemini tamamladý. Program yüklenen kýsayol simgesine týklanarak çalýþtýrýlabilir.
 ClickFinish=Kur'dan çýkmak için Son'a týklayýnýz.
 FinishedRestartLabel=[name] programýnýn kurulumunu bitirmek için, Kur bilgisayarýnýzý yeniden baþlatacak. Bilgisayarýnýz yeniden baþlatýlsýn mý?
 FinishedRestartMessage=[name] kurulumunu bitirmek için, bilgisayarýnýzýn yeniden baþlatýlmasý gerekmektedir. %n%nBiligisayarýnýz yeniden baþlatýlsýn mý?
@@ -226,6 +233,7 @@ SetupAborted=Kurulum tamamlanamadý.%n%nLütfen problemi düzeltiniz veya Kurulum'u
 EntryAbortRetryIgnore=Tekrar denemek için "Tekrar Dene" ye , yine de devam etmek için Yoksay'a , kurulumu iptal etmek için ise Ýptal'e týklayýnýz.
 
 ; *** Installation status messages
+StatusClosingApplications=Uygulamalar kapatýlýyor...
 StatusCreateDirs=Dizinler oluþturuluyor...
 StatusExtractFiles=Dosyalar çýkartýlýyor...
 StatusCreateIcons=Program kýsayollarý oluþturuluyor...
@@ -234,6 +242,7 @@ StatusCreateRegistryEntries=Kayýt Defteri girdileri oluþturuluyor...
 StatusRegisterFiles=Dosyalar sisteme kaydediliyor...
 StatusSavingUninstall=Kaldýr bilgileri kaydediliyor...
 StatusRunProgram=Kurulum sonlandýrýlýyor...
+StatusRestartingApplications=Uygulamalar baþlatýlýyor...
 StatusRollback=Deðiþiklikler geri alýnýyor...
 
 ; *** Misc. errors
@@ -296,6 +305,11 @@ SharedFileNameLabel=Dosya adý:
 SharedFileLocationLabel=Yol:
 WizardUninstalling=Kaldýrma Durumu
 StatusUninstalling=%1 Kaldýrýlýyor...
+
+; *** Shutdown block reasons
+ShutdownBlockReasonInstallingApp=%1 kuruluyor.
+ShutdownBlockReasonUninstallingApp=%1 kaldýrýlýyor.
+
 [CustomMessages]
 
 NameAndVersion=%1 %2 sürümü
@@ -307,3 +321,6 @@ UninstallProgram=%1 Programýný Kaldýr
 LaunchProgram=%1 Programýný Çalýþtýr
 AssocFileExtension=%2 dosya uzantýlarýný %1 ile iliþkilendir
 AssocingFileExtension=%2 dosya uzantýlarý %1 ile iliþkilendiriliyor...
+AutoStartProgramGroupDescription=Baþlangýç:
+AutoStartProgram=%1 otomatik baþlat
+AddonHostProgramNotFound=%1 seçtiðiniz klasörde bulunamadý.%n%nYine de devam etmek istiyor musunuz?
