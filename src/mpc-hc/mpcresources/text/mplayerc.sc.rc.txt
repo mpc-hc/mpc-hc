@@ -429,7 +429,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 16		"当播放列表里只有一个项目时执行 '向后跳转/向前跳转' 将会是打开文件夹里的下一个/上一个文件"
 18		"使用时间提示:"
 20		"OSD 字体:"
-23		"Enable Logitech LCD support (experimental)"
+23		"开启罗技LCD支持 (试验性的)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
@@ -521,7 +521,7 @@ BEGIN MENU IDR_MAINFRAME LINES 248
 11		"打开光盘(&P)"
 12		"最近的文件"
 13		"关闭(&C)\tCtrl+C"
-15		"&Save a Copy..."
+15		"存为一个副本(&S)..."
 16		"保存图像(&I)..."
 17		"保存缩略图(&T)..."
 19		"载入字幕(&L)...\tCtrl+L"
@@ -692,7 +692,7 @@ BEGIN MENU IDR_POPUP LINES 236
 13		"打开光盘(&P)"
 14		"最近的文件"
 15		"关闭(&C)\tCtrl+C"
-17		"&Save a Copy..."
+17		"存为一个副本(&S)..."
 18		"保存图像(&I)..."
 19		"保存缩略图..."
 21		"载入字幕(&L)...\tCtrl+L"
@@ -852,7 +852,7 @@ BEGIN MENU IDR_POPUPMAIN LINES 319
 13		"打开光盘(&P)"
 14		"最近的文件"
 15		"关闭(&C)"
-17		"&Save a Copy..."
+17		"存为一个副本(&S)..."
 18		"保存图像..."
 19		"保存缩略图..."
 21		"载入字幕(&L)...\tCtrl+L"
