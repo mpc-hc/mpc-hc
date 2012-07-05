@@ -1715,42 +1715,47 @@ CMediaType CMpaDecFilter::CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerS
     mt.formattype = FORMAT_WaveFormatEx;
 
     WAVEFORMATEXTENSIBLE wfex;
-    memset(&wfex, 0, sizeof(wfex));
-    WAVEFORMATEX* wfe = &wfex.Format;
-    wfe->wFormatTag = (WORD)mt.subtype.Data1;
-    wfe->nChannels = nChannels;
-    wfe->nSamplesPerSec = nSamplesPerSec;
+    //memset(&wfex, 0, sizeof(wfex));
+
+    WAVEFORMATEX& wfe = wfex.Format;
+    wfe.nChannels      = nChannels;
+    wfe.nSamplesPerSec = nSamplesPerSec;
     switch (sf) {
         default:
         case SF_PCM16:
-            wfe->wBitsPerSample = 16;
+            wfe.wBitsPerSample = 16;
             break;
         case SF_PCM24:
-            wfe->wBitsPerSample = 24;
+            wfe.wBitsPerSample = 24;
             break;
         case SF_PCM32:
         case SF_FLOAT32:
-            wfe->wBitsPerSample = 32;
+            wfe.wBitsPerSample = 32;
             break;
     }
-    wfe->nBlockAlign = wfe->nChannels * wfe->wBitsPerSample / 8;
-    wfe->nAvgBytesPerSec = wfe->nSamplesPerSec * wfe->nBlockAlign;
-    mt.SetSampleSize(wfe->wBitsPerSample * wfe->nChannels / 8);
+    wfe.nBlockAlign     = nChannels * wfe.wBitsPerSample / 8;
+    wfe.nAvgBytesPerSec = nSamplesPerSec * wfe.nBlockAlign;
 
-    // FIXME: 24/32 bit only seems to work with WAVE_FORMAT_EXTENSIBLE
-    if (dwChannelMask == 0 && (sf == SF_PCM24 || sf == SF_PCM32)) {
-        dwChannelMask = nChannels == 2 ? (SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT) : SPEAKER_FRONT_CENTER;
-    }
+    if (nChannels <=2 && dwChannelMask <= 0x4 && (sf == SF_PCM16 || sf == SF_FLOAT32)) {
+        // WAVEFORMATEX
+        wfe.wFormatTag = (sf == SF_FLOAT32) ? WAVE_FORMAT_IEEE_FLOAT : WAVE_FORMAT_PCM;
+        wfe.cbSize = 0;
 
-    if (dwChannelMask) {
+        mt.SetFormat((BYTE*)&wfe, sizeof(wfe));
+    } else {
+        // WAVEFORMATEXTENSIBLE
         wfex.Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
-        wfex.Format.cbSize = sizeof(wfex) - sizeof(wfex.Format);
-        wfex.dwChannelMask = dwChannelMask;
+        wfex.Format.cbSize = sizeof(wfex) - sizeof(wfex.Format); // 22
         wfex.Samples.wValidBitsPerSample = wfex.Format.wBitsPerSample;
+        if (dwChannelMask == 0) {
+            dwChannelMask = GetDefChannelMask(nChannels);
+        }
+        wfex.dwChannelMask = dwChannelMask;
         wfex.SubFormat = mt.subtype;
-    }
 
-    mt.SetFormat((BYTE*)&wfex, sizeof(wfex.Format) + wfex.Format.cbSize);
+        mt.SetFormat((BYTE*)&wfex, sizeof(wfex));
+    }
+    mt.SetSampleSize(wfex.Format.nBlockAlign);
 
     return mt;
 }
