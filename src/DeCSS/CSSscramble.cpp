@@ -1,9 +1,5 @@
 #include "stdafx.h"
 
-#ifndef _countof
-#define _countof(array) (sizeof(array)/sizeof(array[0]))
-#endif
-
 unsigned int CSStab0[11]= {5,0,1,2,3,4,0,1,2,3,4};
 
 static unsigned char CSStab1[256]= {

@@ -240,10 +240,6 @@ template <typename T> __inline void INITDDSTRUCT(T& dd)
     dd.dwSize = sizeof(dd);
 }
 
-#ifndef _countof
-#define _countof(array) (sizeof(array)/sizeof(array[0]))
-#endif
-
 template <class T>
 static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
