@@ -170,7 +170,6 @@ bool LoadType(CString fn, CString& type)
             type = mfc->GetDescription();
         } else { // Fallback to registry
             CRegKey key;
-
             TCHAR buff[256];
             ULONG len;
 
@@ -334,12 +333,11 @@ bool CMPlayerCApp::StoreSettingsToIni()
     // So to ensure we have correct encoding for ini files, create a file with right BOM first,
     // then add some comments in first line to make sure it's not empty.
     if (!::PathFileExists(m_pszProfileName)) { // don't overwrite existing ini file
-        const TCHAR pszComments[] = _T("; Media Player Classic - Home Cinema");
-        WORD wBOM = 0xFEFF; // UTF16-LE BOM (FFFE)
-        DWORD nBytes;
-
         HANDLE hFile = ::CreateFile(m_pszProfileName, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
         if (hFile != INVALID_HANDLE_VALUE) {
+            const TCHAR pszComments[] = _T("; Media Player Classic - Home Cinema");
+            WORD wBOM = 0xFEFF; // UTF16-LE BOM (FFFE)
+            DWORD nBytes;
             ::WriteFile(hFile, &wBOM, sizeof(WORD), &nBytes, NULL);
             ::WriteFile(hFile, pszComments, sizeof(pszComments), &nBytes, NULL);
             ::CloseHandle(hFile);
@@ -704,13 +702,13 @@ BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileS
 
 HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
-    HANDLE  hFile = INVALID_HANDLE_VALUE;
-    WCHAR   strFakeFile[_MAX_PATH];
-    size_t  nLen  = wcslen(p1);
+    HANDLE hFile = INVALID_HANDLE_VALUE;
+    size_t nLen  = wcslen(p1);
 
     p3 |= FILE_SHARE_WRITE;
 
     if (nLen >= 4 && _wcsicmp(p1 + nLen - 4, L".ifo") == 0) {
+        WCHAR strFakeFile[_MAX_PATH];
         if (CreateFakeVideoTS(p1, strFakeFile, _countof(strFakeFile))) {
             hFile = Real_CreateFileW(strFakeFile, p2, p3, p4, p5, p6, p7);
         }
@@ -1075,16 +1073,15 @@ BOOL CMPlayerCApp::InitInstance()
 
 UINT CMPlayerCApp::GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput)
 {
-    UINT  dwSize = 0;
-    BYTE* pRawBuffer = NULL;
-    UINT  nMceCmd = 0;
+    UINT dwSize = 0;
+    UINT nMceCmd = 0;
 
     // Support for MCE remote control
     GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
     if (dwSize > 0) {
-        pRawBuffer = DNew BYTE[dwSize];
+        BYTE* pRawBuffer = DNew BYTE[dwSize];
         if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1) {
-            RAWINPUT* raw = (RAWINPUT*) pRawBuffer;
+            RAWINPUT* raw = (RAWINPUT*)pRawBuffer;
             if (raw->header.dwType == RIM_TYPEHID) {
                 nMceCmd = 0x10000 + (raw->data.hid.bRawData[1] | raw->data.hid.bRawData[2] << 8);
             }
@@ -1097,15 +1094,14 @@ UINT CMPlayerCApp::GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRaw
 
 UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput)
 {
-    UINT  dwSize = 0;
-    BYTE* pRawBuffer = NULL;
-    UINT  nMceCmd = 0;
+    UINT dwSize = 0;
+    UINT nMceCmd = 0;
 
     GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
     if (dwSize > 21) {
-        pRawBuffer = DNew BYTE[dwSize];
+        BYTE* pRawBuffer = DNew BYTE[dwSize];
         if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1) {
-            RAWINPUT* raw = (RAWINPUT*) pRawBuffer;
+            RAWINPUT* raw = (RAWINPUT*)pRawBuffer;
 
             // data.hid.bRawData[21] set to one when key is pressed
             if (raw->header.dwType == RIM_TYPEHID && raw->data.hid.bRawData[21] == 1) {
