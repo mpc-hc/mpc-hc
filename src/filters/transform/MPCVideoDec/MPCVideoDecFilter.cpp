@@ -730,14 +730,14 @@ void CMPCVideoDecFilter::UpdateFrameTime(REFERENCE_TIME& rtStart, REFERENCE_TIME
     REFERENCE_TIME m_rtFrameDuration = m_PullDownFlag ? AVRTIMEPERFRAME_VC1_EVO : m_rtAvrTimePerFrame;
 
     if ((rtStart == _I64_MIN) || (m_PullDownFlag && m_rtPrevStop && (rtStart <= m_rtPrevStop))) {
-        rtStart = m_rtLastStart + (m_rtFrameDuration / m_dRate) * m_nCountEstimated;
+        rtStart = m_rtLastStart + (REFERENCE_TIME)(m_rtFrameDuration / m_dRate) * m_nCountEstimated;
         m_nCountEstimated++;
     } else {
         m_rtLastStart = rtStart;
         m_nCountEstimated = 1;
     }
 
-    rtStop = rtStart + (m_rtFrameDuration / m_dRate);
+    rtStop = rtStart + (REFERENCE_TIME)(m_rtFrameDuration / m_dRate);
 }
 
 void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight)

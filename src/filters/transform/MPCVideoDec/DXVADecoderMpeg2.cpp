@@ -275,7 +275,7 @@ void CDXVADecoderMpeg2::UpdateFrameTime(REFERENCE_TIME& rtStart, REFERENCE_TIME&
         rtStart = m_rtLastStart;
     }
 
-    rtStop = rtStart + m_pFilter->GetAvrTimePerFrame() / m_pFilter->GetRate();
+    rtStop = rtStart + (REFERENCE_TIME)(m_pFilter->GetAvrTimePerFrame() / m_pFilter->GetRate());
     m_rtLastStart = rtStop;
 
     TRACE(_T("rtStart = [%10I64d - %10I64d]\n"), rtStart, rtStop);
