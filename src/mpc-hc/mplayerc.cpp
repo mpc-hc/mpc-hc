@@ -29,6 +29,7 @@
 #include "DSUtil.h"
 #include "FileVersionInfo.h"
 #include "Struct.h"
+#include <winternl.h>
 #include <psapi.h>
 #include "Ifo.h"
 #include "Monitors.h"
