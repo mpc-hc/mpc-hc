@@ -582,7 +582,7 @@ STDMETHODIMP CAudioSwitcherFilter::SetSpeakerConfig(bool fCustomChannelMapping, 
 {
     if (m_State == State_Stopped || m_fCustomChannelMapping != fCustomChannelMapping
             || memcmp(m_pSpeakerToChannelMap, pSpeakerToChannelMap, sizeof(m_pSpeakerToChannelMap))) {
-        PauseGraph;
+        PauseGraph
 
         CStreamSwitcherInputPin* pInput = GetInputPin();
 
@@ -593,7 +593,7 @@ STDMETHODIMP CAudioSwitcherFilter::SetSpeakerConfig(bool fCustomChannelMapping, 
 
         SelectInput(pInput);
 
-        ResumeGraph;
+        ResumeGraph
     }
 
     return S_OK;
@@ -613,9 +613,9 @@ STDMETHODIMP_(bool) CAudioSwitcherFilter::IsDownSamplingTo441Enabled()
 STDMETHODIMP CAudioSwitcherFilter::EnableDownSamplingTo441(bool fEnable)
 {
     if (m_fDownSampleTo441 != fEnable) {
-        PauseGraph;
+        PauseGraph
         m_fDownSampleTo441 = fEnable;
-        ResumeGraph;
+        ResumeGraph
     }
 
     return S_OK;

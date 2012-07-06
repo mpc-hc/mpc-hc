@@ -1462,7 +1462,7 @@ STDMETHODIMP CStreamSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
         return E_NOTIMPL;
     }
 
-    PauseGraph;
+    PauseGraph
 
     CStreamSwitcherInputPin* pNewInput = GetConnectedInputPin(lIndex);
     if (!pNewInput) {
@@ -1471,7 +1471,7 @@ STDMETHODIMP CStreamSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
 
     SelectInput(pNewInput);
 
-    ResumeGraph;
+    ResumeGraph
 
     return S_OK;
 }

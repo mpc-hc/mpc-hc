@@ -83,7 +83,7 @@ static bool GetProperty(IFilterGraph* pFG, LPCOLESTR propName, VARIANT* vt)
                 return true;
             }
     }
-    EndEnumFilters;
+    EndEnumFilters
 
     return false;
 }
@@ -203,7 +203,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
                     break;
                 }
             }
-            EndEnumFilters;
+            EndEnumFilters
         }
     }
 
@@ -305,9 +305,9 @@ void CPPageFileInfoDetails::InitEncoding()
                 }
             }
         }
-        EndEnumPins;
+        EndEnumPins
     }
-    EndEnumFilters;
+    EndEnumFilters
 
     CString text = Implode(sl, '\n');
     text.Replace(_T("\n"), _T("\r\n"));

@@ -672,7 +672,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
             pBFs.AddTail(pBF);
         }
-        EndEnumFilters;
+        EndEnumFilters
 
         POSITION pos = pBFs.GetHeadPosition();
         while (pos) {
@@ -1044,10 +1044,10 @@ STDMETHODIMP CFGManager::RenderEx(IPin* pPinOut, DWORD dwFlags, DWORD* pvContext
                         break;
                     }
                 }
-                EndEnumPins;
+                EndEnumPins
             }
         }
-        EndEnumFilters;
+        EndEnumFilters
 
         HRESULT hr;
 
@@ -1152,7 +1152,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
             }
         }
     }
-    EndEnumPins;
+    EndEnumPins
 
     return
         nRendered == nTotal ? (nRendered > 0 ? S_OK : S_FALSE) :
@@ -1183,7 +1183,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)
             }
         }
     }
-    EndEnumPins;
+    EndEnumPins
 
     return VFW_E_CANNOT_CONNECT;
 }
@@ -1211,7 +1211,7 @@ STDMETHODIMP CFGManager::ConnectFilterDirect(IPin* pPinOut, IBaseFilter* pBF, co
             }
         }
     }
-    EndEnumPins;
+    EndEnumPins
 
     return VFW_E_CANNOT_CONNECT;
 }
@@ -1224,7 +1224,7 @@ STDMETHODIMP CFGManager::NukeDownstream(IUnknown* pUnk)
         BeginEnumPins(pBF, pEP, pPin) {
             NukeDownstream(pPin);
         }
-        EndEnumPins;
+        EndEnumPins
     } else if (CComQIPtr<IPin> pPin = pUnk) {
         CComPtr<IPin> pPinTo;
         if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)

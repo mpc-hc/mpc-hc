@@ -382,10 +382,10 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
                     }
                 }
             }
-            EndEnumPins;
+            EndEnumPins
         }
     }
-    EndEnumPins;
+    EndEnumPins
 
     return hr;
 }
@@ -476,7 +476,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     BeginEnumFilters(this, pEF, pBF) {
         LOG(GetFilterName(pBF));
     }
-    EndEnumFilters;
+    EndEnumFilters
 #endif
 
     return S_OK;

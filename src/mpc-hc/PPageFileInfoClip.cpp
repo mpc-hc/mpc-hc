@@ -160,7 +160,7 @@ BOOL CPPageFileInfoClip::OnInitDialog()
             }
         }
     }
-    EndEnumFilters;
+    EndEnumFilters
 
     m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
 

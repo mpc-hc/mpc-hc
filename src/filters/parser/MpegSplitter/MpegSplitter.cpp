@@ -1177,8 +1177,8 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
                 }
 
                 if (m_useFastStreamChange) {
-                    PauseGraph;
-                    ResumeGraph;
+                    PauseGraph
+                    ResumeGraph
                 }
 
                 HRESULT hr;
