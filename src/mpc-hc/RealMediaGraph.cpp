@@ -250,9 +250,9 @@ char* AllocateErrorMessage(const char* msg)
 // IRMAErrorSink
 STDMETHODIMP CRealMediaPlayer::ErrorOccurred(const UINT8 unSeverity, const UINT32 ulRMACode, const UINT32 ulUserCode, const char* pUserString, const char* pMoreInfoURL)
 {
-    char* errmsg = NULL;
-
     if (unSeverity < 5) {
+        char* errmsg = NULL;
+
         if (CComQIPtr<IRMAErrorMessages, &IID_IRMAErrorMessages> pErrorMessages = m_pPlayer) {
             CComPtr<IRMABuffer> pBuffer = pErrorMessages->GetErrorText(ulRMACode);
             if (pBuffer) {

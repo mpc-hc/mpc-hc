@@ -236,9 +236,6 @@ static unsigned int AdaptUnit(double& val, size_t unitsNb)
 
 void CSaveDlg::OnTimer(UINT_PTR nIDEvent)
 {
-    static UINT sizeUnits[] = { IDS_SIZE_UNIT_K, IDS_SIZE_UNIT_M, IDS_SIZE_UNIT_G };
-    static UINT speedUnits[] = { IDS_SPEED_UNIT_K, IDS_SPEED_UNIT_M, IDS_SPEED_UNIT_G };
-
     if (nIDEvent == m_nIDTimerEvent && pGB && pMS) {
         CString str;
         REFERENCE_TIME pos = 0, dur = 0;
@@ -247,6 +244,8 @@ void CSaveDlg::OnTimer(UINT_PTR nIDEvent)
         REFERENCE_TIME time = 0;
         CComQIPtr<IMediaSeeking>(pGB)->GetCurrentPosition(&time);
         REFERENCE_TIME speed = time > 0 ? pos * 10000000 / time : 0;
+        static UINT sizeUnits[] = { IDS_SIZE_UNIT_K, IDS_SIZE_UNIT_M, IDS_SIZE_UNIT_G };
+        static UINT speedUnits[] = { IDS_SPEED_UNIT_K, IDS_SPEED_UNIT_M, IDS_SPEED_UNIT_G };
 
         double dPos = pos / 1024.;
         unsigned int unitPos = AdaptUnit(dPos, _countof(sizeUnits));

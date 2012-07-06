@@ -232,8 +232,8 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
         fl.Insert(LookupFilterRegistry(CLSID_StreamBufferSource, m_override, MERIT64_PREFERRED), 0);
     }
 
-    TCHAR buff[256], buff2[256];
-    ULONG len, len2;
+    TCHAR buff[256];
+    ULONG len;
 
     if (hFile == INVALID_HANDLE_VALUE) {
         // internal / protocol
@@ -336,6 +336,8 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
                             }
 
                             GUID clsid = GUIDFromCString(buff);
+                            TCHAR buff2[256];
+                            ULONG len2;
 
                             len = _countof(buff);
                             len2 = sizeof(buff2);
@@ -827,9 +829,9 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                     }
 
                     if (CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF) {
-                        CComPtr<IMFVideoDisplayControl>     pMFVDC;
-                        CComPtr<IMFVideoMixerBitmap>        pMFMB;
-                        CComPtr<IMFVideoProcessor>          pMFVP;
+                        CComPtr<IMFVideoDisplayControl> pMFVDC;
+                        CComPtr<IMFVideoMixerBitmap>    pMFMB;
+                        CComPtr<IMFVideoProcessor>      pMFVP;
 
                         if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC))) {
                             m_pUnks.AddTail(pMFVDC);
@@ -843,9 +845,9 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                             m_pUnks.AddTail(pMFVP);
                         }
 
-                        //                      CComPtr<IMFWorkQueueServices>       pMFWQS;
-                        //                      pMFGS->GetService (MF_WORKQUEUE_SERVICES, IID_IMFWorkQueueServices, (void**)&pMFWQS);
-                        //                      pMFWQS->BeginRegisterPlatformWorkQueueWithMMCSS(
+                        //CComPtr<IMFWorkQueueServices> pMFWQS;
+                        //pMFGS->GetService (MF_WORKQUEUE_SERVICES, IID_IMFWorkQueueServices, (void**)&pMFWQS);
+                        //pMFWQS->BeginRegisterPlatformWorkQueueWithMMCSS(
 
                     }
 
