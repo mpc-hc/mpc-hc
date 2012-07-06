@@ -87,6 +87,7 @@
 
 #include <comdef.h>
 #include "MPCPngImage.h"
+#include "DSMPropertyBag.h"
 
 #define DEFCLIENTW 292
 #define DEFCLIENTH 200

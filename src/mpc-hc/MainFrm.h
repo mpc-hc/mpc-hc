@@ -68,6 +68,7 @@
 #include "MpcApi.h"
 #include "../filters/renderer/SyncClock/SyncClock.h"
 #include "sizecbar/scbarg.h"
+#include "DSMPropertyBag.h"
 
 
 class CFullscreenWnd;
