@@ -99,7 +99,6 @@ HICON LoadIcon(CString fn, bool fSmall)
 
     do {
         CRegKey key;
-
         TCHAR buff[256];
         ULONG len;
 
@@ -1676,9 +1675,9 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         DWORD ProxyEnable = 0;
         CString ProxyServer;
         DWORD ProxyPort = 0;
-
         ULONG len = 256 + 1;
         CRegKey key;
+
         if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"), KEY_READ)
                 && ERROR_SUCCESS == key.QueryDWORDValue(_T("ProxyEnable"), ProxyEnable) && ProxyEnable
                 && ERROR_SUCCESS == key.QueryStringValue(_T("ProxyServer"), ProxyServer.GetBufferSetLength(256), &len)) {

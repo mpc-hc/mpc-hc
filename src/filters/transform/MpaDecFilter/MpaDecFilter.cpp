@@ -1736,7 +1736,7 @@ CMediaType CMpaDecFilter::CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerS
     wfe.nBlockAlign     = nChannels * wfe.wBitsPerSample / 8;
     wfe.nAvgBytesPerSec = nSamplesPerSec * wfe.nBlockAlign;
 
-    if (nChannels <=2 && dwChannelMask <= 0x4 && (sf == SF_PCM16 || sf == SF_FLOAT32)) {
+    if (nChannels <= 2 && dwChannelMask <= 0x4 && (sf == SF_PCM16 || sf == SF_FLOAT32)) {
         // WAVEFORMATEX
         wfe.wFormatTag = (sf == SF_FLOAT32) ? WAVE_FORMAT_IEEE_FLOAT : WAVE_FORMAT_PCM;
         wfe.cbSize = 0;

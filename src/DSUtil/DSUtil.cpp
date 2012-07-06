@@ -338,9 +338,9 @@ IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG)
 
 IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pRequestedMT)
 {
-    PIN_DIRECTION   pindir;
+    PIN_DIRECTION pindir;
     BeginEnumPins(pBF, pEP, pPin) {
-        CComPtr<IPin>       pFellow;
+        CComPtr<IPin> pFellow;
 
         if (SUCCEEDED(pPin->QueryDirection(&pindir)) &&
                 pindir == direction &&
