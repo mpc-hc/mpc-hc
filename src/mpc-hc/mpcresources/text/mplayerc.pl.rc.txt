@@ -345,7 +345,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 26		"Przechowywanie historii otwieranych plików"
 28		"Pamiętanie położenia nagrania DVD"
 29		"Pamiętanie położenia nagrania pliku"
-30		"Remember last playlist"
+30		"Pamiętanie ostatniej listy odtwarzania"
 31		"Pamiętanie położenie okna"
 32		"Pamiętanie rozmiaru okna"
 33		"Pamiętanie ustawień skalowania i kadrowania"
