@@ -18,12 +18,12 @@ static const float LUT3D_OFFSET = 1.0f / (2.0f * LUT3D_SIZE);
 #endif
 
 float4 main(float2 imageCoord : TEXCOORD0) : COLOR {
-	float4 pixel = tex2D(image, imageCoord);
+    float4 pixel = tex2D(image, imageCoord);
 
 #if LUT3D_ENABLED
-	pixel = tex3D(lut3D, pixel.rgb * LUT3D_SCALE + LUT3D_OFFSET);
+    pixel = tex3D(lut3D, pixel.rgb * LUT3D_SCALE + LUT3D_OFFSET);
 #endif
 
-	float4 ditherValue = tex2D(ditherMatrix, imageCoord * ditherMatrixCoordScale);
-	return floor(pixel * QUANTIZATION + ditherValue) / QUANTIZATION;
+    float4 ditherValue = tex2D(ditherMatrix, imageCoord * ditherMatrixCoordScale);
+    return floor(pixel * QUANTIZATION + ditherValue) / QUANTIZATION;
 }

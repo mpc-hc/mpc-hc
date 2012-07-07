@@ -8,11 +8,10 @@ float4 p1 :  register(c1);
 #define clock   (p0[3])
 #define one_over_width  (p1[0])
 #define one_over_height (p1[1])
-
 #define PI acos(-1)
 
 float4 main(float2 tex : TEXCOORD0) : COLOR {
-	float4 c0 = tex2D(s0, tex);
+    float4 c0 = tex2D(s0, tex);
 
-	return c0;
+    return c0;
 }
