@@ -25,8 +25,8 @@
 
 CGolombBuffer::CGolombBuffer(BYTE* pBuffer, int nSize)
 {
-    m_pBuffer   = pBuffer;
-    m_nSize     = nSize;
+    m_pBuffer = pBuffer;
+    m_nSize   = nSize;
 
     Reset();
 }
@@ -95,22 +95,22 @@ void CGolombBuffer::ReadBuffer(BYTE* pDest, int nSize)
 
 void CGolombBuffer::Reset()
 {
-    m_nBitPos   = 0;
-    m_bitlen    = 0;
-    m_bitbuff   = 0;
+    m_nBitPos = 0;
+    m_bitlen  = 0;
+    m_bitbuff = 0;
 }
 
 void CGolombBuffer::Reset(BYTE* pNewBuffer, int nNewSize)
 {
-    m_pBuffer   = pNewBuffer;
-    m_nSize     = nNewSize;
+    m_pBuffer = pNewBuffer;
+    m_nSize   = nNewSize;
 
     Reset();
 }
 
 void CGolombBuffer::SkipBytes(int nCount)
 {
-    m_nBitPos  += nCount;
-    m_bitlen    = 0;
-    m_bitbuff   = 0;
+    m_nBitPos += nCount;
+    m_bitlen   = 0;
+    m_bitbuff  = 0;
 }

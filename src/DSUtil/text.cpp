@@ -46,15 +46,22 @@ CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet)
     memset(mbcs, 0, str.GetLength() * 6 + 1);
 
     int len = MultiByteToWideChar(
-                  CharSetToCodePage(SrcCharSet), 0,
-                  str, -1, // null terminated string
-                  utf16, str.GetLength() + 1);
+                  CharSetToCodePage(SrcCharSet),
+                  0,
+                  str,
+                  -1, // null terminated string
+                  utf16,
+                  str.GetLength() + 1);
 
     len = WideCharToMultiByte(
-              CharSetToCodePage(DstCharSet), 0,
-              utf16, len,
-              mbcs, str.GetLength() * 6,
-              NULL, NULL);
+              CharSetToCodePage(DstCharSet),
+              0,
+              utf16,
+              len,
+              mbcs,
+              str.GetLength() * 6,
+              NULL,
+              NULL);
 
     str = mbcs;
 

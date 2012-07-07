@@ -81,8 +81,8 @@ void CVMROSD::OnSize(UINT nType, int cx, int cy)
 void CVMROSD::UpdateBitmap()
 {
     CAutoLock Lock(&m_Lock);
-    CRect               rc;
-    CWindowDC           dc(m_pWnd);
+    CRect rc;
+    CWindowDC dc(m_pWnd);
 
     CalcRect();
 
@@ -185,10 +185,10 @@ void CVMROSD::CalcRect()
     if (m_pWnd) {
         m_pWnd->GetClientRect(&m_rectWnd);
 
-        m_rectSeekBar.left      = m_rectWnd.left    + 10;
-        m_rectSeekBar.right     = m_rectWnd.right   - 10;
-        m_rectSeekBar.top       = m_rectWnd.bottom  - SEEKBAR_HEIGHT;
-        m_rectSeekBar.bottom    = m_rectSeekBar.top + SEEKBAR_HEIGHT;
+        m_rectSeekBar.left   = m_rectWnd.left    + 10;
+        m_rectSeekBar.right  = m_rectWnd.right   - 10;
+        m_rectSeekBar.top    = m_rectWnd.bottom  - SEEKBAR_HEIGHT;
+        m_rectSeekBar.bottom = m_rectSeekBar.top + SEEKBAR_HEIGHT;
     }
 }
 
@@ -211,19 +211,19 @@ void CVMROSD::DrawRect(CRect* rect, CBrush* pBrush, CPen* pPen)
 
 void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPos)
 {
-    m_rectBar.left      = rect->left  + 10;
-    m_rectBar.right     = rect->right - 10;
-    m_rectBar.top       = rect->top   + (rect->Height() - SLIDER_BAR_HEIGHT) / 2;
-    m_rectBar.bottom    = m_rectBar.top + SLIDER_BAR_HEIGHT;
+    m_rectBar.left   = rect->left  + 10;
+    m_rectBar.right  = rect->right - 10;
+    m_rectBar.top    = rect->top   + (rect->Height() - SLIDER_BAR_HEIGHT) / 2;
+    m_rectBar.bottom = m_rectBar.top + SLIDER_BAR_HEIGHT;
 
     if (llMax == llMin) {
-        m_rectCursor.left   = m_rectBar.left;
+        m_rectCursor.left = m_rectBar.left;
     } else {
-        m_rectCursor.left   = m_rectBar.left + (long)((m_rectBar.Width() - SLIDER_CURSOR_WIDTH) * llPos / (llMax - llMin));
+        m_rectCursor.left = m_rectBar.left + (long)((m_rectBar.Width() - SLIDER_CURSOR_WIDTH) * llPos / (llMax - llMin));
     }
-    m_rectCursor.right      = m_rectCursor.left + SLIDER_CURSOR_WIDTH;
-    m_rectCursor.top        = rect->top   + (rect->Height() - SLIDER_CURSOR_HEIGHT) / 2;
-    m_rectCursor.bottom     = m_rectCursor.top + SLIDER_CURSOR_HEIGHT;
+    m_rectCursor.right  = m_rectCursor.left + SLIDER_CURSOR_WIDTH;
+    m_rectCursor.top    = rect->top + (rect->Height() - SLIDER_CURSOR_HEIGHT) / 2;
+    m_rectCursor.bottom = m_rectCursor.top + SLIDER_CURSOR_HEIGHT;
 
     DrawRect(rect, &m_brushBack, &m_penBorder);
     DrawRect(&m_rectBar, &m_brushBar);
@@ -236,8 +236,8 @@ void CVMROSD::DrawMessage()
         return;
     }
     if (m_nMessagePos != OSD_NOMESSAGE) {
-        CRect       rectText(0, 0, 0, 0);
-        CRect       rectMessages;
+        CRect rectText(0, 0, 0, 0);
+        CRect rectMessages;
 
         m_MemDC.DrawText(m_strMessage, &rectText, DT_CALCRECT);
         rectText.InflateRect(20, 10);
@@ -326,7 +326,7 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
 
 bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 {
-    bool        bRet = false;
+    bool bRet = false;
 
     if (m_pVMB || m_pMFVMB) {
         if (m_bCursorMoving) {
@@ -353,13 +353,13 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 
 bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    bool        bRet = false;
+    bool bRet = false;
     if (m_pVMB || m_pMFVMB) {
         if (m_rectCursor.PtInRect(point)) {
             m_bCursorMoving = true;
-            bRet            = true;
+            bRet = true;
         } else if (m_rectSeekBar.PtInRect(point)) {
-            bRet            = true;
+            bRet = true;
             UpdateSeekBarPos(point);
             Invalidate();
         }
@@ -370,7 +370,7 @@ bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
 
 bool CVMROSD::OnLButtonUp(UINT nFlags, CPoint point)
 {
-    bool        bRet = false;
+    bool bRet = false;
 
     if (m_pVMB || m_pMFVMB) {
         m_bCursorMoving = false;
@@ -398,13 +398,13 @@ void CVMROSD::SetRange(__int64 start,  __int64 stop)
 
 void CVMROSD::GetRange(__int64& start, __int64& stop)
 {
-    start   = m_llSeekMin;
-    stop    = m_llSeekMax;
+    start = m_llSeekMin;
+    stop  = m_llSeekMax;
 }
 
 void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
 {
-    CVMROSD*    pVMROSD = (CVMROSD*) nIDEvent;
+    CVMROSD* pVMROSD = (CVMROSD*) nIDEvent;
     if (pVMROSD) {
         pVMROSD->ClearMessage();
     }
@@ -423,10 +423,10 @@ void CVMROSD::ClearMessage(bool hide)
     }
 
     if (m_pVMB) {
-        DWORD dwBackup              = (m_VMR9AlphaBitmap.dwFlags | VMRBITMAP_DISABLE);
-        m_VMR9AlphaBitmap.dwFlags   = VMRBITMAP_DISABLE;
+        DWORD dwBackup = (m_VMR9AlphaBitmap.dwFlags | VMRBITMAP_DISABLE);
+        m_VMR9AlphaBitmap.dwFlags = VMRBITMAP_DISABLE;
         m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
-        m_VMR9AlphaBitmap.dwFlags   = dwBackup;
+        m_VMR9AlphaBitmap.dwFlags = dwBackup;
     } else if (m_pMFVMB) {
         m_pMFVMB->ClearAlphaBitmap();
     } else if (m_pMVTO) {
@@ -442,8 +442,8 @@ void CVMROSD::DisplayMessage(OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration,
 
     if (m_pVMB || m_pMFVMB) {
         if (nPos != OSD_DEBUG) {
-            m_nMessagePos   = nPos;
-            m_strMessage    = strMsg;
+            m_nMessagePos = nPos;
+            m_strMessage  = strMsg;
         } else {
             m_debugMessages.AddTail(strMsg);
             if (m_debugMessages.GetCount() > 20) {
@@ -452,7 +452,7 @@ void CVMROSD::DisplayMessage(OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration,
             nDuration = -1;
         }
 
-        int temp_m_FontSize     = m_FontSize;
+        int temp_m_FontSize = m_FontSize;
         CString temp_m_OSD_Font = m_OSD_Font;
 
         if (FontSize == 0) {

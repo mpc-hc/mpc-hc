@@ -40,38 +40,38 @@ typedef enum {
 class CH264Nalu
 {
 private :
-    int         forbidden_bit;      //! should be always FALSE
-    int         nal_reference_idc;  //! NALU_PRIORITY_xxxx
-    NALU_TYPE   nal_unit_type;      //! NALU_TYPE_xxxx
+    int forbidden_bit;       //! should be always FALSE
+    int nal_reference_idc;   //! NALU_PRIORITY_xxxx
+    NALU_TYPE nal_unit_type; //! NALU_TYPE_xxxx
 
-    int         m_nNALStartPos;     //! NALU start (including startcode / size)
-    int         m_nNALDataPos;      //! Useful part
+    int m_nNALStartPos;      //! NALU start (including startcode / size)
+    int m_nNALDataPos;       //! Useful part
 
-    BYTE*       m_pBuffer;
-    int         m_nCurPos;
-    int         m_nNextRTP;
-    int         m_nSize;
-    int         m_nNALSize;
+    BYTE* m_pBuffer;
+    int m_nCurPos;
+    int m_nNextRTP;
+    int m_nSize;
+    int m_nNALSize;
 
-    bool        MoveToNextAnnexBStartcode();
-    bool        MoveToNextRTPStartcode();
+    bool MoveToNextAnnexBStartcode();
+    bool MoveToNextRTPStartcode();
 
 public :
     CH264Nalu() { SetBuffer(NULL, 0, 0); }
 
     NALU_TYPE GetType() const { return nal_unit_type; };
-    bool IsRefFrame()   const { return (nal_reference_idc != 0); };
+    bool IsRefFrame() const { return (nal_reference_idc != 0); };
 
     int GetDataLength() const { return m_nCurPos - m_nNALDataPos; };
-    BYTE* GetDataBuffer()     { return m_pBuffer + m_nNALDataPos; };
+    BYTE* GetDataBuffer() { return m_pBuffer + m_nNALDataPos; };
     int GetRoundedDataLength() const {
         int nSize = m_nCurPos - m_nNALDataPos;
         return nSize + 128 - (nSize % 128);
     }
 
     int GetLength() const { return m_nCurPos - m_nNALStartPos; };
-    BYTE* GetNALBuffer()  { return m_pBuffer + m_nNALStartPos; };
-    bool IsEOF() const    { return m_nCurPos >= m_nSize; };
+    BYTE* GetNALBuffer() { return m_pBuffer + m_nNALStartPos; };
+    bool IsEOF() const { return m_nCurPos >= m_nSize; };
 
     void SetBuffer(BYTE* pBuffer, int nSize, int nNALSize);
     bool ReadNext();
