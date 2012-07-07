@@ -1977,24 +1977,24 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
     }
     // Contrast
     if (m_ColorControl[1].MinValue < -100) {
-        m_ColorControl[0].MinValue = -100;
+        m_ColorControl[1].MinValue = -100;
     }
     if (m_ColorControl[1].MaxValue > 100) {
-        m_ColorControl[0].MaxValue = 100;
+        m_ColorControl[1].MaxValue = 100;
     }
     // Hue
     if (m_ColorControl[2].MinValue < -180) {
-        m_ColorControl[0].MinValue = -180;
+        m_ColorControl[2].MinValue = -180;
     }
     if (m_ColorControl[2].MaxValue > 180) {
-        m_ColorControl[0].MaxValue = 180;
+        m_ColorControl[2].MaxValue = 180;
     }
     // Saturation
     if (m_ColorControl[3].MinValue < -100) {
-        m_ColorControl[0].MinValue = -100;
+        m_ColorControl[3].MinValue = -100;
     }
     if (m_ColorControl[3].MaxValue > 100) {
-        m_ColorControl[0].MaxValue = 100;
+        m_ColorControl[3].MaxValue = 100;
     }
 }
 
