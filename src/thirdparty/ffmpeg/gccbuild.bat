@@ -81,10 +81,9 @@ GOTO End
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 IF /I "%ARCH%" == "x64" (SET "x64=64BIT=yes") ELSE (SET "x64= ")
 
-CALL :SubCopyLibs
-
 IF /I "%BUILDTYPE%" == "Rebuild" (
   SET "BUILDTYPE=Clean" & CALL :SubMake %x64% %DEBUG% clean
+  CALL :SubCopyLibs
   SET "BUILDTYPE=Build" & CALL :SubMake %x64% %DEBUG%
   SET "BUILDTYPE=Rebuild"
   EXIT /B
@@ -92,6 +91,7 @@ IF /I "%BUILDTYPE%" == "Rebuild" (
 
 IF /I "%BUILDTYPE%" == "Clean" (CALL :SubMake %x64% %DEBUG% clean & EXIT /B)
 
+CALL :SubCopyLibs
 CALL :SubMake %x64% %DEBUG%
 EXIT /B
 
