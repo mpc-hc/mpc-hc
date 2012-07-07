@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Տողագրերի ինքնաբացում"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Բացելու ընտրանքներ"
 6		"Նույն վերարտադրիչը յուրաքանչյուր ֆայլի համար"
 9		"Նոր վերարտադրիչ յուրաքանչյուր ֆայլի համար"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Պահպանել բացված ֆայլերի պատ-ը"
 28		"Հիշել DVD-ի դիրքը"
 29		"Հիշել ֆայլի դիրքը"
-30		"Հիշել դիրքը"
-31		"Հիշել չափը"
-32		"Հիշել վերջին Pan-n-Scan չափը"
+30		"Remember last playlist"
+31		"Հիշել դիրքը"
+32		"Հիշել չափը"
+33		"Հիշել վերջին Pan-n-Scan չափը"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Պատճենել շրջույթում"
 STRING IDS_PLAYLIST_HIDEFS		"Թաքցնել, եթե ամբողջ էկրանով է"
 STRING IDS_PLAYLIST_OPEN		"&Բացել"
 STRING IDS_PLAYLIST_RANDOMIZE		"Խ&առնել"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Հիշել"
 STRING IDS_PLAYLIST_REMOVE		"&Ջնջել"
 STRING IDS_PLAYLIST_RESTORE		"Վ&երականգնել"
 STRING IDS_PLAYLIST_SAVEAS		"&Պահպանել որպես..."

@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Auto-carga de subtítulos"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Opciones de apertura"
 6		"Usar el mismo reproductor para cada archivo de medios que se reproduzca"
 9		"Abrir un nuevo reproductor para cada archivo de medios que se reproduzca"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Mantener historial de los archivos abiertos"
 28		"Recordar la posición del DVD"
 29		"Recordar la posición del Archivo"
-30		"Recordar posición de la ventana"
-31		"Recordar tamaño de la ventana"
-32		"Remember last Pan-n-Scan Zoom"
+30		"Remember last playlist"
+31		"Recordar posición de la ventana"
+32		"Recordar tamaño de la ventana"
+33		"Remember last Pan-n-Scan Zoom"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Copiar al Portapapeles"
 STRING IDS_PLAYLIST_HIDEFS		"Ocultar en Pantalla Completa"
 STRING IDS_PLAYLIST_OPEN		"&O Abrir"
 STRING IDS_PLAYLIST_RANDOMIZE		"&Aleatorio"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Recordar Elementos"
 STRING IDS_PLAYLIST_REMOVE		"E&liminar"
 STRING IDS_PLAYLIST_RESTORE		"R&estaurar"
 STRING IDS_PLAYLIST_SAVEAS		"&Guardar Como..."

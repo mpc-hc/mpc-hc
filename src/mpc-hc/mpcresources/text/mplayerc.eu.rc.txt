@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Berez-gertatu azpidatziak"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Ireki aukerak"
 6		"Erabili irakurgailu bera multimedia agiri bakoitzerako"
 9		"Ireki irakurgailu berri bat multimedia agiri bakoitzerako"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Heutsi berriki irekitako agirien historiari"
 28		"Gogoratu DVD-aren kokapena"
 29		"Gogoratu Agiriaren kokapena"
-30		"Gogoratu azken leiho kokapena"
-31		"Gogoratu azken leiho neurria"
-32		"Gogoratu azken Pan-eta-Scan Zooma"
+30		"Remember last playlist"
+31		"Gogoratu azken leiho kokapena"
+32		"Gogoratu azken leiho neurria"
+33		"Gogoratu azken Pan-eta-Scan Zooma"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Kopiatu gakora"
 STRING IDS_PLAYLIST_HIDEFS		"Ezkutatu Ikusleiho-osoan"
 STRING IDS_PLAYLIST_OPEN		"&Ireki"
 STRING IDS_PLAYLIST_RANDOMIZE		"&Zorizkotu"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Gogoratu gaiak"
 STRING IDS_PLAYLIST_REMOVE		"&Kendu"
 STRING IDS_PLAYLIST_RESTORE		"&Leheneratu"
 STRING IDS_PLAYLIST_SAVEAS		"Gorde &Honela..."

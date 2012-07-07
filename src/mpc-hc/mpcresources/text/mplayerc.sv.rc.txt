@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Auto-ladda undertexter"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Öppna valmöjligheter"
 6		"Använd samma spelare för varje mediefil"
 9		"Öppna en ny spelare för varje mediefil"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Behåll historia över nyligen öppnade filer"
 28		"Kom ihåg DVD positionen"
 29		"Kom ihåg Fil positionen"
-30		"Kom ihåg sista fönster positionen"
-31		"Kom ihåg sista fönster storleken"
-32		"Remember last Pan-n-Scan Zoom"
+30		"Remember last playlist"
+31		"Kom ihåg sista fönster positionen"
+32		"Kom ihåg sista fönster storleken"
+33		"Remember last Pan-n-Scan Zoom"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Kopiera till urklipp"
 STRING IDS_PLAYLIST_HIDEFS		"Göm i Helskärm"
 STRING IDS_PLAYLIST_OPEN		"&Öppna"
 STRING IDS_PLAYLIST_RANDOMIZE		"S&lumpa"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Kom ihåg poster"
 STRING IDS_PLAYLIST_REMOVE		"&Ta bort"
 STRING IDS_PLAYLIST_RESTORE		"Å&terställ"
 STRING IDS_PLAYLIST_SAVEAS		"&Spara Som..."

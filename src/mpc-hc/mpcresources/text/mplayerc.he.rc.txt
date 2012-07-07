@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"טען אוטומטית כתוביות"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"פתח הגדרות"
 6		"השתמש באותו חלון נגן עבור כל קובץ מדיה"
 9		"פתח נגן חדש עבור כל קובץ מדיה שמתנגן"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"שמור היסטורייה של קבצים שנפתחו לאחרונה"
 28		"זכור מיקום בדי.וי.די"
 29		"זכור מיקום בקובץ"
-30		"זכור את המיקום האחרון של החלון"
-31		"זכור את הגודל האחרון של החלון"
-32		"Remember last Pan-n-Scan Zoom"
+30		"Remember last playlist"
+31		"זכור את המיקום האחרון של החלון"
+32		"זכור את הגודל האחרון של החלון"
+33		"Remember last Pan-n-Scan Zoom"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"העתק ללוח הגזירים"
 STRING IDS_PLAYLIST_HIDEFS		"הסתר במסך מלא"
 STRING IDS_PLAYLIST_OPEN		"פתח"
 STRING IDS_PLAYLIST_RANDOMIZE		"הפוך לאקראי"
-STRING IDS_PLAYLIST_REMEBERITEMS		"זכור פריטים"
 STRING IDS_PLAYLIST_REMOVE		"הסר"
 STRING IDS_PLAYLIST_RESTORE		"שחזר"
 STRING IDS_PLAYLIST_SAVEAS		"שמירה בשם..."

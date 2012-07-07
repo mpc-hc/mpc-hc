@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Ondertiteling autom. laden"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Opties voor openen"
 6		"Nieuw bestand in huidige speler openen"
 9		"Elk bestand in nieuwe speler openen"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Laatst geopende bestanden onthouden"
 28		"DVD-positie bewaren"
 29		"Bestandspositie bewaren"
-30		"Vensterpositie onthouden"
-31		"Vensterafmetingen onthouden"
-32		"Remember last Pan-n-Scan Zoom"
+30		"Remember last playlist"
+31		"Vensterpositie onthouden"
+32		"Vensterafmetingen onthouden"
+33		"Remember last Pan-n-Scan Zoom"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Kopieer naar klembord"
 STRING IDS_PLAYLIST_HIDEFS		"Bij volledig scherm verbergen"
 STRING IDS_PLAYLIST_OPEN		"&Openen"
 STRING IDS_PLAYLIST_RANDOMIZE		"&Willekeurig"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Onthoud items"
 STRING IDS_PLAYLIST_REMOVE		"&Verwijderen"
 STRING IDS_PLAYLIST_RESTORE		"&Herstel"
 STRING IDS_PLAYLIST_SAVEAS		"Opslaan &Als..."

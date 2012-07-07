@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"자막파일을 자동으로 열기"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"열기 옵션"
 6		"파일을 열때 마다 같은 플레이어창 사용"
 9		"파일을 열때 마다 새 플레이어창 사용"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"최근에 열었던 파일목록 기억"
 28		"DVD 위치 기억"
 29		"파일 위치 기억"
-30		"마지막 윈도우창위치 기억"
-31		"마지막 윈도우창크기 기억"
-32		"Remember last Pan-n-Scan Zoom"
+30		"Remember last playlist"
+31		"마지막 윈도우창위치 기억"
+32		"마지막 윈도우창크기 기억"
+33		"Remember last Pan-n-Scan Zoom"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"클립보드에 복사(&C)"
 STRING IDS_PLAYLIST_HIDEFS		"전체화면에서 숨기기"
 STRING IDS_PLAYLIST_OPEN		"열기(&O)"
 STRING IDS_PLAYLIST_RANDOMIZE		"무작위(&A)"
-STRING IDS_PLAYLIST_REMEBERITEMS		"목록 기억"
 STRING IDS_PLAYLIST_REMOVE		"제거(&R)"
 STRING IDS_PLAYLIST_RESTORE		"복구(&E)"
 STRING IDS_PLAYLIST_SAVEAS		"저장(&S)..."

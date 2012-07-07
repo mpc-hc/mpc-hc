@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Feliratok auto betöltése"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Megnyitási beállítások"
 6		"Egyetlen lejátszó használata minden egyes médiafájlhoz"
 9		"Minden médiafájlhoz új lejátszó nyitása"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Megnyitott fájlok előzményeinek megtartása"
 28		"DVD-pozíció megjegyzése"
 29		"Fájlpozíció megjegyzése"
-30		"Utolsó ablakpozíció megjegyzése"
-31		"Utolsó ablakméret megjegyzése"
-32		"Remember last Pan-n-Scan Zoom"
+30		"Remember last playlist"
+31		"Utolsó ablakpozíció megjegyzése"
+32		"Utolsó ablakméret megjegyzése"
+33		"Remember last Pan-n-Scan Zoom"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"Vá&gólapra másolás"
 STRING IDS_PLAYLIST_HIDEFS		"Elrejtés Teljes képernyős módban"
 STRING IDS_PLAYLIST_OPEN		"&Megnyitás"
 STRING IDS_PLAYLIST_RANDOMIZE		"&Véletlenszerűsítés"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Elemek mentése"
 STRING IDS_PLAYLIST_REMOVE		"&Eltávolítás"
 STRING IDS_PLAYLIST_RESTORE		"&Helyreállítás"
 STRING IDS_PLAYLIST_SAVEAS		"Menté&s másként..."

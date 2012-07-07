@@ -76,6 +76,7 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK4, m_fLimitWindowProportions);
     DDX_Check(pDX, IDC_DVD_POS, m_fRememberDVDPos);
     DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
+    DDX_Check(pDX, IDC_CHECK2, m_bRememberPlaylistItems);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
@@ -109,6 +110,7 @@ BOOL CPPagePlayer::OnInitDialog()
     m_fRememberDVDPos = s.fRememberDVDPos;
     m_fRememberFilePos = s.fRememberFilePos;
     m_fLimitWindowProportions = s.fLimitWindowProportions;
+    m_bRememberPlaylistItems = s.bRememberPlaylistItems;
 
     UpdateData(FALSE);
 
@@ -141,6 +143,7 @@ BOOL CPPagePlayer::OnApply()
     s.fLimitWindowProportions = !!m_fLimitWindowProportions;
     s.fRememberDVDPos = m_fRememberDVDPos ? true : false;
     s.fRememberFilePos = m_fRememberFilePos ? true : false;
+    s.bRememberPlaylistItems = !!m_bRememberPlaylistItems;
 
     if (!m_fKeepHistory) {
         for (int i = 0; i < s.MRU.GetSize(); i++) {

@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Automaticky načíst titulky"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Možnosti otevírání"
 6		"Všechny soubory otevírat v jednom přehrávači"
 9		"Každý soubor otevřít v samostatném přehrávači"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Ukládat historii otevřených souborů"
 28		"Pamatovat si pozici u DVD"
 29		"Pamatovat si pozici u souborů"
-30		"Pamatovat si poslední pozici okna"
-31		"Pamatovat si poslední velikost okna"
-32		"Zapamatovat si zvětšení Pan-n-Scan"
+30		"Remember last playlist"
+31		"Pamatovat si poslední pozici okna"
+32		"Pamatovat si poslední velikost okna"
+33		"Zapamatovat si zvětšení Pan-n-Scan"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"Zkopírovat"
 STRING IDS_PLAYLIST_HIDEFS		"Skrýt v režimu na celou obrazovku"
 STRING IDS_PLAYLIST_OPEN		"Otevřít"
 STRING IDS_PLAYLIST_RANDOMIZE		"Náhodně"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Zapamatovat si položky"
 STRING IDS_PLAYLIST_REMOVE		"Odebrat"
 STRING IDS_PLAYLIST_RESTORE		"Výchozí"
 STRING IDS_PLAYLIST_SAVEAS		"&Uložit jako..."

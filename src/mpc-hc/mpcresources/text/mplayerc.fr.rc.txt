@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Lecture automatique des sous-titres"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Options d'ouverture"
 6		"Utiliser le même lecteur pour chaque fichier multimédia lu"
 9		"Ouvrir un nouveau lecteur pour chaque fichier multimédia lu"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Conserver l'historique des fichiers ouverts"
 28		"Se souvenir de la position dans le DVD"
 29		"Se souvenir de la position dans le fichier"
-30		"Enregistrer la position de la fenêtre"
-31		"Enregistrer la taille de la fenêtre"
-32		"Se souvenir du recadrage (Pan && Scan)"
+30		"Remember last playlist"
+31		"Enregistrer la position de la fenêtre"
+32		"Enregistrer la taille de la fenêtre"
+33		"Se souvenir du recadrage (Pan && Scan)"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Copier dans le Presse-Papier"
 STRING IDS_PLAYLIST_HIDEFS		"Cacher la liste de diffusion en plein écran"
 STRING IDS_PLAYLIST_OPEN		"&Ouvrir"
 STRING IDS_PLAYLIST_RANDOMIZE		"A&léatoire"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Se souvenir des éléments"
 STRING IDS_PLAYLIST_REMOVE		"&Enlever"
 STRING IDS_PLAYLIST_RESTORE		"R&estaurer"
 STRING IDS_PLAYLIST_SAVEAS		"&Enregistrer sous..."

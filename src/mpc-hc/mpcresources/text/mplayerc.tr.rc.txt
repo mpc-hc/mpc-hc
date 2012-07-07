@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Alt Yazıları oto-yükle"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Açılış ayarları"
 6		"Tüm medya dosyaları için aynı oynatıcıyı kullan"
 9		"Yürütülen her medya dosyası için yeni bir oynatıcı aç"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Dosya geçmişini hatırla"
 28		"DVD yerleşimini hatırla"
 29		"Dosya yerleşimini hatırla"
-30		"Son pencere yerleşimini hatırla"
-31		"Son pencere boyutunu hatırla"
-32		"Son büyütme ayarlarını hatırla"
+30		"Remember last playlist"
+31		"Son pencere yerleşimini hatırla"
+32		"Son pencere boyutunu hatırla"
+33		"Son büyütme ayarlarını hatırla"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Panoya kopyala"
 STRING IDS_PLAYLIST_HIDEFS		"Tam ekranda gizle"
 STRING IDS_PLAYLIST_OPEN		"&Aç"
 STRING IDS_PLAYLIST_RANDOMIZE		"R&astgele"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Seçimleri hatırla"
 STRING IDS_PLAYLIST_REMOVE		"&Sil"
 STRING IDS_PLAYLIST_RESTORE		"G&eri Al"
 STRING IDS_PLAYLIST_SAVEAS		"&Farklı Kaydet..."

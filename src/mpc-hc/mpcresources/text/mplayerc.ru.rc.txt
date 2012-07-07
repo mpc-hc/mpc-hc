@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Автозагрузка субтитров"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Открывать файлы, используя"
 6		"один и тот же проигрыватель для каждого файла"
 9		"новый проигрыватель для каждого файла"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Сохранять историю открытых файлов"
 28		"Запоминать позицию DVD"
 29		"Запоминать позицию в файле"
-30		"Запоминать позицию окна"
-31		"Запоминать размер окна"
-32		"Запоминать зум Pan-n-Scan"
+30		"Remember last playlist"
+31		"Запоминать позицию окна"
+32		"Запоминать размер окна"
+33		"Запоминать зум Pan-n-Scan"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Копировать в буфер"
 STRING IDS_PLAYLIST_HIDEFS		"Скрыть, когда на полный экран"
 STRING IDS_PLAYLIST_OPEN		"&Запустить"
 STRING IDS_PLAYLIST_RANDOMIZE		"П&еремешать"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Запоминать элементы"
 STRING IDS_PLAYLIST_REMOVE		"&Убрать"
 STRING IDS_PLAYLIST_RESTORE		"В&осстановить"
 STRING IDS_PLAYLIST_SAVEAS		"&Сохранить как..."

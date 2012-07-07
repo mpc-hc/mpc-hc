@@ -29,6 +29,7 @@ Legend:
 * Ticket #2227, Hide the seek bar in capture mode
 * Ticket #2342, MPC-HC will now use the Windows theme font for the Statusbar, OSD messages
   and a few other places on Windows Vista and newer
+* Ticket #2378, Move the "Remember last playlist" option into the Options dialog
 ! The hand cursor wasn't shown in the web links in Keys and WebServer options page
 ! Toolbar code cleanup and background fix for Windows XP
 ! The last textbox used in the Goto dialog was not remembered since r3964 and r3965

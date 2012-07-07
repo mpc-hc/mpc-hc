@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"字幕を自動で読み込む"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"開くオプション"
 6		"再生するメディア ファイルは同じプレーヤーを使う"
 9		"再生するメディア ファイルごとに新しいプレーヤーを開く"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"最近使ったファイルの履歴を保存"
 28		"DVD の再生位置を記憶"
 29		"ファイルの再生位置を記憶"
-30		"終了時のウィンドウ位置を記憶"
-31		"終了時のウィンドウ サイズを記憶"
-32		"最近使った PnS 拡大率を記憶"
+30		"Remember last playlist"
+31		"終了時のウィンドウ位置を記憶"
+32		"終了時のウィンドウ サイズを記憶"
+33		"最近使った PnS 拡大率を記憶"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"クリップボードへコピー(&C)"
 STRING IDS_PLAYLIST_HIDEFS		"フルスクリーン時は隠す"
 STRING IDS_PLAYLIST_OPEN		"開く(&O)"
 STRING IDS_PLAYLIST_RANDOMIZE		"ランダム化(&A)"
-STRING IDS_PLAYLIST_REMEBERITEMS		"アイテムを記憶"
 STRING IDS_PLAYLIST_REMOVE		"消去(&R)"
 STRING IDS_PLAYLIST_RESTORE		"元に戻す(&E)"
 STRING IDS_PLAYLIST_SAVEAS		"名前を付けて保存...(&S)"

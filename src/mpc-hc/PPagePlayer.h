@@ -53,6 +53,7 @@ public:
     BOOL m_fLimitWindowProportions;
     BOOL m_fRememberDVDPos;
     BOOL m_fRememberFilePos;
+    BOOL m_bRememberPlaylistItems;
 
     // Dialog Data
     enum { IDD = IDD_PPAGEPLAYER };

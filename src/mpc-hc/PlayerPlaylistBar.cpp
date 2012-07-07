@@ -1303,7 +1303,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     enum {
         M_OPEN = 1, M_ADD, M_REMOVE, M_CLEAR, M_CLIPBOARD, M_SAVEAS,
         M_SORTBYNAME, M_SORTBYPATH, M_RANDOMIZE, M_SORTBYID,
-        M_REMEMBERPLAYLIST, M_SHUFFLE, M_HIDEFULLSCREEN
+        M_SHUFFLE, M_HIDEFULLSCREEN
     };
 
     CAppSettings& s = AfxGetAppSettings();
@@ -1325,7 +1325,6 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     m.AppendMenu(MF_STRING | (!m_pl.GetCount() ? (MF_DISABLED | MF_GRAYED) : MF_ENABLED), M_SORTBYID, ResStr(IDS_PLAYLIST_RESTORE));
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bShufflePlaylistItems ? MF_CHECKED : MF_UNCHECKED), M_SHUFFLE, ResStr(IDS_PLAYLIST_SHUFFLE));
-    m.AppendMenu(MF_STRING | MF_ENABLED | (s.bRememberPlaylistItems ? MF_CHECKED : MF_UNCHECKED), M_REMEMBERPLAYLIST, ResStr(IDS_PLAYLIST_REMEBERITEMS));
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bHidePlaylistFullScreen ? MF_CHECKED : MF_UNCHECKED), M_HIDEFULLSCREEN, ResStr(IDS_PLAYLIST_HIDEFS));
 
@@ -1532,9 +1531,6 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             }
         }
         break;
-        case M_REMEMBERPLAYLIST:
-            s.bRememberPlaylistItems = !s.bRememberPlaylistItems;
-            break;
         case M_SHUFFLE:
             s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
             break;

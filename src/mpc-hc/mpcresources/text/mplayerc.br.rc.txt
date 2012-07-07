@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Autocarregamento de legendas"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Opções de abertura"
 6		"Usar a mesma instância para cada arquivo que for aberto"
 9		"Abrir uma nova instância para cada arquivo que for aberto"
@@ -345,9 +345,10 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 26		"Manter histórico dos arquivos abertos"
 28		"Lembrar a posição do DVD"
 29		"Lembrar a posição do arquivo"
-30		"Lembrar posição da janela"
-31		"Lembrar tamanho da janela"
-32		"Lembrar o zoom de Pan && Scan"
+30		"Remember last playlist"
+31		"Lembrar posição da janela"
+32		"Lembrar tamanho da janela"
+33		"Lembrar o zoom de Pan && Scan"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Copiar para a área de transferência"
 STRING IDS_PLAYLIST_HIDEFS		"Ocultar em tela cheia"
 STRING IDS_PLAYLIST_OPEN		"Abrir"
 STRING IDS_PLAYLIST_RANDOMIZE		"&Misturar itens"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Lembrar itens"
 STRING IDS_PLAYLIST_REMOVE		"&Remover"
 STRING IDS_PLAYLIST_RESTORE		"R&estaurar"
 STRING IDS_PLAYLIST_SAVEAS		"Salvar Como..."
