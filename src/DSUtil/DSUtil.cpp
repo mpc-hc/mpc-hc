@@ -375,6 +375,8 @@ CStringW GetFilterName(IBaseFilter* pBF)
             name = _T("LAV Splitter Source");
         } else if (clsid == GUIDFromCString(_T("{55DA30FC-F16B-49FC-BAA5-AE59FC65F82D}"))) {
             name = _T("Haali Media Source");
+        } else if (clsid == GUIDFromCString(_T("{D042079E-8E02-418B-AE2F-F12E26704FCA}"))) {
+            name = _T("APE DirectShow Filter");
         } else {
             CFilterInfo fi;
             if (SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
