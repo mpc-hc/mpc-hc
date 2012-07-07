@@ -295,6 +295,7 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
     static CAtlMap<WORD, CString> names;
 
     if (names.IsEmpty()) {
+        // MMReg.h
         names[WAVE_FORMAT_ADPCM]                 = _T("MS ADPCM");
         names[WAVE_FORMAT_IEEE_FLOAT]            = _T("IEEE Float");
         names[WAVE_FORMAT_ALAW]                  = _T("aLaw");
@@ -344,10 +345,12 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         names[WAVE_FORMAT_CREATIVE_FASTSPEECH8]  = _T("Creative Fastspeech 8");
         names[WAVE_FORMAT_CREATIVE_FASTSPEECH10] = _T("Creative Fastspeech 10");
         names[WAVE_FORMAT_UHER_ADPCM]            = _T("UHER ADPCM");
-        names[WAVE_FORMAT_AAC]                   = _T("AAC");
-        names[WAVE_FORMAT_LATM_AAC]              = _T("AAC(LATM)");
+        //
+        names[WAVE_FORMAT_AAC]                   = _T("AAC"); // = WAVE_FORMAT_RAW_AAC1
+        names[WAVE_FORMAT_DVD_DTS]               = _T("DTS"); // = WAVE_FORMAT_DTS2
+        // other
         names[WAVE_FORMAT_DOLBY_AC3]             = _T("Dolby AC3");
-        names[WAVE_FORMAT_DVD_DTS]               = _T("DTS");
+        names[WAVE_FORMAT_LATM_AAC]              = _T("AAC(LATM)");
         names[WAVE_FORMAT_FLAC]                  = _T("FLAC");
         names[WAVE_FORMAT_TTA1]                  = _T("TTA");
         names[WAVE_FORMAT_14_4]                  = _T("RealAudio 14.4");
@@ -361,6 +364,7 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         names[WAVE_FORMAT_PS2_PCM]               = _T("PS2 PCM");
         names[WAVE_FORMAT_PS2_ADPCM]             = _T("PS2 ADPCM");
         names[0x6173]                            = _T("AMR");
+        names[0x5756]                            = _T("WavPack");
         // names[] = _T("");
     }
 
