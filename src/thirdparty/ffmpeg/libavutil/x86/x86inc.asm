@@ -604,7 +604,9 @@ SECTION .note.GNU-stack noalloc noexec nowrite progbits
 ; All subsequent functions (up to the next INIT_CPUFLAGS) is built for the specified cpu.
 ; You shouldn't need to invoke this macro directly, it's a subroutine for INIT_MMX &co.
 %macro INIT_CPUFLAGS 0-2
+%ifdef __YASM_VER__
     CPU amdnop
+%endif
     %if %0 >= 1
         %xdefine cpuname %1
         %assign cpuflags cpuflags_%1
@@ -626,8 +628,10 @@ SECTION .note.GNU-stack noalloc noexec nowrite progbits
         %elifidn %1, sse3
             %define movu lddqu
         %endif
+        %ifdef __YASM_VER__
         %if notcpuflag(mmx2)
             CPU basicnop
+        %endif
         %endif
     %else
         %xdefine SUFFIX

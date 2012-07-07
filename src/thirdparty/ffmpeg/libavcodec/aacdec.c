@@ -2685,14 +2685,15 @@ static int latm_decode_audio_specific_config(struct LATMContext *latmctx,
     if (bits_consumed < 0)
         return AVERROR_INVALIDDATA;
 
-    if (
-        // ==> Start patch MPC
-        !latmctx->initialized ||
-        // ==> End patch MPC
+    if (!latmctx->initialized ||
         ac->oc[1].m4ac.sample_rate != m4ac.sample_rate ||
         ac->oc[1].m4ac.chan_config != m4ac.chan_config) {
 
-        av_log(avctx, AV_LOG_INFO, "audio config changed\n");
+        if(latmctx->initialized) {
+            av_log(avctx, AV_LOG_INFO, "audio config changed\n");
+        } else {
+            av_log(avctx, AV_LOG_INFO, "initializing latmctx\n");
+        }
         latmctx->initialized = 0;
 
         esize = (bits_consumed+7) / 8;
