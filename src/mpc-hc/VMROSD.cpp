@@ -32,13 +32,13 @@
 
 CVMROSD::CVMROSD(void)
 {
-    m_Color[OSD_TRANSPARENT]    = RGB(0,   0,   0);
-    m_Color[OSD_BACKGROUND]     = RGB(32,  40,  48);
-    m_Color[OSD_BORDER]         = RGB(48,  56,  62);
-    m_Color[OSD_TEXT]           = RGB(224, 224, 224);
-    m_Color[OSD_BAR]            = RGB(64,  72,  80);
-    m_Color[OSD_CURSOR]         = RGB(192, 200, 208);
-    m_Color[OSD_DEBUGCLR]       = RGB(128, 136, 144);
+    m_Color[OSD_TRANSPARENT] = RGB(0,     0,   0);
+    m_Color[OSD_BACKGROUND]  = RGB(32,   40,  48);
+    m_Color[OSD_BORDER]      = RGB(48,   56,  62);
+    m_Color[OSD_TEXT]        = RGB(224, 224, 224);
+    m_Color[OSD_BAR]         = RGB(64,   72,  80);
+    m_Color[OSD_CURSOR]      = RGB(192, 200, 208);
+    m_Color[OSD_DEBUGCLR]    = RGB(128, 136, 144);
 
     m_penBorder.CreatePen(PS_SOLID, 1, m_Color[OSD_BORDER]);
     m_penCursor.CreatePen(PS_SOLID, 4, m_Color[OSD_CURSOR]);
@@ -281,8 +281,8 @@ void CVMROSD::DrawDebug()
         rectText.InflateRect(20, 10);
 
         int l, r, t, b;
-        l = (m_rectWnd.Width() >> 1) - (rectText.Width() >> 1) - 10;
-        r = (m_rectWnd.Width() >> 1) + (rectText.Width() >> 1) + 10;
+        l = (m_rectWnd.Width()  >> 1) - (rectText.Width()  >> 1) - 10;
+        r = (m_rectWnd.Width()  >> 1) + (rectText.Width()  >> 1) + 10;
         t = (m_rectWnd.Height() >> 1) - (rectText.Height() >> 1) - 10;
         b = (m_rectWnd.Height() >> 1) + (rectText.Height() >> 1) + 10;
         rectMessages = CRect(l, t, r, b);

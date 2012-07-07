@@ -99,7 +99,6 @@ void CTunerScanDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_OFFSET, m_OffsetEditBox);
 }
 
-
 BEGIN_MESSAGE_MAP(CTunerScanDlg, CDialog)
     ON_MESSAGE(WM_TUNER_SCAN_PROGRESS, OnScanProgress)
     ON_MESSAGE(WM_TUNER_SCAN_END, OnScanEnd)
@@ -110,7 +109,6 @@ BEGIN_MESSAGE_MAP(CTunerScanDlg, CDialog)
     ON_BN_CLICKED(IDCANCEL, &CTunerScanDlg::OnBnClickedCancel)
     ON_BN_CLICKED(IDC_CHECK_OFFSET, &CTunerScanDlg::OnBnClickedCheckOffset)
 END_MESSAGE_MAP()
-
 
 // CTunerScanDlg message handlers
 
@@ -133,12 +131,12 @@ void CTunerScanDlg::OnBnClickedStart()
 {
     if (!m_bInProgress) {
         UpdateData(true);
-        CAutoPtr<TunerScanData>     pTSD(DNew TunerScanData);
-        pTSD->Hwnd              = m_hWnd;
-        pTSD->FrequencyStart    = m_ulFrequencyStart;
-        pTSD->FrequencyStop     = m_ulFrequencyEnd;
-        pTSD->Bandwidth         = m_ulBandwidth;
-        pTSD->Offset            = m_bUseOffset ? m_lOffset : 0;
+        CAutoPtr<TunerScanData> pTSD(DNew TunerScanData);
+        pTSD->Hwnd           = m_hWnd;
+        pTSD->FrequencyStart = m_ulFrequencyStart;
+        pTSD->FrequencyStop  = m_ulFrequencyEnd;
+        pTSD->Bandwidth      = m_ulBandwidth;
+        pTSD->Offset         = m_bUseOffset ? m_lOffset : 0;
         SaveScanSettings();
 
         m_ChannelList.DeleteAllItems();
@@ -186,9 +184,9 @@ LRESULT CTunerScanDlg::OnStats(WPARAM wParam, LPARAM lParam)
 
 LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 {
-    CDVBChannel     Channel;
-    CString         strTemp;
-    Channel.FromString((LPCTSTR) lParam);
+    CDVBChannel Channel;
+    CString strTemp;
+    Channel.FromString((LPCTSTR)lParam);
 
     if (!m_bIgnoreEncryptedChannels || !Channel.IsEncrypted()) {
         int nItem, nChannelNumber;
