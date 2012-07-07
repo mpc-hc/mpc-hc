@@ -295,77 +295,84 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
     static CAtlMap<WORD, CString> names;
 
     if (names.IsEmpty()) {
-        names[WAVE_FORMAT_PCM] = _T("PCM");
-        names[WAVE_FORMAT_EXTENSIBLE] = _T("WAVE_FORMAT_EXTENSIBLE");
-        names[WAVE_FORMAT_IEEE_FLOAT] = _T("IEEE Float");
-        names[WAVE_FORMAT_ADPCM] = _T("MS ADPCM");
-        names[WAVE_FORMAT_ALAW] = _T("aLaw");
-        names[WAVE_FORMAT_MULAW] = _T("muLaw");
-        names[WAVE_FORMAT_DRM] = _T("DRM");
-        names[WAVE_FORMAT_OKI_ADPCM] = _T("OKI ADPCM");
-        names[WAVE_FORMAT_DVI_ADPCM] = _T("DVI ADPCM");
-        names[WAVE_FORMAT_IMA_ADPCM] = _T("IMA ADPCM");
-        names[WAVE_FORMAT_MEDIASPACE_ADPCM] = _T("Mediaspace ADPCM");
-        names[WAVE_FORMAT_SIERRA_ADPCM] = _T("Sierra ADPCM");
-        names[WAVE_FORMAT_G723_ADPCM] = _T("G723 ADPCM");
-        names[WAVE_FORMAT_DIALOGIC_OKI_ADPCM] = _T("Dialogic OKI ADPCM");
-        names[WAVE_FORMAT_MEDIAVISION_ADPCM] = _T("Media Vision ADPCM");
-        names[WAVE_FORMAT_YAMAHA_ADPCM] = _T("Yamaha ADPCM");
-        names[WAVE_FORMAT_DSPGROUP_TRUESPEECH] = _T("DSP Group Truespeech");
-        names[WAVE_FORMAT_DOLBY_AC2] = _T("Dolby AC2");
-        names[WAVE_FORMAT_GSM610] = _T("GSM610");
-        names[WAVE_FORMAT_MSNAUDIO] = _T("MSN Audio");
-        names[WAVE_FORMAT_ANTEX_ADPCME] = _T("Antex ADPCME");
-        names[WAVE_FORMAT_CS_IMAADPCM] = _T("Crystal Semiconductor IMA ADPCM");
-        names[WAVE_FORMAT_ROCKWELL_ADPCM] = _T("Rockwell ADPCM");
-        names[WAVE_FORMAT_ROCKWELL_DIGITALK] = _T("Rockwell Digitalk");
-        names[WAVE_FORMAT_G721_ADPCM] = _T("G721");
-        names[WAVE_FORMAT_G728_CELP] = _T("G728");
-        names[WAVE_FORMAT_MSG723] = _T("MSG723");
-        names[WAVE_FORMAT_MPEG] = _T("MPEG Audio");
-        names[WAVE_FORMAT_MPEGLAYER3] = _T("MPEG Audio Layer 3");
-        names[WAVE_FORMAT_LUCENT_G723] = _T("Lucent G723");
-        names[WAVE_FORMAT_VOXWARE] = _T("Voxware");
-        names[WAVE_FORMAT_G726_ADPCM] = _T("G726");
-        names[WAVE_FORMAT_G722_ADPCM] = _T("G722");
-        names[WAVE_FORMAT_G729A] = _T("G729A");
-        names[WAVE_FORMAT_MEDIASONIC_G723] = _T("MediaSonic G723");
-        names[WAVE_FORMAT_ZYXEL_ADPCM] = _T("ZyXEL ADPCM");
-        names[WAVE_FORMAT_RHETOREX_ADPCM] = _T("Rhetorex ADPCM");
-        names[WAVE_FORMAT_VIVO_G723] = _T("Vivo G723");
-        names[WAVE_FORMAT_VIVO_SIREN] = _T("Vivo Siren");
-        names[WAVE_FORMAT_DIGITAL_G723] = _T("Digital G723");
-        names[WAVE_FORMAT_SANYO_LD_ADPCM] = _T("Sanyo LD ADPCM");
-        names[WAVE_FORMAT_CREATIVE_ADPCM] = _T("Creative ADPCM");
-        names[WAVE_FORMAT_CREATIVE_FASTSPEECH8] = _T("Creative Fastspeech 8");
+        names[WAVE_FORMAT_ADPCM]                 = _T("MS ADPCM");
+        names[WAVE_FORMAT_IEEE_FLOAT]            = _T("IEEE Float");
+        names[WAVE_FORMAT_ALAW]                  = _T("aLaw");
+        names[WAVE_FORMAT_MULAW]                 = _T("muLaw");
+        names[WAVE_FORMAT_DTS]                   = _T("DTS");
+        names[WAVE_FORMAT_DRM]                   = _T("DRM");
+        names[WAVE_FORMAT_WMAVOICE9]             = _T("WMA Voice");
+        names[WAVE_FORMAT_WMAVOICE10]            = _T("WMA Voice");
+        names[WAVE_FORMAT_OKI_ADPCM]             = _T("OKI ADPCM");
+        names[WAVE_FORMAT_IMA_ADPCM]             = _T("IMA ADPCM");
+        names[WAVE_FORMAT_MEDIASPACE_ADPCM]      = _T("Mediaspace ADPCM");
+        names[WAVE_FORMAT_SIERRA_ADPCM]          = _T("Sierra ADPCM");
+        names[WAVE_FORMAT_G723_ADPCM]            = _T("G723 ADPCM");
+        names[WAVE_FORMAT_DIALOGIC_OKI_ADPCM]    = _T("Dialogic OKI ADPCM");
+        names[WAVE_FORMAT_MEDIAVISION_ADPCM]     = _T("Media Vision ADPCM");
+        names[WAVE_FORMAT_YAMAHA_ADPCM]          = _T("Yamaha ADPCM");
+        names[WAVE_FORMAT_DSPGROUP_TRUESPEECH]   = _T("DSP Group Truespeech");
+        names[WAVE_FORMAT_DOLBY_AC2]             = _T("Dolby AC2");
+        names[WAVE_FORMAT_GSM610]                = _T("GSM610");
+        names[WAVE_FORMAT_MSNAUDIO]              = _T("MSN Audio");
+        names[WAVE_FORMAT_ANTEX_ADPCME]          = _T("Antex ADPCME");
+        names[WAVE_FORMAT_CS_IMAADPCM]           = _T("Crystal Semiconductor IMA ADPCM");
+        names[WAVE_FORMAT_ROCKWELL_ADPCM]        = _T("Rockwell ADPCM");
+        names[WAVE_FORMAT_ROCKWELL_DIGITALK]     = _T("Rockwell Digitalk");
+        names[WAVE_FORMAT_G721_ADPCM]            = _T("G721");
+        names[WAVE_FORMAT_G728_CELP]             = _T("G728");
+        names[WAVE_FORMAT_MSG723]                = _T("MSG723");
+        names[WAVE_FORMAT_MPEG]                  = _T("MPEG Audio");
+        names[WAVE_FORMAT_MPEGLAYER3]            = _T("MP3");
+        names[WAVE_FORMAT_LUCENT_G723]           = _T("Lucent G723");
+        names[WAVE_FORMAT_VOXWARE]               = _T("Voxware");
+        names[WAVE_FORMAT_G726_ADPCM]            = _T("G726");
+        names[WAVE_FORMAT_G722_ADPCM]            = _T("G722");
+        names[WAVE_FORMAT_G729A]                 = _T("G729A");
+        names[WAVE_FORMAT_MEDIASONIC_G723]       = _T("MediaSonic G723");
+        names[WAVE_FORMAT_ZYXEL_ADPCM]           = _T("ZyXEL ADPCM");
+        names[WAVE_FORMAT_RHETOREX_ADPCM]        = _T("Rhetorex ADPCM");
+        names[WAVE_FORMAT_VIVO_G723]             = _T("Vivo G723");
+        names[WAVE_FORMAT_VIVO_SIREN]            = _T("Vivo Siren");
+        names[WAVE_FORMAT_DIGITAL_G723]          = _T("Digital G723");
+        names[WAVE_FORMAT_SANYO_LD_ADPCM]        = _T("Sanyo LD ADPCM");
+        names[WAVE_FORMAT_MSAUDIO1]              = _T("WMA 1");
+        names[WAVE_FORMAT_WMAUDIO2]              = _T("WMA 2");
+        names[WAVE_FORMAT_WMAUDIO3]              = _T("WMA Pro");
+        names[WAVE_FORMAT_WMAUDIO_LOSSLESS]      = _T("WMA Lossless");
+        names[WAVE_FORMAT_CREATIVE_ADPCM]        = _T("Creative ADPCM");
+        names[WAVE_FORMAT_CREATIVE_FASTSPEECH8]  = _T("Creative Fastspeech 8");
         names[WAVE_FORMAT_CREATIVE_FASTSPEECH10] = _T("Creative Fastspeech 10");
-        names[WAVE_FORMAT_UHER_ADPCM] = _T("UHER ADPCM");
-        names[WAVE_FORMAT_DOLBY_AC3] = _T("Dolby AC3");
-        names[WAVE_FORMAT_DVD_DTS] = _T("DTS");
-        names[WAVE_FORMAT_AAC] = _T("AAC");
-        names[WAVE_FORMAT_LATM_AAC] = _T("AAC(LATM)");
-        names[WAVE_FORMAT_FLAC] = _T("FLAC");
-        names[WAVE_FORMAT_TTA1] = _T("TTA");
-        names[WAVE_FORMAT_14_4] = _T("RealAudio 14.4");
-        names[WAVE_FORMAT_28_8] = _T("RealAudio 28.8");
-        names[WAVE_FORMAT_ATRC] = _T("RealAudio ATRC");
-        names[WAVE_FORMAT_COOK] = _T("RealAudio COOK");
-        names[WAVE_FORMAT_DNET] = _T("RealAudio DNET");
-        names[WAVE_FORMAT_RAAC] = _T("RealAudio RAAC");
-        names[WAVE_FORMAT_RACP] = _T("RealAudio RACP");
-        names[WAVE_FORMAT_SIPR] = _T("RealAudio SIPR");
-        names[WAVE_FORMAT_PS2_PCM] = _T("PS2 PCM");
-        names[WAVE_FORMAT_PS2_ADPCM] = _T("PS2 ADPCM");
-        names[0x0160] = _T("Windows Media Audio");
-        names[0x0161] = _T("Windows Media Audio");
-        names[0x0162] = _T("Windows Media Audio");
-        names[0x0163] = _T("Windows Media Audio");
-        names[0x6173] = _T("AMR");
+        names[WAVE_FORMAT_UHER_ADPCM]            = _T("UHER ADPCM");
+        names[WAVE_FORMAT_AAC]                   = _T("AAC");
+        names[WAVE_FORMAT_LATM_AAC]              = _T("AAC(LATM)");
+        names[WAVE_FORMAT_DOLBY_AC3]             = _T("Dolby AC3");
+        names[WAVE_FORMAT_DVD_DTS]               = _T("DTS");
+        names[WAVE_FORMAT_FLAC]                  = _T("FLAC");
+        names[WAVE_FORMAT_TTA1]                  = _T("TTA");
+        names[WAVE_FORMAT_14_4]                  = _T("RealAudio 14.4");
+        names[WAVE_FORMAT_28_8]                  = _T("RealAudio 28.8");
+        names[WAVE_FORMAT_ATRC]                  = _T("RealAudio ATRC");
+        names[WAVE_FORMAT_COOK]                  = _T("RealAudio COOK");
+        names[WAVE_FORMAT_DNET]                  = _T("RealAudio DNET");
+        names[WAVE_FORMAT_RAAC]                  = _T("RealAudio RAAC");
+        names[WAVE_FORMAT_RACP]                  = _T("RealAudio RACP");
+        names[WAVE_FORMAT_SIPR]                  = _T("RealAudio SIPR");
+        names[WAVE_FORMAT_PS2_PCM]               = _T("PS2 PCM");
+        names[WAVE_FORMAT_PS2_ADPCM]             = _T("PS2 ADPCM");
+        names[0x6173]                            = _T("AMR");
         // names[] = _T("");
     }
 
     if (!names.Lookup(wFormatTag, str)) {
-        if (subtype == MEDIASUBTYPE_Vorbis) {
+        // for wFormatTag equal to WAVE_FORMAT_UNKNOWN, WAVE_FORMAT_PCM, WAVE_FORMAT_EXTENSIBLE and other.
+        if (subtype == MEDIASUBTYPE_PCM) {
+            str = _T("PCM");
+        } else if (subtype == MEDIASUBTYPE_IEEE_FLOAT) {
+            str = _T("IEEE Float");
+        } else if (subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO || subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
+            str = _T("LPCM");
+        } else if (subtype == MEDIASUBTYPE_Vorbis) {
             str = _T("Vorbis (deprecated)");
         } else if (subtype == MEDIASUBTYPE_Vorbis2) {
             str = _T("Vorbis");
@@ -374,32 +381,30 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         } else if (subtype == MEDIASUBTYPE_FLAC_FRAMED) {
             str = _T("FLAC (framed)");
         } else if (subtype == MEDIASUBTYPE_DOLBY_AC3) {
-            str += _T("Dolby AC3");
+            str = _T("Dolby AC3");
+        } else if (subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
+            str = _T("DD+");
+        } else if (subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+            str = _T("TrueHD");
         } else if (subtype == MEDIASUBTYPE_DTS) {
-            str += _T("DTS");
+            str = _T("DTS");
+        } else if (subtype == MEDIASUBTYPE_MLP) {
+            str = _T("MLP");
         } else if (subtype == MEDIASUBTYPE_PCM_NONE || subtype == MEDIASUBTYPE_PCM_RAW ||
                    subtype == MEDIASUBTYPE_PCM_TWOS || subtype == MEDIASUBTYPE_PCM_SOWT ||
                    subtype == MEDIASUBTYPE_PCM_IN24 || subtype == MEDIASUBTYPE_PCM_IN32 ||
                    subtype == MEDIASUBTYPE_PCM_FL32 || subtype == MEDIASUBTYPE_PCM_FL64) {
-            str += _T("PCM");
+            str = _T("QT PCM");
         } else if (subtype == MEDIASUBTYPE_IMA4      ||
                    subtype == MEDIASUBTYPE_ADPCM_SWF ||
                    subtype == MEDIASUBTYPE_ADPCM_AMV) {
-            str += _T("ADPCM");
+            str = _T("ADPCM");
         } else if (subtype == MEDIASUBTYPE_ALAC) {
-            str += _T("Alac");
+            str = _T("Alac");
         } else if (subtype == MEDIASUBTYPE_ALS) {
-            str += _T("ALS");
+            str = _T("ALS");
         } else {
             str.Format(_T("0x%04x"), wFormatTag);
-        }
-    }
-
-    if (wFormatTag == WAVE_FORMAT_PCM) {
-        if (subtype == MEDIASUBTYPE_DOLBY_AC3) {
-            str += _T(" (AC3)");
-        } else if (subtype == MEDIASUBTYPE_DTS) {
-            str += _T(" (DTS)");
         }
     }
 
