@@ -363,12 +363,14 @@ CStringW GetFilterName(IBaseFilter* pBF)
 
     if (pBF) {
         CLSID clsid = GetCLSID(pBF);
+        // system source filters
         if (clsid == CLSID_AsyncReader) {
             name = _T("File Source (Async.)");
         } else if (clsid == CLSID_URLReader) {
             name = _T("File Source (URL)");
         } else if (clsid == CLSID_WMAsfReader) {
             name = _T("WM ASF Reader");
+        // third-party actual filters
         } else if (clsid == GUIDFromCString(_T("{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}"))) {
             name = _T("AV Source");
         } else if (clsid == GUIDFromCString(_T("{B98D13E7-55DB-4385-A33D-09FD1BA26338}"))) {
@@ -377,6 +379,7 @@ CStringW GetFilterName(IBaseFilter* pBF)
             name = _T("Haali Media Source");
         } else if (clsid == GUIDFromCString(_T("{D042079E-8E02-418B-AE2F-F12E26704FCA}"))) {
             name = _T("APE DirectShow Filter");
+        // other
         } else {
             CFilterInfo fi;
             if (SUCCEEDED(pBF->QueryFilterInfo(&fi))) {
