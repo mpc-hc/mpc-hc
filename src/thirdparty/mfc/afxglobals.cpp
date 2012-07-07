@@ -47,7 +47,6 @@ static const CString strDefaultFontName = _T("MS Sans Serif");
 static const CString strVertFontName = _T("Arial");
 static const CString strMarlettFontName = _T("Marlett");
 
-#if (_MSC_FULL_VER >= 160040219)
 HINSTANCE AFX_GLOBAL_DATA::m_hinstD2DDLL = NULL;
 HINSTANCE AFX_GLOBAL_DATA::m_hinstDWriteDLL = NULL;
 
@@ -58,7 +57,6 @@ IWICImagingFactory* AFX_GLOBAL_DATA::m_pWicFactory = NULL;
 D2D1MAKEROTATEMATRIX AFX_GLOBAL_DATA::m_pfD2D1MakeRotateMatrix = NULL;
 
 BOOL AFX_GLOBAL_DATA::m_bD2DInitialized = FALSE;
-#endif
 
 CMemDC::CMemDC(CDC& dc, CWnd* pWnd) :
 	m_dc(dc), m_bMemDC(FALSE), m_hBufferedPaint(NULL), m_pOldBmp(NULL)
@@ -175,7 +173,6 @@ static int CALLBACK FontFamalyProcFonts(const LOGFONT FAR* lplf, const TEXTMETRI
 	return strFont.CollateNoCase((LPCTSTR) lParam) == 0 ? 0 : 1;
 }
 
-#if (_MSC_FULL_VER >= 160040219)
 /////////////////////////////////////////////////////////////////////////////
 // DLL Load Helper
 
@@ -202,17 +199,14 @@ inline HMODULE AfxLoadSystemLibraryUsingFullPath(_In_z_ const WCHAR *pszLibrary)
 
 	return(::AfxCtxLoadLibraryW(wszLoadPath));
 }
-#endif
 
 /////////////////////////////////////////////////////////////////////////////
 // Cached system metrics, etc
 AFX_GLOBAL_DATA afxGlobalData;
 
-#if (_MSC_FULL_VER >= 160040219)
 #ifdef _AFXDLL
 // Reference count on global data
 DWORD g_dwAfxGlobalDataRef = 0;
-#endif
 #endif
 
 // Initialization code
@@ -263,11 +257,7 @@ AFX_GLOBAL_DATA::AFX_GLOBAL_DATA()
 		m_pfEndBufferedPaint = NULL;
 	}
 
-#if (_MSC_FULL_VER >= 160040219)
 	m_hinstDwmapiDLL = AfxLoadSystemLibraryUsingFullPath(L"dwmapi.dll");
-#else
-	m_hinstDwmapiDLL = ::AfxCtxLoadLibraryW(L"dwmapi.dll");
-#endif
 	if (m_hinstDwmapiDLL != NULL)
 	{
 		m_pfDwmExtendFrameIntoClientArea = (DWMEXTENDFRAMEINTOCLIENTAREA)::GetProcAddress(m_hinstDwmapiDLL, "DwmExtendFrameIntoClientArea");
@@ -391,9 +381,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
 	// Initialize fonts:
 
 	NONCLIENTMETRICS info;
-#if (_MSC_FULL_VER >= 160040219)	
 	info.cbSize = sizeof(info);
-#endif
 	GetNonClientMetrics (info);
 
 	LOGFONT lf;
@@ -461,9 +449,7 @@ void AFX_GLOBAL_DATA::UpdateFonts()
 
 	// Create tooltip font:
 	NONCLIENTMETRICS ncm;
-#if (_MSC_FULL_VER >= 160040219)
 	ncm.cbSize = sizeof(ncm);
-#endif
 	GetNonClientMetrics (ncm);
 
 	lf.lfItalic = ncm.lfStatusFont.lfItalic;
@@ -913,14 +899,6 @@ void AFX_GLOBAL_DATA::ReleaseTaskBarRefs()
 		RELEASE(m_pTaskbarList3);
 		m_pTaskbarList3 = NULL;
 	}
-
-#if (_MSC_FULL_VER < 160040219)
-	if (m_bComInitialized)
-	{
-		CoUninitialize();
-		m_bComInitialized = FALSE;
-	}
-#endif
 }
 #endif
 
@@ -940,9 +918,7 @@ void AFX_GLOBAL_DATA::CleanUp()
 	fontTooltip.DeleteObject();
 
 	ReleaseTaskBarRefs();
-#if (_MSC_FULL_VER >= 160040219)
 	ReleaseD2DRefs();
-#endif
 
 	if (m_bBufferedPaintInited && m_pfBufferedPaintUnInit != NULL)
 	{
@@ -964,13 +940,11 @@ void AFX_GLOBAL_DATA::CleanUp()
 
 	m_bEnableAccessibility = FALSE;
 
-#if (_MSC_FULL_VER >= 160040219)
 	if (m_bComInitialized)
 	{
 		CoUninitialize();
 		m_bComInitialized = FALSE;
 	}
-#endif
 }
 
 void ControlBarCleanUp()
@@ -994,7 +968,6 @@ void ControlBarCleanUp()
 //	CMFCVisualManagerOffice2007::CleanStyle();
 }
 
-#if (_MSC_FULL_VER >= 160040219)
 #ifdef _AFXDLL
 void AfxGlobalsAddRef()
 {
@@ -1009,7 +982,6 @@ void AfxGlobalsRelease()
 		ControlBarCleanUp();
 	}
 }
-#endif
 #endif
 
 BOOL AFX_GLOBAL_DATA::DrawParentBackground(CWnd* pWnd, CDC* pDC, LPRECT rectClip)
@@ -1380,11 +1352,7 @@ BOOL AFX_GLOBAL_DATA::Resume()
 
 	if (m_hinstDwmapiDLL != NULL)
 	{
-#if (_MSC_FULL_VER >= 160040219)
 		m_hinstDwmapiDLL = AfxLoadSystemLibraryUsingFullPath(L"dwmapi.dll");
-#else
-		m_hinstDwmapiDLL = ::AfxCtxLoadLibraryW(L"dwmapi.dll");
-#endif
 		ENSURE(m_hinstDwmapiDLL != NULL);
 
 		m_pfDwmExtendFrameIntoClientArea = (DWMEXTENDFRAMEINTOCLIENTAREA)::GetProcAddress (m_hinstDwmapiDLL, "DwmExtendFrameIntoClientArea");
@@ -1428,21 +1396,12 @@ BOOL AFX_GLOBAL_DATA::GetNonClientMetrics (NONCLIENTMETRICS& info)
 		LOGFONT lfMessageFont;
 	};
 
-#if (_MSC_FULL_VER >= 160040219)
 	if (_AfxGetComCtlVersion() < MAKELONG(1, 6))
 	{
 		info.cbSize = sizeof(AFX_OLDNONCLIENTMETRICS);
 	}
 
 	return ::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, info.cbSize, &info, 0);
-#else
-	const UINT cbProperSize = (_AfxGetComCtlVersion() < MAKELONG(1, 6))
-		? sizeof(AFX_OLDNONCLIENTMETRICS) : sizeof(NONCLIENTMETRICS);
-
-	info.cbSize = cbProperSize;
-
-	return ::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, cbProperSize, &info, 0);
-#endif
 }
 
 
@@ -1507,7 +1466,6 @@ HRESULT AFX_GLOBAL_DATA::ShellCreateItemFromParsingName(PCWSTR pszPath, IBindCtx
 	return (*pSHCreateItemFromParsingName)(pszPath, pbc, riid, ppv);
 }
 
-#if (_MSC_FULL_VER >= 160040219)
 BOOL AFX_GLOBAL_DATA::InitD2D(D2D1_FACTORY_TYPE d2dFactoryType, DWRITE_FACTORY_TYPE writeFactoryType)
 {
 	if (m_bD2DInitialized)
@@ -1603,4 +1561,3 @@ void AFX_GLOBAL_DATA::ReleaseD2DRefs()
 
 	m_bD2DInitialized = FALSE;
 }
-#endif

@@ -28,6 +28,7 @@
 #include "afxshelltreectrl.h"
 #include "afxvslistbox.h"
 #endif
+
 ////////////////////////////////////////////////////////////////////////////
 
 static void DoRegisterWindowClass(LPCTSTR lpszClassName, LPCTSTR lpszBaseClassName)
