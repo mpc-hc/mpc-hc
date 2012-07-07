@@ -345,7 +345,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 26		"Conserver l'historique des fichiers ouverts"
 28		"Se souvenir de la position dans le DVD"
 29		"Se souvenir de la position dans le fichier"
-30		"Remember last playlist"
+30		"Se souvenir de la liste de lecture"
 31		"Enregistrer la position de la fenêtre"
 32		"Enregistrer la taille de la fenêtre"
 33		"Se souvenir du recadrage (Pan && Scan)"

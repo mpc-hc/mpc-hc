@@ -1,7 +1,7 @@
-BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+﻿BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"关于"
 8		"版权所有 © 2002-2012 请查看 Authors.txt"
-10		"Version :"
+10		"版本 :"
 11		"确定"
 12		"此程序是遵守 GNU 通用公众授权协议发布的自由软件。"
 13		"MPC-HC 编译器: "
@@ -345,7 +345,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 26		"保存最近打开文件的历史记录"
 28		"记忆 DVD 位置"
 29		"记忆文件位置"
-30		"Remember last playlist"
+30		"记忆最后的播放列表"
 31		"记忆最后的窗口位置"
 32		"记忆最后的窗口大小"
 33		"记忆上次的平移和扫描缩放"
