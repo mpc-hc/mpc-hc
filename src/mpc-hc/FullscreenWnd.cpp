@@ -32,9 +32,9 @@
 IMPLEMENT_DYNAMIC(CFullscreenWnd, CWnd)
 CFullscreenWnd::CFullscreenWnd(CMainFrame* pMainFrame)
 {
-    m_pMainFrame        = pMainFrame;
-    m_hCursor           = ::LoadCursor(NULL, IDC_ARROW);
-    m_bCursorVisible    = false;
+    m_pMainFrame     = pMainFrame;
+    m_hCursor        = ::LoadCursor(NULL, IDC_ARROW);
+    m_bCursorVisible = false;
 }
 
 CFullscreenWnd::~CFullscreenWnd()

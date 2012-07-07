@@ -95,6 +95,11 @@ CIfo::CIfo()
     m_dwSize  = 0;
 }
 
+CIfo::~CIfo(void)
+{
+    delete [] m_pBuffer;
+}
+
 int CIfo::GetMiscPGCI(CIfo::ifo_hdr_t* hdr, int title, uint8_t** ptr)
 {
     pgci_sub_t* pgci_sub;
@@ -255,9 +260,4 @@ bool CIfo::SaveFile(LPCTSTR strFile)
     }
 
     return bRet;
-}
-
-CIfo::~CIfo(void)
-{
-    delete [] m_pBuffer;
 }

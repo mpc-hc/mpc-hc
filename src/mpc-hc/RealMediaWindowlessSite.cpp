@@ -120,9 +120,12 @@ CRealMediaWindowlessSite::CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pConte
     , m_pContext(pContext)
     , m_pParentSite(pParentSite)
     , m_pCCF(pContext)
-    , m_fDamaged(false), m_fInRedraw(false), m_fIsVisible(true)
+    , m_fDamaged(false)
+    , m_fInRedraw(false)
+    , m_fIsVisible(true)
     , m_lZOrder(0)
-    , m_pRegion(NULL), m_pRegionWithoutChildren(NULL)
+    , m_pRegion(NULL)
+    , m_pRegionWithoutChildren(NULL)
 {
     m_size.cx = m_size.cy = 0;
     m_position.x = m_position.y = 0;

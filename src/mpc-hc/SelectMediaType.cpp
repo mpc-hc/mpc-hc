@@ -32,7 +32,8 @@
 IMPLEMENT_DYNAMIC(CSelectMediaType, CCmdUIDialog)
 CSelectMediaType::CSelectMediaType(CAtlArray<GUID>& guids, GUID guid, CWnd* pParent /*=NULL*/)
     : CCmdUIDialog(CSelectMediaType::IDD, pParent)
-    , m_guids(guids), m_guid(guid)
+    , m_guids(guids)
+    , m_guid(guid)
 {
     m_guidstr = CStringFromGUID(guid);
 }

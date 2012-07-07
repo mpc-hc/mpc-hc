@@ -32,9 +32,14 @@
 IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
 CPlayerSeekBar::CPlayerSeekBar() :
-    m_start(0), m_stop(100), m_pos(0), m_posreal(0),
+    m_start(0),
+    m_stop(100),
+    m_pos(0),
+    m_posreal(0),
     m_fEnabled(false),
-    m_tooltipState(TOOLTIP_HIDDEN), m_tooltipLastPos(-1), m_tooltipTimer(1)
+    m_tooltipState(TOOLTIP_HIDDEN),
+    m_tooltipLastPos(-1),
+    m_tooltipTimer(1)
 {
 }
 

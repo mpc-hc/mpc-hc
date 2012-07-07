@@ -32,7 +32,9 @@
 
 CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParent),
-      m_url(url), ps(m_list.GetSafeHwnd(), 0, TRUE), m_status()
+      m_url(url),
+      ps(m_list.GetSafeHwnd(), 0, TRUE),
+      m_status()
 {
 }
 

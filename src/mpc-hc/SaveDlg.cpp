@@ -32,7 +32,8 @@
 IMPLEMENT_DYNAMIC(CSaveDlg, CCmdUIDialog)
 CSaveDlg::CSaveDlg(CString in, CString out, CWnd* pParent /*=NULL*/)
     : CCmdUIDialog(CSaveDlg::IDD, pParent)
-    , m_in(in), m_out(out)
+    , m_in(in)
+    , m_out(out)
     , m_nIDTimerEvent((UINT_PTR) - 1)
 {
 }

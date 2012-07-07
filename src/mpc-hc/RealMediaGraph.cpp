@@ -44,8 +44,13 @@ CRealMediaPlayer::CRealMediaPlayer(HWND hWndParent, CRealMediaGraph* pRMG)
     : CUnknown(NAME("CRealMediaPlayer"), NULL)
     , m_pRMG(pRMG)
     , m_hWndParent(hWndParent)
-    , m_fpCreateEngine(NULL), m_fpCloseEngine(NULL), m_hRealMediaCore(NULL)
-    , m_State(State_Stopped), m_UserState(State_Stopped), m_nCurrent(0), m_nDuration(0)
+    , m_fpCreateEngine(NULL)
+    , m_fpCloseEngine(NULL)
+    , m_hRealMediaCore(NULL)
+    , m_State(State_Stopped)
+    , m_UserState(State_Stopped)
+    , m_nCurrent(0)
+    , m_nDuration(0)
     , m_VideoSize(0, 0)
     , m_fVideoSizeChanged(true)
 {
@@ -482,13 +487,24 @@ STDMETHODIMP CRealMediaPlayer::OnInit(RMAAudioFormat* pFormat)
 CRealMediaPlayerWindowed::CRealMediaPlayerWindowed(HWND hWndParent, CRealMediaGraph* pRMG)
     : CRealMediaPlayer(hWndParent, pRMG)
 {
-    if (!m_wndWindowFrame.CreateEx(WS_EX_NOPARENTNOTIFY, NULL, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-                                   CRect(0, 0, 0, 0), CWnd::FromHandle(m_hWndParent), 0, NULL)) {
+    if (!m_wndWindowFrame.CreateEx(WS_EX_NOPARENTNOTIFY,
+                                   NULL,
+                                   NULL,
+                                   WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+                                   CRect(0, 0, 0, 0),
+                                   CWnd::FromHandle(m_hWndParent),
+                                   0,
+                                   NULL)) {
         return;
     }
 
-    if (!m_wndDestFrame.Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-                               CRect(0, 0, 0, 0), &m_wndWindowFrame, 0, NULL)) {
+    if (!m_wndDestFrame.Create(NULL,
+                               NULL,
+                               WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+                               CRect(0, 0, 0, 0),
+                               &m_wndWindowFrame,
+                               0,
+                               NULL)) {
         return;
     }
 }

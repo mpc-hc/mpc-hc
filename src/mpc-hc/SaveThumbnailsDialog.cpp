@@ -36,7 +36,9 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
     CFileDialog(FALSE, lpszDefExt, lpszFileName,
                 OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
                 lpszFilter, pParentWnd, 0, FALSE),
-    m_rows(rows), m_cols(cols), m_width(width)
+    m_rows(rows),
+    m_cols(cols),
+    m_width(width)
 {
     SetTemplate(0, IDD_SAVETHUMBSDIALOGTEMPL);
 }

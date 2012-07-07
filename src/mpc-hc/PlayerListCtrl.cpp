@@ -224,7 +224,9 @@ int CInPlaceEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
 // CInPlaceFloatEdit
 
 CInPlaceFloatEdit::CInPlaceFloatEdit(int iItem, int iSubItem, CString sInitText)
-    : CInPlaceEdit(iItem, iSubItem, sInitText) {}
+    : CInPlaceEdit(iItem, iSubItem, sInitText)
+{
+}
 
 CInPlaceFloatEdit::~CInPlaceFloatEdit()
 {

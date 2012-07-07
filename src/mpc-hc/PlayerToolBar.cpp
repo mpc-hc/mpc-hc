@@ -34,8 +34,9 @@
 // CPlayerToolBar
 
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
-CPlayerToolBar::CPlayerToolBar()
-    : m_nButtonHeight(16), m_pButtonsImages(NULL)
+CPlayerToolBar::CPlayerToolBar() :
+    m_nButtonHeight(16),
+    m_pButtonsImages(NULL)
 {
 }
 
@@ -65,7 +66,8 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 {
     VERIFY(__super::CreateEx(pParentWnd,
                              TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_AUTOSIZE | TBSTYLE_CUSTOMERASE,
-                             WS_CHILD | WS_VISIBLE | CBRS_BOTTOM | CBRS_TOOLTIPS, CRect(2, 2, 0, 1)));
+                             WS_CHILD | WS_VISIBLE | CBRS_BOTTOM | CBRS_TOOLTIPS,
+                             CRect(2, 2, 0, 1)));
 
     VERIFY(LoadToolBar(IDB_PLAYERTOOLBAR));
 
