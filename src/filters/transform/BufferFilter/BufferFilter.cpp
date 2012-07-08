@@ -351,27 +351,22 @@ HRESULT CBufferFilterOutputPin::Deliver(IMediaSample* pMediaSample)
     return m_pOutputQueue->Receive(pMediaSample);
 }
 
-#define CallQueue(call)                  \
-    if (!m_pOutputQueue) return NOERROR; \
-    m_pOutputQueue->##call;              \
-    return NOERROR;
-
 HRESULT CBufferFilterOutputPin::DeliverEndOfStream()
 {
-    CallQueue(EOS());
+    CallQueue(EOS())
 }
 
 HRESULT CBufferFilterOutputPin::DeliverBeginFlush()
 {
-    CallQueue(BeginFlush());
+    CallQueue(BeginFlush())
 }
 
 HRESULT CBufferFilterOutputPin::DeliverEndFlush()
 {
-    CallQueue(EndFlush());
+    CallQueue(EndFlush())
 }
 
 HRESULT CBufferFilterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-    CallQueue(NewSegment(tStart, tStop, dRate));
+    CallQueue(NewSegment(tStart, tStop, dRate))
 }

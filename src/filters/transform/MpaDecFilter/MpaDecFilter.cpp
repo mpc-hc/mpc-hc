@@ -2189,7 +2189,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
     }
     //
     else {
-        COPY_TO_BUFFER(p, buffsize);
+        COPY_TO_BUFFER(p, buffsize)
         pDataBuff = m_pFFBuffer;
     }
 

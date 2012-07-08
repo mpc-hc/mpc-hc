@@ -31,11 +31,11 @@
 #define BeginEnumDescriptors(gb, nType, nLength)                       \
     {                                                                  \
         BYTE DescBuffer[256];                                          \
-        int  nLimit = ((int)gb.BitRead(12)) + gb.GetPos();             \
+        int nLimit = ((int)gb.BitRead(12)) + gb.GetPos();              \
         while (gb.GetPos() < nLimit)                                   \
         {                                                              \
             MPEG2_DESCRIPTOR nType = (MPEG2_DESCRIPTOR)gb.BitRead(8);  \
-            WORD             nLength = (WORD)gb.BitRead(8);
+            WORD nLength = (WORD)gb.BitRead(8);
 
 #define SkipDescriptor(gb, nType, nLength)                             \
     gb.ReadBuffer(DescBuffer, nLength);                                \
@@ -238,7 +238,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
                     TRACE("%15S %d\n", Channel.GetName(), Channel.GetSID());
                     break;
                 default :
-                    SkipDescriptor(gb, nType, nLength);                     // descriptor()
+                    SkipDescriptor(gb, nType, nLength)                      // descriptor()
                     break;
             }
         }
@@ -306,8 +306,8 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
     gb.BitRead(3);                                              // reserved
     Channel.SetPCR((ULONG)gb.BitRead(13));                      // PCR_PID
     gb.BitRead(4);                                              // reserved
-    BeginEnumDescriptors(gb, nType, nLength) {              // for (i=0;i<N;i++) {
-        SkipDescriptor(gb, nType, nLength);                     //      descriptor()
+    BeginEnumDescriptors(gb, nType, nLength) {                  // for (i=0;i<N;i++) {
+        SkipDescriptor(gb, nType, nLength)                      // descriptor()
     }
     EndEnumDescriptors
 
@@ -331,11 +331,11 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
                     break;
                 case DT_AC3_AUDIO :
                     pes_stream_type = AUDIO_STREAM_AC3;
-                    SkipDescriptor(gb, nType, nLength);
+                    SkipDescriptor(gb, nType, nLength)
                     break;
                 case DT_EXTENDED_AC3_AUDIO :
                     pes_stream_type = AUDIO_STREAM_AC3_PLUS;
-                    SkipDescriptor(gb, nType, nLength);
+                    SkipDescriptor(gb, nType, nLength)
                     break;
                 case DT_SUBTITLING : {
                     gb.ReadBuffer(DescBuffer, nLength);
@@ -344,7 +344,7 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
                 }
                 break;
                 default :
-                    SkipDescriptor(gb, nType, nLength);
+                    SkipDescriptor(gb, nType, nLength)
                     break;
             }
         }
@@ -500,7 +500,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
                         }
                         break;
                     default:
-                        SkipDescriptor(gb, nType, nLength);
+                        SkipDescriptor(gb, nType, nLength)
                         break;
                 }
             }
@@ -541,8 +541,8 @@ HRESULT CMpeg2DataParser::ParseNIT()
     CheckNoLog(ParseSIHeader(gb, SI_NIT, wSectionLength, wTSID));
 
     gb.BitRead(4);                                              // reserved_future_use
-    BeginEnumDescriptors(gb, nType, nLength) {              // for (i=0;i<N;i++) {
-        SkipDescriptor(gb, nType, nLength);                     //      descriptor()
+    BeginEnumDescriptors(gb, nType, nLength) {                  // for (i=0;i<N;i++) {
+        SkipDescriptor(gb, nType, nLength)                      // descriptor()
     }
     EndEnumDescriptors
 
@@ -568,7 +568,7 @@ HRESULT CMpeg2DataParser::ParseNIT()
                     }
                     break;
                 default :
-                    SkipDescriptor(gb, nType, nLength);
+                    SkipDescriptor(gb, nType, nLength)
                     break;
             }
         }

@@ -14040,7 +14040,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         return false;
     }
 
-    SaveMediaState;
+    SaveMediaState
 
     HRESULT hr;
 
@@ -14173,7 +14173,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
     OpenSetupStatsBar();
     OpenSetupStatusBar();
 
-    RestoreMediaState;
+    RestoreMediaState
 
     return true;
 }

@@ -243,6 +243,11 @@ public:
     if (_fs == State_Running && _pMS)                                                                       \
         _pMC->Run();
 
+#define CallQueue(call)                  \
+    if (!m_pOutputQueue) return NOERROR; \
+    m_pOutputQueue->##call;              \
+    return NOERROR;
+
 #define QI(i)  (riid == __uuidof(i)) ? GetInterface((i*)this, ppv) :
 #define QI2(i) (riid == IID_##i) ? GetInterface((i*)this, ppv) :
 

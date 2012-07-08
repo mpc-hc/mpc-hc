@@ -932,20 +932,20 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
     var = (var << 8) | (*pIn++); \
     var = (var << 8) | (*pIn++);
 
-                GetWORD(packetlen);
+                GetWORD(packetlen)
                 if (packetlen & 0x8000) {
                     m_segments.fMerged = true;
                 }
                 if ((packetlen & 0x4000) == 0) {
-                    GetWORD(packetlen);
+                    GetWORD(packetlen)
                     packetlen &= 0x3fffffff;
                 } else {
                     packetlen &= 0x3fff;
                 }
 
-                GetWORD(packetoffset);
+                GetWORD(packetoffset)
                 if ((packetoffset & 0x4000) == 0) {
-                    GetWORD(packetoffset);
+                    GetWORD(packetoffset)
                     packetoffset &= 0x3fffffff;
                 } else {
                     packetoffset &= 0x3fff;
@@ -1539,17 +1539,17 @@ void CRMFile::GetDimensions()
     var = (var << 8) | (*p++); \
     var = (var << 8) | (*p++);
 
-                    GetWORD(packetlen);
+                    GetWORD(packetlen)
                     if ((packetlen & 0x4000) == 0) {
-                        GetWORD(packetlen);
+                        GetWORD(packetlen)
                         packetlen &= 0x3fffffff;
                     } else {
                         packetlen &= 0x3fff;
                     }
 
-                    GetWORD(packetoffset);
+                    GetWORD(packetoffset)
                     if ((packetoffset & 0x4000) == 0) {
-                        GetWORD(packetoffset);
+                        GetWORD(packetoffset)
                         packetoffset &= 0x3fffffff;
                     } else {
                         packetoffset &= 0x3fff;

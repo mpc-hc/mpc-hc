@@ -1555,29 +1555,24 @@ HRESULT CMpeg2DecOutputPin::Deliver(IMediaSample* pMediaSample)
     return m_pOutputQueue->Receive(pMediaSample);
 }
 
-#define CallQueue(call)                  \
-    if (!m_pOutputQueue) return NOERROR; \
-    m_pOutputQueue->##call;              \
-    return NOERROR;
-
 HRESULT CMpeg2DecOutputPin::DeliverEndOfStream()
 {
-    CallQueue(EOS());
+    CallQueue(EOS())
 }
 
 HRESULT CMpeg2DecOutputPin::DeliverBeginFlush()
 {
-    CallQueue(BeginFlush());
+    CallQueue(BeginFlush())
 }
 
 HRESULT CMpeg2DecOutputPin::DeliverEndFlush()
 {
-    CallQueue(EndFlush());
+    CallQueue(EndFlush())
 }
 
 HRESULT CMpeg2DecOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-    CallQueue(NewSegment(tStart, tStop, dRate));
+    CallQueue(NewSegment(tStart, tStop, dRate))
 }
 
 
@@ -1968,7 +1963,7 @@ bool CSubpicInputPin::dvdspu::Parse()
 
     int i, next = datasize;
 
-#define GetWORD (p[i]<<8)|p[i+1]; i += 2
+#define GetWORD (p[i] << 8) | p[i+1]; i += 2
 
     do {
         i = next;

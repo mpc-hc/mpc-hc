@@ -877,12 +877,6 @@ bool CVobSubFile::ReadRar(CString fn)
     return true;
 }
 
-#define ReadBEdw(var)             \
-    f.Read(&((BYTE*)&var)[3], 1); \
-    f.Read(&((BYTE*)&var)[2], 1); \
-    f.Read(&((BYTE*)&var)[1], 1); \
-    f.Read(&((BYTE*)&var)[0], 1);
-
 bool CVobSubFile::ReadIfo(CString fn)
 {
     CFile f;
@@ -895,12 +889,12 @@ bool CVobSubFile::ReadIfo(CString fn)
     f.Seek(0xc0 + 0x0c, SEEK_SET);
 
     DWORD pos;
-    ReadBEdw(pos);
+    ReadBEdw(pos)
 
     f.Seek(pos * 0x800 + 0x0c, CFile::begin);
 
     DWORD offset;
-    ReadBEdw(offset);
+    ReadBEdw(offset)
 
     /* Subpic palette */
 
