@@ -201,7 +201,7 @@ bool UpdateChecker::IsTimeToAutoUpdate()
     return isTimeToAutoUpdate;
 }
 
-UINT RunCheckForUpdateThread(LPVOID pParam)
+static UINT RunCheckForUpdateThread(LPVOID pParam)
 {
     bool autoCheck = !!pParam;
 
