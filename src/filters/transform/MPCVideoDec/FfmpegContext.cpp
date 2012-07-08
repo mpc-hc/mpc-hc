@@ -32,6 +32,10 @@
 #define HAVE_AV_CONFIG_H
 
 extern "C" {
+
+#pragma warning(push)
+#pragma warning(disable: 4244)
+
 #include "ffmpeg/libavcodec/avcodec.h"
     // This is kind of a hack but it avoids using a C++ keyword as a struct member name
 #define class classFFMPEG
@@ -41,6 +45,8 @@ extern "C" {
 #include "ffmpeg/libavcodec/h264.h"
 #include "ffmpeg/libavcodec/vc1.h"
 #include "ffmpeg/libavcodec/mpeg12.h"
+
+#pragma warning(pop)
 
     int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rtStartTime, uint8_t* buf, int buf_size);
     int av_vc1_decode_frame(AVCodecContext* avctx, uint8_t* buf, int buf_size, int* nFrameSize);

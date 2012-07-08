@@ -46,11 +46,15 @@ extern "C" {
 #include "moreuuids.h"
 
 #include <vector>
+
+#pragma warning(push)
+#pragma warning(disable: 4244)
 #include "ffmpeg/libavcodec/avcodec.h"
 #include "ffmpeg/libavutil/intreadwrite.h"
 extern "C" {
 #include "ffmpeg/libavutil/opt.h"
 }
+#pragma warning(pop)
 
 #define INT8_PEAK       128
 #define INT16_PEAK      32768
