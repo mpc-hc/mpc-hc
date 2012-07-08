@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_54		"Հնարավոր չէ ստեղծել ֆայլերի մա
 STRING IDS_MAINFRM_55		"Հնարավոր չէ ստանալ կադրի չափը"
 STRING IDS_MAINFRM_56		"Հիշողությունը չի բավականացնում։"
 STRING IDS_MAINFRM_57		"Նկարի սխալ տեսակ, հնարավոր չէ ստեղծել մանրապատկեր %d bpp-ից։"
-STRING IDS_MAINFRM_58		"Ֆայլի ծավալը. %s (%I64d բայթ)\\N"
+STRING IDS_MAINFRM_58		"Ֆայլի ծավալը. %s (%s բայթ)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Ֆայլի անունը. %s\\N%sՉափերը. %dx%d %s\\NՏևողությունը. %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"գրվել է. %d, կորսվել է. %d"
 STRING IDS_MAINFRM_60		"Տողագրերը բեռնելիս Դուք պետք է փոխեք ցուցադրիչի տեսակը և նորից բացել ֆայլը։\n- DirectShow: VMR-7/VMR-9 renderless, EVR Custom, EVR Sync կամ Haali\n- RealMedia: Հատուկ ցուցադրիչ RealMedia-ի համար, կամ բացել ֆայլը DirectShow-ի միջոցով\n- QuickTime: DX7 կամ DX9 ցուցադրիչ QuickTime-ի համար\n- ShockWave.անհասանելի է n/a"

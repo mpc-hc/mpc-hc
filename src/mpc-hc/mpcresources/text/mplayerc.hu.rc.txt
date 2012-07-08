@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_54		"Időtartam nélküli fájlokhoz nem lehet ikonképeket l
 STRING IDS_MAINFRM_55		"Nem lehetett megpakni a videó képkocka méretét"
 STRING IDS_MAINFRM_56		"Elfogyott a memória, menjen és vegyen még!"
 STRING IDS_MAINFRM_57		"Érvénytelen képformátum, nem lehet %d bpp dib-ekből ikonképeket létrehozni."
-STRING IDS_MAINFRM_58		"Fájlméret: %s (%I64d bytes)\\N"
+STRING IDS_MAINFRM_58		"Fájlméret: %s (%s bytes)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Fájlnév: %s\\N%sFelbontás: %dx%d %s\\NIdőtartam: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"rajzolt: %d, elejtett: %d"
 STRING IDS_MAINFRM_60		"Ahhoz, hogy feliratokat nyithasson meg, át kell állítani a videó átalakítót és újra meg kell nyitni a fájlt.\n- DirectShow: VMR-7/VMR-9 renderless vagy Haali's\n- RealMedia: Különleges átalakító a RealMedia-hoz, vagy nyissa meg DirectShow-n keresztül\n- QuickTime: DX7 vagy DX9 átalakító kell a QuickTime-hoz\n- ShockWave: n/a"

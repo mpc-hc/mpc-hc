@@ -26,6 +26,7 @@
 #include "PPageFileInfoDetails.h"
 #include <atlbase.h>
 #include "DSUtil.h"
+#include "text.h"
 #include <d3d9.h>
 #include <vmr9.h>
 #include "moreuuids.h"
@@ -158,7 +159,9 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
         const int MAX_FILE_SIZE_BUFFER = 65;
         WCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
         StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
-        m_size.Format(_T("%s (%I64d bytes)"), szFileSize, size);
+        CString szByteSize;
+        szByteSize.Format(_T("%I64d"), size);
+        m_size.Format(_T("%s (%s bytes)"), szFileSize, FormatNumber(szByteSize));
 
         if (m_created.IsEmpty()) {
             m_created = FormatDateTime(wfd.ftCreationTime);

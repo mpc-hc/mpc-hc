@@ -83,3 +83,5 @@ extern CStringA UrlDecode(CStringA str, bool fRaw = false);
 extern DWORD CharSetToCodePage(DWORD dwCharSet);
 extern CAtlList<CString>& MakeLower(CAtlList<CString>& sl);
 extern CAtlList<CString>& MakeUpper(CAtlList<CString>& sl);
+
+CString FormatNumber(CString szNumber, bool bNoFractionalDigits = true);

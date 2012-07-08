@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_54		"Kan geen miniatuurweergaven maken voor bestanden zonder 
 STRING IDS_MAINFRM_55		"Kan beeldgrootte niet bepalen"
 STRING IDS_MAINFRM_56		"Te weinig geheugen!"
 STRING IDS_MAINFRM_57		"Ongeldig Beeldformaat, kan geen miniaaturweergaven maken van %d bpp dibs."
-STRING IDS_MAINFRM_58		"Bestandsgrootte: %s (%I64d bytes)\\N"
+STRING IDS_MAINFRM_58		"Bestandsgrootte: %s (%s bytes)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Bestandsnaam: %s\\N%sResolutie: %dx%d %s\\NTijdsduur: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"gemaakt: %d, verworpen: %d"
 STRING IDS_MAINFRM_60		"Om ondertiteling te kunnen laden moet u de video-renderer veranderen en het bestand opnieuw openen.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR Custom, EVR Sync, of Haali\n- RealMedia: Speciale renderer voor RealMedia, of open het d.m.v. DirectShow\n- QuickTime: DX7 of DX9 renderer voor QuickTime\n- ShockWave: n/a"

@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_54		"Ne peut pas créer de vignettes pour les fichier sans du
 STRING IDS_MAINFRM_55		"Impossible d'obtenir la taille d'image vidéo"
 STRING IDS_MAINFRM_56		"Pas assez de mémoire, allez en acheter plus !"
 STRING IDS_MAINFRM_57		"Format d'image invalide, ne peut pas créer de vignettes de %d bpp dibs."
-STRING IDS_MAINFRM_58		"Taille de fichier : %s (%I64d bytes)\\N"
+STRING IDS_MAINFRM_58		"Taille de fichier : %s (%s bytes)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nom du fichier : %s\\N%sRésolution : %dx%d %s\\NDurée : %02d :%02d :%02d"
 STRING IDS_MAINFRM_6		"affichées : %d, perdues : %d"
 STRING IDS_MAINFRM_60		"Pour lire les sous-titres, vous devez changer le type de rendu vidéo et réouvrir le fichier.\n- DirectShow : VMR-7/VMR-9 sans rendu ou Haali's\n- RealMedia : Rendu spécial pour RealMedia, ou ouvrez le par DirectShow\n- QuickTime : DX7 ou DX9 rendu pour QuickTime\n- ShockWave : n/a"

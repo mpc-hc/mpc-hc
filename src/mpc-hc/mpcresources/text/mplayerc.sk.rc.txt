@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_54		"Nemožno vytvoriť náhľady pre súbory s nulovou dĺž
 STRING IDS_MAINFRM_55		"Nepodarilo sa zistiť veľkosť snímky"
 STRING IDS_MAINFRM_56		"Nedostatok pamäti, je potrebné si nejakú prikúpiť!"
 STRING IDS_MAINFRM_57		"Nesprávny formát obrázka, nemožno vytvoriť náhľady z %d bpp súborov."
-STRING IDS_MAINFRM_58		"Veľkosť súboru: %s (%I64d bytov)\\N"
+STRING IDS_MAINFRM_58		"Veľkosť súboru: %s (%s bytov)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Názov súboru: %s\\N%sRozlíšenie: %dx%d %s\\NTrvanie: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"vykreslených: %d, preskočených: %d"
 STRING IDS_MAINFRM_60		"Pre načítanie titulkov musíte zmeniť typ vykresľovača videa a otvoriť súbor znova.\n- DirectShow: VMR-7/VMR-9 bez vykresľovania alebo Haali\n- RealMedia: Osobitné vykresľovanie pre formát RealMedia, alebo jeho otváranie pomocou DirectShow\n- QuickTime: Vykresľovanie DX7 alebo DX9 pre formát QuickTime\n- ShockWave: n/a"

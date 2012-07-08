@@ -68,6 +68,7 @@
 #include <psapi.h>
 
 #include "DSUtil.h"
+#include "text.h"
 #include "FGManager.h"
 #include "FGManagerBDA.h"
 
@@ -5044,7 +5045,9 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
             const int MAX_FILE_SIZE_BUFFER = 65;
             WCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
             StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
-            fs.Format(IDS_MAINFRM_58, szFileSize, size);
+            CString szByteSize;
+            szByteSize.Format(_T("%I64d"), size);
+            fs.Format(IDS_MAINFRM_58, szFileSize, FormatNumber(szByteSize));
         }
 
         CStringW ar;

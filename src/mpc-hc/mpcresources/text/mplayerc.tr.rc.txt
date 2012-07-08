@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_54		"Süresiz dosyalar için küçük resimler oluşturulamad
 STRING IDS_MAINFRM_55		"Video boyutu alınamadı"
 STRING IDS_MAINFRM_56		"Yetersiz hafıza, daha fazlası gerekiyor!"
 STRING IDS_MAINFRM_57		"Geçersiz grafik biçimi, %d bpp biçimindeki küçük resimler oluşturulamayacak."
-STRING IDS_MAINFRM_58		"Dosya Boyutu: %s (%I64d bayt)\\N"
+STRING IDS_MAINFRM_58		"Dosya Boyutu: %s (%s bayt)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Dosya Adı: %s\\N%sÇözünürlük: %dx%d %s\\NSüre: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"çizilen: %d, atlanan: %d"
 STRING IDS_MAINFRM_60		"Alt yazıları görüntülemek için uygun kodlayıcıları kullanmanız ve filmi yeniden açmanız gerekmektedir.\n- DirectShow: VMR-7/VMR-9 çevrimsiz veya Haali\n- RealMedia: RealMedia için özel çözücü kullan, veya DirectShow ile aç\n- QuickTime: QuickTime için DX7 veya DX9 kodlayıcısı\n- ShockWave: Yok"

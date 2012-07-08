@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_54		"Pro soubory bez informací o délce nelze miniatury vytv
 STRING IDS_MAINFRM_55		"Nepodařilo se zjistit rozměry videa"
 STRING IDS_MAINFRM_56		"K dispozici není dostatek paměti, kupte si víc!"
 STRING IDS_MAINFRM_57		"Neplatný formát, miniatury nelze vytvořit z %d bpp dibů."
-STRING IDS_MAINFRM_58		"Velikost souboru: %s (%I64d bajtů)\\N"
+STRING IDS_MAINFRM_58		"Velikost souboru: %s (%s bajtů)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Název souboru: %s\\N%sRozlišení: %dx%d %s\\NDélka: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"vykresleno: %d, zahozeno: %d"
 STRING IDS_MAINFRM_60		"Aby bylo možné načíst titulky, musíte změnit výstupní video renderer a znovu spustit přehrávání.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR Custom, EVR Sync nebo Haali\n- RealMedia: Speciální renderer pro RealMedia, nebo otevřít prostřednictvím DirectShow\n- QuickTime: DX7 nebo DX9 renderer pro QuickTime\n- ShockWave: n/a"
