@@ -3817,10 +3817,13 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 		}
 		fgets(Infilename[File_Limit-i], j+1, out->VF_File);
 
+#pragma warning(push)
+#pragma warning(disable:4996)
 		if ((Infile[File_Limit-i] = _open(Infilename[File_Limit-i], _O_RDONLY | _O_BINARY)) == -1) {
 			File_Limit = File_Limit - i;
 			return 0;
 		}
+#pragma warning(pop)
 
 		i--;
 	}
