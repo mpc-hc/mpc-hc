@@ -332,6 +332,7 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         names[WAVE_FORMAT_G729A]                 = _T("G729A");
         names[WAVE_FORMAT_MEDIASONIC_G723]       = _T("MediaSonic G723");
         names[WAVE_FORMAT_ZYXEL_ADPCM]           = _T("ZyXEL ADPCM");
+        names[WAVE_FORMAT_RAW_AAC1]              = _T("AAC"); // = WAVE_FORMAT_AAC
         names[WAVE_FORMAT_RHETOREX_ADPCM]        = _T("Rhetorex ADPCM");
         names[WAVE_FORMAT_VIVO_G723]             = _T("Vivo G723");
         names[WAVE_FORMAT_VIVO_SIREN]            = _T("Vivo Siren");
@@ -345,14 +346,13 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         names[WAVE_FORMAT_CREATIVE_FASTSPEECH8]  = _T("Creative Fastspeech 8");
         names[WAVE_FORMAT_CREATIVE_FASTSPEECH10] = _T("Creative Fastspeech 10");
         names[WAVE_FORMAT_UHER_ADPCM]            = _T("UHER ADPCM");
-        //
-        names[WAVE_FORMAT_AAC]                   = _T("AAC"); // = WAVE_FORMAT_RAW_AAC1
-        names[WAVE_FORMAT_DVD_DTS]               = _T("DTS"); // = WAVE_FORMAT_DTS2
+        names[WAVE_FORMAT_DTS2]                  = _T("DTS"); // = WAVE_FORMAT_DVD_DTS
         // other
         names[WAVE_FORMAT_DOLBY_AC3]             = _T("Dolby AC3");
         names[WAVE_FORMAT_LATM_AAC]              = _T("AAC(LATM)");
         names[WAVE_FORMAT_FLAC]                  = _T("FLAC");
         names[WAVE_FORMAT_TTA1]                  = _T("TTA");
+        names[WAVE_FORMAT_WAVPACK4]              = _T("WavPack");
         names[WAVE_FORMAT_14_4]                  = _T("RealAudio 14.4");
         names[WAVE_FORMAT_28_8]                  = _T("RealAudio 28.8");
         names[WAVE_FORMAT_ATRC]                  = _T("RealAudio ATRC");
@@ -364,7 +364,6 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         names[WAVE_FORMAT_PS2_PCM]               = _T("PS2 PCM");
         names[WAVE_FORMAT_PS2_ADPCM]             = _T("PS2 ADPCM");
         names[0x6173]                            = _T("AMR");
-        names[0x5756]                            = _T("WavPack");
         // names[] = _T("");
     }
 
@@ -407,6 +406,8 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
             str = _T("Alac");
         } else if (subtype == MEDIASUBTYPE_ALS) {
             str = _T("ALS");
+        } else if (subtype == MEDIASUBTYPE_QDM2) {
+            str = _T("QDM2");
         } else {
             str.Format(_T("0x%04x"), wFormatTag);
         }
