@@ -63,8 +63,8 @@ CDXVADecoder::CDXVADecoder(CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pD
 
 CDXVADecoder::~CDXVADecoder()
 {
-    SAFE_DELETE_ARRAY(m_pPictureStore);
-    SAFE_DELETE_ARRAY(m_ExecuteParams.pCompressedBuffers);
+    SAFE_DELETE_ARRAY(m_pPictureStore)
+    SAFE_DELETE_ARRAY(m_ExecuteParams.pCompressedBuffers)
 }
 
 void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEntryNumber)

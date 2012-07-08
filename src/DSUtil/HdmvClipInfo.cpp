@@ -355,13 +355,13 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 
         ReadBuffer(Buff, 4);
         if (memcmp(Buff, "MPLS", 4)) {
-            SAFE_DELETE_ARRAY(rtOffset);
+            SAFE_DELETE_ARRAY(rtOffset)
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
         }
 
         ReadBuffer(Buff, 4);
         if ((memcmp(Buff, "0200", 4) != 0) && (memcmp(Buff, "0100", 4) != 0)) {
-            SAFE_DELETE_ARRAY(rtOffset);
+            SAFE_DELETE_ARRAY(rtOffset)
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
         }
 
@@ -391,7 +391,7 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         }
 
         CloseFile(S_OK);
-        SAFE_DELETE_ARRAY(rtOffset);
+        SAFE_DELETE_ARRAY(rtOffset)
         return bDuplicate ? S_FALSE : S_OK;
     }
 

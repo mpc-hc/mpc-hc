@@ -45,7 +45,7 @@ CDVBSub::CDVBSub(void)
 CDVBSub::~CDVBSub(void)
 {
     Reset();
-    SAFE_DELETE(m_pBuffer);
+    SAFE_DELETE(m_pBuffer)
 }
 
 CDVBSub::DVB_PAGE* CDVBSub::FindPage(REFERENCE_TIME rt)
@@ -132,7 +132,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
             m_pBuffer       = DNew BYTE[m_nBufferSize];
             if (pPrev != NULL) {
                 memcpy_s(m_pBuffer, m_nBufferSize, pPrev, m_nBufferWritePos);
-                SAFE_DELETE(pPrev);
+                SAFE_DELETE(pPrev)
             }
         }
         memcpy_s(m_pBuffer + m_nBufferWritePos, m_nBufferSize, pData, nSize);
