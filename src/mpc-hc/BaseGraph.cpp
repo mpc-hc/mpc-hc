@@ -75,6 +75,7 @@ CBaseGraph::CBaseGraph()
     : CUnknown(NAME("CBaseGraph"), NULL)
     , m_hNotifyWnd(NULL)
     , m_lNotifyMsg(0)
+    , m_lNotifyInstData(0)
 {
 }
 

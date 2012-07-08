@@ -37,6 +37,7 @@ CPlayerSeekBar::CPlayerSeekBar() :
     m_pos(0),
     m_posreal(0),
     m_fEnabled(false),
+    m_tooltipPos(0),
     m_tooltipState(TOOLTIP_HIDDEN),
     m_tooltipLastPos(-1),
     m_tooltipTimer(1)

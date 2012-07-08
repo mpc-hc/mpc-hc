@@ -213,6 +213,7 @@ CShaderEditorDlg::CShaderEditorDlg()
     , m_fSplitterGrabbed(false)
     , m_pPSC(NULL)
     , m_pShader(NULL)
+    , m_nIDEventShader(0)
 {
 }
 

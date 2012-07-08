@@ -27,14 +27,16 @@
 #include "MainFrm.h"
 
 // User Defined Window Messages
-#define UWM_PARSE (WM_USER + 100)
+#define UWM_PARSE  (WM_USER + 100)
 #define UWM_FAILED (WM_USER + 101)
 
 CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParent),
       m_url(url),
       ps(m_list.GetSafeHwnd(), 0, TRUE),
-      m_status()
+      m_status(),
+      m_pTA(NULL),
+      m_fReplaceSubs(false)
 {
 }
 

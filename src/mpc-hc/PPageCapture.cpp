@@ -294,7 +294,6 @@ CPPageCapture::CPPageCapture()
     : CPPageBase(CPPageCapture::IDD, CPPageCapture::IDD)
     , m_iDefaultDevice(0)
 {
-
 }
 
 CPPageCapture::~CPPageCapture()

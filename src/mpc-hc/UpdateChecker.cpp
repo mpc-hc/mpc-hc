@@ -34,7 +34,8 @@ const Version UpdateChecker::MPC_HC_VERSION = { MPC_VERSION_NUM };
 const LPCTSTR UpdateChecker::MPC_HC_UPDATE_URL = _T("http://mpc-hc.sourceforge.net/version.txt");
 
 UpdateChecker::UpdateChecker(CString versionFileURL)
-    : versionFileURL(versionFileURL)
+    : versionFileURL(versionFileURL),
+      latestVersion()
 {
 }
 

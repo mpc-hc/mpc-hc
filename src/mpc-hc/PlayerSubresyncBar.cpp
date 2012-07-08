@@ -30,7 +30,9 @@
 // CPlayerSubresyncBar
 
 IMPLEMENT_DYNAMIC(CPlayerSubresyncBar, CPlayerBar)
-CPlayerSubresyncBar::CPlayerSubresyncBar()
+CPlayerSubresyncBar::CPlayerSubresyncBar() :
+    m_pSubLock(NULL),
+    m_mode(0)
 {
     m_rt = 0;
     m_fUnlink = false;

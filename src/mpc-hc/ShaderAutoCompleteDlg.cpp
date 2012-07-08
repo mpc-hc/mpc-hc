@@ -30,6 +30,7 @@
 
 CShaderAutoCompleteDlg::CShaderAutoCompleteDlg(CWnd* pParent /*=NULL*/)
     : CResizableDialog(CShaderAutoCompleteDlg::IDD, pParent)
+    , m_hToolTipWnd(NULL)
 {
     m_text[0] = 0;
 
@@ -124,13 +125,11 @@ void CShaderAutoCompleteDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
-
 BEGIN_MESSAGE_MAP(CShaderAutoCompleteDlg, CResizableDialog)
     ON_WM_SETFOCUS()
     ON_LBN_SELCHANGE(IDC_LIST1, OnLbnSelchangeList1)
     ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
-
 
 // CShaderAutoCompleteDlg message handlers
 

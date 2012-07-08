@@ -30,7 +30,11 @@
 #define SLIDER_CURSOR_WIDTH     15
 
 
-CVMROSD::CVMROSD(void)
+CVMROSD::CVMROSD(void) :
+    m_pWnd(NULL),
+    m_llSeekMin(0),
+    m_llSeekMax(0),
+    m_llSeekPos(0)
 {
     m_Color[OSD_TRANSPARENT] = RGB(0,     0,   0);
     m_Color[OSD_BACKGROUND]  = RGB(32,   40,  48);

@@ -34,6 +34,8 @@ CShaderCombineDlg::CShaderCombineDlg(CAtlList<CString>& labels1, CAtlList<CStrin
     , m_fcheck2(FALSE)
     , m_labels1(labels1)
     , m_labels2(labels2)
+    , m_oldcheck1(false)
+    , m_oldcheck2(false)
 {
 }
 
