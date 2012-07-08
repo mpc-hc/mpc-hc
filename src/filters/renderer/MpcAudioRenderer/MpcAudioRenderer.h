@@ -39,8 +39,8 @@
 #define MpcAudioRendererName L"MPC Audio Renderer"
 
 // REFERENCE_TIME time units per second and per millisecond
-#define REFTIMES_PER_SEC        10000000
-#define REFTIMES_PER_MILLISEC   10000
+#define REFTIMES_PER_SEC        10000000.0
+#define REFTIMES_PER_MILLISEC   10000.0
 
 // if you get a compilation error on AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED,
 // uncomment the #define below

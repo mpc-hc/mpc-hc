@@ -918,7 +918,7 @@ HRESULT CMpcAudioRenderer::DoRenderSampleWasapi(IMediaSample* pMediaSample)
     DWORD currentTime = GetTickCount();
     if (lastBufferTime != 0 && hnsActualDuration != 0 && lastBufferTime < currentTime && (currentTime - lastBufferTime) < hnsActualDuration) {
         hnsActualDuration = hnsActualDuration - (currentTime - lastBufferTime);
-        Sleep(hnsActualDuration);
+        Sleep((DWORD)hnsActualDuration);
     }
 
     // Each loop fills one of the two buffers.
@@ -966,17 +966,17 @@ HRESULT CMpcAudioRenderer::DoRenderSampleWasapi(IMediaSample* pMediaSample)
         if (pInputBufferPointer >= pInputBufferEnd) {
             lastBufferTime = GetTickCount();
             // This is the duration of the filled buffer
-            hnsActualDuration = (double)REFTIMES_PER_SEC * numFramesAvailable / m_pWaveFileFormat->nSamplesPerSec;
+            hnsActualDuration = (REFERENCE_TIME)REFTIMES_PER_SEC * numFramesAvailable / m_pWaveFileFormat->nSamplesPerSec;
             // Sleep time is half this duration
             hnsActualDuration = (DWORD)(hnsActualDuration / REFTIMES_PER_MILLISEC / 2);
             break;
         }
 
         // Buffer not completely filled, sleep for half buffer capacity duration
-        hnsActualDuration = (double)REFTIMES_PER_SEC * nFramesInBuffer / m_pWaveFileFormat->nSamplesPerSec;
+        hnsActualDuration = (REFERENCE_TIME)REFTIMES_PER_SEC * nFramesInBuffer / m_pWaveFileFormat->nSamplesPerSec;
         // Sleep time is half this duration
         hnsActualDuration = (DWORD)(hnsActualDuration / REFTIMES_PER_MILLISEC / 2);
-        Sleep(hnsActualDuration);
+        Sleep((DWORD)hnsActualDuration);
     }
     return hr;
 }
