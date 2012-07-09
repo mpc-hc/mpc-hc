@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "SaveTextFileDialog.h"
+#include "SysVersion.h"
 
 
 // CSaveTextFileDialog
@@ -35,10 +36,27 @@ CSaveTextFileDialog::CSaveTextFileDialog(
     LPCTSTR lpszFilter, CWnd* pParentWnd) :
     CFileDialog(FALSE, lpszDefExt, lpszFileName,
                 OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                lpszFilter, pParentWnd, 0, FALSE),
+                lpszFilter, pParentWnd),
     m_e(e)
 {
-    SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL);
+    if (SysVersion::IsVistaOrLater()) {
+        // customization has to be done before OnInitDialog
+        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+
+        pfdc->StartVisualGroup(IDS_TEXTFILE_ENC, ResStr(IDS_TEXTFILE_ENC));
+        pfdc->AddComboBox(IDC_COMBO1);
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::ASCII, _T("ANSI"));
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::LE16, _T("Unicode 16-LE"));
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::BE16, _T("Unicode 16-BE"));
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::UTF8, _T("UTF-8"));
+        pfdc->SetSelectedControlItem(IDC_COMBO1, m_e);
+        pfdc->EndVisualGroup();
+        pfdc->MakeProminent(IDS_TEXTFILE_ENC);
+
+        pfdc->Release();
+    } else {
+        SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL);
+    }
 }
 
 CSaveTextFileDialog::~CSaveTextFileDialog()
@@ -55,25 +73,27 @@ BOOL CSaveTextFileDialog::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    m_encoding.SetItemData(m_encoding.AddString(_T("ANSI")), CTextFile::ASCII);
-    m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-LE")), CTextFile::LE16);
-    m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-BE")), CTextFile::BE16);
-    m_encoding.SetItemData(m_encoding.AddString(_T("UTF-8")), CTextFile::UTF8);
+    if (!SysVersion::IsVistaOrLater()) {
+        m_encoding.SetItemData(m_encoding.AddString(_T("ANSI")), CTextFile::ASCII);
+        m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-LE")), CTextFile::LE16);
+        m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-BE")), CTextFile::BE16);
+        m_encoding.SetItemData(m_encoding.AddString(_T("UTF-8")), CTextFile::UTF8);
 
-    switch (m_e) {
-        default:
-        case CTextFile::ASCII:
-            m_encoding.SetCurSel(0);
-            break;
-        case CTextFile::LE16:
-            m_encoding.SetCurSel(1);
-            break;
-        case CTextFile::BE16:
-            m_encoding.SetCurSel(2);
-            break;
-        case CTextFile::UTF8:
-            m_encoding.SetCurSel(3);
-            break;
+        switch (m_e) {
+            default:
+            case CTextFile::ASCII:
+                m_encoding.SetCurSel(0);
+                break;
+            case CTextFile::LE16:
+                m_encoding.SetCurSel(1);
+                break;
+            case CTextFile::BE16:
+                m_encoding.SetCurSel(2);
+                break;
+            case CTextFile::UTF8:
+                m_encoding.SetCurSel(3);
+                break;
+        }
     }
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -87,6 +107,15 @@ END_MESSAGE_MAP()
 
 BOOL CSaveTextFileDialog::OnFileNameOK()
 {
-    m_e = (CTextFile::enc)m_encoding.GetItemData(m_encoding.GetCurSel());
+    if (SysVersion::IsVistaOrLater()) {
+        DWORD result;
+        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+        pfdc->GetSelectedControlItem(IDC_COMBO1, &result);
+        pfdc->Release();
+        m_e = (CTextFile::enc)result;
+    } else {
+        m_e = (CTextFile::enc)m_encoding.GetItemData(m_encoding.GetCurSel());
+    }
+
     return __super::OnFileNameOK();
 }

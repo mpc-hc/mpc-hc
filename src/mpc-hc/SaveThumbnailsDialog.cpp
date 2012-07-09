@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "SaveThumbnailsDialog.h"
+#include "SysVersion.h"
 
 
 // CSaveThumbnailsDialog
@@ -35,12 +36,36 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
     LPCTSTR lpszFilter, CWnd* pParentWnd) :
     CFileDialog(FALSE, lpszDefExt, lpszFileName,
                 OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                lpszFilter, pParentWnd, 0, FALSE),
+                lpszFilter, pParentWnd, 0),
     m_rows(rows),
     m_cols(cols),
     m_width(width)
 {
-    SetTemplate(0, IDD_SAVETHUMBSDIALOGTEMPL);
+    if (SysVersion::IsVistaOrLater()) {
+        // customization has to be done before OnInitDialog
+        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+        CStringW str;
+
+        pfdc->StartVisualGroup(IDS_THUMB_THUMBNAILS, ResStr(IDS_THUMB_THUMBNAILS));
+        pfdc->AddText(IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER));
+        str.Format(L"%d", max(1, min(20, m_rows)));
+        pfdc->AddEditBox(IDC_EDIT1, str);
+
+        pfdc->AddText(IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER));
+        str.Format(L"%d", max(1, min(10, m_cols)));
+        pfdc->AddEditBox(IDC_EDIT2, str);
+        pfdc->EndVisualGroup();
+
+        pfdc->StartVisualGroup(IDS_THUMB_IMAGE_WIDTH, ResStr(IDS_THUMB_IMAGE_WIDTH));
+        pfdc->AddText(IDS_THUMB_PIXELS, ResStr(IDS_THUMB_PIXELS));
+        str.Format(L"%d", max(256, min(2560, m_width)));
+        pfdc->AddEditBox(IDC_EDIT3, str);
+        pfdc->EndVisualGroup();
+
+        pfdc->Release();
+    } else {
+        SetTemplate(0, IDD_SAVETHUMBSDIALOGTEMPL);
+    }
 }
 
 CSaveThumbnailsDialog::~CSaveThumbnailsDialog()
@@ -59,12 +84,14 @@ BOOL CSaveThumbnailsDialog::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    m_rowsctrl.SetRange(1, 20);
-    m_colsctrl.SetRange(1, 10);
-    m_widthctrl.SetRange(256, 2560);
-    m_rowsctrl.SetPos(m_rows);
-    m_colsctrl.SetPos(m_cols);
-    m_widthctrl.SetPos(m_width);
+    if (!SysVersion::IsVistaOrLater()) {
+        m_rowsctrl.SetRange(1, 20);
+        m_colsctrl.SetRange(1, 10);
+        m_widthctrl.SetRange(256, 2560);
+        m_rowsctrl.SetPos(m_rows);
+        m_colsctrl.SetPos(m_cols);
+        m_widthctrl.SetPos(m_width);
+    }
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -77,9 +104,26 @@ END_MESSAGE_MAP()
 
 BOOL CSaveThumbnailsDialog::OnFileNameOK()
 {
-    m_rows = m_rowsctrl.GetPos();
-    m_cols = m_colsctrl.GetPos();
-    m_width = m_widthctrl.GetPos();
+    if (SysVersion::IsVistaOrLater()) {
+        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+        WCHAR* result;
+
+        pfdc->GetEditBoxText(IDC_EDIT1, &result);
+        m_rows = _wtoi(result);
+        CoTaskMemFree(result);
+        pfdc->GetEditBoxText(IDC_EDIT2, &result);
+        m_cols = _wtoi(result);
+        CoTaskMemFree(result);
+        pfdc->GetEditBoxText(IDC_EDIT3, &result);
+        m_width = _wtoi(result);
+        CoTaskMemFree(result);
+
+        pfdc->Release();
+    } else {
+        m_rows = m_rowsctrl.GetPos();
+        m_cols = m_colsctrl.GetPos();
+        m_width = m_widthctrl.GetPos();
+    }
 
     return __super::OnFileNameOK();
 }
