@@ -723,19 +723,20 @@ void CDXVADecoder::EndOfStream()
     CComPtr<IMediaSample>   pSampleToDeliver;
 
     for (int nPicIndex = 0; nPicIndex < m_nPicEntryNumber; nPicIndex++) {
-        if (m_pPictureStore[nPicIndex].bInUse && !m_pPictureStore[nPicIndex].bDisplayed) {
+        PICTURE_STORE& pic = m_pPictureStore[nPicIndex];
+        if (pic.bInUse && !pic.bDisplayed && pic.rtStart != _I64_MIN) {
             switch (m_nEngine) {
-                    // TODO - need check under WinXP on DXVA1
-                    /*
-                    case ENGINE_DXVA1 :
-                        if (SUCCEEDED (GetDeliveryBuffer (m_pPictureStore[nPicIndex].rtStart, m_pPictureStore[nPicIndex].rtStop, &pSampleToDeliver)) && pSampleToDeliver) {
-                            m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
-                        }
-                        break;
-                    */
+                // TODO - need check under WinXP on DXVA1
+                /*
+                case ENGINE_DXVA1 :
+                    if (SUCCEEDED (GetDeliveryBuffer (pic.rtStart, pic.rtStop, &pSampleToDeliver)) && pSampleToDeliver) {
+                        m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
+                    }
+                    break;
+                */
                 case ENGINE_DXVA2 :
-                    SetTypeSpecificFlags(&m_pPictureStore[nPicIndex], m_pPictureStore[nPicIndex].pSample);
-                    m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
+                    SetTypeSpecificFlags(&pic, pic.pSample);
+                    m_pFilter->GetOutputPin()->Deliver(pic.pSample);
                     break;
             }
         }
