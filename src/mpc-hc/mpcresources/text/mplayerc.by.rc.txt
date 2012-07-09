@@ -1,12 +1,12 @@
 BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"Пра праграму"
 8		"Copyright © 2002-2012 глядзiце файл Authors.txt"
-9		"Версія :"
 10		"OK"
 11		"Гэтая праграма бясплатная і распаўсюджваецца пад ліцэнзіяй GNU General Public License."
 12		"Кампiлятар MPC-HC :"
 13		"Кампiлятар FFmpeg :"
-17		"Лакалізацыя: Містэр Ш"
+14		"Кампiлятар FFmpeg :"
+18		"Лакалізацыя: Містэр Ш"
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
@@ -324,7 +324,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 34		"Аўтазагр. субтытраў"
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
+BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 5		"Адкрываць файлы выкарыст."
 6		"адзін і той жа прайгравальнік для кожнага файла"
 9		"новы прайгравальнік для кожнага файла"
@@ -339,15 +339,16 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 33
 20		"Суадносіны бакоў акна як у відэакадра"
 21		"Прыліпаць да межаў экрана"
 22		"Захоўваць налады ў .ini файле"
-23		"Выкл меню 'Адкрыць дыск'"
+23		"Disable ""Open Disc"" menu"
 24		"Падвышаны прыярытэт працэсу"
 25		"Гісторыя"
 26		"Захоўваць гісторыю адчын. файлаў"
 28		"Пры выхадзе запомніць пазіцыю DVD"
 29		"Пры выхадзе запомніць пазіцыю ў файле"
-30		"Запамінаць пазіцыю акна"
-31		"Запамінаць памер акна"
-32		"Памятаць апошні Pan-n-Scan Zoom"
+30		"Remember last playlist"
+31		"Запамінаць пазіцыю акна"
+32		"Запамінаць памер акна"
+33		"Remember last Pan-n-Scan Zoom"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
@@ -1676,7 +1677,6 @@ STRING IDS_PLAYLIST_COPYTOCLIPBOARD		"&Капіяваць у буфер"
 STRING IDS_PLAYLIST_HIDEFS		"Схаваць, калі на поўны экран"
 STRING IDS_PLAYLIST_OPEN		"&Запусціць"
 STRING IDS_PLAYLIST_RANDOMIZE		"З&мяшаць"
-STRING IDS_PLAYLIST_REMEBERITEMS		"Запамінаць элементы"
 STRING IDS_PLAYLIST_REMOVE		"&Прыбраць"
 STRING IDS_PLAYLIST_RESTORE		"А&днавiць"
 STRING IDS_PLAYLIST_SAVEAS		"&Захаваць як..."
@@ -1779,9 +1779,12 @@ STRING IDS_SUBTITLES_RELOAD		"&Перазагрузіць"
 STRING IDS_SUBTITLES_STYLES		"&Стылі..."
 STRING IDS_SUBTITLE_STREAM		"Субтытры: %s"
 STRING IDS_SUBTITLE_STREAM_OFF		"Субтытры: адключаны"
+STRING IDS_TEXTFILE_ENC		"Encoding:"
 STRING IDS_THUMB_COLNUMBER		"Слупкоў:"
 STRING IDS_THUMB_IMAGE_WIDTH		"Шырыня малюнка:"
+STRING IDS_THUMB_PIXELS		"Pixels:"
 STRING IDS_THUMB_ROWNUMBER		"Радкоў:"
+STRING IDS_THUMB_THUMBNAILS		"Layout"
 STRING IDS_TIME_TOOLTIP_ABOVE		"Над паласой прагорткі"
 STRING IDS_TIME_TOOLTIP_BELOW		"Пад паласой прагорткі"
 STRING IDS_TOOLTIP_EXPLORE_TO_FILE		"Падвойны клік адкрывае месцазнаходжанне файла"

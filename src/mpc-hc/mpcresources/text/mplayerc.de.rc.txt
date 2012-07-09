@@ -1871,4 +1871,3 @@ STRING ID_PLAY_STOP		"Stopp\nStopp"
 STRING ID_VOLUME_MUTE		"Stummschaltung\nStummschaltung"
 STRING ID_VOLUME_MUTE_DISABLED		"Kein Audio\nKein Audio"
 STRING ID_VOLUME_MUTE_ON		"Stummschaltung\nStummschaltung"
-
