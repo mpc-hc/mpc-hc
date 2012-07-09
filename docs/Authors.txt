@@ -1,8 +1,8 @@
 People with SVN commit rights (sorted by name):
 --------
+Armada                  <armada651@users.sourceforge.net>       Code
 bobdynlan               <bobdynlan@users.sourceforge.net>       Code
 clsid                   <clsid2@users.sourceforge.net>          Code
-demi_alucard            <alysson87@gmail.com>                   Code, Portuguese (Brazil)
 janwillem32             <janwillem32@users.sourceforge.net>     Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
@@ -20,6 +20,7 @@ Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code
 Beliyaal                <beliyaal@users.sourceforge.net>        Code
 Casimir666              <casimir666@users.sourceforge.net>      Founder, Code, Admin, French
+demi_alucard            <alysson87@gmail.com>                   Code, Portuguese (Brazil)
 Di Luo                  <sansnom05@users.sourceforge.net>       Code
 jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
 KindDragon              <kinddragon@users.sourceforge.net>      Code

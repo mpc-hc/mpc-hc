@@ -24,9 +24,10 @@ Legend:
 * Updated FFmpeg (git 2d42008)
 * Updated Little CMS to v2.4 (git cd4601a)
 * Updated SoundTouch to v1.7.0pre r143
-* Updated Armenian, Basque, Catalan, Chinese Simplified, Czech, French, German, Polish,
-  Russian, Ukrainian and Belarusian translations
+* Updated Armenian, Basque, Belarusian, Catalan, Chinese Simplified, Czech, French, German,
+  Polish, Russian and Ukrainian translations
 * Ticket #2227, Hide the seek bar in capture mode
+* Ticket #2276, Use the new user interface on Vista and later for the Save dialogs
 * Ticket #2342, MPC-HC will now use the Windows theme font for the Statusbar, OSD messages
   and a few other places on Windows Vista and newer
 * Ticket #2378, Move the "Remember last playlist" option into the Options dialog
