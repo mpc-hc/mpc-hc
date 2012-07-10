@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -313,124 +313,99 @@ img {
 </head>
 <body onload="Init()">
 <div align="center">
-	<table id="player" cellpadding="0" cellspacing="0">
-	<tr>
-		<td colspan="3">
-			<table id="header" cellpadding="0" cellspacing="0">
-			<tr>
-				<td id="headericon">
-				</td>
-				<td id="headerback">
-					<div class="nobr" id="title">&nbsp;</div>
-				</td>
-				<td id="headerclose" onclick="OnCommand(816)">
-				</td>
-			</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td id="leftside">
-		</td>
-		<td>
-			<table cellpadding="0" cellspacing="0" id="center">
-			<tr>
-				<td>
-					<table id="menu" width="100%">
-					<tr>
-						<td>
-							File
-						</td>
-						<td>
-							View
-						</td>
-						<td>
-							Play
-						</td>
-						<td>
-							Navigate
-						</td>
-						<td>
-							Favorites
-						</td>
-						<td width="100%" align="right">
-							Help
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td id="video" align="center" onclick="OnCommand(889)">
-					<img src="snapshot.png" alt="snapshot" id="snapshot" onload="OnLoadSnapShot()" onabort="OnAbortErrorSnapShot()" onerror="OnAbortErrorSnapShot()">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<table width="100%" id="seekbar" cellpadding="0" cellspacing="0">
-					<tr>
-						<td id="seekbarleft">
-							<img src="seekbarleft.png" alt="seekbarleft">
-						</td>
-						<td id="seekbarchleft" width="0%">
-						</td>
-						<td id="seekbargrip">
-							<img src="seekbargrip.png" alt="seekbargrip">
-						</td>
-						<td id="seekbarchright" width="100%">
-						</td>
-						<td id="seekbarright">
-							<img src="seekbarright.png" alt="seekbarright">
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<table width="100%" cellpadding="0" cellspacing="0" id="controlbar">
-					<tr>
-						<td id="controlbuttonplay" onclick="OnCommand(887)"></td>
-						<td id="controlbuttonpause" onclick="OnCommand(888)"></td>
-						<td id="controlbuttonstop" onclick="OnCommand(890)"></td>
-						<td id="controlbuttonskipback" onclick="OnCommand(920)"></td>
-						<td id="controlbuttondecrate" onclick="OnCommand(894)"></td>
-						<td id="controlbuttonincrate" onclick="OnCommand(895)"></td>
-						<td id="controlbuttonskipforward" onclick="OnCommand(921)"></td>
-						<td id="controlbuttonstep" onclick="OnCommand(891)"></td>
-						<td>&nbsp;</td>
-						<td id="controlvolumemute" onclick="OnCommand(909)"></td>
-						<td id="controlvolumebar" valign="top">
-							<img src="controlvolumegrip.png" id="controlvolumegrip" alt="control volume grip">
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<table width="100%" id="statusbar">
-					<tr>
-						<td>
-							<div id="status"></div>
-						</td>
-						<td align="right">
-							<div id="timer">&nbsp;</div>
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			</table>
-		</td>
-		<td id="rightside"></td>
-	</tr>
-	<tr>
-		<td id="leftbottomside"></td>
-		<td id="bottomside"></td>
-		<td id="rightbottomside"></td>
-	</tr>
-	</table>
+<table id="player" cellpadding="0" cellspacing="0">
+<tr>
+	<td colspan="3">
+		<table id="header" cellpadding="0" cellspacing="0">
+		<tr>
+			<td id="headericon">
+			</td>
+			<td id="headerback">
+				<div class="nobr" id="title">&nbsp;</div>
+			</td>
+			<td id="headerclose" onclick="OnCommand(816)">
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td id="leftside"></td>
+	<td>
+		<table cellpadding="0" cellspacing="0" id="center">
+		<tr>
+			<td>
+				<table id="menu" width="100%">
+				<tr>
+					<td>File</td>
+					<td>View</td>
+					<td>Play</td>
+					<td>Navigate</td>
+					<td>Favorites</td>
+					<td width="100%" align="right">Help</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td id="video" align="center" onclick="OnCommand(889)">
+				<img src="snapshot.png" alt="snapshot" id="snapshot" onload="OnLoadSnapShot()" onabort="OnAbortErrorSnapShot()" onerror="OnAbortErrorSnapShot()">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table width="100%" id="seekbar" cellpadding="0" cellspacing="0">
+				<tr>
+					<td id="seekbarleft"><img src="seekbarleft.png" alt="seekbarleft"></td>
+					<td id="seekbarchleft" width="0%"></td>
+					<td id="seekbargrip"><img src="seekbargrip.png" alt="seekbargrip"></td>
+					<td id="seekbarchright" width="100%"></td>
+					<td id="seekbarright"><img src="seekbarright.png" alt="seekbarright"></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table width="100%" cellpadding="0" cellspacing="0" id="controlbar">
+				<tr>
+					<td id="controlbuttonplay" onclick="OnCommand(887)"></td>
+					<td id="controlbuttonpause" onclick="OnCommand(888)"></td>
+					<td id="controlbuttonstop" onclick="OnCommand(890)"></td>
+					<td id="controlbuttonskipback" onclick="OnCommand(920)"></td>
+					<td id="controlbuttondecrate" onclick="OnCommand(894)"></td>
+					<td id="controlbuttonincrate" onclick="OnCommand(895)"></td>
+					<td id="controlbuttonskipforward" onclick="OnCommand(921)"></td>
+					<td id="controlbuttonstep" onclick="OnCommand(891)"></td>
+					<td>&nbsp;</td>
+					<td id="controlvolumemute" onclick="OnCommand(909)"></td>
+					<td id="controlvolumebar" valign="top">
+						<img src="controlvolumegrip.png" id="controlvolumegrip" alt="control volume grip">
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table width="100%" id="statusbar">
+				<tr>
+					<td><div id="status"></div></td>
+					<td align="right"><div id="timer">&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td id="rightside"></td>
+</tr>
+<tr>
+	<td id="leftbottomside"></td>
+	<td id="bottomside"></td>
+	<td id="rightbottomside"></td>
+</tr>
+</table>
 </div>
 </body>
 </html>
