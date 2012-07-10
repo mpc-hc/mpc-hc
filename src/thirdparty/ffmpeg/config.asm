@@ -57,6 +57,7 @@ else
 %define HAVE_CLOCK_GETTIME 0
 %define HAVE_CLOSESOCKET 1
 %define HAVE_CMOV 1
+%define HAVE_CPUID 1
 %define HAVE_DCBZL 0
 %define HAVE_DEV_BKTR_IOCTL_BT848_H 0
 %define HAVE_DEV_BKTR_IOCTL_METEOR_H 0
@@ -117,6 +118,7 @@ else
 %define HAVE_MIPSDSPR2 0
 %define HAVE_MKSTEMP 0
 %define HAVE_MMAP 0
+%define HAVE_MM_EMPTY 0
 %define HAVE_MMI 0
 %define HAVE_NANOSLEEP 0
 %define HAVE_NEON 0
@@ -129,8 +131,10 @@ else
 %define HAVE_PPC4XX 0
 %define HAVE_PTHREADS 0
 %define HAVE_FAST_UNALIGNED 1
+%define HAVE_RDTSC 1
 %define HAVE_ROUND 1
 %define HAVE_ROUNDF 1
+%define HAVE_RWEFLAGS 0
 %define HAVE_SCHED_GETAFFINITY 0
 %define HAVE_SDL 0
 %define HAVE_SDL_VIDEO_SIZE 0
@@ -174,5 +178,6 @@ else
 %define HAVE_W32THREADS 1
 %define HAVE_WINSOCK2_H 1
 %define HAVE_XFORM_ASM 0
+%define HAVE_XGETBV 0
 %define HAVE_XMM_CLOBBERS 1
 %define HAVE_YASM 1
