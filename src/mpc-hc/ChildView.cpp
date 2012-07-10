@@ -121,7 +121,7 @@ void CChildView::LoadLogo()
 
     CAutoLock cAutoLock(&m_csLogo);
 
-    m_logo.Detach();
+    m_logo.DeleteObject();
 
     if (s.fLogoExternal) {
         bHaveLogo = !!m_logo.LoadFromFile(s.strLogoFileName);

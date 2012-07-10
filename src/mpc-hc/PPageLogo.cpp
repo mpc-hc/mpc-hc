@@ -128,7 +128,7 @@ void CPPageLogo::OnBnClickedExternalRadio()
 
     m_author.Empty();
 
-    m_logo.Detach();
+    m_logo.DeleteObject();
     m_logo.LoadFromFile(m_logofn);
     m_logopreview.SetBitmap(m_logo);
     Invalidate();
@@ -179,7 +179,7 @@ void CPPageLogo::OnBnClickedButton2()
 void CPPageLogo::GetDataFromRes()
 {
     m_author.Empty();
-    m_logo.Detach();
+    m_logo.DeleteObject();
 
     UINT id = m_logoids.GetAt(m_logoidpos);
     if (IDF_LOGO0 != id) {
