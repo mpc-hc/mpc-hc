@@ -26,12 +26,6 @@ function MakeRequest(req) {
 	} catch (e) {}
 }
 
-function urlencode(s) {
-	if (encodeURIComponent) return encodeURIComponent(s);
-	if (escape) return escape(s);
-	return s; // whatever
-}
-
 function getOffsetX(m) {
 	var x = m.offsetLeft;
 	while (m.offsetParent) {
