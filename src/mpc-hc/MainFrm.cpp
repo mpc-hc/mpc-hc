@@ -9874,7 +9874,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 
             if (fShowStats) {
                 CString info;
-                info.Format(_T("Pos %.2f %.2f, Zoom %.2f %.2f, AR %.2f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, dVRWidth / dVRHeight);
+                info.Format(_T("Pos %.2f %.2f, Zoom %.2f %.2f, AR %.2f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, (double)(vr.right - vr.left) / (vr.bottom - vr.top));
                 SendStatusMessage(info, 3000);
             }
         }
