@@ -357,7 +357,7 @@ void CVobSubImage::TrimSubImage()
 
 ////////////////////////////////
 
-#define GP(xx, yy) (((xx) < 0 || (yy) < 0 || (xx) >= w || (yy) >= h) ? 0 : p[(yy)*w+(xx)])
+#define GP(xx, yy) (((xx) < 0 || (yy) < 0 || (xx) >= w || (yy) >= h) ? 0 : p[(yy) * w + (xx)])
 
 CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 {

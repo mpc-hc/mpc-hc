@@ -25,7 +25,7 @@
 #include "../DSUtil/GolombBuffer.h"
 
 #if (0)     // Set to 1 to activate HDMV subtitles traces
-#define TRACE_HDMVSUB       TRACE
+#define TRACE_HDMVSUB TRACE
 #else
 #define TRACE_HDMVSUB
 #endif
@@ -34,16 +34,16 @@
 CHdmvSub::CHdmvSub(void)
     : CBaseSub(ST_HDMV)
 {
-    m_nColorNumber              = 0;
+    m_nColorNumber = 0;
 
-    m_nCurSegment               = NO_SEGMENT;
-    m_pSegBuffer                = NULL;
-    m_nTotalSegBuffer           = 0;
-    m_nSegBufferPos             = 0;
-    m_nSegSize                  = 0;
-    m_pCurrentObject            = NULL;
-    m_pDefaultPalette           = NULL;
-    m_nDefaultPaletteNbEntry    = 0;
+    m_nCurSegment = NO_SEGMENT;
+    m_pSegBuffer = NULL;
+    m_nTotalSegBuffer = 0;
+    m_nSegBufferPos = 0;
+    m_nSegSize = 0;
+    m_pCurrentObject = NULL;
+    m_pDefaultPalette = NULL;
+    m_nDefaultPaletteNbEntry = 0;
 
     memset(&m_VideoDescriptor, 0, sizeof(VIDEO_DESCRIPTOR));
 }
@@ -62,16 +62,16 @@ void CHdmvSub::AllocSegment(int nSize)
 {
     if (nSize > m_nTotalSegBuffer) {
         delete [] m_pSegBuffer;
-        m_pSegBuffer        = DNew BYTE[nSize];
-        m_nTotalSegBuffer   = nSize;
+        m_pSegBuffer = DNew BYTE[nSize];
+        m_nTotalSegBuffer = nSize;
     }
-    m_nSegBufferPos  = 0;
-    m_nSegSize       = nSize;
+    m_nSegBufferPos = 0;
+    m_nSegSize = nSize;
 }
 
 POSITION CHdmvSub::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
-    CompositionObject*  pObject;
+    CompositionObject* pObject;
 
     // Cleanup old PG
     while (m_pObjects.GetCount() > 0) {
@@ -92,10 +92,10 @@ POSITION CHdmvSub::GetStartPosition(REFERENCE_TIME rt, double fps)
 HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 {
     CheckPointer(pSample, E_POINTER);
-    HRESULT             hr;
-    REFERENCE_TIME      rtStart = INVALID_TIME, rtStop = INVALID_TIME;
-    BYTE*               pData = NULL;
-    int                 lSampleLen;
+    HRESULT hr;
+    REFERENCE_TIME rtStart = INVALID_TIME, rtStop = INVALID_TIME;
+    BYTE* pData = NULL;
+    int lSampleLen;
 
     hr = pSample->GetPointer(&pData);
     if (FAILED(hr) || pData == NULL) {
@@ -105,12 +105,12 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 
     pSample->GetTime(&rtStart, &rtStop);
     if (pData) {
-        CGolombBuffer       SampleBuffer(pData, lSampleLen);
+        CGolombBuffer SampleBuffer(pData, lSampleLen);
 
         while (!SampleBuffer.IsEOF()) {
             if (m_nCurSegment == NO_SEGMENT) {
-                HDMV_SEGMENT_TYPE   nSegType    = (HDMV_SEGMENT_TYPE)SampleBuffer.ReadByte();
-                USHORT              nUnitSize   = SampleBuffer.ReadShort();
+                HDMV_SEGMENT_TYPE nSegType = (HDMV_SEGMENT_TYPE)SampleBuffer.ReadByte();
+                USHORT nUnitSize = SampleBuffer.ReadShort();
                 lSampleLen -= 3;
 
                 switch (nSegType) {
@@ -136,13 +136,13 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 
             if (m_nCurSegment != NO_SEGMENT) {
                 if (m_nSegBufferPos < m_nSegSize) {
-                    int     nSize = min(m_nSegSize - m_nSegBufferPos, lSampleLen);
+                    int nSize = min(m_nSegSize - m_nSegBufferPos, lSampleLen);
                     SampleBuffer.ReadBuffer(m_pSegBuffer + m_nSegBufferPos, nSize);
                     m_nSegBufferPos += nSize;
                 }
 
                 if (m_nSegBufferPos >= m_nSegSize) {
-                    CGolombBuffer   SegmentBuffer(m_pSegBuffer, m_nSegSize);
+                    CGolombBuffer SegmentBuffer(m_pSegBuffer, m_nSegSize);
 
                     switch (m_nCurSegment) {
                         case PALETTE :
@@ -174,10 +174,10 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
                             }
                             break;
                         case WINDOW_DEF :
-                            // TRACE_HDMVSUB ("CHdmvSub:WINDOW_DEF         %S\n", ReftimeToString(rtStart));
+                            //TRACE_HDMVSUB ("CHdmvSub:WINDOW_DEF         %S\n", ReftimeToString(rtStart));
                             break;
                         case END_OF_DISPLAY :
-                            // TRACE_HDMVSUB ("CHdmvSub:END_OF_DISPLAY     %S\n", ReftimeToString(rtStart));
+                            //TRACE_HDMVSUB ("CHdmvSub:END_OF_DISPLAY     %S\n", ReftimeToString(rtStart));
                             break;
                         default :
                             TRACE_HDMVSUB("CHdmvSub:UNKNOWN Seg %d     rtStart=0x%10dd\n", m_nCurSegment, rtStart);
@@ -194,16 +194,16 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 
 int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 {
-    COMPOSITION_DESCRIPTOR  CompositionDescriptor;
-    BYTE                    nObjectNumber;
-    //bool                  palette_update_flag;
-    //BYTE                  palette_id_ref;
+    COMPOSITION_DESCRIPTOR CompositionDescriptor;
+    BYTE nObjectNumber;
+    //bool palette_update_flag;
+    //BYTE palette_id_ref;
 
     ParseVideoDescriptor(pGBuffer, &m_VideoDescriptor);
     ParseCompositionDescriptor(pGBuffer, &CompositionDescriptor);
     pGBuffer->ReadByte(); //palette_update_flag = !!(pGBuffer->ReadByte() & 0x80);
-    pGBuffer->ReadByte(); //palette_id_ref      = pGBuffer->ReadByte();
-    nObjectNumber       = pGBuffer->ReadByte();
+    pGBuffer->ReadByte(); //palette_id_ref = pGBuffer->ReadByte();
+    nObjectNumber = pGBuffer->ReadByte();
 
     TRACE_HDMVSUB("CHdmvSub::ParsePresentationSegment Size = %d, nObjectNumber = %d\n", pGBuffer->GetSize(), nObjectNumber);
 
@@ -221,19 +221,19 @@ int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 
 void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)      // #497
 {
-    int     nNbEntry;
-    BYTE    palette_id              = pGBuffer->ReadByte();
-    BYTE    palette_version_number  = pGBuffer->ReadByte();
+    int nNbEntry;
+    BYTE palette_id = pGBuffer->ReadByte();
+    BYTE palette_version_number = pGBuffer->ReadByte();
     UNREFERENCED_PARAMETER(palette_id);
     UNREFERENCED_PARAMETER(palette_version_number);
 
     ASSERT((nSize - 2) % sizeof(HDMV_PALETTE) == 0);
     nNbEntry = (nSize - 2) / sizeof(HDMV_PALETTE);
-    HDMV_PALETTE*   pPalette = (HDMV_PALETTE*)pGBuffer->GetBufferPos();
+    HDMV_PALETTE* pPalette = (HDMV_PALETTE*)pGBuffer->GetBufferPos();
 
     if (m_pDefaultPalette == NULL || m_nDefaultPaletteNbEntry != nNbEntry) {
         delete [] m_pDefaultPalette;
-        m_pDefaultPalette        = DNew HDMV_PALETTE[nNbEntry];
+        m_pDefaultPalette = DNew HDMV_PALETTE[nNbEntry];
         m_nDefaultPaletteNbEntry = nNbEntry;
     }
     memcpy(m_pDefaultPalette, pPalette, nNbEntry * sizeof(HDMV_PALETTE));
@@ -245,20 +245,20 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)      // #497
 
 void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)   // #498
 {
-    SHORT   object_id   = pGBuffer->ReadShort();
+    SHORT object_id = pGBuffer->ReadShort();
     UNREFERENCED_PARAMETER(object_id);
-    BYTE    m_sequence_desc;
+    BYTE m_sequence_desc;
 
     ASSERT(m_pCurrentObject != NULL);
     if (m_pCurrentObject) { // && m_pCurrentObject->m_object_id_ref == object_id)
-        m_pCurrentObject->m_version_number  = pGBuffer->ReadByte();
-        m_sequence_desc                     = pGBuffer->ReadByte();
+        m_pCurrentObject->m_version_number = pGBuffer->ReadByte();
+        m_sequence_desc = pGBuffer->ReadByte();
 
         if (m_sequence_desc & 0x80) {
-            DWORD   object_data_length  = (DWORD)pGBuffer->BitRead(24);
+            DWORD object_data_length  = (DWORD)pGBuffer->BitRead(24);
 
-            m_pCurrentObject->m_width           = pGBuffer->ReadShort();
-            m_pCurrentObject->m_height          = pGBuffer->ReadShort();
+            m_pCurrentObject->m_width = pGBuffer->ReadShort();
+            m_pCurrentObject->m_height = pGBuffer->ReadShort();
 
             m_pCurrentObject->SetRLEData(pGBuffer->GetBufferPos(), nUnitSize - 11, object_data_length - 4);
 
@@ -272,28 +272,28 @@ void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)   // #498
 
 void CHdmvSub::ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject)
 {
-    BYTE    bTemp;
+    BYTE bTemp;
     pCompositionObject->m_object_id_ref = pGBuffer->ReadShort();
     pCompositionObject->m_window_id_ref = pGBuffer->ReadByte();
     bTemp = pGBuffer->ReadByte();
-    pCompositionObject->m_object_cropped_flag   = !!(bTemp & 0x80);
-    pCompositionObject->m_forced_on_flag        = !!(bTemp & 0x40);
-    pCompositionObject->m_horizontal_position   = pGBuffer->ReadShort();
-    pCompositionObject->m_vertical_position     = pGBuffer->ReadShort();
+    pCompositionObject->m_object_cropped_flag = !!(bTemp & 0x80);
+    pCompositionObject->m_forced_on_flag = !!(bTemp & 0x40);
+    pCompositionObject->m_horizontal_position = pGBuffer->ReadShort();
+    pCompositionObject->m_vertical_position = pGBuffer->ReadShort();
 
     if (pCompositionObject->m_object_cropped_flag) {
-        pCompositionObject->m_cropping_horizontal_position  = pGBuffer->ReadShort();
-        pCompositionObject->m_cropping_vertical_position    = pGBuffer->ReadShort();
-        pCompositionObject->m_cropping_width                = pGBuffer->ReadShort();
-        pCompositionObject->m_cropping_height               = pGBuffer->ReadShort();
+        pCompositionObject->m_cropping_horizontal_position = pGBuffer->ReadShort();
+        pCompositionObject->m_cropping_vertical_position = pGBuffer->ReadShort();
+        pCompositionObject->m_cropping_width = pGBuffer->ReadShort();
+        pCompositionObject->m_cropping_height = pGBuffer->ReadShort();
     }
 }
 
 void CHdmvSub::ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor)
 {
-    pVideoDescriptor->nVideoWidth   = pGBuffer->ReadShort();
-    pVideoDescriptor->nVideoHeight  = pGBuffer->ReadShort();
-    pVideoDescriptor->bFrameRate    = pGBuffer->ReadByte();
+    pVideoDescriptor->nVideoWidth = pGBuffer->ReadShort();
+    pVideoDescriptor->nVideoHeight = pGBuffer->ReadShort();
+    pVideoDescriptor->bFrameRate = pGBuffer->ReadByte();
 }
 
 void CHdmvSub::ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor)
@@ -304,7 +304,7 @@ void CHdmvSub::ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_D
 
 void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 {
-    CompositionObject*  pObject = FindObject(rt);
+    CompositionObject* pObject = FindObject(rt);
 
     ASSERT(pObject != NULL && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height));
 
@@ -328,7 +328,7 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 
 HRESULT CHdmvSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
 {
-    CompositionObject*  pObject = m_pObjects.GetAt(pos);
+    CompositionObject* pObject = m_pObjects.GetAt(pos);
     if (pObject) {
         MaxTextureSize.cx = VideoSize.cx = m_VideoDescriptor.nVideoWidth;
         MaxTextureSize.cy = VideoSize.cy = m_VideoDescriptor.nVideoHeight;
@@ -347,7 +347,7 @@ HRESULT CHdmvSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& Video
 
 void CHdmvSub::Reset()
 {
-    CompositionObject*  pObject;
+    CompositionObject* pObject;
     while (m_pObjects.GetCount() > 0) {
         pObject = m_pObjects.RemoveHead();
         delete pObject;
@@ -356,10 +356,10 @@ void CHdmvSub::Reset()
 
 CompositionObject*  CHdmvSub::FindObject(REFERENCE_TIME rt)
 {
-    POSITION    pos = m_pObjects.GetHeadPosition();
+    POSITION pos = m_pObjects.GetHeadPosition();
 
     while (pos) {
-        CompositionObject*  pObject = m_pObjects.GetAt(pos);
+        CompositionObject* pObject = m_pObjects.GetAt(pos);
 
         if (rt >= pObject->m_rtStart && rt < pObject->m_rtStop) {
             return pObject;

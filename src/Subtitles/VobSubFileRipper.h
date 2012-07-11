@@ -25,6 +25,7 @@
 
 #include <atlcoll.h>
 #include "../DeCSS/VobFile.h"
+#include "../DSUtil/DSUtil.h"
 #include "VobSubFile.h"
 
 #pragma pack(push)
@@ -99,10 +100,6 @@ public IUnknown {
 };
 
 // IVSFRipperCallbackImpl
-
-#ifndef QI
-#define QI(i) (riid == __uuidof(i)) ? GetInterface((i*)this, ppv) :
-#endif
 
 class IVSFRipperCallbackImpl : public CUnknown, public IVSFRipperCallback
 {
