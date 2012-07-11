@@ -1635,7 +1635,13 @@ HRESULT CMpegSplitterOutputPin::DeliverEndFlush()
     return __super::DeliverEndFlush();
 }
 
-#define MOVE_TO_H264_START_CODE(b, e) while (b <= e-4 && !((*(DWORD *)b == 0x01000000) || ((*(DWORD *)b & 0x00FFFFFF) == 0x00010000))) b++; if ((b <= e-4) && *(DWORD *)b == 0x01000000) b++;
+#define MOVE_TO_H264_START_CODE(b, e)                                                                \
+    while (b <= e-4 && !((*(DWORD *)b == 0x01000000) || ((*(DWORD *)b & 0x00FFFFFF) == 0x00010000))) \
+    {                                                                                                \
+        b++;                                                                                         \
+    }                                                                                                \
+    if ((b <= e-4) && *(DWORD *)b == 0x01000000)                                                     \
+        b++;
 
 HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 {
@@ -1776,12 +1782,12 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         BYTE* start = m_p->GetData();
         BYTE* end = start + m_p->GetCount();
 
-        MOVE_TO_H264_START_CODE(start, end);
+        MOVE_TO_H264_START_CODE(start, end)
 
         while (start <= end - 4) {
             BYTE* next = start + 1;
 
-            MOVE_TO_H264_START_CODE(next, end);
+            MOVE_TO_H264_START_CODE(next, end)
 
             if (next >= end - 4) {
                 break;
@@ -1789,13 +1795,13 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
             int size = next - start;
 
-            CH264Nalu           Nalu;
+            CH264Nalu Nalu;
             Nalu.SetBuffer(start, size, 0);
 
             CAutoPtr<Packet> p2;
 
             while (Nalu.ReadNext()) {
-                DWORD   dwNalLength =
+                DWORD dwNalLength =
                     ((Nalu.GetDataLength() >> 24) & 0x000000ff) |
                     ((Nalu.GetDataLength() >>  8) & 0x0000ff00) |
                     ((Nalu.GetDataLength() <<  8) & 0x00ff0000) |
