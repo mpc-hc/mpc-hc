@@ -143,31 +143,6 @@ public:
     }
 };
 
-//
-
-#define SaveMediaState                                    \
-    OAFilterState __fs = GetMediaState();                 \
-                                                          \
-    REFERENCE_TIME __rt = 0;                              \
-    if (m_iMediaLoadState == MLS_LOADED) __rt = GetPos(); \
-                                                          \
-    if (__fs != State_Stopped)                            \
-        SendMessage(WM_COMMAND, ID_PLAY_STOP);
-
-
-#define RestoreMediaState                                 \
-    if (m_iMediaLoadState == MLS_LOADED)                  \
-    {                                                     \
-        SeekTo(__rt);                                     \
-                                                          \
-        if (__fs == State_Stopped)                        \
-            SendMessage(WM_COMMAND, ID_PLAY_STOP);        \
-        else if (__fs == State_Paused)                    \
-            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);       \
-        else if (__fs == State_Running)                   \
-            SendMessage(WM_COMMAND, ID_PLAY_PLAY);        \
-    }
-
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
@@ -544,71 +519,70 @@ const TCHAR* GetEventString(LONG evCode)
 {
 #define UNPACK_VALUE(VALUE) case VALUE: return _T(#VALUE);
     switch (evCode) {
-            UNPACK_VALUE(EC_COMPLETE);
-            UNPACK_VALUE(EC_USERABORT);
-            UNPACK_VALUE(EC_ERRORABORT);
-            UNPACK_VALUE(EC_TIME);
-            UNPACK_VALUE(EC_REPAINT);
-            UNPACK_VALUE(EC_STREAM_ERROR_STOPPED);
-            UNPACK_VALUE(EC_STREAM_ERROR_STILLPLAYING);
-            UNPACK_VALUE(EC_ERROR_STILLPLAYING);
-            UNPACK_VALUE(EC_PALETTE_CHANGED);
-            UNPACK_VALUE(EC_VIDEO_SIZE_CHANGED);
-            UNPACK_VALUE(EC_QUALITY_CHANGE);
-            UNPACK_VALUE(EC_SHUTTING_DOWN);
-            UNPACK_VALUE(EC_CLOCK_CHANGED);
-            UNPACK_VALUE(EC_PAUSED);
-            UNPACK_VALUE(EC_OPENING_FILE);
-            UNPACK_VALUE(EC_BUFFERING_DATA);
-            UNPACK_VALUE(EC_FULLSCREEN_LOST);
-            UNPACK_VALUE(EC_ACTIVATE);
-            UNPACK_VALUE(EC_NEED_RESTART);
-            UNPACK_VALUE(EC_WINDOW_DESTROYED);
-            UNPACK_VALUE(EC_DISPLAY_CHANGED);
-            UNPACK_VALUE(EC_STARVATION);
-            UNPACK_VALUE(EC_OLE_EVENT);
-            UNPACK_VALUE(EC_NOTIFY_WINDOW);
-            UNPACK_VALUE(EC_STREAM_CONTROL_STOPPED);
-            UNPACK_VALUE(EC_STREAM_CONTROL_STARTED);
-            UNPACK_VALUE(EC_END_OF_SEGMENT);
-            UNPACK_VALUE(EC_SEGMENT_STARTED);
-            UNPACK_VALUE(EC_LENGTH_CHANGED);
-            UNPACK_VALUE(EC_DEVICE_LOST);
-            UNPACK_VALUE(EC_SAMPLE_NEEDED);
-            UNPACK_VALUE(EC_PROCESSING_LATENCY);
-            UNPACK_VALUE(EC_SAMPLE_LATENCY);
-            UNPACK_VALUE(EC_SCRUB_TIME);
-            UNPACK_VALUE(EC_STEP_COMPLETE);
-            UNPACK_VALUE(EC_TIMECODE_AVAILABLE);
-            UNPACK_VALUE(EC_EXTDEVICE_MODE_CHANGE);
-            UNPACK_VALUE(EC_STATE_CHANGE);
-            UNPACK_VALUE(EC_GRAPH_CHANGED);
-            UNPACK_VALUE(EC_CLOCK_UNSET);
-            UNPACK_VALUE(EC_VMR_RENDERDEVICE_SET);
-            UNPACK_VALUE(EC_VMR_SURFACE_FLIPPED);
-            UNPACK_VALUE(EC_VMR_RECONNECTION_FAILED);
-            UNPACK_VALUE(EC_PREPROCESS_COMPLETE);
-            UNPACK_VALUE(EC_CODECAPI_EVENT);
-            UNPACK_VALUE(EC_WMT_INDEX_EVENT);
-            UNPACK_VALUE(EC_WMT_EVENT);
-            UNPACK_VALUE(EC_BUILT);
-            UNPACK_VALUE(EC_UNBUILT);
-            UNPACK_VALUE(EC_SKIP_FRAMES);
-            UNPACK_VALUE(EC_PLEASE_REOPEN);
-            UNPACK_VALUE(EC_STATUS);
-            UNPACK_VALUE(EC_MARKER_HIT);
-            UNPACK_VALUE(EC_LOADSTATUS);
-            UNPACK_VALUE(EC_FILE_CLOSED);
-            UNPACK_VALUE(EC_ERRORABORTEX);
-            //UNPACK_VALUE(EC_NEW_PIN);
-            //UNPACK_VALUE(EC_RENDER_FINISHED);
-            UNPACK_VALUE(EC_EOS_SOON);
-            UNPACK_VALUE(EC_CONTENTPROPERTY_CHANGED);
-            UNPACK_VALUE(EC_BANDWIDTHCHANGE);
-            UNPACK_VALUE(EC_VIDEOFRAMEREADY);
-
-            UNPACK_VALUE(EC_BG_AUDIO_CHANGED);
-            UNPACK_VALUE(EC_BG_ERROR);
+            UNPACK_VALUE(EC_COMPLETE)
+            UNPACK_VALUE(EC_USERABORT)
+            UNPACK_VALUE(EC_ERRORABORT)
+            UNPACK_VALUE(EC_TIME)
+            UNPACK_VALUE(EC_REPAINT)
+            UNPACK_VALUE(EC_STREAM_ERROR_STOPPED)
+            UNPACK_VALUE(EC_STREAM_ERROR_STILLPLAYING)
+            UNPACK_VALUE(EC_ERROR_STILLPLAYING)
+            UNPACK_VALUE(EC_PALETTE_CHANGED)
+            UNPACK_VALUE(EC_VIDEO_SIZE_CHANGED)
+            UNPACK_VALUE(EC_QUALITY_CHANGE)
+            UNPACK_VALUE(EC_SHUTTING_DOWN)
+            UNPACK_VALUE(EC_CLOCK_CHANGED)
+            UNPACK_VALUE(EC_PAUSED)
+            UNPACK_VALUE(EC_OPENING_FILE)
+            UNPACK_VALUE(EC_BUFFERING_DATA)
+            UNPACK_VALUE(EC_FULLSCREEN_LOST)
+            UNPACK_VALUE(EC_ACTIVATE)
+            UNPACK_VALUE(EC_NEED_RESTART)
+            UNPACK_VALUE(EC_WINDOW_DESTROYED)
+            UNPACK_VALUE(EC_DISPLAY_CHANGED)
+            UNPACK_VALUE(EC_STARVATION)
+            UNPACK_VALUE(EC_OLE_EVENT)
+            UNPACK_VALUE(EC_NOTIFY_WINDOW)
+            UNPACK_VALUE(EC_STREAM_CONTROL_STOPPED)
+            UNPACK_VALUE(EC_STREAM_CONTROL_STARTED)
+            UNPACK_VALUE(EC_END_OF_SEGMENT)
+            UNPACK_VALUE(EC_SEGMENT_STARTED)
+            UNPACK_VALUE(EC_LENGTH_CHANGED)
+            UNPACK_VALUE(EC_DEVICE_LOST)
+            UNPACK_VALUE(EC_SAMPLE_NEEDED)
+            UNPACK_VALUE(EC_PROCESSING_LATENCY)
+            UNPACK_VALUE(EC_SAMPLE_LATENCY)
+            UNPACK_VALUE(EC_SCRUB_TIME)
+            UNPACK_VALUE(EC_STEP_COMPLETE)
+            UNPACK_VALUE(EC_TIMECODE_AVAILABLE)
+            UNPACK_VALUE(EC_EXTDEVICE_MODE_CHANGE)
+            UNPACK_VALUE(EC_STATE_CHANGE)
+            UNPACK_VALUE(EC_GRAPH_CHANGED)
+            UNPACK_VALUE(EC_CLOCK_UNSET)
+            UNPACK_VALUE(EC_VMR_RENDERDEVICE_SET)
+            UNPACK_VALUE(EC_VMR_SURFACE_FLIPPED)
+            UNPACK_VALUE(EC_VMR_RECONNECTION_FAILED)
+            UNPACK_VALUE(EC_PREPROCESS_COMPLETE)
+            UNPACK_VALUE(EC_CODECAPI_EVENT)
+            UNPACK_VALUE(EC_WMT_INDEX_EVENT)
+            UNPACK_VALUE(EC_WMT_EVENT)
+            UNPACK_VALUE(EC_BUILT)
+            UNPACK_VALUE(EC_UNBUILT)
+            UNPACK_VALUE(EC_SKIP_FRAMES)
+            UNPACK_VALUE(EC_PLEASE_REOPEN)
+            UNPACK_VALUE(EC_STATUS)
+            UNPACK_VALUE(EC_MARKER_HIT)
+            UNPACK_VALUE(EC_LOADSTATUS)
+            UNPACK_VALUE(EC_FILE_CLOSED)
+            UNPACK_VALUE(EC_ERRORABORTEX)
+            //UNPACK_VALUE(EC_NEW_PIN)
+            //UNPACK_VALUE(EC_RENDER_FINISHED)
+            UNPACK_VALUE(EC_EOS_SOON)
+            UNPACK_VALUE(EC_CONTENTPROPERTY_CHANGED)
+            UNPACK_VALUE(EC_BANDWIDTHCHANGE)
+            UNPACK_VALUE(EC_VIDEOFRAMEREADY)
+            UNPACK_VALUE(EC_BG_AUDIO_CHANGED)
+            UNPACK_VALUE(EC_BG_ERROR)
     };
 #undef UNPACK_VALUE
     return _T("UNKNOWN");
@@ -14033,7 +14007,16 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         return false;
     }
 
-    SaveMediaState
+    OAFilterState __fs = GetMediaState();
+    REFERENCE_TIME __rt = 0;
+
+    if (m_iMediaLoadState == MLS_LOADED) {
+        __rt = GetPos();
+    }
+
+    if (__fs != State_Stopped) {
+        SendMessage(WM_COMMAND, ID_PLAY_STOP);
+    }
 
     HRESULT hr;
 
@@ -14166,7 +14149,17 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
     OpenSetupStatsBar();
     OpenSetupStatusBar();
 
-    RestoreMediaState
+    if (m_iMediaLoadState == MLS_LOADED) {
+        SeekTo(__rt);
+
+        if (__fs == State_Stopped) {
+            SendMessage(WM_COMMAND, ID_PLAY_STOP);
+        } else if (__fs == State_Paused) {
+            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+        } else if (__fs == State_Running) {
+            SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+        }
+    }
 
     return true;
 }
@@ -15723,7 +15716,7 @@ bool CMainFrame::OpenBD(CString Path)
 {
     CHdmvClipInfo ClipInfo;
     CString strPlaylistFile;
-    CAtlList<CHdmvClipInfo::PlaylistItem>   MainPlaylist;
+    CAtlList<CHdmvClipInfo::PlaylistItem> MainPlaylist;
 
     m_LastOpenBDPath = Path;
 
