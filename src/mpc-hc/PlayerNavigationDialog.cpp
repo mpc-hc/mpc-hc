@@ -33,8 +33,8 @@
 // IMPLEMENT_DYNAMIC(CPlayerNavigationDialog, CResizableDialog)
 CPlayerNavigationDialog::CPlayerNavigationDialog()
     : CResizableDialog(CPlayerNavigationDialog::IDD, NULL),
-    m_bTVStations(true),
-    m_pParent(NULL)
+      m_bTVStations(true),
+      m_pParent(NULL)
 {
 }
 
@@ -152,8 +152,8 @@ void CPlayerNavigationDialog::UpdateElementList()
         m_ChannelList.ResetContent();
 
         int nCurrentChannel = s.nDVBLastChannel;
-
         POSITION pos = s.m_DVBChannels.GetHeadPosition();
+
         while (pos) {
             const CDVBChannel& channel = s.m_DVBChannels.GetNext(pos);
             if ((m_bTVStations && (channel.GetVideoPID() != 0)) ||
@@ -186,7 +186,6 @@ void CPlayerNavigationDialog::UpdatePos(int nID)
 void CPlayerNavigationDialog::OnTunerScan()
 {
     CWnd* TempWnd;
-
     TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
     static_cast<CMainFrame*>(TempWnd)->OnTunerScan();
     UpdateElementList();
@@ -211,7 +210,6 @@ void CPlayerNavigationDialog::OnSelChangeComboAudio()
 void CPlayerNavigationDialog::OnButtonInfo()
 {
     CWnd* TempWnd;
-
     TempWnd = static_cast<CPlayerNavigationBar*>(m_pParent)->m_pParent;
     static_cast<CMainFrame*>(TempWnd)->DisplayCurrentChannelInfo();
 }
@@ -220,6 +218,7 @@ void CPlayerNavigationDialog::OnTvRadioStations()
 {
     m_bTVStations = !m_bTVStations;
     UpdateElementList();
+
     if (m_bTVStations) {
         m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
     } else {
