@@ -98,6 +98,8 @@ IDF_HEADERCLOSE_PNG              FILE                    "res\\web\\headerclose.
 IDF_HEADERICON_PNG               FILE                    "res\\web\\headericon.png"
 IDF_LEFTBOTTOMSIDE_PNG           FILE                    "res\\web\\leftbottomside.png"
 IDF_LEFTSIDE_PNG                 FILE                    "res\\web\\leftside.png"
+IDF_PLAYER_CSS                   FILE                    "res\\web\\player.css"
+IDF_PLAYER_JS                    FILE                    "res\\web\\player.js"
 IDF_RIGHTBOTTOMSIDE_PNG          FILE                    "res\\web\\rightbottomside.png"
 IDF_RIGHTSIDE_PNG                FILE                    "res\\web\\rightside.png"
 IDF_SEEKBARGRIP_PNG              FILE                    "res\\web\\seekbargrip.png"

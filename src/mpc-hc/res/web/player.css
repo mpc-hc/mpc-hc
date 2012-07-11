@@ -1,0 +1,189 @@
+img {
+	border:0;
+	margin:0;
+	padding:0;
+}
+
+#player {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#player td {
+	font-family:Sans-Serif;
+	font-size:13px;
+}
+
+#header td {
+	height:30px;
+}
+
+#headericon {
+	background-image:url(headericon.png);
+	background-repeat:no-repeat;
+	width:22px;
+}
+
+#headerback {
+	background-image:url(headerback.png);
+	background-repeat:repeat-x;
+	color:#FFF;
+	font-weight:700;
+	padding-top:5px;
+}
+
+#headerclose {
+	background-image:url(headerclose.png);
+	background-repeat:no-repeat;
+	width:28px;
+}
+
+#title,#status,#posstr,#durstr {
+	display:inline;
+}
+
+#menu td {
+	font-family:Sans-Serif;
+	font-size:12px;
+	padding:1px 5px;
+}
+
+#menu,#controlbar {
+	background-color:#ece6d4;
+}
+
+#statusbar td {
+	font-family:Sans-Serif;
+	font-size:12px;
+}
+
+#video,#statusbar {
+	background-color:#000;
+	color:#FFF;
+}
+
+#video {
+	cursor:pointer;
+	padding:1px;
+}
+
+#controlbar {
+	background-image:url(controlback.png);
+	background-repeat:repeat-x;
+	height:28px;
+}
+
+#controlbuttonplay {
+	background-image:url(controlbuttonplay.png);
+	background-repeat:no-repeat;
+	width:25px;
+	height:28px;
+}
+
+#controlbuttonpause {
+	background-image:url(controlbuttonpause.png);
+	background-repeat:no-repeat;
+	width:23px;
+	height:28px;
+}
+
+#controlbuttonstop {
+	background-image:url(controlbuttonstop.png);
+	background-repeat:no-repeat;
+	width:25px;
+	height:28px;
+}
+
+#controlbuttonskipback {
+	background-image:url(controlbuttonskipback.png);
+	background-repeat:no-repeat;
+	width:24px;
+	height:28px;
+}
+
+#controlbuttondecrate {
+	background-image:url(controlbuttondecrate.png);
+	background-repeat:no-repeat;
+	width:22px;
+	height:28px;
+}
+
+#controlbuttonincrate {
+	background-image:url(controlbuttonincrate.png);
+	background-repeat:no-repeat;
+	width:23px;
+	height:28px;
+}
+
+#controlbuttonskipforward {
+	background-image:url(controlbuttonskipforward.png);
+	background-repeat:no-repeat;
+	width:28px;
+	height:28px;
+}
+
+#controlbuttonstep {
+	background-image:url(controlbuttonstep.png);
+	background-repeat:no-repeat;
+	width:31px;
+	height:28px;
+}
+
+#controlvolumemute {
+	background-image:url(controlvolumeon.png);
+	background-repeat:no-repeat;
+	width:28px;
+	height:28px;
+}
+
+#controlvolumebar {
+	background-image:url(controlvolumebar.png);
+	background-repeat:no-repeat;
+	width:55px;
+	height:28px;
+}
+
+#seekbar {
+	background-image:url(seekbarmid.png);
+	background-repeat:repeat-x;
+}
+
+#seekbar td {
+	height:15px;
+}
+
+#leftside {
+	background-image:url(leftside.png);
+	background-repeat:repeat-y;
+	width:4px;
+}
+
+#rightside {
+	background-image:url(rightside.png);
+	background-repeat:repeat-y;
+	width:4px;
+}
+
+#leftbottomside {
+	background-image:url(leftbottomside.png);
+	background-repeat:repeat-x;
+	width:4px;
+	height:4px;
+}
+
+#bottomside {
+	background-image:url(bottomside.png);
+	background-repeat:repeat-x;
+	height:4px;
+}
+
+#rightbottomside {
+	background-image:url(rightbottomside.png);
+	background-repeat:repeat-x;
+	width:4px;
+	height:4px;
+}
+
+#header,#center {
+	width:100%;
+}
