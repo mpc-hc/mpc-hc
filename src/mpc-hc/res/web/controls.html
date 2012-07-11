@@ -12,7 +12,7 @@
 		var pbr = [playbackrate];
 		var eta = [reloadtime];
 		var volume = [volumelevel];
-		var muted = [muted]; // -1 no sound
+		var muted = [muted]; /*-1 no sound*/
 		var starttime = (new Date()).getTime();
 		var slidersize = 500;
 		var sliderbuttonwidth = 15;
@@ -52,7 +52,7 @@
 			sb1.onclick = sb2.onclick = sb3.onclick = sliderclick;
 			vs1.onclick = vs2.onclick = vs3.onclick = vsliderclick;
 			sas.checked = true;
-			//g = " " + secondsToTS(curpos, 0, true) + " " + x < 0 ? ("Buffering %" + (-x - 1).toString()):"";
+			/*g = " " + secondsToTS(curpos, 0, true) + " " + x < 0 ? ("Buffering %" + (-x - 1).toString()):"";*/
 			cp.innerHTML = cpf.value = secondsToTS(curpos, 5, false);
 			rpt = curpos;
 			if (state == 2 && pbr != 0) autoplay();
@@ -105,8 +105,8 @@
 			case 2: return a2s;
 			case 3: return a3s;
 			case 4: return a4s;
-			case 5: //return a1s+":"+a2s+":"+a3s+"."+a4s;
-			case 6: //return ((a1>0?(a1s+":"):"")+a2s+":"+a3s+"."+a4s);
+			case 5: /*return a1s+":"+a2s+":"+a3s+"."+a4s;*/
+			case 6: /*return ((a1>0?(a1s+":"):"")+a2s+":"+a3s+"."+a4s);*/
 			case 7: return a1s + ":" + a2s + ":" + a3s;
 			default: return ((a1 > 0 ? (a1s + ":") : "") + a2s + ":" + a3s);
 			}
