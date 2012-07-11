@@ -262,32 +262,31 @@ HRESULT CDXVADecoderH264::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
     //
 */
 
-    CHECK_HR(GetFreeSurfaceIndex(nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
+    CHECK_HR(GetFreeSurfaceIndex(nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop))
     FFH264SetCurrentPicture(nSurfaceIndex, &m_DXVAPicParams, m_pFilter->GetAVCtx());
 
-    CHECK_HR(BeginFrame(nSurfaceIndex, pSampleToDeliver));
+    CHECK_HR(BeginFrame(nSurfaceIndex, pSampleToDeliver))
 
     m_DXVAPicParams.StatusReportFeedbackNumber++;
 
     // Send picture parameters
-    CHECK_HR(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_DXVAPicParams), &m_DXVAPicParams));
-    CHECK_HR(Execute());
+    CHECK_HR(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_DXVAPicParams), &m_DXVAPicParams))
+    CHECK_HR(Execute())
 
     // Add bitstream, slice control and quantization matrix
-    CHECK_HR(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize));
+    CHECK_HR(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize))
 
     if (m_bUseLongSlice) {
-        CHECK_HR(AddExecuteBuffer(DXVA2_SliceControlBufferType,  sizeof(DXVA_Slice_H264_Long)*nSlices, m_pSliceLong));
+        CHECK_HR(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(DXVA_Slice_H264_Long)*nSlices, m_pSliceLong))
     } else {
-        CHECK_HR(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(DXVA_Slice_H264_Short)*nSlices, m_pSliceShort));
+        CHECK_HR(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(DXVA_Slice_H264_Short)*nSlices, m_pSliceShort))
     }
 
-    CHECK_HR(AddExecuteBuffer(DXVA2_InverseQuantizationMatrixBufferType, sizeof(DXVA_Qmatrix_H264), (void*)&m_DXVAScalingMatrix));
+    CHECK_HR(AddExecuteBuffer(DXVA2_InverseQuantizationMatrixBufferType, sizeof(DXVA_Qmatrix_H264), (void*)&m_DXVAScalingMatrix))
 
     // Decode bitstream
-    CHECK_HR(Execute());
-
-    CHECK_HR(EndFrame(nSurfaceIndex));
+    CHECK_HR(Execute())
+    CHECK_HR(EndFrame(nSurfaceIndex))
 
 #if defined(_DEBUG) && 0
     DisplayStatus();
@@ -362,7 +361,7 @@ HRESULT CDXVADecoderH264::DisplayStatus()
     DXVA_Status_H264 Status;
 
     memset(&Status, 0, sizeof(Status));
-    CHECK_HR(hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
+    CHECK_HR(hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)))
 
     TRACE_H264("CDXVADecoderH264::DisplayStatus() : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
                Status.StatusReportFeedbackNumber,

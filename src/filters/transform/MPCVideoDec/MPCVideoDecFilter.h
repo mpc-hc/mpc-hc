@@ -41,7 +41,14 @@
 
 #define MAX_BUFF_TIME   20
 
-#define CHECK_HR(x) hr = ##x; if (FAILED(hr)) { TRACE("Error : 0x%08x\n", hr); ASSERT(hr == VFW_E_NOT_COMMITTED); return hr; }
+#define CHECK_HR(x)                         \
+    hr = ##x;                               \
+    if (FAILED(hr))                         \
+    {                                       \
+        TRACE("Error : 0x%08x\n", hr);      \
+        ASSERT(hr == VFW_E_NOT_COMMITTED);  \
+        return hr;                          \
+    }
 
 struct AVCodec;
 struct AVCodecContext;
