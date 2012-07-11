@@ -585,7 +585,9 @@ CMPC_Lcd::CMPC_Lcd(void)
     m_ConnCtx.connection = LGLCD_INVALID_CONNECTION; // the "connection" member will be returned upon return
 
     CAppSettings& s = AfxGetAppSettings();
-    if (!s.fLCDSupport) { return; }
+    if (!s.fLCDSupport) {
+        return;
+    }
 
     if (FALSE == m_Connection.Initialize(m_ConnCtx)) {
         //_tperror(_T("Initialize"));

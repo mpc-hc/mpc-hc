@@ -37,7 +37,7 @@ bool queue_ffdshow_support = false;
 // only for debugging
 //#define DISABLE_USING_D3D9EX
 
-#define FRAMERATE_MAX_DELTA         3000
+#define FRAMERATE_MAX_DELTA 3000
 
 using namespace DSObjects;
 

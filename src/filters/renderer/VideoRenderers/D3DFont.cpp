@@ -31,7 +31,7 @@
 //-----------------------------------------------------------------------------
 // Custom vertex types for rendering text
 //-----------------------------------------------------------------------------
-#define MAX_NUM_VERTICES 50*6
+#define MAX_NUM_VERTICES 50 * 6
 
 struct FONT2DVERTEX {
     D3DXVECTOR4 p;
@@ -44,8 +44,8 @@ struct FONT3DVERTEX {
     float tu, tv;
 };
 
-#define D3DFVF_FONT2DVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
-#define D3DFVF_FONT3DVERTEX (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX1)
+#define D3DFVF_FONT2DVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
+#define D3DFVF_FONT3DVERTEX (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1)
 
 
 inline FONT2DVERTEX InitFont2DVertex(const D3DXVECTOR4& p, D3DCOLOR color,

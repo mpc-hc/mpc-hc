@@ -1580,7 +1580,7 @@ HRESULT CMpeg2DecOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_T
 // CSubpicInputPin
 //
 
-#define PTS2RT(pts) (10000i64*pts/90)
+#define PTS2RT(pts) (10000i64 * pts / 90)
 
 CSubpicInputPin::CSubpicInputPin(CTransformFilter* pFilter, HRESULT* phr)
     : CMpeg2DecInputPin(pFilter, phr, L"SubPicture")

@@ -66,8 +66,8 @@ CFilterApp theApp;
 
 #endif
 
-#define BUFF_SIZE (256*1024)
-#define BUFF_SIZE_FIRST (4*BUFF_SIZE)
+#define BUFF_SIZE (256 * 1024)
+#define BUFF_SIZE_FIRST (4 * BUFF_SIZE)
 
 //
 // CUDPReader

@@ -87,5 +87,5 @@ public:
     bool IsInterleaved(bool fKeepInfo = false);
 };
 
-#define TRACKNUM(fcc) (10 * ((fcc & 0xff) - 0x30) + (((fcc >> 8) & 0xff) - 0x30))
+#define TRACKNUM(fcc)  (10 * ((fcc & 0xff) - 0x30) + (((fcc >> 8) & 0xff) - 0x30))
 #define TRACKTYPE(fcc) ((WORD)((((DWORD)fcc >> 24) & 0xff) | ((fcc >> 8) & 0xff00)))

@@ -27,11 +27,11 @@
 #include "MediaTypes.h"
 #include "DSUtil.h"
 
-#define VIH_NORMAL (sizeof(VIDEOINFOHEADER))
-#define VIH_BITFIELDS (sizeof(VIDEOINFOHEADER)+3*sizeof(RGBQUAD))
-#define VIH2_NORMAL (sizeof(VIDEOINFOHEADER2))
-#define VIH2_BITFIELDS (sizeof(VIDEOINFOHEADER2)+3*sizeof(RGBQUAD))
-#define BIH_SIZE (sizeof(BITMAPINFOHEADER))
+#define VIH_NORMAL     (sizeof(VIDEOINFOHEADER))
+#define VIH_BITFIELDS  (sizeof(VIDEOINFOHEADER) + 3 * sizeof(RGBQUAD))
+#define VIH2_NORMAL    (sizeof(VIDEOINFOHEADER2))
+#define VIH2_BITFIELDS (sizeof(VIDEOINFOHEADER2) + 3 * sizeof(RGBQUAD))
+#define BIH_SIZE       (sizeof(BITMAPINFOHEADER))
 
 VIH vihs[] = {
     // YUY2
@@ -78,7 +78,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 32, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 32, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH_NORMAL,                                                     // size
@@ -88,7 +88,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 32, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 32, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0xFF0000, 0x00FF00, 0x0000FF},                                 // mask[3]
         VIH_BITFIELDS,                                                  // size
@@ -98,7 +98,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 32, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 32, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH_NORMAL,                                                     // size
@@ -108,7 +108,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 32, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 32, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0xFF0000, 0x00FF00, 0x0000FF},                                 // mask[3]
         VIH_BITFIELDS,                                                  // size
@@ -118,7 +118,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 24, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 24, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH_NORMAL,                                                     // size
@@ -128,7 +128,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 24, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 24, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0xFF0000, 0x00FF00, 0x0000FF},                                 // mask[3]
         VIH_BITFIELDS,                                                  // size
@@ -138,7 +138,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 16, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 16, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH_NORMAL,                                                     // size
@@ -148,7 +148,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 16, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 16, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0xF800, 0x07E0, 0x001F},                                       // mask[3]
         VIH_BITFIELDS,                                                  // size
@@ -158,7 +158,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 16, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 16, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH_NORMAL,                                                     // size
@@ -168,7 +168,7 @@ VIH vihs[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 16, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 16, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0x7C00, 0x03E0, 0x001F},                                       // mask[3]
         VIH_BITFIELDS,                                                  // size
@@ -221,7 +221,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 32, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 32, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH2_NORMAL,                                                    // size
@@ -231,7 +231,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 32, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 32, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0xFF0000, 0x00FF00, 0x0000FF},                                 // mask[3]
         VIH2_BITFIELDS,                                                 // size
@@ -241,7 +241,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 32, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 32, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH2_NORMAL,                                                    // size
@@ -251,7 +251,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 32, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 32, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0xFF0000, 0x00FF00, 0x0000FF},                                 // mask[3]
         VIH2_BITFIELDS,                                                 // size
@@ -261,7 +261,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 24, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 24, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH2_NORMAL,                                                    // size
@@ -271,7 +271,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 24, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 24, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0xFF0000, 0x00FF00, 0x0000FF},                                 // mask[3]
         VIH2_BITFIELDS,                                                 // size
@@ -281,7 +281,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 16, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 16, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH2_NORMAL,                                                    // size
@@ -291,7 +291,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 16, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 16, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0xF800, 0x07E0, 0x001F},                                       // mask[3]
         VIH2_BITFIELDS,                                                 // size
@@ -301,7 +301,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 16, BI_RGB, 0, 0, 0, 0, 0}          // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 16, BI_RGB, 0, 0, 0, 0, 0}              // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
         VIH2_NORMAL,                                                    // size
@@ -311,7 +311,7 @@ VIH2 vih2s[] = {
     {
         {
             {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            {BIH_SIZE, 0, 0, 1, 16, BI_BITFIELDS, 0, 0, 0, 0, 0}    // bmiHeader
+            {BIH_SIZE, 0, 0, 1, 16, BI_BITFIELDS, 0, 0, 0, 0, 0}        // bmiHeader
         },
         {0x7C00, 0x03E0, 0x001F},                                       // mask[3]
         VIH2_BITFIELDS,                                                 // size
