@@ -2738,7 +2738,7 @@ STDMETHODIMP CSyncAP::GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, fl
     CAutoLock lock(this);
 
     CheckPointer(pflRate, E_POINTER);
-    CheckHR(CheckShutdown());
+    CheckHR(CheckShutdown())
 
     // Get the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
@@ -2762,7 +2762,7 @@ STDMETHODIMP CSyncAP::IsRateSupported(BOOL fThin, float flRate, float* pflNeares
     float   fNearestRate = flRate;   // Default.
 
     CheckPointer(pflNearestSupportedRate, E_POINTER);
-    CheckHR(hr = CheckShutdown());
+    CheckHR(hr = CheckShutdown())
 
     // Find the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
@@ -2884,8 +2884,8 @@ HRESULT CSyncAP::IsMediaTypeSupported(IMFMediaType* pMixerType)
     AM_MEDIA_TYPE* pAMMedia;
     UINT nInterlaceMode;
 
-    CheckHR(pMixerType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
-    CheckHR(pMixerType->GetUINT32(MF_MT_INTERLACE_MODE, &nInterlaceMode));
+    CheckHR(pMixerType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia))
+    CheckHR(pMixerType->GetUINT32(MF_MT_INTERLACE_MODE, &nInterlaceMode))
 
     if ((pAMMedia->majortype != MEDIATYPE_Video)) {
         hr = MF_E_INVALIDMEDIATYPE;
@@ -2901,7 +2901,7 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
     LARGE_INTEGER i64Size;
     MFVIDEOFORMAT* VideoFormat;
 
-    CheckHR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
+    CheckHR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia))
 
     VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
     hr = pfMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
@@ -2967,7 +2967,7 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
     CString strTemp;
 
     CheckPointer(pType, E_POINTER);
-    CheckHR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
+    CheckHR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia))
 
     hr = InitializeDevice(pAMMedia);
     if (SUCCEEDED(hr)) {
@@ -2992,7 +2992,7 @@ LONGLONG CSyncAP::GetMediaTypeMerit(IMFMediaType* pMediaType)
     MFVIDEOFORMAT* VideoFormat;
 
     HRESULT hr;
-    CheckHR(pMediaType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
+    CheckHR(pMediaType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia))
     VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
 
     LONGLONG Merit = 0;
@@ -3164,13 +3164,13 @@ STDMETHODIMP CSyncAP::GetCurrentMediaType(__deref_out  IMFVideoMediaType** ppMed
     HRESULT hr = S_OK;
     CAutoLock lock(this);
     CheckPointer(ppMediaType, E_POINTER);
-    CheckHR(CheckShutdown());
+    CheckHR(CheckShutdown())
 
     if (m_pMediaType == NULL) {
-        CheckHR(MF_E_NOT_INITIALIZED);
+        CheckHR(MF_E_NOT_INITIALIZED)
     }
 
-    CheckHR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType));
+    CheckHR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType))
     return hr;
 }
 

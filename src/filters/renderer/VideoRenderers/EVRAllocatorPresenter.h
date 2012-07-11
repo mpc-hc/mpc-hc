@@ -69,10 +69,10 @@ namespace DSObjects
         DECLARE_IUNKNOWN;
         STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-        STDMETHODIMP    CreateRenderer(IUnknown** ppRenderer);
+        STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
         STDMETHODIMP_(bool) Paint(bool fAll);
-        STDMETHODIMP    GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
-        STDMETHODIMP    InitializeDevice(IMFMediaType* pMediaType);
+        STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
+        STDMETHODIMP InitializeDevice(IMFMediaType* pMediaType);
         STDMETHODIMP_(bool) ResetDevice();
         STDMETHODIMP_(bool) DisplayChange();
 
@@ -84,7 +84,7 @@ namespace DSObjects
         STDMETHODIMP OnClockSetRate(/* [in] */ MFTIME hnsSystemTime, /* [in] */ float flRate);
 
         // IBaseFilter delegate
-        bool            GetState(DWORD dwMilliSecsTimeout, FILTER_STATE* State, HRESULT& _ReturnValue);
+        bool GetState(DWORD dwMilliSecsTimeout, FILTER_STATE* State, HRESULT& _ReturnValue);
 
         // IQualProp (EVR statistics window)
         STDMETHODIMP get_FramesDroppedInRenderer(int* pcFrames);
@@ -100,7 +100,7 @@ namespace DSObjects
         STDMETHODIMP GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float* pflRate);
         STDMETHODIMP IsRateSupported(BOOL fThin, float flRate, float* pflNearestSupportedRate);
 
-        float        GetMaxRate(BOOL bThin);
+        float GetMaxRate(BOOL bThin);
 
 
         // IMFVideoPresenter
@@ -157,22 +157,22 @@ namespace DSObjects
         STDMETHODIMP GetVideoService(HANDLE hDevice, REFIID riid, void** ppService);
 
     protected :
-        void          OnResetDevice();
-        virtual void  OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter);
+        void OnResetDevice();
+        virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter);
 
-        double        m_ModeratedTime;
-        LONGLONG      m_ModeratedTimeLast;
-        LONGLONG      m_ModeratedClockLast;
-        LONGLONG      m_ModeratedTimer;
+        double m_ModeratedTime;
+        LONGLONG m_ModeratedTimeLast;
+        LONGLONG m_ModeratedClockLast;
+        LONGLONG m_ModeratedTimer;
         MFCLOCK_STATE m_LastClockState;
-        LONGLONG      GetClockTime(LONGLONG PerformanceCounter);
+        LONGLONG GetClockTime(LONGLONG PerformanceCounter);
 
     private :
 
         typedef enum {
             Started = State_Running,
             Stopped = State_Stopped,
-            Paused  = State_Paused,
+            Paused = State_Paused,
             Shutdown = State_Running + 1
         } RENDER_STATE;
 

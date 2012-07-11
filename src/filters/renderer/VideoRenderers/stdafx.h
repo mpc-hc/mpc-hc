@@ -37,3 +37,5 @@
 #include <mpconfig.h>
 
 #include "../../../DSUtil/DSUtil.h"
+
+#define CheckHR(exp) {if (FAILED(hr = exp)) return hr;}

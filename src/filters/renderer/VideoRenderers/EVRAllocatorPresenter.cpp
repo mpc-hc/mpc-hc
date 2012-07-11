@@ -26,7 +26,6 @@
 #include <Mferror.h>
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
-
 #include "../../transform/MPCVideoDec/MPCVideoDecFilter.h"
 
 #if (0)     // Set to 1 to activate EVR traces
@@ -45,8 +44,6 @@ static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15
 
 
 // === Helper functions
-#define CheckHR(exp) {if (FAILED(hr = exp)) return hr;}
-
 MFOffset MakeOffset(float v)
 {
     MFOffset offset;
@@ -483,13 +480,13 @@ STDMETHODIMP CEVRAllocatorPresenter::GetSlowestRate(MFRATE_DIRECTION eDirection,
 
 STDMETHODIMP CEVRAllocatorPresenter::GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float* pflRate)
 {
-    HRESULT     hr = S_OK;
-    float       fMaxRate = 0.0f;
+    HRESULT hr = S_OK;
+    float fMaxRate = 0.0f;
 
     CAutoLock lock(this);
 
     CheckPointer(pflRate, E_POINTER);
-    CheckHR(CheckShutdown());
+    CheckHR(CheckShutdown())
 
     // Get the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
@@ -516,7 +513,7 @@ STDMETHODIMP CEVRAllocatorPresenter::IsRateSupported(BOOL fThin, float flRate, f
     float   fNearestRate = flRate;   // Default.
 
     CheckPointer(pflNearestSupportedRate, E_POINTER);
-    CheckHR(hr = CheckShutdown());
+    CheckHR(hr = CheckShutdown())
 
     // Find the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
@@ -543,8 +540,8 @@ STDMETHODIMP CEVRAllocatorPresenter::IsRateSupported(BOOL fThin, float flRate, f
 
 float CEVRAllocatorPresenter::GetMaxRate(BOOL bThin)
 {
-    float   fMaxRate        = FLT_MAX;  // Default.
-    UINT32  fpsNumerator    = 0, fpsDenominator = 0;
+    float fMaxRate = FLT_MAX;  // Default.
+    UINT32 fpsNumerator = 0, fpsDenominator = 0;
 
     if (!bThin && (m_pMediaType != NULL)) {
         // Non-thinned: Use the frame rate and monitor refresh rate.
@@ -690,7 +687,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     LARGE_INTEGER       i64Size;
     MFVIDEOFORMAT*      VideoFormat;
 
-    CheckHR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
+    CheckHR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia))
 
     VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
     hr = pfMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
@@ -796,7 +793,7 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
     CString             strTemp, strTemp1;
 
     CheckPointer(pType, E_POINTER);
-    CheckHR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
+    CheckHR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia))
 
     hr = InitializeDevice(pType);
     if (SUCCEEDED(hr)) {
@@ -1146,13 +1143,13 @@ STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMe
     CAutoLock lock(this);  // Hold the critical section.
 
     CheckPointer(ppMediaType, E_POINTER);
-    CheckHR(CheckShutdown());
+    CheckHR(CheckShutdown())
 
     if (m_pMediaType == NULL) {
         CheckHR(MF_E_NOT_INITIALIZED);
     }
 
-    CheckHR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType));
+    CheckHR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType))
 
     return hr;
 }
