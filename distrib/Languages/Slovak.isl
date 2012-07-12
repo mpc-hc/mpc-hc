@@ -106,7 +106,6 @@ SelectDirDesc=Kam má by produkt [name] nainštalovanı?
 SelectDirLabel3=Sprievodca nainštaluje produkt [name] do nasledujúceho adresára.
 SelectDirBrowseLabel=Pokraèujte kliknutím na tlaèidlo Ïalej. Ak chcete vybra inı adresár, kliknite na tlaèidlo Prechádza.
 DiskSpaceMBLabel=Inštalácia vyaduje najmenej [mb] MB miesta na disku.
-ToUNCPathname=Sprevodca inštaláciou nemôe inštalova do cesty UNC. Ak sa pokúšate inštalova po sieti, musíte poui niektorú z dostupnıch sieovıch jednotiek.
 InvalidPath=Musíte zadat úplnú cestu vrátane písmena jednotky; napríklad:%n%nC:\Aplikácia%n%nalebo cestu UNC v tvare:%n%n\\server\zdie¾anı adresár
 InvalidDrive=Vami vybraná jednotka alebo cesta UNC neexistuje alebo nie je dostupná. Vyberte, prosím, iné umiestnenie.
 DiskSpaceWarningTitle=Nedostatok miesta na disku
