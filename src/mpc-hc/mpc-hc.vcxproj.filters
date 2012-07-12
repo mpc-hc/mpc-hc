@@ -976,12 +976,6 @@
     <None Include="res\toolbar.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\web\player.css">
-      <Filter>Resource Files\web</Filter>
-    </None>
-    <None Include="res\web\player.js">
-      <Filter>Resource Files\web</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mplayerc.rc">

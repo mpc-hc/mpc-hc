@@ -625,10 +625,6 @@
     <None Include="res\web\leftbottomside.png" />
     <None Include="res\web\leftside.png" />
     <None Include="res\web\logo.png" />
-    <None Include="res\web\player.css">
-      <FileType>CSS</FileType>
-    </None>
-    <None Include="res\web\player.js" />
     <None Include="res\web\player.html">
       <FileType>HTML</FileType>
     </None>

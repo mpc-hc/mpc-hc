@@ -58,8 +58,6 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 
     if (m_downloads.IsEmpty()) {
         m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
-        m_downloads[_T("/player.css")] = IDF_PLAYER_CSS;
-        m_downloads[_T("/player.js")] = IDF_PLAYER_JS;
         m_downloads[_T("/vbg.png")] = IDF_VBR_PNG;
         m_downloads[_T("/vbs.png")] = IDF_VBS_PNG;
         m_downloads[_T("/sliderbar.gif")] = IDF_SLIDERBAR_GIF;
