@@ -13739,6 +13739,10 @@ REFERENCE_TIME CMainFrame::GetDur() const
 
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 {
+    ASSERT(pMS != NULL);
+    if (pMS == NULL) {
+        return;
+    }
     OAFilterState fs = GetMediaState();
 
     if (rtPos < 0) {
