@@ -36,8 +36,8 @@ unsigned char* Clip = Clip_base + 256;
 const int c2y_cyb = int(0.114 * 219 / 255 * 65536 + 0.5);
 const int c2y_cyg = int(0.587 * 219 / 255 * 65536 + 0.5);
 const int c2y_cyr = int(0.299 * 219 / 255 * 65536 + 0.5);
-const int c2y_cu = int(1.0 / 2.018 * 1024 + 0.5);
-const int c2y_cv = int(1.0 / 1.596 * 1024 + 0.5);
+const int c2y_cu  = int(1.0 / 2.018 * 1024 + 0.5);
+const int c2y_cv  = int(1.0 / 1.596 * 1024 + 0.5);
 
 int c2y_yb[256];
 int c2y_yg[256];
@@ -52,7 +52,7 @@ int y2c_gu[256];
 int y2c_gv[256];
 int y2c_rv[256];
 
-const int cy_cy = int(255.0 / 219.0 * 65536 + 0.5);
+const int cy_cy  = int(255.0 / 219.0 * 65536 + 0.5);
 const int cy_cy2 = int(255.0 / 219.0 * 32768 + 0.5);
 
 bool fColorConvInitOK = false;
@@ -84,15 +84,6 @@ void ColorConvInit()
 
     fColorConvInitOK = true;
 }
-
-#define rgb2yuv(r1,g1,b1,r2,g2,b2)                                                                       \
-    int y1 = (c2y_yb[b1] + c2y_yg[g1] + c2y_yr[r1] + 0x108000) >> 16;                                    \
-    int y2 = (c2y_yb[b2] + c2y_yg[g2] + c2y_yr[r2] + 0x108000) >> 16;                                    \
-                                                                                                         \
-    int scaled_y = (y1 + y2 - 32) * cy_cy2;                                                              \
-                                                                                                         \
-    unsigned char u = Clip[(((((b1 + b2) << 15) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16]; \
-    unsigned char v = Clip[(((((r1 + r2) << 15) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
 
 //
 // CMemSubPic
@@ -145,7 +136,6 @@ STDMETHODIMP CMemSubPic::CopyTo(ISubPic* pSubPic)
     }
 
     int w = m_rcDirty.Width(), h = m_rcDirty.Height();
-
     BYTE* s = (BYTE*)src.bits + src.pitch * m_rcDirty.top + m_rcDirty.left * 4;
     BYTE* d = (BYTE*)dst.bits + dst.pitch * m_rcDirty.top + m_rcDirty.left * 4;
 
@@ -211,7 +201,6 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
     }
 
     int w = m_rcDirty.Width(), h = m_rcDirty.Height();
-
     BYTE* top = (BYTE*)m_spd.bits + m_spd.pitch * m_rcDirty.top + m_rcDirty.left * 4;
     BYTE* bottom = top + m_spd.pitch * h;
 
@@ -221,7 +210,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
             DWORD* e = s + w;
             for (; s < e; s++) {
                 *s = ((*s >> 3) & 0x1f000000) | ((*s >> 8) & 0xf800) | ((*s >> 5) & 0x07e0) | ((*s >> 3) & 0x001f);
-                //              *s = (*s&0xff000000)|((*s>>8)&0xf800)|((*s>>5)&0x07e0)|((*s>>3)&0x001f);
+                //*s = (*s&0xff000000)|((*s>>8)&0xf800)|((*s>>5)&0x07e0)|((*s>>3)&0x001f);
             }
         }
     } else if (m_spd.type == MSP_RGB15) {
@@ -230,7 +219,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
             DWORD* e = s + w;
             for (; s < e; s++) {
                 *s = ((*s >> 3) & 0x1f000000) | ((*s >> 9) & 0x7c00) | ((*s >> 6) & 0x03e0) | ((*s >> 3) & 0x001f);
-                //              *s = (*s&0xff000000)|((*s>>9)&0x7c00)|((*s>>6)&0x03e0)|((*s>>3)&0x001f);
+                //*s = (*s&0xff000000)|((*s>>9)&0x7c00)|((*s>>6)&0x03e0)|((*s>>3)&0x001f);
             }
         }
     } else if (m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
@@ -256,6 +245,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
         for (; top < bottom ; top += m_spd.pitch) {
             BYTE* s = top;
             BYTE* e = s + w * 4;
+
             for (; s < e; s += 4) { // ARGB -> AYUV
                 if (s[3] < 0xff) {
                     int y = (c2y_yb[s[0]] + c2y_yg[s[1]] + c2y_yr[s[2]] + 0x108000) >> 16;
@@ -279,7 +269,6 @@ void AlphaBlt_YUY2_SSE2(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpit
 {
     unsigned int ia;
     DWORD* d2 = (DWORD*)d;
-
     BYTE* s2 = s;
     BYTE* s2end = s2 + w * 4;
     static const __int64 _8181 = 0x0080001000800010i64;
@@ -318,11 +307,9 @@ void AlphaBlt_YUY2_MMX(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitc
 {
     unsigned int ia;
     DWORD* d2 = (DWORD*)d;
-
     BYTE* s2 = s;
     BYTE* s2end = s2 + w * 4;
     static const __int64 _8181 = 0x0080001000800010i64;
-
 
     for (ptrdiff_t j = 0; j < h; j++, s += srcpitch, d += dstpitch) {
         for (; s2 < s2end; s2 += 8, d2++) {
@@ -359,7 +346,6 @@ void AlphaBlt_YUY2_C(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch)
 {
     unsigned int ia;
     DWORD* d2 = (DWORD*)d;
-
     BYTE* s2 = s;
     BYTE* s2end = s2 + w * 4;
     static const __int64 _8181 = 0x0080001000800010i64;
@@ -409,7 +395,6 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     }
 
     int w = rs.Width(), h = rs.Height();
-
     BYTE* s = (BYTE*)src.bits + src.pitch * rs.top + rs.left * 4;
     BYTE* d = (BYTE*)dst.bits + dst.pitch * rd.top + ((rd.left * dst.bpp) >> 3);
 
@@ -450,7 +435,6 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
                     for (ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
                         BYTE* s2 = s;
                         BYTE* s2end = s2 + w * 4;
-
                         DWORD* d2 = (DWORD*)d;
                         for (; s2 < s2end; s2 += 4, d2++) {
 #ifdef _WIN64
@@ -489,7 +473,6 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
                     WORD* d2 = (WORD*)d;
                     for (; s2 < s2end; s2 += 4, d2++) {
                         if (s2[3] < 0x1f) {
-
                             *d2 = (WORD)((((((*d2 & 0xf81f) * s2[3]) >> 5) + (*(DWORD*)s2 & 0xf81f)) & 0xf81f)
                                          | (((((*d2 & 0x07e0) * s2[3]) >> 5) + (*(DWORD*)s2 & 0x07e0)) & 0x07e0));
                         }
