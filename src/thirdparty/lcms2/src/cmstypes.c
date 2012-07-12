@@ -1962,6 +1962,7 @@ cmsBool  Read16bitTables(cmsContext ContextID, cmsIOHANDLER* io, cmsPipeline* lu
     if (nEntries <= 0) return TRUE;
 
     // Check for malicious profiles
+    if (nEntries < 2) return FALSE;
     if (nChannels > cmsMAXCHANNELS) return FALSE;
 
     // Init table to zero
