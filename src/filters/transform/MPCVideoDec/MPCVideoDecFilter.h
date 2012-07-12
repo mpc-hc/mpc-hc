@@ -41,7 +41,7 @@
 
 #define MAX_BUFF_TIME   20
 
-#define CHECK_HR(x)                         \
+#define CHECK_HR_TRACE(x)                   \
     hr = ##x;                               \
     if (FAILED(hr))                         \
     {                                       \

@@ -115,7 +115,7 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME
         return S_FALSE;
     }
 
-    CHECK_HR(BeginFrame(m_nSurfaceIndex, m_pSampleToDeliver))
+    CHECK_HR_TRACE(BeginFrame(m_nSurfaceIndex, m_pSampleToDeliver))
 
     if (m_bSecondField) {
         if (!m_PictureParams.bSecondField) {
@@ -128,16 +128,16 @@ HRESULT CDXVADecoderMpeg2::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME
     TRACE_MPEG2("CDXVADecoderMpeg2::DecodeFrame() : Surf = %d, PictureType = %d, SecondField = %d, m_nNextCodecIndex = %d, rtStart = [%I64d]\n",
                 m_nSurfaceIndex, nSliceType, m_PictureParams.bSecondField, m_nNextCodecIndex, rtStart);
 
-    CHECK_HR(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams))
-    CHECK_HR(AddExecuteBuffer(DXVA2_InverseQuantizationMatrixBufferType, sizeof(m_QMatrixData), &m_QMatrixData))
+    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams))
+    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_InverseQuantizationMatrixBufferType, sizeof(m_QMatrixData), &m_QMatrixData))
 
     // Send bitstream to accelerator
-    CHECK_HR(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(DXVA_SliceInfo)*m_nSliceCount, &m_SliceInfo))
-    CHECK_HR(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize))
+    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(DXVA_SliceInfo)*m_nSliceCount, &m_SliceInfo))
+    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize))
 
     // Decode frame
-    CHECK_HR(Execute())
-    CHECK_HR(EndFrame(m_nSurfaceIndex))
+    CHECK_HR_TRACE(Execute())
+    CHECK_HR_TRACE(EndFrame(m_nSurfaceIndex))
 
     if (m_bSecondField) {
         if (m_PictureParams.bSecondField) {

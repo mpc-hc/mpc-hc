@@ -38,4 +38,4 @@
 
 #include "../../../DSUtil/DSUtil.h"
 
-#define CheckHR(exp) {if (FAILED(hr = exp)) return hr;}
+#define CHECK_HR(exp) { if (FAILED(hr = exp)) return hr; }

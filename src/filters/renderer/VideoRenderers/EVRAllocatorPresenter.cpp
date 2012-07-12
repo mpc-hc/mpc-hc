@@ -486,7 +486,7 @@ STDMETHODIMP CEVRAllocatorPresenter::GetFastestRate(MFRATE_DIRECTION eDirection,
     CAutoLock lock(this);
 
     CheckPointer(pflRate, E_POINTER);
-    CheckHR(CheckShutdown())
+    CHECK_HR(CheckShutdown())
 
     // Get the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
@@ -513,7 +513,7 @@ STDMETHODIMP CEVRAllocatorPresenter::IsRateSupported(BOOL fThin, float flRate, f
     float   fNearestRate = flRate;   // Default.
 
     CheckPointer(pflNearestSupportedRate, E_POINTER);
-    CheckHR(hr = CheckShutdown())
+    CHECK_HR(hr = CheckShutdown())
 
     // Find the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
@@ -687,7 +687,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     LARGE_INTEGER       i64Size;
     MFVIDEOFORMAT*      VideoFormat;
 
-    CheckHR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia))
+    CHECK_HR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia))
 
     VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
     hr = pfMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
@@ -793,7 +793,7 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
     CString             strTemp, strTemp1;
 
     CheckPointer(pType, E_POINTER);
-    CheckHR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia))
+    CHECK_HR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia))
 
     hr = InitializeDevice(pType);
     if (SUCCEEDED(hr)) {
@@ -1143,13 +1143,13 @@ STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMe
     CAutoLock lock(this);  // Hold the critical section.
 
     CheckPointer(ppMediaType, E_POINTER);
-    CheckHR(CheckShutdown())
+    CHECK_HR(CheckShutdown())
 
     if (m_pMediaType == NULL) {
-        CheckHR(MF_E_NOT_INITIALIZED);
+        CHECK_HR(MF_E_NOT_INITIALIZED);
     }
 
-    CheckHR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType))
+    CHECK_HR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType))
 
     return hr;
 }
