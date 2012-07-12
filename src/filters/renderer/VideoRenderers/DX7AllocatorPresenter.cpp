@@ -116,10 +116,10 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
         return;
     }
 
-    DirectDrawCreateExPtr   pDirectDrawCreateEx = NULL;
-    HMODULE                 hDDrawLib           = NULL;
+    DirectDrawCreateExPtr pDirectDrawCreateEx = NULL;
+    HMODULE hDDrawLib = NULL;
 
-    hDDrawLib   = LoadLibrary(_T("ddraw.dll"));
+    hDDrawLib = LoadLibrary(_T("ddraw.dll"));
     if (hDDrawLib) {
         pDirectDrawCreateEx = (DirectDrawCreateExPtr)GetProcAddress(hDDrawLib, "DirectDrawCreateEx");
     }
@@ -147,7 +147,6 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 HRESULT CDX7AllocatorPresenter::CreateDevice()
 {
     m_pD3DDev = NULL;
-
     m_pPrimary = NULL;
     m_pBackBuffer = NULL;
 
@@ -181,7 +180,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
     // m_pBackBuffer
 
     INITDDSTRUCT(ddsd);
-    ddsd.dwFlags        = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
+    ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
     ddsd.ddsCaps.dwCaps = /*DDSCAPS_OFFSCREENPLAIN |*/ DDSCAPS_VIDEOMEMORY | DDSCAPS_3DDEVICE;
     ddsd.dwWidth = m_ScreenSize.cx;
     ddsd.dwHeight = m_ScreenSize.cy;
@@ -289,15 +288,15 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
     ddsd.dwHeight = m_NativeVideoSize.cy;
     ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
     ddsd.ddpfPixelFormat.dwFlags = DDPF_RGB;
-    ddsd.ddpfPixelFormat.dwRGBBitCount  = 32;
-    ddsd.ddpfPixelFormat.dwRBitMask     = 0x00FF0000;
-    ddsd.ddpfPixelFormat.dwGBitMask     = 0x0000FF00;
-    ddsd.ddpfPixelFormat.dwBBitMask     = 0x000000FF;
+    ddsd.ddpfPixelFormat.dwRGBBitCount = 32;
+    ddsd.ddpfPixelFormat.dwRBitMask = 0x00FF0000;
+    ddsd.ddpfPixelFormat.dwGBitMask = 0x0000FF00;
+    ddsd.ddpfPixelFormat.dwBBitMask = 0x000000FF;
 
     if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
         ddsd.ddsCaps.dwCaps |= DDSCAPS_TEXTURE;
-        //      ddsd.ddpfPixelFormat.dwFlags |= DDPF_ALPHAPIXELS;
-        //      ddsd.ddpfPixelFormat.dwRGBAlphaBitMask  = 0xFF000000;
+        //ddsd.ddpfPixelFormat.dwFlags |= DDPF_ALPHAPIXELS;
+        //ddsd.ddpfPixelFormat.dwRGBAlphaBitMask  = 0xFF000000;
     }
 
     HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurface, NULL);
@@ -308,10 +307,10 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
         if (!(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
                 && SUCCEEDED(m_pDD->GetDisplayMode(&ddsd2))
                 && ddsd2.ddpfPixelFormat.dwRGBBitCount == 16) {
-            ddsd.ddpfPixelFormat.dwRGBBitCount  = 16;
-            ddsd.ddpfPixelFormat.dwRBitMask     = 0x0000F800;
-            ddsd.ddpfPixelFormat.dwGBitMask     = 0x000007E0;
-            ddsd.ddpfPixelFormat.dwBBitMask     = 0x0000001F;
+            ddsd.ddpfPixelFormat.dwRGBBitCount = 16;
+            ddsd.ddpfPixelFormat.dwRBitMask = 0x0000F800;
+            ddsd.ddpfPixelFormat.dwGBitMask = 0x000007E0;
+            ddsd.ddpfPixelFormat.dwBBitMask = 0x0000001F;
             hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurface, NULL);
         }
 
@@ -496,13 +495,13 @@ STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     m_pVideoSurface->Unlock(NULL);
 
     /*
-                BitBltFromRGBToRGB(
-                    w, h,
-                    (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount,
-                    (BYTE*)bm.bmBits, bm.bmWidthBytes, bm.bmBitsPixel);
-                m_pVideoSurfaceOff->Unlock(NULL);
-                fOk = true;
-            }
+     BitBltFromRGBToRGB(
+        w, h,
+        (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount,
+        (BYTE*)bm.bmBits, bm.bmWidthBytes, bm.bmBitsPixel);
+    m_pVideoSurfaceOff->Unlock(NULL);
+    fOk = true;
+    }
     */
 
     return S_OK;

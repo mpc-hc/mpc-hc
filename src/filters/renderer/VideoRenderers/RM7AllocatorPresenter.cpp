@@ -133,9 +133,9 @@ STDMETHODIMP CRM7AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
         DWORD pitch = pBitmapInfo->biWidth;
         DWORD size = pitch * abs(pBitmapInfo->biHeight);
 
-        BYTE* y = pImageData                    + src.top * pitch + src.left;
-        BYTE* u = pImageData + size             + src.top * (pitch / 2) + src.left / 2;
-        BYTE* v = pImageData + size + size / 4    + src.top * (pitch / 2) + src.left / 2;
+        BYTE* y = pImageData                   + src.top * pitch + src.left;
+        BYTE* u = pImageData + size            + src.top * (pitch / 2) + src.left / 2;
+        BYTE* v = pImageData + size + size / 4 + src.top * (pitch / 2) + src.left / 2;
 
         if (m_pVideoSurfaceYUY2) {
             INITDDSTRUCT(ddsd);

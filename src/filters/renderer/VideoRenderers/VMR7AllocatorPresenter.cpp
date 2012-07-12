@@ -96,7 +96,6 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     CheckPointer(ppRenderer, E_POINTER);
 
     *ppRenderer = NULL;
-
     HRESULT hr;
 
     do {
@@ -226,9 +225,9 @@ STDMETHODIMP CVMR7AllocatorPresenter::AdviseNotify(IVMRSurfaceAllocatorNotify* l
     CAutoLock cAutoLock(this);
 
     m_pIVMRSurfAllocNotify = lpIVMRSurfAllocNotify;
-
     HRESULT hr;
     HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+
     if (FAILED(hr = m_pIVMRSurfAllocNotify->SetDDrawDevice(m_pDD, hMonitor))) {
         return hr;
     }

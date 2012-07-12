@@ -89,9 +89,7 @@ void CVMR9AllocatorPresenter::DeleteSurfaces()
 STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
     CheckPointer(ppRenderer, E_POINTER);
-
     *ppRenderer = NULL;
-
     HRESULT hr;
 
     do {
@@ -99,7 +97,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
 
         COuterVMR9* pOuter = DNew COuterVMR9(NAME("COuterVMR9"), pUnk, &m_VMR9AlphaBitmap, this);
-
 
         pMK->SetInner((IUnknown*)(INonDelegatingUnknown*)pOuter);
         CComQIPtr<IBaseFilter> pBF = pUnk;
@@ -349,10 +346,10 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
     CheckPointer(m_pIVMRSurfAllocNotify, E_UNEXPECTED);
 
     if (m_rtTimePerFrame == 0 || m_bNeedCheckSample) {
-        m_bNeedCheckSample      = false;
-        CComPtr<IBaseFilter>    pVMR9;
-        CComPtr<IPin>           pPin;
-        CMediaType              mt;
+        m_bNeedCheckSample = false;
+        CComPtr<IBaseFilter> pVMR9;
+        CComPtr<IPin> pPin;
+        CMediaType mt;
 
         if (SUCCEEDED(m_pIVMRSurfAllocNotify->QueryInterface(__uuidof(IBaseFilter), (void**)&pVMR9)) &&
                 SUCCEEDED(pVMR9->FindPin(L"VMR Input0", &pPin)) &&
@@ -457,12 +454,12 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
         // Tear test bars
         if (GetRenderersData()->m_fTearingTest) {
-            RECT        rcTearing;
+            RECT rcTearing;
 
-            rcTearing.left      = m_nTearingPos;
-            rcTearing.top       = 0;
-            rcTearing.right     = rcTearing.left + 4;
-            rcTearing.bottom    = m_NativeVideoSize.cy;
+            rcTearing.left = m_nTearingPos;
+            rcTearing.top = 0;
+            rcTearing.right = rcTearing.left + 4;
+            rcTearing.bottom = m_NativeVideoSize.cy;
             m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], &rcTearing, D3DCOLOR_ARGB(255, 255, 0, 0));
 
             rcTearing.left  = (rcTearing.right + 15) % m_NativeVideoSize.cx;

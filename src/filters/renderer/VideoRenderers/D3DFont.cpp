@@ -178,8 +178,8 @@ HRESULT CD3DFont::PaintAlphabet(HDC hDC, BOOL bMeasureOnly)
                 return E_FAIL;
             }
 
-            m_fTexCoords[c - 32][0] = ((float)(x + 0       - m_dwSpacing)) / m_dwTexWidth;
-            m_fTexCoords[c - 32][1] = ((float)(y + 0       + 0)) / m_dwTexHeight;
+            m_fTexCoords[c - 32][0] = ((float)(x + 0 - m_dwSpacing)) / m_dwTexWidth;
+            m_fTexCoords[c - 32][1] = ((float)(y + 0 + 0)) / m_dwTexHeight;
             m_fTexCoords[c - 32][2] = ((float)(x + size.cx + m_dwSpacing)) / m_dwTexWidth;
             m_fTexCoords[c - 32][3] = ((float)(y + size.cy + 0)) / m_dwTexHeight;
         }
@@ -345,7 +345,6 @@ LCleanReturn:
 }
 
 
-
 //-----------------------------------------------------------------------------
 // Name: RestoreDeviceObjects()
 // Desc:
@@ -396,35 +395,35 @@ HRESULT CD3DFont::RestoreDeviceObjects()
 
         if (bSupportsAlphaBlend) {
             m_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-            m_pd3dDevice->SetRenderState(D3DRS_SRCBLEND,   D3DBLEND_SRCALPHA);
-            m_pd3dDevice->SetRenderState(D3DRS_DESTBLEND,  D3DBLEND_INVSRCALPHA);
+            m_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+            m_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
         } else {
             m_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
         }
-        m_pd3dDevice->SetRenderState(D3DRS_ALPHATESTENABLE,  TRUE);
-        m_pd3dDevice->SetRenderState(D3DRS_ALPHAREF,         0x08);
-        m_pd3dDevice->SetRenderState(D3DRS_ALPHAFUNC,  D3DCMP_GREATEREQUAL);
-        m_pd3dDevice->SetRenderState(D3DRS_FILLMODE,   D3DFILL_SOLID);
-        m_pd3dDevice->SetRenderState(D3DRS_CULLMODE,   D3DCULL_CCW);
-        m_pd3dDevice->SetRenderState(D3DRS_STENCILENABLE,    FALSE);
-        m_pd3dDevice->SetRenderState(D3DRS_CLIPPING,         TRUE);
-        m_pd3dDevice->SetRenderState(D3DRS_CLIPPLANEENABLE,  FALSE);
-        m_pd3dDevice->SetRenderState(D3DRS_VERTEXBLEND,      D3DVBF_DISABLE);
+        m_pd3dDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+        m_pd3dDevice->SetRenderState(D3DRS_ALPHAREF, 0x08);
+        m_pd3dDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);
+        m_pd3dDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+        m_pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+        m_pd3dDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+        m_pd3dDevice->SetRenderState(D3DRS_CLIPPING, TRUE);
+        m_pd3dDevice->SetRenderState(D3DRS_CLIPPLANEENABLE, FALSE);
+        m_pd3dDevice->SetRenderState(D3DRS_VERTEXBLEND, D3DVBF_DISABLE);
         m_pd3dDevice->SetRenderState(D3DRS_INDEXEDVERTEXBLENDENABLE, FALSE);
-        m_pd3dDevice->SetRenderState(D3DRS_FOGENABLE,        FALSE);
+        m_pd3dDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
         m_pd3dDevice->SetRenderState(D3DRS_COLORWRITEENABLE,
                                      D3DCOLORWRITEENABLE_RED  | D3DCOLORWRITEENABLE_GREEN |
                                      D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA);
-        m_pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP,   D3DTOP_MODULATE);
+        m_pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
         m_pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
         m_pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-        m_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP,   D3DTOP_MODULATE);
+        m_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
         m_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
         m_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
         m_pd3dDevice->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
         m_pd3dDevice->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
-        m_pd3dDevice->SetTextureStageState(1, D3DTSS_COLOROP,   D3DTOP_DISABLE);
-        m_pd3dDevice->SetTextureStageState(1, D3DTSS_ALPHAOP,   D3DTOP_DISABLE);
+        m_pd3dDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+        m_pd3dDevice->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
         m_pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
         m_pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
         m_pd3dDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
@@ -514,7 +513,6 @@ HRESULT CD3DFont::GetTextExtent(const TCHAR* strText, SIZE* pSize)
 }
 
 
-
 //-----------------------------------------------------------------------------
 // Name: DrawTextScaled()
 // Desc: Draws scaled 2D text.  Note that x and y are in viewport coordinates
@@ -590,7 +588,7 @@ HRESULT CD3DFont::DrawTextScaled(float x, float y, float z,
 
     // Fill vertex buffer
     FONT2DVERTEX* pVertices;
-    DWORD         dwNumTriangles = 0L;
+    DWORD dwNumTriangles = 0L;
     m_pVB->Lock(0, 0, (void**)&pVertices, D3DLOCK_DISCARD);
 
     while (*strText) {
@@ -648,7 +646,6 @@ HRESULT CD3DFont::DrawTextScaled(float x, float y, float z,
 
     return S_OK;
 }
-
 
 
 //-----------------------------------------------------------------------------
@@ -715,7 +712,7 @@ HRESULT CD3DFont::DrawText(float sx, float sy, DWORD dwColor,
 
     // Fill vertex buffer
     FONT2DVERTEX* pVertices = NULL;
-    DWORD         dwNumTriangles = 0;
+    DWORD dwNumTriangles = 0;
     m_pVB->Lock(0, 0, (void**)&pVertices, D3DLOCK_DISCARD);
 
     while (*strText) {
@@ -773,7 +770,6 @@ HRESULT CD3DFont::DrawText(float sx, float sy, DWORD dwColor,
 }
 
 
-
 //-----------------------------------------------------------------------------
 // Name: Render3DText()
 // Desc: Renders 3D text
@@ -825,7 +821,7 @@ HRESULT CD3DFont::Render3DText(const TCHAR* strText, DWORD dwFlags)
 
     // Fill vertex buffer
     FONT3DVERTEX* pVertices;
-    DWORD         dwNumTriangles = 0L;
+    DWORD dwNumTriangles = 0L;
     m_pVB->Lock(0, 0, (void**)&pVertices, D3DLOCK_DISCARD);
 
     while ((c = *strText++) != 0) {

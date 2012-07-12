@@ -29,22 +29,22 @@
 class CPixelShaderCompiler
 {
     typedef HRESULT(WINAPI* D3DXCompileShaderPtr)(
-        LPCSTR      pSrcData,
-        UINT        SrcDataLen,
+        LPCSTR pSrcData,
+        UINT SrcDataLen,
         CONST D3DXMACRO* pDefines,
-        LPD3DXINCLUDE   pInclude,
-        LPCSTR      pFunctionName,
-        LPCSTR      pProfile,
-        DWORD       Flags,
-        LPD3DXBUFFER*   ppShader,
-        LPD3DXBUFFER*   ppErrorMsgs,
+        LPD3DXINCLUDE pInclude,
+        LPCSTR pFunctionName,
+        LPCSTR pProfile,
+        DWORD Flags,
+        LPD3DXBUFFER* ppShader,
+        LPD3DXBUFFER* ppErrorMsgs,
         LPD3DXCONSTANTTABLE* ppConstantTable);
 
     typedef HRESULT(WINAPI* D3DXDisassembleShaderPtr)(
-        CONST DWORD*    pShader,
-        bool        EnableColorCode,
-        LPCSTR      pComments,
-        LPD3DXBUFFER*   ppDisassembly);
+        CONST DWORD* pShader,
+        bool EnableColorCode,
+        LPCSTR pComments,
+        LPD3DXBUFFER* ppDisassembly);
 
     D3DXCompileShaderPtr m_pD3DXCompileShader;
     D3DXDisassembleShaderPtr m_pD3DXDisassembleShader;

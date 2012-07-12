@@ -91,13 +91,13 @@ STDMETHODIMP COuterVMR9::GetSourcePosition(long* pLeft, long* pTop, long* pWidth
     /*
     if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR)
     {
-    CRect s, d;
-    HRESULT hr = pWC9->GetVideoPosition(&s, &d);
-    *pLeft = s.left;
-    *pTop = s.top;
-    *pWidth = s.Width();
-    *pHeight = s.Height();
-    return hr;
+        CRect s, d;
+        HRESULT hr = pWC9->GetVideoPosition(&s, &d);
+        *pLeft = s.left;
+        *pTop = s.top;
+        *pWidth = s.Width();
+        *pHeight = s.Height();
+        return hr;
     }
     return E_NOTIMPL;
     */
@@ -122,7 +122,7 @@ STDMETHODIMP COuterVMR9::GetVideoSize(long* pWidth, long* pHeight)
 {
     if (CComQIPtr<IVMRWindowlessControl9> pWC9 = m_pVMR) {
         LONG aw, ah;
-        //          return pWC9->GetNativeVideoSize(pWidth, pHeight, &aw, &ah);
+        //return pWC9->GetNativeVideoSize(pWidth, pHeight, &aw, &ah);
         // DVD Nav. bug workaround fix
         HRESULT hr = pWC9->GetNativeVideoSize(pWidth, pHeight, &aw, &ah);
         *pWidth = *pHeight * aw / ah;

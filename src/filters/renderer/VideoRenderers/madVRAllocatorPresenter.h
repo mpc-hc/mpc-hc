@@ -83,8 +83,8 @@ namespace DSObjects
 
         CComPtr<IUnknown> m_pDXR;
         CComPtr<ISubRenderCallback2> m_pSRCB;
-        CSize   m_ScreenSize;
-        bool    m_bIsFullscreen;
+        CSize m_ScreenSize;
+        bool  m_bIsFullscreen;
 
     public:
         CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString& _Error);

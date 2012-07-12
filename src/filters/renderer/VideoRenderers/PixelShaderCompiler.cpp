@@ -32,7 +32,7 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
     , m_pD3DXCompileShader(NULL)
     , m_pD3DXDisassembleShader(NULL)
 {
-    HINSTANCE       hDll;
+    HINSTANCE hDll;
     hDll = GetRenderersData()->GetD3X9Dll();
 
     if (hDll) {

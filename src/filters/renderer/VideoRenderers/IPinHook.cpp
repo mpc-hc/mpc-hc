@@ -43,73 +43,73 @@
 #define LOG_FILE_BITSTREAM  _T("bitstream.log")
 #endif
 
-REFERENCE_TIME      g_tSegmentStart     = 0;
-REFERENCE_TIME      g_tSampleStart      = 0;
-GUID                g_guidDXVADecoder   = GUID_NULL;
-int                 g_nDXVAVersion      = 0;
+REFERENCE_TIME g_tSegmentStart = 0;
+REFERENCE_TIME g_tSampleStart = 0;
+GUID g_guidDXVADecoder = GUID_NULL;
+int  g_nDXVAVersion = 0;
 
-IPinCVtbl*          g_pPinCVtbl         = NULL;
-IMemInputPinCVtbl*  g_pMemInputPinCVtbl = NULL;
+IPinCVtbl* g_pPinCVtbl = NULL;
+IMemInputPinCVtbl* g_pMemInputPinCVtbl = NULL;
 
 typedef struct {
-    const int     Format;
+    const int Format;
     const LPCTSTR Description;
 } D3DFORMAT_TYPE;
 
 const D3DFORMAT_TYPE D3DFormatType[] = {
-    { D3DFMT_UNKNOWN              , _T("D3DFMT_UNKNOWN      ") },
-    { D3DFMT_R8G8B8               , _T("D3DFMT_R8G8B8       ") },
-    { D3DFMT_A8R8G8B8             , _T("D3DFMT_A8R8G8B8     ") },
-    { D3DFMT_X8R8G8B8             , _T("D3DFMT_X8R8G8B8     ") },
-    { D3DFMT_R5G6B5               , _T("D3DFMT_R5G6B5       ") },
-    { D3DFMT_X1R5G5B5             , _T("D3DFMT_X1R5G5B5     ") },
-    { D3DFMT_A1R5G5B5             , _T("D3DFMT_A1R5G5B5     ") },
-    { D3DFMT_A4R4G4B4             , _T("D3DFMT_A4R4G4B4     ") },
-    { D3DFMT_R3G3B2               , _T("D3DFMT_R3G3B2       ") },
-    { D3DFMT_A8                   , _T("D3DFMT_A8           ") },
-    { D3DFMT_A8R3G3B2             , _T("D3DFMT_A8R3G3B2     ") },
-    { D3DFMT_X4R4G4B4             , _T("D3DFMT_X4R4G4B4     ") },
-    { D3DFMT_A2B10G10R10          , _T("D3DFMT_A2B10G10R10  ") },
-    { D3DFMT_A8B8G8R8             , _T("D3DFMT_A8B8G8R8     ") },
-    { D3DFMT_X8B8G8R8             , _T("D3DFMT_X8B8G8R8     ") },
-    { D3DFMT_G16R16               , _T("D3DFMT_G16R16       ") },
-    { D3DFMT_A2R10G10B10          , _T("D3DFMT_A2R10G10B10  ") },
-    { D3DFMT_A16B16G16R16         , _T("D3DFMT_A16B16G16R16 ") },
-    { D3DFMT_A8P8                 , _T("D3DFMT_A8P8         ") },
-    { D3DFMT_P8                   , _T("D3DFMT_P8           ") },
-    { D3DFMT_L8                   , _T("D3DFMT_L8           ") },
-    { D3DFMT_A8L8                 , _T("D3DFMT_A8L8         ") },
-    { D3DFMT_A4L4                 , _T("D3DFMT_A4L4         ") },
-    { D3DFMT_X8L8V8U8             , _T("D3DFMT_X8L8V8U8     ") },
-    { D3DFMT_Q8W8V8U8             , _T("D3DFMT_Q8W8V8U8     ") },
-    { D3DFMT_V16U16               , _T("D3DFMT_V16U16       ") },
-    { D3DFMT_A2W10V10U10          , _T("D3DFMT_A2W10V10U10  ") },
-    { D3DFMT_UYVY                 , _T("D3DFMT_UYVY         ") },
-    { D3DFMT_R8G8_B8G8            , _T("D3DFMT_R8G8_B8G8    ") },
-    { D3DFMT_YUY2                 , _T("D3DFMT_YUY2         ") },
-    { D3DFMT_G8R8_G8B8            , _T("D3DFMT_G8R8_G8B8    ") },
-    { D3DFMT_DXT1                 , _T("D3DFMT_DXT1         ") },
-    { D3DFMT_DXT2                 , _T("D3DFMT_DXT2         ") },
-    { D3DFMT_DXT3                 , _T("D3DFMT_DXT3         ") },
-    { D3DFMT_DXT4                 , _T("D3DFMT_DXT4         ") },
-    { D3DFMT_DXT5                 , _T("D3DFMT_DXT5         ") },
-    { D3DFMT_D16_LOCKABLE         , _T("D3DFMT_D16_LOCKABLE ") },
-    { D3DFMT_D32                  , _T("D3DFMT_D32          ") },
-    { D3DFMT_D15S1                , _T("D3DFMT_D15S1        ") },
-    { D3DFMT_D24S8                , _T("D3DFMT_D24S8        ") },
-    { D3DFMT_D24X8                , _T("D3DFMT_D24X8        ") },
-    { D3DFMT_D24X4S4              , _T("D3DFMT_D24X4S4      ") },
-    { D3DFMT_D16                  , _T("D3DFMT_D16          ") },
-    { D3DFMT_D32F_LOCKABLE        , _T("D3DFMT_D32F_LOCKABLE") },
-    { D3DFMT_D24FS8               , _T("D3DFMT_D24FS8       ") },
-    { D3DFMT_L16                  , _T("D3DFMT_L16          ") },
-    { D3DFMT_VERTEXDATA           , _T("D3DFMT_VERTEXDATA   ") },
-    { D3DFMT_INDEX16              , _T("D3DFMT_INDEX16      ") },
-    { D3DFMT_INDEX32              , _T("D3DFMT_INDEX32      ") },
-    { D3DFMT_Q16W16V16U16         , _T("D3DFMT_Q16W16V16U16 ") },
+    { D3DFMT_UNKNOWN       , _T("D3DFMT_UNKNOWN      ") },
+    { D3DFMT_R8G8B8        , _T("D3DFMT_R8G8B8       ") },
+    { D3DFMT_A8R8G8B8      , _T("D3DFMT_A8R8G8B8     ") },
+    { D3DFMT_X8R8G8B8      , _T("D3DFMT_X8R8G8B8     ") },
+    { D3DFMT_R5G6B5        , _T("D3DFMT_R5G6B5       ") },
+    { D3DFMT_X1R5G5B5      , _T("D3DFMT_X1R5G5B5     ") },
+    { D3DFMT_A1R5G5B5      , _T("D3DFMT_A1R5G5B5     ") },
+    { D3DFMT_A4R4G4B4      , _T("D3DFMT_A4R4G4B4     ") },
+    { D3DFMT_R3G3B2        , _T("D3DFMT_R3G3B2       ") },
+    { D3DFMT_A8            , _T("D3DFMT_A8           ") },
+    { D3DFMT_A8R3G3B2      , _T("D3DFMT_A8R3G3B2     ") },
+    { D3DFMT_X4R4G4B4      , _T("D3DFMT_X4R4G4B4     ") },
+    { D3DFMT_A2B10G10R10   , _T("D3DFMT_A2B10G10R10  ") },
+    { D3DFMT_A8B8G8R8      , _T("D3DFMT_A8B8G8R8     ") },
+    { D3DFMT_X8B8G8R8      , _T("D3DFMT_X8B8G8R8     ") },
+    { D3DFMT_G16R16        , _T("D3DFMT_G16R16       ") },
+    { D3DFMT_A2R10G10B10   , _T("D3DFMT_A2R10G10B10  ") },
+    { D3DFMT_A16B16G16R16  , _T("D3DFMT_A16B16G16R16 ") },
+    { D3DFMT_A8P8          , _T("D3DFMT_A8P8         ") },
+    { D3DFMT_P8            , _T("D3DFMT_P8           ") },
+    { D3DFMT_L8            , _T("D3DFMT_L8           ") },
+    { D3DFMT_A8L8          , _T("D3DFMT_A8L8         ") },
+    { D3DFMT_A4L4          , _T("D3DFMT_A4L4         ") },
+    { D3DFMT_X8L8V8U8      , _T("D3DFMT_X8L8V8U8     ") },
+    { D3DFMT_Q8W8V8U8      , _T("D3DFMT_Q8W8V8U8     ") },
+    { D3DFMT_V16U16        , _T("D3DFMT_V16U16       ") },
+    { D3DFMT_A2W10V10U10   , _T("D3DFMT_A2W10V10U10  ") },
+    { D3DFMT_UYVY          , _T("D3DFMT_UYVY         ") },
+    { D3DFMT_R8G8_B8G8     , _T("D3DFMT_R8G8_B8G8    ") },
+    { D3DFMT_YUY2          , _T("D3DFMT_YUY2         ") },
+    { D3DFMT_G8R8_G8B8     , _T("D3DFMT_G8R8_G8B8    ") },
+    { D3DFMT_DXT1          , _T("D3DFMT_DXT1         ") },
+    { D3DFMT_DXT2          , _T("D3DFMT_DXT2         ") },
+    { D3DFMT_DXT3          , _T("D3DFMT_DXT3         ") },
+    { D3DFMT_DXT4          , _T("D3DFMT_DXT4         ") },
+    { D3DFMT_DXT5          , _T("D3DFMT_DXT5         ") },
+    { D3DFMT_D16_LOCKABLE  , _T("D3DFMT_D16_LOCKABLE ") },
+    { D3DFMT_D32           , _T("D3DFMT_D32          ") },
+    { D3DFMT_D15S1         , _T("D3DFMT_D15S1        ") },
+    { D3DFMT_D24S8         , _T("D3DFMT_D24S8        ") },
+    { D3DFMT_D24X8         , _T("D3DFMT_D24X8        ") },
+    { D3DFMT_D24X4S4       , _T("D3DFMT_D24X4S4      ") },
+    { D3DFMT_D16           , _T("D3DFMT_D16          ") },
+    { D3DFMT_D32F_LOCKABLE , _T("D3DFMT_D32F_LOCKABLE") },
+    { D3DFMT_D24FS8        , _T("D3DFMT_D24FS8       ") },
+    { D3DFMT_L16           , _T("D3DFMT_L16          ") },
+    { D3DFMT_VERTEXDATA    , _T("D3DFMT_VERTEXDATA   ") },
+    { D3DFMT_INDEX16       , _T("D3DFMT_INDEX16      ") },
+    { D3DFMT_INDEX32       , _T("D3DFMT_INDEX32      ") },
+    { D3DFMT_Q16W16V16U16  , _T("D3DFMT_Q16W16V16U16 ") },
 
-    { MAKEFOURCC('N', 'V', '1', '2') , _T("D3DFMT_NV12") },
-    { MAKEFOURCC('N', 'V', '2', '4') , _T("D3DFMT_NV24") },
+    { MAKEFOURCC('N', 'V', '1', '2'), _T("D3DFMT_NV12") },
+    { MAKEFOURCC('N', 'V', '2', '4'), _T("D3DFMT_NV24") },
 };
 
 const LPCTSTR DXVAVersion[] = { _T("DXVA "), _T("DXVA1"), _T("DXVA2") };
@@ -204,8 +204,8 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
         return false;
     }
 
-    g_tSegmentStart     = 0;
-    g_tSampleStart      = 0;
+    g_tSegmentStart = 0;
+    g_tSampleStart = 0;
 
     BOOL res;
     DWORD flOldProtect = 0;
@@ -228,7 +228,7 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
     pMemInputPinC->lpVtbl->Receive = ReceiveMine; // Function sets global variable(s)
     res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
 
-    g_pPinCVtbl         = pPinC->lpVtbl;
+    g_pPinCVtbl = pPinC->lpVtbl;
     g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
 
     return true;
@@ -323,9 +323,9 @@ static void LOGUDI(LPCTSTR prefix, const AMVAUncompDataInfo* p, int n)
 
 static void LogDXVA_PicParams_H264(DXVA_PicParams_H264* pPic)
 {
-    CString         strRes;
-    int             i;
-    static bool     bFirstParam = true;
+    CString strRes;
+    int i;
+    static bool bFirstParam = true;
 
     if (bFirstParam) {
         LOG_TOFILE(LOG_FILE_PICTURE, _T("RefPicFlag,wFrameWidthInMbsMinus1,wFrameHeightInMbsMinus1,CurrPic.Index7Bits,num_ref_frames,wBitFields,bit_depth_luma_minus8,bit_depth_chroma_minus8,Reserved16Bits,StatusReportFeedbackNumber,RFL.Index7Bits[0],") \
@@ -346,9 +346,9 @@ static void LogDXVA_PicParams_H264(DXVA_PicParams_H264* pPic)
     strRes.AppendFormat(_T("%d,"), pPic->wFrameWidthInMbsMinus1);
     strRes.AppendFormat(_T("%d,"), pPic->wFrameHeightInMbsMinus1);
 
-    //          DXVA_PicEntry_H264  CurrPic)); /* flag is bot field flag */
-    //  strRes.AppendFormat(_T("%d,"), pPic->CurrPic.AssociatedFlag);
-    //  strRes.AppendFormat(_T("%d,"), pPic->CurrPic.bPicEntry);
+    //DXVA_PicEntry_H264  CurrPic)); /* flag is bot field flag */
+    //strRes.AppendFormat(_T("%d,"), pPic->CurrPic.AssociatedFlag);
+    //strRes.AppendFormat(_T("%d,"), pPic->CurrPic.bPicEntry);
     strRes.AppendFormat(_T("%d,"), pPic->CurrPic.Index7Bits);
 
 
@@ -436,7 +436,7 @@ static void LogDXVA_PicParams_H264(DXVA_PicParams_H264* pPic)
 
 static void LogH264SliceShort(DXVA_Slice_H264_Short* pSlice, int nCount)
 {
-    CString     strRes;
+    CString strRes;
     static bool bFirstSlice = true;
 
     if (bFirstSlice) {
@@ -459,7 +459,7 @@ static void LogH264SliceShort(DXVA_Slice_H264_Short* pSlice, int nCount)
 
 static void LogSliceInfo(DXVA_SliceInfo* pSlice, int nCount)
 {
-    CString     strRes;
+    CString strRes;
     static bool bFirstSlice = true;
 
     if (bFirstSlice) {
@@ -491,7 +491,7 @@ static void LogSliceInfo(DXVA_SliceInfo* pSlice, int nCount)
 static void LogH264SliceLong(DXVA_Slice_H264_Long* pSlice, int nCount)
 {
     static bool bFirstSlice = true;
-    CString     strRes;
+    CString strRes;
 
     if (bFirstSlice) {
         strRes = _T("nCnt, BSNALunitDataLocation, SliceBytesInBuffer, wBadSliceChopping,") \
@@ -579,7 +579,7 @@ static void LogH264SliceLong(DXVA_Slice_H264_Long* pSlice, int nCount)
 static void LogDXVA_PictureParameters(DXVA_PictureParameters* pPic)
 {
     static bool bFirstPictureParam = true;
-    CString     strRes;
+    CString strRes;
 
     if (bFirstPictureParam) {
         LOG_TOFILE(LOG_FILE_PICTURE, _T("wDecodedPictureIndex,wDeblockedPictureIndex,wForwardRefPictureIndex,wBackwardRefPictureIndex,wPicWidthInMBminus1,wPicHeightInMBminus1,bMacroblockWidthMinus1,bMacroblockHeightMinus1,bBlockWidthMinus1,bBlockHeightMinus1,bBPPminus1,bPicStructure,bSecondField,bPicIntra,bPicBackwardPrediction,bBidirectionalAveragingMode,bMVprecisionAndChromaRelation,bChromaFormat,bPicScanFixed,bPicScanMethod,bPicReadbackRequests,bRcontrol,bPicSpatialResid8,bPicOverflowBlocks,bPicExtrapolation,bPicDeblocked,bPicDeblockConfined,bPic4MVallowed,bPicOBMC,bPicBinPB,bMV_RPS,bReservedBits,wBitstreamFcodes,wBitstreamPCEelements,bBitstreamConcealmentNeed,bBitstreamConcealmentMethod"));
@@ -629,7 +629,7 @@ static void LogDXVA_PictureParameters(DXVA_PictureParameters* pPic)
 
 void LogDXVA_Bitstream(BYTE* pBuffer, int nSize)
 {
-    CString     strRes;
+    CString strRes;
     static bool bFirstBitstream = true;
 
     if (bFirstBitstream) {
@@ -680,7 +680,6 @@ static HRESULT STDMETHODCALLTYPE GetVideoAcceleratorGUIDsMine(IAMVideoAccelerato
     }
 
     HRESULT hr = GetVideoAcceleratorGUIDsOrg(This, pdwNumGuidsSupported, pGuidsSupported);
-
     LOG(_T("hr = %08x"), hr);
 
     if (pdwNumGuidsSupported) {
@@ -726,9 +725,7 @@ static HRESULT STDMETHODCALLTYPE GetUncompFormatsSupportedMine(IAMVideoAccelerat
 static HRESULT STDMETHODCALLTYPE GetInternalMemInfoMine(IAMVideoAcceleratorC* This, const GUID* pGuid, const AMVAUncompDataInfo* pamvaUncompDataInfo, LPAMVAInternalMemInfo pamvaInternalMemInfo)
 {
     LOG(_T("\nGetInternalMemInfo"));
-
     HRESULT hr = GetInternalMemInfoOrg(This, pGuid, pamvaUncompDataInfo, pamvaInternalMemInfo);
-
     LOG(_T("hr = %08x"), hr);
 
     return hr;
@@ -740,8 +737,8 @@ static HRESULT STDMETHODCALLTYPE GetCompBufferInfoMine(IAMVideoAcceleratorC* Thi
     LOG(_T("\nGetCompBufferInfo"));
 
     if (pGuid) {
-        g_guidDXVADecoder   = *pGuid;
-        g_nDXVAVersion      = 1;
+        g_guidDXVADecoder = *pGuid;
+        g_nDXVAVersion = 1;
 
 #ifdef _DEBUG
         LOG(_T("[in] *pGuid = %s"), CStringFromGUID(*pGuid));
@@ -772,9 +769,7 @@ static HRESULT STDMETHODCALLTYPE GetCompBufferInfoMine(IAMVideoAcceleratorC* Thi
 static HRESULT STDMETHODCALLTYPE GetInternalCompBufferInfoMine(IAMVideoAcceleratorC* This, LPDWORD pdwNumTypesCompBuffers, LPAMVACompBufferInfo pamvaCompBufferInfo)
 {
     LOG(_T("\nGetInternalCompBufferInfo"));
-
     HRESULT hr = GetInternalCompBufferInfoOrg(This, pdwNumTypesCompBuffers, pamvaCompBufferInfo);
-
     LOG(_T("hr = %08x"), hr);
 
     return hr;
@@ -785,11 +780,11 @@ static HRESULT STDMETHODCALLTYPE BeginFrameMine(IAMVideoAcceleratorC* This, cons
     LOG(_T("\nBeginFrame"));
 
     if (amvaBeginFrameInfo) {
-        LOG(_T("[in] amvaBeginFrameInfo->dwDestSurfaceIndex = %08x"),   amvaBeginFrameInfo->dwDestSurfaceIndex);
-        LOG(_T("[in] amvaBeginFrameInfo->pInputData = %08x"),           amvaBeginFrameInfo->pInputData);
-        LOG(_T("[in] amvaBeginFrameInfo->dwSizeInputData = %08x"),      amvaBeginFrameInfo->dwSizeInputData);
-        LOG(_T("[in] amvaBeginFrameInfo->pOutputData = %08x"),          amvaBeginFrameInfo->pOutputData);
-        LOG(_T("[in] amvaBeginFrameInfo->dwSizeOutputData = %08x"),     amvaBeginFrameInfo->dwSizeOutputData);
+        LOG(_T("[in] amvaBeginFrameInfo->dwDestSurfaceIndex = %08x"), amvaBeginFrameInfo->dwDestSurfaceIndex);
+        LOG(_T("[in] amvaBeginFrameInfo->pInputData = %08x"), amvaBeginFrameInfo->pInputData);
+        LOG(_T("[in] amvaBeginFrameInfo->dwSizeInputData = %08x"), amvaBeginFrameInfo->dwSizeInputData);
+        LOG(_T("[in] amvaBeginFrameInfo->pOutputData = %08x"), amvaBeginFrameInfo->pOutputData);
+        LOG(_T("[in] amvaBeginFrameInfo->dwSizeOutputData = %08x"), amvaBeginFrameInfo->dwSizeOutputData);
     }
     if (amvaBeginFrameInfo && (amvaBeginFrameInfo->dwSizeInputData == 4)) {
         LOG(_T("[in] amvaBeginFrameInfo->pInputData => dwDestSurfaceIndex = %ld "),
@@ -798,7 +793,6 @@ static HRESULT STDMETHODCALLTYPE BeginFrameMine(IAMVideoAcceleratorC* This, cons
 
 
     HRESULT hr = BeginFrameOrg(This, amvaBeginFrameInfo);
-
     LOG(_T("hr = %08x"), hr);
 
     return hr;
@@ -822,7 +816,6 @@ static HRESULT STDMETHODCALLTYPE EndFrameMine(IAMVideoAcceleratorC* This, const 
     }
 
     HRESULT hr = EndFrameOrg(This, pEndFrameInfo);
-
     LOG(_T("hr = %08x"), hr);
 
     return hr;
@@ -834,7 +827,6 @@ static HRESULT STDMETHODCALLTYPE GetBufferMine(IAMVideoAcceleratorC* This, DWORD
     HRESULT hr = GetBufferOrg(This, dwTypeIndex, dwBufferIndex, bReadOnly, ppBuffer, lpStride);
 
     LOG(_T("\nGetBuffer"));
-
     LOG(_T("[in] dwTypeIndex = %08x"), dwTypeIndex);
     LOG(_T("[in] dwBufferIndex = %08x"), dwBufferIndex);
     LOG(_T("[in] bReadOnly = %08x"), bReadOnly);
@@ -851,12 +843,9 @@ static HRESULT STDMETHODCALLTYPE GetBufferMine(IAMVideoAcceleratorC* This, DWORD
 static HRESULT STDMETHODCALLTYPE ReleaseBufferMine(IAMVideoAcceleratorC* This, DWORD dwTypeIndex, DWORD dwBufferIndex)
 {
     LOG(_T("\nReleaseBuffer"));
-
     LOG(_T("[in] dwTypeIndex = %08x"), dwTypeIndex);
     LOG(_T("[in] dwBufferIndex = %08x"), dwBufferIndex);
-
     HRESULT hr = ReleaseBufferOrg(This, dwTypeIndex, dwBufferIndex);
-
     LOG(_T("hr = %08x"), hr);
 
     return hr;
@@ -962,7 +951,6 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 #endif
 
     HRESULT hr = ExecuteOrg(This, dwFunction, lpPrivateInputData, cbPrivateInputData, lpPrivateOutputData, cbPrivateOutputData, dwNumBuffers, pamvaBufferInfo);
-
     LOG(_T("hr = %08x"), hr);
 
     if (lpPrivateOutputData && (dwFunction == 0x01000000)) {
@@ -984,9 +972,7 @@ static HRESULT STDMETHODCALLTYPE QueryRenderStatusMine(IAMVideoAcceleratorC* Thi
 static HRESULT STDMETHODCALLTYPE DisplayFrameMine(IAMVideoAcceleratorC* This, DWORD dwFlipToIndex, IMediaSample* pMediaSample)
 {
     LOG(_T("\nEnter DisplayFrame  : %d"), dwFlipToIndex);
-
     HRESULT hr = DisplayFrameOrg(This, dwFlipToIndex, pMediaSample);
-
     LOG(_T("Leave DisplayFrame  : hr = %08x"), hr);
 
     return hr;
@@ -995,8 +981,8 @@ static HRESULT STDMETHODCALLTYPE DisplayFrameMine(IAMVideoAcceleratorC* This, DW
 
 void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 {
-    g_guidDXVADecoder   = GUID_NULL;
-    g_nDXVAVersion      = 0;
+    g_guidDXVADecoder = GUID_NULL;
+    g_nDXVAVersion = 0;
 
     BOOL res;
     DWORD flOldProtect = 0;
@@ -1091,9 +1077,9 @@ static void LogDecodeBufferDesc(DXVA2_DecodeBufferDesc* pDecodeBuff)
 class CFakeDirectXVideoDecoder : public CUnknown, public IDirectXVideoDecoder
 {
 private :
-    CComPtr<IDirectXVideoDecoder>       m_pDec;
-    BYTE*                               m_ppBuffer[MAX_BUFFER_TYPE];
-    UINT                                m_ppBufferLen[MAX_BUFFER_TYPE];
+    CComPtr<IDirectXVideoDecoder> m_pDec;
+    BYTE* m_ppBuffer[MAX_BUFFER_TYPE];
+    UINT m_ppBufferLen[MAX_BUFFER_TYPE];
 
 public :
     CFakeDirectXVideoDecoder(LPUNKNOWN pUnk, IDirectXVideoDecoder* pDec) : CUnknown(_T("Fake DXVA2 Dec"), pUnk) {
@@ -1116,44 +1102,44 @@ public :
     }
 
     virtual HRESULT STDMETHODCALLTYPE GetVideoDecoderService(IDirectXVideoDecoderService** ppService) {
-        HRESULT     hr = m_pDec->GetVideoDecoderService(ppService);
+        HRESULT hr = m_pDec->GetVideoDecoderService(ppService);
         LOG(_T("IDirectXVideoDecoder::GetVideoDecoderService  hr = %08x\n"), hr);
         return hr;
     }
 
     virtual HRESULT STDMETHODCALLTYPE GetCreationParameters(GUID* pDeviceGuid, DXVA2_VideoDesc* pVideoDesc, DXVA2_ConfigPictureDecode* pConfig, IDirect3DSurface9** *pDecoderRenderTargets, UINT* pNumSurfaces) {
-        HRESULT     hr = m_pDec->GetCreationParameters(pDeviceGuid, pVideoDesc, pConfig, pDecoderRenderTargets, pNumSurfaces);
+        HRESULT hr = m_pDec->GetCreationParameters(pDeviceGuid, pVideoDesc, pConfig, pDecoderRenderTargets, pNumSurfaces);
         LOG(_T("IDirectXVideoDecoder::GetCreationParameters hr = %08x\n"), hr);
         return hr;
     }
 
 
     virtual HRESULT STDMETHODCALLTYPE GetBuffer(UINT BufferType, void** ppBuffer, UINT* pBufferSize) {
-        HRESULT     hr = m_pDec->GetBuffer(BufferType, ppBuffer, pBufferSize);
+        HRESULT hr = m_pDec->GetBuffer(BufferType, ppBuffer, pBufferSize);
 
         if (BufferType < MAX_BUFFER_TYPE) {
-            m_ppBuffer[BufferType]  = (BYTE*)*ppBuffer;
-            m_ppBufferLen[BufferType]       = *pBufferSize;
+            m_ppBuffer[BufferType] = (BYTE*)*ppBuffer;
+            m_ppBufferLen[BufferType] = *pBufferSize;
         }
-        //          LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
+        //LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
 
         return hr;
     }
 
     virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType) {
         HRESULT     hr = m_pDec->ReleaseBuffer(BufferType);
-        //          LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
+        //LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
         return hr;
     }
 
     virtual HRESULT STDMETHODCALLTYPE BeginFrame(IDirect3DSurface9* pRenderTarget, void* pvPVPData) {
-        HRESULT     hr = m_pDec->BeginFrame(pRenderTarget, pvPVPData);
+        HRESULT hr = m_pDec->BeginFrame(pRenderTarget, pvPVPData);
         LOG(_T("IDirectXVideoDecoder::BeginFrame pRenderTarget = %08x,  hr = %08x"), pRenderTarget, hr);
         return hr;
     }
 
     virtual HRESULT STDMETHODCALLTYPE EndFrame(HANDLE* pHandleComplete) {
-        HRESULT     hr = m_pDec->EndFrame(pHandleComplete);
+        HRESULT hr = m_pDec->EndFrame(pHandleComplete);
         LOG(_T("IDirectXVideoDecoder::EndFrame  Handle=0x%08x  hr = %08x\n"), pHandleComplete, hr);
         return hr;
     }
@@ -1162,7 +1148,7 @@ public :
 
 #if defined(_DEBUG) && DXVA_LOGFILE_A
         for (DWORD i = 0; i < pExecuteParams->NumCompBuffers; i++) {
-            CString     strBuffer;
+            CString strBuffer;
 
             LogDecodeBufferDesc(&pExecuteParams->pCompressedBuffers[i]);
             /*
@@ -1237,7 +1223,7 @@ public :
         }
 #endif
 
-        HRESULT     hr = m_pDec->Execute(pExecuteParams);
+        HRESULT hr = m_pDec->Execute(pExecuteParams);
 
 #ifdef _DEBUG
         if (pExecuteParams->pExtensionData) {
@@ -1265,35 +1251,45 @@ struct IDirectXVideoDecoderServiceCVtbl {
     HRESULT(STDMETHODCALLTYPE* QueryInterface)(IDirectXVideoDecoderServiceC* pThis, /* [in] */ REFIID riid, /* [iid_is][out] */ void** ppvObject);
     ULONG(STDMETHODCALLTYPE* AddRef)(IDirectXVideoDecoderServiceC* pThis);
     ULONG(STDMETHODCALLTYPE* Release)(IDirectXVideoDecoderServiceC*   pThis);
-    HRESULT(STDMETHODCALLTYPE* CreateSurface)(IDirectXVideoDecoderServiceC* pThis, __in  UINT Width, __in  UINT Height, __in  UINT BackBuffers, __in  D3DFORMAT Format, __in  D3DPOOL Pool, __in  DWORD Usage, __in  DWORD DxvaType, __out_ecount(BackBuffers + 1)  IDirect3DSurface9** ppSurface, __inout_opt  HANDLE* pSharedHandle);
+    HRESULT(STDMETHODCALLTYPE* CreateSurface)(
+        IDirectXVideoDecoderServiceC* pThis,
+        __in  UINT Width,
+        __in  UINT Height,
+        __in  UINT BackBuffers,
+        __in  D3DFORMAT Format,
+        __in  D3DPOOL Pool,
+        __in  DWORD Usage,
+        __in  DWORD DxvaType,
+        __out_ecount(BackBuffers + 1)
+        IDirect3DSurface9** ppSurface, __inout_opt  HANDLE* pSharedHandle);
 
     HRESULT(STDMETHODCALLTYPE* GetDecoderDeviceGuids)(
-        IDirectXVideoDecoderServiceC*                   pThis,
-        __out  UINT*                                    pCount,
-        __deref_out_ecount_opt(*pCount)  GUID**         pGuids);
+        IDirectXVideoDecoderServiceC* pThis,
+        __out UINT* pCount,
+        __deref_out_ecount_opt(*pCount) GUID** pGuids);
 
     HRESULT(STDMETHODCALLTYPE* GetDecoderRenderTargets)(
-        IDirectXVideoDecoderServiceC*                   pThis,
-        __in  REFGUID                                   Guid,
-        __out  UINT*                                    pCount,
-        __deref_out_ecount_opt(*pCount)  D3DFORMAT**    pFormats);
+        IDirectXVideoDecoderServiceC* pThis,
+        __in REFGUID Guid,
+        __out UINT* pCount,
+        __deref_out_ecount_opt(*pCount) D3DFORMAT** pFormats);
 
     HRESULT(STDMETHODCALLTYPE* GetDecoderConfigurations)(
-        IDirectXVideoDecoderServiceC*                   pThis,
-        __in  REFGUID                                   Guid,
-        __in  const DXVA2_VideoDesc*                    pVideoDesc,
-        __reserved  void*                               pReserved,
-        __out  UINT*                                    pCount,
-        __deref_out_ecount_opt(*pCount)  DXVA2_ConfigPictureDecode** ppConfigs);
+        IDirectXVideoDecoderServiceC* pThis,
+        __in REFGUID Guid,
+        __in const DXVA2_VideoDesc* pVideoDesc,
+        __reserved void* pReserved,
+        __out UINT* pCount,
+        __deref_out_ecount_opt(*pCount) DXVA2_ConfigPictureDecode** ppConfigs);
 
     HRESULT(STDMETHODCALLTYPE* CreateVideoDecoder)(
-        IDirectXVideoDecoderServiceC*                   pThis,
-        __in  REFGUID                                   Guid,
-        __in  const DXVA2_VideoDesc*                    pVideoDesc,
-        __in  const DXVA2_ConfigPictureDecode*          pConfig,
-        __in_ecount(NumRenderTargets)  IDirect3DSurface9** ppDecoderRenderTargets,
-        __in  UINT                                      NumRenderTargets,
-        __deref_out  IDirectXVideoDecoder**             ppDecode);
+        IDirectXVideoDecoderServiceC* pThis,
+        __in REFGUID Guid,
+        __in const DXVA2_VideoDesc* pVideoDesc,
+        __in const DXVA2_ConfigPictureDecode* pConfig,
+        __in_ecount(NumRenderTargets) IDirect3DSurface9** ppDecoderRenderTargets,
+        __in UINT NumRenderTargets,
+        __deref_out IDirectXVideoDecoder** ppDecode);
 
     END_INTERFACE
 };
@@ -1303,8 +1299,13 @@ interface IDirectXVideoDecoderServiceC {
 };
 
 
-IDirectXVideoDecoderServiceCVtbl*   g_pIDirectXVideoDecoderServiceCVtbl = NULL;
-static HRESULT(STDMETHODCALLTYPE* CreateVideoDecoderOrg)(IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in  const DXVA2_VideoDesc* pVideoDesc, __in  const DXVA2_ConfigPictureDecode* pConfig, __in_ecount(NumRenderTargets)  IDirect3DSurface9** ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = NULL;
+IDirectXVideoDecoderServiceCVtbl* g_pIDirectXVideoDecoderServiceCVtbl = NULL;
+static HRESULT(STDMETHODCALLTYPE* CreateVideoDecoderOrg)(IDirectXVideoDecoderServiceC* pThis,
+        __in REFGUID Guid,
+        __in const DXVA2_VideoDesc* pVideoDesc,
+        __in const DXVA2_ConfigPictureDecode* pConfig,
+        __in_ecount(NumRenderTargets)
+        IDirect3DSurface9** ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = NULL;
 #ifdef _DEBUG
 static HRESULT(STDMETHODCALLTYPE* GetDecoderDeviceGuidsOrg)(IDirectXVideoDecoderServiceC* pThis, __out  UINT* pCount, __deref_out_ecount_opt(*pCount)  GUID** pGuids) = NULL;
 static HRESULT(STDMETHODCALLTYPE* GetDecoderConfigurationsOrg)(IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in const DXVA2_VideoDesc* pVideoDesc, __reserved void* pReserved, __out UINT* pCount, __deref_out_ecount_opt(*pCount)  DXVA2_ConfigPictureDecode** ppConfigs) = NULL;
@@ -1350,9 +1351,9 @@ static void LogDXVA2VideoDesc(const DXVA2_VideoDesc* pVideoDesc)
 // Function not used yet
 static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
 {
-    HRESULT         hr;
-    UINT            cDecoderGuids   = 0;
-    GUID*           pDecoderGuids   = NULL;
+    HRESULT hr;
+    UINT cDecoderGuids = 0;
+    GUID* pDecoderGuids = NULL;
 
     hr = pDecoderService->GetDecoderDeviceGuids(&cDecoderGuids, &pDecoderGuids);
     if (SUCCEEDED(hr)) {
@@ -1361,11 +1362,11 @@ static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
             LOG(_T("=== New mode : %s"), GetDXVAMode(&pDecoderGuids[iGuid]));
 
             // Find a configuration that we support.
-            UINT                        cFormats = 0;
-            UINT                        cConfigurations = 0;
-            D3DFORMAT*                  pFormats = NULL;
-            DXVA2_ConfigPictureDecode*  pConfig = NULL;
-            DXVA2_VideoDesc             m_VideoDesc;
+            UINT cFormats = 0;
+            UINT cConfigurations = 0;
+            D3DFORMAT* pFormats = NULL;
+            DXVA2_ConfigPictureDecode* pConfig = NULL;
+            DXVA2_VideoDesc m_VideoDesc;
 
             hr = pDecoderService->GetDecoderRenderTargets(pDecoderGuids[iGuid], &cFormats, &pFormats);
 
@@ -1375,9 +1376,9 @@ static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
                     LOG(_T("Direct 3D format : %s"),   FindD3DFormat(pFormats[iFormat]));
                     // Fill in the video description. Set the width, height, format, and frame rate.
                     memset(&m_VideoDesc, 0, sizeof(m_VideoDesc));
-                    m_VideoDesc.SampleWidth     = 1280;
-                    m_VideoDesc.SampleHeight    = 720;
-                    m_VideoDesc.Format          = pFormats[iFormat];
+                    m_VideoDesc.SampleWidth = 1280;
+                    m_VideoDesc.SampleHeight = 720;
+                    m_VideoDesc.Format = pFormats[iFormat];
 
                     // Get the available configurations.
                     hr = pDecoderService->GetDecoderConfigurations(pDecoderGuids[iGuid], &m_VideoDesc, NULL, &cConfigurations, &pConfig);
@@ -1402,18 +1403,18 @@ static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
 #endif
 
 static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
-    IDirectXVideoDecoderServiceC*                   pThis,
-    __in  REFGUID                                   Guid,
-    __in  const DXVA2_VideoDesc*                    pVideoDesc,
-    __in  const DXVA2_ConfigPictureDecode*          pConfig,
-    __in_ecount(NumRenderTargets)  IDirect3DSurface9** ppDecoderRenderTargets,
-    __in  UINT                                      NumRenderTargets,
-    __deref_out  IDirectXVideoDecoder**             ppDecode)
+    IDirectXVideoDecoderServiceC* pThis,
+    __in REFGUID Guid,
+    __in const DXVA2_VideoDesc* pVideoDesc,
+    __in const DXVA2_ConfigPictureDecode* pConfig,
+    __in_ecount(NumRenderTargets) IDirect3DSurface9** ppDecoderRenderTargets,
+    __in UINT NumRenderTargets,
+    __deref_out IDirectXVideoDecoder** ppDecode)
 {
     //  DebugBreak();
     //  ((DXVA2_VideoDesc*)pVideoDesc)->Format = (D3DFORMAT)0x3231564E;
-    g_guidDXVADecoder   = Guid;
-    g_nDXVAVersion      = 2;
+    g_guidDXVADecoder = Guid;
+    g_nDXVAVersion = 2;
 
 
 #ifdef _DEBUG
@@ -1425,7 +1426,7 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
     HRESULT hr = CreateVideoDecoderOrg(pThis, Guid, pVideoDesc, pConfig, ppDecoderRenderTargets, NumRenderTargets, ppDecode);
 
     if (FAILED(hr)) {
-        g_guidDXVADecoder   = GUID_NULL;
+        g_guidDXVADecoder = GUID_NULL;
     }
 #ifdef _DEBUG
     else {
@@ -1452,9 +1453,9 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 }
 
 #ifdef _DEBUG
-static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine(IDirectXVideoDecoderServiceC*                   pThis,
-        __out  UINT*                                    pCount,
-        __deref_out_ecount_opt(*pCount)  GUID**         pGuids)
+static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine(IDirectXVideoDecoderServiceC* pThis,
+        __out  UINT* pCount,
+        __deref_out_ecount_opt(*pCount) GUID** pGuids)
 {
     HRESULT hr = GetDecoderDeviceGuidsOrg(pThis, pCount, pGuids);
     LOG(_T("IDirectXVideoDecoderService::GetDecoderDeviceGuids  hr = %08x\n"), hr);
@@ -1462,12 +1463,12 @@ static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine(IDirectXVideoDecoderS
     return hr;
 }
 
-static HRESULT STDMETHODCALLTYPE GetDecoderConfigurationsMine(IDirectXVideoDecoderServiceC*        pThis,
-        __in  REFGUID                       Guid,
-        __in  const DXVA2_VideoDesc*        pVideoDesc,
-        __reserved  void*                   pReserved,
-        __out  UINT*                        pCount,
-        __deref_out_ecount_opt(*pCount)     DXVA2_ConfigPictureDecode** ppConfigs)
+static HRESULT STDMETHODCALLTYPE GetDecoderConfigurationsMine(IDirectXVideoDecoderServiceC* pThis,
+        __in REFGUID Guid,
+        __in const DXVA2_VideoDesc* pVideoDesc,
+        __reserved void* pReserved,
+        __out UINT* pCount,
+        __deref_out_ecount_opt(*pCount) DXVA2_ConfigPictureDecode** ppConfigs)
 {
     HRESULT hr = GetDecoderConfigurationsOrg(pThis, Guid, pVideoDesc, pReserved, pCount, ppConfigs);
 
@@ -1504,12 +1505,12 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
         res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(g_pIDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
         g_pIDirectXVideoDecoderServiceCVtbl = NULL;
-        CreateVideoDecoderOrg               = NULL;
+        CreateVideoDecoderOrg = NULL;
 #ifdef _DEBUG
-        GetDecoderConfigurationsOrg         = NULL;
+        GetDecoderConfigurationsOrg = NULL;
 #endif
-        g_guidDXVADecoder                   = GUID_NULL;
-        g_nDXVAVersion                      = 0;
+        g_guidDXVADecoder = GUID_NULL;
+        g_nDXVAVersion = 0;
     }
 
 #if defined(_DEBUG) && DXVA_LOGFILE_A
@@ -1534,6 +1535,6 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
         res = VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
-        g_pIDirectXVideoDecoderServiceCVtbl         = pIDirectXVideoDecoderServiceC->lpVtbl;
+        g_pIDirectXVideoDecoderServiceCVtbl = pIDirectXVideoDecoderServiceC->lpVtbl;
     }
 }

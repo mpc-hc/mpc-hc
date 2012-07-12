@@ -25,11 +25,9 @@
 
 #include "DX9RenderingEngine.h"
 
-#define VMRBITMAP_UPDATE            0x80000000
-
-#define NB_JITTER                   126
-
-#define PCIV_ATI                    0x1002
+#define VMRBITMAP_UPDATE    0x80000000
+#define NB_JITTER           126
+#define PCIV_ATI            0x1002
 
 extern bool g_bNoDuration;
 extern bool g_bExternalSubtitleTime;
@@ -41,8 +39,8 @@ namespace DSObjects
         : public CDX9RenderingEngine
     {
     public:
-        CCritSec                m_VMR9AlphaBitmapLock;
-        void                    UpdateAlphaBitmap();
+        CCritSec m_VMR9AlphaBitmapLock;
+        void     UpdateAlphaBitmap();
     protected:
         UINT    m_RefreshRate;
         bool    m_bAlternativeVSync;
@@ -65,7 +63,7 @@ namespace DSObjects
         HRESULT(__stdcall* m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
         HMODULE m_hD3D9;
 
-        CCritSec             m_RenderLock;
+        CCritSec m_RenderLock;
         CComPtr<IDirectDraw> m_pDirectDraw;
 
         void LockD3DDevice() {
@@ -108,14 +106,14 @@ namespace DSObjects
         virtual void DeleteSurfaces();
 
         // Thread stuff
-        HANDLE          m_hEvtQuit;         // Stop rendering thread event
-        HANDLE          m_hVSyncThread;
+        HANDLE m_hEvtQuit;         // Stop rendering thread event
+        HANDLE m_hVSyncThread;
         static DWORD WINAPI VSyncThreadStatic(LPVOID lpParam);
         void VSyncThread();
         void StartWorkerThreads();
         void StopWorkerThreads();
 
-        LONGLONG        m_LastAdapterCheck;
+        LONGLONG m_LastAdapterCheck;
         UINT GetAdapter(IDirect3D9* pD3D, bool bGetAdapter = true);
         DWORD GetVertexProcessing();
 

@@ -37,9 +37,9 @@
 
 class CD3DFont
 {
-    TCHAR   m_strFontName[80];         // Font properties
-    DWORD   m_dwFontHeight;
-    DWORD   m_dwFontFlags;
+    TCHAR m_strFontName[80];         // Font properties
+    DWORD m_dwFontHeight;
+    DWORD m_dwFontFlags;
 
     LPDIRECT3DDEVICE9  m_pd3dDevice;   // A D3DDevice used for rendering
     LPDIRECT3DTEXTURE9 m_pTexture;     // The d3d texture for this font
