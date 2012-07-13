@@ -1881,7 +1881,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
     }
 #endif
     else {
-        *pmt = CreateMediaType(GetSampleFormat(), wfe->nSamplesPerSec, min(2, wfe->nChannels));
+        *pmt = CreateMediaType(GetSampleFormat(), wfe->nSamplesPerSec, wfe->nChannels);
     }
 
     return S_OK;
