@@ -217,7 +217,7 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
         -srcpitch
     };
 
-    switch(dbpp) {
+    switch(sbpp) {
     case 8:
         srcbm.format = nsVDPixmap::kPixFormat_Pal8;
         break;
