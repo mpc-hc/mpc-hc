@@ -633,7 +633,7 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
             statestring.LoadString(IDS_CONTROLS_PLAYING);
             break;
         default:
-            statestring = _T("n/a");
+            statestring = _T("N/A");
             break;
     }
 
@@ -702,7 +702,7 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
             statestring.LoadString(IDS_CONTROLS_PLAYING);
             break;
         default:
-            statestring = _T("n/a");
+            statestring = _T("N/A");
             break;
     }
 
@@ -747,24 +747,12 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
 
 bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
 {
-    /*
-        CString path = m_pMainFrame->m_wndPlaylistBar.GetCur(), dir;
-        if (!path.IsEmpty()) {CPath p(path); p.RemoveFileSpec(); dir = (LPCTSTR)p;}
-        path.Replace(_T("'"), _T("\\'"));
-        dir.Replace(_T("'"), _T("\\'"));
-
-        CString volumelevel, muted;
-        volumelevel.Format(_T("%d"), m_pMainFrame->m_wndToolBar.m_volctrl.GetPos());
-        muted.Format(_T("%d"), m_pMainFrame->m_wndToolBar.Volume == -10000 ? 1 : 0);
-        body.Replace("[volumelevel]", UTF8(volumelevel));
-        body.Replace("[muted]", UTF8(muted));
-    */
     CString title;
     m_pMainFrame->GetWindowText(title);
 
     CPath file(m_pMainFrame->m_wndPlaylistBar.GetCurFileName());
 
-    CString status;// = m_pMainFrame->GetStatusMessage();
+    CString status;
     OAFilterState fs = m_pMainFrame->GetMediaState();
     switch (fs) {
         case State_Stopped:
@@ -777,7 +765,7 @@ bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
             status.LoadString(IDS_CONTROLS_PLAYING);
             break;
         default:
-            status = _T("n/a");
+            status = _T("N/A");
             break;
     }
 
