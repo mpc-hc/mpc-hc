@@ -472,7 +472,7 @@ AP4_MemoryByteStream::AP4_MemoryByteStream(AP4_Size size) :
     m_Position(0),
     m_ReferenceCount(1)
 {
-    m_Buffer = DNew AP4_UI08[size];
+    m_Buffer = new AP4_UI08[size];
 }
 
 /*----------------------------------------------------------------------

@@ -55,11 +55,11 @@ AP4_File::AP4_File(AP4_ByteStream& stream, AP4_AtomFactory& atom_factory) :
     while (AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, atom))) {
         switch (atom->GetType()) {
             case AP4_ATOM_TYPE_MOOV:
-                m_Movie = DNew AP4_Movie(dynamic_cast<AP4_MoovAtom*>(atom),
+                m_Movie = new AP4_Movie(dynamic_cast<AP4_MoovAtom*>(atom),
                                         stream);
                 break;
             case AP4_ATOM_TYPE_FTYP:
-                //m_Movie = DNew AP4_Movie(dynamic_cast<AP4_FtypAtom*>(atom),  stream);
+                //m_Movie = new AP4_Movie(dynamic_cast<AP4_FtypAtom*>(atom),  stream);
                 m_FileType = dynamic_cast<AP4_FtypAtom*>(atom);
             default:
                 m_OtherAtoms.Add(atom);

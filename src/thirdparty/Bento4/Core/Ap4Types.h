@@ -59,6 +59,7 @@ typedef unsigned char  AP4_UI08;
 typedef float          AP4_Float;
 typedef std::string    AP4_String;
 typedef unsigned char  AP4_Byte;
+typedef __int64        REFERENCE_TIME; // MPC-HC patch
 
 typedef unsigned long long AP4_TimeStamp;
 typedef unsigned long long AP4_Duration;

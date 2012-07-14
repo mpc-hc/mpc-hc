@@ -56,7 +56,7 @@ AP4_UnknownSampleDescription::~AP4_UnknownSampleDescription()
 AP4_Atom*
 AP4_UnknownSampleDescription::ToAtom() const
 {
-    return DNew AP4_SampleEntry(m_SampleEntry->GetType(),
+    return new AP4_SampleEntry(m_SampleEntry->GetType(),
                                m_SampleEntry->GetDataReferenceIndex());
 }
 
@@ -79,7 +79,7 @@ AP4_MpegSampleDescription::AP4_MpegSampleDescription(
     m_AvgBitrate(avg_bitrate)
 {
     if (decoder_info != NULL) {
-        m_DecoderInfo = DNew AP4_DataBuffer(*decoder_info);
+        m_DecoderInfo = new AP4_DataBuffer(*decoder_info);
     }
 }
 
@@ -97,15 +97,15 @@ AP4_MpegSampleDescription::~AP4_MpegSampleDescription()
 AP4_EsDescriptor* 
 AP4_MpegSampleDescription::CreateEsDescriptor() const
 {
-    AP4_EsDescriptor* desc = DNew AP4_EsDescriptor(0);
+    AP4_EsDescriptor* desc = new AP4_EsDescriptor(0);
     AP4_DecoderSpecificInfoDescriptor* dsi_desc;
     if (m_DecoderInfo) {
-        dsi_desc = DNew AP4_DecoderSpecificInfoDescriptor(*m_DecoderInfo);
+        dsi_desc = new AP4_DecoderSpecificInfoDescriptor(*m_DecoderInfo);
     } else {
         dsi_desc = NULL;
     }
     AP4_DecoderConfigDescriptor* decoder_config = 
-        DNew AP4_DecoderConfigDescriptor(m_StreamType,
+        new AP4_DecoderConfigDescriptor(m_StreamType,
         m_ObjectTypeId,
         m_BufferSize,
         m_MaxBitrate,
@@ -140,7 +140,7 @@ AP4_MpegSystemSampleDescription::AP4_MpegSystemSampleDescription(
 AP4_Atom*
 AP4_MpegSystemSampleDescription::ToAtom() const
 {
-    return DNew AP4_Mp4sSampleEntry(CreateEsDescriptor());
+    return new AP4_Mp4sSampleEntry(CreateEsDescriptor());
 }
 
 /*----------------------------------------------------------------------
@@ -171,7 +171,7 @@ AP4_MpegAudioSampleDescription::AP4_MpegAudioSampleDescription(
 AP4_Atom*
 AP4_MpegAudioSampleDescription::ToAtom() const
 {
-    return DNew AP4_Mp4aSampleEntry(m_SampleRate<<16,
+    return new AP4_Mp4aSampleEntry(m_SampleRate<<16,
                                    m_SampleSize,
                                    m_ChannelCount,
                                    CreateEsDescriptor());
@@ -209,7 +209,7 @@ AP4_MpegVideoSampleDescription::AP4_MpegVideoSampleDescription(
 AP4_Atom*
 AP4_MpegVideoSampleDescription::ToAtom() const
 {
-    return DNew AP4_Mp4vSampleEntry(m_Width,
+    return new AP4_Mp4vSampleEntry(m_Width,
                                    m_Height,
                                    m_Depth,
                                    m_CompressorName.c_str(),

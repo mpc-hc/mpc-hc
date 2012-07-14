@@ -122,7 +122,7 @@ AP4_HintTrackReader::GetRtpSample(AP4_Ordinal index)
     delete m_RtpSampleData;
     AP4_ByteStream& rtp_data_stream = *m_CurrentHintSample.GetDataStream();
     rtp_data_stream.Seek(m_CurrentHintSample.GetOffset());
-    m_RtpSampleData = DNew AP4_RtpSampleData(rtp_data_stream,
+    m_RtpSampleData = new AP4_RtpSampleData(rtp_data_stream,
                                             m_CurrentHintSample.GetSize());
 
     // reinit the packet index
@@ -235,7 +235,7 @@ AP4_HintTrackReader::BuildRtpPacket(AP4_RtpPacket* packet,
 
     // now write
     AP4_ByteStream* stream = 
-        DNew AP4_MemoryByteStream(packet_data.UseData(), packet_data.GetDataSize()); 
+        new AP4_MemoryByteStream(packet_data.UseData(), packet_data.GetDataSize()); 
 
     // header + ssrc
     stream->WriteUI08(0x80 | (packet->GetPBit() << 5) | (packet->GetXBit() << 4));

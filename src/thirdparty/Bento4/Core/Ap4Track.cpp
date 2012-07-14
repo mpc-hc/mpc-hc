@@ -99,7 +99,7 @@ AP4_Track::AP4_Track(Type             type,
                                               movie_time_scale);
 
     // create a trak atom
-    m_TrakAtom = DNew AP4_TrakAtom(sample_table,
+    m_TrakAtom = new AP4_TrakAtom(sample_table,
                                   hdlr_type, 
                                   hdlr_name,
                                   track_id, 
@@ -163,7 +163,7 @@ AP4_Track::AP4_Track(AP4_TrakAtom&   atom,
     AP4_ContainerAtom* stbl = dynamic_cast<AP4_ContainerAtom*>(
         atom.FindChild("mdia/minf/stbl"));
     if (stbl) {
-        m_SampleTable = DNew AP4_AtomSampleTable(stbl, sample_stream);
+        m_SampleTable = new AP4_AtomSampleTable(stbl, sample_stream);
     }
 }
 
@@ -279,10 +279,10 @@ AP4_Track::GetSampleIndexForTimeStampMs(AP4_TimeStamp ts, AP4_Ordinal& index)
 AP4_Result  
 AP4_Track::GetSampleIndexForRefTime(REFERENCE_TIME rt, AP4_Ordinal& index)
 {
-	AP4_TimeStamp ts = (AP4_TimeStamp(rt) * m_MediaTimeScale + 5000000) / 10000000;
-	//AP4_TimeStamp ts = (AP4_TimeStamp)(double(rt) * m_MediaTimeScale / 10000000 + 0.5);
+    AP4_TimeStamp ts = (AP4_TimeStamp(rt) * m_MediaTimeScale + 5000000) / 10000000;
+    //AP4_TimeStamp ts = (AP4_TimeStamp)(double(rt) * m_MediaTimeScale / 10000000 + 0.5);
 
-	return m_SampleTable->GetSampleIndexForTimeStamp(ts, index);
+    return m_SampleTable->GetSampleIndexForTimeStamp(ts, index);
 }
 // mpc-hc custom code end
 
@@ -324,17 +324,17 @@ void
 AP4_HintTrack::SetSdpText(const char* text)
 {
     // build an sdp atom
-    AP4_SdpAtom* sdp = DNew AP4_SdpAtom(text);
+    AP4_SdpAtom* sdp = new AP4_SdpAtom(text);
 
     // build the hnti
-    AP4_ContainerAtom* hnti = DNew AP4_ContainerAtom(AP4_ATOM_TYPE_HNTI);
+    AP4_ContainerAtom* hnti = new AP4_ContainerAtom(AP4_ATOM_TYPE_HNTI);
     hnti->AddChild(sdp);
 
     // check if there's already a user data atom
     AP4_ContainerAtom* udta = dynamic_cast<AP4_ContainerAtom*>(m_TrakAtom->FindChild("udta"));
     if (udta == NULL) {
         // otherwise create it
-        udta = DNew AP4_ContainerAtom(AP4_ATOM_TYPE_UDTA);
+        udta = new AP4_ContainerAtom(AP4_ATOM_TYPE_UDTA);
         m_TrakAtom->AddChild(udta);
     }
     udta->AddChild(hnti);

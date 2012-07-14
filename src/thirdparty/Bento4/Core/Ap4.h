@@ -29,14 +29,9 @@
 #ifndef _AP4_H_
 #define _AP4_H_
 
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
-#endif
-
 /*----------------------------------------------------------------------
 |       includes
 +---------------------------------------------------------------------*/
-#include "../../../filters/parser/MP4Splitter/stdafx.h"
 #include "Ap4Config.h"
 #include "Ap4Types.h"
 #include "Ap4Constants.h"
