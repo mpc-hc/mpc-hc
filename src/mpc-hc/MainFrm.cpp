@@ -4687,6 +4687,8 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 
 void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 {
+    CPath path(fn);
+
     PBITMAPINFO bi = reinterpret_cast<PBITMAPINFO>(pData);
     PBITMAPINFOHEADER bih = &bi->bmiHeader;
     int bpp = bih->biBitCount;
@@ -4697,7 +4699,10 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
     }
     int w = bih->biWidth;
     int h = abs(bih->biHeight);
-    BYTE* p = DNew BYTE[w * h * 4];
+    int srcpitch = w * (bpp >> 3);
+    int dstpitch = (w * 3 + 3) / 4 * 4; // round w * 3 to next multiple of 4
+
+    BYTE* p = DNew BYTE[dstpitch * h];
 
     const BYTE* src = pData + sizeof(*bih);
     if (bpp <= 8) {
@@ -4708,26 +4713,57 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
         }
     }
 
-    int srcpitch = w * (bpp >> 3);
-    int dstpitch = w * 4;
-
-    BitBltFromRGBToRGB(w, h, p, dstpitch, 32, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+    BitBltFromRGBToRGB(w, h, p, dstpitch, 24, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
 
     {
-        CBitmap bmp;
-        bmp.CreateBitmap(w, h, bih->biPlanes, bpp, p);
+        Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+        ULONG_PTR gdiplusToken;
+        Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+
+        Gdiplus::Bitmap bm(w, h, dstpitch, PixelFormat24bppRGB, p);
+
+        UINT num;  // number of image decoders
+        UINT size; // size, in bytes, of the image decoder array
+
+        // How many decoders are there?
+        // How big (in bytes) is the array of all ImageCodecInfo objects?
+        Gdiplus::GetImageDecodersSize(&num, &size);
+
+        // Create a buffer large enough to hold the array of ImageCodecInfo
+        // objects that will be returned by GetImageDecoders.
+        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)new BYTE[size];
+
+        // GetImageDecoders creates an array of ImageCodecInfo objects
+        // and copies that array into a previously allocated buffer. 
+        // The third argument, imageCodecInfos, is a pointer to that buffer. 
+        Gdiplus::GetImageDecoders(num, size, pImageCodecInfo);
+
+        // Find the encoder based on the extension
+        CStringW ext = _T("*") + path.GetExtension();
+        CLSID encoderClsid = CLSID_NULL;
+        CAtlList<CStringW> extsList;
+        for (UINT i = 0; i < num && encoderClsid == CLSID_NULL; i++) {
+            Explode(CStringW(pImageCodecInfo[i].FilenameExtension), extsList, L";");
+
+            POSITION pos = extsList.GetHeadPosition();
+            while (pos && encoderClsid == CLSID_NULL) {
+                if (extsList.GetNext(pos).CompareNoCase(ext) == 0) {
+                    encoderClsid = pImageCodecInfo[i].Clsid;
+                }
+            }
+        }
+
+        Gdiplus::Status s = bm.Save(fn, &encoderClsid, NULL);
+
+        Gdiplus::GdiplusShutdown(gdiplusToken);
         delete [] p;
 
-        CImage img;
-        img.Attach(bmp);
-
-        if (FAILED(img.Save(fn))) {
+        if (s != Gdiplus::Ok) {
             AfxMessageBox(IDS_MAINFRM_53, MB_ICONWARNING | MB_OK, 0);
             return;
         }
     }
 
-    CPath path(fn);
     path.m_strPath.Replace(_T("\\\\"), _T("\\"));
 
     if (CDC* pDC = m_wndStatusBar.m_status.GetDC()) {
