@@ -1882,14 +1882,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 #endif
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     else if (m_pAVCtx) {
-        WORD nChannels = (WORD)m_pAVCtx->channels;
-        DWORD dwChannelMask;
-        if (m_pAVCtx->channel_layout) {
-            dwChannelMask = get_lav_channel_layout(m_pAVCtx->channel_layout);
-        } else {
-            dwChannelMask = GetDefChannelMask(nChannels);
-        }
-        *pmt = CreateMediaType(GetSampleFormat(), (DWORD)m_pAVCtx->sample_rate, nChannels, dwChannelMask);
+        *pmt = CreateMediaType(GetSampleFormat(), (DWORD)m_pAVCtx->sample_rate, (WORD)m_pAVCtx->channels, get_lav_channel_layout(m_pAVCtx->channel_layout));
     }
 #endif
     else {
