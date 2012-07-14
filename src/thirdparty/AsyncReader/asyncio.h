@@ -6,7 +6,9 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------------------------
 
-#pragma once
+
+#ifndef __ASYNCIO_H__
+#define __ASYNCIO_H__
 
 //
 // definition of CAsyncFile object that performs file access. It provides
@@ -42,7 +44,7 @@ public:
 
 // represents a single request and performs the i/o. Can be called on either
 // worker thread or app thread, but must hold pcsFile across file accesses.
-// (ie across SetFilePointerEx/ReadFile pairs)
+// (ie across SetFilePointer/ReadFile pairs)
 class CAsyncRequest
 {
     CAsyncIo     *m_pIo;
@@ -73,32 +75,32 @@ public:
     HRESULT Complete();
 
     // cancels the i/o. blocks until i/o is no longer pending
-    HRESULT Cancel() const
+    HRESULT Cancel()
     {
         return S_OK;
     };
 
     // accessor functions
-    LPVOID GetContext() /*const*/
+    LPVOID GetContext()
     {
         return m_pContext;
     };
 
-    DWORD_PTR GetUser() const
+    DWORD_PTR GetUser()
     {
         return m_dwUser;
     };
 
-    HRESULT GetHResult() const {
+    HRESULT GetHResult() {
         return m_hr;
     };
 
     // we set m_lLength to the actual length
-    LONG GetActualLength() const {
+    LONG GetActualLength() {
         return m_lLength;
     };
 
-    LONGLONG GetStart() const {
+    LONGLONG GetStart() {
         return m_llPos;
     };
 };
@@ -118,7 +120,7 @@ typedef CGenericList<CAsyncRequest> CRequestList;
 //
 // Synchronous requests are done on the caller thread. These should be
 // synchronised by the caller, but to make sure we hold m_csFile across
-// the SetFilePointerEx/ReadFile code.
+// the SetFilePointer/ReadFile code.
 //
 // Flush by calling BeginFlush. This rejects all further requests (by
 // setting m_bFlushing within m_csLists), cancels all requests and moves them
@@ -184,7 +186,7 @@ class CAsyncIo
     // initial static thread proc calls ThreadProc with DWORD
     // param as this
     static DWORD WINAPI InitialThreadProc(LPVOID pv) {
-        CAsyncIo * pThis = static_cast<CAsyncIo*> (pv);
+        CAsyncIo * pThis = (CAsyncIo*) pv;
         return pThis->ThreadProc();
     };
 
@@ -274,3 +276,5 @@ public:
     //  Accessor
     HANDLE StopEvent() const { return m_evDone; }
 };
+
+#endif // __ASYNCIO_H__

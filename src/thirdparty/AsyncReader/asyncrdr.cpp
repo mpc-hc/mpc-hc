@@ -10,6 +10,7 @@
 
 
 #include "stdafx.h"
+#include "BaseClasses/streams.h"
 #include "asyncio.h"
 #include "asyncrdr.h"
 
@@ -99,7 +100,7 @@ HRESULT CAsyncOutputPin::InitAllocator(IMemAllocator **ppAlloc)
     *ppAlloc = NULL;
 
     /* Create a default memory allocator */
-    pMemObject = DNew CMemAllocator(NAME("Base memory allocator"), NULL, &hr);
+    pMemObject = new CMemAllocator(NAME("Base memory allocator"), NULL, &hr);
     if(pMemObject == NULL)
     {
         return E_OUTOFMEMORY;
@@ -391,12 +392,12 @@ CAsyncReader::CAsyncReader(
     LPUNKNOWN pUnk,
     CAsyncStream *pStream,
     HRESULT *phr,
-	const CLSID& clsid)
+    const CLSID& clsid) // MPC-HC patch
   : CBaseFilter(
                 pName,
                 pUnk,
                 &m_csFilter,
-                clsid,
+                clsid, // MPC-HC patch
                 NULL
                 ),
     m_OutputPin(
@@ -412,21 +413,23 @@ CAsyncReader::~CAsyncReader()
 {
 }
 
+// MPC-HC patch start
 STDMETHODIMP CAsyncReader::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     CheckPointer(ppv, E_POINTER);
 
-	return 
-		(riid == __uuidof(IAMFilterMiscFlags)) ? GetInterface((IAMFilterMiscFlags*)this, ppv) :
-		__super::NonDelegatingQueryInterface(riid, ppv);
+    return 
+        (riid == __uuidof(IAMFilterMiscFlags)) ? GetInterface((IAMFilterMiscFlags*)this, ppv) :
+        __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 // IAMFilterMiscFlags
 
 ULONG CAsyncReader::GetMiscFlags()
 {
-	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
+    return AM_FILTER_MISC_FLAGS_IS_SOURCE;
 }
+// MPC-HC patch end
 
 int CAsyncReader::GetPinCount()
 {

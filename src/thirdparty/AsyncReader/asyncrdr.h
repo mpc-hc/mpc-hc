@@ -7,7 +7,9 @@
 //------------------------------------------------------------------------------
 
 
-#pragma once
+#ifndef __ASYNCRDR_H__
+#define __ASYNCRDR_H__
+
 
 //
 // AsyncRdr
@@ -198,15 +200,17 @@ public:
         LPUNKNOWN pUnk,
         CAsyncStream *pStream,
         HRESULT *phr,
-        const CLSID& clsid);
+        const CLSID& clsid); // MPC-HC patch
 
     ~CAsyncReader();
 
+// MPC-HC patch start
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
     // IAMFilterMiscFlags
     STDMETHODIMP_(ULONG) GetMiscFlags();
+// MPC-HC patch end
 
     // --- CBaseFilter methods ---
     int GetPinCount();
@@ -226,3 +230,7 @@ public:
         return m_OutputPin.CBasePin::Connect(pReceivePin, pmt);
     }
 };
+
+
+
+#endif //__ASYNCRDR_H__

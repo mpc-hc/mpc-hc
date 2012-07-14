@@ -8,6 +8,7 @@
 
 
 #include "stdafx.h"
+#include "BaseClasses/streams.h"
 #include "asyncio.h"
 
 // --- CAsyncRequest ---
@@ -172,7 +173,7 @@ CAsyncIo::Request(
         }
     }
 
-    CAsyncRequest* pRequest = DNew CAsyncRequest;
+    CAsyncRequest* pRequest = new CAsyncRequest;
     if (!pRequest)
         return E_OUTOFMEMORY;
 
