@@ -1868,17 +1868,14 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3 || INTERNAL_DECODER_DTS
     if (GetSPDIF(ac3) && (subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3) ||
             GetSPDIF(dts) && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
-        *pmt = CreateMediaTypeSPDIF();
+        if (wfe->nSamplesPerSec == 44100) { // DTS-WAVE
+            *pmt = CreateMediaTypeSPDIF(44100);
+        } else {
+            *pmt = CreateMediaTypeSPDIF();
+        }
     }
 #else
     if (0) {}
-#endif
-#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_VORBIS
-    else if (subtype == MEDIASUBTYPE_Vorbis2) {
-        VORBISFORMAT2* vf2 = (VORBISFORMAT2*)mt.Format();
-        WORD nChannels = (WORD)vf2->Channels;
-        *pmt = CreateMediaType(GetSampleFormat(), vf2->SamplesPerSec, nChannels, GetVorbisChannelMask(nChannels));
-    }
 #endif
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     else if (m_pAVCtx) {
