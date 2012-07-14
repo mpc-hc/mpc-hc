@@ -39,18 +39,18 @@
 #define MPCAudioDecName L"MPC Audio Decoder"
 
 enum {
-    CH_ASIS = 0,
-    CH_MONO,
-    CH_STEREO,
-    CH_3F,
-    CH_2F1R,
-    CH_3F1R,
-    CH_2F2R,
-    CH_3F2R,
+    SPK_ASIS = 0,
+    SPK_MONO,
+    SPK_STEREO,
+    SPK_3F,
+    SPK_2F1R,
+    SPK_3F1R,
+    SPK_2F2R,
+    SPK_3F2R,
 };
-#define CH_MAX  CH_3F2R
-#define CH_MASK 0x0f
-#define CH_LFE  0x10
+#define SPK_MAX  SPK_3F2R
+#define SPK_MASK 0x0f
+#define SPK_LFE  0x10
 
 struct ps2_state_t {
     bool sync;

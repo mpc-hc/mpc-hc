@@ -463,8 +463,8 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
     // default settings
     m_iSampleFormat       = SF_PCM16;
-    m_iSpeakerConfig[ac3] = CH_STEREO;
-    m_iSpeakerConfig[dts] = CH_STEREO;
+    m_iSpeakerConfig[ac3] = SPK_STEREO;
+    m_iSpeakerConfig[dts] = SPK_STEREO;
     m_fDRC[ac3]           = false;
     m_fDRC[dts]           = false;
     m_fSPDIF[ac3]         = false;
@@ -506,11 +506,11 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_fSPDIF[dts] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SPDIF_dts"), m_fSPDIF[dts]);
 #endif
     // filtered bad data
-    if (m_iSpeakerConfig[ac3] < CH_ASIS || m_iSpeakerConfig[ac3] > CH_STEREO) {
-        m_iSpeakerConfig[ac3] = CH_STEREO;
+    if (m_iSpeakerConfig[ac3] < SPK_ASIS || m_iSpeakerConfig[ac3] > SPK_STEREO) {
+        m_iSpeakerConfig[ac3] = SPK_STEREO;
     }
-    if ((m_iSpeakerConfig[dts]&~CH_LFE) < CH_ASIS || (m_iSpeakerConfig[dts]&~CH_LFE) > CH_3F2R) {
-        m_iSpeakerConfig[dts] = CH_STEREO;
+    if ((m_iSpeakerConfig[dts]&~SPK_LFE) < SPK_ASIS || (m_iSpeakerConfig[dts]&~SPK_LFE) > SPK_3F2R) {
+        m_iSpeakerConfig[dts] = SPK_STEREO;
     }
 }
 
@@ -1022,9 +1022,9 @@ HRESULT CMpaDecFilter::ProcessDTS()
                     }
                 } else {
                     int sc = GetSpeakerConfig(dts);
-                    if (sc & CH_MASK) {
-                        flags = channel_mode[sc & CH_MASK].dts_ch_layout;
-                        if (sc & CH_LFE) {
+                    if (sc & SPK_MASK) {
+                        flags = channel_mode[sc & SPK_MASK].dts_ch_layout;
+                        if (sc & SPK_LFE) {
                             flags |= DTS_LFE;
                         }
                         flags |= DTS_ADJUST_LEVEL;
@@ -1963,8 +1963,8 @@ STDMETHODIMP CMpaDecFilter::SetSpeakerConfig(enctype et, int sc)
 
 #if HAS_FFMPEG_AUDIO_DECODERS
     if (et == ac3 && m_pAVCtx && (m_pAVCtx->codec_id == CODEC_ID_AC3 || m_pAVCtx->codec_id == CODEC_ID_EAC3)) {
-        m_pAVCtx->request_channels = channel_mode[sc & CH_MASK].channels;
-        m_pAVCtx->request_channel_layout = channel_mode[sc & CH_MASK].av_ch_layout;
+        m_pAVCtx->request_channels = channel_mode[sc & SPK_MASK].channels;
+        m_pAVCtx->request_channel_layout = channel_mode[sc & SPK_MASK].av_ch_layout;
     }
 #endif
 
@@ -2361,8 +2361,8 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
 
         if (nCodecId == CODEC_ID_AC3 || nCodecId == CODEC_ID_EAC3) {
             int sc = GetSpeakerConfig(ac3);
-            m_pAVCtx->request_channels = channel_mode[sc & CH_MASK].channels;
-            m_pAVCtx->request_channel_layout = channel_mode[sc & CH_MASK].av_ch_layout;
+            m_pAVCtx->request_channels = channel_mode[sc & SPK_MASK].channels;
+            m_pAVCtx->request_channel_layout = channel_mode[sc & SPK_MASK].av_ch_layout;
         }
         av_opt_set_double(m_pAVCtx, "drc_scale", GetDynamicRangeControl(ac3) ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
 
