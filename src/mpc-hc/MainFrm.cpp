@@ -13777,7 +13777,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
         }
         m_nSeekDirection = SEEK_DIRECTION_NONE;
 
-        HRESULT hr = pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
+        pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
         if (fs != State_Running) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
@@ -14213,7 +14213,7 @@ bool CMainFrame::StopCapture()
         m_wndCaptureBar.m_capdlg.m_fVidPreview, false,
         m_wndCaptureBar.m_capdlg.m_fAudPreview, false);
 
-    HRESULT hr = pME->RestoreDefaultHandling(EC_REPAINT);
+    pME->RestoreDefaultHandling(EC_REPAINT);
 
     ::SetPriorityClass(::GetCurrentProcess(), AfxGetAppSettings().dwPriority);
 
