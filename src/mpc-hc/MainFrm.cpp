@@ -4720,7 +4720,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
         ULONG_PTR gdiplusToken;
         Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-        Gdiplus::Bitmap bm(w, h, dstpitch, PixelFormat24bppRGB, p);
+        Gdiplus::Bitmap* bm = new Gdiplus::Bitmap(w, h, dstpitch, PixelFormat24bppRGB, p);
 
         UINT num;  // number of image decoders
         UINT size; // size, in bytes, of the image decoder array
@@ -4753,8 +4753,11 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
             }
         }
 
-        Gdiplus::Status s = bm.Save(fn, &encoderClsid, NULL);
+        Gdiplus::Status s = bm->Save(fn, &encoderClsid, NULL);
 
+        // All GDI+ objects must be destroyed before GdiplusShutdown is called
+        delete bm;
+        delete [] pImageCodecInfo;
         Gdiplus::GdiplusShutdown(gdiplusToken);
         delete [] p;
 
