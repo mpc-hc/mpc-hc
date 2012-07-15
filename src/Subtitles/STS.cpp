@@ -2871,7 +2871,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
             str2.Format(fmt, i - k + 1, hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2, str);
         } else if (et == EXTSUB) {
             str.Replace('\n', '|');
-            str2.Format(fmt, t1 * fps / 1000, t2 * fps / 1000, str);
+            str2.Format(fmt, int(t1 * fps / 1000), int(t2 * fps / 1000), str);
         } else if (et == EXTSMI) {
             str.Replace(L"\n", L"<br>");
             str2.Format(fmt, t1, str, t2);
