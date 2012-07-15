@@ -247,13 +247,13 @@ CString CTreePropSheet::GenerateEmptyPageMessage(LPCTSTR lpszEmptyPageMessage, L
 
 CTreeCtrl* CTreePropSheet::CreatePageTreeObject()
 {
-	return DNew CTreeCtrl;
+	return new CTreeCtrl;
 }
 
 
 CPropPageFrame* CTreePropSheet::CreatePageFrame()
 {
-	return DNew CPropPageFrameDefault;
+	return new CPropPageFrameDefault;
 }
 
 

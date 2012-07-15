@@ -155,7 +155,7 @@ void CSizingControlBar::EnableDocking(DWORD dwDockStyle)
 
     m_dwDockStyle = dwDockStyle;
     if (m_pDockContext == NULL)
-        m_pDockContext = DNew CSCBDockContext(this);
+        m_pDockContext = new CSCBDockContext(this);
 
     // permanently wire the bar's owner to its current parent
     if (m_hWndOwner == NULL)
