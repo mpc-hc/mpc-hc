@@ -39,8 +39,5 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 
-#include <dshow.h>
-#include "BaseClasses/streams.h"
-#include <dvdmedia.h>
-
+#include "stdafx_common.h"
 #include "../../../DSUtil/DSUtil.h"
