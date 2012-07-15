@@ -88,6 +88,7 @@ IDF_CONTROLBUTTONSKIPBACK_PNG    FILE                    "res\\web\\images\\cont
 IDF_CONTROLBUTTONSKIPFORWARD_PNG FILE                    "res\\web\\images\\controlbuttonskipforward.png"
 IDF_CONTROLBUTTONSTEP_PNG        FILE                    "res\\web\\images\\controlbuttonstep.png"
 IDF_CONTROLBUTTONSTOP_PNG        FILE                    "res\\web\\images\\controlbuttonstop.png"
+IDF_CONTROLS_JS                  FILE                    "res\\web\\controls.js"
 IDF_CONTROLVOLUMEBAR_PNG         FILE                    "res\\web\\images\\controlvolumebar.png"
 IDF_CONTROLVOLUMEGRIP_PNG        FILE                    "res\\web\\images\\controlvolumegrip.png"
 IDF_CONTROLVOLUMEOFF_PNG         FILE                    "res\\web\\images\\controlvolumeoff.png"

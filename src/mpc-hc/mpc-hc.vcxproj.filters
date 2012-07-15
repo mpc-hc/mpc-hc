@@ -868,6 +868,9 @@
     <None Include="res\web\controls.html">
       <Filter>Resource Files\web</Filter>
     </None>
+    <None Include="res\web\controls.js">
+      <Filter>Resource Files\web</Filter>
+    </None>
     <None Include="res\web\default.css">
       <Filter>Resource Files\web</Filter>
     </None>

@@ -612,6 +612,7 @@
     <None Include="res\web\404.html" />
     <None Include="res\web\browser.html" />
     <None Include="res\web\controls.html" />
+    <None Include="res\web\controls.js" />
     <None Include="res\web\default.css" />
     <None Include="res\web\images\1pix.gif" />
     <None Include="res\web\images\bottomside.png" />
