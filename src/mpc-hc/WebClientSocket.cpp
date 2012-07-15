@@ -658,6 +658,10 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
     CString reloadtime(_T("0")); // TODO
 
     m_pWebServer->LoadPage(IDR_HTML_CONTROLS, body, m_path);
+
+    path.Replace(_T("'"), _T("\\'"));
+    dir.Replace(_T("'"), _T("\\'"));
+
     body.Replace("[filepatharg]", UTF8Arg(path));
     body.Replace("[filepath]", UTF8(path));
     body.Replace("[filedirarg]", UTF8Arg(dir));
@@ -727,6 +731,10 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
     CString reloadtime(_T("0")); // TODO
 
     m_pWebServer->LoadPage(IDR_HTML_VARIABLES, body, m_path);
+
+    path.Replace(_T("'"), _T("\\'"));
+    dir.Replace(_T("'"), _T("\\'"));
+
     body.Replace("[filepatharg]", UTF8Arg(path));
     body.Replace("[filepath]", UTF8(path));
     body.Replace("[filedirarg]", UTF8Arg(dir));
