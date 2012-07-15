@@ -1,11 +1,11 @@
-var filepath = "[filepath]";
-var curpos = [position];
-var length = [duration];
-var state = [state];
-var pbr = [playbackrate];
-var eta = [reloadtime];
-var volume = [volumelevel];
-var muted = [muted]; /*-1 no sound*/
+var filepath;
+var curpos;
+var length;
+var state;
+var pbr;
+var eta;
+var volume;
+var muted; /*-1 no sound*/
 var starttime = (new Date()).getTime();
 var slidersize = 500;
 var sliderbuttonwidth = 15;
@@ -19,7 +19,16 @@ var rpt;
 var etaup = false;
 if (eta == 0) eta = (state < 0 && filepath.length > 0) ? 2 : 120;
 
-function init() {
+function init(_filepath, _curpos, _length, _state, _pbr, _eta, _volume, _muted) {
+	filepath = _filepath;
+	curpos = _curpos;
+	length = _length;
+	state = _state;
+	pbr = _pbr;
+	eta = _eta;
+	volume = _volume;
+	muted = _muted;
+	
 	if (eta > 0) RL = setTimeout("etaup=true; if (re.checked==true) postform(0,'null',0);", 1000 * eta);
 	Live = (length < 1);
 	starttime = starttime - curpos;
