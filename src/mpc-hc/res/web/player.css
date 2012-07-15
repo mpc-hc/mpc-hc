@@ -19,13 +19,13 @@ img {
 }
 
 #headericon {
-	background-image:url('images/headericon.png');
+	background-image:url("images/headericon.png");
 	background-repeat:no-repeat;
 	width:22px;
 }
 
 #headerback {
-	background-image:url('images/headerback.png');
+	background-image:url("images/headerback.png");
 	background-repeat:repeat-x;
 	color:#FFF;
 	font-weight:700;
@@ -33,7 +33,7 @@ img {
 }
 
 #headerclose {
-	background-image:url('images/headerclose.png');
+	background-image:url("images/headerclose.png");
 	background-repeat:no-repeat;
 	width:28px;
 }
@@ -68,83 +68,83 @@ img {
 }
 
 #controlbar {
-	background-image:url('images/controlback.png');
+	background-image:url("images/controlback.png");
 	background-repeat:repeat-x;
 	height:28px;
 }
 
 #controlbuttonplay {
-	background-image:url('images/controlbuttonplay.png');
+	background-image:url("images/controlbuttonplay.png");
 	background-repeat:no-repeat;
 	width:25px;
 	height:28px;
 }
 
 #controlbuttonpause {
-	background-image:url('images/controlbuttonpause.png');
+	background-image:url("images/controlbuttonpause.png");
 	background-repeat:no-repeat;
 	width:23px;
 	height:28px;
 }
 
 #controlbuttonstop {
-	background-image:url('images/controlbuttonstop.png');
+	background-image:url("images/controlbuttonstop.png");
 	background-repeat:no-repeat;
 	width:25px;
 	height:28px;
 }
 
 #controlbuttonskipback {
-	background-image:url('images/controlbuttonskipback.png');
+	background-image:url("images/controlbuttonskipback.png");
 	background-repeat:no-repeat;
 	width:24px;
 	height:28px;
 }
 
 #controlbuttondecrate {
-	background-image:url('images/controlbuttondecrate.png');
+	background-image:url("images/controlbuttondecrate.png");
 	background-repeat:no-repeat;
 	width:22px;
 	height:28px;
 }
 
 #controlbuttonincrate {
-	background-image:url('images/controlbuttonincrate.png');
+	background-image:url("images/controlbuttonincrate.png");
 	background-repeat:no-repeat;
 	width:23px;
 	height:28px;
 }
 
 #controlbuttonskipforward {
-	background-image:url('images/controlbuttonskipforward.png');
+	background-image:url("images/controlbuttonskipforward.png");
 	background-repeat:no-repeat;
 	width:28px;
 	height:28px;
 }
 
 #controlbuttonstep {
-	background-image:url('images/controlbuttonstep.png');
+	background-image:url("images/controlbuttonstep.png");
 	background-repeat:no-repeat;
 	width:31px;
 	height:28px;
 }
 
 #controlvolumemute {
-	background-image:url('images/controlvolumeon.png');
+	background-image:url("images/controlvolumeon.png");
 	background-repeat:no-repeat;
 	width:28px;
 	height:28px;
 }
 
 #controlvolumebar {
-	background-image:url('images/controlvolumebar.png');
+	background-image:url("images/controlvolumebar.png");
 	background-repeat:no-repeat;
 	width:55px;
 	height:28px;
 }
 
 #seekbar {
-	background-image:url('images/seekbarmid.png');
+	background-image:url("images/seekbarmid.png");
 	background-repeat:repeat-x;
 }
 
@@ -153,32 +153,32 @@ img {
 }
 
 #leftside {
-	background-image:url('images/leftside.png');
+	background-image:url("images/leftside.png");
 	background-repeat:repeat-y;
 	width:4px;
 }
 
 #rightside {
-	background-image:url('images/rightside.png');
+	background-image:url("images/rightside.png");
 	background-repeat:repeat-y;
 	width:4px;
 }
 
 #leftbottomside {
-	background-image:url('images/leftbottomside.png');
+	background-image:url("images/leftbottomside.png");
 	background-repeat:repeat-x;
 	width:4px;
 	height:4px;
 }
 
 #bottomside {
-	background-image:url('images/bottomside.png');
+	background-image:url("images/bottomside.png");
 	background-repeat:repeat-x;
 	height:4px;
 }
 
 #rightbottomside {
-	background-image:url('images/rightbottomside.png');
+	background-image:url("images/rightbottomside.png");
 	background-repeat:repeat-x;
 	width:4px;
 	height:4px;

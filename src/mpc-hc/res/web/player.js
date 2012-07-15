@@ -31,31 +31,31 @@ function getOffsetX(m) {
 OnStatus = function (title, status, pos, posstr, dur, durstr, muted, volume, filepath) {
 	var maxtitle = 70;
 	if (title.length > maxtitle)
-		title = title.substr(0, maxtitle - 3) + '...';
-	var timestr = dur > 0 && posstr && durstr ? posstr + '&nbsp;/&nbsp;' + durstr : '&nbsp;';
+		title = title.substr(0, maxtitle - 3) + "...";
+	var timestr = dur > 0 && posstr && durstr ? posstr + "&nbsp;/&nbsp;" + durstr : "&nbsp;";
 	if (!dur || dur == 0)
 		dur = 1;
 	var sbpercent = Math.floor(100 * pos / dur);
-	if (e = document.getElementById('title'))
+	if (e = document.getElementById("title"))
 		e.innerHTML = title;
-	if (e = document.getElementById('seekbarchleft'))
-		e.width = sbpercent > 0 ? sbpercent + '%' : '1px';
-	if (e = document.getElementById('seekbarchright'))
-		e.width = sbpercent < 100 ? (100 - sbpercent) + '%' : '1px';
-	if ((e = document.getElementById('status')) && e.innerHTML != status)
+	if (e = document.getElementById("seekbarchleft"))
+		e.width = sbpercent > 0 ? sbpercent + "%" : "1px";
+	if (e = document.getElementById("seekbarchright"))
+		e.width = sbpercent < 100 ? (100 - sbpercent) + "%" : "1px";
+	if ((e = document.getElementById("status")) && e.innerHTML != status)
 		e.innerHTML = status;
-	if ((e = document.getElementById('timer')) && e.innerHTML != timestr)
+	if ((e = document.getElementById("timer")) && e.innerHTML != timestr)
 		e.innerHTML = timestr;
-	if (e = document.getElementById('controlvolumemute')) {
-		url = 'url(\'images/controlvolume' + (muted ? 'off' : 'on') + '.png\')';
+	if (e = document.getElementById("controlvolumemute")) {
+		url = "url(images/controlvolume" + (muted ? "off" : "on") + ".png)";
 		if (e.style.backgroundImage != url)
 			e.style.backgroundImage = url;
 	}
-	if (e = document.getElementById('controlvolumegrip')) {
-		volume = (document.getElementById('controlvolumebar').offsetWidth - e.offsetWidth) * volume / 100;
-		e.style.position = 'relative';
-		e.style.top = '2px';
-		e.style.left = Math.floor(volume) + 'px';
+	if (e = document.getElementById("controlvolumegrip")) {
+		volume = (document.getElementById("controlvolumebar").offsetWidth - e.offsetWidth) * volume / 100;
+		e.style.position = "relative";
+		e.style.top = "2px";
+		e.style.left = Math.floor(volume) + "px";
 	}
 }
 
@@ -64,7 +64,7 @@ var httpRequestStatus;
 function OnReadyStateChange() {
 	if (httpRequestStatus && httpRequestStatus.readyState == 4 && httpRequestStatus.responseText) {
 		if (httpRequestStatus.responseText.charAt(0) != "<") {
-			eval(httpRequestStatus.responseText.replace(/\\/g, '\\\\'));
+			eval(httpRequestStatus.responseText.replace(/\\/g, "\\\\"));
 		} else {
 			alert(httpRequestStatus.responseText);
 		}
@@ -76,7 +76,7 @@ function StatusLoop() {
 	if (!httpRequestStatus || httpRequestStatus.readyState == 0) {
 		httpRequestStatus = getXMLHTTP();
 		try {
-			httpRequestStatus.open("GET", 'status.html', true);
+			httpRequestStatus.open("GET", "status.html", true);
 			httpRequestStatus.onreadystatechange = OnReadyStateChange;
 			httpRequestStatus.send(null);
 		} catch (e) {}
@@ -87,8 +87,8 @@ function StatusLoop() {
 var snapshotcounter = 0;
 
 function LoadSnapShot() {
-	if (img = document.getElementById('snapshot')) {
-		img.src = 'snapshot.jpg' + '?' + snapshotcounter++;
+	if (img = document.getElementById("snapshot")) {
+		img.src = "snapshot.jpg" + "?" + snapshotcounter++;
 	}
 }
 
@@ -102,13 +102,13 @@ function OnAbortErrorSnapShot(e) {
 
 function OnSeek(e) {
 	left = right = 0;
-	if (sb = document.getElementById('seekbarchleft')) {
+	if (sb = document.getElementById("seekbarchleft")) {
 		left = getOffsetX(sb);
 	}
-	if (sb = document.getElementById('seekbarchright')) {
+	if (sb = document.getElementById("seekbarchright")) {
 		right = getOffsetX(sb) + sb.offsetWidth;
 	}
-	if (sb = document.getElementById('seekbargrip')) {
+	if (sb = document.getElementById("seekbargrip")) {
 		left += sb.offsetWidth / 2;
 		right -= sb.offsetWidth / 2;
 	}
@@ -119,13 +119,13 @@ function OnSeek(e) {
 		} else if (percent > 100) {
 			percent = 100;
 		}
-		MakeRequest('command.html?wm_command=[setposcommand]&percent=' + percent);
+		MakeRequest("command.html?wm_command=[setposcommand]&percent=" + percent);
 	}
 }
 
 function OnVolume(e) {
 	left = right = 0;
-	if (cv = document.getElementById('controlvolumebar')) {
+	if (cv = document.getElementById("controlvolumebar")) {
 		left = getOffsetX(cv) + 3;
 		right = getOffsetX(cv) + cv.offsetWidth - 3;
 	}
@@ -136,21 +136,21 @@ function OnVolume(e) {
 		} else if (percent > 100) {
 			percent = 100;
 		}
-		MakeRequest('command.html?wm_command=[setvolumecommand]&volume=' + percent);
+		MakeRequest("command.html?wm_command=[setvolumecommand]&volume=" + percent);
 	}
 }
 
 function OnCommand(id) {
-	MakeRequest('command.html?wm_command=' + id);
+	MakeRequest("command.html?wm_command=" + id);
 }
 
 function Init() {
 	StatusLoop();
 	LoadSnapShot();
-	if (e = document.getElementById('seekbar')) {
+	if (e = document.getElementById("seekbar")) {
 		e.onclick = OnSeek;
 	}
-	if (e = document.getElementById('controlvolumebar')) {
+	if (e = document.getElementById("controlvolumebar")) {
 		e.onclick = OnVolume;
 	}
 }

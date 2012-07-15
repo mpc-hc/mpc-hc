@@ -66,10 +66,10 @@ function autoplay(a) {
 		etaup = false;
 		RL = setTimeout("etaup=true; if (re.checked==true) postform(0,'null',0);", 5000);
 	}
-	AP = setTimeout('autoplay()', rdirt);
+	AP = setTimeout("autoplay()", rdirt);
 	var ct = (new Date()).getTime();
 	var cap = pbr * (ct - starttime);
-	if (cap > length && !Live) if (re.checked == true) RL = setTimeout('window.location=window.location', 5000);
+	if (cap > length && !Live) if (re.checked == true) RL = setTimeout("window.location=window.location", 5000);
 	cap = ((cap > length && !Live) ? length : (cap < 0 ? 0 : cap));
 	if (sas.checked == true || a == true) {
 		update(cap, true);
@@ -82,8 +82,8 @@ function autoplay(a) {
 }
 
 function pad(number, length) {
-	var str = '' + number;
-	while (str.length < length) str = '0' + str;
+	var str = "" + number;
+	while (str.length < length) str = "0" + str;
 	return str;
 }
 
@@ -166,7 +166,7 @@ function getoffsetx(m) {
 
 function posupdate() {
 	if (event.keyCode < 46 || event.keyCode > 58 || event.keyCode == 47) return false;
-	self.setTimeout('update(parseFloat(parsetime(cpf.value)),true)', 1);
+	self.setTimeout("update(parseFloat(parsetime(cpf.value)),true)", 1);
 	return true;
 }
 
