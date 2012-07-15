@@ -4734,8 +4734,8 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
         Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)new BYTE[size];
 
         // GetImageDecoders creates an array of ImageCodecInfo objects
-        // and copies that array into a previously allocated buffer. 
-        // The third argument, imageCodecInfos, is a pointer to that buffer. 
+        // and copies that array into a previously allocated buffer.
+        // The third argument, imageCodecInfos, is a pointer to that buffer.
         Gdiplus::GetImageDecoders(num, size, pImageCodecInfo);
 
         // Find the encoder based on the extension
