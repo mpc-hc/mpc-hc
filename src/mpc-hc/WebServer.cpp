@@ -58,6 +58,8 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 
     if (m_downloads.IsEmpty()) {
         m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
+        m_downloads[_T("/player.css")] = IDF_PLAYER_CSS;
+        m_downloads[_T("/player.js")] = IDF_PLAYER_JS;
         m_downloads[_T("/vbg.png")] = IDF_VBR_PNG;
         m_downloads[_T("/vbs.png")] = IDF_VBS_PNG;
         m_downloads[_T("/sliderbar.gif")] = IDF_SLIDERBAR_GIF;
@@ -401,45 +403,48 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
         return;
     }
 
-    if (mime == "text/html" && !fCGI) {
-        hdr +=
-            "Expires: Thu, 19 Nov 1981 08:52:00 GMT\r\n"
-            "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0\r\n"
-            "Pragma: no-cache\r\n";
+    if ((mime == "text/html" || mime == "text/javascript") && !fCGI) {
+        if (mime == "text/html") {
+            hdr +=
+                "Expires: Thu, 19 Nov 1981 08:52:00 GMT\r\n"
+                "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0\r\n"
+                "Pragma: no-cache\r\n";
 
-        CStringA debug;
-        if (AfxGetAppSettings().fWebServerPrintDebugInfo) {
-            debug += "<hr>\r\n";
-            CString key, value;
-            POSITION pos;
-            pos = pClient->m_hdrlines.GetStartPosition();
-            while (pos) {
-                pClient->m_hdrlines.GetNextAssoc(pos, key, value);
-                debug += "HEADER[" + key + "] = " + value + "<br>\r\n";
+            CStringA debug;
+            if (AfxGetAppSettings().fWebServerPrintDebugInfo) {
+                debug += "<hr>\r\n";
+                CString key, value;
+                POSITION pos;
+                pos = pClient->m_hdrlines.GetStartPosition();
+                while (pos) {
+                    pClient->m_hdrlines.GetNextAssoc(pos, key, value);
+                    debug += "HEADER[" + key + "] = " + value + "<br>\r\n";
+                }
+                debug += "cmd: " + pClient->m_cmd + "<br>\r\n";
+                debug += "path: " + pClient->m_path + "<br>\r\n";
+                debug += "ver: " + pClient->m_ver + "<br>\r\n";
+                pos = pClient->m_get.GetStartPosition();
+                while (pos) {
+                    pClient->m_get.GetNextAssoc(pos, key, value);
+                    debug += "GET[" + key + "] = " + value + "<br>\r\n";
+                }
+                pos = pClient->m_post.GetStartPosition();
+                while (pos) {
+                    pClient->m_post.GetNextAssoc(pos, key, value);
+                    debug += "POST[" + key + "] = " + value + "<br>\r\n";
+                }
+                pos = pClient->m_cookie.GetStartPosition();
+                while (pos) {
+                    pClient->m_cookie.GetNextAssoc(pos, key, value);
+                    debug += "COOKIE[" + key + "] = " + value + "<br>\r\n";
+                }
+                pos = pClient->m_request.GetStartPosition();
+                while (pos) {
+                    pClient->m_request.GetNextAssoc(pos, key, value);
+                    debug += "REQUEST[" + key + "] = " + value + "<br>\r\n";
+                }
             }
-            debug += "cmd: " + pClient->m_cmd + "<br>\r\n";
-            debug += "path: " + pClient->m_path + "<br>\r\n";
-            debug += "ver: " + pClient->m_ver + "<br>\r\n";
-            pos = pClient->m_get.GetStartPosition();
-            while (pos) {
-                pClient->m_get.GetNextAssoc(pos, key, value);
-                debug += "GET[" + key + "] = " + value + "<br>\r\n";
-            }
-            pos = pClient->m_post.GetStartPosition();
-            while (pos) {
-                pClient->m_post.GetNextAssoc(pos, key, value);
-                debug += "POST[" + key + "] = " + value + "<br>\r\n";
-            }
-            pos = pClient->m_cookie.GetStartPosition();
-            while (pos) {
-                pClient->m_cookie.GetNextAssoc(pos, key, value);
-                debug += "COOKIE[" + key + "] = " + value + "<br>\r\n";
-            }
-            pos = pClient->m_request.GetStartPosition();
-            while (pos) {
-                pClient->m_request.GetNextAssoc(pos, key, value);
-                debug += "REQUEST[" + key + "] = " + value + "<br>\r\n";
-            }
+            body.Replace("[debug]", debug);
         }
 
         body.Replace("[path]", CStringA(pClient->m_path));
@@ -450,7 +455,6 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
         body.Replace("[wmcname]", "wm_command");
         body.Replace("[setposcommand]", CMD_SETPOS);
         body.Replace("[setvolumecommand]", CMD_SETVOLUME);
-        body.Replace("[debug]", debug);
         // TODO: add more general tags to replace
     }
 
