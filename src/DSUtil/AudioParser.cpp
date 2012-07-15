@@ -39,6 +39,8 @@
 #define AC3_CHANNEL_MASK            15
 #define AC3_LFE                     16
 
+// Dolby Digital
+
 int GetAC3FrameSize(const BYTE* buf)
 {
     if (*(WORD*)buf != AC3_SYNC_WORD) { // syncword
@@ -220,7 +222,7 @@ int ParseMLPHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
     static const int sampling_rates[]           = { 48000, 96000, 192000, 0, 0, 0, 0, 0, 44100, 88200, 176400, 0, 0, 0, 0, 0 };
     static const unsigned char mlp_quants[16]   = { 16, 20, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     static const unsigned char mlp_channels[32] = {     1,     2,      3, 4, 3, 4, 5, 3,     4,     5,      4, 5, 6, 4, 5, 4,
-            5,     6,      5, 5, 6, 0, 0, 0,     0,     0,      0, 0, 0, 0, 0, 0
+                                                        5,     6,      5, 5, 6, 0, 0, 0,     0,     0,      0, 0, 0, 0, 0, 0
                                                   };
     static const int channel_count[13] = {//   LR    C   LFE  LRs LRvh  LRc LRrs  Cs   Ts  LRsd  LRw  Cvh  LFE2
         2,   1,   1,   2,   2,   2,   2,   1,   1,   2,   2,   1,   1
@@ -258,6 +260,142 @@ int ParseMLPHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
     return frame_size;
 }
 
+// DTS
+
+void dts14be_to_dts16be(const BYTE* source, BYTE* destination, int size) {
+    unsigned short* src = (unsigned short*)source;
+    unsigned short* dst = (unsigned short*)destination;
+
+    for (int i = 0, n = size / 16; i < n; i++) {
+        unsigned short src_0 = (src[0]>>8) | (src[0]<<8);
+        unsigned short src_1 = (src[1]>>8) | (src[1]<<8);
+        unsigned short src_2 = (src[2]>>8) | (src[2]<<8);
+        unsigned short src_3 = (src[3]>>8) | (src[3]<<8);
+        unsigned short src_4 = (src[4]>>8) | (src[4]<<8);
+        unsigned short src_5 = (src[5]>>8) | (src[5]<<8);
+        unsigned short src_6 = (src[6]>>8) | (src[6]<<8);
+        unsigned short src_7 = (src[7]>>8) | (src[7]<<8);
+        
+        dst[0] = (src_0 << 2)  | ((src_1 & 0x3fff) >> 12); // 14 + 2
+        dst[1] = (src_1 << 4)  | ((src_2 & 0x3fff) >> 10); // 12 + 4
+        dst[2] = (src_2 << 6)  | ((src_3 & 0x3fff) >> 8);  // 10 + 6
+        dst[3] = (src_3 << 8)  | ((src_4 & 0x3fff) >> 6);  // 8  + 8
+        dst[4] = (src_4 << 10) | ((src_5 & 0x3fff) >> 4);  // 6  + 10
+        dst[5] = (src_5 << 12) | ((src_6 & 0x3fff) >> 2);  // 4  + 12
+        dst[6] = (src_6 << 14) | ( src_7 & 0x3fff);        // 2  + 14
+
+        dst[0] = (dst[0]>>8) | (dst[0]<<8);
+        dst[1] = (dst[1]>>8) | (dst[1]<<8);
+        dst[2] = (dst[2]>>8) | (dst[2]<<8);
+        dst[3] = (dst[3]>>8) | (dst[3]<<8);
+        dst[4] = (dst[4]>>8) | (dst[4]<<8);
+        dst[5] = (dst[5]>>8) | (dst[5]<<8);
+        dst[6] = (dst[6]>>8) | (dst[6]<<8);
+
+        src += 8;
+        dst += 7;
+    }
+}
+
+void dts14le_to_dts16be(const BYTE* source, BYTE* destination, int size) {
+    unsigned short* src = (unsigned short*)source;
+    unsigned short* dst = (unsigned short*)destination;
+
+    for (int i = 0, n = size / 16; i < n; i++) {
+        dst[0] = (src[0] << 2)  | ((src[1] & 0x3fff) >> 12); // 14 + 2
+        dst[1] = (src[1] << 4)  | ((src[2] & 0x3fff) >> 10); // 12 + 4
+        dst[2] = (src[2] << 6)  | ((src[3] & 0x3fff) >> 8);  // 10 + 6
+        dst[3] = (src[3] << 8)  | ((src[4] & 0x3fff) >> 6);  // 8  + 8
+        dst[4] = (src[4] << 10) | ((src[5] & 0x3fff) >> 4);  // 6  + 10
+        dst[5] = (src[5] << 12) | ((src[6] & 0x3fff) >> 2);  // 4  + 12
+        dst[6] = (src[6] << 14) | ( src[7] & 0x3fff);        // 2  + 14
+
+        dst[0] = (dst[0]>>8) | (dst[0]<<8);
+        dst[1] = (dst[1]>>8) | (dst[1]<<8);
+        dst[2] = (dst[2]>>8) | (dst[2]<<8);
+        dst[3] = (dst[3]>>8) | (dst[3]<<8);
+        dst[4] = (dst[4]>>8) | (dst[4]<<8);
+        dst[5] = (dst[5]>>8) | (dst[5]<<8);
+        dst[6] = (dst[6]>>8) | (dst[6]<<8);
+
+        src += 8;
+        dst += 7;
+    }
+}
+
+int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* tr_bitrate)
+{
+    static const int dts_channels[16] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
+    static const int core_sample_rates[] = {0, 8000, 16000, 32000, 0, 0, 11025, 22050, 44100, 0, 0, 12000, 24000, 48000, 96000, 192000};
+    static const int transmission_bitrates[32] = {
+          32000,   56000,   64000,   96000,
+         112000,  128000,  192000,  224000,
+         256000,  320000,  384000,  448000,
+         512000,  576000,  640000,  768000,
+         960000, 1024000, 1152000, 1280000,
+        1344000, 1408000, 1411200, 1472000,
+        1536000, 1920000, 2048000, 3072000,
+        3840000, 0, 0, 0 //open, variable, lossless
+    // [15]  768000 is actually 754500 for DVD
+    // [24] 1536000 is actually 1509000 for ???
+    // [24] 1536000 is actually 1509750 for DVD
+    // [22] 1411200 is actually 1234800 for 14-bit DTS-CD audio
+    };
+
+    unsigned int tmp;
+    // minimum buffer size is 16
+    DWORD sync = *(DWORD*)buf;
+    BYTE hdr[14]; //minimum header size is 14
+    bool isDTS14 = false;
+    switch (sync) {
+        case 0x0180fe7f: // '7FFE8001' 16 bits and big endian bitstream
+            memcpy(hdr, buf, 14);
+            break;
+        case 0x80017ffe: // 'FE7F0180' 16 bits and little endian bitstream
+            // not tested, need samples.
+            _swab((char*)buf, (char*)hdr, 14);
+            break;
+        case 0x00e8ff1f: // '1FFFE800' 14 bits and big endian bitstream
+            // not tested, need samples.
+            dts14be_to_dts16be(buf, (BYTE*)hdr, 16);
+            isDTS14 = true;
+            break;
+        case 0xe8001fff: // 'FF1F00E8' 14 bits and little endian bitstream
+            dts14le_to_dts16be(buf, (BYTE*)hdr, 16);
+            isDTS14 = true;
+            break;
+        default:
+            return 0;
+    }
+    ASSERT(*(DWORD*)hdr == 0x0180fe7f);
+
+    *framelength = (((hdr[4] & 1) << 6 | (hdr[5] & 0xfc) >> 2) + 1) * 32;
+    if (*framelength < 6 * 32) return 0;
+
+    int frame_size = ((hdr[5] & 3) << 12 | hdr[6] << 4 | (hdr[7] & 0xf0) >> 4) + 1;
+    if (frame_size < 96) return 0;
+    if (isDTS14) frame_size = frame_size * 8 / 14 * 2;
+
+    tmp = (hdr[7] & 0x0f) << 2 | (hdr[8] & 0xc0) >> 6;
+    if (tmp >= 16) return 0;
+    *channels = dts_channels[tmp];
+
+    *samplerate = core_sample_rates[(hdr[8] & 0x3c) >> 2];
+    if (*samplerate == 0) return 0;
+
+    // transmission bitrate
+    * tr_bitrate = transmission_bitrates[(hdr[8] & 3) << 3 | (hdr[9] & 0xe0) >> 5];
+
+    // LFE
+    if ((hdr[10] & 6) >> 1) {
+        (*channels)++;
+    }
+
+    return frame_size;
+}
+
+// HDMV LPCM
+
 int ParseHdmvLPCMHeader(const BYTE* buf, int* samplerate, int* channels)
 {
     *samplerate = 0;
@@ -287,6 +425,8 @@ int ParseHdmvLPCMHeader(const BYTE* buf, int* samplerate, int* channels)
 
     return frame_size;
 }
+
+// Channel masks
 
 DWORD GetDefChannelMask(WORD nChannels)
 {
@@ -360,3 +500,4 @@ DWORD GetVorbisChannelMask(WORD nChannels)
             return 0;
     }
 }
+

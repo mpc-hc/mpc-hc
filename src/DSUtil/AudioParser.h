@@ -39,13 +39,14 @@
 #define EAC3_FRAME_TYPE_AC3_CONVERT  2
 #define EAC3_FRAME_TYPE_RESERVED     3
 
-int GetAC3FrameSize(const BYTE* buf); // for AC3
+int GetAC3FrameSize(const BYTE* buf);  // for AC3
 int GetEAC3FrameSize(const BYTE* buf); // for E-AC3
-int GetMLPFrameSize(const BYTE* buf); // for TrueHD and MLP
+int GetMLPFrameSize(const BYTE* buf);  // for TrueHD and MLP
 
 int ParseAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* bitrate);
 int ParseEAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* frametype);
-int ParseMLPHeader(const BYTE* buf, int* samplerate, int* channels, int* framelength, WORD* bitdepth, bool* isTrueHD);      // for TrueHD and MLP
+int ParseMLPHeader(const BYTE* buf, int* samplerate, int* channels, int* framelength, WORD* bitdepth, bool* isTrueHD); // for TrueHD and MLP
+int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* tr_bitrate);
 int ParseHdmvLPCMHeader(const BYTE* buf, int* samplerate, int* channels);
 
 DWORD GetDefChannelMask(WORD nChannels);
