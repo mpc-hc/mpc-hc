@@ -64,7 +64,7 @@ Ukrainian               arestarh                <arestarh1986@users.sourceforge.
 
 Contributors:
 --------------
-Alexx999, foxx1337, heksesang, judelaw, madshi, mtrz, nielsm,
+Alexx999, foxx1337, heksesang, judelaw, kasper93, madshi, mtrz, nielsm,
 skaarj1, VSFilterMod Team, X-Dron
 
 
