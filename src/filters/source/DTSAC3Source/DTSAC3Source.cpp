@@ -38,7 +38,6 @@
 #pragma warning(disable: 4005)
 #include <stdint.h>
 #pragma warning(pop)
-#include "libdca/include/dts.h"
 
 enum {
     unknown,
@@ -306,10 +305,9 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             }
 
             // DTS header
-            dts_state_t* m_dts_state;
-            m_dts_state = dts_init(0);
-            int fsize = 0, flags, targeted_bitrate;
-            if ((fsize = dts_syncinfo(m_dts_state, buf, &flags, &m_samplerate, &targeted_bitrate, &m_framelength)) < 96) { //minimal valid fsize = 96
+            int fsize = 0, targeted_bitrate;
+            fsize = ParseDTSHeader(buf, &m_samplerate, &m_channels, &m_framelength, &targeted_bitrate);
+            if (fsize == 0) {
                 break;
             }
             m_streamtype = DTS;
@@ -365,15 +363,6 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             int k = (m_framesize + 4096 + m_framesize - 1) / m_framesize;
             m_framesize   *= k;
             m_framelength *= k;
-
-            if (flags & 0x70) { //unknown number of channels
-                m_channels = 6;
-            } else {
-                m_channels = channels[flags & 0x0f];
-                if (flags & DCA_LFE) {
-                    m_channels += 1;    //+LFE
-                }
-            }
 
             if (m_bitrate != 0) {
                 m_AvgTimePerFrame = 10000000i64 * m_framesize * 8 / m_bitrate;
