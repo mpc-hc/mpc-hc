@@ -142,7 +142,12 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
     return S_FALSE;
 }
 
-#define MARKER if (gb.BitRead(1) != 1) { ASSERT(0); return E_FAIL; }
+#define MARKER              \
+    if (gb.BitRead(1) != 1) \
+    {                       \
+        ASSERT(0);          \
+        return E_FAIL;      \
+    }
 
 HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 {
@@ -166,7 +171,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
         UNREFERENCED_PARAMETER(wLength);
 
         if (gb.BitRead(2) != 2) {
-            return E_FAIL;    // type
+            return E_FAIL;  // type
         }
 
         gb.BitRead(2);      // scrambling
@@ -191,7 +196,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                 return E_FAIL;
             }
 
-            REFERENCE_TIME  pts = 0;
+            REFERENCE_TIME pts = 0;
             pts |= gb.BitRead(3) << 30;
             MARKER // 32..30
             pts |= gb.BitRead(15) << 15;
@@ -201,10 +206,10 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
             pts = 10000 * pts / 90;
 
             m_rtStart = pts;
-            m_rtStop = pts + 1;
+            m_rtStop  = pts + 1;
         } else {
             m_rtStart = INVALID_TIME;
-            m_rtStop = INVALID_TIME;
+            m_rtStop  = INVALID_TIME;
         }
 
         nSize -= 14;
@@ -215,14 +220,14 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
         pSample->SetTime(&m_rtStart, &m_rtStop);
     }
 
-    //FILE* hFile = fopen ("D:\\Sources\\mpc-hc\\A garder\\TestSubRip\\dvbsub.dat", "ab");
+    //FILE* hFile = fopen("D:\\Sources\\mpc-hc\\A garder\\TestSubRip\\dvbsub.dat", "ab");
     //if (hFile != NULL)
     //{
     //  //BYTE  Buff[5] = {48};
 
     //  //*((DWORD*)(Buff+1)) = lSampleLen;
-    //  //fwrite (Buff,  1, sizeof(Buff), hFile);
-    //  fwrite (pData, 1, lSampleLen, hFile);
+    //  //fwrite(Buff, 1, sizeof(Buff), hFile);
+    //  fwrite(pData, 1, lSampleLen, hFile);
     //  fclose(hFile);
     //}
 
@@ -322,7 +327,7 @@ void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
             for (int j = 0; j < pRegion->ObjectCount; j++) {
                 CompositionObject*  pObject = FindObject(pPage, pRegion->Objects[j].object_id);
                 if (pObject) {
-                    SHORT       nX, nY;
+                    SHORT nX, nY;
                     nX = pRegion->HorizAddr + pRegion->Objects[j].object_horizontal_position;
                     nY = pRegion->VertAddr  + pRegion->Objects[j].object_vertical_position;
                     pObject->m_width  = pRegion->width;
@@ -399,7 +404,7 @@ void CDVBSub::Reset()
     m_nBufferWritePos = 0;
     m_pCurrentPage.Free();
 
-    DVB_PAGE*   pPage;
+    DVB_PAGE* pPage;
     while (m_Pages.GetCount() > 0) {
         pPage = m_Pages.RemoveHead();
         delete pPage;
@@ -423,7 +428,7 @@ HRESULT CDVBSub::ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE
             pPage->Regions[nPos].Id = gb.ReadByte();
             gb.ReadByte();  // Reserved
             pPage->Regions[nPos].HorizAddr = gb.ReadShort();
-            pPage->Regions[nPos].VertAddr = gb.ReadShort();
+            pPage->Regions[nPos].VertAddr  = gb.ReadShort();
             pPage->RegionCount++;
         }
         nPos++;
@@ -556,8 +561,8 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
         CompositionObject* pObject = DNew CompositionObject();
         BYTE object_coding_method;
 
-        pObject->m_object_id_ref    = gb.ReadShort();
-        pObject->m_version_number   = (BYTE)gb.BitRead(4);
+        pObject->m_object_id_ref  = gb.ReadShort();
+        pObject->m_version_number = (BYTE)gb.BitRead(4);
 
         object_coding_method = (BYTE)gb.BitRead(2); // object_coding_method
         gb.BitRead(1);  // non_modifying_colour_flag

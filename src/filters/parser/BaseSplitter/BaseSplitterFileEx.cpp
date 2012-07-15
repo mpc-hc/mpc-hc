@@ -63,7 +63,12 @@ bool CBaseSplitterFileEx::NextMpegStartCode(BYTE& code, __int64 len)
 
 //
 
-#define MARKER if (BitRead(1) != 1) { ASSERT(0); return false; }
+#define MARKER           \
+    if (BitRead(1) != 1) \
+    {                    \
+        ASSERT(0);       \
+        return false;    \
+    }
 
 bool CBaseSplitterFileEx::Read(pshdr& h)
 {
@@ -78,14 +83,14 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 
         h.scr = 0;
         h.scr |= BitRead(3) << 30;
-        MARKER; // 32..30
+        MARKER // 32..30
         h.scr |= BitRead(15) << 15;
-        MARKER; // 29..15
+        MARKER // 29..15
         h.scr |= BitRead(15);
-        MARKER;
-        MARKER; // 14..0
+        MARKER
+        MARKER // 14..0
         h.bitrate = BitRead(22);
-        MARKER;
+        MARKER
     } else if ((b & 0xc4) == 0x44) {
         h.type = mpeg2;
 
@@ -93,16 +98,16 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 
         h.scr = 0;
         h.scr |= BitRead(3) << 30;
-        MARKER; // 32..30
+        MARKER // 32..30
         h.scr |= BitRead(15) << 15;
-        MARKER; // 29..15
+        MARKER // 29..15
         h.scr |= BitRead(15);
-        MARKER; // 14..0
+        MARKER // 14..0
         h.scr = (h.scr * 300 + BitRead(9)) * 10 / 27;
-        MARKER;
+        MARKER
         h.bitrate = BitRead(22);
-        MARKER;
-        MARKER;
+        MARKER
+        MARKER
         BitRead(5); // reserved
         UINT64 stuffing = BitRead(3);
         while (stuffing-- > 0) {
@@ -122,15 +127,15 @@ bool CBaseSplitterFileEx::Read(pssyshdr& h)
     memset(&h, 0, sizeof(h));
 
     WORD len = (WORD)BitRead(16);
-    MARKER;
+    MARKER
     h.rate_bound = (DWORD)BitRead(22);
-    MARKER;
+    MARKER
     h.audio_bound = (BYTE)BitRead(6);
     h.fixed_rate = !!BitRead(1);
     h.csps = !!BitRead(1);
     h.sys_audio_loc_flag = !!BitRead(1);
     h.sys_video_loc_flag = !!BitRead(1);
-    MARKER;
+    MARKER
     h.video_bound = (BYTE)BitRead(5);
 
     EXECUTE_ASSERT((BitRead(8) & 0x7f) == 0x7f); // reserved (should be 0xff, but not in reality)
@@ -219,11 +224,11 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 
         h.pts = 0;
         h.pts |= BitRead(3) << 30;
-        MARKER; // 32..30
+        MARKER // 32..30
         h.pts |= BitRead(15) << 15;
-        MARKER; // 29..15
+        MARKER // 29..15
         h.pts |= BitRead(15);
-        MARKER; // 14..0
+        MARKER // 14..0
         h.pts = 10000 * h.pts / 90 + m_rtPTSOffset;
     }
 
@@ -235,11 +240,11 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 
         h.dts = 0;
         h.dts |= BitRead(3) << 30;
-        MARKER; // 32..30
+        MARKER // 32..30
         h.dts |= BitRead(15) << 15;
-        MARKER; // 29..15
+        MARKER // 29..15
         h.dts |= BitRead(15);
-        MARKER; // 14..0
+        MARKER // 14..0
         h.dts = 10000 * h.dts / 90 + m_rtPTSOffset;
     }
 
@@ -331,7 +336,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
     static int ifps[16] = {0, 1126125, 1125000, 1080000, 900900, 900000, 540000, 450450, 450000, 0, 0, 0, 0, 0, 0, 0};
     h.ifps = ifps[BitRead(4)];
     h.bitrate = (DWORD)BitRead(18);
-    MARKER;
+    MARKER
     h.vbv = (DWORD)BitRead(10);
     h.constrained = BitRead(1);
 
@@ -373,7 +378,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
         h.width |= (BitRead(2) << 12);
         h.height |= (BitRead(2) << 12);
         h.bitrate |= (BitRead(12) << 18);
-        MARKER;
+        MARKER
         h.vbv |= (BitRead(8) << 10);
         h.lowdelay = BitRead(1);
         h.ifps = (DWORD)(h.ifps * (BitRead(2) + 1) / (BitRead(5) + 1));
