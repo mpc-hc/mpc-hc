@@ -353,7 +353,7 @@
     <None Include="..\res\tb_play_16.ico" />
     <None Include="..\res\tb_stop_16.ico" />
     <None Include="..\res\toolbar.bmp" />
-    <None Include="..\res\Toolbarw7.png" />
+    <None Include="..\res\toolbarw7.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
