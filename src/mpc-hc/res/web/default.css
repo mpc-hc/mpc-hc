@@ -6,3 +6,173 @@ body,th,td,span {
 .nobr {
 	white-space:nowrap;
 }
+
+img {
+	border:0;
+	margin:0;
+	padding:0;
+}
+
+#player {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#player td {
+	font-family:Sans-Serif;
+	font-size:13px;
+}
+
+#header td {
+	height:30px;
+}
+
+#headericon {
+	width:22px;
+	background:url(images/headericon.png) no-repeat;
+}
+
+#headerback {
+	color:#FFF;
+	font-weight:700;
+	padding-top:5px;
+	background:url(images/headerback.png) repeat-x;
+}
+
+#headerclose {
+	width:28px;
+	background:url(images/headerclose.png) no-repeat;
+}
+
+#title,#status,#posstr,#durstr {
+	display:inline;
+}
+
+#menu td {
+	font-family:Sans-Serif;
+	font-size:12px;
+	padding:1px 5px;
+}
+
+#menu,#controlbar {
+	background:#ece6d4;
+}
+
+#statusbar td {
+	font-family:Sans-Serif;
+	font-size:12px;
+}
+
+#video,#statusbar {
+	color:#FFF;
+	background:#000;
+}
+
+#video {
+	cursor:pointer;
+	padding:1px;
+}
+
+#controlbar {
+	height:28px;
+	background:url(images/controlback.png) repeat-x;
+}
+
+#controlbuttonplay {
+	width:25px;
+	height:28px;
+	background:url(images/controlbuttonplay.png) no-repeat;
+}
+
+#controlbuttonpause {
+	width:23px;
+	height:28px;
+	background:url(images/controlbuttonpause.png) no-repeat;
+}
+
+#controlbuttonstop {
+	width:25px;
+	height:28px;
+	background:url(images/controlbuttonstop.png) no-repeat;
+}
+
+#controlbuttonskipback {
+	width:24px;
+	height:28px;
+	background:url(images/controlbuttonskipback.png) no-repeat;
+}
+
+#controlbuttondecrate {
+	width:22px;
+	height:28px;
+	background:url(images/controlbuttondecrate.png) no-repeat;
+}
+
+#controlbuttonincrate {
+	width:23px;
+	height:28px;
+	background:url(images/controlbuttonincrate.png) no-repeat;
+}
+
+#controlbuttonskipforward {
+	width:28px;
+	height:28px;
+	background:url(images/controlbuttonskipforward.png) no-repeat;
+}
+
+#controlbuttonstep {
+	width:31px;
+	height:28px;
+	background:url(images/controlbuttonstep.png) no-repeat;
+}
+
+#controlvolumemute {
+	width:28px;
+	height:28px;
+	background:url(images/controlvolumeon.png) no-repeat;
+}
+
+#controlvolumebar {
+	width:55px;
+	height:28px;
+	background:url(images/controlvolumebar.png) no-repeat;
+}
+
+#seekbar {
+	background:url(images/seekbarmid.png) repeat-x;
+}
+
+#seekbar td {
+	height:15px;
+}
+
+#leftside {
+	width:4px;
+	background:url(images/leftside.png) repeat-y;
+}
+
+#rightside {
+	width:4px;
+	background:url(images/rightside.png) repeat-y;
+}
+
+#leftbottomside {
+	width:4px;
+	height:4px;
+	background:url(images/leftbottomside.png) repeat-x;
+}
+
+#bottomside {
+	height:4px;
+	background:url(images/bottomside.png) repeat-x;
+}
+
+#rightbottomside {
+	width:4px;
+	height:4px;
+	background:url(images/rightbottomside.png) repeat-x;
+}
+
+#header,#center {
+	width:100%;
+}

@@ -648,7 +648,6 @@
     <None Include="res\web\images\vbs.png" />
     <None Include="res\web\index.html" />
     <None Include="res\web\info.html" />
-    <None Include="res\web\player.css" />
     <None Include="res\web\player.html" />
     <None Include="res\web\player.js" />
     <None Include="res\web\variables.html" />

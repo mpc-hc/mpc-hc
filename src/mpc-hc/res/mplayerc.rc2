@@ -115,7 +115,6 @@ IDF_SHADER_YV12CHROMAUP          FILE                    "res\\shaders\\YV12Chro
 IDF_1PIX_GIF                     FILE                    "res\\web\\images\\1pix.gif"
 IDF_CONTROLS_JS                  FILE                    "res\\web\\controls.js"
 IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
-IDF_PLAYER_CSS                   FILE                    "res\\web\\player.css"
 IDF_PLAYER_JS                    FILE                    "res\\web\\player.js"
 IDF_SLIDERBAR_GIF                FILE                    "res\\web\\images\\sliderbar.gif"
 IDF_SLIDERGRIP_GIF               FILE                    "res\\web\\images\\slidergrip.gif"

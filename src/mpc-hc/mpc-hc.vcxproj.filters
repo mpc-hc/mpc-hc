@@ -880,9 +880,6 @@
     <None Include="res\web\info.html">
       <Filter>Resource Files\web</Filter>
     </None>
-    <None Include="res\web\player.css">
-      <Filter>Resource Files\web</Filter>
-    </None>
     <None Include="res\web\player.html">
       <Filter>Resource Files\web</Filter>
     </None>

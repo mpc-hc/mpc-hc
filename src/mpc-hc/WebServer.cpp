@@ -91,7 +91,6 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
         m_downloads[_T("/images/slidergrip.gif")] = IDF_SLIDERGRIP_GIF;
         m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
         m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
-        m_downloads[_T("/player.css")] = IDF_PLAYER_CSS;
         m_downloads[_T("/player.js")] = IDF_PLAYER_JS;
     }
 
