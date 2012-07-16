@@ -42,7 +42,7 @@ Links:
 Website:           http://mpc-hc.sourceforge.net
 Project Page:      http://sourceforge.net/projects/mpc-hc/
 GitHub mirror:     https://github.com/mpc-hc
-Support Trac:      https://sourceforge.net/apps/trac/mpc-hc/wiki
+Support Trac:      http://sourceforge.net/apps/trac/mpc-hc
 IRC Channel:       #mpc-hc / #mpc-hc-dev at Freenode (http://webchat.freenode.net/)
 Help and Support:  http://sourceforge.net/apps/trac/mpc-hc/
 Donations:         http://sourceforge.net/donate/index.php?group_id=170561
