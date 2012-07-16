@@ -132,6 +132,7 @@ else
 %define HAVE_PTHREADS 0
 %define HAVE_FAST_UNALIGNED 1
 %define HAVE_RDTSC 1
+%define HAVE_RINT 1
 %define HAVE_ROUND 1
 %define HAVE_ROUNDF 1
 %define HAVE_RWEFLAGS 0

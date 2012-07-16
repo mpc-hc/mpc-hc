@@ -8,6 +8,7 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 * libavcodec/aacsbr.c
 * libavcodec/allcodecs.c
 * libavcodec/avcodec.h
+* libavcodec/h263dec.c
 * libavcodec/h264.c
 * libavcodec/h264.h
 * libavcodec/mpeg12.c

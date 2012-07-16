@@ -324,6 +324,10 @@ static const AVOption options[]={
 {"aac_low", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_AAC_LOW }, INT_MIN, INT_MAX, A|E, "profile"},
 {"aac_ssr", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_AAC_SSR }, INT_MIN, INT_MAX, A|E, "profile"},
 {"aac_ltp", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_AAC_LTP }, INT_MIN, INT_MAX, A|E, "profile"},
+{"aac_he", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_AAC_HE }, INT_MIN, INT_MAX, A|E, "profile"},
+{"aac_he_v2", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_AAC_HE_V2 }, INT_MIN, INT_MAX, A|E, "profile"},
+{"aac_ld", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_AAC_LD }, INT_MIN, INT_MAX, A|E, "profile"},
+{"aac_eld", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_AAC_ELD }, INT_MIN, INT_MAX, A|E, "profile"},
 {"dts", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_DTS }, INT_MIN, INT_MAX, A|E, "profile"},
 {"dts_es", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_DTS_ES }, INT_MIN, INT_MAX, A|E, "profile"},
 {"dts_96_24", NULL, 0, AV_OPT_TYPE_CONST, {.dbl = FF_PROFILE_DTS_96_24 }, INT_MIN, INT_MAX, A|E, "profile"},
@@ -405,6 +409,7 @@ static const AVOption options[]={
 {"s32p", "32-bit signed integer planar",  0, AV_OPT_TYPE_CONST, {.dbl = AV_SAMPLE_FMT_S32P }, INT_MIN, INT_MAX, A|D, "request_sample_fmt"},
 {"fltp", "32-bit float planar",           0, AV_OPT_TYPE_CONST, {.dbl = AV_SAMPLE_FMT_FLTP }, INT_MIN, INT_MAX, A|D, "request_sample_fmt"},
 {"dblp", "64-bit double planar",          0, AV_OPT_TYPE_CONST, {.dbl = AV_SAMPLE_FMT_DBLP }, INT_MIN, INT_MAX, A|D, "request_sample_fmt"},
+{"pkt_timebase", NULL, OFFSET(pkt_timebase), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, 0, INT_MAX, 0},
 {NULL},
 };
 

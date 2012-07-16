@@ -100,6 +100,18 @@ void av_fast_padded_malloc(void *ptr, unsigned int *size, size_t min_size)
         memset(*p + min_size, 0, FF_INPUT_BUFFER_PADDING_SIZE);
 }
 
+void av_fast_padded_mallocz(void *ptr, unsigned int *size, size_t min_size)
+{
+    uint8_t **p = ptr;
+    if (min_size > SIZE_MAX - FF_INPUT_BUFFER_PADDING_SIZE) {
+        av_freep(p);
+        *size = 0;
+        return;
+    }
+    if (!ff_fast_malloc(p, size, min_size + FF_INPUT_BUFFER_PADDING_SIZE, 1))
+        memset(*p, 0, min_size + FF_INPUT_BUFFER_PADDING_SIZE);
+}
+
 /* encoder management */
 static AVCodec *first_avcodec = NULL;
 
@@ -290,7 +302,7 @@ void ff_init_buffer_info(AVCodecContext *s, AVFrame *pic)
     }
     pic->reordered_opaque= s->reordered_opaque;
     // ==> Start patch MPC
-    pic->reordered_opaque2= s->reordered_opaque2;
+    pic->reordered_opaque2   = s->reordered_opaque2;
     // ==> End patch MPC
     pic->sample_aspect_ratio = s->sample_aspect_ratio;
     pic->width               = s->width;
@@ -556,7 +568,7 @@ static int video_get_buffer(AVCodecContext *s, AVFrame *pic)
     }
     pic->reordered_opaque= s->reordered_opaque;
     // ==> Start patch MPC
-    pic->reordered_opaque2= s->reordered_opaque2;
+    pic->reordered_opaque2   = s->reordered_opaque2;
     // ==> End patch MPC
     pic->sample_aspect_ratio = s->sample_aspect_ratio;
     pic->width               = s->width;
@@ -719,6 +731,9 @@ MAKE_ACCESSORS(AVFrame, frame, int64_t, pkt_duration)
 MAKE_ACCESSORS(AVFrame, frame, int64_t, pkt_pos)
 MAKE_ACCESSORS(AVFrame, frame, int64_t, channel_layout)
 MAKE_ACCESSORS(AVFrame, frame, int,     sample_rate)
+MAKE_ACCESSORS(AVFrame, frame, AVDictionary *, metadata)
+
+MAKE_ACCESSORS(AVCodecContext, codec, AVRational, pkt_timebase)
 
 static void avcodec_get_subtitle_defaults(AVSubtitle *sub)
 {
@@ -1011,12 +1026,14 @@ int ff_alloc_packet2(AVCodecContext *avctx, AVPacket *avpkt, int size)
         return AVERROR(EINVAL);
     }
 
-    av_assert0(!avpkt->data || avpkt->data != avctx->internal->byte_buffer);
-    if (!avpkt->data || avpkt->size < size) {
-        av_fast_padded_malloc(&avctx->internal->byte_buffer, &avctx->internal->byte_buffer_size, size);
-        avpkt->data = avctx->internal->byte_buffer;
-        avpkt->size = avctx->internal->byte_buffer_size;
-        avpkt->destruct = NULL;
+    if (avctx) {
+        av_assert0(!avpkt->data || avpkt->data != avctx->internal->byte_buffer);
+        if (!avpkt->data || avpkt->size < size) {
+            av_fast_padded_malloc(&avctx->internal->byte_buffer, &avctx->internal->byte_buffer_size, size);
+            avpkt->data = avctx->internal->byte_buffer;
+            avpkt->size = avctx->internal->byte_buffer_size;
+            avpkt->destruct = NULL;
+        }
     }
 
     if (avpkt->data) {
@@ -1617,6 +1634,8 @@ int attribute_align_arg avcodec_decode_audio4(AVCodecContext *avctx,
     }
 
     if ((avctx->codec->capabilities & CODEC_CAP_DELAY) || avpkt->size) {
+        uint8_t *side;
+        int side_size;
         // copy to ensure we do not change avpkt
         AVPacket tmp = *avpkt;
         int did_split = av_packet_split_side_data(&tmp);
@@ -1633,6 +1652,28 @@ int attribute_align_arg avcodec_decode_audio4(AVCodecContext *avctx,
                 frame->channel_layout = avctx->channel_layout;
             if (!frame->sample_rate)
                 frame->sample_rate = avctx->sample_rate;
+        }
+
+        side= av_packet_get_side_data(avctx->pkt, AV_PKT_DATA_SKIP_SAMPLES, &side_size);
+        if(side && side_size>=10) {
+            avctx->internal->skip_samples = AV_RL32(side);
+        }
+        if (avctx->internal->skip_samples) {
+            if(frame->nb_samples <= avctx->internal->skip_samples){
+                *got_frame_ptr = 0;
+                avctx->internal->skip_samples -= frame->nb_samples;
+            } else {
+                av_samples_copy(frame->extended_data, frame->extended_data, 0, avctx->internal->skip_samples,
+                                frame->nb_samples - avctx->internal->skip_samples, avctx->channels, frame->format);
+                if(avctx->pkt_timebase.num && avctx->sample_rate) {
+                    if(frame->pkt_pts!=AV_NOPTS_VALUE)
+                        frame->pkt_pts += av_rescale_q(avctx->internal->skip_samples,(AVRational){1, avctx->sample_rate}, avctx->pkt_timebase);
+                    if(frame->pkt_dts!=AV_NOPTS_VALUE)
+                        frame->pkt_dts += av_rescale_q(avctx->internal->skip_samples,(AVRational){1, avctx->sample_rate}, avctx->pkt_timebase);
+                }
+                frame->nb_samples -= avctx->internal->skip_samples;
+                avctx->internal->skip_samples = 0;
+            }
         }
 
         avctx->pkt = NULL;
