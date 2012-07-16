@@ -44,55 +44,55 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 {
     if (m_internalpages.IsEmpty()) {
         m_internalpages[_T("/")] = &CWebClientSocket::OnIndex;
+        m_internalpages[_T("/404.html")] = &CWebClientSocket::OnError404;
+        m_internalpages[_T("/browser.html")] = &CWebClientSocket::OnBrowser;
+        m_internalpages[_T("/command.html")] = &CWebClientSocket::OnCommand;
+        m_internalpages[_T("/controls.html")] = &CWebClientSocket::OnControls;
         m_internalpages[_T("/index.html")] = &CWebClientSocket::OnIndex;
         m_internalpages[_T("/info.html")] = &CWebClientSocket::OnInfo;
-        m_internalpages[_T("/browser.html")] = &CWebClientSocket::OnBrowser;
-        m_internalpages[_T("/controls.html")] = &CWebClientSocket::OnControls;
-        m_internalpages[_T("/command.html")] = &CWebClientSocket::OnCommand;
-        m_internalpages[_T("/status.html")] = &CWebClientSocket::OnStatus;
         m_internalpages[_T("/player.html")] = &CWebClientSocket::OnPlayer;
-        m_internalpages[_T("/variables.html")] = &CWebClientSocket::OnVariables;
         m_internalpages[_T("/snapshot.jpg")] = &CWebClientSocket::OnSnapShotJpeg;
-        m_internalpages[_T("/404.html")] = &CWebClientSocket::OnError404;
+        m_internalpages[_T("/status.html")] = &CWebClientSocket::OnStatus;
+        m_internalpages[_T("/variables.html")] = &CWebClientSocket::OnVariables;
     }
 
     if (m_downloads.IsEmpty()) {
-        m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
-        m_downloads[_T("/player.css")] = IDF_PLAYER_CSS;
         m_downloads[_T("/controls.js")] = IDF_CONTROLS_JS;
-        m_downloads[_T("/player.js")] = IDF_PLAYER_JS;
-        m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
-        m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
-        m_downloads[_T("/images/sliderbar.gif")] = IDF_SLIDERBAR_GIF;
-        m_downloads[_T("/images/slidergrip.gif")] = IDF_SLIDERGRIP_GIF;
-        m_downloads[_T("/images/sliderback.png")] = IDF_SLIDERBACK_PNG;
+        m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
         m_downloads[_T("/images/1pix.gif")] = IDF_1PIX_GIF;
-        m_downloads[_T("/images/headericon.png")] = IDF_HEADERICON_PNG;
+        m_downloads[_T("/images/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
+        m_downloads[_T("/images/controlback.png")] = IDF_CONTROLBACK_PNG;
+        m_downloads[_T("/images/controlbuttondecrate.png")] = IDF_CONTROLBUTTONDECRATE_PNG;
+        m_downloads[_T("/images/controlbuttonincrate.png")] = IDF_CONTROLBUTTONINCRATE_PNG;
+        m_downloads[_T("/images/controlbuttonpause.png")] = IDF_CONTROLBUTTONPAUSE_PNG;
+        m_downloads[_T("/images/controlbuttonplay.png")] = IDF_CONTROLBUTTONPLAY_PNG;
+        m_downloads[_T("/images/controlbuttonskipback.png")] = IDF_CONTROLBUTTONSKIPBACK_PNG;
+        m_downloads[_T("/images/controlbuttonskipforward.png")] = IDF_CONTROLBUTTONSKIPFORWARD_PNG;
+        m_downloads[_T("/images/controlbuttonstep.png")] = IDF_CONTROLBUTTONSTEP_PNG;
+        m_downloads[_T("/images/controlbuttonstop.png")] = IDF_CONTROLBUTTONSTOP_PNG;
+        m_downloads[_T("/images/controlvolumebar.png")] = IDF_CONTROLVOLUMEBAR_PNG;
+        m_downloads[_T("/images/controlvolumegrip.png")] = IDF_CONTROLVOLUMEGRIP_PNG;
+        m_downloads[_T("/images/controlvolumeoff.png")] = IDF_CONTROLVOLUMEOFF_PNG;
+        m_downloads[_T("/images/controlvolumeon.png")] = IDF_CONTROLVOLUMEON_PNG;
         m_downloads[_T("/images/headerback.png")] = IDF_HEADERBACK_PNG;
         m_downloads[_T("/images/headerclose.png")] = IDF_HEADERCLOSE_PNG;
-        m_downloads[_T("/images/leftside.png")] = IDF_LEFTSIDE_PNG;
-        m_downloads[_T("/images/rightside.png")] = IDF_RIGHTSIDE_PNG;
-        m_downloads[_T("/images/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
+        m_downloads[_T("/images/headericon.png")] = IDF_HEADERICON_PNG;
         m_downloads[_T("/images/leftbottomside.png")] = IDF_LEFTBOTTOMSIDE_PNG;
+        m_downloads[_T("/images/leftside.png")] = IDF_LEFTSIDE_PNG;
+        m_downloads[_T("/images/logo.png")] = DEF_LOGO;
         m_downloads[_T("/images/rightbottomside.png")] = IDF_RIGHTBOTTOMSIDE_PNG;
+        m_downloads[_T("/images/rightside.png")] = IDF_RIGHTSIDE_PNG;
+        m_downloads[_T("/images/seekbargrip.png")] = IDF_SEEKBARGRIP_PNG;
         m_downloads[_T("/images/seekbarleft.png")] = IDF_SEEKBARLEFT_PNG;
         m_downloads[_T("/images/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
         m_downloads[_T("/images/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
-        m_downloads[_T("/images/seekbargrip.png")] = IDF_SEEKBARGRIP_PNG;
-        m_downloads[_T("/images/logo.png")] = DEF_LOGO;
-        m_downloads[_T("/images/controlback.png")] = IDF_CONTROLBACK_PNG;
-        m_downloads[_T("/images/controlbuttonplay.png")] = IDF_CONTROLBUTTONPLAY_PNG;
-        m_downloads[_T("/images/controlbuttonpause.png")] = IDF_CONTROLBUTTONPAUSE_PNG;
-        m_downloads[_T("/images/controlbuttonstop.png")] = IDF_CONTROLBUTTONSTOP_PNG;
-        m_downloads[_T("/images/controlbuttonskipback.png")] = IDF_CONTROLBUTTONSKIPBACK_PNG;
-        m_downloads[_T("/images/controlbuttondecrate.png")] = IDF_CONTROLBUTTONDECRATE_PNG;
-        m_downloads[_T("/images/controlbuttonincrate.png")] = IDF_CONTROLBUTTONINCRATE_PNG;
-        m_downloads[_T("/images/controlbuttonskipforward.png")] = IDF_CONTROLBUTTONSKIPFORWARD_PNG;
-        m_downloads[_T("/images/controlbuttonstep.png")] = IDF_CONTROLBUTTONSTEP_PNG;
-        m_downloads[_T("/images/controlvolumeon.png")] = IDF_CONTROLVOLUMEON_PNG;
-        m_downloads[_T("/images/controlvolumeoff.png")] = IDF_CONTROLVOLUMEOFF_PNG;
-        m_downloads[_T("/images/controlvolumebar.png")] = IDF_CONTROLVOLUMEBAR_PNG;
-        m_downloads[_T("/images/controlvolumegrip.png")] = IDF_CONTROLVOLUMEGRIP_PNG;
+        m_downloads[_T("/images/sliderback.png")] = IDF_SLIDERBACK_PNG;
+        m_downloads[_T("/images/sliderbar.gif")] = IDF_SLIDERBAR_GIF;
+        m_downloads[_T("/images/slidergrip.gif")] = IDF_SLIDERGRIP_GIF;
+        m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
+        m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
+        m_downloads[_T("/player.css")] = IDF_PLAYER_CSS;
+        m_downloads[_T("/player.js")] = IDF_PLAYER_JS;
     }
 
     CRegKey key;
@@ -111,14 +111,14 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
         }
     }
 
-    m_mimes[".html"] = "text/html";
-    m_mimes[".txt"] = "text/plain";
     m_mimes[".css"] = "text/css";
     m_mimes[".gif"] = "image/gif";
+    m_mimes[".html"] = "text/html";
     m_mimes[".jpeg"] = "image/jpeg";
     m_mimes[".jpg"] = "image/jpeg";
-    m_mimes[".png"] = "image/png";
     m_mimes[".js"] = "text/javascript";
+    m_mimes[".png"] = "image/png";
+    m_mimes[".txt"] = "text/plain";
 
     m_webroot = CPath(GetProgramPath());
 
@@ -449,14 +449,14 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
             body.Replace("[debug]", debug);
         }
 
-        body.Replace("[path]", CStringA(pClient->m_path));
-        body.Replace("[indexpath]", "/index.html");
-        body.Replace("[commandpath]", "/command.html");
         body.Replace("[browserpath]", "/browser.html");
+        body.Replace("[commandpath]", "/command.html");
         body.Replace("[controlspath]", "/controls.html");
-        body.Replace("[wmcname]", "wm_command");
+        body.Replace("[indexpath]", "/index.html");
+        body.Replace("[path]", CStringA(pClient->m_path));
         body.Replace("[setposcommand]", CMD_SETPOS);
         body.Replace("[setvolumecommand]", CMD_SETVOLUME);
+        body.Replace("[wmcname]", "wm_command");
         // TODO: add more general tags to replace
     }
 
