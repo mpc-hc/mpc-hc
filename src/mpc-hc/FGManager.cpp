@@ -897,13 +897,11 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
 
     HRESULT hr;
 
-    /*
-        CComPtr<IBaseFilter> pBF;
-        if (FAILED(hr = AddSourceFilter(lpcwstrFile, lpcwstrFile, &pBF)))
-            return hr;
+    /*CComPtr<IBaseFilter> pBF;
+    if (FAILED(hr = AddSourceFilter(lpcwstrFile, lpcwstrFile, &pBF)))
+        return hr;
 
-        return ConnectFilter(pBF, NULL);
-    */
+    return ConnectFilter(pBF, NULL);*/
 
     CFGFilterList fl;
     if (FAILED(hr = EnumSourceFilters(lpcwstrFileName, fl))) {
@@ -943,8 +941,8 @@ STDMETHODIMP CFGManager::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwst
     CAutoLock cAutoLock(this);
 
     HRESULT hr;
-
     CFGFilterList fl;
+
     if (FAILED(hr = EnumSourceFilters(lpcwstrFileName, fl))) {
         return hr;
     }

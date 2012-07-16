@@ -213,8 +213,10 @@ public:
                 break;
             default:
                 str.Format(_T("%c%c%c%c"),
-                           (TCHAR)((bih->biCompression >> 0) & 0xff), (TCHAR)((bih->biCompression >> 8) & 0xff),
-                           (TCHAR)((bih->biCompression >> 16) & 0xff), (TCHAR)((bih->biCompression >> 24) & 0xff));
+                           (TCHAR)((bih->biCompression >> 0) & 0xff),
+                           (TCHAR)((bih->biCompression >> 8) & 0xff),
+                           (TCHAR)((bih->biCompression >> 16) & 0xff),
+                           (TCHAR)((bih->biCompression >> 24) & 0xff));
                 break;
         }
 

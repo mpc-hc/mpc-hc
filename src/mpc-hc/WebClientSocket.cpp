@@ -873,7 +873,7 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
                 "Expires: Thu, 19 Nov 1981 08:52:00 GMT\r\n"
                 "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0\r\n"
                 "Pragma: no-cache\r\n";
-            body = CStringA((char*)ba.GetData(), ba.GetCount());
+            body = CStringA((char*)ba.GetData(), (int)ba.GetCount());
             mime = "image/jpeg";
             fRet = true;
         }
