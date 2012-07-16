@@ -658,10 +658,6 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
     CString reloadtime(_T("0")); // TODO
 
     m_pWebServer->LoadPage(IDR_HTML_CONTROLS, body, m_path);
-
-    path.Replace(_T("'"), _T("\\'"));
-    dir.Replace(_T("'"), _T("\\'"));
-
     body.Replace("[filepatharg]", UTF8Arg(path));
     body.Replace("[filepath]", UTF8(path));
     body.Replace("[filedirarg]", UTF8Arg(dir));
@@ -731,10 +727,6 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
     CString reloadtime(_T("0")); // TODO
 
     m_pWebServer->LoadPage(IDR_HTML_VARIABLES, body, m_path);
-
-    path.Replace(_T("'"), _T("\\'"));
-    dir.Replace(_T("'"), _T("\\'"));
-
     body.Replace("[filepatharg]", UTF8Arg(path));
     body.Replace("[filepath]", UTF8(path));
     body.Replace("[filedirarg]", UTF8Arg(dir));
@@ -787,7 +779,7 @@ bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
     title.Replace(_T("'"), _T("\\'"));
     status.Replace(_T("'"), _T("\\'"));
 
-    body.Format("OnStatus('%s', '%s', %d, '%s', %d, '%s', %d, %d, '%s')", // , '%s'
+    body.Format("OnStatus(\"%s\", \"%s\", %d, \"%s\", %d, \"%s\", %d, %d, \"%s\")", // , \"%s\"
                 UTF8(title), UTF8(status),
                 pos, UTF8(posstr), dur, UTF8(durstr),
                 m_pMainFrame->IsMuted(), m_pMainFrame->GetVolume(),
