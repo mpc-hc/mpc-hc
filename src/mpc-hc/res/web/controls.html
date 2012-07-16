@@ -7,7 +7,8 @@
 <script type="text/javascript" src="controls.js"></script>
 </head>
 <body onload="init('[filepath]', [position], [duration], [state], [playbackrate], [reloadtime], [volumelevel], [muted])">
-<p>File Info
+<p>
+	<span>File Info</span>
 	<noscript>: disabled (component requires javascript)</noscript>
 	<br>
 	<table border="1" cellspacing="1" cellpadding="4">
@@ -46,7 +47,7 @@
 </p>
 <p>
 	<form action="[commandpath]" method="POST">
-		<input type="hidden" name="[wmcname]" value="-1">Goto control
+		<input type="hidden" name="[wmcname]" value="-1"><span>Goto control</span>
 		<noscript>: (position slider disabled)</noscript>
 		<br>
 		<table border="1" cellspacing="1" cellpadding="4">
@@ -278,7 +279,7 @@
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td>Volume control
-				<noscript>: (integer between 0 & 100)</noscript>
+				<noscript>: (integer between 0 &amp; 100)</noscript>
 				<br>
 				<table border="1" cellspacing="1" cellpadding="4">
 					<tr>
@@ -1636,7 +1637,8 @@
 		</tr>
 	</table>
 </p>
-<p>Always On Top
+<p>
+	<span>Always On Top</span>
 	<br>
 	<table border="1" cellspacing="1" cellpadding="4">
 		<tr>
