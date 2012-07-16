@@ -19,23 +19,20 @@ img {
 }
 
 #headericon {
-	background-image:url("images/headericon.png");
-	background-repeat:no-repeat;
 	width:22px;
+	background:url(images/headericon.png) no-repeat;
 }
 
 #headerback {
-	background-image:url("images/headerback.png");
-	background-repeat:repeat-x;
 	color:#FFF;
 	font-weight:700;
 	padding-top:5px;
+	background:url(images/headerback.png) repeat-x;
 }
 
 #headerclose {
-	background-image:url("images/headerclose.png");
-	background-repeat:no-repeat;
 	width:28px;
+	background:url(images/headerclose.png) no-repeat;
 }
 
 #title,#status,#posstr,#durstr {
@@ -49,7 +46,7 @@ img {
 }
 
 #menu,#controlbar {
-	background-color:#ece6d4;
+	background:#ece6d4;
 }
 
 #statusbar td {
@@ -58,8 +55,8 @@ img {
 }
 
 #video,#statusbar {
-	background-color:#000;
 	color:#FFF;
+	background:#000;
 }
 
 #video {
@@ -68,84 +65,72 @@ img {
 }
 
 #controlbar {
-	background-image:url("images/controlback.png");
-	background-repeat:repeat-x;
 	height:28px;
+	background:url(images/controlback.png) repeat-x;
 }
 
 #controlbuttonplay {
-	background-image:url("images/controlbuttonplay.png");
-	background-repeat:no-repeat;
 	width:25px;
 	height:28px;
+	background:url(images/controlbuttonplay.png) no-repeat;
 }
 
 #controlbuttonpause {
-	background-image:url("images/controlbuttonpause.png");
-	background-repeat:no-repeat;
 	width:23px;
 	height:28px;
+	background:url(images/controlbuttonpause.png) no-repeat;
 }
 
 #controlbuttonstop {
-	background-image:url("images/controlbuttonstop.png");
-	background-repeat:no-repeat;
 	width:25px;
 	height:28px;
+	background:url(images/controlbuttonstop.png) no-repeat;
 }
 
 #controlbuttonskipback {
-	background-image:url("images/controlbuttonskipback.png");
-	background-repeat:no-repeat;
 	width:24px;
 	height:28px;
+	background:url(images/controlbuttonskipback.png) no-repeat;
 }
 
 #controlbuttondecrate {
-	background-image:url("images/controlbuttondecrate.png");
-	background-repeat:no-repeat;
 	width:22px;
 	height:28px;
+	background:url(images/controlbuttondecrate.png) no-repeat;
 }
 
 #controlbuttonincrate {
-	background-image:url("images/controlbuttonincrate.png");
-	background-repeat:no-repeat;
 	width:23px;
 	height:28px;
+	background:url(images/controlbuttonincrate.png) no-repeat;
 }
 
 #controlbuttonskipforward {
-	background-image:url("images/controlbuttonskipforward.png");
-	background-repeat:no-repeat;
 	width:28px;
 	height:28px;
+	background:url(images/controlbuttonskipforward.png) no-repeat;
 }
 
 #controlbuttonstep {
-	background-image:url("images/controlbuttonstep.png");
-	background-repeat:no-repeat;
 	width:31px;
 	height:28px;
+	background:url(images/controlbuttonstep.png) no-repeat;
 }
 
 #controlvolumemute {
-	background-image:url("images/controlvolumeon.png");
-	background-repeat:no-repeat;
 	width:28px;
 	height:28px;
+	background:url(images/controlvolumeon.png) no-repeat;
 }
 
 #controlvolumebar {
-	background-image:url("images/controlvolumebar.png");
-	background-repeat:no-repeat;
 	width:55px;
 	height:28px;
+	background:url(images/controlvolumebar.png) no-repeat;
 }
 
 #seekbar {
-	background-image:url("images/seekbarmid.png");
-	background-repeat:repeat-x;
+	background:url(images/seekbarmid.png) repeat-x;
 }
 
 #seekbar td {
@@ -153,35 +138,30 @@ img {
 }
 
 #leftside {
-	background-image:url("images/leftside.png");
-	background-repeat:repeat-y;
 	width:4px;
+	background:url(images/leftside.png) repeat-y;
 }
 
 #rightside {
-	background-image:url("images/rightside.png");
-	background-repeat:repeat-y;
 	width:4px;
+	background:url(images/rightside.png) repeat-y;
 }
 
 #leftbottomside {
-	background-image:url("images/leftbottomside.png");
-	background-repeat:repeat-x;
 	width:4px;
 	height:4px;
+	background:url(images/leftbottomside.png) repeat-x;
 }
 
 #bottomside {
-	background-image:url("images/bottomside.png");
-	background-repeat:repeat-x;
 	height:4px;
+	background:url(images/bottomside.png) repeat-x;
 }
 
 #rightbottomside {
-	background-image:url("images/rightbottomside.png");
-	background-repeat:repeat-x;
 	width:4px;
 	height:4px;
+	background:url(images/rightbottomside.png) repeat-x;
 }
 
 #header,#center {
