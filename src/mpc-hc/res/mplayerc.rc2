@@ -39,9 +39,29 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// FILE
+// PNG
 //
 
+ID_W7_TOOLBAR                    PNG                     "res\\toolbarw7.png"
+IDF_BOTTOMSIDE_PNG               PNG                     "res\\web\\images\\bottomside.png"
+IDF_CONTROLBACK_PNG              PNG                     "res\\web\\images\\controlback.png"
+IDF_CONTROLBUTTONDECRATE_PNG     PNG                     "res\\web\\images\\controlbuttondecrate.png"
+IDF_CONTROLBUTTONINCRATE_PNG     PNG                     "res\\web\\images\\controlbuttonincrate.png"
+IDF_CONTROLBUTTONPAUSE_PNG       PNG                     "res\\web\\images\\controlbuttonpause.png"
+IDF_CONTROLBUTTONPLAY_PNG        PNG                     "res\\web\\images\\controlbuttonplay.png"
+IDF_CONTROLBUTTONSKIPBACK_PNG    PNG                     "res\\web\\images\\controlbuttonskipback.png"
+IDF_CONTROLBUTTONSKIPFORWARD_PNG PNG                     "res\\web\\images\\controlbuttonskipforward.png"
+IDF_CONTROLBUTTONSTEP_PNG        PNG                     "res\\web\\images\\controlbuttonstep.png"
+IDF_CONTROLBUTTONSTOP_PNG        PNG                     "res\\web\\images\\controlbuttonstop.png"
+IDF_CONTROLVOLUMEBAR_PNG         PNG                     "res\\web\\images\\controlvolumebar.png"
+IDF_CONTROLVOLUMEGRIP_PNG        PNG                     "res\\web\\images\\controlvolumegrip.png"
+IDF_CONTROLVOLUMEOFF_PNG         PNG                     "res\\web\\images\\controlvolumeoff.png"
+IDF_CONTROLVOLUMEON_PNG          PNG                     "res\\web\\images\\controlvolumeon.png"
+IDF_HEADERBACK_PNG               PNG                     "res\\web\\images\\headerback.png"
+IDF_HEADERCLOSE_PNG              PNG                     "res\\web\\images\\headerclose.png"
+IDF_HEADERICON_PNG               PNG                     "res\\web\\images\\headericon.png"
+IDF_LEFTBOTTOMSIDE_PNG           PNG                     "res\\web\\images\\leftbottomside.png"
+IDF_LEFTSIDE_PNG                 PNG                     "res\\web\\images\\leftside.png"
 IDF_LOGO0                        PNG                     "res\\logo.0.png"
 #ifdef _WIN64
 IDF_LOGO1                        PNG                     "res\\logo.1_x64.png"
@@ -52,7 +72,22 @@ IDF_LOGO1                        PNG                     "res\\logo.1.png"
 IDF_LOGO2                        PNG                     "res\\logo.2.png"
 IDF_LOGO3                        PNG                     "res\\logo.3.png"
 #endif
-ID_W7_TOOLBAR                    PNG                     "res\\toolbarw7.png"
+IDF_RIGHTBOTTOMSIDE_PNG          PNG                     "res\\web\\images\\rightbottomside.png"
+IDF_RIGHTSIDE_PNG                PNG                     "res\\web\\images\\rightside.png"
+IDF_SEEKBARGRIP_PNG              PNG                     "res\\web\\images\\seekbargrip.png"
+IDF_SEEKBARLEFT_PNG              PNG                     "res\\web\\images\\seekbarleft.png"
+IDF_SEEKBARMID_PNG               PNG                     "res\\web\\images\\seekbarmid.png"
+IDF_SEEKBARRIGHT_PNG             PNG                     "res\\web\\images\\seekbarright.png"
+IDF_SLIDERBACK_PNG               PNG                     "res\\web\\images\\sliderback.png"
+IDF_VBR_PNG                      PNG                     "res\\web\\images\\vbg.png"
+IDF_VBS_PNG                      PNG                     "res\\web\\images\\vbs.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// FILE
+//
+
 IDF_SHADER_BT601_BT709           FILE                    "res\\shaders\\BT601BT709.psh"
 IDF_SHADER_CONTOUR               FILE                    "res\\shaders\\contour.psh"
 IDF_SHADER_DEINTERLACE           FILE                    "res\\shaders\\deinterlace (blend).psh"
@@ -78,40 +113,12 @@ IDF_SHADER_SPOTLIGHT             FILE                    "res\\shaders\\spotligh
 IDF_SHADER_WAVE                  FILE                    "res\\shaders\\wave.psh"
 IDF_SHADER_YV12CHROMAUP          FILE                    "res\\shaders\\YV12ChromaUpsampling.psh"
 IDF_1PIX_GIF                     FILE                    "res\\web\\images\\1pix.gif"
-IDF_BOTTOMSIDE_PNG               FILE                    "res\\web\\images\\bottomside.png"
-IDF_CONTROLBACK_PNG              FILE                    "res\\web\\images\\controlback.png"
-IDF_CONTROLBUTTONDECRATE_PNG     FILE                    "res\\web\\images\\controlbuttondecrate.png"
-IDF_CONTROLBUTTONINCRATE_PNG     FILE                    "res\\web\\images\\controlbuttonincrate.png"
-IDF_CONTROLBUTTONPAUSE_PNG       FILE                    "res\\web\\images\\controlbuttonpause.png"
-IDF_CONTROLBUTTONPLAY_PNG        FILE                    "res\\web\\images\\controlbuttonplay.png"
-IDF_CONTROLBUTTONSKIPBACK_PNG    FILE                    "res\\web\\images\\controlbuttonskipback.png"
-IDF_CONTROLBUTTONSKIPFORWARD_PNG FILE                    "res\\web\\images\\controlbuttonskipforward.png"
-IDF_CONTROLBUTTONSTEP_PNG        FILE                    "res\\web\\images\\controlbuttonstep.png"
-IDF_CONTROLBUTTONSTOP_PNG        FILE                    "res\\web\\images\\controlbuttonstop.png"
 IDF_CONTROLS_JS                  FILE                    "res\\web\\controls.js"
-IDF_CONTROLVOLUMEBAR_PNG         FILE                    "res\\web\\images\\controlvolumebar.png"
-IDF_CONTROLVOLUMEGRIP_PNG        FILE                    "res\\web\\images\\controlvolumegrip.png"
-IDF_CONTROLVOLUMEOFF_PNG         FILE                    "res\\web\\images\\controlvolumeoff.png"
-IDF_CONTROLVOLUMEON_PNG          FILE                    "res\\web\\images\\controlvolumeon.png"
 IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
-IDF_HEADERBACK_PNG               FILE                    "res\\web\\images\\headerback.png"
-IDF_HEADERCLOSE_PNG              FILE                    "res\\web\\images\\headerclose.png"
-IDF_HEADERICON_PNG               FILE                    "res\\web\\images\\headericon.png"
-IDF_LEFTBOTTOMSIDE_PNG           FILE                    "res\\web\\images\\leftbottomside.png"
-IDF_LEFTSIDE_PNG                 FILE                    "res\\web\\images\\leftside.png"
 IDF_PLAYER_CSS                   FILE                    "res\\web\\player.css"
 IDF_PLAYER_JS                    FILE                    "res\\web\\player.js"
-IDF_RIGHTBOTTOMSIDE_PNG          FILE                    "res\\web\\images\\rightbottomside.png"
-IDF_RIGHTSIDE_PNG                FILE                    "res\\web\\images\\rightside.png"
-IDF_SEEKBARGRIP_PNG              FILE                    "res\\web\\images\\seekbargrip.png"
-IDF_SEEKBARLEFT_PNG              FILE                    "res\\web\\images\\seekbarleft.png"
-IDF_SEEKBARMID_PNG               FILE                    "res\\web\\images\\seekbarmid.png"
-IDF_SEEKBARRIGHT_PNG             FILE                    "res\\web\\images\\seekbarright.png"
-IDF_SLIDERBACK_PNG               FILE                    "res\\web\\images\\sliderback.png"
 IDF_SLIDERBAR_GIF                FILE                    "res\\web\\images\\sliderbar.gif"
 IDF_SLIDERGRIP_GIF               FILE                    "res\\web\\images\\slidergrip.gif"
-IDF_VBR_PNG                      FILE                    "res\\web\\images\\vbg.png"
-IDF_VBS_PNG                      FILE                    "res\\web\\images\\vbs.png"
 
 
 /////////////////////////////////////////////////////////////////////////////

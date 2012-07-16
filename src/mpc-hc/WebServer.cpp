@@ -389,7 +389,8 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 
     UINT resid;
     CStringA res;
-    if (!fHandled && m_downloads.Lookup(pClient->m_path, resid) && LoadResource(resid, res, _T("FILE"))) {
+    if (!fHandled && m_downloads.Lookup(pClient->m_path, resid)
+            && (LoadResource(resid, res, _T("FILE")) || LoadResource(resid, res, _T("PNG")))) {
         if (mime.IsEmpty()) {
             mime = "application/octet-stream";
         }
