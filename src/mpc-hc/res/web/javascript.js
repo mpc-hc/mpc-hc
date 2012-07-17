@@ -305,11 +305,13 @@ OnStatus = function (title, status, pos, posstr, dur, durstr, muted, volume, fil
 }
 
 var httpRequestStatus;
+var statusRegExp = /OnStatus\("(.*)", "(.*)", (\d+), "(.*)", (\d+), "(.*)", (\d+), (\d+), "(.*)"\)/;
 
 function OnReadyStateChange() {
 	if (httpRequestStatus && httpRequestStatus.readyState == 4 && httpRequestStatus.responseText) {
 		if (httpRequestStatus.responseText.charAt(0) != "<") {
-			eval(httpRequestStatus.responseText.replace(/\\/g, "\\\\"));
+			var params = statusRegExp.exec(httpRequestStatus.responseText);
+			OnStatus(params[1], params[2], parseInt(params[3]), params[4], parseInt(params[5]), params[6], parseInt(params[7]), parseInt(params[8]), params[9]);
 		} else {
 			alert(httpRequestStatus.responseText);
 		}
