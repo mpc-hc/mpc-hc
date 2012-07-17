@@ -8,7 +8,11 @@
 </head>
 <body onload="init(&quot;[filepath]&quot;, [position], [duration], [state], [playbackrate], [reloadtime], [volumelevel], [muted])">
 <div><span>File Info</span>
-	<noscript>: disabled (component requires javascript)</noscript>
+	<noscript>
+		<span>
+			<strong>: Disabled (component requires javascript)</strong>
+		</span>
+	</noscript>
 	<table border="1" cellspacing="1" cellpadding="4">
 		<tr>
 			<td colspan="4">
@@ -41,11 +45,15 @@
 <div>
 	<form action="[commandpath]" method="POST">
 		<input type="hidden" name="[wmcname]" value="-1"><span>Goto control</span>
-		<noscript>: (position slider disabled)</noscript>
+		<noscript>
+			<span>
+				<strong>: (position slider disabled)</strong>
+			</span>
+		</noscript>
 		<table border="1" cellspacing="1" cellpadding="4">
 			<tr>
 				<td>
-					<table id="slider" border="0" cellspacing="0" cellpadding="0" width="1" style="background-image:url('images/sliderback.png');">
+					<table id="slider" border="0" cellspacing="0" cellpadding="0" width="1" style="background:url(images/sliderback.png);">
 						<tr>
 							<td><img id="c1" width="1" height="1" alt="1pix" src="images/1pix.png"></td>
 							<td><img id="c2" width="1" height="1" alt="slidergrip" src="images/slidergrip.png"></td>
@@ -195,7 +203,9 @@
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td>Volume control
-				<noscript>: (integer between 0 &amp; 100)</noscript>
+				<noscript>
+					<strong>: (integer between 0 &amp; 100)</strong>
+				</noscript>
 				<table border="1" cellspacing="1" cellpadding="4">
 					<tr>
 						<td id="muted" align="center" valign="middle">U</td>
@@ -209,7 +219,7 @@
 							<table border="0" cellspacing="0" cellpadding="0">
 								<tr>
 									<td>
-										<table id="v" width="1" border="0" cellspacing="0" cellpadding="0" style="background-image:url('images/vbg.png');">
+										<table id="v" width="1" border="0" cellspacing="0" cellpadding="0" style="background:url(images/vbg.png);">
 											<tr>
 												<td><img id="v1" width="1" height="1" alt="1pix" src="images/1pix.png"></td>
 												<td><img id="v2" width="1" height="1" alt="vbs" src="images/vbs.png"></td>
@@ -360,11 +370,10 @@
 							<table border="1" cellspacing="1" cellpadding="4">
 								<tr>
 									<td>
-										<noscript>
-											<form action="[commandpath]" method="POST"></form>
+										<form action="[commandpath]" method="POST">
 											<input type="hidden" name="[wmcname]" value="876">
-										</noscript>
-										<input type="submit" value="Center" name="submit" onclick="postform(876,'null',0); return false;">
+											<input type="submit" value="Center" name="submit" onclick="postform(876,'null',0); return false;">
+										</form>
 									</td>
 								</tr>
 							</table>
