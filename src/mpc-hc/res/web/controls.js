@@ -28,7 +28,7 @@ function init(_filepath, _curpos, _length, _state, _pbr, _eta, _volume, _muted) 
 	eta = _eta;
 	volume = _volume;
 	muted = _muted;
-	
+
 	if (eta > 0) RL = setTimeout("etaup=true; if (re.checked==true) postform(0,'null',0);", 1000 * eta);
 	Live = (length < 1);
 	starttime = starttime - curpos;
