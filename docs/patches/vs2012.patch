@@ -1,6 +1,6 @@
 Index: build.bat
 ===================================================================
---- build.bat	(revision 5470)
+--- build.bat	(revision 5515)
 +++ build.bat	(working copy)
 @@ -30,7 +30,7 @@
    IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%) ELSE (GOTO MissingVar)
@@ -22,7 +22,7 @@ Index: build.bat
    CALL :SubFilters %PPLATFORM%
 Index: distrib/mpc-hc_setup.iss
 ===================================================================
---- distrib/mpc-hc_setup.iss	(revision 5470)
+--- distrib/mpc-hc_setup.iss	(revision 5515)
 +++ distrib/mpc-hc_setup.iss	(working copy)
 @@ -131,7 +131,7 @@
  ShowTasksTreeLines=yes
@@ -35,7 +35,7 @@ Index: distrib/mpc-hc_setup.iss
  
 Index: src/CmdUI/CmdUI.vcxproj
 ===================================================================
---- src/CmdUI/CmdUI.vcxproj	(revision 5470)
+--- src/CmdUI/CmdUI.vcxproj	(revision 5515)
 +++ src/CmdUI/CmdUI.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{03208025-D5C2-426A-B0FA-251D4338F30C}</ProjectGuid>
@@ -72,7 +72,7 @@ Index: src/CmdUI/CmdUI.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/DeCSS/DeCSS.vcxproj
 ===================================================================
---- src/DeCSS/DeCSS.vcxproj	(revision 5470)
+--- src/DeCSS/DeCSS.vcxproj	(revision 5515)
 +++ src/DeCSS/DeCSS.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{1A2DFD1A-3C6C-44D1-909D-294AF646B575}</ProjectGuid>
@@ -109,7 +109,7 @@ Index: src/DeCSS/DeCSS.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/DSUtil/DSUtil.vcxproj
 ===================================================================
---- src/DSUtil/DSUtil.vcxproj	(revision 5470)
+--- src/DSUtil/DSUtil.vcxproj	(revision 5515)
 +++ src/DSUtil/DSUtil.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{FC70988B-1AE5-4381-866D-4F405E28AC42}</ProjectGuid>
@@ -146,7 +146,7 @@ Index: src/DSUtil/DSUtil.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/Filters.vcxproj
 ===================================================================
---- src/filters/Filters.vcxproj	(revision 5470)
+--- src/filters/Filters.vcxproj	(revision 5515)
 +++ src/filters/Filters.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{273B3149-3192-4B75-A791-470320B90812}</ProjectGuid>
@@ -183,7 +183,7 @@ Index: src/filters/Filters.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
 ===================================================================
---- src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj	(revision 5470)
+--- src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj	(revision 5515)
 +++ src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{DB5F93B2-54D0-4474-A588-D259BE36C832}</ProjectGuid>
@@ -220,7 +220,7 @@ Index: src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj
 ===================================================================
---- src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj	(revision 5470)
+--- src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj	(revision 5515)
 +++ src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{65361C7C-83D6-42E4-870C-4DC85AE641FE}</ProjectGuid>
@@ -281,7 +281,7 @@ Index: src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
 ===================================================================
---- src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj	(revision 5470)
+--- src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj	(revision 5515)
 +++ src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{67827491-8162-4039-9132-F934ABC836A0}</ProjectGuid>
@@ -342,7 +342,7 @@ Index: src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/muxer/WavDest/WavDest.vcxproj
 ===================================================================
---- src/filters/muxer/WavDest/WavDest.vcxproj	(revision 5470)
+--- src/filters/muxer/WavDest/WavDest.vcxproj	(revision 5515)
 +++ src/filters/muxer/WavDest/WavDest.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{EB202B68-8029-4985-B914-E94B44D2E230}</ProjectGuid>
@@ -403,7 +403,7 @@ Index: src/filters/muxer/WavDest/WavDest.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/AviSplitter/AviSplitter.vcxproj
 ===================================================================
---- src/filters/parser/AviSplitter/AviSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/AviSplitter/AviSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/AviSplitter/AviSplitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{9738B023-FC46-48A2-953A-0035FD897678}</ProjectGuid>
@@ -464,7 +464,7 @@ Index: src/filters/parser/AviSplitter/AviSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
 ===================================================================
---- src/filters/parser/BaseSplitter/BaseSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/BaseSplitter/BaseSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/BaseSplitter/BaseSplitter.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{37768B3F-89BC-4C16-B2A8-767C5DA84C3F}</ProjectGuid>
@@ -501,7 +501,7 @@ Index: src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
 ===================================================================
---- src/filters/parser/DSMSplitter/DSMSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/DSMSplitter/DSMSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/DSMSplitter/DSMSplitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{1E91F58C-0BAE-4021-8087-D1864D8EC066}</ProjectGuid>
@@ -562,7 +562,7 @@ Index: src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
 ===================================================================
---- src/filters/parser/FLVSplitter/FLVSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/FLVSplitter/FLVSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/FLVSplitter/FLVSplitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{E62223EF-8263-41EB-8174-CD78BBEEF368}</ProjectGuid>
@@ -623,7 +623,7 @@ Index: src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
 ===================================================================
---- src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{3F5EA225-F4B7-4413-AEB3-4E4E5751E438}</ProjectGuid>
@@ -684,7 +684,7 @@ Index: src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
 ===================================================================
---- src/filters/parser/MP4Splitter/MP4Splitter.vcxproj	(revision 5470)
+--- src/filters/parser/MP4Splitter/MP4Splitter.vcxproj	(revision 5515)
 +++ src/filters/parser/MP4Splitter/MP4Splitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{9ED4B036-7399-4128-868D-6E71188E0277}</ProjectGuid>
@@ -745,7 +745,7 @@ Index: src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
 ===================================================================
---- src/filters/parser/MpaSplitter/MpaSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/MpaSplitter/MpaSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/MpaSplitter/MpaSplitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{C0F7A036-FC2D-40DF-9852-C37518DB6B3E}</ProjectGuid>
@@ -806,7 +806,7 @@ Index: src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
 ===================================================================
---- src/filters/parser/MpegSplitter/MpegSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/MpegSplitter/MpegSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/MpegSplitter/MpegSplitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{4628C665-EDE4-40D2-B525-32BE8B8551C8}</ProjectGuid>
@@ -867,7 +867,7 @@ Index: src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/OggSplitter/OggSplitter.vcxproj
 ===================================================================
---- src/filters/parser/OggSplitter/OggSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/OggSplitter/OggSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/OggSplitter/OggSplitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}</ProjectGuid>
@@ -928,7 +928,7 @@ Index: src/filters/parser/OggSplitter/OggSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
 ===================================================================
---- src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj	(revision 5470)
+--- src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj	(revision 5515)
 +++ src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{53CF9195-19DB-457D-8F55-8DB1706DFA84}</ProjectGuid>
@@ -989,7 +989,7 @@ Index: src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
 ===================================================================
---- src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj	(revision 5470)
+--- src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj	(revision 5515)
 +++ src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}</ProjectGuid>
@@ -1050,7 +1050,7 @@ Index: src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/reader/CDDAReader/CDDAReader.vcxproj
 ===================================================================
---- src/filters/reader/CDDAReader/CDDAReader.vcxproj	(revision 5470)
+--- src/filters/reader/CDDAReader/CDDAReader.vcxproj	(revision 5515)
 +++ src/filters/reader/CDDAReader/CDDAReader.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{543D40E9-8CA6-4E4B-9936-90CBA562B268}</ProjectGuid>
@@ -1111,7 +1111,7 @@ Index: src/filters/reader/CDDAReader/CDDAReader.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/reader/CDXAReader/CDXAReader.vcxproj
 ===================================================================
---- src/filters/reader/CDXAReader/CDXAReader.vcxproj	(revision 5470)
+--- src/filters/reader/CDXAReader/CDXAReader.vcxproj	(revision 5515)
 +++ src/filters/reader/CDXAReader/CDXAReader.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{4D3B4FF4-535A-4201-AB7D-9AEC1E737A95}</ProjectGuid>
@@ -1172,7 +1172,7 @@ Index: src/filters/reader/CDXAReader/CDXAReader.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/reader/UDPReader/UDPReader.vcxproj
 ===================================================================
---- src/filters/reader/UDPReader/UDPReader.vcxproj	(revision 5470)
+--- src/filters/reader/UDPReader/UDPReader.vcxproj	(revision 5515)
 +++ src/filters/reader/UDPReader/UDPReader.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{3020FF9B-8202-488D-B137-11DECC510E6E}</ProjectGuid>
@@ -1233,7 +1233,7 @@ Index: src/filters/reader/UDPReader/UDPReader.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/reader/VTSReader/VTSReader.vcxproj
 ===================================================================
---- src/filters/reader/VTSReader/VTSReader.vcxproj	(revision 5470)
+--- src/filters/reader/VTSReader/VTSReader.vcxproj	(revision 5515)
 +++ src/filters/reader/VTSReader/VTSReader.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{664E726B-EEEE-403A-AC15-345D9C9E1375}</ProjectGuid>
@@ -1294,7 +1294,7 @@ Index: src/filters/reader/VTSReader/VTSReader.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj
 ===================================================================
---- src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj	(revision 5470)
+--- src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj	(revision 5515)
 +++ src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{D0620EF4-1313-40D5-9069-A82F6FE26994}</ProjectGuid>
@@ -1355,7 +1355,7 @@ Index: src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/renderer/SyncClock/SyncClock.vcxproj
 ===================================================================
---- src/filters/renderer/SyncClock/SyncClock.vcxproj	(revision 5470)
+--- src/filters/renderer/SyncClock/SyncClock.vcxproj	(revision 5515)
 +++ src/filters/renderer/SyncClock/SyncClock.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{0B63409D-674D-47F8-A84E-87DBB7783189}</ProjectGuid>
@@ -1392,7 +1392,7 @@ Index: src/filters/renderer/SyncClock/SyncClock.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj
 ===================================================================
---- src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj	(revision 5470)
+--- src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj	(revision 5515)
 +++ src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{FB565A7A-50DC-4A0D-852D-5E7F74DAB82C}</ProjectGuid>
@@ -1429,7 +1429,7 @@ Index: src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/source/BaseSource/BaseSource.vcxproj
 ===================================================================
---- src/filters/source/BaseSource/BaseSource.vcxproj	(revision 5470)
+--- src/filters/source/BaseSource/BaseSource.vcxproj	(revision 5515)
 +++ src/filters/source/BaseSource/BaseSource.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}</ProjectGuid>
@@ -1466,7 +1466,7 @@ Index: src/filters/source/BaseSource/BaseSource.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/source/D2VSource/D2VSource.vcxproj
 ===================================================================
---- src/filters/source/D2VSource/D2VSource.vcxproj	(revision 5470)
+--- src/filters/source/D2VSource/D2VSource.vcxproj	(revision 5515)
 +++ src/filters/source/D2VSource/D2VSource.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{83CC6B88-A112-4192-BD5A-F2A249AF2277}</ProjectGuid>
@@ -1559,7 +1559,7 @@ Index: src/filters/source/D2VSource/D2VSource.vcxproj
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 Index: src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
 ===================================================================
---- src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj	(revision 5470)
+--- src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj	(revision 5515)
 +++ src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{30D48874-899F-41C6-9B26-A40C96C91102}</ProjectGuid>
@@ -1620,7 +1620,7 @@ Index: src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/source/FLACSource/FLACSource.vcxproj
 ===================================================================
---- src/filters/source/FLACSource/FLACSource.vcxproj	(revision 5470)
+--- src/filters/source/FLACSource/FLACSource.vcxproj	(revision 5515)
 +++ src/filters/source/FLACSource/FLACSource.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{916D0FC1-1D86-487A-82DE-37FBEE43FB34}</ProjectGuid>
@@ -1681,7 +1681,7 @@ Index: src/filters/source/FLACSource/FLACSource.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/source/FLICSource/FLICSource.vcxproj
 ===================================================================
---- src/filters/source/FLICSource/FLICSource.vcxproj	(revision 5470)
+--- src/filters/source/FLICSource/FLICSource.vcxproj	(revision 5515)
 +++ src/filters/source/FLICSource/FLICSource.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{431DD5B6-3F2F-47EE-A23F-514BC044B704}</ProjectGuid>
@@ -1742,7 +1742,7 @@ Index: src/filters/source/FLICSource/FLICSource.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
 ===================================================================
---- src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj	(revision 5470)
+--- src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj	(revision 5515)
 +++ src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}</ProjectGuid>
@@ -1803,7 +1803,7 @@ Index: src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/source/SubtitleSource/SubtitleSource.vcxproj
 ===================================================================
---- src/filters/source/SubtitleSource/SubtitleSource.vcxproj	(revision 5470)
+--- src/filters/source/SubtitleSource/SubtitleSource.vcxproj	(revision 5515)
 +++ src/filters/source/SubtitleSource/SubtitleSource.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{8F998497-9C51-4FAA-83E4-1D85B22CBA13}</ProjectGuid>
@@ -1864,7 +1864,7 @@ Index: src/filters/source/SubtitleSource/SubtitleSource.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
 ===================================================================
---- src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj	(revision 5470)
+--- src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj	(revision 5515)
 +++ src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{D8DB3E7E-D50E-4EC3-A9B9-DAD18F5FE466}</ProjectGuid>
@@ -1925,7 +1925,7 @@ Index: src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
 ===================================================================
---- src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj	(revision 5470)
+--- src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj	(revision 5515)
 +++ src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{339A4575-E25B-45D6-94A1-D835891740B8}</ProjectGuid>
@@ -1986,7 +1986,7 @@ Index: src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
 ===================================================================
---- src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj	(revision 5470)
+--- src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj	(revision 5515)
 +++ src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{54DDA60F-E528-4D07-A152-960A1E818680}</ProjectGuid>
@@ -2023,7 +2023,7 @@ Index: src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/transform/BufferFilter/BufferFilter.vcxproj
 ===================================================================
---- src/filters/transform/BufferFilter/BufferFilter.vcxproj	(revision 5470)
+--- src/filters/transform/BufferFilter/BufferFilter.vcxproj	(revision 5515)
 +++ src/filters/transform/BufferFilter/BufferFilter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{9DCFD02A-16A0-4766-BC18-66163E21929D}</ProjectGuid>
@@ -2084,7 +2084,7 @@ Index: src/filters/transform/BufferFilter/BufferFilter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
 ===================================================================
---- src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj	(revision 5470)
+--- src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj	(revision 5515)
 +++ src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{F6B06383-3FFD-403B-9867-4AA82A20AA83}</ProjectGuid>
@@ -2145,7 +2145,7 @@ Index: src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 ===================================================================
---- src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj	(revision 5470)
+--- src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj	(revision 5515)
 +++ src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{4421516D-10A6-41C1-ADF3-099573BBB0C6}</ProjectGuid>
@@ -2238,7 +2238,7 @@ Index: src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 Index: src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
 ===================================================================
---- src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj	(revision 5470)
+--- src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj	(revision 5515)
 +++ src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}</ProjectGuid>
@@ -2331,7 +2331,7 @@ Index: src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 Index: src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
 ===================================================================
---- src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj	(revision 5470)
+--- src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj	(revision 5515)
 +++ src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj	(working copy)
 @@ -38,47 +38,56 @@
      <ProjectGuid>{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}</ProjectGuid>
@@ -2424,7 +2424,7 @@ Index: src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 Index: src/filters/transform/VSFilter/res/VSFilter.rc2
 ===================================================================
---- src/filters/transform/VSFilter/res/VSFilter.rc2	(revision 5470)
+--- src/filters/transform/VSFilter/res/VSFilter.rc2	(revision 5515)
 +++ src/filters/transform/VSFilter/res/VSFilter.rc2	(working copy)
 @@ -29,12 +29,14 @@
  LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -2443,7 +2443,7 @@ Index: src/filters/transform/VSFilter/res/VSFilter.rc2
  //
 Index: src/filters/transform/VSFilter/VSFilter.vcxproj
 ===================================================================
---- src/filters/transform/VSFilter/VSFilter.vcxproj	(revision 5470)
+--- src/filters/transform/VSFilter/VSFilter.vcxproj	(revision 5515)
 +++ src/filters/transform/VSFilter/VSFilter.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}</ProjectGuid>
@@ -2559,7 +2559,7 @@ Index: src/filters/transform/VSFilter/VSFilter.vcxproj
      <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp" />
 Index: src/mpc-hc/mpc-hc.vcxproj
 ===================================================================
---- src/mpc-hc/mpc-hc.vcxproj	(revision 5470)
+--- src/mpc-hc/mpc-hc.vcxproj	(revision 5515)
 +++ src/mpc-hc/mpc-hc.vcxproj	(working copy)
 @@ -39,47 +39,56 @@
      <ProjectGuid>{8CE7E5D0-C821-47AC-A247-28EC95B34670}</ProjectGuid>
@@ -2785,7 +2785,7 @@ Index: src/mpc-hc/mpc-hc.vcxproj
      <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp" />
 Index: src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 ===================================================================
---- src/mpc-hc/mpciconlib/mpciconlib.vcxproj	(revision 5470)
+--- src/mpc-hc/mpciconlib/mpciconlib.vcxproj	(revision 5515)
 +++ src/mpc-hc/mpciconlib/mpciconlib.vcxproj	(working copy)
 @@ -14,15 +14,18 @@
      <ProjectGuid>{86251DC4-9298-424C-AE6C-07844F79C0B5}</ProjectGuid>
@@ -2808,7 +2808,7 @@ Index: src/mpc-hc/mpciconlib/mpciconlib.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/mpc-hc/mpcresources/mpcresources.vcxproj
 ===================================================================
---- src/mpc-hc/mpcresources/mpcresources.vcxproj	(revision 5470)
+--- src/mpc-hc/mpcresources/mpcresources.vcxproj	(revision 5515)
 +++ src/mpc-hc/mpcresources/mpcresources.vcxproj	(working copy)
 @@ -190,8 +190,12 @@
      <ProjectGuid>{A57CBE1A-3703-4237-950A-FC5F594FDB43}</ProjectGuid>
@@ -2825,7 +2825,7 @@ Index: src/mpc-hc/mpcresources/mpcresources.vcxproj
      <CharacterSet>Unicode</CharacterSet>
 Index: src/mpc-hc/res/mplayerc.rc2
 ===================================================================
---- src/mpc-hc/res/mplayerc.rc2	(revision 5470)
+--- src/mpc-hc/res/mplayerc.rc2	(revision 5515)
 +++ src/mpc-hc/res/mplayerc.rc2	(working copy)
 @@ -29,12 +29,14 @@
  LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -2842,9 +2842,13 @@ Index: src/mpc-hc/res/mplayerc.rc2
  
  
  /////////////////////////////////////////////////////////////////////////////
+Index: src/mpc-hc/res/web/images/controlvolumegrip.png
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = image/png
 Index: src/MPCTestAPI/MPCTestAPI.rc
 ===================================================================
---- src/MPCTestAPI/MPCTestAPI.rc	(revision 5470)
+--- src/MPCTestAPI/MPCTestAPI.rc	(revision 5515)
 +++ src/MPCTestAPI/MPCTestAPI.rc	(working copy)
 @@ -52,12 +52,14 @@
  #endif    // APSTUDIO_INVOKED
@@ -2863,7 +2867,7 @@ Index: src/MPCTestAPI/MPCTestAPI.rc
  //
 Index: src/MPCTestAPI/MPCTestAPI.vcxproj
 ===================================================================
---- src/MPCTestAPI/MPCTestAPI.vcxproj	(revision 5470)
+--- src/MPCTestAPI/MPCTestAPI.vcxproj	(revision 5515)
 +++ src/MPCTestAPI/MPCTestAPI.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{A1F84246-B9A1-455F-97E4-D730AB089947}</ProjectGuid>
@@ -2955,7 +2959,7 @@ Index: src/MPCTestAPI/MPCTestAPI.vcxproj
      <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp" />
 Index: src/SubPic/SubPic.vcxproj
 ===================================================================
---- src/SubPic/SubPic.vcxproj	(revision 5470)
+--- src/SubPic/SubPic.vcxproj	(revision 5515)
 +++ src/SubPic/SubPic.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{D514EA4D-EAFB-47A9-A437-A582CA571251}</ProjectGuid>
@@ -2992,7 +2996,7 @@ Index: src/SubPic/SubPic.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/Subtitles/Subtitles.vcxproj
 ===================================================================
---- src/Subtitles/Subtitles.vcxproj	(revision 5470)
+--- src/Subtitles/Subtitles.vcxproj	(revision 5515)
 +++ src/Subtitles/Subtitles.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}</ProjectGuid>
@@ -3029,7 +3033,7 @@ Index: src/Subtitles/Subtitles.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/AsyncReader/AsyncReader.vcxproj
 ===================================================================
---- src/thirdparty/AsyncReader/AsyncReader.vcxproj	(revision 5470)
+--- src/thirdparty/AsyncReader/AsyncReader.vcxproj	(revision 5515)
 +++ src/thirdparty/AsyncReader/AsyncReader.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{9F31D122-E84D-485A-A58D-09DAD01A56CE}</ProjectGuid>
@@ -3062,7 +3066,7 @@ Index: src/thirdparty/AsyncReader/AsyncReader.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/BaseClasses/BaseClasses.vcxproj
 ===================================================================
---- src/thirdparty/BaseClasses/BaseClasses.vcxproj	(revision 5470)
+--- src/thirdparty/BaseClasses/BaseClasses.vcxproj	(revision 5515)
 +++ src/thirdparty/BaseClasses/BaseClasses.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}</ProjectGuid>
@@ -3099,7 +3103,7 @@ Index: src/thirdparty/BaseClasses/BaseClasses.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/Bento4/Bento4.vcxproj
 ===================================================================
---- src/thirdparty/Bento4/Bento4.vcxproj	(revision 5470)
+--- src/thirdparty/Bento4/Bento4.vcxproj	(revision 5515)
 +++ src/thirdparty/Bento4/Bento4.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{40177920-A66C-4647-B119-332A10224C83}</ProjectGuid>
@@ -3132,7 +3136,7 @@ Index: src/thirdparty/Bento4/Bento4.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/ffmpeg/ffmpeg.vcxproj
 ===================================================================
---- src/thirdparty/ffmpeg/ffmpeg.vcxproj	(revision 5470)
+--- src/thirdparty/ffmpeg/ffmpeg.vcxproj	(revision 5515)
 +++ src/thirdparty/ffmpeg/ffmpeg.vcxproj	(working copy)
 @@ -22,19 +22,24 @@
      <ProjectGuid>{438286B7-A9F4-411D-BCC5-948C40E37D8F}</ProjectGuid>
@@ -3161,7 +3165,7 @@ Index: src/thirdparty/ffmpeg/ffmpeg.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/LCDUI/LCDUI.vcxproj
 ===================================================================
---- src/thirdparty/LCDUI/LCDUI.vcxproj	(revision 5470)
+--- src/thirdparty/LCDUI/LCDUI.vcxproj	(revision 5515)
 +++ src/thirdparty/LCDUI/LCDUI.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{476B97B4-F079-4A44-AF89-52CA30C35E28}</ProjectGuid>
@@ -3194,7 +3198,7 @@ Index: src/thirdparty/LCDUI/LCDUI.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/lcms2/lcms2.vcxproj
 ===================================================================
---- src/thirdparty/lcms2/lcms2.vcxproj	(revision 5470)
+--- src/thirdparty/lcms2/lcms2.vcxproj	(revision 5515)
 +++ src/thirdparty/lcms2/lcms2.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{ACF5C64B-78AA-4730-91A2-24F4910FBAD9}</ProjectGuid>
@@ -3225,42 +3229,9 @@ Index: src/thirdparty/lcms2/lcms2.vcxproj
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-Index: src/thirdparty/libdca/vc++/libdca.vcxproj
-===================================================================
---- src/thirdparty/libdca/vc++/libdca.vcxproj	(revision 5470)
-+++ src/thirdparty/libdca/vc++/libdca.vcxproj	(working copy)
-@@ -21,23 +21,28 @@
-   <PropertyGroup Label="Globals">
-     <ProjectGuid>{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}</ProjectGuid>
-     <RootNamespace>libdca</RootNamespace>
-+    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
-   </PropertyGroup>
-   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-     <ConfigurationType>StaticLibrary</ConfigurationType>
-     <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
-   </PropertyGroup>
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-     <ConfigurationType>StaticLibrary</ConfigurationType>
-     <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
-   </PropertyGroup>
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-     <ConfigurationType>StaticLibrary</ConfigurationType>
-     <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
-   </PropertyGroup>
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-     <ConfigurationType>StaticLibrary</ConfigurationType>
-     <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>v110</PlatformToolset>
-   </PropertyGroup>
-   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-   <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/libflac/src/libFLAC/libflac.vcxproj
 ===================================================================
---- src/thirdparty/libflac/src/libFLAC/libflac.vcxproj	(revision 5470)
+--- src/thirdparty/libflac/src/libFLAC/libflac.vcxproj	(revision 5515)
 +++ src/thirdparty/libflac/src/libFLAC/libflac.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{4CEFBC84-C215-11DB-8314-0800200C9A66}</ProjectGuid>
@@ -3293,7 +3264,7 @@ Index: src/thirdparty/libflac/src/libFLAC/libflac.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 ===================================================================
---- src/thirdparty/MediaInfo/MediaInfoLib.vcxproj	(revision 5470)
+--- src/thirdparty/MediaInfo/MediaInfoLib.vcxproj	(revision 5515)
 +++ src/thirdparty/MediaInfo/MediaInfoLib.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{20E0F8D6-213C-460B-B361-9C725CB375C7}</ProjectGuid>
@@ -3326,7 +3297,7 @@ Index: src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/mfc/afxctrlcontainer.cpp
 ===================================================================
---- src/thirdparty/mfc/afxctrlcontainer.cpp	(revision 5470)
+--- src/thirdparty/mfc/afxctrlcontainer.cpp	(revision 5515)
 +++ src/thirdparty/mfc/afxctrlcontainer.cpp	(working copy)
 @@ -31,7 +31,7 @@
  
@@ -3486,7 +3457,7 @@ Index: src/thirdparty/mfc/afxctrlcontainer.cpp
 -}
 Index: src/thirdparty/mfc/afxglobals.cpp
 ===================================================================
---- src/thirdparty/mfc/afxglobals.cpp	(revision 5470)
+--- src/thirdparty/mfc/afxglobals.cpp	(revision 5515)
 +++ src/thirdparty/mfc/afxglobals.cpp	(working copy)
 @@ -41,23 +41,12 @@
  
@@ -4321,7 +4292,7 @@ Index: src/thirdparty/mfc/afxglobals.cpp
 -}
 Index: src/thirdparty/mfc/afxmaskededit.cpp
 ===================================================================
---- src/thirdparty/mfc/afxmaskededit.cpp	(revision 5470)
+--- src/thirdparty/mfc/afxmaskededit.cpp	(revision 5515)
 +++ src/thirdparty/mfc/afxmaskededit.cpp	(working copy)
 @@ -27,7 +27,6 @@
  
@@ -4366,7 +4337,7 @@ Index: src/thirdparty/mfc/afxmaskededit.cpp
 +}
 Index: src/thirdparty/mfc/afxmaskededit.h
 ===================================================================
---- src/thirdparty/mfc/afxmaskededit.h	(revision 5470)
+--- src/thirdparty/mfc/afxmaskededit.h	(revision 5515)
 +++ src/thirdparty/mfc/afxmaskededit.h	(working copy)
 @@ -24,7 +24,7 @@
  #pragma component(minrebuild, off)
@@ -4404,7 +4375,7 @@ Index: src/thirdparty/mfc/afxmaskededit.h
  };
 Index: src/thirdparty/mfc/winmdi.cpp
 ===================================================================
---- src/thirdparty/mfc/winmdi.cpp	(revision 5470)
+--- src/thirdparty/mfc/winmdi.cpp	(revision 5515)
 +++ src/thirdparty/mfc/winmdi.cpp	(working copy)
 @@ -16,7 +16,6 @@
  // CMDIFrameWnd
@@ -4495,7 +4466,7 @@ Index: src/thirdparty/mfc/winmdi.cpp
  			}
 Index: src/thirdparty/ResizableLib/ResizableLib.vcxproj
 ===================================================================
---- src/thirdparty/ResizableLib/ResizableLib.vcxproj	(revision 5470)
+--- src/thirdparty/ResizableLib/ResizableLib.vcxproj	(revision 5515)
 +++ src/thirdparty/ResizableLib/ResizableLib.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}</ProjectGuid>
@@ -4532,7 +4503,7 @@ Index: src/thirdparty/ResizableLib/ResizableLib.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/sizecbar/sizecbar.vcxproj
 ===================================================================
---- src/thirdparty/sizecbar/sizecbar.vcxproj	(revision 5470)
+--- src/thirdparty/sizecbar/sizecbar.vcxproj	(revision 5515)
 +++ src/thirdparty/sizecbar/sizecbar.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}</ProjectGuid>
@@ -4569,7 +4540,7 @@ Index: src/thirdparty/sizecbar/sizecbar.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/SoundTouch/source/SoundTouch.vcxproj
 ===================================================================
---- src/thirdparty/SoundTouch/source/SoundTouch.vcxproj	(revision 5470)
+--- src/thirdparty/SoundTouch/source/SoundTouch.vcxproj	(revision 5515)
 +++ src/thirdparty/SoundTouch/source/SoundTouch.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{68A5DD20-7057-448B-8FE0-B6AC8D205509}</ProjectGuid>
@@ -4602,7 +4573,7 @@ Index: src/thirdparty/SoundTouch/source/SoundTouch.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
 ===================================================================
---- src/thirdparty/TreePropSheet/TreePropSheet.vcxproj	(revision 5470)
+--- src/thirdparty/TreePropSheet/TreePropSheet.vcxproj	(revision 5515)
 +++ src/thirdparty/TreePropSheet/TreePropSheet.vcxproj	(working copy)
 @@ -22,27 +22,32 @@
      <ProjectGuid>{AB494732-EF6D-44D0-BCF8-80FF04858D10}</ProjectGuid>
@@ -4639,7 +4610,7 @@ Index: src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/unrar/unrar.vcxproj
 ===================================================================
---- src/thirdparty/unrar/unrar.vcxproj	(revision 5470)
+--- src/thirdparty/unrar/unrar.vcxproj	(revision 5515)
 +++ src/thirdparty/unrar/unrar.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectName>unrar</ProjectName>
@@ -4672,7 +4643,7 @@ Index: src/thirdparty/unrar/unrar.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/VirtualDub/h/vd2/system/vdstl.h
 ===================================================================
---- src/thirdparty/VirtualDub/h/vd2/system/vdstl.h	(revision 5470)
+--- src/thirdparty/VirtualDub/h/vd2/system/vdstl.h	(revision 5515)
 +++ src/thirdparty/VirtualDub/h/vd2/system/vdstl.h	(working copy)
 @@ -1377,7 +1377,7 @@
  		kBlockSizeBits = Block::kBlockSizeBits
@@ -4694,7 +4665,7 @@ Index: src/thirdparty/VirtualDub/h/vd2/system/vdstl.h
  	} mTails;
 Index: src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h
 ===================================================================
---- src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h	(revision 5470)
+--- src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h	(revision 5515)
 +++ src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h	(working copy)
 @@ -113,7 +113,7 @@
  	void				reset();
@@ -4707,7 +4678,7 @@ Index: src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h
  };
 Index: src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj
 ===================================================================
---- src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj	(revision 5470)
+--- src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj	(revision 5515)
 +++ src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj	(working copy)
 @@ -21,19 +21,24 @@
    <PropertyGroup Label="Globals">
@@ -4736,7 +4707,7 @@ Index: src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/VirtualDub/system/system.vcxproj
 ===================================================================
---- src/thirdparty/VirtualDub/system/system.vcxproj	(revision 5470)
+--- src/thirdparty/VirtualDub/system/system.vcxproj	(revision 5515)
 +++ src/thirdparty/VirtualDub/system/system.vcxproj	(working copy)
 @@ -21,23 +21,28 @@
    <PropertyGroup Label="Globals">
@@ -4769,7 +4740,7 @@ Index: src/thirdparty/VirtualDub/system/system.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/ZenLib/ZenLib.vcxproj
 ===================================================================
---- src/thirdparty/ZenLib/ZenLib.vcxproj	(revision 5470)
+--- src/thirdparty/ZenLib/ZenLib.vcxproj	(revision 5515)
 +++ src/thirdparty/ZenLib/ZenLib.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{0DA1DA7D-F393-4E7C-A7CE-CB5C6A67BC94}</ProjectGuid>
@@ -4802,7 +4773,7 @@ Index: src/thirdparty/ZenLib/ZenLib.vcxproj
    <ImportGroup Label="ExtensionSettings">
 Index: src/thirdparty/zlib/zlib.vcxproj
 ===================================================================
---- src/thirdparty/zlib/zlib.vcxproj	(revision 5470)
+--- src/thirdparty/zlib/zlib.vcxproj	(revision 5515)
 +++ src/thirdparty/zlib/zlib.vcxproj	(working copy)
 @@ -22,23 +22,28 @@
      <ProjectGuid>{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}</ProjectGuid>
