@@ -42,7 +42,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // PNG
 //
 
-ID_W7_TOOLBAR                    PNG                     "res\\toolbarw7.png"
 IDF_1PIX_PNG                     PNG                     "res\\web\\images\\1pix.png"
 IDF_BOTTOMSIDE_PNG               PNG                     "res\\web\\images\\bottomside.png"
 IDF_CONTROLBACK_PNG              PNG                     "res\\web\\images\\controlback.png"
@@ -84,6 +83,7 @@ IDF_SLIDERBAR_PNG                PNG                     "res\\web\\images\\slid
 IDF_SLIDERGRIP_PNG               PNG                     "res\\web\\images\\slidergrip.png"
 IDF_VBR_PNG                      PNG                     "res\\web\\images\\vbg.png"
 IDF_VBS_PNG                      PNG                     "res\\web\\images\\vbs.png"
+IDF_WIN7_TOOLBAR                 PNG                     "res\\toolbarw7.png"
 
 
 /////////////////////////////////////////////////////////////////////////////

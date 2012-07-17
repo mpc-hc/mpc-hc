@@ -15391,7 +15391,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
     HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
     if (SUCCEEDED(hr)) {
         CMPCPngImage image;
-        if (!image.Load(MAKEINTRESOURCE(ID_W7_TOOLBAR))) {
+        if (!image.Load(MAKEINTRESOURCE(IDF_WIN7_TOOLBAR))) {
             m_pTaskbarList->Release();
             image.CleanUp();
             return E_FAIL;
