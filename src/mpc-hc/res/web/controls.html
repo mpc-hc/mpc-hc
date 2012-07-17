@@ -9,7 +9,7 @@
 <body onload="init(&quot;[filepath]&quot;, [position], [duration], [state], [playbackrate], [reloadtime], [volumelevel], [muted])">
 <div><span class="sectionInfo">File Info</span>
 	<noscript>
-		<span>
+		<span class="sectionInfo">
 			<strong>: Disabled (component requires javascript)</strong>
 		</span>
 	</noscript>
@@ -46,7 +46,7 @@
 	<form action="[commandpath]" method="POST">
 		<input type="hidden" name="[wmcname]" value="-1"><span class="sectionInfo">Goto control</span>
 		<noscript>
-			<span>
+			<span class="sectionInfo">
 				<strong>: (position slider disabled)</strong>
 			</span>
 		</noscript>
@@ -64,8 +64,7 @@
 				<td>
 					<input type="checkbox" id="SliderAutoScroll" onclick="if (sas.checked==true) {update(rpt,true); cpf.value=secondsToTS(rpt,5,false)}; return true;">
 				</td>
-				<td>
-					<noscript>Goto...</noscript>
+				<td>Goto...
 					<input id="pos" name="position" size="12" onfocus="sas.checked=false;" onkeypress="return posupdate()" value="[positionstring]">
 				</td>
 				<td>
@@ -228,12 +227,10 @@
 										</table>
 									</td>
 									<td>
-										<noscript>
-											<form action="[commandpath]" method="POST">
-												<input type="hidden" name="[wmcname]" value="[setvolumecommand]">
-												<input name="volume" value="[volumelevel]" size="5">
-											</form>
-										</noscript>
+										<form action="[commandpath]" method="POST">
+											<input type="hidden" name="[wmcname]" value="[setvolumecommand]">
+											<input name="volume" value="[volumelevel]" size="5">
+										</form>
 									</td>
 								</tr>
 							</table>
