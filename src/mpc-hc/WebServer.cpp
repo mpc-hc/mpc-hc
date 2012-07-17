@@ -59,7 +59,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     if (m_downloads.IsEmpty()) {
         m_downloads[_T("/controls.js")] = IDF_CONTROLS_JS;
         m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
-        m_downloads[_T("/images/1pix.gif")] = IDF_1PIX_GIF;
+        m_downloads[_T("/images/1pix.png")] = IDF_1PIX_PNG;
         m_downloads[_T("/images/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
         m_downloads[_T("/images/controlback.png")] = IDF_CONTROLBACK_PNG;
         m_downloads[_T("/images/controlbuttondecrate.png")] = IDF_CONTROLBUTTONDECRATE_PNG;
@@ -87,8 +87,8 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
         m_downloads[_T("/images/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
         m_downloads[_T("/images/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
         m_downloads[_T("/images/sliderback.png")] = IDF_SLIDERBACK_PNG;
-        m_downloads[_T("/images/sliderbar.gif")] = IDF_SLIDERBAR_GIF;
-        m_downloads[_T("/images/slidergrip.gif")] = IDF_SLIDERGRIP_GIF;
+        m_downloads[_T("/images/sliderbar.png")] = IDF_SLIDERBAR_PNG;
+        m_downloads[_T("/images/slidergrip.png")] = IDF_SLIDERGRIP_PNG;
         m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
         m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
         m_downloads[_T("/player.js")] = IDF_PLAYER_JS;

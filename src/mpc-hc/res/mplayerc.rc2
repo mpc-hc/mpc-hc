@@ -43,6 +43,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 ID_W7_TOOLBAR                    PNG                     "res\\toolbarw7.png"
+IDF_1PIX_PNG                     PNG                     "res\\web\\images\\1pix.png"
 IDF_BOTTOMSIDE_PNG               PNG                     "res\\web\\images\\bottomside.png"
 IDF_CONTROLBACK_PNG              PNG                     "res\\web\\images\\controlback.png"
 IDF_CONTROLBUTTONDECRATE_PNG     PNG                     "res\\web\\images\\controlbuttondecrate.png"
@@ -79,6 +80,8 @@ IDF_SEEKBARLEFT_PNG              PNG                     "res\\web\\images\\seek
 IDF_SEEKBARMID_PNG               PNG                     "res\\web\\images\\seekbarmid.png"
 IDF_SEEKBARRIGHT_PNG             PNG                     "res\\web\\images\\seekbarright.png"
 IDF_SLIDERBACK_PNG               PNG                     "res\\web\\images\\sliderback.png"
+IDF_SLIDERBAR_PNG                PNG                     "res\\web\\images\\sliderbar.png"
+IDF_SLIDERGRIP_PNG               PNG                     "res\\web\\images\\slidergrip.png"
 IDF_VBR_PNG                      PNG                     "res\\web\\images\\vbg.png"
 IDF_VBS_PNG                      PNG                     "res\\web\\images\\vbs.png"
 
@@ -112,12 +115,9 @@ IDF_SHADER_SPHERE                FILE                    "res\\shaders\\sphere.p
 IDF_SHADER_SPOTLIGHT             FILE                    "res\\shaders\\spotlight.psh"
 IDF_SHADER_WAVE                  FILE                    "res\\shaders\\wave.psh"
 IDF_SHADER_YV12CHROMAUP          FILE                    "res\\shaders\\YV12ChromaUpsampling.psh"
-IDF_1PIX_GIF                     FILE                    "res\\web\\images\\1pix.gif"
 IDF_CONTROLS_JS                  FILE                    "res\\web\\controls.js"
 IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
 IDF_PLAYER_JS                    FILE                    "res\\web\\player.js"
-IDF_SLIDERBAR_GIF                FILE                    "res\\web\\images\\sliderbar.gif"
-IDF_SLIDERGRIP_GIF               FILE                    "res\\web\\images\\slidergrip.gif"
 
 
 /////////////////////////////////////////////////////////////////////////////
