@@ -110,6 +110,8 @@ CAppSettings::CAppSettings()
 #endif
 #if INTERNAL_DECODER_DTS
     TraFiltersKeys[TRA_DTS] = _T("TRA_DTS");
+#endif
+#if INTERNAL_DECODER_LPCM
     TraFiltersKeys[TRA_LPCM] = _T("TRA_LPCM");
 #endif
 #if INTERNAL_DECODER_AC3

@@ -88,6 +88,7 @@ void avcodec_register_all(void)
     REGISTER_DECODER (ALS, als);
     REGISTER_DECODER (ATRAC3, atrac3);
     REGISTER_DECODER (COOK, cook);
+    REGISTER_DECODER (DCA, dca);
     REGISTER_DECODER (EAC3, eac3);
     REGISTER_DECODER (FLAC, flac);
     REGISTER_DECODER (MLP, mlp);
@@ -124,6 +125,7 @@ void avcodec_register_all(void)
 
     /* parsers */
     REGISTER_PARSER  (AC3, ac3);
+    REGISTER_PARSER  (DCA, dca);
     REGISTER_PARSER  (MLP, mlp);
     REGISTER_PARSER  (MPEGAUDIO, mpegaudio);
     REGISTER_PARSER  (H264, h264);

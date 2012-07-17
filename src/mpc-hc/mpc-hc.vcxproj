@@ -848,10 +848,6 @@
       <Project>{acf5c64b-78aa-4730-91a2-24f4910fbad9}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\libdca\vc++\libdca.vcxproj">
-      <Project>{fae14dbe-b508-4ab3-929d-75c68e4ebbc1}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\libflac\src\libFLAC\libflac.vcxproj">
       <Project>{4cefbc84-c215-11db-8314-0800200c9a66}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

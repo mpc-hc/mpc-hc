@@ -124,6 +124,9 @@ SRCS_C = \
     libavcodec/celp_filters.c \
     libavcodec/celp_math.c \
     libavcodec/cook.c \
+    libavcodec/dca.c \
+    libavcodec/dca_parser.c \
+    libavcodec/dcadsp.c \
     libavcodec/dct.c \
     libavcodec/dct32.c \
     libavcodec/dct32_float.c \
@@ -227,6 +230,7 @@ SRCS_C = \
     libavcodec/svq1.c \
     libavcodec/svq1dec.c \
     libavcodec/svq3.c \
+    libavcodec/synth_filter.c \
     libavcodec/tscc.c \
     libavcodec/utils.c \
     libavcodec/vc1.c \

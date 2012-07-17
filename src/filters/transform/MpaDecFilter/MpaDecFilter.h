@@ -30,7 +30,6 @@
 #pragma warning(disable: 4005)
 #include <stdint.h>
 #pragma warning(pop)
-#include "libdca/include/dts.h"
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
@@ -89,9 +88,6 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 protected:
     CCritSec m_csReceive;
 
-#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
-    dts_state_t*            m_dts_state;
-#endif
     ps2_state_t             m_ps2_state;
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
@@ -112,10 +108,10 @@ protected:
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
     HRESULT ProcessAC3();
-    HRESULT ProcessAC3SPDIF();
+    HRESULT ProcessAC3_SPDIF();
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
-    HRESULT ProcessDTS();
+    HRESULT ProcessDTS_SPDIF();
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_PS2AUDIO
     HRESULT ProcessPS2PCM();

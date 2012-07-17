@@ -64,7 +64,7 @@ class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
     CButton m_dtsspkcfg_radio[2];
     CComboBox m_dtsspkcfg_combo;
     CButton m_dtsspkcfg_check;
-    CButton m_dtslfe_check;
+    //CButton m_dtslfe_check;
 
 public:
     CMpaDecSettingsWnd();

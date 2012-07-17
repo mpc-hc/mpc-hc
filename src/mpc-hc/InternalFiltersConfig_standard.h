@@ -42,7 +42,6 @@
 #define INTERNAL_SOURCEFILTER_AVI2AC3   1
 
 // Internal audio decoders
-#define INTERNAL_DECODER_DTS            1
 #define INTERNAL_DECODER_LPCM           1
 #define INTERNAL_DECODER_PS2AUDIO       1
 #define INTERNAL_DECODER_REALAUDIO      1
@@ -50,6 +49,7 @@
 
 // Internal audio decoders (FFmpeg)
 #define INTERNAL_DECODER_AC3            1 /* also E-AC3,TrueHD,MLP */
+#define INTERNAL_DECODER_DTS            1
 #define INTERNAL_DECODER_AAC            1
 #define INTERNAL_DECODER_ALAC           1
 #define INTERNAL_DECODER_ALS            1

@@ -138,6 +138,10 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
     { &MEDIASUBTYPE_DOLBY_TRUEHD,   CODEC_ID_TRUEHD },
     { &MEDIASUBTYPE_MLP,            CODEC_ID_MLP    },
 #endif
+#if INTERNAL_DECODER_DTS
+    { &MEDIASUBTYPE_DTS,            CODEC_ID_DTS },
+    { &MEDIASUBTYPE_WAVE_DTS,       CODEC_ID_DTS },
+#endif
 #if INTERNAL_DECODER_FLAC
     { &MEDIASUBTYPE_FLAC_FRAMED,    CODEC_ID_FLAC },
 #endif
@@ -355,18 +359,17 @@ s_scmap_hdmv[] = {
 static struct channel_mode_t {
     WORD channels;
     uint64_t av_ch_layout;
-    uint8_t  dts_ch_layout;
 }
 channel_mode[] = {
-    //n  libavcodec (for ac3)       libdca          ID  Name                 libavcodec internal
-    {0, 0                          , -1        }, // 0 "As is"                  AC3          DTS
-    {1, AV_CH_LAYOUT_MONO          , DTS_MONO  }, // 1 "Mono"             AC3_CHMODE_MONO   DCA_MONO
-    {2, AV_CH_LAYOUT_STEREO        , DTS_STEREO}, // 2 "Stereo"           AC3_CHMODE_STEREO DCA_STEREO
-    {3, -1/*AV_CH_LAYOUT_SURROUND*/, DTS_3F    }, // 3 "3 Front"          AC3_CHMODE_3F     DCA_3F
-    {3, -1/*AV_CH_LAYOUT_2_1     */, DTS_2F1R  }, // 4 "2 Front + 1 Rear" AC3_CHMODE_2F1R   DCA_2F1R
-    {4, -1/*AV_CH_LAYOUT_4POINT0 */, DTS_3F1R  }, // 5 "3 Front + 1 Rear" AC3_CHMODE_3F1R   DCA_3F1R
-    {4, -1/*AV_CH_LAYOUT_QUAD    */, DTS_2F2R  }, // 6 "2 Front + 2 Rear" AC3_CHMODE_2F2R   DCA_2F2R
-    {5, -1/*AV_CH_LAYOUT_5POINT0 */, DTS_3F2R  }, // 7 "3 Front + 2 Rear" AC3_CHMODE_3F2R   DCA_3F2R
+    //n  libavcodec               ID  Name                 libavcodec internal
+    {0, 0                    }, // 0 "As is"                  AC3          DTS
+    {1, AV_CH_LAYOUT_MONO    }, // 1 "Mono"             AC3_CHMODE_MONO   DCA_MONO
+    {2, AV_CH_LAYOUT_STEREO  }, // 2 "Stereo"           AC3_CHMODE_STEREO DCA_STEREO
+    {3, AV_CH_LAYOUT_SURROUND}, // 3 "3 Front"          AC3_CHMODE_3F     DCA_3F
+    {3, AV_CH_LAYOUT_2_1     }, // 4 "2 Front + 1 Rear" AC3_CHMODE_2F1R   DCA_2F1R
+    {4, AV_CH_LAYOUT_4POINT0 }, // 5 "3 Front + 1 Rear" AC3_CHMODE_3F1R   DCA_3F1R
+    {4, AV_CH_LAYOUT_QUAD    }, // 6 "2 Front + 2 Rear" AC3_CHMODE_2F2R   DCA_2F2R
+    {5, AV_CH_LAYOUT_5POINT0 }, // 7 "3 Front + 2 Rear" AC3_CHMODE_3F2R   DCA_3F2R
 };
 
 
@@ -457,10 +460,6 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_nFFBufferSize = 0;
 #endif
 
-#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
-    m_dts_state = NULL;
-#endif
-
     // default settings
     m_iSampleFormat       = SF_PCM16;
     m_iSpeakerConfig[ac3] = SPK_STEREO;
@@ -509,7 +508,8 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     if (m_iSpeakerConfig[ac3] < SPK_ASIS || m_iSpeakerConfig[ac3] > SPK_STEREO) {
         m_iSpeakerConfig[ac3] = SPK_STEREO;
     }
-    if ((m_iSpeakerConfig[dts]&~SPK_LFE) < SPK_ASIS || (m_iSpeakerConfig[dts]&~SPK_LFE) > SPK_3F2R) {
+    //if ((m_iSpeakerConfig[dts]&~SPK_LFE) < SPK_ASIS || (m_iSpeakerConfig[dts]&~SPK_LFE) > SPK_3F2R) {
+    if (m_iSpeakerConfig[ac3] != SPK_ASIS || m_iSpeakerConfig[ac3] != SPK_STEREO) {
         m_iSpeakerConfig[dts] = SPK_STEREO;
     }
 }
@@ -642,13 +642,18 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
     memcpy(m_buff.GetData() + bufflen, pDataIn, len);
     len += (long)bufflen;
 
-#if defined(REGISTER_FILTER) || INTERNAL_DECODER_AC3
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_AC3
     if ((subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 || subtype == MEDIASUBTYPE_DNET)) {
         if (GetSPDIF(ac3)) {
-            return ProcessAC3SPDIF();
+            return ProcessAC3_SPDIF();
         } else {
             return ProcessAC3();
         }
+    }
+#endif
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
+    else if (GetSPDIF(dts) && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)) {
+        return ProcessDTS_SPDIF();
     }
 #endif
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
@@ -664,11 +669,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
     } else if (subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
         // TODO: check if the test is really correct
         hr = ProcessHdmvLPCM(pIn->IsSyncPoint() == S_FALSE);
-    }
-#endif
-#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
-    else if (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS) {
-        hr = ProcessDTS();
     }
 #endif
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_PS2AUDIO
@@ -933,7 +933,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
     return S_OK;
 }
 
-HRESULT CMpaDecFilter::ProcessAC3SPDIF()
+HRESULT CMpaDecFilter::ProcessAC3_SPDIF()
 {
     HRESULT hr;
     BYTE* base = m_buff.GetData();
@@ -999,91 +999,35 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 #endif /* HAS_FFMPEG_AUDIO_DECODERS */
 
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
-HRESULT CMpaDecFilter::ProcessDTS()
+HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
 {
-    BYTE* p = m_buff.GetData();
-    BYTE* base = p;
-    BYTE* end = p + m_buff.GetCount();
+	    HRESULT hr;
+    BYTE* base = m_buff.GetData();
+    BYTE* p = base;
+    BYTE* end = base + m_buff.GetCount();
 
-    while (end - p >= 14) {
-        int size = 0, flags, sample_rate, bit_rate, frame_length;
+    while (p + 16 <= end) {
+        int size = 0;
+        int samplerate, channels, framelength, bitrate;
 
-        if ((size = dts_syncinfo(m_dts_state, p, &flags, &sample_rate, &bit_rate, &frame_length)) > 0) {
-            // TRACE(_T("dts: size=%d, flags=%08x, sample_rate=%d, bit_rate=%d, frame_length=%d\n"), size, flags, sample_rate, bit_rate, frame_length);
-            bit_rate = int (size * 8i64 * sample_rate / frame_length); // calculate actual bitrate
+        size = ParseDTSHeader(p, &samplerate, &channels, &framelength, &bitrate);
 
-            bool fEnoughData = p + size <= end;
-
-            if (fEnoughData) {
-                if (GetSPDIF(dts)) {
-                    HRESULT hr;
-                    if (S_OK != (hr = DeliverBitstream(p, size, sample_rate, frame_length, 0x000b))) {
-                        return hr;
-                    }
-                } else {
-                    int sc = GetSpeakerConfig(dts);
-                    if (sc & SPK_MASK) {
-                        flags = channel_mode[sc & SPK_MASK].dts_ch_layout;
-                        if (sc & SPK_LFE) {
-                            flags |= DTS_LFE;
-                        }
-                        flags |= DTS_ADJUST_LEVEL;
-                    }
-
-                    sample_t level = 1, gain = 1, bias = 0;
-                    level *= gain;
-
-                    if (dts_frame(m_dts_state, p, &flags, &level, bias) == 0) {
-                        if (GetDynamicRangeControl(dts)) {
-                            dts_dynrng(m_dts_state, NULL, NULL);
-                        }
-
-                        int scmapidx = min(flags & DTS_CHANNEL_MASK, _countof(s_scmap_libdca) / 2);
-                        scmap_t& scmap = s_scmap_libdca[scmapidx + ((flags & DTS_LFE) ? (_countof(s_scmap_libdca) / 2) : 0)];
-
-                        int blocks = dts_blocks_num(m_dts_state);
-
-                        CAtlArray<float> pBuff;
-                        pBuff.SetCount(blocks * 256 * scmap.nChannels);
-                        float* p = pBuff.GetData();
-
-                        int i = 0;
-
-                        for (; i < blocks && dts_block(m_dts_state) == 0; i++) {
-                            sample_t* samples = dts_samples(m_dts_state);
-
-                            for (int j = 0; j < 256; j++, samples++) {
-                                for (int ch = 0; ch < scmap.nChannels; ch++) {
-                                    ASSERT(scmap.ch[ch] != -1);
-                                    *p++ = (float)(*(samples + 256 * scmap.ch[ch]) / level);
-                                }
-                            }
-                        }
-
-                        if (i == blocks) {
-                            HRESULT hr;
-                            if (S_OK != (hr = Deliver(pBuff, sample_rate, scmap.nChannels, scmap.dwChannelMask))) {
-                                return hr;
-                            }
-                        }
-                    }
-                }
-
-                p += size;
-            }
-
-            memmove(base, p, end - p);
-            end = base + (end - p);
-            p = base;
-
-            if (!fEnoughData) {
-                break;
-            }
-        } else {
+        if (size == 0) {
             p++;
+            continue;
         }
+        if (p + size > end) {
+            break;
+        }
+
+        if (FAILED(hr = DeliverBitstream(p, size, samplerate, framelength, 0x000b))) {
+            return hr;
+        }
+
+        p += size;
     }
 
+    memmove(base, p, end - p);
     m_buff.SetCount(end - p);
 
     return S_OK;
@@ -1896,10 +1840,6 @@ HRESULT CMpaDecFilter::StartStreaming()
         return hr;
     }
 
-#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
-    m_dts_state = dts_init(0);
-#endif
-
     m_ps2_state.reset();
 
     m_fDiscontinuity = false;
@@ -1909,13 +1849,6 @@ HRESULT CMpaDecFilter::StartStreaming()
 
 HRESULT CMpaDecFilter::StopStreaming()
 {
-#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
-    if (m_dts_state != NULL) {
-        dts_free(m_dts_state);
-        m_dts_state = NULL;
-    }
-#endif
-
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     ffmpeg_stream_finish();
 #endif
@@ -1962,9 +1895,12 @@ STDMETHODIMP CMpaDecFilter::SetSpeakerConfig(enctype et, int sc)
     }
 
 #if HAS_FFMPEG_AUDIO_DECODERS
-    if (et == ac3 && m_pAVCtx && (m_pAVCtx->codec_id == CODEC_ID_AC3 || m_pAVCtx->codec_id == CODEC_ID_EAC3)) {
-        m_pAVCtx->request_channels = channel_mode[sc & SPK_MASK].channels;
-        m_pAVCtx->request_channel_layout = channel_mode[sc & SPK_MASK].av_ch_layout;
+    if (m_pAVCtx) {
+        CodecID codec_id = m_pAVCtx->codec_id;
+        if (codec_id == CODEC_ID_AC3 || codec_id == CODEC_ID_EAC3 || codec_id == CODEC_ID_DTS) {
+            m_pAVCtx->request_channels = channel_mode[sc & SPK_MASK].channels;
+            m_pAVCtx->request_channel_layout = channel_mode[sc & SPK_MASK].av_ch_layout;
+        }
     }
 #endif
 
@@ -1990,8 +1926,11 @@ STDMETHODIMP CMpaDecFilter::SetDynamicRangeControl(enctype et, bool fDRC)
     }
 
 #if HAS_FFMPEG_AUDIO_DECODERS
-    if (et == ac3 && m_pAVCtx) {
-        av_opt_set_double(m_pAVCtx, "drc_scale", fDRC ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
+    if (m_pAVCtx) {
+        CodecID codec_id = m_pAVCtx->codec_id;
+        if (codec_id == CODEC_ID_AC3 || codec_id == CODEC_ID_EAC3) {
+            av_opt_set_double(m_pAVCtx, "drc_scale", fDRC ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
+        }
     }
 #endif
 
@@ -2363,8 +2302,12 @@ bool CMpaDecFilter::InitFFmpeg(enum CodecID nCodecId)
             int sc = GetSpeakerConfig(ac3);
             m_pAVCtx->request_channels = channel_mode[sc & SPK_MASK].channels;
             m_pAVCtx->request_channel_layout = channel_mode[sc & SPK_MASK].av_ch_layout;
+            av_opt_set_double(m_pAVCtx, "drc_scale", GetDynamicRangeControl(ac3) ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
+        } else if (nCodecId == CODEC_ID_DTS) {
+            int sc = GetSpeakerConfig(dts);
+            m_pAVCtx->request_channels = channel_mode[sc & SPK_MASK].channels;
+            m_pAVCtx->request_channel_layout = channel_mode[sc & SPK_MASK].av_ch_layout;
         }
-        av_opt_set_double(m_pAVCtx, "drc_scale", GetDynamicRangeControl(ac3) ? 1.0f : 0.0f, AV_OPT_SEARCH_CHILDREN);
 
         if (nCodecId != CODEC_ID_AAC && nCodecId != CODEC_ID_AAC_LATM) {
             m_pParser = av_parser_init(nCodecId);

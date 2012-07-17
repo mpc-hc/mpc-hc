@@ -42,15 +42,14 @@
 #define INTERNAL_SOURCEFILTER_AVI2AC3   0
 
 // Internal audio decoders
-#define INTERNAL_DECODER_DTS            0
 #define INTERNAL_DECODER_LPCM           0
 #define INTERNAL_DECODER_PS2AUDIO       0
 #define INTERNAL_DECODER_REALAUDIO      0
-#define INTERNAL_DECODER_FLAC           0
 #define INTERNAL_DECODER_PCM            0
 
 // Internal audio decoders (FFmpeg)
 #define INTERNAL_DECODER_AC3            0 /* also E-AC3,TrueHD,MLP */
+#define INTERNAL_DECODER_DTS            0
 #define INTERNAL_DECODER_AAC            0
 #define INTERNAL_DECODER_ALAC           0
 #define INTERNAL_DECODER_ALS            0
@@ -59,6 +58,7 @@
 #define INTERNAL_DECODER_NELLYMOSER     0
 #define INTERNAL_DECODER_AMR            0
 #define INTERNAL_DECODER_ADPCM          0
+#define INTERNAL_DECODER_FLAC           0
 
 // Internal video decoders
 #define INTERNAL_DECODER_MPEG1          0

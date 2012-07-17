@@ -90,6 +90,8 @@ static filter_t s_filters[] = {
 #endif
 #if INTERNAL_DECODER_DTS
     {_T("DTS"), DECODER, TRA_DTS, IDS_TRA_DTS, CreateInstance<CMpaDecFilter>},
+#endif
+#if INTERNAL_DECODER_LPCM
     {_T("LPCM"), DECODER, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
 #endif
 #if INTERNAL_DECODER_MPEGAUDIO
