@@ -29,7 +29,7 @@ function init(_filepath, _curpos, _length, _state, _pbr, _eta, _volume, _muted) 
 	volume = _volume;
 	muted = _muted;
 
-	if (eta > 0) RL = setTimeout("etaup=true; if (re.checked==true) postform(0,'null',0);", 1000 * eta);
+	if (eta > 0) RL = setTimeout("etaup=true; if (re.checked==true) postForm(0,'null',0);", 1000 * eta);
 	Live = (length < 1);
 	starttime = starttime - curpos;
 	rdirt = length * pbr / slidersize;
@@ -50,21 +50,21 @@ function init(_filepath, _curpos, _length, _state, _pbr, _eta, _volume, _muted) 
 	s.height = sb1.height = sb2.height = sb3.height = vs.height = vs1.height = vs2.height = vs3.height = 20;
 	s.width = slidersize + (sb2.width = sliderbuttonwidth);
 	vs.width = vss + (vs2.width = vsb);
-	sb1.onclick = sb2.onclick = sb3.onclick = sliderclick;
-	vs1.onclick = vs2.onclick = vs3.onclick = vsliderclick;
+	sb1.onclick = sb2.onclick = sb3.onclick = sliderClick;
+	vs1.onclick = vs2.onclick = vs3.onclick = volSliderClick;
 	sas.checked = true;
 	/*g = " " + secondsToTS(curpos, 0, true) + " " + x < 0 ? ("Buffering %" + (-x - 1).toString()):"";*/
 	cp.innerHTML = cpf.value = secondsToTS(curpos, 5, false);
 	rpt = curpos;
 	if (state == 2 && pbr != 0) autoplay();
-	vupdate(volume, true);
+	volumeUpdate(volume, true);
 	return update(curpos, true);
 }
 
 function autoplay(a) {
 	if (etaup && re.checked == true) {
 		etaup = false;
-		RL = setTimeout("etaup=true; if (re.checked==true) postform(0,'null',0);", 5000);
+		RL = setTimeout("etaup=true; if (re.checked==true) postForm(0,'null',0);", 5000);
 	}
 	AP = setTimeout("autoplay()", rdirt);
 	var ct = (new Date()).getTime();
@@ -117,8 +117,8 @@ function secondsToTS(a, b, c) {
 	return "bahh";
 }
 
-function parsetime(y) {
-	ts = timesyntax(y);
+function parseTime(y) {
+	ts = timeSyntax(y);
 	t = 0;
 	p1 = ts.indexOf(".");
 	p2 = ts.indexOf(":");
@@ -149,14 +149,14 @@ function update(a, b) {
 	return true;
 }
 
-function sliderclick(e) {
-	update((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getoffsetx(s) - Math.floor(sliderbuttonwidth / 2) + sc, false);
+function sliderClick(e) {
+	update((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getOffsetX(s) - Math.floor(sliderbuttonwidth / 2) + sc, false);
 	cpf.value = secondsToTS(curpos, 5, false);
 	sas.checked = false;
 	return true;
 }
 
-function getoffsetx(m) {
+function getOffsetX(m) {
 	var x = m.offsetLeft;
 	while (m.offsetParent) {
 		x += (m = m.offsetParent).offsetLeft;
@@ -164,13 +164,13 @@ function getoffsetx(m) {
 	return x;
 }
 
-function posupdate() {
+function positionUpdate() {
 	if (event.keyCode < 46 || event.keyCode > 58 || event.keyCode == 47) return false;
-	self.setTimeout("update(parseFloat(parsetime(cpf.value)),true)", 1);
+	self.setTimeout("update(parseFloat(parseTime(cpf.value)),true)", 1);
 	return true;
 }
 
-function timesyntax(ts) {
+function timeSyntax(ts) {
 	var b = "";
 	for (a = 0; a < ts.length; a++) {
 		switch (ts.charAt(a)) {
@@ -217,7 +217,7 @@ function timesyntax(ts) {
 	return b;
 }
 
-function vupdate(a, b) {
+function volumeUpdate(a, b) {
 	if (b) {
 		m = (volume = ((a > 100) ? 100 : (a < 0 ? 0 : a))) * vss / 100;
 	} else {
@@ -229,11 +229,11 @@ function vupdate(a, b) {
 	return true;
 }
 
-function vsliderclick(e) {
-	return vupdate((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getoffsetx(vs) - Math.floor(vsb / 2) + sc, false);
+function volSliderClick(e) {
+	return volumeUpdate((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getOffsetX(vs) - Math.floor(vsb / 2) + sc, false);
 }
 
-function postform(wmc, ext, extv) {
+function postForm(wmc, ext, extv) {
 	document.getElementById("fwmc").value = wmc;
 	document.getElementById("fextra").value = extv;
 	document.getElementById("fextra").name = ext;
