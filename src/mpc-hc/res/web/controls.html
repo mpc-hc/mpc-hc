@@ -64,8 +64,11 @@
 				<td>
 					<input type="checkbox" id="SliderAutoScroll" onclick="if (sas.checked==true) {update(rpt,true); cpf.value=secondsToTS(rpt,5,false)}; return true;">
 				</td>
-				<td>Goto...
-					<input id="pos" name="position" size="12" onfocus="sas.checked=false;" onkeypress="return positionUpdate()" value="[positionstring]">
+				<td>
+					<noscript>
+						Goto...
+						<input id="pos" name="position" size="12" onfocus="sas.checked=false;" onkeypress="return positionUpdate()" value="[positionstring]">
+					</noscript>
 				</td>
 				<td>
 					<input type="submit" value="Go!" name="submit" onclick="postForm([setposcommand],'position',timeSyntax(cpf.value)); return false;">
