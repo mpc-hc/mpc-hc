@@ -1001,7 +1001,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_DTS
 HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
 {
-	    HRESULT hr;
+    HRESULT hr;
     BYTE* base = m_buff.GetData();
     BYTE* p = base;
     BYTE* end = base + m_buff.GetCount();
