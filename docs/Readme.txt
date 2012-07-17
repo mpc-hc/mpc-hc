@@ -64,7 +64,6 @@ CLineNumberEdit     -                          12 May '04 (modified)    http://w
 CSizingControlBar   GPLv2                      2.45                     http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                   3.0 build 316            http://research.microsoft.com/en-us/projects/detours/
 FFmpeg              GPLv2                      3b0ad04 git              http://www.ffmpeg.org/
-libdca              GPLv2                      0.0.5 r90                http://www.videolan.org/developers/libdca.html
 libflac             GPLv2 / New BSD License    1.2.1                    http://flac.sourceforge.net/
 libmpeg2            GPLv2                      0.3.2 (modified)         http://libmpeg2.sourceforge.net/
 libogg              New BSD License            1.3.0                    http://www.xiph.org/
