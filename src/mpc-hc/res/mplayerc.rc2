@@ -91,9 +91,8 @@ IDF_WIN7_TOOLBAR                 PNG                     "res\\toolbarw7.png"
 // FILE
 //
 
-IDF_CONTROLS_JS                  FILE                    "res\\web\\controls.js"
 IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
-IDF_PLAYER_JS                    FILE                    "res\\web\\player.js"
+IDF_JAVASCRIPT                   FILE                    "res\\web\\javascript.js"
 
 
 /////////////////////////////////////////////////////////////////////////////

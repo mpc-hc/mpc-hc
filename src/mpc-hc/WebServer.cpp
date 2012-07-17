@@ -57,7 +57,6 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     }
 
     if (m_downloads.IsEmpty()) {
-        m_downloads[_T("/controls.js")] = IDF_CONTROLS_JS;
         m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
         m_downloads[_T("/images/1pix.png")] = IDF_1PIX_PNG;
         m_downloads[_T("/images/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
@@ -91,7 +90,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
         m_downloads[_T("/images/slidergrip.png")] = IDF_SLIDERGRIP_PNG;
         m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
         m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
-        m_downloads[_T("/player.js")] = IDF_PLAYER_JS;
+        m_downloads[_T("/javascript.js")] = IDF_JAVASCRIPT;
     }
 
     CRegKey key;

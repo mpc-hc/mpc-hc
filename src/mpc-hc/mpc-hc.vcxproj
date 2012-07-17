@@ -612,7 +612,6 @@
     <None Include="res\web\404.html" />
     <None Include="res\web\browser.html" />
     <None Include="res\web\controls.html" />
-    <None Include="res\web\controls.js" />
     <None Include="res\web\default.css" />
     <None Include="res\web\images\1pix.gif" />
     <None Include="res\web\images\bottomside.png" />
@@ -648,8 +647,8 @@
     <None Include="res\web\images\vbs.png" />
     <None Include="res\web\index.html" />
     <None Include="res\web\info.html" />
+    <None Include="res\web\javascript.js" />
     <None Include="res\web\player.html" />
-    <None Include="res\web\player.js" />
     <None Include="res\web\variables.html" />
   </ItemGroup>
   <ItemGroup>
