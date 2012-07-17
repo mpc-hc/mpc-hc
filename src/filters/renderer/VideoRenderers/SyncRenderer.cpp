@@ -943,7 +943,14 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
 
         for (int i = 0; i < nTexturesNeeded; i++) {
             if (FAILED(hr = m_pD3DDev->CreateTexture(
-                                m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, Format, D3DPOOL_DEFAULT, &m_pVideoTexture[i], NULL))) {
+                                m_NativeVideoSize.cx,
+                                m_NativeVideoSize.cy,
+                                1,
+                                D3DUSAGE_RENDERTARGET,
+                                Format,
+                                D3DPOOL_DEFAULT,
+                                &m_pVideoTexture[i],
+                                NULL))) {
                 return hr;
             }
 
@@ -1103,16 +1110,28 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
     }
     if (m_bicubicA || bNeedScreenSizeTexture) {
         if (FAILED(m_pD3DDev->CreateTexture(
-                       min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth), min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-                       D3DPOOL_DEFAULT, &m_pScreenSizeTemporaryTexture[0], NULL))) {
+                       min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth),
+                       min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight),
+                       1,
+                       D3DUSAGE_RENDERTARGET,
+                       D3DFMT_A8R8G8B8,
+                       D3DPOOL_DEFAULT,
+                       &m_pScreenSizeTemporaryTexture[0],
+                       NULL))) {
             ASSERT(0);
             m_pScreenSizeTemporaryTexture[0] = NULL; // will do 1 pass then
         }
     }
     if (m_bicubicA || bNeedScreenSizeTexture) {
         if (FAILED(m_pD3DDev->CreateTexture(
-                       min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth), min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-                       D3DPOOL_DEFAULT, &m_pScreenSizeTemporaryTexture[1], NULL))) {
+                       min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth),
+                       min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight),
+                       1,
+                       D3DUSAGE_RENDERTARGET,
+                       D3DFMT_A8R8G8B8,
+                       D3DPOOL_DEFAULT,
+                       &m_pScreenSizeTemporaryTexture[1],
+                       NULL))) {
             ASSERT(0);
             m_pScreenSizeTemporaryTexture[1] = NULL; // will do 1 pass then
         }
@@ -1177,10 +1196,10 @@ HRESULT CBaseAP::TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTE
     float dy2 = 1.0f / h;
 
     MYD3DVERTEX<1> v[] = {
-        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z,  SrcRect.left * dx2, SrcRect.top * dy2},
-        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z,  SrcRect.right * dx2, SrcRect.top * dy2},
-        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z,  SrcRect.left * dx2, SrcRect.bottom * dy2},
-        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z,  SrcRect.right * dx2, SrcRect.bottom * dy2},
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, SrcRect.left * dx2, SrcRect.top * dy2},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, SrcRect.right * dx2, SrcRect.top * dy2},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, SrcRect.left * dx2, SrcRect.bottom * dy2},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, SrcRect.right * dx2, SrcRect.bottom * dy2},
     };
     AdjustQuad(v, 0, 0);
     hr = m_pD3DDev->SetTexture(0, pTexture);
@@ -1207,10 +1226,10 @@ HRESULT CBaseAP::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4
     float ty1 = (float)SrcRect.bottom;
 
     MYD3DVERTEX<1> v[] = {
-        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z,  tx0, ty0},
-        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z,  tx1, ty0},
-        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z,  tx0, ty1},
-        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z,  tx1, ty1},
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, tx0, ty0},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, tx1, ty0},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, tx0, ty1},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, tx1, ty1},
     };
     AdjustQuad(v, 1.0, 1.0);
     float fConstData[][4] = {{0.5f / w, 0.5f / h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}, {w, h, 0, 0}};
@@ -1724,16 +1743,22 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
         m_pOSDSurface   = NULL;
         if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE*)m_VMR9AlphaBitmapData) {
             if ((m_pD3DXLoadSurfaceFromMemory != NULL) &&
-                    SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1,
-                                   D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-                                   D3DPOOL_DEFAULT, &m_pOSDTexture, NULL))) {
+                    SUCCEEDED(hr = m_pD3DDev->CreateTexture(
+                                       rcSrc.Width(),
+                                       rcSrc.Height(),
+                                       1,
+                                       D3DUSAGE_RENDERTARGET,
+                                       D3DFMT_A8R8G8B8,
+                                       D3DPOOL_DEFAULT,
+                                       &m_pOSDTexture,
+                                       NULL))) {
                 if (SUCCEEDED(hr = m_pOSDTexture->GetSurfaceLevel(0, &m_pOSDSurface))) {
                     hr = m_pD3DXLoadSurfaceFromMemory(m_pOSDSurface, NULL, NULL, (BYTE*)m_VMR9AlphaBitmapData, D3DFMT_A8R8G8B8, m_VMR9AlphaBitmapWidthBytes,
                                                       NULL, &m_VMR9AlphaBitmapRect, D3DX_FILTER_NONE, m_VMR9AlphaBitmap.clrSrcKey);
                 }
                 if (FAILED(hr)) {
-                    m_pOSDTexture   = NULL;
-                    m_pOSDSurface   = NULL;
+                    m_pOSDTexture = NULL;
+                    m_pOSDSurface = NULL;
                 }
             }
         }
@@ -1768,10 +1793,10 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
         m_pRefClock->GetTime(&llCurRefTime);    // To check if we called Present too late to hit the right vsync
     }
     m_llEstVBlankTime = max(m_llEstVBlankTime, llCurRefTime); // Sometimes the real value is larger than the estimated value (but never smaller)
-    if (pApp->m_fDisplayStats < 3) { // Partial on-screen statistics
-        SyncStats(m_llEstVBlankTime);    // Max of estimate and real. Sometimes Present may actually return immediately so we need the estimate as a lower bound
+    if (pApp->m_fDisplayStats < 3) {      // Partial on-screen statistics
+        SyncStats(m_llEstVBlankTime);     // Max of estimate and real. Sometimes Present may actually return immediately so we need the estimate as a lower bound
     }
-    if (pApp->m_fDisplayStats == 1) { // Full on-screen statistics
+    if (pApp->m_fDisplayStats == 1) {      // Full on-screen statistics
         SyncOffsetStats(-llSyncOffset);    // Minus because we want time to flow downward in the graph in DrawStats
     }
 

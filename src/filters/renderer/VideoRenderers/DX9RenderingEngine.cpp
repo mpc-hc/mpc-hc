@@ -215,9 +215,13 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
 
         for (int i = 0; i < nTexturesNeeded; i++) {
             if (FAILED(hr = m_pD3DDev->CreateTexture(
-                                m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1,
-                                D3DUSAGE_RENDERTARGET, m_SurfaceType,
-                                D3DPOOL_DEFAULT, &m_pVideoTexture[i], NULL))) {
+                                m_NativeVideoSize.cx,
+                                m_NativeVideoSize.cy, 1,
+                                D3DUSAGE_RENDERTARGET,
+                                m_SurfaceType,
+                                D3DPOOL_DEFAULT,
+                                &m_pVideoTexture[i],
+                                NULL))) {
                 return hr;
             }
 
@@ -508,8 +512,14 @@ HRESULT CDX9RenderingEngine::InitTemporaryVideoTextures(int count)
     for (int i = 0; i < count; i++) {
         if (m_pTemporaryVideoTextures[i] == NULL) {
             hr = m_pD3DDev->CreateTexture(
-                     m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, m_SurfaceType,
-                     D3DPOOL_DEFAULT, &m_pTemporaryVideoTextures[i], NULL);
+                     m_NativeVideoSize.cx,
+                     m_NativeVideoSize.cy,
+                     1,
+                     D3DUSAGE_RENDERTARGET,
+                     m_SurfaceType,
+                     D3DPOOL_DEFAULT,
+                     &m_pTemporaryVideoTextures[i],
+                     NULL);
 
             if (FAILED(hr)) {
                 // Free all textures
@@ -556,8 +566,14 @@ HRESULT CDX9RenderingEngine::InitTemporaryScreenSpaceTextures(int count)
             m_TemporaryScreenSpaceTextureSize = CSize(min(m_ScreenSize.cx, (int)m_Caps.MaxTextureWidth),
                                                 min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_Caps.MaxTextureHeight));
             hr = m_pD3DDev->CreateTexture(
-                     m_TemporaryScreenSpaceTextureSize.cx, m_TemporaryScreenSpaceTextureSize.cy, 1, D3DUSAGE_RENDERTARGET, m_SurfaceType,
-                     D3DPOOL_DEFAULT, &m_pTemporaryScreenSpaceTextures[i], NULL);
+                     m_TemporaryScreenSpaceTextureSize.cx,
+                     m_TemporaryScreenSpaceTextureSize.cy,
+                     1,
+                     D3DUSAGE_RENDERTARGET,
+                     m_SurfaceType,
+                     D3DPOOL_DEFAULT,
+                     &m_pTemporaryScreenSpaceTextures[i],
+                     NULL);
 
             if (FAILED(hr)) {
                 // Free all textures
@@ -702,10 +718,10 @@ HRESULT CDX9RenderingEngine::TextureResize(IDirect3DTexture9* pTexture, Vector d
     float dy2 = 1.0f / h;
 
     MYD3DVERTEX<1> v[] = {
-        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z,  srcRect.left * dx2, srcRect.top * dy2},
-        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z,  srcRect.right * dx2, srcRect.top * dy2},
-        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z,  srcRect.left * dx2, srcRect.bottom * dy2},
-        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z,  srcRect.right * dx2, srcRect.bottom * dy2},
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, srcRect.left * dx2, srcRect.top * dy2},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, srcRect.right * dx2, srcRect.top * dy2},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, srcRect.left * dx2, srcRect.bottom * dy2},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, srcRect.right * dx2, srcRect.bottom * dy2},
     };
 
     AdjustQuad(v, 0, 0);
@@ -735,10 +751,10 @@ HRESULT CDX9RenderingEngine::TextureResizeBilinear(IDirect3DTexture9* pTexture, 
     const float ty1 = (float)srcRect.bottom;
 
     MYD3DVERTEX<1> v[] = {
-        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z,  tx0, ty0},
-        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z,  tx1, ty0},
-        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z,  tx0, ty1},
-        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z,  tx1, ty1},
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, tx0, ty0},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, tx1, ty0},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, tx0, ty1},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, tx1, ty1},
     };
 
     AdjustQuad(v, 1.0, 1.0);
@@ -773,10 +789,10 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic1pass(IDirect3DTexture9* pTextu
     const float ty1 = (float)srcRect.bottom;
 
     MYD3DVERTEX<1> v[] = {
-        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z,  tx0, ty0},
-        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z,  tx1, ty0},
-        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z,  tx0, ty1},
-        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z,  tx1, ty1},
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, tx0, ty0},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, tx1, ty0},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, tx0, ty1},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, tx1, ty1},
     };
 
     AdjustQuad(v, 1.0, 1.0);
