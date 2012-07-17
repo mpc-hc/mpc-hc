@@ -389,7 +389,7 @@ function OnCommand(id) {
 	MakeRequest("command.html?wm_command=" + id);
 }
 
-function Init() {
+function playerInit() {
 	StatusLoop();
 	LoadSnapShot();
 	if (e = document.getElementById("seekbar")) {
