@@ -1087,7 +1087,7 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
     LPCSTR pProfile = m_caps.PixelShaderVersion >= D3DPS_VERSION(3, 0) ? "ps_3_0" : "ps_2_0";
 
     CStringA str;
-    if (!LoadResource(IDF_SHADER_RESIZER, str, _T("FILE"))) {
+    if (!LoadResource(IDF_SHADER_RESIZER, str, _T("SHADER"))) {
         return E_FAIL;
     }
 

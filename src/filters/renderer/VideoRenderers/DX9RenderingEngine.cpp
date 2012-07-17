@@ -656,7 +656,7 @@ HRESULT CDX9RenderingEngine::InitResizers(float bicubicA)
     LPCSTR pProfile = m_Caps.PixelShaderVersion >= D3DPS_VERSION(3, 0) ? "ps_3_0" : "ps_2_0";
 
     CStringA str;
-    if (!LoadResource(IDF_SHADER_RESIZER, str, _T("FILE"))) {
+    if (!LoadResource(IDF_SHADER_RESIZER, str, _T("SHADER"))) {
         return E_FAIL;
     }
 
@@ -1124,7 +1124,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
     LPCSTR pProfile = m_Caps.PixelShaderVersion >= D3DPS_VERSION(3, 0) ? "ps_3_0" : "ps_2_0";
 
     CStringA shaderSourceCode;
-    if (!LoadResource(IDF_SHADER_FINAL, shaderSourceCode, _T("FILE"))) {
+    if (!LoadResource(IDF_SHADER_FINAL, shaderSourceCode, _T("SHADER"))) {
         CleanupFinalPass();
         return E_FAIL;
     }

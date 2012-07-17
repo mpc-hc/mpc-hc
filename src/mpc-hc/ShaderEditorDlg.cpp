@@ -328,7 +328,7 @@ void CShaderEditorDlg::OnCbnSelchangeCombo1()
         }
 
         CStringA srcdata;
-        LoadResource(IDF_SHADER_EMPTY, srcdata, _T("FILE"));
+        LoadResource(IDF_SHADER_EMPTY, srcdata, _T("SHADER"));
 
         CAppSettings::Shader s;
         s.label = label;

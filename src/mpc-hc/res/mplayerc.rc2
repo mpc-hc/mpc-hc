@@ -91,30 +91,6 @@ IDF_WIN7_TOOLBAR                 PNG                     "res\\toolbarw7.png"
 // FILE
 //
 
-IDF_SHADER_BT601_BT709           FILE                    "res\\shaders\\BT601BT709.psh"
-IDF_SHADER_CONTOUR               FILE                    "res\\shaders\\contour.psh"
-IDF_SHADER_DEINTERLACE           FILE                    "res\\shaders\\deinterlace (blend).psh"
-IDF_SHADER_DENOISE               FILE                    "res\\shaders\\denoise.psh"
-IDF_SHADER_EDGE_SHARPEN          FILE                    "res\\shaders\\EdgeSharpen.psh"
-IDF_SHADER_EMBOSS                FILE                    "res\\shaders\\emboss.psh"
-IDF_SHADER_EMPTY                 FILE                    "res\\shaders\\empty.psh"
-IDF_SHADER_FINAL                 FILE                    "res\\shaders\\final.psh"
-IDF_SHADER_GRAYSCALE             FILE                    "res\\shaders\\grayscale.psh"
-IDF_SHADER_INVERT                FILE                    "res\\shaders\\invert.psh"
-IDF_SHADER_LETTERBOX             FILE                    "res\\shaders\\letterbox.psh"
-IDF_SHADER_LEVELS                FILE                    "res\\shaders\\levels.psh"
-IDF_SHADER_LEVELS2               FILE                    "res\\shaders\\levels2.psh"
-IDF_SHADER_LEVELS3               FILE                    "res\\shaders\\levels3.psh"
-IDF_SHADER_NIGHTVISION           FILE                    "res\\shaders\\nightvision.psh"
-IDF_SHADER_PROCAMP               FILE                    "res\\shaders\\procamp.psh"
-IDF_SHADER_RESIZER               FILE                    "res\\shaders\\resizer.psh"
-IDF_SHADER_SHARPEN               FILE                    "res\\shaders\\sharpen.psh"
-IDF_SHADER_SHARPEN_COMPLEX       FILE                    "res\\shaders\\SharpenComplex.psh"
-IDF_SHADER_SHARPEN_COMPLEX2      FILE                    "res\\shaders\\SharpenComplex2.psh"
-IDF_SHADER_SPHERE                FILE                    "res\\shaders\\sphere.psh"
-IDF_SHADER_SPOTLIGHT             FILE                    "res\\shaders\\spotlight.psh"
-IDF_SHADER_WAVE                  FILE                    "res\\shaders\\wave.psh"
-IDF_SHADER_YV12CHROMAUP          FILE                    "res\\shaders\\YV12ChromaUpsampling.psh"
 IDF_CONTROLS_JS                  FILE                    "res\\web\\controls.js"
 IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
 IDF_PLAYER_JS                    FILE                    "res\\web\\player.js"
@@ -132,6 +108,37 @@ IDR_HTML_INDEX                   HTML                    "res\\web\\index.html"
 IDR_HTML_INFO                    HTML                    "res\\web\\info.html"
 IDR_HTML_PLAYER                  HTML                    "res\\web\\player.html"
 IDR_HTML_VARIABLES               HTML                    "res\\web\\variables.html"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// SHADER
+//
+
+IDF_SHADER_BT601_BT709           SHADER                  "res\\shaders\\BT601BT709.psh"
+IDF_SHADER_CONTOUR               SHADER                  "res\\shaders\\contour.psh"
+IDF_SHADER_DEINTERLACE           SHADER                  "res\\shaders\\deinterlace (blend).psh"
+IDF_SHADER_DENOISE               SHADER                  "res\\shaders\\denoise.psh"
+IDF_SHADER_EDGE_SHARPEN          SHADER                  "res\\shaders\\EdgeSharpen.psh"
+IDF_SHADER_EMBOSS                SHADER                  "res\\shaders\\emboss.psh"
+IDF_SHADER_EMPTY                 SHADER                  "res\\shaders\\empty.psh"
+IDF_SHADER_FINAL                 SHADER                  "res\\shaders\\final.psh"
+IDF_SHADER_GRAYSCALE             SHADER                  "res\\shaders\\grayscale.psh"
+IDF_SHADER_INVERT                SHADER                  "res\\shaders\\invert.psh"
+IDF_SHADER_LETTERBOX             SHADER                  "res\\shaders\\letterbox.psh"
+IDF_SHADER_LEVELS                SHADER                  "res\\shaders\\levels.psh"
+IDF_SHADER_LEVELS2               SHADER                  "res\\shaders\\levels2.psh"
+IDF_SHADER_LEVELS3               SHADER                  "res\\shaders\\levels3.psh"
+IDF_SHADER_NIGHTVISION           SHADER                  "res\\shaders\\nightvision.psh"
+IDF_SHADER_PROCAMP               SHADER                  "res\\shaders\\procamp.psh"
+IDF_SHADER_RESIZER               SHADER                  "res\\shaders\\resizer.psh"
+IDF_SHADER_SHARPEN               SHADER                  "res\\shaders\\sharpen.psh"
+IDF_SHADER_SHARPEN_COMPLEX       SHADER                  "res\\shaders\\SharpenComplex.psh"
+IDF_SHADER_SHARPEN_COMPLEX2      SHADER                  "res\\shaders\\SharpenComplex2.psh"
+IDF_SHADER_SPHERE                SHADER                  "res\\shaders\\sphere.psh"
+IDF_SHADER_SPOTLIGHT             SHADER                  "res\\shaders\\spotlight.psh"
+IDF_SHADER_WAVE                  SHADER                  "res\\shaders\\wave.psh"
+IDF_SHADER_YV12CHROMAUP          SHADER                  "res\\shaders\\YV12ChromaUpsampling.psh"
 
 
 /////////////////////////////////////////////////////////////////////////////
