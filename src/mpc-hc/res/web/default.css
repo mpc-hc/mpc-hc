@@ -176,3 +176,7 @@ img {
 #header,#center {
 	width:100%
 }
+
+#debug {
+	white-space:pre-wrap
+}

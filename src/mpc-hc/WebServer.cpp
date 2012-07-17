@@ -413,37 +413,39 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 
             CStringA debug;
             if (AfxGetAppSettings().fWebServerPrintDebugInfo) {
-                debug += "<hr>\r\n";
+                debug += "<br><hr>\r\n";
+                debug += "<div id=\"debug\">";
                 CString key, value;
                 POSITION pos;
                 pos = pClient->m_hdrlines.GetStartPosition();
                 while (pos) {
                     pClient->m_hdrlines.GetNextAssoc(pos, key, value);
-                    debug += "HEADER[" + key + "] = " + value + "<br>\r\n";
+                    debug += "HEADER[" + key + "] = " + value + "\r\n";
                 }
-                debug += "cmd: " + pClient->m_cmd + "<br>\r\n";
-                debug += "path: " + pClient->m_path + "<br>\r\n";
-                debug += "ver: " + pClient->m_ver + "<br>\r\n";
+                debug += "cmd: " + pClient->m_cmd + "\r\n";
+                debug += "path: " + pClient->m_path + "\r\n";
+                debug += "ver: " + pClient->m_ver + "\r\n";
                 pos = pClient->m_get.GetStartPosition();
                 while (pos) {
                     pClient->m_get.GetNextAssoc(pos, key, value);
-                    debug += "GET[" + key + "] = " + value + "<br>\r\n";
+                    debug += "GET[" + key + "] = " + value + "\r\n";
                 }
                 pos = pClient->m_post.GetStartPosition();
                 while (pos) {
                     pClient->m_post.GetNextAssoc(pos, key, value);
-                    debug += "POST[" + key + "] = " + value + "<br>\r\n";
+                    debug += "POST[" + key + "] = " + value + "\r\n";
                 }
                 pos = pClient->m_cookie.GetStartPosition();
                 while (pos) {
                     pClient->m_cookie.GetNextAssoc(pos, key, value);
-                    debug += "COOKIE[" + key + "] = " + value + "<br>\r\n";
+                    debug += "COOKIE[" + key + "] = " + value + "\r\n";
                 }
                 pos = pClient->m_request.GetStartPosition();
                 while (pos) {
                     pClient->m_request.GetNextAssoc(pos, key, value);
-                    debug += "REQUEST[" + key + "] = " + value + "<br>\r\n";
+                    debug += "REQUEST[" + key + "] = " + value + "\r\n";
                 }
+                debug += "</div>";
             }
             body.Replace("[debug]", debug);
         }
