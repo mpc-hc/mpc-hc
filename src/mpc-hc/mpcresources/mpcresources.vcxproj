@@ -323,25 +323,6 @@
     <None Include="..\res\Icon_114.ico" />
     <None Include="..\res\Icon_116.ico" />
     <None Include="..\res\Icon_41.ico" />
-    <None Include="..\res\logo.0.png" />
-    <None Include="..\res\logo.1.png">
-      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\res\logo.1_x64.png">
-      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\res\logo.2.png">
-      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\res\logo.2_x64.png">
-      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\res\logo.3.png">
-      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="..\res\logo.3_x64.png">
-      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
-    </None>
     <None Include="..\res\mono.bmp" />
     <None Include="..\res\multi.ico" />
     <None Include="..\res\noaudio.bmp" />
@@ -353,7 +334,6 @@
     <None Include="..\res\tb_play_16.ico" />
     <None Include="..\res\tb_stop_16.ico" />
     <None Include="..\res\toolbar.bmp" />
-    <None Include="..\res\toolbarw7.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

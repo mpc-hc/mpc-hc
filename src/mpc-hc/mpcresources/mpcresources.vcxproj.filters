@@ -97,28 +97,13 @@
     <None Include="..\res\icon.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\res\Icon_41.ico">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="..\res\Icon_114.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\Icon_116.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\Icon_41.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\logo.0.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\logo.1.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\logo.1_x64.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\logo.2.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\logo.2_x64.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\mono.bmp">
@@ -149,15 +134,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\tb_stop_16.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\toolbarw7.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\logo.3.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\logo.3_x64.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\toolbar.bmp">
