@@ -50,9 +50,9 @@ CMpeg2DataParser::CMpeg2DataParser(IBaseFilter* pFilter)
     m_pData = pFilter;
 
     memset(&m_Filter, 0, sizeof(m_Filter));
-    m_Filter.bVersionNumber         = 1;
-    m_Filter.wFilterSize            = MPEG2_FILTER_VERSION_1_SIZE;
-    m_Filter.fSpecifySectionNumber  = TRUE;
+    m_Filter.bVersionNumber = 1;
+    m_Filter.wFilterSize = MPEG2_FILTER_VERSION_1_SIZE;
+    m_Filter.fSpecifySectionNumber = TRUE;
 }
 
 CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
@@ -113,9 +113,9 @@ CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
         // 0x10 to 0xFF - reserved for future use
     };
 
-    UINT        cp = CP_ACP;
-    int         nDestSize;
-    CString     strResult;
+    UINT cp = CP_ACP;
+    int nDestSize;
+    CString strResult;
 
     if (nLength > 0) {
         if (pBuffer[0] == 0x10) {
@@ -192,13 +192,13 @@ HRESULT CMpeg2DataParser::ParseSIHeader(CGolombBuffer& gb, DVB_SI SIType, WORD& 
 
 HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 {
-    HRESULT                hr;
-    CComPtr<ISectionList>  pSectionList;
-    DWORD                  dwLength;
-    PSECTION               data;
-    WORD                   wTSID;
-    WORD                   wONID;
-    WORD                   wSectionLength;
+    HRESULT hr;
+    CComPtr<ISectionList> pSectionList;
+    DWORD dwLength;
+    PSECTION data;
+    WORD wTSID;
+    WORD wONID;
+    WORD wSectionLength;
 
     CheckNoLog(m_pData->GetSection(PID_SDT, SI_SDT, &m_Filter, 5000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
@@ -212,7 +212,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
     gb.BitRead(8);                                                      // reserved_future_use
 
     while (gb.GetSize() - gb.GetPos() > 4) {
-        CDVBChannel         Channel;
+        CDVBChannel Channel;
         Channel.SetFrequency(ulFreq);
         Channel.SetTSID(wTSID);
         Channel.SetONID(wONID);
@@ -255,12 +255,12 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 
 HRESULT CMpeg2DataParser::ParsePAT()
 {
-    HRESULT                hr;
-    CComPtr<ISectionList>  pSectionList;
-    DWORD                  dwLength;
-    PSECTION               data;
-    WORD                   wTSID;
-    WORD                   wSectionLength;
+    HRESULT hr;
+    CComPtr<ISectionList> pSectionList;
+    DWORD dwLength;
+    PSECTION data;
+    WORD wTSID;
+    WORD wSectionLength;
 
     CheckNoLog(m_pData->GetSection(PID_PAT, SI_PAT, &m_Filter, 5000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
@@ -288,12 +288,12 @@ HRESULT CMpeg2DataParser::ParsePAT()
 
 HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 {
-    HRESULT                hr;
-    CComPtr<ISectionList>  pSectionList;
-    DWORD                  dwLength;
-    PSECTION               data;
-    WORD                   wTSID;
-    WORD                   wSectionLength;
+    HRESULT hr;
+    CComPtr<ISectionList> pSectionList;
+    DWORD dwLength;
+    PSECTION data;
+    WORD wTSID;
+    WORD wSectionLength;
 
     CheckNoLog(m_pData->GetSection(Channel.GetPMT(), SI_PMT, &m_Filter, 5000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
@@ -313,10 +313,10 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 
 
     while (gb.GetSize() - gb.GetPos() > 4) {
-        PES_STREAM_TYPE     pes_stream_type;
-        DVB_STREAM_TYPE     dvb_stream_type;
-        WORD                wPID;
-        CString             strLanguage;
+        PES_STREAM_TYPE pes_stream_type;
+        DVB_STREAM_TYPE dvb_stream_type;
+        WORD            wPID;
+        CString         strLanguage;
 
         pes_stream_type = (PES_STREAM_TYPE)gb.BitRead(8);       // stream_type
         gb.BitRead(3);                                          // reserved
@@ -376,11 +376,11 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing& NowNext)
     }
 
     // Start time:
-    tmTime1.tm_hour = (int)(gb.BitRead(4) * 10);
+    tmTime1.tm_hour  = (int)(gb.BitRead(4) * 10);
     tmTime1.tm_hour += (int)gb.BitRead(4);
-    tmTime1.tm_min  = (int)(gb.BitRead(4) * 10);
+    tmTime1.tm_min   = (int)(gb.BitRead(4) * 10);
     tmTime1.tm_min  += (int)gb.BitRead(4);
-    tmTime1.tm_sec  = (int)(gb.BitRead(4) * 10);
+    tmTime1.tm_sec   = (int)(gb.BitRead(4) * 10);
     tmTime1.tm_sec  += (int)gb.BitRead(4);
     tTime1 = mktime(&tmTime1) - timezone;
     localtime_s(&tmTime2, &tTime1);
@@ -408,11 +408,11 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing& NowNext)
 
 HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
 {
-    HRESULT                 hr;
-    CComPtr<ISectionList>   pSectionList;
-    DWORD                   dwLength;
-    PSECTION                data;
-    ULONG                   ulGetSID;
+    HRESULT hr;
+    CComPtr<ISectionList> pSectionList;
+    DWORD dwLength;
+    PSECTION data;
+    ULONG ulGetSID;
     EventInformationSection InfoEvent;
     int nLen;
     int descriptorNumber;
@@ -524,18 +524,18 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
 
 HRESULT CMpeg2DataParser::ParseNIT()
 {
-    HRESULT                 hr;
-    CComPtr<ISectionList>   pSectionList;
-    DWORD                   dwLength;
-    PSECTION                data;
-    WORD                    wTSID;
-    WORD                    wSectionLength;
-    WORD                    transport_stream_loop_length;
+    HRESULT hr;
+    CComPtr<ISectionList> pSectionList;
+    DWORD dwLength;
+    PSECTION data;
+    WORD wTSID;
+    WORD wSectionLength;
+    WORD transport_stream_loop_length;
 
     CheckNoLog(m_pData->GetSection(PID_NIT, SI_NIT, &m_Filter, 5000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
 
-    CGolombBuffer   gb((BYTE*)data, dwLength);
+    CGolombBuffer gb((BYTE*)data, dwLength);
 
     // network_information_section()
     CheckNoLog(ParseSIHeader(gb, SI_NIT, wSectionLength, wTSID));
@@ -549,18 +549,18 @@ HRESULT CMpeg2DataParser::ParseNIT()
     gb.BitRead(4);                                              // reserved_future_use
     transport_stream_loop_length = (WORD)gb.BitRead(12);        // network_descriptors_length
     while (gb.GetSize() - gb.GetPos() > 4) {
-        WORD    transport_stream_id = (WORD)gb.BitRead(16);     // transport_stream_id
+        WORD transport_stream_id = (WORD)gb.BitRead(16);     // transport_stream_id
         UNREFERENCED_PARAMETER(transport_stream_id);
-        WORD    original_network_id = (WORD)gb.BitRead(16);     // original_network_id
+        WORD original_network_id = (WORD)gb.BitRead(16);     // original_network_id
         UNREFERENCED_PARAMETER(original_network_id);
         gb.BitRead(4);                                          // reserved_future_use
         BeginEnumDescriptors(gb, nType, nLength) {
             switch (nType) {
                 case DT_LOGICAL_CHANNEL :
                     for (int i = 0; i < nLength / 4; i++) {
-                        WORD    service_id  = (WORD)gb.BitRead(16);
+                        WORD service_id  = (WORD)gb.BitRead(16);
                         gb.BitRead(6);
-                        WORD    logical_channel_number  = (WORD)gb.BitRead(10);
+                        WORD logical_channel_number  = (WORD)gb.BitRead(10);
                         if (Channels.Lookup(service_id)) {
                             Channels[service_id].SetOriginNumber(logical_channel_number);
                             TRACE("NIT association : %d -> %S\n", logical_channel_number, Channels[service_id].ToString());

@@ -43,7 +43,6 @@ public:
     virtual ~CSaveTextFileDialog();
 
     CComboBox m_encoding;
-
     CTextFile::enc GetEncoding() { return m_e; }
 
 protected:

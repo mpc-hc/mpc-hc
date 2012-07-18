@@ -34,7 +34,7 @@ public:
     CPPageSync();
     virtual ~CPPageSync();
 
-    enum {IDD = IDD_PPAGESYNC};
+    enum { IDD = IDD_PPAGESYNC };
     BOOL m_bSynchronizeVideo;
     BOOL m_bSynchronizeDisplay;
     BOOL m_bSynchronizeNearest;

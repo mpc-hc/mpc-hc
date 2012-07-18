@@ -430,11 +430,11 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
 
         c.pMoniker = pMoniker;
         /*
-                CComPtr<IBaseFilter> pBF;
-                if (FAILED(pMoniker->BindToObject(0, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF)
-                    continue;
+        CComPtr<IBaseFilter> pBF;
+        if (FAILED(pMoniker->BindToObject(0, 0, IID_IBaseFilter, (void**)&pBF)) || !pBF)
+            continue;
 
-                c.pBF = pBF;
+        c.pBF = pBF;
         */
         LPOLESTR strName = NULL;
         if (FAILED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {

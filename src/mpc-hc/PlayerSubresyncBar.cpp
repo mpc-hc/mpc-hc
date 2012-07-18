@@ -89,7 +89,6 @@ BOOL CPlayerSubresyncBar::PreTranslateMessage(MSG* pMsg)
 void CPlayerSubresyncBar::SetTime(__int64 rt)
 {
     m_rt = rt;
-
     int curSegment;
 
     if (!m_sts.SearchSubs((int)(rt / 10000), 25, &curSegment)) {
@@ -105,7 +104,6 @@ void CPlayerSubresyncBar::SetTime(__int64 rt)
 void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
 {
     m_pSubStream = pSubStream;
-
     m_mode = NONE;
     m_lastSegment = -1;
     m_sts.Empty();
@@ -480,8 +478,8 @@ void CPlayerSubresyncBar::SetCheck(int iItem, bool fStart, bool fEnd)
 bool CPlayerSubresyncBar::ModStart(int iItem, int t, bool fReset)
 {
     bool fRet = false;
-
     bool fStartMod, fEndMod, fStartAdj, fEndAdj;
+
     GetCheck(iItem, fStartMod, fEndMod, fStartAdj, fEndAdj);
 
     SubTime& st = m_subtimes[iItem];
@@ -506,8 +504,8 @@ bool CPlayerSubresyncBar::ModStart(int iItem, int t, bool fReset)
 bool CPlayerSubresyncBar::ModEnd(int iItem, int t, bool fReset)
 {
     bool fRet = false;
-
     bool fStartMod, fEndMod, fStartAdj, fEndAdj;
+
     GetCheck(iItem, fStartMod, fEndMod, fStartAdj, fEndAdj);
 
     SubTime& st = m_subtimes[iItem];

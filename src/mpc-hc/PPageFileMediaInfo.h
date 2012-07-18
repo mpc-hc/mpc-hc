@@ -41,7 +41,6 @@ public:
     CEdit m_mediainfo;
     CString m_fn;
     CFont* m_pCFont;
-
     CString MI_Text;
 
 #ifndef USE_MEDIAINFO_STATIC

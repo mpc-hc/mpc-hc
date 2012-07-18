@@ -37,9 +37,7 @@ public:
     virtual ~CVolumeCtrl();
 
     bool Create(CWnd* pParentWnd);
-
     void IncreaseVolume(), DecreaseVolume();
-
     void SetPosInternal(int pos);
 
 protected:

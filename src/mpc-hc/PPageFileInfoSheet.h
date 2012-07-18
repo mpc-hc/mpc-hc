@@ -41,7 +41,6 @@ private:
     CPPageFileInfoClip m_clip;
     CPPageFileInfoDetails m_details;
     CPPageFileMediaInfo m_mi;
-
     CButton m_Button_MI;
 
 public:
@@ -49,7 +48,6 @@ public:
     virtual ~CPPageFileInfoSheet();
 
     afx_msg void OnSaveAs();
-
     CString m_fn;
 protected:
     virtual BOOL OnInitDialog();
