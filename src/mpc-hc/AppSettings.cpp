@@ -1355,7 +1355,7 @@ void CAppSettings::UpdateData(bool fSave)
             CAtlStringMap<UINT>::CPair* pPair = shaders.GetNext(pos);
 
             CStringA srcdata;
-            if (LoadResource(pPair->m_value, srcdata, _T("FILE"))) {
+            if (LoadResource(pPair->m_value, srcdata, _T("SHADER"))) {
                 Shader s;
                 s.label = pPair->m_key;
 
