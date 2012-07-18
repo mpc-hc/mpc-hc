@@ -74,9 +74,9 @@ DWORD ParseWAVECDHeader(const BYTE wh[44])
     PCMWAVEFORMAT pcmwf = *(PCMWAVEFORMAT*)(wh + 20);
     if (pcmwf.wf.wFormatTag != 1
             || pcmwf.wf.nChannels != 2
-            || pcmwf.wf.nSamplesPerSec != 44100
-            || pcmwf.wf.nAvgBytesPerSec != 176400
+            || pcmwf.wf.nSamplesPerSec != 44100 && pcmwf.wf.nSamplesPerSec != 48000
             || pcmwf.wf.nBlockAlign != 4
+            || pcmwf.wf.nAvgBytesPerSec != pcmwf.wf.nSamplesPerSec * pcmwf.wf.nBlockAlign
             || pcmwf.wBitsPerSample != 16) {
         return 0;
     }

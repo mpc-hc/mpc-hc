@@ -351,7 +351,6 @@ int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
             memcpy(hdr, buf, 14);
             break;
         case 0x80017ffe: // 'FE7F0180' 16 bits and little endian bitstream
-            // not tested, need samples.
             _swab((char*)buf, (char*)hdr, 14);
             break;
         case 0x00e8ff1f: // '1FFFE800' 14 bits and big endian bitstream
