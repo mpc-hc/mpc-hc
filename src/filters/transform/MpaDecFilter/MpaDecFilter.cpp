@@ -945,6 +945,10 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum CodecID nCodecId)
     BYTE* base = p;
     BYTE* end = p + m_buff.GetCount();
 
+    if (end - p <= 0) { // StreamBufferSource can produce empty data
+        return S_OK;
+    }
+
     int size = 0;
     hr = DeliverFFmpeg(nCodecId, p, int(end - p), size);
     if (FAILED(hr)) {
