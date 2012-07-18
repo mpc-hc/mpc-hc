@@ -509,7 +509,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         m_iSpeakerConfig[ac3] = SPK_STEREO;
     }
     //if ((m_iSpeakerConfig[dts]&~SPK_LFE) < SPK_ASIS || (m_iSpeakerConfig[dts]&~SPK_LFE) > SPK_3F2R) {
-    if (m_iSpeakerConfig[ac3] != SPK_ASIS || m_iSpeakerConfig[ac3] != SPK_STEREO) {
+    if (m_iSpeakerConfig[ac3] != SPK_ASIS && m_iSpeakerConfig[ac3] != SPK_STEREO) {
         m_iSpeakerConfig[dts] = SPK_STEREO;
     }
 }
