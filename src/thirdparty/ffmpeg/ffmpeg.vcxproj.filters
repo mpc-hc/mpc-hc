@@ -252,6 +252,93 @@
     <ClCompile Include="libavutil\x86\float_dsp_init.c">
       <Filter>libavutil\x86</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\x86\ac3dsp_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\dsputil_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\dsputil_mmx_avg_template.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\dsputil_mmx_qns_template.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\dsputil_mmx_rnd_template.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\fdct_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\fft.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\fft_3dn.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\fft_3dn2.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\fmtconvert_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\h264_intrapred_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\h264_qpel_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\h264dsp_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\idct_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\idct_mmx_xvid.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\idct_sse2_xvid.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\mlpdsp.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\motion_est_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\mpegaudiodec_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\mpegvideo_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\mpegvideo_mmx_template.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\rv34dsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\rv40dsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\sbrdsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\simple_idct_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\vc1dsp_mmx.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\vp3dsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\vp8dsp-init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\x86\vp56dsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\aac_ac3_parser.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -406,6 +493,12 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\flacdec.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\flacdsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\flacdsp_template.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\flvdec.c">
@@ -603,6 +696,9 @@
     <ClCompile Include="libavcodec\mpegaudiodsp.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\mpegaudiodsp_fixed.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\mpegaudiodsp_float.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -780,90 +876,6 @@
     <ClCompile Include="libavcodec\xiph.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\ac3dsp_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\dsputil_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\dsputil_mmx_avg_template.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\dsputil_mmx_qns_template.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\dsputil_mmx_rnd_template.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\fdct_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\fft.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\fft_3dn.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\fft_3dn2.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\fmtconvert_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\h264_intrapred_init.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\h264_qpel_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\h264dsp_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\idct_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\idct_mmx_xvid.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\idct_sse2_xvid.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\mlpdsp.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\motion_est_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\mpegaudiodec_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\mpegvideo_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\mpegvideo_mmx_template.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\rv34dsp_init.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\rv40dsp_init.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\sbrdsp_init.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\simple_idct_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\vc1dsp_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\vp8dsp-init.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\vp56dsp_init.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
@@ -1022,6 +1034,30 @@
     </ClInclude>
     <ClInclude Include="libavutil\x86\timer.h">
       <Filter>libavutil\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\cabac.h">
+      <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\diracdsp_mmx.h">
+      <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\dsputil_mmx.h">
+      <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\fft.h">
+      <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\h264_i386.h">
+      <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\idct_xvid.h">
+      <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\mathops.h">
+      <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\vp56_arith.h">
+      <Filter>libavcodec\x86</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\aac.h">
       <Filter>libavcodec</Filter>
@@ -1195,6 +1231,9 @@
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\flacdata.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\flacdsp.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\flv.h">
@@ -1485,6 +1524,9 @@
     <ClInclude Include="libavcodec\vp3data.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
+    <ClInclude Include="libavcodec\vp3dsp.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
     <ClInclude Include="libavcodec\vp5data.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
@@ -1520,30 +1562,6 @@
     </ClInclude>
     <ClInclude Include="libavcodec\xvmc_internal.h">
       <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\x86\cabac.h">
-      <Filter>libavcodec\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\x86\diracdsp_mmx.h">
-      <Filter>libavcodec\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\x86\dsputil_mmx.h">
-      <Filter>libavcodec\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\x86\fft.h">
-      <Filter>libavcodec\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\x86\h264_i386.h">
-      <Filter>libavcodec\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\x86\idct_xvid.h">
-      <Filter>libavcodec\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\x86\mathops.h">
-      <Filter>libavcodec\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavcodec\x86\vp56_arith.h">
-      <Filter>libavcodec\x86</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

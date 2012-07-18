@@ -172,8 +172,8 @@
     <ClCompile Include="libavcodec\celp_math.c" />
     <ClCompile Include="libavcodec\cook.c" />
     <ClCompile Include="libavcodec\dca.c" />
-    <ClCompile Include="libavcodec\dca_parser.c" />
     <ClCompile Include="libavcodec\dcadsp.c" />
+    <ClCompile Include="libavcodec\dca_parser.c" />
     <ClCompile Include="libavcodec\dct.c" />
     <ClCompile Include="libavcodec\dct32.c" />
     <ClCompile Include="libavcodec\dct32_float.c" />
@@ -188,6 +188,8 @@
     <ClCompile Include="libavcodec\flac.c" />
     <ClCompile Include="libavcodec\flacdata.c" />
     <ClCompile Include="libavcodec\flacdec.c" />
+    <ClCompile Include="libavcodec\flacdsp.c" />
+    <ClCompile Include="libavcodec\flacdsp_template.c" />
     <ClCompile Include="libavcodec\flvdec.c" />
     <ClCompile Include="libavcodec\fmtconvert.c" />
     <ClCompile Include="libavcodec\frame_thread_encoder.c" />
@@ -252,6 +254,7 @@
     <ClCompile Include="libavcodec\mpegaudiodecheader.c" />
     <ClCompile Include="libavcodec\mpegaudiodec_float.c" />
     <ClCompile Include="libavcodec\mpegaudiodsp.c" />
+    <ClCompile Include="libavcodec\mpegaudiodsp_fixed.c" />
     <ClCompile Include="libavcodec\mpegaudiodsp_float.c" />
     <ClCompile Include="libavcodec\mpegaudiodsp_template.c" />
     <ClCompile Include="libavcodec\mpegaudio_parser.c" />
@@ -337,6 +340,7 @@
     <ClCompile Include="libavcodec\x86\sbrdsp_init.c" />
     <ClCompile Include="libavcodec\x86\simple_idct_mmx.c" />
     <ClCompile Include="libavcodec\x86\vc1dsp_mmx.c" />
+    <ClCompile Include="libavcodec\x86\vp3dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp56dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp8dsp-init.c" />
     <ClCompile Include="libavcodec\xiph.c" />
@@ -429,10 +433,10 @@
     <ClInclude Include="libavcodec\celp_math.h" />
     <ClInclude Include="libavcodec\cookdata.h" />
     <ClInclude Include="libavcodec\dca.h" />
-    <ClInclude Include="libavcodec\dca_parser.h" />
     <ClInclude Include="libavcodec\dcadata.h" />
     <ClInclude Include="libavcodec\dcadsp.h" />
     <ClInclude Include="libavcodec\dcahuff.h" />
+    <ClInclude Include="libavcodec\dca_parser.h" />
     <ClInclude Include="libavcodec\dct.h" />
     <ClInclude Include="libavcodec\dct32.h" />
     <ClInclude Include="libavcodec\diracdsp.h" />
@@ -446,6 +450,7 @@
     <ClInclude Include="libavcodec\fft.h" />
     <ClInclude Include="libavcodec\flac.h" />
     <ClInclude Include="libavcodec\flacdata.h" />
+    <ClInclude Include="libavcodec\flacdsp.h" />
     <ClInclude Include="libavcodec\flv.h" />
     <ClInclude Include="libavcodec\fmtconvert.h" />
     <ClInclude Include="libavcodec\frame_thread_encoder.h" />
@@ -542,6 +547,7 @@
     <ClInclude Include="libavcodec\version.h" />
     <ClInclude Include="libavcodec\vorbis.h" />
     <ClInclude Include="libavcodec\vp3data.h" />
+    <ClInclude Include="libavcodec\vp3dsp.h" />
     <ClInclude Include="libavcodec\vp56.h" />
     <ClInclude Include="libavcodec\vp56data.h" />
     <ClInclude Include="libavcodec\vp56dsp.h" />

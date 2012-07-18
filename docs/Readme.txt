@@ -63,11 +63,11 @@ Bento4              GPLv2                      1.2.3-387 (modified)     http://z
 CLineNumberEdit     -                          12 May '04 (modified)    http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
 CSizingControlBar   GPLv2                      2.45                     http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                   3.0 build 316            http://research.microsoft.com/en-us/projects/detours/
-FFmpeg              GPLv2                      3b0ad04 git              http://www.ffmpeg.org/
+FFmpeg              GPLv2                      204c4e9 git              http://www.ffmpeg.org/
 libflac             GPLv2 / New BSD License    1.2.1                    http://flac.sourceforge.net/
 libmpeg2            GPLv2                      0.3.2 (modified)         http://libmpeg2.sourceforge.net/
 libogg              New BSD License            1.3.0                    http://www.xiph.org/
-Little CMS          MIT License                v2.4 git 88af283         http://www.littlecms.com/
+Little CMS          MIT License                v2.4 git 8b13ad6         http://www.littlecms.com/
 Logitech SDK        -                          3.01                     -
 MediaInfoLib        LGPLv3                     0.7.58                   http://mediainfo.sourceforge.net/
 MultiMon            CPOL                       28 Aug '03 (modified)    http://www.codeproject.com/KB/GDI/multimon.aspx
