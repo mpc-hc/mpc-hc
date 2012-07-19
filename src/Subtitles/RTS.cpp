@@ -159,12 +159,11 @@ void CWord::Paint(CPoint p, CPoint org)
 
 void CWord::Transform(CPoint org)
 {
-#ifdef _VSMOD
     if (fSSE2) {    // SSE code
         Transform_SSE2(org);
-    } else      // C-code
-#endif
+    } else {        // C-code
         Transform_C(org);
+    }
 }
 
 bool CWord::CreateOpaqueBox()
