@@ -1053,8 +1053,6 @@ static __forceinline DWORD safe_subtract_sse2(DWORD a, DWORD b)
     return (DWORD)_mm_cvtsi128_si32(rp);
 }
 
-static const __int64 _00ff00ff00ff00ff = 0x00ff00ff00ff00ffi64;
-
 // some helper procedures (Draw is so big)
 void Rasterizer::Draw_noAlpha_spFF_Body_0(RasterizerNfo& rnfo)
 {

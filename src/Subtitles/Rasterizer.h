@@ -83,8 +83,6 @@ private:
 
     unsigned int* mpScanBuffer;
 
-    typedef unsigned char byte;
-
 protected:
     int mPathOffsetX, mPathOffsetY;
     int mOffsetX, mOffsetY;
