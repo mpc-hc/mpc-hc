@@ -917,7 +917,8 @@ BOOL CMPlayerCApp::InitInstance()
 
         bool bAudioOnly, bPlaylist;
 
-        CFileAssoc::LoadIconsLib();
+        CFileAssoc::LoadIconLib();
+        CFileAssoc::SaveIconLibVersion();
 
         for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
             bPlaylist = !mf[i].GetLabel().CompareNoCase(_T("pls"));
@@ -935,7 +936,7 @@ BOOL CMPlayerCApp::InitInstance()
             }
         }
 
-        CFileAssoc::FreeIconsLib();
+        CFileAssoc::FreeIconLib();
 
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
@@ -949,6 +950,20 @@ BOOL CMPlayerCApp::InitInstance()
         for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
             CFileAssoc::Register(mf[i], false, false, false);
         }
+
+        SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
+
+        return FALSE;
+    }
+
+    if (m_s.nCLSwitches & CLSW_ICONSASSOC) {
+        CMediaFormats& mf = m_s.m_Formats;
+        mf.UpdateData(false);
+
+        CAtlList<CString> registeredExts;
+        CFileAssoc::GetAssociatedExtensions(mf, registeredExts);
+
+        CFileAssoc::ReAssocIcons(registeredExts);
 
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
@@ -1043,7 +1058,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     pFrame->SetFocus();
 
-    // set HIGH I/O Priority for better playback perfomance
+    // set HIGH I/O Priority for better playback performance
     if (hNTDLL) {
         typedef NTSTATUS(WINAPI * FUNC_NTSETINFORMATIONPROCESS)(HANDLE, ULONG, PVOID, ULONG);
         FUNC_NTSETINFORMATIONPROCESS NtSetInformationProcess = (FUNC_NTSETINFORMATIONPROCESS)GetProcAddress(hNTDLL, "NtSetInformationProcess");
@@ -1066,6 +1081,10 @@ BOOL CMPlayerCApp::InitInstance()
 
     if (UpdateChecker::IsAutoUpdateEnabled()) {
         UpdateChecker::CheckForUpdate(true);
+    }
+
+    if (m_s.fAssociatedWithIcons) {
+        CFileAssoc::CheckIconsAssoc(m_s.m_Formats);
     }
 
     return TRUE;

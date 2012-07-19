@@ -29,8 +29,12 @@ int main()
     return 0;
 }
 
-extern "C" __declspec(dllexport) int get_icon_index(CString ext)
+extern "C" __declspec(dllexport) UINT GetIconLibVersion()
 {
+    return ICON_LIB_VERSION;
+}
+
+extern "C" __declspec(dllexport) int get_icon_index(CString ext){
     int iconindex = -1;// IDI_NONE
 
     if (ext.CompareNoCase(_T(".3g2")) == 0) {

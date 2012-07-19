@@ -22,8 +22,10 @@
  */
 
 #include "stdafx.h"
+#include "mplayerc.h"
 #include "FileAssoc.h"
 #include "resource.h"
+#include "SysVersion.h"
 #include "WinAPIUtils.h"
 
 
@@ -48,6 +50,7 @@ CComPtr<IApplicationAssociationRegistration> CFileAssoc::m_pAAR;
 CString CFileAssoc::m_iconLibPath;
 HMODULE CFileAssoc::m_hIconLib = NULL;
 CFileAssoc::GetIconIndexFunc CFileAssoc::GetIconIndex = NULL;
+CFileAssoc::GetIconLibVersionFunc CFileAssoc::GetIconLibVersion = NULL;
 
 CString CFileAssoc::GetOpenCommand()
 {
@@ -74,28 +77,30 @@ IApplicationAssociationRegistration* CFileAssoc::CreateRegistrationManager()
     return pAAR;
 }
 
-bool CFileAssoc::LoadIconsLib()
+bool CFileAssoc::LoadIconLib()
 {
     bool loaded = false;
 
-    FreeIconsLib();
+    FreeIconLib();
 
     m_iconLibPath = GetProgramPath() + _T("mpciconlib.dll");
     m_hIconLib = LoadLibrary(m_iconLibPath);
     if (m_hIconLib) {
         GetIconIndex = (GetIconIndexFunc)GetProcAddress(m_hIconLib, "get_icon_index");
+        GetIconLibVersion = (GetIconLibVersionFunc)GetProcAddress(m_hIconLib, "GetIconLibVersion");
 
+        // Only require GetIconIndex for now
         if (GetIconIndex) {
             loaded = true;
         } else {
-            FreeIconsLib();
+            FreeIconLib();
         }
     }
 
     return loaded;
 }
 
-bool CFileAssoc::FreeIconsLib()
+bool CFileAssoc::FreeIconLib()
 {
     bool unloaded = false;
 
@@ -104,10 +109,24 @@ bool CFileAssoc::FreeIconsLib()
         m_iconLibPath.Empty();
         m_hIconLib = NULL;
         GetIconIndex = NULL;
+        GetIconLibVersion = NULL;
     }
 
     return unloaded;
 }
+
+bool CFileAssoc::SaveIconLibVersion()
+{
+    bool saved = false;
+
+    if (GetIconLibVersion) {
+        AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ICON_LIB_VERSION, GetIconLibVersion());
+        saved = true;
+    }
+
+    return saved;
+}
+
 bool CFileAssoc::RegisterApp()
 {
     bool success = false;
@@ -202,7 +221,6 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
 
             if (m_hIconLib) {
                 int iconIndex = GetIconIndex(ext);
-                CString typeicon = m_iconLibPath;
 
                 /* icon_index value -1 means no icon was found in the iconlib for the file extension */
                 if (iconIndex >= 0 && ExtractIcon(AfxGetApp()->m_hInstance, m_iconLibPath, iconIndex)) {
@@ -642,4 +660,135 @@ bool CFileAssoc::IsAutoPlayRegistered(autoplay_t ap)
     key.Close();
 
     return true;
+}
+
+bool CFileAssoc::GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CString>& exts)
+{
+    exts.RemoveAll();
+
+    CAtlList<CString> mfcExts;
+    for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
+        ExplodeMin(mf[i].GetExtsWithPeriod(), mfcExts, _T(' '));
+
+        POSITION pos = mfcExts.GetHeadPosition();
+        while (pos) {
+            const CString ext = mfcExts.GetNext(pos);
+            if (CFileAssoc::IsRegistered(ext)) {
+                exts.AddTail(ext);
+            }
+        }
+    }
+
+    return !exts.IsEmpty();
+}
+
+bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
+{
+    if (!LoadIconLib()) {
+        return false;
+    }
+    SaveIconLibVersion();
+
+    const CString progPath = GetProgramPath(true);
+
+    CRegKey key;
+
+    POSITION pos = exts.GetHeadPosition();
+    while (pos) {
+        const CString ext = exts.GetNext(pos);
+        const CString strProgID = PROGID + ext;
+        CString appIcon;
+
+        int iconIndex = GetIconIndex(ext);
+
+        /* icon_index value -1 means no icon was found in the iconlib for the file extension */
+        if (iconIndex >= 0 && ExtractIcon(AfxGetApp()->m_hInstance, m_iconLibPath, iconIndex)) {
+            appIcon.Format(_T("\"%s\",%d"), m_iconLibPath, iconIndex);
+        }
+
+        /* no icon was found for the file extension, so use MPC's icon */
+        if (appIcon.IsEmpty()) {
+            appIcon = "\"" + progPath + "\",0";
+        }
+
+        if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))
+            || ERROR_SUCCESS != key.SetStringValue(NULL, appIcon)) {
+                return false;
+        }
+
+        key.Close();
+    }
+
+    FreeIconLib();
+
+    return true;
+}
+
+static HRESULT CALLBACK TaskDialogCallbackProc(HWND hwnd, UINT uNotification, WPARAM wParam, LPARAM lParam, LONG_PTR dwRefData)
+{
+    if (TDN_CREATED == uNotification) {
+        SendMessage(hwnd, TDM_SET_BUTTON_ELEVATION_REQUIRED_STATE, IDYES, TRUE);
+    }
+
+    return S_OK;
+}
+
+UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID pParam)
+{
+    const CMediaFormats& mf = *(const CMediaFormats*)pParam;
+    
+    UINT nLastVersion = AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ICON_LIB_VERSION, 0);
+
+    if (LoadIconLib() && GetIconLibVersion) {
+        UINT nCurrentVersion = GetIconLibVersion();
+        SaveIconLibVersion(); // Ensure we don't try to fix the icons more than once
+
+        CAtlList<CString> registeredExts;
+
+        if (nCurrentVersion != nLastVersion && GetAssociatedExtensions(mf, registeredExts)) {
+            if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
+                TASKDIALOGCONFIG config = {0};
+                config.cbSize = sizeof(config);
+                config.hInstance = AfxGetInstanceHandle();
+                config.hwndParent = AfxGetApp()->GetMainWnd()->GetSafeHwnd();
+                config.dwCommonButtons = TDCBF_YES_BUTTON | TDCBF_NO_BUTTON;
+                config.pszMainIcon = TD_SHIELD_ICON;
+                config.pszWindowTitle = MAKEINTRESOURCE(IDS_ICONS_REASSOC_DLG_TITLE);
+                config.pszMainInstruction = MAKEINTRESOURCE(IDS_ICONS_REASSOC_DLG_INSTR);
+                config.pszContent = MAKEINTRESOURCE(IDS_ICONS_REASSOC_DLG_CONTENT);;
+                config.pfCallback = TaskDialogCallbackProc;
+
+                typedef HRESULT (_stdcall *pfTaskDialogIndirect)(const TASKDIALOGCONFIG*, int*, int*, BOOL*);
+
+                HMODULE hModule = ::LoadLibrary(_T("comctl32.dll"));
+                if (hModule) {
+                    pfTaskDialogIndirect TaskDialogIndirect = (pfTaskDialogIndirect)(::GetProcAddress(hModule, "TaskDialogIndirect"));
+
+                    if (TaskDialogIndirect) {
+                        int nButtonPressed = 0;
+                        TaskDialogIndirect(&config, &nButtonPressed, NULL, NULL);
+
+                        if (IDYES == nButtonPressed) {
+                            AfxGetMyApp()->RunAsAdministrator(GetProgramPath(true), _T("/iconsassoc"), true);
+                        }
+                    }
+
+                    ::FreeLibrary(hModule);
+                }
+            } else {
+                ReAssocIcons(registeredExts);
+
+                SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
+            }
+        }
+
+        FreeIconLib();
+    }
+
+    return 0;
+}
+
+void CFileAssoc::CheckIconsAssoc(const CMediaFormats& mf)
+{
+    AfxBeginThread(RunCheckIconsAssocThread, (LPVOID)&mf);
 }

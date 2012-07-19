@@ -1803,6 +1803,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_UNREGEXT;    /* keep for compatibility with old versions */
             } else if (sw == _T("unregaud")) {
                 nCLSwitches |= CLSW_UNREGEXT;    /* keep for compatibility with old versions */
+            } else if (sw == _T("iconsassoc")) {
+                nCLSwitches |= CLSW_ICONSASSOC;
             } else if (sw == _T("start") && pos) {
                 rtStart = 10000i64 * _tcstol(cmdln.GetNext(pos), NULL, 10);
                 nCLSwitches |= CLSW_STARTVALID;

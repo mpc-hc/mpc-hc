@@ -214,6 +214,7 @@
 #define IDS_RS_MPC_OSD_FONT                 _T("OSD_Font")
 #define IDS_RS_LAST_OPEN_DIR                _T("LastOpenDir")
 #define IDS_RS_ASSOCIATED_WITH_ICON         _T("AssociatedWithIcon")
+#define IDS_RS_ICON_LIB_VERSION             _T("IconLibVersion")
 
 #define IDS_RS_TOGGLESHADER                 _T("ToggleShader")
 #define IDS_RS_TOGGLESHADERSSCREENSPACE     _T("ToggleShaderScreenSpace")

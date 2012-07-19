@@ -33,17 +33,21 @@ private:
     CFileAssoc();
 
     typedef int (*GetIconIndexFunc)(CString);
+    typedef UINT (*GetIconLibVersionFunc)();
 
     static CString GetOpenCommand();
     static CString GetEnqueueCommand();
 
     static IApplicationAssociationRegistration* CreateRegistrationManager();
 
+    static bool SetFileAssociation(CString strExt, CString strProgID, bool bRegister);
+
+    static UINT RunCheckIconsAssocThread(LPVOID pParam);
+
     static CString m_iconLibPath;
     static HMODULE m_hIconLib;
     static GetIconIndexFunc GetIconIndex;
-
-    static bool SetFileAssociation(CString strExt, CString strProgID, bool bRegister);
+    static GetIconLibVersionFunc GetIconLibVersion;
 
     static LPCTSTR strRegisteredAppName;
     static LPCTSTR strOldAssocKey;
@@ -59,8 +63,9 @@ public:
     enum reg_state_t { NOT_REGISTERED, SOME_REGISTERED, ALL_REGISTERED };
     enum autoplay_t { AP_VIDEO, AP_MUSIC, AP_AUDIOCD, AP_DVDMOVIE };
 
-    static bool LoadIconsLib();
-    static bool FreeIconsLib();
+    static bool LoadIconLib();
+    static bool FreeIconLib();
+    static bool SaveIconLibVersion();
 
     static bool RegisterApp();
 
@@ -77,4 +82,10 @@ public:
 
     static bool RegisterAutoPlay(autoplay_t ap, bool bRegister);
     static bool IsAutoPlayRegistered(autoplay_t ap);
+
+    static bool GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CString>& exts);
+
+    static bool ReAssocIcons(const CAtlList<CString>& exts);
+
+    static void CheckIconsAssoc(const CMediaFormats& mf);
 };

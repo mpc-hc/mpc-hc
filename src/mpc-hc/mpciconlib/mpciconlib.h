@@ -20,6 +20,9 @@
  *
  */
 
+/* The version number of the icon library. Should be incremented when the indexes are changed. */
+#define ICON_LIB_VERSION 0
+
 /* The values below correspond to the icon indexes.
  * The order should be exactly the same as in the mpciconlib.rc file.
  * There should be no gaps in the numbering. So be careful

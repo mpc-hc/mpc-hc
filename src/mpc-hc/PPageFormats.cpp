@@ -242,7 +242,7 @@ BOOL CPPageFormats::OnApply()
     int fSetAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
 
     if (m_bFileExtChanged) {
-        if (fSetAssociatedWithIcon && IsNeededIconsLib() && !CFileAssoc::LoadIconsLib()) {
+        if (fSetAssociatedWithIcon && IsNeededIconsLib() && !CFileAssoc::LoadIconLib()) {
             AfxMessageBox(IDS_MISSING_ICONS_LIB, MB_ICONEXCLAMATION | MB_OK, 0);
         }
 
@@ -258,7 +258,7 @@ BOOL CPPageFormats::OnApply()
         m_bFileExtChanged = false;
 
         if (fSetAssociatedWithIcon) {
-            CFileAssoc::FreeIconsLib();
+            CFileAssoc::FreeIconLib();
         }
     }
 
