@@ -363,7 +363,6 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
         names[WAVE_FORMAT_SIPR]                  = _T("RealAudio SIPR");
         names[WAVE_FORMAT_PS2_PCM]               = _T("PS2 PCM");
         names[WAVE_FORMAT_PS2_ADPCM]             = _T("PS2 ADPCM");
-        names[0x6173]                            = _T("AMR");
         // names[] = _T("");
     }
 
@@ -408,6 +407,10 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
             str = _T("ALS");
         } else if (subtype == MEDIASUBTYPE_QDM2) {
             str = _T("QDM2");
+        } else if (subtype == MEDIASUBTYPE_AMR  ||
+                   subtype == MEDIASUBTYPE_SAMR ||
+                   subtype == MEDIASUBTYPE_SAWB) {
+            str = _T("AMR");
         } else {
             str.Format(_T("0x%04x"), wFormatTag);
         }
