@@ -20,6 +20,8 @@
  *
  */
 
+#pragma once
+
 // Internal source filters
 #define INTERNAL_SOURCEFILTER_AVI       0
 #define INTERNAL_SOURCEFILTER_CDDA      0
