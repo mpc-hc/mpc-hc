@@ -29,7 +29,7 @@ int main()
     return 0;
 }
 
-int get_icon_index(CString ext)
+extern "C" __declspec(dllexport) int get_icon_index(CString ext)
 {
     int iconindex = -1;// IDI_NONE
 

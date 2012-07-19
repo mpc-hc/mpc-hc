@@ -46,7 +46,6 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ModuleDefinitionFile>mpciconlib.def</ModuleDefinitionFile>
       <NoEntryPoint>true</NoEntryPoint>
     </Link>
     <ResourceCompile>
@@ -59,7 +58,6 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ModuleDefinitionFile>mpciconlib.def</ModuleDefinitionFile>
       <NoEntryPoint>true</NoEntryPoint>
     </Link>
     <ResourceCompile>
@@ -130,7 +128,6 @@
     <None Include="icons\wma.ico" />
     <None Include="icons\wmv.ico" />
     <None Include="icons\wv.ico" />
-    <None Include="mpciconlib.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

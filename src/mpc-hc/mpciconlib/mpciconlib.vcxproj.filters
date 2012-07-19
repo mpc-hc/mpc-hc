@@ -48,9 +48,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="mpciconlib.def">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="icons\aac.ico">
       <Filter>Resource Files\icons</Filter>
     </None>
