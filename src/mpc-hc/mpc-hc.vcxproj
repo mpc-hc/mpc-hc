@@ -633,7 +633,6 @@
     <None Include="res\web\images\headericon.png" />
     <None Include="res\web\images\leftbottomside.png" />
     <None Include="res\web\images\leftside.png" />
-    <None Include="res\web\images\logo.png" />
     <None Include="res\web\images\rightbottomside.png" />
     <None Include="res\web\images\rightside.png" />
     <None Include="res\web\images\seekbargrip.png" />

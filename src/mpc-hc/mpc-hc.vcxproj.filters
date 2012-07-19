@@ -946,9 +946,6 @@
     <None Include="res\web\images\leftside.png">
       <Filter>Resource Files\web\images</Filter>
     </None>
-    <None Include="res\web\images\logo.png">
-      <Filter>Resource Files\web\images</Filter>
-    </None>
     <None Include="res\web\images\rightbottomside.png">
       <Filter>Resource Files\web\images</Filter>
     </None>
