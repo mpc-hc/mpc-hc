@@ -26,10 +26,6 @@
 #pragma once
 
 #ifdef MPCHC_LITE
-#define INTERNAL_FILTERS_NONE
-#endif
-
-#if defined(INTERNAL_FILTERS_NONE)
 #include "InternalFiltersConfig_none.h"
 #else
 #include "InternalFiltersConfig_standard.h"

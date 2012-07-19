@@ -48,7 +48,7 @@
 #define INTERNAL_DECODER_PCM            0
 
 // Internal audio decoders (FFmpeg)
-#define INTERNAL_DECODER_AC3            0 /* also E-AC3,TrueHD,MLP */
+#define INTERNAL_DECODER_AC3            0 /* also E-AC3, TrueHD, MLP */
 #define INTERNAL_DECODER_DTS            0
 #define INTERNAL_DECODER_AAC            0
 #define INTERNAL_DECODER_ALAC           0
