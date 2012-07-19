@@ -119,10 +119,6 @@
     <ClCompile Include="HdmvClipInfo.cpp" />
     <ClCompile Include="MediaTypeEx.cpp" />
     <ClCompile Include="MediaTypes.cpp" />
-    <ClCompile Include="mmintrin64.c">
-      <ExcludedFromBuild Condition="'$(PlatForm)'=='Win32'">true</ExcludedFromBuild>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="NullRenderers.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

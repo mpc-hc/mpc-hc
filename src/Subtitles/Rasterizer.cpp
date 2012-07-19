@@ -1584,7 +1584,9 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     }
     // Remember to EMMS!
     // Rendering fails in funny ways if we don't do this.
+#ifndef _WIN64
     _mm_empty();
+#endif
 
     return bbox;
 }
