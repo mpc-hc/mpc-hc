@@ -24,9 +24,7 @@ MPC-HC:
 MPCIconLib:
 1) Rewrite mpciconlib without MFC, so that it's smaller and we no longer
    need any hacks to get the size to normal, see a first patch  http://pastebin.com/EYhrQ2ah
-2) Fix the problem when the indexes are messed up when we add/remove an icon;
-   patch is in the works by Underground78
-3) Replace the file association icons with better looking ones
+2) Replace the file association icons with better looking ones
 
 FFmpeg:
 1) Stop linking ffmpeg statically (still not sure about it yet)

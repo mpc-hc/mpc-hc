@@ -712,8 +712,8 @@ bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
         }
 
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))
-            || ERROR_SUCCESS != key.SetStringValue(NULL, appIcon)) {
-                return false;
+                || ERROR_SUCCESS != key.SetStringValue(NULL, appIcon)) {
+            return false;
         }
 
         key.Close();
@@ -736,7 +736,7 @@ static HRESULT CALLBACK TaskDialogCallbackProc(HWND hwnd, UINT uNotification, WP
 UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID pParam)
 {
     const CMediaFormats& mf = *(const CMediaFormats*)pParam;
-    
+
     UINT nLastVersion = AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ICON_LIB_VERSION, 0);
 
     if (LoadIconLib() && GetIconLibVersion) {
@@ -758,7 +758,7 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID pParam)
                 config.pszContent = MAKEINTRESOURCE(IDS_ICONS_REASSOC_DLG_CONTENT);;
                 config.pfCallback = TaskDialogCallbackProc;
 
-                typedef HRESULT (_stdcall *pfTaskDialogIndirect)(const TASKDIALOGCONFIG*, int*, int*, BOOL*);
+                typedef HRESULT(_stdcall * pfTaskDialogIndirect)(const TASKDIALOGCONFIG*, int*, int*, BOOL*);
 
                 HMODULE hModule = ::LoadLibrary(_T("comctl32.dll"));
                 if (hModule) {
