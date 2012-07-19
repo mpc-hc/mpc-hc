@@ -22,7 +22,6 @@
 
 #pragma once
 
-// TODO: check 4731 and 4799, search for "pragma warning"
 #pragma warning(disable:4995)
 
 #ifndef WIN32_LEAN_AND_MEAN

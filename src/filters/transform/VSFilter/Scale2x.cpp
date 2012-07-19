@@ -27,8 +27,6 @@
 #include "AvgLines.h"
 #include <emmintrin.h>
 
-#pragma warning(disable : 4799) // no emms... blahblahblah
-
 void Scale2x_YV(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
 {
     BYTE* s1;
@@ -82,7 +80,7 @@ void Scale2x_YUY2_SSE2(BYTE* s1, BYTE* d1, int w)
         mm1 = _mm_move_epi64(mm2);                  //movq  mm1, mm2
         mm1 = _mm_unpacklo_epi32(mm1, mm1);         //punpckldq mm1, mm1 // mm1 = 00u100v100u100v1
         mm1 = _mm_adds_epi16(mm1, mm2);             //paddw mm1, mm2
-        mm1 = _mm_srli_epi16(mm1, 1);               //psrlw mm1, 1      // mm1 = (mm1 + mm2) / 2
+        mm1 = _mm_srli_epi16(mm1, 1);               //psrlw mm1, 1       // mm1 = (mm1 + mm2) / 2
         mm1 = _mm_slli_epi64(mm1, 8);               //psllw mm1, 8
         mm1 = _mm_or_si128(mm0, mm1);               //por       mm0, mm1    // mm0 = (v1+v2)/2|(y2+y3)/2|(u1+u2)/2|y2|v1|(y1+y2)/2|u1|y1
         *(size_t*)d1 = (size_t)_mm_cvtsi128_si64(mm0);      //movq  [edi], mm0
@@ -347,10 +345,10 @@ void Scale2x_XRGB32_SSE2(BYTE* s1, BYTE* d1, int w)
         mm1 = _mm_unpacklo_epi8(mm1, mm_zero); //punpcklbw mm1, mm0   // mm1 = 00xx00r100g100b1
         mm2 = _mm_unpacklo_epi8(mm2, mm_zero); //punpckhbw mm2, mm0   // mm2 = 00xx00r200g200b2
 
-        mm2 = _mm_adds_epi16(mm2, mm1);     //paddw mm2, mm1
-        mm2 = _mm_srli_epi16(mm2, 1);       //psrlw mm2, 1      // mm2 = (mm1 + mm2) / 2
+        mm2 = _mm_adds_epi16(mm2, mm1);        //paddw mm2, mm1
+        mm2 = _mm_srli_epi16(mm2, 1);          //psrlw mm2, 1         // mm2 = (mm1 + mm2) / 2
 
-        mm1 = _mm_packus_epi16(mm1, mm2);   //packuswb  mm1, mm2
+        mm1 = _mm_packus_epi16(mm1, mm2);      //packuswb  mm1, mm2
 
         *(size_t*)d1 = (size_t)_mm_cvtsi128_si64(mm1); //movq  [edi], mm1
     }

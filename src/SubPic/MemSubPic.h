@@ -31,7 +31,6 @@ enum {MSP_RGB32, MSP_RGB24, MSP_RGB16, MSP_RGB15, MSP_YUY2, MSP_YV12, MSP_IYUV, 
 
 class CMemSubPic : public CSubPicImpl
 {
-#pragma warning(disable: 4799)
     SubPicDesc m_spd;
 
 protected:
