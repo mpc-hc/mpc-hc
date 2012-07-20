@@ -383,7 +383,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
         *cp = !!rgbp->rgbReserved;
     }
 
-    enum {UP, RIGHT, DOWN, LEFT};
+    enum { UP, RIGHT, DOWN, LEFT };
 
     topleft.x = topleft.y = INT_MAX;
 

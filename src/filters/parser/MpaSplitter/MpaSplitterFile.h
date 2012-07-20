@@ -30,7 +30,7 @@ class CMpaSplitterFile : public CBaseSplitterFileEx
     CMediaType m_mt;
     REFERENCE_TIME m_rtDuration;
 
-    enum {none, mpa, mp4a} m_mode;
+    enum { none, mpa, mp4a } m_mode;
 
     mpahdr m_mpahdr;
     aachdr m_aachdr;

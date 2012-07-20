@@ -54,7 +54,7 @@ private:
         /* ........... same as TEXTSUB ............. */   COL_VOBID = COL_TEXT, COL_CELLID, COL_FORCED,
     };
 
-    enum {NONE = 0, VOBSUB, TEXTSUB};
+    enum { NONE = 0, VOBSUB, TEXTSUB };
     int m_mode;
 
     bool m_fUnlink;
@@ -72,7 +72,7 @@ private:
 
     void UpdatePreview(), UpdateStrings();
 
-    enum {TSMOD = 1, TEMOD = 2, TSADJ = 4, TEADJ = 8, TSEP = 0x80000000};
+    enum { TSMOD = 1, TEMOD = 2, TSADJ = 4, TEADJ = 8, TSEP = 0x80000000 };
 
     void SetSTS0(int& start, int end, int ti0);
     void SetSTS1(int& start, int end, int ti0, double m, int i0);

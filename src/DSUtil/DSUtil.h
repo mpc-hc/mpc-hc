@@ -66,12 +66,12 @@ extern bool IsCLSIDRegistered(LPCTSTR clsid);
 extern bool IsCLSIDRegistered(const CLSID& clsid);
 extern void CStringToBin(CString str, CAtlArray<BYTE>& data);
 extern CString BinToCString(const BYTE* ptr, size_t len);
-typedef enum {CDROM_NotFound, CDROM_Audio, CDROM_VideoCD, CDROM_DVDVideo, CDROM_Unknown} cdrom_t;
+typedef enum { CDROM_NotFound, CDROM_Audio, CDROM_VideoCD, CDROM_DVDVideo, CDROM_Unknown } cdrom_t;
 extern cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files);
 extern CString GetDriveLabel(TCHAR drive);
 extern bool GetKeyFrames(CString fn, CUIntArray& kfs);
-extern DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps = 0); // use to remember the current position
-extern DVD_HMSF_TIMECODE RT2HMS_r(REFERENCE_TIME rt);                // use only for information (for display on the screen)
+extern DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps = 0); // used to remember the current position
+extern DVD_HMSF_TIMECODE RT2HMS_r(REFERENCE_TIME rt);                // used only for information (for display on the screen)
 extern REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps = 0);
 extern void memsetd(void* dst, unsigned int c, size_t nbytes);
 extern void memsetw(void* dst, unsigned short c, size_t nbytes);

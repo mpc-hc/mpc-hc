@@ -298,7 +298,7 @@ namespace MatroskaReader
     {
     public:
         CUInt ContentCompAlgo;
-        enum {ZLIB, BZLIB, LZO1X, HDRSTRIP};
+        enum { ZLIB, BZLIB, LZO1X, HDRSTRIP };
         CBinary ContentCompSettings;
 
         ContentCompression() { ContentCompAlgo.Set(ZLIB); }
@@ -309,12 +309,12 @@ namespace MatroskaReader
     {
     public:
         CUInt ContentEncAlgo;
-        enum {UNKE, DES, THREEDES, TWOFISH, BLOWFISH, AES};
+        enum { UNKE, DES, THREEDES, TWOFISH, BLOWFISH, AES };
         CBinary ContentEncKeyID, ContentSignature, ContentSigKeyID;
         CUInt ContentSigAlgo;
-        enum {UNKS, RSA};
+        enum { UNKS, RSA };
         CUInt ContentSigHashAlgo;
-        enum {UNKSH, SHA1_160, MD5};
+        enum { UNKSH, SHA1_160, MD5 };
 
         ContentEncryption() {
             ContentEncAlgo.Set(0);
@@ -329,9 +329,9 @@ namespace MatroskaReader
     public:
         CUInt ContentEncodingOrder;
         CUInt ContentEncodingScope;
-        enum {AllFrameContents = 1, TracksPrivateData = 2};
+        enum { AllFrameContents = 1, TracksPrivateData = 2 };
         CUInt ContentEncodingType;
-        enum {Compression, Encryption};
+        enum { Compression, Encryption };
         ContentCompression cc;
         ContentEncryption ce;
 
@@ -355,7 +355,13 @@ namespace MatroskaReader
     class TrackEntry
     {
     public:
-        enum {TypeVideo = 1, TypeAudio = 2, TypeComplex = 3, TypeLogo = 0x10, TypeSubtitle = 0x11, TypeControl = 0x20};
+        enum { TypeVideo = 1,
+               TypeAudio = 2,
+               TypeComplex = 3,
+               TypeLogo = 0x10,
+               TypeSubtitle = 0x11,
+               TypeControl = 0x20
+             };
         CUInt TrackNumber, TrackUID, TrackType;
         CUInt FlagEnabled, FlagDefault, FlagLacing, FlagForced;
         CUInt MinCache, MaxCache;
@@ -372,7 +378,7 @@ namespace MatroskaReader
         CUInt DefaultDuration;
         CUInt MaxBlockAdditionID;
         CFloat TrackTimecodeScale;
-        enum {NoDesc = 0, DescVideo = 1, DescAudio = 2};
+        enum { NoDesc = 0, DescVideo = 1, DescAudio = 2 };
         unsigned int DescType;
         Video v;
         Audio a;

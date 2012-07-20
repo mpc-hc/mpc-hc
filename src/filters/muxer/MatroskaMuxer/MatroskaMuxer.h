@@ -111,7 +111,7 @@ protected:
 
     bool m_fNegative, m_fPositive;
 
-    enum {CMD_EXIT, CMD_RUN};
+    enum { CMD_EXIT, CMD_RUN };
     DWORD ThreadProc();
 
 public:

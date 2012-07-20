@@ -30,7 +30,7 @@ class FilterOverride
 {
 public:
     bool fDisabled, fTemporary;
-    enum {REGISTERED, EXTERNAL} type;
+    enum { REGISTERED, EXTERNAL } type;
     // REGISTERED
     CStringW dispname;
     // EXTERNAL
@@ -38,7 +38,7 @@ public:
     CLSID clsid;
     // props
     CAtlList<GUID> guids, backup;
-    enum {PREFERRED, BLOCK, MERIT};
+    enum { PREFERRED, BLOCK, MERIT };
     int iLoadType;
     DWORD dwMerit;
 

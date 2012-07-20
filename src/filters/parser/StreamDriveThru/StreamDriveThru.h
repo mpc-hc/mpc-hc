@@ -88,7 +88,7 @@ class __declspec(uuid("534FE6FD-F1F0-4aec-9F45-FF397320CE33"))
     CStreamDriveThruOutputPin* m_pOutput;
 
 protected:
-    enum {CMD_EXIT, CMD_STOP, CMD_PAUSE, CMD_RUN};
+    enum { CMD_EXIT, CMD_STOP, CMD_PAUSE, CMD_RUN };
     DWORD ThreadProc();
 
     LONGLONG m_position;

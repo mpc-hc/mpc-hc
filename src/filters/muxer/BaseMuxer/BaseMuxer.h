@@ -40,7 +40,7 @@ private:
     CAutoPtr<CBaseMuxerOutputPin> m_pOutput;
     CAutoPtrList<CBaseMuxerRawOutputPin> m_pRawOutputs;
 
-    enum {CMD_EXIT, CMD_RUN};
+    enum { CMD_EXIT, CMD_RUN };
     DWORD ThreadProc();
 
     REFERENCE_TIME m_rtCurrent;

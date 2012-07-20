@@ -33,7 +33,7 @@ private:
     CFileAssoc();
 
     typedef int (*GetIconIndexFunc)(CString);
-    typedef UINT (*GetIconLibVersionFunc)();
+    typedef UINT(*GetIconLibVersionFunc)();
 
     static CString GetOpenCommand();
     static CString GetEnqueueCommand();

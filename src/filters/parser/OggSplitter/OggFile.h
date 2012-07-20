@@ -31,7 +31,7 @@ struct OggPageHeader {
     DWORD capture_pattern;
     BYTE stream_structure_version;
     BYTE header_type_flag;
-    enum {continued = 1, first = 2, last = 4};
+    enum { continued = 1, first = 2, last = 4 };
     __int64 granule_position;
     DWORD bitstream_serial_number;
     DWORD page_sequence_number;

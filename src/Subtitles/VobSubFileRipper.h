@@ -142,13 +142,13 @@ class CVobSubFileRipper : public CVobSubFile, protected CAMThread, public IVSFRi
 {
 private:
     bool m_fThreadActive, m_fBreakThread, m_fIndexing;
-    enum {CMD_EXIT, CMD_INDEX};
+    enum { CMD_EXIT, CMD_INDEX };
     DWORD ThreadProc();
     bool Create();
 
     //
 
-    typedef enum {LOG_INFO, LOG_WARNING, LOG_ERROR} log_t;
+    typedef enum { LOG_INFO, LOG_WARNING, LOG_ERROR } log_t;
     void Log(log_t type, LPCTSTR lpszFormat, ...);
     void Progress(double progress);
     void Finished(bool fSucceeded);

@@ -36,7 +36,16 @@ class CPPageAccelTbl : public CPPageBase
     DECLARE_DYNAMIC(CPPageAccelTbl)
 
 private:
-    enum {COL_CMD, COL_KEY, COL_ID, COL_MOUSE, COL_MOUSE_FS, COL_APPCMD, COL_RMCMD, COL_RMREPCNT};
+    enum {
+        COL_CMD,
+        COL_KEY,
+        COL_ID,
+        COL_MOUSE,
+        COL_MOUSE_FS,
+        COL_APPCMD,
+        COL_RMCMD,
+        COL_RMREPCNT
+    };
     CList<wmcmd> m_wmcmds;
     void SetupList();
     int m_counter;
@@ -52,7 +61,7 @@ public:
     static CString MakeMouseButtonLabel(UINT mouse);
     static CString MakeAppCommandLabel(UINT id);
 
-    enum {APPCOMMAND_LAST = APPCOMMAND_DWM_FLIP3D};
+    enum { APPCOMMAND_LAST = APPCOMMAND_DWM_FLIP3D };
 
     // Dialog Data
     enum { IDD = IDD_PPAGEACCELTBL };

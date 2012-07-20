@@ -207,7 +207,27 @@ class wmcmd : public ACCEL
 public:
     DWORD dwname;
     UINT appcmd;
-    enum {NONE, LDOWN, LUP, LDBLCLK, MDOWN, MUP, MDBLCLK, RDOWN, RUP, RDBLCLK, X1DOWN, X1UP, X1DBLCLK, X2DOWN, X2UP, X2DBLCLK, WUP, WDOWN, LAST};
+    enum {
+        NONE,
+        LDOWN,
+        LUP,
+        LDBLCLK,
+        MDOWN,
+        MUP,
+        MDBLCLK,
+        RDOWN,
+        RUP,
+        RDBLCLK,
+        X1DOWN,
+        X1UP,
+        X1DBLCLK,
+        X2DOWN,
+        X2UP,
+        X2DBLCLK,
+        WUP,
+        WDOWN,
+        LAST
+    };
     UINT mouse;
     UINT mouseFS;
     CStringA rmcmd;
@@ -256,7 +276,7 @@ class CRemoteCtrlClient : public CAsyncSocket
 protected:
     CCritSec m_csLock;
     CWnd* m_pWnd;
-    enum {DISCONNECTED, CONNECTED, CONNECTING} m_nStatus;
+    enum { DISCONNECTED, CONNECTED, CONNECTING } m_nStatus;
     CString m_addr;
 
     virtual void OnConnect(int nErrorCode);

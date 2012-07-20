@@ -36,7 +36,7 @@ class CPlayerPlaylistBar : public CPlayerBar
     DECLARE_DYNAMIC(CPlayerPlaylistBar)
 
 private:
-    enum {COL_NAME, COL_TIME};
+    enum { COL_NAME, COL_TIME };
 
     CImageList m_fakeImageList;
     CPlayerListCtrl m_list;

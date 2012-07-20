@@ -25,7 +25,17 @@
 
 #include "SubPicImpl.h"
 
-enum {MSP_RGB32, MSP_RGB24, MSP_RGB16, MSP_RGB15, MSP_YUY2, MSP_YV12, MSP_IYUV, MSP_AYUV, MSP_RGBA};
+enum {
+    MSP_RGB32,
+    MSP_RGB24,
+    MSP_RGB16,
+    MSP_RGB15,
+    MSP_YUY2,
+    MSP_YV12,
+    MSP_IYUV,
+    MSP_AYUV,
+    MSP_RGBA
+};
 
 // CMemSubPic
 

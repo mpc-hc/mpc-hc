@@ -46,7 +46,7 @@ public:
     BOOL m_fSetDefault;
 
     CPlayerListCtrl m_list;
-    enum {COL_Z, COL_VFR_F, COL_VFR_T, COL_SRR};
+    enum { COL_Z, COL_VFR_F, COL_VFR_T, COL_SRR };
 
     AChFR m_AutoChangeFullscrRes;
     CStringW m_f_hmonitor;

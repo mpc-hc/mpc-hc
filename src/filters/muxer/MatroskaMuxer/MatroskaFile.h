@@ -244,7 +244,14 @@ namespace MatroskaWriter
     class TrackEntry : public CID
     {
     public:
-        enum {TypeVideo = 1, TypeAudio = 2, TypeComplex = 3, TypeLogo = 0x10, TypeSubtitle = 0x11, TypeControl = 0x20};
+        enum {
+            TypeVideo = 1,
+            TypeAudio = 2,
+            TypeComplex = 3,
+            TypeLogo = 0x10,
+            TypeSubtitle = 0x11,
+            TypeControl = 0x20
+        };
         CUInt TrackNumber, TrackUID, TrackType;
         CUInt FlagEnabled, FlagDefault, FlagLacing;
         CUInt MinCache, MaxCache;
@@ -259,7 +266,7 @@ namespace MatroskaWriter
         CUInt CodecDecodeAll;
         CUInt TrackOverlay;
         CUInt DefaultDuration;
-        enum {NoDesc = 0, DescVideo = 1, DescAudio = 2};
+        enum { NoDesc = 0, DescVideo = 1, DescAudio = 2 };
         int DescType;
         Video v;
         Audio a;

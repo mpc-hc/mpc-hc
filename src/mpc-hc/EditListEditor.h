@@ -54,7 +54,7 @@ class CEditListEditor : public CPlayerBar
 {
     DECLARE_DYNAMIC(CEditListEditor)
 
-    enum {COL_INDEX, COL_IN, COL_OUT, COL_NAME, COL_MAX};
+    enum { COL_INDEX, COL_IN, COL_OUT, COL_NAME, COL_MAX };
 
     CPlayerListCtrl m_list;
     CStatic         m_stUsers;

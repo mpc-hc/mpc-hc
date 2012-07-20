@@ -83,11 +83,11 @@ public:
         }
     };
 
-    enum {video, audio, subpic,
+    enum { video, audio, subpic,
 #if defined(MVC_SUPPORT)
-          stereo,
+           stereo,
 #endif
-          unknown
+           unknown
          };
 
     class CStreamList : public CAtlList<stream>

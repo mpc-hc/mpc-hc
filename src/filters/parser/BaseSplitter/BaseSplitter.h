@@ -186,7 +186,7 @@ private:
     bool m_fFlushing, m_fFlushed;
     CAMEvent m_eEndFlush;
 
-    enum {CMD_EXIT};
+    enum { CMD_EXIT };
     DWORD ThreadProc();
 
     void MakeISCRHappy();
@@ -359,7 +359,7 @@ protected:
     int m_QueueMaxPackets;
 
 protected:
-    enum {CMD_EXIT, CMD_SEEK};
+    enum { CMD_EXIT, CMD_SEEK };
     DWORD ThreadProc();
 
     // ... and also override all these too

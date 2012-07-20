@@ -28,7 +28,7 @@
 #include "TextFile.h"
 #include "GFN.h"
 
-typedef enum {TIME, FRAME} tmode; // the meaning of STSEntry::start/end
+typedef enum { TIME, FRAME } tmode; // the meaning of STSEntry::start/end
 
 class STSStyle
 {

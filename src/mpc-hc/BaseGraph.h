@@ -37,7 +37,12 @@ protected:
     DECLARE_MESSAGE_MAP()
 };
 
-typedef enum {DirectShow = 0, RealMedia, QuickTime, ShockWave} engine_t;
+typedef enum {
+    DirectShow = 0,
+    RealMedia,
+    QuickTime,
+    ShockWave
+} engine_t;
 
 interface __declspec(uuid("B110CDE5-6331-4118-8AAF-A870D6F7E2E4"))
 IGraphEngine :

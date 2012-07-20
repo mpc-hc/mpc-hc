@@ -81,7 +81,7 @@ class CSubPicQueue : public CSubPicQueueImpl, private CAMThread
     // CAMThread
 
     bool m_fBreakBuffering;
-    enum {EVENT_EXIT, EVENT_TIME, EVENT_COUNT}; // IMPORTANT: _EXIT must come before _TIME if we want to exit fast from the destructor
+    enum { EVENT_EXIT, EVENT_TIME, EVENT_COUNT }; // IMPORTANT: _EXIT must come before _TIME if we want to exit fast from the destructor
     HANDLE m_ThreadEvents[EVENT_COUNT];
     DWORD ThreadProc();
 

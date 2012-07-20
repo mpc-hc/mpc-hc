@@ -970,7 +970,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 
     TCHAR langid[256];
 
-    enum {P_INPUT, P_OUTPUT, P_PGC, P_ANGLE, P_LANGS, P_OPTIONS};
+    enum { P_INPUT, P_OUTPUT, P_PGC, P_ANGLE, P_LANGS, P_OPTIONS };
     int phase = P_INPUT;
 
     CString line;
