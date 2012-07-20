@@ -21,7 +21,7 @@
  */
 
 /* The version number of the icon library. Should be incremented when the indexes are changed. */
-#define ICON_LIB_VERSION 0
+#define ICON_LIB_VERSION 1
 
 /* The values below correspond to the icon indexes.
  * The order should be exactly the same as in the mpciconlib.rc file.
@@ -64,26 +64,25 @@
 #define IDI_OGM_ICON                    31
 #define IDI_PLAYLIST_ICON               32
 #define IDI_RA_ICON                     33
-#define IDI_NONE34                      34
-#define IDI_RM_ICON                     35
-#define IDI_RT_ICON                     36
-#define IDI_SMK_ICON                    37
-#define IDI_SWF_ICON                    38
-#define IDI_TS_ICON                     39
-#define IDI_TTA_ICON                    40
-#define IDI_VOB_ICON                    41
-#define IDI_WAV_ICON                    42
-#define IDI_WEBM_ICON                   43
-#define IDI_WMA_ICON                    44
-#define IDI_WMV_ICON                    45
-#define IDI_WV_ICON                     46
+#define IDI_RM_ICON                     34
+#define IDI_RT_ICON                     35
+#define IDI_SMK_ICON                    36
+#define IDI_SWF_ICON                    37
+#define IDI_TS_ICON                     38
+#define IDI_TTA_ICON                    39
+#define IDI_VOB_ICON                    40
+#define IDI_WAV_ICON                    41
+#define IDI_WEBM_ICON                   42
+#define IDI_WMA_ICON                    43
+#define IDI_WMV_ICON                    44
+#define IDI_WV_ICON                     45
 
 
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        47
+#define _APS_NEXT_RESOURCE_VALUE        46
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
