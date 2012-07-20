@@ -29,16 +29,17 @@
  * when adding/removing icons.
  */
 
-#define IDI_OTHER_ICON                  0
-#define IDI_AAC_ICON                    1
-#define IDI_AC3_ICON                    2
-#define IDI_AIFF_ICON                   3
-#define IDI_ALAC_ICON                   4
-#define IDI_AMR_ICON                    5
-#define IDI_APE_ICON                    6
-#define IDI_AU_ICON                     7
-#define IDI_AVI_ICON                    8
-#define IDI_BINK_ICON                   9
+#define IDI_NONE                        -1
+#define IDI_OTHER_ICON                   0
+#define IDI_AAC_ICON                     1
+#define IDI_AC3_ICON                     2
+#define IDI_AIFF_ICON                    3
+#define IDI_ALAC_ICON                    4
+#define IDI_AMR_ICON                     5
+#define IDI_APE_ICON                     6
+#define IDI_AU_ICON                      7
+#define IDI_AVI_ICON                     8
+#define IDI_BINK_ICON                    9
 #define IDI_CDA_ICON                    10
 #define IDI_D2V_ICON                    11
 #define IDI_DAT_ICON                    12
@@ -76,7 +77,6 @@
 #define IDI_WMA_ICON                    44
 #define IDI_WMV_ICON                    45
 #define IDI_WV_ICON                     46
-#define IDI_NONE                        -1
 
 
 // Next default values for new objects

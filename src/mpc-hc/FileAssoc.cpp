@@ -86,11 +86,10 @@ bool CFileAssoc::LoadIconLib()
     m_iconLibPath = GetProgramPath() + _T("mpciconlib.dll");
     m_hIconLib = LoadLibrary(m_iconLibPath);
     if (m_hIconLib) {
-        GetIconIndex = (GetIconIndexFunc)GetProcAddress(m_hIconLib, "get_icon_index");
+        GetIconIndex = (GetIconIndexFunc)GetProcAddress(m_hIconLib, "GetIconIndex");
         GetIconLibVersion = (GetIconLibVersionFunc)GetProcAddress(m_hIconLib, "GetIconLibVersion");
 
-        // Only require GetIconIndex for now
-        if (GetIconIndex) {
+        if (GetIconIndex && GetIconLibVersion) {
             loaded = true;
         } else {
             FreeIconLib();
@@ -119,7 +118,7 @@ bool CFileAssoc::SaveIconLibVersion()
 {
     bool saved = false;
 
-    if (GetIconLibVersion) {
+    if (m_hIconLib) {
         AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ICON_LIB_VERSION, GetIconLibVersion());
         saved = true;
     }
@@ -739,7 +738,7 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID pParam)
 
     UINT nLastVersion = AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ICON_LIB_VERSION, 0);
 
-    if (LoadIconLib() && GetIconLibVersion) {
+    if (LoadIconLib()) {
         UINT nCurrentVersion = GetIconLibVersion();
         SaveIconLibVersion(); // Ensure we don't try to fix the icons more than once
 

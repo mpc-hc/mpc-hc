@@ -20,9 +20,10 @@
  *
  */
 
-#include "stdafx.h"
+#include <Windows.h>
+#include <tchar.h>
+
 #include "mpciconlib.h"
-#include <afx.h>
 
 int main()
 {
@@ -34,233 +35,233 @@ extern "C" __declspec(dllexport) UINT GetIconLibVersion()
     return ICON_LIB_VERSION;
 }
 
-extern "C" __declspec(dllexport) int get_icon_index(CString ext)
+extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
 {
-    int iconindex = -1;// IDI_NONE
+    int iconIndex = IDI_NONE;
 
-    if (ext.CompareNoCase(_T(".3g2")) == 0) {
-        iconindex = IDI_MOV_ICON;
-    } else if (ext.CompareNoCase(_T(".3gp")) == 0) {
-        iconindex = IDI_MP4_ICON;
-    } else if (ext.CompareNoCase(_T(".3gp2")) == 0) {
-        iconindex = IDI_MOV_ICON;
-    } else if (ext.CompareNoCase(_T(".3gpp")) == 0) {
-        iconindex = IDI_MP4_ICON;
-    } else if (ext.CompareNoCase(_T(".aac")) == 0) {
-        iconindex = IDI_AAC_ICON;
-    } else if (ext.CompareNoCase(_T(".ac3")) == 0) {
-        iconindex = IDI_AC3_ICON;
-    } else if (ext.CompareNoCase(_T(".aif")) == 0) {
-        iconindex = IDI_AIFF_ICON;
-    } else if (ext.CompareNoCase(_T(".aifc")) == 0) {
-        iconindex = IDI_AIFF_ICON;
-    } else if (ext.CompareNoCase(_T(".aiff")) == 0) {
-        iconindex = IDI_AIFF_ICON;
-    } else if (ext.CompareNoCase(_T(".alac")) == 0) {
-        iconindex = IDI_ALAC_ICON;
-    } else if (ext.CompareNoCase(_T(".amr")) == 0) {
-        iconindex = IDI_AMR_ICON;
-    } else if (ext.CompareNoCase(_T(".amv")) == 0) {
-        iconindex = IDI_OTHER_ICON;
-    } else if (ext.CompareNoCase(_T(".ape")) == 0) {
-        iconindex = IDI_APE_ICON;
-    } else if (ext.CompareNoCase(_T(".apl")) == 0) {
-        iconindex = IDI_APE_ICON;
-    } else if (ext.CompareNoCase(_T(".asf")) == 0) {
-        iconindex = IDI_WMV_ICON;
-    } else if (ext.CompareNoCase(_T(".asx")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".au")) == 0) {
-        iconindex = IDI_AU_ICON;
-    } else if (ext.CompareNoCase(_T(".avi")) == 0) {
-        iconindex = IDI_AVI_ICON;
-    } else if (ext.CompareNoCase(_T(".bdmv")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".bik")) == 0) {
-        iconindex = IDI_BINK_ICON;
-    } else if (ext.CompareNoCase(_T(".cda")) == 0) {
-        iconindex = IDI_CDA_ICON;
-    } else if (ext.CompareNoCase(_T(".d2v")) == 0) {
-        iconindex = IDI_D2V_ICON;
-    } else if (ext.CompareNoCase(_T(".dat")) == 0) {
-        iconindex = IDI_DAT_ICON;
-    } else if (ext.CompareNoCase(_T(".divx")) == 0) {
-        iconindex = IDI_OTHER_ICON;
-    } else if (ext.CompareNoCase(_T(".dsa")) == 0) {
-        iconindex = IDI_DSM_ICON;
-    } else if (ext.CompareNoCase(_T(".dsm")) == 0) {
-        iconindex = IDI_DSM_ICON;
-    } else if (ext.CompareNoCase(_T(".dss")) == 0) {
-        iconindex = IDI_DSM_ICON;
-    } else if (ext.CompareNoCase(_T(".dsv")) == 0) {
-        iconindex = IDI_DSM_ICON;
-    } else if (ext.CompareNoCase(_T(".dts")) == 0) {
-        iconindex = IDI_DTS_ICON;
-    } else if (ext.CompareNoCase(_T(".evo")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".f4v")) == 0) {
-        iconindex = IDI_FLV_ICON;
-    } else if (ext.CompareNoCase(_T(".flac")) == 0) {
-        iconindex = IDI_FLAC_ICON;
-    } else if (ext.CompareNoCase(_T(".flc")) == 0) {
-        iconindex = IDI_FLIC_ICON;
-    } else if (ext.CompareNoCase(_T(".fli")) == 0) {
-        iconindex = IDI_FLIC_ICON;
-    } else if (ext.CompareNoCase(_T(".flic")) == 0) {
-        iconindex = IDI_FLIC_ICON;
-    } else if (ext.CompareNoCase(_T(".flv")) == 0) {
-        iconindex = IDI_FLV_ICON;
-    } else if (ext.CompareNoCase(_T(".hdmov")) == 0) {
-        iconindex = IDI_MP4_ICON;
-    } else if (ext.CompareNoCase(_T(".iflv")) == 0) {
-        iconindex = IDI_FLV_ICON;
-    } else if (ext.CompareNoCase(_T(".ifo")) == 0) {
-        iconindex = IDI_IFO_ICON;
-    } else if (ext.CompareNoCase(_T(".ivf")) == 0) {
-        iconindex = IDI_IVF_ICON;
-    } else if (ext.CompareNoCase(_T(".m1a")) == 0) {
-        iconindex = IDI_MPA_ICON;
-    } else if (ext.CompareNoCase(_T(".m1v")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".m2a")) == 0) {
-        iconindex = IDI_MPA_ICON;
-    } else if (ext.CompareNoCase(_T(".m2p")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".m2t")) == 0) {
-        iconindex = IDI_TS_ICON;
-    } else if (ext.CompareNoCase(_T(".m2ts")) == 0) {
-        iconindex = IDI_TS_ICON;
-    } else if (ext.CompareNoCase(_T(".m2v")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".m3u")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".m3u8")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".m4a")) == 0) {
-        iconindex = IDI_AAC_ICON;
-    } else if (ext.CompareNoCase(_T(".m4b")) == 0) {
-        iconindex = IDI_AAC_ICON;
-    } else if (ext.CompareNoCase(_T(".m4v")) == 0) {
-        iconindex = IDI_MP4_ICON;
-    } else if (ext.CompareNoCase(_T(".mid")) == 0) {
-        iconindex = IDI_MIDI_ICON;
-    } else if (ext.CompareNoCase(_T(".midi")) == 0) {
-        iconindex = IDI_MIDI_ICON;
-    } else if (ext.CompareNoCase(_T(".mka")) == 0) {
-        iconindex = IDI_MKA_ICON;
-    } else if (ext.CompareNoCase(_T(".mkv")) == 0) {
-        iconindex = IDI_MKV_ICON;
-    } else if (ext.CompareNoCase(_T(".mov")) == 0) {
-        iconindex = IDI_MOV_ICON;
-    } else if (ext.CompareNoCase(_T(".mp2")) == 0) {
-        iconindex = IDI_MPA_ICON;
-    } else if (ext.CompareNoCase(_T(".mp2v")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".mp3")) == 0) {
-        iconindex = IDI_MP3_ICON;
-    } else if (ext.CompareNoCase(_T(".mp4")) == 0) {
-        iconindex = IDI_MP4_ICON;
-    } else if (ext.CompareNoCase(_T(".mp4v")) == 0) {
-        iconindex = IDI_MP4_ICON;
-    } else if (ext.CompareNoCase(_T(".mpa")) == 0) {
-        iconindex = IDI_MPA_ICON;
-    } else if (ext.CompareNoCase(_T(".mpc")) == 0) {
-        iconindex = IDI_MPC_ICON;
-    } else if (ext.CompareNoCase(_T(".mpcpl")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".mpe")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".mpeg")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".mpg")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".mpls")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".mpv2")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".mpv4")) == 0) {
-        iconindex = IDI_MP4_ICON;
-    } else if (ext.CompareNoCase(_T(".mts")) == 0) {
-        iconindex = IDI_TS_ICON;
-    } else if (ext.CompareNoCase(_T(".ofr")) == 0) {
-        iconindex = IDI_OFR_ICON;
-    } else if (ext.CompareNoCase(_T(".ofs")) == 0) {
-        iconindex = IDI_OFR_ICON;
-    } else if (ext.CompareNoCase(_T(".oga")) == 0) {
-        iconindex = IDI_OGG_ICON;
-    } else if (ext.CompareNoCase(_T(".ogg")) == 0) {
-        iconindex = IDI_OGG_ICON;
-    } else if (ext.CompareNoCase(_T(".ogm")) == 0) {
-        iconindex = IDI_OGM_ICON;
-    } else if (ext.CompareNoCase(_T(".ogv")) == 0) {
-        iconindex = IDI_OGM_ICON;
-    } else if (ext.CompareNoCase(_T(".pls")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".pva")) == 0) {
-        iconindex = IDI_MPEG_ICON;
-    } else if (ext.CompareNoCase(_T(".ra")) == 0) {
-        iconindex = IDI_RA_ICON;
-    } else if (ext.CompareNoCase(_T(".ram")) == 0) {
-        iconindex = IDI_RM_ICON;
-    } else if (ext.CompareNoCase(_T(".rm")) == 0) {
-        iconindex = IDI_RM_ICON;
-    } else if (ext.CompareNoCase(_T(".rmi")) == 0) {
-        iconindex = IDI_MIDI_ICON;
-    } else if (ext.CompareNoCase(_T(".rmm")) == 0) {
-        iconindex = IDI_RM_ICON;
-    } else if (ext.CompareNoCase(_T(".rmvb")) == 0) {
-        iconindex = IDI_OTHER_ICON;
-    } else if (ext.CompareNoCase(_T(".rp")) == 0) {
-        iconindex = IDI_RT_ICON;
-    } else if (ext.CompareNoCase(_T(".rpm")) == 0) {
-        iconindex = IDI_RM_ICON;
-    } else if (ext.CompareNoCase(_T(".rt")) == 0) {
-        iconindex = IDI_RT_ICON;
-    } else if (ext.CompareNoCase(_T(".smi")) == 0) {
-        iconindex = IDI_RT_ICON;
-    } else if (ext.CompareNoCase(_T(".smil")) == 0) {
-        iconindex = IDI_RT_ICON;
-    } else if (ext.CompareNoCase(_T(".smk")) == 0) {
-        iconindex = IDI_SMK_ICON;
-    } else if (ext.CompareNoCase(_T(".snd")) == 0) {
-        iconindex = IDI_AU_ICON;
-    } else if (ext.CompareNoCase(_T(".swf")) == 0) {
-        iconindex = IDI_SWF_ICON;
-    } else if (ext.CompareNoCase(_T(".tp")) == 0) {
-        iconindex = IDI_TS_ICON;
-    } else if (ext.CompareNoCase(_T(".trp")) == 0) {
-        iconindex = IDI_TS_ICON;
-    } else if (ext.CompareNoCase(_T(".ts")) == 0) {
-        iconindex = IDI_TS_ICON;
-    } else if (ext.CompareNoCase(_T(".rec")) == 0) {
-        iconindex = IDI_TS_ICON;
-    } else if (ext.CompareNoCase(_T(".tak")) == 0) {
-        iconindex = IDI_OTHER_ICON;
-    } else if (ext.CompareNoCase(_T(".tta")) == 0) {
-        iconindex = IDI_TTA_ICON;
-    } else if (ext.CompareNoCase(_T(".vob")) == 0) {
-        iconindex = IDI_VOB_ICON;
-    } else if (ext.CompareNoCase(_T(".wav")) == 0) {
-        iconindex = IDI_WAV_ICON;
-    } else if (ext.CompareNoCase(_T(".wax")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".webm")) == 0) {
-        iconindex = IDI_WEBM_ICON;
-    } else if (ext.CompareNoCase(_T(".wm")) == 0) {
-        iconindex = IDI_WMV_ICON;
-    } else if (ext.CompareNoCase(_T(".wma")) == 0) {
-        iconindex = IDI_WMA_ICON;
-    } else if (ext.CompareNoCase(_T(".wmp")) == 0) {
-        iconindex = IDI_WMV_ICON;
-    } else if (ext.CompareNoCase(_T(".wmv")) == 0) {
-        iconindex = IDI_WMV_ICON;
-    } else if (ext.CompareNoCase(_T(".wmx")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
-    } else if (ext.CompareNoCase(_T(".wv")) == 0) {
-        iconindex = IDI_WV_ICON;
-    } else if (ext.CompareNoCase(_T(".wvx")) == 0) {
-        iconindex = IDI_PLAYLIST_ICON;
+    if (_tcsicmp(ext, _T(".3g2")) == 0) {
+        iconIndex = IDI_MOV_ICON;
+    } else if (_tcsicmp(ext, _T(".3gp")) == 0) {
+        iconIndex = IDI_MP4_ICON;
+    } else if (_tcsicmp(ext, _T(".3gp2")) == 0) {
+        iconIndex = IDI_MOV_ICON;
+    } else if (_tcsicmp(ext, _T(".3gpp")) == 0) {
+        iconIndex = IDI_MP4_ICON;
+    } else if (_tcsicmp(ext, _T(".aac")) == 0) {
+        iconIndex = IDI_AAC_ICON;
+    } else if (_tcsicmp(ext, _T(".ac3")) == 0) {
+        iconIndex = IDI_AC3_ICON;
+    } else if (_tcsicmp(ext, _T(".aif")) == 0) {
+        iconIndex = IDI_AIFF_ICON;
+    } else if (_tcsicmp(ext, _T(".aifc")) == 0) {
+        iconIndex = IDI_AIFF_ICON;
+    } else if (_tcsicmp(ext, _T(".aiff")) == 0) {
+        iconIndex = IDI_AIFF_ICON;
+    } else if (_tcsicmp(ext, _T(".alac")) == 0) {
+        iconIndex = IDI_ALAC_ICON;
+    } else if (_tcsicmp(ext, _T(".amr")) == 0) {
+        iconIndex = IDI_AMR_ICON;
+    } else if (_tcsicmp(ext, _T(".amv")) == 0) {
+        iconIndex = IDI_OTHER_ICON;
+    } else if (_tcsicmp(ext, _T(".ape")) == 0) {
+        iconIndex = IDI_APE_ICON;
+    } else if (_tcsicmp(ext, _T(".apl")) == 0) {
+        iconIndex = IDI_APE_ICON;
+    } else if (_tcsicmp(ext, _T(".asf")) == 0) {
+        iconIndex = IDI_WMV_ICON;
+    } else if (_tcsicmp(ext, _T(".asx")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".au")) == 0) {
+        iconIndex = IDI_AU_ICON;
+    } else if (_tcsicmp(ext, _T(".avi")) == 0) {
+        iconIndex = IDI_AVI_ICON;
+    } else if (_tcsicmp(ext, _T(".bdmv")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".bik")) == 0) {
+        iconIndex = IDI_BINK_ICON;
+    } else if (_tcsicmp(ext, _T(".cda")) == 0) {
+        iconIndex = IDI_CDA_ICON;
+    } else if (_tcsicmp(ext, _T(".d2v")) == 0) {
+        iconIndex = IDI_D2V_ICON;
+    } else if (_tcsicmp(ext, _T(".dat")) == 0) {
+        iconIndex = IDI_DAT_ICON;
+    } else if (_tcsicmp(ext, _T(".divx")) == 0) {
+        iconIndex = IDI_OTHER_ICON;
+    } else if (_tcsicmp(ext, _T(".dsa")) == 0) {
+        iconIndex = IDI_DSM_ICON;
+    } else if (_tcsicmp(ext, _T(".dsm")) == 0) {
+        iconIndex = IDI_DSM_ICON;
+    } else if (_tcsicmp(ext, _T(".dss")) == 0) {
+        iconIndex = IDI_DSM_ICON;
+    } else if (_tcsicmp(ext, _T(".dsv")) == 0) {
+        iconIndex = IDI_DSM_ICON;
+    } else if (_tcsicmp(ext, _T(".dts")) == 0) {
+        iconIndex = IDI_DTS_ICON;
+    } else if (_tcsicmp(ext, _T(".evo")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".f4v")) == 0) {
+        iconIndex = IDI_FLV_ICON;
+    } else if (_tcsicmp(ext, _T(".flac")) == 0) {
+        iconIndex = IDI_FLAC_ICON;
+    } else if (_tcsicmp(ext, _T(".flc")) == 0) {
+        iconIndex = IDI_FLIC_ICON;
+    } else if (_tcsicmp(ext, _T(".fli")) == 0) {
+        iconIndex = IDI_FLIC_ICON;
+    } else if (_tcsicmp(ext, _T(".flic")) == 0) {
+        iconIndex = IDI_FLIC_ICON;
+    } else if (_tcsicmp(ext, _T(".flv")) == 0) {
+        iconIndex = IDI_FLV_ICON;
+    } else if (_tcsicmp(ext, _T(".hdmov")) == 0) {
+        iconIndex = IDI_MP4_ICON;
+    } else if (_tcsicmp(ext, _T(".iflv")) == 0) {
+        iconIndex = IDI_FLV_ICON;
+    } else if (_tcsicmp(ext, _T(".ifo")) == 0) {
+        iconIndex = IDI_IFO_ICON;
+    } else if (_tcsicmp(ext, _T(".ivf")) == 0) {
+        iconIndex = IDI_IVF_ICON;
+    } else if (_tcsicmp(ext, _T(".m1a")) == 0) {
+        iconIndex = IDI_MPA_ICON;
+    } else if (_tcsicmp(ext, _T(".m1v")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".m2a")) == 0) {
+        iconIndex = IDI_MPA_ICON;
+    } else if (_tcsicmp(ext, _T(".m2p")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".m2t")) == 0) {
+        iconIndex = IDI_TS_ICON;
+    } else if (_tcsicmp(ext, _T(".m2ts")) == 0) {
+        iconIndex = IDI_TS_ICON;
+    } else if (_tcsicmp(ext, _T(".m2v")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".m3u")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".m3u8")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".m4a")) == 0) {
+        iconIndex = IDI_AAC_ICON;
+    } else if (_tcsicmp(ext, _T(".m4b")) == 0) {
+        iconIndex = IDI_AAC_ICON;
+    } else if (_tcsicmp(ext, _T(".m4v")) == 0) {
+        iconIndex = IDI_MP4_ICON;
+    } else if (_tcsicmp(ext, _T(".mid")) == 0) {
+        iconIndex = IDI_MIDI_ICON;
+    } else if (_tcsicmp(ext, _T(".midi")) == 0) {
+        iconIndex = IDI_MIDI_ICON;
+    } else if (_tcsicmp(ext, _T(".mka")) == 0) {
+        iconIndex = IDI_MKA_ICON;
+    } else if (_tcsicmp(ext, _T(".mkv")) == 0) {
+        iconIndex = IDI_MKV_ICON;
+    } else if (_tcsicmp(ext, _T(".mov")) == 0) {
+        iconIndex = IDI_MOV_ICON;
+    } else if (_tcsicmp(ext, _T(".mp2")) == 0) {
+        iconIndex = IDI_MPA_ICON;
+    } else if (_tcsicmp(ext, _T(".mp2v")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".mp3")) == 0) {
+        iconIndex = IDI_MP3_ICON;
+    } else if (_tcsicmp(ext, _T(".mp4")) == 0) {
+        iconIndex = IDI_MP4_ICON;
+    } else if (_tcsicmp(ext, _T(".mp4v")) == 0) {
+        iconIndex = IDI_MP4_ICON;
+    } else if (_tcsicmp(ext, _T(".mpa")) == 0) {
+        iconIndex = IDI_MPA_ICON;
+    } else if (_tcsicmp(ext, _T(".mpc")) == 0) {
+        iconIndex = IDI_MPC_ICON;
+    } else if (_tcsicmp(ext, _T(".mpcpl")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".mpe")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".mpeg")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".mpg")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".mpls")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".mpv2")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".mpv4")) == 0) {
+        iconIndex = IDI_MP4_ICON;
+    } else if (_tcsicmp(ext, _T(".mts")) == 0) {
+        iconIndex = IDI_TS_ICON;
+    } else if (_tcsicmp(ext, _T(".ofr")) == 0) {
+        iconIndex = IDI_OFR_ICON;
+    } else if (_tcsicmp(ext, _T(".ofs")) == 0) {
+        iconIndex = IDI_OFR_ICON;
+    } else if (_tcsicmp(ext, _T(".oga")) == 0) {
+        iconIndex = IDI_OGG_ICON;
+    } else if (_tcsicmp(ext, _T(".ogg")) == 0) {
+        iconIndex = IDI_OGG_ICON;
+    } else if (_tcsicmp(ext, _T(".ogm")) == 0) {
+        iconIndex = IDI_OGM_ICON;
+    } else if (_tcsicmp(ext, _T(".ogv")) == 0) {
+        iconIndex = IDI_OGM_ICON;
+    } else if (_tcsicmp(ext, _T(".pls")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".pva")) == 0) {
+        iconIndex = IDI_MPEG_ICON;
+    } else if (_tcsicmp(ext, _T(".ra")) == 0) {
+        iconIndex = IDI_RA_ICON;
+    } else if (_tcsicmp(ext, _T(".ram")) == 0) {
+        iconIndex = IDI_RM_ICON;
+    } else if (_tcsicmp(ext, _T(".rm")) == 0) {
+        iconIndex = IDI_RM_ICON;
+    } else if (_tcsicmp(ext, _T(".rmi")) == 0) {
+        iconIndex = IDI_MIDI_ICON;
+    } else if (_tcsicmp(ext, _T(".rmm")) == 0) {
+        iconIndex = IDI_RM_ICON;
+    } else if (_tcsicmp(ext, _T(".rmvb")) == 0) {
+        iconIndex = IDI_OTHER_ICON;
+    } else if (_tcsicmp(ext, _T(".rp")) == 0) {
+        iconIndex = IDI_RT_ICON;
+    } else if (_tcsicmp(ext, _T(".rpm")) == 0) {
+        iconIndex = IDI_RM_ICON;
+    } else if (_tcsicmp(ext, _T(".rt")) == 0) {
+        iconIndex = IDI_RT_ICON;
+    } else if (_tcsicmp(ext, _T(".smi")) == 0) {
+        iconIndex = IDI_RT_ICON;
+    } else if (_tcsicmp(ext, _T(".smil")) == 0) {
+        iconIndex = IDI_RT_ICON;
+    } else if (_tcsicmp(ext, _T(".smk")) == 0) {
+        iconIndex = IDI_SMK_ICON;
+    } else if (_tcsicmp(ext, _T(".snd")) == 0) {
+        iconIndex = IDI_AU_ICON;
+    } else if (_tcsicmp(ext, _T(".swf")) == 0) {
+        iconIndex = IDI_SWF_ICON;
+    } else if (_tcsicmp(ext, _T(".tp")) == 0) {
+        iconIndex = IDI_TS_ICON;
+    } else if (_tcsicmp(ext, _T(".trp")) == 0) {
+        iconIndex = IDI_TS_ICON;
+    } else if (_tcsicmp(ext, _T(".ts")) == 0) {
+        iconIndex = IDI_TS_ICON;
+    } else if (_tcsicmp(ext, _T(".rec")) == 0) {
+        iconIndex = IDI_TS_ICON;
+    } else if (_tcsicmp(ext, _T(".tak")) == 0) {
+        iconIndex = IDI_OTHER_ICON;
+    } else if (_tcsicmp(ext, _T(".tta")) == 0) {
+        iconIndex = IDI_TTA_ICON;
+    } else if (_tcsicmp(ext, _T(".vob")) == 0) {
+        iconIndex = IDI_VOB_ICON;
+    } else if (_tcsicmp(ext, _T(".wav")) == 0) {
+        iconIndex = IDI_WAV_ICON;
+    } else if (_tcsicmp(ext, _T(".wax")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".webm")) == 0) {
+        iconIndex = IDI_WEBM_ICON;
+    } else if (_tcsicmp(ext, _T(".wm")) == 0) {
+        iconIndex = IDI_WMV_ICON;
+    } else if (_tcsicmp(ext, _T(".wma")) == 0) {
+        iconIndex = IDI_WMA_ICON;
+    } else if (_tcsicmp(ext, _T(".wmp")) == 0) {
+        iconIndex = IDI_WMV_ICON;
+    } else if (_tcsicmp(ext, _T(".wmv")) == 0) {
+        iconIndex = IDI_WMV_ICON;
+    } else if (_tcsicmp(ext, _T(".wmx")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
+    } else if (_tcsicmp(ext, _T(".wv")) == 0) {
+        iconIndex = IDI_WV_ICON;
+    } else if (_tcsicmp(ext, _T(".wvx")) == 0) {
+        iconIndex = IDI_PLAYLIST_ICON;
     }
 
-    return iconindex;
+    return iconIndex;
 }
