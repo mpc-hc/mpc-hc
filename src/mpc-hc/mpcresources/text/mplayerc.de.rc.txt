@@ -426,7 +426,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
 10		"schnelle Suche (bei Keyframes)"
 11		"Info über gerade laufende Datei an den MSN-Messenger senden"
 13		"Minimieren des Fensters bei Vollbild-Ausgabe auf Nicht-Standardmonitor verhindern."
-15		"""Windows 7"" Taskbar Funktionen aktivieren"
+15		"Windows 7 Taskbar Funktionen aktivieren"
 16		"Öffne Nächste/Vorige Datei eines Ordners beim Vor- und Zurückspulen, wenn nur\neine Datei in der Wiedergabeliste ist"
 18		"Zeit Tooltip verwenden:"
 20		"OSD Schrift:"
@@ -448,7 +448,6 @@ END
 
 BEGIN DIALOGEX IDD_SAVETEXTFILEDIALOGTEMPL LINES 7
 5		"Encodiere:"
-
 END
 
 BEGIN DIALOGEX IDD_SAVETHUMBSDIALOGTEMPL LINES 16
@@ -1871,4 +1870,3 @@ STRING ID_PLAY_STOP		"Stopp\nStopp"
 STRING ID_VOLUME_MUTE		"Stummschaltung\nStummschaltung"
 STRING ID_VOLUME_MUTE_DISABLED		"Kein Audio\nKein Audio"
 STRING ID_VOLUME_MUTE_ON		"Stummschaltung\nStummschaltung"
-
