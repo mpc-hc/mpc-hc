@@ -640,7 +640,6 @@
     <None Include="res\web\images\seekbarmid.png" />
     <None Include="res\web\images\seekbarright.png" />
     <None Include="res\web\images\sliderback.png" />
-    <None Include="res\web\images\sliderbar.png" />
     <None Include="res\web\images\slidergrip.png" />
     <None Include="res\web\images\vbg.png" />
     <None Include="res\web\images\vbs.png" />

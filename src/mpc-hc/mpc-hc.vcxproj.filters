@@ -967,9 +967,6 @@
     <None Include="res\web\images\sliderback.png">
       <Filter>Resource Files\web\images</Filter>
     </None>
-    <None Include="res\web\images\sliderbar.png">
-      <Filter>Resource Files\web\images</Filter>
-    </None>
     <None Include="res\web\images\slidergrip.png">
       <Filter>Resource Files\web\images</Filter>
     </None>

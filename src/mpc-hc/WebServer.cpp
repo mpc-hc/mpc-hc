@@ -85,7 +85,6 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
         m_downloads[_T("/images/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
         m_downloads[_T("/images/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
         m_downloads[_T("/images/sliderback.png")] = IDF_SLIDERBACK_PNG;
-        m_downloads[_T("/images/sliderbar.png")] = IDF_SLIDERBAR_PNG;
         m_downloads[_T("/images/slidergrip.png")] = IDF_SLIDERGRIP_PNG;
         m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
         m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
