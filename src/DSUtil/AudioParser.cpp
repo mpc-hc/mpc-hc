@@ -280,7 +280,7 @@ void dts14be_to_dts16be(const BYTE* source, BYTE* destination, int size)
         dst[3] = (src_3 << 8)  | ((src_4 & 0x3fff) >> 6);  // 8  + 8
         dst[4] = (src_4 << 10) | ((src_5 & 0x3fff) >> 4);  // 6  + 10
         dst[5] = (src_5 << 12) | ((src_6 & 0x3fff) >> 2);  // 4  + 12
-        dst[6] = (src_6 << 14) |  (src_7 & 0x3fff);        // 2  + 14
+        dst[6] = (src_6 << 14) | (src_7 & 0x3fff);         // 2  + 14
 
         dst[0] = (dst[0] >> 8) | (dst[0] << 8);
         dst[1] = (dst[1] >> 8) | (dst[1] << 8);
@@ -307,7 +307,7 @@ void dts14le_to_dts16be(const BYTE* source, BYTE* destination, int size)
         dst[3] = (src[3] << 8)  | ((src[4] & 0x3fff) >> 6);  // 8  + 8
         dst[4] = (src[4] << 10) | ((src[5] & 0x3fff) >> 4);  // 6  + 10
         dst[5] = (src[5] << 12) | ((src[6] & 0x3fff) >> 2);  // 4  + 12
-        dst[6] = (src[6] << 14) |  (src[7] & 0x3fff);        // 2  + 14
+        dst[6] = (src[6] << 14) | (src[7] & 0x3fff);         // 2  + 14
 
         dst[0] = (dst[0] >> 8) | (dst[0] << 8);
         dst[1] = (dst[1] >> 8) | (dst[1] << 8);

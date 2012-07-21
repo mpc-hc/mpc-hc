@@ -71,9 +71,7 @@ CFilterApp theApp;
 //
 
 CBufferFilter::CBufferFilter(LPUNKNOWN lpunk, HRESULT* phr)
-    : CTransformFilter(NAME("CBufferFilter")
-    , lpunk
-    , __uuidof(this))
+    : CTransformFilter(NAME("CBufferFilter"), lpunk, __uuidof(this))
     , m_nSamplesToBuffer(2)
 {
     HRESULT hr = S_OK;
@@ -219,7 +217,7 @@ HRESULT CBufferFilter::Receive(IMediaSample* pSample)
 
 HRESULT CBufferFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 {
-    BYTE* pDataIn = NULL;
+    BYTE* pDataIn  = NULL;
     BYTE* pDataOut = NULL;
 
     pIn->GetPointer(&pDataIn);

@@ -28,7 +28,7 @@
 
 // CStaticLink
 
-COLORREF CStaticLink::g_colorUnvisited = RGB(  0, 0, 255);        // blue
+COLORREF CStaticLink::g_colorUnvisited = RGB(0, 0, 255);        // blue
 COLORREF CStaticLink::g_colorVisited   = RGB(128, 0, 128);      // purple
 
 IMPLEMENT_DYNAMIC(CStaticLink, CStatic)
