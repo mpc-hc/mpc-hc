@@ -886,7 +886,7 @@
     <None Include="res\web\variables.html">
       <Filter>Resource Files\web</Filter>
     </None>
-    <None Include="res\web\images\1pix.gif">
+    <None Include="res\web\images\1pix.png">
       <Filter>Resource Files\web\images</Filter>
     </None>
     <None Include="res\web\images\bottomside.png">
@@ -967,10 +967,10 @@
     <None Include="res\web\images\sliderback.png">
       <Filter>Resource Files\web\images</Filter>
     </None>
-    <None Include="res\web\images\sliderbar.gif">
+    <None Include="res\web\images\sliderbar.png">
       <Filter>Resource Files\web\images</Filter>
     </None>
-    <None Include="res\web\images\slidergrip.gif">
+    <None Include="res\web\images\slidergrip.png">
       <Filter>Resource Files\web\images</Filter>
     </None>
     <None Include="res\web\images\vbg.png">

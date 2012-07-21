@@ -613,7 +613,7 @@
     <None Include="res\web\browser.html" />
     <None Include="res\web\controls.html" />
     <None Include="res\web\default.css" />
-    <None Include="res\web\images\1pix.gif" />
+    <None Include="res\web\images\1pix.png" />
     <None Include="res\web\images\bottomside.png" />
     <None Include="res\web\images\controlback.png" />
     <None Include="res\web\images\controlbuttondecrate.png" />
@@ -640,8 +640,8 @@
     <None Include="res\web\images\seekbarmid.png" />
     <None Include="res\web\images\seekbarright.png" />
     <None Include="res\web\images\sliderback.png" />
-    <None Include="res\web\images\sliderbar.gif" />
-    <None Include="res\web\images\slidergrip.gif" />
+    <None Include="res\web\images\sliderbar.png" />
+    <None Include="res\web\images\slidergrip.png" />
     <None Include="res\web\images\vbg.png" />
     <None Include="res\web\images\vbs.png" />
     <None Include="res\web\index.html" />
