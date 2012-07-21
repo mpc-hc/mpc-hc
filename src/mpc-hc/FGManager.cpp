@@ -458,7 +458,7 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
             return hr;
         }
     }
-    EndEnumMediaTypes(pmt)
+    EndEnumMediaTypes(pmt);
 
     *ppBF = pBF.Detach();
 
@@ -650,7 +650,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
             hr = pGC->AddFilterToCache(pBF);
         }
-        EndEnumCachedFilters
+        EndEnumCachedFilters;
     }
 
     // 3. Try filters in the graph
@@ -672,7 +672,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
             pBFs.AddTail(pBF);
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         POSITION pos = pBFs.GetHeadPosition();
         while (pos) {
@@ -871,7 +871,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             }
             psde->mts.AddTail(CMediaType(*pmt));
         }
-        EndEnumMediaTypes(pmt)
+        EndEnumMediaTypes(pmt);
         if (skip < (int)psde->mts.GetCount()) {
             m_deadends.Add(psde);
         }
@@ -1042,10 +1042,10 @@ STDMETHODIMP CFGManager::RenderEx(IPin* pPinOut, DWORD dwFlags, DWORD* pvContext
                         break;
                     }
                 }
-                EndEnumPins
+                EndEnumPins;
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         HRESULT hr;
 
@@ -1150,7 +1150,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
             }
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return
         nRendered == nTotal ? (nRendered > 0 ? S_OK : S_FALSE) :
@@ -1181,7 +1181,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)
             }
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return VFW_E_CANNOT_CONNECT;
 }
@@ -1209,7 +1209,7 @@ STDMETHODIMP CFGManager::ConnectFilterDirect(IPin* pPinOut, IBaseFilter* pBF, co
             }
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return VFW_E_CANNOT_CONNECT;
 }
@@ -1222,7 +1222,7 @@ STDMETHODIMP CFGManager::NukeDownstream(IUnknown* pUnk)
         BeginEnumPins(pBF, pEP, pPin) {
             NukeDownstream(pPin);
         }
-        EndEnumPins
+        EndEnumPins;
     } else if (CComQIPtr<IPin> pPin = pUnk) {
         CComPtr<IPin> pPinTo;
         if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
@@ -1343,8 +1343,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    bool        bOverrideBroadcom = false;
-    CFGFilter*  pFGF;
+    bool bOverrideBroadcom = false;
+    CFGFilter* pFGF;
 
     const bool* src = s.SrcFilters;
     const bool* tra = s.TraFilters;
@@ -2509,7 +2509,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
             CFGFilterRegistry f(pMoniker);
             m_armerit = max(m_armerit, f.GetMerit());
         }
-        EndEnumSysDev
+        EndEnumSysDev;
 
         m_armerit += 0x100;
     }

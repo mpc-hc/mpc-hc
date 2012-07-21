@@ -80,10 +80,10 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
         pRTS->m_dstScreenSize = CSize(384, 288);
         pRTS->CreateDefaultStyle(DEFAULT_CHARSET);
     } else if (m_mt.majortype == MEDIATYPE_Subtitle) {
-        SUBTITLEINFO*   psi     = (SUBTITLEINFO*)m_mt.pbFormat;
-        DWORD           dwOffset    = 0;
-        CString         name;
-        LCID            lcid = 0;
+        SUBTITLEINFO* psi = (SUBTITLEINFO*)m_mt.pbFormat;
+        DWORD   dwOffset = 0;
+        CString name;
+        LCID    lcid = 0;
 
         if (psi != NULL) {
             dwOffset = psi->dwOffset;

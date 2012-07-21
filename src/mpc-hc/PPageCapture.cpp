@@ -360,7 +360,7 @@ void CPPageCapture::FindAnalogDevices()
             CoTaskMemFree(strName);
         }
     }
-    EndEnumSysDev
+    EndEnumSysDev;
 
     {
         int i = m_cbAnalogAudio.AddString(_T("<Video Capture Device>"));
@@ -393,7 +393,7 @@ void CPPageCapture::FindAnalogDevices()
             CoTaskMemFree(strName);
         }
     }
-    EndEnumSysDev
+    EndEnumSysDev;
     if (m_cbAnalogAudio.GetCount()) {
         m_cbAnalogAudio.SetCurSel(iSel);
     }
@@ -502,7 +502,7 @@ void CPPageCapture::FindDigitalDevices()
             CoTaskMemFree(strName);
         }
     }
-    EndEnumSysDev
+    EndEnumSysDev;
     if (m_cbDigitalNetworkProvider.GetCount()) {
         m_cbDigitalNetworkProvider.SetCurSel(iSel);
     }
@@ -526,7 +526,7 @@ void CPPageCapture::FindDigitalDevices()
             CoTaskMemFree(strName);
         }
     }
-    EndEnumSysDev
+    EndEnumSysDev;
     if (m_cbDigitalTuner.GetCount()) {
         m_cbDigitalTuner.SetCurSel(iSel);
     }
@@ -549,7 +549,7 @@ void CPPageCapture::FindDigitalDevices()
             CoTaskMemFree(strName);
         }
     }
-    EndEnumSysDev
+    EndEnumSysDev;
     if (m_cbDigitalReceiver.GetCount()) {
         m_cbDigitalReceiver.SetCurSel(iSel);
     }
@@ -564,13 +564,13 @@ BOOL CPPageCapture::OnApply()
     s.iDefaultCaptureDevice = m_iDefaultDevice;
 
     if (m_cbAnalogVideo.GetCurSel() >= 0) {
-        s.strAnalogVideo        = m_vidnames[m_cbAnalogVideo.GetCurSel()];
+        s.strAnalogVideo = m_vidnames[m_cbAnalogVideo.GetCurSel()];
     }
     if (m_cbAnalogAudio.GetCurSel() >= 0) {
-        s.strAnalogAudio        = m_audnames[m_cbAnalogAudio.GetCurSel()];
+        s.strAnalogAudio = m_audnames[m_cbAnalogAudio.GetCurSel()];
     }
     if (m_cbAnalogCountry.GetCurSel() >= 0) {
-        s.iAnalogCountry        = ((cc_t*)m_cbAnalogCountry.GetItemDataPtr(m_cbAnalogCountry.GetCurSel()))->code;
+        s.iAnalogCountry = ((cc_t*)m_cbAnalogCountry.GetItemDataPtr(m_cbAnalogCountry.GetCurSel()))->code;
     }
 
     if (m_cbDigitalNetworkProvider.GetCurSel() >= 0) {

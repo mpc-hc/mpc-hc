@@ -84,17 +84,17 @@ BOOL CRegFilterChooserDlg::OnInitDialog()
     BeginEnumSysDev(CLSID_LegacyAmFilterCategory, pMoniker) {
         AddToList(pMoniker);
     }
-    EndEnumSysDev
+    EndEnumSysDev;
 
     BeginEnumSysDev(DMOCATEGORY_VIDEO_EFFECT, pMoniker) {
         AddToList(pMoniker);
     }
-    EndEnumSysDev
+    EndEnumSysDev;
 
     BeginEnumSysDev(DMOCATEGORY_AUDIO_EFFECT, pMoniker) {
         AddToList(pMoniker);
     }
-    EndEnumSysDev
+    EndEnumSysDev;
 
     AddAnchor(IDC_LIST2, TOP_LEFT, BOTTOM_RIGHT);
     AddAnchor(IDC_BUTTON1, BOTTOM_LEFT);

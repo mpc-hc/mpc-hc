@@ -362,7 +362,7 @@ void CPPageFullscreen::OnUpdateFullScrCombo()
 {
     CMonitors monitors;
     m_f_hmonitor = m_MonitorDisplayNames[m_iMonitorTypeCtrl.GetCurSel()];
-    if (AfxGetAppSettings().strFullScreenMonitor !=  m_f_hmonitor) {
+    if (AfxGetAppSettings().strFullScreenMonitor != m_f_hmonitor) {
         m_AutoChangeFullscrRes.bEnabled = false;
     }
 

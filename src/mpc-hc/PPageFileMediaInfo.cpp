@@ -106,7 +106,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
                 break;
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
     }
 
 #ifdef USE_MEDIAINFO_STATIC

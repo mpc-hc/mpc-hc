@@ -35,7 +35,7 @@
 
 inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
 {
-    REFERENCE_TIME  rtTemp = rtFirst;
+    REFERENCE_TIME rtTemp = rtFirst;
     rtFirst = rtSecond;
     rtSecond = rtTemp;
 }
@@ -103,7 +103,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
         return hr;
     }
 
-    CHECK_HR_TRACE(BeginFrame(nSurfaceIndex, pSampleToDeliver))
+    CHECK_HR_TRACE(BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
     TRACE_VC1("CDXVADecoderVC1::DecodeFrame() : PictureType = %d, rtStart = %I64d, Surf = %d\n", nSliceType, rtStart, nSurfaceIndex);
 
@@ -129,39 +129,39 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
     TRACE_VC1("CDXVADecoderVC1::DecodeFrame() : Decode frame %i\n", m_PictureParams.bPicScanMethod);
 
     // Send picture params to accelerator
-    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams))
+    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
 
     // Send bitstream to accelerator
-    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nFrameSize ? nFrameSize : nSize, pDataIn, &nSize_Result))
+    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nFrameSize ? nFrameSize : nSize, pDataIn, &nSize_Result));
 
     m_SliceInfo.wQuantizerScaleCode = 1;    // TODO : 1->31 ???
     m_SliceInfo.dwSliceBitsInBuffer = nSize_Result * 8;
-    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(m_SliceInfo), &m_SliceInfo))
+    CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(m_SliceInfo), &m_SliceInfo));
 
     // Decode frame
-    CHECK_HR_TRACE(Execute())
-    CHECK_HR_TRACE(EndFrame(nSurfaceIndex))
+    CHECK_HR_TRACE(Execute());
+    CHECK_HR_TRACE(EndFrame(nSurfaceIndex));
 
     // ***************
     if (nFrameSize) { // Decoding Second Field
         FFVC1UpdatePictureParam(&m_PictureParams, m_pFilter->GetAVCtx(), NULL, NULL, pDataIn, nSize, NULL, TRUE, &m_bFrame_repeat_pict);
 
-        CHECK_HR_TRACE(BeginFrame(nSurfaceIndex, pSampleToDeliver))
+        CHECK_HR_TRACE(BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
         TRACE_VC1("CDXVADecoderVC1::DecodeFrame() : PictureType = %d\n", nSliceType);
 
-        CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams))
+        CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
 
         // Send bitstream to accelerator
-        CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nSize - nFrameSize, pDataIn + nFrameSize, &nSize_Result))
+        CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_BitStreamDateBufferType, nSize - nFrameSize, pDataIn + nFrameSize, &nSize_Result));
 
         m_SliceInfo.wQuantizerScaleCode = 1;        // TODO : 1->31 ???
         m_SliceInfo.dwSliceBitsInBuffer = nSize_Result * 8;
-        CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(m_SliceInfo), &m_SliceInfo))
+        CHECK_HR_TRACE(AddExecuteBuffer(DXVA2_SliceControlBufferType, sizeof(m_SliceInfo), &m_SliceInfo));
 
         // Decode frame
-        CHECK_HR_TRACE(Execute())
-        CHECK_HR_TRACE(EndFrame(nSurfaceIndex))
+        CHECK_HR_TRACE(Execute());
+        CHECK_HR_TRACE(EndFrame(nSurfaceIndex));
     }
     // ***************
 

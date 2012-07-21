@@ -105,7 +105,7 @@ BOOL CPPageOutput::OnInitDialog()
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
     const CAppSettings& s = AfxGetAppSettings();
-    const  CRenderersSettings& renderersSettings = s.m_RenderersSettings;
+    const CRenderersSettings& renderersSettings = s.m_RenderersSettings;
 
     m_iDSVideoRendererType  = s.iDSVideoRendererType;
     m_iRMVideoRendererType  = s.iRMVideoRendererType;
@@ -163,7 +163,7 @@ BOOL CPPageOutput::OnInitDialog()
         }
         i++;
     }
-    EndEnumSysDev
+    EndEnumSysDev;
 
     Cbstr.Format(_T("%d: %s"), i++, AUDRNDT_NULL_COMP);
     m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_COMP);
@@ -192,7 +192,7 @@ BOOL CPPageOutput::OnInitDialog()
     //
     IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
     if (pD3D) {
-        TCHAR       strGUID[50];
+        TCHAR strGUID[50];
         CString cstrGUID;
         CString d3ddevice_str = _T("");
         CStringArray adapterList;
@@ -302,13 +302,13 @@ BOOL CPPageOutput::OnApply()
     s.iDSVideoRendererType      = m_iDSVideoRendererType;
     s.iRMVideoRendererType      = m_iRMVideoRendererType;
     s.iQTVideoRendererType      = m_iQTVideoRendererType;
-    renderersSettings.iAPSurfaceUsage   = m_iAPSurfaceUsage;
-    renderersSettings.iDX9Resizer       = m_iDX9Resizer;
-    renderersSettings.fVMR9MixerMode    = !!m_fVMR9MixerMode;
-    renderersSettings.fVMR9MixerYUV     = !!m_fVMR9MixerYUV;
+    renderersSettings.iAPSurfaceUsage = m_iAPSurfaceUsage;
+    renderersSettings.iDX9Resizer     = m_iDX9Resizer;
+    renderersSettings.fVMR9MixerMode  = !!m_fVMR9MixerMode;
+    renderersSettings.fVMR9MixerYUV   = !!m_fVMR9MixerYUV;
     renderersSettings.m_RenderSettings.fVMR9AlterativeVSync = m_fVMR9AlterativeVSync != 0;
     s.strAudioRendererDisplayName = m_AudioRendererDisplayNames[m_iAudioRendererType];
-    s.fD3DFullscreen            = m_fD3DFullscreen ? true : false;
+    s.fD3DFullscreen = m_fD3DFullscreen ? true : false;
 
     renderersSettings.fResetDevice = !!m_fResetDevice;
 

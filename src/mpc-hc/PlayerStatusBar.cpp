@@ -190,7 +190,7 @@ void CPlayerStatusBar::SetStatusMessage(CString str)
 
 CString CPlayerStatusBar::GetStatusTimer()
 {
-    CString     strResult;
+    CString strResult;
 
     m_time.GetWindowText(strResult);
 

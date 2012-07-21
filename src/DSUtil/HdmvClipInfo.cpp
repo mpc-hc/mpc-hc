@@ -73,8 +73,8 @@ void CHdmvClipInfo::ReadBuffer(BYTE* pBuff, DWORD nLen)
 
 HRESULT CHdmvClipInfo::ReadProgramInfo()
 {
-    BYTE          number_of_program_sequences;
-    BYTE          number_of_streams_in_ps;
+    BYTE number_of_program_sequences;
+    BYTE number_of_streams_in_ps;
     LARGE_INTEGER Pos;
 
     m_Streams.RemoveAll();
@@ -88,7 +88,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
     for (size_t i = 0; i < number_of_program_sequences; i++) {
         ReadDword();    //SPN_program_sequence_start
         ReadShort();    //program_map_PID
-        number_of_streams_in_ps = (BYTE)ReadByte();     //number_of_streams_in_ps
+        number_of_streams_in_ps = (BYTE)ReadByte(); //number_of_streams_in_ps
         ReadByte();     //reserved_for_future_use
 
         for (size_t stream_index = 0; stream_index < number_of_streams_in_ps; stream_index++) {
@@ -166,8 +166,8 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
     BYTE Buff[100];
 
     m_bIsHdmv = false;
-    m_hFile   = CreateFile(strFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-                           OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    m_hFile = CreateFile(strFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                         OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
         ReadBuffer(Buff, 4);
@@ -276,8 +276,8 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
         }
 
         LARGE_INTEGER Pos;
-        DWORD         dwTemp;
-        USHORT        nPlaylistItems;
+        DWORD  dwTemp;
+        USHORT nPlaylistItems;
 
         Pos.QuadPart = ReadDword(); // PlayList_start_address
         ReadDword();                // PlayListMark_start_address
@@ -341,27 +341,27 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
         REFERENCE_TIME* rtOffset = DNew REFERENCE_TIME[PlaylistItems.GetCount()];
-        REFERENCE_TIME  rtSum    = 0;
-        int             nIndex   = 0;
+        REFERENCE_TIME rtSum = 0;
+        int nIndex = 0;
 
         POSITION pos = PlaylistItems.GetHeadPosition();
         while (pos) {
             CHdmvClipInfo::PlaylistItem& PI = PlaylistItems.GetNext(pos);
 
             rtOffset[nIndex] = rtSum - PI.m_rtIn;
-            rtSum            = rtSum + PI.Duration();
+            rtSum = rtSum + PI.Duration();
             nIndex++;
         }
 
         ReadBuffer(Buff, 4);
         if (memcmp(Buff, "MPLS", 4)) {
-            SAFE_DELETE_ARRAY(rtOffset)
+            SAFE_DELETE_ARRAY(rtOffset);
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
         }
 
         ReadBuffer(Buff, 4);
         if ((memcmp(Buff, "0200", 4) != 0) && (memcmp(Buff, "0100", 4) != 0)) {
-            SAFE_DELETE_ARRAY(rtOffset)
+            SAFE_DELETE_ARRAY(rtOffset);
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
         }
 
@@ -391,7 +391,7 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         }
 
         CloseFile(S_OK);
-        SAFE_DELETE_ARRAY(rtOffset)
+        SAFE_DELETE_ARRAY(rtOffset);
         return bDuplicate ? S_FALSE : S_OK;
     }
 
@@ -421,7 +421,7 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
     if (hFind != INVALID_HANDLE_VALUE) {
         REFERENCE_TIME rtMax = 0;
         REFERENCE_TIME rtCurrent;
-        CString        strCurrentPlaylist;
+        CString strCurrentPlaylist;
         do {
             strCurrentPlaylist.Format(_T("%sPLAYLIST\\%s"), strPath, fd.cFileName);
             Playlist.RemoveAll();
@@ -441,8 +441,8 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
                 if (rtCurrent >= (REFERENCE_TIME)MIN_LIMIT * 600000000) {
                     PlaylistItem Item;
                     Item.m_strFileName = strCurrentPlaylist;
-                    Item.m_rtIn        = 0;
-                    Item.m_rtOut       = rtCurrent;
+                    Item.m_rtIn = 0;
+                    Item.m_rtOut = rtCurrent;
                     MPLSPlaylists.AddTail(Item);
                 }
 

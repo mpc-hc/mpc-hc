@@ -248,14 +248,14 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     : CFGManagerPlayer(pName, pUnk, hWnd)
 {
     LOG(_T("\nStarting session ------------------------------------------------->"));
-    m_DVBStreams[DVB_MPV]   = CDVBStream(L"mpv",    &mt_Mpv);
-    m_DVBStreams[DVB_H264]  = CDVBStream(L"h264",   &mt_H264);
-    m_DVBStreams[DVB_MPA]   = CDVBStream(L"mpa",    &mt_Mpa);
-    m_DVBStreams[DVB_AC3]   = CDVBStream(L"ac3",    &mt_Ac3);
-    m_DVBStreams[DVB_EAC3]  = CDVBStream(L"eac3",   &mt_Eac3);
-    m_DVBStreams[DVB_PSI]   = CDVBStream(L"psi",    &mt_Psi, true, MEDIA_MPEG2_PSI);
-    m_DVBStreams[DVB_TIF]   = CDVBStream(L"tif",    &mt_Tif, true);
-    m_DVBStreams[DVB_EPG]   = CDVBStream(L"epg",    &mt_Epg);
+    m_DVBStreams[DVB_MPV]  = CDVBStream(L"mpv",  &mt_Mpv);
+    m_DVBStreams[DVB_H264] = CDVBStream(L"h264", &mt_H264);
+    m_DVBStreams[DVB_MPA]  = CDVBStream(L"mpa",  &mt_Mpa);
+    m_DVBStreams[DVB_AC3]  = CDVBStream(L"ac3",  &mt_Ac3);
+    m_DVBStreams[DVB_EAC3] = CDVBStream(L"eac3", &mt_Eac3);
+    m_DVBStreams[DVB_PSI]  = CDVBStream(L"psi",  &mt_Psi, true, MEDIA_MPEG2_PSI);
+    m_DVBStreams[DVB_TIF]  = CDVBStream(L"tif",  &mt_Tif, true);
+    m_DVBStreams[DVB_EPG]  = CDVBStream(L"epg",  &mt_Epg);
 
     // Warning : MEDIA_ELEMENTARY_STREAM didn't work for subtitles with Windows XP!
     if (SysVersion::IsVistaOrLater()) {
@@ -314,7 +314,7 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
             CoTaskMemFree(strName);
         }
     }
-    EndEnumSysDev
+    EndEnumSysDev;
 
     return hr;
 }
@@ -365,27 +365,27 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
                     hr = this->ConnectDirect(pOutPin, pInPin, NULL);
 
                     /*#ifdef _DEBUG
-                                        PIN_INFO        InfoPinIn, InfoPinOut;
-                                        FILTER_INFO     InfoFilterIn, InfoFilterOut;
-                                        pInPin->QueryPinInfo (&InfoPinIn);
-                                        pOutPin->QueryPinInfo (&InfoPinOut);
-                                        InfoPinIn.pFilter->QueryFilterInfo(&InfoFilterIn);
-                                        InfoPinOut.pFilter->QueryFilterInfo(&InfoFilterOut);
+                    PIN_INFO InfoPinIn, InfoPinOut;
+                    FILTER_INFO InfoFilterIn, InfoFilterOut;
+                    pInPin->QueryPinInfo (&InfoPinIn);
+                    pOutPin->QueryPinInfo (&InfoPinOut);
+                    InfoPinIn.pFilter->QueryFilterInfo(&InfoFilterIn);
+                    InfoPinOut.pFilter->QueryFilterInfo(&InfoFilterOut);
 
-                                        TRACE ("%S - %S => %S - %S (hr=0x%08x)\n", InfoFilterOut.achName, InfoPinOut.achName, InfoFilterIn.achName, InfoPinIn.achName, hr);
+                    TRACE ("%S - %S => %S - %S (hr=0x%08x)\n", InfoFilterOut.achName, InfoPinOut.achName, InfoFilterIn.achName, InfoPinIn.achName, hr);
 
-                                        InfoPinIn.pFilter->Release();
-                                        InfoPinOut.pFilter->Release();
+                    InfoPinIn.pFilter->Release();
+                    InfoPinOut.pFilter->Release();
                     #endif*/
                     if (SUCCEEDED(hr)) {
                         return hr;
                     }
                 }
             }
-            EndEnumPins
+            EndEnumPins;
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return hr;
 }
@@ -476,7 +476,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     BeginEnumFilters(this, pEF, pBF) {
         LOG(GetFilterName(pBF));
     }
-    EndEnumFilters
+    EndEnumFilters;
 #endif
 
     return S_OK;

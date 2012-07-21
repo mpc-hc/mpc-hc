@@ -2103,7 +2103,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
     }
     //
     else {
-        COPY_TO_BUFFER(p, buffsize)
+        COPY_TO_BUFFER(p, buffsize);
         pDataBuff = m_pFFBuffer;
     }
 
@@ -2179,7 +2179,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int buffsiz
                 }
 
                 CAtlArray<float> pBuffOut;
-                float*           pDataOut;
+                float* pDataOut;
 
                 pBuffOut.SetCount(nSamples);
                 pDataOut = pBuffOut.GetData();

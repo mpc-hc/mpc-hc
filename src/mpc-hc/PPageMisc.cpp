@@ -114,8 +114,8 @@ BOOL CPPageMisc::OnInitDialog()
     m_SliSaturation.SetPos(m_iSaturation);
 
     m_iBrightness ? m_sBrightness.Format(_T("%+d"), m_iBrightness) : m_sBrightness = _T("0");
-    m_iContrast   ? m_sContrast.Format(_T("%+d"), m_iContrast)   : m_sContrast   = _T("0");
-    m_iHue        ? m_sHue.Format(_T("%+d"), m_iHue)        : m_sHue        = _T("0");
+    m_iContrast ? m_sContrast.Format(_T("%+d"), m_iContrast) : m_sContrast = _T("0");
+    m_iHue ? m_sHue.Format(_T("%+d"), m_iHue) : m_sHue = _T("0");
     m_iSaturation ? m_sSaturation.Format(_T("%+d"), m_iSaturation) : m_sSaturation = _T("0");
 
     m_nUpdaterAutoCheck = s.nUpdaterAutoCheck;
@@ -133,10 +133,10 @@ BOOL CPPageMisc::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
 
-    s.iBrightness               = m_iBrightness;
-    s.iContrast                 = m_iContrast;
-    s.iHue                      = m_iHue;
-    s.iSaturation               = m_iSaturation;
+    s.iBrightness = m_iBrightness;
+    s.iContrast   = m_iContrast;
+    s.iHue        = m_iHue;
+    s.iSaturation = m_iSaturation;
 
     s.nUpdaterAutoCheck = m_nUpdaterAutoCheck;
     s.nUpdaterDelay = m_nUpdaterDelay;
@@ -174,10 +174,10 @@ void CPPageMisc::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 void CPPageMisc::OnBnClickedReset()
 {
-    m_iBrightness   = AfxGetMyApp()->GetColorControl(ProcAmp_Brightness)->DefaultValue;
-    m_iContrast     = AfxGetMyApp()->GetColorControl(ProcAmp_Contrast)->DefaultValue;
-    m_iHue          = AfxGetMyApp()->GetColorControl(ProcAmp_Hue)->DefaultValue;
-    m_iSaturation   = AfxGetMyApp()->GetColorControl(ProcAmp_Saturation)->DefaultValue;
+    m_iBrightness = AfxGetMyApp()->GetColorControl(ProcAmp_Brightness)->DefaultValue;
+    m_iContrast   = AfxGetMyApp()->GetColorControl(ProcAmp_Contrast)->DefaultValue;
+    m_iHue        = AfxGetMyApp()->GetColorControl(ProcAmp_Hue)->DefaultValue;
+    m_iSaturation = AfxGetMyApp()->GetColorControl(ProcAmp_Saturation)->DefaultValue;
 
     m_SliBrightness.SetPos(m_iBrightness);
     m_SliContrast.SetPos(m_iContrast);
@@ -185,8 +185,8 @@ void CPPageMisc::OnBnClickedReset()
     m_SliSaturation.SetPos(m_iSaturation);
 
     m_iBrightness ? m_sBrightness.Format(_T("%+d"), m_iBrightness) : m_sBrightness = _T("0");
-    m_iContrast   ? m_sContrast.Format(_T("%+d"), m_iContrast)   : m_sContrast   = _T("0");
-    m_iHue        ? m_sHue.Format(_T("%+d"), m_iHue)        : m_sHue        = _T("0");
+    m_iContrast ? m_sContrast.Format(_T("%+d"), m_iContrast) : m_sContrast = _T("0");
+    m_iHue ? m_sHue.Format(_T("%+d"), m_iHue) : m_sHue = _T("0");
     m_iSaturation ? m_sSaturation.Format(_T("%+d"), m_iSaturation) : m_sSaturation = _T("0");
 
     ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(ProcAmp_All, m_iBrightness, m_iContrast, m_iHue, m_iSaturation);

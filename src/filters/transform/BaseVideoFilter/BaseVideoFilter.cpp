@@ -457,7 +457,7 @@ HRESULT CBaseVideoFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_
 
     pProperties->cBuffers = m_cBuffers;
     pProperties->cbBuffer = bih.biSizeImage;
-    pProperties->cbAlign = 1;
+    pProperties->cbAlign  = 1;
     pProperties->cbPrefix = 0;
 
     HRESULT hr;
@@ -490,14 +490,14 @@ VIDEO_OUTPUT_FORMATS DefaultFormats[] = {
 
 void CBaseVideoFilter::GetOutputFormats(int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats)
 {
-    nNumber     = _countof(DefaultFormats);
-    *ppFormats  = DefaultFormats;
+    nNumber    = _countof(DefaultFormats);
+    *ppFormats = DefaultFormats;
 }
 
 HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 {
-    VIDEO_OUTPUT_FORMATS*   fmts;
-    int                     nFormatCount;
+    VIDEO_OUTPUT_FORMATS* fmts;
+    int nFormatCount;
 
     if (m_pInput->IsConnected() == FALSE) {
         return E_UNEXPECTED;

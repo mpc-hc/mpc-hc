@@ -415,12 +415,12 @@ HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 
 bool CBaseSplitterOutputPin::IsDiscontinuous()
 {
-    return m_mt.majortype       == MEDIATYPE_Text
-           || m_mt.majortype    == MEDIATYPE_ScriptCommand
-           || m_mt.majortype    == MEDIATYPE_Subtitle
-           || m_mt.subtype      == MEDIASUBTYPE_DVD_SUBPICTURE
-           || m_mt.subtype      == MEDIASUBTYPE_CVD_SUBPICTURE
-           || m_mt.subtype      == MEDIASUBTYPE_SVCD_SUBPICTURE;
+    return m_mt.majortype    == MEDIATYPE_Text
+           || m_mt.majortype == MEDIATYPE_ScriptCommand
+           || m_mt.majortype == MEDIATYPE_Subtitle
+           || m_mt.subtype   == MEDIASUBTYPE_DVD_SUBPICTURE
+           || m_mt.subtype   == MEDIASUBTYPE_CVD_SUBPICTURE
+           || m_mt.subtype   == MEDIASUBTYPE_SVCD_SUBPICTURE;
 }
 
 bool CBaseSplitterOutputPin::IsActive()
@@ -1254,10 +1254,10 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
     }
 
     if (BuildChapters(pszFileName, Items, Chapters)) {
-        POSITION        pos = Chapters.GetHeadPosition();
-        int             i   = 1;
+        POSITION pos = Chapters.GetHeadPosition();
+        int i = 1;
         while (pos) {
-            CString     str;
+            CString str;
             CHdmvClipInfo::PlaylistChapter& chap = Chapters.GetNext(pos);
             if (chap.m_nMarkType == CHdmvClipInfo::EntryMark) {
                 str.Format(_T("Chapter %d"), i);

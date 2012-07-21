@@ -283,14 +283,14 @@ CMPlayerCApp::CMPlayerCApp()
     ResetColorControlRange();
 
     memset(&m_VMR9ColorControl, 0, sizeof(m_VMR9ColorControl));
-    m_VMR9ColorControl[0].dwSize        = sizeof(VMR9ProcAmpControlRange);
-    m_VMR9ColorControl[0].dwProperty    = ProcAmpControl9_Brightness;
-    m_VMR9ColorControl[1].dwSize        = sizeof(VMR9ProcAmpControlRange);
-    m_VMR9ColorControl[1].dwProperty    = ProcAmpControl9_Contrast;
-    m_VMR9ColorControl[2].dwSize        = sizeof(VMR9ProcAmpControlRange);
-    m_VMR9ColorControl[2].dwProperty    = ProcAmpControl9_Hue;
-    m_VMR9ColorControl[3].dwSize        = sizeof(VMR9ProcAmpControlRange);
-    m_VMR9ColorControl[3].dwProperty    = ProcAmpControl9_Saturation;
+    m_VMR9ColorControl[0].dwSize     = sizeof(VMR9ProcAmpControlRange);
+    m_VMR9ColorControl[0].dwProperty = ProcAmpControl9_Brightness;
+    m_VMR9ColorControl[1].dwSize     = sizeof(VMR9ProcAmpControlRange);
+    m_VMR9ColorControl[1].dwProperty = ProcAmpControl9_Contrast;
+    m_VMR9ColorControl[2].dwSize     = sizeof(VMR9ProcAmpControlRange);
+    m_VMR9ColorControl[2].dwProperty = ProcAmpControl9_Hue;
+    m_VMR9ColorControl[3].dwSize     = sizeof(VMR9ProcAmpControlRange);
+    m_VMR9ColorControl[3].dwProperty = ProcAmpControl9_Saturation;
 
     memset(&m_EVRColorControl, 0, sizeof(m_EVRColorControl));
 
@@ -678,11 +678,11 @@ HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBU
 
 BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileSize)
 {
-    BOOL    bRet = FALSE;
-    WCHAR   szTempPath[_MAX_PATH];
-    WCHAR   strFileName[_MAX_PATH];
-    WCHAR   strExt[_MAX_EXT];
-    CIfo    Ifo;
+    BOOL  bRet = FALSE;
+    WCHAR szTempPath[_MAX_PATH];
+    WCHAR strFileName[_MAX_PATH];
+    WCHAR strExt[_MAX_EXT];
+    CIfo  Ifo;
 
     if (!GetTempPathW(_MAX_PATH, szTempPath)) {
         return FALSE;
@@ -1167,10 +1167,10 @@ UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawIn
 
 void CMPlayerCApp::RegisterHotkeys()
 {
-    RAWINPUTDEVICELIST  InputDeviceList[50];
-    UINT                nInputDeviceCount = _countof(InputDeviceList);
-    RID_DEVICE_INFO     DevInfo;
-    RAWINPUTDEVICE      MCEInputDevice[] = {
+    RAWINPUTDEVICELIST InputDeviceList[50];
+    UINT nInputDeviceCount = _countof(InputDeviceList);
+    RID_DEVICE_INFO DevInfo;
+    RAWINPUTDEVICE MCEInputDevice[] = {
         // usUsagePage     usUsage         dwFlags     hwndTarget
         {  0xFFBC,         0x88,           0,          NULL},
         {  0x000C,         0x01,           0,          NULL},
@@ -1184,7 +1184,7 @@ void CMPlayerCApp::RegisterHotkeys()
 
     nInputDeviceCount = GetRawInputDeviceList(InputDeviceList, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
     for (UINT i = 0; i < nInputDeviceCount; i++) {
-        UINT    nTemp = sizeof(DevInfo);
+        UINT nTemp = sizeof(DevInfo);
 
         if (GetRawInputDeviceInfo(InputDeviceList[i].hDevice, RIDI_DEVICEINFO, &DevInfo, &nTemp) > 0) {
             if (DevInfo.hid.dwVendorId == 0x00000471 &&         // Philips HID vendor id
@@ -1558,7 +1558,7 @@ void SetAudioRenderer(int AudioDevNo)
         m_AudioRendererDisplayNames.Add(CString(str));
         i++;
     }
-    EndEnumSysDev
+    EndEnumSysDev;
 
     m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_COMP);
     m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_UNCOMP);
@@ -2104,9 +2104,9 @@ LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM l
 
 bool CMPlayerCApp::SetLanguage(const LanguageResource& languageResource, bool showErrorMsg /*= true*/)
 {
-    CAppSettings&    s = AfxGetAppSettings();
-    HMODULE         hMod = NULL;
-    bool            success = false;
+    CAppSettings& s = AfxGetAppSettings();
+    HMODULE hMod = NULL;
+    bool success = false;
 
     // Try to load the resource dll if any
     if (languageResource.dllPath) {
@@ -2168,12 +2168,12 @@ void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool 
 {
     SHELLEXECUTEINFO execinfo;
     memset(&execinfo, 0, sizeof(execinfo));
-    execinfo.lpFile         = strCommand;
-    execinfo.cbSize         = sizeof(execinfo);
-    execinfo.lpVerb         = _T("runas");
-    execinfo.fMask          = SEE_MASK_NOCLOSEPROCESS;
-    execinfo.nShow          = SW_SHOWDEFAULT;
-    execinfo.lpParameters   = strArgs;
+    execinfo.lpFile = strCommand;
+    execinfo.cbSize = sizeof(execinfo);
+    execinfo.lpVerb = _T("runas");
+    execinfo.fMask  = SEE_MASK_NOCLOSEPROCESS;
+    execinfo.nShow  = SW_SHOWDEFAULT;
+    execinfo.lpParameters = strArgs;
 
     ShellExecuteEx(&execinfo);
 

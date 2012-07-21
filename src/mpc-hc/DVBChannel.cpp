@@ -59,19 +59,19 @@ void CDVBChannel::FromString(CString strValue)
     m_nPrefNumber   = _tstol(strValue.Tokenize(_T("|"), i));
     m_nOriginNumber = _tstol(strValue.Tokenize(_T("|"), i));
     if (nVersion > FORMAT_VERSION_0) {
-        m_bEncrypted    = !!_tstol(strValue.Tokenize(_T("|"), i));
+        m_bEncrypted = !!_tstol(strValue.Tokenize(_T("|"), i));
     }
     if (nVersion > FORMAT_VERSION_1) {
-        m_bNowNextFlag  = !!_tstol(strValue.Tokenize(_T("|"), i));
+        m_bNowNextFlag = !!_tstol(strValue.Tokenize(_T("|"), i));
     }
-    m_ulONID        = _tstol(strValue.Tokenize(_T("|"), i));
-    m_ulTSID        = _tstol(strValue.Tokenize(_T("|"), i));
-    m_ulSID         = _tstol(strValue.Tokenize(_T("|"), i));
-    m_ulPMT         = _tstol(strValue.Tokenize(_T("|"), i));
-    m_ulPCR         = _tstol(strValue.Tokenize(_T("|"), i));
-    m_ulVideoPID    = _tstol(strValue.Tokenize(_T("|"), i));
-    m_nVideoType    = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
-    m_nAudioCount   = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulONID      = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulTSID      = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulSID       = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulPMT       = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulPCR       = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulVideoPID  = _tstol(strValue.Tokenize(_T("|"), i));
+    m_nVideoType  = (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
+    m_nAudioCount = _tstol(strValue.Tokenize(_T("|"), i));
     if (nVersion > FORMAT_VERSION_1) {
         m_nDefaultAudio = _tstol(strValue.Tokenize(_T("|"), i));
     }

@@ -422,11 +422,11 @@ avcsuccess:
                     memset(mt.Format(), 0, mt.FormatLength());
                     memcpy(mt.Format() + sizeof(MPEG1VIDEOINFO), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 
-                    pm1vi->hdr.bmiHeader.biSize         = sizeof(pm1vi->hdr.bmiHeader);
-                    pm1vi->hdr.bmiHeader.biWidth        = (LONG)pTE->v.PixelWidth;
-                    pm1vi->hdr.bmiHeader.biHeight       = (LONG)pTE->v.PixelHeight;
-                    pm1vi->hdr.bmiHeader.biBitCount     = 12;
-                    pm1vi->hdr.bmiHeader.biSizeImage    = DIBSIZE(pm1vi->hdr.bmiHeader);
+                    pm1vi->hdr.bmiHeader.biSize      = sizeof(pm1vi->hdr.bmiHeader);
+                    pm1vi->hdr.bmiHeader.biWidth     = (LONG)pTE->v.PixelWidth;
+                    pm1vi->hdr.bmiHeader.biHeight    = (LONG)pTE->v.PixelHeight;
+                    pm1vi->hdr.bmiHeader.biBitCount  = 12;
+                    pm1vi->hdr.bmiHeader.biSizeImage = DIBSIZE(pm1vi->hdr.bmiHeader);
 
                     mt.SetSampleSize(pm1vi->hdr.bmiHeader.biWidth * pm1vi->hdr.bmiHeader.biHeight * 4);
                     if (!bHasVideo) {

@@ -170,7 +170,7 @@ void CPnSPresetsDlg::OnBnClickedButton6() // del
     int i = m_list.GetCurSel();
     m_list.DeleteString(i);
     m_pnspresets.RemoveAt(i);
-    if (i ==  m_list.GetCount()) {
+    if (i == m_list.GetCount()) {
         i--;
     }
     m_list.SetCurSel(i);

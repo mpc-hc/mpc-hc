@@ -34,11 +34,11 @@
 
 bool IsVMR7InGraph(IFilterGraph* pFG)
 {
-    BeginEnumFilters(pFG, pEF, pBF)
+    BeginEnumFilters(pFG, pEF, pBF);
     if (CComQIPtr<IVMRWindowlessControl>(pBF)) {
         return true;
     }
-    EndEnumFilters
+    EndEnumFilters;
     return false;
 }
 

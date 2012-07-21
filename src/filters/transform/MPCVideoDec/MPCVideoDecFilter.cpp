@@ -714,7 +714,7 @@ void CMPCVideoDecFilter::DetectVideoCard(HWND hWnd)
 CMPCVideoDecFilter::~CMPCVideoDecFilter()
 {
     Cleanup();
-    SAFE_DELETE(m_pCpuId)
+    SAFE_DELETE(m_pCpuId);
 }
 
 bool CMPCVideoDecFilter::IsVideoInterlaced()
@@ -930,7 +930,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 
 void CMPCVideoDecFilter::Cleanup()
 {
-    SAFE_DELETE(m_pDXVADecoder)
+    SAFE_DELETE(m_pDXVADecoder);
 
     // Release FFMpeg
     if (m_pAVCtx) {
@@ -976,7 +976,7 @@ void CMPCVideoDecFilter::Cleanup()
     m_nFFPicEnd     = INT_MIN;
     m_nCodecNb      = -1;
     m_nCodecId      = CODEC_ID_NONE;
-    SAFE_DELETE_ARRAY(m_pVideoOutputFormat)
+    SAFE_DELETE_ARRAY(m_pVideoOutputFormat);
 
     // Release DXVA ressources
     if (m_hDevice != INVALID_HANDLE_VALUE) {
@@ -1080,7 +1080,7 @@ CString CMPCVideoDecFilter::GetFileExtension()
             break;
         }
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     return ext;
 }
@@ -1293,7 +1293,7 @@ bool CMPCVideoDecFilter::IsDXVASupported()
 
 void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 {
-    SAFE_DELETE_ARRAY(m_pVideoOutputFormat)
+    SAFE_DELETE_ARRAY(m_pVideoOutputFormat);
 
     m_nVideoOutputCount = IsDXVASupported() ? ffCodecs[m_nCodecNb].DXVAModeCount() + _countof(DXVAFormats) : 0;
     if (m_bUseFFmpeg) {
@@ -1871,7 +1871,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
         }
 
 #if defined(_DEBUG) && 0
-        static REFERENCE_TIME   rtLast = 0;
+        static REFERENCE_TIME rtLast = 0;
         TRACE("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}\n", rtStart, rtStop,
               rtStop - rtStart, rtStart - rtLast);
         rtLast = rtStart;
@@ -2388,12 +2388,12 @@ HRESULT CMPCVideoDecFilter::FindDXVA1DecoderConfiguration(IAMVideoAccelerator* p
             for (DWORD iFormat = 0; iFormat < dwFormats; iFormat++) {
                 if (pPixelFormats[iFormat].dwFourCC == MAKEFOURCC('N', 'V', '1', '2')) {
                     memcpy(pPixelFormat, &pPixelFormats[iFormat], sizeof(DDPIXELFORMAT));
-                    SAFE_DELETE_ARRAY(pPixelFormats)
+                    SAFE_DELETE_ARRAY(pPixelFormats);
                     return S_OK;
                 }
             }
 
-            SAFE_DELETE_ARRAY(pPixelFormats)
+            SAFE_DELETE_ARRAY(pPixelFormats);
             hr = E_FAIL;
         }
     }
@@ -2436,7 +2436,7 @@ HRESULT CMPCVideoDecFilter::CreateDXVA1Decoder(IAMVideoAccelerator*  pAMVideoAcc
     if (m_pDXVADecoder && m_DXVADecoderGUID == *pDecoderGuid) {
         return S_OK;
     }
-    SAFE_DELETE(m_pDXVADecoder)
+    SAFE_DELETE(m_pDXVADecoder);
 
     if (!m_bUseDXVA) {
         return E_FAIL;

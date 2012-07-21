@@ -141,11 +141,11 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
     memset(ids, 0, sizeof(ids));
 
     int len = 0;
-    ReadBEw(len)
+    ReadBEw(len);
 
     for (ptrdiff_t i = 0; i < len; i++) {
         f.Seek(2, CFile::current); // 01 00 ?
-        ReadBEw(ids[i])
+        ReadBEw(ids[i]);
         if (ids[i] == 0) {
             ids[i] = '--';
         }
@@ -175,12 +175,12 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
         DWORD pgcpos;
         f.Seek(0xc0 + 0x0c, CFile::begin);
-        ReadBEdw(pgcpos)
+        ReadBEdw(pgcpos);
         pgcpos *= 0x800;
 
         WORD nPGC;
         f.Seek(pgcpos, CFile::begin);
-        ReadBEw(nPGC)
+        ReadBEw(nPGC);
 
         m_rd.pgcs.RemoveAll();
         m_rd.pgcs.SetCount(nPGC);
@@ -189,13 +189,13 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
             PGC& pgc = m_rd.pgcs[i];
 
             f.Seek(pgcpos + 8 + i * 8 + 4, CFile::begin);
-            ReadBEdw(offset)
+            ReadBEdw(offset);
             offset += pgcpos;
 
             BYTE nProgs, nCells;
             f.Seek(offset + 2, CFile::begin);
-            ReadBEb(nProgs)
-            ReadBEb(nCells)
+            ReadBEb(nProgs);
+            ReadBEb(nCells);
 
             //
 
@@ -250,11 +250,11 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
             WORD progoff, celladdroff, vobcelloff;
             f.Seek(offset + 0xe6, CFile::begin);
-            ReadBEw(progoff)
+            ReadBEw(progoff);
             f.Seek(offset + 0xe8, CFile::begin);
-            ReadBEw(celladdroff)
+            ReadBEw(celladdroff);
             f.Seek(offset + 0xea, CFile::begin);
-            ReadBEw(vobcelloff)
+            ReadBEw(vobcelloff);
 
             //
 
@@ -272,8 +272,8 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
             f.Seek(offset + vobcelloff, CFile::begin);
             for (size_t j = 0; j < nCells; j++) {
-                ReadBEw(pgc.angles[0][j].vob)
-                ReadBEw(pgc.angles[0][j].cell)
+                ReadBEw(pgc.angles[0][j].vob);
+                ReadBEw(pgc.angles[0][j].cell);
             }
 
             //
@@ -287,7 +287,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
             f.Seek(offset + celladdroff, CFile::begin);
             for (size_t j = 0; j < nCells; j++) {
                 BYTE b;
-                ReadBEb(b)
+                ReadBEb(b);
                 switch (b >> 6) {
                     case 0:
                         iAngle = 0;
@@ -306,10 +306,10 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
                 pgc.nAngles = max(pgc.nAngles, iAngle);
 
                 f.Seek(3, CFile::current);
-                ReadBEdw(pgc.angles[0][j].tTime)
-                ReadBEdw(pgc.angles[0][j].start)
+                ReadBEdw(pgc.angles[0][j].tTime);
+                ReadBEdw(pgc.angles[0][j].start);
                 f.Seek(8, CFile::current);
-                ReadBEdw(pgc.angles[0][j].end)
+                ReadBEdw(pgc.angles[0][j].end);
 
                 float fps;
                 switch ((pgc.angles[0][j].tTime >> 6) & 0x3) {

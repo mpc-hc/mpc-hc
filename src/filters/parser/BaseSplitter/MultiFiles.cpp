@@ -53,10 +53,10 @@ BOOL CMultiFiles::Open(LPCTSTR lpszFileName, UINT nOpenFlags)
 
 BOOL CMultiFiles::OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT nOpenFlags)
 {
-    POSITION        pos = files.GetHeadPosition();
-    LARGE_INTEGER   llSize;
-    int             nPos  = 0;
-    REFERENCE_TIME  rtDur = 0;
+    POSITION pos = files.GetHeadPosition();
+    LARGE_INTEGER llSize;
+    int nPos = 0;
+    REFERENCE_TIME rtDur = 0;
 
     Reset();
     while (pos) {
@@ -84,8 +84,8 @@ BOOL CMultiFiles::OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT n
 
 ULONGLONG CMultiFiles::Seek(LONGLONG lOff, UINT nFrom)
 {
-    LARGE_INTEGER   llNewPos;
-    LARGE_INTEGER   llOff;
+    LARGE_INTEGER llNewPos;
+    LARGE_INTEGER llOff;
 
     if (m_strFiles.GetCount() == 1) {
         llOff.QuadPart = lOff;
@@ -93,9 +93,9 @@ ULONGLONG CMultiFiles::Seek(LONGLONG lOff, UINT nFrom)
 
         return llNewPos.QuadPart;
     } else {
-        ULONGLONG   lAbsolutePos = GetAbsolutePosition(lOff, nFrom);
-        int         nNewPart     = 0;
-        ULONGLONG   llSum        = 0;
+        ULONGLONG lAbsolutePos = GetAbsolutePosition(lOff, nFrom);
+        int nNewPart = 0;
+        ULONGLONG llSum = 0;
 
         while (m_FilesSize[nNewPart] + llSum <= lAbsolutePos) {
             llSum += m_FilesSize[nNewPart];
@@ -112,8 +112,8 @@ ULONGLONG CMultiFiles::Seek(LONGLONG lOff, UINT nFrom)
 
 ULONGLONG CMultiFiles::GetAbsolutePosition(LONGLONG lOff, UINT nFrom)
 {
-    LARGE_INTEGER   llNoMove = {0, 0};
-    LARGE_INTEGER   llCurPos;
+    LARGE_INTEGER llNoMove = {0, 0};
+    LARGE_INTEGER llCurPos;
 
     switch (nFrom) {
         case begin :
@@ -131,7 +131,7 @@ ULONGLONG CMultiFiles::GetAbsolutePosition(LONGLONG lOff, UINT nFrom)
 ULONGLONG CMultiFiles::GetLength() const
 {
     if (m_strFiles.GetCount() == 1) {
-        LARGE_INTEGER   llSize;
+        LARGE_INTEGER llSize;
         GetFileSizeEx(m_hFile, &llSize);
         return llSize.QuadPart;
     } else {
@@ -141,7 +141,7 @@ ULONGLONG CMultiFiles::GetLength() const
 
 UINT CMultiFiles::Read(void* lpBuf, UINT nCount)
 {
-    DWORD       dwRead;
+    DWORD dwRead;
     do {
         if (!ReadFile(m_hFile, lpBuf, nCount, &dwRead, NULL)) {
             break;
@@ -149,8 +149,8 @@ UINT CMultiFiles::Read(void* lpBuf, UINT nCount)
 
         if (dwRead != nCount && (m_nCurPart < 0 || (size_t)m_nCurPart < m_strFiles.GetCount() - 1)) {
             OpenPart(m_nCurPart + 1);
-            lpBuf    = (void*)((BYTE*)lpBuf + dwRead);
-            nCount  -= dwRead;
+            lpBuf = (void*)((BYTE*)lpBuf + dwRead);
+            nCount -= dwRead;
         }
     } while (nCount != dwRead && (m_nCurPart < 0 || (size_t)m_nCurPart < m_strFiles.GetCount() - 1));
     return dwRead;
@@ -172,15 +172,15 @@ BOOL CMultiFiles::OpenPart(int nPart)
     if (m_nCurPart == nPart) {
         return TRUE;
     } else {
-        CString     fn;
+        CString fn;
 
         ClosePart();
 
-        fn          = m_strFiles.GetAt(nPart);
-        m_hFile     = CreateFile(fn, GENERIC_READ, FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+        fn = m_strFiles.GetAt(nPart);
+        m_hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 
         if (m_hFile != INVALID_HANDLE_VALUE) {
-            m_nCurPart  = nPart;
+            m_nCurPart = nPart;
             if (m_pCurrentPTSOffset != NULL) {
                 *m_pCurrentPTSOffset = m_rtPtsOffsets[nPart];
             }
@@ -194,7 +194,7 @@ void CMultiFiles::ClosePart()
 {
     if (m_hFile != INVALID_HANDLE_VALUE) {
         CloseHandle(m_hFile);
-        m_hFile     = INVALID_HANDLE_VALUE;
-        m_nCurPart  = -1;
+        m_hFile = INVALID_HANDLE_VALUE;
+        m_nCurPart = -1;
     }
 }

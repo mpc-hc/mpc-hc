@@ -63,8 +63,8 @@ CDXVADecoder::CDXVADecoder(CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pD
 
 CDXVADecoder::~CDXVADecoder()
 {
-    SAFE_DELETE_ARRAY(m_pPictureStore)
-    SAFE_DELETE_ARRAY(m_ExecuteParams.pCompressedBuffers)
+    SAFE_DELETE_ARRAY(m_pPictureStore);
+    SAFE_DELETE_ARRAY(m_ExecuteParams.pCompressedBuffers);
 }
 
 void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEntryNumber)
@@ -311,7 +311,7 @@ HRESULT CDXVADecoder::Execute()
 
     switch (m_nEngine) {
         case ENGINE_DXVA1 :
-            DWORD   dwFunction;
+            DWORD dwFunction;
             HRESULT hr2;
 
             //writeDXVA_QueryOrReplyFunc(&dwFunction, DXVA_QUERYORREPLYFUNCFLAG_DECODER_LOCK_QUERY, DXVA_PICTURE_DECODING_FUNCTION);
@@ -401,15 +401,15 @@ HRESULT CDXVADecoder::FindFreeDXVA1Buffer(DWORD dwTypeIndex, DWORD& dwBufferInde
     int nTry = 0;
 
     dwBufferIndex = 0; //(dwBufferIndex + 1) % m_ComBufferInfo[DXVA_PICTURE_DECODE_BUFFER].dwNumCompBuffers;
-    DO_DXVA_PENDING_LOOP(m_pAMVideoAccelerator->QueryRenderStatus((DWORD) - 1, dwBufferIndex, 0))
+    DO_DXVA_PENDING_LOOP(m_pAMVideoAccelerator->QueryRenderStatus((DWORD) - 1, dwBufferIndex, 0));
 
     return hr;
 }
 
 HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliver)
 {
-    HRESULT hr      = E_INVALIDARG;
-    int     nTry    = 0;
+    HRESULT hr = E_INVALIDARG;
+    int nTry = 0;
 
     for (int i = 0; i < 20; i++) {
         switch (m_nEngine) {
@@ -422,7 +422,7 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
                 BeginFrameInfo.dwSizeOutputData = 0;
                 BeginFrameInfo.pOutputData = NULL;
 
-                DO_DXVA_PENDING_LOOP(m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo))
+                DO_DXVA_PENDING_LOOP(m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo));
 
                 ASSERT(SUCCEEDED(hr));
                 if (SUCCEEDED(hr)) {
@@ -437,7 +437,7 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
                 if (pSampleService) {
                     hr = pSampleService->GetService(MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget);
                     if (SUCCEEDED(hr)) {
-                        DO_DXVA_PENDING_LOOP(m_pDirectXVideoDec->BeginFrame(pDecoderRenderTarget, NULL))
+                        DO_DXVA_PENDING_LOOP(m_pDirectXVideoDec->BeginFrame(pDecoderRenderTarget, NULL));
                     }
                 }
             }

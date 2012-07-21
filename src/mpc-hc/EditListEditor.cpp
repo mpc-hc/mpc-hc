@@ -581,7 +581,7 @@ void CEditListEditor::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
         CClip& CurClip = m_EditList.GetAt(m_CurPos);
         int nSel = FindNameIndex(CurClip.GetName());
 
-        CAtlList<CString>   sl;
+        CAtlList<CString> sl;
         for (int i = 0; i < m_NameList.GetCount(); i++) {
             sl.AddTail(m_NameList.GetAt(i));
         }

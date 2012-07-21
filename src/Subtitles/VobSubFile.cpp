@@ -889,12 +889,12 @@ bool CVobSubFile::ReadIfo(CString fn)
     f.Seek(0xc0 + 0x0c, SEEK_SET);
 
     DWORD pos;
-    ReadBEdw(pos)
+    ReadBEdw(pos);
 
     f.Seek(pos * 0x800 + 0x0c, CFile::begin);
 
     DWORD offset;
-    ReadBEdw(offset)
+    ReadBEdw(offset);
 
     /* Subpic palette */
 

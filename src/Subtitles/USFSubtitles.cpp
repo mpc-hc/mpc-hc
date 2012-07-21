@@ -80,14 +80,14 @@ static CStringW GetAttrib(CStringW attrib, CComPtr<IXMLDOMNode> pNode)
     CStringW ret;
 
     BeginEnumAttribs(pNode, pChild) {
-        DeclareNameAndValue(pChild, name, val)
+        DeclareNameAndValue(pChild, name, val);
 
         if (CStringW(name) == attrib && val.vt == VT_BSTR) { // TODO: prepare for other types
             ret = val.bstrVal;
             break;
         }
     }
-    EndEnumAttribs
+    EndEnumAttribs;
 
     return ret;
 }
@@ -456,28 +456,28 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 
 bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
 {
-    DeclareNameAndValue(pNode, name, val)
+    DeclareNameAndValue(pNode, name, val);
 
     if (name == L"usfsubtitles") {
         // metadata
 
         BeginEnumChildren(pNode, pChild) {
-            DeclareNameAndValue(pChild, name, val)
+            DeclareNameAndValue(pChild, name, val);
 
             if (name == L"metadata") {
                 ParseMetadata(pChild, metadata);
             }
         }
-        EndEnumChildren
+        EndEnumChildren;
 
         // styles
 
         BeginEnumChildren(pNode, pChild) {
-            DeclareNameAndValue(pChild, name, val)
+            DeclareNameAndValue(pChild, name, val);
 
             if (name == L"styles") {
                 BeginEnumChildren(pChild, pGrandChild) { // :)
-                    DeclareNameAndValue(pGrandChild, name, val)
+                    DeclareNameAndValue(pGrandChild, name, val);
 
                     if (name == L"style") {
                         CAutoPtr<style_t> s(DNew style_t);
@@ -487,19 +487,19 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
                         }
                     }
                 }
-                EndEnumChildren
+                EndEnumChildren;
             }
         }
-        EndEnumChildren
+        EndEnumChildren;
 
         // effects
 
         BeginEnumChildren(pNode, pChild) {
-            DeclareNameAndValue(pChild, name, val)
+            DeclareNameAndValue(pChild, name, val);
 
             if (name == L"effects") {
                 BeginEnumChildren(pChild, pGrandChild) { // :)
-                    DeclareNameAndValue(pGrandChild, name, val)
+                    DeclareNameAndValue(pGrandChild, name, val);
 
                     if (name == L"effect") {
                         CAutoPtr<effect_t> e(DNew effect_t);
@@ -509,19 +509,19 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
                         }
                     }
                 }
-                EndEnumChildren
+                EndEnumChildren;
             }
         }
-        EndEnumChildren
+        EndEnumChildren;
 
         // subtitles
 
         BeginEnumChildren(pNode, pChild) {
-            DeclareNameAndValue(pChild, name, val)
+            DeclareNameAndValue(pChild, name, val);
 
             if (name == L"subtitles") {
                 BeginEnumChildren(pChild, pGrandChild) { // :)
-                    DeclareNameAndValue(pGrandChild, name, val)
+                    DeclareNameAndValue(pGrandChild, name, val);
 
                     if (name == L"subtitle") {
                         CStringW sstart = GetAttrib(L"start", pGrandChild);
@@ -537,10 +537,10 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
                         ParseSubtitle(pGrandChild, start, stop);
                     }
                 }
-                EndEnumChildren
+                EndEnumChildren;
             }
         }
-        EndEnumChildren
+        EndEnumChildren;
 
         return true;
     }
@@ -550,14 +550,14 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
             return true;
         }
     }
-    EndEnumChildren
+    EndEnumChildren;
 
     return false;
 }
 
 void CUSFSubtitles::ParseMetadata(CComPtr<IXMLDOMNode> pNode, metadata_t& m)
 {
-    DeclareNameAndValue(pNode, name, val)
+    DeclareNameAndValue(pNode, name, val);
 
     if (name == L"title") {
         m.title = GetText(pNode);
@@ -567,7 +567,7 @@ void CUSFSubtitles::ParseMetadata(CComPtr<IXMLDOMNode> pNode, metadata_t& m)
         m.comment = GetText(pNode);
     } else if (name == L"author") {
         BeginEnumChildren(pNode, pChild) {
-            DeclareNameAndValue(pChild, name, val)
+            DeclareNameAndValue(pChild, name, val);
 
             if (name == L"name") {
                 m.author.name = GetText(pChild);
@@ -577,7 +577,7 @@ void CUSFSubtitles::ParseMetadata(CComPtr<IXMLDOMNode> pNode, metadata_t& m)
                 m.author.url = GetText(pChild);
             }
         }
-        EndEnumChildren
+        EndEnumChildren;
 
         return;
     } else if (name == L"language") {
@@ -591,12 +591,12 @@ void CUSFSubtitles::ParseMetadata(CComPtr<IXMLDOMNode> pNode, metadata_t& m)
     BeginEnumChildren(pNode, pChild) {
         ParseMetadata(pChild, metadata);
     }
-    EndEnumChildren
+    EndEnumChildren;
 }
 
 void CUSFSubtitles::ParseStyle(CComPtr<IXMLDOMNode> pNode, style_t* s)
 {
-    DeclareNameAndValue(pNode, name, val)
+    DeclareNameAndValue(pNode, name, val);
 
     if (name == L"style") {
         s->name = GetAttrib(L"name", pNode);
@@ -611,7 +611,7 @@ void CUSFSubtitles::ParseStyle(CComPtr<IXMLDOMNode> pNode, style_t* s)
     BeginEnumChildren(pNode, pChild) {
         ParseStyle(pChild, s);
     }
-    EndEnumChildren
+    EndEnumChildren;
 }
 
 void CUSFSubtitles::ParseFontstyle(CComPtr<IXMLDOMNode> pNode, fontstyle_t& fs)
@@ -644,13 +644,13 @@ void CUSFSubtitles::ParsePal(CComPtr<IXMLDOMNode> pNode, posattriblist_t& pal)
 
 void CUSFSubtitles::ParseEffect(CComPtr<IXMLDOMNode> pNode, effect_t* e)
 {
-    DeclareNameAndValue(pNode, name, val)
+    DeclareNameAndValue(pNode, name, val);
 
     if (name == L"effect") {
         e->name = GetAttrib(L"name", pNode);
     } else if (name == L"keyframes") {
         BeginEnumChildren(pNode, pChild) {
-            DeclareNameAndValue(pChild, name, val)
+            DeclareNameAndValue(pChild, name, val);
 
             if (name == L"keyframe") {
                 CAutoPtr<keyframe_t> k(DNew keyframe_t);
@@ -660,7 +660,7 @@ void CUSFSubtitles::ParseEffect(CComPtr<IXMLDOMNode> pNode, effect_t* e)
                 }
             }
         }
-        EndEnumChildren
+        EndEnumChildren;
 
         return;
     }
@@ -668,12 +668,12 @@ void CUSFSubtitles::ParseEffect(CComPtr<IXMLDOMNode> pNode, effect_t* e)
     BeginEnumChildren(pNode, pChild) {
         ParseEffect(pChild, e);
     }
-    EndEnumChildren
+    EndEnumChildren;
 }
 
 void CUSFSubtitles::ParseKeyframe(CComPtr<IXMLDOMNode> pNode, keyframe_t* k)
 {
-    DeclareNameAndValue(pNode, name, val)
+    DeclareNameAndValue(pNode, name, val);
 
     if (name == L"keyframe") {
         k->position = GetAttrib(L"position", pNode);
@@ -688,7 +688,7 @@ void CUSFSubtitles::ParseKeyframe(CComPtr<IXMLDOMNode> pNode, keyframe_t* k)
 
 void CUSFSubtitles::ParseSubtitle(CComPtr<IXMLDOMNode> pNode, int start, int stop)
 {
-    DeclareNameAndValue(pNode, name, val)
+    DeclareNameAndValue(pNode, name, val);
 
     if (name == L"text" || name == L"karaoke") {
         CAutoPtr<text_t> t(DNew text_t);
@@ -709,12 +709,12 @@ void CUSFSubtitles::ParseSubtitle(CComPtr<IXMLDOMNode> pNode, int start, int sto
     BeginEnumChildren(pNode, pChild) {
         ParseSubtitle(pChild, start, stop);
     }
-    EndEnumChildren
+    EndEnumChildren;
 }
 
 void CUSFSubtitles::ParseText(CComPtr<IXMLDOMNode> pNode, CStringW& str)
 {
-    DeclareNameAndValue(pNode, name, val)
+    DeclareNameAndValue(pNode, name, val);
 
     CStringW prefix, postfix;
 
@@ -776,7 +776,7 @@ void CUSFSubtitles::ParseText(CComPtr<IXMLDOMNode> pNode, CStringW& str)
         ParseText(pChild, s);
         str += s;
     }
-    EndEnumChildren
+    EndEnumChildren;
 
     str = prefix + str + postfix;
 }

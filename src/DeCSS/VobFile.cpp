@@ -395,7 +395,7 @@ SHORT CVobFile::ReadShort()
 
 BYTE CVobFile::ReadByte()
 {
-    BYTE    bVal;
+    BYTE bVal;
     m_ifoFile.Read(&bVal, sizeof(bVal));
     return bVal;
 }

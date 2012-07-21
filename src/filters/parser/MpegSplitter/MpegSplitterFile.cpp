@@ -881,8 +881,8 @@ void CMpegSplitterFile::AddHdmvPGStream(WORD pid, const char* language_code)
 {
     stream s;
 
-    s.pid       = pid;
-    s.pesid     = 0xbd;
+    s.pid   = pid;
+    s.pesid = 0xbd;
 
     CMpegSplitterFile::hdmvsubhdr h;
     if (!m_streams[subpic].Find(s) && Read(h, &s.mt, language_code)) {
@@ -1005,8 +1005,8 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
             UNREFERENCED_PARAMETER(nreserved1);
             UNREFERENCED_PARAMETER(nreserved2);
 
-            pPair->m_value.streams[i].pid   = pid;
-            pPair->m_value.streams[i].type  = (PES_STREAM_TYPE)stream_type;
+            pPair->m_value.streams[i].pid  = pid;
+            pPair->m_value.streams[i].type = (PES_STREAM_TYPE)stream_type;
 
             if (m_ForcedSub) {
                 if (stream_type == PRESENTATION_GRAPHICS_STREAM) {

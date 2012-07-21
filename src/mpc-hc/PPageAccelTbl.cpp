@@ -27,8 +27,8 @@
 
 
 struct APP_COMMAND {
-    UINT        appcmd;
-    LPCTSTR     cmdname;
+    UINT    appcmd;
+    LPCTSTR cmdname;
 };
 
 APP_COMMAND g_CommandList[] = {

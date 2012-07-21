@@ -238,11 +238,11 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
                     TRACE("%15S %d\n", Channel.GetName(), Channel.GetSID());
                     break;
                 default :
-                    SkipDescriptor(gb, nType, nLength)                      // descriptor()
+                    SkipDescriptor(gb, nType, nLength);                     // descriptor()
                     break;
             }
         }
-        EndEnumDescriptors
+        EndEnumDescriptors;
 
 
         if (!Channels.Lookup(Channel.GetSID())) {
@@ -307,16 +307,16 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
     Channel.SetPCR((ULONG)gb.BitRead(13));                      // PCR_PID
     gb.BitRead(4);                                              // reserved
     BeginEnumDescriptors(gb, nType, nLength) {                  // for (i=0;i<N;i++) {
-        SkipDescriptor(gb, nType, nLength)                      // descriptor()
+        SkipDescriptor(gb, nType, nLength);                     // descriptor()
     }
-    EndEnumDescriptors
+    EndEnumDescriptors;
 
 
     while (gb.GetSize() - gb.GetPos() > 4) {
         PES_STREAM_TYPE pes_stream_type;
         DVB_STREAM_TYPE dvb_stream_type;
-        WORD            wPID;
-        CString         strLanguage;
+        WORD wPID;
+        CString strLanguage;
 
         pes_stream_type = (PES_STREAM_TYPE)gb.BitRead(8);       // stream_type
         gb.BitRead(3);                                          // reserved
@@ -331,11 +331,11 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
                     break;
                 case DT_AC3_AUDIO :
                     pes_stream_type = AUDIO_STREAM_AC3;
-                    SkipDescriptor(gb, nType, nLength)
+                    SkipDescriptor(gb, nType, nLength);
                     break;
                 case DT_EXTENDED_AC3_AUDIO :
                     pes_stream_type = AUDIO_STREAM_AC3_PLUS;
-                    SkipDescriptor(gb, nType, nLength)
+                    SkipDescriptor(gb, nType, nLength);
                     break;
                 case DT_SUBTITLING : {
                     gb.ReadBuffer(DescBuffer, nLength);
@@ -344,11 +344,11 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
                 }
                 break;
                 default :
-                    SkipDescriptor(gb, nType, nLength)
+                    SkipDescriptor(gb, nType, nLength);
                     break;
             }
         }
-        EndEnumDescriptors
+        EndEnumDescriptors;
         if ((dvb_stream_type = ConvertToDVBType(pes_stream_type)) != DVB_UNKNOWN) {
             Channel.AddStreamInfo(wPID, dvb_stream_type, pes_stream_type, strLanguage);
         }
@@ -500,11 +500,11 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
                         }
                         break;
                     default:
-                        SkipDescriptor(gb, nType, nLength)
+                        SkipDescriptor(gb, nType, nLength);
                         break;
                 }
             }
-            EndEnumDescriptors
+            EndEnumDescriptors;
         }
         m_Filter.SectionNumber++;
         pSectionList.Release();
@@ -542,16 +542,16 @@ HRESULT CMpeg2DataParser::ParseNIT()
 
     gb.BitRead(4);                                              // reserved_future_use
     BeginEnumDescriptors(gb, nType, nLength) {                  // for (i=0;i<N;i++) {
-        SkipDescriptor(gb, nType, nLength)                      // descriptor()
+        SkipDescriptor(gb, nType, nLength);                     // descriptor()
     }
-    EndEnumDescriptors
+    EndEnumDescriptors;
 
     gb.BitRead(4);                                              // reserved_future_use
     transport_stream_loop_length = (WORD)gb.BitRead(12);        // network_descriptors_length
     while (gb.GetSize() - gb.GetPos() > 4) {
-        WORD transport_stream_id = (WORD)gb.BitRead(16);     // transport_stream_id
+        WORD transport_stream_id = (WORD)gb.BitRead(16);        // transport_stream_id
         UNREFERENCED_PARAMETER(transport_stream_id);
-        WORD original_network_id = (WORD)gb.BitRead(16);     // original_network_id
+        WORD original_network_id = (WORD)gb.BitRead(16);        // original_network_id
         UNREFERENCED_PARAMETER(original_network_id);
         gb.BitRead(4);                                          // reserved_future_use
         BeginEnumDescriptors(gb, nType, nLength) {
@@ -568,11 +568,11 @@ HRESULT CMpeg2DataParser::ParseNIT()
                     }
                     break;
                 default :
-                    SkipDescriptor(gb, nType, nLength)
+                    SkipDescriptor(gb, nType, nLength);
                     break;
             }
         }
-        EndEnumDescriptors
+        EndEnumDescriptors;
     }
 
     return S_OK;

@@ -1557,22 +1557,22 @@ HRESULT CMpeg2DecOutputPin::Deliver(IMediaSample* pMediaSample)
 
 HRESULT CMpeg2DecOutputPin::DeliverEndOfStream()
 {
-    CallQueue(EOS())
+    CallQueue(EOS());
 }
 
 HRESULT CMpeg2DecOutputPin::DeliverBeginFlush()
 {
-    CallQueue(BeginFlush())
+    CallQueue(BeginFlush());
 }
 
 HRESULT CMpeg2DecOutputPin::DeliverEndFlush()
 {
-    CallQueue(EndFlush())
+    CallQueue(EndFlush());
 }
 
 HRESULT CMpeg2DecOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-    CallQueue(NewSegment(tStart, tStop, dRate))
+    CallQueue(NewSegment(tStart, tStop, dRate));
 }
 
 

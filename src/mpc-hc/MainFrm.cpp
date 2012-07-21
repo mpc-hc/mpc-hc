@@ -1426,8 +1426,8 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
         MONITORINFO MonitorInfo;
         HMONITOR    hMonitor;
         ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
-        MonitorInfo.cbSize  = sizeof(MonitorInfo);
-        hMonitor            = MonitorFromWindow(m_pFullscreenWnd->m_hWnd, 0);
+        MonitorInfo.cbSize = sizeof(MonitorInfo);
+        hMonitor = MonitorFromWindow(m_pFullscreenWnd->m_hWnd, 0);
         if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
             CRect MonitorRect = CRect(MonitorInfo.rcMonitor);
             m_fullWndSize.cx  = MonitorRect.Width();
@@ -1936,7 +1936,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                         pBRIs.AddTail(pBRI);
                     }
                 }
-                EndEnumPins
+                EndEnumPins;
 
                 if (!pBRIs.IsEmpty()) {
                     CAtlList<CString> sl;
@@ -1968,7 +1968,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
 
             if (GetPlaybackMode() == PM_FILE) {
                 SetupChapters();
@@ -2376,7 +2376,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
                 switch (m_iDVDDomain) {
                     case DVD_DOMAIN_FirstPlay:
-                        ULONGLONG   llDVDGuid;
+                        ULONGLONG llDVDGuid;
 
                         Domain = _T("First Play");
 
@@ -3423,7 +3423,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
         } else if (pAMOP) {
             __int64 t = 0, c = 0;
             if (SUCCEEDED(pAMOP->QueryProgress(&t, &c)) && t > 0 && c < t) {
@@ -7102,7 +7102,7 @@ void CMainFrame::OnPlayStop()
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
         } else if (GetPlaybackMode() == PM_DVD) {
             pDVDC->SetOption(DVD_ResetOnStop, TRUE);
             pMC->Stop();
@@ -7245,9 +7245,9 @@ void CMainFrame::OnPlayFramestep(UINT nID)
                     rtAvgTime = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
                 }
             }
-            EndEnumPins
+            EndEnumPins;
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         // Exit of framestep forward : calculate the initial position
         if (m_nStepForwardCount != 0) {
@@ -7455,9 +7455,9 @@ void CMainFrame::OnPlayGoto()
                     atpf = (REFTIME)((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
                 }
             }
-            EndEnumPins
+            EndEnumPins;
         }
-        EndEnumFilters
+        EndEnumFilters;
     }
 
     REFERENCE_TIME start, dur = -1;
@@ -8765,7 +8765,7 @@ void CMainFrame::OnFavoritesAdd()
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
             if (fn.IsEmpty()) {
                 return;
             }
@@ -8897,7 +8897,7 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
             if (fn.IsEmpty()) {
                 return;
             }
@@ -9760,9 +9760,9 @@ void CMainFrame::AutoChangeMonitorMode()
                     m_rtTimePerFrame = 1;
                 }
             }
-            EndEnumPins
+            EndEnumPins;
         }
-        EndEnumFilters
+        EndEnumFilters;
         MediaFPS = 10000000.0 / m_rtTimePerFrame;
     } else if (GetPlaybackMode() == PM_DVD) {
         DVD_PLAYBACK_LOCATION2 Location;
@@ -10327,7 +10327,7 @@ bool CMainFrame::IsRealEngineCompatible(CString strFilename) const
 {
     // Real Media engine didn't support Unicode filename (nor filenames with # characters)
     for (int i = 0; i < strFilename.GetLength(); i++) {
-        WCHAR   Char = strFilename[i];
+        WCHAR Char = strFilename[i];
         if (Char < 32 || Char > 126 || Char == 35) {
             return false;
         }
@@ -10509,7 +10509,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         HRESULT hr = pGB->RenderFile(CStringW(fn), NULL);
 
         if (s.fKeepHistory && s.fRememberFilePos && !s.NewFile(fn)) {
-            REFERENCE_TIME  rtPos = s.CurrentFilePosition()->llPosition;
+            REFERENCE_TIME rtPos = s.CurrentFilePosition()->llPosition;
             if (pMS) {
                 pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
             }
@@ -10596,11 +10596,11 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     }
 
     if (!(pAMOP = pGB)) {
-        BeginEnumFilters(pGB, pEF, pBF)
+        BeginEnumFilters(pGB, pEF, pBF);
         if (pAMOP = pBF) {
             break;
         }
-        EndEnumFilters
+        EndEnumFilters;
     }
 
     if (FindFilter(__uuidof(CShoutcastSource), pGB)) {
@@ -10610,11 +10610,11 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     SetupChapters();
 
     CComQIPtr<IKeyFrameInfo> pKFI;
-    BeginEnumFilters(pGB, pEF, pBF)
+    BeginEnumFilters(pGB, pEF, pBF);
     if (pKFI = pBF) {
         break;
     }
-    EndEnumFilters
+    EndEnumFilters;
     UINT nKFs = 0;
     if (pKFI && S_OK == pKFI->GetKeyFrameCount(nKFs) && nKFs > 0) {
         UINT k = nKFs;
@@ -10633,9 +10633,9 @@ void CMainFrame::SetupChapters()
     m_pCB->ChapRemoveAll();
 
     CInterfaceList<IBaseFilter> pBFs;
-    BeginEnumFilters(pGB, pEF, pBF)
+    BeginEnumFilters(pGB, pEF, pBF);
     pBFs.AddTail(pBF);
-    EndEnumFilters
+    EndEnumFilters;
 
     POSITION pos;
 
@@ -10761,7 +10761,7 @@ void CMainFrame::SetupChapters()
                 }
             }
         }
-        EndEnumPins
+        EndEnumPins;
     }
 
     m_pCB->ChapSort();
@@ -10785,7 +10785,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
             break;
         }
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     if (hr == E_INVALIDARG) {
         throw(UINT)IDS_MAINFRM_93;
@@ -10975,7 +10975,7 @@ void CMainFrame::OpenCapture(OpenDeviceData* pODD)
             if (CComQIPtr<IAMAudioInputMixer> pAIM = pPin)
                 pAMAIM.Add(pAIM);
         }
-        EndEnumPins
+        EndEnumPins;
 
         if (pAMASC)
         {
@@ -11045,7 +11045,7 @@ void CMainFrame::OpenCustomizeGraph()
                 pDVS2->AdviseSubClock(m_pSubClock);
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
     }
 
     BeginEnumFilters(pGB, pEF, pBF) {
@@ -11099,7 +11099,7 @@ void CMainFrame::OpenCustomizeGraph()
             }
         }
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     CleanGraph();
 }
@@ -11145,7 +11145,7 @@ void CMainFrame::OpenSetupVideo()
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
         }
     }
 
@@ -11218,7 +11218,7 @@ void CMainFrame::OpenSetupCaptureBar()
                     pAMAIM.Add(pAIM);
                 }
             }
-            EndEnumPins
+            EndEnumPins;
 
             m_wndCaptureBar.m_capdlg.SetupAudioControls(m_AudDispName, pAMASC, pAMAIM);
         }
@@ -11277,7 +11277,7 @@ void CMainFrame::OpenSetupInfoBar()
                 }
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
     } else if (GetPlaybackMode() == PM_DVD) {
         CString info('-');
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), info);
@@ -11310,7 +11310,7 @@ void CMainFrame::OpenSetupStatsBar()
             RecalcLayout();
         }
     }
-    EndEnumFilters
+    EndEnumFilters;
 }
 
 void CMainFrame::OpenSetupStatusBar()
@@ -11352,13 +11352,13 @@ void CMainFrame::OpenSetupStatusBar()
                     }
                 }
             }
-            EndEnumPins
+            EndEnumPins;
 
             if (id != IDB_NOAUDIO) {
                 break;
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         m_wndStatusBar.SetStatusBitmap(id);
     }
@@ -11407,7 +11407,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
                             }
                         }
                     }
-                    EndEnumFilters
+                    EndEnumFilters;
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
                 fn = _T("DVD");
@@ -11743,7 +11743,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 break;
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         if (m_fOpeningAborted) {
             throw(UINT)IDS_AG_ABORTED;
@@ -12388,7 +12388,7 @@ void CMainFrame::SetupFiltersSubMenu()
                     }
                 }
             }
-            EndEnumPins
+            EndEnumPins;
 
             CComQIPtr<IAMStreamSelect> pSS = pBF;
             if (pSS) {
@@ -12465,7 +12465,7 @@ void CMainFrame::SetupFiltersSubMenu()
             ids += nPPages;
             idf++;
         }
-        EndEnumFilters
+        EndEnumFilters;
     }
 }
 
@@ -13525,9 +13525,9 @@ void CMainFrame::AddTextPassThruFilter()
                 InsertSubStream(&m_pSubStreams, CComQIPtr<ISubStream>(pTPTF));
             }
         }
-        EndEnumPins
+        EndEnumPins;
     }
-    EndEnumFilters
+    EndEnumFilters;
 }
 
 bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
@@ -13865,7 +13865,7 @@ void CMainFrame::CleanGraph()
             pEF->Reset();
         }
     }
-    EndEnumFilters
+    EndEnumFilters;
 }
 
 #define AUDIOBUFFERLEN 500
@@ -13882,7 +13882,7 @@ static void SetLatency(IBaseFilter* pBF, int cbBuffer)
             pAMBN->SuggestAllocatorProperties(&ap);
         }
     }
-    EndEnumPins
+    EndEnumPins;
 }
 
 HRESULT CMainFrame::BuildCapture(IPin* pPin, IBaseFilter* pBF[3], const GUID& majortype, AM_MEDIA_TYPE* pmt)
@@ -14519,7 +14519,7 @@ void CMainFrame::DisplayCurrentChannelInfo()
         }
 
         osd = NowNext.cPresent + _T(". ") + NowNext.StartTime + _T(" - ") + NowNext.Duration + _T(". ") + NowNext.SummaryDesc + _T(" ");
-        int  i = osd.Find(_T("\n"));
+        int i = osd.Find(_T("\n"));
 
         if (i > 0) {
             osd.Delete(i, osd.GetLength() - i);
@@ -14710,9 +14710,9 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName(DVD_AudioAttributes& ATR) const
 afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 {
     OnPlayPause();
-    m_rtCurSubPos    = m_wndSeekBar.GetPosReal();
+    m_rtCurSubPos = m_wndSeekBar.GetPosReal();
     m_lSubtitleShift = 0;
-    m_nCurSubtitle   = m_wndSubresyncBar.FindNearestSub(m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
+    m_nCurSubtitle = m_wndSubresyncBar.FindNearestSub(m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
     if ((m_nCurSubtitle != -1) && pMS) {
         pMS->SetPositions(&m_rtCurSubPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
     }
@@ -15177,9 +15177,9 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
             long lPosition = tcCur.bHours * 60 * 60 + tcCur.bMinutes * 60 + tcCur.bSeconds + nSeconds;
 
             // revert the update position to REFERENCE_TIME format
-            tcCur.bHours    = (BYTE)(lPosition / 3600);
-            tcCur.bMinutes  = (lPosition / 60) % 60;
-            tcCur.bSeconds  = lPosition % 60;
+            tcCur.bHours   = (BYTE)(lPosition / 3600);
+            tcCur.bMinutes = (lPosition / 60) % 60;
+            tcCur.bSeconds = lPosition % 60;
             rtCur = HMSF2RT(tcCur);
 
             // quick and dirty trick:
@@ -15250,8 +15250,8 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 //      }
 //      else if (GetPlaybackMode() == PM_DVD)
 //      {
-//          ULONG   ulStreamsAvailable, ulCurrentStream;
-//          BOOL    bIsDisabled;
+//          ULONG ulStreamsAvailable, ulCurrentStream;
+//          BOOL  bIsDisabled;
 //
 //          if (SUCCEEDED(pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled)))
 //          {

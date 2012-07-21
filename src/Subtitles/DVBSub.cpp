@@ -45,7 +45,7 @@ CDVBSub::CDVBSub(void)
 CDVBSub::~CDVBSub(void)
 {
     Reset();
-    SAFE_DELETE(m_pBuffer)
+    SAFE_DELETE(m_pBuffer);
 }
 
 CDVBSub::DVB_PAGE* CDVBSub::FindPage(REFERENCE_TIME rt)
@@ -132,7 +132,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
             m_pBuffer = DNew BYTE[m_nBufferSize];
             if (pPrev != NULL) {
                 memcpy_s(m_pBuffer, m_nBufferSize, pPrev, m_nBufferWritePos);
-                SAFE_DELETE(pPrev)
+                SAFE_DELETE(pPrev);
             }
         }
         memcpy_s(m_pBuffer + m_nBufferWritePos, m_nBufferSize, pData, nSize);
@@ -198,11 +198,11 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 
             REFERENCE_TIME pts = 0;
             pts |= gb.BitRead(3) << 30;
-            MARKER // 32..30
+            MARKER; // 32..30
             pts |= gb.BitRead(15) << 15;
-            MARKER // 29..15
+            MARKER; // 29..15
             pts |= gb.BitRead(15);
-            MARKER // 14..0
+            MARKER; // 14..0
             pts = 10000 * pts / 90;
 
             m_rtStart = pts;
@@ -223,7 +223,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
     //FILE* hFile = fopen("D:\\Sources\\mpc-hc\\A garder\\TestSubRip\\dvbsub.dat", "ab");
     //if (hFile != NULL)
     //{
-    //  //BYTE  Buff[5] = {48};
+    //  //BYTE Buff[5] = {48};
 
     //  //*((DWORD*)(Buff+1)) = lSampleLen;
     //  //fwrite(Buff, 1, sizeof(Buff), hFile);
@@ -512,7 +512,7 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
     pClut = FindClut(m_pCurrentPage, gb.ReadByte());
     //  ASSERT (pClut != NULL);
     if (pClut != NULL) {
-        pClut->version_number   = (BYTE)gb.BitRead(4);
+        pClut->version_number = (BYTE)gb.BitRead(4);
         gb.BitRead(4);  // Reserved
 
         pClut->Size = 0;

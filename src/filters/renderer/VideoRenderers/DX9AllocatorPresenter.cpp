@@ -411,13 +411,13 @@ public:
 
 void CDX9AllocatorPresenter::VSyncThread()
 {
-    HANDLE              hEvts[]     = { m_hEvtQuit};
-    bool                bQuit       = false;
-    TIMECAPS            tc;
-    DWORD               dwResolution;
-    DWORD               dwUser      = 0;
+    HANDLE   hEvts[] = { m_hEvtQuit};
+    bool     bQuit = false;
+    TIMECAPS tc;
+    DWORD    dwResolution;
+    DWORD    dwUser = 0;
 
-    //DWORD             dwTaskIndex = 0;
+    //DWORD dwTaskIndex = 0;
     //// Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
     //if (pfAvSetMmThreadCharacteristicsW)
     //  hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
@@ -425,8 +425,8 @@ void CDX9AllocatorPresenter::VSyncThread()
     //  pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
-    dwResolution    = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
-    dwUser          = timeBeginPeriod(dwResolution);
+    dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
+    dwUser = timeBeginPeriod(dwResolution);
     CRenderersData* pApp = GetRenderersData();
     CRenderersSettings& s = GetRenderersSettings();
 
@@ -441,9 +441,9 @@ void CDX9AllocatorPresenter::VSyncThread()
                 // Do our stuff
                 if (m_pD3DDev && s.m_RenderSettings.iVMR9VSync) {
 
-                    int VSyncPos = GetVBlackPos();
+                    int VSyncPos  = GetVBlackPos();
                     int WaitRange = max(m_ScreenSize.cy / 40, 5);
-                    int MinRange = max(min(int(0.003 * double(m_ScreenSize.cy) * double(m_RefreshRate) + 0.5), m_ScreenSize.cy / 3), 5); // 1.8  ms or max 33 % of Time
+                    int MinRange  = max(min(int(0.003 * double(m_ScreenSize.cy) * double(m_RefreshRate) + 0.5), m_ScreenSize.cy / 3), 5); // 1.8  ms or max 33 % of Time
 
                     VSyncPos += MinRange + WaitRange;
 
@@ -576,7 +576,7 @@ void CDX9AllocatorPresenter::VSyncThread()
 DWORD WINAPI CDX9AllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
 {
     SetThreadName((DWORD) - 1, "CDX9Presenter::VSyncThread");
-    CDX9AllocatorPresenter*     pThis = (CDX9AllocatorPresenter*) lpParam;
+    CDX9AllocatorPresenter* pThis = (CDX9AllocatorPresenter*) lpParam;
     pThis->VSyncThread();
     return 0;
 }
@@ -730,8 +730,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     // If it is present, override default settings
     for (UINT Adapter=0;Adapter<g_pD3D->GetAdapterCount();Adapter++)
     {
-      D3DADAPTER_IDENTIFIER9  Identifier;
-      HRESULT       Res;
+      D3DADAPTER_IDENTIFIER9 Identifier;
+      HRESULT Res;
 
     Res = g_pD3D->GetAdapterIdentifier(Adapter,0,&Identifier);
       if (strstr(Identifier.Description,"PerfHUD") != 0)
@@ -1012,10 +1012,10 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         int CurrentSize = min(m_ScreenSize.cx, MinSize);
         double Scale = double(CurrentSize) / double(MinSize);
         m_TextScale = Scale;
-        m_pD3DXCreateFont(m_pD3DDev,                     // D3D device
+        m_pD3DXCreateFont(m_pD3DDev,                   // D3D device
                           (int)(-24.0 * Scale),        // Height
-                          (UINT)(-11.0 * Scale),               // Width
-                          CurrentSize < 800 ? FW_NORMAL : FW_BOLD,     // Weight
+                          (UINT)(-11.0 * Scale),       // Width
+                          CurrentSize < 800 ? FW_NORMAL : FW_BOLD,  // Weight
                           0,                           // MipLevels, 0 = autogen mipmaps
                           FALSE,                       // Italic
                           DEFAULT_CHARSET,             // CharSet
@@ -1030,7 +1030,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     m_pSprite = NULL;
 
     if (m_pD3DXCreateSprite) {
-        m_pD3DXCreateSprite(m_pD3DDev,                   // D3D device
+        m_pD3DXCreateSprite(m_pD3DDev,                 // D3D device
                             &m_pSprite);
     }
 
@@ -1073,7 +1073,7 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 
     CRenderersSettings& s = GetRenderersSettings();
     if (bGetAdapter && (pD3D->GetAdapterCount() > 1) && (s.D3D9RenderDevice != _T(""))) {
-        TCHAR       strGUID[50];
+        TCHAR strGUID[50];
         D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 
         for (UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
@@ -1137,7 +1137,7 @@ STDMETHODIMP CDX9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 void CDX9AllocatorPresenter::CalculateJitter(LONGLONG PerfCounter)
 {
     // Calculate the jitter!
-    LONGLONG    llPerf = PerfCounter;
+    LONGLONG llPerf = PerfCounter;
     if ((m_rtTimePerFrame != 0) && (labs((long)(llPerf - m_llLastPerf)) < m_rtTimePerFrame * 3)) {
         m_nNextJitter = (m_nNextJitter + 1) % NB_JITTER;
         m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf;
@@ -1146,8 +1146,8 @@ void CDX9AllocatorPresenter::CalculateJitter(LONGLONG PerfCounter)
         m_MinJitter = MAXLONG64;
 
         // Calculate the real FPS
-        LONGLONG        llJitterSum = 0;
-        LONGLONG        llJitterSumAvg = 0;
+        LONGLONG llJitterSum = 0;
+        LONGLONG llJitterSumAvg = 0;
         for (int i = 0; i < NB_JITTER; i++) {
             LONGLONG Jitter = m_pllJitter[i];
             llJitterSum += Jitter;
@@ -1563,9 +1563,9 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     // Casimir666 : show OSD
     if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE) {
         CAutoLock BitMapLock(&m_VMR9AlphaBitmapLock);
-        CRect       rcSrc(m_VMR9AlphaBitmap.rSrc);
-        m_pOSDTexture   = NULL;
-        m_pOSDSurface   = NULL;
+        CRect rcSrc(m_VMR9AlphaBitmap.rSrc);
+        m_pOSDTexture = NULL;
+        m_pOSDSurface = NULL;
         if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE*)m_VMR9AlphaBitmapData) {
             if ((m_pD3DXLoadSurfaceFromMemory != NULL) &&
                     SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1,
@@ -1584,8 +1584,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
                                                       m_VMR9AlphaBitmap.clrSrcKey);
                 }
                 if (FAILED(hr)) {
-                    m_pOSDTexture   = NULL;
-                    m_pOSDSurface   = NULL;
+                    m_pOSDTexture = NULL;
+                    m_pOSDSurface = NULL;
                 }
             }
         }
@@ -1978,14 +1978,14 @@ void CDX9AllocatorPresenter::DrawStats()
             break;
     }
 
-    LONGLONG        llMaxJitter = m_MaxJitter;
-    LONGLONG        llMinJitter = m_MinJitter;
-    LONGLONG        llMaxSyncOffset = m_MaxSyncOffset;
-    LONGLONG        llMinSyncOffset = m_MinSyncOffset;
-    RECT            rc = {40, 40, 0, 0 };
+    LONGLONG llMaxJitter = m_MaxJitter;
+    LONGLONG llMinJitter = m_MinJitter;
+    LONGLONG llMaxSyncOffset = m_MaxSyncOffset;
+    LONGLONG llMinSyncOffset = m_MinSyncOffset;
+    RECT rc = {40, 40, 0, 0 };
     if (m_pFont && m_pSprite) {
         m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
-        CString     strText;
+        CString strText;
         int TextHeight = int(25.0 * m_TextScale + 0.5);
         //strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s)    Clock: %7.3f ms %+1.4f %%  %+1.9f  %+1.9f", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_ClockDiff/10000.0, m_ModeratedTimeSpeed*100.0 - 100.0, m_ModeratedTimeSpeedDiff, m_ClockDiffCalc/10000.0);
         if (bDetailedStats > 1) {
@@ -2258,8 +2258,8 @@ void CDX9AllocatorPresenter::DrawStats()
     }
 
     if (m_pLine && bDetailedStats) {
-        D3DXVECTOR2     Points[NB_JITTER];
-        int             nIndex;
+        D3DXVECTOR2 Points[NB_JITTER];
+        int nIndex;
 
         int StartX = 0;
         int StartY = 0;

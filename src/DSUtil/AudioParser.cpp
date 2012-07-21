@@ -204,7 +204,7 @@ int ParseEAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framel
     int acmod = (buf[4] >> 1) & 0x07;
     int lfeon =  buf[4] & 0x01;
 
-    *frametype    = (buf[2] >> 6) & 0x03;
+    *frametype = (buf[2] >> 6) & 0x03;
     if (*frametype == EAC3_FRAME_TYPE_RESERVED) {
         return 0;
     }

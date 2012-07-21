@@ -71,7 +71,9 @@ CFilterApp theApp;
 //
 
 CBufferFilter::CBufferFilter(LPUNKNOWN lpunk, HRESULT* phr)
-    : CTransformFilter(NAME("CBufferFilter"), lpunk, __uuidof(this))
+    : CTransformFilter(NAME("CBufferFilter")
+    , lpunk
+    , __uuidof(this))
     , m_nSamplesToBuffer(2)
 {
     HRESULT hr = S_OK;
@@ -223,7 +225,7 @@ HRESULT CBufferFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     pIn->GetPointer(&pDataIn);
     pOut->GetPointer(&pDataOut);
 
-    long len = pIn->GetActualDataLength();
+    long len  = pIn->GetActualDataLength();
     long size = pOut->GetSize();
 
     if (!pDataIn || !pDataOut || len > size || len <= 0) {
@@ -353,20 +355,20 @@ HRESULT CBufferFilterOutputPin::Deliver(IMediaSample* pMediaSample)
 
 HRESULT CBufferFilterOutputPin::DeliverEndOfStream()
 {
-    CallQueue(EOS())
+    CallQueue(EOS());
 }
 
 HRESULT CBufferFilterOutputPin::DeliverBeginFlush()
 {
-    CallQueue(BeginFlush())
+    CallQueue(BeginFlush());
 }
 
 HRESULT CBufferFilterOutputPin::DeliverEndFlush()
 {
-    CallQueue(EndFlush())
+    CallQueue(EndFlush());
 }
 
 HRESULT CBufferFilterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-    CallQueue(NewSegment(tStart, tStop, dRate))
+    CallQueue(NewSegment(tStart, tStop, dRate));
 }

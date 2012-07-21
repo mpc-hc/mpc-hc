@@ -77,7 +77,6 @@ static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, L
 bool CPinInfoWnd::OnActivate()
 {
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
-
     CPoint p(10, 10);
 
     m_pin_static.Create(_T("Pin:"), dwStyle, CRect(p + CPoint(0, 3), CSize(30, m_fontheight)), this);
@@ -99,7 +98,7 @@ bool CPinInfoWnd::OnActivate()
         }
         m_pin_combo.SetItemDataPtr(m_pin_combo.AddString(dir + str), pPin);
     }
-    EndEnumPins
+    EndEnumPins;
     m_pin_combo.SetCurSel(0);
 
     p.y += m_fontheight + 20;
@@ -180,8 +179,8 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
     }
 
     CString str;
-
     PIN_INFO PinInfo;
+
     if (SUCCEEDED(pPin->QueryPinInfo(&PinInfo))) {
         CString strName;
         CLSID   FilterClsid;
@@ -250,7 +249,7 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
             }
         }
     }
-    EndEnumMediaTypes(pmt)
+    EndEnumMediaTypes(pmt);
 
     m_info_edit.SetSel(0, 0);
 }

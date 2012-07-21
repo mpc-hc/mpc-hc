@@ -83,14 +83,14 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 
         h.scr = 0;
         h.scr |= BitRead(3) << 30;
-        MARKER // 32..30
+        MARKER; // 32..30
         h.scr |= BitRead(15) << 15;
-        MARKER // 29..15
+        MARKER; // 29..15
         h.scr |= BitRead(15);
-        MARKER
-        MARKER // 14..0
+        MARKER;
+        MARKER; // 14..0
         h.bitrate = BitRead(22);
-        MARKER
+        MARKER;
     } else if ((b & 0xc4) == 0x44) {
         h.type = mpeg2;
 
@@ -98,16 +98,16 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 
         h.scr = 0;
         h.scr |= BitRead(3) << 30;
-        MARKER // 32..30
+        MARKER; // 32..30
         h.scr |= BitRead(15) << 15;
-        MARKER // 29..15
+        MARKER; // 29..15
         h.scr |= BitRead(15);
-        MARKER // 14..0
+        MARKER; // 14..0
         h.scr = (h.scr * 300 + BitRead(9)) * 10 / 27;
-        MARKER
+        MARKER;
         h.bitrate = BitRead(22);
-        MARKER
-        MARKER
+        MARKER;
+        MARKER;
         BitRead(5); // reserved
         UINT64 stuffing = BitRead(3);
         while (stuffing-- > 0) {
@@ -127,15 +127,15 @@ bool CBaseSplitterFileEx::Read(pssyshdr& h)
     memset(&h, 0, sizeof(h));
 
     WORD len = (WORD)BitRead(16);
-    MARKER
+    MARKER;
     h.rate_bound = (DWORD)BitRead(22);
-    MARKER
+    MARKER;
     h.audio_bound = (BYTE)BitRead(6);
     h.fixed_rate = !!BitRead(1);
     h.csps = !!BitRead(1);
     h.sys_audio_loc_flag = !!BitRead(1);
     h.sys_video_loc_flag = !!BitRead(1);
-    MARKER
+    MARKER;
     h.video_bound = (BYTE)BitRead(5);
 
     EXECUTE_ASSERT((BitRead(8) & 0x7f) == 0x7f); // reserved (should be 0xff, but not in reality)
@@ -224,11 +224,11 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 
         h.pts = 0;
         h.pts |= BitRead(3) << 30;
-        MARKER // 32..30
+        MARKER; // 32..30
         h.pts |= BitRead(15) << 15;
-        MARKER // 29..15
+        MARKER; // 29..15
         h.pts |= BitRead(15);
-        MARKER // 14..0
+        MARKER; // 14..0
         h.pts = 10000 * h.pts / 90 + m_rtPTSOffset;
     }
 
@@ -240,11 +240,11 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 
         h.dts = 0;
         h.dts |= BitRead(3) << 30;
-        MARKER // 32..30
+        MARKER; // 32..30
         h.dts |= BitRead(15) << 15;
-        MARKER // 29..15
+        MARKER; // 29..15
         h.dts |= BitRead(15);
-        MARKER // 14..0
+        MARKER; // 14..0
         h.dts = 10000 * h.dts / 90 + m_rtPTSOffset;
     }
 
@@ -336,7 +336,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
     static int ifps[16] = {0, 1126125, 1125000, 1080000, 900900, 900000, 540000, 450450, 450000, 0, 0, 0, 0, 0, 0, 0};
     h.ifps = ifps[BitRead(4)];
     h.bitrate = (DWORD)BitRead(18);
-    MARKER
+    MARKER;
     h.vbv = (DWORD)BitRead(10);
     h.constrained = BitRead(1);
 
@@ -378,7 +378,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
         h.width |= (BitRead(2) << 12);
         h.height |= (BitRead(2) << 12);
         h.bitrate |= (BitRead(12) << 18);
-        MARKER
+        MARKER;
         h.vbv |= (BitRead(8) << 10);
         h.lowdelay = BitRead(1);
         h.ifps = (DWORD)(h.ifps * (BitRead(2) + 1) / (BitRead(5) + 1));
@@ -728,7 +728,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
                 return true;
             }
 
-            int bitrate   = (int)(fsize * 8i64 * samplerate / framelength); // inaccurate, because fsize is not constant
+            int bitrate = (int)(fsize * 8i64 * samplerate / framelength); // inaccurate, because fsize is not constant
 
             pmt->majortype = MEDIATYPE_Audio;
             pmt->subtype = isTrueHD ? MEDIASUBTYPE_DOLBY_TRUEHD : MEDIASUBTYPE_MLP;
@@ -1003,7 +1003,7 @@ bool CBaseSplitterFileEx::Read(dvdalpcmhdr& h, int len, CMediaType* pmt)
     }
 
     h.firstaudioframe = (WORD)BitRead(16);// Byte pointer to start of first audio frame.
-    h.unknown1        = (BYTE)BitRead(8); // Unknown - e.g. 0x10 for stereo, 0x00 for surround
+    h.unknown1 = (BYTE)BitRead(8); // Unknown - e.g. 0x10 for stereo, 0x00 for surround
     if (h.unknown1 != 0x10 && h.unknown1 != 0x00) {
         return false;    // this is not the aob. maybe this is a vob.
     }
@@ -1080,7 +1080,7 @@ bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
     wfe.wFormatTag = WAVE_FORMAT_PCM;
 
     static int channels[] = {0, 1, 0, 2, 3, 3, 4, 4, 5, 6, 7, 8};
-    wfe.nChannels    = channels[h.channels];
+    wfe.nChannels = channels[h.channels];
     wfe.channel_conf = h.channels;
 
     static int freq[] = {0, 48000, 0, 0, 96000, 192000};
@@ -1089,7 +1089,7 @@ bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
     static int bitspersample[] = {0, 16, 20, 24};
     wfe.wBitsPerSample = bitspersample[h.bitpersample];
 
-    wfe.nBlockAlign     = wfe.nChannels * wfe.wBitsPerSample >> 3;
+    wfe.nBlockAlign = wfe.nChannels * wfe.wBitsPerSample >> 3;
     wfe.nAvgBytesPerSec = wfe.nBlockAlign * wfe.nSamplesPerSec;
 
     pmt->majortype  = MEDIATYPE_Audio;
@@ -1134,9 +1134,9 @@ bool CBaseSplitterFileEx::Read(mlphdr& h, int len, CMediaType* pmt, bool find_sy
             return true;
         }
 
-        int bitrate   = (int)(fsize * 8i64 * samplerate / framelength); // inaccurate, because fsize is not constant
-        pmt->majortype = MEDIATYPE_Audio;
-        pmt->subtype = MEDIASUBTYPE_MLP;
+        int bitrate     = (int)(fsize * 8i64 * samplerate / framelength); // inaccurate, because fsize is not constant
+        pmt->majortype  = MEDIATYPE_Audio;
+        pmt->subtype    = MEDIASUBTYPE_MLP;
         pmt->formattype = FORMAT_WaveFormatEx;
 
         WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
@@ -1525,8 +1525,8 @@ int CBaseSplitterFileEx::HrdParameters(CGolombBuffer& gb)
 
 void CBaseSplitterFileEx::RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length)
 {
-    int     si = 0;
-    int     di = 0;
+    int si = 0;
+    int di = 0;
     while (si + 2 < length) {
         //remove escapes (very rare 1:2^22)
         if (src[si + 2] > 3) {
@@ -2041,38 +2041,38 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 
     __int64 endpos = GetPos() + len; // - sequence header length
     __int64 extrapos = 0, extralen = 0;
-    int     nFrameRateNum = 0, nFrameRateDen = 1;
+    int nFrameRateNum = 0, nFrameRateDen = 1;
 
     if (GetPos() < endpos + 4 && BitRead(32, true) == 0x0000010F) {
         extrapos = GetPos();
 
         BitRead(32);
 
-        h.profile           = (BYTE)BitRead(2);
+        h.profile = (BYTE)BitRead(2);
 
         // Check if advanced profile
         if (h.profile != 3) {
             return false;
         }
 
-        h.level             = (BYTE)BitRead(3);
-        h.chromaformat      = (BYTE)BitRead(2);
+        h.level = (BYTE)BitRead(3);
+        h.chromaformat = (BYTE)BitRead(2);
 
         // (fps-2)/4 (->30)
-        h.frmrtq_postproc   = (BYTE)BitRead(3); //common
+        h.frmrtq_postproc = (BYTE)BitRead(3); //common
         // (bitrate-32kbps)/64kbps
-        h.bitrtq_postproc   = (BYTE)BitRead(5); //common
-        h.postprocflag      = (BYTE)BitRead(1); //common
+        h.bitrtq_postproc = (BYTE)BitRead(5); //common
+        h.postprocflag = (BYTE)BitRead(1); //common
 
-        h.width             = ((unsigned int)BitRead(12) + 1) << 1;
-        h.height            = ((unsigned int)BitRead(12) + 1) << 1;
+        h.width  = ((unsigned int)BitRead(12) + 1) << 1;
+        h.height = ((unsigned int)BitRead(12) + 1) << 1;
 
-        h.broadcast         = (BYTE)BitRead(1);
-        h.interlace         = (BYTE)BitRead(1);
-        h.tfcntrflag        = (BYTE)BitRead(1);
-        h.finterpflag       = (BYTE)BitRead(1);
-        BitRead(1); // reserved
-        h.psf               = (BYTE)BitRead(1);
+        h.broadcast   = (BYTE)BitRead(1);
+        h.interlace   = (BYTE)BitRead(1);
+        h.tfcntrflag  = (BYTE)BitRead(1);
+        h.finterpflag = (BYTE)BitRead(1);
+        BitRead(1);   // reserved
+        h.psf = (BYTE)BitRead(1);
         if (BitRead(1)) {
             int ar = 0;
             BitRead(14);
@@ -2184,9 +2184,9 @@ bool CBaseSplitterFileEx::Read(dvbsub& h, int len, CMediaType* pmt)
     if ((BitRead(32, true) & 0xFFFFFF00) == 0x20000f00) {
         static const SUBTITLEINFO SubFormat = { 0, "", L"" };
 
-        pmt->majortype      = MEDIATYPE_Subtitle;
-        pmt->subtype        = MEDIASUBTYPE_DVB_SUBTITLES;
-        pmt->formattype     = FORMAT_None;
+        pmt->majortype  = MEDIATYPE_Subtitle;
+        pmt->subtype    = MEDIASUBTYPE_DVB_SUBTITLES;
+        pmt->formattype = FORMAT_None;
         pmt->SetFormat((BYTE*)&SubFormat, sizeof(SUBTITLEINFO));
 
         return true;

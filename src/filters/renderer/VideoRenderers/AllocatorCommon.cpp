@@ -34,11 +34,11 @@
 
 bool IsVMR9InGraph(IFilterGraph* pFG)
 {
-    BeginEnumFilters(pFG, pEF, pBF)
+    BeginEnumFilters(pFG, pEF, pBF);
     if (CComQIPtr<IVMRWindowlessControl9>(pBF)) {
         return true;
     }
-    EndEnumFilters
+    EndEnumFilters;
     return false;
 }
 
@@ -91,10 +91,10 @@ HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
 
 HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP)
 {
-    HRESULT     hr = E_FAIL;
+    HRESULT hr = E_FAIL;
     if (clsid == CLSID_EVRAllocatorPresenter) {
         CString Error;
-        *ppAP   = DNew DSObjects::CEVRAllocatorPresenter(hWnd, bFullscreen, hr, Error);
+        *ppAP = DNew DSObjects::CEVRAllocatorPresenter(hWnd, bFullscreen, hr, Error);
         (*ppAP)->AddRef();
 
         if (FAILED(hr)) {

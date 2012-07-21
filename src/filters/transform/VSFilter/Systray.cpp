@@ -213,7 +213,7 @@ LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 
                 break;
             }
-            EndEnumFilters
+            EndEnumFilters;
 
             if (pBF2) {
                 ShowPPage(pBF2, hWnd);
@@ -239,7 +239,7 @@ LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
                     names.Add(name);
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
 
             CMenu popup;
             popup.CreatePopupMenu();
@@ -370,7 +370,7 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 
         i++;
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     TCHAR* ret = NULL;
 

@@ -461,7 +461,7 @@ bool CAppSettings::NewDvd(ULONGLONG llDVDGuid)
         memcpy(&DvdPosition[i], &DvdPosition[i - 1], sizeof(DVD_POSITION));
     }
     DvdPosition[0].llDVDGuid = llDVDGuid;
-    nCurrentDvdPosition      = 0;
+    nCurrentDvdPosition = 0;
     return true;
 }
 
@@ -507,8 +507,8 @@ void CAppSettings::DeserializeHex(LPCTSTR strVal, BYTE* pBuffer, int nBufSize) c
 
 CString CAppSettings::SerializeHex(BYTE* pBuffer, int nBufSize) const
 {
-    CString     strTemp;
-    CString     strResult;
+    CString strTemp;
+    CString strResult;
 
     for (int i = 0; i < nBufSize; i++) {
         strTemp.Format(_T("%02x"), pBuffer[i]);
@@ -523,7 +523,7 @@ void CAppSettings::UpdateData(bool fSave)
     CWinApp* pApp = AfxGetApp();
     ASSERT(pApp);
 
-    UINT len;
+    UINT  len;
     BYTE* ptr = NULL;
 
     if (fSave) {
@@ -682,12 +682,12 @@ void CAppSettings::UpdateData(bool fSave)
         pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, fBDAIgnoreEncryptedChannels);
         pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, nDVBLastChannel);
 
-        int         iChannel = 0;
-        POSITION    pos = m_DVBChannels.GetHeadPosition();
+        int iChannel = 0;
+        POSITION pos = m_DVBChannels.GetHeadPosition();
         while (pos) {
-            CString         strTemp2;
-            CString         strChannel;
-            CDVBChannel&    Channel = m_DVBChannels.GetNext(pos);
+            CString strTemp2;
+            CString strChannel;
+            CDVBChannel& Channel = m_DVBChannels.GetNext(pos);
             strTemp2.Format(_T("%d"), iChannel);
             pApp->WriteProfileString(IDS_RS_DVB, strTemp2, Channel.ToString());
             iChannel++;
@@ -698,8 +698,8 @@ void CAppSettings::UpdateData(bool fSave)
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, (int)fRememberFilePos);
         if (fKeepHistory) {
             for (int i = 0; i < MAX_DVD_POSITION; i++) {
-                CString     strDVDPos;
-                CString     strValue;
+                CString strDVDPos;
+                CString strValue;
 
                 strDVDPos.Format(_T("DVD Position %d"), i);
                 strValue = SerializeHex((BYTE*)&DvdPosition[i], sizeof(DVD_POSITION));
@@ -708,8 +708,8 @@ void CAppSettings::UpdateData(bool fSave)
 
             // playback positions for last played files
             for (int i = 0; i < MAX_FILE_POSITION; i++) {
-                CString     strFilePos;
-                CString     strValue;
+                CString strFilePos;
+                CString strValue;
 
                 strFilePos.Format(_T("File Name %d"), i);
                 pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, FilePosition[i].strFile);
@@ -954,7 +954,7 @@ void CAppSettings::UpdateData(bool fSave)
         fExitAfterPlayback = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_EXIT_AFTER_PB, 0);
         fNextInDirAfterPlayback = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_NEXT_AFTER_PB, 0);
         // TODO: Change IDS_RS_MPC_NO_SEARCH_IN_FOLDER into IDS_RS_SEARCH_IN_FOLDER
-        fUseSearchInFolder   = !pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_NO_SEARCH_IN_FOLDER, 0);
+        fUseSearchInFolder = !pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_NO_SEARCH_IN_FOLDER, 0);
         fUseTimeTooltip = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, TRUE);
         nTimeTooltipPosition = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, TIME_TOOLTIP_ABOVE_SEEKBAR);
         nOSDSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MPC_OSD_SIZE, SysVersion::IsVistaOrLater() ? 18 : 20);
@@ -1380,13 +1380,13 @@ void CAppSettings::UpdateData(bool fSave)
         fD3DFullscreen          = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, FALSE);
         fMonitorAutoRefreshRate = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MONITOR_AUTOREFRESHRATE, FALSE);
 
-        iBrightness     = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, 0);
-        iContrast       = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, 0);
-        iHue            = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, 0);
-        iSaturation     = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, 0);
+        iBrightness = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, 0);
+        iContrast   = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, 0);
+        iHue        = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, 0);
+        iSaturation = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, 0);
 
         strShaderList   = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLIST, _T(""));
-        strShaderListScreenSpace    = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLISTSCREENSPACE, _T(""));
+        strShaderListScreenSpace = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLISTSCREENSPACE, _T(""));
         fToggleShader = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADER, 0);
         fToggleShaderScreenSpace = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADERSSCREENSPACE, 0);
 
@@ -1428,12 +1428,12 @@ void CAppSettings::UpdateData(bool fSave)
         }
 
         // playback positions for last played DVDs
-        fRememberDVDPos     = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, 0);
+        fRememberDVDPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, 0);
         nCurrentDvdPosition = -1;
         memset(DvdPosition, 0, sizeof(DvdPosition));
         for (int i = 0; i < MAX_DVD_POSITION; i++) {
-            CString     strDVDPos;
-            CString     strValue;
+            CString strDVDPos;
+            CString strValue;
 
             strDVDPos.Format(_T("DVD Position %d"), i);
             strValue = pApp->GetProfileString(IDS_R_SETTINGS, strDVDPos, _T(""));
@@ -1443,11 +1443,11 @@ void CAppSettings::UpdateData(bool fSave)
         }
 
         // playback positions for last played files
-        fRememberFilePos        = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, 0);
-        nCurrentFilePosition    = -1;
+        fRememberFilePos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, 0);
+        nCurrentFilePosition = -1;
         for (int i = 0; i < MAX_FILE_POSITION; i++) {
-            CString     strFilePos;
-            CString     strValue;
+            CString strFilePos;
+            CString strValue;
 
             strFilePos.Format(_T("File Name %d"), i);
             FilePosition[i].strFile = pApp->GetProfileString(IDS_R_SETTINGS, strFilePos, _T(""));
@@ -1457,7 +1457,7 @@ void CAppSettings::UpdateData(bool fSave)
             FilePosition[i].llPosition = _tstoi64(strValue);
         }
 
-        fLastFullScreen     = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, 0);
+        fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, 0);
 
         // TODO: sort shaders by label
 
@@ -1600,7 +1600,7 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         r.fSPCPow2Tex = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_POW2TEX, TRUE);
         r.fSPCAllowAnimationWhenBuffering = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), TRUE);
 
-        r.iEvrBuffers       = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, 5);
+        r.iEvrBuffers = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, 5);
         r.D3D9RenderDevice = pApp->GetProfileString(IDS_R_SETTINGS, IDS_D3D9RENDERDEVICE, _T(""));
     }
 }
@@ -1608,8 +1608,8 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 void CAppSettings::SaveCurrentFilePosition()
 {
     CWinApp* pApp = AfxGetApp();
-    CString     strFilePos;
-    CString     strValue;
+    CString  strFilePos;
+    CString  strValue;
     int i = nCurrentFilePosition;
 
     strFilePos.Format(_T("File Name %d"), i);
@@ -1622,7 +1622,7 @@ void CAppSettings::SaveCurrentFilePosition()
 void CAppSettings::ClearFilePositions()
 {
     CWinApp* pApp = AfxGetApp();
-    CString strFilePos;
+    CString  strFilePos;
     for (int i = 0; i < MAX_FILE_POSITION; i++) {
         FilePosition[i].strFile = _T("");
         FilePosition[i].llPosition = 0;
@@ -1637,8 +1637,8 @@ void CAppSettings::ClearFilePositions()
 void CAppSettings::SaveCurrentDVDPosition()
 {
     CWinApp* pApp = AfxGetApp();
-    CString     strDVDPos;
-    CString     strValue;
+    CString  strDVDPos;
+    CString  strValue;
     int i = nCurrentDvdPosition;
 
     strDVDPos.Format(_T("DVD Position %d"), i);
@@ -1771,8 +1771,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
             } else if (sw == _T("dub") && pos) {
                 slDubs.AddTail(ParseFileName(cmdln.GetNext(pos)));
             } else if (sw == _T("dubdelay") && pos) {
-                CString     strFile = ParseFileName(cmdln.GetNext(pos));
-                int         nPos  = strFile.Find(_T("DELAY"));
+                CString strFile = ParseFileName(cmdln.GetNext(pos));
+                int nPos = strFile.Find(_T("DELAY"));
                 if (nPos != -1) {
                     rtShift = 10000 * _tstol(strFile.Mid(nPos + 6));
                 }
@@ -1942,9 +1942,9 @@ void CAppSettings::AddFav(favtype ft, CString s)
 
 CDVBChannel* CAppSettings::FindChannelByPref(int nPrefNumber)
 {
-    POSITION    pos = m_DVBChannels.GetHeadPosition();
+    POSITION pos = m_DVBChannels.GetHeadPosition();
     while (pos) {
-        CDVBChannel&    Channel = m_DVBChannels.GetNext(pos);
+        CDVBChannel& Channel = m_DVBChannels.GetNext(pos);
         if (Channel.GetPrefNumber() == nPrefNumber) {
             return &Channel;
         }

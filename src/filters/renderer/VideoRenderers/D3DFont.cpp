@@ -377,9 +377,9 @@ HRESULT CD3DFont::RestoreDeviceObjects()
                                                 Desc.Format))) {
                 bSupportsAlphaBlend = false;
             }
-            SAFE_RELEASE(pSurf)
+            SAFE_RELEASE(pSurf);
         }
-        SAFE_RELEASE(pd3d9)
+        SAFE_RELEASE(pd3d9);
     }
 
     // Create the state blocks for rendering text
@@ -446,9 +446,9 @@ HRESULT CD3DFont::RestoreDeviceObjects()
 //-----------------------------------------------------------------------------
 HRESULT CD3DFont::InvalidateDeviceObjects()
 {
-    SAFE_RELEASE(m_pVB)
-    SAFE_RELEASE(m_pStateBlockSaved)
-    SAFE_RELEASE(m_pStateBlockDrawText)
+    SAFE_RELEASE(m_pVB);
+    SAFE_RELEASE(m_pStateBlockSaved);
+    SAFE_RELEASE(m_pStateBlockDrawText);
 
     return S_OK;
 }
@@ -461,7 +461,7 @@ HRESULT CD3DFont::InvalidateDeviceObjects()
 //-----------------------------------------------------------------------------
 HRESULT CD3DFont::DeleteDeviceObjects()
 {
-    SAFE_RELEASE(m_pTexture)
+    SAFE_RELEASE(m_pTexture);
     m_pd3dDevice = NULL;
 
     return S_OK;

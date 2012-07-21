@@ -1177,8 +1177,8 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
                 }
 
                 if (m_useFastStreamChange) {
-                    PauseGraph
-                    ResumeGraph
+                    PauseGraph;
+                    ResumeGraph;
                 }
 
                 HRESULT hr;
@@ -1782,12 +1782,12 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         BYTE* start = m_p->GetData();
         BYTE* end = start + m_p->GetCount();
 
-        MOVE_TO_H264_START_CODE(start, end)
+        MOVE_TO_H264_START_CODE(start, end);
 
         while (start <= end - 4) {
             BYTE* next = start + 1;
 
-            MOVE_TO_H264_START_CODE(next, end)
+            MOVE_TO_H264_START_CODE(next, end);
 
             if (next >= end - 4) {
                 break;
@@ -2115,9 +2115,9 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 STDMETHODIMP CMpegSplitterOutputPin::Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt)
 {
-    HRESULT     hr;
-    PIN_INFO    PinInfo;
-    GUID        FilterClsid;
+    HRESULT hr;
+    PIN_INFO PinInfo;
+    GUID FilterClsid;
 
     if (SUCCEEDED(pReceivePin->QueryPinInfo(&PinInfo))) {
         if (SUCCEEDED(PinInfo.pFilter->GetClassID(&FilterClsid))) {

@@ -43,7 +43,7 @@ public:
     virtual POSITION        GetStartPosition(REFERENCE_TIME rt, double fps) = NULL;
     virtual POSITION        GetNext(POSITION pos) = NULL;
     virtual REFERENCE_TIME  GetStart(POSITION nPos) = NULL;
-    virtual REFERENCE_TIME  GetStop(POSITION nPos)  = NULL;
+    virtual REFERENCE_TIME  GetStop(POSITION nPos) = NULL;
     virtual void            Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox) = NULL;
     virtual HRESULT         GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft) = NULL;
 

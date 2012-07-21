@@ -30,7 +30,7 @@
 
 
 CMiniDump _Singleton;
-bool      CMiniDump::m_bMiniDumpEnabled = true;
+bool CMiniDump::m_bMiniDumpEnabled = true;
 
 
 typedef BOOL (WINAPI* MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,

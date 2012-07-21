@@ -467,7 +467,7 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
             box.AddString(c.FriendlyName),
             (DWORD_PTR)codecs.Add(c));
     }
-    EndEnumSysDev
+    EndEnumSysDev;
 
     box.EnableWindow(box.GetCount() > 1);
 

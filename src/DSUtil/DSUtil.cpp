@@ -150,7 +150,7 @@ int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC)
             }
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return (nIn + nOut);
 }
@@ -208,7 +208,7 @@ bool IsVideoRenderer(IBaseFilter* pBF)
             return !!(mt.majortype == MEDIATYPE_Video);
             /*&& (mt.formattype == FORMAT_VideoInfo || mt.formattype == FORMAT_VideoInfo2));*/
         }
-        EndEnumPins
+        EndEnumPins;
     }
 
     CLSID clsid;
@@ -238,7 +238,7 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
             return !!(mt.majortype == MEDIATYPE_Audio);
             /*&& mt.formattype == FORMAT_WaveFormatEx);*/
         }
-        EndEnumPins
+        EndEnumPins;
     }
 
     CLSID clsid;
@@ -270,7 +270,7 @@ IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin)
             return pRet;
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return NULL;
 }
@@ -290,7 +290,7 @@ IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir)
             return pRet;
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return NULL;
 }
@@ -311,7 +311,7 @@ IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir)
             return pRet;
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return NULL;
 }
@@ -331,7 +331,7 @@ IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG)
             return pBF;
         }
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     return NULL;
 }
@@ -350,10 +350,10 @@ IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pR
                     return (pPin);
                 }
             }
-            EndEnumMediaTypes(pmt)
+            EndEnumMediaTypes(pmt);
         }
     }
-    EndEnumPins
+    EndEnumPins;
     return NULL;
 }
 
@@ -472,19 +472,19 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
         }
 
         pFilters.AddTail(pBF);
-        BeginEnumFilters(pGB, pEnum, pBF2)
+        BeginEnumFilters(pGB, pEnum, pBF2);
         pFilters.AddTail(pBF2);
-        EndEnumFilters
+        EndEnumFilters;
 
         if (FAILED(pGB->AddFilter(pBF, CStringW(var.bstrVal)))) {
             break;
         }
 
-        BeginEnumFilters(pGB, pEnum, pBF2)
+        BeginEnumFilters(pGB, pEnum, pBF2);
         if (!pFilters.Find(pBF2) && SUCCEEDED(pGB->RemoveFilter(pBF2))) {
             pEnum->Reset();
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         pPinTo = GetFirstPin(pBF, PINDIR_INPUT);
         if (!pPinTo) {
@@ -499,11 +499,11 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
             break;
         }
 
-        BeginEnumFilters(pGB, pEnum, pBF2)
+        BeginEnumFilters(pGB, pEnum, pBF2);
         if (!pFilters.Find(pBF2) && SUCCEEDED(pGB->RemoveFilter(pBF2))) {
             pEnum->Reset();
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         pRet = GetFirstPin(pBF, PINDIR_OUTPUT);
         if (!pRet) {
@@ -626,7 +626,7 @@ void ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types)
             types.Add(pmt->subtype);
         }
     }
-    EndEnumMediaTypes(pmt)
+    EndEnumMediaTypes(pmt);
 }
 
 void ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts)
@@ -648,7 +648,7 @@ void ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts)
             mts.AddTail(CMediaType(*pmt));
         }
     }
-    EndEnumMediaTypes(pmt)
+    EndEnumMediaTypes(pmt);
 }
 
 int Eval_Exception(int n_except)
@@ -1319,7 +1319,7 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
                 return pBF;
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         pGB->RemoveFilter(pBF);
     } while (false);
@@ -2499,7 +2499,7 @@ static const DXVA2_DECODER DXVA2Decoder[] = {
 
 LPCTSTR GetDXVAMode(const GUID* guidDecoder)
 {
-    int         nPos = 0;
+    int nPos = 0;
 
     for (int i = 1; i < _countof(DXVA2Decoder); i++) {
         if (*guidDecoder == *DXVA2Decoder[i].Guid) {
@@ -2514,7 +2514,7 @@ LPCTSTR GetDXVAMode(const GUID* guidDecoder)
 void DumpBuffer(BYTE* pBuffer, int nSize)
 {
     CString strMsg;
-    int     nPos = 0;
+    int nPos = 0;
     strMsg.AppendFormat(L"Size : %d\n", nSize);
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 32; j++) {
@@ -2544,12 +2544,12 @@ void DumpBuffer(BYTE* pBuffer, int nSize)
 // hour, minute, second, millisec
 CString ReftimeToString(const REFERENCE_TIME& rtVal)
 {
-    CString     strTemp;
-    LONGLONG    llTotalMs =  ConvertToMilliseconds(rtVal);
-    int         lHour     = (int)(llTotalMs  / (1000 * 60 * 60));
-    int         lMinute   = (llTotalMs / (1000 * 60)) % 60;
-    int         lSecond   = (llTotalMs /  1000) % 60;
-    int         lMillisec = llTotalMs  %  1000;
+    CString strTemp;
+    LONGLONG llTotalMs = ConvertToMilliseconds(rtVal);
+    int lHour     = (int)(llTotalMs / (1000 * 60 * 60));
+    int lMinute   = (llTotalMs / (1000 * 60)) % 60;
+    int lSecond   = (llTotalMs /  1000) % 60;
+    int lMillisec = llTotalMs  %  1000;
 
     strTemp.Format(_T("%02d:%02d:%02d,%03d"), lHour, lMinute, lSecond, lMillisec);
     return strTemp;
@@ -2558,11 +2558,11 @@ CString ReftimeToString(const REFERENCE_TIME& rtVal)
 // hour, minute, second (round)
 CString ReftimeToString2(const REFERENCE_TIME& rtVal)
 {
-    CString     strTemp;
-    LONGLONG    seconds = (rtVal + 5000000) / 10000000;
-    int         lHour     = (int)(seconds / 3600);
-    int         lMinute   = (int)(seconds / 60 % 60);
-    int         lSecond   = (int)(seconds % 60);
+    CString strTemp;
+    LONGLONG seconds = (rtVal + 5000000) / 10000000;
+    int lHour   = (int)(seconds / 3600);
+    int lMinute = (int)(seconds / 60 % 60);
+    int lSecond = (int)(seconds % 60);
 
     strTemp.Format(_T("%02d:%02d:%02d"), lHour, lMinute, lSecond);
     return strTemp;
@@ -2581,11 +2581,11 @@ CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours)
 
 REFERENCE_TIME StringToReftime(LPCTSTR strVal)
 {
-    REFERENCE_TIME  rt          = 0;
-    int             lHour       = 0;
-    int             lMinute     = 0;
-    int             lSecond     = 0;
-    int             lMillisec   = 0;
+    REFERENCE_TIME rt = 0;
+    int lHour = 0;
+    int lMinute = 0;
+    int lSecond = 0;
+    int lMillisec = 0;
 
     if (_stscanf_s(strVal, _T("%02d:%02d:%02d,%03d"), &lHour, &lMinute, &lSecond, &lMillisec) == 4) {
         rt = ((((lHour * 24) + lMinute) * 60 + lSecond) * MILLISECONDS + lMillisec) * (UNITS / MILLISECONDS);
@@ -2651,7 +2651,7 @@ void TraceFilterInfo(IBaseFilter* pBF)
             TracePinInfo(pPin);
         }
 
-        EndEnumPins
+        EndEnumPins;
         Info.pGraph->Release();
     }
 }
@@ -2861,7 +2861,7 @@ void getExtraData(const BYTE* format, const GUID* formattype, const size_t forma
         //WAVEFORMATEX *wfex = (WAVEFORMATEX *)format;
         extraposition = format + sizeof(WAVEFORMATEX);
         // Protected against over-reads
-        extralength   = formatlen - sizeof(WAVEFORMATEX);
+        extralength = formatlen - sizeof(WAVEFORMATEX);
     } else if (*formattype == FORMAT_VorbisFormat2) {
         VORBISFORMAT2* vf2 = (VORBISFORMAT2*)format;
         unsigned offset = 1;
@@ -2887,18 +2887,18 @@ void getExtraData(const BYTE* format, const GUID* formattype, const size_t forma
         return;
     } else if (*formattype == FORMAT_VideoInfo) {
         extraposition = format + sizeof(VIDEOINFOHEADER);
-        extralength   = formatlen - sizeof(VIDEOINFOHEADER);
+        extralength = formatlen - sizeof(VIDEOINFOHEADER);
     } else if (*formattype == FORMAT_VideoInfo2) {
         extraposition = format + sizeof(VIDEOINFOHEADER2);
-        extralength   = formatlen - sizeof(VIDEOINFOHEADER2);
+        extralength = formatlen - sizeof(VIDEOINFOHEADER2);
     } else if (*formattype == FORMAT_MPEGVideo) {
         MPEG1VIDEOINFO* mp1vi = (MPEG1VIDEOINFO*)format;
         extraposition = (BYTE*)mp1vi->bSequenceHeader;
-        extralength   =  min(mp1vi->cbSequenceHeader, formatlen - FIELD_OFFSET(MPEG1VIDEOINFO, bSequenceHeader[0]));
+        extralength = min(mp1vi->cbSequenceHeader, formatlen - FIELD_OFFSET(MPEG1VIDEOINFO, bSequenceHeader[0]));
     } else if (*formattype == FORMAT_MPEG2Video) {
         MPEG2VIDEOINFO* mp2vi = (MPEG2VIDEOINFO*)format;
         extraposition = (BYTE*)mp2vi->dwSequenceHeader;
-        extralength   = min(mp2vi->cbSequenceHeader, formatlen - FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader[0]));
+        extralength = min(mp2vi->cbSequenceHeader, formatlen - FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader[0]));
     }
 
     if (extra && extralength) {

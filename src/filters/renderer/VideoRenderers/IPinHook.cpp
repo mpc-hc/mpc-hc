@@ -282,7 +282,7 @@ static void LOG(LPCTSTR fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    //int   nCount = _vsctprintf(fmt, args) + 1;
+    //int nCount = _vsctprintf(fmt, args) + 1;
     TCHAR buff[3000];
     FILE* f;
     _vstprintf_s(buff, _countof(buff), fmt, args);
@@ -1127,7 +1127,7 @@ public :
     }
 
     virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType) {
-        HRESULT     hr = m_pDec->ReleaseBuffer(BufferType);
+        HRESULT hr = m_pDec->ReleaseBuffer(BufferType);
         //LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
         return hr;
     }

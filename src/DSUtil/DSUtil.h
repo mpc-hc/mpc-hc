@@ -34,7 +34,7 @@
 #define LCID_NOSUBTITLES -1
 
 extern void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap);
-extern int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC);
+extern int  CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC);
 extern bool IsSplitter(IBaseFilter* pBF, bool fCountConnectedOnly = false);
 extern bool IsMultiplexer(IBaseFilter* pBF, bool fCountConnectedOnly = false);
 extern bool IsStreamStart(IBaseFilter* pBF);
@@ -45,28 +45,34 @@ extern IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin = NULL);
 extern IPin* GetUpStreamPin(IBaseFilter* pBF, IPin* pInputPin = NULL);
 extern IPin* GetFirstPin(IBaseFilter* pBF, PIN_DIRECTION dir = PINDIR_INPUT);
 extern IPin* GetFirstDisconnectedPin(IBaseFilter* pBF, PIN_DIRECTION dir);
-extern void NukeDownstream(IBaseFilter* pBF, IFilterGraph* pFG);
-extern void NukeDownstream(IPin* pPin, IFilterGraph* pFG);
+extern void  NukeDownstream(IBaseFilter* pBF, IFilterGraph* pFG);
+extern void  NukeDownstream(IPin* pPin, IFilterGraph* pFG);
 extern IBaseFilter* FindFilter(LPCWSTR clsid, IFilterGraph* pFG);
 extern IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG);
 extern IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pRequestedMT);
 extern CStringW GetFilterName(IBaseFilter* pBF);
 extern CStringW GetPinName(IPin* pPin);
 extern IFilterGraph* GetGraphFromFilter(IBaseFilter* pBF);
-extern IBaseFilter* GetFilterFromPin(IPin* pPin);
+extern IBaseFilter*  GetFilterFromPin(IPin* pPin);
 extern IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB);
 extern IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB);
-extern void ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types);
-extern void ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts);
-extern void ShowPPage(CString DisplayName, HWND hParentWnd);
-extern void ShowPPage(IUnknown* pUnknown, HWND hParentWnd);
+extern void  ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types);
+extern void  ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts);
+extern void  ShowPPage(CString DisplayName, HWND hParentWnd);
+extern void  ShowPPage(IUnknown* pUnknown, HWND hParentWnd);
 extern CLSID GetCLSID(IBaseFilter* pBF);
 extern CLSID GetCLSID(IPin* pPin);
-extern bool IsCLSIDRegistered(LPCTSTR clsid);
-extern bool IsCLSIDRegistered(const CLSID& clsid);
-extern void CStringToBin(CString str, CAtlArray<BYTE>& data);
+extern bool  IsCLSIDRegistered(LPCTSTR clsid);
+extern bool  IsCLSIDRegistered(const CLSID& clsid);
+extern void  CStringToBin(CString str, CAtlArray<BYTE>& data);
 extern CString BinToCString(const BYTE* ptr, size_t len);
-typedef enum { CDROM_NotFound, CDROM_Audio, CDROM_VideoCD, CDROM_DVDVideo, CDROM_Unknown } cdrom_t;
+typedef enum {
+    CDROM_NotFound,
+    CDROM_Audio,
+    CDROM_VideoCD,
+    CDROM_DVDVideo,
+    CDROM_Unknown
+} cdrom_t;
 extern cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files);
 extern CString GetDriveLabel(TCHAR drive);
 extern bool GetKeyFrames(CString fn, CUIntArray& kfs);
@@ -98,12 +104,12 @@ extern CStringW UTF8ToStringW(const char* S);
 extern CStringW LocalToStringW(const char* S);
 extern CString ISO6391ToLanguage(LPCSTR code);
 extern CString ISO6392ToLanguage(LPCSTR code);
-extern LCID    ISO6391ToLcid(LPCSTR code);
-extern LCID    ISO6392ToLcid(LPCSTR code);
+extern LCID ISO6391ToLcid(LPCSTR code);
+extern LCID ISO6392ToLcid(LPCSTR code);
 extern CString ISO6391To6392(LPCSTR code);
 extern CString ISO6392To6391(LPCSTR code);
 extern CString LanguageToISO6392(LPCTSTR lang);
-extern int MakeAACInitData(BYTE* pData, int profile, int freq, int channels);
+extern int  MakeAACInitData(BYTE* pData, int profile, int freq, int channels);
 extern BOOL CFileGetStatus(LPCTSTR lpszFileName, CFileStatus& status);
 extern bool DeleteRegKey(LPCTSTR pszKey, LPCTSTR pszSubkey);
 extern bool SetRegKeyValue(LPCTSTR pszKey, LPCTSTR pszSubkey, LPCTSTR pszValueName, LPCTSTR pszValue);
@@ -119,16 +125,19 @@ extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowH
 extern REFERENCE_TIME StringToReftime(LPCTSTR strVal);
 extern COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb);
 extern COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb);
-extern DWORD    YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
-extern DWORD    YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
-extern void     TraceFilterInfo(IBaseFilter* pBF);
-extern void     TracePinInfo(IPin* pPin);
-extern void     SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
-extern void     HexDump(CString fName, BYTE* buf, int size);
-extern void     CorrectComboListWidth(CComboBox& m_pComboBox);
+extern DWORD YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
+extern DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
+extern void TraceFilterInfo(IBaseFilter* pBF);
+extern void TracePinInfo(IPin* pPin);
+extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
+extern void HexDump(CString fName, BYTE* buf, int size);
+extern void CorrectComboListWidth(CComboBox& m_pComboBox);
 
-extern void     getExtraData(const BYTE* format, const GUID* formattype, const size_t formatlen, BYTE* extra, unsigned int* extralen);
-extern void     audioFormatTypeHandler(const BYTE* format, const GUID* formattype, DWORD* pnSamples, WORD* pnChannels, WORD* pnBitsPerSample, WORD* pnBlockAlign, DWORD* pnBytesPerSec);
+extern void getExtraData(const BYTE* format, const GUID* formattype, const size_t formatlen, BYTE* extra, unsigned int* extralen);
+extern void audioFormatTypeHandler(const BYTE* format, const GUID* formattype,
+                                   DWORD* pnSamples, WORD* pnChannels,
+                                   WORD* pnBitsPerSample, WORD* pnBlockAlign,
+                                   DWORD* pnBytesPerSec);
 
 typedef enum {
     PICT_NONE,
@@ -215,7 +224,7 @@ public:
         pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum);                                                 \
         CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                                                  \
         if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0))                     \
-        && pClassEnum4$##clsid)                                                                                     \
+            && pClassEnum4$##clsid)                                                                                 \
         {                                                                                                           \
             for (CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = NULL)   \
             {
@@ -243,9 +252,10 @@ public:
     if (_fs == State_Running && _pMS)                                                                       \
         _pMC->Run();
 
-#define CallQueue(call)                  \
-    if (!m_pOutputQueue) return NOERROR; \
-    m_pOutputQueue->##call;              \
+#define CallQueue(call)         \
+    if (!m_pOutputQueue)        \
+            return NOERROR;     \
+    m_pOutputQueue->##call;     \
     return NOERROR;
 
 #define QI(i)  (riid == __uuidof(i)) ? GetInterface((i*)this, ppv) :

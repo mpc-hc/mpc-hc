@@ -374,7 +374,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
 
 bool CFileAssoc::IsRegistered(CString ext)
 {
-    BOOL    bIsDefault = FALSE;
+    BOOL bIsDefault = FALSE;
     CString strProgID = PROGID + ext;
 
     if (!m_pAAR) {
@@ -754,7 +754,7 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID pParam)
                 config.pszMainIcon = TD_SHIELD_ICON;
                 config.pszWindowTitle = MAKEINTRESOURCE(IDS_ICONS_REASSOC_DLG_TITLE);
                 config.pszMainInstruction = MAKEINTRESOURCE(IDS_ICONS_REASSOC_DLG_INSTR);
-                config.pszContent = MAKEINTRESOURCE(IDS_ICONS_REASSOC_DLG_CONTENT);;
+                config.pszContent = MAKEINTRESOURCE(IDS_ICONS_REASSOC_DLG_CONTENT);
                 config.pfCallback = TaskDialogCallbackProc;
 
                 typedef HRESULT(_stdcall * pfTaskDialogIndirect)(const TASKDIALOGCONFIG*, int*, int*, BOOL*);

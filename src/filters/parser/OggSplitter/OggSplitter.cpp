@@ -1288,8 +1288,8 @@ HRESULT COggTheoraOutputPin::UnpackInitPage(OggPage& page)
 
 REFERENCE_TIME COggTheoraOutputPin::GetRefTime(__int64 granule_position)
 {
-    LONGLONG    iframe;
-    LONGLONG    pframe;
+    LONGLONG iframe;
+    LONGLONG pframe;
 
     iframe = granule_position >> m_KfgShift;
     pframe = granule_position - (iframe << m_KfgShift);

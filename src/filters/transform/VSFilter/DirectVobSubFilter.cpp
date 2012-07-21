@@ -1192,7 +1192,7 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
                 return E_FAIL;
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         // don't look... we will do some serious graph hacking again...
         //
@@ -1273,7 +1273,7 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
         }
     } else {
     }
@@ -1356,12 +1356,12 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
                         break;
                     }
                 }
-                EndEnumMediaTypes(pmt)
+                EndEnumMediaTypes(pmt);
                 if (fRet) {
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
         }
     }
 
@@ -1380,7 +1380,7 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
             break;
         }
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     if ((m_fExternalLoad || m_fWebLoad) && (m_fWebLoad || !(wcsstr(fn, L"http://") || wcsstr(fn, L"mms://")))) {
         bool fTemp = m_fHideSubtitles;
@@ -1409,7 +1409,7 @@ void CDirectVobSubFilter2::GetRidOfInternalScriptRenderer()
                 m_pGraph->ConnectDirect(pPinTo, GetPin(2 + m_pTextInput.GetCount() - 1), NULL);
             }
         }
-        EndEnumPins
+        EndEnumPins;
 
         if (FAILED(m_pGraph->RemoveFilter(pBF))) {
             break;

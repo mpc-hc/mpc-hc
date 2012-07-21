@@ -2627,7 +2627,7 @@ STDMETHODIMP_(bool) CSyncAP::Paint(bool fAll)
 
 STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    HRESULT     hr;
+    HRESULT hr;
     if (riid == __uuidof(IMFClockStateSink)) {
         hr = GetInterface((IMFClockStateSink*)this, ppv);
     } else if (riid == __uuidof(IMFVideoPresenter)) {
@@ -2757,13 +2757,13 @@ STDMETHODIMP CSyncAP::GetSlowestRate(MFRATE_DIRECTION eDirection, BOOL fThin, fl
 
 STDMETHODIMP CSyncAP::GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float* pflRate)
 {
-    HRESULT     hr = S_OK;
-    float       fMaxRate = 0.0f;
+    HRESULT hr = S_OK;
+    float fMaxRate = 0.0f;
 
     CAutoLock lock(this);
 
     CheckPointer(pflRate, E_POINTER);
-    CHECK_HR(CheckShutdown())
+    CHECK_HR(CheckShutdown());
 
     // Get the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
@@ -2783,11 +2783,11 @@ STDMETHODIMP CSyncAP::IsRateSupported(BOOL fThin, float flRate, float* pflNeares
     // pfNearestSupportedRate can be NULL.
     CAutoLock lock(this);
     HRESULT hr = S_OK;
-    float   fMaxRate = 0.0f;
-    float   fNearestRate = flRate;   // Default.
+    float fMaxRate = 0.0f;
+    float fNearestRate = flRate;   // Default.
 
     CheckPointer(pflNearestSupportedRate, E_POINTER);
-    CHECK_HR(hr = CheckShutdown())
+    CHECK_HR(hr = CheckShutdown());
 
     // Find the maximum forward rate.
     fMaxRate = GetMaxRate(fThin);
@@ -2909,8 +2909,8 @@ HRESULT CSyncAP::IsMediaTypeSupported(IMFMediaType* pMixerType)
     AM_MEDIA_TYPE* pAMMedia;
     UINT nInterlaceMode;
 
-    CHECK_HR(pMixerType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia))
-    CHECK_HR(pMixerType->GetUINT32(MF_MT_INTERLACE_MODE, &nInterlaceMode))
+    CHECK_HR(pMixerType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
+    CHECK_HR(pMixerType->GetUINT32(MF_MT_INTERLACE_MODE, &nInterlaceMode));
 
     if ((pAMMedia->majortype != MEDIATYPE_Video)) {
         hr = MF_E_INVALIDMEDIATYPE;
@@ -2926,7 +2926,7 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
     LARGE_INTEGER i64Size;
     MFVIDEOFORMAT* VideoFormat;
 
-    CHECK_HR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia))
+    CHECK_HR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
 
     VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
     hr = pfMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
@@ -2992,7 +2992,7 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
     CString strTemp;
 
     CheckPointer(pType, E_POINTER);
-    CHECK_HR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia))
+    CHECK_HR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
 
     hr = InitializeDevice(pAMMedia);
     if (SUCCEEDED(hr)) {
@@ -3017,7 +3017,7 @@ LONGLONG CSyncAP::GetMediaTypeMerit(IMFMediaType* pMediaType)
     MFVIDEOFORMAT* VideoFormat;
 
     HRESULT hr;
-    CHECK_HR(pMediaType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia))
+    CHECK_HR(pMediaType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
     VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
 
     LONGLONG Merit = 0;
@@ -3189,13 +3189,13 @@ STDMETHODIMP CSyncAP::GetCurrentMediaType(__deref_out  IMFVideoMediaType** ppMed
     HRESULT hr = S_OK;
     CAutoLock lock(this);
     CheckPointer(ppMediaType, E_POINTER);
-    CHECK_HR(CheckShutdown())
+    CHECK_HR(CheckShutdown());
 
     if (m_pMediaType == NULL) {
-        CHECK_HR(MF_E_NOT_INITIALIZED)
+        CHECK_HR(MF_E_NOT_INITIALIZED);
     }
 
-    CHECK_HR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType))
+    CHECK_HR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType));
     return hr;
 }
 
@@ -3407,51 +3407,51 @@ STDMETHODIMP CSyncAP::DisableImageExport(BOOL bDisable)
 // IDirect3DDeviceManager9
 STDMETHODIMP CSyncAP::ResetDevice(IDirect3DDevice9* pDevice, UINT resetToken)
 {
-    HRESULT     hr = m_pD3DManager->ResetDevice(pDevice, resetToken);
+    HRESULT hr = m_pD3DManager->ResetDevice(pDevice, resetToken);
     return hr;
 }
 
 STDMETHODIMP CSyncAP::OpenDeviceHandle(HANDLE* phDevice)
 {
-    HRESULT     hr = m_pD3DManager->OpenDeviceHandle(phDevice);
+    HRESULT hr = m_pD3DManager->OpenDeviceHandle(phDevice);
     return hr;
 }
 
 STDMETHODIMP CSyncAP::CloseDeviceHandle(HANDLE hDevice)
 {
-    HRESULT     hr = m_pD3DManager->CloseDeviceHandle(hDevice);
+    HRESULT hr = m_pD3DManager->CloseDeviceHandle(hDevice);
     return hr;
 }
 
 STDMETHODIMP CSyncAP::TestDevice(HANDLE hDevice)
 {
-    HRESULT     hr = m_pD3DManager->TestDevice(hDevice);
+    HRESULT hr = m_pD3DManager->TestDevice(hDevice);
     return hr;
 }
 
 STDMETHODIMP CSyncAP::LockDevice(HANDLE hDevice, IDirect3DDevice9** ppDevice, BOOL fBlock)
 {
-    HRESULT     hr = m_pD3DManager->LockDevice(hDevice, ppDevice, fBlock);
+    HRESULT hr = m_pD3DManager->LockDevice(hDevice, ppDevice, fBlock);
     return hr;
 }
 
 STDMETHODIMP CSyncAP::UnlockDevice(HANDLE hDevice, BOOL fSaveState)
 {
-    HRESULT     hr = m_pD3DManager->UnlockDevice(hDevice, fSaveState);
+    HRESULT hr = m_pD3DManager->UnlockDevice(hDevice, fSaveState);
     return hr;
 }
 
 STDMETHODIMP CSyncAP::GetVideoService(HANDLE hDevice, REFIID riid, void** ppService)
 {
-    HRESULT     hr = m_pD3DManager->GetVideoService(hDevice, riid, ppService);
+    HRESULT hr = m_pD3DManager->GetVideoService(hDevice, riid, ppService);
 
     if (riid == __uuidof(IDirectXVideoDecoderService)) {
-        UINT        nNbDecoder = 5;
-        GUID*       pDecoderGuid;
-        IDirectXVideoDecoderService*        pDXVAVideoDecoder = (IDirectXVideoDecoderService*) *ppService;
+        UINT  nNbDecoder = 5;
+        GUID* pDecoderGuid;
+        IDirectXVideoDecoderService* pDXVAVideoDecoder = (IDirectXVideoDecoderService*) *ppService;
         pDXVAVideoDecoder->GetDecoderDeviceGuids(&nNbDecoder, &pDecoderGuid);
     } else if (riid == __uuidof(IDirectXVideoProcessorService)) {
-        IDirectXVideoProcessorService*      pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
+        IDirectXVideoProcessorService* pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
         UNREFERENCED_PARAMETER(pDXVAProcessor);
     }
 
@@ -3464,12 +3464,12 @@ STDMETHODIMP CSyncAP::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lp
     ASSERT(FALSE);
 
     if (lpWidth) {
-        *lpWidth    = m_NativeVideoSize.cx;
+        *lpWidth = m_NativeVideoSize.cx;
     }
-    if (lpHeight)   {
-        *lpHeight   = m_NativeVideoSize.cy;
+    if (lpHeight) {
+        *lpHeight = m_NativeVideoSize.cy;
     }
-    if (lpARWidth)  {
+    if (lpARWidth) {
         *lpARWidth  = m_AspectRatio.cx;
     }
     if (lpARHeight) {
@@ -3594,19 +3594,19 @@ void CSyncAP::RenderThread()
         m_lNextSampleWait = 1; // Default value for running this loop
         nSamplesLeft = 0;
         bool stepForward = false;
-        LONG lDisplayCycle = (LONG)(GetDisplayCycle());
+        LONG lDisplayCycle  = (LONG)(GetDisplayCycle());
         LONG lDisplayCycle2 = (LONG)(GetDisplayCycle() / 2.0); // These are a couple of empirically determined constants used the control the "snap" function
         LONG lDisplayCycle4 = (LONG)(GetDisplayCycle() / 4.0);
 
         CRenderersSettings& s = GetRenderersSettings();
         dTargetSyncOffset = s.m_RenderSettings.fTargetSyncOffset;
 
-        if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) { // If either streaming or the pre-roll sample and no sample yet fetched
+        if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) {  // If either streaming or the pre-roll sample and no sample yet fetched
             if (SUCCEEDED(GetScheduledSample(&pNewSample, nSamplesLeft))) { // Get the next sample
                 m_llLastSampleTime = m_llSampleTime;
                 if (!m_bPrerolled) {
-                    m_bPrerolled = true; // m_bPrerolled is a ticket to show one (1) frame immediately
-                    m_lNextSampleWait = 0; // Present immediately
+                    m_bPrerolled = true;    // m_bPrerolled is a ticket to show one (1) frame immediately
+                    m_lNextSampleWait = 0;  // Present immediately
                 } else if (SUCCEEDED(pNewSample->GetSampleTime(&m_llSampleTime))) { // Get zero-based sample due time
                     if (m_llLastSampleTime == m_llSampleTime) { // In the rare case there are duplicate frames in the movie. There really shouldn't be but it happens.
                         MoveToFreeList(pNewSample, true);
@@ -3817,7 +3817,7 @@ void CSyncAP::RemoveAllSamples()
 HRESULT CSyncAP::GetFreeSample(IMFSample** ppSample)
 {
     CAutoLock lock(&m_SampleQueueLock);
-    HRESULT     hr = S_OK;
+    HRESULT hr = S_OK;
 
     if (m_FreeSamples.GetCount() > 1) { // Cannot use first free buffer (can be currently displayed)
         InterlockedIncrement(&m_nUsedBuffer);
@@ -3832,7 +3832,7 @@ HRESULT CSyncAP::GetFreeSample(IMFSample** ppSample)
 HRESULT CSyncAP::GetScheduledSample(IMFSample** ppSample, int& _Count)
 {
     CAutoLock lock(&m_SampleQueueLock);
-    HRESULT     hr = S_OK;
+    HRESULT hr = S_OK;
 
     _Count = (int)m_ScheduledSamples.GetCount();
     if (_Count > 0) {
@@ -3904,11 +3904,11 @@ HRESULT CSyncAP::BeginStreaming()
     m_pOuterEVR->QueryInterface(__uuidof(IBaseFilter), (void**)&pEVR);
     pEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
 
-    BeginEnumFilters(filterInfo.pGraph, pEF, pBF)
+    BeginEnumFilters(filterInfo.pGraph, pEF, pBF);
     if (CComQIPtr<IAMAudioRendererStats> pAS = pBF) {
         m_pAudioStats = pAS;
     };
-    EndEnumFilters
+    EndEnumFilters;
 
     pEVR->GetSyncSource(&m_pRefClock);
     if (filterInfo.pGraph) {
@@ -3927,10 +3927,10 @@ HRESULT CSyncAP::BeginStreaming()
 
 HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP)
 {
-    HRESULT     hr = E_FAIL;
+    HRESULT hr = E_FAIL;
     if (clsid == CLSID_SyncAllocatorPresenter) {
         CString Error;
-        *ppAP   = DNew CSyncAP(hWnd, bFullscreen, hr, Error);
+        *ppAP = DNew CSyncAP(hWnd, bFullscreen, hr, Error);
         (*ppAP)->AddRef();
 
         if (FAILED(hr)) {
@@ -4234,7 +4234,7 @@ HRESULT CGenlock::GetTiming()
     GlobalGetAtomName(getTiming, savedTiming, MAX_LOADSTRING);
 
     while (params < TIMING_PARAM_CNT) {
-        while (savedTiming[i] !=  _T(',') && savedTiming[i] !=  _T('\0')) {
+        while (savedTiming[i] != _T(',') && savedTiming[i] != _T('\0')) {
             tmpStr[j++] = savedTiming[i];
             tmpStr[j] = _T('\0');
             i++;

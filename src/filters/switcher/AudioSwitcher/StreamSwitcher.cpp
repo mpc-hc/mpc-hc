@@ -137,82 +137,82 @@ HRESULT GetPeer(CStreamSwitcherFilter* pFilter, T** ppT)
 
 STDMETHODIMP CStreamSwitcherPassThru::GetCapabilities(DWORD* pCaps)
 {
-    CallPeerSeeking(GetCapabilities(pCaps))
+    CallPeerSeeking(GetCapabilities(pCaps));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::CheckCapabilities(DWORD* pCaps)
 {
-    CallPeerSeeking(CheckCapabilities(pCaps))
+    CallPeerSeeking(CheckCapabilities(pCaps));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::IsFormatSupported(const GUID* pFormat)
 {
-    CallPeerSeeking(IsFormatSupported(pFormat))
+    CallPeerSeeking(IsFormatSupported(pFormat));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::QueryPreferredFormat(GUID* pFormat)
 {
-    CallPeerSeeking(QueryPreferredFormat(pFormat))
+    CallPeerSeeking(QueryPreferredFormat(pFormat));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::SetTimeFormat(const GUID* pFormat)
 {
-    CallPeerSeeking(SetTimeFormat(pFormat))
+    CallPeerSeeking(SetTimeFormat(pFormat));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::GetTimeFormat(GUID* pFormat)
 {
-    CallPeerSeeking(GetTimeFormat(pFormat))
+    CallPeerSeeking(GetTimeFormat(pFormat));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::IsUsingTimeFormat(const GUID* pFormat)
 {
-    CallPeerSeeking(IsUsingTimeFormat(pFormat))
+    CallPeerSeeking(IsUsingTimeFormat(pFormat));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
 {
-    CallPeerSeeking(ConvertTimeFormat(pTarget, pTargetFormat, Source, pSourceFormat))
+    CallPeerSeeking(ConvertTimeFormat(pTarget, pTargetFormat, Source, pSourceFormat));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::SetPositions(LONGLONG* pCurrent, DWORD CurrentFlags, LONGLONG* pStop, DWORD StopFlags)
 {
-    CallPeerSeekingAll(SetPositions(pCurrent, CurrentFlags, pStop, StopFlags))
+    CallPeerSeekingAll(SetPositions(pCurrent, CurrentFlags, pStop, StopFlags));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop)
 {
-    CallPeerSeeking(GetPositions(pCurrent, pStop))
+    CallPeerSeeking(GetPositions(pCurrent, pStop));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::GetCurrentPosition(LONGLONG* pCurrent)
 {
-    CallPeerSeeking(GetCurrentPosition(pCurrent))
+    CallPeerSeeking(GetCurrentPosition(pCurrent));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::GetStopPosition(LONGLONG* pStop)
 {
-    CallPeerSeeking(GetStopPosition(pStop))
+    CallPeerSeeking(GetStopPosition(pStop));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::GetDuration(LONGLONG* pDuration)
 {
-    CallPeerSeeking(GetDuration(pDuration))
+    CallPeerSeeking(GetDuration(pDuration));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::GetPreroll(LONGLONG* pllPreroll)
 {
-    CallPeerSeeking(GetPreroll(pllPreroll))
+    CallPeerSeeking(GetPreroll(pllPreroll));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest)
 {
-    CallPeerSeeking(GetAvailable(pEarliest, pLatest))
+    CallPeerSeeking(GetAvailable(pEarliest, pLatest));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::GetRate(double* pdRate)
 {
-    CallPeerSeeking(GetRate(pdRate))
+    CallPeerSeeking(GetRate(pdRate));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::SetRate(double dRate)
@@ -220,49 +220,49 @@ STDMETHODIMP CStreamSwitcherPassThru::SetRate(double dRate)
     if (0.0 == dRate) {
         return E_INVALIDARG;
     }
-    CallPeerSeekingAll(SetRate(dRate))
+    CallPeerSeekingAll(SetRate(dRate));
 }
 
 // IMediaPosition
 
 STDMETHODIMP CStreamSwitcherPassThru::get_Duration(REFTIME* plength)
 {
-    CallPeer(get_Duration(plength))
+    CallPeer(get_Duration(plength));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::get_CurrentPosition(REFTIME* pllTime)
 {
-    CallPeer(get_CurrentPosition(pllTime))
+    CallPeer(get_CurrentPosition(pllTime));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::put_CurrentPosition(REFTIME llTime)
 {
-    CallPeerAll(put_CurrentPosition(llTime))
+    CallPeerAll(put_CurrentPosition(llTime));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::get_StopTime(REFTIME* pllTime)
 {
-    CallPeer(get_StopTime(pllTime))
+    CallPeer(get_StopTime(pllTime));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::put_StopTime(REFTIME llTime)
 {
-    CallPeerAll(put_StopTime(llTime))
+    CallPeerAll(put_StopTime(llTime));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::get_PrerollTime(REFTIME* pllTime)
 {
-    CallPeer(get_PrerollTime(pllTime))
+    CallPeer(get_PrerollTime(pllTime));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::put_PrerollTime(REFTIME llTime)
 {
-    CallPeerAll(put_PrerollTime(llTime))
+    CallPeerAll(put_PrerollTime(llTime));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::get_Rate(double* pdRate)
 {
-    CallPeer(get_Rate(pdRate))
+    CallPeer(get_Rate(pdRate));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::put_Rate(double dRate)
@@ -270,17 +270,17 @@ STDMETHODIMP CStreamSwitcherPassThru::put_Rate(double dRate)
     if (0.0 == dRate) {
         return E_INVALIDARG;
     }
-    CallPeerAll(put_Rate(dRate))
+    CallPeerAll(put_Rate(dRate));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::CanSeekForward(LONG* pCanSeekForward)
 {
-    CallPeer(CanSeekForward(pCanSeekForward))
+    CallPeer(CanSeekForward(pCanSeekForward));
 }
 
 STDMETHODIMP CStreamSwitcherPassThru::CanSeekBackward(LONG* pCanSeekBackward)
 {
-    CallPeer(CanSeekBackward(pCanSeekBackward))
+    CallPeer(CanSeekBackward(pCanSeekBackward));
 }
 
 //
@@ -1245,8 +1245,8 @@ int CStreamSwitcherFilter::GetConnectedInputPinCount()
     CAutoLock cAutoLock(&m_csPins);
 
     int nConnected = 0;
-
     POSITION pos = m_pInputs.GetHeadPosition();
+
     while (pos) {
         if (m_pInputs.GetNext(pos)->IsConnected()) {
             nConnected++;
@@ -1351,7 +1351,7 @@ void CStreamSwitcherFilter::SelectInput(CStreamSwitcherInputPin* pInput)
 
 HRESULT CStreamSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 {
-    BYTE* pDataIn = NULL;
+    BYTE* pDataIn  = NULL;
     BYTE* pDataOut = NULL;
 
     HRESULT hr;
@@ -1362,7 +1362,7 @@ HRESULT CStreamSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
         return hr;
     }
 
-    long len = pIn->GetActualDataLength();
+    long len  = pIn->GetActualDataLength();
     long size = pOut->GetSize();
 
     if (!pDataIn || !pDataOut /*|| len > size || len <= 0*/) {
@@ -1464,7 +1464,7 @@ STDMETHODIMP CStreamSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
         return E_NOTIMPL;
     }
 
-    PauseGraph
+    PauseGraph;
 
     CStreamSwitcherInputPin* pNewInput = GetConnectedInputPin(lIndex);
     if (!pNewInput) {
@@ -1473,7 +1473,7 @@ STDMETHODIMP CStreamSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
 
     SelectInput(pNewInput);
 
-    ResumeGraph
+    ResumeGraph;
 
     return S_OK;
 }

@@ -165,7 +165,7 @@ STDMETHODIMP CRenderedHdmvSubtitle::Reload()
 HRESULT CRenderedHdmvSubtitle::ParseSample(IMediaSample* pSample)
 {
     CAutoLock cAutoLock(&m_csCritSec);
-    HRESULT     hr;
+    HRESULT hr;
 
     hr = m_pSub->ParseSample(pSample);
     return hr;

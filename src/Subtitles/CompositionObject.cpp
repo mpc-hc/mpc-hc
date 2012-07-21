@@ -57,9 +57,9 @@ void CompositionObject::SetPalette(int nNbEntry, HDMV_PALETTE* pPalette, bool bI
 void CompositionObject::SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize)
 {
     delete [] m_pRLEData;
-    m_pRLEData      = DNew BYTE[nTotalSize];
-    m_nRLEDataSize  = nTotalSize;
-    m_nRLEPos       = nSize;
+    m_pRLEData     = DNew BYTE[nTotalSize];
+    m_nRLEDataSize = nTotalSize;
+    m_nRLEPos      = nSize;
 
     memcpy(m_pRLEData, pBuffer, nSize);
 }
@@ -80,20 +80,19 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
         return;
     }
 
-    CGolombBuffer   GBuffer(m_pRLEData, m_nRLEDataSize);
-    BYTE            bTemp;
-    BYTE            bSwitch;
-
-    BYTE            nPaletteIndex = 0;
-    SHORT           nCount;
-    SHORT           nX  = m_horizontal_position;
-    SHORT           nY  = m_vertical_position;
+    CGolombBuffer GBuffer(m_pRLEData, m_nRLEDataSize);
+    BYTE  bTemp;
+    BYTE  bSwitch;
+    BYTE  nPaletteIndex = 0;
+    SHORT nCount;
+    SHORT nX = m_horizontal_position;
+    SHORT nY = m_vertical_position;
 
     while ((nY < (m_vertical_position + m_height)) && !GBuffer.IsEOF()) {
         bTemp = GBuffer.ReadByte();
         if (bTemp != 0) {
             nPaletteIndex = bTemp;
-            nCount        = 1;
+            nCount = 1;
         } else {
             bSwitch = GBuffer.ReadByte();
             if (!(bSwitch & 0x80)) {
@@ -103,16 +102,16 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
                         nPaletteIndex = 0;
                     }
                 } else {
-                    nCount          = (bSwitch & 0x3F) << 8 | (SHORT)GBuffer.ReadByte();
-                    nPaletteIndex   = 0;
+                    nCount = (bSwitch & 0x3F) << 8 | (SHORT)GBuffer.ReadByte();
+                    nPaletteIndex = 0;
                 }
             } else {
                 if (!(bSwitch & 0x40)) {
-                    nCount          = bSwitch & 0x3F;
-                    nPaletteIndex   = GBuffer.ReadByte();
+                    nCount = bSwitch & 0x3F;
+                    nPaletteIndex = GBuffer.ReadByte();
                 } else {
-                    nCount          = (bSwitch & 0x3F) << 8 | (SHORT)GBuffer.ReadByte();
-                    nPaletteIndex   = GBuffer.ReadByte();
+                    nCount = (bSwitch & 0x3F) << 8 | (SHORT)GBuffer.ReadByte();
+                    nPaletteIndex = GBuffer.ReadByte();
                 }
             }
         }
@@ -136,14 +135,14 @@ void CompositionObject::RenderDvb(SubPicDesc& spd, SHORT nX, SHORT nY)
         return;
     }
 
-    CGolombBuffer   gb(m_pRLEData, m_nRLEDataSize);
-    SHORT           sTopFieldLength;
-    SHORT           sBottomFieldLength;
+    CGolombBuffer gb(m_pRLEData, m_nRLEDataSize);
+    SHORT sTopFieldLength;
+    SHORT sBottomFieldLength;
 
-    sTopFieldLength     = gb.ReadShort();
-    sBottomFieldLength  = gb.ReadShort();
+    sTopFieldLength    = gb.ReadShort();
+    sBottomFieldLength = gb.ReadShort();
 
-    DvbRenderField(spd, gb, nX, nY,   sTopFieldLength);
+    DvbRenderField(spd, gb, nX, nY,     sTopFieldLength);
     DvbRenderField(spd, gb, nX, nY + 1, sBottomFieldLength);
 }
 
@@ -154,11 +153,11 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, SHORT
     //FillSolidRect (spd, 0, 10, 300, 10, 0xCC00FF00);  // Green 80%
     //FillSolidRect (spd, 0, 20, 300, 10, 0x100000FF);  // Blue 60%
     //return;
-    SHORT   nX      = nXStart;
-    SHORT   nY      = nYStart;
-    int     nEnd    = gb.GetPos() + nLength;
+    SHORT nX = nXStart;
+    SHORT nY = nYStart;
+    int nEnd = gb.GetPos() + nLength;
     while (gb.GetPos() < nEnd) {
-        BYTE    bType   = gb.ReadByte();
+        BYTE bType = gb.ReadByte();
         switch (bType) {
             case 0x10 :
                 Dvb2PixelsCodeString(spd, gb, nX, nY);
@@ -192,38 +191,38 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, SHORT
 
 void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb, SHORT& nX, SHORT& nY)
 {
-    BYTE            bTemp;
-    BYTE            nPaletteIndex = 0;
-    SHORT           nCount;
-    bool            bQuit   = false;
+    BYTE  bTemp;
+    BYTE  nPaletteIndex = 0;
+    SHORT nCount;
+    bool  bQuit = false;
 
     while (!bQuit && !gb.IsEOF()) {
-        nCount          = 0;
-        nPaletteIndex   = 0;
-        bTemp           = (BYTE)gb.BitRead(2);
+        nCount = 0;
+        nPaletteIndex = 0;
+        bTemp = (BYTE)gb.BitRead(2);
         if (bTemp != 0) {
             nPaletteIndex = bTemp;
-            nCount        = 1;
+            nCount = 1;
         } else {
-            if (gb.BitRead(1) == 1) {                           // switch_1
-                nCount        = 3 + (SHORT)gb.BitRead(3);       // run_length_3-9
+            if (gb.BitRead(1) == 1) {                               // switch_1
+                nCount = 3 + (SHORT)gb.BitRead(3);                  // run_length_3-9
                 nPaletteIndex = (BYTE)gb.BitRead(2);
             } else {
-                if (gb.BitRead(1) == 0) {                       // switch_2
-                    switch (gb.BitRead(2)) {                    // switch_3
+                if (gb.BitRead(1) == 0) {                           // switch_2
+                    switch (gb.BitRead(2)) {                        // switch_3
                         case 0 :
-                            bQuit         = true;
+                            bQuit = true;
                             break;
                         case 1 :
-                            nCount        = 2;
+                            nCount = 2;
                             break;
-                        case 2 :                                        // if (switch_3 == '10')
-                            nCount        = 12 + (SHORT)gb.BitRead(4);  // run_length_12-27
-                            nPaletteIndex = (BYTE)gb.BitRead(2);        // 4-bit_pixel-code
+                        case 2 :                                    // if (switch_3 == '10')
+                            nCount = 12 + (SHORT)gb.BitRead(4);     // run_length_12-27
+                            nPaletteIndex = (BYTE)gb.BitRead(2);    // 4-bit_pixel-code
                             break;
                         case 3 :
-                            nCount        = 29 + gb.ReadByte();         // run_length_29-284
-                            nPaletteIndex = (BYTE)gb.BitRead(2);        // 4-bit_pixel-code
+                            nCount = 29 + gb.ReadByte();            // run_length_29-284
+                            nPaletteIndex = (BYTE)gb.BitRead(2);    // 4-bit_pixel-code
                             break;
                     }
                 } else {
@@ -248,18 +247,18 @@ void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 
 void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb, SHORT& nX, SHORT& nY)
 {
-    BYTE            bTemp;
-    BYTE            nPaletteIndex = 0;
-    SHORT           nCount;
-    bool            bQuit   = false;
+    BYTE  bTemp;
+    BYTE  nPaletteIndex = 0;
+    SHORT nCount;
+    bool  bQuit = false;
 
     while (!bQuit && !gb.IsEOF()) {
-        nCount          = 0;
-        nPaletteIndex   = 0;
-        bTemp           = (BYTE)gb.BitRead(4);
+        nCount = 0;
+        nPaletteIndex = 0;
+        bTemp = (BYTE)gb.BitRead(4);
         if (bTemp != 0) {
             nPaletteIndex = bTemp;
-            nCount        = 1;
+            nCount = 1;
         } else {
             if (gb.BitRead(1) == 0) {                           // switch_1
                 nCount = (SHORT)gb.BitRead(3);                  // run_length_3-9
@@ -269,24 +268,24 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
                     bQuit = true;
                 }
             } else {
-                if (gb.BitRead(1) == 0) {                       // switch_2
-                    nCount        = 4 + (SHORT)gb.BitRead(2);   // run_length_4-7
-                    nPaletteIndex = (BYTE)gb.BitRead(4);        // 4-bit_pixel-code
+                if (gb.BitRead(1) == 0) {                           // switch_2
+                    nCount = 4 + (SHORT)gb.BitRead(2);              // run_length_4-7
+                    nPaletteIndex = (BYTE)gb.BitRead(4);            // 4-bit_pixel-code
                 } else {
-                    switch (gb.BitRead(2)) {                    // switch_3
+                    switch (gb.BitRead(2)) {                        // switch_3
                         case 0 :
-                            nCount        = 1;
+                            nCount = 1;
                             break;
                         case 1 :
-                            nCount        = 2;
+                            nCount = 2;
                             break;
-                        case 2 :                                        // if (switch_3 == '10')
-                            nCount        = 9 + (SHORT)gb.BitRead(4);   // run_length_9-24
-                            nPaletteIndex = (BYTE)gb.BitRead(4);        // 4-bit_pixel-code
+                        case 2 :                                    // if (switch_3 == '10')
+                            nCount = 9 + (SHORT)gb.BitRead(4);      // run_length_9-24
+                            nPaletteIndex = (BYTE)gb.BitRead(4);    // 4-bit_pixel-code
                             break;
                         case 3 :
-                            nCount        = 25 + gb.ReadByte();         // run_length_25-280
-                            nPaletteIndex = (BYTE)gb.BitRead(4);        // 4-bit_pixel-code
+                            nCount = 25 + gb.ReadByte();            // run_length_25-280
+                            nPaletteIndex = (BYTE)gb.BitRead(4);    // 4-bit_pixel-code
                             break;
                     }
                 }
@@ -311,27 +310,27 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 
 void CompositionObject::Dvb8PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb, SHORT& nX, SHORT& nY)
 {
-    BYTE            bTemp;
-    BYTE            nPaletteIndex = 0;
-    SHORT           nCount;
-    bool            bQuit   = false;
+    BYTE  bTemp;
+    BYTE  nPaletteIndex = 0;
+    SHORT nCount;
+    bool  bQuit = false;
 
     while (!bQuit && !gb.IsEOF()) {
-        nCount          = 0;
-        nPaletteIndex   = 0;
-        bTemp           = gb.ReadByte();
+        nCount = 0;
+        nPaletteIndex = 0;
+        bTemp = gb.ReadByte();
         if (bTemp != 0) {
             nPaletteIndex = bTemp;
-            nCount        = 1;
+            nCount = 1;
         } else {
-            if (gb.BitRead(1) == 0) {                           // switch_1
-                nCount = (SHORT)gb.BitRead(7);                  // run_length_1-127
+            if (gb.BitRead(1) == 0) {                   // switch_1
+                nCount = (SHORT)gb.BitRead(7);          // run_length_1-127
                 if (nCount == 0) {
                     bQuit = true;
                 }
             } else {
-                nCount          = (SHORT)gb.BitRead(7);         // run_length_3-127
-                nPaletteIndex   = gb.ReadByte();
+                nCount = (SHORT)gb.BitRead(7);          // run_length_3-127
+                nPaletteIndex = gb.ReadByte();
             }
         }
 
