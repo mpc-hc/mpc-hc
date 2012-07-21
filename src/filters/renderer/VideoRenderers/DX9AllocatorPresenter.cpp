@@ -77,12 +77,12 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         return;
     }
 
-    m_pD3DXLoadSurfaceFromMemory    = NULL;
-    m_pD3DXLoadSurfaceFromSurface   = NULL;
-    m_pD3DXCreateLine               = NULL;
-    m_pD3DXCreateFont               = NULL;
-    m_pD3DXCreateSprite             = NULL;
-    hDll                            = GetRenderersData()->GetD3X9Dll();
+    m_pD3DXLoadSurfaceFromMemory  = NULL;
+    m_pD3DXLoadSurfaceFromSurface = NULL;
+    m_pD3DXCreateLine             = NULL;
+    m_pD3DXCreateFont             = NULL;
+    m_pD3DXCreateSprite           = NULL;
+    hDll                          = GetRenderersData()->GetD3X9Dll();
     if (hDll) {
         (FARPROC&)m_pD3DXLoadSurfaceFromMemory  = GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
         (FARPROC&)m_pD3DXLoadSurfaceFromSurface = GetProcAddress(hDll, "D3DXLoadSurfaceFromSurface");
@@ -157,13 +157,13 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
     memset(m_pllJitter, 0, sizeof(m_pllJitter));
     memset(m_pllSyncOffset, 0, sizeof(m_pllSyncOffset));
-    m_nNextJitter       = 0;
-    m_nNextSyncOffset = 0;
-    m_llLastPerf        = 0;
-    m_fAvrFps           = 0.0;
-    m_fJitterStdDev     = 0.0;
-    m_fSyncOffsetStdDev = 0.0;
-    m_fSyncOffsetAvr    = 0.0;
+    m_nNextJitter         = 0;
+    m_nNextSyncOffset     = 0;
+    m_llLastPerf          = 0;
+    m_fAvrFps             = 0.0;
+    m_fJitterStdDev       = 0.0;
+    m_fSyncOffsetStdDev   = 0.0;
+    m_fSyncOffsetAvr      = 0.0;
     m_bSyncStatsAvailable = false;
 }
 
@@ -184,8 +184,8 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
 
     CleanupRenderingEngine();
 
-    m_pD3D      = NULL;
-    m_pD3DEx    = NULL;
+    m_pD3D   = NULL;
+    m_pD3DEx = NULL;
     if (m_hDWMAPI) {
         FreeLibrary(m_hDWMAPI);
         m_hDWMAPI = NULL;
@@ -717,7 +717,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     HRESULT hr = S_OK;
     m_CurrentAdapter = GetAdapter(m_pD3D);
 
-    /*      // TODO : add nVidia PerfHUD !!!
+    /*// TODO : add nVidia PerfHUD !!!
 
     // Set default settings
     UINT AdapterToUse=D3DADAPTER_DEFAULT;
@@ -1166,7 +1166,6 @@ void CDX9AllocatorPresenter::CalculateJitter(LONGLONG PerfCounter)
         double StdDev = sqrt(DeviationSum / NB_JITTER);
 
         m_fJitterStdDev = StdDev;
-
         m_fAvrFps = 10000000.0 / (double(llJitterSum) / NB_JITTER);
     }
 
@@ -1467,7 +1466,7 @@ void CDX9AllocatorPresenter::UpdateAlphaBitmap()
     m_VMR9AlphaBitmapData.Free();
 
     if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0) {
-        HBITMAP         hBitmap = (HBITMAP)GetCurrentObject(m_VMR9AlphaBitmap.hdc, OBJ_BITMAP);
+        HBITMAP hBitmap = (HBITMAP)GetCurrentObject(m_VMR9AlphaBitmap.hdc, OBJ_BITMAP);
         if (!hBitmap) {
             return;
         }
@@ -2310,8 +2309,8 @@ void CDX9AllocatorPresenter::DrawStats()
                     if (nIndex < 0) {
                         nIndex += NB_JITTER;
                     }
-                    Points[i].x  = (float)(StartX + (i * 5 * ScaleX + 5));
-                    Points[i].y  = (float)(StartY + ((m_pllSyncOffset[nIndex] * ScaleY) / 5000 + 125 * ScaleY));
+                    Points[i].x = (float)(StartX + (i * 5 * ScaleX + 5));
+                    Points[i].y = (float)(StartY + ((m_pllSyncOffset[nIndex] * ScaleY) / 5000 + 125 * ScaleY));
                 }
                 m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(100, 200, 100));
             }
