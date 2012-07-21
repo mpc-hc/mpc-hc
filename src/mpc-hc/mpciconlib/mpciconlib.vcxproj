@@ -46,8 +46,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
       <NoEntryPoint>true</NoEntryPoint>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include</AdditionalIncludeDirectories>
@@ -59,8 +59,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
       <NoEntryPoint>true</NoEntryPoint>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include</AdditionalIncludeDirectories>
