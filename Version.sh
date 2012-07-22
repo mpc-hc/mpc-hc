@@ -52,3 +52,6 @@ else
     echo "#define MPC_VERSION_REV $VER">> ./include/Version_rev.h
     echo "#define MPCHC_HASH $HASH">> ./include/Version_rev.h
 fi
+
+# Update the revision number in the manifest file
+sed -e "s/\\\$WCREV\\\$/${VER}/" ./src/mpc-hc/res/mpc-hc.exe.manifest.conf > ./src/mpc-hc/res/mpc-hc.exe.manifest

@@ -34,7 +34,6 @@ FOR %%X IN (sh.exe)  DO (SET FOUND=%%~$PATH:X)
 IF NOT DEFINED FOUND GOTO MissingVar
 
 sh.exe ./version.sh
-TYPE "src\mpc-hc\res\mpc-hc.exe.manifest.template" > "src\mpc-hc\res\mpc-hc.exe.manifest"
 
 :END
 POPD
