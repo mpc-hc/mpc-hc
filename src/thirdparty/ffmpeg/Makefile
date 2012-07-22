@@ -370,5 +370,6 @@ $(OUT_LIB): $(OBJS)
 	@echo AR '  ' $@
 	@$(GCC_PREFIX)ar rc $@ $(OBJS)
 
+-include $(SRCS_C:%.c=$(OBJ_DIR)%.d)
 
 .PHONY: clean make_objdirs $(OBJ_DIRS)
