@@ -56,6 +56,12 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 
     m_strBuildNumber = AfxGetMyApp()->m_strVersion;
+#ifdef MPCHC_HASH
+    m_strBuildNumber += _T(" (") MPCHC_HASH _T(")");
+#endif
+#ifdef MPCHC_BRANCH
+    m_strBuildNumber += _T(" (") MPCHC_BRANCH _T(")");
+#endif
 
 #if defined(__INTEL_COMPILER)
 #if (__INTEL_COMPILER >= 1210)
