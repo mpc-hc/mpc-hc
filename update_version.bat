@@ -28,9 +28,12 @@ IF EXIST "build.user.bat" (
   IF DEFINED MSYS (SET MPCHC_MSYS=%MSYS%) ELSE (GOTO MissingVar)
 )
 
-SET PATH=%MPCHC_GIT%\cmd;%PATH%
+SET PATH=%MPCHC_MSYS%\bin;%MPCHC_GIT%\cmd;%PATH%
+FOR %%X IN (git.exe) DO (SET FOUND=%%~$PATH:X)
+FOR %%X IN (sh.exe)  DO (SET FOUND=%%~$PATH:X)
+IF NOT DEFINED FOUND GOTO MissingVar
 
-sh ./version.sh
+sh.exe ./version.sh
 TYPE "src\mpc-hc\res\mpc-hc.exe.manifest.template" > "src\mpc-hc\res\mpc-hc.exe.manifest"
 
 :END
