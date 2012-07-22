@@ -1,7 +1,5 @@
 /****************************************************************************
  * 
- *  $Id: rmaevent.h 7 2003-05-30 02:18:02Z gabest $
- *  
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
  *  
  *  This program contains proprietary information of RealNetworks, Inc.,

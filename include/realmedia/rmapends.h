@@ -1,7 +1,5 @@
 /****************************************************************************
  * 
- *  $Id: rmapends.h 7 2003-05-30 02:18:02Z gabest $
- *  
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
  *
  *  http://www.real.com/devzone

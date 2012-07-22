@@ -1,7 +1,5 @@
 /****************************************************************************
  * 
- *  $Id: rmacore.h 74 2003-07-02 02:42:47Z gabest $
- *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
  *
  *  http://www.real.com/devzone

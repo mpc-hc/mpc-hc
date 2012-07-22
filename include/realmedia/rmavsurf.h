@@ -1,7 +1,5 @@
 /****************************************************************************
  *
- *  $Id: rmavsurf.h 7 2003-05-30 02:18:02Z gabest $
- *
  *  Copyright (C) 1995,1996,1997 Progressive Networks.
  *  All rights reserved.
  *
