@@ -23,9 +23,6 @@
 SVNREV=5588
 SVNHASH="2f7d963f8be3f6b4c0b3c1916baf4408850055c7"
 
-# Remove old file
-rm ./include/Version_rev.h
-
 # Get the current branch name
 BRANCH=`git branch | grep "^\*" | awk '{print $2}'`
 # If we couldn't get the branch name, we probably haven't got a valid git repository
@@ -42,8 +39,7 @@ else
         # Get where the branch is based on master
         BASE=`git merge-base master HEAD`
 
-        # Write the branch to Version_rev.h
-        echo "#define MPCHC_BRANCH _T(\"$BRANCH\")" >> ./include/Version_rev.h
+        VERSION_INFO+="#define MPCHC_BRANCH _T(\"$BRANCH\")\n"
     fi
 
     # Count how many changesets we have since the last svn changeset
@@ -53,12 +49,19 @@ else
 
     # Get the abbreviated hash of the current changeset
     HASH="_T(\"`git log -n1 --format=%h`\")"
-    # Write the hash to Version_rev.h
-    echo "#define MPCHC_HASH $HASH" >> ./include/Version_rev.h
+
+    VERSION_INFO+="#define MPCHC_HASH $HASH\n"
 fi
 
-# Write the revision to Version_rev.h
-echo "#define MPC_VERSION_REV $VER" >> ./include/Version_rev.h
+VERSION_INFO+="#define MPC_VERSION_REV $VER"
 
-# Update the revision number in the manifest file
-sed -e "s/\\\$WCREV\\\$/${VER}/" ./src/mpc-hc/res/mpc-hc.exe.manifest.conf > ./src/mpc-hc/res/mpc-hc.exe.manifest
+VERSION_INFO_OLD=`<./include/Version_rev.h`
+
+# Only write the files if the version informations have changed
+if [ "$(echo $VERSION_INFO | sed -e 's/\\n/ /g')" != "$(echo $VERSION_INFO_OLD)" ] ; then
+    # Write the version informations to Version_rev.h
+    echo -e $VERSION_INFO > ./include/Version_rev.h
+
+    # Update the revision number in the manifest file
+    sed -e "s/\\\$WCREV\\\$/${VER}/" ./src/mpc-hc/res/mpc-hc.exe.manifest.conf > ./src/mpc-hc/res/mpc-hc.exe.manifest
+fi
