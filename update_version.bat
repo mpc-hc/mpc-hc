@@ -35,6 +35,7 @@ IF NOT DEFINED FOUND GOTO MissingVar
 
 sh.exe ./version.sh
 
+
 :END
 POPD
 ENDLOCAL
