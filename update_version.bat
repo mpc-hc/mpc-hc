@@ -21,15 +21,17 @@ SETLOCAL
 
 PUSHD %~dp0
 
-IF EXIST "SubWCRev.exe" SET "SUBWCREV=SubWCRev.exe"
-FOR %%A IN (SubWCRev.exe) DO (SET SUBWCREV=%%~$PATH:A)
-IF NOT DEFINED SUBWCREV GOTO SubNoSubWCRev
+IF EXIST "build.user.bat" (
+  CALL "build.user.bat"
+) ELSE (
+  IF DEFINED GIT  (SET MPCHC_GIT=%GIT%)   ELSE (GOTO MissingVar)
+  IF DEFINED MSYS (SET MPCHC_MSYS=%MSYS%) ELSE (GOTO MissingVar)
+)
 
-"%SUBWCREV%" . "include\Version_rev.h.in" "include\Version_rev.h" -f
-IF %ERRORLEVEL% NEQ 0 GOTO SubError
+SET PATH=%MPCHC_GIT%\cmd;%PATH%
 
-"%SUBWCREV%" . "src\mpc-hc\res\mpc-hc.exe.manifest.conf" "src\mpc-hc\res\mpc-hc.exe.manifest" -f >NUL
-IF %ERRORLEVEL% NEQ 0 GOTO SubError
+sh ./version.sh
+TYPE "src\mpc-hc\res\mpc-hc.exe.manifest.template" > "src\mpc-hc\res\mpc-hc.exe.manifest"
 
 :END
 POPD
@@ -37,17 +39,9 @@ ENDLOCAL
 EXIT /B
 
 
-:SubNoSubWCRev
-ECHO. & ECHO SubWCRev, which is part of TortoiseSVN, wasn't found!
-ECHO You should (re)install TortoiseSVN.
-GOTO SubCommon
-
-:SubError
-ECHO Something went wrong when generating the revision number.
-
-:SubCommon
-ECHO I'll use MPC_VERSION_REV=0 for now.
-
-ECHO #define MPC_VERSION_REV 0 > "include\Version_rev.h"
-TYPE "src\mpc-hc\res\mpc-hc.exe.manifest.template" > "src\mpc-hc\res\mpc-hc.exe.manifest"
-GOTO END
+:MissingVar
+ECHO Not all build dependencies were found.
+ECHO.
+ECHO See "docs\Compilation.txt" for more information.
+ENDLOCAL
+EXIT /B 1
