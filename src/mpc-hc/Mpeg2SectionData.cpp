@@ -28,18 +28,18 @@
 #include "Mpeg2SectionData.h"
 
 
-#define BeginEnumDescriptors(gb, nType, nLength)                       \
-    {                                                                  \
-        BYTE DescBuffer[256];                                          \
-        int nLimit = ((int)gb.BitRead(12)) + gb.GetPos();              \
-        while (gb.GetPos() < nLimit)                                   \
-        {                                                              \
-            MPEG2_DESCRIPTOR nType = (MPEG2_DESCRIPTOR)gb.BitRead(8);  \
-            WORD nLength = (WORD)gb.BitRead(8);
+#define BeginEnumDescriptors(gb, nType, nLength)                   \
+{                                                                  \
+    BYTE DescBuffer[256];                                          \
+    int nLimit = ((int)gb.BitRead(12)) + gb.GetPos();              \
+    while (gb.GetPos() < nLimit)                                   \
+    {                                                              \
+        MPEG2_DESCRIPTOR nType = (MPEG2_DESCRIPTOR)gb.BitRead(8);  \
+        WORD nLength = (WORD)gb.BitRead(8);
 
-#define SkipDescriptor(gb, nType, nLength)                             \
-    gb.ReadBuffer(DescBuffer, nLength);                                \
-    TRACE("Skipped descriptor : 0x%02x\n", nType);                     \
+#define SkipDescriptor(gb, nType, nLength)                         \
+    gb.ReadBuffer(DescBuffer, nLength);                            \
+    TRACE("Skipped descriptor : 0x%02x\n", nType);                 \
     UNREFERENCED_PARAMETER(nType);
 
 #define EndEnumDescriptors }}
@@ -174,18 +174,18 @@ DVB_STREAM_TYPE CMpeg2DataParser::ConvertToDVBType(PES_STREAM_TYPE nType)
 HRESULT CMpeg2DataParser::ParseSIHeader(CGolombBuffer& gb, DVB_SI SIType, WORD& wSectionLength, WORD& wTSID)
 {
     if (gb.BitRead(8) != SIType) {
-        return ERROR_INVALID_DATA;    // table_id
+        return ERROR_INVALID_DATA;              // table_id
     }
-    gb.BitRead(1);                                                      // section_syntax_indicator
-    gb.BitRead(1);                                                      // reserved_future_use
-    gb.BitRead(2);                                                      // reserved
-    wSectionLength = (WORD)gb.BitRead(12);                              // section_length
-    wTSID = (WORD)gb.BitRead(16);                                       // transport_stream_id
-    gb.BitRead(2);                                                      // reserved
-    gb.BitRead(5);                                                      // version_number
-    gb.BitRead(1);                                                      // current_next_indicator
-    gb.BitRead(8);                                                      // section_number
-    gb.BitRead(8);                                                      // last_section_number
+    gb.BitRead(1);                              // section_syntax_indicator
+    gb.BitRead(1);                              // reserved_future_use
+    gb.BitRead(2);                              // reserved
+    wSectionLength = (WORD)gb.BitRead(12);      // section_length
+    wTSID = (WORD)gb.BitRead(16);               // transport_stream_id
+    gb.BitRead(2);                              // reserved
+    gb.BitRead(5);                              // version_number
+    gb.BitRead(1);                              // current_next_indicator
+    gb.BitRead(8);                              // section_number
+    gb.BitRead(8);                              // last_section_number
 
     return S_OK;
 }
@@ -208,37 +208,37 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
     // service_description_section()
     CheckNoLog(ParseSIHeader(gb, SI_SDT, wSectionLength, wTSID));
 
-    wONID = (WORD)gb.BitRead(16);                                       // original_network_id
-    gb.BitRead(8);                                                      // reserved_future_use
+    wONID = (WORD)gb.BitRead(16);                               // original_network_id
+    gb.BitRead(8);                                              // reserved_future_use
 
     while (gb.GetSize() - gb.GetPos() > 4) {
         CDVBChannel Channel;
         Channel.SetFrequency(ulFreq);
         Channel.SetTSID(wTSID);
         Channel.SetONID(wONID);
-        Channel.SetSID((ULONG)gb.BitRead(16));                          // service_id   uimsbf
-        gb.BitRead(6);                                                  // reserved_future_use   bslbf
-        gb.BitRead(1);                                                  // EIT_schedule_flag   bslbf
-        Channel.SetNowNextFlag(!!gb.BitRead(1));                        // EIT_present_following_flag   bslbf
-        gb.BitRead(3);                                                  // running_status   uimsbf
-        Channel.SetEncrypted(!!gb.BitRead(1));                          // free_CA_mode   bslbf
+        Channel.SetSID((ULONG)gb.BitRead(16));                  // service_id   uimsbf
+        gb.BitRead(6);                                          // reserved_future_use   bslbf
+        gb.BitRead(1);                                          // EIT_schedule_flag   bslbf
+        Channel.SetNowNextFlag(!!gb.BitRead(1));                // EIT_present_following_flag   bslbf
+        gb.BitRead(3);                                          // running_status   uimsbf
+        Channel.SetEncrypted(!!gb.BitRead(1));                  // free_CA_mode   bslbf
 
         // Descriptors:
         BeginEnumDescriptors(gb, nType, nLength) {
             switch (nType) {
                 case DT_SERVICE :
-                    gb.BitRead(8);                                          // service_type
-                    nLength = (WORD)gb.BitRead(8);                          // service_provider_name_length
-                    gb.ReadBuffer(DescBuffer, nLength);                     // service_provider_name
+                    gb.BitRead(8);                              // service_type
+                    nLength = (WORD)gb.BitRead(8);              // service_provider_name_length
+                    gb.ReadBuffer(DescBuffer, nLength);         // service_provider_name
 
-                    nLength = (WORD)gb.BitRead(8);                          // service_name_length
-                    gb.ReadBuffer(DescBuffer, nLength);                     // service_name
+                    nLength = (WORD)gb.BitRead(8);              // service_name_length
+                    gb.ReadBuffer(DescBuffer, nLength);         // service_name
                     DescBuffer[nLength] = 0;
                     Channel.SetName(ConvertString(DescBuffer, nLength));
                     TRACE("%15S %d\n", Channel.GetName(), Channel.GetSID());
                     break;
                 default :
-                    SkipDescriptor(gb, nType, nLength);                     // descriptor()
+                    SkipDescriptor(gb, nType, nLength);         // descriptor()
                     break;
             }
         }
@@ -472,17 +472,17 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
                         break;
                     case DT_EXTENDED_EVENT:
                         descriptorNumber = (UINT8)gb.BitRead(4); // descriptor_number
-                        gb.BitRead(4); // last_descriptor_number
+                        gb.BitRead(4);  // last_descriptor_number
                         gb.BitRead(24); // ISO_639_language_code
 
                         itemsLength = (UINT8)gb.BitRead(8); // length_of_items
                         while (itemsLength > 0) {
-                            nLen = (UINT8)gb.BitRead(8); // item_description_length
+                            nLen = (UINT8)gb.BitRead(8);    // item_description_length
                             gb.ReadBuffer(DescBuffer, nLen);
                             itemDesc = ConvertString(DescBuffer, nLen);
                             itemsLength -= nLen + 1;
 
-                            nLen = (UINT8)gb.BitRead(8); // item_length
+                            nLen = (UINT8)gb.BitRead(8);    // item_length
                             gb.ReadBuffer(DescBuffer, nLen);
                             itemText = ConvertString(DescBuffer, nLen);
                             itemsLength -= nLen + 1;
@@ -490,10 +490,10 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing& NowNext)
                             NowNext.ExtendedDescriptorsItems.SetAt(itemDesc, itemText);
                         }
 
-                        nLen = (UINT8)gb.BitRead(8); // text_length
+                        nLen = (UINT8)gb.BitRead(8);    // text_length
                         gb.ReadBuffer(DescBuffer, nLen);
                         text = ConvertString(DescBuffer, nLen);
-                        if (descriptorNumber == 0) { // new descriptor set
+                        if (descriptorNumber == 0) {    // new descriptor set
                             NowNext.ExtendedDescriptorsTexts.AddTail(text);
                         } else {
                             NowNext.ExtendedDescriptorsTexts.GetTail().Append(text);

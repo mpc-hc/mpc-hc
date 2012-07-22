@@ -172,84 +172,84 @@ public:
     }
 };
 
-#define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter)                                                      \
-    {                                                                                                                  \
-        CComPtr<IEnumFilters> pEnumFilters;                                                                            \
-        if (pFilterGraph && SUCCEEDED(pFilterGraph->EnumFilters(&pEnumFilters)))                                       \
-        {                                                                                                              \
-            for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
-                {
+#define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter)                                                  \
+{                                                                                                                  \
+    CComPtr<IEnumFilters> pEnumFilters;                                                                            \
+    if (pFilterGraph && SUCCEEDED(pFilterGraph->EnumFilters(&pEnumFilters)))                                       \
+    {                                                                                                              \
+        for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
+            {
 
 #define EndEnumFilters }}}
 
-#define BeginEnumCachedFilters(pGraphConfig, pEnumFilters, pBaseFilter)                                                \
-    {                                                                                                                  \
-        CComPtr<IEnumFilters> pEnumFilters;                                                                            \
-        if (pGraphConfig && SUCCEEDED(pGraphConfig->EnumCacheFilter(&pEnumFilters)))                                   \
-        {                                                                                                              \
-            for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
-            {
+#define BeginEnumCachedFilters(pGraphConfig, pEnumFilters, pBaseFilter)                                            \
+{                                                                                                                  \
+    CComPtr<IEnumFilters> pEnumFilters;                                                                            \
+    if (pGraphConfig && SUCCEEDED(pGraphConfig->EnumCacheFilter(&pEnumFilters)))                                   \
+    {                                                                                                              \
+        for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
+        {
 
 #define EndEnumCachedFilters }}}
 
-#define BeginEnumPins(pBaseFilter, pEnumPins, pPin)                                     \
-    {                                                                                   \
-        CComPtr<IEnumPins> pEnumPins;                                                   \
-        if (pBaseFilter && SUCCEEDED(pBaseFilter->EnumPins(&pEnumPins)))                \
-        {                                                                               \
-            for (CComPtr<IPin> pPin; S_OK == pEnumPins->Next(1, &pPin, 0); pPin = NULL) \
-            {
+#define BeginEnumPins(pBaseFilter, pEnumPins, pPin)                                 \
+{                                                                                   \
+    CComPtr<IEnumPins> pEnumPins;                                                   \
+    if (pBaseFilter && SUCCEEDED(pBaseFilter->EnumPins(&pEnumPins)))                \
+    {                                                                               \
+        for (CComPtr<IPin> pPin; S_OK == pEnumPins->Next(1, &pPin, 0); pPin = NULL) \
+        {
 
 #define EndEnumPins }}}
 
-#define BeginEnumMediaTypes(pPin, pEnumMediaTypes, pMediaType)                                                          \
-    {                                                                                                                   \
-        CComPtr<IEnumMediaTypes> pEnumMediaTypes;                                                                       \
-        if (pPin && SUCCEEDED(pPin->EnumMediaTypes(&pEnumMediaTypes)))                                                  \
-        {                                                                                                               \
-            AM_MEDIA_TYPE* pMediaType = NULL;                                                                           \
-            for (; S_OK == pEnumMediaTypes->Next(1, &pMediaType, NULL); DeleteMediaType(pMediaType), pMediaType = NULL) \
-            {
-
-#define EndEnumMediaTypes(pMediaType)                                                                               \
-        }                                                                                                           \
-        if (pMediaType)                                                                                             \
-            DeleteMediaType(pMediaType);                                                                            \
-        }                                                                                                           \
-    }
-
-#define BeginEnumSysDev(clsid, pMoniker)                                                                            \
+#define BeginEnumMediaTypes(pPin, pEnumMediaTypes, pMediaType)                                                      \
+{                                                                                                                   \
+    CComPtr<IEnumMediaTypes> pEnumMediaTypes;                                                                       \
+    if (pPin && SUCCEEDED(pPin->EnumMediaTypes(&pEnumMediaTypes)))                                                  \
     {                                                                                                               \
-        CComPtr<ICreateDevEnum> pDevEnum4$##clsid;                                                                  \
-        pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum);                                                 \
-        CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                                                  \
-        if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0))                     \
-            && pClassEnum4$##clsid)                                                                                 \
-        {                                                                                                           \
-            for (CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = NULL)   \
-            {
+        AM_MEDIA_TYPE* pMediaType = NULL;                                                                           \
+        for (; S_OK == pEnumMediaTypes->Next(1, &pMediaType, NULL); DeleteMediaType(pMediaType), pMediaType = NULL) \
+        {
+
+#define EndEnumMediaTypes(pMediaType)                                                                         \
+        }                                                                                                     \
+    if (pMediaType)                                                                                           \
+        DeleteMediaType(pMediaType);                                                                          \
+    }                                                                                                         \
+}
+
+#define BeginEnumSysDev(clsid, pMoniker)                                                                      \
+{                                                                                                             \
+    CComPtr<ICreateDevEnum> pDevEnum4$##clsid;                                                                \
+    pDevEnum4$##clsid.CoCreateInstance(CLSID_SystemDeviceEnum);                                               \
+    CComPtr<IEnumMoniker> pClassEnum4$##clsid;                                                                \
+    if (SUCCEEDED(pDevEnum4$##clsid->CreateClassEnumerator(clsid, &pClassEnum4$##clsid, 0))                   \
+        && pClassEnum4$##clsid)                                                                               \
+    {                                                                                                         \
+        for (CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = NULL) \
+        {
 
 #define EndEnumSysDev }}}
 
-#define PauseGraph                                                                                          \
-    CComQIPtr<IMediaControl> _pMC(m_pGraph);                                                                \
-    OAFilterState _fs = -1;                                                                                 \
-    if (_pMC)                                                                                               \
-        _pMC->GetState(1000, &_fs);                                                                         \
-    if (_fs == State_Running)                                                                               \
-        _pMC->Pause();                                                                                      \
-                                                                                                            \
-    HRESULT _hr = E_FAIL;                                                                                   \
-    CComQIPtr<IMediaSeeking> _pMS((IUnknown*)(INonDelegatingUnknown*)m_pGraph);                             \
-    REFERENCE_TIME _rtNow = 0;                                                                              \
-    if (_pMS)                                                                                               \
+#define PauseGraph                                                                                         \
+    CComQIPtr<IMediaControl> _pMC(m_pGraph);                                                               \
+    OAFilterState _fs = -1;                                                                                \
+    if (_pMC)                                                                                              \
+        _pMC->GetState(1000, &_fs);                                                                        \
+    if (_fs == State_Running)                                                                              \
+        _pMC->Pause();                                                                                     \
+                                                                                                           \
+    HRESULT _hr = E_FAIL;                                                                                  \
+    CComQIPtr<IMediaSeeking> _pMS((IUnknown*)(INonDelegatingUnknown*)m_pGraph);                            \
+    REFERENCE_TIME _rtNow = 0;                                                                             \
+    if (_pMS)                                                                                              \
         _hr = _pMS->GetCurrentPosition(&_rtNow);
 
-#define ResumeGraph                                                                                         \
-    if (SUCCEEDED(_hr) && _pMS && _fs != State_Stopped)                                                     \
-        _hr = _pMS->SetPositions(&_rtNow, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);  \
-                                                                                                            \
-    if (_fs == State_Running && _pMS)                                                                       \
+#define ResumeGraph                                                                                        \
+    if (SUCCEEDED(_hr) && _pMS && _fs != State_Stopped)                                                    \
+        _hr = _pMS->SetPositions(&_rtNow, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning); \
+                                                                                                           \
+    if (_fs == State_Running && _pMS)                                                                      \
         _pMC->Run();
 
 #define CallQueue(call)         \

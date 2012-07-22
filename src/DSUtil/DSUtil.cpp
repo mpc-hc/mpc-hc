@@ -2597,6 +2597,7 @@ REFERENCE_TIME StringToReftime(LPCTSTR strVal)
 const double Rec601_Kr = 0.299;
 const double Rec601_Kb = 0.114;
 const double Rec601_Kg = 0.587;
+
 COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb)
 {
 
@@ -2658,10 +2659,11 @@ void TraceFilterInfo(IBaseFilter* pBF)
 
 void TracePinInfo(IPin* pPin)
 {
-    PIN_INFO        PinInfo;
-    FILTER_INFO     ConnectedFilterInfo;
-    PIN_INFO        ConnectedInfo;
-    CComPtr<IPin>   pConnected;
+    PIN_INFO      PinInfo;
+    FILTER_INFO   ConnectedFilterInfo;
+    PIN_INFO      ConnectedInfo;
+    CComPtr<IPin> pConnected;
+
     memset(&ConnectedInfo, 0, sizeof(ConnectedInfo));
     memset(&ConnectedFilterInfo, 0, sizeof(ConnectedFilterInfo));
     if (SUCCEEDED(pPin->ConnectedTo(&pConnected))) {
@@ -2726,10 +2728,10 @@ const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type)
 // Usage: SetThreadName (-1, "MainThread");
 //
 typedef struct tagTHREADNAME_INFO {
-    DWORD  dwType; // must be 0x1000
-    LPCSTR szName; // pointer to name (in user addr space)
-    DWORD  dwThreadID; // thread ID (-1 caller thread)
-    DWORD  dwFlags; // reserved for future use, must be zero
+    DWORD  dwType;      // must be 0x1000
+    LPCSTR szName;      // pointer to name (in user addr space)
+    DWORD  dwThreadID;  // thread ID (-1 caller thread)
+    DWORD  dwFlags;     // reserved for future use, must be zero
 } THREADNAME_INFO;
 
 void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
@@ -2909,7 +2911,10 @@ void getExtraData(const BYTE* format, const GUID* formattype, const size_t forma
     }
 }
 
-void audioFormatTypeHandler(const BYTE* format, const GUID* formattype, DWORD* pnSamples, WORD* pnChannels, WORD* pnBitsPerSample, WORD* pnBlockAlign, DWORD* pnBytesPerSec)
+void audioFormatTypeHandler(const BYTE* format, const GUID* formattype,
+                            DWORD* pnSamples, WORD* pnChannels,
+                            WORD* pnBitsPerSample, WORD* pnBlockAlign,
+                            DWORD* pnBytesPerSec)
 {
     DWORD nSamples       = 0;
     WORD  nChannels      = 0;
