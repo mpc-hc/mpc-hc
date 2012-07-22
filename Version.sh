@@ -22,36 +22,43 @@
 # We'll need to update this with the last svn data before committing this script
 SVNREV=5588
 SVNHASH="2f7d963f8be3f6b4c0b3c1916baf4408850055c7"
+
+# Remove old file
+rm ./include/Version_rev.h
+
 # Get the current branch name
 BRANCH=`git branch | grep "^\*" | awk '{print $2}'`
-# If we are on the master branch
-if [ $BRANCH = "master" ] ; then
-    # Count how many changesets we have since the last svn changeset
-    VER=`git rev-list $SVNHASH..HEAD | wc -l`
-    # Now add it with the last svn revision number
-    VER=$(($VER+$SVNREV))
-    # Because we don't want the branch name or the hash for master, we'll need
-    # to check if MPCHC_BRANCH and MPCHC_HASH are defined in Version.h before
-    # writing them to the file description
-    echo "#define MPC_VERSION_REV $VER" > ./include/Version_rev.h
-# If we are on another branch that isn't master, we want extra info like on
-# which commit from master it is based on and what is its hash. This assumes we
-# won't ever branch from a changeset from before the move to git
+# If we couldn't get the branch name, we probably haven't got a valid git repository
+if [ ! "$BRANCH" ] ; then
+    VER=0
 else
-    # Get where the branch is based on master
-    BASE=`git merge-base master HEAD`
-    # Get the abbreviated hash of the current changeset
-    HASH=`git log -n1 --format=%h`
+    # If we are on the master branch
+    if [ "$BRANCH" == "master" ] ; then
+        BASE="HEAD"
+    # If we are on another branch that isn't master, we want extra info like on
+    # which commit from master it is based on and what is its hash. This assumes we
+    # won't ever branch from a changeset from before the move to git
+    else
+        # Get where the branch is based on master
+        BASE=`git merge-base master HEAD`
+
+        # Write the branch to Version_rev.h
+        echo "#define MPCHC_BRANCH _T(\"$BRANCH\")" >> ./include/Version_rev.h
+    fi
+
     # Count how many changesets we have since the last svn changeset
     VER=`git rev-list $SVNHASH..$BASE | wc -l`
     # Now add it with to last svn revision number
     VER=$(($VER+$SVNREV))
 
-    # write variables to Version_rev.h
-    echo "#define MPCHC_BRANCH $BRANCH"> ./include/Version_rev.h
-    echo "#define MPC_VERSION_REV $VER">> ./include/Version_rev.h
-    echo "#define MPCHC_HASH $HASH">> ./include/Version_rev.h
+    # Get the abbreviated hash of the current changeset
+    HASH="_T(\"`git log -n1 --format=%h`\")"
+    # Write the hash to Version_rev.h
+    echo "#define MPCHC_HASH $HASH" >> ./include/Version_rev.h
 fi
+
+# Write the revision to Version_rev.h
+echo "#define MPC_VERSION_REV $VER" >> ./include/Version_rev.h
 
 # Update the revision number in the manifest file
 sed -e "s/\\\$WCREV\\\$/${VER}/" ./src/mpc-hc/res/mpc-hc.exe.manifest.conf > ./src/mpc-hc/res/mpc-hc.exe.manifest
