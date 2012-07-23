@@ -27,26 +27,23 @@ Part B: Preparing the GCC environment
 SET "MPCHC_MSYS=C:\MSYS"
 SET "MPCHC_MINGW32=%MPCHC_MSYS%\mingw"
 SET "MPCHC_MINGW64=%MPCHC_MINGW32%"
+REM Git is optional to set if you chose to add git in PATH when installing it
+SET "%MPCHC_GIT%=C:\Program Files (x86)\Git"
 
 
 Part C: Downloading and compiling the MPC-HC source
 
-1. Use a subversion client to checkout MPC-HC's trunk to "C:\mpc-hc" (or anywhere else you like)
-    Repository URL: https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk
-    The recommended SVN client is TortoiseSVN (grab it from http://tortoisesvn.net/downloads)
-2. When using TortoiseSVN
-    a) Create an empty directory where you want to store the source files. e.g: "C:\mpc-hc"
-    b) Right-click on that directory and choose "SVN checkout".
-    c) Put "https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk" in "URL of Repository" and press OK.
-    d) Wait for the source tree to be downloaded.
-3. Open the solution file "C:\mpc-hc\mpc-hc.sln"
+1. Use GIT to checkout MPC-HC's master branch to "C:\mpc-hc" (or anywhere else you like)
+    Repository URL: https://github.com/mpc-hc/mpc-hc.git
+    Grab it from http://msysgit.googlecode.com/files/Git-1.7.11-preview20120710.exe
+2. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
-4. Press F7 to build the solution.
-5. You now have "mpc-hc.exe" under "C:\mpc-hc\bin\mpc-hc_x86"
-6. Open the solution file "C:\mpc-hc\mpciconlib.sln"
-7. Press F7 to build the solution.
-8. You now have "mpciconlib.dll" under "C:\mpc-hc\bin\mpc-hc_x86"
-9. Open the solution file "C:\mpc-hc\mpcresources.sln"
+3. Press F7 to build the solution.
+4. You now have "mpc-hc.exe" under "C:\mpc-hc\bin\mpc-hc_x86"
+5. Open the solution file "C:\mpc-hc\mpciconlib.sln"
+6. Press F7 to build the solution.
+7. You now have "mpciconlib.dll" under "C:\mpc-hc\bin\mpc-hc_x86"
+8. Open the solution file "C:\mpc-hc\mpcresources.sln"
     In Visual Studio go to Build->Batch Build->Press Select All->Press Build
 10. You now have "mpcresources.XX.dll" under "C:\mpc-hc\bin\mpc-hc_x86\Lang"
 
