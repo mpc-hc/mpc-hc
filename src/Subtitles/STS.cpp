@@ -293,14 +293,7 @@ int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 
     return -1;
 }
-/*
-int FindChar(CStringA str, char c, int pos, bool fUnicode, int CharSet)
-{
-    ASSERT(!fUnicode);
 
-    return FindChar(AToW(str), c, pos, false, CharSet);
-}
-*/
 static CStringW ToMBCS(CStringW str, DWORD CharSet)
 {
     CStringW ret;
@@ -1049,53 +1042,9 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
                     str.Insert(k + l + chars_inserted, CStringW(L"{\\c&H") + arg + L"&}");
                     chars_inserted += 5 + arg.GetLength() + 2;
                 }
-                /*
-                                else if (arg.Find(_T("size=" )) == 0 )
-                                {
-                                    uint fsize;
-
-                                    arg = arg.Mid(5);   // delete "size="
-                                    if ( arg.GetLength() == 0)
-                                        continue;
-
-                                    if ( fsize = _tcstol(arg, &tmp, 10) == 0 )
-                                        continue;
-
-                                    lstr.Insert(k + l + chars_inserted, CString(_T("{\\fs")) + arg + _T("&}"));
-                                    str.Insert(k + l + chars_inserted, CString(_T("{\\fs")) + arg + _T("&}"));
-                                    chars_inserted += 4 + arg.GetLength() + 2;
-                                }
-                */
             }
         }
 
-        // Original Code
-        /*
-                if (lstr.Find(L"<font color=", k) == k)
-                {
-                    CStringW arg = lstr.Mid(k+12, l-12); // may include 2 * " + #
-
-                    arg.Remove('\"');
-                    arg.Remove('#');
-                    arg.TrimLeft(); arg.TrimRight(L" >");
-
-                    if (arg.GetLength() > 0)
-                    {
-                        DWORD color;
-
-                        CString key = WToT(arg);
-                        void* val;
-                        if (g_colors.Lookup(key, val)) color = (DWORD)val;
-                        else color = wcstol(arg, NULL, 16);
-
-                        arg.Format(L"%02x%02x%02x", color&0xff, (color>>8)&0xff, (color>>16)&0xff);
-                    }
-
-                    lstr.Insert(k + l + chars_inserted, L"{\\c&H" + arg + L"&}");
-                    str.Insert(k + l + chars_inserted, L"{\\c&H" + arg + L"&}");
-                    chars_inserted += 5 + arg.GetLength() + 2;
-                }
-        */
         else if (lstr.Find(L"</font>", k) == k) {
             lstr.Insert(k + l + chars_inserted, L"{\\c}");
             str.Insert(k + l + chars_inserted, L"{\\c}");
@@ -2748,17 +2697,17 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
         str += _T("; For Sub Station Alpha info and downloads,\n");
         str += _T("; go to http://www.eswat.demon.co.uk/\n");
         str += _T("; or email kotus@eswat.demon.co.uk\n");
-        str += _T("; \n");
+        str += _T(";\n");
         if (et == EXTASS) {
             str += _T("; Advanced Sub Station Alpha script format developed by #Anime-Fansubs@EfNET\n");
             str += _T("; http://www.anime-fansubs.org\n");
-            str += _T("; \n");
+            str += _T(";\n");
             str += _T("; For additional info and downloads go to http://gabest.org/\n");
             str += _T("; or email gabest@freemail.hu\n");
-            str += _T("; \n");
+            str += _T(";\n");
         }
         str += _T("; Note: This file was saved by Subresync.\n");
-        str += _T("; \n");
+        str += _T(";\n");
         str += (et == EXTSSA) ? _T("ScriptType: v4.00\n") : _T("ScriptType: v4.00+\n");
         str += (m_collisions == 0) ? _T("Collisions: Normal\n") : _T("Collisions: Reverse\n");
         if (et == EXTASS && m_fScaledBAS) {
@@ -3167,9 +3116,6 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
             i->first.first,
             i->first.second);
     }
-
-    //  std::wofstream wofsOut(L"c:/zzz.srt");
-    //  RealTextParser.OutputSRT(wofsOut);
 
     return (ret.GetCount() > 0);
 }
