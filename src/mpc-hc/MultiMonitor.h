@@ -1,6 +1,4 @@
 /*
- * $Id$
- *
  * Author: Donald Kackman
  * Email: don@itsEngineering.com
  * Copyright 2002, Donald Kackman

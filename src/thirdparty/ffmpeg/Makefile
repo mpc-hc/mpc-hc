@@ -1,5 +1,3 @@
-# $Id$
-#
 # (C) 2007-2012 see Authors.txt
 #
 # This file is part of MPC-HC.

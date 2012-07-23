@@ -1,6 +1,4 @@
 @ECHO OFF
-REM $Id$
-REM
 REM (C) 2012 see Authors.txt
 REM
 REM This file is part of MPC-HC.
