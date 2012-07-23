@@ -20,8 +20,8 @@
 # This is the last svn changeset, the number and hash can be automatically
 # calculated, but it is slow to do that. So it is better to have it hardcoded.
 # We'll need to update this with the last svn data before committing this script
-SVNREV=5588
-SVNHASH="2f7d963f8be3f6b4c0b3c1916baf4408850055c7"
+SVNREV=5597
+SVNHASH="f669833b77e6515dc5f0a682c5bf665f9a81b2ec"
 
 # Get the current branch name
 BRANCH=`git branch | grep "^\*" | awk '{print $2}'`
