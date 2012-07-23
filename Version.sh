@@ -57,9 +57,9 @@ VERSION_INFO+="#define MPC_VERSION_REV $VER"
 
 VERSION_INFO_OLD=`<./include/Version_rev.h`
 
-# Only write the files if the version informations have changed
+# Only write the files if the version information has changed
 if [ "$(echo $VERSION_INFO | sed -e 's/\\n/ /g')" != "$(echo $VERSION_INFO_OLD)" ] ; then
-    # Write the version informations to Version_rev.h
+    # Write the version information to Version_rev.h
     echo -e $VERSION_INFO > ./include/Version_rev.h
 
     # Update the revision number in the manifest file
