@@ -2694,19 +2694,12 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 
         str  = _T("[Script Info]\n");
         str += (et == EXTSSA) ? _T("; This is a Sub Station Alpha v4 script.\n") : _T("; This is an Advanced Sub Station Alpha v4+ script.\n");
-        str += _T("; For Sub Station Alpha info and downloads,\n");
-        str += _T("; go to http://www.eswat.demon.co.uk/\n");
-        str += _T("; or email kotus@eswat.demon.co.uk\n");
         str += _T(";\n");
         if (et == EXTASS) {
             str += _T("; Advanced Sub Station Alpha script format developed by #Anime-Fansubs@EfNET\n");
-            str += _T("; http://www.anime-fansubs.org\n");
-            str += _T(";\n");
-            str += _T("; For additional info and downloads go to http://gabest.org/\n");
-            str += _T("; or email gabest@freemail.hu\n");
             str += _T(";\n");
         }
-        str += _T("; Note: This file was saved by Subresync.\n");
+        str += _T("; Note: This file was saved by MPC-HC.\n");
         str += _T(";\n");
         str += (et == EXTSSA) ? _T("ScriptType: v4.00\n") : _T("ScriptType: v4.00+\n");
         str += (m_collisions == 0) ? _T("Collisions: Normal\n") : _T("Collisions: Reverse\n");
