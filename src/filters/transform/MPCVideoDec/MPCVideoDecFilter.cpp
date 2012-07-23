@@ -1998,7 +1998,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
     BYTE* pDataIn;
     int nSize;
     REFERENCE_TIME rtStart = _I64_MIN;
-    REFERENCE_TIME rtStop = _I64_MIN;
+    REFERENCE_TIME rtStop  = _I64_MIN;
 
     if (FAILED(hr = pIn->GetPointer(&pDataIn))) {
         return hr;
@@ -2020,7 +2020,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
     if (m_pAVCtx->has_b_frames) {
         m_BFrames[m_nPosB].rtStart = rtStart;
-        m_BFrames[m_nPosB].rtStop = rtStop;
+        m_BFrames[m_nPosB].rtStop  = rtStop;
         m_nPosB = 1 - m_nPosB;
     }
 

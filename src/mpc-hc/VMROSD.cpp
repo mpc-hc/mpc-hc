@@ -408,7 +408,7 @@ void CVMROSD::GetRange(__int64& start, __int64& stop)
 
 void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
 {
-    CVMROSD* pVMROSD = (CVMROSD*) nIDEvent;
+    CVMROSD* pVMROSD = (CVMROSD*)nIDEvent;
     if (pVMROSD) {
         pVMROSD->ClearMessage();
     }

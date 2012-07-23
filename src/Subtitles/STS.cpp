@@ -31,11 +31,10 @@
 
 #include "../DSUtil/WinAPIUtils.h"
 
-// gathered from http://www.netwave.or.jp/~shikai/shikai/shcolor.htm
 
 struct htmlcolor {
     TCHAR* name;
-    DWORD color;
+    DWORD  color;
 } hmtlcolors[] = {
     {_T("white"), 0xffffff},
     {_T("whitesmoke"), 0xf5f5f5},
@@ -328,7 +327,6 @@ static CStringW ToMBCS(CStringW str, DWORD CharSet)
 static CStringW UnicodeSSAToMBCS(CStringW str, DWORD CharSet)
 {
     CStringW ret;
-
     int OrgCharSet = CharSet;
 
     for (int j = 0; j < str.GetLength();) {
@@ -372,7 +370,6 @@ static CStringW UnicodeSSAToMBCS(CStringW str, DWORD CharSet)
 static CStringW ToUnicode(CStringW str, DWORD CharSet)
 {
     CStringW ret;
-
     DWORD cp = CharSetToCodePage(CharSet);
 
     for (int i = 0, j = str.GetLength(); i < j; i++) {
@@ -402,7 +399,6 @@ static CStringW ToUnicode(CStringW str, DWORD CharSet)
 static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
 {
     CStringW ret;
-
     int OrgCharSet = CharSet;
 
     for (int j = 0; j < str.GetLength();) {
@@ -575,8 +571,8 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
     bool fItalic = false;
     bool fStriked = false;
     bool fUnderline = false;
-
     CStringW buff;
+
     while (file->ReadString(buff)) {
         buff.Trim();
         if (buff.IsEmpty()) {
@@ -1118,9 +1114,7 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
 static bool OpenSami(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
     CStringW buff, caption;
-
     ULONGLONG pos = file->GetPosition();
-
     bool fSAMI = false;
 
     while (file->ReadString(buff) && !fSAMI) {
@@ -1136,7 +1130,6 @@ static bool OpenSami(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     file->Seek(pos, 0);
 
     bool fComment = false;
-
     int start_time = 0;
 
     while (file->ReadString(buff)) {
@@ -1299,7 +1292,7 @@ static bool LoadFont(CString& font)
     for (ptrdiff_t i = 0, j = 0, k = len&~3; i < k; i += 4, j += 3) {
         pData[j + 0] = ((pData[i + 0] & 63) << 2) | ((pData[i + 1] >> 4) & 3);
         pData[j + 1] = ((pData[i + 1] & 15) << 4) | ((pData[i + 2] >> 2) & 15);
-        pData[j + 2] = ((pData[i + 2] & 3) << 6) | ((pData[i + 3] >> 0) & 63);
+        pData[j + 2] = ((pData[i + 2] &  3) << 6) | ((pData[i + 3] >> 0) & 63);
     }
 
     int datalen = (len&~3) * 3 / 4;
@@ -1396,10 +1389,9 @@ static bool LoadUUEFont(CTextFile* file)
 static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
     bool fRet = false;
-
     int version = 3, sver = 3;
-
     CStringW buff;
+
     while (file->ReadString(buff)) {
         buff.Trim();
         if (buff.IsEmpty() || buff.GetAt(0) == ';') {
@@ -3148,8 +3140,8 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
     wstring szFile;
-
     CStringW buff;
+
     while (file->ReadString(buff)) {
         buff.Trim();
         if (buff.IsEmpty()) {

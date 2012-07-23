@@ -55,8 +55,8 @@ public :
     SHORT m_cropping_width;
     SHORT m_cropping_height;
 
-    REFERENCE_TIME  m_rtStart;
-    REFERENCE_TIME  m_rtStop;
+    REFERENCE_TIME m_rtStart;
+    REFERENCE_TIME m_rtStop;
 
     CompositionObject();
     ~CompositionObject();

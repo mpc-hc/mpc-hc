@@ -26,9 +26,9 @@
 #include <vector>
 #include "../SubPic/ISubPic.h"
 
-#define PT_MOVETONC       0xfe
-#define PT_BSPLINETO      0xfc
-#define PT_BSPLINEPATCHTO 0xfa
+#define PT_MOVETONC         0xfe
+#define PT_BSPLINETO        0xfc
+#define PT_BSPLINEPATCHTO   0xfa
 
 class RasterizerNfo
 {
