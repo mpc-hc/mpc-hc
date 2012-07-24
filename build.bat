@@ -328,10 +328,10 @@ IF /I "%NAME%" == "MPC-HC" (
   COPY /Y /V "%~1_%ARCH%\VSFilter.dll"   "%PCKG_NAME%\VSFilter.dll" >NUL
 )
 
-COPY /Y /V "..\COPYING.txt"        "%PCKG_NAME%" >NUL
-COPY /Y /V "..\Readme.txt"         "%PCKG_NAME%" >NUL
-COPY /Y /V "..\docs\Authors.txt"   "%PCKG_NAME%" >NUL
-COPY /Y /V "..\docs\Changelog.txt" "%PCKG_NAME%" >NUL
+COPY /Y /V "..\COPYING.txt"         "%PCKG_NAME%" >NUL
+COPY /Y /V "..\docs\Authors.txt"    "%PCKG_NAME%" >NUL
+COPY /Y /V "..\docs\Changelog.txt"  "%PCKG_NAME%" >NUL
+COPY /Y /V "..\docs\Readme.txt"      %PCKG_NAME%" >NUL
 
 TITLE Creating archive %PCKG_NAME%.7z...
 START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.7z" "%PCKG_NAME%"^

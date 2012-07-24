@@ -234,9 +234,9 @@ Source: {#bindir}\Lang\mpcresources.tr.dll; DestDir: {app}\Lang; Components: mpc
 Source: {#bindir}\Lang\mpcresources.ua.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
 Source: ..\COPYING.txt;                     DestDir: {app};      Components: main;         Flags: ignoreversion
-Source: ..\Readme.txt;                      DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Authors.txt;                DestDir: {app};      Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;              DestDir: {app};      Components: main;         Flags: ignoreversion
+Source: ..\docs\Readme.txt;                 DestDir: {app};      Components: main;         Flags: ignoreversion
 
 
 [Icons]
