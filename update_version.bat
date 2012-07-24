@@ -24,7 +24,7 @@ PUSHD %~dp0
 IF EXIST "build.user.bat" (
   CALL "build.user.bat"
 ) ELSE (
-  IF DEFINED GIT  (SET MPCHC_GIT=%GIT%)   ELSE (GOTO MissingVar)
+  IF DEFINED GIT  (SET MPCHC_GIT=%GIT%)
   IF DEFINED MSYS (SET MPCHC_MSYS=%MSYS%) ELSE (GOTO MissingVar)
 )
 
