@@ -26,12 +26,15 @@
 #include <stdint.h>
 
 #include "config.h"
+#include "libavutil/attributes.h"
 #include "libavutil/x86_cpu.h"
 #include "libavutil/cpu.h"
 #include "libavutil/bswap.h"
 #include "libswscale/rgb2rgb.h"
 #include "libswscale/swscale.h"
 #include "libswscale/swscale_internal.h"
+
+#if HAVE_INLINE_ASM
 
 DECLARE_ASM_CONST(8, uint64_t, mmx_ff)       = 0x00000000000000FFULL;
 DECLARE_ASM_CONST(8, uint64_t, mmx_null)     = 0x0000000000000000ULL;
@@ -126,8 +129,11 @@ DECLARE_ASM_CONST(8, uint64_t, mul16_mid)    = 0x2080208020802080ULL;
  32-bit C version, and and&add trick by Michael Niedermayer
 */
 
-void rgb2rgb_init_x86(void)
+#endif /* HAVE_INLINE_ASM */
+
+av_cold void rgb2rgb_init_x86(void)
 {
+#if HAVE_INLINE_ASM
     int cpu_flags = av_get_cpu_flags();
 
     if (cpu_flags & AV_CPU_FLAG_MMX)
@@ -138,4 +144,5 @@ void rgb2rgb_init_x86(void)
         rgb2rgb_init_MMX2();
     if (HAVE_SSE      && cpu_flags & AV_CPU_FLAG_SSE2)
         rgb2rgb_init_SSE2();
+#endif /* HAVE_INLINE_ASM */
 }

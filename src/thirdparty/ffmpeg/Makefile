@@ -315,8 +315,8 @@ SRCS_C = \
     libswscale/utils.c \
     libswscale/yuv2rgb.c \
     libswscale/x86/rgb2rgb.c \
-    libswscale/x86/swscale_mmx.c \
-    libswscale/x86/yuv2rgb_mmx.c
+    libswscale/x86/swscale.c \
+    libswscale/x86/yuv2rgb.c
 
 # Yasm objects
 SRCS_YASM = \

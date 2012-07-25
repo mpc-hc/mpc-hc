@@ -4654,7 +4654,7 @@ static void vc1_decode_p_blocks(VC1Context *v)
         if (s->mb_y != s->start_mb_y) ff_draw_horiz_band(s, (s->mb_y - 1) * 16, 16);
         s->first_slice_line = 0;
     }
-    if (apply_loop_filter) {
+    if (apply_loop_filter && v->fcm == PROGRESSIVE) {
         s->mb_x = 0;
         ff_init_block_index(s);
         for (; s->mb_x < s->mb_width; s->mb_x++) {
@@ -5638,7 +5638,8 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
 //      return -1;
         if(s->error_occurred && s->pict_type == AV_PICTURE_TYPE_B)
             goto err;
-        ff_er_frame_end(s);
+        if(!v->field_mode)
+            ff_er_frame_end(s);
     }
 
     ff_MPV_frame_end(s);
