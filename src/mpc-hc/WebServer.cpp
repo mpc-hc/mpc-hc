@@ -29,6 +29,7 @@
 #include "WebServerSocket.h"
 #include "WebClientSocket.h"
 #include "WebServer.h"
+#include "Version.h"
 #include "WinAPIUtils.h"
 
 
@@ -580,7 +581,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
             }
 
         env.AddTail(_T("GATEWAY_INTERFACE=CGI/1.1"));
-        env.AddTail(_T("SERVER_SOFTWARE=Media Player Classic - Home Cinema/1.6.2.x"));
+        env.AddTail(_T("SERVER_SOFTWARE=Media Player Classic - Home Cinema/") MPC_VERSION_STR);
         env.AddTail(_T("SERVER_PROTOCOL=") + pClient->m_ver);
         env.AddTail(_T("REQUEST_METHOD=") + pClient->m_cmd);
         env.AddTail(_T("PATH_INFO=") + redir);
