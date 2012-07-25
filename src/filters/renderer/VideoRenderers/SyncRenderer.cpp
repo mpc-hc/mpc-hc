@@ -93,7 +93,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
     m_CurrentAdapter(0)
 {
     if (FAILED(hr)) {
-        _Error += L"ISubPicAllocatorPresenterImpl failed\n";
+        _Error += _T("ISubPicAllocatorPresenterImpl failed\n");
         return;
     }
 
@@ -109,9 +109,9 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
         (FARPROC&)m_pD3DXCreateFont = GetProcAddress(hDll, "D3DXCreateFontW");
         (FARPROC&)m_pD3DXCreateSprite = GetProcAddress(hDll, "D3DXCreateSprite");
     } else {
-        _Error += L"The installed DirectX End-User Runtime is outdated. Please download and install the ";
-        _Error += MPC_DX_SDK_MONTH " " MAKE_STR(MPC_DX_SDK_YEAR);
-        _Error += L" release or newer in order for MPC-HC to function properly.\n";
+        _Error += _T("The installed DirectX End-User Runtime is outdated. Please download and install the ");
+        _Error += MPC_DX_SDK_MONTH _T(" ") MAKE_STR(MPC_DX_SDK_YEAR);
+        _Error += _T(" release or newer in order for MPC-HC to function properly.\n");
     }
 
     m_pDwmIsCompositionEnabled = NULL;

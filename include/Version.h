@@ -29,17 +29,24 @@
    the installer when the DX runtime is out of date.
  * MPC_DX_SDK_NUMBER is used in the installer when the DirectX runtime is out of date.
  */
-#endif
+#endif // ISPP_INVOKED
 
 #ifndef MPC_VERSION_H
 #define MPC_VERSION_H
 
+#ifndef _T
+#if defined(UNICODE) && !defined(ISPP_INVOKED)
+#define _T(text) L##text
+#else
+#define _T(text) text
+#endif
+#endif
 
 #ifndef NO_VERSION_REV_NEEDED
 #include "Version_rev.h"
 #endif
 
-#define DO_MAKE_STR(x) #x
+#define DO_MAKE_STR(x) _T(#x)
 #define MAKE_STR(x)    DO_MAKE_STR(x)
 
 #define MPC_VERSION_MAJOR 1
@@ -47,30 +54,30 @@
 #define MPC_VERSION_PATCH 3
 
 
-#ifndef ISPP_INVOKED
+#define MPC_COMP_NAME_STR    _T("MPC-HC Team")
+#define MPC_COPYRIGHT_STR    _T("Copyright © 2002-2012 all contributors, see Authors.txt")
+#define MPC_VERSION_COMMENTS _T("http://sourceforge.net/projects/mpc-hc/")
 
-#define MPC_COMP_NAME_STR    L"MPC-HC Team"
-#define MPC_COPYRIGHT_STR    L"Copyright © 2002-2012 all contributors, see Authors.txt"
-#define MPC_VERSION_COMMENTS "http://sourceforge.net/projects/mpc-hc/"
+#ifndef ISPP_INVOKED
 
 #ifdef NO_VERSION_REV_NEEDED
 #define MPC_VERSION_NUM      MPC_VERSION_MAJOR,MPC_VERSION_MINOR,MPC_VERSION_PATCH,0
-#define MPC_VERSION_STR      MAKE_STR(MPC_VERSION_MAJOR) "." MAKE_STR(MPC_VERSION_MINOR) "." MAKE_STR(MPC_VERSION_PATCH) ".0"
+#define MPC_VERSION_STR      MAKE_STR(MPC_VERSION_MAJOR) _T(".") MAKE_STR(MPC_VERSION_MINOR) _T(".") MAKE_STR(MPC_VERSION_PATCH) _T(".0")
 #else
 #define MPC_VERSION_NUM      MPC_VERSION_MAJOR,MPC_VERSION_MINOR,MPC_VERSION_PATCH,MPC_VERSION_REV
-#define MPC_VERSION_STR      MAKE_STR(MPC_VERSION_MAJOR) "." MAKE_STR(MPC_VERSION_MINOR) "." MAKE_STR(MPC_VERSION_PATCH) "." MAKE_STR(MPC_VERSION_REV)
+#define MPC_VERSION_STR      MAKE_STR(MPC_VERSION_MAJOR) _T(".") MAKE_STR(MPC_VERSION_MINOR) _T(".") MAKE_STR(MPC_VERSION_PATCH) _T(".") MAKE_STR(MPC_VERSION_REV)
 #endif // NO_VERSION_REV_NEEDED
 
 #endif // ISPP_INVOKED
 
 
 #ifdef _WIN64
-#define MPC_VERSION_ARCH     "x64"
+#define MPC_VERSION_ARCH     _T("x64")
 #else
-#define MPC_VERSION_ARCH     "x86"
+#define MPC_VERSION_ARCH     _T("x86")
 #endif
 
-#define MPC_DX_SDK_MONTH     "June"
+#define MPC_DX_SDK_MONTH     _T("June")
 #define MPC_DX_SDK_YEAR      2010
 #define MPC_DX_SDK_NUMBER    43
 
