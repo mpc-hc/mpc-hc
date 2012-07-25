@@ -28,7 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
  ****************************************************************************/
 
-/** \file csri.h - main CSRI (common subtitle renderer interface) include.
+/** \file csri.h - main CSRI (common subtitle renderer interface) include. */
 
 #ifndef _CSRI_H
 /** \cond */
