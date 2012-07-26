@@ -976,6 +976,9 @@
     <None Include="res\web\images\vbs.png">
       <Filter>Resource Files\web\images</Filter>
     </None>
+    <None Include="res\tickcross.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mplayerc.rc">
