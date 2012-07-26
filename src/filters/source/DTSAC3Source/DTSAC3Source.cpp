@@ -595,24 +595,19 @@ HRESULT CDTSAC3Stream::CheckMediaType(const CMediaType* pmt)
 
         if (pmt->subtype == MEDIASUBTYPE_DTS && wFmtTag == WAVE_FORMAT_DTS) {
             return S_OK;
-        }
-        else if (pmt->subtype == MEDIASUBTYPE_WAVE_DTS && wFmtTag == WAVE_FORMAT_DVD_DTS) {
+        } else if (pmt->subtype == MEDIASUBTYPE_WAVE_DTS && wFmtTag == WAVE_FORMAT_DVD_DTS) {
             return S_OK;
-        }
-        else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3 && (wFmtTag == WAVE_FORMAT_UNKNOWN || wFmtTag == WAVE_FORMAT_DOLBY_AC3)) {
+        } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3 && (wFmtTag == WAVE_FORMAT_UNKNOWN || wFmtTag == WAVE_FORMAT_DOLBY_AC3)) {
             return S_OK;
-        }
-        else if (pmt->subtype == MEDIASUBTYPE_DOLBY_DDPLUS && wFmtTag == WAVE_FORMAT_UNKNOWN) {
+        } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_DDPLUS && wFmtTag == WAVE_FORMAT_UNKNOWN) {
             return S_OK;
-        }
-        else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF && wFmtTag == WAVE_FORMAT_DOLBY_AC3_SPDIF) {
+        } else if (pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF && wFmtTag == WAVE_FORMAT_DOLBY_AC3_SPDIF) {
             return S_OK;
-        }
-        else if (pmt->subtype == MEDIASUBTYPE_MLP && wFmtTag == WAVE_FORMAT_UNKNOWN) {
+        } else if (pmt->subtype == MEDIASUBTYPE_MLP && wFmtTag == WAVE_FORMAT_UNKNOWN) {
             return S_OK;
         }
         //else if (pmt->subtype == MEDIASUBTYPE_DOLBY_TRUEHD && wFmtTag == WAVE_FORMAT_UNKNOWN) {
-        //  return S_OK;
+        //    return S_OK;
         //}
     }
     return E_INVALIDARG;
