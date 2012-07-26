@@ -22,7 +22,7 @@ Legend:
 * Updated Unrar to v4.20
 * Updated MediaInfoLib to v0.7.58
 * Updated ZenLib to v0.4.27
-* Updated FFmpeg (git f7d4e26)
+* Updated FFmpeg (git 7333798)
 * Updated Little CMS to v2.4 (git 8b13ad6)
 * Updated SoundTouch to v1.7.0pre r143
 * Updated Armenian, Basque, Belarusian, Catalan, Chinese Simplified, Czech, French, German,
