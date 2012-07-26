@@ -45,7 +45,7 @@ Part C: Downloading and compiling the MPC-HC source
 7. You now have "mpciconlib.dll" under "C:\mpc-hc\bin\mpc-hc_x86"
 8. Open the solution file "C:\mpc-hc\mpcresources.sln"
     In Visual Studio go to Build->Batch Build->Press Select All->Press Build
-10. You now have "mpcresources.XX.dll" under "C:\mpc-hc\bin\mpc-hc_x86\Lang"
+9. You now have "mpcresources.XX.dll" under "C:\mpc-hc\bin\mpc-hc_x86\Lang"
 
 Alternatively, you can use "build.bat" which can build everything for you
 (run: build.bat help for more info)
