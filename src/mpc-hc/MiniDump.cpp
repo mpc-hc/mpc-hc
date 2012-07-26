@@ -23,7 +23,7 @@
 #include "MiniDump.h"
 #include "resource.h"
 #include <DbgHelp.h>
-#include "Version.h"
+#include "version.h"
 #include "WinAPIUtils.h"
 
 

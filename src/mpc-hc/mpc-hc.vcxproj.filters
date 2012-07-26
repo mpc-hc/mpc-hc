@@ -701,7 +701,7 @@
     <ClInclude Include="..\thirdparty\mfc\afxmaskededit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Version.h">
+    <ClInclude Include="..\..\include\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MPCPngImage.h">
