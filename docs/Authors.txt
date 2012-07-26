@@ -1,4 +1,4 @@
-People with SVN commit rights (sorted by name):
+People with Git commit rights (sorted by name):
 --------
 Armada                  <armada651@users.sourceforge.net>       Code
 bobdynlan               <bobdynlan@users.sourceforge.net>       Code
@@ -6,7 +6,7 @@ clsid                   <clsid2@users.sourceforge.net>          Code
 janwillem32             <janwillem32@users.sourceforge.net>     Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
-Underground78           <underground78@users.sourceforge.net>   Code, French
+Underground78           <underground78@users.sourceforge.net>   Code, French, Admin
 v0lt                    <v0lt@users.sourceforge.net>            Code, Russian
 vBm                     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Admin
