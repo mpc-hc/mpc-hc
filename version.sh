@@ -27,30 +27,30 @@ SVNHASH="f669833b77e6515dc5f0a682c5bf665f9a81b2ec"
 BRANCH=`git branch | grep "^\*" | awk '{print $2}'`
 # If we couldn't get the branch name, we probably haven't got a valid git repository
 if [ ! "$BRANCH" ] ; then
-    VER=0
+  VER=0
 else
-    # If we are on the master branch
-    if [ "$BRANCH" == "master" ] ; then
-        BASE="HEAD"
-    # If we are on another branch that isn't master, we want extra info like on
-    # which commit from master it is based on and what is its hash. This assumes we
-    # won't ever branch from a changeset from before the move to git
-    else
-        # Get where the branch is based on master
-        BASE=`git merge-base master HEAD`
+  # If we are on the master branch
+  if [ "$BRANCH" == "master" ] ; then
+    BASE="HEAD"
+  # If we are on another branch that isn't master, we want extra info like on
+  # which commit from master it is based on and what is its hash. This assumes we
+  # won't ever branch from a changeset from before the move to git
+  else
+    # Get where the branch is based on master
+    BASE=`git merge-base master HEAD`
 
-        VERSION_INFO+="#define MPCHC_BRANCH _T(\"$BRANCH\")\n"
-    fi
+    VERSION_INFO+="#define MPCHC_BRANCH _T(\"$BRANCH\")\n"
+  fi
 
-    # Count how many changesets we have since the last svn changeset
-    VER=`git rev-list $SVNHASH..$BASE | wc -l`
-    # Now add it with to last svn revision number
-    VER=$(($VER+$SVNREV))
+  # Count how many changesets we have since the last svn changeset
+  VER=`git rev-list $SVNHASH..$BASE | wc -l`
+  # Now add it with to last svn revision number
+  VER=$(($VER+$SVNREV))
 
-    # Get the abbreviated hash of the current changeset
-    HASH="_T(\"`git log -n1 --format=%h`\")"
+  # Get the abbreviated hash of the current changeset
+  HASH="_T(\"`git log -n1 --format=%h`\")"
 
-    VERSION_INFO+="#define MPCHC_HASH $HASH\n"
+  VERSION_INFO+="#define MPCHC_HASH $HASH\n"
 fi
 
 VERSION_INFO+="#define MPC_VERSION_REV $VER"
@@ -59,9 +59,9 @@ VERSION_INFO_OLD=`(<./include/version_rev.h) >& /dev/null`
 
 # Only write the files if the version information has changed
 if [ "$(echo $VERSION_INFO | sed -e 's/\\n/ /g')" != "$(echo $VERSION_INFO_OLD)" ] ; then
-    # Write the version information to version_rev.h
-    echo -e $VERSION_INFO > ./include/version_rev.h
+  # Write the version information to version_rev.h
+  echo -e $VERSION_INFO > ./include/version_rev.h
 
-    # Update the revision number in the manifest file
-    sed -e "s/\\\$WCREV\\\$/${VER}/" ./src/mpc-hc/res/mpc-hc.exe.manifest.conf > ./src/mpc-hc/res/mpc-hc.exe.manifest
+  # Update the revision number in the manifest file
+  sed -e "s/\\\$WCREV\\\$/${VER}/" ./src/mpc-hc/res/mpc-hc.exe.manifest.conf > ./src/mpc-hc/res/mpc-hc.exe.manifest
 fi
