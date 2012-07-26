@@ -767,10 +767,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
 
 CClipper::~CClipper()
 {
-    if (m_pAlphaMask) {
-        delete [] m_pAlphaMask;
-    }
-    m_pAlphaMask = NULL;
+    SAFE_DELETE_ARRAY(m_pAlphaMask);
 }
 
 CWord* CClipper::Copy()
@@ -1045,10 +1042,7 @@ void CSubtitle::Empty()
 
     EmptyEffects();
 
-    if (m_pClipper) {
-        delete m_pClipper;
-    }
-    m_pClipper = NULL;
+    SAFE_DELETE(m_pClipper);
 }
 
 void CSubtitle::EmptyEffects()

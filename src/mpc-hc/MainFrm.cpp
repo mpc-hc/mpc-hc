@@ -4672,11 +4672,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
     }
 
     if (FAILED(hr)) {
-        if (*ppData) {
-            ASSERT(0);    // huh?
-            delete [] *ppData;
-            *ppData = NULL;
-        }
+        SAFE_DELETE_ARRAY(*ppData);
         return false;
     }
 

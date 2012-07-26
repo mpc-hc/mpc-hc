@@ -965,9 +965,7 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
 
         if (!theApp.GetProfileBinary(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_COLORFORMATS), &pData, &nSize)
                 || !pData || nSize != VIHSIZE) {
-            if (pData) {
-                delete [] pData, pData = NULL;
-            }
+            SAFE_DELETE_ARRAY(pData);
 
             nSize = VIHSIZE;
             pData = DNew BYTE[VIHSIZE];

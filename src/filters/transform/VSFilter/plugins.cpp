@@ -361,9 +361,7 @@ namespace Plugin
         void baseDeinitProc(FilterActivation* fa, const FilterFunctions* ff)
         {
             CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-            if (f) {
-                delete f, f = NULL;
-            }
+            SAFE_DELETE(f);
         }
 
         int baseRunProc(const FilterActivation* fa, const FilterFunctions* ff)
@@ -634,9 +632,7 @@ namespace Plugin
         void baseDeinitProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff)
         {
             CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-            if (f) {
-                delete f, f = NULL;
-            }
+            SAFE_DELETE(f);
         }
 
         int baseRunProc(const VDXFilterActivation* fa, const VDXFilterFunctions* ff)

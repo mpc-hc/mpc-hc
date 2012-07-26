@@ -222,10 +222,8 @@ CTextPassThruFilter::CTextPassThruFilter(CMainFrame* pMainFrame)
 
 CTextPassThruFilter::~CTextPassThruFilter()
 {
-    delete m_pInput;
-    m_pInput = NULL;
-    delete m_pOutput;
-    m_pOutput = NULL;
+    SAFE_DELETE(m_pInput);
+    SAFE_DELETE(m_pOutput);
 }
 
 STDMETHODIMP CTextPassThruFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)

@@ -22,9 +22,6 @@ public:
     BOOL LoadFromBuffer(LPBYTE lpBuffer, UINT uiSize);
 
     static void __stdcall CleanUp() {
-        if (m_pImage != NULL) {
-            delete m_pImage;
-            m_pImage = NULL;
-        }
+        SAFE_DELETE(m_pImage);
     }
 };

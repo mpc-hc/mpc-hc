@@ -40,10 +40,7 @@ CPlayerToolBar::CPlayerToolBar() :
 
 CPlayerToolBar::~CPlayerToolBar()
 {
-    if (NULL != m_pButtonsImages) {
-        delete m_pButtonsImages;
-        m_pButtonsImages = NULL;
-    }
+    SAFE_DELETE(m_pButtonsImages);
 }
 
 void CPlayerToolBar::LoadExternalToolBar(CImage* image)
