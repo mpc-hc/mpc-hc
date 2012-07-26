@@ -55,13 +55,6 @@ class CDTSAC3Stream : public CBaseStream
     WORD m_bitdepth;       // bits per sample
     BYTE m_streamtype;
 
-    bool CheckDTS(const CMediaType* pmt);
-    bool CheckDTS2(const CMediaType* pmt);
-    bool CheckAC3(const CMediaType* pmt);
-    bool CheckSPDIFAC3(const CMediaType* pmt);
-    bool CheckMLP(const CMediaType* pmt);
-    //bool CheckTrueHD(const CMediaType* pmt);
-
 public:
     CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr);
     virtual ~CDTSAC3Stream();
