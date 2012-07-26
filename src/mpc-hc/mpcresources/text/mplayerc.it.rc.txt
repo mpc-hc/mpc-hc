@@ -1022,7 +1022,7 @@ BEGIN MENU IDR_POPUPMAIN LINES 319
 262		"Output 10-bit RGB"
 263		"Forza input 10-bit RGB"
 264		"Calcolo completo a virgola mobile"
-265		"Half Floating Point Processing"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+265		"Half Floating Point Processing"
 266		"Disabilita la composizione del desktop"
 267		"Abilita correzione a tempo di frame\tC"
 269		"Gestione colore"
