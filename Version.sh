@@ -55,12 +55,12 @@ fi
 
 VERSION_INFO+="#define MPC_VERSION_REV $VER"
 
-VERSION_INFO_OLD=`(<./include/Version_rev.h) >& /dev/null`
+VERSION_INFO_OLD=`(<./include/version_rev.h) >& /dev/null`
 
 # Only write the files if the version information has changed
 if [ "$(echo $VERSION_INFO | sed -e 's/\\n/ /g')" != "$(echo $VERSION_INFO_OLD)" ] ; then
-    # Write the version information to Version_rev.h
-    echo -e $VERSION_INFO > ./include/Version_rev.h
+    # Write the version information to version_rev.h
+    echo -e $VERSION_INFO > ./include/version_rev.h
 
     # Update the revision number in the manifest file
     sed -e "s/\\\$WCREV\\\$/${VER}/" ./src/mpc-hc/res/mpc-hc.exe.manifest.conf > ./src/mpc-hc/res/mpc-hc.exe.manifest

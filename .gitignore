@@ -2,7 +2,7 @@
 /build.user.bat
 /distrib/*.exe
 /docs/astyle.exe
-/include/Version_rev.h
+/include/version_rev.h
 /src/filters/transform/VSFilter/installer/*.exe
 /src/mpc-hc/res/mpc-hc.exe.manifest
 ipch

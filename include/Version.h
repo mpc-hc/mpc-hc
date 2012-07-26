@@ -43,7 +43,7 @@
 #endif
 
 #ifndef NO_VERSION_REV_NEEDED
-#include "Version_rev.h"
+#include "version_rev.h"
 #endif
 
 #define DO_MAKE_STR(x) _T(#x)
