@@ -43,7 +43,7 @@
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
 #include "SyncRenderer.h"
-#include "Version.h"
+#include "version.h"
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX

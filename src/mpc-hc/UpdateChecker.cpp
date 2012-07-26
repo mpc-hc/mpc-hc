@@ -20,7 +20,7 @@
 
 
 #include "stdafx.h"
-#include "Version.h"
+#include "version.h"
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 #include "SettingsDefines.h"

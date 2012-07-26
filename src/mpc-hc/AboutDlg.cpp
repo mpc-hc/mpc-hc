@@ -24,7 +24,7 @@
 #include "InternalFiltersConfig.h" // needed for HAS_FFMPEG
 #endif
 #include "mplayerc.h"
-#include "Version.h"
+#include "version.h"
 #include "WinAPIUtils.h"
 
 /////////////////////////////////////////////////////////////////////////////

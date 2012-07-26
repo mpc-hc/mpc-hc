@@ -524,7 +524,7 @@
     <ClInclude Include="SubtitleDlDlg.h" />
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TunerScanDlg.h" />
-    <ClInclude Include="..\..\include\Version.h" />
+    <ClInclude Include="..\..\include\version.h" />
     <ClInclude Include="UpdateChecker.h" />
     <ClInclude Include="UpdateCheckerDlg.h" />
     <ClInclude Include="vkCodes.h" />
