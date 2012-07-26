@@ -25,6 +25,7 @@
 #include "SysVersion.h"
 #include "moreuuids.h"
 #include "Monitors.h"
+#include "MPCPngImage.h"
 
 // CPPageOutput dialog
 
@@ -277,10 +278,10 @@ BOOL CPPageOutput::OnInitDialog()
 
     UpdateData(FALSE);
 
-    m_tickcross.Create(16, 16, ILC_COLOR8|ILC_MASK, 2, 0);
-    CBitmap tickcross;
-    tickcross.LoadBitmap(IDB_TICKCROSS);
-    m_tickcross.Add(&tickcross, 0xffffff);
+    m_tickcross.Create(16, 16, ILC_COLOR32, 2, 0);
+    CMPCPngImage tickcross;
+    tickcross.Load(IDF_TICKCROSS);
+    m_tickcross.Add(&tickcross, (CBitmap*)NULL);
 
     CreateToolTip();
 
