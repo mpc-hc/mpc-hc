@@ -6,8 +6,8 @@ rem Then it will overwrite rc files with new rc ones, and after that it will gen
 rem This is only an example.
 
 echo Get the latest mplayerc.rc from repository first...
-svn cat -r head ../mplayerc.rc > $$TEMP$$.old
-if %ERRORLEVEL% neq 0 goto NOSVNCLI
+git show HEAD:../mplayerc.rc > $$TEMP$$.old
+if %ERRORLEVEL% neq 0 goto NOGITCLI
 echo ----------------------
 
 for %%i in (*.rc) do (
@@ -32,8 +32,8 @@ del mplayerc.rc
 echo ----------------------
 goto END
 
-:NOSVNCLI
-echo You'll need svn command line tool to use this script.
+:NOGITCLI
+echo You'll need git command line tool to use this script.
 echo Or you can just checkout the head revision of mplayerc.rc file by yourself,
 echo put it somewhere and then use the -b option to point to it.
 
