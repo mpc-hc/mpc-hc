@@ -1,6 +1,6 @@
 ; ******************************************************
 ; ***                                                ***
-; *** Inno Setup version 5.1.11+ Slovak messages     ***
+; *** Inno Setup version 5.5.0+ Slovak messages     ***
 ; ***                                                ***
 ; *** Original Author:                               ***
 ; ***                                                ***
@@ -11,8 +11,9 @@
 ; ***   Ivo Bauer (bauer AT ozm.cz)                  ***
 ; ***                                                ***
 ; ***   Tomas Falb (tomasf AT pobox.sk)              ***
+; ***   Slappy (slappy AT pobox.sk                   ***
 ; ***                                                ***
-; *** Update: 19.3.2007                              ***
+; *** Update: 20.07.2012                             ***
 ; ***                                                ***
 ; ******************************************************
 ;
@@ -32,16 +33,20 @@ InformationTitle=Informácie
 ConfirmTitle=Potvrdenie
 ErrorTitle=Chyba
 SetupLdrStartupMessage=Toto je sprievodca inštaláciou produktu %1. Prajete si pokraèova?
-LdrCannotCreateTemp=Nie je moné vytvori doèasnı súbor. Sprievodca inštaláciou bude ukonèenı
-LdrCannotExecTemp=Nie je moné spusti súbor v doèasnom adresári. Sprievodca inštaláciou bude ukonèenı
+LdrCannotCreateTemp=Nie je moné vytvori doèasnı súbor. Sprievodca inštaláciou sa ukonèí
+LdrCannotExecTemp=Nie je moné spusti súbor v doèasnom adresári. Sprievodca inštaláciou sa ukonèí
 LastErrorMessage=%1.%n%nChyba %2: %3
 SetupFileMissing=Inštalaènı adresár neobsahuje súbor %1. Opravte, prosím, túto chybu alebo si zaobstarajte novú kópiu tohto produktu.
 SetupFileCorrupt=Súbory sprievodcu inštaláciou sú poškodené. Zaobstarajte si, prosím, novú kópiu tohto produktu.
 SetupFileCorruptOrWrongVer=Súbory sprievodcu inštaláciou sú poškodené alebo sa nezhodujú s touto verziou sprievodcu instaláciou. Opravte, prosím, túto chybu alebo si zaobstarajte novú kópiu tohto produktu.
+InvalidParameter=Nesprávny parameter na príkazovom riadku:%n%n%1
+SetupAlreadyRunning=Inštalácia u beí.
+WindowsVersionNotSupported=Tento program nepodporuje vašu verziu Windows.
+WindowsServicePackRequired=Tento program vyaduje %1 Service Pack %2 alebo novší.
 NotOnThisPlatform=Tento produkt sa nedá spusti v %1.
 OnlyOnThisPlatform=Tento produkt musí by spustenı v %1.
 OnlyOnTheseArchitectures=Tento produkt je moné nainštalova iba vo verziách MS Windows s podporou architektúry procesorov:%n%n%1
-MissingWOW64APIs=Aktuálna verzia MS Windows neobsahuje funkcie, ktoré vyaduje sprievodca inštaláciou pre 64-bitovú inštaláciu. Opravte prosím túto chybu nainštalovaním aktualizácie Service Pack %1.
+MissingWOW64APIs=Aktuálna verzia MS Windows neobsahuje funkcie, ktoré vyaduje sprievodca inštaláciou pre 64-bitovú inštaláciu. Opravte, prosím, túto chybu nainštalovaním aktualizácie Service Pack %1.
 WinVersionTooLowError=Tento produkt vyaduje %1 verzie %2 alebo vyššej.
 WinVersionTooHighError=Tento produkt sa nedá nainštalova vo %1 verzie %2 alebo vyššej.
 AdminPrivilegesRequired=Na inštaláciu tohto produktu musíte by prihlásenı s právami administrátora.
@@ -56,7 +61,7 @@ AboutSetupMenuItem=&O sprievodcovi inštalácie...
 AboutSetupTitle=O sprievodcovi inštalácie
 AboutSetupMessage=%1 verzia %2%n%3%n%n%1 domovská stránka:%n%4
 AboutSetupNote=
-TranslatorNote=Slovak translation maintained by Milan Potancok (milan.potancok AT gmail.com), Ivo Bauer (bauer AT ozm.cz) and Tomas Falb (tomasf AT pobox.sk)
+TranslatorNote=Slovak translation maintained by Milan Potancok (milan.potancok AT gmail.com), Ivo Bauer (bauer AT ozm.cz) and Tomas Falb (tomasf AT pobox.sk) + Slappy (slappy AT pobox.sk)
 ButtonBack=< &Spä
 ButtonNext=&Ïalej >
 ButtonInstall=&Inštalova
@@ -78,7 +83,7 @@ BrowseDialogTitle=Nájs adresár
 BrowseDialogLabel=Z dole uvedeného zoznamu vyberte adresár a kliknite na OK.
 NewFolderName=Novı adresár
 WelcomeLabel1=Vítá Vás sprievodca inštaláciou produktu [name].
-WelcomeLabel2=Produkt [name/ver] bude nainštalovanı na Váš poèítaè.%n%nSkôr, ako budete pokraèova, odporúèame Vám ukonèi všetky spustené aplikácie.
+WelcomeLabel2=Produkt [name/ver] sa nainštaluje na Váš poèítaè.%n%nSkôr, ako budete pokraèova, odporúèame Vám ukonèi všetky spustené aplikácie.
 WizardPassword=Heslo
 PasswordLabel1=Táto inštalácia je chránená heslom.
 PasswordLabel3=Zadajte, prosím, heslo a pokraèujte kliknutím na tlaèidlo Ïalej. Pri zadávání hesla rozlišujte malé a ve¾ké písmená.
@@ -106,6 +111,8 @@ SelectDirDesc=Kam má by produkt [name] nainštalovanı?
 SelectDirLabel3=Sprievodca nainštaluje produkt [name] do nasledujúceho adresára.
 SelectDirBrowseLabel=Pokraèujte kliknutím na tlaèidlo Ïalej. Ak chcete vybra inı adresár, kliknite na tlaèidlo Prechádza.
 DiskSpaceMBLabel=Inštalácia vyaduje najmenej [mb] MB miesta na disku.
+CannotInstallToNetworkDrive=Inštalátor nemôe inštalova na sieovú jednotku.
+CannotInstallToUNCPath=Inštalátor nemôe inštalova na UNC cestu.
 InvalidPath=Musíte zadat úplnú cestu vrátane písmena jednotky; napríklad:%n%nC:\Aplikácia%n%nalebo cestu UNC v tvare:%n%n\\server\zdie¾anı adresár
 InvalidDrive=Vami vybraná jednotka alebo cesta UNC neexistuje alebo nie je dostupná. Vyberte, prosím, iné umiestnenie.
 DiskSpaceWarningTitle=Nedostatok miesta na disku
@@ -154,6 +161,10 @@ WizardPreparing=Príprava inštalácie
 PreparingDesc=Sprievodca inštaláciou pripravuje inštaláciu produktu [name] na Váš poèítaè.
 PreviousInstallNotCompleted=Inštalácia/odinštalácia predošlého produktu nebola úplne dokonèená. Dokonèenie tohto procesu vyaduje reštart poèítaèa.%n%nPo reštartovaní poèítaèa spustite znovu sprievodcu inštaláciou, aby bolo moné dokonèi inštaláciu produktu [name].
 CannotContinue=Sprievodca inštaláciou nemôe pokraèova. Ukonèite, prosím, sprievodcu inštaláciou kliknutím na tlaèidlo Zruši.
+ApplicationsFound=Nasledujúce aplikácie pracujú so súbormi, ktoré musí inštalátor aktualizova. Odporúèame Vám, aby ste povolili inštalátoru automaticky ukonèi tieto aplikácie.
+ApplicationsFound2=Nasledujúce aplikácie pracujú so súbormi, ktoré musí inštalátor aktualizova. Odporúèame Vám, aby ste povolili inštalátoru automaticky ukonèi tieto aplikácie. Po skonèení inštalácie sa inštalátor pokúsi tieto aplikácie opätovne spusti.
+CloseApplications=&Automaticky ukonèi aplikácie
+DontCloseApplications=&Neukonèova aplikácie
 WizardInstalling=Inštalujem
 InstallingLabel=Poèkajte prosím, kım sprievodca inštaláciou nedokonèí inštaláciu produktu [name] na Váš poèítaè.
 FinishedHeadingLabel=Dokonèuje sa inštalácia produktu [name]
@@ -174,6 +185,7 @@ FileNotInDir2=Súbor "%1" sa nedá nájs v "%2". Vlote, prosím, správny disk aleb
 SelectDirectoryLabel=Špecifikujte,prosím, umiestnenie ïalšieho disku.
 SetupAborted=Inštalácia nebola úplne dokonèená.%n%nOpravte, prosím, chybu a spustite sprievodcu inštaláciou znova.
 EntryAbortRetryIgnore=Akciu zopakujete kliknutím na tlaèidlo Opakova. Akciu vynecháte kliknutím na tlaèidlo Preskoèi. Inštaláciu prerušíte kliknutím na tlaèidlo Preruši.
+StatusClosingApplications=Ukonèovanie aplikácií...
 StatusCreateDirs=Vytvárajú sa adresáre...
 StatusExtractFiles=Rozba¾ujú sa súbory...
 StatusCreateIcons=Vytvárajú sa ikony a zástupcovia...
@@ -182,6 +194,7 @@ StatusCreateRegistryEntries=Vytvárajú sa záznamy v systémovom registri...
 StatusRegisterFiles=Registrujú sa súbory...
 StatusSavingUninstall=Ukladajú sa informácie potrebné pre neskoršie odinštalovanie produktu...
 StatusRunProgram=Dokonèuje sa inštalácia...
+StatusRestartingApplications=Reštartovanie aplikácií...
 StatusRollback=Vykonané zmeny sa vracajú spä...
 ErrorInternal2=Interná chyba: %1
 ErrorFunctionFailedNoCode=%1 zlyhala
@@ -230,6 +243,9 @@ SharedFileNameLabel=Názov súboru:
 SharedFileLocationLabel=Umiestnenie:
 WizardUninstalling=Stav odinštalovania
 StatusUninstalling=Odinštalujem %1...
+ShutdownBlockReasonInstallingApp=Inštalovanie %1.
+ShutdownBlockReasonUninstallingApp=Odinštalovanie %1.
+
 
 [CustomMessages]
 NameAndVersion=%1 verzia %2
@@ -241,3 +257,6 @@ UninstallProgram=Odinštalova aplikáciu %1
 LaunchProgram=Spusti aplikáciu %1
 AssocFileExtension=Vytvori &asociáciu medzi súbormi typu %2 a aplikáciou %1
 AssocingFileExtension=Vytvára sa asociácia medzi súbormi typu %2 a aplikáciou %1...
+AutoStartProgramGroupDescription=Po spustení:
+AutoStartProgram=Automaticky spusti %1
+AddonHostProgramNotFound=Nepodarilo sa nájs %1 v prieèinku, ktorı ste zvolili.%n%nChcete napriek tomu pokraèova?
