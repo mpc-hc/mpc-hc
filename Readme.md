@@ -14,8 +14,9 @@ Now we are in dire need of new developers of any kind. If you can code a little,
 logos for the player and images for the file associations, or you can create/maintain the main
 website, please join our IRC channel and talk to us. If you think your skills are lacking,
 let us be the judge; any help is always appreciated.
-Find some easy ticket on our trac page, fix the problem, post the patch on trac or come on IRC
-and we'll review it for you.
+
+Find some easy ticket on our trac page, fix the problem, send a [pull request]
+(https://github.com/mpc-hc/mpc-hc/pulls), or post the patch on trac or come on IRC and we'll review it for you.
 
 We care about keeping an open project open and free for contributions wherever they may come from.
 
