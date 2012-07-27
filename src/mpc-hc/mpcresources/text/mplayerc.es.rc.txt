@@ -258,7 +258,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 27		"Export"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 48
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 45
 5		"Video DirectShow"
 7		"Video RealMedia"
 9		"Video QuickTime"
@@ -273,18 +273,15 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 48
 23		"VMR-9 Mixer Mode"
 24		"YUV Mixing"
 25		"Buffers de EVR:"
-27		"Supports:"
-28		"DXVA"
-30		"Subtitles"
-32		"Save image"
-34		"Shaders"
-36		"Rotation"
-38		"Supports:"
-39		"Subtitles"
-41		"Save image"
-43		"Supports:"
-44		"Subtitles"
-46		"Save image"
+27		"DXVA"
+29		"Subtitles"
+31		"Screenshot"
+33		"Shaders"
+35		"Rotation"
+37		"Subtitles"
+39		"Screenshot"
+41		"Subtitles"
+43		"Screenshot"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
