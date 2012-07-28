@@ -80,6 +80,7 @@ MPC-HC makes use of the following third-party code:
 <tr><td>QuickTime SDK</td> <td>-</td> <td>http://developer.apple.com/quicktime/download/</td></tr>
 <tr><td>RealMedia SDK</td> <td>-</td> <td>-</td></tr>
 <tr><td>ResizableLib</td> <td>Artistic License</td> <td>http://sourceforge.net/projects/resizablelib/</td></tr>
+<tr><td>Silk Icons</td> <td>CC Attribution 2.5</td> <td>http://www.famfamfam.com/lab/icons/silk/</td></tr>
 <tr><td>SoundTouch</td> <td>LGPLv2.1</td> <td>http://www.surina.net/soundtouch/</td></tr>
 <tr><td>TreePropSheet</td> <td>-</td> <td>http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P</td></tr>
 <tr><td>UnRAR</td> <td>freeware</td> <td>http://www.rarlab.com/rar_add.htm

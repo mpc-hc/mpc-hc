@@ -584,6 +584,7 @@
     <None Include="res\tb_pause_16.ico" />
     <None Include="res\tb_play_16.ico" />
     <None Include="res\tb_stop_16.ico" />
+    <None Include="res\tickcross.png" />
     <None Include="res\toolbar.bmp" />
     <None Include="res\toolbarw7.png" />
     <None Include="res\shaders\BT601BT709.psh" />

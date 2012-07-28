@@ -73,6 +73,7 @@ MultiMon            CPOL                        http://www.codeproject.com/KB/GD
 QuickTime SDK       -                           http://developer.apple.com/quicktime/download/
 RealMedia SDK       -                           -
 ResizableLib        Artistic License            http://sourceforge.net/projects/resizablelib/
+Silk Icons          CC Attribution 2.5          http://www.famfamfam.com/lab/icons/silk/
 SoundTouch          LGPLv2.1                    http://www.surina.net/soundtouch/
 TreePropSheet       -                           http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P
 UnRAR               freeware                    http://www.rarlab.com/rar_add.htm

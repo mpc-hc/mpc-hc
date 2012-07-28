@@ -10,7 +10,7 @@ call "common.bat"
 if %errorlevel% neq 0 goto end
 
 echo Get the latest mplayerc.rc from repository first...
-git.exe show HEAD:../mplayerc.rc > $$TEMP$$.old
+git.exe show origin/HEAD:../mplayerc.rc > $$TEMP$$.old
 echo ----------------------
 
 for %%i in (*.rc) do (
