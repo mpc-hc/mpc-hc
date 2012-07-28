@@ -57,16 +57,16 @@ Options:
     example 1: you want to check if there are differences between mplayerc.rc and mplayerc.language.rc files.
     Go to the mpcresources directory, then 	>perl rcfile.pl
 
-    example 2: you changed some gui of mpc-hc, that means you also modified the mplayerc.rc file.
-    First: checkout the head revision of mplayerc.rc using the svn client, give it any other name, for example:
-    >svn cat -r head ../mplayerc.rc > mplayer.rc.old
+    example 2: you did some UI changes, this means you also modified the mplayerc.rc file.
+    First: checkout the head revision of mplayerc.rc using git, give it any other name, for example:
+    >git show origin/HEAD:../mplayerc.rc > mplayer.rc.old
     Second: >perl rcfile.pl -b mplayerc.rc.old
-    Or better yet use provided batch file: >rcfile.bat
+    Or better yet, use the provided batch file: >rcfile.bat
 
     After running this script, you will find all new language rc files under "newrc" subdir.
     These new rc files have all changes copied from your modified mplayerc.rc file and is ready to compile,
-    except use english version strings. Use rcstrings.pl to extract all strings for translators,
-    After recieved translated text files, use patch.pl script to merge back to rc files.
+    except use english version strings. Use rcstrings.pl to extract all strings for translators.
+    After you received translated text files, use patch.pl script to merge back to rc files.
 USAGE
     exit(0);
 }
