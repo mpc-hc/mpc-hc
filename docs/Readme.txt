@@ -79,3 +79,4 @@ UnRAR               freeware                    http://www.rarlab.com/rar_add.ht
 VirtualDub          GPLv2                       http://www.virtualdub.org/
 ZenLib              Simplified BSD License      http://sourceforge.net/projects/zenlib/
 zlib                zlib License                http://zlib.net/
+Silk Icons          CC Attribution 2.5          http://www.famfamfam.com/lab/icons/silk/
