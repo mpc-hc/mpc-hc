@@ -36,7 +36,7 @@ my $BaseFileName = "../mplayerc.rc";
 my $NewFileName = "../mplayerc.rc";
 my $help;
 
-my $result = GetOptions("base|b=s" =>\$BaseFileName, "new|n=s" =>\$NewFileName, "help|h"=>\$help);
+my $result = GetOptions("base|b=s" => \$BaseFileName, "new|n=s" => \$NewFileName, "help|h" => \$help);
 
 if ($help || !$result) {
     print << 'USAGE';
@@ -45,8 +45,8 @@ Copy all changes between two version of mplayerc.rc files to all rc files in the
 generate new rc files under the "newrc" subdirectory.
 
 Options:
-    --base -b	base file, default "../mplayerc.rc" optional
-    --new -n	modified file, default "../mplayerc.rc" optional
+    --base -b   base file, default "../mplayerc.rc" optional
+    --new -n    modified file, default "../mplayerc.rc" optional
     --help -h	show this help
 
     Base file: the previous revision of mplayerc.rc file
@@ -71,10 +71,10 @@ USAGE
     exit(0);
 }
 
-my($BaseDialogs, $BaseMenus, $BaseStrings, @BaseOutline) = ({}, {}, {}, ());
-my($NewDialogs, $NewMenus, $NewStrings, @NewOutline) = ({}, {}, {}, ());
-my($MenuDiffs, $DialogDiffs) = ({}, {});
-my($BaseDesignInfo, $NewDesignInfo) = ({}, {});
+my ($BaseDialogs, $BaseMenus, $BaseStrings, @BaseOutline) = ({}, {}, {}, ());
+my ($NewDialogs, $NewMenus, $NewStrings, @NewOutline) = ({}, {}, {}, ());
+my ($MenuDiffs, $DialogDiffs) = ({}, {});
+my ($BaseDesignInfo, $NewDesignInfo) = ({}, {});
 
 my @BaseFile = readFile($BaseFileName, 1);
 my @NewFile = readFile($NewFileName, 1);
@@ -92,8 +92,7 @@ my @FileLists = ();
 
 if (@ARGV) {
     @FileLists = @ARGV;
-}
-else {
+} else {
     @FileLists = <*.rc>;
 }
 
@@ -105,7 +104,7 @@ if (!-e "newrc") {
 foreach my $filename(@FileLists) {
     print "Analyzing locale file: $filename...\n";
     my @oldrcfile = readFile($filename, 1);
-    my($curDialogs, $curMenus, $curStrings, @curOutline) = ({},{},{}, ());
+    my ($curDialogs, $curMenus, $curStrings, @curOutline) = ({}, {}, {}, ());
     my @curVersionInfo = ();
     my $curDesignInfo = {};
     analyzeData(\@oldrcfile, \@curOutline, $curDialogs, $curMenus, $curStrings, \@curVersionInfo, $curDesignInfo);
@@ -124,8 +123,8 @@ foreach my $filename(@FileLists) {
 ###################################################################################################
 sub getDifference {
     my @curVersionInfo = ();    # no use for mplayerc.rc
-    analyzeData(\@BaseFile, \@BaseOutline,$BaseDialogs, $BaseMenus, $BaseStrings, \@curVersionInfo, $BaseDesignInfo);
-    analyzeData(\@NewFile,\@NewOutline, $NewDialogs, $NewMenus, $NewStrings, \@curVersionInfo, $NewDesignInfo);
+    analyzeData(\@BaseFile, \@BaseOutline, $BaseDialogs, $BaseMenus, $BaseStrings, \@curVersionInfo, $BaseDesignInfo);
+    analyzeData(\@NewFile, \@NewOutline, $NewDialogs, $NewMenus, $NewStrings, \@curVersionInfo, $NewDesignInfo);
 
     while (my ($key, $value) = each(%{$BaseMenus})) {
         my $value1 = $NewMenus->{$key};
@@ -169,14 +168,12 @@ sub writeData {
         my $tag = $_->[0];
 
         if ($tag eq "__TEXT__") {
-            if ($idx == $headsection)  {
+            if ($idx == $headsection) {
                 push(@{$newrc}, @{$curOutline->[0][1]});            # use old language rc file head section
-            }
-            elsif ($idx == $tailsection) {
+            } elsif ($idx == $tailsection) {
                 writeVersionInfo($newrc, $curVersionInfo);          # TODO: write current version info to it's original place, now just above end section
                 push(@{$newrc}, @{$curOutline->[$oldtail][1]});     # use old language rc file head section
-            }
-            else {
+            } else {
                 my @_text = ();
                 push(@_text, @{$_->[1]});
                 foreach my $line(@_text) {
@@ -189,33 +186,27 @@ sub writeData {
                 }
                 push(@{$newrc}, @_text);    #in general use text from new rc file
             }
-        }
-        elsif ($tag eq "DESIGNINFO") {
+        } elsif ($tag eq "DESIGNINFO") {
             $curDesignName = $_->[1][0];
             #if ($curDesignInfo->{$curDesignName}) {
             #    push(@{$newrc}, @{$curDesignInfo->{$curDesignName}{"__TEXT__"}});	# use locale design info section
-            #}
-            #else {
+            #} else {
                 push(@{$newrc}, @{$NewDesignInfo->{$curDesignName}{"__TEXT__"}});	# use new design info section
             #}
-        }
-        elsif ($tag eq "BLOCK") {
+        } elsif ($tag eq "BLOCK") {
             push(@{$newrc}, @{$_->[1]});    # use new file block section
-        }
-        elsif ($tag eq "DIALOG") {
+        } elsif ($tag eq "DIALOG") {
             #use the new rc file dialogs, use locale strings if possible
             $curDialogName = $_->[1][0];
             my @dialogContent = ();
             writeDialogContent(\@dialogContent, $patches, $curDialogs, $curDialogName);
             push(@{$newrc}, @dialogContent);
-        }
-        elsif ($tag eq "MENU") {
+        } elsif ($tag eq "MENU") {
             $curMenuName = $_->[1][0];
             my @menuContent = ();
             writeMenuContent(\@menuContent, $patches, $curMenus, $curMenuName);
             push(@{$newrc}, @menuContent);
-        }
-        elsif ($tag eq "STRINGTABLE") {
+        } elsif ($tag eq "STRINGTABLE") {
             #use new rc file stringtables, try to use as many locale strings as possible
             my @newstrings = ();
             push(@newstrings, @{$_->[1]});
@@ -235,19 +226,16 @@ sub writeStringTable {
     foreach (@{$output}) {
         my ($key, $value);
 
-        if (/\b(ID\S+)\b\s*(".+")/) { #distinguish between key value at same line or not for syntax's sake
+        if (/\b(ID\S+)\b\s*(".+")/) {   #distinguish between key value at same line or not for syntax's sake
             ($key, $value) = ($1,$2);
-        }
-        elsif (/\b(ID\S+)\b\s*$/) {   #value too long to fit in one line but we don't care. :)
+        } elsif (/\b(ID\S+)\b\s*$/) {   #value too long to fit in one line but we don't care. :)
             $key = $1;
             $value = $NewStrings->{$key};
             $_ = "    $key  $value";
-        }
-        elsif (/^\s*".+"\s*$/) {      #value not same line with key, already dealed with, so just clear it.
+        } elsif (/^\s*".+"\s*$/) {      #value not same line with key, already dealed with, so just clear it.
             $_ = " ";
             next;
-        }
-        else {
+        } else {
             next; #other text
         }
 
@@ -255,9 +243,8 @@ sub writeStringTable {
         my $localeStr = $refs->{$key};
 
         if ((!$localeStr) || (!$baseStr) || ($baseStr ne $value)) {
-        }
-        else {
-            s/\Q$value\E/$localeStr/; #use locale string
+        } else {
+            s/\Q$value\E/$localeStr/;   #use locale string
         }
     }
 }
@@ -318,8 +305,7 @@ sub writeMenuContent {
         if ((!@changes) && ($samelines == $contentLines)) { #no change then just use old data
             @contents = ();
             push(@contents, @{$refs->{$name}{"__TEXT__"}});
-        }
-        else {    #change in this menu
+        } else {    #change in this menu
             my @checkIdx = (1..$contentLines);
 
             foreach (@$diffData) {

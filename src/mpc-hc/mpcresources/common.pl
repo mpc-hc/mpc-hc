@@ -44,7 +44,7 @@ sub analyzeData {
 
     my $bInBlock = 0;
 
-    my ($stack, $tagidx, $curline) = (0,0, "");
+    my ($stack, $tagidx, $curline) = (0, 0, "");
 
     my @blocks = ();
     my @text = ();
@@ -68,7 +68,7 @@ sub analyzeData {
             push(@blocks, $_);
 
             if (@text) {
-                push(@{$outline}, ["__TEXT__",[@text]]);
+                push(@{$outline}, ["__TEXT__", [@text]]);
                 @text = ();
             }
 
@@ -92,15 +92,15 @@ sub analyzeData {
                         push(@{$outline}, ["STRINGTABLE", [@blocks]]);
                     }
                     elsif ($tagidx == 3) {
-                        push(@{$outline},["VERSIONINFO",[@blocks]]);
+                        push(@{$outline}, ["VERSIONINFO", [@blocks]]);
                         push(@$versionInfo, @blocks);
                     }
                     elsif ($tagidx == 4) {
                         my $dlgname = readDesignInfo($designInfo, \@blocks);
-                        push(@{$outline},["DESIGNINFO",[$dlgname, ""]]);
+                        push(@{$outline}, ["DESIGNINFO", [$dlgname, ""]]);
                     }
                     elsif ($tagidx < @InTags) {
-                        push(@{$outline},["BLOCK",[@blocks]]);
+                        push(@{$outline}, ["BLOCK", [@blocks]]);
                     }
 
                     $tagidx = 0;
@@ -108,14 +108,13 @@ sub analyzeData {
                     $bInBlock = 0;
                 }
             }
-        }
-        else {
+        } else {
             push(@text, $curline);
             $tagidx = 0;
         }
     }
     if (@text) {     #flush last text to outline
-        push(@{$outline}, ["__TEXT__",[@text]]);
+        push(@{$outline}, ["__TEXT__", [@text]]);
         @text = ();
     }
 }
@@ -223,8 +222,7 @@ sub readStringTable {
         elsif (/^\s+(ID\S+)/) {
             $savekey = $1;
             $strings->{$savekey} = "";
-        }
-        else {
+        } else {
             if ($savekey) {
                 s/^\s*//;
                 $strings->{$savekey} = $_;
@@ -291,8 +289,7 @@ sub readFile {
     open(INPUT, "<$filename") || die "Cannot open $filename to read";
     if ($withBOM == 0) {
         binmode(INPUT, ":encoding(UTF8)");
-    }
-    else {
+    } else {
         binmode(INPUT, ":encoding(UTF16-LE)");
     }
 
@@ -305,14 +302,15 @@ sub readFile {
 sub writeFile {
     my ($filename, $data, $withBOM) = @_;
 
-    open(OUTPUT, ">$filename")|| die "Cannot open $filename to write";
+    open(OUTPUT, ">$filename") || die "Cannot open $filename to write";
 
     if ($withBOM == 0) {
         binmode(OUTPUT, ":raw:encoding(UTF8)");
     }
     elsif ($withBOM == 1) {
         binmode(OUTPUT);
-        print OUTPUT chr(0xff); print OUTPUT chr(0xfe); #write unicode bom
+        print OUTPUT chr(0xff);
+        print OUTPUT chr(0xfe); #write unicode bom
         binmode(OUTPUT, ":raw:encoding(UTF16-LE)");
     }
     elsif ($withBOM == 2) {
@@ -330,7 +328,7 @@ sub writeFile {
 # calculate the largest common set for array1 & array2
 # TODO: too slow, should use something fast later.
 sub lcs {
-    my($a1, $a2, $changes) = @_;
+    my ($a1, $a2, $changes) = @_;
 
     my $idx = 0;
     my $cols = @$a1;
@@ -364,39 +362,37 @@ sub lcs {
 
     my ($r, $c, $i);
 
-    my $align = [[0,0],[0,0]];
-    for ($r=0; $r<=$rows; $r++) {
-        for ($c=0; $c<=$cols; $c++) {
+    my $align = [[0, 0], [0, 0]];
+    for ($r = 0; $r <= $rows; $r++) {
+        for ($c = 0; $c <= $cols; $c++) {
             $align->[$r][$c] = 0;
         }
     }
 
-    for ($r=1; $r<=$rows; $r++) {
-        for ($c=1; $c<=$cols; $c++) {
-            if ( $leftIdx[$c-1] == $rightIdx[$r-1]) {
-                $align->[$r][$c] = $align->[$r-1][$c-1] + 1;
-            }
-            else {
-                $align->[$r][$c] = ($align->[$r-1][$c] >= $align->[$r][$c-1])? $align->[$r-1][$c] : $align->[$r][$c-1];
+    for ($r = 1; $r <= $rows; $r++) {
+        for ($c = 1; $c <= $cols; $c++) {
+            if ($leftIdx[$c - 1] == $rightIdx[$r - 1]) {
+                $align->[$r][$c] = $align->[$r - 1][$c - 1] + 1;
+            } else {
+                $align->[$r][$c] = ($align->[$r - 1][$c] >= $align->[$r][$c - 1]) ? $align->[$r - 1][$c] : $align->[$r][$c - 1];
             }
         }
     }
 
     $idx = 0;
-    for ($r=$rows, $c=$cols, $i=$align->[$r][$c];
-            $i>0 && $r>0 && $c>0;
-            $i = $align->[$r][$c])
-    {
-        if ($align->[$r-1][$c] == $i) {
+    for ($r = $rows, $c = $cols, $i = $align->[$r][$c];
+            $i > 0 && $r > 0 && $c > 0;
+            $i = $align->[$r][$c]) {
+        if ($align->[$r - 1][$c] == $i) {
             $r--;
         }
-        elsif ($align->[$r][$c-1] == $i) {
+        elsif ($align->[$r][$c - 1] == $i) {
             $c--;
         }
-        elsif ($align->[$r-1][$c-1] == $i-1) {
-                $r--;
-                $c--;
-                $changes->[$idx++] = [$r,$c];
+        elsif ($align->[$r - 1][$c - 1] == $i - 1) {
+            $r--;
+            $c--;
+            $changes->[$idx++] = [$r, $c];
         }
     }
 }
@@ -409,11 +405,10 @@ sub writePatchFile {
     foreach (@$data) {
         if ($_->[0] eq "DIALOG") {
             my $lines = $_->[1]{"__LINES__"};
-            while (my($key, $value) = each(%{$_->[1]})) {
+            while (my ($key, $value) = each(%{$_->[1]})) {
                 if ($key eq "__LINES__") {
                     next;
-                }
-                else {
+                } else {
                     push(@localData, "BEGIN DIALOGEX ".$key." LINES $lines");
                     foreach my $pair(@{$value}) {
                         push(@localData, "$pair->[0]\t\t$pair->[1]");
@@ -424,16 +419,15 @@ sub writePatchFile {
             push(@localData, "");
         }
         elsif ($_->[0] eq "STRINGTABLE") {
-            my($key, $value) = each(%{$_->[1]});
+            my ($key, $value) = each(%{$_->[1]});
             push(@localData, "STRING $key\t\t$value");
         }
         elsif ($_->[0] eq "MENU") {
             my $lines = $_->[1]{"__LINES__"};
-            while (my($key, $value) = each(%{$_->[1]})) {
+            while (my ($key, $value) = each(%{$_->[1]})) {
                 if ($key eq "__LINES__") {
                     next;
-                }
-                else {
+                } else {
                     push(@localData, "BEGIN MENU ".$key. " LINES $lines");
                     foreach my $pair(@{$value}) {
                         push(@localData, "$pair->[0]\t\t$pair->[1]");

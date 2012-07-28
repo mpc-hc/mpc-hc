@@ -36,11 +36,11 @@ my $Extension = ".txt";
 my $help;
 my ($OutputAll, $OutputDialogs, $OutputMenus, $OutputStringtables);
 
-my $result = GetOptions("suffix|x=s"=>\$Extension, "help|h"=>\$help, "all|a"=>\$OutputAll,
-                        "dialog|d"=>\$OutputDialogs, "menu|m"=>\$OutputMenus, "stringtable|s"=>\$OutputStringtables);
+my $result = GetOptions("suffix|x=s" => \$Extension, "help|h" => \$help, "all|a" => \$OutputAll,
+                        "dialog|d" => \$OutputDialogs, "menu|m" => \$OutputMenus, "stringtable|s" => \$OutputStringtables);
 
 if ($OutputAll) {
-    ($OutputDialogs, $OutputMenus, $OutputStringtables) = (1,1,1);
+    ($OutputDialogs, $OutputMenus, $OutputStringtables) = (1, 1, 1);
 }
 
 if ($help || !$result) {
@@ -49,13 +49,13 @@ Usage: perl rcstrings.pl [Options] file1 file2 | -h --help
 Extract all translatable strings from file1 file2 or all rc files.
 
 Options:
-    --suffix -x	output file suffix, default ".txt" optional
-    --help -h	show this help
+    --suffix -x output file suffix, default ".txt" optional
+    --help -h   show this help
 
-    -all -a	output all strings, including dialogs, menus, stringtables
-    -dialog -d	output dialogs
-    -menu -m	output menus
-    -stringtable -s	output stringtables
+    -all -a output all strings, including dialogs, menus, stringtables
+    -dialog -d  output dialogs
+    -menu -m    output menus
+    -stringtable -s output stringtables
 
     After running this script, you will find all the string text files under "text" sub directory.
 USAGE
@@ -66,8 +66,7 @@ my @FileLists = ();
 
 if (@ARGV) {
     @FileLists = @ARGV;
-}
-else {
+} else {
     @FileLists = <*.rc>;
 }
 
@@ -79,7 +78,7 @@ if (!-e "text") {
 foreach my $filename(@FileLists) {
     print "Analyzing locale file: $filename...\n";
     my @rcfile = readFile($filename, 1);
-    my($curDialogs, $curMenus, $curStrings, @curOutline) = ({},{},{}, ());
+    my ($curDialogs, $curMenus, $curStrings, @curOutline) = ( {}, {}, {}, ());
     my @curVersionInfo = ();
     my $curDesignInfo = {};
     analyzeData(\@rcfile, \@curOutline, $curDialogs, $curMenus, $curStrings, \@curVersionInfo, $curDesignInfo);
@@ -99,7 +98,7 @@ sub writeFileStrings {
             my @data = ();
             push(@data, @{$dialogs->{$_}{"__DATA__"}});
             if (defined($data[0])) {
-                push(@contents, ["DIALOG", {$_ =>[@data], "__LINES__" => $dialogs->{$_}{"__LINES__"}}]);
+                push(@contents, ["DIALOG", {$_ => [@data], "__LINES__" => $dialogs->{$_}{"__LINES__"}}]);
             }
         }
     }
@@ -109,7 +108,7 @@ sub writeFileStrings {
             push(@data, @{$menus->{$_}{"__DATA__"}});
             @data = grep(skipNonTranslatedStr($_->[1]), @data);
             @data = grep(($_->[1] !~/""/),@data);
-            push(@contents, ["MENU",{$_ =>[@data], "__LINES__" => $menus->{$_}{"__LINES__"}}]);
+            push(@contents, ["MENU", {$_ => [@data], "__LINES__" => $menus->{$_}{"__LINES__"}}]);
         }
     }
     if ($OutputStringtables) {
@@ -117,7 +116,7 @@ sub writeFileStrings {
             my $line = $strings->{$_};
             $line = skipNonTranslatedStr($line);
             if ($line) {
-                push(@contents,["STRINGTABLE",{$_=>$strings->{$_}}]);
+                push(@contents, ["STRINGTABLE", {$_ => $strings->{$_}}]);
             }
         }
     }
