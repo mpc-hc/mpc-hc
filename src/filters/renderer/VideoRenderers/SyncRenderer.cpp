@@ -192,10 +192,7 @@ CBaseAP::~CBaseAP()
         m_hD3D9 = NULL;
     }
     m_pAudioStats = NULL;
-    if (m_pGenlock) {
-        delete m_pGenlock;
-        m_pGenlock = NULL;
-    }
+    SAFE_DELETE(m_pGenlock);
 }
 
 template<int texcoords>
@@ -4191,14 +4188,8 @@ CGenlock::CGenlock(double target, double limit, int lineD, int colD, double cloc
 CGenlock::~CGenlock()
 {
     ResetTiming();
-    if (syncOffsetFifo != NULL) {
-        delete syncOffsetFifo;
-        syncOffsetFifo = NULL;
-    }
-    if (frameCycleFifo != NULL) {
-        delete frameCycleFifo;
-        frameCycleFifo = NULL;
-    }
+    SAFE_DELETE(syncOffsetFifo);
+    SAFE_DELETE(frameCycleFifo);
     syncClock = NULL;
 };
 

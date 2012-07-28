@@ -686,9 +686,7 @@ STDMETHODIMP CStreamSwitcherInputPin::ReceiveConnection(IPin* pConnector, const 
         return VFW_E_ALREADY_CONNECTED;
     }
 
-    if (m_Connected) {
-        m_Connected->Release(), m_Connected = NULL;
-    }
+    SAFE_RELEASE(m_Connected);
 
     return SUCCEEDED(__super::ReceiveConnection(pConnector, pmt)) ? S_OK : E_FAIL;
 }

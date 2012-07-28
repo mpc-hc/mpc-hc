@@ -1,21 +1,21 @@
 @echo off
+setlocal
 
 rem This is a simple script to check out the head revision of mplayerc.rc,
 rem then rename it to old file for rcfile.pl to process it
 
+call "common.bat"
+if %errorlevel% neq 0 goto end
+
 echo Getting the latest mplayerc.rc from repository...
-svn cat -r head ../mplayerc.rc > $$TEMP$$.old
-if %ERRORLEVEL% neq 0 goto NOSVNCLI
+git.exe show HEAD:../mplayerc.rc > $$TEMP$$.old
 
 echo Generating new rc files and string files...
-perl rcfile.pl -b $$TEMP$$.old
-goto END
+perl.exe rcfile.pl -b $$TEMP$$.old
 
-:NOSVNCLI
-echo You'll need svn command line tool to use this script.
-echo Or you can just checkout the head revision of mplayerc.rc file by yourself,
-echo put it somewhere and then use the -b option to point to it.
-
-:END
 del $$TEMP$$.old
+
+:end
 pause
+endlocal
+exit /b

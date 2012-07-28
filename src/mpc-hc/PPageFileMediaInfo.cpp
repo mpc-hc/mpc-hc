@@ -48,8 +48,7 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString fn, IFilterGraph* pFG)
 
 CPPageFileMediaInfo::~CPPageFileMediaInfo()
 {
-    delete m_pCFont;
-    m_pCFont = NULL;
+    SAFE_DELETE(m_pCFont);
 }
 
 void CPPageFileMediaInfo::DoDataExchange(CDataExchange* pDX)

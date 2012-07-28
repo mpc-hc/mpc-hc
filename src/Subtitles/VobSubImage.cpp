@@ -71,15 +71,8 @@ bool CVobSubImage::Alloc(int w, int h)
 
 void CVobSubImage::Free()
 {
-    if (lpTemp1) {
-        delete [] lpTemp1;
-    }
-    lpTemp1 = NULL;
-
-    if (lpTemp2) {
-        delete [] lpTemp2;
-    }
-    lpTemp2 = NULL;
+    SAFE_DELETE_ARRAY(lpTemp1);
+    SAFE_DELETE_ARRAY(lpTemp2);
 
     lpPixels = NULL;
 }

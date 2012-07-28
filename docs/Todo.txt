@@ -10,7 +10,8 @@ MPC-HC:
 5) Reorganize the player's Options
 6) Remove support for unneeded/obsolete renderers
 7) Update Bento4 library or see if we can use ffmpeg for this job
-8) Use "new" instead of "DNew" and make sure the leak detection works properly
+8) Use "new" instead of "DNew" and make sure the leak detection works properly or get rid of DNew
+   and use VLD
 9) Replace the default old looking toolbar with a more modern one
 10) Test MSVC 2012 more when it's released. With the RC we get random new errors when building Virtualdub/system.
     With the Beta we got hundreds of redefinitions for the DX headers which seems normal
@@ -19,6 +20,7 @@ MPC-HC:
     and unfortunately it is still needed.
 11) Get rid of images/avi and stuff from the mpcresources;
     the gain will be ~1.5MB less from the installer/packages
+12) Add a .gitattributes file
 
 MPCIconLib:
 1) Replace the file association icons with better looking ones
@@ -27,6 +29,8 @@ WebServer:
 1) Enable caching
 2) Fix the problems with unicode names
 3) Update the images for player.html
+4) player.html: with IE 9 things don't look the same as Firefox; the volume slider
+   is out of bounds, the status and title text are not aligned to the left
 
 FFmpeg:
 1) Stop linking ffmpeg statically (still not sure about it yet)
