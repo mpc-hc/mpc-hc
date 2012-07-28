@@ -591,6 +591,7 @@ const TCHAR* GetEventString(LONG evCode)
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame() :
+    m_OSD(this),
     m_iMediaLoadState(MLS_CLOSED),
     m_iPlaybackMode(PM_NONE),
     m_iSpeedLevel(0),
@@ -2673,7 +2674,7 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
         pMC->Pause();
     }
 
-    m_OSD.HideMessage(true);
+    m_OSD.SuppressOSD();
     BOOL bResult = false;
 
     if (m_bOpenedThruThread) {
@@ -2684,7 +2685,8 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
         ResetDevice();
     }
 
-    m_OSD.HideMessage(false);
+    m_OSD.UnsuppressOSD();
+    m_OSD.OnSize(0, 0, 0);
 
     if (fs == State_Running) {
         pMC->Run();
@@ -7220,7 +7222,7 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 
         pFS->Step(1, NULL);
 
-        m_OSD.EnableShowMessage();
+        m_OSD.EnableShowMessage(true);
 
     } else if (S_OK == pMS->IsFormatSupported(&TIME_FORMAT_FRAME)) {
         if (GetMediaState() != State_Paused) {
@@ -9692,7 +9694,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     // Temporarily hide the OSD message if there is one, it will
     // be restored after. This avoid positioning problems.
-    m_OSD.HideMessage(true);
+    m_OSD.SuppressOSD();
 
     if (m_fFirstFSAfterLaunchOnFS) { //Play started in Fullscreen
         if (s.fRememberWindowSize || s.fRememberWindowPos) {
@@ -9736,7 +9738,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     MoveVideoWindow();
 
-    m_OSD.HideMessage(false);
+    m_OSD.UnsuppressOSD();
 
     if ((m_Change_Monitor) && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
         SetShaders();
@@ -11708,11 +11710,11 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
             if (pMVTO) {
-                m_OSD.Start(m_pVideoWnd, pMVTO);
+                m_OSD.Start(m_pVideoWnd->m_hWnd, pMVTO);
             } else if (pVMB) {
-                m_OSD.Start(m_pVideoWnd, pVMB);
+                m_OSD.Start(m_pVideoWnd->m_hWnd, pVMB);
             } else if (pMFVMB) {
-                m_OSD.Start(m_pVideoWnd, pMFVMB);
+                m_OSD.Start(m_pVideoWnd->m_hWnd, pMFVMB);
             }
         }
 
