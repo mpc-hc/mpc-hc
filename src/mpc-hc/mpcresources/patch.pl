@@ -35,34 +35,34 @@ my $help;
 
 my $result = GetOptions("input|i=s" =>\$TxtFileName, "help|h"=>\$help);
 
-if($help || !$result) {
-	print << 'USAGE';
+if ($help || !$result) {
+    print << 'USAGE';
 Usage: perl patch.pl -i translate.txt rcfile | -h --help
 Read translated strings file, apply translation to rc file.
 
 Options:
-	--input -i	translated strings file
-	--help -h	show this help
-	rcfile		rc file to apply the translation to
+    --input -i	translated strings file
+    --help -h	show this help
+    rcfile		rc file to apply the translation to
 
 USAGE
-	exit(0);
+    exit(0);
 }
 
 my($Dialogs, $Menus, $Strings) = ({}, {}, {}, ());
 my($NewDialogs, $NewMenus, $NewStrings) = ({},{},{});
 my @Outline = ();
 my @VersionInfo = ();
-my $DesignInfos = {};
+my $DesignInfo = {};
 
 print "Reading rc file...\n";
 my $rcfile = shift(@ARGV);
 my @RcFile = readFile($rcfile, 1);
-analyseData(\@RcFile, \@Outline, $Dialogs, $Menus, $Strings, \@VersionInfo, $DesignInfos);
+analyzeData(\@RcFile, \@Outline, $Dialogs, $Menus, $Strings, \@VersionInfo, $DesignInfo);
 
-print "\nReading string texts file...\n";
+print "\nReading string text file...\n";
 my @TxtFile = readFile($TxtFileName, 0);
-analyseTxt(\@TxtFile, $NewDialogs, $NewMenus, $NewStrings);
+analyzeTxt(\@TxtFile, $NewDialogs, $NewMenus, $NewStrings);
 
 print "\nWriting new rc file...\n";
 my @newrc = ();
@@ -71,156 +71,156 @@ writeFile($rcfile, \@newrc, 2); # overwrite rcfile
 
 ###################################################################################################
 sub mergeData {
-	my ($newrc, $rcfile) = @_;
+    my ($newrc, $rcfile) = @_;
 
-	my ($curDialogName, $curMenuName);
+    my ($curDialogName, $curMenuName);
 
-	foreach (@Outline) {
-		my $tag = $_->[0];
+    foreach (@Outline) {
+        my $tag = $_->[0];
 
-		if($tag eq "__TEXT__") {
-				push(@{$newrc}, @{$_->[1]});	# write text section
-		}
-		elsif($tag eq "BLOCK") {
-			push(@{$newrc}, @{$_->[1]});		# write block section
-		}
-		elsif($tag eq "DESIGNINFO") {
-			my $curDesignName = $_->[1][0];
-			push(@{$newrc}, @{$DesignInfos->{$curDesignName}{"__TEXT__"}});	# write design info section
-		}
-		elsif($tag eq "VERSIONINFO") {
-			push(@{$newrc}, @{$_->[1]});		# write block section
-		}
-		elsif($tag eq "DIALOG") {
-			$curDialogName = $_->[1][0];
-			my @dialogContent = ();
-			mergeDialog(\@dialogContent, $NewDialogs, $Dialogs, $curDialogName);
-			push(@{$newrc}, @dialogContent);
-		}
-		elsif($tag eq "MENU") {
-			$curMenuName = $_->[1][0];
-			my @menuContent = ();
-			mergeMenu(\@menuContent, $NewMenus, $Menus, $curMenuName);
-			push(@{$newrc}, @menuContent);
-		}
-		elsif($tag eq "STRINGTABLE") {
-			my @strings = ();
-			push(@strings, @{$_->[1]});
-			mergeStringTable(\@strings, $NewStrings);
-			push(@{$newrc}, @strings);
-		}
-	}
+        if ($tag eq "__TEXT__") {
+                push(@{$newrc}, @{$_->[1]});	# write text section
+        }
+        elsif ($tag eq "BLOCK") {
+            push(@{$newrc}, @{$_->[1]});		# write block section
+        }
+        elsif ($tag eq "DESIGNINFO") {
+            my $curDesignName = $_->[1][0];
+            push(@{$newrc}, @{$DesignInfo->{$curDesignName}{"__TEXT__"}});	# write design info section
+        }
+        elsif ($tag eq "VERSIONINFO") {
+            push(@{$newrc}, @{$_->[1]});		# write block section
+        }
+        elsif ($tag eq "DIALOG") {
+            $curDialogName = $_->[1][0];
+            my @dialogContent = ();
+            mergeDialog(\@dialogContent, $NewDialogs, $Dialogs, $curDialogName);
+            push(@{$newrc}, @dialogContent);
+        }
+        elsif ($tag eq "MENU") {
+            $curMenuName = $_->[1][0];
+            my @menuContent = ();
+            mergeMenu(\@menuContent, $NewMenus, $Menus, $curMenuName);
+            push(@{$newrc}, @menuContent);
+        }
+        elsif ($tag eq "STRINGTABLE") {
+            my @strings = ();
+            push(@strings, @{$_->[1]});
+            mergeStringTable(\@strings, $NewStrings);
+            push(@{$newrc}, @strings);
+        }
+    }
 }
 #--------------------------------------------------------------------------------------------------
-sub analyseTxt {
-	my ($input, $dialogs, $menus, $strings) = @_;
+sub analyzeTxt {
+    my ($input, $dialogs, $menus, $strings) = @_;
 
-	my @inputs=();
-	push(@inputs, @{$input});
-	@inputs = grep{$_=~/\S+/;}@inputs;		#get rid of empty line
-	@inputs = map{$_=~s/\s*$//;$_}@inputs;	#remove newline
+    my @inputs = ();
+    push(@inputs, @{$input});
+    @inputs = grep{$_=~/\S+/;}@inputs;		#get rid of empty line
+    @inputs = map{$_=~s/\s*$//;$_}@inputs;	#remove newline
 
-	my $bInBlock=0;
-	my @data = ();
-	my ($tag, $name, $linenum) = ("", "", 0);
+    my $bInBlock=0;
+    my @data = ();
+    my ($tag, $name, $linenum) = ("", "", 0);
 
-	foreach (@inputs) {
-		if(/\bBEGIN\b/) {
-			$bInBlock = 1;
-			($tag, $name, $linenum) = ($_=~/(DIALOGEX|MENU)\s+(\S+)\s+LINES\s+(\d+)/);
-		}
-		elsif(/\bEND\b/) {
-			$bInBlock = 0;
-			if($tag eq "DIALOGEX") {
-				$dialogs->{$name}->{"__DATA__"}=[@data];
-				$dialogs->{$name}->{"__LINES__"} = $linenum;
-			}
-			else {
-				$menus->{$name}->{"__DATA__"}=[@data];
-				$menus->{$name}->{"__LINES__"} = $linenum;
-			}
-			@data=();
-		}
-		else {
-			if($bInBlock) {
-				my ($l, $v) = ($_=~/^\s*(\d+)\s*(".*")\s*$/);
-				push(@data, [$l, $v]);
-			}
-			else {
-				if(/^\s*STRING\s*(\S+)\s*(".*")\s*$/) {
-					$strings->{$1} = $2;
-				}
-			}
-		}
-	}
+    foreach (@inputs) {
+        if (/\bBEGIN\b/) {
+            $bInBlock = 1;
+            ($tag, $name, $linenum) = ($_=~/(DIALOGEX|MENU)\s+(\S+)\s+LINES\s+(\d+)/);
+        }
+        elsif (/\bEND\b/) {
+            $bInBlock = 0;
+            if ($tag eq "DIALOGEX") {
+                $dialogs->{$name}->{"__DATA__"} = [@data];
+                $dialogs->{$name}->{"__LINES__"} = $linenum;
+            }
+            else {
+                $menus->{$name}->{"__DATA__"} = [@data];
+                $menus->{$name}->{"__LINES__"} = $linenum;
+            }
+            @data = ();
+        }
+        else {
+            if ($bInBlock) {
+                my ($l, $v) = ($_=~/^\s*(\d+)\s*(".*")\s*$/);
+                push(@data, [$l, $v]);
+            }
+            else {
+                if (/^\s*STRING\s*(\S+)\s*(".*")\s*$/) {
+                    $strings->{$1} = $2;
+                }
+            }
+        }
+    }
 }
 
 #--------------------------------------------------------------------------------------------------
 sub mergeStringTable {
-	my ($output, $patches) = @_;
+    my ($output, $patches) = @_;
 
-	#if string id found in patches, use translated strings
-	foreach (@{$output}){
-		my($key, $value) = ($_=~/\b(ID\S+)\b\s*(".+")/);
+    #if string id found in patches, use translated strings
+    foreach (@{$output}) {
+        my($key, $value) = ($_=~/\b(ID\S+)\b\s*(".+")/);
 
-		my $localeStr = $patches->{$key};
+        my $localeStr = $patches->{$key};
 
-		if($localeStr && $value) {
-			s/\Q$value\E/$localeStr/;
-		}
-	}
+        if ($localeStr && $value) {
+            s/\Q$value\E/$localeStr/;
+        }
+    }
 }
 
 #--------------------------------------------------------------------------------------------------
 sub mergeMenu {
-	my ($output, $patches, $refs, $name) = @_;
+    my ($output, $patches, $refs, $name) = @_;
 
-	my @contents = ();
-	push(@contents, @{$refs->{$name}{"__TEXT__"}});
-	my $contentLines = @contents;
+    my @contents = ();
+    push(@contents, @{$refs->{$name}{"__TEXT__"}});
+    my $contentLines = @contents;
 
-	my $curlines = $refs->{$name}{"__LINES__"};
-	my $newlines = $patches->{$name}{"__LINES__"};
+    my $curlines = $refs->{$name}{"__LINES__"};
+    my $newlines = $patches->{$name}{"__LINES__"};
 
-	if($newlines == $curlines) {
-		my @data = @{$patches->{$name}{"__DATA__"}};
+    if ($newlines == $curlines) {
+        my @data = @{$patches->{$name}{"__DATA__"}};
 
-		foreach(@data) {
-			my $line = $_->[0];
-			my $value = $_->[1];
-			$contents[-- $line] =~ s/".*"/$value/;
-		}
-	}
+        foreach (@data) {
+            my $line = $_->[0];
+            my $value = $_->[1];
+            $contents[-- $line] =~ s/".*"/$value/;
+        }
+    }
 
-	push(@{$output}, @contents);
+    push(@{$output}, @contents);
 }
 
 #--------------------------------------------------------------------------------------------------
 sub mergeDialog {
-	my ($output, $patches, $refs, $name) = @_;
+    my ($output, $patches, $refs, $name) = @_;
 
-	my @contents = ();
-	push(@contents, @{$refs->{$name}{"__TEXT__"}});
-	my $contentLines = @contents;
+    my @contents = ();
+    push(@contents, @{$refs->{$name}{"__TEXT__"}});
+    my $contentLines = @contents;
 
-	my $curlines = $refs->{$name}{"__LINES__"};
-	my $newlines = $patches->{$name}{"__LINES__"};
+    my $curlines = $refs->{$name}{"__LINES__"};
+    my $newlines = $patches->{$name}{"__LINES__"};
 
-	if($newlines == $curlines) {
-		my @data = @{$patches->{$name}{"__DATA__"}};
+    if ($newlines == $curlines) {
+        my @data = @{$patches->{$name}{"__DATA__"}};
 
-		foreach(@data) {
-			my $line = $_->[0];
-			my $value = $_->[1];
-			my $curline = $contents[--$line];
-			$curline = skipNonTranslatedStr($curline);
-			if($curline=~/("[^"](?:[^"]|"")*")/) {
-				$contents[$line] =~ s/\Q$1\E/$value/;
-			}
-		}
-	}
+        foreach (@data) {
+            my $line = $_->[0];
+            my $value = $_->[1];
+            my $curline = $contents[--$line];
+            $curline = skipNonTranslatedStr($curline);
+            if ($curline =~ /("[^"](?:[^"]|"")*")/) {
+                $contents[$line] =~ s/\Q$1\E/$value/;
+            }
+        }
+    }
 
-	push(@{$output}, @contents);
+    push(@{$output}, @contents);
 }
 
 ###################################################################################################

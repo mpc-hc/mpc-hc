@@ -32,96 +32,100 @@ use File::Spec;
 use File::Glob qw(:globally :nocase);
 require "common.pl";
 
-my $Extension=".txt";
+my $Extension = ".txt";
 my $help;
 my ($OutputAll, $OutputDialogs, $OutputMenus, $OutputStringtables);
 
 my $result = GetOptions("suffix|x=s"=>\$Extension, "help|h"=>\$help, "all|a"=>\$OutputAll,
-												"dialog|d"=>\$OutputDialogs, "menu|m"=>\$OutputMenus, "stringtable|s"=>\$OutputStringtables);
+                        "dialog|d"=>\$OutputDialogs, "menu|m"=>\$OutputMenus, "stringtable|s"=>\$OutputStringtables);
 
-if($OutputAll) {
-	($OutputDialogs, $OutputMenus, $OutputStringtables) = (1,1,1);
+if ($OutputAll) {
+    ($OutputDialogs, $OutputMenus, $OutputStringtables) = (1,1,1);
 }
 
-if($help || !$result) {
-	print << 'USAGE';
+if ($help || !$result) {
+    print << 'USAGE';
 Usage: perl rcstrings.pl [Options] file1 file2 | -h --help
 Extract all translatable strings from file1 file2 or all rc files.
 
 Options:
-	--suffix -x	output file suffix, default ".txt" optional
-	--help -h	show this help
+    --suffix -x	output file suffix, default ".txt" optional
+    --help -h	show this help
 
-	-all -a	output all strings, including dialogs, menus, stringtables
-	-dialog -d	output dialogs
-	-menu -m	output menus
-	-stringtable -s	output stringtables
+    -all -a	output all strings, including dialogs, menus, stringtables
+    -dialog -d	output dialogs
+    -menu -m	output menus
+    -stringtable -s	output stringtables
 
-	After running this script, you will find all the string text files under "text" sub directory.
+    After running this script, you will find all the string text files under "text" sub directory.
 USAGE
-	exit(0);
+    exit(0);
 }
 
 my @FileLists = ();
 
-if(@ARGV) {	@FileLists = @ARGV; }
-else { @FileLists = <*.rc>; }
+if (@ARGV) {
+    @FileLists = @ARGV;
+}
+else {
+    @FileLists = <*.rc>;
+}
 
 #put all generated files under text sub dir.
-if(!-e "text"){
-	mkdir(File::Spec->catdir(".", "text")) || die "Cannot create \"text\" sub directory.";
+if (!-e "text") {
+    mkdir(File::Spec->catdir(".", "text")) || die "Cannot create \"text\" sub directory.";
 }
 
 foreach my $filename(@FileLists) {
-	print "Analyzing locale file: $filename...\n";
-	my @rcfile = readFile($filename, 1);
-	my($curDialogs, $curMenus, $curStrings, @curOutline) = ({},{},{}, ());
-	my @curVersionInfo = ();
-	my $curDesignInfos = {};
-	analyseData(\@rcfile, \@curOutline, $curDialogs, $curMenus, $curStrings, \@curVersionInfo, $curDesignInfos);
+    print "Analyzing locale file: $filename...\n";
+    my @rcfile = readFile($filename, 1);
+    my($curDialogs, $curMenus, $curStrings, @curOutline) = ({},{},{}, ());
+    my @curVersionInfo = ();
+    my $curDesignInfo = {};
+    analyzeData(\@rcfile, \@curOutline, $curDialogs, $curMenus, $curStrings, \@curVersionInfo, $curDesignInfo);
 
-	my $txtfile = File::Spec->catfile(".", "text", $filename.$Extension);
+    my $txtfile = File::Spec->catfile(".", "text", $filename.$Extension);
 
-	writeFileStrings($txtfile, $curDialogs, $curMenus, $curStrings);
+    writeFileStrings($txtfile, $curDialogs, $curMenus, $curStrings);
 }
 
 ###################################################################################################
 sub writeFileStrings {
-	my ($filename, $dialogs, $menus, $strings) = @_;
-	my @contents = ();
+    my ($filename, $dialogs, $menus, $strings) = @_;
+    my @contents = ();
 
-	if($OutputDialogs) {
-		foreach (sort(keys(%{$dialogs}))) {
-			my @data = ();
-			push(@data, @{$dialogs->{$_}{"__DATA__"}});
-			if(defined($data[0])) {
-				push(@contents, ["DIALOG", {$_ =>[@data], "__LINES__" => $dialogs->{$_}{"__LINES__"}}]);
-			}
-		}
-	}
-	if($OutputMenus) {
-		foreach (sort(keys(%{$menus}))) {
-			my @data = ();
-			push(@data, @{$menus->{$_}{"__DATA__"}});
-			@data = grep(skipNonTranslatedStr($_->[1]), @data);
-			@data = grep(($_->[1] !~/""/),@data);
-			push(@contents, ["MENU",{$_ =>[@data], "__LINES__" => $menus->{$_}{"__LINES__"}}]);
-		}
-	}
-	if($OutputStringtables) {
-		foreach (sort(keys(%{$strings}))) {
-			my $line = $strings->{$_};
-			$line = skipNonTranslatedStr($line);
-			if($line) {
-				push(@contents,["STRINGTABLE",{$_=>$strings->{$_}}]);
-			}
-		}
-	}
+    if ($OutputDialogs) {
+        foreach (sort(keys(%{$dialogs}))) {
+            my @data = ();
+            push(@data, @{$dialogs->{$_}{"__DATA__"}});
+            if (defined($data[0])) {
+                push(@contents, ["DIALOG", {$_ =>[@data], "__LINES__" => $dialogs->{$_}{"__LINES__"}}]);
+            }
+        }
+    }
+    if ($OutputMenus) {
+        foreach (sort(keys(%{$menus}))) {
+            my @data = ();
+            push(@data, @{$menus->{$_}{"__DATA__"}});
+            @data = grep(skipNonTranslatedStr($_->[1]), @data);
+            @data = grep(($_->[1] !~/""/),@data);
+            push(@contents, ["MENU",{$_ =>[@data], "__LINES__" => $menus->{$_}{"__LINES__"}}]);
+        }
+    }
+    if ($OutputStringtables) {
+        foreach (sort(keys(%{$strings}))) {
+            my $line = $strings->{$_};
+            $line = skipNonTranslatedStr($line);
+            if ($line) {
+                push(@contents,["STRINGTABLE",{$_=>$strings->{$_}}]);
+            }
+        }
+    }
 
-	if(@contents) {
-		print "Generating string files $filename...\n";
-		writePatchFile($filename, \@contents, 0);
-	}
+    if (@contents) {
+        print "Generating string files $filename...\n";
+        writePatchFile($filename, \@contents, 0);
+    }
 }
 
 ###################################################################################################
