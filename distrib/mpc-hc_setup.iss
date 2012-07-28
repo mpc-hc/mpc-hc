@@ -45,7 +45,7 @@
 
 ; From now on you shouldn't need to change anything
 
-#include "..\include\Version.h"
+#include "..\include\version.h"
 
 #define copyright_year "2002-2012"
 #define app_name       "MPC-HC"

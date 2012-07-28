@@ -39,7 +39,7 @@
   #error Update your Inno Setup version (5.5.0 or newer)
 #endif
 
-#include top_dir + "\include\Version.h"
+#include top_dir + "\include\version.h"
 #define app_version str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)
 
 

@@ -43,7 +43,7 @@ Installer:
 1) Add file association tasks, see https://sourceforge.net/apps/trac/mpc-hc/ticket/2207
 
 VSFilter:
-1) Use the defines from Version.h for MPC_COPYRIGHT_STR in VSFilter
+1) Use the defines from version.h for MPC_COPYRIGHT_STR in VSFilter
 2) Define VSFilter's version numbers in a place accessible by its installer and VSFilter itself
 3) Do we need the ISOLATION_AWARE_ENABLED define?
 4) Fix the YUV2 bug causing subtitles not to show
