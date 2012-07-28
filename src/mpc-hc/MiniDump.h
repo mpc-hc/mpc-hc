@@ -20,6 +20,9 @@
 
 #pragma once
 
+// Uncomment the following line to turn off the minidump creation.
+//#define DISABLE_MINIDUMP
+
 class CMiniDump
 {
 public:

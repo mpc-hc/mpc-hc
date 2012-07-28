@@ -94,6 +94,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
         return retval;
     }
 
+#ifndef DISABLE_MINIDUMP
     hDll = ::LoadLibrary(_T("dbghelp.dll"));
 
     if (hDll != NULL) {
@@ -143,7 +144,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
     }
 
     if (szResult) {
-        switch (MessageBox(NULL, szResult, _T("MPC-HC Mini Dump"), retval ? MB_YESNO : MB_OK)) {
+        switch (MessageBox(NULL, szResult, _T("MPC-HC - Mini Dump"), retval ? MB_YESNO : MB_OK)) {
             case IDYES:
                 ShellExecute(NULL, _T("open"), _T("http://sourceforge.net/apps/trac/mpc-hc/wiki/Bugs_-_Reporting"), NULL, NULL, SW_SHOWDEFAULT);
                 ExploreToFile(strDumpPath);
@@ -153,6 +154,11 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
                 break;
         }
     }
+#else
+    if (MessageBox(NULL, ResStr(IDS_MPC_BUG_REPORT), ResStr(IDS_MPC_BUG_REPORT_TITLE), MB_YESNO) == IDYES) {
+        ShellExecute(NULL, _T("open"), _T("http://mpc-hc.sourceforge.net/downloads/"), NULL, NULL, SW_SHOWDEFAULT);
+    }
+#endif // DISABLE_MINIDUMP
 
     return retval;
 }
