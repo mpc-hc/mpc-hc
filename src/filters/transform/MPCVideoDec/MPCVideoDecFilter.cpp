@@ -515,21 +515,6 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] = {
 };
 const int CMPCVideoDecFilter::sudPinTypesOutCount = _countof(CMPCVideoDecFilter::sudPinTypesOut);
 
-BOOL CALLBACK EnumFindProcessWnd(HWND hwnd, LPARAM lParam)
-{
-    DWORD procid = 0;
-    TCHAR WindowClass [40];
-    GetWindowThreadProcessId(hwnd, &procid);
-    GetClassName(hwnd, WindowClass, _countof(WindowClass));
-
-    if (procid == GetCurrentProcessId() && _tcscmp(WindowClass, _T("MediaPlayerClassicW")) == 0) {
-        HWND* pWnd = (HWND*)lParam;
-        *pWnd = hwnd;
-        return FALSE;
-    }
-    return TRUE;
-}
-
 CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     : CBaseVideoFilter(MPCVideoDecName, lpunk, phr, __uuidof(this))
 {
@@ -673,8 +658,113 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     avcodec_register_all();
     av_log_set_callback(LogLibavcodec);
 
-    EnumWindows(EnumFindProcessWnd, (LPARAM)&hWnd);
-    DetectVideoCard(hWnd);
+    // detect the display adapter
+    // note: this function doesn't guarantee that the correct adapter is returned, the video renderer has to be queried for that
+    // SetEVRForDXVA2() queries EVR-based video renderers for that, but it's in an intermediate pass
+    m_nPCIVendor = 0;
+    m_nPCIDevice = 0;
+    m_VideoDriverVersion.QuadPart = 0;
+
+    // main window's nearest monitor to device name
+    HMONITOR hMonitor = MonitorFromWindow(*AfxGetMainWnd(), MONITOR_DEFAULTTONEAREST);
+    MONITORINFOEXW mi;
+    mi.cbSize = sizeof(MONITORINFOEX);
+    if (GetMonitorInfoW(hMonitor, &mi)) {
+        DISPLAY_DEVICEW DisplayDevice;
+        DisplayDevice.cb = sizeof(DISPLAY_DEVICEW);
+
+        HKEY hKey;
+        DWORD lpType = 0;
+        WCHAR fileName[MAX_DDDEVICEID_STRING];
+        DWORD dwStrSize = MAX_DDDEVICEID_STRING;
+        DWORD dwInfoHandle = 0;
+
+        DWORD dwDevNum = 0;
+        for (;;) {
+            if (!EnumDisplayDevicesW(NULL, dwDevNum, &DisplayDevice, 0)) {
+                ASSERT(0);// device not found
+                break;
+            }
+
+            if ((!_wcsicmp(DisplayDevice.DeviceName, mi.szDevice))// for if we have another device like hardware mpeg decoder or video card or another type of driver
+                    || ((DisplayDevice.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) && (!_wcsicmp(mi.szDevice, L"DISPLAY")))) {// check if its the primary driver we just found
+                // copy device characteristics
+                if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, &DisplayDevice.DeviceKey[18], 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
+                    if (RegQueryValueExW(hKey, L"InstalledDisplayDrivers", 0, &lpType, reinterpret_cast<LPBYTE>(fileName), &dwStrSize) == ERROR_SUCCESS) {
+                        DWORD size = GetFileVersionInfoSizeW(fileName, &dwInfoHandle);
+                        if (size) {
+                            BYTE* versionInfo = new(std::nothrow) BYTE[size];
+                            if (versionInfo) {
+                                if (GetFileVersionInfoW(fileName, dwInfoHandle, size, versionInfo)) {
+                                    UINT len = 0;
+                                    VS_FIXEDFILEINFO* vsfi;
+                                    if (VerQueryValueW(versionInfo, L"\\", reinterpret_cast<void**>(&vsfi), &len)) {
+                                        // store the driver version
+                                        // endianess problem here: dwFileVersionMS (high) is first in the struct, dwFileVersionMS (low) is next, so it can't be copied as 64 bits at once
+                                        m_VideoDriverVersion.HighPart = vsfi->dwProductVersionMS;
+                                        m_VideoDriverVersion.LowPart = vsfi->dwProductVersionLS;
+                                    } else { ASSERT(0); }
+                                } else { ASSERT(0); }
+                                delete[] versionInfo;
+                            } else { ASSERT(0); }
+                        } else { ASSERT(0); }
+                    } else { ASSERT(0); }
+                    RegCloseKey(hKey);
+                } else { ASSERT(0); }
+
+                // get vendor ID
+                unsigned __int8* pIDn = reinterpret_cast<unsigned __int8*>(DisplayDevice.DeviceID); // reading the upper bytes would be pointless, those are all 0
+                unsigned __int8 u8Nibble = pIDn[8 << 1];// 4 characters, starting at character 8
+                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }      // 'a' 0x61
+                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; } // 'A' 0x41
+                else { u8Nibble -= '0'; }                           // '0' 0x30
+                m_nPCIVendor = u8Nibble << 12;// each hexadecimal char stores 4 bits
+                u8Nibble = pIDn[9 << 1];
+                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
+                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
+                else { u8Nibble -= '0'; }
+                m_nPCIVendor += u8Nibble << 8;
+                u8Nibble = pIDn[10 << 1];
+                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
+                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
+                else { u8Nibble -= '0'; }
+                m_nPCIVendor += u8Nibble << 4;
+                u8Nibble = pIDn[11 << 1];
+                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
+                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
+                else { u8Nibble -= '0'; }
+                m_nPCIVendor += u8Nibble;
+
+                // get device ID
+                u8Nibble = pIDn[17 << 1];// 4 characters, starting at character 17
+                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
+                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
+                else { u8Nibble -= '0'; }
+                m_nPCIDevice = u8Nibble << 12;
+                u8Nibble = pIDn[18 << 1];
+                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
+                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
+                else { u8Nibble -= '0'; }
+                m_nPCIDevice += u8Nibble << 8;
+                u8Nibble = pIDn[19 << 1];
+                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
+                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
+                else { u8Nibble -= '0'; }
+                m_nPCIDevice += u8Nibble << 4;
+                u8Nibble = pIDn[20 << 1];
+                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
+                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
+                else { u8Nibble -= '0'; }
+                m_nPCIDevice += u8Nibble;
+
+                // get device name
+                m_strDeviceDescription = DisplayDevice.DeviceString;
+                m_strDeviceDescription.AppendFormat(_T(" (%04hX:%04hX)"), m_nPCIVendor, m_nPCIDevice);
+                break;
+            }
+            ++dwDevNum;
+        }
+    } else { ASSERT(0); }// monitor info inaccessible
 
 #ifdef _DEBUG
     // Check codec definition table
@@ -685,28 +775,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         ASSERT(ffCodecs[i].clsMinorType == sudPinTypesIn[i].clsMinorType);
     }
 #endif
-}
-
-void CMPCVideoDecFilter::DetectVideoCard(HWND hWnd)
-{
-    IDirect3D9* pD3D9;
-    m_nPCIVendor = 0;
-    m_nPCIDevice = 0;
-    m_VideoDriverVersion.HighPart = 0;
-    m_VideoDriverVersion.LowPart = 0;
-
-    pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
-    if (pD3D9) {
-        D3DADAPTER_IDENTIFIER9 adapterIdentifier;
-        if (pD3D9->GetAdapterIdentifier(GetAdapter(pD3D9, hWnd), 0, &adapterIdentifier) == S_OK) {
-            m_nPCIVendor = adapterIdentifier.VendorId;
-            m_nPCIDevice = adapterIdentifier.DeviceId;
-            m_VideoDriverVersion = adapterIdentifier.DriverVersion;
-            m_strDeviceDescription = adapterIdentifier.Description;
-            m_strDeviceDescription.AppendFormat(_T(" (%04X:%04X)"), m_nPCIVendor, m_nPCIDevice);
-        }
-        pD3D9->Release();
-    }
 }
 
 CMPCVideoDecFilter::~CMPCVideoDecFilter()
@@ -2296,48 +2364,79 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin* pPin)
 
 HRESULT CMPCVideoDecFilter::SetEVRForDXVA2(IPin* pPin)
 {
-    HRESULT hr = S_OK;
-
-    CComPtr<IMFGetService> pGetService;
-    CComPtr<IDirectXVideoMemoryConfiguration> pVideoConfig;
-    CComPtr<IMFVideoDisplayControl> pVdc;
-
     // Query the pin for IMFGetService.
-    hr = pPin->QueryInterface(__uuidof(IMFGetService), (void**)&pGetService);
-
-    // Get the IDirectXVideoMemoryConfiguration interface.
+    IMFGetService* pGetService;
+    HRESULT hr = pPin->QueryInterface(__uuidof(IMFGetService), reinterpret_cast<void**>(&pGetService));
     if (SUCCEEDED(hr)) {
-        hr = pGetService->GetService(
-                 MR_VIDEO_ACCELERATION_SERVICE,
-                 __uuidof(IDirectXVideoMemoryConfiguration),
-                 (void**)&pVideoConfig);
-
-        if (SUCCEEDED(pGetService->GetService(MR_VIDEO_RENDER_SERVICE, __uuidof(IMFVideoDisplayControl), (void**)&pVdc))) {
-            HWND    hWnd;
-            if (SUCCEEDED(pVdc->GetVideoWindow(&hWnd))) {
-                DetectVideoCard(hWnd);
+        // Try to get the adapter description of the active DirectX 9 device.
+        IDirect3DDeviceManager9* pDevMan9;
+        hr = pGetService->GetService(MR_VIDEO_ACCELERATION_SERVICE, IID_IDirect3DDeviceManager9, reinterpret_cast<void**>(&pDevMan9));
+        if (SUCCEEDED(hr)) {
+            HANDLE hDevice;
+            hr = pDevMan9->OpenDeviceHandle(&hDevice);
+            if (SUCCEEDED(hr)) {
+                IDirect3DDevice9* pD3DDev9;
+                hr = pDevMan9->LockDevice(hDevice, &pD3DDev9, TRUE);
+                if (hr == DXVA2_E_NEW_VIDEO_DEVICE) {
+                    // Invalid device handle. Try to open a new device handle.
+                    hr = pDevMan9->CloseDeviceHandle(hDevice);
+                    if (SUCCEEDED(hr)) {
+                        hr = pDevMan9->OpenDeviceHandle(&hDevice);
+                        // Try to lock the device again.
+                        if (SUCCEEDED(hr)) {
+                            hr = pDevMan9->LockDevice(hDevice, &pD3DDev9, TRUE);
+                        }
+                    }
+                }
+                if (SUCCEEDED(hr)) {
+                    D3DDEVICE_CREATION_PARAMETERS DevPar9;
+                    hr = pD3DDev9->GetCreationParameters(&DevPar9);
+                    if (SUCCEEDED(hr)) {
+                        IDirect3D9* pD3D9;
+                        hr = pD3DDev9->GetDirect3D(&pD3D9);
+                        if (SUCCEEDED(hr)) {
+                            D3DADAPTER_IDENTIFIER9 AdapID9;
+                            hr = pD3D9->GetAdapterIdentifier(DevPar9.AdapterOrdinal, 0, &AdapID9);
+                            if (SUCCEEDED(hr)) {
+                                // copy adapter description
+                                m_nPCIVendor = AdapID9.VendorId;
+                                m_nPCIDevice = AdapID9.DeviceId;
+                                m_VideoDriverVersion.QuadPart = AdapID9.DriverVersion.QuadPart;
+                                m_strDeviceDescription = AdapID9.Description;
+                                m_strDeviceDescription.AppendFormat(_T(" (%04hX:%04hX)"), m_nPCIVendor, m_nPCIDevice);
+                            }
+                        }
+                        pD3D9->Release();
+                    }
+                    pD3DDev9->Release();
+                    pDevMan9->UnlockDevice(hDevice, FALSE);
+                }
+                pDevMan9->CloseDeviceHandle(hDevice);
             }
+            pDevMan9->Release();
         }
-    }
 
-    // Notify the EVR.
-    if (SUCCEEDED(hr)) {
-        DXVA2_SurfaceType surfaceType;
-
-        for (DWORD iTypeIndex = 0; ; iTypeIndex++) {
-            hr = pVideoConfig->GetAvailableSurfaceTypeByIndex(iTypeIndex, &surfaceType);
-
-            if (FAILED(hr)) {
-                break;
+        IDirectXVideoMemoryConfiguration* pVideoConfig;
+        hr = pGetService->GetService(MR_VIDEO_ACCELERATION_SERVICE, IID_IDirectXVideoMemoryConfiguration, reinterpret_cast<void**>(&pVideoConfig));
+        if (SUCCEEDED(hr)) {
+            // Notify the EVR.
+            DXVA2_SurfaceType surfaceType;
+            DWORD dwTypeIndex = 0;
+            for (;;) {
+                hr = pVideoConfig->GetAvailableSurfaceTypeByIndex(dwTypeIndex, &surfaceType);
+                if (FAILED(hr)) {
+                    break;
+                }
+                if (surfaceType == DXVA2_SurfaceType_DecoderRenderTarget) {
+                    hr = pVideoConfig->SetSurfaceType(DXVA2_SurfaceType_DecoderRenderTarget);
+                    break;
+                }
+                ++dwTypeIndex;
             }
-
-            if (surfaceType == DXVA2_SurfaceType_DecoderRenderTarget) {
-                hr = pVideoConfig->SetSurfaceType(DXVA2_SurfaceType_DecoderRenderTarget);
-                break;
-            }
+            pVideoConfig->Release();
         }
+        pGetService->Release();
     }
-
     return hr;
 }
 
