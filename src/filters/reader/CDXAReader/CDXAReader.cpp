@@ -324,18 +324,23 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
             m_nBufferedSector = sector;
         }
 
-        DWORD l = (DWORD)min(dwBytesToRead, min(RAW_DATA_SIZE - offset, m_llLength - pos));
-        memcpy(pbBuffer, &m_sector[RAW_SYNC_SIZE + RAW_HEADER_SIZE + RAW_SUBHEADER_SIZE + offset], l);
+        LONGLONG llROffset = RAW_DATA_SIZE - offset, llLenPos = m_llLength - pos, llBytesToRead = static_cast<LONGLONG>(dwBytesToRead);
+        ASSERT(llROffset >= 0 && llLenPos >= 0);
+
+        LONGLONG l = (llROffset < llLenPos) ? llROffset : llLenPos;
+        if (l > llBytesToRead) { l = llBytesToRead; }
+        memcpy(pbBuffer, &m_sector[RAW_SYNC_SIZE + RAW_HEADER_SIZE + RAW_SUBHEADER_SIZE + offset], static_cast<size_t>(l));
 
         pbBuffer += l;
         pos += l;
         dwBytesToRead -= l;
     }
 
+    size_t uBytesReadHere = pbBuffer - pbBufferOrg;
     if (pdwBytesRead) {
-        *pdwBytesRead = pbBuffer - pbBufferOrg;
+        *pdwBytesRead = static_cast<DWORD>(uBytesReadHere);
     }
-    m_llPosition += pbBuffer - pbBufferOrg;
+    m_llPosition += uBytesReadHere;
 
     if (dwBytesToRead != 0) {
         return S_FALSE;
@@ -463,7 +468,7 @@ bool CCDXAStream::LookForMediaSubType()
                 p += ',';
 
                 __int64 offset = 0;
-                DWORD cb = 0;
+                size_t cb = 0;
                 CAtlArray<BYTE> mask, val;
 
                 int nMatches = 0, nTries = 0;
@@ -479,7 +484,7 @@ bool CCDXAStream::LookForMediaSubType()
                             offset = _tcstol(s, &end, 10);
                             break;
                         case 1:
-                            cb = _tcstol(s, &end, 10);
+                            cb = _tcstoul(s, &end, 10);
                             break;
                         case 2:
                             CStringToBin(s, mask);
@@ -498,18 +503,21 @@ bool CCDXAStream::LookForMediaSubType()
                                     || S_OK == SetPointer(m_llLength + offset)) {
                                 CAutoVectorPtr<BYTE> pData;
                                 if (pData.Allocate(cb)) {
-                                    DWORD BytesRead = 0;
-                                    if (S_OK == Read(pData, cb, 1, &BytesRead) && cb == BytesRead) {
+                                    DWORD dwBytesRead = 0;
+                                    if (S_OK == Read(pData, cb, TRUE, &dwBytesRead) && cb == dwBytesRead) {
                                         if (mask.GetCount() < cb) {
-                                            size_t x = mask.GetCount();
+                                            size_t i = mask.GetCount();
                                             mask.SetCount(cb);
-                                            for (; x < cb; x++) {
-                                                mask[x] = 0xff;
+                                            while (i < cb) {
+                                                mask[i] = 0xff;
+                                                ++i;
                                             }
                                         }
 
-                                        for (unsigned int x = 0; x < cb; x++) {
-                                            pData[x] &= (BYTE)mask[x];
+                                        ptrdiff_t i = cb - 1;
+                                        while (i >= 0) {
+                                            pData[i] &= (BYTE)mask[i];
+                                            --i;
                                         }
 
                                         if (memcmp(pData, val.GetData(), cb) == 0) {
