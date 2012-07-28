@@ -703,58 +703,102 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
                                         // endianess problem here: dwFileVersionMS (high) is first in the struct, dwFileVersionMS (low) is next, so it can't be copied as 64 bits at once
                                         m_VideoDriverVersion.HighPart = vsfi->dwProductVersionMS;
                                         m_VideoDriverVersion.LowPart = vsfi->dwProductVersionLS;
-                                    } else { ASSERT(0); }
-                                } else { ASSERT(0); }
+                                    } else {
+                                        ASSERT(0);
+                                    }
+                                } else {
+                                    ASSERT(0);
+                                }
                                 delete[] versionInfo;
-                            } else { ASSERT(0); }
-                        } else { ASSERT(0); }
-                    } else { ASSERT(0); }
+                            } else {
+                                ASSERT(0);
+                            }
+                        } else {
+                            ASSERT(0);
+                        }
+                    } else {
+                        ASSERT(0);
+                    }
                     RegCloseKey(hKey);
-                } else { ASSERT(0); }
+                } else {
+                    ASSERT(0);
+                }
 
                 // get vendor ID
                 unsigned __int8* pIDn = reinterpret_cast<unsigned __int8*>(DisplayDevice.DeviceID); // reading the upper bytes would be pointless, those are all 0
                 unsigned __int8 u8Nibble = pIDn[8 << 1];// 4 characters, starting at character 8
-                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }      // 'a' 0x61
-                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; } // 'A' 0x41
-                else { u8Nibble -= '0'; }                           // '0' 0x30
+                if (u8Nibble >= 'a') {
+                    u8Nibble -= 'a' - 10; // 'a' 0x61
+                } else if (u8Nibble >= 'A') {
+                    u8Nibble -= 'A' - 10; // 'A' 0x41
+                } else {
+                    u8Nibble -= '0';      // '0' 0x30
+                }
                 m_nPCIVendor = u8Nibble << 12;// each hexadecimal char stores 4 bits
                 u8Nibble = pIDn[9 << 1];
-                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
-                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
-                else { u8Nibble -= '0'; }
+                if (u8Nibble >= 'a') {
+                    u8Nibble -= 'a' - 10;
+                } else if (u8Nibble >= 'A') {
+                    u8Nibble -= 'A' - 10;
+                } else {
+                    u8Nibble -= '0';
+                }
                 m_nPCIVendor += u8Nibble << 8;
                 u8Nibble = pIDn[10 << 1];
-                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
-                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
-                else { u8Nibble -= '0'; }
+                if (u8Nibble >= 'a') {
+                    u8Nibble -= 'a' - 10;
+                } else if (u8Nibble >= 'A') {
+                    u8Nibble -= 'A' - 10;
+                } else {
+                    u8Nibble -= '0';
+                }
                 m_nPCIVendor += u8Nibble << 4;
                 u8Nibble = pIDn[11 << 1];
-                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
-                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
-                else { u8Nibble -= '0'; }
+                if (u8Nibble >= 'a') {
+                    u8Nibble -= 'a' - 10;
+                } else if (u8Nibble >= 'A') {
+                    u8Nibble -= 'A' - 10;
+                } else {
+                    u8Nibble -= '0';
+                }
                 m_nPCIVendor += u8Nibble;
 
                 // get device ID
                 u8Nibble = pIDn[17 << 1];// 4 characters, starting at character 17
-                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
-                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
-                else { u8Nibble -= '0'; }
+                if (u8Nibble >= 'a') {
+                    u8Nibble -= 'a' - 10;
+                } else if (u8Nibble >= 'A') {
+                    u8Nibble -= 'A' - 10;
+                } else {
+                    u8Nibble -= '0';
+                }
                 m_nPCIDevice = u8Nibble << 12;
                 u8Nibble = pIDn[18 << 1];
-                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
-                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
-                else { u8Nibble -= '0'; }
+                if (u8Nibble >= 'a') {
+                    u8Nibble -= 'a' - 10;
+                } else if (u8Nibble >= 'A') {
+                    u8Nibble -= 'A' - 10;
+                } else {
+                    u8Nibble -= '0';
+                }
                 m_nPCIDevice += u8Nibble << 8;
                 u8Nibble = pIDn[19 << 1];
-                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
-                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
-                else { u8Nibble -= '0'; }
+                if (u8Nibble >= 'a') {
+                    u8Nibble -= 'a' - 10;
+                } else if (u8Nibble >= 'A') {
+                    u8Nibble -= 'A' - 10;
+                } else {
+                    u8Nibble -= '0';
+                }
                 m_nPCIDevice += u8Nibble << 4;
                 u8Nibble = pIDn[20 << 1];
-                if (u8Nibble >= 'a') { u8Nibble -= 'a' - 10; }
-                else if (u8Nibble >= 'A') { u8Nibble -= 'A' - 10; }
-                else { u8Nibble -= '0'; }
+                if (u8Nibble >= 'a') {
+                    u8Nibble -= 'a' - 10;
+                } else if (u8Nibble >= 'A') {
+                    u8Nibble -= 'A' - 10;
+                } else {
+                    u8Nibble -= '0';
+                }
                 m_nPCIDevice += u8Nibble;
 
                 // get device name
@@ -764,7 +808,9 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
             }
             ++dwDevNum;
         }
-    } else { ASSERT(0); }// monitor info inaccessible
+    } else {
+        ASSERT(0); // monitor info inaccessible
+    }
 
 #ifdef _DEBUG
     // Check codec definition table
