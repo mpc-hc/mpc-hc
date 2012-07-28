@@ -1,15 +1,16 @@
-@echo off
-setlocal
+@ECHO OFF
+SETLOCAL
 
 rem A simple script which demonstrates how to extract all strings from rc files.
 
-call "common.bat" perl
-if %errorlevel% neq 0 goto end
+CALL "common.bat" perl
+IF %ERRORLEVEL% NEQ 0 GOTO END
 
-echo Generating string files...
+ECHO Generating string files...
 perl.exe rcstrings.pl -a
 
-:end
-pause
-endlocal
-exit /b
+
+:END
+PAUSE
+ENDLOCAL
+EXIT /B

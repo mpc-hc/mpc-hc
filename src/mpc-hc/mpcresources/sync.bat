@@ -1,40 +1,41 @@
-@echo off
-setlocal
+@ECHO OFF
+SETLOCAL
 
 rem An all in one script which demonstrates how to sync all locale rc files to the latest mplayerc.rc.
 rem It will try to patch existing local rc files first, then sync them to mplayerc.rc.
 rem Then it will overwrite rc files with new rc ones, and after that it will generate the text files.
 rem This is only an example.
 
-call "common.bat"
-if %errorlevel% neq 0 goto end
+CALL "common.bat"
+IF %ERRORLEVEL% NEQ 0 GOTO END
 
-echo Get the latest mplayerc.rc from repository first...
+ECHO Get the latest mplayerc.rc from repository first...
 git.exe show origin/HEAD:../mplayerc.rc > $$TEMP$$.old
-echo ----------------------
+ECHO ----------------------
 
-for %%i in (*.rc) do (
-  echo Patching file %%i
+FOR %%i IN (*.rc) DO (
+  ECHO Patching file %%i
   perl.exe patch.pl -i text\%%i.txt %%i
-  echo ----------------------
+  ECHO ----------------------
 )
-echo ----------------------
+ECHO ----------------------
 
-echo Generating new rc files...
+ECHO Generating new rc files...
 perl.exe rcfile.pl -b $$TEMP$$.old
-del $$TEMP$$.old
-echo ----------------------
+IF EXIST $$TEMP$$.old DEL $$TEMP$$.old
+ECHO ----------------------
 
-copy newrc\*.rc .
-echo ----------------------
+COPY /Y /V newrc\*.rc .
+ECHO ----------------------
 
-echo Generating new string files...
-copy ..\mplayerc.rc .
+ECHO Generating new string files...
+COPY /Y /V ..\mplayerc.rc .
 perl.exe rcstrings.pl -a
-del mplayerc.rc
-echo ----------------------
+IF EXIST mplayerc.rc DEL mplayerc.rc
+ECHO ----------------------
 
-:end
-pause
-endlocal
-exit /b
+
+:END
+PAUSE
+ENDLOCAL
+EXIT /B

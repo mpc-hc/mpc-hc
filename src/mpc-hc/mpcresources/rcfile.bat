@@ -1,21 +1,22 @@
-@echo off
-setlocal
+@ECHO OFF
+SETLOCAL
 
 rem This is a simple script to check out the head revision of mplayerc.rc,
 rem then rename it to old file for rcfile.pl to process it
 
-call "common.bat"
-if %errorlevel% neq 0 goto end
+CALL "common.bat"
+IF %ERRORLEVEL% NEQ 0 GOTO END
 
-echo Getting the latest mplayerc.rc from repository...
-git.exe show HEAD:../mplayerc.rc > $$TEMP$$.old
+ECHO Getting the latest mplayerc.rc from repository...
+git.exe show origin/HEAD:../mplayerc.rc > $$TEMP$$.old
 
-echo Generating new rc files and string files...
+ECHO Generating new rc files and string files...
 perl.exe rcfile.pl -b $$TEMP$$.old
 
-del $$TEMP$$.old
+IF EXIST $$TEMP$$.old DEL $$TEMP$$.old
 
-:end
-pause
-endlocal
-exit /b
+
+:END
+PAUSE
+ENDLOCAL
+EXIT /B

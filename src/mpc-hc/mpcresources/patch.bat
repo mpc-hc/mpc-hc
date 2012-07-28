@@ -1,19 +1,20 @@
-@echo off
-setlocal
+@ECHO OFF
+SETLOCAL
 
 rem A simple script which demonstrates how to apply translated text to locale rc file.
 rem This is only an example.
 
-call "common.bat" perl
-if %errorlevel% neq 0 goto end
+CALL "common.bat" perl
+IF %ERRORLEVEL% NEQ 0 GOTO END
 
-for %%i in (*.rc) do (
-  echo Patching file %%i
+FOR %%i IN (*.rc) DO (
+  ECHO Patching file %%i
   perl.exe patch.pl -i text\%%i.txt %%i
-  echo ----------------------
+  ECHO ----------------------
 )
 
-:end
-pause
-endlocal
-exit /b
+
+:END
+PAUSE
+ENDLOCAL
+EXIT /B
