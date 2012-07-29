@@ -1,7 +1,7 @@
 @ECHO OFF
 SETLOCAL
 
-rem An all in one script which demonstrates how to sync all locale rc files to the latest mplayerc.rc.
+rem An all in one script which demonstrates how to sync all locale rc files to a revision of mplayerc.rc.
 rem It will try to patch existing local rc files first, then sync them to mplayerc.rc.
 rem Then it will overwrite rc files with new rc ones, and after that it will generate the text files.
 rem This is only an example.
@@ -9,8 +9,11 @@ rem This is only an example.
 CALL "common.bat"
 IF %ERRORLEVEL% NEQ 0 GOTO END
 
-ECHO Get the latest mplayerc.rc from repository first...
-git.exe show origin/HEAD:../mplayerc.rc > $$TEMP$$.old
+SET REF=HEAD
+IF NOT "%1"=="" SET REF=%1
+
+ECHO Get mplayerc.rc from %REF% first...
+git.exe show %REF%:../mplayerc.rc > $$TEMP$$.old
 ECHO ----------------------
 
 FOR %%i IN (*.rc) DO (
