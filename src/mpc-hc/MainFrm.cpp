@@ -11941,8 +11941,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 void CMainFrame::CloseMediaPrivate()
 {
-    SetLoadState(MLS_CLOSING);
+    SetLoadState(MLS_CLOSING); // why it before OnPlayStop()? // TODO: remake or add detailed comments
     OnPlayStop(); // SendMessage(WM_COMMAND, ID_PLAY_STOP);
+    pMC->Stop(); // neead for StreamBufferSource, because m_iMediaLoadState is always MLS_CLOSED // TODO: to fix the opening for such media
     SetPlaybackMode(PM_NONE);
     m_fLiveWM = false;
     m_fEndOfStream = false;
@@ -14527,7 +14528,7 @@ void CMainFrame::DisplayCurrentChannelInfo()
 void CMainFrame::SetLoadState(MPC_LOADSTATE iState)
 {
     m_iMediaLoadState = iState;
-    SendAPICommand(CMD_STATE, L"%d", m_iMediaLoadState);
+    SendAPICommand(CMD_STATE, L"%d", iState);
 }
 
 void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)

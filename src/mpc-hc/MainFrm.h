@@ -365,7 +365,7 @@ public:
     CControlBar* m_pLastBar;
 
 protected:
-    int m_iMediaLoadState;
+    MPC_LOADSTATE m_iMediaLoadState;
 
     bool m_fClosingState;
 
