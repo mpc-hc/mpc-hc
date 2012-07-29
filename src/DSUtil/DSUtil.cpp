@@ -611,18 +611,17 @@ void ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types)
     types.RemoveAll();
 
     BeginEnumMediaTypes(pPin, pEM, pmt) {
-        bool fFound = false;
-
-        for (ptrdiff_t i = 0; !fFound && i < (int)types.GetCount(); i += 2) {
+        size_t count = types.GetCount();
+        for (size_t i = 0; i < count; i += 2) {
             if (types[i] == pmt->majortype && types[i + 1] == pmt->subtype) {
-                fFound = true;
+                goto FoundExistngType;
             }
         }
+        types.Add(pmt->majortype);
+        types.Add(pmt->subtype);
 
-        if (!fFound) {
-            types.Add(pmt->majortype);
-            types.Add(pmt->subtype);
-        }
+FoundExistngType:
+        ;
     }
     EndEnumMediaTypes(pmt);
 }
@@ -632,19 +631,17 @@ void ExtractMediaTypes(IPin* pPin, CAtlList<CMediaType>& mts)
     mts.RemoveAll();
 
     BeginEnumMediaTypes(pPin, pEM, pmt) {
-        bool fFound = false;
-
         POSITION pos = mts.GetHeadPosition();
-        while (!fFound && pos) {
+        while (pos) {
             CMediaType& mt = mts.GetNext(pos);
             if (mt.majortype == pmt->majortype && mt.subtype == pmt->subtype) {
-                fFound = true;
+                goto FoundExistngType;
             }
         }
+        mts.AddTail(CMediaType(*pmt));
 
-        if (!fFound) {
-            mts.AddTail(CMediaType(*pmt));
-        }
+FoundExistngType:
+        ;
     }
     EndEnumMediaTypes(pmt);
 }
