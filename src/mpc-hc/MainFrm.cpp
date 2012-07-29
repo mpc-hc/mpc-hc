@@ -11943,7 +11943,9 @@ void CMainFrame::CloseMediaPrivate()
 {
     SetLoadState(MLS_CLOSING); // why it before OnPlayStop()? // TODO: remake or add detailed comments
     OnPlayStop(); // SendMessage(WM_COMMAND, ID_PLAY_STOP);
-    pMC->Stop(); // neead for StreamBufferSource, because m_iMediaLoadState is always MLS_CLOSED // TODO: to fix the opening for such media
+    if (pMC) {
+        pMC->Stop(); // needed for StreamBufferSource, because m_iMediaLoadState is always MLS_CLOSED // TODO: fix the opening for such media
+    }
     SetPlaybackMode(PM_NONE);
     m_fLiveWM = false;
     m_fEndOfStream = false;
