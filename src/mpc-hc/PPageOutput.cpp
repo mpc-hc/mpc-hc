@@ -431,6 +431,7 @@ void CPPageOutput::OnDSRendererChange()
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR9WIN), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_EVR:
+            m_iDSDXVASupport.SetIcon(tick);
             m_iDSSaveImageSupport.SetIcon(tick);
             break;
         case VIDRNDT_DS_NULL_COMP:
