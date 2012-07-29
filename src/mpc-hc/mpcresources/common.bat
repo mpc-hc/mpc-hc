@@ -12,8 +12,8 @@ IF EXIST "%ROOT_DIR%\build.user.bat" (
 )
 
 SET PATH=%MPCHC_PERL%\bin;%MPCHC_GIT%\cmd;%PATH%
-FOR %%X IN (git.exe)  DO (SET FOUND=%%~$PATH:X)
-FOR %%X IN (perl.exe) DO (SET FOUND=%%~$PATH:X)
+FOR %%G IN (git.exe)  DO (SET FOUND=%%~$PATH:G)
+FOR %%G IN (perl.exe) DO (SET FOUND=%%~$PATH:G)
 IF NOT DEFINED FOUND GOTO MissingVar
 EXIT /B
 

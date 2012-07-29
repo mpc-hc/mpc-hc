@@ -31,7 +31,7 @@ IF EXIST "%ROOT_DIR%\build.user.bat" (
 )
 
 SET PATH=%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%PATH%
-FOR %%X IN (gcc.exe) DO (SET FOUND=%%~$PATH:X)
+FOR %%G IN (gcc.exe) DO (SET FOUND=%%~$PATH:G)
 IF NOT DEFINED FOUND GOTO MissingVar
 
 SET ARG=/%*
@@ -44,17 +44,17 @@ SET INPUT=0
 
 IF /I "%ARG%" == "?"          GOTO ShowHelp
 
-FOR %%A IN (%ARG%) DO (
-  IF /I "%%A" == "help"       GOTO ShowHelp
-  IF /I "%%A" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
-  IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
-  IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
-  IF /I "%%A" == "Both"       SET "ARCH=Both"         & SET /A ARGPL+=1
-  IF /I "%%A" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1
-  IF /I "%%A" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1
-  IF /I "%%A" == "x64"        SET "ARCH=x64"          & SET /A ARGPL+=1
-  IF /I "%%A" == "Debug"      SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
-  IF /I "%%A" == "Release"    SET "DEBUG= "           & SET /A ARGBC+=1
+FOR %%G IN (%ARG%) DO (
+  IF /I "%%G" == "help"       GOTO ShowHelp
+  IF /I "%%G" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
+  IF /I "%%G" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1
+  IF /I "%%G" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1
+  IF /I "%%G" == "Both"       SET "ARCH=Both"         & SET /A ARGPL+=1
+  IF /I "%%G" == "Win32"      SET "ARCH=x86"          & SET /A ARGPL+=1
+  IF /I "%%G" == "x86"        SET "ARCH=x86"          & SET /A ARGPL+=1
+  IF /I "%%G" == "x64"        SET "ARCH=x64"          & SET /A ARGPL+=1
+  IF /I "%%G" == "Debug"      SET "DEBUG=DEBUG=yes"   & SET /A ARGBC+=1
+  IF /I "%%G" == "Release"    SET "DEBUG= "           & SET /A ARGBC+=1
 )
 
 FOR %%X IN (%*) DO SET /A INPUT+=1
@@ -121,7 +121,7 @@ EXIT /B
 
 :SubCopyLibs
 REM Set the GCC version
-FOR /F "tokens=1,2 delims= " %%A IN ('gcc -dumpversion') DO (SET "gccver=%%A")
+FOR /F "tokens=1,2 delims= " %%G IN ('gcc -dumpversion') DO (SET "gccver=%%G")
 
 REM Copy the needed libraries
 COPY /Y /V "%MPCHC_MINGW32%\lib\gcc\i686-w64-mingw32\%gccver%\libgcc.a"   "%ROOT_DIR%\lib\" >NUL
@@ -171,12 +171,12 @@ EXIT /B
 SET START_TIME=%START_TIME: =%
 SET END_TIME=%END_TIME: =%
 
-FOR /F "tokens=1-4 delims=:.," %%A IN ("%START_TIME%") DO (
-  SET /A "STARTTIME=(100%%A %% 100) * 360000 + (100%%B %% 100) * 6000 + (100%%C %% 100) * 100 + (100%%D %% 100)"
+FOR /F "tokens=1-4 delims=:.," %%G IN ("%START_TIME%") DO (
+  SET /A "STARTTIME=(100%%G %% 100) * 360000 + (100%%H %% 100) * 6000 + (100%%I %% 100) * 100 + (100%%J %% 100)"
 )
 
-FOR /F "tokens=1-4 delims=:.," %%A IN ("%END_TIME%") DO (
-  SET /A "ENDTIME=(100%%A %% 100) * 360000 + (100%%B %% 100) * 6000 + (100%%C %% 100) * 100 + (100%%D %% 100)"
+FOR /F "tokens=1-4 delims=:.," %%G IN ("%END_TIME%") DO (
+  SET /A "ENDTIME=(100%%G %% 100) * 360000 + (100%%H %% 100) * 6000 + (100%%I %% 100) * 100 + (100%%J %% 100)"
 )
 
 SET /A DURATION=%ENDTIME%-%STARTTIME%

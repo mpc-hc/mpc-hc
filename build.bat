@@ -48,35 +48,35 @@ SET VALID=0
 
 IF /I "%ARG%" == "?"          GOTO ShowHelp
 
-FOR %%A IN (%ARG%) DO (
-  IF /I "%%A" == "help"       GOTO ShowHelp
-  IF /I "%%A" == "GetVersion" ENDLOCAL & CALL :SubGetVersion & EXIT /B
-  IF /I "%%A" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
-  IF /I "%%A" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1  & SET /A ARGCL+=1
-  IF /I "%%A" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1  & SET /A ARGRE+=1
-  IF /I "%%A" == "Both"       SET "PPLATFORM=Both"    & SET /A ARGPL+=1
-  IF /I "%%A" == "Win32"      SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
-  IF /I "%%A" == "x86"        SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
-  IF /I "%%A" == "x64"        SET "PPLATFORM=x64"     & SET /A ARGPL+=1
-  IF /I "%%A" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
-  IF /I "%%A" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1  & SET /A ARGM+=1
-  IF /I "%%A" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
-  IF /I "%%A" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
-  IF /I "%%A" == "MPCHC"      SET "CONFIG=MPCHC"      & SET /A ARGC+=1
-  IF /I "%%A" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
-  IF /I "%%A" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
-  IF /I "%%A" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
-  IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
-  IF /I "%%A" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
-  IF /I "%%A" == "Packages"   SET "PACKAGES=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "Installer"  SET "INSTALLER=True"    & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "Zip"        SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "7z"         SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
-  IF /I "%%A" == "Lite"       SET "MPCHC_LITE=True"   & SET /A VALID+=1 & SET /A ARGL+=1
-  IF /I "%%A" == "FFmpeg"     SET "Rebuild=FFmpeg"    & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGRE+=1
+FOR %%G IN (%ARG%) DO (
+  IF /I "%%G" == "help"       GOTO ShowHelp
+  IF /I "%%G" == "GetVersion" ENDLOCAL & CALL :SubGetVersion & EXIT /B
+  IF /I "%%G" == "Build"      SET "BUILDTYPE=Build"   & SET /A ARGB+=1
+  IF /I "%%G" == "Clean"      SET "BUILDTYPE=Clean"   & SET /A ARGB+=1  & SET /A ARGCL+=1
+  IF /I "%%G" == "Rebuild"    SET "BUILDTYPE=Rebuild" & SET /A ARGB+=1  & SET /A ARGRE+=1
+  IF /I "%%G" == "Both"       SET "PPLATFORM=Both"    & SET /A ARGPL+=1
+  IF /I "%%G" == "Win32"      SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
+  IF /I "%%G" == "x86"        SET "PPLATFORM=Win32"   & SET /A ARGPL+=1
+  IF /I "%%G" == "x64"        SET "PPLATFORM=x64"     & SET /A ARGPL+=1
+  IF /I "%%G" == "All"        SET "CONFIG=All"        & SET /A ARGC+=1
+  IF /I "%%G" == "Main"       SET "CONFIG=Main"       & SET /A ARGC+=1  & SET /A ARGM+=1
+  IF /I "%%G" == "Filters"    SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
+  IF /I "%%G" == "Filter"     SET "CONFIG=Filters"    & SET /A ARGC+=1  & SET /A ARGF+=1 & SET /A ARGL+=1
+  IF /I "%%G" == "MPCHC"      SET "CONFIG=MPCHC"      & SET /A ARGC+=1
+  IF /I "%%G" == "MPC-HC"     SET "CONFIG=MPCHC"      & SET /A ARGC+=1
+  IF /I "%%G" == "Resource"   SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
+  IF /I "%%G" == "Resources"  SET "CONFIG=Resources"  & SET /A ARGC+=1  & SET /A ARGD+=1
+  IF /I "%%G" == "Debug"      SET "BUILDCFG=Debug"    & SET /A ARGBC+=1 & SET /A ARGD+=1
+  IF /I "%%G" == "Release"    SET "BUILDCFG=Release"  & SET /A ARGBC+=1
+  IF /I "%%G" == "Packages"   SET "PACKAGES=True"     & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Installer"  SET "INSTALLER=True"    & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGD+=1 & SET /A ARGF+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Zip"        SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "7z"         SET "ZIP=True"          & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGM+=1
+  IF /I "%%G" == "Lite"       SET "MPCHC_LITE=True"   & SET /A VALID+=1 & SET /A ARGL+=1
+  IF /I "%%G" == "FFmpeg"     SET "Rebuild=FFmpeg"    & SET /A VALID+=1 & SET /A ARGCL+=1 & SET /A ARGRE+=1
 )
 
-FOR %%X IN (%*) DO SET /A INPUT+=1
+FOR %%G IN (%*) DO SET /A INPUT+=1
 SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%
 
 IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
@@ -217,14 +217,14 @@ IF DEFINED MPCHC_LITE (
   EXIT /B
 )
 
-FOR %%A IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
+FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
  "Chinese Traditional" "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian"
  "Italian" "Japanese" "Korean" "Polish" "Portuguese" "Russian" "Slovak" "Spanish"
  "Swedish" "Turkish" "Ukrainian"
 ) DO (
- TITLE Compiling mpcresources - %%~A^|%1...
+ TITLE Compiling mpcresources - %%~G^|%1...
  "%MSBUILD%" mpcresources.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="Release %%~A";PPLATFORM=%1
+ /target:%BUILDTYPE% /property:Configuration="Release %%~G";PPLATFORM=%1
  IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 )
 EXIT /B
@@ -347,14 +347,14 @@ EXIT /B
 
 :SubGetVersion
 REM Get the version
-FOR /F "tokens=3,4 delims= " %%A IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_MAJOR" "include\Version.h"') DO (SET "VerMajor=%%A")
-FOR /F "tokens=3,4 delims= " %%A IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_MINOR" "include\Version.h"') DO (SET "VerMinor=%%A")
-FOR /F "tokens=3,4 delims= " %%A IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\Version.h"') DO (SET "VerPatch=%%A")
-FOR /F "tokens=3,4 delims= " %%A IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\Version_rev.h"') DO (SET "VerRev=%%A")
+FOR /F "tokens=3,4 delims= " %%G IN (
+  'FINDSTR /I /L /C:"define MPC_VERSION_MAJOR" "include\Version.h"') DO (SET "VerMajor=%%G")
+FOR /F "tokens=3,4 delims= " %%G IN (
+  'FINDSTR /I /L /C:"define MPC_VERSION_MINOR" "include\Version.h"') DO (SET "VerMinor=%%G")
+FOR /F "tokens=3,4 delims= " %%G IN (
+  'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\Version.h"') DO (SET "VerPatch=%%G")
+FOR /F "tokens=3,4 delims= " %%G IN (
+  'FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\Version_rev.h"') DO (SET "VerRev=%%G")
 
 SET MPCHC_VER=%VerMajor%.%VerMinor%.%VerPatch%.%VerRev%
 EXIT /B
@@ -374,9 +374,9 @@ IF /I "%x64_type%" == "amd64" (
   SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 )
 
-FOR /F "delims=" %%A IN (
+FOR /F "delims=" %%G IN (
   'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path" 2^>Nul ^|FIND "REG_SZ"') DO (
-  SET "InnoSetupPath=%%A" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
+  SET "InnoSetupPath=%%G" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
 EXIT /B
 
 
@@ -384,22 +384,22 @@ EXIT /B
 IF EXIST "%PROGRAMFILES%\7za.exe" (SET "SEVENZIP=%PROGRAMFILES%\7za.exe" & EXIT /B)
 IF EXIST "7za.exe"                (SET "SEVENZIP=7za.exe" & EXIT /B)
 
-FOR %%A IN (7z.exe)  DO (SET "SEVENZIP_PATH=%%~$PATH:A")
+FOR %%G IN (7z.exe)  DO (SET "SEVENZIP_PATH=%%~$PATH:G")
 IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 
-FOR %%A IN (7za.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:A")
+FOR %%G IN (7za.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
 IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 
 IF /I "%x64_type%" == "amd64" (
-  FOR /F "delims=" %%A IN (
+  FOR /F "delims=" %%G IN (
     'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
-    SET "SEVENZIP_REG=%%A" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
+    SET "SEVENZIP_REG=%%G" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
   )
 )
 
-FOR /F "delims=" %%A IN (
+FOR /F "delims=" %%G IN (
   'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
-  SET "SEVENZIP_REG=%%A" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
+  SET "SEVENZIP_REG=%%G" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
 )
 EXIT /B
 
@@ -484,9 +484,9 @@ IF /I "%~1" == "ERROR" (
 
 
 :SubColorText
-FOR /F "tokens=1,2 delims=#" %%A IN (
-  '"PROMPT #$H#$E# & ECHO ON & FOR %%B IN (1) DO REM"') DO (
-  SET "DEL=%%A")
+FOR /F "tokens=1,2 delims=#" %%G IN (
+  '"PROMPT #$H#$E# & ECHO ON & FOR %%H IN (1) DO REM"') DO (
+  SET "DEL=%%G")
 <NUL SET /p ".=%DEL%" > "%~2"
 FINDSTR /v /a:%1 /R ".18" "%~2" NUL
 DEL "%~2" > NUL 2>&1
@@ -497,12 +497,12 @@ EXIT /B
 SET START_TIME=%START_TIME: =%
 SET END_TIME=%END_TIME: =%
 
-FOR /F "tokens=1-4 delims=:.," %%A IN ("%START_TIME%") DO (
-  SET /A "STARTTIME=(100%%A %% 100) * 360000 + (100%%B %% 100) * 6000 + (100%%C %% 100) * 100 + (100%%D %% 100)"
+FOR /F "tokens=1-4 delims=:.," %%G IN ("%START_TIME%") DO (
+  SET /A "STARTTIME=(100%%G %% 100) * 360000 + (100%%H %% 100) * 6000 + (100%%I %% 100) * 100 + (100%%J %% 100)"
 )
 
-FOR /F "tokens=1-4 delims=:.," %%A IN ("%END_TIME%") DO (
-  SET /A "ENDTIME=(100%%A %% 100) * 360000 + (100%%B %% 100) * 6000 + (100%%C %% 100) * 100 + (100%%D %% 100)"
+FOR /F "tokens=1-4 delims=:.," %%G IN ("%END_TIME%") DO (
+  SET /A "ENDTIME=(100%%G %% 100) * 360000 + (100%%H %% 100) * 6000 + (100%%I %% 100) * 100 + (100%%J %% 100)"
 )
 
 SET /A DURATION=%ENDTIME%-%STARTTIME%
