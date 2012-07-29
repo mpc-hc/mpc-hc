@@ -55,7 +55,7 @@ fi
 
 VERSION_INFO+="#define MPC_VERSION_REV $VER"
 
-VERSION_INFO_OLD=`(<./include/version_rev.h) >& /dev/null`
+VERSION_INFO_OLD=`<./include/version_rev.h`
 
 # Only write the files if the version information has changed
 if [ "$(echo $VERSION_INFO | sed -e 's/\\n/ /g')" != "$(echo $VERSION_INFO_OLD)" ] ; then
