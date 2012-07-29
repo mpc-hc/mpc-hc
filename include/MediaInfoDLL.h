@@ -248,24 +248,24 @@ static size_t Module_Count=0;
 
 #ifdef MEDIAINFO_GLIBC
 #define MEDIAINFO_ASSIGN(_Name,_Name2) \
-    if (!g_module_symbol (MediaInfo_Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2, (gpointer*)&MediaInfo_##_Name)) \
+    if (!g_module_symbol (MediaInfo_Module, "MediaInfo" MEDIAINFO_Ansi "_" _Name2, (gpointer*)&MediaInfo_##_Name)) \
         Errors++;
 #define MEDIAINFOLIST_ASSIGN(_Name,_Name2) \
-    if (!g_module_symbol (MediaInfo_Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2, (gpointer*)&MediaInfoList_##_Name)) \
+    if (!g_module_symbol (MediaInfo_Module, "MediaInfoList" MEDIAINFO_Ansi "_" _Name2, (gpointer*)&MediaInfoList_##_Name)) \
         Errors++;
 #elif defined (_WIN32) || defined (WIN32)
 #define MEDIAINFO_ASSIGN(_Name,_Name2) \
-    MediaInfo_##_Name=(MEDIAINFO_##_Name)GetProcAddress(MediaInfo_Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2); \
+    MediaInfo_##_Name=(MEDIAINFO_##_Name)GetProcAddress(MediaInfo_Module, "MediaInfo" MEDIAINFO_Ansi "_" _Name2); \
     if (MediaInfo_##_Name==NULL) Errors++;
 #define MEDIAINFOLIST_ASSIGN(_Name,_Name2) \
-    MediaInfoList_##_Name=(MEDIAINFOLIST_##_Name)GetProcAddress(MediaInfo_Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2); \
+    MediaInfoList_##_Name=(MEDIAINFOLIST_##_Name)GetProcAddress(MediaInfo_Module, "MediaInfoList" MEDIAINFO_Ansi "_" _Name2); \
     if (MediaInfoList_##_Name==NULL) Errors++;
 #else
 #define MEDIAINFO_ASSIGN(_Name,_Name2) \
-    MediaInfo_##_Name=(MEDIAINFO_##_Name)dlsym(MediaInfo_Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2); \
+    MediaInfo_##_Name=(MEDIAINFO_##_Name)dlsym(MediaInfo_Module, "MediaInfo" MEDIAINFO_Ansi "_" _Name2); \
     if (MediaInfo_##_Name==NULL) Errors++;
 #define MEDIAINFOLIST_ASSIGN(_Name,_Name2) \
-    MediaInfoList_##_Name=(MEDIAINFOLIST_##_Name)dlsym(MediaInfo_Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2); \
+    MediaInfoList_##_Name=(MEDIAINFOLIST_##_Name)dlsym(MediaInfo_Module, "MediaInfoList" MEDIAINFO_Ansi "_" _Name2); \
     if (MediaInfoList_##_Name==NULL) Errors++;
 #endif
 
@@ -317,15 +317,15 @@ static size_t MediaInfoDLL_Load()
     #else
         MediaInfo_Module=dlopen(MEDIAINFODLL_NAME, RTLD_LAZY);
         if (!MediaInfo_Module)
-            MediaInfo_Module=dlopen("./"MEDIAINFODLL_NAME, RTLD_LAZY);
+            MediaInfo_Module=dlopen("./" MEDIAINFODLL_NAME, RTLD_LAZY);
         if (!MediaInfo_Module)
-            MediaInfo_Module=dlopen("/usr/local/lib/"MEDIAINFODLL_NAME, RTLD_LAZY);
+            MediaInfo_Module=dlopen("/usr/local/lib/" MEDIAINFODLL_NAME, RTLD_LAZY);
         if (!MediaInfo_Module)
-            MediaInfo_Module=dlopen("/usr/local/lib64/"MEDIAINFODLL_NAME, RTLD_LAZY);
+            MediaInfo_Module=dlopen("/usr/local/lib64/" MEDIAINFODLL_NAME, RTLD_LAZY);
         if (!MediaInfo_Module)
-            MediaInfo_Module=dlopen("/usr/lib/"MEDIAINFODLL_NAME, RTLD_LAZY);
+            MediaInfo_Module=dlopen("/usr/lib/" MEDIAINFODLL_NAME, RTLD_LAZY);
         if (!MediaInfo_Module)
-            MediaInfo_Module=dlopen("/usr/lib64/"MEDIAINFODLL_NAME, RTLD_LAZY);
+            MediaInfo_Module=dlopen("/usr/lib64/" MEDIAINFODLL_NAME, RTLD_LAZY);
     #endif
     if (!MediaInfo_Module)
         return (size_t)-1;
@@ -369,6 +369,7 @@ static size_t MediaInfoDLL_Load()
         #else
             dlclose(MediaInfo_Module);
        #endif
+       MediaInfo_Module=NULL;
        return (size_t)-1;
 	}
 
@@ -434,6 +435,10 @@ namespace MediaInfoDLL
 #endif
 typedef std::basic_string<Char>        String;
 typedef std::basic_stringstream<Char>  StringStream;
+typedef std::basic_istringstream<Char> iStringStream;
+typedef std::basic_ostringstream<Char> oStringStream;
+typedef std::basic_istringstream<Char> tiStringStream; // Legacy
+typedef std::basic_ostringstream<Char> toStringStream; //Legacy
 const size_t Error=(size_t)(-1);
 //---------------------------------------------------------------------------
 
