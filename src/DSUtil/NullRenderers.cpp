@@ -277,6 +277,7 @@ HRESULT CNullUVideoRenderer::CheckMediaType(const CMediaType* pmt)
 {
     return pmt->majortype == MEDIATYPE_Video
            && (pmt->subtype == MEDIASUBTYPE_YV12
+               || pmt->subtype == MEDIASUBTYPE_NV12
                || pmt->subtype == MEDIASUBTYPE_I420
                || pmt->subtype == MEDIASUBTYPE_YUYV
                || pmt->subtype == MEDIASUBTYPE_IYUV
