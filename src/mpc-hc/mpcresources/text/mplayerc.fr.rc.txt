@@ -258,7 +258,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 27		"Exporter"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 45
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 5		"Vidéos DirectShow"
 7		"Vidéos RealMedia"
 9		"Vidéos QuickTime"
@@ -274,14 +274,15 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 45
 24		"YUV Mixing"
 25		"Tampons EVR :"
 27		"DXVA"
-29		"Subtitles"
+29		"Subtitles *"
 31		"Screenshot"
 33		"Shaders"
 35		"Rotation"
-37		"Subtitles"
+37		"Subtitles *"
 39		"Screenshot"
-41		"Subtitles"
+41		"Subtitles *"
 43		"Screenshot"
+45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35

@@ -258,7 +258,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 27		"Exportovat"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 45
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 5		"DirectShow video"
 7		"RealMedia video"
 9		"QuickTime video"
@@ -274,14 +274,15 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 45
 24		"YUV mixing"
 25		"EVR buffery:"
 27		"DXVA"
-29		"Titulky"
+29		"Subtitles *"
 31		"Uložení obr."
 33		"Shadery"
 35		"Natáčení obr."
-37		"Titulky"
+37		"Subtitles *"
 39		"Uložení obr."
-41		"Titulky"
+41		"Subtitles *"
 43		"Uložení obr."
+45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35

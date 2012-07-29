@@ -258,7 +258,7 @@ BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
 27		"导出"
 END
 
-BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 45
+BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 5		"DirectShow 视频"
 7		"RealMedia 视频"
 9		"QuickTime 视频"
@@ -274,14 +274,15 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 45
 24		"YUV 混合"
 25		"EVR 缓存:"
 27		"DXVA"
-29		"字幕"
+29		"Subtitles *"
 31		"截屏"
 33		"着色"
 35		"旋转"
-37		"字幕"
+37		"Subtitles *"
 39		"截屏"
-41		"字幕"
+41		"Subtitles *"
 43		"截屏"
+45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
