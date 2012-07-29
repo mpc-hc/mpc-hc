@@ -32,6 +32,36 @@
 #define BIH_SIZE       (sizeof(BITMAPINFOHEADER))
 
 VIH vihs[] = {
+    // VYUY
+    {
+        {
+            {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
+            {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('V', 'Y', 'U', 'Y'), 0, 0, 0, 0, 0}  // bmiHeader
+        },
+        {0, 0, 0},                                                      // mask[3]
+        VIH_NORMAL,                                                     // size
+        &MEDIASUBTYPE_VYUY                                              // subtype
+    },
+    // YVYU
+    {
+        {
+            {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
+            {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('Y', 'V', 'Y', 'U'), 0, 0, 0, 0, 0}  // bmiHeader
+        },
+        {0, 0, 0},                                                      // mask[3]
+        VIH_NORMAL,                                                     // size
+        &MEDIASUBTYPE_YVYU                                              // subtype
+    },
+    // UYVY
+    {
+        {
+            {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
+            {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('U', 'Y', 'V', 'Y'), 0, 0, 0, 0, 0}  // bmiHeader
+        },
+        {0, 0, 0},                                                      // mask[3]
+        VIH_NORMAL,                                                     // size
+        &MEDIASUBTYPE_UYVY                                              // subtype
+    },
     // YUY2
     {
         {
@@ -71,6 +101,16 @@ VIH vihs[] = {
         {0, 0, 0},                                                      // mask[3]
         VIH_NORMAL,                                                     // size
         &MEDIASUBTYPE_IYUV                                              // subtype
+    },
+    // NV12
+    {
+        {
+            {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0,
+            {BIH_SIZE, 0, 0, 1, 12, mmioFOURCC('N', 'V', '1', '2'), 0, 0, 0, 0, 0}  // bmiHeader
+        },
+        {0, 0, 0},                                                      // mask[3]
+        VIH_NORMAL,                                                     // size
+        &MEDIASUBTYPE_NV12                                              // subtype
     },
     // 8888 normal
     {
@@ -175,6 +215,36 @@ VIH vihs[] = {
 };
 
 VIH2 vih2s[] = {
+    // VYUY
+    {
+        {
+            {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('V', 'Y', 'U', 'Y'), 0, 0, 0, 0, 0}  // bmiHeader
+        },
+        {0, 0, 0},                                                      // mask[3]
+        VIH2_NORMAL,                                                        // size
+        &MEDIASUBTYPE_VYUY                                              // subtype
+    },
+    // YVYU
+    {
+        {
+            {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('Y', 'V', 'Y', 'U'), 0, 0, 0, 0, 0}  // bmiHeader
+        },
+        {0, 0, 0},                                                      // mask[3]
+        VIH2_NORMAL,                                                        // size
+        &MEDIASUBTYPE_YVYU                                              // subtype
+    },
+    // UYVY
+    {
+        {
+            {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('U', 'Y', 'V', 'Y'), 0, 0, 0, 0, 0}  // bmiHeader
+        },
+        {0, 0, 0},                                                      // mask[3]
+        VIH2_NORMAL,                                                        // size
+        &MEDIASUBTYPE_UYVY                                              // subtype
+    },
     // YUY2
     {
         {
@@ -214,6 +284,16 @@ VIH2 vih2s[] = {
         {0, 0, 0},                                                      // mask[3]
         VIH2_NORMAL,                                                    // size
         &MEDIASUBTYPE_IYUV                                              // subtype
+    },
+    // NV12
+    {
+        {
+            {0, 0, 0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            {BIH_SIZE, 0, 0, 1, 12, mmioFOURCC('N', 'V', '1', '2'), 0, 0, 0, 0, 0}  // bmiHeader
+        },
+        {0, 0, 0},                                                      // mask[3]
+        VIH2_NORMAL,                                                    // size
+        &MEDIASUBTYPE_NV12                                              // subtype
     },
     // 8888 normal
     {
