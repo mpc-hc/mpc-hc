@@ -1,4 +1,4 @@
-/*
+﻿/*
  * (C) 2003-2006 Gabest
  * (C) 2006-2012 see Authors.txt
  *
@@ -27,7 +27,7 @@
 #include "Mpeg2Def.h"
 #include "vd.h"
 #include "moreuuids.h"
-#include <emmintrin.h>
+#include <intrin.h>
 #include <math.h>
 #include <InitGuid.h>
 #include <d3d9types.h>
@@ -974,11 +974,13 @@ DVD_HMSF_TIMECODE RT2HMS_r(REFERENCE_TIME rt) // use only for information (for d
 
 REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps)
 {
-    if (fps == 0) {
-        hmsf.bFrames = 0;
-        fps = 1;
+    // only the 1 s to 100 ns factor 10000000 can go past the 32-bit boundary
+    REFERENCE_TIME time = __emulu(static_cast<unsigned __int32>(hmsf.bHours) * 3600 + static_cast<unsigned __int32>(hmsf.bMinutes) * 60 + static_cast<unsigned __int32>(hmsf.bSeconds), 10000000);
+    if (fps) {
+        double rate = 10000000.0 / fps;
+        time += static_cast<REFERENCE_TIME>(static_cast<double>(hmsf.bFrames) * rate + 0.5);
     }
-    return (REFERENCE_TIME)((((REFERENCE_TIME)hmsf.bHours * 60 + hmsf.bMinutes) * 60 + hmsf.bSeconds) * 1000 + 1.0 * hmsf.bFrames * 1000 / fps) * 10000;
+    return time;
 }
 
 void memsetd(void* dst, unsigned int c, size_t nbytes)
