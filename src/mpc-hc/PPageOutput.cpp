@@ -408,43 +408,43 @@ void CPPageOutput::OnDSRendererChange()
     m_iDSShaderSupport.SetIcon(cross);
     m_iDSRotationSupport.SetIcon(cross);
 
-    m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_VIDRND_COMBO));
+    m_wndToolTip.UpdateTipText(ResStr(IDC_VIDRND_COMBO), GetDlgItem(IDC_VIDRND_COMBO));
 
     switch (m_iDSVideoRendererType) {
         case VIDRNDT_DS_DEFAULT:
             m_iDSSaveImageSupport.SetIcon(tick);
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSSYSDEF));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSSYSDEF), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_OLDRENDERER:
             m_iDSSaveImageSupport.SetIcon(tick);
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSOLD));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSOLD), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_OVERLAYMIXER:
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSOVERLAYMIXER));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSOVERLAYMIXER), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_VMR7WINDOWED:
             m_iDSSaveImageSupport.SetIcon(tick);
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSVMR7WIN));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7WIN), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_VMR9WINDOWED:
             m_iDSSaveImageSupport.SetIcon(tick);
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSVMR9WIN));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR9WIN), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_EVR:
             m_iDSSaveImageSupport.SetIcon(tick);
             break;
         case VIDRNDT_DS_NULL_COMP:
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSNULL_COMP));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSNULL_COMP), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_NULL_UNCOMP:
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSNULL_UNCOMP));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSNULL_UNCOMP), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_VMR7RENDERLESS:
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 
             m_iDSSubtitleSupport.SetIcon(tick);
             m_iDSSaveImageSupport.SetIcon(tick);
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSVMR7REN));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7REN), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_VMR9RENDERLESS:
             GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(TRUE);
@@ -452,7 +452,7 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
 
-            m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSVMR9REN));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR9REN), GetDlgItem(IDC_VIDRND_COMBO));
         case VIDRNDT_DS_EVR_CUSTOM:
             if (m_iD3D9RenderDeviceCtrl.GetCount() > 1) {
                 GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
@@ -526,8 +526,6 @@ void CPPageOutput::OnDSRendererChange()
     m_iDSRotationSupport.Invalidate();
     m_iDSRotationSupport.UpdateWindow();
 
-    m_wndToolTip.Update();
-
     SetModified();
 }
 
@@ -543,19 +541,19 @@ void CPPageOutput::OnRMRendererChange()
             m_iRMSaveImageSupport.SetIcon(cross);
             m_iRMSubtitleSupport.SetIcon(cross);
 
-            m_wndToolTip.AddTool(GetDlgItem(IDC_RMRND_COMBO), ResStr(IDC_RMSYSDEF));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_RMSYSDEF), GetDlgItem(IDC_RMRND_COMBO));
             break;
         case VIDRNDT_RM_DX7:
             m_iRMSaveImageSupport.SetIcon(tick);
             m_iRMSubtitleSupport.SetIcon(tick);
 
-            m_wndToolTip.AddTool(GetDlgItem(IDC_RMRND_COMBO), ResStr(IDC_RMDX7));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_RMDX7), GetDlgItem(IDC_RMRND_COMBO));
             break;
         case VIDRNDT_RM_DX9:
             m_iRMSaveImageSupport.SetIcon(tick);
             m_iRMSubtitleSupport.SetIcon(tick);
 
-            m_wndToolTip.AddTool(GetDlgItem(IDC_RMRND_COMBO), ResStr(IDC_RMDX9));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_RMDX9), GetDlgItem(IDC_RMRND_COMBO));
             break;
     }
 
@@ -574,19 +572,19 @@ void CPPageOutput::OnQTRendererChange()
             m_iQTSaveImageSupport.SetIcon(cross);
             m_iQTSubtitleSupport.SetIcon(cross);
 
-            m_wndToolTip.AddTool(GetDlgItem(IDC_QTRND_COMBO), ResStr(IDC_QTSYSDEF));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_QTSYSDEF), GetDlgItem(IDC_QTRND_COMBO));
             break;
         case VIDRNDT_QT_DX7:
             m_iQTSaveImageSupport.SetIcon(tick);
             m_iQTSubtitleSupport.SetIcon(tick);
 
-            m_wndToolTip.AddTool(GetDlgItem(IDC_QTRND_COMBO), ResStr(IDC_QTDX7));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_QTDX7), GetDlgItem(IDC_QTRND_COMBO));
             break;
         case VIDRNDT_QT_DX9:
             m_iQTSaveImageSupport.SetIcon(tick);
             m_iQTSubtitleSupport.SetIcon(tick);
 
-            m_wndToolTip.AddTool(GetDlgItem(IDC_QTRND_COMBO), ResStr(IDC_QTDX9));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_QTDX9), GetDlgItem(IDC_QTRND_COMBO));
             break;
     }
 
