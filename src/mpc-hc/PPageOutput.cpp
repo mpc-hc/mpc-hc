@@ -449,7 +449,7 @@ void CPPageOutput::OnDSRendererChange()
             break;
         case VIDRNDT_DS_VMR9RENDERLESS:
             GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(TRUE);
-            GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
+            if(!SysVersion::IsVistaOrLater()) GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
 
