@@ -291,7 +291,7 @@ BOOL CPPageOutput::OnInitDialog()
 
     // YUV mixing is incompatible with Vista+
     if (SysVersion::IsVistaOrLater()) {
-        GetDlgItem(IDC_DSVMR9YUVMIXER)->ShowWindow(SW_HIDE);
+        GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(FALSE);
     }
 
     CheckDlgButton(IDC_D3D9DEVICE, BST_CHECKED);
