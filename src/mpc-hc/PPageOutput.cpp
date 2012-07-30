@@ -421,6 +421,7 @@ void CPPageOutput::OnDSRendererChange()
             break;
         case VIDRNDT_DS_OVERLAYMIXER:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSOVERLAYMIXER), GetDlgItem(IDC_VIDRND_COMBO));
+            if(!SysVersion::IsVistaOrLater()) m_iDSDXVASupport.SetIcon(tick);
             break;
         case VIDRNDT_DS_VMR7WINDOWED:
             m_iDSSaveImageSupport.SetIcon(tick);
