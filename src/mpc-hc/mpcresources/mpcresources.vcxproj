@@ -315,6 +315,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\version.h" />
     <ClInclude Include="..\resource.h" />
   </ItemGroup>
   <ItemGroup>

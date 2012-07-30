@@ -86,6 +86,9 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

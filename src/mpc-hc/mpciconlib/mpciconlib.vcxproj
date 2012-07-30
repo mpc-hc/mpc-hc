@@ -71,6 +71,7 @@
     <ClCompile Include="mpciconlib.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\version.h" />
     <ClInclude Include="mpciconlib.h" />
   </ItemGroup>
   <ItemGroup>
