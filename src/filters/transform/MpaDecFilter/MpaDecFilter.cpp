@@ -458,7 +458,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SPDIF_ac3"), dw)) {
             m_fSPDIF[ac3] = !!dw;
         }
-        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SPDIF_ac3"), dw)) {
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("SPDIF_dts"), dw)) {
             m_fSPDIF[dts] = !!dw;
         }
     }
