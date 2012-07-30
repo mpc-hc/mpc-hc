@@ -354,7 +354,7 @@ BOOL CPPageOutput::OnApply()
 
 void CPPageOutput::OnUpdateMixerYUV(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_DSVMR9LOADMIXER) && (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS));
+    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_DSVMR9LOADMIXER) && (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && !SysVersion::IsVistaOrLater());
 }
 
 void CPPageOutput::OnSurfaceChange()
@@ -450,7 +450,7 @@ void CPPageOutput::OnDSRendererChange()
             break;
         case VIDRNDT_DS_VMR9RENDERLESS:
             GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(TRUE);
-            if(!SysVersion::IsVistaOrLater()) GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
+            GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
 
