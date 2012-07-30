@@ -24,7 +24,7 @@ demi_alucard            <alysson87@gmail.com>                   Code, Portuguese
 Di Luo                  <sansnom05@users.sourceforge.net>       Code
 jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
 KindDragon              <kinddragon@users.sourceforge.net>      Code
-Martin Panayotov        <mvpsoft@users.sourceforge.net>         Website
+Martin Panayotov        <mvpsoft@users.sourceforge.net>         Old Website
 MatMaul                 <matmaul@users.sourceforge.net>         Code
 spec-chum               <spec-chum@users.sourceforge.net>       Code
 Tomas Sen               <tomasen@users.sourceforge.net>         Code
