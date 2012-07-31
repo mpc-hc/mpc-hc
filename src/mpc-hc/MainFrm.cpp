@@ -2072,9 +2072,9 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                                  (AATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
 
                     m_wndStatusBar.SetStatusBitmap(
-                        AATR.bNumberOfChannels == 1 ? IDB_MONO
-                        : AATR.bNumberOfChannels >= 2 ? IDB_STEREO
-                        : IDB_NOAUDIO);
+                        AATR.bNumberOfChannels == 1 ? IDB_AUDIOTYPE_MONO
+                        : AATR.bNumberOfChannels >= 2 ? IDB_AUDIOTYPE_STEREO
+                        : IDB_AUDIOTYPE_NOAUDIO);
                 }
 
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUDIO), Audio);
@@ -2640,9 +2640,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 if (m_fCustomGraph) {
                     int nAudioChannels = (int)evParam1;
 
-                    m_wndStatusBar.SetStatusBitmap(nAudioChannels == 1 ? IDB_MONO
-                                                   : nAudioChannels >= 2 ? IDB_STEREO
-                                                   : IDB_NOAUDIO);
+                    m_wndStatusBar.SetStatusBitmap(nAudioChannels == 1 ? IDB_AUDIOTYPE_MONO
+                                                   : nAudioChannels >= 2 ? IDB_AUDIOTYPE_STEREO
+                                                   : IDB_AUDIOTYPE_NOAUDIO);
                 }
                 break;
             case EC_BG_ERROR:
@@ -11314,7 +11314,7 @@ void CMainFrame::OpenSetupStatusBar()
     //
 
     if (!m_fCustomGraph) {
-        UINT id = IDB_NOAUDIO;
+        UINT id = IDB_AUDIOTYPE_NOAUDIO;
 
         BeginEnumFilters(pGB, pEF, pBF) {
             CComQIPtr<IBasicAudio> pBA = pBF;
@@ -11332,11 +11332,11 @@ void CMainFrame::OpenSetupStatusBar()
                     if (mt.majortype == MEDIATYPE_Audio && mt.formattype == FORMAT_WaveFormatEx) {
                         switch (((WAVEFORMATEX*)mt.pbFormat)->nChannels) {
                             case 1:
-                                id = IDB_MONO;
+                                id = IDB_AUDIOTYPE_MONO;
                                 break;
                             case 2:
                             default:
-                                id = IDB_STEREO;
+                                id = IDB_AUDIOTYPE_STEREO;
                                 break;
                         }
                         break;
@@ -11348,7 +11348,7 @@ void CMainFrame::OpenSetupStatusBar()
             }
             EndEnumPins;
 
-            if (id != IDB_NOAUDIO) {
+            if (id != IDB_AUDIOTYPE_NOAUDIO) {
                 break;
             }
         }
@@ -15532,21 +15532,21 @@ HRESULT CMainFrame::UpdateThumbarButton()
             buttons[2].dwFlags = THBF_ENABLED;
             buttons[2].iBitmap = 2;
 
-            hIcon = AfxGetApp()->LoadIcon(IDR_TB_PLAY);
+            hIcon = (HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDR_TB_PLAY), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NORMAL);
         } else if (fs == State_Stopped) {
             buttons[1].dwFlags = THBF_DISABLED;
             buttons[2].dwFlags = THBF_ENABLED;
             buttons[2].iBitmap = 3;
 
-            hIcon = AfxGetApp()->LoadIcon(IDR_TB_STOP);
+            hIcon = (HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDR_TB_STOP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
         } else if (fs == State_Paused) {
             buttons[1].dwFlags = THBF_ENABLED;
             buttons[2].dwFlags = THBF_ENABLED;
             buttons[2].iBitmap = 3;
 
-            hIcon = AfxGetApp()->LoadIcon(IDR_TB_PAUSE);
+            hIcon = (HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDR_TB_PAUSE), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_PAUSED);
         }
 

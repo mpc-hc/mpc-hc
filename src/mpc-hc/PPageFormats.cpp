@@ -141,7 +141,12 @@ BOOL CPPageFormats::OnInitDialog()
     m_list.InsertColumn(COL_CATEGORY, _T("Category"), LVCFMT_LEFT, 300);
     m_list.InsertColumn(COL_ENGINE, _T("Engine"), LVCFMT_RIGHT, 60);
 
-    m_onoff.Create(IDB_ONOFF, 12, 3, 0xffffff);
+    // We don't use m_onoff.Create(IDB_CHECKBOX, 12, 3, 0xffffff) since
+    // we want to load the bitmap directly from the main executable.
+    CImage onoff;
+    onoff.LoadFromResource(AfxGetInstanceHandle(), IDB_CHECKBOX);
+    m_onoff.Create(12, 12, ILC_COLOR4 | ILC_MASK, 0, 3);
+    m_onoff.Add(CBitmap::FromHandle(onoff), 0xffffff);
     m_list.SetImageList(&m_onoff, LVSIL_SMALL);
 
     int fSetContextFiles = FALSE;

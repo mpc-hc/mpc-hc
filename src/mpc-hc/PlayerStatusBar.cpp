@@ -159,7 +159,10 @@ void CPlayerStatusBar::SetStatusBitmap(UINT id)
         m_bm.DeleteObject();
     }
     if (id) {
-        m_bm.LoadBitmap(id);
+        // We can't use m_bm.LoadBitmap(id) directly since we want to load the bitmap from the main executable
+        CImage img;
+        img.LoadFromResource(AfxGetInstanceHandle(), id);
+        m_bm.Attach(img.Detach());
     }
     m_bmid = id;
 

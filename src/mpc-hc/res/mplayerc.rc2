@@ -39,6 +39,64 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// AVI
+//
+
+IDR_AVI_FILECOPY                 AVI                     "res\\ani.avi"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_AUDIOTYPE_MONO               BITMAP                  "res\\mono.bmp"
+IDB_AUDIOTYPE_NOAUDIO            BITMAP                  "res\\noaudio.bmp"
+IDB_AUDIOTYPE_STEREO             BITMAP                  "res\\stereo.bmp"
+IDB_CHECKBOX                     BITMAP                  "res\\onoff.bmp"
+IDB_STREAMTYPES                  BITMAP                  "res\\streamtypes.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// FILE
+//
+
+IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
+IDF_JAVASCRIPT                   FILE                    "res\\web\\javascript.js"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HTML
+//
+
+IDR_HTML_404                     HTML                    "res\\web\\404.html"
+IDR_HTML_BROWSER                 HTML                    "res\\web\\browser.html"
+IDR_HTML_CONTROLS                HTML                    "res\\web\\controls.html"
+IDR_HTML_INDEX                   HTML                    "res\\web\\index.html"
+IDR_HTML_INFO                    HTML                    "res\\web\\info.html"
+IDR_HTML_PLAYER                  HTML                    "res\\web\\player.html"
+IDR_HTML_VARIABLES               HTML                    "res\\web\\variables.html"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_TB_PLAY                      ICON                    "res\\tb_play_16.ico"
+IDR_TB_PAUSE                     ICON                    "res\\tb_pause_16.ico"
+IDR_TB_STOP                      ICON                    "res\\tb_stop_16.ico"
+IDI_AUDIOCD                      ICON                    "res\\Icon_41.ico"
+IDI_DVD                          ICON                    "res\\Icon_114.ico"
+IDI_UNKNOWN                      ICON                    "res\\Icon_116.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // PNG
 //
 
@@ -84,29 +142,6 @@ IDF_TICKCROSS                    PNG                     "res\\tickcross.png"
 IDF_VBR_PNG                      PNG                     "res\\web\\images\\vbg.png"
 IDF_VBS_PNG                      PNG                     "res\\web\\images\\vbs.png"
 IDF_WIN7_TOOLBAR                 PNG                     "res\\toolbarw7.png"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// FILE
-//
-
-IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
-IDF_JAVASCRIPT                   FILE                    "res\\web\\javascript.js"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// HTML
-//
-
-IDR_HTML_404                     HTML                    "res\\web\\404.html"
-IDR_HTML_BROWSER                 HTML                    "res\\web\\browser.html"
-IDR_HTML_CONTROLS                HTML                    "res\\web\\controls.html"
-IDR_HTML_INDEX                   HTML                    "res\\web\\index.html"
-IDR_HTML_INFO                    HTML                    "res\\web\\info.html"
-IDR_HTML_PLAYER                  HTML                    "res\\web\\player.html"
-IDR_HTML_VARIABLES               HTML                    "res\\web\\variables.html"
 
 
 /////////////////////////////////////////////////////////////////////////////
