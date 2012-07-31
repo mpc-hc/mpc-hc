@@ -48,14 +48,16 @@ else
   VER=$(($VER+$SVNREV))
 
   # Get the abbreviated hash of the current changeset
-  HASH="_T(\"`git log -n1 --format=%h`\")"
+  HASH=`git log -n1 --format=%h`
 
-  VERSION_INFO+="#define MPCHC_HASH $HASH\n"
+  VERSION_INFO+="#define MPCHC_HASH _T(\"$HASH\")\n"
 fi
 
 VERSION_INFO+="#define MPC_VERSION_REV $VER"
 
-VERSION_INFO_OLD=`<./include/version_rev.h`
+if [ -f ./include/version_rev.h ] ; then
+  VERSION_INFO_OLD=`<./include/version_rev.h`
+fi
 
 # Only write the files if the version information has changed
 if [ "$(echo $VERSION_INFO | sed -e 's/\\n/ /g')" != "$(echo $VERSION_INFO_OLD)" ] ; then
