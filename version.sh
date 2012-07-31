@@ -55,6 +55,10 @@ fi
 
 VERSION_INFO+="#define MPC_VERSION_REV $VER"
 
+echo -e "On branch: $BRANCH"
+echo -e "Hash:      $HASH"
+echo -e "Revision:  $VER"
+
 if [ -f ./include/version_rev.h ] ; then
   VERSION_INFO_OLD=`<./include/version_rev.h`
 fi
