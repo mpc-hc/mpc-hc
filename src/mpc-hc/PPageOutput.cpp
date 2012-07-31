@@ -288,6 +288,7 @@ BOOL CPPageOutput::OnInitDialog()
     OnDSRendererChange();
     OnRMRendererChange();
     OnQTRendererChange();
+    OnSurfaceChange();
 
     // YUV mixing is incompatible with Vista+
     if (SysVersion::IsVistaOrLater()) {
@@ -364,12 +365,24 @@ void CPPageOutput::OnSurfaceChange()
     HICON tick = m_tickcross.ExtractIcon(0);
     HICON cross = m_tickcross.ExtractIcon(1);
 
-    if (m_iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D && (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)) {
-        m_iDSShaderSupport.SetIcon(tick);
-        m_iDSRotationSupport.SetIcon(tick);
-    } else {
-        m_iDSShaderSupport.SetIcon(cross);
-        m_iDSRotationSupport.SetIcon(cross);
+    switch(m_iAPSurfaceUsage)
+    {
+        case VIDRNDT_AP_SURFACE:
+            m_wndToolTip.UpdateTipText(ResStr(IDC_REGULARSURF), GetDlgItem(IDC_DX_SURFACE));
+            break;
+        case VIDRNDT_AP_TEXTURE2D:
+            m_wndToolTip.UpdateTipText(ResStr(IDC_TEXTURESURF2D), GetDlgItem(IDC_DX_SURFACE));
+            break;
+        case VIDRNDT_AP_TEXTURE3D:
+            if (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) {
+                m_iDSShaderSupport.SetIcon(tick);
+                m_iDSRotationSupport.SetIcon(tick);
+            } else {
+                m_iDSShaderSupport.SetIcon(cross);
+                m_iDSRotationSupport.SetIcon(cross);
+            }
+            m_wndToolTip.UpdateTipText(ResStr(IDC_TEXTURESURF3D), GetDlgItem(IDC_DX_SURFACE));
+            break;
     }
 
     SetModified();
@@ -444,6 +457,7 @@ void CPPageOutput::OnDSRendererChange()
         case VIDRNDT_DS_VMR7RENDERLESS:
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 
+            if(!SysVersion::IsVistaOrLater()) m_iDSDXVASupport.SetIcon(tick);
             m_iDSSubtitleSupport.SetIcon(tick);
             m_iDSSaveImageSupport.SetIcon(tick);
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7REN), GetDlgItem(IDC_VIDRND_COMBO));
@@ -477,6 +491,7 @@ void CPPageOutput::OnDSRendererChange()
             } else {
                 GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 
+                if(!SysVersion::IsVistaOrLater()) m_iDSDXVASupport.SetIcon(tick);
                 if (m_iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
                     m_iDSShaderSupport.SetIcon(tick);
                     m_iDSRotationSupport.SetIcon(tick);
