@@ -5,6 +5,7 @@
 /include/version_rev.h
 /src/filters/transform/VSFilter/installer/*.exe
 /src/mpc-hc/res/mpc-hc.exe.manifest
+/src/MPCTestAPI/bin
 ipch
 newrc
 *.a
