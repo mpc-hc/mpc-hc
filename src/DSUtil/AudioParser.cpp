@@ -366,18 +366,28 @@ int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
     ASSERT(*(DWORD*)hdr == 0x0180fe7f);
 
     *framelength = (((hdr[4] & 1) << 6 | (hdr[5] & 0xfc) >> 2) + 1) * 32;
-    if (*framelength < 6 * 32) { return 0; }
+    if (*framelength < 6 * 32) {
+        return 0;
+    }
 
     int frame_size = ((hdr[5] & 3) << 12 | hdr[6] << 4 | (hdr[7] & 0xf0) >> 4) + 1;
-    if (frame_size < 96) { return 0; }
-    if (isDTS14) { frame_size = frame_size * 8 / 14 * 2; }
+    if (frame_size < 96) {
+        return 0;
+    }
+    if (isDTS14) {
+        frame_size = frame_size * 8 / 14 * 2;
+    }
 
     tmp = (hdr[7] & 0x0f) << 2 | (hdr[8] & 0xc0) >> 6;
-    if (tmp >= 16) { return 0; }
+    if (tmp >= 16) {
+        return 0;
+    }
     *channels = dts_channels[tmp];
 
     *samplerate = core_sample_rates[(hdr[8] & 0x3c) >> 2];
-    if (*samplerate == 0) { return 0; }
+    if (*samplerate == 0) {
+        return 0;
+    }
 
     // transmission bitrate
     * tr_bitrate = transmission_bitrates[(hdr[8] & 3) << 3 | (hdr[9] & 0xe0) >> 5];

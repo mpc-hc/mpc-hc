@@ -365,8 +365,7 @@ void CPPageOutput::OnSurfaceChange()
     HICON tick = m_tickcross.ExtractIcon(0);
     HICON cross = m_tickcross.ExtractIcon(1);
 
-    switch(m_iAPSurfaceUsage)
-    {
+    switch (m_iAPSurfaceUsage) {
         case VIDRNDT_AP_SURFACE:
             m_wndToolTip.UpdateTipText(ResStr(IDC_REGULARSURF), GetDlgItem(IDC_DX_SURFACE));
             break;
@@ -434,7 +433,9 @@ void CPPageOutput::OnDSRendererChange()
             break;
         case VIDRNDT_DS_OVERLAYMIXER:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSOVERLAYMIXER), GetDlgItem(IDC_VIDRND_COMBO));
-            if(!SysVersion::IsVistaOrLater()) m_iDSDXVASupport.SetIcon(tick);
+            if (!SysVersion::IsVistaOrLater()) {
+                m_iDSDXVASupport.SetIcon(tick);
+            }
             break;
         case VIDRNDT_DS_VMR7WINDOWED:
             m_iDSSaveImageSupport.SetIcon(tick);
@@ -457,7 +458,9 @@ void CPPageOutput::OnDSRendererChange()
         case VIDRNDT_DS_VMR7RENDERLESS:
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 
-            if(!SysVersion::IsVistaOrLater()) m_iDSDXVASupport.SetIcon(tick);
+            if (!SysVersion::IsVistaOrLater()) {
+                m_iDSDXVASupport.SetIcon(tick);
+            }
             m_iDSSubtitleSupport.SetIcon(tick);
             m_iDSSaveImageSupport.SetIcon(tick);
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7REN), GetDlgItem(IDC_VIDRND_COMBO));
@@ -491,7 +494,9 @@ void CPPageOutput::OnDSRendererChange()
             } else {
                 GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 
-                if(!SysVersion::IsVistaOrLater()) m_iDSDXVASupport.SetIcon(tick);
+                if (!SysVersion::IsVistaOrLater()) {
+                    m_iDSDXVASupport.SetIcon(tick);
+                }
                 if (m_iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
                     m_iDSShaderSupport.SetIcon(tick);
                     m_iDSRotationSupport.SetIcon(tick);
