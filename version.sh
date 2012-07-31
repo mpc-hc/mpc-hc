@@ -57,7 +57,7 @@ VERSION_INFO+="#define MPC_VERSION_REV $VER"
 
 echo -e "On branch: $BRANCH"
 echo -e "Hash:      $HASH"
-if [ `git status | grep -q "modified:"` ] ; then
+if git status | grep -q "modified:" ; then
   echo -e "Revision:  $VER (Local modifications found)"
 else
   echo -e "Revision:  $VER"
