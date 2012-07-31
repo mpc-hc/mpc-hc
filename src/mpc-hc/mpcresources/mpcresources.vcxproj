@@ -319,21 +319,9 @@
     <ClInclude Include="..\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\res\ani.avi" />
     <None Include="..\res\icon.ico" />
-    <None Include="..\res\Icon_114.ico" />
-    <None Include="..\res\Icon_116.ico" />
-    <None Include="..\res\Icon_41.ico" />
-    <None Include="..\res\mono.bmp" />
     <None Include="..\res\multi.ico" />
-    <None Include="..\res\noaudio.bmp" />
-    <None Include="..\res\onoff.bmp" />
     <None Include="..\res\single.ico" />
-    <None Include="..\res\stereo.bmp" />
-    <None Include="..\res\streamtypes.bmp" />
-    <None Include="..\res\tb_pause_16.ico" />
-    <None Include="..\res\tb_play_16.ico" />
-    <None Include="..\res\tb_stop_16.ico" />
     <None Include="..\res\toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

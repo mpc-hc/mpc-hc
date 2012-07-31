@@ -94,49 +94,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\res\ani.avi">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\res\icon.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\Icon_41.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\Icon_114.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\Icon_116.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\mono.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\multi.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\res\noaudio.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\onoff.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\res\single.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\stereo.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\streamtypes.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\tb_pause_16.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\tb_play_16.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\tb_stop_16.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\toolbar.bmp">
