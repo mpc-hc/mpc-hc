@@ -33,7 +33,7 @@ SET "%MPCHC_GIT%=C:\Program Files (x86)\Git"
 
 Part C: Downloading and compiling the MPC-HC source
 
-1. Use GIT to checkout MPC-HC's master branch to "C:\mpc-hc" (or anywhere else you like)
+1. Use Git to checkout MPC-HC's master branch to "C:\mpc-hc" (or anywhere else you like)
     Repository URL: https://github.com/mpc-hc/mpc-hc.git
     Grab it from http://msysgit.googlecode.com/files/Git-1.7.11-preview20120710.exe
 2. Open the solution file "C:\mpc-hc\mpc-hc.sln"
