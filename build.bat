@@ -354,7 +354,7 @@ FOR /F "tokens=3,4 delims= " %%G IN (
 FOR /F "tokens=3,4 delims= " %%G IN (
   'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\version.h"') DO (SET "VerPatch=%%G")
 FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\version_rev.h"') DO (SET "VerRev=%%G")
+  'FINDSTR /I /L /C:"define MPC_VERSION_REV " "include\version_rev.h"') DO (SET "VerRev=%%G")
 
 SET MPCHC_VER=%VerMajor%.%VerMinor%.%VerPatch%.%VerRev%
 EXIT /B
