@@ -23,17 +23,18 @@
 SVNREV=5597
 SVNHASH="f669833b77e6515dc5f0a682c5bf665f9a81b2ec"
 
-# Get the current branch name
-BRANCH=`git branch | grep "^\*" | awk '{print $2}'`
-# If we couldn't get the branch name, we probably haven't got a valid git repository
-if [ ! "$BRANCH" ] ; then
+if [ ! -d ".git" ] ; then
+  # If the folder ".git" doesn't exist we use hardcoded values
+  HASH=0000000
   VER=0
 else
+  # Get the current branch name
+  BRANCH=`git branch | grep "^\*" | awk '{print $2}'`
   # If we are on the master branch
   if [ "$BRANCH" == "master" ] ; then
     BASE="HEAD"
   # If we are on another branch that isn't master, we want extra info like on
-  # which commit from master it is based on and what is its hash. This assumes we
+  # which commit from master it is based on and what its hash is. This assumes we
   # won't ever branch from a changeset from before the move to git
   else
     # Get where the branch is based on master
@@ -50,14 +51,16 @@ else
   # Get the abbreviated hash of the current changeset
   HASH=`git log -n1 --format=%h`
 
-  VERSION_INFO+="#define MPCHC_HASH _T(\"$HASH\")\n"
 fi
 
+VERSION_INFO+="#define MPCHC_HASH _T(\"$HASH\")\n"
 VERSION_INFO+="#define MPC_VERSION_REV $VER"
 
-echo -e "On branch: $BRANCH"
+if [ "$BRANCH" ] ; then
+  echo -e "On branch: $BRANCH"
+fi
 echo -e "Hash:      $HASH"
-if git status | grep -q "modified:" ; then
+if [ "$BRANCH" ] && git status | grep -q "modified:" ; then
   echo -e "Revision:  $VER (Local modifications found)"
 else
   echo -e "Revision:  $VER"
