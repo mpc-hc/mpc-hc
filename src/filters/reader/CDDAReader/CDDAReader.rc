@@ -45,12 +45,12 @@ BEGIN
             VALUE "Comments", MPC_VERSION_COMMENTS
             VALUE "CompanyName", MPC_COMP_NAME_STR
             VALUE "FileDescription", "CDDA Reader Filter"
-            VALUE "FileVersion", MPC_VERSION_STR
+            VALUE "FileVersion", MPC_VERSION_STR_FULL
             VALUE "InternalName", "CDDA Reader Filter"
             VALUE "LegalCopyright", MPC_COPYRIGHT_STR
             VALUE "OriginalFilename", "CDDAReader.ax"
             VALUE "ProductName", "CDDA Reader Filter"
-            VALUE "ProductVersion", MPC_VERSION_STR
+            VALUE "ProductVersion", MPC_VERSION_STR_FULL
         END
     END
     BLOCK "VarFileInfo"

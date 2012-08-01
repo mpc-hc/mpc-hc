@@ -45,12 +45,12 @@ BEGIN
             VALUE "Comments", MPC_VERSION_COMMENTS
             VALUE "CompanyName", MPC_COMP_NAME_STR
             VALUE "FileDescription", "D2V Source Filter"
-            VALUE "FileVersion", MPC_VERSION_STR
+            VALUE "FileVersion", MPC_VERSION_STR_FULL
             VALUE "InternalName", "D2V Source Filter"
             VALUE "LegalCopyright", MPC_COPYRIGHT_STR
             VALUE "OriginalFilename", "D2VSource.ax"
             VALUE "ProductName", "D2V Source Filter"
-            VALUE "ProductVersion", MPC_VERSION_STR
+            VALUE "ProductVersion", MPC_VERSION_STR_FULL
         END
     END
     BLOCK "VarFileInfo"

@@ -40,7 +40,8 @@ else
     # Get where the branch is based on master
     BASE=`git merge-base master HEAD`
 
-    VERSION_INFO+="#define MPCHC_BRANCH _T(\"$BRANCH\")\n"
+    VERSION_INFO="#define MPCHC_BRANCH _T(\"$BRANCH\")\n"
+    VER_FULL=" ($BRANCH)"
   fi
 
   # Count how many changesets we have since the last svn changeset
@@ -52,9 +53,12 @@ else
   HASH=`git log -n1 --format=%h`
 
 fi
+  
+VER_FULL="_T(\"$VER ($HASH)$VER_FULL\")"
 
 VERSION_INFO+="#define MPCHC_HASH _T(\"$HASH\")\n"
-VERSION_INFO+="#define MPC_VERSION_REV $VER"
+VERSION_INFO+="#define MPC_VERSION_REV $VER\n"
+VERSION_INFO+="#define MPC_VERSION_REV_FULL $VER_FULL"
 
 if [ "$BRANCH" ] ; then
   echo -e "On branch: $BRANCH"

@@ -55,13 +55,7 @@ BOOL CAboutDlg::OnInitDialog()
     m_appname += _T(" Lite");
 #endif
 
-    m_strBuildNumber = MPC_VERSION_STR;
-#ifdef MPCHC_HASH
-    m_strBuildNumber += _T(" (") MPCHC_HASH _T(")");
-#endif
-#ifdef MPCHC_BRANCH
-    m_strBuildNumber += _T(" (") MPCHC_BRANCH _T(")");
-#endif
+    m_strBuildNumber = MPC_VERSION_STR_FULL;
 
 #if defined(__INTEL_COMPILER)
 #if (__INTEL_COMPILER >= 1210)
