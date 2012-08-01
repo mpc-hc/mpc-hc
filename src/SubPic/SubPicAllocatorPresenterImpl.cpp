@@ -22,12 +22,15 @@
 #include "stdafx.h"
 #include "SubPicAllocatorPresenterImpl.h"
 #include "../DSUtil/DSUtil.h"
+#include <math.h>
 
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), NULL)
     , m_hWnd(hWnd)
-    , m_NativeVideoSize(0, 0), m_AspectRatio(0, 0)
-    , m_VideoRect(0, 0, 0, 0), m_WindowRect(0, 0, 0, 0)
+    , m_NativeVideoSize(0, 0)
+    , m_AspectRatio(0, 0)
+    , m_VideoRect(0, 0, 0, 0)
+    , m_WindowRect(0, 0, 0, 0)
     , m_fps(25.0)
     , m_rtSubtitleDelay(0)
     , m_bDeviceResetRequested(false)
@@ -66,26 +69,25 @@ void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(CSize size, SubPicDesc* pTarg
         if (SUCCEEDED(pSubPic->GetSourceAndDest(&size, rcSource, rcDest))) {
             pSubPic->AlphaBlt(rcSource, rcDest, pTarget);
         }
-        /*      SubPicDesc spd;
-                pSubPic->GetDesc(spd);
+        /*SubPicDesc spd;
+          pSubPic->GetDesc(spd);
 
-                if (spd.w > 0 && spd.h > 0)
-                {
-                    CRect r;
-                    pSubPic->GetDirtyRect(r);
+          if (spd.w > 0 && spd.h > 0)
+          {
+              CRect r;
+              pSubPic->GetDirtyRect(r);
 
-                    // FIXME
-                    r.DeflateRect(1, 1);
+              // FIXME
+              r.DeflateRect(1, 1);
 
-                    CRect rDstText(
-                        r.left * size.cx / spd.w,
-                        r.top * size.cy / spd.h,
-                        r.right * size.cx / spd.w,
-                        r.bottom * size.cy / spd.h);
+              CRect rDstText(
+                  r.left * size.cx / spd.w,
+                  r.top * size.cy / spd.h,
+                  r.right * size.cx / spd.w,
+                  r.bottom * size.cy / spd.h);
 
-                    pSubPic->AlphaBlt(r, rDstText, pTarget);
-                }
-        */
+              pSubPic->AlphaBlt(r, rDstText, pTarget);
+          }*/
     }
 }
 
@@ -132,8 +134,8 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
 {
     /*
-        if (m_rtNow <= rtNow && rtNow <= m_rtNow + 1000000)
-            return;
+    if (m_rtNow <= rtNow && rtNow <= m_rtNow + 1000000)
+        return;
     */
     m_rtNow = rtNow - m_rtSubtitleDelay;
 
@@ -172,8 +174,6 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::Invalidate(REFERENCE_TIME rtI
         m_pSubPicQueue->Invalidate(rtInvalidate);
     }
 }
-
-#include <math.h>
 
 void CSubPicAllocatorPresenterImpl::Transform(CRect r, Vector v[4])
 {
