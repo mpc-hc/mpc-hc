@@ -348,13 +348,13 @@ EXIT /B
 :SubGetVersion
 REM Get the version
 FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_MAJOR" "include\Version.h"') DO (SET "VerMajor=%%G")
+  'FINDSTR /I /L /C:"define MPC_VERSION_MAJOR" "include\version.h"') DO (SET "VerMajor=%%G")
 FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_MINOR" "include\Version.h"') DO (SET "VerMinor=%%G")
+  'FINDSTR /I /L /C:"define MPC_VERSION_MINOR" "include\version.h"') DO (SET "VerMinor=%%G")
 FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\Version.h"') DO (SET "VerPatch=%%G")
+  'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\version.h"') DO (SET "VerPatch=%%G")
 FOR /F "tokens=3,4 delims= " %%G IN (
-  'FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\Version_rev.h"') DO (SET "VerRev=%%G")
+  'FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\version_rev.h"') DO (SET "VerRev=%%G")
 
 SET MPCHC_VER=%VerMajor%.%VerMinor%.%VerPatch%.%VerRev%
 EXIT /B
