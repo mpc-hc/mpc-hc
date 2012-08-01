@@ -10,7 +10,8 @@ Legend:
 
 1.6.3 - not released yet
 =========================
-+ New webpage
++ New webpage (http://mpc-hc.sourceforge.net)
++ Source code moved to GitHub (https://github.com/mpc-hc)
 + The DirectX runtime dlls are included in the distribution packages
   so it's no longer needed to install the DirectX runtime
 + MpegSplitter: support for DVD-Audio LPCM and MLP in .aob files
@@ -27,6 +28,9 @@ Legend:
 * Updated SoundTouch to v1.7.0pre r143
 * Updated Armenian, Basque, Belarusian, Catalan, Chinese Simplified, Czech, French, German,
   Polish, Russian, Slovak and Ukrainian translations
+* The Icon Library was rewritten leading to smaller size
+* The Output Options page was redesigned for better usability
+* The translation dll's size was decreased by 1/3
 * Ticket #2227, Hide the seek bar in capture mode
 * Ticket #2276, Use the new user interface on Vista and later for the Save dialogs
 * Ticket #2342, MPC-HC will now use the Windows theme font for the Statusbar, OSD messages
@@ -38,7 +42,7 @@ Legend:
 ! Always show an error message instead of crashing when the argument of a command line
   switch is missing
 ! OggSplitter: Fix crash with some files
-! Logitech Keyboard support updated and made optional
+! Logitech Keyboard support updated and made optional (Options -> Tweaks)
 ! WebServer: various bugfixes and improvements
 ! Ticket #504, Fixed rounding errors that prevented a properly centered image
   and caused unneeded resizing because the video size was off by one
@@ -53,3 +57,4 @@ Legend:
 ! Ticket #2365, The volume slider wasn't properly redrawn in some cases
 ! Ticket #2427, The command line was not parsed when using slave mode
 ! Ticket #2493, Fix a crash when saving subtitles using the sub format
+! Numerous other bugfixes and improvements
