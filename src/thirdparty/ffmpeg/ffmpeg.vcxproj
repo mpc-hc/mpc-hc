@@ -384,9 +384,9 @@
     <ClCompile Include="libswscale\utils.c" />
     <ClCompile Include="libswscale\x86\rgb2rgb.c" />
     <ClCompile Include="libswscale\x86\rgb2rgb_template.c" />
-    <ClCompile Include="libswscale\x86\swscale_mmx.c" />
+    <ClCompile Include="libswscale\x86\swscale.c" />
     <ClCompile Include="libswscale\x86\swscale_template.c" />
-    <ClCompile Include="libswscale\x86\yuv2rgb_mmx.c" />
+    <ClCompile Include="libswscale\x86\yuv2rgb.c" />
     <ClCompile Include="libswscale\x86\yuv2rgb_template.c" />
     <ClCompile Include="libswscale\yuv2rgb.c" />
   </ItemGroup>
