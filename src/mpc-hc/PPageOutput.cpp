@@ -446,7 +446,9 @@ void CPPageOutput::OnDSRendererChange()
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR9WIN), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_EVR:
-            m_iDSDXVASupport.SetIcon(tick);
+            if (SysVersion::IsVistaOrLater()) {
+                m_iDSDXVASupport.SetIcon(tick);
+            }
             m_iDSSaveImageSupport.SetIcon(tick);
             break;
         case VIDRNDT_DS_NULL_COMP:
@@ -488,7 +490,9 @@ void CPPageOutput::OnDSRendererChange()
                 GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
                 ((CComboBox*)GetDlgItem(IDC_DX_SURFACE))->SetCurSel(2);
 
-                m_iDSDXVASupport.SetIcon(tick);
+                if (SysVersion::IsVistaOrLater()) {
+                    m_iDSDXVASupport.SetIcon(tick);
+                }
                 m_iDSShaderSupport.SetIcon(tick);
                 m_iDSRotationSupport.SetIcon(tick);
             } else {
