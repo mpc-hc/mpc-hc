@@ -1,6 +1,6 @@
 This file includes only a short list of the changes between MPC-HC's versions.
 For the older changes see:
-http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/docs/Changelog_old.txt
+https://github.com/mpc-hc/mpc-hc/blob/master/docs/Changelog_old.txt
 
 Legend:
 + New
