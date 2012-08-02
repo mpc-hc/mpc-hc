@@ -1106,7 +1106,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 
             CLSID clsid;
             pBF->GetClassID(&clsid);
-            // Disable DVD subtitle mixing in EVR-CP and EVR-Sync for Microsoft DTV-DVD Video Decoder, it's corrupt DVD playback ...
+            // Disable DVD subtitle mixing in EVR (CP) and Sync Renderer for Microsoft DTV-DVD Video Decoder, it's corrupt DVD playback ...
             if (clsid == CLSID_CMPEG2VidDecoderDS) {
                 if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
                     CString pin_name = GetPinName(pPin);
@@ -2530,42 +2530,42 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
             m_transform.AddTail(DNew CFGFilterRegistry(CLSID_VideoRenderer, m_vrmerit));
             break;
         case VIDRNDT_DS_OVERLAYMIXER:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, L"Overlay Mixer", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, ResStr(IDS_PPAGE_OUTPUT_OVERLAYMIXER), m_vrmerit));
             break;
         case VIDRNDT_DS_VMR7WINDOWED:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer, L"Video Mixing Renderer 7", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer, ResStr(IDS_PPAGE_OUTPUT_VMR7WINDOWED), m_vrmerit));
             break;
         case VIDRNDT_DS_VMR9WINDOWED:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, L"Video Mixing Renderer 9", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, ResStr(IDS_PPAGE_OUTPUT_VMR9WINDOWED), m_vrmerit));
             break;
         case VIDRNDT_DS_VMR7RENDERLESS:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_VMR7AllocatorPresenter, L"Video Mixing Renderer 7 (Renderless)", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_VMR7AllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS), m_vrmerit));
             break;
         case VIDRNDT_DS_VMR9RENDERLESS:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, L"Video Mixing Renderer 9 (Renderless)", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS), m_vrmerit));
             break;
         case VIDRNDT_DS_EVR:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, L"Enhanced Video Renderer", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, ResStr(IDS_PPAGE_OUTPUT_EVR), m_vrmerit));
             break;
         case VIDRNDT_DS_EVR_CUSTOM:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, L"Enhanced Video Renderer (custom presenter)", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM), m_vrmerit));
             break;
         case VIDRNDT_DS_DXR:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, L"Haali's Video Renderer", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_DXR), m_vrmerit));
             break;
         case VIDRNDT_DS_MADVR:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_madVRAllocatorPresenter, L"madVR Renderer", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_madVRAllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_MADVR), m_vrmerit));
             break;
         case VIDRNDT_DS_SYNC:
-            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, L"EVR Sync", m_vrmerit));
+            m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_SYNC), m_vrmerit));
             break;
         case VIDRNDT_DS_NULL_COMP:
-            pFGF = DNew CFGFilterInternal<CNullVideoRenderer>(L"Null Video Renderer (Any)", MERIT64_ABOVE_DSHOW + 2);
+            pFGF = DNew CFGFilterInternal<CNullVideoRenderer>(ResStr(IDS_PPAGE_OUTPUT_NULL_COMP), MERIT64_ABOVE_DSHOW + 2);
             pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
             m_transform.AddTail(pFGF);
             break;
         case VIDRNDT_DS_NULL_UNCOMP:
-            pFGF = DNew CFGFilterInternal<CNullUVideoRenderer>(L"Null Video Renderer (Uncompressed)", MERIT64_ABOVE_DSHOW + 2);
+            pFGF = DNew CFGFilterInternal<CNullUVideoRenderer>(ResStr(IDS_PPAGE_OUTPUT_NULL_UNCOMP), MERIT64_ABOVE_DSHOW + 2);
             pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
             m_transform.AddTail(pFGF);
             break;

@@ -285,6 +285,10 @@ BOOL CPPageOutput::OnInitDialog()
 
     CreateToolTip();
 
+    m_wndToolTip.AddTool(GetDlgItem(IDC_RMRND_COMBO), ResStr(IDC_RMSYSDEF));
+    m_wndToolTip.AddTool(GetDlgItem(IDC_QTRND_COMBO), ResStr(IDC_QTSYSDEF));
+    m_wndToolTip.AddTool(GetDlgItem(IDC_DX_SURFACE), ResStr(IDC_REGULARSURF));
+
     OnDSRendererChange();
     OnRMRendererChange();
     OnQTRendererChange();
@@ -450,6 +454,7 @@ void CPPageOutput::OnDSRendererChange()
                 m_iDSDXVASupport.SetIcon(tick);
             }
             m_iDSSaveImageSupport.SetIcon(tick);
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSEVR), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_NULL_COMP:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSNULL_COMP), GetDlgItem(IDC_VIDRND_COMBO));
@@ -495,6 +500,7 @@ void CPPageOutput::OnDSRendererChange()
                 }
                 m_iDSShaderSupport.SetIcon(tick);
                 m_iDSRotationSupport.SetIcon(tick);
+                m_wndToolTip.UpdateTipText(ResStr(IDC_DSEVR_CUSTOM), GetDlgItem(IDC_VIDRND_COMBO));
             } else {
                 GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 
@@ -524,15 +530,18 @@ void CPPageOutput::OnDSRendererChange()
             m_iDSSaveImageSupport.SetIcon(tick);
             m_iDSShaderSupport.SetIcon(tick);
             m_iDSRotationSupport.SetIcon(tick);
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSSYNC), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_MADVR:
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
 
             m_iDSSubtitleSupport.SetIcon(tick);
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSMADVR), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_DXR:
             m_iDSSubtitleSupport.SetIcon(tick);
             m_iDSSaveImageSupport.SetIcon(tick);
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSDXR), GetDlgItem(IDC_VIDRND_COMBO));
             break;
     }
 
