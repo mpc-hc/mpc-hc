@@ -33,7 +33,7 @@ private:
     bool IsMuted() const;
     void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
-    void LoadExternalToolBar(CImage* bmp);
+    bool LoadExternalToolBar(CImage* image);
 
     int m_nButtonHeight;
     CImageList* m_pButtonsImages;

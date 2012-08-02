@@ -43,18 +43,20 @@ CPlayerToolBar::~CPlayerToolBar()
     SAFE_DELETE(m_pButtonsImages);
 }
 
-void CPlayerToolBar::LoadExternalToolBar(CImage* image)
+bool CPlayerToolBar::LoadExternalToolBar(CImage* image)
 {
+    bool success = true;
     CString path = GetProgramPath();
 
-    if (SUCCEEDED(image->Load(path + _T("toolbar.png")))) {
-        ;
-    } else { // toolbar.bmp
-        HBITMAP hBmp = (HBITMAP)LoadImage(NULL, path + _T("toolbar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-        if (!!hBmp) {
-            image->Attach(hBmp);
+    // Try to load an external PNG toolbar first
+    if (FAILED(image->Load(path + _T("toolbar.png")))) {
+        // If it fails, try to load an external BMP toolbar
+        if (FAILED(image->Load(path + _T("toolbar.bmp")))) {
+            success = false;
         }
     }
+
+    return success;
 }
 
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
@@ -93,11 +95,10 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     m_volctrl.Create(this);
     m_volctrl.SetRange(0, 100);
 
-    m_nButtonHeight = 16; //reset m_nButtonHeight
+    m_nButtonHeight = 16; // reset m_nButtonHeight
     CImage image;
-    LoadExternalToolBar(&image);
-    if (!image.IsNull()) {
-        CBitmap* bmp = CBitmap::FromHandle((HBITMAP)image);
+    if (LoadExternalToolBar(&image)) {
+        CBitmap* bmp = CBitmap::FromHandle(image);
         int width = image.GetWidth();
         int height = image.GetHeight();
         int bpp = image.GetBPP();
@@ -108,7 +109,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
             m_pButtonsImages = DNew CImageList();
             if (bpp == 32) {
                 m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
-                m_pButtonsImages->Add(bmp, static_cast<CBitmap*>(0));   // alpha is the mask
+                m_pButtonsImages->Add(bmp, static_cast<CBitmap*>(0)); // alpha is the mask
             } else {
                 m_pButtonsImages->Create(height, height, ILC_COLOR24 | ILC_MASK, 1, 0);
                 m_pButtonsImages->Add(bmp, RGB(255, 0, 255));
