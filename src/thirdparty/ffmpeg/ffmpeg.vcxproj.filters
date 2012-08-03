@@ -19,6 +19,12 @@
     <Filter Include="libavcodec\x86">
       <UniqueIdentifier>{927d8398-e10f-483b-8cb6-9698fad28e24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libavresample">
+      <UniqueIdentifier>{5fa17405-6935-47c1-906c-8bdd953556cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libavresample\x86">
+      <UniqueIdentifier>{56d354fb-18f1-4525-b31e-ed4a8c1aebd9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="config.asm" />
@@ -105,6 +111,15 @@
     </None>
     <None Include="libavcodec\x86\vp56dsp.asm">
       <Filter>libavcodec\x86</Filter>
+    </None>
+    <None Include="libavresample\x86\audio_convert.asm">
+      <Filter>libavresample\x86</Filter>
+    </None>
+    <None Include="libavresample\x86\audio_mix.asm">
+      <Filter>libavresample\x86</Filter>
+    </None>
+    <None Include="libavresample\x86\util.asm">
+      <Filter>libavresample\x86</Filter>
     </None>
     <None Include="libswscale\x86\input.asm">
       <Filter>libswscale\x86</Filter>
@@ -858,6 +873,36 @@
     <ClCompile Include="libavcodec\xiph.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavresample\audio_convert.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
+    <ClCompile Include="libavresample\audio_data.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
+    <ClCompile Include="libavresample\audio_mix.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
+    <ClCompile Include="libavresample\audio_mix_matrix.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
+    <ClCompile Include="libavresample\options.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
+    <ClCompile Include="libavresample\resample.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
+    <ClCompile Include="libavresample\utils.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
+    <ClCompile Include="libavresample\x86\audio_convert_init.c">
+      <Filter>libavresample\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavresample\x86\audio_mix_init.c">
+      <Filter>libavresample\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavutil\audio_fifo.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
     <ClCompile Include="libswscale\x86\rgb2rgb.c">
       <Filter>libswscale\x86</Filter>
     </ClCompile>
@@ -1562,6 +1607,30 @@
     </ClInclude>
     <ClInclude Include="libavcodec\xvmc_internal.h">
       <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavresample\audio_convert.h">
+      <Filter>libavresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libavresample\audio_data.h">
+      <Filter>libavresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libavresample\audio_mix.h">
+      <Filter>libavresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libavresample\avresample.h">
+      <Filter>libavresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libavresample\internal.h">
+      <Filter>libavresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libavresample\resample.h">
+      <Filter>libavresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libavresample\version.h">
+      <Filter>libavresample</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\audio_fifo.h">
+      <Filter>libavutil</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
