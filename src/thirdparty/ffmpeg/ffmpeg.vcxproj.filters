@@ -255,12 +255,6 @@
     <ClCompile Include="libavcodec\x86\fft.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\fft_3dn.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\fft_3dn2.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
     <ClCompile Include="libavcodec\x86\fmtconvert_mmx.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
@@ -430,6 +424,9 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\dca_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\dcadec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\dcadsp.c">
