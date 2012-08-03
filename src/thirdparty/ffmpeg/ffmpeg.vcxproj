@@ -352,6 +352,7 @@
     <ClCompile Include="libavresample\audio_mix_matrix.c" />
     <ClCompile Include="libavresample\options.c" />
     <ClCompile Include="libavresample\resample.c" />
+    <ClCompile Include="libavresample\resample_template.c" />
     <ClCompile Include="libavresample\utils.c" />
     <ClCompile Include="libavresample\x86\audio_convert_init.c" />
     <ClCompile Include="libavresample\x86\audio_mix_init.c" />

@@ -67,6 +67,7 @@
 #define HAVE_ARMV6 0
 #define HAVE_ARMV6T2 0
 #define HAVE_ARMVFP 0
+#define HAVE_FMA4 1
 #define HAVE_MIPSFPU 0
 #define HAVE_MIPS32R2 0
 #define HAVE_MIPSDSPR1 0

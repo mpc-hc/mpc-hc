@@ -918,6 +918,9 @@
     <ClCompile Include="libswscale\x86\yuv2rgb_template.c">
       <Filter>libswscale\x86</Filter>
     </ClCompile>
+    <ClCompile Include="libavresample\resample_template.c">
+      <Filter>libavresample</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />

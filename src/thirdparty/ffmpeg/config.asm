@@ -74,6 +74,7 @@ else
 %define HAVE_FAST_CLZ 1
 %define HAVE_FAST_CMOV 1
 %define HAVE_FCNTL 0
+%define HAVE_FMA4 1
 %define HAVE_FORK 0
 %define HAVE_GETHRTIME 0
 %define HAVE_GETPROCESSAFFINITYMASK 1
