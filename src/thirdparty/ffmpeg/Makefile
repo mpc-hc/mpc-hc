@@ -126,6 +126,7 @@ SRCS_C = \
     libavcodec/cook.c \
     libavcodec/dca.c \
     libavcodec/dca_parser.c \
+    libavcodec/dcadec.c \
     libavcodec/dcadsp.c \
     libavcodec/dct.c \
     libavcodec/dct32.c \
@@ -258,8 +259,6 @@ SRCS_C = \
     libavcodec/x86/dsputil_mmx.c \
     libavcodec/x86/fdct_mmx.c \
     libavcodec/x86/fft.c \
-    libavcodec/x86/fft_3dn.c \
-    libavcodec/x86/fft_3dn2.c \
     libavcodec/x86/fmtconvert_mmx.c \
     libavcodec/x86/h264_intrapred_init.c \
     libavcodec/x86/h264dsp_mmx.c \
