@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_57		"Невірний формат зображення, не
 STRING IDS_MAINFRM_58		"Розмір файлу: %s (%s байт)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Ім'я файлу: %s\\N%sРозмір: %dx%d %s\\NТривалість: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"записано: %d, втрачено: %d"
-STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 STRING IDS_MAINFRM_65		"Перед-масштабовні піксельні шейдери: Ввімк."
 STRING IDS_MAINFRM_66		"Перед-масштабовні піксельні шейдери: Вимк."
 STRING IDS_MAINFRM_68		"Пропорції: %d:%d"

@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_57		"Irudi heuskarri baliogabea, ezinezkoa txikirudiak sortze
 STRING IDS_MAINFRM_58		"Agiri Neurria: %s (%s byte)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Agiri Izena: %s\\N%sBereizmena: %dx%d %s\\NIraupena: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"marraztuta: %d, erorita: %d"
-STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 STRING IDS_MAINFRM_65		"Aurre-Birneurriratu Pixel Itzalak: eraginda"
 STRING IDS_MAINFRM_66		"Aurre-Birneurriratu Pixel Itzalak: etenda"
 STRING IDS_MAINFRM_68		"Ikuspegi Maila: %d:%d"

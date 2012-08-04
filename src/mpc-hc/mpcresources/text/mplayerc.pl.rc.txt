@@ -1419,7 +1419,7 @@ STRING IDS_MAINFRM_57		"Niewłaściwy format obrazu. Nie można utworzyć miniat
 STRING IDS_MAINFRM_58		"Rozmiar pliku: %s (%s bajtów)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nazwa pliku: %s\\N%sRozmiar obrazu: %dx%d %s\\NCzas odtwarzania: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"wyświetlone – %d, porzucone – %d"
-STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 STRING IDS_MAINFRM_65		"Cieniowanie pikseli przed skalowaniem: włączone"
 STRING IDS_MAINFRM_66		"Cieniowanie pikseli przed skalowaniem: wyłączone"
 STRING IDS_MAINFRM_68		"Proporcje obrazu: %d:%d"

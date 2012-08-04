@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_57		"無効な画像形式です。%d bpp dibs 以上のサ�
 STRING IDS_MAINFRM_58		"ファイル サイズ: %s (%s バイト)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ファイル名: %s\\N%s解像度: %dx%d %s\\N長さ: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"再生: %d、破棄: %d"
-STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 STRING IDS_MAINFRM_65		"リサイズ前のピクセル シェーダ オン"
 STRING IDS_MAINFRM_66		"リサイズ前のピクセル シェーダ オフ"
 STRING IDS_MAINFRM_68		"アスペクト比: %d:%d"

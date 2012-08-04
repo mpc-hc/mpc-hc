@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_57		"Neplatný formát, miniatury nelze vytvořit z %d bpp di
 STRING IDS_MAINFRM_58		"Velikost souboru: %s (%s bajtů)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Název souboru: %s\\N%sRozlišení: %dx%d %s\\NDélka: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"vykresleno: %d, zahozeno: %d"
-STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 STRING IDS_MAINFRM_65		"Pixel shadery před změnou velikosti aktivní"
 STRING IDS_MAINFRM_66		"Pixel shadery před změnou velikosti neaktivní"
 STRING IDS_MAINFRM_68		"Poměr stran: %d:%d"

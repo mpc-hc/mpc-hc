@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_57		"無效的影像格式, 無法從 %d bpp DIBs 建立縮�
 STRING IDS_MAINFRM_58		"檔案大小: %s (%s bytes)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}檔案名稱: %s\\N%s解析度: %dx%d %s\\N時間長度: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"已繪製: %d, 已略過: %d"
-STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 STRING IDS_MAINFRM_65		"Pre-Resize Pixel Shaders: 開啟"
 STRING IDS_MAINFRM_66		"Pre-Resize Pixel Shaders: 關閉"
 STRING IDS_MAINFRM_68		"長寬比例: %d:%d"

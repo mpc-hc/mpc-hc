@@ -1420,7 +1420,7 @@ STRING IDS_MAINFRM_57		"사용가능하지않은 이미지 포맷, %d bpp dibs �
 STRING IDS_MAINFRM_58		"파일 크기: %s (%s 바이트)\\N"
 STRING IDS_MAINFRM_59		"{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}파일 이름: %s\\N%s해상도: %dx%d %s\\N기간: %02d:%02d:%02d"
 STRING IDS_MAINFRM_6		"떨어짐: %d, 떨어짐: %d"
-STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+STRING IDS_MAINFRM_60		"To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 STRING IDS_MAINFRM_65		"선처리 리사이즈 픽셀 셰이더: 켜짐"
 STRING IDS_MAINFRM_66		"선처리 리사이즈 픽셀 셰이더: 꺼짐"
 STRING IDS_MAINFRM_68		"화면 비율: %d:%d"
