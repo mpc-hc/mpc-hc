@@ -934,7 +934,7 @@ void CTreePropSheet::OnPageTreeSelChanging(NMHDR *pNotifyStruct, LRESULT *plResu
 		m_bPageTreeSelChangedActive = TRUE;
 
 	NMTREEVIEW	*pTvn = reinterpret_cast<NMTREEVIEW*>(pNotifyStruct);
-	int					nPage = m_pwndPageTree->GetItemData(pTvn->itemNew.hItem);
+	int					nPage = (int)m_pwndPageTree->GetItemData(pTvn->itemNew.hItem);
 	BOOL				bResult;
 	if (nPage<0 || (unsigned)nPage>=m_pwndPageTree->GetCount())
 		bResult = KillActiveCurrentPage();
