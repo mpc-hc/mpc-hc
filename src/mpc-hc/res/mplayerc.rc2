@@ -87,6 +87,9 @@ IDR_HTML_VARIABLES               HTML                    "res\\web\\variables.ht
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+IDR_MAINFRAME                    ICON                    "res\\icon.ico"
+IDI_SINGLE                       ICON                    "res\\single.ico"
+IDI_MULTI                        ICON                    "res\\multi.ico"
 IDR_TB_PLAY                      ICON                    "res\\tb_play_16.ico"
 IDR_TB_PAUSE                     ICON                    "res\\tb_pause_16.ico"
 IDR_TB_STOP                      ICON                    "res\\tb_stop_16.ico"

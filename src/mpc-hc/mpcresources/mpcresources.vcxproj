@@ -319,9 +319,6 @@
     <ClInclude Include="..\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\res\icon.ico" />
-    <None Include="..\res\multi.ico" />
-    <None Include="..\res\single.ico" />
     <None Include="..\res\toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

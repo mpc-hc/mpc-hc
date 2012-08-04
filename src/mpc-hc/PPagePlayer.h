@@ -57,6 +57,9 @@ public:
     enum { IDD = IDD_PPAGEPLAYER };
 
 protected:
+    CStatic m_iconSingle;
+    CStatic m_iconMulti;
+
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();

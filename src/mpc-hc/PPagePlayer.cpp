@@ -57,6 +57,8 @@ CPPagePlayer::~CPPagePlayer()
 void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
+    DDX_Control(pDX, IDI_SINGLE, m_iconSingle);
+    DDX_Control(pDX, IDI_MULTI, m_iconMulti);
     DDX_Radio(pDX, IDC_RADIO1, m_iAllowMultipleInst);
     DDX_Radio(pDX, IDC_RADIO3, m_iTitleBarTextStyle);
     DDX_Check(pDX, IDC_CHECK13, m_bTitleBarTextTitle);
@@ -88,6 +90,9 @@ END_MESSAGE_MAP()
 BOOL CPPagePlayer::OnInitDialog()
 {
     __super::OnInitDialog();
+
+    m_iconSingle.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDI_SINGLE), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
+    m_iconMulti.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDI_MULTI), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
 
     const CAppSettings& s = AfxGetAppSettings();
 

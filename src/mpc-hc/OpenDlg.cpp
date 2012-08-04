@@ -45,6 +45,7 @@ COpenDlg::~COpenDlg()
 void COpenDlg::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
+    DDX_Control(pDX, IDR_MAINFRAME, m_icon);
     DDX_Control(pDX, IDC_COMBO1, m_mrucombo);
     DDX_CBString(pDX, IDC_COMBO1, m_path);
     DDX_Control(pDX, IDC_COMBO2, m_mrucombo2);
@@ -70,6 +71,8 @@ END_MESSAGE_MAP()
 BOOL COpenDlg::OnInitDialog()
 {
     __super::OnInitDialog();
+
+    m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
 
     CRecentFileList& MRU = AfxGetAppSettings().MRU;
     MRU.ReadList();

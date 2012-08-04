@@ -48,6 +48,8 @@ public:
     BOOL m_fAppendPlaylist;
 
 protected:
+    CStatic m_icon;
+
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
 

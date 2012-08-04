@@ -831,12 +831,16 @@ BOOL CMPlayerCApp::InitInstance()
         return FALSE;
     }
 
+    // Be careful if you move that code: IDR_MAINFRAME icon can only be loaded from the executable,
+    // LoadIcon can't be used after the language DLL has been set as the main resource.
+    HICON icon = LoadIcon(IDR_MAINFRAME);
+
     WNDCLASS wndcls;
     memset(&wndcls, 0, sizeof(WNDCLASS));
     wndcls.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;
     wndcls.lpfnWndProc = ::DefWindowProc;
     wndcls.hInstance = AfxGetInstanceHandle();
-    wndcls.hIcon = LoadIcon(IDR_MAINFRAME);
+    wndcls.hIcon = icon;
     wndcls.hCursor = LoadCursor(IDC_ARROW);
     wndcls.hbrBackground = 0;//(HBRUSH)(COLOR_WINDOW + 1); // no bkg brush, the view and the bars should always fill the whole client area
     wndcls.lpszMenuName = NULL;
@@ -1037,7 +1041,7 @@ BOOL CMPlayerCApp::InitInstance()
     pFrame->SetDefaultWindowRect((m_s.nCLSwitches & CLSW_MONITOR) ? m_s.iMonitor : 0);
     pFrame->RestoreControlBars();
     pFrame->SetDefaultFullscreenState();
-    pFrame->SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), TRUE);
+    pFrame->SetIcon(icon, TRUE);
     pFrame->DragAcceptFiles();
     pFrame->ShowWindow((m_s.nCLSwitches & CLSW_MINIMIZED) ? SW_SHOWMINIMIZED : SW_SHOW);
     pFrame->UpdateWindow();
