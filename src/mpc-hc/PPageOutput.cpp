@@ -61,6 +61,9 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_QTRND_COMBO, m_iQTVideoRendererTypeCtrl);
     DDX_Control(pDX, IDC_AUDRND_COMBO, m_iAudioRendererTypeCtrl);
     DDX_Control(pDX, IDC_D3D9DEVICE_COMBO, m_iD3D9RenderDeviceCtrl);
+    DDX_Control(pDX, IDC_DX_SURFACE, m_APSurfaceUsageCtrl);
+    DDX_Control(pDX, IDC_DX9RESIZER_COMBO, m_DX9ResizerCtrl);
+    DDX_Control(pDX, IDC_EVR_BUFFERS, m_EVRBuffersCtrl);
     DDX_Control(pDX, IDC_VIDRND_DXVA_SUPPORT, m_iDSDXVASupport);
     DDX_Control(pDX, IDC_VIDRND_SUBTITLE_SUPPORT, m_iDSSubtitleSupport);
     DDX_Control(pDX, IDC_VIDRND_SAVEIMAGE_SUPPORT, m_iDSSaveImageSupport);
@@ -109,12 +112,31 @@ BOOL CPPageOutput::OnInitDialog()
     m_iDSVideoRendererType  = s.iDSVideoRendererType;
     m_iRMVideoRendererType  = s.iRMVideoRendererType;
     m_iQTVideoRendererType  = s.iQTVideoRendererType;
+
+    m_APSurfaceUsageCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SURF_OFFSCREEN));
+    m_APSurfaceUsageCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SURF_2D));
+    m_APSurfaceUsageCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SURF_3D));
     m_iAPSurfaceUsage       = renderersSettings.iAPSurfaceUsage;
+
+    m_DX9ResizerCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_RESIZE_NN));
+    m_DX9ResizerCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_RESIZER_BILIN));
+    m_DX9ResizerCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_RESIZER_BIL_PS));
+    m_DX9ResizerCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_RESIZER_BICUB1));
+    m_DX9ResizerCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_RESIZER_BICUB2));
+    m_DX9ResizerCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_RESIZER_BICUB3));
     m_iDX9Resizer           = renderersSettings.iDX9Resizer;
+
     m_fVMR9MixerMode        = renderersSettings.fVMR9MixerMode;
     m_fVMR9MixerYUV         = renderersSettings.fVMR9MixerYUV;
     m_fVMR9AlterativeVSync  = renderersSettings.m_RenderSettings.fVMR9AlterativeVSync;
     m_fD3DFullscreen        = s.fD3DFullscreen;
+
+    int EVRBuffers[] = {4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30, 35, 40, 45, 50, 55, 60};
+    CString EVRBuffer;
+    for (size_t i = 0; i < _countof(EVRBuffers); i++) {
+        EVRBuffer.Format(_T("%d"), EVRBuffers[i]);
+        m_EVRBuffersCtrl.AddString(EVRBuffer);
+    }
     m_iEvrBuffers.Format(L"%d", renderersSettings.iEvrBuffers);
 
     m_iAudioRendererTypeCtrl.SetRedraw(FALSE);

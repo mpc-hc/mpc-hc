@@ -42,6 +42,9 @@ private:
     CComboBox m_iRMVideoRendererTypeCtrl;
     CComboBox m_iQTVideoRendererTypeCtrl;
     CComboBox m_iD3D9RenderDeviceCtrl;
+    CComboBox m_APSurfaceUsageCtrl;
+    CComboBox m_DX9ResizerCtrl;
+    CComboBox m_EVRBuffersCtrl;
 
     CStatic m_iDSDXVASupport;
     CStatic m_iDSSubtitleSupport;
