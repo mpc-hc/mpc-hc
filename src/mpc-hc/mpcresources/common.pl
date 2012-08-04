@@ -74,32 +74,26 @@ sub analyzeData {
 
             if (/\bBEGIN\b/) {
                 $stack++;
-            }
-            elsif (/\bEND\b/) {
+            } elsif (/\bEND\b/) {
                 $stack--;
 
                 if ($stack == 0) {
                     if ($tagidx == 0) {
                         my $dlgname = readDialog($dialogs, \@blocks);
                         push(@{$outline}, ["DIALOG", [$dlgname, ""]]);
-                    }
-                    elsif ($tagidx == 1) {
+                    } elsif ($tagidx == 1) {
                         my $menuname = readMenu($menus, \@blocks);
                         push(@{$outline}, ["MENU", [$menuname, ""]]);
-                    }
-                    elsif ($tagidx == 2) {
+                    } elsif ($tagidx == 2) {
                         readStringTable($strings, \@blocks);
                         push(@{$outline}, ["STRINGTABLE", [@blocks]]);
-                    }
-                    elsif ($tagidx == 3) {
+                    } elsif ($tagidx == 3) {
                         push(@{$outline}, ["VERSIONINFO", [@blocks]]);
                         push(@$versionInfo, @blocks);
-                    }
-                    elsif ($tagidx == 4) {
+                    } elsif ($tagidx == 4) {
                         my $dlgname = readDesignInfo($designInfo, \@blocks);
                         push(@{$outline}, ["DESIGNINFO", [$dlgname, ""]]);
-                    }
-                    elsif ($tagidx < @InTags) {
+                    } elsif ($tagidx < @InTags) {
                         push(@{$outline}, ["BLOCK", [@blocks]]);
                     }
 
@@ -190,12 +184,11 @@ sub readMenu {
             next;
         }
 
-        if ( /^\s+MENUITEM\s+(".+"),\s+(\S+)\s*$/) {
+        if (/^\s+MENUITEM\s+(".+"),\s+(\S+)\s*$/) {
             my($key, $value) = ($2, $1);
             push(@data, [$linenum, $value]);
             $lookup{$key} = $linenum;
-        }
-        elsif (/\bPOPUP\b\s+(".*")/) {
+        } elsif (/\bPOPUP\b\s+(".*")/) {
             push(@data, [$linenum, $1]);
         }
 
@@ -218,8 +211,7 @@ sub readStringTable {
             my ($key, $value) = ($1, $2);
             $strings->{$key} = $value;
             $savekey = undef;
-        }
-        elsif (/^\s+(ID\S+)/) {
+        } elsif (/^\s+(ID\S+)/) {
             $savekey = $1;
             $strings->{$savekey} = "";
         } else {
@@ -306,14 +298,12 @@ sub writeFile {
 
     if ($withBOM == 0) {
         binmode(OUTPUT, ":raw:encoding(UTF8)");
-    }
-    elsif ($withBOM == 1) {
+    } elsif ($withBOM == 1) {
         binmode(OUTPUT);
         print OUTPUT chr(0xff);
         print OUTPUT chr(0xfe); #write unicode bom
         binmode(OUTPUT, ":raw:encoding(UTF16-LE)");
-    }
-    elsif ($withBOM == 2) {
+    } elsif ($withBOM == 2) {
         binmode(OUTPUT, ":raw:encoding(UTF16-LE)");
     }
 
@@ -385,11 +375,9 @@ sub lcs {
             $i = $align->[$r][$c]) {
         if ($align->[$r - 1][$c] == $i) {
             $r--;
-        }
-        elsif ($align->[$r][$c - 1] == $i) {
+        } elsif ($align->[$r][$c - 1] == $i) {
             $c--;
-        }
-        elsif ($align->[$r - 1][$c - 1] == $i - 1) {
+        } elsif ($align->[$r - 1][$c - 1] == $i - 1) {
             $r--;
             $c--;
             $changes->[$idx++] = [$r, $c];
@@ -417,12 +405,10 @@ sub writePatchFile {
             }
             push(@localData, "END");
             push(@localData, "");
-        }
-        elsif ($_->[0] eq "STRINGTABLE") {
+        } elsif ($_->[0] eq "STRINGTABLE") {
             my ($key, $value) = each(%{$_->[1]});
             push(@localData, "STRING $key\t\t$value");
-        }
-        elsif ($_->[0] eq "MENU") {
+        } elsif ($_->[0] eq "MENU") {
             my $lines = $_->[1]{"__LINES__"};
             while (my ($key, $value) = each(%{$_->[1]})) {
                 if ($key eq "__LINES__") {
