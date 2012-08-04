@@ -15,6 +15,15 @@ SET PATH=%MPCHC_PERL%\bin;%MPCHC_GIT%\cmd;%PATH%
 FOR %%G IN (git.exe)  DO (SET FOUND=%%~$PATH:G)
 FOR %%G IN (perl.exe) DO (SET FOUND=%%~$PATH:G)
 IF NOT DEFINED FOUND GOTO MissingVar
+
+ECHO Backing up current translation files...
+IF NOT EXIST backup MD backup
+COPY /Y /V ..\mplayerc.rc backup
+COPY /Y /V *.rc backup
+IF NOT EXIST backup\text MD backup\text
+COPY /Y /V text backup\text
+ECHO ----------------------
+
 EXIT /B
 
 

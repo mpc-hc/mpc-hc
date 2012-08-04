@@ -4,10 +4,11 @@
 /docs/astyle.exe
 /include/version_rev.h
 /src/filters/transform/VSFilter/installer/*.exe
+/src/mpc-hc/mpcresources/backup
+/src/mpc-hc/mpcresources/newrc
 /src/mpc-hc/res/mpc-hc.exe.manifest
 /src/MPCTestAPI/bin
 ipch
-newrc
 *.a
 *.aps
 *.db
