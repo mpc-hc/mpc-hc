@@ -100,7 +100,7 @@ static void LoadDefaultCodec(CAtlArray<Codec>& codecs, CComboBox& box, const GUI
     CString DisplayName = AfxGetApp()->GetProfileString(IDS_RS_CAPTURE _T("\\") + CStringFromGUID(cat), _T("DisplayName"));
 
     for (int i = 0; i < len; i++) {
-        int iSel = box.GetItemData(i);
+        int iSel = (int)box.GetItemData(i);
         if (iSel < 0) {
             continue;
         }
@@ -130,7 +130,7 @@ static void SaveDefaultCodec(CAtlArray<Codec>& codecs, CComboBox& box, const GUI
     if (iSel < 0) {
         return;
     }
-    iSel = box.GetItemData(iSel);
+    iSel = (int)box.GetItemData(iSel);
     if (iSel < 0) {
         return;
     }
@@ -481,7 +481,7 @@ static int ShowPPage(CAtlArray<Codec>& codecs, CComboBox& box, HWND hWnd = NULL)
         return -1;
     }
 
-    iSel = box.GetItemData(iSel);
+    iSel = (int)box.GetItemData(iSel);
     if (iSel < 0) {
         return -1;
     }
@@ -815,7 +815,7 @@ void CPlayerCaptureDialog::UpdateVideoCodec()
 {
     int iSel = m_vidcodec.GetCurSel();
     if (iSel >= 0) {
-        iSel = m_vidcodec.GetItemData(iSel);
+        iSel = (int)m_vidcodec.GetItemData(iSel);
     }
 
     m_pVidEnc = iSel < 0 ? NULL : m_pVidEncArray[iSel].pBF;
@@ -835,7 +835,7 @@ void CPlayerCaptureDialog::UpdateAudioCodec()
 {
     int iSel = m_audcodec.GetCurSel();
     if (iSel >= 0) {
-        iSel = m_audcodec.GetItemData(iSel);
+        iSel = (int)m_audcodec.GetItemData(iSel);
     }
 
     m_pAudEnc = iSel < 0 ? NULL : m_pAudEncArray[iSel].pBF;
@@ -1192,7 +1192,7 @@ bool CPlayerCaptureDialog::IsTunerActive()
     if (iSel < 0) {
         return false;
     }
-    iSel = m_vidinput.GetItemData(iSel);
+    iSel = (int)m_vidinput.GetItemData(iSel);
     if (iSel < 0) {
         return false;
     }
@@ -1252,7 +1252,7 @@ int CPlayerCaptureDialog::GetVideoInput()
     if (i < 0) {
         return -1;
     }
-    return m_vidinput.GetItemData(i);
+    return (int)m_vidinput.GetItemData(i);
 }
 
 int CPlayerCaptureDialog::GetVideoChannel()
@@ -1267,7 +1267,7 @@ int CPlayerCaptureDialog::GetAudioInput()
     if (i < 0) {
         return -1;
     }
-    return m_audinput.GetItemData(i);
+    return (int)m_audinput.GetItemData(i);
 }
 
 BEGIN_MESSAGE_MAP(CPlayerCaptureDialog, CResizableDialog)
@@ -1359,7 +1359,7 @@ void CPlayerCaptureDialog::OnVideoInput()
     if (iSel < 0) {
         return;
     }
-    iSel = m_vidinput.GetItemData(iSel);
+    iSel = (int)m_vidinput.GetItemData(iSel);
     if (iSel < 0) {
         return;
     }

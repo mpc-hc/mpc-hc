@@ -451,7 +451,7 @@ void CPPageOutput::OnSurfaceChange()
 void CPPageOutput::OnDSRendererChange()
 {
     UpdateData();
-    m_iDSVideoRendererType = m_iDSVideoRendererTypeCtrl.GetItemData(m_iDSVideoRendererTypeCtrl.GetCurSel());
+    m_iDSVideoRendererType = (int)m_iDSVideoRendererTypeCtrl.GetItemData(m_iDSVideoRendererTypeCtrl.GetCurSel());
 
     GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
     GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(FALSE);
