@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -16,73 +12,73 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mplayerc.br.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.by.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.ca.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.cz.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.de.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.es.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.eu.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.fr.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.hu.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.hy.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.it.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ja.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.kr.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.nl.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.pl.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ru.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sc.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sk.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.sv.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.tc.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.tr.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="mplayerc.ua.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.he.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.hu.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.hy.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.it.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.ja.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.kr.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.nl.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.pl.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.ru.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.sc.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.sk.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.sv.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.tc.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.tr.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.ua.rc">
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
