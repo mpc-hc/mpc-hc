@@ -93,7 +93,7 @@ bool CMpaDecSettingsWnd::OnActivate()
     m_drc_check.SetCheck(m_drc);
     p.y += 30;
 
-    m_mixer_group.Create(_T(""),dwStyle | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(215, 45)), this, (UINT)IDC_STATIC);
+    m_mixer_group.Create(_T(""), dwStyle | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(215, 45)), this, (UINT)IDC_STATIC);
     m_mixer_check.Create(_T("Mixer"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(60, m_fontheight)), this, IDC_PP_CHECK1);
     m_mixer_check.SetCheck(m_mixer);
     p.y += 20;
@@ -114,7 +114,7 @@ bool CMpaDecSettingsWnd::OnActivate()
     ScreenToClient(r);
     p.y += 35;
 
-    m_spdif_group.Create(_T("S/PDIF passthrough:"),dwStyle | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(215, 40)), this, (UINT)IDC_STATIC);
+    m_spdif_group.Create(_T("S/PDIF passthrough:"), dwStyle | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(215, 40)), this, (UINT)IDC_STATIC);
     p.y += 20;
     m_spdif_ac3_check.Create(_T("AC-3"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(40, m_fontheight)), this, IDC_PP_CHECK3);
     m_spdif_ac3_check.SetCheck(m_spdif_ac3);

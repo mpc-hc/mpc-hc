@@ -99,7 +99,7 @@ protected:
     CCritSec m_csReceive;
 
     audio_params_t          m_InputParams;
-// Mixer
+    // Mixer
     AVAudioResampleContext* m_pAVRCxt;
 
     ps2_state_t             m_ps2_state;

@@ -1828,7 +1828,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
     }
 #endif
 
-    
+
     if (GetMixer()) {
         int sc = GetMixerLayout();
         *pmt = CreateMediaType(GetSampleFormat(), wfe->nSamplesPerSec, channel_mode[sc].channels, channel_mode[sc].ch_layout);
@@ -2501,7 +2501,7 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
         av_opt_set_int(m_pAVRCxt, "out_sample_fmt", AV_SAMPLE_FMT_FLT, 0);
 
         // Create Matrix
-        double *matrix_dbl = (double *)av_mallocz(in_ch * out_ch * sizeof(*matrix_dbl));
+        double* matrix_dbl = (double*)av_mallocz(in_ch * out_ch * sizeof(*matrix_dbl));
         const int normalize = 0;
         // expand stereo
         if (in_layout == AV_CH_LAYOUT_STEREO && (out_layout == AV_CH_LAYOUT_QUAD || out_layout == AV_CH_LAYOUT_5POINT1 || out_layout == AV_CH_LAYOUT_7POINT1)) {
@@ -2576,7 +2576,7 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
     }
 
     if (m_pAVRCxt) {
-        ret = avresample_convert(m_pAVRCxt, (void **)&pOutput, samples * out_ch, samples, (void **)&pInput, samples * in_ch, samples);
+        ret = avresample_convert(m_pAVRCxt, (void**)&pOutput, samples * out_ch, samples, (void**)&pInput, samples * in_ch, samples);
         if (ret < 0) {
             TRACE(_T("avresample_convert failed"));
             return S_FALSE;
