@@ -173,7 +173,7 @@ protected:
 protected:
     CCritSec m_csProps;
     MPCSampleFormat m_iSampleFormat;
-	bool m_fMixer;
+    bool m_fMixer;
     int  m_iMixerLayout;
     bool m_fDRC;
     bool m_fSPDIF[etlast];

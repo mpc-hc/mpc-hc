@@ -95,6 +95,7 @@ bool CMpaDecSettingsWnd::OnActivate()
 
     m_mixer_group.Create(_T(""),dwStyle | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(215, 45)), this, (UINT)IDC_STATIC);
     m_mixer_check.Create(_T("Mixer"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(60, m_fontheight)), this, IDC_PP_CHECK1);
+    m_mixer_check.SetCheck(m_mixer);
     p.y += 20;
     m_mixer_layout_static.Create(_T("Output speakers:"), dwStyle, CRect(p, CSize(120, m_fontheight)), this);
     m_mixer_layout_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CPoint(125, -4), CSize(80, 200)), this, IDC_PP_COMBO2);
