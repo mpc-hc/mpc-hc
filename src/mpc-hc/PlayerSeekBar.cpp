@@ -171,21 +171,18 @@ CRect CPlayerSeekBar::GetThumbRect() const
 
     int x = r.left + (int)((m_start < m_stop /*&& fEnabled*/) ? (__int64)r.Width() * (m_pos - m_start) / (m_stop - m_start) : 0);
     int y = r.CenterPoint().y;
-
-    r.SetRect(x, y, x, y);
-    r.InflateRect(6, 7, 7, 8);
+    r.SetRect(r.left - 1, y - r.Height() + 2 , x + 1, y + r.Height() - 1);
 
     return r;
 }
 
-CRect CPlayerSeekBar::GetInnerThumbRect() const
+__int64 CPlayerSeekBar::CalculatePosition(REFERENCE_TIME rt)
 {
-    CRect r = GetThumbRect();
-
-    bool fEnabled = m_fEnabled && m_start < m_stop;
-    r.DeflateRect(3, fEnabled ? 5 : 4, 3, fEnabled ? 5 : 4);
-
-    return r;
+    if (rt >= m_start && rt < m_stop) {
+        return (__int64)(GetChannelRect().Width() * ((double)(rt) / m_stop) - 1);
+    } else {
+        return -1;
+    }
 }
 
 __int64 CPlayerSeekBar::CalculatePosition(CPoint point)
@@ -242,52 +239,41 @@ void CPlayerSeekBar::OnPaint()
     bool fEnabled = m_fEnabled && m_start < m_stop;
 
     COLORREF
+    black = GetSysColor(COLOR_3DDKSHADOW),
     white = GetSysColor(COLOR_WINDOW),
     shadow = GetSysColor(COLOR_3DSHADOW),
     light = GetSysColor(COLOR_3DHILIGHT),
     bkg = GetSysColor(COLOR_BTNFACE);
 
+    // chapter position
+    // TODO: DVD Chapters
+    {
+        CMainFrame* pMF = static_cast<CMainFrame*>(GetParentFrame());
+        if (pMF && (pMF->m_iMediaLoadState == MLS_LOADED && pMF->GetPlaybackMode() == PM_FILE)) {
+            IDSMChapterBag* pCB = pMF->m_pCB;
+            if (pCB) {
+                CRect cr = GetChannelRect();
+                REFERENCE_TIME rt;
+                CComBSTR name;
+                for (DWORD i = 0; i < pCB->ChapGetCount(); ++i) {
+                    if (SUCCEEDED(pCB->ChapGet(i, &rt, &name))) {
+                        __int64 pos = CalculatePosition(rt);
+                        if (pos < 0) { continue; }
+                        RECT r = { cr.left + (LONG)pos, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
+                        dc.FillSolidRect(&r, black);
+                        dc.ExcludeClipRect(&r);
+                    }
+                }
+            }
+        }
+    }
+
     // thumb
     {
-        CRect r = GetThumbRect(), r2 = GetInnerThumbRect();
-        CRect rt = r, rit = r2;
-
-        dc.Draw3dRect(&r, light, 0);
-        r.DeflateRect(0, 0, 1, 1);
-        dc.Draw3dRect(&r, light, shadow);
-        r.DeflateRect(1, 1, 1, 1);
-
-        CBrush b(bkg);
-
-        dc.FrameRect(&r, &b);
-        r.DeflateRect(0, 1, 0, 1);
-        dc.FrameRect(&r, &b);
-
-        r.DeflateRect(1, 1, 0, 0);
-        dc.Draw3dRect(&r, shadow, bkg);
-
-        if (fEnabled) {
-            r.DeflateRect(1, 1, 1, 2);
-            CPen white(PS_INSIDEFRAME, 1, white);
-            CPen* old = dc.SelectObject(&white);
-            dc.MoveTo(r.left, r.top);
-            dc.LineTo(r.right, r.top);
-            dc.MoveTo(r.left, r.bottom);
-            dc.LineTo(r.right, r.bottom);
-            dc.SelectObject(old);
-            dc.SetPixel(r.CenterPoint().x, r.top, 0);
-            dc.SetPixel(r.CenterPoint().x, r.bottom, 0);
-        }
-
-        dc.SetPixel(r.CenterPoint().x + 5, r.top - 4, bkg);
-
-        {
-            CRgn rgn1, rgn2;
-            rgn1.CreateRectRgnIndirect(&rt);
-            rgn2.CreateRectRgnIndirect(&rit);
-            ExtSelectClipRgn(dc, rgn1, RGN_DIFF);
-            ExtSelectClipRgn(dc, rgn2, RGN_OR);
-        }
+        CRect r = GetThumbRect();
+        dc.FillSolidRect(&r, fEnabled ? shadow : bkg);
+        r.DeflateRect(1, 1);
+        dc.ExcludeClipRect(&r);
     }
 
     // channel
@@ -323,7 +309,9 @@ void CPlayerSeekBar::OnSize(UINT nType, int cx, int cy)
 
 void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    if (m_fEnabled && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
+    CRect r;
+    GetClientRect(&r);
+    if (m_fEnabled && r.PtInRect(point)) {
         SetCapture();
         MoveThumb(point);
         GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBPOSITION), (LPARAM)m_hWnd);
@@ -348,8 +336,10 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 void CPlayerSeekBar::UpdateTooltip(CPoint point)
 {
     m_tooltipPos = CalculatePosition(point);
+    CRect r;
+    GetClientRect(&r);
 
-    if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
+    if (m_fEnabled && m_start < m_stop && r.PtInRect(point)) {
         if (m_tooltipState == TOOLTIP_HIDDEN && m_tooltipPos != m_tooltipLastPos) {
             // Request notification when the mouse leaves.
             TRACKMOUSEEVENT tme = { sizeof(TRACKMOUSEEVENT) };
@@ -398,9 +388,11 @@ LRESULT CPlayerSeekBar::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 BOOL CPlayerSeekBar::PreTranslateMessage(MSG* pMsg)
 {
+    CRect r;
+    GetClientRect(&r);
     POINT ptWnd(pMsg->pt);
     this->ScreenToClient(&ptWnd);
-    if (m_fEnabled && AfxGetAppSettings().fUseTimeTooltip && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(ptWnd)) {
+    if (m_fEnabled && AfxGetAppSettings().fUseTimeTooltip && m_start < m_stop && r.PtInRect(ptWnd)) {
         m_tooltip.RelayEvent(pMsg);
     }
 
@@ -437,8 +429,10 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
 
                 GetCursorPos(&point);
                 ScreenToClient(&point);
+                CRect r;
+                GetClientRect(&r);
 
-                if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
+                if (m_fEnabled && m_start < m_stop && r.PtInRect(point)) {
                     m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
                     m_tooltipPos = CalculatePosition(point);
                     UpdateToolTipText();

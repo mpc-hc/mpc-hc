@@ -147,6 +147,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
         SEEK_DIRECTION_FORWARD
     };
 
+    friend class CPlayerSeekBar;
     friend class CPPageFileInfoSheet;
     friend class CPPageLogo;
     friend class CSubtitleDlDlg;
