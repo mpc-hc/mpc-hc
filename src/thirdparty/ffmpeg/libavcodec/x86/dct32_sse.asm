@@ -42,24 +42,39 @@ ps_cos_vec: dd   0.500603,  0.505471,  0.515447,  0.531043
 align 32
 ps_p1p1m1m1: dd 0, 0, 0x80000000, 0x80000000, 0, 0, 0x80000000, 0x80000000
 
-%macro BUTTERFLY 4
-    subps  %4, %1, %2
-    addps  %2, %2, %1
-    mulps  %1, %4, %3
+%macro BUTTERFLY_SSE 4
+    movaps %4, %1
+    subps  %1, %2
+    addps  %2, %4
+    mulps  %1, %3
 %endmacro
 
-%macro BUTTERFLY0 5
-%if cpuflag(sse2) && notcpuflag(avx)
+%macro BUTTERFLY_AVX 4
+    vsubps  %4, %1, %2
+    vaddps  %2, %2, %1
+    vmulps  %1, %4, %3
+%endmacro
+
+%macro BUTTERFLY0_SSE 5
+    movaps %4, %1
+    shufps %1, %1, %5
+    xorps  %4, %2
+    addps  %1, %4
+    mulps  %1, %3
+%endmacro
+
+%macro BUTTERFLY0_SSE2 5
     pshufd %4, %1, %5
     xorps  %1, %2
     addps  %1, %4
     mulps  %1, %3
-%else
-    shufps %4, %1, %1, %5
-    xorps  %1, %1, %2
-    addps  %4, %4, %1
-    mulps  %1, %4, %3
-%endif
+%endmacro
+
+%macro BUTTERFLY0_AVX 5
+    vshufps %4, %1, %1, %5
+    vxorps  %1, %1, %2
+    vaddps  %4, %4, %1
+    vmulps  %1, %4, %3
 %endmacro
 
 %macro BUTTERFLY2 4
@@ -191,11 +206,14 @@ ps_p1p1m1m1: dd 0, 0, 0x80000000, 0x80000000, 0, 0, 0x80000000, 0x80000000
     movss [outq+116], m6
 %endmacro
 
-INIT_YMM avx
+%define BUTTERFLY  BUTTERFLY_AVX
+%define BUTTERFLY0 BUTTERFLY0_AVX
+
+INIT_YMM
 SECTION_TEXT
 %if HAVE_AVX
 ; void ff_dct32_float_avx(FFTSample *out, const FFTSample *in)
-cglobal dct32_float, 2,3,8, out, in, tmp
+cglobal dct32_float_avx, 2,3,8, out, in, tmp
     ; pass 1
     vmovaps     m4, [inq+0]
     vinsertf128 m5, m5, [inq+96], 1
@@ -267,6 +285,9 @@ INIT_XMM
     PASS6_AND_PERMUTE
     RET
 %endif
+
+%define BUTTERFLY  BUTTERFLY_SSE
+%define BUTTERFLY0 BUTTERFLY0_SSE
 
 %if ARCH_X86_64
 %define SPILL SWAP
@@ -390,9 +411,10 @@ INIT_XMM
 %endif
 
 
+INIT_XMM
+%macro DCT32_FUNC 1
 ; void ff_dct32_float_sse(FFTSample *out, const FFTSample *in)
-%macro DCT32_FUNC 0
-cglobal dct32_float, 2, 3, 16, out, in, tmp
+cglobal dct32_float_%1, 2,3,16, out, in, tmp
     ; pass 1
 
     movaps      m0, [inq+0]
@@ -476,16 +498,18 @@ cglobal dct32_float, 2, 3, 16, out, in, tmp
     RET
 %endmacro
 
-%macro LOAD_INV 2
-%if cpuflag(sse2)
-    pshufd      %1, %2, 0x1b
-%elif cpuflag(sse)
+%macro LOAD_INV_SSE 2
     movaps      %1, %2
     shufps      %1, %1, 0x1b
-%endif
 %endmacro
 
-INIT_XMM sse
-DCT32_FUNC
-INIT_XMM sse2
-DCT32_FUNC
+%define LOAD_INV LOAD_INV_SSE
+DCT32_FUNC sse
+
+%macro LOAD_INV_SSE2 2
+    pshufd      %1, %2, 0x1b
+%endmacro
+
+%define LOAD_INV LOAD_INV_SSE2
+%define BUTTERFLY0 BUTTERFLY0_SSE2
+DCT32_FUNC sse2
