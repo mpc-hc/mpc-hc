@@ -30,10 +30,12 @@ public IUnknown {
 
     STDMETHOD(SetSampleFormat(MPCSampleFormat sf)) = 0;
     STDMETHOD_(MPCSampleFormat, GetSampleFormat()) = 0;
-    STDMETHOD(SetSpeakerConfig(enctype et, int sc)) = 0; // sign of sc tells if spdif is active
-    STDMETHOD_(int, GetSpeakerConfig(enctype et)) = 0;
-    STDMETHOD(SetDynamicRangeControl(enctype et, bool fDRC)) = 0;
-    STDMETHOD_(bool, GetDynamicRangeControl(enctype et)) = 0;
+    STDMETHOD(SetMixer(bool fMixer)) = 0;
+    STDMETHOD_(bool, GetMixer()) = 0;
+    STDMETHOD(SetMixerLayout(int sc)) = 0;
+    STDMETHOD_(int, GetMixerLayout()) = 0;
+    STDMETHOD(SetDynamicRangeControl(bool fDRC)) = 0;
+    STDMETHOD_(bool, GetDynamicRangeControl()) = 0;
     STDMETHOD(SetSPDIF(enctype et, bool fSPDIF)) = 0;
     STDMETHOD_(bool, GetSPDIF(enctype et)) = 0;
 

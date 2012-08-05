@@ -36,18 +36,12 @@
 #define MPCAudioDecName L"MPC Audio Decoder"
 
 enum {
-    SPK_ASIS = 0,
-    SPK_MONO,
+    SPK_MONO = 0,
     SPK_STEREO,
-    SPK_3F,
-    SPK_2F1R,
-    SPK_3F1R,
-    SPK_2F2R,
-    SPK_3F2R,
+    SPK_4_0,
+    SPK_5_1,
+    SPK_7_1,
 };
-#define SPK_MAX  SPK_3F2R
-#define SPK_MASK 0x0f
-#define SPK_LFE  0x10
 
 struct ps2_state_t {
     bool sync;
@@ -72,10 +66,28 @@ public:
     bool Desired(int type);
 };
 
+struct audio_params_t {
+    DWORD layout;
+    WORD  channels;
+    void Reset() {
+        layout   = 0;
+        channels = 0;
+    }
+    bool LayoutUpdate(WORD channels_new, DWORD layout_new) {
+        if (layout == layout_new && channels == channels_new) {
+            return false;
+        }
+        layout   = layout_new;
+        channels = channels_new;
+        return true;
+    }
+};
+
 struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
 struct AVCodecParserContext;
+struct AVAudioResampleContext;
 
 class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
     CMpaDecFilter
@@ -85,6 +97,10 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 {
 protected:
     CCritSec m_csReceive;
+
+    audio_params_t          m_InputParams;
+// Mixer
+    AVAudioResampleContext* m_pAVRCxt;
 
     ps2_state_t             m_ps2_state;
 
@@ -129,6 +145,7 @@ protected:
     HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
     CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
     CMediaType CreateMediaTypeSPDIF(DWORD nSamplesPerSec = 48000);
+    HRESULT Mixing(float* pOutput, WORD out_ch, DWORD out_layout, float* pInput, int samples, WORD in_ch, DWORD in_layout);
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     bool    InitFFmpeg(enum CodecID nCodecId);
@@ -156,8 +173,9 @@ protected:
 protected:
     CCritSec m_csProps;
     MPCSampleFormat m_iSampleFormat;
-    int  m_iSpeakerConfig[etlast];
-    bool m_fDRC[etlast];
+	bool m_fMixer;
+    int  m_iMixerLayout;
+    bool m_fDRC;
     bool m_fSPDIF[etlast];
 
     bool m_bResync;
@@ -195,10 +213,12 @@ public:
 
     STDMETHODIMP SetSampleFormat(MPCSampleFormat sf);
     STDMETHODIMP_(MPCSampleFormat) GetSampleFormat();
-    STDMETHODIMP SetSpeakerConfig(enctype et, int sc);
-    STDMETHODIMP_(int) GetSpeakerConfig(enctype et);
-    STDMETHODIMP SetDynamicRangeControl(enctype et, bool fDRC);
-    STDMETHODIMP_(bool) GetDynamicRangeControl(enctype et);
+    STDMETHODIMP SetMixer(bool fMixer);
+    STDMETHODIMP_(bool) GetMixer();
+    STDMETHODIMP SetMixerLayout(int sc);
+    STDMETHODIMP_(int) GetMixerLayout();
+    STDMETHODIMP SetDynamicRangeControl(bool fDRC);
+    STDMETHODIMP_(bool) GetDynamicRangeControl();
     STDMETHODIMP SetSPDIF(enctype et, bool fSPDIF);
     STDMETHODIMP_(bool) GetSPDIF(enctype et);
 
