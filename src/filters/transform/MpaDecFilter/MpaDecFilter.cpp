@@ -1391,8 +1391,8 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
 {
     HRESULT hr;
-
     *pData = NULL;
+
     if (FAILED(hr = m_pOutput->GetDeliveryBuffer(pSample, NULL, NULL, 0))
             || FAILED(hr = (*pSample)->GetPointer(pData))) {
         return hr;
@@ -1412,9 +1412,7 @@ HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
 HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask)
 {
     HRESULT hr;
-
     MPCSampleFormat sf = GetSampleFormat();
-
     int nSamples = (int)pBuff.GetCount() / nChannels;
 
     REFERENCE_TIME rtDur = 10000000i64 * nSamples / nSamplesPerSec;
@@ -1425,7 +1423,9 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
         return S_OK;
     }
 
-    if (dwChannelMask == 0) { dwChannelMask = GetDefChannelMask(nChannels); }
+    if (dwChannelMask == 0) {
+        dwChannelMask = GetDefChannelMask(nChannels);
+    }
     //ASSERT(nChannels == av_get_channel_layout_nb_channels(dwChannelMask));
 
     float* pDataIn = pBuff.GetData();
@@ -1444,8 +1444,8 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
         hr = Mixing(pDataMix, mixed_channels, mixed_mask, pDataIn, nSamples, nChannels, dwChannelMask);
         if (hr == S_OK) {
-            pDataIn = pDataMix;
-            nChannels = mixed_channels;
+            pDataIn       = pDataMix;
+            nChannels     = mixed_channels;
             dwChannelMask = mixed_mask;
         }
     }
@@ -1483,11 +1483,11 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
     ASSERT(wfeout->nSamplesPerSec == wfe->nSamplesPerSec);
     UNREFERENCED_PARAMETER(wfeout);
 
-#define f16max (float(INT16_MAX) / INT16_PEAK)
-#define f24max (float(INT24_MAX) / INT24_PEAK)
+#define f16max (float(INT16_MAX)  / INT16_PEAK)
+#define f24max (float(INT24_MAX)  / INT24_PEAK)
 #define d32max (double(INT32_MAX) / INT32_PEAK)
 #define round_f(x) ((x) > 0 ? (x) + 0.5f : (x) - 0.5f)
-#define round_d(x) ((x) > 0 ? (x) + 0.5 : (x) - 0.5)
+#define round_d(x) ((x) > 0 ? (x) + 0.5  : (x) - 0.5)
 
     for (unsigned int i = 0, len = nSamples * nChannels; i < len; i++) {
         float f = *pDataIn++;
