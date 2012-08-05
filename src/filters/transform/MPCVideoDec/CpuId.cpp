@@ -25,10 +25,10 @@
 #define CPUID_MMX       (1 << 23)
 #define CPUID_SSE       (1 << 25)
 #define CPUID_SSE2      (1 << 26)
-#define CPUID_SSE3      (1 << 0)
+#define CPUID_SSE3      (1 <<  0)
 
 // Intel specific
-#define CPUID_SSSE3     (1 << 9)
+#define CPUID_SSSE3     (1 <<  9)
 
 // AMD specific
 #define CPUID_3DNOW     (1 << 31)
@@ -44,7 +44,7 @@ CCpuId::CCpuId(void)
 
     // Get CPU manufacturer and highest CPUID
     __cpuid(nBuff, 0);
-    nHighestFeature = (unsigned)nBuff[0];
+    nHighestFeature  = (unsigned)nBuff[0];
     *(int*)&szMan[0] = nBuff[1];
     *(int*)&szMan[4] = nBuff[3];
     *(int*)&szMan[8] = nBuff[2];
@@ -78,7 +78,7 @@ CCpuId::CCpuId(void)
             m_nCPUFeatures |= MPC_MM_SSE3;
         }
 
-        // Intel specific:
+        // Intel specific
         if (m_nType == PROCESSOR_INTEL) {
             if (nBuff[2] & CPUID_SSSE3) {
                 m_nCPUFeatures |= MPC_MM_SSSE3;
@@ -86,7 +86,7 @@ CCpuId::CCpuId(void)
         }
     }
 
-    // AMD specific:
+    // AMD specific
     if (m_nType == PROCESSOR_AMD) {
         // Get extended features
         __cpuid(nBuff, 0x80000000);
