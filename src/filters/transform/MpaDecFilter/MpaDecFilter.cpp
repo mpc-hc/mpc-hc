@@ -2502,39 +2502,38 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
 
         // Create Matrix
         double* matrix_dbl = (double*)av_mallocz(in_ch * out_ch * sizeof(*matrix_dbl));
-        const int normalize = 0;
         // expand stereo
         if (in_layout == AV_CH_LAYOUT_STEREO && (out_layout == AV_CH_LAYOUT_QUAD || out_layout == AV_CH_LAYOUT_5POINT1 || out_layout == AV_CH_LAYOUT_7POINT1)) {
-            double factor  = normalize ? M_SQRT1_2 : 1.0;
-            matrix_dbl[0] = factor;
+            matrix_dbl[0] = 1.0;
             matrix_dbl[1] = 0.0;
             matrix_dbl[2] = 0.0;
-            matrix_dbl[3] = factor;
+            matrix_dbl[3] = 1.0;
             if (out_layout == AV_CH_LAYOUT_QUAD) {
-                matrix_dbl[4] = 0.5 * factor;
-                matrix_dbl[5] = (-0.5) * factor;
-                matrix_dbl[6] = (-0.5) * factor;
-                matrix_dbl[7] = 0.5 * factor;
+                matrix_dbl[4] = 0.5;
+                matrix_dbl[5] = (-0.5);
+                matrix_dbl[6] = (-0.5);
+                matrix_dbl[7] = 0.5;
             } else if (out_layout == AV_CH_LAYOUT_5POINT1 || out_layout == AV_CH_LAYOUT_7POINT1) {
-                matrix_dbl[4] = 0.5 * factor;
-                matrix_dbl[5] = 0.5 * factor;
+                matrix_dbl[4] = 0.5;
+                matrix_dbl[5] = 0.5;
                 matrix_dbl[6] = 0.0;
                 matrix_dbl[7] = 0.0;
-                matrix_dbl[8] = 0.5 * factor;
-                matrix_dbl[9] = (-0.5) * factor;
-                matrix_dbl[10] = (-0.5) * factor;
-                matrix_dbl[11] = 0.5 * factor;
+                matrix_dbl[8] = 0.5;
+                matrix_dbl[9] = (-0.5);
+                matrix_dbl[10] = (-0.5);
+                matrix_dbl[11] = 0.5;
                 if (out_layout == AV_CH_LAYOUT_7POINT1) {
-                    matrix_dbl[12] = 0.5 * factor;
-                    matrix_dbl[13] = (-0.5) * factor;
-                    matrix_dbl[14] = (-0.5) * factor;
-                    matrix_dbl[15] = 0.5 * factor;
+                    matrix_dbl[12] = 0.5;
+                    matrix_dbl[13] = (-0.5);
+                    matrix_dbl[14] = (-0.5);
+                    matrix_dbl[15] = 0.5;
                 }
             }
         } else {
             const double center_mix_level   = M_SQRT1_2;
             const double surround_mix_level = M_SQRT1_2;
             const double lfe_mix_level      = M_SQRT1_2;
+            const int normalize = 0;
             ret = avresample_build_matrix(in_layout, out_layout, center_mix_level, surround_mix_level, lfe_mix_level, normalize, matrix_dbl, in_ch, AV_MATRIX_ENCODING_NONE);
             if (ret < 0) {
                 TRACE(_T("avresample_build_matrix failed\n"));
