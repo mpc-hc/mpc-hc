@@ -2537,7 +2537,7 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
             const double lfe_mix_level      = M_SQRT1_2;
             ret = avresample_build_matrix(in_layout, out_layout, center_mix_level, surround_mix_level, lfe_mix_level, normalize, matrix_dbl, in_ch, AV_MATRIX_ENCODING_NONE);
             if (ret < 0) {
-                TRACE(_T("avresample_build_matrix failed"));
+                TRACE(_T("avresample_build_matrix failed\n"));
                 av_free(matrix_dbl);
                 avresample_free(&m_pAVRCxt);
                 return S_FALSE;
@@ -2561,7 +2561,7 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
         ret = avresample_set_matrix(m_pAVRCxt, matrix_dbl, in_ch);
         av_free(matrix_dbl);
         if (ret < 0) {
-            TRACE(_T("avresample_set_matrix failed"));
+            TRACE(_T("avresample_set_matrix failed\n"));
             avresample_free(&m_pAVRCxt);
             return S_FALSE;
         }
@@ -2569,7 +2569,7 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
         // Open Resample Context
         ret = avresample_open(m_pAVRCxt);
         if (ret < 0) {
-            TRACE(_T("avresample_open failed"));
+            TRACE(_T("avresample_open failed\n"));
             avresample_free(&m_pAVRCxt);
             return S_FALSE;
         }
@@ -2578,7 +2578,7 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
     if (m_pAVRCxt) {
         ret = avresample_convert(m_pAVRCxt, (void**)&pOutput, samples * out_ch, samples, (void**)&pInput, samples * in_ch, samples);
         if (ret < 0) {
-            TRACE(_T("avresample_convert failed"));
+            TRACE(_T("avresample_convert failed\n"));
             return S_FALSE;
         }
     }
