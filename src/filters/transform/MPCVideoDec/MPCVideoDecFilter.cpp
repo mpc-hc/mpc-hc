@@ -930,7 +930,7 @@ void CMPCVideoDecFilter::Cleanup()
 {
     SAFE_DELETE(m_pDXVADecoder);
 
-    // Release FFMpeg
+    // Release FFmpeg
     if (m_pAVCtx) {
         if (m_pAVCtx->extradata) {
             av_freep(&m_pAVCtx->extradata);
@@ -1017,8 +1017,8 @@ void CMPCVideoDecFilter::LogLibavcodec(void* par, int level, const char* fmt, va
 
 void CMPCVideoDecFilter::OnGetBuffer(AVFrame* pic)
 {
-    // Callback from FFMpeg to store Ref Time in frame (needed to have correct rtStart after avcodec_decode_video calls)
-    //  pic->rtStart    = m_rtStart;
+    // Callback from FFmpeg to store Ref Time in frame (needed to have correct rtStart after avcodec_decode_video calls)
+    //pic->rtStart = m_rtStart;
 }
 
 STDMETHODIMP CMPCVideoDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)

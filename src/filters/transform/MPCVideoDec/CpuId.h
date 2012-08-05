@@ -30,7 +30,7 @@ public:
         PROCESSOR_UNKNOWN
     } PROCESSOR_TYPE;
 
-    // Enum codes identicals to FFMpeg cpu features define !
+    // Enum codes identicals to FFmpeg cpu features define !
     typedef enum {
         MPC_MM_MMX      = 0x0001, /* standard MMX */
         MPC_MM_3DNOW    = 0x0004, /* AMD 3DNOW */

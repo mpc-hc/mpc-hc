@@ -88,7 +88,7 @@ class __declspec(uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4"))
 {
 protected:
 
-    // === FFMpeg callbacks
+    // === FFmpeg callbacks
     static void LogLibavcodec(void* par, int level, const char* fmt, va_list valist);
     virtual void OnGetBuffer(AVFrame* pic);
 
@@ -110,7 +110,7 @@ protected:
 
     FF_FIELD_TYPE m_nFrameType;
 
-    // === FFMpeg variables
+    // === FFmpeg variables
     AVCodec* m_pAVCodec;
     AVCodecContext* m_pAVCtx;
     AVFrame* m_pFrame;

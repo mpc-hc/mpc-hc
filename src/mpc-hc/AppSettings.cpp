@@ -157,7 +157,7 @@ CAppSettings::CAppSettings()
     DXVAFiltersKeys[TRA_DXVA_MPEG2] = _T("TRA_DXVA_MPEG2");
 #endif
 
-    // Internal FFMpeg decoders
+    // Internal FFmpeg decoders
 #if INTERNAL_DECODER_H264
     FFMFiltersKeys[FFM_H264] = _T("FFM_H264");
 #endif

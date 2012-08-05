@@ -105,7 +105,7 @@ protected:
     ps2_state_t             m_ps2_state;
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
-    // === FFMpeg variables
+    // === FFmpeg variables
     AVCodec*                m_pAVCodec;
     AVCodecContext*         m_pAVCtx;
     AVCodecParserContext*   m_pParser;
