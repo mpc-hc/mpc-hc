@@ -75,7 +75,7 @@ MPC-HC makes use of the following third-party code:
 <tr><td>libogg</td> <td>New BSD License</td> <td>http://www.xiph.org/</td></tr>
 <tr><td>Little CMS</td> <td>MIT License</td> <td>http://www.littlecms.com/</td></tr>
 <tr><td>Logitech SDK</td> <td>-</td> <td>-</td></tr>
-<tr><td>MediaInfoLib</td> <td>LGPLv3</td> <td>http://mediainfo.sourceforge.net/</td></tr>
+<tr><td>MediaInfoLib</td> <td>LGPLv2</td> <td>http://mediainfo.sourceforge.net/</td></tr>
 <tr><td>MultiMon</td> <td>CPOL</td> <td>http://www.codeproject.com/KB/GDI/multimon.aspx</td></tr>
 <tr><td>QuickTime SDK</td> <td>-</td> <td>http://developer.apple.com/quicktime/download/</td></tr>
 <tr><td>RealMedia SDK</td> <td>-</td> <td>-</td></tr>

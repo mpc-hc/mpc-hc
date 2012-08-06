@@ -2,16 +2,16 @@
 // Copyright (C) 2002-2009 Jerome Martinez, Zen@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -360,9 +360,9 @@ static size_t MediaInfoDLL_Load()
     MEDIAINFOLIST_ASSIGN(Count_Get,"Count_Get")
     MEDIAINFOLIST_ASSIGN(Count_Get_Files,"Count_Get_Files")
     if (Errors>0)
-	{
-		// Unload DLL with errors
-		#ifdef MEDIAINFO_GLIBC
+    {
+        // Unload DLL with errors
+        #ifdef MEDIAINFO_GLIBC
             g_module_close(MediaInfo_Module);
         #elif defined (_WIN32) || defined (WIN32)
             FreeLibrary(MediaInfo_Module);
@@ -371,7 +371,7 @@ static size_t MediaInfoDLL_Load()
        #endif
        MediaInfo_Module=NULL;
        return (size_t)-1;
-	}
+    }
 
     Module_Count++;
     return (size_t)1;
