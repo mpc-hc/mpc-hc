@@ -424,8 +424,8 @@ struct _cmsPipeline_struct {
 
    _cmsOPTeval16Fn         Eval16Fn;
    _cmsPipelineEvalFloatFn EvalFloatFn;
-   _cmsOPTfreeDataFn       FreeDataFn;
-   _cmsOPTdupDataFn        DupDataFn;
+   _cmsFreeUserDataFn      FreeDataFn;
+   _cmsDupUserDataFn       DupDataFn;
 
     cmsContext ContextID;            // Environment
 
@@ -567,7 +567,7 @@ typedef struct _cmstransform_struct {
 
     // A user-defined pointer that can be used to store data for transform plug-ins
     void* UserData;
-    _cmsOPTfreeDataFn FreeUserData;
+    _cmsFreeUserDataFn FreeUserData;
 
 } _cmsTRANSFORM;
 

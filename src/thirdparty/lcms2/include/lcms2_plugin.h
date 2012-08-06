@@ -183,6 +183,12 @@ CMSAPI void                CMSEXPORT _cmsDecodeDateTimeNumber(const cmsDateTimeN
 
 //----------------------------------------------------------------------------------------------------------
 
+// Shared callbacks for user data
+typedef void     (* _cmsFreeUserDataFn)(cmsContext ContextID, void* Data);
+typedef void*    (* _cmsDupUserDataFn)(cmsContext ContextID, const void* Data);
+
+//----------------------------------------------------------------------------------------------------------
+
 // Plug-in foundation
 #define cmsPluginMagicNumber                 0x61637070     // 'acpp'
 
@@ -529,9 +535,6 @@ typedef void     (* _cmsOPTeval16Fn)(register const cmsUInt16Number In[],
                                      register cmsUInt16Number Out[],
                                      register const void* Data);
 
-typedef void     (* _cmsOPTfreeDataFn)(cmsContext ContextID, void* Data);
-typedef void*    (* _cmsOPTdupDataFn)(cmsContext ContextID, const void* Data);
-
 
 typedef cmsBool  (* _cmsOPToptimizeFn)(cmsPipeline** Lut,
                                        cmsUInt32Number  Intent,
@@ -545,8 +548,8 @@ typedef cmsBool  (* _cmsOPToptimizeFn)(cmsPipeline** Lut,
 CMSAPI void CMSEXPORT _cmsPipelineSetOptimizationParameters(cmsPipeline* Lut,
                                                _cmsOPTeval16Fn Eval16,
                                                void* PrivateData,
-                                               _cmsOPTfreeDataFn FreePrivateDataFn,
-                                               _cmsOPTdupDataFn DupPrivateDataFn);
+                                               _cmsFreeUserDataFn FreePrivateDataFn,
+                                               _cmsDupUserDataFn DupPrivateDataFn);
 
 typedef struct {
       cmsPluginBase     base;
@@ -566,7 +569,7 @@ typedef void     (* _cmsTransformFn)(struct _cmstransform_struct *CMMcargo,
 
 typedef cmsBool  (* _cmsTranformFactory)(_cmsTransformFn* xform,
                                          void** UserData,
-                                         _cmsOPTfreeDataFn* FreeUserData,
+                                         _cmsFreeUserDataFn* FreeUserData,
                                          cmsPipeline** Lut,
                                          cmsUInt32Number* InputFormat,
                                          cmsUInt32Number* OutputFormat,

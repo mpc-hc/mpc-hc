@@ -26,9 +26,8 @@
 //
 #include "lcms2_internal.h"
 
-// This code is inspired in the paper from "Fast Half Float Conversions"
+// This code is inspired in the paper "Fast Half Float Conversions"
 // by Jeroen van der Zijp
-// http://lists.freedesktop.org/archives/mesa-commit/2010-April/019427.html
 
 static cmsUInt32Number Mantissa[2048] = {
 

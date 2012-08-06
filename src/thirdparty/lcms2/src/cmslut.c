@@ -1565,8 +1565,8 @@ cmsUInt32Number CMSEXPORT cmsPipelineStageCount(const cmsPipeline* lut)
 void CMSEXPORT _cmsPipelineSetOptimizationParameters(cmsPipeline* Lut,
                                         _cmsOPTeval16Fn Eval16,
                                         void* PrivateData,
-                                        _cmsOPTfreeDataFn FreePrivateDataFn,
-                                        _cmsOPTdupDataFn DupPrivateDataFn)
+                                        _cmsFreeUserDataFn FreePrivateDataFn,
+                                        _cmsDupUserDataFn  DupPrivateDataFn)
 {
 
     Lut ->Eval16Fn = Eval16;
