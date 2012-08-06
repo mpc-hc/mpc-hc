@@ -2500,6 +2500,14 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
         av_opt_set_int(m_pAVRCxt, "out_channel_layout", out_layout, 0);
         av_opt_set_int(m_pAVRCxt, "out_sample_fmt", AV_SAMPLE_FMT_FLT, 0);
 
+        // Open Resample Context
+        ret = avresample_open(m_pAVRCxt);
+        if (ret < 0) {
+            TRACE(_T("avresample_open failed\n"));
+            avresample_free(&m_pAVRCxt);
+            return S_FALSE;
+        }
+
         // Create Matrix
         double* matrix_dbl = (double*)av_mallocz(in_ch * out_ch * sizeof(*matrix_dbl));
         // expand stereo
@@ -2561,14 +2569,6 @@ HRESULT CMpaDecFilter::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, flo
         av_free(matrix_dbl);
         if (ret < 0) {
             TRACE(_T("avresample_set_matrix failed\n"));
-            avresample_free(&m_pAVRCxt);
-            return S_FALSE;
-        }
-
-        // Open Resample Context
-        ret = avresample_open(m_pAVRCxt);
-        if (ret < 0) {
-            TRACE(_T("avresample_open failed\n"));
             avresample_free(&m_pAVRCxt);
             return S_FALSE;
         }
