@@ -113,9 +113,9 @@ bool CMpaDecSettingsWnd::OnActivate()
 
     m_spdif_group.Create(ResStr(IDS_MPADEC_SPDIF),dwStyle | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(215, 40)), this, (UINT)IDC_STATIC);
     p.y += 20;
-    m_spdif_ac3_check.Create(_T("AC-3"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(40, m_fontheight)), this, IDC_PP_CHECK3);
+    m_spdif_ac3_check.Create(_T("AC-3"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(45, m_fontheight)), this, IDC_PP_CHECK3);
     m_spdif_ac3_check.SetCheck(m_spdif_ac3);
-    m_spdif_dts_check.Create(_T("DTS"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(50, 0), CSize(40, m_fontheight)), this, IDC_PP_CHECK4);
+    m_spdif_dts_check.Create(_T("DTS"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(50, 0), CSize(45, m_fontheight)), this, IDC_PP_CHECK4);
     m_spdif_dts_check.SetCheck(m_spdif_dts);
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
