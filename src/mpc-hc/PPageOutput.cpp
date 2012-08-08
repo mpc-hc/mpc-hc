@@ -455,10 +455,6 @@ void CPPageOutput::OnDSRendererChange()
 {
     UpdateData();
     m_iDSVideoRendererType = m_iDSVideoRendererTypeCtrl.GetItemData(m_iDSVideoRendererTypeCtrl.GetCurSel());
-    if(m_iDSVideoRendererType == IDS_PPAGE_OUTPUT_UNAVAILABLE) {
-        m_iDSVideoRendererTypeCtrl.SetCurSel(m_iDSVideoRendererTypeCtrl.GetCurSel()+1);
-        m_iDSVideoRendererType = m_iDSVideoRendererTypeCtrl.GetItemData(m_iDSVideoRendererTypeCtrl.GetCurSel());
-    }
 
     GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
     GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(FALSE);
