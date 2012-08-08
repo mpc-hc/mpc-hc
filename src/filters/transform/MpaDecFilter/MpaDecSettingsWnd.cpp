@@ -96,11 +96,11 @@ bool CMpaDecSettingsWnd::OnActivate()
     p.y += 20;
     m_mixer_layout_static.Create(ResStr(IDS_MPADEC_MIX_SPEAKERS), dwStyle, CRect(p, CSize(120, m_fontheight)), this);
     m_mixer_layout_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CPoint(125, -4), CSize(80, 200)), this, IDC_PP_COMBO2);
-    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("Mono")),   SPK_MONO);
-    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("Stereo")), SPK_STEREO);
-    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("4.0")),    SPK_4_0);
-    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("5.1")),    SPK_5_1);
-    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("7.1")),    SPK_7_1);
+    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(ResStr(IDS_MPADEC_MONO)),   SPK_MONO);
+    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(ResStr(IDS_MPADEC_STEREO)), SPK_STEREO);
+    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("4.0")), SPK_4_0);
+    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("5.1")), SPK_5_1);
+    m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("7.1")), SPK_7_1);
     for (int i = 0; i < m_mixer_layout_combo.GetCount(); i++) {
         if ((int)m_mixer_layout_combo.GetItemData(i) == m_mixer_layout) {
             m_mixer_layout_combo.SetCurSel(i);
