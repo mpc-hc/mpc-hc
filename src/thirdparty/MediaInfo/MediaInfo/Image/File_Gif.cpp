@@ -1,17 +1,17 @@
 // File_Gif - Info for GIF files
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -101,9 +101,11 @@ void File_Gif::Read_Buffer_Continue()
         Stream_Prepare(Stream_Image);
         Fill(Stream_Image, 0, Image_Width, Width);
         Fill(Stream_Image, 0, Image_Height, Height);
-        Fill(Stream_Image, 0, Image_Format, _T("GIF"));
+        Fill(Stream_Image, 0, Image_Format, __T("GIF"));
         Fill(Stream_Image, 0, Image_Format_Profile, Version);
-        Fill(Stream_Image, 0, Image_Codec, _T("GIF")+Version);
+        Fill(Stream_Image, 0, Image_Codec, __T("GIF")+Version);
+        if (PixelAspectRatio)
+            Fill(Stream_Image, 0, Image_PixelAspectRatio, (((float)PixelAspectRatio)+15)/64);
 
         Finish("GIF");
     FILLING_END();

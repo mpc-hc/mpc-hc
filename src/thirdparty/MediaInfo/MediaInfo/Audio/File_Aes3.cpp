@@ -1,17 +1,17 @@
 // File_Aes3 - Info for AES3 packetized streams
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -292,7 +292,7 @@ void File_Aes3::Streams_Fill()
     {
         if (Count_Get(Stream_Audio)==1 && Retrieve(Stream_Audio, 0, Audio_BitRate).empty() && BitRate!=(int64u)-1)
             Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
-        
+
         if (!IsSub && NotPCM_SizePerFrame!=(int64u)-1 && NotPCM_SizePerFrame && FrameRate)
         {
             int64u BitRate=float64_int64s(NotPCM_SizePerFrame*8*FrameRate);
@@ -533,20 +533,20 @@ size_t File_Aes3::Read_Buffer_Seek (size_t Method, int64u Value, int64u /*ID*/)
     if (!Duration_Detected && File_Size!=(int64u)-1 && (Frame_Size==(int64u)-1 || Frame_Duration==(int64u)-1))
     {
         MediaInfo_Internal MI;
-        MI.Option(_T("File_KeepInfo"), _T("1"));
-        Ztring ParseSpeed_Save=MI.Option(_T("ParseSpeed_Get"), _T(""));
-        Ztring Demux_Save=MI.Option(_T("Demux_Get"), _T(""));
-        MI.Option(_T("ParseSpeed"), _T("0"));
-        MI.Option(_T("Demux"), Ztring());
+        MI.Option(__T("File_KeepInfo"), __T("1"));
+        Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
+        Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
+        MI.Option(__T("ParseSpeed"), __T("0"));
+        MI.Option(__T("Demux"), Ztring());
         size_t MiOpenResult=MI.Open(File_Name);
-        MI.Option(_T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-        MI.Option(_T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+        MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+        MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
         if (!MiOpenResult)
             return 0;
 
-        int64u FrameCount=MI.Get(Stream_Audio, 0, _T("FrameCount")).To_int64u();
-        int64u Duration=MI.Get(Stream_Audio, 0, _T("Duration")).To_int64u();
-        int64u DataSize=MI.Get(Stream_General, 0, _T("DataSize")).To_int64u();
+        int64u FrameCount=MI.Get(Stream_Audio, 0, __T("FrameCount")).To_int64u();
+        int64u Duration=MI.Get(Stream_Audio, 0, __T("Duration")).To_int64u();
+        int64u DataSize=MI.Get(Stream_General, 0, __T("DataSize")).To_int64u();
         if (FrameCount && Duration)
             Frame_Duration=Duration*1000000/FrameCount; //In nanoseconds
         if (FrameCount && DataSize)
@@ -570,7 +570,7 @@ size_t File_Aes3::Read_Buffer_Seek (size_t Method, int64u Value, int64u /*ID*/)
                     {
                     if (Frame_Duration==(int64u)-1 || Frame_Size==(int64u)-1)
                         return (size_t)-1; //Not supported
-                    
+
                     Unsynch_Frame_Count=float64_int64s(((float64)Value)/Frame_Duration);
                     GoTo(Unsynch_Frame_Count*Frame_Size);
                     Open_Buffer_Unsynch();
@@ -580,7 +580,7 @@ size_t File_Aes3::Read_Buffer_Seek (size_t Method, int64u Value, int64u /*ID*/)
                     {
                     if (Frame_Size==(int64u)-1)
                         return (size_t)-1; //Not supported
-                    
+
                     Unsynch_Frame_Count=Value;
                     GoTo(Unsynch_Frame_Count*Frame_Size);
                     Open_Buffer_Unsynch();
@@ -917,7 +917,7 @@ bool File_Aes3::Synched_Test()
         }
 
         if (Frame_Count && NotPCM_SizePerFrame==(int64u)-1)
-            NotPCM_SizePerFrame=Buffer_Offset_Temp;    
+            NotPCM_SizePerFrame=Buffer_Offset_Temp;
         #if MEDIAINFO_TRACE
             if (Buffer_Offset_Temp-Buffer_Offset)
             {
@@ -1117,7 +1117,7 @@ void File_Aes3::Data_Parse()
 {
     if (!Status[IsAccepted])
         Accept("AES3");
-    
+
     if (Container_Bits==Stream_Bits && Endianness=='B')
         Frame();
     else
@@ -1361,7 +1361,7 @@ void File_Aes3::Frame()
             if (OverallBitRate)
             {
                 OverallBitRate*=Element_Size; OverallBitRate/=Element_Size-Stream_Bits*4/8;
-                Fill(Stream_General, 0, General_OverallBitRate, Ztring::ToZtring(OverallBitRate)+_T(" / ")+Parser->Retrieve(Stream_General, 0, General_OverallBitRate));
+                Fill(Stream_General, 0, General_OverallBitRate, Ztring::ToZtring(OverallBitRate)+__T(" / ")+Parser->Retrieve(Stream_General, 0, General_OverallBitRate));
             }
             int64u BitRate=Parser->Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u();
             if (BitRate)
@@ -1606,7 +1606,7 @@ void File_Aes3::Frame_FromMpegPs()
 
                     break;
                 }
-                
+
             if (IsParsingNonPcm)
             {
                 IsParsingNonPcm=true;
@@ -1704,7 +1704,7 @@ void File_Aes3::Frame_FromMpegPs()
 
                     break;
                 }
-                
+
             if (IsParsingNonPcm)
             {
                 IsParsingNonPcm=true;
@@ -1769,7 +1769,7 @@ void File_Aes3::Frame_FromMpegPs()
 
                     break;
                 }
-                
+
             if (IsParsingNonPcm)
             {
                 IsParsingNonPcm=true;
@@ -1853,7 +1853,7 @@ void File_Aes3::Parser_Parse(const int8u* Parser_Buffer, size_t Parser_Buffer_Si
     {
         //Filling
         Merge(*Parser);
-        ZtringList OverallBitRates; OverallBitRates.Separator_Set(0, _T(" / ")); OverallBitRates.Write(Parser->Retrieve(Stream_General, 0, General_OverallBitRate));
+        ZtringList OverallBitRates; OverallBitRates.Separator_Set(0, __T(" / ")); OverallBitRates.Write(Parser->Retrieve(Stream_General, 0, General_OverallBitRate));
         if (!OverallBitRates.empty())
         {
             int64u OverallBitRate=OverallBitRates[0].To_int64u();

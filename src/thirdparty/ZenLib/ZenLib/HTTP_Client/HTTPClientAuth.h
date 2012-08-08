@@ -14,7 +14,7 @@ typedef char HASH[HASHLEN];
 typedef char HASHHEX[HASHHEXLEN+1];
 typedef unsigned long uint32;
 
-// Base 64 Related 
+// Base 64 Related
 #define DECODE64(c)  (isascii(c) ? base64val[c] : BAD)
 #define BAD     -1
 
@@ -40,7 +40,7 @@ int  HTTPBase64Decoder(char *out, const char *in);
 // Generates a 32 byte random hexadecimal string such as "4f6ba982..."
 void HTTPDigestGenerateCNonce(char *outbuff);
 
-// Calculate H(A1) as per HTTP Digest spec 
+// Calculate H(A1) as per HTTP Digest spec
 void HTTPDigestCalcHA1(
                    IN int    nAlg,     /* 0 = MD5, 1 = MD5-Sess */
                    IN char * pszUserName,
@@ -53,24 +53,24 @@ void HTTPDigestCalcHA1(
                    OUT HASHHEX SessionKey
                    );
 
-// Calculate request-digest/response-digest as per HTTP Digest spec 
+// Calculate request-digest/response-digest as per HTTP Digest spec
 void HTTPDigestCalcResponse(
-                        IN HASHHEX HA1,             // H(A1) 
-                        IN char * pszNonce,         // nonce from server 
+                        IN HASHHEX HA1,             // H(A1)
+                        IN char * pszNonce,         // nonce from server
                         IN int    nNonceLength,     // Length of nonce
-                        IN char * pszNonceCount,    // 8 hex digits 
-                        IN char * pszCNonce,        // client nonce 
-                        IN char * pszQop,           // qop-value: "", "auth", "auth-int" 
+                        IN char * pszNonceCount,    // 8 hex digits
+                        IN char * pszCNonce,        // client nonce
+                        IN char * pszQop,           // qop-value: "", "auth", "auth-int"
                         IN int    nQopLength,       // qop param length
-                        IN char * pszMethod,        // method from the request 
-                        IN char * pszDigestUri,     // requested URL 
+                        IN char * pszMethod,        // method from the request
+                        IN char * pszDigestUri,     // requested URL
                         IN int    nDigestUriLebgth, // Uri Length
                         IN HASHHEX HEntity,         // H(entity body) if qop="auth-int"
-                        OUT HASHHEX Response        // request-digest or response-digest 
+                        OUT HASHHEX Response        // request-digest or response-digest
                         );
 
-// MD5 structures and functions 
-struct MD5Context 
+// MD5 structures and functions
+struct MD5Context
 {
     uint32 buf[4];
     uint32 bits[2];
@@ -86,5 +86,5 @@ void HTTPMD5Transform   (uint32 buf[4], uint32 const in[16]);
 // This is needed to make RSAREF happy on some MS-DOS compilers.
 typedef struct MD5Context MD5_CTX;
 
-#endif 
+#endif
 

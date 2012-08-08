@@ -1,17 +1,17 @@
 // File__Analyze - Base for analyze files
-// Copyright (C) 2009-2011 Jerome Martinez, Zen@MediaArea.net
+// Copyright (C) 2009-2012 Jerome Martinez, Zen@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -51,13 +51,13 @@ extern MediaInfo_Config Config;
 Ztring PBCore_MediaType(MediaInfo_Internal &MI)
 {
          if (MI.Count_Get(Stream_Video))
-        return _T("Video");
+        return __T("Video");
     else if (MI.Count_Get(Stream_Audio))
-        return _T("Sound");
+        return __T("Sound");
     else if (MI.Count_Get(Stream_Image))
-        return _T("Static Image");
+        return __T("Static Image");
     else if (MI.Count_Get(Stream_Text))
-        return _T("Text");
+        return __T("Text");
     else
         return Ztring();
 }
@@ -84,57 +84,57 @@ Export_PBCore::~Export_PBCore ()
 void PBCore_Transform__Common_Begin(Ztring &ToReturn, MediaInfo_Internal &MI, stream_t StreamKind, size_t StreamPos)
 {
     //essenceTrackIdentifier
-    if (!MI.Get(StreamKind, StreamPos, _T("ID")).empty())
+    if (!MI.Get(StreamKind, StreamPos, __T("ID")).empty())
     {
-        ToReturn+=_T("\t\t\t<essenceTrackIdentifier>")+MI.Get(StreamKind, StreamPos, _T("ID"))+_T("</essenceTrackIdentifier>\n");
-        ToReturn+=_T("\t\t\t<essenceTrackIdentifierSource>ID (Mediainfo)</essenceTrackIdentifierSource>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackIdentifier>")+MI.Get(StreamKind, StreamPos, __T("ID"))+__T("</essenceTrackIdentifier>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackIdentifierSource>ID (Mediainfo)</essenceTrackIdentifierSource>\n");
     }
-    else if (!MI.Get(StreamKind, StreamPos, _T("UniqueID")).empty())
+    else if (!MI.Get(StreamKind, StreamPos, __T("UniqueID")).empty())
     {
-        ToReturn+=_T("\t\t\t<essenceTrackIdentifier>")+MI.Get(StreamKind, StreamPos, _T("UniqueID"))+_T("</essenceTrackIdentifier>\n");
-        ToReturn+=_T("\t\t\t<essenceTrackIdentifierSource>UniqueID (Mediainfo)</essenceTrackIdentifierSource>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackIdentifier>")+MI.Get(StreamKind, StreamPos, __T("UniqueID"))+__T("</essenceTrackIdentifier>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackIdentifierSource>UniqueID (Mediainfo)</essenceTrackIdentifierSource>\n");
     }
-    else if (!MI.Get(StreamKind, StreamPos, _T("StreamKindID")).empty())
+    else if (!MI.Get(StreamKind, StreamPos, __T("StreamKindID")).empty())
     {
-        ToReturn+=_T("\t\t\t<essenceTrackIdentifier>")+MI.Get(StreamKind, StreamPos, _T("StreamKindID"))+_T("</essenceTrackIdentifier>\n");
-        ToReturn+=_T("\t\t\t<essenceTrackIdentifierSource>StreamKindID (Mediainfo)</essenceTrackIdentifierSource>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackIdentifier>")+MI.Get(StreamKind, StreamPos, __T("StreamKindID"))+__T("</essenceTrackIdentifier>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackIdentifierSource>StreamKindID (Mediainfo)</essenceTrackIdentifierSource>\n");
     }
 
     //essenceTrackStandard
     if (StreamKind==Stream_Video && !MI.Get(Stream_Video, StreamPos, Video_Standard).empty()) //Video only, but must be placed here
-        ToReturn+=_T("\t\t\t<essenceTrackStandard>")+MI.Get(Stream_Video, StreamPos, Video_Standard)+_T("</essenceTrackStandard>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackStandard>")+MI.Get(Stream_Video, StreamPos, Video_Standard)+__T("</essenceTrackStandard>\n");
 
     //essenceTrackLanguage
-    if (!MI.Get(StreamKind, StreamPos, _T("Language")).empty())
-        ToReturn+=_T("\t\t\t<essenceTrackLanguage>")+MediaInfoLib::Config.Iso639_2_Get(MI.Get(StreamKind, StreamPos, _T("Language")))+_T("</essenceTrackLanguage>\n");
+    if (!MI.Get(StreamKind, StreamPos, __T("Language")).empty())
+        ToReturn+=__T("\t\t\t<essenceTrackLanguage>")+MediaInfoLib::Config.Iso639_2_Get(MI.Get(StreamKind, StreamPos, __T("Language")))+__T("</essenceTrackLanguage>\n");
 
     //essenceTrackEncoding
-    if (!MI.Get(StreamKind, StreamPos, _T("Format")).empty())
+    if (!MI.Get(StreamKind, StreamPos, __T("Format")).empty())
     {
-        ToReturn+=_T("\t\t\t<essenceTrackEncoding>");
-        ToReturn+=MI.Get(StreamKind, StreamPos, _T("Format"));
-        if (!MI.Get(StreamKind, StreamPos, _T("Format_Profile")).empty()) ToReturn+=_T(' ')+MI.Get(StreamKind, StreamPos, _T("Format_Profile"));
-        if (!MI.Get(StreamKind, StreamPos, _T("CodecID")).empty()) ToReturn+=_T(" (")+MI.Get(StreamKind, StreamPos, _T("CodecID"))+_T(')');
-        ToReturn+=_T("</essenceTrackEncoding>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackEncoding>");
+        ToReturn+=MI.Get(StreamKind, StreamPos, __T("Format"));
+        if (!MI.Get(StreamKind, StreamPos, __T("Format_Profile")).empty()) ToReturn+=__T(' ')+MI.Get(StreamKind, StreamPos, __T("Format_Profile"));
+        if (!MI.Get(StreamKind, StreamPos, __T("CodecID")).empty()) ToReturn+=__T(" (")+MI.Get(StreamKind, StreamPos, __T("CodecID"))+__T(')');
+        ToReturn+=__T("</essenceTrackEncoding>\n");
     }
 
     //essenceTrackDataRate
-    if (!MI.Get(StreamKind, StreamPos, _T("BitRate")).empty())
+    if (!MI.Get(StreamKind, StreamPos, __T("BitRate")).empty())
     {
-        ToReturn+=_T("\t\t\t<essenceTrackDataRate>");
-        ToReturn+=MI.Get(StreamKind, StreamPos, _T("BitRate"));
-        if (!MI.Get(StreamKind, StreamPos, _T("BitRate_Mode")).empty())
-            ToReturn+=_T(' ')+MI.Get(StreamKind, StreamPos, _T("BitRate_Mode"));
-        ToReturn+=_T("</essenceTrackDataRate>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackDataRate>");
+        ToReturn+=MI.Get(StreamKind, StreamPos, __T("BitRate"));
+        if (!MI.Get(StreamKind, StreamPos, __T("BitRate_Mode")).empty())
+            ToReturn+=__T(' ')+MI.Get(StreamKind, StreamPos, __T("BitRate_Mode"));
+        ToReturn+=__T("</essenceTrackDataRate>\n");
     }
 
     //essenceTrackDuration
-    if (!MI.Get(StreamKind, StreamPos, _T("Duration")).empty())
-        ToReturn+=_T("\t\t\t<essenceTrackDuration>")+MI.Get(StreamKind, StreamPos, _T("Duration"))+_T("</essenceTrackDuration>\n");
+    if (!MI.Get(StreamKind, StreamPos, __T("Duration")).empty())
+        ToReturn+=__T("\t\t\t<essenceTrackDuration>")+MI.Get(StreamKind, StreamPos, __T("Duration"))+__T("</essenceTrackDuration>\n");
 
     //essenceTrackBitDepth
-    if (!MI.Get(StreamKind, StreamPos, _T("Resolution")).empty())
-        ToReturn+=_T("\t\t\t<essenceTrackBitDepth version=\"PBCoreXSD_Ver_1.2_D1\">")+MI.Get(StreamKind, StreamPos, _T("Resolution"))+_T("</essenceTrackBitDepth>\n");
+    if (!MI.Get(StreamKind, StreamPos, __T("Resolution")).empty())
+        ToReturn+=__T("\t\t\t<essenceTrackBitDepth version=\"PBCoreXSD_Ver_1.2_D1\">")+MI.Get(StreamKind, StreamPos, __T("Resolution"))+__T("</essenceTrackBitDepth>\n");
 }
 
 //---------------------------------------------------------------------------
@@ -143,68 +143,68 @@ void PBCore_Transform__Common_End(Ztring &ToReturn, MediaInfo_Internal &MI, stre
     //essenceTrackAnnotation - all fields (except *_String*) separated by |
     Ztring Temp;
     for (size_t Pos=0; Pos<MI.Count_Get(StreamKind, StreamPos); Pos++)
-        if (MI.Get(StreamKind, StreamPos, Pos, Info_Name).find(_T("String"))==std::string::npos && !MI.Get(StreamKind, StreamPos, Pos).empty())
-            Temp+=MI.Get(StreamKind, StreamPos, Pos, Info_Name)+_T(": ")+MI.Get(StreamKind, StreamPos, Pos)+_T('|');
+        if (MI.Get(StreamKind, StreamPos, Pos, Info_Name).find(__T("String"))==std::string::npos && !MI.Get(StreamKind, StreamPos, Pos).empty())
+            Temp+=MI.Get(StreamKind, StreamPos, Pos, Info_Name)+__T(": ")+MI.Get(StreamKind, StreamPos, Pos)+__T('|');
     if (!Temp.empty())
     {
         Temp.resize(Temp.size()-1);
-        ToReturn+=_T("\t\t\t<essenceTrackAnnotation>"); ToReturn+=Temp; ToReturn+=_T("</essenceTrackAnnotation>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackAnnotation>"); ToReturn+=Temp; ToReturn+=__T("</essenceTrackAnnotation>\n");
     }
 }
 
 //---------------------------------------------------------------------------
 void PBCore_Transform_Video(Ztring &ToReturn, MediaInfo_Internal &MI, size_t StreamPos)
 {
-    ToReturn+=_T("\t\t<pbcoreEssenceTrack>\n");
+    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
 
     //essenceTrackType
-    ToReturn+=_T("\t\t\t<essenceTrackType>Video</essenceTrackType>\n");
+    ToReturn+=__T("\t\t\t<essenceTrackType>Video</essenceTrackType>\n");
 
     //Common
     PBCore_Transform__Common_Begin(ToReturn, MI, Stream_Video, StreamPos);
 
     //essenceTrackFrameSize
     if (!MI.Get(Stream_Video, StreamPos, Video_Width).empty())
-        ToReturn+=_T("\t\t\t<essenceTrackFrameSize>")+MI.Get(Stream_Video, StreamPos, Video_Width)+_T('x')+MI.Get(Stream_Video, StreamPos, Video_Height)+_T("</essenceTrackFrameSize>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackFrameSize>")+MI.Get(Stream_Video, StreamPos, Video_Width)+__T('x')+MI.Get(Stream_Video, StreamPos, Video_Height)+__T("</essenceTrackFrameSize>\n");
 
     //essenceTrackAspectRatio
     if (!MI.Get(Stream_Video, StreamPos, Video_DisplayAspectRatio).empty())
-        ToReturn+=_T("\t\t\t<essenceTrackAspectRatio>")+MI.Get(Stream_Video, StreamPos, Video_DisplayAspectRatio)+_T("</essenceTrackAspectRatio>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackAspectRatio>")+MI.Get(Stream_Video, StreamPos, Video_DisplayAspectRatio)+__T("</essenceTrackAspectRatio>\n");
 
     //essenceTrackFrameRate
     if (!MI.Get(Stream_Video, StreamPos, Video_FrameRate).empty())
     {
-        ToReturn+=_T("\t\t\t<essenceTrackFrameRate>");
+        ToReturn+=__T("\t\t\t<essenceTrackFrameRate>");
         ToReturn+=MI.Get(Stream_Video, StreamPos, Video_FrameRate);
         if (!MI.Get(Stream_Video, StreamPos, Video_FrameRate_Mode).empty())
-            ToReturn+=_T(' ')+MI.Get(Stream_Video, StreamPos, Video_FrameRate_Mode);
-        ToReturn+=_T("</essenceTrackFrameRate>\n");
+            ToReturn+=__T(' ')+MI.Get(Stream_Video, StreamPos, Video_FrameRate_Mode);
+        ToReturn+=__T("</essenceTrackFrameRate>\n");
     }
 
     //Comon
     PBCore_Transform__Common_End(ToReturn, MI, Stream_Video, StreamPos);
 
-    ToReturn+=_T("\t\t</pbcoreEssenceTrack>\n");
+    ToReturn+=__T("\t\t</pbcoreEssenceTrack>\n");
 }
 
 //---------------------------------------------------------------------------
 void PBCore_Transform_Audio(Ztring &ToReturn, MediaInfo_Internal &MI, size_t StreamPos)
 {
-    ToReturn+=_T("\t\t<pbcoreEssenceTrack>\n");
+    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
 
     //essenceTrackType
-    ToReturn+=_T("\t\t\t<essenceTrackType>Audio</essenceTrackType>\n");
+    ToReturn+=__T("\t\t\t<essenceTrackType>Audio</essenceTrackType>\n");
 
     //Common
     PBCore_Transform__Common_Begin(ToReturn, MI, Stream_Audio, StreamPos);
 
     if (!MI.Get(Stream_Audio, StreamPos, Audio_SamplingRate).empty())
-        ToReturn+=_T("\t\t\t<essenceTrackSamplingRate>")+MI.Get(Stream_Audio, StreamPos, Audio_SamplingRate)+_T("</essenceTrackSamplingRate>\n");
+        ToReturn+=__T("\t\t\t<essenceTrackSamplingRate>")+MI.Get(Stream_Audio, StreamPos, Audio_SamplingRate)+__T("</essenceTrackSamplingRate>\n");
 
     //Comon
     PBCore_Transform__Common_End(ToReturn, MI, Stream_Audio, StreamPos);
 
-    ToReturn+=_T("\t\t</pbcoreEssenceTrack>\n");
+    ToReturn+=__T("\t\t</pbcoreEssenceTrack>\n");
 }
 
 //---------------------------------------------------------------------------
@@ -213,15 +213,15 @@ void PBCore_Transform_Text(Ztring &ToReturn, MediaInfo_Internal &MI, size_t Stre
     //Init
     Ztring Format=MI.Get(Stream_Text, StreamPos, Text_Format);
 
-    ToReturn+=_T("\t\t<pbcoreEssenceTrack>\n");
+    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
 
     //essenceTrackType
-    ToReturn+=_T("\t\t\t<essenceTrackType>");
-    if (Format==_T("EIA-608") || Format==_T("EIA-708"))
-        ToReturn+=_T("caption");
+    ToReturn+=__T("\t\t\t<essenceTrackType>");
+    if (Format==__T("EIA-608") || Format==__T("EIA-708"))
+        ToReturn+=__T("caption");
     else
-        ToReturn+=_T("text");
-    ToReturn+=_T("</essenceTrackType>\n");
+        ToReturn+=__T("text");
+    ToReturn+=__T("</essenceTrackType>\n");
 
     //Common
     PBCore_Transform__Common_Begin(ToReturn, MI, Stream_Text, StreamPos);
@@ -229,20 +229,20 @@ void PBCore_Transform_Text(Ztring &ToReturn, MediaInfo_Internal &MI, size_t Stre
     //Common
     PBCore_Transform__Common_End(ToReturn, MI, Stream_Text, StreamPos);
 
-    ToReturn+=_T("\t\t</pbcoreEssenceTrack>\n");
+    ToReturn+=__T("\t\t</pbcoreEssenceTrack>\n");
 }
 
 //---------------------------------------------------------------------------
 void PBCore_Transform_Menu(Ztring &ToReturn, MediaInfo_Internal &MI, size_t StreamPos)
 {
     //Only if TimeCode
-    if (MI.Get(Stream_Menu, StreamPos, Menu_Format)!=_T("TimeCode"))
+    if (MI.Get(Stream_Menu, StreamPos, Menu_Format)!=__T("TimeCode"))
         return;
 
-    ToReturn+=_T("\t\t<pbcoreEssenceTrack>\n");
+    ToReturn+=__T("\t\t<pbcoreEssenceTrack>\n");
 
     //essenceTrackType
-    ToReturn+=_T("\t\t\t<essenceTrackType>timecode</essenceTrackType>\n");
+    ToReturn+=__T("\t\t\t<essenceTrackType>timecode</essenceTrackType>\n");
 
     //Common
     PBCore_Transform__Common_Begin(ToReturn, MI, Stream_Menu, StreamPos);
@@ -250,7 +250,7 @@ void PBCore_Transform_Menu(Ztring &ToReturn, MediaInfo_Internal &MI, size_t Stre
     //Common
     PBCore_Transform__Common_End(ToReturn, MI, Stream_Menu, StreamPos);
 
-    ToReturn+=_T("\t\t</pbcoreEssenceTrack>\n");
+    ToReturn+=__T("\t\t</pbcoreEssenceTrack>\n");
 }
 
 //---------------------------------------------------------------------------
@@ -259,118 +259,118 @@ Ztring Export_PBCore::Transform(MediaInfo_Internal &MI)
     //Current date/time is ISO format
     time_t Time=time(NULL);
     Ztring TimeS; TimeS.Date_From_Seconds_1970((int32u)Time);
-    TimeS.FindAndReplace(_T("UTC "), _T(""));
-    TimeS.FindAndReplace(_T(" "), _T("T"));
-    TimeS+=_T('Z');
+    TimeS.FindAndReplace(__T("UTC "), __T(""));
+    TimeS.FindAndReplace(__T(" "), __T("T"));
+    TimeS+=__T('Z');
 
     Ztring ToReturn;
-    ToReturn+=_T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    ToReturn+=_T("<PBCoreDescriptionDocument xsi:schemaLocation=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreXSD_Ver_1-2-1.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html\">\n");
-    ToReturn+=_T("\t<!-- Generated at ")+TimeS+_T(" by ")+MediaInfoLib::Config.Info_Version_Get()+_T(" -->\n");
-    ToReturn+=_T("\t<!-- Warning: MediaInfo outputs only pbcoreInstantiation, other mandatory PBCore data is junk -->\n");
-    ToReturn+=_T("\t<pbcoreIdentifier>\n");
-    ToReturn+=_T("\t\t<identifier>***</identifier>\n");
-    ToReturn+=_T("\t\t<identifierSource>***</identifierSource>\n");
-    ToReturn+=_T("\t</pbcoreIdentifier>\n");
-    ToReturn+=_T("\t<pbcoreTitle>\n");
-    ToReturn+=_T("\t\t<title>***</title>\n");
-    ToReturn+=_T("\t</pbcoreTitle>\n");
-    ToReturn+=_T("\t<pbcoreDescription>\n");
-    ToReturn+=_T("\t\t<description>***</description>\n");
-    ToReturn+=_T("\t\t<descriptionType>***</descriptionType>\n");
-    ToReturn+=_T("\t</pbcoreDescription>\n");
-    ToReturn+=_T("\t<pbcoreInstantiation>\n");
+    ToReturn+=__T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    ToReturn+=__T("<PBCoreDescriptionDocument xsi:schemaLocation=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html http://www.pbcore.org/PBCore/PBCoreXSD_Ver_1-2-1.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.pbcore.org/PBCore/PBCoreNamespace.html\">\n");
+    ToReturn+=__T("\t<!-- Generated at ")+TimeS+__T(" by ")+MediaInfoLib::Config.Info_Version_Get()+__T(" -->\n");
+    ToReturn+=__T("\t<!-- Warning: MediaInfo outputs only pbcoreInstantiation, other mandatory PBCore data is junk -->\n");
+    ToReturn+=__T("\t<pbcoreIdentifier>\n");
+    ToReturn+=__T("\t\t<identifier>***</identifier>\n");
+    ToReturn+=__T("\t\t<identifierSource>***</identifierSource>\n");
+    ToReturn+=__T("\t</pbcoreIdentifier>\n");
+    ToReturn+=__T("\t<pbcoreTitle>\n");
+    ToReturn+=__T("\t\t<title>***</title>\n");
+    ToReturn+=__T("\t</pbcoreTitle>\n");
+    ToReturn+=__T("\t<pbcoreDescription>\n");
+    ToReturn+=__T("\t\t<description>***</description>\n");
+    ToReturn+=__T("\t\t<descriptionType>***</descriptionType>\n");
+    ToReturn+=__T("\t</pbcoreDescription>\n");
+    ToReturn+=__T("\t<pbcoreInstantiation>\n");
 
 
     //pbcoreFormatID
-    ToReturn+=_T("\t\t<pbcoreFormatID>\n");
+    ToReturn+=__T("\t\t<pbcoreFormatID>\n");
         //formatIdentifier
-        ToReturn+=_T("\t\t\t<formatIdentifier>")+MI.Get(Stream_General, 0, General_FileName)+_T("</formatIdentifier>\n");
+        ToReturn+=__T("\t\t\t<formatIdentifier>")+MI.Get(Stream_General, 0, General_FileName)+__T("</formatIdentifier>\n");
         //formatIdentifierSource
-        ToReturn+=_T("\t\t\t<formatIdentifierSource version=\"PBCoreXSD_Ver_1.2_D1\">File Name</formatIdentifierSource>\n");
-    ToReturn+=_T("\t\t</pbcoreFormatID>\n");
+        ToReturn+=__T("\t\t\t<formatIdentifierSource version=\"PBCoreXSD_Ver_1.2_D1\">File Name</formatIdentifierSource>\n");
+    ToReturn+=__T("\t\t</pbcoreFormatID>\n");
 
     //formatDigital
     if (!MI.Get(Stream_General, 0, General_InternetMediaType).empty())
     {
-        ToReturn+=_T("\t\t<formatDigital>");
+        ToReturn+=__T("\t\t<formatDigital>");
         ToReturn+=MI.Get(Stream_General, 0, General_InternetMediaType);
-        ToReturn+=_T("</formatDigital>\n");
+        ToReturn+=__T("</formatDigital>\n");
     }
     else
     {
         //TODO: how to implement formats without Media Type?
-        ToReturn+=_T("\t\t<formatDigital>");
+        ToReturn+=__T("\t\t<formatDigital>");
         if (MI.Count_Get(Stream_Video))
-            ToReturn+=_T("video/x-");
+            ToReturn+=__T("video/x-");
         else if (MI.Count_Get(Stream_Image))
-            ToReturn+=_T("image/x-");
+            ToReturn+=__T("image/x-");
         else if (MI.Count_Get(Stream_Audio))
-            ToReturn+=_T("audio/x-");
+            ToReturn+=__T("audio/x-");
         else
-            ToReturn+=_T("application/x-");
-        ToReturn+=Ztring(MI.Get(Stream_General, 0, _T("Format"))).MakeLowerCase();
-        ToReturn+=_T("</formatDigital>\n");
+            ToReturn+=__T("application/x-");
+        ToReturn+=Ztring(MI.Get(Stream_General, 0, __T("Format"))).MakeLowerCase();
+        ToReturn+=__T("</formatDigital>\n");
     }
 
     //formatLocation
-    ToReturn+=_T("\t\t<formatLocation>")+MI.Get(Stream_General, 0, General_CompleteName)+_T("</formatLocation>\n");
+    ToReturn+=__T("\t\t<formatLocation>")+MI.Get(Stream_General, 0, General_CompleteName)+__T("</formatLocation>\n");
 
     //dateCreated
     if (!MI.Get(Stream_General, 0, General_Encoded_Date).empty())
     {
         Ztring dateCreated=MI.Get(Stream_General, 0, General_Recorded_Date);
-        dateCreated.FindAndReplace(_T("UTC"), _T("-"));
-        dateCreated.FindAndReplace(_T(" "), _T("T"));
-        dateCreated+=_T('Z');
-        ToReturn+=_T("\t\t<dateCreated>")+dateCreated+_T("</dateCreated>\n");
+        dateCreated.FindAndReplace(__T("UTC"), __T("-"));
+        dateCreated.FindAndReplace(__T(" "), __T("T"));
+        dateCreated+=__T('Z');
+        ToReturn+=__T("\t\t<dateCreated>")+dateCreated+__T("</dateCreated>\n");
     }
 
     //dateIssued
     if (!MI.Get(Stream_General, 0, General_Recorded_Date).empty())
     {
         Ztring dateIssued=MI.Get(Stream_General, 0, General_Recorded_Date);
-        dateIssued.FindAndReplace(_T("UTC"), _T("-"));
-        dateIssued.FindAndReplace(_T(" "), _T("T"));
-        dateIssued+=_T('Z');
-        ToReturn+=_T("\t\t<dateIssued>")+dateIssued+_T("</dateIssued>\n");
+        dateIssued.FindAndReplace(__T("UTC"), __T("-"));
+        dateIssued.FindAndReplace(__T(" "), __T("T"));
+        dateIssued+=__T('Z');
+        ToReturn+=__T("\t\t<dateIssued>")+dateIssued+__T("</dateIssued>\n");
     }
 
     //formatMediaType
     if (!PBCore_MediaType(MI).empty())
-        ToReturn+=_T("\t\t<formatMediaType version=\"PBCoreXSD_Ver_1.2_D1\">")+PBCore_MediaType(MI)+_T("</formatMediaType>\n");
+        ToReturn+=__T("\t\t<formatMediaType version=\"PBCoreXSD_Ver_1.2_D1\">")+PBCore_MediaType(MI)+__T("</formatMediaType>\n");
     else
-        ToReturn+=_T("\t\t<formatMediaType version=\"PBCoreXSD_Ver_1.2_D1\">application/octet-stream</formatMediaType>\n");
+        ToReturn+=__T("\t\t<formatMediaType version=\"PBCoreXSD_Ver_1.2_D1\">application/octet-stream</formatMediaType>\n");
 
     //formatGenerations
-    ToReturn+=_T("\t\t<formatGenerations version=\"PBCoreXSD_Ver_1.2_D1\" />\n");
+    ToReturn+=__T("\t\t<formatGenerations version=\"PBCoreXSD_Ver_1.2_D1\" />\n");
 
     //formatFileSize
     if (!MI.Get(Stream_General, 0, General_FileSize).empty())
-        ToReturn+=_T("\t\t<formatFileSize>")+MI.Get(Stream_General, 0, General_FileSize)+_T("</formatFileSize>\n");
+        ToReturn+=__T("\t\t<formatFileSize>")+MI.Get(Stream_General, 0, General_FileSize)+__T("</formatFileSize>\n");
 
     //formatTimeStart
     if (!MI.Get(Stream_Video, 0, Video_Delay_Original_String3).empty())
-        ToReturn+=_T("\t\t<formatTimeStart>")+MI.Get(Stream_Video, 0, Video_Delay_Original_String3)+_T("</formatTimeStart>\n");
+        ToReturn+=__T("\t\t<formatTimeStart>")+MI.Get(Stream_Video, 0, Video_Delay_Original_String3)+__T("</formatTimeStart>\n");
     else if (!MI.Get(Stream_Video, 0, Video_Delay_String3).empty())
-        ToReturn+=_T("\t\t<formatTimeStart>")+MI.Get(Stream_Video, 0, Video_Delay_String3)+_T("</formatTimeStart>\n");
+        ToReturn+=__T("\t\t<formatTimeStart>")+MI.Get(Stream_Video, 0, Video_Delay_String3)+__T("</formatTimeStart>\n");
 
     //formatDuration
     if (!MI.Get(Stream_General, 0, General_Duration_String3).empty())
-        ToReturn+=_T("\t\t<formatDuration>")+MI.Get(Stream_General, 0, General_Duration_String3)+_T("</formatDuration>\n");
+        ToReturn+=__T("\t\t<formatDuration>")+MI.Get(Stream_General, 0, General_Duration_String3)+__T("</formatDuration>\n");
 
     //formatDataRate
     if (!MI.Get(Stream_General, 0, General_OverallBitRate).empty())
     {
-        ToReturn+=_T("\t\t<formatDataRate>");
+        ToReturn+=__T("\t\t<formatDataRate>");
         ToReturn+=MI.Get(Stream_General, 0, General_OverallBitRate);
         if (!MI.Get(Stream_General, 0, General_OverallBitRate_Mode).empty())
-            ToReturn+=_T(' ')+MI.Get(Stream_General, 0, General_OverallBitRate_Mode);
-        ToReturn+=_T("</formatDataRate>\n");
+            ToReturn+=__T(' ')+MI.Get(Stream_General, 0, General_OverallBitRate_Mode);
+        ToReturn+=__T("</formatDataRate>\n");
     }
 
     //formatTracks
-    ToReturn+=_T("\t\t<formatTracks>")+Ztring::ToZtring(MI.Count_Get(Stream_Video)+MI.Count_Get(Stream_Audio)+MI.Count_Get(Stream_Image)+MI.Count_Get(Stream_Text))+_T("</formatTracks>\n");
+    ToReturn+=__T("\t\t<formatTracks>")+Ztring::ToZtring(MI.Count_Get(Stream_Video)+MI.Count_Get(Stream_Audio)+MI.Count_Get(Stream_Image)+MI.Count_Get(Stream_Text))+__T("</formatTracks>\n");
 
     //Video streams
     for (size_t StreamPos=0; StreamPos<MI.Count_Get(Stream_Video); StreamPos++)
@@ -388,11 +388,11 @@ Ztring Export_PBCore::Transform(MediaInfo_Internal &MI)
     for (size_t StreamPos=0; StreamPos<MI.Count_Get(Stream_Menu); StreamPos++)
         PBCore_Transform_Menu(ToReturn, MI, StreamPos);
 
-    ToReturn+=_T("\t</pbcoreInstantiation>\n");
-    ToReturn+=_T("</PBCoreDescriptionDocument>\n");
+    ToReturn+=__T("\t</pbcoreInstantiation>\n");
+    ToReturn+=__T("</PBCoreDescriptionDocument>\n");
 
     //Carriage return
-    ToReturn.FindAndReplace(_T("\n"), EOL, 0, Ztring_Recursive);
+    ToReturn.FindAndReplace(__T("\n"), EOL, 0, Ztring_Recursive);
 
     return ToReturn;
 }

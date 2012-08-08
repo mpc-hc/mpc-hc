@@ -1,22 +1,22 @@
 // File_Mk - Info for Matroska files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 
+
 //---------------------------------------------------------------------------
 // Pre-compilation
 #include "MediaInfo/PreComp.h"
@@ -73,6 +73,9 @@
 #endif
 #if defined(MEDIAINFO_FLAC_YES)
     #include "MediaInfo/Audio/File_Flac.h"
+#endif
+#if defined(MEDIAINFO_OPUS_YES)
+    #include "MediaInfo/Audio/File_Opus.h"
 #endif
 #if defined(MEDIAINFO_WVPK_YES)
     #include "MediaInfo/Audio/File_Wvpk.h"
@@ -202,6 +205,9 @@ void File_Mk::Streams_Finish()
         Fill(Stream_General, 0, General_Duration, Duration*int64u_float64(TimecodeScale)/1000000.0, 0);
     for (std::map<int64u, stream>::iterator Temp=Stream.begin(); Temp!=Stream.end(); Temp++)
     {
+        StreamKind_Last=Temp->second.StreamKind;
+        StreamPos_Last=Temp->second.StreamPos;
+
         if (Temp->second.DisplayAspectRatio!=0)
         {
             Fill(Stream_Video, Temp->second.StreamPos, Video_DisplayAspectRatio, Temp->second.DisplayAspectRatio, 3, true);
@@ -213,9 +219,77 @@ void File_Mk::Streams_Finish()
 
         if (Temp->second.Parser)
         {
-            StreamKind_Last=Temp->second.StreamKind;
-            StreamPos_Last=Temp->second.StreamPos;
+            Fill(Temp->second.Parser);
+            if (Config_ParseSpeed<=1.0)
+                Temp->second.Parser->Open_Buffer_Unsynch();
+        }
 
+        //Video specific
+        if (StreamKind_Last==Stream_Video)
+        {
+            //FrameRate
+            bool IsVfr=false;
+            if (Temp->second.Segment_Cluster_BlockGroup_BlockDuration_Counts.size()>2)
+                IsVfr=true;
+            else if (Temp->second.TimeCodes.size()>1)
+            {
+                //Trying to detect VFR
+                std::vector<int64s> FrameRate_Between;
+                std::sort(Temp->second.TimeCodes.begin(), Temp->second.TimeCodes.end()); //This is PTS, no DTS --> Some frames are out of order
+                for (size_t Pos=1; Pos<Temp->second.TimeCodes.size(); Pos++)
+                    FrameRate_Between.push_back(Temp->second.TimeCodes[Pos]-Temp->second.TimeCodes[Pos-1]);
+                if (FrameRate_Between.size()>1)
+                {
+                    int64s FrameRate_Between_Last=FrameRate_Between[FrameRate_Between.size()-1];
+                    size_t Pos=FrameRate_Between.size()-2;
+                    while (Pos)
+                    {
+                        if (FrameRate_Between[Pos]!=FrameRate_Between_Last)
+                            break;
+                        Pos--;
+                    }
+                    if (Pos)
+                        FrameRate_Between.resize(Pos+1); //We peek 40 frames, and remove the last ones, because this is PTS, no DTS --> Some frames are out of order
+                }
+                std::sort(FrameRate_Between.begin(), FrameRate_Between.end());
+                if (FrameRate_Between[0]*0.9<FrameRate_Between[FrameRate_Between.size()-1]
+                    && FrameRate_Between[0]*1.1>FrameRate_Between[FrameRate_Between.size()-1])
+                {
+                    float Time=0;
+                    if (Temp->second.TimeCodes.size()>30)
+                        Time=(float)(Temp->second.TimeCodes[30]-Temp->second.TimeCodes[0])/30; //30 frames for handling 30 fps rounding problems
+                    else if (Temp->second.TrackDefaultDuration)
+                        Time=(float)Temp->second.TrackDefaultDuration/TimecodeScale; //TrackDefaultDuration is maybe more precise than the time code
+                    else
+                        Time=(float)(Temp->second.TimeCodes[Temp->second.TimeCodes.size()-1]-Temp->second.TimeCodes[0])/(Temp->second.TimeCodes.size()-1);
+                    if (Time)
+                    {
+                        float32 FrameRate_FromCluster=1000000000/Time/TimecodeScale;
+                        if (Temp->second.Parser)
+                        {
+                            float32 FrameRate_FromParser=Temp->second.Parser->Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate).To_float32();
+                            if (FrameRate_FromParser
+                             && FrameRate_FromParser*2>FrameRate_FromCluster*0.9
+                             && FrameRate_FromParser*2<FrameRate_FromCluster*1.1) //TODO: awfull method to detect interlaced content with one field per block
+                                FrameRate_FromCluster/=2;
+                        }
+                        Fill(Stream_Video, StreamPos_Last, Video_FrameRate, FrameRate_FromCluster);
+                    }
+                }
+                else
+                    IsVfr=true;
+            }
+            else if (Temp->second.TrackDefaultDuration)
+            {
+                float32 FrameRate_FromCluster=1000000000/(float32)Temp->second.TrackDefaultDuration;
+                Fill(Stream_Video, StreamPos_Last, Video_FrameRate, FrameRate_FromCluster);
+            }
+
+            Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, IsVfr?"VFR":"CFR");
+        }
+
+        if (Temp->second.Parser)
+        {
             //Delay
             if (Temp->second.TimeCode_Start!=(int64u)-1 && TimecodeScale)
             {
@@ -244,12 +318,6 @@ void File_Mk::Streams_Finish()
             Duration_Temp=Retrieve(StreamKind_Last, Temp->second.StreamPos, Fill_Parameter(StreamKind_Last, Generic_Duration)); //Duration from stream is sometimes false
             Codec_Temp=Retrieve(StreamKind_Last, Temp->second.StreamPos, Fill_Parameter(StreamKind_Last, Generic_Codec)); //We want to keep the 4CC
 
-            if (Config_ParseSpeed<=1.0)
-            {
-                Fill(Temp->second.Parser);
-                Temp->second.Parser->Open_Buffer_Unsynch();
-            }
-
             Finish(Temp->second.Parser);
             Merge(*Temp->second.Parser, Temp->second.StreamKind, 0, Temp->second.StreamPos);
             Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Duration), Duration_Temp, true);
@@ -258,55 +326,16 @@ void File_Mk::Streams_Finish()
 
             //Special case: AAC
             if (StreamKind_Last==Stream_Audio
-             && (Retrieve(Stream_Audio, StreamPos_Last, Audio_Format)==_T("AAC")
-              || Retrieve(Stream_Audio, StreamPos_Last, Audio_Format)==_T("MPEG Audio")
-              || Retrieve(Stream_Audio, StreamPos_Last, Audio_Format)==_T("Vorbis")))
+             && (Retrieve(Stream_Audio, StreamPos_Last, Audio_Format)==__T("AAC")
+              || Retrieve(Stream_Audio, StreamPos_Last, Audio_Format)==__T("MPEG Audio")
+              || Retrieve(Stream_Audio, StreamPos_Last, Audio_Format)==__T("Vorbis")))
                 Clear(Stream_Audio, StreamPos_Last, Audio_BitDepth); //Resolution is not valid for AAC / MPEG Audio / Vorbis
 
-            //Video specific
-            if (StreamKind_Last==Stream_Video)
+            //VFR
+            if (Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate_Mode)==__T("VFR") && Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate_Original).empty())
             {
-                //FrameRate
-                if (Temp->second.TimeCodes.size()>1)
-                {
-                    //Trying to detect VFR
-                    std::vector<int64s> FrameRate_Between;
-                    std::sort(Temp->second.TimeCodes.begin(), Temp->second.TimeCodes.end()); //This is PTS, no DTS --> Some frames are out of order
-                    for (size_t Pos=1; Pos<Temp->second.TimeCodes.size(); Pos++)
-                        FrameRate_Between.push_back(Temp->second.TimeCodes[Pos]-Temp->second.TimeCodes[Pos-1]);
-                    if (FrameRate_Between.size()>31)
-                        FrameRate_Between.resize(31); //We peek 40 frames, and remove the last ones, because this is PTS, no DTS --> Some frames are out of order
-                    std::sort(FrameRate_Between.begin(), FrameRate_Between.end());
-                    if (FrameRate_Between[0]*0.9<FrameRate_Between[FrameRate_Between.size()-1]
-                     && FrameRate_Between[0]*1.1>FrameRate_Between[FrameRate_Between.size()-1])
-                    {
-                        float Time=0;
-                        if (Temp->second.TimeCodes.size()>30)
-                            Time=(float)(Temp->second.TimeCodes[30]-Temp->second.TimeCodes[0])/30; //30 frames for handling 30 fps rounding problems
-                        if (Time)
-                        {
-                            float32 FrameRate_FromCluster=1000000000/Time/TimecodeScale;
-                            if (!Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate).empty())
-                            {
-                                float32 FrameRate_FromTrack=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate).To_float32();
-                                if (FrameRate_FromCluster*1.01<FrameRate_FromTrack*0.99
-                                 || FrameRate_FromCluster*0.99>FrameRate_FromTrack*1.01)
-                                    Clear(Stream_Video, StreamPos_Last, Video_FrameRate); //There is a problem
-                            }
-                            else
-                            {
-                                Fill(Stream_Video, StreamPos_Last, Video_FrameRate, FrameRate_FromCluster);
-                                Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, "CFR");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, "VFR");
-                        if (Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate).To_float32()==1000.0)
-                            Clear(Stream_Video, StreamPos_Last, Video_FrameRate); //Some files on the net have a frame rate of 1000, it is not possible to be sure this is the real frame rate.
-                    }
-                }
+                Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Original, Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate));
+                Clear(Stream_Video, StreamPos_Last, Video_FrameRate);
             }
         }
 
@@ -334,9 +363,9 @@ void File_Mk::Streams_Finish()
                     {
                         Ztring PerLanguage;
                         if (!EditionEntries[EditionEntries_Pos].ChapterAtoms[ChapterAtoms_Pos].ChapterDisplays[ChapterDisplays_Pos].ChapLanguage.empty())
-                            PerLanguage=MediaInfoLib::Config.Iso639_1_Get(EditionEntries[EditionEntries_Pos].ChapterAtoms[ChapterAtoms_Pos].ChapterDisplays[ChapterDisplays_Pos].ChapLanguage)+_T(':');
+                            PerLanguage=MediaInfoLib::Config.Iso639_1_Get(EditionEntries[EditionEntries_Pos].ChapterAtoms[ChapterAtoms_Pos].ChapterDisplays[ChapterDisplays_Pos].ChapLanguage)+__T(':');
                         PerLanguage+=EditionEntries[EditionEntries_Pos].ChapterAtoms[ChapterAtoms_Pos].ChapterDisplays[ChapterDisplays_Pos].ChapString;
-                        Text+=PerLanguage+_T(" - ");
+                        Text+=PerLanguage+__T(" - ");
                     }
                     if (Text.size())
                         Text.resize(Text.size()-3);
@@ -350,7 +379,7 @@ void File_Mk::Streams_Finish()
     //Attachments
     for (size_t Pos=0; Pos<AttachedFiles.size(); Pos++)
     {
-        if (Ztring(AttachedFiles[Pos]).MakeLowerCase().find(_T("cover"))==string::npos)
+        if (Ztring(AttachedFiles[Pos]).MakeLowerCase().find(__T("cover"))==string::npos)
             Fill(Stream_General, 0, "Attachment", AttachedFiles[Pos]);
         else
             Fill(Stream_General, 0, "Cover", AttachedFiles[Pos]);
@@ -374,8 +403,8 @@ void File_Mk::Header_Parse()
     if (Null==0x00)
     {
         if (Buffer_Offset_Temp==0)
-            Buffer_Offset_Temp=Buffer_Offset+1;    
-            
+            Buffer_Offset_Temp=Buffer_Offset+1;
+
         while (Buffer_Offset_Temp<Buffer_Size)
         {
             if (Buffer[Buffer_Offset_Temp])
@@ -387,7 +416,7 @@ void File_Mk::Header_Parse()
             Element_WaitForMoreData();
             return;
         }
-            
+
         Header_Fill_Code((int32u)-1); //Should be (int64u)-1 but Borland C++ does not like this
         Header_Fill_Size(Buffer_Offset_Temp-Buffer_Offset);
         Buffer_Offset_Temp=0;
@@ -972,12 +1001,12 @@ void File_Mk::Ebml_DocType()
 
     //Filling
     FILLING_BEGIN();
-        if (Data==_T("matroska"))
+        if (Data==__T("matroska"))
         {
             Accept("Matroska");
             Fill(Stream_General, 0, General_Format, "Matroska");
         }
-        else if (Data==_T("webm"))
+        else if (Data==__T("webm"))
         {
             Accept("Matroska");
             Fill(Stream_General, 0, General_Format, "WebM");
@@ -1002,7 +1031,7 @@ void File_Mk::Ebml_DocTypeVersion()
 
     //Filling
     FILLING_BEGIN();
-        Fill(Stream_General, 0, General_Format_Version, _T("Version ")+Ztring::ToZtring(Format_Version));
+        Fill(Stream_General, 0, General_Format_Version, __T("Version ")+Ztring::ToZtring(Format_Version));
     FILLING_END();
 }
 
@@ -1017,7 +1046,7 @@ void File_Mk::Ebml_DocTypeReadVersion()
     //Filling
     FILLING_BEGIN();
         if (UInteger!=Format_Version)
-            Fill(Stream_General, 0, General_Format_Version, _T("Version ")+Ztring::ToZtring(UInteger)); //Adding compatible version for info about legacy decoders
+            Fill(Stream_General, 0, General_Format_Version, __T("Version ")+Ztring::ToZtring(UInteger)); //Adding compatible version for info about legacy decoders
     FILLING_END();
 }
 
@@ -1053,7 +1082,7 @@ void File_Mk::Segment_Attachements_AttachedFile_FileData()
 
     FILLING_BEGIN();
         if (AttachedFiles[AttachedFiles.size()-1].empty())
-            AttachedFiles[AttachedFiles.size()-1]=_T("Yes");
+            AttachedFiles[AttachedFiles.size()-1]=__T("Yes");
     FILLING_END();
 }
 
@@ -1224,7 +1253,7 @@ void File_Mk::Segment_Chapters_EditionEntry_ChapterAtom_ChapterDisplay_ChapStrin
     FILLING_BEGIN();
         EditionEntries[EditionEntries_Pos].ChapterAtoms[ChapterAtoms_Pos].ChapterDisplays[ChapterDisplays_Pos].ChapString=Data;
         //if (TimecodeScale!=0 && ChapterTimeStart!=(int64u)-1)
-        //    Fill(StreamKind_Last, StreamPos_Last, Ztring::ToZtring(Chapter_Pos).To_Local().c_str(), Ztring().Duration_From_Milliseconds(ChapterTimeStart/TimecodeScale)+_T(" - ")+ChapterString, true);
+        //    Fill(StreamKind_Last, StreamPos_Last, Ztring::ToZtring(Chapter_Pos).To_Local().c_str(), Ztring().Duration_From_Milliseconds(ChapterTimeStart/TimecodeScale)+__T(" - ")+ChapterString, true);
     FILLING_END();
 }
 
@@ -1379,7 +1408,7 @@ void File_Mk::Segment_Cluster()
                 Stream_Count++;
 
             //Specific cases
-            if (Retrieve(Temp->second.StreamKind, Temp->second.StreamPos, Audio_CodecID).find(_T("A_AAC/"))==0)
+            if (Retrieve(Temp->second.StreamKind, Temp->second.StreamPos, Audio_CodecID).find(__T("A_AAC/"))==0)
                 ((File_Aac*)Stream[Temp->first].Parser)->Mode=File_Aac::Mode_raw_data_block; //In case AudioSpecificConfig is not present
 
             Temp++;
@@ -1409,6 +1438,9 @@ void File_Mk::Segment_Cluster()
 void File_Mk::Segment_Cluster_BlockGroup()
 {
     Element_Name("BlockGroup");
+
+    Segment_Cluster_BlockGroup_BlockDuration_Value=(int64u)-1;
+    Segment_Cluster_BlockGroup_BlockDuration_TrackNumber=(int64u)-1;
 }
 
 //---------------------------------------------------------------------------
@@ -1445,6 +1477,12 @@ void File_Mk::Segment_Cluster_BlockGroup_Block()
             Stream[TrackNumber].TimeCodes.push_back(Segment_Cluster_TimeCode_Value+TimeCode);
             if (Stream[TrackNumber].TimeCodes.size()>40)
                 Stream[TrackNumber].Searching_TimeStamps=false;
+        }
+
+        if (Segment_Cluster_BlockGroup_BlockDuration_Value!=(int64u)-1)
+        {
+            Stream[TrackNumber].Segment_Cluster_BlockGroup_BlockDuration_Counts[Segment_Cluster_BlockGroup_BlockDuration_Value]++;
+            Segment_Cluster_BlockGroup_BlockDuration_Value=(int64u)-1;
         }
     FILLING_END();
 
@@ -1615,7 +1653,17 @@ void File_Mk::Segment_Cluster_BlockGroup_BlockDuration()
     Element_Name("BlockDuration");
 
     //Parsing
-    UInteger_Info();
+    int64u Segment_Cluster_TimeCode_Value=UInteger_Get();
+
+    FILLING_BEGIN();
+        if (Segment_Cluster_BlockGroup_BlockDuration_TrackNumber!=(int64u)-1)
+        {
+            Stream[Segment_Cluster_BlockGroup_BlockDuration_TrackNumber].Segment_Cluster_BlockGroup_BlockDuration_Counts[Segment_Cluster_TimeCode_Value]++;
+            Segment_Cluster_BlockGroup_BlockDuration_TrackNumber=(int64u)-1;
+        }
+        else
+            Segment_Cluster_BlockGroup_BlockDuration_Value=Segment_Cluster_TimeCode_Value;
+    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -1903,7 +1951,7 @@ void File_Mk::Segment_Info_SegmentUID()
 
     FILLING_BEGIN();
         Fill(Stream_General, 0, General_UniqueID, Ztring().From_Local(Data.toString(10)));
-        Fill(Stream_General, 0, General_UniqueID_String, Ztring().From_Local(Data.toString(10))+_T(" (0x")+Ztring().From_Local(Data.toString(16))+_T(')'));
+        Fill(Stream_General, 0, General_UniqueID_String, Ztring().From_Local(Data.toString(10))+__T(" (0x")+Ztring().From_Local(Data.toString(16))+__T(')'));
     FILLING_END();
 }
 
@@ -2053,25 +2101,25 @@ void File_Mk::Segment_Tags_Tag_SimpleTag_TagString()
 
     if (Segment_Tag_SimpleTag_TagNames.empty())
         return;
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("BITSPS")) return; //Useless
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("BPS")) return; //Useless
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("COMPATIBLE_BRANDS")) return; //QuickTime techinical info, useless
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("CREATION_TIME")) {Segment_Tag_SimpleTag_TagNames[0]=_T("Encoded_Date"); TagString.insert(0, _T("UTC "));}
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("DATE_DIGITIZED")) {Segment_Tag_SimpleTag_TagNames[0]=_T("Mastered_Date"); TagString.insert(0, _T("UTC "));}
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("ENCODED_BY")) Segment_Tag_SimpleTag_TagNames[0]=_T("EncodedBy");
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("ENCODER")) Segment_Tag_SimpleTag_TagNames[0]=_T("Encoded_Library");
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("FPS")) return; //Useless
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("LANGUAGE")) Segment_Tag_SimpleTag_TagNames[0]=_T("Language");
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("MAJOR_BRAND")) return; //QuickTime techinical info, useless
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("MINOR_VERSION")) return; //QuickTime techinical info, useless
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("ORIGINAL_MEDIA_TYPE")) Segment_Tag_SimpleTag_TagNames[0]=_T("OriginalSourceForm");
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("STEREO_MODE")) return; //Useless
-    if (Segment_Tag_SimpleTag_TagNames[0]==_T("TERMS_OF_USE")) Segment_Tag_SimpleTag_TagNames[0]=_T("TermsOfUse");
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("BITSPS")) return; //Useless
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("BPS")) return; //Useless
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("COMPATIBLE_BRANDS")) return; //QuickTime techinical info, useless
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("CREATION_TIME")) {Segment_Tag_SimpleTag_TagNames[0]=__T("Encoded_Date"); TagString.insert(0, __T("UTC "));}
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("DATE_DIGITIZED")) {Segment_Tag_SimpleTag_TagNames[0]=__T("Mastered_Date"); TagString.insert(0, __T("UTC "));}
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("ENCODED_BY")) Segment_Tag_SimpleTag_TagNames[0]=__T("EncodedBy");
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("ENCODER")) Segment_Tag_SimpleTag_TagNames[0]=__T("Encoded_Library");
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("FPS")) return; //Useless
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("LANGUAGE")) Segment_Tag_SimpleTag_TagNames[0]=__T("Language");
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("MAJOR_BRAND")) return; //QuickTime techinical info, useless
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("MINOR_VERSION")) return; //QuickTime techinical info, useless
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("ORIGINAL_MEDIA_TYPE")) Segment_Tag_SimpleTag_TagNames[0]=__T("OriginalSourceForm");
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("STEREO_MODE")) return; //Useless
+    if (Segment_Tag_SimpleTag_TagNames[0]==__T("TERMS_OF_USE")) Segment_Tag_SimpleTag_TagNames[0]=__T("TermsOfUse");
     for (size_t Pos=1; Pos<Segment_Tag_SimpleTag_TagNames.size(); Pos++)
     {
-        if (Segment_Tag_SimpleTag_TagNames[Pos]==_T("BARCODE")) Segment_Tag_SimpleTag_TagNames[Pos]=_T("BarCode");
-        if (Segment_Tag_SimpleTag_TagNames[Pos]==_T("COMMENT")) Segment_Tag_SimpleTag_TagNames[Pos]=_T("Comment");
-        if (Segment_Tag_SimpleTag_TagNames[Pos]==_T("URL")) Segment_Tag_SimpleTag_TagNames[Pos]=_T("Url");
+        if (Segment_Tag_SimpleTag_TagNames[Pos]==__T("BARCODE")) Segment_Tag_SimpleTag_TagNames[Pos]=__T("BarCode");
+        if (Segment_Tag_SimpleTag_TagNames[Pos]==__T("COMMENT")) Segment_Tag_SimpleTag_TagNames[Pos]=__T("Comment");
+        if (Segment_Tag_SimpleTag_TagNames[Pos]==__T("URL")) Segment_Tag_SimpleTag_TagNames[Pos]=__T("Url");
     }
 
     Ztring TagName;
@@ -2079,7 +2127,7 @@ void File_Mk::Segment_Tags_Tag_SimpleTag_TagString()
     {
         TagName+=Segment_Tag_SimpleTag_TagNames[Pos];
         if (Pos+1<Segment_Tag_SimpleTag_TagNames.size())
-            TagName+=_T('/');
+            TagName+=__T('/');
     }
 
     StreamKind_Last=Stream_General;
@@ -2163,7 +2211,6 @@ void File_Mk::Segment_Tracks_TrackEntry()
     InfoCodecID_Format_Type=InfoCodecID_Format_Matroska;
     TrackType=(int64u)-1;
     TrackNumber=(int64u)-1;
-    TrackDefaultDuration=0;
     TrackVideoDisplayWidth=0;
     TrackVideoDisplayHeight=0;
     AvgBytesPerSec=0;
@@ -2241,7 +2288,7 @@ void File_Mk::Segment_Tracks_TrackEntry_Audio_SamplingFrequency()
 
     FILLING_BEGIN();
         Fill(Stream_Audio, StreamPos_Last, Audio_SamplingRate, Float, 0, true);
-        if (Retrieve(Stream_Audio, StreamPos_Last, Audio_CodecID).find(_T("A_AAC/"))==0)
+        if (Retrieve(Stream_Audio, StreamPos_Last, Audio_CodecID).find(__T("A_AAC/"))==0)
             ((File_Aac*)Stream[TrackNumber].Parser)->AudioSpecificConfig_OutOfBand((int32u)float64_int64s(Float));
     FILLING_END();
 }
@@ -2333,9 +2380,9 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecPrivate()
             return;
         }
 
-        if (Stream[TrackNumber].StreamKind==Stream_Audio && Retrieve(Stream_Audio, Stream[TrackNumber].StreamPos, Audio_CodecID)==_T("A_MS/ACM"))
+        if (Stream[TrackNumber].StreamKind==Stream_Audio && Retrieve(Stream_Audio, Stream[TrackNumber].StreamPos, Audio_CodecID)==__T("A_MS/ACM"))
             Segment_Tracks_TrackEntry_CodecPrivate_auds();
-        else if (Stream[TrackNumber].StreamKind==Stream_Video && Retrieve(Stream_Video, Stream[TrackNumber].StreamPos, Video_CodecID)==_T("V_MS/VFW/FOURCC"))
+        else if (Stream[TrackNumber].StreamKind==Stream_Video && Retrieve(Stream_Video, Stream[TrackNumber].StreamPos, Video_CodecID)==__T("V_MS/VFW/FOURCC"))
             Segment_Tracks_TrackEntry_CodecPrivate_vids();
         else if (Element_Size>0)
             Skip_XX(Element_Size,                 "Unknown");
@@ -2425,7 +2472,7 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecPrivate_auds_ExtensibleWave()
 
             //Creating the parser
             #if defined(MEDIAINFO_PCM_YES)
-            if (MediaInfoLib::Config.CodecID_Get(Stream_Audio, InfoCodecID_Format_Riff, Ztring().From_Number((int16u)SubFormat.hi, 16))==_T("PCM"))
+            if (MediaInfoLib::Config.CodecID_Get(Stream_Audio, InfoCodecID_Format_Riff, Ztring().From_Number((int16u)SubFormat.hi, 16))==__T("PCM"))
             {
                 //Creating the parser
                 File_Pcm MI;
@@ -2501,10 +2548,10 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecPrivate_vids()
                 Fill(StreamKind_Last, StreamPos_Last, "BitDepth", 8);
             else if (Compression==0x44585342) //DXSB
                 Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution);
-            else if (Resolution>16 && MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_ColorSpace).find(_T("RGBA"))!=std::string::npos) //RGB codecs
+            else if (Resolution>16 && MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_ColorSpace).find(__T("RGBA"))!=std::string::npos) //RGB codecs
                 Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/4);
             else if (Compression==0x00000000 //RGB
-                  || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_ColorSpace).find(_T("RGB"))!=std::string::npos) //RGB codecs
+                  || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_ColorSpace).find(__T("RGB"))!=std::string::npos) //RGB codecs
             {
                 if (Resolution==32)
                 {
@@ -2515,8 +2562,8 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecPrivate_vids()
                     Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution<=16?8:(Resolution/3)); //indexed or normal
             }
             else if (Compression==0x56503632 //VP62
-                  || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==_T("H.263") //H.263
-                  || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==_T("VC-1")) //VC-1
+                  || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("H.263") //H.263
+                  || MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("VC-1")) //VC-1
                 Fill(StreamKind_Last, StreamPos_Last, "BitDepth", Resolution/3);
         }
 
@@ -2545,15 +2592,7 @@ void File_Mk::Segment_Tracks_TrackEntry_DefaultDuration()
     int64u UInteger=UInteger_Get();
 
     FILLING_BEGIN();
-        TrackDefaultDuration=UInteger;
-        //FrameRate
-        if (TrackDefaultDuration && StreamKind_Last==Stream_Video)
-        {
-            float64 FrameRate=1000000000.0/TrackDefaultDuration;
-            if (FrameRate>=23.975 && FrameRate<=23.977)
-                FrameRate=23.976; //One example was seen with 23.975
-            Fill(Stream_Video, StreamPos_Last, Video_FrameRate, FrameRate, 3, true);
-        }
+        Stream[TrackNumber].TrackDefaultDuration=UInteger;
     FILLING_END();
 }
 
@@ -2704,14 +2743,6 @@ void File_Mk::Segment_Tracks_TrackEntry_TrackType()
         {
             case 0x01 :
                         Stream_Prepare(Stream_Video);
-                        //FrameRate
-                        if (TrackDefaultDuration)
-                        {
-                            float64 FrameRate=1000000000.0/TrackDefaultDuration;
-                            if (FrameRate>=23.975 && FrameRate<=23.977)
-                                FrameRate=23.976; //One example was seen with 23.975
-                            Fill(Stream_Video, StreamPos_Last, Video_FrameRate, FrameRate, 3, true);
-                        }
                         break;
             case 0x02 :
                         Stream_Prepare(Stream_Audio);
@@ -3231,7 +3262,7 @@ void File_Mk::CodecID_Manage()
     const Ztring &Format=MediaInfoLib::Config.CodecID_Get(StreamKind_Last, InfoCodecID_Format_Type, CodecID, InfoCodecID_Format);
          if (0);
     #if defined(MEDIAINFO_MPEG4V_YES)
-    else if (Format==_T("MPEG-4 Visual"))
+    else if (Format==__T("MPEG-4 Visual"))
     {
         Stream[TrackNumber].Parser=new File_Mpeg4v;
         ((File_Mpeg4v*)Stream[TrackNumber].Parser)->FrameIsAlwaysComplete=true;
@@ -3239,7 +3270,7 @@ void File_Mk::CodecID_Manage()
     }
     #endif
     #if defined(MEDIAINFO_AVC_YES)
-    else if (Format==_T("AVC"))
+    else if (Format==__T("AVC"))
     {
         Stream[TrackNumber].Parser=new File_Avc;
         ((File_Avc*)Stream[TrackNumber].Parser)->FrameIsAlwaysComplete=true;
@@ -3252,7 +3283,7 @@ void File_Mk::CodecID_Manage()
     }
     #endif
     #if defined(MEDIAINFO_VC1_YES)
-    else if (Format==_T("VC-1"))
+    else if (Format==__T("VC-1"))
     {
         Stream[TrackNumber].Parser=new File_Vc1;
         ((File_Vc1*)Stream[TrackNumber].Parser)->FrameIsAlwaysComplete=true;
@@ -3260,14 +3291,14 @@ void File_Mk::CodecID_Manage()
     }
     #endif
     #if defined(MEDIAINFO_DIRAC_YES)
-    else if (Format==_T("Dirac"))
+    else if (Format==__T("Dirac"))
     {
         Stream[TrackNumber].Parser=new File_Dirac;
         ((File_Dirac*)Stream[TrackNumber].Parser)->Frame_Count_Valid=1;
     }
     #endif
     #if defined(MEDIAINFO_MPEGV_YES)
-    else if (Format==_T("MPEG Video"))
+    else if (Format==__T("MPEG Video"))
     {
         Stream[TrackNumber].Parser=new File_Mpegv;
         ((File_Mpegv*)Stream[TrackNumber].Parser)->FrameIsAlwaysComplete=true;
@@ -3275,13 +3306,13 @@ void File_Mk::CodecID_Manage()
     }
     #endif
     #if defined(MEDIAINFO_VP8_YES)
-    else if (Format==_T("VP8"))
+    else if (Format==__T("VP8"))
     {
         Stream[TrackNumber].Parser=new File_Vp8;
     }
     #endif
     #if defined(MEDIAINFO_OGG_YES)
-    else if (Format==_T("Theora")  || Format==_T("Vorbis"))
+    else if (Format==__T("Theora")  || Format==__T("Vorbis"))
     {
         Stream[TrackNumber].Parser=new File_Ogg;
         Stream[TrackNumber].Parser->MustSynchronize=false;
@@ -3289,50 +3320,50 @@ void File_Mk::CodecID_Manage()
     }
     #endif
     #if defined(MEDIAINFO_RM_YES)
-    else if (CodecID.find(_T("V_REAL/"))==0)
+    else if (CodecID.find(__T("V_REAL/"))==0)
     {
         Stream[TrackNumber].Parser=new File_Rm;
         ((File_Rm*)Stream[TrackNumber].Parser)->FromMKV_StreamType=Stream_Video;
     }
     #endif
     #if defined(MEDIAINFO_AC3_YES)
-    else if (Format==_T("AC-3") || Format==_T("E-AC-3") || Format==_T("TrueHD"))
+    else if (Format==__T("AC-3") || Format==__T("E-AC-3") || Format==__T("TrueHD"))
     {
         Stream[TrackNumber].Parser=new File_Ac3;
         ((File_Ac3*)Stream[TrackNumber].Parser)->Frame_Count_Valid=2;
     }
     #endif
     #if defined(MEDIAINFO_DTS_YES)
-    else if (Format==_T("DTS"))
+    else if (Format==__T("DTS"))
     {
         Stream[TrackNumber].Parser=new File_Dts;
         ((File_Dts*)Stream[TrackNumber].Parser)->Frame_Count_Valid=2;
     }
     #endif
     #if defined(MEDIAINFO_AAC_YES)
-    else if (CodecID==(_T("A_AAC")))
+    else if (CodecID==(__T("A_AAC")))
     {
         Stream[TrackNumber].Parser=new File_Aac;
         ((File_Aac*)Stream[TrackNumber].Parser)->Mode=File_Aac::Mode_AudioSpecificConfig;
     }
     #endif
     #if defined(MEDIAINFO_AAC_YES)
-    else if (CodecID.find(_T("A_AAC/"))==0)
+    else if (CodecID.find(__T("A_AAC/"))==0)
     {
         Ztring Profile;
         int8u audioObjectType=0, Version=0, SBR=2, PS=2;
-             if (CodecID==_T("A_AAC/MPEG2/MAIN"))     {Version=2; Profile=_T("Main");                   audioObjectType=1;}
-        else if (CodecID==_T("A_AAC/MPEG2/LC"))       {Version=2; Profile=_T("LC");                     audioObjectType=2; SBR=0;}
-        else if (CodecID==_T("A_AAC/MPEG2/LC/SBR"))   {Version=2; Profile=_T("HE-AAC / LC");            audioObjectType=2; SBR=1;}
-        else if (CodecID==_T("A_AAC/MPEG2/SSR"))      {Version=2; Profile=_T("SSR");                    audioObjectType=3;}
-        else if (CodecID==_T("A_AAC/MPEG4/MAIN"))     {Version=4; Profile=_T("Main");                   audioObjectType=1;}
-        else if (CodecID==_T("A_AAC/MPEG4/LC"))       {Version=4; Profile=_T("LC");                     audioObjectType=2; SBR=0;}
-        else if (CodecID==_T("A_AAC/MPEG4/LC/SBR"))   {Version=4; Profile=_T("HE-AAC / LC");            audioObjectType=2; SBR=1; PS=0;}
-        else if (CodecID==_T("A_AAC/MPEG4/LC/SBR/PS")){Version=4; Profile=_T("HE-AACv2 / HE-AAC / LC"); audioObjectType=2; SBR=1; PS=1;}
-        else if (CodecID==_T("A_AAC/MPEG4/SSR"))      {Version=4; Profile=_T("SSR");                    audioObjectType=3;}
-        else if (CodecID==_T("A_AAC/MPEG4/LTP"))      {Version=4; Profile=_T("LTP");                    audioObjectType=4;}
-        else if (CodecID==_T("raac"))                 {           Profile=_T("LC");                     audioObjectType=2;}
-        else if (CodecID==_T("racp"))                 {           Profile=_T("HE-AAC / LC");            audioObjectType=2; SBR=1; PS=0;}
+             if (CodecID==__T("A_AAC/MPEG2/MAIN"))     {Version=2; Profile=__T("Main");                   audioObjectType=1;}
+        else if (CodecID==__T("A_AAC/MPEG2/LC"))       {Version=2; Profile=__T("LC");                     audioObjectType=2; SBR=0;}
+        else if (CodecID==__T("A_AAC/MPEG2/LC/SBR"))   {Version=2; Profile=__T("HE-AAC / LC");            audioObjectType=2; SBR=1;}
+        else if (CodecID==__T("A_AAC/MPEG2/SSR"))      {Version=2; Profile=__T("SSR");                    audioObjectType=3;}
+        else if (CodecID==__T("A_AAC/MPEG4/MAIN"))     {Version=4; Profile=__T("Main");                   audioObjectType=1;}
+        else if (CodecID==__T("A_AAC/MPEG4/LC"))       {Version=4; Profile=__T("LC");                     audioObjectType=2; SBR=0;}
+        else if (CodecID==__T("A_AAC/MPEG4/LC/SBR"))   {Version=4; Profile=__T("HE-AAC / LC");            audioObjectType=2; SBR=1; PS=0;}
+        else if (CodecID==__T("A_AAC/MPEG4/LC/SBR/PS")){Version=4; Profile=__T("HE-AACv2 / HE-AAC / LC"); audioObjectType=2; SBR=1; PS=1;}
+        else if (CodecID==__T("A_AAC/MPEG4/SSR"))      {Version=4; Profile=__T("SSR");                    audioObjectType=3;}
+        else if (CodecID==__T("A_AAC/MPEG4/LTP"))      {Version=4; Profile=__T("LTP");                    audioObjectType=4;}
+        else if (CodecID==__T("raac"))                 {           Profile=__T("LC");                     audioObjectType=2;}
+        else if (CodecID==__T("racp"))                 {           Profile=__T("HE-AAC / LC");            audioObjectType=2; SBR=1; PS=0;}
 
         if (Version>0)
             Fill(Stream_Audio, StreamPos_Last, Audio_Format_Version, Version==2?"Version 2":"Version 4");
@@ -3349,46 +3380,52 @@ void File_Mk::CodecID_Manage()
     }
     #endif
     #if defined(MEDIAINFO_AAC_YES)
-    else if (Format==(_T("AAC")))
+    else if (Format==(__T("AAC")))
     {
         Stream[TrackNumber].Parser=new File_Aac;
         ((File_Aac*)Stream[TrackNumber].Parser)->Mode=File_Aac::Mode_ADTS;
     }
     #endif
     #if defined(MEDIAINFO_MPEGA_YES)
-    else if (Format==_T("MPEG Audio"))
+    else if (Format==__T("MPEG Audio"))
     {
         Stream[TrackNumber].Parser=new File_Mpega;
     }
     #endif
     #if defined(MEDIAINFO_FLAC_YES)
-    else if (Format==_T("Flac"))
+    else if (Format==__T("Flac"))
     {
         Stream[TrackNumber].Parser=new File_Flac;
     }
     #endif
+    #if defined(MEDIAINFO_OPUS_YES)
+    else if (CodecID.find(__T("A_OPUS"))==0) //http://wiki.xiph.org/MatroskaOpus
+    {
+        Stream[TrackNumber].Parser=new File_Opus;
+    }
+    #endif
     #if defined(MEDIAINFO_WVPK_YES)
-    else if (Format==_T("WavPack"))
+    else if (Format==__T("WavPack"))
     {
         Stream[TrackNumber].Parser=new File_Wvpk;
         ((File_Wvpk*)Stream[TrackNumber].Parser)->FromMKV=true;
     }
     #endif
     #if defined(MEDIAINFO_TTA_YES)
-    else if (Format==_T("TTA"))
+    else if (Format==__T("TTA"))
     {
         //Stream[TrackNumber].Parser=new File_Tta; //Parser is not needed, because header is useless and dropped (the parser analyses only the header)
     }
     #endif
     #if defined(MEDIAINFO_PCM_YES)
-    else if (Format==_T("PCM"))
+    else if (Format==__T("PCM"))
     {
         Stream[TrackNumber].Parser=new File_Pcm;
         ((File_Pcm*)Stream[TrackNumber].Parser)->Codec=CodecID;
     }
     #endif
     #if defined(MEDIAINFO_RM_YES)
-    else if (CodecID.find(_T("A_REAL/"))==0)
+    else if (CodecID.find(__T("A_REAL/"))==0)
     {
         Stream[TrackNumber].Parser=new File_Rm;
         ((File_Rm*)Stream[TrackNumber].Parser)->FromMKV_StreamType=Stream_Audio;

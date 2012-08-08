@@ -1,17 +1,17 @@
 // File_Wvpk - Info for WavPack files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -466,8 +466,8 @@ void File_Wvpk::Data_Parse_Fill()
     Fill(Stream_Audio, 0, Audio_Format, "WavPack");
     Ztring Version_Minor=Ztring::ToZtring(version%0x100);
     if (Version_Minor.size()==1)
-        Version_Minor.insert(0, 1, _T('0'));
-    Fill(Stream_Audio, 0, Audio_Format_Profile, Ztring::ToZtring(version/0x100)+_T('.')+Version_Minor);
+        Version_Minor.insert(0, 1, __T('0'));
+    Fill(Stream_Audio, 0, Audio_Format_Profile, Ztring::ToZtring(version/0x100)+__T('.')+Version_Minor);
     Fill(Stream_Audio, 0, Audio_Codec, "Wavpack");
     Fill(Stream_Audio, 0, Audio_BitDepth, Wvpk_Resolution[(resolution1?1:0)*2+(resolution0?1:0)]);
     Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, num_channels?num_channels:(mono?1:2));
@@ -477,30 +477,30 @@ void File_Wvpk::Data_Parse_Fill()
         if (channel_mask&0x00C7)
         {
             int8u Count=0;
-            Channels_Positions+=_T("Front:");
+            Channels_Positions+=__T("Front:");
             if (channel_mask&0x0001)
             {
-                Channels_Positions+=_T(" L");
+                Channels_Positions+=__T(" L");
                 Count++;
             }
             if (channel_mask&0x0004)
             {
-                Channels_Positions+=_T(" C");
+                Channels_Positions+=__T(" C");
                 Count++;
             }
             if (channel_mask&0x0040)
             {
-                Channels_Positions+=_T(" C");
+                Channels_Positions+=__T(" C");
                 Count++;
             }
             if (channel_mask&0x0080)
             {
-                Channels_Positions+=_T(" C");
+                Channels_Positions+=__T(" C");
                 Count++;
             }
             if (channel_mask&0x0002)
             {
-                Channels_Positions+=_T(" R");
+                Channels_Positions+=__T(" R");
                 Count++;
             }
             Channels_Positions2+=Ztring::ToZtring(Count);
@@ -509,53 +509,53 @@ void File_Wvpk::Data_Parse_Fill()
         {
             int8u Count=0;
             if (!Channels_Positions.empty())
-                Channels_Positions+=_T(", ");
-            Channels_Positions+=_T("Side:");
+                Channels_Positions+=__T(", ");
+            Channels_Positions+=__T("Side:");
             if (channel_mask&0x0200)
             {
-                Channels_Positions+=_T(" L");
+                Channels_Positions+=__T(" L");
                 Count++;
             }
             if (channel_mask&0x0400)
             {
-                Channels_Positions+=_T(" R");
+                Channels_Positions+=__T(" R");
                 Count++;
             }
-            Channels_Positions2+=_T('.')+Ztring::ToZtring(Count);
+            Channels_Positions2+=__T('.')+Ztring::ToZtring(Count);
         }
         else
-            Channels_Positions2+=_T("/0");
+            Channels_Positions2+=__T("/0");
         if (channel_mask&0x0130)
         {
             int8u Count=0;
             if (!Channels_Positions.empty())
-                Channels_Positions+=_T(", ");
-            Channels_Positions+=_T("Back:");
+                Channels_Positions+=__T(", ");
+            Channels_Positions+=__T("Back:");
             if (channel_mask&0x0010)
             {
-                Channels_Positions+=_T(" L");
+                Channels_Positions+=__T(" L");
                 Count++;
             }
             if (channel_mask&0x0100)
             {
-                Channels_Positions+=_T(" C");
+                Channels_Positions+=__T(" C");
                 Count++;
             }
             if (channel_mask&0x0020)
             {
-                Channels_Positions+=_T(" R");
+                Channels_Positions+=__T(" R");
                 Count++;
             }
-            Channels_Positions2+=_T('/')+Ztring::ToZtring(Count);
+            Channels_Positions2+=__T('/')+Ztring::ToZtring(Count);
         }
         else
-            Channels_Positions2+=_T("/0");
+            Channels_Positions2+=__T("/0");
         if (channel_mask&0x0008)
         {
             if (!Channels_Positions.empty())
-                Channels_Positions+=_T(", ");
-            Channels_Positions+=_T("LFE");
-            Channels_Positions2+=_T(".1");
+                Channels_Positions+=__T(", ");
+            Channels_Positions+=__T("LFE");
+            Channels_Positions2+=__T(".1");
         }
         Fill(Stream_Audio, 0, Audio_ChannelPositions, Channels_Positions);
         Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, Channels_Positions2);
@@ -670,57 +670,57 @@ void File_Wvpk::id_25()
 
     //Filling
     if (flags&0x000001)
-        Encoded_Library_Settings+=_T(" -?");
+        Encoded_Library_Settings+=__T(" -?");
     if (flags&0x000002)
-        Encoded_Library_Settings+=_T(" -f");
+        Encoded_Library_Settings+=__T(" -f");
     if (flags&0x000004)
-        Encoded_Library_Settings+=_T(" -?");
+        Encoded_Library_Settings+=__T(" -?");
     if (flags&0x000008)
-        Encoded_Library_Settings+=_T(" -h");
+        Encoded_Library_Settings+=__T(" -h");
     if (flags&0x000010)
-        Encoded_Library_Settings+=_T(" -hh");
+        Encoded_Library_Settings+=__T(" -hh");
     if (flags&0x000020)
-        Encoded_Library_Settings+=_T(" -?(bitrate is kbps, not bits/sample)");
+        Encoded_Library_Settings+=__T(" -?(bitrate is kbps, not bits/sample)");
     if (flags&0x000040)
-        Encoded_Library_Settings+=_T(" -?(automatic noise shaping)");
+        Encoded_Library_Settings+=__T(" -?(automatic noise shaping)");
     if (flags&0x000080)
-        Encoded_Library_Settings+=_T(" -sn");
+        Encoded_Library_Settings+=__T(" -sn");
     if (flags&0x000100)
-        Encoded_Library_Settings+=_T(" -jn");
+        Encoded_Library_Settings+=__T(" -jn");
     if (flags&0x000200)
-        Encoded_Library_Settings+=_T(" -use-dns");
+        Encoded_Library_Settings+=__T(" -use-dns");
     if (flags&0x000400)
-        Encoded_Library_Settings+=_T(" -e");
+        Encoded_Library_Settings+=__T(" -e");
     if (flags&0x000800)
-        Encoded_Library_Settings+=_T(" -c");
+        Encoded_Library_Settings+=__T(" -c");
     if (flags&0x001000)
-        Encoded_Library_Settings+=_T(" -cc");
+        Encoded_Library_Settings+=__T(" -cc");
     if (flags&0x002000)
-        Encoded_Library_Settings+=_T(" -?");
+        Encoded_Library_Settings+=__T(" -?");
     if (flags&0x004000)
-        Encoded_Library_Settings+=_T(" -?");
+        Encoded_Library_Settings+=__T(" -?");
     if (flags&0x008000)
-        Encoded_Library_Settings+=_T(" -n");
+        Encoded_Library_Settings+=__T(" -n");
     if (flags&0x010000)
-        Encoded_Library_Settings+=_T(" -?(lossy mode)");
+        Encoded_Library_Settings+=__T(" -?(lossy mode)");
     if (flags&0x020000)
     {
-        Encoded_Library_Settings+=_T(" -x");
+        Encoded_Library_Settings+=__T(" -x");
         if (extra)
             Encoded_Library_Settings+=Ztring::ToZtring(extra);
     }
     if (flags&0x04000)
-        Encoded_Library_Settings+=_T(" -?");
+        Encoded_Library_Settings+=__T(" -?");
     if (flags&0x080000)
-        Encoded_Library_Settings+=_T(" -m");
+        Encoded_Library_Settings+=__T(" -m");
     if (flags&0x100000)
-        Encoded_Library_Settings+=_T(" --merge-blocks");
+        Encoded_Library_Settings+=__T(" --merge-blocks");
     if (flags&0x200000)
-        Encoded_Library_Settings+=_T(" -?");
+        Encoded_Library_Settings+=__T(" -?");
     if (flags&0x400000)
-        Encoded_Library_Settings+=_T(" -?");
+        Encoded_Library_Settings+=__T(" -?");
     if (flags&0x800000)
-        Encoded_Library_Settings+=_T(" --optimize-mono");
+        Encoded_Library_Settings+=__T(" --optimize-mono");
     if (!Encoded_Library_Settings.empty())
         Encoded_Library_Settings.erase(Encoded_Library_Settings.begin());
 }

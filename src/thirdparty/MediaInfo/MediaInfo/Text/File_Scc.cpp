@@ -1,17 +1,17 @@
 // File_Scc - Info for SCC streams
-// Copyright (C) 2011-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -51,7 +51,7 @@ File_Scc::File_Scc()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("SCC");
+    ParserName=__T("SCC");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_Scc;
     #endif //MEDIAINFO_EVENTS
@@ -183,7 +183,7 @@ void File_Scc::Header_Parse()
 
     //Filling
     Header_Fill_Size(End-Buffer_Offset);
-    Header_Fill_Code(0, _T("Block"));
+    Header_Fill_Code(0, __T("Block"));
 }
 
 //---------------------------------------------------------------------------

@@ -1,4 +1,4 @@
- 
+
 #include "HTTPClientWrapper.h"
 
 
@@ -6,8 +6,8 @@
 //
 // Section      : Stdc: HTTPWrapperIsAscii
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : Same as stdc: isascii
+// Author Name  : Eitan Michaelson
+// Notes        : Same as stdc: isascii
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -20,8 +20,8 @@ int HTTPWrapperIsAscii(int c)
 //
 // Section      : Stdc: HTTPWrapperToUpper
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : Convert character to uppercase.
+// Author Name  : Eitan Michaelson
+// Notes        : Convert character to uppercase.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,8 +43,8 @@ int HTTPWrapperToUpper(int c)
 //
 // Section      : Stdc: HTTPWrapperToLower
 // Last updated : 13/06/2006
-// Author Name	 : Eitan Michaelson
-// Notes	       : Convert character to lowercase.
+// Author Name   : Eitan Michaelson
+// Notes           : Convert character to lowercase.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,8 +67,8 @@ int HTTPWrapperToLower(int c)
 //
 // Section      : Stdc: isalpha
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : returns nonzero if c is a particular representation of an alphabetic character
+// Author Name  : Eitan Michaelson
+// Notes        : returns nonzero if c is a particular representation of an alphabetic character
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,7 +77,7 @@ int HTTPWrapperIsAlpha(int c)
 
     if(HTTPWrapperIsAscii(c) > 0)
     {
-        if( (c >= 97 && c <= 122) || (c >= 65 && c <= 90)) 
+        if( (c >= 97 && c <= 122) || (c >= 65 && c <= 90))
         {
             return c;
         }
@@ -89,8 +89,8 @@ int HTTPWrapperIsAlpha(int c)
 //
 // Section      : Stdc: isalnum
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : returns nonzero if c is a particular representation of an alphanumeric character
+// Author Name  : Eitan Michaelson
+// Notes        : returns nonzero if c is a particular representation of an alphanumeric character
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -104,10 +104,10 @@ int HTTPWrapperIsAlNum(int c)
             return c;
         }
 
-        if( c >= 48 && c <= 57)  
+        if( c >= 48 && c <= 57)
         {
             return c;
-        } 
+        }
 
     }
     return 0;
@@ -118,8 +118,8 @@ int HTTPWrapperIsAlNum(int c)
 //
 // Section      : HTTPWrapper_itoa
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : same as stdc itoa() // hmm.. allmost the same
+// Author Name  : Eitan Michaelson
+// Notes        : same as stdc itoa() // hmm.. allmost the same
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -144,13 +144,13 @@ char* HTTPWrapperItoa(char *s,int a)
 //
 // Section      : HTTPWrapper_ShutDown
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : Handles parameter changes in the socket shutdown() function in AMT
+// Author Name  : Eitan Michaelson
+// Notes        : Handles parameter changes in the socket shutdown() function in AMT
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int HTTPWrapperShutDown (int s,int how) 
+int HTTPWrapperShutDown (int s,int how)
 {
     return shutdown(s,how);
 }
@@ -159,8 +159,8 @@ int HTTPWrapperShutDown (int s,int how)
 //
 // Section      : HTTPWrapper_GetSocketError
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : WSAGetLastError Wrapper (Win32 Specific)
+// Author Name  : Eitan Michaelson
+// Notes        : WSAGetLastError Wrapper (Win32 Specific)
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -174,8 +174,8 @@ int HTTPWrapperGetSocketError (int s)
 //
 // Section      : HTTPWrapper_GetHostByName
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : gethostbyname for Win32 (supports the AMT edition of the function)
+// Author Name  : Eitan Michaelson
+// Notes        : gethostbyname for Win32 (supports the AMT edition of the function)
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -188,13 +188,13 @@ unsigned long HTTPWrapperGetHostByName(char *name,unsigned long *address)
     char    Num[4];
     int     iHostType = 0; // 0 : numeric IP
 
-    // Check if the name is an IP or host 
+    // Check if the name is an IP or host
     iLen = strlen(name);
     for(iPos = 0; iPos <= iLen;iPos++)
     {
         c = name[iPos];
         if((c >= 48 && c <= 57)  || (c == '.') )
-        {   
+        {
             // c is numeric or dot
             if(c != '.')
             {
@@ -236,18 +236,18 @@ unsigned long HTTPWrapperGetHostByName(char *name,unsigned long *address)
     else
     {
         iHostType++;
-    }   
+    }
 
     if(iHostType > 0)
     {
 
-        HostEntry = gethostbyname(name); 
+        HostEntry = gethostbyname(name);
         if(HostEntry)
         {
             *(address) = *((u_long*)HostEntry->h_addr_list[0]);
 
             //*(address) = (unsigned long)HostEntry->h_addr_list[0];
-            return 1; // Error 
+            return 1; // Error
         }
         else
         {
@@ -269,8 +269,8 @@ unsigned long HTTPWrapperGetHostByName(char *name,unsigned long *address)
 //
 // Section      : HTTPWrapper_GetRandomeNumber
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : GetRandom number for Win32 & AMT
+// Author Name  : Eitan Michaelson
+// Notes        : GetRandom number for Win32 & AMT
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -290,8 +290,8 @@ int HTTPWrapperGetRandomeNumber()
 //
 // Section      : HTTPWrapper_GetRTC
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : Get uptime under Win32 & AMT
+// Author Name  : Eitan Michaelson
+// Notes        : Get uptime under Win32 & AMT
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -308,8 +308,8 @@ long HTTPWrapperGetUpTime()
 //
 // Section      : TSL Wrapper
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : HTTPWrapper_Sec_Connect
+// Author Name  : Eitan Michaelson
+// Notes        : HTTPWrapper_Sec_Connect
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

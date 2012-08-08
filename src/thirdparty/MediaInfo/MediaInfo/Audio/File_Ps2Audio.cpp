@@ -1,17 +1,17 @@
 // File_Ps2Audio - Info for PS2 Audio in MPEG files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -116,8 +116,8 @@ void File_Ps2Audio::SShd()
         Ztring FormatS;
         switch(Format)
         {
-            case 0x00000001 : FormatS=_T("PCM"); break;
-            case 0x00000010 : FormatS=_T("ADPCM"); break;
+            case 0x00000001 : FormatS=__T("PCM"); break;
+            case 0x00000010 : FormatS=__T("ADPCM"); break;
             default         : ;
         }
         Fill(Stream_Audio, 0, Audio_Format, FormatS);

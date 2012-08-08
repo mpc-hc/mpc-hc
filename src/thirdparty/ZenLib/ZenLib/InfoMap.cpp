@@ -1,5 +1,5 @@
 // ZenLib::InfoMap - Helper for InfoMap
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -56,14 +56,14 @@ InfoMap::InfoMap()
 : std::multimap<ZenLib::Ztring, ZenLib::ZtringList> ()
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
+    Separator[1]=__T(";");
 }
 
 InfoMap::InfoMap(const Ztring &Source)
 : std::multimap<ZenLib::Ztring, ZenLib::ZtringList> ()
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
+    Separator[1]=__T(";");
     Write(Source);
 }
 
@@ -71,7 +71,7 @@ InfoMap::InfoMap(const Char *Source)
 : std::multimap<ZenLib::Ztring, ZenLib::ZtringList> ()
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
+    Separator[1]=__T(";");
     Write(Source);
 }
 
@@ -80,7 +80,7 @@ InfoMap::InfoMap (const char* S)
 : std::multimap<ZenLib::Ztring, ZenLib::ZtringList> ()
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
+    Separator[1]=__T(";");
     Write(Ztring(S));
 }
 #endif
@@ -142,8 +142,8 @@ void InfoMap::Write(const Ztring &NewInfoMap)
 
     while (Pos2_EOL!=(size_t)-1)
     {
-        Pos2_EOL=NewInfoMap.find(_T('\n'), Pos1);
-        Pos2_Separator=NewInfoMap.find(_T(';'), Pos1);
+        Pos2_EOL=NewInfoMap.find(__T('\n'), Pos1);
+        Pos2_Separator=NewInfoMap.find(__T(';'), Pos1);
         if (Pos2_Separator<Pos2_EOL)
         {
             ZtringList List; List.Write(NewInfoMap.substr(Pos1, Pos2_EOL-Pos1));

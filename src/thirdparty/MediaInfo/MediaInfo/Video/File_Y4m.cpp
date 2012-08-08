@@ -1,17 +1,17 @@
 // File_Y4m - Info for YUV4MPEG2 files
-// Copyright (C) 2011-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -62,7 +62,7 @@ File_Y4m::File_Y4m()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("YUV4MPEG2");
+    ParserName=__T("YUV4MPEG2");
     IsRawStream=true;
     Frame_Count_NotParsedIncluded=0;
 
@@ -120,7 +120,7 @@ bool File_Y4m::FileHeader_Begin()
     }
 
     for (; HeaderEnd<Buffer_Size; HeaderEnd++)
-    {    
+    {
         if (Buffer[HeaderEnd]==0x0A)
         {
             Accept();
@@ -162,18 +162,18 @@ void File_Y4m::FileHeader_Parse()
                             }
                             break;
                 case 'C' :  //Color space
-                            if (List[Pos]==_T("C420jpeg") || List[Pos]==_T("C420paldv") || List[Pos]==_T("C420"))
+                            if (List[Pos]==__T("C420jpeg") || List[Pos]==__T("C420paldv") || List[Pos]==__T("C420"))
                             {
                                 Fill(Stream_Video, 0, Video_ChromaSubsampling, "4:2:0");
                                 Multiplier=3;
                                 Divisor=2;
                             }
-                            if (List[Pos]==_T("C422"))
+                            if (List[Pos]==__T("C422"))
                             {
                                 Fill(Stream_Video, 0, Video_ChromaSubsampling, "4:2:2");
                                 Multiplier=2;
                             }
-                            if (List[Pos]==_T("C444"))
+                            if (List[Pos]==__T("C444"))
                             {
                                 Fill(Stream_Video, 0, Video_ChromaSubsampling, "4:4:4");
                                 Multiplier=3;

@@ -1,17 +1,17 @@
 // Config - Config file for MediaInfo
-// Copyright (C) 2006-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -38,22 +38,22 @@
 //---------------------------------------------------------------------------
 // Legacy
 #if defined(MEDIAINFO_MINIMIZESIZE)
-    #if !defined (MEDIAINFO_TRACE_NO) && !defined (MEDIAINFO_TRACE_YES) 
+    #if !defined (MEDIAINFO_TRACE_NO) && !defined (MEDIAINFO_TRACE_YES)
         #define MEDIAINFO_TRACE_NO
     #endif
-    //#if !defined (MEDIAINFO_FILTER_NO) && !defined (MEDIAINFO_FILTER_YES) 
+    //#if !defined (MEDIAINFO_FILTER_NO) && !defined (MEDIAINFO_FILTER_YES)
     //    #define MEDIAINFO_FILTER_NO
     //#endif
-    //#if !defined (MEDIAINFO_DUPLICATE_NO) && !defined (MEDIAINFO_DUPLICATE_YES) 
+    //#if !defined (MEDIAINFO_DUPLICATE_NO) && !defined (MEDIAINFO_DUPLICATE_YES)
     //    #define MEDIAINFO_DUPLICATE_NO
     //#endif
-    #if !defined (MEDIAINFO_MACROBLOCKS_NO) && !defined (MEDIAINFO_MACROBLOCKS_YES) 
+    #if !defined (MEDIAINFO_MACROBLOCKS_NO) && !defined (MEDIAINFO_MACROBLOCKS_YES)
         #define MEDIAINFO_MACROBLOCKS_NO
     #endif
-    #if !defined (MEDIAINFO_NEXTPACKET_NO) && !defined (MEDIAINFO_NEXTPACKET_YES) 
+    #if !defined (MEDIAINFO_NEXTPACKET_NO) && !defined (MEDIAINFO_NEXTPACKET_YES)
         #define MEDIAINFO_NEXTPACKET_NO
     #endif
-    #if !defined (MEDIAINFO_SEEK_NO) && !defined (MEDIAINFO_SEEK_YES) 
+    #if !defined (MEDIAINFO_SEEK_NO) && !defined (MEDIAINFO_SEEK_YES)
         #define MEDIAINFO_SEEK_NO
     #endif
     #if !defined (MEDIAINFO_EVENTS_NO) && !defined (MEDIAINFO_EVENTS_YES)
@@ -76,22 +76,22 @@
 //---------------------------------------------------------------------------
 // Special configurations
 #if defined(MEDIAINFO_MINIMAL_YES)
-    #if !defined (MEDIAINFO_TRACE_NO) && !defined (MEDIAINFO_TRACE_YES) 
+    #if !defined (MEDIAINFO_TRACE_NO) && !defined (MEDIAINFO_TRACE_YES)
         #define MEDIAINFO_TRACE_NO
     #endif
-    #if !defined (MEDIAINFO_FILTER_NO) && !defined (MEDIAINFO_FILTER_YES) 
+    #if !defined (MEDIAINFO_FILTER_NO) && !defined (MEDIAINFO_FILTER_YES)
         #define MEDIAINFO_FILTER_NO
     #endif
-    #if !defined (MEDIAINFO_DUPLICATE_NO) && !defined (MEDIAINFO_DUPLICATE_YES) 
+    #if !defined (MEDIAINFO_DUPLICATE_NO) && !defined (MEDIAINFO_DUPLICATE_YES)
         #define MEDIAINFO_DUPLICATE_NO
     #endif
-    #if !defined (MEDIAINFO_MACROBLOCKS_NO) && !defined (MEDIAINFO_MACROBLOCKS_YES) 
+    #if !defined (MEDIAINFO_MACROBLOCKS_NO) && !defined (MEDIAINFO_MACROBLOCKS_YES)
         #define MEDIAINFO_MACROBLOCKS_NO
     #endif
-    #if !defined (MEDIAINFO_NEXTPACKET_NO) && !defined (MEDIAINFO_NEXTPACKET_YES) 
+    #if !defined (MEDIAINFO_NEXTPACKET_NO) && !defined (MEDIAINFO_NEXTPACKET_YES)
         #define MEDIAINFO_NEXTPACKET_NO
     #endif
-    #if !defined (MEDIAINFO_SEEK_NO) && !defined (MEDIAINFO_SEEK_YES) 
+    #if !defined (MEDIAINFO_SEEK_NO) && !defined (MEDIAINFO_SEEK_YES)
         #define MEDIAINFO_SEEK_NO
     #endif
     #if !defined (MEDIAINFO_EVENTS_NO) && !defined (MEDIAINFO_EVENTS_YES)
@@ -206,7 +206,7 @@
     #endif
 #endif
 #if MEDIAINFO_DEMUX && !MEDIAINFO_EVENTS
-    pragma error MEDIAINFO_DEMUX can be set to 1 only if MEDIAINFO_EVENTS is set to 1 
+    pragma error MEDIAINFO_DEMUX can be set to 1 only if MEDIAINFO_EVENTS is set to 1
 #endif
 #if !defined(MEDIAINFO_IBI)
     #if defined(MEDIAINFO_IBI_NO) && defined(MEDIAINFO_IBI_YES)
@@ -413,6 +413,9 @@
 #if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_MPEGV_NO) && !defined(MEDIAINFO_MPEGV_YES)
     #define MEDIAINFO_MPEGV_YES
 #endif
+#if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_PRORES_NO) && !defined(MEDIAINFO_PRORES_YES)
+    #define MEDIAINFO_PRORES_YES
+#endif
 #if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_VC1_NO) && !defined(MEDIAINFO_VC1_YES)
     #define MEDIAINFO_VC1_YES
 #endif
@@ -493,6 +496,9 @@
 #endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_MPEGA_NO) && !defined(MEDIAINFO_MPEGA_YES)
     #define MEDIAINFO_MPEGA_YES
+#endif
+#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_OPUS_NO) && !defined(MEDIAINFO_OPUS_YES)
+    #define MEDIAINFO_OPUS_YES
 #endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_PCM_NO) && !defined(MEDIAINFO_PCM_YES)
     #define MEDIAINFO_PCM_YES
@@ -590,8 +596,14 @@
 #if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_JPEG_NO) && !defined(MEDIAINFO_JPEG_YES)
     #define MEDIAINFO_JPEG_YES
 #endif
+#if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_PCX_NO) && !defined(MEDIAINFO_PCX_YES)
+    #define MEDIAINFO_PCX_YES
+#endif
 #if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_PNG_NO) && !defined(MEDIAINFO_PNG_YES)
     #define MEDIAINFO_PNG_YES
+#endif
+#if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_PSD_NO) && !defined(MEDIAINFO_PSD_YES)
+    #define MEDIAINFO_PSD_YES
 #endif
 #if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_RLE_NO) && !defined(MEDIAINFO_RLE_YES)
     #define MEDIAINFO_RLE_YES

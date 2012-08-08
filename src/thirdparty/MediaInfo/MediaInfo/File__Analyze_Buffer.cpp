@@ -1,17 +1,17 @@
 // File__Analyze - Base for analyze files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -169,10 +169,10 @@ void File__Analyze::Get_B3(int32u &Info, const char* Name)
     {
         Ztring Pos1; Pos1.From_Number(Info, 16);
         Ztring Temp;
-        Temp.resize(6-Pos1.size(), _T('0'));
+        Temp.resize(6-Pos1.size(), __T('0'));
         Temp.append(Pos1);
         Temp.MakeUpperCase();
-        Param(Name, Ztring::ToZtring(Info)+_T(" (0x")+Temp+_T(")"));
+        Param(Name, Ztring::ToZtring(Info)+__T(" (0x")+Temp+__T(")"));
     }
     Element_Offset+=3;
 }
@@ -186,10 +186,10 @@ void File__Analyze::Get_B4(int32u &Info, const char* Name)
     {
         Ztring Pos1; Pos1.From_Number(Info, 16);
         Ztring Temp;
-        Temp.resize(8-Pos1.size(), _T('0'));
+        Temp.resize(8-Pos1.size(), __T('0'));
         Temp.append(Pos1);
         Temp.MakeUpperCase();
-        Param(Name, Ztring::ToZtring(Info)+_T(" (0x")+Temp+_T(")"));
+        Param(Name, Ztring::ToZtring(Info)+__T(" (0x")+Temp+__T(")"));
     }
     Element_Offset+=4;
 }
@@ -372,10 +372,10 @@ void File__Analyze::Skip_B3(const char* Name)
         int32u Info=BigEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset);
         Ztring Pos1; Pos1.From_Number(Info, 16);
         Ztring Temp;
-        Temp.resize(6-Pos1.size(), _T('0'));
+        Temp.resize(6-Pos1.size(), __T('0'));
         Temp.append(Pos1);
         Temp.MakeUpperCase();
-        Param(Name, Ztring::ToZtring(Info)+_T(" (0x")+Temp+_T(")"));
+        Param(Name, Ztring::ToZtring(Info)+__T(" (0x")+Temp+__T(")"));
     }
     Element_Offset+=3;
 }
@@ -389,10 +389,10 @@ void File__Analyze::Skip_B4(const char* Name)
         int32u Info=BigEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset);
         Ztring Pos1; Pos1.From_Number(Info, 16);
         Ztring Temp;
-        Temp.resize(8-Pos1.size(), _T('0'));
+        Temp.resize(8-Pos1.size(), __T('0'));
         Temp.append(Pos1);
         Temp.MakeUpperCase();
-        Param(Name, Ztring::ToZtring(Info)+_T(" (0x")+Temp+_T(")"));
+        Param(Name, Ztring::ToZtring(Info)+__T(" (0x")+Temp+__T(")"));
     }
     Element_Offset+=4;
 }
@@ -644,10 +644,10 @@ void File__Analyze::Skip_L3(const char* Name)
         int32u Info=LittleEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset);
         Ztring Pos1; Pos1.From_Number(Info, 16);
         Ztring Temp;
-        Temp.resize(6-Pos1.size(), _T('0'));
+        Temp.resize(6-Pos1.size(), __T('0'));
         Temp.append(Pos1);
         Temp.MakeUpperCase();
-        Param(Name, Ztring::ToZtring(Info)+_T(" (0x")+Temp+_T(")"));
+        Param(Name, Ztring::ToZtring(Info)+__T(" (0x")+Temp+__T(")"));
     }
     Element_Offset+=3;
 }
@@ -661,10 +661,10 @@ void File__Analyze::Skip_L4(const char* Name)
         int32u Info=LittleEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset);
         Ztring Pos1; Pos1.From_Number(Info, 16);
         Ztring Temp;
-        Temp.resize(8-Pos1.size(), _T('0'));
+        Temp.resize(8-Pos1.size(), __T('0'));
         Temp.append(Pos1);
         Temp.MakeUpperCase();
-        Param(Name, Ztring::ToZtring(Info)+_T(" (0x")+Temp+_T(")"));
+        Param(Name, Ztring::ToZtring(Info)+__T(" (0x")+Temp+__T(")"));
     }
     Element_Offset+=4;
 }
@@ -895,10 +895,10 @@ void File__Analyze::Skip_D3(const char* Name)
         int32u Info=LittleEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset);
         Ztring Pos1; Pos1.From_Number(Info, 16);
         Ztring Temp;
-        Temp.resize(6-Pos1.size(), _T('0'));
+        Temp.resize(6-Pos1.size(), __T('0'));
         Temp.append(Pos1);
         Temp.MakeUpperCase();
-        Param(Name, Ztring::ToZtring(Info)+_T(" (0x")+Temp+_T(")"));
+        Param(Name, Ztring::ToZtring(Info)+__T(" (0x")+Temp+__T(")"));
     }
     Element_Offset+=6;
 }
@@ -912,10 +912,10 @@ void File__Analyze::Skip_D4(const char* Name)
         int32u Info=LittleEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset);
         Ztring Pos1; Pos1.From_Number(Info, 16);
         Ztring Temp;
-        Temp.resize(8-Pos1.size(), _T('0'));
+        Temp.resize(8-Pos1.size(), __T('0'));
         Temp.append(Pos1);
         Temp.MakeUpperCase();
-        Param(Name, Ztring::ToZtring(Info)+_T(" (0x")+Temp+_T(")"));
+        Param(Name, Ztring::ToZtring(Info)+__T(" (0x")+Temp+__T(")"));
     }
     Element_Offset+=8;
 }
@@ -1436,7 +1436,7 @@ void File__Analyze::Get_VL(const vlc Vlc[], size_t &Info, const char* Name)
     {
         switch (Vlc[Info].bit_increment)
         {
-            case 255 : 
+            case 255 :
                         Trusted_IsNot("Variable Length Code error");
                         return;
             default  : ;
@@ -1451,14 +1451,14 @@ void File__Analyze::Get_VL(const vlc Vlc[], size_t &Info, const char* Name)
                         CountOfBits++;
             case   0 :  ;
         }
-        
+
         if (Value==Vlc[Info].value)
         {
             if (Trace_Activated)
             {
                 Ztring ToDisplay=Ztring::ToZtring(Value, 2);
-                ToDisplay.insert(0, CountOfBits-ToDisplay.size(), _T('0'));
-                ToDisplay+=_T(" (")+Ztring::ToZtring(CountOfBits)+_T(" bits)");
+                ToDisplay.insert(0, CountOfBits-ToDisplay.size(), __T('0'));
+                ToDisplay+=__T(" (")+Ztring::ToZtring(CountOfBits)+__T(" bits)");
                 Param(Name, ToDisplay);
             }
             return;
@@ -1495,7 +1495,7 @@ void File__Analyze::Get_VL_Prepare(vlc_fast &Vlc)
             Vlc.BitsToSkip[Pos2]=(int8u)-1;
         }
 }
-    
+
 //---------------------------------------------------------------------------
 void File__Analyze::Get_VL(vlc_fast &Vlc, size_t &Info, const char* Name)
 {
@@ -1517,9 +1517,9 @@ void File__Analyze::Get_VL(vlc_fast &Vlc, size_t &Info, const char* Name)
     if (Trace_Activated)
     {
         Ztring ToDisplay=Ztring::ToZtring(Value, 2);
-        ToDisplay.insert(0, Vlc.Size-ToDisplay.size(), _T('0'));
+        ToDisplay.insert(0, Vlc.Size-ToDisplay.size(), __T('0'));
         ToDisplay.resize(Vlc.BitsToSkip[Value]);
-        ToDisplay+=_T(" (")+Ztring::ToZtring(Vlc.BitsToSkip[Value])+_T(" bits)");
+        ToDisplay+=__T(" (")+Ztring::ToZtring(Vlc.BitsToSkip[Value])+__T(" bits)");
         Param(Name, ToDisplay);
     }
 
@@ -1825,7 +1825,10 @@ void File__Analyze::Skip_PA(const char* Name)
 //---------------------------------------------------------------------------
 void File__Analyze::Skip_XX(int64u Bytes, const char* Name)
 {
-    INTEGRITY_SIZE_ATLEAST(Bytes);
+    if (Element_Offset+Bytes!=Element_TotalSize_Get()) //Exception for seek to end of the element
+    {
+        INTEGRITY_SIZE_ATLEAST(Bytes);
+    }
     if (Trace_Activated && Bytes) Param(Name, Ztring("(")+Ztring::ToZtring(Bytes)+Ztring(" bytes)"));
     Element_Offset+=Bytes;
 }
@@ -1901,7 +1904,7 @@ void File__Analyze::Get_S1(size_t Bits, int8u &Info, const char* Name)
     if (Trace_Activated)
     {
         Param(Name, Info);
-        Param_Info(_T("(")+Ztring::ToZtring(Bits)+_T(" bits)"));
+        Param_Info(__T("(")+Ztring::ToZtring(Bits)+__T(" bits)"));
     }
 }
 
@@ -2066,7 +2069,7 @@ void File__Analyze::Skip_S1(size_t Bits, const char* Name)
     if (Trace_Activated)
     {
         Param(Name, BS->Get1(Bits));
-        Param_Info(_T("(")+Ztring::ToZtring(Bits)+_T(" bits)"));
+        Param_Info(__T("(")+Ztring::ToZtring(Bits)+__T(" bits)"));
     }
     else
         BS->Skip(Bits);
@@ -2218,7 +2221,7 @@ void File__Analyze::Get_T1(size_t Bits, int8u &Info, const char* Name)
     if (Trace_Activated)
     {
         Param(Name, Info);
-        Param_Info(_T("(")+Ztring::ToZtring(Bits)+_T(" bits)"));
+        Param_Info(__T("(")+Ztring::ToZtring(Bits)+__T(" bits)"));
     }
 }
 
@@ -2383,7 +2386,7 @@ void File__Analyze::Skip_T1(size_t Bits, const char* Name)
     if (Trace_Activated)
     {
         Param(Name, BT->Get1(Bits));
-        Param_Info(_T("(")+Ztring::ToZtring(Bits)+_T(" bits)"));
+        Param_Info(__T("(")+Ztring::ToZtring(Bits)+__T(" bits)"));
     }
     else
         BT->Skip1(Bits);

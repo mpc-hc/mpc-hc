@@ -1,17 +1,17 @@
 // MediaInfo_Config - Configuration class
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -191,8 +191,8 @@ public :
     ZtringListList  SubFile_Config_Get ();
 
     void            CustomMapping_Set (const Ztring &Value);
-    Ztring          CustomMapping_Get (const Ztring &Format, const Ztring &Field); 
-    bool            CustomMapping_IsPresent (const Ztring &Format, const Ztring &Field); 
+    Ztring          CustomMapping_Get (const Ztring &Format, const Ztring &Field);
+    bool            CustomMapping_IsPresent (const Ztring &Format, const Ztring &Field);
 
           void      ErrorLog_Callback_Set(const Ztring &Value);
           void      ErrorLog(const Ztring &Value);

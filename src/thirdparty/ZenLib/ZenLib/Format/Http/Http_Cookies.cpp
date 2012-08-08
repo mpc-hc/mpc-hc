@@ -1,5 +1,5 @@
 // ZenLib::Format::Http::Cookies - Cookies handling
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -65,11 +65,11 @@ size_t Cookies::Set(const std::string &Name, const std::string &Value, std::time
     //Name must not be empty
     if (Name.empty())
         return 1;
-    
+
     //Default values handling
     if (Value.empty())
         Expires=time(NULL)-365*24*60*60-1; //minus 1 year
-    
+
     //Default value
     if (Expires==(time_t)-1)
         Expires=time(NULL)+1*365*24*60*60; //+1 year
@@ -100,11 +100,11 @@ void Cookies::Create_Lines(std::ostream& Out)
         {
             char Temp[200];
             if (strftime(Temp, 200, "%a, %d-%b-%Y %H:%M:%S GMT", gmtime(&Cookie->second.Expires)))
-                Out << "; expires=" << Temp; 
+                Out << "; expires=" << Temp;
         }
         if (!Cookie->second.Path.empty())
         {
-            Out << "; path=" << Cookie->second.Path; 
+            Out << "; path=" << Cookie->second.Path;
         }
         Out << "\r\n";
     }

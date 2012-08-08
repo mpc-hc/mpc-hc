@@ -1,17 +1,17 @@
 // File__Duplicate__Writer - Duplication of some formats
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -80,9 +80,9 @@ void File__Duplicate__Writer::Configure (const Ztring &Target)
     //Form: "memory://pointer:size"  <--Memory block is specified by user
     //WARNING: pointer must be in ***DECIMAL*** format.
     //Example: "memory://123456789:1316"
-    if (Target.find(_T("memory://"))==0 && Target.find(_T(":"), 9)!=std::string::npos)
+    if (Target.find(__T("memory://"))==0 && Target.find(__T(":"), 9)!=std::string::npos)
     {
-        size_t SemiColumn_Pos=Target.find(_T(":"), 9);
+        size_t SemiColumn_Pos=Target.find(__T(":"), 9);
         Ztring Address=Target.substr(9, SemiColumn_Pos-9);
         Ztring Size=Target.substr(SemiColumn_Pos+1);
         Method=method_buffer;
@@ -91,7 +91,7 @@ void File__Duplicate__Writer::Configure (const Ztring &Target)
     }
 
     //Form: "file://filename" or     <--the exported filename is specified by user
-    else if (Target.find(_T("file://"))==0)
+    else if (Target.find(__T("file://"))==0)
     {
         Method=method_filename;
         File_Name=Target.substr(7, std::string::npos);

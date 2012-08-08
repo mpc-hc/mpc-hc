@@ -1,17 +1,17 @@
 // File_DtvccTransport - Info for DTVCC Transport strams
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -77,7 +77,7 @@ File_DtvccTransport::File_DtvccTransport()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("DTVCC Transport");
+    ParserName=__T("DTVCC Transport");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_DtvccTransport;
         StreamIDs_Width[0]=1;
@@ -127,7 +127,7 @@ void File_DtvccTransport::Streams_Update_PerStream(size_t Pos)
         {
             Stream_Prepare(Stream_Text);
             Merge(*Streams[Pos]->Parser, Stream_Text, Pos2, StreamPos_Last);
-            Fill(Stream_Text, StreamPos_Last, "MuxingMode", Format==Format_DVD?_T("DVD-Video"):_T("DTVCC Transport"));
+            Fill(Stream_Text, StreamPos_Last, "MuxingMode", Format==Format_DVD?__T("DVD-Video"):__T("DTVCC Transport"));
             Fill(Stream_Text, StreamPos_Last, Text_ID, Streams[Pos]->Parser->Retrieve(Stream_Text, Pos2, Text_ID), true);
         }
 }

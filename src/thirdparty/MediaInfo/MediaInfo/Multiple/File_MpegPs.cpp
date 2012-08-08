@@ -1,17 +1,17 @@
 // File_MpegPs - Info for MPEG files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -206,7 +206,7 @@ File_MpegPs::File_MpegPs()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("MpegPs");
+    ParserName=__T("MpegPs");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_MpegPs;
         StreamIDs_Width[0]=2;
@@ -325,7 +325,7 @@ void File_MpegPs::Streams_Fill()
             if (Time)
             {
                 float64 FrameRate_Container=1000/Time;
-                if (Retrieve(Stream_Video, 0, Video_ScanType)==_T("Interlaced"))
+                if (Retrieve(Stream_Video, 0, Video_ScanType)==__T("Interlaced"))
                     FrameRate_Container/=2; //PTS is per field
                 float64 FrameRate_Original=Retrieve(Stream_Video, 0, Video_FrameRate).To_float64();
                 if (!(FrameRate_Original>=FrameRate_Container*0.9 && FrameRate_Original<=FrameRate_Container*1.1)
@@ -340,7 +340,7 @@ void File_MpegPs::Streams_Fill()
         }
     }
 
-    if (Count_Get(Stream_Video)==1 && Retrieve(Stream_Video, 0, Video_Format_Version)==_T("Version 1"))
+    if (Count_Get(Stream_Video)==1 && Retrieve(Stream_Video, 0, Video_Format_Version)==__T("Version 1"))
         Fill(Stream_General, 0, General_InternetMediaType, "video/mpeg", Unlimited, true, true);
 }
 
@@ -421,31 +421,31 @@ void File_MpegPs::Streams_Fill_PerStream(size_t StreamID, ps_stream &Temp, kindo
             if (KindOfStream==KindOfStream_Main)
             {
                 Fill(StreamKind_Last, StreamPos, General_ID, StreamID);
-                Ztring ID_String; ID_String.From_Number(StreamID); ID_String+=_T(" (0x"); ID_String+=Ztring::ToZtring(StreamID, 16); ID_String+=_T(")");
+                Ztring ID_String; ID_String.From_Number(StreamID); ID_String+=__T(" (0x"); ID_String+=Ztring::ToZtring(StreamID, 16); ID_String+=__T(")");
                 Fill(StreamKind_Last, StreamPos, General_ID_String, ID_String, true); //TODO: merge with Decimal_Hexa in file_MpegTs
             }
             else if (KindOfStream==KindOfStream_Private)
             {
-                Ztring ID=_T("189");
+                Ztring ID=__T("189");
                 if (StreamID)
-                    ID+=_T("-")+Ztring::ToZtring(StreamID);
+                    ID+=__T("-")+Ztring::ToZtring(StreamID);
                 Fill(StreamKind_Last, StreamPos, General_ID, ID, true);
-                Ztring ID_String=_T("189 (0xBD)");
+                Ztring ID_String=__T("189 (0xBD)");
                 if (StreamID)
-                    ID_String+=_T("-")+Ztring::ToZtring(StreamID)+_T(" (0x")+Ztring::ToZtring(StreamID, 16)+_T(")");
+                    ID_String+=__T("-")+Ztring::ToZtring(StreamID)+__T(" (0x")+Ztring::ToZtring(StreamID, 16)+__T(")");
                 Fill(StreamKind_Last, StreamPos, General_ID_String, ID_String, true); //TODO: merge with Decimal_Hexa in file_MpegTs
                 if (StreamID)
                     Fill(StreamKind_Last, StreamPos, "MuxingMode", "DVD-Video", Unlimited, true, true);
             }
             else if (KindOfStream==KindOfStream_Extension)
             {
-                Ztring ID=_T("253");
+                Ztring ID=__T("253");
                 if (StreamID)
-                    ID+=_T("-")+Ztring::ToZtring(StreamID);
+                    ID+=__T("-")+Ztring::ToZtring(StreamID);
                 Fill(StreamKind_Last, StreamPos, General_ID, ID, true);
-                Ztring ID_String=_T("253 (0xFD)");
+                Ztring ID_String=__T("253 (0xFD)");
                 if (StreamID)
-                    ID_String+=_T("-")+Ztring::ToZtring(StreamID)+_T(" (0x")+Ztring::ToZtring(StreamID, 16)+_T(")");
+                    ID_String+=__T("-")+Ztring::ToZtring(StreamID)+__T(" (0x")+Ztring::ToZtring(StreamID, 16)+__T(")");
                 Fill(StreamKind_Last, StreamPos, General_ID_String, ID_String, true); //TODO: merge with Decimal_Hexa in file_MpegTs
             }
         }
@@ -598,7 +598,7 @@ void File_MpegPs::Streams_Finish_PerStream(size_t StreamID, ps_stream &Temp, kin
             size_t Text_Count=Temp.Parsers[0]->Count_Get(Stream_Text);
             for (size_t Parser_Pos=0; Parser_Pos<Text_Count; Parser_Pos++)
             {
-                Ztring ID=Retrieve(Stream_Video, Temp.StreamPos, Video_ID)+_T("-")+Temp.Parsers[0]->Retrieve(Stream_Text, Parser_Pos, Text_ID);
+                Ztring ID=Retrieve(Stream_Video, Temp.StreamPos, Video_ID)+__T("-")+Temp.Parsers[0]->Retrieve(Stream_Text, Parser_Pos, Text_ID);
                 StreamPos_Last=(size_t)-1;
                 for (size_t Pos=0; Pos<Count_Get(Stream_Text); Pos++)
                     if (Retrieve(Stream_Text, Pos, Text_ID)==ID && Retrieve(Stream_Video, Temp.StreamPos, "MuxingMode")==Temp.Parsers[0]->Retrieve(Stream_Text, Parser_Pos, "MuxingMode"))
@@ -611,9 +611,9 @@ void File_MpegPs::Streams_Finish_PerStream(size_t StreamID, ps_stream &Temp, kin
                 Merge(*Temp.Parsers[0], Stream_Text, Parser_Pos, StreamPos_Last);
 
                 if (!IsSub)
-                    Fill(Stream_Text, StreamPos_Last, "MuxingMode_MoreInfo", _T("Muxed in Video #")+Ztring().From_Number(Temp.StreamPos+1));
+                    Fill(Stream_Text, StreamPos_Last, "MuxingMode_MoreInfo", __T("Muxed in Video #")+Ztring().From_Number(Temp.StreamPos+1));
                 Fill(Stream_Text, StreamPos_Last, Text_ID, ID, true);
-                Fill(Stream_Text, StreamPos_Last, Text_ID_String, Retrieve(Stream_Video, Temp.StreamPos, Video_ID_String)+_T("-")+Temp.Parsers[0]->Retrieve(Stream_Text, Parser_Pos, Text_ID), true);
+                Fill(Stream_Text, StreamPos_Last, Text_ID_String, Retrieve(Stream_Video, Temp.StreamPos, Video_ID_String)+__T("-")+Temp.Parsers[0]->Retrieve(Stream_Text, Parser_Pos, Text_ID), true);
                 Fill(Stream_Text, StreamPos_Last, Text_Delay, Retrieve(Stream_Video, Temp.StreamPos, Video_Delay), true);
             }
 
@@ -919,14 +919,14 @@ size_t File_MpegPs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
         else
         {
             MediaInfo_Internal MI;
-            MI.Option(_T("File_KeepInfo"), _T("1"));
-            Ztring ParseSpeed_Save=MI.Option(_T("ParseSpeed_Get"), _T(""));
-            Ztring Demux_Save=MI.Option(_T("Demux_Get"), _T(""));
-            MI.Option(_T("ParseSpeed"), _T("0"));
-            MI.Option(_T("Demux"), Ztring());
+            MI.Option(__T("File_KeepInfo"), __T("1"));
+            Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
+            Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
+            MI.Option(__T("ParseSpeed"), __T("0"));
+            MI.Option(__T("Demux"), Ztring());
             size_t MiOpenResult=MI.Open(File_Name);
-            MI.Option(_T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-            MI.Option(_T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+            MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+            MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
             if (!MiOpenResult)
                 return 0;
             for (ibi::streams::iterator IbiStream_Temp=((File_MpegPs*)MI.Info)->Ibi.Streams.begin(); IbiStream_Temp!=((File_MpegPs*)MI.Info)->Ibi.Streams.end(); IbiStream_Temp++)
@@ -2335,7 +2335,7 @@ void File_MpegPs::system_header_start()
         Mark_1();
         Mark_1();
         Get_SB (    STD_buffer_bound_scale,                     "STD_buffer_bound_scale");
-        Get_S2 (13, STD_buffer_size_bound,                      "STD_buffer_size_bound"); Param_Info1(Ztring::ToZtring(STD_buffer_size_bound*(STD_buffer_bound_scale?1024:128)) + _T(" bytes"));
+        Get_S2 (13, STD_buffer_size_bound,                      "STD_buffer_size_bound"); Param_Info1(Ztring::ToZtring(STD_buffer_size_bound*(STD_buffer_bound_scale?1024:128)) + __T(" bytes"));
         Element_End0();
 
         FILLING_BEGIN();
@@ -2728,7 +2728,7 @@ File__Analyze* File_MpegPs::private_stream_1_ChooseParser()
             case 0xA2 : return ChooseParser_DTS(); //DTS
             case 0x90 : return ChooseParser_PGS(); //PGS from Bluray
             case 0xEA : return ChooseParser_NULL(); //VC1()
-            default   : 
+            default   :
                         {
                         int8u descriptor_tag=FromTS?FromTS_descriptor_tag:Streams[stream_id].descriptor_tag;
                         switch (descriptor_tag)
@@ -2806,43 +2806,43 @@ const ZenLib::Char* File_MpegPs::private_stream_1_ChooseExtension()
     {
         switch (private_stream_1_ID)
         {
-            case 0x80 : return _T(".pcm"); //PCM
-            case 0x81 : return _T(".ac3"); //AC3
+            case 0x80 : return __T(".pcm"); //PCM
+            case 0x81 : return __T(".ac3"); //AC3
             case 0x83 :
-            case 0x87 : return _T(".dd+"); //AC3+
-            case 0x86 : return _T(".dts"); //DTS
-            case 0xEA : return _T(".vc1"); //DTS
-            default   : return _T(".raw");
+            case 0x87 : return __T(".dd+"); //AC3+
+            case 0x86 : return __T(".dts"); //DTS
+            case 0xEA : return __T(".vc1"); //DTS
+            default   : return __T(".raw");
         }
     }
     else
     {
         //Subtitles
              if (private_stream_1_ID>=0x20 && private_stream_1_ID<=0x3F)
-            return _T(".sub");
+            return __T(".sub");
         //AC3
         else if (private_stream_1_ID>=0x80 && private_stream_1_ID<=0x87)
-            return _T(".ac3");
+            return __T(".ac3");
         //DTS
         else if (private_stream_1_ID>=0x88 && private_stream_1_ID<=0x8F)
-            return _T(".dts");
+            return __T(".dts");
         //SDDS
         else if (private_stream_1_ID>=0x90 && private_stream_1_ID<=0x97)
-            return _T(".sdds");
+            return __T(".sdds");
         //DTS
         else if (private_stream_1_ID>=0x98 && private_stream_1_ID<=0x9F)
-            return _T(".dts");
+            return __T(".dts");
         //PCM
         else if (private_stream_1_ID>=0xA0 && private_stream_1_ID<=0xAF)
-            return _T(".pcm");
+            return __T(".pcm");
         //MLP
         else if (private_stream_1_ID>=0xB0 && private_stream_1_ID<=0xBF)
-            return _T(".dd+");
+            return __T(".dd+");
         //AC3+
         else if (private_stream_1_ID>=0xC0 && private_stream_1_ID<=0xCF)
-            return _T(".dd+");
+            return __T(".dd+");
         else
-            return _T(".raw");
+            return __T(".raw");
     }
 }
 
@@ -3474,10 +3474,6 @@ void File_MpegPs::extension_stream()
                                                                 {} //IPMP Control Information stream
                                                             else if (stream_id_extension==0x01)
                                                                 {} //IPMP stream
-                                                            else if (stream_id_extension<=0x0F)
-                                                                {} //ISO/IEC 14496-17 text stream
-                                                            else if (stream_id_extension<=0x0F)
-                                                                {} //ISO/IEC 23002-3 auxiliary video stream
                                                             else if (stream_id_extension>=0x55 && stream_id_extension<=0x5F)
                                                                  Streams_Extension[stream_id_extension].Parsers.push_back(ChooseParser_VC1());
                                                             else if (stream_id_extension>=0x60 && stream_id_extension<=0x6F)
@@ -3595,14 +3591,14 @@ const ZenLib::Char* File_MpegPs::extension_stream_ChooseExtension()
     //AC3
         if ((stream_id_extension>=0x55 && stream_id_extension<=0x5F)
          || (stream_id_extension==0x75 && stream_id_extension<=0x7F))
-        return _T(".vc1");
+        return __T(".vc1");
     //AC3+
     else if (stream_id_extension>=0x60 && stream_id_extension<=0x6F)
-        return _T(".dirac");
+        return __T(".dirac");
     else if (stream_id_extension==0x71)
         return private_stream_1_ChooseExtension();
     else
-        return _T(".raw");
+        return __T(".raw");
 }
 
 //***************************************************************************
@@ -4318,9 +4314,9 @@ File__Analyze* File_MpegPs::ChooseParser_PCM()
         Ztring Codec;
         switch (FromTS_stream_type)
         {
-            case 0x80 : Codec=_T("M2TS"); break;
-            case 0x83 : Codec=_T("EVOB"); break;
-            default   : Codec=_T("VOB");
+            case 0x80 : Codec=__T("M2TS"); break;
+            case 0x83 : Codec=__T("EVOB"); break;
+            default   : Codec=__T("VOB");
         }
         ((File_Pcm*)Parser)->Codec=Codec;
         #if MEDIAINFO_DEMUX

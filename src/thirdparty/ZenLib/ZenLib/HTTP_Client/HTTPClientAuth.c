@@ -1,11 +1,11 @@
 
 ///////////////////////////////////////////////////////////////////////////////
-// Module Name:                                                               
-// HTTPClientAuth.c                                                          
-//                                                                             
-// Abstract: Handle Digest, MD5 and 64 Bit Encoding                            
-//                                                                             
-// Platform: Any that supports standard C calls                                
+// Module Name:
+// HTTPClientAuth.c
+//
+// Abstract: Handle Digest, MD5 and 64 Bit Encoding
+//
+// Platform: Any that supports standard C calls
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "HTTPClientAuth.h"
@@ -14,16 +14,16 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Function     : HTTPBase64Encoder
-// Purpose      : Converts a given string into a base64 encoded buffer. 
+// Purpose      : Converts a given string into a base64 encoded buffer.
 // Last updated : 01/09/200515/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : 
+// Author Name  : Eitan Michaelson
+// Notes        :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void HTTPBase64Encoder(unsigned char *out, const unsigned char *in, int inlen)
-// [OUT] out  A pointer to a char to hold the converted string  
-// [IN]  in  String to convert  
-// [IN]  inlen  Length of the string to be converted 
+// [OUT] out  A pointer to a char to hold the converted string
+// [IN]  in  String to convert
+// [IN]  inlen  Length of the string to be converted
 
 {
     for (; inlen >= 3; inlen -= 3)
@@ -55,15 +55,15 @@ void HTTPBase64Encoder(unsigned char *out, const unsigned char *in, int inlen)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Function     : HTTPBase64Decoder
-// Purpose      : Converts a given base64 string into a bytes buffer. 
+// Purpose      : Converts a given base64 string into a bytes buffer.
 // Last updated : 01/09/200515/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : 
+// Author Name  : Eitan Michaelson
+// Notes        :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int HTTPBase64Decoder(char *out, const char *in)
-{                           // [OUT]  out  Where to save the converted string  
-    // [IN]   in  String to convert  
+{                           // [OUT]  out  Where to save the converted string
+    // [IN]   in  String to convert
 
     int len = 0;
     register unsigned char digit1, digit2, digit3, digit4;
@@ -110,8 +110,8 @@ int HTTPBase64Decoder(char *out, const char *in)
 // Purpose      : The following code implements the calculations of H(A1), H(A2),
 //                request-digest and response-digest
 // Last updated : 01/09/200515/05/2005
-// Author Name	: Public Domain\RFC2617
-// Notes	    : Digest Access Authentication
+// Author Name  : Public Domain\RFC2617
+// Notes        : Digest Access Authentication
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,11 +119,11 @@ int HTTPBase64Decoder(char *out, const char *in)
 // Function     : GenerateCNonce
 // Purpose      : Generates a 32 byte random hexadecimal string such as "4f6ba982..."
 // Last updated : 15/05/2005
-// Author Name	: Eitan Michaelson
-// Notes	    : 
+// Author Name  : Eitan Michaelson
+// Notes        :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void HTTPDigestGenerateCNonce(char *outbuff) 
+void HTTPDigestGenerateCNonce(char *outbuff)
 {
     int i,num;
     InitRandomeNumber();
@@ -131,7 +131,7 @@ void HTTPDigestGenerateCNonce(char *outbuff)
         num = GetRandomeNumber();
         switch(num) {
         case 0: case 1: case 2: case 3: case 4: case 5:
-        case 6: case 7: case 8: case 9: 
+        case 6: case 7: case 8: case 9:
             outbuff[i] = '0' + num;
             break;
         case 10: case 11: case 12: case 13: case 14: case 15:
@@ -149,8 +149,8 @@ void HTTPDigestGenerateCNonce(char *outbuff)
 // Function     : DigestCvtHex
 // Purpose      : CConvert to HEX
 // Last updated : 15/05/2005
-// Author Name	: Public Domain\RFC2617
-// Notes	    : 
+// Author Name  : Public Domain\RFC2617
+// Notes        :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -179,8 +179,8 @@ void HTTPDigestCvtHex(IN HASH Bin,OUT HASHHEX Hex)
 // Function     : DigestCalcHA1
 // Purpose      : Calculate H(A1) as per spec
 // Last updated : 15/05/2005
-// Author Name	: Public Domain\RFC2617
-// Notes	    : 
+// Author Name  : Public Domain\RFC2617
+// Notes        :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void HTTPDigestCalcHA1(
@@ -231,23 +231,23 @@ void HTTPDigestCalcHA1(
 // Function     : DigestCalcResponse
 // Purpose      : Calculate request-digest/response-digest as per HTTP Digest spec
 // Last updated : 15/05/2005
-// Author Name	: Public Domain\RFC2617
-// Notes	    : 
+// Author Name  : Public Domain\RFC2617
+// Notes        :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void HTTPDigestCalcResponse(
-                            IN HASHHEX HA1,             // H(A1) 
-                            IN char * pszNonce,         // nonce from server 
+                            IN HASHHEX HA1,             // H(A1)
+                            IN char * pszNonce,         // nonce from server
                             IN int    nNonceLength,     // Length of nonce
-                            IN char * pszNonceCount,    // 8 hex digits 
+                            IN char * pszNonceCount,    // 8 hex digits
                             IN char * pszCNonce,        // client nonce */
-                            IN char * pszQop,           // qop-value: "", "auth", "auth-int" 
+                            IN char * pszQop,           // qop-value: "", "auth", "auth-int"
                             IN int    nQopLength,       // qop param length
-                            IN char * pszMethod,        // method from the request 
+                            IN char * pszMethod,        // method from the request
                             IN char * pszDigestUri,     // requested URL
                             IN int    nDigestUriLebgth, // Uri Length
-                            IN HASHHEX HEntity,         // H(entity body) if qop="auth-int" 
-                            OUT HASHHEX Response        // request-digest or response-digest 
+                            IN HASHHEX HEntity,         // H(entity body) if qop="auth-int"
+                            OUT HASHHEX Response        // request-digest or response-digest
                             )
 {
     MD5_CTX Md5Ctx;
@@ -260,7 +260,7 @@ void HTTPDigestCalcResponse(
     HTTPMD5Update(&Md5Ctx, (const unsigned char *)pszMethod, strlen(pszMethod));
     HTTPMD5Update(&Md5Ctx, (const unsigned char *)":", 1);
     HTTPMD5Update(&Md5Ctx, (const unsigned char *)pszDigestUri, nDigestUriLebgth);
-    if (stricmp(pszQop, "auth-int") == 0) 
+    if (stricmp(pszQop, "auth-int") == 0)
     {
 
         HTTPMD5Update(&Md5Ctx, (const unsigned char *)":", 1);
@@ -275,7 +275,7 @@ void HTTPDigestCalcResponse(
     HTTPMD5Update(&Md5Ctx, (const unsigned char *)":", 1);
     HTTPMD5Update(&Md5Ctx, (const unsigned char *)pszNonce, nNonceLength);
     HTTPMD5Update(&Md5Ctx, (const unsigned char *)":", 1);
-    if (*pszQop) 
+    if (*pszQop)
     {
 
         HTTPMD5Update(&Md5Ctx, (const unsigned char *)pszNonceCount, strlen(pszNonceCount));
@@ -305,12 +305,12 @@ void HTTPDigestCalcResponse(
 //                needed on buffers full of bytes, and then call MD5Final, which
 //                will fill a supplied 16-byte array with the digest.
 // Last updated : 15/05/2005
-// Author Name	: Public Domain
+// Author Name  : Public Domain
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 #ifndef HIGHFIRST
-#define HTTPMD5ByteReverse(buf, len)	/* Nothing */
+#define HTTPMD5ByteReverse(buf, len)    /* Nothing */
 #else
 void HTTPMD5ByteReverse(unsigned char *buf, unsigned longs);
 #ifndef ASM_MD5
@@ -319,11 +319,11 @@ void HTTPMD5ByteReverse(unsigned char *buf, unsigned longs);
 //
 // Function     : ByteReverse
 // Purpose      : Little\Big Endian support
-// Gets         : 
-// Returns      : 
+// Gets         :
+// Returns      :
 // Last updated : 15/05/2005
-// Author Name	: Public Domain
-// Notes	    : this code is harmless on little-endian machines.
+// Author Name  : Public Domain
+// Notes        : this code is harmless on little-endian machines.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void HTTPMD5ByteReverse(unsigned char *buf, unsigned longs)
@@ -345,10 +345,10 @@ void HTTPMD5ByteReverse(unsigned char *buf, unsigned longs)
 // Function     : MD5Init
 // Purpose      : Initialize the MD5Context structure
 // Gets         : MD5Context structure
-// Returns      : 
+// Returns      :
 // Last updated : 15/05/2005
-// Author Name	: Public Domain
-// Notes	    : Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
+// Author Name  : Public Domain
+// Notes        : Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
 //                initialization constants.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -369,26 +369,26 @@ void HTTPMD5Init(struct MD5Context *ctx)
 // Function     : MD5Update
 // Purpose      : Update the MD5Context structure with the target byte array
 // Gets         : MD5Context structure, buffer and length
-// Returns      : 
+// Returns      :
 // Last updated : 15/05/2005
-// Author Name	: Public Domain
-// Notes	    : Update context to reflect the concatenation of another buffer full of bytes.
+// Author Name  : Public Domain
+// Notes        : Update context to reflect the concatenation of another buffer full of bytes.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void HTTPMD5Update(struct MD5Context *ctx, unsigned char const *buf, unsigned len)
 {
     uint32 t;
 
-    // Update bitcount 
+    // Update bitcount
 
     t = ctx->bits[0];
     if ((ctx->bits[0] = t + ((uint32) len << 3)) < t)
-        ctx->bits[1]++;		// Carry from low to high 
+        ctx->bits[1]++;     // Carry from low to high
     ctx->bits[1] += len >> 29;
 
-    t = (t >> 3) & 0x3f;	// Bytes already in shsInfo->data 
+    t = (t >> 3) & 0x3f;    // Bytes already in shsInfo->data
 
-    // Handle any leading odd-sized chunks 
+    // Handle any leading odd-sized chunks
 
     if (t) {
         unsigned char *p = (unsigned char *) ctx->in + t;
@@ -404,7 +404,7 @@ void HTTPMD5Update(struct MD5Context *ctx, unsigned char const *buf, unsigned le
         buf += t;
         len -= t;
     }
-    // Process data in 64-byte chunks 
+    // Process data in 64-byte chunks
 
     while (len >= 64) {
         memcpy(ctx->in, buf, 64);
@@ -414,7 +414,7 @@ void HTTPMD5Update(struct MD5Context *ctx, unsigned char const *buf, unsigned le
         len -= 64;
     }
 
-    // Handle any remaining bytes of data. 
+    // Handle any remaining bytes of data.
 
     memcpy(ctx->in, buf, len);
 }
@@ -424,10 +424,10 @@ void HTTPMD5Update(struct MD5Context *ctx, unsigned char const *buf, unsigned le
 // Function     : MD5Final
 // Purpose      : Finalize.
 // Gets         : Output digest structure, MD5Context structure
-// Returns      : 
+// Returns      :
 // Last updated : 15/05/2005
-// Author Name	: Public Domain
-// Notes	    : Final wrapup - pad to 64-byte boundary with the bit pattern
+// Author Name  : Public Domain
+// Notes        : Final wrapup - pad to 64-byte boundary with the bit pattern
 //                1 0* (64-bit count of bits processed, MSB-first).
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
@@ -437,47 +437,47 @@ void HTTPMD5Final(unsigned char digest[16], struct MD5Context *ctx)
     unsigned count;
     unsigned char *p;
 
-    // Compute number of bytes mod 64 
+    // Compute number of bytes mod 64
     count = (ctx->bits[0] >> 3) & 0x3F;
 
     // Set the first char of padding to 0x80.  This is safe since there is
-    // always at least one byte free 
+    // always at least one byte free
     p = ctx->in + count;
     *p++ = 0x80;
 
-    // Bytes of padding needed to make 64 bytes 
+    // Bytes of padding needed to make 64 bytes
     count = 64 - 1 - count;
 
     // Pad out to 56 mod 64 */
     if (count < 8) {
-        // Two lots of padding:  Pad the first block to 64 bytes 
+        // Two lots of padding:  Pad the first block to 64 bytes
         memset(p, 0, count);
         HTTPMD5ByteReverse(ctx->in, 16);
         HTTPMD5Transform(ctx->buf, (uint32 *) ctx->in);
 
-        // Now fill the next block with 56 bytes 
+        // Now fill the next block with 56 bytes
         memset(ctx->in, 0, 56);
     } else {
-        // Pad block to 56 bytes 
+        // Pad block to 56 bytes
         memset(p, 0, count - 8);
     }
     HTTPMD5ByteReverse(ctx->in, 14);
 
-    // Append length in bits and transform 
+    // Append length in bits and transform
     ((uint32 *) ctx->in)[14] = ctx->bits[0];
     ((uint32 *) ctx->in)[15] = ctx->bits[1];
 
     HTTPMD5Transform(ctx->buf, (uint32 *) ctx->in);
     HTTPMD5ByteReverse((unsigned char *) ctx->buf, 4);
     memcpy(digest, ctx->buf, 16);
-    memset(ctx, 0, sizeof(ctx));	// In case it's sensitive 
+    memset(ctx, 0, sizeof(ctx));    // In case it's sensitive
 }
 
 #ifndef ASM_MD5
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Function     : 
+// Function     :
 // Purpose      : The four core functions - F1 is optimized somewhat
 // Last updated : 15/05/2005
 //
@@ -488,7 +488,7 @@ void HTTPMD5Final(unsigned char digest[16], struct MD5Context *ctx)
 #define F3(x, y, z) (x ^ y ^ z)
 #define F4(x, y, z) (y ^ (x | ~z))
 
-// This is the central step in the MD5 algorithm. 
+// This is the central step in the MD5 algorithm.
 #ifdef __PUREC__
 #define MD5STEP(f, w, x, y, z, data, s) \
     ( w += f /*(x, y, z)*/ + data,  w = w<<s | w>>(32-s),  w += x )
@@ -504,7 +504,7 @@ void HTTPMD5Final(unsigned char digest[16], struct MD5Context *ctx)
 //                reflect the addition of 16 longwords of new data.  MD5Update blocks
 //                the data and converts bytes into longwords for this routine.
 // Last updated : 15/05/2005
-// Author Name	: Public Domain
+// Author Name  : Public Domain
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -517,7 +517,7 @@ void HTTPMD5Transform(uint32 buf[4], uint32 const in[16])
     c = buf[2];
     d = buf[3];
 
-#ifdef __PUREC__	// PureC Weirdness... (GG) 
+#ifdef __PUREC__    // PureC Weirdness... (GG)
     MD5STEP(F1(b,c,d), a, b, c, d, in[0] + 0xd76aa478L, 7);
     MD5STEP(F1(a,b,c), d, a, b, c, in[1] + 0xe8c7b756L, 12);
     MD5STEP(F1(d,a,b), c, d, a, b, in[2] + 0x242070dbL, 17);

@@ -1,17 +1,17 @@
 // File__MultipleParsing - Info for MultipleParsing files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -249,8 +249,14 @@
 #if defined(MEDIAINFO_JPEG_YES)
     #include "MediaInfo/Image/File_Jpeg.h"
 #endif
+#if defined(MEDIAINFO_PCX_YES)
+    #include "MediaInfo/Image/File_Pcx.h"
+#endif
 #if defined(MEDIAINFO_PNG_YES)
     #include "MediaInfo/Image/File_Png.h"
+#endif
+#if defined(MEDIAINFO_PSD_YES)
+    #include "MediaInfo/Image/File_Psd.h"
 #endif
 #if defined(MEDIAINFO_TIFF_YES)
     #include "MediaInfo/Image/File_Tiff.h"
@@ -549,8 +555,14 @@ File__MultipleParsing::File__MultipleParsing()
     #if defined(MEDIAINFO_JPEG_YES)
         Temp=new File_Jpeg(); Parser.push_back(Temp);
     #endif
+    #if defined(MEDIAINFO_PCX_YES)
+        Temp=new File_Pcx(); Parser.push_back(Temp);
+    #endif
     #if defined(MEDIAINFO_PNG_YES)
         Temp=new File_Png(); Parser.push_back(Temp);
+    #endif
+    #if defined(MEDIAINFO_PSD_YES)
+        Temp=new File_Psd(); Parser.push_back(Temp);
     #endif
     #if defined(MEDIAINFO_TIFF_YES)
         Temp=new File_Tiff(); Parser.push_back(Temp);

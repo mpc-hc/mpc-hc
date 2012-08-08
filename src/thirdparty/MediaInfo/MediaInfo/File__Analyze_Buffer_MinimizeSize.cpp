@@ -1,17 +1,17 @@
 // File__Analyze - Base for analyze files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -23,10 +23,6 @@
 #ifdef __BORLANDC__
     #pragma hdrstop
 #endif
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-#include "MediaInfo/Setup.h"
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -1043,7 +1039,7 @@ void File__Analyze::Get_VL_(const vlc Vlc[], size_t &Info)
     {
         switch (Vlc[Info].bit_increment)
         {
-            case 255 : 
+            case 255 :
                         Trusted_IsNot();
                         return;
             default  : ;
@@ -1056,7 +1052,7 @@ void File__Analyze::Get_VL_(const vlc Vlc[], size_t &Info)
                             Value++;
             case   0 :  ;
         }
-        
+
         if (Value==Vlc[Info].value)
             return;
         Info++;
@@ -1073,7 +1069,7 @@ void File__Analyze::Skip_VL_(const vlc Vlc[])
     {
         switch (Vlc[Info].bit_increment)
         {
-            case 255 : 
+            case 255 :
                         Trusted_IsNot();
                         return;
             default  : ;
@@ -1086,7 +1082,7 @@ void File__Analyze::Skip_VL_(const vlc Vlc[])
                             Value++;
             case   0 :  ;
         }
-        
+
         if (Value==Vlc[Info].value)
             return;
         Info++;
@@ -1121,7 +1117,7 @@ void File__Analyze::Get_VL_Prepare(vlc_fast &Vlc)
             Vlc.BitsToSkip[Pos2]=(int8u)-1;
         }
 }
-    
+
 //---------------------------------------------------------------------------
 void File__Analyze::Get_VL_(const vlc_fast &Vlc, size_t &Info)
 {
@@ -1325,6 +1321,20 @@ void File__Analyze::Skip_PA()
     int8u Pad=(Size%2)?0:1;
     INTEGRITY_SIZE_ATLEAST(1+Size+Pad);
     Element_Offset+=(size_t)(1+Size+Pad);
+}
+
+//***************************************************************************
+// Unknown
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File__Analyze::Skip_XX(int64u Bytes)
+{
+    if (Element_Offset+Bytes!=Element_TotalSize_Get()) //Exception for seek to end of the element
+    {
+        INTEGRITY_SIZE_ATLEAST(Bytes);
+    }
+    Element_Offset+=Bytes;
 }
 
 //***************************************************************************

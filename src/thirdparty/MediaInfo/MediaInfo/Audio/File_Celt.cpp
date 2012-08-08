@@ -1,18 +1,18 @@
 // File_Celt - Info for CELT files
-// Copyright (C) 2010-2011 Lionel Duchateau, kurtnoise@free.fr
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 Lionel Duchateau, kurtnoise@free.fr
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -138,11 +138,11 @@ void File_Celt::Comment()
             Get_Local(size, value,                              "value");
 
         //Filling
-        if (value.find(_T("CELT "))!=std::string::npos)
+        if (value.find(__T("CELT "))!=std::string::npos)
         {
-            Ztring Version=value.SubString(_T("CELT "), _T(" ("));
-            Fill(Stream_Audio, 0, Audio_Encoded_Library, _T("CELT ")+Version);
-            Fill(Stream_Audio, 0, Audio_Encoded_Library_Name, _T("CELT"));
+            Ztring Version=value.SubString(__T("CELT "), __T(" ("));
+            Fill(Stream_Audio, 0, Audio_Encoded_Library, __T("CELT ")+Version);
+            Fill(Stream_Audio, 0, Audio_Encoded_Library_Name, __T("CELT"));
             Fill(Stream_Audio, 0, Audio_Encoded_Library_Version, Version);
         }
         else if (!value.empty())

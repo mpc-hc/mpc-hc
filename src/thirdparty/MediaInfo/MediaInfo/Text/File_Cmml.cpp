@@ -1,17 +1,17 @@
 // File_Cmml - Info for Cmml files
-// Copyright (C) 2009-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -105,10 +105,10 @@ void File_Cmml::Configuration()
 
     FILLING_BEGIN();
         Ztring Value;
-        Value=Data.SubString(_T("<head>"), _T("</head>"));
+        Value=Data.SubString(__T("<head>"), __T("</head>"));
         if (!Value.empty())
-            Fill(Stream_Text, 0, Text_Title, Value.SubString(_T("<title>"), _T("</title>")));
-        if (Data.find(_T("<clip"))!=string::npos)
+            Fill(Stream_Text, 0, Text_Title, Value.SubString(__T("<title>"), __T("</title>")));
+        if (Data.find(__T("<clip"))!=string::npos)
             Finish("CMML");
     FILLING_END();
 }

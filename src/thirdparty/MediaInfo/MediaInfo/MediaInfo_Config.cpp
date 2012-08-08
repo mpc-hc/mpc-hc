@@ -2,16 +2,16 @@
 // Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -45,8 +45,8 @@ namespace MediaInfoLib
 {
 
 //---------------------------------------------------------------------------
-const Char*  MediaInfo_Version=_T("MediaInfoLib - v0.7.58");
-const Char*  MediaInfo_Url=_T("http://mediainfo.sourceforge.net");
+const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.59");
+const Char*  MediaInfo_Url=__T("http://mediainfo.sourceforge.net");
       Ztring EmptyZtring;       //Use it when we can't return a reference to a true Ztring
 const Ztring EmptyZtring_Const; //Use it when we can't return a reference to a true Ztring, const version
 const ZtringListList EmptyZtringListList_Const; //Use it when we can't return a reference to a true ZtringListList, const version
@@ -131,10 +131,10 @@ void MediaInfo_Config::Init()
     LegacyStreamDisplay=true;
     Demux=0;
     LineSeparator=EOL;
-    ColumnSeparator=_T(";");
-    TagSeparator=_T(" / ");
-    Quote=_T("\"");
-    DecimalPoint=_T(".");
+    ColumnSeparator=__T(";");
+    TagSeparator=__T(" / ");
+    Quote=__T("\"");
+    DecimalPoint=__T(".");
     ThousandsPoint=Ztring();
     #if MEDIAINFO_EVENTS
         Event_CallBackFunction=NULL;
@@ -159,14 +159,14 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
     SubFile_Config(Option)=Value_Raw;
 
     String Option_Lower(Option);
-    size_t Egal_Pos=Option_Lower.find(_T('='));
+    size_t Egal_Pos=Option_Lower.find(__T('='));
     if (Egal_Pos==string::npos)
         Egal_Pos=Option_Lower.size();
     transform(Option_Lower.begin(), Option_Lower.begin()+Egal_Pos, Option_Lower.begin(), (int(*)(int))tolower); //(int(*)(int)) is a patch for unix
 
     //Parsing pointer to a file
     Ztring Value;
-    if (Value_Raw.find(_T("file://"))==0)
+    if (Value_Raw.find(__T("file://"))==0)
     {
         //Open
         Ztring FileName(Value_Raw, 7, Ztring::npos);
@@ -195,27 +195,27 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
     {
         return Ztring();
     }
-    else if (Option_Lower==_T("charset_config"))
+    else if (Option_Lower==__T("charset_config"))
     {
         return Ztring(); //Only used in DLL, no Library action
     }
-    else if (Option_Lower==_T("charset_output"))
+    else if (Option_Lower==__T("charset_output"))
     {
         return Ztring(); //Only used in DLL, no Library action
     }
-    else if (Option_Lower==_T("complete"))
+    else if (Option_Lower==__T("complete"))
     {
         Complete_Set(Value.To_int8u()?true:false);
         return Ztring();
     }
-    else if (Option_Lower==_T("complete_get"))
+    else if (Option_Lower==__T("complete_get"))
     {
         if (Complete_Get())
-            return _T("1");
+            return __T("1");
         else
             return Ztring();
     }
-    else if (Option_Lower==_T("blockmethod"))
+    else if (Option_Lower==__T("blockmethod"))
     {
         if (Value.empty())
             BlockMethod_Set(0);
@@ -223,14 +223,14 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
             BlockMethod_Set(1);
         return Ztring();
     }
-    else if (Option_Lower==_T("blockmethod_get"))
+    else if (Option_Lower==__T("blockmethod_get"))
     {
         if (BlockMethod_Get())
-            return _T("1");
+            return __T("1");
         else
             return Ztring();
     }
-    else if (Option_Lower==_T("internet"))
+    else if (Option_Lower==__T("internet"))
     {
         if (Value.empty())
             Internet_Set(0);
@@ -238,42 +238,42 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
             Internet_Set(1);
         return Ztring();
     }
-    else if (Option_Lower==_T("internet_get"))
+    else if (Option_Lower==__T("internet_get"))
     {
         if (Internet_Get())
-            return _T("1");
+            return __T("1");
         else
             return Ztring();
     }
-    else if (Option_Lower==_T("demux"))
+    else if (Option_Lower==__T("demux"))
     {
         String Value_Lower(Value);
         transform(Value_Lower.begin(), Value_Lower.end(), Value_Lower.begin(), (int(*)(int))tolower); //(int(*)(int)) is a patch for unix
-        
-             if (Value_Lower==_T("all"))
+
+             if (Value_Lower==__T("all"))
             Demux_Set(7);
-        else if (Value_Lower==_T("frame"))
+        else if (Value_Lower==__T("frame"))
             Demux_Set(1);
-        else if (Value_Lower==_T("container"))
+        else if (Value_Lower==__T("container"))
             Demux_Set(2);
-        else if (Value_Lower==_T("elementary"))
+        else if (Value_Lower==__T("elementary"))
             Demux_Set(4);
         else
             Demux_Set(0);
         return Ztring();
     }
-    else if (Option_Lower==_T("demux_get"))
+    else if (Option_Lower==__T("demux_get"))
     {
         switch (Demux_Get())
         {
-            case 7 : return _T("All");
-            case 1 : return _T("Frame");
-            case 2 : return _T("Container");
-            case 4 : return _T("Elementary");
+            case 7 : return __T("All");
+            case 1 : return __T("Frame");
+            case 2 : return __T("Container");
+            case 4 : return __T("Elementary");
             default: return Ztring();
         }
     }
-    else if (Option_Lower==_T("multiplevalues"))
+    else if (Option_Lower==__T("multiplevalues"))
     {
         if (Value.empty())
             MultipleValues_Set(0);
@@ -281,14 +281,14 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
             MultipleValues_Set(1);
         return Ztring();
     }
-    else if (Option_Lower==_T("multiplevalues_get"))
+    else if (Option_Lower==__T("multiplevalues_get"))
     {
         if (MultipleValues_Get())
-            return _T("1");
+            return __T("1");
         else
             return Ztring();
     }
-    else if (Option_Lower==_T("parseunknownextensions"))
+    else if (Option_Lower==__T("parseunknownextensions"))
     {
         if (Value.empty())
             ParseUnknownExtensions_Set(0);
@@ -296,236 +296,236 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
             ParseUnknownExtensions_Set(1);
         return Ztring();
     }
-    else if (Option_Lower==_T("parseunknownextensions_get"))
+    else if (Option_Lower==__T("parseunknownextensions_get"))
     {
         if (ParseUnknownExtensions_Get())
-            return _T("1");
+            return __T("1");
         else
             return Ztring();
     }
-    else if (Option_Lower==_T("showfiles_set"))
+    else if (Option_Lower==__T("showfiles_set"))
     {
         ShowFiles_Set(Value.c_str());
         return Ztring();
     }
-    else if (Option_Lower==_T("readbyhuman"))
+    else if (Option_Lower==__T("readbyhuman"))
     {
         ReadByHuman_Set(Value.To_int8u()?true:false);
         return Ztring();
     }
-    else if (Option_Lower==_T("readbyhuman_get"))
+    else if (Option_Lower==__T("readbyhuman_get"))
     {
-        return ReadByHuman_Get()?_T("1"):_T("0");
+        return ReadByHuman_Get()?__T("1"):__T("0");
     }
-    else if (Option_Lower==_T("legacystreamdisplay"))
+    else if (Option_Lower==__T("legacystreamdisplay"))
     {
         LegacyStreamDisplay_Set(Value.To_int8u()?true:false);
         return Ztring();
     }
-    else if (Option_Lower==_T("legacystreamdisplay_get"))
+    else if (Option_Lower==__T("legacystreamdisplay_get"))
     {
-        return LegacyStreamDisplay_Get()?_T("1"):_T("0");
+        return LegacyStreamDisplay_Get()?__T("1"):__T("0");
     }
-    else if (Option_Lower==_T("parsespeed"))
+    else if (Option_Lower==__T("parsespeed"))
     {
         ParseSpeed_Set(Value.To_float32());
         return Ztring();
     }
-    else if (Option_Lower==_T("parsespeed_get"))
+    else if (Option_Lower==__T("parsespeed_get"))
     {
         return Ztring::ToZtring(ParseSpeed_Get(), 3);
     }
-    else if (Option_Lower==_T("verbosity"))
+    else if (Option_Lower==__T("verbosity"))
     {
         Verbosity_Set(Value.To_float32());
         return Ztring();
     }
-    else if (Option_Lower==_T("verbosity_get"))
+    else if (Option_Lower==__T("verbosity_get"))
     {
         return Ztring::ToZtring(Verbosity_Get(), 3);
     }
-    else if (Option_Lower==_T("lineseparator"))
+    else if (Option_Lower==__T("lineseparator"))
     {
         LineSeparator_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("lineseparator_get"))
+    else if (Option_Lower==__T("lineseparator_get"))
     {
         return LineSeparator_Get();
     }
-    else if (Option_Lower==_T("version"))
+    else if (Option_Lower==__T("version"))
     {
         Version_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("version_get"))
+    else if (Option_Lower==__T("version_get"))
     {
         return Version_Get();
     }
-    else if (Option_Lower==_T("columnseparator"))
+    else if (Option_Lower==__T("columnseparator"))
     {
         ColumnSeparator_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("columnseparator_get"))
+    else if (Option_Lower==__T("columnseparator_get"))
     {
         return ColumnSeparator_Get();
     }
-    else if (Option_Lower==_T("tagseparator"))
+    else if (Option_Lower==__T("tagseparator"))
     {
         TagSeparator_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("tagseparator_get"))
+    else if (Option_Lower==__T("tagseparator_get"))
     {
         return TagSeparator_Get();
     }
-    else if (Option_Lower==_T("quote"))
+    else if (Option_Lower==__T("quote"))
     {
         Quote_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("quote_get"))
+    else if (Option_Lower==__T("quote_get"))
     {
         return Quote_Get();
     }
-    else if (Option_Lower==_T("decimalpoint"))
+    else if (Option_Lower==__T("decimalpoint"))
     {
         DecimalPoint_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("decimalpoint_get"))
+    else if (Option_Lower==__T("decimalpoint_get"))
     {
         return DecimalPoint_Get();
     }
-    else if (Option_Lower==_T("thousandspoint"))
+    else if (Option_Lower==__T("thousandspoint"))
     {
         ThousandsPoint_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("thousandspoint_get"))
+    else if (Option_Lower==__T("thousandspoint_get"))
     {
         return ThousandsPoint_Get();
     }
-    else if (Option_Lower==_T("streammax"))
+    else if (Option_Lower==__T("streammax"))
     {
         ZtringListList StreamMax=Value.c_str();
         StreamMax_Set(StreamMax);
         return Ztring();
     }
-    else if (Option_Lower==_T("streammax_get"))
+    else if (Option_Lower==__T("streammax_get"))
     {
         return StreamMax_Get();
     }
-    else if (Option_Lower==_T("language"))
+    else if (Option_Lower==__T("language"))
     {
         ZtringListList Language=Value.c_str();
         Language_Set(Language);
         return Ztring();
     }
-    else if (Option_Lower==_T("language_get"))
+    else if (Option_Lower==__T("language_get"))
     {
         return Language_Get();
     }
-    else if (Option_Lower==_T("inform"))
+    else if (Option_Lower==__T("inform"))
     {
         Inform_Set(Value.c_str());
         return Ztring();
     }
-    else if (Option_Lower==_T("output"))
+    else if (Option_Lower==__T("output"))
     {
         Inform_Set(Value.c_str());
         return Ztring();
     }
-    else if (Option_Lower==_T("inform_get"))
+    else if (Option_Lower==__T("inform_get"))
     {
         return Inform_Get();
     }
-    else if (Option_Lower==_T("output_get"))
+    else if (Option_Lower==__T("output_get"))
     {
         return Inform_Get();
     }
-    else if (Option_Lower==_T("inform_replace"))
+    else if (Option_Lower==__T("inform_replace"))
     {
         Inform_Replace_Set(Value.c_str());
         return Ztring();
     }
-    else if (Option_Lower==_T("inform_replace_get"))
+    else if (Option_Lower==__T("inform_replace_get"))
     {
         return Inform_Replace_Get();
     }
-    else if (Option_Lower==_T("details")) //Legacy for trace_level
+    else if (Option_Lower==__T("details")) //Legacy for trace_level
     {
-        return MediaInfo_Config::Option(_T("Trace_Level"), Value);
+        return MediaInfo_Config::Option(__T("Trace_Level"), Value);
     }
-    else if (Option_Lower==_T("details_get")) //Legacy for trace_level
+    else if (Option_Lower==__T("details_get")) //Legacy for trace_level
     {
-        return MediaInfo_Config::Option(_T("Trace_Level_Get"), Value);
+        return MediaInfo_Config::Option(__T("Trace_Level_Get"), Value);
     }
-    else if (Option_Lower==_T("detailslevel")) //Legacy for trace_level
+    else if (Option_Lower==__T("detailslevel")) //Legacy for trace_level
     {
-        return MediaInfo_Config::Option(_T("Trace_Level"), Value);
+        return MediaInfo_Config::Option(__T("Trace_Level"), Value);
     }
-    else if (Option_Lower==_T("detailslevel_get")) //Legacy for trace_level
+    else if (Option_Lower==__T("detailslevel_get")) //Legacy for trace_level
     {
-        return MediaInfo_Config::Option(_T("Trace_Level_Get"), Value);
+        return MediaInfo_Config::Option(__T("Trace_Level_Get"), Value);
     }
-    else if (Option_Lower==_T("trace_level"))
+    else if (Option_Lower==__T("trace_level"))
     {
         Trace_Level_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("trace_level_get"))
+    else if (Option_Lower==__T("trace_level_get"))
     {
         return Ztring::ToZtring(Trace_Level_Get());
     }
-    else if (Option_Lower==_T("trace_timesection_onlyfirstoccurrence"))
+    else if (Option_Lower==__T("trace_timesection_onlyfirstoccurrence"))
     {
         Trace_TimeSection_OnlyFirstOccurrence_Set(Value.To_int64u()?true:false);
         return Ztring();
     }
-    else if (Option_Lower==_T("trace_timesection_onlyfirstoccurrence_get"))
+    else if (Option_Lower==__T("trace_timesection_onlyfirstoccurrence_get"))
     {
-        return Trace_TimeSection_OnlyFirstOccurrence_Get()?_T("1"):_T("0");
+        return Trace_TimeSection_OnlyFirstOccurrence_Get()?__T("1"):__T("0");
     }
-    else if (Option_Lower==_T("detailsformat")) //Legacy for trace_format
+    else if (Option_Lower==__T("detailsformat")) //Legacy for trace_format
     {
-        return MediaInfo_Config::Option(_T("Trace_Format"), Value);
+        return MediaInfo_Config::Option(__T("Trace_Format"), Value);
     }
-    else if (Option_Lower==_T("detailsformat_get")) //Legacy for trace_format
+    else if (Option_Lower==__T("detailsformat_get")) //Legacy for trace_format
     {
-        return MediaInfo_Config::Option(_T("Trace_Format_Get"), Value);
+        return MediaInfo_Config::Option(__T("Trace_Format_Get"), Value);
     }
-    else if (Option_Lower==_T("trace_format"))
+    else if (Option_Lower==__T("trace_format"))
     {
         String NewValue_Lower(Value);
         transform(NewValue_Lower.begin(), NewValue_Lower.end(), NewValue_Lower.begin(), (int(*)(int))tolower); //(int(*)(int)) is a patch for unix
 
         CriticalSectionLocker CSL(CS);
-        if (NewValue_Lower==_T("csv"))
+        if (NewValue_Lower==__T("csv"))
             Trace_Format_Set(Trace_Format_CSV);
         else
             Trace_Format_Set(Trace_Format_Tree);
         return Ztring();
     }
-    else if (Option_Lower==_T("trace_format_get"))
+    else if (Option_Lower==__T("trace_format_get"))
     {
         switch (Trace_Format_Get())
         {
-            case Trace_Format_CSV : return _T("CSV");
-            default : return _T("Tree");
+            case Trace_Format_CSV : return __T("CSV");
+            default : return __T("Tree");
         }
     }
-    else if (Option_Lower==_T("detailsmodificator"))
+    else if (Option_Lower==__T("detailsmodificator"))
     {
         Trace_Modificator_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("detailsmodificator_get"))
+    else if (Option_Lower==__T("detailsmodificator_get"))
     {
         return Trace_Modificator_Get(Value);
     }
-    else if (Option_Lower==_T("info_parameters"))
+    else if (Option_Lower==__T("info_parameters"))
     {
         ZtringListList ToReturn=Info_Parameters_Get();
 
@@ -536,190 +536,190 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
             if (!ToReturn(Pos, 1).empty())
             {
                 C1.resize(25, ' ');
-                ToReturn(Pos, 0)=C1 + _T(" :");
+                ToReturn(Pos, 0)=C1 + __T(" :");
             }
         }
 
         ToReturn.Separator_Set(0, LineSeparator_Get());
-        ToReturn.Separator_Set(1, _T(" "));
+        ToReturn.Separator_Set(1, __T(" "));
         ToReturn.Quote_Set(Ztring());
         return ToReturn.Read();
     }
-    else if (Option_Lower==_T("info_parameters_csv"))
+    else if (Option_Lower==__T("info_parameters_csv"))
     {
         return Info_Parameters_Get();
     }
-    else if (Option_Lower==_T("info_codecs"))
+    else if (Option_Lower==__T("info_codecs"))
     {
         return Info_Codecs_Get();
     }
-    else if (Option_Lower==_T("info_version"))
+    else if (Option_Lower==__T("info_version"))
     {
         return Info_Version_Get();
     }
-    else if (Option_Lower==_T("info_url"))
+    else if (Option_Lower==__T("info_url"))
     {
         return Info_Url_Get();
     }
-    else if (Option_Lower==_T("formatdetection_maximumoffset"))
+    else if (Option_Lower==__T("formatdetection_maximumoffset"))
     {
-        FormatDetection_MaximumOffset_Set(Value==_T("-1")?(int64u)-1:((Ztring*)&Value)->To_int64u());
+        FormatDetection_MaximumOffset_Set(Value==__T("-1")?(int64u)-1:((Ztring*)&Value)->To_int64u());
         return Ztring();
     }
-    else if (Option_Lower==_T("formatdetection_maximumoffset_get"))
+    else if (Option_Lower==__T("formatdetection_maximumoffset_get"))
     {
-        return FormatDetection_MaximumOffset_Get()==(int64u)-1?Ztring(_T("-1")):Ztring::ToZtring(FormatDetection_MaximumOffset_Get());
+        return FormatDetection_MaximumOffset_Get()==(int64u)-1?Ztring(__T("-1")):Ztring::ToZtring(FormatDetection_MaximumOffset_Get());
     }
-    else if (Option_Lower==_T("mpegts_maximumoffset"))
+    else if (Option_Lower==__T("mpegts_maximumoffset"))
     {
-        MpegTs_MaximumOffset_Set(Value==_T("-1")?(int64u)-1:((Ztring*)&Value)->To_int64u());
+        MpegTs_MaximumOffset_Set(Value==__T("-1")?(int64u)-1:((Ztring*)&Value)->To_int64u());
         return Ztring();
     }
-    else if (Option_Lower==_T("mpegts_maximumoffset_get"))
+    else if (Option_Lower==__T("mpegts_maximumoffset_get"))
     {
-        return MpegTs_MaximumOffset_Get()==(int64u)-1?Ztring(_T("-1")):Ztring::ToZtring(MpegTs_MaximumOffset_Get());
+        return MpegTs_MaximumOffset_Get()==(int64u)-1?Ztring(__T("-1")):Ztring::ToZtring(MpegTs_MaximumOffset_Get());
     }
-    else if (Option_Lower==_T("mpegts_maximumscanduration"))
+    else if (Option_Lower==__T("mpegts_maximumscanduration"))
     {
         MpegTs_MaximumScanDuration_Set(float64_int64s((((Ztring*)&Value)->To_float64())*1000000000));
         return Ztring();
     }
-    else if (Option_Lower==_T("mpegts_maximumscanduration_get"))
+    else if (Option_Lower==__T("mpegts_maximumscanduration_get"))
     {
-        return MpegTs_MaximumScanDuration_Get()==(int64u)-1?Ztring(_T("-1")):Ztring::ToZtring(MpegTs_MaximumOffset_Get());
+        return MpegTs_MaximumScanDuration_Get()==(int64u)-1?Ztring(__T("-1")):Ztring::ToZtring(MpegTs_MaximumOffset_Get());
     }
-    else if (Option_Lower==_T("mpegts_forcestreamdisplay"))
+    else if (Option_Lower==__T("mpegts_forcestreamdisplay"))
     {
         MpegTs_ForceStreamDisplay_Set(Value.To_int8u()?true:false);
         return Ztring();
     }
-    else if (Option_Lower==_T("mpegts_forcestreamdisplay_get"))
+    else if (Option_Lower==__T("mpegts_forcestreamdisplay_get"))
     {
-        return MpegTs_ForceStreamDisplay_Get()?_T("1"):_T("0");
+        return MpegTs_ForceStreamDisplay_Get()?__T("1"):__T("0");
     }
-    else if (Option_Lower==_T("custommapping"))
+    else if (Option_Lower==__T("custommapping"))
     {
         CustomMapping_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("event_callbackfunction"))
+    else if (Option_Lower==__T("event_callbackfunction"))
     {
         #if MEDIAINFO_EVENTS
             return Event_CallBackFunction_Set(Value);
         #else //MEDIAINFO_EVENTS
-            return _T("Event manager is disabled due to compilation options");
+            return __T("Event manager is disabled due to compilation options");
         #endif //MEDIAINFO_EVENTS
     }
-    else if (Option_Lower==_T("ssh_knownhostsfilename"))
+    else if (Option_Lower==__T("ssh_knownhostsfilename"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssh_KnownHostsFileName_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssh_publickeyfilename"))
+    else if (Option_Lower==__T("ssh_publickeyfilename"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssh_PublicKeyFileName_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssh_privatekeyfilename"))
+    else if (Option_Lower==__T("ssh_privatekeyfilename"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssh_PrivateKeyFileName_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssh_ignoresecurity"))
+    else if (Option_Lower==__T("ssh_ignoresecurity"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssh_IgnoreSecurity_Set(Value.empty() || Value.To_float32());
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssl_certificatefilename"))
+    else if (Option_Lower==__T("ssl_certificatefilename"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssl_CertificateFileName_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssl_certificateFormat"))
+    else if (Option_Lower==__T("ssl_certificateFormat"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssl_CertificateFormat_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssl_privatekeyfilename"))
+    else if (Option_Lower==__T("ssl_privatekeyfilename"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssl_PrivateKeyFileName_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssl_privatekeyformat"))
+    else if (Option_Lower==__T("ssl_privatekeyformat"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssl_PrivateKeyFormat_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssl_certificateauthorityfilename"))
+    else if (Option_Lower==__T("ssl_certificateauthorityfilename"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssl_CertificateAuthorityFileName_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssl_certificateauthoritypath"))
+    else if (Option_Lower==__T("ssl_certificateauthoritypath"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssl_CertificateAuthorityPath_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssl_certificaterevocationlistfilename"))
+    else if (Option_Lower==__T("ssl_certificaterevocationlistfilename"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssl_CertificateRevocationListFileName_Set(Value);
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("ssl_ignoresecurity"))
+    else if (Option_Lower==__T("ssl_ignoresecurity"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             Ssl_IgnoreSecurity_Set(Value.empty() || Value.To_float32());
             return Ztring();
         #else // defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif // defined(MEDIAINFO_LIBCURL_YES)
     }
     else
-        return _T("Option not known");
+        return __T("Option not known");
 }
 
 //***************************************************************************
@@ -798,15 +798,15 @@ void MediaInfo_Config::ShowFiles_Set (const ZtringListList &NewShowFiles)
     for  (size_t Pos=0; Pos<NewShowFiles.size(); Pos++)
     {
         const Ztring& Object=NewShowFiles.Read(Pos, 0);
-             if (Object==_T("Nothing"))
+             if (Object==__T("Nothing"))
             ShowFiles_Nothing=NewShowFiles.Read(Pos, 1).empty()?1:0;
-        else if (Object==_T("VideoAudio"))
+        else if (Object==__T("VideoAudio"))
             ShowFiles_VideoAudio=NewShowFiles.Read(Pos, 1).empty()?1:0;
-        else if (Object==_T("VideoOnly"))
+        else if (Object==__T("VideoOnly"))
             ShowFiles_VideoOnly=NewShowFiles.Read(Pos, 1).empty()?1:0;
-        else if (Object==_T("AudioOnly"))
+        else if (Object==__T("AudioOnly"))
             ShowFiles_AudioOnly=NewShowFiles.Read(Pos, 1).empty()?1:0;
-        else if (Object==_T("TextOnly"))
+        else if (Object==__T("TextOnly"))
             ShowFiles_TextOnly=NewShowFiles.Read(Pos, 1).empty()?1:0;
     }
 }
@@ -915,7 +915,7 @@ void MediaInfo_Config::Trace_Level_Set (const ZtringListList &NewTrace_Level)
         {
             if (NewTrace_Level[Pos].size()==2)
             {
-                if (NewTrace_Level[Pos][0]==_T("Container1"))
+                if (NewTrace_Level[Pos][0]==__T("Container1"))
                     Trace_Layers.set(0, NewTrace_Level[Pos][1].To_int64u()?true:false);
             }
         }
@@ -969,7 +969,7 @@ void MediaInfo_Config::Trace_Modificator_Set (const ZtringList &NewValue)
     transform(List[0].begin(), List[0].end(), List[0].begin(), (int(*)(int))tolower); //(int(*)(int)) is a patch for unix
 
     CriticalSectionLocker CSL(CS);
-    Trace_Modificators[List[0]]=List[1]==_T("1");
+    Trace_Modificators[List[0]]=List[1]==__T("1");
 }
 
 Ztring MediaInfo_Config::Trace_Modificator_Get (const Ztring &Value)
@@ -977,7 +977,7 @@ Ztring MediaInfo_Config::Trace_Modificator_Get (const Ztring &Value)
     CriticalSectionLocker CSL(CS);
     std::map<Ztring, bool>::iterator ToReturn=Trace_Modificators.find(Value);
     if (ToReturn!=Trace_Modificators.end())
-        return ToReturn->second?_T("1"):_T("0");
+        return ToReturn->second?__T("1"):__T("0");
     else
         return Ztring();
 }
@@ -1108,16 +1108,16 @@ void MediaInfo_Config::Language_Set (const ZtringListList &NewValue)
 
     //Which language to choose?
     //-Raw
-         if (NewValue.size()==1 && NewValue[0].size()==1 && NewValue[0][0]==_T("raw"))
+         if (NewValue.size()==1 && NewValue[0].size()==1 && NewValue[0][0]==__T("raw"))
     {
         Language_Raw=true;
         Language.clear();
         //Exceptions
-        Language.Write(_T("  Config_Text_ColumnSize"), _T("32"));
-        Language.Write(_T("  Config_Text_Separator"), _T(" : "));
-        Language.Write(_T("  Config_Text_NumberTag"), _T(" #"));
-        Language.Write(_T("  Config_Text_FloatSeparator"), _T("."));
-        Language.Write(_T("  Config_Text_ThousandsSeparator"), Ztring());
+        Language.Write(__T("  Config_Text_ColumnSize"), __T("32"));
+        Language.Write(__T("  Config_Text_Separator"), __T(" : "));
+        Language.Write(__T("  Config_Text_NumberTag"), __T(" #"));
+        Language.Write(__T("  Config_Text_FloatSeparator"), __T("."));
+        Language.Write(__T("  Config_Text_ThousandsSeparator"), Ztring());
     }
     //-Add custom language to English language
     else
@@ -1148,25 +1148,25 @@ void MediaInfo_Config::Language_Set (stream_t StreamKind)
     {
         //Strings - Info_Name_Text
         Ztring ToReplace=Info[StreamKind](Pos, Info_Name);
-        if (!Language_Raw && ToReplace.find(_T("/String"))!=Error)
+        if (!Language_Raw && ToReplace.find(__T("/String"))!=Error)
         {
-            ToReplace.FindAndReplace(_T("/String1"), Ztring());
-            ToReplace.FindAndReplace(_T("/String2"), Ztring());
-            ToReplace.FindAndReplace(_T("/String3"), Ztring());
-            ToReplace.FindAndReplace(_T("/String4"), Ztring());
-            ToReplace.FindAndReplace(_T("/String5"), Ztring());
-            ToReplace.FindAndReplace(_T("/String6"), Ztring());
-            ToReplace.FindAndReplace(_T("/String7"), Ztring());
-            ToReplace.FindAndReplace(_T("/String8"), Ztring());
-            ToReplace.FindAndReplace(_T("/String9"), Ztring());
-            ToReplace.FindAndReplace(_T("/String"),  Ztring());
+            ToReplace.FindAndReplace(__T("/String1"), Ztring());
+            ToReplace.FindAndReplace(__T("/String2"), Ztring());
+            ToReplace.FindAndReplace(__T("/String3"), Ztring());
+            ToReplace.FindAndReplace(__T("/String4"), Ztring());
+            ToReplace.FindAndReplace(__T("/String5"), Ztring());
+            ToReplace.FindAndReplace(__T("/String6"), Ztring());
+            ToReplace.FindAndReplace(__T("/String7"), Ztring());
+            ToReplace.FindAndReplace(__T("/String8"), Ztring());
+            ToReplace.FindAndReplace(__T("/String9"), Ztring());
+            ToReplace.FindAndReplace(__T("/String"),  Ztring());
         }
-        if (!Language_Raw && ToReplace.find(_T("/"))!=Error) //Complex values, like XXX/YYY --> We translate both XXX and YYY
+        if (!Language_Raw && ToReplace.find(__T("/"))!=Error) //Complex values, like XXX/YYY --> We translate both XXX and YYY
         {
-            Ztring ToReplace1=ToReplace.SubString(Ztring(), _T("/"));
-            Ztring ToReplace2=ToReplace.SubString(_T("/"), Ztring());
+            Ztring ToReplace1=ToReplace.SubString(Ztring(), __T("/"));
+            Ztring ToReplace2=ToReplace.SubString(__T("/"), Ztring());
             Info[StreamKind](Pos, Info_Name_Text)=Language.Get(ToReplace1);
-            Info[StreamKind](Pos, Info_Name_Text)+=_T("/");
+            Info[StreamKind](Pos, Info_Name_Text)+=__T("/");
             Info[StreamKind](Pos, Info_Name_Text)+=Language.Get(ToReplace2);
         }
         else
@@ -1190,11 +1190,11 @@ Ztring MediaInfo_Config::Language_Get (const Ztring &Value)
 {
     CriticalSectionLocker CSL(CS);
 
-    if (Value.find(_T(" / "))==string::npos)
+    if (Value.find(__T(" / "))==string::npos)
         return Language.Get(Value);
 
     ZtringList List;
-    List.Separator_Set(0, _T(" / "));
+    List.Separator_Set(0, __T(" / "));
     List.Write(Value);
 
     //Per value
@@ -1212,12 +1212,12 @@ Ztring MediaInfo_Config::Language_Get (const Ztring &Count, const Ztring &Value,
         return EmptyString_Get();
 
     //Different Plurals are available or not?
-    if (Language_Get(Value+_T("1")).empty())
+    if (Language_Get(Value+__T("1")).empty())
     {
-        //if (Count==_T("0") || Count==_T("1"))
+        //if (Count==__T("0") || Count==__T("1"))
             return Count+Language_Get(Value);
         //else
-            //return Count+Language_Get(Value+_T("s"));
+            //return Count+Language_Get(Value+__T("s"));
     }
 
     //Detecting plural form for multiple plurals
@@ -1285,21 +1285,21 @@ Ztring MediaInfo_Config::Language_Get (const Ztring &Count, const Ztring &Value,
     Ztring DecimalPoint=Ztring().From_Number(0.0, 1).substr(1, 1); //Getting Decimal point
     size_t DotPos=ToReturn.find(DecimalPoint);
     if (DotPos!=string::npos)
-        ToReturn.FindAndReplace(DecimalPoint, Language_Get(_T("  Config_Text_FloatSeparator")), DotPos);
+        ToReturn.FindAndReplace(DecimalPoint, Language_Get(__T("  Config_Text_FloatSeparator")), DotPos);
     else
         DotPos=ToReturn.size();
     if (DotPos>3)
-        ToReturn.insert(DotPos-3, Language_Get(_T("  Config_Text_ThousandsSeparator")));
+        ToReturn.insert(DotPos-3, Language_Get(__T("  Config_Text_ThousandsSeparator")));
 
     //Selecting the form
          if (Form==0)
-        ToReturn =Language_Get(Value+_T("0")); //Only the translation
+        ToReturn =Language_Get(Value+__T("0")); //Only the translation
     else if (Form==1)
-        ToReturn+=Language_Get(Value+_T("1"));
+        ToReturn+=Language_Get(Value+__T("1"));
     else if (Form==2)
-        ToReturn+=Language_Get(Value+_T("2"));
+        ToReturn+=Language_Get(Value+__T("2"));
     else if (Form==3)
-        ToReturn+=Language_Get(Value+_T("3"));
+        ToReturn+=Language_Get(Value+__T("3"));
     else
         ToReturn+=Language_Get(Value);
     return ToReturn;
@@ -1308,16 +1308,16 @@ Ztring MediaInfo_Config::Language_Get (const Ztring &Count, const Ztring &Value,
 //---------------------------------------------------------------------------
 void MediaInfo_Config::Inform_Set (const ZtringListList &NewValue)
 {
-    if (NewValue.Read(0, 0)==_T("Details"))
+    if (NewValue.Read(0, 0)==__T("Details"))
         Trace_Level_Set(NewValue.Read(0, 1));
     else
     {
-        Trace_Level_Set(_T("0"));
+        Trace_Level_Set(__T("0"));
 
         CriticalSectionLocker CSL(CS);
 
         //Inform
-        if (NewValue==_T("Summary"))
+        if (NewValue==__T("Summary"))
             MediaInfo_Config_Summary(Custom_View);
         else
             Custom_View=NewValue;
@@ -1328,7 +1328,7 @@ void MediaInfo_Config::Inform_Set (const ZtringListList &NewValue)
     //Parsing pointers to files in streams
     for (size_t Pos=0; Pos<Custom_View.size(); Pos++)
     {
-        if (Custom_View[Pos].size()>1 && Custom_View(Pos, 1).find(_T("file://"))==0)
+        if (Custom_View[Pos].size()>1 && Custom_View(Pos, 1).find(__T("file://"))==0)
         {
             //Open
             Ztring FileName(Custom_View(Pos, 1), 7, Ztring::npos);
@@ -1346,8 +1346,8 @@ void MediaInfo_Config::Inform_Set (const ZtringListList &NewValue)
             delete[] Buffer; //Buffer=NULL;
 
             //Merge
-            FromFile.FindAndReplace(_T("\r\n"), _T("\\r\\n"), 0, Ztring_Recursive);
-            FromFile.FindAndReplace(_T("\n"), _T("\\r\\n"), 0, Ztring_Recursive);
+            FromFile.FindAndReplace(__T("\r\n"), __T("\\r\\n"), 0, Ztring_Recursive);
+            FromFile.FindAndReplace(__T("\n"), __T("\\r\\n"), 0, Ztring_Recursive);
             Custom_View(Pos, 1)=FromFile;
         }
     }
@@ -1442,14 +1442,14 @@ const Ztring &MediaInfo_Config::Codec_Get (const Ztring &Value, infocodec_t Kind
     Ztring KindOfStreamS;
     switch (KindOfStream)
     {
-        case Stream_General  : KindOfStreamS=_T("G"); break;
-        case Stream_Video    : KindOfStreamS=_T("V"); break;
-        case Stream_Audio    : KindOfStreamS=_T("A"); break;
-        case Stream_Text     : KindOfStreamS=_T("T"); break;
-        case Stream_Image    : KindOfStreamS=_T("I"); break;
-        case Stream_Chapters : KindOfStreamS=_T("C"); break;
-        case Stream_Menu     : KindOfStreamS=_T("M"); break;
-        case Stream_Max      : KindOfStreamS=_T(" "); break;
+        case Stream_General  : KindOfStreamS=__T("G"); break;
+        case Stream_Video    : KindOfStreamS=__T("V"); break;
+        case Stream_Audio    : KindOfStreamS=__T("A"); break;
+        case Stream_Text     : KindOfStreamS=__T("T"); break;
+        case Stream_Image    : KindOfStreamS=__T("I"); break;
+        case Stream_Chapters : KindOfStreamS=__T("C"); break;
+        case Stream_Menu     : KindOfStreamS=__T("M"); break;
+        case Stream_Max      : KindOfStreamS=__T(" "); break;
     }
 
     return Codec.Get(Value, KindOfCodecInfo, KindOfStreamS, InfoCodec_KindOfStream);
@@ -1566,7 +1566,7 @@ const Ztring MediaInfo_Config::Iso639_Find (const Ztring &Value)
     for (Translation::iterator Trans=Info.begin(); Trans!=Info.end(); Trans++)
     {
         Trans->second.MakeLowerCase();
-        if (Trans->second==Value_Lower && Trans->first.find(_T("Language_"))==0)
+        if (Trans->second==Value_Lower && Trans->first.find(__T("Language_"))==0)
             return Trans->first.substr(9, string::npos);
     }
     return Ztring();
@@ -1668,7 +1668,7 @@ Ztring MediaInfo_Config::Info_Parameters_Get ()
 
     for (size_t StreamKind=0; StreamKind<Stream_Max; StreamKind++)
     {
-        ToReturn(ToReturn_Pos, 0)=Info[StreamKind].Read(_T("StreamKind"), Info_Text);
+        ToReturn(ToReturn_Pos, 0)=Info[StreamKind].Read(__T("StreamKind"), Info_Text);
         ToReturn_Pos++;
         for (size_t Pos=0; Pos<Info[StreamKind].size(); Pos++)
             if (!Info[StreamKind].Read(Pos, Info_Name).empty())
@@ -1703,7 +1703,7 @@ Ztring MediaInfo_Config::Info_Codecs_Get ()
         ToReturn+=Temp->second.Read();
         ToReturn+=EOL;
         Temp++;
-    }    
+    }
 
     return ToReturn;
 }
@@ -1794,7 +1794,7 @@ ZtringListList MediaInfo_Config::SubFile_Config_Get ()
 
 void MediaInfo_Config::CustomMapping_Set (const Ztring &Value)
 {
-    ZtringList List; List.Separator_Set(0, _T(","));
+    ZtringList List; List.Separator_Set(0, __T(","));
     List.Write(Value);
     if (List.size()==3)
     {
@@ -1851,11 +1851,11 @@ Ztring MediaInfo_Config::Event_CallBackFunction_Set (const Ztring &Value)
     else
         for (size_t Pos=0; Pos<List.size(); Pos++)
         {
-            if (List[Pos].find(_T("CallBack=memory://"))==0)
+            if (List[Pos].find(__T("CallBack=memory://"))==0)
                 Event_CallBackFunction=(MediaInfo_Event_CallBackFunction*)Ztring(List[Pos].substr(18, std::string::npos)).To_int64u();
-            else if (List[Pos].find(_T("UserHandle=memory://"))==0)
+            else if (List[Pos].find(__T("UserHandle=memory://"))==0)
                 Event_UserHandler=(void*)Ztring(List[Pos].substr(20, std::string::npos)).To_int64u();
-            else if (List[Pos].find(_T("UserHandler=memory://"))==0)
+            else if (List[Pos].find(__T("UserHandler=memory://"))==0)
                 Event_UserHandler=(void*)Ztring(List[Pos].substr(21, std::string::npos)).To_int64u();
             else
                 return("Problem during Event_CallBackFunction value parsing");
@@ -1871,7 +1871,7 @@ Ztring MediaInfo_Config::Event_CallBackFunction_Get ()
 {
     CriticalSectionLocker CSL(CS);
 
-    return _T("CallBack=memory://")+Ztring::ToZtring((size_t)Event_CallBackFunction)+_T(";UserHandler=memory://")+Ztring::ToZtring((size_t)Event_UserHandler);
+    return __T("CallBack=memory://")+Ztring::ToZtring((size_t)Event_CallBackFunction)+__T(";UserHandler=memory://")+Ztring::ToZtring((size_t)Event_UserHandler);
 }
 #endif //MEDIAINFO_EVENTS
 

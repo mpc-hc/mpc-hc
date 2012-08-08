@@ -1,17 +1,17 @@
 // File_DvDif - Info for DV-DIF files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -450,22 +450,22 @@ void File_DvDif::Streams_Fill()
                 Fill(Stream_Audio, StreamPos_Last, Info->first.c_str(), Info->second, true);
             Fill(Stream_Audio, StreamPos_Last, Audio_BitRate_Encoded, 0);
         }
-    
+
     if (Stream_BitRateFromContainer && Retrieve(Stream_Video, 0, Video_BitRate).empty())
     {
         if (Stream_BitRateFromContainer>=28800000*0.98 && Stream_BitRateFromContainer<=28800000*1.02)
         {
-            Fill(Stream_Video, 0, Video_BitRate, ((float64)28800000)*134/150*76/80, 0); 
+            Fill(Stream_Video, 0, Video_BitRate, ((float64)28800000)*134/150*76/80, 0);
             Fill(Stream_Video, 0, Video_BitRate_Encoded, 28800000);
         }
         if (Stream_BitRateFromContainer>=57600000*0.98 && Stream_BitRateFromContainer<=57600000*1.02)
         {
-            Fill(Stream_Video, 0, Video_BitRate, ((float64)57600000)*134/150*76/80, 0); 
+            Fill(Stream_Video, 0, Video_BitRate, ((float64)57600000)*134/150*76/80, 0);
             Fill(Stream_Video, 0, Video_BitRate_Encoded, 57600000);
         }
         if (Stream_BitRateFromContainer>=115200000*0.98 && Stream_BitRateFromContainer<=115200000*1.02)
         {
-            Fill(Stream_Video, 0, Video_BitRate, ((float64)115200000)*134/150*76/80, 0); 
+            Fill(Stream_Video, 0, Video_BitRate, ((float64)115200000)*134/150*76/80, 0);
             Fill(Stream_Video, 0, Video_BitRate_Encoded, 115200000);
         }
     }
@@ -489,7 +489,7 @@ void File_DvDif::Streams_Fill()
             Fill(Stream_Video, 0, Video_BitRate_Mode, "CBR");
         }
     }
-    else if (audio_locked || (Retrieve(Stream_Video, 0, Video_Standard)==_T("PAL") && Retrieve(Stream_Video, 0, Video_Colorimetry)==_T("4:1:1")))
+    else if (audio_locked || (Retrieve(Stream_Video, 0, Video_Standard)==__T("PAL") && Retrieve(Stream_Video, 0, Video_Colorimetry)==__T("4:1:1")))
     {
         Fill(Stream_General, 0, General_Format_Commercial_IfAny, "DVCPRO");
         Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "DVCPRO");
@@ -533,7 +533,7 @@ void File_DvDif::Streams_Finish()
         Ztring Recorded_Date(Recorded_Date_Date);
         if (Recorded_Date_Time.size()>4)
         {
-            Recorded_Date+=_T(" ");
+            Recorded_Date+=__T(" ");
             Recorded_Date+=Recorded_Date_Time;
         }
         if (Count_Get(Stream_General)==0)
@@ -821,7 +821,7 @@ void File_DvDif::Read_Buffer_Unsynched()
     {
         int64u BytesPerFrame=12000*(DSF?12:10);
         if (FSC_WasSet)
-            BytesPerFrame*=2;    
+            BytesPerFrame*=2;
         Frame_Count_NotParsedIncluded=File_GoTo/BytesPerFrame;
         FrameInfo.PTS=FrameInfo.DTS=float64_int64s(Frame_Count_NotParsedIncluded/(DSF?25.000:(30.000*1000/1001))*1000000000);
     }
@@ -835,17 +835,17 @@ size_t File_DvDif::Read_Buffer_Seek (size_t Method, int64u Value, int64u /*ID*/)
     if (!Duration_Detected)
     {
         MediaInfo_Internal MI;
-        MI.Option(_T("File_KeepInfo"), _T("1"));
-        Ztring ParseSpeed_Save=MI.Option(_T("ParseSpeed_Get"), _T(""));
-        Ztring Demux_Save=MI.Option(_T("Demux_Get"), _T(""));
-        MI.Option(_T("ParseSpeed"), _T("0"));
-        MI.Option(_T("Demux"), Ztring());
+        MI.Option(__T("File_KeepInfo"), __T("1"));
+        Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
+        Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
+        MI.Option(__T("ParseSpeed"), __T("0"));
+        MI.Option(__T("Demux"), Ztring());
         size_t MiOpenResult=MI.Open(File_Name);
-        MI.Option(_T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-        MI.Option(_T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
-        if (!MiOpenResult || MI.Get(Stream_General, 0, General_Format)!=_T("DV"))
+        MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+        MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+        if (!MiOpenResult || MI.Get(Stream_General, 0, General_Format)!=__T("DV"))
             return 0;
-        
+
         TotalFrames=Ztring(MI.Get(Stream_Video, 0, Video_FrameCount)).To_int64u();
         int64u VideoBitRate=Ztring(MI.Get(Stream_Video, 0, Video_BitRate)).To_int64u();
         if (VideoBitRate==0 || VideoBitRate>=50000000)
@@ -885,7 +885,7 @@ size_t File_DvDif::Read_Buffer_Seek (size_t Method, int64u Value, int64u /*ID*/)
                     {
                         int64u BytesPerFrame=12000*(DSF?12:10);
                         if (FSC_WasSet)
-                            BytesPerFrame*=2;    
+                            BytesPerFrame*=2;
                         GoTo(BytesPerFrame*Value);
                         Open_Buffer_Unsynch();
                         Frame_Count_NotParsedIncluded=Value;
@@ -974,7 +974,7 @@ void File_DvDif::Header_Parse()
         Header_Fill_Size(80);
         return;
     }
-    
+
     //Parsing
     SCT =(Buffer[Buffer_Offset  ]&0xE0)>>5;
     Dseq=(Buffer[Buffer_Offset+1]&0xF0)>>4;
@@ -1448,9 +1448,9 @@ void File_DvDif::audio_source()
                 if (Streams_Audio[Pos]==NULL)
                     Streams_Audio[Pos]=new stream;
                 Streams_Audio[Pos]->Infos["ID"].From_Number(Pos);
-                Streams_Audio[Pos]->Infos["Format"]=_T("PCM");
-                Streams_Audio[Pos]->Infos["Codec"]=_T("PCM");
-                Streams_Audio[Pos]->Infos["BitRate_Mode"]=_T("CBR");
+                Streams_Audio[Pos]->Infos["Format"]=__T("PCM");
+                Streams_Audio[Pos]->Infos["Codec"]=__T("PCM");
+                Streams_Audio[Pos]->Infos["BitRate_Mode"]=__T("CBR");
                 Streams_Audio[Pos]->Infos["Channel(s)"].From_Number(audio_source_stype==3?1:2);
                 Streams_Audio[Pos]->Infos["SamplingRate"].From_Number(Dv_Audio_SamplingRate[SamplingRate]);
                 Streams_Audio[Pos]->Infos["BitDepth"].From_Number(Dv_Audio_BitDepth[Resolution]);
@@ -1702,10 +1702,10 @@ void File_DvDif::consumer_camera_1()
 
     if (Encoded_Library_Settings.empty())
     {
-        if (ae_mode<0x0F) Encoded_Library_Settings+=_T("ae mode=")+Ztring(Dv_consumer_camera_1_ae_mode[ae_mode])+_T(" / ");
-        if (wb_mode<0x08) Encoded_Library_Settings+=_T("wb mode=")+Ztring(Dv_consumer_camera_1_wb_mode[wb_mode])+_T(" / ");
-        if (wb_mode<0x1F) Encoded_Library_Settings+=_T("white balance=")+Ztring(Dv_consumer_camera_1_white_balance(white_balance))+_T(" / ");
-                          Encoded_Library_Settings+=_T("fcm=")+Ztring(Dv_consumer_camera_1_fcm[fcm]);
+        if (ae_mode<0x0F) Encoded_Library_Settings+=__T("ae mode=")+Ztring(Dv_consumer_camera_1_ae_mode[ae_mode])+__T(" / ");
+        if (wb_mode<0x08) Encoded_Library_Settings+=__T("wb mode=")+Ztring(Dv_consumer_camera_1_wb_mode[wb_mode])+__T(" / ");
+        if (wb_mode<0x1F) Encoded_Library_Settings+=__T("white balance=")+Ztring(Dv_consumer_camera_1_white_balance(white_balance))+__T(" / ");
+                          Encoded_Library_Settings+=__T("fcm=")+Ztring(Dv_consumer_camera_1_fcm[fcm]);
     }
 }
 
@@ -1726,7 +1726,7 @@ void File_DvDif::consumer_camera_2()
     Skip_S1(8,                                                  "focal length");
     Skip_S1(1,                                                  "zen");
     Info_S1(3, zoom_U,                                          "units of e-zoom");
-    Info_S1(4, zoom_D,                                          "1/10 of e-zoom"); /*if (zoom_D!=0xF)*/ Param_Info1(_T("zoom=")+Ztring().From_Number(zoom_U+((float32)zoom_U)/10, 2));
+    Info_S1(4, zoom_D,                                          "1/10 of e-zoom"); /*if (zoom_D!=0xF)*/ Param_Info1(__T("zoom=")+Ztring().From_Number(zoom_U+((float32)zoom_U)/10, 2));
     BS_End();
 }
 
@@ -1761,7 +1761,7 @@ Ztring File_DvDif::recdate()
     Get_S1 (4, Temp,                                            "Year (Units)");
     Year+=Temp;
     Year+=Year<25?2000:1900;
-    Element_Info1(Ztring::ToZtring(Year)+_T("-")+Ztring::ToZtring(Month)+_T("-")+Ztring::ToZtring(Day));
+    Element_Info1(Ztring::ToZtring(Year)+__T("-")+Ztring::ToZtring(Month)+__T("-")+Ztring::ToZtring(Day));
 
     BS_End();
 
@@ -1769,13 +1769,13 @@ Ztring File_DvDif::recdate()
         return Ztring(); //If all bits are set to 1, this is invalid
     Ztring MonthString;
     if (Month<10)
-        MonthString=_T("0");
+        MonthString=__T("0");
     MonthString+=Ztring::ToZtring(Month);
     Ztring DayString;
     if (Day<10)
-        DayString=_T("0");
+        DayString=__T("0");
     DayString+=Ztring::ToZtring(Day);
-    return Ztring::ToZtring(Year)+_T("-")+MonthString+_T("-")+DayString;
+    return Ztring::ToZtring(Year)+__T("-")+MonthString+__T("-")+DayString;
 }
 
 //---------------------------------------------------------------------------

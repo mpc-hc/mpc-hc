@@ -1,17 +1,17 @@
 // File_N19 - Info for N19 files
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -268,9 +268,9 @@ void File_N19::FileHeader_Parse()
 
         Fill(Stream_General, 0, General_Format, "N19");
         Fill(Stream_General, 0, General_Title, OPT);
-        RD.insert(0, _T("20"));
-        RD.insert(4, _T("-"));
-        RD.insert(7, _T("-"));
+        RD.insert(0, __T("20"));
+        RD.insert(4, __T("-"));
+        RD.insert(7, __T("-"));
         Fill(Stream_General, 0, General_Recorded_Date, RD);
         Fill(Stream_General, 0, General_Country, Ztring(CO).MakeLowerCase());
         Fill(Stream_General, 0, General_DistributedBy, EN);
@@ -309,9 +309,9 @@ void File_N19::FileHeader_Parse()
             }
         }
         Fill(Stream_Text, 0, Text_Width, MNC.To_int32u());
-        Fill(Stream_Text, 0, Text_Width_String, Ztring::ToZtring(MNC.To_int32u())+_T(" characters"), true);
+        Fill(Stream_Text, 0, Text_Width_String, Ztring::ToZtring(MNC.To_int32u())+__T(" characters"), true);
         Fill(Stream_Text, 0, Text_Height, MNR.To_int32u());
-        Fill(Stream_Text, 0, Text_Height_String, Ztring::ToZtring(MNR.To_int32u())+_T(" characters"), true);
+        Fill(Stream_Text, 0, Text_Height_String, Ztring::ToZtring(MNR.To_int32u())+__T(" characters"), true);
         Fill(Stream_Text, 0, Text_Language, N19_LanguageCode(LC));
 
         //Init
@@ -328,7 +328,7 @@ void File_N19::Header_Parse()
 {
     //Filling
     Header_Fill_Size(128);
-    Header_Fill_Code(0, _T("TTI"));
+    Header_Fill_Code(0, __T("TTI"));
 }
 
 //---------------------------------------------------------------------------

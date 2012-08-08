@@ -1,17 +1,17 @@
 // File_Id3 - Info for ID3v2 tagged files
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -314,7 +314,7 @@ File_Id3v2::File_Id3v2()
 {
     //Configuration
     Buffer_MaximumSize=8*1024*1024;
-    
+
     //Temp
     Id3v2_Size=0;
 }
@@ -353,19 +353,19 @@ void File_Id3v2::Streams_Fill()
         Ztring Recorded_Date=Year;
         if (!Month.empty())
         {
-            Recorded_Date+=_T('-');
+            Recorded_Date+=__T('-');
             Recorded_Date+=Month;
             if (!Day.empty())
             {
-                Recorded_Date+=_T('-');
+                Recorded_Date+=__T('-');
                 Recorded_Date+=Day;
                 if (!Hour.empty())
                 {
-                    Recorded_Date+=_T(' ');
+                    Recorded_Date+=__T(' ');
                     Recorded_Date+=Hour;
                     if (Minute.empty())
                     {
-                        Recorded_Date+=_T(':');
+                        Recorded_Date+=__T(':');
                         Recorded_Date+=Minute;
                     }
                 }
@@ -502,6 +502,26 @@ void File_Id3v2::Header_Parse()
             Get_Flags (Flags,  1, Unsynchronisation_Frame,      "Unsynchronisation");
             Get_Flags (Flags,  0, DataLengthIndicator,          "Data length indicator");
         }
+    }
+
+    //Hanlding Unsynchronisation
+    if (Unsynchronisation_Global || Unsynchronisation_Frame)
+    {
+        if (Buffer_Offset+(size_t)Element_Offset+Size>Buffer_Size)
+        {
+            Element_WaitForMoreData();
+            return;
+        }
+        for (size_t Element_Offset_Unsynch=0; Element_Offset_Unsynch+2<Element_Offset+Size; Element_Offset_Unsynch++)
+            if (CC2(Buffer+Buffer_Offset+Element_Offset_Unsynch)==0xFF00)
+            {
+                Size++;
+                if (Buffer_Offset+(size_t)Element_Offset+Size>Buffer_Size)
+                {
+                    Element_WaitForMoreData();
+                    return;
+                }
+            }
     }
 
     //Filling
@@ -779,8 +799,8 @@ void File_Id3v2::T___()
     //Exceptions
     if (Element_Code==Elements::TCMP || Element_Code==Elements::TCP)
     {
-        if (Element_Value==_T("0")) Element_Value.clear(); //This is usually set to 0 even if the user did not explicitely indicated something (default)
-        if (Element_Value==_T("1")) Element_Value=_T("Yes");
+        if (Element_Value==__T("0")) Element_Value.clear(); //This is usually set to 0 even if the user did not explicitely indicated something (default)
+        if (Element_Value==__T("1")) Element_Value=__T("Yes");
     }
 
     //Filling
@@ -906,8 +926,8 @@ void File_Id3v2::APIC()
         Get_C3(Image_format,                                    "Image_format");
         switch (Image_format)
         {
-            case 0x504E47 : Mime="image/png";
-            case 0x4A5047 : Mime="image/jpeg";
+            case 0x504E47 : Mime="image/png"; break;
+            case 0x4A5047 : Mime="image/jpeg"; break;
             default       : ;
         }
     }
@@ -955,24 +975,24 @@ void File_Id3v2::COMM()
     T__X();
 
     //Testing
-         if (Element_Values(0)==_T("iTunes_CDDB_IDs")) return;
-    else if (Element_Values(0)==_T("iTunNORM")) return;
-    else if (Element_Values(0)==_T("iTunSMPB")) return;
-    else if (Element_Values(0)==_T("Songs-DB_Tempo")) return;
-    else if (Element_Values(0)==_T("Songs-DB_Preference")) return;
-    else if (Element_Values(0)==_T("MusicMatch_Tempo")) return;
-    else if (Element_Values(0)==_T("MusicMatch_Mood"))
+         if (Element_Values(0)==__T("iTunes_CDDB_IDs")) return;
+    else if (Element_Values(0)==__T("iTunNORM")) return;
+    else if (Element_Values(0)==__T("iTunSMPB")) return;
+    else if (Element_Values(0)==__T("Songs-DB_Tempo")) return;
+    else if (Element_Values(0)==__T("Songs-DB_Preference")) return;
+    else if (Element_Values(0)==__T("MusicMatch_Tempo")) return;
+    else if (Element_Values(0)==__T("MusicMatch_Mood"))
     {
         if (Retrieve(Stream_General, 0, General_Mood).empty())
-            Element_Values(0)==_T("Mood");
+            Element_Values(0)==__T("Mood");
         else
             return;
     }
-    else if (Element_Values(0)==_T("MusicMatch_Preference")) return;
+    else if (Element_Values(0)==__T("MusicMatch_Preference")) return;
 
     //Filling
     if (Element_Values(0).empty())
-        Element_Values(0)=_T("Comment");
+        Element_Values(0)=__T("Comment");
     Fill_Name();
 }
 
@@ -1030,8 +1050,8 @@ void File_Id3v2::USLT()
 
     //Filling
     if (!Element_Values(0).empty())
-        Element_Values(1)=Element_Values(0)+MediaInfoLib::Config.Language_Get(_T(": "))+Element_Values(1);
-    Element_Values(0)=_T("Lyrics");
+        Element_Values(1)=Element_Values(0)+MediaInfoLib::Config.Language_Get(__T(": "))+Element_Values(1);
+    Element_Values(0)=__T("Lyrics");
 
     Fill_Name();
 }
@@ -1043,7 +1063,7 @@ void File_Id3v2::TXXX()
 
     //Filling
     if (Element_Values(0).empty())
-        Element_Values(0)=_T("Comment");
+        Element_Values(0)=__T("Comment");
     Fill_Name();
 }
 
@@ -1077,7 +1097,7 @@ void File_Id3v2::WXXX()
     if (Element_Values(1).empty())
         return;
     if (Element_Values(0).empty())
-        Element_Values(0)=_T("URL");
+        Element_Values(0)=__T("URL");
     Fill_Name();
 }
 
@@ -1089,9 +1109,9 @@ void File_Id3v2::WXXX()
 void File_Id3v2::Fill_Name()
 {
     Ztring Value=Ztring().From_CC4((int32u)Element_Code);
-    if (MediaInfoLib::Config.CustomMapping_IsPresent(_T("Id3v2"), Value))
+    if (MediaInfoLib::Config.CustomMapping_IsPresent(__T("Id3v2"), Value))
     {
-        Fill(Stream_General, 0, MediaInfoLib::Config.CustomMapping_Get(_T("Id3v2"), Value).To_Local().c_str(), Element_Value);
+        Fill(Stream_General, 0, MediaInfoLib::Config.CustomMapping_Get(__T("Id3v2"), Value).To_Local().c_str(), Element_Value);
         return;
     }
 
@@ -1130,9 +1150,9 @@ void File_Id3v2::Fill_Name()
         case Elements::TCOM : Fill(Stream_General, 0, General_Composer, Element_Value); break;
         case Elements::TCON :
                               {
-                                if (Element_Value.find(_T("("))==0)
-                                    Element_Value=Element_Value.SubString(_T("("), _T(")")); //Replace (nn) by nn
-                                if (Element_Value==_T("0") || Element_Value==_T("255"))
+                                if (Element_Value.find(__T("("))==0)
+                                    Element_Value=Element_Value.SubString(__T("("), __T(")")); //Replace (nn) by nn
+                                if (Element_Value==__T("0") || Element_Value==__T("255"))
                                     Element_Value.clear();
                                 Fill(Stream_General, 0, General_Genre, Element_Value);
                               }
@@ -1181,7 +1201,7 @@ void File_Id3v2::Fill_Name()
         case Elements::TPE4 : Fill(Stream_General, 0, General_RemixedBy, Element_Value); break;
         case Elements::TPOS :
                               {
-                                ZtringList List; List.Separator_Set(0, _T("/")); List.Write(Element_Value);
+                                ZtringList List; List.Separator_Set(0, __T("/")); List.Write(Element_Value);
                                 if (!List(0).empty())
                                     Fill(Stream_General, 0, General_Part_Position, List(0));
                                 if (!List(1).empty())
@@ -1192,7 +1212,7 @@ void File_Id3v2::Fill_Name()
         case Elements::TPUB : Fill(Stream_General, 0, General_Publisher, Element_Value); break;
         case Elements::TRCK :
                               {
-                                ZtringList List; List.Separator_Set(0, _T("/")); List.Write(Element_Value);
+                                ZtringList List; List.Separator_Set(0, __T("/")); List.Write(Element_Value);
                                 if (!List(0).empty())
                                     Fill(Stream_General, 0, General_Track_Position, List(0));
                                 if (!List(1).empty())
@@ -1211,20 +1231,20 @@ void File_Id3v2::Fill_Name()
         case Elements::TSRC : Fill(Stream_General, 0, General_ISRC, Element_Value); break;
         case Elements::TSSE : Fill(Stream_General, 0, General_Encoded_Library, Element_Value); break;
         case Elements::TSST : Fill(Stream_General, 0, "Set subtitle", Element_Value); break;
-        case Elements::TXXX : if (Element_Values(0)==_T("AccurateRipResult"))      ;
-                         else if (Element_Values(0)==_T("AccurateRipDiscID"))      ;
-                         else if (Element_Values(0)==_T("CT_GAPLESS_DATA"))        ;
-                         else if (Element_Values(0)==_T("DISCNUMBER"))             Fill(Stream_General, 0, General_Part_Position,           Element_Values(1), true);
-                         else if (Element_Values(0)==_T("DISCTOTAL"))              Fill(Stream_General, 0, General_Part_Position_Total,     Element_Values(1), true);
-                         else if (Element_Values(0)==_T("first_played_timestamp")) Fill(Stream_General, 0, General_Played_First_Date,       Ztring().Date_From_Milliseconds_1601(Element_Values(1).To_int64u()/10000));
-                         else if (Element_Values(0)==_T("last_played_timestamp"))  Fill(Stream_General, 0, General_Played_Last_Date,        Ztring().Date_From_Milliseconds_1601(Element_Values(1).To_int64u()/10000));
-                         else if (Element_Values(0)==_T("play_count"))             Fill(Stream_General, 0, General_Played_Count,            Element_Values(1).To_int64u());
-                         else if (Element_Values(0)==_T("added_timestamp"))        Fill(Stream_General, 0, General_Added_Date,              Ztring().Date_From_Milliseconds_1601(Element_Values(1).To_int64u()/10000));
-                         else if (Element_Values(0)==_T("replaygain_album_gain"))  Fill(Stream_General, 0, General_Album_ReplayGain_Gain,   Element_Values(1).To_float64(), 2, true);
-                         else if (Element_Values(0)==_T("replaygain_album_peak"))  Fill(Stream_General, 0, General_Album_ReplayGain_Peak,   Element_Values(1).To_float64(), 6, true);
-                         else if (Element_Values(0)==_T("replaygain_track_gain"))  Fill(Stream_Audio,   0, Audio_ReplayGain_Gain,           Element_Values(1).To_float64(), 2, true);
-                         else if (Element_Values(0)==_T("replaygain_track_peak"))  Fill(Stream_Audio,   0, Audio_ReplayGain_Peak,           Element_Values(1).To_float64(), 6, true);
-                         else if (Element_Values(0)==_T("TRACKTOTAL"))             Fill(Stream_General, 0, General_Track_Position_Total,    Element_Values(1), true);
+        case Elements::TXXX : if (Element_Values(0)==__T("AccurateRipResult"))      ;
+                         else if (Element_Values(0)==__T("AccurateRipDiscID"))      ;
+                         else if (Element_Values(0)==__T("CT_GAPLESS_DATA"))        ;
+                         else if (Element_Values(0)==__T("DISCNUMBER"))             Fill(Stream_General, 0, General_Part_Position,           Element_Values(1), true);
+                         else if (Element_Values(0)==__T("DISCTOTAL"))              Fill(Stream_General, 0, General_Part_Position_Total,     Element_Values(1), true);
+                         else if (Element_Values(0)==__T("first_played_timestamp")) Fill(Stream_General, 0, General_Played_First_Date,       Ztring().Date_From_Milliseconds_1601(Element_Values(1).To_int64u()/10000));
+                         else if (Element_Values(0)==__T("last_played_timestamp"))  Fill(Stream_General, 0, General_Played_Last_Date,        Ztring().Date_From_Milliseconds_1601(Element_Values(1).To_int64u()/10000));
+                         else if (Element_Values(0)==__T("play_count"))             Fill(Stream_General, 0, General_Played_Count,            Element_Values(1).To_int64u());
+                         else if (Element_Values(0)==__T("added_timestamp"))        Fill(Stream_General, 0, General_Added_Date,              Ztring().Date_From_Milliseconds_1601(Element_Values(1).To_int64u()/10000));
+                         else if (Element_Values(0)==__T("replaygain_album_gain"))  Fill(Stream_General, 0, General_Album_ReplayGain_Gain,   Element_Values(1).To_float64(), 2, true);
+                         else if (Element_Values(0)==__T("replaygain_album_peak"))  Fill(Stream_General, 0, General_Album_ReplayGain_Peak,   Element_Values(1).To_float64(), 6, true);
+                         else if (Element_Values(0)==__T("replaygain_track_gain"))  Fill(Stream_Audio,   0, Audio_ReplayGain_Gain,           Element_Values(1).To_float64(), 2, true);
+                         else if (Element_Values(0)==__T("replaygain_track_peak"))  Fill(Stream_Audio,   0, Audio_ReplayGain_Peak,           Element_Values(1).To_float64(), 6, true);
+                         else if (Element_Values(0)==__T("TRACKTOTAL"))             Fill(Stream_General, 0, General_Track_Position_Total,    Element_Values(1), true);
                          else
                             Fill(Stream_General, 0, Element_Values(0).To_UTF8().c_str(), Element_Values(1));
                          break;
@@ -1264,9 +1284,9 @@ void File_Id3v2::Fill_Name()
         case Elements::TCM  : Fill(Stream_General, 0, "Composer", Element_Value); break;
         case Elements::TCO  :
                               {
-                                if (Element_Value.find(_T("("))==0)
-                                    Element_Value=Element_Value.SubString(_T("("), _T(")")); //Replace (nn) by nn
-                                if (Element_Value==_T("0") || Element_Value==_T("255"))
+                                if (Element_Value.find(__T("("))==0)
+                                    Element_Value=Element_Value.SubString(__T("("), __T(")")); //Replace (nn) by nn
+                                if (Element_Value==__T("0") || Element_Value==__T("255"))
                                     Element_Value.clear();
                                 if (!Element_Value.empty())
                                     Fill(Stream_General, 0, General_Genre, Element_Value);
@@ -1291,7 +1311,7 @@ void File_Id3v2::Fill_Name()
         case Elements::TP4  : Fill(Stream_General, 0, "RemixedBy", Element_Value); break;
         case Elements::TPA  :
                               {
-                                ZtringList List; List.Separator_Set(0, _T("/")); List.Write(Element_Value);
+                                ZtringList List; List.Separator_Set(0, __T("/")); List.Write(Element_Value);
                                 if (!List(0).empty())
                                     Fill(Stream_General, 0, General_Part_Position, List(0));
                                 if (!List(1).empty())
@@ -1303,7 +1323,7 @@ void File_Id3v2::Fill_Name()
         case Elements::TRD  : Normalize_Date(Element_Value); Fill(Stream_General, 0, "Recorded_Date", Element_Value); break;
         case Elements::TRK  :
                               {
-                                ZtringList List; List.Separator_Set(0, _T("/")); List.Write(Element_Value);
+                                ZtringList List; List.Separator_Set(0, __T("/")); List.Write(Element_Value);
                                 if (!List(0).empty())
                                     Fill(Stream_General, 0, General_Track_Position, List(0));
                                 if (!List(1).empty())
@@ -1336,8 +1356,8 @@ void File_Id3v2::Normalize_Date(Ztring& Date)
 {
     if (Date.size()<=8)
         return; //Format unknown
-    Date[8]=_T(' '); //could be "T"
-    Date=Ztring(_T("UTC "))+Date; //Id3v2 specify a UTC date
+    Date[8]=__T(' '); //could be "T"
+    Date=Ztring(__T("UTC "))+Date; //Id3v2 specify a UTC date
 }
 
 //***************************************************************************

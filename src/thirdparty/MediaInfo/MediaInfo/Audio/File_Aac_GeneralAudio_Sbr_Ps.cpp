@@ -1,17 +1,17 @@
 // File_Aac - Info for AAC (Raw) files
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -49,22 +49,22 @@ void File_Aac::ps_data(size_t End)
     FILLING_BEGIN();
         if (Infos["Format_Settings_PS"].empty())
         {
-            Infos["Format_Profile"]=_T("HE-AACv2");
+            Infos["Format_Profile"]=__T("HE-AACv2");
             Ztring Channels=Infos["Channel(s)"];
             Ztring ChannelPositions=Infos["ChannelPositions"];
             Ztring SamplingRate=Infos["SamplingRate"];
-            Infos["Channel(s)"]=_T("2");
-            Infos["ChannelPositions"]=_T("Front: L R");
+            Infos["Channel(s)"]=__T("2");
+            Infos["ChannelPositions"]=__T("Front: L R");
             if (MediaInfoLib::Config.LegacyStreamDisplay_Get())
             {
-                Infos["Format_Profile"]+=_T(" / HE-AAC / LC");
-                Infos["Channel(s)"]+=_T(" / ")+Channels+_T(" / ")+Channels;
-                Infos["ChannelPositions"]+=_T(" / ")+ChannelPositions+_T(" / ")+ChannelPositions;
-                Infos["SamplingRate"]=Ztring().From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10)+_T(" / ")+SamplingRate;
+                Infos["Format_Profile"]+=__T(" / HE-AAC / LC");
+                Infos["Channel(s)"]+=__T(" / ")+Channels+__T(" / ")+Channels;
+                Infos["ChannelPositions"]+=__T(" / ")+ChannelPositions+__T(" / ")+ChannelPositions;
+                Infos["SamplingRate"]=Ztring().From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10)+__T(" / ")+SamplingRate;
             }
-            Infos["Format_Settings_PS"]=_T("Yes (Implicit)");
+            Infos["Format_Settings_PS"]=__T("Yes (Implicit)");
             Ztring Codec=Retrieve(Stream_Audio, StreamPos_Last, Audio_Codec);
-            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+_T("-SBR-PS");
+            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+__T("-SBR-PS");
         }
     FILLING_END();
 

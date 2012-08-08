@@ -1,17 +1,17 @@
 // File_Mpeg4 - Info for MPEG-4 files
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -293,7 +293,7 @@ File_Mpeg4_Descriptors::File_Mpeg4_Descriptors()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("MPEG-4 Descriptor");
+    ParserName=__T("MPEG-4 Descriptor");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_Mpeg4_Desc;
         StreamIDs_Width[0]=0;
@@ -620,7 +620,7 @@ void File_Mpeg4_Descriptors::Descriptor_04()
             case 0xA5 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "AC3", Error, false, true); break;
             case 0xA6 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "AC3+", Error, false, true); break;
             case 0xA9 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "DTS", Error, false, true); break;
-            case 0xAA : 
+            case 0xAA :
             case 0xAB : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "DTS-HD", Error, false, true); break;
             case 0xAC : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "DTS Express", Error, false, true); break;
             case 0xD1 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "EVRC", Error, false, true); break;
@@ -714,7 +714,7 @@ void File_Mpeg4_Descriptors::Descriptor_04()
                         break;
             case 0xA3 : //VC-1
                         #if defined(MEDIAINFO_VC1_YES)
-                            Parser=new File_Vc1; 
+                            Parser=new File_Vc1;
                         #endif
                         break;
             case 0xA4 : //Dirac

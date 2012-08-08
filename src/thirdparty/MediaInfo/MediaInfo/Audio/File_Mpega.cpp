@@ -1,17 +1,17 @@
 // File_Mpega - Info for MPEG Audio files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -254,7 +254,7 @@ const int8u Mpega_SlotSize[4]= //A frame is coposed of slots
     1, // Layer3
     1, // Layer2
     4, // Layer1
-};                       
+};
 
 //---------------------------------------------------------------------------
 const int16u Mpega_CRC12_Table[]=
@@ -356,7 +356,7 @@ void File_Mpega::Streams_Fill()
     {
         //How much kinds of bitrates?
         if (BitRate_Count.size()>1)
-            BitRate_Mode=_T("VBR");
+            BitRate_Mode=__T("VBR");
     }
 
     File__Tags_Helper::Stream_Prepare(Stream_Audio);
@@ -388,9 +388,9 @@ void File_Mpega::Streams_Fill()
     }
 
     //Bitrate, if CBR
-    if (VBR_Frames==0 && BitRate_Mode!=_T("VBR"))
+    if (VBR_Frames==0 && BitRate_Mode!=__T("VBR"))
     {
-        BitRate_Mode=_T("CBR");
+        BitRate_Mode=__T("CBR");
         BitRate=Mpega_BitRate[ID][layer][bitrate_index]*1000;
         Fill(Stream_General, 0, General_OverallBitRate, BitRate);
         Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
@@ -418,7 +418,7 @@ void File_Mpega::Streams_Finish()
     //Fill("Reservoir_Max", Reservoir_Max);
     //size_t Granules=(Mpeg==3?2:1);
     //size_t Ch=Mpega_Channels[Channels];
-    //Fill("Scalefactors", Ztring::ToZtring(Scalefac*100/(Granules*Ch*Frame_Count))+_T('%'));
+    //Fill("Scalefactors", Ztring::ToZtring(Scalefac*100/(Granules*Ch*Frame_Count))+__T('%'));
 
     //VBR_FileSize calculation
     if (!IsSub && (File_Size!=(int64u)-1 || LastSync_Offset!=(int64u)-1) && VBR_FileSize==0)
@@ -454,15 +454,15 @@ void File_Mpega::Streams_Finish()
             Divider=1152/8;
         if (ID<4 && sampling_frequency<4)
             BitRate=(int32u)(FrameLength*Mpega_SamplingRate[ID][sampling_frequency]/Divider);
-        BitRate_Mode=_T("VBR");
+        BitRate_Mode=__T("VBR");
     }
     //if (BitRate_Count.size()>1)
     //{
     //    Ztring BitRate_VBR;
     //    if (!BitRate_VBR.empty())
-    //        BitRate_VBR+=_T(' ');
+    //        BitRate_VBR+=__T(' ');
     //    BitRate_VBR+=Ztring::ToZtring(8);
-    //    BitRate_VBR+=_T(':');
+    //    BitRate_VBR+=__T(':');
     //    BitRate_VBR+=Ztring::ToZtring(BitRate_Count[8]);
     //    Fill("BitRate_VBR", Ztring::ToZtring(BitRate_Count[8]));
     //}
@@ -500,7 +500,7 @@ void File_Mpega::Streams_Finish()
     if (FrameInfo.PTS!=(int64u)-1 && FrameInfo.PTS>PTS_Begin)
     {
         Fill(Stream_Audio, 0, Audio_Duration, float64_int64s(((float64)(FrameInfo.PTS-PTS_Begin))/1000000));
-        if (Retrieve(Stream_Audio, 0, Audio_BitRate_Mode)==_T("CBR"))
+        if (Retrieve(Stream_Audio, 0, Audio_BitRate_Mode)==__T("CBR"))
         {
             int16u Samples;
             if (ID==3 && layer==3) //MPEG 1 layer 1
@@ -515,7 +515,7 @@ void File_Mpega::Streams_Finish()
         }
     }
 
-    if (FrameCount==0 && VBR_FileSize && Retrieve(Stream_Audio, 0, Audio_BitRate_Mode)==_T("CBR") && Mpega_SamplingRate[ID][sampling_frequency])
+    if (FrameCount==0 && VBR_FileSize && Retrieve(Stream_Audio, 0, Audio_BitRate_Mode)==__T("CBR") && Mpega_SamplingRate[ID][sampling_frequency])
     {
         size_t Size=(Mpega_Coefficient[ID][layer]*Mpega_BitRate[ID][layer][bitrate_index]*1000/Mpega_SamplingRate[ID][sampling_frequency])*Mpega_SlotSize[layer];
         if (Size)
@@ -906,10 +906,10 @@ void File_Mpega::Data_Parse()
     }
 
     //PTS
-    Element_Info1C((FrameInfo.PTS!=(int64u)-1), _T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.PTS)/1000000)));
+    Element_Info1C((FrameInfo.PTS!=(int64u)-1), __T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.PTS)/1000000)));
 
     //Name
-    Element_Info1(_T("Frame ")+Ztring::ToZtring(Frame_Count));
+    Element_Info1(__T("Frame ")+Ztring::ToZtring(Frame_Count));
 
     //VBR and library headers
     if (Frame_Count<3) //No need to do it too much
@@ -1200,7 +1200,7 @@ bool File_Mpega::Header_Xing()
             Ztring Lib;
             Element_End0();
             Peek_Local(4, Lib);
-            if (Lame || Lib==_T("LAME") || Lib==_T("GOGO") || Lib==_T("L3.9"))
+            if (Lame || Lib==__T("LAME") || Lib==__T("GOGO") || Lib==__T("L3.9"))
                 Header_Encoders_Lame();
 
             if (CC4(Xing_Header)==CC4("Info"))
@@ -1285,9 +1285,9 @@ bool File_Mpega::Header_Encoders()
             Get_Local(20, Encoded_Library,                      "Encoded_Library");
         else
             Get_Local( 8, Encoded_Library,                      "Encoded_Library");
-        Encoded_Library.Trim(_T('A'));
-        Encoded_Library.Trim(_T('U'));
-        Encoded_Library.Trim(_T('\xAA'));
+        Encoded_Library.Trim(__T('A'));
+        Encoded_Library.Trim(__T('U'));
+        Encoded_Library.Trim(__T('\xAA'));
         Element_Offset=0; //Reseting it
         return true;
     }
@@ -1336,13 +1336,13 @@ bool File_Mpega::Header_Encoders()
 void File_Mpega::Header_Encoders_Lame()
 {
     Peek_Local(8, Encoded_Library);
-    if (Encoded_Library.find(_T("L3.99"))==0)
-        Encoded_Library.insert(1, _T("AME")); //Ugly version string in Lame 3.99.1 "L3.99r1\0"
-    if ((Encoded_Library>=_T("LAME3.90")) && Element_IsNotFinished())
+    if (Encoded_Library.find(__T("L3.99"))==0)
+        Encoded_Library.insert(1, __T("AME")); //Ugly version string in Lame 3.99.1 "L3.99r1\0"
+    if ((Encoded_Library>=__T("LAME3.90")) && Element_IsNotFinished())
     {
         int8u Flags, lowpass, EncodingFlags, BitRate, StereoMode;
-        Param_Info1(Ztring(_T("V "))+Ztring::ToZtring((100-Xing_Scale)/10));
-        Param_Info1(Ztring(_T("q "))+Ztring::ToZtring((100-Xing_Scale)%10));
+        Param_Info1(Ztring(__T("V "))+Ztring::ToZtring((100-Xing_Scale)/10));
+        Param_Info1(Ztring(__T("q "))+Ztring::ToZtring((100-Xing_Scale)%10));
         Get_Local(9, Encoded_Library,                           "Encoded_Library");
         Get_B1 (Flags,                                          "Flags");
         if ((Flags&0xF0)<=0x20) //Rev. 0 or 1, http://gabriel.mp3-tech.org/mp3infotag.html and Rev. 2 was seen.
@@ -1356,7 +1356,7 @@ void File_Mpega::Header_Encoders_Lame()
         Skip_B4(                                                "Peak signal amplitude");
         Skip_B2(                                                "Radio Replay Gain");
         Skip_B2(                                                "Audiophile Replay Gain");
-        Get_B1 (EncodingFlags,                                  "Encoding Flags"); Param_Info1(Ztring(_T("ATH Type="))+Ztring::ToZtring(Flags&0x0F));
+        Get_B1 (EncodingFlags,                                  "Encoding Flags"); Param_Info1(Ztring(__T("ATH Type="))+Ztring::ToZtring(Flags&0x0F));
             Skip_Flags(EncodingFlags, 4,                        "nspsytune");
             Skip_Flags(EncodingFlags, 5,                        "nssafejoint");
             Skip_Flags(EncodingFlags, 6,                        "nogap (after)");
@@ -1376,36 +1376,36 @@ void File_Mpega::Header_Encoders_Lame()
         Skip_B2(                                                "CRC-16 of Info Tag");
 
         FILLING_BEGIN();
-            Encoded_Library_Settings+=_T("-m ");
+            Encoded_Library_Settings+=__T("-m ");
             switch(StereoMode)
             {
-                case 0 : Encoded_Library_Settings+=_T("m"); break;
-                case 1 : Encoded_Library_Settings+=_T("s"); break;
-                case 2 : Encoded_Library_Settings+=_T("d"); break;
-                case 3 : Encoded_Library_Settings+=_T("j"); break;
-                case 4 : Encoded_Library_Settings+=_T("f"); break;
-                case 5 : Encoded_Library_Settings+=_T("a"); break;
-                case 6 : Encoded_Library_Settings+=_T("i"); break;
+                case 0 : Encoded_Library_Settings+=__T("m"); break;
+                case 1 : Encoded_Library_Settings+=__T("s"); break;
+                case 2 : Encoded_Library_Settings+=__T("d"); break;
+                case 3 : Encoded_Library_Settings+=__T("j"); break;
+                case 4 : Encoded_Library_Settings+=__T("f"); break;
+                case 5 : Encoded_Library_Settings+=__T("a"); break;
+                case 6 : Encoded_Library_Settings+=__T("i"); break;
                 default: ;
             }
             if (Xing_Scale<=100) //Xing_Scale is used for LAME quality
             {
-                Encoded_Library_Settings+=_T( " -V ")+Ztring::ToZtring((100-Xing_Scale)/10);
-                Encoded_Library_Settings+=_T( " -q ")+Ztring::ToZtring((100-Xing_Scale)%10);
+                Encoded_Library_Settings+=__T( " -V ")+Ztring::ToZtring((100-Xing_Scale)/10);
+                Encoded_Library_Settings+=__T( " -q ")+Ztring::ToZtring((100-Xing_Scale)%10);
             }
             if (lowpass)
-                Encoded_Library_Settings+=(Encoded_Library_Settings.empty()?_T("-lowpass "):_T(" -lowpass "))+((lowpass%10)?Ztring::ToZtring(((float)lowpass)/10, 1):Ztring::ToZtring(lowpass/10));
+                Encoded_Library_Settings+=(Encoded_Library_Settings.empty()?__T("-lowpass "):__T(" -lowpass "))+((lowpass%10)?Ztring::ToZtring(((float)lowpass)/10, 1):Ztring::ToZtring(lowpass/10));
             switch (Flags&0x0F)
             {
                 case  2 :
                 case  9 : //ABR
-                            Encoded_Library_Settings+=_T(" --abr"); break;
+                            Encoded_Library_Settings+=__T(" --abr"); break;
                 case  3 : //VBR (old/rh)
-                            Encoded_Library_Settings+=_T(" --vbr-old"); break;
+                            Encoded_Library_Settings+=__T(" --vbr-old"); break;
                 case  4 : //VBR (new/mtrh)
-                            Encoded_Library_Settings+=_T(" --vbr-new"); break;
+                            Encoded_Library_Settings+=__T(" --vbr-new"); break;
                 case  5 : //VBR (?/mt)
-                            Encoded_Library_Settings+=_T(" --vbr-mt"); break;
+                            Encoded_Library_Settings+=__T(" --vbr-mt"); break;
                 default : ;
             }
             if (BitRate!=0x00 && BitRate!=0xFF)
@@ -1414,18 +1414,18 @@ void File_Mpega::Header_Encoders_Lame()
                 {
                     case  1 :
                     case  8 : //CBR
-                        Encoded_Library_Settings+=_T(" -b ")+Ztring::ToZtring(BitRate);
+                        Encoded_Library_Settings+=__T(" -b ")+Ztring::ToZtring(BitRate);
                         break;
                     case  2 :
                     case  9 : //ABR
                         BitRate_Nominal.From_Number(BitRate*1000);
-                        Encoded_Library_Settings+=_T(" ")+Ztring::ToZtring(BitRate);
+                        Encoded_Library_Settings+=__T(" ")+Ztring::ToZtring(BitRate);
                         break;
                     case  3 : //VBR (old/rh)
                     case  4 : //VBR (new/mtrh)
                     case  5 : //VBR (?/mt)
                         BitRate_Minimum.From_Number(BitRate*1000);
-                        Encoded_Library_Settings+=_T(" -b ")+Ztring::ToZtring(BitRate);
+                        Encoded_Library_Settings+=__T(" -b ")+Ztring::ToZtring(BitRate);
                         break;
                     default : ;
                 }
@@ -1516,13 +1516,13 @@ void File_Mpega::Encoded_Library_Guess()
                         //10 last bytes
                         //int sum = get_final_sum(data);
                         //if (sum==0)
-                        //    return guess = _T("FhG (fastenc, low quality mode)");
+                        //    return guess = __T("FhG (fastenc, low quality mode)");
                         //else if (sum==10 * 0xFF)
-                        //    return guess = _T("FhG (l3enc)");
+                        //    return guess = __T("FhG (l3enc)");
                         //else if (sum==5 * 0x20)
-                        //    return guess = _T("FhG (fastenc, medium or high quality mode)");
+                        //    return guess = __T("FhG (fastenc, medium or high quality mode)");
                         //else
-                        //    return guess = _T("FhG (l3enc or fastenc)");
+                        //    return guess = __T("FhG (l3enc or fastenc)");
                     }
                     else
                     {
@@ -1534,7 +1534,7 @@ void File_Mpega::Encoded_Library_Guess()
                 }
                 else //No padding
                 {
-                    if (BitRate_Mode.find(_T("VBR"))==0) //VBR
+                    if (BitRate_Mode.find(__T("VBR"))==0) //VBR
                         Encoded_Library="FhG (fastenc)";
                     else
                         Encoded_Library="FhG (ACM or producer pro)";
@@ -1549,7 +1549,7 @@ void File_Mpega::Encoded_Library_Guess()
                 }
                 else //Joint Stereo not used
                 {
-                    if (BitRate_Mode.find(_T("VBR"))==0) //VBR
+                    if (BitRate_Mode.find(__T("VBR"))==0) //VBR
                         Encoded_Library="Lame (old)";
                     else //CBR
                     {
@@ -1566,12 +1566,12 @@ void File_Mpega::Encoded_Library_Guess()
                             //if (data.av_reservoir < 40 && !data.vbr) //ISO based encoders are unable to properly use bit reservoir... average reservoir usage is about 10
                             //{
                             //    if (data.padding)
-                            //        return guess = _T("Blade");
+                            //        return guess = __T("Blade");
                             //    else
-                            //        return guess = _T("dist10 encoder or other encoder");
+                            //        return guess = __T("dist10 encoder or other encoder");
                             //}
                             //else
-                            //    return guess = _T("Gogo (before 3.0)");
+                            //    return guess = __T("Gogo (before 3.0)");
                         }
                     }
                 }

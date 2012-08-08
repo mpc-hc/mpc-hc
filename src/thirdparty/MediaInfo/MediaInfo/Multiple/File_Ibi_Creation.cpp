@@ -1,22 +1,22 @@
 // File_Ibi_Creation - Creation of Ibi files
-// Copyright (C) 2011-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 
+
 //---------------------------------------------------------------------------
 // Pre-compilation
 #include "MediaInfo/PreComp.h"
@@ -55,7 +55,7 @@ ibi::ibi()
 //---------------------------------------------------------------------------
 ibi::~ibi()
 {
-    for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); Stream++) 
+    for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
         delete Stream->second; //Stream->second=NULL;
 }
 
@@ -68,33 +68,39 @@ void ibi::stream::Add (const info &Info)
         for (Infos_Pos=0; Infos_Pos<Infos.size(); Infos_Pos++)
             if (Info.StreamOffset<Infos[Infos_Pos].StreamOffset)
                 break;
-    } 
+    }
 
     //Testing if new data is same as current insertion point
     if (Infos_Pos && Infos[Infos_Pos-1].FrameNumber==Info.FrameNumber && Info.FrameNumber!=(int64u)-1)
     {
         IsSynchronized=true;
-        return; 
+        return;
     }
     if (Infos_Pos && Info.Dts==Infos[Infos_Pos-1].Dts && Info.Dts!=(int64u)-1)
     {
         //Duplicate, updating it (in case of new frame count)
-        if (Infos_Pos && Info.FrameNumber!=(int64u)-1)
+        if (Infos_Pos && Info.FrameNumber!=(int64u)-1 && Info.FrameNumber<Infos[Infos_Pos-1].FrameNumber)
+        {
             Infos[Infos_Pos-1].FrameNumber=Info.FrameNumber;
-
-        IsSynchronized=true;
-        return; 
-    }
-    if (Infos_Pos && Info.StreamOffset==Infos[Infos_Pos-1].StreamOffset)
-    {
-        //Duplicate, updating it (in case of new frame count)
-        if (Infos_Pos && Info.FrameNumber!=(int64u)-1)
-            Infos[Infos_Pos-1].FrameNumber=Info.FrameNumber;
+            Infos[Infos_Pos-1].Dts=Info.Dts;
+        }
 
         IsSynchronized=true;
         return;
     }
-    
+    if (Infos_Pos && Info.StreamOffset==Infos[Infos_Pos-1].StreamOffset)
+    {
+        //Duplicate, updating it (in case of new frame count)
+        if (Infos_Pos && Info.FrameNumber!=(int64u)-1 && Info.FrameNumber<Infos[Infos_Pos-1].FrameNumber)
+        {
+            Infos[Infos_Pos-1].FrameNumber=Info.FrameNumber;
+            Infos[Infos_Pos-1].Dts=Info.Dts;
+        }
+
+        IsSynchronized=true;
+        return;
+    }
+
     //Previous item
     if (IsSynchronized && Infos_Pos)
     {
@@ -109,16 +115,16 @@ void ibi::stream::Add (const info &Info)
     if (Infos_Pos<Infos.size() && Infos[Infos_Pos].FrameNumber==Info.FrameNumber && Info.FrameNumber!=(int64u)-1)
     {
         Infos_Pos++;
-        
+
         IsSynchronized=true;
-        return; 
+        return;
     }
     if (Infos_Pos<Infos.size() && Info.Dts==Infos[Infos_Pos].Dts && Info.Dts!=(int64u)-1)
     {
         Infos_Pos++;
-        
+
         IsSynchronized=true;
-        return; 
+        return;
     }
     if (Infos_Pos<Infos.size() && Info.StreamOffset==Infos[Infos_Pos].StreamOffset)
     {
@@ -127,7 +133,7 @@ void ibi::stream::Add (const info &Info)
             Infos[Infos_Pos].FrameNumber=Info.FrameNumber;
 
         Infos_Pos++;
-        
+
         IsSynchronized=true;
         return;
     }
@@ -269,8 +275,8 @@ size_t int64u2Ebml(int8u* List, int64u Value)
 size_t EbmlBlock(int8u* List, size_t List_MaxSize, int64u Code, int8u* Content, size_t Content_Size)
 {
     if (Content_Size==0)
-        return 0;    
-        
+        return 0;
+
     size_t Code_EbmlSize=int64u2Ebml(NULL, Code);
     size_t Content_EbmlSize=int64u2Ebml(NULL, Content_Size);
 

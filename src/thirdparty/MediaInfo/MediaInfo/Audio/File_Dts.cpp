@@ -1,17 +1,17 @@
 // File_Dts - Info for DTS files
-// Copyright (C) 2004-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2004-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -202,7 +202,7 @@ std::string DTS_HD_SpeakerActivityMask (int16u SpeakerActivityMask)
         if (SpeakerActivityMask&0x8000)
             Text+=", HiRear: L R";
     }
-        
+
     if (SpeakerActivityMask&0x0008)
         Text+=", LFE";
     if (SpeakerActivityMask&0x1000)
@@ -270,7 +270,7 @@ std::string DTS_HD_SpeakerActivityMask2 (int16u SpeakerActivityMask)
         if (SpeakerActivityMask&0x8000)
             Text+=".2";
     }
-        
+
     if (SpeakerActivityMask&0x0008)
         Text+=".1";
     if (SpeakerActivityMask&0x1000)
@@ -330,7 +330,7 @@ File_Dts::File_Dts()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("Dts");
+    ParserName=__T("Dts");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_Dts;
         StreamIDs_Width[0]=0;
@@ -391,11 +391,11 @@ void File_Dts::Streams_Fill()
         return; //filled by the parser
 
     if (!Profile.empty())
-        Fill(Stream_Audio, 0, Audio_Format_Profile, Profile+(Core_Exists?_T(" / Core"):_T("")));
+        Fill(Stream_Audio, 0, Audio_Format_Profile, Profile+(Core_Exists?__T(" / Core"):__T("")));
     else if (ES)
         Fill(Stream_Audio, 0, Audio_Format_Profile, "ES");
     Fill(Stream_General, 0, General_Format_Profile, Retrieve(Stream_Audio, 0, Audio_Format_Profile));
-    Fill(Stream_Audio, 0, Audio_Codec, (Profile.find(_T("MA"))==0 || Profile.find(_T("HRA"))==0)?"DTS-HD":"DTS");
+    Fill(Stream_Audio, 0, Audio_Codec, (Profile.find(__T("MA"))==0 || Profile.find(__T("HRA"))==0)?"DTS-HD":"DTS");
 
     //HD data
     if ((ExtendedCoding && (ExtensionAudioDescriptor==0 || ExtensionAudioDescriptor==3 || ExtensionAudioDescriptor==6)))
@@ -404,13 +404,13 @@ void File_Dts::Streams_Fill()
         {
             case 1 :
                     Fill(Stream_Audio, 0, Audio_Channel_s_, 7);
-                    Fill(Stream_Audio, 0, Audio_ChannelPositions, Ztring("Front: L C R, Side: L R, Back: C")+(lfe_effects?_T(", LFE"):_T("")));
-                    Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, Ztring("3/2/1")+(lfe_effects?_T(".1"):_T(".0")));
+                    Fill(Stream_Audio, 0, Audio_ChannelPositions, Ztring("Front: L C R, Side: L R, Back: C")+(lfe_effects?__T(", LFE"):__T("")));
+                    Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, Ztring("3/2/1")+(lfe_effects?__T(".1"):__T(".0")));
                     break;
             case 2 :
                     Fill(Stream_Audio, 0, Audio_Channel_s_, 8);
-                    Fill(Stream_Audio, 0, Audio_ChannelPositions, Ztring("Front: L C R, Side: L R, Back: L R")+(lfe_effects?_T(", LFE"):_T("")));
-                    Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, Ztring("3/2/2")+(lfe_effects?_T(".1"):_T(".0")));
+                    Fill(Stream_Audio, 0, Audio_ChannelPositions, Ztring("Front: L C R, Side: L R, Back: L R")+(lfe_effects?__T(", LFE"):__T("")));
+                    Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, Ztring("3/2/2")+(lfe_effects?__T(".1"):__T(".0")));
                     break;
             default:;
         }
@@ -430,31 +430,31 @@ void File_Dts::Streams_Fill()
             Fill(Stream_Audio, 0, Audio_SamplingRate, DTS_SamplingRate[sample_frequency_X96k]);
         if(HD_TotalNumberChannels!=(int8u)-1)
             Fill(Stream_Audio, 0, Audio_Channel_s_, HD_TotalNumberChannels);
-        if (bit_rate<29 || Profile==_T("Express"))
+        if (bit_rate<29 || Profile==__T("Express"))
             Fill(Stream_Audio, 0, Audio_BitRate, BitRate_Get(true), 0);
-        if (Profile==_T("Express"))
+        if (Profile==__T("Express"))
             Fill(Stream_Audio, 0, Audio_BitRate_Mode, "CBR");
     }
 
     //Core data
     if (Core_Exists)
     {
-        if ((Profile.find(_T("MA"))==0?_T("VBR"):_T("CBR"))!=Retrieve(Stream_Audio, 0, Audio_BitRate_Mode))
-            Fill(Stream_Audio, 0, Audio_BitRate_Mode, Profile.find(_T("MA"))==0?"VBR":"CBR");
+        if ((Profile.find(__T("MA"))==0?__T("VBR"):__T("CBR"))!=Retrieve(Stream_Audio, 0, Audio_BitRate_Mode))
+            Fill(Stream_Audio, 0, Audio_BitRate_Mode, Profile.find(__T("MA"))==0?"VBR":"CBR");
         if (DTS_SamplingRate[sample_frequency]!=Retrieve(Stream_Audio, 0, Audio_SamplingRate).To_int32u())
             Fill(Stream_Audio, 0, Audio_SamplingRate, DTS_SamplingRate[sample_frequency]);
         Ztring BitRate;
-        if (bit_rate<29 || Profile==_T("Express"))
+        if (bit_rate<29 || Profile==__T("Express"))
             BitRate=Ztring::ToZtring(BitRate_Get(), 0);
         else if (bit_rate==29)
-            BitRate=_T("Open");
+            BitRate=__T("Open");
         else if (bit_rate==30)
-            BitRate=_T("Variable");
+            BitRate=__T("Variable");
         else if (bit_rate==31)
-            BitRate=_T("LossLess");
+            BitRate=__T("LossLess");
         if (BitRate!=Retrieve(Stream_Audio, 0, Audio_BitRate))
             Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
-        if (Profile.find(_T("MA"))==0 || bit_rate==31)
+        if (Profile.find(__T("MA"))==0 || bit_rate==31)
             Fill(Stream_Audio, 0, Audio_Compression_Mode, "Lossless / Lossy", Unlimited, true, true);
 
         int8u Channels;
@@ -472,8 +472,8 @@ void File_Dts::Streams_Fill()
         }
         if (lfe_effects)
         {
-            ChannelPositions+=_T(", LFE");
-            ChannelPositions2+=_T(".1");
+            ChannelPositions+=__T(", LFE");
+            ChannelPositions2+=__T(".1");
         }
         if (Channels!=Retrieve(Stream_Audio, 0, Audio_Channel_s_).To_int8u())
             Fill(Stream_Audio, 0, Audio_Channel_s_, Channels);
@@ -605,7 +605,7 @@ bool File_Dts::Synchronize()
         }
         return false;
     }
-    
+
     //Configuration - 14 bits or Little Endian
     switch (CC1(Buffer+Buffer_Offset))
     {
@@ -912,7 +912,7 @@ void File_Dts::Header_Parse()
         Skip_SB(                                                    "Multirate Interpolator");
         Get_S1 ( 4, EncoderSoftwareRevision,                        "Encoder Software Revision");
         Skip_S1( 2,                                                 "Copy History");
-        Get_S1 ( 2, bits_per_sample,                                "Source PCM Resolution"); Param_Info1(Ztring::ToZtring(DTS_Resolution[bits_per_sample])+_T(" bits"));
+        Get_S1 ( 2, bits_per_sample,                                "Source PCM Resolution"); Param_Info1(Ztring::ToZtring(DTS_Resolution[bits_per_sample])+__T(" bits"));
         Get_SB (    ES,                                             "ES");
         Skip_SB(                                                    "Front Sum/Difference");
         Skip_SB(                                                    "Surrounds Sum/Difference");
@@ -957,7 +957,7 @@ void File_Dts::Data_Parse()
     Element_Info1(Ztring::ToZtring(Frame_Count));
 
     //PTS
-    Element_Info1C((FrameInfo.PTS!=(int64u)-1), _T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.PTS)/1000000)));
+    Element_Info1C((FrameInfo.PTS!=(int64u)-1), __T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.PTS)/1000000)));
 
     //Counting
     if (File_Offset+Buffer_Offset+Element_Size==File_Size)
@@ -1279,10 +1279,10 @@ void File_Dts::HD_XSA(int64u Size)
 //---------------------------------------------------------------------------
 float64 File_Dts::BitRate_Get(bool WithHD)
 {
-    if (bit_rate<29 || Profile==_T("Express"))
+    if (bit_rate<29 || Profile==__T("Express"))
     {
         float64 BitRate;
-        if (Profile==_T("Express"))
+        if (Profile==__T("Express"))
             BitRate=0; //No core bitrate
         else
             BitRate=(float64)DTS_BitRate[bit_rate];
@@ -1318,7 +1318,7 @@ float64 File_Dts::BitRate_Get(bool WithHD)
             if (SamplePerFrames)
                 BitRate+=HD_size*8*DTS_HD_MaximumSampleRate[HD_MaximumSampleRate]/SamplePerFrames;
         }
-        //if (Primary_Frame_Byte_Size_minus_1 && Profile==_T("HRA"))
+        //if (Primary_Frame_Byte_Size_minus_1 && Profile==__T("HRA"))
         //    BitRate*=1+((float64)HD_size)/Primary_Frame_Byte_Size_minus_1; //HD block are not in the nominal bitrate
         return BitRate;
     }

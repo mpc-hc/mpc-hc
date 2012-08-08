@@ -1,17 +1,17 @@
 // File__Duplicate - Duplication of some formats
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -88,18 +88,18 @@ bool File_Avc::File__Duplicate_Set (const Ztring &Value)
     {
         //Detecting if we want to remove
         bool ToRemove=false;
-        if (Current->find(_T('-'))==0)
+        if (Current->find(__T('-'))==0)
         {
             ToRemove=true;
             Current->erase(Current->begin());
         }
 
         //Managing targets
-        if (Current->find(_T("file:"))==0
-         || Current->find(_T("memory:"))==0)
+        if (Current->find(__T("file:"))==0
+         || Current->find(__T("memory:"))==0)
             (ToRemove?Targets_ToRemove:Targets_ToAdd).push_back(Current);
         //Parser name
-        else if (Current->find(_T("parser=Avc"))==0)
+        else if (Current->find(__T("parser=Avc"))==0)
             IsForUs=true;
         //Managing orders
         else
@@ -122,7 +122,7 @@ bool File_Avc::File__Duplicate_Set (const Ztring &Value)
 
     //For each order to add
     for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToAdd.begin(); Order<Orders_ToAdd.end(); Order++)
-        if ((**Order)==_T("format=Flv"))
+        if ((**Order)==__T("format=Flv"))
             FLV=true;
 
     return true;
@@ -174,7 +174,7 @@ void File_Avc::File__Duplicate_Write (int64u Element_Code, int32u frame_num)
             if (Extra==1)
             {
                 SPS_SQS[0]=0x01; //Profile FLV
-                SPS_SQS[1]=(!seq_parameter_sets.empty() && seq_parameter_sets[0])?seq_parameter_sets[0]->profile_idc:0x00; //Compatible Profile. TODO: Handling more than 1 seq_parameter_set 
+                SPS_SQS[1]=(!seq_parameter_sets.empty() && seq_parameter_sets[0])?seq_parameter_sets[0]->profile_idc:0x00; //Compatible Profile. TODO: Handling more than 1 seq_parameter_set
                 SPS_SQS[2]=0x00; //Reserved
             }
             else

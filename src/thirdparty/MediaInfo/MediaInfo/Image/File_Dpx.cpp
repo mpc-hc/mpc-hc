@@ -1,17 +1,17 @@
 // File_Dpx - Info for DPX (SMPTE 268M) files
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -155,7 +155,7 @@ const char* DPX_ColorimetricSpecification[]=
     "Not applicable",
     "Reserved for future use"
 };
- 
+
 //---------------------------------------------------------------------------
 const char* DPX_ValidBitDephs(int8u i)
 {
@@ -285,7 +285,7 @@ File_Dpx::File_Dpx()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("DPX");
+    ParserName=__T("DPX");
 }
 
 //***************************************************************************
@@ -301,7 +301,7 @@ void File_Dpx::Streams_Accept()
     if (!IsSub)
     {
         Streams_Accept_TestContinuousFileNames();
-    
+
         Stream_Prepare((Config->File_Names.size()>1 || Config->File_IsReferenced_Get())?Stream_Video:Stream_Image);
         Fill(StreamKind_Last, StreamPos_Last, "StreamSize", File_Size);
         if (StreamKind_Last==Stream_Video)
@@ -533,8 +533,8 @@ void File_Dpx::GenericSectionHeader_v1()
         //Filling meta
         if (Frame_Count==0)
         {
-            Fill(Stream_General, 0, General_Encoded_Date, CreationDate+_T(' ')+CreationTime); //ToDo: transform it in UTC
-            Fill(StreamKind_Last, StreamPos_Last, "Encoded_Date", CreationDate+_T(' ')+CreationTime); //ToDo: transform it in UTC
+            Fill(Stream_General, 0, General_Encoded_Date, CreationDate+__T(' ')+CreationTime); //ToDo: transform it in UTC
+            Fill(StreamKind_Last, StreamPos_Last, "Encoded_Date", CreationDate+__T(' ')+CreationTime); //ToDo: transform it in UTC
         }
     FILLING_END();
 }
@@ -574,7 +574,7 @@ void File_Dpx::GenericSectionHeader_v2()
 
     //Parsing
     Element_Begin1("File information");
-    std::string CreationDate, Creator, Project, Copyright; 
+    std::string CreationDate, Creator, Project, Copyright;
     int32u Size_Header, Size_Total, Size_Generic, Size_Industry, Size_User;
     Skip_String(4,                                              "Magic number");
     Get_X4 (Size_Header,                                        "Offset to image data");
@@ -628,7 +628,7 @@ void File_Dpx::GenericSectionHeader_v2()
     Element_End0();
     Get_X4 (PAR_H,                                              "Pixel ratio : horizontal");
     Get_X4 (PAR_V,                                              "Pixel ratio : vertical");
-    
+
     Element_Begin1("Additional source image information");
     Skip_BFP4(9,                                                "X scanned size");
     Skip_BFP4(9,                                                "Y scanned size");
@@ -640,9 +640,9 @@ void File_Dpx::GenericSectionHeader_v2()
         if (Size_Generic==(int32u)-1)
             Size_Generic=Element_Size;
         if (Size_Industry==(int32u)-1)
-            Size_Industry=0;    
+            Size_Industry=0;
         if (Size_User==(int32u)-1)
-            Size_User=0;    
+            Size_User=0;
         if (Size_Generic+Size_Industry+Size_User>Size_Header || Size_Header>Size_Total)
         {
             Reject();
@@ -752,7 +752,7 @@ void File_Dpx::IndustrySpecificHeader_v2()
     Skip_UTF8(100,                                              "Slate information");
     Skip_XX(56,                                                 "Reserved for future use");
     Element_End0();
-    
+
     Element_Begin1("Television information");
     Skip_B4(                                                    "SMPTE time code");
     Skip_B4(                                                    "SMPTE user bits");
@@ -793,7 +793,7 @@ void File_Dpx::UserDefinedHeader_v2()
     {
         //Not in spec
         Skip_XX(Sizes[Pos_UserDefined],                         "Unknown");
-        return;            
+        return;
     }
     Skip_UTF8(32,                                               "User identification");
     Skip_XX(Sizes[Pos_UserDefined]-32,                          "User defined");

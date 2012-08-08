@@ -1,5 +1,5 @@
 // PreComp - PreComp file for ZenLib
-// Copyright (C) 2006-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // Permission is granted to anyone to use this software for any purpose,
 // including commercial applications, and to alter it and redistribute it

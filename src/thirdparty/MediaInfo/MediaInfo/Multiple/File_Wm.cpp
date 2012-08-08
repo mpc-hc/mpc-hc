@@ -1,17 +1,17 @@
 // File_Wm - Info for Windows Media files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -61,7 +61,7 @@ File_Wm::File_Wm()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("Wm");
+    ParserName=__T("Wm");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_Wm;
         StreamIDs_Width[0]=2;
@@ -189,7 +189,7 @@ void File_Wm::Streams_Finish()
             if (Temp->second.StreamKind==Stream_Video)
                 Format_Profile=Retrieve(Stream_Video, Temp->second.StreamPos, Video_Format_Profile);
             Finish(Temp->second.Parser);
-            if (Temp->second.Parser->Get(Stream_Video, 0, Video_Format)==_T("MPEG Video"))
+            if (Temp->second.Parser->Get(Stream_Video, 0, Video_Format)==__T("MPEG Video"))
                 {
                     //Width/Height are junk
                     Clear(Stream_Video, Temp->second.StreamPos, Video_Width);

@@ -1,17 +1,17 @@
 // File_Aac - Info for AAC (Raw) files
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -233,37 +233,37 @@ void File_Aac::program_config_element()
     switch (Channels_Front)
     {
         case  0 : break;
-        case  1 : Channels_Positions+=_T("Front: C"); break;
-        case  2 : Channels_Positions+=_T("Front: L R"); break;
-        case  3 : Channels_Positions+=_T("Front: L C R"); break;
-        default : Channels_Positions+=_T("Front: "); Channels_Positions+=Ztring::ToZtring(Channels_Front); //Which config?
+        case  1 : Channels_Positions+=__T("Front: C"); break;
+        case  2 : Channels_Positions+=__T("Front: L R"); break;
+        case  3 : Channels_Positions+=__T("Front: L C R"); break;
+        default : Channels_Positions+=__T("Front: "); Channels_Positions+=Ztring::ToZtring(Channels_Front); //Which config?
     }
     switch (Channels_Side)
     {
         case  0 : break;
-        case  1 : Channels_Positions+=_T(", Side: C"); break;
-        case  2 : Channels_Positions+=_T(", Side: L R"); break;
-        case  3 : Channels_Positions+=_T(", Side: L C R"); break;
-        default : Channels_Positions+=_T(", Side: "); Channels_Positions+=Ztring::ToZtring(Channels_Side); //Which config?
+        case  1 : Channels_Positions+=__T(", Side: C"); break;
+        case  2 : Channels_Positions+=__T(", Side: L R"); break;
+        case  3 : Channels_Positions+=__T(", Side: L C R"); break;
+        default : Channels_Positions+=__T(", Side: "); Channels_Positions+=Ztring::ToZtring(Channels_Side); //Which config?
     }
     switch (Channels_Back)
     {
         case  0 : break;
-        case  1 : Channels_Positions+=_T(", Back: C"); break;
-        case  2 : Channels_Positions+=_T(", Back: L R"); break;
-        case  3 : Channels_Positions+=_T(", Back: L C R"); break;
-        default : Channels_Positions+=_T(", Back: "); Channels_Positions+=Ztring::ToZtring(Channels_Back); //Which config?
+        case  1 : Channels_Positions+=__T(", Back: C"); break;
+        case  2 : Channels_Positions+=__T(", Back: L R"); break;
+        case  3 : Channels_Positions+=__T(", Back: L C R"); break;
+        default : Channels_Positions+=__T(", Back: "); Channels_Positions+=Ztring::ToZtring(Channels_Back); //Which config?
     }
     switch (Channels_LFE)
     {
         case  0 : break;
-        case  1 : Channels_Positions+=_T(", LFE"); break;
-        default : Channels_Positions+=_T(", LFE= "); Channels_Positions+=Ztring::ToZtring(Channels_LFE); //Which config?
+        case  1 : Channels_Positions+=__T(", LFE"); break;
+        default : Channels_Positions+=__T(", LFE= "); Channels_Positions+=Ztring::ToZtring(Channels_LFE); //Which config?
     }
-    Channels_Positions2=Ztring::ToZtring(Channels_Front)+_T('/')
-                       +Ztring::ToZtring(Channels_Side)+_T('/')
+    Channels_Positions2=Ztring::ToZtring(Channels_Front)+__T('/')
+                       +Ztring::ToZtring(Channels_Side)+__T('/')
                        +Ztring::ToZtring(Channels_Back)
-                       +(Channels_LFE?_T(".1"):_T(""));
+                       +(Channels_LFE?__T(".1"):__T(""));
 
     FILLING_BEGIN();
         //Integrity test
@@ -290,36 +290,36 @@ void File_Aac::program_config_element()
 
         if (!Infos["Format_Settings_SBR"].empty())
         {
-            Infos["Format_Profile"]=_T("HE-AAC");
+            Infos["Format_Profile"]=__T("HE-AAC");
             Ztring SamplingRate=Infos["SamplingRate"];
             Infos["SamplingRate"].From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10);
             if (MediaInfoLib::Config.LegacyStreamDisplay_Get())
             {
-                Infos["Format_Profile"]+=_T(" / LC");
-                Infos["SamplingRate"]+=_T(" / ")+SamplingRate;
+                Infos["Format_Profile"]+=__T(" / LC");
+                Infos["SamplingRate"]+=__T(" / ")+SamplingRate;
             }
-            Infos["Format_Settings_SBR"]=_T("Yes (Implicit)");
-            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+_T("-SBR");
+            Infos["Format_Settings_SBR"]=__T("Yes (Implicit)");
+            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+__T("-SBR");
         }
 
         if (!Infos["Format_Settings_PS"].empty())
         {
-            Infos["Format_Profile"]=_T("HE-AACv2");
+            Infos["Format_Profile"]=__T("HE-AACv2");
             Ztring Channels=Infos["Channel(s)"];
             Ztring ChannelPositions=Infos["ChannelPositions"];
             Ztring SamplingRate=Infos["SamplingRate"];
-            Infos["Channel(s)"]=_T("2");
-            Infos["ChannelPositions"]=_T("Front: L R");
+            Infos["Channel(s)"]=__T("2");
+            Infos["ChannelPositions"]=__T("Front: L R");
             if (MediaInfoLib::Config.LegacyStreamDisplay_Get())
             {
-                Infos["Format_Profile"]+=_T(" / HE-AAC / LC");
-                Infos["Channel(s)"]+=_T(" / ")+Channels+_T(" / ")+Channels;
-                Infos["ChannelPositions"]+=_T(" / ")+ChannelPositions+_T(" / ")+ChannelPositions;
-                Infos["SamplingRate"]=Ztring().From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10)+_T(" / ")+SamplingRate;
+                Infos["Format_Profile"]+=__T(" / HE-AAC / LC");
+                Infos["Channel(s)"]+=__T(" / ")+Channels+__T(" / ")+Channels;
+                Infos["ChannelPositions"]+=__T(" / ")+ChannelPositions+__T(" / ")+ChannelPositions;
+                Infos["SamplingRate"]=Ztring().From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10)+__T(" / ")+SamplingRate;
             }
-            Infos["Format_Settings_PS"]=_T("Yes (Implicit)");
+            Infos["Format_Settings_PS"]=__T("Yes (Implicit)");
             Ztring Codec=Retrieve(Stream_Audio, StreamPos_Last, Audio_Codec);
-            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+_T("-SBR-PS");
+            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+__T("-SBR-PS");
         }
     FILLING_END();
 }
@@ -527,7 +527,7 @@ void File_Aac::pulse_data()
     int8u number_pulse;
     Get_S1(2,number_pulse,                                      "number_pulse");
     Skip_S1(6,                                                  "pulse_start_sfb");
-    for (int i = 0; i < number_pulse+1; i++) 
+    for (int i = 0; i < number_pulse+1; i++)
     {
         Skip_S1(5,                                              "pulse_offset[i]");
         Skip_S1(4,                                              "pulse_amp[i]");
@@ -914,14 +914,14 @@ void File_Aac::tns_data()
     int8u n_filt_bits=2;
     int8u length_bits=6;
     int8u order_bits=5;
-    
+
     if (window_sequence==2) //EIGHT_SHORT_SEQUENCE
     {
         n_filt_bits=1;
         length_bits=4;
         order_bits=3;
     }
-    
+
     for (int8u w=0; w<num_windows; w++)
     {
         int8u start_coef_bits, n_filt;
@@ -931,7 +931,7 @@ void File_Aac::tns_data()
             bool coef_res;
             Get_SB (coef_res,                                   "coef_res[w]");
             start_coef_bits=coef_res?4:3;
-            
+
             for (int8u filt=0; filt<n_filt; filt++)
             {
                 int8u order;

@@ -1,17 +1,17 @@
 // File__Analysze - Base for analyze files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -72,8 +72,8 @@ public :
     void    Open_Buffer_Init        (File__Analyze* Sub, int64u File_Size);
     void    Open_Buffer_Continue    (                    const int8u* Buffer, size_t Buffer_Size);
     void    Open_Buffer_Continue    (File__Analyze* Sub, const int8u* Buffer, size_t Buffer_Size);
-    void    Open_Buffer_Continue    (File__Analyze* Sub, size_t Buffer_Size) {Open_Buffer_Continue(Sub, Buffer+Buffer_Offset+(size_t)Element_Offset, Buffer_Size); Element_Offset+=Buffer_Size;}
-    void    Open_Buffer_Continue    (File__Analyze* Sub) {Open_Buffer_Continue(Sub, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset)); Element_Offset=Element_Size;}
+    void    Open_Buffer_Continue    (File__Analyze* Sub, size_t Buffer_Size) {if (Element_Offset+Buffer_Size<=Element_Size) Open_Buffer_Continue(Sub, Buffer+Buffer_Offset+(size_t)Element_Offset, Buffer_Size); Element_Offset+=Buffer_Size;}
+    void    Open_Buffer_Continue    (File__Analyze* Sub) {if (Element_Offset<=Element_Size) Open_Buffer_Continue(Sub, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset)); Element_Offset=Element_Size;}
     void    Open_Buffer_Position_Set(int64u File_Offset);
     #if MEDIAINFO_SEEK
     size_t  Open_Buffer_Seek        (size_t Method, int64u Value, int64u ID);
@@ -321,7 +321,7 @@ public :
             return Ztring().From_Local(Value, Value_Size);
     }
     #define VALUE(Value) \
-        Ztring::ToZtring(Value).MakeUpperCase()+_T(" (0x")+Ztring::ToZtring(Value, 16).MakeUpperCase()+_T(")")
+        Ztring::ToZtring(Value).MakeUpperCase()+__T(" (0x")+Ztring::ToZtring(Value, 16).MakeUpperCase()+__T(")")
 
     //Param - Main
     void Param      (const Ztring &Parameter, const Ztring& Value);
@@ -330,19 +330,19 @@ public :
     inline void Param      (const char*   Parameter, const char*   Value, size_t Value_Size=Unlimited, bool Utf8=true) {Param(Parameter, ToZtring(Value, Value_Size, Utf8));}
     inline void Param      (const char*   Parameter, const int8u*  Value, size_t Value_Size=Unlimited, bool Utf8=true) {Param(Parameter, (const char*)Value, Value_Size, Utf8);}
     inline void Param      (const char*   Parameter, bool   Value) {if (Value) Param(Parameter, "Yes"); else Param(Parameter, "No");}
-    inline void Param      (const char*   Parameter, int8u  Value) {Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring().From_CC1(Value)+_T(")"));}
-    inline void Param      (const char*   Parameter, int8s  Value) {Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring().From_CC1(Value)+_T(")"));}
-    inline void Param      (const char*   Parameter, int16u Value) {Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring().From_CC2(Value)+_T(")"));}
-    inline void Param      (const char*   Parameter, int16s Value) {Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring().From_CC2(Value)+_T(")"));}
-    inline void Param      (const char*   Parameter, int32u Value) {Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring::ToZtring(Value, 16)+_T(")"));}
-    inline void Param      (const char*   Parameter, int32s Value) {Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring::ToZtring(Value, 16)+_T(")"));}
-    inline void Param      (const char*   Parameter, int64u Value) {Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring::ToZtring(Value, 16)+_T(")"));}
-    inline void Param      (const char*   Parameter, int64s Value) {Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring::ToZtring(Value, 16)+_T(")"));}
-    inline void Param      (const char*   Parameter, int128u Value){Param(Parameter, Ztring::ToZtring(Value)+_T(" (0x")+Ztring::ToZtring(Value, 16)+_T(")"));}
+    inline void Param      (const char*   Parameter, int8u  Value) {Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring().From_CC1(Value)+__T(")"));}
+    inline void Param      (const char*   Parameter, int8s  Value) {Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring().From_CC1(Value)+__T(")"));}
+    inline void Param      (const char*   Parameter, int16u Value) {Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring().From_CC2(Value)+__T(")"));}
+    inline void Param      (const char*   Parameter, int16s Value) {Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring().From_CC2(Value)+__T(")"));}
+    inline void Param      (const char*   Parameter, int32u Value) {Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring::ToZtring(Value, 16)+__T(")"));}
+    inline void Param      (const char*   Parameter, int32s Value) {Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring::ToZtring(Value, 16)+__T(")"));}
+    inline void Param      (const char*   Parameter, int64u Value) {Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring::ToZtring(Value, 16)+__T(")"));}
+    inline void Param      (const char*   Parameter, int64s Value) {Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring::ToZtring(Value, 16)+__T(")"));}
+    inline void Param      (const char*   Parameter, int128u Value){Param(Parameter, Ztring::ToZtring(Value)+__T(" (0x")+Ztring::ToZtring(Value, 16)+__T(")"));}
     inline void Param_GUID (const char*   Parameter, int128u Value){Param(Parameter, Ztring().From_GUID(Value));}
     inline void Param_UUID (const char*   Parameter, int128u Value){Param(Parameter, Ztring().From_UUID(Value));}
     #ifdef SIZE_T_IS_LONG
-    inline void Param      (const char*   Parameter, size_t Value, intu Radix=16) {Param(Parameter, Ztring::ToZtring(Value, Radix).MakeUpperCase()+_T(" (")+Ztring::ToZtring(Value, 10).MakeUpperCase()+_T(")"));}
+    inline void Param      (const char*   Parameter, size_t Value, intu Radix=16) {Param(Parameter, Ztring::ToZtring(Value, Radix).MakeUpperCase()+__T(" (")+Ztring::ToZtring(Value, 10).MakeUpperCase()+__T(")"));}
     #endif //SIZE_T_IS_LONG
     inline void Param      (const char*   Parameter, float32 Value, int8u AfterComma=3) {Param(Parameter, Ztring::ToZtring(Value, AfterComma));}
     inline void Param      (const char*   Parameter, float64 Value, int8u AfterComma=3) {Param(Parameter, Ztring::ToZtring(Value, AfterComma));}

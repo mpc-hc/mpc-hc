@@ -1,5 +1,5 @@
 // ZenLib::Translation - Helper for translation
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -52,20 +52,20 @@ Translation::Translation()
 : std::map<ZenLib::Ztring, ZenLib::Ztring> ()
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
+    Separator[1]=__T(";");
 }
 
 Translation::Translation(const Ztring &Source)
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
+    Separator[1]=__T(";");
     Write(Source);
 }
 
 Translation::Translation(const Char *Source)
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
+    Separator[1]=__T(";");
     Write(Source);
 }
 
@@ -73,7 +73,7 @@ Translation::Translation(const Char *Source)
 Translation::Translation (const char* S)
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
+    Separator[1]=__T(";");
     Write(Ztring(S));
 }
 #endif
@@ -128,8 +128,8 @@ void Translation::Write(const Ztring &NewLanguage)
 
     while (Pos2_EOL!=(size_t)-1)
     {
-        Pos2_EOL=NewLanguage.find(_T('\n'), Pos1);
-        Pos2_Separator=NewLanguage.find(_T(';'), Pos1);
+        Pos2_EOL=NewLanguage.find(__T('\n'), Pos1);
+        Pos2_Separator=NewLanguage.find(__T(';'), Pos1);
         if (Pos2_Separator<Pos2_EOL)
         {
             operator[](NewLanguage.substr(Pos1, Pos2_Separator-Pos1))=NewLanguage.substr(Pos2_Separator+1, Pos2_EOL-Pos2_Separator-1);

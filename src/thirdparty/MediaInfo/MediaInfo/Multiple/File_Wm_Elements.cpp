@@ -1,17 +1,17 @@
 // File_Wm - Info for Windows Media files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -298,7 +298,7 @@ void File_Wm::Header_StreamProperties ()
     if (Stream_Number&0x8000)
     {
         Param_Info1("Encrypted Content");
-        Stream[Stream_Number&0x007F].Info["Encryption"]=_T("Encrypted");
+        Stream[Stream_Number&0x007F].Info["Encryption"]=__T("Encrypted");
     }
     Stream_Number&=0x007F; //Only 7bits
     Element_Info1(Stream_Number);
@@ -339,7 +339,7 @@ void File_Wm::Header_StreamProperties ()
 void File_Wm::Header_StreamProperties_Audio ()
 {
     Element_Name("Audio");
-    
+
     //Parsing
     int32u SamplingRate, BytesPerSec;
     int16u CodecID, Channels, Data_Size, Resolution;
@@ -368,7 +368,7 @@ void File_Wm::Header_StreamProperties_Audio ()
         //Creating the parser
              if (0);
         #if defined(MEDIAINFO_MPEGA_YES)
-        else if (MediaInfoLib::Config.CodecID_Get(Stream_Audio, InfoCodecID_Format_Riff, Ztring::ToZtring(CodecID, 16))==_T("MPEG Audio"))
+        else if (MediaInfoLib::Config.CodecID_Get(Stream_Audio, InfoCodecID_Format_Riff, Ztring::ToZtring(CodecID, 16))==__T("MPEG Audio"))
         {
             Stream[Stream_Number].Parser=new File_Mpega;
             ((File_Mpega*)Stream[Stream_Number].Parser)->Frame_Count_Valid=8;
@@ -403,7 +403,7 @@ void File_Wm::Header_StreamProperties_Audio_WMA ()
     //Parsing
     Skip_L4(                                                    "SamplesPerBlock");
     Skip_L2(                                                    "EncodeOptions");
-    Skip_L4(                                                    "SuperBlockAlign");    
+    Skip_L4(                                                    "SuperBlockAlign");
 }
 
 //---------------------------------------------------------------------------
@@ -473,7 +473,7 @@ void File_Wm::Header_StreamProperties_Video ()
     //Creating the parser
          if (0);
     #if defined(MEDIAINFO_VC1_YES)
-    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==_T("VC-1"))
+    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("VC-1"))
     {
         Stream[Stream_Number].Parser=new File_Vc1;
         if (Compression==CC4("WMV3"))
@@ -522,7 +522,7 @@ void File_Wm::Header_StreamProperties_Video ()
     }
     #endif
     #if defined(MEDIAINFO_MPEGV_YES)
-    else if (MediaInfoLib::Config.Codec_Get(Ztring().From_CC4(Compression), InfoCodec_KindofCodec).find(_T("MPEG-2"))==0)
+    else if (MediaInfoLib::Config.Codec_Get(Ztring().From_CC4(Compression), InfoCodec_KindofCodec).find(__T("MPEG-2"))==0)
     {
         Stream[Stream_Number].Parser=new File_Mpegv;
         ((File_Mpegv*)Stream[Stream_Number].Parser)->Frame_Count_Valid=30; //For searching Pulldown
@@ -800,40 +800,40 @@ void File_Wm::Header_HeaderExtension_Metadata()
         switch (Data_Type)
         {
             case 0x00 : Get_UTF16L(Data_Length, Data,           "Data"); break;
-            case 0x01 : Skip_XX(Data_Length,                    "Data"); Data=_T("(Binary)"); break;
-            case 0x02 : {int16u Data_Int; Get_L2 (Data_Int,     "Data"); Data=(Data_Int==0)?_T("No"):_T("Yes"); Data_Int64=Data_Int;} break;
+            case 0x01 : Skip_XX(Data_Length,                    "Data"); Data=__T("(Binary)"); break;
+            case 0x02 : {int16u Data_Int; Get_L2 (Data_Int,     "Data"); Data=(Data_Int==0)?__T("No"):__T("Yes"); Data_Int64=Data_Int;} break;
             case 0x03 : {int32u Data_Int; Get_L4 (Data_Int,     "Data"); Data.From_Number(Data_Int); Data_Int64=Data_Int;} break;
             case 0x04 : {int64u Data_Int; Get_L8 (Data_Int,     "Data"); Data.From_Number(Data_Int); Data_Int64=Data_Int;} break;
             case 0x05 : {int16u Data_Int; Get_L2 (Data_Int,     "Data"); Data.From_Number(Data_Int); Data_Int64=Data_Int;} break;
-            default   : Skip_XX(Data_Length,                    "Data"); Data=_T("(Unknown)"); break;
+            default   : Skip_XX(Data_Length,                    "Data"); Data=__T("(Unknown)"); break;
         }
         Element_Info1(Name);
         Element_Info1(Data);
         Element_End0();
 
-        if (Name==_T("IsVBR"))
+        if (Name==__T("IsVBR"))
             Stream[StreamNumber].Info["BitRate_Mode"]=(Data_Int64==0)?"CBR":"VBR";
-        else if (Name==_T("AspectRatioX"))
+        else if (Name==__T("AspectRatioX"))
         {
             AspectRatioX=Data.To_float32();
             if (AspectRatioX && AspectRatioY)
                 Stream[StreamNumber].Info["PixelAspectRatio"].From_Number(AspectRatioX/AspectRatioY, 3);
         }
-        else if (Name==_T("AspectRatioY"))
+        else if (Name==__T("AspectRatioY"))
         {
             AspectRatioY=Data.To_float32();
             if (AspectRatioX && AspectRatioY)
                 Stream[StreamNumber].Info["PixelAspectRatio"].From_Number(AspectRatioX/AspectRatioY, 3);
         }
-        else if (Name==_T("DeviceConformanceTemplate"))
+        else if (Name==__T("DeviceConformanceTemplate"))
         {
-            if (Data!=_T("@") && Data.find(_T('@'))!=std::string::npos)
+            if (Data!=__T("@") && Data.find(__T('@'))!=std::string::npos)
                 Stream[StreamNumber].Info["Format_Profile"]=Data;
         }
-        else if (Name==_T("WM/WMADRCPeakReference")) {}
-        else if (Name==_T("WM/WMADRCAverageReference")) {}
-        else if (Name==_T("WM/WMADRCAverageTarget")) {}
-        else if (Name==_T("WM/WMADRCPeakTarget")) {}
+        else if (Name==__T("WM/WMADRCPeakReference")) {}
+        else if (Name==__T("WM/WMADRCAverageReference")) {}
+        else if (Name==__T("WM/WMADRCAverageTarget")) {}
+        else if (Name==__T("WM/WMADRCPeakTarget")) {}
         else
             Stream[StreamNumber].Info[Name.To_Local()]=Data;
     }
@@ -928,7 +928,7 @@ void File_Wm::Header_CodecList()
             CodecInfos[Pos].Info=CodecName;
             if (!CodecDescription.empty())
             {
-                CodecInfos[Pos].Info+=_T(" - ");
+                CodecInfos[Pos].Info+=__T(" - ");
                 CodecInfos[Pos].Info+=CodecDescription;
             }
 
@@ -982,7 +982,7 @@ void File_Wm::Header_Marker()
     Get_L2 (Name_Length,                                        "Name Length");
     if (Name_Length>0)
         Skip_UTF16L(Name_Length,                                "Name");
-    
+
     //Filling
     if (Markers_Count>0)
         Stream_Prepare(Stream_Menu);
@@ -1078,13 +1078,13 @@ void File_Wm::Header_ExtendedContentDescription()
         {
             case 0x00 : Get_UTF16L(Value_Length, Value,         "Value"); break;
             case 0x01 :
-                        if (Name==_T("ASFLeakyBucketPairs")) Header_ExtendedContentDescription_ASFLeakyBucketPairs(Value_Length);
-                        else {Skip_XX(Value_Length,             "Value"); Value=_T("(Binary)");} break;
-            case 0x02 : {int32u Value_Int; Get_L4 (Value_Int,   "Value"); Value=(Value_Int==0)?_T("No"):_T("Yes"); Value_Int64=Value_Int;} break;
+                        if (Name==__T("ASFLeakyBucketPairs")) Header_ExtendedContentDescription_ASFLeakyBucketPairs(Value_Length);
+                        else {Skip_XX(Value_Length,             "Value"); Value=__T("(Binary)");} break;
+            case 0x02 : {int32u Value_Int; Get_L4 (Value_Int,   "Value"); Value=(Value_Int==0)?__T("No"):__T("Yes"); Value_Int64=Value_Int;} break;
             case 0x03 : {int32u Value_Int; Get_L4 (Value_Int,   "Value"); Value.From_Number(Value_Int); Value_Int64=Value_Int;} break;
             case 0x04 : {int64u Value_Int; Get_L8 (Value_Int,   "Value"); Value.From_Number(Value_Int); Value_Int64=Value_Int;} break;
             case 0x05 : {int16u Value_Int; Get_L2 (Value_Int,   "Value"); Value.From_Number(Value_Int); Value_Int64=Value_Int;} break;
-            default   : Skip_XX(Value_Length,                   "Value"); Value=_T("(Unknown)"); break;
+            default   : Skip_XX(Value_Length,                   "Value"); Value=__T("(Unknown)"); break;
         }
         Element_Info1(Name);
         Element_Info1(Value);
@@ -1093,104 +1093,104 @@ void File_Wm::Header_ExtendedContentDescription()
         //Filling
         if (!Value.empty())
         {
-                 if (Name==_T("Agility FPS")) {}
-            else if (Name==_T("ASFLeakyBucketPairs")) {} //Already done elsewhere
-            else if (Name==_T("AspectRatioX")) Header_ExtendedContentDescription_AspectRatioX=Value_Int64;
-            else if (Name==_T("AspectRatioY")) Header_ExtendedContentDescription_AspectRatioY=Value_Int64;
-            else if (Name==_T("Buffer Average")) {}
-            else if (Name==_T("DVR Index Granularity")) {}
-            else if (Name==_T("DVR File Version")) {}
-            else if (Name==_T("IsVBR"))
+                 if (Name==__T("Agility FPS")) {}
+            else if (Name==__T("ASFLeakyBucketPairs")) {} //Already done elsewhere
+            else if (Name==__T("AspectRatioX")) Header_ExtendedContentDescription_AspectRatioX=Value_Int64;
+            else if (Name==__T("AspectRatioY")) Header_ExtendedContentDescription_AspectRatioY=Value_Int64;
+            else if (Name==__T("Buffer Average")) {}
+            else if (Name==__T("DVR Index Granularity")) {}
+            else if (Name==__T("DVR File Version")) {}
+            else if (Name==__T("IsVBR"))
                 Fill(Stream_General, 0, General_OverallBitRate_Mode, Value_Int64==0?"CBR":"VBR");
-            else if (Name==_T("VBR Peak")) {} //Already in "Stream Bitrate" chunk
-            else if (Name==_T("WMFSDKVersion")) {}
-            else if (Name==_T("WMFSDKNeeded")) {}
-            else if (Name==_T("WM/AlbumTitle"))
+            else if (Name==__T("VBR Peak")) {} //Already in "Stream Bitrate" chunk
+            else if (Name==__T("WMFSDKVersion")) {}
+            else if (Name==__T("WMFSDKNeeded")) {}
+            else if (Name==__T("WM/AlbumTitle"))
                 Fill(Stream_General, 0, General_Album, Value);
-            else if (Name==_T("WM/AlbumArtist"))
+            else if (Name==__T("WM/AlbumArtist"))
             {
                 Fill(Stream_General, 0, General_Performer, "");
                 Fill(Stream_General, 0, General_Performer, Value, true); //Clear last value, like Author (Content Description)
             }
-            else if (Name==_T("WM/ArtistSortOrder"))
+            else if (Name==__T("WM/ArtistSortOrder"))
                 Fill(Stream_General, 0, General_Performer_Sort, Value);
-            else if (Name==_T("WM/AuthorURL"))
+            else if (Name==__T("WM/AuthorURL"))
                 Fill(Stream_General, 0, "Author/Url", Value);
-            else if (Name==_T("WM/BeatsPerMinute"))
+            else if (Name==__T("WM/BeatsPerMinute"))
                 Fill(Stream_General, 0, General_BPM, Value);
-            else if (Name==_T("WM/Binary"))
+            else if (Name==__T("WM/Binary"))
                 Fill(Stream_General, 0, General_Cover, "Y");
-            else if (Name==_T("WM/Comments"))
+            else if (Name==__T("WM/Comments"))
                 Fill(Stream_General, 0, General_Comment, Value, true); //Clear last value
-            else if (Name==_T("WM/Composer"))
+            else if (Name==__T("WM/Composer"))
                 Fill(Stream_General, 0, General_Composer, Value);
-            else if (Name==_T("WM/Conductor"))
+            else if (Name==__T("WM/Conductor"))
                 Fill(Stream_General, 0, General_Conductor, Value);
-            else if (Name==_T("WM/EncodedBy"))
+            else if (Name==__T("WM/EncodedBy"))
                 Fill(Stream_General, 0, General_EncodedBy, Value);
-            else if (Name==_T("WM/EncoderSettings"))
+            else if (Name==__T("WM/EncoderSettings"))
                 Fill(Stream_General, 0, General_Encoded_Library_Settings, Value);
-            else if (Name==_T("WM/EncodingTime"))
+            else if (Name==__T("WM/EncodingTime"))
                 Fill(Stream_General, 0, General_Encoded_Date, Ztring().Date_From_Seconds_1601(Value_Int64));
-            else if (Name==_T("WM/Genre"))
+            else if (Name==__T("WM/Genre"))
                 Fill(Stream_General, 0, General_Genre, Value, true); //Clear last value
-            else if (Name==_T("WM/GenreID"))
+            else if (Name==__T("WM/GenreID"))
             {
                 if (Retrieve(Stream_General, 0, General_Genre).empty())
                     Fill(Stream_General, 0, General_Genre, Value);
             }
-            else if (Name==_T("WM/Language"))
+            else if (Name==__T("WM/Language"))
                 Language_ForAll=Value;
-            else if (Name==_T("WM/MediaCredits"))
+            else if (Name==__T("WM/MediaCredits"))
                 Fill(Stream_General, 0, General_ThanksTo, Value);
-            else if (Name==_T("WM/MediaPrimaryClassID")) {}
-            else if (Name==_T("WM/MCDI")) {}
-            else if (Name==_T("WM/ModifiedBy"))
+            else if (Name==__T("WM/MediaPrimaryClassID")) {}
+            else if (Name==__T("WM/MCDI")) {}
+            else if (Name==__T("WM/ModifiedBy"))
                 Fill(Stream_General, 0, General_RemixedBy, Value);
-            else if (Name==_T("WM/OriginalAlbumTitle"))
+            else if (Name==__T("WM/OriginalAlbumTitle"))
                 Fill(Stream_General, 0, "Original/Album", Value);
-            else if (Name==_T("WM/OriginalReleaseTime"))
+            else if (Name==__T("WM/OriginalReleaseTime"))
                 Fill(Stream_General, 0, "Original/Released_Date", Value);
-            else if (Name==_T("WM/ParentalRating"))
+            else if (Name==__T("WM/ParentalRating"))
                 Fill(Stream_General, 0, General_LawRating, Value);
-            else if (Name==_T("WM/ParentalRatingReason"))
+            else if (Name==__T("WM/ParentalRatingReason"))
                 Fill(Stream_General, 0, General_LawRating_Reason, Value);
-            else if (Name==_T("WM/Picture"))
+            else if (Name==__T("WM/Picture"))
                 Fill(Stream_General, 0, General_Cover, "Y");
-            else if (Name==_T("WM/Provider"))
+            else if (Name==__T("WM/Provider"))
                 Fill(Stream_General, 0, "Provider", Value);
-            else if (Name==_T("WM/Publisher"))
+            else if (Name==__T("WM/Publisher"))
                 Fill(Stream_General, 0, General_Publisher, Value);
-            else if (Name==_T("WM/RadioStationName"))
+            else if (Name==__T("WM/RadioStationName"))
                 Fill(Stream_General, 0, General_ServiceName, Value);
-            else if (Name==_T("WM/RadioStationOwner"))
+            else if (Name==__T("WM/RadioStationOwner"))
                 Fill(Stream_General, 0, General_ServiceProvider, Value);
-            else if (Name==_T("WM/SubTitle"))
+            else if (Name==__T("WM/SubTitle"))
                 Fill(Stream_General, 0, General_Title_More, Value);
-            else if (Name==_T("WM/SubTitleDescription"))
+            else if (Name==__T("WM/SubTitleDescription"))
                 Fill(Stream_General, 0, General_Title_More, Value);
-            else if (Name==_T("WM/ToolName"))
+            else if (Name==__T("WM/ToolName"))
                 Fill(Stream_General, 0, General_Encoded_Application, Value);
-            else if (Name==_T("WM/ToolVersion"))
-                Fill(Stream_General, 0, General_Encoded_Application, Retrieve(Stream_General, 0, General_Encoded_Application)+_T(" ")+Value, true);
-            else if (Name==_T("WM/TrackNumber"))
+            else if (Name==__T("WM/ToolVersion"))
+                Fill(Stream_General, 0, General_Encoded_Application, Retrieve(Stream_General, 0, General_Encoded_Application)+__T(" ")+Value, true);
+            else if (Name==__T("WM/TrackNumber"))
                 Fill(Stream_General, 0, General_Track_Position, Value, true); //Clear last value, like WM/Track
-            else if (Name==_T("WM/Track"))
+            else if (Name==__T("WM/Track"))
             {
                 if (Retrieve(Stream_General, 0, General_Track_Position).empty())
                     Fill(Stream_General, 0, General_Track_Position, Value.To_int32u()+1);
             }
-            else if (Name==_T("WM/UniqueFileIdentifier"))
+            else if (Name==__T("WM/UniqueFileIdentifier"))
             {
-                if (Value.empty() || Value[0]!=_T(';')) //Test if there is only the separator
+                if (Value.empty() || Value[0]!=__T(';')) //Test if there is only the separator
                 {
-                    Value.FindAndReplace(_T(";"), MediaInfoLib::Config.TagSeparator_Get());
+                    Value.FindAndReplace(__T(";"), MediaInfoLib::Config.TagSeparator_Get());
                     Fill(Stream_General, 0, General_UniqueID, Value);
                 }
             }
-            else if (Name==_T("WM/Writer"))
+            else if (Name==__T("WM/Writer"))
                 Fill(Stream_General, 0, General_WrittenBy, Value);
-            else if (Name==_T("WM/Year"))
+            else if (Name==__T("WM/Year"))
                 Fill(Stream_General, 0, General_Recorded_Date, Value);
             else
                 Fill(Stream_General, 0, Name.To_Local().c_str(), Value);
@@ -1539,7 +1539,7 @@ void File_Wm::Data_Packet()
 
             //Codec specific
             #if defined(MEDIAINFO_VC1_YES)
-            if (Retrieve(Stream[Stream_Number].StreamKind, Stream[Stream_Number].StreamPos, Fill_Parameter(Stream[Stream_Number].StreamKind, Generic_Format))==_T("VC-1"))
+            if (Retrieve(Stream[Stream_Number].StreamKind, Stream[Stream_Number].StreamPos, Fill_Parameter(Stream[Stream_Number].StreamKind, Generic_Format))==__T("VC-1"))
                 ((File_Vc1*)Stream[Stream_Number].Parser)->FrameIsAlwaysComplete=FrameIsAlwaysComplete;
             #endif
 

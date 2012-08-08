@@ -1,17 +1,17 @@
 // File_Vc1 - Info for VC-1 files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -163,11 +163,11 @@ const int8u Vc1_FieldTypeTable[][2]=
 const File__Analyze::vlc Vc1_ptype[]=
 {
     //                                  macroblock_address_increment
-    { 	0	,	1	,	0	,	0	,	1	},
-    { 	2	,	1	,	0	,	0	,	2	},
-    { 	6	,	1	,	0	,	0	,	0	},
-    { 	14	,	1	,	0	,	0	,	3	},
-    { 	15	,	0	,	0	,	0	,	4	},
+    {   0   ,   1   ,   0   ,   0   ,   1   },
+    {   2   ,   1   ,   0   ,   0   ,   2   },
+    {   6   ,   1   ,   0   ,   0   ,   0   },
+    {   14  ,   1   ,   0   ,   0   ,   3   },
+    {   15  ,   0   ,   0   ,   0   ,   4   },
     VLC_END
 };
 
@@ -268,7 +268,7 @@ void File_Vc1::Streams_Fill()
 
     Ztring Profile=Vc1_Profile[profile];
     if (profile==3)
-        Profile+=_T("@L")+Ztring::ToZtring(level);
+        Profile+=__T("@L")+Ztring::ToZtring(level);
     Fill(Stream_Video, 0, Video_Format_Profile, Profile);
     Fill(Stream_Video, 0, Video_Codec_Profile, Profile);
     Fill(Stream_Video, 0, Video_Colorimetry, Vc1_ColorimetryFormat[colordiff_format]);
@@ -698,11 +698,11 @@ void File_Vc1::FrameHeader()
 {
     //Name
     Element_Name("FrameHeader");
-    Element_Info1(Ztring(_T("Frame ")+Ztring::ToZtring(Frame_Count)));
+    Element_Info1(Ztring(__T("Frame ")+Ztring::ToZtring(Frame_Count)));
     if (FrameRate)
     {
-        Element_Info1C((FrameInfo.PTS!=(int64u)-1), _T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.PTS)/1000000+Frame_Count_InThisBlock*1000/FrameRate)));
-        Element_Info1C((FrameInfo.DTS!=(int64u)-1), _T("DTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.DTS)/1000000)));
+        Element_Info1C((FrameInfo.PTS!=(int64u)-1), __T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.PTS)/1000000+Frame_Count_InThisBlock*1000/FrameRate)));
+        Element_Info1C((FrameInfo.DTS!=(int64u)-1), __T("DTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.DTS)/1000000)));
     }
 
     //Counting

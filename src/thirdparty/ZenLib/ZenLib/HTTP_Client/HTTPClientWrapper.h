@@ -32,7 +32,7 @@ typedef unsigned int                 UINT32;
 typedef int                          INT32;
 
 // Sockets (Winsock wrapper)
-#define                              HTTP_ECONNRESET     (WSAECONNRESET) 
+#define                              HTTP_ECONNRESET     (WSAECONNRESET)
 #define                              HTTP_EINPROGRESS    (WSAEINPROGRESS)
 #define                              HTTP_EWOULDBLOCK    (WSAEWOULDBLOCK)
 #endif
@@ -45,8 +45,8 @@ typedef int                          INT32;
 // Last updated : 01/09/2005
 //
 ///////////////////////////////////////////////////////////////////////////////
-#ifdef __cplusplus 
-extern "C" { 
+#ifdef __cplusplus
+extern "C" {
 #endif
 
     // STDC Wrapper implimentation
@@ -61,7 +61,7 @@ extern "C" {
     int                                 HTTPWrapperGetRandomeNumber     ();
     int                                 HTTPWrapperGetSocketError       (int s);
     unsigned long                       HTTPWrapperGetHostByName        (char *name,unsigned long *address);
-    int                                 HTTPWrapperShutDown             (int s,int in);  
+    int                                 HTTPWrapperShutDown             (int s,int in);
     // SSL Wrapper prototypes
     int                                 HTTPWrapperSSLConnect           (int s,const struct sockaddr *name,int namelen,char *hostname);
     int                                 HTTPWrapperSSLNegotiate         (int s,const struct sockaddr *name,int namelen,char *hostname);
@@ -72,12 +72,12 @@ extern "C" {
     // Global wrapper Functions
 #define                             IToA                            HTTPWrapperItoa
 #define                             GetUpTime                       HTTPWrapperGetUpTime
-#define                             SocketGetErr                    HTTPWrapperGetSocketError 
+#define                             SocketGetErr                    HTTPWrapperGetSocketError
 #define                             HostByName                      HTTPWrapperGetHostByName
 #define                             InitRandomeNumber               HTTPWrapperInitRandomeNumber
 #define                             GetRandomeNumber                HTTPWrapperGetRandomeNumber
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
 #endif
 
@@ -102,7 +102,7 @@ typedef unsigned long                ULONG;
 // Global socket structures and definitions
 #define                              HTTP_INVALID_SOCKET (-1)
 typedef struct sockaddr_in           HTTP_SOCKADDR_IN;
-typedef struct timeval               HTTP_TIMEVAL; 
+typedef struct timeval               HTTP_TIMEVAL;
 typedef struct hostent               HTTP_HOSTNET;
 typedef struct sockaddr              HTTP_SOCKADDR;
 typedef struct in_addr               HTTP_INADDR;

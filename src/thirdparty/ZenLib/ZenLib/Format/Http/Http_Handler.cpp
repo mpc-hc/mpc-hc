@@ -1,5 +1,5 @@
 // ZenLib::Format::Http::Handler - A HTTP Handler
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -58,7 +58,7 @@ Handler::Handler()
     Foreign_Port=0;
     Local_Port=0;
     HeadersOnly=false;
-    
+
     //Out
     Response_HTTP_Code=200;
 }

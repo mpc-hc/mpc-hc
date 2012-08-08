@@ -1,17 +1,17 @@
 // MediaInfo_Internal - All info about media files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -70,9 +70,9 @@ namespace MediaInfo_Debug_MediaInfo_Internal
 
 #if defined (MEDIAINFO_DEBUG_CONFIG) || defined (MEDIAINFO_DEBUG_BUFFER) || defined (MEDIAINFO_DEBUG_OUTPUT)
     #ifdef WINDOWS
-        const Char* MediaInfo_Debug_Name=_T("MediaInfo_Debug");
+        const Char* MediaInfo_Debug_Name=__T("MediaInfo_Debug");
     #else
-        const Char* MediaInfo_Debug_Name=_T("/tmp/MediaInfo_Debug");
+        const Char* MediaInfo_Debug_Name=__T("/tmp/MediaInfo_Debug");
     #endif
 #endif
 
@@ -81,21 +81,21 @@ namespace MediaInfo_Debug_MediaInfo_Internal
         { \
             Ztring Debug; \
             _TOAPPEND; \
-            Debug+=_T("\r\n"); \
+            Debug+=__T("\r\n"); \
             if (!Debug_Config.Opened_Get()) \
             { \
                 if (File_Names.empty()) \
-                    Debug_Config.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Config.txt")); \
+                    Debug_Config.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Config.txt")); \
                 else \
                 { \
                     Ztring File_Temp; \
-                    if (File_Names[0].rfind(_T('\\'))!=string::npos) \
-                        File_Temp=File_Names[0].substr(File_Names[0].rfind(_T('\\'))+1, string::npos); \
-                    else if (File_Names[0].rfind(_T('/'))!=string::npos) \
-                        File_Temp=File_Names[0].substr(File_Names[0].rfind(_T('/'))+1, string::npos); \
+                    if (File_Names[0].rfind(__T('\\'))!=string::npos) \
+                        File_Temp=File_Names[0].substr(File_Names[0].rfind(__T('\\'))+1, string::npos); \
+                    else if (File_Names[0].rfind(__T('/'))!=string::npos) \
+                        File_Temp=File_Names[0].substr(File_Names[0].rfind(__T('/'))+1, string::npos); \
                     else \
                         File_Temp=File_Names[0]; \
-                    Debug_Config.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".")+File_Temp+_T(".Config.txt")); \
+                    Debug_Config.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".")+File_Temp+__T(".Config.txt")); \
                 } \
             } \
             Debug_Config.Write(Debug); \
@@ -146,31 +146,31 @@ namespace MediaInfo_Debug_MediaInfo_Internal
             if (!Debug_Buffer_Stream.Opened_Get()) \
             { \
                 if (File_Names.empty()) \
-                    Debug_Buffer_Stream.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Buffer.Stream.0000000000000000")); \
+                    Debug_Buffer_Stream.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Buffer.Stream.0000000000000000")); \
                 else \
                 { \
                     Ztring File_Temp; \
-                    if (File_Names[0].rfind(_T('\\'))!=string::npos) \
-                        File_Temp=File_Names[0].substr(File_Names[0].rfind(_T('\\'))+1, string::npos); \
-                    else if (File_Names[0].rfind(_T('/'))!=string::npos) \
-                        File_Temp=File_Names[0].substr(File_Names[0].rfind(_T('/'))+1, string::npos); \
+                    if (File_Names[0].rfind(__T('\\'))!=string::npos) \
+                        File_Temp=File_Names[0].substr(File_Names[0].rfind(__T('\\'))+1, string::npos); \
+                    else if (File_Names[0].rfind(__T('/'))!=string::npos) \
+                        File_Temp=File_Names[0].substr(File_Names[0].rfind(__T('/'))+1, string::npos); \
                     else \
                         File_Temp=File_Names[0]; \
-                    Debug_Buffer_Stream.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".")+File_Temp+_T(".Buffer.Stream.0000000000000000")); \
+                    Debug_Buffer_Stream.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".")+File_Temp+__T(".Buffer.Stream.0000000000000000")); \
                 } \
                 Debug_Buffer_Stream_Order=0; \
                 if (File_Names.empty()) \
-                    Debug_Buffer_Sizes.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Buffer.Sizes.0000000000000000")); \
+                    Debug_Buffer_Sizes.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Buffer.Sizes.0000000000000000")); \
                 else \
                 { \
                     Ztring File_Temp; \
-                    if (File_Names[0].rfind(_T('\\'))!=string::npos) \
-                        File_Temp=File_Names[0].substr(File_Names[0].rfind(_T('\\'))+1, string::npos); \
-                    else if (File_Names[0].rfind(_T('/'))!=string::npos) \
-                        File_Temp=File_Names[0].substr(File_Names[0].rfind(_T('/'))+1, string::npos); \
+                    if (File_Names[0].rfind(__T('\\'))!=string::npos) \
+                        File_Temp=File_Names[0].substr(File_Names[0].rfind(__T('\\'))+1, string::npos); \
+                    else if (File_Names[0].rfind(__T('/'))!=string::npos) \
+                        File_Temp=File_Names[0].substr(File_Names[0].rfind(__T('/'))+1, string::npos); \
                     else \
                         File_Temp=File_Names[0]; \
-                    Debug_Buffer_Sizes.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".")+File_Temp+_T(".Buffer.Sizes.0000000000000000")); \
+                    Debug_Buffer_Sizes.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".")+File_Temp+__T(".Buffer.Sizes.0000000000000000")); \
                 } \
                 Debug_Buffer_Sizes_Count=0; \
             } \
@@ -183,14 +183,14 @@ namespace MediaInfo_Debug_MediaInfo_Internal
                 Debug_Buffer_Sizes.Close(); \
                 Ztring Before=Ztring::ToZtring(Debug_Buffer_Stream_Order-1); \
                 while (Before.size()<16) \
-                    Before.insert(0, 1, _T('0')); \
+                    Before.insert(0, 1, __T('0')); \
                 Ztring Next=Ztring::ToZtring(Debug_Buffer_Stream_Order+1); \
                 while (Next.size()<16) \
-                    Next.insert(0, 1, _T('0')); \
-                Debug_Buffer_Stream.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Buffer.Stream.")+Next); \
-                Debug_Buffer_Sizes.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Buffer.Sizes.")+Next); \
-                File::Delete(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Buffer.Stream.")+Before); \
-                File::Delete(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Buffer.Sizes.")+Before); \
+                    Next.insert(0, 1, __T('0')); \
+                Debug_Buffer_Stream.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Buffer.Stream.")+Next); \
+                Debug_Buffer_Sizes.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Buffer.Sizes.")+Next); \
+                File::Delete(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Buffer.Stream.")+Before); \
+                File::Delete(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Buffer.Sizes.")+Before); \
                 Debug_Buffer_Stream_Order++; \
                 Debug_Buffer_Sizes_Count=0; \
             } \
@@ -202,7 +202,7 @@ namespace MediaInfo_Debug_MediaInfo_Internal
 #ifdef MEDIAINFO_DEBUG_OUTPUT
     #define MEDIAINFO_DEBUG_OUTPUT_INIT(_VALUE, _DEBUGB) \
         { \
-            if (OptionLower==_T("file_duplicate")) \
+            if (OptionLower==__T("file_duplicate")) \
             { \
                 size_t Pos=(size_t)ToReturn2.To_int64u(); \
                 if (Pos>=Debug_Output_Pos_Stream.size()) \
@@ -212,7 +212,7 @@ namespace MediaInfo_Debug_MediaInfo_Internal
                     Debug_Output_Pos_Sizes.resize(Pos+1); \
                     Debug_Output_Pos_Sizes[Pos]=new File(); \
                     Debug_Output_Pos_Pointer.resize(Pos+1); \
-                    Debug_Output_Pos_Pointer[Pos]=(void*)Ztring(Value).SubString(_T("memory://"), _T(":")).To_int64u(); \
+                    Debug_Output_Pos_Pointer[Pos]=(void*)Ztring(Value).SubString(__T("memory://"), __T(":")).To_int64u(); \
                 } \
             } \
             EXECUTE_STRING(_VALUE, _DEBUGB) \
@@ -226,15 +226,15 @@ namespace MediaInfo_Debug_MediaInfo_Internal
     #define MEDIAINFO_DEBUG_OUTPUT_VALUE(_VALUE, _METHOD) \
         { \
             size_t ByteCount=Info->Output_Buffer_Get(Value); \
-            void* ValueH=(void*)Ztring(Value).SubString(_T("memory://"), _T(":")).To_int64u(); \
+            void* ValueH=(void*)Ztring(Value).SubString(__T("memory://"), __T(":")).To_int64u(); \
             map<void*, File>::iterator F_Stream=Debug_Output_Value_Stream.find(ValueH); \
             if (F_Stream!=Debug_Output_Value_Stream.end()) \
             { \
                 map<void*, File>::iterator F_Sizes=Debug_Output_Value_Stream.find(ValueH); \
                 if (!F_Stream->second.Opened_Get()) \
                 { \
-                    F_Stream->second.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Output.")+Ztring::ToZtring((size_t)ValueH, 16)+_T(".Stream")); \
-                    F_Sizes->second.Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Output.")+Ztring::ToZtring((size_t)ValueH, 16)+_T(".Sizes")); \
+                    F_Stream->second.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Output.")+Ztring::ToZtring((size_t)ValueH, 16)+__T(".Stream")); \
+                    F_Sizes->second.Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Output.")+Ztring::ToZtring((size_t)ValueH, 16)+__T(".Sizes")); \
                 } \
                 F_Stream->second.Write((int8u*)ValueH, ByteCount); \
                 F_Sizes->second.Write((int8u*)&ByteCount, sizeof(ByteCount)); \
@@ -254,8 +254,8 @@ namespace MediaInfo_Debug_MediaInfo_Internal
             { \
                 if (!Debug_Output_Pos_Stream[_POS]->Opened_Get()) \
                 { \
-                    Debug_Output_Pos_Stream[_POS]->Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Output.")+Ztring::ToZtring(Pos, 16)+_T(".Stream")); \
-                    Debug_Output_Pos_Sizes[_POS]->Create(Ztring(MediaInfo_Debug_Name)+_T(".")+Ztring::ToZtring((size_t)this, 16)+_T(".Output.")+Ztring::ToZtring(Pos, 16)+_T(".Sizes")); \
+                    Debug_Output_Pos_Stream[_POS]->Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Output.")+Ztring::ToZtring(Pos, 16)+__T(".Stream")); \
+                    Debug_Output_Pos_Sizes[_POS]->Create(Ztring(MediaInfo_Debug_Name)+__T(".")+Ztring::ToZtring((size_t)this, 16)+__T(".Output.")+Ztring::ToZtring(Pos, 16)+__T(".Sizes")); \
                 } \
                 Debug_Output_Pos_Stream[_POS]->Write((int8u*)Debug_Output_Pos_Pointer[_POS], ByteCount); \
                 Debug_Output_Pos_Sizes[_POS]->Write((int8u*)&ByteCount, sizeof(ByteCount)); \
@@ -280,7 +280,7 @@ MediaInfo_Internal::MediaInfo_Internal()
 {
     CriticalSectionLocker CSL(CS);
 
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Construction");)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Construction");)
 
     MediaInfoLib::Config.Init(); //Initialize Configuration
 
@@ -293,11 +293,11 @@ MediaInfo_Internal::MediaInfo_Internal()
 
     Stream.resize(Stream_Max);
     Stream_More.resize(Stream_Max);
-    
+
     //Position in a MediaInfoList class
     IsFirst=true;
     IsLast=true;
-    
+
     //Threading
     BlockMethod=0;
     IsInThread=false;
@@ -310,7 +310,7 @@ MediaInfo_Internal::~MediaInfo_Internal()
 
     CriticalSectionLocker CSL(CS);
 
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Destruction");)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Destruction");)
 
     delete Info; //Info=NULL;
     #if !defined(MEDIAINFO_READER_NO)
@@ -333,13 +333,13 @@ MediaInfo_Internal::~MediaInfo_Internal()
 size_t MediaInfo_Internal::Open(const String &File_Name_)
 {
     Close();
-    
+
     CS.Enter();
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Open, File=");Debug+=Ztring(File_Name_).c_str();)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Open, File=");Debug+=Ztring(File_Name_).c_str();)
     Config.File_Names.clear();
-    if (Config.File_FileNameFormat_Get()==_T("CSV"))
+    if (Config.File_FileNameFormat_Get()==__T("CSV"))
     {
-        Config.File_Names.Separator_Set(0, _T(","));
+        Config.File_Names.Separator_Set(0, __T(","));
         Config.File_Names.Write(File_Name_);
     }
     else if (!File_Name_.empty())
@@ -373,25 +373,25 @@ size_t MediaInfo_Internal::Open(const String &File_Name_)
 void MediaInfo_Internal::Entry()
 {
     CS.Enter();
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Entry");)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Entry");)
     Config.State_Set(0);
     CS.Leave();
 
     if ((Config.File_Names[0].size()>=6
-        && Config.File_Names[0][0]==_T('m')
-        && Config.File_Names[0][1]==_T('m')
-        && Config.File_Names[0][2]==_T('s')
-        && Config.File_Names[0][3]==_T(':')
-        && Config.File_Names[0][4]==_T('/')
-        && Config.File_Names[0][5]==_T('/'))
+        && Config.File_Names[0][0]==__T('m')
+        && Config.File_Names[0][1]==__T('m')
+        && Config.File_Names[0][2]==__T('s')
+        && Config.File_Names[0][3]==__T(':')
+        && Config.File_Names[0][4]==__T('/')
+        && Config.File_Names[0][5]==__T('/'))
         || (Config.File_Names[0].size()>=7
-        && Config.File_Names[0][0]==_T('m')
-        && Config.File_Names[0][1]==_T('m')
-        && Config.File_Names[0][2]==_T('s')
-        && Config.File_Names[0][3]==_T('h')
-        && Config.File_Names[0][4]==_T(':')
-        && Config.File_Names[0][5]==_T('/')
-        && Config.File_Names[0][6]==_T('/')))
+        && Config.File_Names[0][0]==__T('m')
+        && Config.File_Names[0][1]==__T('m')
+        && Config.File_Names[0][2]==__T('s')
+        && Config.File_Names[0][3]==__T('h')
+        && Config.File_Names[0][4]==__T(':')
+        && Config.File_Names[0][5]==__T('/')
+        && Config.File_Names[0][6]==__T('/')))
         #if defined(MEDIAINFO_LIBMMS_YES)
             Reader_libmms().Format_Test(this, Config.File_Names[0]);
         #else //MEDIAINFO_LIBMMS_YES
@@ -409,7 +409,7 @@ void MediaInfo_Internal::Entry()
             }
         #endif //MEDIAINFO_LIBMMS_YES
 
-    else if (Config.File_Names[0].find(_T("://"))!=string::npos)
+    else if (Config.File_Names[0].find(__T("://"))!=string::npos)
         #if defined(MEDIAINFO_LIBCURL_YES)
         {
             CS.Enter();
@@ -501,7 +501,7 @@ size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, const String &Fi
             SelectFromExtension(Config.File_ForceParser_Get());
             CS.Enter();
         }
-        else
+        if (Info==NULL)
         {
             Info=new File__MultipleParsing;
             Info_IsMultipleParsing=true;
@@ -522,7 +522,7 @@ size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, const String &Fi
 //---------------------------------------------------------------------------
 size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, int64u File_Offset_)
 {
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Open_Buffer_Init, File_Size=");Debug+=Ztring::ToZtring(File_Size_);Debug+=_T(", File_Offset=");Debug+=Ztring::ToZtring(File_Offset_);)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Open_Buffer_Init, File_Size=");Debug+=Ztring::ToZtring(File_Size_);Debug+=__T(", File_Offset=");Debug+=Ztring::ToZtring(File_Offset_);)
     #ifdef MEDIAINFO_DEBUG_BUFFER
         if (Info && File_Offset_>Info->File_Offset)
         {
@@ -560,13 +560,13 @@ size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, int64u File_Offs
         }
     #endif //MEDIAINFO_EVENTS
 
-    EXECUTE_SIZE_T(1, Debug+=_T("Open_Buffer_Init, will return 1");)
+    EXECUTE_SIZE_T(1, Debug+=__T("Open_Buffer_Init, will return 1");)
 }
 
 //---------------------------------------------------------------------------
 void MediaInfo_Internal::Open_Buffer_Unsynch ()
 {
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Open_Buffer_Unsynch");)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Open_Buffer_Unsynch");)
 
     if (Info==NULL)
         return;
@@ -600,7 +600,7 @@ std::bitset<32> MediaInfo_Internal::Open_Buffer_Continue (const int8u* ToAdd, si
     {
         Info->Open_Buffer_Finalize(true);
         Info->File_GoTo=(int64u)-1;
-        MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Open_Buffer_Continue, will return 0");)
+        MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Open_Buffer_Continue, will return 0");)
         return 0;
     }
 
@@ -669,7 +669,7 @@ size_t MediaInfo_Internal::Open_Buffer_Finalize ()
     CS.Leave();
 
     CriticalSectionLocker CSL(CS);
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Open_Buffer_Finalize");)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Open_Buffer_Finalize");)
     if (Info==NULL)
         return 0;
 
@@ -689,7 +689,7 @@ size_t MediaInfo_Internal::Open_Buffer_Finalize ()
         delete[] Config.File_Buffer; Config.File_Buffer=NULL; Config.File_Buffer_Size=0; Config.File_Buffer_Size_Max=0;
     }
 
-    EXECUTE_SIZE_T(1, Debug+=_T("Open_Buffer_Finalize, will return 1"))
+    EXECUTE_SIZE_T(1, Debug+=__T("Open_Buffer_Finalize, will return 1"))
 }
 
 //---------------------------------------------------------------------------
@@ -728,7 +728,7 @@ void MediaInfo_Internal::Close()
     }
 
     CriticalSectionLocker CSL(CS);
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Close");)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Close");)
     Stream.clear();
     Stream.resize(Stream_Max);
     Stream_More.clear();
@@ -760,7 +760,7 @@ Ztring MediaInfo_Internal::Inform(size_t)
 Ztring MediaInfo_Internal::Get(stream_t StreamKind, size_t StreamPos, size_t Parameter, info_t KindOfInfo)
 {
     CriticalSectionLocker CSL(CS);
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Get, StreamKind=");Debug+=Ztring::ToZtring((size_t)StreamKind);Debug+=_T(", StreamPos=");Debug+=Ztring::ToZtring(StreamPos);Debug+=_T(", Parameter=");Debug+=Ztring::ToZtring(Parameter);)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Get, StreamKind=");Debug+=Ztring::ToZtring((size_t)StreamKind);Debug+=__T(", StreamPos=");Debug+=Ztring::ToZtring(StreamPos);Debug+=__T(", Parameter=");Debug+=Ztring::ToZtring(Parameter);)
 
     if (Info && Info->Status[File__Analyze::IsUpdated])
     {
@@ -778,67 +778,67 @@ Ztring MediaInfo_Internal::Get(stream_t StreamKind, size_t StreamPos, size_t Par
     {
         //Optimization : KindOfInfo>Info_Text is in static lists
         if (KindOfInfo!=Info_Text)
-            EXECUTE_STRING(MediaInfoLib::Config.Info_Get(StreamKind, Parameter, KindOfInfo), Debug+=_T("Get, will return ");Debug+=ToReturn;) //look for static information only
+            EXECUTE_STRING(MediaInfoLib::Config.Info_Get(StreamKind, Parameter, KindOfInfo), Debug+=__T("Get, will return ");Debug+=ToReturn;) //look for static information only
         else if (Parameter<Stream[StreamKind][StreamPos].size())
-            EXECUTE_STRING(Stream[StreamKind][StreamPos][Parameter], Debug+=_T("Get, will return ");Debug+=ToReturn;)
+            EXECUTE_STRING(Stream[StreamKind][StreamPos][Parameter], Debug+=__T("Get, will return ");Debug+=ToReturn;)
         else
-            EXECUTE_STRING(MediaInfoLib::Config.EmptyString_Get(), Debug+=_T("Get, will return ");Debug+=ToReturn;) //This parameter is known, but not filled
+            EXECUTE_STRING(MediaInfoLib::Config.EmptyString_Get(), Debug+=__T("Get, will return ");Debug+=ToReturn;) //This parameter is known, but not filled
     }
     else
-        EXECUTE_STRING(Stream_More[StreamKind][StreamPos][Parameter-MediaInfoLib::Config.Info_Get(StreamKind).size()](KindOfInfo), Debug+=_T("Get, will return ");Debug+=ToReturn;)
+        EXECUTE_STRING(Stream_More[StreamKind][StreamPos][Parameter-MediaInfoLib::Config.Info_Get(StreamKind).size()](KindOfInfo), Debug+=__T("Get, will return ");Debug+=ToReturn;)
 }
 
 //---------------------------------------------------------------------------
 Ztring MediaInfo_Internal::Get(stream_t StreamKind, size_t StreamPos, const String &Parameter, info_t KindOfInfo, info_t KindOfSearch)
 {
     //Legacy
-    if (Parameter.find(_T("_String"))!=Error)
+    if (Parameter.find(__T("_String"))!=Error)
     {
         Ztring S1=Parameter;
-        S1.FindAndReplace(_T("_String"), _T("/String"));
+        S1.FindAndReplace(__T("_String"), __T("/String"));
         return Get(StreamKind, StreamPos, S1, KindOfInfo, KindOfSearch);
     }
-    if (Parameter==_T("Channels"))
-        return Get(StreamKind, StreamPos, _T("Channel(s)"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("Artist"))
-        return Get(StreamKind, StreamPos, _T("Performer"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("AspectRatio"))
-        return Get(StreamKind, StreamPos, _T("DisplayAspectRatio"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("AspectRatio/String"))
-        return Get(StreamKind, StreamPos, _T("DisplayAspectRatio/String"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("Chroma"))
-        return Get(StreamKind, StreamPos, _T("Colorimetry"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("PlayTime"))
-        return Get(StreamKind, StreamPos, _T("Duration"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("PlayTime/String"))
-        return Get(StreamKind, StreamPos, _T("Duration/String"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("PlayTime/String1"))
-        return Get(StreamKind, StreamPos, _T("Duration/String1"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("PlayTime/String2"))
-        return Get(StreamKind, StreamPos, _T("Duration/String2"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("PlayTime/String3"))
-        return Get(StreamKind, StreamPos, _T("Duration/String3"), KindOfInfo, KindOfSearch);
-    if (StreamKind==Stream_General && Parameter==_T("BitRate"))
-        return Get(Stream_General, StreamPos, _T("OverallBitRate"), KindOfInfo, KindOfSearch);
-    if (StreamKind==Stream_General && Parameter==_T("BitRate/String"))
-        return Get(Stream_General, StreamPos, _T("OverallBitRate/String"), KindOfInfo, KindOfSearch);
-    if (StreamKind==Stream_General && Parameter==_T("BitRate_Minimum"))
-        return Get(Stream_General, StreamPos, _T("OverallBitRate_Minimum"), KindOfInfo, KindOfSearch);
-    if (StreamKind==Stream_General && Parameter==_T("BitRate_Minimum/String"))
-        return Get(Stream_General, StreamPos, _T("OverallBitRate_Minimum/String"), KindOfInfo, KindOfSearch);
-    if (StreamKind==Stream_General && Parameter==_T("BitRate_Nominal"))
-        return Get(Stream_General, StreamPos, _T("OverallBitRate_Nominal"), KindOfInfo, KindOfSearch);
-    if (StreamKind==Stream_General && Parameter==_T("BitRate_Nominal/String"))
-        return Get(Stream_General, StreamPos, _T("OverallBitRate_Nominal/String"), KindOfInfo, KindOfSearch);
-    if (StreamKind==Stream_General && Parameter==_T("BitRate_Maximum"))
-        return Get(Stream_General, StreamPos, _T("OverallBitRate_Maximum"), KindOfInfo, KindOfSearch);
-    if (StreamKind==Stream_General && Parameter==_T("BitRate_Maximum/String"))
-        return Get(Stream_General, StreamPos, _T("OverallBitRate_Maximum/String"), KindOfInfo, KindOfSearch);
-    if (Parameter==_T("AFD"))
-        return Get(StreamKind, StreamPos, _T("ActiveFormatDescription"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("Channels"))
+        return Get(StreamKind, StreamPos, __T("Channel(s)"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("Artist"))
+        return Get(StreamKind, StreamPos, __T("Performer"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("AspectRatio"))
+        return Get(StreamKind, StreamPos, __T("DisplayAspectRatio"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("AspectRatio/String"))
+        return Get(StreamKind, StreamPos, __T("DisplayAspectRatio/String"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("Chroma"))
+        return Get(StreamKind, StreamPos, __T("Colorimetry"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("PlayTime"))
+        return Get(StreamKind, StreamPos, __T("Duration"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("PlayTime/String"))
+        return Get(StreamKind, StreamPos, __T("Duration/String"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("PlayTime/String1"))
+        return Get(StreamKind, StreamPos, __T("Duration/String1"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("PlayTime/String2"))
+        return Get(StreamKind, StreamPos, __T("Duration/String2"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("PlayTime/String3"))
+        return Get(StreamKind, StreamPos, __T("Duration/String3"), KindOfInfo, KindOfSearch);
+    if (StreamKind==Stream_General && Parameter==__T("BitRate"))
+        return Get(Stream_General, StreamPos, __T("OverallBitRate"), KindOfInfo, KindOfSearch);
+    if (StreamKind==Stream_General && Parameter==__T("BitRate/String"))
+        return Get(Stream_General, StreamPos, __T("OverallBitRate/String"), KindOfInfo, KindOfSearch);
+    if (StreamKind==Stream_General && Parameter==__T("BitRate_Minimum"))
+        return Get(Stream_General, StreamPos, __T("OverallBitRate_Minimum"), KindOfInfo, KindOfSearch);
+    if (StreamKind==Stream_General && Parameter==__T("BitRate_Minimum/String"))
+        return Get(Stream_General, StreamPos, __T("OverallBitRate_Minimum/String"), KindOfInfo, KindOfSearch);
+    if (StreamKind==Stream_General && Parameter==__T("BitRate_Nominal"))
+        return Get(Stream_General, StreamPos, __T("OverallBitRate_Nominal"), KindOfInfo, KindOfSearch);
+    if (StreamKind==Stream_General && Parameter==__T("BitRate_Nominal/String"))
+        return Get(Stream_General, StreamPos, __T("OverallBitRate_Nominal/String"), KindOfInfo, KindOfSearch);
+    if (StreamKind==Stream_General && Parameter==__T("BitRate_Maximum"))
+        return Get(Stream_General, StreamPos, __T("OverallBitRate_Maximum"), KindOfInfo, KindOfSearch);
+    if (StreamKind==Stream_General && Parameter==__T("BitRate_Maximum/String"))
+        return Get(Stream_General, StreamPos, __T("OverallBitRate_Maximum/String"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("AFD"))
+        return Get(StreamKind, StreamPos, __T("ActiveFormatDescription"), KindOfInfo, KindOfSearch);
 
     CS.Enter();
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Get, StreamKind=");Debug+=Ztring::ToZtring((size_t)StreamKind);Debug+=_T(", StreamKind=");Debug+=Ztring::ToZtring(StreamPos);Debug+=_T(", Parameter=");Debug+=Ztring(Parameter);)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Get, StreamKind=");Debug+=Ztring::ToZtring((size_t)StreamKind);Debug+=__T(", StreamKind=");Debug+=Ztring::ToZtring(StreamPos);Debug+=__T(", Parameter=");Debug+=Ztring(Parameter);)
 
     if (Info && Info->Status[File__Analyze::IsUpdated])
     {
@@ -852,17 +852,17 @@ Ztring MediaInfo_Internal::Get(stream_t StreamKind, size_t StreamPos, const Stri
     if (StreamKind>=Stream_Max || StreamPos>=Stream[StreamKind].size() || KindOfInfo>=Info_Max)
     {
         CS.Leave();
-        EXECUTE_STRING(MediaInfoLib::Config.EmptyString_Get(), Debug+=_T("Get, stream and/or pos is invalid will return empty string");) //Parameter is unknown
+        EXECUTE_STRING(MediaInfoLib::Config.EmptyString_Get(), Debug+=__T("Get, stream and/or pos is invalid will return empty string");) //Parameter is unknown
     }
 
     //Special cases
     //-Inform for a stream
-    if (Parameter==_T("Inform"))
+    if (Parameter==__T("Inform"))
     {
         CS.Leave();
         Ztring InformZtring=Inform(StreamKind, StreamPos, true);
         CS.Enter();
-        size_t Pos=MediaInfoLib::Config.Info_Get(StreamKind).Find(_T("Inform"));
+        size_t Pos=MediaInfoLib::Config.Info_Get(StreamKind).Find(__T("Inform"));
         if (Pos!=Error)
             Stream[StreamKind][StreamPos](Pos)=InformZtring;
     }
@@ -875,12 +875,12 @@ Ztring MediaInfo_Internal::Get(stream_t StreamKind, size_t StreamPos, const Stri
         if (ParameterI==Error)
         {
             #ifdef MEDIAINFO_DEBUG_WARNING_GET
-                if (Ztring(Parameter)!=_T("SCTE35_PID")) //TODO: define a special interface for parser-specific parameters
+                if (Ztring(Parameter)!=__T("SCTE35_PID")) //TODO: define a special interface for parser-specific parameters
                     std::cerr<<"MediaInfo: Warning, Get(), parameter \""<<Ztring(Parameter).To_Local()<<"\""<<std::endl;
             #endif //MEDIAINFO_DEBUG_WARNING_GET
 
             CS.Leave();
-            EXECUTE_STRING(MediaInfoLib::Config.EmptyString_Get(), Debug+=_T("Get, parameter is unknown, will return empty string");) //Parameter is unknown
+            EXECUTE_STRING(MediaInfoLib::Config.EmptyString_Get(), Debug+=__T("Get, parameter is unknown, will return empty string");) //Parameter is unknown
         }
         CS.Leave();
         CriticalSectionLocker CSL(CS);
@@ -889,7 +889,7 @@ Ztring MediaInfo_Internal::Get(stream_t StreamKind, size_t StreamPos, const Stri
 
     CS.Leave();
 
-    EXECUTE_STRING(Get(StreamKind, StreamPos, ParameterI, KindOfInfo), Debug+=_T("Get, will return ");Debug+=ToReturn;)
+    EXECUTE_STRING(Get(StreamKind, StreamPos, ParameterI, KindOfInfo), Debug+=__T("Get, will return ");Debug+=ToReturn;)
 }
 
 //***************************************************************************
@@ -948,100 +948,100 @@ size_t MediaInfo_Internal::Output_Buffer_Get (size_t Pos)
 String MediaInfo_Internal::Option (const String &Option, const String &Value)
 {
     CriticalSectionLocker CSL(CS);
-    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Option, Option=");Debug+=Ztring(Option);Debug+=_T(", Value=");Debug+=Ztring(Value);)
+    MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Option, Option=");Debug+=Ztring(Option);Debug+=__T(", Value=");Debug+=Ztring(Value);)
     Ztring OptionLower=Option; OptionLower.MakeLowerCase();
          if (Option.empty())
-        return _T("");
-    else if (OptionLower==_T("language_update"))
+        return __T("");
+    else if (OptionLower==__T("language_update"))
     {
-        if (!Info || Info->Get(Stream_General, 0, _T("CompleteName"))==_T(""))
-            return _T("");
+        if (!Info || Info->Get(Stream_General, 0, __T("CompleteName"))==__T(""))
+            return __T("");
 
         ZtringListList Language=Value.c_str();
         MediaInfoLib::Config.Language_Set(Language);
 
-        return _T("");
+        return __T("");
     }
-    else if (OptionLower==_T("create_dummy"))
+    else if (OptionLower==__T("create_dummy"))
     {
         CreateDummy (Value);
         delete Info; Info=NULL;
-        return _T("");
+        return __T("");
     }
-    else if (OptionLower==_T("thread"))
+    else if (OptionLower==__T("thread"))
     {
         BlockMethod=1;
-        return _T("");
+        return __T("");
     }
-    else if (Option==_T("info_capacities"))
+    else if (Option==__T("info_capacities"))
     {
-        return _T("Option removed");
+        return __T("Option removed");
     }
     #if MEDIAINFO_TRACE
-    else if (OptionLower.find(_T("file_details_clear"))==0)
+    else if (OptionLower.find(__T("file_details_clear"))==0)
     {
         if (Info)
             Info->Details_Clear();
 
-        return _T("");
+        return __T("");
     }
     #endif //MEDIAINFO_TRACE
-    else if (OptionLower.find(_T("file_seek"))==0)
+    else if (OptionLower.find(__T("file_seek"))==0)
     {
         #if MEDIAINFO_SEEK
             if (Reader==NULL)
-                return _T("Error: Reader pointer is empty");
+                return __T("Error: Reader pointer is empty");
 
             size_t Method=(size_t)-1;
             int64u SeekValue=(int64u)-1;
             int64u ID=(int64u)-1;
-            
-            ZtringList List; List.Separator_Set(0, _T(","));
+
+            ZtringList List; List.Separator_Set(0, __T(","));
             List.Write(Value);
             for (size_t Pos=0; Pos<List.size(); Pos++)
             {
-                if (!List[Pos].empty() && List[Pos].find(_T('%'))==List[Pos].size()-1)
+                if (!List[Pos].empty() && List[Pos].find(__T('%'))==List[Pos].size()-1)
                 {
                     Method=1;
                     SeekValue=(int64u)(Ztring(List[Pos]).To_float32()*100);
                 }
-                else if (!List[Pos].empty() && List[Pos].find_first_not_of(_T("0123456789"))==string::npos)
+                else if (!List[Pos].empty() && List[Pos].find_first_not_of(__T("0123456789"))==string::npos)
                 {
                     Method=0;
                     SeekValue=Ztring(List[Pos]).To_int64u();
                 }
-                else if (!List[Pos].empty() && List[Pos].find(_T("Frame="))!=string::npos)
+                else if (!List[Pos].empty() && List[Pos].find(__T("Frame="))!=string::npos)
                 {
                     Method=3;
-                    Ztring FrameNumberZ=List[Pos].substr(List[Pos].find(_T("Frame="))+6, string::npos);
+                    Ztring FrameNumberZ=List[Pos].substr(List[Pos].find(__T("Frame="))+6, string::npos);
                     SeekValue=FrameNumberZ.To_int64u();
                 }
-                else if (!List[Pos].empty() && List[Pos].find(_T(":"))!=string::npos)
+                else if (!List[Pos].empty() && List[Pos].find(__T(":"))!=string::npos)
                 {
                     Method=2;
                     Ztring ValueZ=List[Pos];
                     SeekValue=0;
-                    size_t Value_Pos=ValueZ.find(_T(":"));
+                    size_t Value_Pos=ValueZ.find(__T(":"));
                     if (Value_Pos==string::npos)
-                        Value_Pos=ValueZ.size();    
+                        Value_Pos=ValueZ.size();
                     SeekValue+=Ztring(ValueZ.substr(0, Value_Pos)).To_int64u()*60*60*1000*1000*1000;
                     ValueZ.erase(0, Value_Pos+1);
-                    Value_Pos=ValueZ.find(_T(":"));
+                    Value_Pos=ValueZ.find(__T(":"));
                     if (Value_Pos==string::npos)
-                        Value_Pos=ValueZ.size();    
+                        Value_Pos=ValueZ.size();
                     SeekValue+=Ztring(ValueZ.substr(0, Value_Pos)).To_int64u()*60*1000*1000*1000;
                     ValueZ.erase(0, Value_Pos+1);
-                    Value_Pos=ValueZ.find(_T("."));
+                    Value_Pos=ValueZ.find(__T("."));
                     if (Value_Pos==string::npos)
-                        Value_Pos=ValueZ.size();    
+                        Value_Pos=ValueZ.size();
                     SeekValue+=Ztring(ValueZ.substr(0, Value_Pos)).To_int64u()*1000*1000*1000;
                     ValueZ.erase(0, Value_Pos+1);
                     if (!ValueZ.empty())
                         SeekValue+=Ztring(ValueZ).To_int64u()*1000*1000*1000/(int64u)pow(10.0, (int)ValueZ.size());
                 }
-                else if (!List[Pos].empty() && List[Pos].find(_T("ID="))!=string::npos)
+                else if (!List[Pos].empty() && List[Pos].find(__T("ID="))!=string::npos)
                 {
-                    Ztring IDZ=List[Pos].substr(List[Pos].find(_T("ID="))+3, string::npos);
+                    Ztring IDZ=List[Pos].substr(List[Pos].find(__T("ID="))+3, string::npos);
                     ID=IDZ.To_int64u();
                 }
             }
@@ -1051,34 +1051,34 @@ String MediaInfo_Internal::Option (const String &Option, const String &Value)
             CS.Enter();
             switch (Result)
             {
-                case 1  : return _T("");
-                case 2  : return _T("Invalid value");
+                case 1  : return __T("");
+                case 2  : return __T("Invalid value");
                 #if MEDIAINFO_IBI
-                case 3  : return _T("Feature not supported / IBI file not provided");
-                case 4  : return _T("Problem during IBI file parsing");
+                case 3  : return __T("Feature not supported / IBI file not provided");
+                case 4  : return __T("Problem during IBI file parsing");
                 #endif //MEDIAINFO_IBI
-                case 5  : return _T("Invalid ID");
-                case 6  : return _T("Internal error");
+                case 5  : return __T("Invalid ID");
+                case 6  : return __T("Internal error");
                 #if !MEDIAINFO_IBI
-                case (size_t)-2 : return _T("Feature not supported / IBI support disabled due to compilation options");
+                case (size_t)-2 : return __T("Feature not supported / IBI support disabled due to compilation options");
                 #endif //MEDIAINFO_IBI
-                case (size_t)-1 : return _T("Feature not supported");
-                default : return _T("Unknown error");
+                case (size_t)-1 : return __T("Feature not supported");
+                default : return __T("Unknown error");
             }
         #else //MEDIAINFO_SEEK
-            return _T("Seek manager is disabled due to compilation options");
+            return __T("Seek manager is disabled due to compilation options");
         #endif //MEDIAINFO_SEEK
     }
-    else if (OptionLower.find(_T("file_"))==0)
+    else if (OptionLower.find(__T("file_"))==0)
     {
         Ztring ToReturn2=Config.Option(Option, Value);
         if (Info)
             Info->Option_Manage();
 
-        MEDIAINFO_DEBUG_OUTPUT_INIT(ToReturn2, Debug+=_T("Option, will return ");Debug+=ToReturn;)
+        MEDIAINFO_DEBUG_OUTPUT_INIT(ToReturn2, Debug+=__T("Option, will return ");Debug+=ToReturn;)
     }
     else
-        EXECUTE_STRING(MediaInfoLib::Config.Option(Option, Value), Debug+=_T("Option, will return ");Debug+=ToReturn;)
+        EXECUTE_STRING(MediaInfoLib::Config.Option(Option, Value), Debug+=__T("Option, will return ");Debug+=ToReturn;)
 }
 
 //---------------------------------------------------------------------------

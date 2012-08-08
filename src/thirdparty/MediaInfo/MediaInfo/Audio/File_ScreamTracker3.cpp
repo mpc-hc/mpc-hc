@@ -1,17 +1,17 @@
 // File_ScreamTracker3 - Info for ScreamTracker3 files
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WXMHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILXMY or FXMNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -119,7 +119,7 @@ void File_ScreamTracker3::Read_Buffer_Continue()
         Fill(Stream_General, 0, General_Format, "Scream Tracker 3");
         Fill(Stream_General, 0, General_Track, SongName);
         if ((SoftwareVersionMajor&0xF0)==0x10)
-            Fill(Stream_General, 0, General_Encoded_Application, Ztring(_T("Scream Tracker ")+Ztring::ToZtring(SoftwareVersionMajor)+_T(".")+Ztring::ToZtring(SoftwareVersionMinor/16)+Ztring::ToZtring(SoftwareVersionMinor%16)));
+            Fill(Stream_General, 0, General_Encoded_Application, Ztring(__T("Scream Tracker ")+Ztring::ToZtring(SoftwareVersionMajor)+__T(".")+Ztring::ToZtring(SoftwareVersionMinor/16)+Ztring::ToZtring(SoftwareVersionMinor%16)));
         Fill(Stream_General, 0, "BPM", TS);
 
         Stream_Prepare(Stream_Audio);

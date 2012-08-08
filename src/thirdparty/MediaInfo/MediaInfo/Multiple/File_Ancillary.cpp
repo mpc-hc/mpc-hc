@@ -1,17 +1,17 @@
 // File_Ancillary - Info for Ancillary (SMPTE ST291) streams
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -99,8 +99,8 @@ const char* Ancillary_DataID(int8u DataID, int8u SecondaryDataID)
     {
         switch (SecondaryDataID)
         {
-            case 0x01 : return "CEA-708 (CDP)";
-            case 0x02 : return "CEA-608";
+            case 0x01 : return "EIA-708 (CDP)";
+            case 0x02 : return "EIA-608";
             default   : return "S334-1-2007 Defined data services?";
         }
     }
@@ -147,7 +147,7 @@ File_Ancillary::File_Ancillary()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("Ancillary");
+    ParserName=__T("Ancillary");
 
     //In
     WithTenBit=false;
@@ -182,7 +182,7 @@ void File_Ancillary::Streams_Finish()
             {
                 Merge(*Cdp_Parser, Stream_Text, StreamPos, StreamPos);
                 Ztring MuxingMode=Cdp_Parser->Retrieve(Stream_Text, StreamPos, "MuxingMode");
-                Fill(Stream_Text, StreamPos, "MuxingMode", _T("Ancillary data / ")+MuxingMode, true);
+                Fill(Stream_Text, StreamPos, "MuxingMode", __T("Ancillary data / ")+MuxingMode, true);
             }
         }
     #endif //defined(MEDIAINFO_CDP_YES)
@@ -323,10 +323,10 @@ void File_Ancillary::Header_Parse()
     //Test (in some container formats, Cheksum is present sometimes)
     bool WithChecksum_Temp=WithChecksum;
     if (!MustSynchronize && !WithChecksum && (size_t)((3+DataCount+1)*(WithTenBit?2:1))==Buffer_Size)
-        WithChecksum_Temp=true; 
-    
+        WithChecksum_Temp=true;
+
     //Filling
-    Header_Fill_Code((((int16u)DataID)<<8)|SecondaryDataID, Ztring().From_CC1(DataID)+_T('-')+Ztring().From_CC1(SecondaryDataID));
+    Header_Fill_Code((((int16u)DataID)<<8)|SecondaryDataID, Ztring().From_CC1(DataID)+__T('-')+Ztring().From_CC1(SecondaryDataID));
     Header_Fill_Size(((MustSynchronize?3:0)+3+DataCount+(WithChecksum_Temp?1:0))*(WithTenBit?2:1));
 }
 

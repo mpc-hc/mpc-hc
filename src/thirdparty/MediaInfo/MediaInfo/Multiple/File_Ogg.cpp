@@ -1,17 +1,17 @@
 // File_Ogg - Info for ogg files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -60,7 +60,7 @@ File_Ogg::File_Ogg()
     //Temp - Global
     StreamsToDo=0;
     Parsing_End=false;
-    
+
     //Temp - Stream
     Chunk_Sizes_Finished=true;
     packet_type=0;
@@ -103,7 +103,7 @@ void File_Ogg::Streams_Fill()
                     Stream_Temp->second.StreamPos=0;
                 }
                 Fill(Stream_Temp->second.StreamKind, Stream_Temp->second.StreamPos, General_ID, Stream_Temp->first);
-                Fill(Stream_Temp->second.StreamKind, Stream_Temp->second.StreamPos, General_ID_String, Ztring::ToZtring(Stream_Temp->first)+_T(" (0x")+Ztring::ToZtring(Stream_Temp->first, 16)+_T(')'), true);
+                Fill(Stream_Temp->second.StreamKind, Stream_Temp->second.StreamPos, General_ID_String, Ztring::ToZtring(Stream_Temp->first)+__T(" (0x")+Ztring::ToZtring(Stream_Temp->first, 16)+__T(')'), true);
             }
         }
         Stream_Temp++;
@@ -213,7 +213,7 @@ bool File_Ogg::Synchronize()
             Buffer_Offset++;
         return false;
     }
-    
+
     //Synched is OK
     return true;
 }

@@ -1,17 +1,17 @@
 // File_Dxw - Info for DXW files
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -118,7 +118,7 @@ bool File_Dxw::FileHeader_Begin()
         if (Root)
         {
             const char* Attribute=Root->Attribute("xmlns");
-            if (Attribute==NULL || Ztring().From_UTF8(Attribute)!=_T("urn:digimetrics-xml-wrapper"))
+            if (Attribute==NULL || Ztring().From_UTF8(Attribute)!=__T("urn:digimetrics-xml-wrapper"))
             {
                 Reject("DXW");
                 return false;
@@ -145,11 +145,11 @@ bool File_Dxw::FileHeader_Begin()
                         if (Attribute)
                         {
                             Ztring StreamKind; StreamKind.From_UTF8(Attribute);
-                            if (StreamKind==_T("video"))
+                            if (StreamKind==__T("video"))
                                  ReferenceFile.StreamKind=Stream_Video;
-                            if (StreamKind==_T("audio"))
+                            if (StreamKind==__T("audio"))
                                  ReferenceFile.StreamKind=Stream_Audio;
-                            if (StreamKind==_T("data"))
+                            if (StreamKind==__T("data"))
                                  ReferenceFile.StreamKind=Stream_Text; //Not sure this is a right mapping, but this is only used when file is missing
                         }
 
@@ -165,11 +165,11 @@ bool File_Dxw::FileHeader_Begin()
                         if (Attribute)
                         {
                             Ztring StreamKind; StreamKind.From_UTF8(Attribute);
-                            if (StreamKind==_T("video"))
+                            if (StreamKind==__T("video"))
                                  ReferenceFile.StreamKind=Stream_Video;
-                            if (StreamKind==_T("audio"))
+                            if (StreamKind==__T("audio"))
                                  ReferenceFile.StreamKind=Stream_Audio;
-                            if (StreamKind==_T("data"))
+                            if (StreamKind==__T("data"))
                                  ReferenceFile.StreamKind=Stream_Text; //Not sure this is a right mapping, but this is only used when file is missing
                         }
 

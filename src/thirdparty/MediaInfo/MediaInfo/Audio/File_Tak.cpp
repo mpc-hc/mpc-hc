@@ -1,18 +1,18 @@
 // File_Tak - Info for Tak files
-// Copyright (C) 2009-2011 Lionel Duchateau, kurtnoise@free.fr
-// Copyright (C) 2009-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2009-2012 Lionel Duchateau, kurtnoise@free.fr
+// Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -284,18 +284,18 @@ void File_Tak::ENCODERINFO()
     BS_End();
 
     FILLING_BEGIN();
-        Ztring Version=Ztring::ToZtring(Major)+_T('.')+Ztring::ToZtring(Minor)+_T('.')+Ztring::ToZtring(Revision);
-        Ztring Preset=_T("-p")+Ztring::ToZtring(Preset_lo);
+        Ztring Version=Ztring::ToZtring(Major)+__T('.')+Ztring::ToZtring(Minor)+__T('.')+Ztring::ToZtring(Revision);
+        Ztring Preset=__T("-p")+Ztring::ToZtring(Preset_lo);
         switch (Preset_hi)
         {
             case 0x00 :                 break;
-            case 0x01 : Preset+=_T('e'); break;
-            case 0x02 : Preset+=_T('m'); break;
-            default   : Preset+=_T('-')+Ztring::ToZtring(Preset_hi, 16); //Unknown
+            case 0x01 : Preset+=__T('e'); break;
+            case 0x02 : Preset+=__T('m'); break;
+            default   : Preset+=__T('-')+Ztring::ToZtring(Preset_hi, 16); //Unknown
         }
 
         Fill(Stream_Audio, 0, Audio_Encoded_Library, "TAK");
-        Fill(Stream_Audio, 0, Audio_Encoded_Library_String, _T("TAK ")+Version);
+        Fill(Stream_Audio, 0, Audio_Encoded_Library_String, __T("TAK ")+Version);
         Fill(Stream_Audio, 0, Audio_Encoded_Library_Name, "TAK");
         Fill(Stream_Audio, 0, Audio_Encoded_Library_Version, Version);
         Fill(Stream_Audio, 0, Audio_Encoded_Library_Settings, Preset);

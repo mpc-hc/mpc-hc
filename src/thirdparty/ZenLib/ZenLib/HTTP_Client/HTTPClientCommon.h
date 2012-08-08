@@ -1,20 +1,20 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Module Name:                                                                
-//   CmsiHTTPClientCommon.h                                                    
-//                                                                             
-// Abstract: Coomon structs and types for the HTTP protocol API                
-// Author:	Eitan Michaelso                                                     
-// Version:  1.0                                                               
-//                                                                             
+// Module Name:
+//   CmsiHTTPClientCommon.h
+//
+// Abstract: Coomon structs and types for the HTTP protocol API
+// Author:  Eitan Michaelso
+// Version:  1.0
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _HTTPCLIENT_PROTOCOL_H_
 #define _HTTPCLIENT_PROTOCOL_H_
 
-#ifdef __cplusplus 
-extern "C" { 
+#ifdef __cplusplus
+extern "C" {
 #endif
 
     // Global default sizes
@@ -24,7 +24,7 @@ extern "C" {
 #define HTTP_CLIENT_FLAG_KEEP_ALIVE         0x00000001 // Set the keep alive header
 #define HTTP_CLIENT_FLAG_SEND_CHUNKED       0x00000002 // The outgoing should chunked
 #define HTTP_CLIENT_FLAG_NO_CACHE           0x00000004 // Set the no cache header
-#define HTTP_CLIENT_FLAG_ASYNC              0x00000008 // Currently not implemented 
+#define HTTP_CLIENT_FLAG_ASYNC              0x00000008 // Currently not implemented
 
     // HTTP status internal flags
 #define HTTP_CLIENT_STATE_PRE_INIT          0x00000000  // Starting stage
@@ -69,8 +69,8 @@ extern "C" {
 #define HTTP_CLIENT_ERROR_AUTH_MISMATCH     26 // The selected authentication schema does not match the server response
 #define HTTP_CLIENT_ERROR_NO_DIGEST_TOKEN   27 // an element was missing while parsing the digest authentication challenge
 #define HTTP_CLIENT_ERROR_NO_DIGEST_ALG     28 // Digest algorithem could be MD5 or MD5-sess other types are not supported
-#define HTTP_CLIENT_ERROR_SOCKET_BIND		  29 // Binding error
-#define HTTP_CLIENT_ERROR_TLS_NEGO			  30 // Tls negotiation error
+#define HTTP_CLIENT_ERROR_SOCKET_BIND         29 // Binding error
+#define HTTP_CLIENT_ERROR_TLS_NEGO            30 // Tls negotiation error
 #define HTTP_CLIENT_ERROR_NOT_IMPLEMENTED   64 // Feature is not (yet) implemented
 #define HTTP_CLIENT_EOS                     1000        // HTTP end of stream message
 
@@ -81,7 +81,7 @@ extern "C" {
     //
     ///////////////////////////////////////////////////////////////////////////////
 
-    // HTTP Supported authentication methods 
+    // HTTP Supported authentication methods
     typedef enum _HTTP_AUTH_SCHEMA
     {
         AuthSchemaNone      = 0,
@@ -107,14 +107,14 @@ extern "C" {
     typedef struct _HTTP_CLIENT
     {
         UINT32        HTTPStatusCode;                 // HTTP Status code (200 OK)
-        UINT32		    RequestBodyLengthSent;          // Total bytes sent (body only)
-        UINT32		    ResponseBodyLengthReceived;     // Total bytes received (body only)
-        UINT32		    TotalResponseBodyLength;        // as extracted from the “content-length" header
+        UINT32          RequestBodyLengthSent;          // Total bytes sent (body only)
+        UINT32          ResponseBodyLengthReceived;     // Total bytes received (body only)
+        UINT32          TotalResponseBodyLength;        // as extracted from the “content-length" header
         UINT32        HttpState;
     } HTTP_CLIENT;
 
 #ifdef __cplusplus
 }
 #endif
-  
+
 #endif // _HTTPCLIENT_PROTOCOL_H_

@@ -1,24 +1,24 @@
 // File_Mk - Info for Matroska Video/Audio files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 // Information about Matroska files
-// 
+//
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
@@ -251,6 +251,8 @@ private :
         size_t                  ContentCompSettings_Buffer_Size;
         int8u*                  ContentCompSettings_Buffer;
         std::map<std::string, Ztring> Infos;
+        int64u                  TrackDefaultDuration;
+        std::map<int64u, int64u> Segment_Cluster_BlockGroup_BlockDuration_Counts;
 
         stream()
         {
@@ -270,6 +272,7 @@ private :
             ContentCompAlgo=(int32u)-1;
             ContentCompSettings_Buffer_Size=0;
             ContentCompSettings_Buffer=NULL;
+            TrackDefaultDuration=0;
         }
 
         ~stream()
@@ -310,7 +313,6 @@ private :
     int64u  TimecodeScale;
     float64 Duration;
     int64u  TrackNumber;
-    int64u  TrackDefaultDuration;
     int64u  TrackVideoDisplayWidth;
     int64u  TrackVideoDisplayHeight;
     int32u  AvgBytesPerSec;
@@ -346,6 +348,8 @@ private :
     std::vector<int64u> Segment_Seeks;
     int64u              Segment_Tag_TrackUID;
     std::vector<Ztring> Segment_Tag_SimpleTag_TagNames;
+    int64u Segment_Cluster_BlockGroup_BlockDuration_Value;
+    int64u Segment_Cluster_BlockGroup_BlockDuration_TrackNumber;
 };
 
 } //NameSpace

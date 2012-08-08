@@ -1,17 +1,17 @@
 // File_Dvdv - Info for DVD objects (IFO) files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -360,7 +360,7 @@ void File_Dvdv::VMG()
         Info_B4(LastSector,                                     "Last sector of VMG set (last sector of BUP)"); Param_Info2((LastSector+1)*2048, " bytes");
         Skip_XX(12,                                             "Unknown");
         Get_B4 (Sector_Pointer_LastSector,                      "last sector of IFO");
-        Get_B2 (Version,                                        "version number"); Param_Info1(Ztring::ToZtring((Version&0x00F0)>>4)+_T(".")+Ztring::ToZtring(Version&0x000F));
+        Get_B2 (Version,                                        "version number"); Param_Info1(Ztring::ToZtring((Version&0x00F0)>>4)+__T(".")+Ztring::ToZtring(Version&0x000F));
         Info_B4(Category,                                       "VMG category");
         Skip_B2(                                                "number of volumes");
         Skip_B2(                                                "volume number");
@@ -453,7 +453,7 @@ void File_Dvdv::VTS()
         Info_B4(LastSector,                                     "Last sector of Title set (last sector of BUP)"); Param_Info2((LastSector+1)*2048, " bytes");
         Skip_XX(12,                                             "Unknown");
         Get_B4 (Sector_Pointer_LastSector,                      "last sector of IFO");
-        Get_B2 (Version,                                        "version number"); Param_Info1(Ztring::ToZtring((Version&0x00F0)>>4)+_T(".")+Ztring::ToZtring(Version&0x000F));
+        Get_B2 (Version,                                        "version number"); Param_Info1(Ztring::ToZtring((Version&0x00F0)>>4)+__T(".")+Ztring::ToZtring(Version&0x000F));
         Info_B4(Category,                                       "VTS category");
         #if MEDIAINFO_TRACE
             if (Category<2) Param_Info1(IFO_VTS_Category[Category]);
@@ -591,7 +591,7 @@ void File_Dvdv::Video()
     Info_BS(1, Letter,                                          "Automatic Letterbox"); Param_Info1(Letter?"No":"Yes");
     Skip_BS(1,                                                  "CC for line 21 field 1 in GOP (NTSC only)");
     Skip_BS(1,                                                  "CC for line 21 field 2 in GOP (NTSC only)");
-    Get_BS (3, Resolution,                                      "Resolution"); Param_Info1(Ztring::ToZtring(IFO_Width[Resolution])+_T("x")+Ztring::ToZtring(IFO_Height[Standard][Resolution]));
+    Get_BS (3, Resolution,                                      "Resolution"); Param_Info1(Ztring::ToZtring(IFO_Width[Resolution])+__T("x")+Ztring::ToZtring(IFO_Height[Standard][Resolution]));
     Info_BS(1, Letterboxed,                                     "Letterboxed"); Param_Info1(Letter?"Yes":"No");
     Get_BS (1, BitRate_Mode,                                    "Bitrate mode"); Param_Info1(IFO_BitRate_Mode[BitRate_Mode]);
     Info_BS(1, Camera,                                          "Camera/Film"); Param_Info1(Letter?"Film":"Camera");
@@ -610,8 +610,8 @@ void File_Dvdv::Video()
             Fill(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio, IFO_AspectRatio[AspectRatio], 3, true);
             Fill(Stream_Video, StreamPos_Last, Video_FrameRate, IFO_FrameRate[Standard]);
             Fill(Stream_Video, StreamPos_Last, Video_BitRate_Mode, IFO_BitRate_Mode[BitRate_Mode]);
-            Fill(Stream_Video, StreamPos_Last, General_ID, _T("224"));
-            Fill(Stream_Video, StreamPos_Last, General_ID_String, _T("224 (0xE0)"), Unlimited, true);
+            Fill(Stream_Video, StreamPos_Last, General_ID, __T("224"));
+            Fill(Stream_Video, StreamPos_Last, General_ID_String, __T("224 (0xE0)"), Unlimited, true);
         }
     FILLING_END();
 }
@@ -635,8 +635,8 @@ void File_Dvdv::Audio()
     Get_Local(3, Language,                                      "Language code");
     if (!Language.empty() && Language[0]>=0x80)
         Language.clear(); //this is 0xFF...
-    if (Language==_T("iw"))
-        Language=_T("he"); //Hebrew patch, is "iw" in DVDs
+    if (Language==__T("iw"))
+        Language=__T("he"); //Hebrew patch, is "iw" in DVDs
     Get_B1 (Language_Extension,                                 "Language extension"); Param_Info1C((Language_Extension<8), IFO_Language_MoreA[Language_Extension]);
     Skip_B1(                                                    "Unknown");
     switch (Mode)
@@ -714,8 +714,8 @@ void File_Dvdv::Text()
     Get_Local(3, Language,                                      "Language code");
     if (!Language.empty() && Language[0]>=0x80)
         Language.clear(); //this is 0xFF...
-    if (Language==_T("iw"))
-        Language=_T("he"); //Hebrew patch, is "iw" in DVDs
+    if (Language==__T("iw"))
+        Language=__T("he"); //Hebrew patch, is "iw" in DVDs
     Get_B1 (Language_Extension,                                 "Language extension"); Param_Info1C((Language_Extension<16), IFO_Language_MoreT[Language_Extension]);
 
     //Filling
@@ -1287,13 +1287,13 @@ void File_Dvdv::PGC(int64u Offset, bool Title)
                         Stream_Prepare(Stream_Audio);
 
                     int8u ToAdd=0;
-                    if (Retrieve(Stream_Audio, Pos, Audio_Format)==_T("AC-3"))
+                    if (Retrieve(Stream_Audio, Pos, Audio_Format)==__T("AC-3"))
                         ToAdd=0x80;
-                    if (Retrieve(Stream_Audio, Pos, Audio_Format)==_T("DTS"))
+                    if (Retrieve(Stream_Audio, Pos, Audio_Format)==__T("DTS"))
                         ToAdd=0x88;
-                    if (Retrieve(Stream_Audio, Pos, Audio_Format)==_T("LPCM"))
+                    if (Retrieve(Stream_Audio, Pos, Audio_Format)==__T("LPCM"))
                         ToAdd=0xA0;
-                    Ztring ID_String; ID_String.From_Number(ToAdd+Number); ID_String+=_T(" (0x"); ID_String+=Ztring::ToZtring(ToAdd+Number, 16); ID_String+=_T(")");
+                    Ztring ID_String; ID_String.From_Number(ToAdd+Number); ID_String+=__T(" (0x"); ID_String+=Ztring::ToZtring(ToAdd+Number, 16); ID_String+=__T(")");
                     Fill(Stream_Audio, Pos, Audio_ID, ID_String);
                     Fill(Stream_Audio, Pos, Audio_ID_String, ID_String, true);
                 }
@@ -1327,7 +1327,7 @@ void File_Dvdv::PGC(int64u Offset, bool Title)
                     while (Pos>Count_Get(Stream_Text))
                         Stream_Prepare(Stream_Text);
 
-                    Ztring ID_String; ID_String.From_Number(0x20+Number_Wide); ID_String+=_T(" (0x"); ID_String+=Ztring::ToZtring(0x20+Number_Wide, 16); ID_String+=_T(")");
+                    Ztring ID_String; ID_String.From_Number(0x20+Number_Wide); ID_String+=__T(" (0x"); ID_String+=Ztring::ToZtring(0x20+Number_Wide, 16); ID_String+=__T(")");
                     Fill(Stream_Text, Pos, Text_ID, ID_String);
                     Fill(Stream_Text, Pos, Text_ID_String, ID_String, true);
                 }
@@ -1354,7 +1354,14 @@ void File_Dvdv::PGC(int64u Offset, bool Title)
         if (commands>0)
         {
             if (Element_Offset<Offset+commands)
+            {
+                if (Offset+commands>Element_Size)
+                {
+                    Skip_XX(Element_Size-Element_Offset,            "Unknown");
+                    return;
+                }
                 Skip_XX(Offset+commands-Element_Offset,             "Unknown");
+            }
             Element_Begin1("commands");
             int16u PreCommands_Count, PostCommands_Count, CellCommands_Count, EndAdress;
             Get_B2 (PreCommands_Count,                          "Number of pre commands");
@@ -1419,7 +1426,7 @@ void File_Dvdv::PGC(int64u Offset, bool Title)
         if (cell_playback>0)
         {
             if (Element_Offset<Offset+cell_playback)
-                Skip_XX(Offset+cell_playback-Element_Offset,        "Unknown");            
+                Skip_XX(Offset+cell_playback-Element_Offset,        "Unknown");
             Element_Begin1("cell playback");
             for (int8u Pos=0; Pos<Cells; Pos++)
             {
@@ -1467,7 +1474,7 @@ void File_Dvdv::PGC(int64u Offset, bool Title)
                 Fill(Stream_Menu, StreamPos_Last, Menu_Chapters_Pos_Begin, Count_Get(Stream_Menu, StreamPos_Last), 10, true);
                 for (int8u Pos=0; Pos<ProgramMap.size(); Pos++)
                 {
-                    Fill(StreamKind_Last, StreamPos_Last, Ztring().Duration_From_Milliseconds(ProgramTotalDuration).To_Local().c_str(), Ztring(_T("Chapter "))+Ztring::ToZtring(Pos+1));
+                    Fill(StreamKind_Last, StreamPos_Last, Ztring().Duration_From_Milliseconds(ProgramTotalDuration).To_Local().c_str(), Ztring(__T("Chapter "))+Ztring::ToZtring(Pos+1));
 
                     int8u End;
                     if (Pos+1>=Program_Count)

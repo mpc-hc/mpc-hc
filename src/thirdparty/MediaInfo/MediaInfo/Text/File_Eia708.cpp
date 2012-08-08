@@ -1,17 +1,17 @@
 // File_Eia708 - Info for EIA-708 files
-// Copyright (C) 2009-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -173,7 +173,7 @@ void File_Eia708::Header_Parse()
     Get_S1(6, packet_size,                                      "packet_size_code");
     BS_End();
 
-    Header_Fill_Code(0, _T("DTVCC packet"));
+    Header_Fill_Code(0, __T("DTVCC packet"));
     Header_Fill_Size(packet_size==0?128:(packet_size*2));
 }
 
@@ -230,15 +230,15 @@ void File_Eia708::Service()
             case 0x0C : FF(); break; //Form Feed
             case 0x0D : CR(); break; //Carriage Return
             case 0x0E : HCR(); break; //Horizontal Carriage Return
-            case 0x01 : 
-            case 0x02 : 
-            case 0x04 : 
-            case 0x05 : 
-            case 0x06 : 
-            case 0x07 : 
-            case 0x09 : 
-            case 0x0A : 
-            case 0x0B : 
+            case 0x01 :
+            case 0x02 :
+            case 0x04 :
+            case 0x05 :
+            case 0x06 :
+            case 0x07 :
+            case 0x09 :
+            case 0x0A :
+            case 0x0B :
             case 0x0F : break; //1-byte long undefined code
             case 0x10 : //EXT1
                         {
@@ -448,7 +448,7 @@ void File_Eia708::Service()
             case 0x7E : Character_Fill(L'~'     ); break;
             case 0x7F : Character_Fill(L'\x266A'); break;
             //CEA-708-D, Section 7.1.5 (C1)
-            case 0x80 : //CW0 
+            case 0x80 : //CW0
             case 0x81 : //CW1
             case 0x82 : //CW2
             case 0x83 : //CW3
@@ -687,7 +687,7 @@ void File_Eia708::CR()
         //Rolling up window
         for (int8u Pos_Y=0; Pos_Y<Window->row_count-1; Pos_Y++)
             Window->Minimal.CC[Pos_Y]=Window->Minimal.CC[Pos_Y+1];
-        
+
         //SetPenLocation
         y=Window->row_count-1;
 
@@ -697,7 +697,7 @@ void File_Eia708::CR()
 
         if (Window->visible)
         {
-            //Updating global area 
+            //Updating global area
             for (int8u Pos_Y=0; Pos_Y<Window->row_count; Pos_Y++)
                 for (int8u Pos_X=0; Pos_X<Window->column_count; Pos_X++)
                     if (Window->Minimal.Window_y+Pos_Y<(int8u)Streams[service_number]->Minimal.CC.size() && Window->Minimal.Window_x+Pos_X<(int8u)Streams[service_number]->Minimal.CC[Window->Minimal.Window_y+Pos_Y].size())
@@ -727,7 +727,7 @@ void File_Eia708::HCR()
     if (Window==NULL)
         return; //Must wait for the corresponding DFx
     int8u y=Window->Minimal.y;
-    
+
     for (int8u Pos_X=0; Pos_X<Window->column_count; Pos_X++)
     {
         //Clearing window
@@ -776,13 +776,13 @@ void File_Eia708::CLW()
     {
         WindowID--;
         bool IsSet;
-        Get_SB (   IsSet,                                       Ztring(_T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
+        Get_SB (   IsSet,                                       Ztring(__T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
 
         if (IsSet)
         {
             Streams[service_number]->WindowID=WindowID;
             window* Window=Streams[service_number]->Windows[WindowID];
-            
+
             //ClearWindow is like Form Feed
             FF();
 
@@ -800,7 +800,7 @@ void File_Eia708::CLW()
 
     Streams[service_number]->WindowID=Save_WindowID;
     StandAloneCommand=Save_StandAloneCommand;
-    
+
     if (HasChanged_)
     {
         //Has changed
@@ -826,12 +826,12 @@ void File_Eia708::DSW()
     {
         WindowID--;
         bool IsSet;
-        Get_SB (   IsSet,                                       Ztring(_T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
+        Get_SB (   IsSet,                                       Ztring(__T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
 
         if (IsSet)
         {
             window* Window=Streams[service_number]->Windows[WindowID];
-            
+
             if (Window && !Window->visible)
             {
                 Window->visible=true;
@@ -856,7 +856,7 @@ void File_Eia708::DSW()
 
     Streams[service_number]->WindowID=Save_WindowID;
     StandAloneCommand=Save_StandAloneCommand;
-    
+
     if (HasChanged_)
     {
         //Has changed
@@ -883,12 +883,12 @@ void File_Eia708::HDW()
         WindowID--;
 
         bool IsSet;
-        Get_SB (   IsSet,                                       Ztring(_T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
+        Get_SB (   IsSet,                                       Ztring(__T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
 
         if (IsSet)
         {
             window* Window=Streams[service_number]->Windows[WindowID];
-            
+
             if (Window && Window->visible)
             {
                 Window->visible=false;
@@ -916,7 +916,7 @@ void File_Eia708::HDW()
 
     Streams[service_number]->WindowID=Save_WindowID;
     StandAloneCommand=Save_StandAloneCommand;
-    
+
     if (HasChanged_)
     {
         //Has changed
@@ -942,12 +942,12 @@ void File_Eia708::TGW()
     {
         WindowID--;
         bool IsSet;
-        Get_SB (   IsSet,                                       Ztring(_T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
+        Get_SB (   IsSet,                                       Ztring(__T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
 
         if (IsSet)
         {
             window* Window=Streams[service_number]->Windows[WindowID];
-            
+
             if (Window)
             {
                 Window->visible=!Window->visible;
@@ -972,7 +972,7 @@ void File_Eia708::TGW()
 
     Streams[service_number]->WindowID=Save_WindowID;
     StandAloneCommand=Save_StandAloneCommand;
-    
+
     if (HasChanged_)
     {
         //Has changed
@@ -1001,7 +1001,7 @@ void File_Eia708::DLW()
     {
         WindowID--;
         bool IsSet;
-        Get_SB (   IsSet,                                       Ztring(_T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
+        Get_SB (   IsSet,                                       Ztring(__T("window ")+Ztring::ToZtring(WindowID)).To_Local().c_str());
 
         //Bug in some files
         if (IsSet && WindowID==1 && Streams[service_number]->Windows[0]!=NULL && Streams[service_number]->Windows[1]==NULL) //Mix between Windows 0 and 1
@@ -1044,7 +1044,7 @@ void File_Eia708::DLW()
 
     Streams[service_number]->WindowID=Save_WindowID;
     StandAloneCommand=Save_StandAloneCommand;
-    
+
     if (HasChanged_)
     {
         //Has changed
@@ -1338,7 +1338,7 @@ void File_Eia708::Character_Fill(wchar_t Character)
         x++;
         Window->Minimal.x=x;
     }
-    
+
     if (!HasContent)
         HasContent=true;
 }

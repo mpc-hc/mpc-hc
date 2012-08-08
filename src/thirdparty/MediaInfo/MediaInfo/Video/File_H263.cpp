@@ -2,16 +2,16 @@
 // Copyright (C) 2012-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -136,7 +136,7 @@ File_H263::File_H263()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("H.263");
+    ParserName=__T("H.263");
     MustSynchronize=true;
     Buffer_TotalBytes_FirstSynched_Max=64*1024;
     IsRawStream=true;
@@ -305,7 +305,7 @@ bool File_H263::Header_Parser_Fill_Size()
     Header_Fill_Size(Buffer_Offset_Temp-Buffer_Offset);
     Buffer_Offset_Temp=0;
     return true;
-    
+
 }
 
 //---------------------------------------------------------------------------
@@ -418,7 +418,7 @@ void File_H263::Data_Parse()
     FILLING_BEGIN();
         Element_Info1(Frame_Count);
         Frame_Count++;
-        
+
         //Filling
         if (!Status[IsFilled] && Frame_Count>=Frame_Count_Valid)
         {

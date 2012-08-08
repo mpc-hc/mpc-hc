@@ -1,17 +1,17 @@
 // File_Mpegv - Info for MPEG Video files
-// Copyright (C) 2004-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2004-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -192,13 +192,13 @@ private :
     {
         File__Analyze**  Parser;
         size_t          StreamPos;
-        
+
         text_position()
         {
             Parser=NULL;
             StreamPos=(size_t)-1;
         }
-        
+
         text_position(File__Analyze* &Parser_)
         {
             Parser=&Parser_;
@@ -245,6 +245,7 @@ private :
     size_t Time_End_Seconds;
     int64u SizeToAnalyse_Begin; //Total size of a chunk to analyse, it may be changed by the parser
     int64u SizeToAnalyse_End; //Total size of a chunk to analyse, it may be changed by the parser
+    int64u Frame_Count_LastIFrame;
     int32u bit_rate_value;
     float32 FrameRate;
     int16u horizontal_size_value;

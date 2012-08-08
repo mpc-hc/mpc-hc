@@ -1,17 +1,17 @@
 // File__Tags - Info for all kind of framed tags tagged files
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -416,7 +416,7 @@ void File__Tags_Helper::GoToFromEnd (int64u GoToFromEnd, const char* ParserName)
             bool MustElementBegin=Base->Element_Level?true:false;
             if (Base->Element_Level>0)
                 Base->Element_End0(); //Element
-            Base->Info(Ztring(ParserName)+_T(", wants to go to somewhere, but not valid"));
+            Base->Info(Ztring(ParserName)+__T(", wants to go to somewhere, but not valid"));
             if (MustElementBegin)
                 Base->Element_Level++;
         }
@@ -447,7 +447,7 @@ void File__Tags_Helper::Finish (const char* ParserName)
         bool MustElementBegin=Base->Element_Level?true:false;
         if (Base->Element_Level>0)
             Base->Element_End0(); //Element
-        Base->Info(Ztring(ParserName)+_T(", finished but searching tags"));
+        Base->Info(Ztring(ParserName)+__T(", finished but searching tags"));
         if (MustElementBegin)
             Base->Element_Level++;
     }
@@ -556,7 +556,7 @@ bool File__Tags_Helper::DetectBeginOfEndTags_Test()
 
             if (CC8(Base->Buffer+((size_t)((Base->File_Size-File_EndTagSize-15+6)-Base->File_Offset)))==CC8("LYRICS20"))
             {
-                Lyrics3v2_Size=Ztring((const char*)(Base->Buffer+((size_t)(Base->Buffer_Size-File_EndTagSize-15))), 6).To_int32u()+15;
+                Lyrics3v2_Size=Ztring((const char*)(Base->Buffer+((size_t)((Base->File_Size-File_EndTagSize-15)-Base->File_Offset))), 6).To_int32u()+15;
                 File_EndTagSize+=Lyrics3v2_Size;
                 Lyrics3v2_Offset=Base->File_Size-File_EndTagSize;
                 TagSizeIsFinal=false;
@@ -583,8 +583,8 @@ bool File__Tags_Helper::DetectBeginOfEndTags_Test()
 
             if (CC8(Base->Buffer+((size_t)((Base->File_Size-File_EndTagSize-32)-Base->File_Offset)))==CC8("APETAGEX"))
             {
-                ApeTag_Size=LittleEndian2int32u(Base->Buffer+((size_t)(Base->Buffer_Size-File_EndTagSize-32+12)));
-                if (LittleEndian2int32u(Base->Buffer+((size_t)(Base->Buffer_Size-File_EndTagSize-32+8)))==2000)
+                ApeTag_Size=LittleEndian2int32u(Base->Buffer+((size_t)((Base->File_Size-File_EndTagSize-32+12)-Base->File_Offset)));
+                if (LittleEndian2int32u(Base->Buffer+((size_t)((Base->File_Size-File_EndTagSize-32+8)-Base->File_Offset)))==2000)
                     ApeTag_Size+=32;
                 File_EndTagSize+=ApeTag_Size;
                 ApeTag_Offset=Base->File_Size-File_EndTagSize;

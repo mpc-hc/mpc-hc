@@ -5,8 +5,8 @@
 #include "HTTPClientWrapper.h"
 #include "HTTPClientCommon.h"
 
-#ifdef __cplusplus 
-extern "C" { 
+#ifdef __cplusplus
+extern "C" {
 #endif
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ extern "C" {
 #endif
 
     // Debug hook
-    // #define  _HTTP_DEBUGGING_                    // Simply dumps more debugging data to the console                  
+    // #define  _HTTP_DEBUGGING_                    // Simply dumps more debugging data to the console
 
     // API Version
 #define HTTP_CLIENT_VERSION_MINOR           0
@@ -53,7 +53,7 @@ extern "C" {
 #define HTTP_CLIENT_DEFAULT_TIMEOUT         30          // Default timeout in seconds
 #define HTTP_CLIENT_DEFAULT_KEEP_ALIVE      30          // Default Keep-alive value in seconds
 #define HTTP_CLIENT_DEFAULT_DIGEST_AUTH     "MD5"       // This is for bypassing a known bug in AMT05..
-#define HTTP_CLIENT_DEFAULT_PROXY_AUTH      1           // Basic 
+#define HTTP_CLIENT_DEFAULT_PROXY_AUTH      1           // Basic
 
 #define HTTP_CLIENT_CRLF                    "\r\n"      // End of line macro
 #define HTTP_CLIENT_CRLFX2                  "\r\n\r\n"  // Double End of line macro
@@ -77,7 +77,7 @@ extern "C" {
 #define HTTP_STATUS_CONTINUE                        100 // Page continue message
 
 
-    // MIN AMX macro 
+    // MIN AMX macro
 #define MIN(a,b) (((a) < (b)) ? (a) : (b))
 #define MAX(a,b) (((a) > (b)) ? (a) : (b))
     // HTTP timeout macro for selecting the default value if the caller passed 0 (no timeout) to the function
@@ -99,7 +99,7 @@ extern "C" {
     //
     ///////////////////////////////////////////////////////////////////////////////
 
-    // Generic parameter structure contains a pointer to the buffer and its length 
+    // Generic parameter structure contains a pointer to the buffer and its length
 
     typedef struct _HTTP_PARAM
     {
@@ -114,18 +114,18 @@ extern "C" {
     {
 
         fd_set              FDRead;             // socket read event
-        fd_set              FDWrite;            // socket write event 
+        fd_set              FDWrite;            // socket write event
         fd_set              FDError;            // socket error event
         INT32               HttpSocket;         // The underling socket
         UINT32              HttpStartTime;      // Time stamp for the session
         UINT32              HttpClientPort;     // For client side binding
-        BOOL				TlsNego;            // TLS negotiation flag
+        BOOL                TlsNego;            // TLS negotiation flag
 
     } HTTP_CONNECTION;
 
     // Request URL
     typedef struct _HTTP_URL
-    {   
+    {
 
         HTTP_PARAM           UrlBsee;           // a pointer and length to the "http" section of the URL
         HTTP_PARAM           UrlHost;           // a pointer and length to the host section of the URL
@@ -137,7 +137,7 @@ extern "C" {
     }HTTP_URL;
     // HTTP headers (incoming and outgoing)
     typedef struct _HTTP_HEADERS
-    {   
+    {
 
         HTTP_PARAM           HeadersBuffer;     // a pointer and length of the complete Headers (in\out) buffer
         HTTP_PARAM           HeadersOut;        // a pointer and length of the outgoing HTTP headers
@@ -167,7 +167,7 @@ extern "C" {
 
     // Authentication parameters that ware extracted from the incoming headers
     typedef struct _HTTP_AUTH_HEADER
-    {   
+    {
 
         HTTP_PARAM          AuthHeader;             // the pointer and length of the authentication header
         UINT32              HTTP_AUTH_SCHEMA;       // Its schema (could be any of the supported)
@@ -198,7 +198,7 @@ extern "C" {
     }HTTP_CREDENTIALS;
     // HTTP Counters
     typedef struct _HTTP_COUNTERS
-    {   
+    {
 
         UINT32              nRecivedHeaderLength;   // Bytes count of the incoming header
         UINT32              nRecivedBodyLength;     // Bytes count of the incoming body length
@@ -221,7 +221,7 @@ extern "C" {
         HTTP_HEADERS_INFO   HttpHeadersInfo;
         HTTP_AUTH_HEADER    HttpAuthHeader;
         HTTP_PROXY          HttpProxy;
-        HTTP_CREDENTIALS    HttpCredentials;  
+        HTTP_CREDENTIALS    HttpCredentials;
         HTTP_CONNECTION     HttpConnection;
         HTTP_COUNTERS       HttpCounters;
         UINT32              HttpState;
@@ -232,7 +232,7 @@ extern "C" {
     } HTTP_SESSION, *P_HTTP_SESSION;
 
 
-    // HTTP Type Definitions 
+    // HTTP Type Definitions
     typedef UINT32          HTTP_SESSION_HANDLE;
     typedef UINT32          HTTP_CLIENT_SESSION_FLAGS;
 

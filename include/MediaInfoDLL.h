@@ -129,7 +129,11 @@
 
 /*-------------------------------------------------------------------------*/
 #if defined (_WIN32) || defined (WIN32)
-    #define MEDIAINFODLL_NAME  "MediaInfo.dll"
+    #ifdef _UNICODE
+        #define MEDIAINFODLL_NAME  L"MediaInfo.dll"
+    #else //_UNICODE
+        #define MEDIAINFODLL_NAME  "MediaInfo.dll"
+    #endif //_UNICODE
 #elif defined(__APPLE__) && defined(__MACH__)
     #define MEDIAINFODLL_NAME  "libmediainfo.0.dylib"
     #define __stdcall
@@ -140,8 +144,8 @@
 
 /*-------------------------------------------------------------------------*/
 /*Char types                                                               */
-#undef  _T
-#define _T(__x)     __T(__x)
+#undef  __T
+#define __T(__x)     __T(__x)
 #if defined(UNICODE) || defined (_UNICODE)
     typedef wchar_t MediaInfo_Char;
     #undef  __T
@@ -313,7 +317,7 @@ static size_t MediaInfoDLL_Load()
     #ifdef MEDIAINFO_GLIBC
         MediaInfo_Module=g_module_open(MEDIAINFODLL_NAME, G_MODULE_BIND_LAZY);
     #elif defined (_WIN32) || defined (WIN32)
-        MediaInfo_Module=LoadLibrary(_T(MEDIAINFODLL_NAME));
+        MediaInfo_Module=LoadLibrary(MEDIAINFODLL_NAME);
     #else
         MediaInfo_Module=dlopen(MEDIAINFODLL_NAME, RTLD_LAZY);
         if (!MediaInfo_Module)
@@ -422,8 +426,8 @@ namespace MediaInfoDLL
 
 //---------------------------------------------------------------------------
 //MediaInfo_Char types
-#undef  _T
-#define _T(__x)     __T(__x)
+#undef  __T
+#define __T(__x)     __T(__x)
 #if defined(UNICODE) || defined (_UNICODE)
     typedef wchar_t Char;
     #undef  __T
@@ -492,7 +496,7 @@ enum fileoptions_t
     FileOption_Max          =0x04
 };
 
-const String Unable_Load_DLL=_T("Unable to load ")_T(MEDIAINFODLL_NAME);
+const String Unable_Load_DLL=__T("Unable to load ")MEDIAINFODLL_NAME;
 #define MEDIAINFO_TEST_VOID \
     if (!IsReady()) return
 #define MEDIAINFO_TEST_INT \
@@ -523,12 +527,12 @@ public :
     String Inform ()  {MEDIAINFO_TEST_STRING; return MediaInfo_Inform(Handle, 0);};
     String Get (stream_t StreamKind, size_t StreamNumber, size_t Parameter, info_t InfoKind=Info_Text)  {MEDIAINFO_TEST_STRING; return MediaInfo_GetI (Handle, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter, (MediaInfo_info_C)InfoKind);};
     String Get (stream_t StreamKind, size_t StreamNumber, const String &Parameter, info_t InfoKind=Info_Text, info_t SearchKind=Info_Name)  {MEDIAINFO_TEST_STRING; return MediaInfo_Get (Handle, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter.c_str(), (MediaInfo_info_C)InfoKind, (MediaInfo_info_C)SearchKind);};
-    //size_t Set (const String &ToSet, stream_t StreamKind, size_t StreamNumber, size_t Parameter, const String &OldValue=_T(""))  {MEDIAINFO_TEST_INT; return MediaInfo_SetI (Handle, ToSet.c_str(), (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter, OldValue.c_str());};
-    //size_t Set (const String &ToSet, stream_t StreamKind, size_t StreamNumber, const String &Parameter, const String &OldValue=_T(""))  {MEDIAINFO_TEST_INT; return MediaInfo_Set (Handle, ToSet.c_str(), (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter.c_str(), OldValue.c_str());};
+    //size_t Set (const String &ToSet, stream_t StreamKind, size_t StreamNumber, size_t Parameter, const String &OldValue=__T(""))  {MEDIAINFO_TEST_INT; return MediaInfo_SetI (Handle, ToSet.c_str(), (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter, OldValue.c_str());};
+    //size_t Set (const String &ToSet, stream_t StreamKind, size_t StreamNumber, const String &Parameter, const String &OldValue=__T(""))  {MEDIAINFO_TEST_INT; return MediaInfo_Set (Handle, ToSet.c_str(), (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter.c_str(), OldValue.c_str());};
     size_t Output_Buffer_Get (const String &Value) {return MediaInfo_Output_Buffer_Get(Handle, Value.c_str());}
     size_t Output_Buffer_Get (size_t Pos) {return MediaInfo_Output_Buffer_GetI(Handle, Pos);}
-    String        Option (const String &Option, const String &Value=_T(""))  {MEDIAINFO_TEST_STRING; return MediaInfo_Option (Handle, Option.c_str(), Value.c_str());};
-    static String Option_Static (const String &Option, const String &Value=_T(""))  {if (!MediaInfo_Module) MediaInfoDLL_Load(); MEDIAINFO_TEST_STRING_STATIC; return MediaInfo_Option (NULL, Option.c_str(), Value.c_str());};
+    String        Option (const String &Option, const String &Value=__T(""))  {MEDIAINFO_TEST_STRING; return MediaInfo_Option (Handle, Option.c_str(), Value.c_str());};
+    static String Option_Static (const String &Option, const String &Value=__T(""))  {if (!MediaInfo_Module) MediaInfoDLL_Load(); MEDIAINFO_TEST_STRING_STATIC; return MediaInfo_Option (NULL, Option.c_str(), Value.c_str());};
     size_t                  State_Get ()  {MEDIAINFO_TEST_INT; return MediaInfo_State_Get(Handle);};
     size_t                  Count_Get (stream_t StreamKind, size_t StreamNumber=(size_t)-1)  {MEDIAINFO_TEST_INT; return MediaInfo_Count_Get(Handle, (MediaInfo_stream_C)StreamKind, StreamNumber);};
 
@@ -553,10 +557,10 @@ public :
     String Inform (size_t FilePos=(size_t)-1)  {MEDIAINFO_TEST_STRING; return MediaInfoList_Inform(Handle, FilePos, 0);};
     String Get (size_t FilePos, stream_t StreamKind, size_t StreamNumber, size_t Parameter, info_t InfoKind=Info_Text)  {MEDIAINFO_TEST_STRING; return MediaInfoList_GetI (Handle, FilePos, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter, (MediaInfo_info_C)InfoKind);};
     String Get (size_t FilePos, stream_t StreamKind, size_t StreamNumber, const String &Parameter, info_t InfoKind=Info_Text, info_t SearchKind=Info_Name)  {MEDIAINFO_TEST_STRING; return MediaInfoList_Get (Handle, FilePos, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter.c_str(), (MediaInfo_info_C)InfoKind, (MediaInfo_info_C)SearchKind);};
-    //size_t Set (const String &ToSet, size_t FilePos, stream_t StreamKind, size_t StreamNumber, size_t Parameter, const String &OldValue=_T(""))  {MEDIAINFO_TEST_INT; return MediaInfoList_SetI (Handle, ToSet.c_str(), FilePos, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter, OldValue.c_str());};
-    //size_t Set (const String &ToSet, size_t FilePos, stream_t StreamKind, size_t StreamNumber, const String &Parameter, const String &OldValue=_T(""))  {MEDIAINFO_TEST_INT; return MediaInfoList_Set (Handle, ToSet.c_str(), FilePos, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter.c_str(), OldValue.c_str());};
-    String        Option (const String &Option, const String &Value=_T(""))  {MEDIAINFO_TEST_STRING; return MediaInfoList_Option (Handle, Option.c_str(), Value.c_str());};
-    static String Option_Static (const String &Option, const String &Value=_T(""))  {MEDIAINFO_TEST_STRING_STATIC; return MediaInfoList_Option (NULL, Option.c_str(), Value.c_str());};
+    //size_t Set (const String &ToSet, size_t FilePos, stream_t StreamKind, size_t StreamNumber, size_t Parameter, const String &OldValue=__T(""))  {MEDIAINFO_TEST_INT; return MediaInfoList_SetI (Handle, ToSet.c_str(), FilePos, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter, OldValue.c_str());};
+    //size_t Set (const String &ToSet, size_t FilePos, stream_t StreamKind, size_t StreamNumber, const String &Parameter, const String &OldValue=__T(""))  {MEDIAINFO_TEST_INT; return MediaInfoList_Set (Handle, ToSet.c_str(), FilePos, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter.c_str(), OldValue.c_str());};
+    String        Option (const String &Option, const String &Value=__T(""))  {MEDIAINFO_TEST_STRING; return MediaInfoList_Option (Handle, Option.c_str(), Value.c_str());};
+    static String Option_Static (const String &Option, const String &Value=__T(""))  {MEDIAINFO_TEST_STRING_STATIC; return MediaInfoList_Option (NULL, Option.c_str(), Value.c_str());};
     size_t        State_Get ()  {MEDIAINFO_TEST_INT; return MediaInfoList_State_Get(Handle);};
     size_t        Count_Get (size_t FilePos, stream_t StreamKind, size_t StreamNumber=(size_t)-1)  {MEDIAINFO_TEST_INT; return MediaInfoList_Count_Get(Handle, FilePos, (MediaInfo_stream_C)StreamKind, StreamNumber);};
     size_t        Count_Get ()  {MEDIAINFO_TEST_INT; return MediaInfoList_Count_Get_Files(Handle);};

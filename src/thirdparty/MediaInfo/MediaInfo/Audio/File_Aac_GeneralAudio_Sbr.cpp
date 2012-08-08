@@ -1,17 +1,17 @@
 // File_Aac - Info for AAC files
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -329,18 +329,18 @@ void File_Aac::sbr_extension_data(size_t End, int8u id_aac, bool crc_flag)
     FILLING_BEGIN();
         if (Infos["Format_Settings_SBR"].empty())
         {
-            Infos["Format_Profile"]=_T("HE-AAC");
+            Infos["Format_Profile"]=__T("HE-AAC");
             Ztring SamplingRate=Infos["SamplingRate"];
             if (SamplingRate.empty())
                 SamplingRate.From_Number(sampling_frequency);
             Infos["SamplingRate"].From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10);
             if (MediaInfoLib::Config.LegacyStreamDisplay_Get())
             {
-                Infos["Format_Profile"]+=_T(" / LC");
-                Infos["SamplingRate"]+=_T(" / ")+SamplingRate;
+                Infos["Format_Profile"]+=__T(" / LC");
+                Infos["SamplingRate"]+=__T(" / ")+SamplingRate;
             }
-            Infos["Format_Settings_SBR"]=_T("Yes (Implicit)");
-            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+_T("-SBR");
+            Infos["Format_Settings_SBR"]=__T("Yes (Implicit)");
+            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+__T("-SBR");
         }
     FILLING_END();
 
@@ -683,7 +683,7 @@ void File_Aac::sbr_envelope(bool ch, bool bs_coupling)
             f_huff = f_huffman_env_1_5dB;
         }
     }
-    
+
     for (int8u env=0; env<sbr->bs_num_env[ch]; env++)
     {
         if (sbr->bs_df_env[ch][env] == 0)

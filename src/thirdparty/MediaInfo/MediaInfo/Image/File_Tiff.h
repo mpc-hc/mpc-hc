@@ -1,17 +1,17 @@
 // File_Tiff - Info for TIFF files
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -38,7 +38,7 @@ namespace MediaInfoLib
 //***************************************************************************
 
 class File_Tiff : public File__Analyze
-{ 
+{
 public:
     //Constructor/Destructor
     File_Tiff();
@@ -53,10 +53,10 @@ private :
     void Data_Parse();
     void Data_Parse_Fill();
 
-	//Elements
+    //Elements
     void Read_Directories();
-	void Read_Directory();
-		
+    void Read_Directory();
+
     //Temp
     struct ifditem
     {
@@ -68,12 +68,12 @@ private :
     ifditems IfdItems;
     typedef std::map<int16u, ZtringList> infos; //Key is Tag value
     infos Infos;
-	bool LittleEndian;
+    bool LittleEndian;
 
     //Helpers
     void Get_X2 (int16u &Info, const char* Name);
     void Get_X4 (int32u &Info, const char* Name);
-	void GetValueOffsetu(ifditem &IfdItem);
+    void GetValueOffsetu(ifditem &IfdItem);
 };
 
 } //NameSpace

@@ -1,17 +1,17 @@
 // File__Duplicate_MpegTs - Duplication of some formats
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -80,7 +80,7 @@ File__Duplicate_MpegTs::File__Duplicate_MpegTs (const Ztring &Target)
 bool File__Duplicate_MpegTs::Configure (const Ztring &Value, bool ToRemove)
 {
     //Form: "program_number"
-    if (Value.find(_T("program_number="))==0)
+    if (Value.find(__T("program_number="))==0)
     {
         int16u program_number=Ztring(Value.substr(15, std::string::npos)).To_int16u();
         if (ToRemove)
@@ -101,7 +101,7 @@ bool File__Duplicate_MpegTs::Configure (const Ztring &Value, bool ToRemove)
             PAT.begin()->second.ConfigurationHasChanged=true;
     }
     //Form: "program_map_PID"
-    else if (Value.find(_T("program_map_PID="))==0)
+    else if (Value.find(__T("program_map_PID="))==0)
     {
         int16u program_map_PID=Ztring(Value.substr(16, std::string::npos)).To_int16u();
         if (ToRemove)
@@ -122,7 +122,7 @@ bool File__Duplicate_MpegTs::Configure (const Ztring &Value, bool ToRemove)
             PMT[program_map_PID].ConfigurationHasChanged=true;
     }
     //Form: "elementary_PID"
-    else if (Value.find(_T("elementary_PID="))==0)
+    else if (Value.find(__T("elementary_PID="))==0)
     {
         int16u elementary_PID=Ztring(Value.substr(15, std::string::npos)).To_int16u();
         if (ToRemove)

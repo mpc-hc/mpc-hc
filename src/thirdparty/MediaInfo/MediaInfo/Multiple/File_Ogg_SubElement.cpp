@@ -1,17 +1,17 @@
 // File_Ogg_SubElement - Info for OGG files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -58,6 +58,9 @@
 #endif
 #if defined(MEDIAINFO_MPEGA_YES)
     #include "MediaInfo/Audio/File_Mpega.h"
+#endif
+#if defined(MEDIAINFO_OPUS_YES)
+    #include "MediaInfo/Audio/File_Opus.h"
 #endif
 #if defined(MEDIAINFO_SPEEX_YES)
     #include "MediaInfo/Audio/File_Speex.h"
@@ -110,9 +113,12 @@ namespace Elements
     OGG_ID(FLAC,           7F, 464C4143, 5)
     OGG_ID(JNG,      8B4A4E47, 0D0A1A0A, 8)
     OGG_ID(kate,     806B6174, 65000000, 8)
+    OGG_ID(kateTags, 6B617465, 00000000, 8)
     OGG_ID(KW_DIRAC, 4B572D44, 49524143, 8)
     OGG_ID(OggMIDI,  4D67674D, 49444900, 8)
     OGG_ID(MNG,      8A4D4E47, 0D0A1A0A, 8)
+    OGG_ID(OpusHead, 4F707573, 48656164, 8)
+    OGG_ID(OpusTags, 4F707573, 54616773, 8)
     OGG_ID(PCM,      50434D20, 20202020, 8)
     OGG_ID(PNG,      89504E47, 0D0A1A0A, 8)
     OGG_ID(Speex,    53706565, 78202020, 8)
@@ -385,6 +391,7 @@ void File_Ogg_SubElement::Identification()
     ELEMENT_CASE(KW_DIRAC)
     ELEMENT_CASE(OggMIDI)
     ELEMENT_CASE(MNG)
+    ELEMENT_CASE(OpusHead)
     ELEMENT_CASE(PCM)
     ELEMENT_CASE(PNG)
     ELEMENT_CASE(Speex)
@@ -525,6 +532,20 @@ void File_Ogg_SubElement::Identification_OggMIDI()
 }
 
 //---------------------------------------------------------------------------
+void File_Ogg_SubElement::Identification_OpusHead()
+{
+    #if defined(MEDIAINFO_OPUS_YES)
+        StreamKind_Last=Stream_Audio;
+        Parser=new File_Opus;
+    #else
+        Stream_Prepare(Stream_Audio);
+        Fill(Stream_Audio, 0, Audio_Format, "Opus");
+        Fill(Stream_Audio, 0, Audio_Codec, "Opus");
+    #endif
+    WithType=false;
+}
+
+//---------------------------------------------------------------------------
 void File_Ogg_SubElement::Identification_MNG()
 {
     #if defined(MEDIAINFO__YES)
@@ -651,7 +672,7 @@ void File_Ogg_SubElement::Identification_video()
     //Creating the parser
          if (0);
     #if defined(MEDIAINFO_MPEG4V_YES)
-    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(fccHandler))==_T("MPEG-4 Visual"))
+    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(fccHandler))==__T("MPEG-4 Visual"))
     {
         Parser=new File_Mpeg4v;
         ((File_Mpeg4v*)Parser)->FrameIsAlwaysComplete=true;
@@ -688,7 +709,7 @@ void File_Ogg_SubElement::Identification_audio()
     //Filling
     Stream_Prepare(Stream_Audio);
     Ztring Codec; Codec.From_CC4(fccHandler);
-    Codec.TrimLeft(_T('0'));
+    Codec.TrimLeft(__T('0'));
     CodecID_Fill(Codec, Stream_Audio, StreamPos_Last, InfoCodecID_Format_Riff);
     Fill(Stream_Audio, StreamPos_Last, Audio_Codec, Codec);
     if (AvgBytesPerSec<0x80000000) //This is a signed value, and negative values are not OK
@@ -700,7 +721,7 @@ void File_Ogg_SubElement::Identification_audio()
     //Creating the parser
          if (0);
     #if defined(MEDIAINFO_MPEGA_YES)
-    else if (MediaInfoLib::Config.Codec_Get(Codec, InfoCodec_KindofCodec).find(_T("MPEG-"))==0)
+    else if (MediaInfoLib::Config.Codec_Get(Codec, InfoCodec_KindofCodec).find(__T("MPEG-"))==0)
     {
         Parser=new File_Mpega;
     }
@@ -804,8 +825,6 @@ void File_Ogg_SubElement::Identification_fisbone()
 //---------------------------------------------------------------------------
 void File_Ogg_SubElement::Comment()
 {
-    Element_Name("Comment");
-
     //Integrity
     if (Element_Size<8)
         return;
@@ -817,20 +836,30 @@ void File_Ogg_SubElement::Comment()
     #undef ELEMENT_CASE
     #ifdef __BORLANDC__ //Borland converts int64u to int32u
         #define ELEMENT_CASE(_NAME) \
-            else if (ID_Identification>>(64-8*Elements::Identifier_##_NAME##3)==(((((int64u)Elements::Identifier_##_NAME##1)*0x100000000LL+Elements::Identifier_##_NAME##2)&0x00FFFFFFFFFFFFFFLL)<<8))
+            else if (ID_Identification>>(64-8*Elements::Identifier_##_NAME##3)==(((int64u)Elements::Identifier_##_NAME##1)*0x100000000LL|Elements::Identifier_##_NAME##2))
 
     #else //__BORLANDC__
         #define ELEMENT_CASE(_NAME) \
-            else if (ID_Identification>>(64-8*Elements::Identifier_##_NAME##3)==((Elements::Identifier_##_NAME&0x00FFFFFFFFFFFFFFLL)<<8))
+            else if (ID_Identification>>(64-8*Elements::Identifier_##_NAME##3)==Elements::Identifier_##_NAME)
 
     #endif //__BORLANDC__
 
     int32u ID_Identification_Size;
     if (0) ;
-    ELEMENT_CASE(kate)      ID_Identification_Size=8;
-    else                    ID_Identification_Size=6; //Default
-    Skip_Local(ID_Identification_Size,                          "ID");
+    ELEMENT_CASE(OpusTags)  ID_Identification_Size=8;
+    else if (WithType)
+    {
+        if (0) ;
+        ELEMENT_CASE(kateTags)  ID_Identification_Size=8;
+        else
+                                ID_Identification_Size=6; //Default
+    }
+    else
+        return; //Not a comment
 
+    Element_Name("Comment");
+
+    Skip_Local(ID_Identification_Size,                          "ID");
 
     //Preparing
     File_VorbisCom Vorbis;
@@ -860,6 +889,8 @@ void File_Ogg_SubElement::Default()
 
     if (Parser)
     {
+        if (!WithType)
+            Comment(); //In case of comments
         Open_Buffer_Continue(Parser);
         if (Identified && Parser->Status[IsFilled])
             Finish("OggSubElement");

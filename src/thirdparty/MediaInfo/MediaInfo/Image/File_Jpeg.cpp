@@ -1,17 +1,17 @@
 // File_Jpeg - Info for NewFormat files
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -220,7 +220,7 @@ bool File_Jpeg::FileHeader_Begin()
     }
 
     Accept();
-    
+
     //All should be OK...
     return true;
 }
@@ -534,7 +534,7 @@ void File_Jpeg::SIZ()
                 SamplingFactors.push_back(0);
             Ztring ChromaSubsampling;
             for (size_t Pos=0; Pos<SamplingFactors.size(); Pos++)
-                ChromaSubsampling+=Ztring::ToZtring(SamplingFactors[Pos], 0)+_T(':');
+                ChromaSubsampling+=Ztring::ToZtring(SamplingFactors[Pos], 0)+__T(':');
             if (!ChromaSubsampling.empty())
             {
                 ChromaSubsampling.resize(ChromaSubsampling.size()-1);
@@ -620,7 +620,7 @@ void File_Jpeg::SOD()
             Frame_Count_NotParsedIncluded++;
     }
     if (Status[IsFilled])
-        Fill();    
+        Fill();
     if (Config_ParseSpeed<1.0)
         Finish("JPEG 2000"); //No need of more
 }
@@ -733,7 +733,7 @@ void File_Jpeg::SOS()
             Frame_Count_NotParsedIncluded++;
     }
     if (Status[IsFilled])
-        Fill();    
+        Fill();
     if (Config_ParseSpeed<1.0)
         Finish("JPEG"); //No need of more
     FILLING_END();

@@ -1,5 +1,5 @@
 // ZenLib::Dir - Directories functions
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -112,7 +112,7 @@ ZtringList Dir::GetAllFileNames(const Ztring &Dir_Name_, dirlist_t Options)
         #ifdef WINDOWS
             //Is a dir?
             if (Exists(Dir_Name))
-                Dir_Name+=_T("\\*");
+                Dir_Name+=__T("\\*");
 
             //Path
             Ztring Path=FileName::Path_Get(Dir_Name);
@@ -178,15 +178,15 @@ ZtringList Dir::GetAllFileNames(const Ztring &Dir_Name_, dirlist_t Options)
                 #else
                     Ztring File_Name(FindFileData.cFileName);
                 #endif //UNICODE
-                if (File_Name!=_T(".") && File_Name!=_T("..")) //Avoid . an ..
+                if (File_Name!=__T(".") && File_Name!=__T("..")) //Avoid . an ..
                 {
-                    Ztring File_Name_Complete=Path+_T("\\")+File_Name;
+                    Ztring File_Name_Complete=Path+__T("\\")+File_Name;
                     if (Exists(File_Name_Complete))
                     {
                         if (Options&Parse_SubDirs)
                             ToReturn+=GetAllFileNames(File_Name_Complete, Options); //A SubDir
                     }
-                    else if ((Options&Include_Hidden) || (!File_Name.empty() && File_Name[0]!=_T('.')))
+                    else if ((Options&Include_Hidden) || (!File_Name.empty() && File_Name[0]!=__T('.')))
                         ToReturn.push_back(File_Name_Complete); //A file
                 }
                 #ifdef UNICODE
@@ -236,7 +236,7 @@ ZtringList Dir::GetAllFileNames(const Ztring &Dir_Name_, dirlist_t Options)
                 {
                     //A file
                     Ztring File_Name(DirEnt->d_name);
-                    if (File_Name!=_T(".") && File_Name!=_T("..")) //Avoid . an ..
+                    if (File_Name!=__T(".") && File_Name!=__T("..")) //Avoid . an ..
                     {
                         Ztring File_Name_Complete=Dir_Name+File_Name;
                         if (Exists(File_Name_Complete))
@@ -244,7 +244,7 @@ ZtringList Dir::GetAllFileNames(const Ztring &Dir_Name_, dirlist_t Options)
                             if (Options&Parse_SubDirs)
                                 ToReturn+=GetAllFileNames(File_Name_Complete, Options); //A SubDir
                         }
-                        else if ((Options&Include_Hidden) || (!File_Name.empty() && File_Name[0]!=_T('.')))
+                        else if ((Options&Include_Hidden) || (!File_Name.empty() && File_Name[0]!=__T('.')))
                             ToReturn.push_back(File_Name_Complete); //A file
                     }
                 }

@@ -2,16 +2,16 @@
 // Copyright (C) 2012-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -128,16 +128,16 @@ bool File_SequenceInfo::FileHeader_Begin()
             if (Pos!=string::npos)
             {
                 Ztring ToAdd=Base.substr(Pos, string::npos);
-                Pos=ToAdd.rfind(_T('_'));
+                Pos=ToAdd.rfind(__T('_'));
                 Ztring DirectoryBase=Base;
                 DirectoryBase+=ToAdd;
-                DirectoryBase+=_T('_');
+                DirectoryBase+=__T('_');
 
                 size_t DirNumberCount=1;
                 Ztring Directory=DirectoryBase;
                 for (; DirNumberCount<9; DirNumberCount++)
                 {
-                    Directory+=_T('0');
+                    Directory+=__T('0');
                     if (Dir::Exists(Directory))
                         break;
                 }
@@ -149,8 +149,8 @@ bool File_SequenceInfo::FileHeader_Begin()
                     {
                         Ztring Number=Ztring::ToZtring(DirNumber);
                         if (Number.size()<DirNumberCount)
-                            Number.insert(0, DirNumberCount-Number.size(), _T('0'));
-                            
+                            Number.insert(0, DirNumberCount-Number.size(), __T('0'));
+
                         Directory=DirectoryBase;
                         Directory+=Number;
                         if (!Dir::Exists(Directory))
@@ -158,18 +158,18 @@ bool File_SequenceInfo::FileHeader_Begin()
 
                         Ztring FileBase=Directory;
                         FileBase+=ToAdd;
-                        FileBase+=_T('_');
-                        FileBase+=_T('.');
+                        FileBase+=__T('_');
+                        FileBase+=__T('.');
 
                         size_t FileNumberCount=1;
                         Ztring FullFile=FileBase;
                         Ztring Extension;;
                         for (; FileNumberCount<10; FileNumberCount++)
                         {
-                            FullFile.insert(FullFile.begin()+FullFile.size()-Extension.size()-1, _T('0'));
+                            FullFile.insert(FullFile.begin()+FullFile.size()-Extension.size()-1, __T('0'));
                             if (Extension.empty())
                             {
-                                ZtringList List=Dir::GetAllFileNames(FullFile+_T('*'));
+                                ZtringList List=Dir::GetAllFileNames(FullFile+__T('*'));
                                 if (List.size()>=2)
                                 {
                                     FileNumberCount=(size_t)-1; //Problem, which one to choose?
@@ -200,7 +200,7 @@ bool File_SequenceInfo::FileHeader_Begin()
                                 FileNumberCount++;
                                 for (; FileNumberCount<10; FileNumberCount++)
                                 {
-                                    FullFile.insert(FullFile.begin()+FullFile.size()-Extension.size()-Number.size()-1, _T('0'));
+                                    FullFile.insert(FullFile.begin()+FullFile.size()-Extension.size()-Number.size()-1, __T('0'));
                                     if (File::Exists(FullFile))
                                     {
                                         FromZero=false;
@@ -219,8 +219,8 @@ bool File_SequenceInfo::FileHeader_Begin()
                             {
                                 Number=Ztring::ToZtring(FileNumber);
                                 if (Number.size()<FileNumberCount)
-                                    Number.insert(0, FileNumberCount-Number.size(), _T('0'));
-                            
+                                    Number.insert(0, FileNumberCount-Number.size(), __T('0'));
+
                                 FullFile=FileBase;
                                 FullFile.insert(FullFile.size()-Extension.size()-1, Number);
                                 if (!File::Exists(FullFile))

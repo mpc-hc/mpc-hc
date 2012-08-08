@@ -1,17 +1,17 @@
 // File_Lxf - Info for LXF files
-// Copyright (C) 2006-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -98,7 +98,7 @@ File_Lxf::File_Lxf()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("LXF");
+    ParserName=__T("LXF");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_Lxf;
         StreamIDs_Width[0]=4; //2 numbers for Code, 2 numbers for subcode
@@ -136,7 +136,7 @@ File_Lxf::File_Lxf()
 //---------------------------------------------------------------------------
 void File_Lxf::Streams_Fill()
 {
-    Fill(Stream_General, 0, General_Format_Version, _T("Version "+Ztring::ToZtring(Version)));
+    Fill(Stream_General, 0, General_Format_Version, __T("Version "+Ztring::ToZtring(Version)));
 
     for (size_t Pos=0; Pos<Videos.size(); Pos++)
         Streams_Fill_PerStream(Videos[Pos].Parser, 1, Pos);
@@ -181,7 +181,7 @@ void File_Lxf::Streams_Fill_PerStream(File__Analyze* Parser, size_t Container_St
                     {
                         Ztring ID=Ztring::ToZtring(0x100*Container_StreamKind+Parser_Pos);
                         if (!Parser->Retrieve((stream_t)StreamKind, StreamPos, General_ID).empty())
-                            ID+=_T('-')+Parser->Retrieve((stream_t)StreamKind, StreamPos, General_ID);
+                            ID+=__T('-')+Parser->Retrieve((stream_t)StreamKind, StreamPos, General_ID);
                         Fill((stream_t)StreamKind, Count_Get((stream_t)StreamKind)-Parser->Count_Get((stream_t)StreamKind)+StreamPos, General_ID, ID, true);
                     }
         #endif //MEDIAINFO_DEMUX
@@ -196,7 +196,7 @@ void File_Lxf::Streams_Finish()
         Finish(Videos[1].Parser);
         Streams_Fill_PerStream(Videos[1].Parser, Stream_Video, 1);
     }
-    
+
     if (Audios_Header.TimeStamp_End!=(int64u)-1 && Audios_Header.TimeStamp_Begin!=(int64u)-1)
     {
         int64u Duration=float64_int64s(((float64)(Audios_Header.TimeStamp_End-Audios_Header.TimeStamp_Begin))/TimeStamp_Rate*1000);
@@ -385,19 +385,19 @@ size_t File_Lxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
     if (!Duration_Detected)
     {
         MediaInfo_Internal MI;
-        MI.Option(_T("File_KeepInfo"), _T("1"));
-        Ztring ParseSpeed_Save=MI.Option(_T("ParseSpeed_Get"), _T(""));
-        Ztring Demux_Save=MI.Option(_T("Demux_Get"), _T(""));
-        MI.Option(_T("ParseSpeed"), _T("0"));
-        MI.Option(_T("Demux"), Ztring());
+        MI.Option(__T("File_KeepInfo"), __T("1"));
+        Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
+        Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
+        MI.Option(__T("ParseSpeed"), __T("0"));
+        MI.Option(__T("Demux"), Ztring());
         size_t MiOpenResult=MI.Open(File_Name);
-        MI.Option(_T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-        MI.Option(_T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
-        if (!MiOpenResult || MI.Get(Stream_General, 0, General_Format)!=_T("LXF"))
+        MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+        MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+        if (!MiOpenResult || MI.Get(Stream_General, 0, General_Format)!=__T("LXF"))
             return 0;
         for (time_offsets::iterator TimeOffset=((File_Lxf*)MI.Info)->TimeOffsets.begin(); TimeOffset!=((File_Lxf*)MI.Info)->TimeOffsets.end(); TimeOffset++)
             TimeOffsets[TimeOffset->first]=TimeOffset->second;
-        int64u Duration=float64_int64s(Ztring(MI.Get(Stream_General, 0, _T("Duration"))).To_float64()*TimeStamp_Rate/1000);
+        int64u Duration=float64_int64s(Ztring(MI.Get(Stream_General, 0, __T("Duration"))).To_float64()*TimeStamp_Rate/1000);
         TimeOffsets[File_Size]=stream_header(Duration, Duration, 0, (int8u)-1);
         SeekRequest_Divider=2;
         Duration_Detected=true;
@@ -514,7 +514,7 @@ void File_Lxf::Header_Parse()
     if (Video_Sizes_Pos<Video_Sizes.size())
     {
         //Filling
-        Header_Fill_Code(0x010100+Video_Sizes_Pos, _T("Stream"));
+        Header_Fill_Code(0x010100+Video_Sizes_Pos, __T("Stream"));
         Header_Fill_Size(Video_Sizes[Video_Sizes_Pos]);
         Video_Sizes_Pos++;
         return;
@@ -524,7 +524,7 @@ void File_Lxf::Header_Parse()
     if (Audio_Sizes_Pos<Audio_Sizes.size())
     {
         //Filling
-        Header_Fill_Code(0x010200+Audio_Sizes_Pos, _T("Stream"));
+        Header_Fill_Code(0x010200+Audio_Sizes_Pos, __T("Stream"));
         Header_Fill_Size(Audio_Sizes[Audio_Sizes_Pos]);
         Audio_Sizes_Pos++;
         return;
@@ -705,7 +705,7 @@ void File_Lxf::Header_Parse()
 
     if (Element_Offset<HeaderSize)
         Skip_XX(Header_Size-Element_Offset,                     "Unknown");
-        
+
     if (Buffer_Offset+Element_Offset+BlockSize>Buffer_Size)
     {
         //Hints

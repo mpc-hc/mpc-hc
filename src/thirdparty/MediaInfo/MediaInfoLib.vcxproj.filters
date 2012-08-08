@@ -206,7 +206,13 @@
     <ClInclude Include="MediaInfo\Image\File_Jpeg.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Image\File_Pcx.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Image\File_Png.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Image\File_Psd.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Image\File_Rle.h">
@@ -428,6 +434,9 @@
     <ClInclude Include="MediaInfo\Video\File_Mpegv.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Video\File_ProRes.h">
+      <Filter>Header Files\Video</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_Theora.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
@@ -513,6 +522,9 @@
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Mpega.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Opus.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Pcm.h">
@@ -685,7 +697,13 @@
     <ClCompile Include="MediaInfo\Image\File_Jpeg.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Image\File_Pcx.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Image\File_Png.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Image\File_Psd.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Image\File_Rle.cpp">
@@ -862,6 +880,9 @@
     <ClCompile Include="MediaInfo\Video\File_Mpegv.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Video\File_ProRes.cpp">
+      <Filter>Source Files\Video</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_Theora.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
@@ -1025,6 +1046,9 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Mpega.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Opus.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Pcm.cpp">

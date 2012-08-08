@@ -1,17 +1,17 @@
 // File__ReferenceFilesHelper - class for analyzing/demuxing reference files
-// Copyright (C) 2011-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -53,6 +53,7 @@ public :
         int64u              FileSize;
         bool                IsCircular;
         size_t              State;
+        std::map<std::string, Ztring> Infos;
         MediaInfo_Internal* MI;
         #if MEDIAINFO_FILTER
             int64u          Enabled;
@@ -64,7 +65,7 @@ public :
 
         reference()
         {
-            FileNames.Separator_Set(0, _T(","));
+            FileNames.Separator_Set(0, __T(","));
             StreamKind=Stream_Max;
             StreamPos=(size_t)-1;
             MenuPos=(size_t)-1;
@@ -116,6 +117,10 @@ private :
     stream_t                        StreamKind_Last;
     size_t                          StreamPos_From;
     size_t                          StreamPos_To;
+    #if MEDIAINFO_NEXTPACKET
+        int64u                      DTS_Minimal;
+        int64u                      DTS_Interval;
+    #endif //MEDIAINFO_NEXTPACKET
 
     //Helpers
     size_t Stream_Prepare(stream_t StreamKind, size_t StreamPos=(size_t)-1);

@@ -1,17 +1,17 @@
 // File_Eia608 - Info for EIA-608 files
-// Copyright (C) 2009-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -92,6 +92,13 @@ File_Eia608::File_Eia608()
     HasContent=false;
 }
 
+//---------------------------------------------------------------------------
+File_Eia608::~File_Eia608()
+{
+    for (size_t Pos=0; Pos<Streams.size(); Pos++)
+        delete Streams[Pos];
+}
+
 //***************************************************************************
 // Streams management
 //***************************************************************************
@@ -101,7 +108,7 @@ void File_Eia608::Streams_Fill()
 {
     if (Config->File_Eia608_DisplayEmptyStream_Get() && Streams.size()<2)
         Streams.resize(2);
-        
+
     for (size_t StreamPos=0; StreamPos<Streams.size(); StreamPos++)
         if (Streams[StreamPos] || (StreamPos<2 && Config->File_Eia608_DisplayEmptyStream_Get()))
         {
@@ -161,14 +168,14 @@ void File_Eia608::Read_Buffer_Unsynched()
 //---------------------------------------------------------------------------
 void File_Eia608::Read_Buffer_Init()
 {
-	#if MEDIAINFO_DEMUX
-		if (Frame_Count_NotParsedIncluded==(int64u)-1)
-			Frame_Count_NotParsedIncluded=Config->Demux_FirstFrameNumber_Get();
-		if (FrameInfo.DUR==(int64u)-1 && Config->Demux_Rate_Get())
-			FrameInfo.DUR=float64_int64s(((float64)1000000000)/Config->Demux_Rate_Get());
-		if (FrameInfo.DTS==(int64u)-1)
-			FrameInfo.DTS=Config->Demux_FirstDts_Get();
-	#endif //MEDIAINFO_DEMUX
+    #if MEDIAINFO_DEMUX
+        if (Frame_Count_NotParsedIncluded==(int64u)-1)
+            Frame_Count_NotParsedIncluded=Config->Demux_FirstFrameNumber_Get();
+        if (FrameInfo.DUR==(int64u)-1 && Config->Demux_Rate_Get())
+            FrameInfo.DUR=float64_int64s(((float64)1000000000)/Config->Demux_Rate_Get());
+        if (FrameInfo.DTS==(int64u)-1)
+            FrameInfo.DTS=Config->Demux_FirstDts_Get();
+    #endif //MEDIAINFO_DEMUX
     if (FrameInfo.DUR!=(int64u)-1)
     {
         if (FrameInfo.DTS==(int64u)-1)
@@ -226,7 +233,7 @@ void File_Eia608::Read_Buffer_Continue()
         cc_data_1_Old=0x00;
         cc_data_2_Old=0x00;
     }
-    
+
     if ((cc_data_1 && cc_data_1<0x10) || (XDS_Level!=(size_t)-1 && cc_data_1>=0x20)) //XDS
     {
         XDS(cc_data_1, cc_data_2);
@@ -278,7 +285,7 @@ void File_Eia608::XDS(int8u cc_data_1, int8u cc_data_2)
         else
             XDS_Data[XDS_Level].clear(); // There is a problem, erasing the previous item
     }
-    
+
     if (XDS_Level==(size_t)-1)
         return; //There is a problem
 
@@ -342,7 +349,7 @@ void File_Eia608::XDS_Current_ProgramName()
         ValueS.append(1, (const char)(XDS_Data[XDS_Level][Pos]));
     Ztring Value;
     Value.From_UTF8(ValueS.c_str());
-    Element_Info1(_T("Program Name=")+Value);
+    Element_Info1(__T("Program Name=")+Value);
 }
 
 //---------------------------------------------------------------------------
@@ -372,7 +379,7 @@ void File_Eia608::XDS_Channel_NetworkName()
         ValueS.append(1, (const char)(XDS_Data[XDS_Level][Pos]));
     Ztring Value;
     Value.From_UTF8(ValueS.c_str());
-    Element_Info1(_T("Network Name=")+Value);
+    Element_Info1(__T("Network Name=")+Value);
 }
 
 //---------------------------------------------------------------------------
@@ -506,7 +513,7 @@ void File_Eia608::Special_11(int8u cc_data_2)
     size_t StreamPos=TextMode*2+DataChannelMode;
     if (StreamPos>=Streams.size() || Streams[StreamPos]==NULL || !Streams[StreamPos]->Synched)
         return; //Not synched
-        
+
     switch (cc_data_2)
     {
         //CEA-608-E, Section F.1.1.3
@@ -564,7 +571,7 @@ void File_Eia608::Special_12(int8u cc_data_2)
     size_t StreamPos=TextMode*2+DataChannelMode;
     if (StreamPos>=Streams.size() || Streams[StreamPos]==NULL || !Streams[StreamPos]->Synched)
         return; //Not synched
-    
+
     if (Streams[StreamPos]->x && cc_data_2>=0x20 && cc_data_2<0x40)
         Streams[StreamPos]->x--; //Erasing previous character
 
@@ -613,7 +620,7 @@ void File_Eia608::Special_13(int8u cc_data_2)
     size_t StreamPos=TextMode*2+DataChannelMode;
     if (StreamPos>=Streams.size() || Streams[StreamPos]==NULL || !Streams[StreamPos]->Synched)
         return; //Not synched
-    
+
     if (Streams[StreamPos]->x && cc_data_2>=0x20 && cc_data_2<0x40)
         Streams[StreamPos]->x--; //Erasing previous character
 
@@ -942,7 +949,7 @@ void File_Eia608::Character_Fill(wchar_t Character)
         Streams[StreamPos]->CC_Displayed[Streams[StreamPos]->y][Streams[StreamPos]->x].Value=Character;
 
     Streams[StreamPos]->x++;
-    
+
     if (TextMode || !Streams[StreamPos]->InBack)
         HasChanged();
 

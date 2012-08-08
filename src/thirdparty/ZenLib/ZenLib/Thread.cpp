@@ -1,5 +1,5 @@
 // ZenLib::Thread - Thread functions
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -503,7 +503,7 @@ Thread::returnvalue Thread::Run()
     pthread_attr_t Attr;
     pthread_attr_init(&Attr);
     pthread_attr_setdetachstate(&Attr, PTHREAD_CREATE_DETACHED);
-    
+
     //Running
     pthread_create((pthread_t*)&ThreadPointer, &Attr, Thread_Start, (void*)this);
 

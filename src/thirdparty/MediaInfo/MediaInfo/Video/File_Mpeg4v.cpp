@@ -1,17 +1,17 @@
 // File_Mpeg4v - Info for MPEG-4 Visual files
-// Copyright (C) 2006-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -228,6 +228,11 @@ const char* Mpeg4v_vop_coding_type[]=
     "S",
 };
 
+//---------------------------------------------------------------------------
+const char* Mpegv_colour_primaries(int8u colour_primaries);
+const char* Mpegv_transfer_characteristics(int8u transfer_characteristics);
+const char* Mpegv_matrix_coefficients(int8u matrix_coefficients);
+
 //***************************************************************************
 // Constructor/Destructor
 //***************************************************************************
@@ -325,6 +330,9 @@ void File_Mpeg4v::Synched_Init()
     sprite_enable=0;
     estimation_method=0;
     chroma_format=(int8u)-1;
+    colour_primaries=(int8u)-1;
+    transfer_characteristics=(int8u)-1;
+    matrix_coefficients=(int8u)-1;
     quarter_sample=false;
     low_delay=false;
     load_intra_quant_mat=false;
@@ -414,6 +422,12 @@ void File_Mpeg4v::Streams_Fill()
     Fill(Stream_Video, 0, Video_BitDepth, bits_per_pixel);
     if (chroma_format<4)
         Fill(Stream_Video, 0, Video_Colorimetry, Mpeg4v_Colorimetry[chroma_format]);
+    if (colour_primaries!=(int8u)-1)
+    {
+        Fill(Stream_Video, 0, "colour_primaries", Mpegv_colour_primaries(colour_primaries));
+        Fill(Stream_Video, 0, "transfer_characteristics", Mpegv_transfer_characteristics(transfer_characteristics));
+        Fill(Stream_Video, 0, "matrix_coefficients", Mpegv_matrix_coefficients(matrix_coefficients));
+    }
     if (low_delay)
     {
         Fill(Stream_Video, 0, Video_Format_Settings_BVOP, "No");
@@ -428,9 +442,9 @@ void File_Mpeg4v::Streams_Fill()
     }
     if (no_of_sprite_warping_points)
     {
-        Fill(Stream_Video, 0, Video_Format_Settings, Ztring(_T("GMC"))+Ztring::ToZtring(no_of_sprite_warping_points));
+        Fill(Stream_Video, 0, Video_Format_Settings, Ztring(__T("GMC"))+Ztring::ToZtring(no_of_sprite_warping_points));
         Fill(Stream_Video, 0, Video_Format_Settings_GMC, no_of_sprite_warping_points);
-        Fill(Stream_Video, 0, Video_Codec_Settings, Ztring(_T("GMC"))+Ztring::ToZtring(no_of_sprite_warping_points));
+        Fill(Stream_Video, 0, Video_Codec_Settings, Ztring(__T("GMC"))+Ztring::ToZtring(no_of_sprite_warping_points));
         Fill(Stream_Video, 0, Video_Codec_Settings_GMC, no_of_sprite_warping_points);
     }
     else
@@ -501,38 +515,38 @@ void File_Mpeg4v::Streams_Fill()
     }
     for (size_t Pos=0; Pos<user_data_start_SNC_Data.size(); Pos++)
     {
-        if (user_data_start_SNC_Data[Pos][0]==_T("CamTim"))
+        if (user_data_start_SNC_Data[Pos][0]==__T("CamTim"))
             Fill(Stream_General, 0, General_Recorded_Date, Ztring().Date_From_String(user_data_start_SNC_Data[Pos][1].To_UTF8().c_str()));
-        if (user_data_start_SNC_Data[Pos][0]==_T("FrmRate"))
+        if (user_data_start_SNC_Data[Pos][0]==__T("FrmRate"))
             Fill(Stream_Video, 0, Video_FrameRate, user_data_start_SNC_Data[Pos][1].To_float32(), 3);
-        if (user_data_start_SNC_Data[Pos][0]==_T("TimStamp"))
+        if (user_data_start_SNC_Data[Pos][0]==__T("TimStamp"))
         {
             Fill(Stream_Video, 0, Video_Delay, user_data_start_SNC_Data[Pos][1].To_int64u());
             Fill(Stream_Video, 0, Video_Delay_Source, "Stream");
         }
-        if (user_data_start_SNC_Data[Pos][0]==_T("CamPos") && user_data_start_SNC_Data[Pos][1].size()==16)
+        if (user_data_start_SNC_Data[Pos][0]==__T("CamPos") && user_data_start_SNC_Data[Pos][1].size()==16)
         {
             Fill(Stream_Video, 0, "Pan / Tilt / Zoom / Status", Ztring(user_data_start_SNC_Data[Pos][1].substr( 3, 4)).To_int8u(16));
             Fill(Stream_Video, 0, "Pan / Tilt / Zoom / Status", Ztring(user_data_start_SNC_Data[Pos][1].substr( 7, 4)).To_int8u(16));
             Fill(Stream_Video, 0, "Pan / Tilt / Zoom / Status", Ztring(user_data_start_SNC_Data[Pos][1].substr(11, 4)).To_int8u(16));
-            if (user_data_start_SNC_Data[Pos][1][15]==_T('M'))
-                Fill(Stream_Video, 0, "Pan / Tilt / Zoom / Status", _T("Move"));
-            else if (user_data_start_SNC_Data[Pos][1][15]==_T('S'))
-                Fill(Stream_Video, 0, "Pan / Tilt / Zoom / Status", _T("Stop"));
+            if (user_data_start_SNC_Data[Pos][1][15]==__T('M'))
+                Fill(Stream_Video, 0, "Pan / Tilt / Zoom / Status", __T("Move"));
+            else if (user_data_start_SNC_Data[Pos][1][15]==__T('S'))
+                Fill(Stream_Video, 0, "Pan / Tilt / Zoom / Status", __T("Stop"));
             else
                 Fill(Stream_Video, 0, "Pan / Tilt / Zoom / Status", user_data_start_SNC_Data[Pos][1][15]);
         }
-        if (user_data_start_SNC_Data[Pos][0]==_T("AlmEvent") && user_data_start_SNC_Data[Pos][1].size()==16)
+        if (user_data_start_SNC_Data[Pos][0]==__T("AlmEvent") && user_data_start_SNC_Data[Pos][1].size()==16)
             Fill(Stream_Video, 0, "Alarm event", user_data_start_SNC_Data[Pos][1]);
     }
     if (video_object_layer_start_IsParsed && shape!=2 && !complexity_estimation_disable)
     {
         Fill(Stream_Video, 0, "data_partitioned", data_partitioned?"Yes":"No");
-        (*Stream_More)[Stream_Video][0](Ztring().From_Local("data_partitioned"), Info_Options)=_T("N NT");
+        (*Stream_More)[Stream_Video][0](Ztring().From_Local("data_partitioned"), Info_Options)=__T("N NT");
         if (data_partitioned)
         {
             Fill(Stream_Video, 0, "reversible_vlc", reversible_vlc?"Yes":"No");
-            (*Stream_More)[Stream_Video][0](Ztring().From_Local("reversible_vlc"), Info_Options)=_T("N NT");
+            (*Stream_More)[Stream_Video][0](Ztring().From_Local("reversible_vlc"), Info_Options)=__T("N NT");
         }
     }
 
@@ -540,7 +554,7 @@ void File_Mpeg4v::Streams_Fill()
     if (BVOP_Count_Max)
     {
         Ztring Format_Settings=Retrieve(Stream_Video, 0, Video_Format_Settings);
-        Format_Settings.FindAndReplace(_T("BVOP"), _T("BVOP")+Ztring::ToZtring(BVOP_Count_Max));
+        Format_Settings.FindAndReplace(__T("BVOP"), __T("BVOP")+Ztring::ToZtring(BVOP_Count_Max));
         Fill(Stream_Video, 0, Video_Format_Settings, Format_Settings, true);
         Fill(Stream_Video, 0, Video_Format_Settings_BVOP, BVOP_Count_Max, 10, true);
     }
@@ -953,7 +967,7 @@ void File_Mpeg4v::video_object_layer_start()
                     {
                         Ztring Value=Ztring::ToZtring(intra_quant_mat, 16);
                         if (Value.size()==1)
-                            Value.insert(0, _T("0"));
+                            Value.insert(0, __T("0"));
                         Matrix_intra+=Value;
                     }
                 }
@@ -977,7 +991,7 @@ void File_Mpeg4v::video_object_layer_start()
                     {
                         Ztring Value=Ztring::ToZtring(nonintra_quant_mat, 16);
                         if (Value.size()==1)
-                            Value.insert(0, _T("0"));
+                            Value.insert(0, __T("0"));
                         Matrix_nonintra+=Value;
                     }
                 }
@@ -1252,41 +1266,41 @@ void File_Mpeg4v::user_data_start()
         Skip_XX(Element_Size-Element_Offset,                    "junk");
 
     //Cleanup
-    while(Temp.size()>3 && Temp[1]==_T('e') && Temp[2]==_T('n') && Temp[3]==_T('c'))
+    while(Temp.size()>3 && Temp[1]==__T('e') && Temp[2]==__T('n') && Temp[3]==__T('c'))
         Temp.erase(0, 1);
-    while(Temp.size()>5 && Temp[3]==_T('M') && Temp[4]==_T('P') && Temp[5]==_T('E'))
+    while(Temp.size()>5 && Temp[3]==__T('M') && Temp[4]==__T('P') && Temp[5]==__T('E'))
         Temp.erase(0, 1);
 
     FILLING_BEGIN();
         if (Temp.size()>=4)
         {
-            if (Temp.find(_T("build"))==0)
-                Library+=Ztring(_T(" "))+Temp;
+            if (Temp.find(__T("build"))==0)
+                Library+=Ztring(__T(" "))+Temp;
             else
                 Library=Temp;
 
             //Library
-            if (Library.find(_T("DivX50"))==0)
+            if (Library.find(__T("DivX50"))==0)
             {
-                Library_Name=_T("DivX");
-                Ztring Version=Library.SubString(_T("Build"), _T(""));
+                Library_Name=__T("DivX");
+                Ztring Version=Library.SubString(__T("Build"), __T(""));
                 if (Version.empty())
-                    Version=Library.SubString(_T("b"), _T("p"));
+                    Version=Library.SubString(__T("b"), __T("p"));
                 if (Version.empty())
-                    Version=Library.SubString(_T("b"), _T(""));
+                    Version=Library.SubString(__T("b"), __T(""));
                 Library_Version=MediaInfoLib::Config.Library_Get(InfoLibrary_Format_DivX, Version, InfoLibrary_Version);
                 if (Library_Version.empty())
                     Library_Version=Version;
                 Library_Date=MediaInfoLib::Config.Library_Get(InfoLibrary_Format_DivX, Version, InfoLibrary_Date);
             }
-            if (Library.find(_T("XviD"))==0)
+            if (Library.find(__T("XviD"))==0)
             {
-                Library_Name=_T("XviD");
-                if (Library.find(_T("build="))==std::string::npos)
+                Library_Name=__T("XviD");
+                if (Library.find(__T("build="))==std::string::npos)
                 {
-                    Ztring Version=Library.SubString(_T("XviD"), _T(""));
-                    Version.FindAndReplace(_T("C"), _T(""));
-                    Version.TrimLeft(_T('0'));
+                    Ztring Version=Library.SubString(__T("XviD"), __T(""));
+                    Version.FindAndReplace(__T("C"), __T(""));
+                    Version.TrimLeft(__T('0'));
                     Library_Version=MediaInfoLib::Config.Library_Get(InfoLibrary_Format_XviD, Version, InfoLibrary_Version);
                     if (Library_Version.empty())
                         Library_Version=Version;
@@ -1294,13 +1308,13 @@ void File_Mpeg4v::user_data_start()
                 }
                 else
                 {
-                    Library_Version=Library.SubString(_T("XviD"), _T(""));
-                    Ztring Date=Library.SubString(_T(" build="), _T(""));
+                    Library_Version=Library.SubString(__T("XviD"), __T(""));
+                    Ztring Date=Library.SubString(__T(" build="), __T(""));
                     if (Date.size()==10)
                     {
-                        Date[4]=_T('-');
-                        Date[7]=_T('-');
-                        Library_Date=_T("UTC ")+Date;
+                        Date[4]=__T('-');
+                        Date[7]=__T('-');
+                        Library_Date=__T("UTC ")+Date;
                     }
                 }
             }
@@ -1324,8 +1338,8 @@ void File_Mpeg4v::user_data_start_SNC()
     Ztring Value;
     Get_Local(Element_Size, Value,                              "Value");
     ZtringListList List;
-    List.Separator_Set(0, _T("\r\n"));
-    List.Separator_Set(1, _T(": "));
+    List.Separator_Set(0, __T("\r\n"));
+    List.Separator_Set(1, __T(": "));
     List.Write(Value);
     for (size_t Pos=0; Pos<List.size(); Pos++)
     {
@@ -1353,11 +1367,11 @@ void File_Mpeg4v::group_of_vop_start()
     BS_End();
     Ztring Time;
     Time+=Ztring::ToZtring(Hours);
-    Time+=_T(':');
+    Time+=__T(':');
     Time+=Ztring::ToZtring(Minutes);
-    Time+=_T(':');
+    Time+=__T(':');
     Time+=Ztring::ToZtring(Seconds);
-    Time+=_T(".000");
+    Time+=__T(".000");
     Element_Info1(Time);
 
     FILLING_BEGIN();
@@ -1402,9 +1416,9 @@ void File_Mpeg4v::visual_object_start()
             Skip_S1(3,                                          "video_format");
             Skip_SB(                                            "video_range");
             TEST_SB_SKIP(                                       "colour_description");
-                Skip_S1(8,                                      "colour_primaries");
-                Skip_S1(8,                                      "transfer_characteristics");
-                Skip_S1(8,                                      "matrix_coefficients");
+                Get_S1 (8, colour_primaries,                    "colour_primaries"); Param_Info1(Mpegv_colour_primaries(colour_primaries));
+                Get_S1 (8, transfer_characteristics,            "transfer_characteristics"); Param_Info1(Mpegv_transfer_characteristics(transfer_characteristics));
+                Get_S1 (8, matrix_coefficients,                 "matrix_coefficients"); Param_Info1(Mpegv_matrix_coefficients(matrix_coefficients));
             TEST_SB_END();
         TEST_SB_END();
         BS_End();
@@ -1432,7 +1446,7 @@ void File_Mpeg4v::visual_object_start()
 // Packet "B6"
 void File_Mpeg4v::vop_start()
 {
-    Element_Info1C( (FrameInfo.DTS!=(int64u)-1), _T("DTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.DTS)/1000000)));
+    Element_Info1C( (FrameInfo.DTS!=(int64u)-1), __T("DTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)FrameInfo.DTS)/1000000)));
 
     //Counting
     if (File_Offset+Buffer_Offset+Element_Size==File_Size)
@@ -1446,7 +1460,7 @@ void File_Mpeg4v::vop_start()
 
     //Name
     Element_Name("vop_start");
-    Element_Info1(Ztring(_T("Frame ")+Ztring::ToZtring(Frame_Count)));
+    Element_Info1(Ztring(__T("Frame ")+Ztring::ToZtring(Frame_Count)));
 
     //Parsing
     int32u vop_time_increment;

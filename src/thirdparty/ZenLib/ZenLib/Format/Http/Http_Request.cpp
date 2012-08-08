@@ -1,5 +1,5 @@
 // ZenLib::Server::Http::Request - A HTTP request
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -76,7 +76,7 @@ Request::~Request()
 }
 
 //***************************************************************************
-// 
+//
 //***************************************************************************
 
 //---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
     //First line, "Method Path Norm"
     //-Method
     string Method;
-    In>>Method; 
+    In>>Method;
          if (Method.size()==3 && Method[0]=='G' && Method[1]=='E' && Method[2]=='T')
         ;
     else if (Method.size()==4 && Method[0]=='P' && Method[1]=='O' && Method[2]=='S' && Method[3]=='T')
@@ -111,7 +111,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
     //-Norm
     string Line;
     getline(In, Line); //Drop the first line, no more needed
-    
+
     //Headers
     do
     {
@@ -119,7 +119,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
         getline(In, Line);
         if (!Line.empty() && Line[Line.size()-1]=='\r')
             Line.resize(Line.size()-1); //Remove the \r
-        
+
         //Processing the line, form is "aaa: bbb"
         if (!Line.empty())
         {
@@ -145,7 +145,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
                         }
                         else
                             Cookie.clear();
-                            
+
                         string::size_type Separator_Pos2=Line2.find('=');
                         if (Separator_Pos2!=string::npos)
                             Http->Request_Cookies[Line2.substr(0, Separator_Pos2)]=Format::Http::URL_Encoded_Decode(Line2.substr(Separator_Pos2+1, string::npos));
@@ -164,8 +164,8 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
     {
         do
         {
-            string Content; 
-            
+            string Content;
+
             //Getting the line
             string::size_type Interogation_Pos=Http->Path.find('?');
             if (Interogation_Pos!=string::npos)
@@ -173,7 +173,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
                 Content=Http->Path.substr(Interogation_Pos+1, string::npos);
                 Http->Path.resize(Interogation_Pos);
             }
-            
+
             if (Method.size()==4) //Only for POST
             {
                 int64u Content_Lengh=0;
@@ -203,7 +203,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
                 In.read(&Content[Content_Size_Current], (streamsize)Content_Lengh);
                 Content[Content_Size_Current+(size_t)Content_Lengh]='\0';
             }
-            
+
             //Processing the line, form is "aaa=bbb&..."
             while (!Content.empty())
             {
@@ -215,7 +215,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
                     Content.resize(Content_Pos);
                 else
                     Content.clear();
-                    
+
                 string::size_type Separator_Pos=Line2.find('=');
                 if (Separator_Pos!=string::npos)
                     Http->Request_Queries[Line2.substr(0, Separator_Pos)]=Format::Http::URL_Encoded_Decode(Line2.substr(Separator_Pos+1, string::npos));

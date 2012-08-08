@@ -1,17 +1,17 @@
 // MediaInfo_Internal - All info about media files, different parser listing part
-// Copyright (C) 2006-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -229,6 +229,9 @@
 #if defined(MEDIAINFO_S3M_YES)
     #include "MediaInfo/Audio/File_ScreamTracker3.h"
 #endif
+#if defined(MEDIAINFO_RKAU_YES)
+    #include "MediaInfo/Audio/File_Rkau.h"
+#endif
 #if defined(MEDIAINFO_TAK_YES)
     #include "MediaInfo/Audio/File_Tak.h"
 #endif
@@ -280,8 +283,14 @@
 #if defined(MEDIAINFO_JPEG_YES)
     #include "MediaInfo/Image/File_Jpeg.h"
 #endif
+#if defined(MEDIAINFO_PCX_YES)
+    #include "MediaInfo/Image/File_Pcx.h"
+#endif
 #if defined(MEDIAINFO_PNG_YES)
     #include "MediaInfo/Image/File_Png.h"
+#endif
+#if defined(MEDIAINFO_PSD_YES)
+    #include "MediaInfo/Image/File_Psd.h"
 #endif
 #if defined(MEDIAINFO_TIFF_YES)
     #include "MediaInfo/Image/File_Tiff.h"
@@ -356,290 +365,296 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
 
     // Multiple
     #if defined(MEDIAINFO_BDAV_YES)
-        else if (Parser==_T("Bdav"))       {Info=new File_MpegTs(); ((File_MpegTs*)Info)->BDAV_Size=4;}
+        else if (Parser==__T("Bdav"))       {Info=new File_MpegTs(); ((File_MpegTs*)Info)->BDAV_Size=4;}
     #endif
     #if defined(MEDIAINFO_BDMV_YES)
-        else if (Parser==_T("Bdmv"))        Info=new File_Bdmv();
+        else if (Parser==__T("Bdmv"))        Info=new File_Bdmv();
     #endif
     #if defined(MEDIAINFO_CDXA_YES)
-        else if (Parser==_T("Cdxa"))        Info=new File_Cdxa();
+        else if (Parser==__T("Cdxa"))        Info=new File_Cdxa();
     #endif
     #if defined(MEDIAINFO_DCP_YES)
-        else if (Parser==_T("Dcp"))         Info=new File_Dcp();
+        else if (Parser==__T("Dcp"))         Info=new File_Dcp();
     #endif
     #if defined(MEDIAINFO_DVDIF_YES)
-        else if (Parser==_T("DvDif"))        Info=new File_DvDif();
+        else if (Parser==__T("DvDif"))        Info=new File_DvDif();
     #endif
     #if defined(MEDIAINFO_DVDV_YES)
-        else if (Parser==_T("Dvdv"))        Info=new File_Dvdv();
+        else if (Parser==__T("Dvdv"))        Info=new File_Dvdv();
     #endif
     #if defined(MEDIAINFO_DXW_YES)
-        else if (Parser==_T("Dxw"))         Info=new File_Dxw();
+        else if (Parser==__T("Dxw"))         Info=new File_Dxw();
     #endif
     #if defined(MEDIAINFO_FLV_YES)
-        else if (Parser==_T("Flv"))         Info=new File_Flv();
+        else if (Parser==__T("Flv"))         Info=new File_Flv();
     #endif
     #if defined(MEDIAINFO_GXF_YES)
-        else if (Parser==_T("Gxf"))         Info=new File_Gxf();
+        else if (Parser==__T("Gxf"))         Info=new File_Gxf();
     #endif
     #if defined(MEDIAINFO_HLS_YES)
-        else if (Parser==_T("Hls"))         Info=new File_Hls();
+        else if (Parser==__T("Hls"))         Info=new File_Hls();
     #endif
     #if defined(MEDIAINFO_IVF_YES)
-        else if (Parser==_T("Ivf"))         Info=new File_Ivf();
+        else if (Parser==__T("Ivf"))         Info=new File_Ivf();
     #endif
     #if defined(MEDIAINFO_ISM_YES)
-        else if (Parser==_T("Ism"))         Info=new File_Ism();
+        else if (Parser==__T("Ism"))         Info=new File_Ism();
     #endif
     #if defined(MEDIAINFO_LXF_YES)
-        else if (Parser==_T("Lxf"))         Info=new File_Lxf();
+        else if (Parser==__T("Lxf"))         Info=new File_Lxf();
     #endif
     #if defined(MEDIAINFO_MK_YES)
-        else if (Parser==_T("Mk"))          Info=new File_Mk();
+        else if (Parser==__T("Mk"))          Info=new File_Mk();
     #endif
     #if defined(MEDIAINFO_MPEG4_YES)
-        else if (Parser==_T("Mpeg4"))       Info=new File_Mpeg4();
+        else if (Parser==__T("Mpeg4"))       Info=new File_Mpeg4();
     #endif
     #if defined(MEDIAINFO_MPEGPS_YES)
-        else if (Parser==_T("MpegPs"))      Info=new File_MpegPs();
+        else if (Parser==__T("MpegPs"))      Info=new File_MpegPs();
     #endif
     #if defined(MEDIAINFO_MPEGTS_YES)
-        else if (Parser==_T("MpegTs"))      Info=new File_MpegTs();
+        else if (Parser==__T("MpegTs"))      Info=new File_MpegTs();
     #endif
     #if defined(MEDIAINFO_MXF_YES)
-        else if (Parser==_T("Mxf"))         Info=new File_Mxf();
+        else if (Parser==__T("Mxf"))         Info=new File_Mxf();
     #endif
     #if defined(MEDIAINFO_NUT_YES)
-        else if (Parser==_T("Nut"))         Info=new File_Nut();
+        else if (Parser==__T("Nut"))         Info=new File_Nut();
     #endif
     #if defined(MEDIAINFO_OGG_YES)
-        else if (Parser==_T("Ogg"))         Info=new File_Ogg();
+        else if (Parser==__T("Ogg"))         Info=new File_Ogg();
     #endif
     #if defined(MEDIAINFO_P2_YES)
-        else if (Parser==_T("P2_Clip"))     Info=new File_P2_Clip();
+        else if (Parser==__T("P2_Clip"))     Info=new File_P2_Clip();
     #endif
     #if defined(MEDIAINFO_RIFF_YES)
-        else if (Parser==_T("Riff"))        Info=new File_Riff();
+        else if (Parser==__T("Riff"))        Info=new File_Riff();
     #endif
     #if defined(MEDIAINFO_RM_YES)
-        else if (Parser==_T("Rm"))          Info=new File_Rm();
+        else if (Parser==__T("Rm"))          Info=new File_Rm();
     #endif
     #if defined(MEDIAINFO_SEQUENCEINFO_YES)
-        else if (Parser==_T("SequenceInfo")) Info=new File_SequenceInfo();
+        else if (Parser==__T("SequenceInfo")) Info=new File_SequenceInfo();
     #endif
     #if defined(MEDIAINFO_SKM_YES)
-        else if (Parser==_T("Skm"))         Info=new File_Skm();
+        else if (Parser==__T("Skm"))         Info=new File_Skm();
     #endif
     #if defined(MEDIAINFO_SWF_YES)
-        else if (Parser==_T("Swf"))         Info=new File_Swf();
+        else if (Parser==__T("Swf"))         Info=new File_Swf();
     #endif
     #if defined(MEDIAINFO_WM_YES)
-        else if (Parser==_T("Wm"))          Info=new File_Wm();
+        else if (Parser==__T("Wm"))          Info=new File_Wm();
     #endif
     #if defined(MEDIAINFO_XDCAM_YES)
-        else if (Parser==_T("Xdcam_Clip"))   Info=new File_Xdcam_Clip();
+        else if (Parser==__T("Xdcam_Clip"))   Info=new File_Xdcam_Clip();
     #endif
     #if defined(MEDIAINFO_DPG_YES)
-        else if (Parser==_T("Dpg"))         Info=new File_Dpg();
+        else if (Parser==__T("Dpg"))         Info=new File_Dpg();
     #endif
 
     // Video
     #if defined(MEDIAINFO_AVC_YES)
-        else if (Parser==_T("Avc"))         Info=new File_Avc();
+        else if (Parser==__T("Avc"))         Info=new File_Avc();
     #endif
     #if defined(MEDIAINFO_AVSV_YES)
-        else if (Parser==_T("AvsV"))        Info=new File_AvsV();
+        else if (Parser==__T("AvsV"))        Info=new File_AvsV();
     #endif
     #if defined(MEDIAINFO_DIRAC_YES)
-        else if (Parser==_T("Dirac"))       Info=new File_Dirac();
+        else if (Parser==__T("Dirac"))       Info=new File_Dirac();
     #endif
     #if defined(MEDIAINFO_FLIC_YES)
-        else if (Parser==_T("Flic"))        Info=new File_Flic();
+        else if (Parser==__T("Flic"))        Info=new File_Flic();
     #endif
     #if defined(MEDIAINFO_H263_YES)
-        else if (Parser==_T("H263"))        Info=new File_H263();
+        else if (Parser==__T("H263"))        Info=new File_H263();
     #endif
     #if defined(MEDIAINFO_MPEG4V_YES)
-        else if (Parser==_T("Mpeg4v"))      Info=new File_Mpeg4v();
+        else if (Parser==__T("Mpeg4v"))      Info=new File_Mpeg4v();
     #endif
     #if defined(MEDIAINFO_MPEGV_YES)
-        else if (Parser==_T("Mpegv"))       Info=new File_Mpegv();
+        else if (Parser==__T("Mpegv"))       Info=new File_Mpegv();
     #endif
     #if defined(MEDIAINFO_VC1_YES)
-        else if (Parser==_T("Vc1"))         Info=new File_Vc1();
+        else if (Parser==__T("Vc1"))         Info=new File_Vc1();
     #endif
     #if defined(MEDIAINFO_VC3_YES)
-        else if (Parser==_T("Vc3"))         Info=new File_Vc3();
+        else if (Parser==__T("Vc3"))         Info=new File_Vc3();
     #endif
     #if defined(MEDIAINFO_Y4M_YES)
-        else if (Parser==_T("Y4m"))         Info=new File_Y4m();
+        else if (Parser==__T("Y4m"))         Info=new File_Y4m();
     #endif
 
     // Audio
     #if defined(MEDIAINFO_AAC_YES)
-        else if (Parser==_T("Aac"))         {Info=new File_Aac(); ((File_Aac*)Info)->Mode=File_Aac::Mode_ADIF;}
+        else if (Parser==__T("Aac"))         {Info=new File_Aac(); ((File_Aac*)Info)->Mode=File_Aac::Mode_ADIF;}
     #endif
     #if defined(MEDIAINFO_AAC_YES)
-        else if (Parser==_T("Aac"))         {Info=new File_Aac(); ((File_Aac*)Info)->Mode=File_Aac::Mode_ADTS;}
+        else if (Parser==__T("Aac"))         {Info=new File_Aac(); ((File_Aac*)Info)->Mode=File_Aac::Mode_ADTS;}
     #endif
     #if defined(MEDIAINFO_AC3_YES)
-        else if (Parser==_T("Ac3"))         Info=new File_Ac3();
+        else if (Parser==__T("Ac3"))         Info=new File_Ac3();
     #endif
     #if defined(MEDIAINFO_AES3_YES)
-        else if (Parser==_T("Aes3"))        Info=new File_Aes3();
+        else if (Parser==__T("Aes3"))        Info=new File_Aes3();
     #endif
     #if defined(MEDIAINFO_ALS_YES)
-        else if (Parser==_T("Als"))         Info=new File_Als();
+        else if (Parser==__T("Als"))         Info=new File_Als();
     #endif
     #if defined(MEDIAINFO_AMR_YES)
-        else if (Parser==_T("Amr"))         Info=new File_Amr();
+        else if (Parser==__T("Amr"))         Info=new File_Amr();
     #endif
     #if defined(MEDIAINFO_AMV_YES)
-        else if (Parser==_T("Amv"))         Info=new File_Amv();
+        else if (Parser==__T("Amv"))         Info=new File_Amv();
     #endif
     #if defined(MEDIAINFO_APE_YES)
-        else if (Parser==_T("Ape"))         Info=new File_Ape();
+        else if (Parser==__T("Ape"))         Info=new File_Ape();
     #endif
     #if defined(MEDIAINFO_AU_YES)
-        else if (Parser==_T("Au"))          Info=new File_Au();
+        else if (Parser==__T("Au"))          Info=new File_Au();
     #endif
     #if defined(MEDIAINFO_DTS_YES)
-        else if (Parser==_T("Dts"))         Info=new File_Dts();
+        else if (Parser==__T("Dts"))         Info=new File_Dts();
     #endif
     #if defined(MEDIAINFO_DOLBYE_YES)
-        else if (Parser==_T("DolbyE"))      Info=new File_DolbyE();
+        else if (Parser==__T("DolbyE"))      Info=new File_DolbyE();
     #endif
     #if defined(MEDIAINFO_FLAC_YES)
-        else if (Parser==_T("Flac"))        Info=new File_Flac();
+        else if (Parser==__T("Flac"))        Info=new File_Flac();
     #endif
     #if defined(MEDIAINFO_IT_YES)
-        else if (Parser==_T("It"))          Info=new File_ImpulseTracker();
+        else if (Parser==__T("It"))          Info=new File_ImpulseTracker();
     #endif
     #if defined(MEDIAINFO_LA_YES)
-        else if (Parser==_T("La"))          Info=new File_La();
+        else if (Parser==__T("La"))          Info=new File_La();
     #endif
     #if defined(MEDIAINFO_MIDI_YES)
-        else if (Parser==_T("Midi"))        Info=new File_Midi();
+        else if (Parser==__T("Midi"))        Info=new File_Midi();
     #endif
     #if defined(MEDIAINFO_MOD_YES)
-        else if (Parser==_T("Mod"))         Info=new File_Module();
+        else if (Parser==__T("Mod"))         Info=new File_Module();
     #endif
     #if defined(MEDIAINFO_MPC_YES)
-        else if (Parser==_T("Mpc"))         Info=new File_Mpc();
+        else if (Parser==__T("Mpc"))         Info=new File_Mpc();
     #endif
     #if defined(MEDIAINFO_MPCSV8_YES)
-        else if (Parser==_T("Mpc"))         Info=new File_MpcSv8();
+        else if (Parser==__T("Mpc"))         Info=new File_MpcSv8();
     #endif
     #if defined(MEDIAINFO_MPEGA_YES)
-        else if (Parser==_T("Mpega"))       Info=new File_Mpega();
+        else if (Parser==__T("Mpega"))       Info=new File_Mpega();
     #endif
     #if defined(MEDIAINFO_PCM_YES)
-        //else if (Parser==_T("Pcm"))         Info=new File_Pcm();
+        //else if (Parser==__T("Pcm"))         Info=new File_Pcm();
     #endif
     #if defined(MEDIAINFO_AU_YES)
-        else if (Parser==_T("Au"))          Info=new File_Au();
+        else if (Parser==__T("Au"))          Info=new File_Au();
     #endif
     #if defined(MEDIAINFO_RKAU_YES)
-        else if (Parser==_T("Rkau"))         Info=new File_Rkau();
+        else if (Parser==__T("Rkau"))         Info=new File_Rkau();
     #endif
     #if defined(MEDIAINFO_S3M_YES)
-        else if (Parser==_T("S3m"))         Info=new File_ScreamTracker3();
+        else if (Parser==__T("S3m"))         Info=new File_ScreamTracker3();
     #endif
     #if defined(MEDIAINFO_TAK_YES)
-        else if (Parser==_T("Tak"))         Info=new File_Tak();
+        else if (Parser==__T("Tak"))         Info=new File_Tak();
     #endif
     #if defined(MEDIAINFO_TTA_YES)
-        else if (Parser==_T("Tta"))         Info=new File_Tta();
+        else if (Parser==__T("Tta"))         Info=new File_Tta();
     #endif
     #if defined(MEDIAINFO_TWINVQ_YES)
-        else if (Parser==_T("TwinVQ"))      Info=new File_TwinVQ();
+        else if (Parser==__T("TwinVQ"))      Info=new File_TwinVQ();
     #endif
     #if defined(MEDIAINFO_WVPK_YES)
-        else if (Parser==_T("Wvpk"))        Info=new File_Wvpk();
+        else if (Parser==__T("Wvpk"))        Info=new File_Wvpk();
     #endif
     #if defined(MEDIAINFO_XM_YES)
-        else if (Parser==_T("Xm"))          Info=new File_ExtendedModule();
+        else if (Parser==__T("Xm"))          Info=new File_ExtendedModule();
     #endif
 
     // Text
     #if defined(MEDIAINFO_EIA608_YES)
-        else if (Parser==_T("CEA-608"))     Info=new File_Eia608();
-        else if (Parser==_T("EIA-608"))     Info=new File_Eia608();
+        else if (Parser==__T("CEA-608"))     Info=new File_Eia608();
+        else if (Parser==__T("EIA-608"))     Info=new File_Eia608();
     #endif
     #if defined(MEDIAINFO_OTHERTEXT_YES)
-        else if (Parser==_T("N19"))         Info=new File_N19();
+        else if (Parser==__T("N19"))         Info=new File_N19();
     #endif
     #if defined(MEDIAINFO_SCC_YES)
-        else if (Parser==_T("SCC"))         Info=new File_Scc();
+        else if (Parser==__T("SCC"))         Info=new File_Scc();
     #endif
     #if defined(MEDIAINFO_OTHERTEXT_YES)
-        else if (Parser==_T("OtherText"))   Info=new File_OtherText();
+        else if (Parser==__T("OtherText"))   Info=new File_OtherText();
     #endif
 
     // Image
     #if defined(MEDIAINFO_GIF_YES)
-        else if (Parser==_T("Gif"))         Info=new File_Gif();
+        else if (Parser==__T("Gif"))         Info=new File_Gif();
     #endif
     #if defined(MEDIAINFO_BMP_YES)
-        else if (Parser==_T("Bmp"))         Info=new File_Bmp();
+        else if (Parser==__T("Bmp"))         Info=new File_Bmp();
     #endif
     #if defined(MEDIAINFO_DPX_YES)
-        else if (Parser==_T("Dpx"))         Info=new File_Dpx();
+        else if (Parser==__T("Dpx"))         Info=new File_Dpx();
     #endif
     #if defined(MEDIAINFO_EXR_YES)
-        else if (Parser==_T("Exr"))         Info=new File_Exr();
+        else if (Parser==__T("Exr"))         Info=new File_Exr();
     #endif
     #if defined(MEDIAINFO_ICO_YES)
-        else if (Parser==_T("Ico"))         Info=new File_Ico();
+        else if (Parser==__T("Ico"))         Info=new File_Ico();
     #endif
     #if defined(MEDIAINFO_JPEG_YES)
-        else if (Parser==_T("Jpeg"))        Info=new File_Jpeg();
+        else if (Parser==__T("Jpeg"))        Info=new File_Jpeg();
+    #endif
+    #if defined(MEDIAINFO_PCX_YES)
+        else if (Parser==__T("PCX"))         Info=new File_Pcx();
     #endif
     #if defined(MEDIAINFO_PNG_YES)
-        else if (Parser==_T("Png"))         Info=new File_Png();
+        else if (Parser==__T("Png"))         Info=new File_Png();
+    #endif
+    #if defined(MEDIAINFO_PSD_YES)
+        else if (Parser==__T("Psd"))         Info=new File_Psd();
     #endif
     #if defined(MEDIAINFO_TIFF_YES)
-        else if (Parser==_T("Tiff"))        Info=new File_Tiff();
+        else if (Parser==__T("Tiff"))        Info=new File_Tiff();
     #endif
     #if defined(MEDIAINFO_TGA_YES)
-        else if (Parser==_T("Tga"))         Info=new File_Tga();
+        else if (Parser==__T("Tga"))         Info=new File_Tga();
     #endif
 
     // Archive
     #if defined(MEDIAINFO_7Z_YES)
-        else if (Parser==_T("7z"))          Info=new File_7z();
+        else if (Parser==__T("7z"))          Info=new File_7z();
     #endif
     #if defined(MEDIAINFO_ACE_YES)
-        else if (Parser==_T("Ace"))         Info=new File_Ace();
+        else if (Parser==__T("Ace"))         Info=new File_Ace();
     #endif
     #if defined(MEDIAINFO_BZIP2_YES)
-        else if (Parser==_T("Bzip2"))       Info=new File_Bzip2();
+        else if (Parser==__T("Bzip2"))       Info=new File_Bzip2();
     #endif
     #if defined(MEDIAINFO_ELF_YES)
-        else if (Parser==_T("Elf"))         Info=new File_Elf();
+        else if (Parser==__T("Elf"))         Info=new File_Elf();
     #endif
     #if defined(MEDIAINFO_GZIP_YES)
-        else if (Parser==_T("Gzip"))        Info=new File_Gzip();
+        else if (Parser==__T("Gzip"))        Info=new File_Gzip();
     #endif
     #if defined(MEDIAINFO_ISO9660_YES)
-        else if (Parser==_T("Iso9660"))     Info=new File_Iso9660();
+        else if (Parser==__T("Iso9660"))     Info=new File_Iso9660();
     #endif
     #if defined(MEDIAINFO_MZ_YES)
-        else if (Parser==_T("Mz"))          Info=new File_Mz();
+        else if (Parser==__T("Mz"))          Info=new File_Mz();
     #endif
     #if defined(MEDIAINFO_RAR_YES)
-        else if (Parser==_T("Rar"))         Info=new File_Rar();
+        else if (Parser==__T("Rar"))         Info=new File_Rar();
     #endif
     #if defined(MEDIAINFO_TAR_YES)
-        else if (Parser==_T("Tar"))         Info=new File_Tar();
+        else if (Parser==__T("Tar"))         Info=new File_Tar();
     #endif
     #if defined(MEDIAINFO_ZIP_YES)
-        else if (Parser==_T("Zip"))         Info=new File_Zip();
+        else if (Parser==__T("Zip"))         Info=new File_Zip();
     #endif
 
     // Other
     #if defined(MEDIAINFO_OTHER_YES)
-        else if (Parser==_T("Other"))       Info=new File_Other();
+        else if (Parser==__T("Other"))       Info=new File_Other();
     #endif
 
     //No parser
@@ -890,8 +905,14 @@ int MediaInfo_Internal::ListFormats(const String &File_Name)
     #if defined(MEDIAINFO_JPEG_YES)
         delete Info; Info=new File_Jpeg();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
+    #if defined(MEDIAINFO_PCX_YES)
+        delete Info; Info=new File_Pcx();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
+    #endif
     #if defined(MEDIAINFO_PNG_YES)
         delete Info; Info=new File_Png();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
+    #endif
+    #if defined(MEDIAINFO_PSD_YES)
+        delete Info; Info=new File_Psd();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
     #if defined(MEDIAINFO_TIFF_YES)
         delete Info; Info=new File_Tiff();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;

@@ -1,19 +1,19 @@
-// Helpers - Automaticly generated methods for MediaInfo
-// Copyright (C) 2005-2007 Jerome Martinez, Zen@MediaArea.net
+// File__Analyze - Base for analyze files
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
+// This library is free software: you can redistribute it and/or modify it
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Lesser General Public License for more details.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+// You should have received a copy of the GNU Library General Public License
+// along with this library. If not, see <http://www.gnu.org/licenses/>.
+//
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -38,7 +38,7 @@ namespace MediaInfoLib
 //---------------------------------------------------------------------------
 void MediaInfo_Config_DefaultLanguage (Translation &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "  Language_ISO639;en\n"
     "  Author_Email;Zen@mediaarea.net\n"
@@ -542,7 +542,7 @@ void MediaInfo_Config_DefaultLanguage (Translation &Info)
     "Genre_138;Black Metal\n"
     "Genre_139;Crossover\n"
     "Genre_140;Contemporary Christian\n"
-    "Genre_141;Christian Rock \n"
+    "Genre_141;Christian Rock\n"
     "Genre_142;Merengue\n"
     "Genre_143;Salsa\n"
     "Genre_144;Trash Metal\n"
@@ -1026,7 +1026,7 @@ void MediaInfo_Config_DefaultLanguage (Translation &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Format (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "AIFF;;;M;Riff;Apple/SGI;aiff aifc aif;audio/x-aiff;\n"
     "AMV;;;M;Riff;Chinese hack of AVI;amv;;http://en.wikipedia.org/wiki/AMV_video_format\n"
@@ -1044,7 +1044,7 @@ void MediaInfo_Config_Format (InfoMap &Info)
     "DVD Video;;;M;Dvdv;;ifo;;\n"
     "Flash Video;;;M;Flv;;flv;application/x-shockwave-flash;http://www.macromedia.com/go/getflashplayer\n"
     "GXF;;;M;Gxf;SMPTE 360M;gxf;;\n"
-    "HLS;;;M;Hls;;m3u8;;\n"
+    "HLS;;;M;Hls;;m3u8;\n"
     "Google Video;;;M;Riff;Hack of AVI;gvi;;http://video.google.com/playerdownload.html\n"
     "ISM;Internet Streaming Media;;M;Ism;;ism;;\n"
     "IVF;;;M;Ivf;;ivf;;\n"
@@ -1056,7 +1056,7 @@ void MediaInfo_Config_Format (InfoMap &Info)
     "MTV;;;M;Other;Chinese hack of MPEG-1 layer 3;mtv;;http://en.wikipedia.org/wiki/Chinese_MP4/MTV_Player\n"
     "MXF;;;M;Mxf;;mxf;application/mxf;\n"
     "NSV;;;M;Nsv;Nullsoft Streaming Video;nsv;;http://winamp.com\n"
-    "Ogg;;;M;Ogg;;ogg ogm;video/ogg;http://www.free-codecs.com/Ogg_DirectShow_Filters_download.htm\n"
+    "Ogg;;;M;Ogg;;ogg ogm opus;video/ogg;http://www.free-codecs.com/Ogg_DirectShow_Filters_download.htm\n"
     "QuickTime;;;M;Mpeg4;Original Apple specifications;mov qt;video/quicktime;http://www.apple.com/quicktime/download/standalone.html\n"
     "RealMedia;;;M;Rm;;rm rmvb ra;application/vnd.rn-realmedia;\n"
     "RIFF-MMP;;;M;Riff;RIFF Multimedia Movie;;;\n"
@@ -1117,6 +1117,7 @@ void MediaInfo_Config_Format (InfoMap &Info)
     "Shorten;;;A;;;shn;;http://etree.org/shnutils/shorten/;Lossless\n"
     "SLS;;;A;;MPEG-4 Scalable Lossless Coding;sls;;http://www.chiariglione.org/mpeg/technologies/mp04-sls/index.htm;Lossless\n"
     "Speex;;;A;;;;audio/speex;http://www.speex.org/;Lossy\n"
+    "Opus;;;A;;;;audio/opus;http://opus-codec.org/;Lossy\n"
     "TAK;;;A;;;tak;;http://thbeck.de/Tak/Tak.html;Lossless\n"
     "TrueHD;;;A;Ac3;;dts;;;Lossless\n"
     "TwinVQ;;;A;TwinVQ;Transform domain Weighted INterleave Vector Quantization;vqf;;http://www.twinvq.org/english/index_en.html\n"
@@ -1135,7 +1136,9 @@ void MediaInfo_Config_Format (InfoMap &Info)
     "JPEG 2000;;;I;Jpeg;;jp2;image/jp2;http://www.morgan-multimedia.com/JPEG 2000/\n"
     "LZ77;;;I;;;;;\n"
     "MNG;;;I;Mng;Multiple-Image Network Graphic;mng;;;Lossless\n"
+    "PCX;;;I;pcx;Personal Computer eXchange;pcx;image/pcx;;Lossless\n"
     "PNG;;;I;Png;Portable Network Graphic;png;image/png;;Lossless\n"
+    "PSD;;;I;Psd;Photoshop File Format;psd;image/psd;http://www.adobe.com/;Lossless\n"
     "RIFF Palette;;;I;Riff;RIFF Palette;;;\n"
     "RLE;;;I;;Run-length encoding;rle;;\n"
     "TIFF;;;I;Tiff;;tiff tif;image/tiff;\n"
@@ -1166,7 +1169,7 @@ void MediaInfo_Config_Format (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_General_Mpeg4 (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "M4V ;MPEG-4;;;\n"
     "isom;MPEG-4;;;http://www.apple.com/quicktime/download/standalone.html;Base Media\n"
@@ -1234,7 +1237,7 @@ void MediaInfo_Config_CodecID_General_Mpeg4 (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Video_Matroska (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "V_UNCOMPRESSED;RGB;;Raw uncompressed video frames\n"
     "V_DIRAC;Dirac;;;http://diracvideo.org/\n"
@@ -1264,7 +1267,7 @@ void MediaInfo_Config_CodecID_Video_Matroska (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Video_Mpeg4 (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "2vuy;YUV;;;;;;YUV;4:2:2\n"
     "2Vuy;YUV;;;;;;YUV;4:2:2\n"
@@ -1278,10 +1281,10 @@ void MediaInfo_Config_CodecID_Video_Mpeg4 (InfoMap &Info)
     "apco;ProRes;;;http://www.apple.com/quicktime/download/standalone.html;Proxy;;YUV;4:2:2\n"
     "ap4c;ProRes;;;http://www.apple.com/quicktime/download/standalone.html;;;YUV;4:4:4\n"
     "ap4h;ProRes;;;http://www.apple.com/quicktime/download/standalone.html;;;YUV;4:4:4\n"
-    "ai12;AVC;;Advanced Video Coding;http://ffdshow-tryout.sourceforge.net;;;\n"
-    "ai15;AVC;;Advanced Video Coding;http://ffdshow-tryout.sourceforge.net;;;\n"
-    "ai1q;AVC;;Advanced Video Coding;http://ffdshow-tryout.sourceforge.net;;;\n"
-    "ai5q;AVC;;Advanced Video Coding;http://ffdshow-tryout.sourceforge.net;;;\n"
+    "ai12;AVC;;Advanced Video Coding;http://ffdshow-tryout.sourceforge.net;;\n"
+    "ai15;AVC;;Advanced Video Coding;http://ffdshow-tryout.sourceforge.net;;\n"
+    "ai1q;AVC;;Advanced Video Coding;http://ffdshow-tryout.sourceforge.net;;\n"
+    "ai5q;AVC;;Advanced Video Coding;http://ffdshow-tryout.sourceforge.net;;\n"
     "avc1;AVC;;Advanced Video Coding;http://www.apple.com/quicktime/download/standalone.html;;;\n"
     "avcp;AVC;;Advanced Video Coding Parameters;http://www.apple.com/quicktime/download/standalone.html;;;\n"
     "AVdv;DV;;Avid;http://www.apple.com/quicktime/download/standalone.html;;;YUV;4:2:2\n"
@@ -1429,7 +1432,7 @@ void MediaInfo_Config_CodecID_Video_Mpeg4 (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Video_Real (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "RV10;RealVideo 1;;Based on H.263, Real Player 5;http://www.real.com\n"
     "RV13;RealVideo 1.3;;Based on H.263, Real Player 5;http://www.real.com\n"
@@ -1443,7 +1446,7 @@ void MediaInfo_Config_CodecID_Video_Real (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Video_Riff (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "0x00000000;RGB;;Basic Windows bitmap format. 1, 4 and 8 bpp versions are palettised. 16, 24 and 32bpp contain raw RGB samples;http://www.fourcc.org/indexrgb.htm;;;;\n"
     "0x00000001;RLE;;Run length encoded 8bpp RGB image;http://www.fourcc.org/indexrgb.htm;;;;\n"
@@ -2159,7 +2162,7 @@ void MediaInfo_Config_CodecID_Video_Riff (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Audio_Matroska (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "A_MPEG/L1;MPEG Audio;MP1;;http://www.iis.fraunhofer.de/amm/index.html\n"
     "A_MPEG/L2;MPEG Audio;MP2;;http://www.iis.fraunhofer.de/amm/index.html\n"
@@ -2173,6 +2176,7 @@ void MediaInfo_Config_CodecID_Audio_Matroska (InfoMap &Info)
     "A_DTS;DTS;;\n"
     "A_EAC3;E-AC-3;;\n"
     "A_FLAC;Flac;;;http://flac.sourceforge.net\n"
+    "A_OPUS;Opus;;;http://opus-codec.org\n"
     "A_TTA1;TTA;;The True Audio Lossless Codec;http://true-audio.com\n"
     "A_VORBIS;Vorbis;;;http://www.vorbis.com\n"
     "A_WAVPACK4;WavPack;;;http://www.wavpack.com\n"
@@ -2195,6 +2199,7 @@ void MediaInfo_Config_CodecID_Audio_Matroska (InfoMap &Info)
     "A_AAC/MPEG4/LC/SBR/PS;AAC;;\n"
     "A_AAC/MPEG4/SSR;AAC\n"
     "A_AAC/MPEG4/LTP;AAC\n"
+    "A_ALAC;ALAC;;Apple Lossless Audio Codec;http://www.apple.com/quicktime/download/standalone.html\n"
     ));
     Info.Separator_Set(0, ZenLib::EOL);
 }
@@ -2202,12 +2207,12 @@ void MediaInfo_Config_CodecID_Audio_Matroska (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Audio_Mpeg4 (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     ".mp3;MPEG Audio;;;\n"
     "A104;AMR;;;http://www.apple.com/quicktime/download/standalone.html;Wide band\n"
     "ac-3;AC-3;;;\n"
-    "alac;ALAC;;Apple Lossless Format;http://www.apple.com/quicktime/download/standalone.html\n"
+    "alac;ALAC;;Apple Lossless Audio Codec;http://www.apple.com/quicktime/download/standalone.html\n"
     "alaw;ADPCM;;;http://www.apple.com/quicktime/download/standalone.html\n"
     "dtsc;DTS;;Digital Theater Systems;http://www.dts.com\n"
     "dtsh;DTS;HRA;Digital Theater Systems High Res;http://www.dts.com\n"
@@ -2248,7 +2253,7 @@ void MediaInfo_Config_CodecID_Audio_Mpeg4 (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Audio_Real (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "14.4;VSELP;;Real Player 1;http://www.real.com\n"
     "14_4;VSELP;;Real Player 1;http://www.real.com\n"
@@ -2273,7 +2278,7 @@ void MediaInfo_Config_CodecID_Audio_Real (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Audio_Riff (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "0;;;;\n"
     "1;PCM;;;http://www.microsoft.com/windows/\n"
@@ -2523,7 +2528,7 @@ void MediaInfo_Config_CodecID_Audio_Riff (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Text_Matroska (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "S_ASS;ASS;;Advanced Sub Station Alpha\n"
     "S_IMAGE/BMP;Bitmap;;Basic image based subtitle format\n"
@@ -2543,7 +2548,7 @@ void MediaInfo_Config_CodecID_Text_Matroska (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Text_Mpeg4 (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "c608;EIA-608\n"
     "c708;EIA-708\n"
@@ -2559,7 +2564,7 @@ void MediaInfo_Config_CodecID_Text_Mpeg4 (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_CodecID_Text_Riff (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "DXSB;DivX Subtitle;;Subtitle in AVI from DivX networks;http://www.divx.com\n"
     ));
@@ -2569,7 +2574,7 @@ void MediaInfo_Config_CodecID_Text_Riff (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Codec (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     " BIT;RGB;4CC;V;RGB;;Uncompressed\n"
     " JPG;JPEG;4CC;V;JPEG;;\n"
@@ -2714,7 +2719,7 @@ void MediaInfo_Config_Codec (InfoMap &Info)
     "DUCK;TrueMotion S;4CC;V;;;Duck Corporation True Motion S\n"
     "DV10;BlueFish;4CC;V;;;BlueFish444 (lossless RGBA, YUV 10-bit)\n"
     "DV25;DVCPro;4CC;V;DV;;Matrox DVCPRO\n"
-    "DV50;DVCPro5;4CC;V;DV;;Matrox \n"
+    "DV50;DVCPro5;4CC;V;DV;;Matrox\n"
     "DVAN;Pinnacle DV300;4CC;V;DV;;Pinnacle miroVideo DV300 SW only\n"
     "DVC ;Apple DV NTSC;4CC;V;DV;;Apple QuickTime DV (DVCPRO NTSC);http://www.apple.com/quicktime/download/standalone.html\n"
     "dvc ;Apple DV NTSC;4CC;V;DV;;Apple QuickTime DV (DVCPRO NTSC);http://www.apple.com/quicktime/download/standalone.html\n"
@@ -3144,10 +3149,10 @@ void MediaInfo_Config_Codec (InfoMap &Info)
     "U263;UB H.263;4CC;V;;;UB Video H.263/H.263+/H.263++ Decoder;http://eMajix.com\n"
     "UCOD;ClearVideo;4CC;V;;;ClearVideo (fractal compression-based)\n"
     "ULRA;RGBA;Ut Video;Ut Video Lossless Codec;http://umezawa.dyndns.info/archive/utvideo;;;RGBA;4:4:4:4\n"
-    "ULRG;RGB;Ut Video;Ut Video Lossless Codec;http://umezawa.dyndns.info/archive/utvideo;;;RGB;4:4:4 \n"
+    "ULRG;RGB;Ut Video;Ut Video Lossless Codec;http://umezawa.dyndns.info/archive/utvideo;;;RGB;4:4:4\n"
     "ULTI;Ultimotion;4CC;V;;;IBM Ultimotion\n"
     "ULY0;YUV;Ut Video;Ut Video Lossless Codec;http://umezawa.dyndns.info/archive/utvideo;;;YUV;4:2:2\n"
-    "ULY2;YUV;Ut Video;Ut Video Lossless Codec;http://umezawa.dyndns.info/archive/utvideo;;;YUV;4:2:0 \n"
+    "ULY2;YUV;Ut Video;Ut Video Lossless Codec;http://umezawa.dyndns.info/archive/utvideo;;;YUV;4:2:0\n"
     "UMP4;UB MPEG-4;4CC;V;MPEG-4V;;UB Video MPEG 4;http://www.fourcc.org/indexyuv.htm\n"
     "UYNV;YUV;4CC;V;YUV;;Nvidia 16bpp. A direct copy of UYVY registered by Nvidia to work around problems in some olds which did not like hardware which offered more than 2 UYVY surfaces.;http://www.fourcc.org/indexyuv.htm\n"
     "UYVP;YUV;4CC;V;YUV;;Evans & Sutherland 24bpp. YCbCr 4:2:2 extended precision 10-bits per component in U0Y0V0Y1 order\n"
@@ -3313,6 +3318,7 @@ void MediaInfo_Config_Codec (InfoMap &Info)
     "A_DTS;DTS;Mk;A;DTS;;\n"
     "A_EAC3;EAC3;Mk;A;EAC3;;Dolby Enhanced AC3\n"
     "A_FLAC;Flac;Mk;A;Flac;;;http://flac.sourceforge.net\n"
+    "A_OPUS;Opus;;;http://opus-codec.org\n"
     "A_TTA1;TTA;Mk;A;TTA;;The True Audio Lossless Codec;http://true-audio.com\n"
     "A_VORBIS;Vorbis;Mk;A;Vorbis;VBR;;http://www.vorbis.com\n"
     "A_WAVPACK4;WavPack;Mk;A;Real;VBR;;http://www.wavpack.com\n"
@@ -3351,6 +3357,7 @@ void MediaInfo_Config_Codec (InfoMap &Info)
     "atrc;Atrac;Real;A;;;Real & Sony Atrac3;http://www.real.com\n"
     "raac;AAC-LC;Real;A;AAC;;Real Audio 10 AAC LC;http://www.real.com\n"
     "racp;AAC-HE;Real;A;AAC;;Real Audio 10 AAC-HE;http://www.real.com\n"
+    "OPUS;Opus;Ogg;A;OPUS;;;http://opus-codec.org\n"
     "Vorbis;Vorbis;Ogg;A;Vorbis;;;http://www.vorbis.com\n"
     "Theora;Theora;Ogg;V;Theora;;;http://www.theora.com\n"
     "mp4a;AAC;4CC;A;AAC;;AAC (3GPP);http://www.apple.com/quicktime/download/standalone.html\n"
@@ -3655,7 +3662,7 @@ void MediaInfo_Config_Codec (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Generic (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Format\n"
     "Format/Info\n"
@@ -3775,7 +3782,7 @@ void MediaInfo_Config_Generic (ZtringListList &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_General (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Count;;;N NI;;;Number of objects available in this stream\n"
     "Status;;;N NI;;;bit field (0=IsAccepted, 1=IsFilled, 2=IsUpdated, 3=IsFinished)\n"
@@ -4063,7 +4070,7 @@ void MediaInfo_Config_General (ZtringListList &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Video (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Count;;;N NI;;;Number of objects available in this stream\n"
     "Status;;;N NI;;;bit field (0=IsAccepted, 1=IsFilled, 2=IsUpdated, 3=IsFinished)\n"
@@ -4087,7 +4094,7 @@ void MediaInfo_Config_Video (ZtringListList &Info)
     "Format_Commercial_IfAny;;;Y NT;;;Commercial name used by vendor for theses setings if there is one\n"
     "Format_Version;;;Y NT;;;Version of this format\n"
     "Format_Profile;;;Y NT;;;Profile of the Format\n"
-    "Format_Compression;;;Y NT;;;Compression method used;\n"
+    "Format_Compression;;;N YT;;;Compression mode of the Format\n"
     "MultiView_BaseProfile;;;Y NT;;;Multiview, profile of the base stream\n"
     "MultiView_Count;;;Y NT;;;Multiview, count of views\n"
     "MultiView_Layout;;;Y NT;;;Multiview, how views are muxed in the container in case of it is not muxing in the stream\n"
@@ -4226,7 +4233,7 @@ void MediaInfo_Config_Video (ZtringListList &Info)
     "Colorimetry;;;N NT;;;Deprecated, do not use in new projects\n"
     "ColorSpace;;;Y YT;;\n"
     "ChromaSubsampling;;;Y YT;;\n"
-    "BitDepth;; bit;N YI;;;16/24/32 \n"
+    "BitDepth;; bit;N YI;;;16/24/32\n"
     "BitDepth/String;;;Y NT;;;16/24/32 bits\n"
     "ScanType;;;N YT;;\n"
     "ScanType/String;;;Y NT;;\n"
@@ -4320,7 +4327,7 @@ void MediaInfo_Config_Video (ZtringListList &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Audio (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Count;;;N NI;;;Number of objects available in this stream;\n"
     "Status;;;N NI;;;bit field (0=IsAccepted, 1=IsFilled, 2=IsUpdated, 3=IsFinished)\n"
@@ -4546,7 +4553,7 @@ void MediaInfo_Config_Audio (ZtringListList &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Text (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Count;;;N NI;;;Count of objects available in this stream\n"
     "Status;;;N NI;;;bit field (0=IsAccepted, 1=IsFilled, 2=IsUpdated, 3=IsFinished)\n"
@@ -4747,7 +4754,7 @@ void MediaInfo_Config_Text (ZtringListList &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Chapters (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Count;;;N NI;;;Count of objects available in this stream\n"
     "StreamCount;;;N NI;;;Count of streams of that kind available\n"
@@ -4788,7 +4795,7 @@ void MediaInfo_Config_Chapters (ZtringListList &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Image (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Count;;;N YI;;;Count of objects available in this stream\n"
     "Status;;;N NI;;;bit field (0=IsAccepted, 1=IsFilled, 2=IsUpdated, 3=IsFinished)\n"
@@ -4813,7 +4820,7 @@ void MediaInfo_Config_Image (ZtringListList &Info)
     "Format_Commercial_IfAny;;;Y NT;;;Commercial name used by vendor for theses setings if there is one\n"
     "Format_Version;;;Y NT;;;Version of this format\n"
     "Format_Profile;;;Y NT;;;Profile of the Format\n"
-    "Format_Compression;;;Y NT;;;Compression method used;\n"
+    "Format_Compression;;;N YT;;;Compression mode of the Format\n"
     "Format_Settings;;;Y NT;;;Settings needed for decoder used\n"
     "Format_Settings_Wrapping;;;Y YT;;;Wrapping mode (Frame wrapped or Clip wrapped)\n"
     "InternetMediaType;;;N YT;;;Internet Media Type (aka MIME Type, Content-Type)\n"
@@ -4893,7 +4900,7 @@ void MediaInfo_Config_Image (ZtringListList &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Menu (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Count;;;N NI;;;Count of objects available in this stream\n"
     "Status;;;N NI;;;bit field (0=IsAccepted, 1=IsFilled, 2=IsUpdated, 3=IsFinished)\n"
@@ -4975,7 +4982,7 @@ void MediaInfo_Config_Menu (ZtringListList &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Iso639_1 (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "aar;aa\n"
     "abk;ab\n"
@@ -5193,7 +5200,7 @@ void MediaInfo_Config_Iso639_1 (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Iso639_2 (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "aa;aar\n"
     "ab;abk\n"
@@ -5411,7 +5418,7 @@ void MediaInfo_Config_Iso639_2 (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Library_DivX (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Main source;http://xmm.sourceforge.net/DivX5-6_Xvid_Bitstream_version.php\n"
     "413;5.0.0;UTC 2002-03-04\n"
@@ -5486,7 +5493,7 @@ void MediaInfo_Config_Library_DivX (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Library_XviD (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Main source;http://xmm.sourceforge.net/DivX5-6_Xvid_Bitstream_version.php\n"
     "1;0.0.01;UTC 2002-10-17\n"
@@ -5547,7 +5554,7 @@ void MediaInfo_Config_Library_XviD (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Library_MainConcept_Avc (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "2.0.1889;2.0.1889;UTC 2006-01-11\n"
     ));
@@ -5557,7 +5564,7 @@ void MediaInfo_Config_Library_MainConcept_Avc (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Library_VorbisCom (InfoMap &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "Main source;http://wiki.hydrogenaudio.org/index.php?title=Recommended_Ogg_Vorbis\n"
     "Xiphophorus libVorbis I 20000508;1.0 Beta 1/2;UTC 2000-05-08\n"
@@ -5596,7 +5603,7 @@ void MediaInfo_Config_Library_VorbisCom (InfoMap &Info)
 //---------------------------------------------------------------------------
 void MediaInfo_Config_Summary (ZtringListList &Info)
 {
-    Info.Separator_Set(0, _T("\n"));
+    Info.Separator_Set(0, __T("\n"));
     Info.Write(Ztring().From_UTF8(
     "General;[%Format%][ (%Format_Profile%)][ (%Format_Commercial_IfAny%)]$if(%Format%,$: $)%FileSize/String%[, %Duration/String%]\n"
     "Video;[%Language/String%, ][%BitRate/String%$if(%BitRate_Nominal/String%, \\(%BitRate_Nominal/String%\\)), ][%Width%*][%Height%][ (%DisplayAspectRatio/String%), ][$at$ %FrameRate/String%, ][%Format%][ (%CodecID/Hint%)][ (%Standard%)]$if(%MuxingMode%, \\(%MuxingMode%\\))$if(%Format_Version%, \\(%Format_Version%\\))$if(%Format_Profile%, \\(%Format_Profile%\\))$if(%Format_Settings%, \\(%Format_Settings%\\))[ (%Format_Commercial_IfAny%)]\n"

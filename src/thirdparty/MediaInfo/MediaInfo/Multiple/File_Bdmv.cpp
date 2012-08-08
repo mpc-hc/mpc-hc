@@ -1,17 +1,17 @@
 // File_Mpls - Info for Blu-ray Movie files
-// Copyright (C) 2009-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -454,9 +454,9 @@ Ztring Bdmv_Decimal_Hexa(int64u Number)
 {
     Ztring Temp;
     Temp.From_Number(Number);
-    Temp+=_T(" (0x");
+    Temp+=__T(" (0x");
     Temp+=Ztring::ToZtring(Number, 16);
-    Temp+=_T(")");
+    Temp+=__T(")");
     return Temp;
 }
 
@@ -467,7 +467,7 @@ Ztring Bdmv_Decimal_Hexa(int64u Number)
 //---------------------------------------------------------------------------
 bool File_Bdmv::FileHeader_Begin()
 {
-    size_t BDMV_Pos=File_Name.find(Ztring(1, PathSeparator)+_T("BDMV"));
+    size_t BDMV_Pos=File_Name.find(Ztring(1, PathSeparator)+__T("BDMV"));
     if (BDMV_Pos!=string::npos && BDMV_Pos+5==File_Name.size()) //Blu-ray directory
         return true;
 
@@ -500,7 +500,7 @@ bool File_Bdmv::FileHeader_Begin()
 //---------------------------------------------------------------------------
 void File_Bdmv::Read_Buffer_Continue()
 {
-    size_t BDMV_Pos=File_Name.find(Ztring(1, PathSeparator)+_T("BDMV"));
+    size_t BDMV_Pos=File_Name.find(Ztring(1, PathSeparator)+__T("BDMV"));
     if (BDMV_Pos!=string::npos && BDMV_Pos+5==File_Name.size()) //Blu-ray directory
     {
         BDMV();
@@ -620,7 +620,7 @@ void File_Bdmv::BDMV()
     Accept("BDMV");
 
     //Searching the longest playlist
-    ZtringList List=Dir::GetAllFileNames(File_Name+PathSeparator+_T("PLAYLIST")+PathSeparator+_T("*.mpls"), Dir::Include_Files);
+    ZtringList List=Dir::GetAllFileNames(File_Name+PathSeparator+__T("PLAYLIST")+PathSeparator+__T("*.mpls"), Dir::Include_Files);
     std::vector<MediaInfo_Internal*> MIs;
     MIs.resize(List.size());
     size_t MaxDuration_Pos=(size_t)-1;
@@ -630,7 +630,7 @@ void File_Bdmv::BDMV()
         for (size_t Pos=0; Pos<MIs.size(); Pos++)
         {
             MIs[Pos]=new MediaInfo_Internal();
-            MIs[Pos]->Option(_T("File_Bdmv_ParseTargetedFile"), _T("0"));
+            MIs[Pos]->Option(__T("File_Bdmv_ParseTargetedFile"), __T("0"));
             MIs[Pos]->Open(List[Pos]);
             int64u Duration=Ztring(MIs[Pos]->Get(Stream_General, 0, General_Duration)).To_int64u();
             if (Duration>MaxDuration)
@@ -640,7 +640,7 @@ void File_Bdmv::BDMV()
             }
         }
     }
-    
+
     if (MaxDuration_Pos!=(size_t)-1)
     {
         //Merging
@@ -665,11 +665,11 @@ void File_Bdmv::BDMV()
     MIs.clear();
 
     //Detecting some directories
-    if (Dir::Exists(File_Name+PathSeparator+_T("BDSVM"))
-     || Dir::Exists(File_Name+PathSeparator+_T("SLYVM"))
-     || Dir::Exists(File_Name+PathSeparator+_T("ANYVM")))
+    if (Dir::Exists(File_Name+PathSeparator+__T("BDSVM"))
+     || Dir::Exists(File_Name+PathSeparator+__T("SLYVM"))
+     || Dir::Exists(File_Name+PathSeparator+__T("ANYVM")))
         Fill(Stream_General, 0, General_Format_Profile, "BD+");
-    if (Dir::Exists(File_Name+PathSeparator+_T("BDJO")) && !Dir::GetAllFileNames(File_Name+PathSeparator+_T("BDJO")).empty())
+    if (Dir::Exists(File_Name+PathSeparator+__T("BDJO")) && !Dir::GetAllFileNames(File_Name+PathSeparator+__T("BDJO")).empty())
         Fill(Stream_General, 0, General_Format_Profile, "BD-Java");
 
     //Filling
@@ -680,7 +680,7 @@ void File_Bdmv::BDMV()
     if (FileName::Extension_Get(File_Name).empty())
         Fill(Stream_General, 0, General_FileName, FileName::Name_Get(File_Name), true);
     else
-        Fill(Stream_General, 0, General_FileName, FileName::Name_Get(File_Name)+_T('.')+FileName::Extension_Get(File_Name), true);
+        Fill(Stream_General, 0, General_FileName, FileName::Name_Get(File_Name)+__T('.')+FileName::Extension_Get(File_Name), true);
     File_Name.clear();
 
     Finish("BDMV");
@@ -697,19 +697,19 @@ void File_Bdmv::Clpi_ProgramInfo()
         Ztring file=File_Name.substr(File_Name.size()-10, 5);
         Ztring M2TS_File=File_Name;
         M2TS_File.resize(M2TS_File.size()-(10+1+7));
-        M2TS_File+=_T("STREAM");
+        M2TS_File+=__T("STREAM");
         M2TS_File+=PathSeparator;
         M2TS_File+=file;
-        M2TS_File+=_T(".m2ts");
+        M2TS_File+=__T(".m2ts");
 
         MediaInfo_Internal MI;
-        MI.Option(_T("File_Bdmv_ParseTargetedFile"), _T("0"));
+        MI.Option(__T("File_Bdmv_ParseTargetedFile"), __T("0"));
         if (MI.Open(M2TS_File))
         {
             Merge(MI);
             for (size_t StreamKind=Stream_General+1; StreamKind<Stream_Max; StreamKind++)
                 for (size_t StreamPos=0; StreamPos<Count_Get((stream_t)StreamKind); StreamPos++)
-                    Fill((stream_t)StreamKind, StreamPos, "Source", file+_T(".m2ts"));
+                    Fill((stream_t)StreamKind, StreamPos, "Source", file+__T(".m2ts"));
         }
 
         //Retrieving PID mapping
@@ -1136,14 +1136,15 @@ void File_Bdmv::Mpls_PlayList()
         Element_Begin1("SubPath");
         int32u SubPath_length;
         int16u number_of_SubPlayItems;
+        int8u  SubPath_type;
         Get_B4 (SubPath_length,                                 "length");
         int64u SubPath_End=Element_Offset+SubPath_length;
         Skip_B1(                                                "Unknown");
-        Skip_B1(                                                "SubPath_type");
+        Get_B1 (SubPath_type,                                   "SubPath_type");
         Skip_B2(                                                "repeat");
         Get_B2 (number_of_SubPlayItems,                         "number_of_SubPlayItems");
-        for (int16u SubPlayItem=0; SubPlayItem<number_of_SubPlayItems; SubPlayItem++)
-            Mpls_PlayList_SubPlayItem();
+        for (int16u Pos=0; Pos<number_of_SubPlayItems; Pos++)
+            Mpls_PlayList_SubPlayItem(SubPath_type, Pos);
 
         if (SubPath_End>Element_Offset)
             Skip_XX(SubPath_End-Element_Offset,                 "unknown");
@@ -1178,8 +1179,13 @@ void File_Bdmv::Mpls_PlayList_PlayItem()
     Skip_B4(                                                "UO2");
     Skip_B4(                                                "An?");
 
+    Mpls_PlayList_PlayItem_Duration=Time_Out-Time_In;
     if (Time_Out>Time_In)
-        Mpls_PlayList_Duration+=Time_Out-Time_In;
+        Mpls_PlayList_Duration+=Mpls_PlayList_PlayItem_Duration;
+
+    std::vector<size_t> StreamCount_Before;
+    for (size_t StreamKind=Stream_General; StreamKind<Stream_Max; StreamKind++)
+        StreamCount_Before.push_back(Count_Get((stream_t)StreamKind));
 
     Mpls_PlayList_PlayItem_STN_table();
 
@@ -1187,15 +1193,23 @@ void File_Bdmv::Mpls_PlayList_PlayItem()
     {
         Ztring CLPI_File=File_Name;
         CLPI_File.resize(CLPI_File.size()-(10+1+8));
-        CLPI_File+=_T("CLIPINF");
+        CLPI_File+=__T("CLIPINF");
         CLPI_File+=PathSeparator;
         CLPI_File+=Clip_Information_file_name;
-        CLPI_File+=_T(".clpi");
+        CLPI_File+=__T(".clpi");
 
         MediaInfo_Internal MI;
-        MI.Option(_T("File_Bdmv_ParseTargetedFile"), Config->File_Bdmv_ParseTargetedFile_Get()?_T("1"):_T("0"));
+        MI.Option(__T("File_Bdmv_ParseTargetedFile"), Config->File_Bdmv_ParseTargetedFile_Get()?__T("1"):__T("0"));
         if (MI.Open(CLPI_File))
-            Merge(MI, Stream_Video, 0, 0);
+        {
+            for (size_t StreamKind=Stream_General+1; StreamKind<Stream_Max; StreamKind++)
+                for (size_t StreamPos=0; StreamPos<MI.Count_Get((stream_t)StreamKind); StreamPos++)
+                {
+                    while (StreamCount_Before[StreamKind]+StreamPos>=Count_Get((stream_t)StreamKind))
+                        Stream_Prepare((stream_t)StreamKind);
+                    Merge(MI, (stream_t)StreamKind, StreamPos, StreamCount_Before[StreamKind]+StreamPos);
+                }
+        }
 
         Clip_Information_file_names.insert(Clip_Information_file_name);
     }
@@ -1269,6 +1283,7 @@ void File_Bdmv::Mpls_PlayList_PlayItem_STN_table()
                     Fill(StreamKind_Last, StreamPos_Last, General_ID_String, Bdmv_Decimal_Hexa(mPID), true);
                 }
                 Fill(StreamKind_Last, StreamPos_Last, "Language", language);
+                Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Duration), Mpls_PlayList_PlayItem_Duration/45);
             }
         FILLING_END();
     }
@@ -1337,7 +1352,7 @@ void File_Bdmv::Mpls_PlayList_PlayItem_STN_table_Text()
 }
 
 //---------------------------------------------------------------------------
-void File_Bdmv::Mpls_PlayList_SubPlayItem()
+void File_Bdmv::Mpls_PlayList_SubPlayItem(int8u SubPath_type, int16u Pos)
 {
     Element_Begin1("SubPlayItem");
     Ztring Clip_Information_file_name;
@@ -1358,34 +1373,37 @@ void File_Bdmv::Mpls_PlayList_SubPlayItem()
     Element_End0();
 
     FILLING_BEGIN();
-        if (Mpls_PlayList_IsParsed)
+        if (SubPath_type==8 && Pos!=(int16u)-1) //MVC
         {
-            if (!File_Name.empty())
+            if (File_Name.size()>=10+1+8)
             {
                 Ztring CLPI_File=File_Name;
-                CLPI_File.resize(CLPI_File.size()-10-1-8);
-                CLPI_File+=_T("CLIPINF");
+                CLPI_File.resize(CLPI_File.size()-(10+1+8));
+                CLPI_File+=__T("CLIPINF");
                 CLPI_File+=PathSeparator;
                 CLPI_File+=Clip_Information_file_name;
-                CLPI_File+=_T(".clpi");
+                CLPI_File+=__T(".clpi");
 
                 MediaInfo_Internal MI;
-                MI.Option(_T("File_Bdmv_ParseTargetedFile"), Config->File_Bdmv_ParseTargetedFile_Get()?_T("1"):_T("0"));
+                MI.Option(__T("File_Bdmv_ParseTargetedFile"), Config->File_Bdmv_ParseTargetedFile_Get()?__T("1"):__T("0"));
                 if (MI.Open(CLPI_File))
                 {
-                    Ztring ID=Retrieve(Stream_Video, 0, Video_ID);
-                    Ztring ID_String=Retrieve(Stream_Video, 0, Video_ID_String);
-                    Ztring Format_Profile=Retrieve(Stream_Video, 0, Video_Format_Profile);
-                    Ztring BitRate=Retrieve(Stream_Video, 0, Video_BitRate);
-                    Ztring Source=Retrieve(Stream_Video, 0, "Source");
-                    Fill(Stream_Video, 0, Video_ID, MI.Get(Stream_Video, 0, Video_ID)+_T(" / ")+ID, true);
-                    Fill(Stream_Video, 0, Video_ID_String, MI.Get(Stream_Video, 0, Video_ID_String)+_T(" / ")+ID_String, true);
-                    if (!Format_Profile.empty())
-                        Fill(Stream_Video, 0, Video_Format_Profile, MI.Get(Stream_Video, 0, Video_Format_Profile)+_T(" / ")+Format_Profile, true);
-                    if (!BitRate.empty())
-                        Fill(Stream_Video, 0, Video_BitRate, Ztring::ToZtring(BitRate.To_int32u()+MI.Get(Stream_Video, 0, Video_BitRate).To_int32u())+_T(" / ")+BitRate, true);
-                    if (!Source.empty())
-                        Fill(Stream_Video, 0, "Source", Clip_Information_file_name +_T(".m2ts / ")+Source, true);
+                    if (MI.Count_Get(Stream_Video))
+                    {
+                        Ztring ID=Retrieve(Stream_Video, Pos, Video_ID);
+                        Ztring ID_String=Retrieve(Stream_Video, Pos, Video_ID_String);
+                        Ztring Format_Profile=Retrieve(Stream_Video, Pos, Video_Format_Profile);
+                        Ztring BitRate=Retrieve(Stream_Video, Pos, Video_BitRate);
+                        Ztring Source=Retrieve(Stream_Video, Pos, "Source");
+                        Fill(Stream_Video, Pos, Video_ID, MI.Get(Stream_Video, 0, Video_ID)+__T(" / ")+ID, true);
+                        Fill(Stream_Video, Pos, Video_ID_String, MI.Get(Stream_Video, 0, Video_ID_String)+__T(" / ")+ID_String, true);
+                        if (!Format_Profile.empty())
+                            Fill(Stream_Video, Pos, Video_Format_Profile, MI.Get(Stream_Video, 0, Video_Format_Profile)+__T(" / ")+Format_Profile, true);
+                        if (!BitRate.empty())
+                            Fill(Stream_Video, Pos, Video_BitRate, Ztring::ToZtring(BitRate.To_int32u()+MI.Get(Stream_Video, 0, Video_BitRate).To_int32u())+__T(" / ")+BitRate, true);
+                        if (!Source.empty())
+                            Fill(Stream_Video, Pos, "Source", Clip_Information_file_name +__T(".m2ts / ")+Source, true);
+                    }
                 }
             }
         }
@@ -1425,7 +1443,7 @@ void File_Bdmv::Mpls_PlayListMarks()
                             time_Pos0=time;
                         if (stream_file_index==0 && type==1) //We currently handle only the first file
                         {
-                            Fill(Stream_Menu, 0, Ztring().Duration_From_Milliseconds((int64u)((time-time_Pos0)/45)).To_UTF8().c_str(), _T("Chapter ")+Ztring::ToZtring(time_Pos));
+                            Fill(Stream_Menu, 0, Ztring().Duration_From_Milliseconds((int64u)((time-time_Pos0)/45)).To_UTF8().c_str(), __T("Chapter ")+Ztring::ToZtring(time_Pos));
                             time_Pos++;
                         }
                     FILLING_END();
@@ -1515,7 +1533,7 @@ void File_Bdmv::Mpls_ExtensionData_SubPath_entries()
     Get_B4 (length,                                             "length");
     int64u End=Element_Offset+length;
     Get_B2 (number_of_SubPath_extensions,                       "number_of_SubPath_extensions");
-    for (int8u SubPath_extension=0; SubPath_extension<number_of_SubPath_extensions+Mpls_PlayList_number_of_SubPaths; SubPath_extension++)
+    for (int8u SubPath_extension=0; SubPath_extension<number_of_SubPath_extensions; SubPath_extension++)
     {
         Element_Begin1("SubPath_extension");
         int32u SubPath_extension_length;
@@ -1531,7 +1549,7 @@ void File_Bdmv::Mpls_ExtensionData_SubPath_entries()
                         Skip_B3(                                "Unknown");
                         Get_B1 (number_of_SubPlayItems,         "number_of_SubPlayItems");
                         for (int8u Pos=0; Pos<number_of_SubPlayItems; Pos++)
-                            Mpls_PlayList_SubPlayItem();
+                            Mpls_PlayList_SubPlayItem(SubPath_type, Pos);
                         }
             default   : ;
         }

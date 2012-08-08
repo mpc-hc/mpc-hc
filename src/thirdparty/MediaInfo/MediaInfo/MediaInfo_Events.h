@@ -1,17 +1,17 @@
 // MediaInfo_Events -
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -405,10 +405,10 @@ struct MediaInfo_Event_General_SubFile_Start_0
     MediaInfo_int64u*       StreamIDs;
     MediaInfo_int8u*        StreamIDs_Width;
     MediaInfo_int8u*        ParserIDs;
-    char*                   FileName_Relative;
-    wchar_t*                FileName_Relative_Unicode;
-    char*                   FileName_Absolute;
-    wchar_t*                FileName_Absolute_Unicode;
+    const char*             FileName_Relative;
+    const wchar_t*          FileName_Relative_Unicode;
+    const char*             FileName_Absolute;
+    const wchar_t*          FileName_Absolute_Unicode;
 };
 
 /*-------------------------------------------------------------------------*/

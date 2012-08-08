@@ -1,5 +1,5 @@
 // ZenLib::ZtringListList - More methods for std::vector<std::vector<std::(w)string>>
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -57,8 +57,8 @@ ZtringListList::ZtringListList()
 : std::vector<ZenLib::ZtringList, std::allocator<ZenLib::ZtringList> > ()
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
-    Quote=_T("\"");
+    Separator[1]=__T(";");
+    Quote=__T("\"");
     Max[0]=Error;
     Max[1]=Error;
 }
@@ -79,8 +79,8 @@ ZtringListList::ZtringListList(const ZtringListList &Source)
 ZtringListList::ZtringListList(const Ztring &Source)
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
-    Quote=_T("\"");
+    Separator[1]=__T(";");
+    Quote=__T("\"");
     Max[0]=Error;
     Max[1]=Error;
     Write(Source.c_str());
@@ -89,8 +89,8 @@ ZtringListList::ZtringListList(const Ztring &Source)
 ZtringListList::ZtringListList(const Char *Source)
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
-    Quote=_T("\"");
+    Separator[1]=__T(";");
+    Quote=__T("\"");
     Max[0]=Error;
     Max[1]=Error;
     Write(Source);
@@ -100,8 +100,8 @@ ZtringListList::ZtringListList(const Char *Source)
 ZtringListList::ZtringListList (const char* S)
 {
     Separator[0]=EOL;
-    Separator[1]=_T(";");
-    Quote=_T("\"");
+    Separator[1]=__T(";");
+    Quote=__T("\"");
     Max[0]=Error;
     Max[1]=Error;
     Write(Ztring(S));
@@ -315,18 +315,18 @@ void ZtringListList::Write(const Ztring &ToWrite)
     Ztring WriteSeparator;
     if (Separator[0]==EOL)
     {
-        size_t CarriageReturn_Pos=ToWrite.find_first_of(_T("\r\n"));
+        size_t CarriageReturn_Pos=ToWrite.find_first_of(__T("\r\n"));
         if (CarriageReturn_Pos!=string::npos)
         {
-            if (ToWrite[CarriageReturn_Pos]==_T('\r'))
+            if (ToWrite[CarriageReturn_Pos]==__T('\r'))
             {
-                if (CarriageReturn_Pos+1<ToWrite.size() && ToWrite[CarriageReturn_Pos+1]==_T('\n'))
-                    WriteSeparator=_T("\r\n");
+                if (CarriageReturn_Pos+1<ToWrite.size() && ToWrite[CarriageReturn_Pos+1]==__T('\n'))
+                    WriteSeparator=__T("\r\n");
                 else
-                    WriteSeparator=_T("\r");
+                    WriteSeparator=__T("\r");
             }
             else
-                WriteSeparator=_T("\n");
+                WriteSeparator=__T("\n");
         }
         else
             WriteSeparator=Separator[0];
@@ -350,17 +350,17 @@ void ZtringListList::Write(const Ztring &ToWrite)
                     InQuotes=!InQuotes; //This is not double quotes, so this is a normal quote
                     /*if (!InQuotes)
                     {
-                        C1=ToWrite.substr(PosC, Pos_End-PosC); 
+                        C1=ToWrite.substr(PosC, Pos_End-PosC);
                         break;
                     }*/
                 }
 
                 if (!InQuotes && Pos_End+WriteSeparator.size()<=ToWrite.size() && ToWrite[Pos_End]==WriteSeparator[0])
                 {
-                    C1=ToWrite.substr(PosC, Pos_End-PosC); 
+                    C1=ToWrite.substr(PosC, Pos_End-PosC);
                     break;
                 }
-                
+
                 if (InQuotes && Pos_End+Quote.size()*2<ToWrite.size() && ToWrite[Pos_End]==Quote[0] && ToWrite[Pos_End+1]==Quote[0])
                     Pos_End+=2;
                 else

@@ -1,12 +1,12 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Module Name:                                                                
-//   HTTPClientString.c                                                        
-//                                                                             
-// Abstract: Helper function (string parsing related) for HTTPClient.c module  
-//                                                                             
-// Platform: Any that supports standard C calls                                
+// Module Name:
+//   HTTPClientString.c
+//
+// Abstract: Helper function (string parsing related) for HTTPClient.c module
+//
+// Platform: Any that supports standard C calls
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -88,9 +88,9 @@ BOOL HTTPStrInsensitiveCompare(CHAR *pSrc,      // [IN] a pointer to the source 
 //
 // Function     : HTTPStrExtract
 // Purpose      : Extract a string by placing null in the offset parameter
-// Returns      : a pointer to the new string 
+// Returns      : a pointer to the new string
 // Last updated : 01/09/2005
-//  
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 CHAR HTTPStrExtract(CHAR *pParam,       // [IN] a pointer to the input parameter
@@ -123,17 +123,17 @@ CHAR HTTPStrExtract(CHAR *pParam,       // [IN] a pointer to the input parameter
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Function     : HTTPStrSearch
-// Purpose      : Search a string within another and return its pointer and a length 
+// Purpose      : Search a string within another and return its pointer and a length
 // Returns      : BOOL - TRUE on success
 // Last updated : 01/09/2005
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-BOOL HTTPStrSearch(CHAR *pSrc,              // [IN] The source string 
+BOOL HTTPStrSearch(CHAR *pSrc,              // [IN] The source string
                    CHAR *pSearched,         // [IN] Parameter to search for
                    UINT32 nOffset,          // [IN] Offset from the source string start position
                    UINT32 nScope,           // [IN] Length in bytes we should search in
-                   HTTP_PARAM *HttpParam)   // [IN OUT] The Pointer\Length value that will be returned on success 
+                   HTTP_PARAM *HttpParam)   // [IN OUT] The Pointer\Length value that will be returned on success
 {
 
     CHAR    *pSrcStart;
@@ -193,7 +193,7 @@ CHAR *HTTPStrCaseStr(const char *pSrc,UINT32 nSrcLength,const char *pFind)
     const char *ptr2;
     UINT32 iLength = 0;
 
-    while(1) 
+    while(1)
     {
         if(iLength >= nSrcLength)
         {
@@ -201,18 +201,18 @@ CHAR *HTTPStrCaseStr(const char *pSrc,UINT32 nSrcLength,const char *pFind)
         }
         ptr = strchr(pSrc,toupper(*pFind));
         ptr2 = strchr(pSrc,tolower(*pFind));
-        if (!ptr) 
+        if (!ptr)
         {
-            ptr = ptr2; 
+            ptr = ptr2;
         }
-        if (!ptr) 
+        if (!ptr)
         {
             break;
         }
         if (ptr2 && (ptr2 < ptr)) {
             ptr = ptr2;
         }
-        if (!strnicmp(ptr,pFind,strlen(pFind))) 
+        if (!strnicmp(ptr,pFind,strlen(pFind)))
         {
             return (char *) ptr;
         }
@@ -220,14 +220,14 @@ CHAR *HTTPStrCaseStr(const char *pSrc,UINT32 nSrcLength,const char *pFind)
         iLength++;
     }
     return 0;
-} 
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Function     : HTTPStrCaseStr
-// Purpose      : 
-// Gets         : 
-// Returns      : 
+// Purpose      :
+// Gets         :
+// Returns      :
 // Last updated : 01/09/2005
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -295,9 +295,9 @@ CHAR* HTTPStrGetToken (CHAR *pSrc, UINT32 nSrcLength, CHAR *pDest, UINT32 *nDest
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Function     : HTTPStrGetDigestToken
-// Purpose      : 
-// Gets         : 
-// Returns      : 
+// Purpose      :
+// Gets         :
+// Returns      :
 // Last updated : 01/09/2005
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -368,16 +368,16 @@ UINT32 HTTPStrGetDigestToken (HTTP_PARAM pParamSrc, CHAR *pSearched, HTTP_PARAM 
 ///////////////////////////////////////////////////////////////////////////////
 
 
-UINT32 HTTPStrHToL (CHAR * s) 
+UINT32 HTTPStrHToL (CHAR * s)
 {
     UINT32 i , nn, digit;
     UINT32 n ;
 
     n = i = nn = 0;
-    do 
+    do
     {
         if ( isalnum(s[i]) ) {
-            s[i] = toupper(s[i]) ;  
+            s[i] = toupper(s[i]) ;
             if (s[i] == 'X') nn=n=0; else {
                 digit = (isalpha(s[i]) ? (s[i] - 'A' + 10) : s[i] - '0') ;
                 if ( digit > 15 ) digit = 15;
@@ -393,8 +393,8 @@ UINT32 HTTPStrHToL (CHAR * s)
 
 /////////////////////////////////////////////////////////////////////////////////
 // Function     : HTTPStrLToH
-// Purpose      : Convert a long to hex string 0 to "00" 
-// Gets         : 
+// Purpose      : Convert a long to hex string 0 to "00"
+// Gets         :
 // Last updated : 15/05/2005
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -409,7 +409,7 @@ CHAR* HTTPStrLToH (CHAR * dest,UINT32 nSrc)
         dest[0] = '0';
         dest[1] = 0;
     }
-    else 
+    else
     {
         for(i = 28; ((nSrc >> i) && 0xf) == 0; i -= 4);
         for(; i >= 0; i -= 4) {

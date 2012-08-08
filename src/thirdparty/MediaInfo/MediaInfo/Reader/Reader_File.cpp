@@ -1,17 +1,17 @@
 // MediaInfo_Internal - All info about media files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -100,8 +100,8 @@ size_t Reader_File::Format_Test(MediaInfo_Internal* MI, const String &File_Name)
             {
                 if(Extension.size()==Extensions.size())
                     break; //Only one extenion in the list
-                if(Extensions.find(Extension+_T(" "))!=Error
-                || Extensions.find(_T(" ")+Extension)!=Error)
+                if(Extensions.find(Extension+__T(" "))!=Error
+                || Extensions.find(__T(" ")+Extension)!=Error)
                     break;
             }
             Format++;
@@ -149,9 +149,9 @@ size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &
 
     //Partial file handling
     Ztring Config_Partial_Begin=MI->Config.File_Partial_Begin_Get();
-    if (!Config_Partial_Begin.empty() && Config_Partial_Begin[0]>=_T('0') && Config_Partial_Begin[0]<=_T('9'))
+    if (!Config_Partial_Begin.empty() && Config_Partial_Begin[0]>=__T('0') && Config_Partial_Begin[0]<=__T('9'))
     {
-        if (Config_Partial_Begin.find(_T('%'))==Config_Partial_Begin.size()-1)
+        if (Config_Partial_Begin.find(__T('%'))==Config_Partial_Begin.size()-1)
             Partial_Begin=float64_int64s(MI->Config.File_Size*Config_Partial_Begin.To_float64()/100);
         else
             Partial_Begin=Config_Partial_Begin.To_int64u();
@@ -161,9 +161,9 @@ size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &
     else
         Partial_Begin=0;
     Ztring Config_Partial_End=MI->Config.File_Partial_End_Get();
-    if (!Config_Partial_End.empty() && Config_Partial_End[0]>=_T('0') && Config_Partial_End[0]<=_T('9'))
+    if (!Config_Partial_End.empty() && Config_Partial_End[0]>=__T('0') && Config_Partial_End[0]<=__T('9'))
     {
-        if (Config_Partial_End.find(_T('%'))==Config_Partial_End.size()-1)
+        if (Config_Partial_End.find(__T('%'))==Config_Partial_End.size()-1)
             Partial_End=float64_int64s(MI->Config.File_Size*Config_Partial_End.To_float64()/100);
         else
             Partial_End=Config_Partial_End.To_int64u();
@@ -179,7 +179,7 @@ size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &
     MI->Open_Buffer_Init((Partial_End<=MI->Config.File_Size?Partial_End:MI->Config.File_Size)-Partial_Begin, File_Name);
 
     //Buffer
-    MI->Option(_T("File_Buffer_Size_Hint_Pointer"), Ztring::ToZtring((size_t)(&MI->Config.File_Buffer_Size_ToRead)));
+    MI->Option(__T("File_Buffer_Size_Hint_Pointer"), Ztring::ToZtring((size_t)(&MI->Config.File_Buffer_Size_ToRead)));
     MI->Config.File_Buffer_Repeat_IsSupported=true;
 
     //Test the format with buffer
@@ -279,7 +279,7 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                         Buffer_NoJump_Temp=0;
                     }
                 }
-                    
+
                 if (GoTo>=F.Size_Get())
                     break; //Seek requested, but on a file bigger in theory than what is in the real file, we can't do this
                 if (!(GoTo>F.Position_Get() && GoTo<F.Position_Get()+Buffer_NoJump_Temp)) //No smal jumps
@@ -298,7 +298,7 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
             {
                 delete[] MI->Config.File_Buffer;
                 if (MI->Config.File_Buffer_Size_Max==0)
-                    MI->Config.File_Buffer_Size_Max=1;    
+                    MI->Config.File_Buffer_Size_Max=1;
                 while (MI->Config.File_Buffer_Size_ToRead>MI->Config.File_Buffer_Size_Max)
                     MI->Config.File_Buffer_Size_Max*=2;
                 MI->Config.File_Buffer=new int8u[MI->Config.File_Buffer_Size_Max];
@@ -362,7 +362,12 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
             }
 
             if (MI->Config.File_Buffer_Size==0)
+            {
+                #if MEDIAINFO_EVENTS
+                    MediaInfoLib::Config.Log_Send(0xC0, 0xFF, 0xF0F00101, "File read error");
+                #endif //MEDIAINFO_EVENTS
                 break;
+            }
 
             #if MEDIAINFO_DEMUX
                 if (MI->Config.Demux_EventWasSent)

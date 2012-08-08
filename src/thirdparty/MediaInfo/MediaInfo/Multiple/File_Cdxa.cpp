@@ -1,17 +1,17 @@
 // File_Cdxa - Info for CDXA files
-// Copyright (C) 2004-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2004-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -71,7 +71,7 @@ File_Cdxa::File_Cdxa()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("CDXA");
+    ParserName=__T("CDXA");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_Cdxa;
         StreamIDs_Width[0]=0;
@@ -168,8 +168,8 @@ void File_Cdxa::FileHeader_Parse()
     FILLING_BEGIN();
         Accept("CDXA");
         MI=new MediaInfo_Internal;
-        MI->Option(_T("FormatDetection_MaximumOffset"), _T("1048576"));
-        //MI->Option(_T("File_IsSub"), _T("1"));
+        MI->Option(__T("FormatDetection_MaximumOffset"), __T("1048576"));
+        //MI->Option(__T("File_IsSub"), __T("1"));
         MI->Open_Buffer_Init(File_Size, File_Offset+Buffer_Offset);
     FILLING_END();
 }
@@ -233,7 +233,7 @@ void File_Cdxa::Streams_Finish ()
         Merge(*(MI->Info));
         Merge(*(MI->Info), Stream_General, 0, 0);
         const Ztring &Format=Retrieve(Stream_General, 0, General_Format);
-        Fill(Stream_General, 0, General_Format, (Ztring(_T("CDXA/"))+Format).c_str(), Unlimited, true);
+        Fill(Stream_General, 0, General_Format, (Ztring(__T("CDXA/"))+Format).c_str(), Unlimited, true);
         Clear(Stream_General, 0, General_Duration);
         Clear(Stream_Video, 0, Video_Duration);
     }

@@ -1,17 +1,17 @@
 // File_Exr - Info for EXR files
-// Copyright (C) 2011-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -68,7 +68,7 @@ File_Exr::File_Exr()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("EXR");
+    ParserName=__T("EXR");
 }
 
 //***************************************************************************
@@ -83,7 +83,7 @@ void File_Exr::Streams_Accept()
     if (!IsSub)
     {
         Streams_Accept_TestContinuousFileNames();
-    
+
         Stream_Prepare((Config->File_Names.size()>1 || Config->File_IsReferenced_Get())?Stream_Video:Stream_Image);
         Fill(StreamKind_Last, StreamPos_Last, "StreamSize", File_Size);
         if (StreamKind_Last==Stream_Video)
@@ -198,14 +198,14 @@ void File_Exr::Header_Parse()
         Header_Fill_Size(ImageData_End-(File_Offset+Buffer_Offset));
         return;
     }
-        
+
     int32u size;
     Get_String(name_End, name,                                  "name");
     Element_Offset++; //Null byte
     Get_String(type_End, type,                                  "type");
     Element_Offset++; //Null byte
     Get_L4 (size,                                               "size");
-        
+
     //Filling
     Header_Fill_Code(0, Ztring().From_Local(name.c_str()));
     Header_Fill_Size(name_End+1+type_End+1+4+size);
@@ -214,7 +214,7 @@ void File_Exr::Header_Parse()
 //---------------------------------------------------------------------------
 void File_Exr::Data_Parse()
 {
-    
+
     if (CC4(Buffer+Buffer_Offset)==0x762F3101) //"v/1"+1 //Header
         Header();
     else if (name=="comments" && type=="string")
@@ -244,9 +244,9 @@ void File_Exr::Header()
     //Filling
     if (Frame_Count==0)
     {
-        Fill(Stream_General, 0, General_Format_Version, _T("Version ")+Ztring::ToZtring(Version));
+        Fill(Stream_General, 0, General_Format_Version, __T("Version ")+Ztring::ToZtring(Version));
         Fill(StreamKind_Last, 0, "Format", "EXR");
-        Fill(StreamKind_Last, 0, "Format_Version", _T("Version ")+Ztring::ToZtring(Version));
+        Fill(StreamKind_Last, 0, "Format_Version", __T("Version ")+Ztring::ToZtring(Version));
         Fill(StreamKind_Last, 0, "Format_Profile", (Flags&0x02)?"Tile":"Line");
     }
     Frame_Count++;
@@ -338,7 +338,7 @@ void File_Exr::pixelAspectRatio ()
 {
     //Parsing
     float value;
-    Get_LF4(value,                                              "value"); 
+    Get_LF4(value,                                              "value");
 
     //Filling
     if (Frame_Count==1)

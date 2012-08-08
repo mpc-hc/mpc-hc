@@ -1,17 +1,17 @@
 // File_Zip - Info for NewFormat files
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -50,25 +50,25 @@ namespace MediaInfoLib
 const char* Zip_made_by[20]=
 {
     "MS-DOS and OS/2 (FAT / VFAT / FAT32 file systems)",
-    "Amiga",   
+    "Amiga",
     "OpenVMS",
-    "UNIX",            
+    "UNIX",
     "VM/CMS",
-    "Atari ST",        
+    "Atari ST",
     "OS/2 H.P.F.S.",
-    "Macintosh",        
+    "Macintosh",
     "Z-System",
-    "CP/M",       
+    "CP/M",
     "Windows NTFS",
-    "MVS (OS/390 - Z/OS)",  
+    "MVS (OS/390 - Z/OS)",
     "VSE",
-    "Acorn Risc",  
+    "Acorn Risc",
     "VFAT",
-    "alternate MVS",     
+    "alternate MVS",
     "BeOS",
-    "Tandem",      
+    "Tandem",
     "OS/400",
-    "OS/X (Darwin)"  
+    "OS/X (Darwin)"
 };
 
 //---------------------------------------------------------------------------
@@ -97,7 +97,7 @@ const char* Zip_compression_method[22]=
     "WavPack compressed data", // 97
     "PPMd version I, Rev 1" // 98
 };
-         
+
 //***************************************************************************
 // Static stuff
 //***************************************************************************
@@ -208,17 +208,17 @@ bool File_Zip::archive_extra_data_record()
 {
     if (Element_Offset+8>Element_Size) //archive_extra_data_record
         return false; //Not enough data
-    
+
     //Retrieving complete archive_extra_data_record size
     int32u extra_field_length=LittleEndian2int32u(Buffer+(size_t)Element_Offset+4);
-    
+
     //Parsing
     Element_Begin1("archive_extra_data_record");
         Skip_C4("Archive extra data signature");
         Skip_L4("extra field length");
         Skip_XX(extra_field_length,"extra_field_data");
     Element_End0();
-    
+
     return true;
 }
 
@@ -226,18 +226,18 @@ bool File_Zip::digital_signature()
 {
     if (Element_Offset+6>Element_Size) //digital_signature
         return false; //Not enough data
-    
+
     //Retrieving complete archive_extra_data_record size
     int16u size_of_data=LittleEndian2int16u(Buffer+(size_t)Element_Offset+4);
-    
+
     //Parsing
     Element_Begin1("digital_signature");
         Skip_C4("Header signature");
         Skip_L2("size of data");
         Skip_XX(size_of_data,"signature data");
-    Element_End0();   
-    
-    return true; 
+    Element_End0();
+
+    return true;
 }
 
 bool File_Zip::local_file_header()
@@ -394,7 +394,7 @@ bool File_Zip::central_directory()
         Skip_Local(file_comment_length,"file comment");
     }
     Element_End0();
-    
+
     return true;
 }
 
@@ -458,7 +458,7 @@ bool File_Zip::Zip64_end_of_central_directory_record()
     Skip_L8(                                                    "offset of start of central directory"); //  with respect to the starting disk number
     Skip_XX(size_of_Zip64_end_of_central_directory_record-44,   "zip64 extensible data sector");
     Element_End0();
-    
+
     return true;
 }
 
@@ -466,7 +466,7 @@ bool File_Zip::Zip64_end_of_central_directory_locator()
 {
     if (Element_Offset+20>Element_Size) //Zip64_end_of_central_directory_locator
         return false; //Not enough data
-        
+
     //Parsing
     Element_Begin1("Zip64 end of central directory locator");
     Skip_C4("zip64 end of central dir locator signature");

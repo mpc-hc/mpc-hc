@@ -1,17 +1,17 @@
 // File_Mxf - Info for MXF files
-// Copyright (C) 2006-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2006-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -80,7 +80,7 @@ protected :
     void Streams_Finish_Track (int128u TrackUID);
     void Streams_Finish_Essence (int32u EssenceUID, int128u TrackUID);
     void Streams_Finish_Descriptor (int128u DescriptorUID, int128u PackageUID);
-    void Streams_Finish_Locator (int128u LocatorUID);
+    void Streams_Finish_Locator (int128u DescriptorUID, int128u LocatorUID);
     void Streams_Finish_Component (int128u ComponentUID, float64 EditRate);
     void Streams_Finish_Identification (int128u IdentificationUID);
     void Streams_Finish_CommercialNames ();
@@ -135,7 +135,7 @@ protected :
     void WaveAudioDescriptor();
     void MPEG2VideoDescriptor();
     void JPEG2000PictureSubDescriptor();
-    void Unknown1();
+    void VbiPacketsDescriptor();
     void AncPacketsDescriptor();
     void OpenIncompleteHeaderPartition();
     void ClosedIncompleteHeaderPartition();
@@ -159,6 +159,7 @@ protected :
     void SDTI_DataMetadataSet();
     void SDTI_ControlMetadataSet();
     void SystemScheme1();
+    void DMScheme1();
     void Omneon_010201010100();
     void Omneon_010201020100();
 
@@ -194,6 +195,7 @@ protected :
     void ContentStorage_Packages();                             //1901
     void ContentStorage_EssenceContainerData();                 //1902
     void DMSegment_DMFramework();                               //6101
+    void DMSegment_TrackIDs();                                  //6102
     void EssenceContainerData_LinkedPackageUID();               //2701
     void EssenceContainerData_IndexSID();                       //3F06
     void EssenceContainerData_BodySID();                        //3F07
@@ -280,6 +282,9 @@ protected :
     void JPEG2000PictureSubDescriptor_Csiz();                   //800A
     void JPEG2000PictureSubDescriptor_PictureComponentSizing(); //800B
     void MultipleDescriptor_SubDescriptorUIDs();                //3F01
+    void DMScheme1_PrimaryExtendedSpokenLanguage();             //
+    void DMScheme1_SecondaryExtendedSpokenLanguage();           //
+    void DMScheme1_OriginalExtendedSpokenLanguage();            //
     void MPEG2VideoDescriptor_SingleSequence();                 //
     void MPEG2VideoDescriptor_ConstantBFrames();                //
     void MPEG2VideoDescriptor_CodedContentType();               //
@@ -602,12 +607,14 @@ protected :
         Ztring      EssenceLocator;
         stream_t    StreamKind;
         size_t      StreamPos;
+        int32u      LinkedTrackID;
         bool        IsTextLocator;
 
         locator()
         {
             StreamKind=Stream_Max;
             StreamPos=(size_t)-1;
+            LinkedTrackID=(int32u)-1;
             IsTextLocator=false;
         }
 
@@ -650,6 +657,39 @@ protected :
     };
     typedef std::map<int128u, component> components; //Key is InstanceUID of the component
     components Components;
+
+    //Descriptive Metadata - DMSegments
+    struct dmsegment
+    {
+        int128u     Framework;
+        std::vector<int32u> TrackIDs;
+
+        dmsegment()
+        {
+        }
+
+        ~dmsegment()
+        {
+        }
+    };
+    typedef std::map<int128u, dmsegment> dmsegments; //Key is InstanceUID of the DMSegment
+    dmsegments DMSegments;
+
+    //Descriptive Metadata - DMScheme1
+    struct dmscheme1
+    {
+        Ztring      PrimaryExtendedSpokenLanguage;
+
+        dmscheme1()
+        {
+        }
+
+        ~dmscheme1()
+        {
+        }
+    };
+    typedef std::map<int128u, dmscheme1> dmscheme1s; //Key is InstanceUID of the DMScheme1
+    dmscheme1s DMScheme1s;
 
     //Parsers
     void           ChooseParser__FromEssence(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
@@ -703,7 +743,7 @@ protected :
     bool   SDTI_IsInIndexStreamOffset; //Used to test if SDTI packet is used for Index StreamOffset calculation
     int64u SystemScheme1_TimeCodeArray_StartTimecode;
     int64u SystemScheme1_FrameRateFromDescriptor;
-    bool   Essences_FirstEssence_Parsed; 
+    bool   Essences_FirstEssence_Parsed;
     int32u IndexTable_NSL;
     int32u IndexTable_NPE;
     #if defined(MEDIAINFO_ANCILLARY_YES)
@@ -784,7 +824,7 @@ protected :
         typedef std::vector<indextable> indextables;
         indextables                     IndexTables;
         size_t                          IndexTables_Pos;
-        
+
         //Other
         int64u  Clip_Header_Size;
         int64u  Clip_Begin;
@@ -792,6 +832,7 @@ protected :
         int128u Clip_Code;
         int64u  OverallBitrate_IsCbrForSure;
         bool    Duration_Detected;
+        bool    DetectDuration();
     #endif //MEDIAINFO_DEMUX || MEDIAINFO_SEEK
 };
 

@@ -1,17 +1,17 @@
 // File_Gxf - Info for GXF (SMPTE 360M) files
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -241,7 +241,7 @@ File_Gxf::File_Gxf()
 :File__Analyze()
 {
     //Configuration
-    ParserName=_T("GXF");
+    ParserName=__T("GXF");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_Gxf;
         StreamIDs_Width[0]=2;
@@ -301,9 +301,9 @@ void File_Gxf::Streams_Finish()
         if (Gxf_MediaTypes_StreamKind(Streams[StreamID].MediaType)==Stream_Video)
         {
             Ztring Title=Streams[StreamID].MediaName;
-            size_t Title_Extension_Offset=Title.find(_T(".M0"));
+            size_t Title_Extension_Offset=Title.find(__T(".M0"));
             if (Title_Extension_Offset==std::string::npos || Title_Extension_Offset!=Title.size()-3)
-                Title_Extension_Offset=Title.find(_T(".H0"));
+                Title_Extension_Offset=Title.find(__T(".H0"));
             if (Title_Extension_Offset!=std::string::npos && Title_Extension_Offset==Title.size()-3)
             {
                 Title.resize(Title.size()-3);
@@ -313,13 +313,13 @@ void File_Gxf::Streams_Finish()
         if (Gxf_MediaTypes_StreamKind(Streams[StreamID].MediaType)==Stream_Audio && Config->File_Audio_MergeMonoStreams_Get())
         {
             Ztring Title=Streams[StreamID].MediaName;
-            size_t Title_Extension_Offset=Title.find(_T(".A0"));
+            size_t Title_Extension_Offset=Title.find(__T(".A0"));
             if (Title_Extension_Offset!=std::string::npos && Title_Extension_Offset==Title.size()-3)
             {
                 Title.resize(Title.size()-3);
                 for (size_t StreamID2=StreamID+1; StreamID2<Streams.size(); StreamID2++)
                 {
-                    if (Streams[StreamID2].MediaName==Title+_T(".A")+Ztring::ToZtring(StreamID2-StreamID))
+                    if (Streams[StreamID2].MediaName==Title+__T(".A")+Ztring::ToZtring(StreamID2-StreamID))
                     {
                         Streams[StreamID].MediaName=Title;
                         if (Streams[StreamID].Parser && Streams[StreamID2].Parser)
@@ -350,7 +350,7 @@ void File_Gxf::Streams_Finish()
 
         //We trust more the MPEG Video bitrate thant the rest
         //TODO: Chech why there is incohenrency (mainly about Material File size info in the sample)
-        if (Retrieve(Stream_Video, 0, Video_Format)==_T("MPEG Video"))
+        if (Retrieve(Stream_Video, 0, Video_Format)==__T("MPEG Video"))
             Fill(Stream_Video, 0, Video_BitRate, Retrieve(Stream_Video, 0, Video_BitRate_Nominal));
     }
     if (Material_File_Size_IsValid)
@@ -407,7 +407,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                     }
 
                 Merge(*Temp.Parser, Stream_Video, 0, StreamPos_Last);
-                
+
                 Fill(Stream_Video, StreamPos_Last, Video_ID, StreamID, 10, true);
                 Fill(Stream_Video, StreamPos_Last, "Title", Temp.MediaName);
 
@@ -421,8 +421,8 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                         Stream_Prepare(Stream_Text);
                         Merge(*Temp.Parser, Stream_Text, Parser_Text_Pos, StreamPos_Last);
                         Ztring ID=Retrieve(Stream_Text, StreamPos_Last, Text_ID);
-                        Fill(Stream_Text, StreamPos_Last, Text_ID, Ztring::ToZtring(AncillaryData_StreamID)+_T("-")+ID, true);
-                        Fill(Stream_Text, StreamPos_Last, Text_ID_String, Ztring::ToZtring(AncillaryData_StreamID)+_T("-")+ID, true);
+                        Fill(Stream_Text, StreamPos_Last, Text_ID, Ztring::ToZtring(AncillaryData_StreamID)+__T("-")+ID, true);
+                        Fill(Stream_Text, StreamPos_Last, Text_ID_String, Ztring::ToZtring(AncillaryData_StreamID)+__T("-")+ID, true);
                         Fill(Stream_Text, StreamPos_Last, Text_Delay, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_Delay), true);
                         Fill(Stream_Text, StreamPos_Last, Text_Delay_Source, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_Delay_Source), true);
                         Fill(Stream_Text, StreamPos_Last, Text_Delay_Original, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_Delay_Original), true);
@@ -458,12 +458,12 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
 
                 Ztring ID=Ztring::ToZtring(StreamID);
                 if (Temp.IsChannelGrouping)
-                    ID+=_T(" / ")+Ztring::ToZtring(StreamID+1); //Second half of the channel grouping
+                    ID+=__T(" / ")+Ztring::ToZtring(StreamID+1); //Second half of the channel grouping
                 Ztring ID_String=ID;
                 if (!Retrieve(Stream_Audio, StreamPos_Last, Audio_ID).empty())
                 {
-                    ID+=_T('-')+Retrieve(Stream_Audio, StreamPos_Last, Audio_ID);
-                    ID_String+=_T('-')+Retrieve(Stream_Audio, StreamPos_Last, Audio_ID_String);
+                    ID+=__T('-')+Retrieve(Stream_Audio, StreamPos_Last, Audio_ID);
+                    ID_String+=__T('-')+Retrieve(Stream_Audio, StreamPos_Last, Audio_ID_String);
                 }
                 Fill(Stream_Audio, StreamPos_Last, Audio_ID, ID, true);
                 Fill(Stream_Audio, StreamPos_Last, Audio_ID_String, ID_String, true);
@@ -485,8 +485,8 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                     Stream_Prepare(Stream_Text);
                     Merge(*Temp.Parser, Stream_Text, Parser_Text_Pos, StreamPos_Last);
                     Ztring ID=Retrieve(Stream_Text, StreamPos_Last, Text_ID);
-                    Fill(Stream_Text, StreamPos_Last, Text_ID, Ztring::ToZtring(AncillaryData_StreamID)+_T("-")+ID, true);
-                    Fill(Stream_Text, StreamPos_Last, Text_ID_String, Ztring::ToZtring(AncillaryData_StreamID)+_T("-")+ID, true);
+                    Fill(Stream_Text, StreamPos_Last, Text_ID, Ztring::ToZtring(AncillaryData_StreamID)+__T("-")+ID, true);
+                    Fill(Stream_Text, StreamPos_Last, Text_ID_String, Ztring::ToZtring(AncillaryData_StreamID)+__T("-")+ID, true);
                     Fill(Stream_Text, StreamPos_Last, Text_Delay, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_Delay), true);
                     Fill(Stream_Text, StreamPos_Last, Text_Delay_Source, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_Delay_Source), true);
                     Fill(Stream_Text, StreamPos_Last, Text_Delay_Original, Retrieve(Stream_Video, Count_Get(Stream_Video)-1, Video_Delay_Original), true);
@@ -647,7 +647,7 @@ size_t File_Gxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
                                 }
                             }
                         }
-                                
+
                         if (Value<Delay)
                             Value=0;
                         else
@@ -958,7 +958,6 @@ void File_Gxf::map()
                                     Parsers_Count++;
                                     Streams[TrackID].Searching_Payload=true;
                                     break;
-                                    break;
                         case 17 :   //AC-3 in AES3 (half)
                         case 18 :   //Dolby E in AES3 (half)
                                     Streams[TrackID].Parser=ChooseParser_ChannelGrouping(TrackID);
@@ -1163,8 +1162,19 @@ void File_Gxf::map()
                     float64 FrameRate=Gxf_FrameRate(Streams[TrackID].FrameRate_Code);
                     TimeCodes[TrackID]=Hours  *60*60*1000
                                       +Minutes   *60*1000
-                                      +Seconds      *1000
-                                      +float64_int64s(Fields*1000/(FrameRate*2));
+                                      +Seconds      *1000;
+                    if (!FrameRate)
+                    {
+                        //Time code frame rate is missing, using the video frame rate
+                        for (size_t Pos=0; Pos<Streams.size(); Pos++)
+                            if (Streams[Pos].FrameRate_Code!=(int32u)-1)
+                            {
+                                FrameRate=Gxf_FrameRate(Streams[Pos].FrameRate_Code);
+                                break;
+                            }
+                    }
+                    if (FrameRate)
+                        float64_int64s(Fields*1000/(FrameRate*2));
                 }
             }
         }
@@ -1285,7 +1295,7 @@ void File_Gxf::media()
                         if (Material_Fields_First_IsValid && MediaFieldNumber!=Material_Fields_First && Streams[TrackNumber].FirstFrameDuration) //In case of offset, MediaFieldNumber-Material_Fields_First is not well rounded
                         {
                             FrameInfo.PTS+=Streams[TrackNumber].FirstFrameDuration;
-                            Frame_Count_NotParsedIncluded++; 
+                            Frame_Count_NotParsedIncluded++;
                         }
                         FrameInfo.DTS=FrameInfo.PTS;
                     }

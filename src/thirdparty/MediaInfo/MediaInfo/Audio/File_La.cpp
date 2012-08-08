@@ -1,18 +1,18 @@
 // File_La - Info for LA files
-// Copyright (C) 2009-2011 Lionel Duchateau, kurtnoise@free.fr
-// Copyright (C) 2009-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2009-2012 Lionel Duchateau, kurtnoise@free.fr
+// Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -132,12 +132,12 @@ void File_La::FileHeader_Parse()
             return;
 
         File__Tags_Helper::Accept("LA");
-        Fill(Stream_General, 0, General_Format_Version, Major+_T('.')+Minor);
+        Fill(Stream_General, 0, General_Format_Version, Major+__T('.')+Minor);
 
         File__Tags_Helper::Stream_Prepare(Stream_Audio);
         Fill(Stream_Audio, 0, Audio_Format, "LA");
         Fill(Stream_Audio, 0, Audio_Codec, "LA");
-        Fill(Stream_Audio, 0, Audio_Format_Version, Major+_T('.')+Minor);
+        Fill(Stream_Audio, 0, Audio_Format_Version, Major+__T('.')+Minor);
         Fill(Stream_Audio, 0, Audio_BitDepth, BitsPerSample);
         Fill(Stream_Audio, 0, Audio_Channel_s_, Channels);
         Fill(Stream_Audio, 0, Audio_SamplingRate, SampleRate);

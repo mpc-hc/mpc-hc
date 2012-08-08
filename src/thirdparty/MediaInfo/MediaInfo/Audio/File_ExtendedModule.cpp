@@ -1,17 +1,17 @@
 // File_ExtendedModule - Info for Extended Module files
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WXMHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILXMY or FXMNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -95,9 +95,9 @@ void File_ExtendedModule::Read_Buffer_Continue()
         Accept("Extended Module");
 
         Fill(Stream_General, 0, General_Format, "Extended Module");
-        Fill(Stream_General, 0, General_Format_Version, Ztring::ToZtring(VersionMajor)+_T(".")+Ztring::ToZtring(VersionMinor/10)+Ztring::ToZtring(VersionMinor%10));
-        Fill(Stream_General, 0, General_Track, ModuleName.Trim(_T(' ')));
-        Fill(Stream_General, 0, General_Encoded_Application, TrackerName.Trim(_T(' ')));
+        Fill(Stream_General, 0, General_Format_Version, Ztring::ToZtring(VersionMajor)+__T(".")+Ztring::ToZtring(VersionMinor/10)+Ztring::ToZtring(VersionMinor%10));
+        Fill(Stream_General, 0, General_Track, ModuleName.Trim(__T(' ')));
+        Fill(Stream_General, 0, General_Encoded_Application, TrackerName.Trim(__T(' ')));
         Fill(Stream_General, 0, "Tempo", Tempo);
         Fill(Stream_General, 0, "BPM", BPM);
 

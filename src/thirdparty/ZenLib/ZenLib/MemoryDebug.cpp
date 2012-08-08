@@ -1,5 +1,5 @@
 // ZenLib::MemoryDebug - To debug memory leaks
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -96,20 +96,20 @@ void MemoryDebug::ReportLeaks()
                << " | "   << std::setw(7) << std::setfill(' ') << static_cast<int>(i->second.Size) << " bytes"
                << " | "   << i->second.File.c_str() << " (" << i->second.Line << ")" << std::endl;
         */
-        m_File.append(_T("-> 0x"));
+        m_File.append(__T("-> 0x"));
         m_File.append(Ztring::ToZtring((size_t)i->first, 16));
-        m_File.append(_T(" | "));
+        m_File.append(__T(" | "));
         Ztring Temp;
         Temp.From_Number(static_cast<int>(i->second.Size));
         while(Temp.size()<7)
-            Temp=_T(" ")+Temp;
+            Temp=__T(" ")+Temp;
         m_File.append(Temp);
-        m_File.append(_T(" bytes"));
-        m_File.append(_T(" | "));
+        m_File.append(__T(" bytes"));
+        m_File.append(__T(" | "));
         m_File.append(Ztring().From_Local(i->second.File.c_str()));
-        m_File.append(_T(" ("));
+        m_File.append(__T(" ("));
         m_File.append(Ztring::ToZtring(i->second.Line));
-        m_File.append(_T(")"));
+        m_File.append(__T(")"));
         m_File.append(EOL);
     }
 
@@ -122,11 +122,11 @@ void MemoryDebug::ReportLeaks()
     */
     m_File.append(EOL);
     m_File.append(EOL);
-    m_File.append(_T("-- "));
+    m_File.append(__T("-- "));
     m_File.append(Ztring::ToZtring(static_cast<int>(m_Blocks.size())));
-    m_File.append(_T(" non-released blocs, "));
+    m_File.append(__T(" non-released blocs, "));
     m_File.append(Ztring::ToZtring(static_cast<int>(TotalSize)));
-    m_File.append(_T(" bytes --"));
+    m_File.append(__T(" bytes --"));
     m_File.append(EOL);
 
     std::string ToWrite=m_File.To_Local().c_str();

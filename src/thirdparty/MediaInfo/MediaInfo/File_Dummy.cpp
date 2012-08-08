@@ -1,17 +1,17 @@
 // File_Dummy - Fill with Name of tags
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -47,18 +47,18 @@ namespace MediaInfoLib
 //---------------------------------------------------------------------------
 void File_Dummy::FileHeader_Parse()
 {
-    File_Name=_T("D:\\Example\\"); File_Name+=KindOfDummy;
-         if (KindOfDummy==_T("Album"))
+    File_Name=__T("D:\\Example\\"); File_Name+=KindOfDummy;
+         if (KindOfDummy==__T("Album"))
     {
         Fill_Dummy_General();
         Fill_Dummy_Audio();
     }
-    else if (KindOfDummy==_T("Comic"))
+    else if (KindOfDummy==__T("Comic"))
     {
         Fill_Dummy_General();
         Fill_Dummy_Video();
     }
-    else if (KindOfDummy==_T("Movie"))
+    else if (KindOfDummy==__T("Movie"))
     {
         Fill_Dummy_General();
         Fill_Dummy_Video();
@@ -76,7 +76,7 @@ void File_Dummy::FileHeader_Parse()
     }
     else
     {
-        File_Name=_T("D:\\WhatIsIt.mkv");
+        File_Name=__T("D:\\WhatIsIt.mkv");
         Fill(Stream_General, 0, General_Domain, "Starwars saga");
         Fill(Stream_General, 0, General_Movie, "Starwars 4");
         Fill(Stream_General, 0, General_Movie_More, "A new hope");
@@ -132,7 +132,7 @@ void File_Dummy::Fill_Dummy_General()
     Fill(Stream_General, 0, General_Collection, "Collection");
     Fill(Stream_General, 0, General_Season, "Season");
     Fill(Stream_General, 0, General_Season_Position_Total, "Season/Position_Total");
-         if (KindOfDummy==_T("Album"))
+         if (KindOfDummy==__T("Album"))
     {
         Fill(Stream_General, 0, General_Album, "Album name");
         Fill(Stream_General, 0, General_Album_More, "More information about the album");
@@ -143,12 +143,12 @@ void File_Dummy::Fill_Dummy_General()
         Fill(Stream_General, 0, General_Track_Position, "Track/Position");
         Fill(Stream_General, 0, General_Track_More, "More information about the track");
     }
-    else if (KindOfDummy==_T("Comic"))
+    else if (KindOfDummy==__T("Comic"))
     {
         Fill(Stream_General, 0, General_Comic, "Comic name");
         Fill(Stream_General, 0, General_Comic_More, "More information about the comic");
     }
-    else //if (KindOfDummy==_T("Movie"))
+    else //if (KindOfDummy==__T("Movie"))
     {
         Fill(Stream_General, 0, General_Movie, "Movie name");
         Fill(Stream_General, 0, General_Movie_More, "More information about the movie");
@@ -247,12 +247,12 @@ void File_Dummy::Fill_Dummy_Video()
     Fill(Stream_Video, 0, Video_BitRate_Mode, "BitRate_Mode");
     Fill(Stream_Video, 0, Video_Encoded_Library, "Encoded_Library");
     Fill(Stream_Video, 0, Video_Encoded_Library_Settings, "Encoded_Library_Settings");
-         if (KindOfDummy==_T("Album"))
+         if (KindOfDummy==__T("Album"))
     {
         Fill(Stream_Video, 0, Video_Width, "2000");
         Fill(Stream_Video, 0, Video_Height, "3000");
     }
-    else //if (KindOfDummy==_T("Movie"))
+    else //if (KindOfDummy==__T("Movie"))
     {
         Fill(Stream_Video, 0, Video_DisplayAspectRatio, "2");
         Fill(Stream_Video, 0, Video_FrameRate, "24.976");

@@ -1,17 +1,17 @@
 // File_Aac - Info for AAC files
-// Copyright (C) 2007-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2007-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -489,7 +489,7 @@ void File_Aac::AudioSpecificConfig_OutOfBand (int32u sampling_frequency_, int8u 
         if (Infos.find("Format_Settings_SBR")!=Infos.end())
         {
             sbrData=true;
-            sbrPresentFlag=Infos["Format_Settings_SBR"].find(_T("Yes"))!=string::npos;
+            sbrPresentFlag=Infos["Format_Settings_SBR"].find(__T("Yes"))!=string::npos;
         }
         else
         {
@@ -499,7 +499,7 @@ void File_Aac::AudioSpecificConfig_OutOfBand (int32u sampling_frequency_, int8u 
         if (Infos.find("Format_Settings_PS")!=Infos.end())
         {
             psData=true;
-            psPresentFlag=Infos["Format_Settings_PS"].find(_T("Yes"))!=string::npos;
+            psPresentFlag=Infos["Format_Settings_PS"].find(__T("Yes"))!=string::npos;
         }
         else
         {
@@ -523,44 +523,44 @@ void File_Aac::AudioSpecificConfig_OutOfBand (int32u sampling_frequency_, int8u 
 
     if (sbrPresentFlag)
     {
-        Infos["Format_Profile"]=_T("HE-AAC");
+        Infos["Format_Profile"]=__T("HE-AAC");
         Ztring SamplingRate=Infos["SamplingRate"];
         Infos["SamplingRate"].From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10);
         if (MediaInfoLib::Config.LegacyStreamDisplay_Get())
         {
-            Infos["Format_Profile"]+=_T(" / LC");
-            Infos["SamplingRate"]+=_T(" / ")+SamplingRate;
+            Infos["Format_Profile"]+=__T(" / LC");
+            Infos["SamplingRate"]+=__T(" / ")+SamplingRate;
         }
-        Infos["Format_Settings_SBR"]=_T("Yes (Implicit)");
-        Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+_T("-SBR");
+        Infos["Format_Settings_SBR"]=__T("Yes (Implicit)");
+        Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+__T("-SBR");
     }
     else if (sbrData)
-        Infos["Format_Settings_SBR"]=_T("No (Explicit)");
+        Infos["Format_Settings_SBR"]=__T("No (Explicit)");
 
     if (psPresentFlag)
     {
-        Infos["Format_Profile"]=_T("HE-AACv2");
+        Infos["Format_Profile"]=__T("HE-AACv2");
         Ztring Channels=Infos["Channel(s)"];
         Ztring ChannelPositions=Infos["ChannelPositions"];
         Ztring SamplingRate=Infos["SamplingRate"];
-        Infos["Channel(s)"]=_T("2");
-        Infos["ChannelPositions"]=_T("Front: L R");
+        Infos["Channel(s)"]=__T("2");
+        Infos["ChannelPositions"]=__T("Front: L R");
         if (MediaInfoLib::Config.LegacyStreamDisplay_Get())
         {
-            Infos["Format_Profile"]+=_T(" / HE-AAC / LC");
-            Infos["Channel(s)"]+=_T(" / ")+Channels+_T(" / ")+Channels;
-            Infos["ChannelPositions"]+=_T(" / ")+ChannelPositions+_T(" / ")+ChannelPositions;
-            Infos["SamplingRate"]=Ztring().From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10)+_T(" / ")+SamplingRate;
+            Infos["Format_Profile"]+=__T(" / HE-AAC / LC");
+            Infos["Channel(s)"]+=__T(" / ")+Channels+__T(" / ")+Channels;
+            Infos["ChannelPositions"]+=__T(" / ")+ChannelPositions+__T(" / ")+ChannelPositions;
+            Infos["SamplingRate"]=Ztring().From_Number((extension_sampling_frequency_index==(int8u)-1)?(sampling_frequency*2):extension_sampling_frequency, 10)+__T(" / ")+SamplingRate;
         }
-        Infos["Format_Settings_PS"]=_T("Yes (Implicit)");
+        Infos["Format_Settings_PS"]=__T("Yes (Implicit)");
         if (StreamPos_Last!=(size_t)-1)
         {
             Ztring Codec=Retrieve(Stream_Audio, StreamPos_Last, Audio_Codec);
-            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+_T("-SBR-PS");
+            Infos["Codec"]=Ztring().From_Local(Aac_audioObjectType(audioObjectType))+__T("-SBR-PS");
         }
     }
     else if (psData)
-        Infos["Format_Settings_PS"]=_T("No (Explicit)");
+        Infos["Format_Settings_PS"]=__T("No (Explicit)");
 }
 
 //---------------------------------------------------------------------------
@@ -642,13 +642,13 @@ void File_Aac::StreamMuxConfig()
             Element_End0();
             //taraBufferFullness=LatmGetValue();
         }
-        
+
         int8u streamCnt = 0;
 
         Get_SB (allStreamsSameTimeFraming,                      "allStreamsSameTimeFraming");
         Get_S1 (6, numSubFrames,                                "numSubFrames");
         Get_S1 (4, numProgram,                                  "numProgram");
-        
+
         for (int8u prog=0; prog<=numProgram; prog++)
         {
             Get_S1(3,numLayer,                                  "numLayer");
@@ -661,7 +661,7 @@ void File_Aac::StreamMuxConfig()
                     useSameConfig=0;
                 else
                     Get_SB(useSameConfig,                       "useSameConfig");
-                    
+
                 if (!useSameConfig)
                 {
                     if (audioMuxVersion==0)
@@ -890,7 +890,7 @@ void File_Aac::ErrorProtectionSpecificConfig()
     {
         int8u number_of_class;
         Get_S1(6,number_of_class,                               "number_of_class[i]");
-        for (int8u j = 0; j < number_of_class; j++) 
+        for (int8u j = 0; j < number_of_class; j++)
         {
             bool length_escape,fec_type,rate_escape,crclen_escape;
             Get_SB(length_escape,                               "length_escape[i][j]");
@@ -899,21 +899,21 @@ void File_Aac::ErrorProtectionSpecificConfig()
             if (number_of_concatenated_frame != 1)
                 Skip_SB(                                        "concatenate_flag[i][j]");
             Get_SB(fec_type,                                    "fec_type[i][j]");
-            if(!fec_type) 
+            if(!fec_type)
                 Skip_SB(                                        "termination_switch[i][j]");
-            if (interleave_type == 2) 
+            if (interleave_type == 2)
                 Skip_S1(2,                                      "interleave_switch[i][j]");
             Skip_SB(                                            "class_optional");
-            if (length_escape) 
+            if (length_escape)
             {
                 /* ESC */
                 Skip_S1(4,                                      "number_of_bits_for_length[i][j]");
             }
-            else 
+            else
             {
                 Skip_S2(16,                                     "class_length[i][j]");
             }
-            if (!rate_escape) 
+            if (!rate_escape)
             { /* not ESC */
                 if(fec_type)
                 {
@@ -924,7 +924,7 @@ void File_Aac::ErrorProtectionSpecificConfig()
                     Skip_S1(5,                                  "class_rate[i][j]");
                 }
             }
-            if (!crclen_escape) 
+            if (!crclen_escape)
             {
             /* not ESC */
             Skip_S1(5,                                          "class_crclen[i][j]");
@@ -932,9 +932,9 @@ void File_Aac::ErrorProtectionSpecificConfig()
         }
         bool class_reordered_output;
         Get_SB(class_reordered_output,                          "class_reordered_output");
-        if ( class_reordered_output ) 
+        if ( class_reordered_output )
         {
-            for (int j = 0; j < number_of_class; j++ ) 
+            for (int j = 0; j < number_of_class; j++ )
             {
                 Skip_S1(6,                                      "class_output_order[i][j]");
             }
@@ -942,7 +942,7 @@ void File_Aac::ErrorProtectionSpecificConfig()
     }
     bool header_protection;
     Get_SB(header_protection,                                   "header_protection");
-    if (header_protection) 
+    if (header_protection)
     {
         Skip_S1(5,                                              "header_rate");
         Skip_S1(5,                                              "header_crclen");

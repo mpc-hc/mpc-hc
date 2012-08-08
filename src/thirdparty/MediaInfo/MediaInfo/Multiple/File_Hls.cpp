@@ -2,16 +2,16 @@
 // Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -116,22 +116,22 @@ bool File_Hls::FileHeader_Begin()
 
     if (Buffer_Size<File_Size)
         return false; //Wait for complete file
-    
+
     Ztring Document; Document.From_UTF8((char*)Buffer, Buffer_Size);
     ZtringList Lines;
-    size_t LinesSeparator_Pos=Document.find_first_of(_T("\r\n"));
+    size_t LinesSeparator_Pos=Document.find_first_of(__T("\r\n"));
     if (LinesSeparator_Pos>File_Size-1)
     {
         Reject("HLS");
         return false;
     }
     Ztring LinesSeparator;
-    if (Document[LinesSeparator_Pos]==_T('\r') && Document[LinesSeparator_Pos+1]==_T('\n'))
-        LinesSeparator=_T("\r\n");
-    else if (Document[LinesSeparator_Pos]==_T('\r'))
-        LinesSeparator=_T("\r");
-    else if (Document[LinesSeparator_Pos]==_T('\n'))
-        LinesSeparator=_T("\n");
+    if (Document[LinesSeparator_Pos]==__T('\r') && Document[LinesSeparator_Pos+1]==__T('\n'))
+        LinesSeparator=__T("\r\n");
+    else if (Document[LinesSeparator_Pos]==__T('\r'))
+        LinesSeparator=__T("\r");
+    else if (Document[LinesSeparator_Pos]==__T('\n'))
+        LinesSeparator=__T("\n");
     else
     {
         Reject("HLS");
@@ -140,7 +140,7 @@ bool File_Hls::FileHeader_Begin()
     Lines.Separator_Set(0, LinesSeparator);
     Lines.Write(Document);
 
-    if (Lines(0)!=_T("#EXTM3U"))
+    if (Lines(0)!=__T("#EXTM3U"))
     {
         Reject("HLS");
         return false;
@@ -158,9 +158,9 @@ bool File_Hls::FileHeader_Begin()
     {
         if (!Lines[Line].empty())
         {
-            if (Lines[Line].find(_T("#EXT-X-STREAM-INF"))==0)
+            if (Lines[Line].find(__T("#EXT-X-STREAM-INF"))==0)
                 IsGroup=true;
-            else if (Lines[Line][0]==_T('#'))
+            else if (Lines[Line][0]==__T('#'))
                 ;
             else
             {

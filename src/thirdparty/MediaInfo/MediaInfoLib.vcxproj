@@ -135,6 +135,7 @@
     <ClInclude Include="MediaInfo\Audio\File_Mpc.h" />
     <ClInclude Include="MediaInfo\Audio\File_MpcSv8.h" />
     <ClInclude Include="MediaInfo\Audio\File_Mpega.h" />
+    <ClInclude Include="MediaInfo\Audio\File_Opus.h" />
     <ClInclude Include="MediaInfo\Audio\File_Pcm.h" />
     <ClInclude Include="MediaInfo\Audio\File_Ps2Audio.h" />
     <ClInclude Include="MediaInfo\Audio\File_Rkau.h" />
@@ -166,7 +167,9 @@
     <ClInclude Include="MediaInfo\Image\File_Gif.h" />
     <ClInclude Include="MediaInfo\Image\File_Ico.h" />
     <ClInclude Include="MediaInfo\Image\File_Jpeg.h" />
+    <ClInclude Include="MediaInfo\Image\File_Pcx.h" />
     <ClInclude Include="MediaInfo\Image\File_Png.h" />
+    <ClInclude Include="MediaInfo\Image\File_Psd.h" />
     <ClInclude Include="MediaInfo\Image\File_Rle.h" />
     <ClInclude Include="MediaInfo\Image\File_Tga.h" />
     <ClInclude Include="MediaInfo\Image\File_Tiff.h" />
@@ -258,6 +261,7 @@
     <ClInclude Include="MediaInfo\Video\File_Lagarith.h" />
     <ClInclude Include="MediaInfo\Video\File_Mpeg4v.h" />
     <ClInclude Include="MediaInfo\Video\File_Mpegv.h" />
+    <ClInclude Include="MediaInfo\Video\File_ProRes.h" />
     <ClInclude Include="MediaInfo\Video\File_Theora.h" />
     <ClInclude Include="MediaInfo\Video\File_Vc1.h" />
     <ClInclude Include="MediaInfo\Video\File_Vc3.h" />
@@ -302,6 +306,7 @@
     <ClCompile Include="MediaInfo\Audio\File_Mpc.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_MpcSv8.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Mpega.cpp" />
+    <ClCompile Include="MediaInfo\Audio\File_Opus.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Pcm.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Ps2Audio.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Rkau.cpp" />
@@ -335,7 +340,9 @@
     <ClCompile Include="MediaInfo\Image\File_Gif.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Ico.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Jpeg.cpp" />
+    <ClCompile Include="MediaInfo\Image\File_Pcx.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Png.cpp" />
+    <ClCompile Include="MediaInfo\Image\File_Psd.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Rle.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Tga.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Tiff.cpp" />
@@ -431,6 +438,7 @@
     <ClCompile Include="MediaInfo\Video\File_Lagarith.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Mpeg4v.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Mpegv.cpp" />
+    <ClCompile Include="MediaInfo\Video\File_ProRes.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Theora.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Vc1.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Vc3.cpp" />

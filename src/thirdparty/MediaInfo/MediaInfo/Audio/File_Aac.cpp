@@ -1,17 +1,17 @@
 // File_Aac - Info for AAC (Raw) files
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -223,7 +223,7 @@ void File_Aac::Read_Buffer_Continue()
 {
     if (Element_Size==0)
         return;
-        
+
     switch(Mode)
     {
         case Mode_AudioSpecificConfig : Read_Buffer_Continue_AudioSpecificConfig(); break;
@@ -644,8 +644,8 @@ void File_Aac::Data_Parse()
             //No more need data
             switch (Mode)
             {
-                case Mode_ADTS        : 
-                case Mode_LATM        : 
+                case Mode_ADTS        :
+                case Mode_LATM        :
                                         Fill();
                                         if (!IsSub)
                                             File__Tags_Helper::Finish(); break;

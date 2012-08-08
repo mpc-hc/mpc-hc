@@ -1,5 +1,5 @@
 // ZenLib::OS_Utils - Cross platform OS utils
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -80,9 +80,9 @@ void Shell_Execute(const Ztring &ToExecute)
                 if (IsWin9X())
                     ShellExecuteA(NULL, "open", ToExecute.To_Local().c_str(), NULL, NULL, 0);
                 else
-                    ShellExecute (NULL, _T("open"), ToExecute.c_str(), NULL, NULL, 0);
+                    ShellExecute (NULL, __T("open"), ToExecute.c_str(), NULL, NULL, 0);
             #else
-                ShellExecute(NULL, _T("open"), ToExecute.c_str(), NULL, NULL, 0);
+                ShellExecute(NULL, __T("open"), ToExecute.c_str(), NULL, NULL, 0);
             #endif
         #else
             //Not supported

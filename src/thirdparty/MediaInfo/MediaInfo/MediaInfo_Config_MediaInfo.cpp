@@ -1,17 +1,17 @@
 // MediaInfo_Config_MediaInfo - Configuration class
-// Copyright (C) 2005-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -148,192 +148,192 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     #endif //MEDIAINFO_EVENTS
 
     String Option_Lower(Option);
-    size_t Egal_Pos=Option_Lower.find(_T('='));
+    size_t Egal_Pos=Option_Lower.find(__T('='));
     if (Egal_Pos==string::npos)
         Egal_Pos=Option_Lower.size();
     transform(Option_Lower.begin(), Option_Lower.begin()+Egal_Pos, Option_Lower.begin(), (int(*)(int))tolower); //(int(*)(int)) is a patch for unix
 
-    if (Option_Lower==_T("file_isseekable"))
+    if (Option_Lower==__T("file_isseekable"))
     {
-        File_IsSeekable_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_IsSeekable_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_isseekable_get"))
+    else if (Option_Lower==__T("file_isseekable_get"))
     {
         return File_IsSeekable_Get()?"1":"0";
     }
-    if (Option_Lower==_T("file_issub"))
+    if (Option_Lower==__T("file_issub"))
     {
-        File_IsSub_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_IsSub_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_issub_get"))
+    else if (Option_Lower==__T("file_issub_get"))
     {
         return File_IsSub_Get()?"1":"0";
     }
-    if (Option_Lower==_T("file_isreferenced"))
+    if (Option_Lower==__T("file_isreferenced"))
     {
-        File_IsReferenced_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_IsReferenced_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_isreferenced_get"))
+    else if (Option_Lower==__T("file_isreferenced_get"))
     {
         return File_IsReferenced_Get()?"1":"0";
     }
-    if (Option_Lower==_T("file_keepinfo"))
+    if (Option_Lower==__T("file_keepinfo"))
     {
-        File_KeepInfo_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_KeepInfo_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_keepinfo_get"))
+    else if (Option_Lower==__T("file_keepinfo_get"))
     {
         return File_KeepInfo_Get()?"1":"0";
     }
-    if (Option_Lower==_T("file_stopafterfilled"))
+    if (Option_Lower==__T("file_stopafterfilled"))
     {
-        File_StopAfterFilled_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_StopAfterFilled_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_stopafterfilled_get"))
+    else if (Option_Lower==__T("file_stopafterfilled_get"))
     {
         return File_StopAfterFilled_Get()?"1":"0";
     }
-    if (Option_Lower==_T("file_stopsubstreamafterfilled"))
+    if (Option_Lower==__T("file_stopsubstreamafterfilled"))
     {
-        File_StopSubStreamAfterFilled_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_StopSubStreamAfterFilled_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_stopsubstreamafterfilled_get"))
+    else if (Option_Lower==__T("file_stopsubstreamafterfilled_get"))
     {
         return File_StopSubStreamAfterFilled_Get()?"1":"0";
     }
-    if (Option_Lower==_T("file_audio_mergemonostreams"))
+    if (Option_Lower==__T("file_audio_mergemonostreams"))
     {
-        File_Audio_MergeMonoStreams_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_Audio_MergeMonoStreams_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_audio_mergemonostreams_get"))
+    else if (Option_Lower==__T("file_audio_mergemonostreams_get"))
     {
         return File_Audio_MergeMonoStreams_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_demux_interleave"))
+    else if (Option_Lower==__T("file_demux_interleave"))
     {
-        File_Demux_Interleave_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_Demux_Interleave_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_demux_interleave_get"))
+    else if (Option_Lower==__T("file_demux_interleave_get"))
     {
         return File_Demux_Interleave_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_id_onlyroot"))
+    else if (Option_Lower==__T("file_id_onlyroot"))
     {
-        File_ID_OnlyRoot_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_ID_OnlyRoot_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_id_onlyroot_get"))
+    else if (Option_Lower==__T("file_id_onlyroot_get"))
     {
         return File_ID_OnlyRoot_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_filename"))
+    else if (Option_Lower==__T("file_filename"))
     {
         File_FileName_Set(Value);
-        return _T("");
+        return __T("");
     }
-    else if (Option_Lower==_T("file_filename_get"))
+    else if (Option_Lower==__T("file_filename_get"))
     {
         return File_FileName_Get();
     }
-    else if (Option_Lower==_T("file_filenameformat"))
+    else if (Option_Lower==__T("file_filenameformat"))
     {
         File_FileNameFormat_Set(Value);
-        return _T("");
+        return __T("");
     }
-    else if (Option_Lower==_T("file_filenameformat_get"))
+    else if (Option_Lower==__T("file_filenameformat_get"))
     {
         return File_FileNameFormat_Get();
     }
-    else if (Option_Lower==_T("file_timetolive"))
+    else if (Option_Lower==__T("file_timetolive"))
     {
         File_TimeToLive_Set(Ztring(Value).To_float64());
-        return _T("");
+        return __T("");
     }
-    else if (Option_Lower==_T("file_timetolive_get"))
+    else if (Option_Lower==__T("file_timetolive_get"))
     {
         return Ztring::ToZtring(File_TimeToLive_Get(), 9);
     }
-    else if (Option_Lower==_T("file_partial_begin"))
+    else if (Option_Lower==__T("file_partial_begin"))
     {
         File_Partial_Begin_Set(Value);
-        return _T("");
+        return __T("");
     }
-    else if (Option_Lower==_T("file_partial_begin_get"))
+    else if (Option_Lower==__T("file_partial_begin_get"))
     {
         return File_Partial_Begin_Get();
     }
-    else if (Option_Lower==_T("file_partial_end"))
+    else if (Option_Lower==__T("file_partial_end"))
     {
         File_Partial_End_Set(Value);
-        return _T("");
+        return __T("");
     }
-    else if (Option_Lower==_T("file_partial_end_get"))
+    else if (Option_Lower==__T("file_partial_end_get"))
     {
         return File_Partial_End_Get();
     }
-    else if (Option_Lower==_T("file_forceparser"))
+    else if (Option_Lower==__T("file_forceparser"))
     {
         File_ForceParser_Set(Value);
-        return _T("");
+        return __T("");
     }
-    else if (Option_Lower==_T("file_forceparser_get"))
+    else if (Option_Lower==__T("file_forceparser_get"))
     {
         return File_ForceParser_Get();
     }
-    else if (Option_Lower==_T("file_buffer_size_hint_pointer"))
+    else if (Option_Lower==__T("file_buffer_size_hint_pointer"))
     {
         File_Buffer_Size_Hint_Pointer_Set((size_t*)Ztring(Value).To_int64u());
-        return _T("");
+        return __T("");
     }
-    else if (Option_Lower==_T("file_buffer_size_hint_pointer_get"))
+    else if (Option_Lower==__T("file_buffer_size_hint_pointer_get"))
     {
         return Ztring::ToZtring((size_t)File_Buffer_Size_Hint_Pointer_Get());
     }
-    else if (Option_Lower==_T("file_filter"))
+    else if (Option_Lower==__T("file_filter"))
     {
         #if MEDIAINFO_FILTER
             File_Filter_Set(Ztring(Value).To_int64u());
-            return _T("");
+            return __T("");
         #else //MEDIAINFO_FILTER
-            return _T("Filter manager is disabled due to compilation options");
+            return __T("Filter manager is disabled due to compilation options");
         #endif //MEDIAINFO_FILTER
     }
-    else if (Option_Lower==_T("file_filter_get"))
+    else if (Option_Lower==__T("file_filter_get"))
     {
         #if MEDIAINFO_FILTER
             return Ztring();//.From_Number(File_Filter_Get());
         #else //MEDIAINFO_FILTER
-            return _T("Filter manager is disabled due to compilation options");
+            return __T("Filter manager is disabled due to compilation options");
         #endif //MEDIAINFO_FILTER
     }
-    else if (Option_Lower==_T("file_duplicate"))
+    else if (Option_Lower==__T("file_duplicate"))
     {
         #if MEDIAINFO_DUPLICATE
             return File_Duplicate_Set(Value);
         #else //MEDIAINFO_DUPLICATE
-            return _T("Duplicate manager is disabled due to compilation options");
+            return __T("Duplicate manager is disabled due to compilation options");
         #endif //MEDIAINFO_DUPLICATE
     }
-    else if (Option_Lower==_T("file_duplicate_get"))
+    else if (Option_Lower==__T("file_duplicate_get"))
     {
         #if MEDIAINFO_DUPLICATE
             //if (File_Duplicate_Get())
-                return _T("1");
+                return __T("1");
             //else
-            //    return _T("");
+            //    return __T("");
         #else //MEDIAINFO_DUPLICATE
-            return _T("Duplicate manager is disabled due to compilation options");
+            return __T("Duplicate manager is disabled due to compilation options");
         #endif //MEDIAINFO_DUPLICATE
     }
-    else if (Option_Lower==_T("file_demux_forceids"))
+    else if (Option_Lower==__T("file_demux_forceids"))
     {
         #if MEDIAINFO_DEMUX
             if (Value.empty())
@@ -342,10 +342,10 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
                 Demux_ForceIds_Set(true);
             return Ztring();
         #else //MEDIAINFO_DEMUX
-            return _T("Demux manager is disabled due to compilation options");
+            return __T("Demux manager is disabled due to compilation options");
         #endif //MEDIAINFO_DEMUX
     }
-    else if (Option_Lower==_T("file_demux_pcm_20bitto16bit"))
+    else if (Option_Lower==__T("file_demux_pcm_20bitto16bit"))
     {
         #if MEDIAINFO_DEMUX
             if (Value.empty())
@@ -354,10 +354,10 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
                 Demux_PCM_20bitTo16bit_Set(true);
             return Ztring();
         #else //MEDIAINFO_DEMUX
-            return _T("Demux manager is disabled due to compilation options");
+            return __T("Demux manager is disabled due to compilation options");
         #endif //MEDIAINFO_DEMUX
     }
-    else if (Option_Lower==_T("file_demux_unpacketize"))
+    else if (Option_Lower==__T("file_demux_unpacketize"))
     {
         #if MEDIAINFO_DEMUX
             if (Value.empty())
@@ -366,39 +366,39 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
                 Demux_Unpacketize_Set(true);
             return Ztring();
         #else //MEDIAINFO_DEMUX
-            return _T("Demux manager is disabled due to compilation options");
+            return __T("Demux manager is disabled due to compilation options");
         #endif //MEDIAINFO_DEMUX
     }
-    else if (Option_Lower==_T("file_demux_rate"))
+    else if (Option_Lower==__T("file_demux_rate"))
     {
         #if MEDIAINFO_DEMUX
             Demux_Rate_Set(Ztring(Value).To_float64());
             return Ztring();
         #else //MEDIAINFO_DEMUX
-            return _T("Demux manager is disabled due to compilation options");
+            return __T("Demux manager is disabled due to compilation options");
         #endif //MEDIAINFO_DEMUX
     }
-    else if (Option_Lower==_T("file_demux_firstdts"))
+    else if (Option_Lower==__T("file_demux_firstdts"))
     {
         #if MEDIAINFO_DEMUX
             int64u ValueInt64u;
-            if (Value.find(_T(":"))!=string::npos)
+            if (Value.find(__T(":"))!=string::npos)
             {
                 Ztring ValueZ=Value;
                 ValueInt64u=0;
-                size_t Value_Pos=ValueZ.find(_T(":"));
+                size_t Value_Pos=ValueZ.find(__T(":"));
                 if (Value_Pos==string::npos)
-                    Value_Pos=ValueZ.size();    
+                    Value_Pos=ValueZ.size();
                 ValueInt64u+=Ztring(ValueZ.substr(0, Value_Pos)).To_int64u()*60*60*1000*1000*1000;
                 ValueZ.erase(0, Value_Pos+1);
-                Value_Pos=ValueZ.find(_T(":"));
+                Value_Pos=ValueZ.find(__T(":"));
                 if (Value_Pos==string::npos)
-                    Value_Pos=ValueZ.size();    
+                    Value_Pos=ValueZ.size();
                 ValueInt64u+=Ztring(ValueZ.substr(0, Value_Pos)).To_int64u()*60*1000*1000*1000;
                 ValueZ.erase(0, Value_Pos+1);
-                Value_Pos=ValueZ.find(_T("."));
+                Value_Pos=ValueZ.find(__T("."));
                 if (Value_Pos==string::npos)
-                    Value_Pos=ValueZ.size();    
+                    Value_Pos=ValueZ.size();
                 ValueInt64u+=Ztring(ValueZ.substr(0, Value_Pos)).To_int64u()*1000*1000*1000;
                 ValueZ.erase(0, Value_Pos+1);
                 if (!ValueZ.empty())
@@ -409,40 +409,40 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
             Demux_FirstDts_Set(ValueInt64u);
             return Ztring();
         #else //MEDIAINFO_DEMUX
-            return _T("Demux manager is disabled due to compilation options");
+            return __T("Demux manager is disabled due to compilation options");
         #endif //MEDIAINFO_DEMUX
     }
-    else if (Option_Lower==_T("file_demux_firstframenumber"))
+    else if (Option_Lower==__T("file_demux_firstframenumber"))
     {
         #if MEDIAINFO_DEMUX
             Demux_FirstFrameNumber_Set(Ztring(Value).To_int64u());
             return Ztring();
         #else //MEDIAINFO_DEMUX
-            return _T("Demux manager is disabled due to compilation options");
+            return __T("Demux manager is disabled due to compilation options");
         #endif //MEDIAINFO_DEMUX
     }
-    else if (Option_Lower==_T("file_demux_initdata"))
+    else if (Option_Lower==__T("file_demux_initdata"))
     {
         #if MEDIAINFO_DEMUX
             Ztring Value_Lower(Value); Value_Lower.MakeLowerCase();
-                 if (Value_Lower==_T("event")) Demux_InitData_Set(0);
-            else if (Value_Lower==_T("field")) Demux_InitData_Set(1);
-            else return _T("Invalid value");
+                 if (Value_Lower==__T("event")) Demux_InitData_Set(0);
+            else if (Value_Lower==__T("field")) Demux_InitData_Set(1);
+            else return __T("Invalid value");
             return Ztring();
         #else //MEDIAINFO_DEMUX
-            return _T("Demux manager is disabled due to compilation options");
+            return __T("Demux manager is disabled due to compilation options");
         #endif //MEDIAINFO_DEMUX
     }
-    else if (Option_Lower==_T("file_ibi"))
+    else if (Option_Lower==__T("file_ibi"))
     {
         #if MEDIAINFO_IBI
             Ibi_Set(Value);
             return Ztring();
         #else //MEDIAINFO_IBI
-            return _T("IBI support is disabled due to compilation options");
+            return __T("IBI support is disabled due to compilation options");
         #endif //MEDIAINFO_IBI
     }
-    else if (Option_Lower==_T("file_ibi_create"))
+    else if (Option_Lower==__T("file_ibi_create"))
     {
         #if MEDIAINFO_IBI
             if (Value.empty())
@@ -451,10 +451,10 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
                 Ibi_Create_Set(true);
             return Ztring();
         #else //MEDIAINFO_IBI
-            return _T("IBI support is disabled due to compilation options");
+            return __T("IBI support is disabled due to compilation options");
         #endif //MEDIAINFO_IBI
     }
-    else if (Option_Lower==_T("file_nextpacket"))
+    else if (Option_Lower==__T("file_nextpacket"))
     {
         #if MEDIAINFO_NEXTPACKET
             if (Value.empty())
@@ -463,229 +463,229 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
                 NextPacket_Set(true);
             return Ztring();
         #else //MEDIAINFO_NEXTPACKET
-            return _T("NextPacket manager is disabled due to compilation options");
+            return __T("NextPacket manager is disabled due to compilation options");
         #endif //MEDIAINFO_NEXTPACKET
     }
-    else if (Option_Lower==_T("file_subfile_streamid_set"))
+    else if (Option_Lower==__T("file_subfile_streamid_set"))
     {
         #if MEDIAINFO_EVENTS
             SubFile_StreamID_Set(Value.empty()?(int64u)-1:Ztring(Value).To_int64u());
             return Ztring();
         #else //MEDIAINFO_EVENTS
-            return _T("Event manager is disabled due to compilation options");
+            return __T("Event manager is disabled due to compilation options");
         #endif //MEDIAINFO_EVENTS
     }
-    else if (Option_Lower==_T("file_subfile_ids_set"))
+    else if (Option_Lower==__T("file_subfile_ids_set"))
     {
         #if MEDIAINFO_EVENTS
             SubFile_IDs_Set(Value);
             return Ztring();
         #else //MEDIAINFO_EVENTS
-            return _T("Event manager is disabled due to compilation options");
+            return __T("Event manager is disabled due to compilation options");
         #endif //MEDIAINFO_EVENTS
     }
-    else if (Option_Lower==_T("file_parseundecodableframes"))
+    else if (Option_Lower==__T("file_parseundecodableframes"))
     {
         #if MEDIAINFO_EVENTS
-            ParseUndecodableFrames_Set(!(Value==_T("0") || Value.empty()));
+            ParseUndecodableFrames_Set(!(Value==__T("0") || Value.empty()));
             return Ztring();
         #else //MEDIAINFO_EVENTS
-            return _T("Event manager is disabled due to compilation options");
+            return __T("Event manager is disabled due to compilation options");
         #endif //MEDIAINFO_EVENTS
     }
-    else if (Option_Lower==_T("file_mpegts_forcemenu"))
+    else if (Option_Lower==__T("file_mpegts_forcemenu"))
     {
-        File_MpegTs_ForceMenu_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_MpegTs_ForceMenu_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_mpegts_forcemenu_get"))
+    else if (Option_Lower==__T("file_mpegts_forcemenu_get"))
     {
         return File_MpegTs_ForceMenu_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_mpegts_stream_type_trust"))
+    else if (Option_Lower==__T("file_mpegts_stream_type_trust"))
     {
-        File_MpegTs_stream_type_Trust_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_MpegTs_stream_type_Trust_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_mpegts_stream_type_trust_get"))
+    else if (Option_Lower==__T("file_mpegts_stream_type_trust_get"))
     {
         return File_MpegTs_stream_type_Trust_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_mpegts_atsc_transport_stream_id_trust"))
+    else if (Option_Lower==__T("file_mpegts_atsc_transport_stream_id_trust"))
     {
-        File_MpegTs_Atsc_transport_stream_id_Trust_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_MpegTs_Atsc_transport_stream_id_Trust_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_mpegts_atsc_transport_stream_id_trust_get"))
+    else if (Option_Lower==__T("file_mpegts_atsc_transport_stream_id_trust_get"))
     {
         return File_MpegTs_Atsc_transport_stream_id_Trust_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_mpegts_realtime"))
+    else if (Option_Lower==__T("file_mpegts_realtime"))
     {
-        File_MpegTs_RealTime_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_MpegTs_RealTime_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_mpegts_realtime_get"))
+    else if (Option_Lower==__T("file_mpegts_realtime_get"))
     {
         return File_MpegTs_RealTime_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_bdmv_parsetargetedfile"))
+    else if (Option_Lower==__T("file_bdmv_parsetargetedfile"))
     {
-        File_Bdmv_ParseTargetedFile_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_Bdmv_ParseTargetedFile_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_bdmv_parsetargetedfile_get"))
+    else if (Option_Lower==__T("file_bdmv_parsetargetedfile_get"))
     {
         return File_Bdmv_ParseTargetedFile_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_dvdif_disableaudioifisincontainer"))
+    else if (Option_Lower==__T("file_dvdif_disableaudioifisincontainer"))
     {
         #if defined(MEDIAINFO_DVDIF_YES)
-            File_DvDif_DisableAudioIfIsInContainer_Set(!(Value==_T("0") || Value.empty()));
-            return _T("");
+            File_DvDif_DisableAudioIfIsInContainer_Set(!(Value==__T("0") || Value.empty()));
+            return __T("");
         #else //defined(MEDIAINFO_DVDIF_YES)
-            return _T("DVDIF is disabled due to compilation options");
+            return __T("DVDIF is disabled due to compilation options");
         #endif //defined(MEDIAINFO_DVDIF_YES)
     }
-    else if (Option_Lower==_T("file_dvdif_disableaudioifisincontainer_get"))
+    else if (Option_Lower==__T("file_dvdif_disableaudioifisincontainer_get"))
     {
         #if defined(MEDIAINFO_DVDIF_YES)
             return File_DvDif_DisableAudioIfIsInContainer_Get()?"1":"0";
         #else //defined(MEDIAINFO_DVDIF_YES)
-            return _T("DVDIF is disabled due to compilation options");
+            return __T("DVDIF is disabled due to compilation options");
         #endif //defined(MEDIAINFO_DVDIF_YES)
     }
-    else if (Option_Lower==_T("file_dvdif_ignoretransmittingflags"))
+    else if (Option_Lower==__T("file_dvdif_ignoretransmittingflags"))
     {
         #if defined(MEDIAINFO_DVDIF_YES)
-            File_DvDif_IgnoreTransmittingFlags_Set(!(Value==_T("0") || Value.empty()));
-            return _T("");
+            File_DvDif_IgnoreTransmittingFlags_Set(!(Value==__T("0") || Value.empty()));
+            return __T("");
         #else //defined(MEDIAINFO_DVDIF_YES)
-            return _T("DVDIF is disabled due to compilation options");
+            return __T("DVDIF is disabled due to compilation options");
         #endif //defined(MEDIAINFO_DVDIF_YES)
     }
-    else if (Option_Lower==_T("file_dvdif_ignoretransmittingflags_get"))
+    else if (Option_Lower==__T("file_dvdif_ignoretransmittingflags_get"))
     {
         #if defined(MEDIAINFO_DVDIF_YES)
             return File_DvDif_IgnoreTransmittingFlags_Get()?"1":"0";
         #else //defined(MEDIAINFO_DVDIF_YES)
-            return _T("DVDIF is disabled due to compilation options");
+            return __T("DVDIF is disabled due to compilation options");
         #endif //defined(MEDIAINFO_DVDIF_YES)
     }
-    else if (Option_Lower==_T("file_dvdif_analysis"))
+    else if (Option_Lower==__T("file_dvdif_analysis"))
     {
         #if defined(MEDIAINFO_DVDIF_ANALYZE_YES)
-            File_DvDif_Analysis_Set(!(Value==_T("0") || Value.empty()));
-            return _T("");
+            File_DvDif_Analysis_Set(!(Value==__T("0") || Value.empty()));
+            return __T("");
         #else //defined(MEDIAINFO_DVDIF_ANALYZE_YES)
-            return _T("DVDIF Analysis is disabled due to compilation options");
+            return __T("DVDIF Analysis is disabled due to compilation options");
         #endif //defined(MEDIAINFO_DVDIF_ANALYZE_YES)
     }
-    else if (Option_Lower==_T("file_dvdif_analysis_get"))
+    else if (Option_Lower==__T("file_dvdif_analysis_get"))
     {
         #if defined(MEDIAINFO_DVDIF_ANALYZE_YES)
             return File_DvDif_Analysis_Get()?"1":"0";
         #else //defined(MEDIAINFO_DVDIF_ANALYZE_YES)
-            return _T("DVDIF Analysis is disabled due to compilation options");
+            return __T("DVDIF Analysis is disabled due to compilation options");
         #endif //defined(MEDIAINFO_DVDIF_ANALYZE_YES)
     }
-    else if (Option_Lower==_T("file_macroblocks_parse"))
+    else if (Option_Lower==__T("file_macroblocks_parse"))
     {
         #if MEDIAINFO_MACROBLOCKS
-            File_Macroblocks_Parse_Set(!(Value==_T("0") || Value.empty()));
-            return _T("");
+            File_Macroblocks_Parse_Set(!(Value==__T("0") || Value.empty()));
+            return __T("");
         #else //MEDIAINFO_MACROBLOCKS
-            return _T("Macroblock parsing is disabled due to compilation options");
+            return __T("Macroblock parsing is disabled due to compilation options");
         #endif //MEDIAINFO_MACROBLOCKS
     }
-    else if (Option_Lower==_T("file_macroblocks_parse_get"))
+    else if (Option_Lower==__T("file_macroblocks_parse_get"))
     {
         #if MEDIAINFO_MACROBLOCKS
             return File_Macroblocks_Parse_Get()?"1":"0";
         #else //MEDIAINFO_MACROBLOCKS
-            return _T("Macroblock parsing is disabled due to compilation options");
+            return __T("Macroblock parsing is disabled due to compilation options");
         #endif //MEDIAINFO_MACROBLOCKS
     }
-    else if (Option_Lower==_T("file_growingfile_delay"))
+    else if (Option_Lower==__T("file_growingfile_delay"))
     {
         File_GrowingFile_Delay_Set(Ztring(Value).To_float64());
         return Ztring();
     }
-    else if (Option_Lower==_T("file_growingfile_delay_get"))
+    else if (Option_Lower==__T("file_growingfile_delay_get"))
     {
         return Ztring::ToZtring(File_GrowingFile_Delay_Get());
     }
-    else if (Option_Lower==_T("file_curl"))
+    else if (Option_Lower==__T("file_curl"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             File_Curl_Set(Value);
-            return _T("");
+            return __T("");
         #else //defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif //defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower.find(_T("file_curl,"))==0 || Option_Lower.find(_T("file_curl;"))==0)
+    else if (Option_Lower.find(__T("file_curl,"))==0 || Option_Lower.find(__T("file_curl;"))==0)
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             File_Curl_Set(Option.substr(10), Value);
-            return _T("");
+            return __T("");
         #else //defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif //defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("file_curl_get"))
+    else if (Option_Lower==__T("file_curl_get"))
     {
         #if defined(MEDIAINFO_LIBCURL_YES)
             return File_Curl_Get(Value);
         #else //defined(MEDIAINFO_LIBCURL_YES)
-            return _T("Libcurl support is disabled due to compilation options");
+            return __T("Libcurl support is disabled due to compilation options");
         #endif //defined(MEDIAINFO_LIBCURL_YES)
     }
-    else if (Option_Lower==_T("file_mmsh_describe_only"))
+    else if (Option_Lower==__T("file_mmsh_describe_only"))
     {
         #if defined(MEDIAINFO_LIBMMS_YES)
-            File_Mmsh_Describe_Only_Set(!(Value==_T("0") || Value.empty()));
-            return _T("");
+            File_Mmsh_Describe_Only_Set(!(Value==__T("0") || Value.empty()));
+            return __T("");
         #else //defined(MEDIAINFO_LIBMMS_YES)
-            return _T("Libmms support is disabled due to compilation options");
+            return __T("Libmms support is disabled due to compilation options");
         #endif //defined(MEDIAINFO_LIBMMS_YES)
     }
-    else if (Option_Lower==_T("file_mmsh_describe_only_get"))
+    else if (Option_Lower==__T("file_mmsh_describe_only_get"))
     {
         #if defined(MEDIAINFO_LIBMMS_YES)
             return File_Mmsh_Describe_Only_Get()?"1":"0";
         #else //defined(MEDIAINFO_LIBMMS_YES)
-            return _T("Libmms support is disabled due to compilation options");
+            return __T("Libmms support is disabled due to compilation options");
         #endif //defined(MEDIAINFO_LIBMMS_YES)
     }
-    else if (Option_Lower==_T("file_eia708_displayemptystream"))
+    else if (Option_Lower==__T("file_eia708_displayemptystream"))
     {
-        File_Eia708_DisplayEmptyStream_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_Eia708_DisplayEmptyStream_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_eia708_displayemptystream_get"))
+    else if (Option_Lower==__T("file_eia708_displayemptystream_get"))
     {
         return File_Eia708_DisplayEmptyStream_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_eia608_displayemptystream"))
+    else if (Option_Lower==__T("file_eia608_displayemptystream"))
     {
-        File_Eia608_DisplayEmptyStream_Set(!(Value==_T("0") || Value.empty()));
-        return _T("");
+        File_Eia608_DisplayEmptyStream_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
     }
-    else if (Option_Lower==_T("file_eia608_displayemptystream_get"))
+    else if (Option_Lower==__T("file_eia608_displayemptystream_get"))
     {
         return File_Eia608_DisplayEmptyStream_Get()?"1":"0";
     }
-    else if (Option_Lower==_T("file_event_callbackfunction"))
+    else if (Option_Lower==__T("file_event_callbackfunction"))
     {
         #if MEDIAINFO_EVENTS
             return Event_CallBackFunction_Set(Value);
         #else //MEDIAINFO_EVENTS
-            return _T("Event manager is disabled due to compilation options");
+            return __T("Event manager is disabled due to compilation options");
         #endif //MEDIAINFO_EVENTS
     }
     else
-        return _T("Option not known");
+        return __T("Option not known");
 }
 
 //***************************************************************************
@@ -1000,21 +1000,21 @@ Ztring MediaInfo_Config_MediaInfo::File_Duplicate_Set (const Ztring &Value_In)
         //Form= "(-)Data", if "-" the value will be removed
         Ztring &Value=List[Pos];
         bool ToRemove=false;
-        if (Value.find(_T('-'))==0)
+        if (Value.find(__T('-'))==0)
         {
             Value.erase(Value.begin());
             ToRemove=true;
         }
 
         //Testing if this is information about a target
-        if (List[Pos].find(_T("memory:"))==0 || List[Pos].find(_T("file:"))==0)
+        if (List[Pos].find(__T("memory:"))==0 || List[Pos].find(__T("file:"))==0)
         {
             //Searching if already exist
             size_t Memory_Pos=File__Duplicate_Memory_Indexes.Find(List[Pos]);
             if (!ToRemove && Memory_Pos==Error)
             {
                 //Does not exist yet (and adding is wanted)
-                Memory_Pos=File__Duplicate_Memory_Indexes.Find(_T(""));
+                Memory_Pos=File__Duplicate_Memory_Indexes.Find(__T(""));
                 if (Memory_Pos!=Error)
                     File__Duplicate_Memory_Indexes[Memory_Pos]=List[Pos]; //A free place is found
                 else
@@ -1031,7 +1031,7 @@ Ztring MediaInfo_Config_MediaInfo::File_Duplicate_Set (const Ztring &Value_In)
                 Memory_Pos=(size_t)-1;
             }
 
-            ToReturn+=_T(";")+Ztring().From_Number(Memory_Pos);
+            ToReturn+=__T(";")+Ztring().From_Number(Memory_Pos);
         }
     }
     if (!ToReturn.empty())
@@ -1329,11 +1329,11 @@ Ztring MediaInfo_Config_MediaInfo::Event_CallBackFunction_Set (const Ztring &Val
     else
         for (size_t Pos=0; Pos<List.size(); Pos++)
         {
-            if (List[Pos].find(_T("CallBack=memory://"))==0)
+            if (List[Pos].find(__T("CallBack=memory://"))==0)
                 Event_CallBackFunction=(MediaInfo_Event_CallBackFunction*)Ztring(List[Pos].substr(18, std::string::npos)).To_int64u();
-            else if (List[Pos].find(_T("UserHandle=memory://"))==0)
+            else if (List[Pos].find(__T("UserHandle=memory://"))==0)
                 Event_UserHandler=(void*)Ztring(List[Pos].substr(20, std::string::npos)).To_int64u();
-            else if (List[Pos].find(_T("UserHandler=memory://"))==0)
+            else if (List[Pos].find(__T("UserHandler=memory://"))==0)
                 Event_UserHandler=(void*)Ztring(List[Pos].substr(21, std::string::npos)).To_int64u();
             else
                 return("Problem during Event_CallBackFunction value parsing");
@@ -1349,7 +1349,7 @@ Ztring MediaInfo_Config_MediaInfo::Event_CallBackFunction_Get ()
 {
     CriticalSectionLocker CSL(CS);
 
-    return _T("CallBack=memory://")+Ztring::ToZtring((size_t)Event_CallBackFunction)+_T(";UserHandler=memory://")+Ztring::ToZtring((size_t)Event_UserHandler);
+    return __T("CallBack=memory://")+Ztring::ToZtring((size_t)Event_CallBackFunction)+__T(";UserHandler=memory://")+Ztring::ToZtring((size_t)Event_UserHandler);
 }
 #endif //MEDIAINFO_EVENTS
 
@@ -1387,27 +1387,27 @@ void MediaInfo_Config_MediaInfo::Event_Send (const int8u* Data_Content, size_t D
 
             Ztring File_Name_Final(File_Name);
             if (Event->StreamIDs_Size==0)
-                File_Name_Final+=_T(".demux");
+                File_Name_Final+=__T(".demux");
             else for (size_t Pos=0; Pos<Event->StreamIDs_Size; Pos++)
             {
                 if (Event->StreamIDs_Width[Pos]==17)
                 {
                     Ztring ID;
                     ID.From_CC4((int32u)Event->StreamIDs[Pos]);
-                    File_Name_Final+=_T('.')+ID;
+                    File_Name_Final+=__T('.')+ID;
                 }
                 else if (Event->StreamIDs_Width[Pos] && Event->StreamIDs_Width[Pos])
                 {
                     Ztring ID;
                     ID.From_Number(Event->StreamIDs[Pos], 16);
                     while (ID.size()<Event->StreamIDs_Width[Pos])
-                        ID.insert(0,  1, _T('0'));
+                        ID.insert(0,  1, __T('0'));
                     if (ID.size()>Event->StreamIDs_Width[Pos])
                         ID.erase(0, ID.size()-Event->StreamIDs_Width[Pos]);
-                    File_Name_Final+=_T('.')+ID;
+                    File_Name_Final+=__T('.')+ID;
                 }
                 else
-                    File_Name_Final+=_T(".raw");
+                    File_Name_Final+=__T(".raw");
             }
 
             File F;
@@ -1577,9 +1577,9 @@ float64 MediaInfo_Config_MediaInfo::File_GrowingFile_Delay_Get ()
 #if defined(MEDIAINFO_LIBCURL_YES)
 void MediaInfo_Config_MediaInfo::File_Curl_Set (const Ztring &NewValue)
 {
-    size_t Pos=NewValue.find(_T(','));
+    size_t Pos=NewValue.find(__T(','));
     if (Pos==string::npos)
-        Pos=NewValue.find(_T(';'));
+        Pos=NewValue.find(__T(';'));
     if (Pos!=string::npos)
     {
         Ztring Field=NewValue.substr(0, Pos); Field.MakeLowerCase();

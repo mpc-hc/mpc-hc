@@ -1,17 +1,17 @@
 // File_Tga - Info for TGA files
-// Copyright (C) 2011-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -96,7 +96,7 @@ const char* Tga_Image_Type_ColorSpace(int8u Image_Type)
 File_Tga::File_Tga()
 {
     //Configuration
-    ParserName=_T("TGA");
+    ParserName=__T("TGA");
     Buffer_MaximumSize=64*1024*1024; //We need to load the complete file for footer check, choosing an high value for an image
 }
 
@@ -108,7 +108,7 @@ File_Tga::File_Tga()
 void File_Tga::Streams_Fill()
 {
     Fill(Stream_General, 0, General_Format, "TGA");
-    Fill(Stream_General, 0, General_Format_Version, _T("Version ")+Ztring::ToZtring(Version));
+    Fill(Stream_General, 0, General_Format_Version, __T("Version ")+Ztring::ToZtring(Version));
     Fill(Stream_General, 0, General_Title, Image_ID);
 
     Stream_Prepare(Stream_Image);
@@ -217,7 +217,7 @@ void File_Tga::Read_Buffer_Continue()
                             ;
             }
         }
-    
+
         Accept();
         Fill();
         Finish();

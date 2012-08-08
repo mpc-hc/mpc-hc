@@ -1,17 +1,17 @@
 // File__ReferenceFilesHelper - class for analyzing/demuxing reference files
-// Copyright (C) 2011-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2011-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -62,6 +62,9 @@ File__ReferenceFilesHelper::File__ReferenceFilesHelper(File__Analyze* MI_, Media
     TestContinuousFileNames=false;
     FrameRate=0;
     Duration=0;
+    #if MEDIAINFO_NEXTPACKET
+        DTS_Interval=(int64u)-1;
+    #endif //MEDIAINFO_NEXTPACKET
 }
 
 //***************************************************************************
@@ -102,23 +105,23 @@ void File__ReferenceFilesHelper::ParseReferences()
             ZtringList AbsoluteNames; AbsoluteNames.Separator_Set(0, ",");
             for (size_t Pos=0; Pos<Names.size(); Pos++)
             {
-                if (Names[Pos].find(_T("file:///"))==0)
+                if (Names[Pos].find(__T("file:///"))==0)
                 {
                     Names[Pos].erase(0, 8); //Removing "file:///", this is the default behaviour and this makes comparison easier
                     Names[Pos]=ZenLib::Format::Http::URL_Encoded_Decode(Names[Pos]);
                 }
-                if (Names[Pos].find(_T("file://"))==0)
+                if (Names[Pos].find(__T("file://"))==0)
                 {
                     Names[Pos].erase(0, 7); //Removing "file://", this is the default behaviour and this makes comparison easier
                     Names[Pos]=ZenLib::Format::Http::URL_Encoded_Decode(Names[Pos]);
                 }
-                if (Names[Pos].find(_T("file:"))==0)
+                if (Names[Pos].find(__T("file:"))==0)
                 {
                     Names[Pos].erase(0, 5); //Removing "file:", this is the default behaviour and this makes comparison easier
                     Names[Pos]=ZenLib::Format::Http::URL_Encoded_Decode(Names[Pos]);
                 }
                 Ztring AbsoluteName;
-                if (Names[Pos].find(_T(':'))!=1 && Names[Pos].find(_T("/"))!=0 && Names[Pos].find(_T("\\\\"))!=0) //If absolute patch
+                if (Names[Pos].find(__T(':'))!=1 && Names[Pos].find(__T("/"))!=0 && Names[Pos].find(__T("\\\\"))!=0) //If absolute patch
                 {
                     AbsoluteName=ZenLib::FileName::Path_Get(MI->File_Name);
                     if (!AbsoluteName.empty())
@@ -126,20 +129,20 @@ void File__ReferenceFilesHelper::ParseReferences()
                 }
                 AbsoluteName+=Names[Pos];
                 #ifdef __WINDOWS__
-                    AbsoluteName.FindAndReplace(_T("/"), _T("\\"), 0, Ztring_Recursive); //Names[Pos] normalization
+                    AbsoluteName.FindAndReplace(__T("/"), __T("\\"), 0, Ztring_Recursive); //Names[Pos] normalization
                 #endif //__WINDOWS__
                 AbsoluteNames.push_back(AbsoluteName);
             }
             if (!File::Exists(AbsoluteNames[0]))
             {
                 AbsoluteNames.clear();
-            
+
                 //Configuring file name (this time, we try to force URL decode in all cases)
                 for (size_t Pos=0; Pos<Names.size(); Pos++)
                 {
                     Names[Pos]=ZenLib::Format::Http::URL_Encoded_Decode(Names[Pos]);
                     Ztring AbsoluteName;
-                    if (Names[Pos].find(_T(':'))!=1 && Names[Pos].find(_T("/"))!=0 && Names[Pos].find(_T("\\\\"))!=0) //If absolute patch
+                    if (Names[Pos].find(__T(':'))!=1 && Names[Pos].find(__T("/"))!=0 && Names[Pos].find(__T("\\\\"))!=0) //If absolute patch
                     {
                         AbsoluteName=ZenLib::FileName::Path_Get(MI->File_Name);
                         if (!AbsoluteName.empty())
@@ -147,7 +150,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                     }
                     AbsoluteName+=Names[Pos];
                     #ifdef __WINDOWS__
-                        AbsoluteName.FindAndReplace(_T("/"), _T("\\"), 0, Ztring_Recursive); //Names[Pos] normalization
+                        AbsoluteName.FindAndReplace(__T("/"), __T("\\"), 0, Ztring_Recursive); //Names[Pos] normalization
                     #endif //__WINDOWS__
                     AbsoluteNames.push_back(AbsoluteName);
                 }
@@ -156,9 +159,9 @@ void File__ReferenceFilesHelper::ParseReferences()
                 {
                     AbsoluteNames.clear();
                     Names=Reference->FileNames;
-            
+
                     //Configuring file name (this time, we try to test local files)
-                    size_t PathSeparator_Pos=Names[0].find_last_of(_T("\\/"));
+                    size_t PathSeparator_Pos=Names[0].find_last_of(__T("\\/"));
                     if (PathSeparator_Pos!=string::npos && PathSeparator_Pos)
                     {
                         Ztring PathToRemove=Names[0].substr(0, PathSeparator_Pos);
@@ -179,7 +182,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                                     AbsoluteName+=ZenLib::PathSeparator;
                                 AbsoluteName+=Names[Pos];
                                 #ifdef __WINDOWS__
-                                    AbsoluteName.FindAndReplace(_T("/"), _T("\\"), 0, Ztring_Recursive); //Names[Pos] normalization
+                                    AbsoluteName.FindAndReplace(__T("/"), __T("\\"), 0, Ztring_Recursive); //Names[Pos] normalization
                                 #endif //__WINDOWS__
                                 AbsoluteNames.push_back(AbsoluteName);
                             }
@@ -188,11 +191,11 @@ void File__ReferenceFilesHelper::ParseReferences()
                             {
                                 AbsoluteNames.clear();
                                 Names=Reference->FileNames;
-            
+
                                 //Configuring file name (this time, we try to test local files)
-                                size_t PathSeparator_Pos=Names[0].find_last_of(_T("\\/"));
+                                size_t PathSeparator_Pos=Names[0].find_last_of(__T("\\/"));
                                 if (PathSeparator_Pos!=string::npos && PathSeparator_Pos)
-                                    PathSeparator_Pos=Names[0].find_last_of(_T("\\/"), PathSeparator_Pos-1);
+                                    PathSeparator_Pos=Names[0].find_last_of(__T("\\/"), PathSeparator_Pos-1);
                                 if (PathSeparator_Pos!=string::npos && PathSeparator_Pos)
                                 {
                                     Ztring PathToRemove=Names[0].substr(0, PathSeparator_Pos);
@@ -212,7 +215,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                                                 AbsoluteName+=ZenLib::PathSeparator;
                                             AbsoluteName+=Names[Pos];
                                             #ifdef __WINDOWS__
-                                                AbsoluteName.FindAndReplace(_T("/"), _T("\\"), 0, Ztring_Recursive); //Names[Pos] normalization
+                                                AbsoluteName.FindAndReplace(__T("/"), __T("\\"), 0, Ztring_Recursive); //Names[Pos] normalization
                                             #endif //__WINDOWS__
                                             AbsoluteNames.push_back(AbsoluteName);
                                         }
@@ -247,7 +250,7 @@ void File__ReferenceFilesHelper::ParseReferences()
 
             if (TestContinuousFileNames)
                 File__Analyze::Streams_Accept_TestContinuousFileNames_Static(Reference->FileNames, true);
-    
+
             Reference++;
         }
 
@@ -256,7 +259,10 @@ void File__ReferenceFilesHelper::ParseReferences()
             {
                 Demux_Interleave=Config->File_Demux_Interleave_Get();
                 if (Demux_Interleave)
+                {
                     CountOfReferencesToParse=References.size();
+                    DTS_Interval=3000000000; // 3 seconds
+                }
             }
 
             //Using the frame rate from the first stream having a frame rate
@@ -268,7 +274,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                         break;
                     }
 
-            if (Config->NextPacket_Get() && MI->Demux_EventWasSent_Accept_Specific)
+            if (Config->NextPacket_Get())
             {
                 Reference=References.begin();
                 while (Reference!=References.end())
@@ -294,26 +300,46 @@ void File__ReferenceFilesHelper::ParseReferences()
                     MI->Fill(Stream_General, 0, General_StreamSize, MI->File_Size, 10, true);
                 }
 
-                FileSize_Compute();
-                Reference=References.begin();
-                Init_Done=true;
-                
-                MI->Config->Demux_EventWasSent=true;
-                return;
             }
         #endif //MEDIAINFO_DEMUX
 
         FileSize_Compute();
         Reference=References.begin();
         Init_Done=true;
+        /*
+        #if MEDIAINFO_EVENTS
+            struct MediaInfo_Event_General_SubFile_Start_0 Event;
+            MI->Event_Prepare((struct MediaInfo_Event_Generic*)&Event);
+            Event.EventCode=MediaInfo_EventCode_Create(0, MediaInfo_Event_General_SubFile_Start, 0);
+            Event.EventSize=sizeof(struct MediaInfo_Event_General_SubFile_Start_0);
+
+            Event.FileName_Relative_Unicode=Reference->Source.c_str();
+
+            MI->Config->Event_Send(NULL, (const int8u*)&Event, Event.EventSize, MI->File_Name);
+        #endif //MEDIAINFO_EVENTS
+        */
+
+        #if MEDIAINFO_DEMUX
+            if (Config->NextPacket_Get() && MI->Demux_EventWasSent_Accept_Specific)
+            {
+                MI->Config->Demux_EventWasSent=true;
+                return;
+            }
+        #endif //MEDIAINFO_DEMUX
     }
 
     while (Reference!=References.end())
     {
-        ParseReference();
+        #if MEDIAINFO_NEXTPACKET
+        if (Reference->MI==NULL || !Reference->Status[File__Analyze::IsFinished])
+        #endif //MEDIAINFO_NEXTPACKET
+            ParseReference();
 
         //State
         int64u FileSize_Parsed=0;
+        #if MEDIAINFO_NEXTPACKET
+            DTS_Minimal=(int64u)-1;
+        #endif //MEDIAINFO_NEXTPACKET
         for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ReferenceTemp++)
         {
             if (ReferenceTemp->MI)
@@ -327,18 +353,51 @@ void File__ReferenceFilesHelper::ParseReferences()
                 }
                 else
                     FileSize_Parsed+=ReferenceTemp->MI->Config.File_Size;
+
+                #if MEDIAINFO_NEXTPACKET
+                    //Minimal DTS
+                    if (DTS_Interval!=(int64u)-1 && !Reference->Status[File__Analyze::IsFinished] && ReferenceTemp->MI->Info && DTS_Minimal>ReferenceTemp->MI->Info->FrameInfo.DTS)
+                        DTS_Minimal=ReferenceTemp->MI->Info->FrameInfo.DTS;
+                #endif //MEDIAINFO_NEXTPACKET
             }
         }
         Config->State_Set(((float)FileSize_Parsed)/MI->Config->File_Size);
+
+        /*
+        #if MEDIAINFO_EVENTS
+            struct MediaInfo_Event_General_SubFile_End_0 Event;
+            MI->Event_Prepare((struct MediaInfo_Event_Generic*)&Event);
+            Event.EventCode=MediaInfo_EventCode_Create(0, MediaInfo_Event_General_SubFile_End, 0);
+            Event.EventSize=sizeof(struct MediaInfo_Event_General_SubFile_End_0);
+
+            Event.FileName_Relative_Unicode=Reference->Source.c_str();
+
+            MI->Config->Event_Send(NULL, (const int8u*)&Event, Event.EventSize, MI->File_Name);
+        #endif //MEDIAINFO_EVENTS
+        */
 
         #if MEDIAINFO_DEMUX
             if (Demux_Interleave)
             {
                 references::iterator Reference_Next=Reference; Reference_Next++;
+
                 if (Reference_Next==References.end() && Config->NextPacket_Get() && CountOfReferencesToParse)
                     Reference=References.begin();
                 else
                     Reference=Reference_Next;
+
+                /*
+                #if MEDIAINFO_EVENTS
+                    struct MediaInfo_Event_General_SubFile_Start_0 Event;
+                    MI->Event_Prepare((struct MediaInfo_Event_Generic*)&Event);
+                    Event.EventCode=MediaInfo_EventCode_Create(0, MediaInfo_Event_General_SubFile_Start, 0);
+                    Event.EventSize=sizeof(struct MediaInfo_Event_General_SubFile_Start_0);
+
+                    Event.FileName_Relative_Unicode=Reference->Source.c_str();
+
+                    MI->Config->Event_Send(NULL, (const int8u*)&Event, Event.EventSize, MI->File_Name);
+                #endif //MEDIAINFO_EVENTS
+                */
 
                 if (Config->Demux_EventWasSent)
                     return;
@@ -353,6 +412,22 @@ void File__ReferenceFilesHelper::ParseReferences()
         #else //MEDIAINFO_DEMUX
             Reference++;
         #endif //MEDIAINFO_DEMUX
+
+        /*
+        #if MEDIAINFO_EVENTS
+            if (Reference!=References.end())
+            {
+                struct MediaInfo_Event_General_SubFile_Start_0 Event;
+                MI->Event_Prepare((struct MediaInfo_Event_Generic*)&Event);
+                Event.EventCode=MediaInfo_EventCode_Create(0, MediaInfo_Event_General_SubFile_Start, 0);
+                Event.EventSize=sizeof(struct MediaInfo_Event_General_SubFile_Start_0);
+
+                Event.FileName_Relative_Unicode=Reference->Source.c_str();
+
+                MI->Config->Event_Send(NULL, (const int8u*)&Event, Event.EventSize, MI->File_Name);
+            }
+        #endif //MEDIAINFO_EVENTS
+        */
     }
 
     //File size handling
@@ -371,20 +446,20 @@ void File__ReferenceFilesHelper::ParseReference()
     {
         //Configuration
         Reference->MI=new MediaInfo_Internal();
-        Reference->MI->Option(_T("File_IsReferenced"), _T("1"));
-        Reference->MI->Option(_T("File_FileNameFormat"), _T("CSV"));
-        Reference->MI->Option(_T("File_KeepInfo"), _T("1"));
-        Reference->MI->Option(_T("File_ID_OnlyRoot"), Config->File_ID_OnlyRoot_Get()?_T("1"):_T("0"));
-        Reference->MI->Option(_T("File_DvDif_DisableAudioIfIsInContainer"), Config->File_DvDif_DisableAudioIfIsInContainer_Get()?_T("1"):_T("0"));
+        Reference->MI->Option(__T("File_IsReferenced"), __T("1"));
+        Reference->MI->Option(__T("File_FileNameFormat"), __T("CSV"));
+        Reference->MI->Option(__T("File_KeepInfo"), __T("1"));
+        Reference->MI->Option(__T("File_ID_OnlyRoot"), Config->File_ID_OnlyRoot_Get()?__T("1"):__T("0"));
+        Reference->MI->Option(__T("File_DvDif_DisableAudioIfIsInContainer"), Config->File_DvDif_DisableAudioIfIsInContainer_Get()?__T("1"):__T("0"));
         if (References.size()>1 || Config->File_MpegTs_ForceMenu_Get())
-            Reference->MI->Option(_T("File_MpegTs_ForceMenu"), _T("1"));
+            Reference->MI->Option(__T("File_MpegTs_ForceMenu"), __T("1"));
         #if MEDIAINFO_NEXTPACKET
             if (Config->NextPacket_Get())
-                Reference->MI->Option(_T("File_NextPacket"), _T("1"));
+                Reference->MI->Option(__T("File_NextPacket"), __T("1"));
         #endif //MEDIAINFO_NEXTPACKET
         #if MEDIAINFO_EVENTS
             if (Config->Event_CallBackFunction_IsSet())
-                Reference->MI->Option(_T("File_Event_CallBackFunction"), Config->Event_CallBackFunction_Get());
+                Reference->MI->Option(__T("File_Event_CallBackFunction"), Config->Event_CallBackFunction_Get());
             ZtringListList SubFile_IDs;
             for (size_t Pos=0; Pos<MI->StreamIDs_Size; Pos++)
             {
@@ -402,19 +477,19 @@ void File__ReferenceFilesHelper::ParseReference()
             if (!SubFile_IDs.empty())
             {
                 SubFile_IDs.Separator_Set(0, EOL);
-                SubFile_IDs.Separator_Set(1, _T(","));
-                Reference->MI->Option(_T("File_SubFile_IDs_Set"), SubFile_IDs.Read());
+                SubFile_IDs.Separator_Set(1, __T(","));
+                Reference->MI->Option(__T("File_SubFile_IDs_Set"), SubFile_IDs.Read());
             }
         #endif //MEDIAINFO_EVENTS
         #if MEDIAINFO_DEMUX
             if (Config->Demux_Unpacketize_Get())
-                Reference->MI->Option(_T("File_Demux_Unpacketize"), _T("1"));
+                Reference->MI->Option(__T("File_Demux_Unpacketize"), __T("1"));
             if (FrameRate)
-                Reference->MI->Option(_T("File_Demux_Rate"), Ztring::ToZtring(FrameRate, 25));
+                Reference->MI->Option(__T("File_Demux_Rate"), Ztring::ToZtring(FrameRate, 25));
             switch (Config->Demux_InitData_Get())
             {
-                case 0 : Reference->MI->Option(_T("File_Demux_InitData"), _T("Event")); break;
-                case 1 : Reference->MI->Option(_T("File_Demux_InitData"), _T("Field")); break;
+                case 0 : Reference->MI->Option(__T("File_Demux_InitData"), __T("Event")); break;
+                case 1 : Reference->MI->Option(__T("File_Demux_InitData"), __T("Field")); break;
                 default: ;
             }
         #endif //MEDIAINFO_DEMUX
@@ -428,10 +503,10 @@ void File__ReferenceFilesHelper::ParseReference()
                 File_Ibi_Creation IbiCreation(Ibi);
                 Ztring IbiText=IbiCreation.Finish();
                 if (!IbiText.empty())
-                    Reference->MI->Option(_T("File_Ibi"), IbiText);
+                    Reference->MI->Option(__T("File_Ibi"), IbiText);
             }
         #endif //MEDIAINFO_IBI
- 
+
         if (Reference->IsCircular)
         {
             MI->Fill(Reference->StreamKind, Reference->StreamPos, "Source_Info", "Circular");
@@ -469,7 +544,7 @@ void File__ReferenceFilesHelper::ParseReference()
             }
 
             #if MEDIAINFO_NEXTPACKET && MEDIAINFO_DEMUX
-                if (Config->NextPacket_Get() && MI->Demux_EventWasSent_Accept_Specific)
+                if (Config->NextPacket_Get())
                     return;
             #endif //MEDIAINFO_NEXTPACKET
         }
@@ -478,6 +553,8 @@ void File__ReferenceFilesHelper::ParseReference()
     if (Reference->MI)
     {
         #if MEDIAINFO_EVENTS && MEDIAINFO_NEXTPACKET
+            if (DTS_Interval!=(int64u)-1 && !Reference->Status[File__Analyze::IsFinished] && Reference->MI->Info->FrameInfo.DTS!=(int64u)-1 && DTS_Minimal!=(int64u)-1 && Reference->MI->Info->FrameInfo.DTS>DTS_Minimal+1000000000)
+                return;
             if (Config->Event_CallBackFunction_IsSet() && !Reference->Status[File__Analyze::IsFinished])
             {
                 #if MEDIAINFO_DEMUX
@@ -528,7 +605,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize ()
                         ToInsert=ReferencePos->StreamPos;
                         break;
                     }
-                
+
                 StreamPos_To=Stream_Prepare((stream_t)StreamKind, ToInsert);
             }
             StreamPos_From=StreamPos;
@@ -540,7 +617,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize ()
     {
         Ztring MuxingMode=MI->Retrieve(Reference->StreamKind, Reference->StreamPos, "MuxingMode");
         if (!MuxingMode.empty())
-            MuxingMode.insert(0, _T(" / "));
+            MuxingMode.insert(0, __T(" / "));
         MI->Fill(Reference->StreamKind, Reference->StreamPos, "MuxingMode", Reference->MI->Info->Get(Stream_General, 0, General_Format)+MuxingMode, true);
     }
 }
@@ -570,21 +647,21 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
     if (CodecID!=MI->Retrieve(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_CodecID)))
     {
         if (!CodecID.empty())
-            CodecID+=_T(" / ");
+            CodecID+=__T(" / ");
         CodecID+=MI->Retrieve(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_CodecID));
         MI->Fill(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_CodecID), CodecID, true);
     }
-    if (Reference->MI->Count_Get(Stream_Video)+Reference->MI->Count_Get(Stream_Audio)>1 && Reference->MI->Get(Stream_Video, 0, Video_Format)!=_T("DV"))
+    if (Reference->MI->Count_Get(Stream_Video)+Reference->MI->Count_Get(Stream_Audio)>1 && Reference->MI->Get(Stream_Video, 0, Video_Format)!=__T("DV"))
     {
         if (StreamKind_Last==Stream_Menu)
         {
-            ZtringList List; List.Separator_Set(0, _T(" / ")); List.Write(MI->Retrieve(StreamKind_Last, StreamPos_To, "List"));
-            ZtringList List_String; List_String.Separator_Set(0, _T(" / ")); List_String.Write(MI->Retrieve(StreamKind_Last, StreamPos_To, "List/String"));
+            ZtringList List; List.Separator_Set(0, __T(" / ")); List.Write(MI->Retrieve(StreamKind_Last, StreamPos_To, "List"));
+            ZtringList List_String; List_String.Separator_Set(0, __T(" / ")); List_String.Write(MI->Retrieve(StreamKind_Last, StreamPos_To, "List/String"));
             if (!ID_Base.empty())
                 for (size_t Pos=0; Pos<List.size(); Pos++)
                 {
-                    List[Pos].insert(0, ID_Base+_T("-"));
-                    List_String[Pos].insert(0, ID_Base+_T("-"));
+                    List[Pos].insert(0, ID_Base+__T("-"));
+                    List_String[Pos].insert(0, ID_Base+__T("-"));
                 }
             MI->Fill(Stream_Menu, StreamPos_To, Menu_List, List.Read(), true);
             MI->Fill(Stream_Menu, StreamPos_To, Menu_List_String, List_String.Read(), true);
@@ -600,8 +677,8 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
             Ztring List_String=Reference->MI->Get(StreamKind_Last, StreamPos_From, General_ID_String);
             if (!ID_Base.empty())
             {
-                List.insert(0, ID_Base+_T("-"));
-                List_String.insert(0, ID_Base+_T("-"));
+                List.insert(0, ID_Base+__T("-"));
+                List_String.insert(0, ID_Base+__T("-"));
             }
             MI->Fill(Stream_Menu, Reference->MenuPos, Menu_List, List);
             MI->Fill(Stream_Menu, Reference->MenuPos, Menu_List_String, List_String);
@@ -610,18 +687,18 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
     if ((!Config->File_ID_OnlyRoot_Get() || Reference->MI->Count_Get(Stream_Video)+Reference->MI->Count_Get(Stream_Audio)>1) && !MI->Retrieve(StreamKind_Last, StreamPos_To, General_ID).empty())
     {
         if (!ID.empty())
-            ID+=_T('-');
+            ID+=__T('-');
         ID+=MI->Retrieve(StreamKind_Last, StreamPos_To, General_ID);
         if (!ID_String.empty())
-            ID_String+=_T('-');
+            ID_String+=__T('-');
         ID_String+=MI->Retrieve(StreamKind_Last, StreamPos_To, General_ID_String);
         if (!MI->Retrieve(StreamKind_Last, StreamPos_To, "MenuID").empty())
         {
             if (!ID_Base.empty())
-                MenuID=ID_Base+_T('-');
+                MenuID=ID_Base+__T('-');
             MenuID+=MI->Retrieve(StreamKind_Last, StreamPos_To, "MenuID");
             if (!ID_Base.empty())
-                MenuID_String=ID_Base+_T('-');
+                MenuID_String=ID_Base+__T('-');
             MenuID_String+=MI->Retrieve(StreamKind_Last, StreamPos_To, "MenuID/String");
         }
         else if (Reference->MenuPos!=(size_t)-1)
@@ -636,13 +713,15 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
     MI->Fill(StreamKind_Last, StreamPos_To, "MenuID/String", MenuID_String, true);
     if (MI->Retrieve(StreamKind_Last, StreamPos_To, "Source").empty())
         MI->Fill(StreamKind_Last, StreamPos_To, "Source", Reference->Source);
+    for (std::map<string, Ztring>::iterator Info=Reference->Infos.begin(); Info!=Reference->Infos.end(); Info++)
+        MI->Fill(StreamKind_Last, StreamPos_To, Info->first.c_str(), Info->second);
 
     //Others
     if (Reference->MI->Info && MI->Retrieve(StreamKind_Last, StreamPos_To, Reference->MI->Info->Fill_Parameter(StreamKind_Last, Generic_Format))!=Reference->MI->Info->Get(Stream_General, 0, General_Format))
     {
         Ztring MuxingMode=MI->Retrieve(StreamKind_Last, StreamPos_To, "MuxingMode");
         if (!MuxingMode.empty())
-            MuxingMode.insert(0, _T(" / "));
+            MuxingMode.insert(0, __T(" / "));
         MI->Fill(StreamKind_Last, StreamPos_To, "MuxingMode", Reference->MI->Info->Get(Stream_General, 0, General_Format)+MuxingMode, true);
     }
 }
@@ -667,7 +746,7 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
     //Parsing
     switch (Method)
     {
-        case 0  :   
+        case 0  :
                     #if MEDIAINFO_DEMUX
                         {
                         if (Value)
@@ -679,14 +758,14 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                             if (!Duration)
                             {
                                 MediaInfo_Internal MI2;
-                                MI2.Option(_T("File_KeepInfo"), _T("1"));
-                                Ztring ParseSpeed_Save=MI2.Option(_T("ParseSpeed_Get"), _T(""));
-                                Ztring Demux_Save=MI2.Option(_T("Demux_Get"), _T(""));
-                                MI2.Option(_T("ParseSpeed"), _T("0"));
-                                MI2.Option(_T("Demux"), Ztring());
+                                MI2.Option(__T("File_KeepInfo"), __T("1"));
+                                Ztring ParseSpeed_Save=MI2.Option(__T("ParseSpeed_Get"), __T(""));
+                                Ztring Demux_Save=MI2.Option(__T("Demux_Get"), __T(""));
+                                MI2.Option(__T("ParseSpeed"), __T("0"));
+                                MI2.Option(__T("Demux"), Ztring());
                                 size_t MiOpenResult=MI2.Open(MI->File_Name);
-                                MI2.Option(_T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-                                MI2.Option(_T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+                                MI2.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+                                MI2.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
                                 if (!MiOpenResult)
                                     return (size_t)-1;
                                 Duration=MI2.Get(Stream_General, 0, General_Duration).To_float64()/1000;
@@ -717,7 +796,7 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                             {
                                 if (Reference->MI)
                                 {
-                                    Ztring Result=Reference->MI->Option(_T("File_Seek"), DurationS);
+                                    Ztring Result=Reference->MI->Option(__T("File_Seek"), DurationS);
                                     if (!Result.empty())
                                         HasProblem=true;
                                 }
@@ -734,7 +813,7 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                         {
                             if (Reference->MI)
                             {
-                                Ztring Result=Reference->MI->Option(_T("File_Seek"), Ztring::ToZtring(Value));
+                                Ztring Result=Reference->MI->Option(__T("File_Seek"), Ztring::ToZtring(Value));
                                 if (!Result.empty())
                                     HasProblem=true;
                             }
@@ -747,7 +826,7 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                     #else //MEDIAINFO_DEMUX
                         return (size_t)-1; //Not supported
                     #endif //MEDIAINFO_DEMUX
-        case 1  :   
+        case 1  :
                     {
                         //Time percentage
                         int64u Duration=MI->Get(Stream_General, 0, General_Duration).To_int64u();
@@ -770,7 +849,7 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                             DurationS+=L'0'+(wchar_t)(Duration);
                         }
                         else
-                            DurationS=Ztring::ToZtring(((float64)Value)/100)+_T('%');
+                            DurationS=Ztring::ToZtring(((float64)Value)/100)+__T('%');
 
                         CountOfReferencesToParse=References.size();
                         bool HasProblem=false;
@@ -778,7 +857,7 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                         {
                             if (Reference->MI)
                             {
-                                Ztring Result=Reference->MI->Option(_T("File_Seek"), DurationS);
+                                Ztring Result=Reference->MI->Option(__T("File_Seek"), DurationS);
                                 if (!Result.empty())
                                     HasProblem=true;
                             }
@@ -797,7 +876,7 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                         {
                             if (Reference->MI)
                             {
-                                Ztring Result=Reference->MI->Option(_T("File_Seek"), Time);
+                                Ztring Result=Reference->MI->Option(__T("File_Seek"), Time);
                                 if (!Result.empty())
                                     return 2; //Invalid value
                             }
@@ -823,7 +902,7 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                         {
                             if (Reference->MI)
                             {
-                                Ztring Result=Reference->MI->Option(_T("File_Seek"), _T("Frame=")+Ztring::ToZtring(Value));
+                                Ztring Result=Reference->MI->Option(__T("File_Seek"), __T("Frame=")+Ztring::ToZtring(Value));
                                 if (!Result.empty())
                                     return 2; //Invalid value
                             }

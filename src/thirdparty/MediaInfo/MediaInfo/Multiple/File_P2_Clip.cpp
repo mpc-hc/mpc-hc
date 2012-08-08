@@ -1,17 +1,17 @@
 // File_P2_Clip - Info for P2 Clip (XML) files
-// Copyright (C) 2010-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -140,8 +140,8 @@ bool File_P2_Clip::FileHeader_Begin()
                 if (ChildElement)
                     EditUnit=ChildElement->GetText();
                 int64u Duration_Frames=Duration.To_int64u();
-                int64u EditUnit_Numerator=EditUnit.SubString(Ztring(), _T("/")).To_int64u();
-                int64u EditUnit_Denominator=EditUnit.SubString(_T("/"), Ztring()).To_int64u();
+                int64u EditUnit_Numerator=EditUnit.SubString(Ztring(), __T("/")).To_int64u();
+                int64u EditUnit_Denominator=EditUnit.SubString(__T("/"), Ztring()).To_int64u();
                 if (Duration_Frames && EditUnit_Numerator && EditUnit_Denominator)
                     Fill(Stream_General, 0, General_Duration, ((float32)Duration_Frames)*1000*EditUnit_Numerator/EditUnit_Denominator, 0);
 
@@ -163,11 +163,11 @@ bool File_P2_Clip::FileHeader_Begin()
                             if (ChildElement)
                             {
                                 Ztring FrameRateS=Ztring(ChildElement->GetText());
-                                        if (FrameRateS.find(_T("23.97"))==0)
+                                        if (FrameRateS.find(__T("23.97"))==0)
                                     ReferenceFile.FrameRate=((float64)24)*1000/1001;
-                                else if (FrameRateS.find(_T("29.97"))==0)
+                                else if (FrameRateS.find(__T("29.97"))==0)
                                     ReferenceFile.FrameRate=((float64)30)*1000/1001;
-                                else if (FrameRateS.find(_T("59.94"))==0)
+                                else if (FrameRateS.find(__T("59.94"))==0)
                                     ReferenceFile.FrameRate=((float64)60)*1000/1001;
                                 else
                                     ReferenceFile.FrameRate=FrameRateS.To_float64();
@@ -198,18 +198,18 @@ bool File_P2_Clip::FileHeader_Begin()
                             #if defined(MEDIAINFO_MXF_YES)
                                 if (File_Name.size()>10+1+4
                                  && File_Name[File_Name.size()-10-1]==PathSeparator
-                                 && (File_Name[File_Name.size()-10-2]&(~0x20))==_T('P')
-                                 && (File_Name[File_Name.size()-10-3]&(~0x20))==_T('I')
-                                 && (File_Name[File_Name.size()-10-4]&(~0x20))==_T('L')
-                                 && (File_Name[File_Name.size()-10-5]&(~0x20))==_T('C'))
+                                 && (File_Name[File_Name.size()-10-2]&(~0x20))==__T('P')
+                                 && (File_Name[File_Name.size()-10-3]&(~0x20))==__T('I')
+                                 && (File_Name[File_Name.size()-10-4]&(~0x20))==__T('L')
+                                 && (File_Name[File_Name.size()-10-5]&(~0x20))==__T('C'))
                                 {
                                     Ztring file=File_Name.substr(File_Name.size()-10, 6);
                                     Ztring MXF_File=File_Name;
                                     MXF_File.resize(MXF_File.size()-(10+1+4));
-                                    MXF_File+=_T("VIDEO");
+                                    MXF_File+=__T("VIDEO");
                                     MXF_File+=PathSeparator;
                                     MXF_File+=file;
-                                    MXF_File+=_T(".MXF");
+                                    MXF_File+=__T(".MXF");
 
                                     ReferenceFile.FileNames.push_back(MXF_File);
                                     ReferenceFile.StreamKind=Stream_Video;
@@ -223,22 +223,22 @@ bool File_P2_Clip::FileHeader_Begin()
                             #if defined(MEDIAINFO_MXF_YES)
                                 if (File_Name.size()>10+1+4
                                  && File_Name[File_Name.size()-10-1]==PathSeparator
-                                 && (File_Name[File_Name.size()-10-2]&(~0x20))==_T('P')
-                                 && (File_Name[File_Name.size()-10-3]&(~0x20))==_T('I')
-                                 && (File_Name[File_Name.size()-10-4]&(~0x20))==_T('L')
-                                 && (File_Name[File_Name.size()-10-5]&(~0x20))==_T('C'))
+                                 && (File_Name[File_Name.size()-10-2]&(~0x20))==__T('P')
+                                 && (File_Name[File_Name.size()-10-3]&(~0x20))==__T('I')
+                                 && (File_Name[File_Name.size()-10-4]&(~0x20))==__T('L')
+                                 && (File_Name[File_Name.size()-10-5]&(~0x20))==__T('C'))
                                 {
                                     Ztring file=File_Name.substr(File_Name.size()-10, 6);
                                     Ztring MXF_File=File_Name;
                                     MXF_File.resize(MXF_File.size()-(10+1+4));
-                                    MXF_File+=_T("AUDIO");
+                                    MXF_File+=__T("AUDIO");
                                     MXF_File+=PathSeparator;
                                     MXF_File+=file;
                                     Ztring Pos=Ztring::ToZtring(Audio_Count);
                                     if (Pos.size()<2)
-                                        Pos.insert(0, 1, _T('0'));
+                                        Pos.insert(0, 1, __T('0'));
                                     MXF_File+=Pos;
-                                    MXF_File+=_T(".MXF");
+                                    MXF_File+=__T(".MXF");
 
                                     File__ReferenceFilesHelper::reference ReferenceFile;
                                     ReferenceFile.FileNames.push_back(MXF_File);
@@ -267,12 +267,12 @@ bool File_P2_Clip::FileHeader_Begin()
                         if (ChildElement)
                         {
                             Ztring Content=ChildElement->GetText();
-                            if (Content.size()>=11 && Content[10]==_T('T'))
-                                Content[10]=_T(' ');
-                            if (Content.find(_T("+00:00"))!=string::npos)
+                            if (Content.size()>=11 && Content[10]==__T('T'))
+                                Content[10]=__T(' ');
+                            if (Content.find(__T("+00:00"))!=string::npos)
                             {
                                 Content.resize(10+1+8);
-                                Content.insert(0, _T("UTC "));
+                                Content.insert(0, __T("UTC "));
                             }
                             Fill(Stream_General, 0, General_Recorded_Date, Content);
                         }
@@ -282,12 +282,12 @@ bool File_P2_Clip::FileHeader_Begin()
                         if (ChildElement)
                         {
                             Ztring Content=ChildElement->GetText();
-                            if (Content.size()>=11 && Content[10]==_T('T'))
-                                Content[10]=_T(' ');
-                            if (Content.find(_T("+00:00"))!=string::npos)
+                            if (Content.size()>=11 && Content[10]==__T('T'))
+                                Content[10]=__T(' ');
+                            if (Content.find(__T("+00:00"))!=string::npos)
                             {
                                 Content.resize(10+1+8);
-                                Content.insert(0, _T("UTC "));
+                                Content.insert(0, __T("UTC "));
                             }
                             Fill(Stream_General, 0, General_Tagged_Date, Content);
                         }
@@ -311,12 +311,12 @@ bool File_P2_Clip::FileHeader_Begin()
                         if (ChildElement)
                         {
                             Ztring Content=ChildElement->GetText();
-                            if (Content.size()>=11 && Content[10]==_T('T'))
-                                Content[10]=_T(' ');
-                            if (Content.find(_T("+00:00"))!=string::npos)
+                            if (Content.size()>=11 && Content[10]==__T('T'))
+                                Content[10]=__T(' ');
+                            if (Content.find(__T("+00:00"))!=string::npos)
                             {
                                 Content.resize(10+1+8);
-                                Content.insert(0, _T("UTC "));
+                                Content.insert(0, __T("UTC "));
                             }
                             Fill(Stream_General, 0, General_Duration_Start, Content);
                         }
@@ -326,12 +326,12 @@ bool File_P2_Clip::FileHeader_Begin()
                         if (ChildElement)
                         {
                             Ztring Content=ChildElement->GetText();
-                            if (Content.size()>=11 && Content[10]==_T('T'))
-                                Content[10]=_T(' ');
-                            if (Content.find(_T("+00:00"))!=string::npos)
+                            if (Content.size()>=11 && Content[10]==__T('T'))
+                                Content[10]=__T(' ');
+                            if (Content.find(__T("+00:00"))!=string::npos)
                             {
                                 Content.resize(10+1+8);
-                                Content.insert(0, _T("UTC "));
+                                Content.insert(0, __T("UTC "));
                             }
                             Fill(Stream_General, 0, General_Duration_End, Content);
                         }

@@ -1,5 +1,5 @@
 // ZenLib::ZtringListList - More methods for std::vector<std::vector<std::(w)string>>
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -101,7 +101,7 @@ public :
     /// @brief Delete a vector of string at position Pos0
     void Delete (size_type Pos0)                                                   {erase(begin()+Pos0);};
     /// @brief Delete all vectors of string, with [xxx][Pos1] == ToFind
-    void Delete (const Ztring &ToFind, size_type Pos1=0, const Ztring &Comparator=_T("=="), ztring_t Options=Ztring_Nothing);
+    void Delete (const Ztring &ToFind, size_type Pos1=0, const Ztring &Comparator=__T("=="), ztring_t Options=Ztring_Nothing);
     /// @brief Delete a string at all positions Pos1
     void Delete1 (size_type Pos1);
 
@@ -121,9 +121,9 @@ public :
     /// @brief Find the first position of the string in the vector of vector, in a specific column
     size_type Find (const Ztring &ToFind, size_type Pos1, size_type Pos0Begin, const Ztring &Comparator, ztring_t Options=Ztring_Nothing) const;
     /// @brief Return [xxx][Pos1Value] when founded the first position of the string in the vector of vector, in a specific column
-    Ztring FindValue (const Ztring &ToFind, size_type Pos1Value=1, size_type Pos1=0, size_type Pos0Begin=0, const Ztring &Comparator=_T("=="), ztring_t Options=Ztring_Nothing) const;
+    Ztring FindValue (const Ztring &ToFind, size_type Pos1Value=1, size_type Pos1=0, size_type Pos0Begin=0, const Ztring &Comparator=__T("=="), ztring_t Options=Ztring_Nothing) const;
     /// @brief Return a subsheet, with all lines with position of the string in the vector of vector, in a specific column
-    ZtringListList SubSheet (const Ztring &ToFind, size_type Pos1=0, size_type Pos0Begin=0, const Ztring &Comparator=_T("=="), ztring_t Options=Ztring_Nothing) const;
+    ZtringListList SubSheet (const Ztring &ToFind, size_type Pos1=0, size_type Pos0Begin=0, const Ztring &Comparator=__T("=="), ztring_t Options=Ztring_Nothing) const;
 
     //Configuration
     /// @brief Set the Separator character

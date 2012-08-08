@@ -1,17 +1,17 @@
 // File__Analyze_Inform - Base for other files
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -107,11 +107,11 @@ void File__Analyze::Streams_Accept_TestContinuousFileNames_Static(ZtringList &Fi
     if (File_Names.size()!=1)
         return;
 
-    //Trying to detect continuous file names (e.g. video stream as an image or HLS) 
+    //Trying to detect continuous file names (e.g. video stream as an image or HLS)
     FileName FileToTest(File_Names.Read(0));
     Ztring FileToTest_Name=FileToTest.Name_Get();
     size_t FileNameToTest_Pos=FileToTest_Name.size();
-    while (FileNameToTest_Pos && FileToTest_Name[FileNameToTest_Pos-1]>=_T('0') && FileToTest_Name[FileNameToTest_Pos-1]<=_T('9'))
+    while (FileNameToTest_Pos && FileToTest_Name[FileNameToTest_Pos-1]>=__T('0') && FileToTest_Name[FileNameToTest_Pos-1]<=__T('9'))
         FileNameToTest_Pos--;
     if (FileNameToTest_Pos!=FileToTest_Name.size())
     {
@@ -125,8 +125,8 @@ void File__Analyze::Streams_Accept_TestContinuousFileNames_Static(ZtringList &Fi
             Ztring Pos_Ztring; Pos_Ztring.From_Number(Pos);
             if (Numbers_Size<Pos_Ztring.size())
                 break; //Not enough place for numbers
-            Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), _T('0'));
-            Ztring Next=FileToTest.Path_Get()+PathSeparator+FileToTest_Name+Pos_Ztring+_T('.')+FileToTest.Extension_Get();
+            Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), __T('0'));
+            Ztring Next=FileToTest.Path_Get()+PathSeparator+FileToTest_Name+Pos_Ztring+__T('.')+FileToTest.Extension_Get();
             if (!File::Exists(Next))
                 break;
             File_Names.push_back(Next);
@@ -144,7 +144,7 @@ void File__Analyze::Streams_Accept_TestContinuousFileNames()
         return;
 
     Streams_Accept_TestContinuousFileNames_Static(Config->File_Names, Config->File_IsReferenced_Get());
-        
+
     if (Config->File_Names.size()==1)
         return;
 
@@ -229,7 +229,7 @@ void File__Analyze::Streams_Finish_StreamOnly(stream_t StreamKind, size_t Pos)
     }
 
     //StreamSize from BitRate and Duration
-    if (StreamKind!=Stream_Chapters && Retrieve(StreamKind, Pos, Fill_Parameter(StreamKind, Generic_StreamSize)).empty() && !Retrieve(StreamKind, Pos, "BitRate").empty() && !Retrieve(StreamKind, Pos, Fill_Parameter(StreamKind, Generic_Duration)).empty() && Retrieve(StreamKind, Pos, "BitRate").find(_T(" / "))==std::string::npos) //If not done the first time or by other routine
+    if (StreamKind!=Stream_Chapters && Retrieve(StreamKind, Pos, Fill_Parameter(StreamKind, Generic_StreamSize)).empty() && !Retrieve(StreamKind, Pos, "BitRate").empty() && !Retrieve(StreamKind, Pos, Fill_Parameter(StreamKind, Generic_Duration)).empty() && Retrieve(StreamKind, Pos, "BitRate").find(__T(" / "))==std::string::npos) //If not done the first time or by other routine
     {
         int64u BitRate=Retrieve(StreamKind, Pos, "BitRate").To_int64u();
         int64u Duration=Retrieve(StreamKind, Pos, Fill_Parameter(StreamKind, Generic_Duration)).To_int64u();
@@ -286,27 +286,27 @@ void File__Analyze::Streams_Finish_StreamOnly_Video(size_t Pos)
         Fill(Stream_Video, Pos, Video_PixelAspectRatio, 1.000);
 
     //Standard
-    if (Retrieve(Stream_Video, Pos, Video_Standard).empty() && (Retrieve(Stream_Video, Pos, Video_Width)==_T("720") || Retrieve(Stream_Video, Pos, Video_Width)==_T("704")))
+    if (Retrieve(Stream_Video, Pos, Video_Standard).empty() && (Retrieve(Stream_Video, Pos, Video_Width)==__T("720") || Retrieve(Stream_Video, Pos, Video_Width)==__T("704")))
     {
-             if (Retrieve(Stream_Video, Pos, Video_Height)==_T("576"))
+             if (Retrieve(Stream_Video, Pos, Video_Height)==__T("576"))
             Fill(Stream_Video, Pos, Video_Standard, "PAL");
-        else if (Retrieve(Stream_Video, Pos, Video_Height)==_T("486") || Retrieve(Stream_Video, Pos, Video_Height)==_T("480"))
+        else if (Retrieve(Stream_Video, Pos, Video_Height)==__T("486") || Retrieve(Stream_Video, Pos, Video_Height)==__T("480"))
             Fill(Stream_Video, Pos, Video_Standard, "NTSC");
     }
-    if (Retrieve(Stream_Video, Pos, Video_Standard).empty() && Retrieve(Stream_Video, Pos, Video_Width)==_T("352"))
+    if (Retrieve(Stream_Video, Pos, Video_Standard).empty() && Retrieve(Stream_Video, Pos, Video_Width)==__T("352"))
     {
-             if (Retrieve(Stream_Video, Pos, Video_Height)==_T("576") || Retrieve(Stream_Video, Pos, Video_Height)==_T("288"))
+             if (Retrieve(Stream_Video, Pos, Video_Height)==__T("576") || Retrieve(Stream_Video, Pos, Video_Height)==__T("288"))
             Fill(Stream_Video, Pos, Video_Standard, "PAL");
-        else if (Retrieve(Stream_Video, Pos, Video_Height)==_T("486") || Retrieve(Stream_Video, Pos, Video_Height)==_T("480") || Retrieve(Stream_Video, Pos, Video_Height)==_T("243") || Retrieve(Stream_Video, Pos, Video_Height)==_T("240"))
+        else if (Retrieve(Stream_Video, Pos, Video_Height)==__T("486") || Retrieve(Stream_Video, Pos, Video_Height)==__T("480") || Retrieve(Stream_Video, Pos, Video_Height)==__T("243") || Retrieve(Stream_Video, Pos, Video_Height)==__T("240"))
             Fill(Stream_Video, Pos, Video_Standard, "NTSC");
     }
 
     //Known ScanTypes
     if (Retrieve(Stream_Video, Pos, Video_ScanType).empty()
-     && (Retrieve(Stream_Video, Pos, Video_Format)==_T("RED")
-      || Retrieve(Stream_Video, Pos, Video_Format)==_T("CineForm")
-      || Retrieve(Stream_Video, Pos, Video_Format)==_T("DPX")
-      || Retrieve(Stream_Video, Pos, Video_Format)==_T("EXR")))
+     && (Retrieve(Stream_Video, Pos, Video_Format)==__T("RED")
+      || Retrieve(Stream_Video, Pos, Video_Format)==__T("CineForm")
+      || Retrieve(Stream_Video, Pos, Video_Format)==__T("DPX")
+      || Retrieve(Stream_Video, Pos, Video_Format)==__T("EXR")))
             Fill(Stream_Video, Pos, Video_ScanType, "PPF");
 }
 
@@ -340,7 +340,7 @@ void File__Analyze::Streams_Finish_StreamOnly_Audio(size_t Pos)
     }
 
     //Stream size
-    if (Retrieve(Stream_Audio, Pos, Audio_StreamSize).empty() && !Retrieve(Stream_Audio, Pos, Audio_BitRate).empty() && !Retrieve(Stream_Audio, Pos, Audio_Duration).empty() && Retrieve(Stream_Audio, Pos, Audio_BitRate_Mode)==_T("CBR"))
+    if (Retrieve(Stream_Audio, Pos, Audio_StreamSize).empty() && !Retrieve(Stream_Audio, Pos, Audio_BitRate).empty() && !Retrieve(Stream_Audio, Pos, Audio_Duration).empty() && Retrieve(Stream_Audio, Pos, Audio_BitRate_Mode)==__T("CBR"))
     {
         int64u Duration=Retrieve(Stream_Audio, Pos, Audio_Duration).To_int64u();
         int64u BitRate=Retrieve(Stream_Audio, Pos, Audio_BitRate).To_int64u();
@@ -480,7 +480,7 @@ void File__Analyze::Streams_Finish_InterStreams()
             TextBitRate_Ratio   =1;
             TextBitRate_Minus   =0;
         }
-        if (Get(Stream_General, 0, _T("Format"))==_T("MPEG-TS"))
+        if (Get(Stream_General, 0, __T("Format"))==__T("MPEG-TS"))
         {
             GeneralBitRate_Ratio=0.98;
             GeneralBitRate_Minus=0;
@@ -491,7 +491,7 @@ void File__Analyze::Streams_Finish_InterStreams()
             TextBitRate_Ratio   =0.96;
             TextBitRate_Minus   =0;
         }
-        if (Get(Stream_General, 0, _T("Format"))==_T("MPEG-PS"))
+        if (Get(Stream_General, 0, __T("Format"))==__T("MPEG-PS"))
         {
             GeneralBitRate_Ratio=0.99;
             GeneralBitRate_Minus=0;
@@ -502,7 +502,7 @@ void File__Analyze::Streams_Finish_InterStreams()
             TextBitRate_Ratio   =0.99;
             TextBitRate_Minus   =0;
         }
-        if (MediaInfoLib::Config.Format_Get(Retrieve(Stream_General, 0, General_Format), InfoFormat_KindofFormat)==_T("MPEG-4"))
+        if (MediaInfoLib::Config.Format_Get(Retrieve(Stream_General, 0, General_Format), InfoFormat_KindofFormat)==__T("MPEG-4"))
         {
             GeneralBitRate_Ratio=1;
             GeneralBitRate_Minus=0;
@@ -513,7 +513,7 @@ void File__Analyze::Streams_Finish_InterStreams()
             TextBitRate_Ratio   =1;
             TextBitRate_Minus   =0;
         }
-        if (Get(Stream_General, 0, _T("Format"))==_T("Matroska"))
+        if (Get(Stream_General, 0, __T("Format"))==__T("Matroska"))
         {
             GeneralBitRate_Ratio=0.99;
             GeneralBitRate_Minus=0;
@@ -531,9 +531,9 @@ void File__Analyze::Streams_Finish_InterStreams()
         for (size_t Pos=0; Pos<Count_Get(Stream_Audio); Pos++)
         {
             float64 AudioBitRate=0;
-            if (!Retrieve(Stream_Audio, Pos, Audio_BitRate).empty() && Retrieve(Stream_Audio, Pos, Audio_BitRate)[0]<=_T('9')) //Note: quick test if it is a number
+            if (!Retrieve(Stream_Audio, Pos, Audio_BitRate).empty() && Retrieve(Stream_Audio, Pos, Audio_BitRate)[0]<=__T('9')) //Note: quick test if it is a number
                 AudioBitRate=Retrieve(Stream_Audio, Pos, Audio_BitRate).To_float64();
-            else if (!Retrieve(Stream_Audio, Pos, Audio_BitRate_Encoded).empty() && Retrieve(Stream_Audio, Pos, Audio_BitRate_Encoded)[0]<=_T('9')) //Note: quick test if it is a number        
+            else if (!Retrieve(Stream_Audio, Pos, Audio_BitRate_Encoded).empty() && Retrieve(Stream_Audio, Pos, Audio_BitRate_Encoded)[0]<=__T('9')) //Note: quick test if it is a number
                 AudioBitRate=Retrieve(Stream_Audio, Pos, Audio_BitRate_Encoded).To_float64();
             else
                 VideobitRateIsValid=false;
@@ -543,7 +543,7 @@ void File__Analyze::Streams_Finish_InterStreams()
         for (size_t Pos=0; Pos<Count_Get(Stream_Text); Pos++)
         {
             float64 TextBitRate;
-            if (Retrieve(Stream_Text, Pos, Text_BitRate_Encoded).empty())            
+            if (Retrieve(Stream_Text, Pos, Text_BitRate_Encoded).empty())
                 TextBitRate=Retrieve(Stream_Text, Pos, Text_BitRate).To_float64();
             else
                 TextBitRate=Retrieve(Stream_Text, Pos, Text_BitRate_Encoded).To_float64();
@@ -609,9 +609,9 @@ void File__Analyze::Streams_Finish_InterStreams()
             {
                 if (!IsValid)
                     IsValid=true;
-                if (Retrieve((stream_t)StreamKind, StreamPos, Fill_Parameter((stream_t)StreamKind, Generic_BitRate_Mode))!=_T("CBR"))
+                if (Retrieve((stream_t)StreamKind, StreamPos, Fill_Parameter((stream_t)StreamKind, Generic_BitRate_Mode))!=__T("CBR"))
                     IsCBR=false;
-                if (Retrieve((stream_t)StreamKind, StreamPos, Fill_Parameter((stream_t)StreamKind, Generic_BitRate_Mode))==_T("VBR"))
+                if (Retrieve((stream_t)StreamKind, StreamPos, Fill_Parameter((stream_t)StreamKind, Generic_BitRate_Mode))==__T("VBR"))
                     IsVBR=true;
             }
         if (IsValid)

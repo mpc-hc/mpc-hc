@@ -1,5 +1,5 @@
 // ZenLib::Ztring - More methods for std::(w)string
-// Copyright (C) 2002-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -326,13 +326,13 @@ public :
         /// @brief convert into uppercase
     Ztring &MakeUpperCase();
         /// @brief Remove leading whitespaces from a string
-    Ztring &TrimLeft(Char ToTrim=_T(' '));
+    Ztring &TrimLeft(Char ToTrim=__T(' '));
         /// @brief Remove trailing whitespaces from a string
-    Ztring &TrimRight(Char ToTrim=_T(' '));
+    Ztring &TrimRight(Char ToTrim=__T(' '));
         /// @brief Remove leading and trailing whitespaces from a string
-    Ztring &Trim(Char ToTrim=_T(' '));
+    Ztring &Trim(Char ToTrim=__T(' '));
         /// @brief Quotes a string
-    Ztring &Quote(Char ToTrim=_T('\"'));
+    Ztring &Quote(Char ToTrim=__T('\"'));
         /// @brief return a string between two strings
         /// @param Begin First string
         /// @param End Second string
@@ -363,7 +363,7 @@ public :
         /// @param Options Options for comaparing \n
         ///                Available : Ztring_CaseSensitive
         /// @return The result of comparasion
-    bool Compare (const Ztring &ToCompare, const Ztring &Comparator=_T("=="), ztring_t Options=Ztring_Nothing) const;
+    bool Compare (const Ztring &ToCompare, const Ztring &Comparator=__T("=="), ztring_t Options=Ztring_Nothing) const;
 };
 
 } //NameSpace

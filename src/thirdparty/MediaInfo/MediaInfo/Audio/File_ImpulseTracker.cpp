@@ -1,17 +1,17 @@
 // File_ImpulseTracker - Info for Impulse Tracker files
-// Copyright (C) 2008-2011 MediaArea.net SARL, Info@MediaArea.net
+// Copyright (C) 2008-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// under the terms of the GNU Library General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
 // any later version.
 //
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
+// GNU Library General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Library General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -118,14 +118,14 @@ void File_ImpulseTracker::Read_Buffer_Continue()
         Accept("Impulse Tracker");
 
         Fill(Stream_General, 0, General_Format, "Impulse Tracker");
-        Fill(Stream_General, 0, General_Format_Version, Ztring(_T("Version "))+Ztring::ToZtring(VersionMajor)+_T(".")+Ztring::ToZtring(VersionMinor/16)+Ztring::ToZtring(VersionMinor%16));
+        Fill(Stream_General, 0, General_Format_Version, Ztring(__T("Version "))+Ztring::ToZtring(VersionMajor)+__T(".")+Ztring::ToZtring(VersionMinor/16)+Ztring::ToZtring(VersionMinor%16));
         Fill(Stream_General, 0, General_Track, SongName);
-        Fill(Stream_General, 0, General_Encoded_Application, Ztring(_T("Impulse Tracker ")+Ztring::ToZtring(SoftwareVersionMajor)+_T(".")+Ztring::ToZtring(SoftwareVersionMinor/16)+Ztring::ToZtring(SoftwareVersionMinor%16)));
+        Fill(Stream_General, 0, General_Encoded_Application, Ztring(__T("Impulse Tracker ")+Ztring::ToZtring(SoftwareVersionMajor)+__T(".")+Ztring::ToZtring(SoftwareVersionMinor/16)+Ztring::ToZtring(SoftwareVersionMinor%16)));
         Fill(Stream_General, 0, "BPM", TS);
 
         Stream_Prepare(Stream_Audio);
         Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, Stereo?2:1);
-        
+
         //No more need data
         Finish("Impulse Tracker");
     FILLING_END();
