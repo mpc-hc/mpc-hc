@@ -358,7 +358,7 @@ void CachedXFORMGamutCheck(_cmsTRANSFORM* p,
 // List of used-defined transform factories
 typedef struct _cmsTransformCollection_st {
 
-    _cmsTranformFactory  Factory;
+    _cmsTransformFactory  Factory;
     struct _cmsTransformCollection_st *Next;
 
 } _cmsTransformCollection;

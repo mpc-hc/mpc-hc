@@ -567,9 +567,9 @@ typedef void     (* _cmsTransformFn)(struct _cmstransform_struct *CMMcargo,
                                      cmsUInt32Number Size,
                                      cmsUInt32Number Stride);
 
-typedef cmsBool  (* _cmsTranformFactory)(_cmsTransformFn* xform,
+typedef cmsBool  (* _cmsTransformFactory)(_cmsTransformFn* xform,
                                          void** UserData,
-                                         _cmsFreeUserDataFn* FreeUserData,
+                                         _cmsFreeUserDataFn* FreePrivateDataFn,
                                          cmsPipeline** Lut,
                                          cmsUInt32Number* InputFormat,
                                          cmsUInt32Number* OutputFormat,
@@ -583,7 +583,7 @@ typedef struct {
       cmsPluginBase     base;
 
       // Transform entry point
-      _cmsTranformFactory  Factory;
+      _cmsTransformFactory  Factory;
 
 }  cmsPluginTransform;
 
