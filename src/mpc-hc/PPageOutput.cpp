@@ -266,20 +266,41 @@ BOOL CPPageOutput::OnInitDialog()
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM)), VIDRNDT_DS_EVR_CUSTOM);
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_SYNC)), VIDRNDT_DS_SYNC);
     }
+    else {
+        CString str;
+        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_EVR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
+        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_EVR);
+        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
+        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_EVR_CUSTOM);
+        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_SYNC), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
+        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_SYNC);
+    }
     if (IsCLSIDRegistered(CLSID_DXR)) {
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_DXR)), VIDRNDT_DS_DXR);
+    }
+    else {
+        CString str;
+        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_DXR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
+        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_DXR);
     }
     m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_NULL_COMP)), VIDRNDT_DS_NULL_COMP);
     m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_NULL_UNCOMP)), VIDRNDT_DS_NULL_UNCOMP);
     if (IsCLSIDRegistered(CLSID_madVR)) {
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_MADVR)), VIDRNDT_DS_MADVR);
     }
+    else {
+        CString str;
+        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_MADVR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
+        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_MADVR);
+    }
+
     for (int i = 0; i < m_iDSVRTC.GetCount(); ++i) {
         if (m_iDSVideoRendererType == m_iDSVRTC.GetItemData(i)) {
             m_iDSVRTC.SetCurSel(i);
             break;
         }
     }
+
     m_iDSVRTC.SetRedraw(TRUE);
     m_iDSVRTC.Invalidate();
     m_iDSVRTC.UpdateWindow();
@@ -352,6 +373,23 @@ BOOL CPPageOutput::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
 
+    if(!IsRenderTypeAvailable(m_iDSVideoRendererType)) {
+        ((CPropertySheet*)GetParent())->SetActivePage(this);
+        AfxMessageBox(IDS_PPAGE_OUTPUT_UNAVAILABLEMSG, MB_ICONEXCLAMATION | MB_OK, 0);
+
+        // revert to the renderer in the settings
+        m_iDSVideoRendererTypeCtrl.SetCurSel(0);
+        for (int i = 0; i < m_iDSVideoRendererTypeCtrl.GetCount(); ++i) {
+            if (s.iDSVideoRendererType == m_iDSVideoRendererTypeCtrl.GetItemData(i)) {
+                m_iDSVideoRendererTypeCtrl.SetCurSel(i);
+                break;
+            }
+        }
+        OnDSRendererChange();
+
+        return FALSE;
+    }
+
     CRenderersSettings& renderersSettings                   = s.m_RenderersSettings;
     s.iDSVideoRendererType                                  = m_iDSVideoRendererType;
     s.iRMVideoRendererType                                  = m_iRMVideoRendererType;
@@ -417,6 +455,10 @@ void CPPageOutput::OnDSRendererChange()
 {
     UpdateData();
     m_iDSVideoRendererType = m_iDSVideoRendererTypeCtrl.GetItemData(m_iDSVideoRendererTypeCtrl.GetCurSel());
+    if(m_iDSVideoRendererType == IDS_PPAGE_OUTPUT_UNAVAILABLE) {
+        m_iDSVideoRendererTypeCtrl.SetCurSel(m_iDSVideoRendererTypeCtrl.GetCurSel()+1);
+        m_iDSVideoRendererType = m_iDSVideoRendererTypeCtrl.GetItemData(m_iDSVideoRendererTypeCtrl.GetCurSel());
+    }
 
     GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
     GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(FALSE);
@@ -665,4 +707,20 @@ void CPPageOutput::OnD3D9DeviceCheck()
     UpdateData();
     GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(m_fD3D9RenderDevice);
     SetModified();
+}
+
+bool CPPageOutput::IsRenderTypeAvailable(int VideoRendererType)
+{
+    switch (m_iDSVideoRendererType) {
+        case VIDRNDT_DS_EVR:
+        case VIDRNDT_DS_EVR_CUSTOM:
+        case VIDRNDT_DS_SYNC:
+            return IsCLSIDRegistered(CLSID_EnhancedVideoRenderer);
+        case VIDRNDT_DS_DXR:
+            return IsCLSIDRegistered(CLSID_DXR);
+        case VIDRNDT_DS_MADVR:
+            return IsCLSIDRegistered(CLSID_madVR);
+        default:
+            return true;
+    }
 }

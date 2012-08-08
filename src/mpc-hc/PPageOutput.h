@@ -33,6 +33,8 @@ class CPPageOutput : public CPPageBase
     DECLARE_DYNAMIC(CPPageOutput)
 
 private:
+    bool IsRenderTypeAvailable(int VideoRendererType);
+
     CStringArray m_AudioRendererDisplayNames;
     CStringArray m_D3D9GUIDNames;
     CImageList m_tickcross;
