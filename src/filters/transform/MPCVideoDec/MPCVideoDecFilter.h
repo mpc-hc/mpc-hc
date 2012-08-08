@@ -115,7 +115,7 @@ protected:
     AVCodecContext* m_pAVCtx;
     AVFrame* m_pFrame;
     int m_nCodecNb;
-    enum CodecID m_nCodecId;
+    enum AVCodecID m_nCodecId;
     int m_nWorkaroundBug;
     int m_nErrorConcealment;
     REFERENCE_TIME m_rtAvrTimePerFrame;
@@ -186,7 +186,7 @@ protected:
     void Cleanup();
     int  FindCodec(const CMediaType* mtIn);
     void AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* mt);
-    bool IsMultiThreadSupported(enum CodecID nCodec);
+    bool IsMultiThreadSupported(enum AVCodecID nCodec);
     void GetOutputFormats(int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
     void CalcAvgTimePerFrame();
     void DetectVideoCard(HWND hWnd);
@@ -283,7 +283,7 @@ public:
     inline bool UseDXVA2() { return (m_nDXVAMode == MODE_DXVA2); };
     inline AVCodecContext* GetAVCtx() { return m_pAVCtx; };
     inline AVFrame* GetFrame() { return m_pFrame; };
-    inline enum CodecID GetCodec() { return m_nCodecId; };
+    inline enum AVCodecID GetCodec() { return m_nCodecId; };
     inline bool IsReorderBFrame() { return m_bReorderBFrame; };
     inline bool IsEvo() { return m_bIsEVO; };
     inline DWORD GetPCIVendor() { return m_nPCIVendor; };

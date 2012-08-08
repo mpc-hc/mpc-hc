@@ -148,16 +148,16 @@ protected:
     HRESULT Mixing(float* pOutput, WORD out_ch, DWORD out_layout, float* pInput, int samples, WORD in_ch, DWORD in_layout);
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
-    bool    InitFFmpeg(enum CodecID nCodecId);
+    bool    InitFFmpeg(enum AVCodecID nCodecId);
     void    ffmpeg_stream_finish();
-    HRESULT DeliverFFmpeg(enum CodecID nCodecId, BYTE* p, int samples, int& size);
-    HRESULT ProcessFFmpeg(enum CodecID nCodecId);
+    HRESULT DeliverFFmpeg(enum AVCodecID nCodecId, BYTE* p, int samples, int& size);
+    HRESULT ProcessFFmpeg(enum AVCodecID nCodecId);
     static void LogLibavcodec(void* par, int level, const char* fmt, va_list valist);
 
     BYTE*   m_pFFBuffer;
     int     m_nFFBufferSize;
 
-    enum CodecID FindCodec(const GUID subtype);
+    enum AVCodecID FindCodec(const GUID subtype);
 
     struct {
         int flavor;

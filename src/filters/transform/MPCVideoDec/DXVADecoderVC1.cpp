@@ -169,7 +169,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME r
 
     // Update timestamp & Re-order B frames
     if (m_bFrame_repeat_pict || m_pFilter->IsReorderBFrame()) {
-        if (m_bFrame_repeat_pict || m_pFilter->GetCodec() == CODEC_ID_WMV3) {
+        if (m_bFrame_repeat_pict || m_pFilter->GetCodec() == AV_CODEC_ID_WMV3) {
             m_pFilter->UpdateFrameTime(rtStart, rtStop, !!m_bFrame_repeat_pict);
         }
         if (m_pFilter->IsReorderBFrame() || m_pFilter->IsEvo()) {
@@ -261,7 +261,7 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
         memcpy(pDXVABuffer, (BYTE*)pBuffer, nSize);
     } else {
         if ((*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000) {
-            if (m_pFilter->GetCodec() == CODEC_ID_WMV3) {
+            if (m_pFilter->GetCodec() == AV_CODEC_ID_WMV3) {
                 memcpy(pDXVABuffer, (BYTE*)pBuffer, nSize);
             } else {
                 pDXVABuffer[0] = pDXVABuffer[1] = 0;

@@ -84,11 +84,11 @@ inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
     MpegEncContext* s = NULL;
 
     switch (pAVCtx->codec_id) {
-        case CODEC_ID_VC1 :
-        case CODEC_ID_H264 :
+        case AV_CODEC_ID_VC1 :
+        case AV_CODEC_ID_H264 :
             s = (MpegEncContext*)pAVCtx->priv_data;
             break;
-        case CODEC_ID_MPEG2VIDEO:
+        case AV_CODEC_ID_MPEG2VIDEO:
             s1 = (Mpeg1Context*)pAVCtx->priv_data;
             s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
             break;
@@ -732,25 +732,25 @@ int FFIsSkipped(struct AVCodecContext* pAVCtx)
     return vc1->p_frame_skipped;
 }
 
-int FFGetThreadType(enum CodecID nCodecId, int nThreadCount)
+int FFGetThreadType(enum AVCodecID nCodecId, int nThreadCount)
 {
     if (!nThreadCount) {
         return 0;
     }
     switch (nCodecId) {
-        case CODEC_ID_H264 :
+        case AV_CODEC_ID_H264 :
             return FF_THREAD_FRAME | FF_THREAD_SLICE;
             break;
-        case CODEC_ID_MPEG1VIDEO :
-        case CODEC_ID_DVVIDEO :
-        case CODEC_ID_FFV1 :
+        case AV_CODEC_ID_MPEG1VIDEO :
+        case AV_CODEC_ID_DVVIDEO :
+        case AV_CODEC_ID_FFV1 :
             return FF_THREAD_SLICE;
             break;
-        case CODEC_ID_VP3 :
-        case CODEC_ID_VP8 :
-        case CODEC_ID_THEORA :
-        case CODEC_ID_RV30 :
-        case CODEC_ID_RV40 :
+        case AV_CODEC_ID_VP3 :
+        case AV_CODEC_ID_VP8 :
+        case AV_CODEC_ID_THEORA :
+        case AV_CODEC_ID_RV30 :
+        case AV_CODEC_ID_RV40 :
             return FF_THREAD_FRAME;
             break;
         default :
@@ -758,7 +758,7 @@ int FFGetThreadType(enum CodecID nCodecId, int nThreadCount)
     }
 }
 
-void FFSetThreadNumber(struct AVCodecContext* pAVCtx, enum CodecID nCodecId, int nThreadCount)
+void FFSetThreadNumber(struct AVCodecContext* pAVCtx, enum AVCodecID nCodecId, int nThreadCount)
 {
     pAVCtx->thread_count = nThreadCount;
     pAVCtx->thread_type  = FFGetThreadType(nCodecId, nThreadCount);
@@ -766,7 +766,7 @@ void FFSetThreadNumber(struct AVCodecContext* pAVCtx, enum CodecID nCodecId, int
 
 BOOL FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx)
 {
-    if (pAVCtx->codec_id == CODEC_ID_VC1) {
+    if (pAVCtx->codec_id == AV_CODEC_ID_VC1) {
         VC1Context* vc1 = (VC1Context*) pAVCtx->priv_data;
         return !vc1->interlace;
     } else {
