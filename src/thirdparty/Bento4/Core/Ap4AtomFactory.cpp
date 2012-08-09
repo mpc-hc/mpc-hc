@@ -409,9 +409,13 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 			break;
 
 		case AP4_ATOM_TYPE_MJPG:
-		case AP4_ATOM_TYPE_AVDJ://uncommon fourcc
-		case AP4_ATOM_TYPE_DMB1://uncommon fourcc
+		case AP4_ATOM_TYPE_AVDJ: // uncommon fourcc
+		case AP4_ATOM_TYPE_DMB1: // uncommon fourcc
 			atom = new AP4_VisualSampleEntry(AP4_ATOM_TYPE_MJPG, size, stream, *this);
+			break;
+
+		case AP4_ATOM_TYPE_2VUY: // = 'UYVY'
+			atom = new AP4_VisualSampleEntry(AP4_ATOM_TYPE('U','Y','V','Y'), size, stream, *this);
 			break;
 
 		case AP4_ATOM_TYPE_SAMR:
