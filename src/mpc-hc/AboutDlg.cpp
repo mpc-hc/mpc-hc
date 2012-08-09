@@ -47,7 +47,7 @@ BOOL CAboutDlg::OnInitDialog()
 {
     UpdateData();
 
-    m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
+    m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
 
 #ifdef _WIN64
     m_appname += _T(" (64-bit)");

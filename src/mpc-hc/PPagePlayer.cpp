@@ -91,8 +91,8 @@ BOOL CPPagePlayer::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    m_iconSingle.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDI_SINGLE), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
-    m_iconMulti.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(),  MAKEINTRESOURCE(IDI_MULTI), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
+    m_iconSingle.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_SINGLE), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
+    m_iconMulti.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_MULTI), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
 
     const CAppSettings& s = AfxGetAppSettings();
 
