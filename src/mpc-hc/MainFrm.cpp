@@ -4714,7 +4714,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
         ULONG_PTR gdiplusToken;
         Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-        Gdiplus::Bitmap* bm = new Gdiplus::Bitmap(w, h, dstpitch, PixelFormat24bppRGB, p);
+        Gdiplus::Bitmap* bm = DNew Gdiplus::Bitmap(w, h, dstpitch, PixelFormat24bppRGB, p);
 
         UINT num;  // number of image decoders
         UINT size; // size, in bytes, of the image decoder array
@@ -4725,7 +4725,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
         // Create a buffer large enough to hold the array of ImageCodecInfo
         // objects that will be returned by GetImageDecoders.
-        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)new BYTE[size];
+        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)DNew BYTE[size];
 
         // GetImageDecoders creates an array of ImageCodecInfo objects
         // and copies that array into a previously allocated buffer.

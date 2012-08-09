@@ -68,7 +68,7 @@ BOOL CMPCPngImage::LoadFromFile(LPCTSTR lpszPath)
     BOOL bRes = FALSE;
 
     if (m_pImage == NULL) {
-        m_pImage = new CImage;
+        m_pImage = DNew CImage;
         ENSURE(m_pImage != NULL);
     }
 
@@ -101,7 +101,7 @@ BOOL CMPCPngImage::LoadFromBuffer(LPBYTE lpBuffer, UINT uiSize)
     }
 
     if (m_pImage == NULL) {
-        m_pImage = new CImage;
+        m_pImage = DNew CImage;
         ENSURE(m_pImage != NULL);
     }
 
