@@ -44,6 +44,8 @@ Legend:
 ! OggSplitter: Fix crash with some files
 ! Logitech Keyboard support updated and made optional (Options -> Tweaks)
 ! WebServer: various bugfixes and improvements
+! Improve D3D fullscreen: disable the options dialog and the boss key when using D3D fullcreen
+  since the D3D fullscreen window is meant to stay alone on top
 ! Ticket #504, Fixed rounding errors that prevented a properly centered image
   and caused unneeded resizing because the video size was off by one
 ! Ticket #2330, Fix the radio buttons in the Logo options page
@@ -54,7 +56,7 @@ Legend:
     - Fix the parsing of the event's information
     - Fix the parsing of the characters' encoding
     - Fix the display of the start and end time when DST is observed
-! Ticket #2363, Fix keys and mouse buttons handling when using D3D Fullscreen
+! Ticket #2363, Fix keys and mouse buttons handling when using D3D fullscreen
 ! Ticket #2365, The volume slider wasn't properly redrawn in some cases
 ! Ticket #2427, The command line was not parsed when using slave mode
 ! Ticket #2493, Fix a crash when saving subtitles using the sub format

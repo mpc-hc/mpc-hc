@@ -3595,6 +3595,11 @@ void CMainFrame::OnUpdateFilePostClosemedia(CCmdUI* pCmdUI)
 
 void CMainFrame::OnBossKey()
 {
+    // Disable the boss key when using D3D fullscreen
+    if (IsD3DFullScreenMode()) {
+        return;
+    }
+
     // Disable animation
     ANIMATIONINFO AnimationInfo;
     AnimationInfo.cbSize = sizeof(ANIMATIONINFO);
@@ -14271,6 +14276,11 @@ bool CMainFrame::StopCapture()
 
 void CMainFrame::ShowOptions(int idPage)
 {
+    // Disable the options dialog when using D3D fullscreen
+    if (IsD3DFullScreenMode()) {
+        return;
+    }
+
     CAppSettings& s = AfxGetAppSettings();
 
     CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), pGB, GetModalParent(), idPage);
