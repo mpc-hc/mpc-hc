@@ -1,21 +1,21 @@
 diff --git a/build.bat b/build.bat
-index 9226559..809f3fe 100644
+index feb6707..a1802e8 100644
 --- a/build.bat
 +++ b/build.bat
-@@ -285,9 +285,9 @@ IF /I "%~2" == "Win32" (
+@@ -287,9 +287,9 @@ IF /I "%~2" == "Win32" (
  PUSHD "bin"
  
  IF DEFINED MPCHC_LITE (
 -  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.Lite"
-+  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.Lite_ICL12"
++  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.Lite.ICL12"
  ) ELSE (
 -  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%"
-+  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%_ICL12"
++  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.ICL12"
  )
  
  IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 3b61ef9..6ee1c53 100644
+index fde783e..4d8d424 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -40,7 +40,7 @@
@@ -56,11 +56,11 @@ index 3b61ef9..6ee1c53 100644
  VersionInfoVersion={#app_version}
  UninstallDisplayIcon={app}\{#mpchc_exe}
 -OutputBaseFilename={#OutFilename}
-+OutputBaseFilename={#OutFilename}_ICL12
++OutputBaseFilename={#OutFilename}.ICL12
  DefaultDirName={code:GetInstallFolder}
  LicenseFile=..\COPYING.txt
  OutputDir=.
-@@ -169,15 +169,15 @@ Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
+@@ -170,15 +170,15 @@ Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
  [Messages]
  #ifdef x64Build
  #ifdef MPCHC_LITE
@@ -81,7 +81,7 @@ index 3b61ef9..6ee1c53 100644
  #endif
  
 diff --git a/docs/Readme.txt b/docs/Readme.txt
-index f4dc58c..de2cc0f 100644
+index 719a60c..ba91aa2 100644
 --- a/docs/Readme.txt
 +++ b/docs/Readme.txt
 @@ -33,7 +33,7 @@ Main Features:
@@ -2210,7 +2210,7 @@ index ea2128d..0b41818 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
-index f8aced7..174d8fb 100644
+index 999bda6..24b3c78 100644
 --- a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 +++ b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 @@ -22,7 +22,7 @@
@@ -2229,13 +2229,13 @@ index f8aced7..174d8fb 100644
 -UninstallDisplayName=DirectVobSub {#app_version} (64-bit)
 -OutputBaseFilename=DirectVobSub_{#app_version}_x64
 +UninstallDisplayName=DirectVobSub {#app_version} (ICL12, 64-bit)
-+OutputBaseFilename=DirectVobSub_{#app_version}_x64_ICL12
++OutputBaseFilename=DirectVobSub_{#app_version}_x64.ICL12
  #else
  AppID=vsfilter
 -UninstallDisplayName=DirectVobSub {#app_version}
 -OutputBaseFilename=DirectVobSub_{#app_version}_x86
 +UninstallDisplayName=DirectVobSub {#app_version} (ICL12)
-+OutputBaseFilename=DirectVobSub_{#app_version}_x86_ICL12
++OutputBaseFilename=DirectVobSub_{#app_version}_x86.ICL12
  #endif
  
  
@@ -2252,7 +2252,7 @@ index f8aced7..174d8fb 100644
  SetupAppTitle=Setup - DirectVobSub
  SetupWindowTitle=Setup - DirectVobSub
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 426069d..9f80ba1 100644
+index 791d068..788064c 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
@@ -2306,7 +2306,7 @@ index 426069d..9f80ba1 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
-index 4e65efe..2972377 100644
+index 9eac3aa..23b60eb 100644
 --- a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 +++ b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 @@ -19,10 +19,12 @@
@@ -2323,7 +2323,7 @@ index 4e65efe..2972377 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpcresources/mpcresources.vcxproj b/src/mpc-hc/mpcresources/mpcresources.vcxproj
-index d1adcc4..f0f6ed0 100644
+index 49540bd..bf28c88 100644
 --- a/src/mpc-hc/mpcresources/mpcresources.vcxproj
 +++ b/src/mpc-hc/mpcresources/mpcresources.vcxproj
 @@ -195,6 +195,7 @@
@@ -2446,7 +2446,7 @@ index 30badf9..7f77328 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
-index aa6eb91..72d9fab 100644
+index d1eec91..9e565a5 100644
 --- a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 +++ b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 @@ -27,18 +27,22 @@
@@ -2638,7 +2638,7 @@ index fedf4e4..fcdc2d4 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index 5b587e9..1c1ba5f 100644
+index cb13b32..cd567aa 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
 @@ -52,7 +52,7 @@ ifeq ($(64BIT),yes)
@@ -2705,7 +2705,7 @@ index ffafd84..2795ab5 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/sizecbar/sizecbar.vcxproj b/src/thirdparty/sizecbar/sizecbar.vcxproj
-index b6e6142..9c41f5e 100644
+index eb34a82..ac230f5 100644
 --- a/src/thirdparty/sizecbar/sizecbar.vcxproj
 +++ b/src/thirdparty/sizecbar/sizecbar.vcxproj
 @@ -28,21 +28,25 @@
