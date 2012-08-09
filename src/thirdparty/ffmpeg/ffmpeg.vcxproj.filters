@@ -702,6 +702,9 @@
     <ClCompile Include="libavcodec\mpegvideo.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\mpegvideo_motion.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\mpegvideo_parser.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -1631,6 +1634,9 @@
     </ClInclude>
     <ClInclude Include="libavutil\audio_fifo.h">
       <Filter>libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\x86\asm.h">
+      <Filter>libavutil\x86</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -201,6 +201,7 @@ SRCS_C = \
     libavcodec/mpegaudiodsp_fixed.c \
     libavcodec/mpegaudiodsp_float.c \
     libavcodec/mpegvideo.c \
+    libavcodec/mpegvideo_motion.c \
     libavcodec/mpegvideo_parser.c \
     libavcodec/msmpeg4.c \
     libavcodec/msmpeg4data.c \

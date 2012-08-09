@@ -263,6 +263,7 @@
     <ClCompile Include="libavcodec\mpegaudiodsp_template.c" />
     <ClCompile Include="libavcodec\mpegaudio_parser.c" />
     <ClCompile Include="libavcodec\mpegvideo.c" />
+    <ClCompile Include="libavcodec\mpegvideo_motion.c" />
     <ClCompile Include="libavcodec\mpegvideo_parser.c" />
     <ClCompile Include="libavcodec\msmpeg4.c" />
     <ClCompile Include="libavcodec\msmpeg4data.c" />
@@ -632,6 +633,7 @@
     <ClInclude Include="libavutil\timecode.h" />
     <ClInclude Include="libavutil\timer.h" />
     <ClInclude Include="libavutil\version.h" />
+    <ClInclude Include="libavutil\x86\asm.h" />
     <ClInclude Include="libavutil\x86\bswap.h" />
     <ClInclude Include="libavutil\x86\intmath.h" />
     <ClInclude Include="libavutil\x86\intreadwrite.h" />
