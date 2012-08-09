@@ -265,8 +265,7 @@ BOOL CPPageOutput::OnInitDialog()
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_EVR)), VIDRNDT_DS_EVR);
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM)), VIDRNDT_DS_EVR_CUSTOM);
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_SYNC)), VIDRNDT_DS_SYNC);
-    }
-    else {
+    } else {
         CString str;
         str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_EVR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_EVR);
@@ -277,8 +276,7 @@ BOOL CPPageOutput::OnInitDialog()
     }
     if (IsCLSIDRegistered(CLSID_DXR)) {
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_DXR)), VIDRNDT_DS_DXR);
-    }
-    else {
+    } else {
         CString str;
         str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_DXR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_DXR);
@@ -287,8 +285,7 @@ BOOL CPPageOutput::OnInitDialog()
     m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_NULL_UNCOMP)), VIDRNDT_DS_NULL_UNCOMP);
     if (IsCLSIDRegistered(CLSID_madVR)) {
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_MADVR)), VIDRNDT_DS_MADVR);
-    }
-    else {
+    } else {
         CString str;
         str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_MADVR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
         m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_MADVR);
@@ -373,7 +370,7 @@ BOOL CPPageOutput::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
 
-    if(!IsRenderTypeAvailable(m_iDSVideoRendererType)) {
+    if (!IsRenderTypeAvailable(m_iDSVideoRendererType)) {
         ((CPropertySheet*)GetParent())->SetActivePage(this);
         AfxMessageBox(IDS_PPAGE_OUTPUT_UNAVAILABLEMSG, MB_ICONEXCLAMATION | MB_OK, 0);
 
