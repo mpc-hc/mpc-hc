@@ -5465,13 +5465,22 @@ void CMainFrame::OnViewResetStats()
 
 void CMainFrame::OnViewDisplayStatsSC()
 {
-    if (!AfxGetMyApp()->m_Renderers.m_fDisplayStats) {
-        AfxGetMyApp()->m_Renderers.m_bResetStats = true; // to Reset statictics on first call ...
-    }
+    const CAppSettings& s = AfxGetAppSettings();
+    const CRenderersSettings& r = s.m_RenderersSettings;
+    bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
+                      || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
+                      || s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
+                     && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D;
 
-    ++AfxGetMyApp()->m_Renderers.m_fDisplayStats;
-    if (AfxGetMyApp()->m_Renderers.m_fDisplayStats > 3) {
-        AfxGetMyApp()->m_Renderers.m_fDisplayStats = 0;
+    if (supported) {
+        if (!AfxGetMyApp()->m_Renderers.m_fDisplayStats) {
+            AfxGetMyApp()->m_Renderers.m_bResetStats = true; // to Reset statictics on first call ...
+        }
+
+        ++AfxGetMyApp()->m_Renderers.m_fDisplayStats;
+        if (AfxGetMyApp()->m_Renderers.m_fDisplayStats > 3) {
+            AfxGetMyApp()->m_Renderers.m_fDisplayStats = 0;
+        }
     }
 }
 
