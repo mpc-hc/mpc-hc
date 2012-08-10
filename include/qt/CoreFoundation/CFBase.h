@@ -30,8 +30,8 @@
 #endif
 
 #if defined(__GNUC__) || defined(__MWERKS__)
-	#include <stdint.h"
-	#include <stdbool.h"
+	#include <stdint.h>
+	#include <stdbool.h>
 #else
 	// mostly for the benefit of MSVC
 	#include "..\GNUCompatibility/stdint.h"
