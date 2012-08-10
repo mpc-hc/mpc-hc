@@ -3757,7 +3757,7 @@ static char* myfgets(char* buff, int len, FILE* file)
 	ret = fgets(buff, len, file);
 	while(ret)
 	{
-		while(isspace(*ret)) ret++;
+		while(isspace(static_cast<unsigned char>(*ret))) ret++;
 		if(*ret) break;
 		ret = fgets(buff, len, file);
 	}

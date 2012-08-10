@@ -100,8 +100,8 @@ CStringA UrlDecode(CStringA str, bool fRaw)
     CHAR* s1 = s;
     CHAR* s2 = s;
     while (s1 < e) {
-        CHAR s11 = (s1 < e - 1) ? (__isascii(s1[1]) && isupper(s1[1]) ? tolower(s1[1]) : s1[1]) : 0;
-        CHAR s12 = (s1 < e - 2) ? (__isascii(s1[2]) && isupper(s1[2]) ? tolower(s1[2]) : s1[2]) : 0;
+        CHAR s11 = (s1 < e - 1) ? (__isascii(s1[1]) && isupper(static_cast<unsigned char>(s1[1])) ? tolower(s1[1]) : s1[1]) : 0;
+        CHAR s12 = (s1 < e - 2) ? (__isascii(s1[2]) && isupper(static_cast<unsigned char>(s1[2])) ? tolower(s1[2]) : s1[2]) : 0;
 
         if (*s1 == '%' && s1 < e - 2
                 && (s1[1] >= '0' && s1[1] <= '9' || s11 >= 'a' && s11 <= 'f')
