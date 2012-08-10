@@ -680,11 +680,13 @@ bool CPolygon::CreatePath()
     }
 
     if (mPathPoints != len) {
-        mpPathTypes = (BYTE*)realloc(mpPathTypes, len * sizeof(BYTE));
-        mpPathPoints = (POINT*)realloc(mpPathPoints, len * sizeof(POINT));
-        if (!mpPathTypes || !mpPathPoints) {
+        BYTE* pNewPathTypes = (BYTE*)realloc(mpPathTypes, len * sizeof(BYTE));
+        POINT* pNewPathPoints = (POINT*)realloc(mpPathPoints, len * sizeof(POINT));
+        if (!pNewPathTypes || !pNewPathPoints) {
             return false;
         }
+        mpPathTypes = pNewPathTypes;
+        mpPathPoints = pNewPathPoints;
         mPathPoints = len;
     }
 

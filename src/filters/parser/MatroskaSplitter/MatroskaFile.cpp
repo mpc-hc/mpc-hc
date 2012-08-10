@@ -1029,12 +1029,16 @@ bool CBinary::Compress(ContentCompression& cc)
         c_stream.avail_in = (uInt)GetCount();
 
         BYTE* dst = NULL;
+        BYTE* newDst = NULL;
         int n = 0;
         do {
-            dst = (BYTE*)realloc(dst, ++n * 10);
-            c_stream.next_out = &dst[(n - 1) * 10];
-            c_stream.avail_out = 10;
-            if (Z_OK != (res = deflate(&c_stream, Z_FINISH)) && Z_STREAM_END != res) {
+            newDst = (BYTE*)realloc(dst, ++n * 10);
+            if (newDst) {
+                dst = newDst;
+                c_stream.next_out = &dst[(n - 1) * 10];
+                c_stream.avail_out = 10;
+            }
+            if (!newDst || (Z_OK != (res = deflate(&c_stream, Z_FINISH)) && Z_STREAM_END != res)) {
                 free(dst);
                 return false;
             }
@@ -1071,12 +1075,16 @@ bool CBinary::Decompress(ContentCompression& cc)
         d_stream.avail_in = (uInt)GetCount();
 
         BYTE* dst = NULL;
+        BYTE* newDst = NULL;
         int n = 0;
         do {
-            dst = (unsigned char*)realloc(dst, ++n * 1000);
-            d_stream.next_out = &dst[(n - 1) * 1000];
-            d_stream.avail_out = 1000;
-            if (Z_OK != (res = inflate(&d_stream, Z_NO_FLUSH)) && Z_STREAM_END != res) {
+            newDst = (BYTE*)realloc(dst, ++n * 1000);
+            if (newDst) {
+                dst = newDst;
+                d_stream.next_out = &dst[(n - 1) * 1000];
+                d_stream.avail_out = 1000;
+            }
+            if (!newDst || (Z_OK != (res = inflate(&d_stream, Z_NO_FLUSH)) && Z_STREAM_END != res)) {
                 free(dst);
                 return false;
             }
