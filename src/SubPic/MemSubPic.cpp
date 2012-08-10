@@ -337,6 +337,7 @@ void AlphaBlt_YUY2_MMX(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitc
             }
         }
     }
+    _mm_empty();
 }
 #endif
 

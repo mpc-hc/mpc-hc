@@ -170,6 +170,7 @@ void Scale2x_YUY2_MMX(BYTE* s1, BYTE* d1, int w)
     *d1++ = s1[3];
 
     s1 += 4;
+    _mm_empty();
 }
 #endif
 
@@ -397,6 +398,7 @@ void Scale2x_XRGB32_MMX(BYTE* s1, BYTE* d1, int w)
 
     s1 += 4;
     d1 += 8;
+    _mm_empty();
 }
 #endif
 
