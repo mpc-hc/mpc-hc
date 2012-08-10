@@ -88,8 +88,13 @@ void Rasterizer::_TrashOverlay()
 
 void Rasterizer::_ReallocEdgeBuffer(int edges)
 {
-    mEdgeHeapSize = edges;
-    mpEdgeBuffer = (Edge*)realloc(mpEdgeBuffer, sizeof(Edge) * edges);
+    Edge* pNewEdgeBuffer = (Edge*)realloc(mpEdgeBuffer, sizeof(Edge) * edges);
+    if (pNewEdgeBuffer) {
+        mpEdgeBuffer = pNewEdgeBuffer;
+        mEdgeHeapSize = edges;
+    } else { // TODO: Improve error handling...
+        DebugBreak();
+    }
 }
 
 void Rasterizer::_EvaluateBezier(int ptbase, bool fBSpline)
@@ -387,7 +392,7 @@ bool Rasterizer::ScanConvert()
     if (!mPathPoints) {
         mPathOffsetX = mPathOffsetY = 0;
         mWidth = mHeight = 0;
-        return 0;
+        return false;
     }
 
     int minx = INT_MAX;
