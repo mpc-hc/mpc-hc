@@ -77,7 +77,7 @@ MPC-HC makes use of the following third-party code:
 <tr><td>Logitech SDK</td> <td>-</td> <td>-</td></tr>
 <tr><td>MediaInfoLib</td> <td>LGPLv2</td> <td>http://mediainfo.sourceforge.net/</td></tr>
 <tr><td>MultiMon</td> <td>CPOL</td> <td>http://www.codeproject.com/KB/GDI/multimon.aspx</td></tr>
-<tr><td>QuickTime SDK</td> <td>-</td> <td>http://developer.apple.com/quicktime/download/</td></tr>
+<tr><td>QuickTime SDK</td> <td>-</td> <td>http://developer.apple.com/quicktime/</td></tr>
 <tr><td>RealMedia SDK</td> <td>-</td> <td>-</td></tr>
 <tr><td>ResizableLib</td> <td>Artistic License</td> <td>http://sourceforge.net/projects/resizablelib/</td></tr>
 <tr><td>Silk Icons</td> <td>CC Attribution 2.5</td> <td>http://www.famfamfam.com/lab/icons/silk/</td></tr>
