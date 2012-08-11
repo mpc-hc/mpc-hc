@@ -274,7 +274,11 @@ class CRemoteCtrlClient : public CAsyncSocket
 protected:
     CCritSec m_csLock;
     CWnd* m_pWnd;
-    enum { DISCONNECTED, CONNECTED, CONNECTING } m_nStatus;
+    enum {
+        DISCONNECTED,
+        CONNECTED,
+        CONNECTING
+    } m_nStatus;
     CString m_addr;
 
     virtual void OnConnect(int nErrorCode);

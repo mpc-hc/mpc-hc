@@ -28,7 +28,12 @@
 class CLCDMyProgressBar : public CLCDProgressBar
 {
 public:
-    enum eMY_PROGRESS_STYLE { STYLE_FILLED_H, STYLE_CURSOR, STYLE_DASHED_CURSOR, STYLE_FILLED_V };
+    enum eMY_PROGRESS_STYLE {
+        STYLE_FILLED_H,
+        STYLE_CURSOR,
+        STYLE_DASHED_CURSOR,
+        STYLE_FILLED_V
+    };
 
     virtual void OnDraw(CLCDGfxBase& rGfx);
     virtual void SetProgressStyle(ePROGRESS_STYLE eStyle);

@@ -30,7 +30,14 @@ struct MuxerPacket {
     CBaseMuxerInputPin* pPin;
     REFERENCE_TIME rtStart, rtStop;
     CAtlArray<BYTE> pData;
-    enum flag_t {empty = 0, timevalid = 1, syncpoint = 2, discontinuity = 4, eos = 8, bogus = 16};
+    enum flag_t {
+        empty = 0,
+        timevalid = 1,
+        syncpoint = 2,
+        discontinuity = 4,
+        eos = 8,
+        bogus = 16
+    };
     DWORD flags;
     int index;
     struct MuxerPacket(CBaseMuxerInputPin* pPin) {

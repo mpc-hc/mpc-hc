@@ -70,7 +70,13 @@ private:
 
     void UpdatePreview(), UpdateStrings();
 
-    enum { TSMOD = 1, TEMOD = 2, TSADJ = 4, TEADJ = 8, TSEP = 0x80000000 };
+    enum {
+        TSMOD = 1,
+        TEMOD = 2,
+        TSADJ = 4,
+        TEADJ = 8,
+        TSEP = 0x80000000
+    };
 
     void SetSTS0(int& start, int end, int ti0);
     void SetSTS1(int& start, int end, int ti0, double m, int i0);

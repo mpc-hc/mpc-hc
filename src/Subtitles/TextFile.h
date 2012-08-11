@@ -26,7 +26,13 @@
 class CTextFile : protected CStdioFile
 {
 public:
-    typedef enum { ASCII, UTF8, LE16, BE16, ANSI } enc;
+    typedef enum {
+        ASCII,
+        UTF8,
+        LE16,
+        BE16,
+        ANSI
+    } enc;
 
 private:
     enc m_encoding, m_defaultencoding;

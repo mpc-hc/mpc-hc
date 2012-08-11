@@ -89,7 +89,7 @@ class CAsyncUrlReader : public CAsyncFileReader, protected CAMThread
     CString m_url, m_fn;
 
 protected:
-    enum {CMD_EXIT, CMD_INIT};
+    enum { CMD_EXIT, CMD_INIT };
     DWORD ThreadProc();
 
 public:

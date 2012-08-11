@@ -60,7 +60,13 @@ private:
         bool m_ascending;
     } PARAMSORT, *PPARAMSORT;
 
-    enum { COL_FILENAME, COL_LANGUAGE, COL_FORMAT, COL_DISC, COL_TITLES };
+    enum {
+        COL_FILENAME,
+        COL_LANGUAGE,
+        COL_FORMAT,
+        COL_DISC,
+        COL_TITLES
+    };
     PARAMSORT ps;
     PTHREADSTRUCT m_pTA;
 

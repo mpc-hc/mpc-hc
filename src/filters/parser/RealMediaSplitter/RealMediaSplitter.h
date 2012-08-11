@@ -52,7 +52,11 @@ namespace RMFF
         UINT32 tDuration, tPreroll;
         UINT32 ptrIndex, ptrData;
         UINT16 nStreams;
-        enum flags_t {PN_SAVE_ENABLED = 1, PN_PERFECT_PLAY_ENABLED = 2, PN_LIVE_BROADCAST = 4} flags;
+        enum flags_t {
+            PN_SAVE_ENABLED = 1,
+            PN_PERFECT_PLAY_ENABLED = 2,
+            PN_LIVE_BROADCAST = 4
+        } flags;
     } Properies;
     typedef struct {
         UINT16 stream;
@@ -75,7 +79,10 @@ namespace RMFF
         UINT16 len, stream;
         UINT32 tStart;
         UINT8 reserved;
-        enum flag_t {PN_RELIABLE_FLAG = 1, PN_KEYFRAME_FLAG = 2} flags; // UINT8
+        enum flag_t {
+            PN_RELIABLE_FLAG = 1,
+            PN_KEYFRAME_FLAG = 2
+        } flags; // UINT8
         CAtlArray<BYTE> pData;
     } MediaPacketHeader;
     typedef struct {

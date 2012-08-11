@@ -31,7 +31,11 @@ class CPlayerSeekBar : public CDialogBar
     DECLARE_DYNAMIC(CPlayerSeekBar)
 
 private:
-    enum tooltip_state_t { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE };
+    enum tooltip_state_t {
+        TOOLTIP_HIDDEN,
+        TOOLTIP_TRIGGERED,
+        TOOLTIP_VISIBLE
+    };
 
     __int64 m_start, m_stop, m_pos, m_posreal;
     bool m_fEnabled;

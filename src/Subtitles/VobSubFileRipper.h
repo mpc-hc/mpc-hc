@@ -146,7 +146,11 @@ private:
 
     //
 
-    typedef enum { LOG_INFO, LOG_WARNING, LOG_ERROR } log_t;
+    typedef enum {
+        LOG_INFO,
+        LOG_WARNING,
+        LOG_ERROR
+    } log_t;
     void Log(log_t type, LPCTSTR lpszFormat, ...);
     void Progress(double progress);
     void Finished(bool fSucceeded);

@@ -58,8 +58,17 @@ private:
     static CComPtr<IApplicationAssociationRegistration> m_pAAR;
 
 public:
-    enum reg_state_t { NOT_REGISTERED, SOME_REGISTERED, ALL_REGISTERED };
-    enum autoplay_t { AP_VIDEO, AP_MUSIC, AP_AUDIOCD, AP_DVDMOVIE };
+    enum reg_state_t {
+        NOT_REGISTERED,
+        SOME_REGISTERED,
+        ALL_REGISTERED
+    };
+    enum autoplay_t {
+        AP_VIDEO,
+        AP_MUSIC,
+        AP_AUDIOCD,
+        AP_DVDMOVIE
+    };
 
     static bool LoadIconLib();
     static bool FreeIconLib();

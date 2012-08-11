@@ -33,7 +33,14 @@ public:
     int ExitInstance();
     void SetMainFrame(CMainFrame* pMainFrame) { m_pMainFrame = pMainFrame; }
 
-    enum { TM_EXIT = WM_APP, TM_OPEN, TM_CLOSE, TM_RESET, TM_TUNER_SCAN, TM_DISPLAY_CHANGE };
+    enum {
+        TM_EXIT = WM_APP,
+        TM_OPEN,
+        TM_CLOSE,
+        TM_RESET,
+        TM_TUNER_SCAN,
+        TM_DISPLAY_CHANGE
+    };
 
 protected:
     DECLARE_MESSAGE_MAP()

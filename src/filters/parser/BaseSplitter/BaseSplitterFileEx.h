@@ -65,7 +65,7 @@ public:
 
 #pragma pack(push, 1)
 
-    enum mpeg_t {mpegunk, mpeg1, mpeg2};
+    enum mpeg_t { mpegunk, mpeg1, mpeg2 };
 
     struct pshdr {
         mpeg_t type;

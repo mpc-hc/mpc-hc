@@ -21,7 +21,12 @@
 
 #pragma once
 
-enum MPCSampleFormat {SF_PCM16, SF_PCM24, SF_PCM32, SF_FLOAT32};
+enum MPCSampleFormat {
+    SF_PCM16,
+    SF_PCM24,
+    SF_PCM32,
+    SF_FLOAT32
+};
 
 interface __declspec(uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C"))
 IMpaDecFilter :

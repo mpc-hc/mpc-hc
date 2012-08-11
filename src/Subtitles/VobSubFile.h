@@ -124,7 +124,13 @@ public:
 
     bool Copy(CVobSubFile& vsf);
 
-    typedef enum { None, VobSub, WinSubMux, Scenarist, Maestro } SubFormat;
+    typedef enum {
+        None,
+        VobSub,
+        WinSubMux,
+        Scenarist,
+        Maestro
+    } SubFormat;
 
     bool Open(CString fn);
     bool Save(CString fn, SubFormat sf = VobSub);
