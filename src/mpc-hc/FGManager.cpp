@@ -767,6 +767,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
             }
 
             if (FAILED(hr = AddFilter(pBF, pFGF->GetName()))) {
+                pUnks.RemoveAll();
                 pBF.Release();
                 continue;
             }
@@ -855,6 +856,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
             EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
             TRACE(_T("FGM: Connecting '%s' FAILED!\n"), pFGF->GetName());
+            pUnks.RemoveAll();
             pBF.Release();
         }
     }
