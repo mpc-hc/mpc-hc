@@ -36,7 +36,7 @@ namespace DSObjects
     protected:
         enum RenderingPath {
             RENDERING_PATH_STRETCHRECT,
-            RENDERING_PATH_DRAW,
+            RENDERING_PATH_DRAW
         };
 
         static const int MAX_VIDEO_SURFACES = 60;

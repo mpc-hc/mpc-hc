@@ -46,7 +46,7 @@ public:
         osNoBuffer       = (int)0x10000,
         osWriteThrough   = (int)0x20000,
         osRandomAccess   = (int)0x40000,
-        osSequentialScan = (int)0x80000,
+        osSequentialScan = (int)0x80000
     };
 
     enum Attribute {

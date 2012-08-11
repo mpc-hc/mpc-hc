@@ -52,7 +52,7 @@ public:
         VC1_CR_BICUBIC_QUARTER_CHROMA   = 4,
         VC1_CR_BICUBIC_HALF_CHROMA      = 5,
         VC1_CR_BILINEAR_QUARTER_CHROMA  = 12,
-        VC1_CR_BILINEAR_HALF_CHROMA     = 13,
+        VC1_CR_BILINEAR_HALF_CHROMA     = 13
     } VC1_CHROMA_RESIZE;
 
     typedef enum {
@@ -80,7 +80,7 @@ public:
         VC1_FASTUVMC        = 0x0008,
         VC1_LOOPFILTER      = 0x0010,
         VC1_REDIST_FLAG     = 0x0020,
-        VC1_PANSCAN_FLAG    = 0x0040,
+        VC1_PANSCAN_FLAG    = 0x0040
     } VC1_PIC_SPATIAL_RESID8;
 
 protected :

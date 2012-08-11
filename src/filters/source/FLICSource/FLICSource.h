@@ -37,7 +37,7 @@ enum {
     FLIC_MINI = 18,
     DTA_BRUN = 25,
     DTA_COPY = 26,
-    KEY_IMAGE = 35,
+    KEY_IMAGE = 35
 };
 
 // http://www.compuphase.com/flic.htm

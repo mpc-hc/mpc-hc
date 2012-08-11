@@ -97,7 +97,7 @@ enum {
     FF_CODEC_ID_ADPCM_EA_XAS,
     FF_CODEC_ID_ADPCM_EA_MAXIS_XA,
     FF_CODEC_ID_ADPCM_IMA_ISS,
-    FF_CODEC_ID_ADPCM_G722,
+    FF_CODEC_ID_ADPCM_G722
 };
 
 class Packet : public CAtlArray<BYTE>

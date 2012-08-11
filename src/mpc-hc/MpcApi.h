@@ -241,6 +241,6 @@ typedef enum MPCAPI_COMMAND {
     CMD_CLOSEAPP            = 0xA0004006,
 
     // show host defined OSD message string
-    CMD_OSDSHOWMESSAGE      = 0xA0005000,
+    CMD_OSDSHOWMESSAGE      = 0xA0005000
 
 };

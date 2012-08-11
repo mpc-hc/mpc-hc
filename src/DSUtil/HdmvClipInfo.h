@@ -30,7 +30,7 @@ enum BDVM_VideoFormat {
     BDVM_VideoFormat_1080i   = 4,
     BDVM_VideoFormat_720p    = 5,
     BDVM_VideoFormat_1080p   = 6,
-    BDVM_VideoFormat_576p    = 7,
+    BDVM_VideoFormat_576p    = 7
 };
 
 enum BDVM_FrameRate {

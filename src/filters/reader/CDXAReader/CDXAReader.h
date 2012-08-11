@@ -31,8 +31,8 @@ class CCDXAStream : public CAsyncStream
 {
 private:
     enum {
-        RIFFCDXA_HEADER_SIZE = 44, // usually...
-        RAW_SYNC_SIZE = 12, // 00 FF .. FF 00
+        RIFFCDXA_HEADER_SIZE = 44,  // usually...
+        RAW_SYNC_SIZE = 12,         // 00 FF .. FF 00
         RAW_HEADER_SIZE = 4,
         RAW_SUBHEADER_SIZE = 8,
         RAW_DATA_SIZE = 2324,

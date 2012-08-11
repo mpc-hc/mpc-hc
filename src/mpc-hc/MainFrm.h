@@ -71,7 +71,12 @@
 
 class CFullscreenWnd;
 
-enum { PM_NONE, PM_FILE, PM_DVD, PM_CAPTURE };
+enum {
+    PM_NONE,
+    PM_FILE,
+    PM_DVD,
+    PM_CAPTURE
+};
 
 interface __declspec(uuid("6E8D4A21-310C-11d0-B79A-00AA003767A7")) // IID_IAMLine21Decoder
 IAMLine21Decoder_2 :
@@ -122,26 +127,7 @@ public :
     HWND    Hwnd;
 };
 
-/*
-class CKeyFrameFinderThread : public CWinThread, public CCritSec
-{
-    DECLARE_DYNCREATE(CKeyFrameFinderThread);
 
-public:
-    CKeyFrameFinderThread() {}
-
-    CUIntArray m_kfs; // protected by (CCritSec*)this
-
-    BOOL InitInstance();
-    int ExitInstance();
-
-    enum { TM_EXIT=WM_APP, TM_INDEX, TM_BREAK} ;
-    DECLARE_MESSAGE_MAP()
-    afx_msg void OnExit(WPARAM wParam, LPARAM lParam);
-    afx_msg void OnIndex(WPARAM wParam, LPARAM lParam);
-    afx_msg void OnBreak(WPARAM wParam, LPARAM lParam);
-};
-*/
 interface ISubClock;
 
 class CMainFrame : public CFrameWnd, public CDropTarget

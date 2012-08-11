@@ -48,7 +48,7 @@ class __declspec(uuid("E5FB6957-65E6-491B-BB37-B25C9FE3BEA7"))
         IDC_PP_CHECK3,
         IDC_PP_CHECK4,
         IDC_PP_BUTTON1,
-        IDC_PP_BUTTON2,
+        IDC_PP_BUTTON2
     };
 
     CStatic m_ditype_static;

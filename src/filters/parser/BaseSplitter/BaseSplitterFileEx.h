@@ -347,7 +347,7 @@ public:
         index_subsetsps = 0,
         index_sps       = 1,
         index_pps1      = 2,
-        index_pps2      = 3,
+        index_pps2      = 3
     };
 
     struct spsppsdata {

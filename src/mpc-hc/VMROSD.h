@@ -42,7 +42,7 @@ typedef enum {
     OSD_NOMESSAGE,
     OSD_TOPLEFT,
     OSD_TOPRIGHT,
-    OSD_DEBUG,
+    OSD_DEBUG
 } OSD_MESSAGEPOS;
 
 

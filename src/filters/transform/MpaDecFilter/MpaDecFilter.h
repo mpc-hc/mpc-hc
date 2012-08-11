@@ -40,7 +40,7 @@ enum {
     SPK_STEREO,
     SPK_4_0,
     SPK_5_1,
-    SPK_7_1,
+    SPK_7_1
 };
 
 struct ps2_state_t {

@@ -31,7 +31,7 @@ class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
 
     enum {
         IDC_PP_COMBO1 = 10000,
-        IDC_PP_EDIT1,
+        IDC_PP_EDIT1
     };
 
     CStatic m_pin_static;

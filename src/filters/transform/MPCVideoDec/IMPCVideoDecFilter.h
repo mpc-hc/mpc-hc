@@ -20,7 +20,7 @@
 
 #pragma once
 
-// Internal codec list (use to enable/disable codec in standalone mode)
+// Internal codec list (used to enable/disable codec in standalone mode)
 typedef enum {
     MPCVD_H264       = 1 <<  0,
     MPCVD_VC1        = 1 <<  1,
@@ -41,7 +41,7 @@ typedef enum {
     MPCVD_INDEO      = 1 << 16,
     MPCVD_RV         = 1 << 17,
     MPCVD_WMV3_DXVA  = 1 << 19,
-    MPCVD_MPEG2_DXVA = 1 << 20,
+    MPCVD_MPEG2_DXVA = 1 << 20
 } MPC_VIDEO_CODEC;
 
 interface __declspec(uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262"))

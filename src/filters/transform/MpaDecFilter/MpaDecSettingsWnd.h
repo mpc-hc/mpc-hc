@@ -43,7 +43,7 @@ class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
         IDC_PP_CHECK1,
         IDC_PP_CHECK2,
         IDC_PP_CHECK3,
-        IDC_PP_CHECK4,
+        IDC_PP_CHECK4
     };
 
     CStatic   m_outputformat_static;

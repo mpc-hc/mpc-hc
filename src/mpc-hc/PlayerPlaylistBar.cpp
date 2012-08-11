@@ -1302,9 +1302,18 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     m.CreatePopupMenu();
 
     enum {
-        M_OPEN = 1, M_ADD, M_REMOVE, M_CLEAR, M_CLIPBOARD, M_SAVEAS,
-        M_SORTBYNAME, M_SORTBYPATH, M_RANDOMIZE, M_SORTBYID,
-        M_SHUFFLE, M_HIDEFULLSCREEN
+        M_OPEN = 1,
+        M_ADD,
+        M_REMOVE,
+        M_CLEAR,
+        M_CLIPBOARD,
+        M_SAVEAS,
+        M_SORTBYNAME,
+        M_SORTBYPATH,
+        M_RANDOMIZE,
+        M_SORTBYID,
+        M_SHUFFLE,
+        M_HIDEFULLSCREEN
     };
 
     CAppSettings& s = AfxGetAppSettings();

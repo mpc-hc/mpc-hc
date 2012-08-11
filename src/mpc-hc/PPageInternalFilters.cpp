@@ -326,7 +326,7 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
         ENABLE_FFMPEG,
         DISABLE_FFMPEG,
         ENABLE_DXVA,
-        DISABLE_DXVA,
+        DISABLE_DXVA
     };
 
     int totalFilters = 0, totalChecked = 0;

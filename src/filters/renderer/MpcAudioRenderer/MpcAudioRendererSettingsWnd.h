@@ -42,7 +42,7 @@ private :
     enum {
         IDC_PP_WASAPI_MODE = 10000,
         IDC_PP_MUTE_FAST_FORWARD,
-        IDC_PP_SOUND_DEVICE,
+        IDC_PP_SOUND_DEVICE
     };
 
 public:

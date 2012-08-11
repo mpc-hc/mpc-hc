@@ -47,12 +47,29 @@ private:
 
     enum {
         // TEXTSUB
-        COL_START = 0, COL_END, COL_PREVSTART, COL_PREVEND, COL_TEXT, COL_STYLE, COL_FONT, COL_CHARSET, COL_UNICODE, COL_LAYER, COL_ACTOR, COL_EFFECT,
-        // VOBSUB
-        /* ........... same as TEXTSUB ............. */   COL_VOBID = COL_TEXT, COL_CELLID, COL_FORCED,
+        COL_START = 0,
+        COL_END,
+        COL_PREVSTART,
+        COL_PREVEND,
+        COL_TEXT,
+        COL_STYLE,
+        COL_FONT,
+        COL_CHARSET,
+        COL_UNICODE,
+        COL_LAYER,
+        COL_ACTOR,
+        COL_EFFECT,
+        // VOBSUB same as TEXTSUB
+        COL_VOBID = COL_TEXT,
+        COL_CELLID,
+        COL_FORCED
     };
 
-    enum { NONE = 0, VOBSUB, TEXTSUB };
+    enum {
+        NONE = 0,
+        VOBSUB,
+        TEXTSUB
+    };
     int m_mode;
 
     bool m_fUnlink;

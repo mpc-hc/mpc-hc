@@ -47,15 +47,15 @@ enum {
     DTS,
     DTSHD,
     DTSPaded,
-    SPDIF_AC3,
+    SPDIF_AC3
 };
 
 bool isDTSSync(const DWORD sync)
 {
-    if (sync == 0x0180fe7f || // '7FFE8001' 16 bits and big endian bitstream
-            sync == 0x80017ffe || // 'FE7F0180' 16 bits and little endian bitstream
-            sync == 0x00e8ff1f || // '1FFFE800' 14 bits and big endian bitstream
-            sync == 0xe8001fff) { // 'FF1F00E8' 14 bits and little endian bitstream
+    if (sync == 0x0180fe7f ||       // '7FFE8001' 16 bits and big endian bitstream
+            sync == 0x80017ffe ||   // 'FE7F0180' 16 bits and little endian bitstream
+            sync == 0x00e8ff1f ||   // '1FFFE800' 14 bits and big endian bitstream
+            sync == 0xe8001fff) {   // 'FF1F00E8' 14 bits and little endian bitstream
         return true;
     } else {
         return false;
