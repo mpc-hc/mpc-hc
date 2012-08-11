@@ -193,6 +193,8 @@ extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
         iconIndex = IDI_OGM_ICON;
     } else if (_tcsicmp(ext, _T(".ogv")) == 0) {
         iconIndex = IDI_OGM_ICON;
+    } else if (_tcsicmp(ext, _T(".opus")) == 0) {
+        iconIndex = IDI_OTHER_ICON;
     } else if (_tcsicmp(ext, _T(".pls")) == 0) {
         iconIndex = IDI_PLAYLIST_ICON;
     } else if (_tcsicmp(ext, _T(".pva")) == 0) {

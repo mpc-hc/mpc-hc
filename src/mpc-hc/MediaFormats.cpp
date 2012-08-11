@@ -252,6 +252,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("mpc"),      ResStr(IDS_MFMT_MPC),      _T("mpc"), true));
         ADDFMT((_T("ofr"),      ResStr(IDS_MFMT_OFR),      _T("ofr ofs"), true));
         ADDFMT((_T("ogg"),      ResStr(IDS_MFMT_OGG),      _T("ogg oga"), true));
+        ADDFMT((_T("opus"),     ResStr(IDS_MFMT_OPUS),     _T("opus"), true));
 #ifdef _WIN64
         ADDFMT((_T("ra"),       ResStr(IDS_MFMT_RA),       _T("ra"), true));
 #else

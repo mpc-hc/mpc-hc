@@ -1159,6 +1159,7 @@
 #define IDS_MFMT_WAV                    39520
 #define IDS_MFMT_WMA                    39521
 #define IDS_MFMT_WV                     39522
+#define IDS_MFMT_OPUS                   39523
 #define IDS_MFMT_PLS                    39901
 #define IDS_MFMT_BDPLS                  39902
 #define IDTB_BUTTON1                    40001
