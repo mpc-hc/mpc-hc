@@ -35,7 +35,7 @@
 #define MPC_VERSION_H
 
 #ifndef _T
-#if defined(UNICODE) || defined(_UNICODE) && !defined(ISPP_INVOKED)
+#if !defined(ISPP_INVOKED) && (defined(UNICODE) || defined(_UNICODE))
 #define _T(text) L##text
 #else
 #define _T(text) text
