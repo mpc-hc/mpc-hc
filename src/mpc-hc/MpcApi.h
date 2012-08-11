@@ -76,7 +76,7 @@ struct MPC_OSDDATA {
 //} OSD_MESSAGEPOS;
 
 
-typedef enum MPCAPI_COMMAND {
+typedef enum MPCAPI_COMMAND : unsigned int {
     // ==== Commands from MPC to host
 
     // Send after connection
