@@ -25,7 +25,11 @@
 #include "AvgLines.h"
 #include <emmintrin.h>
 
-void Scale2x_YV(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
+#if _M_IX86_FP == 1// inverse of: SSE2 code, don't use on SSE builds, works correctly for x64 and AVX
+#pragma warning(disable: 4799) // warning C4799: function has no EMMS instruction
+#endif
+
+static __declspec(nothrow noalias) __forceinline void Scale2x_YV(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
 {
     BYTE* s1;
     BYTE* s2;
@@ -52,57 +56,38 @@ void Scale2x_YV(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
     AvgLines8(d, h * 2, dpitch);
 }
 
-#ifdef _WIN64
-void Scale2x_YUY2_SSE2(BYTE* s1, BYTE* d1, int w)
+static __declspec(nothrow noalias) __forceinline void Scale2x_YUY2_main(BYTE* s1, BYTE* d1, int w)
 {
     unsigned __int64 __0xffffffff00000000 = 0xffffffff00000000;
     unsigned __int64 __0x00000000ffffffff = 0x00000000ffffffff;
     unsigned __int64 __0x00ff00ff00ff00ff = 0x00ff00ff00ff00ff;
 
-    __m128i mm4 = _mm_cvtsi64_si128(__0x00ff00ff00ff00ff);
-    __m128i mm5 = _mm_cvtsi64_si128(__0x00000000ffffffff);
-    __m128i mm6 = _mm_cvtsi64_si128(__0xffffffff00000000);
+#if _M_IX86_FP != 1// SSE2 code, don't use on SSE builds, works correctly for x64 and AVX
+    __m128i mm4 = _mm_loadl_epi64(reinterpret_cast<__m128i*>(&__0x00ff00ff00ff00ff));
+    __m128i mm5 = _mm_loadl_epi64(reinterpret_cast<__m128i*>(&__0x00000000ffffffff));
+    __m128i mm6 = _mm_loadl_epi64(reinterpret_cast<__m128i*>(&__0xffffffff00000000));
     for (BYTE* s3 = s1 + ((w >> 1) - 1) * 4; s1 < s3; s1 += 4, d1 += 8) {
-        __m128i mm0 = _mm_cvtsi64_si128(*(size_t*)s1); //movq   mm0, [esi]
+        __m128i mm0 = _mm_loadl_epi64(reinterpret_cast<__m128i*>(s1)); //movq mm0, [esi]
         __m128i mm2 = _mm_move_epi64(mm0);          //movq  mm2, mm0
-        mm0 = _mm_and_si128(mm0, mm4);              //pand  mm0, mm4    // mm0 = 00y400y300y200y1
-        mm2 = _mm_srli_epi16(mm2, 8);               //psrlw mm2, 8      // mm2 = 00u200v200u100v1
+        mm0 = _mm_and_si128(mm0, mm4);              //pand  mm0, mm4     // mm0 = 00y400y300y200y1
+        mm2 = _mm_srli_epi16(mm2, 8);               //psrlw mm2, 8       // mm2 = 00u200v200u100v1
         __m128i mm1 = _mm_move_epi64(mm0);          //movq  mm1, mm0
-        mm0 = _mm_and_si128(mm0, mm5);              //pand  mm0, mm5    // mm0 = 0000000000y200y1
+        mm0 = _mm_and_si128(mm0, mm5);              //pand  mm0, mm5     // mm0 = 0000000000y200y1
         mm1 = _mm_slli_epi64(mm1, 16);              //psllq mm1, 16
-        mm1 = _mm_and_si128(mm1, mm6);              //pand  mm1, mm6    // mm1 = 00y300y200000000
-        mm1 = _mm_or_si128(mm1, mm0);               //por   mm1, mm0    // mm1 = 00y300y200y200y1
-        mm0 = _mm_unpacklo_epi8(mm0, mm0);          //punpcklwd mm0, mm0    // mm0 = 00y200y200y100y1
+        mm1 = _mm_and_si128(mm1, mm6);              //pand  mm1, mm6     // mm1 = 00y300y200000000
+        mm1 = _mm_or_si128(mm1, mm0);               //por   mm1, mm0     // mm1 = 00y300y200y200y1
+        mm0 = _mm_unpacklo_epi8(mm0, mm0);          //punpcklwd mm0, mm0 // mm0 = 00y200y200y100y1
         mm0 = _mm_adds_epi16(mm0, mm1);             //paddw mm0, mm1
-        mm0 = _mm_srli_epi16(mm0, 1);               //psrlw mm0, 1      // mm0 = (mm0 + mm1) / 2
+        mm0 = _mm_srli_epi16(mm0, 1);               //psrlw mm0, 1       // mm0 = (mm0 + mm1) / 2
         mm1 = _mm_move_epi64(mm2);                  //movq  mm1, mm2
         mm1 = _mm_unpacklo_epi32(mm1, mm1);         //punpckldq mm1, mm1 // mm1 = 00u100v100u100v1
         mm1 = _mm_adds_epi16(mm1, mm2);             //paddw mm1, mm2
         mm1 = _mm_srli_epi16(mm1, 1);               //psrlw mm1, 1       // mm1 = (mm1 + mm2) / 2
         mm1 = _mm_slli_epi64(mm1, 8);               //psllw mm1, 8
-        mm1 = _mm_or_si128(mm0, mm1);               //por       mm0, mm1    // mm0 = (v1+v2)/2|(y2+y3)/2|(u1+u2)/2|y2|v1|(y1+y2)/2|u1|y1
-        *(size_t*)d1 = (size_t)_mm_cvtsi128_si64(mm0);      //movq  [edi], mm0
+        mm1 = _mm_or_si128(mm0, mm1);               //por   mm0, mm1     // mm0 = (v1+v2)/2|(y2+y3)/2|(u1+u2)/2|y2|v1|(y1+y2)/2|u1|y1
+        _mm_storel_epi64(reinterpret_cast<__m128i*>(d1), mm0); //movq [edi], mm0
     }
-
-    *d1++ = s1[0];
-    *d1++ = s1[1];
-    *d1++ = (s1[0] + s1[2]) >> 1;
-    *d1++ = s1[3];
-
-    *d1++ = s1[2];
-    *d1++ = s1[1];
-    *d1++ = s1[2];
-    *d1++ = s1[3];
-
-    s1 += 4;
-}
-#else
-void Scale2x_YUY2_MMX(BYTE* s1, BYTE* d1, int w)
-{
-    unsigned __int64 __0xffffffff00000000 = 0xffffffff00000000;
-    unsigned __int64 __0x00000000ffffffff = 0x00000000ffffffff;
-    unsigned __int64 __0x00ff00ff00ff00ff = 0x00ff00ff00ff00ff;
-
+#else// MMX code
     __asm {
         mov     esi, s1
         mov     edi, d1
@@ -158,6 +143,7 @@ void Scale2x_YUY2_MMX(BYTE* s1, BYTE* d1, int w)
         mov     s1, esi
         mov     d1, edi
     };
+#endif
 
     *d1++ = s1[0];
     *d1++ = s1[1];
@@ -170,11 +156,10 @@ void Scale2x_YUY2_MMX(BYTE* s1, BYTE* d1, int w)
     *d1++ = s1[3];
 
     s1 += 4;
-    _mm_empty();
 }
-#endif
 
-void Scale2x_YUY2_c(BYTE* s1, BYTE* d1, int w)
+/* Scale2x_YUY2_c is left unused
+static __declspec(nothrow noalias) __forceinline void Scale2x_YUY2_c(BYTE* s1, BYTE* d1, int w)
 {
     for (BYTE* s3 = s1 + ((w >> 1) - 1) * 4; s1 < s3; s1 += 4, d1 += 8) {
         d1[0] = s1[0];
@@ -200,21 +185,10 @@ void Scale2x_YUY2_c(BYTE* s1, BYTE* d1, int w)
 
     s1 += 4;
 }
+*/
 
-void Scale2x_YUY2(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
+static __declspec(nothrow noalias) __forceinline void Scale2x_YUY2(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
 {
-    void (*scale_func)(BYTE * s1, BYTE * d1, int w);
-#ifdef _WIN64
-    scale_func = Scale2x_YUY2_SSE2;
-#else
-    scale_func = Scale2x_YUY2_MMX;
-#endif
-    //scale_func = Scale2x_YUY2_c;
-
-    //unsigned __int64 __0xffffffff00000000 = 0xffffffff00000000;
-    //unsigned __int64 __0x00000000ffffffff = 0x00000000ffffffff;
-    //unsigned __int64 __0x00ff00ff00ff00ff = 0x00ff00ff00ff00ff;
-
     BYTE* s1;
     BYTE* s2;
     BYTE* d1;
@@ -224,20 +198,20 @@ void Scale2x_YUY2(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
         // ->
         // row0, 8 pixels: y1|u1|(y1+y2)/2|v1|y2|(u1+u2)/2|(y2+y3)/2|(v1+v2)/2
 
-        scale_func(s1, d1, w);
+        Scale2x_YUY2_main(s1, d1, w);
 
         s1 += spitch;
         d1 += dpitch;
     }
 
-#ifndef _WIN64
-    __asm emms;
+#if _M_IX86_FP == 1// inverse of: SSE2 code, don't use on SSE builds, works correctly for x64 and AVX
+    _mm_empty();
 #endif
 
     AvgLines8(d, h * 2, dpitch);
 }
 
-void Scale2x_RGB555(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
+static __declspec(nothrow noalias) __forceinline void Scale2x_RGB555(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
 {
     BYTE* s1;
     BYTE* s2;
@@ -268,7 +242,7 @@ void Scale2x_RGB555(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
     AvgLines555(d, h * 2, dpitch);
 }
 
-void Scale2x_RGB565(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
+static __declspec(nothrow noalias) __forceinline void Scale2x_RGB565(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
 {
     BYTE* s1;
     BYTE* s2;
@@ -299,7 +273,7 @@ void Scale2x_RGB565(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
     AvgLines565(d, h * 2, dpitch);
 }
 
-void Scale2x_RGB24(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
+static __declspec(nothrow noalias) __forceinline void Scale2x_RGB24(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
 {
     BYTE* s1;
     BYTE* s2;
@@ -332,14 +306,14 @@ void Scale2x_RGB24(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
     AvgLines8(d, h * 2, dpitch);
 }
 
-#ifdef _WIN64
-void Scale2x_XRGB32_SSE2(BYTE* s1, BYTE* d1, int w)
+static __declspec(nothrow noalias) __forceinline void Scale2x_XRGB32_main(BYTE* s1, BYTE* d1, int w)
 {
-    __m128i mm_zero = _mm_setzero_si128();//pxor    mm0, mm0
+#if _M_IX86_FP != 1// SSE2 code, don't use on SSE builds, works correctly for x64 and AVX
+    __m128i mm_zero = _mm_setzero_si128(); //pxor mm0, mm0
     for (BYTE* s3 = s1 + (w - 1) * 4; s1 < s3; s1 += 4, d1 += 8) {
 
-        __m128i mm1 = _mm_cvtsi64_si128(*(size_t*)s1); //movq   mm1, [esi]
-        __m128i mm2 = _mm_move_epi64(mm1);          //movq  mm2, mm1
+        __m128i mm1 = _mm_loadl_epi64(reinterpret_cast<__m128i*>(s1)); //movq  mm1, [esi]
+        __m128i mm2 = _mm_move_epi64(mm1);     //movq mm2, mm1
 
         mm1 = _mm_unpacklo_epi8(mm1, mm_zero); //punpcklbw mm1, mm0   // mm1 = 00xx00r100g100b1
         mm2 = _mm_unpacklo_epi8(mm2, mm_zero); //punpckhbw mm2, mm0   // mm2 = 00xx00r200g200b2
@@ -347,20 +321,11 @@ void Scale2x_XRGB32_SSE2(BYTE* s1, BYTE* d1, int w)
         mm2 = _mm_adds_epi16(mm2, mm1);        //paddw mm2, mm1
         mm2 = _mm_srli_epi16(mm2, 1);          //psrlw mm2, 1         // mm2 = (mm1 + mm2) / 2
 
-        mm1 = _mm_packus_epi16(mm1, mm2);      //packuswb  mm1, mm2
+        mm1 = _mm_packus_epi16(mm1, mm2);      //packuswb mm1, mm2
 
-        *(size_t*)d1 = (size_t)_mm_cvtsi128_si64(mm1); //movq  [edi], mm1
+        _mm_storel_epi64(reinterpret_cast<__m128i*>(d1), mm1); //movq [edi], mm1
     }
-
-    *((DWORD*)d1) = *((DWORD*)s1);
-    *((DWORD*)d1 + 1) = *((DWORD*)s1);
-
-    s1 += 4;
-    d1 += 8;
-}
-#else
-void Scale2x_XRGB32_MMX(BYTE* s1, BYTE* d1, int w)
-{
+#else// MMX code
     __asm {
         mov     esi, s1
         mov     edi, d1
@@ -392,17 +357,16 @@ void Scale2x_XRGB32_MMX(BYTE* s1, BYTE* d1, int w)
         mov     s1, esi
         mov     d1, edi
     };
-
+#endif
     *((DWORD*)d1) = *((DWORD*)s1);
     *((DWORD*)d1 + 1) = *((DWORD*)s1);
 
     s1 += 4;
     d1 += 8;
-    _mm_empty();
 }
-#endif
 
-void Scale2x_XRGB32_c(BYTE* s1, BYTE* d1, int w)
+/* Scale2x_XRGB32_c is left unused
+static __declspec(nothrow noalias) __forceinline void Scale2x_XRGB32_c(BYTE* s1, BYTE* d1, int w)
 {
     for (BYTE* s3 = s1 + (w - 1) * 4; s1 < s3; s1 += 3, d1 += 6) {
         d1[0] = s1[0];
@@ -422,37 +386,30 @@ void Scale2x_XRGB32_c(BYTE* s1, BYTE* d1, int w)
     s1 += 4;
     d1 += 8;
 }
+*/
 
-void Scale2x_XRGB32(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
+static __declspec(nothrow noalias) __forceinline void Scale2x_XRGB32(int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch)
 {
-    void (*scale_func)(BYTE * s1, BYTE * d1, int w);
-#ifdef _WIN64
-    scale_func = Scale2x_XRGB32_SSE2;
-#else
-    scale_func = Scale2x_XRGB32_MMX;
-#endif
-    //scale_func = Scale2x_XRGB32_c;
-
     BYTE* s1;
     BYTE* s2;
     BYTE* d1;
 
     for (s1 = s, s2 = s + h * spitch, d1 = d; s1 < s2; d1 += dpitch) {
-        scale_func(s1, d1, w);
+        Scale2x_XRGB32_main(s1, d1, w);
 
         s1 += spitch;
         d1 += dpitch;
     }
 
-#ifndef _WIN64
-    __asm emms;
+#if _M_IX86_FP == 1// inverse of: SSE2 code, don't use on SSE builds, works correctly for x64 and AVX
+    _mm_empty();
 #endif
 
     AvgLines8(d, h * 2, dpitch);
 }
 
 /* ResX2 */
-void Scale2x(const GUID& subtype, BYTE* d, int dpitch, BYTE* s, int spitch, int w, int h)
+extern void Scale2x(const GUID& subtype, BYTE* d, int dpitch, BYTE* s, int spitch, int w, int h)
 {
     if (subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV) {
         Scale2x_YV(w, h, d, dpitch, s, spitch);
