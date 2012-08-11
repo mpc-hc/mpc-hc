@@ -44,8 +44,8 @@ CSaveTextFileDialog::CSaveTextFileDialog(
         pfdc->StartVisualGroup(IDS_TEXTFILE_ENC, ResStr(IDS_TEXTFILE_ENC));
         pfdc->AddComboBox(IDC_COMBO1);
         pfdc->AddControlItem(IDC_COMBO1, CTextFile::ASCII, _T("ANSI"));
-        pfdc->AddControlItem(IDC_COMBO1, CTextFile::LE16, _T("Unicode 16-LE"));
-        pfdc->AddControlItem(IDC_COMBO1, CTextFile::BE16, _T("Unicode 16-BE"));
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::LE16, _T("Unicode (UTF-16 LE BOM)"));
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::BE16, _T("Unicode (UTF-16 BE BOM)"));
         pfdc->AddControlItem(IDC_COMBO1, CTextFile::UTF8, _T("UTF-8"));
         pfdc->SetSelectedControlItem(IDC_COMBO1, m_e);
         pfdc->EndVisualGroup();
@@ -73,8 +73,8 @@ BOOL CSaveTextFileDialog::OnInitDialog()
 
     if (!SysVersion::IsVistaOrLater()) {
         m_encoding.SetItemData(m_encoding.AddString(_T("ANSI")), CTextFile::ASCII);
-        m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-LE")), CTextFile::LE16);
-        m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-BE")), CTextFile::BE16);
+        m_encoding.SetItemData(m_encoding.AddString(_T("Unicode (UTF-16 LE BOM)")), CTextFile::LE16);
+        m_encoding.SetItemData(m_encoding.AddString(_T("Unicode (UTF-16 BE BOM)")), CTextFile::BE16);
         m_encoding.SetItemData(m_encoding.AddString(_T("UTF-8")), CTextFile::UTF8);
 
         switch (m_e) {
