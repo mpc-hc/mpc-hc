@@ -30,7 +30,7 @@ Legend:
   Polish, Russian, Slovak and Ukrainian translations
 * The Icon Library was rewritten leading to smaller size
 * The Output Options page was redesigned for better usability
-* The translation dll's size was decreased by 1/3
+* The translation dll's size was decreased by 2/3 (uncompressed)
 * Ticket #2227, Hide the seek bar in capture mode
 * Ticket #2276, Use the new user interface on Vista and later for the Save dialogs
 * Ticket #2342, MPC-HC will now use the Windows theme font for the Statusbar, OSD messages
