@@ -573,11 +573,6 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         }
     }
 
-
-#ifndef _WIN64
-    __asm emms;
-#endif
-
     return S_OK;
 }
 
