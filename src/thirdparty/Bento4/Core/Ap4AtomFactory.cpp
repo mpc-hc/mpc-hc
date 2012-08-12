@@ -379,6 +379,24 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 			atom = new AP4_FtabAtom(size, stream);
 			break;
 
+		case AP4_ATOM_TYPE_RAW:
+			{
+				AP4_Offset pos;
+				AP4_UI16 ch_count_test;
+
+				stream.Tell(pos);
+				stream.Seek(pos + 16);
+				stream.ReadUI16(ch_count_test);
+				stream.Seek(pos);
+
+				if (ch_count_test == 0) {
+					atom = new AP4_VisualSampleEntry(type, size, stream, *this);
+				} else {
+					atom = new AP4_AudioSampleEntry(type, size, stream, *this);
+				}
+			}
+			break;
+
 		case AP4_ATOM_TYPE_CVID:
 		case AP4_ATOM_TYPE_SVQ1:
 		case AP4_ATOM_TYPE_SVQ2:
@@ -424,7 +442,6 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 		case AP4_ATOM_TYPE_QDMC:
 		case AP4_ATOM_TYPE_QDM2:
 		case AP4_ATOM_TYPE_NONE:
-		case AP4_ATOM_TYPE_RAW:
 		case AP4_ATOM_TYPE_TWOS:
 		case AP4_ATOM_TYPE_SOWT:
 		case AP4_ATOM_TYPE_IN24:

@@ -919,10 +919,11 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
                         if (type == AP4_ATOM_TYPE_MJPA || type == AP4_ATOM_TYPE_MJPB || type == AP4_ATOM_TYPE_MJPG) {
                             SetTrackName(&TrackName, _T("M-Jpeg"));
+                        } else if (type == AP4_ATOM_TYPE_RAW) {
+                            fourcc = BI_RGB;
                         }
 
                         mt.majortype = MEDIATYPE_Video;
-                        mt.subtype = FOURCCMap(fourcc);
                         mt.formattype = FORMAT_VideoInfo;
                         vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + db.GetDataSize());
                         memset(vih, 0, mt.FormatLength());
@@ -932,6 +933,22 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         vih->bmiHeader.biCompression = fourcc;
                         vih->bmiHeader.biBitCount = (LONG)vse->GetDepth();
                         memcpy(vih + 1, db.GetData(), db.GetDataSize());
+
+                        if (fourcc == BI_RGB) {
+                            WORD &bitcount = vih->bmiHeader.biBitCount;
+                            if (bitcount == 16) {
+                                mt.subtype = MEDIASUBTYPE_RGB555;
+                            } else if (bitcount == 24) {
+                                mt.subtype = MEDIASUBTYPE_RGB24;
+                            } else if (bitcount == 32) {
+                                mt.subtype = MEDIASUBTYPE_ARGB32;
+                            } else {
+                                break;
+                            }
+                            mts.Add(mt);
+                            break;
+                        }
+                        mt.subtype = FOURCCMap(fourcc);
                         mts.Add(mt);
 
                         char buff[5];
