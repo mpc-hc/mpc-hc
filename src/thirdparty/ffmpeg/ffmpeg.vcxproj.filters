@@ -432,6 +432,9 @@
     <ClCompile Include="libavcodec\celp_math.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\codec_desc.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\cook.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
