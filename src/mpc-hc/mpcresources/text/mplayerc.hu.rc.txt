@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Alfacsatornák összekötése"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Elhelyezés felülbírálása"
 7		"Vízszintes:"
 11		"Függőleges:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Felkerekítés kettő hatványaira"
 27		"Figyelmeztetés"
 28		"Ha felülbírálva engedélyezi a videokártyája beállításainál a teljes képernyős vonalsimítást, a feliratok akkor sem lesznek szebbek, viszont a processzorát teljesen leterheli vele."
-29		"Mielőtt megkérdezné"
-30		"DirectShow alatti feliratozás akkor érhető el, ha a ""VMR-7 (renderless)"" vagy a ""VMR-9 (renderless)"" videó átalakítót állítjuk be. A VMR-7-hez Windows XP, a VMR-9-hez DirectX9 szükséges. Mindkettőhöz hardveres gyorsítású D3D videokártya szükséges."
-31		"A RealMedia és QuickTime formátumokat úgy lehet feliratozni, ha beállítjuk a speciális DirectX 7 vagy DirectX 9 átalakítóikat."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

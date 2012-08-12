@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Prepájať alfa-kanály"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Posunúť umiestnenie"
 7		"Horizontálne"
 11		"Vertikálne:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Zaokrúhľovať na 2 desatiny"
 27		"Varovanie"
 28		"Ak niekde v nastaveniach svojej grafickej karty zapnete antialiasing (vyhladzovanie hrán) v celoobrazovkovom móde, vzhľad titulkov sa o nič nezlepší, zvýši sa však zaťaženie procesora."
-29		"Predtým než sa začnete pýtať:"
-30		"Titulkovanie bude pri filtri DirectShow dostupné ak si zvolíte kodek ""VMR-7 (bezstratový)"" alebo ""VMR-9 (bezstratový)"". Kodek VMR-7 vyžaduje Windows XP, VMR-9 vyžaduje DirectX 9. Obidva kodeky vyžadujú hardvérovú akceleráciu grafickej karty D3D."
-31		"Titulkovanie vo formátoch RealMedia a QuickTime sa dá aktivovať nastavením DirectX 7 alebo DirectX 9 vykresľovania."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

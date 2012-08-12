@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Vincular canals alfa"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Reescriure l'ubicació"
 7		"Horitzontal:"
 11		"Vertical:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Arrodonir a potència de 2"
 27		"Advertència"
 28		"Si actives l'antialiasing a pantalla completa en les opcions de la tarja gràfica, els subtítuls no es veuran millor i exigirant força cpu."
-29		"Abans de preguntar"
-30		"Els subtítols per DirectShow estaran disponibles quant s'usin els renders ""VMR-7 (sense render)"" o ""VMR-9 (sense render)"". VMR-7 exigeix Windows XP, VMR-9 exigeix DirectX 9, ambdós exigeixen una tarja gràfica amb D3D per HW."
-31		"Els formats de RealMedia i QuickTime poden visualitzar subtítols configurant els seus propis renders siguin DirectX 7 o DirectX 9."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

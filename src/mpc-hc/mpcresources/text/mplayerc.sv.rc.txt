@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Länka alfa kanaler"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Överskugga placering"
 7		"Horisontal:"
 11		"Vertikal:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Runda upp till kraften av två"
 27		"Varning"
 28		"Om du överskuggar och aktivera helskärms antialiasing någonstans på ditt grafikkorts inställningar, undertexter kommer inte att se något bättre ut men det kommer säkert att belasta din CPU."
-29		"Innan du frågar"
-30		"Undertextning för DirectShow är tillgängligt när video renderaren är inställd på ""VMR-7 (renderlös)"" eller ""VMR-9 (renderlös)"". VMR-7 kräver Windows XP, VMR-9 kräver DirectX 9, och båda kräver en HW accelererad D3D grafikkortet."
-31		"RealMedia och QuickTime format kan bli undertextade genom att ställa in deras särskilda DirectX 7 eller DirectX 9 renderare."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

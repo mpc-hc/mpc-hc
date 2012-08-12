@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Elkartu alfa bideak"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Ezeztatu kokapena"
 7		"Etzana:"
 11		"Zutia:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Borobildu biren indarrera"
 27		"Kontuz"
 28		"Ezeztatzen baduzu eta gaitu ikusleiho-osoko hertzlehunketa zure bideo txartelaren ezarpenetan, azpidatziak ez dira hobeto ikusiko baina zure cpu-a jango dute."
-29		"Galdetu aurretik"
-30		"Barneko azpidatzi eginkizuna erabilgarria da bakarrik bideo aurkezle bateragarri bat erabiltzen denean. Gogoko duzun bideo aurkezlea hautatu dezakezu Irteera orrialdean Irakurketa aukeren barnean. Aurkezle bateragarriek '**' ezaugarria dute."
-31		"RealMedia eta QuickTime heuskarriak azpidatzituak izan daitezke beren DirectX 7 edo DirectX 9 aukezle bereziak ezarriz."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

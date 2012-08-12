@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Lier les couches alpha"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Modifier la position"
 7		"Horizontale :"
 11		"Verticale :"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Arrondir à la puissance deux"
 27		"Attention"
 28		"Attention : Si vous activez le positionnement manuel et activez l'anticrénelage en mode plein écran dans les paramètres de votre carte vidéo, cela n'améliorera pas l'affichage des sous-titres mais consommera davantage de ressources système."
-29		"Avant de poser la question"
-30		"Le sous-titrage pour DirectShow n'est disponible qu'avec les rendus vidéo ""VMR-7 (sans rendu)"" ou ""VMR-9 (sans rendu)"". VMR-7 requiert Windows XP, VMR-9 requiert DirectX 9, et les deux nécessitent une carte vidéo D3D supportant l'accélération matérielle."
-31		"Pour que les formats RealMedia et QuickTime puissent afficher des sous-titres, il faut sélectionner leurs rendus spéciaux DirectX 7 ou DirectX 9."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

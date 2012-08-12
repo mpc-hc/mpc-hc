@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Vincular canales alpha"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Fijar ubicación"
 7		"Horizontal:"
 11		"Vertical:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Redondear"
 27		"Advertencia"
 28		"Si activa el modo de antialiasing a pantalla completa en la configuración de su tarjeta gráfica, los subtítulos no lucirán mejor pero se tragarán su cpu."
-29		"Antes de preguntar"
-30		"Los subtítulos para DirectShow estarán disponibles cuando se usen los métodos de renderización ""VMR-7 (sin render)"" o ""VMR-9 (sin render)"". VMR-7 req. Windows XP, VMR-9 req. DirectX 9, y ambos req. de una tarjeta grafica con D3D por HW."
-31		"Los formatos de RealMedia y QuickTime pueden ofrecer subtítulos al configurar su renderización especial DirectX 7 o DirectX 9."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

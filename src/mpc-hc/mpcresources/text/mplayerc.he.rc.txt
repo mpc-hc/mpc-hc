@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"קשר ערוצי צבעים"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"קבע מיקום"
 7		"אופקי:"
 11		"אנכי:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"תעגל כלפי מעלה לכפולות של 2"
 27		"אזהרה"
 28		"אם אתה מבצע מעקף בהגדרות כרטיס המסך ומפעיל את החלקת הקצוות במסך מלא, הכתוביות לא יראו טוב יותר, אך המעבד שלך יעבוד שעות נוספות."
-29		"לפני שאתה שואל"
-30		"הצגת כתוביות ב-DirectShow זמינה כאשר מציג הוידאו מוגדר כ-""VMR-7 (renderless)"" או  ""VMR-9 (renderless)"". VMR-7 דורש Windows XP, VMR-9 דורש DirectX 9, ושניהם דורשים כרטיס מסך המסוגל להציץ D3D."
-31		"אפשר להציג כתוביות עבור פורמטי ה-RealMedia וה-QuickTime ע""י הפעלה מציגי הוידאו המבוססי DirectX 7 או DirectX 9 שלהם."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

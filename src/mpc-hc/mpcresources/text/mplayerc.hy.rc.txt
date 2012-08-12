@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Կապել առաջնային ալիքները"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Փոխել դիրքը"
 7		"Հորիզոնական."
 11		"Ուղղհ."
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Կլորացնել մինչև 2"
 27		"Ուշադրություն"
 28		"Եթե փոխեք դիրքը և կարգավորեք տեսաքարտի էկրանային լղոզումը, ապա տողագրերը ավելի լավ չեն երևա, այլ փոխարենը կխլեն մեծ ռեսուրսներ։"
-29		"Մինչ հարցնելը"
-30		"Տողագրերի ցուցադրումը միացվում է միայն ""VMR-7 (renderless)""-ի կամ ""VMR-9 (renderless)""-ի միացման դեպքում։ VMR-7-ը պահանջում է Windows XP, VMR-9-ը՝ DirectX 9, երկուսն էլ պահանջում են 3D արագացուցիչ։"
-31		"RealMedia և QuickTime-ում ևս կարող են տողագրեր դրվել՝միացնելով նրանց հատուկ ցուցադրման եղանակը՝ ""Արտածում"" էջում։"
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

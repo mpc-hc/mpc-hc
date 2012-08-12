@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Alpha channels verbinden"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Positie aanpassen"
 7		"Horizontaal:"
 11		"Verticaal:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Aanpassen als niet mogelijk"
 27		"Waaschuwing"
 28		"Als u de ondertitelingspositie aanpast en ergens in de instellingen van uw grafische kaart full-screen antialiasing aanzet, zal de ondertiteling er niet beter uitzien, maar de CPU wordt wel zwaar belast."
-29		"Informatie"
-30		"Ondertiteling voor DirectShow is mogelijk bij ""VMR-7 (renderless)"" of ""VMR-9 (renderless)"". VMR-7 vereist Windows XP, VMR-9 vereist DirectX 9 en beide vereisen een grafische kaart met hardwareversnelling."
-31		"RealMedia en QuickTime kunnen worden ondertiteld als u hun speciale DirectX 7 of DirectX 9 renderers instelt."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Зв'язати альфа-канали"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Змінити положення"
 7		"Горизонт:"
 11		"Верт:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Заокруглювати до кратності 2"
 27		"Увага"
 28		"Якщо Ви зміните положення та увімкнете повноекранне згладжування в налаштуваннях відеокарти, вигляд субтитрів не покращиться, але навантаження процесора збільшиться."
-29		"Перед тим, як запитати"
-30		"Відображення субтитрів можливе лише для рендерерів ""VMR-7 (renderless)"" або ""VMR-9 (renderless)"". Для VMR-7 необхідна Windows XP, для VMR-9 - DirectX 9, для обох - необхідний аппаратний 3D прискорювач."
-31		"На RealMedia и QuickTime субтитри теж можуть накладатися при виборі спеціальних рендерерів на сторінці ""Вивід"""
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

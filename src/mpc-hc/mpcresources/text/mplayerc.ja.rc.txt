@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"アルファ チャンネルを連動させる"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"配置を強制指定する"
 7		"水平位置:"
 11		"垂直位置:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"2の累乗で切り上げる"
 27		"警告"
 28		"ビデオカードの設定でフルスクリーン時のアンチ エイリアシングを有効にした場合、CPU 負荷が大きくなるだけで字幕は少しも綺麗にならないでしょう。"
-29		"質問する前に"
-30		"DirectShow での字幕表示はビデオ レンダラに VMR-7 (レンダーレス) か VMR-9 (レンダーレス) が設定されている場合に有効です。VMR-7 には Windows XP、VMR-9 には DirectX 9 が必要で、どちらも Direct3D ハードウェア アクセラレーションに対応したビデオカードが必要です。"
-31		"RealMedia と QuickTime 形式は、専用の DirectX 7 または DirectX 9 のレンダラに設定することで字幕を表示できます。"
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

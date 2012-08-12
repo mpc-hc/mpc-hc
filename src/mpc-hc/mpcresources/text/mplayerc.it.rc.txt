@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Blocca canali alpha"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Modifica posizione"
 7		"Orizzontale:"
 11		"Verticale:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Approssima alla potenza di 2"
 27		"Attenzione"
 28		"Se imposti l'antialiasing a schermo intero nella tua scheda video, i sottotitoli NON si vedranno meglio, tuttavia la cpu avrà un carico maggiore."
-29		"Prima che tu lo chieda"
-30		"I sottotitoli in DirectShow sono disponibili quando è impostato come renderer video ""VMR-7 (renderless)"" oppure ""VMR-9 (renderless)"". VMR-7 richiede Windows XP, VMR-9 richiede DirectX 9, ed entrambi richiedono una scheda video accelerata D3D."
-31		"I formati RealMedia e QuickTime possono essere sottotitolati impostandone il render DirectX 7 o DirectX 9."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

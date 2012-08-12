@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"슬라이더 같이 움직이기"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"자막 표시 위치"
 7		"수평:"
 11		"수직:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"2의 배수로 맞춤"
 27		"경고"
 28		"만약 비디오카드 설정으로 위치설정 및 전체화면 안티앨리어싱을 설정했다면 자막이 잘 표시되지 않을수도 있습니다."
-29		"알아두기"
-30		"자막표시기능은 환경설정의 '재생-출력' 페이지에서 비디오 렌더링 모드를 ""VMR-7 (렌더리스)"" or ""VMR-9 (렌더리스)"" 으로 선택했을때만 가능합니다. VMR-7은 윈도우XP, VMR-9은 DirectX 9을 필요로하며, 모두 하드웨어 가속이 가능한 D3D 비디오카드가 필요합니다."
-31		"RealMedia 와 QuickTime 형식은 '재생-출력' 페이지에서 DirectX 7 또는 DirectX 9 렌더러를 사용하도록 설정한 경우에만 자막을 표시할수 있습니다."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

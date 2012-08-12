@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Połączenie kanałów alfa"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Nadpisanie położenia"
 7		"Poziomo:"
 11		"Pionowo:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Zaokrąglenie do potęgi liczby dwa"
 27		"Ostrzeżenie"
 28		"Włączenie pełnoekranowego antyaliasingu w ustawieniach karty graficznej, nie polepszy jakości napisów, a zwiększy jedynie obciążenie CPU."
-29		"Informacja"
-30		"Wyświetlanie napisów jest możliwe tylko wtedy, gdy używamy zgodnego renderera obrazu. Renderer obrazu można wybrać na stronie „Strumień wyjściowy” w opcjach odtwarzania. Zgodne renderery obrazu zaznaczone są przy pomocy „**” tuż za ich nazwą."
-31		"Aby wyświetlać napisy dla formatów RealMedia i QuickTime, należy wybrać ich specjalne filtry renderujące bibliotek DirectX 7 lub DirectX 9."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

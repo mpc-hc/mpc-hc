@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Alfa kanallarını bağla"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Özel yerleşim"
 7		"Yatay:"
 11		"Dikey:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Dokuyu çiftli olarak topla"
 27		"Uyarı"
 28		"Ekran kartınızın ayarlarından Tam ekran keskinlik yumuşatması seçeneğini açarsanız, alt yazılar düzgün görülmeyecek ve daha fazla işlemci kullanımına neden olacaktır."
-29		"Bilgi"
-30		"DirectShow için alt yazılar video ayırıcısından ""VMR-7 (çevrilmeden)"" veya ""VMR-9 (çevrilmeden)"" seçenekleri işaretlenerek kullanılabilir. VMR-7 ===> Windows XP, VMR-9 ===> DirectX 9, ve ikisi de HW hızlandırmalı bir D3D ekran kartı gerektirir."
-31		"RealMedia ve QuickTime biçimleri kendilerine özel DirectX 7 ve 9 çeviricileri ile alt yazılı olarak görüntülenebilirler."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

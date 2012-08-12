@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"使用 alpha 通道"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"覆盖位置"
 7		"水平: "
 11		"垂直: "
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"二次幂只入不舍"
 27		"警告"
 28		"如果您使用了纹理覆盖并打开您显卡全屏抗锯齿功能的话，它将不会使字幕变得比以前好看，但却一定会大量吞噬您的 CPU 资源。"
-29		"友情提示"
-30		"当视频渲染器被设置为“VMR-7(未渲染)”或“VMR-9(未渲染)”时，DirectShow 字幕可用。VMR-7 适用于 Windows XP，VMR-9 需要 DirectX 9 并支持硬件加速的 D3D 显卡。"
-31		"RealMedia 和 QuickTime 格式可以单独设置它们各自渲染方式为 DirectX 7 或 DirectX 9 后显示字幕。"
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

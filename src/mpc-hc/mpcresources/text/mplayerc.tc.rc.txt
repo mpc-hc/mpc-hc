@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"連結 Alpha 通道"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"覆寫放置位置"
 7		"水平:"
 11		"垂直:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"進位到 2 的乘方"
 27		"警告"
 28		"如果您覆寫並啟用在顯示卡裡的全螢幕反鋸齒 (FSAA) 設定, 字幕不會變得比較好看, 卻會吃更多的 CPU 資源。"
-29		"問問題之前"
-30		"只有在使用相容的視訊繪製器時, 才能用內建的字幕功能。您可以在播放選項下的輸出頁面選擇想要的視訊繪製器。相容的繪製器會在它們的名稱後方標上 '**'。"
-31		"只要設定特定的 DirectX 7 或 DirectX 9 繪製器, RealMedia 與 QuickTime 格式也可以使用字幕。"
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25

@@ -374,7 +374,7 @@ BEGIN DIALOGEX IDD_PPAGESUBSTYLE LINES 69
 68		"Propojit alfa kanály"
 END
 
-BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
+BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 29
 6		"Změnit polohu"
 7		"Horizontální:"
 11		"Vertikální:"
@@ -387,9 +387,6 @@ BEGIN DIALOGEX IDD_PPAGESUBTITLES LINES 32
 26		"Zaokrouhlovat na mocniny dvou"
 27		"Varování"
 28		"Pokud změníte polohu titulků a zapnete full-screen antialiasing, titulky určitě nebudou vypadat lépe, zato však zaberou veškerý výkon vašeho procesoru."
-29		"Než se zeptáte"
-30		"Titulkovač pro DirectShow je dostupný pouze pokud je použit renderer ""VMR-7 (renderless)"" nebo ""VMR-9 (renderless)"". VMR-7 vyžaduje Windows XP, VMR-9 vyžaduje DirectX 9 a oba vyžadují grafické karty s HW akcelerací D3D."
-31		"U formátů RealMedia a QuickTime můžete použít titulky pokud použijete jejich speciální DirectX 7 nebo DirectX 9 renderery."
 END
 
 BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
