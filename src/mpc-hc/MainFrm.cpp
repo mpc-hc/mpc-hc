@@ -11707,12 +11707,12 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         pMVTO = m_pCAP;
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
-            if (pMVTO) {
-                m_OSD.Start(m_pVideoWnd, pMVTO);
-            } else if (pVMB) {
-                m_OSD.Start(m_pVideoWnd, pVMB);
+            if (pVMB) {
+                m_OSD.Start(m_pVideoWnd, pVMB, s.IsD3DFullscreen());
             } else if (pMFVMB) {
-                m_OSD.Start(m_pVideoWnd, pMFVMB);
+                m_OSD.Start(m_pVideoWnd, pMFVMB, s.IsD3DFullscreen());
+            } else if (pMVTO) {
+                m_OSD.Start(m_pVideoWnd, pMVTO);
             }
         }
 

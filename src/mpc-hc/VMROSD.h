@@ -52,8 +52,8 @@ public:
     CVMROSD(void);
     ~CVMROSD(void);
 
-    void Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB);
-    void Start(CWnd* pWnd, IMFVideoMixerBitmap* pVMB);
+    void Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB, bool bShowSeekBar);
+    void Start(CWnd* pWnd, IMFVideoMixerBitmap* pVMB, bool bShowSeekBar);
     void Start(CWnd* pWnd, IMadVRTextOsd* pMVTO);
     void Stop();
 
@@ -104,6 +104,7 @@ private :
     CRect   m_rectCursor;
     CRect   m_rectBar;
     bool    m_bCursorMoving;
+    bool    m_bShowSeekBar;
     bool    m_bSeekBarVisible;
     __int64 m_llSeekMin;
     __int64 m_llSeekMax;

@@ -32,7 +32,17 @@ CVMROSD::CVMROSD(void) :
     m_pWnd(NULL),
     m_llSeekMin(0),
     m_llSeekMax(0),
-    m_llSeekPos(0)
+    m_llSeekPos(0),
+    m_nMessagePos(OSD_NOMESSAGE),
+    m_bShowSeekBar(false),
+    m_bSeekBarVisible(false),
+    m_bCursorMoving(false),
+    m_pMFVMB(NULL),
+    m_pVMB(NULL),
+    m_pMVTO(NULL),
+    m_FontSize(0),
+    m_OSD_Font(_T("")),
+    m_bShowMessage(true)
 {
     m_Color[OSD_TRANSPARENT] = RGB(0,     0,   0);
     m_Color[OSD_BACKGROUND]  = RGB(32,   40,  48);
@@ -49,18 +59,7 @@ CVMROSD::CVMROSD(void) :
     m_debugBrushBack.CreateSolidBrush(m_Color[OSD_DEBUGCLR]);
     m_debugPenBorder.CreatePen(PS_SOLID, 1, m_Color[OSD_BORDER]);
 
-    m_nMessagePos       = OSD_NOMESSAGE;
-    m_bSeekBarVisible   = false;
-    m_bCursorMoving     = false;
-    m_pMFVMB            = NULL;
-    m_pVMB              = NULL;
-    m_pMVTO             = NULL;
     memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
-
-    m_FontSize = 0;
-    m_OSD_Font = _T("");
-
-    m_bShowMessage = true;
 }
 
 CVMROSD::~CVMROSD(void)
@@ -142,21 +141,23 @@ void CVMROSD::UpdateBitmap()
 
 }
 
-void CVMROSD::Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB)
+void CVMROSD::Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB, bool bShowSeekBar)
 {
     m_pVMB   = pVMB;
     m_pMFVMB = NULL;
     m_pMVTO  = NULL;
     m_pWnd   = pWnd;
+    m_bShowSeekBar = bShowSeekBar;
     UpdateBitmap();
 }
 
-void CVMROSD::Start(CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
+void CVMROSD::Start(CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB, bool bShowSeekBar)
 {
     m_pMFVMB = pMFVMB;
     m_pVMB   = NULL;
     m_pMVTO  = NULL;
     m_pWnd   = pWnd;
+    m_bShowSeekBar = bShowSeekBar;
     UpdateBitmap();
 }
 
@@ -334,7 +335,7 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
         if (m_bCursorMoving) {
             UpdateSeekBarPos(point);
             Invalidate();
-        } else if (!m_bSeekBarVisible && AfxGetAppSettings().IsD3DFullscreen() && m_rectSeekBar.PtInRect(point)) {
+        } else if (!m_bSeekBarVisible && m_bShowSeekBar && m_rectSeekBar.PtInRect(point)) {
             m_bSeekBarVisible = true;
             Invalidate();
         } else if (m_bSeekBarVisible && !m_rectSeekBar.PtInRect(point)) {
