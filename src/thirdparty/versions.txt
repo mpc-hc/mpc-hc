@@ -5,7 +5,7 @@ Bento4              1.2.3-387 (modified)
 CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
 Detours             3.0 build 316
-FFmpeg              aca0f78 git
+FFmpeg              6fd7bf7 git
 libflac             1.2.1
 libmpeg2            0.3.2 (modified)
 libogg              1.3.0
