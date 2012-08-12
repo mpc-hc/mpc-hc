@@ -33,15 +33,17 @@
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC   // include Microsoft memory leak detection procedures
 
-#if 0
-#include <crtdbg.h>
-#define DNew new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#else
+// for other functionality
+//#include <crtdbg.h>
+//#define DNew new(_NORMAL_BLOCK, __FILE__, __LINE__)
+
+// only for debug purposes
 #define DNew new(__FILE__, __LINE__)
-#endif
+#define DNewNT new(__FILE__, __LINE__)
 
 #else
-
+// can throw
 #define DNew new
-
+// can't throw
+#define DNewNT new(std::nothrow)
 #endif
