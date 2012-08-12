@@ -26,8 +26,8 @@ Legend:
 * Updated FFmpeg (git 9f088a1)
 * Updated Little CMS to v2.4 (git eb67549)
 * Updated SoundTouch to v1.7.0pre r143
-* Updated Armenian, Basque, Belarusian, Catalan, Chinese Simplified, Czech, French, German,
-  Polish, Russian, Slovak and Ukrainian translations
+* Updated Armenian, Basque, Belarusian, Catalan, Chinese Simplified and Traditional, Czech,
+  French, German, Japanese, Polish, Russian, Slovak and Ukrainian translations
 * The Icon Library was rewritten leading to smaller size
 * The Output Options page was redesigned for better usability
 * Ticket #625, The translation dll's size was decreased by 2/3 (uncompressed)
