@@ -3434,7 +3434,7 @@ index fedf4e4..ab83114 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index 09c8ecb..f270e3e 100644
+index 28ca54e..05335df 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@
