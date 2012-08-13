@@ -34,7 +34,7 @@ CSaveTextFileDialog::CSaveTextFileDialog(
     LPCTSTR lpszFilter, CWnd* pParentWnd) :
     CFileDialog(FALSE, lpszDefExt, lpszFileName,
                 OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                lpszFilter, pParentWnd),
+                lpszFilter, pParentWnd, 0),
     m_e(e)
 {
     if (SysVersion::IsVistaOrLater()) {
