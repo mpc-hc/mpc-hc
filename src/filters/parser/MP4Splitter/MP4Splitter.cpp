@@ -935,7 +935,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         memcpy(vih + 1, db.GetData(), db.GetDataSize());
 
                         if (fourcc == BI_RGB) {
-                            WORD &bitcount = vih->bmiHeader.biBitCount;
+                            WORD& bitcount = vih->bmiHeader.biBitCount;
                             if (bitcount == 16) {
                                 mt.subtype = MEDIASUBTYPE_RGB555;
                             } else if (bitcount == 24) {
