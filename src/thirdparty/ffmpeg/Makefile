@@ -123,6 +123,7 @@ SRCS_C = \
     libavcodec/cabac.c \
     libavcodec/celp_filters.c \
     libavcodec/celp_math.c \
+    libavcodec/codec_desc.c \
     libavcodec/cook.c \
     libavcodec/dca.c \
     libavcodec/dca_parser.c \
@@ -336,7 +337,7 @@ SRCS_YASM = \
     libavcodec/x86/ac3dsp.asm \
     libavcodec/x86/dct32_sse.asm \
     libavcodec/x86/deinterlace.asm \
-    libavcodec/x86/dsputil_yasm.asm \
+    libavcodec/x86/dsputil.asm \
     libavcodec/x86/fft_mmx.asm \
     libavcodec/x86/fmtconvert.asm \
     libavcodec/x86/h264_chromamc.asm \
@@ -354,7 +355,7 @@ SRCS_YASM = \
     libavcodec/x86/rv34dsp.asm \
     libavcodec/x86/rv40dsp.asm \
     libavcodec/x86/sbrdsp.asm \
-    libavcodec/x86/vc1dsp_yasm.asm \
+    libavcodec/x86/vc1dsp.asm \
     libavcodec/x86/vp3dsp.asm \
     libavcodec/x86/vp56dsp.asm \
     libavcodec/x86/vp8dsp.asm \

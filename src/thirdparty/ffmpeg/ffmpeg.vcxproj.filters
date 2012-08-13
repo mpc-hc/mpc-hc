@@ -46,7 +46,7 @@
     <None Include="libavcodec\x86\deinterlace.asm">
       <Filter>libavcodec\x86</Filter>
     </None>
-    <None Include="libavcodec\x86\dsputil_yasm.asm">
+    <None Include="libavcodec\x86\dsputil.asm">
       <Filter>libavcodec\x86</Filter>
     </None>
     <None Include="libavcodec\x86\fft_mmx.asm">
@@ -100,7 +100,7 @@
     <None Include="libavcodec\x86\sbrdsp.asm">
       <Filter>libavcodec\x86</Filter>
     </None>
-    <None Include="libavcodec\x86\vc1dsp_yasm.asm">
+    <None Include="libavcodec\x86\vc1dsp.asm">
       <Filter>libavcodec\x86</Filter>
     </None>
     <None Include="libavcodec\x86\vp3dsp.asm">
