@@ -134,7 +134,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
     if (SUCCEEDED(hr)) {
         hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
-        if (!SUCCEEDED(hr)) {
+        if (FAILED(hr)) {
             _Error += L"m_pD3DManager->ResetDevice failed\n";
         }
     } else {

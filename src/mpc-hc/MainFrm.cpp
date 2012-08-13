@@ -10837,7 +10837,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 HRESULT CMainFrame::OpenBDAGraph()
 {
     HRESULT hr = pGB->RenderFile(L"", L"");
-    if (!FAILED(hr)) {
+    if (SUCCEEDED(hr)) {
         AddTextPassThruFilter();
         SetPlaybackMode(PM_CAPTURE);
     }
@@ -13434,14 +13434,14 @@ void CMainFrame::SetAlwaysOnTop(int i)
 bool DoesSubPrecede(const CComPtr<ISubStream>& a, const CComPtr<ISubStream>& b)
 {
     WCHAR* pName;
-    if (!SUCCEEDED(a->GetStreamInfo(0, &pName, NULL))) {
+    if (FAILED(a->GetStreamInfo(0, &pName, NULL))) {
         return false;
     }
     CStringW nameA(pName);
     nameA = nameA.Trim();
     CoTaskMemFree(pName);
 
-    if (!SUCCEEDED(b->GetStreamInfo(0, &pName, NULL))) {
+    if (FAILED(b->GetStreamInfo(0, &pName, NULL))) {
         return false;
     }
     CStringW nameB(pName);
