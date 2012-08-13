@@ -18,9 +18,7 @@ MPC-HC:
     since DX is moved into the SDK but we have to use the DX SDK for d3dx9, linking fails if /SAFESEH:NO
     isn't specified (still happens with the RC for Win32) and the MFC bloat workaround does not work as it is
     and unfortunately it is still needed.
-11) Get rid of images/avi and stuff from the mpcresources;
-    the gain will be ~1.5MB less from the installer/packages
-12) Add a .gitattributes file
+11) Add a .gitattributes file
 
 MPCIconLib:
 1) Replace the file association icons with better looking ones
