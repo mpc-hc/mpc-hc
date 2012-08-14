@@ -226,6 +226,14 @@ BOOL CTextFile::ReadString(CStringA& str)
         CString s;
         fEOF = !__super::ReadString(s);
         str = TToA(s);
+        // For consistency with other encodings, we continue reading
+        // the file even when a NUL char is encountered.
+        char c;
+        while (fEOF && (Read(&c, sizeof(c)) == sizeof(c))) {
+            str += c;
+            fEOF = !__super::ReadString(s);
+            str += TToA(s);
+        }
     } else if (m_encoding == ANSI) {
         char c;
         while (Read(&c, sizeof(c)) == sizeof(c)) {
@@ -312,6 +320,14 @@ BOOL CTextFile::ReadString(CStringW& str)
         CString s;
         fEOF = !__super::ReadString(s);
         str = TToW(s);
+        // For consistency with other encodings, we continue reading
+        // the file even when a NUL char is encountered.
+        char c;
+        while (fEOF && (Read(&c, sizeof(c)) == sizeof(c))) {
+            str += c;
+            fEOF = !__super::ReadString(s);
+            str += TToW(s);
+        }
     } else if (m_encoding == ANSI) {
         CStringA stra;
         char c;
