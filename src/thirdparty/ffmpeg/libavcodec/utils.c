@@ -715,7 +715,7 @@ MAKE_ACCESSORS(AVFrame, frame, AVDictionary *, metadata)
 MAKE_ACCESSORS(AVFrame, frame, int,     decode_error_flags)
 
 MAKE_ACCESSORS(AVCodecContext, codec, AVRational, pkt_timebase)
-MAKE_ACCESSORS(AVCodecContext, codec, AVCodecDescriptor*, codec_descriptor)
+MAKE_ACCESSORS(AVCodecContext, codec, const AVCodecDescriptor *, codec_descriptor)
 
 static void avcodec_get_subtitle_defaults(AVSubtitle *sub)
 {
@@ -1850,18 +1850,13 @@ AVCodec *avcodec_find_decoder_by_name(const char *name)
 
 const char *avcodec_get_name(enum AVCodecID id)
 {
+    const AVCodecDescriptor *cd;
     AVCodec *codec;
 
-// ==> Start patch MPC
-/*
-#if !CONFIG_SMALL
-    switch (id) {
-#include "libavcodec/codec_names.h"
-    }
+    cd = avcodec_descriptor_get(id);
+    if (cd)
+        return cd->name;
     av_log(NULL, AV_LOG_WARNING, "Codec 0x%x is not in the full list.\n", id);
-#endif
-*/
-// ==> End patch MPC
     codec = avcodec_find_decoder(id);
     if (codec)
         return codec->name;
