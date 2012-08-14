@@ -76,4 +76,7 @@ Increased security checks, thanks to Mateusz Jurczyk, from Google.
 Added half float support
 Fixed a typo on tificc and jpgicc names, thanks to Elle Stone for reporting.
 Fixed a bug on named color profiles.
+Added a conditional compilatio flag for "half" support
+Fixed a bug in transicc when clot tables are present
+
 

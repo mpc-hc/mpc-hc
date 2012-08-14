@@ -2561,6 +2561,8 @@ cmsUInt8Number* PackXYZDoubleFromFloat(_cmsTRANSFORM* Info,
 
 // ----------------------------------------------------------------------------------------------------------------
 
+#ifndef CMS_NO_HALF_SUPPORT 
+
 
 // Decodes an stream of half floats to wIn[] described by input format
 static
@@ -2697,6 +2699,7 @@ cmsUInt8Number* PackHalfFromFloat(_cmsTRANSFORM* info,
     }
 }
 
+#endif
 
 // ----------------------------------------------------------------------------------------------------------------
 
@@ -2712,8 +2715,9 @@ static cmsFormatters16 InputFormatters16[] = {
                                              ANYSWAP|ANYEXTRA|ANYSPACE,   UnrollDoubleTo16},
     { FLOAT_SH(1)|BYTES_SH(4), ANYCHANNELS|ANYPLANAR|ANYSWAPFIRST|
                                              ANYSWAP|ANYEXTRA|ANYSPACE,   UnrollFloatTo16},
+#ifndef CMS_NO_HALF_SUPPORT 
     { FLOAT_SH(1)|BYTES_SH(2), ANYCHANNELS|ANYPLANAR|ANYEXTRA|ANYSPACE,   UnrollHalfTo16},
-
+#endif
 
     { CHANNELS_SH(1)|BYTES_SH(1),                              ANYSPACE,  Unroll1Byte},
     { CHANNELS_SH(1)|BYTES_SH(1)|EXTRA_SH(1),                  ANYSPACE,  Unroll1ByteSkip1},
@@ -2780,8 +2784,9 @@ static cmsFormattersFloat InputFormattersFloat[] = {
 
     {     FLOAT_SH(1)|BYTES_SH(0), ANYPLANAR|ANYSWAPFIRST|ANYSWAP|ANYEXTRA|
                                                         ANYCHANNELS|ANYSPACE,  UnrollDoublesToFloat},
-
-    {     FLOAT_SH(1)|BYTES_SH(2), ANYPLANAR|ANYEXTRA|ANYCHANNELS|ANYSPACE,  UnrollHalfToFloat}
+#ifndef CMS_NO_HALF_SUPPORT 
+    {     FLOAT_SH(1)|BYTES_SH(2), ANYPLANAR|ANYEXTRA|ANYCHANNELS|ANYSPACE,  UnrollHalfToFloat},
+#endif
 };
 
 
@@ -2837,7 +2842,9 @@ static cmsFormatters16 OutputFormatters16[] = {
                                     ANYCHANNELS|ANYPLANAR|ANYEXTRA|ANYSPACE,  PackDoubleFrom16},
     { FLOAT_SH(1)|BYTES_SH(4),      ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|
                                     ANYCHANNELS|ANYPLANAR|ANYEXTRA|ANYSPACE,  PackFloatFrom16},
+#ifndef CMS_NO_HALF_SUPPORT 
     { FLOAT_SH(1)|BYTES_SH(2),      ANYCHANNELS|ANYPLANAR|ANYEXTRA|ANYSPACE,  PackHalfFrom16},
+#endif
 
     { CHANNELS_SH(1)|BYTES_SH(1),                                  ANYSPACE,  Pack1Byte},
     { CHANNELS_SH(1)|BYTES_SH(1)|EXTRA_SH(1),                      ANYSPACE,  Pack1ByteSkip1},
@@ -2921,9 +2928,10 @@ static cmsFormattersFloat OutputFormattersFloat[] = {
                              ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE,   PackFloatsFromFloat },
     {     FLOAT_SH(1)|BYTES_SH(0), ANYPLANAR|
                              ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE,   PackDoublesFromFloat },
-
+#ifndef CMS_NO_HALF_SUPPORT 
     {     FLOAT_SH(1)|BYTES_SH(2),
                              ANYFLAVOR|ANYSWAPFIRST|ANYSWAP|ANYEXTRA|ANYCHANNELS|ANYSPACE,   PackHalfFromFloat },
+#endif
 
 
 

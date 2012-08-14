@@ -9,7 +9,7 @@ FFmpeg              7427d1c git
 libflac             1.2.1
 libmpeg2            0.3.2 (modified)
 libogg              1.3.0
-Little CMS          v2.4 git eb67549
+Little CMS          v2.4 git 3a69c0c
 Logitech SDK        3.01
 MediaInfoLib        0.7.59
 MultiMon            28 Aug '03 (modified)

@@ -502,10 +502,13 @@ cmsFormatter    _cmsGetFormatter(cmsUInt32Number Type,          // Specific type
                                  cmsUInt32Number dwFlags);
 
 
+#ifndef CMS_NO_HALF_SUPPORT 
+
 // Half float
 cmsFloat32Number _cmsHalf2Float(cmsUInt16Number h);
 cmsUInt16Number  _cmsFloat2Half(cmsFloat32Number flt);
 
+#endif
 
 // Transform logic ------------------------------------------------------------------------------------------------------
 

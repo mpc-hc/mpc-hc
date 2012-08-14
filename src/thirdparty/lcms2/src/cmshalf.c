@@ -26,6 +26,8 @@
 //
 #include "lcms2_internal.h"
 
+#ifndef CMS_NO_HALF_SUPPORT 
+
 // This code is inspired in the paper "Fast Half Float Conversions"
 // by Jeroen van der Zijp
 
@@ -529,3 +531,5 @@ cmsUInt16Number _cmsFloat2Half(cmsFloat32Number flt)
 
     return (cmsUInt16Number) ((cmsUInt32Number) Base[ j ] + (( n & 0x007fffff) >> Shift[ j ]));
 }
+
+#endif

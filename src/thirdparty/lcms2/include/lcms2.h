@@ -52,6 +52,9 @@
 // require "KEYWORD" on undefined identifiers, keep it comented out unless needed
 // #define CMS_STRICT_CGATS  1
 
+// Uncomment to get rid of the tables for "half" float support
+// #define CMS_NO_HALF_SUPPORT 1
+
 // ********** End of configuration toggles ******************************
 
 // Needed for streams
