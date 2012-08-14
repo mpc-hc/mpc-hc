@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-1.6.3 - not released yet
-=========================
+1.6.3 - 14 August 2012
+======================
 + New webpage (http://mpc-hc.sourceforge.net)
 + Source code moved to GitHub (https://github.com/mpc-hc)
 + The DirectX runtime dlls are included in the distribution packages
