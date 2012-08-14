@@ -377,7 +377,7 @@ IF /I "%x64_type%" == "amd64" (
 )
 
 FOR /F "delims=" %%G IN (
-  'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path" 2^>Nul ^|FIND "REG_SZ"') DO (
+  'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path" 2^>NUL ^|FIND "REG_SZ"') DO (
   SET "InnoSetupPath=%%G" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
 EXIT /B
 
@@ -394,13 +394,13 @@ IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 
 IF /I "%x64_type%" == "amd64" (
   FOR /F "delims=" %%G IN (
-    'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
+    'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO (
     SET "SEVENZIP_REG=%%G" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
   )
 )
 
 FOR /F "delims=" %%G IN (
-  'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\7-Zip" /v "Path" 2^>Nul ^| FIND "REG_SZ"') DO (
+  'REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO (
   SET "SEVENZIP_REG=%%G" & CALL :SubSevenzipPath %%SEVENZIP_REG:*REG_SZ=%%
 )
 EXIT /B
