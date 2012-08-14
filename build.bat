@@ -355,6 +355,11 @@ FOR /F "tokens=3,4 delims= " %%G IN (
   'FINDSTR /I /L /C:"define MPC_VERSION_MINOR" "include\version.h"') DO (SET "VerMinor=%%G")
 FOR /F "tokens=3,4 delims= " %%G IN (
   'FINDSTR /I /L /C:"define MPC_VERSION_PATCH" "include\version.h"') DO (SET "VerPatch=%%G")
+
+IF NOT EXIST "include\version_rev.h" (
+  CALL :SubMsg "WARNING" "version_rev.h isn't present, calling update_version.bat"
+  CALL "update_version.bat"
+)
 FOR /F "tokens=3,4 delims= " %%G IN (
   'FINDSTR /I /L /C:"define MPC_VERSION_REV " "include\version_rev.h"') DO (SET "VerRev=%%G")
 
