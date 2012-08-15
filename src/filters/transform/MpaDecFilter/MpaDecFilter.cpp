@@ -679,137 +679,70 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 {
     WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
 
-    if (wfein->nChannels < 1 || wfein->nChannels > 8) {
+    WORD nChannels = wfein->nChannels;
+    if (nChannels < 1 || nChannels > 8) {
         return ERROR_NOT_SUPPORTED;
     }
 
-    int nChannels = wfein->nChannels;
+    BYTE* const base = m_buff.GetData();
+    BYTE* const end = base + m_buff.GetCount();
+    BYTE* p = base;
 
-    BYTE* pDataIn = m_buff.GetData();
-    int BytesPerDoubleSample = (wfein->wBitsPerSample * 2) / 8;
-    int BytesPerDoubleChannelSample = BytesPerDoubleSample * nChannels;
-    int nInBytes = (int)m_buff.GetCount();
-    int len = (nInBytes / BytesPerDoubleChannelSample) * (BytesPerDoubleChannelSample); // We always code 2 samples at a time
+    unsigned int blocksize = nChannels * 2 * wfein->wBitsPerSample / 8;
+    size_t size = m_buff.GetCount() / blocksize * blocksize;
+    size_t nSamples = (size / blocksize) * 2 * nChannels;
 
     CAtlArray<float> pBuff;
-    pBuff.SetCount((len / BytesPerDoubleSample) * 2);
-
+    pBuff.SetCount(nSamples);
     float* pDataOut = pBuff.GetData();
 
     switch (wfein->wBitsPerSample) {
-        case 16 : {
-            long nSamples = len / (BytesPerDoubleChannelSample);
-            INT16 Temp[2][8];
-            for (int i = 0; i < nSamples; i++) {
-                for (int j = 0; j < nChannels; j++) {
-                    UINT16 All = *((UINT16*)pDataIn);
-                    pDataIn += 2;
-                    INT16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
-                    Temp[0][j] = Part1;
-                }
-                for (int j = 0; j < nChannels; j++) {
-                    UINT16 All = *((UINT16*)pDataIn);
-                    pDataIn += 2;
-                    INT16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
-                    Temp[1][j] = Part1;
-                }
-
-                for (int j = 0; j < nChannels; j++) {
-                    *pDataOut = float(Temp[0][j]) / INT16_PEAK;
-                    ++pDataOut;
-                }
-                for (int j = 0; j < nChannels; j++) {
-                    *pDataOut = float(Temp[1][j]) / INT16_PEAK;
-                    ++pDataOut;
-                }
+        case 16 :
+            for (size_t i = 0; i < nSamples; i++) {
+                uint16_t u16 = (uint16_t)(*p) << 8 | (uint16_t)(*(p+1));
+                pDataOut[i] = (float)(int16_t)u16 / INT16_PEAK;
+                p += 2;
             }
-        }
-        break;
-
+            break;
         case 24 : {
-            long nSamples = len / (BytesPerDoubleChannelSample);
-            INT32 Temp[2][8];
-            for (int i = 0; i < nSamples; i++) {
-                // Start by upper 16 bits
-                for (int j = 0; j < nChannels; j++) {
-                    UINT32 All = *((UINT16*)pDataIn);
-                    pDataIn += 2;
-                    UINT32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
-                    Temp[0][j] = Part1;
-                }
-                for (int j = 0; j < nChannels; j++) {
-                    UINT32 All = *((UINT16*)pDataIn);
-                    pDataIn += 2;
-                    UINT32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
-                    Temp[1][j] = Part1;
-                }
-
-                // Continue with lower bits
-                for (int j = 0; j < nChannels; j++) {
-                    UINT32 All = *((UINT8*)pDataIn);
-                    pDataIn += 1;
-                    Temp[0][j] = INT32(Temp[0][j] | (All << 8)) >> 8;
-                }
-                for (int j = 0; j < nChannels; j++) {
-                    UINT32 All = *((UINT8*)pDataIn);
-                    pDataIn += 1;
-                    Temp[1][j] = INT32(Temp[1][j] | (All << 8)) >> 8;
-                }
-
-                // Convert into float
-                for (int j = 0; j < nChannels; j++) {
-                    *pDataOut = float(Temp[0][j]) / INT24_PEAK;
-                    ++pDataOut;
-                }
-                for (int j = 0; j < nChannels; j++) {
-                    *pDataOut = float(Temp[1][j]) / INT24_PEAK;
-                    ++pDataOut;
+                size_t m = nChannels * 2;
+                for (size_t k = 0, n = nSamples / m; k < n; k++) {
+                    BYTE* q = p + m * 2;
+                    for (size_t i = 0; i < m; i++) {
+                        uint32_t u32 = (uint32_t)(*p) << 24 | (uint32_t)(*(p+1)) << 16 | (uint32_t)(*q) << 8;
+                        pDataOut[i] = (float)((double)(int32_t)u32 / INT32_PEAK);
+                        p += 2;
+                        q++;
+                    }
+                    p += m;
+                    pDataOut += m;
                 }
             }
-        }
-        break;
+            break;
         case 20 : {
-            long nSamples = len / (BytesPerDoubleChannelSample);
-            INT32 Temp[2][8];
-            for (int i = 0; i < nSamples; i++) {
-                // Start by upper 16 bits
-                for (int j = 0; j < nChannels; j++) {
-                    UINT32 All = *((UINT16*)pDataIn);
-                    pDataIn += 2;
-                    UINT32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
-                    Temp[0][j] = Part1;
-                }
-                for (int j = 0; j < nChannels; j++) {
-                    UINT32 All = *((UINT16*)pDataIn);
-                    pDataIn += 2;
-                    UINT32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
-                    Temp[1][j] = Part1;
-                }
-
-                // Continue with lower bits
-                for (int j = 0; j < nChannels; j++) {
-                    UINT32 All = *((UINT8*)pDataIn);
-                    pDataIn += 1;
-                    Temp[0][j] = INT32(Temp[0][j] | ((All & 0xf0) << 8)) >> 8;
-                    Temp[1][j] = INT32(Temp[1][j] | ((All & 0x0f) << 12)) >> 8;
-                }
-
-                // Convert into float
-                for (int j = 0; j < nChannels; j++) {
-                    *pDataOut = float(Temp[0][j]) / INT24_PEAK;
-                    ++pDataOut;
-                }
-                for (int j = 0; j < nChannels; j++) {
-                    *pDataOut = float(Temp[1][j]) / INT24_PEAK;
-                    ++pDataOut;
+                size_t m = nChannels * 2;
+                for (size_t k = 0, n = nSamples / m; k < n; k++) {
+                    BYTE* q = p + m * 2;
+                    for (size_t i = 0; i < m; i++) {
+                        uint32_t u32 = (uint32_t)(*p) << 24 | (uint32_t)(*(p+1)) << 16;
+                        if (i & 1) {
+                            u32 |= (*(uint8_t*)q & 0x0F) << 12;
+                            q++;
+                        } else {
+                            u32 |= (*(uint8_t*)q & 0xF0) << 8;
+                        }
+                        pDataOut[i] = (float)((double)(int32_t)u32 / INT32_PEAK);
+                        p += 2;
+                    }
+                    p += nChannels;
+                    pDataOut += m;
                 }
             }
-        }
-        break;
+            break;
     }
 
-    memmove(m_buff.GetData(), pDataIn, m_buff.GetCount() - len);
-    m_buff.SetCount(m_buff.GetCount() - len);
+    memmove(base, p, end - p);
+    m_buff.SetCount(end - p);
 
     return Deliver(pBuff, wfein->nSamplesPerSec, wfein->nChannels, GetDefChannelMask(wfein->nChannels));
 }
