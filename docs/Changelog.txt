@@ -10,5 +10,5 @@ Legend:
 
 1.6.4 - not released yet
 ========================
-* Updated FFmpeg (git 7427d1c)
+* Updated FFmpeg (git 9e89bc3)
 * Updated Little CMS to v2.4 (git 3a69c0c)

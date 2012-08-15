@@ -249,7 +249,7 @@
     <ClCompile Include="libavutil\x86\float_dsp_init.c">
       <Filter>libavutil\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\ac3dsp_mmx.c">
+    <ClCompile Include="libavcodec\x86\ac3dsp_init.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\x86\dsputil_mmx.c">
@@ -267,10 +267,10 @@
     <ClCompile Include="libavcodec\x86\fdct_mmx.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\fft.c">
+    <ClCompile Include="libavcodec\x86\fft_init.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\fmtconvert_mmx.c">
+    <ClCompile Include="libavcodec\x86\fmtconvert_init.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\x86\h264_intrapred_init.c">
@@ -279,7 +279,7 @@
     <ClCompile Include="libavcodec\x86\h264_qpel_mmx.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\h264dsp_mmx.c">
+    <ClCompile Include="libavcodec\x86\h264dsp_init.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\x86\idct_mmx.c">

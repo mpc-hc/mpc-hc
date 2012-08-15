@@ -257,13 +257,13 @@ SRCS_C = \
     libavcodec/wmv2.c \
     libavcodec/wmv2dec.c \
     libavcodec/xiph.c \
-    libavcodec/x86/ac3dsp_mmx.c \
+    libavcodec/x86/ac3dsp_init.c \
     libavcodec/x86/dsputil_mmx.c \
     libavcodec/x86/fdct_mmx.c \
-    libavcodec/x86/fft.c \
-    libavcodec/x86/fmtconvert_mmx.c \
+    libavcodec/x86/fft_init.c \
+    libavcodec/x86/fmtconvert_init.c \
     libavcodec/x86/h264_intrapred_init.c \
-    libavcodec/x86/h264dsp_mmx.c \
+    libavcodec/x86/h264dsp_init.c \
     libavcodec/x86/idct_mmx.c \
     libavcodec/x86/idct_mmx_xvid.c \
     libavcodec/x86/idct_sse2_xvid.c \
