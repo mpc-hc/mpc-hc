@@ -689,8 +689,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     BYTE* p = base;
 
     unsigned int blocksize = nChannels * 2 * wfein->wBitsPerSample / 8;
-    size_t size = m_buff.GetCount() / blocksize * blocksize;
-    size_t nSamples = (size / blocksize) * 2 * nChannels;
+    size_t nSamples = (m_buff.GetCount() / blocksize) * 2 * nChannels;
 
     CAtlArray<float> pBuff;
     pBuff.SetCount(nSamples);
