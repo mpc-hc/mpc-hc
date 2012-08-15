@@ -11716,14 +11716,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             }
         }
 
-        if (m_pMC) {
-            m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Brightness));
-            m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Contrast));
-            m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Hue));
-            m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Saturation));
-            AfxGetMyApp()->UpdateColorControlRange(false);
-            SetColorControl(ProcAmp_All, s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
-        }
+        SetupVMR9ColorControl();
 
         // === EVR !
         pGB->FindInterface(__uuidof(IMFVideoDisplayControl), (void**)&m_pMFVDC,  TRUE);
@@ -11734,16 +11727,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);
             m_pMFVDC->SetVideoPosition(NULL, &Rect);
         }
-        /*if (m_pMFVP) {
-            //does not work at this location
-            //need to choose the correct mode (IMFVideoProcessor::SetVideoProcessorMode)
-            m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Brightness, AfxGetMyApp()->GetEVRColorControl (Brightness));
-            m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Contrast,   AfxGetMyApp()->GetEVRColorControl (Contrast));
-            m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Hue,        AfxGetMyApp()->GetEVRColorControl (Hue));
-            m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Saturation, AfxGetMyApp()->GetEVRColorControl (Saturation));
-            AfxGetMyApp()->UpdateColorControlRange(true);
-            SetColorControl(ProcAmp_All, s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
-        }*/
+
+        //SetupEVRColorControl();
+        //does not work at this location
+        //need to choose the correct mode (IMFVideoProcessor::SetVideoProcessorMode)
 
         BeginEnumFilters(pGB, pEF, pBF) {
             if (m_pLN21 = pBF) {
@@ -14654,6 +14641,27 @@ void CMainFrame::SetupEVRColorControl()
         }
 
         AfxGetMyApp()->UpdateColorControlRange(true);
+        SetColorControl(ProcAmp_All, AfxGetAppSettings().iBrightness, AfxGetAppSettings().iContrast, AfxGetAppSettings().iHue, AfxGetAppSettings().iSaturation);
+    }
+}
+
+void CMainFrame::SetupVMR9ColorControl()
+{
+    if (m_pMC) {
+        if (FAILED(m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Brightness)))) {
+            return;
+        }
+        if (FAILED(m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Contrast)))) {
+            return;
+        }
+        if (FAILED(m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Hue)))) {
+            return;
+        }
+        if (FAILED(m_pMC->GetProcAmpControlRange(0, AfxGetMyApp()->GetVMR9ColorControl(ProcAmp_Saturation)))) {
+            return;
+        }
+
+        AfxGetMyApp()->UpdateColorControlRange(false);
         SetColorControl(ProcAmp_All, AfxGetAppSettings().iBrightness, AfxGetAppSettings().iContrast, AfxGetAppSettings().iHue, AfxGetAppSettings().iSaturation);
     }
 }

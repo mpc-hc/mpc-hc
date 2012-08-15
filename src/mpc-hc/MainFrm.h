@@ -885,6 +885,7 @@ public:
     void        SetPlayState(MPC_PLAYSTATE iState);
     bool        CreateFullScreenWindow();
     void        SetupEVRColorControl();
+    void        SetupVMR9ColorControl();
     void        SetColorControl(DWORD flags, int& brightness, int& contrast, int& hue, int& saturation);
     void        SetClosedCaptions(bool enable);
     LPCTSTR     GetDVDAudioFormatName(DVD_AudioAttributes& ATR) const;
