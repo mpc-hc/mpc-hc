@@ -19,6 +19,7 @@ MPC-HC:
     isn't specified (still happens with the RC for Win32) and the MFC bloat workaround does not work as it is
     and unfortunately it is still needed.
 11) Add a .gitattributes file
+12) Add FFmpeg and lcms2 as submodules
 
 MPCIconLib:
 1) Replace the file association icons with better looking ones
