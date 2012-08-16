@@ -346,7 +346,7 @@
     <ClCompile Include="libavcodec\x86\vc1dsp_mmx.c" />
     <ClCompile Include="libavcodec\x86\vp3dsp_init.c" />
     <ClCompile Include="libavcodec\x86\vp56dsp_init.c" />
-    <ClCompile Include="libavcodec\x86\vp8dsp-init.c" />
+    <ClCompile Include="libavcodec\x86\vp8dsp_init.c" />
     <ClCompile Include="libavcodec\xiph.c" />
     <ClCompile Include="libavresample\audio_convert.c" />
     <ClCompile Include="libavresample\audio_data.c" />

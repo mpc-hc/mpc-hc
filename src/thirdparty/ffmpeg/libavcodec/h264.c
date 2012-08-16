@@ -2845,9 +2845,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
             }
         } else {
             /* Frame or first field in a potentially complementary pair */
-            // ==> Start patch MPC
-            // assert(!s0->current_picture_ptr);
-            // ==> End patch MPC
+//             assert(!s0->current_picture_ptr);
             s0->first_field = FIELD_PICTURE;
         }
 

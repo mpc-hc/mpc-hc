@@ -278,7 +278,7 @@ SRCS_C = \
     libavcodec/x86/vc1dsp_mmx.c \
     libavcodec/x86/vp3dsp_init.c \
     libavcodec/x86/vp56dsp_init.c \
-    libavcodec/x86/vp8dsp-init.c \
+    libavcodec/x86/vp8dsp_init.c \
 \
     libavresample/audio_convert.c \
     libavresample/audio_data.c \

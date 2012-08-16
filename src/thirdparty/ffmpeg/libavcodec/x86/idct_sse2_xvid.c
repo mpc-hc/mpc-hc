@@ -39,6 +39,7 @@
  */
 
 #include "libavcodec/dsputil.h"
+#include "libavutil/mem.h"
 #include "libavutil/x86/asm.h"
 #include "idct_xvid.h"
 #include "dsputil_mmx.h"

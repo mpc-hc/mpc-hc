@@ -26,9 +26,6 @@
 #include <vector>
 
 #include "ffmpeg/libavcodec/avcodec.h"
-#if HAS_FFMPEG_VIDEO_DECODERS
-#include "ffmpeg/libavutil/common.h"
-#endif
 
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>

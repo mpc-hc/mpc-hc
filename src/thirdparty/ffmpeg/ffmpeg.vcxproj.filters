@@ -324,7 +324,7 @@
     <ClCompile Include="libavcodec\x86\vp3dsp_init.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\vp8dsp-init.c">
+    <ClCompile Include="libavcodec\x86\vp8dsp_init.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\x86\vp56dsp_init.c">
