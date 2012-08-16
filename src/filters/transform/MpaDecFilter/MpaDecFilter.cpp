@@ -698,46 +698,46 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     switch (wfein->wBitsPerSample) {
         case 16 :
             for (size_t i = 0; i < nSamples; i++) {
-                uint16_t u16 = (uint16_t)(*p) << 8 | (uint16_t)(*(p+1));
+                uint16_t u16 = (uint16_t)(*p) << 8 | (uint16_t)(*(p + 1));
                 pDataOut[i] = (float)(int16_t)u16 / INT16_PEAK;
                 p += 2;
             }
             break;
         case 24 : {
-                size_t m = nChannels * 2;
-                for (size_t k = 0, n = nSamples / m; k < n; k++) {
-                    BYTE* q = p + m * 2;
-                    for (size_t i = 0; i < m; i++) {
-                        uint32_t u32 = (uint32_t)(*p) << 24 | (uint32_t)(*(p+1)) << 16 | (uint32_t)(*q) << 8;
-                        pDataOut[i] = (float)((double)(int32_t)u32 / INT32_PEAK);
-                        p += 2;
-                        q++;
-                    }
-                    p += m;
-                    pDataOut += m;
+            size_t m = nChannels * 2;
+            for (size_t k = 0, n = nSamples / m; k < n; k++) {
+                BYTE* q = p + m * 2;
+                for (size_t i = 0; i < m; i++) {
+                    uint32_t u32 = (uint32_t)(*p) << 24 | (uint32_t)(*(p + 1)) << 16 | (uint32_t)(*q) << 8;
+                    pDataOut[i] = (float)((double)(int32_t)u32 / INT32_PEAK);
+                    p += 2;
+                    q++;
                 }
+                p += m;
+                pDataOut += m;
             }
-            break;
+        }
+        break;
         case 20 : {
-                size_t m = nChannels * 2;
-                for (size_t k = 0, n = nSamples / m; k < n; k++) {
-                    BYTE* q = p + m * 2;
-                    for (size_t i = 0; i < m; i++) {
-                        uint32_t u32 = (uint32_t)(*p) << 24 | (uint32_t)(*(p+1)) << 16;
-                        if (i & 1) {
-                            u32 |= (*(uint8_t*)q & 0x0F) << 12;
-                            q++;
-                        } else {
-                            u32 |= (*(uint8_t*)q & 0xF0) << 8;
-                        }
-                        pDataOut[i] = (float)((double)(int32_t)u32 / INT32_PEAK);
-                        p += 2;
+            size_t m = nChannels * 2;
+            for (size_t k = 0, n = nSamples / m; k < n; k++) {
+                BYTE* q = p + m * 2;
+                for (size_t i = 0; i < m; i++) {
+                    uint32_t u32 = (uint32_t)(*p) << 24 | (uint32_t)(*(p + 1)) << 16;
+                    if (i & 1) {
+                        u32 |= (*(uint8_t*)q & 0x0F) << 12;
+                        q++;
+                    } else {
+                        u32 |= (*(uint8_t*)q & 0xF0) << 8;
                     }
-                    p += nChannels;
-                    pDataOut += m;
+                    pDataOut[i] = (float)((double)(int32_t)u32 / INT32_PEAK);
+                    p += 2;
                 }
+                p += nChannels;
+                pDataOut += m;
             }
-            break;
+        }
+        break;
     }
 
     memmove(base, p, end - p);
