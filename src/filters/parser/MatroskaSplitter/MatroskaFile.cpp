@@ -551,15 +551,19 @@ case 0x54B3:
     break;
 case 0x54AA:
     VideoPixelCropBottom.Parse(pMN);
+    if ((INT64)VideoPixelCropBottom < 0) VideoPixelCropBottom.Set(0); // fix bad value
     break;
 case 0x54BB:
     VideoPixelCropTop.Parse(pMN);
+    if ((INT64)VideoPixelCropTop < 0) VideoPixelCropTop.Set(0); // fix bad value
     break;
 case 0x54CC:
     VideoPixelCropLeft.Parse(pMN);
+    if ((INT64)VideoPixelCropLeft < 0) VideoPixelCropLeft.Set(0); // fix bad value
     break;
 case 0x54DD:
     VideoPixelCropRight.Parse(pMN);
+    if ((INT64)VideoPixelCropRight < 0) VideoPixelCropRight.Set(0); // fix bad value
     break;
 case 0x2EB524:
     ColourSpace.Parse(pMN);
