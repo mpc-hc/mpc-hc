@@ -30,9 +30,9 @@
 //      - dwData    : CMD_CONNECT
 //      - lpData    : Unicode string containing mpc-hc main window Handle
 //
-// To pilot mpc-hc, send WM_COPYDATA messages to Hwnd provided on connection. All messages should be
-// formatted as Unicode strings. For commands or notifications with multiple parameters, values are
-// separated by |
+// To control mpc-hc, send WM_COPYDATA messages to Hwnd provided on connection. All messages should be
+// formatted as null-terminated Unicode strings. For commands or notifications with multiple parameters,
+// values are separated by |
 // If a string contains a |, it will be escaped with a \ so a \| is not a separator
 //
 // Ex : When a file is opened, mpc-hc send to host the "now playing" notification :
