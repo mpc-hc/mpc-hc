@@ -14940,19 +14940,22 @@ void CMainFrame::SendAPICommand(MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
 
     if (s.hMasterWnd) {
         COPYDATASTRUCT CDS;
-        TCHAR buff[800];
 
         va_list args;
         va_start(args, fmt);
-        _vstprintf_s(buff, _countof(buff), fmt, args);
 
-        CDS.cbData = (DWORD)(_tcslen(buff) + 1) * sizeof(TCHAR);
+        int nBufferLen = _vsctprintf(fmt, args) + 1; // _vsctprintf doesn't count the null terminator
+        TCHAR* pBuff = DNew TCHAR[nBufferLen];
+        _vstprintf_s(pBuff, nBufferLen, fmt, args);
+
+        CDS.cbData = (DWORD)nBufferLen * sizeof(TCHAR);
         CDS.dwData = nCommand;
-        CDS.lpData = (LPVOID)buff;
+        CDS.lpData = (LPVOID)pBuff;
 
         ::SendMessage(s.hMasterWnd, WM_COPYDATA, (WPARAM)GetSafeHwnd(), (LPARAM)&CDS);
 
         va_end(args);
+        delete [] pBuff;
     }
 }
 
