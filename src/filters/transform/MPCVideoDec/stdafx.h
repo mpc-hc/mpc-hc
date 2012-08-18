@@ -29,8 +29,9 @@
 #include <evr.h>
 #include <atlcoll.h>
 
-#pragma warning(disable: 4005) /* this shouldn't be here but due to stdint.h/inttypes.h
-                                  being included from various ffmpeg headers we get redefitions */
+#pragma warning(disable: 4005)
+/* this shouldn't be here but due to stdint.h/inttypes.h
+being included from various ffmpeg headers we get redefitions */
 
 #if defined(_DEBUG) && defined(DXVA_LOGFILE_B)
 void LOG(LPCTSTR fmt, ...);
