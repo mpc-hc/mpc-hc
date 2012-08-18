@@ -81,7 +81,7 @@
 #define IDF_SHADER_LEVELS2              717
 #define IDF_SHADER_LEVELS3              718
 #define ID_FILE_OPENMEDIA               800
-#define ID_FILE_OPENDVD                 801
+#define ID_FILE_OPENDVDBD                 801
 #define ID_FILE_OPENDEVICE              802
 #define ID_FILE_CLOSEMEDIA              803
 #define ID_FILE_CLOSEPLAYLIST           804
