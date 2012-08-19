@@ -316,11 +316,16 @@ const AP4_Atom::Type AP4_ATOM_TYPE_NMOS = AP4_ATOM_TYPE('n','m','o','s');
 const AP4_Atom::Type AP4_ATOM_TYPE_ALAC = AP4_ATOM_TYPE('a','l','a','c');
 const AP4_Atom::Type AP4_ATOM_TYPE_MAC3 = AP4_ATOM_TYPE('M','A','C','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_MAC6 = AP4_ATOM_TYPE('M','A','C','6');
-
-const AP4_Atom::Type AP4_ATOM_TYPE_DVC  = AP4_ATOM_TYPE('d','v','c',' ');
-const AP4_Atom::Type AP4_ATOM_TYPE_DV5P = AP4_ATOM_TYPE('d','v','5','p');
-const AP4_Atom::Type AP4_ATOM_TYPE_DVCP = AP4_ATOM_TYPE('d','v','c','p');
-const AP4_Atom::Type AP4_ATOM_TYPE_DVPP = AP4_ATOM_TYPE('d','v','p','p');
+// DV
+const AP4_Atom::Type AP4_ATOM_TYPE_DVC  = AP4_ATOM_TYPE('d','v','c',' '); // NTSC DV-25 video
+const AP4_Atom::Type AP4_ATOM_TYPE_DVCP = AP4_ATOM_TYPE('d','v','c','p'); // PAL DV-25 video
+// DVPRO
+const AP4_Atom::Type AP4_ATOM_TYPE_DVPP = AP4_ATOM_TYPE('d','v','p','p'); // DVCPRO PAL
+const AP4_Atom::Type AP4_ATOM_TYPE_DV5N = AP4_ATOM_TYPE('d','v','5','n'); // DVCPRO50 NTSC
+const AP4_Atom::Type AP4_ATOM_TYPE_DV5P = AP4_ATOM_TYPE('d','v','5','p'); // DVCPRO50 PAL
+// DVCPRO HD
+const AP4_Atom::Type AP4_ATOM_TYPE_DVHQ = AP4_ATOM_TYPE('d','v','h','q');
+const AP4_Atom::Type AP4_ATOM_TYPE_DVH5 = AP4_ATOM_TYPE('d','v','h','5');
 /*----------------------------------------------------------------------
 |       AP4_AtomListInspector
 +---------------------------------------------------------------------*/

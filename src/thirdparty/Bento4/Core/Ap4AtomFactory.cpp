@@ -419,11 +419,24 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 		case AP4_ATOM_TYPE_IV41:
 		case AP4_ATOM_TYPE_VP31:
 		case AP4_ATOM_TYPE_YV12:
-		case AP4_ATOM_TYPE_DVC:
-		case AP4_ATOM_TYPE_DV5P:
-		case AP4_ATOM_TYPE_DVCP:
-		case AP4_ATOM_TYPE_DVPP:
 			atom = new AP4_VisualSampleEntry(type, size, stream, *this);
+			break;
+
+		// DV Video Subtypes - http://msdn.microsoft.com/en-us/library/windows/desktop/dd388646%28v=vs.85%29.aspx
+		case AP4_ATOM_TYPE_DVC:
+		case AP4_ATOM_TYPE_DVCP:
+			atom = new AP4_VisualSampleEntry(AP4_ATOM_TYPE('d','v','s','d'), size, stream, *this); // MEDIASUBTYPE_dvsd (DV Video Decoder, ffdshow, LAV)
+			break;
+		case AP4_ATOM_TYPE_DVPP:
+			atom = new AP4_VisualSampleEntry(AP4_ATOM_TYPE('d','v','2','5'), size, stream, *this); // MEDIASUBTYPE_dv25 (ffdshow, LAV)
+			break;
+		case AP4_ATOM_TYPE_DV5N:
+		case AP4_ATOM_TYPE_DV5P:
+			atom = new AP4_VisualSampleEntry(AP4_ATOM_TYPE('d','v','5','0'), size, stream, *this); // MEDIASUBTYPE_dv50 (ffdshow, LAV)
+			break;
+		case AP4_ATOM_TYPE_DVHQ:
+		case AP4_ATOM_TYPE_DVH5:
+			atom = new AP4_VisualSampleEntry(AP4_ATOM_TYPE('C','D','V','H'), size, stream, *this); // MEDIASUBTYPE_CDVH (LAV)
 			break;
 
 		case AP4_ATOM_TYPE_MJPG:
