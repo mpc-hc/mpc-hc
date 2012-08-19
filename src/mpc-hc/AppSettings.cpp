@@ -35,6 +35,7 @@ CAppSettings::CAppSettings()
     , hAccel(NULL)
     , nCmdlnWebServerPort(-1)
     , fShowDebugInfo(false)
+    , hMasterWnd(NULL)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -1742,7 +1743,6 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
     iAdminOption = 0;
     sizeFixedWindow.SetSize(0, 0);
     iMonitor = 0;
-    hMasterWnd = 0;
     strPnSPreset.Empty();
 
     POSITION pos = cmdln.GetHeadPosition();
