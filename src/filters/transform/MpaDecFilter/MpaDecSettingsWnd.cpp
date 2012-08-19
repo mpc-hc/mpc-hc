@@ -77,7 +77,7 @@ bool CMpaDecSettingsWnd::OnActivate()
     m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("PCM 16 Bit")), SF_PCM16);
     m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("PCM 24 Bit")), SF_PCM24);
     m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("PCM 32 Bit")), SF_PCM32);
-    m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("IEEE Float")), SF_FLOAT32);
+    m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("IEEE Float")), SF_FLOAT);
     m_outputformat_combo.SetCurSel(0);
     for (int i = 0; i < m_outputformat_combo.GetCount(); i++) {
         if ((int)m_outputformat_combo.GetItemData(i) == m_outputformat) {

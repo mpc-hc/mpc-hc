@@ -1455,7 +1455,7 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
                 pDataOut += sizeof(int32_t);
             }
             break;
-            case SF_FLOAT32:
+            case SF_FLOAT:
                 if (f > 1) {
                     f = 1;
                 }
@@ -1598,7 +1598,7 @@ CMediaType CMpaDecFilter::CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerS
     CMediaType mt;
 
     mt.majortype = MEDIATYPE_Audio;
-    mt.subtype = sf == SF_FLOAT32 ? MEDIASUBTYPE_IEEE_FLOAT : MEDIASUBTYPE_PCM;
+    mt.subtype = sf == SF_FLOAT ? MEDIASUBTYPE_IEEE_FLOAT : MEDIASUBTYPE_PCM;
     mt.formattype = FORMAT_WaveFormatEx;
 
     WAVEFORMATEXTENSIBLE wfex;
@@ -1616,16 +1616,16 @@ CMediaType CMpaDecFilter::CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerS
             wfe.wBitsPerSample = 24;
             break;
         case SF_PCM32:
-        case SF_FLOAT32:
+        case SF_FLOAT:
             wfe.wBitsPerSample = 32;
             break;
     }
     wfe.nBlockAlign     = nChannels * wfe.wBitsPerSample / 8;
     wfe.nAvgBytesPerSec = nSamplesPerSec * wfe.nBlockAlign;
 
-    if (nChannels <= 2 && dwChannelMask <= 0x4 && (sf == SF_PCM16 || sf == SF_FLOAT32)) {
+    if (nChannels <= 2 && dwChannelMask <= 0x4 && (sf == SF_PCM16 || sf == SF_FLOAT)) {
         // WAVEFORMATEX
-        wfe.wFormatTag = (sf == SF_FLOAT32) ? WAVE_FORMAT_IEEE_FLOAT : WAVE_FORMAT_PCM;
+        wfe.wFormatTag = (sf == SF_FLOAT) ? WAVE_FORMAT_IEEE_FLOAT : WAVE_FORMAT_PCM;
         wfe.cbSize = 0;
 
         mt.SetFormat((BYTE*)&wfe, sizeof(wfe));
@@ -1893,7 +1893,7 @@ STDMETHODIMP_(bool) CMpaDecFilter::GetDynamicRangeControl()
 STDMETHODIMP CMpaDecFilter::SetSPDIF(enctype et, bool fSPDIF)
 {
     CAutoLock cAutoLock(&m_csProps);
-    if (et >= 0 && et < etlast) {
+    if (et >= 0 && et < etcount) {
         m_fSPDIF[et] = fSPDIF;
     } else {
         return E_INVALIDARG;
@@ -1905,7 +1905,7 @@ STDMETHODIMP CMpaDecFilter::SetSPDIF(enctype et, bool fSPDIF)
 STDMETHODIMP_(bool) CMpaDecFilter::GetSPDIF(enctype et)
 {
     CAutoLock cAutoLock(&m_csProps);
-    if (et >= 0 && et < etlast) {
+    if (et >= 0 && et < etcount) {
         return m_fSPDIF[et];
     }
     return false;
