@@ -10,6 +10,6 @@ Legend:
 
 1.6.4 - not released yet
 ========================
-* Updated FFmpeg (git bb46b9a)
+* Updated FFmpeg (git 415f4cc)
 * Updated Little CMS to v2.4 (git 3a69c0c)
 ! Ticket #2540, Fix handling of big API messages

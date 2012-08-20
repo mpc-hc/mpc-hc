@@ -2498,6 +2498,15 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
         //av_assert0(s->avctx->sample_aspect_ratio.den);
         // ==> End patch MPC
 
+        if (s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU
+            && (h->sps.bit_depth_luma != 8 ||
+                h->sps.chroma_format_idc > 1)) {
+            av_log(s->avctx, AV_LOG_ERROR,
+                   "VDPAU decoding does not support video "
+                   "colorspace\n");
+            return -1;
+        }
+
         if (s->avctx->bits_per_raw_sample != h->sps.bit_depth_luma ||
             h->cur_chroma_format_idc != h->sps.chroma_format_idc) {
             if (h->sps.bit_depth_luma >= 8 && h->sps.bit_depth_luma <= 14 && h->sps.bit_depth_luma != 11 && h->sps.bit_depth_luma != 13 &&
@@ -3867,11 +3876,17 @@ again:
                 if ((err = decode_slice_header(hx, h)))
                     break;
 
+                if (h->sei_recovery_frame_cnt >= 0 && (h->frame_num != h->sei_recovery_frame_cnt || hx->slice_type_nos != AV_PICTURE_TYPE_I))
+                    h->valid_recovery_point++;
+
                 if (   h->sei_recovery_frame_cnt >= 0
                     && (   h->recovery_frame<0
                         || ((h->recovery_frame - h->frame_num) & ((1 << h->sps.log2_max_frame_num)-1)) > h->sei_recovery_frame_cnt)) {
                     h->recovery_frame = (h->frame_num + h->sei_recovery_frame_cnt) %
                                         (1 << h->sps.log2_max_frame_num);
+
+                    if (!h->valid_recovery_point)
+                        h->recovery_frame = h->frame_num;
                 }
 
                 s->current_picture_ptr->f.key_frame |=
