@@ -679,6 +679,36 @@ bool CFileAssoc::GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CStri
     return !exts.IsEmpty();
 }
 
+bool CFileAssoc::GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts)
+{
+    exts.RemoveAll();
+
+    CRegKey rkHKCR(HKEY_CLASSES_ROOT);
+    LONG ret;
+    DWORD i = 0;
+    CString keyName, ext;
+    DWORD len = _MAX_PATH;
+
+    while ((ret = rkHKCR.EnumKey(i, keyName.GetBuffer(len), &len)) != ERROR_NO_MORE_ITEMS) {
+        if (ret == ERROR_SUCCESS) {
+            keyName.ReleaseBuffer(len);
+
+            if (keyName.Find(PROGID) == 0) {
+                ext = keyName.Mid(_countof(PROGID) - 1);
+
+                if (CFileAssoc::IsRegistered(ext)) {
+                    exts.AddTail(ext);
+                }
+            }
+
+            i++;
+            len = _MAX_PATH;
+        }
+    }
+
+    return !exts.IsEmpty();
+}
+
 bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
 {
     if (!LoadIconLib()) {
@@ -742,7 +772,7 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID pParam)
 
         CAtlList<CString> registeredExts;
 
-        if (nCurrentVersion != nLastVersion && GetAssociatedExtensions(mf, registeredExts)) {
+        if (nCurrentVersion != nLastVersion && GetAssociatedExtensionsFromRegistry(registeredExts)) {
             if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
                 TASKDIALOGCONFIG config = {0};
                 config.cbSize = sizeof(config);

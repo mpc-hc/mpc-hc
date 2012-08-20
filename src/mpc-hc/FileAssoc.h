@@ -91,6 +91,7 @@ public:
     static bool IsAutoPlayRegistered(autoplay_t ap);
 
     static bool GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CString>& exts);
+    static bool GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts);
 
     static bool ReAssocIcons(const CAtlList<CString>& exts);
 

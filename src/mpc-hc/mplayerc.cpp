@@ -963,7 +963,7 @@ BOOL CMPlayerCApp::InitInstance()
         mf.UpdateData(false);
 
         CAtlList<CString> registeredExts;
-        CFileAssoc::GetAssociatedExtensions(mf, registeredExts);
+        CFileAssoc::GetAssociatedExtensionsFromRegistry(registeredExts);
 
         CFileAssoc::ReAssocIcons(registeredExts);
 
