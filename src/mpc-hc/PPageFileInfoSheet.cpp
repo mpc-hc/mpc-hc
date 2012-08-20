@@ -33,11 +33,21 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
     : CPropertySheet(ResStr(IDS_PROPSHEET_PROPERTIES), pParentWnd, 0)
     , m_clip(fn, pMainFrame->pGB)
     , m_details(fn, pMainFrame->pGB, pMainFrame->m_pCAP)
+    , m_res(fn, pMainFrame->pGB)
     , m_mi(fn, pMainFrame->pGB)
     , m_fn(fn)
 {
     AddPage(&m_details);
     AddPage(&m_clip);
+
+    BeginEnumFilters(pMainFrame->pGB, pEF, pBF) {
+        if (CComQIPtr<IDSMResourceBag> pRB = pBF)
+            if (pRB && pRB->ResGetCount() > 0) {
+                AddPage(&m_res);
+                break;
+            }
+    }
+    EndEnumFilters;
 
 #ifndef USE_MEDIAINFO_STATIC
     if (CPPageFileMediaInfo::HasMediaInfo())

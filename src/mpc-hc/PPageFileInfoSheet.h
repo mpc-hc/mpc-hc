@@ -23,6 +23,7 @@
 
 #include "PPageFileInfoClip.h"
 #include "PPageFileInfoDetails.h"
+#include "PPageFileInfoRes.h"
 #include "PPageFileMediaInfo.h"
 #include <afxdlgs.h>
 
@@ -38,6 +39,7 @@ class CPPageFileInfoSheet : public CPropertySheet
 private:
     CPPageFileInfoClip m_clip;
     CPPageFileInfoDetails m_details;
+    CPPageFileInfoRes m_res;
     CPPageFileMediaInfo m_mi;
     CButton m_Button_MI;
 

@@ -365,6 +365,7 @@
     <ClCompile Include="PPageExternalFilters.cpp" />
     <ClCompile Include="PPageFileInfoClip.cpp" />
     <ClCompile Include="PPageFileInfoDetails.cpp" />
+    <ClCompile Include="PPageFileInfoRes.cpp" />
     <ClCompile Include="PPageFileInfoSheet.cpp" />
     <ClCompile Include="PPageFileMediaInfo.cpp" />
     <ClCompile Include="PPageFormats.cpp" />
@@ -484,6 +485,7 @@
     <ClInclude Include="PPageExternalFilters.h" />
     <ClInclude Include="PPageFileInfoClip.h" />
     <ClInclude Include="PPageFileInfoDetails.h" />
+    <ClInclude Include="PPageFileInfoRes.h" />
     <ClInclude Include="PPageFileInfoSheet.h" />
     <ClInclude Include="PPageFileMediaInfo.h" />
     <ClInclude Include="PPageFormats.h" />
