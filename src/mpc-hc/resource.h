@@ -1128,7 +1128,6 @@
 #define IDS_MFMT_RM                     39013
 #define IDS_MFMT_RT                     39014
 #define IDS_MFMT_WMV                    39015
-#define IDS_MFMT_VIDEOCD                39016
 #define IDS_MFMT_RATDVD                 39017
 #define IDS_MFMT_BINK                   39018
 #define IDS_MFMT_FLIC                   39019

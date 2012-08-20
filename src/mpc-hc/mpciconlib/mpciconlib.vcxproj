@@ -89,7 +89,6 @@
     <None Include="icons\bink.ico" />
     <None Include="icons\cda.ico" />
     <None Include="icons\d2v.ico" />
-    <None Include="icons\dat.ico" />
     <None Include="icons\dsm.ico" />
     <None Include="icons\dts.ico" />
     <None Include="icons\flac.ico" />
