@@ -3,21 +3,21 @@ BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 8		"Copyright © 2002-2012 vea archivo Authors.txt"
 10		"Version :"
 11		"OK"
-12		"Este programa es gratuito y fue lanzado bajo la Licencia Publica General GNU."
+12		"Este programa es gratuito y fue lanzado bajo la Licencia Pública General GNU."
 13		"Compilador MPC-HC :"
 14		"Compilador FFmpeg :"
 18		"Traducido al castellano por SquallMX. Revisión XPC."
 END
 
 BEGIN DIALOGEX IDD_ADDREGFILTER LINES 10
-3		"Select Filter"
+3		"Seleccionar Filtro"
 7		"Explorar..."
 8		"Aceptar"
 9		"Cancelar"
 END
 
 BEGIN DIALOGEX IDD_AUTH_DLG LINES 15
-3		"Authentication needed"
+3		"Autenticación necesaria"
 6		"Aceptar"
 7		"Cancelar"
 9		"Area restringida"
@@ -82,17 +82,17 @@ END
 
 BEGIN DIALOGEX IDD_GOTO_DLG LINES 14
 3		"Ir a..."
-6		"Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitely."
+6		"Ingrese un tiempo usando el formato [hh:]mm:ss.ms para saltar a un tiempo específico. No es necesario ingresar separadores explicitamente."
 7		"Tiempo"
 9		"¡Ir!"
-10		"Escribe dos conjuntos de números para acceder a un cuadro específico, el primero es el número de cuadros y el segundo la tasa de cuadros por segundo."
+10		"Escribe dos conjuntos de números para acceder a un cuadro específico, el primero es el número de cuadro y el segundo la tasa de cuadros por segundo."
 11		"Cuadro"
 13		"¡Ir!"
 END
 
 BEGIN DIALOGEX IDD_MEDIATYPES_DLG LINES 12
 4		"Advertencia"
-7		"Media Player Classic - Home Cinema no pudo renderizar algunos de los conectores del esquema, talvez no tengas los codecs o filtros instalados en el sistema."
+7		"Media Player Classic - Home Cinema no pudo renderizar algunos de los conectores del esquema, tal vez no tengas los codecs o filtros instalados en el sistema."
 8		"El(los) siguientes conector(es) no encontraron un filtro conectable:"
 11		"Cerrar"
 END
@@ -104,7 +104,7 @@ END
 
 BEGIN DIALOGEX IDD_OPEN_DLG LINES 17
 3		"Abrir"
-7		"Escribe la ruta del archivo multimedia (en Internet o en tu ordenador) y el reproductor lo abrira por ti."
+7		"Escribe la ruta del archivo multimedia (en Internet o en tu ordenador) y el reproductor lo abrirá por ti."
 8		"Abrir:"
 10		"Explorar..."
 11		"Doblaje:"
@@ -145,7 +145,7 @@ BEGIN DIALOGEX IDD_PPAGEAUDIOSWITCHER LINES 23
 16		"Activar mapeo de canales editable"
 17		"Config. de bocinas (altavoces) para"
 20		"canales de entrada:"
-22		"Presiona la tecla ""shift"" para aplicar los cambios de inmediato "
+22		"Presiona la tecla ""shift"" para aplicar los cambios de inmediato"
 END
 
 BEGIN DIALOGEX IDD_PPAGECAPTURE LINES 22
@@ -170,9 +170,9 @@ BEGIN DIALOGEX IDD_PPAGEDVD LINES 20
 11		"Menú"
 12		"Audio"
 13		"Subtítulos"
-15		"Additional settings"
-16		"Fijar automaticamente cantidad de bocinas (altavoces) para el dec. ""ivideo ac3"""
-18		"Allow closed captions in ""Line 21 Decoder"""
+15		"Seteos adicionales"
+16		"Fijar automáticamente cantidad de bocinas (altavoces) para el dec. ""ivideo ac3"""
+18		"Permitir closed captions in ""Line 21 Decoder"""
 END
 
 BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20
@@ -222,16 +222,16 @@ BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27
 11		"Salir de pantalla completa al terminar"
 13		"Monitor en Pantalla Completa"
 16		"Use autochange fullscreen monitor mode"
-19		"Add"
-20		"Del"
-21		"Up"
-22		"Down"
+19		"Agregar"
+20		"Borrar"
+21		"Arriba"
+22		"Abajo"
 23		"Aplicar modo monitor por defecto al salir de pantalla completa"
 25		"Restaurar resolución al salir"
 END
 
 BEGIN DIALOGEX IDD_PPAGEINTERNALFILTERS LINES 10
-5		"Si prefiere utilizar las versiones independientes de estos filtros o algun otro reemplazo, desactívelos aquí. Al dar doble clic en los filtros escritos en negritas se mostrarán sus páginas de propiedades."
+5		"Si prefiere utilizar las versiones independientes de estos filtros o algún otro reemplazo, desactívelos aquí. Al dar doble clic en los filtros escritos en negritas se mostrarán sus páginas de propiedades."
 6		"Filtros de Fuentes"
 8		"Filtros de Transformación"
 END
@@ -243,19 +243,19 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
-5		"Color controls (for VMR-9 and EVR)"
+5		"Controles de color (para VMR-9 y EVR)"
 6		"Brillo"
 7		"Contraste"
 8		"Tinta"
 9		"Saturación"
 18		"Reiniciar"
-19		"Update check"
-20		"Enable automatic update check"
-21		"Delay between each check:"
-24		"days"
+19		"Actualizar chequeo"
+20		"Habilitar Actualización Automática"
+21		"Tiempo entre cada chequeo:"
+24		"días"
 25		"Settings management"
-26		"Reset"
-27		"Export"
+26		"Resetear"
+27		"Exportar"
 END
 
 BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
@@ -274,15 +274,15 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 24		"Mixer YUV"
 25		"Buffers de EVR:"
 27		"DXVA"
-29		"Subtitles *"
+29		"Subtítulos *"
 31		"Screenshot"
-33		"Shaders"
-35		"Rotation"
-37		"Subtitles *"
+33		"Sombras"
+35		"Rotación"
+37		"Subtítulos *"
 39		"Screenshot"
-41		"Subtitles *"
+41		"Subtítulos *"
 43		"Screenshot"
-45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
+45		"* Filtros externos (como el DirectVobSub) pueden mostrar subtítulos en todos los renderers."
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
@@ -300,7 +300,7 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 19		"Volver al inicio al terminar"
 20		"Salida"
 21		"Zoom automático:"
-23		"Default track preference"
+23		"Preferencias por defecto"
 24		"Subtítulos"
 26		"Audio"
 28		"(Ejemplo: eng jap swe)"
@@ -319,23 +319,23 @@ BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
 13		"Mostrar la ruta completa"
 14		"Solo el nombre de archivo"
 15		"No mostrar nada"
-16		"Usar titulo como nombre"
+16		"Usar título como nombre"
 17		"Otros"
 18		"Icono de bandeja"
 19		"Mostrar OSD (requiere reinicio)"
 20		"Limitar proporciones ventana al ajustar"
 21		"Ajustarse a los bordes del escritorio"
 22		"Guardar configuración en archivo .ini"
-23		"Disable ""Open Disc"" menu"
+23		"Deshabilitar menú ""Abrir Disco"""
 24		"Mayor prioridad para el proceso"
-25		"History"
+25		"Historial"
 26		"Mantener historial de los archivos abiertos"
 28		"Recordar la posición del DVD"
 29		"Recordar la posición del Archivo"
-30		"Remember last playlist"
+30		"Recordar la última lista de temas"
 31		"Recordar posición de la ventana"
 32		"Recordar tamaño de la ventana"
-33		"Remember last Pan-n-Scan Zoom"
+33		"Recordar último Pan-n-Scan Zoom"
 END
 
 BEGIN DIALOGEX IDD_PPAGESUBMISC LINES 16
