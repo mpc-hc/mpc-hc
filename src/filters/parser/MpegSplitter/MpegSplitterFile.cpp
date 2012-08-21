@@ -146,13 +146,10 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 
         SearchPrograms(0, min(GetLength(), MEGABYTE * 5)); // max 5Mb for search a valid Program Map Table
 
-        CAtlList<__int64> fps;
-        for (int i = 0, j = 5; i <= j; i++) {
-            fps.AddTail(i * GetLength() / j);
-        }
-
-        for (__int64 pfp = 0; fps.GetCount();) {
-            __int64 fp = fps.RemoveHead();
+        __int64 pfp = 0;
+        const int k = 5;
+        for (int i = 0; i <= k; i++) {
+            __int64 fp = i * GetLength() / k;
             fp = min(GetLength() - MEGABYTE / 8, fp);
             fp = max(pfp, fp);
             __int64 nfp = fp + (pfp == 0 ? 10 * MEGABYTE : MEGABYTE / 8);
@@ -175,13 +172,10 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
                 }
             }
 
-            CAtlList<__int64> fps;
-            for (int i = 0, j = 5; i <= j; i++) {
-                fps.AddTail(i * GetLength() / j);
-            }
-
-            for (__int64 pfp = 0; fps.GetCount();) {
-                __int64 fp = fps.RemoveHead();
+            __int64 pfp = 0;
+            const int k = 5;
+            for (int i = 0; i <= k; i++) {
+                __int64 fp = i * GetLength() / k;
                 fp = min(GetLength() - MEGABYTE / 8, fp);
                 fp = max(pfp, fp);
                 __int64 nfp = fp + (pfp == 0 ? 10 * MEGABYTE : MEGABYTE / 8);
