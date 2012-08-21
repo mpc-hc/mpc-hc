@@ -389,7 +389,7 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 
     HFONT hOldFont = SelectFont(g_hDC, font);
 
-    if (m_style.fontSpacing || (long)GetVersion() < 0) {
+    if (m_style.fontSpacing) {
         for (LPCWSTR s = m_str; *s; s++) {
             CSize extent;
             if (!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {
@@ -431,7 +431,7 @@ bool CText::CreatePath()
 
     HFONT hOldFont = SelectFont(g_hDC, font);
 
-    if (m_style.fontSpacing || (long)GetVersion() < 0) {
+    if (m_style.fontSpacing) {
         int width = 0;
         bool bFirstPath = true;
 

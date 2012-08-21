@@ -1666,10 +1666,6 @@ HRESULT CVobSubSettings::Render(SubPicDesc& spd, RECT& bbox)
 
 static bool CompressFile(CString fn)
 {
-    if (GetVersion() < 0) {
-        return false;
-    }
-
     BOOL b = FALSE;
 
     HANDLE h = CreateFile(fn, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, 0);

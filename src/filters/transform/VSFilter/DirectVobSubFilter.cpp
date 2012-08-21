@@ -334,14 +334,8 @@ HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName
         if (!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0)) {
             QWORD ver = CFileVersionInfo::GetFileVersionNum(_T("divx_c32.ax"));
             if (((ver >> 48) & 0xffff) == 4 && ((ver >> 32) & 0xffff) == 2) {
-                DWORD dwVersion = GetVersion();
-                DWORD dwWindowsMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
-                //DWORD dwWindowsMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
-
-                if (dwVersion < 0x80000000 && dwWindowsMajorVersion >= 5) {
-                    AfxMessageBox(IDS_DIVX_WARNING, MB_ICONWARNING | MB_OK, 0);
-                    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 1);
-                }
+                AfxMessageBox(IDS_DIVX_WARNING, MB_ICONWARNING | MB_OK, 0);
+                theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 1);
             }
         }
 

@@ -141,7 +141,7 @@ BOOL CPPagePlayer::OnApply()
     s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
     s.fKeepHistory = !!m_fKeepHistory;
     s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;
-    s.dwPriority = !m_priority ? NORMAL_PRIORITY_CLASS : GetVersion() < 0 ? HIGH_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
+    s.dwPriority = !m_priority ? NORMAL_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
     s.fShowOSD = !!m_fShowOSD;
     s.fLimitWindowProportions = !!m_fLimitWindowProportions;
     s.fRememberDVDPos = m_fRememberDVDPos ? true : false;
