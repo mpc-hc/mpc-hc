@@ -32,7 +32,8 @@
 
 extern "C" char* GetFFmpegCompiler();
 
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
+CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+    , m_appname(_T(""))
     , m_strBuildNumber(_T(""))
     , m_MPCCompiler(_T(""))
 #ifndef MPCHC_LITE
