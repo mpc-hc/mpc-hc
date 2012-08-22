@@ -141,11 +141,11 @@ BOOL CPPagePlayer::OnApply()
     s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
     s.fKeepHistory = !!m_fKeepHistory;
     s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;
-    s.dwPriority = !m_priority ? NORMAL_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
+    s.dwPriority = m_priority ? ABOVE_NORMAL_PRIORITY_CLASS : NORMAL_PRIORITY_CLASS;
     s.fShowOSD = !!m_fShowOSD;
     s.fLimitWindowProportions = !!m_fLimitWindowProportions;
-    s.fRememberDVDPos = m_fRememberDVDPos ? true : false;
-    s.fRememberFilePos = m_fRememberFilePos ? true : false;
+    s.fRememberDVDPos = !!m_fRememberDVDPos;
+    s.fRememberFilePos = !!m_fRememberFilePos;
     s.bRememberPlaylistItems = !!m_bRememberPlaylistItems;
 
     if (!m_fKeepHistory) {
