@@ -385,7 +385,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
                 }
             } else if ((b >= 0xbd && b < 0xf0) || (b == 0xfd)) { // pes packet
                 peshdr h;
-                if (!Read(h, b)) {
+                if (!Read(h, b) || !h.len) {
                     continue;
                 }
 
