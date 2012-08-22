@@ -107,6 +107,7 @@ CRegisterCopyDataDlg::CRegisterCopyDataDlg(CWnd* pParent /*=NULL*/)
     , m_txtCommand(_T(""))
     , m_nCommandType(0)
     , m_hWndMPC(NULL)
+    , m_RemoteWindow(NULL)
 {
     //{{AFX_DATA_INIT(CRegisterCopyDataDlg)
     // NOTE: the ClassWizard will add member initialization here
