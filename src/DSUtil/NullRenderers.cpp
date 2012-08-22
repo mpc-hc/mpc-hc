@@ -139,15 +139,13 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer,
 
     // Initialize Device Manager with DX surface
     if (m_pD3DDev) {
-        HRESULT hr;
-        hr = m_pD3DDeviceManager->ResetDevice(m_pD3DDev, m_nResetTocken);
-        hr = m_pD3DDeviceManager->OpenDeviceHandle(&m_hDevice);
+        m_pD3DDeviceManager->ResetDevice(m_pD3DDev, m_nResetTocken);
+        m_pD3DDeviceManager->OpenDeviceHandle(&m_hDevice);
     }
 }
 
 void CNullVideoRendererInputPin::CreateSurface()
 {
-    HRESULT hr;
     m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
     if (!m_pD3D) {
         m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
@@ -171,10 +169,10 @@ void CNullVideoRendererInputPin::CreateSurface()
     pp.BackBufferHeight = d3ddm.Height;
     pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 
-    hr = m_pD3D->CreateDevice(
-             D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
-             D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, //| D3DCREATE_MANAGED,
-             &pp, &m_pD3DDev);
+    m_pD3D->CreateDevice(
+        D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
+        D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, //| D3DCREATE_MANAGED,
+        &pp, &m_pD3DDev);
 }
 
 STDMETHODIMP CNullVideoRendererInputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)

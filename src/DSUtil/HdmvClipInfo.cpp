@@ -24,7 +24,9 @@
 
 extern LCID    ISO6392ToLcid(LPCSTR code);
 
-CHdmvClipInfo::CHdmvClipInfo(void)
+CHdmvClipInfo::CHdmvClipInfo(void) :
+    SequenceInfo_start_address(0),
+    ProgramInfo_start_address(0)
 {
     m_hFile   = INVALID_HANDLE_VALUE;
     m_bIsHdmv = false;
@@ -161,13 +163,12 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 
 HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 {
-    BYTE Buff[100];
-
     m_bIsHdmv = false;
     m_hFile = CreateFile(strFile, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
                          OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
+        BYTE Buff[100];
         ReadBuffer(Buff, 4);
         if (memcmp(Buff, "HDMV", 4)) {
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
@@ -249,11 +250,8 @@ LPCTSTR CHdmvClipInfo::Stream::Format()
 
 HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist)
 {
-
-    BYTE  Buff[100];
     CPath Path(strPlaylistFile);
-    bool  bDuplicate = false;
-    rtDuration  = 0;
+    rtDuration = 0;
 
     // Get BDMV folder
     Path.RemoveFileSpec();
@@ -263,6 +261,8 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
                          OPEN_EXISTING, FILE_ATTRIBUTE_READONLY | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
     if (m_hFile != INVALID_HANDLE_VALUE) {
+        BYTE Buff[100];
+        bool bDuplicate = false;
         ReadBuffer(Buff, 4);
         if (memcmp(Buff, "MPLS", 4)) {
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
@@ -326,9 +326,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 
 HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<PlaylistChapter>& Chapters)
 {
-    BYTE  Buff[100];
     CPath Path(strPlaylistFile);
-    bool  bDuplicate = false;
 
     // Get BDMV folder
     Path.RemoveFileSpec();
@@ -341,6 +339,8 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         REFERENCE_TIME* rtOffset = DNew REFERENCE_TIME[PlaylistItems.GetCount()];
         REFERENCE_TIME rtSum = 0;
         int nIndex = 0;
+        BYTE Buff[100];
+        bool bDuplicate = false;
 
         POSITION pos = PlaylistItems.GetHeadPosition();
         while (pos) {
