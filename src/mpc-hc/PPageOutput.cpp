@@ -42,7 +42,7 @@ CPPageOutput::CPPageOutput()
     , m_fVMR9MixerYUV(FALSE)
     , m_fVMR9AlterativeVSync(FALSE)
     , m_fResetDevice(FALSE)
-    , m_iEvrBuffers(L"5")
+    , m_iEvrBuffers(_T("5"))
     , m_fD3DFullscreen(FALSE)
     , m_fD3D9RenderDevice(FALSE)
     , m_iD3D9RenderDevice(-1)
@@ -137,7 +137,7 @@ BOOL CPPageOutput::OnInitDialog()
         EVRBuffer.Format(_T("%d"), EVRBuffers[i]);
         m_EVRBuffersCtrl.AddString(EVRBuffer);
     }
-    m_iEvrBuffers.Format(L"%d", renderersSettings.iEvrBuffers);
+    m_iEvrBuffers.Format(_T("%d"), renderersSettings.iEvrBuffers);
 
     m_iAudioRendererTypeCtrl.SetRedraw(FALSE);
     m_fResetDevice = s.m_RenderersSettings.fResetDevice;
@@ -401,11 +401,7 @@ BOOL CPPageOutput::OnApply()
 
     renderersSettings.fResetDevice = !!m_fResetDevice;
 
-    if (!m_iEvrBuffers.IsEmpty()) {
-        int Temp = 5;
-        swscanf_s(m_iEvrBuffers.GetBuffer(), L"%d", &Temp);
-        renderersSettings.iEvrBuffers = Temp;
-    } else {
+    if (m_iEvrBuffers.IsEmpty() || _stscanf_s(m_iEvrBuffers, _T("%d"), &renderersSettings.iEvrBuffers) != 1) {
         renderersSettings.iEvrBuffers = 5;
     }
 
