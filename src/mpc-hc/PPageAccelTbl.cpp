@@ -1510,7 +1510,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
     m_list.SetColumnWidth(COL_ID, LVSCW_AUTOSIZE_USEHEADER);
 
     // subclass the keylist control
-    OldControlProc = (WNDPROC) SetWindowLongPtr(m_list.m_hWnd, GWLP_WNDPROC, (LONG_PTR) ControlProc);
+    OldControlProc = (WNDPROC)SetWindowLongPtr(m_list.m_hWnd, GWLP_WNDPROC, (LONG_PTR)ControlProc);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

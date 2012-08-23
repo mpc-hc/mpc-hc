@@ -105,7 +105,7 @@ int CALLBACK COpenDirHelper::BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM 
         SetWindowPos(checkbox, HWND_BOTTOM, ListViewRect.left - Dialog.left - 3, ClientArea.bottom - 35, 180, 27, SWP_SHOWWINDOW);
         SetFont(checkbox, _T("Tahoma"), 13);
 
-        CBProc = (WNDPROC) SetWindowLongPtr(checkbox, GWLP_WNDPROC, (LONG_PTR) CheckBoxSubclassProc);
+        CBProc = (WNDPROC)SetWindowLongPtr(checkbox, GWLP_WNDPROC, (LONG_PTR)CheckBoxSubclassProc);
         SendMessage(checkbox, BM_SETCHECK, (WPARAM)m_incl_subdir, 0);
     }
 
