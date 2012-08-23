@@ -2643,7 +2643,7 @@ DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb)
 
 void TraceFilterInfo(IBaseFilter* pBF)
 {
-    FILTER_INFO     Info;
+    FILTER_INFO Info;
     if (SUCCEEDED(pBF->QueryFilterInfo(&Info))) {
         TRACE(_T(" === Filter info : %S\n"), Info.achName);
         BeginEnumPins(pBF, pEnum, pPin) {

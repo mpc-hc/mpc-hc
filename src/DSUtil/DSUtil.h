@@ -176,7 +176,7 @@ public:
     if (pFilterGraph && SUCCEEDED(pFilterGraph->EnumFilters(&pEnumFilters)))                                       \
     {                                                                                                              \
         for (CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
-            {
+        {
 
 #define EndEnumFilters }}}
 

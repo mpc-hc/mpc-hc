@@ -222,7 +222,7 @@ VIH2 vih2s[] = {
             {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('V', 'Y', 'U', 'Y'), 0, 0, 0, 0, 0}  // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
-        VIH2_NORMAL,                                                        // size
+        VIH2_NORMAL,                                                    // size
         &MEDIASUBTYPE_VYUY                                              // subtype
     },
     // YVYU
@@ -232,7 +232,7 @@ VIH2 vih2s[] = {
             {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('Y', 'V', 'Y', 'U'), 0, 0, 0, 0, 0}  // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
-        VIH2_NORMAL,                                                        // size
+        VIH2_NORMAL,                                                    // size
         &MEDIASUBTYPE_YVYU                                              // subtype
     },
     // UYVY
@@ -242,7 +242,7 @@ VIH2 vih2s[] = {
             {BIH_SIZE, 0, 0, 1, 16, mmioFOURCC('U', 'Y', 'V', 'Y'), 0, 0, 0, 0, 0}  // bmiHeader
         },
         {0, 0, 0},                                                      // mask[3]
-        VIH2_NORMAL,                                                        // size
+        VIH2_NORMAL,                                                    // size
         &MEDIASUBTYPE_UYVY                                              // subtype
     },
     // YUY2

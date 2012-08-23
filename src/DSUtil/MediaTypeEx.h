@@ -37,3 +37,4 @@ public:
 
     void Dump(CAtlList<CString>& sl);
 };
+
