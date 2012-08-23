@@ -47,6 +47,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
         m_internalpages[_T("/browser.html")] = &CWebClientSocket::OnBrowser;
         m_internalpages[_T("/command.html")] = &CWebClientSocket::OnCommand;
         m_internalpages[_T("/controls.html")] = &CWebClientSocket::OnControls;
+        m_internalpages[_T("/convres.html")] = &CWebClientSocket::OnConvRes;
         m_internalpages[_T("/index.html")] = &CWebClientSocket::OnIndex;
         m_internalpages[_T("/info.html")] = &CWebClientSocket::OnInfo;
         m_internalpages[_T("/player.html")] = &CWebClientSocket::OnPlayer;
