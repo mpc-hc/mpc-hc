@@ -677,14 +677,14 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
                     StreamType = pProgram->streams[iProgram].type;
 
                     switch (StreamType) {
-                        case AUDIO_STREAM_LPCM : {
+                        case AUDIO_STREAM_LPCM: {
                             CMpegSplitterFile::hdmvlpcmhdr h;
                             if (!m_streams[audio].Find(s) && Read(h, &s.mt)) {
                                 type = audio;
                             }
                         }
                         break;
-                        case PRESENTATION_GRAPHICS_STREAM : {
+                        case PRESENTATION_GRAPHICS_STREAM: {
                             CMpegSplitterFile::hdmvsubhdr h;
                             if (!m_streams[subpic].Find(s) && Read(h, &s.mt, pClipInfo ? pClipInfo->m_LanguageCode : NULL)) {
                                 m_bIsHdmv = true;

@@ -245,11 +245,11 @@ void CVMROSD::DrawMessage()
         m_MemDC.DrawText(m_strMessage, &rectText, DT_CALCRECT);
         rectText.InflateRect(20, 10);
         switch (m_nMessagePos) {
-            case OSD_TOPLEFT :
+            case OSD_TOPLEFT:
                 rectMessages = CRect(10, 10, min((rectText.right + 10), (m_rectWnd.right - 10)), (rectText.bottom + 10));
                 break;
-            case OSD_TOPRIGHT :
-            default :
+            case OSD_TOPRIGHT:
+            default:
                 rectMessages = CRect(max(10, m_rectWnd.right - 10 - rectText.Width()), 10, m_rectWnd.right - 10, rectText.bottom + 10);
                 break;
         }

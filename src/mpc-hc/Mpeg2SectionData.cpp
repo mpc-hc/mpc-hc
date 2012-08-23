@@ -150,19 +150,19 @@ CString CMpeg2DataParser::ConvertString(BYTE* pBuffer, int nLength)
 DVB_STREAM_TYPE CMpeg2DataParser::ConvertToDVBType(PES_STREAM_TYPE nType)
 {
     switch (nType) {
-        case VIDEO_STREAM_MPEG1 :
-        case VIDEO_STREAM_MPEG2 :
+        case VIDEO_STREAM_MPEG1:
+        case VIDEO_STREAM_MPEG2:
             return DVB_MPV;
-        case AUDIO_STREAM_MPEG1 :
-        case AUDIO_STREAM_MPEG2 :
+        case AUDIO_STREAM_MPEG1:
+        case AUDIO_STREAM_MPEG2:
             return DVB_MPA;
-        case VIDEO_STREAM_H264  :
+        case VIDEO_STREAM_H264:
             return DVB_H264;
-        case AUDIO_STREAM_AC3 :
+        case AUDIO_STREAM_AC3:
             return DVB_AC3;
-        case AUDIO_STREAM_AC3_PLUS :
+        case AUDIO_STREAM_AC3_PLUS:
             return DVB_EAC3;
-        case SUBTITLE_STREAM :
+        case SUBTITLE_STREAM:
             return DVB_SUBTITLE;
     }
 
@@ -224,7 +224,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
         // Descriptors:
         BeginEnumDescriptors(gb, nType, nLength) {
             switch (nType) {
-                case DT_SERVICE :
+                case DT_SERVICE:
                     gb.BitRead(8);                              // service_type
                     nLength = (WORD)gb.BitRead(8);              // service_provider_name_length
                     gb.ReadBuffer(DescBuffer, nLength);         // service_provider_name
@@ -235,7 +235,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
                     Channel.SetName(ConvertString(DescBuffer, nLength));
                     TRACE(_T("%15S %d\n"), Channel.GetName(), Channel.GetSID());
                     break;
-                default :
+                default:
                     SkipDescriptor(gb, nType, nLength);         // descriptor()
                     break;
             }
@@ -323,25 +323,25 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 
         BeginEnumDescriptors(gb, nType, nLength) {              // ES_info_length
             switch (nType) {
-                case DT_ISO_639_LANGUAGE :
+                case DT_ISO_639_LANGUAGE:
                     gb.ReadBuffer(DescBuffer, nLength);
                     strLanguage = ConvertString(DescBuffer, 3);
                     break;
-                case DT_AC3_AUDIO :
+                case DT_AC3_AUDIO:
                     pes_stream_type = AUDIO_STREAM_AC3;
                     SkipDescriptor(gb, nType, nLength);
                     break;
-                case DT_EXTENDED_AC3_AUDIO :
+                case DT_EXTENDED_AC3_AUDIO:
                     pes_stream_type = AUDIO_STREAM_AC3_PLUS;
                     SkipDescriptor(gb, nType, nLength);
                     break;
-                case DT_SUBTITLING : {
+                case DT_SUBTITLING: {
                     gb.ReadBuffer(DescBuffer, nLength);
                     strLanguage = ConvertString(DescBuffer, 3);
                     pes_stream_type = SUBTITLE_STREAM;
                 }
                 break;
-                default :
+                default:
                     SkipDescriptor(gb, nType, nLength);
                     break;
             }
@@ -554,7 +554,7 @@ HRESULT CMpeg2DataParser::ParseNIT()
         gb.BitRead(4);                                          // reserved_future_use
         BeginEnumDescriptors(gb, nType, nLength) {
             switch (nType) {
-                case DT_LOGICAL_CHANNEL :
+                case DT_LOGICAL_CHANNEL:
                     for (int i = 0; i < nLength / 4; i++) {
                         WORD service_id  = (WORD)gb.BitRead(16);
                         gb.BitRead(6);
@@ -565,7 +565,7 @@ HRESULT CMpeg2DataParser::ParseNIT()
                         }
                     }
                     break;
-                default :
+                default:
                     SkipDescriptor(gb, nType, nLength);
                     break;
             }

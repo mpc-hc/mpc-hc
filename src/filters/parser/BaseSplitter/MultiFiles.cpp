@@ -114,12 +114,12 @@ ULONGLONG CMultiFiles::GetAbsolutePosition(LONGLONG lOff, UINT nFrom)
     LARGE_INTEGER llCurPos;
 
     switch (nFrom) {
-        case begin :
+        case begin:
             return lOff;
-        case current :
+        case current:
             SetFilePointerEx(m_hFile, llNoMove, &llCurPos, FILE_CURRENT);
             return llCurPos.QuadPart + lOff;
-        case end :
+        case end:
             return m_llTotalLength - lOff;
         default:
             return 0;   // just used to quash "not all control paths return a value" warning

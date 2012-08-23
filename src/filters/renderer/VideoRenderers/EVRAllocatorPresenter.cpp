@@ -575,26 +575,26 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
     HRESULT hr = S_OK;
 
     switch (eMessage) {
-        case MFVP_MESSAGE_BEGINSTREAMING :          // The EVR switched from stopped to paused. The presenter should allocate resources
+        case MFVP_MESSAGE_BEGINSTREAMING:           // The EVR switched from stopped to paused. The presenter should allocate resources
             ResetStats();
             TRACE_EVR("EVR: MFVP_MESSAGE_BEGINSTREAMING\n");
             break;
 
-        case MFVP_MESSAGE_CANCELSTEP :              // Cancels a frame step
+        case MFVP_MESSAGE_CANCELSTEP:               // Cancels a frame step
             TRACE_EVR("EVR: MFVP_MESSAGE_CANCELSTEP\n");
             CompleteFrameStep(true);
             break;
 
-        case MFVP_MESSAGE_ENDOFSTREAM :             // All input streams have ended.
+        case MFVP_MESSAGE_ENDOFSTREAM:              // All input streams have ended.
             TRACE_EVR("EVR: MFVP_MESSAGE_ENDOFSTREAM\n");
             m_bPendingMediaFinished = true;
             break;
 
-        case MFVP_MESSAGE_ENDSTREAMING :            // The EVR switched from running or paused to stopped. The presenter should free resources
+        case MFVP_MESSAGE_ENDSTREAMING:             // The EVR switched from running or paused to stopped. The presenter should free resources
             TRACE_EVR("EVR: MFVP_MESSAGE_ENDSTREAMING\n");
             break;
 
-        case MFVP_MESSAGE_FLUSH :                   // The presenter should discard any pending samples
+        case MFVP_MESSAGE_FLUSH:                    // The presenter should discard any pending samples
             SetEvent(m_hEvtFlush);
             m_bEvtFlush = true;
             TRACE_EVR("EVR: MFVP_MESSAGE_FLUSH\n");
@@ -603,7 +603,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
             }
             break;
 
-        case MFVP_MESSAGE_INVALIDATEMEDIATYPE :     // The mixer's output format has changed. The EVR will initiate format negotiation, as described previously
+        case MFVP_MESSAGE_INVALIDATEMEDIATYPE:      // The mixer's output format has changed. The EVR will initiate format negotiation, as described previously
             /*
                 1) The EVR sets the media type on the reference stream.
                 2) The EVR calls IMFVideoPresenter::ProcessMessage on the presenter with the MFVP_MESSAGE_INVALIDATEMEDIATYPE message.
@@ -616,17 +616,17 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
             }
             break;
 
-        case MFVP_MESSAGE_PROCESSINPUTNOTIFY :      // One input stream on the mixer has received a new sample
+        case MFVP_MESSAGE_PROCESSINPUTNOTIFY:       // One input stream on the mixer has received a new sample
             //      GetImageFromMixer();
             break;
 
-        case MFVP_MESSAGE_STEP :                    // Requests a frame step.
+        case MFVP_MESSAGE_STEP:                     // Requests a frame step.
             TRACE_EVR("EVR: MFVP_MESSAGE_STEP\n");
             m_nStepCount = (int)ulParam;
             hr = S_OK;
             break;
 
-        default :
+        default:
             ASSERT(FALSE);
             break;
     }
@@ -1551,10 +1551,10 @@ void CEVRAllocatorPresenter::GetMixerThread()
     while (!bQuit) {
         DWORD dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, 1);
         switch (dwObject) {
-            case WAIT_OBJECT_0 :
+            case WAIT_OBJECT_0:
                 bQuit = true;
                 break;
-            case WAIT_TIMEOUT : {
+            case WAIT_TIMEOUT: {
                 if (GetRenderersData()->m_fDisplayStats) {
                     CComPtr<IPin> pPin;
                     CComPtr<IPin> pPinTo;
@@ -1963,10 +1963,10 @@ void CEVRAllocatorPresenter::RenderThread()
             NextSleepTime = -1;
         }
         switch (dwObject) {
-            case WAIT_OBJECT_0 :
+            case WAIT_OBJECT_0:
                 bQuit = true;
                 break;
-            case WAIT_OBJECT_0 + 1 :
+            case WAIT_OBJECT_0 + 1:
                 // Flush pending samples!
                 FlushSamples();
                 m_bEvtFlush = false;
@@ -1974,7 +1974,7 @@ void CEVRAllocatorPresenter::RenderThread()
                 TRACE_EVR("EVR: Flush done!\n");
                 break;
 
-            case WAIT_TIMEOUT :
+            case WAIT_TIMEOUT:
 
                 if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != s.m_RenderSettings.iEVROutputRange || m_bPendingRenegotiate) {
                     FlushSamples();

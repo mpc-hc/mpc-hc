@@ -977,14 +977,14 @@ BOOL CMPlayerCApp::InitInstance()
         m_s.UpdateData(false); // read all settings. long time but not critical at this point
 
         switch (m_s.iAdminOption) {
-            case CPPageFormats::IDD : {
+            case CPPageFormats::IDD: {
                 CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), NULL, NULL, m_s.iAdminOption);
                 options.LockPage();
                 options.DoModal();
             }
             break;
 
-            default :
+            default:
                 ASSERT(FALSE);
         }
         return FALSE;
@@ -1128,34 +1128,34 @@ UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawIn
             if (raw->header.dwType == RIM_TYPEHID && raw->data.hid.bRawData[21] == 1) {
                 // data.hid.bRawData[21] has keycode
                 switch (raw->data.hid.bRawData[20]) {
-                    case 0x0033 :
+                    case 0x0033:
                         nMceCmd = MCE_DETAILS;
                         break;
-                    case 0x0022 :
+                    case 0x0022:
                         nMceCmd = MCE_GUIDE;
                         break;
-                    case 0x0036 :
+                    case 0x0036:
                         nMceCmd = MCE_MYTV;
                         break;
-                    case 0x0026 :
+                    case 0x0026:
                         nMceCmd = MCE_RECORDEDTV;
                         break;
-                    case 0x0005 :
+                    case 0x0005:
                         nMceCmd = MCE_RED;
                         break;
-                    case 0x0002 :
+                    case 0x0002:
                         nMceCmd = MCE_GREEN;
                         break;
-                    case 0x0045 :
+                    case 0x0045:
                         nMceCmd = MCE_YELLOW;
                         break;
-                    case 0x0046 :
+                    case 0x0046:
                         nMceCmd = MCE_BLUE;
                         break;
-                    case 0x000A :
+                    case 0x000A:
                         nMceCmd = MCE_MEDIA_PREVIOUSTRACK;
                         break;
-                    case 0x004A :
+                    case 0x004A:
                         nMceCmd = MCE_MEDIA_NEXTTRACK;
                         break;
                 }
@@ -1231,41 +1231,41 @@ void CMPlayerCApp::UnregisterHotkeys()
 UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 {
     switch (nAppCommand) {
-        case APPCOMMAND_BROWSER_BACKWARD :
+        case APPCOMMAND_BROWSER_BACKWARD:
             return VK_BROWSER_BACK;
-        case APPCOMMAND_BROWSER_FORWARD :
+        case APPCOMMAND_BROWSER_FORWARD:
             return VK_BROWSER_FORWARD;
-        case APPCOMMAND_BROWSER_REFRESH :
+        case APPCOMMAND_BROWSER_REFRESH:
             return VK_BROWSER_REFRESH;
-        case APPCOMMAND_BROWSER_STOP :
+        case APPCOMMAND_BROWSER_STOP:
             return VK_BROWSER_STOP;
-        case APPCOMMAND_BROWSER_SEARCH :
+        case APPCOMMAND_BROWSER_SEARCH:
             return VK_BROWSER_SEARCH;
-        case APPCOMMAND_BROWSER_FAVORITES :
+        case APPCOMMAND_BROWSER_FAVORITES:
             return VK_BROWSER_FAVORITES;
-        case APPCOMMAND_BROWSER_HOME :
+        case APPCOMMAND_BROWSER_HOME:
             return VK_BROWSER_HOME;
-        case APPCOMMAND_VOLUME_MUTE :
+        case APPCOMMAND_VOLUME_MUTE:
             return VK_VOLUME_MUTE;
-        case APPCOMMAND_VOLUME_DOWN :
+        case APPCOMMAND_VOLUME_DOWN:
             return VK_VOLUME_DOWN;
-        case APPCOMMAND_VOLUME_UP :
+        case APPCOMMAND_VOLUME_UP:
             return VK_VOLUME_UP;
-        case APPCOMMAND_MEDIA_NEXTTRACK :
+        case APPCOMMAND_MEDIA_NEXTTRACK:
             return VK_MEDIA_NEXT_TRACK;
-        case APPCOMMAND_MEDIA_PREVIOUSTRACK :
+        case APPCOMMAND_MEDIA_PREVIOUSTRACK:
             return VK_MEDIA_PREV_TRACK;
-        case APPCOMMAND_MEDIA_STOP :
+        case APPCOMMAND_MEDIA_STOP:
             return VK_MEDIA_STOP;
-        case APPCOMMAND_MEDIA_PLAY_PAUSE :
+        case APPCOMMAND_MEDIA_PLAY_PAUSE:
             return VK_MEDIA_PLAY_PAUSE;
-        case APPCOMMAND_LAUNCH_MAIL :
+        case APPCOMMAND_LAUNCH_MAIL:
             return VK_LAUNCH_MAIL;
-        case APPCOMMAND_LAUNCH_MEDIA_SELECT :
+        case APPCOMMAND_LAUNCH_MEDIA_SELECT:
             return VK_LAUNCH_MEDIA_SELECT;
-        case APPCOMMAND_LAUNCH_APP1 :
+        case APPCOMMAND_LAUNCH_APP1:
             return VK_LAUNCH_APP1;
-        case APPCOMMAND_LAUNCH_APP2 :
+        case APPCOMMAND_LAUNCH_APP2:
             return VK_LAUNCH_APP2;
     }
 
@@ -1905,13 +1905,13 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)
 {
     switch (nFlag) {
-        case ProcAmp_Brightness :
+        case ProcAmp_Brightness:
             return &m_ColorControl[0];
-        case ProcAmp_Contrast :
+        case ProcAmp_Contrast:
             return &m_ColorControl[1];
-        case ProcAmp_Hue :
+        case ProcAmp_Hue:
             return &m_ColorControl[2];
-        case ProcAmp_Saturation :
+        case ProcAmp_Saturation:
             return &m_ColorControl[3];
     }
     return NULL;
@@ -1919,26 +1919,26 @@ COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)
 
 void CMPlayerCApp::ResetColorControlRange()
 {
-    m_ColorControl[0].dwProperty    = ProcAmp_Brightness;
-    m_ColorControl[0].MinValue      = -100;
-    m_ColorControl[0].MaxValue      = 100;
-    m_ColorControl[0].DefaultValue  = 0;
-    m_ColorControl[0].StepSize      = 1;
-    m_ColorControl[1].dwProperty    = ProcAmp_Contrast;
-    m_ColorControl[1].MinValue      = -100;
-    m_ColorControl[1].MaxValue      = 100;
-    m_ColorControl[1].DefaultValue  = 0;
-    m_ColorControl[1].StepSize      = 1;
-    m_ColorControl[2].dwProperty    = ProcAmp_Hue;
-    m_ColorControl[2].MinValue      = -180;
-    m_ColorControl[2].MaxValue      = 180;
-    m_ColorControl[2].DefaultValue  = 0;
-    m_ColorControl[2].StepSize      = 1;
-    m_ColorControl[3].dwProperty    = ProcAmp_Saturation;
-    m_ColorControl[3].MinValue      = -100;
-    m_ColorControl[3].MaxValue      = 100;
-    m_ColorControl[3].DefaultValue  = 0;
-    m_ColorControl[3].StepSize      = 1;
+    m_ColorControl[0].dwProperty   = ProcAmp_Brightness;
+    m_ColorControl[0].MinValue     = -100;
+    m_ColorControl[0].MaxValue     = 100;
+    m_ColorControl[0].DefaultValue = 0;
+    m_ColorControl[0].StepSize     = 1;
+    m_ColorControl[1].dwProperty   = ProcAmp_Contrast;
+    m_ColorControl[1].MinValue     = -100;
+    m_ColorControl[1].MaxValue     = 100;
+    m_ColorControl[1].DefaultValue = 0;
+    m_ColorControl[1].StepSize     = 1;
+    m_ColorControl[2].dwProperty   = ProcAmp_Hue;
+    m_ColorControl[2].MinValue     = -180;
+    m_ColorControl[2].MaxValue     = 180;
+    m_ColorControl[2].DefaultValue = 0;
+    m_ColorControl[2].StepSize     = 1;
+    m_ColorControl[3].dwProperty   = ProcAmp_Saturation;
+    m_ColorControl[3].MinValue     = -100;
+    m_ColorControl[3].MaxValue     = 100;
+    m_ColorControl[3].DefaultValue = 0;
+    m_ColorControl[3].StepSize     = 1;
 }
 
 void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
@@ -2022,13 +2022,13 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
 VMR9ProcAmpControlRange* CMPlayerCApp::GetVMR9ColorControl(ControlType nFlag)
 {
     switch (nFlag) {
-        case ProcAmp_Brightness :
+        case ProcAmp_Brightness:
             return &m_VMR9ColorControl[0];
-        case ProcAmp_Contrast :
+        case ProcAmp_Contrast:
             return &m_VMR9ColorControl[1];
-        case ProcAmp_Hue :
+        case ProcAmp_Hue:
             return &m_VMR9ColorControl[2];
-        case ProcAmp_Saturation :
+        case ProcAmp_Saturation:
             return &m_VMR9ColorControl[3];
     }
     return NULL;
@@ -2037,13 +2037,13 @@ VMR9ProcAmpControlRange* CMPlayerCApp::GetVMR9ColorControl(ControlType nFlag)
 DXVA2_ValueRange* CMPlayerCApp::GetEVRColorControl(ControlType nFlag)
 {
     switch (nFlag) {
-        case ProcAmp_Brightness :
+        case ProcAmp_Brightness:
             return &m_EVRColorControl[0];
-        case ProcAmp_Contrast :
+        case ProcAmp_Contrast:
             return &m_EVRColorControl[1];
-        case ProcAmp_Hue :
+        case ProcAmp_Hue:
             return &m_EVRColorControl[2];
-        case ProcAmp_Saturation :
+        case ProcAmp_Saturation:
             return &m_EVRColorControl[3];
     }
     return NULL;

@@ -49,7 +49,7 @@ END_MESSAGE_MAP()
 LRESULT CFullscreenWnd::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message) {
-        case WM_COMMAND :
+        case WM_COMMAND:
             m_pMainFrame->PostMessage(message, wParam, lParam);
             break;
     }
@@ -59,27 +59,27 @@ LRESULT CFullscreenWnd::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
 {
     switch (pMsg->message) {
-        case WM_MOUSEMOVE :
-        case WM_SYSKEYDOWN :
-        case WM_SYSKEYUP :
-        case WM_SYSCHAR :
-        case WM_SYSCOMMAND :
+        case WM_MOUSEMOVE:
+        case WM_SYSKEYDOWN:
+        case WM_SYSKEYUP:
+        case WM_SYSCHAR:
+        case WM_SYSCOMMAND:
 
-        case WM_KEYDOWN :
-        case WM_KEYUP :
-        case WM_CHAR :
+        case WM_KEYDOWN:
+        case WM_KEYUP:
+        case WM_CHAR:
 
-        case WM_LBUTTONDOWN :
-        case WM_LBUTTONUP :
-        case WM_LBUTTONDBLCLK :
-        case WM_MBUTTONDOWN :
-        case WM_MBUTTONUP :
-        case WM_MBUTTONDBLCLK :
-        case WM_RBUTTONDOWN :
-        case WM_RBUTTONUP :
-        case WM_RBUTTONDBLCLK :
+        case WM_LBUTTONDOWN:
+        case WM_LBUTTONUP:
+        case WM_LBUTTONDBLCLK:
+        case WM_MBUTTONDOWN:
+        case WM_MBUTTONUP:
+        case WM_MBUTTONDBLCLK:
+        case WM_RBUTTONDOWN:
+        case WM_RBUTTONUP:
+        case WM_RBUTTONDBLCLK:
 
-        case WM_MOUSEWHEEL :
+        case WM_MOUSEWHEEL:
 
             m_pMainFrame->PostMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
             return true;

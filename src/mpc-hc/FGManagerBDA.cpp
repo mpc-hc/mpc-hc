@@ -832,18 +832,18 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
     pMC->GetState(500, &nState);
     if (nState != nRequested) {
         switch (nRequested) {
-            case State_Stopped : {
+            case State_Stopped: {
                 if (SUCCEEDED(hr = pMC->Stop())) {
                     ((CMainFrame*)AfxGetMainWnd())->KillTimersStop();
                 }
                 LOG(_T("IMediaControl stop: %d."), hr);
                 return hr;
             }
-            case State_Paused : {
+            case State_Paused: {
                 LOG(_T("IMediaControl pause."));
                 return pMC->Pause();
             }
-            case State_Running : {
+            case State_Running: {
                 int iCount = 0;
                 hr = S_FALSE;
                 while ((hr == S_FALSE) && (iCount++ < 10)) {

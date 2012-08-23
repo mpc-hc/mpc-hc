@@ -91,14 +91,14 @@ HRESULT CAviFile::BuildAMVIndex()
     memset(&NewChunk, 0, sizeof(strm_t::chunk));
     while ((Read(ulType) == S_OK) && (Read(ulSize) == S_OK)) {
         switch (ulType) {
-            case FCC('00dc'): // 01bw : JPeg
+            case FCC('00dc'): // 01bw: JPeg
                 NewChunk.size = ulSize;
                 NewChunk.filepos = GetPos();
                 NewChunk.orgsize = ulSize;
                 NewChunk.fKeyFrame = true;
                 m_strms[0]->cs.Add(NewChunk);
                 break;
-            case FCC('01wb'): // 00dc : Audio
+            case FCC('01wb'): // 00dc: Audio
                 NewChunk.size    = ulSize;
                 NewChunk.orgsize = ulSize;
                 NewChunk.fKeyFrame = true;
@@ -294,7 +294,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
                         return E_FAIL;
                     }
                     break;
-                default :
+                default:
                     TRACE(_T("CAviFile::Parse(..): unknown tag '%c%c%c%c'\n"),
                           TCHAR((id >> 0) & 0xff),
                           TCHAR((id >> 8) & 0xff),

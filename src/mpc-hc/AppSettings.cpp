@@ -1360,13 +1360,13 @@ void CAppSettings::UpdateData(bool fSave)
 
                 // Select minimum version for each shader!
                 switch (pPair->m_value) {
-                    case IDF_SHADER_DENOISE :
+                    case IDF_SHADER_DENOISE:
                         s.target = _T("ps_3_0");
                         break;
-                    case IDF_SHADER_SHARPEN_COMPLEX2 :
+                    case IDF_SHADER_SHARPEN_COMPLEX2:
                         s.target = _T("ps_2_a");
                         break;
-                    default :
+                    default:
                         s.target = _T("ps_2_0");
                         break;
                 }
@@ -1696,10 +1696,10 @@ void CAppSettings::ExtractDVDStartPos(CString& strParam)
             j < 3 && !token.IsEmpty();
             token = strParam.Tokenize(_T("#"), i), j++) {
         switch (j) {
-            case 0 :
+            case 0:
                 lDVDTitle = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
                 break;
-            case 1 :
+            case 1:
                 if (token.Find(':') > 0) {
                     _stscanf_s(token, _T("%02d:%02d:%02d.%03d"), &DVDPosition.bHours, &DVDPosition.bMinutes, &DVDPosition.bSeconds, &DVDPosition.bFrames);
                     /* Hack by Ron.  If bFrames >= 30, PlayTime commands fail due to invalid arg */

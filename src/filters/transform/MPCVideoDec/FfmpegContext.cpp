@@ -84,8 +84,8 @@ inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
     MpegEncContext* s = NULL;
 
     switch (pAVCtx->codec_id) {
-        case AV_CODEC_ID_VC1 :
-        case AV_CODEC_ID_H264 :
+        case AV_CODEC_ID_VC1:
+        case AV_CODEC_ID_H264:
             s = (MpegEncContext*)pAVCtx->priv_data;
             break;
         case AV_CODEC_ID_MPEG2VIDEO:
@@ -738,22 +738,22 @@ int FFGetThreadType(enum AVCodecID nCodecId, int nThreadCount)
         return 0;
     }
     switch (nCodecId) {
-        case AV_CODEC_ID_H264 :
+        case AV_CODEC_ID_H264:
             return FF_THREAD_FRAME | FF_THREAD_SLICE;
             break;
-        case AV_CODEC_ID_MPEG1VIDEO :
-        case AV_CODEC_ID_DVVIDEO :
-        case AV_CODEC_ID_FFV1 :
+        case AV_CODEC_ID_MPEG1VIDEO:
+        case AV_CODEC_ID_DVVIDEO:
+        case AV_CODEC_ID_FFV1:
             return FF_THREAD_SLICE;
             break;
-        case AV_CODEC_ID_VP3 :
-        case AV_CODEC_ID_VP8 :
-        case AV_CODEC_ID_THEORA :
-        case AV_CODEC_ID_RV30 :
-        case AV_CODEC_ID_RV40 :
+        case AV_CODEC_ID_VP3:
+        case AV_CODEC_ID_VP8:
+        case AV_CODEC_ID_THEORA:
+        case AV_CODEC_ID_RV30:
+        case AV_CODEC_ID_RV40:
             return FF_THREAD_FRAME;
             break;
-        default :
+        default:
             return 0;
     }
 }

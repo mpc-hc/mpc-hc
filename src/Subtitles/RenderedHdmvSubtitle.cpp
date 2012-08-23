@@ -27,19 +27,19 @@ CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nTyp
     : CSubPicProviderImpl(pLock), m_name(name), m_lcid(lcid)
 {
     switch (nType) {
-        case ST_DVB :
+        case ST_DVB:
             m_pSub = DNew CDVBSub();
             if (name.IsEmpty() || (name == _T("Unknown"))) {
                 m_name = "DVB Embedded Subtitle";
             }
             break;
-        case ST_HDMV :
+        case ST_HDMV:
             m_pSub = DNew CHdmvSub();
             if (name.IsEmpty() || (name == _T("Unknown"))) {
                 m_name = "HDMV Embedded Subtitle";
             }
             break;
-        default :
+        default:
             ASSERT(FALSE);
             m_pSub = NULL;
     }

@@ -1581,27 +1581,27 @@ void CMainFrame::OnRawInput(UINT nInputcode, HRAWINPUT hRawInput)
 
     nMceCmd = AfxGetMyApp()->GetRemoteControlCode(nInputcode, hRawInput);
     switch (nMceCmd) {
-        case MCE_DETAILS :
-        case MCE_GUIDE :
-        case MCE_TVJUMP :
-        case MCE_STANDBY :
-        case MCE_OEM1 :
-        case MCE_OEM2 :
-        case MCE_MYTV :
-        case MCE_MYVIDEOS :
-        case MCE_MYPICTURES :
-        case MCE_MYMUSIC :
-        case MCE_RECORDEDTV :
-        case MCE_DVDANGLE :
-        case MCE_DVDAUDIO :
-        case MCE_DVDMENU :
-        case MCE_DVDSUBTITLE :
-        case MCE_RED :
-        case MCE_GREEN :
-        case MCE_YELLOW :
-        case MCE_BLUE :
-        case MCE_MEDIA_NEXTTRACK :
-        case MCE_MEDIA_PREVIOUSTRACK :
+        case MCE_DETAILS:
+        case MCE_GUIDE:
+        case MCE_TVJUMP:
+        case MCE_STANDBY:
+        case MCE_OEM1:
+        case MCE_OEM2:
+        case MCE_MYTV:
+        case MCE_MYVIDEOS:
+        case MCE_MYPICTURES:
+        case MCE_MYMUSIC:
+        case MCE_RECORDEDTV:
+        case MCE_DVDANGLE:
+        case MCE_DVDAUDIO:
+        case MCE_DVDMENU:
+        case MCE_DVDSUBTITLE:
+        case MCE_RED:
+        case MCE_GREEN:
+        case MCE_YELLOW:
+        case MCE_BLUE:
+        case MCE_MEDIA_NEXTTRACK:
+        case MCE_MEDIA_PREVIOUSTRACK:
             POSITION pos = s.wmcmds.GetHeadPosition();
             while (pos) {
                 const wmcmd& wc = s.wmcmds.GetNext(pos);
@@ -14834,31 +14834,31 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
     REFERENCE_TIME rtPos = 0;
 
     switch (pCDS->dwData) {
-        case CMD_OPENFILE :
+        case CMD_OPENFILE:
             fns.AddHead((LPCWSTR)pCDS->lpData);
             m_wndPlaylistBar.Open(fns, false);
             OpenCurPlaylistItem();
             break;
-        case CMD_STOP :
+        case CMD_STOP:
             OnPlayStop();
             break;
-        case CMD_CLOSEFILE :
+        case CMD_CLOSEFILE:
             CloseMedia();
             break;
-        case CMD_PLAYPAUSE :
+        case CMD_PLAYPAUSE:
             OnPlayPlaypause();
             break;
-        case CMD_ADDTOPLAYLIST :
+        case CMD_ADDTOPLAYLIST:
             fns.AddHead((LPCWSTR)pCDS->lpData);
             m_wndPlaylistBar.Append(fns, true);
             break;
-        case CMD_STARTPLAYLIST :
+        case CMD_STARTPLAYLIST:
             OpenCurPlaylistItem();
             break;
-        case CMD_CLEARPLAYLIST :
+        case CMD_CLEARPLAYLIST:
             m_wndPlaylistBar.Empty();
             break;
-        case CMD_SETPOSITION :
+        case CMD_SETPOSITION:
             rtPos = 10000 * REFERENCE_TIME(_wtof((LPCWSTR)pCDS->lpData) * 1000); //with accuracy of 1 ms
             // imianz: quick and dirty trick
             // Pause->SeekTo->Play (in place of SeekTo only) seems to prevents in most cases
@@ -14873,59 +14873,59 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             // show current position overridden by play command
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
             break;
-        case CMD_SETAUDIODELAY :
+        case CMD_SETAUDIODELAY:
             rtPos = _wtol((LPCWSTR)pCDS->lpData) * 10000;
             SetAudioDelay(rtPos);
             break;
-        case CMD_SETSUBTITLEDELAY :
+        case CMD_SETSUBTITLEDELAY:
             SetSubtitleDelay(_wtoi((LPCWSTR)pCDS->lpData));
             break;
-        case CMD_SETINDEXPLAYLIST :
+        case CMD_SETINDEXPLAYLIST:
             //m_wndPlaylistBar.SetSelIdx(_wtoi((LPCWSTR)pCDS->lpData));
             break;
-        case CMD_SETAUDIOTRACK :
+        case CMD_SETAUDIOTRACK:
             SetAudioTrackIdx(_wtoi((LPCWSTR)pCDS->lpData));
             break;
-        case CMD_SETSUBTITLETRACK :
+        case CMD_SETSUBTITLETRACK:
             SetSubtitleTrackIdx(_wtoi((LPCWSTR)pCDS->lpData));
             break;
-        case CMD_GETSUBTITLETRACKS :
+        case CMD_GETSUBTITLETRACKS:
             SendSubtitleTracksToApi();
             break;
-        case CMD_GETAUDIOTRACKS :
+        case CMD_GETAUDIOTRACKS:
             SendAudioTracksToApi();
             break;
-        case CMD_GETCURRENTPOSITION :
+        case CMD_GETCURRENTPOSITION:
             SendCurrentPositionToApi();
             break;
         case CMD_GETNOWPLAYING:
             SendNowPlayingToApi();
             break;
-        case CMD_JUMPOFNSECONDS :
+        case CMD_JUMPOFNSECONDS:
             JumpOfNSeconds(_wtoi((LPCWSTR)pCDS->lpData));
             break;
-        case CMD_GETPLAYLIST :
+        case CMD_GETPLAYLIST:
             SendPlaylistToApi();
             break;
-        case CMD_JUMPFORWARDMED :
+        case CMD_JUMPFORWARDMED:
             OnPlaySeek(ID_PLAY_SEEKFORWARDMED);
             break;
-        case CMD_JUMPBACKWARDMED :
+        case CMD_JUMPBACKWARDMED:
             OnPlaySeek(ID_PLAY_SEEKBACKWARDMED);
             break;
-        case CMD_TOGGLEFULLSCREEN :
+        case CMD_TOGGLEFULLSCREEN:
             OnViewFullscreen();
             break;
-        case CMD_INCREASEVOLUME :
+        case CMD_INCREASEVOLUME:
             m_wndToolBar.m_volctrl.IncreaseVolume();
             break;
-        case CMD_DECREASEVOLUME :
+        case CMD_DECREASEVOLUME:
             m_wndToolBar.m_volctrl.DecreaseVolume();
             break;
-        case CMD_SHADER_TOGGLE :
+        case CMD_SHADER_TOGGLE:
             OnShaderToggle();
             break;
-        case CMD_CLOSEAPP :
+        case CMD_CLOSEAPP:
             PostMessage(WM_CLOSE);
             break;
         case CMD_OSDSHOWMESSAGE:

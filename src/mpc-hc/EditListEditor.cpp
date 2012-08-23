@@ -370,17 +370,17 @@ void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
             m_list.GetSubItemRect(nItem, i, LVIR_LABEL, rcItem);
             pDC->SetTextColor(textcolor);
             switch (i) {
-                case COL_INDEX :
+                case COL_INDEX:
                     strTemp.Format(_T("%d"), nItem + 1);
                     pDC->DrawText(strTemp, rcItem, DT_CENTER | DT_VCENTER);
                     break;
-                case COL_IN :
+                case COL_IN:
                     pDC->DrawText(CurClip.GetIn(), rcItem, DT_CENTER | DT_VCENTER);
                     break;
-                case COL_OUT :
+                case COL_OUT:
                     pDC->DrawText(CurClip.GetOut(), rcItem, DT_CENTER | DT_VCENTER);
                     break;
-                case COL_NAME :
+                case COL_NAME:
                     pDC->DrawText(CurClip.GetName(), rcItem, DT_LEFT | DT_VCENTER);
                     break;
             }

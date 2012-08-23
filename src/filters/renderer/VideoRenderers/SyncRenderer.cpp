@@ -2891,7 +2891,7 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
             m_bStepping = true;
             break;
 
-        default :
+        default:
             ASSERT(FALSE);
             break;
     }
@@ -3528,10 +3528,10 @@ void CSyncAP::MixerThread()
     while (!bQuit) {
         DWORD dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, 1);
         switch (dwObject) {
-            case WAIT_OBJECT_0 :
+            case WAIT_OBJECT_0:
                 bQuit = true;
                 break;
-            case WAIT_TIMEOUT : {
+            case WAIT_TIMEOUT: {
                 bool bNewSample = false;
                 {
                     CAutoLock AutoLock(&m_ImageProcessingLock);

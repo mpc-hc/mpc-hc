@@ -65,10 +65,10 @@ void CDXVADecoderVC1::Init()
     m_wRefPictureIndex[1] = NO_REF_FRAME;
 
     switch (GetMode()) {
-        case VC1_VLD :
+        case VC1_VLD:
             AllocExecuteParams(3);
             break;
-        default :
+        default:
             ASSERT(FALSE);
     }
 

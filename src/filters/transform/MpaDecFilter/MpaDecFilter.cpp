@@ -696,14 +696,14 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     float* pDataOut = pBuff.GetData();
 
     switch (wfein->wBitsPerSample) {
-        case 16 :
+        case 16:
             for (size_t i = 0; i < nSamples; i++) {
                 uint16_t u16 = (uint16_t)(*p) << 8 | (uint16_t)(*(p + 1));
                 pDataOut[i] = (float)(int16_t)u16 / INT16_PEAK;
                 p += 2;
             }
             break;
-        case 24 : {
+        case 24: {
             size_t m = nChannels * 2;
             for (size_t k = 0, n = nSamples / m; k < n; k++) {
                 BYTE* q = p + m * 2;
@@ -718,7 +718,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
             }
         }
         break;
-        case 20 : {
+        case 20: {
             size_t m = nChannels * 2;
             for (size_t k = 0, n = nSamples / m; k < n; k++) {
                 BYTE* q = p + m * 2;
@@ -770,7 +770,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
     float* pDataOut = pBuff.GetData();
 
     switch (wfein->wBitsPerSample) {
-        case 16 :
+        case 16:
             for (int i = 0; i < nFrames; i++) {
                 for (int j = 0; j < nChannels; j++) {
                     BYTE nRemap = remap->ch[j];
@@ -780,8 +780,8 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
                 pDataIn += xChannels * 2;
             }
             break;
-        case 24 :
-        case 20 :
+        case 24:
+        case 20:
             for (int i = 0; i < nFrames; i++) {
                 for (int j = 0; j < nChannels; j++) {
                     BYTE nRemap = remap->ch[j];
@@ -2155,13 +2155,13 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum AVCodecID nCodecId, BYTE* p, int buffs
                 pDataOut = pBuffOut.GetData();
 
                 switch (m_pAVCtx->sample_fmt) {
-                    case AV_SAMPLE_FMT_S16 :
+                    case AV_SAMPLE_FMT_S16:
                         for (size_t i = 0; i < nSamples; ++i) {
                             *pDataOut = (float)((int16_t*)m_pFrame->data[0])[i] / INT16_PEAK;
                             pDataOut++;
                         }
                         break;
-                    case AV_SAMPLE_FMT_S32 :
+                    case AV_SAMPLE_FMT_S32:
                         for (size_t i = 0; i < nSamples; ++i) {
                             *pDataOut = (float)((int32_t*)m_pFrame->data[0])[i] / INT32_PEAK;
                             pDataOut++;
@@ -2170,7 +2170,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum AVCodecID nCodecId, BYTE* p, int buffs
                     case AV_SAMPLE_FMT_FLT:
                         memcpy(pDataOut, m_pFrame->data[0], nSamples * 4);
                         break;
-                    default :
+                    default:
                         ASSERT(FALSE);
                         break;
                 }
@@ -2206,13 +2206,13 @@ bool CMpaDecFilter::InitFFmpeg(enum AVCodecID nCodecId)
         ffmpeg_stream_finish();
     }
     switch (nCodecId) {
-        case AV_CODEC_ID_MP1 :
+        case AV_CODEC_ID_MP1:
             m_pAVCodec = avcodec_find_decoder_by_name("mp1float");
-        case AV_CODEC_ID_MP2 :
+        case AV_CODEC_ID_MP2:
             m_pAVCodec = avcodec_find_decoder_by_name("mp2float");
-        case AV_CODEC_ID_MP3 :
+        case AV_CODEC_ID_MP3:
             m_pAVCodec = avcodec_find_decoder_by_name("mp3float");
-        default :
+        default:
             m_pAVCodec = avcodec_find_decoder(nCodecId);
     }
 

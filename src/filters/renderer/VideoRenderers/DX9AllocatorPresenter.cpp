@@ -432,10 +432,10 @@ void CDX9AllocatorPresenter::VSyncThread()
 
         DWORD dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, 1);
         switch (dwObject) {
-            case WAIT_OBJECT_0 :
+            case WAIT_OBJECT_0:
                 bQuit = true;
                 break;
-            case WAIT_TIMEOUT : {
+            case WAIT_TIMEOUT: {
                 // Do our stuff
                 if (m_pD3DDev && s.m_RenderSettings.iVMR9VSync) {
 

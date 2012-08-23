@@ -250,7 +250,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                 }
 
                 switch (nCurSegment) {
-                    case PAGE : {
+                    case PAGE: {
                         CAutoPtr<DVB_PAGE>  pPage;
                         ParsePage(gb, wSegLength, pPage);
 
@@ -279,30 +279,30 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                         }
                     }
                     break;
-                    case REGION :
+                    case REGION:
                         ParseRegion(gb, wSegLength);
                         TRACE_DVB("DVB - Region\n");
                         break;
-                    case CLUT :
+                    case CLUT:
                         ParseClut(gb, wSegLength);
                         TRACE_DVB("DVB - Clut\n");
                         break;
-                    case OBJECT :
+                    case OBJECT:
                         ParseObject(gb, wSegLength);
                         TRACE_DVB("DVB - Object\n");
                         break;
-                    case DISPLAY :
+                    case DISPLAY:
                         ParseDisplay(gb, wSegLength);
                         TRACE_DVB("DVB - Display\n");
                         break;
-                    case END_OF_DISPLAY :
+                    case END_OF_DISPLAY:
                         if (m_pCurrentPage != NULL && (m_pCurrentPage->rtStart != m_rtStart)) {
                             m_pCurrentPage->rtStop = max(m_pCurrentPage->rtStop, m_rtStart);
                             TRACE_DVB("DVB - End display %S - %S\n", ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
                             m_Pages.AddTail(m_pCurrentPage.Detach());
                         }
                         break;
-                    default :
+                    default:
                         break;
                 }
                 nLastPos = gb.GetPos();

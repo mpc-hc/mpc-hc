@@ -150,7 +150,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
                     m_Streams[iStream].m_LCID = ISO6392ToLcid(m_Streams[iStream].m_LanguageCode);
                 }
                 break;
-                default :
+                default:
                     break;
             }
 
@@ -237,13 +237,13 @@ LPCTSTR CHdmvClipInfo::Stream::Format()
             return _T("Sec DD+");
         case SECONDARY_AUDIO_DTS_HD:
             return _T("Sec DTS-HD");
-        case PRESENTATION_GRAPHICS_STREAM :
+        case PRESENTATION_GRAPHICS_STREAM:
             return _T("PG");
-        case INTERACTIVE_GRAPHICS_STREAM :
+        case INTERACTIVE_GRAPHICS_STREAM:
             return _T("IG");
-        case SUBTITLE_STREAM :
+        case SUBTITLE_STREAM:
             return _T("Text");
-        default :
+        default:
             return _T("Unknown");
     }
 }

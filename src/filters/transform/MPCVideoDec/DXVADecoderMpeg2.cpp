@@ -59,10 +59,10 @@ void CDXVADecoderMpeg2::Init()
     m_nSliceCount           = 0;
 
     switch (GetMode()) {
-        case MPEG2_VLD :
+        case MPEG2_VLD:
             AllocExecuteParams(4);
             break;
-        default :
+        default:
             ASSERT(FALSE);
     }
 }

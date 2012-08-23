@@ -157,29 +157,29 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, SHORT
     while (gb.GetPos() < nEnd) {
         BYTE bType = gb.ReadByte();
         switch (bType) {
-            case 0x10 :
+            case 0x10:
                 Dvb2PixelsCodeString(spd, gb, nX, nY);
                 break;
-            case 0x11 :
+            case 0x11:
                 Dvb4PixelsCodeString(spd, gb, nX, nY);
                 break;
-            case 0x12 :
+            case 0x12:
                 Dvb8PixelsCodeString(spd, gb, nX, nY);
                 break;
-            case 0x20 :
+            case 0x20:
                 gb.SkipBytes(2);
                 break;
-            case 0x21 :
+            case 0x21:
                 gb.SkipBytes(4);
                 break;
-            case 0x22 :
+            case 0x22:
                 gb.SkipBytes(16);
                 break;
-            case 0xF0 :
+            case 0xF0:
                 nX  = nXStart;
                 nY += 2;
                 break;
-            default :
+            default:
                 ASSERT(FALSE);
                 break;
         }
@@ -208,17 +208,17 @@ void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
             } else {
                 if (gb.BitRead(1) == 0) {                           // switch_2
                     switch (gb.BitRead(2)) {                        // switch_3
-                        case 0 :
+                        case 0:
                             bQuit = true;
                             break;
-                        case 1 :
+                        case 1:
                             nCount = 2;
                             break;
-                        case 2 :                                    // if (switch_3 == '10')
+                        case 2:                                     // if (switch_3 == '10')
                             nCount = 12 + (SHORT)gb.BitRead(4);     // run_length_12-27
                             nPaletteIndex = (BYTE)gb.BitRead(2);    // 4-bit_pixel-code
                             break;
-                        case 3 :
+                        case 3:
                             nCount = 29 + gb.ReadByte();            // run_length_29-284
                             nPaletteIndex = (BYTE)gb.BitRead(2);    // 4-bit_pixel-code
                             break;
@@ -271,17 +271,17 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
                     nPaletteIndex = (BYTE)gb.BitRead(4);            // 4-bit_pixel-code
                 } else {
                     switch (gb.BitRead(2)) {                        // switch_3
-                        case 0 :
+                        case 0:
                             nCount = 1;
                             break;
-                        case 1 :
+                        case 1:
                             nCount = 2;
                             break;
-                        case 2 :                                    // if (switch_3 == '10')
+                        case 2:                                     // if (switch_3 == '10')
                             nCount = 9 + (SHORT)gb.BitRead(4);      // run_length_9-24
                             nPaletteIndex = (BYTE)gb.BitRead(4);    // 4-bit_pixel-code
                             break;
-                        case 3 :
+                        case 3:
                             nCount = 25 + gb.ReadByte();            // run_length_25-280
                             nPaletteIndex = (BYTE)gb.BitRead(4);    // 4-bit_pixel-code
                             break;

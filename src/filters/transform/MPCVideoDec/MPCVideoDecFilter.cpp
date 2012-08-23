@@ -782,7 +782,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
         if (mtIn->subtype == *ffCodecs[i].clsMinorType) {
 #ifndef STANDALONE_FILTER
             switch (ffCodecs[i].nFFCodec) {
-                case AV_CODEC_ID_H264 :
+                case AV_CODEC_ID_H264:
 #if INTERNAL_DECODER_H264_DXVA
                     m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_H264];
 #else
@@ -794,7 +794,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
                     m_bUseFFmpeg = false;
 #endif
                     break;
-                case AV_CODEC_ID_VC1 :
+                case AV_CODEC_ID_VC1:
 #if INTERNAL_DECODER_VC1_DXVA
                     m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_VC1];
 #else
@@ -806,7 +806,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
                     m_bUseFFmpeg = false;
 #endif
                     break;
-                case AV_CODEC_ID_WMV3 :
+                case AV_CODEC_ID_WMV3:
 #if INTERNAL_DECODER_WMV3_DXVA
                     m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_WMV3];
 #else
@@ -818,13 +818,13 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
                     m_bUseFFmpeg = false;
 #endif
                     break;
-                case AV_CODEC_ID_MPEG2VIDEO :
+                case AV_CODEC_ID_MPEG2VIDEO:
 #if INTERNAL_DECODER_MPEG2_DXVA
                     m_bUseDXVA = true;
 #endif
                     m_bUseFFmpeg = false; // No Mpeg2 software support with ffmpeg!
                     break;
-                default :
+                default:
                     m_bUseDXVA = false;
             }
 
@@ -832,11 +832,11 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 #else
             bool bCodecActivated = false;
             switch (ffCodecs[i].nFFCodec) {
-                case AV_CODEC_ID_FLV1 :
-                case AV_CODEC_ID_VP6F :
+                case AV_CODEC_ID_FLV1:
+                case AV_CODEC_ID_VP6F:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_FLASH) != 0;
                     break;
-                case AV_CODEC_ID_MPEG4 :
+                case AV_CODEC_ID_MPEG4:
                     if ((*ffCodecs[i].clsMinorType == MEDIASUBTYPE_DX50) ||     // DivX
                             (*ffCodecs[i].clsMinorType == MEDIASUBTYPE_dx50) ||
                             (*ffCodecs[i].clsMinorType == MEDIASUBTYPE_DIVX) ||
@@ -846,71 +846,71 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
                         bCodecActivated = (m_nActiveCodecs & MPCVD_XVID) != 0;  // Xvid/MPEG-4
                     }
                     break;
-                case AV_CODEC_ID_WMV1 :
-                case AV_CODEC_ID_WMV2 :
+                case AV_CODEC_ID_WMV1:
+                case AV_CODEC_ID_WMV2:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_WMV) != 0;
                     break;
-                case AV_CODEC_ID_WMV3 :
+                case AV_CODEC_ID_WMV3:
                     m_bUseDXVA = (m_nActiveCodecs & MPCVD_WMV3_DXVA) != 0;
                     m_bUseFFmpeg = (m_nActiveCodecs & MPCVD_WMV) != 0;
                     bCodecActivated = m_bUseDXVA || m_bUseFFmpeg;
                     break;
-                case AV_CODEC_ID_MSMPEG4V3 :
-                case AV_CODEC_ID_MSMPEG4V2 :
-                case AV_CODEC_ID_MSMPEG4V1 :
+                case AV_CODEC_ID_MSMPEG4V3:
+                case AV_CODEC_ID_MSMPEG4V2:
+                case AV_CODEC_ID_MSMPEG4V1:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_MSMPEG4) != 0;
                     break;
-                case AV_CODEC_ID_H264 :
+                case AV_CODEC_ID_H264:
                     m_bUseDXVA = (m_nActiveCodecs & MPCVD_H264_DXVA) != 0;
                     m_bUseFFmpeg = (m_nActiveCodecs & MPCVD_H264) != 0;
                     bCodecActivated = m_bUseDXVA || m_bUseFFmpeg;
                     break;
-                case AV_CODEC_ID_SVQ3 :
-                case AV_CODEC_ID_SVQ1 :
+                case AV_CODEC_ID_SVQ3:
+                case AV_CODEC_ID_SVQ1:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_SVQ3) != 0;
                     break;
-                case AV_CODEC_ID_H263 :
+                case AV_CODEC_ID_H263:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_H263) != 0;
                     break;
-                case AV_CODEC_ID_THEORA :
+                case AV_CODEC_ID_THEORA:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_THEORA) != 0;
                     break;
-                case AV_CODEC_ID_VC1 :
+                case AV_CODEC_ID_VC1:
                     m_bUseDXVA = (m_nActiveCodecs & MPCVD_VC1_DXVA) != 0;
                     m_bUseFFmpeg = (m_nActiveCodecs & MPCVD_VC1) != 0;
                     bCodecActivated = m_bUseDXVA || m_bUseFFmpeg;
                     break;
-                case AV_CODEC_ID_AMV :
+                case AV_CODEC_ID_AMV:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_AMVV) != 0;
                     break;
-                case AV_CODEC_ID_VP3 :
-                case AV_CODEC_ID_VP5 :
-                case AV_CODEC_ID_VP6 :
-                case AV_CODEC_ID_VP6A :
+                case AV_CODEC_ID_VP3:
+                case AV_CODEC_ID_VP5:
+                case AV_CODEC_ID_VP6:
+                case AV_CODEC_ID_VP6A:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_VP356) != 0;
                     break;
-                case AV_CODEC_ID_VP8  :
+                case AV_CODEC_ID_VP8:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_VP8) != 0;
                     break;
-                case AV_CODEC_ID_MJPEG  :
-                case AV_CODEC_ID_MJPEGB :
+                case AV_CODEC_ID_MJPEG:
+                case AV_CODEC_ID_MJPEGB:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_MJPEG) != 0;
                     break;
-                case AV_CODEC_ID_INDEO3 :
-                case AV_CODEC_ID_INDEO4 :
-                case AV_CODEC_ID_INDEO5 :
+                case AV_CODEC_ID_INDEO3:
+                case AV_CODEC_ID_INDEO4:
+                case AV_CODEC_ID_INDEO5:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_INDEO) != 0;
                     break;
-                case AV_CODEC_ID_TSCC :
+                case AV_CODEC_ID_TSCC:
                     bCodecActivated = 1;
                     break;
-                case AV_CODEC_ID_RV10 :
-                case AV_CODEC_ID_RV20 :
-                case AV_CODEC_ID_RV30 :
-                case AV_CODEC_ID_RV40 :
+                case AV_CODEC_ID_RV10:
+                case AV_CODEC_ID_RV20:
+                case AV_CODEC_ID_RV30:
+                case AV_CODEC_ID_RV40:
                     bCodecActivated = (m_nActiveCodecs & MPCVD_RV) != 0;
                     break;
-                case AV_CODEC_ID_MPEG2VIDEO :
+                case AV_CODEC_ID_MPEG2VIDEO:
                     m_bUseDXVA = (m_nActiveCodecs & MPCVD_MPEG2_DXVA) != 0;
                     m_bUseFFmpeg = false;
                     bCodecActivated = m_bUseDXVA;
@@ -1546,15 +1546,15 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
             }
 
             switch (m_pFrame->pict_type) {
-                case AV_PICTURE_TYPE_I :
-                case AV_PICTURE_TYPE_SI :
+                case AV_PICTURE_TYPE_I:
+                case AV_PICTURE_TYPE_SI:
                     props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_I_SAMPLE;
                     break;
-                case AV_PICTURE_TYPE_P :
-                case AV_PICTURE_TYPE_SP :
+                case AV_PICTURE_TYPE_P:
+                case AV_PICTURE_TYPE_SP:
                     props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_P_SAMPLE;
                     break;
-                default :
+                default:
                     props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_B_SAMPLE;
                     break;
             }
@@ -2021,12 +2021,12 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
     switch (m_nDXVAMode) {
 #if HAS_FFMPEG_VIDEO_DECODERS
-        case MODE_SOFTWARE :
+        case MODE_SOFTWARE:
             hr = SoftwareDecode(pIn, pDataIn, nSize, rtStart, rtStop);
             break;
 #endif
-        case MODE_DXVA1 :
-        case MODE_DXVA2 :
+        case MODE_DXVA1:
+        case MODE_DXVA2:
             CheckPointer(m_pDXVADecoder, E_UNEXPECTED);
             UpdateAspectRatio();
 
@@ -2054,7 +2054,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
                 hr = m_pDXVADecoder->DecodeFrame(pDataIn, nSize, rtStart, rtStop);
             }
             break;
-        default :
+        default:
             ASSERT(FALSE);
             hr = E_UNEXPECTED;
     }

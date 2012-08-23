@@ -81,10 +81,10 @@ void CDXVADecoderH264::Init()
     m_nMaxSlices = 0;
 
     switch (GetMode()) {
-        case H264_VLD :
+        case H264_VLD:
             AllocExecuteParams(3);
             break;
-        default :
+        default:
             ASSERT(FALSE);
     }
 }
