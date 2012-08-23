@@ -356,8 +356,8 @@ HRESULT FFH264BuildPicParams(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H
 void FFH264SetCurrentPicture(int nIndex, DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx)
 {
     H264Context* h = (H264Context*) pAVCtx->priv_data;
-
     pDXVAPicParams->CurrPic.Index7Bits = nIndex;
+
     if (h->s.current_picture_ptr) {
         h->s.current_picture_ptr->f.opaque  = (void*)nIndex;
     }
@@ -509,9 +509,9 @@ HRESULT FFVC1UpdatePictureParam(DXVA_PictureParameters* pPicParams, struct AVCod
         pPicParams->wPicHeightInMBminus1 = vc1->s.mb_height - 1;
     }
 
-    pPicParams->bSecondField            = (vc1->interlace && vc1->fcm == ILACE_FIELD && vc1->second_field);
-    pPicParams->bPicIntra               = vc1->s.pict_type == AV_PICTURE_TYPE_I;
-    pPicParams->bPicBackwardPrediction  = vc1->s.pict_type == AV_PICTURE_TYPE_B;
+    pPicParams->bSecondField           = (vc1->interlace && vc1->fcm == ILACE_FIELD && vc1->second_field);
+    pPicParams->bPicIntra              = vc1->s.pict_type == AV_PICTURE_TYPE_I;
+    pPicParams->bPicBackwardPrediction = vc1->s.pict_type == AV_PICTURE_TYPE_B;
 
 
     // Init    Init    Init    Todo
@@ -593,7 +593,7 @@ HRESULT FFVC1UpdatePictureParam(DXVA_PictureParameters* pPicParams, struct AVCod
 int MPEG2CheckCompatibility(struct AVCodecContext* pAVCtx, struct AVFrame* pFrame)
 {
     int got_picture = 0;
-    Mpeg1Context* s1 = (Mpeg1Context*)pAVCtx->priv_data;
+    Mpeg1Context* s1  = (Mpeg1Context*)pAVCtx->priv_data;
     MpegEncContext* s = (MpegEncContext*)&s1->mpeg_enc_ctx;
     AVPacket avpkt;
 
@@ -793,14 +793,17 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor, DWORD nPCIDevic
     width  = (width  + 15) & 0xFFFFFFF0; // (width  + 15) / 16 * 16;
     height = (height + 15) & 0xFFFFFFF0; // (height + 15) / 16 * 16;
 
-    if ((nPCIVendor == PCIV_nVidia) && (width <= 2032 && height <= 2032 && width * height <= 8190 * 16 * 16)) {
+    if ((nPCIVendor == PCIV_nVidia)
+            && (width <= 2032 && height <= 2032 && width * height <= 8190 * 16 * 16)) {
         // tested H.264, VC-1 and MPEG-2 on VP4 (feature set C) (G210M, GT220)
         return TRUE;
-    } else if ((nPCIVendor == PCIV_ATI) && (width <= 2048 && height <= 2304 && width * height <= 2048 * 2048)) {
+    } else if ((nPCIVendor == PCIV_ATI)
+               && (width <= 2048 && height <= 2304 && width * height <= 2048 * 2048)) {
         // tested H.264 on UVD 2.2 (HD5670, HD5770, HD5850)
         // it may also work if width = 2064, but unstable
         return TRUE;
-    } else if ((nPCIVendor == PCIV_Intel && nPCIDevice == 0x0162) && (width <= 4096 && height <= 4096 && width * height <= 56672 * 16 * 16)) {
+    } else if ((nPCIVendor == PCIV_Intel && nPCIDevice == 0x0162)
+               && (width <= 4096 && height <= 4096 && width * height <= 56672 * 16 * 16)) {
         // Intel HD Graphics 4000
         return TRUE;
     } else if (width <= 1920 && height <= 1088) {
