@@ -26,7 +26,7 @@
 #if (0)     // Set to 1 to activate DVB subtitles traces
 #define TRACE_DVB TRACE
 #else
-#define TRACE_DVB
+#define TRACE_DVB __noop
 #endif
 
 #define BUFFER_CHUNK_GROW 0x1000

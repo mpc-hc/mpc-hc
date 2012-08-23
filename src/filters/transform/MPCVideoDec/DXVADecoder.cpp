@@ -110,7 +110,7 @@ void CDXVADecoder::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 
 void CDXVADecoder::Flush()
 {
-    TRACE("CDXVADecoder::Flush\n");
+    TRACE(_T("CDXVADecoder::Flush\n"));
     for (int i = 0; i < m_nPicEntryNumber; i++) {
         m_pPictureStore[i].bRefPicture    = false;
         m_pPictureStore[i].bInUse         = false;
@@ -228,7 +228,7 @@ HRESULT CDXVADecoder::AddExecuteBuffer(DWORD CompressedBufferType, UINT nSize, v
             LONG lStride;
             dwTypeIndex = GetDXVA1CompressedType(CompressedBufferType);
 
-            //TRACE ("Fill : %d - %d\n", dwTypeIndex, m_dwBufferIndex);
+            //TRACE(_T("Fill : %d - %d\n"), dwTypeIndex, m_dwBufferIndex);
             hr = m_pAMVideoAccelerator->GetBuffer(dwTypeIndex, m_dwBufferIndex, FALSE, (void**)&pDXVABuffer, &lStride);
             ASSERT(SUCCEEDED(hr));
 
@@ -495,7 +495,7 @@ bool CDXVADecoder::AddToStore(int nSurfaceIndex, IMediaSample* pSample, bool bRe
         m_pPictureStore[nSurfaceIndex].nCodecSpecific   = nCodecSpecific;
         return false;
     } else {
-        //TRACE("Add Stor: [%10I64d - %10I64d], Ind = %d, Codec=%d\n", rtStart, rtStop, nSurfaceIndex, nCodecSpecific);
+        //TRACE(_T("Add Stor: [%10I64d - %10I64d], Ind = %d, Codec=%d\n"), rtStart, rtStop, nSurfaceIndex, nCodecSpecific);
         /*
         ASSERT(m_pPictureStore[nSurfaceIndex].pSample == NULL);
         ASSERT(!m_pPictureStore[nSurfaceIndex].bInUse);
@@ -618,7 +618,7 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 
 #if defined(_DEBUG) && 0
             static REFERENCE_TIME rtLast = 0;
-            TRACE("Deliver : %10I64d - %10I64d   (Dur = %10I64d) {Delta = %10I64d}   Ind = %02d  Codec=%d  Ref=%d\n",
+            TRACE(_T("Deliver : %10I64d - %10I64d   (Dur = %10I64d) {Delta = %10I64d}   Ind = %02d  Codec=%d  Ref=%d\n"),
                   m_pPictureStore[nPicIndex].rtStart,
                   m_pPictureStore[nPicIndex].rtStop,
                   m_pPictureStore[nPicIndex].rtStop - m_pPictureStore[nPicIndex].rtStart,

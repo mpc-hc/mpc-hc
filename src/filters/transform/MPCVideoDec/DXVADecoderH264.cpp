@@ -30,7 +30,7 @@
 #if 0
 #define TRACE_H264 TRACE
 #else
-#define TRACE_H264(...)
+#define TRACE_H264 __noop
 #endif
 
 CDXVADecoderH264::CDXVADecoderH264(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)

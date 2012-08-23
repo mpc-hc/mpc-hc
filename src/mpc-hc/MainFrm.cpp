@@ -1799,7 +1799,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             bool fCursorOutside = !r.PtInRect(p);
             CWnd* pWnd = WindowFromPoint(p);
             if (m_pFullscreenWnd->IsWindow()) {
-                TRACE("==> HIDE!\n");
+                TRACE(_T("==> HIDE!\n"));
                 if (!m_bInOptions && pWnd == m_pFullscreenWnd) {
                     m_pFullscreenWnd->ShowCursor(false);
                 }
@@ -2302,7 +2302,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
     LONG_PTR evParam1, evParam2;
     while (pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
-        TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: 0x%08x (%ws)\n", GetCurrentThreadId(), evCode, GetEventString(evCode));
+        TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %d; event: 0x%08x (%ws)\n", GetCurrentThreadId(), evCode, GetEventString(evCode)));
 #endif
         CString str;
 
@@ -2913,7 +2913,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
         const CAppSettings& s = AfxGetAppSettings();
 
         if (m_pFullscreenWnd->IsWindow() && (abs(diff.cx) + abs(diff.cy)) >= 1) {
-            //TRACE ("==> SHOW!\n");
+            //TRACE(_T("==> SHOW!\n"));
             m_pFullscreenWnd->ShowCursor(true);
 
             // Casimir666 : hide the cursor if we are not in the DVD menu
@@ -15677,18 +15677,18 @@ UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
     OAFilterState mediaState;
 
     switch (nPowerEvent) {
-        case PBT_APMSUSPEND: // System is suspending operation.
-            TRACE("OnPowerBroadcast - suspending\n"); // For user tracking
-            bWasPausedBeforeSuspention = FALSE; // Reset value
+        case PBT_APMSUSPEND:            // System is suspending operation.
+            TRACE(_T("OnPowerBroadcast - suspending\n"));   // For user tracking
+            bWasPausedBeforeSuspention = FALSE;             // Reset value
             mediaState = GetMediaState();
 
             if (mediaState == State_Running) {
                 bWasPausedBeforeSuspention = TRUE;
-                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);   // Pause
+                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);     // Pause
             }
             break;
-        case PBT_APMRESUMEAUTOMATIC: // Operation is resuming automatically from a low-power state. This message is sent every time the system resumes.
-            TRACE("OnPowerBroadcast - resuming\n"); // For user tracking
+        case PBT_APMRESUMEAUTOMATIC:    // Operation is resuming automatically from a low-power state. This message is sent every time the system resumes.
+            TRACE(_T("OnPowerBroadcast - resuming\n"));     // For user tracking
 
             // Resume if we paused before suspension.
             if (bWasPausedBeforeSuspention) {

@@ -671,7 +671,7 @@ HRESULT CDX9RenderingEngine::InitResizers(float bicubicA)
         CString DissAssembly;
         hr = m_pPSC->CompileShader(str, pEntries[i], pProfile, 0, &m_pResizerPixelShaders[i], &DissAssembly, &ErrorMessage);
         if (FAILED(hr)) {
-            TRACE("%ws", ErrorMessage.GetString());
+            TRACE(_T("%ws"), ErrorMessage.GetString());
             ASSERT(0);
             return hr;
         }
@@ -679,7 +679,7 @@ HRESULT CDX9RenderingEngine::InitResizers(float bicubicA)
         if (i == 2 || i == 3)
         {
             const wchar_t *pStr = DissAssembly.GetString();
-            TRACE("DisAsm: %s\n", pEntries[i]);
+            TRACE(_T("DisAsm: %s\n"), pEntries[i]);
             const wchar_t *pStrStart = pStr;
             while (*pStr)
             {
@@ -690,7 +690,7 @@ HRESULT CDX9RenderingEngine::InitResizers(float bicubicA)
                 if (*pStr == '\r')
                     ++pStr;
                 CString Test(pStrStart, pStr - pStrStart);
-                TRACE("%ws", Test.GetString());
+                TRACE(_T("%ws"), Test.GetString());
                 pStrStart = pStr;
             }
         }
@@ -1152,7 +1152,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
     CString DissAssembly;
     hr = m_pPSC->CompileShader(shaderSourceCode, "main", pProfile, 0, &m_pFinalPixelShader, &DissAssembly, &ErrorMessage);
     if (FAILED(hr)) {
-        TRACE("%ws", ErrorMessage.GetString());
+        TRACE(_T("%ws"), ErrorMessage.GetString());
         ASSERT(0);
         CleanupFinalPass();
         return hr;

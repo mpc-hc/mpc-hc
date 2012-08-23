@@ -109,7 +109,7 @@ HRESULT CAviFile::BuildAMVIndex()
         Seek(GetPos() + ulSize);
     }
 
-    TRACE("Video packet : %d   Audio packet :%d\n", m_strms[0]->cs.GetCount(), m_strms[1]->cs.GetCount());
+    TRACE(_T("Video packet : %d   Audio packet :%d\n"), m_strms[0]->cs.GetCount(), m_strms[1]->cs.GetCount());
     return S_OK;
 }
 

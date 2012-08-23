@@ -27,7 +27,7 @@
 #if 0
 #define TRACE_MPEG2 TRACE
 #else
-#define TRACE_MPEG2(...)
+#define TRACE_MPEG2 __noop
 #endif
 
 CDXVADecoderMpeg2::CDXVADecoderMpeg2(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)

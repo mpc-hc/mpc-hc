@@ -266,7 +266,7 @@ STDMETHODIMP CRealMediaPlayer::ErrorOccurred(const UINT8 unSeverity, const UINT3
 
         if (!errmsg) {
             errmsg = AllocateErrorMessage("RealMedia error");
-            TRACE("RealMedia error\n");
+            TRACE(_T("RealMedia error\n"));
         }
 
         m_pRMG->NotifyEvent(EC_BG_ERROR, (LONG_PTR)errmsg, 0);

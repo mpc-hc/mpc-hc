@@ -377,7 +377,7 @@ bool CBaseAP::SettingsNeedResetDevice()
 
 HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 {
-    TRACE("--> CBaseAP::CreateDXDevice on thread: %d\n", GetCurrentThreadId());
+    TRACE(_T("--> CBaseAP::CreateDXDevice on thread: %d\n"), GetCurrentThreadId());
     CRenderersSettings& s = GetRenderersSettings();
     m_LastRendererSettings = s.m_RenderSettings;
     HRESULT hr = E_FAIL;
@@ -542,15 +542,15 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     }
 
     while (hr == D3DERR_DEVICELOST) {
-        TRACE("D3DERR_DEVICELOST. Trying to Reset.\n");
+        TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
         hr = m_pD3DDev->TestCooperativeLevel();
     }
     if (hr == D3DERR_DEVICENOTRESET) {
-        TRACE("D3DERR_DEVICENOTRESET\n");
+        TRACE(_T("D3DERR_DEVICENOTRESET\n"));
         hr = m_pD3DDev->Reset(&pp);
     }
 
-    TRACE("CreateDevice: %d\n", (LONG)hr);
+    TRACE(_T("CreateDevice: %d\n"), (LONG)hr);
     ASSERT(SUCCEEDED(hr));
 
     if (m_pD3DDevEx) {
@@ -1098,7 +1098,7 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
         CString DissAssembly;
         hr = m_pPSC->CompileShader(str, pEntries[i], pProfile, 0, &m_pResizerPixelShader[i], &DissAssembly, &ErrorMessage);
         if (FAILED(hr)) {
-            TRACE("%ws", ErrorMessage.GetString());
+            TRACE(_T("%ws"), ErrorMessage.GetString());
             ASSERT(0);
             return hr;
         }
@@ -3788,7 +3788,7 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
 
 void CSyncAP::OnResetDevice()
 {
-    TRACE("--> CSyncAP::OnResetDevice on thread: %d\n", GetCurrentThreadId());
+    TRACE(_T("--> CSyncAP::OnResetDevice on thread: %d\n"), GetCurrentThreadId());
     HRESULT hr;
     hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
     if (m_pSink) {

@@ -556,7 +556,7 @@ void CDX9AllocatorPresenter::VSyncThread()
                                 m_DetectedScanlinesPerFrame = 0;
                             }
                         }
-                        //TRACE("Refresh: %f\n", RefreshRate);
+                        //TRACE(_T("Refresh: %f\n"), RefreshRate);
                     }
                 } else {
                     m_DetectedRefreshRate = 0.0;
@@ -906,15 +906,15 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     }
 
     while (hr == D3DERR_DEVICELOST) {
-        TRACE("D3DERR_DEVICELOST. Trying to Reset.\n");
+        TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
         hr = m_pD3DDev->TestCooperativeLevel();
     }
     if (hr == D3DERR_DEVICENOTRESET) {
-        TRACE("D3DERR_DEVICENOTRESET\n");
+        TRACE(_T("D3DERR_DEVICENOTRESET\n"));
         hr = m_pD3DDev->Reset(&pp);
     }
 
-    TRACE("CreateDevice: %d\n", (LONG)hr);
+    TRACE(_T("CreateDevice: %d\n"), (LONG)hr);
     ASSERT(SUCCEEDED(hr));
 
     m_MainThreadId = GetCurrentThreadId();
@@ -1219,7 +1219,7 @@ bool CDX9AllocatorPresenter::GetVBlank(int& _ScanLine, int& _bInVBlank, bool _bM
     if (_bMeasureTime) {
         LONGLONG Time = GetRenderersData()->GetPerfCounter() - llPerf;
         if (Time > 5000000) { // 0.5 sec
-            TRACE("GetVBlank too long (%f sec)\n", Time / 10000000.0);
+            TRACE(_T("GetVBlank too long (%f sec)\n"), Time / 10000000.0);
         }
         m_RasterStatusWaitTimeMaxCalc = max(m_RasterStatusWaitTimeMaxCalc, Time);
     }
@@ -1382,7 +1382,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
         }
 
         if (!((ScanLineDiffSleep >= 0 && ScanLineDiffSleep <= NoSleepRange) || (LastLineDiffSleep < 0 && ScanLineDiffSleep > 0)) || !_bNeedAccurate) {
-            //TRACE("%d\n", RasterStatus.ScanLine);
+            //TRACE(_T("%d\n"), RasterStatus.ScanLine);
             Sleep(1); // Don't sleep for the last 1.5 ms scan lines, so we get maximum precision
         }
         LastLineDiffSleep = ScanLineDiffSleep;
@@ -1491,7 +1491,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
     CRenderersSettings& s = GetRenderersSettings();
 
-    //TRACE("Thread: %d\n", (LONG)((CRITICAL_SECTION &)m_RenderLock).OwningThread);
+    //TRACE(_T("Thread: %d\n"), (LONG)((CRITICAL_SECTION &)m_RenderLock).OwningThread);
 
 #if 0
     if (TryEnterCriticalSection(&(CRITICAL_SECTION&)(*((CCritSec*)this)))) {
@@ -1512,7 +1512,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         if (m_OrderedPaint) {
             --m_OrderedPaint;
         } else {
-            //TRACE("UNORDERED PAINT!!!!!!\n");
+            //TRACE(_T("UNORDERED PAINT!!!!!!\n"));
         }
 
 
@@ -1547,7 +1547,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
             if (m_OrderedPaint) {
                 --m_OrderedPaint;
             } else {
-                //TRACE("UNORDERED PAINT!!!!!!\n");
+                //TRACE(_T("UNORDERED PAINT!!!!!!\n"));
             }
 
             return false;
@@ -1744,7 +1744,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     {
         bWaited = true;
         WaitForVBlank(bWaited);
-        TRACE("Double VBlank\n");
+        TRACE(_T("Double VBlank\n"));
         ASSERT(bWaited);
         if (!bDoVSyncInPresent)
         {
@@ -1757,18 +1757,18 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         bool fResetDevice = false;
 
         if (hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET) {
-            TRACE("Reset Device: D3D Device Lost\n");
+            TRACE(_T("Reset Device: D3D Device Lost\n"));
             fResetDevice = true;
         }
 
         //if (hr == S_PRESENT_MODE_CHANGED)
         //{
-        //  TRACE("Reset Device: D3D Device mode changed\n");
+        //  TRACE(_T("Reset Device: D3D Device mode changed\n"));
         //  fResetDevice = true;
         //}
 
         if (SettingsNeedResetDevice()) {
-            TRACE("Reset Device: settings changed\n");
+            TRACE(_T("Reset Device: settings changed\n"));
             fResetDevice = true;
         }
 
@@ -1780,7 +1780,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
             if (m_bIsFullscreen) {
                 m_bCompositionEnabled = (bCompositionEnabled != 0);
             } else {
-                TRACE("Reset Device: DWM composition changed\n");
+                TRACE(_T("Reset Device: DWM composition changed\n"));
                 fResetDevice = true;
             }
         }
@@ -1796,7 +1796,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
                 }
 #endif
                 if (m_CurrentAdapter != GetAdapter(m_pD3D)) {
-                    TRACE("Reset Device: D3D adapter changed\n");
+                    TRACE(_T("Reset Device: D3D adapter changed\n"));
                     fResetDevice = true;
                 }
 #ifdef _DEBUG
@@ -1817,7 +1817,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         --m_OrderedPaint;
     } else {
         //if (m_bIsEVR)
-        //  TRACE("UNORDERED PAINT!!!!!!\n");
+        //  TRACE(_T("UNORDERED PAINT!!!!!!\n"));
     }
     return true;
 }
@@ -1850,7 +1850,7 @@ void CDX9AllocatorPresenter::SendResetRequest()
 
 STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
 {
-    TRACE("ResetDevice\n");
+    TRACE(_T("ResetDevice\n"));
     _ASSERT(m_MainThreadId == GetCurrentThreadId());
     StopWorkerThreads();
 
@@ -1870,7 +1870,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
         // TODO: We should probably pause player
 #ifdef _DEBUG
         Error += GetWindowsErrorMessage(hr, NULL);
-        TRACE("D3D Reset Error\n%ws\n\n", Error.GetBuffer());
+        TRACE(_T("D3D Reset Error\n%ws\n\n"), Error.GetBuffer());
 #endif
         m_bDeviceResetRequested = false;
         return false;

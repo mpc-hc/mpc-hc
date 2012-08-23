@@ -659,7 +659,7 @@ void LogDXVA_Bitstream(BYTE* pBuffer, int nSize)
 }
 
 #else
-inline static void LOG(...) { }
+inline static void LOG(...) {}
 inline static void LOGPF(LPCTSTR prefix, const DDPIXELFORMAT* p, int n) {}
 inline static void LOGUDI(LPCTSTR prefix, const AMVAUncompDataInfo* p, int n) {}
 inline static void LogDXVA_PicParams_H264(DXVA_PicParams_H264* pPic) {}

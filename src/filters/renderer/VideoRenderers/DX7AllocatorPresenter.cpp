@@ -138,7 +138,7 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
     hr = CreateDevice();
     if (FAILED(hr)) {
-        TRACE("CreateDevice failed: 0x%08x\n", (LONG)hr);
+        TRACE(_T("CreateDevice failed: 0x%08x\n"), (LONG)hr);
     }
 }
 
@@ -429,11 +429,11 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::ResetDevice()
     DeleteSurfaces();
     if (FAILED(hr = CreateDevice()) || FAILED(hr = AllocSurfaces())) {
         //DDERR_UNSUPPORTEDMODE - 0x8876024e
-        TRACE("ResetDevice failed: 0x%08x\n", (LONG)hr);
+        TRACE(_T("ResetDevice failed: 0x%08x\n"), (LONG)hr);
         m_bDeviceResetRequested = false;
         return false;
     }
-    TRACE("ResetDevice\n");
+    TRACE(_T("ResetDevice\n"));
     m_bPendingResetDevice = false;
     m_bDeviceResetRequested = false;
     return true;

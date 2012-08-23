@@ -227,7 +227,7 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISu
     REFERENCE_TIME rtBestStop = 0x7fffffffffffffffi64;
     POSITION pos = m_Queue.GetHeadPosition();
 #if DSubPicTraceLevel > 2
-    TRACE("Find: ");
+    TRACE(_T("Find: "));
 #endif
     while (pos) {
         CComPtr<ISubPic> pSubPic = m_Queue.GetNext(pos);
@@ -238,28 +238,28 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISu
             REFERENCE_TIME Diff = rtNow - rtStop;
             if (Diff < rtBestStop) {
                 rtBestStop = Diff;
-                //              TRACE("   %f->%f", double(Diff) / 10000000.0, double(rtStop) / 10000000.0);
+                //TRACE(_T("   %f->%f"), double(Diff) / 10000000.0, double(rtStop) / 10000000.0);
                 ppSubPic = pSubPic;
             }
 #if DSubPicTraceLevel > 2
             else {
-                TRACE("   !%f->%f", double(Diff) / 10000000.0, double(rtStop) / 10000000.0);
+                TRACE(_T("   !%f->%f"), double(Diff) / 10000000.0, double(rtStop) / 10000000.0);
             }
 #endif
         }
 #if DSubPicTraceLevel > 2
         else {
-            TRACE("   !!%f->%f", double(rtStart) / 10000000.0, double(rtSegmentStop) / 10000000.0);
+            TRACE(_T("   !!%f->%f"), double(rtStart) / 10000000.0, double(rtSegmentStop) / 10000000.0);
         }
 #endif
 
     }
 #if DSubPicTraceLevel > 2
-    TRACE("\n");
+    TRACE(_T("\n"));
 #endif
     if (!ppSubPic) {
 #if DSubPicTraceLevel > 1
-        TRACE("NO Display: %f\n", double(rtNow) / 10000000.0);
+        TRACE(_T("NO Display: %f\n"), double(rtNow) / 10000000.0);
 #endif
     } else {
 #if DSubPicTraceLevel > 0
@@ -267,7 +267,7 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISu
         REFERENCE_TIME rtSegmentStop = (ppSubPic)->GetSegmentStop();
         CRect r;
         (ppSubPic)->GetDirtyRect(&r);
-        TRACE("Display: %f->%f   %f    %dx%d\n", double(rtStart) / 10000000.0, double(rtSegmentStop) / 10000000.0, double(rtNow) / 10000000.0, r.Width(), r.Height());
+        TRACE(_T("Display: %f->%f   %f    %dx%d\n"), double(rtStart) / 10000000.0, double(rtSegmentStop) / 10000000.0, double(rtNow) / 10000000.0, r.Width(), r.Height());
 #endif
     }
 
@@ -353,7 +353,7 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
             ISubPic* pSubPic = GetAt(SavePos);
             REFERENCE_TIME rtStart = pSubPic->GetStart();
             REFERENCE_TIME rtStop = pSubPic->GetStop();
-            TRACE("Save: %f->%f\n", double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
+            TRACE(_T("Save: %f->%f\n"), double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
         }
 #endif
         {
@@ -367,7 +367,7 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
 
                 if (rtStop <= rtNowCompare && ThisPos != SavePos) {
 #if DSubPicTraceLevel > 0
-                    TRACE("Remove: %f->%f\n", double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
+                    TRACE(_T("Remove: %f->%f\n"), double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
 #endif
                     m_Queue.RemoveAt(ThisPos);
                     continue;
@@ -471,7 +471,7 @@ DWORD CSubPicQueue::ThreadProc()
 #if DSubPicTraceLevel > 0
                             CRect r;
                             pStatic->GetDirtyRect(&r);
-                            TRACE("Render: %f->%f    %f->%f      %dx%d\n", double(rtCurrent) / 10000000.0, double(rtEndThis) / 10000000.0, double(rtStart) / 10000000.0, double(rtStop) / 10000000.0, r.Width(), r.Height());
+                            TRACE(_T("Render: %f->%f    %f->%f      %dx%d\n"), double(rtCurrent) / 10000000.0, double(rtEndThis) / 10000000.0, double(rtStart) / 10000000.0, double(rtStop) / 10000000.0, r.Width(), r.Height());
 #endif
                             rtCurrent = rtEndThis;
 
@@ -482,7 +482,7 @@ DWORD CSubPicQueue::ThreadProc()
                         }
 #if DSubPicTraceLevel > 0
                         if (m_rtNow > rtCurrent) {
-                            TRACE("BEHIND\n");
+                            TRACE(_T("BEHIND\n"));
                         }
 #endif
 
@@ -541,14 +541,14 @@ DWORD CSubPicQueue::ThreadProc()
             }
 
             /*
-                        while (GetCount() && GetTail()->GetStop() > rtInvalidate)
-                        {
-                            if (GetTail()->GetStart() < rtInvalidate) GetTail()->SetStop(rtInvalidate);
-                            else
-                            {
-                                RemoveTail();
-                            }
-                        }
+            while (GetCount() && GetTail()->GetStop() > rtInvalidate)
+            {
+                if (GetTail()->GetStart() < rtInvalidate) GetTail()->SetStop(rtInvalidate);
+                else
+                {
+                    RemoveTail();
+                }
+            }
             */
 
             m_fBreakBuffering = false;

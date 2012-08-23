@@ -1008,7 +1008,7 @@ void CMPCVideoDecFilter::LogLibavcodec(void* par, int level, const char* fmt, va
 #if defined(_DEBUG) && 0
     char Msg [500];
     vsnprintf_s(Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
-    TRACE("AVLIB : %s", Msg);
+    TRACE(_T("AVLIB : %s"), Msg);
 #endif
 }
 
@@ -1867,7 +1867,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 #if defined(_DEBUG) && 0
         static REFERENCE_TIME rtLast = 0;
-        TRACE("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}\n", rtStart, rtStop,
+        TRACE(_T("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}\n"), rtStart, rtStop,
               rtStop - rtStart, rtStart - rtLast);
         rtLast = rtStart;
 #endif

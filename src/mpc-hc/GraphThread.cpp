@@ -74,7 +74,7 @@ void CGraphThread::OnExit(WPARAM wParam, LPARAM lParam)
 
 void CGraphThread::OnOpen(WPARAM wParam, LPARAM lParam)
 {
-    TRACE("--> CGraphThread::OnOpen on thread: %d\n", GetCurrentThreadId());
+    TRACE(_T("--> CGraphThread::OnOpen on thread: %d\n"), GetCurrentThreadId());
     if (m_pMainFrame) {
         CAutoPtr<OpenMediaData> pOMD((OpenMediaData*)lParam);
         m_pMainFrame->OpenMediaPrivate(pOMD);

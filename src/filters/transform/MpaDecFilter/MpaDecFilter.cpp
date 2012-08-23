@@ -2306,7 +2306,7 @@ void CMpaDecFilter::LogLibavcodec(void* par, int level, const char* fmt, va_list
 #if defined(_DEBUG) && 0
     char Msg [500];
     vsnprintf_s(Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
-    TRACE("AVLIB : %s", Msg);
+    TRACE(_T("AVLIB : %s"), Msg);
 #endif
 }
 

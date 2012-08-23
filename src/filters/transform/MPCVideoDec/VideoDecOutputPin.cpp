@@ -40,7 +40,7 @@ CVideoDecOutputPin::~CVideoDecOutputPin(void)
 
 HRESULT CVideoDecOutputPin::InitAllocator(IMemAllocator** ppAlloc)
 {
-    TRACE("CVideoDecOutputPin::InitAllocator");
+    TRACE(_T("CVideoDecOutputPin::InitAllocator"));
     if (m_pVideoDecFilter->UseDXVA2()) {
         HRESULT hr = S_FALSE;
         m_pDXVA2Allocator = DNew CVideoDecDXVAAllocator(m_pVideoDecFilter, &hr);

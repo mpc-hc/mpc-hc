@@ -731,7 +731,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
                 if (h.fPCR) {
                     CRefTime rtNow;
                     StreamTime(rtNow);
-                    //TRACE ("Now=%S   PCR=%S\n", ReftimeToString(rtNow.m_time), ReftimeToString(h.PCR));
+                    //TRACE(_T("Now=%S   PCR=%S\n"), ReftimeToString(rtNow.m_time), ReftimeToString(h.PCR));
                 }
 
                 p->rtStart = h2.fpts ? (h2.pts - rtStartOffset) : Packet::INVALID_TIME;

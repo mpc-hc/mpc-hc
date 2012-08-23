@@ -314,7 +314,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
             }
             Playlist.AddTail(Item);
 
-            //TRACE ("File : %S, Duration : %S, Total duration  : %S\n", strTemp, ReftimeToString (rtOut - rtIn), ReftimeToString (rtDuration));
+            //TRACE(_T("File : %S, Duration : %S, Total duration  : %S\n"), strTemp, ReftimeToString (rtOut - rtIn), ReftimeToString (rtDuration));
         }
 
         CloseFile(S_OK);
@@ -385,7 +385,7 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 
             Chapters.AddTail(Chapter);
 
-            // TRACE ("Chapter %d : %S\n", i, ReftimeToString (Chapter.m_rtTimestamp));
+            //TRACE(_T("Chapter %d : %S\n"), i, ReftimeToString(Chapter.m_rtTimestamp));
         }
 
         CloseFile(S_OK);

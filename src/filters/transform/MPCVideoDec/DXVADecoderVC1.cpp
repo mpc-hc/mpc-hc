@@ -28,7 +28,7 @@
 #if 0
 #define TRACE_VC1 TRACE
 #else
-#define TRACE_VC1(...)
+#define TRACE_VC1 __noop
 #endif
 
 inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
