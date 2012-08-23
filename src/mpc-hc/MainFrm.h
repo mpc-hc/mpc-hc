@@ -119,7 +119,7 @@ public:
 
 class TunerScanData
 {
-publi :
+public:
     ULONG FrequencyStart;
     ULONG FrequencyStop;
     ULONG Bandwidth;
