@@ -800,7 +800,7 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor, DWORD nPCIDevic
         // tested H.264 on UVD 2.2 (HD5670, HD5770, HD5850)
         // it may also work if width = 2064, but unstable
         return TRUE;
-    } else if ((nPCIVendor == PCIV_Intel && nPCIDevice == 0x0162) && (width <= 4096 && height <= 4096)) {
+    } else if ((nPCIVendor == PCIV_Intel && nPCIDevice == 0x0162) && (width <= 4096 && height <= 4096 && width * height <= 56672 * 16 * 16)) {
         // Intel HD Graphics 4000
         return TRUE;
     } else if (width <= 1920 && height <= 1088) {
