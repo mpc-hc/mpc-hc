@@ -80,12 +80,12 @@ public:
     struct DVB_DISPLAY {
         BYTE            version_number;
         BYTE            display_window_flag;
-        SHORT           width;
-        SHORT           height;
-        SHORT           horizontal_position_minimun;
-        SHORT           horizontal_position_maximum;
-        SHORT           vertical_position_minimun;
-        SHORT           vertical_position_maximum;
+        short           width;
+        short           height;
+        short           horizontal_position_minimun;
+        short           horizontal_position_maximum;
+        short           vertical_position_minimun;
+        short           vertical_position_maximum;
 
         DVB_DISPLAY() {
             // Default value (§5.1.3)
@@ -96,11 +96,11 @@ public:
     };
 
     struct DVB_OBJECT {
-        SHORT           object_id;
+        short           object_id;
         BYTE            object_type;
         BYTE            object_provider_flag;
-        SHORT           object_horizontal_position;
-        SHORT           object_vertical_position;
+        short           object_horizontal_position;
+        short           object_vertical_position;
         BYTE            foreground_pixel_code;
         BYTE            background_pixel_code;
 
@@ -198,7 +198,7 @@ private:
     DVB_PAGE*           FindPage(REFERENCE_TIME rt);
     DVB_REGION*         FindRegion(DVB_PAGE* pPage, BYTE bRegionId);
     DVB_CLUT*           FindClut(DVB_PAGE* pPage, BYTE bClutId);
-    CompositionObject*  FindObject(DVB_PAGE* pPage, SHORT sObjectId);
+    CompositionObject*  FindObject(DVB_PAGE* pPage, short sObjectId);
 
     HRESULT             ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE>& pPage);
     HRESULT             ParseDisplay(CGolombBuffer& gb, WORD wSegLength);

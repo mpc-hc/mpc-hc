@@ -388,7 +388,7 @@ DWORD CVobFile::ReadDword()
     return ReadByte() << 24 | ReadByte() << 16 | ReadByte() << 8 | ReadByte();
 }
 
-SHORT CVobFile::ReadShort()
+short CVobFile::ReadShort()
 {
     return (ReadByte() << 8 | ReadByte());
 }

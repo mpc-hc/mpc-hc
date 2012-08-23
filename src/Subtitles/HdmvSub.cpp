@@ -243,7 +243,7 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)      // #497
 
 void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)   // #498
 {
-    SHORT object_id = pGBuffer->ReadShort();
+    short object_id = pGBuffer->ReadShort();
     UNREFERENCED_PARAMETER(object_id);
     BYTE m_sequence_desc;
 

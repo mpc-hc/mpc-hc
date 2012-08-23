@@ -98,7 +98,7 @@ public:
 private:
     CFile   m_ifoFile;
     DWORD   ReadDword();
-    SHORT   ReadShort();
+    short   ReadShort();
     BYTE    ReadByte();
     void    ReadBuffer(BYTE* pBuff, DWORD nLen);
 };

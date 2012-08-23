@@ -81,7 +81,7 @@ struct FLIC_FRAME {
     WORD  type;          // Chunk type: 0xF1FA
     WORD  chunks;        // Number of subchunks
     WORD  delay;         // Delay in milliseconds
-    SHORT reserved;      // Always zero
+    short reserved;      // Always zero
     USHORT width;        // Frame width override (if non-zero)
     USHORT height;       // Frame height override (if non-zero)
 };

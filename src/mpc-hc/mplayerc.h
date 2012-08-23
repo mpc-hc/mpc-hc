@@ -76,7 +76,7 @@ typedef struct {
     int   StepSize;
 } COLORPROPERTY_RANGE;
 
-__inline DXVA2_Fixed32 IntToFixed(__in const int _int_, __in const SHORT divisor = 1)
+__inline DXVA2_Fixed32 IntToFixed(__in const int _int_, __in const short divisor = 1)
 {
     // special converter that is resistant to MS bugs
     DXVA2_Fixed32 _fixed_;
@@ -85,7 +85,7 @@ __inline DXVA2_Fixed32 IntToFixed(__in const int _int_, __in const SHORT divisor
     return _fixed_;
 }
 
-__inline int FixedToInt(__in const DXVA2_Fixed32 _fixed_, __in const SHORT factor = 1)
+__inline int FixedToInt(__in const DXVA2_Fixed32 _fixed_, __in const short factor = 1)
 {
     // special converter that is resistant to MS bugs
     return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;

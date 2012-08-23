@@ -87,7 +87,7 @@ CDVBSub::DVB_CLUT* CDVBSub::FindClut(DVB_PAGE* pPage, BYTE bClutId)
     return NULL;
 }
 
-CompositionObject* CDVBSub::FindObject(DVB_PAGE* pPage, SHORT sObjectId)
+CompositionObject* CDVBSub::FindObject(DVB_PAGE* pPage, short sObjectId)
 {
     if (pPage != NULL) {
         POSITION pos = pPage->Objects.GetHeadPosition();
@@ -325,7 +325,7 @@ void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
             for (int j = 0; j < pRegion->ObjectCount; j++) {
                 CompositionObject*  pObject = FindObject(pPage, pRegion->Objects[j].object_id);
                 if (pObject) {
-                    SHORT nX, nY;
+                    short nX, nY;
                     nX = pRegion->HorizAddr + pRegion->Objects[j].object_horizontal_position;
                     nY = pRegion->VertAddr  + pRegion->Objects[j].object_vertical_position;
                     pObject->m_width  = pRegion->width;
@@ -485,9 +485,9 @@ HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
             pObject->object_id = gb.ReadShort();
             pObject->object_type = (BYTE)gb.BitRead(2);
             pObject->object_provider_flag = (BYTE)gb.BitRead(2);
-            pObject->object_horizontal_position = (SHORT)gb.BitRead(12);
+            pObject->object_horizontal_position = (short)gb.BitRead(12);
             gb.BitRead(4);  // Reserved
-            pObject->object_vertical_position = (SHORT)gb.BitRead(12);
+            pObject->object_vertical_position = (short)gb.BitRead(12);
             if (pObject->object_type == 0x01 || pObject->object_type == 0x02) {
                 pObject->foreground_pixel_code = gb.ReadByte();
                 pObject->background_pixel_code = gb.ReadByte();

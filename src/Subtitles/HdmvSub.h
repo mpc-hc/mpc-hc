@@ -44,13 +44,13 @@ public:
 
 
     struct VIDEO_DESCRIPTOR {
-        SHORT nVideoWidth;
-        SHORT nVideoHeight;
+        short nVideoWidth;
+        short nVideoHeight;
         BYTE  bFrameRate;     // <= Frame rate here!
     };
 
     struct COMPOSITION_DESCRIPTOR {
-        SHORT nNumber;
+        short nNumber;
         BYTE  bState;
     };
 

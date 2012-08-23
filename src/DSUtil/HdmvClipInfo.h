@@ -75,7 +75,7 @@ public:
         Stream() {
             memset(this, 0, sizeof(*this));
         }
-        SHORT m_PID;
+        short m_PID;
         PES_STREAM_TYPE m_Type;
         char m_LanguageCode[4];
         LCID m_LCID;
@@ -110,10 +110,10 @@ public:
     };
 
     struct PlaylistChapter {
-        SHORT            m_nPlayItemId;
+        short            m_nPlayItemId;
         PlaylistMarkType m_nMarkType;
         REFERENCE_TIME   m_rtTimestamp;
-        SHORT            m_nEntryPID;
+        short            m_nEntryPID;
         REFERENCE_TIME   m_rtDuration;
     };
 
@@ -121,7 +121,7 @@ public:
     ~CHdmvClipInfo();
 
     HRESULT ReadInfo(LPCTSTR strFile);
-    Stream* FindStream(SHORT wPID);
+    Stream* FindStream(short wPID);
     bool IsHdmv() const { return m_bIsHdmv; };
     size_t GetStreamNumber() { return m_Streams.GetCount(); };
     Stream* GetStreamByIndex(size_t nIndex) { return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL; };
@@ -140,7 +140,7 @@ private :
     bool m_bIsHdmv;
 
     DWORD ReadDword();
-    SHORT ReadShort();
+    short ReadShort();
     BYTE ReadByte();
     void ReadBuffer(BYTE* pBuff, DWORD nLen);
 

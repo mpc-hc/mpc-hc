@@ -51,7 +51,7 @@ DWORD CHdmvClipInfo::ReadDword()
     return ReadByte() << 24 | ReadByte() << 16 | ReadByte() << 8 | ReadByte();
 }
 
-SHORT CHdmvClipInfo::ReadShort()
+short CHdmvClipInfo::ReadShort()
 {
     return ReadByte() << 8 | ReadByte();
 }
@@ -192,7 +192,7 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
     return AmHresultFromWin32(GetLastError());
 }
 
-CHdmvClipInfo::Stream* CHdmvClipInfo::FindStream(SHORT wPID)
+CHdmvClipInfo::Stream* CHdmvClipInfo::FindStream(short wPID)
 {
     size_t nStreams = m_Streams.GetCount();
     for (size_t i = 0; i < nStreams; i++) {
