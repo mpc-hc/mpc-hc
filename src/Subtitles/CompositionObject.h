@@ -35,7 +35,7 @@ class CGolombBuffer;
 
 class CompositionObject : Rasterizer
 {
-public :
+public:
     short m_object_id_ref;
     BYTE  m_window_id_ref;
     bool  m_object_cropped_flag;
@@ -70,7 +70,7 @@ public :
     void  SetPalette(int nNbEntry, DWORD* dwColors);
     bool  HavePalette() { return m_nColorNumber > 0; };
 
-private :
+private:
     BYTE* m_pRLEData;
     int   m_nRLEDataSize;
     int   m_nRLEPos;

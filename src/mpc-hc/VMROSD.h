@@ -73,7 +73,7 @@ public:
     bool OnLButtonDown(UINT nFlags, CPoint point);
     bool OnLButtonUp(UINT nFlags, CPoint point);
 
-private :
+private:
     CComPtr<IVMRMixerBitmap9>    m_pVMB;
     CComPtr<IMFVideoMixerBitmap> m_pMFVMB;
     CComPtr<IMadVRTextOsd>       m_pMVTO;

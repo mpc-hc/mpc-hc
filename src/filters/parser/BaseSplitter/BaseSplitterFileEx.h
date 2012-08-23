@@ -52,7 +52,7 @@ class CBaseSplitterFileEx : public CBaseSplitterFile
 {
     int m_tslen; // transport stream packet length (188 or 192 bytes, auto-detected)
 
-protected :
+protected:
     REFERENCE_TIME m_rtPTSOffset;
 
 public:

@@ -66,7 +66,7 @@ class CMPCVideoDecFilter;
 
 class CDXVADecoder
 {
-public :
+public:
     // === Public functions
     virtual ~CDXVADecoder();
     DXVAMode GetMode() const { return m_nMode; };
@@ -94,7 +94,7 @@ public :
 
     void EndOfStream();
 
-protected :
+protected:
     CDXVADecoder(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
     CDXVADecoder(CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config);
 
@@ -133,7 +133,7 @@ protected :
                                 REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
     virtual int FindOldestFrame();
 
-private :
+private:
     DXVAMode m_nMode;
     DXVA_ENGINE m_nEngine;
 

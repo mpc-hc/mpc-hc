@@ -26,11 +26,11 @@
 
 class CClip
 {
-private :
+private:
     REFERENCE_TIME m_rtIn;
     REFERENCE_TIME m_rtOut;
     CString m_strName;
-public :
+public:
 
     CClip();
 
@@ -87,7 +87,7 @@ class CEditListEditor : public CPlayerBar
     void            FillCombo(LPCTSTR strFileName, CComboBox& Combo, bool bAllowNull);
     void            SelectCombo(LPCTSTR strValue, CComboBox& Combo);
 
-protected :
+protected:
     DECLARE_MESSAGE_MAP()
 
 public:

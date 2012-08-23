@@ -119,12 +119,12 @@ public:
 
 class TunerScanData
 {
-public :
-    ULONG   FrequencyStart;
-    ULONG   FrequencyStop;
-    ULONG   Bandwidth;
-    LONG    Offset;
-    HWND    Hwnd;
+publi :
+    ULONG FrequencyStart;
+    ULONG FrequencyStop;
+    ULONG Bandwidth;
+    LONG  Offset;
+    HWND  Hwnd;
 };
 
 

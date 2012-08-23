@@ -27,7 +27,7 @@ class CPlayerBar : public CSizingControlBarG
 {
     DECLARE_DYNAMIC(CPlayerBar)
 
-protected :
+protected:
     DECLARE_MESSAGE_MAP()
 
     UINT m_defDockBarID;

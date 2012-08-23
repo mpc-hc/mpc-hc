@@ -61,7 +61,7 @@ public:
     static bool IsTimeToAutoUpdate();
     static void CheckForUpdate(bool autoCheck = false);
 
-private :
+private:
     CString versionFileURL;
     Version latestVersion;
 

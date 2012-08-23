@@ -154,7 +154,7 @@ namespace DSObjects
         STDMETHODIMP UnlockDevice(HANDLE hDevice, BOOL fSaveState);
         STDMETHODIMP GetVideoService(HANDLE hDevice, REFIID riid, void** ppService);
 
-    protected :
+    protected:
         void OnResetDevice();
         virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter);
 
@@ -165,7 +165,7 @@ namespace DSObjects
         MFCLOCK_STATE m_LastClockState;
         LONGLONG GetClockTime(LONGLONG PerformanceCounter);
 
-    private :
+    private:
 
         typedef enum {
             Started = State_Running,

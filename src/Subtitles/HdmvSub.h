@@ -86,7 +86,7 @@ public:
     HRESULT   GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
     void      Reset();
 
-private :
+private:
 
     HDMV_SEGMENT_TYPE            m_nCurSegment;
     BYTE*                        m_pSegBuffer;

@@ -569,7 +569,7 @@ public:
     void            DeserializeHex(LPCTSTR strVal, BYTE* pBuffer, int nBufSize) const;
     CString         SerializeHex(BYTE* pBuffer, int nBufSize) const;
 
-private :
+private:
     DVD_POSITION    DvdPosition[MAX_DVD_POSITION];
     int             nCurrentDvdPosition;
     FILE_POSITION   FilePosition[MAX_FILE_POSITION];

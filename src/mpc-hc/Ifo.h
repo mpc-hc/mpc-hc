@@ -40,7 +40,7 @@ public:
 
     ~CIfo(void);
 
-private :
+private:
 
     typedef struct {
         uint16_t id     : 16;   // Language

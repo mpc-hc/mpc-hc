@@ -79,7 +79,7 @@ protected:
     HRESULT Alloc(void);
     void Free(void);
 
-private :
+private:
     CMPCVideoDecFilter* m_pVideoDecFilter;
     IDirect3DSurface9** m_ppRTSurfaceArray;
     UINT m_nSurfaceArrayCount;

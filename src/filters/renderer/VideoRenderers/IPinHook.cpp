@@ -1074,12 +1074,12 @@ static void LogDecodeBufferDesc(DXVA2_DecodeBufferDesc* pDecodeBuff)
 
 class CFakeDirectXVideoDecoder : public CUnknown, public IDirectXVideoDecoder
 {
-private :
+private:
     CComPtr<IDirectXVideoDecoder> m_pDec;
     BYTE* m_ppBuffer[MAX_BUFFER_TYPE];
     UINT m_ppBufferLen[MAX_BUFFER_TYPE];
 
-public :
+public:
     CFakeDirectXVideoDecoder(LPUNKNOWN pUnk, IDirectXVideoDecoder* pDec) : CUnknown(_T("Fake DXVA2 Dec"), pUnk) {
         m_pDec.Attach(pDec);
         memset(m_ppBuffer, 0, sizeof(m_ppBuffer));

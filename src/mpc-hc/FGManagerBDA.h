@@ -28,7 +28,7 @@
 
 class CDVBStream
 {
-public :
+public:
     CDVBStream()
         : m_ulMappedPID(0)
         , m_pmt(0)
@@ -75,7 +75,7 @@ public :
 
     ULONG GetMappedPID() const { return m_ulMappedPID; }
 
-private :
+private:
     CComQIPtr<IMPEG2PIDMap> m_pMap;
     CComPtr<IBaseFilter>    m_pFilter;
     const AM_MEDIA_TYPE*    m_pmt;
@@ -131,7 +131,7 @@ public:
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
     STDMETHODIMP UpdatePSI(PresentFollowing& NowNext);
 
-private :
+private:
 
     CComQIPtr<IBDA_DeviceControl>        m_pBDAControl;
     CComPtr<IBDA_FrequencyFilter>        m_pBDAFreq;

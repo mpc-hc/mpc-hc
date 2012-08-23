@@ -102,7 +102,7 @@ public:
 
     void AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_TYPE nPesType, LPCTSTR strLanguage);
 
-private :
+private:
     CString m_strName;
     ULONG m_ulFrequency;
     int m_nPrefNumber;

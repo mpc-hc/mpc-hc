@@ -153,7 +153,7 @@ public:
 
     class DVB_PAGE
     {
-    public :
+    public:
         REFERENCE_TIME                  rtStart;
         REFERENCE_TIME                  rtStop;
         BYTE                            PageTimeOut;

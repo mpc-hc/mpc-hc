@@ -37,7 +37,7 @@ public:
     virtual void CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
     virtual void Flush();
 
-protected :
+protected:
     virtual int FindOldestFrame();
 
 private:

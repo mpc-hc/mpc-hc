@@ -37,7 +37,7 @@ typedef enum {
 
 class CH264Nalu
 {
-private :
+private:
     int forbidden_bit;       //! should be always FALSE
     int nal_reference_idc;   //! NALU_PRIORITY_xxxx
     NALU_TYPE nal_unit_type; //! NALU_TYPE_xxxx
@@ -54,7 +54,7 @@ private :
     bool MoveToNextAnnexBStartcode();
     bool MoveToNextRTPStartcode();
 
-public :
+public:
     CH264Nalu() :
         forbidden_bit(0),
         nal_reference_idc(0),

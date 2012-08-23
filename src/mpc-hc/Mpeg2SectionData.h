@@ -65,7 +65,7 @@ typedef struct {
 
 class CMpeg2DataParser
 {
-public :
+public:
 
     CMpeg2DataParser(IBaseFilter* pFilter);
 
@@ -79,7 +79,7 @@ public :
 
     CAtlMap<int, CDVBChannel>    Channels;
 
-private :
+private:
 
     CComQIPtr<IMpeg2Data>       m_pData;
     MPEG2_FILTER                m_Filter;

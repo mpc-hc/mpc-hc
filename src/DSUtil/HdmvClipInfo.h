@@ -130,7 +130,7 @@ public:
     HRESULT ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist);
     HRESULT ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<PlaylistChapter>& Chapters);
 
-private :
+private:
     DWORD SequenceInfo_start_address;
     DWORD ProgramInfo_start_address;
 

@@ -58,7 +58,7 @@ public:
     HRESULT ParseSample(IMediaSample* pSample);
     HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
-private :
+private:
     CString         m_name;
     LCID            m_lcid;
     REFERENCE_TIME  m_rtStart;

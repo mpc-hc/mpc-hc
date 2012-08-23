@@ -44,7 +44,7 @@ class CNullVideoRendererInputPin : public CRendererInputPin,
     public IDirectXVideoMemoryConfiguration,
     public IMFVideoDisplayControl
 {
-public :
+public:
     CNullVideoRendererInputPin(CBaseRenderer* pRenderer, HRESULT* phr, LPCWSTR Name);
     ~CNullVideoRendererInputPin() {
         if (m_pD3DDeviceManager) {
@@ -106,7 +106,7 @@ public :
     STDMETHODIMP SetFullscreen(BOOL fFullscreen) { return E_NOTIMPL; };
     STDMETHODIMP GetFullscreen(BOOL* pfFullscreen) { return E_NOTIMPL; };
 
-private :
+private:
     HMODULE m_hDXVA2Lib;
     PTR_DXVA2CreateDirect3DDeviceManager9 pfDXVA2CreateDirect3DDeviceManager9;
     PTR_DXVA2CreateVideoService pfDXVA2CreateVideoService;
