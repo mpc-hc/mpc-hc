@@ -946,26 +946,26 @@ HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
 #endif /* INTERNAL_DECODER_DTS */
 
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_PCM
-HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
+HRESULT CMpaDecFilter::ProcessPCMraw() // 'raw'
 {
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-    unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+    size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
     CAtlArray<float> pBuff;
     pBuff.SetCount(nSamples);
     float* f = pBuff.GetData();
 
     switch (wfe->wBitsPerSample) {
-        case 8: { //unsigned 8-bit
+        case 8: { // unsigned 8-bit
             uint8_t* b = (uint8_t*)m_buff.GetData();
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)(int8_t)(b[i] + 128) / INT8_PEAK;
             }
         }
         break;
-        case 16: { //signed big-endian 16 bit
-            uint16_t* d = (uint16_t*)m_buff.GetData();//signed take as an unsigned to shift operations.
-            for (unsigned int i = 0; i < nSamples; i++) {
+        case 16: { // signed big-endian 16 bit
+            uint16_t* d = (uint16_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)(int16_t)(d[i] << 8 | d[i] >> 8) / INT16_PEAK;
             }
         }
@@ -984,39 +984,39 @@ HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
 HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
 {
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-    unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+    size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
     CAtlArray<float> pBuff;
     pBuff.SetCount(nSamples);
     float* f = pBuff.GetData();
 
     switch (wfe->wBitsPerSample) {
-        case 8: { //signed 8-bit
+        case 8: { // signed 8-bit
             int8_t* b = (int8_t*)m_buff.GetData();
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)b[i] / INT8_PEAK;
             }
         }
         break;
-        case 16: { //signed big-endian 16-bit
-            uint16_t* d = (uint16_t*)m_buff.GetData();//signed take as an unsigned to shift operations.
-            for (unsigned int i = 0; i < nSamples; i++) {
+        case 16: { // signed big-endian 16-bit
+            uint16_t* d = (uint16_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)(int16_t)(d[i] << 8 | d[i] >> 8) / INT16_PEAK;
             }
         }
         break;
-        case 24: { //signed big-endian 24-bit
+        case 24: { // signed big-endian 24-bit
             uint8_t* b = (uint8_t*)m_buff.GetData();
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)(int32_t)((uint32_t)b[3 * i]   << 24 |
                                         (uint32_t)b[3 * i + 1] << 16 |
                                         (uint32_t)b[3 * i + 2] << 8) / INT32_PEAK;
             }
         }
         break;
-        case 32: { //signed big-endian 32-bit
-            uint32_t* q = (uint32_t*)m_buff.GetData();//signed take as an unsigned to shift operations.
-            for (unsigned int i = 0; i < nSamples; i++) {
+        case 32: { // signed big-endian 32-bit
+            uint32_t* q = (uint32_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)(int32_t)(q[i] >> 24 |
                                         (q[i] & 0x00ff0000) >> 8 |
                                         (q[i] & 0x0000ff00) << 8 |
@@ -1035,42 +1035,42 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
     return S_OK;
 }
 
-HRESULT CMpaDecFilter::ProcessPCMintLE() //'sowt', little-endian 'in24' and 'in32'
+HRESULT CMpaDecFilter::ProcessPCMintLE() // 'sowt', little-endian 'in24' and 'in32'
 {
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-    unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+    size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
     CAtlArray<float> pBuff;
     pBuff.SetCount(nSamples);
     float* f = pBuff.GetData();
 
     switch (wfe->wBitsPerSample) {
-        case 8: { //signed 8-bit
+        case 8: { // signed 8-bit
             int8_t* b = (int8_t*)m_buff.GetData();
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)b[i] / INT8_PEAK;
             }
         }
         break;
-        case 16: { //signed little-endian 16-bit
+        case 16: { // signed little-endian 16-bit
             int16_t* d = (int16_t*)m_buff.GetData();
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)d[i] / INT16_PEAK;
             }
         }
         break;
-        case 24: { //signed little-endian 32-bit
+        case 24: { // signed little-endian 32-bit
             uint8_t* b = (uint8_t*)m_buff.GetData();
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)(int32_t)((uint32_t)b[3 * i]   << 8  |
                                         (uint32_t)b[3 * i + 1] << 16 |
                                         (uint32_t)b[3 * i + 2] << 24) / INT32_PEAK;
             }
         }
         break;
-        case 32: { //signed little-endian 32-bit
+        case 32: { // signed little-endian 32-bit
             int32_t* q = (int32_t*)m_buff.GetData();
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)q[i] / INT32_PEAK;
             }
         }
@@ -1086,10 +1086,10 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() //'sowt', little-endian 'in24' and 'in3
     return S_OK;
 }
 
-HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
+HRESULT CMpaDecFilter::ProcessPCMfloatBE() // big-endian 'fl32' and 'fl64'
 {
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-    unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+    size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
     CAtlArray<float> pBuff;
     pBuff.SetCount(nSamples);
@@ -1099,7 +1099,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
         case 32: {
             uint32_t* q  = (uint32_t*)m_buff.GetData();
             uint32_t* vf = (uint32_t*)f;
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 vf[i] = q[i] >> 24 |
                         (q[i] & 0x00ff0000) >> 8 |
                         (q[i] & 0x0000ff00) << 8 |
@@ -1110,7 +1110,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
         case 64: {
             uint64_t* q = (uint64_t*)m_buff.GetData();
             uint64_t x;
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 x = q[i] >> 56 |
                     (q[i] & 0x00FF000000000000) >> 40 |
                     (q[i] & 0x0000FF0000000000) >> 24 |
@@ -1134,10 +1134,10 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() //big-endian 'fl32' and 'fl64'
     return S_OK;
 }
 
-HRESULT CMpaDecFilter::ProcessPCMfloatLE() //little-endian 'fl32' and 'fl64'
+HRESULT CMpaDecFilter::ProcessPCMfloatLE() // little-endian 'fl32' and 'fl64'
 {
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-    unsigned int nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+    size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
     CAtlArray<float> pBuff;
     pBuff.SetCount(nSamples);
@@ -1151,7 +1151,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatLE() //little-endian 'fl32' and 'fl64'
         break;
         case 64: {
             double* q = (double*)m_buff.GetData();
-            for (unsigned int i = 0; i < nSamples; i++) {
+            for (size_t i = 0; i < nSamples; i++) {
                 f[i] = (float)q[i];
             }
         }
