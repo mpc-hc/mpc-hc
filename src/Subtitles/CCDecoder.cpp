@@ -147,7 +147,7 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
             };
 
             PutChar(charmap[c - 0x20]);
-        } else if (buff[i] != 0x80 && i < len - 1) {
+        } else if (i < len - 1 && buff[i] != 0x80) {
             // codes and special characters are supposed to be doubled
             if (i < len - 3 && buff[i] == buff[i + 2] && buff[i + 1] == buff[i + 3]) {
                 i += 2;

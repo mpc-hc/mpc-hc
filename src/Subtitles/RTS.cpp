@@ -978,7 +978,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 
         // karaoke
 
-        double t;
+        double t = 0;
 
         if (w->m_ktype == 0 || w->m_ktype == 2) {
             t = time < w->m_kstart ? 0 : 1;

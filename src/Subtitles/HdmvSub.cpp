@@ -245,12 +245,11 @@ void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize)   
 {
     short object_id = pGBuffer->ReadShort();
     UNREFERENCED_PARAMETER(object_id);
-    BYTE m_sequence_desc;
 
     ASSERT(m_pCurrentObject != NULL);
     if (m_pCurrentObject) { // && m_pCurrentObject->m_object_id_ref == object_id)
         m_pCurrentObject->m_version_number = pGBuffer->ReadByte();
-        m_sequence_desc = pGBuffer->ReadByte();
+        BYTE m_sequence_desc = pGBuffer->ReadByte();
 
         if (m_sequence_desc & 0x80) {
             DWORD object_data_length  = (DWORD)pGBuffer->BitRead(24);
