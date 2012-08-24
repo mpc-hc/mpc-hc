@@ -347,7 +347,6 @@ void AlphaBlt_YUY2_C(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch)
     DWORD* d2 = (DWORD*)d;
     BYTE* s2 = s;
     BYTE* s2end = s2 + w * 4;
-    static const __int64 _8181 = 0x0080001000800010i64;
 
     for (ptrdiff_t j = 0; j < h; j++, s += srcpitch, d += dstpitch) {
         for (; s2 < s2end; s2 += 8, d2++) {
