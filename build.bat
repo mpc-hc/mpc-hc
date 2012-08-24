@@ -225,9 +225,9 @@ IF DEFINED MPCHC_LITE (
 )
 
 FOR %%G IN ("Armenian" "Basque" "Belarusian" "Catalan" "Chinese Simplified"
- "Chinese Traditional" "Czech" "Dutch" "French" "German" "Hebrew" "Hungarian"
- "Italian" "Japanese" "Korean" "Polish" "Portuguese" "Russian" "Slovak" "Spanish"
- "Swedish" "Turkish" "Ukrainian"
+ "Chinese Traditional" "Czech" "Dutch" "French" "German" "Greek" "Hebrew"
+ "Hungarian" "Italian" "Japanese" "Korean" "Polish" "Portuguese" "Russian"
+ "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
  TITLE Compiling mpcresources - %%~G^|%1...
  "%MSBUILD%" mpcresources.sln %MSBUILD_SWITCHES%^

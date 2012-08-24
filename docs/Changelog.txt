@@ -13,6 +13,7 @@ Legend:
 + Add a hotkey to open the subtitles downloader dialog
 + Web server: various performance improvements
 + Ticket #439, External subtitles: support UTF8 without BOM
++ Ticket #1680, Add Greek translation
 + Ticket #2647, Add .3ga to known formats
 * Updated FFmpeg (n0.8-15185-g3d6a246)
 * Updated MediaInfoLib to v0.7.61

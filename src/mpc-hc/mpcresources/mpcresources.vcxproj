@@ -81,6 +81,14 @@
       <Configuration>Release German</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Greek|Win32">
+      <Configuration>Release Greek</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Greek|x64">
+      <Configuration>Release Greek</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Hebrew|Win32">
       <Configuration>Release Hebrew</Configuration>
       <Platform>Win32</Platform>
@@ -219,6 +227,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Dutch'">$(ProjectName).nl</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release French'">$(ProjectName).fr</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release German'">$(ProjectName).de</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Greek'">$(ProjectName).el</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Hebrew'">$(ProjectName).he</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Hungarian'">$(ProjectName).hu</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Italian'">$(ProjectName).it</TargetName>
@@ -258,6 +267,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.de.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release German'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mplayerc.el.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Greek'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.es.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Spanish'">true</ExcludedFromBuild>
