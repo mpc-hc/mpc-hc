@@ -199,6 +199,7 @@ SRCS_C = \
     libavcodec/mpegaudiodec_float.c \
     libavcodec/mpegaudiodecheader.c \
     libavcodec/mpegaudiodsp.c \
+    libavcodec/mpegaudiodsp_data.c \
     libavcodec/mpegaudiodsp_fixed.c \
     libavcodec/mpegaudiodsp_float.c \
     libavcodec/mpegvideo.c \
@@ -233,6 +234,7 @@ SRCS_C = \
     libavcodec/svq1.c \
     libavcodec/svq1dec.c \
     libavcodec/svq3.c \
+    libavcodec/svq13.c \
     libavcodec/synth_filter.c \
     libavcodec/tscc.c \
     libavcodec/utils.c \
@@ -270,7 +272,7 @@ SRCS_C = \
     libavcodec/x86/mlpdsp.c \
     libavcodec/x86/motion_est_mmx.c \
     libavcodec/x86/mpegaudiodec_mmx.c \
-    libavcodec/x86/mpegvideo_mmx.c \
+    libavcodec/x86/mpegvideo.c \
     libavcodec/x86/rv34dsp_init.c \
     libavcodec/x86/rv40dsp_init.c \
     libavcodec/x86/sbrdsp_init.c \

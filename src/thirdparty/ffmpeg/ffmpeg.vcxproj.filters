@@ -300,10 +300,7 @@
     <ClCompile Include="libavcodec\x86\mpegaudiodec_mmx.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\mpegvideo_mmx.c">
-      <Filter>libavcodec\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\x86\mpegvideo_mmx_template.c">
+    <ClCompile Include="libavcodec\x86\mpegvideo.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\x86\rv34dsp_init.c">
@@ -693,6 +690,9 @@
     <ClCompile Include="libavcodec\mpegaudiodsp.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\mpegaudiodsp_data.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\mpegaudiodsp_fixed.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -799,6 +799,9 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\svq3.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\svq13.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\synth_filter.c">

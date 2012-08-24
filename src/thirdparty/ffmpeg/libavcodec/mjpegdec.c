@@ -967,11 +967,6 @@ static int mjpeg_decode_scan(MJpegDecodeContext *s, int nb_components, int Ah,
     if (mb_bitmask)
         init_get_bits(&mb_bitmask_gb, mb_bitmask, s->mb_width * s->mb_height);
 
-    if (s->flipped && s->avctx->flags & CODEC_FLAG_EMU_EDGE) {
-        av_log(s->avctx, AV_LOG_ERROR,
-               "Can not flip image with CODEC_FLAG_EMU_EDGE set!\n");
-        s->flipped = 0;
-    }
     if (s->flipped && s->avctx->lowres) {
         av_log(s->avctx, AV_LOG_ERROR, "Can not flip image with lowres\n");
         s->flipped = 0;
@@ -983,7 +978,7 @@ static int mjpeg_decode_scan(MJpegDecodeContext *s, int nb_components, int Ah,
         reference_data[c] = reference ? reference->data[c] : NULL;
         linesize[c] = s->linesize[c];
         s->coefs_finished[c] |= 1;
-        if (s->flipped) {
+        if (s->flipped && !(s->avctx->flags & CODEC_FLAG_EMU_EDGE)) {
             // picture should be flipped upside-down for this codec
             int offset = (linesize[c] * (s->v_scount[i] *
                          (8 * s->mb_height - ((s->height / s->v_max) & 7)) - 1));
@@ -1235,6 +1230,7 @@ int ff_mjpeg_decode_sos(MJpegDecodeContext *s, const uint8_t *mb_bitmask,
     /* mjpeg-b can have padding bytes between sos and image data, skip them */
     for (i = s->mjpb_skiptosod; i > 0; i--)
         skip_bits(&s->gb, 8);
+
 next_field:
     for (i = 0; i < nb_components; i++)
         s->last_dc[i] = 1024;
@@ -1271,11 +1267,14 @@ next_field:
                 return ret;
         }
     }
-    if(s->interlaced && get_bits_left(&s->gb) > 32 && show_bits(&s->gb, 8) == 0xFF) {
-        GetBitContext bak= s->gb;
+
+    if (s->interlaced &&
+        get_bits_left(&s->gb) > 32 &&
+        show_bits(&s->gb, 8) == 0xFF) {
+        GetBitContext bak = s->gb;
         align_get_bits(&bak);
-        if(show_bits(&bak, 16) == 0xFFD1) {
-            av_log(s->avctx, AV_LOG_DEBUG, "AVRn ingterlaced picture\n");
+        if (show_bits(&bak, 16) == 0xFFD1) {
+            av_log(s->avctx, AV_LOG_DEBUG, "AVRn interlaced picture marker found\n");
             s->gb = bak;
             skip_bits(&s->gb, 16);
             s->bottom_field ^= 1;
@@ -1791,6 +1790,29 @@ the_end:
             dst -= s->linesize[s->upscale_v];
         }
     }
+    if (s->flipped && (s->avctx->flags & CODEC_FLAG_EMU_EDGE)) {
+        int hshift, vshift, j;
+        avcodec_get_chroma_sub_sample(s->avctx->pix_fmt, &hshift, &vshift);
+        for (index=0; index<4; index++) {
+            uint8_t *dst = s->picture_ptr->data[index];
+            int w = s->width;
+            int h = s->height;
+            if(index && index<3){
+                w = -((-w) >> hshift);
+                h = -((-h) >> vshift);
+            }
+            if(dst){
+                uint8_t *dst2 = dst + s->linesize[index]*(h-1);
+                for (i=0; i<h/2; i++) {
+                    for (j=0; j<w; j++)
+                        FFSWAP(int, dst[j], dst2[j]);
+                    dst  += s->linesize[index];
+                    dst2 -= s->linesize[index];
+                }
+            }
+        }
+    }
+
     av_log(avctx, AV_LOG_DEBUG, "decode frame unused %td bytes\n",
            buf_end - buf_ptr);
 //  return buf_end - buf_ptr;
