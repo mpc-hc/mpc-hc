@@ -230,7 +230,7 @@ void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, PPS* pps, DWORD nPCIVendor)
     }
 }
 
-USHORT FFH264FindRefFrameIndex(USHORT num_frame, DXVA_PicParams_H264* pDXVAPicParams)
+unsigned short FFH264FindRefFrameIndex(unsigned short num_frame, DXVA_PicParams_H264* pDXVAPicParams)
 {
     int i;
     for (i = 0; i < pDXVAPicParams->num_ref_frames; i++) {

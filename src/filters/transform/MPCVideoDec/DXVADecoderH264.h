@@ -52,8 +52,8 @@ private:
     int m_nOutPOC, m_nPrevOutPOC;
     REFERENCE_TIME m_rtOutStart;
 
-    USHORT m_nfield_pic_flag;
-    USHORT m_nRefPicFlag;
+    unsigned short m_nfield_pic_flag;
+    unsigned short m_nRefPicFlag;
     UINT m_nBrokenFramesFlag, m_nBrokenFramesFlag_POC;
 
     // Private functions

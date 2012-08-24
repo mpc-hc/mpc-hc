@@ -108,7 +108,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
         while (!SampleBuffer.IsEOF()) {
             if (m_nCurSegment == NO_SEGMENT) {
                 HDMV_SEGMENT_TYPE nSegType = (HDMV_SEGMENT_TYPE)SampleBuffer.ReadByte();
-                USHORT nUnitSize = SampleBuffer.ReadShort();
+                unsigned short nUnitSize = SampleBuffer.ReadShort();
                 lSampleLen -= 3;
 
                 switch (nSegType) {
@@ -217,7 +217,7 @@ int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
     return nObjectNumber;
 }
 
-void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)      // #497
+void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize)  // #497
 {
     int nNbEntry;
     BYTE palette_id = pGBuffer->ReadByte();
@@ -241,7 +241,7 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)      // #497
     }
 }
 
-void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)   // #498
+void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize)   // #498
 {
     short object_id = pGBuffer->ReadShort();
     UNREFERENCED_PARAMETER(object_id);

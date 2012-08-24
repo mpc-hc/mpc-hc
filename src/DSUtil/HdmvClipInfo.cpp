@@ -275,7 +275,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 
         LARGE_INTEGER Pos;
         DWORD  dwTemp;
-        USHORT nPlaylistItems;
+        unsigned short nPlaylistItems;
 
         Pos.QuadPart = ReadDword(); // PlayList_start_address
         ReadDword();                // PlayListMark_start_address
@@ -364,7 +364,7 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         }
 
         LARGE_INTEGER Pos;
-        USHORT        nMarkCount;
+        unsigned short        nMarkCount;
 
         ReadDword();                // PlayList_start_address
         Pos.QuadPart = ReadDword(); // PlayListMark_start_address

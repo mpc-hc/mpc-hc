@@ -1670,7 +1670,7 @@ static bool CompressFile(CString fn)
 
     HANDLE h = CreateFile(fn, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, 0);
     if (h != INVALID_HANDLE_VALUE) {
-        USHORT us = COMPRESSION_FORMAT_DEFAULT;
+        unsigned short us = COMPRESSION_FORMAT_DEFAULT;
         DWORD nBytesReturned;
         b = DeviceIoControl(h, FSCTL_SET_COMPRESSION, (LPVOID)&us, 2, NULL, 0, (LPDWORD)&nBytesReturned, NULL);
         CloseHandle(h);

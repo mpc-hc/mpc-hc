@@ -106,8 +106,8 @@ private:
 
 
     int                 ParsePresentationSegment(CGolombBuffer* pGBuffer);
-    void                ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize);
-    void                ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize);
+    void                ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize);
+    void                ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize);
 
     void                ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
     void                ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
