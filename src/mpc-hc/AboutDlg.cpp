@@ -67,9 +67,13 @@ BOOL CAboutDlg::OnInitDialog()
 #error Compiler is not supported!
 #endif
 #elif defined(_MSC_VER)
-#if (_MSC_VER == 1700)
+#if (_MSC_VER == 1700) // 2012
+#if (_MSC_FULL_VER < 170050727)
+    m_MPCCompiler = _T("MSVC 2012 Beta/RC/PR");
+#else
     m_MPCCompiler = _T("MSVC 2012");
-#elif (_MSC_VER == 1600)
+#endif
+#elif (_MSC_VER == 1600) // 2010
 #if (_MSC_FULL_VER >= 160040219)
     m_MPCCompiler = _T("MSVC 2010 SP1");
 #else

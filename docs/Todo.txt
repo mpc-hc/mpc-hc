@@ -20,6 +20,7 @@ MPC-HC:
     and unfortunately it is still needed.
 11) Add a .gitattributes file
 12) Add FFmpeg and lcms2 as submodules
+13) Subtitles don't show with MSVC 2012 builds
 
 MPCIconLib:
 1) Replace the file association icons with better looking ones
