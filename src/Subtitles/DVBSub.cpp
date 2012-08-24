@@ -118,7 +118,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
         if (m_nBufferWritePos + nSize > m_nBufferSize) {
             if (m_nBufferWritePos + nSize > 20 * BUFFER_CHUNK_GROW) {
                 // Too big to be a DVB sub !
-                TRACE_DVB("DVB - Too much data receive...\n");
+                TRACE_DVB("DVB - Too much data received...\n");
                 ASSERT(FALSE);
 
                 Reset();
@@ -468,7 +468,7 @@ HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
         pRegion->version_number = (BYTE)gb.BitRead(4);
         pRegion->fill_flag = (BYTE)gb.BitRead(1);
         gb.BitRead(3);  // Reserved
-        pRegion->width = gb.ReadShort();
+        pRegion->width  = gb.ReadShort();
         pRegion->height = gb.ReadShort();
         pRegion->level_of_compatibility = (BYTE)gb.BitRead(3);
         pRegion->depth = (BYTE)gb.BitRead(3);
@@ -481,8 +481,8 @@ HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
 
         pRegion->ObjectCount = 0;
         while (gb.GetPos() < nEnd) {
-            DVB_OBJECT* pObject = &pRegion->Objects[pRegion->ObjectCount];
-            pObject->object_id = gb.ReadShort();
+            DVB_OBJECT* pObject  = &pRegion->Objects[pRegion->ObjectCount];
+            pObject->object_id   = gb.ReadShort();
             pObject->object_type = (BYTE)gb.BitRead(2);
             pObject->object_provider_flag = (BYTE)gb.BitRead(2);
             pObject->object_horizontal_position = (short)gb.BitRead(12);
@@ -516,9 +516,9 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
         pClut->Size = 0;
         while (gb.GetPos() < nEnd) {
             BYTE entry_id = gb.ReadByte();
-            BYTE _2_bit = (BYTE)gb.BitRead(1);
-            BYTE _4_bit = (BYTE)gb.BitRead(1);
-            BYTE _8_bit = (BYTE)gb.BitRead(1);
+            BYTE _2_bit   = (BYTE)gb.BitRead(1);
+            BYTE _4_bit   = (BYTE)gb.BitRead(1);
+            BYTE _8_bit   = (BYTE)gb.BitRead(1);
             UNREFERENCED_PARAMETER(_2_bit);
             UNREFERENCED_PARAMETER(_4_bit);
             UNREFERENCED_PARAMETER(_8_bit);

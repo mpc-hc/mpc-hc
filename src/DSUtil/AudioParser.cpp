@@ -20,7 +20,6 @@
 
 #include "stdafx.h"
 #include "AudioParser.h"
-
 #include <MMReg.h>
 
 #define AC3_CHANNEL         0
@@ -142,7 +141,7 @@ int ParseAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framele
             return 0;
     }
 
-    unsigned char acmod    = buf[6] >> 5;
+    unsigned char acmod = buf[6] >> 5;
     unsigned char flags = ((((buf[6] & 0xf8) == 0x50) ? AC3_DOLBY : acmod) | ((buf[6] & lfeon[acmod]) ? AC3_LFE : 0));
     switch (flags & AC3_CHANNEL_MASK) {
         case AC3_MONO:
@@ -207,9 +206,9 @@ int ParseEAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framel
         return 0;
     }
     //int sub_stream_id = (buf[2] >> 3) & 0x07;
-    *samplerate       = sample_rates[fscod == 0x03 ? 3 + fscod2 : fscod];
-    *channels         = channels_tbl[acmod] + lfeon;
-    *framelength      = (fscod == 0x03) ? 1536 : samples_tbl[fscod2];
+    *samplerate  = sample_rates[fscod == 0x03 ? 3 + fscod2 : fscod];
+    *channels    = channels_tbl[acmod] + lfeon;
+    *framelength = (fscod == 0x03) ? 1536 : samples_tbl[fscod2];
 
     return frame_size;
 }
@@ -232,15 +231,15 @@ int ParseMLPHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
         return 0;
     }
 
-    int frame_size  = (((buf[0] << 8) | buf[1]) & 0xfff) * 2;
+    int frame_size = (((buf[0] << 8) | buf[1]) & 0xfff) * 2;
 
     if (*isTrueHD) {
         *bitdepth = 24;
-        *samplerate             = sampling_rates[buf[8] >> 4];
-        *framelength            = 40 << ((buf[8] >> 4) & 0x07);
+        *samplerate  = sampling_rates[buf[8] >> 4];
+        *framelength = 40 << ((buf[8] >> 4) & 0x07);
         int chanmap_substream_1 = ((buf[ 9] & 0x0f) << 1) | (buf[10] >> 7);
         int chanmap_substream_2 = ((buf[10] & 0x1f) << 8) |  buf[11];
-        int channel_map         = chanmap_substream_2 ? chanmap_substream_2 : chanmap_substream_1;
+        int channel_map = chanmap_substream_2 ? chanmap_substream_2 : chanmap_substream_1;
         *channels = 0;
         for (int i = 0; i < 13; ++i) {
             *channels += channel_count[i] * ((channel_map >> i) & 1);
@@ -325,11 +324,11 @@ int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
     static const int dts_channels[16] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
     static const int core_sample_rates[] = {0, 8000, 16000, 32000, 0, 0, 11025, 22050, 44100, 0, 0, 12000, 24000, 48000, 96000, 192000};
     static const int transmission_bitrates[32] = {
-        32000,    56000,   64000,   96000,
-        112000,  128000,  192000,  224000,
-        256000,  320000,  384000,  448000,
-        512000,  576000,  640000,  768000,
-        960000, 1024000, 1152000, 1280000,
+        32000,     56000,   64000,   96000,
+        112000,   128000,  192000,  224000,
+        256000,   320000,  384000,  448000,
+        512000,   576000,  640000,  768000,
+        960000,  1024000, 1152000, 1280000,
         1344000, 1408000, 1411200, 1472000,
         1536000, 1920000, 2048000, 3072000,
         3840000, 0, 0, 0 //open, variable, lossless
@@ -345,18 +344,18 @@ int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framele
     BYTE hdr[14]; //minimum header size is 14
     bool isDTS14 = false;
     switch (sync) {
-        case 0x0180fe7f: // '7FFE8001' 16 bits and big endian bitstream
+        case 0x0180fe7f:    // '7FFE8001' 16 bits and big endian bitstream
             memcpy(hdr, buf, 14);
             break;
-        case 0x80017ffe: // 'FE7F0180' 16 bits and little endian bitstream
+        case 0x80017ffe:    // 'FE7F0180' 16 bits and little endian bitstream
             _swab((char*)buf, (char*)hdr, 14);
             break;
-        case 0x00e8ff1f: // '1FFFE800' 14 bits and big endian bitstream
+        case 0x00e8ff1f:    // '1FFFE800' 14 bits and big endian bitstream
             // not tested, need samples.
             dts14be_to_dts16be(buf, (BYTE*)hdr, 16);
             isDTS14 = true;
             break;
-        case 0xe8001fff: // 'FF1F00E8' 14 bits and little endian bitstream
+        case 0xe8001fff:    // 'FF1F00E8' 14 bits and little endian bitstream
             dts14le_to_dts16be(buf, (BYTE*)hdr, 16);
             isDTS14 = true;
             break;
