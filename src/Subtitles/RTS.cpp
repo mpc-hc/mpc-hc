@@ -332,7 +332,7 @@ void CWord::Transform_SSE2(CPoint& org)
         __pointy = _mm_add_ps(__yy, __zz);
         __zz = _mm_mul_ps(__pointz, __cax);
         __yy = _mm_mul_ps(__pointy, __sax);
-        __pointz = _mm_sub_ps(__zz, __yy);
+        __pointz = _mm_sub_ps(__yy, __zz);
 
         __xx = _mm_mul_ps(__pointx, __cay);
         __zz = _mm_mul_ps(__pointz, __say);
