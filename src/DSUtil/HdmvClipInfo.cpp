@@ -363,8 +363,8 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
             return CloseFile(VFW_E_INVALID_FILE_FORMAT);
         }
 
-        LARGE_INTEGER Pos;
-        unsigned short        nMarkCount;
+        LARGE_INTEGER  Pos;
+        unsigned short nMarkCount;
 
         ReadDword();                // PlayList_start_address
         Pos.QuadPart = ReadDword(); // PlayListMark_start_address
@@ -376,12 +376,12 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         for (size_t i = 0; i < nMarkCount; i++) {
             PlaylistChapter Chapter;
 
-            ReadByte();                                            // reserved_for_future_use
-            Chapter.m_nMarkType    = (PlaylistMarkType)ReadByte(); // mark_type
-            Chapter.m_nPlayItemId  = ReadShort();                  // ref_to_PlayItem_id
-            Chapter.m_rtTimestamp  = 20000i64 * ReadDword() / 90 + rtOffset[Chapter.m_nPlayItemId];    // mark_time_stamp
-            Chapter.m_nEntryPID    = ReadShort();                  // entry_ES_PID
-            Chapter.m_rtDuration   = 20000i64 * ReadDword() / 90;  // duration
+            ReadByte();                                           // reserved_for_future_use
+            Chapter.m_nMarkType   = (PlaylistMarkType)ReadByte(); // mark_type
+            Chapter.m_nPlayItemId = ReadShort();                  // ref_to_PlayItem_id
+            Chapter.m_rtTimestamp = 20000i64 * ReadDword() / 90 + rtOffset[Chapter.m_nPlayItemId];    // mark_time_stamp
+            Chapter.m_nEntryPID   = ReadShort();                  // entry_ES_PID
+            Chapter.m_rtDuration  = 20000i64 * ReadDword() / 90;  // duration
 
             Chapters.AddTail(Chapter);
 
@@ -412,7 +412,7 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 
     strPath.Replace(_T("\\PLAYLIST\\"), _T("\\"));
     strPath.Replace(_T("\\STREAM\\"), _T("\\"));
-    strPath  += _T("\\BDMV\\");
+    strPath += _T("\\BDMV\\");
     strFilter.Format(_T("%sPLAYLIST\\*.mpls"), strPath);
 
     HANDLE hFind = FindFirstFile(strFilter, &fd);
