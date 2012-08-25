@@ -17,6 +17,7 @@ Legend:
   (you can still associate it in the "Others" formats)
 * Re-enable the embedded resources viewer in the properties dialog and improve
   its "open in brower" function (when double clicking on a resource)
+! Web interface: Fix the "Deploy" feature
 ! Ticket #102, Fix playback of VideoCD as disk
 ! Ticket #2540, Fix handling of big API messages
 ! Ticket #2547, The master window handle was erroneously reset

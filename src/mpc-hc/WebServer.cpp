@@ -216,12 +216,15 @@ void CWebServer::Deploy(CString dir)
         PutFileContents(dir + _T("player.html"), data);
     }
 
+    // Create the needed folder
+    CreateDirectory(dir + _T("images"),  NULL);
+
     POSITION pos = m_downloads.GetStartPosition();
     while (pos) {
         CString fn;
         UINT id;
         m_downloads.GetNextAssoc(pos, fn, id);
-        if (LoadResource(id, data, _T("FILE"))) {
+        if (LoadResource(id, data, _T("FILE")) || LoadResource(id, data, _T("PNG"))) {
             PutFileContents(dir + fn, data);
         }
     }
