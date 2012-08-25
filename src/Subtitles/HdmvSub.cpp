@@ -259,7 +259,7 @@ void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize)   
 
             m_pCurrentObject->SetRLEData(pGBuffer->GetBufferPos(), nUnitSize - 11, object_data_length - 4);
 
-            TRACE_HDMVSUB(_T("CHdmvSub:NewObject	size=%ld, total obj=%d, %dx%d\n"), object_data_length, m_pObjects.GetCount(),
+            TRACE_HDMVSUB(_T("CHdmvSub:NewObject    size=%ld, total obj=%d, %dx%d\n"), object_data_length, m_pObjects.GetCount(),
                           m_pCurrentObject->m_width, m_pCurrentObject->m_height);
         } else {
             m_pCurrentObject->AppendRLEData(pGBuffer->GetBufferPos(), nUnitSize - 4);
@@ -312,7 +312,7 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
             pObject->SetPalette(m_nDefaultPaletteNbEntry, m_pDefaultPalette, m_VideoDescriptor.nVideoWidth > 720);
         }
 
-        TRACE_HDMVSUB(_T("CHdmvSub:Render	    size=%ld,  ObjRes=%dx%d,  SPDRes=%dx%d\n"), pObject->GetRLEDataSize(),
+        TRACE_HDMVSUB(_T("CHdmvSub:Render       size=%ld,  ObjRes=%dx%d,  SPDRes=%dx%d\n"), pObject->GetRLEDataSize(),
                       pObject->m_width, pObject->m_height, spd.w, spd.h);
         pObject->RenderHdmv(spd);
 

@@ -2671,7 +2671,7 @@ void TracePinInfo(IPin* pPin)
         ConnectedFilterInfo.pGraph->Release();
     }
     pPin->QueryPinInfo(&PinInfo);
-    TRACE(_T("		%S (%S) -> %S (Filter %S)\n"),
+    TRACE(_T("      %S (%S) -> %S (Filter %S)\n"),
           PinInfo.achName,
           PinInfo.dir == PINDIR_OUTPUT ? _T("Out") : _T("In"),
           ConnectedInfo.achName,

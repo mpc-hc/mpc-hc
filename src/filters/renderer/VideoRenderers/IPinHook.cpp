@@ -861,36 +861,36 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 
             for (DWORD i = 0; i < dwNumBuffers; i++) {
                 LOG(_T("[in] lpPrivateInputData, buffer description %d"), i);
-                LOG(_T("	 pBuffDesc->dwTypeIndex			= %d"), pBuffDesc[i].dwTypeIndex);
-                LOG(_T("	 pBuffDesc->dwBufferIndex		= %d"), pBuffDesc[i].dwBufferIndex);
-                LOG(_T("	 pBuffDesc->dwDataOffset		= %d"), pBuffDesc[i].dwDataOffset);
-                LOG(_T("	 pBuffDesc->dwDataSize			= %d"), pBuffDesc[i].dwDataSize);
-                LOG(_T("	 pBuffDesc->dwFirstMBaddress	= %d"), pBuffDesc[i].dwFirstMBaddress);
-                LOG(_T("	 pBuffDesc->dwHeight			= %d"), pBuffDesc[i].dwHeight);
-                LOG(_T("	 pBuffDesc->dwStride			= %d"), pBuffDesc[i].dwStride);
-                LOG(_T("	 pBuffDesc->dwWidth				= %d"), pBuffDesc[i].dwWidth);
-                LOG(_T("	 pBuffDesc->dwNumMBsInBuffer	= %d"), pBuffDesc[i].dwNumMBsInBuffer);
-                LOG(_T("	 pBuffDesc->dwReservedBits		= %d"), pBuffDesc[i].dwReservedBits);
+                LOG(_T("     pBuffDesc->dwTypeIndex         = %d"), pBuffDesc[i].dwTypeIndex);
+                LOG(_T("     pBuffDesc->dwBufferIndex       = %d"), pBuffDesc[i].dwBufferIndex);
+                LOG(_T("     pBuffDesc->dwDataOffset        = %d"), pBuffDesc[i].dwDataOffset);
+                LOG(_T("     pBuffDesc->dwDataSize          = %d"), pBuffDesc[i].dwDataSize);
+                LOG(_T("     pBuffDesc->dwFirstMBaddress    = %d"), pBuffDesc[i].dwFirstMBaddress);
+                LOG(_T("     pBuffDesc->dwHeight            = %d"), pBuffDesc[i].dwHeight);
+                LOG(_T("     pBuffDesc->dwStride            = %d"), pBuffDesc[i].dwStride);
+                LOG(_T("     pBuffDesc->dwWidth             = %d"), pBuffDesc[i].dwWidth);
+                LOG(_T("     pBuffDesc->dwNumMBsInBuffer    = %d"), pBuffDesc[i].dwNumMBsInBuffer);
+                LOG(_T("     pBuffDesc->dwReservedBits      = %d"), pBuffDesc[i].dwReservedBits);
             }
         } else if ((dwFunction == 0xfffff101) || (dwFunction == 0xfffff501)) {
             DXVA_ConfigPictureDecode*       ConfigRequested = (DXVA_ConfigPictureDecode*)lpPrivateInputData;
             LOG(_T("[in] lpPrivateInputData, config requested"));
-            LOG(_T("	 pBuffDesc->dwTypeIndex			= %d"), ConfigRequested->bConfig4GroupedCoefs);
-            LOG(_T("	 ConfigRequested->bConfigBitstreamRaw			= %d"), ConfigRequested->bConfigBitstreamRaw);
-            LOG(_T("	 ConfigRequested->bConfigHostInverseScan		= %d"), ConfigRequested->bConfigHostInverseScan);
-            LOG(_T("	 ConfigRequested->bConfigIntraResidUnsigned		= %d"), ConfigRequested->bConfigIntraResidUnsigned);
-            LOG(_T("	 ConfigRequested->bConfigMBcontrolRasterOrder	= %d"), ConfigRequested->bConfigMBcontrolRasterOrder);
-            LOG(_T("	 ConfigRequested->bConfigResid8Subtraction		= %d"), ConfigRequested->bConfigResid8Subtraction);
-            LOG(_T("	 ConfigRequested->bConfigResidDiffAccelerator	= %d"), ConfigRequested->bConfigResidDiffAccelerator);
-            LOG(_T("	 ConfigRequested->bConfigResidDiffHost			= %d"), ConfigRequested->bConfigResidDiffHost);
-            LOG(_T("	 ConfigRequested->bConfigSpatialHost8or9Clipping= %d"), ConfigRequested->bConfigSpatialHost8or9Clipping);
-            LOG(_T("	 ConfigRequested->bConfigSpatialResid8			= %d"), ConfigRequested->bConfigSpatialResid8);
-            LOG(_T("	 ConfigRequested->bConfigSpatialResidInterleaved= %d"), ConfigRequested->bConfigSpatialResidInterleaved);
-            LOG(_T("	 ConfigRequested->bConfigSpecificIDCT			= %d"), ConfigRequested->bConfigSpecificIDCT);
-            LOG(_T("	 ConfigRequested->dwFunction					= %d"), ConfigRequested->dwFunction);
-            LOG(_T("	 ConfigRequested->guidConfigBitstreamEncryption	= %s"), CStringFromGUID(ConfigRequested->guidConfigBitstreamEncryption));
-            LOG(_T("	 ConfigRequested->guidConfigMBcontrolEncryption	= %s"), CStringFromGUID(ConfigRequested->guidConfigMBcontrolEncryption));
-            LOG(_T("	 ConfigRequested->guidConfigResidDiffEncryption	= %s"), CStringFromGUID(ConfigRequested->guidConfigResidDiffEncryption));
+            LOG(_T("     pBuffDesc->dwTypeIndex         = %d"), ConfigRequested->bConfig4GroupedCoefs);
+            LOG(_T("     ConfigRequested->bConfigBitstreamRaw           = %d"), ConfigRequested->bConfigBitstreamRaw);
+            LOG(_T("     ConfigRequested->bConfigHostInverseScan        = %d"), ConfigRequested->bConfigHostInverseScan);
+            LOG(_T("     ConfigRequested->bConfigIntraResidUnsigned     = %d"), ConfigRequested->bConfigIntraResidUnsigned);
+            LOG(_T("     ConfigRequested->bConfigMBcontrolRasterOrder   = %d"), ConfigRequested->bConfigMBcontrolRasterOrder);
+            LOG(_T("     ConfigRequested->bConfigResid8Subtraction      = %d"), ConfigRequested->bConfigResid8Subtraction);
+            LOG(_T("     ConfigRequested->bConfigResidDiffAccelerator   = %d"), ConfigRequested->bConfigResidDiffAccelerator);
+            LOG(_T("     ConfigRequested->bConfigResidDiffHost          = %d"), ConfigRequested->bConfigResidDiffHost);
+            LOG(_T("     ConfigRequested->bConfigSpatialHost8or9Clipping= %d"), ConfigRequested->bConfigSpatialHost8or9Clipping);
+            LOG(_T("     ConfigRequested->bConfigSpatialResid8          = %d"), ConfigRequested->bConfigSpatialResid8);
+            LOG(_T("     ConfigRequested->bConfigSpatialResidInterleaved= %d"), ConfigRequested->bConfigSpatialResidInterleaved);
+            LOG(_T("     ConfigRequested->bConfigSpecificIDCT           = %d"), ConfigRequested->bConfigSpecificIDCT);
+            LOG(_T("     ConfigRequested->dwFunction                    = %d"), ConfigRequested->dwFunction);
+            LOG(_T("     ConfigRequested->guidConfigBitstreamEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigBitstreamEncryption));
+            LOG(_T("     ConfigRequested->guidConfigMBcontrolEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigMBcontrolEncryption));
+            LOG(_T("     ConfigRequested->guidConfigResidDiffEncryption = %s"), CStringFromGUID(ConfigRequested->guidConfigResidDiffEncryption));
         } else
             LOG(_T("[in] lpPrivateInputData = %02x %02x %02x %02x ..."),
                 ((BYTE*)lpPrivateInputData)[0],
@@ -923,9 +923,9 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
         } else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_SLICE_CONTROL_BUFFER && (pamvaBufferInfo[i].dwDataSize % sizeof(DXVA_Slice_H264_Short)) == 0) {
             for (WORD j = 0; j < pamvaBufferInfo[i].dwDataSize / sizeof(DXVA_Slice_H264_Short); j++) {
                 DXVA_Slice_H264_Short*  pSlice = &(((DXVA_Slice_H264_Short*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex])[j]);
-                LOG(_T("	- BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
-                LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
-                LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
+                LOG(_T("    - BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
+                LOG(_T("    - SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
+                LOG(_T("    - wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
             }
         } else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_BITSTREAM_DATA_BUFFER) {
 
@@ -1313,35 +1313,35 @@ static HRESULT(STDMETHODCALLTYPE* GetDecoderConfigurationsOrg)(IDirectXVideoDeco
 static void LogDXVA2Config(const DXVA2_ConfigPictureDecode* pConfig)
 {
     LOG(_T("Config"));
-    LOG(_T("	- Config4GroupedCoefs               %d"), pConfig->Config4GroupedCoefs);
-    LOG(_T("	- ConfigBitstreamRaw                %d"), pConfig->ConfigBitstreamRaw);
-    LOG(_T("	- ConfigDecoderSpecific             %d"), pConfig->ConfigDecoderSpecific);
-    LOG(_T("	- ConfigHostInverseScan             %d"), pConfig->ConfigHostInverseScan);
-    LOG(_T("	- ConfigIntraResidUnsigned          %d"), pConfig->ConfigIntraResidUnsigned);
-    LOG(_T("	- ConfigMBcontrolRasterOrder        %d"), pConfig->ConfigMBcontrolRasterOrder);
-    LOG(_T("	- ConfigMinRenderTargetBuffCount    %d"), pConfig->ConfigMinRenderTargetBuffCount);
-    LOG(_T("	- ConfigResid8Subtraction           %d"), pConfig->ConfigResid8Subtraction);
-    LOG(_T("	- ConfigResidDiffAccelerator        %d"), pConfig->ConfigResidDiffAccelerator);
-    LOG(_T("	- ConfigResidDiffHost               %d"), pConfig->ConfigResidDiffHost);
-    LOG(_T("	- ConfigSpatialHost8or9Clipping     %d"), pConfig->ConfigSpatialHost8or9Clipping);
-    LOG(_T("	- ConfigSpatialResid8               %d"), pConfig->ConfigSpatialResid8);
-    LOG(_T("	- ConfigSpatialResidInterleaved     %d"), pConfig->ConfigSpatialResidInterleaved);
-    LOG(_T("	- ConfigSpecificIDCT                %d"), pConfig->ConfigSpecificIDCT);
-    LOG(_T("	- guidConfigBitstreamEncryption     %s"), CStringFromGUID(pConfig->guidConfigBitstreamEncryption));
-    LOG(_T("	- guidConfigMBcontrolEncryption     %s"), CStringFromGUID(pConfig->guidConfigMBcontrolEncryption));
-    LOG(_T("	- guidConfigResidDiffEncryption     %s"), CStringFromGUID(pConfig->guidConfigResidDiffEncryption));
+    LOG(_T("    - Config4GroupedCoefs               %d"), pConfig->Config4GroupedCoefs);
+    LOG(_T("    - ConfigBitstreamRaw                %d"), pConfig->ConfigBitstreamRaw);
+    LOG(_T("    - ConfigDecoderSpecific             %d"), pConfig->ConfigDecoderSpecific);
+    LOG(_T("    - ConfigHostInverseScan             %d"), pConfig->ConfigHostInverseScan);
+    LOG(_T("    - ConfigIntraResidUnsigned          %d"), pConfig->ConfigIntraResidUnsigned);
+    LOG(_T("    - ConfigMBcontrolRasterOrder        %d"), pConfig->ConfigMBcontrolRasterOrder);
+    LOG(_T("    - ConfigMinRenderTargetBuffCount    %d"), pConfig->ConfigMinRenderTargetBuffCount);
+    LOG(_T("    - ConfigResid8Subtraction           %d"), pConfig->ConfigResid8Subtraction);
+    LOG(_T("    - ConfigResidDiffAccelerator        %d"), pConfig->ConfigResidDiffAccelerator);
+    LOG(_T("    - ConfigResidDiffHost               %d"), pConfig->ConfigResidDiffHost);
+    LOG(_T("    - ConfigSpatialHost8or9Clipping     %d"), pConfig->ConfigSpatialHost8or9Clipping);
+    LOG(_T("    - ConfigSpatialResid8               %d"), pConfig->ConfigSpatialResid8);
+    LOG(_T("    - ConfigSpatialResidInterleaved     %d"), pConfig->ConfigSpatialResidInterleaved);
+    LOG(_T("    - ConfigSpecificIDCT                %d"), pConfig->ConfigSpecificIDCT);
+    LOG(_T("    - guidConfigBitstreamEncryption     %s"), CStringFromGUID(pConfig->guidConfigBitstreamEncryption));
+    LOG(_T("    - guidConfigMBcontrolEncryption     %s"), CStringFromGUID(pConfig->guidConfigMBcontrolEncryption));
+    LOG(_T("    - guidConfigResidDiffEncryption     %s"), CStringFromGUID(pConfig->guidConfigResidDiffEncryption));
 }
 
 static void LogDXVA2VideoDesc(const DXVA2_VideoDesc* pVideoDesc)
 {
     LOG(_T("VideoDesc"));
-    LOG(_T("	- Format                            %s  (0x%08x)"), FindD3DFormat(pVideoDesc->Format), pVideoDesc->Format);
-    LOG(_T("	- InputSampleFreq                   %d/%d"), pVideoDesc->InputSampleFreq.Numerator, pVideoDesc->InputSampleFreq.Denominator);
-    LOG(_T("	- OutputFrameFreq                   %d/%d"), pVideoDesc->OutputFrameFreq.Numerator, pVideoDesc->OutputFrameFreq.Denominator);
-    LOG(_T("	- SampleFormat                      %d"), pVideoDesc->SampleFormat.value);
-    LOG(_T("	- SampleHeight                      %d"), pVideoDesc->SampleHeight);
-    LOG(_T("	- SampleWidth                       %d"), pVideoDesc->SampleWidth);
-    LOG(_T("	- UABProtectionLevel                %d"), pVideoDesc->UABProtectionLevel);
+    LOG(_T("    - Format                            %s  (0x%08x)"), FindD3DFormat(pVideoDesc->Format), pVideoDesc->Format);
+    LOG(_T("    - InputSampleFreq                   %d/%d"), pVideoDesc->InputSampleFreq.Numerator, pVideoDesc->InputSampleFreq.Denominator);
+    LOG(_T("    - OutputFrameFreq                   %d/%d"), pVideoDesc->OutputFrameFreq.Numerator, pVideoDesc->OutputFrameFreq.Denominator);
+    LOG(_T("    - SampleFormat                      %d"), pVideoDesc->SampleFormat.value);
+    LOG(_T("    - SampleHeight                      %d"), pVideoDesc->SampleHeight);
+    LOG(_T("    - SampleWidth                       %d"), pVideoDesc->SampleWidth);
+    LOG(_T("    - UABProtectionLevel                %d"), pVideoDesc->UABProtectionLevel);
 }
 #endif
 
