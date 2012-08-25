@@ -271,7 +271,7 @@ void CWord::Transform_SSE2(CPoint& org)
     int mPathPointsM4 = mPathPoints % 4;
 
     for (ptrdiff_t i = 0; i < mPathPointsD4 + 1; i++) {
-        __m128 __pointx, __pointy;
+        __m128 __pointx, __pointy, __tmpx, __tmpy;
         // we can't use load .-.
         if (i != mPathPointsD4) {
             __pointx = _mm_set_ps((float)mpPathPoints[4 * i + 0].x, (float)mpPathPoints[4 * i + 1].x, (float)mpPathPoints[4 * i + 2].x, (float)mpPathPoints[4 * i + 3].x);
@@ -296,75 +296,74 @@ void CWord::Transform_SSE2(CPoint& org)
             }
         }
 
-        __m128 __pointz = _mm_set_ps1(0);
-
         // scale and shift
-        __m128 __tmpx;
         if (m_style.fontShiftX != 0) {
             __tmpx = _mm_mul_ps(__xshift, __pointy);
-            __tmpx = _mm_add_ps(__tmpx, __pointx);
-        } else {
-            __tmpx = __pointx;
+            __pointx = _mm_add_ps(__pointx, __tmpx);
         }
-        __tmpx = _mm_mul_ps(__tmpx, __xscale);
-        __tmpx = _mm_sub_ps(__tmpx, __xorg);
+        __pointx = _mm_mul_ps(__pointx, __xscale);
+        __pointx = _mm_sub_ps(__pointx, __xorg);
 
-        __m128 __tmpy;
         if (m_style.fontShiftY != 0) {
             __tmpy = _mm_mul_ps(__yshift, __pointx);
-            __tmpy = _mm_add_ps(__tmpy, __pointy);
-        } else {
-            __tmpy = __pointy;
+            __pointy = _mm_add_ps(__pointy, __tmpy);
         }
-        __tmpy = _mm_mul_ps(__tmpy, __yscale);
-        __tmpy = _mm_sub_ps(__tmpy, __yorg);
+        __pointy = _mm_mul_ps(__pointy, __yscale);
+        __pointy = _mm_sub_ps(__pointy, __yorg);
 
         // rotate
 
+        __m128 __xx, __yy;
+        __m128 __zz = _mm_set_ps1(0);
+
         // xx = x * caz + y * saz
-        __m128 __xx = _mm_mul_ps(__tmpx, __caz);      // x * caz
-        __m128 __yy = _mm_mul_ps(__tmpy, __saz);      // y * saz
-        __pointx = _mm_add_ps(__xx, __yy);            // xx = x * caz + y * saz;
+        __tmpx   = _mm_mul_ps(__pointx, __caz);      // x * caz
+        __tmpy   = _mm_mul_ps(__pointy, __saz);      // y * saz
+        __xx     = _mm_add_ps(__tmpx, __tmpy);       // xx = x * caz + y * saz;
 
         // yy = -(x * saz - y * caz)
-        __xx = _mm_mul_ps(__tmpx, __saz);             // x * saz
-        __yy = _mm_mul_ps(__tmpy, __caz);             // y * caz
-        __pointy = _mm_sub_ps(__yy, __xx);            // yy = -(x * saz - y * caz) = y * caz - x * saz
+        __tmpx   = _mm_mul_ps(__pointx, __saz);      // x * saz
+        __tmpy   = _mm_mul_ps(__pointy, __caz);      // y * caz
+        __yy     = _mm_sub_ps(__tmpy, __tmpx);       // yy = -(x * saz - y * caz) = y * caz - x * saz
+
+        __pointx = __xx;                             // x = xx
 
         // y = yy * cax + zz * sax
-        __m128 __zz = _mm_mul_ps(__pointz, __sax);    // zz * sax
-        __yy = _mm_mul_ps(__pointy, __cax);           // yy * cax
-        __pointy = _mm_add_ps(__yy, __zz);            // y = yy * cax + zz * sax
+        __tmpx   = _mm_mul_ps(__zz, __sax);          // zz * sax
+        __tmpy   = _mm_mul_ps(__yy, __cax);          // yy * cax
+        __pointy = _mm_add_ps(__tmpy, __tmpx);       // y = yy * cax + zz * sax
 
         // z = yy * sax - zz * cax
-        __zz = _mm_mul_ps(__pointz, __cax);           // zz * cax
-        __yy = _mm_mul_ps(__pointy, __sax);           // yy * sax
-        __pointz = _mm_sub_ps(__yy, __zz);            // z = yy * sax - zz * cax
+        __tmpx   = _mm_mul_ps(__zz, __cax);          // zz * cax
+        __tmpy   = _mm_mul_ps(__yy, __sax);          // yy * sax
+        __zz     = _mm_sub_ps(__tmpy, __tmpx);       // z = yy * sax - zz * cax
 
         // xx = x * cay + z * say
-        __xx = _mm_mul_ps(__pointx, __cay);           // x * cay
-        __zz = _mm_mul_ps(__pointz, __say);           // z * say
-        __pointx = _mm_add_ps(__xx, __zz);            // xx = x * cay + z * say
+        __tmpx   = _mm_mul_ps(__pointx, __cay);      // x * cay
+        __tmpy   = _mm_mul_ps(__zz, __say);          // z * say
+        __xx     = _mm_add_ps(__tmpx, __tmpy);       // xx = x * cay + z * say
+
+        __yy     = __pointy;                         // yy = y
 
         // zz = x * say - z * cay
-        __xx = _mm_mul_ps(__pointx, __say);           // x * say
-        __zz = _mm_mul_ps(__pointz, __cay);           // z * cay
-        __pointz = _mm_sub_ps(__xx, __zz);            // zz = x * say - z * cay
+        __tmpx   = _mm_mul_ps(__pointx, __say);      // x * say
+        __zz     = _mm_mul_ps(__zz, __cay);          // z * cay
+        __zz     = _mm_sub_ps(__tmpx, __zz);         // zz = x * say - z * cay
 
-        __zz = _mm_set_ps1(-19000);
-        __pointz = _mm_max_ps(__pointz, __zz);        // zz = max(zz, -19000);
+        __tmpy   = _mm_set_ps1(-19000);
+        __zz     = _mm_max_ps(__zz, __tmpy);         // zz = max(zz, -19000)
 
         // x = (xx * 20000) / (zz + 20000);
         // y = (yy * 20000) / (zz + 20000);
         __m128 __20000 = _mm_set_ps1(20000);
-        __zz = _mm_add_ps(__pointz, __20000);         // zz + 20000
-        __zz = _mm_rcp_ps(__zz);                      // 1 / (zz + 20000)
+        __zz     = _mm_add_ps(__zz, __20000);        // zz + 20000
+        __zz     = _mm_rcp_ps(__zz);                 // 1 / (zz + 20000)
 
-        __pointx = _mm_mul_ps(__pointx, __20000);     // xx * 20000
-        __pointx = _mm_mul_ps(__pointx, __zz);        // x = (xx * 20000) / (zz + 20000)
+        __xx     = _mm_mul_ps(__xx, __20000);        // xx * 20000
+        __pointx = _mm_mul_ps(__xx, __zz);           // x = (xx * 20000) / (zz + 20000)
 
-        __pointy = _mm_mul_ps(__pointy, __20000);     // yy * 20000
-        __pointy = _mm_mul_ps(__pointy, __zz);        // y = (yy * 20000) / (zz + 20000);
+        __yy     = _mm_mul_ps(__yy, __20000);        // yy * 20000
+        __pointy = _mm_mul_ps(__yy, __zz);           // y = (yy * 20000) / (zz + 20000);
 
         // mpPathPoints[i].x = (LONG)(x + org.x + 0.5);
         // mpPathPoints[i].y = (LONG)(y + org.y + 0.5);
