@@ -529,7 +529,9 @@ STDMETHODIMP CMpcAudioRenderer::GetPages(CAUUID* pPages)
     pPages->cElems = 1;
 
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
-    pPages->pElems[0] = __uuidof(CMpcAudioRendererSettingsWnd);
+    if (pPages->pElems != NULL) {
+        pPages->pElems[0] = __uuidof(CMpcAudioRendererSettingsWnd);
+    }
 
     return S_OK;
 }

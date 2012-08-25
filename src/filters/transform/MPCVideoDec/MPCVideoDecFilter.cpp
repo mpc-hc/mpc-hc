@@ -2460,9 +2460,11 @@ STDMETHODIMP CMPCVideoDecFilter::GetPages(CAUUID* pPages)
 #endif
 
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
-    pPages->pElems[0] = __uuidof(CMPCVideoDecSettingsWnd);
-    if (pPages->cElems > 1) {
-        pPages->pElems[1] = __uuidof(CMPCVideoDecCodecWnd);
+    if (pPages->pElems != NULL) {
+        pPages->pElems[0] = __uuidof(CMPCVideoDecSettingsWnd);
+        if (pPages->cElems > 1) {
+            pPages->pElems[1] = __uuidof(CMPCVideoDecCodecWnd);
+        }
     }
 
     return S_OK;

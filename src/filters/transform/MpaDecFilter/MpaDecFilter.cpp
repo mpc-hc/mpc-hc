@@ -1945,7 +1945,9 @@ STDMETHODIMP CMpaDecFilter::GetPages(CAUUID* pPages)
 
     pPages->cElems = 1;
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
-    pPages->pElems[0] = __uuidof(CMpaDecSettingsWnd);
+    if (pPages->pElems != NULL) {
+        pPages->pElems[0] = __uuidof(CMpaDecSettingsWnd);
+    }
 
     return S_OK;
 }

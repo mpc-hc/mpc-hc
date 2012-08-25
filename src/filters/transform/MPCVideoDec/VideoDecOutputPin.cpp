@@ -115,10 +115,12 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID* pGuid
                 m_pVideoDecFilter->SetDXVA1Params(&m_GuidDecoderDXVA1, &m_ddUncompPixelFormat);
 
                 pConnectMode = (DXVA_ConnectMode*)CoTaskMemAlloc(sizeof(DXVA_ConnectMode));
-                pConnectMode->guidMode = m_GuidDecoderDXVA1;
-                pConnectMode->wRestrictedMode = m_pVideoDecFilter->GetDXVA1RestrictedMode();
-                *pdwSizeMiscData = sizeof(DXVA_ConnectMode);
-                *ppMiscData = pConnectMode;
+                if (pConnectMode != NULL) {
+                    pConnectMode->guidMode = m_GuidDecoderDXVA1;
+                    pConnectMode->wRestrictedMode = m_pVideoDecFilter->GetDXVA1RestrictedMode();
+                    *pdwSizeMiscData = sizeof(DXVA_ConnectMode);
+                    *ppMiscData = pConnectMode;
+                }
             }
         }
     }
