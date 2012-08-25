@@ -1943,13 +1943,17 @@ STDMETHODIMP CMpaDecFilter::GetPages(CAUUID* pPages)
 {
     CheckPointer(pPages, E_POINTER);
 
+    HRESULT hr = S_OK;
+
     pPages->cElems = 1;
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
     if (pPages->pElems != NULL) {
         pPages->pElems[0] = __uuidof(CMpaDecSettingsWnd);
+    } else {
+        hr = E_OUTOFMEMORY;
     }
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CMpaDecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)

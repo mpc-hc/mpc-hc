@@ -2453,6 +2453,8 @@ STDMETHODIMP CMPCVideoDecFilter::GetPages(CAUUID* pPages)
 {
     CheckPointer(pPages, E_POINTER);
 
+    HRESULT hr = S_OK;
+
 #ifdef STANDALONE_FILTER
     pPages->cElems = 2;
 #else
@@ -2465,9 +2467,11 @@ STDMETHODIMP CMPCVideoDecFilter::GetPages(CAUUID* pPages)
         if (pPages->cElems > 1) {
             pPages->pElems[1] = __uuidof(CMPCVideoDecCodecWnd);
         }
+    } else {
+        hr = E_OUTOFMEMORY;
     }
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CMPCVideoDecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)

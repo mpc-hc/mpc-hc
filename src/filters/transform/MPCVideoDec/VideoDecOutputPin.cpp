@@ -120,6 +120,8 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID* pGuid
                     pConnectMode->wRestrictedMode = m_pVideoDecFilter->GetDXVA1RestrictedMode();
                     *pdwSizeMiscData = sizeof(DXVA_ConnectMode);
                     *ppMiscData = pConnectMode;
+                } else {
+                    hr = E_OUTOFMEMORY;
                 }
             }
         }

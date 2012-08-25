@@ -526,14 +526,17 @@ STDMETHODIMP CMpcAudioRenderer::GetPages(CAUUID* pPages)
 {
     CheckPointer(pPages, E_POINTER);
 
-    pPages->cElems = 1;
+    HRESULT hr = S_OK;
 
+    pPages->cElems = 1;
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
     if (pPages->pElems != NULL) {
         pPages->pElems[0] = __uuidof(CMpcAudioRendererSettingsWnd);
+    } else {
+        hr = E_OUTOFMEMORY;
     }
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CMpcAudioRenderer::CreatePage(const GUID& guid, IPropertyPage** ppPage)
