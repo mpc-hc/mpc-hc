@@ -470,9 +470,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
-            if FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                                                    D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
-                                                    &pp, &DisplayMode, &m_pD3DDevEx)) {
+            if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                            D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
+                            &pp, &DisplayMode, &m_pD3DDevEx))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             }
@@ -482,7 +482,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 m_DisplayType = DisplayMode.Format;
             }
         } else {
-            if FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev)) {
+            if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                                                 D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
+                                                 &pp, &m_pD3DDev))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             }
@@ -521,9 +523,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
         }
         if (m_pD3DEx) {
-            if FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                                                    D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
-                                                    &pp, NULL, &m_pD3DDevEx)) {
+            if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                            D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
+                            &pp, NULL, &m_pD3DDevEx))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             }
@@ -531,9 +533,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 m_pD3DDev = m_pD3DDevEx;
             }
         } else {
-            if FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                                                D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
-                                                &pp, &m_pD3DDev)) {
+            if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                                                 D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
+                                                 &pp, &m_pD3DDev))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             }
@@ -762,12 +764,12 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
             m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx, m_hWnd), &DisplayMode, NULL);
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
-            if FAILED(m_pD3DDevEx->Reset(&pp)) {
+            if (FAILED(m_pD3DDevEx->Reset(&pp))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             }
         } else if (m_pD3DDev) {
-            if FAILED(m_pD3DDev->Reset(&pp)) {
+            if (FAILED(m_pD3DDev->Reset(&pp))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             }
@@ -797,11 +799,11 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
             pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
         }
         if (m_pD3DDevEx)
-            if FAILED(m_pD3DDevEx->Reset(&pp)) {
+            if (FAILED(m_pD3DDevEx->Reset(&pp))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             } else if (m_pD3DDev)
-                if FAILED(m_pD3DDevEx->Reset(&pp)) {
+                if (FAILED(m_pD3DDevEx->Reset(&pp))) {
                     _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                     return hr;
                 } else {
