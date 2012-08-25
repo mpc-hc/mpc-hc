@@ -314,7 +314,7 @@ void CWord::Transform_SSE2(CPoint& org)
         // rotate
 
         __m128 __xx, __yy;
-        __m128 __zz = _mm_set_ps1(0);
+        __m128 __zz = _mm_setzero_ps();
 
         // xx = x * caz + y * saz
         __tmpx   = _mm_mul_ps(__pointx, __caz);      // x * caz
@@ -357,13 +357,12 @@ void CWord::Transform_SSE2(CPoint& org)
         // y = (yy * 20000) / (zz + 20000);
         __m128 __20000 = _mm_set_ps1(20000);
         __zz     = _mm_add_ps(__zz, __20000);        // zz + 20000
-        __zz     = _mm_rcp_ps(__zz);                 // 1 / (zz + 20000)
 
         __xx     = _mm_mul_ps(__xx, __20000);        // xx * 20000
-        __pointx = _mm_mul_ps(__xx, __zz);           // x = (xx * 20000) / (zz + 20000)
+        __pointx = _mm_div_ps(__xx, __zz);           // x = (xx * 20000) / (zz + 20000)
 
         __yy     = _mm_mul_ps(__yy, __20000);        // yy * 20000
-        __pointy = _mm_mul_ps(__yy, __zz);           // y = (yy * 20000) / (zz + 20000);
+        __pointy = _mm_div_ps(__yy, __zz);           // y = (yy * 20000) / (zz + 20000);
 
         // mpPathPoints[i].x = (LONG)(x + org.x + 0.5);
         // mpPathPoints[i].y = (LONG)(y + org.y + 0.5);
