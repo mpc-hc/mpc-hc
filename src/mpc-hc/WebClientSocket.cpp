@@ -872,7 +872,7 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
     return fRet;
 }
 
-bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
+bool CWebClientSocket::OnViewRes(CStringA& hdr, CStringA& body, CStringA& mime)
 {
     CString id;
     if (!m_get.Lookup(_T("id"), id)) {
@@ -892,7 +892,7 @@ bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
     }
 
     body = CStringA((const char*)res->data.GetData(), (int)res->data.GetCount());
-    mime = CString(res->mime);
+    mime = CStringA(res->mime);
 
     return true;
 }

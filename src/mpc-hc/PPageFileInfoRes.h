@@ -55,8 +55,7 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
-public:
     afx_msg void OnSaveAs();
     afx_msg void OnUpdateSaveAs(CCmdUI* pCmdUI);
-    afx_msg void OnNMDblclkList1(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnOpenEmbeddedResInBrowser(NMHDR* pNMHDR, LRESULT* pResult);
 };

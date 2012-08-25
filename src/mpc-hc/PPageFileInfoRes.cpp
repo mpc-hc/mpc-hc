@@ -53,7 +53,7 @@ void CPPageFileInfoRes::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageFileInfoRes, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnSaveAs)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateSaveAs)
-    ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnNMDblclkList1)
+    ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnOpenEmbeddedResInBrowser)
 END_MESSAGE_MAP()
 
 // CPPageFileInfoRes message handlers
@@ -75,8 +75,8 @@ BOOL CPPageFileInfoRes::OnInitDialog()
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
-    m_list.InsertColumn(0, _T("Name"), LVCFMT_LEFT, 187);
-    m_list.InsertColumn(1, _T("Mime Type"), LVCFMT_LEFT, 127);
+    m_list.InsertColumn(0, ResStr(IDS_EMB_RESOURCES_VIEWER_NAME), LVCFMT_LEFT, 187);
+    m_list.InsertColumn(1, ResStr(IDS_EMB_RESOURCES_VIEWER_TYPE), LVCFMT_LEFT, 127);
 
     BeginEnumFilters(m_pFG, pEF, pBF) {
         if (CComQIPtr<IDSMResourceBag> pRB = pBF)
@@ -135,18 +135,24 @@ void CPPageFileInfoRes::OnUpdateSaveAs(CCmdUI* pCmdUI)
     pCmdUI->Enable(m_list.GetSelectedCount());
 }
 
-void CPPageFileInfoRes::OnNMDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
+void CPPageFileInfoRes::OnOpenEmbeddedResInBrowser(NMHDR* pNMHDR, LRESULT* pResult)
 {
     int i = m_list.GetSelectionMark();
     if (i < 0) {
         return;
     }
 
-    CDSMResource& r = m_res.GetAt((POSITION)m_list.GetItemData(i));
+    const CAppSettings& s = AfxGetAppSettings();
 
-    CString url;
-    url.Format(_T("http://localhost:%d/convres.html?id=%Ix"), AfxGetAppSettings().nWebServerPort, reinterpret_cast<uintptr_t>(&r));
-    ShellExecute(NULL, _T("open"), url, NULL, NULL, SW_SHOWDEFAULT);
+    if (s.fEnableWebServer) {
+        CDSMResource& r = m_res.GetAt((POSITION)m_list.GetItemData(i));
+
+        CString url;
+        url.Format(_T("http://localhost:%d/viewres.html?id=%Ix"), s.nWebServerPort, reinterpret_cast<uintptr_t>(&r));
+        ShellExecute(NULL, _T("open"), url, NULL, NULL, SW_SHOWDEFAULT);
+    } else {
+        AfxMessageBox(IDS_EMB_RESOURCES_VIEWER_INFO, MB_ICONINFORMATION);
+    }
 
     *pResult = 0;
 }

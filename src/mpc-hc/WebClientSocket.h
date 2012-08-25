@@ -65,5 +65,5 @@ public:
     bool OnError404(CStringA& hdr, CStringA& body, CStringA& mime);
     bool OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime);
     bool OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& mime);
-    bool OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime);
+    bool OnViewRes(CStringA& hdr, CStringA& body, CStringA& mime);
 };
