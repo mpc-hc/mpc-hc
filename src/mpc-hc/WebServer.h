@@ -60,6 +60,8 @@ public:
     CWebServer(CMainFrame* pMainFrame, int nPort = 13579);
     virtual ~CWebServer();
 
+    static void Init();
+
     static void Deploy(CString dir);
 
     bool ToLocalPath(CString& path, CString& redir);

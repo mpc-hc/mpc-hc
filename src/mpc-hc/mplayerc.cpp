@@ -1081,6 +1081,8 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_mutexOneInstance.Release();
 
+    CWebServer::Init();
+
     if (UpdateChecker::IsAutoUpdateEnabled()) {
         UpdateChecker::CheckForUpdate(true);
     }

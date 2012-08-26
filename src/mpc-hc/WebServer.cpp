@@ -41,81 +41,6 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     : m_pMainFrame(pMainFrame)
     , m_nPort(nPort)
 {
-    if (m_internalpages.IsEmpty()) {
-        m_internalpages[_T("/")] = &CWebClientSocket::OnIndex;
-        m_internalpages[_T("/404.html")] = &CWebClientSocket::OnError404;
-        m_internalpages[_T("/browser.html")] = &CWebClientSocket::OnBrowser;
-        m_internalpages[_T("/command.html")] = &CWebClientSocket::OnCommand;
-        m_internalpages[_T("/controls.html")] = &CWebClientSocket::OnControls;
-        m_internalpages[_T("/index.html")] = &CWebClientSocket::OnIndex;
-        m_internalpages[_T("/info.html")] = &CWebClientSocket::OnInfo;
-        m_internalpages[_T("/player.html")] = &CWebClientSocket::OnPlayer;
-        m_internalpages[_T("/snapshot.jpg")] = &CWebClientSocket::OnSnapShotJpeg;
-        m_internalpages[_T("/status.html")] = &CWebClientSocket::OnStatus;
-        m_internalpages[_T("/variables.html")] = &CWebClientSocket::OnVariables;
-        m_internalpages[_T("/viewres.html")] = &CWebClientSocket::OnViewRes;
-    }
-
-    if (m_downloads.IsEmpty()) {
-        m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
-        m_downloads[_T("/images/1pix.png")] = IDF_1PIX_PNG;
-        m_downloads[_T("/images/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
-        m_downloads[_T("/images/controlback.png")] = IDF_CONTROLBACK_PNG;
-        m_downloads[_T("/images/controlbuttondecrate.png")] = IDF_CONTROLBUTTONDECRATE_PNG;
-        m_downloads[_T("/images/controlbuttonincrate.png")] = IDF_CONTROLBUTTONINCRATE_PNG;
-        m_downloads[_T("/images/controlbuttonpause.png")] = IDF_CONTROLBUTTONPAUSE_PNG;
-        m_downloads[_T("/images/controlbuttonplay.png")] = IDF_CONTROLBUTTONPLAY_PNG;
-        m_downloads[_T("/images/controlbuttonskipback.png")] = IDF_CONTROLBUTTONSKIPBACK_PNG;
-        m_downloads[_T("/images/controlbuttonskipforward.png")] = IDF_CONTROLBUTTONSKIPFORWARD_PNG;
-        m_downloads[_T("/images/controlbuttonstep.png")] = IDF_CONTROLBUTTONSTEP_PNG;
-        m_downloads[_T("/images/controlbuttonstop.png")] = IDF_CONTROLBUTTONSTOP_PNG;
-        m_downloads[_T("/images/controlvolumebar.png")] = IDF_CONTROLVOLUMEBAR_PNG;
-        m_downloads[_T("/images/controlvolumegrip.png")] = IDF_CONTROLVOLUMEGRIP_PNG;
-        m_downloads[_T("/images/controlvolumeoff.png")] = IDF_CONTROLVOLUMEOFF_PNG;
-        m_downloads[_T("/images/controlvolumeon.png")] = IDF_CONTROLVOLUMEON_PNG;
-        m_downloads[_T("/images/headerback.png")] = IDF_HEADERBACK_PNG;
-        m_downloads[_T("/images/headerclose.png")] = IDF_HEADERCLOSE_PNG;
-        m_downloads[_T("/images/headericon.png")] = IDF_HEADERICON_PNG;
-        m_downloads[_T("/images/leftbottomside.png")] = IDF_LEFTBOTTOMSIDE_PNG;
-        m_downloads[_T("/images/leftside.png")] = IDF_LEFTSIDE_PNG;
-        m_downloads[_T("/images/rightbottomside.png")] = IDF_RIGHTBOTTOMSIDE_PNG;
-        m_downloads[_T("/images/rightside.png")] = IDF_RIGHTSIDE_PNG;
-        m_downloads[_T("/images/seekbargrip.png")] = IDF_SEEKBARGRIP_PNG;
-        m_downloads[_T("/images/seekbarleft.png")] = IDF_SEEKBARLEFT_PNG;
-        m_downloads[_T("/images/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
-        m_downloads[_T("/images/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
-        m_downloads[_T("/images/sliderback.png")] = IDF_SLIDERBACK_PNG;
-        m_downloads[_T("/images/slidergrip.png")] = IDF_SLIDERGRIP_PNG;
-        m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
-        m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
-        m_downloads[_T("/javascript.js")] = IDF_JAVASCRIPT;
-    }
-
-    CRegKey key;
-    CString str(_T("MIME\\Database\\Content Type"));
-    if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, str, KEY_READ)) {
-        TCHAR buff[256];
-        DWORD len = _countof(buff);
-        for (int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++, len = _countof(buff)) {
-            CRegKey mime;
-            TCHAR ext[64];
-            ULONG len2 = _countof(ext);
-            if (ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
-                    && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len2)) {
-                m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
-            }
-        }
-    }
-
-    m_mimes[".css"] = "text/css";
-    m_mimes[".gif"] = "image/gif";
-    m_mimes[".html"] = "text/html";
-    m_mimes[".jpeg"] = "image/jpeg";
-    m_mimes[".jpg"] = "image/jpeg";
-    m_mimes[".js"] = "text/javascript";
-    m_mimes[".png"] = "image/png";
-    m_mimes[".txt"] = "text/plain";
-
     m_webroot = CPath(GetProgramPath());
 
     CString WebRoot = AfxGetAppSettings().strWebRoot;
@@ -158,6 +83,80 @@ CWebServer::~CWebServer()
         }
         EXECUTE_ASSERT(CloseHandle(m_hThread));
     }
+}
+
+void CWebServer::Init()
+{
+    m_internalpages[_T("/")] = &CWebClientSocket::OnIndex;
+    m_internalpages[_T("/404.html")] = &CWebClientSocket::OnError404;
+    m_internalpages[_T("/browser.html")] = &CWebClientSocket::OnBrowser;
+    m_internalpages[_T("/command.html")] = &CWebClientSocket::OnCommand;
+    m_internalpages[_T("/controls.html")] = &CWebClientSocket::OnControls;
+    m_internalpages[_T("/index.html")] = &CWebClientSocket::OnIndex;
+    m_internalpages[_T("/info.html")] = &CWebClientSocket::OnInfo;
+    m_internalpages[_T("/player.html")] = &CWebClientSocket::OnPlayer;
+    m_internalpages[_T("/snapshot.jpg")] = &CWebClientSocket::OnSnapShotJpeg;
+    m_internalpages[_T("/status.html")] = &CWebClientSocket::OnStatus;
+    m_internalpages[_T("/variables.html")] = &CWebClientSocket::OnVariables;
+    m_internalpages[_T("/viewres.html")] = &CWebClientSocket::OnViewRes;
+    
+    m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
+    m_downloads[_T("/images/1pix.png")] = IDF_1PIX_PNG;
+    m_downloads[_T("/images/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
+    m_downloads[_T("/images/controlback.png")] = IDF_CONTROLBACK_PNG;
+    m_downloads[_T("/images/controlbuttondecrate.png")] = IDF_CONTROLBUTTONDECRATE_PNG;
+    m_downloads[_T("/images/controlbuttonincrate.png")] = IDF_CONTROLBUTTONINCRATE_PNG;
+    m_downloads[_T("/images/controlbuttonpause.png")] = IDF_CONTROLBUTTONPAUSE_PNG;
+    m_downloads[_T("/images/controlbuttonplay.png")] = IDF_CONTROLBUTTONPLAY_PNG;
+    m_downloads[_T("/images/controlbuttonskipback.png")] = IDF_CONTROLBUTTONSKIPBACK_PNG;
+    m_downloads[_T("/images/controlbuttonskipforward.png")] = IDF_CONTROLBUTTONSKIPFORWARD_PNG;
+    m_downloads[_T("/images/controlbuttonstep.png")] = IDF_CONTROLBUTTONSTEP_PNG;
+    m_downloads[_T("/images/controlbuttonstop.png")] = IDF_CONTROLBUTTONSTOP_PNG;
+    m_downloads[_T("/images/controlvolumebar.png")] = IDF_CONTROLVOLUMEBAR_PNG;
+    m_downloads[_T("/images/controlvolumegrip.png")] = IDF_CONTROLVOLUMEGRIP_PNG;
+    m_downloads[_T("/images/controlvolumeoff.png")] = IDF_CONTROLVOLUMEOFF_PNG;
+    m_downloads[_T("/images/controlvolumeon.png")] = IDF_CONTROLVOLUMEON_PNG;
+    m_downloads[_T("/images/headerback.png")] = IDF_HEADERBACK_PNG;
+    m_downloads[_T("/images/headerclose.png")] = IDF_HEADERCLOSE_PNG;
+    m_downloads[_T("/images/headericon.png")] = IDF_HEADERICON_PNG;
+    m_downloads[_T("/images/leftbottomside.png")] = IDF_LEFTBOTTOMSIDE_PNG;
+    m_downloads[_T("/images/leftside.png")] = IDF_LEFTSIDE_PNG;
+    m_downloads[_T("/images/rightbottomside.png")] = IDF_RIGHTBOTTOMSIDE_PNG;
+    m_downloads[_T("/images/rightside.png")] = IDF_RIGHTSIDE_PNG;
+    m_downloads[_T("/images/seekbargrip.png")] = IDF_SEEKBARGRIP_PNG;
+    m_downloads[_T("/images/seekbarleft.png")] = IDF_SEEKBARLEFT_PNG;
+    m_downloads[_T("/images/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
+    m_downloads[_T("/images/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
+    m_downloads[_T("/images/sliderback.png")] = IDF_SLIDERBACK_PNG;
+    m_downloads[_T("/images/slidergrip.png")] = IDF_SLIDERGRIP_PNG;
+    m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
+    m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
+    m_downloads[_T("/javascript.js")] = IDF_JAVASCRIPT;
+    
+    CRegKey key;
+    CString str(_T("MIME\\Database\\Content Type"));
+    if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, str, KEY_READ)) {
+        TCHAR buff[256];
+        DWORD len = _countof(buff);
+        for (int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++, len = _countof(buff)) {
+            CRegKey mime;
+            TCHAR ext[64];
+            ULONG len2 = _countof(ext);
+            if (ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
+                && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len2)) {
+                    m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
+            }
+        }
+    }
+
+    m_mimes[".css"] = "text/css";
+    m_mimes[".gif"] = "image/gif";
+    m_mimes[".html"] = "text/html";
+    m_mimes[".jpeg"] = "image/jpeg";
+    m_mimes[".jpg"] = "image/jpeg";
+    m_mimes[".js"] = "text/javascript";
+    m_mimes[".png"] = "image/png";
+    m_mimes[".txt"] = "text/plain";
 }
 
 DWORD WINAPI CWebServer::StaticThreadProc(LPVOID lpParam)
