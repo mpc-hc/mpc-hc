@@ -11,7 +11,7 @@ Legend:
 1.6.4 - not released yet
 ========================
 + MPCVideoDec: Add support for 4K for Intel HD Graphics 4000
-* Updated FFmpeg (git 15a0fb5)
+* Updated FFmpeg (git 17106a7)
 * Updated Little CMS to v2.4 (git 3a69c0c)
 * Remove .dat extention from the icon library and the formats
   (you can still associate it in the "Others" formats)
