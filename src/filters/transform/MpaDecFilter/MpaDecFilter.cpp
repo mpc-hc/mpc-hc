@@ -2122,11 +2122,10 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum AVCodecID nCodecId, BYTE* p, int buffs
 
             int used_bytes = avcodec_decode_audio4(m_pAVCtx, m_pFrame, &got_frame, &avpkt);
 
-            if (used_bytes < 0 || (used_bytes == 0 && !got_frame)) {
+            if (used_bytes < 0) {
                 TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - decoding failed\n"));
-                size = used_bytes;
                 goto fail;
-            } else if (used_bytes == 0) {
+            } else if (used_bytes == 0 && !got_frame) {
                 TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - could not process buffer while decoding\n"));
                 break;
             } else if (m_pAVCtx->channels > 8) {
