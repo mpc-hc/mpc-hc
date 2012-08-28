@@ -99,7 +99,7 @@ void CWebServer::Init()
     m_internalpages[_T("/status.html")] = &CWebClientSocket::OnStatus;
     m_internalpages[_T("/variables.html")] = &CWebClientSocket::OnVariables;
     m_internalpages[_T("/viewres.html")] = &CWebClientSocket::OnViewRes;
-    
+
     m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
     m_downloads[_T("/images/1pix.png")] = IDF_1PIX_PNG;
     m_downloads[_T("/images/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
@@ -132,7 +132,7 @@ void CWebServer::Init()
     m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
     m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
     m_downloads[_T("/javascript.js")] = IDF_JAVASCRIPT;
-    
+
     CRegKey key;
     CString str(_T("MIME\\Database\\Content Type"));
     if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, str, KEY_READ)) {
@@ -143,8 +143,8 @@ void CWebServer::Init()
             TCHAR ext[64];
             ULONG len2 = _countof(ext);
             if (ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
-                && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len2)) {
-                    m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
+                    && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len2)) {
+                m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
             }
         }
     }
