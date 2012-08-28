@@ -890,10 +890,8 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
     int size = 0;
     hr = DeliverFFmpeg(nCodecId, p, int(end - p), size);
     if (FAILED(hr)) {
-        if (!(nCodecId == AV_CODEC_ID_AAC || nCodecId == AV_CODEC_ID_AAC_LATM)) {
-            m_buff.RemoveAll();
-            m_bResync = true;
-        }
+        m_buff.RemoveAll();
+        m_bResync = true;
         return S_OK;
     }
 
@@ -2132,7 +2130,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(enum AVCodecID nCodecId, BYTE* p, int buffs
                 // sometimes avcodec_decode_audio4 cannot identify the garbage and produces incorrect data.
                 // this code does not solve the problem, it only reduces the likelihood of crash.
                 // do it better!
-                got_frame = 0;
+                goto fail;
             }
             ASSERT(buffsize >= used_bytes);
 
