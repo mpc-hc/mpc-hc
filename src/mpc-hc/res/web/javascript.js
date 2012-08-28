@@ -1,14 +1,14 @@
-var filepath;
-var curpos;
+var filePath;
+var curPos;
 var length;
 var state;
 var pbr;
 var eta;
 var volume;
 var muted; /*-1 no sound*/
-var starttime = (new Date()).getTime();
-var slidersize = 500;
-var sliderbuttonwidth = 15;
+var startTime = (new Date()).getTime();
+var sliderSize = 500;
+var sliderButtonWidth = 15;
 var vsb = 10;
 var vss = 100;
 var sc = 0
@@ -17,11 +17,11 @@ var AP;
 var RL;
 var rpt;
 var etaup = false;
-if (eta == 0) eta = (state < 0 && filepath.length > 0) ? 2 : 120;
+if (eta == 0) eta = (state < 0 && filePath.length > 0) ? 2 : 120;
 
-function init(_filepath, _curpos, _length, _state, _pbr, _eta, _volume, _muted) {
-	filepath = _filepath;
-	curpos = _curpos;
+function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) {
+	filePath = _filePath;
+	curPos = _curPos;
 	length = _length;
 	state = _state;
 	pbr = _pbr;
@@ -31,8 +31,8 @@ function init(_filepath, _curpos, _length, _state, _pbr, _eta, _volume, _muted) 
 
 	if (eta > 0) RL = setTimeout("etaup=true; if (re.checked==true) postForm(0,'null',0);", 1000 * eta);
 	Live = (length < 1);
-	starttime = starttime - curpos;
-	rdirt = length * pbr / slidersize;
+	startTime = startTime - curPos;
+	rdirt = length * pbr / sliderSize;
 	rdirt = Math.floor(rdirt > 1000 ? 1000 : (rdirt < 300 ? 300 : rdirt));
 	cpf = document.getElementById("pos");
 	cp = document.getElementById("time");
@@ -48,17 +48,17 @@ function init(_filepath, _curpos, _length, _state, _pbr, _eta, _volume, _muted) 
 	vs3 = document.getElementById("v3");
 	document.getElementById("muted").innerHTML = muted == -1 ? "X" : muted == 1 ? "M" : "&nbsp;&nbsp;";
 	s.height = sb1.height = sb2.height = sb3.height = vs.height = vs1.height = vs2.height = vs3.height = 20;
-	s.width = slidersize + (sb2.width = sliderbuttonwidth);
+	s.width = sliderSize + (sb2.width = sliderButtonWidth);
 	vs.width = vss + (vs2.width = vsb);
 	sb1.onclick = sb2.onclick = sb3.onclick = sliderClick;
 	vs1.onclick = vs2.onclick = vs3.onclick = volSliderClick;
 	sas.checked = true;
-	/*g = " " + secondsToTS(curpos, 0, true) + " " + x < 0 ? ("Buffering %" + (-x - 1).toString()):"";*/
-	cp.innerHTML = cpf.value = secondsToTS(curpos, 5, false);
-	rpt = curpos;
+	/*g = " " + secondsToTS(curPos, 0, true) + " " + x < 0 ? ("Buffering %" + (-x - 1).toString()):"";*/
+	cp.innerHTML = cpf.value = secondsToTS(curPos, 5, false);
+	rpt = curPos;
 	if (state == 2 && pbr != 0) autoplay();
 	volumeUpdate(volume, true);
-	return update(curpos, true);
+	return update(curPos, true);
 }
 
 function autoplay(a) {
@@ -68,7 +68,7 @@ function autoplay(a) {
 	}
 	AP = setTimeout("autoplay()", rdirt);
 	var ct = (new Date()).getTime();
-	var cap = pbr * (ct - starttime);
+	var cap = pbr * (ct - startTime);
 	if (cap > length && !Live) if (re.checked == true) RL = setTimeout("window.location=window.location", 5000);
 	cap = ((cap > length && !Live) ? length : (cap < 0 ? 0 : cap));
 	if (sas.checked == true || a == true) {
@@ -135,23 +135,23 @@ function parseTime(y) {
 function update(a, b) {
 	if (a == -2000) return false;
 	if (b) {
-		m = (curpos = ((a > length && !Live) ? length : (a < 0 ? 0 : a))) * slidersize / length;
+		m = (curPos = ((a > length && !Live) ? length : (a < 0 ? 0 : a))) * sliderSize / length;
 	} else {
-		curpos = (m = (a > slidersize ? slidersize : (a < 0 ? 0 : a))) * length / slidersize;
+		curPos = (m = (a > sliderSize ? sliderSize : (a < 0 ? 0 : a))) * length / sliderSize;
 	}
 	if (m > sb1.width) {
-		sb3.width = slidersize - Math.floor(m);
+		sb3.width = sliderSize - Math.floor(m);
 		sb1.width = m;
 	} else {
 		sb1.width = m;
-		sb3.width = slidersize - sb1.width;
+		sb3.width = sliderSize - sb1.width;
 	}
 	return true;
 }
 
 function sliderClick(e) {
-	update((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getOffsetX(s) - Math.floor(sliderbuttonwidth / 2) + sc, false);
-	cpf.value = secondsToTS(curpos, 5, false);
+	update((window.event ? window.event.clientX - 3 : e.clientX) + document.body.scrollLeft - getOffsetX(s) - Math.floor(sliderButtonWidth / 2) + sc, false);
+	cpf.value = secondsToTS(curPos, 5, false);
 	sas.checked = false;
 	return true;
 }
@@ -273,11 +273,11 @@ function getOffsetX(m) {
 	return x;
 }
 
-OnStatus = function (title, status, pos, posstr, dur, durstr, muted, volume, filepath) {
-	var maxtitle = 70;
-	if (title.length > maxtitle)
-		title = title.substr(0, maxtitle - 3) + "...";
-	var timestr = dur > 0 && posstr && durstr ? posstr + "&nbsp;/&nbsp;" + durstr : "&nbsp;";
+OnStatus = function (title, status, pos, posStr, dur, durStr, muted, volume, filePath) {
+	var maxTitle = 70;
+	if (title.length > maxTitle)
+		title = title.substr(0, maxTitle - 3) + "...";
+	var timestr = dur > 0 && posStr && durStr ? posStr + "&nbsp;/&nbsp;" + durStr : "&nbsp;";
 	if (!dur || dur == 0)
 		dur = 1;
 	var sbpercent = Math.floor(100 * pos / dur);
@@ -331,11 +331,11 @@ function StatusLoop() {
 	setTimeout("StatusLoop()", 500);
 }
 
-var snapshotcounter = 0;
+var snapshotCounter = 0;
 
 function LoadSnapShot() {
 	if (img = document.getElementById("snapshot")) {
-		img.src = "snapshot.jpg" + "?" + snapshotcounter++;
+		img.src = "snapshot.jpg" + "?" + snapshotCounter++;
 	}
 }
 
