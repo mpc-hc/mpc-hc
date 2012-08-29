@@ -113,7 +113,7 @@ end:
     return NULL;
 }
 
-int ff_frame_thread_encoder_init(AVCodecContext *avctx){
+int ff_frame_thread_encoder_init(AVCodecContext *avctx, AVDictionary *options){
     int i=0;
     ThreadContext *c;
 
@@ -151,6 +151,7 @@ int ff_frame_thread_encoder_init(AVCodecContext *avctx){
     pthread_cond_init(&c->finished_task_cond, NULL);
 
     for(i=0; i<avctx->thread_count ; i++){
+        AVDictionary *tmp = NULL;
         AVCodecContext *thread_avctx = avcodec_alloc_context3(avctx->codec);
         if(!thread_avctx)
             goto fail;
@@ -165,10 +166,13 @@ int ff_frame_thread_encoder_init(AVCodecContext *avctx){
         thread_avctx->thread_count = 1;
         thread_avctx->active_thread_type &= ~FF_THREAD_FRAME;
 
-        //FIXME pass private options to encoder
-        if(avcodec_open2(thread_avctx, avctx->codec, NULL) < 0) {
+        av_dict_copy(&tmp, options, 0);
+        av_dict_set(&tmp, "threads", "1", 0);
+        if(avcodec_open2(thread_avctx, avctx->codec, &tmp) < 0) {
+            av_dict_free(&tmp);
             goto fail;
         }
+        av_dict_free(&tmp);
         av_assert0(!thread_avctx->internal->frame_thread_encoder);
         thread_avctx->internal->frame_thread_encoder = c;
         if(pthread_create(&c->worker[i], NULL, worker, thread_avctx)) {
@@ -226,6 +230,8 @@ int ff_thread_video_encode_frame(AVCodecContext *avctx, AVPacket *pkt, const AVF
             if(ret<0)
                 return ret;
             new->pts = frame->pts;
+            new->quality = frame->quality;
+            new->pict_type = frame->pict_type;
             av_image_copy(new->data, new->linesize, (const uint8_t **)frame->data, frame->linesize,
                           avctx->pix_fmt, avctx->width, avctx->height);
             frame = new;

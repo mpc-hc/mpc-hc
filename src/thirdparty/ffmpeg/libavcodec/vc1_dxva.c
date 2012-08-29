@@ -34,7 +34,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
     v->second_field = 0;
     *nFrameSize = 0;
 
-    //for advanced profile we may need to parse and unescape data
+    /* for advanced profile we may need to parse and unescape data */
     if (avctx->codec_id == AV_CODEC_ID_VC1 || avctx->codec_id == AV_CODEC_ID_VC1IMAGE) {
         int buf_size2 = 0;
         buf2 = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
@@ -103,7 +103,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
             if ((divider == (buf + buf_size)) || AV_RB32(divider) != VC1_CODE_FIELD) {
                 av_log(avctx, AV_LOG_ERROR, "Error in WVC1 interlaced frame\n");
                 goto err;
-            } else { // found field marker, unescape second field
+            } else { /* found field marker, unescape second field */
                 buf_start_second_field = divider;
                 tmp = av_realloc(slices, sizeof(*slices) * (n_slices + 1));
                 if (!tmp)
@@ -130,11 +130,11 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
     if (s->context_initialized &&
             (s->width  != avctx->coded_width ||
              s->height != avctx->coded_height)) {
-        vc1_decode_end(avctx);
+        ff_vc1_decode_end(avctx);
     }
 
     if (!s->context_initialized) {
-        if (ff_msmpeg4_decode_init(avctx) < 0 || vc1_decode_init_alloc_tables(v) < 0)
+        if (ff_msmpeg4_decode_init(avctx) < 0 || ff_vc1_decode_init_alloc_tables(v) < 0)
             return -1;
 
         s->low_delay = !avctx->has_b_frames || v->res_sprite;
@@ -152,7 +152,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size,
         s->current_picture_ptr = &s->picture[i];
     }
 
-    // do parse frame header
+    /* do parse frame header */
     v->pic_header_flag = 0;
 
     if (v->profile < PROFILE_ADVANCED) {

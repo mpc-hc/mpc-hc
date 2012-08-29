@@ -261,7 +261,7 @@ SRCS_C = \
     libavcodec/xiph.c \
     libavcodec/x86/ac3dsp_init.c \
     libavcodec/x86/dsputil_mmx.c \
-    libavcodec/x86/fdct_mmx.c \
+    libavcodec/x86/fdct.c \
     libavcodec/x86/fft_init.c \
     libavcodec/x86/fmtconvert_init.c \
     libavcodec/x86/h264_intrapred_init.c \
@@ -270,13 +270,13 @@ SRCS_C = \
     libavcodec/x86/idct_mmx_xvid.c \
     libavcodec/x86/idct_sse2_xvid.c \
     libavcodec/x86/mlpdsp.c \
-    libavcodec/x86/motion_est_mmx.c \
-    libavcodec/x86/mpegaudiodec_mmx.c \
+    libavcodec/x86/motion_est.c \
+    libavcodec/x86/mpegaudiodec.c \
     libavcodec/x86/mpegvideo.c \
     libavcodec/x86/rv34dsp_init.c \
     libavcodec/x86/rv40dsp_init.c \
     libavcodec/x86/sbrdsp_init.c \
-    libavcodec/x86/simple_idct_mmx.c \
+    libavcodec/x86/simple_idct.c \
     libavcodec/x86/vc1dsp_mmx.c \
     libavcodec/x86/vp3dsp_init.c \
     libavcodec/x86/vp56dsp_init.c \
@@ -337,10 +337,10 @@ SRCS_C = \
 # Yasm objects
 SRCS_YASM = \
     libavcodec/x86/ac3dsp.asm \
-    libavcodec/x86/dct32_sse.asm \
+    libavcodec/x86/dct32.asm \
     libavcodec/x86/deinterlace.asm \
     libavcodec/x86/dsputil.asm \
-    libavcodec/x86/fft_mmx.asm \
+    libavcodec/x86/fft.asm \
     libavcodec/x86/fmtconvert.asm \
     libavcodec/x86/h264_chromamc.asm \
     libavcodec/x86/h264_chromamc_10bit.asm \
@@ -353,7 +353,7 @@ SRCS_YASM = \
     libavcodec/x86/h264_qpel_10bit.asm \
     libavcodec/x86/h264_weight.asm \
     libavcodec/x86/h264_weight_10bit.asm \
-    libavcodec/x86/imdct36_sse.asm \
+    libavcodec/x86/imdct36.asm \
     libavcodec/x86/rv34dsp.asm \
     libavcodec/x86/rv40dsp.asm \
     libavcodec/x86/sbrdsp.asm \
