@@ -18,6 +18,8 @@ The following files have MPC-HC specific custom code (compared to FFmpeg):
 * libavcodec/utils.c
 * libavcodec/vc1dec.c
 
+* libavresample/x86/audio_mix_init.c
+
 * libavutil/common.h
 * libavutil/log.h
 * libavutil/mem.c
