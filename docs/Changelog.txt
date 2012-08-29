@@ -18,6 +18,10 @@ Legend:
   (you can still associate it in the "Others" formats)
 * Re-enable the embedded resources viewer in the properties dialog and improve
   its "open in brower" function (when double clicking on a resource)
+* Store the path to MPC-HC's executable in HKEY_CURRENT_USER for external use.
+  External applications that depend on that path should get it from there rather
+  than HKEY_LOCAL_MACHINE. The old key in HKEY_LOCAL_MACHINE will be removed in
+  the next version
 ! Web interface: Fix the "Deploy" feature
 ! Ticket #102, Fix playback of VideoCD as disk
 ! Ticket #2540, Fix handling of big API messages
