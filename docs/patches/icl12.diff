@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index feb6707..a1802e8 100644
+index 8cd30e7..a96dd62 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -287,9 +287,9 @@ IF /I "%~2" == "Win32" (
@@ -2252,7 +2252,7 @@ index 999bda6..24b3c78 100644
  SetupAppTitle=Setup - DirectVobSub
  SetupWindowTitle=Setup - DirectVobSub
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 791d068..788064c 100644
+index bdc8369..221d925 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
@@ -2306,7 +2306,7 @@ index 791d068..788064c 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
-index 9eac3aa..23b60eb 100644
+index 6a04e51..62e87b9 100644
 --- a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 +++ b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 @@ -19,10 +19,12 @@
@@ -2638,7 +2638,7 @@ index fedf4e4..fcdc2d4 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index 2fde7bc..5523c0a 100644
+index 42ea5e5..7090561 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
 @@ -52,7 +52,7 @@ ifeq ($(64BIT),yes)

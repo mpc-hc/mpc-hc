@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index feb6707..cdd1353 100644
+index 8cd30e7..bbdc9ec 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -28,7 +28,7 @@ IF EXIST "build.user.bat" (
@@ -2743,7 +2743,7 @@ index 8065ef2..d96f17a 100644
  /////////////////////////////////////////////////////////////////////////////
  //
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 791d068..fbcd383 100644
+index bdc8369..1458a78 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -39,47 +39,56 @@
@@ -2969,7 +2969,7 @@ index 791d068..fbcd383 100644
    <ItemGroup>
      <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp" />
 diff --git a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
-index 9eac3aa..d997226 100644
+index 6a04e51..2edfc4e 100644
 --- a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 +++ b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 @@ -14,15 +14,18 @@
@@ -3009,7 +3009,7 @@ index 49540bd..8e628f3 100644
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
 diff --git a/src/mpc-hc/res/mplayerc.rc2 b/src/mpc-hc/res/mplayerc.rc2
-index 826020d..178ce4b 100644
+index 2326cd7..c29c9f4 100644
 --- a/src/mpc-hc/res/mplayerc.rc2
 +++ b/src/mpc-hc/res/mplayerc.rc2
 @@ -29,12 +29,14 @@
@@ -3434,7 +3434,7 @@ index fedf4e4..ab83114 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index 28ca54e..05335df 100644
+index 7cda248..f13abe6 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@
