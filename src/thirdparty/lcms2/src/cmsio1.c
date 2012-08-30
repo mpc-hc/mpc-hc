@@ -229,9 +229,18 @@ cmsPipeline* BuildRGBInputMatrixShaper(cmsHPROFILE hProfile)
 
     Lut = cmsPipelineAlloc(ContextID, 3, 3);
     if (Lut != NULL) {
-
+     
         cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 3, Shapes));
         cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3, 3, (cmsFloat64Number*) &Mat, NULL));
+        
+        // Note that it is certainly possible a single profile would have a LUT based
+        // tag for output working in lab and a matrix-shaper for the fallback cases. 
+        // This is not allowed by the spec, but this code is tolerant to those cases    
+        if (cmsGetPCS(hProfile) == cmsSigLabData) {
+
+             cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocXYZ2Lab(ContextID));
+        }
+
     }
 
     return Lut;
@@ -430,6 +439,14 @@ cmsPipeline* BuildRGBOutputMatrixShaper(cmsHPROFILE hProfile)
     Lut = cmsPipelineAlloc(ContextID, 3, 3);
     if (Lut != NULL) {
 
+        // Note that it is certainly possible a single profile would have a LUT based
+        // tag for output working in lab and a matrix-shaper for the fallback cases. 
+        // This is not allowed by the spec, but this code is tolerant to those cases    
+        if (cmsGetPCS(hProfile) == cmsSigLabData) {
+
+             cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLab2XYZ(ContextID));
+        }
+
         cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3, 3, (cmsFloat64Number*) &Inv, NULL));
         cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 3, InvShapes));
     }
@@ -548,7 +565,7 @@ cmsPipeline* _cmsReadOutputLUT(cmsHPROFILE hProfile, int Intent)
               return BuildGrayOutputPipeline(hProfile);
     }
 
-    // Not gray, create a normal matrix-shaper
+    // Not gray, create a normal matrix-shaper, which only operates in XYZ space  
     return BuildRGBOutputMatrixShaper(hProfile);
 }
 
