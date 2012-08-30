@@ -101,36 +101,36 @@ void CWebServer::Init()
     m_internalpages[_T("/viewres.html")] = &CWebClientSocket::OnViewRes;
 
     m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
-    m_downloads[_T("/images/1pix.png")] = IDF_1PIX_PNG;
-    m_downloads[_T("/images/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
-    m_downloads[_T("/images/controlback.png")] = IDF_CONTROLBACK_PNG;
-    m_downloads[_T("/images/controlbuttondecrate.png")] = IDF_CONTROLBUTTONDECRATE_PNG;
-    m_downloads[_T("/images/controlbuttonincrate.png")] = IDF_CONTROLBUTTONINCRATE_PNG;
-    m_downloads[_T("/images/controlbuttonpause.png")] = IDF_CONTROLBUTTONPAUSE_PNG;
-    m_downloads[_T("/images/controlbuttonplay.png")] = IDF_CONTROLBUTTONPLAY_PNG;
-    m_downloads[_T("/images/controlbuttonskipback.png")] = IDF_CONTROLBUTTONSKIPBACK_PNG;
-    m_downloads[_T("/images/controlbuttonskipforward.png")] = IDF_CONTROLBUTTONSKIPFORWARD_PNG;
-    m_downloads[_T("/images/controlbuttonstep.png")] = IDF_CONTROLBUTTONSTEP_PNG;
-    m_downloads[_T("/images/controlbuttonstop.png")] = IDF_CONTROLBUTTONSTOP_PNG;
-    m_downloads[_T("/images/controlvolumebar.png")] = IDF_CONTROLVOLUMEBAR_PNG;
-    m_downloads[_T("/images/controlvolumegrip.png")] = IDF_CONTROLVOLUMEGRIP_PNG;
-    m_downloads[_T("/images/controlvolumeoff.png")] = IDF_CONTROLVOLUMEOFF_PNG;
-    m_downloads[_T("/images/controlvolumeon.png")] = IDF_CONTROLVOLUMEON_PNG;
-    m_downloads[_T("/images/headerback.png")] = IDF_HEADERBACK_PNG;
-    m_downloads[_T("/images/headerclose.png")] = IDF_HEADERCLOSE_PNG;
-    m_downloads[_T("/images/headericon.png")] = IDF_HEADERICON_PNG;
-    m_downloads[_T("/images/leftbottomside.png")] = IDF_LEFTBOTTOMSIDE_PNG;
-    m_downloads[_T("/images/leftside.png")] = IDF_LEFTSIDE_PNG;
-    m_downloads[_T("/images/rightbottomside.png")] = IDF_RIGHTBOTTOMSIDE_PNG;
-    m_downloads[_T("/images/rightside.png")] = IDF_RIGHTSIDE_PNG;
-    m_downloads[_T("/images/seekbargrip.png")] = IDF_SEEKBARGRIP_PNG;
-    m_downloads[_T("/images/seekbarleft.png")] = IDF_SEEKBARLEFT_PNG;
-    m_downloads[_T("/images/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
-    m_downloads[_T("/images/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
-    m_downloads[_T("/images/sliderback.png")] = IDF_SLIDERBACK_PNG;
-    m_downloads[_T("/images/slidergrip.png")] = IDF_SLIDERGRIP_PNG;
-    m_downloads[_T("/images/vbg.png")] = IDF_VBR_PNG;
-    m_downloads[_T("/images/vbs.png")] = IDF_VBS_PNG;
+    m_downloads[_T("/img/1pix.png")] = IDF_1PIX_PNG;
+    m_downloads[_T("/img/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
+    m_downloads[_T("/img/controlback.png")] = IDF_CONTROLBACK_PNG;
+    m_downloads[_T("/img/controlbuttondecrate.png")] = IDF_CONTROLBUTTONDECRATE_PNG;
+    m_downloads[_T("/img/controlbuttonincrate.png")] = IDF_CONTROLBUTTONINCRATE_PNG;
+    m_downloads[_T("/img/controlbuttonpause.png")] = IDF_CONTROLBUTTONPAUSE_PNG;
+    m_downloads[_T("/img/controlbuttonplay.png")] = IDF_CONTROLBUTTONPLAY_PNG;
+    m_downloads[_T("/img/controlbuttonskipback.png")] = IDF_CONTROLBUTTONSKIPBACK_PNG;
+    m_downloads[_T("/img/controlbuttonskipforward.png")] = IDF_CONTROLBUTTONSKIPFORWARD_PNG;
+    m_downloads[_T("/img/controlbuttonstep.png")] = IDF_CONTROLBUTTONSTEP_PNG;
+    m_downloads[_T("/img/controlbuttonstop.png")] = IDF_CONTROLBUTTONSTOP_PNG;
+    m_downloads[_T("/img/controlvolumebar.png")] = IDF_CONTROLVOLUMEBAR_PNG;
+    m_downloads[_T("/img/controlvolumegrip.png")] = IDF_CONTROLVOLUMEGRIP_PNG;
+    m_downloads[_T("/img/controlvolumeoff.png")] = IDF_CONTROLVOLUMEOFF_PNG;
+    m_downloads[_T("/img/controlvolumeon.png")] = IDF_CONTROLVOLUMEON_PNG;
+    m_downloads[_T("/img/headerback.png")] = IDF_HEADERBACK_PNG;
+    m_downloads[_T("/img/headerclose.png")] = IDF_HEADERCLOSE_PNG;
+    m_downloads[_T("/img/headericon.png")] = IDF_HEADERICON_PNG;
+    m_downloads[_T("/img/leftbottomside.png")] = IDF_LEFTBOTTOMSIDE_PNG;
+    m_downloads[_T("/img/leftside.png")] = IDF_LEFTSIDE_PNG;
+    m_downloads[_T("/img/rightbottomside.png")] = IDF_RIGHTBOTTOMSIDE_PNG;
+    m_downloads[_T("/img/rightside.png")] = IDF_RIGHTSIDE_PNG;
+    m_downloads[_T("/img/seekbargrip.png")] = IDF_SEEKBARGRIP_PNG;
+    m_downloads[_T("/img/seekbarleft.png")] = IDF_SEEKBARLEFT_PNG;
+    m_downloads[_T("/img/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
+    m_downloads[_T("/img/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
+    m_downloads[_T("/img/sliderback.png")] = IDF_SLIDERBACK_PNG;
+    m_downloads[_T("/img/slidergrip.png")] = IDF_SLIDERGRIP_PNG;
+    m_downloads[_T("/img/vbg.png")] = IDF_VBR_PNG;
+    m_downloads[_T("/img/vbs.png")] = IDF_VBS_PNG;
     m_downloads[_T("/javascript.js")] = IDF_JAVASCRIPT;
 
     CRegKey key;
@@ -216,7 +216,7 @@ void CWebServer::Deploy(CString dir)
     }
 
     // Create the needed folder
-    CreateDirectory(dir + _T("images"),  NULL);
+    CreateDirectory(dir + _T("img"),  NULL);
 
     POSITION pos = m_downloads.GetStartPosition();
     while (pos) {

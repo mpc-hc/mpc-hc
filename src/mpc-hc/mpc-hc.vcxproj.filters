@@ -19,7 +19,7 @@
     <Filter Include="Resource Files\shaders">
       <UniqueIdentifier>{662236d7-ad89-4026-bb57-bb27667da2e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\web\images">
+    <Filter Include="Resource Files\web\img">
       <UniqueIdentifier>{85c6230e-fa6b-497b-8d98-d4a066c86f48}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -892,95 +892,95 @@
     <None Include="res\web\variables.html">
       <Filter>Resource Files\web</Filter>
     </None>
-    <None Include="res\web\images\1pix.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\1pix.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\bottomside.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\bottomside.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlback.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlback.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlbuttondecrate.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlbuttondecrate.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlbuttonincrate.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlbuttonincrate.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlbuttonpause.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlbuttonpause.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlbuttonplay.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlbuttonplay.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlbuttonskipback.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlbuttonskipback.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlbuttonskipforward.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlbuttonskipforward.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlbuttonstep.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlbuttonstep.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlbuttonstop.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlbuttonstop.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlvolumebar.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlvolumebar.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlvolumegrip.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlvolumegrip.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlvolumeoff.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlvolumeoff.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\controlvolumeon.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\controlvolumeon.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\headerback.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\headerback.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\headerclose.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\headerclose.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\headericon.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\headericon.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\leftbottomside.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\leftbottomside.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\leftside.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\leftside.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\rightbottomside.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\rightbottomside.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\rightside.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\rightside.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\seekbargrip.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\seekbargrip.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\seekbarleft.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\seekbarleft.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\seekbarmid.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\seekbarmid.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\seekbarright.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\seekbarright.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\sliderback.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\sliderback.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\slidergrip.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\slidergrip.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\vbg.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\vbg.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
-    <None Include="res\web\images\vbs.png">
-      <Filter>Resource Files\web\images</Filter>
+    <None Include="res\web\img\vbs.png">
+      <Filter>Resource Files\web\img</Filter>
     </None>
     <None Include="res\tickcross.png">
       <Filter>Resource Files</Filter>

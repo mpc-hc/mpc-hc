@@ -292,7 +292,7 @@ OnStatus = function (title, status, pos, posStr, dur, durStr, muted, volume, fil
 	if ((e = document.getElementById("timer")) && e.innerHTML != timestr)
 		e.innerHTML = timestr;
 	if (e = document.getElementById("controlvolumemute")) {
-		url = "url(images/controlvolume" + (muted ? "off" : "on") + ".png)";
+		url = "url(img/controlvolume" + (muted ? "off" : "on") + ".png)";
 		if (e.style.backgroundImage != url)
 			e.style.backgroundImage = url;
 	}

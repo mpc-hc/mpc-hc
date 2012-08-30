@@ -29,19 +29,19 @@ img {
 
 #headericon {
 	width:22px;
-	background:url(images/headericon.png) no-repeat
+	background:url(img/headericon.png) no-repeat
 }
 
 #headerback {
 	color:#FFF;
 	font-weight:700;
 	padding-top:5px;
-	background:url(images/headerback.png) repeat-x
+	background:url(img/headerback.png) repeat-x
 }
 
 #headerclose {
 	width:28px;
-	background:url(images/headerclose.png) no-repeat
+	background:url(img/headerclose.png) no-repeat
 }
 
 #title,#status,#posstr,#durstr {
@@ -75,71 +75,71 @@ img {
 
 #controlbar {
 	height:28px;
-	background:url(images/controlback.png) repeat-x
+	background:url(img/controlback.png) repeat-x
 }
 
 #controlbuttonplay {
 	width:25px;
 	height:28px;
-	background:url(images/controlbuttonplay.png) no-repeat
+	background:url(img/controlbuttonplay.png) no-repeat
 }
 
 #controlbuttonpause {
 	width:23px;
 	height:28px;
-	background:url(images/controlbuttonpause.png) no-repeat
+	background:url(img/controlbuttonpause.png) no-repeat
 }
 
 #controlbuttonstop {
 	width:25px;
 	height:28px;
-	background:url(images/controlbuttonstop.png) no-repeat
+	background:url(img/controlbuttonstop.png) no-repeat
 }
 
 #controlbuttonskipback {
 	width:24px;
 	height:28px;
-	background:url(images/controlbuttonskipback.png) no-repeat
+	background:url(img/controlbuttonskipback.png) no-repeat
 }
 
 #controlbuttondecrate {
 	width:22px;
 	height:28px;
-	background:url(images/controlbuttondecrate.png) no-repeat
+	background:url(img/controlbuttondecrate.png) no-repeat
 }
 
 #controlbuttonincrate {
 	width:23px;
 	height:28px;
-	background:url(images/controlbuttonincrate.png) no-repeat
+	background:url(img/controlbuttonincrate.png) no-repeat
 }
 
 #controlbuttonskipforward {
 	width:28px;
 	height:28px;
-	background:url(images/controlbuttonskipforward.png) no-repeat
+	background:url(img/controlbuttonskipforward.png) no-repeat
 }
 
 #controlbuttonstep {
 	width:31px;
 	height:28px;
-	background:url(images/controlbuttonstep.png) no-repeat
+	background:url(img/controlbuttonstep.png) no-repeat
 }
 
 #controlvolumemute {
 	width:28px;
 	height:28px;
-	background:url(images/controlvolumeon.png) no-repeat
+	background:url(img/controlvolumeon.png) no-repeat
 }
 
 #controlvolumebar {
 	width:55px;
 	height:28px;
-	background:url(images/controlvolumebar.png) no-repeat
+	background:url(img/controlvolumebar.png) no-repeat
 }
 
 #seekbar {
-	background:url(images/seekbarmid.png) repeat-x
+	background:url(img/seekbarmid.png) repeat-x
 }
 
 #seekbar td {
@@ -148,29 +148,29 @@ img {
 
 #leftside {
 	width:4px;
-	background:url(images/leftside.png) repeat-y
+	background:url(img/leftside.png) repeat-y
 }
 
 #rightside {
 	width:4px;
-	background:url(images/rightside.png) repeat-y
+	background:url(img/rightside.png) repeat-y
 }
 
 #leftbottomside {
 	width:4px;
 	height:4px;
-	background:url(images/leftbottomside.png) repeat-x
+	background:url(img/leftbottomside.png) repeat-x
 }
 
 #bottomside {
 	height:4px;
-	background:url(images/bottomside.png) repeat-x
+	background:url(img/bottomside.png) repeat-x
 }
 
 #rightbottomside {
 	width:4px;
 	height:4px;
-	background:url(images/rightbottomside.png) repeat-x
+	background:url(img/rightbottomside.png) repeat-x
 }
 
 #header,#center {
