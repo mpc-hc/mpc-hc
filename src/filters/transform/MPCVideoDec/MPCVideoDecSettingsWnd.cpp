@@ -97,15 +97,17 @@ void CMPCVideoDecSettingsWnd::OnDisconnect()
 bool CMPCVideoDecSettingsWnd::OnActivate()
 {
     ASSERT(IPP_FONTSIZE == 13);
+    const int h20 = IPP_SCALE(20);
+    const int h25 = IPP_SCALE(25);
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
     GUID* DxvaGui = NULL;
 
 #if HAS_FFMPEG_VIDEO_DECODERS
-    m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), m_fontheight * 6 + 45 + 5)), this, (UINT)IDC_STATIC);
+    m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 * 4 + h20)), this, (UINT)IDC_STATIC);
+    p.y += h20;
 
     // Decoding threads
-    p.y += m_fontheight + 5;
     m_txtThreadNumber.Create(ResStr(IDS_VDF_THREADNUMBER), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
     m_cbThreadNumber.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_THREAD_NUMBER);
     m_cbThreadNumber.AddString(ResStr(IDS_VDF_IDCT_AUTO));
@@ -114,10 +116,10 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
         ThreadNumberStr.Format(_T("%d"), i + 1);
         m_cbThreadNumber.AddString(ThreadNumberStr);
     }
+    p.y += h25;
 
 #if INTERNAL_DECODER_H264
     // H264 deblocking mode
-    p.y += m_fontheight + 10;
     m_txtDiscardMode.Create(ResStr(IDS_VDF_SKIPDEBLOCK), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
     m_cbDiscardMode.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
     m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_NONE));
@@ -127,17 +129,17 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_NONKFRM));
     m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_ALL));
 #endif /* INTERNAL_DECODER_H264 */
+    p.y += h25;
 
     // Error recognition
-    p.y += m_fontheight + 10;
     m_txtErrorRecognition.Create(ResStr(IDS_VDF_ERROR_RECOGNITION), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
     m_cbErrorRecognition.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
     m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_CAREFUL));
     m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_COMPLIANT));
     m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_AGGRESSIVE));
+    p.y += h25;
 
     // IDCT Algorithm
-    p.y += m_fontheight + 10;
     m_txtIDCTAlgo.Create(ResStr(IDS_VDF_IDCT_ALGO), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
     m_cbIDCTAlgo.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_AUTO));
@@ -145,38 +147,37 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_SIMPLE_MMX));
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_XVID));
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_SIMPLE));
+    p.y += h25;
 
-    p.y += m_fontheight + 10;
     m_cbARMode.Create(ResStr(IDS_VDF_AR_MODE), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(340), m_fontheight)), this, IDC_PP_AR);
     m_cbARMode.SetCheck(FALSE);
-
-    p.y += m_fontheight * 2;
+    p.y += h25;
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
-    m_grpDXVA.Create(ResStr(IDS_VDF_DXVA_SETTING),   WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), m_fontheight * 6 + 25 + 10)), this, (UINT)IDC_STATIC);
+    m_grpDXVA.Create(ResStr(IDS_VDF_DXVA_SETTING),   WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 +h20 * 3 + m_fontheight)), this, (UINT)IDC_STATIC);
+    p.y += h20;
 
     // DXVA Compatibility check
-    p.y += m_fontheight + 5;
     m_txtDXVACompatibilityCheck.Create(ResStr(IDS_VDF_DXVACOMPATIBILITY), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(225), m_fontheight)), this, (UINT)IDC_STATIC);
     m_cbDXVACompatibilityCheck.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DXVA_CHECK);
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_FULLCHECK));
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_LEVELCHECK));
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_REFCHECK));
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_ALLCHECK));
+    p.y += h25;
 
-    p.y += m_fontheight + 10;
     m_cbDXVA_SD.Create(ResStr(IDS_VDF_DXVA_SD), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(340), m_fontheight)), this, IDC_PP_DXVA_SD);
     m_cbDXVA_SD.SetCheck(FALSE);
+    p.y += h20;
 
     // DXVA mode
-    p.y += m_fontheight + 5;
     m_txtDXVAMode.Create(ResStr(IDS_VDF_DXVA_MODE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(120), m_fontheight)), this, (UINT)IDC_STATIC);
-    m_edtDXVAMode.Create(WS_CHILD | WS_VISIBLE | WS_DISABLED, CRect(p + CPoint(IPP_SCALE(120), 0), CSize(IPP_SCALE(220), m_fontheight + 5)), this, 0);
+    m_edtDXVAMode.Create(WS_CHILD | WS_VISIBLE | WS_DISABLED, CRect(p + CPoint(IPP_SCALE(120), 0), CSize(IPP_SCALE(220), m_fontheight)), this, 0);
+    p.y += h20;
 
     // Video card description
-    p.y += m_fontheight + 5;
     m_txtVideoCardDescription.Create(ResStr(IDS_VDF_VIDEOCARD), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(120), m_fontheight)), this, (UINT)IDC_STATIC);
-    m_edtVideoCardDescription.Create(ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_DISABLED, CRect(p + CPoint(IPP_SCALE(120), 0), CSize(IPP_SCALE(220), m_fontheight * 2 + 5)), this, 0);
+    m_edtVideoCardDescription.Create(ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_DISABLED, CRect(p + CPoint(IPP_SCALE(120), 0), CSize(IPP_SCALE(220), m_fontheight * 2)), this, 0);
     m_edtVideoCardDescription.SetWindowText(m_pMDF->GetVideoCardDescription());
 
     DxvaGui = m_pMDF->GetDXVADecoderGuid();

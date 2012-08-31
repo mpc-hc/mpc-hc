@@ -72,7 +72,6 @@ bool CMpaDecSettingsWnd::OnActivate()
     const int h20 = IPP_SCALE(20);
     const int h25 = IPP_SCALE(25);
     const int h30 = IPP_SCALE(30);
-    const int& hgrp = h25;
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
     CRect r;
@@ -95,7 +94,7 @@ bool CMpaDecSettingsWnd::OnActivate()
     m_drc_check.SetCheck(m_drc);
     p.y += h25;
 
-    m_mixer_group.Create(_T(""), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), hgrp + h20)), this, (UINT)IDC_STATIC);
+    m_mixer_group.Create(_T(""), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), h20 + h25)), this, (UINT)IDC_STATIC);
     m_mixer_check.Create(ResStr(IDS_MPADEC_MIXER), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(60), m_fontheight)), this, IDC_PP_CHECK1);
     m_mixer_check.SetCheck(m_mixer);
     p.y += h20;
@@ -116,7 +115,7 @@ bool CMpaDecSettingsWnd::OnActivate()
     ScreenToClient(r);
     p.y += h30;
 
-    m_spdif_group.Create(ResStr(IDS_MPADEC_SPDIF), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), hgrp + h20)), this, (UINT)IDC_STATIC);
+    m_spdif_group.Create(ResStr(IDS_MPADEC_SPDIF), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), h20 + h20)), this, (UINT)IDC_STATIC);
     p.y += h20;
     m_spdif_ac3_check.Create(_T("AC-3"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK3);
     m_spdif_ac3_check.SetCheck(m_spdif_ac3);
