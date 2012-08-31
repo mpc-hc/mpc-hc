@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Copyright (c) 1998-2012 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -1038,19 +1038,29 @@ cmsStage* _cmsStageNormalizeFromLabFloat(cmsContext ContextID)
         128.0/255.0
     };
 
-    return cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+    cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+
+    if (mpe == NULL) return mpe;
+    mpe ->Implements = cmsSigLab2FloatPCS;
+    return mpe;
 }
 
+// Fom XYZ to floating point PCS
 cmsStage* _cmsStageNormalizeFromXyzFloat(cmsContext ContextID)
 {
+#define n (32768.0/65535.0)
     static const cmsFloat64Number a1[] = {
-        1.0/100.0, 0, 0,
-        0, 1.0/100.0, 0,
-        0, 0, 1.0/100.0
+        n, 0, 0,
+        0, n, 0,
+        0, 0, n
     };
+#undef n
 
+    cmsStage *mpe =  cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
 
-    return cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
+    if (mpe == NULL) return mpe;
+    mpe ->Implements = cmsSigXYZ2FloatPCS;
+    return mpe;
 }
 
 cmsStage* _cmsStageNormalizeToLabFloat(cmsContext ContextID)
@@ -1067,18 +1077,27 @@ cmsStage* _cmsStageNormalizeToLabFloat(cmsContext ContextID)
         -128.0
     };
 
-    return cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+    cmsStage *mpe =  cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+    if (mpe == NULL) return mpe;
+    mpe ->Implements = cmsSigFloatPCS2Lab;
+    return mpe;
 }
 
 cmsStage* _cmsStageNormalizeToXyzFloat(cmsContext ContextID)
 {
-    static const cmsFloat64Number a1[] = {
-        100.0, 0, 0,
-        0, 100.0, 0,
-        0, 0, 100.0
-    };
+#define n (65535.0/32768.0)
 
-    return cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
+    static const cmsFloat64Number a1[] = {
+        n, 0, 0,
+        0, n, 0,
+        0, 0, n
+    };
+#undef n
+
+    cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
+    if (mpe == NULL) return mpe;
+    mpe ->Implements = cmsSigFloatPCS2XYZ;
+    return mpe;
 }
 
 
@@ -1743,4 +1762,5 @@ cmsBool CMSEXPORT cmsPipelineEvalReverseFloat(cmsFloat32Number Target[],
 
     return TRUE;
 }
+
 

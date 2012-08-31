@@ -195,6 +195,12 @@ cmsBool PreOptimize(cmsPipeline* Lut)
         // Remove V2 to V4 followed by V4 to V2
         Opt |= _Remove2Op(Lut, cmsSigLabV2toV4, cmsSigLabV4toV2);
 
+        // Remove float pcs Lab conversions
+        Opt |= _Remove2Op(Lut, cmsSigLab2FloatPCS, cmsSigFloatPCS2Lab);
+
+        // Remove float pcs Lab conversions
+        Opt |= _Remove2Op(Lut, cmsSigXYZ2FloatPCS, cmsSigFloatPCS2XYZ);
+
         if (Opt) AnyOpt = TRUE;
 
     } while (Opt);

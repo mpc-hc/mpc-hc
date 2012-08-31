@@ -12,7 +12,7 @@ Legend:
 ========================
 + MPCVideoDec: Add support for 4K for Intel HD Graphics 4000
 * Updated FFmpeg (git fe79fc2)
-* Updated Little CMS to v2.4 (git b91990c)
+* Updated Little CMS to v2.4 rc2 (git 14e1777)
 * Updated SoundTouch to v1.7.0pre r150
 * Remove .dat extention from the icon library and the formats
   (you can still associate it in the "Others" formats)

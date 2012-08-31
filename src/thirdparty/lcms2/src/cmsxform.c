@@ -398,12 +398,35 @@ cmsBool  _cmsRegisterTransformPlugin(cmsPluginBase* Data)
 }
 
 
+void CMSEXPORT _cmsSetTransformUserData(struct _cmstransform_struct *CMMcargo, void* ptr, _cmsFreeUserDataFn FreePrivateDataFn)
+{
+    _cmsAssert(CMMcargo != NULL);
+    CMMcargo ->UserData = ptr;
+    CMMcargo ->FreeUserData = FreePrivateDataFn;
+}
+
 // returns the pointer defined by the plug-in to store private data
 void * CMSEXPORT _cmsGetTransformUserData(struct _cmstransform_struct *CMMcargo)
 {
     _cmsAssert(CMMcargo != NULL);
     return CMMcargo ->UserData;
 }
+
+// returns the current formatters
+void CMSEXPORT _cmsGetTransformFormatters16(struct _cmstransform_struct *CMMcargo, cmsFormatter16* FromInput, cmsFormatter16* ToOutput)
+{
+     _cmsAssert(CMMcargo != NULL);
+     if (FromInput) *FromInput = CMMcargo ->FromInput;
+     if (ToOutput)  *ToOutput  = CMMcargo ->ToOutput;
+}
+
+void CMSEXPORT _cmsGetTransformFormattersFloat(struct _cmstransform_struct *CMMcargo, cmsFormatterFloat* FromInput, cmsFormatterFloat* ToOutput)
+{
+     _cmsAssert(CMMcargo != NULL);
+     if (FromInput) *FromInput = CMMcargo ->FromInputFloat;
+     if (ToOutput)  *ToOutput  = CMMcargo ->ToOutputFloat;
+}
+
 
 // Allocate transform struct and set it to defaults. Ask the optimization plug-in about if those formats are proper
 // for separated transforms. If this is the case,
@@ -425,14 +448,27 @@ _cmsTRANSFORM* AllocEmptyTransform(cmsContext ContextID, cmsPipeline* lut,
         Plugin != NULL;
         Plugin = Plugin ->Next) {
 
-            if (Plugin ->Factory(&p->xform, &p->UserData, &p ->FreeUserData, &p ->Lut, InputFormat, OutputFormat, dwFlags))
-            {
+            if (Plugin ->Factory(&p->xform, &p->UserData, &p ->FreeUserData, &p ->Lut, InputFormat, OutputFormat, dwFlags)) {
+                
                 // Last plugin in the declaration order takes control. We just keep
-                // the original parameters as a logging
+                // the original parameters as a logging. 
+                // Note that cmsFLAGS_CAN_CHANGE_FORMATTER is not set, so by default 
+                // an optimized transform is not reusable. The plug-in can, however, change
+                // the flags and make it suitable.
+
+                p ->ContextID       = ContextID;               
                 p ->InputFormat     = *InputFormat;
                 p ->OutputFormat    = *OutputFormat;
                 p ->dwOriginalFlags = *dwFlags;
-                p ->ContextID       = ContextID;
+               
+                // Fill the formatters just in case the optimized routine is interested.
+                // No error is thrown if the formatter doesn't exist. It is up to the optimization 
+                // factory to decide what to do in those cases.
+                p ->FromInput      = _cmsGetFormatter(*InputFormat,  cmsFormatterInput, CMS_PACK_FLAGS_16BITS).Fmt16;
+                p ->ToOutput       = _cmsGetFormatter(*OutputFormat, cmsFormatterOutput, CMS_PACK_FLAGS_16BITS).Fmt16;
+                p ->FromInputFloat = _cmsGetFormatter(*InputFormat,  cmsFormatterInput, CMS_PACK_FLAGS_FLOAT).FmtFloat;
+                p ->ToOutputFloat  = _cmsGetFormatter(*OutputFormat, cmsFormatterOutput, CMS_PACK_FLAGS_FLOAT).FmtFloat;
+
                 return p;
             }
     }

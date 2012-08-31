@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2012 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -88,7 +88,7 @@ cmsBool GrowMLUpool(cmsMLU* mlu)
 }
 
 
-// Grows a ntry table for a MLU. Each time this function is called, table size is multiplied times two.
+// Grows a entry table for a MLU. Each time this function is called, table size is multiplied times two.
 static
 cmsBool GrowMLUtable(cmsMLU* mlu)
 {

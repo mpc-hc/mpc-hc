@@ -577,7 +577,13 @@ typedef cmsBool  (* _cmsTransformFactory)(_cmsTransformFn* xform,
 
 
 // Retrieve user data as specified by the factory
+CMSAPI void   CMSEXPORT _cmsSetTransformUserData(struct _cmstransform_struct *CMMcargo, void* ptr, _cmsFreeUserDataFn FreePrivateDataFn);
 CMSAPI void * CMSEXPORT _cmsGetTransformUserData(struct _cmstransform_struct *CMMcargo);
+
+
+// Retrieve formatters
+CMSAPI void   CMSEXPORT _cmsGetTransformFormatters16   (struct _cmstransform_struct *CMMcargo, cmsFormatter16* FromInput, cmsFormatter16* ToOutput);
+CMSAPI void   CMSEXPORT _cmsGetTransformFormattersFloat(struct _cmstransform_struct *CMMcargo, cmsFormatterFloat* FromInput, cmsFormatterFloat* ToOutput);
 
 typedef struct {
       cmsPluginBase     base;

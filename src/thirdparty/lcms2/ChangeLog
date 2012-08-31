@@ -78,5 +78,9 @@ Fixed a typo on tificc and jpgicc names, thanks to Elle Stone for reporting.
 Fixed a bug on named color profiles.
 Added a conditional compilatio flag for "half" support
 Fixed a bug in transicc when clot tables are present
+Added formatter resolution after xform optimization plugin
+added half float variants (ABGR and so)
+Fixed a bug in XYZ floating point PCS
 
-
+2.4 Featured release
+--------------------

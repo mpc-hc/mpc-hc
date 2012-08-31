@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Copyright (c) 1998-2012 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -249,7 +249,7 @@ cmsPipeline* BuildRGBInputMatrixShaper(cmsHPROFILE hProfile)
 
 
 // Read the DToAX tag, adjusting the encoding of Lab or XYZ if neded
-static
+/*static
 cmsPipeline* _cmsReadFloatInputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
 {
     cmsContext ContextID       = cmsGetProfileContextID(hProfile);
@@ -270,6 +270,39 @@ cmsPipeline* _cmsReadFloatInputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloa
             cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID));
         }
 
+    return Lut;
+}
+*/
+static
+cmsPipeline* _cmsReadFloatInputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
+{
+    cmsContext ContextID       = cmsGetProfileContextID(hProfile);
+    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
+    cmsColorSpaceSignature spc = cmsGetColorSpace(hProfile);
+    cmsColorSpaceSignature PCS = cmsGetPCS(hProfile);
+    
+    if (Lut == NULL) return NULL;
+    
+    // input and output of transform are in lcms 0..1 encoding.  If XYZ or Lab spaces are used, 
+    //  these need to be normalized into the appropriate ranges (Lab = 100,0,0, XYZ=1.0,1.0,1.0)
+    if ( spc == cmsSigLabData)
+    {
+        cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToLabFloat(ContextID));
+    }
+    else if (spc == cmsSigXYZData)
+    {
+        cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID));
+    }
+    
+    if ( PCS == cmsSigLabData)
+    {
+        cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromLabFloat(ContextID));
+    }
+    else if( PCS == cmsSigXYZData)
+    {
+        cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID));
+    }
+    
     return Lut;
 }
 
@@ -478,7 +511,7 @@ void ChangeInterpolationToTrilinear(cmsPipeline* Lut)
 
 
 // Read the DToAX tag, adjusting the encoding of Lab or XYZ if neded
-static
+/*static
 cmsPipeline* _cmsReadFloatOutputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
 {
     cmsContext ContextID       = cmsGetProfileContextID(hProfile);
@@ -499,6 +532,41 @@ cmsPipeline* _cmsReadFloatOutputTag(cmsHPROFILE hProfile, cmsTagSignature tagFlo
             cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID));
         }
 
+    return Lut;
+}*/
+
+static
+cmsPipeline* _cmsReadFloatOutputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
+{
+    cmsContext ContextID       = cmsGetProfileContextID(hProfile);
+    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
+    cmsColorSpaceSignature PCS = cmsGetPCS(hProfile);
+    cmsColorSpaceSignature dataSpace = cmsGetColorSpace(hProfile);
+    
+    if (Lut == NULL) return NULL;
+    
+    // If PCS is Lab or XYZ, the floating point tag is accepting data in the space encoding,
+    // and since the formatter has already accomodated to 0..1.0, we should undo this change
+    if ( PCS == cmsSigLabData)
+    {
+        cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToLabFloat(ContextID));
+    }
+    else
+        if (PCS == cmsSigXYZData)
+        {
+            cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID));
+        }
+    
+    // the output can be Lab or XYZ, in which case normalisation is needed on the end of the pipeline
+    if ( dataSpace == cmsSigLabData)
+    {
+        cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromLabFloat(ContextID));
+    }
+    else if ( dataSpace == cmsSigXYZData)
+    {
+        cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID));
+    }
+    
     return Lut;
 }
 
