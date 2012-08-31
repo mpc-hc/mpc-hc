@@ -80,7 +80,6 @@ void CMpeg2DecSettingsWnd::OnDisconnect()
 bool CMpeg2DecSettingsWnd::OnActivate()
 {
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
-
     CPoint p(10, 10);
 
     m_planaryuv_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_0), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK1);
@@ -101,7 +100,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
     p.y += 10;
 
-    m_ditype_static.Create(ResStr(IDS_MPEG2_DEINTERLACING), dwStyle, CRect(p, CSize(IPP_SCALE(100), m_fontheight)), this);
+    m_ditype_static.Create(ResStr(IDS_MPEG2_DEINTERLACING), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(100), m_fontheight)), this);
     m_ditype_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CSize(IPP_SCALE(110), -4), CSize(IPP_SCALE(100), 200)), this, IDC_PP_COMBO1);
     m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Auto")), (DWORD)DIAuto);
     m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Weave")), (DWORD)DIWeave);
@@ -121,9 +120,9 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
     for (int i = 0, h = max(20, m_fontheight) + 1; i < _countof(m_procamp_slider); i++, p.y += h) {
         static const TCHAR* labels[] = {m_strBrightness, m_strContrast, m_strHue, m_strSaturation};
-        m_procamp_static[i].Create(labels[i], dwStyle, CRect(p, CSize(IPP_SCALE(70), h)), this);
+        m_procamp_static[i].Create(labels[i], WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(70), h)), this);
         m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(IPP_SCALE(80), 0), CSize(IPP_SCALE(201), h)), this, IDC_PP_SLIDER1 + i);
-        m_procamp_value[i].Create(_T(""), dwStyle, CRect(p + CPoint(IPP_SCALE(280), 0), CSize(IPP_SCALE(40), h)), this);
+        m_procamp_value[i].Create(_T(""), WS_VISIBLE | WS_CHILD, CRect(p + CPoint(IPP_SCALE(280), 0), CSize(IPP_SCALE(40), h)), this);
     }
 
     m_procamp_slider[0].SetRange(0, 2 * 128);
@@ -151,7 +150,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
     m_note_static.Create(
         ResStr(IDS_MPEG2DECSETTINGSWND_7) +
         ResStr(IDS_MPEG2DECSETTINGSWND_8),
-        dwStyle, CRect(p, CSize(IPP_SCALE(320), m_fontheight * 4)), this);
+        WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(320), m_fontheight * 4)), this);
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
         pWnd->SetFont(&m_font, FALSE);

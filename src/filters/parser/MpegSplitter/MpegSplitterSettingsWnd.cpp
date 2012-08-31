@@ -81,8 +81,8 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 
     p.y += m_fontheight * 2;
     m_txtVC1_GuidFlag.Create(ResStr(IDS_MPEGSPLITTER_VC1_GUIDFLAG), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(200), m_fontheight)), this, (UINT)IDC_STATIC);
-    p.y += m_fontheight;
-    m_cbVC1_GuidFlag.Create(WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p, CSize(IPP_SCALE(305), 200)), this, IDC_PP_VC1_GUIDFLAG);
+    p.y += m_fontheight + 5;
+    m_cbVC1_GuidFlag.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p, CSize(IPP_SCALE(305), 200)), this, IDC_PP_VC1_GUIDFLAG);
     m_cbVC1_GuidFlag.AddString(_T("Default"));
     m_cbVC1_GuidFlag.AddString(_T("Cyberlink VC-1 Decoder"));
     m_cbVC1_GuidFlag.AddString(_T("ArcSoft VC-1 Decoder"));

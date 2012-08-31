@@ -30,9 +30,6 @@
 // ==>>> Resource identifier from "resource.h" present in mpc-hc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
-#define LEFT_SPACING        20
-#define VERTICAL_SPACING    25
-
 //
 // CMPCVideoDecSettingsWnd
 //
@@ -99,16 +96,17 @@ void CMPCVideoDecSettingsWnd::OnDisconnect()
 
 bool CMPCVideoDecSettingsWnd::OnActivate()
 {
-    int nPosY = 10;
+    DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
+    CPoint p(10, 10);
     GUID* DxvaGui = NULL;
 
 #if HAS_FFMPEG_VIDEO_DECODERS
-    m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(5,  nPosY, 350, nPosY + 150), this, (UINT)IDC_STATIC);
+    m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), m_fontheight * 6 + 45 + 5)), this, (UINT)IDC_STATIC);
 
     // Decoding threads
-    nPosY += VERTICAL_SPACING;
-    m_txtThreadNumber.Create(ResStr(IDS_VDF_THREADNUMBER), WS_VISIBLE | WS_CHILD, CRect(LEFT_SPACING,  nPosY, 220, nPosY + 15), this, (UINT)IDC_STATIC);
-    m_cbThreadNumber.Create(WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(230,  nPosY - 4, 345, nPosY + 90), this, IDC_PP_THREAD_NUMBER);
+    p.y += m_fontheight + 5;
+    m_txtThreadNumber.Create(ResStr(IDS_VDF_THREADNUMBER), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_cbThreadNumber.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_THREAD_NUMBER);
     m_cbThreadNumber.AddString(ResStr(IDS_VDF_IDCT_AUTO));
     CString ThreadNumberStr;
     for (int i = 0; i < 16; i++) {
@@ -118,9 +116,9 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
 #if INTERNAL_DECODER_H264
     // H264 deblocking mode
-    nPosY += VERTICAL_SPACING;
-    m_txtDiscardMode.Create(ResStr(IDS_VDF_SKIPDEBLOCK), WS_VISIBLE | WS_CHILD, CRect(LEFT_SPACING,  nPosY, 220, nPosY + 15), this, (UINT)IDC_STATIC);
-    m_cbDiscardMode.Create(WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(230,  nPosY - 4, 345, nPosY + 90), this, IDC_PP_DISCARD_MODE);
+    p.y += m_fontheight + 10;
+    m_txtDiscardMode.Create(ResStr(IDS_VDF_SKIPDEBLOCK), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_cbDiscardMode.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
     m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_NONE));
     m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_DEFAULT));
     m_cbDiscardMode.AddString(ResStr(IDS_VDF_DBLK_NONREF));
@@ -130,56 +128,55 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 #endif /* INTERNAL_DECODER_H264 */
 
     // Error recognition
-    nPosY += VERTICAL_SPACING;
-    m_txtErrorRecognition.Create(ResStr(IDS_VDF_ERROR_RECOGNITION), WS_VISIBLE | WS_CHILD, CRect(LEFT_SPACING,  nPosY, 220, nPosY + 15), this, (UINT)IDC_STATIC);
-    m_cbErrorRecognition.Create(WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(230,  nPosY - 4, 345, nPosY + 90), this, IDC_PP_DISCARD_MODE);
+    p.y += m_fontheight + 10;
+    m_txtErrorRecognition.Create(ResStr(IDS_VDF_ERROR_RECOGNITION), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_cbErrorRecognition.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
     m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_CAREFUL));
     m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_COMPLIANT));
     m_cbErrorRecognition.AddString(ResStr(IDS_VDF_ERR_AGGRESSIVE));
 
-    // IDCT Algo
-    nPosY += VERTICAL_SPACING;
-    m_txtIDCTAlgo.Create(ResStr(IDS_VDF_IDCT_ALGO), WS_VISIBLE | WS_CHILD, CRect(LEFT_SPACING,  nPosY, 220, nPosY + 15), this, (UINT)IDC_STATIC);
-    m_cbIDCTAlgo.Create(WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(230,  nPosY - 4, 345, nPosY + 90), this, IDC_PP_DISCARD_MODE);
+    // IDCT Algorithm
+    p.y += m_fontheight + 10;
+    m_txtIDCTAlgo.Create(ResStr(IDS_VDF_IDCT_ALGO), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(220), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_cbIDCTAlgo.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DISCARD_MODE);
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_AUTO));
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_LIBMPEG2));
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_SIMPLE_MMX));
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_XVID));
     m_cbIDCTAlgo.AddString(ResStr(IDS_VDF_IDCT_SIMPLE));
 
-    nPosY += VERTICAL_SPACING;
-    m_cbARMode.Create(ResStr(IDS_VDF_AR_MODE), WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(LEFT_SPACING,  nPosY, 345, nPosY + 15), this, IDC_PP_AR);
+    p.y += m_fontheight + 10;
+    m_cbARMode.Create(ResStr(IDS_VDF_AR_MODE), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(340), m_fontheight)), this, IDC_PP_AR);
     m_cbARMode.SetCheck(FALSE);
 
-    nPosY = 170;
+    p.y += m_fontheight * 2;
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
-    m_grpDXVA.Create(ResStr(IDS_VDF_DXVA_SETTING),   WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(5, nPosY, 350, nPosY + 135), this, (UINT)IDC_STATIC);
+    m_grpDXVA.Create(ResStr(IDS_VDF_DXVA_SETTING),   WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), m_fontheight * 6 + 25 + 10)), this, (UINT)IDC_STATIC);
 
     // DXVA Compatibility check
-    nPosY += VERTICAL_SPACING;
-    m_txtDXVACompatibilityCheck.Create(ResStr(IDS_VDF_DXVACOMPATIBILITY), WS_VISIBLE | WS_CHILD, CRect(LEFT_SPACING,  nPosY, 225, nPosY + 15), this, (UINT)IDC_STATIC);
-    m_cbDXVACompatibilityCheck.Create(WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(230,  nPosY - 4, 345, nPosY + 90), this, IDC_PP_DXVA_CHECK);
+    p.y += m_fontheight + 5;
+    m_txtDXVACompatibilityCheck.Create(ResStr(IDS_VDF_DXVACOMPATIBILITY), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(225), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_cbDXVACompatibilityCheck.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -4), CSize(IPP_SCALE(110), 200)), this, IDC_PP_DXVA_CHECK);
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_FULLCHECK));
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_LEVELCHECK));
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_REFCHECK));
     m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_ALLCHECK));
 
-    nPosY += VERTICAL_SPACING;
-    m_cbDXVA_SD.Create(ResStr(IDS_VDF_DXVA_SD), WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(LEFT_SPACING,  nPosY, 345, nPosY + 15), this, IDC_PP_DXVA_SD);
+    p.y += m_fontheight + 10;
+    m_cbDXVA_SD.Create(ResStr(IDS_VDF_DXVA_SD), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(340), m_fontheight)), this, IDC_PP_DXVA_SD);
     m_cbDXVA_SD.SetCheck(FALSE);
 
     // DXVA mode
-    nPosY += VERTICAL_SPACING;
-    m_txtDXVAMode.Create(ResStr(IDS_VDF_DXVA_MODE), WS_VISIBLE | WS_CHILD, CRect(LEFT_SPACING,  nPosY, 120, nPosY + 15), this, (UINT)IDC_STATIC);
-    m_edtDXVAMode.Create(WS_CHILD | WS_VISIBLE | WS_DISABLED, CRect(120,  nPosY, 345, nPosY + 20), this, 0);
+    p.y += m_fontheight + 5;
+    m_txtDXVAMode.Create(ResStr(IDS_VDF_DXVA_MODE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(120), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_edtDXVAMode.Create(WS_CHILD | WS_VISIBLE | WS_DISABLED, CRect(p + CPoint(IPP_SCALE(120), 0), CSize(IPP_SCALE(220), m_fontheight + 5)), this, 0);
 
     // Video card description
-    nPosY += VERTICAL_SPACING;
-    m_txtVideoCardDescription.Create(ResStr(IDS_VDF_VIDEOCARD), WS_VISIBLE | WS_CHILD, CRect(LEFT_SPACING,  nPosY, 120, nPosY + 15), this, (UINT)IDC_STATIC);
-    m_edtVideoCardDescription.Create(ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_DISABLED, CRect(120,  nPosY, 345, nPosY + 30), this, 0);
+    p.y += m_fontheight + 5;
+    m_txtVideoCardDescription.Create(ResStr(IDS_VDF_VIDEOCARD), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(120), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_edtVideoCardDescription.Create(ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_DISABLED, CRect(p + CPoint(IPP_SCALE(120), 0), CSize(IPP_SCALE(220), m_fontheight * 2 + 5)), this, 0);
     m_edtVideoCardDescription.SetWindowText(m_pMDF->GetVideoCardDescription());
-
 
     DxvaGui = m_pMDF->GetDXVADecoderGuid();
     if (DxvaGui != NULL) {
