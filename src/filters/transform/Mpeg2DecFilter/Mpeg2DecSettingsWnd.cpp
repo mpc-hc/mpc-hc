@@ -80,26 +80,26 @@ void CMpeg2DecSettingsWnd::OnDisconnect()
 bool CMpeg2DecSettingsWnd::OnActivate()
 {
     ASSERT(IPP_FONTSIZE == 13);
+    const int h20 = IPP_SCALE(20);
+    const int h25 = IPP_SCALE(25);
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
 
     m_planaryuv_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_0), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK1);
     m_planaryuv_check.SetCheck(m_planaryuv ? BST_CHECKED : BST_UNCHECKED);
-    p.y += m_fontheight + 5;
+    p.y += h20;
 
     m_interlaced_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_1), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK2);
     m_interlaced_check.SetCheck(m_interlaced ? BST_CHECKED : BST_UNCHECKED);
-    p.y += m_fontheight + 5;
+    p.y += h20;
 
     m_forcedsubs_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_2), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK3);
     m_forcedsubs_check.SetCheck(m_forcedsubs ? BST_CHECKED : BST_UNCHECKED);
-    p.y += m_fontheight + 5;
+    p.y += h20;
 
     m_readARFromStream_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_3), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK4);
     m_readARFromStream_check.SetCheck(m_readARFromStream ? BST_CHECKED : BST_UNCHECKED);
-    p.y += m_fontheight + 5;
-
-    p.y += 10;
+    p.y += h25;
 
     m_ditype_static.Create(ResStr(IDS_MPEG2_DEINTERLACING), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(100), m_fontheight)), this);
     m_ditype_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CSize(IPP_SCALE(110), -4), CSize(IPP_SCALE(100), 200)), this, IDC_PP_COMBO1);
@@ -114,39 +114,37 @@ bool CMpeg2DecSettingsWnd::OnActivate()
         if ((int)m_ditype_combo.GetItemData(i) == m_ditype) {
             m_ditype_combo.SetCurSel(i);
         }
-
     m_ditype_combo.EnableWindow(!IsDlgButtonChecked(m_interlaced_check.GetDlgCtrlID()));
+    p.y += h25;
 
-    p.y += m_fontheight + 20;
-
-    for (int i = 0, h = max(20, m_fontheight) + 1; i < _countof(m_procamp_slider); i++, p.y += h) {
+    {
+        int h = max(21, m_fontheight); // special size for sliders
         static const TCHAR* labels[] = {m_strBrightness, m_strContrast, m_strHue, m_strSaturation};
-        m_procamp_static[i].Create(labels[i], WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(70), h)), this);
-        m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(IPP_SCALE(80), 0), CSize(IPP_SCALE(201), h)), this, IDC_PP_SLIDER1 + i);
-        m_procamp_value[i].Create(_T(""), WS_VISIBLE | WS_CHILD, CRect(p + CPoint(IPP_SCALE(280), 0), CSize(IPP_SCALE(40), h)), this);
+        for (int i = 0; i < _countof(m_procamp_slider); i++) {
+            m_procamp_static[i].Create(labels[i], WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(80), m_fontheight)), this);
+            m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(IPP_SCALE(85), 0), CSize(201, h)), this, IDC_PP_SLIDER1 + i);
+            m_procamp_value[i].Create(_T(""), WS_VISIBLE | WS_CHILD, CRect(p + CPoint(IPP_SCALE(85) + 201, 0), CSize(IPP_SCALE(30), m_fontheight)), this);
+            p.y += h;
+        }
+        m_procamp_slider[0].SetRange(0, 2 * 128);
+        m_procamp_slider[0].SetTic(128);
+        m_procamp_slider[0].SetPos((int)(m_procamp[0] + (m_procamp[0] >= 0 ? 0.5f : -0.5f)) + 128);
+        m_procamp_slider[1].SetRange(0, 200);
+        m_procamp_slider[1].SetTic(100);
+        m_procamp_slider[1].SetPos((int)(100 * m_procamp[1] + 0.5f));
+        m_procamp_slider[2].SetRange(0, 2 * 180);
+        m_procamp_slider[2].SetTic(180);
+        m_procamp_slider[2].SetPos((int)(m_procamp[2] + (m_procamp[2] >= 0 ? 0.5f : -0.5f)) + 180);
+        m_procamp_slider[3].SetRange(0, 200);
+        m_procamp_slider[3].SetTic(100);
+        m_procamp_slider[3].SetPos((int)(100 * m_procamp[3] + 0.5f));
+        p.y += 5;
+        m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(IPP_SCALE(85) + 200 / 2 - 80 -5, 0), CSize(80, m_fontheight + 5)), this, IDC_PP_BUTTON1);
+        m_procamp_reset.Create(ResStr(IDS_MPEG2_RESET), dwStyle, CRect(p + CPoint(IPP_SCALE(85) + 200 / 2 + 6, 0), CSize(80, m_fontheight + 5)), this, IDC_PP_BUTTON2);
+        p.y += h25;
+
+        UpdateProcampValues();
     }
-
-    m_procamp_slider[0].SetRange(0, 2 * 128);
-    m_procamp_slider[0].SetTic(128);
-    m_procamp_slider[0].SetPos((int)(m_procamp[0] + (m_procamp[0] >= 0 ? 0.5f : -0.5f)) + 128);
-    m_procamp_slider[1].SetRange(0, 200);
-    m_procamp_slider[1].SetTic(100);
-    m_procamp_slider[1].SetPos((int)(100 * m_procamp[1] + 0.5f));
-    m_procamp_slider[2].SetRange(0, 2 * 180);
-    m_procamp_slider[2].SetTic(180);
-    m_procamp_slider[2].SetPos((int)(m_procamp[2] + (m_procamp[2] >= 0 ? 0.5f : -0.5f)) + 180);
-    m_procamp_slider[3].SetRange(0, 200);
-    m_procamp_slider[3].SetTic(100);
-    m_procamp_slider[3].SetPos((int)(100 * m_procamp[3] + 0.5f));
-
-    p.y += 5;
-
-    m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(IPP_SCALE(50 + 200 / 2 - 55), 0), CSize(IPP_SCALE(80), IPP_SCALE(20))), this, IDC_PP_BUTTON1);
-    m_procamp_reset.Create(ResStr(IDS_MPEG2_RESET), dwStyle, CRect(p + CPoint(IPP_SCALE(80 + 200 / 2 + 5), 0), CSize(IPP_SCALE(80), IPP_SCALE(20))), this, IDC_PP_BUTTON2);
-
-    p.y += m_fontheight * 2 + 5;
-
-    UpdateProcampValues();
 
     m_note_static.Create(
         ResStr(IDS_MPEG2DECSETTINGSWND_7) +
