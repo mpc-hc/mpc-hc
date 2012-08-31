@@ -23,6 +23,9 @@
 
 #include <atlcoll.h>
 
+#define IPP_FONTSIZE 13
+#define IPP_SCALE(size) ((size) * m_fontheight / IPP_FONTSIZE)
+
 interface __declspec(uuid("03481710-D73E-4674-839F-03EDE2D60ED8"))
 ISpecifyPropertyPages2 :
 public ISpecifyPropertyPages {

@@ -83,26 +83,26 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
     CPoint p(10, 10);
 
-    m_planaryuv_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_0), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK1);
+    m_planaryuv_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_0), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK1);
     m_planaryuv_check.SetCheck(m_planaryuv ? BST_CHECKED : BST_UNCHECKED);
     p.y += m_fontheight + 5;
 
-    m_interlaced_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_1), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK2);
+    m_interlaced_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_1), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK2);
     m_interlaced_check.SetCheck(m_interlaced ? BST_CHECKED : BST_UNCHECKED);
     p.y += m_fontheight + 5;
 
-    m_forcedsubs_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_2), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK3);
+    m_forcedsubs_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_2), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK3);
     m_forcedsubs_check.SetCheck(m_forcedsubs ? BST_CHECKED : BST_UNCHECKED);
     p.y += m_fontheight + 5;
 
-    m_readARFromStream_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_3), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK4);
+    m_readARFromStream_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_3), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_CHECK4);
     m_readARFromStream_check.SetCheck(m_readARFromStream ? BST_CHECKED : BST_UNCHECKED);
     p.y += m_fontheight + 5;
 
     p.y += 10;
 
-    m_ditype_static.Create(ResStr(IDS_MPEG2_DEINTERLACING), dwStyle, CRect(p, CSize(100, m_fontheight)), this);
-    m_ditype_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CSize(110, -3), CSize(100, 200)), this, IDC_PP_COMBO1);
+    m_ditype_static.Create(ResStr(IDS_MPEG2_DEINTERLACING), dwStyle, CRect(p, CSize(IPP_SCALE(100), m_fontheight)), this);
+    m_ditype_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CSize(IPP_SCALE(110), -4), CSize(IPP_SCALE(100), 200)), this, IDC_PP_COMBO1);
     m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Auto")), (DWORD)DIAuto);
     m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Weave")), (DWORD)DIWeave);
     m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Blend")), (DWORD)DIBlend);
@@ -121,9 +121,9 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
     for (int i = 0, h = max(20, m_fontheight) + 1; i < _countof(m_procamp_slider); i++, p.y += h) {
         static const TCHAR* labels[] = {m_strBrightness, m_strContrast, m_strHue, m_strSaturation};
-        m_procamp_static[i].Create(labels[i], dwStyle, CRect(p, CSize(70, h)), this);
-        m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(80, 0), CSize(201, h)), this, IDC_PP_SLIDER1 + i);
-        m_procamp_value[i].Create(_T(""), dwStyle, CRect(p + CPoint(280, 0), CSize(40, h)), this);
+        m_procamp_static[i].Create(labels[i], dwStyle, CRect(p, CSize(IPP_SCALE(70), h)), this);
+        m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(IPP_SCALE(80), 0), CSize(IPP_SCALE(201), h)), this, IDC_PP_SLIDER1 + i);
+        m_procamp_value[i].Create(_T(""), dwStyle, CRect(p + CPoint(IPP_SCALE(280), 0), CSize(IPP_SCALE(40), h)), this);
     }
 
     m_procamp_slider[0].SetRange(0, 2 * 128);
@@ -141,17 +141,17 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
     p.y += 5;
 
-    m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(50 + 200 / 2 - 55, 0), CSize(80, 20)), this, IDC_PP_BUTTON1);
-    m_procamp_reset.Create(ResStr(IDS_MPEG2_RESET), dwStyle, CRect(p + CPoint(80 + 200 / 2 + 5, 0), CSize(80, 20)), this, IDC_PP_BUTTON2);
+    m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(IPP_SCALE(50 + 200 / 2 - 55), 0), CSize(IPP_SCALE(80), IPP_SCALE(20))), this, IDC_PP_BUTTON1);
+    m_procamp_reset.Create(ResStr(IDS_MPEG2_RESET), dwStyle, CRect(p + CPoint(IPP_SCALE(80 + 200 / 2 + 5), 0), CSize(IPP_SCALE(80), IPP_SCALE(20))), this, IDC_PP_BUTTON2);
 
-    p.y += 30;
+    p.y += m_fontheight * 2 + 5;
 
     UpdateProcampValues();
 
     m_note_static.Create(
         ResStr(IDS_MPEG2DECSETTINGSWND_7) +
         ResStr(IDS_MPEG2DECSETTINGSWND_8),
-        dwStyle, CRect(p, CSize(320, m_fontheight * 4)), this);
+        dwStyle, CRect(p, CSize(IPP_SCALE(320), m_fontheight * 4)), this);
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
         pWnd->SetFont(&m_font, FALSE);

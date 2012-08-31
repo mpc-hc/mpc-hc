@@ -30,7 +30,6 @@ class __declspec(uuid("44FCB62D-3AEB-401C-A7E1-8A984C017923"))
 private:
     CComQIPtr<IMpegSplitterFilter> m_pMSF;
 
-    CButton     m_grpDefault;
     CButton     m_cbFastStreamChange;
     CButton     m_cbForcedSub;
     CButton     m_cbTrackPriority;
