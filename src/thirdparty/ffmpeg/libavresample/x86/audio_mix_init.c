@@ -213,7 +213,7 @@ av_cold void ff_audio_mix_init_x86(AudioMix *am)
 // disable 8 -> 2 optimized mixing on 32-bit because of a crash
 #if !ARCH_X86_32
     SET_MIX_3_8_TO_1_2(8)
-#endif
+#endif /* !ARCH_X86_32 */
 // <== End patch MPC
-#endif
+#endif /* HAVE_YASM */
 }

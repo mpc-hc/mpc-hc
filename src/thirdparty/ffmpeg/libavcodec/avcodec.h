@@ -98,6 +98,9 @@
  * 1. no value of a existing codec ID changes (that would break ABI),
  * 2. Give it a value which when taken as ASCII is recognized uniquely by a human as this specific codec.
  *    This ensures that 2 forks can independently add AVCodecIDs without producing conflicts.
+ *
+ * After adding new codec IDs, do not forget to add an entry to the codec
+ * descriptor list and bump libavcodec minor version.
  */
 enum AVCodecID {
     AV_CODEC_ID_NONE,
@@ -271,6 +274,7 @@ enum AVCodecID {
     AV_CODEC_ID_TSCC2,
     AV_CODEC_ID_MTS2,
     AV_CODEC_ID_CLLC,
+    AV_CODEC_ID_MSS2,
     AV_CODEC_ID_Y41P       = MKBETAG('Y','4','1','P'),
     AV_CODEC_ID_ESCAPE130  = MKBETAG('E','1','3','0'),
     AV_CODEC_ID_EXR        = MKBETAG('0','E','X','R'),
@@ -285,6 +289,7 @@ enum AVCodecID {
     AV_CODEC_ID_SANM       = MKBETAG('S','A','N','M'),
     AV_CODEC_ID_PAF_VIDEO  = MKBETAG('P','A','F','V'),
     AV_CODEC_ID_AVRN       = MKBETAG('A','V','R','n'),
+    AV_CODEC_ID_CPIA       = MKBETAG('C','P','I','A'),
 
     /* various PCM "codecs" */
     AV_CODEC_ID_FIRST_AUDIO = 0x10000,     ///< A dummy id pointing at the start of audio codecs
@@ -505,6 +510,16 @@ typedef struct AVCodecDescriptor {
  * Video codecs only.
  */
 #define AV_CODEC_PROP_INTRA_ONLY    (1 << 0)
+/**
+ * Codec supports lossy compression. Audio and video codecs only.
+ * @note a codec may support both lossy and lossless
+ * compression modes
+ */
+#define AV_CODEC_PROP_LOSSY         (1 << 1)
+/**
+ * Codec supports lossless compression. Audio and video codecs only.
+ */
+#define AV_CODEC_PROP_LOSSLESS      (1 << 2)
 
 #if FF_API_OLD_DECODE_AUDIO
 /* in bytes */
