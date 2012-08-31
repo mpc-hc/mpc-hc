@@ -83,15 +83,6 @@ protected:
     /// RMS volume sliding average approximation level accumulator
     double RMSVolumeAccu;
 
-    /// Level below which to cut off signals
-    double cutCoeff;
-
-    /// Accumulator for accounting what proportion of samples exceed cutCoeff level
-    double aboveCutAccu;
-
-    /// Accumulator for total samples to calculate proportion of samples that exceed cutCoeff level
-    double totalAccu;
-
     /// Sample average counter.
     int decimateCount;
 
@@ -136,6 +127,9 @@ protected:
     void calcEnvelope(soundtouch::SAMPLETYPE *samples,  ///< Pointer to input/output data buffer
                       int numsamples                    ///< Number of samples in buffer
                       );
+
+    /// remove constant bias from xcorr data
+    void removeBias();
 
 public:
     /// Constructor.
