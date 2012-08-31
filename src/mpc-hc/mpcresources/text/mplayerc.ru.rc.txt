@@ -1250,7 +1250,7 @@ STRING IDS_AG_ZOOM_AUTO_FIT_LARGER		"Вписать (только большие
 STRING IDS_APPLY		"Применить"
 STRING IDS_APP_DESCRIPTION		"Один из наиболее мощных и настраиваемых мультимедийных проигрывателей для Windows. Изначально разрабатывался венгерским разработчиком, известным как Gabest. Эта версия имеет дополнительные возможности, такие как полноэкранный Direct3D режим и улучшенную поддержку Windows Vista/7."
 STRING IDS_ARS_MUTE_FAST_FORWARD		"Отключить звук при быстрой перемотке"
-STRING IDS_ARS_SOUND_DEVICE		"Звуковое уст-во:"
+STRING IDS_ARS_SOUND_DEVICE		"Звуковое устройство:"
 STRING IDS_ARS_WASAPI_MODE		"Использовать WASAPI (требуется перезапуск)"
 STRING IDS_AT_TOGGLE_SHADER		"Вкл/Откл пиксельные шейдеры"
 STRING IDS_AT_TOGGLE_SHADERSCREENSPACE		"Вкл/Откл экранные шейдеры"
