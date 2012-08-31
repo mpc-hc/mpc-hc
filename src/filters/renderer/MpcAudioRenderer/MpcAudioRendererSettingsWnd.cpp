@@ -77,13 +77,16 @@ bool CALLBACK DSEnumProc(LPGUID lpGUID,
 
 bool CMpcAudioRendererSettingsWnd::OnActivate()
 {
+    ASSERT(IPP_FONTSIZE == 13);
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
 
     m_cbWasapiMode.Create(ResStr(IDS_ARS_WASAPI_MODE), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_WASAPI_MODE);
-    p.y += m_fontheight + 5;
+
+    p.y += IPP_SCALE(20);
     m_cbMuteFastForward.Create(ResStr(IDS_ARS_MUTE_FAST_FORWARD), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(300), m_fontheight)), this, IDC_PP_MUTE_FAST_FORWARD);
-    p.y += m_fontheight * 2;
+
+    p.y += IPP_SCALE(25);
     m_txtSoundDevice.Create(ResStr(IDS_ARS_SOUND_DEVICE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(95), m_fontheight)), this, (UINT)IDC_STATIC);
     m_cbSoundDevice.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(100), -4), CSize(IPP_SCALE(200), 200)), this, IDC_PP_SOUND_DEVICE);
 

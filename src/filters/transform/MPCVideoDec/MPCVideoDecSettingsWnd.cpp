@@ -96,6 +96,7 @@ void CMPCVideoDecSettingsWnd::OnDisconnect()
 
 bool CMPCVideoDecSettingsWnd::OnActivate()
 {
+    ASSERT(IPP_FONTSIZE == 13);
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
     GUID* DxvaGui = NULL;

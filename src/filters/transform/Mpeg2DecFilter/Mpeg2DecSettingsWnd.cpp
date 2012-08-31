@@ -79,6 +79,7 @@ void CMpeg2DecSettingsWnd::OnDisconnect()
 
 bool CMpeg2DecSettingsWnd::OnActivate()
 {
+    ASSERT(IPP_FONTSIZE == 13);
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
 

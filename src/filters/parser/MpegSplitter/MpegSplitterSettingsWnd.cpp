@@ -55,33 +55,38 @@ void CMpegSplitterSettingsWnd::OnDisconnect()
 
 bool CMpegSplitterSettingsWnd::OnActivate()
 {
+    ASSERT(IPP_FONTSIZE == 13);
+    const int h20 = IPP_SCALE(20);
+    const int h25 = IPP_SCALE(25);
+    const int h30 = IPP_SCALE(30);
+    const int& hgrp = h25;
     DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
     CPoint p(10, 10);
 
     m_cbFastStreamChange.Create(ResStr(IDS_MPEGSPLITTER_FSTREAM_CHANGE), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(305), m_fontheight)), this, IDC_PP_FAST_STREAM_SELECT);
 
-    p.y += m_fontheight + 5;
+    p.y += h20;
     m_cbForcedSub.Create(ResStr(IDS_MPEGSPLITTER_SUB_FORCING), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(305), m_fontheight)), this, IDC_PP_SUBTITLE_FORCED);
 
-    p.y += m_fontheight + 5;
+    p.y += h20;
     m_cbTrackPriority.Create(ResStr(IDS_MPEGSPLITTER_TRACKS_ORDER), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(305), m_fontheight)), this, IDC_PP_TRACK_PRIORITY);
 
-    p.y += m_fontheight + 5;
+    p.y += h20;
     m_cbAlternativeDuration.Create(ResStr(IDS_MPEGSPLITTER_ALT_DUR_CALC), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(IPP_SCALE(305), m_fontheight)), this, IDC_PP_ALTERNATIVE_DURATION);
 
-    p.y += m_fontheight + 5;
+    p.y += h20;
     m_txtAudioLanguageOrder.Create(ResStr(IDS_MPEGSPLITTER_LANG_ORDER), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(200), m_fontheight)), this, (UINT)IDC_STATIC);
-    p.y += m_fontheight + 5;
+    p.y += h20;
     m_edtAudioLanguageOrder.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, CRect(p, CSize(IPP_SCALE(305), m_fontheight + 5)), this, IDC_PP_AUDIO_LANGUAGE_ORDER);
 
-    p.y += m_fontheight + 10;
+    p.y += h25;
     m_txtSubtitlesLanguageOrder.Create(ResStr(IDS_MPEGSPLITTER_SUB_ORDER), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(200), m_fontheight)), this, (UINT)IDC_STATIC);
-    p.y += m_fontheight + 5;
+    p.y += h20;
     m_edtSubtitlesLanguageOrder.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, CRect(p, CSize(IPP_SCALE(305), m_fontheight + 5)), this, IDC_PP_SUBTITLES_LANGUAGE_ORDER);
 
-    p.y += m_fontheight * 2;
+    p.y += h25;
     m_txtVC1_GuidFlag.Create(ResStr(IDS_MPEGSPLITTER_VC1_GUIDFLAG), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(200), m_fontheight)), this, (UINT)IDC_STATIC);
-    p.y += m_fontheight + 5;
+    p.y += h20;
     m_cbVC1_GuidFlag.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p, CSize(IPP_SCALE(305), 200)), this, IDC_PP_VC1_GUIDFLAG);
     m_cbVC1_GuidFlag.AddString(_T("Default"));
     m_cbVC1_GuidFlag.AddString(_T("Cyberlink VC-1 Decoder"));
@@ -89,10 +94,10 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 
     SetClassLongPtr(GetDlgItem(IDC_PP_VC1_GUIDFLAG)->m_hWnd, GCLP_HCURSOR, (LONG_PTR)AfxGetApp()->LoadStandardCursor(IDC_HAND));
 
-    p.y += m_fontheight * 2;
-    m_grpTrueHD.Create(ResStr(IDS_MPEGSPLITTER_TRUEHD_OUTPUT), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p+ CPoint(-5, 0), CSize(IPP_SCALE(305), IPP_SCALE(40))), this, (UINT)IDC_STATIC);
+    p.y += h30;
+    m_grpTrueHD.Create(ResStr(IDS_MPEGSPLITTER_TRUEHD_OUTPUT), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p+ CPoint(-5, 0), CSize(IPP_SCALE(305), hgrp + h20)), this, (UINT)IDC_STATIC);
 
-    p.y += m_fontheight + 5;
+    p.y += h20;
     m_cbTrueHD.Create(_T("TrueHD"), dwStyle | BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE | WS_GROUP, CRect(p, CSize(IPP_SCALE(95), m_fontheight + 5)), this, IDC_PP_TRUEHD);
     m_cbAC3Core.Create(_T("AC-3 core"), dwStyle | BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE, CRect(p + CPoint(IPP_SCALE(100), 0), CSize(IPP_SCALE(95), m_fontheight + 5)), this, IDC_PP_AC3CORE);
     m_cbAsIs.Create(ResStr(IDS_MPEGSPLITTER_THD_NOSPLIT), dwStyle | BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE, CRect(p + CPoint(IPP_SCALE(200), 0), CSize(IPP_SCALE(95), m_fontheight + 5)), this, IDC_PP_ASIS);
