@@ -79,7 +79,7 @@ public:
         return _T("Settings");
     }
     static CSize GetWindowSize() {
-        return CSize(320, 240);
+        return CSize(340, 296);
     }
 
     DECLARE_MESSAGE_MAP()

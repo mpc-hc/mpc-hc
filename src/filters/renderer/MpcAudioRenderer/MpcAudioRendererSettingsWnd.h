@@ -55,7 +55,7 @@ public:
     HRESULT GetAvailableAudioDevices();
 
     static LPCTSTR GetWindowTitle() { return _T("Settings"); }
-    static CSize GetWindowSize() { return CSize(350, 325); }
+    static CSize GetWindowSize() { return CSize(340, 82); }
 
     DECLARE_MESSAGE_MAP()
 };

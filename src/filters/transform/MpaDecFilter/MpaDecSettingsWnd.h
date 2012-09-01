@@ -70,7 +70,7 @@ public:
     bool OnApply();
 
     static LPCTSTR GetWindowTitle() { return _T("Settings"); }
-    static CSize GetWindowSize() { return CSize(320, 305); }
+    static CSize GetWindowSize() { return CSize(225, 156); }
 
     DECLARE_MESSAGE_MAP()
 };

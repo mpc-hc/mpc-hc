@@ -96,7 +96,7 @@ public:
     bool OnApply();
 
     static LPCTSTR GetWindowTitle() { return _T("Codecs"); }
-    static CSize GetWindowSize() { return CSize(350, 300); }
+    static CSize GetWindowSize() { return CSize(360, 283); }
 
     DECLARE_MESSAGE_MAP()
 };
