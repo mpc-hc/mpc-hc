@@ -192,7 +192,7 @@ double PeakFinder::getPeakCenter(const float *data, int peakpos) const
     gp1 = findGround(data, peakpos, -1);
     gp2 = findGround(data, peakpos, 1);
 
-    groundLevel = 0.5 * (data[gp1] + data[gp2]);
+    groundLevel = 0.5f * (data[gp1] + data[gp2]);
     peakLevel = data[peakpos];
 
     // calculate 70%-level of the peak
