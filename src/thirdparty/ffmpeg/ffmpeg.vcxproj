@@ -489,6 +489,7 @@
     <ClInclude Include="libavcodec\indeo5data.h" />
     <ClInclude Include="libavcodec\internal.h" />
     <ClInclude Include="libavcodec\intrax8.h" />
+    <ClInclude Include="libavcodec\intrax8dsp.h" />
     <ClInclude Include="libavcodec\intrax8huf.h" />
     <ClInclude Include="libavcodec\ivi_common.h" />
     <ClInclude Include="libavcodec\ivi_dsp.h" />

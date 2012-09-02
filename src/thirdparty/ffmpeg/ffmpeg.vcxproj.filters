@@ -1332,6 +1332,9 @@
     <ClInclude Include="libavcodec\intrax8.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
+    <ClInclude Include="libavcodec\intrax8dsp.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
     <ClInclude Include="libavcodec\intrax8huf.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
