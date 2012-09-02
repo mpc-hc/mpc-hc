@@ -192,6 +192,16 @@
         #define MEDIAINFO_EVENTS 1
     #endif
 #endif
+#if !defined(MEDIAINFO_ADVANCED)
+    #if defined(MEDIAINFO_ADVANCED_NO) && defined(MEDIAINFO_ADVANCED_YES)
+        #undef MEDIAINFO_ADVANCED_NO //MEDIAINFO_ADVANCED_YES has priority
+    #endif
+    #if defined(MEDIAINFO_ADVANCED_NO)
+        #define MEDIAINFO_ADVANCED 0
+    #else
+        #define MEDIAINFO_ADVANCED 1
+    #endif
+#endif
 #if !defined(MEDIAINFO_DEMUX)
     #if !defined(MEDIAINFO_DEMUX_NO) && !defined(MEDIAINFO_DEMUX_YES) && !MEDIAINFO_EVENTS
         #define MEDIAINFO_DEMUX_NO //MEDIAINFO_DEMUX is disabled by default if MEDIAINFO_EVENTS is set to 0

@@ -621,7 +621,7 @@ void File_Jpeg::SOD()
     }
     if (Status[IsFilled])
         Fill();
-    if (Config_ParseSpeed<1.0)
+    if (Config->ParseSpeed<1.0)
         Finish("JPEG 2000"); //No need of more
 }
 
@@ -734,7 +734,7 @@ void File_Jpeg::SOS()
     }
     if (Status[IsFilled])
         Fill();
-    if (Config_ParseSpeed<1.0)
+    if (Config->ParseSpeed<1.0)
         Finish("JPEG"); //No need of more
     FILLING_END();
 }

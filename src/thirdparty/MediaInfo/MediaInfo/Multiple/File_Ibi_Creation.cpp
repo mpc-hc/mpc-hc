@@ -55,7 +55,7 @@ ibi::ibi()
 //---------------------------------------------------------------------------
 ibi::~ibi()
 {
-    for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+    for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
         delete Stream->second; //Stream->second=NULL;
 }
 
@@ -317,7 +317,7 @@ File_Ibi_Creation::~File_Ibi_Creation()
 //---------------------------------------------------------------------------
 void File_Ibi_Creation::Set(const ibi &Ibi)
 {
-    for (ibi::streams::const_iterator IbiStream_Temp=Ibi.Streams.begin(); IbiStream_Temp!=Ibi.Streams.end(); IbiStream_Temp++)
+    for (ibi::streams::const_iterator IbiStream_Temp=Ibi.Streams.begin(); IbiStream_Temp!=Ibi.Streams.end(); ++IbiStream_Temp)
         Add(IbiStream_Temp->first, *IbiStream_Temp->second);
 }
 

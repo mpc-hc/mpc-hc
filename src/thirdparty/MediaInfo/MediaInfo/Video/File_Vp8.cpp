@@ -35,6 +35,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Video/File_Vp8.h"
+#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 #include "ZenLib/BitStream.h"
 //---------------------------------------------------------------------------
 
@@ -56,7 +57,7 @@ File_Vp8::File_Vp8()
     IsRawStream=true;
 
     //In
-    Frame_Count_Valid=Config_ParseSpeed>=0.3?32:4;
+    Frame_Count_Valid=MediaInfoLib::Config.ParseSpeed_Get()>=0.3?32:4;
 }
 
 //---------------------------------------------------------------------------

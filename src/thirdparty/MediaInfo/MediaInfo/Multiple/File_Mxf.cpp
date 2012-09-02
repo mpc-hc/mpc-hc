@@ -1151,7 +1151,7 @@ void File_Mxf::Streams_Finish_Essence(int32u EssenceUID, int128u TrackUID)
             if (DMSegment->second.TrackIDs[Pos]==TrackID)
                 DMScheme1s_List.push_back(DMSegment->second.Framework);
 
-    if (Config_ParseSpeed<=1.0)
+    if (Config->ParseSpeed<=1.0)
     {
         Fill(Essence->second.Parser);
         Essence->second.Parser->Open_Buffer_Unsynch();
@@ -1784,7 +1784,7 @@ void File_Mxf::Streams_Finish_CommercialNames ()
             Fill(Stream_General, 0, General_Format_Commercial_IfAny, "IMX 50");
             Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "IMX 50");
         }
-        else if (Retrieve(Stream_Video, 0, Video_Format)==__T("MPEG Video") && Retrieve(Stream_Video, 0, Video_Format_Settings_GOP)!=__T("N=1") && Retrieve(Stream_Video, 0, Video_Colorimetry)==__T("4:2:0") && (Retrieve(Stream_Video, 0, Video_BitRate)==__T("18000000") || Retrieve(Stream_Video, 0, Video_BitRate_Nominal)==__T("25000000") || Retrieve(Stream_Video, 0, Video_BitRate_Maximum)==__T("25000000")))
+        else if (Retrieve(Stream_Video, 0, Video_Format)==__T("MPEG Video") && Retrieve(Stream_Video, 0, Video_Format_Settings_GOP)!=__T("N=1") && Retrieve(Stream_Video, 0, Video_Colorimetry)==__T("4:2:0") && (Retrieve(Stream_Video, 0, Video_BitRate)==__T("18000000") || Retrieve(Stream_Video, 0, Video_BitRate_Nominal)==__T("18000000") || Retrieve(Stream_Video, 0, Video_BitRate_Maximum)==__T("18000000")))
         {
             Fill(Stream_General, 0, General_Format_Commercial_IfAny, "XDCAM HD 18");
             Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "XDCAM HD 18");
@@ -1878,7 +1878,7 @@ void File_Mxf::Read_Buffer_Continue()
 {
     if (!IsSub)
     {
-        if (Config_ParseSpeed>=1.0)
+        if (Config->ParseSpeed>=1.0)
         {
             if (Config->File_IsGrowing)
             {
@@ -1959,7 +1959,7 @@ void File_Mxf::Read_Buffer_Continue()
         IsCheckingFooterPartitionAddress=false;
     }
 
-    if (Config_ParseSpeed<1.0 && File_Offset+Buffer_Offset+4==File_Size)
+    if (Config->ParseSpeed<1.0 && File_Offset+Buffer_Offset+4==File_Size)
     {
         int32u Length;
         Get_B4 (Length,                                         "Length (Random Index)");
@@ -2066,7 +2066,7 @@ bool File_Mxf::DetectDuration ()
         return false;
 
     MediaInfo_Internal MI;
-    MI.Option(__T("File_IsSub"), __T("1"));
+    MI.Option(__T("File_IsDetectingDuration"), __T("1"));
     MI.Option(__T("File_KeepInfo"), __T("1"));
     Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
     Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
@@ -3039,7 +3039,7 @@ void File_Mxf::Data_Parse()
                     if (Track->second.TrackNumber==Code_Compare4)
                         Essence->second.TrackID=Track->second.TrackID;
                 #if MEDIAINFO_DEMUX || MEDIAINFO_SEEK
-                    if (Essence->second.TrackID==(int32u)-1 && !Duration_Detected && !Config->File_IsSub_Get())
+                    if (Essence->second.TrackID==(int32u)-1 && !Duration_Detected && !Config->File_IsDetectingDuration_Get())
                     {
                         DetectDuration(); //In one file (*-009.mxf), the TrackNumber is known only at the end of the file (Open and incomplete header/footer)
                         for (tracks::iterator Track=Tracks.begin(); Track!=Tracks.end(); Track++)
@@ -3375,12 +3375,12 @@ void File_Mxf::Data_Parse()
             }
 
             //Disabling this Streams
-            if (((!Essence->second.IsFilled && Essence->second.Parser->Status[IsFinished]) || Essence->second.Parser->Status[IsFilled]) || Config_ParseSpeed==0)
+            if (((!Essence->second.IsFilled && Essence->second.Parser->Status[IsFinished]) || Essence->second.Parser->Status[IsFilled]) || Config->ParseSpeed==0)
             {
                 if (Streams_Count>0)
                     Streams_Count--;
                 Essence->second.IsFilled=true;
-                if (Config_ParseSpeed<1.0 && IsSub)
+                if (Config->ParseSpeed<1.0 && IsSub)
                 {
                     Fill();
                     Open_Buffer_Unsynch();
@@ -6164,9 +6164,9 @@ void File_Mxf::PartitionMetadata()
     if ((Code.lo&0xFF0000)==0x020000) //If Header Partition Pack
         switch ((Code.lo>>8)&0xFF)
         {
-            case 0x01 : Fill(Stream_General, 0, General_Format_Settings, "Open / Incomplete"  , Unlimited, true, true); if (Config_ParseSpeed>=1.0) Config->File_IsGrowing=true; break;
+            case 0x01 : Fill(Stream_General, 0, General_Format_Settings, "Open / Incomplete"  , Unlimited, true, true); if (Config->ParseSpeed>=1.0) Config->File_IsGrowing=true; break;
             case 0x02 : Fill(Stream_General, 0, General_Format_Settings, "Closed / Incomplete", Unlimited, true, true);                                                          break;
-            case 0x03 : Fill(Stream_General, 0, General_Format_Settings, "Open / Complete"    , Unlimited, true, true); if (Config_ParseSpeed>=1.0) Config->File_IsGrowing=true; break;
+            case 0x03 : Fill(Stream_General, 0, General_Format_Settings, "Open / Complete"    , Unlimited, true, true); if (Config->ParseSpeed>=1.0) Config->File_IsGrowing=true; break;
             case 0x04 : Fill(Stream_General, 0, General_Format_Settings, "Closed / Complete"  , Unlimited, true, true);                                                          break;
             default   : ;
         }
@@ -8916,6 +8916,9 @@ File__Analyze* File_Mxf::ChooseParser_Mpegv(const essences::iterator &Essence, c
     #if defined(MEDIAINFO_MPEGV_YES)
         File_Mpegv* Parser=new File_Mpegv();
         Parser->Ancillary=&Ancillary;
+        #if MEDIAINFO_ADVANCED
+            Parser->InitDataNotRepeated_Optional=true;
+        #endif // MEDIAINFO_ADVANCED
     #else
         File__Analyze* Parser=new File_Unknown();
         Open_Buffer_Init(Parser);
@@ -9335,7 +9338,7 @@ void File_Mxf::Locators_Test()
 //---------------------------------------------------------------------------
 void File_Mxf::TryToFinish()
 {
-    if (!IsSub && IsParsingEnd && File_Size!=(int64u)-1 && Config_ParseSpeed<1 && IsParsingMiddle_MaxOffset==(int64u)-1 && File_Size/2>0x4000000) //TODO: 64 MB by default;
+    if (!IsSub && IsParsingEnd && File_Size!=(int64u)-1 && Config->ParseSpeed<1 && IsParsingMiddle_MaxOffset==(int64u)-1 && File_Size/2>0x4000000) //TODO: 64 MB by default;
     {
         IsParsingMiddle_MaxOffset=File_Size/2+0x4000000; //TODO: 64 MB by default;
         GoTo(File_Size/2);

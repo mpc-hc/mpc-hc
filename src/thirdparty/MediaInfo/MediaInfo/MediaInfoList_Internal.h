@@ -70,11 +70,11 @@ public :
     char* Output_Buffer_Get (size_t File_Pos, size_t &Output_Buffer_Size);
 
     //Info
-    String        Option (const String &Option, const String &Value=String(__T("")));
+    String      Option (const String &Option, const String &Value=String(__T("")));
     static String Option_Static (const String &Option, const String &Value=String(__T("")));
-    size_t                  State_Get ();
-    size_t                  Count_Get (size_t FilePos, stream_t StreamKind, size_t StreamNumber=(size_t)-1);
-    size_t                  Count_Get ();
+    size_t      State_Get ();
+    size_t      Count_Get (size_t FilePos, stream_t StreamKind, size_t StreamNumber=(size_t)-1);
+    size_t      Count_Get ();
 
 private :
     std::vector<MediaInfo_Internal*> Info;

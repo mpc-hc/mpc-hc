@@ -41,6 +41,7 @@
 #include "MediaInfo/Export/Export_reVTMD.h"
 #include "MediaInfo/Export/Export_PBCore.h"
 #include "MediaInfo/File__Analyze.h"
+#include "base64.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -312,10 +313,13 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
                 else if (XML)
                 {
                     Nom=Xml_Name_Escape(Nom);
-                    Xml_Content_Escape_Modifying(Valeur);
+                    size_t Modified;
+                    Xml_Content_Escape_Modifying(Valeur, Modified);
 
                     Retour+=__T("<");
                     Retour+=Nom;
+                    if (Modified==1) //Base64
+                        Retour+=__T(" dt:dt=\"binary.base64\"");
                     Retour+=__T(">");
                     Retour+=Valeur;
                     Retour+=__T("</");
@@ -541,10 +545,10 @@ Ztring MediaInfo_Internal::Xml_Name_Escape (const Ztring &Name)
 }
 
 //---------------------------------------------------------------------------
-Ztring MediaInfo_Internal::Xml_Content_Escape (const Ztring &Content)
+Ztring MediaInfo_Internal::Xml_Content_Escape (const Ztring &Content, size_t &Modified)
 {
     Ztring ToReturn(Content);
-    return Xml_Content_Escape_Modifying(ToReturn);
+    return Xml_Content_Escape_Modifying(ToReturn, Modified);
 }
 
 //---------------------------------------------------------------------------
@@ -570,9 +574,11 @@ size_t Xml_Content_Escape_MustEscape(const Ztring &Content)
 
     return Pos;
 }
-Ztring &MediaInfo_Internal::Xml_Content_Escape_Modifying (Ztring &Content)
+Ztring &MediaInfo_Internal::Xml_Content_Escape_Modifying (Ztring &Content, size_t &Modified)
 {
     size_t Pos=Xml_Content_Escape_MustEscape(Content);
+    Ztring Content_Save=Content;
+    Modified=0;
     if (Pos>=Content.size())
         return Content;
 
@@ -585,7 +591,7 @@ Ztring &MediaInfo_Internal::Xml_Content_Escape_Modifying (Ztring &Content)
                             Content.insert(Pos+1, __T("quot;"));
                             Pos+=5;
                             break;
-            case __T('&') :
+            case __T('&'):
                             Content[Pos]=__T('&');
                             Content.insert(Pos+1, __T("amp;"));
                             Pos+=4;
@@ -595,23 +601,30 @@ Ztring &MediaInfo_Internal::Xml_Content_Escape_Modifying (Ztring &Content)
                             Content.insert(Pos+1, __T("apos;"));
                             Pos+=5;
                             break;
-            case __T('<') :
+            case __T('<'):
                             Content[Pos]=__T('&');
                             Content.insert(Pos+1, __T("lt;"));
                             Pos+=3;
                             break;
-            case __T('>') :
+            case __T('>'):
                             Content[Pos]=__T('&');
                             Content.insert(Pos+1, __T("gt;"));
                             Pos+=3;
                             break;
-            default   :
+            default:
                         if (Content[Pos]<0x20)
                         {
+                            /* Is still invalid XML
                             Ztring Character=__T("#x")+Ztring::ToZtring(Content[Pos]/16, 16)+Ztring::ToZtring(Content[Pos]%16, 16)+__T(";");
                             Content[Pos]=__T('&');
                             Content.insert(Pos+1, Character);
                             Pos+=5;
+                            */
+                            string Content_Utf8=Content_Save.To_UTF8(); //TODO: shouldn't we never convert to Unicode?
+                            string Content_Base64=Base64::encode(Content_Utf8);
+                            Content.From_UTF8(Content_Base64);
+                            Modified=1; //Base64
+                            Pos=Content.size(); //End
                         }
         }
     }
@@ -620,4 +633,3 @@ Ztring &MediaInfo_Internal::Xml_Content_Escape_Modifying (Ztring &Content)
 }
 
 } //NameSpace
-

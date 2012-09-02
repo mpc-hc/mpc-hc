@@ -67,6 +67,13 @@ File__ReferenceFilesHelper::File__ReferenceFilesHelper(File__Analyze* MI_, Media
     #endif //MEDIAINFO_NEXTPACKET
 }
 
+//---------------------------------------------------------------------------
+File__ReferenceFilesHelper::~File__ReferenceFilesHelper()
+{
+    for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ReferenceTemp++)
+        delete ReferenceTemp->MI; //ReferenceTemp->MI=NULL;
+}
+
 //***************************************************************************
 // Streams management
 //***************************************************************************

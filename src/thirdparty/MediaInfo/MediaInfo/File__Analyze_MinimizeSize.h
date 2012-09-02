@@ -1135,7 +1135,6 @@ protected :
 
 protected :
     //Save for speed improvement
-    float           Config_ParseSpeed;
     int8u           Config_Demux;
     Ztring          Config_LineSeparator;
     bool            IsSub;
@@ -1283,6 +1282,7 @@ public :
 
     //Configuration
     bool MustSynchronize;
+    bool CA_system_ID_MustSkipSlices;
 
     //Demux
     enum contenttype

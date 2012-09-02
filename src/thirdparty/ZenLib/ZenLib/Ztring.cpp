@@ -2421,4 +2421,3 @@ bool Ztring::Compare (const Ztring &ToCompare, const Ztring &Comparator, ztring_
 }
 
 } //namespace
-

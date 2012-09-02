@@ -69,7 +69,6 @@ File__Analyze::File__Analyze ()
         Trace_Layers_Update();
     #endif //MEDIAINFO_TRACE
     Config_Demux=MediaInfoLib::Config.Demux_Get();
-    Config_ParseSpeed=MediaInfoLib::Config.ParseSpeed_Get();
     Config_LineSeparator=MediaInfoLib::Config.LineSeparator_Get();
     IsSub=false;
     IsRawStream=false;
@@ -109,6 +108,7 @@ File__Analyze::File__Analyze ()
     DataMustAlwaysBeComplete=true;
     MustUseAlternativeParser=false;
     MustSynchronize=false;
+    CA_system_ID_MustSkipSlices=false;
 
     //Buffer
     #if MEDIAINFO_SEEK
@@ -137,7 +137,7 @@ File__Analyze::File__Analyze ()
     Stream_BitRateFromContainer=0;
 
     //EOF
-    EOF_AlreadyDetected=(Config_ParseSpeed==1.0)?true:false;
+    EOF_AlreadyDetected=(MediaInfoLib::Config.ParseSpeed_Get()==1.0)?true:false;
 
     //Synchro
     MustParseTheHeaderFile=true;
@@ -279,7 +279,7 @@ void File__Analyze::Open_Buffer_Init (int64u File_Size_)
     #if MEDIAINFO_IBI
         if (!IsSub)
             IbiStream=new ibi::stream;
-        Config_Ibi_Create=Config->Ibi_Create_Get() && Config_ParseSpeed==1.0;
+        Config_Ibi_Create=Config->Ibi_Create_Get() && Config->ParseSpeed==1.0;
     #endif //MEDIAINFO_IBI
 }
 
@@ -648,7 +648,7 @@ bool File__Analyze::Open_Buffer_Continue_Loop ()
     }
 
     //Jumping to the end of the file if needed
-    if (!IsSub && !EOF_AlreadyDetected && Config_ParseSpeed<1 && Count_Get(Stream_General))
+    if (!IsSub && !EOF_AlreadyDetected && Config->ParseSpeed<1 && Count_Get(Stream_General))
     {
         Element[Element_Level].WaitForMoreData=false;
         Detect_EOF();
@@ -983,7 +983,7 @@ bool File__Analyze::FileHeader_Begin_0x000001()
     int32u Magic4=Magic8>>32;
     int32u Magic3=Magic4>> 8;
     int16u Magic2=Magic4>>16;
-    if (Magic8==0x4B572D4449524143LL || Magic4==0x52494646 || Magic3==0x465753 || Magic3==0x464C56 || Magic4==0x7F454C46 || Magic4==0x44504730 || Magic4==0x3026B275 || Magic2==0x4D5A)
+    if (Magic8==0x4B572D4449524143LL || Magic4==0x52494646 || Magic3==0x465753 || Magic3==0x464C56 || Magic4==0x7F454C46 || Magic4==0x44504730 || Magic4==0x3026B275 || Magic2==0x4D5A || Magic4==0x1A45DFA3)
     {
         Reject();
         return false;
@@ -1313,7 +1313,7 @@ bool File__Analyze::Header_Manage()
     if (!Header_Begin())
     {
         //Jumping to the end of the file if needed
-        if (!EOF_AlreadyDetected && Config_ParseSpeed<1 && File_GoTo==(int64u)-1)
+        if (!EOF_AlreadyDetected && Config->ParseSpeed<1 && File_GoTo==(int64u)-1)
         {
             Element[Element_Level].WaitForMoreData=false;
             Detect_EOF();
@@ -1579,7 +1579,7 @@ bool File__Analyze::Data_Manage()
     Element[Element_Level].UnTrusted=false;
 
     //Jumping to the end of the file if needed
-    if (!EOF_AlreadyDetected && Config_ParseSpeed<1 && File_GoTo==(int64u)-1)
+    if (!EOF_AlreadyDetected && Config->ParseSpeed<1 && File_GoTo==(int64u)-1)
     {
         Element[Element_Level].WaitForMoreData=false;
         Detect_EOF();
@@ -1679,7 +1679,7 @@ void File__Analyze::Data_GoTo (int64u GoTo_, const char* ParserName)
 #if MEDIAINFO_TRACE
 void File__Analyze::Data_GoToFromEnd (int64u GoToFromEnd, const char* ParserName)
 {
-    if (IsSub && Config_ParseSpeed==1)
+    if (IsSub && Config->ParseSpeed==1)
         return;
 
     if (GoToFromEnd>File_Size)
@@ -2318,7 +2318,7 @@ void File__Analyze::Finish ()
     if (!ShouldContinueParsing && !Status[IsFilled])
         Fill();
 
-    if (ShouldContinueParsing || Config_ParseSpeed==1)
+    if (ShouldContinueParsing || Config->ParseSpeed==1)
     {
         #if MEDIAINFO_TRACE
             if (!ParserName.empty())
@@ -2401,7 +2401,7 @@ void File__Analyze::ForceFinish ()
     Status[IsFinished]=true;
 
     //Real stream size
-    if (Config_ParseSpeed==1 && IsRawStream && Buffer_TotalBytes)
+    if (Config->ParseSpeed==1 && IsRawStream && Buffer_TotalBytes)
     {
         //Exception with text streams embedded in video
         if (StreamKind_Last==Stream_Text)
@@ -2469,7 +2469,7 @@ void File__Analyze::GoTo (int64u GoTo, const char* ParserName)
 
     Element_Show();
 
-    if (IsSub && Config_ParseSpeed==1)
+    if (IsSub && Config->ParseSpeed==1)
         return;
 
     if (GoTo==File_Size)
@@ -2537,7 +2537,7 @@ void File__Analyze::GoTo (int64u GoTo)
         return;
     }
 
-    if (IsSub && Config_ParseSpeed==1)
+    if (IsSub && Config->ParseSpeed==1)
         return;
 
     if (GoTo==File_Size)
@@ -3124,7 +3124,7 @@ void File__Analyze::Ibi_Stream_Finish (int64u Numerator, int64u Denominator)
         IbiStream->DtsFrequencyDenominator=Denominator;
         for (size_t Pos=0; Pos<IbiStream->Infos.size(); Pos++)
             if (IbiStream->Infos[Pos].Dts!=(int64u)-1)
-                IbiStream->Infos[Pos].Dts=float64_int64s(((float64)IbiStream->Infos[Pos].Dts)/1000000000/Denominator*Numerator);;
+                IbiStream->Infos[Pos].Dts=float64_int64s(((float64)IbiStream->Infos[Pos].Dts)/1000000000/Denominator*Numerator);
     }
 }
 
@@ -3146,4 +3146,3 @@ void File__Analyze::Ibi_Add ()
 #endif //MEDIAINFO_IBI
 
 } //NameSpace
-

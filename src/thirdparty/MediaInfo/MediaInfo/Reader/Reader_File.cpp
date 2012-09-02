@@ -104,7 +104,7 @@ size_t Reader_File::Format_Test(MediaInfo_Internal* MI, const String &File_Name)
                 || Extensions.find(__T(" ")+Extension)!=Error)
                     break;
             }
-            Format++;
+            ++Format;
         }
     }
     if (Format!=FormatList.end())
@@ -318,7 +318,7 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
             }
             if (MI->Config.File_IsNotGrowingAnymore)
             {
-                MI->Config.File_Current_Size=MI->Config.File_Size=F.Size_Get();;
+                MI->Config.File_Current_Size=MI->Config.File_Size=F.Size_Get();
                 MI->Open_Buffer_Init(MI->Config.File_Size, F.Position_Get()-MI->Config.File_Buffer_Size);
                 MI->Config.File_IsGrowing=false;
                 MI->Config.File_IsNotGrowingAnymore=false;

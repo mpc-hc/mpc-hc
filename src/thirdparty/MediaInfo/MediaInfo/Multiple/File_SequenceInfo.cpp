@@ -163,7 +163,7 @@ bool File_SequenceInfo::FileHeader_Begin()
 
                         size_t FileNumberCount=1;
                         Ztring FullFile=FileBase;
-                        Ztring Extension;;
+                        Ztring Extension;
                         for (; FileNumberCount<10; FileNumberCount++)
                         {
                             FullFile.insert(FullFile.begin()+FullFile.size()-Extension.size()-1, __T('0'));

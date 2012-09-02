@@ -236,4 +236,3 @@ Ztring FileName::TempFileName_Create(const Ztring &Prefix)
 #endif
 
 } //namespace
-

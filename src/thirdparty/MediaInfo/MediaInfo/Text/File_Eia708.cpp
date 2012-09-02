@@ -141,7 +141,7 @@ void File_Eia708::Read_Buffer_Unsynched()
                     {
                         for (size_t Pos_X=0; Pos_X<Window->Minimal.CC[Pos_Y].size(); Pos_X++)
                         {
-                            Window->Minimal.CC[Pos_Y][Pos_X].Value=L' ';;
+                            Window->Minimal.CC[Pos_Y][Pos_X].Value=L' ';
                             Window->Minimal.CC[Pos_Y][Pos_X].Attribute=0;
                         }
                     }

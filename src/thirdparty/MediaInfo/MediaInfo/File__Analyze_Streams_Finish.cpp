@@ -307,7 +307,7 @@ void File__Analyze::Streams_Finish_StreamOnly_Video(size_t Pos)
       || Retrieve(Stream_Video, Pos, Video_Format)==__T("CineForm")
       || Retrieve(Stream_Video, Pos, Video_Format)==__T("DPX")
       || Retrieve(Stream_Video, Pos, Video_Format)==__T("EXR")))
-            Fill(Stream_Video, Pos, Video_ScanType, "PPF");
+            Fill(Stream_Video, Pos, Video_ScanType, "Progressive");
 }
 
 //---------------------------------------------------------------------------
@@ -628,4 +628,3 @@ void File__Analyze::Streams_Finish_InterStreams()
 }
 
 } //NameSpace
-

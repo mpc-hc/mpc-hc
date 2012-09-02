@@ -165,12 +165,14 @@ File_Riff::~File_Riff()
 void File_Riff::Streams_Finish ()
 {
     //Ancillary specific
-    if (Ancillary && (*Ancillary))
-    {
-        Finish(*Ancillary);
-        Merge(**Ancillary);
-        return;
-    }
+    #if defined(MEDIAINFO_ANCILLARY_YES)
+        if (Ancillary && (*Ancillary))
+        {
+            Finish(*Ancillary);
+            Merge(**Ancillary);
+            return;
+        }
+    #endif //defined(MEDIAINFO_ANCILLARY_YES)
 
     //Global
     if (IsRIFF64)
@@ -201,7 +203,7 @@ void File_Riff::Streams_Finish ()
             StreamSize=Retrieve(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_StreamSize)); //We want to keep the 4CC of AVI
 
             //Merging
-            if (Config_ParseSpeed<=1.0)
+            if (Config->ParseSpeed<=1.0)
             {
                 Fill(Temp->second.Parsers[0]);
                 Temp->second.Parsers[0]->Open_Buffer_Unsynch();
@@ -397,7 +399,7 @@ void File_Riff::Streams_Finish ()
                         Fill(Stream_Audio, StreamPos_Last, "Interleave_Duration/String", Interleave_Duration_String);
                     }
                     int64u Audio_FirstBytes=0;
-                    for (std::map<int64u, stream_structure>::iterator Stream_Structure_Temp=Stream_Structure.begin(); Stream_Structure_Temp!=Stream_Structure.end(); Stream_Structure_Temp++)
+                    for (std::map<int64u, stream_structure>::iterator Stream_Structure_Temp=Stream_Structure.begin(); Stream_Structure_Temp!=Stream_Structure.end(); ++Stream_Structure_Temp)
                     {
                         if (Stream_Structure_Temp->second.Name==0x30300000)
                             break;
@@ -430,7 +432,7 @@ void File_Riff::Streams_Finish ()
             }
         }
 
-        Temp++;
+        ++Temp;
     }
 
     //Some work on the first video stream
@@ -586,9 +588,11 @@ void File_Riff::Read_Buffer_Unsynched()
         while(Element_Level)
             Element_End0();
 
-        //Ancillary specific
-        if (Ancillary && (*Ancillary))
-            (*Ancillary)->Open_Buffer_Unsynch();
+        #if defined(MEDIAINFO_ANCILLARY_YES)
+            //Ancillary specific
+            if (Ancillary && (*Ancillary))
+                (*Ancillary)->Open_Buffer_Unsynch();
+        #endif //defined(MEDIAINFO_ANCILLARY_YES)
     }
 }
 
@@ -640,7 +644,7 @@ bool File_Riff::Header_Begin()
             default        : AVI__movi_xxxx();
         }
 
-        if (Config_ParseSpeed<1.0 && File_Offset+Buffer_Offset+Element_Offset-Buffer_DataToParse_Begin>=0x10000)
+        if (Config->ParseSpeed<1.0 && File_Offset+Buffer_Offset+Element_Offset-Buffer_DataToParse_Begin>=0x10000)
         {
             Buffer_Offset=(size_t)(Buffer_DataToParse_End-File_Offset);
             if (Buffer_Offset<Buffer_Size)

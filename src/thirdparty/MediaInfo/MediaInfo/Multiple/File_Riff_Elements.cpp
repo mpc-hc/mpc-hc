@@ -102,6 +102,7 @@
     #endif
 #endif //MEDIAINFO_GXF_YES
 #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
+using namespace std;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -1952,7 +1953,6 @@ void File_Riff::AVI__idx1()
         Idx1_Offset=0; //Fixing base of movi atom, the index think it is the start of the file
 
     //Parsing
-    std::map <int64u, size_t> Stream_Count;
     while (Element_Offset+16<=Element_Size)
     {
         //Is too slow
@@ -1994,7 +1994,7 @@ void File_Riff::AVI__idx1()
     //Interleaved
     size_t Pos0=0;
     size_t Pos1=0;
-    for (std::map<int64u, stream_structure>::iterator Temp=Stream_Structure.begin(); Temp!=Stream_Structure.end(); Temp++)
+    for (std::map<int64u, stream_structure>::iterator Temp=Stream_Structure.begin(); Temp!=Stream_Structure.end(); ++Temp)
     {
         switch (Temp->second.Name)
         {
@@ -2238,7 +2238,7 @@ void File_Riff::AVI__movi()
                 Temp->second.SearchingPayload=false;
                 stream_Count--;
             }
-            Temp++;
+            ++Temp;
         }
     }
 
@@ -2490,9 +2490,9 @@ void File_Riff::AVI__movi_StreamJump()
             std::map<int32u, stream>::iterator Temp=Stream.begin();
             while (Temp!=Stream.end())
             {
-                for (size_t Pos=0; Pos<Temp->second.Parsers.size(); Pos++)
+                for (size_t Pos=0; Pos<Temp->second.Parsers.size(); ++Pos)
                     Temp->second.Parsers[Pos]->Open_Buffer_Unsynch();
-                Temp++;
+                ++Temp;
             }
             Finish("AVI"); //The rest is already parsed
         }
@@ -3103,14 +3103,18 @@ void File_Riff::RMP3_data()
     Element_Code=0x30307762; //00wb
 
     //Creating parser
-    File_Mpega* Parser=new File_Mpega;
-    Parser->CalculateDelay=true;
-    Parser->ShouldContinueParsing=true;
-    Open_Buffer_Init(Parser);
-    Stream[0x30300000].StreamKind=Stream_Audio;
-    Stream[0x30300000].StreamPos=0;
-    Stream[0x30300000].Parsers.push_back(Parser);
-    Stream_Prepare(Stream_Audio);
+    #if defined(MEDIAINFO_AAC_YES)
+        File_Mpega* Parser=new File_Mpega;
+        Parser->CalculateDelay=true;
+        Parser->ShouldContinueParsing=true;
+        Open_Buffer_Init(Parser);
+        Stream[0x30300000].StreamKind=Stream_Audio;
+        Stream[0x30300000].StreamPos=0;
+        Stream[0x30300000].Parsers.push_back(Parser);
+        Stream_Prepare(Stream_Audio);
+    #else //MEDIAINFO_MPEG4_YES
+        Skip_XX(Element_Size-Element_Offset,                    "(AudioSpecificConfig)");
+    #endif
 
     #if MEDIAINFO_DEMUX
         if (Config->NextPacket_Get() && Config->Event_CallBackFunction_IsSet())

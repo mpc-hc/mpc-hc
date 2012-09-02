@@ -64,6 +64,7 @@ MediaInfoList_Internal::MediaInfoList_Internal(size_t Count_Init)
         Info[Pos]=NULL;
     ToParse_AlreadyDone=0;
     ToParse_Total=0;
+	CountValid=0;
 
     //Threading
     BlockMethod=0;
@@ -110,7 +111,7 @@ size_t MediaInfoList_Internal::Open(const String &File_Name, const fileoptions_t
     CS.Enter();
     if (ToParse.empty())
         CountValid=0;
-    for (ZtringList::iterator L=List.begin(); L!=List.end(); L++)
+    for (ZtringList::iterator L=List.begin(); L!=List.end(); ++L)
         ToParse.push(*L);
     ToParse_Total+=List.size();
     if (ToParse_Total)
@@ -149,7 +150,7 @@ void MediaInfoList_Internal::Entry()
         if (!ToParse.empty())
         {
             MediaInfo_Internal* MI=new MediaInfo_Internal();
-            for (std::map<String, String>::iterator Config_MediaInfo_Item=Config_MediaInfo_Items.begin(); Config_MediaInfo_Item!=Config_MediaInfo_Items.end(); Config_MediaInfo_Item++)
+            for (std::map<String, String>::iterator Config_MediaInfo_Item=Config_MediaInfo_Items.begin(); Config_MediaInfo_Item!=Config_MediaInfo_Items.end(); ++Config_MediaInfo_Item)
                 MI->Option(Config_MediaInfo_Item->first, Config_MediaInfo_Item->second);
             if (BlockMethod==1)
                 MI->Option(__T("Thread"), __T("1"));
@@ -451,4 +452,3 @@ size_t MediaInfoList_Internal::Count_Get()
 }
 
 } //NameSpace
-

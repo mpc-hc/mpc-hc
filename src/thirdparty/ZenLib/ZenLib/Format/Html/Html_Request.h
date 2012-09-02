@@ -60,7 +60,7 @@ public:
     ~Request();
 
     //The data
-    ZenLib::Format::Html::Handler  *Html;
+    ZenLib::Format::Html::Handler   *Html;
     bool                            IsCopy;
 };
 
@@ -71,7 +71,3 @@ public:
 } //Namespace
 
 #endif
-
-
-
-

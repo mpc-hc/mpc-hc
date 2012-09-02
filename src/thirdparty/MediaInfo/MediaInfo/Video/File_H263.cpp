@@ -35,6 +35,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Video/File_H263.h"
+#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 #include "ZenLib/BitStream.h"
 //---------------------------------------------------------------------------
 
@@ -142,7 +143,7 @@ File_H263::File_H263()
     IsRawStream=true;
 
     //In
-    Frame_Count_Valid=Config_ParseSpeed>=0.3?8:2;
+    Frame_Count_Valid=MediaInfoLib::Config.ParseSpeed_Get()>=0.3?8:2;
     FrameIsAlwaysComplete=false;
 }
 

@@ -470,7 +470,7 @@ void HTTPMD5Final(unsigned char digest[16], struct MD5Context *ctx)
     HTTPMD5Transform(ctx->buf, (uint32 *) ctx->in);
     HTTPMD5ByteReverse((unsigned char *) ctx->buf, 4);
     memcpy(digest, ctx->buf, 16);
-    memset(ctx, 0, sizeof(ctx));    // In case it's sensitive
+    memset(ctx, 0, sizeof(*ctx));    // In case it's sensitive
 }
 
 #ifndef ASM_MD5
@@ -662,4 +662,3 @@ void HTTPMD5Transform(uint32 buf[4], uint32 const in[16])
 }
 
 #endif
-

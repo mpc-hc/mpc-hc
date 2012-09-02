@@ -193,7 +193,7 @@ std::string DTS_HD_SpeakerActivityMask (int16u SpeakerActivityMask)
     if (SpeakerActivityMask&0x2000)
         Text+=", HiSide: L R";
 
-    if ((SpeakerActivityMask&0xC000)==0x0C00)
+    if ((SpeakerActivityMask&0xC000)==0x0C000)
         Text+=", HiRear: L C R";
     else
     {
@@ -261,7 +261,7 @@ std::string DTS_HD_SpeakerActivityMask2 (int16u SpeakerActivityMask)
     if (SpeakerActivityMask&0x2000)
         Text+=".2";
 
-    if ((SpeakerActivityMask&0xC000)==0x0C00)
+    if ((SpeakerActivityMask&0xC000)==0x0C000)
         Text+=".3";
     else
     {

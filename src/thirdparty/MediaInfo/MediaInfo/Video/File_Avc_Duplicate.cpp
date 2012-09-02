@@ -84,7 +84,7 @@ bool File_Avc::File__Duplicate_Set (const Ztring &Value)
     std::vector<ZtringList::iterator> Targets_ToRemove;
     std::vector<ZtringList::iterator> Orders_ToAdd;
     std::vector<ZtringList::iterator> Orders_ToRemove;
-    for (ZtringList::iterator Current=List.begin(); Current<List.end(); Current++)
+    for (ZtringList::iterator Current=List.begin(); Current<List.end(); ++Current)
     {
         //Detecting if we want to remove
         bool ToRemove=false;
@@ -117,11 +117,11 @@ bool File_Avc::File__Duplicate_Set (const Ztring &Value)
     FLV=false;
 
     //For each target to add
-    for (std::vector<ZtringList::iterator>::iterator Target=Targets_ToAdd.begin(); Target<Targets_ToAdd.end(); Target++)
+    for (std::vector<ZtringList::iterator>::iterator Target=Targets_ToAdd.begin(); Target<Targets_ToAdd.end(); ++Target)
         Writer.Configure(**Target);
 
     //For each order to add
-    for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToAdd.begin(); Order<Orders_ToAdd.end(); Order++)
+    for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToAdd.begin(); Order<Orders_ToAdd.end(); ++Order)
         if ((**Order)==__T("format=Flv"))
             FLV=true;
 

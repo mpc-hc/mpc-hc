@@ -1097,7 +1097,6 @@ protected :
     float                           Config_Trace_Level;
     std::bitset<32>                 Config_Trace_Layers;
     MediaInfo_Config::trace_Format  Config_Trace_Format;
-    float                           Config_ParseSpeed;
     int8u                           Config_Demux;
     Ztring                          Config_LineSeparator;
     bool                            IsSub;
@@ -1264,6 +1263,7 @@ public :
 
     //Configuration
     bool MustSynchronize;
+    bool CA_system_ID_MustSkipSlices;
 
     //Demux
     enum contenttype

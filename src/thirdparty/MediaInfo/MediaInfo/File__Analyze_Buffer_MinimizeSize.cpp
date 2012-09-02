@@ -1662,4 +1662,3 @@ void File__Analyze::Peek_T8(int8u  Bits, int64u &Info)
 
 } //NameSpace
 #endif //MEDIAINFO_TRACE
-

@@ -1118,5 +1118,3 @@ size_t MediaInfo_Internal::State_Get ()
 }
 
 } //NameSpace
-
-

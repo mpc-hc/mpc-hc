@@ -272,10 +272,10 @@ bool File_Ogg_SubElement::Header_Begin()
 void File_Ogg_SubElement::Header_Parse()
 {
     //Parsing
-    int8u  Type;
-    bool lenbytes0, lenbytes1, lenbytes2;
+    int8u Type;
     if (Identified && WithType)
     {
+        bool lenbytes0, lenbytes1, lenbytes2;
         Get_L1 (Type,                                               "Type");
             Skip_Flags(Type, 0,                                     "Indicates data packet");
             Get_Flags (Type, 1, lenbytes2,                          "Bit 2 of lenbytes");
@@ -543,6 +543,7 @@ void File_Ogg_SubElement::Identification_OpusHead()
         Fill(Stream_Audio, 0, Audio_Codec, "Opus");
     #endif
     WithType=false;
+    absolute_granule_position_Resolution=48000; // From specs: "It is possible to run a decoder at other sampling rates, but the format and this specification always count samples assuming a 48 kHz decoding rate."
 }
 
 //---------------------------------------------------------------------------

@@ -370,7 +370,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
     {
         StreamKind_Last=Stream_Max;
         StreamPos_Last=(size_t)-1;
-        if (Config_ParseSpeed<=1.0)
+        if (Config->ParseSpeed<=1.0)
         {
             Fill(Temp.Parser);
             Temp.Parser->Open_Buffer_Unsynch();
@@ -379,7 +379,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
 
         //Video
         bool IsTimeCode=false;
-        for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); TimeCode++)
+        for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); ++TimeCode)
             if (StreamID==TimeCode->first)
                 IsTimeCode=true;
         if (!IsTimeCode && Temp.DisplayInfo)
@@ -394,7 +394,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                     Fill(Stream_Video, StreamPos_Last, Video_Delay_Source, "Container");
                 }
                 else
-                    for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); TimeCode++)
+                    for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); ++TimeCode)
                     {
                         int64u TimeCode_First=((File_Gxf_TimeCode*)Streams[TimeCode->first].Parser)->TimeCode_First;
                         if (TimeCode_First==(int64u)-1)
@@ -445,7 +445,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                     Fill(Stream_Audio, StreamPos_Last, Audio_Delay_Source, "Container");
                 }
                 else
-                    for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); TimeCode++)
+                    for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); ++TimeCode)
                     {
                         int64u TimeCode_First=((File_Gxf_TimeCode*)Streams[TimeCode->first].Parser)->TimeCode_First;
                         if (TimeCode_First==(int64u)-1)
@@ -471,7 +471,7 @@ void File_Gxf::Streams_Finish_PerStream(size_t StreamID, stream &Temp)
                 if (Temp.IsChannelGrouping)
                     Fill(StreamKind_Last, StreamPos_Last, "Title", Streams[StreamID+1].MediaName); //Second half of the channel grouping
 
-                for (std::map<std::string, Ztring>::iterator Info=Temp.Infos.begin(); Info!=Temp.Infos.end(); Info++)
+                for (std::map<std::string, Ztring>::iterator Info=Temp.Infos.begin(); Info!=Temp.Infos.end(); ++Info)
                     if (Retrieve(Stream_Audio, StreamPos_Last, Info->first.c_str()).empty())
                         Fill(Stream_Audio, StreamPos_Last, Info->first.c_str(), Info->second);
             }
@@ -633,7 +633,7 @@ size_t File_Gxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
                         }
                         else
                         {
-                            for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); TimeCode++)
+                            for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); ++TimeCode)
                             {
                                 int64u TimeCode_First=((File_Gxf_TimeCode*)Streams[TimeCode->first].Parser)->TimeCode_First;
                                 if (TimeCode_First==(int64u)-1)
@@ -1114,7 +1114,7 @@ void File_Gxf::map()
                                 if (DataLength==4)
                                 {
                                     Get_B4 (Streams[TrackID].FrameRate_Code, "Content"); Param_Info1(Gxf_FrameRate(Streams[TrackID].FrameRate_Code)); Element_Info1(Gxf_FrameRate(Streams[TrackID].FrameRate_Code));
-                                    for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); TimeCode++)
+                                    for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); ++TimeCode)
                                         if (TrackID==TimeCode->first)
                                             ((File_Gxf_TimeCode*)Streams[TrackID].Parser)->FrameRate_Code=Streams[0x00].FrameRate_Code;
                                     if (Gxf_MediaTypes_StreamKind(MediaType)==Stream_Video)
@@ -1140,7 +1140,7 @@ void File_Gxf::map()
                                         Stream_Video_FieldsPerFrame_Code=Streams[TrackID].FieldsPerFrame_Code;
                                         Material_Fields_FieldsPerFrame=Streams[TrackID].FieldsPerFrame_Code;
                                     }
-                                    for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); TimeCode++)
+                                    for (std::map<int8u, int64u>::iterator TimeCode=TimeCodes.begin(); TimeCode!=TimeCodes.end(); ++TimeCode)
                                         if (TrackID==TimeCode->first)
                                             ((File_Gxf_TimeCode*)Streams[TrackID].Parser)->FieldsPerFrame_Code=Streams[0x00].FieldsPerFrame_Code;
                                 }

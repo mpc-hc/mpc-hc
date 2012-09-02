@@ -446,7 +446,7 @@ void File_DvDif::Streams_Fill()
         for (size_t Pos=0; Pos<Streams_Audio.size(); Pos++)
         {
             Stream_Prepare(Stream_Audio);
-            for (std::map<std::string, Ztring>::iterator Info=Streams_Audio[Pos]->Infos.begin(); Info!=Streams_Audio[Pos]->Infos.end(); Info++)
+            for (std::map<std::string, Ztring>::iterator Info=Streams_Audio[Pos]->Infos.begin(); Info!=Streams_Audio[Pos]->Infos.end(); ++Info)
                 Fill(Stream_Audio, StreamPos_Last, Info->first.c_str(), Info->second, true);
             Fill(Stream_Audio, StreamPos_Last, Audio_BitRate_Encoded, 0);
         }

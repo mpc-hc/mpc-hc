@@ -1342,7 +1342,7 @@ void File_Wm::Data()
             Temp->second.SearchingPayload=true;
             Streams_Count++;
         }
-        Temp++;
+        ++Temp;
     }
 
     //Enabling the alternative parser

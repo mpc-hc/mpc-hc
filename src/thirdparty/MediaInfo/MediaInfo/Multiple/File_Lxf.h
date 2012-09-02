@@ -98,6 +98,7 @@ protected :
         int64u          TimeStamp_Begin;
         int64u          TimeStamp_End;
         int64u          Duration;
+        int64u          Duration_First;
         int8u           PictureType;
 
         stream_header()
@@ -105,6 +106,7 @@ protected :
             TimeStamp_Begin=(int64u)-1;
             TimeStamp_End=(int64u)-1;
             Duration=(int64u)-1;
+            Duration_First=(int64u)-1;
             PictureType=(int8u)-1;
         }
         stream_header(int64u TimeStamp_Begin_, int64u TimeStamp_End_, int64u Duration_, int8u PictureType_)

@@ -181,12 +181,31 @@ public :
           void      FormatDetection_MaximumOffset_Set (int64u Value);
           int64u    FormatDetection_MaximumOffset_Get ();
 
+    #if MEDIAINFO_ADVANCED
+          void      VariableGopDetection_Occurences_Set (int64u Value);
+          int64u    VariableGopDetection_Occurences_Get ();
+          void      VariableGopDetection_GiveUp_Set (bool Value);
+          bool      VariableGopDetection_GiveUp_Get ();
+          void      InitDataNotRepeated_Occurences_Set (int64u Value);
+          int64u    InitDataNotRepeated_Occurences_Get ();
+          void      InitDataNotRepeated_GiveUp_Set (bool Value);
+          bool      InitDataNotRepeated_GiveUp_Get ();
+    #endif //MEDIAINFO_ADVANCED
+
           void      MpegTs_MaximumOffset_Set (int64u Value);
           int64u    MpegTs_MaximumOffset_Get ();
           void      MpegTs_MaximumScanDuration_Set (int64u Value);
           int64u    MpegTs_MaximumScanDuration_Get ();
           void      MpegTs_ForceStreamDisplay_Set (bool Value);
           bool      MpegTs_ForceStreamDisplay_Get ();
+    #if MEDIAINFO_ADVANCED
+          void      MpegTs_VbrDetection_Delta_Set (float64 Value);
+          float64   MpegTs_VbrDetection_Delta_Get ();
+          void      MpegTs_VbrDetection_Occurences_Set (int64u Value);
+          int64u    MpegTs_VbrDetection_Occurences_Get ();
+          void      MpegTs_VbrDetection_GiveUp_Set (bool Value);
+          bool      MpegTs_VbrDetection_GiveUp_Get ();
+    #endif //MEDIAINFO_ADVANCED
 
     ZtringListList  SubFile_Config_Get ();
 
@@ -235,10 +254,21 @@ public :
     #endif //defined(MEDIAINFO_LIBCURL_YES)
 
 private :
-    int64u          MpegTs_MaximumScanDuration;
     int64u          FormatDetection_MaximumOffset;
+    #if MEDIAINFO_ADVANCED
+        int64u      VariableGopDetection_Occurences;
+        bool        VariableGopDetection_GiveUp;
+        int64u      InitDataNotRepeated_Occurences;
+        bool        InitDataNotRepeated_GiveUp;
+    #endif //MEDIAINFO_ADVANCED
     int64u          MpegTs_MaximumOffset;
+    int64u          MpegTs_MaximumScanDuration;
     bool            MpegTs_ForceStreamDisplay;
+    #if MEDIAINFO_ADVANCED
+        float64     MpegTs_VbrDetection_Delta;
+        int64u      MpegTs_VbrDetection_Occurences;
+        bool        MpegTs_VbrDetection_GiveUp;
+    #endif //MEDIAINFO_ADVANCED
     size_t          Complete;
     size_t          BlockMethod;
     size_t          Internet;

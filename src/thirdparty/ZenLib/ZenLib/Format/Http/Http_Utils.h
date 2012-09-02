@@ -74,7 +74,3 @@ void TrimLeft (std::string& String, char ToTrim);
 } //Namespace
 
 #endif //ZENLIB_SERVER_HTTP_UTILS
-
-
-
-

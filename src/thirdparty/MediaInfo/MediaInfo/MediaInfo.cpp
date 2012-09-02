@@ -127,7 +127,7 @@ size_t MediaInfo::Open_Buffer_Finalize ()
 //---------------------------------------------------------------------------
 size_t MediaInfo::Open_NextPacket ()
 {
-    return ((MediaInfo_Internal*)Internal)->Open_NextPacket().to_ulong();;
+    return ((MediaInfo_Internal*)Internal)->Open_NextPacket().to_ulong();
 }
 
 //---------------------------------------------------------------------------
@@ -212,7 +212,7 @@ String MediaInfo::Option_Static (const String &Option, const String &Value)
     MEDIAINFO_DEBUG_STATIC(Debug+=__T("Option_Static, Option=");Debug+=Ztring(Option);Debug+=__T(", Value=");Debug+=Ztring(Value);)
     MediaInfoLib::Config.Init(); //Initialize Configuration
 
-         if (Option==__T("Info_Capacities"))
+    if (Option==__T("Info_Capacities"))
     {
         return __T("Option disactivated for this version, will come back soon!");
         //MediaInfo_Internal MI;
@@ -243,5 +243,3 @@ size_t MediaInfo::State_Get ()
 }
 
 } //NameSpace
-
-

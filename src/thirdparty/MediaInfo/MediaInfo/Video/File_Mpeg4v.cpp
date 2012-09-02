@@ -1717,7 +1717,7 @@ void File_Mpeg4v::vop_start()
             else
             {
                 Fill("MPEG-4 Visual");
-                if (Config_ParseSpeed<1.0)
+                if (Config->ParseSpeed<1.0)
                 {
                     if (!IsSub)
                         Open_Buffer_Unsynch();

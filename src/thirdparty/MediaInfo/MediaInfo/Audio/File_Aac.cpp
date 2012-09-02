@@ -35,6 +35,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Audio/File_Aac.h"
+#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -108,14 +109,14 @@ void File_Aac::Streams_Fill()
 {
     switch(Mode)
     {
-        case Mode_LATM                : Fill(Stream_General, 0, General_Format, "LATM"); if (IsSub) Fill(Stream_Audio, 0, Audio_MuxingMode, "LATM"); break;
-        default                       : ;
+        case Mode_LATM : Fill(Stream_General, 0, General_Format, "LATM"); if (IsSub) Fill(Stream_Audio, 0, Audio_MuxingMode, "LATM"); break;
+        default : ;
     }
 
-    for (std::map<std::string, Ztring>::iterator Info=Infos_General.begin(); Info!=Infos_General.end(); Info++)
+    for (std::map<std::string, Ztring>::iterator Info=Infos_General.begin(); Info!=Infos_General.end(); ++Info)
         Fill(Stream_General, 0, Info->first.c_str(), Info->second);
     File__Tags_Helper::Stream_Prepare(Stream_Audio);
-    for (std::map<std::string, Ztring>::iterator Info=Infos.begin(); Info!=Infos.end(); Info++)
+    for (std::map<std::string, Ztring>::iterator Info=Infos.begin(); Info!=Infos.end(); ++Info)
         Fill(Stream_Audio, StreamPos_Last, Info->first.c_str(), Info->second);
 
     switch(Mode)
@@ -140,10 +141,13 @@ void File_Aac::Streams_Finish()
         if (FrameSize_Max>FrameSize_Min*1.02)
         {
             Fill(Stream_Audio, 0, Audio_BitRate_Mode, "VBR", Unlimited, true, true);
-            Fill(Stream_Audio, 0, Audio_BitRate_Minimum, ((float64)FrameSize_Min)/1024*48000*8, 0);
-            Fill(Stream_Audio, 0, Audio_BitRate_Maximum, ((float64)FrameSize_Max)/1024*48000*8, 0);
+            if (Config->ParseSpeed>=1.0)
+            {
+                Fill(Stream_Audio, 0, Audio_BitRate_Minimum, ((float64)FrameSize_Min)/1024*48000*8, 0);
+                Fill(Stream_Audio, 0, Audio_BitRate_Maximum, ((float64)FrameSize_Max)/1024*48000*8, 0);
+            }
         }
-        else if (Config_ParseSpeed>=1.0)
+        else if (Config->ParseSpeed>=1.0)
         {
             Fill(Stream_Audio, 0, Audio_BitRate_Mode, "CBR");
         }
@@ -639,7 +643,7 @@ void File_Aac::Data_Parse()
         Element_Info1(Ztring::ToZtring(Frame_Count));
 
         //Filling
-        if ((Frame_Count>=Frame_Count_Valid || CanFill) && Config_ParseSpeed<1.0)
+        if ((Frame_Count>=Frame_Count_Valid || CanFill) && Config->ParseSpeed<1.0)
         {
             //No more need data
             switch (Mode)

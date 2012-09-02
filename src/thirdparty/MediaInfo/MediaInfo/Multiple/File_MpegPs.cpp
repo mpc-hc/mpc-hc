@@ -524,10 +524,10 @@ void File_MpegPs::Streams_Finish()
         if (Config_Ibi_Create)
         {
             ibi Ibi_Temp;
-            for (ibi::streams::iterator IbiStream_Temp=Ibi.Streams.begin(); IbiStream_Temp!=Ibi.Streams.end(); IbiStream_Temp++)
+            for (ibi::streams::iterator IbiStream_Temp=Ibi.Streams.begin(); IbiStream_Temp!=Ibi.Streams.end(); ++IbiStream_Temp)
                 Ibi_Temp.Streams[IbiStream_Temp->first]=new ibi::stream(*IbiStream_Temp->second);
 
-            for (ibi::streams::iterator IbiStream_Temp=Ibi_Temp.Streams.begin(); IbiStream_Temp!=Ibi_Temp.Streams.end(); IbiStream_Temp++)
+            for (ibi::streams::iterator IbiStream_Temp=Ibi_Temp.Streams.begin(); IbiStream_Temp!=Ibi_Temp.Streams.end(); ++IbiStream_Temp)
             {
                 if (IbiStream_Temp->second && IbiStream_Temp->second->DtsFrequencyNumerator==1000000000 && IbiStream_Temp->second->DtsFrequencyDenominator==1)
                 {
@@ -628,7 +628,7 @@ void File_MpegPs::Streams_Finish_PerStream(size_t StreamID, ps_stream &Temp, kin
          StreamKind_Last=Temp.StreamKind;
          StreamPos_Last=Temp.StreamPos;
 
-        int64u Start=(int64u)-1, End=(int64u)-1;
+        int64u Start=(int64u)-1, End=(int64u)-1, ByteDifference=(int64u)-1;
         if (Temp.TimeStamp_Start.DTS.TimeStamp!=(int64u)-1 && Temp.TimeStamp_End.DTS.TimeStamp!=(int64u)-1)
         {
             Start=Temp.TimeStamp_Start.DTS.TimeStamp;
@@ -638,32 +638,33 @@ void File_MpegPs::Streams_Finish_PerStream(size_t StreamID, ps_stream &Temp, kin
         {
             Start=Temp.TimeStamp_Start.PTS.TimeStamp;
             End=Temp.TimeStamp_End.PTS.TimeStamp;
+            if (Temp.TimeStamp_Start.PTS.File_Pos<Temp.TimeStamp_End.PTS.File_Pos)
+                ByteDifference=Temp.TimeStamp_End.PTS.File_Pos-Temp.TimeStamp_Start.PTS.File_Pos;
         }
         if (Start!=(int64u)-1 && End!=(int64u)-1)
         {
             //TimeStamp
-            if (End<Start)
+            if (End<0x100000000LL && Start>0x100000000LL) //Testing coherancy: no 13 hours long files.
                 End+=0x200000000LL; //33 bits, cyclic
-            int64u Duration=End-Start;
-            if (File_Size!=(int64u)-1 && File_Size>1024*1024*16 && End>=0x200000000LL)
+            if (Start<End)
             {
-                //Testing coherancy
-                if (Duration/90>16*3600*1000)
-                    Duration=0; //Disabling it
-            }
-            if (Duration)
-            {
-                if (StreamKind_Last==Stream_Video)
+                int64u Duration=End-Start;
+                if (ByteDifference!=(int64u)-1)
                 {
-                    float64 FrameRate=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate).To_float64();
-                    if (FrameRate!=0)
-                        Duration+=Ztring::ToZtring(90*1000/FrameRate, 0).To_int64u(); //We imagine that there is one frame in it
+                    float BitRate=(ByteDifference*8)/(((float)Duration)/9000);
+                    if (BitRate>10000000000LL)
+                        Duration=0;
                 }
                 if (Duration)
                 {
+                    if (StreamKind_Last==Stream_Video)
+                    {
+                        float64 FrameRate=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate).To_float64();
+                        if (FrameRate!=0)
+                            Duration+=Ztring::ToZtring(90*1000/FrameRate, 0).To_int64u(); //We imagine that there is one frame in it
+                    }
+
                     Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Duration), Duration/90, 10, true);
-                    if (Duration>FrameInfo.DTS)
-                        FrameInfo.DTS=Duration; //Saving maximum Duration
                 }
             }
         }
@@ -929,7 +930,7 @@ size_t File_MpegPs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
             MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
             if (!MiOpenResult)
                 return 0;
-            for (ibi::streams::iterator IbiStream_Temp=((File_MpegPs*)MI.Info)->Ibi.Streams.begin(); IbiStream_Temp!=((File_MpegPs*)MI.Info)->Ibi.Streams.end(); IbiStream_Temp++)
+            for (ibi::streams::iterator IbiStream_Temp=((File_MpegPs*)MI.Info)->Ibi.Streams.begin(); IbiStream_Temp!=((File_MpegPs*)MI.Info)->Ibi.Streams.end(); ++IbiStream_Temp)
             {
                 if (Ibi.Streams[IbiStream_Temp->first]==NULL)
                     Ibi.Streams[IbiStream_Temp->first]=new ibi::stream(*IbiStream_Temp->second);
@@ -1090,7 +1091,7 @@ void File_MpegPs::Read_Buffer_Continue()
 
     if (!IsSub)
     {
-        if (Config_ParseSpeed>=1.0)
+        if (Config->ParseSpeed>=1.0)
             Config->State_Set(((float)Buffer_TotalBytes)/File_Size);
         else if (Buffer_TotalBytes>2*SizeToAnalyze)
             Config->State_Set((float)0.99); //Nearly the end
@@ -1207,7 +1208,7 @@ void File_MpegPs::Read_Buffer_AfterParsing()
                 Fill(Stream_General, 0, General_Format, "MPEG-PS");
         }
         Fill("MPEG-PS");
-        if (!ShouldContinueParsing && File_Offset+Buffer_Size+SizeToAnalyze<File_Size && Config_ParseSpeed<1.0)
+        if (!ShouldContinueParsing && File_Offset+Buffer_Size+SizeToAnalyze<File_Size && Config->ParseSpeed<1.0)
         {
             //Jumping
             GoToFromEnd(SizeToAnalyze, "MPEG-PS");
@@ -1446,6 +1447,7 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG1(int8u stream_id)
         }
         if (Searching_TimeStamp_Start && Streams[stream_id].Searching_TimeStamp_Start && stream_id!=0xBD && stream_id!=0xFD) //0xBD and 0xFD can contain multiple streams, TimeStamp management is in Streams management
         {
+            Streams[stream_id].TimeStamp_Start.PTS.File_Pos=File_Offset+Buffer_Offset;
             Streams[stream_id].TimeStamp_Start.PTS.TimeStamp=FrameInfo.PTS;
             Streams[stream_id].Searching_TimeStamp_Start=false;
         }
@@ -1487,6 +1489,7 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG1(int8u stream_id)
         }
         if (Searching_TimeStamp_Start && Streams[stream_id].Searching_TimeStamp_Start)
         {
+            Streams[stream_id].TimeStamp_Start.PTS.File_Pos=File_Offset+Buffer_Offset;
             Streams[stream_id].TimeStamp_Start.PTS.TimeStamp=FrameInfo.PTS;
         }
         Element_Info_From_Milliseconds(float64_int64s(((float64)FrameInfo.PTS)/90));
@@ -1675,6 +1678,7 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG2(int8u stream_id)
         }
         if (Searching_TimeStamp_Start && Streams[stream_id].Searching_TimeStamp_Start)
         {
+            Streams[stream_id].TimeStamp_Start.PTS.File_Pos=File_Offset+Buffer_Offset;
             Streams[stream_id].TimeStamp_Start.PTS.TimeStamp=FrameInfo.PTS;
             Streams[stream_id].Searching_TimeStamp_Start=false;
         }
@@ -1745,6 +1749,7 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG2(int8u stream_id)
         }
         if (Searching_TimeStamp_Start && Streams[stream_id].Searching_TimeStamp_Start)
         {
+            Streams[stream_id].TimeStamp_Start.PTS.File_Pos=File_Offset+Buffer_Offset;
             Streams[stream_id].TimeStamp_Start.PTS.TimeStamp=FrameInfo.PTS;
             //Streams[stream_id].Searching_TimeStamp_Start=false; //Done with DTS
         }
@@ -2050,7 +2055,7 @@ void File_MpegPs::Data_Parse()
 //Jumping to the last DTS if needed
 bool File_MpegPs::BookMark_Needed()
 {
-    if (IsSub || Streams.empty() || Config_ParseSpeed>=1.0)
+    if (IsSub || Streams.empty() || Config->ParseSpeed>=1.0)
         return false;
 
     int64u ToJump=(int64u)-1;
@@ -2500,7 +2505,10 @@ void File_MpegPs::private_stream_1()
             }
         #endif //MEDIAINFO_EVENTS
         for (size_t Pos=0; Pos<Streams_Private1[private_stream_1_ID].Parsers.size(); Pos++)
+        {
+            Streams_Private1[private_stream_1_ID].Parsers[Pos]->CA_system_ID_MustSkipSlices=CA_system_ID_MustSkipSlices;
             Open_Buffer_Init(Streams_Private1[private_stream_1_ID].Parsers[Pos]);
+        }
         #if MEDIAINFO_EVENTS
             if (private_stream_1_Offset)
             {
@@ -2889,9 +2897,6 @@ void File_MpegPs::private_stream_1_Element_Info1()
         //AC3+
         else if (private_stream_1_ID>=0xC0 && private_stream_1_ID<=0xCF)
             Element_Info1("AC3+");
-        //PS2
-        else if (private_stream_1_ID>=0xC0 && private_stream_1_ID<=0xCF)
-            Element_Info1("PS2");
     }
 }
 #endif //MEDIAINFO_TRACE
@@ -3075,7 +3080,10 @@ void File_MpegPs::audio_stream()
             #endif
         }
         for (size_t Pos=0; Pos<Streams[stream_id].Parsers.size(); Pos++)
+        {
+            Streams[stream_id].Parsers[Pos]->CA_system_ID_MustSkipSlices=CA_system_ID_MustSkipSlices;
             Open_Buffer_Init(Streams[stream_id].Parsers[Pos]);
+        }
     }
 
     //Demux
@@ -3164,6 +3172,7 @@ void File_MpegPs::video_stream()
         }
         for (size_t Pos=0; Pos<Streams[stream_id].Parsers.size(); Pos++)
         {
+            Streams[stream_id].Parsers[Pos]->CA_system_ID_MustSkipSlices=CA_system_ID_MustSkipSlices;
             Open_Buffer_Init(Streams[stream_id].Parsers[Pos]);
             #if MEDIAINFO_IBI
                 if (FromTS)
@@ -3273,7 +3282,10 @@ void File_MpegPs::SL_packetized_stream()
             #endif
         }
         for (size_t Pos=0; Pos<Streams[stream_id].Parsers.size(); Pos++)
+        {
+            Streams[stream_id].Parsers[Pos]->CA_system_ID_MustSkipSlices=CA_system_ID_MustSkipSlices;
             Open_Buffer_Init(Streams[stream_id].Parsers[Pos]);
+        }
     }
 
     //Parsing
@@ -3517,7 +3529,10 @@ void File_MpegPs::extension_stream()
 
         //Init
         for (size_t Pos=0; Pos<Streams_Extension[stream_id_extension].Parsers.size(); Pos++)
+        {
+            Streams_Extension[stream_id_extension].Parsers[Pos]->CA_system_ID_MustSkipSlices=CA_system_ID_MustSkipSlices;
             Open_Buffer_Init(Streams_Extension[stream_id_extension].Parsers[Pos]);
+        }
     }
 
     //Demux
@@ -3622,6 +3637,7 @@ void File_MpegPs::xxx_stream_Parse(ps_stream &Temp, int8u &stream_Count)
                 }
                 if (Searching_TimeStamp_Start && Temp.Searching_TimeStamp_Start)
                 {
+                    Temp.TimeStamp_Start.PTS.File_Pos=File_Offset+Buffer_Offset;
                     Temp.TimeStamp_Start.PTS.TimeStamp=Streams[stream_id].TimeStamp_End.PTS.TimeStamp;
                     Temp.Searching_TimeStamp_Start=false;
                 }

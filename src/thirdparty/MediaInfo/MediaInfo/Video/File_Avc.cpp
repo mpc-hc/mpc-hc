@@ -377,10 +377,10 @@ File_Avc::~File_Avc()
 //---------------------------------------------------------------------------
 void File_Avc::Streams_Fill()
 {
-    for (std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item=seq_parameter_sets.begin(); seq_parameter_set_Item!=seq_parameter_sets.end(); seq_parameter_set_Item++)
+    for (std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item=seq_parameter_sets.begin(); seq_parameter_set_Item!=seq_parameter_sets.end(); ++seq_parameter_set_Item)
         if ((*seq_parameter_set_Item))
             Streams_Fill(seq_parameter_set_Item);
-    for (std::vector<seq_parameter_set_struct*>::iterator subset_seq_parameter_set_Item=subset_seq_parameter_sets.begin(); subset_seq_parameter_set_Item!=subset_seq_parameter_sets.end(); subset_seq_parameter_set_Item++)
+    for (std::vector<seq_parameter_set_struct*>::iterator subset_seq_parameter_set_Item=subset_seq_parameter_sets.begin(); subset_seq_parameter_set_Item!=subset_seq_parameter_sets.end(); ++subset_seq_parameter_set_Item)
         if ((*subset_seq_parameter_set_Item))
         {
             if (seq_parameter_sets.empty())
@@ -547,7 +547,7 @@ void File_Avc::Streams_Fill(std::vector<seq_parameter_set_struct*>::iterator seq
     Fill(Stream_Video, 0, Video_Encoded_Library_Settings, Encoded_Library_Settings);
     Fill(Stream_Video, 0, Video_BitRate_Nominal, BitRate_Nominal);
     Fill(Stream_Video, 0, Video_MuxingMode, MuxingMode);
-    for (std::vector<pic_parameter_set_struct*>::iterator pic_parameter_set_Item=pic_parameter_sets.begin(); pic_parameter_set_Item!=pic_parameter_sets.end(); pic_parameter_set_Item++)
+    for (std::vector<pic_parameter_set_struct*>::iterator pic_parameter_set_Item=pic_parameter_sets.begin(); pic_parameter_set_Item!=pic_parameter_sets.end(); ++pic_parameter_set_Item)
         if (*pic_parameter_set_Item && (*pic_parameter_set_Item)->seq_parameter_set_id==seq_parameter_set_Item-(seq_parameter_sets.empty()?subset_seq_parameter_sets.begin():seq_parameter_sets.begin()))
         {
             if ((*pic_parameter_set_Item)->entropy_coding_mode_flag)
@@ -910,13 +910,13 @@ void File_Avc::Read_Buffer_Unsynched()
     #endif //defined(MEDIAINFO_DTVCCTRANSPORT_YES)
 
     //parameter_sets
-    for (std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item=seq_parameter_sets.begin(); seq_parameter_set_Item!=seq_parameter_sets.end(); seq_parameter_set_Item++)
+    for (std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item=seq_parameter_sets.begin(); seq_parameter_set_Item!=seq_parameter_sets.end(); ++seq_parameter_set_Item)
         if ((*seq_parameter_set_Item))
             (*seq_parameter_set_Item)->IsSynched=false;
-    for (std::vector<seq_parameter_set_struct*>::iterator subset_seq_parameter_set_Item=subset_seq_parameter_sets.begin(); subset_seq_parameter_set_Item!=subset_seq_parameter_sets.end(); subset_seq_parameter_set_Item++)
+    for (std::vector<seq_parameter_set_struct*>::iterator subset_seq_parameter_set_Item=subset_seq_parameter_sets.begin(); subset_seq_parameter_set_Item!=subset_seq_parameter_sets.end(); ++subset_seq_parameter_set_Item)
         if ((*subset_seq_parameter_set_Item))
             (*subset_seq_parameter_set_Item)->IsSynched=false;
-    for (std::vector<pic_parameter_set_struct*>::iterator pic_parameter_set_Item=pic_parameter_sets.begin(); pic_parameter_set_Item!=pic_parameter_sets.end(); pic_parameter_set_Item++)
+    for (std::vector<pic_parameter_set_struct*>::iterator pic_parameter_set_Item=pic_parameter_sets.begin(); pic_parameter_set_Item!=pic_parameter_sets.end(); ++pic_parameter_set_Item)
         if ((*pic_parameter_set_Item))
             (*pic_parameter_set_Item)->IsSynched=false;
 
@@ -1242,6 +1242,14 @@ void File_Avc::slice_layer_without_partitioning_IDR()
 //
 void File_Avc::slice_header()
 {
+    //Encryption management
+    if (CA_system_ID_MustSkipSlices)
+    {
+        //Is not decodable
+        Finish("AVC");
+        return;
+    }
+
     //Parsing
     int32u  slice_type, pic_order_cnt_lsb=(int32u)-1;
     int32u  first_mb_in_slice, pic_parameter_set_id, frame_num, num_ref_idx_l0_active_minus1, num_ref_idx_l1_active_minus1;
@@ -1415,7 +1423,7 @@ void File_Avc::slice_header()
                             else
                             {
                                 bool Has5=false;
-                                for (std::vector<int8u>::iterator Temp=memory_management_control_operations.begin(); Temp!=memory_management_control_operations.end(); Temp++)
+                                for (std::vector<int8u>::iterator Temp=memory_management_control_operations.begin(); Temp!=memory_management_control_operations.end(); ++Temp)
                                     if ((*Temp)==5)
                                     {
                                         Has5=true;
@@ -1461,7 +1469,7 @@ void File_Avc::slice_header()
                 case 2 :
                             {
                             bool Has5=false;
-                            for (std::vector<int8u>::iterator Temp=memory_management_control_operations.begin(); Temp!=memory_management_control_operations.end(); Temp++)
+                            for (std::vector<int8u>::iterator Temp=memory_management_control_operations.begin(); Temp!=memory_management_control_operations.end(); ++Temp)
                                 if ((*Temp)==5)
                                 {
                                     Has5=true;
@@ -1525,7 +1533,13 @@ void File_Avc::slice_header()
                     TemporalReferences_Min=(size_t)(TemporalReferences_Offset+pic_order_cnt);
             }
 
-            if (TemporalReferences_Offset+pic_order_cnt>=3*TemporalReferences_Reserved)
+            if (pic_order_cnt<0 && TemporalReferences_Offset<-pic_order_cnt) //Found in playreadyEncryptedBlowUp.ts without encryption test
+            {
+                Trusted_IsNot("Problem in temporal references");
+                return;
+            }
+
+            if ((int64s)(TemporalReferences_Offset+pic_order_cnt)>=3*TemporalReferences_Reserved)
             {
                 size_t Offset=TemporalReferences_Max-TemporalReferences_Offset;
                 if (Offset%2)
@@ -1711,7 +1725,7 @@ void File_Avc::slice_header()
             FrameInfo.PTS+=tc;
         if (FrameInfo.DTS!=(int64u)-1)
             FrameInfo.DTS+=tc;
-        if (FrameInfo.PTS!=(int64u)-1 && PTS_End<FrameInfo.PTS)
+        if (FrameInfo.PTS!=(int64u)-1 && (FrameInfo.PTS>PTS_End || (PTS_End>1000000000 && FrameInfo.PTS<=PTS_End-1000000000))) //More than current PTS_End or less than current PTS_End minus 1 second (there is a problem?)
             PTS_End=FrameInfo.PTS;
 
         #if MEDIAINFO_DUPLICATE
@@ -2204,7 +2218,7 @@ void File_Avc::sei_message_user_data_registered_itu_t_t35_GA94_03_Delayed(int32u
             {
                 float64 PixelAspectRatio=1;
                 std::vector<seq_parameter_set_struct*>::iterator seq_parameter_set_Item=seq_parameter_sets.begin();
-                for (; seq_parameter_set_Item!=seq_parameter_sets.end(); seq_parameter_set_Item++)
+                for (; seq_parameter_set_Item!=seq_parameter_sets.end(); ++seq_parameter_set_Item)
                     if ((*seq_parameter_set_Item))
                         break;
                 if (seq_parameter_set_Item!=seq_parameter_sets.end())

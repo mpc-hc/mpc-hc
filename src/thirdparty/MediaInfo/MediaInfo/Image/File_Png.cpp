@@ -312,7 +312,7 @@ void File_Png::IHDR()
 
     if (Status[IsFilled])
         Fill();
-    if (Config_ParseSpeed<1.0)
+    if (Config->ParseSpeed<1.0)
         Finish("PNG"); //No need of more
     FILLING_END();
 }

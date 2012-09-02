@@ -255,6 +255,15 @@ struct complete_stream
             int64u                                  TimeStamp_End_Offset;
             int16u                                  PCR_PID; //If this pid has no PCR, decide which PCR should be used
             bool                                    TimeStamp_End_IsUpdated;
+            float64                                 TimeStamp_InstantaneousBitRate;
+            size_t                                  TimeStamp_InstantaneousBitRate_BitRateMode_IsCbr;
+            size_t                                  TimeStamp_InstantaneousBitRate_BitRateMode_IsVbr;
+            #if MEDIAINFO_ADVANCED
+                int64u                              TimeStamp_Distance_Min;
+                int64u                              TimeStamp_Distance_Max;
+                int64u                              TimeStamp_Distance_Total;
+                size_t                              TimeStamp_Distance_Count;
+            #endif // MEDIAINFO_ADVANCED
         #endif //MEDIAINFO_MPEGTS_PCR_YES
         int32u                                      registration_format_identifier;
         int16u                                      FMC_ES_ID;
@@ -278,7 +287,9 @@ struct complete_stream
         bool                                        IsRegistered;
         bool                                        IsUpdated_IsRegistered;
         bool                                        IsUpdated_Info;
+        bool                                        CA_system_ID_MustSkipSlices;
         size_t                                      IsScrambled;
+        int16u                                      CA_system_ID;
         int16u                                      SubStream_pid;
         #if MEDIAINFO_IBI
             int64u                                  Ibi_SynchronizationOffset_BeginOfFrame;
@@ -302,6 +313,15 @@ struct complete_stream
                 TimeStamp_End_Offset=(int64u)-1;
                 PCR_PID=0x0000;
                 TimeStamp_End_IsUpdated=false;
+                TimeStamp_InstantaneousBitRate=0;
+                TimeStamp_InstantaneousBitRate_BitRateMode_IsCbr=0;
+                TimeStamp_InstantaneousBitRate_BitRateMode_IsVbr=0;
+                #if MEDIAINFO_ADVANCED
+                    TimeStamp_Distance_Min=(int64u)-1;
+                    TimeStamp_Distance_Max=0;
+                    TimeStamp_Distance_Total=0;
+                    TimeStamp_Distance_Count=0;
+                #endif // MEDIAINFO_ADVANCED
             #endif //MEDIAINFO_MPEGTS_PCR_YES
             registration_format_identifier=0x00000000;
             FMC_ES_ID=0x0000;
@@ -326,6 +346,8 @@ struct complete_stream
             IsUpdated_IsRegistered=false;
             IsUpdated_Info=false;
             IsScrambled=false;
+            CA_system_ID_MustSkipSlices=false;
+            CA_system_ID=0x0000;
             SubStream_pid=0x0000;
             #if MEDIAINFO_IBI
                 Ibi_SynchronizationOffset_BeginOfFrame=(int64u)-1;

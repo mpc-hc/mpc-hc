@@ -838,7 +838,14 @@ void File_Aac::PayloadMux()
                 switch(frameLengthType[streamID[prog][lay]])
                 {
                     case 0 :
-                            raw_data_block(); //Skip_BS(8*MuxSlotLengthBytes[streamID[prog][lay]],"payload[streamID[prog][lay]]");
+                            if (CA_system_ID_MustSkipSlices)
+                            {
+                                //Encryption management
+                                Skip_BS(8*MuxSlotLengthBytes[streamID[prog][lay]], "Encrypted payload[streamID[prog][lay]]");
+                                Frame_Count_Valid=0;
+                            }
+                            else
+                                raw_data_block();
                             break;
                     case 1 :
                             Skip_BS(8 * (frameLength[streamID[prog][lay]] + 20),"payload[streamID[prog][lay]]");
@@ -1008,6 +1015,17 @@ void File_Aac::adts_frame()
     //Parsing
     adts_fixed_header();
     adts_variable_header();
+
+    //Encryption management
+    if (CA_system_ID_MustSkipSlices)
+    {
+        //Is not decodable
+        BS_End();
+        Skip_XX(Element_Size-Element_Offset,                    "Encrypted data");
+        Frame_Count_Valid=0;
+        return;
+    }
+
     if (num_raw_data_blocks==0)
     {
         if (!protection_absent)

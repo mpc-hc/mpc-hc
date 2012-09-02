@@ -1038,5 +1038,3 @@ int64s float64_int64s (float64 F, bool Rounded)
 }
 
 } //namespace ZenLib
-
-

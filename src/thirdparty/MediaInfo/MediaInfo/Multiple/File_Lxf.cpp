@@ -197,10 +197,10 @@ void File_Lxf::Streams_Finish()
         Streams_Fill_PerStream(Videos[1].Parser, Stream_Video, 1);
     }
 
-    if (Audios_Header.TimeStamp_End!=(int64u)-1 && Audios_Header.TimeStamp_Begin!=(int64u)-1)
+    if (Audios_Header.TimeStamp_End!=(int64u)-1 && Audios_Header.TimeStamp_Begin!=(int64u)-1 && Audios_Header.Duration_First!=(int64u)-1)
     {
         int64u Duration=float64_int64s(((float64)(Audios_Header.TimeStamp_End-Audios_Header.TimeStamp_Begin))/TimeStamp_Rate*1000);
-        int64u FrameCount=float64_int64s(((float64)(Audios_Header.TimeStamp_End-Audios_Header.TimeStamp_Begin))/Audios_Header.Duration);
+        int64u FrameCount=float64_int64s(((float64)(Audios_Header.TimeStamp_End-Audios_Header.TimeStamp_Begin))/Audios_Header.Duration_First);
         for (size_t Pos=0; Pos<Count_Get(Stream_Audio); Pos++)
         {
             Fill(Stream_Audio, Pos, Audio_Duration, Duration);
@@ -226,7 +226,8 @@ void File_Lxf::Streams_Finish()
                 if (Audios[Pos].BytesPerFrame!=(int64u)-1)
                     Info_General_StreamSize+=Audios[Pos].BytesPerFrame*Retrieve(Stream_Audio, Pos, Audio_FrameCount).To_int64u();
             Fill(Stream_General, 0, General_StreamSize, Info_General_StreamSize);
-            Fill(Stream_Video, 0, Video_StreamSize, File_Size-Info_General_StreamSize);
+            if (Info_General_StreamSize<File_Size)
+                Fill(Stream_Video, 0, Video_StreamSize, File_Size-Info_General_StreamSize);
         }
     }
 }
@@ -395,7 +396,7 @@ size_t File_Lxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
         MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
         if (!MiOpenResult || MI.Get(Stream_General, 0, General_Format)!=__T("LXF"))
             return 0;
-        for (time_offsets::iterator TimeOffset=((File_Lxf*)MI.Info)->TimeOffsets.begin(); TimeOffset!=((File_Lxf*)MI.Info)->TimeOffsets.end(); TimeOffset++)
+        for (time_offsets::iterator TimeOffset=((File_Lxf*)MI.Info)->TimeOffsets.begin(); TimeOffset!=((File_Lxf*)MI.Info)->TimeOffsets.end(); ++TimeOffset)
             TimeOffsets[TimeOffset->first]=TimeOffset->second;
         int64u Duration=float64_int64s(Ztring(MI.Get(Stream_General, 0, __T("Duration"))).To_float64()*TimeStamp_Rate/1000);
         TimeOffsets[File_Size]=stream_header(Duration, Duration, 0, (int8u)-1);
@@ -423,7 +424,7 @@ size_t File_Lxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
                     {
                         Value=float64_int64s((float64)Value*TimeStamp_Rate/1000000000); //Convert in LXF unit
                         time_offsets::iterator End=TimeOffsets.end();
-                        End--;
+                        --End;
                         if (Value>=End->second.TimeStamp_End)
                             return 2; //Higher than total size
                         SeekRequest=Value;
@@ -432,7 +433,7 @@ size_t File_Lxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
                     //Looking if we already have the timestamp
                     int64u SeekRequest_Mini=SeekRequest; if (SeekRequest_Mini>1000000) SeekRequest_Mini-=float64_int64s(TimeStamp_Rate/1000); //-1ms
                     int64u SeekRequest_Maxi=SeekRequest+float64_int64s(TimeStamp_Rate/1000); //+1ms
-                    for (time_offsets::iterator TimeOffset=TimeOffsets.begin(); TimeOffset!=TimeOffsets.end(); TimeOffset++)
+                    for (time_offsets::iterator TimeOffset=TimeOffsets.begin(); TimeOffset!=TimeOffsets.end(); ++TimeOffset)
                     {
                         if (TimeOffset->second.TimeStamp_Begin<=SeekRequest_Maxi && TimeOffset->second.TimeStamp_End>=SeekRequest_Mini) //If it is found in a frame we know
                         {
@@ -440,7 +441,7 @@ size_t File_Lxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
                             while (TimeOffset->second.PictureType&0x2 && TimeOffset!=TimeOffsets.begin()) //Not an I-Frame (and not fisrt frame)
                             {
                                 time_offsets::iterator Previous=TimeOffset;
-                                Previous--;
+                                --Previous;
                                 if (Previous->second.TimeStamp_End!=TimeOffset->second.TimeStamp_Begin) //Testing if the previous frame is not known.
                                 {
                                     SeekRequest=TimeOffset->second.TimeStamp_Begin-(float64_int64s(TimeStamp_Rate/1000)+1); //1ms+1, so we are sure to not synch on the current frame again
@@ -467,7 +468,7 @@ size_t File_Lxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
 
                         if (TimeOffset->second.TimeStamp_Begin>SeekRequest_Maxi) //Testing if too far
                         {
-                            time_offsets::iterator Previous=TimeOffset; Previous--;
+                            time_offsets::iterator Previous=TimeOffset; --Previous;
                             int64u ReferenceOffset;
                             if (File_Offset+Buffer_Offset==TimeOffset->first && TimeOffset->second.TimeStamp_Begin>SeekRequest) //If current frame is already too far
                                 ReferenceOffset=File_Offset+Buffer_Offset;
@@ -477,7 +478,7 @@ size_t File_Lxf::Read_Buffer_Seek (size_t Method, int64u Value, int64u)
                             {
                                 SeekRequest=Previous->second.TimeStamp_Begin-(float64_int64s(TimeStamp_Rate/1000)+1); //1ms+1, so we are sure to not synch on the current frame again
                                 ReferenceOffset=Previous->first;
-                                Previous--;
+                                --Previous;
                                 SeekRequest_Divider=2;
                             }
                             Open_Buffer_Unsynch();
@@ -670,6 +671,8 @@ void File_Lxf::Header_Parse()
                         Audios_Header.TimeStamp_Begin=TimeStamp;
                     Audios_Header.TimeStamp_End=TimeStamp+Duration;
                     Audios_Header.Duration=Duration;
+                    if (Audios_Header.Duration_First==(int64u)-1 && Duration)
+                        Audios_Header.Duration_First=Duration;
                     LastAudio_BufferOffset=File_Offset+Buffer_Offset;
                     LastAudio_TimeOffset=stream_header(TimeStamp, TimeStamp+Duration, Duration, (int8u)-1);
                     #if MEDIAINFO_DEMUX

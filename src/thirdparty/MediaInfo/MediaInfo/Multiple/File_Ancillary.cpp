@@ -388,10 +388,10 @@ void File_Ancillary::Data_Parse()
                             ;
                         }
                         break;
-            case 0x61 : //Defined data services (from SMPTE 331-1)
+            case 0x61 : //Defined data services (from SMPTE 334-1)
                         switch (SecondaryDataID)
                         {
-                            case 0x01 : //CDP (from SMPTE 331-1)
+                            case 0x01 : //CDP (from SMPTE 334-1)
                                         #if defined(MEDIAINFO_CDP_YES)
                                         {
                                             if (Cdp_Parser==NULL)
@@ -422,7 +422,7 @@ void File_Ancillary::Data_Parse()
                                         }
                                         #endif //MEDIAINFO_CDP_YES
                                         break;
-                            case 0x02 : //CEA-608 (from SMPTE 331-1)
+                            case 0x02 : //CEA-608 (from SMPTE 334-1)
                                         #if defined(MEDIAINFO_EIA608_YES)
                                         if (DataCount==3) //This must be 3-byte data
                                         {
@@ -434,14 +434,14 @@ void File_Ancillary::Data_Parse()
                             ;
                         }
                         break;
-            case 0x62 : //Variable-format data services (from SMPTE 331-1)
+            case 0x62 : //Variable-format data services (from SMPTE 334-1)
                         switch (SecondaryDataID)
                         {
-                            case 0x01 : //Program description (from SMPTE 331-1),
+                            case 0x01 : //Program description (from SMPTE 334-1),
                                         break;
-                            case 0x02 : //Data broadcast (from SMPTE 331-1)
+                            case 0x02 : //Data broadcast (from SMPTE 334-1)
                                         break;
-                            case 0x03 : //VBI data (from SMPTE 331-1)
+                            case 0x03 : //VBI data (from SMPTE 334-1)
                                         break;
                             default   : ;
                             ;

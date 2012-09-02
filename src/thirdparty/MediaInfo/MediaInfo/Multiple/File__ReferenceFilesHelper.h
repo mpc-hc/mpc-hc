@@ -90,6 +90,7 @@ public :
 
     //Constructor / Destructor
     File__ReferenceFilesHelper(File__Analyze* MI, MediaInfo_Config_MediaInfo* Config);
+    ~File__ReferenceFilesHelper();
 
     #if MEDIAINFO_SEEK
     size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);

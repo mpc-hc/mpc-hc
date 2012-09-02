@@ -381,4 +381,3 @@ void ZtringListListF::Local_Set (bool NewLocal)
 }
 
 } //Namespace
-

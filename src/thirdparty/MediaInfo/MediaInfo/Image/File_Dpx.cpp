@@ -119,42 +119,43 @@ const char* DPX_Descriptors(int8u i)
 }
 
 //---------------------------------------------------------------------------
-const char* DPX_TransferCharacteristic[]=
+const char* Mpegv_transfer_characteristics(int8u transfer_characteristics);
+const char* DPX_TransferCharacteristic(int8u TransferCharacteristic)
 {
-    "User defined",
-    "Printing density",
-    "Linear",
-    "Logarithmic",
-    "Unspecified video",
-    "SMPTE 274M",
-    "ITU-R 709-4",
-    "ITU-R 601-5 system B or G (625)",
-    "ITU-R 601-5 system M (525)",
-    "Composite video (NTSC); see SMPTE 170M",
-    "Composite video (PAL); see ITU-R 624-4",
-    "Z (depth) - linear",
-    "Z (depth) - homogeneous", //(distance to screen and angle of view must also be specified in user-defined section)
-    "Reserved for future use"
+    switch (TransferCharacteristic)
+    {
+        case  1 : return "Printing density";
+        case  2 : return Mpegv_transfer_characteristics(8);             //Linear
+        case  3 : return "Logarithmic";                                 //Value not specified in specs
+        case  5 :                                                       //SMPTE 274M, for HDTV, mapped to BT.709
+        case  6 : return Mpegv_transfer_characteristics(1);             //BT.709
+        case  7 : return Mpegv_transfer_characteristics(5);             //BT.470 System B, BT.470 System G (typo in specs?)
+        case  8 : return Mpegv_transfer_characteristics(4);             //BT.470 System M (typo in specs?)
+        case  9 :                                                       //BT.601 (NTSC)
+        case 10 : return Mpegv_transfer_characteristics(6);             //BT.601 (PAL)
+        case 11 : return "Z (depth) - linear";
+        case 12 : return "Z (depth) - homogeneous";
+        default : return "";
+    }
 };
 
 //---------------------------------------------------------------------------
-const char* DPX_ColorimetricSpecification[]=
+//---------------------------------------------------------------------------
+const char* Mpegv_colour_primaries(int8u colour_primaries);
+const char* DPX_ColorimetricSpecification(int8u ColorimetricSpecification)
 {
-    "User defined",
-    "Printing density",
-    "Not applicable",
-    "Not applicable",
-    "Unspecified video",
-    "SMPTE 274M",
-    "ITU-R 709-4",
-    "ITU-R 601-5 system B or G (625)",
-    "ITU-R 601-5 system M (525)",
-    "Composite video (NTSC); see SMPTE 170M",
-    "Composite video (PAL); see ITU-R 624-4",
-    "Not applicable",
-    "Not applicable",
-    "Reserved for future use"
-};
+    switch (ColorimetricSpecification)
+    {
+        case  1 : return "Printing density";
+        case  5 :                                                       //SMPTE 274M, for HDTV, mapped to BT.709
+        case  6 : return Mpegv_colour_primaries(1);                     //BT.709
+        case  7 : return Mpegv_colour_primaries(5);                     //BT.470 System B, BT.470 System G (typo in specs?), mapped to BT.601 PAL
+        case  8 : return Mpegv_colour_primaries(6);                     //BT.470 System M (typo in specs?), mapped to BT.601 NTSC
+        case  9 : return Mpegv_colour_primaries(6);                     //BT.601 NTSC
+        case 10 : return Mpegv_colour_primaries(5);                     //BT.601 PAL
+        default : return "";
+    }
+}
 
 //---------------------------------------------------------------------------
 const char* DPX_ValidBitDephs(int8u i)
@@ -437,7 +438,7 @@ void File_Dpx::Data_Parse()
 
         if (!Status[IsFilled])
             Fill();
-        if (Config_ParseSpeed<1.0)
+        if (Config->ParseSpeed<1.0)
             Finish();
     }
 }
@@ -680,15 +681,15 @@ void File_Dpx::GenericSectionHeader_v2()
 void File_Dpx::GenericSectionHeader_v2_ImageElement()
 {
     Element_Begin1("image element");
-    int8u BitDephs;
+    int8u TransferCharacteristic, ColorimetricSpecification, BitDephs;
     Info_B4(DataSign,                                           "Data sign");Param_Info1((DataSign==0?"unsigned":"signed"));
     Skip_B4(                                                    "Reference low data code value");
     Skip_BFP4(9,                                                "Reference low quantity represented");
     Skip_B4(                                                    "Reference high data code value");
     Skip_BFP4(9,                                                "Reference high quantity represented");
     Info_B1(Descriptor,                                         "Descriptor");Param_Info1(DPX_Descriptors(Descriptor));
-    Info_B1(TransferCharacteristic,                             "Transfer characteristic");Param_Info1(DPX_TransferCharacteristic[TransferCharacteristic]);
-    Info_B1(ColorimetricSpecification,                          "Colorimetric specification");Param_Info1(DPX_ColorimetricSpecification[ColorimetricSpecification]);
+    Get_B1 (TransferCharacteristic,                             "Transfer characteristic");Param_Info1(DPX_TransferCharacteristic(TransferCharacteristic));
+    Get_B1 (ColorimetricSpecification,                          "Colorimetric specification");Param_Info1(DPX_ColorimetricSpecification(ColorimetricSpecification));
     Get_B1 (BitDephs,                                           "Bit depth");Param_Info1(DPX_ValidBitDephs(BitDephs));
     Info_B2(ComponentDataPackingMethod,                         "Packing");Param_Info1((ComponentDataPackingMethod<8?DPX_ComponentDataPackingMethod[ComponentDataPackingMethod]:"invalid"));
     Info_B2(ComponentDataEncodingMethod,                        "Encoding");Param_Info1((ComponentDataEncodingMethod<8?DPX_ComponentDataEncodingMethod[ComponentDataEncodingMethod]:"invalid"));
@@ -704,6 +705,8 @@ void File_Dpx::GenericSectionHeader_v2_ImageElement()
             Fill(StreamKind_Last, StreamPos_Last, "Format", "DPX");
             Fill(StreamKind_Last, StreamPos_Last, "Format_Version", "Version 2");
             Fill(StreamKind_Last, StreamPos_Last, "BitDepth", BitDephs);
+            Fill(StreamKind_Last, StreamPos_Last, "colour_primaries", DPX_TransferCharacteristic(TransferCharacteristic));
+            Fill(StreamKind_Last, StreamPos_Last, "transfer_characteristics", DPX_ColorimetricSpecification(ColorimetricSpecification));
         }
     FILLING_END();
 }

@@ -53,8 +53,8 @@ namespace Html
 struct header
 {
     //In
-    Ztring                              Title;
-    Ztring                              Language;
+    Ztring  Title;
+    Ztring  Language;
 
     //Init
     header()
@@ -85,7 +85,3 @@ public:
 #define HTML_ENDL "<br />\r\n"
 
 #endif
-
-
-
-

@@ -99,9 +99,9 @@ void File_DvbSubtitle::Streams_Fill()
     Stream_Prepare(Stream_Text);
     Fill(Stream_Text, 0, Text_Format, "DVB Subtitle");
 
-    for (std::map<int8u, subtitle_stream_data>::iterator subtitle_stream=subtitle_streams.begin(); subtitle_stream!=subtitle_streams.end(); subtitle_stream++)
-        for (std::map<int16u, page_data>::iterator page=subtitle_stream->second.pages.begin(); page!=subtitle_stream->second.pages.end(); page++)
-            for (std::map<int8u, region_data>::iterator region=page->second.regions.begin(); region!=page->second.regions.end(); region++)
+    for (std::map<int8u, subtitle_stream_data>::iterator subtitle_stream=subtitle_streams.begin(); subtitle_stream!=subtitle_streams.end(); ++subtitle_stream)
+        for (std::map<int16u, page_data>::iterator page=subtitle_stream->second.pages.begin(); page!=subtitle_stream->second.pages.end(); ++page)
+            for (std::map<int8u, region_data>::iterator region=page->second.regions.begin(); region!=page->second.regions.end(); ++region)
             {
                 Fill(Stream_Text, 0, "subtitle_stream_id", subtitle_stream->first);
                 (*Stream_More)[Stream_Text][0](Ztring().From_Local("subtitle_stream_id"), Info_Options)=__T("N NI");

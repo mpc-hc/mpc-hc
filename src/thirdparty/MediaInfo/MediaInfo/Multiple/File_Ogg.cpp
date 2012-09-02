@@ -106,7 +106,7 @@ void File_Ogg::Streams_Fill()
                 Fill(Stream_Temp->second.StreamKind, Stream_Temp->second.StreamPos, General_ID_String, Ztring::ToZtring(Stream_Temp->first)+__T(" (0x")+Ztring::ToZtring(Stream_Temp->first, 16)+__T(')'), true);
             }
         }
-        Stream_Temp++;
+        ++Stream_Temp;
     }
 
     Fill(Stream_General, 0, General_Format, "OGG", Unlimited, true, true);
@@ -127,7 +127,7 @@ void File_Ogg::Streams_Finish()
             Merge(*Stream_Temp->second.Parser, Stream_Temp->second.StreamKind, 0, Stream_Temp->second.StreamPos);
             Merge(*Stream_Temp->second.Parser, Stream_General, 0, 0);
         }
-        Stream_Temp++;
+        ++Stream_Temp;
     }
 
     //No more need
@@ -393,7 +393,7 @@ void File_Ogg::Data_Parse()
             while (Stream_Temp!=Stream.end())
             {
                 Stream_Temp->second.absolute_granule_position=0;
-                Stream_Temp++;
+                ++Stream_Temp;
             }
         Parsing_End=true;
     }

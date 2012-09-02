@@ -230,7 +230,7 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
 void Request::Http_End(std::ostream &Out)
 {
     Out << "HTTP/1.0 "<< Http->Response_HTTP_Code << "\r\n";
-    for (std::map<std::string, std::string>::iterator Temp=Http->Response_Headers.begin(); Temp!=Http->Response_Headers.end(); Temp++)
+    for (std::map<std::string, std::string>::iterator Temp=Http->Response_Headers.begin(); Temp!=Http->Response_Headers.end(); ++Temp)
         Out << Temp->first << ": " << Temp->second << "\r\n";
     Http->Response_Cookies.Create_Lines(Out);
     std::map<std::string, std::string>::iterator Content_Type_Element=Http->Response_Headers.find("Content-Type");

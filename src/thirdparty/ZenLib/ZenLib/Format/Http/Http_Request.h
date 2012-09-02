@@ -60,7 +60,7 @@ public:
     ~Request();
 
     //The data
-    ZenLib::Format::Http::Handler  *Http;
+    ZenLib::Format::Http::Handler   *Http;
     bool                            IsCopy;
 
     //Helpers
@@ -75,7 +75,3 @@ public:
 } //Namespace
 
 #endif
-
-
-
-

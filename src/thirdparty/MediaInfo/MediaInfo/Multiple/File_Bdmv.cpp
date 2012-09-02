@@ -547,7 +547,7 @@ void File_Bdmv::Read_Buffer_Continue()
         }
         Element_End0();
 
-        for (std::map<int32u, size_t>::iterator Type=Types.begin(); Type!=Types.end(); Type++)
+        for (std::map<int32u, size_t>::iterator Type=Types.begin(); Type!=Types.end(); ++Type)
         {
             if (Type->first>=Element_Offset) //If valid
             {
@@ -806,7 +806,7 @@ void File_Bdmv::Clpi_ExtensionData()
     }
     Element_End0();
 
-    for (entries::iterator Entry=Entries.begin(); Entry!=Entries.end(); Entry++)
+    for (entries::iterator Entry=Entries.begin(); Entry!=Entries.end(); ++Entry)
     {
         if (Entry->first>=Element_Offset) //If valid
         {
@@ -930,7 +930,7 @@ void File_Bdmv::Indx_ExtensionData()
         exts[ext_data_start_adress]=ext_data_length;
     }
 
-    for (std::map<int32u, int32u>::iterator ext=exts.begin(); ext!=exts.end(); ext++)
+    for (std::map<int32u, int32u>::iterator ext=exts.begin(); ext!=exts.end(); ++ext)
     {
         if (Base_Offset+ext->first>=Element_Offset)
         {
@@ -1484,7 +1484,7 @@ void File_Bdmv::Mpls_ExtensionData()
     }
     Element_End0();
 
-    for (entries::iterator Entry=Entries.begin(); Entry!=Entries.end(); Entry++)
+    for (entries::iterator Entry=Entries.begin(); Entry!=Entries.end(); ++Entry)
     {
         if (Entry->first>=Element_Offset) //If valid
         {

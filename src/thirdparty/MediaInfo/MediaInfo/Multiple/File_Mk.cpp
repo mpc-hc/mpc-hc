@@ -203,13 +203,18 @@ void File_Mk::Streams_Finish()
 {
     if (Duration!=0 && TimecodeScale!=0)
         Fill(Stream_General, 0, General_Duration, Duration*int64u_float64(TimecodeScale)/1000000.0, 0);
-    for (std::map<int64u, stream>::iterator Temp=Stream.begin(); Temp!=Stream.end(); Temp++)
+    for (std::map<int64u, stream>::iterator Temp=Stream.begin(); Temp!=Stream.end(); ++Temp)
     {
         StreamKind_Last=Temp->second.StreamKind;
         StreamPos_Last=Temp->second.StreamPos;
 
         if (Temp->second.DisplayAspectRatio!=0)
         {
+            //Corrections
+            if (Temp->second.DisplayAspectRatio>=1.777 && Temp->second.DisplayAspectRatio<=1.778)
+                Temp->second.DisplayAspectRatio=((float32)16)/9;
+            if (Temp->second.DisplayAspectRatio>=1.333 && Temp->second.DisplayAspectRatio<=1.334)
+                Temp->second.DisplayAspectRatio=((float32)4)/3;
             Fill(Stream_Video, Temp->second.StreamPos, Video_DisplayAspectRatio, Temp->second.DisplayAspectRatio, 3, true);
             int64u Width=Retrieve(Stream_Video, Temp->second.StreamPos, Video_Width).To_int64u();
             int64u Height=Retrieve(Stream_Video, Temp->second.StreamPos, Video_Height).To_int64u();
@@ -220,7 +225,7 @@ void File_Mk::Streams_Finish()
         if (Temp->second.Parser)
         {
             Fill(Temp->second.Parser);
-            if (Config_ParseSpeed<=1.0)
+            if (Config->ParseSpeed<=1.0)
                 Temp->second.Parser->Open_Buffer_Unsynch();
         }
 
@@ -236,15 +241,23 @@ void File_Mk::Streams_Finish()
                 //Trying to detect VFR
                 std::vector<int64s> FrameRate_Between;
                 std::sort(Temp->second.TimeCodes.begin(), Temp->second.TimeCodes.end()); //This is PTS, no DTS --> Some frames are out of order
+                size_t FramesToAdd=0;
                 for (size_t Pos=1; Pos<Temp->second.TimeCodes.size(); Pos++)
-                    FrameRate_Between.push_back(Temp->second.TimeCodes[Pos]-Temp->second.TimeCodes[Pos-1]);
+                {
+                    int64u Duration=Temp->second.TimeCodes[Pos]-Temp->second.TimeCodes[Pos-1];
+                    if (Duration)
+                        FrameRate_Between.push_back(Duration);
+                    else
+                        FramesToAdd++;
+                }
                 if (FrameRate_Between.size()>1)
                 {
                     int64s FrameRate_Between_Last=FrameRate_Between[FrameRate_Between.size()-1];
                     size_t Pos=FrameRate_Between.size()-2;
                     while (Pos)
                     {
-                        if (FrameRate_Between[Pos]!=FrameRate_Between_Last)
+                        if (!(FrameRate_Between[Pos]*0.9<FrameRate_Between_Last
+                           && FrameRate_Between[Pos]*1.1>FrameRate_Between_Last))
                             break;
                         Pos--;
                     }
@@ -256,8 +269,8 @@ void File_Mk::Streams_Finish()
                     && FrameRate_Between[0]*1.1>FrameRate_Between[FrameRate_Between.size()-1])
                 {
                     float Time=0;
-                    if (Temp->second.TimeCodes.size()>30)
-                        Time=(float)(Temp->second.TimeCodes[30]-Temp->second.TimeCodes[0])/30; //30 frames for handling 30 fps rounding problems
+                    if (Temp->second.TimeCodes.size()>30+FramesToAdd)
+                        Time=(float)(Temp->second.TimeCodes[30+FramesToAdd]-Temp->second.TimeCodes[0])/30; //30 frames for handling 30 fps rounding problems
                     else if (Temp->second.TrackDefaultDuration)
                         Time=(float)Temp->second.TrackDefaultDuration/TimecodeScale; //TrackDefaultDuration is maybe more precise than the time code
                     else
@@ -1411,7 +1424,7 @@ void File_Mk::Segment_Cluster()
             if (Retrieve(Temp->second.StreamKind, Temp->second.StreamPos, Audio_CodecID).find(__T("A_AAC/"))==0)
                 ((File_Aac*)Stream[Temp->first].Parser)->Mode=File_Aac::Mode_raw_data_block; //In case AudioSpecificConfig is not present
 
-            Temp++;
+            ++Temp;
         }
 
         //We must parse moov?

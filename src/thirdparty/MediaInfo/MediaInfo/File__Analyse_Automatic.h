@@ -287,7 +287,7 @@ enum general
     General_Album_Sort,
     General_Album_Performer,
     General_Album_Performer_Sort,
-    General_Album_Performe_Url,
+    General_Album_Performer_Url,
     General_Comic,
     General_Comic_More,
     General_Comic_Position_Total,

@@ -55,6 +55,7 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
 {
     FileIsSeekable=true;
     FileIsSub=false;
+    FileIsDetectingDuration=false;
     FileIsReferenced=false;
     FileKeepInfo=false;
     FileStopAfterFilled=false;
@@ -124,6 +125,7 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     File_IsGrowing=false;
     File_IsNotGrowingAnymore=false;
     File_Size=(int64u)-1;
+    ParseSpeed=MediaInfoLib::Config.ParseSpeed_Get();
     #if MEDIAINFO_DEMUX
         Demux_EventWasSent=false;
         #if MEDIAINFO_SEEK
@@ -170,6 +172,15 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     else if (Option_Lower==__T("file_issub_get"))
     {
         return File_IsSub_Get()?"1":"0";
+    }
+    if (Option_Lower==__T("file_isdetectingduration"))
+    {
+        File_IsDetectingDuration_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
+    }
+    else if (Option_Lower==__T("file_isdetectingduration_get"))
+    {
+        return File_IsDetectingDuration_Get()?"1":"0";
     }
     if (Option_Lower==__T("file_isreferenced"))
     {
@@ -720,6 +731,23 @@ bool MediaInfo_Config_MediaInfo::File_IsSub_Get ()
 {
     CriticalSectionLocker CSL(CS);
     return FileIsSub;
+}
+
+//***************************************************************************
+// File Is Detecting Duration
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_IsDetectingDuration_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    FileIsDetectingDuration=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_IsDetectingDuration_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return FileIsDetectingDuration;
 }
 
 //***************************************************************************
@@ -1396,7 +1424,7 @@ void MediaInfo_Config_MediaInfo::Event_Send (const int8u* Data_Content, size_t D
                     ID.From_CC4((int32u)Event->StreamIDs[Pos]);
                     File_Name_Final+=__T('.')+ID;
                 }
-                else if (Event->StreamIDs_Width[Pos] && Event->StreamIDs_Width[Pos])
+                else if (Event->StreamIDs_Width[Pos])
                 {
                     Ztring ID;
                     ID.From_Number(Event->StreamIDs[Pos], 16);
@@ -1671,4 +1699,3 @@ float MediaInfo_Config_MediaInfo::State_Get ()
 }
 
 } //NameSpace
-

@@ -93,13 +93,13 @@ public :
     bool   Opened_Get();
 
     //Helpers
-    static int64u           Size_Get(const Ztring &File_Name);
-    static Ztring           Created_Get(const Ztring &File_Name);
-    static Ztring           Modified_Get(const Ztring &File_Name);
-    static bool             Exists(const Ztring &File_Name);
-    static bool             Copy(const Ztring &Source, const Ztring &Destination, bool OverWrite=false);
-    static bool             Move(const Ztring &Source, const Ztring &Destination, bool OverWrite=false);
-    static bool             Delete(const Ztring &File_Name);
+    static int64u   Size_Get(const Ztring &File_Name);
+    static Ztring   Created_Get(const Ztring &File_Name);
+    static Ztring   Modified_Get(const Ztring &File_Name);
+    static bool     Exists(const Ztring &File_Name);
+    static bool     Copy(const Ztring &Source, const Ztring &Destination, bool OverWrite=false);
+    static bool     Move(const Ztring &Source, const Ztring &Destination, bool OverWrite=false);
+    static bool     Delete(const Ztring &File_Name);
 
     //Temp
     Ztring File_Name;

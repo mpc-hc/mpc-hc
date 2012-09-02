@@ -51,6 +51,9 @@ public :
     #if defined(MEDIAINFO_ANCILLARY_YES)
         File_Ancillary** Ancillary;
     #endif //defined(MEDIAINFO_ANCILLARY_YES)
+    #if MEDIAINFO_ADVANCED
+        bool    InitDataNotRepeated_Optional;
+    #endif // MEDIAINFO_ADVANCED
 
     //Constructor/Destructor
     File_Mpegv();
@@ -301,6 +304,8 @@ private :
     int64u PTS_LastIFrame;
     int64u tc;
     bool    IFrame_IsParsed;
+    std::map<std::string, int64u>   picture_coding_types; //per picture_coding_type value ("IPBB..."), updated at each I-frame
+    std::string                     picture_coding_types_Current; //Current picture_coding_type value ("IPBB..."), updated at each frame
 
     #if MEDIAINFO_MACROBLOCKS
         int64u  macroblock_x;
@@ -335,6 +340,20 @@ private :
     #if MEDIAINFO_IBI
         bool    Ibi_SliceParsed;
     #endif //MEDIAINFO_IBI
+
+    #if MEDIAINFO_ADVANCED
+        int64u  InitDataNotRepeated;
+        int64u  Config_InitDataNotRepeated_Occurences;
+        bool    Config_InitDataNotRepeated_GiveUp;
+        int64u  Config_VariableGopDetection_Occurences;
+        bool    Config_VariableGopDetection_GiveUp;
+    #endif // MEDIAINFO_ADVANCED
+
+    #if MEDIAINFO_ADVANCED || MEDIAINFO_EVENTS
+        size_t  Slices_Count;
+        bool    Has_sequence_header;
+        bool    Has_sequence_extension;
+    #endif // MEDIAINFO_ADVANCED || MEDIAINFO_EVENTS
 };
 
 } //NameSpace

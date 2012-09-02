@@ -262,7 +262,7 @@ void File_Exr::ImageData()
 
     if (!Status[IsFilled])
         Fill();
-    if (Config_ParseSpeed<1.0)
+    if (Config->ParseSpeed<1.0)
         Finish();
 }
 

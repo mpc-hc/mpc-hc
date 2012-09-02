@@ -266,8 +266,10 @@ void File_Vc1::Streams_Fill()
     Fill(Stream_Video, 0, Video_Codec, From_WMV3?"WMV3":"VC-1"); //For compatibility with the old reaction
     Fill(Stream_Video, 0, Video_BitDepth, 8);
 
-    Ztring Profile=Vc1_Profile[profile];
-    if (profile==3)
+    Ztring Profile;
+    if (profile!=(int8u)-1)
+        Profile=Vc1_Profile[profile];
+    if (profile==3 && level!=(int8u)-1)
         Profile+=__T("@L")+Ztring::ToZtring(level);
     Fill(Stream_Video, 0, Video_Format_Profile, Profile);
     Fill(Stream_Video, 0, Video_Codec_Profile, Profile);
@@ -423,8 +425,8 @@ void File_Vc1::Synched_Init()
     framerateexp=0;
     frameratecode_enr=0;
     frameratecode_dr=0;
-    profile=0;
-    level=0;
+    profile=(int8u)-1;
+    level=(int8u)-1;
     colordiff_format=0;
     AspectRatio=0;
     AspectRatioX=0;

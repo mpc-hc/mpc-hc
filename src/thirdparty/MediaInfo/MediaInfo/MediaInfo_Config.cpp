@@ -45,7 +45,7 @@ namespace MediaInfoLib
 {
 
 //---------------------------------------------------------------------------
-const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.59");
+const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.60");
 const Char*  MediaInfo_Url=__T("http://mediainfo.sourceforge.net");
       Ztring EmptyZtring;       //Use it when we can't return a reference to a true Ztring
 const Ztring EmptyZtring_Const; //Use it when we can't return a reference to a true Ztring, const version
@@ -108,9 +108,20 @@ void MediaInfo_Config::Init()
 
     //Filling
     FormatDetection_MaximumOffset=0;
+    #if MEDIAINFO_ADVANCED
+        VariableGopDetection_Occurences=4;
+        VariableGopDetection_GiveUp=false;
+        InitDataNotRepeated_Occurences=(int64u)-1; //Disabled by default
+        InitDataNotRepeated_GiveUp=false;
+    #endif //MEDIAINFO_ADVANCED
     MpegTs_MaximumOffset=32*1024*1024;
     MpegTs_MaximumScanDuration=16000000000LL;
     MpegTs_ForceStreamDisplay=false;
+    #if MEDIAINFO_ADVANCED
+        MpegTs_VbrDetection_Delta=0;
+        MpegTs_VbrDetection_Occurences=4;
+        MpegTs_VbrDetection_GiveUp=false;
+    #endif //MEDIAINFO_ADVANCED
     Complete=0;
     BlockMethod=0;
     Internet=0;
@@ -570,6 +581,74 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
     {
         return FormatDetection_MaximumOffset_Get()==(int64u)-1?Ztring(__T("-1")):Ztring::ToZtring(FormatDetection_MaximumOffset_Get());
     }
+    else if (Option_Lower==__T("variablegopdetection_occurences"))
+    {
+        #if MEDIAINFO_ADVANCED
+            VariableGopDetection_Occurences_Set(Value.To_int64u());
+            return Ztring();
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("variablegopdetection_occurences_get"))
+    {
+        #if MEDIAINFO_ADVANCED
+            return Ztring::ToZtring(VariableGopDetection_Occurences_Get());
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("variablegopdetection_giveup"))
+    {
+        #if MEDIAINFO_ADVANCED
+            VariableGopDetection_GiveUp_Set(Value.To_int8u()?true:false);
+            return Ztring();
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("variablegopdetection_giveup_get"))
+    {
+        #if MEDIAINFO_ADVANCED
+            return VariableGopDetection_GiveUp_Get()?__T("1"):__T("0");
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("initdatanotrepeated_occurences"))
+    {
+        #if MEDIAINFO_ADVANCED
+            InitDataNotRepeated_Occurences_Set(Value.To_int64u());
+            return Ztring();
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("initdatanotrepeated_occurences_get"))
+    {
+        #if MEDIAINFO_ADVANCED
+            return Ztring::ToZtring(InitDataNotRepeated_Occurences_Get());
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("initdatanotrepeated_giveup"))
+    {
+        #if MEDIAINFO_ADVANCED
+            InitDataNotRepeated_GiveUp_Set(Value.To_int8u()?true:false);
+            return Ztring();
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("initdatanotrepeated_giveup_get"))
+    {
+        #if MEDIAINFO_ADVANCED
+            return InitDataNotRepeated_GiveUp_Get()?__T("1"):__T("0");
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
     else if (Option_Lower==__T("mpegts_maximumoffset"))
     {
         MpegTs_MaximumOffset_Set(Value==__T("-1")?(int64u)-1:((Ztring*)&Value)->To_int64u());
@@ -578,6 +657,58 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
     else if (Option_Lower==__T("mpegts_maximumoffset_get"))
     {
         return MpegTs_MaximumOffset_Get()==(int64u)-1?Ztring(__T("-1")):Ztring::ToZtring(MpegTs_MaximumOffset_Get());
+    }
+    else if (Option_Lower==__T("mpegts_vbrdetection_delta"))
+    {
+        #if MEDIAINFO_ADVANCED
+            MpegTs_VbrDetection_Delta_Set(Value.To_float64());
+            return Ztring();
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+        return Ztring();
+    }
+    else if (Option_Lower==__T("mpegts_vbrdetection_delta_get"))
+    {
+        #if MEDIAINFO_ADVANCED
+            return Ztring::ToZtring(MpegTs_VbrDetection_Delta_Get(), 9);
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("mpegts_vbrdetection_occurences"))
+    {
+        #if MEDIAINFO_ADVANCED
+            MpegTs_VbrDetection_Occurences_Set(Value.To_int64u());
+            return Ztring();
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("mpegts_vbrdetection_occurences_get"))
+    {
+        #if MEDIAINFO_ADVANCED
+            return Ztring::ToZtring(MpegTs_VbrDetection_Occurences_Get());
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("mpegts_vbrdetection_giveup"))
+    {
+        #if MEDIAINFO_ADVANCED
+            MpegTs_VbrDetection_GiveUp_Set(Value.To_int8u()?true:false);
+            return Ztring();
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
+    }
+    else if (Option_Lower==__T("mpegts_vbrdetection_giveup_get"))
+    {
+        #if MEDIAINFO_ADVANCED
+            return MpegTs_VbrDetection_GiveUp_Get()?__T("1"):__T("0");
+        #else // MEDIAINFO_ADVANCED
+            return __T("advanced features are disabled due to compilation options");
+        #endif // MEDIAINFO_ADVANCED
     }
     else if (Option_Lower==__T("mpegts_maximumscanduration"))
     {
@@ -1563,7 +1694,7 @@ const Ztring MediaInfo_Config::Iso639_Find (const Ztring &Value)
     Ztring Value_Lower(Value);
     Value_Lower.MakeLowerCase();
 
-    for (Translation::iterator Trans=Info.begin(); Trans!=Info.end(); Trans++)
+    for (Translation::iterator Trans=Info.begin(); Trans!=Info.end(); ++Trans)
     {
         Trans->second.MakeLowerCase();
         if (Trans->second==Value_Lower && Trans->first.find(__T("Language_"))==0)
@@ -1702,7 +1833,7 @@ Ztring MediaInfo_Config::Info_Codecs_Get ()
     {
         ToReturn+=Temp->second.Read();
         ToReturn+=EOL;
-        Temp++;
+        ++Temp;
     }
 
     return ToReturn;
@@ -1740,6 +1871,62 @@ int64u MediaInfo_Config::FormatDetection_MaximumOffset_Get ()
     return FormatDetection_MaximumOffset;
 }
 
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config::VariableGopDetection_Occurences_Set (int64u Value)
+{
+    CriticalSectionLocker CSL(CS);
+    VariableGopDetection_Occurences=Value;
+}
+
+int64u MediaInfo_Config::VariableGopDetection_Occurences_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return VariableGopDetection_Occurences;
+}
+#endif // MEDIAINFO_ADVANCED
+
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config::VariableGopDetection_GiveUp_Set (bool Value)
+{
+    CriticalSectionLocker CSL(CS);
+    VariableGopDetection_GiveUp=Value;
+}
+
+bool MediaInfo_Config::VariableGopDetection_GiveUp_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return VariableGopDetection_GiveUp;
+}
+#endif // MEDIAINFO_ADVANCED
+
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config::InitDataNotRepeated_Occurences_Set (int64u Value)
+{
+    CriticalSectionLocker CSL(CS);
+    InitDataNotRepeated_Occurences=Value;
+}
+
+int64u MediaInfo_Config::InitDataNotRepeated_Occurences_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return InitDataNotRepeated_Occurences;
+}
+#endif // MEDIAINFO_ADVANCED
+
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config::InitDataNotRepeated_GiveUp_Set (bool Value)
+{
+    CriticalSectionLocker CSL(CS);
+    InitDataNotRepeated_GiveUp=Value;
+}
+
+bool MediaInfo_Config::InitDataNotRepeated_GiveUp_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return InitDataNotRepeated_GiveUp;
+}
+#endif // MEDIAINFO_ADVANCED
+
 void MediaInfo_Config::MpegTs_MaximumOffset_Set (int64u Value)
 {
     CriticalSectionLocker CSL(CS);
@@ -1763,6 +1950,48 @@ int64u MediaInfo_Config::MpegTs_MaximumScanDuration_Get ()
     CriticalSectionLocker CSL(CS);
     return MpegTs_MaximumScanDuration;
 }
+
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config::MpegTs_VbrDetection_Delta_Set (float64 Value)
+{
+    CriticalSectionLocker CSL(CS);
+    MpegTs_VbrDetection_Delta=Value;
+}
+
+float64 MediaInfo_Config::MpegTs_VbrDetection_Delta_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return MpegTs_VbrDetection_Delta;
+}
+#endif // MEDIAINFO_ADVANCED
+
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config::MpegTs_VbrDetection_Occurences_Set (int64u Value)
+{
+    CriticalSectionLocker CSL(CS);
+    MpegTs_VbrDetection_Occurences=Value;
+}
+
+int64u MediaInfo_Config::MpegTs_VbrDetection_Occurences_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return MpegTs_VbrDetection_Occurences;
+}
+#endif // MEDIAINFO_ADVANCED
+
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config::MpegTs_VbrDetection_GiveUp_Set (bool Value)
+{
+    CriticalSectionLocker CSL(CS);
+    MpegTs_VbrDetection_GiveUp=Value;
+}
+
+bool MediaInfo_Config::MpegTs_VbrDetection_GiveUp_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return MpegTs_VbrDetection_GiveUp;
+}
+#endif // MEDIAINFO_ADVANCED
 
 void MediaInfo_Config::MpegTs_ForceStreamDisplay_Set (bool Value)
 {
@@ -2072,4 +2301,3 @@ bool MediaInfo_Config::Ssl_IgnoreSecurity_Get ()
 #endif //defined(MEDIAINFO_LIBCURL_YES)
 
 } //NameSpace
-

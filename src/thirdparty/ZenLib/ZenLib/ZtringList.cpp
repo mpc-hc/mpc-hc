@@ -371,9 +371,3 @@ void ZtringList::Max_Set (size_type Level, size_type Max_New)
 }
 
 } //namespace
-
-
-
-
-
-

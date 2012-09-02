@@ -552,6 +552,7 @@ File_Ac3::File_Ac3()
     TimeStamp_IsParsing=false;
     TimeStamp_Parsed=false;
     TimeStamp_DropFrame_IsValid=false;
+    BigEndian=true;
 }
 
 //***************************************************************************
@@ -968,7 +969,7 @@ bool File_Ac3::FileHeader_Begin()
         return false; //Must wait for more data
 
     //False positives detection: detect Matroska files, AC-3 parser is not smart enough
-    if (CC4(Buffer)==0x1A45DFA3) //EBML
+    if (!FileHeader_Begin_0x000001())
     {
         Finish("AC-3");
         return false;
@@ -1181,11 +1182,20 @@ bool File_Ac3::Demux_UnpacketizeContainer_Test()
         }
     }
 
+    if (Save_Buffer)
+    {
+        Demux_TotalBytes-=Buffer_Offset;
+        Demux_Offset-=Buffer_Offset;
+        File_Offset+=Buffer_Offset;
+        swap(Buffer, Save_Buffer);
+        swap(Buffer_Offset, Save_Buffer_Offset);
+        swap(Buffer_Size, Save_Buffer_Size);
+    }
 
-    if ((Buffer[Buffer_Offset]==0x0B && Buffer[Buffer_Offset+1]==0x77)
-     || (Buffer[Buffer_Offset]==0x77 && Buffer[Buffer_Offset+1]==0x0B))
+    if (Buffer[Buffer_Offset]==0x0B && Buffer[Buffer_Offset+1]==0x77)
     {
         FrameInfo=Info_Core.FrameInfo;
+        FrameInfo.DUR=32000000;
         Frame_Count=Info_Core.Frame_Count;
         Frame_Count_InThisBlock=Info_Core.Frame_Count_InThisBlock;
         Frame_Count_NotParsedIncluded=Info_Core.Frame_Count_NotParsedIncluded;
@@ -1197,6 +1207,17 @@ bool File_Ac3::Demux_UnpacketizeContainer_Test()
         {
             if (TimeStamp_IsPresent)
                 Buffer_Offset-=16;
+
+            if (Save_Buffer)
+            {
+                swap(Buffer, Save_Buffer);
+                swap(Buffer_Offset, Save_Buffer_Offset);
+                swap(Buffer_Size, Save_Buffer_Size);
+                Demux_TotalBytes+=Buffer_Offset;
+                Demux_Offset+=Buffer_Offset;
+                File_Offset-=Buffer_Offset;
+            }
+
             return true; //No AC-3 demux
         }
     }
@@ -1215,17 +1236,18 @@ bool File_Ac3::Demux_UnpacketizeContainer_Test()
     {
         if (TimeStamp_IsPresent)
             Buffer_Offset-=16;
-        return false; //No complete frame
-    }
 
-    if (Save_Buffer)
-    {
-        Demux_TotalBytes-=Buffer_Offset;
-        Demux_Offset-=Buffer_Offset;
-        File_Offset+=Buffer_Offset;
-        swap(Buffer, Save_Buffer);
-        swap(Buffer_Offset, Save_Buffer_Offset);
-        swap(Buffer_Size, Save_Buffer_Size);
+        if (Save_Buffer)
+        {
+            swap(Buffer, Save_Buffer);
+            swap(Buffer_Offset, Save_Buffer_Offset);
+            swap(Buffer_Size, Save_Buffer_Size);
+            Demux_TotalBytes+=Buffer_Offset;
+            Demux_Offset+=Buffer_Offset;
+            File_Offset-=Buffer_Offset;
+        }
+
+        return false; //No complete frame
     }
 
     Demux_UnpacketizeContainer_Demux();
@@ -1291,12 +1313,30 @@ void File_Ac3::Header_Parse()
     else
         TimeStamp_Parsed=false; //Currently, only one kind of intermediate element is detected (no TimeStamp and HD part together), and we don't know the precise specification of MLP nor TimeStamp, so we consider next eleemnt is TimeStamp
 
+    if (Save_Buffer)
+    {
+        File_Offset+=Buffer_Offset;
+        swap(Buffer, Save_Buffer);
+        swap(Buffer_Offset, Save_Buffer_Offset);
+        swap(Buffer_Size, Save_Buffer_Size);
+    }
+
     //Filling
     if ((Buffer[Buffer_Offset]==0x0B && Buffer[Buffer_Offset+1]==0x77)
      || (Buffer[Buffer_Offset]==0x77 && Buffer[Buffer_Offset+1]==0x0B))
     {
         Header_Fill_Size(Core_Size_Get());
         Header_Fill_Code(0, "syncframe");
+
+        //Little Endian management
+        if (Save_Buffer)
+        {
+            swap(Buffer, Save_Buffer);
+            swap(Buffer_Offset, Save_Buffer_Offset);
+            swap(Buffer_Size, Save_Buffer_Size);
+            File_Offset-=Buffer_Offset;
+        }
+
         return;
     }
 
@@ -1307,6 +1347,14 @@ void File_Ac3::Header_Parse()
     Get_S2 (12, Size,                                           "Size");
     BS_End();
     Skip_B2(                                                    "Timestamp?");
+
+    //Little Endian management
+    if (Save_Buffer)
+    {
+        swap(Buffer, Save_Buffer);
+        swap(Buffer_Offset, Save_Buffer_Offset);
+        swap(Buffer_Size, Save_Buffer_Size);
+    }
 
     //Filling
     if (Size<2)
@@ -1325,6 +1373,7 @@ void File_Ac3::Data_Parse()
 {
     if (Save_Buffer)
     {
+        File_Offset+=Buffer_Offset;
         swap(Buffer, Save_Buffer);
         swap(Buffer_Offset, Save_Buffer_Offset);
         swap(Buffer_Size, Save_Buffer_Size);
@@ -1370,6 +1419,7 @@ void File_Ac3::Data_Parse()
         Buffer=Save_Buffer; Save_Buffer=NULL;
         Buffer_Offset=Save_Buffer_Offset;
         Buffer_Size=Save_Buffer_Size;
+        File_Offset-=Buffer_Offset;
     }
 }
 
@@ -1984,6 +2034,8 @@ bool File_Ac3::FrameSynchPoint_Test()
 
                 if (Synched)
                 {
+                    BigEndian=false;
+
                     swap(Buffer, Save_Buffer);
                     swap(Buffer_Offset, Save_Buffer_Offset);
                     swap(Buffer_Size, Save_Buffer_Size);
@@ -2050,14 +2102,12 @@ bool File_Ac3::CRC_Compute(size_t Size)
 //---------------------------------------------------------------------------
 size_t File_Ac3::Core_Size_Get()
 {
-    BigEndian=Buffer[Buffer_Offset]==0x0B;
-
     int16u Size=(int16u)-1;
-    bsid=(Buffer[(size_t)(Buffer_Offset+(BigEndian?5:4))]&0xF8)>>3;
+    bsid=(Buffer[(size_t)(Buffer_Offset+5)]&0xF8)>>3;
     if (bsid<=0x08)
     {
-        fscod     =(Buffer[(size_t)(Buffer_Offset+(BigEndian?4:5))]&0xC0)>>6;
-        frmsizecod= Buffer[(size_t)(Buffer_Offset+(BigEndian?4:5))]&0x3F;
+        fscod     =(Buffer[(size_t)(Buffer_Offset+4)]&0xC0)>>6;
+        frmsizecod= Buffer[(size_t)(Buffer_Offset+4)]&0x3F;
 
         //Filling
         fscods[fscod]++;

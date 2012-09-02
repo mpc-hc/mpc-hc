@@ -126,5 +126,3 @@ inline void operator delete[](void* Ptr, const char* File, int Line)
 #endif // defined(ZENLIB_DEBUG)
 
 #endif // ZenMemoryDebugH
-
-

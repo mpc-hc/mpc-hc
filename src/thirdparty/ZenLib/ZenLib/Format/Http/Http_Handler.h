@@ -81,7 +81,3 @@ public:
 } //Namespace
 
 #endif
-
-
-
-

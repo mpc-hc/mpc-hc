@@ -225,5 +225,3 @@ void File__Base::Clear()
 }
 
 } //NameSpace
-
-

@@ -1343,7 +1343,7 @@ void File_Mpeg4::jp2c()
                 int64u OverHead=Config->File_Sizes[0]-Element_Size;
                 Fill(Stream_Video, 0, Video_StreamSize, File_Size-Config->File_Names.size()*OverHead, 10, true);
             }
-            if (Config_ParseSpeed<1.0)
+            if (Config->ParseSpeed<1.0)
                 Finish("MPEG-4");
         }
         Frame_Count++;
@@ -1538,7 +1538,7 @@ void File_Mpeg4::mdat_xxxx()
                 {
                     if (((File_Mpeg4_TimeCode*)Stream->second.Parser)->Pos!=(int32u)-1)
                     {
-                        for (std::map<int32u, stream>::iterator StreamTemp=Streams.begin(); StreamTemp!=Streams.end(); StreamTemp++)
+                        for (std::map<int32u, stream>::iterator StreamTemp=Streams.begin(); StreamTemp!=Streams.end(); ++StreamTemp)
                             if (StreamTemp->second.TimeCode_TrackID==Stream->first)
                             {
                                 TimeCode_FrameOffset=((File_Mpeg4_TimeCode*)Stream->second.Parser)->Pos;
@@ -3371,6 +3371,7 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_tmcd()
     //Parsing
     stream::timecode *tc=new stream::timecode();
     int32u TimeCodeFlags;
+    int8u   NumberOfFrames;
     Skip_B4(                                                    "Reserved");
     Skip_B2(                                                    "Reserved");
     Skip_B2(                                                    "Data reference index");
@@ -3382,7 +3383,7 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_tmcd()
         Skip_Flags(TimeCodeFlags, 3,                            "Counter");
     Get_B4 (tc->TimeScale,                                      "Time scale");
     Get_B4 (tc->FrameDuration,                                  "Frame duration");
-    Skip_B1(                                                    "Number of frames");
+    Get_B1 (NumberOfFrames,                                     "Number of frames");
     if (Element_Size==Element_Offset+3 || (Element_Size>=Element_Offset+7 && Element_Size>=Element_Offset+7+BigEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset+3)))
         Skip_B3(                                                "Reserved");
     else
@@ -3402,9 +3403,8 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_tmcd()
         mdat_MustParse=true; //Data is in MDAT
         mdat_Pos_ToParseInPriority_StreamIDs.push_back(moov_trak_tkhd_TrackID);
         Streams[moov_trak_tkhd_TrackID].IsPriorityStream=true;
-        ((File_Mpeg4_TimeCode*)Streams[moov_trak_tkhd_TrackID].Parser)->FrameRate=tc->FrameDuration?(((float64)tc->TimeScale)/tc->FrameDuration):0;
-        if (!tc->DropFrame)
-            ((File_Mpeg4_TimeCode*)Streams[moov_trak_tkhd_TrackID].Parser)->FrameRate=(float64)float64_int64s(((File_Mpeg4_TimeCode*)Streams[moov_trak_tkhd_TrackID].Parser)->FrameRate); //If DropFrame flag is not set, must use the integer value of frame rate even if frame rate is not an integral number
+        ((File_Mpeg4_TimeCode*)Streams[moov_trak_tkhd_TrackID].Parser)->NumberOfFrames=NumberOfFrames; //tc->FrameDuration?(((float64)tc->TimeScale)/tc->FrameDuration):0;
+        ((File_Mpeg4_TimeCode*)Streams[moov_trak_tkhd_TrackID].Parser)->DropFrame=tc->DropFrame;
         ((File_Mpeg4_TimeCode*)Streams[moov_trak_tkhd_TrackID].Parser)->NegativeTimes=tc->NegativeTimes;
     FILLING_END();
 }
@@ -3750,7 +3750,7 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxSound()
                     Streams[moov_trak_tkhd_TrackID].IsPcmMono=true;
                 }
                 ((File_ChannelGrouping*)Streams[moov_trak_tkhd_TrackID].Parser)->Channel_Total=2;
-                ((File_ChannelGrouping*)Streams[moov_trak_tkhd_TrackID].Parser)->ByteDepth=3;
+                ((File_ChannelGrouping*)Streams[moov_trak_tkhd_TrackID].Parser)->ByteDepth=SampleSize/8;
 
                 #if MEDIAINFO_DEMUX
                     Streams[moov_trak_tkhd_TrackID].Demux_Level=Config->Demux_Unpacketize_Get()?0:4; //Intermediate
@@ -4007,6 +4007,9 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxVideo()
                 {
                     Streams[moov_trak_tkhd_TrackID].Parser=new File_Mpegv;
                     ((File_Mpegv*)Streams[moov_trak_tkhd_TrackID].Parser)->FrameIsAlwaysComplete=true;
+                    #if MEDIAINFO_ADVANCED
+                        ((File_Mpegv*)Streams[moov_trak_tkhd_TrackID].Parser)->InitDataNotRepeated_Optional=true;
+                    #endif // MEDIAINFO_ADVANCED
                 }
             #endif
             #if defined(MEDIAINFO_PRORES_YES)
@@ -5166,7 +5169,7 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stts_Common(int32u SampleCount, int32u
                 stts_Duration.DTS_Begin=0;
             else
             {
-                stream::stts_durations::iterator Previous=Streams[moov_trak_tkhd_TrackID].stts_Durations.end(); Previous--;
+                stream::stts_durations::iterator Previous=Streams[moov_trak_tkhd_TrackID].stts_Durations.end(); --Previous;
                 stts_Duration.DTS_Begin=Previous->DTS_End;
             }
             stts_Duration.DTS_End=stts_Duration.DTS_Begin+Stts.SampleCount*Stts.SampleDuration;

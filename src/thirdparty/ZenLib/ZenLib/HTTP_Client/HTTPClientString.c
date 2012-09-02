@@ -420,5 +420,3 @@ CHAR* HTTPStrLToH (CHAR * dest,UINT32 nSrc)
 
     return dest;
 }
-
-

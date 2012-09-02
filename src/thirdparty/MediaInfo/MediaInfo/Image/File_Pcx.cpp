@@ -81,7 +81,7 @@ bool File_Pcx::FileHeader_Begin()
     if (Buffer[0]!=0x0A
      || Buffer[1]>0x05
      || Buffer[2]!=0x01
-     || !(Buffer[3]==1 || Buffer[3]==4 || Buffer[3]==8 || Buffer[3]==24)) 
+     || !(Buffer[3]==1 || Buffer[3]==4 || Buffer[3]==8 || Buffer[3]==24))
     {
         Reject("PCX");
         return false;
@@ -99,8 +99,8 @@ bool File_Pcx::FileHeader_Begin()
 void File_Pcx::Read_Buffer_Continue()
 {
     //Parsing
-	int16u XMin, YMin, XMax, YMax, HorDPI, VertDPI, BytesPerLine, PaletteType, HScrSize, VScrSize;
-	int8u Manufacturer, Version, EncodingScheme, BitsPerPixel, ColorPlanes;
+    int16u XMin, YMin, XMax, YMax, HorDPI, VertDPI, BytesPerLine, PaletteType, HScrSize, VScrSize;
+    int8u Manufacturer, Version, EncodingScheme, BitsPerPixel, ColorPlanes;
 
     Get_L1 (Manufacturer,                                       "Manufacturer");
     Get_L1 (Version,                                            "Version"); // 0,2,3,4,5
@@ -108,8 +108,8 @@ void File_Pcx::Read_Buffer_Continue()
     Get_L1 (BitsPerPixel,                                       "Bits Per Pixel"); // 1,4,8,24
     Get_L2 (XMin,                                               "Left margin of image");
     Get_L2 (YMin,                                               "Upper margin of image");
-    Get_L2 (XMax,                                               "Right margin of image"); 
-    Get_L2 (YMax,                                               "Lower margin of image"); 
+    Get_L2 (XMax,                                               "Right margin of image");
+    Get_L2 (YMax,                                               "Lower margin of image");
     Get_L2 (HorDPI,                                             "Horizontal Resolution");
     Get_L2 (VertDPI,                                            "Vertical Resolution");
     Skip_XX(48,                                                 "Palette");
@@ -120,7 +120,7 @@ void File_Pcx::Read_Buffer_Continue()
     Get_L2 (HScrSize,                                           "Horizontal Screen Size");
     Get_L2 (VScrSize,                                           "Vertical Screen Size");
     Skip_XX(56,                                                 "Filler");
-    
+
 
     FILLING_BEGIN();
         //Integrity tests
@@ -131,15 +131,15 @@ void File_Pcx::Read_Buffer_Continue()
             Reject("PCX");
             return;
         }
-    
+
         Accept("PCX");
         Stream_Prepare(Stream_Image);
-        Fill(Stream_Image, 0, Image_Format, "PCX"); 
+        Fill(Stream_Image, 0, Image_Format, "PCX");
         Fill(Stream_Image, 0, Image_Format_Version, Pcx_VersionInfo(Version));
         Fill(Stream_Image, 0, Image_Width, XMax-XMin);
         Fill(Stream_Image, 0, Image_Height, YMax-YMin);
         Fill(Stream_Image, 0, Image_BitDepth, BitsPerPixel);
-        Fill(Stream_Image, 0, "DPI", Ztring::ToZtring(VertDPI) + __T(" x ") + Ztring::ToZtring(HorDPI)); 
+        Fill(Stream_Image, 0, "DPI", Ztring::ToZtring(VertDPI) + __T(" x ") + Ztring::ToZtring(HorDPI));
         Finish("PCX");
     FILLING_END();
 }

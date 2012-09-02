@@ -585,8 +585,7 @@ void File_DvDif::Errors_Stats_Update()
             #endif //MEDIAINFO_EVENTS
             if (Speed_TimeCode_Current.Time.Hours
              || Speed_TimeCode_Current.Time.Seconds
-             || Speed_TimeCode_Current.Time.Minutes
-             || Speed_TimeCode_Current.Time.Hours)
+             || Speed_TimeCode_Current.Time.Minutes)
                 Errors_AreDetected=true;
         }
         else if (Speed_TimeCode_IsValid && Speed_TimeCode_Current.IsValid && Speed_TimeCode_Current_Theory.IsValid

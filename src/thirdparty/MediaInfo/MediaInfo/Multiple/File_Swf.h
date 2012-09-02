@@ -42,7 +42,7 @@ class File_Swf : public File__Analyze
 public :
     //In
     int64u Frame_Count_Valid;
-    int32u FileLength;;
+    int32u FileLength;
     int8u  Version;
 
 public :

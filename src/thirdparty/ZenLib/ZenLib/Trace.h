@@ -73,5 +73,3 @@ std::fclose(Trace_F);
 } //NameSpace
 
 #endif // ZenTraceH
-
-

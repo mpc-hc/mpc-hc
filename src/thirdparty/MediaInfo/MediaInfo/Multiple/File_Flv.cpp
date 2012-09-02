@@ -57,6 +57,7 @@
 #if defined(MEDIAINFO_RM_YES)
     #include "MediaInfo/Multiple/File_Rm.h"
 #endif
+#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Events.h"
 #endif //MEDIAINFO_EVENTS
@@ -805,7 +806,7 @@ void File_Flv::Data_Parse()
         if ((((Count_Get(Stream_Video)==0 || Stream[Stream_Video].TimeStamp!=(int32u)-1)
            && (Count_Get(Stream_Audio)==0 || Stream[Stream_Audio].TimeStamp!=(int32u)-1))
           || (File_Size>65536*2 && File_Offset+Buffer_Offset-Header_Size-PreviousTagSize-4<File_Size-65536))
-         && Config_ParseSpeed<1)
+         && Config->ParseSpeed<1)
             Finish();
         else if (Element_Code==0xFA) //RM metadata have a malformed PreviousTagSize, always
         {
@@ -859,7 +860,7 @@ void File_Flv::video()
     Demux(Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset), ContentType_MainStream);
 
     //Needed?
-    if (!video_stream_Count && Config_ParseSpeed<1)
+    if (!video_stream_Count && Config->ParseSpeed<1)
         return; //No more need of Video stream
 
     //Parsing
@@ -1065,7 +1066,7 @@ void File_Flv::video_AVC()
                     Open_Buffer_Continue(Stream[Stream_Video].Parser);
 
                     //Disabling this stream
-                    if (Stream[Stream_Video].Parser->File_GoTo!=(int64u)-1 || Stream[Stream_Video].Parser->Count_Get(Stream_Video)>0 || (Config_ParseSpeed<1.0 && Stream[Stream_Video].PacketCount>=300))
+                    if (Stream[Stream_Video].Parser->File_GoTo!=(int64u)-1 || Stream[Stream_Video].Parser->Count_Get(Stream_Video)>0 || (Config->ParseSpeed<1.0 && Stream[Stream_Video].PacketCount>=300))
                          video_stream_Count=false;
                 #else
                     Skip_XX(Element_Size-Element_Offset,        "AVC Data");
@@ -1092,7 +1093,7 @@ void File_Flv::audio()
     Demux(Buffer+Buffer_Offset+(size_t)Element_Offset+1, (size_t)(Element_Size-Element_Offset-1), ContentType_MainStream);
 
     //Needed?
-    if (!audio_stream_Count && Config_ParseSpeed<1)
+    if (!audio_stream_Count && Config->ParseSpeed<1)
         return; //No more need of Audio stream
 
     //Parsing

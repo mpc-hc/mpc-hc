@@ -66,6 +66,9 @@ public :
     void          File_IsSub_Set (bool NewValue);
     bool          File_IsSub_Get ();
 
+    void          File_IsDetectingDuration_Set (bool NewValue);
+    bool          File_IsDetectingDuration_Get ();
+
     void          File_IsReferenced_Set (bool NewValue);
     bool          File_IsReferenced_Get ();
 
@@ -235,6 +238,7 @@ public :
     int64u        File_Current_Offset;
     int64u        File_Current_Size;
     int64u        File_Size;
+    float32       ParseSpeed;
     #if MEDIAINFO_DEMUX
     bool          Demux_EventWasSent;
         #if MEDIAINFO_SEEK
@@ -245,6 +249,7 @@ public :
 private :
     bool                    FileIsSeekable;
     bool                    FileIsSub;
+    bool                    FileIsDetectingDuration;
     bool                    FileIsReferenced;
     bool                    FileKeepInfo;
     bool                    FileStopAfterFilled;
@@ -337,4 +342,3 @@ private :
 } //NameSpace
 
 #endif
-

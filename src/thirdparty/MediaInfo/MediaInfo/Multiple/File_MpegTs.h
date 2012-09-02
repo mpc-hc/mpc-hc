@@ -134,6 +134,11 @@ private :
     void Streams_Update_EPG_PerProgram(complete_stream::transport_stream::programs::iterator Program);
     #ifdef MEDIAINFO_MPEGTS_PCR_YES
     void Streams_Update_Duration_Update();
+    #if MEDIAINFO_ADVANCED
+        float64 Config_VbrDetection_Delta;
+        int64u  Config_VbrDetection_Occurences;
+        bool    Config_VbrDetection_GiveUp;
+    #endif // MEDIAINFO_ADVANCED
     #endif //MEDIAINFO_MPEGTS_PCR_YES
     void Streams_Update_Duration_End();
 

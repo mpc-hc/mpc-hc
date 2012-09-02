@@ -109,7 +109,7 @@ void File_Wm::Streams_Finish()
     std::map<int16u, stream>::iterator Temp=Stream.begin();
     while (Temp!=Stream.end())
     {
-        for (std::map<std::string, ZenLib::Ztring>::iterator Info_Temp=Temp->second.Info.begin(); Info_Temp!=Temp->second.Info.end(); Info_Temp++)
+        for (std::map<std::string, ZenLib::Ztring>::iterator Info_Temp=Temp->second.Info.begin(); Info_Temp!=Temp->second.Info.end(); ++Info_Temp)
             Fill(Temp->second.StreamKind, Temp->second.StreamPos, Info_Temp->first.c_str(), Info_Temp->second, true);
 
         //Codec Info
@@ -128,7 +128,7 @@ void File_Wm::Streams_Finish()
             //Some tests about the frame rate
             std::map<int32u, int32u> PresentationTime_Deltas_Problem;
             std::map<int32u, int32u> PresentationTime_Deltas_Most;
-            for (std::map<ZenLib::int32u, ZenLib::int32u>::iterator PresentationTime_Delta=Temp->second.PresentationTime_Deltas.begin(); PresentationTime_Delta!=Temp->second.PresentationTime_Deltas.end(); PresentationTime_Delta++)
+            for (std::map<ZenLib::int32u, ZenLib::int32u>::iterator PresentationTime_Delta=Temp->second.PresentationTime_Deltas.begin(); PresentationTime_Delta!=Temp->second.PresentationTime_Deltas.end(); ++PresentationTime_Delta)
             {
                 if (PresentationTime_Delta->second>=5)
                     PresentationTime_Deltas_Problem[PresentationTime_Delta->first]=PresentationTime_Delta->second;
@@ -136,7 +136,7 @@ void File_Wm::Streams_Finish()
                     PresentationTime_Deltas_Most[PresentationTime_Delta->first]=PresentationTime_Delta->second;
             }
 
-            if (PresentationTime_Deltas_Most.size()==0
+            if (PresentationTime_Deltas_Most.empty()
              || (PresentationTime_Deltas_Most.size()==1 && PresentationTime_Deltas_Problem.size()>1)
              || (PresentationTime_Deltas_Most.size()==2 && PresentationTime_Deltas_Problem.size()>2))
             {
@@ -155,7 +155,7 @@ void File_Wm::Streams_Finish()
                 std::map<int32u, int32u>::iterator PresentationTime_Delta_Most=PresentationTime_Deltas_Most.begin();
                 float64 PresentationTime_Deltas_1_Value=(float64)PresentationTime_Delta_Most->first;
                 float64 PresentationTime_Deltas_1_Count=(float64)PresentationTime_Delta_Most->second;
-                PresentationTime_Delta_Most++;
+                ++PresentationTime_Delta_Most;
                 float64 PresentationTime_Deltas_2_Value=(float64)PresentationTime_Delta_Most->first;
                 float64 PresentationTime_Deltas_2_Count=(float64)PresentationTime_Delta_Most->second;
                 float64 FrameRate_Real=1000/(((PresentationTime_Deltas_1_Value*PresentationTime_Deltas_1_Count)+(PresentationTime_Deltas_2_Value*PresentationTime_Deltas_2_Count))/(PresentationTime_Deltas_1_Count+PresentationTime_Deltas_2_Count));
@@ -211,7 +211,7 @@ void File_Wm::Streams_Finish()
                 Fill(Stream_Video, Temp->second.StreamPos, Video_Format_Profile, Format_Profile, true);
         }
 
-        Temp++;
+        ++Temp;
     }
 
     if (Count_Get(Stream_Video)==0 && Count_Get(Stream_Image)==0)

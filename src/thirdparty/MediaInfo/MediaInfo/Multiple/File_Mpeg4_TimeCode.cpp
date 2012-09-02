@@ -50,6 +50,10 @@ File_Mpeg4_TimeCode::File_Mpeg4_TimeCode()
 {
     //Out
     Pos=(int32u)-1;
+
+    NumberOfFrames=0;
+    DropFrame=false;
+    NegativeTimes=false;
 }
 
 //***************************************************************************
@@ -59,9 +63,17 @@ File_Mpeg4_TimeCode::File_Mpeg4_TimeCode()
 //---------------------------------------------------------------------------
 void File_Mpeg4_TimeCode::Streams_Fill()
 {
-    if (Pos!=(int32u)-1 && FrameRate)
+    if (Pos!=(int32u)-1 && NumberOfFrames)
     {
-        Fill(Stream_General, 0, "Delay", Pos*1000/FrameRate, 0);
+        int64s  Pos_Temp=Pos;
+        float64 FrameRate_WithDF=NumberOfFrames;
+        if (DropFrame)
+        {
+            float64 FramesPerHour_NDF=FrameRate_WithDF*60*60;
+            FrameRate_WithDF*=(FramesPerHour_NDF-108)/FramesPerHour_NDF;
+        }
+
+        Fill(Stream_General, 0, "Delay", Pos_Temp*1000/FrameRate_WithDF, 0);
     }
 }
 

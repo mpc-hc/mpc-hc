@@ -1162,6 +1162,7 @@ void MediaInfo_Config_Format (InfoMap &Info)
     "Blender;;;O;Other;;blenders;;http://www.blender3d.com\n"
     "AutoCAD;;;O;Other;;;;http://www.autodesk.com\n"
     "N19;;;T;N19;;stl;;;Lossless\n"
+    "PlayLater Video;;;V;Other;;;;http://www.playon.tv/playlater\n"
     ));
     Info.Separator_Set(0, ZenLib::EOL);
 }

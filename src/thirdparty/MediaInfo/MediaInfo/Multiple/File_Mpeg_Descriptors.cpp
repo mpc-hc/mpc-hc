@@ -1104,9 +1104,9 @@ const char* Mpeg_Descriptors_original_network_id(int16u original_network_id)
 }
 
 //---------------------------------------------------------------------------
-const char* Mpeg_Descriptors_CA_system_ID(int16u CA_ID)
+const char* Mpeg_Descriptors_CA_system_ID(int16u CA_system_ID)
 {
-    switch (CA_ID)
+    switch (CA_system_ID)
     {
         case 0x0100 : return "Seca Mediaguard 1/2";
         case 0x0101 : return "RusCrypto";
@@ -1157,9 +1157,21 @@ const char* Mpeg_Descriptors_CA_system_ID(int16u CA_ID)
         case 0x4AD1 : return "X-Crypt";
         case 0x4AD4 : return "OmniCrypt";
         case 0x4AE0 : return "RossCrypt";
+        case 0x4B13 : return "PlayReady";
         case 0x5500 : return "Z-Crypt or DRE-Crypt";
         case 0x5501 : return "Griffin";
         default     : return "Encrypted";
+    }
+}
+
+//---------------------------------------------------------------------------
+bool Mpeg_Descriptors_CA_system_ID_MustSkipSlices(int16u CA_system_ID)
+{
+    switch (CA_system_ID)
+    {
+        case 0x4B13 : // PlayReady
+                      return true;
+        default     : return false; //We try, it is not sure
     }
 }
 
@@ -1662,6 +1674,8 @@ void File_Mpeg_Descriptors::Descriptor_09()
             case 0x02 : //program_map_section
                         if (elementary_PID_IsValid)
                         {
+                            Complete_Stream->Streams[elementary_PID]->CA_system_ID=CA_system_ID;
+                            Complete_Stream->Streams[elementary_PID]->CA_system_ID_MustSkipSlices=Mpeg_Descriptors_CA_system_ID_MustSkipSlices(CA_system_ID);
                             if (CA_PID<Complete_Stream->Streams.size() && Complete_Stream->Streams[CA_PID]->Kind==complete_stream::stream::unknown) //Priority to PES, if this is a PES, we skip the CA
                             {
                                 Complete_Stream->Streams[CA_PID]->Kind=complete_stream::stream::psi;

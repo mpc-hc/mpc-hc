@@ -37,7 +37,8 @@ class File_Mpeg4_TimeCode : public File__Analyze
 {
 public :
     //In
-    float64 FrameRate;
+    int8u   NumberOfFrames;
+    bool    DropFrame;
     bool    NegativeTimes;
 
     //Out
