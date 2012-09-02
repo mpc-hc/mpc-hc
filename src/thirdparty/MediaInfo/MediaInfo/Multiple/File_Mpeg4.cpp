@@ -237,7 +237,7 @@ void File_Mpeg4::Streams_Finish()
     //Final Cut EIA-608 format
     if (Retrieve(Stream_General, 0, General_Format)==__T("Final Cut EIA-608"))
     {
-        for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+        for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
         {
             Stream->second.Parser->Finish();
             if (Stream->second.Parser->Count_Get(Stream_Text))
@@ -256,7 +256,7 @@ void File_Mpeg4::Streams_Finish()
     int64u File_Size_Total=File_Size;
 
     //TimeCode
-    for (streams::iterator Temp=Streams.begin(); Temp!=Streams.end(); Temp++)
+    for (streams::iterator Temp=Streams.begin(); Temp!=Streams.end(); ++Temp)
         if (Temp->second.TimeCode)
             TimeCode_Associate(Temp->first);
 
@@ -446,7 +446,7 @@ void File_Mpeg4::Streams_Finish()
             if (StreamKind_Last==Stream_General)
             {
                 //Special case for TimeCode without link
-                for (std::map<int32u, stream>::iterator Target=Streams.begin(); Target!=Streams.end(); Target++)
+                for (std::map<int32u, stream>::iterator Target=Streams.begin(); Target!=Streams.end(); ++Target)
                     if (Target->second.StreamKind!=Stream_General)
                         Merge(*Temp->second.Parser, Target->second.StreamKind, 0, Target->second.StreamPos);
             }
@@ -504,7 +504,7 @@ void File_Mpeg4::Streams_Finish()
                         Stream_Erase(NewKind, NewPos1);
 
                         streams::iterator NextStream=Temp;
-                        NextStream++;
+                        ++NextStream;
                         size_t NewAudio_Count=Temp->second.Parser->Count_Get(Stream_Audio);
                         while (NextStream!=Streams.end())
                         {
@@ -513,7 +513,7 @@ void File_Mpeg4::Streams_Finish()
                                 NextStream->second.StreamPos-=2;
                                 NextStream->second.StreamPos+=NewAudio_Count;
                             }
-                            NextStream++;
+                            ++NextStream;
                         }
                     }
                     else
@@ -764,7 +764,7 @@ void File_Mpeg4::Streams_Finish()
             Fill(Stream_Audio, StreamPos_Last, Audio_ChannelLayout, Mpeg4_chan_Layout(101));
         }
 
-        Temp++;
+        ++Temp;
     }
     if (Vendor!=0x00000000 && Vendor!=0xFFFFFFFF)
     {
@@ -786,7 +786,7 @@ void File_Mpeg4::Streams_Finish()
 
     //Parsing reference files
     #ifdef MEDIAINFO_REFERENCES_YES
-        for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+        for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
             if (!Stream->second.File_Name.empty())
             {
                 if (ReferenceFiles==NULL)
@@ -809,9 +809,9 @@ void File_Mpeg4::Streams_Finish()
                             //Searching the corresponding stco
                             std::vector<stream::stsc_struct>::iterator Stsc=Stream->second.stsc.begin();
                             int64u SamplePos=0;
-                            for (; Stsc!=Stream->second.stsc.end();  Stsc++)
+                            for (; Stsc!=Stream->second.stsc.end(); ++Stsc)
                             {
-                                std::vector<stream::stsc_struct>::iterator Stsc_Next=Stsc; Stsc_Next++;
+                                std::vector<stream::stsc_struct>::iterator Stsc_Next=Stsc; ++Stsc_Next;
                                 int64u CountOfSamples=((Stsc_Next==Stream->second.stsc.end()?Stream->second.stco.size():Stsc_Next->FirstChunk)-Stsc->FirstChunk)*Stsc->SamplesPerChunk;
                                 if (Stsc_Next!=Stream->second.stsc.end() && Value>=SamplePos+CountOfSamples)
                                     SamplePos+=CountOfSamples;
@@ -918,7 +918,7 @@ void File_Mpeg4::Read_Buffer_Unsynched()
     if (mdat_Pos_Temp!=mdat_Pos.end())
         IsParsing_mdat=true;
 
-    for (std::map<int32u, stream>::iterator Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+    for (std::map<int32u, stream>::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
     {
         if (Stream->second.Parser)
             Stream->second.Parser->Open_Buffer_Unsynch();
@@ -929,9 +929,9 @@ void File_Mpeg4::Read_Buffer_Unsynched()
                     //Searching the corresponding frame position
                     std::vector<stream::stsc_struct>::iterator Stsc=Stream->second.stsc.begin();
                     int64u SamplePos=0;
-                    for (; Stsc!=Stream->second.stsc.end();  Stsc++)
+                    for (; Stsc!=Stream->second.stsc.end(); ++Stsc)
                     {
-                        std::vector<stream::stsc_struct>::iterator Stsc_Next=Stsc; Stsc_Next++;
+                        std::vector<stream::stsc_struct>::iterator Stsc_Next=Stsc; ++Stsc_Next;
                         if (Stsc_Next!=Stream->second.stsc.end() && stco_Pos+1>=Stsc_Next->FirstChunk)
                         {
                             int64u CountOfSamples=(Stsc_Next->FirstChunk-Stsc->FirstChunk)*Stsc->SamplesPerChunk;
@@ -945,7 +945,7 @@ void File_Mpeg4::Read_Buffer_Unsynched()
                             Stream->second.stts_FramePos=SamplePos;
 
                             //Searching the corresponding duration block position
-                            for (stream::stts_durations::iterator Stts_Duration=Stream->second.stts_Durations.begin(); Stts_Duration!=Stream->second.stts_Durations.end(); Stts_Duration++)
+                            for (stream::stts_durations::iterator Stts_Duration=Stream->second.stts_Durations.begin(); Stts_Duration!=Stream->second.stts_Durations.end(); ++Stts_Duration)
                                 if (SamplePos>=Stts_Duration->Pos_Begin && SamplePos<Stts_Duration->Pos_End)
                                 {
                                     Stream->second.stts_Durations_Pos=Stts_Duration-Stream->second.stts_Durations.begin();
@@ -991,11 +991,11 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                     {
                         //Looking for video stream
                         std::map<int32u, stream>::iterator Stream;
-                        for (Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+                        for (Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
                             if (Stream->second.StreamKind==Stream_Video)
                                 break;
                         if (Stream==Streams.end())
-                            for (Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+                            for (Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
                                 if (Stream->second.StreamKind==Stream_Audio)
                                     break;
                         if (Stream==Streams.end())
@@ -1006,9 +1006,9 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                         if (Value<*Stco)
                             return Read_Buffer_Seek(3, 0, ID);
 
-                        for (; Stco!=Stream->second.stco.end();  Stco++)
+                        for (; Stco!=Stream->second.stco.end(); ++Stco)
                         {
-                            std::vector<int64u>::iterator Stco_Next=Stco; Stco_Next++;
+                            std::vector<int64u>::iterator Stco_Next=Stco; ++Stco_Next;
                             if (Stco_Next!=Stream->second.stco.end() && Value>=*Stco && Value<*Stco_Next)
                             {
                                 GoTo(*Stco);
@@ -1033,11 +1033,11 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                     {
                         //Looking for video stream
                         std::map<int32u, stream>::iterator Stream;
-                        for (Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+                        for (Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
                             if (Stream->second.StreamKind==Stream_Video)
                                 break;
                         if (Stream==Streams.end())
-                            for (Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+                            for (Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
                                 if (Stream->second.StreamKind==Stream_Audio)
                                     break;
                         if (Stream==Streams.end())
@@ -1048,7 +1048,7 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                         if (Value>TimeCode_FrameOffset*Stream->second.stts_Duration/Stream->second.stts_FrameCount) //Removing Time Code offset
                             Value-=TimeCode_FrameOffset*Stream->second.stts_Duration/Stream->second.stts_FrameCount;
                         stream::stts_durations::iterator stts_Duration=Stream->second.stts_Durations.begin();
-                        for (; stts_Duration!=Stream->second.stts_Durations.end(); stts_Duration++)
+                        for (; stts_Duration!=Stream->second.stts_Durations.end(); ++stts_Duration)
                         {
                             if (Value>=stts_Duration->DTS_Begin && Value<stts_Duration->DTS_End)
                             {
@@ -1064,11 +1064,11 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                     {
                         //Looking for video stream
                         std::map<int32u, stream>::iterator Stream;
-                        for (Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+                        for (Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
                             if (Stream->second.StreamKind==Stream_Video)
                                 break;
                         if (Stream==Streams.end())
-                            for (Stream=Streams.begin(); Stream!=Streams.end(); Stream++)
+                            for (Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
                                 if (Stream->second.StreamKind==Stream_Audio)
                                     break;
                         if (Stream==Streams.end())
@@ -1089,9 +1089,9 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                         //Searching the corresponding stco
                         std::vector<stream::stsc_struct>::iterator Stsc=Stream->second.stsc.begin();
                         int64u SamplePos=0;
-                        for (; Stsc!=Stream->second.stsc.end();  Stsc++)
+                        for (; Stsc!=Stream->second.stsc.end(); ++Stsc)
                         {
-                            std::vector<stream::stsc_struct>::iterator Stsc_Next=Stsc; Stsc_Next++;
+                            std::vector<stream::stsc_struct>::iterator Stsc_Next=Stsc; ++Stsc_Next;
                             int64u CountOfSamples=((Stsc_Next==Stream->second.stsc.end()?Stream->second.stco.size():Stsc_Next->FirstChunk)-Stsc->FirstChunk)*Stsc->SamplesPerChunk;
                             if (Stsc_Next!=Stream->second.stsc.end() && Value>=SamplePos+CountOfSamples)
                                 SamplePos+=CountOfSamples;
@@ -1245,7 +1245,7 @@ bool File_Mpeg4::BookMark_Needed()
 
     //Handling of some wrong stsz and stsc atoms (ADPCM)
     if (!IsSecondPass)
-        for (std::map<int32u, stream>::iterator Temp=Streams.begin(); Temp!=Streams.end(); Temp++)
+        for (std::map<int32u, stream>::iterator Temp=Streams.begin(); Temp!=Streams.end(); ++Temp)
             if (Temp->second.StreamKind==Stream_Audio
              && (Retrieve(Stream_Audio, Temp->second.StreamPos, Audio_CodecID)==__T("ima4")
               || Retrieve(Stream_Audio, Temp->second.StreamPos, Audio_CodecID)==__T("11")))
@@ -1281,7 +1281,7 @@ bool File_Mpeg4::BookMark_Needed()
     if (mdat_Pos.empty())
     {
         //For each stream
-        for (std::map<int32u, stream>::iterator Temp=Streams.begin(); Temp!=Streams.end(); Temp++)
+        for (std::map<int32u, stream>::iterator Temp=Streams.begin(); Temp!=Streams.end(); ++Temp)
         {
             if (Temp->second.Parser && (!Temp->second.stsz.empty() || Temp->second.stsz_Sample_Size))
             {
@@ -1569,7 +1569,7 @@ void File_Mpeg4::TimeCode_Associate(int32u TrackID)
     //Trying to detect time code attached to 1 video only but for all streams in reality
     int32u TimeCode_TrackID=(int32u)-1;
     bool   TimeCode_TrackID_MoreThanOne=false;
-    for (std::map<int32u, stream>::iterator Strea=Streams.begin(); Strea!=Streams.end(); Strea++)
+    for (std::map<int32u, stream>::iterator Strea=Streams.begin(); Strea!=Streams.end(); ++Strea)
         if (Strea->second.TimeCode_TrackID!=(int32u)-1)
         {
             if (TimeCode_TrackID==(int32u)-1)
@@ -1578,17 +1578,17 @@ void File_Mpeg4::TimeCode_Associate(int32u TrackID)
                 TimeCode_TrackID_MoreThanOne=true;
         }
     if (!TimeCode_TrackID_MoreThanOne && TimeCode_TrackID!=(int32u)-1)
-        for (std::map<int32u, stream>::iterator Strea=Streams.begin(); Strea!=Streams.end(); Strea++)
+        for (std::map<int32u, stream>::iterator Strea=Streams.begin(); Strea!=Streams.end(); ++Strea)
             Strea->second.TimeCode_TrackID=TimeCode_TrackID; //For all tracks actually
 
     //Is it general or for a specific stream?
     bool IsGeneral=true;
-    for (std::map<int32u, stream>::iterator Strea=Streams.begin(); Strea!=Streams.end(); Strea++)
+    for (std::map<int32u, stream>::iterator Strea=Streams.begin(); Strea!=Streams.end(); ++Strea)
         if (Strea->second.TimeCode_TrackID==TrackID)
             IsGeneral=false;
 
     //For each track in the file (but only the last one will be used!)
-    for (std::map<int32u, stream>::iterator Strea=Streams.begin(); Strea!=Streams.end(); Strea++)
+    for (std::map<int32u, stream>::iterator Strea=Streams.begin(); Strea!=Streams.end(); ++Strea)
         if ((IsGeneral && Strea->second.StreamKind!=Stream_Max) || Strea->second.TimeCode_TrackID==TrackID)
         {
             if (Strea->second.StreamKind==Stream_Video)

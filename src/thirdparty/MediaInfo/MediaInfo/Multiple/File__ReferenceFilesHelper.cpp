@@ -70,7 +70,7 @@ File__ReferenceFilesHelper::File__ReferenceFilesHelper(File__Analyze* MI_, Media
 //---------------------------------------------------------------------------
 File__ReferenceFilesHelper::~File__ReferenceFilesHelper()
 {
-    for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ReferenceTemp++)
+    for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ++ReferenceTemp)
         delete ReferenceTemp->MI; //ReferenceTemp->MI=NULL;
 }
 
@@ -274,7 +274,7 @@ void File__ReferenceFilesHelper::ParseReferences()
 
             //Using the frame rate from the first stream having a frame rate
             if (!FrameRate)
-                for (references::iterator ReferenceFrameRate=References.begin(); ReferenceFrameRate!=References.end(); ReferenceFrameRate++)
+                for (references::iterator ReferenceFrameRate=References.begin(); ReferenceFrameRate!=References.end(); ++ReferenceFrameRate)
                     if (ReferenceFrameRate->FrameRate)
                     {
                         FrameRate=ReferenceFrameRate->FrameRate;
@@ -347,7 +347,7 @@ void File__ReferenceFilesHelper::ParseReferences()
         #if MEDIAINFO_NEXTPACKET
             DTS_Minimal=(int64u)-1;
         #endif //MEDIAINFO_NEXTPACKET
-        for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ReferenceTemp++)
+        for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ++ReferenceTemp)
         {
             if (ReferenceTemp->MI)
             {
@@ -386,7 +386,7 @@ void File__ReferenceFilesHelper::ParseReferences()
         #if MEDIAINFO_DEMUX
             if (Demux_Interleave)
             {
-                references::iterator Reference_Next=Reference; Reference_Next++;
+                references::iterator Reference_Next=Reference; ++Reference_Next;
 
                 if (Reference_Next==References.end() && Config->NextPacket_Get() && CountOfReferencesToParse)
                     Reference=References.begin();
@@ -606,7 +606,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize ()
             else
             {
                 size_t ToInsert=(size_t)-1;
-                for (references::iterator ReferencePos=References.begin(); ReferencePos!=References.end(); ReferencePos++)
+                for (references::iterator ReferencePos=References.begin(); ReferencePos!=References.end(); ++ReferencePos)
                     if (ReferencePos->StreamKind==StreamKind_Last && Reference->StreamID<ReferencePos->StreamID)
                     {
                         ToInsert=ReferencePos->StreamPos;
@@ -720,7 +720,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
     MI->Fill(StreamKind_Last, StreamPos_To, "MenuID/String", MenuID_String, true);
     if (MI->Retrieve(StreamKind_Last, StreamPos_To, "Source").empty())
         MI->Fill(StreamKind_Last, StreamPos_To, "Source", Reference->Source);
-    for (std::map<string, Ztring>::iterator Info=Reference->Infos.begin(); Info!=Reference->Infos.end(); Info++)
+    for (std::map<string, Ztring>::iterator Info=Reference->Infos.begin(); Info!=Reference->Infos.end(); ++Info)
         MI->Fill(StreamKind_Last, StreamPos_To, Info->first.c_str(), Info->second);
 
     //Others
@@ -737,7 +737,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
 void File__ReferenceFilesHelper::Read_Buffer_Unsynched()
 {
     MI->Open_Buffer_Unsynch();
-    for (references::iterator Reference=References.begin(); Reference!=References.end(); Reference++)
+    for (references::iterator Reference=References.begin(); Reference!=References.end(); ++Reference)
         if (Reference->MI)
             Reference->MI->Open_Buffer_Unsynch();
 
@@ -941,7 +941,7 @@ size_t File__ReferenceFilesHelper::Stream_Prepare (stream_t StreamKind, size_t S
 {
     size_t StreamPos_Last=MI->Stream_Prepare(StreamKind, StreamPos);
 
-    for (references::iterator ReferencePos=References.begin(); ReferencePos!=References.end(); ReferencePos++)
+    for (references::iterator ReferencePos=References.begin(); ReferencePos!=References.end(); ++ReferencePos)
         if (ReferencePos->StreamKind==StreamKind && ReferencePos->StreamPos>=StreamPos_Last)
             if (ReferencePos->StreamPos!=(size_t)-1)
                 ReferencePos->StreamPos++;
@@ -957,7 +957,7 @@ void File__ReferenceFilesHelper::FileSize_Compute ()
 
     MI->Config->File_Size=MI->File_Size;
 
-    for (references::iterator Reference=References.begin(); Reference!=References.end(); Reference++)
+    for (references::iterator Reference=References.begin(); Reference!=References.end(); ++Reference)
     {
         if (Reference->FileSize!=(int64u)-1)
             MI->Config->File_Size+=Reference->FileSize;

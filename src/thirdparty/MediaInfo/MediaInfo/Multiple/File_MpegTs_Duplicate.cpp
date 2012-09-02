@@ -91,11 +91,11 @@ void File_MpegTs::Option_Manage()
                 Complete_Stream->Streams[0x0000]->ShouldDuplicate=true;
 
                 //For each program
-                for (complete_stream::transport_stream::programs::iterator Program=Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs.begin(); Program!=Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs.end(); Program++)
+                for (complete_stream::transport_stream::programs::iterator Program=Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs.begin(); Program!=Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs.end(); ++Program)
                 {
                     //Do we want this program?
                     bool Wanted=false;
-                    for (std::map<const String, File__Duplicate_MpegTs*>::iterator Duplicate=Complete_Stream->Duplicates.begin(); Duplicate!=Complete_Stream->Duplicates.end(); Duplicate++)
+                    for (std::map<const String, File__Duplicate_MpegTs*>::iterator Duplicate=Complete_Stream->Duplicates.begin(); Duplicate!=Complete_Stream->Duplicates.end(); ++Duplicate)
                     {
                         if (Duplicate->second->Wanted_program_numbers.find(Program->first)!=Duplicate->second->Wanted_program_numbers.end())
                             Wanted=true;
@@ -143,7 +143,7 @@ bool File_MpegTs::File__Duplicate_Set (const Ztring &Value)
     std::vector<ZtringList::iterator> Targets_ToRemove;
     std::vector<ZtringList::iterator> Orders_ToAdd;
     std::vector<ZtringList::iterator> Orders_ToRemove;
-    for (ZtringList::iterator Current=List.begin(); Current<List.end(); Current++)
+    for (ZtringList::iterator Current=List.begin(); Current<List.end(); ++Current)
     {
         //Detecting if we want to remove
         bool ToRemove=false;
@@ -180,13 +180,13 @@ bool File_MpegTs::File__Duplicate_Set (const Ztring &Value)
     //Backward compatibility
     if (Orders_ToRemove_Global) //with "0"
     {
-        for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToAdd.begin(); Order<Orders_ToAdd.end(); Order++)
+        for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToAdd.begin(); Order<Orders_ToAdd.end(); ++Order)
             Orders_ToRemove.push_back(*Order);
         Orders_ToAdd.clear();
     }
 
     //For each target to add
-    for (std::vector<ZtringList::iterator>::iterator Target=Targets_ToAdd.begin(); Target<Targets_ToAdd.end(); Target++)
+    for (std::vector<ZtringList::iterator>::iterator Target=Targets_ToAdd.begin(); Target<Targets_ToAdd.end(); ++Target)
     {
         //Adding the target if it does not exist yet
         if (Complete_Stream->Duplicates.find(**Target)==Complete_Stream->Duplicates.end())
@@ -202,28 +202,28 @@ bool File_MpegTs::File__Duplicate_Set (const Ztring &Value)
         }
 
         //For each order to add
-        for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToAdd.begin(); Order<Orders_ToAdd.end(); Order++)
+        for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToAdd.begin(); Order<Orders_ToAdd.end(); ++Order)
             Complete_Stream->Duplicates[**Target]->Configure(**Order, false);
 
         //For each order to remove
-        for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToRemove.begin(); Order<Orders_ToRemove.end(); Order++)
+        for (std::vector<ZtringList::iterator>::iterator Order=Orders_ToRemove.begin(); Order<Orders_ToRemove.end(); ++Order)
             Complete_Stream->Duplicates[**Target]->Configure(**Order, true);
     }
 
     //For each target to remove
-    for (std::vector<ZtringList::iterator>::iterator Target=Targets_ToRemove.begin(); Target<Targets_ToRemove.end(); Target++)
+    for (std::vector<ZtringList::iterator>::iterator Target=Targets_ToRemove.begin(); Target<Targets_ToRemove.end(); ++Target)
     {
         std::map<const String, File__Duplicate_MpegTs*>::iterator Pointer=Complete_Stream->Duplicates.find(**Target);
         if (Pointer!=Complete_Stream->Duplicates.end())
         {
             //Duplicates_Speed
-            for (std::vector<File__Duplicate_MpegTs*>::iterator Duplicate=Complete_Stream->Duplicates_Speed.begin(); Duplicate<Complete_Stream->Duplicates_Speed.end(); Duplicate++)
+            for (std::vector<File__Duplicate_MpegTs*>::iterator Duplicate=Complete_Stream->Duplicates_Speed.begin(); Duplicate<Complete_Stream->Duplicates_Speed.end(); ++Duplicate)
                 if (*Duplicate==Pointer->second)
                     *Duplicate=NULL;
 
             //Duplicates_Speed_FromPID
-            for (std::vector<std::vector<File__Duplicate_MpegTs*> >::iterator Duplicate_FromPID=Complete_Stream->Duplicates_Speed_FromPID.begin(); Duplicate_FromPID<Complete_Stream->Duplicates_Speed_FromPID.end(); Duplicate_FromPID++)
-                for (std::vector<File__Duplicate_MpegTs*>::iterator Duplicate=Duplicate_FromPID->begin(); Duplicate<Duplicate_FromPID->end(); Duplicate++)
+            for (std::vector<std::vector<File__Duplicate_MpegTs*> >::iterator Duplicate_FromPID=Complete_Stream->Duplicates_Speed_FromPID.begin(); Duplicate_FromPID<Complete_Stream->Duplicates_Speed_FromPID.end(); ++Duplicate_FromPID)
+                for (std::vector<File__Duplicate_MpegTs*>::iterator Duplicate=Duplicate_FromPID->begin(); Duplicate<Duplicate_FromPID->end(); ++Duplicate)
                     if (*Duplicate==Pointer->second)
                         *Duplicate=NULL;
 

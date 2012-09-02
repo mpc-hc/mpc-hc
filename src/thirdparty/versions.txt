@@ -11,7 +11,7 @@ libmpeg2            0.3.2 (modified)
 libogg              1.3.0
 Little CMS          v2.4 git 14e1777
 Logitech SDK        3.01
-MediaInfoLib        0.7.60 r5042
+MediaInfoLib        0.7.60 r5048
 MultiMon            28 Aug '03 (modified)
 QuickTime SDK       7.3
 RealMedia SDK       -
