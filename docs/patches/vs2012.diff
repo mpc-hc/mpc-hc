@@ -144,37 +144,11 @@ index 285445e..c288c01 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-diff --git a/src/MPCTestAPI/MPCTestAPI.rc b/src/MPCTestAPI/MPCTestAPI.rc
-index 6968a40..89eb68c 100644
---- a/src/MPCTestAPI/MPCTestAPI.rc
-+++ b/src/MPCTestAPI/MPCTestAPI.rc
-@@ -52,12 +52,14 @@ END
- #endif    // APSTUDIO_INVOKED
- 
- 
-+#if !defined(VS2012)
- /////////////////////////////////////////////////////////////////////////////
- //
- // RT_MANIFEST
- //
- 
- 1                       RT_MANIFEST             "res\\MPCTestAPI.exe.manifest"
-+#endif
- 
- /////////////////////////////////////////////////////////////////////////////
- //
 diff --git a/src/MPCTestAPI/MPCTestAPI.vcxproj b/src/MPCTestAPI/MPCTestAPI.vcxproj
-index 57b706e..dc43a1e 100644
+index 57b706e..c27393d 100644
 --- a/src/MPCTestAPI/MPCTestAPI.vcxproj
 +++ b/src/MPCTestAPI/MPCTestAPI.vcxproj
-@@ -22,27 +22,32 @@
-     <ProjectGuid>{A1F84246-B9A1-455F-97E4-D730AB089947}</ProjectGuid>
-     <RootNamespace>MPCTestAPI</RootNamespace>
-     <Keyword>MFCProj</Keyword>
-+    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
-   </PropertyGroup>
-   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+@@ -28,21 +28,25 @@
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
@@ -200,61 +174,6 @@ index 57b706e..dc43a1e 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-@@ -74,30 +79,50 @@
-     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin\$(Configuration)_$(Platform)\</OutDir>
-     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\obj\$(Configuration)_$(Platform)\</IntDir>
-     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin\obj\$(Configuration)_$(Platform)\</IntDir>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</GenerateManifest>
-   </PropertyGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-     <ClCompile>
-       <WarningLevel>Level4</WarningLevel>
-     </ClCompile>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\MPCTestAPI.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-+    <ResourceCompile>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-+    </ResourceCompile>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-     <ClCompile>
-       <WarningLevel>Level4</WarningLevel>
-     </ClCompile>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\MPCTestAPI.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-+    <ResourceCompile>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-+    </ResourceCompile>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-     <ClCompile>
-       <WarningLevel>Level4</WarningLevel>
-     </ClCompile>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\MPCTestAPI.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-+    <ResourceCompile>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-+    </ResourceCompile>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-     <ClCompile>
-       <WarningLevel>Level4</WarningLevel>
-     </ClCompile>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\MPCTestAPI.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-+    <ResourceCompile>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-+    </ResourceCompile>
-   </ItemDefinitionGroup>
-   <ItemGroup>
-     <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp" />
 diff --git a/src/SubPic/SubPic.vcxproj b/src/SubPic/SubPic.vcxproj
 index 09c59cd..f83c239 100644
 --- a/src/SubPic/SubPic.vcxproj
@@ -2608,17 +2527,10 @@ index 158d633..7acd6f9 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/transform/VSFilter/VSFilter.vcxproj b/src/filters/transform/VSFilter/VSFilter.vcxproj
-index ea2128d..3965d15 100644
+index ea2128d..52632ee 100644
 --- a/src/filters/transform/VSFilter/VSFilter.vcxproj
 +++ b/src/filters/transform/VSFilter/VSFilter.vcxproj
-@@ -22,27 +22,32 @@
-     <ProjectGuid>{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}</ProjectGuid>
-     <RootNamespace>VSFilter</RootNamespace>
-     <Keyword>MFCProj</Keyword>
-+    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
-   </PropertyGroup>
-   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
+@@ -28,21 +28,25 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
@@ -2644,106 +2556,8 @@ index ea2128d..3965d15 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-@@ -70,10 +75,6 @@
-     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">$(SolutionDir)bin\Filters_x64_Debug\</OutDir>
-     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">$(SolutionDir)bin\Filters_x86\</OutDir>
-     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">$(SolutionDir)bin\Filters_x64\</OutDir>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">false</GenerateManifest>
-   </PropertyGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">
-     <ClCompile>
-@@ -82,12 +83,16 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>delayimp.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
-       <DelayLoadDLLs>oleacc.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-     </Link>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\VSFilter.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">
-     <ClCompile>
-@@ -96,12 +101,16 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>delayimp.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
-       <DelayLoadDLLs>oleacc.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-     </Link>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\VSFilter.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">
-     <ClCompile>
-@@ -110,12 +119,16 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>delayimp.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
-       <DelayLoadDLLs>oleacc.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-     </Link>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\VSFilter.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">
-     <ClCompile>
-@@ -124,12 +137,16 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>delayimp.lib;Vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
-       <DelayLoadDLLs>oleacc.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-     </Link>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\VSFilter.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-   </ItemDefinitionGroup>
-   <ItemGroup>
-     <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp" />
-diff --git a/src/filters/transform/VSFilter/res/VSFilter.rc2 b/src/filters/transform/VSFilter/res/VSFilter.rc2
-index 8065ef2..d96f17a 100644
---- a/src/filters/transform/VSFilter/res/VSFilter.rc2
-+++ b/src/filters/transform/VSFilter/res/VSFilter.rc2
-@@ -29,12 +29,14 @@
- LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
- 
- 
-+#if !defined(VS2012)
- /////////////////////////////////////////////////////////////////////////////
- //
- // RT_MANIFEST
- //
- 
- 2                       RT_MANIFEST             "res\\VSFilter.manifest"
-+#endif
- 
- /////////////////////////////////////////////////////////////////////////////
- //
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index bdc8369..1458a78 100644
+index bdc8369..c991093 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -39,47 +39,56 @@
@@ -2803,171 +2617,38 @@ index bdc8369..1458a78 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-@@ -131,14 +140,6 @@
-     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">$(ProjectName)64</TargetName>
-     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)64</TargetName>
-     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">$(ProjectName)64</TargetName>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</GenerateManifest>
--    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">false</GenerateManifest>
-   </PropertyGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-     <PreBuildEvent>
-@@ -149,6 +150,7 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;libgcc.a;libmingwex.a;GdiPlus.lib;Psapi.lib;QTMLClient.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-@@ -156,7 +158,11 @@
+@@ -156,6 +165,7 @@
        <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
        <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
        <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
 +      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
      </Link>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
    </ItemDefinitionGroup>
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">
-     <PreBuildEvent>
-@@ -168,6 +174,7 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;MpcAudioRendererFilter.lib;ResizableLib.lib;sizecbar.lib;SoundTouch.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;UxTheme.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;QTMLClient.lib;SetupAPI.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-@@ -179,6 +186,9 @@
-     <ProjectReference>
-       <LinkLibraryDependencies>false</LinkLibraryDependencies>
-     </ProjectReference>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-     <PreBuildEvent>
-@@ -189,6 +199,7 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;SetupAPI.lib;strmiids.lib;UxTheme.lib;Uuid.Lib;Vfw32.lib;Version.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-@@ -196,7 +207,11 @@
+@@ -196,6 +206,7 @@
        <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
        <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
        <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
 +      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
      </Link>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
    </ItemDefinitionGroup>
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">
-     <PreBuildEvent>
-@@ -208,6 +223,7 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;MpcAudioRendererFilter.lib;ResizableLib.lib;sizecbar.lib;SoundTouch.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;UxTheme.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;Version.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-@@ -219,6 +235,9 @@
-     <ProjectReference>
-       <LinkLibraryDependencies>false</LinkLibraryDependencies>
-     </ProjectReference>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-     <PreBuildEvent>
-@@ -229,13 +248,18 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;QTMLClient.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -235,6 +246,7 @@
        <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
        <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
        <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
 +      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
      </Link>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
    </ItemDefinitionGroup>
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">
-     <PreBuildEvent>
-@@ -247,6 +271,7 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;MpcAudioRendererFilter.lib;ResizableLib.lib;sizecbar.lib;SoundTouch.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;UxTheme.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;QTMLClient.lib;SetupAPI.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-@@ -257,6 +282,9 @@
-     <ProjectReference>
-       <LinkLibraryDependencies>false</LinkLibraryDependencies>
-     </ProjectReference>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-   </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-     <PreBuildEvent>
-@@ -267,13 +295,18 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>MPCVideoDec.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;libgcc.a;libmingwex.a;Psapi.lib;SetupAPI.lib;strmiids.lib;UxTheme.lib;Uuid.Lib;Vfw32.lib;Version.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -273,6 +285,7 @@
        <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
        <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
        <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
 +      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
      </Link>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
    </ItemDefinitionGroup>
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">
-     <PreBuildEvent>
-@@ -285,6 +318,7 @@
-     </ClCompile>
-     <ResourceCompile>
-       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <PreprocessorDefinitions>VS2012;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     </ResourceCompile>
-     <Link>
-       <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;MpcAudioRendererFilter.lib;ResizableLib.lib;sizecbar.lib;SoundTouch.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;UxTheme.lib;delayimp.lib;detours.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;Version.lib;Vfw32.lib;Winmm.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-@@ -295,6 +329,9 @@
-     <ProjectReference>
-       <LinkLibraryDependencies>false</LinkLibraryDependencies>
-     </ProjectReference>
-+    <Manifest>
-+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
-+    </Manifest>
-   </ItemDefinitionGroup>
-   <ItemGroup>
-     <ClCompile Include="..\thirdparty\mfc\afxctrlcontainer.cpp" />
 diff --git a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 index 6a04e51..2edfc4e 100644
 --- a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
@@ -3008,25 +2689,6 @@ index 49540bd..8e628f3 100644
    <PropertyGroup>
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-diff --git a/src/mpc-hc/res/mplayerc.rc2 b/src/mpc-hc/res/mplayerc.rc2
-index 2326cd7..c29c9f4 100644
---- a/src/mpc-hc/res/mplayerc.rc2
-+++ b/src/mpc-hc/res/mplayerc.rc2
-@@ -29,12 +29,14 @@
- LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
- 
- 
-+#if !defined(VS2012)
- /////////////////////////////////////////////////////////////////////////////
- //
- // RT_MANIFEST
- //
- 
- 1                       RT_MANIFEST             "res\\mpc-hc.exe.manifest"
-+#endif
- 
- 
- /////////////////////////////////////////////////////////////////////////////
 diff --git a/src/thirdparty/AsyncReader/AsyncReader.vcxproj b/src/thirdparty/AsyncReader/AsyncReader.vcxproj
 index 91131c8..23e3dc2 100644
 --- a/src/thirdparty/AsyncReader/AsyncReader.vcxproj
@@ -3164,7 +2826,7 @@ index 30badf9..38715b3 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
-index d1eec91..f9f568d 100644
+index 7fdacb3..77eb59f 100644
 --- a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 +++ b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 @@ -22,23 +22,28 @@
@@ -3434,7 +3096,7 @@ index fedf4e4..ab83114 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index 7cda248..f13abe6 100644
+index 8e0d8ca..981c481 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@
