@@ -58,6 +58,14 @@ void rvinfo::bswap()
     ::bswap(type2);
 }
 
+void rainfo3::bswap()
+{
+    ::bswap(fourcc);
+    ::bswap(version);
+    ::bswap(header_size);
+    ::bswap(data_size);
+}
+
 void rainfo::bswap()
 {
     ::bswap(version1);
@@ -319,43 +327,55 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
             BYTE* fmt = pmp->typeSpecData.GetData();
             for (size_t i = 0; i < pmp->typeSpecData.GetCount() - 4; i++, fmt++) {
-                if (fmt[0] == '.' || fmt[1] == 'r' || fmt[2] == 'a') {
+                if (*(DWORD*)fmt == MAKEFOURCC('.' ,'r' ,'a' ,0xfd)) {
                     break;
                 }
             }
 
-            rainfo rai = *(rainfo*)fmt;
-            rai.bswap();
-
             BYTE* extra = NULL;
 
-            if (rai.version2 == 4) {
-                rainfo4 rai4 = *(rainfo4*)fmt;
-                rai4.bswap();
-                pwfe->nChannels = rai4.channels;
-                pwfe->wBitsPerSample = rai4.sample_size;
-                pwfe->nSamplesPerSec = rai4.sample_rate;
-                pwfe->nBlockAlign = rai4.frame_size;
-                BYTE* p = (BYTE*)((rainfo4*)fmt + 1);
-                int len = *p++;
-                p += len;
-                len = *p++;
-                ASSERT(len == 4);
-                if (len == 4) {
-                    fcc = MAKEFOURCC(p[0], p[1], p[2], p[3]);
-                }
-                extra = p + len + 3;
-            } else if (rai.version2 == 5) {
-                rainfo5 rai5 = *(rainfo5*)fmt;
-                rai5.bswap();
-                pwfe->nChannels = rai5.channels;
-                pwfe->wBitsPerSample = rai5.sample_size;
-                pwfe->nSamplesPerSec = rai5.sample_rate;
-                pwfe->nBlockAlign = rai5.frame_size;
-                fcc = rai5.fourcc3;
-                extra = fmt + sizeof(rainfo5) + 4;
+            WORD ver = fmt[4] << 8 | fmt[5];
+            if (ver == 3) {
+                rainfo3 rai3 = *(rainfo3*)fmt;
+                rai3.bswap();
+                fcc = '4_41';
+                pwfe->nChannels       = 1;
+                pwfe->nSamplesPerSec  = 8000;
+                pwfe->nAvgBytesPerSec = 1000;
+                pwfe->nBlockAlign     = 2;
+                pwfe->wBitsPerSample  = 16;
             } else {
-                continue;
+                rainfo rai = *(rainfo*)fmt;
+                rai.bswap();
+
+                if (rai.version2 == 4) {
+                    rainfo4 rai4 = *(rainfo4*)fmt;
+                    rai4.bswap();
+                    pwfe->nChannels = rai4.channels;
+                    pwfe->wBitsPerSample = rai4.sample_size;
+                    pwfe->nSamplesPerSec = rai4.sample_rate;
+                    pwfe->nBlockAlign = rai4.frame_size;
+                    BYTE* p = (BYTE*)((rainfo4*)fmt + 1);
+                    int len = *p++;
+                    p += len;
+                    len = *p++;
+                    ASSERT(len == 4);
+                    if (len == 4) {
+                        fcc = MAKEFOURCC(p[0], p[1], p[2], p[3]);
+                    }
+                    extra = p + len + 3;
+                } else if (rai.version2 == 5) {
+                    rainfo5 rai5 = *(rainfo5*)fmt;
+                    rai5.bswap();
+                    pwfe->nChannels = rai5.channels;
+                    pwfe->wBitsPerSample = rai5.sample_size;
+                    pwfe->nSamplesPerSec = rai5.sample_rate;
+                    pwfe->nBlockAlign = rai5.frame_size;
+                    fcc = rai5.fourcc3;
+                    extra = fmt + sizeof(rainfo5) + 4;
+                } else {
+                    continue;
+                }
             }
 
             _strupr_s(fccstr);
