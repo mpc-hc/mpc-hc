@@ -93,7 +93,7 @@ bool CMpegSplitterSettingsWnd::OnActivate()
     SetClassLongPtr(GetDlgItem(IDC_PP_VC1_GUIDFLAG)->m_hWnd, GCLP_HCURSOR, (LONG_PTR)AfxGetApp()->LoadStandardCursor(IDC_HAND));
     p.y += h30;
 
-    m_grpTrueHD.Create(ResStr(IDS_MPEGSPLITTER_TRUEHD_OUTPUT), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p+ CPoint(-5, 0), CSize(IPP_SCALE(305), h20 + h20)), this, (UINT)IDC_STATIC);
+    m_grpTrueHD.Create(ResStr(IDS_MPEGSPLITTER_TRUEHD_OUTPUT), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(305), h20 + h20)), this, (UINT)IDC_STATIC);
     p.y += h20;
     m_cbTrueHD.Create(_T("TrueHD"), dwStyle | BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE | WS_GROUP, CRect(p, CSize(IPP_SCALE(95), m_fontheight + 2)), this, IDC_PP_TRUEHD);
     m_cbAC3Core.Create(_T("AC-3 core"), dwStyle | BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE, CRect(p + CPoint(IPP_SCALE(100), 0), CSize(IPP_SCALE(95), m_fontheight + 2)), this, IDC_PP_AC3CORE);

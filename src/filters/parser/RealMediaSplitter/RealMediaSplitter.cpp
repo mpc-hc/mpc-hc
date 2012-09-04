@@ -327,7 +327,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
             BYTE* fmt = pmp->typeSpecData.GetData();
             for (size_t i = 0; i < pmp->typeSpecData.GetCount() - 4; i++, fmt++) {
-                if (*(DWORD*)fmt == MAKEFOURCC('.' ,'r' ,'a' ,0xfd)) {
+                if (*(DWORD*)fmt == MAKEFOURCC('.' , 'r' , 'a' , 0xfd)) {
                     break;
                 }
             }

@@ -154,7 +154,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     p.y += h25;
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
-    m_grpDXVA.Create(ResStr(IDS_VDF_DXVA_SETTING),   WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 +h20 * 3 + m_fontheight)), this, (UINT)IDC_STATIC);
+    m_grpDXVA.Create(ResStr(IDS_VDF_DXVA_SETTING), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 + h20 * 3 + m_fontheight)), this, (UINT)IDC_STATIC);
     p.y += h20;
 
     // DXVA Compatibility check

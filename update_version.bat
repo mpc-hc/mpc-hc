@@ -29,7 +29,7 @@ IF EXIST "build.user.bat" (
 )
 
 SET PATH=%MPCHC_MSYS%\bin;%MPCHC_GIT%\cmd;%PATH%
-FOR %%G IN (sh.exe)  DO (SET FOUND=%%~$PATH:G)
+FOR %%G IN (sh.exe) DO (SET FOUND=%%~$PATH:G)
 IF NOT DEFINED FOUND GOTO MissingVar
 
 sh.exe ./version.sh

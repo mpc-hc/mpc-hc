@@ -53,7 +53,7 @@ else
   HASH=`git log -n1 --format=%h`
 
 fi
-  
+
 VER_FULL="_T(\"$VER ($HASH)$VER_FULL\")"
 
 VERSION_INFO+="#define MPCHC_HASH _T(\"$HASH\")\n"

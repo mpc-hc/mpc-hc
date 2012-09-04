@@ -139,7 +139,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
         m_procamp_slider[3].SetTic(100);
         m_procamp_slider[3].SetPos((int)(100 * m_procamp[3] + 0.5f));
         p.y += 5;
-        m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(IPP_SCALE(85) + 200 / 2 - 80 -5, 0), CSize(80, m_fontheight + 6)), this, IDC_PP_BUTTON1);
+        m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(IPP_SCALE(85) + 200 / 2 - 80 - 5, 0), CSize(80, m_fontheight + 6)), this, IDC_PP_BUTTON1);
         m_procamp_reset.Create(ResStr(IDS_MPEG2_RESET), dwStyle, CRect(p + CPoint(IPP_SCALE(85) + 200 / 2 + 6, 0), CSize(80, m_fontheight + 6)), this, IDC_PP_BUTTON2);
         p.y += h25;
 
