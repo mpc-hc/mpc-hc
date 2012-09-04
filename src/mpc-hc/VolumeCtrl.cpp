@@ -55,14 +55,33 @@ void CVolumeCtrl::SetPosInternal(int pos)
     GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)pos, SB_THUMBPOSITION), (LPARAM)m_hWnd); // this will be reflected back on us
 }
 
+int CVolumeCtrl::SetAdaptivePageSize(int pos)
+{
+    int pagesize = GetPageSize();
+
+    if (pos <= 30 && pagesize != 1) { // if below 30% volume, set volume in 1% increments
+        SetPageSize(1);
+        pagesize = 1;
+    } else if (pos > 30 && pagesize != 5) { // reset increments
+        SetPageSize(5)
+        pagesize = 5;
+    }
+
+    return pagesize;
+}
+
 void CVolumeCtrl::IncreaseVolume()
 {
-    SetPosInternal(GetPos() + GetPageSize());
+    int pos = GetPos();
+    int pagesize = SetAdaptivePageSize(pos);
+    SetPosInternal(pos + pagesize);
 }
 
 void CVolumeCtrl::DecreaseVolume()
 {
-    SetPosInternal(GetPos() - GetPageSize());
+    int pos = GetPos();
+    int pagesize = SetAdaptivePageSize(pos);
+    SetPosInternal(pos - pagesize);
 }
 
 BEGIN_MESSAGE_MAP(CVolumeCtrl, CSliderCtrl)
