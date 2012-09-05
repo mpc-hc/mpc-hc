@@ -2336,7 +2336,7 @@ cmsUInt8Number* PackDoubleFrom16(register _cmsTRANSFORM* info,
     if (T_PLANAR(info -> OutputFormat))
         return output + sizeof(cmsFloat64Number);
     else
-        return output + (nChan + Extra) * sizeof(cmsFloat64Number);
+        return output + nChan * sizeof(cmsFloat64Number);
 
 }
 
@@ -2390,7 +2390,7 @@ cmsUInt8Number* PackFloatFrom16(register _cmsTRANSFORM* info,
     if (T_PLANAR(info -> OutputFormat))
         return output + sizeof(cmsFloat32Number);
     else
-        return output + (nChan + Extra) * sizeof(cmsFloat32Number);
+        return output + nChan * sizeof(cmsFloat32Number);
 }
 
 
@@ -2446,7 +2446,7 @@ cmsUInt8Number* PackFloatsFromFloat(_cmsTRANSFORM* info,
     if (T_PLANAR(info -> OutputFormat))
         return output + sizeof(cmsFloat32Number);
     else
-        return output + (nChan + Extra) * sizeof(cmsFloat32Number);
+        return output + nChan * sizeof(cmsFloat32Number);
 }
 
 static
@@ -2499,7 +2499,7 @@ cmsUInt8Number* PackDoublesFromFloat(_cmsTRANSFORM* info,
     if (T_PLANAR(info -> OutputFormat))
         return output + sizeof(cmsFloat64Number);
     else
-        return output + (nChan + Extra) * sizeof(cmsFloat64Number);
+        return output + nChan * sizeof(cmsFloat64Number);
 
 }
 
@@ -2623,7 +2623,6 @@ cmsUInt8Number* PackXYZDoubleFromFloat(_cmsTRANSFORM* Info,
 // ----------------------------------------------------------------------------------------------------------------
 
 #ifndef CMS_NO_HALF_SUPPORT 
-
 
 // Decodes an stream of half floats to wIn[] described by input format
 
@@ -2779,7 +2778,7 @@ cmsUInt8Number* PackHalfFrom16(register _cmsTRANSFORM* info,
     if (T_PLANAR(info -> OutputFormat))
         return output + sizeof(cmsUInt16Number);
     else
-        return output + (nChan + Extra) * sizeof(cmsUInt16Number);
+        return output + nChan * sizeof(cmsUInt16Number);
 }
 
 
@@ -2833,7 +2832,7 @@ cmsUInt8Number* PackHalfFromFloat(_cmsTRANSFORM* info,
     if (T_PLANAR(info -> OutputFormat))
         return output + sizeof(cmsUInt16Number);
     else
-        return output + (nChan + Extra) * sizeof(cmsUInt16Number);
+        return output + nChan * sizeof(cmsUInt16Number);
 }
 
 #endif
