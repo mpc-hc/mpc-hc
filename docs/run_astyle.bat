@@ -2,7 +2,7 @@
 SETLOCAL
 
 PUSHD %~dp0
-TITLE Applying astyle using astyle.ini
+TITLE Running astyle using astyle.ini
 astyle --options=astyle.ini ..\*.h ..\*.cpp
 IF %ERRORLEVEL% NEQ 0 ECHO. & ECHO ERROR: Something went wrong!
 POPD
