@@ -32,6 +32,7 @@
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
 #include "../../../mpc-hc/InternalFiltersConfig.h"
+#include "Mixer.h"
 
 #define MPCAudioDecName L"MPC Audio Decoder"
 
@@ -87,7 +88,6 @@ struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
 struct AVCodecParserContext;
-struct AVAudioResampleContext;
 
 class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
     CMpaDecFilter
@@ -100,7 +100,7 @@ protected:
 
     audio_params_t          m_InputParams;
     // Mixer
-    AVAudioResampleContext* m_pAVRCxt;
+    CMixer                  m_Mixer;
 
     ps2_state_t             m_ps2_state;
 
@@ -145,7 +145,6 @@ protected:
     HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
     CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
     CMediaType CreateMediaTypeSPDIF(DWORD nSamplesPerSec = 48000);
-    HRESULT Mixing(float* pOutput, WORD out_ch, DWORD out_layout, float* pInput, int samples, WORD in_ch, DWORD in_layout);
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     bool    InitFFmpeg(enum AVCodecID nCodecId);
