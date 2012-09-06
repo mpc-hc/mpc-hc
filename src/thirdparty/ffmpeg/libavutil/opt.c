@@ -163,7 +163,10 @@ static int set_string(void *obj, const AVOption *o, const char *val, uint8_t **d
     return 0;
 }
 
-#define DEFAULT_NUMVAL(opt) ((opt->type == AV_OPT_TYPE_INT64) ?               \
+#define DEFAULT_NUMVAL(opt) ((opt->type == AV_OPT_TYPE_INT64 || \
+                              opt->type == AV_OPT_TYPE_CONST || \
+                              opt->type == AV_OPT_TYPE_FLAGS || \
+                              opt->type == AV_OPT_TYPE_INT) ? \
                              opt->default_val.i64 : opt->default_val.dbl)
 
 static int set_string_number(void *obj, const AVOption *o, const char *val, void *dst)
@@ -238,7 +241,7 @@ int av_opt_set(void *obj, const char *name, const char *val, int search_flags)
     const AVOption *o = av_opt_find2(obj, name, NULL, 0, search_flags, &target_obj);
     if (!o || !target_obj)
         return AVERROR_OPTION_NOT_FOUND;
-    if (!val && o->type != AV_OPT_TYPE_STRING)
+    if (!val && (o->type != AV_OPT_TYPE_STRING && o->type != AV_OPT_TYPE_PIXEL_FMT && o->type != AV_OPT_TYPE_IMAGE_SIZE))
         return AVERROR(EINVAL);
 
     dst = ((uint8_t*)target_obj) + o->offset;
@@ -252,18 +255,26 @@ int av_opt_set(void *obj, const char *name, const char *val, int search_flags)
     case AV_OPT_TYPE_DOUBLE:
     case AV_OPT_TYPE_RATIONAL: return set_string_number(obj, o, val, dst);
     case AV_OPT_TYPE_IMAGE_SIZE:
+        if (!val || !strcmp(val, "none")) {
+            *(int *)dst = *((int *)dst + 1) = 0;
+            return 0;
+        }
         ret = av_parse_video_size(dst, ((int *)dst) + 1, val);
         if (ret < 0)
             av_log(obj, AV_LOG_ERROR, "Unable to parse option value \"%s\" as image size\n", val);
         return ret;
     case AV_OPT_TYPE_PIXEL_FMT:
-        ret = av_get_pix_fmt(val);
-        if (ret == PIX_FMT_NONE) {
-            char *tail;
-            ret = strtol(val, &tail, 0);
-            if (*tail || (unsigned)ret >= PIX_FMT_NB) {
-                av_log(obj, AV_LOG_ERROR, "Unable to parse option value \"%s\" as pixel format\n", val);
-                return AVERROR(EINVAL);
+        if (!val || !strcmp(val, "none"))
+            ret = PIX_FMT_NONE;
+        else {
+            ret = av_get_pix_fmt(val);
+            if (ret == PIX_FMT_NONE) {
+                char *tail;
+                ret = strtol(val, &tail, 0);
+                if (*tail || (unsigned)ret >= PIX_FMT_NB) {
+                    av_log(obj, AV_LOG_ERROR, "Unable to parse option value \"%s\" as pixel format\n", val);
+                    return AVERROR(EINVAL);
+                }
             }
         }
         *(enum PixelFormat *)dst = ret;
@@ -454,7 +465,7 @@ int av_opt_get(void *obj, const char *name, int search_flags, uint8_t **out_val)
         ret = snprintf(buf, sizeof(buf), "%dx%d", ((int *)dst)[0], ((int *)dst)[1]);
         break;
     case AV_OPT_TYPE_PIXEL_FMT:
-        ret = snprintf(buf, sizeof(buf), "%s", (char *)av_x_if_null(av_get_pix_fmt_name(*(enum PixelFormat *)dst), "?"));
+        ret = snprintf(buf, sizeof(buf), "%s", (char *)av_x_if_null(av_get_pix_fmt_name(*(enum PixelFormat *)dst), "none"));
         break;
     default:
         return AVERROR(EINVAL);
@@ -573,7 +584,7 @@ int av_opt_flag_is_set(void *obj, const char *field_name, const char *flag_name)
     if (!field || !flag || flag->type != AV_OPT_TYPE_CONST ||
         av_opt_get_int(obj, field_name, 0, &res) < 0)
         return 0;
-    return res & (int) flag->default_val.dbl;
+    return res & flag->default_val.i64;
 }
 
 static void opt_list(void *obj, void *av_log_obj, const char *unit,
@@ -684,12 +695,7 @@ void av_opt_set_defaults2(void *s, int mask, int flags)
                 /* Nothing to be done here */
             break;
             case AV_OPT_TYPE_FLAGS:
-            case AV_OPT_TYPE_INT: {
-                int val;
-                val = opt->default_val.dbl;
-                av_opt_set_int(s, opt->name, val, 0);
-            }
-            break;
+            case AV_OPT_TYPE_INT:
             case AV_OPT_TYPE_INT64:
                 av_opt_set_int(s, opt->name, opt->default_val.i64, 0);
             break;
@@ -906,14 +912,14 @@ typedef struct TestContext
 #define TEST_FLAG_MU   04
 
 static const AVOption test_options[]= {
-{"num",      "set num",        OFFSET(num),      AV_OPT_TYPE_INT,      {0},              0,        100                 },
-{"toggle",   "set toggle",     OFFSET(toggle),   AV_OPT_TYPE_INT,      {0},              0,        1                   },
-{"rational", "set rational",   OFFSET(rational), AV_OPT_TYPE_RATIONAL, {0},              0,        10                  },
+{"num",      "set num",        OFFSET(num),      AV_OPT_TYPE_INT,      {.i64 = 0},       0,        100                 },
+{"toggle",   "set toggle",     OFFSET(toggle),   AV_OPT_TYPE_INT,      {.i64 = 0},       0,        1                   },
+{"rational", "set rational",   OFFSET(rational), AV_OPT_TYPE_RATIONAL, {.dbl = 0},  0,        10                  },
 {"string",   "set string",     OFFSET(string),   AV_OPT_TYPE_STRING,   {0},              CHAR_MIN, CHAR_MAX            },
-{"flags",    "set flags",      OFFSET(flags),    AV_OPT_TYPE_FLAGS,    {0},              0,        INT_MAX, 0, "flags" },
-{"cool",     "set cool flag ", 0,                AV_OPT_TYPE_CONST,    {TEST_FLAG_COOL}, INT_MIN,  INT_MAX, 0, "flags" },
-{"lame",     "set lame flag ", 0,                AV_OPT_TYPE_CONST,    {TEST_FLAG_LAME}, INT_MIN,  INT_MAX, 0, "flags" },
-{"mu",       "set mu flag ",   0,                AV_OPT_TYPE_CONST,    {TEST_FLAG_MU},   INT_MIN,  INT_MAX, 0, "flags" },
+{"flags",    "set flags",      OFFSET(flags),    AV_OPT_TYPE_FLAGS,    {.i64 = 0},       0,        INT_MAX, 0, "flags" },
+{"cool",     "set cool flag ", 0,                AV_OPT_TYPE_CONST,    {.i64 = TEST_FLAG_COOL}, INT_MIN,  INT_MAX, 0, "flags" },
+{"lame",     "set lame flag ", 0,                AV_OPT_TYPE_CONST,    {.i64 = TEST_FLAG_LAME}, INT_MIN,  INT_MAX, 0, "flags" },
+{"mu",       "set mu flag ",   0,                AV_OPT_TYPE_CONST,    {.i64 = TEST_FLAG_MU},   INT_MIN,  INT_MAX, 0, "flags" },
 {"size",     "set size",       OFFSET(w),        AV_OPT_TYPE_IMAGE_SIZE,{0},             0,        0                   },
 {"pix_fmt",  "set pixfmt",     OFFSET(pix_fmt),  AV_OPT_TYPE_PIXEL_FMT,{0},              0,        0                   },
 {NULL},

@@ -1080,6 +1080,9 @@
     <ClInclude Include="libavutil\x86\bswap.h">
       <Filter>libavutil\x86</Filter>
     </ClInclude>
+    <ClInclude Include="libavutil\x86\cpu.h">
+      <Filter>libavutil\x86</Filter>
+    </ClInclude>
     <ClInclude Include="libavutil\x86\intmath.h">
       <Filter>libavutil\x86</Filter>
     </ClInclude>

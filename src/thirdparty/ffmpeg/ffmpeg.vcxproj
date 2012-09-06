@@ -638,6 +638,7 @@
     <ClInclude Include="libavutil\version.h" />
     <ClInclude Include="libavutil\x86\asm.h" />
     <ClInclude Include="libavutil\x86\bswap.h" />
+    <ClInclude Include="libavutil\x86\cpu.h" />
     <ClInclude Include="libavutil\x86\intmath.h" />
     <ClInclude Include="libavutil\x86\intreadwrite.h" />
     <ClInclude Include="libavutil\x86\timer.h" />
