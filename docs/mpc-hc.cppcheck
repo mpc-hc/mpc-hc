@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="1">
+    <root name="."/>
+    <includedir>
+        <dir name="include/"/>
+    </includedir>
+    <paths>
+        <dir name="../"/>
+    </paths>
+    <exclude>
+        <path name="src/thirdparty/"/>
+    </exclude>
+</project>
