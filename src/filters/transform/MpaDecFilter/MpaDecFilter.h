@@ -24,15 +24,20 @@
 #include <atlcoll.h>
 // TODO: remove this when it's fixed in MSVC
 // Work around warning C4005: 'XXXX' : macro redefinition
-#pragma warning(push)
 #pragma warning(disable: 4005)
 #include <stdint.h>
-#pragma warning(pop)
+#pragma warning(default: 4005)
+
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
 #include "../../../mpc-hc/InternalFiltersConfig.h"
 #include "Mixer.h"
+#include "PaddedArray.h"
+
+#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
+#include "FFAudioDecoder.h"
+#endif
 
 #define MPCAudioDecName L"MPC Audio Decoder"
 
@@ -84,11 +89,6 @@ struct audio_params_t {
     }
 };
 
-struct AVCodec;
-struct AVCodecContext;
-struct AVFrame;
-struct AVCodecParserContext;
-
 class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
     CMpaDecFilter
     : public CTransformFilter
@@ -96,25 +96,32 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
     , public ISpecifyPropertyPages2
 {
 protected:
-    CCritSec m_csReceive;
+    // settings
+    CCritSec        m_csProps;
+    MPCSampleFormat m_iSampleFormat;
+    bool            m_fMixer;
+    int             m_iMixerLayout;
+    bool            m_fDRC;
+    bool            m_fSPDIF[etcount];
 
-    audio_params_t          m_InputParams;
+    CCritSec        m_csReceive;
+    CPaddedArray    m_buff;
+    REFERENCE_TIME  m_rtStart;
+    bool            m_fDiscontinuity;
+    bool            m_bResync;
+
     // Mixer
-    CMixer                  m_Mixer;
+    audio_params_t  m_InputParams;
+    CMixer          m_Mixer;
 
-    ps2_state_t             m_ps2_state;
+    ps2_state_t     m_ps2_state;
+    DD_stats_t      m_DDstats;
 
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
-    // === FFmpeg variables
-    AVCodec*                m_pAVCodec;
-    AVCodecContext*         m_pAVCtx;
-    AVCodecParserContext*   m_pParser;
-    AVFrame*                m_pFrame;
-#endif
+    CFFAudioDecoder m_FFAudioDec;
 
-    CAtlArray<BYTE> m_buff;
-    REFERENCE_TIME m_rtStart;
-    bool m_fDiscontinuity;
+    HRESULT ProcessFFmpeg(enum AVCodecID nCodecId);
+#endif
 
 #if defined(STANDALONE_FILTER) || INTERNAL_DECODER_LPCM
     HRESULT ProcessLPCM();
@@ -138,6 +145,9 @@ protected:
     HRESULT ProcessPCMfloatBE();
     HRESULT ProcessPCMfloatLE();
 #endif
+#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_REALAUDIO
+    HRESULT ProcessRealAudio();
+#endif
 
     HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);
     HRESULT Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
@@ -145,40 +155,6 @@ protected:
     HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
     CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
     CMediaType CreateMediaTypeSPDIF(DWORD nSamplesPerSec = 48000);
-
-#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
-    bool    InitFFmpeg(enum AVCodecID nCodecId);
-    void    ffmpeg_stream_finish();
-    HRESULT DeliverFFmpeg(enum AVCodecID nCodecId, BYTE* p, int samples, int& size);
-    HRESULT ProcessFFmpeg(enum AVCodecID nCodecId);
-    static void LogLibavcodec(void* par, int level, const char* fmt, va_list valist);
-
-    BYTE*   m_pFFBuffer;
-    int     m_nFFBufferSize;
-
-    enum AVCodecID FindCodec(const GUID subtype);
-
-    struct {
-        int flavor;
-        int coded_frame_size;
-        int sub_packet_h;
-        int sub_packet_size;
-        unsigned int deint_id;
-    } m_raData;
-
-    HRESULT ParseRealAudioHeader(const BYTE* extra, const int extralen);
-#endif
-
-protected:
-    CCritSec m_csProps;
-    MPCSampleFormat m_iSampleFormat;
-    bool m_fMixer;
-    int  m_iMixerLayout;
-    bool m_fDRC;
-    bool m_fSPDIF[etcount];
-
-    bool m_bResync;
-    DD_stats_t m_DDstats;
 
 public:
     CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr);

@@ -36,6 +36,9 @@
     <ClCompile Include="Mixer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FFAudioDecoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMpaDecFilter.h">
@@ -54,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mixer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FFAudioDecoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PaddedArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
