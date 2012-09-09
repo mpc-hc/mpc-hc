@@ -99,11 +99,11 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
     { &MEDIASUBTYPE_SIPR,           AV_CODEC_ID_SIPR   },
     { &MEDIASUBTYPE_RAAC,           AV_CODEC_ID_AAC    },
     { &MEDIASUBTYPE_RACP,           AV_CODEC_ID_AAC    },
-  //{ &MEDIASUBTYPE_DNET,           AV_CODEC_ID_AC3    },
+    //{ &MEDIASUBTYPE_DNET,           AV_CODEC_ID_AC3    },
 #endif
 #if INTERNAL_DECODER_AC3
-  //{ &MEDIASUBTYPE_DOLBY_AC3,      AV_CODEC_ID_AC3    },
-  //{ &MEDIASUBTYPE_WAVE_DOLBY_AC3, AV_CODEC_ID_AC3    },
+    //{ &MEDIASUBTYPE_DOLBY_AC3,      AV_CODEC_ID_AC3    },
+    //{ &MEDIASUBTYPE_WAVE_DOLBY_AC3, AV_CODEC_ID_AC3    },
     { &MEDIASUBTYPE_DOLBY_DDPLUS,   AV_CODEC_ID_EAC3   },
     { &MEDIASUBTYPE_DOLBY_TRUEHD,   AV_CODEC_ID_TRUEHD },
     { &MEDIASUBTYPE_MLP,            AV_CODEC_ID_MLP    },
@@ -169,7 +169,7 @@ CFFAudioDecoder::CFFAudioDecoder()
     memset(&m_raData, 0, sizeof(m_raData));
 }
 
-bool CFFAudioDecoder::Init(enum AVCodecID nCodecId, CTransformInputPin *pInput)
+bool CFFAudioDecoder::Init(enum AVCodecID nCodecId, CTransformInputPin* pInput)
 {
     if (nCodecId == AV_CODEC_ID_NONE) {
         return false;
@@ -317,7 +317,7 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
         if (pOut_size > 0) {
             avpkt.data = pOut;
             avpkt.size = pOut_size;
-  
+
             int ret2 = avcodec_decode_audio4(m_pAVCtx, m_pFrame, &got_frame, &avpkt);
             if (ret2 < 0) {
                 TRACE(_T("CMpaDecFilter::DeliverFFmpeg() - decoding failed despite successfull parsing\n"));
@@ -327,7 +327,7 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
     } else {
         avpkt.data = p;
         avpkt.size = buffsize;
-   
+
         int used_bytes = avcodec_decode_audio4(m_pAVCtx, m_pFrame, &got_frame, &avpkt);
 
         if (used_bytes < 0) {
@@ -385,7 +385,7 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
             }
         }
     }
-   
+
     return S_OK;
 }
 
@@ -484,7 +484,7 @@ HRESULT CFFAudioDecoder::ParseRealAudioHeader(const BYTE* extra, const int extra
     return S_OK;
 }
 
-bool CFFAudioDecoder::RealPrepare(BYTE* p, int buffsize, CPaddedArray &BuffOut)
+bool CFFAudioDecoder::RealPrepare(BYTE* p, int buffsize, CPaddedArray& BuffOut)
 {
     if (m_raData.deint_id == MAKEFOURCC('r', 'n', 'e', 'g') || m_raData.deint_id == MAKEFOURCC('r', 'p', 'i', 's')) {
 

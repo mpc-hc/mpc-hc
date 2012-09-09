@@ -457,9 +457,9 @@ namespace GothSync
         typedef BOOL (__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
         typedef enum {
-            Started = State_Running,
-            Stopped = State_Stopped,
-            Paused = State_Paused,
+            Started  = State_Running,
+            Stopped  = State_Stopped,
+            Paused   = State_Paused,
             Shutdown = State_Running + 1
         } RENDER_STATE;
 

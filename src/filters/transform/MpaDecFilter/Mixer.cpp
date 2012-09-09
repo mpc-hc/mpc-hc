@@ -34,7 +34,8 @@ CMixer::CMixer()
 {
 }
 
-void CMixer::Reset() {
+void CMixer::Reset()
+{
     avresample_free(&m_pAVRCxt);
 }
 

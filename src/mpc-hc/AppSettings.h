@@ -123,7 +123,7 @@ enum MCE_RAW_INPUT {
     MCE_YELLOW              = 0x01005D,
     MCE_BLUE                = 0x01005E,
     MCE_MEDIA_NEXTTRACK     = 0x0100B5,
-    MCE_MEDIA_PREVIOUSTRACK = 0x0100B6,
+    MCE_MEDIA_PREVIOUSTRACK = 0x0100B6
 };
 
 #define AUDRNDT_NULL_COMP _T("Null Audio Renderer (Any)")

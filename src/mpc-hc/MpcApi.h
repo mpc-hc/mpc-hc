@@ -19,7 +19,6 @@
  */
 
 
-
 // This file define commands used for "MPC-HC" API. To send commands
 // to mpc-hc, and receive playback notifications, first launch process with the /slave command line
 // argument follow by an HWnd handle use to receive notification :

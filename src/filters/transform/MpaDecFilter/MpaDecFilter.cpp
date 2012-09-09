@@ -737,7 +737,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
     BYTE* const end = base + m_buff.GetCount();
     BYTE* p = base;
 
-    
+
     while (p + 8 <= end) {
         if (*(WORD*)p != 0x770b) {
             p++;

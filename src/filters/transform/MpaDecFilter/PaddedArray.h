@@ -29,18 +29,15 @@ protected:
 
 public:
     CPaddedArray(size_t padsize)
-        : m_padsize(padsize)
-    {
+        : m_padsize(padsize) {
     }
 
-    size_t GetCount()
-    {
+    size_t GetCount() {
         size_t count = __super::GetCount();
         return (count > m_padsize) ? count - m_padsize : 0;
     }
 
-    bool SetCount(size_t nNewSize, int nGrowBy = - 1)
-    {
+    bool SetCount(size_t nNewSize, int nGrowBy = - 1) {
         if (__super::SetCount(nNewSize + m_padsize, nGrowBy)) {
             memset(GetData() + nNewSize, 0, m_padsize);
             return true;

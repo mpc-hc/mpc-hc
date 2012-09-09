@@ -50,16 +50,20 @@ public:
     };
 
     enum Attribute {
-        normal =    0x00,
-        readOnly =  0x01,
-        hidden =    0x02,
-        system =    0x04,
-        volume =    0x08,
+        normal    = 0x00,
+        readOnly  = 0x01,
+        hidden    = 0x02,
+        system    = 0x04,
+        volume    = 0x08,
         directory = 0x10,
-        archive =   0x20
+        archive   = 0x20
     };
 
-    enum SeekPosition { begin = 0x0, current = 0x1, end = 0x2 };
+    enum SeekPosition {
+        begin   = 0x0,
+        current = 0x1,
+        end     = 0x2
+    };
 
     // Constructors
     CMultiFiles();

@@ -53,10 +53,10 @@ protected:
 public:
     CFFAudioDecoder();
 
-    bool    Init(enum AVCodecID nCodecId, CTransformInputPin *m_pInput);
+    bool    Init(enum AVCodecID nCodecId, CTransformInputPin* m_pInput);
     void    SetDRC(bool fDRC);
 
-    bool    RealPrepare(BYTE* p, int buffsize, CPaddedArray &BuffOut);
+    bool    RealPrepare(BYTE* p, int buffsize, CPaddedArray& BuffOut);
     HRESULT Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, int& size, bool& fResync, CAtlArray<float>& BuffOut);
     void    FlushBuffers();
     void    StreamFinish();
