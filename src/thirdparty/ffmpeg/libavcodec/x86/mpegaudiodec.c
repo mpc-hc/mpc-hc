@@ -21,6 +21,7 @@
 
 #include "libavutil/cpu.h"
 #include "libavutil/x86/asm.h"
+#include "libavutil/x86/cpu.h"
 #include "libavcodec/dsputil.h"
 #include "libavcodec/mpegaudiodsp.h"
 
@@ -36,7 +37,7 @@ void ff_four_imdct36_float_avx(float *out, float *buf, float *in, float *win,
 
 DECLARE_ALIGNED(16, static float, mdct_win_sse)[2][4][4*40];
 
-#if HAVE_INLINE_ASM
+#if HAVE_SSE2_INLINE
 
 #define MACS(rt, ra, rb) rt+=(ra)*(rb)
 #define MLSS(rt, ra, rb) rt-=(ra)*(rb)
@@ -180,7 +181,7 @@ static void apply_window_mp3(float *in, float *win, int *unused, float *out,
     *out = sum;
 }
 
-#endif /* HAVE_INLINE_ASM */
+#endif /* HAVE_SSE2_INLINE */
 
 #if HAVE_YASM
 #define DECL_IMDCT_BLOCKS(CPU1, CPU2)                                       \
@@ -244,27 +245,26 @@ void ff_mpadsp_init_mmx(MPADSPContext *s)
         }
     }
 
-#if HAVE_INLINE_ASM
+#if HAVE_SSE2_INLINE
     if (mm_flags & AV_CPU_FLAG_SSE2) {
         s->apply_window_float = apply_window_mp3;
     }
-#endif /* HAVE_INLINE_ASM */
+#endif /* HAVE_SSE2_INLINE */
+
 #if HAVE_YASM
-    if (0) {
 #if HAVE_AVX_EXTERNAL
-    } else if (mm_flags & AV_CPU_FLAG_AVX && HAVE_AVX) {
+    if (EXTERNAL_AVX(mm_flags)) {
         s->imdct36_blocks_float = imdct36_blocks_avx;
+    } else
 #endif
-#if HAVE_SSE
-    } else if (mm_flags & AV_CPU_FLAG_SSSE3) {
+    if (EXTERNAL_SSSE3(mm_flags)) {
         s->imdct36_blocks_float = imdct36_blocks_ssse3;
-    } else if (mm_flags & AV_CPU_FLAG_SSE3) {
+    } else if (EXTERNAL_SSE3(mm_flags)) {
         s->imdct36_blocks_float = imdct36_blocks_sse3;
-    } else if (mm_flags & AV_CPU_FLAG_SSE2) {
+    } else if (EXTERNAL_SSE2(mm_flags)) {
         s->imdct36_blocks_float = imdct36_blocks_sse2;
-    } else if (mm_flags & AV_CPU_FLAG_SSE) {
+    } else if (EXTERNAL_SSE(mm_flags)) {
         s->imdct36_blocks_float = imdct36_blocks_sse;
-#endif /* HAVE_SSE */
     }
 #endif /* HAVE_YASM */
 }

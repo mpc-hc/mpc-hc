@@ -858,13 +858,13 @@
     <ClCompile Include="libavcodec\x86\dsputil_mmx.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\dsputil_mmx_avg_template.c">
+    <ClCompile Include="libavcodec\x86\dsputil_avg_template.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\dsputil_mmx_qns_template.c">
+    <ClCompile Include="libavcodec\x86\dsputil_qns_template.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\x86\dsputil_mmx_rnd_template.c">
+    <ClCompile Include="libavcodec\x86\dsputil_rnd_template.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\x86\fdct.c">
