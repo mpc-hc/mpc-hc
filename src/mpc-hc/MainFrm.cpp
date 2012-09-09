@@ -3027,7 +3027,7 @@ void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
         OnPlayVolume(0);
     } else if (pScrollBar->IsKindOf(RUNTIME_CLASS(CPlayerSeekBar)) && m_iMediaLoadState == MLS_LOADED) {
         SeekTo(m_wndSeekBar.GetPos(), Shift_State);
-    } else if (m_pVideoWnd == m_pVideoWnd) {
+    } else if (pScrollBar == m_pVideoWnd) {
         SeekTo(m_OSD.GetPos(), Shift_State);
     }
 
