@@ -1303,10 +1303,10 @@ index 22e2e19..ae13f87 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-diff --git a/src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj b/src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj
+diff --git a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 index 5c42304..8c98f35 100644
---- a/src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj
-+++ b/src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj
+--- a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
++++ b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>

@@ -1396,10 +1396,10 @@ index 22e2e19..b429b91 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-diff --git a/src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj b/src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj
+diff --git a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 index 5c42304..0780952 100644
---- a/src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj
-+++ b/src/filters/renderer/MpcAudioRenderer/MpcAudioRendererFilter.vcxproj
+--- a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
++++ b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 @@ -38,47 +38,56 @@
      <ProjectGuid>{D0620EF4-1313-40D5-9069-A82F6FE26994}</ProjectGuid>
      <RootNamespace>MpcAudioRenderer</RootNamespace>

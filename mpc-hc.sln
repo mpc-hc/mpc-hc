@@ -97,7 +97,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UDPReader", "src\filters\re
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VTSReader", "src\filters\reader\VTSReader\VTSReader.vcxproj", "{664E726B-EEEE-403A-AC15-345D9C9E1375}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MpcAudioRendererFilter", "src\filters\renderer\MpcAudioRenderer\MpcAudioRendererFilter.vcxproj", "{D0620EF4-1313-40D5-9069-A82F6FE26994}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MpcAudioRenderer", "src\filters\renderer\MpcAudioRenderer\MpcAudioRenderer.vcxproj", "{D0620EF4-1313-40D5-9069-A82F6FE26994}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SyncClock", "src\filters\renderer\SyncClock\SyncClock.vcxproj", "{0B63409D-674D-47F8-A84E-87DBB7783189}"
 EndProject
