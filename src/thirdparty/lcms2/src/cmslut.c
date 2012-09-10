@@ -544,6 +544,13 @@ cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
     _cmsStageCLutData* NewElem;
     cmsStage* NewMPE;
 
+    _cmsAssert(clutPoints != NULL);
+
+    if (inputChan > MAX_INPUT_DIMENSIONS) {
+        cmsSignalError(ContextID, cmsERROR_RANGE, "Too many input channels (%d channels, max=%d)", inputChan, MAX_INPUT_DIMENSIONS);
+        return NULL;
+    }
+
     NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigCLutElemType, inputChan, outputChan,
                                      EvaluateCLUTfloatIn16, CLUTElemDup, CLutElemTypeFree, NULL );
 
@@ -631,6 +638,11 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
 
     _cmsAssert(clutPoints != NULL);
 
+    if (inputChan > MAX_INPUT_DIMENSIONS) {
+        cmsSignalError(ContextID, cmsERROR_RANGE, "Too many input channels (%d channels, max=%d)", inputChan, MAX_INPUT_DIMENSIONS);
+        return NULL;
+    }
+
     NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigCLutElemType, inputChan, outputChan,
                                              EvaluateCLUTfloat, CLUTElemDup, CLutElemTypeFree, NULL);
     if (NewMPE == NULL) return NULL;
@@ -664,7 +676,6 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
             NewElem ->Tab.TFloat[i] = Table[i];
         }
     }
-
 
 
     NewElem ->Params = _cmsComputeInterpParamsEx(ContextID, clutPoints,  inputChan, outputChan, NewElem ->Tab.TFloat, CMS_LERP_FLAGS_FLOAT);

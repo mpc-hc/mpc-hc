@@ -12,7 +12,7 @@ Legend:
 ========================
 + MPCVideoDec: Add support for 4K for Intel HD Graphics 4000
 * Updated FFmpeg (git 16c03f2)
-* Updated Little CMS to v2.4 rc2 (git eba3ad7)
+* Updated Little CMS to v2.4 rc2 (git 728139a)
 * Updated SoundTouch to v1.7.0pre r156
 * Updated MediaInfoLib to v0.7.60 r5048
 * Updated ZenLib to v0.4.28 r403
