@@ -61,6 +61,8 @@ extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
         iconIndex = IDI_AMR_ICON;
     } else if (_tcsicmp(ext, _T(".amv")) == 0) {
         iconIndex = IDI_OTHER_ICON;
+    } else if (_tcsicmp(ext, _T(".aob")) == 0) {
+        iconIndex = IDI_OTHER_ICON;
     } else if (_tcsicmp(ext, _T(".ape")) == 0) {
         iconIndex = IDI_APE_ICON;
     } else if (_tcsicmp(ext, _T(".apl")) == 0) {
@@ -147,6 +149,8 @@ extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
         iconIndex = IDI_MKA_ICON;
     } else if (_tcsicmp(ext, _T(".mkv")) == 0) {
         iconIndex = IDI_MKV_ICON;
+    } else if (_tcsicmp(ext, _T(".mlp")) == 0) {
+        iconIndex = IDI_OTHER_ICON;
     } else if (_tcsicmp(ext, _T(".mov")) == 0) {
         iconIndex = IDI_MOV_ICON;
     } else if (_tcsicmp(ext, _T(".mp2")) == 0) {
