@@ -5,20 +5,20 @@ Bento4              1.2.3-387 (modified)
 CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
 Detours             3.0 build 316
-FFmpeg              53241b5 git
+FFmpeg              ac0f1ae git
 libflac             1.2.1
 libmpeg2            0.3.2 (modified)
 libogg              1.3.0
-Little CMS          v2.4 git 14e1777
+Little CMS          v2.4 git 728139a
 Logitech SDK        3.01
 MediaInfoLib        0.7.60 r5048
 MultiMon            28 Aug '03 (modified)
 QuickTime SDK       7.3
 RealMedia SDK       -
 ResizableLib        1.3
-SoundTouch          1.7.0pre r156
+SoundTouch          1.7.0
 TreePropSheet       7 Mar '03 (modified)
 UnRAR               4.20
-VirtualDub          1.10.2-test9
+VirtualDub          1.10.2
 ZenLib              0.4.28 r403
 zlib                1.2.7
