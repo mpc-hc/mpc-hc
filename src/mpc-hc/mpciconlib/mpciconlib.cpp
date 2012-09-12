@@ -139,6 +139,8 @@ extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
         iconIndex = IDI_AAC_ICON;
     } else if (_tcsicmp(ext, _T(".m4b")) == 0) {
         iconIndex = IDI_AAC_ICON;
+    } else if (_tcsicmp(ext, _T(".m4r")) == 0) {
+        iconIndex = IDI_AAC_ICON;
     } else if (_tcsicmp(ext, _T(".m4v")) == 0) {
         iconIndex = IDI_MP4_ICON;
     } else if (_tcsicmp(ext, _T(".mid")) == 0) {

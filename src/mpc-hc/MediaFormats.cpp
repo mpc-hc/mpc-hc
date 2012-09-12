@@ -240,9 +240,9 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("audiocd"),     ResStr(IDS_MFMT_CDA),         _T("cda"), true));
         ADDFMT((_T("flac"),        ResStr(IDS_MFMT_FLAC),        _T("flac"), true));
 #ifdef _WIN64
-        ADDFMT((_T("m4a"),         ResStr(IDS_MFMT_M4A),         _T("m4a m4b aac"), true));
+        ADDFMT((_T("m4a"),         ResStr(IDS_MFMT_M4A),         _T("m4a m4b m4r aac"), true));
 #else
-        ADDFMT((_T("m4a"),         ResStr(IDS_MFMT_M4A),         _T("m4a m4b aac"), true, _T(""), QuickTime));
+        ADDFMT((_T("m4a"),         ResStr(IDS_MFMT_M4A),         _T("m4a m4b m4r aac"), true, _T(""), QuickTime));
 #endif
         ADDFMT((_T("midi"),        ResStr(IDS_MFMT_MIDI),        _T("mid midi rmi"), true));
         ADDFMT((_T("mka"),         ResStr(IDS_MFMT_MKA),         _T("mka"), true));
@@ -262,7 +262,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("wav"),         ResStr(IDS_MFMT_WAV),         _T("wav"), true));
         ADDFMT((_T("wma"),         ResStr(IDS_MFMT_WMA),         _T("wma"), true));
         ADDFMT((_T("wavpack"),     ResStr(IDS_MFMT_WV),          _T("wv"), true));
-		ADDFMT((_T("other_audio"), ResStr(IDS_MFMT_OTHER_AUDIO), _T("aob mlp"), true));
+        ADDFMT((_T("other_audio"), ResStr(IDS_MFMT_OTHER_AUDIO), _T("aob mlp"), true));
         ADDFMT((_T("pls"),         ResStr(IDS_MFMT_PLS),         _T("asx m3u m3u8 pls wvx wax wmx mpcpl")));
         ADDFMT((_T("bdpls"),       ResStr(IDS_MFMT_BDPLS),       _T("mpls bdmv")));
 #undef ADDFMT
@@ -357,7 +357,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask) const
     mask.Add(_T(""));
 
     for (size_t i = 0; i < GetCount(); i++) {
-        strTemp  = GetAt(i).GetFilter() + _T(";");
+        strTemp = GetAt(i).GetFilter() + _T(";");
         mask[0] += strTemp;
         filter  += strTemp;
     }
