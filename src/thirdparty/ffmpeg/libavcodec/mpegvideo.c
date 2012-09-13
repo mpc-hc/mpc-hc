@@ -393,13 +393,16 @@ static void free_picture(MpegEncContext *s, Picture *pic)
     av_freep(&pic->mb_mean);
     av_freep(&pic->f.mbskip_table);
     av_freep(&pic->qscale_table_base);
+    pic->f.qscale_table = NULL;
     av_freep(&pic->mb_type_base);
+    pic->f.mb_type = NULL;
     av_freep(&pic->f.dct_coeff);
     av_freep(&pic->f.pan_scan);
     pic->f.mb_type = NULL;
     for (i = 0; i < 2; i++) {
         av_freep(&pic->motion_val_base[i]);
         av_freep(&pic->f.ref_index[i]);
+        pic->f.motion_val[i] = NULL;
     }
 
     if (pic->f.type == FF_BUFFER_TYPE_SHARED) {
@@ -1511,8 +1514,10 @@ static void draw_arrow(uint8_t *buf, int sx, int sy, int ex,
  */
 void ff_print_debug_info(MpegEncContext *s, AVFrame *pict)
 {
-    if (s->avctx->hwaccel || !pict || !pict->mb_type)
+    if (   s->avctx->hwaccel || !pict || !pict->mb_type
+        || (s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU))
         return;
+
 
     if (s->avctx->debug & (FF_DEBUG_SKIP | FF_DEBUG_QP | FF_DEBUG_MB_TYPE)) {
         int x,y;

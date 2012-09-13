@@ -784,7 +784,7 @@ static int decode_audio_specific_config(AACContext *ac,
  *
  * @return  Returns a 32-bit pseudorandom integer
  */
-static av_always_inline int lcg_random(int previous_val)
+static av_always_inline int lcg_random(unsigned previous_val)
 {
     return previous_val * 1664525 + 1013904223;
 }
@@ -2741,9 +2741,9 @@ static int read_stream_mux_config(struct LATMContext *latmctx,
             return AVERROR_PATCHWELCOME;
         }
 
-        // for each program (which there is only on in DVB)
+        // for each program (which there is only one in DVB)
 
-        // for each layer (which there is only on in DVB)
+        // for each layer (which there is only one in DVB)
         if (get_bits(gb, 3)) {                   // numLayer
             av_log_missing_feature(latmctx->aac_ctx.avctx,
                                    "multiple layers are not supported\n", 1);
@@ -2864,7 +2864,7 @@ static int latm_decode_frame(AVCodecContext *avctx, void *out,
         return AVERROR_INVALIDDATA;
 
     muxlength = get_bits(&gb, 13) + 3;
-    // not enough data, the parser should have sorted this
+    // not enough data, the parser should have sorted this out
     if (muxlength > avpkt->size)
         return AVERROR_INVALIDDATA;
 
