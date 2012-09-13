@@ -39,20 +39,24 @@ void CMixer::Reset()
     avresample_free(&m_pAVRCxt);
 }
 
-HRESULT CMixer::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, float* pInput, int samples, WORD in_ch, DWORD in_layout)
+HRESULT CMixer::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, BYTE* pInput, int samples, WORD in_ch, DWORD in_layout, enum AVSampleFormat in_sf)
 {
     if (in_layout == out_layout) {
         return S_FALSE;
     }
+    if (in_sf < AV_SAMPLE_FMT_U8 || in_sf > AV_SAMPLE_FMT_DBL) {
+        return S_FALSE;
+    }
+
     int ret = 0;
 
     if (!m_pAVRCxt) {
         // Allocate Resample Context and set options.
         m_pAVRCxt = avresample_alloc_context();
         av_opt_set_int(m_pAVRCxt, "in_channel_layout", in_layout, 0);
-        av_opt_set_int(m_pAVRCxt, "in_sample_fmt", AV_SAMPLE_FMT_FLT, 0);
+        av_opt_set_int(m_pAVRCxt, "in_sample_fmt", in_sf, 0);
         av_opt_set_int(m_pAVRCxt, "out_channel_layout", out_layout, 0);
-        av_opt_set_int(m_pAVRCxt, "out_sample_fmt", AV_SAMPLE_FMT_FLT, 0);
+        av_opt_set_int(m_pAVRCxt, "out_sample_fmt", AV_SAMPLE_FMT_FLT, 0); // forced float output
 
         // Open Resample Context
         ret = avresample_open(m_pAVRCxt);

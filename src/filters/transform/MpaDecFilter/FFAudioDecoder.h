@@ -62,8 +62,9 @@ public:
     void    StreamFinish();
 
     // info
-    enum AVCodecID GetCodecId(); // safe
-    DWORD   GetSampleRate();     // unsafe
-    WORD    GetChannels();       // unsafe
-    DWORD   GetChannelMask();    // unsafe
+    enum AVCodecID      GetCodecId();      // safe
+    enum AVSampleFormat GetSampleFormat(); // unsafe
+    DWORD GetSampleRate();  // unsafe
+    WORD  GetChannels();    // unsafe
+    DWORD GetChannelMask(); // unsafe
 };
