@@ -222,7 +222,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
         CGolombBuffer gb(m_pBuffer + m_nBufferReadPos, m_nBufferWritePos - m_nBufferReadPos);
         int nLastPos = 0;
 
-        while (!gb.IsEOF()) {
+        while (gb.RemainingSize() >= 6) { // Ensure there is enough data to parse the entire segment header
             if (gb.ReadByte() == 0x0F) {
                 TRACE_DVB("DVB - ParseSample\n");
 
