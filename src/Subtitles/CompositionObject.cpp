@@ -147,9 +147,9 @@ void CompositionObject::RenderDvb(SubPicDesc& spd, short nX, short nY)
 
 void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, short nXStart, short nYStart, short nLength)
 {
-    //FillSolidRect (spd, 0,  0, 300, 10, 0xFFFF0000);  // Red opaque
-    //FillSolidRect (spd, 0, 10, 300, 10, 0xCC00FF00);  // Green 80%
-    //FillSolidRect (spd, 0, 20, 300, 10, 0x100000FF);  // Blue 60%
+    //FillSolidRect(spd, nXStart, nYStart, m_width, m_height, 0xFFFF0000);  // Red opaque
+    //FillSolidRect(spd, nXStart, nYStart, m_width, m_height, 0xCC00FF00);  // Green 80%
+    //FillSolidRect(spd, nXStart, nYStart, m_width, m_height, 0x100000FF);  // Blue 60%
     //return;
     short nX = nXStart;
     short nY = nYStart;

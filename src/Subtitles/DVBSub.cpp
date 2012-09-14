@@ -23,7 +23,7 @@
 #include "DVBSub.h"
 #include "../DSUtil/GolombBuffer.h"
 
-#if (0)     // Set to 1 to activate DVB subtitles traces
+#if (0) // Set to 1 to activate DVB subtitles traces
 #define TRACE_DVB TRACE
 #else
 #define TRACE_DVB __noop
@@ -245,6 +245,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 
                         if (pPage->PageState == DPS_ACQUISITION) {
                             if (m_pCurrentPage != NULL) {
+                                TRACE_DVB("DVB - Force End display %S (%S - %S)\n", ReftimeToString(m_rtStart), ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
                                 m_pCurrentPage->rtStop = max(m_pCurrentPage->rtStop, m_rtStart);
                                 m_Pages.AddTail(m_pCurrentPage.Detach());
                             }
@@ -256,7 +257,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 
                             TRACE_DVB("DVB - Page started %S, TimeOut = %d\n", ReftimeToString(m_rtStart), m_pCurrentPage->PageTimeOut);
                         } else {
-                            TRACE_DVB("DVB - Page update\n");
+                            TRACE_DVB("DVB - Page update %x\n", pPage->PageState);
 
                             if (m_pCurrentPage && !m_pCurrentPage->RegionCount) {
                                 m_pCurrentPage = pPage;
@@ -285,10 +286,16 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                         TRACE_DVB("DVB - Display\n");
                         break;
                     case END_OF_DISPLAY:
-                        if (m_pCurrentPage != NULL && (m_pCurrentPage->rtStart != m_rtStart)) {
-                            m_pCurrentPage->rtStop = max(m_pCurrentPage->rtStop, m_rtStart);
-                            TRACE_DVB("DVB - End display %S - %S\n", ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
-                            m_Pages.AddTail(m_pCurrentPage.Detach());
+                        if (m_pCurrentPage != NULL) {
+                            if (m_pCurrentPage->rtStart != m_rtStart) {
+                                m_pCurrentPage->rtStop = max(m_pCurrentPage->rtStop, m_rtStart);
+                                TRACE_DVB("DVB - End display %S - %S\n", ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
+                                m_Pages.AddTail(m_pCurrentPage.Detach());
+                            } else {
+                                TRACE_DVB("DVB - Ignored End display %S (%S - %S)\n", ReftimeToString(m_rtStart), ReftimeToString(m_pCurrentPage->rtStart), ReftimeToString(m_pCurrentPage->rtStop));
+                            }
+                        } else {
+                            TRACE_DVB("DVB - Ignored End display\n");
                         }
                         break;
                     default:
@@ -309,6 +316,7 @@ void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 
     if (pPage != NULL) {
         pPage->Rendered = true;
+        TRACE_DVB("DVB - Renderer - %S - %S\n", ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
         for (int i = 0; i < pPage->RegionCount; i++) {
             CDVBSub::DVB_REGION* pRegion = &pPage->Regions[i];
             for (int j = 0; j < pRegion->ObjectCount; j++) {
@@ -321,6 +329,7 @@ void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
                     pObject->m_height = pRegion->height;
                     pObject->SetPalette(pRegion->Clut.Size, pRegion->Clut.Palette, m_Display.width > 720);
                     pObject->RenderDvb(spd, nX, nY);
+                    TRACE_DVB(" --> %d/%d - %d/%d\n", i + 1, pPage->RegionCount, j + 1, pRegion->ObjectCount);
                 }
             }
         }
