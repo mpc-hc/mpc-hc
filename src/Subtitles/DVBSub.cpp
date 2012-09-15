@@ -76,9 +76,13 @@ CDVBSub::DVB_REGION* CDVBSub::FindRegion(DVB_PAGE* pPage, BYTE bRegionId)
 CDVBSub::DVB_CLUT* CDVBSub::FindClut(DVB_PAGE* pPage, BYTE bClutId)
 {
     if (pPage != NULL) {
-        for (int i = 0; i < pPage->regionCount; i++) {
-            if (pPage->regions[i].CLUT_id == bClutId) {
-                return &pPage->regions[i].clut;
+        POSITION pos = pPage->CLUTs.GetHeadPosition();
+
+        while (pos) {
+            DVB_CLUT* pCLUT = pPage->CLUTs.GetNext(pos);
+
+            if (pCLUT->id == bClutId) {
+                return pCLUT;
             }
         }
     }
@@ -314,18 +318,22 @@ void CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
         pPage->rendered = true;
         TRACE_DVB("DVB - Renderer - %S - %S\n", ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
         for (int i = 0; i < pPage->regionCount; i++) {
-            CDVBSub::DVB_REGION* pRegion = &pPage->regions[i];
-            for (int j = 0; j < pRegion->objectCount; j++) {
-                CompositionObject*  pObject = FindObject(pPage, pRegion->objects[j].object_id);
-                if (pObject) {
-                    short nX, nY;
-                    nX = pRegion->horizAddr + pRegion->objects[j].object_horizontal_position;
-                    nY = pRegion->vertAddr  + pRegion->objects[j].object_vertical_position;
-                    pObject->m_width  = pRegion->width;
-                    pObject->m_height = pRegion->height;
-                    pObject->SetPalette(pRegion->clut.size, pRegion->clut.palette, m_Display.width > 720);
-                    pObject->RenderDvb(spd, nX, nY);
-                    TRACE_DVB(" --> %d/%d - %d/%d\n", i + 1, pPage->regionCount, j + 1, pRegion->objectCount);
+            DVB_REGION* pRegion = &pPage->regions[i];
+
+            DVB_CLUT* pCLUT = FindClut(pPage, pRegion->CLUT_id);
+            if (pCLUT) {
+                for (int j = 0; j < pRegion->objectCount; j++) {
+                    CompositionObject*  pObject = FindObject(pPage, pRegion->objects[j].object_id);
+                    if (pObject) {
+                        short nX, nY;
+                        nX = pRegion->horizAddr + pRegion->objects[j].object_horizontal_position;
+                        nY = pRegion->vertAddr  + pRegion->objects[j].object_vertical_position;
+                        pObject->m_width  = pRegion->width;
+                        pObject->m_height = pRegion->height;
+                        pObject->SetPalette(pCLUT->size, pCLUT->palette, m_Display.width > 720);
+                        pObject->RenderDvb(spd, nX, nY);
+                        TRACE_DVB(" --> %d/%d - %d/%d\n", i + 1, pPage->regionCount, j + 1, pRegion->objectCount);
+                    }
                 }
             }
         }
@@ -493,48 +501,54 @@ HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
 
 HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
 {
-    HRESULT hr = S_OK;
+    HRESULT hr = E_FAIL;
     int nEnd = gb.GetPos() + wSegLength;
-    CDVBSub::DVB_CLUT* pClut;
 
-    pClut = FindClut(m_pCurrentPage, gb.ReadByte());
-    //  ASSERT (pClut != NULL);
-    if (pClut != NULL) {
-        pClut->version_number = (BYTE)gb.BitRead(4);
-        gb.BitRead(4);  // Reserved
-
-        pClut->size = 0;
-        while (gb.GetPos() < nEnd) {
-            BYTE entry_id = gb.ReadByte();
-            BYTE _2_bit   = (BYTE)gb.BitRead(1);
-            BYTE _4_bit   = (BYTE)gb.BitRead(1);
-            BYTE _8_bit   = (BYTE)gb.BitRead(1);
-            UNREFERENCED_PARAMETER(_2_bit);
-            UNREFERENCED_PARAMETER(_4_bit);
-            UNREFERENCED_PARAMETER(_8_bit);
+    if (m_pCurrentPage && wSegLength > 2) {
+        DVB_CLUT* pClut = DNew DVB_CLUT();
+        if (pClut) {
+            pClut->id = gb.ReadByte();
+            pClut->version_number = (BYTE)gb.BitRead(4);
             gb.BitRead(4);  // Reserved
 
-            pClut->palette[entry_id].entry_id = entry_id;
-            if (gb.BitRead(1)) {
-                pClut->palette[entry_id].Y  = gb.ReadByte();
-                pClut->palette[entry_id].Cr = gb.ReadByte();
-                pClut->palette[entry_id].Cb = gb.ReadByte();
-                pClut->palette[entry_id].T  = 0xff - gb.ReadByte();
-            } else {
-                pClut->palette[entry_id].Y  = (BYTE)gb.BitRead(6) << 2;
-                pClut->palette[entry_id].Cr = (BYTE)gb.BitRead(4) << 4;
-                pClut->palette[entry_id].Cb = (BYTE)gb.BitRead(4) << 4;
-                pClut->palette[entry_id].T  = 0xff - ((BYTE)gb.BitRead(2) << 6);
-            }
-            if (!pClut->palette[entry_id].Y) {
-                pClut->palette[entry_id].Cr = 0;
-                pClut->palette[entry_id].Cb = 0;
-                pClut->palette[entry_id].T = 0;
+            pClut->size = 0;
+            while (gb.GetPos() < nEnd) {
+                BYTE entry_id = gb.ReadByte();
+                BYTE _2_bit   = (BYTE)gb.BitRead(1);
+                BYTE _4_bit   = (BYTE)gb.BitRead(1);
+                BYTE _8_bit   = (BYTE)gb.BitRead(1);
+                UNREFERENCED_PARAMETER(_2_bit);
+                UNREFERENCED_PARAMETER(_4_bit);
+                UNREFERENCED_PARAMETER(_8_bit);
+                gb.BitRead(4);  // Reserved
+
+                pClut->palette[entry_id].entry_id = entry_id;
+                if (gb.BitRead(1)) {
+                    pClut->palette[entry_id].Y  = gb.ReadByte();
+                    pClut->palette[entry_id].Cr = gb.ReadByte();
+                    pClut->palette[entry_id].Cb = gb.ReadByte();
+                    pClut->palette[entry_id].T  = 0xff - gb.ReadByte();
+                } else {
+                    pClut->palette[entry_id].Y  = (BYTE)gb.BitRead(6) << 2;
+                    pClut->palette[entry_id].Cr = (BYTE)gb.BitRead(4) << 4;
+                    pClut->palette[entry_id].Cb = (BYTE)gb.BitRead(4) << 4;
+                    pClut->palette[entry_id].T  = 0xff - ((BYTE)gb.BitRead(2) << 6);
+                }
+                if (!pClut->palette[entry_id].Y) {
+                    pClut->palette[entry_id].Cr = 0;
+                    pClut->palette[entry_id].Cb = 0;
+                    pClut->palette[entry_id].T = 0;
+                }
+
+                if (pClut->size <= entry_id) {
+                    pClut->size = entry_id + 1;
+                }
             }
 
-            if (pClut->size <= entry_id) {
-                pClut->size = entry_id + 1;
-            }
+            m_pCurrentPage->CLUTs.AddTail(pClut);
+            hr = S_OK;
+        } else {
+            hr = E_OUTOFMEMORY;
         }
     }
 

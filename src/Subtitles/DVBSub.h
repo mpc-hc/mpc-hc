@@ -132,8 +132,6 @@ public:
         int         objectCount;
         DVB_OBJECT  objects[MAX_OBJECTS];
 
-        DVB_CLUT    clut;
-
         DVB_REGION() {
             id                      = 0;
             horizAddr               = 0;
@@ -162,6 +160,7 @@ public:
         int                             regionCount;
         DVB_REGION                      regions[MAX_REGIONS];
         CAtlList<CompositionObject*>    objects;
+        CAtlList<DVB_CLUT*>             CLUTs;
         bool                            rendered;
 
         DVB_PAGE() {
@@ -177,6 +176,12 @@ public:
             while (objects.GetCount() > 0) {
                 pObject = objects.RemoveHead();
                 delete pObject;
+            }
+
+            DVB_CLUT*  pCLUT;
+            while (CLUTs.GetCount() > 0) {
+                pCLUT = CLUTs.RemoveHead();
+                delete pCLUT;
             }
         }
     };

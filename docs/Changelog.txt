@@ -28,7 +28,9 @@ Legend:
   than HKEY_LOCAL_MACHINE. The old key in HKEY_LOCAL_MACHINE will be removed in
   the next version
 ! Web interface: Fix the "Deploy" feature
-! Improve DVB subtitles handling: Fix missing subtitles.
+! Improve DVB subtitles handling:
+  - Fix missing subtitles
+  - Ticket #2589, Fix wrongly colored subtitles
 ! Ticket #102, Fix playback of VideoCD as disk
 ! Ticket #2540, Fix handling of big API messages
 ! Ticket #2547, The master window handle was erroneously reset
