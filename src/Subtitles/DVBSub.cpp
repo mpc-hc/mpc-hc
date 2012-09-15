@@ -218,17 +218,6 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
         pSample->SetTime(&m_rtStart, &m_rtStop);
     }
 
-    //FILE* hFile = fopen("D:\\Sources\\mpc-hc\\A garder\\TestSubRip\\dvbsub.dat", "ab");
-    //if (hFile != NULL)
-    //{
-    //  //BYTE Buff[5] = {48};
-
-    //  //*((DWORD*)(Buff+1)) = lSampleLen;
-    //  //fwrite(Buff, 1, sizeof(Buff), hFile);
-    //  fwrite(pData, 1, lSampleLen, hFile);
-    //  fclose(hFile);
-    //}
-
     if (AddToBuffer(pData, nSize) == S_OK) {
         CGolombBuffer gb(m_pBuffer + m_nBufferReadPos, m_nBufferWritePos - m_nBufferReadPos);
         int nLastPos = 0;

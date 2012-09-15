@@ -287,8 +287,8 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
         hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
         hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-        hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
-        hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
+        hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);         // pre-multiplied src and ...
+        hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);   // ... inverse alpha channel for dst
 
         hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
         hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -332,8 +332,6 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         if (m_bExternalRenderer) {
             hr = pD3DDev->EndScene();
         }
-
-        //
 
         pD3DDev->SetTexture(0, NULL);
 

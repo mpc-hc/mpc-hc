@@ -116,7 +116,6 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
     CheckPointer(pDXVA2Service, E_UNEXPECTED);
     CAutoLock lock(this);
 
-
     hr = __super::Alloc();
 
     if (SUCCEEDED(hr)) {

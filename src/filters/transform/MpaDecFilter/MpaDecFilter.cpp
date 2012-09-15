@@ -1095,7 +1095,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() // big-endian 'fl32' and 'fl64'
                     (q[i] & 0x0000000000FF0000) << 24 |
                     (q[i] & 0x000000000000FF00) << 40 |
                     q[i] << 56;
-                pDataOut[i] = (float)*(double*)&x;
+                pDataOut[i] = (float) * (double*)&x;
             }
         }
         break;
