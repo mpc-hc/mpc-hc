@@ -298,6 +298,19 @@ bool DD_stats_t::Desired(int type)
     return true;
 }
 
+enum MPCSampleFormat get_sample_fmt(enum AVSampleFormat av_samplefmt)
+{
+    switch (av_samplefmt) {
+        default:
+        case AV_SAMPLE_FMT_S16:
+            return SF_PCM16;
+        case AV_SAMPLE_FMT_S32:
+            return SF_PCM32;
+        case AV_SAMPLE_FMT_FLT:
+            return SF_FLOAT;
+    }
+}
+
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     : CTransformFilter(NAME("CMpaDecFilter"), lpunk, __uuidof(this))
     , m_bResync(false)
@@ -725,15 +738,16 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
 
     while (p < end) {
         int size = 0;
+        CAtlArray<BYTE> output;
+        AVSampleFormat avsamplefmt = AV_SAMPLE_FMT_NONE;
 
-        CAtlArray<float> output;
-        hr = m_FFAudioDec.Decode(nCodecId, p, int(end - p), size, m_bResync, output);
+        hr = m_FFAudioDec.Decode(nCodecId, p, int(end - p), size, m_bResync, output, avsamplefmt);
         if (FAILED(hr)) {
             m_buff.RemoveAll();
             m_bResync = true;
             return S_OK;
         } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
-            hr = Deliver((BYTE*)output.GetData(), output.GetCount()*sizeof(float), SF_FLOAT, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+            hr = Deliver(output.GetData(), output.GetCount(), get_sample_fmt(avsamplefmt), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
         } else if (size == 0) { // && pBuffOut.GetCount() == 0
             break;
         }
@@ -792,14 +806,16 @@ HRESULT CMpaDecFilter::ProcessAC3()
                 m_FFAudioDec.SetDRC(GetDynamicRangeControl());
             }
 
-            CAtlArray<float> output;
-            hr = m_FFAudioDec.Decode(ftype, p, size, size, m_bResync, output);
+            CAtlArray<BYTE> output;
+            AVSampleFormat avsamplefmt = AV_SAMPLE_FMT_NONE;
+
+            hr = m_FFAudioDec.Decode(ftype, p, size, size, m_bResync, output, avsamplefmt);
             if (FAILED(hr)) {
                 m_buff.RemoveAll();
                 m_bResync = true;
                 return S_OK;
             } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
-                hr = Deliver((BYTE*)output.GetData(), output.GetCount()*sizeof(float), SF_FLOAT, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+                hr = Deliver(output.GetData(), output.GetCount(), get_sample_fmt(avsamplefmt), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
             } else if (size == 0) { // && pBuffOut.GetCount() == 0
                 break;
             }

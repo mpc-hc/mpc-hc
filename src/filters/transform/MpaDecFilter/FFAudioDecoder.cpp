@@ -285,7 +285,7 @@ void CFFAudioDecoder::SetDRC(bool fDRC)
     }
 }
 
-HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, int& size, bool& fResync, CAtlArray<float>& BuffOut)
+HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, int& size, bool& fResync, CAtlArray<BYTE>& BuffOut, enum AVSampleFormat& samplefmt)
 {
 
     if (GetCodecId() == AV_CODEC_ID_NONE) {
@@ -358,31 +358,20 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
                 dwChannelMask = GetDefChannelMask(nChannels);
             }
 
-            float* pDataOut;
-
-            BuffOut.SetCount(nSamples);
-            pDataOut = BuffOut.GetData();
-
             switch (m_pAVCtx->sample_fmt) {
                 case AV_SAMPLE_FMT_S16:
-                    for (size_t i = 0; i < nSamples; ++i) {
-                        *pDataOut = (float)((int16_t*)m_pFrame->data[0])[i] / INT16_PEAK;
-                        pDataOut++;
-                    }
+                    BuffOut.SetCount(nSamples * 2);
                     break;
                 case AV_SAMPLE_FMT_S32:
-                    for (size_t i = 0; i < nSamples; ++i) {
-                        *pDataOut = (float)((int32_t*)m_pFrame->data[0])[i] / INT32_PEAK;
-                        pDataOut++;
-                    }
-                    break;
                 case AV_SAMPLE_FMT_FLT:
-                    memcpy(pDataOut, m_pFrame->data[0], nSamples * 4);
+                    BuffOut.SetCount(nSamples * 4);
                     break;
                 default:
                     ASSERT(FALSE);
                     break;
             }
+            samplefmt = m_pAVCtx->sample_fmt;
+            memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
         }
     }
 
