@@ -98,7 +98,7 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 protected:
     // settings
     CCritSec        m_csProps;
-    MPCSampleFormat m_iSampleFormat;
+    bool            m_fSampleFmt[sfcount];
     bool            m_fMixer;
     int             m_iMixerLayout;
     bool            m_fDRC;
@@ -186,8 +186,9 @@ public:
 
     // IMpaDecFilter
 
-    STDMETHODIMP SetSampleFormat(MPCSampleFormat sf);
-    STDMETHODIMP_(MPCSampleFormat) GetSampleFormat();
+    STDMETHODIMP SetSampleFormat(MPCSampleFormat sf, bool enable);
+    STDMETHODIMP_(bool) GetSampleFormat(MPCSampleFormat sf);
+    STDMETHODIMP_(MPCSampleFormat) GetSampleFormat2();
     STDMETHODIMP SetMixer(bool fMixer);
     STDMETHODIMP_(bool) GetMixer();
     STDMETHODIMP SetMixerLayout(int sc);

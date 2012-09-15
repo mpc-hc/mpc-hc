@@ -51,7 +51,10 @@ bool CMpaDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>
         return false;
     }
 
-    m_outputformat = m_pMDF->GetSampleFormat();
+    m_outfmt_i16   = m_pMDF->GetSampleFormat(SF_PCM16);
+    m_outfmt_i24   = m_pMDF->GetSampleFormat(SF_PCM24);
+    m_outfmt_i32   = m_pMDF->GetSampleFormat(SF_PCM32);
+    m_outfmt_flt   = m_pMDF->GetSampleFormat(SF_FLOAT);
     m_mixer        = m_pMDF->GetMixer();
     m_mixer_layout = m_pMDF->GetMixerLayout();
     m_drc          = m_pMDF->GetDynamicRangeControl();
@@ -76,30 +79,28 @@ bool CMpaDecSettingsWnd::OnActivate()
     CPoint p(10, 10);
     CRect r;
 
-    m_outputformat_static.Create(ResStr(IDS_MPADEC_SAMPLE_FMT), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(120), m_fontheight)), this);
-    m_outputformat_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CPoint(IPP_SCALE(125), -4), CSize(IPP_SCALE(80), 200)), this, IDC_PP_COMBO1);
-    m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("PCM 16 Bit")), SF_PCM16);
-    m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("PCM 24 Bit")), SF_PCM24);
-    m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("PCM 32 Bit")), SF_PCM32);
-    m_outputformat_combo.SetItemData(m_outputformat_combo.AddString(_T("IEEE Float")), SF_FLOAT);
-    m_outputformat_combo.SetCurSel(0);
-    for (int i = 0; i < m_outputformat_combo.GetCount(); i++) {
-        if ((int)m_outputformat_combo.GetItemData(i) == m_outputformat) {
-            m_outputformat_combo.SetCurSel(i);
-        }
-    }
+    m_outfmt_group.Create(ResStr(IDS_MPADEC_SAMPLE_FMT), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), h20 + h20)), this, (UINT)IDC_STATIC);
+    p.y += h20;
+    m_outfmt_i16_check.Create(_T("Int16"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK_I16);
+    m_outfmt_i24_check.Create(_T("Int24"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(IPP_SCALE(50), 0), CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK_I24);
+    m_outfmt_i32_check.Create(_T("Int32"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(IPP_SCALE(100), 0), CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK_I32);
+    m_outfmt_flt_check.Create(_T("Float"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(IPP_SCALE(150), 0), CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK_FLT);
+    m_outfmt_i16_check.SetCheck(m_outfmt_i16);
+    m_outfmt_i24_check.SetCheck(m_outfmt_i24);
+    m_outfmt_i32_check.SetCheck(m_outfmt_i32);
+    m_outfmt_flt_check.SetCheck(m_outfmt_flt);
     p.y += h25;
 
-    m_drc_check.Create(ResStr(IDS_MPADEC_DRC), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(205), m_fontheight)), this, IDC_PP_CHECK2);
+    m_drc_check.Create(ResStr(IDS_MPADEC_DRC), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(205), m_fontheight)), this, IDC_PP_CHECK_DRC);
     m_drc_check.SetCheck(m_drc);
     p.y += h25;
 
     m_mixer_group.Create(_T(""), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), h20 + h25)), this, (UINT)IDC_STATIC);
-    m_mixer_check.Create(ResStr(IDS_MPADEC_MIXER), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(60), m_fontheight)), this, IDC_PP_CHECK1);
+    m_mixer_check.Create(ResStr(IDS_MPADEC_MIXER), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(60), m_fontheight)), this, IDC_PP_CHECK_MIXER);
     m_mixer_check.SetCheck(m_mixer);
     p.y += h20;
     m_mixer_layout_static.Create(ResStr(IDS_MPADEC_MIX_SPEAKERS), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(120), m_fontheight)), this);
-    m_mixer_layout_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CPoint(IPP_SCALE(125), -4), CSize(IPP_SCALE(80), 200)), this, IDC_PP_COMBO2);
+    m_mixer_layout_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CPoint(IPP_SCALE(125), -4), CSize(IPP_SCALE(80), 200)), this, IDC_PP_COMBO_MIXLAYOUT);
     m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(ResStr(IDS_MPADEC_MONO)),   SPK_MONO);
     m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(ResStr(IDS_MPADEC_STEREO)), SPK_STEREO);
     m_mixer_layout_combo.SetItemData(m_mixer_layout_combo.AddString(_T("4.0")), SPK_4_0);
@@ -117,9 +118,9 @@ bool CMpaDecSettingsWnd::OnActivate()
 
     m_spdif_group.Create(ResStr(IDS_MPADEC_SPDIF), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(215), h20 + h20)), this, (UINT)IDC_STATIC);
     p.y += h20;
-    m_spdif_ac3_check.Create(_T("AC-3"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK3);
+    m_spdif_ac3_check.Create(_T("AC-3"), dwStyle | BS_AUTOCHECKBOX, CRect(p, CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK_SPDIF_AC3);
+    m_spdif_dts_check.Create(_T("DTS"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(IPP_SCALE(50), 0), CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK_SPDIF_DTS);
     m_spdif_ac3_check.SetCheck(m_spdif_ac3);
-    m_spdif_dts_check.Create(_T("DTS"), dwStyle | BS_AUTOCHECKBOX, CRect(p + CPoint(IPP_SCALE(50), 0), CSize(IPP_SCALE(45), m_fontheight)), this, IDC_PP_CHECK4);
     m_spdif_dts_check.SetCheck(m_spdif_dts);
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
@@ -131,7 +132,10 @@ bool CMpaDecSettingsWnd::OnActivate()
 
 void CMpaDecSettingsWnd::OnDeactivate()
 {
-    m_outputformat = (int)m_outputformat_combo.GetItemData(m_outputformat_combo.GetCurSel());
+    m_outfmt_i16   = !!m_outfmt_i16_check.GetCheck();
+    m_outfmt_i24   = !!m_outfmt_i24_check.GetCheck();
+    m_outfmt_i32   = !!m_outfmt_i32_check.GetCheck();
+    m_outfmt_flt   = !!m_outfmt_flt_check.GetCheck();
     m_mixer        = !!m_mixer_check.GetCheck();
     m_mixer_layout = (int)m_mixer_layout_combo.GetItemData(m_mixer_layout_combo.GetCurSel());
     m_drc          = !!m_drc_check.GetCheck();
@@ -144,7 +148,10 @@ bool CMpaDecSettingsWnd::OnApply()
     OnDeactivate();
 
     if (m_pMDF) {
-        m_pMDF->SetSampleFormat((MPCSampleFormat)m_outputformat);
+        m_pMDF->SetSampleFormat(SF_PCM16, m_outfmt_i16);
+        m_pMDF->SetSampleFormat(SF_PCM24, m_outfmt_i24);
+        m_pMDF->SetSampleFormat(SF_PCM32, m_outfmt_i32);
+        m_pMDF->SetSampleFormat(SF_FLOAT, m_outfmt_flt);
         m_pMDF->SetMixer(m_mixer);
         m_pMDF->SetMixerLayout(m_mixer_layout);
         m_pMDF->SetDynamicRangeControl(m_drc);

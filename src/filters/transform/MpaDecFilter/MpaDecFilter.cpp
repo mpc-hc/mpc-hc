@@ -50,7 +50,10 @@ extern "C" {
 // options names
 #define OPT_REGKEY_MpaDec   _T("Software\\Gabest\\Filters\\MPEG Audio Decoder")
 #define OPT_SECTION_MpaDec  _T("Filters\\MPEG Audio Decoder")
-#define OPTION_SampleFormat _T("SampleFormat")
+#define OPTION_SFormat_i16  _T("SampleFormat_int16")
+#define OPTION_SFormat_i24  _T("SampleFormat_int24")
+#define OPTION_SFormat_i32  _T("SampleFormat_int32")
+#define OPTION_SFormat_flt  _T("SampleFormat_float")
 #define OPTION_Mixer        _T("Mixer")
 #define OPTION_MixerLayout  _T("MixerLayout")
 #define OPTION_DRC          _T("DRC")
@@ -298,7 +301,7 @@ bool DD_stats_t::Desired(int type)
     return true;
 }
 
-enum MPCSampleFormat get_sample_fmt(enum AVSampleFormat av_samplefmt)
+enum MPCSampleFormat conv_sample_fmt(enum AVSampleFormat av_samplefmt)
 {
     switch (av_samplefmt) {
         default:
@@ -341,12 +344,15 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_DDstats.Reset();
 
     // default settings
-    m_iSampleFormat = SF_PCM16;
-    m_fMixer        = false;
-    m_iMixerLayout  = SPK_STEREO;
-    m_fDRC          = false;
-    m_fSPDIF[ac3]   = false;
-    m_fSPDIF[dts]   = false;
+    m_fSampleFmt[SF_PCM16] = true;
+    m_fSampleFmt[SF_PCM24] = false;
+    m_fSampleFmt[SF_PCM32] = false;
+    m_fSampleFmt[SF_FLOAT] = false;
+    m_fMixer               = false;
+    m_iMixerLayout         = SPK_STEREO;
+    m_fDRC                 = false;
+    m_fSPDIF[ac3]          = false;
+    m_fSPDIF[dts]          = false;
 
     // read settings
     CString layout_str;
@@ -355,8 +361,17 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     ULONG len = 8;
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, OPT_REGKEY_MpaDec, KEY_READ)) {
         DWORD dw;
-        if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SampleFormat, dw)) {
-            m_iSampleFormat = (MPCSampleFormat)dw;
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SFormat_i16, dw)) {
+            m_fSampleFmt[SF_PCM16] = !!dw;
+        }
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SFormat_i24, dw)) {
+            m_fSampleFmt[SF_PCM24] = !!dw;
+        }
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SFormat_i32, dw)) {
+            m_fSampleFmt[SF_PCM32] = !!dw;
+        }
+        if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_SFormat_flt, dw)) {
+            m_fSampleFmt[SF_FLOAT] = !!dw;
         }
         if (ERROR_SUCCESS == key.QueryDWORDValue(OPTION_Mixer, dw)) {
             m_fMixer = !!dw;
@@ -375,13 +390,20 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         }
     }
 #else
-    m_iSampleFormat = (MPCSampleFormat)AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SampleFormat, m_iSampleFormat);
-    m_fMixer        = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_Mixer, m_fMixer);
-    layout_str      = AfxGetApp()->GetProfileString(OPT_SECTION_MpaDec, OPTION_MixerLayout, channel_mode[m_iMixerLayout].op_value);
-    m_fDRC          = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_DRC, m_fDRC);
-    m_fSPDIF[ac3]   = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_ac3, m_fSPDIF[ac3]);
-    m_fSPDIF[dts]   = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_dts, m_fSPDIF[dts]);
+    m_fSampleFmt[SF_PCM16] = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i16, m_fSampleFmt[SF_PCM16]);
+    m_fSampleFmt[SF_PCM24] = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i24, m_fSampleFmt[SF_PCM24]);
+    m_fSampleFmt[SF_PCM32] = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i32, m_fSampleFmt[SF_PCM32]);
+    m_fSampleFmt[SF_FLOAT] = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_flt, m_fSampleFmt[SF_FLOAT]);
+    m_fMixer               = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_Mixer, m_fMixer);
+    layout_str             = AfxGetApp()->GetProfileString(OPT_SECTION_MpaDec, OPTION_MixerLayout, channel_mode[m_iMixerLayout].op_value);
+    m_fDRC                 = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_DRC, m_fDRC);
+    m_fSPDIF[ac3]          = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_ac3, m_fSPDIF[ac3]);
+    m_fSPDIF[dts]          = !!AfxGetApp()->GetProfileInt(OPT_SECTION_MpaDec, OPTION_SPDIF_dts, m_fSPDIF[dts]);
 #endif
+    if (!(m_fSampleFmt[SF_PCM16] || m_fSampleFmt[SF_PCM24] || m_fSampleFmt[SF_PCM32] || m_fSampleFmt[SF_FLOAT])) {
+        m_fSampleFmt[SF_PCM16] = true;
+    }
+
     for (int i = SPK_MONO; i <= SPK_7_1; i++) {
         if (layout_str == channel_mode[i].op_value) {
             m_iMixerLayout = i;
@@ -747,7 +769,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
             m_bResync = true;
             return S_OK;
         } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
-            hr = Deliver(output.GetData(), output.GetCount(), get_sample_fmt(avsamplefmt), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+            hr = Deliver(output.GetData(), output.GetCount(), conv_sample_fmt(avsamplefmt), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
         } else if (size == 0) { // && pBuffOut.GetCount() == 0
             break;
         }
@@ -815,7 +837,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
                 m_bResync = true;
                 return S_OK;
             } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
-                hr = Deliver(output.GetData(), output.GetCount(), get_sample_fmt(avsamplefmt), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+                hr = Deliver(output.GetData(), output.GetCount(), conv_sample_fmt(avsamplefmt), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
             } else if (size == 0) { // && pBuffOut.GetCount() == 0
                 break;
             }
@@ -1095,7 +1117,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() // big-endian 'fl32' and 'fl64'
                     (q[i] & 0x0000000000FF0000) << 24 |
                     (q[i] & 0x000000000000FF00) << 40 |
                     q[i] << 56;
-                pDataOut[i] = (float) * (double*)&x;
+                pDataOut[i] = (float)(*(double*)&x);
             }
         }
         break;
@@ -1341,7 +1363,12 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, MPCSampleFormat sfmt, DWOR
             return E_FAIL;
     }
 
-    MPCSampleFormat out_sf = GetSampleFormat();
+    MPCSampleFormat out_sf;
+    if (GetSampleFormat(sfmt)) {
+        out_sf = sfmt;
+    } else {
+        out_sf = GetSampleFormat2();
+    }
 
     REFERENCE_TIME rtDur = 10000000i64 * nSamples / nSamplesPerSec;
     REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
@@ -1791,15 +1818,19 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 
     if (GetMixer()) {
         int sc = GetMixerLayout();
-        *pmt = CreateMediaType(GetSampleFormat(), wfe->nSamplesPerSec, channel_mode[sc].channels, channel_mode[sc].ch_layout);
+        *pmt = CreateMediaType(GetSampleFormat2(), wfe->nSamplesPerSec, channel_mode[sc].channels, channel_mode[sc].ch_layout);
     }
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     else if (m_FFAudioDec.GetCodecId() != AV_CODEC_ID_NONE) {
-        *pmt = CreateMediaType(GetSampleFormat(), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+        MPCSampleFormat sf = conv_sample_fmt(m_FFAudioDec.GetSampleFmt());
+        if (!GetSampleFormat(sf)) {
+            sf = GetSampleFormat2();
+        }
+        *pmt = CreateMediaType(sf, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
     }
 #endif
     else {
-        *pmt = CreateMediaType(GetSampleFormat(), wfe->nSamplesPerSec, wfe->nChannels);
+        *pmt = CreateMediaType(GetSampleFormat2(), wfe->nSamplesPerSec, wfe->nChannels);
     }
 
     return S_OK;
@@ -1844,17 +1875,43 @@ HRESULT CMpaDecFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
 
 // IMpaDecFilter
 
-STDMETHODIMP CMpaDecFilter::SetSampleFormat(MPCSampleFormat sf)
+STDMETHODIMP CMpaDecFilter::SetSampleFormat(MPCSampleFormat sf, bool enable)
 {
     CAutoLock cAutoLock(&m_csProps);
-    m_iSampleFormat = sf;
+    if (sf >= 0 && sf < sfcount) {
+        m_fSampleFmt[sf] = enable;
+    } else {
+        return E_INVALIDARG;
+    }
+
     return S_OK;
 }
 
-STDMETHODIMP_(MPCSampleFormat) CMpaDecFilter::GetSampleFormat()
+STDMETHODIMP_(bool) CMpaDecFilter::GetSampleFormat(MPCSampleFormat sf)
 {
     CAutoLock cAutoLock(&m_csProps);
-    return m_iSampleFormat;
+    if (sf >= 0 && sf < sfcount) {
+        return m_fSampleFmt[sf];
+    }
+    return false;
+}
+
+STDMETHODIMP_(MPCSampleFormat) CMpaDecFilter::GetSampleFormat2()
+{
+    CAutoLock cAutoLock(&m_csProps);
+    if (m_fSampleFmt[SF_FLOAT]) {
+        return SF_FLOAT;
+    }
+    if (m_fSampleFmt[SF_PCM24]) {
+        return SF_PCM24;
+    }
+    if (m_fSampleFmt[SF_PCM16]) {
+        return SF_PCM16;
+    }
+    if (m_fSampleFmt[SF_PCM32]) {
+        return SF_PCM32;
+    }
+    return SF_PCM16;
 }
 
 STDMETHODIMP CMpaDecFilter::SetMixer(bool fMixer)
@@ -1941,7 +1998,10 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
 #ifdef STANDALONE_FILTER
     CRegKey key;
     if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, OPT_REGKEY_MpaDec)) {
-        key.SetDWORDValue(OPTION_SampleFormat, m_iSampleFormat);
+        key.SetDWORDValue(OPTION_SFormat_i16, m_fSampleFmt[SF_PCM16]);
+        key.SetDWORDValue(OPTION_SFormat_i24, m_fSampleFmt[SF_PCM24]);
+        key.SetDWORDValue(OPTION_SFormat_i32, m_fSampleFmt[SF_PCM32]);
+        key.SetDWORDValue(OPTION_SFormat_flt, m_fSampleFmt[SF_FLOAT]);
         key.SetDWORDValue(OPTION_Mixer, m_fMixer);
         key.SetStringValue(OPTION_MixerLayout, channel_mode[m_iMixerLayout].op_value);
         key.SetDWORDValue(OPTION_DRC, m_fDRC);
@@ -1949,7 +2009,10 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
         key.SetDWORDValue(OPTION_SPDIF_dts, m_fSPDIF[dts]);
     }
 #else
-    AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SampleFormat, m_iSampleFormat);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i16, m_fSampleFmt[SF_PCM16]);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i24, m_fSampleFmt[SF_PCM24]);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_i32, m_fSampleFmt[SF_PCM32]);
+    AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_SFormat_flt, m_fSampleFmt[SF_FLOAT]);
     AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_Mixer, m_fMixer);
     AfxGetApp()->WriteProfileString(OPT_SECTION_MpaDec, OPTION_MixerLayout, channel_mode[m_iMixerLayout].op_value);
     AfxGetApp()->WriteProfileInt(OPT_SECTION_MpaDec, OPTION_DRC, m_fDRC);

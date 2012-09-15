@@ -23,9 +23,10 @@
 
 enum MPCSampleFormat {
     SF_PCM16 = 0,
-    SF_PCM24,
     SF_PCM32,
-    SF_FLOAT
+    SF_FLOAT,
+    SF_PCM24,
+    sfcount
 };
 
 interface __declspec(uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C"))
@@ -33,8 +34,9 @@ IMpaDecFilter :
 public IUnknown {
     enum enctype { ac3, dts, etcount };
 
-    STDMETHOD(SetSampleFormat(MPCSampleFormat sf)) = 0;
-    STDMETHOD_(MPCSampleFormat, GetSampleFormat()) = 0;
+    STDMETHOD(SetSampleFormat(MPCSampleFormat sf, bool enable)) = 0;
+    STDMETHOD_(bool, GetSampleFormat(MPCSampleFormat sf)) = 0;
+    STDMETHOD_(MPCSampleFormat, GetSampleFormat2()) = 0;
     STDMETHOD(SetMixer(bool fMixer)) = 0;
     STDMETHOD_(bool, GetMixer()) = 0;
     STDMETHOD(SetMixerLayout(int sc)) = 0;
