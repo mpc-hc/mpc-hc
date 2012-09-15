@@ -70,11 +70,11 @@ public:
     struct DVB_CLUT {
         BYTE            id;
         BYTE            version_number;
-        BYTE            Size;
+        BYTE            size;
 
-        HDMV_PALETTE    Palette[256];
+        HDMV_PALETTE    palette[256];
 
-        DVB_CLUT() { memset(Palette, 0, sizeof(Palette)); }
+        DVB_CLUT() { memset(palette, 0, sizeof(palette)); }
     };
 
     struct DVB_DISPLAY {
@@ -116,9 +116,9 @@ public:
     };
 
     struct DVB_REGION {
-        BYTE        Id;
-        WORD        HorizAddr;
-        WORD        VertAddr;
+        BYTE        id;
+        WORD        horizAddr;
+        WORD        vertAddr;
         BYTE        version_number;
         BYTE        fill_flag;
         WORD        width;
@@ -129,15 +129,15 @@ public:
         BYTE        _8_bit_pixel_code;
         BYTE        _4_bit_pixel_code;
         BYTE        _2_bit_pixel_code;
-        int         ObjectCount;
-        DVB_OBJECT  Objects[MAX_OBJECTS];
+        int         objectCount;
+        DVB_OBJECT  objects[MAX_OBJECTS];
 
-        DVB_CLUT    Clut;
+        DVB_CLUT    clut;
 
         DVB_REGION() {
-            Id                      = 0;
-            HorizAddr               = 0;
-            VertAddr                = 0;
+            id                      = 0;
+            horizAddr               = 0;
+            vertAddr                = 0;
             version_number          = 0;
             fill_flag               = 0;
             width                   = 0;
@@ -156,27 +156,27 @@ public:
     public:
         REFERENCE_TIME                  rtStart;
         REFERENCE_TIME                  rtStop;
-        BYTE                            PageTimeOut;
-        BYTE                            PageVersionNumber;
-        BYTE                            PageState;
-        int                             RegionCount;
-        DVB_REGION                      Regions[MAX_REGIONS];
-        CAtlList<CompositionObject*>    Objects;
-        bool                            Rendered;
+        BYTE                            pageTimeOut;
+        BYTE                            pageVersionNumber;
+        BYTE                            pageState;
+        int                             regionCount;
+        DVB_REGION                      regions[MAX_REGIONS];
+        CAtlList<CompositionObject*>    objects;
+        bool                            rendered;
 
         DVB_PAGE() {
-            PageTimeOut         = 0;
-            PageVersionNumber   = 0;
-            PageState           = 0;
-            RegionCount         = 0;
-            Rendered            = false;
+            pageTimeOut         = 0;
+            pageVersionNumber   = 0;
+            pageState           = 0;
+            regionCount         = 0;
+            rendered            = false;
         }
 
         ~DVB_PAGE() {
-            CompositionObject*  pPage;
-            while (Objects.GetCount() > 0) {
-                pPage = Objects.RemoveHead();
-                delete pPage;
+            CompositionObject*  pObject;
+            while (objects.GetCount() > 0) {
+                pObject = objects.RemoveHead();
+                delete pObject;
             }
         }
     };
