@@ -32,6 +32,9 @@ enum PCI_Vendors {
     PCIV_S3_Graphics = 0x5333
 };
 
+#define PCID_Intel_HD2500 0x0152
+#define PCID_Intel_HD4000 0x0162
+
 // Bitmasks for DXVA compatibility check
 #define DXVA_UNSUPPORTED_LEVEL          1
 #define DXVA_TOO_MANY_REF_FRAMES        2
