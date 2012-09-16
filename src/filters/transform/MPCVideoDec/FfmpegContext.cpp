@@ -57,7 +57,6 @@ extern "C" {
 #if defined(STANDALONE_FILTER)
 void* __imp_toupper = toupper;
 void* __imp_time64 = _time64;
-void* __imp_vscprintf = _vscprintf;
 #endif
 
 const byte ZZ_SCAN[16]  = {

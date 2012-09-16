@@ -449,9 +449,9 @@ static void vp56_decode_mb(VP56Context *s, int row, int col, int is_alpha)
     }
 }
 
-static int vp56_size_changed(AVCodecContext *avctx)
+static int vp56_size_changed(VP56Context *s)
 {
-    VP56Context *s = avctx->priv_data;
+    AVCodecContext *avctx = s->avctx;
     int stride = s->framep[VP56_FRAME_CURRENT]->linesize[0];
     int i;
 
@@ -483,17 +483,35 @@ static int vp56_size_changed(AVCodecContext *avctx)
     if (s->flip < 0)
         s->edge_emu_buffer += 15 * stride;
 
+    if (s->alpha_context)
+        return vp56_size_changed(s->alpha_context);
+
     return 0;
 }
+
+static int ff_vp56_decode_mbs(AVCodecContext *avctx, void *, int, int);
 
 int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
                          AVPacket *avpkt)
 {
     const uint8_t *buf = avpkt->data;
     VP56Context *s = avctx->priv_data;
-    AVFrame *const p = s->framep[VP56_FRAME_CURRENT];
+    AVFrame *p = 0;
     int remaining_buf_size = avpkt->size;
-    int is_alpha, av_uninit(alpha_offset);
+    int av_uninit(alpha_offset);
+    int i, res;
+
+    /* select a current frame from the unused frames */
+    for (i = 0; i < 4; ++i) {
+        if (!s->frames[i].data[0]) {
+            p = &s->frames[i];
+            break;
+        }
+    }
+    av_assert0(p != 0);
+    s->framep[VP56_FRAME_CURRENT] = p;
+    if (s->alpha_context)
+        s->alpha_context->framep[VP56_FRAME_CURRENT] = p;
 
     if (s->has_alpha) {
         if (remaining_buf_size < 3)
@@ -504,150 +522,53 @@ int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
             return -1;
     }
 
-    for (is_alpha=0; is_alpha < 1+s->has_alpha; is_alpha++) {
-        int mb_row, mb_col, mb_row_flip, mb_offset = 0;
-        int block, y, uv, stride_y, stride_uv;
-        int golden_frame = 0;
-        int res;
+    res = s->parse_header(s, buf, remaining_buf_size);
+    if (!res)
+        return -1;
 
-        s->modelp = &s->models[is_alpha];
-
-        res = s->parse_header(s, buf, remaining_buf_size, &golden_frame);
-        if (!res)
-            return -1;
-
-        if (res == 2) {
-            int i;
-            for (i = 0; i < 4; i++) {
-                if (s->frames[i].data[0])
-                    avctx->release_buffer(avctx, &s->frames[i]);
-            }
-            if (is_alpha) {
-                avcodec_set_dimensions(avctx, 0, 0);
-                return -1;
-            }
-        }
-
-        if (!is_alpha) {
-            p->reference = 3;
-            if (avctx->get_buffer(avctx, p) < 0) {
-                av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
-                return -1;
-            }
-
-            if (res == 2)
-                if (vp56_size_changed(avctx)) {
-                    avctx->release_buffer(avctx, p);
-                    return -1;
-                }
-        }
-
-        if (p->key_frame) {
-            p->pict_type = AV_PICTURE_TYPE_I;
-            s->default_models_init(s);
-            for (block=0; block<s->mb_height*s->mb_width; block++)
-                s->macroblocks[block].type = VP56_MB_INTRA;
-        } else {
-            p->pict_type = AV_PICTURE_TYPE_P;
-            vp56_parse_mb_type_models(s);
-            s->parse_vector_models(s);
-            s->mb_type = VP56_MB_INTER_NOVEC_PF;
-        }
-
-        if (s->parse_coeff_models(s))
-            goto next;
-
-        memset(s->prev_dc, 0, sizeof(s->prev_dc));
-        s->prev_dc[1][VP56_FRAME_CURRENT] = 128;
-        s->prev_dc[2][VP56_FRAME_CURRENT] = 128;
-
-        for (block=0; block < 4*s->mb_width+6; block++) {
-            s->above_blocks[block].ref_frame = VP56_FRAME_NONE;
-            s->above_blocks[block].dc_coeff = 0;
-            s->above_blocks[block].not_null_dc = 0;
-        }
-        s->above_blocks[2*s->mb_width + 2].ref_frame = VP56_FRAME_CURRENT;
-        s->above_blocks[3*s->mb_width + 4].ref_frame = VP56_FRAME_CURRENT;
-
-        stride_y  = p->linesize[0];
-        stride_uv = p->linesize[1];
-
-        if (s->flip < 0)
-            mb_offset = 7;
-
-        /* main macroblocks loop */
-        for (mb_row=0; mb_row<s->mb_height; mb_row++) {
-            if (s->flip < 0)
-                mb_row_flip = s->mb_height - mb_row - 1;
-            else
-                mb_row_flip = mb_row;
-
-            for (block=0; block<4; block++) {
-                s->left_block[block].ref_frame = VP56_FRAME_NONE;
-                s->left_block[block].dc_coeff = 0;
-                s->left_block[block].not_null_dc = 0;
-            }
-            memset(s->coeff_ctx, 0, sizeof(s->coeff_ctx));
-            memset(s->coeff_ctx_last, 24, sizeof(s->coeff_ctx_last));
-
-            s->above_block_idx[0] = 1;
-            s->above_block_idx[1] = 2;
-            s->above_block_idx[2] = 1;
-            s->above_block_idx[3] = 2;
-            s->above_block_idx[4] = 2*s->mb_width + 2 + 1;
-            s->above_block_idx[5] = 3*s->mb_width + 4 + 1;
-
-            s->block_offset[s->frbi] = (mb_row_flip*16 + mb_offset) * stride_y;
-            s->block_offset[s->srbi] = s->block_offset[s->frbi] + 8*stride_y;
-            s->block_offset[1] = s->block_offset[0] + 8;
-            s->block_offset[3] = s->block_offset[2] + 8;
-            s->block_offset[4] = (mb_row_flip*8 + mb_offset) * stride_uv;
-            s->block_offset[5] = s->block_offset[4];
-
-            for (mb_col=0; mb_col<s->mb_width; mb_col++) {
-                vp56_decode_mb(s, mb_row, mb_col, is_alpha);
-
-                for (y=0; y<4; y++) {
-                    s->above_block_idx[y] += 2;
-                    s->block_offset[y] += 16;
-                }
-
-                for (uv=4; uv<6; uv++) {
-                    s->above_block_idx[uv] += 1;
-                    s->block_offset[uv] += 8;
-                }
-            }
-        }
-
-    next:
-        if (p->key_frame || golden_frame) {
-            if (s->framep[VP56_FRAME_GOLDEN]->data[0] && s->framep[VP56_FRAME_GOLDEN] != p &&
-                s->framep[VP56_FRAME_GOLDEN] != s->framep[VP56_FRAME_GOLDEN2])
-                avctx->release_buffer(avctx, s->framep[VP56_FRAME_GOLDEN]);
-            s->framep[VP56_FRAME_GOLDEN] = p;
-        }
-
-        if (s->has_alpha) {
-            FFSWAP(AVFrame *, s->framep[VP56_FRAME_GOLDEN],
-                              s->framep[VP56_FRAME_GOLDEN2]);
-            buf += alpha_offset;
-            remaining_buf_size -= alpha_offset;
+    if (res == 2) {
+        for (i = 0; i < 4; i++) {
+            if (s->frames[i].data[0])
+                avctx->release_buffer(avctx, &s->frames[i]);
         }
     }
 
-    if (s->framep[VP56_FRAME_PREVIOUS] == s->framep[VP56_FRAME_GOLDEN] ||
-        s->framep[VP56_FRAME_PREVIOUS] == s->framep[VP56_FRAME_GOLDEN2]) {
-        if (s->framep[VP56_FRAME_UNUSED] != s->framep[VP56_FRAME_GOLDEN] &&
-            s->framep[VP56_FRAME_UNUSED] != s->framep[VP56_FRAME_GOLDEN2])
-            FFSWAP(AVFrame *, s->framep[VP56_FRAME_PREVIOUS],
-                              s->framep[VP56_FRAME_UNUSED]);
-        else
-            FFSWAP(AVFrame *, s->framep[VP56_FRAME_PREVIOUS],
-                              s->framep[VP56_FRAME_UNUSED2]);
-    } else if (s->framep[VP56_FRAME_PREVIOUS]->data[0])
-        avctx->release_buffer(avctx, s->framep[VP56_FRAME_PREVIOUS]);
-    FFSWAP(AVFrame *, s->framep[VP56_FRAME_CURRENT],
-                      s->framep[VP56_FRAME_PREVIOUS]);
+    p->reference = 3;
+    if (avctx->get_buffer(avctx, p) < 0) {
+        av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
+        return -1;
+    }
+
+    if (res == 2) {
+        if (vp56_size_changed(s)) {
+            avctx->release_buffer(avctx, p);
+            return -1;
+        }
+    }
+
+    if (s->has_alpha) {
+        buf += alpha_offset;
+        remaining_buf_size -= alpha_offset;
+
+        res = s->alpha_context->parse_header(s->alpha_context, buf, remaining_buf_size);
+        if (res != 1) {
+            avctx->release_buffer(avctx, p);
+            return -1;
+        }
+    }
+
+    avctx->execute2(avctx, ff_vp56_decode_mbs, 0, 0, s->has_alpha + 1);
+
+    /* release frames that aren't in use */
+    for (i = 0; i < 4; ++i) {
+        AVFrame *victim = &s->frames[i];
+        if (!victim->data[0])
+            continue;
+        if (victim != s->framep[VP56_FRAME_PREVIOUS] &&
+            victim != s->framep[VP56_FRAME_GOLDEN] &&
+            (!s->has_alpha || victim != s->alpha_context->framep[VP56_FRAME_GOLDEN]))
+            avctx->release_buffer(avctx, victim);
+    }
 
     p->qstride = 0;
     p->qscale_table = s->qscale_table;
@@ -658,9 +579,112 @@ int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     return avpkt->size;
 }
 
+static int ff_vp56_decode_mbs(AVCodecContext *avctx, void *data,
+                              int jobnr, int threadnr)
+{
+    VP56Context *s0 = avctx->priv_data;
+    int is_alpha = (jobnr == 1);
+    VP56Context *s = is_alpha ? s0->alpha_context : s0;
+    AVFrame *const p = s->framep[VP56_FRAME_CURRENT];
+    int mb_row, mb_col, mb_row_flip, mb_offset = 0;
+    int block, y, uv, stride_y, stride_uv;
+
+    if (p->key_frame) {
+        p->pict_type = AV_PICTURE_TYPE_I;
+        s->default_models_init(s);
+        for (block=0; block<s->mb_height*s->mb_width; block++)
+            s->macroblocks[block].type = VP56_MB_INTRA;
+    } else {
+        p->pict_type = AV_PICTURE_TYPE_P;
+        vp56_parse_mb_type_models(s);
+        s->parse_vector_models(s);
+        s->mb_type = VP56_MB_INTER_NOVEC_PF;
+    }
+
+    if (s->parse_coeff_models(s))
+        goto next;
+
+    memset(s->prev_dc, 0, sizeof(s->prev_dc));
+    s->prev_dc[1][VP56_FRAME_CURRENT] = 128;
+    s->prev_dc[2][VP56_FRAME_CURRENT] = 128;
+
+    for (block=0; block < 4*s->mb_width+6; block++) {
+        s->above_blocks[block].ref_frame = VP56_FRAME_NONE;
+        s->above_blocks[block].dc_coeff = 0;
+        s->above_blocks[block].not_null_dc = 0;
+    }
+    s->above_blocks[2*s->mb_width + 2].ref_frame = VP56_FRAME_CURRENT;
+    s->above_blocks[3*s->mb_width + 4].ref_frame = VP56_FRAME_CURRENT;
+
+    stride_y  = p->linesize[0];
+    stride_uv = p->linesize[1];
+
+    if (s->flip < 0)
+        mb_offset = 7;
+
+    /* main macroblocks loop */
+    for (mb_row=0; mb_row<s->mb_height; mb_row++) {
+        if (s->flip < 0)
+            mb_row_flip = s->mb_height - mb_row - 1;
+        else
+            mb_row_flip = mb_row;
+
+        for (block=0; block<4; block++) {
+            s->left_block[block].ref_frame = VP56_FRAME_NONE;
+            s->left_block[block].dc_coeff = 0;
+            s->left_block[block].not_null_dc = 0;
+        }
+        memset(s->coeff_ctx, 0, sizeof(s->coeff_ctx));
+        memset(s->coeff_ctx_last, 24, sizeof(s->coeff_ctx_last));
+
+        s->above_block_idx[0] = 1;
+        s->above_block_idx[1] = 2;
+        s->above_block_idx[2] = 1;
+        s->above_block_idx[3] = 2;
+        s->above_block_idx[4] = 2*s->mb_width + 2 + 1;
+        s->above_block_idx[5] = 3*s->mb_width + 4 + 1;
+
+        s->block_offset[s->frbi] = (mb_row_flip*16 + mb_offset) * stride_y;
+        s->block_offset[s->srbi] = s->block_offset[s->frbi] + 8*stride_y;
+        s->block_offset[1] = s->block_offset[0] + 8;
+        s->block_offset[3] = s->block_offset[2] + 8;
+        s->block_offset[4] = (mb_row_flip*8 + mb_offset) * stride_uv;
+        s->block_offset[5] = s->block_offset[4];
+
+        for (mb_col=0; mb_col<s->mb_width; mb_col++) {
+            vp56_decode_mb(s, mb_row, mb_col, is_alpha);
+
+            for (y=0; y<4; y++) {
+                s->above_block_idx[y] += 2;
+                s->block_offset[y] += 16;
+            }
+
+            for (uv=4; uv<6; uv++) {
+                s->above_block_idx[uv] += 1;
+                s->block_offset[uv] += 8;
+            }
+        }
+    }
+
+next:
+    if (p->key_frame || s->golden_frame) {
+        s->framep[VP56_FRAME_GOLDEN] = p;
+    }
+
+    FFSWAP(AVFrame *, s->framep[VP56_FRAME_CURRENT],
+                      s->framep[VP56_FRAME_PREVIOUS]);
+    return 0;
+}
+
 av_cold void ff_vp56_init(AVCodecContext *avctx, int flip, int has_alpha)
 {
     VP56Context *s = avctx->priv_data;
+    ff_vp56_init_context(avctx, s, flip, has_alpha);
+}
+
+av_cold void ff_vp56_init_context(AVCodecContext *avctx, VP56Context *s,
+                                  int flip, int has_alpha)
+{
     int i;
 
     s->avctx = avctx;
@@ -684,10 +708,14 @@ av_cold void ff_vp56_init(AVCodecContext *avctx, int flip, int has_alpha)
     s->macroblocks = NULL;
     s->quantizer = -1;
     s->deblock_filtering = 1;
+    s->golden_frame = 0;
 
     s->filter = NULL;
 
     s->has_alpha = has_alpha;
+
+    s->modelp = &s->model;
+
     if (flip) {
         s->flip = -1;
         s->frbi = 2;
@@ -702,16 +730,21 @@ av_cold void ff_vp56_init(AVCodecContext *avctx, int flip, int has_alpha)
 av_cold int ff_vp56_free(AVCodecContext *avctx)
 {
     VP56Context *s = avctx->priv_data;
+    return ff_vp56_free_context(s);
+}
+
+av_cold int ff_vp56_free_context(VP56Context *s)
+{
+    AVCodecContext *avctx = s->avctx;
+    int i;
 
     av_freep(&s->qscale_table);
     av_freep(&s->above_blocks);
     av_freep(&s->macroblocks);
     av_freep(&s->edge_emu_buffer_alloc);
-    if (s->framep[VP56_FRAME_GOLDEN]->data[0])
-        avctx->release_buffer(avctx, s->framep[VP56_FRAME_GOLDEN]);
-    if (s->framep[VP56_FRAME_GOLDEN2]->data[0])
-        avctx->release_buffer(avctx, s->framep[VP56_FRAME_GOLDEN2]);
-    if (s->framep[VP56_FRAME_PREVIOUS]->data[0])
-        avctx->release_buffer(avctx, s->framep[VP56_FRAME_PREVIOUS]);
+    for (i = 0; i < 4; ++i) {
+        if (s->frames[i].data[0])
+            avctx->release_buffer(avctx, &s->frames[i]);
+    }
     return 0;
 }

@@ -935,6 +935,16 @@ enum AVPacketSideDataType {
      * @endcode
      */
     AV_PKT_DATA_SKIP_SAMPLES=70,
+
+    /**
+     * An AV_PKT_DATA_JP_DUALMONO side data packet indicates that
+     * the packet may contain "dual mono" audio specific to Japanese DTV
+     * and if it is true, recommends only the selected channel to be used.
+     * @code
+     * u8    selected channels (0=mail/left, 1=sub/right, 2=both)
+     * @endcode
+     */
+    AV_PKT_DATA_JP_DUALMONO,
 };
 
 typedef struct AVPacket {
@@ -3637,11 +3647,6 @@ void avsubtitle_free(AVSubtitle *sub);
  * @addtogroup lavc_packet
  * @{
  */
-
-/**
- * @deprecated use NULL instead
- */
-attribute_deprecated void av_destruct_packet_nofree(AVPacket *pkt);
 
 /**
  * Default packet destructor.
