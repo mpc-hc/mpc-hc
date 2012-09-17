@@ -181,7 +181,7 @@ CRect CPlayerSeekBar::GetThumbRect() const
 __int64 CPlayerSeekBar::CalculatePosition(REFERENCE_TIME rt)
 {
     if (rt >= m_start && rt < m_stop) {
-        return (__int64)(GetChannelRect().Width() * ((double)(rt) / m_stop) - 1);
+        return (__int64)(GetChannelRect().Width() * ((double)(rt) / m_stop) + 1);
     } else {
         return -1;
     }
@@ -256,7 +256,7 @@ void CPlayerSeekBar::OnPaint()
             if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
                 __int64 pos = CalculatePosition(rt);
                 if (pos < 0) { continue; }
-                RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
+                RECT r = { cr.left + (LONG)pos, cr.top, cr.left + (LONG)pos + 2, cr.bottom };
                 dc.FillSolidRect(&r, black);
                 dc.ExcludeClipRect(&r);
             }
@@ -482,9 +482,22 @@ void CPlayerSeekBar::UpdateToolTipText()
     DVD_HMSF_TIMECODE tcNow = RT2HMS_r(m_tooltipPos);
 
     if (tcNow.bHours > 0) {
-        m_tooltipText.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+        m_tooltipText.Format(_T("%02d:%02d:%02d\n"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
     } else {
-        m_tooltipText.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
+        m_tooltipText.Format(_T("%02d:%02d\n"), tcNow.bMinutes, tcNow.bSeconds);
+    }
+    
+    if (m_pChapterBag) {
+        REFERENCE_TIME rt;
+        CComBSTR name;
+        for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
+            if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
+                REFERENCE_TIME unit = m_stop / GetChannelRect().Width();
+                if(rt - unit*2 < m_tooltipPos && m_tooltipPos < rt + unit*2) {
+                    m_tooltipText += name;
+                }
+            }
+        }
     }
 
     m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
