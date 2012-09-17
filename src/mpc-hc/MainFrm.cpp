@@ -744,8 +744,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_fileDropTarget.Register(this);
 
-    GetDesktopWindow()->GetWindowRect(&m_rcDesktop);
-
     const CAppSettings& s = AfxGetAppSettings();
 
     // Load the controls
@@ -1276,7 +1274,8 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
     if (AfxGetAppSettings().fSnapToDesktopEdges) {
         const CPoint threshold(5, 5);
 
-        CRect r0 = m_rcDesktop;
+        CRect r0;
+        CMonitors::GetNearestMonitor(this).GetMonitorRect(r0);
         CRect r1 = r0 + threshold;
         CRect r2 = r0 - threshold;
 
@@ -1419,7 +1418,6 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 {
     TRACE(_T("*** CMainFrame::OnDisplayChange()\n"));
 
-    GetDesktopWindow()->GetWindowRect(&m_rcDesktop);
     if (m_pFullscreenWnd && m_pFullscreenWnd->IsWindow()) {
         MONITORINFO MonitorInfo;
         HMONITOR    hMonitor;

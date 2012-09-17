@@ -198,8 +198,6 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     CRect m_lastWindowRect;
     CPoint m_lastMouseMove;
 
-    CRect m_rcDesktop;
-
     void ShowControls(int nCS, bool fSave = false);
     void SetUIPreset(int iCaptionMenuMode, UINT nCS);
 

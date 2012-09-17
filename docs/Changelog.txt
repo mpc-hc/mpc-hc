@@ -37,3 +37,4 @@ Legend:
 ! Ticket #2547, The master window handle was erroneously reset
   when starting a file from the explorer.
 ! Ticket #2452, Fix color controls in certain situations
+! Ticket #2599, Fix "Snap to desktop edges" option for multi-monitor setup
