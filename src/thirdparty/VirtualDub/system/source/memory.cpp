@@ -410,7 +410,14 @@ void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h
 	void VDFastMemcpyAutodetect() {
 		long exts = CPUGetEnabledExtensions();
 
-		if (exts & CPUF_SUPPORTS_SSE) {
+		// MPC custom code (begin)
+		if (exts & CPUF_SUPPORTS_SSE2) {
+			VDFastMemcpyPartial = VDFastMemcpyPartialSSE2;
+			VDFastMemcpyFinish	= VDFastMemcpyFinishMMX2;
+			VDSwapMemory		= VDSwapMemorySSE;
+		}
+		// MPC custom code (end)
+		else if (exts & CPUF_SUPPORTS_SSE) {
 			VDFastMemcpyPartial = VDFastMemcpyPartialMMX2;
 			VDFastMemcpyFinish	= VDFastMemcpyFinishMMX2;
 			VDSwapMemory		= VDSwapMemorySSE;
@@ -447,6 +454,10 @@ void VDMemcpyRect(void *dst, ptrdiff_t dststride, const void *src, ptrdiff_t src
 
 	if (w == srcstride && w == dststride)
 		VDFastMemcpyPartial(dst, src, w*h);
+	// MPC custom code (begin)
+	else if (w == -srcstride && w == -dststride)
+		VDFastMemcpyPartial((char *)dst + dststride * (h - 1), (char *)src + srcstride * (h - 1), w*h);
+	// MPC custom code (end)
 	else {
 		char *dst2 = (char *)dst;
 		const char *src2 = (const char *)src;
