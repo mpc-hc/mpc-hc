@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "DSMPropertyBag.h"
+
 #define SHOW_DELAY 100
 #define AUTOPOP_DELAY 1000
 
@@ -45,6 +47,7 @@ private:
     __int64 m_tooltipPos, m_tooltipLastPos;
     CString m_tooltipText;
     UINT_PTR m_tooltipTimer;
+    IDSMChapterBag* m_pChapterBag;
 
     void MoveThumb(CPoint point);
     __int64 CalculatePosition(REFERENCE_TIME rt);
@@ -71,6 +74,9 @@ public:
     void HideToolTip();
     void UpdateToolTipPosition(CPoint& point);
     void UpdateToolTipText();
+
+    void SetChapterBag(IDSMChapterBag* pCB);
+    void RemoveChapters();
 
     // Overrides
     // ClassWizard generated virtual function overrides

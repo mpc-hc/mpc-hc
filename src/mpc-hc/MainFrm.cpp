@@ -1969,6 +1969,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
             if (GetPlaybackMode() == PM_FILE) {
                 SetupChapters();
+
+                m_wndSeekBar.SetChapterBag(m_pCB);
             }
 
             if (GetPlaybackMode() == PM_DVD) { // we also use this timer to update the info panel for DVD playback
@@ -3541,6 +3543,7 @@ void CMainFrame::OnFilePostClosemedia()
     m_wndView.SetVideoRect();
     m_wndSeekBar.Enable(false);
     m_wndSeekBar.SetPos(0);
+    m_wndSeekBar.RemoveChapters();
     m_wndInfoBar.RemoveAllLines();
     m_wndStatsBar.RemoveAllLines();
     m_wndStatusBar.Clear();

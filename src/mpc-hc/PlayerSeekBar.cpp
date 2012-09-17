@@ -23,6 +23,7 @@
 #include "mplayerc.h"
 #include "PlayerSeekBar.h"
 #include "MainFrm.h"
+#include "DSMPropertyBag.h"
 
 
 // CPlayerSeekBar
@@ -38,7 +39,8 @@ CPlayerSeekBar::CPlayerSeekBar() :
     m_tooltipPos(0),
     m_tooltipState(TOOLTIP_HIDDEN),
     m_tooltipLastPos(-1),
-    m_tooltipTimer(1)
+    m_tooltipTimer(1),
+    m_pChapterBag(NULL)
 {
 }
 
@@ -246,24 +248,17 @@ void CPlayerSeekBar::OnPaint()
     bkg = GetSysColor(COLOR_BTNFACE);
 
     // chapter position
-    // TODO: DVD Chapters
-    {
-        CMainFrame* pMF = static_cast<CMainFrame*>(GetParentFrame());
-        if (pMF && (pMF->m_iMediaLoadState == MLS_LOADED && pMF->GetPlaybackMode() == PM_FILE)) {
-            IDSMChapterBag* pCB = pMF->m_pCB;
-            if (pCB) {
-                CRect cr = GetChannelRect();
-                REFERENCE_TIME rt;
-                CComBSTR name;
-                for (DWORD i = 0; i < pCB->ChapGetCount(); ++i) {
-                    if (SUCCEEDED(pCB->ChapGet(i, &rt, &name))) {
-                        __int64 pos = CalculatePosition(rt);
-                        if (pos < 0) { continue; }
-                        RECT r = { cr.left + (LONG)pos, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
-                        dc.FillSolidRect(&r, black);
-                        dc.ExcludeClipRect(&r);
-                    }
-                }
+    if (m_pChapterBag) {
+        CRect cr = GetChannelRect();
+        REFERENCE_TIME rt;
+        CComBSTR name;
+        for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
+            if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
+                __int64 pos = CalculatePosition(rt);
+                if (pos < 0) { continue; }
+                RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
+                dc.FillSolidRect(&r, black);
+                dc.ExcludeClipRect(&r);
             }
         }
     }
@@ -494,4 +489,14 @@ void CPlayerSeekBar::UpdateToolTipText()
 
     m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
     m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
+}
+
+void CPlayerSeekBar::SetChapterBag(IDSMChapterBag* pCB)
+{
+    m_pChapterBag = pCB;
+}
+
+void CPlayerSeekBar::RemoveChapters()
+{
+    m_pChapterBag = NULL;
 }
