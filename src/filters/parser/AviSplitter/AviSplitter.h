@@ -24,6 +24,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "../BaseSplitter/BaseSplitter.h"
+#include "AviSplitterSettingsWnd.h"
 
 #define AviSplitterName L"MPC AVI Splitter"
 #define AviSourceName   L"MPC AVI Source"
@@ -39,9 +40,16 @@ public:
 };
 
 class __declspec(uuid("9736D831-9D6C-4E72-B6E7-560EF9181001"))
-    CAviSplitterFilter : public CBaseSplitterFilter
+    CAviSplitterFilter
+    : public CBaseSplitterFilter
+    , public ISpecifyPropertyPages2
+    , public IAviSplitterFilter
 {
+    CCritSec m_csProps;
+
     CAutoVectorPtr<DWORD> m_tFrame;
+
+    bool m_bNonInterleavedFilesSupport;
 
 protected:
     CAutoPtr<CAviFile> m_pFile;
@@ -86,6 +94,17 @@ public:
 
     STDMETHODIMP GetKeyFrameCount(UINT& nKFs);
     STDMETHODIMP GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
+
+    // ISpecifyPropertyPages2
+
+    STDMETHODIMP GetPages(CAUUID* pPages);
+    STDMETHODIMP CreatePage(const GUID& guid, IPropertyPage** ppPage);
+
+    // IAviSplitterFilter
+    STDMETHODIMP Apply();
+
+    STDMETHODIMP SetNonInterleavedFilesSupport(BOOL nValue);
+    STDMETHODIMP_(BOOL) GetNonInterleavedFilesSupport();
 };
 
 class __declspec(uuid("CEA8DEFF-0AF7-4DB9-9A38-FB3C3AEFC0DE"))

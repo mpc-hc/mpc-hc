@@ -29,7 +29,7 @@
 
 static filter_t s_filters[] = {
 #if INTERNAL_SOURCEFILTER_AVI
-    {_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_SRC_AVI, NULL},
+    {_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_SRC_AVI, CreateInstance<CAviSplitterFilter>},
 #endif
 #if INTERNAL_SOURCEFILTER_CDDA
     {_T("CDDA (Audio CD)"), SOURCE_FILTER, SRC_CDDA, IDS_SRC_CDDA, NULL},

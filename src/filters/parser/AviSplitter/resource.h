@@ -1,6 +1,9 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by AviSplitter.rc
+//
+#define IDS_OPTIONS_CAPTION             14135
+#define IDS_AVISPLITTER_NON_INTERLEAVED 41441
 
 // Next default values for new objects
 // 

@@ -210,8 +210,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="AviFile.cpp" />
-    <ClCompile Include="AviReportWnd.cpp" />
     <ClCompile Include="AviSplitter.cpp" />
+    <ClCompile Include="AviSplitterSettingsWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -221,8 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AviFile.h" />
-    <ClInclude Include="AviReportWnd.h" />
     <ClInclude Include="AviSplitter.h" />
+    <ClInclude Include="AviSplitterSettingsWnd.h" />
+    <ClInclude Include="IAviSplitterFilter.h" />
     <ClInclude Include="resource.h">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClInclude>
@@ -248,6 +249,10 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\thirdparty\BaseClasses\BaseClasses.vcxproj">
       <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Filters.vcxproj">
+      <Project>{273b3149-3192-4b75-a791-470320b90812}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\BaseSplitter\BaseSplitter.vcxproj">

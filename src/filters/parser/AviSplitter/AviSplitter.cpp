@@ -22,7 +22,6 @@
 #include "stdafx.h"
 #include <MMReg.h>
 #include "AviFile.h"
-#include "AviReportWnd.h"
 #include "AviSplitter.h"
 
 #define MAXPACKETS_AVI  10000
@@ -47,6 +46,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 CFactoryTemplate g_Templates[] = {
     {sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CAviSplitterFilter>, NULL, &sudFilter[0]},
     {sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CAviSourceFilter>, NULL, &sudFilter[1]},
+    {L"CAviSplitterPropertyPage", &__uuidof(CAviSplitterSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CAviSplitterSettingsWnd> >},
 };
 
 int g_cTemplates = _countof(g_Templates);
@@ -116,7 +116,21 @@ CAviSplitterFilter::CAviSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr)
     : CBaseSplitterFilter(NAME("CAviSplitterFilter"), pUnk, phr, __uuidof(this), MAXPACKETS_AVI)
     , m_timeformat(TIME_FORMAT_MEDIA_TIME)
     , m_maxTimeStamp(Packet::INVALID_TIME)
+    , m_bNonInterleavedFilesSupport(true)
 {
+#ifdef STANDALONE_FILTER
+    CRegKey key;
+
+    if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\AVI Splitter"), KEY_READ)) {
+        DWORD dw;
+
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("NonInterleavedFilesSupport"), dw)) {
+            m_bNonInterleavedFilesSupport = !!dw;
+        }
+    }
+#else
+    m_bNonInterleavedFilesSupport = !!AfxGetApp()->GetProfileInt(_T("Filters\\AVI Splitter"), _T("NonInterleavedFilesSupport"), m_bNonInterleavedFilesSupport);
+#endif
 }
 
 STDMETHODIMP CAviSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -126,6 +140,9 @@ STDMETHODIMP CAviSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void**
     *ppv = NULL;
 
     return
+        QI(IAviSplitterFilter)
+        QI(ISpecifyPropertyPages)
+        QI(ISpecifyPropertyPages2)
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -161,24 +178,8 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         return E_OUTOFMEMORY;
     }
 
-    bool fShiftDown = !!(::GetKeyState(VK_SHIFT) & 0x8000);
-    bool fShowWarningText = !m_pFile->IsInterleaved(fShiftDown);
-
-    if (SUCCEEDED(hr) && (fShowWarningText || fShiftDown)) {
-#ifdef STANDALONE_FILTER
-        AFX_MANAGE_STATE(AfxGetStaticModuleState());
-#endif
-        bool fHideWarning = !!AfxGetApp()->GetProfileInt(_T("Settings"), _T("HideAviSplitterWarning"), 0);
-
-        if (!fHideWarning && !dynamic_cast<CAviSourceFilter*>(this) || fShiftDown) {
-            CAviReportWnd wnd;
-            fHideWarning = wnd.DoModal(m_pFile, fHideWarning, fShowWarningText);
-            AfxGetApp()->WriteProfileInt(_T("Settings"), _T("HideAviSplitterWarning"), fHideWarning);
-        }
-
-        if (fShowWarningText) {
-            hr = E_FAIL;
-        }
+    if (SUCCEEDED(hr) && !m_bNonInterleavedFilesSupport && !m_pFile->IsInterleaved()) {
+        hr = E_FAIL;
     }
 
     if (FAILED(hr)) {
@@ -895,6 +896,70 @@ STDMETHODIMP CAviSplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
     }
 
     return E_FAIL;
+}
+
+// ISpecifyPropertyPages2
+
+STDMETHODIMP CAviSplitterFilter::GetPages(CAUUID* pPages)
+{
+    CheckPointer(pPages, E_POINTER);
+
+    HRESULT hr = S_OK;
+
+    pPages->cElems = 1;
+    pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
+    if (pPages->pElems != NULL) {
+        pPages->pElems[0] = __uuidof(CAviSplitterSettingsWnd);
+    } else {
+        hr = E_OUTOFMEMORY;
+    }
+
+    return hr;
+}
+
+STDMETHODIMP CAviSplitterFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)
+{
+    CheckPointer(ppPage, E_POINTER);
+
+    if (*ppPage != NULL) {
+        return E_INVALIDARG;
+    }
+
+    HRESULT hr;
+
+    if (guid == __uuidof(CAviSplitterSettingsWnd)) {
+        (*ppPage = DNew CInternalPropertyPageTempl<CAviSplitterSettingsWnd>(NULL, &hr))->AddRef();
+    }
+
+    return *ppPage ? S_OK : E_FAIL;
+}
+
+// IAviSplitterFilter
+STDMETHODIMP CAviSplitterFilter::Apply()
+{
+#ifdef STANDALONE_FILTER
+    CRegKey key;
+    if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\AVI Splitter"))) {
+        key.SetDWORDValue(_T("NonInterleavedFilesSupport"), m_bNonInterleavedFilesSupport);
+    }
+#else
+    AfxGetApp()->WriteProfileInt(_T("Filters\\AVI Splitter"), _T("NonInterleavedFilesSupport"), m_bNonInterleavedFilesSupport);
+#endif
+
+    return S_OK;
+}
+
+STDMETHODIMP CAviSplitterFilter::SetNonInterleavedFilesSupport(BOOL nValue)
+{
+    CAutoLock cAutoLock(&m_csProps);
+    m_bNonInterleavedFilesSupport = !!nValue;
+    return S_OK;
+}
+
+STDMETHODIMP_(BOOL) CAviSplitterFilter::GetNonInterleavedFilesSupport()
+{
+    CAutoLock cAutoLock(&m_csProps);
+    return m_bNonInterleavedFilesSupport;
 }
 
 //

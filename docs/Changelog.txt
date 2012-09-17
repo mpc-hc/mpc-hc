@@ -11,6 +11,9 @@ Legend:
 1.6.4 - not released yet
 ========================
 + MPCVideoDec: Add support for 4K for Intel HD Graphics 4000
++ AVI Splitter: Add a property page so that the support for non interleaved files
+  can be turned on/off. Support for such files is now enabled by default.
+  The old AVI Chunk Viewer dialog has been removed.
 * Updated FFmpeg (git 6fa2532)
 * Updated Little CMS to v2.4 rc2 (git 728139a)
 * Updated SoundTouch to v1.7.0

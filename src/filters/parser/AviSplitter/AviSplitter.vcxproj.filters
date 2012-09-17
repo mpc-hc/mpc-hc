@@ -18,10 +18,10 @@
     <ClCompile Include="AviFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AviReportWnd.cpp">
+    <ClCompile Include="AviSplitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AviSplitter.cpp">
+    <ClCompile Include="AviSplitterSettingsWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
@@ -46,10 +46,13 @@
     <ClInclude Include="AviFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AviReportWnd.h">
+    <ClInclude Include="AviSplitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AviSplitter.h">
+    <ClInclude Include="AviSplitterSettingsWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IAviSplitterFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
