@@ -424,9 +424,13 @@ void CPPageOutput::OnSurfaceChange()
 
     switch (m_iAPSurfaceUsage) {
         case VIDRNDT_AP_SURFACE:
+            m_iDSShaderSupport.SetIcon(cross);
+            m_iDSRotationSupport.SetIcon(cross);
             m_wndToolTip.UpdateTipText(ResStr(IDC_REGULARSURF), GetDlgItem(IDC_DX_SURFACE));
             break;
         case VIDRNDT_AP_TEXTURE2D:
+            m_iDSShaderSupport.SetIcon(cross);
+            m_iDSRotationSupport.SetIcon(cross);
             m_wndToolTip.UpdateTipText(ResStr(IDC_TEXTURESURF2D), GetDlgItem(IDC_DX_SURFACE));
             break;
         case VIDRNDT_AP_TEXTURE3D:
