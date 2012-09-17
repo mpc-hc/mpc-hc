@@ -110,7 +110,8 @@ void VDJITAllocator::Free(void *p, size_t len) {
 		len += cur->second;
 		if (mNextChunk == cur)
 			++mNextChunk;
-		cur = mFreeChunks.erase(cur);
+
+		mFreeChunks.erase(cur++);
 	}
 
 	if (cur != mFreeChunks.begin()) {
@@ -240,7 +241,7 @@ VDFunctionThunk *VDCreateFunctionThunkFromMethod(void *method, void *pThis, size
 			0x00, 0x00, 0x00, 0x00,						// dd this
 		};
 
-		void *adapter;
+		void (*adapter)();
 
 		switch(argbytes) {
 		case 4:		adapter = VDMethodToFunctionThunk32_4;	break;

@@ -42,7 +42,11 @@
 #define _interlockedbittestandset64 _interlockedbittestandset64_vc
 #define _interlockedbittestandreset64 _interlockedbittestandreset64_vc
 
-#include <intrin.h>
+#ifdef _MSC_VER
+	#include <intrin.h>
+#else
+	#include <emmintrin.h>
+#endif
 
 #pragma pop_macro("_interlockedbittestandreset64")
 #pragma pop_macro("_interlockedbittestandset64")

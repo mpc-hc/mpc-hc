@@ -26,7 +26,7 @@
 #include "stdafx.h"
 #include <wtypes.h>
 #include <winnt.h>
-#include <intrin.h>
+#include <vd2/system/win32/intrin.h>
 #include <vd2/system/cpuaccel.h>
 
 static long g_lCPUExtensionsEnabled;
@@ -35,6 +35,12 @@ static long g_lCPUExtensionsAvailable;
 extern "C" {
 	bool FPU_enabled, MMX_enabled, SSE_enabled, ISSE_enabled, SSE2_enabled;
 };
+
+#if (!defined(VD_CPU_X86) && !defined(VD_CPU_AMD64)) || defined(__MINGW32__)
+long CPUCheckForExtensions() {
+	return 0;
+}
+#else
 
 namespace {
 #ifdef _M_IX86
@@ -51,17 +57,8 @@ namespace {
 
 		return (xfeature_enabled_mask & 0x06) == 0x06;
 	}
-
-	bool IsSSESupported() {
-
-		return true;
-	}
 #else
 	extern "C" bool VDIsAVXSupportedByOS();
-
-	bool IsSSESupported() {
-		return true;
-	}
 #endif
 }
 
@@ -153,6 +150,7 @@ long CPUCheckForExtensions() {
 
 	return flags;
 }
+#endif
 
 long CPUEnableExtensions(long lEnableFlags) {
 	g_lCPUExtensionsEnabled = lEnableFlags;
@@ -175,12 +173,13 @@ long CPUGetEnabledExtensions() {
 }
 
 void VDCPUCleanupExtensions() {
-#ifndef _M_AMD64
+#if defined(VD_CPU_X86)
 	if (ISSE_enabled)
-		__asm sfence
+		_mm_sfence();
+
 	if (MMX_enabled)
-		__asm emms
-#else
+		_mm_empty();
+#elif defined(VD_CPU_AMD64)
 	_mm_sfence();
 #endif
 }

@@ -308,6 +308,30 @@ inline vdsaferelease_t& operator,(vdsaferelease_t& x, T *& p) {
 	return x;
 }
 
+template<class T, size_t N>
+inline vdsaferelease_t& operator<<=(vdsaferelease_t& x, T *(&p)[N]) {
+	for(size_t i=0; i<N; ++i) {
+		if (p[i]) {
+			p[i]->Release();
+			p[i] = 0;
+		}
+	}
+
+	return x;
+}
+
+template<class T, size_t N>
+inline vdsaferelease_t& operator,(vdsaferelease_t& x, T *(&p)[N]) {
+	for(size_t i=0; i<N; ++i) {
+		if (p[i]) {
+			p[i]->Release();
+			p[i] = 0;
+		}
+	}
+
+	return x;
+}
+
 ///////////////////////////////////////////////////////////////////////////
 
 template<class T>

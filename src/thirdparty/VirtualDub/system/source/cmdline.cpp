@@ -38,6 +38,9 @@ VDCommandLine::~VDCommandLine() {
 }
 
 void VDCommandLine::Init(const wchar_t *s) {
+	mTokens.clear();
+	mLine.clear();
+
 	for(;;) {
 		while(iswspace(*s))
 			++s;
@@ -45,7 +48,7 @@ void VDCommandLine::Init(const wchar_t *s) {
 		if (!*s)
 			break;
 
-		Token te = { (int)mLine.size(), *s == L'/', *s == L'"' };
+		Token te = { (int)mLine.size(), *s == L'/' };
 
 		if (te.mbIsSwitch) {
 			mLine.push_back(L'/');
@@ -84,6 +87,91 @@ void VDCommandLine::Init(const wchar_t *s) {
 				}
 			} else
 				mLine.push_back(*s++);
+		}
+
+		mLine.push_back(0);
+	}
+}
+
+void VDCommandLine::InitAlt(const wchar_t *s) {
+	mTokens.clear();
+	mLine.clear();
+
+	for(;;) {
+		while(*s == L' ' || *s == L'\t')
+			++s;
+
+		if (!*s)
+			break;
+
+		Token te = { (int)mLine.size(), *s == L'/' };
+
+		if (te.mbIsSwitch) {
+			mLine.push_back(L'/');
+			++s;
+		}
+
+		mTokens.push_back(te);
+
+		// special case for /?
+		if (te.mbIsSwitch && *s == L'?') {
+			mLine.push_back(L'?');
+			++s;
+		}
+
+		bool inquote = false;
+		for(;;) {
+			wchar_t c = *s;
+
+			if (!c)
+				break;
+
+			if (!inquote && (c == L' ' || c == L'\t' || c == L'/'))
+				break;
+
+			if (te.mbIsSwitch) {
+				if (!isalnum((unsigned char)*s)) {
+					if (*s == L':')
+						++s;
+					break;
+				}
+
+				mLine.push_back(c);
+				++s;
+			} else {
+				if (c == L'\\') {
+					uint32 backslashes = 0;
+
+					do {
+						++backslashes;
+						c = *++s;
+					} while(c == L'\\');
+
+					bool postquote = false;
+					if (c == L'"') {
+						if (backslashes & 1)
+							postquote = true;
+						else
+							inquote = !inquote;
+
+						backslashes >>= 1;
+						++s;
+					}
+
+					while(backslashes--)
+						mLine.push_back(L'\\');
+
+					if (postquote)
+						mLine.push_back(L'"');
+				} else {
+					if (c == L'"')
+						inquote = !inquote;
+					else
+						mLine.push_back(c);
+
+					++s;
+				}
+			}
 		}
 
 		mLine.push_back(0);

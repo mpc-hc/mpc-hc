@@ -24,7 +24,7 @@
 //		distribution.
 
 #include "stdafx.h"
-#include <windows.h>
+#include <vd2/system/time.h>
 #include <vd2/system/profile.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -50,9 +50,7 @@ VDRTProfiler *VDGetRTProfiler() {
 VDRTProfiler::VDRTProfiler()
 	: mbEnableCollection(false)
 {
-	LARGE_INTEGER freq;
-	QueryPerformanceFrequency(&freq);
-	mPerfFreq = freq.QuadPart;
+	mPerfFreq = VDGetPreciseTicksPerSecondI();
 }
 
 VDRTProfiler::~VDRTProfiler() {
@@ -68,10 +66,7 @@ void VDRTProfiler::EndCollection() {
 
 void VDRTProfiler::Swap() {
 	vdsynchronized(mLock) {
-		LARGE_INTEGER tim;
-		QueryPerformanceCounter(&tim);
-
-		mSnapshotTime = tim.QuadPart;
+		mSnapshotTime = VDGetPreciseTick();
 
 		// update channels
 		uint32 channelCount = mChannelArray.size();
@@ -161,14 +156,13 @@ void VDRTProfiler::BeginEvent(int channel, uint32 color, const char *name) {
 
 void VDRTProfiler::EndEvent(int channel) {
 	if (mbEnableCollection) {
-		LARGE_INTEGER tim;
+		uint64 t = VDGetPreciseTick();
 
-		QueryPerformanceCounter(&tim);
 		vdsynchronized(mLock) {
 			Channel& chan = mChannelArray[channel];
 
 			if (chan.mbEventPending) {
-				chan.mEventList.back().mEndTime = tim.QuadPart;
+				chan.mEventList.back().mEndTime = t;
 				chan.mbEventPending = false;
 			}
 		}

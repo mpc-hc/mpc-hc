@@ -95,7 +95,7 @@ uint32 VDHashString32I(const char *s) {
 }
 
 uint32 VDHashString32I(const char *s, uint32 len) {
-	uint32 hash = 2166136261;
+	uint32 hash = 2166136261U;
 
 	for(uint32 i=0; i<len; ++i) {
 		hash *= 16777619;
@@ -112,7 +112,7 @@ uint32 VDHashString32I(const wchar_t *s) {
 }
 
 uint32 VDHashString32I(const wchar_t *s, uint32 len) {
-	uint32 hash = 2166136261;
+	uint32 hash = 2166136261U;
 
 	for(uint32 i=0; i<len; ++i) {
 		hash *= 16777619;

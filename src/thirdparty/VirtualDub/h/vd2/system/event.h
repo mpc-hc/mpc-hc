@@ -26,24 +26,6 @@
 #ifndef f_VD2_SYSTEM_EVENT_H
 #define f_VD2_SYSTEM_EVENT_H
 
-struct VDDelegateNode {
-	VDDelegateNode *mpNext, *mpPrev;
-};
-
-class VDDelegate;
-
-class VDEventBase {
-protected:
-	VDEventBase();
-	~VDEventBase();
-
-	void Add(VDDelegate&);
-	void Remove(VDDelegate&);
-	void Raise(void *src, const void *info);
-
-	VDDelegateNode mAnchor;
-};
-
 // Because Visual C++ uses different pointer-to-member representations for
 // different inheritance regimes, we have to include a whole lot of stupid
 // logic to detect and switch code paths based on the inheritance used.
@@ -66,6 +48,36 @@ protected:
 	class VDDelegateHolderS;
 #endif
 
+class VDDelegate;
+
+struct VDDelegateNode {
+	VDDelegateNode *mpNext, *mpPrev;
+
+	void (*mpCallback)(void *src, const void *info, VDDelegateNode&);
+	void *mpObj;
+
+#ifdef _MSC_VER
+	union {
+		void (VDDelegateHolderS::*mpFnS)();
+		void (VDDelegateHolderM::*mpFnM)();
+	};
+#else
+	void (VDDelegateHolderS::*mpFnS)();
+#endif
+};
+
+class VDEventBase {
+protected:
+	VDEventBase();
+	~VDEventBase();
+
+	void Add(VDDelegate&);
+	void Remove(VDDelegate&);
+	void Raise(void *src, const void *info);
+
+	VDDelegateNode mAnchor;
+};
+
 template<class Source, class ArgType>
 class VDDelegateBinding {
 public:
@@ -77,21 +89,21 @@ struct VDDelegateAdapterS {
 	typedef void (T::*T_Fn)(Source *, const ArgType&);
 	typedef void (T::*T_Fn2)(Source *, ArgType);
 
-	static void Init(VDDelegate& dst, T_Fn fn) {
+	static void Init(VDDelegateNode& dst, T_Fn fn) {
 		dst.mpCallback = Fn;
 		dst.mpFnS = reinterpret_cast<void(VDDelegateHolderS::*)()>(fn);
 	}
 
-	static void Init(VDDelegate& dst, T_Fn2 fn) {
+	static void Init(VDDelegateNode& dst, T_Fn2 fn) {
 		dst.mpCallback = Fn2;
 		dst.mpFnS = reinterpret_cast<void(VDDelegateHolderS::*)()>(fn);
 	}
 
-	static void Fn(void *src, const void *info, VDDelegate& del) {
+	static void Fn(void *src, const void *info, VDDelegateNode& del) {
 		return (((T *)del.mpObj)->*reinterpret_cast<T_Fn>(del.mpFnS))(static_cast<Source *>(src), *static_cast<const ArgType *>(info));
 	}
 
-	static void Fn2(void *src, const void *info, VDDelegate& del) {
+	static void Fn2(void *src, const void *info, VDDelegateNode& del) {
 		return (((T *)del.mpObj)->*reinterpret_cast<T_Fn2>(del.mpFnS))(static_cast<Source *>(src), *static_cast<const ArgType *>(info));
 	}
 };
@@ -111,21 +123,21 @@ struct VDDelegateAdapterM {
 	typedef void (T::*T_Fn)(Source *, const ArgType&);
 	typedef void (T::*T_Fn2)(Source *, ArgType);
 
-	static void Init(VDDelegate& dst, T_Fn fn) {
+	static void Init(VDDelegateNode& dst, T_Fn fn) {
 		dst.mpCallback = Fn;
 		dst.mpFnM = reinterpret_cast<void(VDDelegateHolderM::*)()>(fn);
 	}
 
-	static void Init(VDDelegate& dst, T_Fn2 fn) {
+	static void Init(VDDelegateNode& dst, T_Fn2 fn) {
 		dst.mpCallback = Fn2;
 		dst.mpFnM = reinterpret_cast<void(VDDelegateHolderM::*)()>(fn);
 	}
 
-	static void Fn(void *src, const void *info, VDDelegate& del) {
+	static void Fn(void *src, const void *info, VDDelegateNode& del) {
 		return (((T *)del.mpObj)->*reinterpret_cast<T_Fn>(del.mpFnM))(static_cast<Source *>(src), *static_cast<const ArgType *>(info));
 	}
 
-	static void Fn2(void *src, const void *info, VDDelegate& del) {
+	static void Fn2(void *src, const void *info, VDDelegateNode& del) {
 		return (((T *)del.mpObj)->*reinterpret_cast<T_Fn2>(del.mpFnM))(static_cast<Source *>(src), *static_cast<const ArgType *>(info));
 	}
 };
@@ -151,7 +163,7 @@ public:
 	VDDelegateBinding<Source, ArgType> operator()(T *obj, void (T::*fn)(Source *, const ArgType&)) {
 		mpObj = obj;
 
-		VDDelegateAdapter<sizeof fn>::AdapterLookup<T, Source, ArgType>::result::Init(*this, fn);
+		VDDelegateAdapter<sizeof fn>::template AdapterLookup<T, Source, ArgType>::result::Init(*this, fn);
 
 		VDDelegateBinding<Source, ArgType> binding = {this};
 		return binding;
@@ -161,25 +173,11 @@ public:
 	VDDelegateBinding<Source, ArgType> Bind(T *obj, void (T::*fn)(Source *, ArgType)) {
 		mpObj = obj;
 
-		VDDelegateAdapter<sizeof fn>::AdapterLookup<T, Source, ArgType>::result::Init(*this, fn);
+		VDDelegateAdapter<sizeof fn>::template AdapterLookup<T, Source, ArgType>::result::Init(*this, fn);
 
 		VDDelegateBinding<Source, ArgType> binding = {this};
 		return binding;
 	}
-
-public:
-	void (*mpCallback)(void *src, const void *info, VDDelegate&);
-	void *mpObj;
-
-#ifdef _MSC_VER
-	union {
-		void (VDDelegateHolderS::*mpFnS)();
-		void (VDDelegateHolderM::*mpFnM)();
-	};
-#else
-	class VDDelegateHolderS;
-	void (VDDelegateHolderS::*mpFnS)();
-#endif
 };
 
 template<class Source, class ArgType>

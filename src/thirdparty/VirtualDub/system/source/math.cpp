@@ -44,7 +44,7 @@ sint64 VDRoundToInt64(double x) {
 	return (sint64)floor(x + 0.5);
 }
 
-#ifdef _M_IX86
+#if defined(VD_CPU_X86) && defined(VD_COMPILER_MSVC)
 	sint64 __declspec(naked) __stdcall VDFractionScale64(uint64 a, uint32 b, uint32 c, uint32& remainder) {
 		__asm {
 			push	edi
@@ -91,10 +91,49 @@ sint64 VDRoundToInt64(double x) {
 			mov		edx, ecx
 			ret		16
 invalid:
-			mov		eax, -1					;return FFFFFFFF'FFFFFFFF
+			mov		eax, -1					;return FFFFFFFFFFFFFFFF
 			mov		edx, -1
 			ret		16
 		}
+	}
+#elif !defined(VD_CPU_AMD64)
+	sint64 VDFractionScale64(uint64 a, uint32 b, uint32 c, uint32& remainder) {
+		uint32 a0 = (uint32)a;
+		uint32 a1 = (uint32)(a >> 32);
+
+		uint64 m0 = (uint64)a0*b;
+		uint64 m1 = (uint64)a1*b;
+
+		// collect all multiplier terms
+		uint32 s0  = (uint32)m0;
+		uint32 s1a = (uint32)(m0 >> 32);
+		uint32 s1b = (uint32)m1;
+		uint32 s2  = (uint32)(m1 >> 32);
+
+		// form 96-bit intermediate product
+		uint32 acc0 = s0;
+		uint32 acc1 = s1a + s1b;
+		uint32 acc2 = s2 + (acc1 < s1b);
+
+		// check for overflow (or divide by zero)
+		if (acc2 >= c)
+			return 0xFFFFFFFFFFFFFFFFULL;
+
+		// do divide
+		uint64 div1 = ((uint64)acc2 << 32) + acc1;
+		uint64 q1 = div1 / c;
+		uint64 div0 = ((div1 % c) << 32) + acc0;
+		uint32 q0 = (uint32)(div0 / c);
+
+		remainder = (uint32)(div0 % c);
+
+		return (q1 << 32) + q0;
+	}
+
+	uint64 VDUMulDiv64x32(uint64 a, uint32 b, uint32 c) {
+		uint32 r;
+
+		return VDFractionScale64(a, b, c, r);
 	}
 #endif
 

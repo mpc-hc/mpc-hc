@@ -48,7 +48,7 @@
 #ifndef VD_COMPILER_DETECTED
 	#define VD_COMPILER_DETECTED
 
-	#ifdef _MSC_VER
+	#if defined(_MSC_VER)
 		#define VD_COMPILER_MSVC	_MSC_VER
 
 		#if _MSC_VER >= 1400
@@ -68,17 +68,23 @@
 		#elif _MSC_VER >= 1200
 			#define VD_COMPILER_MSVC_VC6		1
 		#endif
-
+	#elif defined(__GNUC__)
+		#define VD_COMPILER_GCC
+		#if defined(__MINGW32__) || defined(__MINGW64__)
+			#define VD_COMPILER_GCC_MINGW
+		#endif
 	#endif
 #endif
 
 #ifndef VD_CPU_DETECTED
 	#define VD_CPU_DETECTED
 
-	#ifdef _M_AMD64
+	#if defined(_M_AMD64)
 		#define VD_CPU_AMD64	1
-	#elif _M_IX86
+	#elif defined(_M_IX86) || defined(__i386__)
 		#define VD_CPU_X86		1
+	#elif defined(_M_ARM)
+		#define VD_CPU_ARM
 	#endif
 #endif
 
@@ -224,24 +230,34 @@ typedef	struct __VDGUIHandle *VDGUIHandle;
 ///////////////////////////////////////////////////////////////////////////
 
 #if defined(VD_COMPILER_MSVC)
-	#define VDINTERFACE		__declspec(novtable)
-	#define VDNORETURN		__declspec(noreturn)
+	#define VDINTERFACE			__declspec(novtable)
+	#define VDNORETURN			__declspec(noreturn)
 	#define VDPUREFUNC
+
 	#if VD_COMPILER_MSVC >= 1400
-		#define VDRESTRICT __restrict
+		#define VDRESTRICT		__restrict
 	#else
 		#define VDRESTRICT
 	#endif
-#elif defined(__GNUC__)
+
+	#define VDNOINLINE			__declspec(noinline)
+	#define VDFORCEINLINE		__forceinline
+	#define VDALIGN(alignment)	__declspec(align(alignment))
+#elif defined(VD_COMPILER_GCC)
 	#define VDINTERFACE
-	#define VDNORETURN		__attribute__((noreturn))
-	#define VDPUREFUNC		__attribute__((pure))
-	#define VDRESTRICT
+	#define VDNORETURN			__attribute__((noreturn))
+	#define VDPUREFUNC			__attribute__((pure))
+	#define VDRESTRICT			__restrict
+	#define VDNOINLINE			__attribute__((noinline))
+	#define VDFORCEINLINE		inline __attribute__((always_inline))
+	#define VDALIGN(alignment)	__attribute__((aligned(alignment)))
 #else
 	#define VDINTERFACE
 	#define VDNORETURN
 	#define VDPUREFUNC
 	#define VDRESTRICT
+	#define VDFORCEINLINE
+	#define VDALIGN(alignment)
 #endif
 
 ///////////////////////////////////////////////////////////////////////////
@@ -273,7 +289,7 @@ extern void VDDebugPrint(const char *format, ...);
 #endif
 
 
-#if defined(_DEBUG) && !defined(__INTEL_COMPILER) // MPC-HC specific - Cannot use these macros with ICL
+#ifdef _DEBUG
 
 	namespace {
 		template<int line>
@@ -295,12 +311,18 @@ extern void VDDebugPrint(const char *format, ...);
 
 		template<int lineno>
 		bool VDAssertHelper<lineno>::sbAssertDisabled;
+
+		template<int lineno>
+		struct VDAssertHelper2 { static bool sDisabled; };
+
+		template<int lineno>
+		bool VDAssertHelper2<lineno>::sDisabled;
 	}
 
-	#define VDASSERT(exp)		if (static bool active = true) if (exp); else switch(VDAssert   (#exp, __FILE__, __LINE__)) { case kVDAssertBreak: VDBREAK; break; case kVDAssertIgnore: active = false; } else ((void)0)
-	#define VDASSERTPTR(exp) 	if (static bool active = true) if (exp); else switch(VDAssertPtr(#exp, __FILE__, __LINE__)) { case kVDAssertBreak: VDBREAK; break; case kVDAssertIgnore: active = false; } else ((void)0)
-	#define VDVERIFY(exp)		if (exp); else if (static bool active = true) switch(VDAssert   (#exp, __FILE__, __LINE__)) { case kVDAssertBreak: VDBREAK; break; case kVDAssertIgnore: active = false; } else ((void)0)
-	#define VDVERIFYPTR(exp) 	if (exp); else if (static bool active = true) switch(VDAssertPtr(#exp, __FILE__, __LINE__)) { case kVDAssertBreak: VDBREAK; break; case kVDAssertIgnore: active = false; } else ((void)0)
+	#define VDASSERT(exp)		if (!VDAssertHelper2<__LINE__>::sDisabled) if (exp); else switch(VDAssert   (#exp, __FILE__, __LINE__)) { case kVDAssertBreak: VDBREAK; break; case kVDAssertIgnore: VDAssertHelper2<__LINE__>::sDisabled = true; } else ((void)0)
+	#define VDASSERTPTR(exp) 	if (!VDAssertHelper2<__LINE__>::sDisabled) if (exp); else switch(VDAssertPtr(#exp, __FILE__, __LINE__)) { case kVDAssertBreak: VDBREAK; break; case kVDAssertIgnore: VDAssertHelper2<__LINE__>::sDisabled = true; } else ((void)0)
+	#define VDVERIFY(exp)		if (exp); else if (!VDAssertHelper2<__LINE__>::sDisabled) switch(VDAssert   (#exp, __FILE__, __LINE__)) { case kVDAssertBreak: VDBREAK; break; case kVDAssertIgnore: VDAssertHelper2<__LINE__>::sDisabled = true; } else ((void)0)
+	#define VDVERIFYPTR(exp) 	if (exp); else if (!VDAssertHelper2<__LINE__>::sDisabled) switch(VDAssertPtr(#exp, __FILE__, __LINE__)) { case kVDAssertBreak: VDBREAK; break; case kVDAssertIgnore: VDAssertHelper2<__LINE__>::sDisabled = true; } else ((void)0)
 	#define VDASSERTCT(exp)		(void)sizeof(int[(exp)?1:-1])
 
 	#define VDINLINEASSERT(exp)			((exp)||(VDAssertHelper<__LINE__>(#exp, __FILE__),false))

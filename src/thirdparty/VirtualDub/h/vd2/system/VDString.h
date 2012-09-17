@@ -789,6 +789,7 @@ public:
 	}
 
 protected:
+	friend class VDStringW;
 	friend bool operator==(const VDStringSpanW& x, const VDStringSpanW& y);
 	friend bool operator==(const VDStringSpanW& x, const wchar_t *y);
 
@@ -1068,11 +1069,11 @@ public:
 		*mpEnd = 0;
 	}
 
-	this_type& assign(const this_type& str) {
+	this_type& assign(const VDStringSpanW& str) {
 		return assign(str.mpBegin, str.mpEnd);
 	}
 
-	this_type& assign(const this_type& str, size_type pos, size_type n) {
+	this_type& assign(const VDStringSpanW& str, size_type pos, size_type n) {
 		size_type len = (size_type)(str.mpEnd - str.mpBegin);
 		VDASSERT(pos <= len);
 

@@ -27,7 +27,7 @@
 #include <stdio.h>
 
 #include <windows.h>
-#include <intrin.h>
+#include <vd2/system/win32/intrin.h>
 
 #include <vd2/system/vdtypes.h>
 #include <vd2/system/cpuaccel.h>
@@ -152,7 +152,7 @@ void VDSetExternalCallTrap(IVDExternalCallTrap *trap) {
 	g_pExCallTrap = trap;
 }
 
-#if defined(WIN32) && defined(_M_IX86)
+#if defined(WIN32) && defined(_M_IX86) && defined(__MSC_VER)
 	namespace {
 		bool IsFPUStateOK(unsigned& ctlword) {
 			ctlword = 0;

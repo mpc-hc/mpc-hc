@@ -21,6 +21,7 @@
 #include <vd2/system/vdstl.h>
 #include <vd2/system/cpuaccel.h>
 #include <vd2/system/memory.h>
+#include <vd2/system/win32/intrin.h>
 #include <vd2/Kasumi/pixmap.h>
 #include <vd2/Kasumi/pixmaputils.h>
 
@@ -1174,7 +1175,7 @@ void VDPixmapBlt_YUVPlanar_decode_reference(const VDPixmap& dst, const VDPixmap&
 
 #ifdef _M_IX86
 	if (cpuflags & CPUF_SUPPORTS_MMX) {
-		__asm emms
+		_mm_empty();
 	}
 #endif
 }
@@ -1308,7 +1309,7 @@ namespace {
 
 #ifdef _M_IX86
 		if (cpuflags & CPUF_SUPPORTS_MMX) {
-			__asm emms
+			_mm_empty();
 		}
 #endif
 	}
@@ -1360,7 +1361,7 @@ DECLARE_YUV_PLANAR(YUV411, XRGB1555) {
 		vdpixsize wt;
 
 		if (wpairs > 0) {
-#ifdef _M_AMD64
+#if !defined(VD_CPU_X86)
 			wt = wpairs;
 
 			do {
@@ -1405,8 +1406,8 @@ DECLARE_YUV_PLANAR(YUV411, XRGB1555) {
 		vdptrstep(crrow, crpitch);
 	} while(--h);
 
-#ifndef _M_AMD64
-	__asm emms
+#ifdef VD_CPU_X86
+	_mm_empty();
 #endif
 }
 
@@ -1431,7 +1432,7 @@ DECLARE_YUV_PLANAR(YUV411, RGB565) {
 		vdpixsize wt;
 
 		if (wpairs > 0) {
-#if _M_AMD64
+#if !defined(VD_CPU_X86)
 			wt = wpairs;
 
 			do {
@@ -1472,8 +1473,8 @@ DECLARE_YUV_PLANAR(YUV411, RGB565) {
 		vdptrstep(crrow, crpitch);
 	} while(--h);
 
-#ifndef _M_AMD64
-	__asm emms
+#ifdef VD_CPU_X86
+	_mm_empty();
 #endif
 }
 
@@ -1558,7 +1559,7 @@ DECLARE_YUV_PLANAR(YUV411, XRGB8888) {
 		vdpixsize wt;
 
 		if (wpairs > 0) {
-#ifdef _M_AMD64
+#if !defined(VD_CPU_X86)
 			wt = wpairs;
 
 			do {
@@ -1603,7 +1604,7 @@ DECLARE_YUV_PLANAR(YUV411, XRGB8888) {
 		vdptrstep(crrow, crpitch);
 	} while(--h);
 
-#ifndef _M_AMD64
-	__asm emms
+#ifdef VD_CPU_X86
+	_mm_empty();
 #endif
 }

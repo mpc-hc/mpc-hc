@@ -32,7 +32,26 @@
 
 template<class K, class V, class Hash = vdhash<K>, class Pred = std::equal_to<K>, class A = std::allocator<vdhashtable_node<std::pair<K, V> > > >
 class vdhashmap : public vdhashtable<std::pair<K, V> > {
+protected:
+	using vdhashtable<std::pair<K, V> >::mpBucketStart;
+	using vdhashtable<std::pair<K, V> >::mpBucketEnd;
+	using vdhashtable<std::pair<K, V> >::mBucketCount;
+	using vdhashtable<std::pair<K, V> >::mElementCount;
+	using vdhashtable<std::pair<K, V> >::sEmptyBucket;
+
 public:
+	typedef typename vdhashtable<std::pair<K, V> >::node_type node_type;
+	typedef typename vdhashtable<std::pair<K, V> >::value_type value_type;
+	typedef typename vdhashtable<std::pair<K, V> >::size_type size_type;
+	typedef typename vdhashtable<std::pair<K, V> >::difference_type difference_type;
+	typedef typename vdhashtable<std::pair<K, V> >::pointer pointer;
+	typedef typename vdhashtable<std::pair<K, V> >::const_pointer const_pointer;
+	typedef typename vdhashtable<std::pair<K, V> >::reference reference;
+	typedef typename vdhashtable<std::pair<K, V> >::const_reference const_reference;
+	typedef typename vdhashtable<std::pair<K, V> >::iterator iterator;
+	typedef typename vdhashtable<std::pair<K, V> >::const_iterator const_iterator;
+	typedef typename vdhashtable<std::pair<K, V> >::local_iterator local_iterator;
+	typedef typename vdhashtable<std::pair<K, V> >::const_local_iterator const_local_iterator;
 	typedef K key_type;
 	typedef V mapped_type;
 	typedef Hash hasher;
@@ -113,7 +132,7 @@ protected:
 	void				reset();
 
 	A mAllocator;
-	typename A::rebind<vdhashtable_base_node *>::other mBucketAllocator;
+	typename A::template rebind<vdhashtable_base_node *>::other mBucketAllocator;
 	Hash mHasher;
 	Pred mPred;
 };
@@ -307,15 +326,15 @@ typename vdhashmap<K, V, Hash, Pred, A>::iterator vdhashmap<K, V, Hash, Pred, A>
 template<class K, class V, class Hash, class Pred, class A>
 typename vdhashmap<K, V, Hash, Pred, A>::const_iterator vdhashmap<K, V, Hash, Pred, A>::erase(const_iterator position) {
 	size_type bucket = mHasher(position->first) % mBucketCount;
-	const vdhashtable_base_node *prev = NULL;
-	const vdhashtable_base_node *p = mpBucketStart[bucket];
+	vdhashtable_base_node *prev = NULL;
+	vdhashtable_base_node *p = mpBucketStart[bucket];
 
 	while(&static_cast<const node_type *>(p)->mData != &*position) {
 		prev = p;
 		p = p->mpHashNext;
 	}
 
-	const vdhashtable_base_node *next = p->mpHashNext;
+	vdhashtable_base_node *next = p->mpHashNext;
 	if (prev)
 		prev->mpHashNext = next;
 	else
@@ -441,12 +460,12 @@ std::pair<typename vdhashmap<K, V, Hash, Pred, A>::iterator, typename vdhashmap<
 	iterator itEnd;
 
 	if (it == itEnd)
-		return std::pair<itEnd, itEnd>();
+		return std::make_pair(itEnd, itEnd);
 
 	itEnd = it;
 	++itEnd;
 
-	return std::pair<it, itEnd>();
+	return std::make_pair<it, itEnd>();
 }
 
 template<class K, class V, class Hash, class Pred, class A>
@@ -455,12 +474,12 @@ std::pair<typename vdhashmap<K, V, Hash, Pred, A>::const_iterator, typename vdha
 	const_iterator itEnd;
 
 	if (it == itEnd)
-		return std::pair<itEnd, itEnd>();
+		return std::make_pair(itEnd, itEnd);
 
 	itEnd = it;
 	++itEnd;
 
-	return std::pair<it, itEnd>();
+	return std::make_pair(it, itEnd);
 }
 
 template<class K, class V, class Hash, class Pred, class A>

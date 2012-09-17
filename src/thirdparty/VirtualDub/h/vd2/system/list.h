@@ -108,7 +108,7 @@ template<class T> class List2;
 
 template<class T>
 class ListNode2 : public ListNode {
-friend List2<T>;
+friend class List2<T>;
 public:
 	void InsertBefore(ListNode2<T> *node) { ListNode::InsertBefore(node); }
 	void InsertAfter(ListNode2<T> *node) { ListNode::InsertAfter(node); }
@@ -140,7 +140,7 @@ public:
 	T *begin() const { return AtHead(); }
 	T *end() const { return AtTail(); }
 
-	void take(List2<T>& from) { List::take(from); }
+	void take(List2<T>& from) { List::Take(from); }
 
 	class iterator {
 	protected:
@@ -166,28 +166,28 @@ public:
 		fwit() throw() {}
 		fwit(const fwit& src) throw() : iterator(src) {}
 		fwit(ListNode2<T> *start) throw() {
-			node = start;
-			next = start->NextFromHead();
+			this->node = start;
+			this->next = start->NextFromHead();
 		}
 
 		const fwit& operator=(ListNode2<T> *start) throw() {
-			node = start;
-			next = start->NextFromHead();
+			this->node = start;
+			this->next = start->NextFromHead();
 
 			return *this;
 		}
 
 		fwit& operator++() throw() {
-			node = next;
-			next = node->NextFromHead();
+			this->node = this->next;
+			this->next = this->node->NextFromHead();
 
 			return *this;
 		}
 
 		const fwit& operator+=(int v) throw() {
-			while(next && v--) {
-				node = next;
-				next = node->NextFromHead();
+			while(this->next && v--) {
+				this->node = this->next;
+				this->next = this->node->NextFromHead();
 			}
 
 			return *this;
@@ -213,28 +213,28 @@ public:
 		rvit() throw() {}
 
 		rvit(ListNode2<T> *start) throw() {
-			node = start;
-			next = start->NextFromTail();
+			this->node = start;
+			this->next = start->NextFromTail();
 		}
 
 		const rvit& operator=(ListNode2<T> *start) throw() {
-			node = start;
-			next = start->NextFromTail();
+			this->node = start;
+			this->next = start->NextFromTail();
 
 			return *this;
 		}
 
 		rvit& operator--() throw() {
-			node = next;
-			next = node->NextFromTail();
+			this->node = this->next;
+			this->next = this->node->NextFromTail();
 
 			return *this;
 		}
 
 		const rvit& operator-=(int v) throw() {
-			while(next && v--) {
-				node = next;
-				next = node->NextFromTail();
+			while(this->next && v--) {
+				this->node = this->next;
+				this->next = this->node->NextFromTail();
 			}
 
 			return *this;
@@ -267,7 +267,7 @@ public:
 	void dispose() {
 		T *node;
 
-		while(node = RemoveHead())
+		while(node = this->RemoveHead())
 			delete node;
 	}
 };

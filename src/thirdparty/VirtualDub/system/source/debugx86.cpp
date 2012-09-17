@@ -24,6 +24,7 @@
 //		distribution.
 
 #include "stdafx.h"
+#include <vd2/system/seh.h>
 #include <vd2/system/vdtypes.h>
 #include <vd2/system/debugx86.h>
 
@@ -87,7 +88,7 @@ VDInstructionTypeX86 VDGetInstructionTypeX86(const void *p) {
 
 	VDInstructionTypeX86 type = kX86InstUnknown;
 
-	__try {
+	vd_seh_guard_try {
 		unsigned char buf[8];
 
 		memcpy(buf, p, 8);
@@ -148,7 +149,8 @@ VDInstructionTypeX86 VDGetInstructionTypeX86(const void *p) {
 					type = (bWide||bRepF2||bRepF3) ? kX86InstSSE2 : kX86InstMMX;
 			}
 		}
-	} __except(1) {
+	} vd_seh_guard_except {
 	}
+
 	return type;
 }

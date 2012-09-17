@@ -28,7 +28,7 @@
 
 #include <vd2/system/int128.h>
 
-#ifndef _M_AMD64
+#if defined(VD_CPU_X86) && defined(VD_COMPILER_MSVC)
 	void __declspec(naked) __cdecl vdasm_uint128_add(uint64 dst[2], const uint64 x[2], const uint64 y[2]) {
 		__asm {
 			push	ebx
@@ -376,6 +376,156 @@
 			ret		8
 		}
 	}
+
+#elif !defined(VD_CPU_AMD64)
+
+	// These aren't really assembly routines, but we define them so we aren't asm dependent.
+
+	void vdasm_uint128_add(uint64 dst[2], const uint64 x[2], const uint64 y[2]) {
+		dst[0] = x[0] + y[0];
+		dst[1] = x[1] + y[1] + (dst[0] < x[0]);
+	}
+
+	void vdasm_uint128_sub(uint64 dst[2], const uint64 x[2], const uint64 y[2]) {
+		dst[0] = x[0] - y[0];
+		dst[1] = x[1] - y[1] - (dst[0] > x[0]);
+	}
+
+	void vdint128::setSquare(sint64 v) {
+		vdint128 r;
+
+		uint32 u0 = (uint32)v;
+		uint32 u1 = (uint32)(v >> 32);
+		uint64 m0 = u0*u0;
+		uint64 m1 = u0*u1;		// added twice
+		uint64 m2 = u1*u1;
+		uint32 s0  = (uint32)m0;
+		uint32 s1a = (uint32)(m0 >> 32);
+		uint32 s1b = (uint32)m1;
+		uint32 s2a = (uint32)(m1 >> 32);
+
+		q[1] = m2 + s2a;
+
+		d[0] = s0;
+
+		d[1] = s1a + s1b;
+		if (d[1] < s1b)
+			++q[1];
+
+		d[1] += s1b;
+		if (d[1] < s1b)
+			++q[1];
+	}
+
+	const vdint128 vdint128::operator<<(int v) const {
+		vdint128 r;
+
+		r.q[0] = q[0];
+		r.q[1] = q[1];
+
+		if (v >= 64) {
+			if (v >= 128) {
+				r.q[0] = 0;
+				r.q[1] = 0;
+				return r;
+			}
+
+			r.q[1] = r.q[0];
+			r.q[0] = 0;
+
+			v -= 64;
+		}
+
+		if (v) {
+			r.q[1] = (r.q[1] << v) + ((uint64)r.q[0] >> (64 - v));
+			r.q[0] <<= v;
+		}
+
+		return r;
+	}
+
+	const vdint128 vdint128::operator>>(int v) const {
+		vdint128 r;
+
+		r.q[0] = q[0];
+		r.q[1] = q[1];
+
+		if (v >= 64) {
+			sint64 sign = q[1] >> 63;
+
+			if (v >= 128) {
+				r.q[0] = sign;
+				r.q[1] = sign;
+				return r;
+			}
+
+			r.q[0] = r.q[1];
+			r.q[1] = sign;
+
+			v -= 64;
+		}
+
+		if (v) {
+			r.q[0] = ((uint64)r.q[0] >> v) + (r.q[1] << (64 - v));
+			r.q[1] >>= v;
+		}
+
+		return r;
+	}
+
+	const vduint128 vduint128::operator<<(int v) const {
+		vduint128 r;
+
+		r.q[0] = q[0];
+		r.q[1] = q[1];
+
+		if (v >= 64) {
+			if (v >= 128) {
+				r.q[0] = 0;
+				r.q[1] = 0;
+				return r;
+			}
+
+			r.q[1] = r.q[0];
+			r.q[0] = 0;
+
+			v -= 64;
+		}
+
+		if (v) {
+			r.q[1] = (r.q[1] << v) + (r.q[0] >> (64 - v));
+			r.q[0] <<= v;
+		}
+
+		return r;
+	}
+
+	const vduint128 vduint128::operator>>(int v) const {
+		vduint128 r;
+
+		r.q[0] = q[0];
+		r.q[1] = q[1];
+
+		if (v >= 64) {
+			if (v >= 128) {
+				r.q[0] = 0;
+				r.q[1] = 0;
+				return r;
+			}
+
+			r.q[0] = r.q[1];
+			r.q[1] = 0;
+
+			v -= 64;
+		}
+
+		if (v) {
+			r.q[0] = (r.q[0] >> v) + (r.q[1] << (64 - v));
+			r.q[1] >>= v;
+		}
+
+		return r;
+	}
 #endif
 
 const vdint128 vdint128::operator*(const vdint128& x) const {
@@ -423,7 +573,7 @@ const vduint128 vduint128::operator*(const vduint128& x) const {
 	return result;
 }
 
-#ifdef _M_IX86
+#if defined(VD_CPU_X86) && defined(VD_COMPILER_MSVC)
 	vduint128 __declspec(naked) __cdecl VDUMul64x64To128(uint64 x, uint64 y) {
 		__asm {
 			mov		ecx,[esp+4]
@@ -453,6 +603,43 @@ const vduint128 vduint128::operator*(const vduint128& x) const {
 			mov		eax, ecx
 			ret
 		}
+	}
+#elif !defined(VD_CPU_AMD64)
+	vduint128 VDUMul64x64To128(uint64 x, uint64 y) {
+		uint32 x0 = (uint32)x;
+		uint32 x1 = (uint32)(x >> 32);
+		uint32 y0 = (uint32)y;
+		uint32 y1 = (uint32)(y >> 32);
+
+		uint64 m0  = (uint64)x0*y0;
+		uint64 m1a = (uint64)x1*y0;
+		uint64 m1b = (uint64)x0*y1;
+		uint64 m2  = (uint64)x1*y1;
+
+		uint32 s0  = (uint32)m0;
+		uint32 s1a = (uint32)(m0 >> 32);
+		uint32 s1b = (uint32)m1a;
+		uint32 s1c = (uint32)m1b;
+		uint32 s2a = (uint32)(m1a >> 32);
+		uint32 s2b = (uint32)(m1b >> 32);
+		uint32 s2c = (uint32)m2;
+		uint32 s3  = (uint32)(m2 >> 32);
+
+		vduint128 r;
+		r.d[0] = s0;
+		r.d[1] = s1a + s1b;
+		r.d[2] = r.d[1] < s1b;
+		r.d[1] += s1c;
+		r.d[2] += r.d[1] < s1c;
+		r.d[2] += s2a;
+		r.d[3] = r.d[2] < s2a;
+		r.d[2] += s2b;
+		r.d[3] += r.d[2] < s2b;
+		r.d[2] += s2c;
+		r.d[3] += r.d[2] < s2c;
+		r.d[3] += s3;
+
+		return r;
 	}
 #endif
 

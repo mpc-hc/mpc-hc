@@ -26,7 +26,6 @@
 #include "stdafx.h"
 #include <string.h>
 #include <ctype.h>
-#include <crtdbg.h>
 
 #include <vd2/system/list.h>
 #include <vd2/system/VDNamespace.h>

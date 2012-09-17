@@ -30,9 +30,9 @@
 
 char *strncpyz(char *strDest, const char *strSource, size_t count);
 wchar_t *wcsncpyz(wchar_t *strDest, const wchar_t *strSource, size_t count);
-const char *strskipspace(const char *s) throw();
+const char *strskipspace(const char *s);
 
-inline char *strskipspace(char *s) throw() {
+inline char *strskipspace(char *s) {
 	return const_cast<char *>(strskipspace(s));
 }
 

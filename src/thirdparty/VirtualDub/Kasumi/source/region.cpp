@@ -23,6 +23,10 @@
 #include <vd2/system/math.h>
 #include <vd2/system/vdstl.h>
 
+void VDPixmapRegion::clear() {
+	mSpans.clear();
+}
+
 void VDPixmapRegion::swap(VDPixmapRegion& x) {
 	mSpans.swap(x.mSpans);
 	std::swap(mBounds, x.mBounds);
@@ -1344,8 +1348,14 @@ a_start:
 	dst.mSpans.resize(dstp - dst.mSpans.data());
 }
 
-void VDPixmapConvolveRegion(VDPixmapRegion& dst, const VDPixmapRegion& r1, const VDPixmapRegion& r2) {
+void VDPixmapConvolveRegion(VDPixmapRegion& dst, const VDPixmapRegion& r1, const VDPixmapRegion& r2, VDPixmapRegion *tempCache) {
 	VDPixmapRegion temp;
+
+	if (tempCache) {
+		tempCache->swap(temp);
+
+		temp.clear();
+	}
 
 	const uint32 *src1 = r2.mSpans.data();
 	const uint32 *src2 = src1 + r2.mSpans.size();
@@ -1359,4 +1369,7 @@ void VDPixmapConvolveRegion(VDPixmapRegion& dst, const VDPixmapRegion& r1, const
 		temp.mSpans.swap(dst.mSpans);
 		VDPixmapConvolveRegion(dst, temp, r1, (p1 & 0xffff) - 0x8000, (p2 & 0xffff) - 0x8000, (p1 >> 16) - 0x8000);
 	}
+
+	if (tempCache)
+		tempCache->swap(temp);
 }

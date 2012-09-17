@@ -126,7 +126,7 @@ inline sint32 VDRoundToIntFastFullRange(double x) {
 	return (sint32)u.i[0];
 }
 
-#ifdef _M_AMD64
+#if !defined(VD_CPU_X86) || !defined(VD_COMPILER_MSVC)
 	inline sint32 VDFloorToInt(double x) {
 		return (sint32)floor(x);
 	}
@@ -172,7 +172,7 @@ inline sint32 VDRoundToIntFastFullRange(double x) {
 	#pragma warning(pop)
 #endif
 
-#ifdef _M_AMD64
+#if !defined(VD_CPU_X86) || !defined(VD_COMPILER_MSVC)
 	inline sint32 VDCeilToInt(double x) {
 		return (sint32)ceil(x);
 	}

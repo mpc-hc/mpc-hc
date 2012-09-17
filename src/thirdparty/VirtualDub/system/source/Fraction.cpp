@@ -41,7 +41,7 @@ VDFraction::VDFraction(double d) {
 		hi = 0;
 		lo = 1;
 	} else if (xp >= 0) {
-		*this = reduce((uint64)(0.5 + ldexp(mant, 62)), 1i64<<(62-xp));
+		*this = reduce((uint64)(0.5 + ldexp(mant, 62)), 1ll<<(62-xp));
 	} else {
 		// This is not quite accurate for very tiny numbers.
 		VDFraction t(1.0 / d);

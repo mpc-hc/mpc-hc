@@ -26,6 +26,7 @@
 #include "stdafx.h"
 #include <vd2/system/VDString.h>
 #include <vd2/system/vdstl.h>
+#include <vd2/system/vdstdc.h>
 
 const VDStringSpanA::value_type VDStringSpanA::sNull[1] = {0};
 
@@ -96,7 +97,7 @@ VDStringA& VDStringA::append_sprintf(const value_type *format, ...) {
 VDStringA& VDStringA::append_vsprintf(const value_type *format, va_list val) {
 	char buf[2048];
 
-	int len = _vsnprintf(buf, 2048, format, val);
+	int len = vdvsnprintf(buf, 2048, format, val);
 	if (len >= 0)
 		append(buf, buf+len);
 	else {
@@ -107,7 +108,7 @@ VDStringA& VDStringA::append_vsprintf(const value_type *format, va_list val) {
 			tmp.resize(siz);
 
 			char *tmpp = tmp.data();
-			len = _vsnprintf(tmp.data(), siz, format, val);
+			len = vdvsnprintf(tmp.data(), siz, format, val);
 			if (len >= 0) {
 				append(tmpp, tmpp+len);
 				break;
@@ -198,7 +199,7 @@ VDStringW& VDStringW::append_sprintf(const value_type *format, ...) {
 VDStringW& VDStringW::append_vsprintf(const value_type *format, va_list val) {
 	wchar_t buf[1024];
 
-	int len = vswprintf(buf, 1024, format, val);
+	int len = vdvswprintf(buf, 1024, format, val);
 	if (len >= 0)
 		append(buf, buf+len);
 	else {
@@ -209,7 +210,7 @@ VDStringW& VDStringW::append_vsprintf(const value_type *format, va_list val) {
 			tmp.resize(siz);
 
 			wchar_t *tmpp = tmp.data();
-			len = vswprintf(tmpp, siz, format, val);
+			len = vdvswprintf(tmpp, siz, format, val);
 			if (len >= 0) {
 				append(tmpp, tmpp+len);
 				break;

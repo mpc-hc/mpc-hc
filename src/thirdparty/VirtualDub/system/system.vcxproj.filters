@@ -24,7 +24,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\h\vd2\system\source\bitmath.cpp">
+    <ClCompile Include="source\bitmath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\cache.cpp">
@@ -48,6 +48,9 @@
     <ClCompile Include="source\Error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\error_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,6 +60,9 @@
     <ClCompile Include="source\fileasync.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClInclude Include="source\filestream.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
     <ClCompile Include="source\filesys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,6 +79,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\int128.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\linearalloc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\list.cpp">
@@ -248,6 +257,9 @@
     <ClInclude Include="..\h\vd2\system\registry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\h\vd2\system\seh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\h\vd2\system\strutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -282,6 +294,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\VDScheduler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\vd2\system\vdstdc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\h\vd2\system\vdstl.h">

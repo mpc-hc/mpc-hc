@@ -28,14 +28,32 @@
 #include <windows.h>
 #include <vd2/system/atomic.h>
 #include <vd2/system/memory.h>
+#include <vd2/system/seh.h>
 #include <vd2/system/cpuaccel.h>
 
 void *VDAlignedMalloc(size_t n, unsigned alignment) {
+#ifdef VD_COMPILER_MSVC
 	return _aligned_malloc(n, alignment);
+#else
+	void *p = malloc(n + sizeof(void *) + alignment - 1);
+
+	if (p) {
+		void *alignedp = (void *)(((uintptr)p + sizeof(void *) + alignment - 1) & ~((uintptr)alignment - 1));
+
+		((void **)alignedp)[-1] = p;
+		p = alignedp;
+	}
+
+	return p;
+#endif
 }
 
 void VDAlignedFree(void *p) {
+#ifdef VD_COMPILER_MSVC
 	_aligned_free(p);
+#else
+	free(((void **)p)[-1]);
+#endif
 }
 
 void *VDAlignedVirtualAlloc(size_t n) {
@@ -164,7 +182,7 @@ bool VDIsValidReadRegion(const void *p0, size_t bytes) {
 	uintptr p = (uintptr)p0;
 	uintptr pLimit = p + (bytes-1);
 
-	__try {
+	vd_seh_guard_try {
 		for(;;) {
 			*(volatile char *)p;
 
@@ -173,7 +191,7 @@ bool VDIsValidReadRegion(const void *p0, size_t bytes) {
 
 			p += pageSize;
 		}
-	} __except(1) {
+	} vd_seh_guard_except {
 		return false;
 	}
 
@@ -194,7 +212,8 @@ bool VDIsValidWriteRegion(void *p0, size_t bytes) {
 	uintptr pLimit = p + (bytes-1);
 	p &= ~(uintptr)3;
 
-	__try {
+	vd_seh_guard_try {
+
 		for(;;) {
 			VDAtomicInt::staticCompareExchange((volatile int *)p, 0xa5, 0xa5);
 
@@ -203,7 +222,7 @@ bool VDIsValidWriteRegion(void *p0, size_t bytes) {
 
 			p += pageSize;
 		}
-	} __except(1) {
+	} vd_seh_guard_except {
 		return false;
 	}
 
@@ -316,9 +335,9 @@ void VDMemset128(void *dst, const void *src0, size_t count) {
 }
 
 void VDMemsetPointer(void *dst, const void *value, size_t count) {
-#if defined(_M_IX86)
+#if defined(VD_CPU_X86) || defined(VD_CPU_ARM)
 	VDMemset32(dst, (uint32)(size_t)value, count);
-#elif defined(_M_AMD64)
+#elif defined(VD_CPU_AMD64)
 	VDMemset64(dst, (uint64)(size_t)value, count);
 #else
 	#error Unknown pointer size
@@ -361,11 +380,10 @@ void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h
 	}
 }
 
-#if defined(_WIN32) && defined(_M_IX86)
+#if defined(_WIN32) && defined(VD_CPU_X86) && defined(VD_COMPILER_MSVC)
 	extern "C" void __cdecl VDFastMemcpyPartialScalarAligned8(void *dst, const void *src, size_t bytes);
 	extern "C" void __cdecl VDFastMemcpyPartialMMX(void *dst, const void *src, size_t bytes);
 	extern "C" void __cdecl VDFastMemcpyPartialMMX2(void *dst, const void *src, size_t bytes);
-	extern "C" void __cdecl VDFastMemcpyPartialSSE2(void *dst, const void *src, size_t bytes);
 
 	void VDFastMemcpyPartialScalar(void *dst, const void *src, size_t bytes) {
 		if (!(((int)dst | (int)src | bytes) & 7))
@@ -378,12 +396,12 @@ void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h
 	}
 
 	void __cdecl VDFastMemcpyFinishMMX() {
-		__asm emms
+		_mm_empty();
 	}
 
 	void __cdecl VDFastMemcpyFinishMMX2() {
-		__asm emms
-		__asm sfence
+		_mm_empty();
+		_mm_sfence();
 	}
 
 	void (__cdecl *VDFastMemcpyPartial)(void *dst, const void *src, size_t bytes) = VDFastMemcpyPartialScalar;
@@ -392,14 +410,7 @@ void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h
 	void VDFastMemcpyAutodetect() {
 		long exts = CPUGetEnabledExtensions();
 
-		// MPC custom code (begin)
-		if (exts & CPUF_SUPPORTS_SSE2) {
-			VDFastMemcpyPartial = VDFastMemcpyPartialSSE2;
-			VDFastMemcpyFinish	= VDFastMemcpyFinishMMX2;
-			VDSwapMemory		= VDSwapMemorySSE;
-		}
-		// MPC custom code (end)
-		else if (exts & CPUF_SUPPORTS_SSE) {
+		if (exts & CPUF_SUPPORTS_SSE) {
 			VDFastMemcpyPartial = VDFastMemcpyPartialMMX2;
 			VDFastMemcpyFinish	= VDFastMemcpyFinishMMX2;
 			VDSwapMemory		= VDSwapMemorySSE;
@@ -436,10 +447,6 @@ void VDMemcpyRect(void *dst, ptrdiff_t dststride, const void *src, ptrdiff_t src
 
 	if (w == srcstride && w == dststride)
 		VDFastMemcpyPartial(dst, src, w*h);
-	// MPC custom code (begin)
-	else if (w == -srcstride && w == -dststride)
-		VDFastMemcpyPartial((char *)dst + dststride * (h - 1), (char *)src + srcstride * (h - 1), w*h);
-	// MPC custom code (end)
 	else {
 		char *dst2 = (char *)dst;
 		const char *src2 = (const char *)src;
@@ -454,9 +461,9 @@ void VDMemcpyRect(void *dst, ptrdiff_t dststride, const void *src, ptrdiff_t src
 }
 
 bool VDMemcpyGuarded(void *dst, const void *src, size_t bytes) {
-	__try {
+	vd_seh_guard_try {
 		memcpy(dst, src, bytes);
-	} __except(GetExceptionCode() == STATUS_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH) {
+	} vd_seh_guard_except {
 		return false;
 	}
 

@@ -27,6 +27,7 @@ struct VDPixmap;
 class VDPixmapRegion {
 public:
 	void swap(VDPixmapRegion& x);
+	void clear();
 
 public:
 	vdfastvector<uint32> mSpans;
@@ -87,6 +88,6 @@ bool VDPixmapFillRegion(const VDPixmap& dst, const VDPixmapRegion& region, int x
 bool VDPixmapFillRegionAntialiased8x(const VDPixmap& dst, const VDPixmapRegion& region, int x, int y, uint32 color);
 
 void VDPixmapCreateRoundRegion(VDPixmapRegion& dst, float r);
-void VDPixmapConvolveRegion(VDPixmapRegion& dst, const VDPixmapRegion& r1, const VDPixmapRegion& r2);
+void VDPixmapConvolveRegion(VDPixmapRegion& dst, const VDPixmapRegion& r1, const VDPixmapRegion& r2, VDPixmapRegion *tempCache = NULL);
 
 #endif

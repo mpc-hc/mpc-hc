@@ -31,6 +31,9 @@
 #endif
 
 #include <limits.h>
+#include <stdexcept>
+#include <memory>
+#include <string.h>
 #include <vd2/system/vdtypes.h>
 #include <vd2/system/memory.h>
 
@@ -162,7 +165,7 @@ public:
 		VDAlignedFree(p1);
 	}
 
-	size_type		max_size() const throw()			{ return MAX_INT - 2*kDeadZone; }
+	size_type		max_size() const throw()			{ return INT_MAX - 2*kDeadZone; }
 
 	void			construct(pointer p, const T& val)	{ new((void *)p) T(val); }
 	void			destroy(pointer p)					{ ((T*)p)->~T(); }
@@ -246,8 +249,8 @@ public:
 
 	reference				operator[](size_type n)			{ return mpBlock[n]; }
 	const_reference			operator[](size_type n) const	{ return mpBlock[n]; }
-	reference				at(size_type n)					{ return n < mSize ? mpBlock[n] : throw std::length_error; }
-	const_reference			at(size_type n) const			{ return n < mSize ? mpBlock[n] : throw std::length_error; }
+	reference				at(size_type n)					{ return n < mSize ? mpBlock[n] : throw std::length_error("n"); }
+	const_reference			at(size_type n) const			{ return n < mSize ? mpBlock[n] : throw std::length_error("n"); }
 	reference				front()							{ return *mpBlock; }
 	const_reference			front() const					{ return *mpBlock; }
 	reference				back()							{ return mpBlock[mSize-1]; }
@@ -446,13 +449,13 @@ public:
 	}
 
 	vdlist_iterator operator++(int) {
-		iterator tmp(*this);
+		vdlist_iterator tmp(*this);
 		mp = mp->mListNodeNext;
 		return tmp;
 	}
 
 	vdlist_iterator& operator--(int) {
-		iterator tmp(*this);
+		vdlist_iterator tmp(*this);
 		mp = mp->mListNodePrev;
 		return tmp;
 	}
@@ -838,7 +841,23 @@ inline bool operator!=(const vdspan<T>& x, const vdspan<T>& y) { return !(x == y
 
 template<class T, class S, class A = vdallocator<T> >
 class vdfastvector_base : public vdspan<T> {
+protected:
+	using vdspan<T>::mpBegin;
+	using vdspan<T>::mpEnd;
+
 public:
+	typedef typename vdspan<T>::value_type value_type;
+	typedef typename vdspan<T>::pointer pointer;
+	typedef typename vdspan<T>::const_pointer const_pointer;
+	typedef typename vdspan<T>::reference reference;
+	typedef typename vdspan<T>::const_reference const_reference;
+	typedef typename vdspan<T>::size_type size_type;
+	typedef typename vdspan<T>::difference_type difference_type;
+	typedef typename vdspan<T>::iterator iterator;
+	typedef typename vdspan<T>::const_iterator const_iterator;
+	typedef typename vdspan<T>::reverse_iterator reverse_iterator;
+	typedef typename vdspan<T>::const_reverse_iterator const_reverse_iterator;
+
 	~vdfastvector_base() {
 		if (static_cast<const S&>(m).is_deallocatable_storage(mpBegin))
 			m.deallocate(mpBegin, m.eos - mpBegin);
@@ -1045,7 +1064,24 @@ struct vdfastvector_storage {
 
 template<class T, class A = vdallocator<T> >
 class vdfastvector : public vdfastvector_base<T, vdfastvector_storage, A> {
+protected:
+	using vdfastvector_base<T, vdfastvector_storage, A>::m;
+	using vdfastvector_base<T, vdfastvector_storage, A>::mpBegin;
+	using vdfastvector_base<T, vdfastvector_storage, A>::mpEnd;
+
 public:
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::value_type value_type;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::pointer pointer;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::const_pointer const_pointer;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::reference reference;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::const_reference const_reference;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::size_type size_type;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::difference_type difference_type;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::iterator iterator;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::const_iterator const_iterator;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::reverse_iterator reverse_iterator;
+	typedef typename vdfastvector_base<T, vdfastvector_storage, A>::const_reverse_iterator const_reverse_iterator;
+
 	vdfastvector() {
 		m.eos = NULL;
 	}
@@ -1107,7 +1143,24 @@ struct vdfastfixedvector_storage {
 
 template<class T, size_t N, class A = vdallocator<T> >
 class vdfastfixedvector : public vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A> {
+protected:
+	using vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::mpBegin;
+	using vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::mpEnd;
+	using vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::m;
+
 public:
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::value_type value_type;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::pointer pointer;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::const_pointer const_pointer;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::reference reference;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::const_reference const_reference;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::size_type size_type;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::difference_type difference_type;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::iterator iterator;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::const_iterator const_iterator;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::reverse_iterator reverse_iterator;
+	typedef typename vdfastvector_base<T, vdfastfixedvector_storage<T, N>, A>::const_reverse_iterator const_reverse_iterator;
+
 	vdfastfixedvector() {
 		mpBegin = m.mArray;
 		mpEnd = m.mArray;
@@ -1377,7 +1430,7 @@ protected:
 		kBlockSizeBits = Block::kBlockSizeBits
 	};
 
-	struct M1 : public A::rebind<Block *>::other {
+	struct M1 : public A::template rebind<Block *>::other {
 		Block **mapStartAlloc;		// start of map
 		Block **mapStartCommit;		// start of range of allocated blocks
 		Block **mapStart;			// start of range of active blocks
@@ -1386,7 +1439,7 @@ protected:
 		Block **mapEndAlloc;		// end of map
 	} m;
 
-	struct M2 : public A::rebind<Block>::other {
+	struct M2 : public A::template rebind<Block>::other {
 		int startIndex;
 		int endIndex;
 	} mTails;

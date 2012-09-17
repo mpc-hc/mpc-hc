@@ -106,9 +106,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\h\vd2\system\source\bitmath.cpp" />
     <ClCompile Include="..\h\vd2\system\source\registrymemory.cpp" />
-    <ClCompile Include="linearalloc.cpp" />
+    <ClCompile Include="source\bitmath.cpp" />
     <ClCompile Include="source\cache.cpp" />
     <ClCompile Include="source\cmdline.cpp" />
     <ClCompile Include="source\cpuaccel.cpp" />
@@ -116,15 +115,18 @@
     <ClCompile Include="source\debug.cpp" />
     <ClCompile Include="source\debugx86.cpp" />
     <ClCompile Include="source\Error.cpp" />
+    <ClCompile Include="source\error_win32.cpp" />
     <ClCompile Include="source\event.cpp" />
     <ClCompile Include="source\file.cpp" />
     <ClCompile Include="source\fileasync.cpp" />
+    <ClCompile Include="source\filestream.cpp" />
     <ClCompile Include="source\filesys.cpp" />
     <ClCompile Include="source\filewatcher.cpp" />
     <ClCompile Include="source\Fraction.cpp" />
     <ClCompile Include="source\halffloat.cpp" />
     <ClCompile Include="source\hash.cpp" />
     <ClCompile Include="source\int128.cpp" />
+    <ClCompile Include="source\linearalloc.cpp" />
     <ClCompile Include="source\list.cpp" />
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\math.cpp" />
@@ -190,6 +192,7 @@
     <ClInclude Include="..\h\vd2\system\refcount.h" />
     <ClInclude Include="..\h\vd2\system\registry.h" />
     <ClInclude Include="..\h\vd2\system\registrymemory.h" />
+    <ClInclude Include="..\h\vd2\system\seh.h" />
     <ClInclude Include="..\h\vd2\system\strutil.h" />
     <ClInclude Include="..\h\vd2\system\text.h" />
     <ClInclude Include="..\h\vd2\system\thread.h" />
@@ -202,6 +205,7 @@
     <ClInclude Include="..\h\vd2\system\VDQueue.h" />
     <ClInclude Include="..\h\vd2\system\VDRingBuffer.h" />
     <ClInclude Include="..\h\vd2\system\VDScheduler.h" />
+    <ClInclude Include="..\h\vd2\system\vdstdc.h" />
     <ClInclude Include="..\h\vd2\system\vdstl.h" />
     <ClInclude Include="..\h\vd2\system\vdstl_hash.h" />
     <ClInclude Include="..\h\vd2\system\vdstl_hashmap.h" />

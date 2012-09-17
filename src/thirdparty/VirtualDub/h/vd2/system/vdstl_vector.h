@@ -140,21 +140,19 @@ vdvector<T,A>::vdvector(size_type n) {
 }
 
 template <class T, class A>
-vdvector<T,A>::vdvector(size_type n, const T& value, const A& a = A())
+vdvector<T,A>::vdvector(size_type n, const T& value, const A& a)
 	: m(a)
 {
 	resize(n, value);
 }
 
-#if !defined(__INTEL_COMPILER) // MPC-HC specific: ICC 12.0.5 gives an error
 template <class T, class A>
 template <class InputIterator>
-vdvector<T,A>::vdvector(InputIterator first, InputIterator last, const A& a = A())
+vdvector<T,A>::vdvector(InputIterator first, InputIterator last, const A& a)
 	: m(a)
 {
 	assign(first, last);
 }
-#endif
 
 template <class T, class A>
 vdvector<T,A>::vdvector(const vdvector<T,A>& x)
@@ -210,7 +208,7 @@ template <class T, class A> typename vdvector<T,A>::const_pointer			vdvector<T,A
 template <class T, class A> typename vdvector<T,A>::size_type	vdvector<T,A>::size() const		{ return m.mpEnd - m.mpBegin; }
 template <class T, class A> typename vdvector<T,A>::size_type	vdvector<T,A>::max_size() const	{ return m.max_size(); }
 template <class T, class A> typename vdvector<T,A>::size_type	vdvector<T,A>::capacity() const	{ return m.mpEOS - m.mpBegin; }
-template <class T, class A> typename bool						vdvector<T,A>::empty() const	{ return m.mpBegin == m.mpEnd; }
+template <class T, class A>          bool						vdvector<T,A>::empty() const	{ return m.mpBegin == m.mpEnd; }
 
 template <class T, class A> typename vdvector<T,A>::reference			vdvector<T,A>::operator[](size_type n)			{ return m.mpBegin[n]; }
 template <class T, class A> typename vdvector<T,A>::const_reference		vdvector<T,A>::operator[](size_type n) const	{ return m.mpBegin[n]; }
@@ -222,7 +220,7 @@ template <class T, class A> typename vdvector<T,A>::reference			vdvector<T,A>::b
 template <class T, class A> typename vdvector<T,A>::const_reference		vdvector<T,A>::back() const						{ return m.mpEnd[-1]; }
 
 template <class T, class A>
-void vdvector<T,A>::resize(size_type sz, T c = T()) {
+void vdvector<T,A>::resize(size_type sz, T c) {
 	const size_type currSize = m.mpEnd - m.mpBegin;
 
 	if (sz < currSize) {

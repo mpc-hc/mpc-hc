@@ -19,6 +19,7 @@ Legend:
 * Updated SoundTouch to v1.7.0
 * Updated MediaInfoLib to v0.7.60 r5048
 * Updated ZenLib to v0.4.28 r403
+* Updated VirtualDub to v1.10.3-test6
 * Remove .dat extention from the icon library and the formats
   (you can still associate it in the "Others" formats)
 * Re-enable the embedded resources viewer in the properties dialog and improve

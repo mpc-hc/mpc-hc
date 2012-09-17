@@ -74,16 +74,18 @@ uint32 VDGetLogicalProcessorCount() {
 }
 
 void VDSetThreadDebugName(VDThreadID tid, const char *name) {
-	THREADNAME_INFO info;
-	info.dwType		= 0x1000;
-	info.szName		= name;
-	info.dwThreadID	= tid;
-	info.dwFlags	= 0;
+	#ifdef VD_COMPILER_MSVC
+		THREADNAME_INFO info;
+		info.dwType		= 0x1000;
+		info.szName		= name;
+		info.dwThreadID	= tid;
+		info.dwFlags	= 0;
 
-	__try {
-		RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(DWORD), (ULONG_PTR *)&info);
-	} __except (EXCEPTION_CONTINUE_EXECUTION) {
-	}
+		__try {
+			RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(DWORD), (ULONG_PTR *)&info);
+		} __except (EXCEPTION_CONTINUE_EXECUTION) {
+		}
+	#endif
 }
 
 void VDThreadSleep(int milliseconds) {
@@ -157,10 +159,12 @@ void *VDThread::ThreadLocation() const {
 	GetThreadContext(mhThread, &ctx);
 	ResumeThread(mhThread);
 
-#ifdef _M_AMD64
+#if defined(VD_CPU_AMD64)
 	return (void *)ctx.Rip;
-#else
+#elif defined(VD_CPU_X86)
 	return (void *)ctx.Eip;
+#elif defined(VD_CPU_ARM)
+	return (void *)ctx.Pc;
 #endif
 }
 

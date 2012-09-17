@@ -230,7 +230,7 @@ void VDCallbackTimer::ThreadRun() {
 ///////////////////////////////////////////////////////////////////////////////
 
 VDLazyTimer::VDLazyTimer()
-	: mTimerId(NULL)
+	: mTimerId(0)
 	, mpCB(NULL)
 {
 	if (!VDInitThunkAllocator())

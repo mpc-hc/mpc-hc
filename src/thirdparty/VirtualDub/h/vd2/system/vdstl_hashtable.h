@@ -101,12 +101,12 @@ public:
 	T* operator->() const;
 
 private:
-	template<class T> friend bool operator==(const vdhashtable_local_iterator<T>& x, const vdhashtable_local_iterator<T>& y);
-	template<class T> friend bool operator==(const vdhashtable_local_iterator<const T>& x, const vdhashtable_local_iterator<T>& y);
-	template<class T> friend bool operator==(const vdhashtable_local_iterator<T>& x, const vdhashtable_local_iterator<const T>& y);
-	template<class T> friend bool operator!=(const vdhashtable_local_iterator<T>& x, const vdhashtable_local_iterator<T>& y);
-	template<class T> friend bool operator!=(const vdhashtable_local_iterator<const T>& x, const vdhashtable_local_iterator<T>& y);
-	template<class T> friend bool operator!=(const vdhashtable_local_iterator<T>& x, const vdhashtable_local_iterator<const T>& y);
+	template<class U> friend bool operator==(const vdhashtable_local_iterator<U>& x, const vdhashtable_local_iterator<U>& y);
+	template<class U> friend bool operator==(const vdhashtable_local_iterator<const U>& x, const vdhashtable_local_iterator<U>& y);
+	template<class U> friend bool operator==(const vdhashtable_local_iterator<U>& x, const vdhashtable_local_iterator<const U>& y);
+	template<class U> friend bool operator!=(const vdhashtable_local_iterator<U>& x, const vdhashtable_local_iterator<U>& y);
+	template<class U> friend bool operator!=(const vdhashtable_local_iterator<const U>& x, const vdhashtable_local_iterator<U>& y);
+	template<class U> friend bool operator!=(const vdhashtable_local_iterator<U>& x, const vdhashtable_local_iterator<const U>& y);
 
 	vdhashtable_base_node *mpNode;
 };
@@ -203,12 +203,12 @@ public:
 
 private:
 	friend class vdhashtable_iterator<const T>;
-	template<class T> friend bool operator==(const vdhashtable_iterator<T>& x, const vdhashtable_iterator<T>& y);
-	template<class T> friend bool operator==(const vdhashtable_iterator<const T>& x, const vdhashtable_iterator<T>& y);
-	template<class T> friend bool operator==(const vdhashtable_iterator<T>& x, const vdhashtable_iterator<const T>& y);
-	template<class T> friend bool operator!=(const vdhashtable_iterator<T>& x, const vdhashtable_iterator<T>& y);
-	template<class T> friend bool operator!=(const vdhashtable_iterator<const T>& x, const vdhashtable_iterator<T>& y);
-	template<class T> friend bool operator!=(const vdhashtable_iterator<T>& x, const vdhashtable_iterator<const T>& y);
+	template<class U> friend bool operator==(const vdhashtable_iterator<U>& x, const vdhashtable_iterator<U>& y);
+	template<class U> friend bool operator==(const vdhashtable_iterator<const U>& x, const vdhashtable_iterator<U>& y);
+	template<class U> friend bool operator==(const vdhashtable_iterator<U>& x, const vdhashtable_iterator<const U>& y);
+	template<class U> friend bool operator!=(const vdhashtable_iterator<U>& x, const vdhashtable_iterator<U>& y);
+	template<class U> friend bool operator!=(const vdhashtable_iterator<const U>& x, const vdhashtable_iterator<U>& y);
+	template<class U> friend bool operator!=(const vdhashtable_iterator<U>& x, const vdhashtable_iterator<const U>& y);
 
 	vdhashtable_base_node *mpNode;
 	vdhashtable_base_node **mpBucket;

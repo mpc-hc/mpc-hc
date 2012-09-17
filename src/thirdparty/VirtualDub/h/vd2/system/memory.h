@@ -64,7 +64,7 @@ void VDMemset16Rect(void *dst, ptrdiff_t pitch, uint16 value, size_t w, size_t h
 void VDMemset24Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h);
 void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h);
 
-#if defined(_WIN32) && defined(_M_IX86)
+#if defined(_WIN32) && defined(VD_CPU_X86) && defined(VD_COMPILER_MSVC)
 	extern void (__cdecl *VDFastMemcpyPartial)(void *dst, const void *src, size_t bytes);
 	extern void (__cdecl *VDFastMemcpyFinish)();
 	void VDFastMemcpyAutodetect();

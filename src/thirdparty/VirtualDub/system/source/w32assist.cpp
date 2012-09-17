@@ -25,7 +25,9 @@
 
 #include "stdafx.h"
 #include <vd2/system/w32assist.h>
+#include <vd2/system/seh.h>
 #include <vd2/system/text.h>
+#include <vd2/system/vdstdc.h>
 #include <vd2/system/vdstl.h>
 
 bool VDIsForegroundTaskW32() {
@@ -88,7 +90,7 @@ void VDSetWindowTextFW32(HWND hwnd, const wchar_t *format, ...) {
 	va_start(val, format);
 	{
 		wchar_t buf[512];
-		int r = vswprintf(buf, 512, format, val);
+		int r = vdvswprintf(buf, 512, format, val);
 
 		if ((unsigned)r < 512) {
 			VDSetWindowTextW32(hwnd, buf);
@@ -171,6 +173,31 @@ void VDAppendMenuW32(HMENU hmenu, UINT flags, UINT id, const wchar_t *text){
 		AppendMenuW(hmenu, flags, id, text);
 	} else {
 		AppendMenuA(hmenu, flags, id, VDTextWToA(text).c_str());
+	}
+}
+
+void VDAppendMenuSeparatorW32(HMENU hmenu) {
+	int pos = GetMenuItemCount(hmenu);
+	if (pos < 0)
+		return;
+
+	if (VDIsWindowsNT()) {
+		MENUITEMINFOW mmiW;
+		vdfastfixedvector<wchar_t, 256> bufW;
+
+		mmiW.cbSize		= MENUITEMINFO_SIZE_VERSION_400W;
+		mmiW.fMask		= MIIM_TYPE;
+		mmiW.fType		= MFT_SEPARATOR;
+
+		InsertMenuItemW(hmenu, pos, TRUE, &mmiW);
+	} else {
+		MENUITEMINFOA mmiA;
+
+		mmiA.cbSize		= MENUITEMINFO_SIZE_VERSION_400A;
+		mmiA.fMask		= MIIM_TYPE;
+		mmiA.fType		= MFT_SEPARATOR;
+
+		InsertMenuItemA(hmenu, pos, TRUE, &mmiA);
 	}
 }
 
@@ -327,7 +354,7 @@ bool VDGetFileSizeW32(HANDLE h, sint64& size) {
 #if !defined(_MSC_VER) || _MSC_VER < 1300
 HMODULE VDGetLocalModuleHandleW32() {
 	MEMORY_BASIC_INFORMATION meminfo;
-	static HMODULE shmod = (VirtualQuery(&VDGetLocalModuleHandleW32, &meminfo, sizeof meminfo), (HMODULE)meminfo.AllocationBase);
+	static HMODULE shmod = (VirtualQuery((HINSTANCE)&VDGetLocalModuleHandleW32, &meminfo, sizeof meminfo), (HMODULE)meminfo.AllocationBase);
 
 	return shmod;
 }
@@ -383,7 +410,7 @@ bool VDDrawTextW32(HDC hdc, const wchar_t *s, int nCount, LPRECT lpRect, UINT uF
 bool VDPatchModuleImportTableW32(HMODULE hmod, const char *srcModule, const char *name, void *pCompareValue, void *pNewValue, void *volatile *ppOldValue) {
 	char *pBase = (char *)hmod;
 
-	__try {
+	vd_seh_guard_try {
 		// The PEheader offset is at hmod+0x3c.  Add the size of the optional header
 		// to step to the section headers.
 
@@ -496,7 +523,7 @@ bool VDPatchModuleImportTableW32(HMODULE hmod, const char *srcModule, const char
 			++pImports;
 			++pVector;
 		}
-	} __except(1) {
+	} vd_seh_guard_except {
 	}
 
 	return false;
@@ -505,7 +532,7 @@ bool VDPatchModuleImportTableW32(HMODULE hmod, const char *srcModule, const char
 bool VDPatchModuleExportTableW32(HMODULE hmod, const char *name, void *pCompareValue, void *pNewValue, void *volatile *ppOldValue) {
 	char *pBase = (char *)hmod;
 
-	__try {
+	vd_seh_guard_try {
 		// The PEheader offset is at hmod+0x3c.  Add the size of the optional header
 		// to step to the section headers.
 
@@ -612,7 +639,7 @@ bool VDPatchModuleExportTableW32(HMODULE hmod, const char *name, void *pCompareV
 				break;
 			}
 		}
-	} __except(1) {
+	} vd_seh_guard_except {
 	}
 
 	return false;
