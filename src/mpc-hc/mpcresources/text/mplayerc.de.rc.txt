@@ -1223,7 +1223,6 @@ STRING IDS_AG_TOGGLE_STATUS		"Status ein/aus"
 STRING IDS_AG_TOGGLE_SUBRESYNC		"Untertitelresyncleiste ein/aus"
 STRING IDS_AG_UNKNOWN		"Unbekannt %d"
 STRING IDS_AG_UNKNOWN_STREAM		"Unbekanntes Format"
-
 STRING IDS_AG_VIDFRM_DOUBLE		"VidFrm doppelt"
 STRING IDS_AG_VIDFRM_HALF		"VidFrm halb"
 STRING IDS_AG_VIDFRM_INSIDE		"VidFrm innen"
@@ -1888,4 +1887,3 @@ STRING ID_PLAY_STOP		"Stopp\nStopp"
 STRING ID_VOLUME_MUTE		"Stummschaltung\nStummschaltung"
 STRING ID_VOLUME_MUTE_DISABLED		"Kein Audio\nKein Audio"
 STRING ID_VOLUME_MUTE_ON		"Stummschaltung\nStummschaltung"
-
