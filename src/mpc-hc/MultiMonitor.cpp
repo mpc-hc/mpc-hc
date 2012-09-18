@@ -193,6 +193,12 @@ void CMonitor::CenterWindowToMonitor(CWnd* const pWnd, const BOOL UseWorkAreaRec
     CRect rect;
     pWnd->GetWindowRect(&rect);
     CenterRectToMonitor(&rect, UseWorkAreaRect);
+    // MPC-HC custom code start
+    // Check if we are a child window and modify the coordinates accordingly
+    if (pWnd->GetStyle() & WS_CHILD) {
+        pWnd->GetParent()->ScreenToClient(&rect);
+    }
+    // MPC-HC custom code end
     pWnd->SetWindowPos(NULL, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
