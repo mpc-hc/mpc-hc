@@ -1,8 +1,8 @@
 diff --git a/build.bat b/build.bat
-index 8cd30e7..a96dd62 100644
+index ac59c2c..c8e433c 100644
 --- a/build.bat
 +++ b/build.bat
-@@ -287,9 +287,9 @@ IF /I "%~2" == "Win32" (
+@@ -292,9 +292,9 @@ IF /I "%~2" == "Win32" (
  PUSHD "bin"
  
  IF DEFINED MPCHC_LITE (
@@ -518,7 +518,7 @@ index ac1581e..0c6c91b 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/AviSplitter/AviSplitter.vcxproj b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
-index 479a663..ac56a56 100644
+index f90c4ec..13b152e 100644
 --- a/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 +++ b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 @@ -44,41 +44,49 @@
@@ -2072,7 +2072,7 @@ index dd140b2..fb30835 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
-index a38f17c..0f968a1 100644
+index 86c3a28..bb7db31 100644
 --- a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 +++ b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 @@ -44,41 +44,49 @@
@@ -2252,7 +2252,7 @@ index 999bda6..24b3c78 100644
  SetupAppTitle=Setup - DirectVobSub
  SetupWindowTitle=Setup - DirectVobSub
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index bdc8369..221d925 100644
+index 68a2e94..7e454b0 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
@@ -2584,7 +2584,7 @@ index 0c47951..a6a780f 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/VirtualDub/system/system.vcxproj b/src/thirdparty/VirtualDub/system/system.vcxproj
-index 6ff7b50..1a7efae 100644
+index 5f55e1d..f6aac1f 100644
 --- a/src/thirdparty/VirtualDub/system/system.vcxproj
 +++ b/src/thirdparty/VirtualDub/system/system.vcxproj
 @@ -26,18 +26,22 @@
