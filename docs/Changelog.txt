@@ -38,3 +38,5 @@ Legend:
   when starting a file from the explorer.
 ! Ticket #2452, Fix color controls in certain situations
 ! Ticket #2599, Fix "Snap to desktop edges" option for multi-monitor setup
+! Ticket #2606, MPEG Splitter: Don't output the fake "No subtitle" track when the file
+  contains no subtitles
