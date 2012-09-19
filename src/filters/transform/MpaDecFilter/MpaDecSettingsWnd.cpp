@@ -165,4 +165,48 @@ bool CMpaDecSettingsWnd::OnApply()
 }
 
 BEGIN_MESSAGE_MAP(CMpaDecSettingsWnd, CInternalPropertyPageWnd)
+    ON_BN_CLICKED(IDC_PP_CHECK_I16, OnInt16Check)
+    ON_BN_CLICKED(IDC_PP_CHECK_I24, OnInt24Check)
+    ON_BN_CLICKED(IDC_PP_CHECK_I32, OnInt32Check)
+    ON_BN_CLICKED(IDC_PP_CHECK_FLT, OnFloatCheck)
 END_MESSAGE_MAP()
+
+void CMpaDecSettingsWnd::OnInt16Check()
+{
+    if (m_outfmt_i16_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
+            m_outfmt_i16_check.SetCheck(BST_CHECKED);
+    }
+}
+
+void CMpaDecSettingsWnd::OnInt24Check()
+{
+    if (m_outfmt_i16_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
+            m_outfmt_i24_check.SetCheck(BST_CHECKED);
+    }
+}
+
+void CMpaDecSettingsWnd::OnInt32Check()
+{
+    if (m_outfmt_i16_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
+            m_outfmt_i32_check.SetCheck(BST_CHECKED);
+    }
+}
+
+void CMpaDecSettingsWnd::OnFloatCheck()
+{
+    if (m_outfmt_i16_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
+        m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
+            m_outfmt_flt_check.SetCheck(BST_CHECKED);
+    }
+}

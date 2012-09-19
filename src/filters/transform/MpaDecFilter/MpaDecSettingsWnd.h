@@ -82,4 +82,9 @@ public:
     static CSize GetWindowSize() { return CSize(225, 156); }
 
     DECLARE_MESSAGE_MAP()
+
+    afx_msg void OnInt16Check();
+    afx_msg void OnInt24Check();
+    afx_msg void OnInt32Check();
+    afx_msg void OnFloatCheck();
 };
