@@ -22,7 +22,7 @@
 #include "HdmvSub.h"
 #include "../DSUtil/GolombBuffer.h"
 
-#if (0)     // Set to 1 to activate HDMV subtitles traces
+#if (0) // Set to 1 to activate HDMV subtitles traces
 #define TRACE_HDMVSUB TRACE
 #else
 #define TRACE_HDMVSUB __noop
@@ -31,18 +31,16 @@
 
 CHdmvSub::CHdmvSub(void)
     : CBaseSub(ST_HDMV)
+    , m_nColorNumber(0)
+    , m_nCurSegment(NO_SEGMENT)
+    , m_pSegBuffer(NULL)
+    , m_nTotalSegBuffer(0)
+    , m_nSegBufferPos(0)
+    , m_nSegSize(0)
+    , m_pCurrentObject(NULL)
+    , m_pDefaultPalette(NULL)
+    , m_nDefaultPaletteNbEntry(0)
 {
-    m_nColorNumber = 0;
-
-    m_nCurSegment = NO_SEGMENT;
-    m_pSegBuffer = NULL;
-    m_nTotalSegBuffer = 0;
-    m_nSegBufferPos = 0;
-    m_nSegSize = 0;
-    m_pCurrentObject = NULL;
-    m_pDefaultPalette = NULL;
-    m_nDefaultPaletteNbEntry = 0;
-
     memset(&m_VideoDescriptor, 0, sizeof(VIDEO_DESCRIPTOR));
 }
 
@@ -305,9 +303,8 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 
     ASSERT(pObject != NULL && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height));
 
-    if (pObject && pObject->GetRLEDataSize() && pObject->m_width > 0 && pObject->m_height > 0 &&
-            spd.w >= (pObject->m_horizontal_position + pObject->m_width) &&
-            spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
+    if (pObject && pObject->GetRLEDataSize() && pObject->m_width > 0 && pObject->m_height > 0
+            && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
         if (!pObject->HavePalette()) {
             pObject->SetPalette(m_nDefaultPaletteNbEntry, m_pDefaultPalette, m_VideoDescriptor.nVideoWidth > 720);
         }
@@ -356,13 +353,11 @@ CompositionObject*  CHdmvSub::FindObject(REFERENCE_TIME rt)
     POSITION pos = m_pObjects.GetHeadPosition();
 
     while (pos) {
-        CompositionObject* pObject = m_pObjects.GetAt(pos);
+        CompositionObject* pObject = m_pObjects.GetNext(pos);
 
         if (rt >= pObject->m_rtStart && rt < pObject->m_rtStop) {
             return pObject;
         }
-
-        m_pObjects.GetNext(pos);
     }
 
     return NULL;
