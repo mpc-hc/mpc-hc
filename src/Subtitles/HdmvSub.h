@@ -131,9 +131,12 @@ private:
     CAtlList<HDMV_PRESENTATION_SEGMENT*> m_pPresentationSegments;
 
     HDMV_CLUT                    m_CLUTs[256];
+    CompositionObject            m_compositionObjects[64];
 
 
-    int                 ParsePresentationSegment(CGolombBuffer* pGBuffer);
+    int                 ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer);
+    void                EnqueuePresentationSegment(REFERENCE_TIME rt);
+
     void                ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize);
     void                ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize);
 

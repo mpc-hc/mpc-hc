@@ -32,8 +32,11 @@ Legend:
 ! Improve DVB subtitles handling:
   - Fix missing subtitles
   - Ticket #2589, Fix wrongly colored subtitles
+! Ticket #48,#515,#2533, Improve PGS subtitles (Blu-Ray) parsing:
+  - Fix missing subtitles
+  - Fix wrong display duration
 ! Ticket #102, Fix playback of VideoCD as disk
-! Ticket #790,#1511,#2269,2612, VSFilter: Fix a bug causing the subtitles not to show
+! Ticket #790,#1511,#2269,#2612, VSFilter: Fix a bug causing the subtitles not to show
   when using YUY2 color space
 ! Ticket #2540, Fix handling of big API messages
 ! Ticket #2547, The master window handle was erroneously reset

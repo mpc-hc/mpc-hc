@@ -50,7 +50,7 @@ void CompositionObject::SetPalette(int nNbEntry, HDMV_PALETTE* pPalette, bool bI
 }
 
 
-void CompositionObject::SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize)
+void CompositionObject::SetRLEData(const BYTE* pBuffer, int nSize, int nTotalSize)
 {
     delete [] m_pRLEData;
     m_pRLEData     = DNew BYTE[nTotalSize];
@@ -60,7 +60,7 @@ void CompositionObject::SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize)
     memcpy(m_pRLEData, pBuffer, nSize);
 }
 
-void CompositionObject::AppendRLEData(BYTE* pBuffer, int nSize)
+void CompositionObject::AppendRLEData(const BYTE* pBuffer, int nSize)
 {
     ASSERT(m_nRLEPos + nSize <= m_nRLEDataSize);
     if (m_nRLEPos + nSize <= m_nRLEDataSize) {

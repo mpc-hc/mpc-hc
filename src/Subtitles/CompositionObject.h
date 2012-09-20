@@ -55,8 +55,9 @@ public:
     CompositionObject();
     ~CompositionObject();
 
-    void  SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize);
-    void  AppendRLEData(BYTE* pBuffer, int nSize);
+    void  SetRLEData(const BYTE* pBuffer, int nSize, int nTotalSize);
+    void  AppendRLEData(const BYTE* pBuffer, int nSize);
+    const BYTE* GetRLEData() { return m_pRLEData; };
     int   GetRLEDataSize() { return m_nRLEDataSize; };
     bool  IsRLEComplete() { return m_nRLEPos >= m_nRLEDataSize; };
     void  RenderHdmv(SubPicDesc& spd);
