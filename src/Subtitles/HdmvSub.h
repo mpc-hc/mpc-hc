@@ -57,7 +57,40 @@ public:
     struct SEQUENCE_DESCRIPTOR {
         BYTE  bFirstIn  : 1;
         BYTE  bLastIn   : 1;
-        BYTE  bReserved : 8;
+        BYTE  bReserved : 6;
+    };
+
+    struct HDMV_CLUT {
+        BYTE            id;
+        BYTE            version_number;
+        BYTE            size;
+
+        HDMV_PALETTE    palette[256];
+
+        HDMV_CLUT() { memset(palette, 0, sizeof(palette)); }
+    };
+
+    struct HDMV_PRESENTATION_SEGMENT {
+        REFERENCE_TIME rtStart;
+        REFERENCE_TIME rtStop;
+
+        VIDEO_DESCRIPTOR video_descriptor;
+        COMPOSITION_DESCRIPTOR composition_descriptor;
+
+        byte palette_update_flag;
+        HDMV_CLUT CLUT;
+
+        int objectCount;
+
+        CAtlList<CompositionObject*> objects;
+
+        ~HDMV_PRESENTATION_SEGMENT() {
+            CompositionObject*  pObject;
+            while (objects.GetCount() > 0) {
+                pObject = objects.RemoveHead();
+                delete pObject;
+            }
+        }
     };
 
     CHdmvSub();
@@ -68,18 +101,18 @@ public:
 
     POSITION  GetStartPosition(REFERENCE_TIME rt, double fps);
     POSITION  GetNext(POSITION pos) {
-        m_pObjects.GetNext(pos);
+        m_pPresentationSegments.GetNext(pos);
         return pos;
     };
 
 
     virtual REFERENCE_TIME GetStart(POSITION nPos) {
-        CompositionObject* pObject = m_pObjects.GetAt(nPos);
-        return pObject != NULL ? pObject->m_rtStart : INVALID_TIME;
+        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(nPos);
+        return pPresentationSegment != NULL ? pPresentationSegment->rtStart : INVALID_TIME;
     };
     virtual REFERENCE_TIME GetStop(POSITION nPos) {
-        CompositionObject* pObject = m_pObjects.GetAt(nPos);
-        return pObject != NULL ? pObject->m_rtStop : INVALID_TIME;
+        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(nPos);
+        return pPresentationSegment != NULL ? pPresentationSegment->rtStop : INVALID_TIME;
     };
 
     void      Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
@@ -94,15 +127,10 @@ private:
     int                          m_nSegBufferPos;
     int                          m_nSegSize;
 
-    VIDEO_DESCRIPTOR             m_VideoDescriptor;
+    HDMV_PRESENTATION_SEGMENT*           m_pCurrentPresentationSegment;
+    CAtlList<HDMV_PRESENTATION_SEGMENT*> m_pPresentationSegments;
 
-    CompositionObject*           m_pCurrentObject;
-    CAtlList<CompositionObject*> m_pObjects;
-
-    HDMV_PALETTE*                m_pDefaultPalette;
-    int                          m_nDefaultPaletteNbEntry;
-
-    int                          m_nColorNumber;
+    HDMV_CLUT                    m_CLUTs[256];
 
 
     int                 ParsePresentationSegment(CGolombBuffer* pGBuffer);
@@ -115,5 +143,6 @@ private:
 
     void                AllocSegment(int nSize);
 
-    CompositionObject*  FindObject(REFERENCE_TIME rt);
+    HDMV_PRESENTATION_SEGMENT* FindPresentationSegment(REFERENCE_TIME rt);
+    CompositionObject*  FindObject(HDMV_PRESENTATION_SEGMENT* pPresentationSegment, short sObjectId);
 };

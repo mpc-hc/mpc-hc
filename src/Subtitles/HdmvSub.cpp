@@ -31,17 +31,13 @@
 
 CHdmvSub::CHdmvSub(void)
     : CBaseSub(ST_HDMV)
-    , m_nColorNumber(0)
     , m_nCurSegment(NO_SEGMENT)
     , m_pSegBuffer(NULL)
     , m_nTotalSegBuffer(0)
     , m_nSegBufferPos(0)
     , m_nSegSize(0)
-    , m_pCurrentObject(NULL)
-    , m_pDefaultPalette(NULL)
-    , m_nDefaultPaletteNbEntry(0)
+    , m_pCurrentPresentationSegment(NULL)
 {
-    memset(&m_VideoDescriptor, 0, sizeof(VIDEO_DESCRIPTOR));
 }
 
 CHdmvSub::~CHdmvSub()
@@ -49,8 +45,7 @@ CHdmvSub::~CHdmvSub()
     Reset();
 
     delete [] m_pSegBuffer;
-    delete [] m_pDefaultPalette;
-    delete m_pCurrentObject;
+    delete m_pCurrentPresentationSegment;
 }
 
 
@@ -67,22 +62,22 @@ void CHdmvSub::AllocSegment(int nSize)
 
 POSITION CHdmvSub::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
-    CompositionObject* pObject;
+    HDMV_PRESENTATION_SEGMENT* pPresentationSegment;
 
     // Cleanup old PG
-    while (m_pObjects.GetCount() > 0) {
-        pObject = m_pObjects.GetHead();
-        if (pObject->m_rtStop < rt) {
-            TRACE_HDMVSUB(_T("CHdmvSub:HDMV remove object %d  %S => %S (rt=%S)\n"), pObject->GetRLEDataSize(),
-                          ReftimeToString(pObject->m_rtStart), ReftimeToString(pObject->m_rtStop), ReftimeToString(rt));
-            m_pObjects.RemoveHead();
-            delete pObject;
+    while (m_pPresentationSegments.GetCount() > 0) {
+        pPresentationSegment = m_pPresentationSegments.GetHead();
+        if (pPresentationSegment->rtStop < rt) {
+            TRACE_HDMVSUB(_T("CHdmvSub:HDMV remove object %d  %s => %s (rt=%s)\n"), pPresentationSegment->composition_descriptor.nNumber,
+                          ReftimeToString(pPresentationSegment->rtStart), ReftimeToString(pPresentationSegment->rtStop), ReftimeToString(rt));
+            m_pPresentationSegments.RemoveHead();
+            delete pPresentationSegment;
         } else {
             break;
         }
     }
 
-    return m_pObjects.GetHeadPosition();
+    return m_pPresentationSegments.GetHeadPosition();
 }
 
 HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
@@ -146,34 +141,38 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
                             ParsePalette(&SegmentBuffer, m_nSegSize);
                             break;
                         case OBJECT:
-                            TRACE_HDMVSUB(_T("CHdmvSub:OBJECT             %S\n"), ReftimeToString(rtStart));
+                            TRACE_HDMVSUB(_T("CHdmvSub:OBJECT             %s\n"), ReftimeToString(rtStart));
                             ParseObject(&SegmentBuffer, m_nSegSize);
                             break;
                         case PRESENTATION_SEG:
-                            TRACE_HDMVSUB(_T("CHdmvSub:PRESENTATION_SEG   %S (size=%d)\n"), ReftimeToString(rtStart), m_nSegSize);
+                            TRACE_HDMVSUB(_T("CHdmvSub:PRESENTATION_SEG   %s (size=%d)\n"), ReftimeToString(rtStart), m_nSegSize);
 
-                            if (m_pCurrentObject) {
-                                TRACE_HDMVSUB(_T("CHdmvSub:PRESENTATION_SEG   %d\n"), m_pCurrentObject->m_nObjectNumber);
-                                if (m_pCurrentObject->m_nObjectNumber > 1) {
-                                    m_pCurrentObject->m_nObjectNumber--;
-                                    break;
+                            if (m_pCurrentPresentationSegment) {
+                                if (m_pCurrentPresentationSegment->objectCount > 0) {
+                                    TRACE_HDMVSUB(_T("CHdmvSub:PRESENTATION_SEG   %d\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber);
+
+                                    m_pCurrentPresentationSegment->rtStop = rtStart;
+                                    m_pCurrentPresentationSegment->CLUT = m_CLUTs[m_pCurrentPresentationSegment->CLUT.id];
+
+                                    m_pPresentationSegments.AddTail(m_pCurrentPresentationSegment);
+                                    TRACE_HDMVSUB(_T("CHdmvSub:HDMV : %s => %s\n"), ReftimeToString(m_pCurrentPresentationSegment->rtStart), ReftimeToString(rtStart));
+                                } else {
+                                    TRACE_HDMVSUB(_T("CHdmvSub: Delete empty Presentation Segment %d\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber);
+                                    delete m_pCurrentPresentationSegment;
                                 }
-                                m_pCurrentObject->m_rtStop = rtStart;
-                                m_pObjects.AddTail(m_pCurrentObject);
-                                TRACE_HDMVSUB(_T("CHdmvSub:HDMV : %S => %S\n"), ReftimeToString(m_pCurrentObject->m_rtStart), ReftimeToString(rtStart));
-                                m_pCurrentObject = NULL;
+                                m_pCurrentPresentationSegment = NULL;
                             }
 
                             if (ParsePresentationSegment(&SegmentBuffer) > 0) {
-                                m_pCurrentObject->m_rtStart = rtStart;
-                                m_pCurrentObject->m_rtStop  = _I64_MAX;
+                                m_pCurrentPresentationSegment->rtStart = rtStart;
+                                m_pCurrentPresentationSegment->rtStop  = _I64_MAX;
                             }
                             break;
                         case WINDOW_DEF:
-                            //TRACE_HDMVSUB(_T("CHdmvSub:WINDOW_DEF         %S\n"), ReftimeToString(rtStart));
+                            //TRACE_HDMVSUB(_T("CHdmvSub:WINDOW_DEF         %s\n"), ReftimeToString(rtStart));
                             break;
                         case END_OF_DISPLAY:
-                            //TRACE_HDMVSUB(_T("CHdmvSub:END_OF_DISPLAY     %S\n"), ReftimeToString(rtStart));
+                            //TRACE_HDMVSUB(_T("CHdmvSub:END_OF_DISPLAY     %s\n"), ReftimeToString(rtStart));
                             break;
                         default:
                             TRACE_HDMVSUB(_T("CHdmvSub:UNKNOWN Seg %d     rtStart=0x%10dd\n"), m_nCurSegment, rtStart);
@@ -190,77 +189,70 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 
 int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 {
-    COMPOSITION_DESCRIPTOR CompositionDescriptor;
-    BYTE nObjectNumber;
-    //bool palette_update_flag;
-    //BYTE palette_id_ref;
+    m_pCurrentPresentationSegment = new HDMV_PRESENTATION_SEGMENT();
 
-    ParseVideoDescriptor(pGBuffer, &m_VideoDescriptor);
-    ParseCompositionDescriptor(pGBuffer, &CompositionDescriptor);
-    pGBuffer->ReadByte(); //palette_update_flag = !!(pGBuffer->ReadByte() & 0x80);
-    pGBuffer->ReadByte(); //palette_id_ref = pGBuffer->ReadByte();
-    nObjectNumber = pGBuffer->ReadByte();
+    ParseVideoDescriptor(pGBuffer, &m_pCurrentPresentationSegment->video_descriptor);
+    ParseCompositionDescriptor(pGBuffer, &m_pCurrentPresentationSegment->composition_descriptor);
+    m_pCurrentPresentationSegment->palette_update_flag = !!(pGBuffer->ReadByte() & 0x80);
+    m_pCurrentPresentationSegment->CLUT.id = pGBuffer->ReadByte();
+    m_pCurrentPresentationSegment->objectCount = pGBuffer->ReadByte();
 
-    TRACE_HDMVSUB(_T("CHdmvSub::ParsePresentationSegment Size = %d, nObjectNumber = %d\n"), pGBuffer->GetSize(), nObjectNumber);
+    TRACE_HDMVSUB(_T("CHdmvSub::ParsePresentationSegment Size = %d, nObjectNumber = %d\n"), pGBuffer->GetSize(), m_pCurrentPresentationSegment->objectCount);
 
-    if (nObjectNumber > 0) {
-        delete m_pCurrentObject;
-        m_pCurrentObject = DNew CompositionObject();
-        m_pCurrentObject->m_nObjectNumber = nObjectNumber;
-        for (int i = 0; i < nObjectNumber; i++) {
-            ParseCompositionObject(pGBuffer, m_pCurrentObject);
-        }
+    for (int i = 0; i < m_pCurrentPresentationSegment->objectCount; i++) {
+        CompositionObject* pCompositionObject = new CompositionObject();
+        ParseCompositionObject(pGBuffer, pCompositionObject);
+        m_pCurrentPresentationSegment->objects.AddTail(pCompositionObject);
     }
 
-    return nObjectNumber;
+    return m_pCurrentPresentationSegment->objectCount;
 }
 
 void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize)  // #497
 {
-    int nNbEntry;
     BYTE palette_id = pGBuffer->ReadByte();
-    BYTE palette_version_number = pGBuffer->ReadByte();
-    UNREFERENCED_PARAMETER(palette_id);
-    UNREFERENCED_PARAMETER(palette_version_number);
+    HDMV_CLUT& CLUT = m_CLUTs[palette_id];
+
+    CLUT.id = palette_id;
+    CLUT.version_number = pGBuffer->ReadByte();
 
     ASSERT((nSize - 2) % sizeof(HDMV_PALETTE) == 0);
-    nNbEntry = (nSize - 2) / sizeof(HDMV_PALETTE);
-    HDMV_PALETTE* pPalette = (HDMV_PALETTE*)pGBuffer->GetBufferPos();
+    CLUT.size = (nSize - 2) / sizeof(HDMV_PALETTE);
 
-    if (m_pDefaultPalette == NULL || m_nDefaultPaletteNbEntry != nNbEntry) {
-        delete [] m_pDefaultPalette;
-        m_pDefaultPalette = DNew HDMV_PALETTE[nNbEntry];
-        m_nDefaultPaletteNbEntry = nNbEntry;
-    }
-    memcpy(m_pDefaultPalette, pPalette, nNbEntry * sizeof(HDMV_PALETTE));
+    for (int i = 0; i < CLUT.size; i++) {
+        BYTE entry_id = pGBuffer->ReadByte();
 
-    if (m_pCurrentObject) {
-        m_pCurrentObject->SetPalette(nNbEntry, pPalette, m_VideoDescriptor.nVideoWidth > 720);
+        CLUT.palette[entry_id].entry_id = entry_id;
+
+        CLUT.palette[entry_id].Y  = pGBuffer->ReadByte();
+        CLUT.palette[entry_id].Cr = pGBuffer->ReadByte();
+        CLUT.palette[entry_id].Cb = pGBuffer->ReadByte();
+        CLUT.palette[entry_id].T  = pGBuffer->ReadByte();
     }
 }
 
 void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize)   // #498
 {
     short object_id = pGBuffer->ReadShort();
-    UNREFERENCED_PARAMETER(object_id);
+    CompositionObject* pObject = FindObject(m_pCurrentPresentationSegment, object_id);
 
-    ASSERT(m_pCurrentObject != NULL);
-    if (m_pCurrentObject) { // && m_pCurrentObject->m_object_id_ref == object_id)
-        m_pCurrentObject->m_version_number = pGBuffer->ReadByte();
+    ASSERT(pObject != NULL);
+    if (pObject) {
+        pObject->m_version_number = pGBuffer->ReadByte();
         BYTE m_sequence_desc = pGBuffer->ReadByte();
 
         if (m_sequence_desc & 0x80) {
             DWORD object_data_length  = (DWORD)pGBuffer->BitRead(24);
 
-            m_pCurrentObject->m_width = pGBuffer->ReadShort();
-            m_pCurrentObject->m_height = pGBuffer->ReadShort();
+            pObject->m_width = pGBuffer->ReadShort();
+            pObject->m_height = pGBuffer->ReadShort();
 
-            m_pCurrentObject->SetRLEData(pGBuffer->GetBufferPos(), nUnitSize - 11, object_data_length - 4);
+            pObject->SetRLEData(pGBuffer->GetBufferPos(), nUnitSize - 11, object_data_length - 4);
 
-            TRACE_HDMVSUB(_T("CHdmvSub:NewObject    size=%ld, total obj=%d, %dx%d\n"), object_data_length, m_pObjects.GetCount(),
-                          m_pCurrentObject->m_width, m_pCurrentObject->m_height);
+            TRACE_HDMVSUB(_T("CHdmvSub:NewObject    size=%ld, total obj=%d, %dx%d\n"), object_data_length, m_pCurrentPresentationSegment->objects.GetCount(),
+                          pObject->m_width, pObject->m_height);
         } else {
-            m_pCurrentObject->AppendRLEData(pGBuffer->GetBufferPos(), nUnitSize - 4);
+            pObject->AppendRLEData(pGBuffer->GetBufferPos(), nUnitSize - 4);
         }
     }
 }
@@ -299,33 +291,42 @@ void CHdmvSub::ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_D
 
 void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 {
-    CompositionObject* pObject = FindObject(rt);
+    HDMV_PRESENTATION_SEGMENT* pPresentationSegment = FindPresentationSegment(rt);
 
-    ASSERT(pObject != NULL && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height));
+    bbox.left   = LONG_MAX;
+    bbox.top    = LONG_MAX;
+    bbox.right  = 0;
+    bbox.bottom = 0;
 
-    if (pObject && pObject->GetRLEDataSize() && pObject->m_width > 0 && pObject->m_height > 0
-            && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
-        if (!pObject->HavePalette()) {
-            pObject->SetPalette(m_nDefaultPaletteNbEntry, m_pDefaultPalette, m_VideoDescriptor.nVideoWidth > 720);
+    if (pPresentationSegment) {
+        POSITION pos = pPresentationSegment->objects.GetHeadPosition();
+
+        while (pos) {
+            CompositionObject* pObject = pPresentationSegment->objects.GetNext(pos);
+
+            if (pObject->GetRLEDataSize() && pObject->m_width > 0 && pObject->m_height > 0
+                    && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
+                pObject->SetPalette(pPresentationSegment->CLUT.size, pPresentationSegment->CLUT.palette, pPresentationSegment->video_descriptor.nVideoWidth > 720);
+
+                bbox.left   = min(pObject->m_horizontal_position, bbox.left);
+                bbox.top    = min(pObject->m_vertical_position, bbox.top);
+                bbox.right  = max(pObject->m_horizontal_position + pObject->m_width, bbox.right);
+                bbox.bottom = max(pObject->m_vertical_position + pObject->m_height, bbox.bottom);
+
+                TRACE_HDMVSUB(_T("CHdmvSub:Render       size=%ld,  ObjRes=%dx%d,  SPDRes=%dx%d\n"), pObject->GetRLEDataSize(),
+                              pObject->m_width, pObject->m_height, spd.w, spd.h);
+                pObject->RenderHdmv(spd);
+            }
         }
-
-        TRACE_HDMVSUB(_T("CHdmvSub:Render       size=%ld,  ObjRes=%dx%d,  SPDRes=%dx%d\n"), pObject->GetRLEDataSize(),
-                      pObject->m_width, pObject->m_height, spd.w, spd.h);
-        pObject->RenderHdmv(spd);
-
-        bbox.left   = pObject->m_horizontal_position;
-        bbox.top    = pObject->m_vertical_position;
-        bbox.right  = bbox.left + pObject->m_width;
-        bbox.bottom = bbox.top  + pObject->m_height;
     }
 }
 
 HRESULT CHdmvSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
 {
-    CompositionObject* pObject = m_pObjects.GetAt(pos);
-    if (pObject) {
-        MaxTextureSize.cx = VideoSize.cx = m_VideoDescriptor.nVideoWidth;
-        MaxTextureSize.cy = VideoSize.cy = m_VideoDescriptor.nVideoHeight;
+    HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(pos);
+    if (pPresentationSegment) {
+        MaxTextureSize.cx = VideoSize.cx = pPresentationSegment->video_descriptor.nVideoWidth;
+        MaxTextureSize.cy = VideoSize.cy = pPresentationSegment->video_descriptor.nVideoHeight;
 
         // The subs will be directly rendered into the proper position!
         VideoTopLeft.x = 0; //pObject->m_horizontal_position;
@@ -341,21 +342,37 @@ HRESULT CHdmvSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& Video
 
 void CHdmvSub::Reset()
 {
-    CompositionObject* pObject;
-    while (m_pObjects.GetCount() > 0) {
-        pObject = m_pObjects.RemoveHead();
-        delete pObject;
+    HDMV_PRESENTATION_SEGMENT* pPresentationSegment;
+    while (m_pPresentationSegments.GetCount() > 0) {
+        pPresentationSegment = m_pPresentationSegments.RemoveHead();
+        delete pPresentationSegment;
     }
 }
 
-CompositionObject*  CHdmvSub::FindObject(REFERENCE_TIME rt)
+
+CHdmvSub::HDMV_PRESENTATION_SEGMENT* CHdmvSub::FindPresentationSegment(REFERENCE_TIME rt)
 {
-    POSITION pos = m_pObjects.GetHeadPosition();
+    POSITION pos = m_pPresentationSegments.GetHeadPosition();
 
     while (pos) {
-        CompositionObject* pObject = m_pObjects.GetNext(pos);
+        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetNext(pos);
 
-        if (rt >= pObject->m_rtStart && rt < pObject->m_rtStop) {
+        if (pPresentationSegment->rtStart <= rt && pPresentationSegment->rtStop > rt) {
+            return pPresentationSegment;
+        }
+    }
+
+    return NULL;
+}
+
+CompositionObject* CHdmvSub::FindObject(HDMV_PRESENTATION_SEGMENT* pPresentationSegment, short sObjectId)
+{
+    POSITION pos = pPresentationSegment->objects.GetHeadPosition();
+
+    while (pos) {
+        CompositionObject* pObject = pPresentationSegment->objects.GetNext(pos);
+
+        if (pObject->m_object_id_ref == sObjectId) {
             return pObject;
         }
     }

@@ -41,7 +41,6 @@ public:
     bool  m_object_cropped_flag;
     bool  m_forced_on_flag;
     BYTE  m_version_number;
-    BYTE  m_nObjectNumber;
 
     short m_horizontal_position;
     short m_vertical_position;
@@ -52,9 +51,6 @@ public:
     short m_cropping_vertical_position;
     short m_cropping_width;
     short m_cropping_height;
-
-    REFERENCE_TIME m_rtStart;
-    REFERENCE_TIME m_rtStop;
 
     CompositionObject();
     ~CompositionObject();

@@ -25,8 +25,6 @@
 
 CompositionObject::CompositionObject()
 {
-    m_rtStart       = 0;
-    m_rtStop        = 0;
     m_pRLEData      = NULL;
     m_nRLEDataSize  = 0;
     m_nRLEPos       = 0;
