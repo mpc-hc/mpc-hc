@@ -311,7 +311,7 @@ void CPlayerSeekBar::OnPaint()
             if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
                 __int64 pos = CalculatePosition(rt);
                 if (pos < 0) { continue; }
-                RECT r = { cr.left + (LONG)pos, cr.top, cr.left + (LONG)pos + 2, cr.bottom };
+                RECT r = { cr.left + (LONG)pos - 2, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
                 dc.FillSolidRect(&r, black);
                 dc.ExcludeClipRect(&r);
             }
@@ -540,7 +540,7 @@ void CPlayerSeekBar::UpdateToolTipText()
         for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
             if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
                 REFERENCE_TIME unit = m_stop / GetChannelRect().Width();
-                if(rt - unit*2 < m_tooltipPos && m_tooltipPos < rt + unit*2) {
+                if(rt - unit*2 < m_tooltipPos && m_tooltipPos < rt + unit) {
                     m_tooltipText += name;
                 }
             }
