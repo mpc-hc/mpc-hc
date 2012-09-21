@@ -173,7 +173,19 @@ CRect CPlayerSeekBar::GetThumbRect() const
 
     int x = r.left + (int)((m_start < m_stop /*&& fEnabled*/) ? (__int64)r.Width() * (m_pos - m_start) / (m_stop - m_start) : 0);
     int y = r.CenterPoint().y;
-    r.SetRect(r.left - 1, y - r.Height() + 2 , x + 1, y + r.Height() - 1);
+    
+    r.SetRect(x, y, x, y);
+    r.InflateRect(6, 7, 7, 8);
+
+    return r;
+}
+
+CRect CPlayerSeekBar::GetInnerThumbRect() const
+{
+    CRect r = GetThumbRect();
+
+    bool fEnabled = m_fEnabled && m_start < m_stop;
+    r.DeflateRect(3, fEnabled ? 5 : 4, 3, fEnabled ? 5 : 4);
 
     return r;
 }
@@ -247,6 +259,49 @@ void CPlayerSeekBar::OnPaint()
     light = GetSysColor(COLOR_3DHILIGHT),
     bkg = GetSysColor(COLOR_BTNFACE);
 
+    // thumb
+    {
+        CRect r = GetThumbRect(), r2 = GetInnerThumbRect();
+        CRect rt = r, rit = r2;
+
+        dc.Draw3dRect(&r, light, 0);
+        r.DeflateRect(0, 0, 1, 1);
+        dc.Draw3dRect(&r, light, shadow);
+        r.DeflateRect(1, 1, 1, 1);
+
+        CBrush b(bkg);
+
+        dc.FrameRect(&r, &b);
+        r.DeflateRect(0, 1, 0, 1);
+        dc.FrameRect(&r, &b);
+
+        r.DeflateRect(1, 1, 0, 0);
+        dc.Draw3dRect(&r, shadow, bkg);
+
+        if (fEnabled) {
+            r.DeflateRect(1, 1, 1, 2);
+            CPen white(PS_INSIDEFRAME, 1, white);
+            CPen* old = dc.SelectObject(&white);
+            dc.MoveTo(r.left, r.top);
+            dc.LineTo(r.right, r.top);
+            dc.MoveTo(r.left, r.bottom);
+            dc.LineTo(r.right, r.bottom);
+            dc.SelectObject(old);
+            dc.SetPixel(r.CenterPoint().x, r.top, 0);
+            dc.SetPixel(r.CenterPoint().x, r.bottom, 0);
+        }
+
+        dc.SetPixel(r.CenterPoint().x + 5, r.top - 4, bkg);
+
+        {
+            CRgn rgn1, rgn2;
+            rgn1.CreateRectRgnIndirect(&rt);
+            rgn2.CreateRectRgnIndirect(&rit);
+            ExtSelectClipRgn(dc, rgn1, RGN_DIFF);
+            ExtSelectClipRgn(dc, rgn2, RGN_OR);
+        }
+    }
+
     // chapter position
     if (m_pChapterBag) {
         CRect cr = GetChannelRect();
@@ -261,14 +316,6 @@ void CPlayerSeekBar::OnPaint()
                 dc.ExcludeClipRect(&r);
             }
         }
-    }
-
-    // thumb
-    {
-        CRect r = GetThumbRect();
-        dc.FillSolidRect(&r, fEnabled ? shadow : bkg);
-        r.DeflateRect(1, 1);
-        dc.ExcludeClipRect(&r);
     }
 
     // channel
