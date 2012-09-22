@@ -1,17 +1,17 @@
 diff --git a/build.bat b/build.bat
-index 8cd30e7..bbdc9ec 100644
+index ac59c2c..6d95117 100644
 --- a/build.bat
 +++ b/build.bat
-@@ -28,7 +28,7 @@ IF EXIST "build.user.bat" (
-   IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%) ELSE (GOTO MissingVar)
-   IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)       ELSE (GOTO MissingVar)
- )
+@@ -33,7 +33,7 @@ IF NOT EXIST %MPCHC_MINGW32% GOTO MissingVar
+ IF NOT EXIST %MPCHC_MINGW64% GOTO MissingVar
+ IF NOT EXIST %MPCHC_MSYS%    GOTO MissingVar
+ 
 -IF NOT DEFINED VS100COMNTOOLS GOTO MissingVar
 +IF NOT DEFINED VS110COMNTOOLS GOTO MissingVar
  
  SET ARG=/%*
  SET ARG=%ARG:/=%
-@@ -127,7 +127,7 @@ IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild
+@@ -132,7 +132,7 @@ IF /I "%Rebuild%" == "FFmpeg" CALL "src\thirdparty\ffmpeg\gccbuild.bat" Rebuild
  IF %ERRORLEVEL% NEQ 0 EXIT /B
  
  IF /I "%PPLATFORM%" == "Win32" (SET ARCH=x86) ELSE (SET ARCH=%x64_type%)
@@ -506,7 +506,7 @@ index ac1581e..b6e5971 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/AviSplitter/AviSplitter.vcxproj b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
-index 479a663..9bb8032 100644
+index f90c4ec..8b0a5d5 100644
 --- a/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 +++ b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 @@ -38,47 +38,56 @@
@@ -2341,7 +2341,7 @@ index dd140b2..ba0cda9 100644
      <ResourceCompile>
        <AdditionalIncludeDirectories>..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
-index a38f17c..fba627f 100644
+index 86c3a28..9b7ddb1 100644
 --- a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 +++ b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 @@ -38,47 +38,56 @@
@@ -2557,7 +2557,7 @@ index ea2128d..52632ee 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index bdc8369..c991093 100644
+index 68a2e94..24860c7 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -39,47 +39,56 @@
@@ -2994,43 +2994,8 @@ index 0c47951..ebfe974 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-diff --git a/src/thirdparty/VirtualDub/h/vd2/system/vdstl.h b/src/thirdparty/VirtualDub/h/vd2/system/vdstl.h
-index 693c7e2..9333582 100644
---- a/src/thirdparty/VirtualDub/h/vd2/system/vdstl.h
-+++ b/src/thirdparty/VirtualDub/h/vd2/system/vdstl.h
-@@ -1377,7 +1377,7 @@ protected:
- 		kBlockSizeBits = Block::kBlockSizeBits
- 	};
- 
--	struct M1 : public A::rebind<Block *>::other {
-+	struct M1 : public A::template rebind<Block *>::other {
- 		Block **mapStartAlloc;		// start of map
- 		Block **mapStartCommit;		// start of range of allocated blocks
- 		Block **mapStart;			// start of range of active blocks
-@@ -1386,7 +1386,7 @@ protected:
- 		Block **mapEndAlloc;		// end of map
- 	} m;
- 
--	struct M2 : public A::rebind<Block>::other {
-+	struct M2 : public A::template rebind<Block>::other {
- 		int startIndex;
- 		int endIndex;
- 	} mTails;
-diff --git a/src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h b/src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h
-index 14460d9..a2a3549 100644
---- a/src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h
-+++ b/src/thirdparty/VirtualDub/h/vd2/system/vdstl_hashmap.h
-@@ -113,7 +113,7 @@ protected:
- 	void				reset();
- 
- 	A mAllocator;
--	typename A::rebind<vdhashtable_base_node *>::other mBucketAllocator;
-+	typename A::template rebind<vdhashtable_base_node *>::other mBucketAllocator;
- 	Hash mHasher;
- 	Pred mPred;
- };
 diff --git a/src/thirdparty/VirtualDub/system/system.vcxproj b/src/thirdparty/VirtualDub/system/system.vcxproj
-index 6ff7b50..cfce34a 100644
+index 5f55e1d..c43380e 100644
 --- a/src/thirdparty/VirtualDub/system/system.vcxproj
 +++ b/src/thirdparty/VirtualDub/system/system.vcxproj
 @@ -21,23 +21,28 @@
@@ -3096,7 +3061,7 @@ index fedf4e4..ab83114 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index 8e0d8ca..981c481 100644
+index 7fbca6c..d80690a 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@
