@@ -33,6 +33,8 @@ Legend:
   - Fix missing subtitles
   - Ticket #2589, Fix wrongly colored subtitles
 ! Ticket #102, Fix playback of VideoCD as disk
+! Ticket #790,#1511,#2269,2612, VSFilter: Fix a bug causing the subtitles not to show
+  when using YUY2 color space
 ! Ticket #2540, Fix handling of big API messages
 ! Ticket #2547, The master window handle was erroneously reset
   when starting a file from the explorer.
