@@ -1969,8 +1969,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
             if (GetPlaybackMode() == PM_FILE) {
                 SetupChapters();
-
-                m_wndSeekBar.SetChapterBag(m_pCB);
             }
 
             if (GetPlaybackMode() == PM_DVD) { // we also use this timer to update the info panel for DVD playback
@@ -8303,7 +8301,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
         ULONG ulNumOfChapters = 0;
         pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
-
+        
         if (nID == ID_NAVIGATE_SKIPBACK) {
             if (Location.ChapterNum == 1 && Location.TitleNum > 1) {
                 pDVDI->GetNumberOfChapters(Location.TitleNum - 1, &ulNumOfChapters);
@@ -10790,6 +10788,8 @@ void CMainFrame::SetupChapters()
     }
 
     m_pCB->ChapSort();
+
+    m_wndSeekBar.SetChapterBag(m_pCB);
 }
 
 void CMainFrame::OpenDVD(OpenDVDData* pODD)
