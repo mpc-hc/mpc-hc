@@ -25,7 +25,7 @@
 #include "../../../DSUtil/DSUtil.h"
 
 
-// ==>>> Resource identifier from "resource.h" present in mplayerc project!
+// ==>>> Resource identifier from "resource.h" present in MPC-HC project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 //
@@ -174,39 +174,39 @@ END_MESSAGE_MAP()
 void CMpaDecSettingsWnd::OnInt16Check()
 {
     if (m_outfmt_i16_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
-            m_outfmt_i16_check.SetCheck(BST_CHECKED);
+            m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
+            m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
+            m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
+        m_outfmt_i16_check.SetCheck(BST_CHECKED);
     }
 }
 
 void CMpaDecSettingsWnd::OnInt24Check()
 {
     if (m_outfmt_i16_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
-            m_outfmt_i24_check.SetCheck(BST_CHECKED);
+            m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
+            m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
+            m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
+        m_outfmt_i24_check.SetCheck(BST_CHECKED);
     }
 }
 
 void CMpaDecSettingsWnd::OnInt32Check()
 {
     if (m_outfmt_i16_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
-            m_outfmt_i32_check.SetCheck(BST_CHECKED);
+            m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
+            m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
+            m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
+        m_outfmt_i32_check.SetCheck(BST_CHECKED);
     }
 }
 
 void CMpaDecSettingsWnd::OnFloatCheck()
 {
     if (m_outfmt_i16_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
-        m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
-            m_outfmt_flt_check.SetCheck(BST_CHECKED);
+            m_outfmt_i24_check.GetCheck() == BST_UNCHECKED &&
+            m_outfmt_i32_check.GetCheck() == BST_UNCHECKED &&
+            m_outfmt_flt_check.GetCheck() == BST_UNCHECKED) {
+        m_outfmt_flt_check.SetCheck(BST_CHECKED);
     }
 }

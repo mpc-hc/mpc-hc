@@ -24,7 +24,7 @@
 #include "Mpeg2DecSettingsWnd.h"
 #include "../../../DSUtil/DSUtil.h"
 
-// ==>>> Resource identifier from "resource.h" present in mplayerc project!
+// ==>>> Resource identifier from "resource.h" present in MPC-HC project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 //
