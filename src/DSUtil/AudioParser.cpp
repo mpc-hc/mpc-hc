@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "AudioParser.h"
+#include "GolombBuffer.h"
 #include <MMReg.h>
 
 #define AC3_CHANNEL         0
@@ -429,6 +430,138 @@ int ParseHdmvLPCMHeader(const BYTE* buf, int* samplerate, int* channels)
     }
 
     return frame_size;
+}
+
+// LATM
+
+static UINT32 LATMGetValue(CGolombBuffer& gb)
+{
+    BYTE bBytesForValue = (BYTE)gb.BitRead(2);
+    UINT32 value = 0;
+    for (int i = 0; i <= bBytesForValue; i++) {
+        value *= 256; // 2^8
+        value += gb.ReadByte();
+    }
+    return value;
+}
+
+static bool ParseLATMHeaderAudioSpecificConfig(CGolombBuffer& gb, int* samplerate, int* channels)
+{
+    static int sampling_frequency[] = { 96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000, 7350 };
+    static int channel_configuration[] = {0, 1, 2, 3, 4, 5, 6, 8};
+
+    short sAudioObjectType = (short)gb.BitRead(5);
+    if (sAudioObjectType == 31) {
+        sAudioObjectType = 32 + (short)gb.BitRead(6);
+    }
+
+    BYTE bSamplingFrequencyIndex = (BYTE)gb.BitRead(4);
+    if (bSamplingFrequencyIndex == 0xf) {
+        *samplerate = (int)gb.BitRead(24);
+    } else if (bSamplingFrequencyIndex < _countof(sampling_frequency)) {
+        *samplerate = sampling_frequency[bSamplingFrequencyIndex];
+    } else {
+        return false;
+    }
+
+    BYTE bChannelConfiguration = (BYTE)gb.BitRead(4);
+    if (bChannelConfiguration < _countof(channel_configuration)) {
+        *channels = channel_configuration[bChannelConfiguration];
+    } else {
+        return false;
+    }
+
+    int sbrPresentFlag = -1;
+    short sExtensionAudioObjectType;
+    if (sAudioObjectType == 5) {
+        sExtensionAudioObjectType = sAudioObjectType;
+        sbrPresentFlag = 1;
+
+        BYTE bExtensionSamplingFrequencyIndex = (BYTE)gb.BitRead(4);
+        if (bExtensionSamplingFrequencyIndex == 0xf) {
+            *samplerate = (int)gb.BitRead(24);
+        } else if (bExtensionSamplingFrequencyIndex < _countof(sampling_frequency)) {
+            *samplerate = sampling_frequency[bExtensionSamplingFrequencyIndex];
+        } else {
+            return false;
+        }
+
+        sAudioObjectType = (short)gb.BitRead(5);
+        if (sAudioObjectType == 31) {
+            sAudioObjectType = 32 + (short)gb.BitRead(6);
+        }
+    } else {
+        sExtensionAudioObjectType = 0;
+    }
+
+    // The specs are unclear about that but it seems to work
+    if (sbrPresentFlag == -1) {
+        *samplerate *= 2;
+    }
+
+    return true;
+}
+
+static bool ParseLATMHeaderStreamMuxConfig(CGolombBuffer& gb, int* samplerate, int* channels)
+{
+    BYTE bAudioMuxVersion = (BYTE)gb.BitRead(1);
+    BYTE bAudioMuxVersionA = 0; // default value is 0
+    if (bAudioMuxVersion) { // 
+        bAudioMuxVersionA = (BYTE)gb.BitRead(1);
+    }
+
+    bool success = false;
+
+    if (bAudioMuxVersionA == 0) {
+        if (bAudioMuxVersion == 1) {
+            LATMGetValue(gb); // taraBufferFullness
+        }
+        gb.BitRead(1); // allStreamsSameTimeFraming
+        gb.BitRead(6); // numSubFrames
+        BYTE bNumProgram = (BYTE)gb.BitRead(4);
+
+        BYTE bNumLayer = (BYTE)gb.BitRead(3);
+
+        if (bNumProgram || bNumLayer) {
+            ASSERT(0); // We support only bNumProgram = bNumLayer = 0
+            return false;
+        }
+
+        BYTE bUseSameConfig = 0; // because bNumProgram = bNumLayer = 0
+        if (!bUseSameConfig) {
+            if (bAudioMuxVersion == 0) {
+                success = ParseLATMHeaderAudioSpecificConfig(gb, samplerate, channels);
+            }  else{
+                UINT32 uAscLen = LATMGetValue(gb);
+                success = ParseLATMHeaderAudioSpecificConfig(gb, samplerate, channels); // TODO uAscLen -= AudioSpecificConfig();
+                // gb.BitRead((int)uAscLen); // fillBits
+            }
+        }
+    }
+
+    return success;
+}
+
+bool ParseAACLATMHeader(BYTE* buf, int len, int* samplerate, int* channels)
+{
+    *samplerate = 0;
+    *channels   = 0;
+
+    CGolombBuffer gb(buf, len);
+
+    // Check LATM syncword
+    if (gb.BitRead(11) != AAC_LATM_SYNC_WORD) {
+        return false;
+    }
+    gb.BitRead(13); // audioMuxLengthBytes;
+    
+    bool success = false;
+    // Parsing AudioMuxElement
+    if (!gb.BitRead(1)) { // useSameStreamMux
+        success = ParseLATMHeaderStreamMuxConfig(gb, samplerate, channels);
+    }
+
+    return success;
 }
 
 // Channel masks

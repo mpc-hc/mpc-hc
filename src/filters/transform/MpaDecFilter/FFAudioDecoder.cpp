@@ -223,7 +223,7 @@ bool CFFAudioDecoder::Init(enum AVCodecID nCodecId, CTransformInputPin* pInput)
             m_pAVCtx->flags            |= CODEC_FLAG_TRUNCATED;
         }
 
-        if (nCodecId != AV_CODEC_ID_AAC && nCodecId != AV_CODEC_ID_AAC_LATM) {
+        if (nCodecId != AV_CODEC_ID_AAC) {
             m_pParser = av_parser_init(nCodecId);
         }
 

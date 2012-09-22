@@ -92,6 +92,7 @@ clean:
 # Objects
 SRCS_C = \
     libavcodec/aac_ac3_parser.c \
+    libavcodec/aac_parser.c \
     libavcodec/aacadtsdec.c \
     libavcodec/aacdec.c \
     libavcodec/aacps.c \
@@ -177,6 +178,7 @@ SRCS_C = \
     libavcodec/jpeglsdec.c \
     libavcodec/jrevdct.c \
     libavcodec/kbdwin.c \
+    libavcodec/latm_parser.c \
     libavcodec/lsp.c \
     libavcodec/mdct.c \
     libavcodec/mjpeg.c \

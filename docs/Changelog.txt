@@ -46,3 +46,4 @@ Legend:
 ! Ticket #2599, Fix "Snap to desktop edges" option for multi-monitor setup
 ! Ticket #2606, MPEG Splitter: Don't output the fake "No subtitle" track when the file
   contains no subtitles
+! Ticket #2219,#2610, MPEG Splitter/AAC Decoder: Add basic support from AAC LATM tracks

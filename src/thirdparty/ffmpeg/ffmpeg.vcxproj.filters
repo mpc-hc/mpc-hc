@@ -930,6 +930,12 @@
     <ClCompile Include="libavcodec\x86\vp56dsp_init.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\aac_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\latm_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />

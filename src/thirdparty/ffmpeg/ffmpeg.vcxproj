@@ -147,6 +147,7 @@
     <ClCompile Include="libavcodec\aacsbr.c" />
     <ClCompile Include="libavcodec\aactab.c" />
     <ClCompile Include="libavcodec\aac_ac3_parser.c" />
+    <ClCompile Include="libavcodec\aac_parser.c" />
     <ClCompile Include="libavcodec\ac3.c" />
     <ClCompile Include="libavcodec\ac3dec.c" />
     <ClCompile Include="libavcodec\ac3dec_data.c" />
@@ -237,6 +238,7 @@
     <ClCompile Include="libavcodec\jpeglsdec.c" />
     <ClCompile Include="libavcodec\jrevdct.c" />
     <ClCompile Include="libavcodec\kbdwin.c" />
+    <ClCompile Include="libavcodec\latm_parser.c" />
     <ClCompile Include="libavcodec\lsp.c" />
     <ClCompile Include="libavcodec\mdct.c" />
     <ClCompile Include="libavcodec\mjpeg.c" />

@@ -28,6 +28,8 @@
 #define TRUEHD_SYNC_WORD    0xba6f72f8
 #define MLP_SYNC_WORD       0xbb6f72f8
 #define IEC61937_SYNC_WORD  0x4e1ff872
+#define AAC_SYNC_WORD            0xFFF
+#define AAC_LATM_SYNC_WORD       0x2B7
 
 #define DTS_SYNC_WORD       0x0180fe7f
 #define DTSHD_SYNC_WORD     0x25205864
@@ -46,6 +48,7 @@ int ParseEAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framel
 int ParseMLPHeader(const BYTE* buf, int* samplerate, int* channels, int* framelength, WORD* bitdepth, bool* isTrueHD); // for TrueHD and MLP
 int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* tr_bitrate);
 int ParseHdmvLPCMHeader(const BYTE* buf, int* samplerate, int* channels);
+bool ParseAACLATMHeader(BYTE* buf, int len, int* samplerate, int* channels);
 
 DWORD GetDefChannelMask(WORD nChannels);
 DWORD GetVorbisChannelMask(WORD nChannels);

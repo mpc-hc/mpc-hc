@@ -499,6 +499,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 
 #define IsMpegAudio(stream_type)    (stream_type == AUDIO_STREAM_MPEG1 || stream_type == AUDIO_STREAM_MPEG2)
 #define IsAACAudio(stream_type)     (stream_type == AUDIO_STREAM_AAC)
+#define IsAACLATMAudio(stream_type) (stream_type == AUDIO_STREAM_AAC_LATM)
 #define IsAC3Audio(stream_type)     (                                                                                     \
                                     stream_type == AUDIO_STREAM_AC3 || stream_type == AUDIO_STREAM_AC3_PLUS ||            \
                                     stream_type == AUDIO_STREAM_AC3_TRUE_HD || stream_type == SECONDARY_AUDIO_AC3_PLUS || \
@@ -573,7 +574,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
         }
     } else if (pesid >= 0xc0 && pesid < 0xe0) { // mpeg audio
 
-        // MPEG Audio
+        // AAC
         if (type == unknown) {
             CMpegSplitterFile::aachdr h;
             if (!m_streams[audio].Find(s) && Read(h, len, &s.mt, m_type)) {
@@ -588,7 +589,23 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, BYTE ps1id, DWORD len)
             }
         }
 
-        // AAC
+        // AAC LATM
+        if (type == unknown) {
+            Seek(start);
+            CMpegSplitterFile::latm_aachdr h;
+            if (!m_streams[audio].Find(s) && Read(h, len, &s.mt)) {
+                PES_STREAM_TYPE stream_type = INVALID;
+                if (GetStreamType(s.pid, stream_type)) {
+                    if (IsAACLATMAudio(stream_type)) {
+                        type = audio;
+                    }
+                } else {
+                    type = audio;
+                }
+            }
+        }
+
+        // MPEG Audio
         if (type == unknown) {
             Seek(start);
             CMpegSplitterFile::mpahdr h;

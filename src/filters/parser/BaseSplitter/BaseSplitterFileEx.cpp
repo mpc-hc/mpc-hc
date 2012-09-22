@@ -607,15 +607,41 @@ bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
 {
     memset(&h, 0, sizeof(h));
 
-    for (; len >= 3 && BitRead(11, true) != 0x2b7; len--) {
+    for (; len >= 7 && BitRead(11, true) != AAC_LATM_SYNC_WORD; len--) {
         BitRead(8);
     }
 
-    if (len < 3) {
+    if (len < 7) {
         return false;
     }
 
-    // Disable AAC latm stream support until make correct header parsing ...
+    BYTE buffer[32] = {0};
+    ByteRead(buffer, min(len, 32));
+
+    if (!ParseAACLATMHeader(buffer, min(len, 32), &h.samplerate, &h.channels)) {
+        return false;
+    }
+
+    if (!pmt) {
+        return true;
+    }
+
+    WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[sizeof(WAVEFORMATEX)];
+    memset(wfe, 0, sizeof(WAVEFORMATEX));
+    wfe->wFormatTag = WAVE_FORMAT_LATM_AAC;
+    wfe->nChannels = h.channels;
+    wfe->nSamplesPerSec = h.samplerate;
+    wfe->nBlockAlign = 1;
+    wfe->nAvgBytesPerSec = 0;
+    wfe->cbSize = 0;
+
+    pmt->majortype = MEDIATYPE_Audio;
+    pmt->subtype = MEDIASUBTYPE_LATM_AAC;
+    pmt->formattype = FORMAT_WaveFormatEx;
+    pmt->SetFormat((BYTE*)wfe, sizeof(WAVEFORMATEX) + wfe->cbSize);
+
+    delete [] wfe;
+
     return true;
 }
 
@@ -627,7 +653,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt, MPEG_TYPES m
     int found_fake_sync = m_type == mpeg_ts ? 0 : 1;
 
     for (;;) {
-        for (; len >= 7 && BitRead(12, true) != 0xfff; len--) {
+        for (; len >= 7 && BitRead(12, true) != AAC_SYNC_WORD; len--) {
             BitRead(8);
         }
 
