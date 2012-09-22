@@ -376,7 +376,7 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
         const wmcmd& wc = s.wmcmds.GetNext(pos);
         CStringA str;
         str.Format("%d", wc.cmd);
-        CStringA valueName(wc.GetName());
+        CStringA valueName(UTF8(wc.GetName()));
         valueName.Replace("&", "&amp;");
         wmcoptions += "<option value=\"" + str + "\">" + valueName + "</option>\r\n";
     }
