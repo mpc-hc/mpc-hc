@@ -279,9 +279,9 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
                 break;    // file is very small
             }
 
-            for (int i = 1; i < len - 4; i++) { // looking for DTS or AC3 sync
+            for (int i = 1; i < len - 8; i++) { // looking for DTS or AC3 sync
                 id = *(DWORD*)(buf + i);
-                if (isDTSSync(id) || (WORD)id == AC3_SYNC_WORD) {
+                if (isDTSSync(id) || (WORD)id == AC3_SYNC_WORD && (GetAC3FrameSize(buf) > 0 || GetEAC3FrameSize(buf) > 0)) {
                     isFound = true;
                     m_dataOffset += i;
                     break;
