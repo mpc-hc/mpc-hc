@@ -157,11 +157,11 @@ unsigned int {
     // Pause or restart playback
     CMD_PLAYPAUSE           = 0xA0000003,
 
-	// Unpause playback
-	CMD_PLAY                = 0xA0000004,
+    // Unpause playback
+    CMD_PLAY                = 0xA0000004,
 
-	// Pause playback
-	CMD_PAUSE               = 0xA0000005,
+    // Pause playback
+    CMD_PAUSE               = 0xA0000005,
 
     // Add a new file to playlist (did not start playing)
     // Par 1 : file path
