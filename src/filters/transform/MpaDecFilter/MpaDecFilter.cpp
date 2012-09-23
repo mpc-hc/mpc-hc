@@ -481,6 +481,10 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
     }
 
     long len = pIn->GetActualDataLength();
+    // skip empty packet (StreamBufferSource can produce empty data)
+    if (len == 0) {
+        return S_OK;
+    }
 
     (static_cast<CDeCSSInputPin*>(m_pInput))->StripPacket(pDataIn, len);
 
@@ -508,7 +512,8 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
     const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 
-    if ((subtype == MEDIASUBTYPE_COOK && (S_OK == pIn->IsSyncPoint())) || ((_abs64((m_rtStart - rtStart)) > MAX_JITTER) && ((subtype != MEDIASUBTYPE_COOK) && (subtype != MEDIASUBTYPE_ATRC) && (subtype != MEDIASUBTYPE_SIPR)))) {
+    if (subtype == MEDIASUBTYPE_COOK && S_OK == pIn->IsSyncPoint() ||
+            _abs64(m_rtStart - rtStart) > MAX_JITTER && subtype != MEDIASUBTYPE_COOK && subtype != MEDIASUBTYPE_ATRC && subtype != MEDIASUBTYPE_SIPR) {
         m_bResync = true;
     }
 
@@ -733,10 +738,6 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
     BYTE* end = base + m_buff.GetCount();
     BYTE* p = base;
 
-    if (end - p <= 0) { // StreamBufferSource can produce empty data
-        return S_OK;
-    }
-
     if (m_FFAudioDec.GetCodecId() != nCodecId) {
         m_FFAudioDec.Init(nCodecId, m_pInput);
         m_FFAudioDec.SetDRC(GetDynamicRangeControl());
@@ -855,7 +856,7 @@ HRESULT CMpaDecFilter::ProcessAC3_SPDIF()
     HRESULT hr;
     BYTE* const base = m_buff.GetData();
     BYTE* const end = base + m_buff.GetCount();
-    BYTE* p = base;;
+    BYTE* p = base;
 
     while (p + AC3_HEADER_SIZE <= end) {
         int size = 0;
@@ -933,7 +934,6 @@ HRESULT CMpaDecFilter::ProcessPCMraw() // 'raw'
     outBuff.SetCount(outSize);
     int16_t* pDataOut = (int16_t*)outBuff.GetData();
 
-
     switch (wfe->wBitsPerSample) {
         case 8: { // unsigned 8-bit
             uint8_t* b = (uint8_t*)m_buff.GetData();
@@ -984,7 +984,6 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
         case 16: { // signed big-endian 16-bit
             out_sf = SF_PCM16;
             int16_t* pDataOut = (int16_t*)outBuff.GetData();
-
 
             uint16_t* d = (uint16_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
             for (size_t i = 0; i < nSamples; i++) {
@@ -1813,7 +1812,6 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
         return S_OK;
     }
 #endif
-
 
     if (GetMixer()) {
         int sc = GetMixerLayout();
