@@ -14951,6 +14951,8 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_OSDSHOWMESSAGE:
             ShowOSDCustomMessageApi((MPC_OSDDATA*)pCDS->lpData);
             break;
+        case CMD_GETVERSION:            CStringW buff = AfxGetMyApp()->m_strVersion;
+            SendAPICommand(CMD_VERSION, buff);            break;
     }
 }
 

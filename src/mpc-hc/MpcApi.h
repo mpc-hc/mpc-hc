@@ -141,6 +141,9 @@ unsigned int {
     // Par n : active file, -1 if no active file
     CMD_PLAYLIST            = 0x50000006,
 
+    // Send version str
+    // Par 1 : mpc-hc version
+    CMD_VERSION             = 0x5000000A,
 
     // ==== Commands from host to MPC
 
@@ -212,6 +215,9 @@ unsigned int {
     // Jump forward/backward of N seconds,
     // Par 1 : seconds (negative values for backward)
     CMD_JUMPOFNSECONDS      = 0xA0003005,
+
+    // ask slave for version
+    CMD_GETVERSION          = 0xA0030006,
 
     // Ask for a list of the audio tracks of the file
     // return a CMD_LISTAUDIOTRACKS
