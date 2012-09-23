@@ -145,6 +145,9 @@ unsigned int {
     // Par 1 : mpc-hc version
     CMD_VERSION             = 0x5000000A,
 
+    // Send information about mpc closing
+    CMD_DISCONNECT          = 0x5000000B,
+
     // ==== Commands from host to MPC
 
     // Open new file
