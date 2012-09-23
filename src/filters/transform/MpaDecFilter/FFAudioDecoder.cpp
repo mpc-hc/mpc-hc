@@ -102,6 +102,7 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
     //{ &MEDIASUBTYPE_DNET,           AV_CODEC_ID_AC3    },
 #endif
 #if INTERNAL_DECODER_AC3
+    // AC3, E-AC3, TrueHD, MLP
     //{ &MEDIASUBTYPE_DOLBY_AC3,      AV_CODEC_ID_AC3    },
     //{ &MEDIASUBTYPE_WAVE_DOLBY_AC3, AV_CODEC_ID_AC3    },
     { &MEDIASUBTYPE_DOLBY_DDPLUS,   AV_CODEC_ID_EAC3   },
@@ -109,12 +110,15 @@ static const FFMPEG_AUDIO_CODECS ffAudioCodecs[] = {
     { &MEDIASUBTYPE_MLP,            AV_CODEC_ID_MLP    },
 #endif
 #if INTERNAL_DECODER_DTS
+    // DTS
     { &MEDIASUBTYPE_DTS,            AV_CODEC_ID_DTS },
     { &MEDIASUBTYPE_WAVE_DTS,       AV_CODEC_ID_DTS },
 #endif
 #if INTERNAL_DECODER_FLAC
+    // FLAC
     { &MEDIASUBTYPE_FLAC_FRAMED,    AV_CODEC_ID_FLAC },
 #endif
+
     { &MEDIASUBTYPE_None,           AV_CODEC_ID_NONE },
 };
 
