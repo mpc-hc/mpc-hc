@@ -134,6 +134,10 @@ unsigned int {
     // Par 1 : none.
     CMD_NOTIFYENDOFSTREAM   = 0x50000009,
 
+    // Send version str
+    // Par 1 : mpc-hc version
+    CMD_VERSION             = 0x5000000A,
+
     // List of files in the playlist
     // Par 1 : file path 0
     // Par 2 : file path 1
@@ -206,6 +210,9 @@ unsigned int {
     // Jump forward/backward of N seconds,
     // Par 1 : seconds (negative values for backward)
     CMD_JUMPOFNSECONDS      = 0xA0003005,
+
+    // ask slave for version
+    CMD_GETVERSION          = 0xA0003006,
 
     // Ask for a list of the audio tracks of the file
     // return a CMD_LISTAUDIOTRACKS
