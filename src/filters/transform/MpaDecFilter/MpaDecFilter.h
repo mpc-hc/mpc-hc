@@ -145,9 +145,6 @@ protected:
     HRESULT ProcessPCMfloatBE();
     HRESULT ProcessPCMfloatLE();
 #endif
-#if defined(STANDALONE_FILTER) || INTERNAL_DECODER_REALAUDIO
-    HRESULT ProcessRealAudio();
-#endif
 
     HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);
     HRESULT Deliver(BYTE* pBuff, int size, MPCSampleFormat sfmt, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
