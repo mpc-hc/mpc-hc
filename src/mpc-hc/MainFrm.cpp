@@ -7082,6 +7082,22 @@ void CMainFrame::OnPlayPlaypause()
     }
 }
 
+void CMainFrame::OnPlayApiCall()
+{
+    OAFilterState fs = GetMediaState();
+    if (fs == State_Stopped || fs == State_Paused) {
+        SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+    }
+}
+
+void CMainFrame::OnPauseApiCall()
+{
+    OAFilterState fs = GetMediaState();
+    if (fs == State_Running) {
+        SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+    }
+}
+
 void CMainFrame::OnPlayStop()
 {
     if (m_iMediaLoadState == MLS_LOADED) {
@@ -14847,10 +14863,10 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             OnPlayPlaypause();
             break;
         case CMD_PLAY:
-            OnPlayPlay();
+            OnPlayApiCall();
             break;
         case CMD_PAUSE:
-            OnPlayPause();
+            OnPauseApiCall();
             break;
         case CMD_ADDTOPLAYLIST:
             fns.AddHead((LPCWSTR)pCDS->lpData);
