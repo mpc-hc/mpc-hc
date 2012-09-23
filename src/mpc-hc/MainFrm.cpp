@@ -14846,10 +14846,10 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_PLAYPAUSE:
             OnPlayPlaypause();
             break;
-		case CMD_PLAY:
+        case CMD_PLAY:
             OnPlayPlay();
             break;
-		case CMD_PAUSE:
+        case CMD_PAUSE:
             OnPlayPause();
             break;
         case CMD_ADDTOPLAYLIST:
