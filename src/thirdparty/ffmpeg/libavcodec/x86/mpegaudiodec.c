@@ -25,11 +25,16 @@
 #include "libavcodec/dsputil.h"
 #include "libavcodec/mpegaudiodsp.h"
 
-void ff_imdct36_float_sse(float *out, float *buf, float *in, float *win);
-void ff_imdct36_float_sse2(float *out, float *buf, float *in, float *win);
-void ff_imdct36_float_sse3(float *out, float *buf, float *in, float *win);
-void ff_imdct36_float_ssse3(float *out, float *buf, float *in, float *win);
-void ff_imdct36_float_avx(float *out, float *buf, float *in, float *win);
+#define DECL(CPU)\
+static void imdct36_blocks_ ## CPU(float *out, float *buf, float *in, int count, int switch_point, int block_type);\
+void ff_imdct36_float_ ## CPU(float *out, float *buf, float *in, float *win);
+
+DECL(sse)
+DECL(sse2)
+DECL(sse3)
+DECL(ssse3)
+DECL(avx)
+
 void ff_four_imdct36_float_sse(float *out, float *buf, float *in, float *win,
                                float *tmpbuf);
 void ff_four_imdct36_float_avx(float *out, float *buf, float *in, float *win,
@@ -252,12 +257,9 @@ void ff_mpadsp_init_mmx(MPADSPContext *s)
 #endif /* HAVE_SSE2_INLINE */
 
 #if HAVE_YASM
-#if HAVE_AVX_EXTERNAL
     if (EXTERNAL_AVX(mm_flags)) {
         s->imdct36_blocks_float = imdct36_blocks_avx;
-    } else
-#endif
-    if (EXTERNAL_SSSE3(mm_flags)) {
+    } else if (EXTERNAL_SSSE3(mm_flags)) {
         s->imdct36_blocks_float = imdct36_blocks_ssse3;
     } else if (EXTERNAL_SSE3(mm_flags)) {
         s->imdct36_blocks_float = imdct36_blocks_sse3;

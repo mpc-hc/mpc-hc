@@ -141,6 +141,7 @@ typedef struct Picture{
     int32_t *mb_cmp_score;      ///< Table for MB cmp scores, for mb decision FIXME remove
     int b_frame_score;          /* */
     struct MpegEncContext *owner2; ///< pointer to the MpegEncContext that allocated this picture
+    int needs_realloc;          ///< Picture needs to be reallocated (eg due to a frame size change)
 } Picture;
 
 /**
@@ -712,6 +713,10 @@ typedef struct MpegEncContext {
 
     /* temp buffers for rate control */
     float *cplx_tab, *bits_tab;
+
+    /* flag to indicate a reinitialization is required, e.g. after
+     * a frame size change */
+    int context_reinit;
 } MpegEncContext;
 
 #define REBASE_PICTURE(pic, new_ctx, old_ctx) (pic ? \
@@ -758,6 +763,7 @@ void ff_MPV_common_defaults(MpegEncContext *s);
 
 void ff_MPV_decode_defaults(MpegEncContext *s);
 int ff_MPV_common_init(MpegEncContext *s);
+int ff_MPV_common_frame_size_change(MpegEncContext *s);
 void ff_MPV_common_end(MpegEncContext *s);
 void ff_MPV_decode_mb(MpegEncContext *s, DCTELEM block[12][64]);
 int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx);
