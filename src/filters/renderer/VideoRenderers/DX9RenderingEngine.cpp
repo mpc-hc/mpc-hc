@@ -934,10 +934,10 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
     CRenderersData* data = GetRenderersData();
 
     // Check whether the final pass must be initialized
-    bool bColorManagement = settings.m_RenderSettings.iVMR9ColorManagementEnable;
-    VideoSystem inputVideoSystem = static_cast<VideoSystem>(settings.m_RenderSettings.iVMR9ColorManagementInput);
-    AmbientLight ambientLight = static_cast<AmbientLight>(settings.m_RenderSettings.iVMR9ColorManagementAmbientLight);
-    ColorRenderingIntent renderingIntent = static_cast<ColorRenderingIntent>(settings.m_RenderSettings.iVMR9ColorManagementIntent);
+    bool bColorManagement = settings.m_AdvRendSets.iVMR9ColorManagementEnable;
+    VideoSystem inputVideoSystem = static_cast<VideoSystem>(settings.m_AdvRendSets.iVMR9ColorManagementInput);
+    AmbientLight ambientLight = static_cast<AmbientLight>(settings.m_AdvRendSets.iVMR9ColorManagementAmbientLight);
+    ColorRenderingIntent renderingIntent = static_cast<ColorRenderingIntent>(settings.m_AdvRendSets.iVMR9ColorManagementIntent);
 
     bool bInitRequired = false;
 

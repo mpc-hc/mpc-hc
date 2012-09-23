@@ -724,7 +724,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
         CRenderersSettings& s = GetRenderersSettings();
 
 #if 1
-        if (s.m_RenderSettings.iEVROutputRange == 1) {
+        if (s.m_AdvRendSets.iEVROutputRange == 1) {
             m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
         } else {
             m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
@@ -742,7 +742,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 #endif
 
 
-        m_LastSetOutputRange = s.m_RenderSettings.iEVROutputRange;
+        m_LastSetOutputRange = s.m_AdvRendSets.iEVROutputRange;
 
         i64Size.HighPart = m_AspectRatio.cx;
         i64Size.LowPart  = m_AspectRatio.cy;
@@ -1946,7 +1946,7 @@ void CEVRAllocatorPresenter::RenderThread()
     while (!bQuit) {
         LONGLONG llPerf = GetRenderersData()->GetPerfCounter();
         UNREFERENCED_PARAMETER(llPerf);
-        if (!s.m_RenderSettings.iVMR9VSyncAccurate && NextSleepTime == 0) {
+        if (!s.m_AdvRendSets.iVMR9VSyncAccurate && NextSleepTime == 0) {
             NextSleepTime = 1;
         }
         dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
@@ -1976,7 +1976,7 @@ void CEVRAllocatorPresenter::RenderThread()
 
             case WAIT_TIMEOUT:
 
-                if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != s.m_RenderSettings.iEVROutputRange || m_bPendingRenegotiate) {
+                if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != s.m_AdvRendSets.iEVROutputRange || m_bPendingRenegotiate) {
                     FlushSamples();
                     RenegotiateMediaType();
                     m_bPendingRenegotiate = false;
@@ -2078,7 +2078,7 @@ void CEVRAllocatorPresenter::RenderThread()
                                     DetectedScanlineTime = DetectedRefreshTime / double(m_ScreenSize.cy);
                                 }
 
-                                if (s.m_RenderSettings.iVMR9VSync) {
+                                if (s.m_AdvRendSets.iVMR9VSync) {
                                     bVSyncCorrection = true;
                                     double TargetVSyncPos = GetVBlackPos();
                                     double RefreshLines = DetectedScanlinesPerFrame;
@@ -2505,7 +2505,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
             if (m_DetectedFrameTime != 0.0
                     //&& PredictedDiff > 15000
-                    && m_DetectedLock && s.m_RenderSettings.iEVREnableFrameTimeCorrection) {
+                    && m_DetectedLock && s.m_AdvRendSets.iEVREnableFrameTimeCorrection) {
                 double CurrentTime = Time / 10000000.0;
                 double LastTime = m_LastScheduledSampleTimeFP;
                 double PredictedTime = LastTime + m_DetectedFrameTime;

@@ -128,7 +128,7 @@ BOOL CPPageOutput::OnInitDialog()
 
     m_fVMR9MixerMode        = renderersSettings.fVMR9MixerMode;
     m_fVMR9MixerYUV         = renderersSettings.fVMR9MixerYUV;
-    m_fVMR9AlterativeVSync  = renderersSettings.m_RenderSettings.fVMR9AlterativeVSync;
+    m_fVMR9AlterativeVSync  = renderersSettings.m_AdvRendSets.fVMR9AlterativeVSync;
     m_fD3DFullscreen        = s.fD3DFullscreen;
 
     int EVRBuffers[] = {4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30, 35, 40, 45, 50, 55, 60};
@@ -395,7 +395,7 @@ BOOL CPPageOutput::OnApply()
     renderersSettings.iDX9Resizer                           = m_iDX9Resizer;
     renderersSettings.fVMR9MixerMode                        = !!m_fVMR9MixerMode;
     renderersSettings.fVMR9MixerYUV                         = !!m_fVMR9MixerYUV;
-    renderersSettings.m_RenderSettings.fVMR9AlterativeVSync = m_fVMR9AlterativeVSync != 0;
+    renderersSettings.m_AdvRendSets.fVMR9AlterativeVSync = m_fVMR9AlterativeVSync != 0;
     s.strAudioRendererDisplayName                           = m_AudioRendererDisplayNames[m_iAudioRendererType];
     s.fD3DFullscreen                                        = m_fD3DFullscreen ? true : false;
 

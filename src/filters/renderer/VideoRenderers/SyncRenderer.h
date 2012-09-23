@@ -104,7 +104,7 @@ namespace GothSync
         public CSubPicAllocatorPresenterImpl
     {
     protected:
-        CRenderersSettings::CRendererSettingsEVR m_LastRendererSettings;
+        CRenderersSettings::CAdvRendererSettings m_LastRendererSettings;
 
         HMODULE m_hDWMAPI;
         HRESULT(__stdcall* m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
