@@ -14846,6 +14846,12 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_PLAYPAUSE:
             OnPlayPlaypause();
             break;
+		case CMD_PLAY:
+            OnPlayPlay();
+            break;
+		case CMD_PAUSE:
+            OnPlayPause();
+            break;
         case CMD_ADDTOPLAYLIST:
             fns.AddHead((LPCWSTR)pCDS->lpData);
             m_wndPlaylistBar.Append(fns, true);
