@@ -55,7 +55,7 @@ Polish                  Haix                    <haix@users.sourceforge.net>
 Polish                  kasper93                <kasper93@users.sourceforge.net>
 Portuguese (Brazil)     Roger Felipe            <rfrfrfrf@users.sourceforge.net>
 Russian                 YDY                     <ydy@users.sourceforge.net>
-Slovak                  Marian Hikanik          <mhikanik@users.sourceforge.net>
+Slovak                  Marián Hikaník          <mhikanik@users.sourceforge.net>
 Spanish                 SquallMX                <squallmx@users.sourceforge.net>
 Turkish                 Bosluk                  <bosluk@users.sourceforge.net>
 Ukrainian               Ihor Bobalo             <ibobalo@users.sourceforge.net>
