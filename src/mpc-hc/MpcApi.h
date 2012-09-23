@@ -141,6 +141,12 @@ unsigned int {
     // Par n : active file, -1 if no active file
     CMD_PLAYLIST            = 0x50000006,
 
+    // Send version str
+    // Par 1 : mpc-hc version
+    CMD_VERSION             = 0x5000000A,
+
+    // Send information about mpc closing
+    CMD_DISCONNECT          = 0x5000000B,
 
     // ==== Commands from host to MPC
 
@@ -156,6 +162,12 @@ unsigned int {
 
     // Pause or restart playback
     CMD_PLAYPAUSE           = 0xA0000003,
+
+    // Unpause playback
+    CMD_PLAY                = 0xA0000004,
+
+    // Pause playback
+    CMD_PAUSE               = 0xA0000005,
 
     // Add a new file to playlist (did not start playing)
     // Par 1 : file path
@@ -206,6 +218,9 @@ unsigned int {
     // Jump forward/backward of N seconds,
     // Par 1 : seconds (negative values for backward)
     CMD_JUMPOFNSECONDS      = 0xA0003005,
+
+    // ask slave for version
+    CMD_GETVERSION          = 0xA0030006,
 
     // Ask for a list of the audio tracks of the file
     // return a CMD_LISTAUDIOTRACKS

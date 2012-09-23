@@ -883,6 +883,7 @@ void CMainFrame::OnClose()
     s.WinLircClient.DisConnect();
     s.UIceClient.DisConnect();
 
+    SendAPICommand(CMD_DISCONNECT, L"\0");  //according to CMD_NOTIFYENDOFSTREAM (ctrl+f it here.), you're not supposed to send NULL here.
     __super::OnClose();
 }
 
@@ -7079,6 +7080,22 @@ void CMainFrame::OnPlayPlaypause()
         SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
     } else if (fs == State_Stopped || fs == State_Paused) {
         SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+    }
+}
+
+void CMainFrame::OnPlayApiCall()
+{
+    OAFilterState fs = GetMediaState();
+    if (fs == State_Stopped || fs == State_Paused) {
+        SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+    }
+}
+
+void CMainFrame::OnPauseApiCall()
+{
+    OAFilterState fs = GetMediaState();
+    if (fs == State_Running) {
+        SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
     }
 }
 
@@ -14846,6 +14863,12 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_PLAYPAUSE:
             OnPlayPlaypause();
             break;
+        case CMD_PLAY:
+            OnPlayApiCall();
+            break;
+        case CMD_PAUSE:
+            OnPauseApiCall();
+            break;
         case CMD_ADDTOPLAYLIST:
             fns.AddHead((LPCWSTR)pCDS->lpData);
             m_wndPlaylistBar.Append(fns, true);
@@ -14929,6 +14952,8 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_OSDSHOWMESSAGE:
             ShowOSDCustomMessageApi((MPC_OSDDATA*)pCDS->lpData);
             break;
+        case CMD_GETVERSION:            CStringW buff = AfxGetMyApp()->m_strVersion;
+            SendAPICommand(CMD_VERSION, buff);            break;
     }
 }
 
