@@ -246,7 +246,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     CComPtr<IDSMChapterBag> m_pCB;
     void SetupChapters();
 
-    //
+    // chapters (dvd mode)
+    void SetupDVDChapters();
 
     void SetupIViAudReg();
 

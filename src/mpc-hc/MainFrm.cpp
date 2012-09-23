@@ -52,6 +52,8 @@
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 
+#include "../DeCSS/VobFile.h"
+
 #include "BaseClasses/mtype.h"
 #include <Mpconfig.h>
 #include <ks.h>
@@ -2010,6 +2012,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_LOCATION), Location);
 
+                SetupDVDChapters();
+
                 // Video
 
                 CString Video('-');
@@ -2363,6 +2367,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         Domain.Format(IDS_AG_TITLE, m_iDVDTitle);
                         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
                     }
+
+                    SetupDVDChapters();
                 }
             }
             break;
@@ -8348,6 +8354,8 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
         }
 
+        SetupDVDChapters();
+
         /*
         if (nID == ID_NAVIGATE_SKIPBACK)
             pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, NULL);
@@ -10792,6 +10800,39 @@ void CMainFrame::SetupChapters()
     m_wndSeekBar.SetChapterBag(m_pCB);
 }
 
+void CMainFrame::SetupDVDChapters()
+{
+    ASSERT(m_pCB);
+
+    m_pCB->ChapRemoveAll();
+
+    WCHAR buff[_MAX_PATH];
+    ULONG len = 0;
+    DVD_PLAYBACK_LOCATION2 loc;
+    if (SUCCEEDED(pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) &&
+        SUCCEEDED(pDVDI->GetCurrentLocation(&loc))) {
+        CStringW path;
+        path.Format(L"%s\\VTS_%02d_0.IFO", buff, loc.TitleNum);
+
+        CVobFile vob;
+        CAtlList<CString> files;
+        if(vob.Open(path, files)) {
+            for(int i=0; i<vob.GetChaptersCount(); i++) {
+                REFERENCE_TIME rt = vob.GetChapterOffset(i);
+            
+                CStringW str;
+                str.Format(L"Chapter %d", i+1);
+
+                m_pCB->ChapAppend(rt, str);
+            }
+            
+            m_pCB->ChapSort();
+
+            m_wndSeekBar.SetChapterBag(m_pCB);
+        }
+    }
+}
+
 void CMainFrame::OpenDVD(OpenDVDData* pODD)
 {
     HRESULT hr = pGB->RenderFile(CStringW(pODD->path), NULL);
@@ -10847,6 +10888,8 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     }
 
     m_iDVDDomain = DVD_DOMAIN_Stop;
+
+    SetupDVDChapters();
 
     SetPlaybackMode(PM_DVD);
 }
