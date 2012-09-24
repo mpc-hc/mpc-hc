@@ -41,6 +41,7 @@ CPPageFormats::CPPageFormats()
     , m_fRtspFileExtFirst(FALSE)
     , m_bInsufficientPrivileges(false)
     , m_bFileExtChanged(false)
+    , m_bHaveRegisteredCategory(false)
 {
 }
 
@@ -123,10 +124,12 @@ BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedSelectVideoFormats)
     ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedSelectAudioFormats)
     ON_BN_CLICKED(IDC_BUTTON5, OnBnVistaModify)
+    ON_BN_CLICKED(IDC_BUTTON6, OnBnWin8SetDefProg)
     ON_BN_CLICKED(IDC_CHECK7, OnFilesAssocModified)
     ON_BN_CLICKED(IDC_CHECK8, OnFilesAssocModified)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButtonDefault)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON_EXT_SET, OnUpdateButtonSet)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON6, OnUpdateBnWin8SetDefProg)
 END_MESSAGE_MAP()
 
 // CPPageFormats message handlers
@@ -136,6 +139,7 @@ BOOL CPPageFormats::OnInitDialog()
     __super::OnInitDialog();
 
     m_bFileExtChanged = false;
+    m_bHaveRegisteredCategory = false;
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
@@ -169,6 +173,9 @@ BOOL CPPageFormats::OnInitDialog()
                            e == ShockWave ? _T("ShockWave") : _T("-"));
 
         CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(m_mf[i]);
+        if (!m_bHaveRegisteredCategory && state != CFileAssoc::NOT_REGISTERED) {
+            m_bHaveRegisteredCategory = true;
+        }
         SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
 
         if (!fSetContextFiles && CFileAssoc::AreRegisteredFileContextMenuEntries(m_mf[i]) != CFileAssoc::NOT_REGISTERED) {
@@ -221,6 +228,33 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_BUTTON5)->ShowWindow(SW_HIDE);
     }
 
+    if (SysVersion::Is8()) {
+        CRect r;
+        GetDlgItem(IDC_STATIC2)->GetWindowRect(r);
+        ScreenToClient(r);
+        r.BottomRight().Offset(0, -50);
+        GetDlgItem(IDC_STATIC2)->MoveWindow(r);
+        GetDlgItem(IDC_LIST1)->GetWindowRect(r);
+        ScreenToClient(r);
+        r.BottomRight().Offset(0, -50);
+        GetDlgItem(IDC_LIST1)->MoveWindow(r);
+        GetDlgItem(IDC_EDIT1)->GetWindowRect(r);
+        ScreenToClient(r);
+        r.OffsetRect(0, -50);
+        GetDlgItem(IDC_EDIT1)->MoveWindow(r);
+        GetDlgItem(IDC_BUTTON2)->GetWindowRect(r);
+        ScreenToClient(r);
+        r.OffsetRect(0, -50);
+        GetDlgItem(IDC_BUTTON2)->MoveWindow(r);
+        GetDlgItem(IDC_BUTTON_EXT_SET)->GetWindowRect(r);
+        ScreenToClient(r);
+        r.OffsetRect(0, -50);
+        GetDlgItem(IDC_BUTTON_EXT_SET)->MoveWindow(r);
+    } else {
+        GetDlgItem(IDC_STATIC3)->ShowWindow(SW_HIDE);
+        GetDlgItem(IDC_BUTTON6)->ShowWindow(SW_HIDE);
+    }
+
     m_fContextDir.SetCheck(CFileAssoc::AreRegisteredFolderContextMenuEntries());
     m_fAssociatedWithIcons.SetCheck(s.fAssociatedWithIcons);
 
@@ -232,6 +266,8 @@ BOOL CPPageFormats::OnInitDialog()
 
 BOOL CPPageFormats::OnApply()
 {
+    m_bHaveRegisteredCategory = false;
+
     if (!m_bInsufficientPrivileges) {
         UpdateData();
 
@@ -256,6 +292,9 @@ BOOL CPPageFormats::OnApply()
 
             for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
                 int iChecked = IsCheckedMediaCategory(i);
+                if (!m_bHaveRegisteredCategory && iChecked) {
+                    m_bHaveRegisteredCategory = true;
+                }
                 if (iChecked == 2) {
                     continue;
                 }
@@ -489,6 +528,13 @@ void CPPageFormats::OnFilesAssocModified()
     SetModified();
 }
 
+void CPPageFormats::OnBnWin8SetDefProg()
+{
+    // Windows 8 prevents the applications from programmatically changing the default handler
+    // for a file type or protocol so we have to make use of Windows UI for that.
+    CFileAssoc::ShowWindowsAssocDialog();
+}
+
 void CPPageFormats::OnUpdateButtonDefault(CCmdUI* pCmdUI)
 {
     int iItem = m_list.GetSelectionMark();
@@ -521,4 +567,9 @@ void CPPageFormats::OnUpdateButtonSet(CCmdUI* pCmdUI)
 
         pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
     }
+}
+
+void CPPageFormats::OnUpdateBnWin8SetDefProg(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_bHaveRegisteredCategory);
 }

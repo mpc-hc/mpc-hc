@@ -1,4 +1,4 @@
-﻿BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
+BEGIN DIALOGEX IDD_ABOUTBOX LINES 21
 3		"关于"
 8		"版权所有 © 2002-2012 请查看 Authors.txt"
 10		"版本 :"
@@ -189,29 +189,31 @@ BEGIN DIALOGEX IDD_PPAGEEXTERNALFILTERS LINES 20
 19		"重置列表"
 END
 
-BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 29
+BEGIN DIALOGEX IDD_PPAGEFORMATS LINES 31
 5		"文件扩展类型"
 8		"默认"
 9		"保存"
-10		"关联"
-11		"视频(&V)"
-12		"音频(&U)"
-13		"全部(&L)"
-14		"关联图标"
-15		"修改(&M)"
-16		"实时流协议 (比如 rtsp://... URLs)"
-17		"RealMedia"
-18		"QuickTime"
-19		"DirectShow"
-20		"优先使用文件扩展类型"
-21		"资源管理器上下文菜单"
-22		"目录"
-23		"文件"
-24		"自动播放"
-25		"视频"
-26		"音乐"
-27		"DVD"
-28		"音频 CD"
+10		"Windows 8"
+11		"&Set default programs"
+12		"关联"
+13		"视频(&V)"
+14		"音频(&U)"
+15		"全部(&L)"
+16		"关联图标"
+17		"修改(&M)"
+18		"实时流协议 (比如 rtsp://... URLs)"
+19		"RealMedia"
+20		"QuickTime"
+21		"DirectShow"
+22		"优先使用文件扩展类型"
+23		"资源管理器上下文菜单"
+24		"目录"
+25		"文件"
+26		"自动播放"
+27		"视频"
+28		"音乐"
+29		"DVD"
+30		"音频 CD"
 END
 
 BEGIN DIALOGEX IDD_PPAGEFULLSCREEN LINES 27

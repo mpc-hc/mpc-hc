@@ -100,4 +100,6 @@ public:
     static bool ReAssocIcons(const CAtlList<CString>& exts);
 
     static void CheckIconsAssoc();
+
+    static bool ShowWindowsAssocDialog(); 
 };

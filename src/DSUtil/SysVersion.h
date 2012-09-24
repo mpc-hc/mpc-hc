@@ -41,5 +41,5 @@ public:
     static bool IsVistaOrLater() { return (version >= 0x0600); }
     static bool Is7() { return (version == 0x0601); }
     static bool Is7OrLater() { return (version >= 0x0601); }
-    //static bool Is8() { return (version == 0x0602); }
+    static bool Is8() { return (version == 0x0602); }
 };

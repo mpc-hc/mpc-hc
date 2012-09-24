@@ -70,7 +70,7 @@ IApplicationAssociationRegistration* CFileAssoc::CreateRegistrationManager()
     HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
                                   NULL,
                                   CLSCTX_INPROC,
-                                  __uuidof(IApplicationAssociationRegistration),
+                                  IID_IApplicationAssociationRegistration,
                                   (LPVOID*)&pAAR);
     UNREFERENCED_PARAMETER(hr);
 
@@ -189,11 +189,17 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
     CString strProgID = PROGID + ext;
 
     if (!bRegister) {
-        if (bRegister != IsRegistered(ext)) {
+        // On Windows 8, an app can't set itself as the default handler for a format
+        if (!SysVersion::Is8() && bRegister != IsRegistered(ext)) {
             SetFileAssociation(ext, strProgID, bRegister);
         }
+
         key.Attach(HKEY_CLASSES_ROOT);
         key.RecurseDeleteKey(strProgID);
+        
+        if (ERROR_SUCCESS == key.Open(HKEY_LOCAL_MACHINE, strRegAppFileAssocKey)) {
+            key.DeleteValue(ext);
+        }
 
         return true;
     } else {
@@ -272,7 +278,8 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
             key.RecurseDeleteKey(strProgID + _T("\\DefaultIcon"));
         }
 
-        if (bRegister != IsRegistered(ext)) {
+        // On Windows 8, an app can't set itself as the default handler for a format
+        if (!SysVersion::Is8() && bRegister != IsRegistered(ext)) {
             SetFileAssociation(ext, strProgID, bRegister);
         }
 
@@ -294,7 +301,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
     }
 
     if (m_pAAR) {
-        // The Vista way
+        // The Vista/Seven way
         CString strNewApp;
         if (bRegister) {
             // Create non existing file type
@@ -342,7 +349,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
 
         hr = m_pAAR->SetAppAsDefault(strNewApp, strExt, AT_FILEEXTENSION);
     } else {
-        // The 2000/XP way
+        // The XP way
         if (bRegister) {
             // Set new association
             if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strExt)) {
@@ -413,11 +420,14 @@ bool CFileAssoc::IsRegistered(CString ext)
         m_pAAR = CFileAssoc::CreateRegistrationManager();
     }
 
-    if (m_pAAR) {
-        // The Vista way
+    if (SysVersion::Is8()) {
+        // The Eight way
+        bIsDefault = TRUE; // Check only if MPC-HC is registered as able to handle that format, not if it's the default.
+    } else if (m_pAAR) {
+        // The Vista/Seven way
         m_pAAR->QueryAppIsDefault(ext, AT_FILEEXTENSION, AL_EFFECTIVE, strRegisteredAppName, &bIsDefault);
     } else {
-        // The 2000/XP way
+        // The XP way
         CRegKey key;
         TCHAR   buff[_MAX_PATH];
         ULONG   len = _countof(buff);
@@ -432,7 +442,7 @@ bool CFileAssoc::IsRegistered(CString ext)
         bIsDefault = (buff == strProgID);
     }
 
-    // Check if association is for this instance of MPC
+    // Check if association is for this instance of MPC-HC
     if (bIsDefault) {
         CRegKey key;
         TCHAR   buff[_MAX_PATH];
@@ -854,4 +864,23 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID /*pParam*/)
 void CFileAssoc::CheckIconsAssoc()
 {
     AfxBeginThread(RunCheckIconsAssocThread, NULL);
+}
+
+bool CFileAssoc::ShowWindowsAssocDialog()
+{
+    IApplicationAssociationRegistrationUI *pAARUI;
+    HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistrationUI,
+                                  NULL,
+                                  CLSCTX_INPROC,
+                                  IID_IApplicationAssociationRegistrationUI,
+                                  (LPVOID*)&pAARUI);
+
+    bool success = (SUCCEEDED(hr) && pAARUI != NULL);
+
+    if (success) {
+        pAARUI->LaunchAdvancedAssociationUI(strRegisteredAppName);
+        pAARUI->Release();
+    }
+
+    return success;
 }
