@@ -2012,8 +2012,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_LOCATION), Location);
 
-                SetupDVDChapters();
-
                 // Video
 
                 CString Video('-');
@@ -10825,9 +10823,9 @@ void CMainFrame::SetupDVDChapters()
 
                 m_pCB->ChapAppend(rt, str);
             }
+            vob.Close();
             
             m_pCB->ChapSort();
-
             m_wndSeekBar.SetChapterBag(m_pCB);
         }
     }
