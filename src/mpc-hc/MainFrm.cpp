@@ -14968,8 +14968,7 @@ void CMainFrame::SendNowPlayingToApi()
         CPlaylistItem pli;
         CString title, author, description;
         CString label;
-        long lDuration = 0;
-        REFERENCE_TIME rtDur;
+        CString strDur;
 
         if (GetPlaybackMode() == PM_FILE) {
             m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
@@ -14979,10 +14978,9 @@ void CMainFrame::SendNowPlayingToApi()
             m_wndPlaylistBar.GetCur(pli);
             if (!pli.m_fns.IsEmpty()) {
                 label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
-
+                REFERENCE_TIME rtDur;
                 pMS->GetDuration(&rtDur);
-                DVD_HMSF_TIMECODE tcDur = RT2HMSF(rtDur);
-                lDuration = tcDur.bHours * 60 * 60 + tcDur.bMinutes * 60 + tcDur.bSeconds;
+                strDur.Format(L"%.3f", rtDur/10000000.0);
             }
         } else if (GetPlaybackMode() == PM_DVD) {
             DVD_DOMAIN DVDDomain;
@@ -15022,7 +15020,7 @@ void CMainFrame::SendNowPlayingToApi()
                     ULONG ulFlags;
                     if (SUCCEEDED(pDVDI->GetTotalTitleTime(&tcDur, &ulFlags))) {
                         // calculate duration in seconds
-                        lDuration = tcDur.bHours * 60 * 60 + tcDur.bMinutes * 60 + tcDur.bSeconds;
+                        strDur.Format(L"%u", tcDur.bHours*60*60 + tcDur.bMinutes*60 + tcDur.bSeconds);
                     }
 
                     // build string
@@ -15040,7 +15038,7 @@ void CMainFrame::SendNowPlayingToApi()
         label.Replace(L"|", L"\\|");
 
         CStringW buff;
-        buff.Format(L"%s|%s|%s|%s|%d", title, author, description, label, lDuration);
+        buff.Format(L"%s|%s|%s|%s|%s", title, author, description, label, strDur);
 
         SendAPICommand(CMD_NOWPLAYING, buff);
         SendSubtitleTracksToApi();
