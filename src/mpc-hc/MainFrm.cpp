@@ -10732,7 +10732,7 @@ void CMainFrame::SetupChapters()
                 double MarkerTime = 0;
                 if (SUCCEEDED(pES->GetMarkerTime(i, &MarkerTime))) {
                     CStringW name;
-                    name.Format(L"Chapter %d", i);
+                    name.Format(IDS_AG_CHAPTER, i);
 
                     CComBSTR bstr;
                     if (S_OK == pES->GetMarkerName(i, &bstr)) {
@@ -10779,7 +10779,7 @@ void CMainFrame::SetupChapters()
                     }
 
                     CStringW name;
-                    name.Format(L"Chapter %d", i);
+                    name.Format(IDS_AG_CHAPTER, i);
                     var.Clear();
                     str += L"NAME";
                     if (S_OK == pPB->Read(str, &var, NULL)) {
@@ -10819,7 +10819,7 @@ void CMainFrame::SetupDVDChapters()
                 REFERENCE_TIME rt = vob.GetChapterOffset(i);
             
                 CStringW str;
-                str.Format(L"Chapter %d", i+1);
+                str.Format(IDS_AG_CHAPTER, i+1);
 
                 m_pCB->ChapAppend(rt, str);
             }
