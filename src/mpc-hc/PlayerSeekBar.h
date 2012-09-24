@@ -47,7 +47,7 @@ private:
     __int64 m_tooltipPos, m_tooltipLastPos;
     CString m_tooltipText;
     UINT_PTR m_tooltipTimer;
-    IDSMChapterBag* m_pChapterBag;
+    CComPtr<IDSMChapterBag> m_pChapterBag;
 
     void MoveThumb(CPoint point);
     __int64 CalculatePosition(REFERENCE_TIME rt);
@@ -76,7 +76,7 @@ public:
     void UpdateToolTipPosition(CPoint& point);
     void UpdateToolTipText();
 
-    void SetChapterBag(IDSMChapterBag* pCB);
+    void SetChapterBag(CComPtr<IDSMChapterBag>& pCB);
     void RemoveChapters();
 
     // Overrides

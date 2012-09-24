@@ -551,12 +551,15 @@ void CPlayerSeekBar::UpdateToolTipText()
     m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
 }
 
-void CPlayerSeekBar::SetChapterBag(IDSMChapterBag* pCB)
+void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
 {
-    m_pChapterBag = pCB;
+    if(!pCB) return;
+    
+    RemoveChapters();
+    pCB.CopyTo(&m_pChapterBag);
 }
 
 void CPlayerSeekBar::RemoveChapters()
 {
-    m_pChapterBag = NULL;
+    m_pChapterBag.Release();
 }
