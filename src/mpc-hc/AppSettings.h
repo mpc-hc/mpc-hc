@@ -588,8 +588,8 @@ public:
     //bool          fRealMediaRenderless;
     //float         dRealMediaQuickTimeFPS;
     //int           iVideoRendererType;
-    int             iQuickTimeRenderer; // ???
-    bool            fMonitorAutoRefreshRate; // ???
+    //int           iQuickTimeRenderer;
+    //bool          fMonitorAutoRefreshRate;
     bool            fEnableEDLEditor;
 
     HWND            hMasterWnd;
