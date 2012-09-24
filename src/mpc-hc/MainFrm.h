@@ -780,6 +780,8 @@ public:
     afx_msg void OnPlayPause();
     afx_msg void OnPlayPauseI();
     afx_msg void OnPlayPlaypause();
+    afx_msg void OnPlayApiCall();
+    afx_msg void OnPauseApiCall();
     afx_msg void OnPlayStop();
     afx_msg void OnUpdatePlayPauseStop(CCmdUI* pCmdUI);
     afx_msg void OnPlayFramestep(UINT nID);
