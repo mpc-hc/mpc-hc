@@ -1757,27 +1757,27 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
         _aligned_free(m_pI420Tmp);
 
         m_lastBuffSizeDim = size;
-        ATLTRACE("resize out put buff %d" , size);
+        TRACE(_T("resize out put buff %d") , size);
         m_pI420 = static_cast<BYTE*>(_aligned_malloc(size * 3 / 2, 16));
         if (m_pI420) {
-            ATLTRACE(" m_pI420.Allocated 1");
+            TRACE(_T(" m_pI420.Allocated 1"));
             memset(m_pI420, 0, size);
-            ATLTRACE(" m_pI420.Allocated 2");
+            TRACE(_T(" m_pI420.Allocated 2"));
             memset(m_pI420 + size, 0x80, size / 2);
-            ATLTRACE(" m_pI420.Allocated 3");
+            TRACE(_T(" m_pI420.Allocated 3"));
         } else {
-            ATLTRACE(" m_pI420.Allocate fail %d" , size * 3 / 2);
+            TRACE(_T(" m_pI420.Allocate fail %d") , size * 3 / 2);
             return S_OK;
         }
         m_pI420Tmp = static_cast<BYTE*>(_aligned_malloc(size * 3 / 2, 16));
         if (m_pI420Tmp) {
-            ATLTRACE(" m_pI420Tmp.Allocated 1");
+            TRACE(_T(" m_pI420Tmp.Allocated 1"));
             memset(m_pI420Tmp, 0, size);
-            ATLTRACE(" m_pI420Tmp.Allocated 2");
+            TRACE(_T(" m_pI420Tmp.Allocated 2"));
             memset(m_pI420Tmp + size, 0x80, size / 2);
-            ATLTRACE(" m_pI420Tmp.Allocated 3");
+            TRACE(_T(" m_pI420Tmp.Allocated 3"));
         } else {
-            ATLTRACE(" m_pI420Tmp.Allocate fail %d" , size * 3 / 2);
+            TRACE(_T(" m_pI420Tmp.Allocate fail %d") , size * 3 / 2);
             return S_OK;
         }
     }
