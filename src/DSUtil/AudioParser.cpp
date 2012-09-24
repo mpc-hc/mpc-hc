@@ -53,7 +53,7 @@ int GetAC3FrameSize(const BYTE* buf)
     }
 
     int frame_size;
-    static const int rates[] = {32,  40,  48,  56,  64,  80,  96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640};
+    static const int rates[] = { 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640 };
 
     int rate  = rates[frmsizecod >> 1];
     switch (buf[4] & 0xc0) {
@@ -112,9 +112,9 @@ int ParseAC3Header(const BYTE* buf, int* samplerate, int* channels, int* framele
         return 0;
     }
 
-    static const int rates[] = {32,  40,  48,  56,  64,  80,  96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640};
-    static const unsigned char lfeon[8] = {0x10, 0x10, 0x04, 0x04, 0x04, 0x01, 0x04, 0x01};
-    static const unsigned char halfrate[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3};
+    static const int rates[] = { 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640 };
+    static const unsigned char lfeon[8] = { 0x10, 0x10, 0x04, 0x04, 0x04, 0x01, 0x04, 0x01 };
+    static const unsigned char halfrate[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3 };
 
     int frmsizecod = buf[4] & 0x3F;
     if (frmsizecod >= 38) {
@@ -322,8 +322,8 @@ void dts14le_to_dts16be(const BYTE* source, BYTE* destination, int size)
 
 int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* tr_bitrate)
 {
-    static const int dts_channels[16] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
-    static const int core_sample_rates[] = {0, 8000, 16000, 32000, 0, 0, 11025, 22050, 44100, 0, 0, 12000, 24000, 48000, 96000, 192000};
+    static const int dts_channels[16] = { 1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8} ;
+    static const int core_sample_rates[] = { 0, 8000, 16000, 32000, 0, 0, 11025, 22050, 44100, 0, 0, 12000, 24000, 48000, 96000, 192000 };
     static const int transmission_bitrates[32] = {
         32000,     56000,   64000,   96000,
         112000,   128000,  192000,  224000,
@@ -410,7 +410,7 @@ int ParseHdmvLPCMHeader(const BYTE* buf, int* samplerate, int* channels)
     int frame_size = buf[0] << 8 | buf[1];
     frame_size += 4; // add header size;
 
-    static int channels_layout[] = {0, 1, 0, 2, 3, 3, 4, 4, 5, 6, 7, 8, 0, 0, 0, 0};
+    static int channels_layout[] = { 0, 1, 0, 2, 3, 3, 4, 4, 5, 6, 7, 8, 0, 0, 0, 0 };
     BYTE channel_layout = buf[2] >> 4;
     *channels = channels_layout[channel_layout];
     if (!*channels) {
@@ -448,7 +448,7 @@ static UINT32 LATMGetValue(CGolombBuffer& gb)
 static bool ParseLATMHeaderAudioSpecificConfig(CGolombBuffer& gb, int* samplerate, int* channels)
 {
     static int sampling_frequency[] = { 96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000, 7350 };
-    static int channel_configuration[] = {0, 1, 2, 3, 4, 5, 6, 8};
+    static int channel_configuration[] = { 0, 1, 2, 3, 4, 5, 6, 8 };
 
     short sAudioObjectType = (short)gb.BitRead(5);
     if (sAudioObjectType == 31) {
@@ -506,7 +506,7 @@ static bool ParseLATMHeaderStreamMuxConfig(CGolombBuffer& gb, int* samplerate, i
 {
     BYTE bAudioMuxVersion = (BYTE)gb.BitRead(1);
     BYTE bAudioMuxVersionA = 0; // default value is 0
-    if (bAudioMuxVersion) { // 
+    if (bAudioMuxVersion) {
         bAudioMuxVersionA = (BYTE)gb.BitRead(1);
     }
 
@@ -531,7 +531,7 @@ static bool ParseLATMHeaderStreamMuxConfig(CGolombBuffer& gb, int* samplerate, i
         if (!bUseSameConfig) {
             if (bAudioMuxVersion == 0) {
                 success = ParseLATMHeaderAudioSpecificConfig(gb, samplerate, channels);
-            }  else{
+            }  else {
                 UINT32 uAscLen = LATMGetValue(gb);
                 success = ParseLATMHeaderAudioSpecificConfig(gb, samplerate, channels); // TODO uAscLen -= AudioSpecificConfig();
                 // gb.BitRead((int)uAscLen); // fillBits
@@ -554,7 +554,7 @@ bool ParseAACLATMHeader(BYTE* buf, int len, int* samplerate, int* channels)
         return false;
     }
     gb.BitRead(13); // audioMuxLengthBytes;
-    
+
     bool success = false;
     // Parsing AudioMuxElement
     if (!gb.BitRead(1)) { // useSameStreamMux
