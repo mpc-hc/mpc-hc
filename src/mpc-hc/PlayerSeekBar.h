@@ -48,6 +48,7 @@ private:
     CString m_tooltipText;
     UINT_PTR m_tooltipTimer;
     CComPtr<IDSMChapterBag> m_pChapterBag;
+    CCritSec m_CBLock;
 
     void MoveThumb(CPoint point);
     __int64 CalculatePosition(REFERENCE_TIME rt);

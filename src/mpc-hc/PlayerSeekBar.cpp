@@ -303,20 +303,25 @@ void CPlayerSeekBar::OnPaint()
     }
 
     // chapter position
-    if (m_pChapterBag) {
-        CRect cr = GetChannelRect();
-        REFERENCE_TIME rt;
-        CComBSTR name;
-        for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
-            if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
-                __int64 pos = CalculatePosition(rt);
-                if (pos < 0) { continue; }
-                RECT r = { cr.left + (LONG)pos - 2, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
-                dc.FillSolidRect(&r, black);
-                dc.ExcludeClipRect(&r);
+
+    { // Start of critical section
+        CAutoLock lock(&m_CBLock);
+
+        if (m_pChapterBag) {
+            CRect cr = GetChannelRect();
+            REFERENCE_TIME rt;
+            CComBSTR name;
+            for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
+                if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
+                    __int64 pos = CalculatePosition(rt);
+                    if (pos < 0) { continue; }
+                    RECT r = { cr.left + (LONG)pos - 2, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
+                    dc.FillSolidRect(&r, black);
+                    dc.ExcludeClipRect(&r);
+                }
             }
         }
-    }
+    } // End of critical section
 
     // channel
     {
@@ -534,18 +539,22 @@ void CPlayerSeekBar::UpdateToolTipText()
         m_tooltipText.Format(_T("%02d:%02d\n"), tcNow.bMinutes, tcNow.bSeconds);
     }
     
-    if (m_pChapterBag) {
-        REFERENCE_TIME rt;
-        CComBSTR name;
-        for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
-            if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
-                REFERENCE_TIME unit = m_stop / GetChannelRect().Width();
-                if(rt - unit*2 < m_tooltipPos && m_tooltipPos < rt + unit) {
-                    m_tooltipText += name;
+    { // Start of critical section
+        CAutoLock lock(&m_CBLock);
+
+        if (m_pChapterBag) {
+            REFERENCE_TIME rt;
+            CComBSTR name;
+            for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
+                if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
+                    REFERENCE_TIME unit = m_stop / GetChannelRect().Width();
+                    if(rt - unit*2 < m_tooltipPos && m_tooltipPos < rt + unit) {
+                        m_tooltipText += name;
+                    }
                 }
             }
         }
-    }
+    } // End of critical section
 
     m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
     m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
@@ -553,13 +562,21 @@ void CPlayerSeekBar::UpdateToolTipText()
 
 void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
 {
-    if(!pCB) return;
+    if(!pCB) RemoveChapters();
     
-    RemoveChapters();
-    pCB.CopyTo(&m_pChapterBag);
+    { // Start of critical section
+        CAutoLock lock(&m_CBLock);
+
+        RemoveChapters();
+        pCB.CopyTo(&m_pChapterBag);
+    } // End of critical section
 }
 
 void CPlayerSeekBar::RemoveChapters()
 {
-    m_pChapterBag.Release();
+    { // Start of critical section
+        CAutoLock lock(&m_CBLock);
+
+        m_pChapterBag.Release();
+    } // End of critical section
 }

@@ -10657,9 +10657,11 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
 void CMainFrame::SetupChapters()
 {
-    ASSERT(m_pCB);
-
-    m_pCB->ChapRemoveAll();
+    // Release the old chapter bag and create a new one.
+    // Due to smart pointers the old chapter bag won't
+    // be deleted until all classes release it.
+    m_pCB.Release();
+    m_pCB = DNew CDSMChapterBag(NULL, NULL);
 
     CInterfaceList<IBaseFilter> pBFs;
     BeginEnumFilters(pGB, pEF, pBF);
@@ -10800,9 +10802,11 @@ void CMainFrame::SetupChapters()
 
 void CMainFrame::SetupDVDChapters()
 {
-    ASSERT(m_pCB);
-
-    m_pCB->ChapRemoveAll();
+    // Release the old chapter bag and create a new one.
+    // Due to smart pointers the old chapter bag won't
+    // be deleted until all classes release it.
+    m_pCB.Release();
+    m_pCB = DNew CDSMChapterBag(NULL, NULL);
 
     WCHAR buff[_MAX_PATH];
     ULONG len = 0;
@@ -10824,11 +10828,12 @@ void CMainFrame::SetupDVDChapters()
                 m_pCB->ChapAppend(rt, str);
             }
             vob.Close();
-            
-            m_pCB->ChapSort();
-            m_wndSeekBar.SetChapterBag(m_pCB);
         }
     }
+    
+    m_pCB->ChapSort();
+
+    m_wndSeekBar.SetChapterBag(m_pCB);
 }
 
 void CMainFrame::OpenDVD(OpenDVDData* pODD)
