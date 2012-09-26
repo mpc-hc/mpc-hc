@@ -367,8 +367,16 @@ IF NOT EXIST "include\version_rev.h" (
 )
 FOR /F "tokens=3,4 delims= " %%G IN (
   'FINDSTR /I /L /C:"define MPC_VERSION_REV " "include\version_rev.h"') DO (SET "VerRev=%%G")
+FOR /F "tokens=3,4 delims= " %%G IN (
+  'FINDSTR /I /L /C:"define MPCHC_HASH " "include\version_rev.h"') DO (SET "MPCHC_HASH=%%G")
+FOR /F "tokens=3,4 delims= " %%G IN (
+  'FINDSTR /I /L /C:"define MPCHC_BRANCH " "include\version_rev.h"') DO (SET "MPCHC_BRANCH=%%G")
 
 SET MPCHC_VER=%VerMajor%.%VerMinor%.%VerPatch%.%VerRev%
+IF NOT "x%MPCHC_BRANCH%" == "x" (
+  SET MPCHC_BRANCH=%MPCHC_BRANCH:~4,-2%
+)
+SET MPCHC_HASH=%MPCHC_HASH:~4,-2%
 EXIT /B
 
 
