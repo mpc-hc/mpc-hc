@@ -533,12 +533,14 @@ void CPlayerSeekBar::UpdateToolTipText()
 {
     DVD_HMSF_TIMECODE tcNow = RT2HMS_r(m_tooltipPos);
 
+    CString time;
     if (tcNow.bHours > 0) {
-        m_tooltipText.Format(_T("%02d:%02d:%02d\n"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+        time.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
     } else {
-        m_tooltipText.Format(_T("%02d:%02d\n"), tcNow.bMinutes, tcNow.bSeconds);
+        time.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
     }
     
+    CString chapterName;
     { // Start of critical section
         CAutoLock lock(&m_CBLock);
 
@@ -547,14 +549,19 @@ void CPlayerSeekBar::UpdateToolTipText()
             CComBSTR name;
             for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
                 if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
-                    REFERENCE_TIME unit = m_stop / GetChannelRect().Width();
-                    if(rt - unit*2 < m_tooltipPos && m_tooltipPos < rt + unit) {
-                        m_tooltipText += name;
+                    if(m_tooltipPos >= rt) {
+                        chapterName = name;
                     }
                 }
             }
         }
     } // End of critical section
+
+    if(chapterName.IsEmpty()) {
+        m_tooltipText = time;
+    } else {
+        m_tooltipText.Format(_T("%s - %s"), time, chapterName);
+    }
 
     m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
     m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
