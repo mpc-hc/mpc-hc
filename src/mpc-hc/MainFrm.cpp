@@ -8305,7 +8305,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
         ULONG ulNumOfChapters = 0;
         pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
-        
+
         if (nID == ID_NAVIGATE_SKIPBACK) {
             if (Location.ChapterNum == 1 && Location.TitleNum > 1) {
                 pDVDI->GetNumberOfChapters(Location.TitleNum - 1, &ulNumOfChapters);
@@ -10812,25 +10812,25 @@ void CMainFrame::SetupDVDChapters()
     ULONG len = 0;
     DVD_PLAYBACK_LOCATION2 loc;
     if (SUCCEEDED(pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) &&
-        SUCCEEDED(pDVDI->GetCurrentLocation(&loc))) {
+            SUCCEEDED(pDVDI->GetCurrentLocation(&loc))) {
         CStringW path;
         path.Format(L"%s\\VTS_%02d_0.IFO", buff, loc.TitleNum);
 
         CVobFile vob;
         CAtlList<CString> files;
-        if(vob.Open(path, files)) {
-            for(int i=0; i<vob.GetChaptersCount(); i++) {
+        if (vob.Open(path, files)) {
+            for (int i = 0; i < vob.GetChaptersCount(); i++) {
                 REFERENCE_TIME rt = vob.GetChapterOffset(i);
-            
+
                 CStringW str;
-                str.Format(IDS_AG_CHAPTER, i+1);
+                str.Format(IDS_AG_CHAPTER, i + 1);
 
                 m_pCB->ChapAppend(rt, str);
             }
             vob.Close();
         }
     }
-    
+
     m_pCB->ChapSort();
 
     m_wndSeekBar.SetChapterBag(m_pCB);

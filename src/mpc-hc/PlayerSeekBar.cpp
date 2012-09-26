@@ -173,7 +173,7 @@ CRect CPlayerSeekBar::GetThumbRect() const
 
     int x = r.left + (int)((m_start < m_stop /*&& fEnabled*/) ? (__int64)r.Width() * (m_pos - m_start) / (m_stop - m_start) : 0);
     int y = r.CenterPoint().y;
-    
+
     r.SetRect(x, y, x, y);
     r.InflateRect(6, 7, 7, 8);
 
@@ -304,7 +304,8 @@ void CPlayerSeekBar::OnPaint()
 
     // chapter position
 
-    { // Start of critical section
+    {
+        // Start of critical section
         CAutoLock lock(&m_CBLock);
 
         if (m_pChapterBag && m_pChapterBag->ChapGetCount() > 1) {
@@ -539,9 +540,10 @@ void CPlayerSeekBar::UpdateToolTipText()
     } else {
         time.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
     }
-    
+
     CString chapterName;
-    { // Start of critical section
+    {
+        // Start of critical section
         CAutoLock lock(&m_CBLock);
 
         if (m_pChapterBag && m_pChapterBag->ChapGetCount() > 1) {
@@ -549,7 +551,7 @@ void CPlayerSeekBar::UpdateToolTipText()
             CComBSTR name;
             for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
                 if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
-                    if(m_tooltipPos >= rt) {
+                    if (m_tooltipPos >= rt) {
                         chapterName = name;
                     }
                 }
@@ -557,7 +559,7 @@ void CPlayerSeekBar::UpdateToolTipText()
         }
     } // End of critical section
 
-    if(chapterName.IsEmpty()) {
+    if (chapterName.IsEmpty()) {
         m_tooltipText = time;
     } else {
         m_tooltipText.Format(_T("%s - %s"), time, chapterName);
@@ -569,9 +571,10 @@ void CPlayerSeekBar::UpdateToolTipText()
 
 void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
 {
-    if(!pCB) RemoveChapters();
-    
-    { // Start of critical section
+    if (!pCB) { RemoveChapters(); }
+
+    {
+        // Start of critical section
         CAutoLock lock(&m_CBLock);
 
         RemoveChapters();
@@ -581,7 +584,8 @@ void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
 
 void CPlayerSeekBar::RemoveChapters()
 {
-    { // Start of critical section
+    {
+        // Start of critical section
         CAutoLock lock(&m_CBLock);
 
         m_pChapterBag.Release();
