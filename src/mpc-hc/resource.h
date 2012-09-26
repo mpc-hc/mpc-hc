@@ -61,7 +61,7 @@
 #define IDF_CONTROLVOLUMEGRIP_PNG       536
 #define IDR_HTML_VARIABLES              537
 #define IDF_JAVASCRIPT                  538
-#define IDI_FAVICON                     539
+#define IDF_FAVICON                     539
 #define IDF_SHADER_RESIZER              700
 #define IDF_SHADER_EMPTY                701
 #define IDF_SHADER_CONTOUR              702

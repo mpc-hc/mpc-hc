@@ -63,6 +63,7 @@ IDB_STREAMTYPES                  BITMAP                  "res\\streamtypes.bmp"
 //
 
 IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
+IDF_FAVICON                      FILE                    "res\\web\\favicon.ico"
 IDF_JAVASCRIPT                   FILE                    "res\\web\\javascript.js"
 
 
@@ -96,7 +97,6 @@ IDR_TB_STOP                      ICON                    "res\\tb_stop_16.ico"
 IDI_AUDIOCD                      ICON                    "res\\Icon_41.ico"
 IDI_DVD                          ICON                    "res\\Icon_114.ico"
 IDI_UNKNOWN                      ICON                    "res\\Icon_116.ico"
-IDI_FAVICON                      ICON                    "res\\web\\favicon.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
