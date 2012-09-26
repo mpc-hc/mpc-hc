@@ -616,6 +616,7 @@
     <None Include="res\web\browser.html" />
     <None Include="res\web\controls.html" />
     <None Include="res\web\default.css" />
+    <None Include="res\web\favicon.ico" />
     <None Include="res\web\img\1pix.png" />
     <None Include="res\web\img\bottomside.png" />
     <None Include="res\web\img\controlback.png" />

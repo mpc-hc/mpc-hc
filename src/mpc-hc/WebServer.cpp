@@ -101,6 +101,7 @@ void CWebServer::Init()
     m_internalpages[_T("/viewres.html")] = &CWebClientSocket::OnViewRes;
 
     m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
+    m_downloads[_T("/favicon.ico")] = IDI_FAVICON;
     m_downloads[_T("/img/1pix.png")] = IDF_1PIX_PNG;
     m_downloads[_T("/img/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
     m_downloads[_T("/img/controlback.png")] = IDF_CONTROLBACK_PNG;
@@ -157,6 +158,7 @@ void CWebServer::Init()
     m_mimes[".js"] = "text/javascript";
     m_mimes[".png"] = "image/png";
     m_mimes[".txt"] = "text/plain";
+    m_mimes[".ico"] = "image/vnd.microsoft.icon";
 }
 
 DWORD WINAPI CWebServer::StaticThreadProc(LPVOID lpParam)
@@ -213,6 +215,9 @@ void CWebServer::Deploy(CString dir)
     }
     if (LoadResource(IDR_HTML_PLAYER, data, RT_HTML)) {
         PutFileContents(dir + _T("player.html"), data);
+    }
+    if (LoadResource(IDI_FAVICON, data, _T("ICO"))) {
+        PutFileContents(dir + _T("favicon.ico"), data);
     }
 
     // Create the needed folder

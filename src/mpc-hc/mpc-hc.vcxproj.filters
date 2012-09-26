@@ -892,6 +892,9 @@
     <None Include="res\web\variables.html">
       <Filter>Resource Files\web</Filter>
     </None>
+    <None Include="res\web\favicon.ico">
+      <Filter>Resource Files\web</Filter>
+    </None>
     <None Include="res\web\img\1pix.png">
       <Filter>Resource Files\web\img</Filter>
     </None>

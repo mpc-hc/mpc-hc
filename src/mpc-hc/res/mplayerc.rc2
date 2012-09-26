@@ -96,6 +96,7 @@ IDR_TB_STOP                      ICON                    "res\\tb_stop_16.ico"
 IDI_AUDIOCD                      ICON                    "res\\Icon_41.ico"
 IDI_DVD                          ICON                    "res\\Icon_114.ico"
 IDI_UNKNOWN                      ICON                    "res\\Icon_116.ico"
+IDI_FAVICON                      ICON                    "res\\web\\favicon.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
