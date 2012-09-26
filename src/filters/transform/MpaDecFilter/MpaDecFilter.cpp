@@ -1486,16 +1486,22 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, MPCSampleFormat sfmt, DWOR
             case SF_FLOAT:
                 for (unsigned int i = 0, len = nSamples * nChannels; i < len; i++) {
                     float f = *(float*)p;
-                    if (f < -1) { f = -1; }
+                    if (f < -1) {
+                        f = -1;
+                    }
                     switch (out_sf) {
                         case SF_PCM16: {
-                            if (f > F16MAX) { f = F16MAX; }
+                            if (f > F16MAX) {
+                                f = F16MAX;
+                            }
                             *(int16_t*)pDataOut = (int16_t)round_f(f * INT16_PEAK);
                             pDataOut += sizeof(int16_t);
                         }
                         break;
                         case SF_PCM24: {
-                            if (f > F24MAX) { f = F24MAX; }
+                            if (f > F24MAX) {
+                                f = F24MAX;
+                            }
                             DWORD i24 = (DWORD)(int32_t)round_f(f * INT24_PEAK);
                             *pDataOut++ = (BYTE)(i24);
                             *pDataOut++ = (BYTE)(i24 >> 8);
@@ -1504,7 +1510,9 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, MPCSampleFormat sfmt, DWOR
                         break;
                         case SF_PCM32: {
                             double d = (double)f;
-                            if (d > D32MAX) { d = D32MAX; }
+                            if (d > D32MAX) {
+                                d = D32MAX;
+                            }
                             *(int32_t*)pDataOut = (int32_t)round_d(d * INT32_PEAK);
                             pDataOut += sizeof(int32_t);
                         }

@@ -315,7 +315,9 @@ void CPlayerSeekBar::OnPaint()
             for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
                 if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rt, &name))) {
                     __int64 pos = CalculatePosition(rt);
-                    if (pos < 0) { continue; }
+                    if (pos < 0) {
+                        continue;
+                    }
                     RECT r = { cr.left + (LONG)pos - 2, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
                     dc.FillSolidRect(&r, black);
                     dc.ExcludeClipRect(&r);
@@ -571,7 +573,9 @@ void CPlayerSeekBar::UpdateToolTipText()
 
 void CPlayerSeekBar::SetChapterBag(CComPtr<IDSMChapterBag>& pCB)
 {
-    if (!pCB) { RemoveChapters(); }
+    if (!pCB) {
+        RemoveChapters();
+    }
 
     {
         // Start of critical section
