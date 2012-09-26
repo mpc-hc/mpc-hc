@@ -307,7 +307,7 @@ void CPlayerSeekBar::OnPaint()
     { // Start of critical section
         CAutoLock lock(&m_CBLock);
 
-        if (m_pChapterBag) {
+        if (m_pChapterBag && m_pChapterBag->ChapGetCount() > 1) {
             CRect cr = GetChannelRect();
             REFERENCE_TIME rt;
             CComBSTR name;
@@ -544,7 +544,7 @@ void CPlayerSeekBar::UpdateToolTipText()
     { // Start of critical section
         CAutoLock lock(&m_CBLock);
 
-        if (m_pChapterBag) {
+        if (m_pChapterBag && m_pChapterBag->ChapGetCount() > 1) {
             REFERENCE_TIME rt;
             CComBSTR name;
             for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); ++i) {
