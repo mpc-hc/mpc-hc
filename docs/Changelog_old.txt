@@ -71,7 +71,7 @@ Legend:
 + Added a new Zoom option "Auto Fit (large only)"
 + Ticket #1792, Show an OSD message and a status message when a favorite is
   created via the keyboard shortcut
-+ Ticket #1866, Added suppport for MLP audio in MpaDecFilter and DTSAC3Source
++ Ticket #1866, Added support for MLP audio in MpaDecFilter and DTSAC3Source
 + Ticket #2134, Added an auto-update feature to periodically check for new
   update. This feature can be enabled on first launch or via the Miscellaneous
   options page. The delay between the checks is also customizable.
@@ -140,7 +140,7 @@ Legend:
   effect on any "modern" OS (>= Windows XP)
 * Removed SSF support
 ! Broken playback and picture on H.264 and MPEG-2 interlaced with DXVA on
-  intergrated Intel adapter
+  integrated Intel adapter
 ! The settings location is now changed only when applying the changes in the
   options dialog instead of immediately after changing the state of the checkbox
 ! Improve/Fix the "Open" dialog:
@@ -162,17 +162,17 @@ Legend:
   another video without closing the previous one). The preview was incorrectly cropped
   when the menu was hidden.
 ! Ticket #869, The playlist visibility state was incorrectly restored when MPC-HC
-  was quited in fullscreen mode while the option "Hide on fullscreen" was enabled
+  was quit in fullscreen mode while the option "Hide on fullscreen" was enabled
 ! Ticket #1182, Unable to playback MPEG-2 in AVI
 ! Ticket #1290, Fix the reversed behavior of the playlist option "Hide on fullscreen"
   when the "Launch files in fullscreen" option is enabled
 ! Ticket #1589, Crash with "Null (uncompressed)"
 ! Ticket #1706, CSS 2.1 and HTML 4.01 Validation for the WebServer files
-! Ticket #1946, Skipping bug with EVR custom output and .webm with vsync on
+! Ticket #1946, Skipping bug with EVR custom output and .webm with VSync on
 ! Ticket #2090, Better handling of font fallback in the MediaInfo dialog so that
   the font size is now correctly adapted to the font used
 ! Ticket #2126, Fix DVBSub: the subtitles' color was incorrect
-! Ticket #2133, Javascript error in "player.html"
+! Ticket #2133, JavaScript error in "player.html"
 ! Ticket #2137, Disable animation when pressing the "Boss" key
 ! Ticket #2155, Change the background color of the options pages caption so that
   it is readable with all Windows themes
@@ -255,7 +255,7 @@ v1.6.1.4235 - 1 April 2012
 ! Ticket #2080, Add fallback fonts for the MediaInfo tab in case Lucida Console isn't available
 ! Ticket #2088, Fix a crash when double-clicking in the Organize Favorites dialog
   when the favorites list was empty
-! Ticket #2093, Fixed time display when subresync bar is enabled
+! Ticket #2093, Fix time display when the Subresync bar is enabled
 ! Ticket #2116, Fix the "Reset" button in Options/Subtitles/Misc
 ! Ticket #2128, The "Apply" button is now clickable after modifying the web server root directory,
   the fullscreen modes list, the external filters list and the time tooltip option
@@ -317,7 +317,7 @@ v1.6.0.4014 - 30 January 2012
 ! Ticket #98, MPEGSplitter: fix A/V sync issue on MPEG-TS with H.264 stream;
   some MPEG-TS with H.264 stream was unable to playback with MPC software decoder
 ! Ticket #111, [VC1 DXVA] Overlap filter causes corruption
-! Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
+! Ticket #285, Ambarella AVC not correctly split by MPC-HC's internal
   MP4/MOV source filter
 ! Ticket #311, High dpi awareness
 ! Ticket #970, "Always load external subtitles" fails if the subtitles
@@ -396,9 +396,7 @@ v1.5.2.3456 - 22 July 2011
   on top of each other
 ! Ticket #71, [MPEG] LPCM mono causes 50% playback speed
 ! Ticket #199, [MpegSplitter] no video with some files
-! Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
-  MP4/MOV source filter
-! Ticket #384, disable Relative drive
+! Ticket #384, Disable Relative drive
 ! Ticket #613, Bugs of MPC-HC Dialog Fonts
 ! Ticket #622, Favorites are now correctly saved when changing settings
   location from registry to ini and vice versa.

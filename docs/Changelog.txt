@@ -22,21 +22,21 @@ Legend:
 * Updated MediaInfoLib to v0.7.60 r5048
 * Updated ZenLib to v0.4.28 r403
 * Updated VirtualDub to v1.10.3-test6
-* Remove .dat extention from the icon library and the formats
+* Remove .dat extension from the icon library and the formats
   (you can still associate it in the "Others" formats)
 * Re-enable the embedded resources viewer in the properties dialog and improve
-  its "open in brower" function (when double clicking on a resource)
+  its "open in browser" function (when double clicking on a resource)
 * Store the path to MPC-HC's executable in HKEY_CURRENT_USER for external use.
   External applications that depend on that path should get it from there rather
   than HKEY_LOCAL_MACHINE. The old key in HKEY_LOCAL_MACHINE will be removed in
   the next version
-* Updated Basque, French, German, Russian and Slovak translations
+* Updated Basque, French, German, Russian, Simplified Chinese and Slovak translations
 ! Web interface: Fix the "Deploy" feature
-! Subtitles weren't renderered in some particular cases when using the internal subtitles renderer
+! Subtitles didn't show in some cases when using the internal subtitles renderer
 ! Improve DVB subtitles handling:
   - Fix missing subtitles
   - Ticket #2589, Fix wrongly colored subtitles
-! Ticket #48,#515,#2533, Improve PGS subtitles (Blu-Ray) parsing:
+! Ticket #48,#515,#2533, Improve PGS subtitles (BluRay) parsing:
   - Fix missing subtitles
   - Fix wrong display duration
 ! Ticket #102, Fix playback of VideoCD as disk
