@@ -359,7 +359,7 @@ HRESULT CDXVADecoderH264::DisplayStatus()
     DXVA_Status_H264 Status;
 
     memset(&Status, 0, sizeof(Status));
-    CHECK_HR_TRACE(hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
+    CHECK_HR_TRACE(CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
 
     TRACE_H264("CDXVADecoderH264::DisplayStatus() : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
                Status.StatusReportFeedbackNumber,

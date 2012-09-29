@@ -662,7 +662,7 @@ bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
                 } else if (1 == sscanf_s(str, "icy-br:%d", &m_bitrate)) {
                     m_bitrate *= 1000;
                 } else if (1 == sscanf_s(str, "icy-metaint:%d", &metaint)) {
-                    metaint = metaint;
+                    m_metaint = metaint;
                 }
                 str.Empty();
             } else {

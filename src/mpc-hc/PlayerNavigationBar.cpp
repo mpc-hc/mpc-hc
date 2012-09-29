@@ -28,7 +28,8 @@
 // CPlayerCaptureBar
 
 IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CPlayerBar)
-CPlayerNavigationBar::CPlayerNavigationBar()
+CPlayerNavigationBar::CPlayerNavigationBar() :
+    m_pParent(NULL)
 {
 }
 

@@ -859,10 +859,9 @@ HRESULT CMpaDecFilter::ProcessAC3_SPDIF()
     BYTE* p = base;
 
     while (p + AC3_HEADER_SIZE <= end) {
-        int size = 0;
         int samplerate, channels, framelength, bitrate;
 
-        size = ParseAC3Header(p, &samplerate, &channels, &framelength, &bitrate);
+        int size = ParseAC3Header(p, &samplerate, &channels, &framelength, &bitrate);
 
         if (size == 0) {
             p++;
@@ -895,10 +894,9 @@ HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
     BYTE* p = base;
 
     while (p + 16 <= end) {
-        int size = 0;
         int samplerate, channels, framelength, bitrate;
 
-        size = ParseDTSHeader(p, &samplerate, &channels, &framelength, &bitrate);
+        int size = ParseDTSHeader(p, &samplerate, &channels, &framelength, &bitrate);
 
         if (size == 0) {
             p++;

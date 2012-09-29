@@ -117,11 +117,11 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
 
 #ifdef STANDALONE_FILTER
     CRegKey key;
-    TCHAR   buff[256];
     ULONG   len;
 
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Audio Renderer"), KEY_READ)) {
         DWORD dw;
+        TCHAR buff[256];
         if (ERROR_SUCCESS == key.QueryDWORDValue(_T("UseWasapi"), dw)) {
             m_useWASAPI = !!dw;
         }

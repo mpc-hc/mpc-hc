@@ -466,9 +466,8 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
     }
 
     if (fn.Find(_T("://")) > 0) {
-        Handle myHandle = NULL;
         Size mySize = fn.GetLength() + 1;
-        myHandle = NewHandleClear(mySize);
+        Handle myHandle = NewHandleClear(mySize);
         if (!myHandle) {
             return false;
         }

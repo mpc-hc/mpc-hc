@@ -1294,10 +1294,9 @@ REFERENCE_TIME COggTheoraOutputPin::GetRefTime(__int64 granule_position)
     /*3.2.0 streams store the frame index in the granule position.
       3.2.1 and later store the frame count.
       We return the index, so adjust the value if we have a 3.2.1 or later
-       stream.*/
+      stream.*/
 
-    REFERENCE_TIME rt = 0;
-    rt = (iframe + pframe - m_nIndexOffset) * m_rtAvgTimePerFrame;
+    REFERENCE_TIME rt = (iframe + pframe - m_nIndexOffset) * m_rtAvgTimePerFrame;
     return rt;
 }
 

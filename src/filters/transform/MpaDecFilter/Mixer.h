@@ -31,5 +31,5 @@ public:
     CMixer();
 
     HRESULT Mixing(float* pOutput, WORD out_ch, DWORD out_layout, BYTE* pInput, int samples, WORD in_ch, DWORD in_layout, enum AVSampleFormat in_sf);
-    void CMixer::Reset();
+    void Reset();
 };

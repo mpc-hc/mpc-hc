@@ -242,11 +242,10 @@ bool CIfo::RemoveUOPs()
 bool CIfo::SaveFile(LPCTSTR strFile)
 {
     bool bRet = false;
-    HANDLE m_hFile;
 
     if (m_pBuffer) {
-        m_hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-                                   NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        HANDLE m_hFile = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                                          NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         ASSERT(m_hFile != INVALID_HANDLE_VALUE);
 
         if (m_hFile != INVALID_HANDLE_VALUE) {

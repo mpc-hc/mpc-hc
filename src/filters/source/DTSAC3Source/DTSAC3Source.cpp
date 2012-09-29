@@ -303,8 +303,8 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             }
 
             // DTS header
-            int fsize = 0, targeted_bitrate;
-            fsize = ParseDTSHeader(buf, &m_samplerate, &m_channels, &m_framelength, &targeted_bitrate);
+            int targeted_bitrate;
+            int fsize = ParseDTSHeader(buf, &m_samplerate, &m_channels, &m_framelength, &targeted_bitrate);
             if (fsize == 0) {
                 break;
             }

@@ -47,6 +47,7 @@ CPPagePlayer::CPPagePlayer()
     , m_fLimitWindowProportions(TRUE)
     , m_fRememberDVDPos(FALSE)
     , m_fRememberFilePos(FALSE)
+    , m_bRememberPlaylistItems(TRUE)
 {
 }
 

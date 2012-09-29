@@ -39,6 +39,7 @@ CPPageFullscreen::CPPageFullscreen()
     , m_nShowBarsWhenFullScreenTimeOut(0)
     , m_fExitFullScreenAtTheEnd(FALSE)
     , m_fRestoreResAfterExit(TRUE)
+    , m_iMonitorType(0)
     , m_list(0)
     , m_iSel(-1)
 {

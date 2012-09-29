@@ -1443,10 +1443,9 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 
     const CAppSettings& s = AfxGetAppSettings();
     if (s.iDSVideoRendererType != VIDRNDT_DS_MADVR && s.iDSVideoRendererType != VIDRNDT_DS_DXR) {
-        IDirect3D9* pD3D9 = NULL;
         DWORD m_nPCIVendor = 0;
+        IDirect3D9* pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
 
-        pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
         if (pD3D9) {
             D3DADAPTER_IDENTIFIER9 adapterIdentifier;
             if (pD3D9->GetAdapterIdentifier(GetAdapter(pD3D9, m_hWnd), 0, &adapterIdentifier) == S_OK) {
@@ -1578,9 +1577,8 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
 void CMainFrame::OnRawInput(UINT nInputcode, HRAWINPUT hRawInput)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    UINT nMceCmd = 0;
+    UINT nMceCmd = AfxGetMyApp()->GetRemoteControlCode(nInputcode, hRawInput);
 
-    nMceCmd = AfxGetMyApp()->GetRemoteControlCode(nInputcode, hRawInput);
     switch (nMceCmd) {
         case MCE_DETAILS:
         case MCE_GUIDE:
@@ -13078,10 +13076,8 @@ void CMainFrame::SetupNavChaptersSubMenu()
 
 IBaseFilter* CMainFrame::FindSourceSelectableFilter()
 {
-    IBaseFilter* pSF = NULL;
-
     // splitters for video files (mpeg files with only audio track is very rare)
-    pSF = FindFilter(__uuidof(CMpegSplitterFilter), pGB);
+    IBaseFilter* pSF = FindFilter(__uuidof(CMpegSplitterFilter), pGB);
     if (!pSF) {
         pSF = FindFilter(__uuidof(CMpegSourceFilter), pGB);
     }
@@ -15627,9 +15623,8 @@ HRESULT CMainFrame::UpdateThumbarButton()
     buttons[4].iBitmap = 5;
     StringCchCopy(buttons[4].szTip, _countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN));
 
-    HICON hIcon = NULL;
-
     if (m_iMediaLoadState == MLS_LOADED) {
+        HICON hIcon = NULL;
         OAFilterState fs = GetMediaState();
         if (fs == State_Running) {
             buttons[1].dwFlags = THBF_ENABLED;

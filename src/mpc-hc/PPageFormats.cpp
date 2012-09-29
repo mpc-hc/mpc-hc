@@ -40,6 +40,7 @@ CPPageFormats::CPPageFormats()
     , m_iRtspHandler(0)
     , m_fRtspFileExtFirst(FALSE)
     , m_bInsufficientPrivileges(false)
+    , m_bFileExtChanged(false)
 {
 }
 

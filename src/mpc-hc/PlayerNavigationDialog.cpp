@@ -30,9 +30,9 @@
 
 // IMPLEMENT_DYNAMIC(CPlayerNavigationDialog, CResizableDialog)
 CPlayerNavigationDialog::CPlayerNavigationDialog()
-    : CResizableDialog(CPlayerNavigationDialog::IDD, NULL),
-      m_bTVStations(true),
-      m_pParent(NULL)
+    : CResizableDialog(CPlayerNavigationDialog::IDD, NULL)
+    , m_bTVStations(true)
+    , m_pParent(NULL)
 {
 }
 

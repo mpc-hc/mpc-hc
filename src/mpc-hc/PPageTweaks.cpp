@@ -40,6 +40,8 @@ CPPageTweaks::CPPageTweaks()
     , m_fUseWin7TaskBar(TRUE)
     , m_fUseSearchInFolder(FALSE)
     , m_fLCDSupport(FALSE)
+    , m_fFastSeek(FALSE)
+    , m_fUseTimeTooltip(TRUE)
 {
 }
 

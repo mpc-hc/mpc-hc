@@ -66,12 +66,11 @@ LRESULT APIENTRY COpenDirHelper::CheckBoxSubclassProc(HWND hwnd, UINT uMsg, WPAR
 
 int CALLBACK COpenDirHelper::BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData)
 {
-    HWND checkbox;
-
     // Initialization callback message
     if (uMsg == BFFM_INITIALIZED) {
         SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)strLastOpenDir);
 
+        HWND checkbox;
         RECT ListViewRect;
         RECT Dialog;
         RECT ClientArea;
