@@ -30,6 +30,7 @@ Legend:
   External applications that depend on that path should get it from there rather
   than HKEY_LOCAL_MACHINE. The old key in HKEY_LOCAL_MACHINE will be removed in
   the next version
+* Changed default maximum subtitle resolution to "Desktop"
 * Updated Basque, French, German, Russian, Simplified Chinese and Slovak translations
 ! Web interface: Fix the "Deploy" feature
 ! Subtitles didn't show in some cases when using the internal subtitles renderer
