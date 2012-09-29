@@ -94,10 +94,7 @@ void CWebClientSocket::Header()
         CAtlList<CString> sl;
         ExplodeMin(str, sl, ' ', 3);
         m_cmd = sl.RemoveHead().MakeUpper();
-        CString pathTmp = sl.RemoveHead();
-        DWORD strLen = pathTmp.GetLength() + 1;
-        AtlUnescapeUrl(pathTmp, m_path.GetBuffer(strLen), &strLen, strLen);
-        m_path.ReleaseBuffer();
+        m_path = sl.RemoveHead();
         m_ver = sl.RemoveHead().MakeUpper();
         ASSERT(sl.GetCount() == 0);
 
@@ -185,23 +182,29 @@ void CWebClientSocket::Header()
     }
 
     if (m_cmd == _T("GET") || m_cmd == _T("HEAD") || m_cmd == _T("POST")) {
-        CAtlList<CString> sl;
+        int k = m_path.Find('?');
+        if (k >= 0) {
+            m_query = m_path.Mid(k + 1);
+            m_path.Truncate(k);
+        }
 
-        Explode(m_path, sl, '?', 2);
-        m_path = sl.RemoveHead();
-        m_query.Empty();
+        if (m_query.GetLength() > 0) {
+            int k = m_query.Find('#');
+            if (k >= 0) {
+                m_query.Truncate(k);
+            }
 
-        if (!sl.IsEmpty()) {
-            m_query = sl.GetTail();
-
-            Explode(Explode(m_query, sl, '#', 2), sl, '&'); // oh yeah
-            // Explode(AToT(UrlDecode(TToA(Explode(m_query, sl, '#', 2)))), sl, '&'); // oh yeah
+            CAtlList<CString> sl;
+            Explode(m_query, sl, '&');
             POSITION pos = sl.GetHeadPosition();
             while (pos) {
                 CAtlList<CString> sl2;
-                Explode(AToT(UrlDecode(TToA(sl.GetNext(pos)))), sl2, '=', 2);
-                // Explode(sl.GetNext(pos), sl2, '=', 2);
-                m_get[sl2.GetHead()] = sl2.GetCount() == 2 ? sl2.GetTail() : _T("");
+                Explode(sl.GetNext(pos), sl2, '=', 2);
+                if (sl2.GetCount() == 2) {
+                    m_get[sl2.GetHead()] = UTF8To16(UrlDecode(TToA(sl2.GetTail())));
+                } else {
+                    m_get[sl2.GetHead()] = _T("");
+                }
             }
         }
 
@@ -434,7 +437,6 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
     CString path;
     CFileStatus fs;
     if (m_get.Lookup(_T("path"), path)) {
-        path = WToT(UTF8To16(TToA(path)));
 
         if (CFileGetStatus(path, fs) && !(fs.m_attribute & CFile::directory)) {
             // TODO: make a new message for just opening files, this is a bit overkill now...
