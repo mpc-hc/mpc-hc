@@ -323,6 +323,8 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_VOLUME_UP,                     VK_UP, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_UP,   0, wmcmd::WUP, wmcmd::WUP));
     ADDCMD((ID_VOLUME_DOWN,                 VK_DOWN, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_DOWN, 0, wmcmd::WDOWN, wmcmd::WDOWN));
     ADDCMD((ID_VOLUME_MUTE,                     'M', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_VOLUME_MUTE, 0));
+    ADDCMD((ID_VOLUME_INC,                    VK_UP, FVIRTKEY | FALT | FNOINVERT,             IDS_VOLUME_INC,     0, wmcmd::WUP, wmcmd::WUP));
+    ADDCMD((ID_VOLUME_DEC,                  VK_DOWN, FVIRTKEY | FALT | FNOINVERT,             IDS_VOLUME_DEC,     0, wmcmd::WDOWN, wmcmd::WDOWN));
     ADDCMD((ID_VOLUME_BOOST_INC,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_INC));
     ADDCMD((ID_VOLUME_BOOST_DEC,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_DEC));
     ADDCMD((ID_VOLUME_BOOST_MIN,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_MIN));

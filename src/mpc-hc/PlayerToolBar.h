@@ -67,6 +67,8 @@ protected:
     afx_msg void OnUpdateVolumeMute(CCmdUI* pCmdUI);
     afx_msg BOOL OnVolumeUp(UINT nID);
     afx_msg BOOL OnVolumeDown(UINT nID);
+    afx_msg BOOL OnVolumeIncrease(UINT nID);
+    afx_msg BOOL OnVolumeDecrease(UINT nID);
     afx_msg void OnNcPaint();
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);

@@ -16,6 +16,7 @@ Legend:
   The old AVI Chunk Viewer dialog has been removed.
 + Added chapter indicators to the seekbar and the chapter name is now displayed
   in the time tooltip.
++ Added keys for changing volume by increments of 1
 * Updated FFmpeg (n0.8-13778-g127b70e)
 * Updated Little CMS to v2.4 (git 728139a)
 * Updated SoundTouch to v1.7.0
