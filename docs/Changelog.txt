@@ -32,6 +32,7 @@ Legend:
   the next version
 * Updated Basque, French, German, Russian, Simplified Chinese and Slovak translations
 ! Web interface: Fix the "Deploy" feature
+! WebServer: Browser should work now with files with Unicode filenames
 ! Subtitles didn't show in some cases when using the internal subtitles renderer
 ! Improve DVB subtitles handling:
   - Fix missing subtitles
