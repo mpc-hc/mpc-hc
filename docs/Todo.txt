@@ -27,9 +27,8 @@ MPCIconLib:
 
 WebServer:
 1) Enable caching
-2) Fix the problems with unicode names
-3) Update the images for player.html
-4) player.html: with IE 9 things don't look the same as Firefox; the volume slider
+2) Update the images for player.html
+3) player.html: with IE 9 things don't look the same as Firefox; the volume slider
    is out of bounds, the status and title text are not aligned to the left
 
 FFmpeg:
