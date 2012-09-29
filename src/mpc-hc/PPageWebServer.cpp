@@ -183,20 +183,23 @@ bool CPPageWebServer::PickDir(CString& dir)
             openDlgPtr->SetTitle(strTitle);
             openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
 
-            // Typedef for function SHCreateItemFromParsingName
-            typedef HRESULT(STDAPICALLTYPE * PFN_TYPE_SHCreateItemFromParsingName)(PCWSTR /*pszPath*/, IBindCtx* /*pbc*/,  REFIID /*riid*/, void** /*ppv*/);
+            if(!dir.IsEmpty()) {
+                // Typedef for function SHCreateItemFromParsingName
+                typedef HRESULT(STDAPICALLTYPE * PFN_TYPE_SHCreateItemFromParsingName)(PCWSTR /*pszPath*/, IBindCtx* /*pbc*/,  REFIID /*riid*/, void** /*ppv*/);
 
-            // Load SHELL32.DLL to get pointer to aforementioned function
-            HINSTANCE hDllShell = ::LoadLibrary(_T("Shell32.dll"));
-            PFN_TYPE_SHCreateItemFromParsingName pfnSHCreateItemFromParsingName = NULL;
-            if (hDllShell != NULL) {
-                // Try to get the pointer to that function
-                pfnSHCreateItemFromParsingName = reinterpret_cast<PFN_TYPE_SHCreateItemFromParsingName>(::GetProcAddress(hDllShell, "SHCreateItemFromParsingName"));
-            }
-            if (pfnSHCreateItemFromParsingName != NULL) {
-                CComPtr<IShellItem> psiFolder;
-                if (SUCCEEDED(pfnSHCreateItemFromParsingName(dir, NULL, IID_PPV_ARGS(&psiFolder)))) {
-                    openDlgPtr->SetFolder(psiFolder);
+                // Load SHELL32.DLL to get pointer to aforementioned function
+                HINSTANCE hDllShell = ::LoadLibrary(_T("Shell32.dll"));
+                PFN_TYPE_SHCreateItemFromParsingName pfnSHCreateItemFromParsingName = NULL;
+                if (hDllShell != NULL) {
+                    // Try to get the pointer to that function
+                    pfnSHCreateItemFromParsingName = reinterpret_cast<PFN_TYPE_SHCreateItemFromParsingName>(::GetProcAddress(hDllShell, "SHCreateItemFromParsingName"));
+                }
+
+                if (pfnSHCreateItemFromParsingName != NULL) {
+                    CComPtr<IShellItem> psiFolder;
+                    if (SUCCEEDED(pfnSHCreateItemFromParsingName(dir, NULL, IID_PPV_ARGS(&psiFolder)))) {
+                        openDlgPtr->SetFolder(psiFolder);
+                    }
                 }
             }
 
