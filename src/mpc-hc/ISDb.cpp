@@ -84,7 +84,7 @@ CStringA makeargs(CPlaylist& pl)
 
         CStringA str;
         str.Format("name[%d]=%s&size[%d]=%016I64x&hash[%d]=%016I64x",
-                   i, UrlEncode(CStringA(fh.name)),
+                   i, UrlEncode(CStringA(fh.name), true),
                    i, fh.size,
                    i, fh.mpc_filehash);
 

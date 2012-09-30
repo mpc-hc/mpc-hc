@@ -76,8 +76,8 @@ T Implode(const CAtlList<T>& sl, SEP sep)
 
 extern CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing);
 extern CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet);
-extern CStringA UrlEncode(CStringA str, bool fRaw = false);
-extern CStringA UrlDecode(CStringA str, bool fRaw = false);
+extern CStringA UrlEncode(CStringA str_in, bool fArg = false);
+extern CStringA UrlDecode(CStringA str_in);
 extern DWORD CharSetToCodePage(DWORD dwCharSet);
 extern CAtlList<CString>& MakeLower(CAtlList<CString>& sl);
 extern CAtlList<CString>& MakeUpper(CAtlList<CString>& sl);

@@ -158,12 +158,16 @@ void CWebClientSocket::Header()
                     str += c;
                     if (c == '\n' || len == 1) {
                         CAtlList<CString> sl;
-                        Explode(AToT(UrlDecode(TToA(str))), sl, '&'); // FIXME
+                        Explode(str, sl, '&');
                         POSITION pos = sl.GetHeadPosition();
                         while (pos) {
                             CAtlList<CString> sl2;
                             Explode(sl.GetNext(pos), sl2, '=', 2);
-                            m_post[sl2.GetHead().MakeLower()] = sl2.GetCount() == 2 ? sl2.GetTail() : _T("");
+                            if (sl2.GetCount() == 2) {
+                                m_post[sl2.GetHead().MakeLower()] = UTF8To16(UrlDecode(TToA(sl2.GetTail())));
+                            } else {
+                                m_post[sl2.GetHead().MakeLower()] = _T("");
+                            }
                         }
                         str.Empty();
                     }

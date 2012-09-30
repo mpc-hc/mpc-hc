@@ -69,69 +69,63 @@ CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet)
     return str;
 }
 
-CStringA UrlEncode(CStringA str, bool fRaw)
+CStringA UrlEncode(CStringA str_in, bool fArg)
 {
-    CStringA urlstr;
+    CStringA str_out;
 
-    for (int i = 0; i < str.GetLength(); i++) {
-        CHAR c = str[i];
-        if (fRaw && c == '+') {
-            urlstr += "%2B";
-        } else if (c > 0x20 && c < 0x7f && c != '&') {
-            urlstr += c;
-        } else if (c == 0x20) {
-            urlstr += fRaw ? ' ' : '+';
+    for (int i = 0; i < str_in.GetLength(); i++) {
+        char c = str_in[i];
+        if (fArg && (c == '#' || c == '?' | c == '%' | c == '&' | c == '=')) {
+            str_out.AppendFormat("%%%02x", (BYTE)c);
+        } else if (c > 0x20 && c < 0x7f) {
+            str_out += c;
         } else {
-            CStringA tmp;
-            tmp.Format("%%%02x", (BYTE)c);
-            urlstr += tmp;
+            str_out.AppendFormat("%%%02x", (BYTE)c);
         }
     }
 
-    return urlstr;
+    return str_out;
 }
 
-CStringA UrlDecode(CStringA str, bool fRaw)
+CStringA UrlDecode(CStringA str_in)
 {
-    str.Replace("&amp;", "&");
+    CStringA str_out;
 
-    CHAR* s = str.GetBuffer(str.GetLength());
-    CHAR* e = s + str.GetLength();
-    CHAR* s1 = s;
-    CHAR* s2 = s;
-    while (s1 < e) {
-        CHAR s11 = (s1 < e - 1) ? (__isascii(s1[1]) && isupper(static_cast<unsigned char>(s1[1])) ? tolower(s1[1]) : s1[1]) : 0;
-        CHAR s12 = (s1 < e - 2) ? (__isascii(s1[2]) && isupper(static_cast<unsigned char>(s1[2])) ? tolower(s1[2]) : s1[2]) : 0;
-
-        if (*s1 == '%' && s1 < e - 2
-                && (s1[1] >= '0' && s1[1] <= '9' || s11 >= 'a' && s11 <= 'f')
-                && (s1[2] >= '0' && s1[2] <= '9' || s12 >= 'a' && s12 <= 'f')) {
-            s1[1] = s11;
-            s1[2] = s12;
-            *s2 = 0;
-            if (s1[1] >= '0' && s1[1] <= '9') {
-                *s2 |= s1[1] - '0';
-            } else if (s1[1] >= 'a' && s1[1] <= 'f') {
-                *s2 |= s1[1] - 'a' + 10;
+    for (int i = 0, len = str_in.GetLength(); i < len; i++) {
+        if (str_in[i] == '%' && i + 2 < len) {
+            bool b = true;
+            char c1 = str_in[i+1];
+            if (c1 >= '0' && c1 <= '9') {
+                c1 -= '0';
+            } else if (c1 >= 'A' && c1 <= 'F') {
+                c1 -= 'A' - 10;
+            } else if (c1 >= 'a' && c1 <= 'f') {
+                c1 -= 'a' - 10;
+            } else {
+                b = false;
             }
-            *s2 <<= 4;
-            if (s1[2] >= '0' && s1[2] <= '9') {
-                *s2 |= s1[2] - '0';
-            } else if (s1[2] >= 'a' && s1[2] <= 'f') {
-                *s2 |= s1[2] - 'a' + 10;
+            if (b) {
+                char c2 = str_in[i+2];
+                if (c2 >= '0' && c2 <= '9') {
+                    c2 -= '0';
+                } else if (c2 >= 'A' && c2 <= 'F') {
+                    c2 -= 'A' - 10;
+                } else if (c2 >= 'a' && c2 <= 'f') {
+                    c2 -= 'a' - 10;
+                } else {
+                    b = false;
+                }
+                if (b) {
+                    str_out += (char)((c1 << 4) | c2);
+                    i += 2;
+                    continue;
+                }
             }
-            s1 += 2;
-        } else {
-            *s2 = *s1 == '+' && !fRaw ? ' ' : *s1;
         }
-
-        s1++;
-        s2++;
+        str_out += str_in[i];
     }
 
-    str.ReleaseBuffer(int(s2 - s));
-
-    return str;
+    return str_out;
 }
 
 CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
