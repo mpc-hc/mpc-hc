@@ -15053,7 +15053,7 @@ void CMainFrame::SendNowPlayingToApi()
                 label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
                 REFERENCE_TIME rtDur;
                 pMS->GetDuration(&rtDur);
-                strDur.Format(L"%.3f", rtDur/10000000.0);
+                strDur.Format(L"%.3f", rtDur / 10000000.0);
             }
         } else if (GetPlaybackMode() == PM_DVD) {
             DVD_DOMAIN DVDDomain;
@@ -15093,7 +15093,7 @@ void CMainFrame::SendNowPlayingToApi()
                     ULONG ulFlags;
                     if (SUCCEEDED(pDVDI->GetTotalTitleTime(&tcDur, &ulFlags))) {
                         // calculate duration in seconds
-                        strDur.Format(L"%u", tcDur.bHours*60*60 + tcDur.bMinutes*60 + tcDur.bSeconds);
+                        strDur.Format(L"%u", tcDur.bHours * 60 * 60 + tcDur.bMinutes * 60 + tcDur.bSeconds);
                     }
 
                     // build string

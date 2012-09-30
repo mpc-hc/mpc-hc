@@ -183,7 +183,7 @@ bool CPPageWebServer::PickDir(CString& dir)
             openDlgPtr->SetTitle(strTitle);
             openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
 
-            if(!dir.IsEmpty()) {
+            if (!dir.IsEmpty()) {
                 // Typedef for function SHCreateItemFromParsingName
                 typedef HRESULT(STDAPICALLTYPE * PFN_TYPE_SHCreateItemFromParsingName)(PCWSTR /*pszPath*/, IBindCtx* /*pbc*/,  REFIID /*riid*/, void** /*ppv*/);
 

@@ -94,7 +94,7 @@ CStringA UrlDecode(CStringA str_in)
     for (int i = 0, len = str_in.GetLength(); i < len; i++) {
         if (str_in[i] == '%' && i + 2 < len) {
             bool b = true;
-            char c1 = str_in[i+1];
+            char c1 = str_in[i + 1];
             if (c1 >= '0' && c1 <= '9') {
                 c1 -= '0';
             } else if (c1 >= 'A' && c1 <= 'F') {
@@ -105,7 +105,7 @@ CStringA UrlDecode(CStringA str_in)
                 b = false;
             }
             if (b) {
-                char c2 = str_in[i+2];
+                char c2 = str_in[i + 2];
                 if (c2 >= '0' && c2 <= '9') {
                     c2 -= '0';
                 } else if (c2 >= 'A' && c2 <= 'F') {
