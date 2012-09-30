@@ -45,8 +45,9 @@ Legend:
 ! Ticket #790,#1511,#2269,#2612, VSFilter: Fix a bug causing the subtitles not to show
   when using YUY2 color space
 ! Ticket #2219,#2610, MPEG Splitter/AAC Decoder: Add basic support from AAC LATM tracks
+! Ticket #2267, WebUI: added support for '#', '%', '+' and other characters in file names
 ! Ticket #2452, Fix color controls in certain situations
-! Ticket #2455,#2614, WebServer: Browser should work now with files with Unicode filenames
+! Ticket #2455,#2484,#2614, WebServer: Better Unicode support
 ! Ticket #2540, Fix handling of big API messages
 ! Ticket #2547, The master window handle was erroneously reset
   when starting a file from the explorer.
