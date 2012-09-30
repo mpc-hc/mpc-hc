@@ -75,7 +75,7 @@ CStringA UrlEncode(CStringA str_in, bool fArg)
 
     for (int i = 0; i < str_in.GetLength(); i++) {
         char c = str_in[i];
-        if (fArg && (c == '#' || c == '?' | c == '%' | c == '&' | c == '=')) {
+        if (fArg && (c == '#' || c == '?' || c == '%' || c == '&' || c == '=')) {
             str_out.AppendFormat("%%%02x", (BYTE)c);
         } else if (c > 0x20 && c < 0x7f) {
             str_out += c;
