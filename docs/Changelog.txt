@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-1.6.4 - not released yet
-========================
+1.6.4 - 01 October 2012
+=======================
 + MPCVideoDec: Add support for 4K for Intel HD Graphics 4000
 + AVI Splitter: Add a property page so that the support for non interleaved files
   can be turned on/off. Support for such files is now enabled by default.
