@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index ac59c2c..c8e433c 100644
+index d32900c..c72184f 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -292,9 +292,9 @@ IF /I "%~2" == "Win32" (
@@ -15,7 +15,7 @@ index ac59c2c..c8e433c 100644
  
  IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index fde783e..4d8d424 100644
+index ec0c324..80d36e5 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -40,7 +40,7 @@
@@ -81,10 +81,10 @@ index fde783e..4d8d424 100644
  #endif
  
 diff --git a/docs/Readme.txt b/docs/Readme.txt
-index c25653a..5c0ad7c 100644
+index 0ce768e..712c42e 100644
 --- a/docs/Readme.txt
 +++ b/docs/Readme.txt
-@@ -33,7 +33,7 @@ Main Features:
+@@ -27,7 +27,7 @@ Main Features:
  
  System Requirements:
  ---------------------
@@ -2252,7 +2252,7 @@ index 999bda6..24b3c78 100644
  SetupAppTitle=Setup - DirectVobSub
  SetupWindowTitle=Setup - DirectVobSub
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index 68a2e94..7e454b0 100644
+index d467f37..422aab0 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
@@ -2638,7 +2638,7 @@ index fedf4e4..fcdc2d4 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/Makefile b/src/thirdparty/ffmpeg/Makefile
-index 42ea5e5..7090561 100644
+index 0215d78..1a8322e 100644
 --- a/src/thirdparty/ffmpeg/Makefile
 +++ b/src/thirdparty/ffmpeg/Makefile
 @@ -52,7 +52,7 @@ ifeq ($(64BIT),yes)
