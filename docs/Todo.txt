@@ -13,14 +13,12 @@ MPC-HC:
 8) Use "new" instead of "DNew" and make sure the leak detection works properly or get rid of DNew
    and use VLD
 9) Replace the default old looking toolbar with a more modern one
-10) Test MSVC 2012 more when it's released. With the RC we get random new errors when building Virtualdub/system.
-    With the Beta we got hundreds of redefinitions for the DX headers which seems normal
-    since DX is moved into the SDK but we have to use the DX SDK for d3dx9, linking fails if /SAFESEH:NO
-    isn't specified (still happens with the RC for Win32) and the MFC bloat workaround does not work as it is
-    and unfortunately it is still needed.
+10) Test MSVC 2012 more. With the Beta we got hundreds of redefinitions for the DX headers which
+    is normal since DX is moved into the SDK but we have to use the DX SDK for d3dx9, the MFC
+    bloat workaround does not work as it is and unfortunately it is still needed. Another issue is
+    that subtitles don't show with MSVC 2012 x64 builds
 11) Add a .gitattributes file
 12) Add FFmpeg and lcms2 as submodules
-13) Subtitles don't show with MSVC 2012 x64 builds
 
 MPCIconLib:
 1) Replace the file association icons with better looking ones
