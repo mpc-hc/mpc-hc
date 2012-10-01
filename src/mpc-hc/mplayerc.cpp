@@ -1027,11 +1027,6 @@ BOOL CMPlayerCApp::InitInstance()
 
     CRegKey key;
     CString exePath = GetProgramPath(true);
-    // Kept for backward compatibility, applications relying on that information should now read it from HKCU
-    #pragma message("Warning: remove the creation of HKLM\\Software\\Gabest\\Media Player Classic\\ExePath after 1.6.4 is released.")
-    if (ERROR_SUCCESS == key.Create(HKEY_LOCAL_MACHINE, _T("Software\\Gabest\\Media Player Classic"))) {
-        key.SetStringValue(_T("ExePath"), exePath);
-    }
     if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Media Player Classic"))) {
         key.SetStringValue(_T("ExePath"), exePath);
     }
