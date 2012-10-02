@@ -72,23 +72,6 @@ public:
     bool Desired(int type);
 };
 
-struct audio_params_t {
-    DWORD layout;
-    WORD  channels;
-    void Reset() {
-        layout   = 0;
-        channels = 0;
-    }
-    bool LayoutUpdate(WORD channels_new, DWORD layout_new) {
-        if (layout == layout_new && channels == channels_new) {
-            return false;
-        }
-        layout   = layout_new;
-        channels = channels_new;
-        return true;
-    }
-};
-
 class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
     CMpaDecFilter
     : public CTransformFilter
@@ -111,7 +94,6 @@ protected:
     bool            m_bResync;
 
     // Mixer
-    audio_params_t  m_InputParams;
     CMixer          m_Mixer;
 
     ps2_state_t     m_ps2_state;

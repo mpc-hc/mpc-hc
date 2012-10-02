@@ -31,113 +31,130 @@ extern "C" {
 
 CMixer::CMixer()
     : m_pAVRCxt(NULL)
+    , last_in_layout(0)
+    , last_out_layout(0)
+    , last_in_sf(AV_SAMPLE_FMT_NONE)
 {
 }
 
-void CMixer::Reset()
+CMixer::~CMixer()
 {
     avresample_free(&m_pAVRCxt);
+}
+
+void CMixer::Init(DWORD out_layout, DWORD in_layout, enum AVSampleFormat in_sf)
+{
+    avresample_free(&m_pAVRCxt);
+
+    int ret = 0;
+    // Allocate Resample Context and set options.
+    m_pAVRCxt = avresample_alloc_context();
+    av_opt_set_int(m_pAVRCxt, "in_channel_layout", in_layout, 0);
+    av_opt_set_int(m_pAVRCxt, "in_sample_fmt", in_sf, 0);
+    av_opt_set_int(m_pAVRCxt, "out_channel_layout", out_layout, 0);
+    av_opt_set_int(m_pAVRCxt, "out_sample_fmt", AV_SAMPLE_FMT_FLT, 0); // forced float output
+
+    // Open Resample Context
+    ret = avresample_open(m_pAVRCxt);
+    if (ret < 0) {
+        TRACE(_T("Mixer: avresample_open failed\n"));
+        avresample_free(&m_pAVRCxt);
+        return;
+    }
+
+    // Create Matrix
+    int in_ch  = av_popcount(in_layout);
+    int out_ch = av_popcount(out_layout);
+    double* matrix_dbl = (double*)av_mallocz(in_ch * out_ch * sizeof(*matrix_dbl));
+    // expand stereo
+    if (in_layout == AV_CH_LAYOUT_STEREO && (out_layout == AV_CH_LAYOUT_QUAD || out_layout == AV_CH_LAYOUT_5POINT1 || out_layout == AV_CH_LAYOUT_7POINT1)) {
+        matrix_dbl[0] = 1.0;
+        matrix_dbl[1] = 0.0;
+        matrix_dbl[2] = 0.0;
+        matrix_dbl[3] = 1.0;
+        if (out_layout == AV_CH_LAYOUT_QUAD) {
+            matrix_dbl[4] = 0.5;
+            matrix_dbl[5] = (-0.5);
+            matrix_dbl[6] = (-0.5);
+            matrix_dbl[7] = 0.5;
+        } else if (out_layout == AV_CH_LAYOUT_5POINT1 || out_layout == AV_CH_LAYOUT_7POINT1) {
+            matrix_dbl[4] = 0.5;
+            matrix_dbl[5] = 0.5;
+            matrix_dbl[6] = 0.0;
+            matrix_dbl[7] = 0.0;
+            matrix_dbl[8] = 0.5;
+            matrix_dbl[9] = (-0.5);
+            matrix_dbl[10] = (-0.5);
+            matrix_dbl[11] = 0.5;
+            if (out_layout == AV_CH_LAYOUT_7POINT1) {
+                matrix_dbl[12] = 0.5;
+                matrix_dbl[13] = (-0.5);
+                matrix_dbl[14] = (-0.5);
+                matrix_dbl[15] = 0.5;
+            }
+        }
+    } else {
+        const double center_mix_level   = M_SQRT1_2;
+        const double surround_mix_level = M_SQRT1_2;
+        const double lfe_mix_level      = M_SQRT1_2;
+        const int normalize = 0;
+        ret = avresample_build_matrix(in_layout, out_layout, center_mix_level, surround_mix_level, lfe_mix_level, normalize, matrix_dbl, in_ch, AV_MATRIX_ENCODING_NONE);
+        if (ret < 0) {
+            TRACE(_T("Mixer: avresample_build_matrix failed\n"));
+            av_free(matrix_dbl);
+            avresample_free(&m_pAVRCxt);
+            return;
+        }
+    }
+
+#ifdef _DEBUG
+    CString matrix_str;
+    for (int j = 0; j < out_ch; j++) {
+        matrix_str.AppendFormat(_T("%d:"), j + 1);
+        for (int i = 0; i < in_ch; i++) {
+            double k = matrix_dbl[j * in_ch + i];
+            matrix_str.AppendFormat(_T(" %.4f"), k);
+        }
+        matrix_str += _T("\n");
+    }
+    TRACE(matrix_str);
+#endif
+
+    // Set Matrix on the context
+    ret = avresample_set_matrix(m_pAVRCxt, matrix_dbl, in_ch);
+    av_free(matrix_dbl);
+    if (ret < 0) {
+        TRACE(_T("Mixer: avresample_set_matrix failed\n"));
+        avresample_free(&m_pAVRCxt);
+        return;
+    }
+
+    last_in_layout  = in_layout;
+    last_out_layout = out_layout;
+    last_in_sf      = in_sf;
 }
 
 HRESULT CMixer::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, BYTE* pInput, int samples, WORD in_ch, DWORD in_layout, enum AVSampleFormat in_sf)
 {
     if (in_layout == out_layout) {
-        return S_FALSE;
+        return E_ABORT;
     }
     if (in_sf < AV_SAMPLE_FMT_U8 || in_sf > AV_SAMPLE_FMT_DBL) {
-        return S_FALSE;
+        return E_INVALIDARG;
     }
 
-    int ret = 0;
+    if (!m_pAVRCxt || in_layout != last_in_layout || out_layout != last_out_layout || in_sf != last_in_sf) {
+        Init(out_layout, in_layout, in_sf);
+    }
 
     if (!m_pAVRCxt) {
-        // Allocate Resample Context and set options.
-        m_pAVRCxt = avresample_alloc_context();
-        av_opt_set_int(m_pAVRCxt, "in_channel_layout", in_layout, 0);
-        av_opt_set_int(m_pAVRCxt, "in_sample_fmt", in_sf, 0);
-        av_opt_set_int(m_pAVRCxt, "out_channel_layout", out_layout, 0);
-        av_opt_set_int(m_pAVRCxt, "out_sample_fmt", AV_SAMPLE_FMT_FLT, 0); // forced float output
-
-        // Open Resample Context
-        ret = avresample_open(m_pAVRCxt);
-        if (ret < 0) {
-            TRACE(_T("avresample_open failed\n"));
-            avresample_free(&m_pAVRCxt);
-            return S_FALSE;
-        }
-
-        // Create Matrix
-        double* matrix_dbl = (double*)av_mallocz(in_ch * out_ch * sizeof(*matrix_dbl));
-        // expand stereo
-        if (in_layout == AV_CH_LAYOUT_STEREO && (out_layout == AV_CH_LAYOUT_QUAD || out_layout == AV_CH_LAYOUT_5POINT1 || out_layout == AV_CH_LAYOUT_7POINT1)) {
-            matrix_dbl[0] = 1.0;
-            matrix_dbl[1] = 0.0;
-            matrix_dbl[2] = 0.0;
-            matrix_dbl[3] = 1.0;
-            if (out_layout == AV_CH_LAYOUT_QUAD) {
-                matrix_dbl[4] = 0.5;
-                matrix_dbl[5] = (-0.5);
-                matrix_dbl[6] = (-0.5);
-                matrix_dbl[7] = 0.5;
-            } else if (out_layout == AV_CH_LAYOUT_5POINT1 || out_layout == AV_CH_LAYOUT_7POINT1) {
-                matrix_dbl[4] = 0.5;
-                matrix_dbl[5] = 0.5;
-                matrix_dbl[6] = 0.0;
-                matrix_dbl[7] = 0.0;
-                matrix_dbl[8] = 0.5;
-                matrix_dbl[9] = (-0.5);
-                matrix_dbl[10] = (-0.5);
-                matrix_dbl[11] = 0.5;
-                if (out_layout == AV_CH_LAYOUT_7POINT1) {
-                    matrix_dbl[12] = 0.5;
-                    matrix_dbl[13] = (-0.5);
-                    matrix_dbl[14] = (-0.5);
-                    matrix_dbl[15] = 0.5;
-                }
-            }
-        } else {
-            const double center_mix_level   = M_SQRT1_2;
-            const double surround_mix_level = M_SQRT1_2;
-            const double lfe_mix_level      = M_SQRT1_2;
-            const int normalize = 0;
-            ret = avresample_build_matrix(in_layout, out_layout, center_mix_level, surround_mix_level, lfe_mix_level, normalize, matrix_dbl, in_ch, AV_MATRIX_ENCODING_NONE);
-            if (ret < 0) {
-                TRACE(_T("avresample_build_matrix failed\n"));
-                av_free(matrix_dbl);
-                avresample_free(&m_pAVRCxt);
-                return S_FALSE;
-            }
-        }
-
-#ifdef _DEBUG
-        CString matrix_str;
-        for (int j = 0; j < out_ch; j++) {
-            matrix_str.AppendFormat(_T("%d:"), j + 1);
-            for (int i = 0; i < in_ch; i++) {
-                double k = matrix_dbl[j * in_ch + i];
-                matrix_str.AppendFormat(_T(" %.4f"), k);
-            }
-            matrix_str += _T("\n");
-        }
-        TRACE(matrix_str);
-#endif
-
-        // Set Matrix on the context
-        ret = avresample_set_matrix(m_pAVRCxt, matrix_dbl, in_ch);
-        av_free(matrix_dbl);
-        if (ret < 0) {
-            TRACE(_T("avresample_set_matrix failed\n"));
-            avresample_free(&m_pAVRCxt);
-            return S_FALSE;
-        }
+        return E_FAIL;
     }
 
-    if (m_pAVRCxt) {
-        ret = avresample_convert(m_pAVRCxt, (void**)&pOutput, samples * out_ch, samples, (void**)&pInput, samples * in_ch, samples);
-        if (ret < 0) {
-            TRACE(_T("avresample_convert failed\n"));
-            return S_FALSE;
-        }
+    int ret = avresample_convert(m_pAVRCxt, (void**)&pOutput, samples * out_ch, samples, (void**)&pInput, samples * in_ch, samples);
+    if (ret < 0) {
+        TRACE(_T("Mixer: avresample_convert failed\n"));
+        return E_FAIL;
     }
 
     return S_OK;
