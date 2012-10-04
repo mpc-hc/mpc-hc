@@ -4,6 +4,54 @@ Legend:
 ! Fixed
 
 
+1.6.4 - 01 October 2012
+=======================
++ MPCVideoDec: Add support for 4K for Intel HD Graphics 4000
++ AVI Splitter: Add a property page so that the support for non interleaved files
+  can be turned on/off. Support for such files is now enabled by default.
+  The old AVI Chunk Viewer dialog has been removed.
++ Added chapter indicators to the seekbar and the chapter name is now displayed
+  in the time tooltip.
++ Added keys for changing volume by increments of 1
+* Updated FFmpeg (n0.8-13778-g127b70e)
+* Updated Little CMS to v2.4 (git 728139a)
+* Updated SoundTouch to v1.7.0
+* Updated MediaInfoLib to v0.7.60 r5048
+* Updated ZenLib to v0.4.28 r403
+* Updated VirtualDub to v1.10.3-test6
+* Remove .dat extension from the icon library and the formats
+  (you can still associate it in the "Others" formats)
+* Re-enable the embedded resources viewer in the properties dialog and improve
+  its "open in browser" function (when double clicking on a resource)
+* Store the path to MPC-HC's executable in HKEY_CURRENT_USER for external use.
+  External applications that depend on that path should get it from there rather
+  than HKEY_LOCAL_MACHINE. The old key in HKEY_LOCAL_MACHINE will be removed in
+  the next version
+* Changed default maximum subtitle resolution to "Desktop"
+* Updated Basque, French, German, Russian, Simplified Chinese and Slovak translations
+! Web interface: Fix the "Deploy" feature
+! Subtitles didn't show in some cases when using the internal subtitles renderer
+! Improve DVB subtitles handling:
+  - Fix missing subtitles
+  - Ticket #2589, Fix wrongly colored subtitles
+! Ticket #48,#515,#2533, Improve PGS subtitles (BluRay) parsing:
+  - Fix missing subtitles
+  - Fix wrong display duration
+! Ticket #102, Fix playback of VideoCD as disk
+! Ticket #790,#1511,#2269,#2612, VSFilter: Fix a bug causing the subtitles not to show
+  when using YUY2 color space
+! Ticket #2219,#2610, MPEG Splitter/AAC Decoder: Add basic support from AAC LATM tracks
+! Ticket #2267, WebUI: added support for '#', '%', '+' and other characters in file names
+! Ticket #2452, Fix color controls in certain situations
+! Ticket #2455,#2484,#2614, WebServer: Better Unicode support
+! Ticket #2540, Fix handling of big API messages
+! Ticket #2547, The master window handle was erroneously reset
+  when starting a file from the explorer.
+! Ticket #2599, Fix "Snap to desktop edges" option for multi-monitor setup
+! Ticket #2606, MPEG Splitter: Don't output the fake "No subtitle" track when the file
+  contains no subtitles
+
+
 1.6.3 - 14 August 2012
 ======================
 + New webpage (http://mpc-hc.sourceforge.net)
