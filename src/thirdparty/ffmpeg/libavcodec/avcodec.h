@@ -431,6 +431,7 @@ enum AVCodecID {
     AV_CODEC_ID_RALF,
     AV_CODEC_ID_IAC,
     AV_CODEC_ID_ILBC,
+    AV_CODEC_ID_OPUS_DEPRECATED,
     AV_CODEC_ID_FFWAVESYNTH = MKBETAG('F','F','W','S'),
     AV_CODEC_ID_8SVX_RAW    = MKBETAG('8','S','V','X'),
     AV_CODEC_ID_SONIC       = MKBETAG('S','O','N','C'),
@@ -1630,12 +1631,15 @@ typedef struct AVCodecContext {
      *   encoded input.
      *
      * Audio:
-     *   Number of "priming" samples added to the beginning of the stream
-     *   during encoding. The decoded output will be delayed by this many
-     *   samples relative to the input to the encoder. Note that this field is
-     *   purely informational and does not directly affect the pts output by
-     *   the encoder, which should always be based on the actual presentation
-     *   time, including any delay.
+     *   For encoding, this is the number of "priming" samples added to the
+     *   beginning of the stream. The decoded output will be delayed by this
+     *   many samples relative to the input to the encoder. Note that this
+     *   field is purely informational and does not directly affect the pts
+     *   output by the encoder, which should always be based on the actual
+     *   presentation time, including any delay.
+     *   For decoding, this is the number of samples the decoder needs to
+     *   output before the decoder's output is valid. When seeking, you should
+     *   start decoding this many samples prior to your desired seek point.
      *
      * - encoding: Set by libavcodec.
      * - decoding: Set by libavcodec.
@@ -3539,7 +3543,7 @@ int avcodec_copy_context(AVCodecContext *dest, const AVCodecContext *src);
 
 /**
  * Allocate an AVFrame and set its fields to default values.  The resulting
- * struct can be deallocated by simply calling av_free().
+ * struct must be freed using avcodec_free_frame().
  *
  * @return An AVFrame filled with default values or NULL on failure.
  * @see avcodec_get_frame_defaults
@@ -3549,9 +3553,21 @@ FF_EXPORT AVFrame *avcodec_alloc_frame(void);
 /**
  * Set the fields of the given AVFrame to default values.
  *
- * @param pic The AVFrame of which the fields should be set to default values.
+ * @param frame The AVFrame of which the fields should be set to default values.
  */
-void avcodec_get_frame_defaults(AVFrame *pic);
+void avcodec_get_frame_defaults(AVFrame *frame);
+
+/**
+ * Free the frame and any dynamically allocated objects in it,
+ * e.g. extended_data.
+ *
+ * @param frame frame to be freed. The pointer will be set to NULL.
+ *
+ * @warning this function does NOT free the data buffers themselves
+ * (it does not know how, since they might have been allocated with
+ *  a custom get_buffer()).
+ */
+void avcodec_free_frame(AVFrame **frame);
 
 #if FF_API_AVCODEC_OPEN
 /**

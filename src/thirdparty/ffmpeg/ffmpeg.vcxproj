@@ -485,7 +485,6 @@
     <ClInclude Include="libavcodec\h264pred.h" />
     <ClInclude Include="libavcodec\h264_mvpred.h" />
     <ClInclude Include="libavcodec\huffman.h" />
-    <ClInclude Include="libavcodec\imgconvert.h" />
     <ClInclude Include="libavcodec\indeo3data.h" />
     <ClInclude Include="libavcodec\indeo4data.h" />
     <ClInclude Include="libavcodec\indeo5data.h" />

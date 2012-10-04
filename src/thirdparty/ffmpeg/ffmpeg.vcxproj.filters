@@ -1323,9 +1323,6 @@
     <ClInclude Include="libavcodec\huffman.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
-    <ClInclude Include="libavcodec\imgconvert.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
     <ClInclude Include="libavcodec\indeo3data.h">
       <Filter>libavcodec</Filter>
     </ClInclude>

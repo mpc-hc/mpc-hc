@@ -374,7 +374,9 @@ static inline int get_sr_golomb_shorten(GetBitContext* gb, int k)
 
 #ifdef TRACE
 
-static inline int get_ue(GetBitContext *s, char *file, const char *func, int line){
+static inline int get_ue(GetBitContext *s, const char *file, const char *func,
+                         int line)
+{
     int show= show_bits(s, 24);
     int pos= get_bits_count(s);
     int i= get_ue_golomb(s);
@@ -388,7 +390,9 @@ static inline int get_ue(GetBitContext *s, char *file, const char *func, int lin
     return i;
 }
 
-static inline int get_se(GetBitContext *s, char *file, const char *func, int line){
+static inline int get_se(GetBitContext *s, const char *file, const char *func,
+                         int line)
+{
     int show= show_bits(s, 24);
     int pos= get_bits_count(s);
     int i= get_se_golomb(s);
@@ -461,8 +465,6 @@ static inline void set_te_golomb(PutBitContext *pb, int i, int range){
  * write signed exp golomb code. 16 bits at most.
  */
 static inline void set_se_golomb(PutBitContext *pb, int i){
-//    if (i>32767 || i<-32767)
-//        av_log(NULL,AV_LOG_ERROR,"value out of range %d\n", i);
 #if 0
     if(i<=0) i= -2*i;
     else     i=  2*i-1;

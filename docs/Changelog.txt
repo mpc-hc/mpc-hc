@@ -17,7 +17,7 @@ Legend:
 + Added chapter indicators to the seekbar and the chapter name is now displayed
   in the time tooltip.
 + Added keys for changing volume by increments of 1
-* Updated FFmpeg (n0.8-13778-g127b70e)
+* Updated FFmpeg (n0.8-14106-g2e8dcde)
 * Updated Little CMS to v2.4 (git 728139a)
 * Updated SoundTouch to v1.7.0
 * Updated MediaInfoLib to v0.7.60 r5048

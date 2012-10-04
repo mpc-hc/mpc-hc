@@ -205,6 +205,8 @@ static void ff_compute_band_indexes(MPADecodeContext *s, GranuleDef *g)
 {
     if (g->block_type == 2) {
         if (g->switch_point) {
+            if(s->sample_rate_index == 8)
+                av_log_ask_for_sample(s->avctx, "switch point in 8khz\n");
             /* if switched mode, we handle the 36 first samples as
                 long blocks.  For 8000Hz, we handle the 72 first
                 exponents as long blocks */
@@ -213,7 +215,7 @@ static void ff_compute_band_indexes(MPADecodeContext *s, GranuleDef *g)
             else
                 g->long_end = 6;
 
-            g->short_start = 2 + (s->sample_rate_index != 8);
+            g->short_start = 3;
         } else {
             g->long_end    = 0;
             g->short_start = 0;
@@ -890,9 +892,7 @@ static int huffman_decode(MPADecodeContext *s, GranuleDef *g,
             int pos = get_bits_count(&s->gb);
 
             if (pos >= end_pos){
-//                av_log(NULL, AV_LOG_ERROR, "pos: %d %d %d %d\n", pos, end_pos, end_pos2, s_index);
                 switch_buffer(s, &pos, &end_pos, &end_pos2);
-//                av_log(NULL, AV_LOG_ERROR, "new pos: %d %d\n", pos, end_pos);
                 if (pos >= end_pos)
                     break;
             }
@@ -966,9 +966,7 @@ static int huffman_decode(MPADecodeContext *s, GranuleDef *g,
                     s_index=0;
                 break;
             }
-//                av_log(NULL, AV_LOG_ERROR, "pos2: %d %d %d %d\n", pos, end_pos, end_pos2, s_index);
             switch_buffer(s, &pos, &end_pos, &end_pos2);
-//                av_log(NULL, AV_LOG_ERROR, "new pos2: %d %d %d\n", pos, end_pos, s_index);
             if (pos >= end_pos)
                 break;
         }
@@ -991,7 +989,6 @@ static int huffman_decode(MPADecodeContext *s, GranuleDef *g,
     }
     /* skip extension bits */
     bits_left = end_pos2 - get_bits_count(&s->gb);
-//av_log(NULL, AV_LOG_ERROR, "left:%d buf:%p\n", bits_left, s->in_gb.buffer);
     if (bits_left < 0 && (s->err_recognition & (AV_EF_BUFFER|AV_EF_COMPLIANT))) {
         av_log(s->avctx, AV_LOG_ERROR, "bits_left=%d\n", bits_left);
         s_index=0;
@@ -1404,8 +1401,8 @@ static int mp_decode_layer3(MPADecodeContext *s)
         int extrasize = av_clip(get_bits_left(&s->gb) >> 3, 0, EXTRABYTES);
         av_assert1((get_bits_count(&s->gb) & 7) == 0);
         /* now we get bits from the main_data_begin offset */
-        av_dlog(s->avctx, "seekback: %d\n", main_data_begin);
-    //av_log(NULL, AV_LOG_ERROR, "backstep:%d, lastbuf:%d\n", main_data_begin, s->last_buf_size);
+        av_dlog(s->avctx, "seekback:%d, lastbuf:%d\n",
+                main_data_begin, s->last_buf_size);
 
         memcpy(s->last_buf + s->last_buf_size, ptr, extrasize);
         s->in_gb = s->gb;

@@ -531,6 +531,7 @@ void ff_update_duplicate_context(MpegEncContext *dst, MpegEncContext *src)
 int ff_mpeg_update_thread_context(AVCodecContext *dst,
                                   const AVCodecContext *src)
 {
+    int i;
     MpegEncContext *s = dst->priv_data, *s1 = src->priv_data;
 
     if (dst == src)
@@ -573,6 +574,10 @@ int ff_mpeg_update_thread_context(AVCodecContext *dst,
     memcpy(s->picture, s1->picture, s1->picture_count * sizeof(Picture));
     memcpy(&s->last_picture, &s1->last_picture,
            (char *) &s1->last_picture_ptr - (char *) &s1->last_picture);
+
+    // reset s->picture[].f.extended_data to s->picture[].f.data
+    for (i = 0; i < s->picture_count; i++)
+        s->picture[i].f.extended_data = s->picture[i].f.data;
 
     s->last_picture_ptr    = REBASE_PICTURE(s1->last_picture_ptr,    s, s1);
     s->current_picture_ptr = REBASE_PICTURE(s1->current_picture_ptr, s, s1);
@@ -1383,12 +1388,12 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
         if (!s->dropable)
             s->next_picture_ptr = s->current_picture_ptr;
     }
-    /* av_log(s->avctx, AV_LOG_DEBUG, "L%p N%p C%p L%p N%p C%p type:%d drop:%d\n",
-           s->last_picture_ptr, s->next_picture_ptr,s->current_picture_ptr,
-           s->last_picture_ptr    ? s->last_picture_ptr->f.data[0]    : NULL,
-           s->next_picture_ptr    ? s->next_picture_ptr->f.data[0]    : NULL,
-           s->current_picture_ptr ? s->current_picture_ptr->f.data[0] : NULL,
-           s->pict_type, s->dropable); */
+    av_dlog(s->avctx, "L%p N%p C%p L%p N%p C%p type:%d drop:%d\n",
+            s->last_picture_ptr, s->next_picture_ptr,s->current_picture_ptr,
+            s->last_picture_ptr    ? s->last_picture_ptr->f.data[0]    : NULL,
+            s->next_picture_ptr    ? s->next_picture_ptr->f.data[0]    : NULL,
+            s->current_picture_ptr ? s->current_picture_ptr->f.data[0] : NULL,
+            s->pict_type, s->dropable);
 
     if (s->codec_id != AV_CODEC_ID_H264) {
         if ((s->last_picture_ptr == NULL ||
@@ -1740,7 +1745,6 @@ void ff_print_debug_info(MpegEncContext *s, AVFrame *pict)
                     else
                         av_log(s->avctx, AV_LOG_DEBUG, " ");
                 }
-                // av_log(s->avctx, AV_LOG_DEBUG, " ");
             }
             av_log(s->avctx, AV_LOG_DEBUG, "\n");
         }

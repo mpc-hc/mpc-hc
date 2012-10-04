@@ -5637,7 +5637,8 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
             s->linesize                      >>= 1;
             s->uvlinesize                    >>= 1;
         }
-//av_log(s->avctx, AV_LOG_INFO, "Consumed %i/%i bits\n", get_bits_count(&s->gb), s->gb.size_in_bits);
+        av_dlog(s->avctx, "Consumed %i/%i bits\n",
+                get_bits_count(&s->gb), s->gb.size_in_bits);
 //  if (get_bits_count(&s->gb) > buf_size * 8)
 //      return -1;
         if(s->error_occurred && s->pict_type == AV_PICTURE_TYPE_B)
@@ -5704,6 +5705,7 @@ AVCodec ff_vc1_decoder = {
     .init           = vc1_decode_init,
     .close          = ff_vc1_decode_end,
     .decode         = vc1_decode_frame,
+    .flush          = ff_mpeg_flush,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY,
     .long_name      = NULL_IF_CONFIG_SMALL("SMPTE VC-1"),
     .pix_fmts       = ff_hwaccel_pixfmt_list_420,
@@ -5719,6 +5721,7 @@ AVCodec ff_wmv3_decoder = {
     .init           = vc1_decode_init,
     .close          = ff_vc1_decode_end,
     .decode         = vc1_decode_frame,
+    .flush          = ff_mpeg_flush,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY,
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 9"),
     .pix_fmts       = ff_hwaccel_pixfmt_list_420,
