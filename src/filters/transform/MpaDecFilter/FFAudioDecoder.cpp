@@ -362,20 +362,107 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
                 dwChannelMask = GetDefChannelMask(nChannels);
             }
 
-            switch (m_pAVCtx->sample_fmt) {
+            samplefmt = m_pAVCtx->sample_fmt;
+
+            switch (samplefmt) {
+                case AV_SAMPLE_FMT_U8:
+                    {
+                        // convert unsigned 8 bit to signed 16 bit
+                        BuffOut.SetCount(nSamples * 2);
+                        int16_t* pOut = (int16_t*)BuffOut.GetData();
+                        for (size_t i = 0; i < nSamples; ++i) {
+                            pOut[i] = (int16_t)(int8_t)(((uint8_t*)m_pFrame->data[0])[i] + 128) * 256;
+                        }
+                        samplefmt = AV_SAMPLE_FMT_S16;
+                    }
+                    break;
                 case AV_SAMPLE_FMT_S16:
                     BuffOut.SetCount(nSamples * 2);
+                    memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
                     break;
                 case AV_SAMPLE_FMT_S32:
                 case AV_SAMPLE_FMT_FLT:
                     BuffOut.SetCount(nSamples * 4);
+                    memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
+                    break;
+                case AV_SAMPLE_FMT_DBL:
+                    {
+                        // convert double to float
+                        BuffOut.SetCount(nSamples * 4);
+                        float* pOut = (float*)BuffOut.GetData();
+                        for (size_t i = 0; i < nSamples; ++i) {
+                            pOut[i] = (float)((double*)m_pFrame->data[0])[i];
+                        }
+                        samplefmt = AV_SAMPLE_FMT_FLT;
+                    }
+                    break;
+                // planar sample formats
+                case AV_SAMPLE_FMT_U8P:
+                    {
+                        // convert unsigned 8 bit to signed 16 bit
+                        BuffOut.SetCount(nSamples * 2);
+                        int16_t* pOut = (int16_t*)BuffOut.GetData();
+                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                            for(int ch = 0; ch < nChannels; ++ch) {
+                                *pOut++ = (int16_t)(int8_t)(((uint8_t*)m_pFrame->extended_data[ch])[i] + 128) * 256;
+                            }
+                        }
+                        samplefmt = AV_SAMPLE_FMT_S16;
+                    }
+                    break;
+                case AV_SAMPLE_FMT_S16P:
+                    {
+                        BuffOut.SetCount(nSamples * 2);
+                        int16_t* pOut = (int16_t*)BuffOut.GetData();
+                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                            for(int ch = 0; ch < nChannels; ++ch) {
+                                *pOut++ = ((int16_t*)m_pFrame->extended_data[ch])[i];
+                            }
+                        }
+                        samplefmt = AV_SAMPLE_FMT_S16;
+                    }
+                    break;
+                case AV_SAMPLE_FMT_S32P:
+                    {
+                        BuffOut.SetCount(nSamples * 4);
+                        int32_t* pOut = (int32_t*)BuffOut.GetData();
+                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                            for(int ch = 0; ch < nChannels; ++ch) {
+                                *pOut++ = ((int32_t*)m_pFrame->extended_data[ch])[i];
+                            }
+                        }
+                        samplefmt = AV_SAMPLE_FMT_S32;
+                    }
+                    break;
+                case AV_SAMPLE_FMT_FLTP:
+                    {
+                        BuffOut.SetCount(nSamples * 4);
+                        float *pOut = (float*)BuffOut.GetData();
+                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                            for(int ch = 0; ch < nChannels; ++ch) {
+                                *pOut++ = ((float*)m_pFrame->extended_data[ch])[i];
+                            }
+                        }
+                        samplefmt = AV_SAMPLE_FMT_FLT;
+                    }
+                    break;
+                case AV_SAMPLE_FMT_DBLP:
+                    {
+                        // convert double to float
+                        BuffOut.SetCount(nSamples * 4);
+                        float *pOut = (float*)BuffOut.GetData();
+                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                            for(int ch = 0; ch < nChannels; ++ch) {
+                                *pOut++ = (float)((double*)m_pFrame->extended_data[ch])[i];
+                            }
+                        }
+                        samplefmt = AV_SAMPLE_FMT_FLT;
+                    }
                     break;
                 default:
                     ASSERT(FALSE);
                     break;
             }
-            samplefmt = m_pAVCtx->sample_fmt;
-            memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
         }
     }
 
