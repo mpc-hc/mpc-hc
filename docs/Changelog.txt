@@ -10,5 +10,6 @@ Legend:
 
 1.6.5 - not released yet
 ========================
++ Ticket #2647, Add .3ga to known formats
 * Updated FFmpeg (n0.8-14106-g2e8dcde)
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks

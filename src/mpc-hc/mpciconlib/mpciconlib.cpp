@@ -39,6 +39,8 @@ extern "C" __declspec(dllexport) int GetIconIndex(LPCTSTR ext)
 
     if (_tcsicmp(ext, _T(".3g2")) == 0) {
         iconIndex = IDI_MOV_ICON;
+    } else if (_tcsicmp(ext, _T(".3ga")) == 0) {
+        iconIndex = IDI_MP4_ICON;
     } else if (_tcsicmp(ext, _T(".3gp")) == 0) {
         iconIndex = IDI_MP4_ICON;
     } else if (_tcsicmp(ext, _T(".3gp2")) == 0) {
