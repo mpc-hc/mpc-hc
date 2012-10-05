@@ -2228,7 +2228,7 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin* pPin)
 
     if (SUCCEEDED(hr)) {
 
-        //Intel patch for Ivy Bridge and Sandy Bridge
+        // Intel patch for Ivy Bridge and Sandy Bridge
         if (m_nPCIVendor == PCIV_Intel) {
             for (UINT iCnt = 0; iCnt < cDecoderGuids; iCnt++) {
                 if (pDecoderGuids[iCnt] == DXVA_Intel_H264_ClearVideo) {

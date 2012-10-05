@@ -35,8 +35,8 @@ extern "C" {
 #include "../../../DSUtil/AudioParser.h"
 #include "../../../mpc-hc/InternalFiltersConfig.h"
 
-#define INT16_PEAK      32768
-#define INT32_PEAK      2147483648
+#define INT16_PEAK  32768
+#define INT32_PEAK  2147483648
 
 typedef struct {
     const CLSID* clsMinorType;
@@ -228,9 +228,9 @@ bool CFFAudioDecoder::Init(enum AVCodecID nCodecId, CTransformInputPin* pInput)
         }
 
         const void* format = pInput->CurrentMediaType().Format();
-        GUID format_type = pInput->CurrentMediaType().formattype;
-        DWORD formatlen = pInput->CurrentMediaType().cbFormat;
-        unsigned extralen = 0;
+        GUID format_type   = pInput->CurrentMediaType().formattype;
+        DWORD formatlen    = pInput->CurrentMediaType().cbFormat;
+        unsigned extralen  = 0;
         getExtraData((BYTE*)format, &format_type, formatlen, NULL, &extralen);
 
         memset(&m_raData, 0, sizeof(m_raData));
@@ -365,17 +365,16 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
             samplefmt = m_pAVCtx->sample_fmt;
 
             switch (samplefmt) {
-                case AV_SAMPLE_FMT_U8:
-                    {
-                        // convert unsigned 8 bit to signed 16 bit
-                        BuffOut.SetCount(nSamples * 2);
-                        int16_t* pOut = (int16_t*)BuffOut.GetData();
-                        for (size_t i = 0; i < nSamples; ++i) {
-                            pOut[i] = (int16_t)(int8_t)(((uint8_t*)m_pFrame->data[0])[i] + 128) * 256;
-                        }
-                        samplefmt = AV_SAMPLE_FMT_S16;
+                case AV_SAMPLE_FMT_U8: {
+                    // convert unsigned 8 bit to signed 16 bit
+                    BuffOut.SetCount(nSamples * 2);
+                    int16_t* pOut = (int16_t*)BuffOut.GetData();
+                    for (size_t i = 0; i < nSamples; ++i) {
+                        pOut[i] = (int16_t)(int8_t)(((uint8_t*)m_pFrame->data[0])[i] + 128) * 256;
                     }
-                    break;
+                    samplefmt = AV_SAMPLE_FMT_S16;
+                }
+                break;
                 case AV_SAMPLE_FMT_S16:
                     BuffOut.SetCount(nSamples * 2);
                     memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
@@ -385,80 +384,74 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
                     BuffOut.SetCount(nSamples * 4);
                     memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
                     break;
-                case AV_SAMPLE_FMT_DBL:
-                    {
-                        // convert double to float
-                        BuffOut.SetCount(nSamples * 4);
-                        float* pOut = (float*)BuffOut.GetData();
-                        for (size_t i = 0; i < nSamples; ++i) {
-                            pOut[i] = (float)((double*)m_pFrame->data[0])[i];
-                        }
-                        samplefmt = AV_SAMPLE_FMT_FLT;
+                case AV_SAMPLE_FMT_DBL: {
+                    // convert double to float
+                    BuffOut.SetCount(nSamples * 4);
+                    float* pOut = (float*)BuffOut.GetData();
+                    for (size_t i = 0; i < nSamples; ++i) {
+                        pOut[i] = (float)((double*)m_pFrame->data[0])[i];
                     }
-                    break;
+                    samplefmt = AV_SAMPLE_FMT_FLT;
+                }
+                break;
                 // planar sample formats
-                case AV_SAMPLE_FMT_U8P:
-                    {
-                        // convert unsigned 8 bit to signed 16 bit
-                        BuffOut.SetCount(nSamples * 2);
-                        int16_t* pOut = (int16_t*)BuffOut.GetData();
-                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
-                            for(int ch = 0; ch < nChannels; ++ch) {
-                                *pOut++ = (int16_t)(int8_t)(((uint8_t*)m_pFrame->extended_data[ch])[i] + 128) * 256;
-                            }
+                case AV_SAMPLE_FMT_U8P: {
+                    // convert unsigned 8 bit to signed 16 bit
+                    BuffOut.SetCount(nSamples * 2);
+                    int16_t* pOut = (int16_t*)BuffOut.GetData();
+                    for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                        for (int ch = 0; ch < nChannels; ++ch) {
+                            *pOut++ = (int16_t)(int8_t)(((uint8_t*)m_pFrame->extended_data[ch])[i] + 128) * 256;
                         }
-                        samplefmt = AV_SAMPLE_FMT_S16;
                     }
-                    break;
-                case AV_SAMPLE_FMT_S16P:
-                    {
-                        BuffOut.SetCount(nSamples * 2);
-                        int16_t* pOut = (int16_t*)BuffOut.GetData();
-                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
-                            for(int ch = 0; ch < nChannels; ++ch) {
-                                *pOut++ = ((int16_t*)m_pFrame->extended_data[ch])[i];
-                            }
+                    samplefmt = AV_SAMPLE_FMT_S16;
+                }
+                break;
+                case AV_SAMPLE_FMT_S16P: {
+                    BuffOut.SetCount(nSamples * 2);
+                    int16_t* pOut = (int16_t*)BuffOut.GetData();
+                    for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                        for (int ch = 0; ch < nChannels; ++ch) {
+                            *pOut++ = ((int16_t*)m_pFrame->extended_data[ch])[i];
                         }
-                        samplefmt = AV_SAMPLE_FMT_S16;
                     }
-                    break;
-                case AV_SAMPLE_FMT_S32P:
-                    {
-                        BuffOut.SetCount(nSamples * 4);
-                        int32_t* pOut = (int32_t*)BuffOut.GetData();
-                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
-                            for(int ch = 0; ch < nChannels; ++ch) {
-                                *pOut++ = ((int32_t*)m_pFrame->extended_data[ch])[i];
-                            }
+                    samplefmt = AV_SAMPLE_FMT_S16;
+                }
+                break;
+                case AV_SAMPLE_FMT_S32P: {
+                    BuffOut.SetCount(nSamples * 4);
+                    int32_t* pOut = (int32_t*)BuffOut.GetData();
+                    for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                        for (int ch = 0; ch < nChannels; ++ch) {
+                            *pOut++ = ((int32_t*)m_pFrame->extended_data[ch])[i];
                         }
-                        samplefmt = AV_SAMPLE_FMT_S32;
                     }
-                    break;
-                case AV_SAMPLE_FMT_FLTP:
-                    {
-                        BuffOut.SetCount(nSamples * 4);
-                        float *pOut = (float*)BuffOut.GetData();
-                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
-                            for(int ch = 0; ch < nChannels; ++ch) {
-                                *pOut++ = ((float*)m_pFrame->extended_data[ch])[i];
-                            }
+                    samplefmt = AV_SAMPLE_FMT_S32;
+                }
+                break;
+                case AV_SAMPLE_FMT_FLTP: {
+                    BuffOut.SetCount(nSamples * 4);
+                    float* pOut = (float*)BuffOut.GetData();
+                    for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                        for (int ch = 0; ch < nChannels; ++ch) {
+                            *pOut++ = ((float*)m_pFrame->extended_data[ch])[i];
                         }
-                        samplefmt = AV_SAMPLE_FMT_FLT;
                     }
-                    break;
-                case AV_SAMPLE_FMT_DBLP:
-                    {
-                        // convert double to float
-                        BuffOut.SetCount(nSamples * 4);
-                        float *pOut = (float*)BuffOut.GetData();
-                        for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
-                            for(int ch = 0; ch < nChannels; ++ch) {
-                                *pOut++ = (float)((double*)m_pFrame->extended_data[ch])[i];
-                            }
+                    samplefmt = AV_SAMPLE_FMT_FLT;
+                }
+                break;
+                case AV_SAMPLE_FMT_DBLP: {
+                    // convert double to float
+                    BuffOut.SetCount(nSamples * 4);
+                    float* pOut = (float*)BuffOut.GetData();
+                    for (size_t i = 0, n = nSamples / nChannels; i < n; ++i) {
+                        for (int ch = 0; ch < nChannels; ++ch) {
+                            *pOut++ = (float)((double*)m_pFrame->extended_data[ch])[i];
                         }
-                        samplefmt = AV_SAMPLE_FMT_FLT;
                     }
-                    break;
+                    samplefmt = AV_SAMPLE_FMT_FLT;
+                }
+                break;
                 default:
                     ASSERT(FALSE);
                     break;
@@ -511,22 +504,22 @@ HRESULT CFFAudioDecoder::ParseRealAudioHeader(const BYTE* extra, const int extra
         return VFW_E_UNSUPPORTED_AUDIO;
     } else if (version == 4 || version == 5 && extralen > 50) {
         // main format block
-        fmt += 2;  // word - unused (always 0)
-        fmt += 4;  // byte[4] - .ra4/.ra5 signature
-        fmt += 4;  // dword - unknown
-        fmt += 2;  // word - Version2
-        fmt += 4;  // dword - header size
+        fmt += 2;   // word - unused (always 0)
+        fmt += 4;   // byte[4] - .ra4/.ra5 signature
+        fmt += 4;   // dword - unknown
+        fmt += 2;   // word - Version2
+        fmt += 4;   // dword - header size
         m_raData.flavor = AV_RB16(fmt);
-        fmt += 2;  // word - codec flavor
+        fmt += 2;   // word - codec flavor
         m_raData.coded_frame_size = AV_RB32(fmt);
-        fmt += 4;  // dword - coded frame size
-        fmt += 12; // byte[12] - unknown
+        fmt += 4;   // dword - coded frame size
+        fmt += 12;  // byte[12] - unknown
         m_raData.sub_packet_h = AV_RB16(fmt);
-        fmt += 2;  // word - sub packet h
-        fmt += 2;  // word - frame size
+        fmt += 2;   // word - sub packet h
+        fmt += 2;   // word - frame size
         m_raData.sub_packet_size = m_pAVCtx->block_align = AV_RB16(fmt);
-        fmt += 2;  // word - subpacket size
-        fmt += 2;  // word - unknown
+        fmt += 2;   // word - subpacket size
+        fmt += 2;   // word - unknown
         // 6 Unknown bytes in ver 5
         if (version == 5) {
             fmt += 6;

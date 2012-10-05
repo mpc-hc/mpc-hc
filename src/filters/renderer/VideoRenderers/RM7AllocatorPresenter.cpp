@@ -46,7 +46,7 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
 
-    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceOff  = NULL;
     m_pVideoSurfaceYUY2 = NULL;
 
     DDSURFACEDESC2 ddsd;
@@ -60,10 +60,10 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
     ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
     ddsd.ddpfPixelFormat.dwFlags = DDPF_RGB;
     ddsd.ddpfPixelFormat.dwRGBBitCount = 32;
-    ddsd.ddpfPixelFormat.dwRGBAlphaBitMask  = 0xFF000000;
-    ddsd.ddpfPixelFormat.dwRBitMask         = 0x00FF0000;
-    ddsd.ddpfPixelFormat.dwGBitMask         = 0x0000FF00;
-    ddsd.ddpfPixelFormat.dwBBitMask         = 0x000000FF;
+    ddsd.ddpfPixelFormat.dwRGBAlphaBitMask = 0xFF000000;
+    ddsd.ddpfPixelFormat.dwRBitMask        = 0x00FF0000;
+    ddsd.ddpfPixelFormat.dwGBitMask        = 0x0000FF00;
+    ddsd.ddpfPixelFormat.dwBBitMask        = 0x000000FF;
 
     HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceOff, NULL);
     if (FAILED(hr)) {
@@ -103,7 +103,7 @@ void CRM7AllocatorPresenter::DeleteSurfaces()
 {
     CAutoLock cAutoLock(this);
 
-    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceOff  = NULL;
     m_pVideoSurfaceYUY2 = NULL;
 
     __super::DeleteSurfaces();

@@ -22,24 +22,24 @@
 #include <intrin.h>
 #include "CpuId.h"
 
-#define CPUID_MMX       (1 << 23)
-#define CPUID_SSE       (1 << 25)
-#define CPUID_SSE2      (1 << 26)
-#define CPUID_SSE3      (1 <<  0)
+#define CPUID_MMX    (1 << 23)
+#define CPUID_SSE    (1 << 25)
+#define CPUID_SSE2   (1 << 26)
+#define CPUID_SSE3   (1 <<  0)
 
 // Intel specific
-#define CPUID_SSSE3     (1 <<  9)
+#define CPUID_SSSE3  (1 <<  9)
 
 // AMD specific
-#define CPUID_3DNOW     (1 << 31)
-#define CPUID_MMXEXT    (1 << 22)
+#define CPUID_3DNOW  (1 << 31)
+#define CPUID_MMXEXT (1 << 22)
 
 
 CCpuId::CCpuId(void)
 {
     unsigned nHighestFeature;
     unsigned nHighestFeatureEx;
-    int nBuff[4];
+    int  nBuff[4];
     char szMan[13];
 
     // Get CPU manufacturer and highest CPUID
@@ -49,6 +49,7 @@ CCpuId::CCpuId(void)
     *(int*)&szMan[4] = nBuff[3];
     *(int*)&szMan[8] = nBuff[2];
     szMan[12] = 0;
+
     if (strcmp(szMan, "AuthenticAMD") == 0) {
         m_nType = PROCESSOR_AMD;
     } else if (strcmp(szMan, "GenuineIntel") == 0) {

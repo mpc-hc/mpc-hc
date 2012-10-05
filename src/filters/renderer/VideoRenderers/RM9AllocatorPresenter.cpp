@@ -46,7 +46,7 @@ HRESULT CRM9AllocatorPresenter::AllocSurfaces()
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
 
-    m_pVideoSurfaceOff = NULL;
+    m_pVideoSurfaceOff  = NULL;
     m_pVideoSurfaceYUY2 = NULL;
 
     HRESULT hr;
