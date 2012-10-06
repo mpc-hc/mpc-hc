@@ -63,7 +63,9 @@ CSaveTextFileDialog::~CSaveTextFileDialog()
 
 void CSaveTextFileDialog::DoDataExchange(CDataExchange* pDX)
 {
-    DDX_Control(pDX, IDC_COMBO1, m_encoding);
+    if (!SysVersion::IsVistaOrLater()) {
+        DDX_Control(pDX, IDC_COMBO1, m_encoding);
+    }
     __super::DoDataExchange(pDX);
 }
 

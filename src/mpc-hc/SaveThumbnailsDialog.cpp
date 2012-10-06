@@ -72,9 +72,11 @@ CSaveThumbnailsDialog::~CSaveThumbnailsDialog()
 
 void CSaveThumbnailsDialog::DoDataExchange(CDataExchange* pDX)
 {
-    DDX_Control(pDX, IDC_SPIN1, m_rowsctrl);
-    DDX_Control(pDX, IDC_SPIN2, m_colsctrl);
-    DDX_Control(pDX, IDC_SPIN3, m_widthctrl);
+    if (!SysVersion::IsVistaOrLater()) {
+        DDX_Control(pDX, IDC_SPIN1, m_rowsctrl);
+        DDX_Control(pDX, IDC_SPIN2, m_colsctrl);
+        DDX_Control(pDX, IDC_SPIN3, m_widthctrl);
+    }
     __super::DoDataExchange(pDX);
 }
 
