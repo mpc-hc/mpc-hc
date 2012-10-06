@@ -5091,9 +5091,6 @@ BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
     } else if (s.iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
         AfxMessageBox(IDS_SCREENSHOT_ERROR_OVERLAY, MB_ICONEXCLAMATION | MB_OK, 0);
         result = FALSE;
-    } else if (s.iDSVideoRendererType == VIDRNDT_DS_MADVR) {
-        AfxMessageBox(IDS_SCREENSHOT_ERROR_MADVR, MB_ICONEXCLAMATION | MB_OK, 0);
-        result = FALSE;
     }
 
     return result;
