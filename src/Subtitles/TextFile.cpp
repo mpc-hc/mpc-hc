@@ -64,7 +64,7 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
         }
     }
 
-    if (m_encoding == m_defaultencoding) {
+    if (m_encoding == ASCII) {
         __super::Close(); // CWebTextFile::Close() would delete the temp file if we called it...
         if (!__super::Open(lpszFileName, modeRead | typeText | shareDenyNone)) {
             return false;
