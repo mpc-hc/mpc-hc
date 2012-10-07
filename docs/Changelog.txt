@@ -10,6 +10,7 @@ Legend:
 
 1.6.5 - not released yet
 ========================
++ Ticket #439, External subtitles: support UTF8 without BOM
 + Ticket #2647, Add .3ga to known formats
 * Updated FFmpeg (n0.8-14239-gac627b3)
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks

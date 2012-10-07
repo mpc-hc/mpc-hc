@@ -114,6 +114,7 @@
     <ClCompile Include="VobSubImage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\Utf8.h" />
     <ClInclude Include="BaseSub.h" />
     <ClInclude Include="CCDecoder.h" />
     <ClInclude Include="CompositionObject.h" />

@@ -2544,7 +2544,7 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
 {
     Empty();
 
-    CWebTextFile f;
+    CWebTextFile f(CTextFile::UTF8);
     if (!f.Open(fn)) {
         return false;
     }
@@ -2604,7 +2604,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 
         //      Sort();
         CreateSegments();
-        CWebTextFile f2;
+        CWebTextFile f2(CTextFile::UTF8);
         if (f2.Open(f->GetFilePath() + _T(".style"))) {
             OpenSubStationAlpha(&f2, *this, CharSet);
         }

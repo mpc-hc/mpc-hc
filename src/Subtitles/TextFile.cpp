@@ -23,6 +23,7 @@
 #include <atlbase.h>
 #include <afxinet.h>
 #include "TextFile.h"
+#include "Utf8.h"
 
 CTextFile::CTextFile(enc e)
 {
@@ -247,31 +248,66 @@ BOOL CTextFile::ReadString(CStringA& str)
             str += c;
         }
     } else if (m_encoding == UTF8) {
-        BYTE b;
-        while (Read(&b, sizeof(b)) == sizeof(b)) {
+        int nBytesRead = 0;
+        BYTE buffer[3];
+        bool bValid = true;
+
+        while (Read(&buffer[0], sizeof(buffer[0])) == sizeof(buffer[0])) {
+            nBytesRead++;
             fEOF = false;
             char c = '?';
-            if (!(b & 0x80)) { // 0xxxxxxx
-                c = b & 0x7f;
-            } else if ((b & 0xe0) == 0xc0) { // 110xxxxx 10xxxxxx
-                if (Read(&b, sizeof(b)) != sizeof(b)) {
-                    break;
+
+            if (Utf8::isSingleByte(buffer[0])) { // 0xxxxxxx
+                c = buffer[0] & 0x7f;
+            } else if (Utf8::isFirstOfMultibyte(buffer[0])) {
+                int nContinuationBytes = Utf8::continuationBytes(buffer[0]);
+                bValid = (nContinuationBytes <= 2);
+
+                // We don't support characters wider than 16 bits
+                if (bValid) {
+                    UINT nRead = Read(&buffer[1], nContinuationBytes * sizeof(buffer[1]));
+                    nBytesRead += nContinuationBytes;
+                    bValid = (nRead == nContinuationBytes * sizeof(buffer[1]));
+
+                    if (bValid) {
+                        for (int i = 0; i < nContinuationBytes; i++) {
+                            if (!Utf8::isContinuation(buffer[i + 1])) {
+                                bValid = false;
+                            }
+                        }
+
+                        switch (nContinuationBytes) {
+                            case 0: // 0xxxxxxx
+                                c = buffer[0] & 0x7f;
+                                break;
+                            case 1: // 110xxxxx 10xxxxxx
+                            case 2: // 1110xxxx 10xxxxxx 10xxxxxx
+                                // Unsupported for non unicode strings
+                                break;
+                        }
+                    }
                 }
-            } else if ((b & 0xf0) == 0xe0) { // 1110xxxx 10xxxxxx 10xxxxxx
-                if (Read(&b, sizeof(b)) != sizeof(b)) {
-                    break;
-                }
-                if (Read(&b, sizeof(b)) != sizeof(b)) {
-                    break;
-                }
+            } else {
+                bValid = false;
             }
-            if (c == '\r') {
-                continue;
-            }
-            if (c == '\n') {
+
+            if (bValid) {
+                if (c == '\r') {
+                    continue;
+                }
+                if (c == '\n') {
+                    break;
+                }
+                str += c;
+            } else {
+                // Switch to ANSI and read again
+                m_encoding = ANSI;
+                Seek(-nBytesRead, current);
+
+                fEOF = !ReadString(str);
+
                 break;
             }
-            str += c;
         }
     } else if (m_encoding == LE16) {
         WORD w;
@@ -343,36 +379,68 @@ BOOL CTextFile::ReadString(CStringW& str)
         }
         str = CStringW(CString(stra)); // TODO: codepage
     } else if (m_encoding == UTF8) {
-        BYTE b;
-        while (Read(&b, sizeof(b)) == sizeof(b)) {
+        int nBytesRead = 0;
+        BYTE buffer[3];
+        bool bValid = true;
+
+        while (Read(&buffer[0], sizeof(buffer[0])) == sizeof(buffer[0])) {
+            nBytesRead++;
             fEOF = false;
-            WCHAR c = '?';
-            if (!(b & 0x80)) { // 0xxxxxxx
-                c = b & 0x7f;
-            } else if ((b & 0xe0) == 0xc0) { // 110xxxxx 10xxxxxx
-                c = (b & 0x1f) << 6;
-                if (Read(&b, sizeof(b)) != sizeof(b)) {
-                    break;
+            WCHAR c = L'?';
+
+            if (Utf8::isSingleByte(buffer[0])) { // 0xxxxxxx
+                c = buffer[0] & 0x7f;
+            } else if (Utf8::isFirstOfMultibyte(buffer[0])) {
+                int nContinuationBytes = Utf8::continuationBytes(buffer[0]);
+                bValid = (nContinuationBytes <= 2);
+
+                // We don't support characters wider than 16 bits
+                if (bValid) {
+                    UINT nRead = Read(&buffer[1], nContinuationBytes * sizeof(buffer[1]));
+                    nBytesRead += nContinuationBytes;
+                    bValid = (nRead == nContinuationBytes * sizeof(buffer[1]));
+
+                    if (bValid) {
+                        for (int i = 0; i < nContinuationBytes; i++) {
+                            if (!Utf8::isContinuation(buffer[i + 1])) {
+                                bValid = false;
+                            }
+                        }
+
+                        switch (nContinuationBytes) {
+                            case 0: // 0xxxxxxx
+                                c = buffer[0] & 0x7f;
+                                break;
+                            case 1: // 110xxxxx 10xxxxxx
+                                c = (buffer[0] & 0x1f) << 6 | (buffer[1] & 0x3f);
+                                break;
+                            case 2: // 1110xxxx 10xxxxxx 10xxxxxx
+                                c = (buffer[0] & 0x0f) << 12 | (buffer[1] & 0x3f) << 6 | (buffer[2] & 0x3f);
+                                break;
+                        }
+                    }
                 }
-                c |= (b & 0x3f);
-            } else if ((b & 0xf0) == 0xe0) { // 1110xxxx 10xxxxxx 10xxxxxx
-                c = (b & 0x0f) << 12;
-                if (Read(&b, sizeof(b)) != sizeof(b)) {
-                    break;
-                }
-                c |= (b & 0x3f) << 6;
-                if (Read(&b, sizeof(b)) != sizeof(b)) {
-                    break;
-                }
-                c |= (b & 0x3f);
+            } else {
+                bValid = false;
             }
-            if (c == '\r') {
-                continue;
-            }
-            if (c == '\n') {
+
+            if (bValid) {
+                if (c == '\r') {
+                    continue;
+                }
+                if (c == '\n') {
+                    break;
+                }
+                str += c;
+            } else {
+                // Switch to ANSI and read again
+                m_encoding = ANSI;
+                Seek(-nBytesRead, current);
+
+                fEOF = !ReadString(str);
+
                 break;
             }
-            str += c;
         }
     } else if (m_encoding == LE16) {
         WCHAR wc;
