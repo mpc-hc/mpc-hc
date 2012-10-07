@@ -7084,14 +7084,14 @@ void CMainFrame::OnPlayPlaypause()
     }
 }
 
-void CMainFrame::OnApiPlay()
+void CMainFrame::OnApiPause()
 {
     OAFilterState fs = GetMediaState();
     if (fs == State_Running) {
         SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
     }
 }
-void CMainFrame::OnApiPause()
+void CMainFrame::OnApiPlay()
 {
     OAFilterState fs = GetMediaState();
     if (fs == State_Stopped || fs == State_Paused) {
