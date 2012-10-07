@@ -408,8 +408,9 @@ BOOL CTextFile::ReadString(CStringW& str)
 // CWebTextFile
 //
 
-CWebTextFile::CWebTextFile(LONGLONG llMaxSize)
-    : m_llMaxSize(llMaxSize)
+CWebTextFile::CWebTextFile(CTextFile::enc e, LONGLONG llMaxSize)
+    : CTextFile(e)
+    , m_llMaxSize(llMaxSize)
 {
 }
 

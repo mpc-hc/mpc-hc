@@ -70,7 +70,7 @@ class CWebTextFile : public CTextFile
     CString m_tempfn;
 
 public:
-    CWebTextFile(LONGLONG llMaxSize = 1024 * 1024);
+    CWebTextFile(CTextFile::enc e = ASCII, LONGLONG llMaxSize = 1024 * 1024);
 
     bool Open(LPCTSTR lpszFileName);
     bool Save(LPCTSTR lpszFileName, enc e /*= ASCII*/);
