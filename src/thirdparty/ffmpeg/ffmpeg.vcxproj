@@ -131,6 +131,7 @@
     <None Include="libavresample\x86\audio_convert.asm" />
     <None Include="libavresample\x86\audio_mix.asm" />
     <None Include="libavresample\x86\util.asm" />
+    <None Include="libavutil\x86\cpuid.asm" />
     <None Include="libavutil\x86\float_dsp.asm" />
     <None Include="libavutil\x86\x86inc.asm" />
     <None Include="libavutil\x86\x86util.asm" />
@@ -626,6 +627,7 @@
     <ClInclude Include="libavutil\mathematics.h" />
     <ClInclude Include="libavutil\md5.h" />
     <ClInclude Include="libavutil\mem.h" />
+    <ClInclude Include="libavutil\old_pix_fmts.h" />
     <ClInclude Include="libavutil\opt.h" />
     <ClInclude Include="libavutil\parseutils.h" />
     <ClInclude Include="libavutil\pixdesc.h" />

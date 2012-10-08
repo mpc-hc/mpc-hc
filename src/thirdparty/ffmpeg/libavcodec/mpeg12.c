@@ -1192,19 +1192,19 @@ static void quant_matrix_rebuild(uint16_t *matrix, const uint8_t *old_perm,
     }
 }
 
-static enum PixelFormat mpeg_get_pixelformat(AVCodecContext *avctx)
+static enum AVPixelFormat mpeg_get_pixelformat(AVCodecContext *avctx)
 {
     Mpeg1Context *s1 = avctx->priv_data;
     MpegEncContext *s = &s1->mpeg_enc_ctx;
 
     if(s->chroma_format < 2) {
         // ==> Start patch MPC
-        return PIX_FMT_YUV420P;
+        return AV_PIX_FMT_YUV420P;
         // ==> End patch MPC
     } else if(s->chroma_format == 2)
-        return PIX_FMT_YUV422P;
+        return AV_PIX_FMT_YUV422P;
     else
-        return PIX_FMT_YUV444P;
+        return AV_PIX_FMT_YUV444P;
 }
 
 /* Call this function when we know all parameters.
@@ -1298,7 +1298,7 @@ static int mpeg_decode_postinit(AVCodecContext *avctx)
         avctx->pix_fmt = mpeg_get_pixelformat(avctx);
         avctx->hwaccel = ff_find_hwaccel(avctx->codec->id, avctx->pix_fmt);
         // until then pix_fmt may be changed right after codec init
-        if (avctx->pix_fmt == PIX_FMT_XVMC_MPEG2_IDCT ||
+        if (avctx->pix_fmt == AV_PIX_FMT_XVMC_MPEG2_IDCT ||
             avctx->hwaccel )
             if (avctx->idct_algo == FF_IDCT_AUTO)
                 avctx->idct_algo = FF_IDCT_SIMPLE;
@@ -1961,7 +1961,7 @@ static int slice_end(AVCodecContext *avctx, AVFrame *pict)
         s->current_picture_ptr->f.qscale_type = FF_QSCALE_TYPE_MPEG2;
 
         // ==> Start patch MPC
-        if (!s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
+        if (!s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
         // ==> End patch MPC
         ff_er_frame_end(s);
 
@@ -2085,7 +2085,7 @@ static int vcr2_init_sequence(AVCodecContext *avctx)
     avctx->pix_fmt = mpeg_get_pixelformat(avctx);
     avctx->hwaccel = ff_find_hwaccel(avctx->codec->id, avctx->pix_fmt);
 
-    if( avctx->pix_fmt == PIX_FMT_XVMC_MPEG2_IDCT || avctx->hwaccel )
+    if( avctx->pix_fmt == AV_PIX_FMT_XVMC_MPEG2_IDCT || avctx->hwaccel )
         if (avctx->idct_algo == FF_IDCT_AUTO)
             avctx->idct_algo = FF_IDCT_SIMPLE;
 
@@ -2513,7 +2513,7 @@ static int decode_chunks(AVCodecContext *avctx,
                         if (s2->resync_mb_x >= 0 && s2->resync_mb_y >= 0)
                             ff_er_add_slice(s2, s2->resync_mb_x, s2->resync_mb_y, s2->mb_x, s2->mb_y, ER_AC_ERROR | ER_DC_ERROR | ER_MV_ERROR);
                     // ==> Start patch MPC
-                    else if (!s2->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
+                    else if (!s2->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
                     //} else {
                     // <== End patch MPC
                         ff_er_add_slice(s2, s2->resync_mb_x, s2->resync_mb_y, s2->mb_x-1, s2->mb_y, ER_AC_END | ER_DC_END | ER_MV_END);
@@ -2671,7 +2671,7 @@ static av_cold int mpeg_mc_decode_init(AVCodecContext *avctx)
     }
     mpeg_decode_init(avctx);
 
-    avctx->pix_fmt           = PIX_FMT_XVMC_MPEG2_IDCT;
+    avctx->pix_fmt           = AV_PIX_FMT_XVMC_MPEG2_IDCT;
     avctx->xvmc_acceleration = 2; // 2 - the blocks are packed!
 
     return 0;

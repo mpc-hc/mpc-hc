@@ -151,7 +151,7 @@ HRESULT CMixer::Mixing(float* pOutput, WORD out_ch, DWORD out_layout, BYTE* pInp
         return E_FAIL;
     }
 
-    int ret = avresample_convert(m_pAVRCxt, (void**)&pOutput, samples * out_ch, samples, (void**)&pInput, samples * in_ch, samples);
+    int ret = avresample_convert(m_pAVRCxt, (uint8_t**)&pOutput, samples * out_ch, samples, (uint8_t**)&pInput, samples * in_ch, samples);
     if (ret < 0) {
         TRACE(_T("Mixer: avresample_convert failed\n"));
         return E_FAIL;

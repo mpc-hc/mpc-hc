@@ -1952,18 +1952,24 @@ static av_always_inline void gmc(uint8_t *dst, uint8_t *src,
     const uint16_t dxy4[4] = { dxys, dxys, dxys, dxys };
     const uint16_t dyy4[4] = { dyys, dyys, dyys, dyys };
     const uint64_t shift2 = 2 * shift;
-    uint8_t edge_buf[(h + 1) * stride];
+#define MAX_STRIDE 4096U
+#define MAX_H 8U
+    uint8_t edge_buf[(MAX_H + 1) * MAX_STRIDE];
     int x, y;
 
     const int dxw = (dxx - (1 << (16 + shift))) * (w - 1);
     const int dyh = (dyy - (1 << (16 + shift))) * (h - 1);
     const int dxh = dxy * (h - 1);
     const int dyw = dyx * (w - 1);
+    int need_emu =  (unsigned)ix >= width  - w ||
+                    (unsigned)iy >= height - h;
+
     if ( // non-constant fullpel offset (3% of blocks)
         ((ox ^ (ox + dxw)) | (ox ^ (ox + dxh)) | (ox ^ (ox + dxw + dxh)) |
          (oy ^ (oy + dyw)) | (oy ^ (oy + dyh)) | (oy ^ (oy + dyw + dyh))) >> (16 + shift)
         // uses more than 16 bits of subpel mv (only at huge resolution)
-        || (dxx | dxy | dyx | dyy) & 15) {
+        || (dxx | dxy | dyx | dyy) & 15
+        || (need_emu && (h > MAX_H || stride > MAX_STRIDE))) {
         // FIXME could still use mmx for some of the rows
         ff_gmc_c(dst, src, stride, h, ox, oy, dxx, dxy, dyx, dyy,
                  shift, r, width, height);
@@ -1971,8 +1977,7 @@ static av_always_inline void gmc(uint8_t *dst, uint8_t *src,
     }
 
     src += ix + iy * stride;
-    if ((unsigned)ix >= width  - w ||
-        (unsigned)iy >= height - h) {
+    if (need_emu) {
         emu_edge_fn(edge_buf, src, stride, w + 1, h + 1, ix, iy, width, height);
         src = edge_buf;
     }

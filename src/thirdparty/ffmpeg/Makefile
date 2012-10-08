@@ -366,6 +366,7 @@ SRCS_YASM = \
     libavresample/x86/audio_convert.asm \
     libavresample/x86/audio_mix.asm \
     libavresample/x86/util.asm \
+    libavutil/x86/cpuid.asm \
     libavutil/x86/float_dsp.asm \
     libswscale/x86/input.asm \
     libswscale/x86/output.asm \

@@ -66,12 +66,12 @@ static const uint8_t div6[QP_MAX_NUM + 1] = {
    14,14,14,14,
 };
 
-static const enum PixelFormat hwaccel_pixfmt_list_h264_jpeg_420[] = {
-    PIX_FMT_DXVA2_VLD,
-    PIX_FMT_VAAPI_VLD,
-    PIX_FMT_VDA_VLD,
-    PIX_FMT_YUVJ420P,
-    PIX_FMT_NONE
+static const enum AVPixelFormat hwaccel_pixfmt_list_h264_jpeg_420[] = {
+    AV_PIX_FMT_DXVA2_VLD,
+    AV_PIX_FMT_VAAPI_VLD,
+    AV_PIX_FMT_VDA_VLD,
+    AV_PIX_FMT_YUVJ420P,
+    AV_PIX_FMT_NONE
 };
 
 int avpriv_h264_has_num_reorder_frames(AVCodecContext *avctx)
@@ -388,7 +388,7 @@ static void await_references(H264Context *h)
     } else {
         int i;
 
-        assert(IS_8X8(mb_type));
+        av_assert2(IS_8X8(mb_type));
 
         for (i = 0; i < 4; i++) {
             const int sub_mb_type = h->sub_mb_type[i];
@@ -420,7 +420,7 @@ static void await_references(H264Context *h)
                                   nrefs);
             } else {
                 int j;
-                assert(IS_SUB_4X4(sub_mb_type));
+                av_assert2(IS_SUB_4X4(sub_mb_type));
                 for (j = 0; j < 4; j++) {
                     int sub_y_offset = y_offset + 2 * (j & 2);
                     get_lowest_part_y(h, refs, n + j, 4, sub_y_offset,
@@ -1789,7 +1789,7 @@ static av_always_inline void hl_decode_mb_predict_luma(H264Context *h,
                         uint64_t tr_high;
                         if (dir == DIAG_DOWN_LEFT_PRED || dir == VERT_LEFT_PRED) {
                             const int topright_avail = (h->topright_samples_available << i) & 0x8000;
-                            assert(s->mb_y || linesize <= block_offset[i]);
+                            av_assert2(s->mb_y || linesize <= block_offset[i]);
                             if (!topright_avail) {
                                 if (pixel_shift) {
                                     tr_high  = ((uint16_t *)ptr)[3 - linesize / 2] * 0x0001000100010001ULL;
@@ -2548,60 +2548,60 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
         case 9:
             if (CHROMA444) {
                 if (s->avctx->colorspace == AVCOL_SPC_RGB) {
-                    s->avctx->pix_fmt = PIX_FMT_GBRP9;
+                    s->avctx->pix_fmt = AV_PIX_FMT_GBRP9;
                 } else
-                    s->avctx->pix_fmt = PIX_FMT_YUV444P9;
+                    s->avctx->pix_fmt = AV_PIX_FMT_YUV444P9;
             } else if (CHROMA422)
-                s->avctx->pix_fmt = PIX_FMT_YUV422P9;
+                s->avctx->pix_fmt = AV_PIX_FMT_YUV422P9;
             else
-                s->avctx->pix_fmt = PIX_FMT_YUV420P9;
+                s->avctx->pix_fmt = AV_PIX_FMT_YUV420P9;
             break;
         case 10:
             if (CHROMA444) {
                 if (s->avctx->colorspace == AVCOL_SPC_RGB) {
-                    s->avctx->pix_fmt = PIX_FMT_GBRP10;
+                    s->avctx->pix_fmt = AV_PIX_FMT_GBRP10;
                 } else
-                    s->avctx->pix_fmt = PIX_FMT_YUV444P10;
+                    s->avctx->pix_fmt = AV_PIX_FMT_YUV444P10;
             } else if (CHROMA422)
-                s->avctx->pix_fmt = PIX_FMT_YUV422P10;
+                s->avctx->pix_fmt = AV_PIX_FMT_YUV422P10;
             else
-                s->avctx->pix_fmt = PIX_FMT_YUV420P10;
+                s->avctx->pix_fmt = AV_PIX_FMT_YUV420P10;
             break;
         case 12:
             if (CHROMA444) {
                 if (s->avctx->colorspace == AVCOL_SPC_RGB) {
-                    s->avctx->pix_fmt = PIX_FMT_GBRP12;
+                    s->avctx->pix_fmt = AV_PIX_FMT_GBRP12;
                 } else
-                    s->avctx->pix_fmt = PIX_FMT_YUV444P12;
+                    s->avctx->pix_fmt = AV_PIX_FMT_YUV444P12;
             } else if (CHROMA422)
-                s->avctx->pix_fmt = PIX_FMT_YUV422P12;
+                s->avctx->pix_fmt = AV_PIX_FMT_YUV422P12;
             else
-                s->avctx->pix_fmt = PIX_FMT_YUV420P12;
+                s->avctx->pix_fmt = AV_PIX_FMT_YUV420P12;
             break;
         case 14:
             if (CHROMA444) {
                 if (s->avctx->colorspace == AVCOL_SPC_RGB) {
-                    s->avctx->pix_fmt = PIX_FMT_GBRP14;
+                    s->avctx->pix_fmt = AV_PIX_FMT_GBRP14;
                 } else
-                    s->avctx->pix_fmt = PIX_FMT_YUV444P14;
+                    s->avctx->pix_fmt = AV_PIX_FMT_YUV444P14;
             } else if (CHROMA422)
-                s->avctx->pix_fmt = PIX_FMT_YUV422P14;
+                s->avctx->pix_fmt = AV_PIX_FMT_YUV422P14;
             else
-                s->avctx->pix_fmt = PIX_FMT_YUV420P14;
+                s->avctx->pix_fmt = AV_PIX_FMT_YUV420P14;
             break;
         case 8:
             if (CHROMA444) {
-                    s->avctx->pix_fmt = s->avctx->color_range == AVCOL_RANGE_JPEG ? PIX_FMT_YUVJ444P
-                                                                                  : PIX_FMT_YUV444P;
+                    s->avctx->pix_fmt = s->avctx->color_range == AVCOL_RANGE_JPEG ? AV_PIX_FMT_YUVJ444P
+                                                                                  : AV_PIX_FMT_YUV444P;
                     if (s->avctx->colorspace == AVCOL_SPC_RGB) {
-                        s->avctx->pix_fmt = PIX_FMT_GBR24P;
+                        s->avctx->pix_fmt = AV_PIX_FMT_GBR24P;
                         av_log(h->s.avctx, AV_LOG_DEBUG, "Detected GBR colorspace.\n");
                     } else if (s->avctx->colorspace == AVCOL_SPC_YCGCO) {
                         av_log(h->s.avctx, AV_LOG_WARNING, "Detected unsupported YCgCo colorspace.\n");
                     }
             } else if (CHROMA422) {
-                s->avctx->pix_fmt = s->avctx->color_range == AVCOL_RANGE_JPEG ? PIX_FMT_YUVJ422P
-                                                                              : PIX_FMT_YUV422P;
+                s->avctx->pix_fmt = s->avctx->color_range == AVCOL_RANGE_JPEG ? AV_PIX_FMT_YUVJ422P
+                                                                              : AV_PIX_FMT_YUV422P;
             } else {
                 s->avctx->pix_fmt = s->avctx->get_format(s->avctx,
                                                          s->avctx->codec->pix_fmts ?
@@ -2871,7 +2871,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
 
     s->current_picture_ptr->frame_num = h->frame_num; // FIXME frame_num cleanup
 
-    assert(s->mb_num == s->mb_width * s->mb_height);
+    av_assert1(s->mb_num == s->mb_width * s->mb_height);
     if (first_mb_in_slice << FIELD_OR_MBAFF_PICTURE >= s->mb_num ||
         first_mb_in_slice >= s->mb_num) {
         av_log(h->s.avctx, AV_LOG_ERROR, "first_mb_in_slice overflow\n");
@@ -2881,7 +2881,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
     s->resync_mb_y = s->mb_y = (first_mb_in_slice / s->mb_width) << FIELD_OR_MBAFF_PICTURE;
     if (s->picture_structure == PICT_BOTTOM_FIELD)
         s->resync_mb_y = s->mb_y = s->mb_y + 1;
-    assert(s->mb_y < s->mb_height);
+    av_assert1(s->mb_y < s->mb_height);
 
     if (s->picture_structure == PICT_FRAME) {
         h->curr_pic_num = h->frame_num;
@@ -4217,8 +4217,8 @@ static const AVProfile profiles[] = {
 };
 
 static const AVOption h264_options[] = {
-    {"is_avc", "is avc", offsetof(H264Context, is_avc), FF_OPT_TYPE_INT, {.dbl = 0}, 0, 1, 0},
-    {"nal_length_size", "nal_length_size", offsetof(H264Context, nal_length_size), FF_OPT_TYPE_INT, {.dbl = 0}, 0, 4, 0},
+    {"is_avc", "is avc", offsetof(H264Context, is_avc), FF_OPT_TYPE_INT, {.i64 = 0}, 0, 1, 0},
+    {"nal_length_size", "nal_length_size", offsetof(H264Context, nal_length_size), FF_OPT_TYPE_INT, {.i64 = 0}, 0, 4, 0},
     {NULL}
 };
 
@@ -4267,8 +4267,8 @@ AVCodec ff_h264_vdpau_decoder = {
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY | CODEC_CAP_HWACCEL_VDPAU,
     .flush          = flush_dpb,
     .long_name      = NULL_IF_CONFIG_SMALL("H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 (VDPAU acceleration)"),
-    .pix_fmts       = (const enum PixelFormat[]) { PIX_FMT_VDPAU_H264,
-                                                   PIX_FMT_NONE},
+    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_VDPAU_H264,
+                                                   AV_PIX_FMT_NONE},
     .profiles       = NULL_IF_CONFIG_SMALL(profiles),
     .priv_class     = &h264_vdpau_class,
 };

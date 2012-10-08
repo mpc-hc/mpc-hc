@@ -28,6 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config.asm" />
+    <None Include="libavutil\x86\cpuid.asm">
+      <Filter>libavutil\x86</Filter>
+    </None>
     <None Include="libavutil\x86\float_dsp.asm">
       <Filter>libavutil\x86</Filter>
     </None>
@@ -1045,6 +1048,9 @@
       <Filter>libavutil</Filter>
     </ClInclude>
     <ClInclude Include="libavutil\mem.h">
+      <Filter>libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\old_pix_fmts.h">
       <Filter>libavutil</Filter>
     </ClInclude>
     <ClInclude Include="libavutil\opt.h">
