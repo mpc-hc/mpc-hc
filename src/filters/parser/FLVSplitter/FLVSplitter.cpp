@@ -317,6 +317,8 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     case FLV_AUDIO_PCMLE:
                         mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_PCM);
                         name += L" PCM";
+                        wfe->nBlockAlign = wfe->wBitsPerSample * wfe->nChannels / 8;
+                        wfe->nAvgBytesPerSec = wfe->nBlockAlign * wfe->nSamplesPerSec;
                         break;
                     case FLV_AUDIO_ADPCM:
                         mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_ADPCM_SWF);
