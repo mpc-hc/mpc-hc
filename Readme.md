@@ -41,7 +41,8 @@ Links:
 * [Website](http://mpc-hc.sourceforge.net)
 * [Source code](https://github.com/mpc-hc)
 * [Support Trac](http://sourceforge.net/apps/trac/mpc-hc)
-* IRC Channel: #mpc-hc / #mpc-hc-dev at [Freenode](http://webchat.freenode.net/)
+* IRC Channel: [#mpc-hc](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
+   / [#mpc-hc-dev](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](http://freenode.net/)
 * [Help and Support](http://sourceforge.net/apps/trac/mpc-hc/)
 * [Donations](http://sourceforge.net/donate/index.php?group_id=170561)
 
