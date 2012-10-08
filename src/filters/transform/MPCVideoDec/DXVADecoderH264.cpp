@@ -125,7 +125,7 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
                     }
 
                     // Update slice control buffer
-                    nDxvaNalLength = Nalu.GetDataLength() + 3;
+                    nDxvaNalLength = (int)Nalu.GetDataLength() + 3;
                     m_pSliceShort[nSlices].BSNALunitDataLocation = nSize;
                     m_pSliceShort[nSlices].SliceBytesInBuffer = nDxvaNalLength;
 
@@ -189,7 +189,7 @@ HRESULT CDXVADecoderH264::DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
                 case NALU_TYPE_IDR:
                     if (m_bUseLongSlice) {
                         m_pSliceLong[nSlices].BSNALunitDataLocation = nNalOffset;
-                        m_pSliceLong[nSlices].SliceBytesInBuffer = Nalu.GetDataLength() + 3; //.GetRoundedDataLength();
+                        m_pSliceLong[nSlices].SliceBytesInBuffer = (UINT)Nalu.GetDataLength() + 3; //.GetRoundedDataLength();
                         m_pSliceLong[nSlices].slice_id = nSlices;
                         FF264UpdateRefFrameSliceLong(&m_DXVAPicParams, &m_pSliceLong[nSlices], m_pFilter->GetAVCtx());
 
@@ -372,7 +372,7 @@ HRESULT CDXVADecoderH264::DisplayStatus()
 
 int CDXVADecoderH264::FindOldestFrame()
 {
-    int nPos  = -1;
+    int nPos = -1;
     REFERENCE_TIME rtPos = _I64_MAX;
 
     for (int i = 0; i < m_nPicEntryNumber; i++) {
@@ -385,7 +385,7 @@ int CDXVADecoderH264::FindOldestFrame()
     }
 
     if (nPos != -1) {
-        m_pPictureStore[nPos].rtStart   = m_rtOutStart;
+        m_pPictureStore[nPos].rtStart = m_rtOutStart;
         m_pFilter->UpdateFrameTime(m_pPictureStore[nPos].rtStart, m_pPictureStore[nPos].rtStop);
         m_pFilter->ReorderBFrames(m_pPictureStore[nPos].rtStart, m_pPictureStore[nPos].rtStop);
     }

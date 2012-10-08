@@ -259,7 +259,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             mt.majortype = MEDIATYPE_Video;
             mt.formattype = FORMAT_VideoInfo;
 
-            VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + pmp->typeSpecData.GetCount());
+            VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + (ULONG)pmp->typeSpecData.GetCount());
             memset(mt.Format(), 0, mt.FormatLength());
             memcpy(pvih + 1, pmp->typeSpecData.GetData(), pmp->typeSpecData.GetCount());
 
@@ -297,7 +297,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             if (pmp->width > 0 && pmp->height > 0) {
                 BITMAPINFOHEADER bmi = pvih->bmiHeader;
                 mt.formattype = FORMAT_VideoInfo2;
-                VIDEOINFOHEADER2* pvih2 = (VIDEOINFOHEADER2*)mt.ReallocFormatBuffer(sizeof(VIDEOINFOHEADER2) + pmp->typeSpecData.GetCount());
+                VIDEOINFOHEADER2* pvih2 = (VIDEOINFOHEADER2*)mt.ReallocFormatBuffer(sizeof(VIDEOINFOHEADER2) + (ULONG)pmp->typeSpecData.GetCount());
                 memset(mt.Format() + FIELD_OFFSET(VIDEOINFOHEADER2, dwInterlaceFlags), 0, mt.FormatLength() - FIELD_OFFSET(VIDEOINFOHEADER2, dwInterlaceFlags));
                 memcpy(pvih2 + 1, pmp->typeSpecData.GetData(), pmp->typeSpecData.GetCount());
                 pvih2->bmiHeader = bmi;
@@ -313,7 +313,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             mt.formattype = FORMAT_WaveFormatEx;
             mt.bTemporalCompression = 1;
 
-            WAVEFORMATEX* pwfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + pmp->typeSpecData.GetCount());
+            WAVEFORMATEX* pwfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + (ULONG)pmp->typeSpecData.GetCount());
             memset(mt.Format(), 0, mt.FormatLength());
             memcpy(pwfe + 1, pmp->typeSpecData.GetData(), pmp->typeSpecData.GetCount());
 
