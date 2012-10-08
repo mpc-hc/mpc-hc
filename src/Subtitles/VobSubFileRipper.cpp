@@ -373,50 +373,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 bool CVobSubFileRipper::LoadVob(CString fn)
 {
     Log(LOG_INFO, _T("Searching vobs..."));
-    /*
-        CAtlList<CString> m_vobs;
 
-        fn = fn.Left(fn.ReverseFind('.')+1);
-        fn.TrimRight(_T(".0123456789"));
-        for (int i = 0; i < 100; i++)
-        {
-            CString vob;
-            vob.Format(_T("%s%d.vob"), fn, i);
-
-            CFileStatus status;
-            if (!(CFileGetStatus(vob, status) && status.m_size))
-            {
-                if (i > 0) break;
-                else continue;
-            }
-
-            if (status.m_size&0x7ff)
-            {
-                Log(LOG_ERROR, _T("Length of %s is not n*2048!"), vob);
-                m_vobs.RemoveAll();
-                break;
-            }
-
-            CString str = _T("Found ") + vob;
-
-            if (i == 0)
-            {
-                str += _T(" (skipping, if not a menu vob rename it)");
-            }
-            else
-            {
-                m_vobs.AddTail(vob);
-            }
-
-            Log(LOG_INFO, str);
-        }
-
-        if (m_vobs.GetCount() <= 0)
-        {
-            Log(LOG_ERROR, _T("Nothing found! (%s*.vob)"), fn);
-            return false;
-        }
-    */
     CAtlList<CString> vobs;
     if (!m_vob.Open(fn, vobs/*m_vobs*/)) {
         Log(LOG_ERROR, _T("Cannot open vob sequence"));
