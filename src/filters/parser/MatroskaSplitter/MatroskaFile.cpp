@@ -33,10 +33,10 @@ using namespace MatroskaReader;
 
 #define BeginChunk                               \
     CheckPointer(pMN0, E_POINTER);               \
-                                                 \
     CAutoPtr<CMatroskaNode> pMN = pMN0->Child(); \
-    if (!pMN) return S_FALSE;                    \
                                                  \
+    if (!pMN)                                    \
+        return S_FALSE;                          \
     do                                           \
     {                                            \
         switch (pMN->m_id)                       \
@@ -107,7 +107,7 @@ HRESULT CMatroskaFile::Read(T& var)
 
 HRESULT CMatroskaFile::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x1A45DFA3:
     m_ebml.Parse(pMN);
     if ((m_ebml.DocType != DOCTYPE || m_ebml.DocTypeReadVersion > DOCTYPEVERSION) &&  m_ebml.DocType != DOCTYPE_WEBM) {
@@ -119,14 +119,14 @@ case 0x18538067:
         m_segment.ParseMinimal(pMN);
     }
     break;
-    EndChunk
+    EndChunk;
 }
 
 //
 
 HRESULT EBML::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x4286:
     EBMLVersion.Parse(pMN);
     break;
@@ -148,14 +148,14 @@ case 0x4287:
 case 0x4285:
     DocTypeReadVersion.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Segment::Parse(CMatroskaNode* pMN0)
 {
     pos = pMN0->GetPos();
 
-    BeginChunk
+    BeginChunk;
 case 0x1549A966:
     SegmentInfo.Parse(pMN);
     break;
@@ -178,7 +178,7 @@ case 0x1043A770:
     Chapters.Parse(pMN);
     break;
     //  case 0x1254C367: Tags.Parse(pMN); break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Segment::ParseMinimal(CMatroskaNode* pMN0)
@@ -322,7 +322,7 @@ ChapterAtom* Segment::FindChapterAtom(UINT64 id, int nEditionEntry)
 
 HRESULT Info::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x73A4:
     SegmentUID.Parse(pMN);
     break;
@@ -359,42 +359,42 @@ case 0x4D80:
 case 0x5741:
     WritingApp.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Seek::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x4DBB:
     SeekHeads.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT SeekHead::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x53AB:
     SeekID.Parse(pMN);
     break;
 case 0x53AC:
     SeekPosition.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Track::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xAE:
     TrackEntries.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT TrackEntry::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xD7:
     TrackNumber.Parse(pMN);
     break;
@@ -472,7 +472,7 @@ case 0xE1:
 case 0x6D80:
     ces.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 static int cesort(const void* a, const void* b)
@@ -518,7 +518,7 @@ bool TrackEntry::Expand(CBinary& data, UINT64 Scope)
 
 HRESULT Video::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x9A:
     FlagInterlaced.Parse(pMN);
     break;
@@ -582,12 +582,12 @@ case 0x2FB523:
 case 0x2383E3:
     FramePerSec.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Audio::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xB5:
     SamplingFrequency.Parse(pMN);
     if (!OutputSamplingFrequency) {
@@ -606,21 +606,21 @@ case 0x7D7B:
 case 0x6264:
     BitDepth.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT ContentEncodings::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x6240:
     ce.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT ContentEncoding::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x5031:
     ContentEncodingOrder.Parse(pMN);
     break;
@@ -636,24 +636,24 @@ case 0x5034:
 case 0x5035:
     ce.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT ContentCompression::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x4254:
     ContentCompAlgo.Parse(pMN);
     break;
 case 0x4255:
     ContentCompSettings.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT ContentEncryption::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x47e1:
     ContentEncAlgo.Parse(pMN);
     break;
@@ -672,12 +672,12 @@ case 0x47e5:
 case 0x47e6:
     ContentSigHashAlgo.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Cluster::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xE7:
     TimeCode.Parse(pMN);
     break;
@@ -693,21 +693,21 @@ case 0xA0:
 case 0xA3:
     SimpleBlocks.Parse(pMN, true);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Cluster::ParseTimeCode(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xE7:
     TimeCode.Parse(pMN);
     return S_OK;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT BlockGroup::Parse(CMatroskaNode* pMN0, bool fFull)
 {
-    BeginChunk
+    BeginChunk;
 case 0xA1:
     Block.Parse(pMN, fFull);
     break;
@@ -737,7 +737,7 @@ case 0x75A1:
         ba.Parse(pMN);
     }
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
@@ -825,28 +825,28 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
 
 HRESULT BlockAdditions::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xA6:
     bm.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT BlockMore::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xEE:
     BlockAddID.Parse(pMN);
     break;
 case 0xA5:
     BlockAdditional.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT TimeSlice::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xCC:
     LaceNumber.Parse(pMN);
     break;
@@ -859,33 +859,33 @@ case 0xCE:
 case 0xCF:
     Duration.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Cue::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xBB:
     CuePoints.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT CuePoint::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xB3:
     CueTime.Parse(pMN);
     break;
 case 0xB7:
     CueTrackPositions.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT CueTrackPosition::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xF7:
     CueTrack.Parse(pMN);
     break;
@@ -901,12 +901,12 @@ case 0xEA:
 case 0xDB:
     CueReferences.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT CueReference::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x96:
     CueRefTime.Parse(pMN);
     break;
@@ -919,21 +919,21 @@ case 0x535F:
 case 0xEB:
     CueRefCodecState.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Attachment::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x61A7:
     AttachedFiles.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT AttachedFile::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x467E:
     FileDescription.Parse(pMN);
     break;
@@ -950,30 +950,30 @@ case 0x465C: // binary
 case 0x46AE:
     FileUID.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT Chapter::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x45B9:
     EditionEntries.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT EditionEntry::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0xB6:
     ChapterAtoms.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT ChapterAtom::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x73C4:
     ChapterUID.Parse(pMN);
     break;
@@ -996,12 +996,12 @@ case 0x98:
 case 0x4598:
     ChapterFlagEnabled.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 HRESULT ChapterDisplay::Parse(CMatroskaNode* pMN0)
 {
-    BeginChunk
+    BeginChunk;
 case 0x85:
     ChapString.Parse(pMN);
     break;
@@ -1011,7 +1011,7 @@ case 0x437C:
 case 0x437E:
     ChapCountry.Parse(pMN);
     break;
-    EndChunk
+    EndChunk;
 }
 
 //
