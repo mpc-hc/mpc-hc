@@ -1089,7 +1089,7 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     if (m_s.fAssociatedWithIcons) {
-        CFileAssoc::CheckIconsAssoc(m_s.m_Formats);
+        CFileAssoc::CheckIconsAssoc();
     }
 
     return TRUE;

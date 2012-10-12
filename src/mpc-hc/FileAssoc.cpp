@@ -760,10 +760,8 @@ static HRESULT CALLBACK TaskDialogCallbackProc(HWND hwnd, UINT uNotification, WP
     return S_OK;
 }
 
-UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID pParam)
+UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID /*pParam*/)
 {
-    const CMediaFormats& mf = *(const CMediaFormats*)pParam;
-
     UINT nLastVersion = AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ICON_LIB_VERSION, 0);
 
     if (LoadIconLib()) {
@@ -815,7 +813,7 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID pParam)
     return 0;
 }
 
-void CFileAssoc::CheckIconsAssoc(const CMediaFormats& mf)
+void CFileAssoc::CheckIconsAssoc()
 {
-    AfxBeginThread(RunCheckIconsAssocThread, (LPVOID)&mf);
+    AfxBeginThread(RunCheckIconsAssocThread, NULL);
 }

@@ -95,5 +95,5 @@ public:
 
     static bool ReAssocIcons(const CAtlList<CString>& exts);
 
-    static void CheckIconsAssoc(const CMediaFormats& mf);
+    static void CheckIconsAssoc();
 };
