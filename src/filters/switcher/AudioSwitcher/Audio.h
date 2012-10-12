@@ -46,8 +46,8 @@ private:
     int bps;
 
 public:
-    AudioStreamResampler(int bps, long org_rate, long new_rate, bool fHighQuality);
+    AudioStreamResampler(int bps, long orig_rate, long new_rate, bool fHighQuality);
     ~AudioStreamResampler();
 
-    long Downsample(void* input, long samplesin, void* output, long samplesout);
+    long Downsample(void* input, long samplesIn, void* output, long samplesOut);
 };

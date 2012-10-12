@@ -175,7 +175,7 @@ static void make_downsample_filter(long* filter_bank, int filter_width, long sam
     //  _CrtCheckMemory();
 }
 
-AudioStreamResampler::AudioStreamResampler(int bps, long org_rate, long new_rate, bool fHighQuality)
+AudioStreamResampler::AudioStreamResampler(int bps, long orig_rate, long new_rate, bool fHighQuality)
 {
     samp_frac = 0x80000;
 
@@ -191,8 +191,8 @@ AudioStreamResampler::AudioStreamResampler(int bps, long org_rate, long new_rate
         return;
     }
 
-    // org_rate > new_rate!
-    samp_frac = MulDiv(org_rate, 0x80000, new_rate);
+    // orig_rate > new_rate!
+    samp_frac = MulDiv(orig_rate, 0x80000, new_rate);
 
     holdover = 0;
     filter_bank = NULL;
@@ -229,7 +229,7 @@ AudioStreamResampler::~AudioStreamResampler()
     delete [] filter_bank;
 }
 
-long AudioStreamResampler::Downsample(void* input, long samplesin, void* output, long samplesout)
+long AudioStreamResampler::Downsample(void* input, long samplesIn, void* output, long samplesOut)
 {
     long lActualSamples = 0;
 
@@ -238,7 +238,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
     //
     // We need (n/2) points to the left and (n/2-1) points to the right.
 
-    while (samplesin > 0 && samplesout > 0) {
+    while (samplesIn > 0 && samplesOut > 0) {
         long srcSamples, dstSamples;
         int nhold;
 
@@ -248,7 +248,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
         // Truncate that, and add the filter width.  Then subtract however many
         // samples are sitting at the bottom of the buffer.
 
-        srcSamples = (long)(((__int64)samp_frac * (samplesout - 1) + accum) >> 19) + filter_width - holdover;
+        srcSamples = (long)(((__int64)samp_frac * (samplesOut - 1) + accum) >> 19) + filter_width - holdover;
 
         // Don't exceed the buffer (BUFFER_SIZE - holdover).
 
@@ -258,7 +258,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
 
         // Read into buffer.
 
-        srcSamples = min(srcSamples, samplesin);
+        srcSamples = min(srcSamples, samplesIn);
         if (!srcSamples) {
             break;
         }
@@ -273,8 +273,8 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
 
         dstSamples = (((__int64)(srcSamples + holdover - filter_width) << 19) + 0x7ffff - accum) / samp_frac + 1;
 
-        if (dstSamples > samplesout) {
-            dstSamples = samplesout;
+        if (dstSamples > samplesOut) {
+            dstSamples = samplesOut;
         }
 
         if (dstSamples >= 1) {
@@ -286,7 +286,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
 
             output = (void*)((char*)output + bps * dstSamples);
             lActualSamples += dstSamples;
-            samplesout -= dstSamples;
+            samplesOut -= dstSamples;
         }
 
         // We're "shifting" the new samples down to the bottom by discarding
