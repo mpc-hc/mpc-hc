@@ -67,7 +67,9 @@ public:
 
         HDMV_PALETTE    palette[256];
 
-        HDMV_CLUT() { memset(palette, 0, sizeof(palette)); }
+        HDMV_CLUT() : id(0), version_number(0), size(0) {
+            memset(palette, 0, sizeof(palette));
+        }
     };
 
     struct HDMV_PRESENTATION_SEGMENT {
