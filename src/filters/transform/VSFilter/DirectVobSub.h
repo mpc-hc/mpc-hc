@@ -53,6 +53,7 @@ protected:
     bool m_fMediaFPSEnabled;
     double m_MediaFPS;
     bool m_fSaveFullPath;
+	bool m_fSubtitlesOverlapping;
     NORMALIZEDRECT m_ZoomRect;
 
     CComPtr<ISubClock> m_pSubClock;
@@ -88,6 +89,8 @@ public:
     STDMETHODIMP put_OSD(bool fShowOSD);
     STDMETHODIMP get_SaveFullPath(bool* fSaveFullPath);
     STDMETHODIMP put_SaveFullPath(bool fSaveFullPath);
+	STDMETHODIMP get_SubtitlesOverlapping(bool* fSubtitlesOverlapping);
+	STDMETHODIMP put_SubtitlesOverlapping(bool fSubtitlesOverlapping);
     STDMETHODIMP get_SubtitleTiming(int* delay, int* speedmul, int* speeddiv);
     STDMETHODIMP put_SubtitleTiming(int delay, int speedmul, int speeddiv);
     STDMETHODIMP get_MediaFPS(bool* fEnabled, double* fps);

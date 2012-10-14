@@ -54,6 +54,7 @@ BEGIN
     LTEXT           "Credits:\n- SAMI format support by Sanger && Wilowisp of SPKOR\n- Handling of some basic html style modifier tags in SAMI done by [maven]",IDC_STATIC,14,40,218,34
     LTEXT           "- Advanced Text Renderer is using the 'Rasterizer' class \nof Avery Lee's subtitler plugin\n- Command line ppage launcher by @livier",IDC_STATIC,14,74,219,26
     LTEXT           "- Adding hotkeys, Chinese (Taiwan) && Chinese (P.R.C.) localized, Kii Ali <kiiali@cpatch.org>",IDC_STATIC,14,100,206,20
+	LTEXT           "- Subtitles overlapping by Obszczymucha <obszczymucha@gmail.com>",IDC_STATIC,14,118,214,8
 END
 
 IDD_DVSCOLORPAGE DIALOGEX 0, 0, 247, 188
@@ -142,7 +143,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,128,185,10
     LTEXT           " (reloading is disabled while showing the property pages)",IDC_STATIC,26,139,182,8
     CONTROL         "&Save full path into .grf",IDC_SAVEFULLPATH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,154,91,10
-    CONTROL         "Appl&y changes immediately",IDC_INSTANTUPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,171,104,10
+	CONTROL			"Subtitles o&verlapping (requires restart)",IDC_SUBTITLESOVERLAPPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,171,121,10
+    CONTROL         "Appl&y changes immediately",IDC_INSTANTUPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,188,104,10
 END
 
 IDD_DVSPATHSPAGE DIALOGEX 0, 0, 247, 188
@@ -423,6 +425,7 @@ BEGIN
     IDS_R_DEFTEXTPATHES     "DefTextPathes"
     IDS_R_PREFLANGS         "PreferedLanguages"
     IDS_RG_SAVEFULLPATH     "SaveFullPath"
+	IDS_RG_SUBTITLESOVERLAPPING "SubtitlesOverlapping"
     IDS_RG_EXTPIC           "Extpic"
     IDS_RG_MOD32FIX         "Mod32Fix"
 END

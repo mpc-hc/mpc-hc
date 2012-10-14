@@ -607,6 +607,7 @@ CDVSMiscPPage::CDVSMiscPPage(LPUNKNOWN pUnk, HRESULT* phr) :
     BindControl(IDC_AUTORELOAD, m_autoreload);
     BindControl(IDC_SAVEFULLPATH, m_savefullpath);
     BindControl(IDC_INSTANTUPDATE, m_instupd);
+	BindControl(IDC_SUBTITLESOVERLAPPING, m_suboverlapping);
 }
 
 bool CDVSMiscPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -640,6 +641,7 @@ void CDVSMiscPPage::UpdateObjectData(bool fSave)
         m_pDirectVobSub->put_AnimWhenBuffering(m_fAnimWhenBuffering);
         m_pDirectVobSub->put_SubtitleReloader(m_fReloaderDisabled);
         m_pDirectVobSub->put_SaveFullPath(m_fSaveFullPath);
+		m_pDirectVobSub->put_SubtitlesOverlapping(m_fSubtitlesOverlapping);
     } else {
         m_pDirectVobSub->get_Flip(&m_fFlipPicture, &m_fFlipSubtitles);
         m_pDirectVobSub->get_HideSubtitles(&m_fHideSubtitles);
@@ -648,6 +650,7 @@ void CDVSMiscPPage::UpdateObjectData(bool fSave)
         m_pDirectVobSub->get_AnimWhenBuffering(&m_fAnimWhenBuffering);
         m_pDirectVobSub->get_SubtitleReloader(&m_fReloaderDisabled);
         m_pDirectVobSub->get_SaveFullPath(&m_fSaveFullPath);
+		m_pDirectVobSub->get_SubtitlesOverlapping(&m_fSubtitlesOverlapping);
     }
 }
 
@@ -662,6 +665,7 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_fAnimWhenBuffering = !!m_animwhenbuff.GetCheck();
         m_fOSD = !!m_showosd.GetCheck();
         m_fReloaderDisabled = !m_autoreload.GetCheck();
+		m_fSubtitlesOverlapping = !!m_suboverlapping.GetCheck();
     } else {
         m_flippic.SetCheck(m_fFlipPicture);
         m_flipsub.SetCheck(m_fFlipSubtitles);
@@ -673,6 +677,7 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_showosd.SetCheck(m_fOSD);
         m_autoreload.SetCheck(!m_fReloaderDisabled);
         m_instupd.SetCheck(!!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1));
+		m_suboverlapping.SetCheck(m_fSubtitlesOverlapping);
     }
 }
 
@@ -760,7 +765,7 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
         case WM_INITDIALOG: {
-            SetDlgItemText(m_Dlg, IDC_VERSION, _T("DirectVobSub 2.41.") MAKE_STR(MPC_VERSION_REV) _T(" ") MPC_VERSION_ARCH _T("\nCopyright 2001-2012 MPC-HC Team"));
+            SetDlgItemText(m_Dlg, IDC_VERSION, _T("DirectVobSub 2.50.") MAKE_STR(MPC_VERSION_REV) _T(" ") MPC_VERSION_ARCH _T("\nCopyright 2001-2012 MPC-HC Team"));
         }
         break;
         case WM_COMMAND: {
