@@ -24,11 +24,11 @@
 
 
 CompositionObject::CompositionObject()
+    : m_pRLEData(NULL)
+    , m_nRLEDataSize(0)
+    , m_nRLEPos(0)
+    , m_nColorNumber(0)
 {
-    m_pRLEData      = NULL;
-    m_nRLEDataSize  = 0;
-    m_nRLEPos       = 0;
-    m_nColorNumber  = 0;
     memsetd(m_Colors, 0xFF000000, sizeof(m_Colors));
 }
 

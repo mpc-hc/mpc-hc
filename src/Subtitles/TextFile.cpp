@@ -26,9 +26,10 @@
 #include "Utf8.h"
 
 CTextFile::CTextFile(enc e)
+    : m_encoding(e)
+    , m_defaultencoding(e)
+    , m_offset(0)
 {
-    m_encoding = m_defaultencoding = e;
-    m_offset = 0;
 }
 
 bool CTextFile::Open(LPCTSTR lpszFileName)
