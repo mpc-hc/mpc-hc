@@ -71,6 +71,8 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
         if (!__super::Open(lpszFileName, modeRead | typeText | shareDenyNone)) {
             return false;
         }
+    } else if (m_offset == 0) { // No BOM detected, ensure the file is read from the beginning
+        Seek(0, begin);
     }
 
     return true;
