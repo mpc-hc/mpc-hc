@@ -939,9 +939,9 @@ HRESULT COggVorbisOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_
 COggFlacOutputPin::COggFlacOutputPin(BYTE* h, int nCount, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
     : COggSplitterOutputPin(pName, pFilter, pLock, phr)
 {
-    CGolombBuffer   Buffer(h, nCount);
+    CGolombBuffer Buffer(h, nCount);
 
-    Buffer.BitRead(1);      // Last-metadata-block flag
+    Buffer.BitRead(1);              // Last-metadata-block flag
 
     if (Buffer.BitRead(7) != 0) {   // Should be a STREAMINFO block
         if (phr) {

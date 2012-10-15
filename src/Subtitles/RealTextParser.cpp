@@ -42,7 +42,7 @@ bool CRealTextParser::ParseRealText(wstring p_szFile)
 {
     vector<int> vStartTimecodes;
     vector<int> vEndTimecodes;
-    bool bPrevEndTimeMissing(false);
+    bool bPrevEndTimeMissing = false;
     list<Tag> listTags;
     list<Tag> listPreviousOpenTags;
 
@@ -61,7 +61,7 @@ bool CRealTextParser::ParseRealText(wstring p_szFile)
                 int iStartTimecode = GetTimecode(oTag.m_mapAttributes[L"begin"]);
                 int iEndTimecode = GetTimecode(oTag.m_mapAttributes[L"end"]);
 
-                //              FilterReduntantTags(listTags);
+                //FilterReduntantTags(listTags);
                 wstring szLine = RenderTags(listTags);
 
                 if (bPrevEndTimeMissing) {
@@ -134,7 +134,7 @@ bool CRealTextParser::ParseRealText(wstring p_szFile)
     }
 
     // Handle final line
-    //  FilterReduntantTags(listTags);
+    //FilterReduntantTags(listTags);
     wstring szLine = RenderTags(listTags);
 
     if (bPrevEndTimeMissing) {
@@ -573,7 +573,7 @@ void CRealTextParser::PopTag(list<Tag>& p_rlistTags, const wstring& p_crszTagNam
     }
 }
 
-void CRealTextParser::FilterReduntantTags(list<Tag>& p_rlistTags)
+/*void CRealTextParser::FilterReduntantTags(list<Tag>& p_rlistTags)
 {
     list<Tag>::iterator iterPrev;
     for (list<Tag>::iterator iterCurrent = p_rlistTags.begin(); iterCurrent != p_rlistTags.end(); ++iterCurrent) {
@@ -585,4 +585,4 @@ void CRealTextParser::FilterReduntantTags(list<Tag>& p_rlistTags)
         }
         iterPrev = iterCurrent;
     }
-}
+}*/

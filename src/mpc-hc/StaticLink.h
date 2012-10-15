@@ -26,8 +26,8 @@
 class CHyperlink : public CString
 {
 public:
-    CHyperlink(LPCTSTR lpLink = NULL) : CString(lpLink) { }
-    ~CHyperlink() { }
+    CHyperlink(LPCTSTR lpLink = NULL) : CString(lpLink) {}
+    ~CHyperlink() {}
     const CHyperlink& operator=(LPCTSTR lpsz) {
         CString::operator=(lpsz);
         return *this;

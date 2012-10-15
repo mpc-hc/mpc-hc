@@ -32,9 +32,9 @@
 // CPlayerToolBar
 
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
-CPlayerToolBar::CPlayerToolBar() :
-    m_nButtonHeight(16),
-    m_pButtonsImages(NULL)
+CPlayerToolBar::CPlayerToolBar()
+    : m_nButtonHeight(16)
+    , m_pButtonsImages(NULL)
 {
 }
 

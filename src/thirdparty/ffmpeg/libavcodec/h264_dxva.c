@@ -18,7 +18,7 @@
  *
  */
 
-#include <windows.h>
+#include <Windows.h>
 #include <dxva.h>
 
 

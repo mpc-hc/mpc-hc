@@ -62,9 +62,7 @@ public:
     virtual ~CUDPStream();
 
     bool Load(const WCHAR* fnw);
-    const GUID& GetSubType() {
-        return m_subtype;
-    }
+    const GUID& GetSubType() { return m_subtype; }
 
     HRESULT SetPointer(LONGLONG llPos);
     HRESULT Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDWORD pdwBytesRead);

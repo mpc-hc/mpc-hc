@@ -7,8 +7,14 @@
 // CEditWithButton_Base ---------------------------------------------------------------------------
 
 CEditWithButton_Base::CEditWithButton_Base()
-    : m_TopBorder(0), m_BottomBorder(0), m_LeftBorder(0), m_RightBorder(0), m_ButtonWidth(1)
-    , m_IsButtonPressed(false), m_IsMouseActive(false), m_IsButtonHot(false)
+    : m_TopBorder(0)
+    , m_BottomBorder(0)
+    , m_LeftBorder(0)
+    , m_RightBorder(0)
+    , m_ButtonWidth(1)
+    , m_IsButtonPressed(false)
+    , m_IsMouseActive(false)
+    , m_IsButtonHot(false)
 {
 }
 

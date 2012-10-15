@@ -99,9 +99,9 @@ private:
 
     void PopTag(list<Tag>& p_rlistTags, const wstring& p_crszTagName);
 
-    // Filter out for example multiple font tags opened previously (font tags are not always terminated properly in realtext and can build up)
-    void FilterReduntantTags(list<Tag>& p_rlistTags);
-
+    // Filter out for example multiple font tags opened previously
+    // (font tags are not always terminated properly in realtext and can build up)
+    //void FilterReduntantTags(list<Tag>& p_rlistTags);
 
     Subtitles m_RealText;
 

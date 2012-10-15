@@ -58,13 +58,13 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
     ret.RemoveAll();
 
     int extlistnum = _countof(ext);
-    int extsubnum = _countof(ext[0]);
+    int extsubnum  = _countof(ext[0]);
 
     fn.Replace('\\', '/');
 
     bool fWeb = false;
     {
-        //      int i = fn.Find(_T("://"));
+        //int i = fn.Find(_T("://"));
         int i = fn.Find(_T("http://"));
         if (i > 0) {
             fn = _T("http") + fn.Mid(i);

@@ -33,24 +33,24 @@ public:
     CDVBSub(void);
     ~CDVBSub(void);
 
-    virtual HRESULT         ParseSample(IMediaSample* pSample);
-    virtual void            Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
-    virtual HRESULT         GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
-    virtual POSITION        GetStartPosition(REFERENCE_TIME rt, double fps);
-    virtual POSITION        GetNext(POSITION pos);
-    virtual REFERENCE_TIME  GetStart(POSITION nPos);
-    virtual REFERENCE_TIME  GetStop(POSITION nPos);
-    virtual void            Reset();
+    virtual HRESULT        ParseSample(IMediaSample* pSample);
+    virtual void           Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
+    virtual HRESULT        GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
+    virtual POSITION       GetStartPosition(REFERENCE_TIME rt, double fps);
+    virtual POSITION       GetNext(POSITION pos);
+    virtual REFERENCE_TIME GetStart(POSITION nPos);
+    virtual REFERENCE_TIME GetStop(POSITION nPos);
+    virtual void           Reset();
 
     // EN 300-743, table 2
     enum DVB_SEGMENT_TYPE {
-        NO_SEGMENT          = 0xFFFF,
-        PAGE                = 0x10,
-        REGION              = 0x11,
-        CLUT                = 0x12,
-        OBJECT              = 0x13,
-        DISPLAY             = 0x14,
-        END_OF_DISPLAY      = 0x80
+        NO_SEGMENT     = 0xFFFF,
+        PAGE           = 0x10,
+        REGION         = 0x11,
+        CLUT           = 0x12,
+        OBJECT         = 0x13,
+        DISPLAY        = 0x14,
+        END_OF_DISPLAY = 0x80
     };
 
     // EN 300-743, table 6
@@ -61,124 +61,124 @@ public:
     };
 
     enum DVB_PAGE_STATE {
-        DPS_NORMAL          = 0x00,
-        DPS_ACQUISITION     = 0x01,
-        DPS_MODE            = 0x02,
-        DPS_RESERVED        = 0x03
+        DPS_NORMAL      = 0x00,
+        DPS_ACQUISITION = 0x01,
+        DPS_MODE        = 0x02,
+        DPS_RESERVED    = 0x03
     };
 
     struct DVB_CLUT {
-        BYTE            id;
-        BYTE            version_number;
-        BYTE            size;
+        BYTE         id;
+        BYTE         version_number;
+        BYTE         size;
 
-        HDMV_PALETTE    palette[256];
+        HDMV_PALETTE palette[256];
 
         DVB_CLUT() { memset(palette, 0, sizeof(palette)); }
     };
 
     struct DVB_DISPLAY {
-        BYTE            version_number;
-        BYTE            display_window_flag;
-        short           width;
-        short           height;
-        short           horizontal_position_minimun;
-        short           horizontal_position_maximum;
-        short           vertical_position_minimun;
-        short           vertical_position_maximum;
+        BYTE        version_number;
+        BYTE        display_window_flag;
+        short       width;
+        short       height;
+        short       horizontal_position_minimun;
+        short       horizontal_position_maximum;
+        short       vertical_position_minimun;
+        short       vertical_position_maximum;
 
         DVB_DISPLAY() {
             // Default value (§5.1.3)
-            version_number  = 0;
-            width           = 720;
-            height          = 576;
+            version_number = 0;
+            width          = 720;
+            height         = 576;
         }
     };
 
     struct DVB_OBJECT {
-        short           object_id;
-        BYTE            object_type;
-        BYTE            object_provider_flag;
-        short           object_horizontal_position;
-        short           object_vertical_position;
-        BYTE            foreground_pixel_code;
-        BYTE            background_pixel_code;
+        short       object_id;
+        BYTE        object_type;
+        BYTE        object_provider_flag;
+        short       object_horizontal_position;
+        short       object_vertical_position;
+        BYTE        foreground_pixel_code;
+        BYTE        background_pixel_code;
 
         DVB_OBJECT() {
-            object_id                   = 0xFF;
-            object_type                 = 0;
-            object_provider_flag        = 0;
-            object_horizontal_position  = 0;
-            object_vertical_position    = 0;
-            foreground_pixel_code       = 0;
-            background_pixel_code       = 0;
+            object_id                  = 0xFF;
+            object_type                = 0;
+            object_provider_flag       = 0;
+            object_horizontal_position = 0;
+            object_vertical_position   = 0;
+            foreground_pixel_code      = 0;
+            background_pixel_code      = 0;
         }
     };
 
     struct DVB_REGION {
-        BYTE        id;
-        WORD        horizAddr;
-        WORD        vertAddr;
-        BYTE        version_number;
-        BYTE        fill_flag;
-        WORD        width;
-        WORD        height;
-        BYTE        level_of_compatibility;
-        BYTE        depth;
-        BYTE        CLUT_id;
-        BYTE        _8_bit_pixel_code;
-        BYTE        _4_bit_pixel_code;
-        BYTE        _2_bit_pixel_code;
-        int         objectCount;
-        DVB_OBJECT  objects[MAX_OBJECTS];
+        BYTE       id;
+        WORD       horizAddr;
+        WORD       vertAddr;
+        BYTE       version_number;
+        BYTE       fill_flag;
+        WORD       width;
+        WORD       height;
+        BYTE       level_of_compatibility;
+        BYTE       depth;
+        BYTE       CLUT_id;
+        BYTE       _8_bit_pixel_code;
+        BYTE       _4_bit_pixel_code;
+        BYTE       _2_bit_pixel_code;
+        int        objectCount;
+        DVB_OBJECT objects[MAX_OBJECTS];
 
         DVB_REGION() {
-            id                      = 0;
-            horizAddr               = 0;
-            vertAddr                = 0;
-            version_number          = 0;
-            fill_flag               = 0;
-            width                   = 0;
-            height                  = 0;
-            level_of_compatibility  = 0;
-            depth                   = 0;
-            CLUT_id                 = 0;
-            _8_bit_pixel_code       = 0;
-            _4_bit_pixel_code       = 0;
-            _2_bit_pixel_code       = 0;
+            id                     = 0;
+            horizAddr              = 0;
+            vertAddr               = 0;
+            version_number         = 0;
+            fill_flag              = 0;
+            width                  = 0;
+            height                 = 0;
+            level_of_compatibility = 0;
+            depth                  = 0;
+            CLUT_id                = 0;
+            _8_bit_pixel_code      = 0;
+            _4_bit_pixel_code      = 0;
+            _2_bit_pixel_code      = 0;
         }
     };
 
     class DVB_PAGE
     {
     public:
-        REFERENCE_TIME                  rtStart;
-        REFERENCE_TIME                  rtStop;
-        BYTE                            pageTimeOut;
-        BYTE                            pageVersionNumber;
-        BYTE                            pageState;
-        int                             regionCount;
-        DVB_REGION                      regions[MAX_REGIONS];
-        CAtlList<CompositionObject*>    objects;
-        CAtlList<DVB_CLUT*>             CLUTs;
-        bool                            rendered;
+        REFERENCE_TIME               rtStart;
+        REFERENCE_TIME               rtStop;
+        BYTE                         pageTimeOut;
+        BYTE                         pageVersionNumber;
+        BYTE                         pageState;
+        int                          regionCount;
+        DVB_REGION                   regions[MAX_REGIONS];
+        CAtlList<CompositionObject*> objects;
+        CAtlList<DVB_CLUT*>          CLUTs;
+        bool                         rendered;
 
         DVB_PAGE() {
-            pageTimeOut         = 0;
-            pageVersionNumber   = 0;
-            pageState           = 0;
-            regionCount         = 0;
-            rendered            = false;
+            pageTimeOut       = 0;
+            pageVersionNumber = 0;
+            pageState         = 0;
+            regionCount       = 0;
+            rendered          = false;
         }
 
         ~DVB_PAGE() {
-            CompositionObject*  pObject;
+            CompositionObject* pObject;
             while (objects.GetCount() > 0) {
                 pObject = objects.RemoveHead();
                 delete pObject;
             }
 
-            DVB_CLUT*  pCLUT;
+            DVB_CLUT* pCLUT;
             while (CLUTs.GetCount() > 0) {
                 pCLUT = CLUTs.RemoveHead();
                 delete pCLUT;

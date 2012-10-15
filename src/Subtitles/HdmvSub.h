@@ -55,17 +55,17 @@ public:
     };
 
     struct SEQUENCE_DESCRIPTOR {
-        BYTE  bFirstIn  : 1;
-        BYTE  bLastIn   : 1;
-        BYTE  bReserved : 6;
+        BYTE bFirstIn  : 1;
+        BYTE bLastIn   : 1;
+        BYTE bReserved : 6;
     };
 
     struct HDMV_CLUT {
-        BYTE            id;
-        BYTE            version_number;
-        BYTE            size;
+        BYTE         id;
+        BYTE         version_number;
+        BYTE         size;
 
-        HDMV_PALETTE    palette[256];
+        HDMV_PALETTE palette[256];
 
         HDMV_CLUT() : id(0), version_number(0), size(0) {
             memset(palette, 0, sizeof(palette));
@@ -87,7 +87,7 @@ public:
         CAtlList<CompositionObject*> objects;
 
         ~HDMV_PRESENTATION_SEGMENT() {
-            CompositionObject*  pObject;
+            CompositionObject* pObject;
             while (objects.GetCount() > 0) {
                 pObject = objects.RemoveHead();
                 delete pObject;
@@ -98,11 +98,10 @@ public:
     CHdmvSub();
     ~CHdmvSub();
 
-    HRESULT   ParseSample(IMediaSample* pSample);
+    HRESULT ParseSample(IMediaSample* pSample);
 
-
-    POSITION  GetStartPosition(REFERENCE_TIME rt, double fps);
-    POSITION  GetNext(POSITION pos) {
+    POSITION GetStartPosition(REFERENCE_TIME rt, double fps);
+    POSITION GetNext(POSITION pos) {
         m_pPresentationSegments.GetNext(pos);
         return pos;
     };
@@ -117,37 +116,37 @@ public:
         return pPresentationSegment != NULL ? pPresentationSegment->rtStop : INVALID_TIME;
     };
 
-    void      Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
-    HRESULT   GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
-    void      Reset();
+    void    Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
+    HRESULT GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
+    void    Reset();
 
 private:
 
-    HDMV_SEGMENT_TYPE            m_nCurSegment;
-    BYTE*                        m_pSegBuffer;
-    int                          m_nTotalSegBuffer;
-    int                          m_nSegBufferPos;
-    int                          m_nSegSize;
+    HDMV_SEGMENT_TYPE m_nCurSegment;
+    BYTE*             m_pSegBuffer;
+    int               m_nTotalSegBuffer;
+    int               m_nSegBufferPos;
+    int               m_nSegSize;
 
     HDMV_PRESENTATION_SEGMENT*           m_pCurrentPresentationSegment;
     CAtlList<HDMV_PRESENTATION_SEGMENT*> m_pPresentationSegments;
 
-    HDMV_CLUT                    m_CLUTs[256];
-    CompositionObject            m_compositionObjects[64];
+    HDMV_CLUT m_CLUTs[256];
+    CompositionObject m_compositionObjects[64];
 
 
-    int                 ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer);
-    void                EnqueuePresentationSegment(REFERENCE_TIME rt);
+    int       ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer);
+    void      EnqueuePresentationSegment(REFERENCE_TIME rt);
 
-    void                ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize);
-    void                ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize);
+    void      ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize);
+    void      ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize);
 
-    void                ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
-    void                ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
-    void                ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
+    void      ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
+    void      ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
+    void      ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
 
-    void                AllocSegment(int nSize);
+    void      AllocSegment(int nSize);
 
     HDMV_PRESENTATION_SEGMENT* FindPresentationSegment(REFERENCE_TIME rt);
-    CompositionObject*  FindObject(HDMV_PRESENTATION_SEGMENT* pPresentationSegment, short sObjectId);
+    CompositionObject* FindObject(HDMV_PRESENTATION_SEGMENT* pPresentationSegment, short sObjectId);
 };

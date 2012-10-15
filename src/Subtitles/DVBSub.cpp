@@ -229,7 +229,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                 WORD wPageId;
                 WORD wSegLength;
 
-                nCurSegment = (DVB_SEGMENT_TYPE) gb.ReadByte();
+                nCurSegment = (DVB_SEGMENT_TYPE)gb.ReadByte();
                 wPageId = gb.ReadShort();
                 wSegLength = gb.ReadShort();
 
@@ -240,7 +240,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
 
                 switch (nCurSegment) {
                     case PAGE: {
-                        CAutoPtr<DVB_PAGE>  pPage;
+                        CAutoPtr<DVB_PAGE> pPage;
                         ParsePage(gb, wSegLength, pPage);
 
                         if (pPage->pageState == DPS_ACQUISITION) {

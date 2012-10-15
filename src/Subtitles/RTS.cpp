@@ -66,11 +66,18 @@ CMyFont::CMyFont(STSStyle& style)
 // CWord
 
 CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
-    : m_style(style), m_str(str)
-    , m_width(0), m_ascent(0), m_descent(0)
-    , m_ktype(ktype), m_kstart(kstart), m_kend(kend)
-    , m_fDrawn(false), m_p(INT_MAX, INT_MAX)
-    , m_fLineBreak(false), m_fWhiteSpaceChar(false)
+    : m_style(style)
+    , m_str(str)
+    , m_width(0)
+    , m_ascent(0)
+    , m_descent(0)
+    , m_ktype(ktype)
+    , m_kstart(kstart)
+    , m_kend(kend)
+    , m_fDrawn(false)
+    , m_p(INT_MAX, INT_MAX)
+    , m_fLineBreak(false)
+    , m_fWhiteSpaceChar(false)
     , m_pOpaqueBox(NULL)
 {
     if (str.IsEmpty()) {

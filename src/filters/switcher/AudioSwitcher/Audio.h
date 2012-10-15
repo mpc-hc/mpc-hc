@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include <windows.h>
-#include <MMREG.H>
+#include <Windows.h>
+#include <MMReg.h>
 #include <mmsystem.h>
 #include <msacm.h>
 

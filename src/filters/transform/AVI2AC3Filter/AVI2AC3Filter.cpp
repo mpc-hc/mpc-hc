@@ -310,7 +310,7 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
                 }
 
                 memcpy(pOut, pIn, len);
-                pIn += len;
+                pIn  += len;
                 pOut += len;
             }
         }
