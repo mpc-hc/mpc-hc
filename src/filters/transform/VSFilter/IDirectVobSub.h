@@ -142,6 +142,14 @@ IDirectVobSub :
                                     bool fSaveFullPath
                                    ) PURE;
 
+        STDMETHOD(get_SubtitlesOverlapping)(THIS_
+                                            bool* fSubtitlesOverlapping
+                                           ) PURE;
+
+        STDMETHOD(put_SubtitlesOverlapping)(THIS_
+                                            bool fSubtitlesOverlapping
+                                           ) PURE;
+
         STDMETHOD(get_SubtitleTiming)(THIS_
                                       int* delay,
                                       int* speedmul,

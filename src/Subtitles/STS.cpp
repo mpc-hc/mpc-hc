@@ -2489,6 +2489,11 @@ static int intcomp(const void* i1, const void* i2)
 
 void CSimpleTextSubtitle::CreateSegments()
 {
+    CreateSegments(false);
+}
+
+void CSimpleTextSubtitle::CreateSegments(bool preventOverlapping)
+{
     m_segments.RemoveAll();
 
     size_t i, j;
@@ -2497,6 +2502,15 @@ void CSimpleTextSubtitle::CreateSegments()
 
     for (i = 0; i < GetCount(); i++) {
         STSEntry& stse = GetAt(i);
+
+        if (preventOverlapping && i + 1 < GetCount()) {
+            STSEntry& nextEntry = GetAt(i + 1);
+
+            if (stse.end >= nextEntry.start) {
+                stse.end = nextEntry.start - 1;
+            }
+        }
+
         breakpoints.Add(stse.start);
         breakpoints.Add(stse.end);
     }
@@ -2540,7 +2554,12 @@ void CSimpleTextSubtitle::CreateSegments()
     */
 }
 
-bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
+bool CSimpleTextSubtitle::Open(CString fn, int CharSet, bool preventOverlapping)
+{
+    return Open(fn, CharSet, _T(""), preventOverlapping);
+}
+
+bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, bool preventOverlapping)
 {
     Empty();
 
@@ -2560,7 +2579,7 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
         }
     }
 
-    return Open(&f, CharSet, name);
+    return Open(&f, CharSet, name, preventOverlapping);
 }
 
 static int CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to)
@@ -2575,6 +2594,11 @@ static int CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to)
 }
 
 bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
+{
+    return Open(f, CharSet, name, false);
+}
+
+bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name, bool preventOverlapping)
 {
     Empty();
 
@@ -2603,7 +2627,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
         m_path = f->GetFilePath();
 
         //      Sort();
-        CreateSegments();
+        CreateSegments(preventOverlapping);
         CWebTextFile f2(CTextFile::UTF8);
         if (f2.Open(f->GetFilePath() + _T(".style"))) {
             OpenSubStationAlpha(&f2, *this, CharSet);
