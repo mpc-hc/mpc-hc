@@ -102,6 +102,8 @@ public:
     STDMETHODIMP put_ZoomRect(NORMALIZEDRECT* rect);
     STDMETHODIMP HasConfigDialog(int iSelected);
     STDMETHODIMP ShowConfigDialog(int iSelected, HWND hWndParent);
+    STDMETHODIMP get_SubtitleOverlapping(bool* subtitleOverlapping);
+    STDMETHODIMP put_SubtitleOverlapping(bool subtitleOverlapping);
 
     // IDirectVobSub2
     STDMETHODIMP put_TextSettings(STSStyle* pDefStyle);

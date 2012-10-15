@@ -78,6 +78,7 @@
 #define IDS_RT_PAR_ACCURATE_SIZE        174
 #define IDS_RG_SUBPICTTOBUFFER          175
 #define IDS_RG_ANIMWHENBUFFERING        176
+#define IDS_RG_SUBTITLEOVERLAPPING      177
 #define IDC_FILENAME                    201
 #define IDD_DVSMAINPAGE                 201
 #define IDC_OPEN                        202
@@ -155,6 +156,7 @@
 #define IDC_COMBO1                      312
 #define IDC_PARCOMBO                    314
 #define IDC_VERSION                     315
+#define IDC_SUBTITLEOVERLAPPING         316
 #define IDC_SLIDER2                     1020
 #define IDC_SLIDER3                     1021
 #define IDC_RADIO1                      1022

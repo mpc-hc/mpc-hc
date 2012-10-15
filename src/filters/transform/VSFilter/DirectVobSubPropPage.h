@@ -117,10 +117,10 @@ public:
 class __declspec(uuid("A8B25C0E-0894-4531-B668-AB1599FAF7F6"))
     CDVSMiscPPage : public CDVSBasePPage
 {
-    bool m_fFlipPicture, m_fFlipSubtitles, m_fHideSubtitles, m_fOSD, m_fAnimWhenBuffering, m_fReloaderDisabled, m_fSaveFullPath;
+    bool m_fFlipPicture, m_fFlipSubtitles, m_fHideSubtitles, m_fOSD, m_fAnimWhenBuffering, m_fReloaderDisabled, m_fSaveFullPath, m_subtitleOverlapping;
     unsigned int m_uSubPictToBuffer;
 
-    CButton m_flippic, m_flipsub, m_hidesub, m_showosd, m_animwhenbuff, m_autoreload, m_savefullpath, m_instupd;
+    CButton m_flippic, m_flipsub, m_hidesub, m_showosd, m_animwhenbuff, m_autoreload, m_savefullpath, m_instupd, m_suboverlapping;
     CSpinButtonCtrl m_subpicttobuff;
 
 protected:

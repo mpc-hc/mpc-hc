@@ -265,6 +265,14 @@ IDirectVobSub :
         STDMETHOD(put_AnimWhenBuffering)(THIS_
                                          bool fAnimWhenBuffering
                                         ) PURE;
+
+        STDMETHOD(get_SubtitleOverlapping)(THIS_
+                                           bool* subtitleOverlapping
+                                          ) PURE;
+
+        STDMETHOD(put_SubtitleOverlapping)(THIS_
+                                           bool subtitleOverlapping
+                                          ) PURE;
     };
 
     interface __declspec(uuid("FE6EC6A0-21CA-4970-9EF0-B296F7F38AF0"))

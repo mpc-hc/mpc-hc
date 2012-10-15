@@ -146,6 +146,9 @@ public:
     EPARCompensationType m_ePARCompensationType;
     double m_dPARCompensation;
 
+protected:
+    bool m_subtitleOverlapping;
+
 public:
     CSimpleTextSubtitle();
     virtual ~CSimpleTextSubtitle();
@@ -191,6 +194,8 @@ public:
     int GetCharSet(int i);
     bool IsEntryUnicode(int i);
     void ConvertUnicode(int i, bool fUnicode);
+
+    void SetSubtitleOverlapping(bool subtitleOverlapping) { m_subtitleOverlapping = subtitleOverlapping; }
 
     CStringA GetStrA(int i, bool fSSA = false);
     CStringW GetStrW(int i, bool fSSA = false);

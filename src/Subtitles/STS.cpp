@@ -1818,6 +1818,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     m_lcid = 0;
     m_ePARCompensationType = EPCTDisabled;
     m_dPARCompensation = 1.0;
+    m_subtitleOverlapping = true;
 }
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
