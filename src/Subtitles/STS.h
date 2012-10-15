@@ -155,11 +155,11 @@ public:
 
     void Sort(bool fRestoreReadorder = false);
     void CreateSegments();
-	void CreateSegments(bool preventOverlapping);
+    void CreateSegments(bool preventOverlapping);
 
     void Append(CSimpleTextSubtitle& sts, int timeoff = -1);
 
-	bool Open(CString fn, int CharSet, bool preventOverlapping);
+    bool Open(CString fn, int CharSet, bool preventOverlapping);
     bool Open(CString fn, int CharSet, CString name = _T(""), bool preventOverlapping = false);
     bool Open(CTextFile* f, int CharSet, CString name);
     bool Open(CTextFile* f, int CharSet, CString name, bool preventOverlapping);

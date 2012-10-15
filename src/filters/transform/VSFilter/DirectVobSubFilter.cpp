@@ -1450,12 +1450,12 @@ bool CDirectVobSubFilter::Open()
             }
         }
 
-		bool subtitlesOverlapping = true;
-		CDirectVobSub::get_SubtitlesOverlapping(&subtitlesOverlapping);
+        bool subtitlesOverlapping = true;
+        CDirectVobSub::get_SubtitlesOverlapping(&subtitlesOverlapping);
 
         if (!pSubStream) {
             CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock));
-			if (pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET, !subtitlesOverlapping) && pRTS->GetStreamCount() > 0) {
+            if (pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET, !subtitlesOverlapping) && pRTS->GetStreamCount() > 0) {
                 pSubStream = pRTS.Detach();
                 m_frd.files.AddTail(ret[i].fn + _T(".style"));
             }

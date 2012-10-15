@@ -2487,8 +2487,9 @@ static int intcomp(const void* i1, const void* i2)
     return (*((int*)i1) - * ((int*)i2));
 }
 
-void CSimpleTextSubtitle::CreateSegments() {
-	CreateSegments(false);
+void CSimpleTextSubtitle::CreateSegments()
+{
+    CreateSegments(false);
 }
 
 void CSimpleTextSubtitle::CreateSegments(bool preventOverlapping)
@@ -2502,13 +2503,13 @@ void CSimpleTextSubtitle::CreateSegments(bool preventOverlapping)
     for (i = 0; i < GetCount(); i++) {
         STSEntry& stse = GetAt(i);
 
-		if (preventOverlapping && i + 1 < GetCount()) {
-			STSEntry& nextEntry = GetAt(i + 1);
+        if (preventOverlapping && i + 1 < GetCount()) {
+            STSEntry& nextEntry = GetAt(i + 1);
 
-			if (stse.end >= nextEntry.start) {
-				stse.end = nextEntry.start - 1;
-			}
-		}
+            if (stse.end >= nextEntry.start) {
+                stse.end = nextEntry.start - 1;
+            }
+        }
 
         breakpoints.Add(stse.start);
         breakpoints.Add(stse.end);
@@ -2553,15 +2554,16 @@ void CSimpleTextSubtitle::CreateSegments(bool preventOverlapping)
     */
 }
 
-bool CSimpleTextSubtitle::Open(CString fn, int CharSet, bool preventOverlapping) {
-	return Open(fn, CharSet, _T(""), preventOverlapping);
+bool CSimpleTextSubtitle::Open(CString fn, int CharSet, bool preventOverlapping)
+{
+    return Open(fn, CharSet, _T(""), preventOverlapping);
 }
 
 bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, bool preventOverlapping)
 {
     Empty();
 
-    CWebTextFile f;
+    CWebTextFile f(CTextFile::UTF8);
     if (!f.Open(fn)) {
         return false;
     }
@@ -2591,8 +2593,9 @@ static int CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to)
     return n;
 }
 
-bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
-	return Open(f, CharSet, name, false);
+bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
+{
+    return Open(f, CharSet, name, false);
 }
 
 bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name, bool preventOverlapping)
@@ -2625,7 +2628,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name, bool pre
 
         //      Sort();
         CreateSegments(preventOverlapping);
-        CWebTextFile f2;
+        CWebTextFile f2(CTextFile::UTF8);
         if (f2.Open(f->GetFilePath() + _T(".style"))) {
             OpenSubStationAlpha(&f2, *this, CharSet);
         }

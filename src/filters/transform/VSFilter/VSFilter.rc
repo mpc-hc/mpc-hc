@@ -54,7 +54,6 @@ BEGIN
     LTEXT           "Credits:\n- SAMI format support by Sanger && Wilowisp of SPKOR\n- Handling of some basic html style modifier tags in SAMI done by [maven]",IDC_STATIC,14,40,218,34
     LTEXT           "- Advanced Text Renderer is using the 'Rasterizer' class \nof Avery Lee's subtitler plugin\n- Command line ppage launcher by @livier",IDC_STATIC,14,74,219,26
     LTEXT           "- Adding hotkeys, Chinese (Taiwan) && Chinese (P.R.C.) localized, Kii Ali <kiiali@cpatch.org>",IDC_STATIC,14,100,206,20
-	LTEXT           "- Subtitles overlapping by Obszczymucha <obszczymucha@gmail.com>",IDC_STATIC,14,118,214,8
 END
 
 IDD_DVSCOLORPAGE DIALOGEX 0, 0, 247, 188
