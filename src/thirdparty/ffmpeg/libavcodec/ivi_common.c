@@ -27,10 +27,11 @@
  */
 
 #define BITSTREAM_READER_LE
+#include "libavutil/attributes.h"
 #include "avcodec.h"
 #include "get_bits.h"
+#include "mathops.h"
 #include "ivi_common.h"
-#include "libavutil/common.h"
 #include "ivi_dsp.h"
 
 extern const IVIHuffDesc ff_ivi_mb_huff_desc[8];  ///< static macroblock huffman tables
@@ -48,9 +49,9 @@ static uint16_t inv_bits(uint16_t val, int nbits)
     uint16_t res;
 
     if (nbits <= 8) {
-        res = av_reverse[val] >> (8-nbits);
+        res = ff_reverse[val] >> (8-nbits);
     } else
-        res = ((av_reverse[val & 0xFF] << 8) + (av_reverse[val >> 8])) >> (16-nbits);
+        res = ((ff_reverse[val & 0xFF] << 8) + (ff_reverse[val >> 8])) >> (16-nbits);
 
     return res;
 }
@@ -830,9 +831,9 @@ int ff_ivi_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
 
     if (ctx->is_scalable) {
         if (avctx->codec_id == AV_CODEC_ID_INDEO4)
-            ff_ivi_recompose_haar(&ctx->planes[0], ctx->frame.data[0], ctx->frame.linesize[0], 4);
+            ff_ivi_recompose_haar(&ctx->planes[0], ctx->frame.data[0], ctx->frame.linesize[0]);
         else
-            ff_ivi_recompose53   (&ctx->planes[0], ctx->frame.data[0], ctx->frame.linesize[0], 4);
+            ff_ivi_recompose53   (&ctx->planes[0], ctx->frame.data[0], ctx->frame.linesize[0]);
     } else {
         ff_ivi_output_plane(&ctx->planes[0], ctx->frame.data[0], ctx->frame.linesize[0]);
     }

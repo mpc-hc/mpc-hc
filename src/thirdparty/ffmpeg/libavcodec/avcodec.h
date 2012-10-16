@@ -291,6 +291,7 @@ enum AVCodecID {
     AV_CODEC_ID_PAF_VIDEO  = MKBETAG('P','A','F','V'),
     AV_CODEC_ID_AVRN       = MKBETAG('A','V','R','n'),
     AV_CODEC_ID_CPIA       = MKBETAG('C','P','I','A'),
+    AV_CODEC_ID_XFACE      = MKBETAG('X','F','A','C'),
 
     /* various PCM "codecs" */
     AV_CODEC_ID_FIRST_AUDIO = 0x10000,     ///< A dummy id pointing at the start of audio codecs
@@ -1073,7 +1074,7 @@ typedef struct AVFrame {
      * extended_data must be used by the decoder in order to access all
      * channels.
      *
-     * encoding: unused
+     * encoding: set by user
      * decoding: set by AVCodecContext.get_buffer()
      */
     uint8_t **extended_data;
@@ -1480,9 +1481,11 @@ enum AVFieldOrder {
  * applications.
  * sizeof(AVCodecContext) must not be used outside libav*.
  */
+
 // ==> Start patch MPC
 struct TlibavcodecExt;
 // <== End patch MPC
+
 typedef struct AVCodecContext {
     /**
      * information on struct for av_log
@@ -2248,7 +2251,7 @@ typedef struct AVCodecContext {
 
     /** Field order
      * - encoding: set by libavcodec
-     * - decoding: Set by libavcodec
+     * - decoding: Set by user.
      */
     enum AVFieldOrder field_order;
 
@@ -2814,7 +2817,9 @@ typedef struct AVCodecContext {
 #define FF_IDCT_SIMPLE        2
 #define FF_IDCT_SIMPLEMMX     3
 #define FF_IDCT_LIBMPEG2MMX   4
+#if FF_API_MMI
 #define FF_IDCT_MMI           5
+#endif
 #define FF_IDCT_ARM           7
 #define FF_IDCT_ALTIVEC       8
 #define FF_IDCT_SH4           9
@@ -4972,7 +4977,7 @@ const AVCodecDescriptor *avcodec_descriptor_get_by_name(const char *name);
  * ffdshow custom stuff
  *
  * @param[out] recovery_frame_cnt. Valid only if GDR.
- * @return   0: no recovery point, 1:I-frame 2:Recovery Point SEI (GDR), 3:IDR, -1:error
+ * @return   0: no recovery point, 1: I-frame, 2: Recovery Point SEI (GDR), 3: IDR, -1: error
  */
 FF_EXPORT int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
                          const uint8_t *buf, int buf_size, int *recovery_frame_cnt);

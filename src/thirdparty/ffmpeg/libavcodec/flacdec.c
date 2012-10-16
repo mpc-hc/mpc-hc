@@ -370,7 +370,7 @@ static inline int decode_subframe(FLACContext *s, int channel)
     }
     if (bps > 32) {
         av_log_missing_feature(s->avctx, "decorrelated bit depth > 32", 0);
-        return -1;
+        return AVERROR_PATCHWELCOME;
     }
 
 //FIXME use av_log2 for types
@@ -573,5 +573,5 @@ AVCodec ff_flac_decoder = {
                                                       AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_S32,
                                                       AV_SAMPLE_FMT_S32P,
-                                                      -1 },
+                                                      AV_SAMPLE_FMT_NONE },
 };

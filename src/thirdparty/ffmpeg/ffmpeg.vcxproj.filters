@@ -195,9 +195,6 @@
     <ClCompile Include="libavutil\intfloat_readwrite.c">
       <Filter>libavutil</Filter>
     </ClCompile>
-    <ClCompile Include="libavutil\inverse.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
     <ClCompile Include="libavutil\lfg.c">
       <Filter>libavutil</Filter>
     </ClCompile>
@@ -547,6 +544,9 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\lsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\mathtables.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\mdct.c">
@@ -939,6 +939,15 @@
     <ClCompile Include="libavcodec\latm_parser.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\x86\vc1dsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\log2_tab.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavutil\log2_tab.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
@@ -1093,9 +1102,6 @@
       <Filter>libavutil\x86</Filter>
     </ClInclude>
     <ClInclude Include="libavutil\x86\cpu.h">
-      <Filter>libavutil\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavutil\x86\intmath.h">
       <Filter>libavutil\x86</Filter>
     </ClInclude>
     <ClInclude Include="libavutil\x86\intreadwrite.h">
@@ -1658,6 +1664,15 @@
     </ClInclude>
     <ClInclude Include="libavcodec\x86\vp56_arith.h">
       <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\x86\vc1dsp.h">
+      <Filter>libavcodec\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\mlpdsp.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\old_codec_ids.h">
+      <Filter>libavcodec</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

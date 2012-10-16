@@ -66,13 +66,14 @@ static void hScale16To19_c(SwsContext *c, int16_t *_dst, int dstW,
                            const uint8_t *_src, const int16_t *filter,
                            const int32_t *filterPos, int filterSize)
 {
+    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(c->srcFormat);
     int i;
     int32_t *dst        = (int32_t *) _dst;
     const uint16_t *src = (const uint16_t *) _src;
-    int bits            = av_pix_fmt_descriptors[c->srcFormat].comp[0].depth_minus1;
+    int bits            = desc->comp[0].depth_minus1;
     int sh              = bits - 4;
 
-    if((isAnyRGB(c->srcFormat) || c->srcFormat==AV_PIX_FMT_PAL8) && av_pix_fmt_descriptors[c->srcFormat].comp[0].depth_minus1<15)
+    if((isAnyRGB(c->srcFormat) || c->srcFormat==AV_PIX_FMT_PAL8) && desc->comp[0].depth_minus1<15)
         sh= 9;
 
     for (i = 0; i < dstW; i++) {
@@ -92,12 +93,13 @@ static void hScale16To15_c(SwsContext *c, int16_t *dst, int dstW,
                            const uint8_t *_src, const int16_t *filter,
                            const int32_t *filterPos, int filterSize)
 {
+    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(c->srcFormat);
     int i;
     const uint16_t *src = (const uint16_t *) _src;
-    int sh              = av_pix_fmt_descriptors[c->srcFormat].comp[0].depth_minus1;
+    int sh              = desc->comp[0].depth_minus1;
 
     if(sh<15)
-        sh= isAnyRGB(c->srcFormat) || c->srcFormat==AV_PIX_FMT_PAL8 ? 13 : av_pix_fmt_descriptors[c->srcFormat].comp[0].depth_minus1;
+        sh= isAnyRGB(c->srcFormat) || c->srcFormat==AV_PIX_FMT_PAL8 ? 13 : desc->comp[0].depth_minus1;
 
     for (i = 0; i < dstW; i++) {
         int j;
@@ -755,7 +757,7 @@ static void reset_ptr(const uint8_t *src[], int format)
 static int check_image_pointers(const uint8_t * const data[4], enum AVPixelFormat pix_fmt,
                                 const int linesizes[4])
 {
-    const AVPixFmtDescriptor *desc = &av_pix_fmt_descriptors[pix_fmt];
+    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(pix_fmt);
     int i;
 
     for (i = 0; i < 4; i++) {
@@ -846,33 +848,33 @@ int attribute_align_arg sws_scale(struct SwsContext *c,
             y = av_clip_uint8((RY * r + GY * g + BY * b + ( 33 << (RGB2YUV_SHIFT - 1))) >> RGB2YUV_SHIFT);
             u = av_clip_uint8((RU * r + GU * g + BU * b + (257 << (RGB2YUV_SHIFT - 1))) >> RGB2YUV_SHIFT);
             v = av_clip_uint8((RV * r + GV * g + BV * b + (257 << (RGB2YUV_SHIFT - 1))) >> RGB2YUV_SHIFT);
-            c->pal_yuv[i]= y + (u<<8) + (v<<16) + (a<<24);
+            c->pal_yuv[i]= y + (u<<8) + (v<<16) + ((unsigned)a<<24);
 
             switch (c->dstFormat) {
             case AV_PIX_FMT_BGR32:
 #if !HAVE_BIGENDIAN
             case AV_PIX_FMT_RGB24:
 #endif
-                c->pal_rgb[i]=  r + (g<<8) + (b<<16) + (a<<24);
+                c->pal_rgb[i]=  r + (g<<8) + (b<<16) + ((unsigned)a<<24);
                 break;
             case AV_PIX_FMT_BGR32_1:
 #if HAVE_BIGENDIAN
             case AV_PIX_FMT_BGR24:
 #endif
-                c->pal_rgb[i]= a + (r<<8) + (g<<16) + (b<<24);
+                c->pal_rgb[i]= a + (r<<8) + (g<<16) + ((unsigned)b<<24);
                 break;
             case AV_PIX_FMT_RGB32_1:
 #if HAVE_BIGENDIAN
             case AV_PIX_FMT_RGB24:
 #endif
-                c->pal_rgb[i]= a + (b<<8) + (g<<16) + (r<<24);
+                c->pal_rgb[i]= a + (b<<8) + (g<<16) + ((unsigned)r<<24);
                 break;
             case AV_PIX_FMT_RGB32:
 #if !HAVE_BIGENDIAN
             case AV_PIX_FMT_BGR24:
 #endif
             default:
-                c->pal_rgb[i]=  b + (g<<8) + (r<<16) + (a<<24);
+                c->pal_rgb[i]=  b + (g<<8) + (r<<16) + ((unsigned)a<<24);
             }
         }
     }

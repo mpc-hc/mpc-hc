@@ -585,7 +585,7 @@ int ff_vc1_parse_frame_header(VC1Context *v, GetBitContext* gb)
         v->interpfrm = get_bits1(gb);
     if (!v->s.avctx->codec)
         return -1;
-    if (v->s.avctx->codec->id == AV_CODEC_ID_MSS2)
+    if (v->s.avctx->codec_id == AV_CODEC_ID_MSS2)
         v->respic   =
         v->rangered =
         v->multires = get_bits(gb, 2) == 1;
@@ -1272,6 +1272,11 @@ int ff_vc1_parse_frame_header_adv(VC1Context *v, GetBitContext* gb)
             v->ttfrm = TT_8X8;
         }
         break;
+    }
+
+    if (v->fcm != PROGRESSIVE && !v->s.quarter_sample) {
+        v->range_x <<= 1;
+        v->range_y <<= 1;
     }
 
     /* AC Syntax */

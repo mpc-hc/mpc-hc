@@ -179,7 +179,9 @@ SRCS_C = \
     libavcodec/jrevdct.c \
     libavcodec/kbdwin.c \
     libavcodec/latm_parser.c \
+    libavcodec/log2_tab.c \
     libavcodec/lsp.c \
+    libavcodec/mathtables.c \
     libavcodec/mdct.c \
     libavcodec/mjpeg.c \
     libavcodec/mjpegbdec.c \
@@ -279,6 +281,7 @@ SRCS_C = \
     libavcodec/x86/rv40dsp_init.c \
     libavcodec/x86/sbrdsp_init.c \
     libavcodec/x86/simple_idct.c \
+    libavcodec/x86/vc1dsp_init.c \
     libavcodec/x86/vc1dsp_mmx.c \
     libavcodec/x86/vp3dsp_init.c \
     libavcodec/x86/vp56dsp_init.c \
@@ -306,7 +309,6 @@ SRCS_C = \
     libavutil/float_dsp.c \
     libavutil/imgutils.c \
     libavutil/intfloat_readwrite.c \
-    libavutil/inverse.c \
     libavutil/lfg.c \
     libavutil/log.c \
     libavutil/mathematics.c \

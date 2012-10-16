@@ -2453,7 +2453,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
 
     if(must_reinit && (h != h0 || (s->avctx->active_thread_type & FF_THREAD_FRAME))) {
         av_log_missing_feature(s->avctx,
-                                "Width/height/bit depth/chroma idc changing with threads is", 0);
+                                "Width/height/bit depth/chroma idc changing with threads", 0);
         return AVERROR_PATCHWELCOME;   // width / height changed during parallelized decoding
     }
 
@@ -4223,17 +4223,17 @@ static const AVOption h264_options[] = {
 };
 
 static const AVClass h264_class = {
-    "H264 Decoder",
-    av_default_item_name,
-    h264_options,
-    LIBAVUTIL_VERSION_INT,
+    .class_name = "H264 Decoder",
+    .item_name  = av_default_item_name,
+    .option     = h264_options,
+    .version    = LIBAVUTIL_VERSION_INT,
 };
 
 static const AVClass h264_vdpau_class = {
-    "H264 VDPAU Decoder",
-    av_default_item_name,
-    h264_options,
-    LIBAVUTIL_VERSION_INT,
+    .class_name = "H264 VDPAU Decoder",
+    .item_name  = av_default_item_name,
+    .option     = h264_options,
+    .version    = LIBAVUTIL_VERSION_INT,
 };
 
 AVCodec ff_h264_decoder = {

@@ -289,7 +289,8 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
 
 void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height)
 {
-    int chroma_shift = av_pix_fmt_descriptors[s->pix_fmt].log2_chroma_w;
+    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(s->pix_fmt);
+    int chroma_shift = desc->log2_chroma_w;
     int linesize_align[AV_NUM_DATA_POINTERS];
     int align;
 
@@ -313,9 +314,6 @@ void ff_init_buffer_info(AVCodecContext *s, AVFrame *frame)
         frame->pkt_duration = 0;
     }
     frame->reordered_opaque = s->reordered_opaque;
-    // ==> Start patch MPC
-    frame->reordered_opaque2= s->reordered_opaque2;
-    // ==> End patch MPC
 
     switch (s->codec->type) {
     case AVMEDIA_TYPE_VIDEO:
@@ -396,7 +394,7 @@ static int audio_get_buffer(AVCodecContext *avctx, AVFrame *frame)
         if (buf->extended_data[0] && buf_size > buf->audio_data_size) {
             av_free(buf->extended_data[0]);
             if (buf->extended_data != buf->data)
-                av_freep(&buf->extended_data);
+                av_free(buf->extended_data);
             buf->extended_data = NULL;
             buf->data[0]       = NULL;
         }
@@ -489,7 +487,8 @@ static int video_get_buffer(AVCodecContext *s, AVFrame *pic)
         int unaligned;
         AVPicture picture;
         int stride_align[AV_NUM_DATA_POINTERS];
-        const int pixel_size = av_pix_fmt_descriptors[s->pix_fmt].comp[0].step_minus1 + 1;
+        const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(s->pix_fmt);
+        const int pixel_size = desc->comp[0].step_minus1 + 1;
 
         avcodec_get_chroma_sub_sample(s->pix_fmt, &h_chroma_shift, &v_chroma_shift);
 
@@ -545,7 +544,7 @@ static int video_get_buffer(AVCodecContext *s, AVFrame *pic)
             buf->linesize[i] = 0;
         }
         if (size[1] && !size[2])
-            ff_set_systematic_pal2((uint32_t *)buf->data[1], s->pix_fmt);
+            avpriv_set_systematic_pal2((uint32_t *)buf->data[1], s->pix_fmt);
         buf->width   = s->width;
         buf->height  = s->height;
         buf->pix_fmt = s->pix_fmt;
@@ -622,7 +621,7 @@ void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic)
 int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic)
 {
     AVFrame temp_pic;
-    int i;
+    int i, ret;
 
     av_assert0(s->codec_type == AVMEDIA_TYPE_VIDEO);
 
@@ -656,8 +655,8 @@ int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic)
         pic->data[i] = pic->base[i] = NULL;
     pic->opaque = NULL;
     /* Allocate new frame */
-    if (s->get_buffer(s, pic))
-        return -1;
+    if ((ret = s->get_buffer(s, pic)))
+        return ret;
     /* Copy image data from old buffer to new buffer */
     av_picture_copy((AVPicture *)pic, (AVPicture *)&temp_pic, s->pix_fmt, s->width,
                     s->height);
@@ -1756,10 +1755,14 @@ int attribute_align_arg avcodec_decode_audio4(AVCodecContext *avctx,
     /* many decoders assign whole AVFrames, thus overwriting extended_data;
      * make sure it's set correctly; assume decoders that actually use
      * extended_data are doing it correctly */
-    planar   = av_sample_fmt_is_planar(frame->format);
-    channels = av_get_channel_layout_nb_channels(frame->channel_layout);
-    if (!(planar && channels > AV_NUM_DATA_POINTERS))
-        frame->extended_data = frame->data;
+    if (*got_frame_ptr) {
+        planar   = av_sample_fmt_is_planar(frame->format);
+        channels = av_get_channel_layout_nb_channels(frame->channel_layout);
+        if (!(planar && channels > AV_NUM_DATA_POINTERS))
+            frame->extended_data = frame->data;
+    } else {
+        frame->extended_data = NULL;
+    }
 
     return ret;
 }
@@ -2432,7 +2435,7 @@ int ff_match_2uint16(const uint16_t(*tab)[2], int size, int a, int b)
 
 void av_log_missing_feature(void *avc, const char *feature, int want_sample)
 {
-    av_log(avc, AV_LOG_WARNING, "%s not implemented. Update your FFmpeg "
+    av_log(avc, AV_LOG_WARNING, "%s is not implemented. Update your FFmpeg "
             "version to the newest one from Git. If the problem still "
             "occurs, it means that your file has a feature which has not "
             "been implemented.\n", feature);

@@ -197,7 +197,11 @@ extern const int32_t ff_yuv2rgb_coeffs[8][4];
 #if FF_API_SWS_FORMAT_NAME
 const char *sws_format_name(enum AVPixelFormat format)
 {
-    return av_get_pix_fmt_name(format);
+    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(format);
+    if (desc)
+        return desc->name;
+    else
+        return "Unknown format";
 }
 #endif
 
@@ -767,14 +771,17 @@ static int initMMX2HScaler(int dstW, int xInc, uint8_t *filterCode,
 
 static void getSubSampleFactors(int *h, int *v, enum AVPixelFormat format)
 {
-    *h = av_pix_fmt_descriptors[format].log2_chroma_w;
-    *v = av_pix_fmt_descriptors[format].log2_chroma_h;
+    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(format);
+    *h = desc->log2_chroma_w;
+    *v = desc->log2_chroma_h;
 }
 
 int sws_setColorspaceDetails(struct SwsContext *c, const int inv_table[4],
                              int srcRange, const int table[4], int dstRange,
                              int brightness, int contrast, int saturation)
 {
+    const AVPixFmtDescriptor *desc_dst = av_pix_fmt_desc_get(c->dstFormat);
+    const AVPixFmtDescriptor *desc_src = av_pix_fmt_desc_get(c->srcFormat);
     memcpy(c->srcColorspaceTable, inv_table, sizeof(int) * 4);
     memcpy(c->dstColorspaceTable, table, sizeof(int) * 4);
 
@@ -786,8 +793,8 @@ int sws_setColorspaceDetails(struct SwsContext *c, const int inv_table[4],
     if (isYUV(c->dstFormat) || isGray(c->dstFormat))
         return -1;
 
-    c->dstFormatBpp = av_get_bits_per_pixel(&av_pix_fmt_descriptors[c->dstFormat]);
-    c->srcFormatBpp = av_get_bits_per_pixel(&av_pix_fmt_descriptors[c->srcFormat]);
+    c->dstFormatBpp = av_get_bits_per_pixel(desc_dst);
+    c->srcFormatBpp = av_get_bits_per_pixel(desc_src);
 
     ff_yuv2rgb_c_init_tables(c, inv_table, srcRange, brightness,
                              contrast, saturation);
@@ -873,6 +880,8 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
     int flags, cpu_flags;
     enum AVPixelFormat srcFormat = c->srcFormat;
     enum AVPixelFormat dstFormat = c->dstFormat;
+    const AVPixFmtDescriptor *desc_src = av_pix_fmt_desc_get(srcFormat);
+    const AVPixFmtDescriptor *desc_dst = av_pix_fmt_desc_get(dstFormat);
 
     cpu_flags = av_get_cpu_flags();
     flags     = c->flags;
@@ -935,8 +944,8 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
 
     c->lumXInc      = (((int64_t)srcW << 16) + (dstW >> 1)) / dstW;
     c->lumYInc      = (((int64_t)srcH << 16) + (dstH >> 1)) / dstH;
-    c->dstFormatBpp = av_get_bits_per_pixel(&av_pix_fmt_descriptors[dstFormat]);
-    c->srcFormatBpp = av_get_bits_per_pixel(&av_pix_fmt_descriptors[srcFormat]);
+    c->dstFormatBpp = av_get_bits_per_pixel(desc_dst);
+    c->srcFormatBpp = av_get_bits_per_pixel(desc_src);
     c->vRounder     = 4 * 0x0001000100010001ULL;
 
     usesVFilter = (srcFilter->lumV && srcFilter->lumV->length > 1) ||
@@ -1015,10 +1024,10 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
         }
     }
 
-    c->srcBpc = 1 + av_pix_fmt_descriptors[srcFormat].comp[0].depth_minus1;
+    c->srcBpc = 1 + desc_src->comp[0].depth_minus1;
     if (c->srcBpc < 8)
         c->srcBpc = 8;
-    c->dstBpc = 1 + av_pix_fmt_descriptors[dstFormat].comp[0].depth_minus1;
+    c->dstBpc = 1 + desc_dst->comp[0].depth_minus1;
     if (c->dstBpc < 8)
         c->dstBpc = 8;
     if (isAnyRGB(srcFormat) || srcFormat == AV_PIX_FMT_PAL8)
@@ -1061,6 +1070,8 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
         }
     }
 
+#define USE_MMAP (HAVE_MMAP && HAVE_MPROTECT && defined MAP_ANONYMOUS)
+
     /* precalculate horizontal scaler filter coefficients */
     {
 #if HAVE_MMXEXT_INLINE
@@ -1071,7 +1082,7 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
             c->chrMmx2FilterCodeSize = initMMX2HScaler(c->chrDstW, c->chrXInc,
                                                        NULL, NULL, NULL, 4);
 
-#ifdef MAP_ANONYMOUS
+#if USE_MMAP
             c->lumMmx2FilterCode = mmap(NULL, c->lumMmx2FilterCodeSize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
             c->chrMmx2FilterCode = mmap(NULL, c->chrMmx2FilterCodeSize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 #elif HAVE_VIRTUALALLOC
@@ -1102,7 +1113,7 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
             initMMX2HScaler(c->chrDstW, c->chrXInc, c->chrMmx2FilterCode,
                             c->hChrFilter, (uint32_t*)c->hChrFilterPos, 4);
 
-#ifdef MAP_ANONYMOUS
+#if USE_MMAP
             mprotect(c->lumMmx2FilterCode, c->lumMmx2FilterCodeSize, PROT_EXEC | PROT_READ);
             mprotect(c->chrMmx2FilterCode, c->chrMmx2FilterCodeSize, PROT_EXEC | PROT_READ);
 #endif
@@ -1225,7 +1236,7 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
 
     // try to avoid drawing green stuff between the right end and the stride end
     for (i = 0; i < c->vChrBufSize; i++)
-        if(av_pix_fmt_descriptors[c->dstFormat].comp[0].depth_minus1 == 15){
+        if(desc_dst->comp[0].depth_minus1 == 15){
             av_assert0(c->dstBpc > 14);
             for(j=0; j<dst_stride/2+1; j++)
                 ((int32_t*)(c->chrUPixBuf[i]))[j] = 1<<18;
@@ -1689,7 +1700,7 @@ void sws_freeContext(SwsContext *c)
     av_freep(&c->hChrFilterPos);
 
 #if HAVE_MMX_INLINE
-#ifdef MAP_ANONYMOUS
+#if USE_MMAP
     if (c->lumMmx2FilterCode)
         munmap(c->lumMmx2FilterCode, c->lumMmx2FilterCodeSize);
     if (c->chrMmx2FilterCode)

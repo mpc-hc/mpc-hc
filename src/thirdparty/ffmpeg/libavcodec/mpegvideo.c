@@ -27,11 +27,11 @@
  * The simplest mpeg encoder (well, it was the simplest!).
  */
 
-#include "libavutil/intmath.h"
 #include "libavutil/imgutils.h"
 #include "avcodec.h"
 #include "dsputil.h"
 #include "internal.h"
+#include "mathops.h"
 #include "mpegvideo.h"
 #include "mjpegenc.h"
 #include "msmpeg4.h"
@@ -189,8 +189,6 @@ av_cold int ff_dct_common_init(MpegEncContext *s)
     ff_MPV_common_init_x86(s);
 #elif ARCH_ALPHA
     ff_MPV_common_init_axp(s);
-#elif HAVE_MMI
-    ff_MPV_common_init_mmi(s);
 #elif ARCH_ARM
     ff_MPV_common_init_arm(s);
 #elif HAVE_ALTIVEC
@@ -532,6 +530,7 @@ int ff_mpeg_update_thread_context(AVCodecContext *dst,
                                   const AVCodecContext *src)
 {
     int i;
+    int err;
     MpegEncContext *s = dst->priv_data, *s1 = src->priv_data;
 
     if (dst == src)
@@ -549,12 +548,12 @@ int ff_mpeg_update_thread_context(AVCodecContext *dst,
         if (s1->context_initialized){
             s->picture_range_start  += MAX_PICTURE_COUNT;
             s->picture_range_end    += MAX_PICTURE_COUNT;
-            ff_MPV_common_init(s);
+            if((err = ff_MPV_common_init(s)) < 0)
+                return err;
         }
     }
 
     if (s->height != s1->height || s->width != s1->width || s->context_reinit) {
-        int err;
         s->context_reinit = 0;
         s->height = s1->height;
         s->width  = s1->width;
@@ -801,7 +800,7 @@ fail:
  */
 av_cold int ff_MPV_common_init(MpegEncContext *s)
 {
-    int i, err;
+    int i;
     int nb_slices = (HAVE_THREADS &&
                      s->avctx->active_thread_type & FF_THREAD_SLICE) ?
                     s->avctx->thread_count : 1;
@@ -879,7 +878,7 @@ av_cold int ff_MPV_common_init(MpegEncContext *s)
         avcodec_get_frame_defaults(&s->picture[i].f);
     }
 
-        if ((err = init_context_frame(s)))
+        if (init_context_frame(s))
             goto fail;
 
         s->parse_context.state = -1;
@@ -1526,8 +1525,9 @@ void ff_MPV_frame_end(MpegEncContext *s)
               !(s->flags & CODEC_FLAG_EMU_EDGE) &&
               !s->avctx->lowres
             ) {
-        int hshift = av_pix_fmt_descriptors[s->avctx->pix_fmt].log2_chroma_w;
-        int vshift = av_pix_fmt_descriptors[s->avctx->pix_fmt].log2_chroma_h;
+        const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(s->avctx->pix_fmt);
+        int hshift = desc->log2_chroma_w;
+        int vshift = desc->log2_chroma_h;
         s->dsp.draw_edges(s->current_picture.f.data[0], s->current_picture.f.linesize[0],
                           s->h_edge_pos, s->v_edge_pos,
                           EDGE_WIDTH, EDGE_WIDTH,
@@ -1782,7 +1782,7 @@ void ff_print_debug_info(MpegEncContext *s, AVFrame *pict)
             int mb_x;
             for (mb_x = 0; mb_x < s->mb_width; mb_x++) {
                 const int mb_index = mb_x + mb_y * s->mb_stride;
-                if ((s->avctx->debug_mv) && pict->motion_val) {
+                if ((s->avctx->debug_mv) && pict->motion_val[0]) {
                     int type;
                     for (type = 0; type < 3; type++) {
                         int direction = 0;
@@ -1861,7 +1861,7 @@ void ff_print_debug_info(MpegEncContext *s, AVFrame *pict)
                         }
                     }
                 }
-                if ((s->avctx->debug & FF_DEBUG_VIS_QP) && pict->motion_val) {
+                if ((s->avctx->debug & FF_DEBUG_VIS_QP)) {
                     uint64_t c = (pict->qscale_table[mb_index] * 128 / 31) *
                                  0x0101010101010101ULL;
                     int y;
@@ -1875,7 +1875,7 @@ void ff_print_debug_info(MpegEncContext *s, AVFrame *pict)
                     }
                 }
                 if ((s->avctx->debug & FF_DEBUG_VIS_MB_TYPE) &&
-                    pict->motion_val) {
+                    pict->motion_val[0]) {
                     int mb_type = pict->mb_type[mb_index];
                     uint64_t u,v;
                     int y;
@@ -2345,7 +2345,7 @@ int ff_MPV_lowest_referenced_row(MpegEncContext *s, int dir)
     int my_max = INT_MIN, my_min = INT_MAX, qpel_shift = !s->quarter_sample;
     int my, off, i, mvs;
 
-    if (s->picture_structure != PICT_FRAME) goto unhandled;
+    if (s->picture_structure != PICT_FRAME || s->mcsel) goto unhandled;
 
     switch (s->mv_type) {
         case MV_TYPE_16X16:
@@ -2715,9 +2715,10 @@ void ff_draw_horiz_band(MpegEncContext *s, int y, int h){
        && s->current_picture.f.reference
        && !s->intra_only
        && !(s->flags&CODEC_FLAG_EMU_EDGE)) {
+        const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(s->avctx->pix_fmt);
         int sides = 0, edge_h;
-        int hshift = av_pix_fmt_descriptors[s->avctx->pix_fmt].log2_chroma_w;
-        int vshift = av_pix_fmt_descriptors[s->avctx->pix_fmt].log2_chroma_h;
+        int hshift = desc->log2_chroma_w;
+        int vshift = desc->log2_chroma_h;
         if (y==0) sides |= EDGE_TOP;
         if (y + h >= s->v_edge_pos) sides |= EDGE_BOTTOM;
 
