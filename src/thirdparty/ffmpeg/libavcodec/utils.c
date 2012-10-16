@@ -314,6 +314,9 @@ void ff_init_buffer_info(AVCodecContext *s, AVFrame *frame)
         frame->pkt_duration = 0;
     }
     frame->reordered_opaque = s->reordered_opaque;
+    // ==> Start patch MPC
+    frame->reordered_opaque2= s->reordered_opaque2;
+    // ==> End patch MPC
 
     switch (s->codec->type) {
     case AVMEDIA_TYPE_VIDEO:
