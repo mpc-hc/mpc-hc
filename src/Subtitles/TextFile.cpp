@@ -67,8 +67,7 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
     }
 
     if (m_encoding == ASCII) {
-        __super::Close(); // CWebTextFile::Close() would delete the temp file if we called it...
-        if (!__super::Open(lpszFileName, modeRead | typeText | shareDenyNone)) {
+        if (!ReopenAsText()) {
             return false;
         }
     } else if (m_offset == 0) { // No BOM detected, ensure the file is read from the beginning
@@ -76,6 +75,13 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
     }
 
     return true;
+}
+
+bool CTextFile::ReopenAsText()
+{
+    __super::Close(); // CWebTextFile::Close() would delete the temp file if we called it...
+
+    return __super::Open(m_strFileName, modeRead | typeText | shareDenyNone);
 }
 
 bool CTextFile::Save(LPCTSTR lpszFileName, enc e)
@@ -303,11 +309,20 @@ BOOL CTextFile::ReadString(CStringA& str)
                 }
                 str += c;
             } else {
-                // Switch to ANSI and read again
-                m_encoding = ANSI;
+                // Switch to text and read again
+                m_encoding = ASCII;
+                // Rewind to the end of the line and save the position
                 Seek(-nBytesRead, current);
+                ULONGLONG currentPosition = GetPosition();
 
-                fEOF = !ReadString(str);
+                fEOF = !ReopenAsText();
+
+                if (!fEOF) {
+                    // Seek back at the beginning of the line where we stopped
+                    Seek(currentPosition, begin);
+
+                    fEOF = !ReadString(str);
+                }
 
                 break;
             }
@@ -436,11 +451,20 @@ BOOL CTextFile::ReadString(CStringW& str)
                 }
                 str += c;
             } else {
-                // Switch to ANSI and read again
-                m_encoding = ANSI;
+                // Switch to text and read again
+                m_encoding = ASCII;
+                // Rewind to the end of the line and save the position
                 Seek(-nBytesRead, current);
+                ULONGLONG currentPosition = GetPosition();
 
-                fEOF = !ReadString(str);
+                fEOF = !ReopenAsText();
+
+                if (!fEOF) {
+                    // Seek back to the beginning of the line where we stopped
+                    Seek(currentPosition, begin);
+
+                    fEOF = !ReadString(str);
+                }
 
                 break;
             }

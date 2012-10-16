@@ -62,6 +62,9 @@ public:
     void WriteString(LPCWSTR lpsz/*CStringW str*/);
     BOOL ReadString(CStringA& str);
     BOOL ReadString(CStringW& str);
+
+protected:
+    virtual bool ReopenAsText();
 };
 
 class CWebTextFile : public CTextFile
