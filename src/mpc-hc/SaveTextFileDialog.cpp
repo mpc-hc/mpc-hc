@@ -43,7 +43,7 @@ CSaveTextFileDialog::CSaveTextFileDialog(
 
         pfdc->StartVisualGroup(IDS_TEXTFILE_ENC, ResStr(IDS_TEXTFILE_ENC));
         pfdc->AddComboBox(IDC_COMBO1);
-        pfdc->AddControlItem(IDC_COMBO1, CTextFile::ASCII, _T("ANSI"));
+        pfdc->AddControlItem(IDC_COMBO1, CTextFile::DEFAULT_ENCODING, _T("ANSI"));
         pfdc->AddControlItem(IDC_COMBO1, CTextFile::LE16, _T("Unicode (UTF-16 LE BOM)"));
         pfdc->AddControlItem(IDC_COMBO1, CTextFile::BE16, _T("Unicode (UTF-16 BE BOM)"));
         pfdc->AddControlItem(IDC_COMBO1, CTextFile::UTF8, _T("UTF-8"));
@@ -74,14 +74,14 @@ BOOL CSaveTextFileDialog::OnInitDialog()
     __super::OnInitDialog();
 
     if (!SysVersion::IsVistaOrLater()) {
-        m_encoding.SetItemData(m_encoding.AddString(_T("ANSI")), CTextFile::ASCII);
+        m_encoding.SetItemData(m_encoding.AddString(_T("ANSI")), CTextFile::DEFAULT_ENCODING);
         m_encoding.SetItemData(m_encoding.AddString(_T("Unicode (UTF-16 LE BOM)")), CTextFile::LE16);
         m_encoding.SetItemData(m_encoding.AddString(_T("Unicode (UTF-16 BE BOM)")), CTextFile::BE16);
         m_encoding.SetItemData(m_encoding.AddString(_T("UTF-8")), CTextFile::UTF8);
 
         switch (m_e) {
             default:
-            case CTextFile::ASCII:
+            case CTextFile::DEFAULT_ENCODING:
                 m_encoding.SetCurSel(0);
                 break;
             case CTextFile::LE16:

@@ -919,7 +919,7 @@ bool CVobSubFile::ReadIfo(CString fn)
 bool CVobSubFile::WriteIdx(CString fn)
 {
     CTextFile f;
-    if (!f.Save(fn, CTextFile::ASCII)) {
+    if (!f.Save(fn, CTextFile::DEFAULT_ENCODING)) {
         return false;
     }
 

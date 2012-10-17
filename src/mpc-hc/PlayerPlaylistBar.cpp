@@ -356,7 +356,7 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
         return false;
     }
 
-    if (f.GetEncoding() == CTextFile::ASCII) {
+    if (f.GetEncoding() == CTextFile::DEFAULT_ENCODING) {
         f.SetEncoding(CTextFile::ANSI);
     }
 
@@ -1408,7 +1408,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             break;
         case M_SAVEAS: {
             CSaveTextFileDialog fd(
-                CTextFile::ASCII, NULL, NULL,
+                CTextFile::DEFAULT_ENCODING, NULL, NULL,
                 _T("Media Player Classic playlist (*.mpcpl)|*.mpcpl|Playlist (*.pls)|*.pls|Winamp playlist (*.m3u)|*.m3u|Windows Media playlist (*.asx)|*.asx||"),
                 this);
 
@@ -1417,7 +1417,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             }
 
             CTextFile::enc encoding = (CTextFile::enc)fd.GetEncoding();
-            if (encoding == CTextFile::ASCII) {
+            if (encoding == CTextFile::DEFAULT_ENCODING) {
                 encoding = CTextFile::ANSI;
             }
 

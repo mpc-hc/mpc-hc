@@ -66,7 +66,7 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
         }
     }
 
-    if (m_encoding == ASCII) {
+    if (m_encoding == DEFAULT_ENCODING) {
         if (!ReopenAsText()) {
             return false;
         }
@@ -86,7 +86,7 @@ bool CTextFile::ReopenAsText()
 
 bool CTextFile::Save(LPCTSTR lpszFileName, enc e)
 {
-    if (!__super::Open(lpszFileName, modeCreate | modeWrite | shareDenyWrite | (e == ASCII ? typeText : typeBinary))) {
+    if (!__super::Open(lpszFileName, modeCreate | modeWrite | shareDenyWrite | (e == DEFAULT_ENCODING ? typeText : typeBinary))) {
         return false;
     }
 
@@ -169,7 +169,7 @@ void CTextFile::WriteString(LPCSTR lpsz/*CStringA str*/)
 {
     CStringA str(lpsz);
 
-    if (m_encoding == ASCII) {
+    if (m_encoding == DEFAULT_ENCODING) {
         __super::WriteString(AToT(str));
     } else if (m_encoding == ANSI) {
         str.Replace("\n", "\r\n");
@@ -187,7 +187,7 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
 {
     CStringW str(lpsz);
 
-    if (m_encoding == ASCII) {
+    if (m_encoding == DEFAULT_ENCODING) {
         __super::WriteString(WToT(str));
     } else if (m_encoding == ANSI) {
         str.Replace(L"\n", L"\r\n");
@@ -232,7 +232,7 @@ BOOL CTextFile::ReadString(CStringA& str)
 
     str.Empty();
 
-    if (m_encoding == ASCII) {
+    if (m_encoding == DEFAULT_ENCODING) {
         CString s;
         fEOF = !__super::ReadString(s);
         str = TToA(s);
@@ -310,7 +310,7 @@ BOOL CTextFile::ReadString(CStringA& str)
                 str += c;
             } else {
                 // Switch to text and read again
-                m_encoding = ASCII;
+                m_encoding = DEFAULT_ENCODING;
                 // Rewind to the end of the line and save the position
                 Seek(-nBytesRead, current);
                 ULONGLONG currentPosition = GetPosition();
@@ -370,7 +370,7 @@ BOOL CTextFile::ReadString(CStringW& str)
 
     str.Empty();
 
-    if (m_encoding == ASCII) {
+    if (m_encoding == DEFAULT_ENCODING) {
         CString s;
         fEOF = !__super::ReadString(s);
         str = TToW(s);
@@ -452,7 +452,7 @@ BOOL CTextFile::ReadString(CStringW& str)
                 str += c;
             } else {
                 // Switch to text and read again
-                m_encoding = ASCII;
+                m_encoding = DEFAULT_ENCODING;
                 // Rewind to the end of the line and save the position
                 Seek(-nBytesRead, current);
                 ULONGLONG currentPosition = GetPosition();
