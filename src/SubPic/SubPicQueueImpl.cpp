@@ -478,6 +478,9 @@ DWORD CSubPicQueue::ThreadProc()
 
                         } else {
                             hr = RenderTo(pStatic, rtStart, rtStop, fps, bIsAnimated);
+                            // Non-animated subtitles aren't part of a segment
+                            pStatic->SetSegmentStart(0);
+                            pStatic->SetSegmentStop(0);
                             rtCurrent = rtStop;
                         }
 #if DSubPicTraceLevel > 0
