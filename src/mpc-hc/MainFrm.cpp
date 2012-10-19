@@ -596,7 +596,6 @@ const TCHAR* GetEventString(LONG evCode)
 CMainFrame::CMainFrame() :
     m_iMediaLoadState(MLS_CLOSED),
     m_iPlaybackMode(PM_NONE),
-    m_iSpeedLevel(0),
     m_dSpeedRate(1.0),
     m_rtDurationOverride(-1),
     m_fFullScreen(false),
@@ -1816,17 +1815,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
         case TIMER_STATS: {
             if (pQP) {
                 CString rate;
-                if (m_iSpeedLevel >= -11 && m_iSpeedLevel <= 3 && m_iSpeedLevel != -4) {
-                    CString speeds[] = {_T("1/8"), _T("1/4"), _T("1/2"), _T("1"), _T("2"), _T("4"), _T("8")};
-                    rate = speeds[(m_iSpeedLevel >= -3 ? m_iSpeedLevel : (-m_iSpeedLevel - 8)) + 3];
-                    if (m_iSpeedLevel < -4) {
-                        rate = _T("-") + rate;
-                    }
-                    if (!rate.IsEmpty()) {
-                        rate = _T("(") + rate + _T("X)");
-                    }
-                }
-
+                rate.Format(_T("%.2f"), m_dSpeedRate);
+                rate = _T("(") + rate + _T("x)");
                 CString info;
                 int val = 0;
 
@@ -6958,7 +6948,6 @@ void CMainFrame::OnPlayPlay()
 
     if (m_iMediaLoadState == MLS_LOADED) {
         if (GetMediaState() == State_Stopped) {
-            m_iSpeedLevel = 0;
             m_dSpeedRate = 1.0;
         }
 
@@ -6970,7 +6959,6 @@ void CMainFrame::OnPlayPlay()
             pMC->Run();
         } else if (GetPlaybackMode() == PM_DVD) {
             double dRate = 1.0;
-            m_iSpeedLevel = 0;
             m_dSpeedRate = 1.0;
 
             pDVDC->PlayForwards(dRate, DVD_CMD_FLAG_Block, NULL);
@@ -7134,7 +7122,6 @@ void CMainFrame::OnPlayStop()
             pMC->Stop();
         }
 
-        m_iSpeedLevel = 0;
         m_dSpeedRate = 1.0;
 
         if (m_fFrameSteppingActive) { // FIXME
@@ -7509,6 +7496,42 @@ void CMainFrame::OnUpdateGoto(CCmdUI* pCmdUI)
     pCmdUI->Enable(fEnable);
 }
 
+void CMainFrame::SetPlayingRate(double rate)
+{
+    if (m_iMediaLoadState != MLS_LOADED) {
+        return;
+    }
+    HRESULT hr = E_FAIL;
+    if (GetPlaybackMode() == PM_FILE) {
+        if (rate < 0.125) {
+            if (GetMediaState() != State_Paused) {
+                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+            }
+            return;
+        } else {
+            if (GetMediaState() != State_Running) {
+                SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+            }
+            hr = pMS->SetRate(rate);
+        }
+    } else if (GetPlaybackMode() == PM_DVD) {
+        if (GetMediaState() != State_Running) {
+            SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+        }
+        if (rate > 0) {
+            hr = pDVDC->PlayForwards(rate, DVD_CMD_FLAG_Block, NULL);
+        } else {
+            hr = pDVDC->PlayBackwards(-rate, DVD_CMD_FLAG_Block, NULL);
+        }
+    }
+    if (SUCCEEDED(hr)) {
+        m_dSpeedRate = rate;
+        CString strODSMessage;
+        strODSMessage.Format(IDS_OSD_SPEED, rate);
+        m_OSD.DisplayMessage(OSD_TOPRIGHT, strODSMessage);
+    }
+}
+
 void CMainFrame::OnPlayChangeRate(UINT nID)
 {
     if (m_iMediaLoadState != MLS_LOADED) {
@@ -7556,56 +7579,29 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
           && (lSignalStrength != AMTUNER_SIGNALPRESENT || lFreqNew == lFreqOrg));*/
 
     } else {
-        int iNewSpeedLevel;
-
-        // Cap the max FFWD and RWD rates to 128x.
-        if (nID == ID_PLAY_INCRATE) {
-            iNewSpeedLevel = (m_iSpeedLevel < 7 ? m_iSpeedLevel + 1 : 7);
-        } else if (nID == ID_PLAY_DECRATE) {
-            iNewSpeedLevel = (m_iSpeedLevel > -7 ? m_iSpeedLevel - 1 : -7);
-        } else {
-            return;
-        }
-
-        HRESULT hr = E_FAIL;
-
-        if ((iNewSpeedLevel == -4) && (GetPlaybackMode() == PM_FILE)) {
-            if (GetMediaState() != State_Paused) {
-                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-            }
-
-            if (GetMediaState() == State_Paused) {
-                hr = S_OK;
-            }
-        } else {
-            double dRate = 1.0;
-
-            if (GetMediaState() != State_Running) {
-                SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-            }
-
-            if (GetPlaybackMode() == PM_FILE) {
-                dRate = pow(2.0, iNewSpeedLevel >= -3 ? iNewSpeedLevel : (-iNewSpeedLevel - 8));
-                if (fabs(dRate - 1.0) < 0.01) {
-                    dRate = 1.0;
-                }
-                hr = pMS->SetRate(dRate);
-            } else if (GetPlaybackMode() == PM_DVD) {
-                dRate = pow(2.0, abs(iNewSpeedLevel));
-                if (iNewSpeedLevel >= 0) {
-                    hr = pDVDC->PlayForwards(dRate, DVD_CMD_FLAG_Block, NULL);
+        if (GetPlaybackMode() == PM_DVD) {
+            if (nID == ID_PLAY_INCRATE) {
+                if (m_dSpeedRate > 0) {
+                    SetPlayingRate(m_dSpeedRate * 2.0);
+                } else if (m_dSpeedRate >= -1) {
+                    SetPlayingRate(1);
                 } else {
-                    hr = pDVDC->PlayBackwards(dRate, DVD_CMD_FLAG_Block, NULL);
+                    SetPlayingRate(m_dSpeedRate / 2.0);
+                }
+            } else if (nID == ID_PLAY_DECRATE) {
+                if (m_dSpeedRate < 0) {
+                    SetPlayingRate(m_dSpeedRate * 2.0);
+                } else if (m_dSpeedRate <= 1) {
+                    SetPlayingRate(-1);
+                } else {
+                    SetPlayingRate(m_dSpeedRate / 2.0);
                 }
             }
-
-            if (SUCCEEDED(hr)) {
-                m_iSpeedLevel = iNewSpeedLevel;
-                m_dSpeedRate = dRate;
-
-                CString strODSMessage;
-                strODSMessage.Format(IDS_OSD_SPEED, (iNewSpeedLevel < 0 && GetPlaybackMode() == PM_DVD) ? -dRate : dRate);
-                m_OSD.DisplayMessage(OSD_TOPRIGHT, strODSMessage);
+        } else {
+            if (nID == ID_PLAY_INCRATE) {
+                SetPlayingRate(m_dSpeedRate * 2.0);
+            } else if (nID == ID_PLAY_DECRATE) {
+                SetPlayingRate(m_dSpeedRate / 2.0);
             }
         }
 
@@ -7620,11 +7616,11 @@ void CMainFrame::OnUpdatePlayChangeRate(CCmdUI* pCmdUI)
         bool fInc = pCmdUI->m_nID == ID_PLAY_INCRATE;
 
         fEnable = true;
-        if (fInc && m_iSpeedLevel >= 7) {
+        if (fInc && m_dSpeedRate >= 128.0) {
             fEnable = false;
-        } else if (!fInc && GetPlaybackMode() == PM_FILE && m_iSpeedLevel <= -4) {
+        } else if (!fInc && GetPlaybackMode() == PM_FILE &&  m_dSpeedRate < 0.125) {
             fEnable = false;
-        } else if (!fInc && GetPlaybackMode() == PM_DVD && m_iSpeedLevel <= -11) {
+        } else if (!fInc && GetPlaybackMode() == PM_DVD && m_dSpeedRate <= -128.0) {
             fEnable = false;
         } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
             fEnable = false;
@@ -7659,7 +7655,6 @@ void CMainFrame::OnPlayResetRate()
     }
 
     if (SUCCEEDED(hr)) {
-        m_iSpeedLevel = 0;
         m_dSpeedRate = 1.0;
 
         CString strODSMessage;
@@ -8284,7 +8279,6 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
         }
     } else if (GetPlaybackMode() == PM_DVD) {
-        m_iSpeedLevel = 0;
         m_dSpeedRate = 1.0;
 
         if (GetMediaState() != State_Running) {
@@ -8443,7 +8437,6 @@ void CMainFrame::OnNavigateMenu(UINT nID)
         return;
     }
 
-    m_iSpeedLevel = 0;
     m_dSpeedRate = 1.0;
 
     if (GetMediaState() != State_Running) {
@@ -14772,6 +14765,7 @@ void CMainFrame::SetClosedCaptions(bool enable)
         m_pLN21->SetServiceState(enable ? AM_L21_CCSTATE_On : AM_L21_CCSTATE_Off);
     }
 }
+
 
 LPCTSTR CMainFrame::GetDVDAudioFormatName(DVD_AudioAttributes& ATR) const
 {
