@@ -59,6 +59,8 @@ void* __imp_toupper = toupper;
 void* __imp_time64 = _time64;
 #endif
 
+#define CHECK_AVC_L52_SIZE(w, h) ((w) <= 4096 && (h) <= 4096 && (w) * (h) <= 36864 * 16 * 16)
+
 const byte ZZ_SCAN[16]  = {
     0,  1,  4,  8,
     5,  2,  3,  6,
@@ -793,7 +795,11 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor, DWORD nPCIDevic
     height = (height + 15) & ~15; // (height + 15) / 16 * 16;
 
     if (nPCIVendor == PCIV_nVidia) {
-        if (width <= 2032 && height <= 2032 && width * height <= 8190 * 16 * 16) {
+        if (nPCIDevice == PCID_nVidia_GTX660Ti && CHECK_AVC_L52_SIZE(width, height)) {
+            // tested some media files with AVC Livel 5.1
+            // complete test was NOT performed
+            return TRUE;
+        } else if (width <= 2032 && height <= 2032 && width * height <= 8190 * 16 * 16) {
             // tested H.264, VC-1 and MPEG-2 on VP4 (feature set C) (G210M, GT220)
             return TRUE;
         }
@@ -809,7 +815,7 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor, DWORD nPCIDevic
             return TRUE;
         }
     } else if (nPCIVendor == PCIV_Intel && nPCIDevice == PCID_Intel_HD2500) {
-        if (width <= 4096 && height <= 4096 && width * height <= 36864 * 16 * 16) {
+        if (CHECK_AVC_L52_SIZE(width, height)) {
             // tested some media files with AVC Livel 5.1
             // complete test was NOT performed
             return TRUE;
