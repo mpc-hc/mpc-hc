@@ -795,9 +795,9 @@ BOOL DXVACheckFramesize(int width, int height, DWORD nPCIVendor, DWORD nPCIDevic
     height = (height + 15) & ~15; // (height + 15) / 16 * 16;
 
     if (nPCIVendor == PCIV_nVidia) {
-        if (nPCIDevice == PCID_nVidia_GTX660Ti && CHECK_AVC_L52_SIZE(width, height)) {
-            // tested some media files with AVC Livel 5.1
-            // complete test was NOT performed
+        if (nPCIDevice == PCID_nVidia_GTX660Ti && width <= 4096 && height <= 4096 && width * height <= 4080 * 4080) {
+            // complete test was performed
+            // 4080x4080 = 65025 macroblocks
             return TRUE;
         } else if (width <= 2032 && height <= 2032 && width * height <= 8190 * 16 * 16) {
             // tested H.264, VC-1 and MPEG-2 on VP4 (feature set C) (G210M, GT220)
