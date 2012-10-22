@@ -155,10 +155,10 @@ Name: kr; MessagesFile: Languages\Korean.isl
 Name: nl; MessagesFile: compiler:Languages\Dutch.isl
 Name: pl; MessagesFile: compiler:Languages\Polish.isl
 Name: ru; MessagesFile: compiler:Languages\Russian.isl
-Name: sc; MessagesFile: Languages\ChineseSimp.isl
+Name: sc; MessagesFile: Languages\ChineseSimplified.isl
 Name: sv; MessagesFile: Languages\Swedish.isl
 Name: sk; MessagesFile: Languages\Slovak.isl
-Name: tc; MessagesFile: Languages\ChineseTrad.isl
+Name: tc; MessagesFile: Languages\ChineseTraditional.isl
 Name: tr; MessagesFile: Languages\Turkish.isl
 Name: ua; MessagesFile: compiler:Languages\Ukrainian.isl
 #endif
