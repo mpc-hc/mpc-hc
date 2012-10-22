@@ -361,9 +361,7 @@ protected:
 
     DVD_DOMAIN m_iDVDDomain;
     DWORD m_iDVDTitle;
-    int m_iSpeedLevel;
     double m_dSpeedRate;
-
     double m_ZoomX, m_ZoomY, m_PosX, m_PosY;
     int m_AngleX, m_AngleY, m_AngleZ;
 
@@ -431,7 +429,7 @@ public:
     REFERENCE_TIME GetPos() const;
     REFERENCE_TIME GetDur() const;
     void SeekTo(REFERENCE_TIME rt, bool fSeekToKeyFrame = false);
-
+    void SetPlayingRate(double rate);
     // audio streams order functions
     void InsertAudioStream(const CComQIPtr<IAMStreamSelect>& pSS, int i);
     void SetupAudioStreams();
