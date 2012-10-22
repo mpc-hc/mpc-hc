@@ -255,6 +255,9 @@ unsigned int {
     // Close App
     CMD_CLOSEAPP            = 0xA0004006,
 
+    // Set playing rate
+    CMD_SETSPEED            = 0xA0004008,
+
     // show host defined OSD message string
     CMD_OSDSHOWMESSAGE      = 0xA0005000
 

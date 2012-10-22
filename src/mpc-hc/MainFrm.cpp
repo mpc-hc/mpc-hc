@@ -14990,6 +14990,9 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         case CMD_CLOSEAPP:
             PostMessage(WM_CLOSE);
             break;
+        case CMD_SETSPEED:
+            SetPlayingRate(_wtof((LPCWSTR)pCDS->lpData));
+            break;
         case CMD_OSDSHOWMESSAGE:
             ShowOSDCustomMessageApi((MPC_OSDDATA*)pCDS->lpData);
             break;
