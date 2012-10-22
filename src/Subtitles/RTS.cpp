@@ -2557,12 +2557,15 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
     qsort(subs.GetData(), subs.GetCount(), sizeof(LSub), lscomp);
 
-    for (ptrdiff_t i = 0, j = subs.GetCount(); i < j; i++) {
-        // Display only the last subtitle in the array to prevent overlapping
-        if (!m_subtitleOverlapping) {
-            i = j - 1;
-        }
+    int startingSubtitle = 0;
+    int subtitleCount = subs.GetCount();
 
+    // If subtitle overlapping is off, display only the last subtitle
+    if (!m_subtitleOverlapping) {
+        startingSubtitle = subtitleCount - 1;
+    }
+
+    for (ptrdiff_t i = startingSubtitle; i < subtitleCount; i++) {
         int entry = subs[i].idx;
 
         STSEntry stse = GetAt(entry);
