@@ -196,7 +196,7 @@ void File_Jpeg::Streams_Accept()
         Stream_Prepare(StreamKind);
 
     //Configuration
-    Buffer_MaximumSize=64*1024*1024;
+    Buffer_MaximumSize=64*1024*1024; //Some big frames are possible (e.g YUV 4:2:2 10 bits 1080p)
     Frame_Count_NotParsedIncluded=0;
 }
 

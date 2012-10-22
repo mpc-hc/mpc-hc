@@ -45,7 +45,7 @@ namespace MediaInfoLib
 {
 
 //---------------------------------------------------------------------------
-const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.60");
+const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.61");
 const Char*  MediaInfo_Url=__T("http://mediainfo.sourceforge.net");
       Ztring EmptyZtring;       //Use it when we can't return a reference to a true Ztring
 const Ztring EmptyZtring_Const; //Use it when we can't return a reference to a true Ztring, const version
@@ -115,7 +115,7 @@ void MediaInfo_Config::Init()
         InitDataNotRepeated_GiveUp=false;
     #endif //MEDIAINFO_ADVANCED
     MpegTs_MaximumOffset=32*1024*1024;
-    MpegTs_MaximumScanDuration=16000000000LL;
+    MpegTs_MaximumScanDuration=32000000000LL;
     MpegTs_ForceStreamDisplay=false;
     #if MEDIAINFO_ADVANCED
         MpegTs_VbrDetection_Delta=0;
@@ -140,6 +140,7 @@ void MediaInfo_Config::Init()
     Language_Raw=false;
     ReadByHuman=true;
     LegacyStreamDisplay=true;
+    SkipBinaryData=false;
     Demux=0;
     LineSeparator=EOL;
     ColumnSeparator=__T(";");
@@ -336,6 +337,15 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
     else if (Option_Lower==__T("legacystreamdisplay_get"))
     {
         return LegacyStreamDisplay_Get()?__T("1"):__T("0");
+    }
+    else if (Option_Lower==__T("skipbinarydata"))
+    {
+        SkipBinaryData_Set(Value.To_int8u()?true:false);
+        return Ztring();
+    }
+    else if (Option_Lower==__T("skipbinarydata_get"))
+    {
+        return SkipBinaryData_Get()?__T("1"):__T("0");
     }
     else if (Option_Lower==__T("parsespeed"))
     {
@@ -666,7 +676,6 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
         #else // MEDIAINFO_ADVANCED
             return __T("advanced features are disabled due to compilation options");
         #endif // MEDIAINFO_ADVANCED
-        return Ztring();
     }
     else if (Option_Lower==__T("mpegts_vbrdetection_delta_get"))
     {
@@ -1022,6 +1031,19 @@ bool MediaInfo_Config::LegacyStreamDisplay_Get ()
 {
     CriticalSectionLocker CSL(CS);
     return LegacyStreamDisplay;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config::SkipBinaryData_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    SkipBinaryData=NewValue;
+}
+
+bool MediaInfo_Config::SkipBinaryData_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return SkipBinaryData;
 }
 
 //---------------------------------------------------------------------------

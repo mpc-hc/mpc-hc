@@ -1,1 +1,1 @@
-// reVTMD is disabled due to its non-free licensing.
+// reVTMD is disabled due to its non-compatible licensing.

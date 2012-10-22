@@ -27,7 +27,6 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/File__Analyze.h"
 #ifdef MEDIAINFO_MPEG4_YES
     #include "MediaInfo/Multiple/File_Mpeg4_Descriptors.h"
 #endif

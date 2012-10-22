@@ -44,7 +44,7 @@ public :
     void    Open_Buffer_Init        (File__Analyze* Sub);
     void    Open_Buffer_Init        (File__Analyze* Sub, int64u File_Size);
     void    Open_Buffer_Continue    (                    const int8u* Buffer, size_t Buffer_Size);
-    void    Open_Buffer_Continue    (File__Analyze* Sub, const int8u* Buffer, size_t Buffer_Size);
+    void    Open_Buffer_Continue    (File__Analyze* Sub, const int8u* Buffer, size_t Buffer_Size, bool IsNewPacket=true);
     void    Open_Buffer_Continue    (File__Analyze* Sub, size_t Buffer_Size) {if (Element_Offset+Buffer_Size<=Element_Size) Open_Buffer_Continue(Sub, Buffer+Buffer_Offset+(size_t)Element_Offset, Buffer_Size); Element_Offset+=Buffer_Size;}
     void    Open_Buffer_Continue    (File__Analyze* Sub) {if (Element_Offset<=Element_Size) Open_Buffer_Continue(Sub, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset)); Element_Offset=Element_Size;}
     void    Open_Buffer_Position_Set(int64u File_Offset);
@@ -68,9 +68,10 @@ public :
         int64u  StreamIDs[16];
         int8u   StreamIDs_Width[16];
         int8u   ParserIDs[16];
+        void    Event_Prepare (struct MediaInfo_Event_Generic* Event);
     #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX
-        int8u   Demux_Level; //bit 0=frame, bit 1=container, bit 2=elementary (eg MPEG-TS), default with frame set
+        int8u   Demux_Level; //bit 0=frame, bit 1=container, bit 2=elementary (eg MPEG-TS), bit 3=ancillary (e.g. DTVCC), default with frame set
         bool    Demux_random_access;
         bool    Demux_UnpacketizeContainer;
         bool    Demux_IntermediateItemFound;
@@ -81,7 +82,7 @@ public :
     bool   PTS_DTS_Needed;
     struct frame_info
     {
-        int64u Buffer_Offset;
+        int64u Buffer_Offset_End;
         int64u PCR; //In nanoseconds
         int64u PTS; //In nanoseconds
         int64u DTS; //In nanoseconds
@@ -89,7 +90,7 @@ public :
 
         frame_info()
         {
-            Buffer_Offset=0;
+            Buffer_Offset_End=(int64u)-1;
             PCR=(int64u)-1;
             PTS=(int64u)-1;
             DTS=(int64u)-1;
@@ -99,6 +100,9 @@ public :
     frame_info FrameInfo;
     frame_info FrameInfo_Previous;
     frame_info FrameInfo_Next;
+    std::vector<int64u> Offsets_Stream;
+    std::vector<int64u> Offsets_Buffer;
+    size_t              Offsets_Pos;
 
     //Out
     int64u PTS_Begin;                  //In nanoseconds
@@ -112,7 +116,9 @@ public :
     int64u Field_Count_Previous;
     int64u Field_Count_InThisBlock;
     int64u Frame_Count_NotParsedIncluded;
+    int64u FrameNumber_PresentationOrder;
     bool   Synched;                    //Data is synched
+    bool   UnSynched_IsNotJunk;        //Data is actually synched
     bool   MustExtendParsingDuration;  //Data has some substreams difficult to detect (e.g. captions), must wait a bit before final filling
 
 protected :
@@ -1172,7 +1178,9 @@ public : //TO CHANGE
     size_t Buffer_Size;
     int64u Buffer_TotalBytes;
     int64u Buffer_TotalBytes_FirstSynched;
+    int64u Buffer_TotalBytes_LastSynched;
     int64u Buffer_PaddingBytes;
+    int64u Buffer_JunkBytes;
     float64 Stream_BitRateFromContainer;
 protected :
     int8u* Buffer_Temp;
@@ -1293,7 +1301,7 @@ public :
         ContentType_Synchro
     };
     #if MEDIAINFO_DEMUX
-        void Demux (const int8u* Buffer, size_t Buffer_Size, contenttype ContentType);
+        void Demux (const int8u* Buffer, size_t Buffer_Size, contenttype ContentType, const int8u* OriginalBuffer=NULL, size_t OriginalBuffer_Size=0);
         virtual bool Demux_UnpacketizeContainer_Test() {return true;}
         bool Demux_UnpacketizeContainer_Test_OneFramePerFile();
         void Demux_UnpacketizeContainer_Demux(bool random_access=true);

@@ -132,8 +132,6 @@ const char* Ancillary_DataID(int8u DataID, int8u SecondaryDataID)
         return "Internationally registered";
     else if (DataID<=0xCF)
         return "User application";
-    else if (DataID<=0xDF)
-        return "Internationally registered";
     else
         return "Internationally registered";
 }

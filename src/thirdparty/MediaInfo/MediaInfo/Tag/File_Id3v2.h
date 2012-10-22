@@ -216,7 +216,7 @@ private :
     void TXX()    {TXXX();}
     void TYE()    {T___();}
     void UFI()    {Skip_XX(Element_Size, "Data");}
-    void ULT()    {Skip_XX(Element_Size, "Data");}
+    void ULT()    {USLT();}
     void WAF()    {W___();}
     void WAR()    {W___();}
     void WAS()    {W___();}

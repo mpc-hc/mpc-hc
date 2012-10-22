@@ -604,6 +604,12 @@ bool File_Aes3::Synchronize()
     //Synchronizing
     while (Buffer_Offset+16<=Buffer_Size)
     {
+        if (!Status[IsAccepted] && !IsSub && File_Offset_FirstSynched==(int64u)-1 && Buffer_TotalBytes+Buffer_Offset>=Buffer_TotalBytes_FirstSynched_Max)
+        {
+            Reject();
+            return false;
+        }
+
         if ((ByteSize==0 || ByteSize==4) && ((Buffer_TotalBytes+Buffer_Offset)%4)==0)
         {
             if (Buffer[Buffer_Offset  ]==0xF8
@@ -1547,7 +1553,7 @@ void File_Aes3::Frame_FromMpegPs()
         Element_WaitForMoreData();
         return;
     }
-    if (Element_Size!=4+(int64u)audio_packet_size)
+    if (Element_Size!=4+(int64u)audio_packet_size || bits_per_sample==3 || audio_packet_size%((1+number_channels)*(5+bits_per_sample)))
     {
         Trusted_IsNot("Wrong size");
         Skip_XX(Element_Size-4,                             "Problem?");

@@ -379,10 +379,10 @@ void File_Rm::MDPR()
         MDPR_IsStream=false; //What do we with this?
     else if (mime_type=="logical-fileinfo")
         MDPR_fileinfo();
-    else if (mime_type=="logical-video/x-pn-multirate-realvideo")
-        MDPR_IsStream=false; //What do we with this?
-    else if (mime_type.find("logical-video/")==0)
-        MDPR_IsStream=false; //What do we with this?
+    //else if (mime_type=="logical-video/x-pn-multirate-realvideo")
+    //    MDPR_IsStream=false; //What do we with this?
+    //else if (mime_type.find("logical-video/")==0)
+    //    MDPR_IsStream=false; //What do we with this?
     else
         MDPR_IsStream=false;
 

@@ -304,6 +304,7 @@ private :
     int64u PTS_LastIFrame;
     int64u tc;
     bool    IFrame_IsParsed;
+    size_t  IFrame_Count;
     std::map<std::string, int64u>   picture_coding_types; //per picture_coding_type value ("IPBB..."), updated at each I-frame
     std::string                     picture_coding_types_Current; //Current picture_coding_type value ("IPBB..."), updated at each frame
 

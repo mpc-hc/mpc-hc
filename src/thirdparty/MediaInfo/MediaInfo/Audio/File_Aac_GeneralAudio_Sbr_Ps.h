@@ -26,7 +26,6 @@
 #include "MediaInfo/Audio/File_Aac.h"
 
 
-using namespace std;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

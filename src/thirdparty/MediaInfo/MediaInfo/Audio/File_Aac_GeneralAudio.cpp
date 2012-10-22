@@ -1157,31 +1157,6 @@ bool File_Aac::is_noise(size_t group, size_t sfb)
 {
     return (sfb_cb[group][sfb]==13);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //---------------------------------------------------------------------------
 void File_Aac::hcod_sf(const char* Name)
 {

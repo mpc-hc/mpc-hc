@@ -1,5 +1,4 @@
 // File_Celt - Info for CELT files
-// Copyright (C) 2010-2012 Lionel Duchateau, kurtnoise@free.fr
 // Copyright (C) 2010-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
@@ -17,6 +16,8 @@
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+// Contributor: Lionel Duchateau, kurtnoise@free.fr
 //
 // Note : the buffer must be given in ONE call
 //

@@ -1201,6 +1201,16 @@ File_Mpeg_Descriptors::File_Mpeg_Descriptors()
 }
 
 //***************************************************************************
+// Buffer - File header
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File_Mpeg_Descriptors::FileHeader_Parse()
+{
+    Accept();
+}
+
+//***************************************************************************
 // Buffer
 //***************************************************************************
 
@@ -1601,9 +1611,8 @@ void File_Mpeg_Descriptors::Descriptor_05()
                                         Complete_Stream->Streams[elementary_PID]->registration_format_identifier=format_identifier;
                                         if (format_identifier==Elements::KLVA)
                                         {
-                                            if (!Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].Infos["KLVA_PID"].empty())
-                                                Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].Infos["KLVA_PID"]+=__T(" / ");
-                                            Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].Infos["KLVA_PID"]+=Ztring::ToZtring(elementary_PID);
+                                            Complete_Stream->Streams[elementary_PID]->Infos["Format"]=__T("KLV");
+                                            Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].HasNotDisplayableStreams=true;
                                         }
                                         //Coherency
                                         if (stream_type==0x81 && Complete_Stream->Streams[elementary_PID]->registration_format_identifier==Elements::BSSD)

@@ -530,6 +530,7 @@ protected :
         std::vector<int128u> SubDescriptors;
         std::vector<int128u> Locators;
 
+        Ztring  ScanType;
         stream_t StreamKind;
         size_t   StreamPos;
         float64 SampleRate;
@@ -552,6 +553,8 @@ protected :
         int32u QuantizationBits;
         int64u Duration;
         int8u  ActiveFormat;
+        int8u  FieldTopness;
+        int8u  FieldDominance;
         enum type
         {
             Type_Unknown,
@@ -593,6 +596,8 @@ protected :
             QuantizationBits=(int8u)-1;
             Duration=(int64u)-1;
             ActiveFormat=(int8u)-1;
+            FieldTopness=(int8u)-1; //Field x is upper field
+            FieldDominance=1; //Default is field 1 temporaly first
             Type=Type_Unknown;
             HasBFrames=false;
             ByteRate=(int32u)-1;
@@ -788,7 +793,6 @@ protected :
 
     #if MEDIAINFO_DEMUX || MEDIAINFO_SEEK
         bool Demux_HeaderParsed;
-        bool Demux_Interleave;
         size_t CountOfLocatorsToParse;
         float64 Demux_Rate;
 

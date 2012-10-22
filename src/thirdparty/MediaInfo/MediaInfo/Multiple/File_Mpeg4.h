@@ -25,7 +25,6 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/MediaInfo_Internal.h"
-#include <map>
 class File_MpegPs;
 //---------------------------------------------------------------------------
 
@@ -408,6 +407,9 @@ private :
             size_t          stts_Durations_Pos;
             int64u          stts_FramePos;
         #endif //MEDIAINFO_DEMUX || MEDIAINFO_SEEK
+        #if MEDIAINFO_DEMUX
+            bool            PtsDtsAreSame;
+        #endif //MEDIAINFO_DEMUX
 
         stream()
         {
@@ -444,6 +446,9 @@ private :
                 stts_Durations_Pos=0;
                 stts_FramePos=0;
             #endif //MEDIAINFO_DEMUX
+            #if MEDIAINFO_DEMUX
+                PtsDtsAreSame=false;
+            #endif //MEDIAINFO_DEMUX
         }
 
         ~stream()
@@ -476,6 +481,7 @@ private :
     #if MEDIAINFO_DEMUX
         int64u          TimeCode_FrameOffset;
         int64u          TimeCode_DtsOffset;
+        std::map<int64u, int64u> StreamOffset_Jump; //Key is the current position, value is the jump position
     #endif //MEDIAINFO_DEMUX
 };
 

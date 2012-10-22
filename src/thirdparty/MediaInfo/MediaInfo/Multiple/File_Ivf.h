@@ -1,6 +1,5 @@
 // File_Ivf - Info for Ivf files
 // Copyright (C) 2004-2012 MediaArea.net SARL, Info@MediaArea.net
-// Copyright (C) 2010 Lionel Duchateau, kurtnoise at free dot fr
 //
 // This library is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Library General Public License as published by
@@ -17,6 +16,8 @@
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+// Contributor: Lionel Duchateau, kurtnoise@free.fr
 //
 // Information about IVF files
 //

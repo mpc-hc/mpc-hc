@@ -30,7 +30,6 @@
 #include "MediaInfo/File__Analyze.h"
 #include <vector>
 #include <bitset>
-using namespace std;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

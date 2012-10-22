@@ -30,9 +30,6 @@
 #include "MediaInfo/File__Duplicate.h"
 #include "MediaInfo/Multiple/File_Mpeg_Psi.h"
 #include "MediaInfo/Duplicate/File__Duplicate_MpegTs.h"
-#include "MediaInfo/Duplicate/File__Duplicate__Writer.h"
-#include <map>
-#include <vector>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

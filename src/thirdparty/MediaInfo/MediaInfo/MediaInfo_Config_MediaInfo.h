@@ -28,6 +28,9 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Setup.h"
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
 #include "MediaInfo/MediaInfo_Internal_Const.h"
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Config.h"
@@ -35,16 +38,17 @@
     #include "ZenLib/File.h"
 #endif //MEDIAINFO_EVENTS
 #include "ZenLib/CriticalSection.h"
-#include "ZenLib/ZtringListList.h"
 #include "ZenLib/Translation.h"
 #include "ZenLib/InfoMap.h"
-#include <map>
-#include <vector>
 using namespace ZenLib;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
+
+#if MEDIAINFO_EVENTS
+    class File__Analyze;
+#endif //MEDIAINFO_EVENTS
 
 //***************************************************************************
 // Class MediaInfo_Config_MediaInfo
@@ -150,8 +154,8 @@ public :
     bool          Event_CallBackFunction_IsSet ();
     Ztring        Event_CallBackFunction_Set (const Ztring &Value);
     Ztring        Event_CallBackFunction_Get ();
-    void          Event_Send(const int8u* Data_Content, size_t Data_Size);
-    void          Event_Send(const int8u* Data_Content, size_t Data_Size, const Ztring &File_Name);
+    void          Event_Send(File__Analyze* Source, const int8u* Data_Content, size_t Data_Size, const Ztring &File_Name=Ztring());
+    void          Event_Accepted(File__Analyze* Source);
     #endif //MEDIAINFO_EVENTS
 
     #if MEDIAINFO_DEMUX
@@ -218,6 +222,10 @@ public :
     bool          File_Eia608_DisplayEmptyStream_Get ();
     void          File_Eia708_DisplayEmptyStream_Set (bool NewValue);
     bool          File_Eia708_DisplayEmptyStream_Get ();
+    #if defined(MEDIAINFO_AC3_YES)
+    void          File_Ac3_IgnoreCrc_Set (bool NewValue);
+    bool          File_Ac3_IgnoreCrc_Get ();
+    #endif //defined(MEDIAINFO_AC3_YES)
 
     //Analysis internal
     void          State_Set (float State);
@@ -283,6 +291,27 @@ private :
     //Event
     #if MEDIAINFO_EVENTS
     MediaInfo_Event_CallBackFunction* Event_CallBackFunction; //void Event_Handler(unsigned char* Data_Content, size_t Data_Size, void* UserHandler)
+    struct event_delayed
+    {
+        int8u* Data_Content;
+        size_t Data_Size;
+        Ztring File_Name;
+
+        event_delayed (const int8u* Data_Content_, size_t Data_Size_, const Ztring &File_Name_)
+        {
+            File_Name=File_Name_;
+            Data_Size=Data_Size_;
+            Data_Content=new int8u[Data_Size];
+            std::memcpy(Data_Content, Data_Content_, Data_Size);
+        }
+
+        ~event_delayed ()
+        {
+            delete[] Data_Content; //Data_Content=NULL;
+        }
+    };
+    typedef std::map<File__Analyze*, std::vector<event_delayed*> > events_delayed;
+    events_delayed Events_Delayed;
     void*                   Event_UserHandler;
     ZtringListList          SubFile_Config;
     int64u                  SubFile_StreamID;
@@ -327,6 +356,9 @@ private :
     #endif //defined(MEDIAINFO_LIBMMS_YES)
     bool                    File_Eia608_DisplayEmptyStream;
     bool                    File_Eia708_DisplayEmptyStream;
+    #if defined(MEDIAINFO_AC3_YES)
+    bool                    File_Ac3_IgnoreCrc;
+    #endif //defined(MEDIAINFO_AC3_YES)
 
     //Analysis internal
     float                   State;

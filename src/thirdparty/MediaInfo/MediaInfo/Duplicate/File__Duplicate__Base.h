@@ -24,9 +24,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#include "ZenLib/ZtringListList.h"
 #include <map>
-using namespace ZenLib;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

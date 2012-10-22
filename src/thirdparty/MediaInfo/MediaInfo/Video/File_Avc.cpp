@@ -88,6 +88,7 @@ const char* Avc_profile_idc(int8u profile_idc)
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
     #include "MediaInfo/MediaInfo_Events.h"
+    #include "MediaInfo/MediaInfo_Events_Internal.h"
 #endif //MEDIAINFO_EVENTS
 #include <cstring>
 #include <cmath>
@@ -406,15 +407,18 @@ void File_Avc::Streams_Fill(std::vector<seq_parameter_set_struct*>::iterator seq
     float64 PixelAspectRatio=1;
     if ((*seq_parameter_set_Item)->vui_parameters)
     {
-        if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc<Avc_PixelAspectRatio_Size)
-            PixelAspectRatio=Avc_PixelAspectRatio[(*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc];
-        else if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc==0xFF && (*seq_parameter_set_Item)->vui_parameters->sar_height)
-            PixelAspectRatio=((float64)(*seq_parameter_set_Item)->vui_parameters->sar_width)/(*seq_parameter_set_Item)->vui_parameters->sar_height;
+        if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_info_present_flag)
+        {
+            if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc<Avc_PixelAspectRatio_Size)
+                PixelAspectRatio=Avc_PixelAspectRatio[(*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc];
+            else if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc==0xFF && (*seq_parameter_set_Item)->vui_parameters->sar_height)
+                PixelAspectRatio=((float64)(*seq_parameter_set_Item)->vui_parameters->sar_width)/(*seq_parameter_set_Item)->vui_parameters->sar_height;
+        }
         if ((*seq_parameter_set_Item)->vui_parameters->timing_info_present_flag)
         {
             if (!(*seq_parameter_set_Item)->vui_parameters->fixed_frame_rate_flag)
                 Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, "VFR");
-            else if ((*seq_parameter_set_Item)->vui_parameters->time_scale && (*seq_parameter_set_Item)->vui_parameters->num_units_in_tick)
+            else if ((*seq_parameter_set_Item)->vui_parameters->timing_info_present_flag && (*seq_parameter_set_Item)->vui_parameters->time_scale && (*seq_parameter_set_Item)->vui_parameters->num_units_in_tick)
                 Fill(Stream_Video, StreamPos_Last, Video_FrameRate, (float64)(*seq_parameter_set_Item)->vui_parameters->time_scale/(*seq_parameter_set_Item)->vui_parameters->num_units_in_tick/((*seq_parameter_set_Item)->frame_mbs_only_flag?2:((*seq_parameter_set_Item)->pic_order_cnt_type==2?1:2))/FrameRate_Divider);
         }
 
@@ -646,6 +650,7 @@ bool File_Avc::FileHeader_Begin()
 bool File_Avc::Synchronize()
 {
     //Synchronizing
+    size_t Buffer_Offset_Min=Buffer_Offset;
     while(Buffer_Offset+4<=Buffer_Size && (Buffer[Buffer_Offset  ]!=0x00
                                         || Buffer[Buffer_Offset+1]!=0x00
                                         || Buffer[Buffer_Offset+2]!=0x01))
@@ -656,7 +661,7 @@ bool File_Avc::Synchronize()
         if (Buffer_Offset>=Buffer_Size || Buffer[Buffer_Offset-1]==0x00)
             Buffer_Offset--;
     }
-    if (Buffer_Offset && Buffer[Buffer_Offset-1]==0x00)
+    if (Buffer_Offset>Buffer_Offset_Min && Buffer[Buffer_Offset-1]==0x00)
         Buffer_Offset--;
 
     //Parsing last bytes if needed
@@ -691,14 +696,16 @@ bool File_Avc::Synched_Test()
         return false;
 
     //Quick test of synchro
-    if (CC3(Buffer+Buffer_Offset)!=0x000001 && CC4(Buffer+Buffer_Offset)!=0x00000001)
+    if (Buffer[Buffer_Offset  ]!=0x00
+     || Buffer[Buffer_Offset+1]!=0x00
+     || (Buffer[Buffer_Offset+2]!=0x01 && (Buffer[Buffer_Offset+2]!=0x00 || Buffer[Buffer_Offset+3]!=0x01)))
     {
         Synched=false;
         return true;
     }
 
     //Quick search
-    if (Synched && !Header_Parser_QuickSearch())
+    if (!Header_Parser_QuickSearch())
         return false;
 
     #if MEDIAINFO_IBI
@@ -921,7 +928,6 @@ void File_Avc::Read_Buffer_Unsynched()
             (*pic_parameter_set_Item)->IsSynched=false;
 
     //Status
-    IFrame_Count=0;
     Interlaced_Top=0;
     Interlaced_Bottom=0;
     prevPicOrderCntMsb=0;
@@ -1007,8 +1013,9 @@ void File_Avc::Header_Parse()
         Get_S1 ( 5, nal_unit_type,                              "nal_unit_type");
         BS_End();
 
-        //Filling
-        Header_Fill_Size(Element_Offset+Size-1);
+        FILLING_BEGIN()
+            Header_Fill_Size(Element_Offset+Size-1);
+        FILLING_END()
     }
 
     //Filling
@@ -1079,10 +1086,16 @@ bool File_Avc::Header_Parser_QuickSearch()
         Buffer_Offset+=4;
         Synched=false;
         if (!Synchronize())
+        {
+            UnSynched_IsNotJunk=true;
             return false;
+        }
 
         if (Buffer_Offset+6>Buffer_Size)
+        {
+            UnSynched_IsNotJunk=true;
             return false;
+        }
     }
 
     Trusted_IsNot("AVC, Synchronisation lost");
@@ -1260,40 +1273,29 @@ void File_Avc::slice_header()
     Get_UE (slice_type,                                         "slice_type"); Param_Info1C((slice_type<10), Avc_slice_type[slice_type]);
     #if MEDIAINFO_EVENTS
         {
-            struct MediaInfo_Event_Video_SliceInfo_0 Event;
-            Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_Video_SliceInfo, 0);
-            Event.Stream_Offset=File_Offset+Buffer_Offset;
-            Event.PCR=FrameInfo.PCR;
-            Event.PTS=FrameInfo.PTS;
-            Event.DTS=FrameInfo.DTS;
-            Event.DUR=FrameInfo.DUR;
-            Event.StreamIDs_Size=StreamIDs_Size;
-            Event.StreamIDs=(MediaInfo_int64u*)StreamIDs;
-            Event.StreamIDs_Width=(MediaInfo_int8u*)StreamIDs_Width;
-            Event.ParserIDs=(MediaInfo_int8u* )ParserIDs;
-            Event.FramePosition=Frame_Count;
-            Event.FieldPosition=Field_Count;
-            Event.SlicePosition=Element_IsOK()?first_mb_in_slice:(int64u)-1;
-            switch (slice_type)
-            {
-                case 0 :
-                case 3 :
-                case 5 :
-                case 8 :
-                            Event.SliceType=1; break;
-                case 1 :
-                case 6 :
-                            Event.SliceType=2; break;
-                case 2 :
-                case 4 :
-                case 7 :
-                case 9 :
-                            Event.SliceType=0; break;
-                default:
-                            Event.SliceType=(int8u)-1;
-            }
-            Event.Flags=0;
-            Config->Event_Send((const int8u*)&Event, sizeof(MediaInfo_Event_Video_SliceInfo_0));
+            EVENT_BEGIN (Video, SliceInfo, 0)
+                Event.FieldPosition=Field_Count;
+                Event.SlicePosition=Element_IsOK()?first_mb_in_slice:(int64u)-1;
+                switch (slice_type)
+                {
+                    case 0 :
+                    case 3 :
+                    case 5 :
+                    case 8 :
+                                Event.SliceType=1; break;
+                    case 1 :
+                    case 6 :
+                                Event.SliceType=2; break;
+                    case 2 :
+                    case 4 :
+                    case 7 :
+                    case 9 :
+                                Event.SliceType=0; break;
+                    default:
+                                Event.SliceType=(int8u)-1;
+                }
+                Event.Flags=0;
+            EVENT_END   ()
         }
     #endif //MEDIAINFO_EVENTS
     if (slice_type>=10)
@@ -1619,7 +1621,7 @@ void File_Avc::slice_header()
             }
         }
 
-        if ((*seq_parameter_set_Item)->vui_parameters && (*seq_parameter_set_Item)->vui_parameters->num_units_in_tick)
+        if ((*seq_parameter_set_Item)->vui_parameters && (*seq_parameter_set_Item)->vui_parameters->timing_info_present_flag && (*seq_parameter_set_Item)->vui_parameters->num_units_in_tick)
             tc=float64_int64s(((float64)1000000000)/((float64)(*seq_parameter_set_Item)->vui_parameters->time_scale/(*seq_parameter_set_Item)->vui_parameters->num_units_in_tick/((*seq_parameter_set_Item)->pic_order_cnt_type==2?1:2)/FrameRate_Divider)/((!(*seq_parameter_set_Item)->frame_mbs_only_flag && field_pic_flag)?2:1));
         if (first_mb_in_slice==0)
         {
@@ -2057,7 +2059,7 @@ void File_Avc::sei_message_pic_timing(int32u /*payloadSize*/, int32u seq_paramet
                     if (time_offset_length)
                         Get_S4 (time_offset_length, time_offset,    "time_offset");
                 }
-                if ((*seq_parameter_set_Item)->vui_parameters && (*seq_parameter_set_Item)->vui_parameters->time_scale)
+                if ((*seq_parameter_set_Item)->vui_parameters && (*seq_parameter_set_Item)->vui_parameters->timing_info_present_flag && (*seq_parameter_set_Item)->vui_parameters->time_scale)
                 {
                     float32 Milliseconds=((float32)(n_frames*((*seq_parameter_set_Item)->vui_parameters->num_units_in_tick*(1+(nuit_field_based_flag?1:0)))+time_offset))/(*seq_parameter_set_Item)->vui_parameters->time_scale;
                     TimeStamp+=__T('.');
@@ -2223,14 +2225,17 @@ void File_Avc::sei_message_user_data_registered_itu_t_t35_GA94_03_Delayed(int32u
                         break;
                 if (seq_parameter_set_Item!=seq_parameter_sets.end())
                 {
-                    if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc<Avc_PixelAspectRatio_Size)
-                        PixelAspectRatio=Avc_PixelAspectRatio[(*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc];
-                    else if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc==0xFF && (*seq_parameter_set_Item)->vui_parameters->sar_height)
-                        PixelAspectRatio=((float64)(*seq_parameter_set_Item)->vui_parameters->sar_width)/(*seq_parameter_set_Item)->vui_parameters->sar_height;
+                    if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_info_present_flag)
+                    {
+                        if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc<Avc_PixelAspectRatio_Size)
+                            PixelAspectRatio=Avc_PixelAspectRatio[(*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc];
+                        else if ((*seq_parameter_set_Item)->vui_parameters->aspect_ratio_idc==0xFF && (*seq_parameter_set_Item)->vui_parameters->sar_height)
+                            PixelAspectRatio=((float64)(*seq_parameter_set_Item)->vui_parameters->sar_width)/(*seq_parameter_set_Item)->vui_parameters->sar_height;
+                    }
+                    int32u Width =((*seq_parameter_set_Item)->pic_width_in_mbs_minus1       +1)*16;
+                    int32u Height=((*seq_parameter_set_Item)->pic_height_in_map_units_minus1+1)*16*(2-(*seq_parameter_set_Item)->frame_mbs_only_flag);
+                    ((File_DtvccTransport*)GA94_03_Parser)->AspectRatio=Width*PixelAspectRatio/Height;
                 }
-                int32u Width =((*seq_parameter_set_Item)->pic_width_in_mbs_minus1       +1)*16;
-                int32u Height=((*seq_parameter_set_Item)->pic_height_in_map_units_minus1+1)*16*(2-(*seq_parameter_set_Item)->frame_mbs_only_flag);
-                ((File_DtvccTransport*)GA94_03_Parser)->AspectRatio=Width*PixelAspectRatio/Height;
             }
             if (GA94_03_Parser->PTS_DTS_Needed)
             {

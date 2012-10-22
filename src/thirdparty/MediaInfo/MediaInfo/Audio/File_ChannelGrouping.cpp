@@ -235,7 +235,7 @@ void File_ChannelGrouping::Read_Buffer_Continue()
         Common->Channels[Channel_Pos]->resize(Common->Channels[Channel_Pos]->Buffer_Size+Buffer_Size-Buffer_Offset_AlreadyInCommon);
     memcpy(Common->Channels[Channel_Pos]->Buffer+Common->Channels[Channel_Pos]->Buffer_Size, Buffer+Buffer_Offset_AlreadyInCommon, Buffer_Size-Buffer_Offset_AlreadyInCommon);
     Common->Channels[Channel_Pos]->Buffer_Size+=Buffer_Size-Buffer_Offset_AlreadyInCommon;
-    if (!Common->IsAes3 && !Common->IsPcm)
+    if (!Common->IsAes3 && !(IsAes3 && Common->IsPcm))
         Buffer_Offset_AlreadyInCommon=Buffer_Size;
     else
         Buffer_Offset_AlreadyInCommon=0;
@@ -290,7 +290,7 @@ void File_ChannelGrouping::Read_Buffer_Continue()
             Common->IsPcm=true;
     }
 
-    if (Common->IsAes3 || Common->IsPcm)
+    if (Common->IsAes3 || (IsAes3 && Common->IsPcm))
     {
         Buffer_Offset=Buffer_Size;
         Buffer_Offset_AlreadyInCommon=0;

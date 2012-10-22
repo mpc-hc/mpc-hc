@@ -52,17 +52,12 @@
 #ifdef __MINGW32__
     #include <windows.h>
 #endif //__MINGW32__
-#include <cstring>
-#include <cstdio>
-#include <cstdlib>
 #ifdef SS
    #undef SS //Solaris defines this in cstdlib
 #endif
 #include <algorithm>
-#include <sstream>
 #include <iomanip>
 #include <cmath>
-#include "ZenLib/Ztring.h"
 #include "ZenLib/OS_Utils.h"
 #include "ZenLib/File.h"
 using namespace std;
@@ -1069,7 +1064,7 @@ Ztring& Ztring::From_Number (const float32 F, int8u Precision, ztring_t Options)
         #endif
     #endif
 
-    if ((Options & Ztring_NoZero && size()>0) && find(__T('.'))>0)
+    if ((Options & Ztring_NoZero && size()>0) && find(__T('.'))!=string::npos)
     {
         while (size()>0 && ((*this)[size()-1]==__T('0')))
             resize(size()-1);
@@ -1095,7 +1090,7 @@ Ztring& Ztring::From_Number (const float64 F, int8u Precision, ztring_t Options)
         #endif
     #endif
 
-    if ((Options & Ztring_NoZero && size()>0) && find(__T('.'))>0)
+    if ((Options & Ztring_NoZero && size()>0) && find(__T('.'))!=string::npos)
     {
         while (size()>0 && ((*this)[size()-1]==__T('0')))
             resize(size()-1);
@@ -1121,7 +1116,7 @@ Ztring& Ztring::From_Number (const float80 F, int8u Precision, ztring_t Options)
         #endif
     #endif
 
-    if ((Options & Ztring_NoZero && size()>0) && find(__T('.'))>0)
+    if ((Options & Ztring_NoZero && size()>0) && find(__T('.'))!=string::npos)
     {
         while (size()>0 && ((*this)[size()-1]==__T('0')))
             resize(size()-1);
@@ -2230,7 +2225,7 @@ float80 Ztring::To_float80(ztring_t) const
 // Retourne une partie de la chaine
 Ztring Ztring::SubString (const tstring &Begin, const tstring &End, size_type Pos, ztring_t Options) const
 {
-    //Recherche Début
+    //Recherche Debut
     size_type I_Debut=find(Begin, Pos);
     if (I_Debut==Error)
         return Ztring();

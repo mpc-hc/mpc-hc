@@ -36,6 +36,7 @@
 #ifdef SS
    #undef SS //Solaris defines this somewhere
 #endif
+using namespace std;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

@@ -56,7 +56,7 @@ private :
     void Comment();
 
     //Temp
-    int8u Identification_Done;
+    bool Identification_Done;
 };
 
 } //NameSpace

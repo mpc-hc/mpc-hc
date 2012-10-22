@@ -89,7 +89,8 @@ private :
     Ztring Profile;
     File__Analyze* Parser; //14 bits or Little Endian
     int32u HD_size;
-    int16u Primary_Frame_Byte_Size_minus_1;
+    int16u Primary_Frame_Byte_Size;
+    int16u Number_Of_PCM_Sample_Blocks;
     int16u HD_SpeakerActivityMask;
     int8u  channel_arrangement;
     int8u  channel_arrangement_XCh;

@@ -222,18 +222,52 @@ extern "C"
 /***************************************************************************/
 
 /*-------------------------------------------------------------------------*/
-/* Generic                                                                 */
-struct MediaInfo_Event_Generic
+/* Time code                                                               */
+typedef struct MediaInfo_time_code
 {
-    MediaInfo_int32u        EventCode;
-};
+    MediaInfo_int8u     Hours;
+    MediaInfo_int8u     Minutes;
+    MediaInfo_int8u     Seconds;
+    MediaInfo_int8u     Frames;
+    MediaInfo_int8u     FramesPerSecond;
+    MediaInfo_int8u     DropFrame; //0= No, 1=Yes
+    MediaInfo_int8u     Reserved[2];
+} MediaInfo_time_code;
+
+/*-------------------------------------------------------------------------*/
+/* Generic                                                                 */
+#define MEDIAINFO_EVENT_GENERIC \
+    MediaInfo_int32u        EventCode; \
+    MediaInfo_int32u        ReservedI32; \
+    size_t                  EventSize; \
+    size_t                  StreamIDs_Size; \
+    MediaInfo_int64u        StreamIDs[16]; \
+    MediaInfo_int8u         StreamIDs_Width[16]; \
+    MediaInfo_int8u         ParserIDs[16]; \
+    MediaInfo_int64u        StreamOffset; \
+    MediaInfo_int64u        FrameNumber; \
+    MediaInfo_int64u        PCR; \
+    MediaInfo_int64u        PTS; \
+    MediaInfo_int64u        DTS; \
+    MediaInfo_int64u        DUR; \
+    MediaInfo_int64u        FrameNumber_PresentationOrder; \
+    MediaInfo_int64u        ReservedI64[1]; \
+    MediaInfo_time_code     TimeCode_Container; \
+    MediaInfo_time_code     TimeCode_SDTI; \
+    MediaInfo_time_code     TimeCode_RawStream; \
+    MediaInfo_time_code     ReservedT[5]; \
+
+typedef struct MediaInfo_Event_Generic
+{
+    MEDIAINFO_EVENT_GENERIC
+} MediaInfo_Event_Generic;
 
 /*-------------------------------------------------------------------------*/
 /* MediaInfo_Event_Log_0                                                   */
 #define MediaInfo_Event_Log 0x0F00
 struct MediaInfo_Event_Log_0
 {
-    MediaInfo_int32u        EventCode;
+    MEDIAINFO_EVENT_GENERIC
     MediaInfo_int8u         Type;
     MediaInfo_int8u         Severity;
     MediaInfo_int8u         Reserved2;
@@ -255,71 +289,19 @@ enum MediaInfo_Event_Global_Demux_0_contenttype
     MediaInfo_Event_Global_Demux_0_ContentType_Header,
     MediaInfo_Event_Global_Demux_0_ContentType_Synchro
 };
-struct MediaInfo_Event_Global_Demux_0
+
+struct MediaInfo_Event_Global_Demux_4
 {
-    MediaInfo_int32u        EventCode;
-    MediaInfo_int64u        Stream_Offset;
-    MediaInfo_int64u        PCR;
-    MediaInfo_int64u        PTS;
-    MediaInfo_int64u        DTS;
-    size_t                  StreamIDs_Size;
-    MediaInfo_int64u*       StreamIDs;
-    MediaInfo_int8u*        StreamIDs_Width;
-    MediaInfo_int8u*        ParserIDs;
+    MEDIAINFO_EVENT_GENERIC
     MediaInfo_int8u         Content_Type; /*MediaInfo_Event_Global_Demux_0_contenttype*/
     size_t                  Content_Size;
     const MediaInfo_int8u*  Content;
-};
-struct MediaInfo_Event_Global_Demux_1
-{
-    MediaInfo_int32u        EventCode;
-    MediaInfo_int64u        Stream_Offset;
-    MediaInfo_int64u        PCR;
-    MediaInfo_int64u        PTS;
-    MediaInfo_int64u        DTS;
-    size_t                  StreamIDs_Size;
-    MediaInfo_int64u*       StreamIDs;
-    MediaInfo_int8u*        StreamIDs_Width;
-    MediaInfo_int8u*        ParserIDs;
-    MediaInfo_int8u         Content_Type; /*MediaInfo_Event_Global_Demux_0_contenttype*/
-    size_t                  Content_Size;
-    const MediaInfo_int8u*  Content;
-    MediaInfo_int64u        DUR;
-};
-struct MediaInfo_Event_Global_Demux_2
-{
-    MediaInfo_int32u        EventCode;
-    MediaInfo_int64u        Stream_Offset;
-    MediaInfo_int64u        PCR;
-    MediaInfo_int64u        PTS;
-    MediaInfo_int64u        DTS;
-    size_t                  StreamIDs_Size;
-    MediaInfo_int64u*       StreamIDs;
-    MediaInfo_int8u*        StreamIDs_Width;
-    MediaInfo_int8u*        ParserIDs;
-    MediaInfo_int8u         Content_Type; /*MediaInfo_Event_Global_Demux_0_contenttype*/
-    size_t                  Content_Size;
-    const MediaInfo_int8u*  Content;
-    MediaInfo_int64u        DUR;
     MediaInfo_int64u        Flags; /*bit0=random_access*/
-};
-struct MediaInfo_Event_Global_Demux_3
-{
-    MediaInfo_int32u        EventCode;
-    MediaInfo_int64u        Stream_Offset;
-    MediaInfo_int64u        PCR;
-    MediaInfo_int64u        PTS;
-    MediaInfo_int64u        DTS;
-    size_t                  StreamIDs_Size;
-    MediaInfo_int64u*       StreamIDs;
-    MediaInfo_int8u*        StreamIDs_Width;
-    MediaInfo_int8u*        ParserIDs;
-    MediaInfo_int8u         Content_Type; /*MediaInfo_Event_Global_Demux_0_contenttype*/
-    size_t                  Content_Size;
-    const MediaInfo_int8u*  Content;
-    MediaInfo_int64u        DUR;
-    MediaInfo_int64u        Flags; /*bit0=random_access*/
-    MediaInfo_int64u        FrameNumber;
+    size_t                  Offsets_Size;
+    const MediaInfo_int64u* Offsets_Stream; /* From the begin of the stream */
+    const MediaInfo_int64u* Offsets_Content; /* From the begin of the demuxed content */
+    size_t                  OriginalContent_Size; /* In case of decoded content inside MediaInfo, OriginalContent contain the not-decoded stream */
+    const MediaInfo_int8u*  OriginalContent; /* In case of decoded content inside MediaInfo, OriginalContent contain the not-decoded stream */
 };
 
 /*-------------------------------------------------------------------------*/
@@ -327,17 +309,7 @@ struct MediaInfo_Event_Global_Demux_3
 #define MediaInfo_Event_Video_SliceInfo 0x7801
 struct MediaInfo_Event_Video_SliceInfo_0
 {
-    MediaInfo_int32u        EventCode;
-    MediaInfo_int64u        Stream_Offset;
-    MediaInfo_int64u        PCR;
-    MediaInfo_int64u        PTS;
-    MediaInfo_int64u        DTS;
-    MediaInfo_int64u        DUR;
-    size_t                  StreamIDs_Size;
-    MediaInfo_int64u*       StreamIDs;
-    MediaInfo_int8u*        StreamIDs_Width;
-    MediaInfo_int8u*        ParserIDs;
-    MediaInfo_int64u        FramePosition;
+    MEDIAINFO_EVENT_GENERIC
     MediaInfo_int64u        FieldPosition;
     MediaInfo_int64u        SlicePosition;
     MediaInfo_int8u         SliceType;
@@ -349,13 +321,16 @@ struct MediaInfo_Event_Video_SliceInfo_0
 /***************************************************************************/
 
 #define MediaInfo_Parser_None           0x00
+#define MediaInfo_Parser_General        0x00
+#define MediaInfo_Parser_Global         0x00
+#define MediaInfo_Parser_Video          0x01
 
 /*-------------------------------------------------------------------------*/
 /* Start                                                                   */
 #define MediaInfo_Event_General_Start 0x7001
 struct MediaInfo_Event_General_Start_0
 {
-    MediaInfo_int32u        EventCode;
+    MEDIAINFO_EVENT_GENERIC
     MediaInfo_int64u        Stream_Size;
 };
 
@@ -364,8 +339,11 @@ struct MediaInfo_Event_General_Start_0
 #define MediaInfo_Event_General_End 0x7002
 struct MediaInfo_Event_General_End_0
 {
-    MediaInfo_int32u        EventCode;
+    MEDIAINFO_EVENT_GENERIC
     MediaInfo_int64u        Stream_Bytes_Analyzed;
+    MediaInfo_int64u        Stream_Size;
+    MediaInfo_int64u        Stream_Bytes_Padding;
+    MediaInfo_int64u        Stream_Bytes_Junk;
 };
 
 /*-------------------------------------------------------------------------*/
@@ -373,7 +351,7 @@ struct MediaInfo_Event_General_End_0
 #define MediaInfo_Event_General_Parser_Selected 0x7003
 struct MediaInfo_Event_General_Parser_Selected_0
 {
-    MediaInfo_int32u        EventCode;
+    MEDIAINFO_EVENT_GENERIC
     char                    Name[16];
 };
 
@@ -382,8 +360,7 @@ struct MediaInfo_Event_General_Parser_Selected_0
 #define MediaInfo_Event_General_Move_Request 0x7004
 struct MediaInfo_Event_General_Move_Request_0
 {
-    MediaInfo_int32u        EventCode;
-    MediaInfo_int64u        Stream_Offset;
+    MEDIAINFO_EVENT_GENERIC
 };
 
 /*-------------------------------------------------------------------------*/
@@ -391,8 +368,7 @@ struct MediaInfo_Event_General_Move_Request_0
 #define MediaInfo_Event_General_Move_Done 0x7005
 struct MediaInfo_Event_General_Move_Done_0
 {
-    MediaInfo_int32u        EventCode;
-    MediaInfo_int64u        Stream_Offset;
+    MEDIAINFO_EVENT_GENERIC
 };
 
 /*-------------------------------------------------------------------------*/
@@ -400,11 +376,7 @@ struct MediaInfo_Event_General_Move_Done_0
 #define MediaInfo_Event_General_SubFile_Start 0x7006
 struct MediaInfo_Event_General_SubFile_Start_0
 {
-    MediaInfo_int32u        EventCode;
-    size_t                  StreamIDs_Size;
-    MediaInfo_int64u*       StreamIDs;
-    MediaInfo_int8u*        StreamIDs_Width;
-    MediaInfo_int8u*        ParserIDs;
+    MEDIAINFO_EVENT_GENERIC
     const char*             FileName_Relative;
     const wchar_t*          FileName_Relative_Unicode;
     const char*             FileName_Absolute;
@@ -416,7 +388,7 @@ struct MediaInfo_Event_General_SubFile_Start_0
 #define MediaInfo_Event_General_SubFile_End 0x7007
 struct MediaInfo_Event_General_SubFile_End_0
 {
-    MediaInfo_int32u        EventCode;
+    MEDIAINFO_EVENT_GENERIC
 };
 
 /***************************************************************************/

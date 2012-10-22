@@ -196,6 +196,11 @@ void File_Lxf::Streams_Finish()
         Finish(Videos[1].Parser);
         Streams_Fill_PerStream(Videos[1].Parser, Stream_Video, 1);
     }
+    if (Videos[2].Parser)
+    {
+        Finish(Videos[2].Parser);
+        Merge(*Videos[2].Parser, Stream_Video, 0, 0);
+    }
 
     if (Audios_Header.TimeStamp_End!=(int64u)-1 && Audios_Header.TimeStamp_Begin!=(int64u)-1 && Audios_Header.Duration_First!=(int64u)-1)
     {
@@ -293,7 +298,6 @@ bool File_Lxf::Synchronize()
         Fill(Stream_General, 0, General_Format, "LXF");
 
         File_Buffer_Size_Hint_Pointer=Config->File_Buffer_Size_Hint_Pointer_Get();
-        Buffer_MaximumSize=16*1024*1024;
     }
 
     #if MEDIAINFO_SEEK

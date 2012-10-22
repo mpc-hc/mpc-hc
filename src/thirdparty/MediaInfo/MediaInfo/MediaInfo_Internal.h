@@ -40,18 +40,13 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/MediaInfo_Internal_Const.h"
 #include "MediaInfo/MediaInfo_Config.h"
 #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 #include "ZenLib/Thread.h"
-#include "ZenLib/CriticalSection.h"
-#include <bitset>
 #if defined (MEDIAINFO_DEBUG_CONFIG) || defined (MEDIAINFO_DEBUG_BUFFER) || defined (MEDIAINFO_DEBUG_OUTPUT)
     #include <ZenLib/File.h>
     #include <map>
 #endif //MEDIAINFO_DEBUG
-using namespace std;
-using namespace ZenLib;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

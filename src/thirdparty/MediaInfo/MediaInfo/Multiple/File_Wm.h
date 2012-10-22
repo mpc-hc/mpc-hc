@@ -24,7 +24,6 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#include <map>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -172,6 +171,7 @@ private :
     size_t Streams_Count;
     int64u Header_ExtendedContentDescription_AspectRatioX;
     int64u Header_ExtendedContentDescription_AspectRatioY;
+    size_t Header_StreamProperties_StreamOrder;
     int64u Data_AfterTheDataChunk;
     int32u SizeOfMediaObject_BytesAlreadyParsed;
     int32u FileProperties_Preroll;

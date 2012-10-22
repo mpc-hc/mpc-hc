@@ -33,8 +33,6 @@
 
 //---------------------------------------------------------------------------
 #include "ZenLib/Format/Html/Html_Handler.h"
-#include "ZenLib/Ztring.h"
-#include <sstream>
 using namespace std;
 //---------------------------------------------------------------------------
 

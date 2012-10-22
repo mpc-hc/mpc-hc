@@ -131,6 +131,7 @@ const char* Mpeg_Psi_stream_type_Format(int8u stream_type, int32u format_identif
                             case 0x80 : return "MPEG Video";
                             case 0x81 : return "AC-3";
                             case 0x82 : return "Text";
+                            case 0x86 : return "SCTE 35";
                             case 0x87 : return "E-AC-3";
                             default   : return "";
                         }
@@ -1091,6 +1092,7 @@ void File_Mpeg_Psi::Table_00()
 
     if (Complete_Stream->Transport_Streams[table_id_extension].Programs_NotParsedCount==(size_t)-1)
         Complete_Stream->Transport_Streams[table_id_extension].Programs_NotParsedCount=0;
+    Complete_Stream->Transport_Streams[table_id_extension].programs_List.clear();
 
     //Saving previous status
     std::map<int16u, complete_stream::transport_stream::program> program_numbers_Previous=Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs;
@@ -1318,9 +1320,6 @@ void File_Mpeg_Psi::Table_02()
                 #endif //MEDIAINFO_TRACE
             }
         #endif //MEDIAINFO_MPEGTS_PCR_YES
-
-        //Sorting
-        sort(Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[program_number].elementary_PIDs.begin(), Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[program_number].elementary_PIDs.end());
 
         //Handling ATSC/CEA/DVB
         if (!Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs_NotParsedCount)
@@ -2419,6 +2418,7 @@ void File_Mpeg_Psi::program_number_Update()
     {
         Complete_Stream->Transport_Streams[table_id_extension].Programs_NotParsedCount++;
         Complete_Stream->Transport_Streams[table_id_extension].Programs[program_number].pid=elementary_PID;
+        Complete_Stream->Transport_Streams[table_id_extension].programs_List.push_back(program_number);
         if (Complete_Stream->Streams.size()<0x2000)
             Complete_Stream->Streams.resize(0x2000); //TODO: find the reason this code is called
         Complete_Stream->Streams[elementary_PID]->program_numbers.push_back(program_number);
@@ -2530,7 +2530,7 @@ void File_Mpeg_Psi::elementary_PID_Update(int16u PCR_PID)
         Complete_Stream->Streams_NotParsedCount++;
         if (stream_type==0x86 && Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].registration_format_identifier==Elements::CUEI)
         {
-            Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].Infos["SCTE35_PID"]=Ztring::ToZtring(elementary_PID);
+            Complete_Stream->Transport_Streams[Complete_Stream->transport_stream_id].Programs[table_id_extension].HasNotDisplayableStreams=true;
             Complete_Stream->Streams[elementary_PID]->Kind=complete_stream::stream::psi;
             Complete_Stream->Streams[elementary_PID]->Table_IDs.resize(0x100);
             Complete_Stream->Streams[elementary_PID]->Table_IDs[0xFC]=new complete_stream::stream::table_id; //Splice

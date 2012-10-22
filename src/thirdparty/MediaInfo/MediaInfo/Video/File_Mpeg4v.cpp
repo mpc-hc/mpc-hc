@@ -37,6 +37,9 @@
 #if defined(MEDIAINFO_MPEG4V_YES) || defined(MEDIAINFO_MPEG4_YES)
 //---------------------------------------------------------------------------
 
+#if MEDIAINFO_EVENTS
+    #include "MediaInfo/MediaInfo_Events_Internal.h"
+#endif //MEDIAINFO_EVENTS
 #include "ZenLib/Conf.h"
 #include "ZenLib/Utils.h"
 using namespace ZenLib;
@@ -273,15 +276,20 @@ void File_Mpeg4v::OnlyVOP()
 bool File_Mpeg4v::Synched_Test()
 {
     //Must have enough buffer for having header
-    if (Buffer_Offset+3>Buffer_Size)
+    if (Buffer_Offset+4>Buffer_Size)
         return false;
 
     //Quick test of synchro
-    if (CC3(Buffer+Buffer_Offset)!=0x000001)
+    if (Buffer[Buffer_Offset  ]!=0x00
+     || Buffer[Buffer_Offset+1]!=0x00
+     || Buffer[Buffer_Offset+2]!=0x01)
+    {
         Synched=false;
+        return true;
+    }
 
     //Quick search
-    if (Synched && !Header_Parser_QuickSearch())
+    if (!Header_Parser_QuickSearch())
         return false;
 
     #if MEDIAINFO_IBI
@@ -743,16 +751,15 @@ bool File_Mpeg4v::Header_Parser_QuickSearch()
         Synched=false;
         if (!Synchronize())
         {
-            if (File_Offset+Buffer_Size==File_Size)
-            {
-                Synched=true;
-                return true;
-            }
+            UnSynched_IsNotJunk=true;
             return false;
         }
 
         if (Buffer_Offset+4>Buffer_Size)
+        {
+            UnSynched_IsNotJunk=true;
             return false;
+        }
     }
 
     if (Buffer_Offset+3==Buffer_Size)
@@ -1728,35 +1735,24 @@ void File_Mpeg4v::vop_start()
 
         #if MEDIAINFO_EVENTS
             {
-                struct MediaInfo_Event_Video_SliceInfo_0 Event;
-                Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_Video_SliceInfo, 0);
-                Event.Stream_Offset=File_Offset+Buffer_Offset;
-                Event.PCR=FrameInfo.PCR;
-                Event.PTS=FrameInfo.PTS;
-                Event.DTS=FrameInfo.DTS;
-                Event.DUR=FrameInfo.DUR;
-                Event.StreamIDs_Size=StreamIDs_Size;
-                Event.StreamIDs=(MediaInfo_int64u*)StreamIDs;
-                Event.StreamIDs_Width=(MediaInfo_int8u*)StreamIDs_Width;
-                Event.ParserIDs=(MediaInfo_int8u* )ParserIDs;
-                Event.FramePosition=Frame_Count;
-                Event.FieldPosition=Field_Count;
-                Event.SlicePosition=0;
-                switch (vop_coding_type)
-                {
-                    case 0 :
-                                Event.SliceType=0; break;
-                    case 1 :
-                                Event.SliceType=1; break;
-                    case 2 :
-                                Event.SliceType=2; break;
-                    case 3 :
-                                Event.SliceType=3; break;
-                    default:
-                                Event.SliceType=(int8u)-1;
-                }
-                Event.Flags=0;
-                Config->Event_Send((const int8u*)&Event, sizeof(MediaInfo_Event_Video_SliceInfo_0));
+                EVENT_BEGIN (Video, SliceInfo, 0)
+                    Event.FieldPosition=Field_Count;
+                    Event.SlicePosition=0;
+                    switch (vop_coding_type)
+                    {
+                        case 0 :
+                                    Event.SliceType=0; break;
+                        case 1 :
+                                    Event.SliceType=1; break;
+                        case 2 :
+                                    Event.SliceType=2; break;
+                        case 3 :
+                                    Event.SliceType=3; break;
+                        default:
+                                    Event.SliceType=(int8u)-1;
+                    }
+                    Event.Flags=0;
+                EVENT_END   ()
             }
         #endif //MEDIAINFO_EVENTS
     FILLING_END();

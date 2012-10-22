@@ -67,6 +67,7 @@ const char* DPX_Descriptors0[]=
     "Green (G)",
     "Blue (B)",
     "Alpha (matte)",
+    "", //No info
     "Luma (Y)",
     "Color Difference (CB, CR, subsampled by two)",
     "Depth (Z)",
@@ -312,7 +313,7 @@ void File_Dpx::Streams_Accept()
         Stream_Prepare(Stream_Image);
 
     //Configuration
-    Buffer_MaximumSize=64*1024*1024;
+    Buffer_MaximumSize=64*1024*1024; //Some big frames are possible (e.g YUV 4:2:2 10 bits 1080p)
     Frame_Count_NotParsedIncluded=0;
 }
 

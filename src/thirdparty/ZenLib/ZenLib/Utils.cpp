@@ -952,32 +952,32 @@ void int128u2BigEndian(char* List, int128u Value)
 
 //---------------------------------------------------------------------------
 // int32 - int64
-int64s int32s_int64s (                int32s  High, int32u  Low)
+int64s int32s_int64s (int32s High, int32u Low)
 {
     return ((((int64s)High)<<32) | Low);
 }
 
-int64u int32u_int64u (                int32u  High, int32u  Low)
+int64u int32u_int64u (int32u High, int32u Low)
 {
     return ((((int64s)High)<<32) | Low);
 }
 
-void   int32s_int64s (int64s &BigInt, int32s  High, int32u  Low)
+void   int32s_int64s (int64s &BigInt, int32s High, int32u Low)
 {
     BigInt= ((((int64s)High)<<32) | Low);
 }
-void   int32u_int64u (int64s &BigInt, int32u  High, int32u  Low)
+void   int32u_int64u (int64s &BigInt, int32u High, int32u Low)
 {
     BigInt= ((((int64s)High)<<32) | Low);
 }
 
-void   int64s_int32s (int64s  BigInt, int32s &High, int32u &Low)
+void   int64s_int32s (int64s BigInt, int32s &High, int32u &Low)
 {
     High = (int32s) ((BigInt & 0xFFFFFFFF00000000LL)>>32);
     Low  = (int32u) ( BigInt & 0x00000000FFFFFFFF);
 }
 
-void   int64u_int32u (int64u  BigInt, int32u &High, int32u &Low)
+void   int64u_int32u (int64u BigInt, int32u &High, int32u &Low)
 {
     High = (int32u) ((BigInt & 0xFFFFFFFF00000000LL)>>32);
     Low  = (int32u) ( BigInt & 0x00000000FFFFFFFF);

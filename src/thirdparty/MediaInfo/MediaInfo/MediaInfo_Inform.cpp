@@ -35,8 +35,6 @@
 
 //---------------------------------------------------------------------------
 #include "ZenLib/Utils.h"
-#include "MediaInfo/MediaInfo_Internal.h"
-#include "MediaInfo/MediaInfo_Config.h"
 #include "MediaInfo/Export/Export_Mpeg7.h"
 #include "MediaInfo/Export/Export_reVTMD.h"
 #include "MediaInfo/Export/Export_PBCore.h"
@@ -318,10 +316,13 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
 
                     Retour+=__T("<");
                     Retour+=Nom;
-                    if (Modified==1) //Base64
+                    if (Modified==1 && !MediaInfoLib::Config.SkipBinaryData_Get()) //Base64
                         Retour+=__T(" dt:dt=\"binary.base64\"");
                     Retour+=__T(">");
-                    Retour+=Valeur;
+                    if (Modified==1 && MediaInfoLib::Config.SkipBinaryData_Get())
+                        Retour+=__T("(Binary data)");
+                    else
+                        Retour+=Valeur;
                     Retour+=__T("</");
                     Retour+=Nom;
                     Retour+=__T(">");

@@ -27,6 +27,10 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
+#include "MediaInfo/Setup.h"
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
 #include "MediaInfo/MediaInfo_Internal_Const.h"
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Events.h"
@@ -35,10 +39,12 @@
 #include "ZenLib/ZtringListList.h"
 #include "ZenLib/Translation.h"
 #include "ZenLib/InfoMap.h"
-#include <map>
-#include <vector>
 #include <bitset>
 using namespace ZenLib;
+using std::vector;
+using std::string;
+using std::map;
+using std::make_pair;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -85,6 +91,9 @@ public :
 
           void      LegacyStreamDisplay_Set (bool Value);
           bool      LegacyStreamDisplay_Get ();
+
+          void      SkipBinaryData_Set (bool Value);
+          bool      SkipBinaryData_Get ();
 
           void      ParseSpeed_Set (float32 NewValue);
           float32   ParseSpeed_Get ();
@@ -288,6 +297,7 @@ private :
     bool            Language_Raw;
     bool            ReadByHuman;
     bool            LegacyStreamDisplay;
+    bool            SkipBinaryData;
     int8u           Demux;
     Ztring          Version;
     Ztring          ColumnSeparator;

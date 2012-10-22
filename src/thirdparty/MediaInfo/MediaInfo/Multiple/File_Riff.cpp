@@ -211,6 +211,7 @@ void File_Riff::Streams_Finish ()
             Finish(Temp->second.Parsers[0]);
             Merge(*Temp->second.Parsers[0], StreamKind_Last, 0, StreamPos_Last);
             Fill(StreamKind_Last, StreamPos_Last, General_ID, ((Temp->first>>24)-'0')*10+(((Temp->first>>16)&0xFF)-'0'));
+            Fill(StreamKind_Last, StreamPos_Last, General_StreamOrder, ((Temp->first>>24)-'0')*10+(((Temp->first>>16)&0xFF)-'0'));
 
             //Hacks - After
             Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_StreamSize), StreamSize, true);
@@ -646,11 +647,9 @@ bool File_Riff::Header_Begin()
 
         if (Config->ParseSpeed<1.0 && File_Offset+Buffer_Offset+Element_Offset-Buffer_DataToParse_Begin>=0x10000)
         {
-            Buffer_Offset=(size_t)(Buffer_DataToParse_End-File_Offset);
-            if (Buffer_Offset<Buffer_Size)
-                Element_Size=Buffer_Size-Buffer_Offset;
-            else
-                Element_Size=0;
+            File_GoTo=Buffer_DataToParse_End;
+            Buffer_Offset=Buffer_Size;
+            Element_Size=0;
         }
         else
         {
@@ -837,7 +836,11 @@ void File_Riff::Header_Parse()
     if (Name==Elements::ON2f)
         Name=Elements::AVI_;
 
-    //Filling
+    //Tests
+    if (Element_Level==2 && Name==Elements::WAVE && !IsRIFF64 && File_Size>0xFFFFFFFF)
+        IsWaveBroken=true; //Non standard big files detection
+    if (IsWaveBroken && (Name==Elements::WAVE || Name==Elements::WAVE_data))
+        Size_Complete=File_Size-(File_Offset+Buffer_Offset+8); //Non standard big files detection
     if (movi_Size && Size_Complete>movi_Size/2 && 8+Size_Complete>1024*1024 && !((Name&0xFFFF0000)==0x69780000 || (Name&0x0000FFFF)==0x00006978) && Element_Level==(rec__Present?(size_t)5:(size_t)4) && Buffer_Offset+8+Size_Complete>Buffer_Size)
     {
         Buffer_DataToParse_End=File_Offset+Buffer_Offset+8+Size_Complete;
@@ -852,10 +855,6 @@ void File_Riff::Header_Parse()
 
     //Filling
     Header_Fill_Code(Name, Ztring().From_CC4(Name));
-    if (Element_Level==2 && Name==Elements::WAVE && !IsRIFF64 && File_Size>0xFFFFFFFF)
-        IsWaveBroken=true; //Non standard big files detection
-    if (IsWaveBroken && (Name==Elements::WAVE || Name==Elements::WAVE_data))
-        Size_Complete=File_Size-(File_Offset+Buffer_Offset+8); //Non standard big files detection
     Header_Fill_Size(Size_Complete+8);
 }
 

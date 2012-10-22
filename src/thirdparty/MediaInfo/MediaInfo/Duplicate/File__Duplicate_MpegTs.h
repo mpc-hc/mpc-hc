@@ -25,9 +25,7 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Duplicate/File__Duplicate__Base.h"
 #include "MediaInfo/Duplicate/File__Duplicate__Writer.h"
-#include "ZenLib/ZtringListList.h"
 #include <set>
-using namespace ZenLib;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

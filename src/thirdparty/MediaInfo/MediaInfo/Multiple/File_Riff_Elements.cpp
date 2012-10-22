@@ -1,5 +1,4 @@
 // File_Riff - Info for RIFF files
-// Copyright (C) 2011-2012 Lionel Duchateau, kurtnoise@free.fr
 // Copyright (C) 2002-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
@@ -17,6 +16,8 @@
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+// Contributor: Lionel Duchateau, kurtnoise@free.fr
 //
 // Elements part
 //
@@ -763,14 +764,13 @@ void File_Riff::AVI_()
     }
 
     Data_Accept("AVI");
-    Buffer_MaximumSize*=16;
 
     //Filling
     Fill(Stream_General, 0, General_Format, "AVI");
     Kind=Kind_Avi;
 
-    //Configuring
-    Buffer_MaximumSize=32*1024*1024;
+    //Configuration
+    Buffer_MaximumSize=64*1024*1024; //Some big frames are possible (e.g YUV 4:2:2 10 bits 1080p)
 }
 
 //---------------------------------------------------------------------------
@@ -1239,6 +1239,7 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
     {
         //Creating the parser
         File_Pcm MI;
+        MI.Frame_Count_Valid=0;
         MI.Codec=Codec;
         MI.BitDepth=BitsPerSample;
 
@@ -1433,6 +1434,7 @@ void File_Riff::AVI__hdlr_strl_strf_auds_ExtensibleWave()
             {
                 //Creating the parser
                 File_Pcm MI;
+                MI.Frame_Count_Valid=0;
                 MI.Codec=Ztring().From_Number((int16u)SubFormat.hi, 16);
                 MI.BitDepth=BitsPerSample;
 

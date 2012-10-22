@@ -383,9 +383,6 @@ void File_Cdp::ccdata_section()
                                 ((File_Eia708*)Streams[2]->Parser)->AspectRatio=AspectRatio;
                         #endif //defined(MEDIAINFO_EIA708_YES)
                     }
-                    else
-                    {
-                    }
                     Open_Buffer_Continue(Streams[Parser_Pos]->Parser, Buffer+(size_t)(Buffer_Offset+Element_Offset), 2);
                     Element_Offset+=2;
 

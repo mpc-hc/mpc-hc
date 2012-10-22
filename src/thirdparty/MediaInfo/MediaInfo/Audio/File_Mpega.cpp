@@ -309,6 +309,7 @@ File_Mpega::File_Mpega()
     Buffer_TotalBytes_FirstSynched_Max=64*1024;
     PTS_DTS_Needed=true;
     IsRawStream=true;
+    Frame_Count_NotParsedIncluded=0;
 
     //In
     Frame_Count_Valid=MediaInfoLib::Config.ParseSpeed_Get()>=0.5?128:(MediaInfoLib::Config.ParseSpeed_Get()>=0.3?32:4);
@@ -925,6 +926,8 @@ void File_Mpega::Data_Parse()
         PTS_Begin=FrameInfo.PTS;
     Frame_Count++;
     Frame_Count_InThisBlock++;
+    if (Frame_Count_NotParsedIncluded!=(int64u)-1)
+        Frame_Count_NotParsedIncluded++;
     LastSync_Offset=File_Offset+Buffer_Offset+Element_Size;
     {
         int16u Samples;

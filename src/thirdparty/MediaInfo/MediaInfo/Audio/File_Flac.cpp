@@ -198,8 +198,6 @@ void File_Flac::STREAMINFO()
         Fill(Stream_Audio, 0, Audio_BitDepth, BitPerSample+1);
         if (!IsSub)
             Fill(Stream_Audio, 0, Audio_Duration, Samples*1000/SampleRate);
-
-        Buffer_MaximumSize=4*1024*1024;
     FILLING_END();
 }
 

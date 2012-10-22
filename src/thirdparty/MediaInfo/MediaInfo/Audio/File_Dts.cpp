@@ -349,7 +349,7 @@ File_Dts::File_Dts()
     //Temp
     Parser=NULL;
     HD_size=0;
-    Primary_Frame_Byte_Size_minus_1=0;
+    Primary_Frame_Byte_Size=0;
     HD_SpeakerActivityMask=(int16u)-1;
     channel_arrangement=(int8u)-1;
     channel_arrangement_XCh=(int8u)-1;
@@ -430,10 +430,11 @@ void File_Dts::Streams_Fill()
             Fill(Stream_Audio, 0, Audio_SamplingRate, DTS_SamplingRate[sample_frequency_X96k]);
         if(HD_TotalNumberChannels!=(int8u)-1)
             Fill(Stream_Audio, 0, Audio_Channel_s_, HD_TotalNumberChannels);
-        if (bit_rate<29 || Profile==__T("Express"))
-            Fill(Stream_Audio, 0, Audio_BitRate, BitRate_Get(true), 0);
         if (Profile==__T("Express"))
+        {
+            Fill(Stream_Audio, 0, Audio_BitRate, BitRate_Get(true), 0);
             Fill(Stream_Audio, 0, Audio_BitRate_Mode, "CBR");
+        }
     }
 
     //Core data
@@ -452,6 +453,10 @@ void File_Dts::Streams_Fill()
             BitRate=__T("Variable");
         else if (bit_rate==31)
             BitRate=__T("LossLess");
+        if (Profile==__T("HRA"))
+            Fill(Stream_Audio, 0, Audio_BitRate, BitRate_Get(true), 0);
+        if ( Profile==__T("MA"))
+            Fill(Stream_Audio, 0, Audio_BitRate, "Unknown");
         if (BitRate!=Retrieve(Stream_Audio, 0, Audio_BitRate))
             Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
         if (Profile.find(__T("MA"))==0 || bit_rate==31)
@@ -493,15 +498,31 @@ void File_Dts::Streams_Finish()
     {
         Parser->Finish();
         Merge(*Parser, Stream_Audio, 0, 0);
-        Fill(Stream_Audio, 0, Audio_MuxingMode, BigEndian?"BE":"LE");
-        Fill(Stream_Audio, 0, Audio_MuxingMode, Word?"16":"14");
-        return;
+        if (!Word)
+        {
+            ZtringList BitRates;
+            BitRates.Separator_Set(0, __T(" / "));
+            BitRates.Write(Get(Stream_Audio, 0, Audio_BitRate));
+            for (size_t Pos=0; Pos<BitRates.size(); Pos++)
+            {
+                float64 BitRate=BitRates[Pos].To_float64();
+                if (BitRate)
+                {
+                    BitRate*=16;
+                    BitRate/=14;
+                    BitRates[Pos].From_Number(BitRate, 0);
+                }
+            }
+            Fill(Stream_Audio, 0, Audio_BitRate, BitRates.Read(), true);
+        }
     }
+    Fill(Stream_Audio, 0, Audio_Format_Settings_Endianness, BigEndian?"Big":"Little", Unlimited, true, true);
+    Fill(Stream_Audio, 0, Audio_Format_Settings_Mode, Word?"16":"14", Unlimited, true, true);
 
     if (FrameInfo.PTS!=(int64u)-1 && FrameInfo.PTS>PTS_Begin)
     {
-        Fill(Stream_Audio, 0, Audio_Duration, float64_int64s(((float64)(FrameInfo.PTS-PTS_Begin))/1000000));
-        Fill(Stream_Audio, 0, Audio_FrameCount, float64_int64s(((float64)(FrameInfo.PTS-PTS_Begin))/1000000/32));
+        Fill(Stream_Audio, 0, Audio_Duration, ((float64)(FrameInfo.PTS-PTS_Begin))/1000000, 0, true);
+        Fill(Stream_Audio, 0, Audio_FrameCount, ((float64)(FrameInfo.PTS-PTS_Begin))/1000000/32, 0, true);
     }
 }
 
@@ -890,10 +911,11 @@ void File_Dts::Header_Parse()
         Info_SB(    FrameType,                                      "Frame Type"); Param_Info1(DTS_FrameType[FrameType]);
         Skip_S1( 5,                                                 "Deficit Sample Count");
         Get_SB (    crc_present,                                    "CRC Present");
-        Skip_S1( 7,                                                 "Number of PCM Sample Blocks");
-        Get_S2 (14, Primary_Frame_Byte_Size_minus_1,                "Primary Frame Byte Size minus 1");
-        Primary_Frame_Byte_Size_minus_1+=1;
-        if (!Word) Primary_Frame_Byte_Size_minus_1=Primary_Frame_Byte_Size_minus_1*8/14*2; Param_Info2(Primary_Frame_Byte_Size_minus_1, " bytes"); //Word is on 14 bits!
+        Get_S2 ( 7, Number_Of_PCM_Sample_Blocks,                    "Number of PCM Sample Blocks");
+        Number_Of_PCM_Sample_Blocks++;
+        Get_S2 (14, Primary_Frame_Byte_Size,                       "Primary Frame Byte Size minus 1");
+        Primary_Frame_Byte_Size++;
+        if (!Word) Primary_Frame_Byte_Size=Primary_Frame_Byte_Size*16/14; Param_Info2(Primary_Frame_Byte_Size, " bytes"); //Word is on 14 bits!
         Get_S1 ( 6, channel_arrangement,                            "Audio Channel Arrangement"); Param_Info2(DTS_Channels[channel_arrangement], " channels");
         Get_S1 ( 4, sample_frequency,                               "Core Audio Sampling Frequency"); Param_Info2(DTS_SamplingRate[sample_frequency], " Hz");
         Get_S1 ( 5, bit_rate,                                       "Transmission Bit Rate"); Param_Info2(DTS_BitRate[bit_rate], " bps");
@@ -932,7 +954,7 @@ void File_Dts::Header_Parse()
         BS_End();
 
         //Filling
-        Header_Fill_Size(Primary_Frame_Byte_Size_minus_1);
+        Header_Fill_Size(Primary_Frame_Byte_Size);
         Header_Fill_Code(0);
     }
 }
@@ -945,7 +967,7 @@ void File_Dts::Header_Parse()
 void File_Dts::Data_Parse()
 {
     //Partial frame
-    if ((Element_Code==0 && Header_Size+Element_Size<Primary_Frame_Byte_Size_minus_1)
+    if ((Element_Code==0 && Header_Size+Element_Size<Primary_Frame_Byte_Size)
      || (Element_Code==1 && Header_Size+Element_Size<HD_size))
     {
         Element_Name("Partial frame");
@@ -1284,8 +1306,10 @@ float64 File_Dts::BitRate_Get(bool WithHD)
         float64 BitRate;
         if (Profile==__T("Express"))
             BitRate=0; //No core bitrate
+        else if (DTS_SamplingRate[sample_frequency])
+            BitRate=((float64)Primary_Frame_Byte_Size)*8/(Number_Of_PCM_Sample_Blocks*32)*DTS_SamplingRate[sample_frequency]; //(float64)DTS_BitRate[bit_rate];
         else
-            BitRate=(float64)DTS_BitRate[bit_rate];
+            BitRate=0; //Problem
         if (WithHD && HD_ExSSFrameDurationCode!=(int8u)-1)
         {
             int32u SamplePerFrames=HD_ExSSFrameDurationCode;
@@ -1318,8 +1342,8 @@ float64 File_Dts::BitRate_Get(bool WithHD)
             if (SamplePerFrames)
                 BitRate+=HD_size*8*DTS_HD_MaximumSampleRate[HD_MaximumSampleRate]/SamplePerFrames;
         }
-        //if (Primary_Frame_Byte_Size_minus_1 && Profile==__T("HRA"))
-        //    BitRate*=1+((float64)HD_size)/Primary_Frame_Byte_Size_minus_1; //HD block are not in the nominal bitrate
+        //if (Primary_Frame_Byte_Size && Profile==__T("HRA"))
+        //    BitRate*=1+((float64)HD_size)/Primary_Frame_Byte_Size; //HD block are not in the nominal bitrate
         return BitRate;
     }
     else

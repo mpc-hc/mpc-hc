@@ -69,7 +69,7 @@ size_t Reader_File::Format_Test(MediaInfo_Internal* MI, const String &File_Name)
             struct MediaInfo_Event_General_Start_0 Event;
             Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Start, 0);
             Event.Stream_Size=File::Size_Get(File_Name);
-            MI->Config.Event_Send((const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
+            MI->Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
         }
     #endif //MEDIAINFO_EVENTS
 

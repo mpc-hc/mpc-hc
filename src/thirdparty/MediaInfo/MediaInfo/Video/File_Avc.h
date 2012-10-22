@@ -25,7 +25,6 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/File__Duplicate.h"
-using namespace std;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -112,6 +111,26 @@ private :
             bool    timing_info_present_flag;
             bool    fixed_frame_rate_flag;
             bool    pic_struct_present_flag;
+
+            vui_parameters_struct()
+            {
+                NAL=NULL;
+                VCL=NULL;
+                bitstream_restriction=NULL;
+                aspect_ratio_info_present_flag=false;
+                video_signal_type_present_flag=false;
+                colour_description_present_flag=false;
+                timing_info_present_flag=false;
+                fixed_frame_rate_flag=false;
+                pic_struct_present_flag=false;
+            }
+
+            ~vui_parameters_struct()
+            {
+                delete NAL; //NAL=NULL;
+                delete VCL; //VCL=NULL;
+                delete bitstream_restriction; //bitstream_restriction=NULL;
+            }
         };
         vui_parameters_struct* vui_parameters;
         int32u  pic_width_in_mbs_minus1;
@@ -149,13 +168,7 @@ private :
         //Constructor/Destructor
         ~seq_parameter_set_struct()
         {
-            if (vui_parameters)
-            {
-                delete vui_parameters->NAL; //vui_parameters->NAL=NULL;
-                delete vui_parameters->VCL; //vui_parameters->VCL=NULL;
-                delete vui_parameters->bitstream_restriction; //vui_parameters->bitstream_restriction=NULL;
-                delete vui_parameters; //vui_parameters=NULL;
-            }
+            delete vui_parameters; //vui_parameters=NULL;
         }
     };
     typedef vector<seq_parameter_set_struct*> seq_parameter_set_structs;

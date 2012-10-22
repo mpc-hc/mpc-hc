@@ -32,11 +32,8 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/Setup.h"
-//---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/MediaInfo_Internal.h"
 #include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/Reader/Reader_File.h"
 //---------------------------------------------------------------------------
@@ -172,9 +169,6 @@
 #if defined(MEDIAINFO_AC3_YES)
     #include "MediaInfo/Audio/File_Ac3.h"
 #endif
-#if defined(MEDIAINFO_AES3_YES)
-    #include "MediaInfo/Audio/File_Aes3.h"
-#endif
 #if defined(MEDIAINFO_ALS_YES)
     #include "MediaInfo/Audio/File_Als.h"
 #endif
@@ -220,14 +214,14 @@
 #if defined(MEDIAINFO_MPEGA_YES)
     #include "MediaInfo/Audio/File_Mpega.h"
 #endif
-#if defined(MEDIAINFO_PCM_YES)
-    #include "MediaInfo/Audio/File_Pcm.h"
-#endif
 #if defined(MEDIAINFO_RKAU_YES)
     #include "MediaInfo/Audio/File_Rkau.h"
 #endif
 #if defined(MEDIAINFO_S3M_YES)
     #include "MediaInfo/Audio/File_ScreamTracker3.h"
+#endif
+#if defined(MEDIAINFO_SMPTEST0337_YES)
+    #include "MediaInfo/Audio/File_SmpteSt0337.h"
 #endif
 #if defined(MEDIAINFO_RKAU_YES)
     #include "MediaInfo/Audio/File_Rkau.h"
@@ -486,16 +480,13 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
 
     // Audio
     #if defined(MEDIAINFO_AAC_YES)
-        else if (Parser==__T("Aac"))         {Info=new File_Aac(); ((File_Aac*)Info)->Mode=File_Aac::Mode_ADIF;}
-    #endif
-    #if defined(MEDIAINFO_AAC_YES)
-        else if (Parser==__T("Aac"))         {Info=new File_Aac(); ((File_Aac*)Info)->Mode=File_Aac::Mode_ADTS;}
+        else if (Parser==__T("Aac"))         {Info=new File_Aac(); ((File_Aac*)Info)->Mode=File_Aac::Mode_ADTS;} // Prioritization against ADIF
     #endif
     #if defined(MEDIAINFO_AC3_YES)
         else if (Parser==__T("Ac3"))         Info=new File_Ac3();
     #endif
-    #if defined(MEDIAINFO_AES3_YES)
-        else if (Parser==__T("Aes3"))        Info=new File_Aes3();
+    #if defined(MEDIAINFO_SMPTEST0337_YES)
+        else if (Parser==__T("Aes3"))        Info=new File_SmpteSt0337();
     #endif
     #if defined(MEDIAINFO_ALS_YES)
         else if (Parser==__T("Als"))         Info=new File_Als();
@@ -541,9 +532,6 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
     #endif
     #if defined(MEDIAINFO_MPEGA_YES)
         else if (Parser==__T("Mpega"))       Info=new File_Mpega();
-    #endif
-    #if defined(MEDIAINFO_PCM_YES)
-        //else if (Parser==__T("Pcm"))         Info=new File_Pcm();
     #endif
     #if defined(MEDIAINFO_AU_YES)
         else if (Parser==__T("Au"))          Info=new File_Au();
@@ -805,9 +793,6 @@ int MediaInfo_Internal::ListFormats(const String &File_Name)
     #if defined(MEDIAINFO_AC3_YES)
         delete Info; Info=new File_Ac3();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
-    #if defined(MEDIAINFO_AES3_YES)
-        delete Info; Info=new File_Aes3();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
-    #endif
     #if defined(MEDIAINFO_ALS_YES)
         delete Info; Info=new File_Als();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
@@ -852,9 +837,6 @@ int MediaInfo_Internal::ListFormats(const String &File_Name)
     #endif
     #if defined(MEDIAINFO_MPEGA_YES)
         delete Info; Info=new File_Mpega();              if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
-    #endif
-    #if defined(MEDIAINFO_PCM_YES)
-      //delete Info; Info=new File_Pcm();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
     #if defined(MEDIAINFO_RKAU_YES)
         delete Info; Info=new File_Rkau();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;

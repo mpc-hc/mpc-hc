@@ -1,5 +1,4 @@
 // File_Pcx - Info for PCX files
-// Copyright (C) 2012-2012 Lionel Duchateau, kurtnoise@free.fr
 // Copyright (C) 2005-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
@@ -17,10 +16,8 @@
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// PCX - Format
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+// Contributor: Lionel Duchateau, kurtnoise@free.fr
 //
 // From http://courses.engr.illinois.edu/ece390/books/labmanual/graphics-pcx.html
 //

@@ -508,12 +508,22 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
                 Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
                 Fill(Stream_Video, StreamPos, Video_ScanType_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
             }
+            if (StreamKind==Stream_Video && Parameter==Video_ScanType_Original)
+            {
+                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
+                Fill(Stream_Video, StreamPos, Video_ScanType_Original_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
+            }
 
             //Scan order
             if (StreamKind==Stream_Video && Parameter==Video_ScanOrder)
             {
                 Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
                 Fill(Stream_Video, StreamPos, Video_ScanOrder_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
+            }
+            if (StreamKind==Stream_Video && Parameter==Video_ScanOrder_Original)
+            {
+                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
+                Fill(Stream_Video, StreamPos, Video_ScanOrder_Original_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
             }
 
             //Interlacement
@@ -1358,7 +1368,7 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
         Stream_Prepare(StreamKind);
 
     //Specific stuff
-    Ztring Width_Temp, Height_Temp, PixelAspectRatio_Temp, DisplayAspectRatio_Temp, FrameRate_Temp, FrameRate_Mode_Temp, Delay_Temp, Delay_Source_Temp, Delay_Settings_Temp, Source_Temp, Source_Kind_Temp, Source_Info_Temp;
+    Ztring Width_Temp, Height_Temp, PixelAspectRatio_Temp, DisplayAspectRatio_Temp, FrameRate_Temp, FrameRate_Mode_Temp, ScanType_Temp, ScanOrder_Temp, Delay_Temp, Delay_Source_Temp, Delay_Settings_Temp, Source_Temp, Source_Kind_Temp, Source_Info_Temp;
     if (StreamKind==Stream_Video)
     {
         Width_Temp=Retrieve(Stream_Video, StreamPos_To, Video_Width);
@@ -1367,6 +1377,8 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
         DisplayAspectRatio_Temp=Retrieve(Stream_Video, StreamPos_To, Video_DisplayAspectRatio); //We want to keep the DisplayAspectRatio_Temp of the video stream
         FrameRate_Temp=Retrieve(Stream_Video, StreamPos_To, Video_FrameRate); //We want to keep the FrameRate of AVI 120 fps
         FrameRate_Mode_Temp=Retrieve(Stream_Video, StreamPos_To, Video_FrameRate_Mode); //We want to keep the FrameRate_Mode of AVI 120 fps
+        ScanType_Temp=Retrieve(Stream_Video, StreamPos_To, Video_ScanType);
+        ScanOrder_Temp=Retrieve(Stream_Video, StreamPos_To, Video_ScanOrder);
     }
     if (ToAdd.Retrieve(StreamKind, StreamPos_From, Fill_Parameter(StreamKind, Generic_Delay_Source))==__T("Container"))
     {
@@ -1444,6 +1456,22 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
         {
             Fill(Stream_Video, StreamPos_To, Video_FrameRate_Mode_Original, (*Stream)[Stream_Video][StreamPos_To][Video_FrameRate_Mode], true);
             Fill(Stream_Video, StreamPos_To, Video_FrameRate_Mode, FrameRate_Mode_Temp, true);
+        }
+        if (!ScanType_Temp.empty() && (ScanType_Temp!=Retrieve(Stream_Video, StreamPos_To, Video_ScanType) && !(ScanType_Temp==__T("Interlaced") && Retrieve(Stream_Video, StreamPos_To, Video_ScanType)==__T("MBAFF"))))
+        {
+            Fill(Stream_Video, StreamPos_To, Video_ScanType_Original, (*Stream)[Stream_Video][StreamPos_To][Video_ScanType], true);
+            Fill(Stream_Video, StreamPos_To, Video_ScanType, ScanType_Temp, true);
+        }
+        if ((!ScanOrder_Temp.empty() && ScanOrder_Temp!=Retrieve(Stream_Video, StreamPos_To, Video_ScanOrder)) || !Retrieve(Stream_Video, StreamPos_To, Video_ScanType_Original).empty())
+        {
+            Fill(Stream_Video, StreamPos_To, Video_ScanOrder_Original, (*Stream)[Stream_Video][StreamPos_To][Video_ScanOrder], true);
+            if (ScanOrder_Temp.empty())
+            {
+                Clear(Stream_Video, StreamPos_To, Video_ScanOrder);
+                Clear(Stream_Video, StreamPos_To, Video_ScanOrder_String);
+            }
+            else
+                Fill(Stream_Video, StreamPos_To, Video_ScanOrder, ScanOrder_Temp, true);
         }
     }
     if (!Delay_Source_Temp.empty() && Delay_Source_Temp!=Retrieve(StreamKind, StreamPos_To, "Delay_Source"))

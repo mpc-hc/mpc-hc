@@ -23,11 +23,7 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/Duplicate/File__Duplicate__Writer.h"
-#include "ZenLib/ZtringListList.h"
-#include <map>
-using namespace ZenLib;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

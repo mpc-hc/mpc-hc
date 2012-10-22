@@ -27,10 +27,7 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/Multiple/File_Mpeg_Descriptors.h"
-#include <map>
-using namespace ZenLib;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

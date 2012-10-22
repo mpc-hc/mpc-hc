@@ -60,7 +60,7 @@ File_Gxf_TimeCode::File_Gxf_TimeCode()
     ParserName=__T("GXF");
     #if MEDIAINFO_EVENTS
         ParserIDs[0]=MediaInfo_Parser_Gxf;
-        StreamIDs_Width[0]=2;
+        StreamIDs_Width[0]=0;
     #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX
         Demux_Level=2; //Container

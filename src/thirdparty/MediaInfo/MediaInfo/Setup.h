@@ -513,6 +513,12 @@
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_PCM_NO) && !defined(MEDIAINFO_PCM_YES)
     #define MEDIAINFO_PCM_YES
 #endif
+#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_PCMM2TS_NO) && !defined(MEDIAINFO_PCMM2TS_YES)
+    #define MEDIAINFO_PCMM2TS_YES
+#endif
+#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_PCMVOB_NO) && !defined(MEDIAINFO_PCMVOB_YES)
+    #define MEDIAINFO_PCMVOB_YES
+#endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_PS2A_NO) && !defined(MEDIAINFO_PS2A_YES)
     #define MEDIAINFO_PS2A_YES
 #endif
@@ -524,6 +530,15 @@
 #endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_SPEEX_NO) && !defined(MEDIAINFO_SPEEX_YES)
     #define MEDIAINFO_SPEEX_YES
+#endif
+#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_SMPTEST0302_NO) && !defined(MEDIAINFO_SMPTEST0302_YES)
+    #define MEDIAINFO_SMPTEST0302_YES
+#endif
+#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_SMPTEST0331_NO) && !defined(MEDIAINFO_SMPTEST0331_YES)
+    #define MEDIAINFO_SMPTEST0331_YES
+#endif
+#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_SMPTEST0337_NO) && !defined(MEDIAINFO_SMPTEST0337_YES)
+    #define MEDIAINFO_SMPTEST0337_YES
 #endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_TAK_NO) && !defined(MEDIAINFO_TAK_YES)
     #define MEDIAINFO_TAK_YES

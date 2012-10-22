@@ -30,7 +30,6 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Reader/Reader__Base.h"
 #include "ZenLib/File.h"
-using namespace ZenLib;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

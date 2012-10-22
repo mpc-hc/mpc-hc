@@ -243,6 +243,7 @@ void File_Wm::Header()
 
     FILLING_BEGIN();
         Fill(Stream_General, 0, General_Format, "Windows Media");
+        Header_StreamProperties_StreamOrder=0;
     FILLING_END();
 }
 
@@ -333,6 +334,8 @@ void File_Wm::Header_StreamProperties ()
     Stream[Stream_Number].StreamKind=StreamKind_Last;
     Stream[Stream_Number].StreamPos=StreamPos_Last;
     Stream[Stream_Number].Info["ID"].From_Number(Stream_Number);
+    Stream[Stream_Number].Info["StreamOrder"].From_Number(Header_StreamProperties_StreamOrder);
+    Header_StreamProperties_StreamOrder++;
 }
 
 //---------------------------------------------------------------------------

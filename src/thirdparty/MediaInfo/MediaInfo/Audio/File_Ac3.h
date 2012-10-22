@@ -116,22 +116,7 @@ private :
     std::vector<int64u> dynrng2s;
     std::map<int8u, int64u> fscods;
     std::map<int8u, int64u> frmsizecods;
-    struct frame_info2
-    {
-        frame_info FrameInfo;
-        int64u Frame_Count;
-        int64u Frame_Count_InThisBlock;
-        int64u Frame_Count_NotParsedIncluded;
-
-        frame_info2()
-        {
-            Frame_Count=0;
-            Frame_Count_InThisBlock=0;
-            Frame_Count_NotParsedIncluded=(int64u)-1;
-        }
-    };
-    frame_info2 Info_Core;
-    frame_info2 Info_HD;
+    int64u Frame_Count_HD;
     int16u chanmap;
     int16u frmsiz;
     int16u HD_BitRate_Max;

@@ -26,13 +26,11 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/Setup.h"
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfoList_Internal.h"
 #include "MediaInfo/MediaInfo_Config.h"
-#include "ZenLib/ZtringListList.h"
 #include "ZenLib/File.h"
 #include "ZenLib/Dir.h"
 #include "MediaInfo/Reader/Reader_Directory.h"
@@ -64,7 +62,7 @@ MediaInfoList_Internal::MediaInfoList_Internal(size_t Count_Init)
         Info[Pos]=NULL;
     ToParse_AlreadyDone=0;
     ToParse_Total=0;
-	CountValid=0;
+    CountValid=0;
 
     //Threading
     BlockMethod=0;

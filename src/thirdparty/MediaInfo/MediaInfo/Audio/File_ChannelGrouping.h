@@ -31,7 +31,6 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
 #include <cstring>
-using namespace std;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

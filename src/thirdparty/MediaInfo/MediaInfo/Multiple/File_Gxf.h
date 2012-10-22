@@ -33,7 +33,6 @@
 #if defined(MEDIAINFO_ANCILLARY_YES)
     #include <MediaInfo/Multiple/File_Ancillary.h>
 #endif //defined(MEDIAINFO_ANCILLARY_YES)
-#include <map>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

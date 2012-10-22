@@ -34,7 +34,6 @@
     #include <MediaInfo/Multiple/File_Ancillary.h>
 #endif //defined(MEDIAINFO_ANCILLARY_YES)
 #include "MediaInfo/TimeCode.h"
-#include <map>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib

@@ -530,6 +530,12 @@
     <ClInclude Include="MediaInfo\Audio\File_Pcm.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Pcm_M2ts.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Pcm_Vob.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Ps2Audio.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
@@ -537,6 +543,12 @@
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_ScreamTracker3.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_SmpteSt0331.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_SmpteSt0337.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Speex.h">
@@ -1054,6 +1066,12 @@
     <ClCompile Include="MediaInfo\Audio\File_Pcm.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Pcm_M2ts.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Pcm_Vob.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Ps2Audio.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
@@ -1061,6 +1079,12 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_ScreamTracker3.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_SmpteSt0331.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_SmpteSt0337.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Speex.cpp">

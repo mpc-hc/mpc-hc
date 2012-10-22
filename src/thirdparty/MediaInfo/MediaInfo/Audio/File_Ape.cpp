@@ -132,11 +132,11 @@ void File_Ape::FileHeader_Parse()
     //Parsing
     int32u SampleRate=0, TotalFrames=0, FinalFrameSamples=0, SamplesPerFrame=0, SeekElements;
     int16u Version, CompressionLevel=0, Flags=0, Channels=0, Resolution=0;
-    bool Resolution8=false, Resolution24=false, no_wav_header;
     Skip_C4(                                                    "Identifier");
     Get_L2 (Version,                                            "Version");
     if (Version<3980) //<3.98
     {
+        bool Resolution8=false, Resolution24=false, no_wav_header;
         Get_L2 (CompressionLevel,                               "CompressionLevel"); Param_Info1(Ape_Codec_Settings(CompressionLevel));
         Get_L2 (Flags,                                          "FormatFlags");
             Get_Flags (Flags, 0, Resolution8,                   "8-bit");

@@ -89,7 +89,7 @@ Ztring ProRes_creatorID(int32u creatorID)
     switch (creatorID)
     {
         case 0x61706C30 : return __T("Apple"); //apl0
-        case 0x61727269 : return  __T("Arnold & Richter Cine Technik"); //arri
+        case 0x61727269 : return __T("Arnold & Richter Cine Technik"); //arri
         case 0x616A6130 : return __T("AJA Kona Hardware"); //aja0
         default         : return Ztring().From_CC4(creatorID);
     }

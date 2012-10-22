@@ -41,10 +41,11 @@ class File_Pcm : public File__Analyze
 {
 public :
     //In
+    int64u          Frame_Count_Valid;
     ZenLib::Ztring  Codec;
     int16u          BitDepth;
     int16u          Channels;
-    bool            IsRawPcm;
+    int32u          SamplingRate;
 
     //Constructor/Destructor
     File_Pcm();
@@ -53,16 +54,12 @@ private :
     //Streams management
     void Streams_Fill();
 
-    //Buffer - Global
-    void Read_Buffer_Continue ();
+    //Buffer - File header
+    bool FileHeader_Begin();
 
     //Buffer - Per element
     void Header_Parse();
     void Data_Parse();
-
-    //Elements
-    void VOB();
-    void M2TS();
 };
 
 } //NameSpace

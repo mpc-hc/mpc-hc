@@ -30,6 +30,7 @@
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
+#include "MediaInfo/MediaInfo_Config.h"
 #include "ZenLib/ZtringListListF.h"
 #if MEDIAINFO_IBI
     #include "base64.h"
@@ -113,6 +114,9 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     File_Eia608_DisplayEmptyStream=false;
     File_Eia708_DisplayEmptyStream=false;
     State=0;
+    #if defined(MEDIAINFO_AC3_YES)
+    File_Ac3_IgnoreCrc=false;
+    #endif //defined(MEDIAINFO_AC3_YES)
 
     //Internal to MediaInfo, not thread safe
     File_Names_Pos=0;
@@ -137,6 +141,12 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
 MediaInfo_Config_MediaInfo::~MediaInfo_Config_MediaInfo()
 {
     delete[] File_Buffer; //File_Buffer=NULL;
+
+    #if MEDIAINFO_EVENTS
+        for (events_delayed::iterator Event=Events_Delayed.begin(); Event!=Events_Delayed.end(); ++Event)
+            for (size_t Pos=0; Pos<Event->second.size(); Pos++)
+                delete Event->second[Pos]; //Event->second[Pos]=NULL;
+    #endif //MEDIAINFO_EVENTS
 }
 
 //***************************************************************************
@@ -686,6 +696,23 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     else if (Option_Lower==__T("file_eia608_displayemptystream_get"))
     {
         return File_Eia608_DisplayEmptyStream_Get()?"1":"0";
+    }
+    else if (Option_Lower==__T("file_ac3_ignorecrc"))
+    {
+        #if defined(MEDIAINFO_AC3_YES)
+            File_Ac3_IgnoreCrc_Set(!(Value==__T("0") || Value.empty()));
+            return __T("");
+        #else //defined(MEDIAINFO_AC3_YES)
+            return __T("AC-3 support is disabled due to compilation options");
+        #endif //defined(MEDIAINFO_AC3_YES)
+    }
+    else if (Option_Lower==__T("file_ac3_ignorecrc_get"))
+    {
+        #if defined(MEDIAINFO_AC3_YES)
+            return File_Ac3_IgnoreCrc_Get()?"1":"0";
+        #else //defined(MEDIAINFO_AC3_YES)
+            return __T("AC-3 support is disabled due to compilation options");
+        #endif //defined(MEDIAINFO_AC3_YES)
     }
     else if (Option_Lower==__T("file_event_callbackfunction"))
     {
@@ -1383,27 +1410,50 @@ Ztring MediaInfo_Config_MediaInfo::Event_CallBackFunction_Get ()
 
 //---------------------------------------------------------------------------
 #if MEDIAINFO_EVENTS
-void MediaInfo_Config_MediaInfo::Event_Send (const int8u* Data_Content, size_t Data_Size)
+void MediaInfo_Config_MediaInfo::Event_Send (File__Analyze* Source, const int8u* Data_Content, size_t Data_Size, const Ztring &File_Name)
 {
     CriticalSectionLocker CSL(CS);
 
-    if (Event_CallBackFunction)
-        Event_CallBackFunction ((unsigned char*)Data_Content, Data_Size, Event_UserHandler);
-}
-#endif //MEDIAINFO_EVENTS
+    if (Source)
+    {
+        event_delayed* Event=new event_delayed(Data_Content, Data_Size, File_Name);
+        Events_Delayed[Source].push_back(Event);
 
-//---------------------------------------------------------------------------
-#if MEDIAINFO_EVENTS
-void MediaInfo_Config_MediaInfo::Event_Send (const int8u* Data_Content, size_t Data_Size, const Ztring &File_Name)
-{
-    CriticalSectionLocker CSL(CS);
-
-    if (Event_CallBackFunction)
+        // Copying buffers
+        int32u* EventCode=(int32u*)Data_Content;
+        if (((*EventCode)&0x00FFFFFF)==((MediaInfo_Event_Global_Demux<<8)|4) && Data_Size==sizeof(MediaInfo_Event_Global_Demux_4)) // MediaInfo_Event_Global_Demux_4
+        {
+            MediaInfo_Event_Global_Demux_4* Old=(MediaInfo_Event_Global_Demux_4*)Data_Content;
+            MediaInfo_Event_Global_Demux_4* New=(MediaInfo_Event_Global_Demux_4*)Event->Data_Content;
+            if (New->Content_Size)
+            {
+                int8u* Content=new int8u[New->Content_Size];
+                std::memcpy(Content, Old->Content, New->Content_Size*sizeof(int8u));
+                New->Content=Content;
+            }
+            if (New->Offsets_Size)
+            {
+                int64u* Offsets_Stream=new int64u[New->Offsets_Size];
+                std::memcpy(Offsets_Stream, Old->Offsets_Stream, New->Offsets_Size*sizeof(int64u));
+                New->Offsets_Stream=Offsets_Stream;
+                int64u* Offsets_Content=new int64u[New->Offsets_Size];
+                std::memcpy(Offsets_Content, Old->Offsets_Content, New->Offsets_Size*sizeof(int64u));
+                New->Offsets_Content=Offsets_Content;
+            }
+            if (New->OriginalContent_Size)
+            {
+                int8u* OriginalContent=new int8u[New->OriginalContent_Size];
+                std::memcpy(OriginalContent, Old->OriginalContent, New->OriginalContent_Size*sizeof(int8u));
+                New->OriginalContent=OriginalContent;
+            }
+        }
+    }
+    else if (Event_CallBackFunction)
         Event_CallBackFunction ((unsigned char*)Data_Content, Data_Size, Event_UserHandler);
-    else
+    else if (!File_Name.empty())
     {
         MediaInfo_Event_Generic* Event_Generic=(MediaInfo_Event_Generic*)Data_Content;
-        if ((Event_Generic->EventCode&0x00FFFF03)==((MediaInfo_Event_Global_Demux<<8)|0x03)) //Demux version 3
+        if ((Event_Generic->EventCode&0x00FFFFFF)==((MediaInfo_Event_Global_Demux<<8)|0x04)) //Demux version 4
         {
             if (!MediaInfoLib::Config.Demux_Get())
                 return;
@@ -1411,7 +1461,7 @@ void MediaInfo_Config_MediaInfo::Event_Send (const int8u* Data_Content, size_t D
             if (File_Name.empty())
                 return;
 
-            MediaInfo_Event_Global_Demux_0* Event=(MediaInfo_Event_Global_Demux_0*)Data_Content;
+            MediaInfo_Event_Global_Demux_4* Event=(MediaInfo_Event_Global_Demux_4*)Data_Content;
 
             Ztring File_Name_Final(File_Name);
             if (Event->StreamIDs_Size==0)
@@ -1443,6 +1493,22 @@ void MediaInfo_Config_MediaInfo::Event_Send (const int8u* Data_Content, size_t D
             F.Write(Event->Content, Event->Content_Size);
         }
     }
+}
+
+void MediaInfo_Config_MediaInfo::Event_Accepted (File__Analyze* Source)
+{
+    for (events_delayed::iterator Event=Events_Delayed.begin(); Event!=Events_Delayed.end(); ++Event)
+        if (Event->first==Source)
+        {
+            for (size_t Pos=0; Pos<Event->second.size(); Pos++)
+            {
+                Event_Send(NULL, Event->second[Pos]->Data_Content, Event->second[Pos]->Data_Size, Event->second[Pos]->File_Name);
+                delete Event->second[Pos]; //Event->second[Pos]=NULL;
+            }
+
+            Events_Delayed.erase(Event->first);
+            return;
+        }
 }
 #endif //MEDIAINFO_EVENTS
 
@@ -1679,6 +1745,22 @@ bool MediaInfo_Config_MediaInfo::File_Eia708_DisplayEmptyStream_Get ()
     bool Temp=File_Eia708_DisplayEmptyStream;
     return Temp;
 }
+
+//---------------------------------------------------------------------------
+#if defined(MEDIAINFO_AC3_YES)
+void MediaInfo_Config_MediaInfo::File_Ac3_IgnoreCrc_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Ac3_IgnoreCrc=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_Ac3_IgnoreCrc_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    bool Temp=File_Ac3_IgnoreCrc;
+    return Temp;
+}
+#endif //defined(MEDIAINFO_AC3_YES)
 
 //***************************************************************************
 // Analysis internal

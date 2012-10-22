@@ -97,7 +97,7 @@ File_Tga::File_Tga()
 {
     //Configuration
     ParserName=__T("TGA");
-    Buffer_MaximumSize=64*1024*1024; //We need to load the complete file for footer check, choosing an high value for an image
+    Buffer_MaximumSize=64*1024*1024; //Some big frames are possible (e.g YUV 4:2:2 10 bits 1080p)
 }
 
 //***************************************************************************

@@ -31,10 +31,6 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/MediaInfo.h"
 #include "MediaInfo/MediaInfo_Internal.h"
-#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
-#include "ZenLib/Thread.h"
-#include "ZenLib/CriticalSection.h"
-#include <vector>
 #include <queue>
 //---------------------------------------------------------------------------
 

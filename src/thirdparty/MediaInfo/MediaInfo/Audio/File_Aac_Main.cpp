@@ -626,7 +626,7 @@ void File_Aac::StreamMuxConfig()
 {
     Element_Begin1("StreamMuxConfig");
 
-    bool useSameConfig,audioMuxVersion;
+    bool audioMuxVersion;
     Get_SB (audioMuxVersion,                                    "audioMuxVersion");
     if (audioMuxVersion)
         Get_SB (audioMuxVersionA,                               "audioMuxVersionA");
@@ -644,6 +644,7 @@ void File_Aac::StreamMuxConfig()
         }
 
         int8u streamCnt = 0;
+        bool useSameConfig;
 
         Get_SB (allStreamsSameTimeFraming,                      "allStreamsSameTimeFraming");
         Get_S1 (6, numSubFrames,                                "numSubFrames");
@@ -710,7 +711,7 @@ void File_Aac::StreamMuxConfig()
                 }
             }
         }
-        bool otherDataLenEsc, crcCheckPresent;
+        bool crcCheckPresent;
         Get_SB (otherDataPresent,                               "otherDataPresent");
         if (otherDataPresent)
         {
@@ -719,6 +720,7 @@ void File_Aac::StreamMuxConfig()
             else
             {
                 otherDataLenBits=0;
+                bool otherDataLenEsc;
                 do
                 {
                     int8u otherDataLenTmp;

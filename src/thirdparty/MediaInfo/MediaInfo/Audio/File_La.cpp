@@ -1,5 +1,4 @@
 // File_La - Info for LA files
-// Copyright (C) 2009-2012 Lionel Duchateau, kurtnoise@free.fr
 // Copyright (C) 2009-2012 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
@@ -18,6 +17,7 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
+// Contributor: Lionel Duchateau, kurtnoise@free.fr
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

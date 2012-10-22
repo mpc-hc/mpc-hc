@@ -27,10 +27,9 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/Multiple/File_Mpeg4_Descriptors.h"
 #include "MediaInfo/Duplicate/File__Duplicate_MpegTs.h"
-#include <map>
+#include <cfloat>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -71,6 +70,7 @@ struct complete_stream
             bool   source_id_IsValid;
             bool   IsParsed;
             bool   IsRegistered;
+            bool   HasNotDisplayableStreams; //e.g. unknown stream, KLV, SCTE 35
             bool   Update_Needed_IsRegistered;
             bool   Update_Needed_StreamCount;
             bool   Update_Needed_StreamPos;
@@ -143,6 +143,7 @@ struct complete_stream
                 source_id_IsValid=false;
                 IsParsed=false;
                 IsRegistered=false;
+                HasNotDisplayableStreams=false;
                 Update_Needed_IsRegistered=false;
                 Update_Needed_StreamCount=false;
                 Update_Needed_StreamPos=false;
@@ -153,6 +154,7 @@ struct complete_stream
         };
         typedef std::map<int16u, program> programs; //Key is program_number
         programs Programs; //Key is program_number
+        std::vector<int16u> programs_List;
         size_t   Programs_NotParsedCount;
 
         //Per IOD
@@ -255,14 +257,20 @@ struct complete_stream
             int64u                                  TimeStamp_End_Offset;
             int16u                                  PCR_PID; //If this pid has no PCR, decide which PCR should be used
             bool                                    TimeStamp_End_IsUpdated;
-            float64                                 TimeStamp_InstantaneousBitRate;
-            size_t                                  TimeStamp_InstantaneousBitRate_BitRateMode_IsCbr;
-            size_t                                  TimeStamp_InstantaneousBitRate_BitRateMode_IsVbr;
+            float64                                 TimeStamp_InstantaneousBitRate_Current_Min;
+            float64                                 TimeStamp_InstantaneousBitRate_Current_Raw;
+            float64                                 TimeStamp_InstantaneousBitRate_Current_Max;
+            int64u                                  TimeStamp_InstantaneousBitRate_BitRateMode_IsCbr;
+            int64u                                  TimeStamp_InstantaneousBitRate_BitRateMode_IsVbr;
             #if MEDIAINFO_ADVANCED
+                float64                             TimeStamp_InstantaneousBitRate_Min_Raw;
+                float64                             TimeStamp_InstantaneousBitRate_Max_Raw;
                 int64u                              TimeStamp_Distance_Min;
                 int64u                              TimeStamp_Distance_Max;
                 int64u                              TimeStamp_Distance_Total;
-                size_t                              TimeStamp_Distance_Count;
+                int64u                              TimeStamp_Distance_Count;
+                int64u                              TimeStamp_HasProblems;
+                std::vector<int64u>                 TimeStamp_Intermediate;
             #endif // MEDIAINFO_ADVANCED
         #endif //MEDIAINFO_MPEGTS_PCR_YES
         int32u                                      registration_format_identifier;
@@ -313,14 +321,19 @@ struct complete_stream
                 TimeStamp_End_Offset=(int64u)-1;
                 PCR_PID=0x0000;
                 TimeStamp_End_IsUpdated=false;
-                TimeStamp_InstantaneousBitRate=0;
+                TimeStamp_InstantaneousBitRate_Current_Min=0;
+                TimeStamp_InstantaneousBitRate_Current_Raw=0;
+                TimeStamp_InstantaneousBitRate_Current_Max=0;
                 TimeStamp_InstantaneousBitRate_BitRateMode_IsCbr=0;
                 TimeStamp_InstantaneousBitRate_BitRateMode_IsVbr=0;
                 #if MEDIAINFO_ADVANCED
+                    TimeStamp_InstantaneousBitRate_Min_Raw=DBL_MAX;
+                    TimeStamp_InstantaneousBitRate_Max_Raw=0;
                     TimeStamp_Distance_Min=(int64u)-1;
                     TimeStamp_Distance_Max=0;
                     TimeStamp_Distance_Total=0;
                     TimeStamp_Distance_Count=0;
+                    TimeStamp_HasProblems=0;
                 #endif // MEDIAINFO_ADVANCED
             #endif //MEDIAINFO_MPEGTS_PCR_YES
             registration_format_identifier=0x00000000;
@@ -535,6 +548,9 @@ public :
     File_Mpeg_Descriptors();
 
 private :
+    //Buffer - File header
+    void FileHeader_Parse();
+
     //Buffer - Per element
     void Header_Parse();
     void Data_Parse();

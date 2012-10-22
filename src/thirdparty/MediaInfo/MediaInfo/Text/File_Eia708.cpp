@@ -736,7 +736,7 @@ void File_Eia708::HCR()
         if (Window->visible)
         {
             //Clearing global area
-            if (Window->Minimal.Window_y+y<(int8u)Streams[service_number]->Minimal.CC.size() && Window->Minimal.Window_x+y<(int8u)Streams[service_number]->Minimal.CC[Window->Minimal.Window_y+Window->Minimal.y].size())
+            if (Window->Minimal.Window_y+y<(int8u)Streams[service_number]->Minimal.CC.size() && Window->Minimal.Window_x+Pos_X<(int8u)Streams[service_number]->Minimal.CC[Window->Minimal.Window_y+Window->Minimal.y].size())
                 Streams[service_number]->Minimal.CC[Window->Minimal.Window_y+y][Window->Minimal.Window_x+Pos_X]=character();
 
             //Has changed
