@@ -326,6 +326,11 @@ const AP4_Atom::Type AP4_ATOM_TYPE_DV5P = AP4_ATOM_TYPE('d','v','5','p'); // DVC
 // DVCPRO HD
 const AP4_Atom::Type AP4_ATOM_TYPE_DVHQ = AP4_ATOM_TYPE('d','v','h','q');
 const AP4_Atom::Type AP4_ATOM_TYPE_DVH5 = AP4_ATOM_TYPE('d','v','h','5');
+// Apple ProRes
+const AP4_Atom::Type AP4_ATOM_TYPE_APCN = AP4_ATOM_TYPE('a','p','c','n'); // Standard Definition
+const AP4_Atom::Type AP4_ATOM_TYPE_APCH = AP4_ATOM_TYPE('a','p','c','h'); // High Quality
+const AP4_Atom::Type AP4_ATOM_TYPE_APCO = AP4_ATOM_TYPE('a','p','c','o'); // Proxy
+const AP4_Atom::Type AP4_ATOM_TYPE_APCS = AP4_ATOM_TYPE('a','p','c','s'); // LT
 /*----------------------------------------------------------------------
 |       AP4_AtomListInspector
 +---------------------------------------------------------------------*/
