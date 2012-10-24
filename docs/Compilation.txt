@@ -35,7 +35,7 @@ Part C: Downloading and compiling the MPC-HC source
 
 1. Use Git to checkout MPC-HC's master branch to "C:\mpc-hc" (or anywhere else you like)
     Repository URL: https://github.com/mpc-hc/mpc-hc.git
-    Grab it from http://msysgit.googlecode.com/files/Git-1.7.11-preview20120710.exe
+    Grab it from http://msysgit.googlecode.com/files/Git-1.8.0-preview20121022.exe
 2. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
 3. Press F7 to build the solution.
@@ -53,7 +53,7 @@ Alternatively, you can use "build.bat" which can build everything for you
 
 Part D: Building the installer
 
-Download Inno Setup Unicode v5.5.1 or newer from: http://www.jrsoftware.org/isdl.php
+Download Inno Setup Unicode v5.5.2 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to "C:\mpc-hc\distrib", open "mpc-hc_setup.iss" with Inno Setup,
 read the first comments in the script and compile it.
 Notes:
