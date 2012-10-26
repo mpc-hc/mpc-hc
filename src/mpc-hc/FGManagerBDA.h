@@ -176,17 +176,30 @@ private:
 #define LOG_FILE _T("bda.log")
 
 #ifdef _DEBUG
+#include <sys/types.h>
+#include <sys/timeb.h>
+
 static void LOG(LPCTSTR fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    //int nCount = _vsctprintf(fmt, args) + 1;
     TCHAR buff[3000];
     FILE* f;
+    _timeb timebuffer;
+   TCHAR time1[8];
+   wchar_t wbuf[26];
+
+   _ftime_s(&timebuffer);
+   _wctime_s(wbuf, 26, &(timebuffer.time));
+
+   for (int i = 0; i < 8; i++) {
+       time1[i] = wbuf[i + 11];
+   }
+
     _vstprintf_s(buff, _countof(buff), fmt, args);
     if (_tfopen_s(&f, LOG_FILE, _T("at")) == 0) {
         fseek(f, 0, 2);
-        _ftprintf_s(f, _T("%s\n"), buff);
+        _ftprintf_s(f, _T("%.8s.%03hu - %s\n"), time1, timebuffer.millitm, buff);
         fclose(f);
     }
 
