@@ -1,5 +1,5 @@
 diff --git a/build.bat b/build.bat
-index d32900c..c72184f 100644
+index d32900c..ec2cf51 100644
 --- a/build.bat
 +++ b/build.bat
 @@ -292,9 +292,9 @@ IF /I "%~2" == "Win32" (
@@ -7,15 +7,15 @@ index d32900c..c72184f 100644
  
  IF DEFINED MPCHC_LITE (
 -  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.Lite"
-+  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.Lite.ICL12"
++  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.Lite.ICL13"
  ) ELSE (
 -  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%"
-+  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.ICL12"
++  SET "PCKG_NAME=%NAME%.%MPCHC_VER%.%ARCH%.ICL13"
  )
  
  IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index 4f065ee..e63b93d 100644
+index 4f065ee..568d41e 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -40,7 +40,7 @@
@@ -32,10 +32,10 @@ index 4f065ee..e63b93d 100644
  DefaultGroupName={#app_name} x64
  #if defined(MPCHC_LITE)
 -UninstallDisplayName={#app_name} {#app_version} Lite (64-bit)
-+UninstallDisplayName={#app_name} {#app_version} Lite (ICL12, 64-bit)
++UninstallDisplayName={#app_name} {#app_version} Lite (ICL13, 64-bit)
  #else
 -UninstallDisplayName={#app_name} {#app_version} (64-bit)
-+UninstallDisplayName={#app_name} {#app_version} (ICL12, 64-bit)
++UninstallDisplayName={#app_name} {#app_version} (ICL13, 64-bit)
  #endif
  ArchitecturesAllowed=x64
  ArchitecturesInstallIn64BitMode=x64
@@ -44,10 +44,10 @@ index 4f065ee..e63b93d 100644
  DefaultGroupName={#app_name}
  #if defined(MPCHC_LITE)
 -UninstallDisplayName={#app_name} {#app_version} Lite
-+UninstallDisplayName={#app_name} {#app_version} Lite (ICL12)
++UninstallDisplayName={#app_name} {#app_version} Lite (ICL13)
  #else
 -UninstallDisplayName={#app_name} {#app_version}
-+UninstallDisplayName={#app_name} {#app_version} (ICL12)
++UninstallDisplayName={#app_name} {#app_version} (ICL13)
  #endif
  #endif
  
@@ -56,7 +56,7 @@ index 4f065ee..e63b93d 100644
  VersionInfoVersion={#app_version}
  UninstallDisplayIcon={app}\{#mpchc_exe}
 -OutputBaseFilename={#OutFilename}
-+OutputBaseFilename={#OutFilename}.ICL12
++OutputBaseFilename={#OutFilename}.ICL13
  DefaultDirName={code:GetInstallFolder}
  LicenseFile=..\COPYING.txt
  OutputDir=.
@@ -65,18 +65,18 @@ index 4f065ee..e63b93d 100644
  #ifdef x64Build
  #ifdef MPCHC_LITE
 -BeveledLabel={#app_name} {#app_version} Lite (64-bit)
-+BeveledLabel={#app_name} {#app_version} Lite (ICL12, 64-bit)
++BeveledLabel={#app_name} {#app_version} Lite (ICL13, 64-bit)
  #else
 -BeveledLabel={#app_name} {#app_version} (64-bit)
-+BeveledLabel={#app_name} {#app_version} (ICL12, 64-bit)
++BeveledLabel={#app_name} {#app_version} (ICL13, 64-bit)
  #endif
  #else
  #ifdef MPCHC_LITE
 -BeveledLabel={#app_name} {#app_version} Lite
-+BeveledLabel={#app_name} {#app_version} Lite (ICL12)
++BeveledLabel={#app_name} {#app_version} Lite (ICL13)
  #else
 -BeveledLabel={#app_name} {#app_version}
-+BeveledLabel={#app_name} {#app_version} (ICL12)
++BeveledLabel={#app_name} {#app_version} (ICL13)
  #endif
  #endif
  
@@ -94,152 +94,152 @@ index 0ce768e..712c42e 100644
  
  
 diff --git a/src/CmdUI/CmdUI.vcxproj b/src/CmdUI/CmdUI.vcxproj
-index 6406461..11404c2 100644
+index 6406461..3fac665 100644
 --- a/src/CmdUI/CmdUI.vcxproj
 +++ b/src/CmdUI/CmdUI.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/DSUtil/DSUtil.vcxproj b/src/DSUtil/DSUtil.vcxproj
-index fbf737b..b139b20 100644
+index fbf737b..46ed9c7 100644
 --- a/src/DSUtil/DSUtil.vcxproj
 +++ b/src/DSUtil/DSUtil.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/DeCSS/DeCSS.vcxproj b/src/DeCSS/DeCSS.vcxproj
-index 285445e..6892052 100644
+index 285445e..c80cd42 100644
 --- a/src/DeCSS/DeCSS.vcxproj
 +++ b/src/DeCSS/DeCSS.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/SubPic/SubPic.vcxproj b/src/SubPic/SubPic.vcxproj
-index 09c59cd..8150243 100644
+index 09c59cd..db0017f 100644
 --- a/src/SubPic/SubPic.vcxproj
 +++ b/src/SubPic/SubPic.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/Subtitles/Subtitles.vcxproj b/src/Subtitles/Subtitles.vcxproj
-index 944e53d..9af6e12 100644
+index 944e53d..657f331 100644
 --- a/src/Subtitles/Subtitles.vcxproj
 +++ b/src/Subtitles/Subtitles.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
@@ -296,1921 +296,1921 @@ index edcf0ce..28076a5 100644
        <OptimizeReferences>true</OptimizeReferences>
        <SetChecksum>true</SetChecksum>
 diff --git a/src/filters/Filters.vcxproj b/src/filters/Filters.vcxproj
-index 781ac11..8daa3be 100644
+index 781ac11..7bd313f 100644
 --- a/src/filters/Filters.vcxproj
 +++ b/src/filters/Filters.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj b/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
-index 8105408..e2f73d2 100644
+index 8105408..75b51c9 100644
 --- a/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
 +++ b/src/filters/muxer/BaseMuxer/BaseMuxer.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj b/src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj
-index 880dbc5..319617d 100644
+index 880dbc5..bbdadea 100644
 --- a/src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj
 +++ b/src/filters/muxer/DSMMuxer/DSMMuxer.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj b/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
-index 378c9d7..3953247 100644
+index 378c9d7..e4627b03 100644
 --- a/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
 +++ b/src/filters/muxer/MatroskaMuxer/MatroskaMuxer.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/muxer/WavDest/WavDest.vcxproj b/src/filters/muxer/WavDest/WavDest.vcxproj
-index ac1581e..0c6c91b 100644
+index ac1581e..01244bd 100644
 --- a/src/filters/muxer/WavDest/WavDest.vcxproj
 +++ b/src/filters/muxer/WavDest/WavDest.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/AviSplitter/AviSplitter.vcxproj b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
-index f90c4ec..13b152e 100644
+index f90c4ec..dcb8247 100644
 --- a/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 +++ b/src/filters/parser/AviSplitter/AviSplitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj b/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
-index 3c1bc6e..cba0d5d 100644
+index 3c1bc6e..34c5366 100644
 --- a/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
 +++ b/src/filters/parser/BaseSplitter/BaseSplitter.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj b/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
-index 2470933..6b1e442 100644
+index 2470933..6b7e78a 100644
 --- a/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
 +++ b/src/filters/parser/DSMSplitter/DSMSplitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj b/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
-index 1edeaaf..b7d257d 100644
+index 1edeaaf..e138b69 100644
 --- a/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
 +++ b/src/filters/parser/FLVSplitter/FLVSplitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj b/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
-index 2572e39..6e7197b 100644
+index 2572e39..6a44765 100644
 --- a/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
 +++ b/src/filters/parser/MP4Splitter/MP4Splitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj b/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
-index 44c930a..0644301 100644
+index 44c930a..f1c1d3e 100644
 --- a/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
 +++ b/src/filters/parser/MatroskaSplitter/MatroskaSplitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj b/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
-index 9d8c571..d50745f 100644
+index 9d8c571..615204f 100644
 --- a/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
 +++ b/src/filters/parser/MpaSplitter/MpaSplitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj b/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
-index b0365f1..11ca4e9 100644
+index b0365f1..35f619a 100644
 --- a/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
 +++ b/src/filters/parser/MpegSplitter/MpegSplitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/OggSplitter/OggSplitter.vcxproj b/src/filters/parser/OggSplitter/OggSplitter.vcxproj
-index 726f66b..d224a44 100644
+index 726f66b..8cfe79e 100644
 --- a/src/filters/parser/OggSplitter/OggSplitter.vcxproj
 +++ b/src/filters/parser/OggSplitter/OggSplitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj b/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
-index 94b9a8d..4d2ff19 100644
+index 94b9a8d..8399a08 100644
 --- a/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
 +++ b/src/filters/parser/RealMediaSplitter/RealMediaSplitter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj b/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
-index b23a485..887da88 100644
+index b23a485..9f02af1 100644
 --- a/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
 +++ b/src/filters/parser/StreamDriveThru/StreamDriveThru.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/CDDAReader/CDDAReader.vcxproj b/src/filters/reader/CDDAReader/CDDAReader.vcxproj
-index e15f587..4d6e7e5 100644
+index e15f587..e07bcb3 100644
 --- a/src/filters/reader/CDDAReader/CDDAReader.vcxproj
 +++ b/src/filters/reader/CDDAReader/CDDAReader.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/CDXAReader/CDXAReader.vcxproj b/src/filters/reader/CDXAReader/CDXAReader.vcxproj
-index 42878b8..347ff80 100644
+index 42878b8..92311bb 100644
 --- a/src/filters/reader/CDXAReader/CDXAReader.vcxproj
 +++ b/src/filters/reader/CDXAReader/CDXAReader.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/UDPReader/UDPReader.vcxproj b/src/filters/reader/UDPReader/UDPReader.vcxproj
-index 28a3918..ef9c148 100644
+index 28a3918..78d31cb 100644
 --- a/src/filters/reader/UDPReader/UDPReader.vcxproj
 +++ b/src/filters/reader/UDPReader/UDPReader.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/reader/VTSReader/VTSReader.vcxproj b/src/filters/reader/VTSReader/VTSReader.vcxproj
-index 22e2e19..ae13f87 100644
+index 22e2e19..acc31ed 100644
 --- a/src/filters/reader/VTSReader/VTSReader.vcxproj
 +++ b/src/filters/reader/VTSReader/VTSReader.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
-index 5c42304..8c98f35 100644
+index 5c42304..2b8c532 100644
 --- a/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 +++ b/src/filters/renderer/MpcAudioRenderer/MpcAudioRenderer.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/renderer/SyncClock/SyncClock.vcxproj b/src/filters/renderer/SyncClock/SyncClock.vcxproj
-index 5ec89b2..e95d291 100644
+index 5ec89b2..7c8f1ca 100644
 --- a/src/filters/renderer/SyncClock/SyncClock.vcxproj
 +++ b/src/filters/renderer/SyncClock/SyncClock.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj b/src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj
-index 1f61125..3bec341 100644
+index 1f61125..036423b 100644
 --- a/src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj
 +++ b/src/filters/renderer/VideoRenderers/VideoRenderers.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/BaseSource/BaseSource.vcxproj b/src/filters/source/BaseSource/BaseSource.vcxproj
-index 90d3824..fe2314d 100644
+index 90d3824..fd6e364 100644
 --- a/src/filters/source/BaseSource/BaseSource.vcxproj
 +++ b/src/filters/source/BaseSource/BaseSource.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/D2VSource/D2VSource.vcxproj b/src/filters/source/D2VSource/D2VSource.vcxproj
-index ebc0936..761a255 100644
+index ebc0936..13c8d1c 100644
 --- a/src/filters/source/D2VSource/D2VSource.vcxproj
 +++ b/src/filters/source/D2VSource/D2VSource.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj b/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
-index 7ba8144..f3de6ac 100644
+index 7ba8144..28e4d75 100644
 --- a/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
 +++ b/src/filters/source/DTSAC3Source/DTSAC3Source.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/FLACSource/FLACSource.vcxproj b/src/filters/source/FLACSource/FLACSource.vcxproj
-index 3ce6035..7095062 100644
+index 3ce6035..e3587f1 100644
 --- a/src/filters/source/FLACSource/FLACSource.vcxproj
 +++ b/src/filters/source/FLACSource/FLACSource.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/FLICSource/FLICSource.vcxproj b/src/filters/source/FLICSource/FLICSource.vcxproj
-index 5b746ba..3f5c0df 100644
+index 5b746ba..e038f62 100644
 --- a/src/filters/source/FLICSource/FLICSource.vcxproj
 +++ b/src/filters/source/FLICSource/FLICSource.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj b/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
-index abe97f4..3359b4a 100644
+index abe97f4..1e1f38a 100644
 --- a/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
 +++ b/src/filters/source/ShoutcastSource/ShoutcastSource.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/source/SubtitleSource/SubtitleSource.vcxproj b/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
-index 6a28745..7602cd8 100644
+index 6a28745..a8bf96a 100644
 --- a/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
 +++ b/src/filters/source/SubtitleSource/SubtitleSource.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj b/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
-index 0532361..f6c406b 100644
+index 0532361..d1185e9 100644
 --- a/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
 +++ b/src/filters/switcher/AudioSwitcher/AudioSwitcher.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj b/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
-index 5ab3438..c752227 100644
+index 5ab3438..8ba691c 100644
 --- a/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
 +++ b/src/filters/transform/AVI2AC3Filter/AVI2AC3Filter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj b/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
-index e2ac2b1..d15f6f7 100644
+index e2ac2b1..8eaf365 100644
 --- a/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
 +++ b/src/filters/transform/BaseVideoFilter/BaseVideoFilter.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/BufferFilter/BufferFilter.vcxproj b/src/filters/transform/BufferFilter/BufferFilter.vcxproj
-index 36201c9..43771f6 100644
+index 36201c9..c18dedf 100644
 --- a/src/filters/transform/BufferFilter/BufferFilter.vcxproj
 +++ b/src/filters/transform/BufferFilter/BufferFilter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj b/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
-index 2ea0832..9fa53d2 100644
+index 2ea0832..8db0d99 100644
 --- a/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
 +++ b/src/filters/transform/DeCSSFilter/DeCSSFilter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj b/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
-index dd140b2..fb30835 100644
+index dd140b2..10345db 100644
 --- a/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
 +++ b/src/filters/transform/MPCVideoDec/MPCVideoDec.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
-index 86c3a28..bb7db31 100644
+index 86c3a28..255feb0 100644
 --- a/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 +++ b/src/filters/transform/MpaDecFilter/MpaDecFilter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj b/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
-index 158d633..0f067dd 100644
+index 158d633..373fd90 100644
 --- a/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
 +++ b/src/filters/transform/Mpeg2DecFilter/Mpeg2DecFilter.vcxproj
 @@ -44,41 +44,49 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/VSFilter/VSFilter.vcxproj b/src/filters/transform/VSFilter/VSFilter.vcxproj
-index ea2128d..0b41818 100644
+index ea2128d..64fdc08 100644
 --- a/src/filters/transform/VSFilter/VSFilter.vcxproj
 +++ b/src/filters/transform/VSFilter/VSFilter.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
-index 999bda6..24b3c78 100644
+index 999bda6..d89ee83 100644
 --- a/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 +++ b/src/filters/transform/VSFilter/installer/vsfilter_setup.iss
 @@ -22,7 +22,7 @@
@@ -2228,14 +2228,14 @@ index 999bda6..24b3c78 100644
  ArchitecturesInstallIn64BitMode=x64
 -UninstallDisplayName=DirectVobSub {#app_version} (64-bit)
 -OutputBaseFilename=DirectVobSub_{#app_version}_x64
-+UninstallDisplayName=DirectVobSub {#app_version} (ICL12, 64-bit)
-+OutputBaseFilename=DirectVobSub_{#app_version}_x64.ICL12
++UninstallDisplayName=DirectVobSub {#app_version} (ICL13, 64-bit)
++OutputBaseFilename=DirectVobSub_{#app_version}_x64.ICL13
  #else
  AppID=vsfilter
 -UninstallDisplayName=DirectVobSub {#app_version}
 -OutputBaseFilename=DirectVobSub_{#app_version}_x86
-+UninstallDisplayName=DirectVobSub {#app_version} (ICL12)
-+OutputBaseFilename=DirectVobSub_{#app_version}_x86.ICL12
++UninstallDisplayName=DirectVobSub {#app_version} (ICL13)
++OutputBaseFilename=DirectVobSub_{#app_version}_x86.ICL13
  #endif
  
  
@@ -2244,396 +2244,409 @@ index 999bda6..24b3c78 100644
  [Messages]
  #ifdef x64Build
 -BeveledLabel=DirectVobSub {#app_version} (64-bit)
-+BeveledLabel=DirectVobSub {#app_version} (ICL12, 64-bit)
++BeveledLabel=DirectVobSub {#app_version} (ICL13, 64-bit)
  #else
 -BeveledLabel=DirectVobSub {#app_version}
-+BeveledLabel=DirectVobSub {#app_version} (ICL12)
++BeveledLabel=DirectVobSub {#app_version} (ICL13)
  #endif
  SetupAppTitle=Setup - DirectVobSub
  SetupWindowTitle=Setup - DirectVobSub
+diff --git a/src/mpc-hc/AboutDlg.cpp b/src/mpc-hc/AboutDlg.cpp
+index dc081bd..3810502 100644
+--- a/src/mpc-hc/AboutDlg.cpp
++++ b/src/mpc-hc/AboutDlg.cpp
+@@ -61,7 +61,7 @@ BOOL CAboutDlg::OnInitDialog()
+     m_strBuildNumber = MPC_VERSION_STR_FULL;
+ 
+ #if defined(__INTEL_COMPILER)
+-#if (__INTEL_COMPILER >= 1210)
++#if (__INTEL_COMPILER >= 1210) && (__INTEL_COMPILER <= 1300)
+     m_MPCCompiler = _T("ICL ") MAKE_STR(__INTEL_COMPILER) _T(" Build ") MAKE_STR(__INTEL_COMPILER_BUILD_DATE);
+ #else
+ #error Compiler is not supported!
 diff --git a/src/mpc-hc/mpc-hc.vcxproj b/src/mpc-hc/mpc-hc.vcxproj
-index d467f37..422aab0 100644
+index d467f37..fe2f998 100644
 --- a/src/mpc-hc/mpc-hc.vcxproj
 +++ b/src/mpc-hc/mpc-hc.vcxproj
 @@ -45,41 +45,49 @@
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'" Label="Configuration">
      <ConfigurationType>Application</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
-index 6a04e51..62e87b9 100644
+index 6a04e51..1631f2f 100644
 --- a/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 +++ b/src/mpc-hc/mpciconlib/mpciconlib.vcxproj
 @@ -19,10 +19,12 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/mpc-hc/mpcresources/mpcresources.vcxproj b/src/mpc-hc/mpcresources/mpcresources.vcxproj
-index 49540bd..bf28c88 100644
+index 49540bd..50306e3 100644
 --- a/src/mpc-hc/mpcresources/mpcresources.vcxproj
 +++ b/src/mpc-hc/mpcresources/mpcresources.vcxproj
 @@ -195,6 +195,7 @@
    <PropertyGroup>
      <ConfigurationType>DynamicLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/AsyncReader/AsyncReader.vcxproj b/src/thirdparty/AsyncReader/AsyncReader.vcxproj
-index 91131c8..92dc7b9 100644
+index 91131c8..9ae800b 100644
 --- a/src/thirdparty/AsyncReader/AsyncReader.vcxproj
 +++ b/src/thirdparty/AsyncReader/AsyncReader.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/BaseClasses/BaseClasses.vcxproj b/src/thirdparty/BaseClasses/BaseClasses.vcxproj
-index 04b211e..e324f23 100644
+index 04b211e..9f0118f 100644
 --- a/src/thirdparty/BaseClasses/BaseClasses.vcxproj
 +++ b/src/thirdparty/BaseClasses/BaseClasses.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/Bento4/Bento4.vcxproj b/src/thirdparty/Bento4/Bento4.vcxproj
-index c07d965..64c496f 100644
+index c07d965..e5066b9 100644
 --- a/src/thirdparty/Bento4/Bento4.vcxproj
 +++ b/src/thirdparty/Bento4/Bento4.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/LCDUI/LCDUI.vcxproj b/src/thirdparty/LCDUI/LCDUI.vcxproj
-index 30badf9..7f77328 100644
+index 30badf9..9b7d362 100644
 --- a/src/thirdparty/LCDUI/LCDUI.vcxproj
 +++ b/src/thirdparty/LCDUI/LCDUI.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
-index 4243a34..df4389b 100644
+index 4243a34..cbd501b 100644
 --- a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 +++ b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ResizableLib/ResizableLib.vcxproj b/src/thirdparty/ResizableLib/ResizableLib.vcxproj
-index 3a34482..c780f73 100644
+index 3a34482..580653e 100644
 --- a/src/thirdparty/ResizableLib/ResizableLib.vcxproj
 +++ b/src/thirdparty/ResizableLib/ResizableLib.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/SoundTouch/source/SoundTouch.vcxproj b/src/thirdparty/SoundTouch/source/SoundTouch.vcxproj
-index 30bb0c5..ce6250c 100644
+index 30bb0c5..a096f58 100644
 --- a/src/thirdparty/SoundTouch/source/SoundTouch.vcxproj
 +++ b/src/thirdparty/SoundTouch/source/SoundTouch.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj b/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
-index 1e39a88..9b4eebc 100644
+index 1e39a88..a857b5d 100644
 --- a/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
 +++ b/src/thirdparty/TreePropSheet/TreePropSheet.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj b/src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj
-index 0c47951..a6a780f 100644
+index 0c47951..dc924bd 100644
 --- a/src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj
 +++ b/src/thirdparty/VirtualDub/Kasumi/Kasumi.vcxproj
 @@ -25,15 +25,19 @@
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/VirtualDub/system/system.vcxproj b/src/thirdparty/VirtualDub/system/system.vcxproj
-index 5f55e1d..f6aac1f 100644
+index 5f55e1d..06fd2da 100644
 --- a/src/thirdparty/VirtualDub/system/system.vcxproj
 +++ b/src/thirdparty/VirtualDub/system/system.vcxproj
 @@ -26,18 +26,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ZenLib/ZenLib.vcxproj b/src/thirdparty/ZenLib/ZenLib.vcxproj
-index fedf4e4..fcdc2d4 100644
+index fedf4e4..f5dceb1 100644
 --- a/src/thirdparty/ZenLib/ZenLib.vcxproj
 +++ b/src/thirdparty/ZenLib/ZenLib.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
@@ -2651,140 +2664,140 @@ index 74e1176..a3c734a 100644
  endif
  
 diff --git a/src/thirdparty/lcms2/lcms2.vcxproj b/src/thirdparty/lcms2/lcms2.vcxproj
-index 92e09ba..d89778a 100644
+index 92e09ba..0864221 100644
 --- a/src/thirdparty/lcms2/lcms2.vcxproj
 +++ b/src/thirdparty/lcms2/lcms2.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/libflac/src/libFLAC/libflac.vcxproj b/src/thirdparty/libflac/src/libFLAC/libflac.vcxproj
-index ffafd84..2795ab5 100644
+index ffafd84..4ab8004 100644
 --- a/src/thirdparty/libflac/src/libFLAC/libflac.vcxproj
 +++ b/src/thirdparty/libflac/src/libFLAC/libflac.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/sizecbar/sizecbar.vcxproj b/src/thirdparty/sizecbar/sizecbar.vcxproj
-index eb34a82..ac230f5 100644
+index eb34a82..b610b12 100644
 --- a/src/thirdparty/sizecbar/sizecbar.vcxproj
 +++ b/src/thirdparty/sizecbar/sizecbar.vcxproj
 @@ -28,21 +28,25 @@
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <UseOfMfc>Static</UseOfMfc>
      <CharacterSet>Unicode</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/unrar/unrar.vcxproj b/src/thirdparty/unrar/unrar.vcxproj
-index 3af1868..853f581 100644
+index 3af1868..d687864 100644
 --- a/src/thirdparty/unrar/unrar.vcxproj
 +++ b/src/thirdparty/unrar/unrar.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/zlib/zlib.vcxproj b/src/thirdparty/zlib/zlib.vcxproj
-index 193aee2..4132eb1 100644
+index 193aee2..232039b 100644
 --- a/src/thirdparty/zlib/zlib.vcxproj
 +++ b/src/thirdparty/zlib/zlib.vcxproj
 @@ -27,18 +27,22 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
      <ConfigurationType>StaticLibrary</ConfigurationType>
      <CharacterSet>MultiByte</CharacterSet>
-+    <PlatformToolset>Intel C++ Compiler 12.1</PlatformToolset>
++    <PlatformToolset>Intel C++ Compiler XE 13.0</PlatformToolset>
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">

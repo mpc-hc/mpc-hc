@@ -21,7 +21,7 @@ index d32900c..a746a1a 100644
  IF /I "%CONFIG%" == "Filters" (
    CALL :SubFilters %PPLATFORM%
 diff --git a/distrib/mpc-hc_setup.iss b/distrib/mpc-hc_setup.iss
-index ec0c324..44a763c 100644
+index 4f065ee..bb05118 100644
 --- a/distrib/mpc-hc_setup.iss
 +++ b/distrib/mpc-hc_setup.iss
 @@ -130,7 +130,7 @@ AllowNoIcons=yes
@@ -212,7 +212,7 @@ index 09c59cd..f83c239 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/Subtitles/Subtitles.vcxproj b/src/Subtitles/Subtitles.vcxproj
-index d6aa979..65a96e0 100644
+index 944e53d..ab628c7 100644
 --- a/src/Subtitles/Subtitles.vcxproj
 +++ b/src/Subtitles/Subtitles.vcxproj
 @@ -22,27 +22,32 @@
@@ -2826,7 +2826,7 @@ index 30badf9..38715b3 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
-index 7fdacb3..77eb59f 100644
+index 4243a34..2e40ac0 100644
 --- a/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 +++ b/src/thirdparty/MediaInfo/MediaInfoLib.vcxproj
 @@ -22,23 +22,28 @@
@@ -3061,7 +3061,7 @@ index fedf4e4..ab83114 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
 diff --git a/src/thirdparty/ffmpeg/ffmpeg.vcxproj b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
-index 35bc982..1c60b0c 100644
+index 35cef61..c8f8775 100644
 --- a/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 +++ b/src/thirdparty/ffmpeg/ffmpeg.vcxproj
 @@ -22,19 +22,24 @@
