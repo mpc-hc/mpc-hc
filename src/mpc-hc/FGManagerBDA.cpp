@@ -245,7 +245,8 @@ static CLSID CLSID_BDA_MPEG2_TIF =
 CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     : CFGManagerPlayer(pName, pUnk, hWnd)
 {
-    LOG(_T("\nStarting session ------------------------------------------------->"));
+    LOG(_T("\n"));
+    LOG(_T("Starting session ------------------------------------------------->"));
     m_DVBStreams[DVB_MPV]  = CDVBStream(L"mpv",  &mt_Mpv);
     m_DVBStreams[DVB_H264] = CDVBStream(L"h264", &mt_H264);
     m_DVBStreams[DVB_MPA]  = CDVBStream(L"mpa",  &mt_Mpa);
@@ -396,7 +397,8 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     CComPtr<IBaseFilter> pTuner;
     CComPtr<IBaseFilter> pReceiver;
 
-    LOG(_T("\nCreating BDA filters..."));
+    LOG(_T("\n"));
+    LOG(_T("Creating BDA filters..."));
     CheckAndLog(CreateKSFilter(&pNetwork, KSCATEGORY_BDA_NETWORK_PROVIDER, s.strBDANetworkProvider), _T("BDA: Network provider creation"));
     if (FAILED(hr = CreateKSFilter(&pTuner, KSCATEGORY_BDA_NETWORK_TUNER, s.strBDATuner))) {
         MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CREATE_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
@@ -470,11 +472,13 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     }
 
 #ifdef _DEBUG
-    LOG(_T("\nFilter list:"));
+    LOG(_T("\n"));
+    LOG(_T("Filter list:"));
     BeginEnumFilters(this, pEF, pBF) {
         LOG(GetFilterName(pBF));
     }
     EndEnumFilters;
+    LOG(_T(" "));
 #endif
 
     return S_OK;
@@ -492,11 +496,13 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
     CAppSettings& s = AfxGetAppSettings();
     CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
 
+    LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
     if (pChannel != NULL) {
         hr = SetChannelInternal(pChannel);
 
         if (SUCCEEDED(hr)) {
             s.nDVBLastChannel = nChannelPrefNumber;
+            LOG(_T("SetChannel %d successful."), nChannelPrefNumber);
         }
     }
 
@@ -512,6 +518,7 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 {
     HRESULT hr;
     const CAppSettings& s = AfxGetAppSettings();
+    LOG(_T("SetFrequency to %d."), freq);
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 
@@ -521,6 +528,7 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
     CheckAndLog(m_pBDAControl->CheckChanges(), _T("BDA: Setfrequency CheckChanges"));
     CheckAndLog(m_pBDAControl->CommitChanges(), _T("BDA: Setfrequency CommitChanges"));
 
+    LOG(_T("Frequency set to %d."), freq);
     return hr;
 }
 
@@ -528,6 +536,7 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
 {
     CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 
+    LOG(_T("Scanning frequency %d."), ulFrequency);
     Parser.ParseSDT(ulFrequency);
     Parser.ParsePAT();
     Parser.ParseNIT();
@@ -552,6 +561,7 @@ STDMETHODIMP CFGManagerBDA::GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& 
     CheckNoLog(m_pBDAStats->get_SignalLocked(&bLocked));
     CheckNoLog(m_pBDAStats->get_SignalStrength(&lStrength));
     CheckNoLog(m_pBDAStats->get_SignalQuality(&lQuality));
+    LOG(_T("BDA Get signal stats. Strength %d. Quality %d."), lStrength, lQuality);
 
     return S_OK;
 }
@@ -696,14 +706,6 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
     CheckNoLog(AddFilter(pMpeg2Demux, _T("MPEG-2 Demultiplexer")));
     CheckNoLog(ConnectFilters(pReceiver, pMpeg2Demux));
     CheckNoLog(pMpeg2Demux->QueryInterface(IID_IMpeg2Demultiplexer, (void**)&pDemux));
-
-    // Cleanup unnecessary pins
-    //for (int i=0; i<6; i++)
-    //{
-    //  CStringW strPin;
-    //  strPin.Format(L"%d", i);
-    //  pDemux->DeleteOutputPin((LPWSTR)(LPCWSTR)strPin);
-    //}
 
     LOG(_T("Receiver -> Demux connected."));
 
