@@ -227,6 +227,8 @@ HRESULT CFLACStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, l
     ASSERT(len > 0);
     if (len <= 0) {
         return S_FALSE;
+    } else if (len > m_nMaxFrameSize) { // Probably a corrupted file but try to play it anyway
+        len = m_nMaxFrameSize;
     }
 
     m_file.Seek(llCurPos, CFile::begin);
