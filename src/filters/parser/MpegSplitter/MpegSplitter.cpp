@@ -697,7 +697,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
             m_pFile->Seek(pos + h.len);
         }
     } else if (m_pFile->m_type == mpeg_ts) {
-        CMpegSplitterFile::trhdr h;
+        CMpegSplitterFile::tshdr h;
 
         if (!m_pFile->Read(h)) {
             return S_FALSE;

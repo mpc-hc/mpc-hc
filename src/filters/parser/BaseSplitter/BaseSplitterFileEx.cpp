@@ -1315,7 +1315,7 @@ bool CBaseSplitterFileEx::Read(ps2subhdr& h, CMediaType* pmt)
     return true;
 }
 
-bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
+bool CBaseSplitterFileEx::Read(tshdr& h, bool fSync)
 {
     memset(&h, 0, sizeof(h));
 

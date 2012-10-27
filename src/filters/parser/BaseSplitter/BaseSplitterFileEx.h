@@ -288,7 +288,7 @@ public:
         // nothing ;)
     };
 
-    struct trhdr {
+    struct tshdr {
         BYTE sync; // 0x47
         BYTE error: 1;
         BYTE payloadstart: 1;
@@ -430,7 +430,7 @@ public:
     bool Read(cvdspuhdr& h, CMediaType* pmt = NULL);
     bool Read(ps2audhdr& h, CMediaType* pmt = NULL);
     bool Read(ps2subhdr& h, CMediaType* pmt = NULL);
-    bool Read(trhdr& h, bool fSync = true);
+    bool Read(tshdr& h, bool fSync = true);
     bool Read(trsechdr& h);
     bool Read(pvahdr& h, bool fSync = true);
     bool Read(avchdr& h, int len, CMediaType* pmt = NULL);

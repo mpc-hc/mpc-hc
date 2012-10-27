@@ -66,7 +66,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
             Seek(0x67c);
         }
         int cnt = 0, limit = 4;
-        for (trhdr h; cnt < limit && Read(h); cnt++) {
+        for (tshdr h; cnt < limit && Read(h); cnt++) {
             Seek(h.next);
         }
         if (cnt >= limit) {
@@ -81,7 +81,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
             Seek(0xE80);
         }
         int cnt = 0, limit = 4;
-        for (trhdr h; cnt < limit && Read(h); cnt++) {
+        for (tshdr h; cnt < limit && Read(h); cnt++) {
             Seek(h.next);
         }
         if (cnt >= limit) {
@@ -286,7 +286,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
                 Seek(pos + h.len);
             }
         } else if (m_type == mpeg_ts) {
-            trhdr h;
+            tshdr h;
             if (!Read(h)) {
                 continue;
             }
@@ -338,7 +338,7 @@ void CMpegSplitterFile::SearchPrograms(__int64 start, __int64 stop)
     stop = min(stop, GetLength());
 
     while (GetPos() < stop) {
-        trhdr h;
+        tshdr h;
         if (!Read(h)) {
             continue;
         }
@@ -403,7 +403,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
                 }
             }
         } else if (m_type == mpeg_ts) {
-            trhdr h;
+            tshdr h;
             if (!Read(h)) {
                 continue;
             }
@@ -900,7 +900,7 @@ CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
         NULL;
 }
 
-void CMpegSplitterFile::UpdatePrograms(const trhdr& h, bool UpdateLang)
+void CMpegSplitterFile::UpdatePrograms(const tshdr& h, bool UpdateLang)
 {
     CAutoLock cAutoLock(&m_csProps);
 
