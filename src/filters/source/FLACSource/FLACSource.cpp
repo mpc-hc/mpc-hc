@@ -287,6 +287,10 @@ void CFLACStream::UpdateFromMetadata(void* pBuffer)
     m_i64TotalNumSamples    = pMetadata->data.stream_info.total_samples;
     m_nAvgBytesPerSec       = (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;
 
+    if (!m_nMaxFrameSize) { // Estimate a maximum frame size
+        m_nMaxFrameSize = (2 * m_wBitsPerSample * m_nChannels * pMetadata->data.stream_info.max_blocksize + 7) / 8;
+    }
+
     // === Init members from base classes
     GetFileSizeEx(m_file.m_hFile, (LARGE_INTEGER*)&m_llFileSize);
     m_rtDuration            = (m_i64TotalNumSamples * UNITS) / m_nSamplesPerSec;

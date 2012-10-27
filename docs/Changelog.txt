@@ -22,4 +22,5 @@ Legend:
   animated subtitles track to a non-animated subtitles track.
 ! Ticket #2537, #2554, Fix "Attempted an unsupported operation" error in the
   Save dialogs on Vista and newer systems
+! Ticket #2572, FLACSource: Fix playback for some files
 ! Ticket #2619, FLVSplitter: PCM audio doesn't play
