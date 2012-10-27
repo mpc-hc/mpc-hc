@@ -2645,7 +2645,7 @@ void TraceFilterInfo(IBaseFilter* pBF)
 {
     FILTER_INFO Info;
     if (SUCCEEDED(pBF->QueryFilterInfo(&Info))) {
-        TRACE(_T(" === Filter info : %S\n"), Info.achName);
+        TRACE(_T(" === Filter info : %s\n"), Info.achName);
         BeginEnumPins(pBF, pEnum, pPin) {
             TracePinInfo(pPin);
         }
@@ -2671,7 +2671,7 @@ void TracePinInfo(IPin* pPin)
         ConnectedFilterInfo.pGraph->Release();
     }
     pPin->QueryPinInfo(&PinInfo);
-    TRACE(_T("      %S (%S) -> %S (Filter %S)\n"),
+    TRACE(_T("      %s (%s) -> %s (Filter %s)\n"),
           PinInfo.achName,
           PinInfo.dir == PINDIR_OUTPUT ? _T("Out") : _T("In"),
           ConnectedInfo.achName,

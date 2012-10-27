@@ -387,12 +387,12 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
                     if (m_rtMin == _I64_MAX) {
                         m_rtMin = h.pts;
                         m_posMin = GetPos();
-                        TRACE(_T("m_rtMin(SearchStreams)=%S\n"), ReftimeToString(m_rtMin));
+                        TRACE(_T("m_rtMin(SearchStreams)=%s\n"), ReftimeToString(m_rtMin));
                     }
                     if (m_rtMin < h.pts && m_rtMax < h.pts) {
                         m_rtMax = h.pts;
                         m_posMax = GetPos();
-                        TRACE(_T("m_rtMax(SearchStreams)=%S\n"), ReftimeToString(m_rtMax));
+                        TRACE(_T("m_rtMax(SearchStreams)=%s\n"), ReftimeToString(m_rtMax));
                     }
                 }
 
@@ -424,13 +424,13 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
                         if ((m_rtMin == _I64_MAX) || (m_rtMin > h2.pts)) {
                             m_rtMin = h2.pts;
                             m_posMin = GetPos();
-                            TRACE(_T("m_rtMin(SearchStreams)=%S, PID=%d\n"), ReftimeToString(m_rtMin), h.pid);
+                            TRACE(_T("m_rtMin(SearchStreams)=%s, PID=%d\n"), ReftimeToString(m_rtMin), h.pid);
                         }
 
                         if (m_rtMin < h2.pts && m_rtMax < h2.pts) {
                             m_rtMax = h2.pts;
                             m_posMax = GetPos();
-                            TRACE(_T("m_rtMax(SearchStreams)=%S, PID=%d\n"), ReftimeToString(m_rtMax), h.pid);
+                            TRACE(_T("m_rtMax(SearchStreams)=%s, PID=%d\n"), ReftimeToString(m_rtMax), h.pid);
                             // Ugly code : to support BRD H264 seamless playback, CMultiFiles need to update m_rtPTSOffset variable
                             // each time a new part is open...
                             // use this code only if Blu-ray is detected
@@ -442,11 +442,11 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
                                         if (pReader) {
                                             pReader->SetPTSOffset(&m_rtPTSOffset);
                                         }
-                                        //TRACE(_T("UPDATE m_rtPTSOffset(SearchStreams)=%S\n"), ReftimeToString(m_rtPTSOffset));
-                                        //TRACE(_T("m_rtMin(Boucle)=%S\n"), ReftimeToString(m_rtMin));
+                                        //TRACE(_T("UPDATE m_rtPTSOffset(SearchStreams)=%s\n"), ReftimeToString(m_rtPTSOffset));
+                                        //TRACE(_T("m_rtMin(Boucle)=%s\n"), ReftimeToString(m_rtMin));
                                         //TRACE(_T("stream=%d\n"), stream->m_Type);
-                                        //TRACE(_T("m_rtMax(Boucle)=%S\n"), ReftimeToString(m_rtMax));
-                                        //TRACE(_T("m_rtMax - m_rtMin(Boucle)=%S\n"), ReftimeToString(m_rtMax - m_rtMin));
+                                        //TRACE(_T("m_rtMax(Boucle)=%s\n"), ReftimeToString(m_rtMax));
+                                        //TRACE(_T("m_rtMax - m_rtMin(Boucle)=%s\n"), ReftimeToString(m_rtMax - m_rtMin));
                                     }
                                 }
                             }

@@ -561,7 +561,7 @@ HRESULT CMpeg2DataParser::ParseNIT()
                         WORD logical_channel_number  = (WORD)gb.BitRead(10);
                         if (Channels.Lookup(service_id)) {
                             Channels[service_id].SetOriginNumber(logical_channel_number);
-                            TRACE(_T("NIT association : %d -> %S\n"), logical_channel_number, Channels[service_id].ToString());
+                            TRACE(_T("NIT association : %d -> %s\n"), logical_channel_number, Channels[service_id].ToString());
                         }
                     }
                     break;
