@@ -15,6 +15,7 @@ Legend:
 * Updated FFmpeg (n0.8-14667-g24d6af0)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
+* Updated Slovak translation
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks
 ! API: CMD_PAUSE was acting as CMD_PLAY and vice versa
 ! Fix subtitles when switching from animated subs to non-animated subs.

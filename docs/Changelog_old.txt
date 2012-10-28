@@ -19,6 +19,7 @@ Legend:
 * Updated MediaInfoLib to v0.7.60 r5048
 * Updated ZenLib to v0.4.28 r403
 * Updated VirtualDub to v1.10.3-test6
+* Updated Basque, French, German, Russian, Simplified Chinese and Slovak translations
 * Remove .dat extension from the icon library and the formats
   (you can still associate it in the "Others" formats)
 * Re-enable the embedded resources viewer in the properties dialog and improve
@@ -28,7 +29,6 @@ Legend:
   than HKEY_LOCAL_MACHINE. The old key in HKEY_LOCAL_MACHINE will be removed in
   the next version
 * Changed default maximum subtitle resolution to "Desktop"
-* Updated Basque, French, German, Russian, Simplified Chinese and Slovak translations
 ! Web interface: Fix the "Deploy" feature
 ! Subtitles didn't show in some cases when using the internal subtitles renderer
 ! Improve DVB subtitles handling:
