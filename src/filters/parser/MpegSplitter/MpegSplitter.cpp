@@ -1054,7 +1054,7 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
         REFERENCE_TIME rtmax = rt - rtPreroll;
         REFERENCE_TIME rtmin = rtmax - 5000000;
 
-        if (m_rtStartOffset == 0)
+        if (m_rtStartOffset == 0) {
             for (int i = 0; i < _countof(m_pFile->m_streams) - 1; i++) {
                 POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
                 while (pos) {
@@ -1093,6 +1093,7 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
                     }
                 }
             }
+        }
 
         if (minseekpos != _I64_MAX) {
             seekpos = minseekpos;
