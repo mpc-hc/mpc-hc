@@ -267,8 +267,7 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
                 pDXVABuffer[0] = pDXVABuffer[1] = 0;
                 pDXVABuffer[2] = 1;
                 pDXVABuffer[3] = 0x0D;
-                pDXVABuffer += 4;
-                memcpy(pDXVABuffer, (BYTE*)pBuffer, nSize);
+                memcpy(pDXVABuffer + 4, (BYTE*)pBuffer, nSize);
                 nSize  += 4;
             }
         } else {
@@ -287,8 +286,7 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
     // Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
     nDummy  = 128 - (nSize % 128);
 
-    pDXVABuffer += nSize;
-    memset(pDXVABuffer, 0, nDummy);
+    memset(pDXVABuffer + nSize, 0, nDummy);
     nSize  += nDummy;
 }
 
