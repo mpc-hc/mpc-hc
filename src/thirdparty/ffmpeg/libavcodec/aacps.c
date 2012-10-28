@@ -139,7 +139,7 @@ static int ps_read_extension_data(GetBitContext *gb, PSContext *ps, int ps_exten
     return get_bits_count(gb) - count;
 }
 
-static void ipdopd_reset(int8_t *opd_hist, int8_t *ipd_hist)
+static void ipdopd_reset(int8_t *ipd_hist, int8_t *opd_hist)
 {
     int i;
     for (i = 0; i < PS_MAX_NR_IPDOPD; i++) {
@@ -603,7 +603,6 @@ static void map_val_20_to_34(float par[PS_MAX_NR_IIDICC])
     par[ 3] =  par[ 2];
     par[ 2] =  par[ 1];
     par[ 1] = (par[ 0] + par[ 1]) * 0.5f;
-    par[ 0] =  par[ 0];
 }
 
 static void decorrelation(PSContext *ps, float (*out)[32][2], const float (*s)[32][2], int is34)

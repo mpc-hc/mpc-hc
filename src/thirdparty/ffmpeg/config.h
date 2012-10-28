@@ -178,12 +178,9 @@
 #define HAVE_LDBRX 0
 #define HAVE_LIBDC1394_1 0
 #define HAVE_LIBDC1394_2 0
-#define HAVE_LLRINTF 1
 #define HAVE_LOCAL_ALIGNED_16 1
 #define HAVE_LOCAL_ALIGNED_8 1
 #define HAVE_LOCALTIME_R 0
-#define HAVE_LOG2 1
-#define HAVE_LOG2F 1
 #define HAVE_LOONGSON 0
 #define HAVE_LZO1X_999_COMPRESS 0
 #define HAVE_MACHINE_IOCTL_BT848_H 0
@@ -256,16 +253,27 @@
 #define HAVE_ATTRIBUTE_PACKED 1
 #define HAVE_ATTRIBUTE_MAY_ALIAS 1
 
+#define HAVE_ATANF 1
+#define HAVE_ATAN2F 1
+#define HAVE_CBRTF 1
+#define HAVE_COSF 1
 #define HAVE_EXP2 1
 #define HAVE_EXP2F 1
 #define HAVE_ISINF 1
 #define HAVE_ISNAN 1
+#define HAVE_LDEXPF 1
 #define HAVE_LLRINT 1
+#define HAVE_LLRINTF 1
+#define HAVE_LOG2 1
+#define HAVE_LOG2F 1
+#define HAVE_LOG10F 1
 #define HAVE_LRINT 1
 #define HAVE_LRINTF 1
+#define HAVE_POWF 1
 #define HAVE_RINT 1
 #define HAVE_ROUND 1
 #define HAVE_ROUNDF 1
+#define HAVE_SINF 1
 #define HAVE_TRUNC 1
 #define HAVE_TRUNCF 1
 

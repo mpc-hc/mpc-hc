@@ -29,6 +29,7 @@
 #include "config.h"
 
 #include <limits.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #if HAVE_MALLOC_H
@@ -36,6 +37,7 @@
 #endif
 
 #include "avutil.h"
+#include "intreadwrite.h"
 #include "mem.h"
 
 /* here we can use OS-dependent allocation functions */
@@ -80,48 +82,48 @@ void *av_malloc(size_t size)
 #endif
 
     /* let's disallow possible ambiguous cases */
-    if (size > (max_alloc_size-32))
+    if (size > (max_alloc_size - 32))
         return NULL;
 
 #if CONFIG_MEMALIGN_HACK
-    ptr = malloc(size+ALIGN);
-    if(!ptr)
+    ptr = malloc(size + ALIGN);
+    if (!ptr)
         return ptr;
-    diff= ((-(long)ptr - 1)&(ALIGN-1)) + 1;
-    ptr = (char*)ptr + diff;
-    ((char*)ptr)[-1]= diff;
+    diff              = ((-(long)ptr - 1)&(ALIGN - 1)) + 1;
+    ptr               = (char *)ptr + diff;
+    ((char *)ptr)[-1] = diff;
 #elif HAVE_POSIX_MEMALIGN
     if (size) //OS X on SDK 10.6 has a broken posix_memalign implementation
-    if (posix_memalign(&ptr,ALIGN,size))
+    if (posix_memalign(&ptr, ALIGN, size))
         ptr = NULL;
 #elif HAVE_ALIGNED_MALLOC
     //ptr = _aligned_malloc(size, ALIGN);
     ptr = __mingw_aligned_malloc(size, ALIGN); // MPC-HC patch
 #elif HAVE_MEMALIGN
-    ptr = memalign(ALIGN,size);
+    ptr = memalign(ALIGN, size);
     /* Why 64?
-       Indeed, we should align it:
-         on 4 for 386
-         on 16 for 486
-         on 32 for 586, PPro - K6-III
-         on 64 for K7 (maybe for P3 too).
-       Because L1 and L2 caches are aligned on those values.
-       But I don't want to code such logic here!
+     * Indeed, we should align it:
+     *   on  4 for 386
+     *   on 16 for 486
+     *   on 32 for 586, PPro - K6-III
+     *   on 64 for K7 (maybe for P3 too).
+     * Because L1 and L2 caches are aligned on those values.
+     * But I don't want to code such logic here!
      */
-     /* Why 32?
-        For AVX ASM. SSE / NEON needs only 16.
-        Why not larger? Because I did not see a difference in benchmarks ...
+    /* Why 32?
+     * For AVX ASM. SSE / NEON needs only 16.
+     * Why not larger? Because I did not see a difference in benchmarks ...
      */
-     /* benchmarks with P3
-        memalign(64)+1          3071,3051,3032
-        memalign(64)+2          3051,3032,3041
-        memalign(64)+4          2911,2896,2915
-        memalign(64)+8          2545,2554,2550
-        memalign(64)+16         2543,2572,2563
-        memalign(64)+32         2546,2545,2571
-        memalign(64)+64         2570,2533,2558
-
-        BTW, malloc seems to do 8-byte alignment by default here.
+    /* benchmarks with P3
+     * memalign(64) + 1          3071, 3051, 3032
+     * memalign(64) + 2          3051, 3032, 3041
+     * memalign(64) + 4          2911, 2896, 2915
+     * memalign(64) + 8          2545, 2554, 2550
+     * memalign(64) + 16         2543, 2572, 2563
+     * memalign(64) + 32         2546, 2545, 2571
+     * memalign(64) + 64         2570, 2533, 2558
+     *
+     * BTW, malloc seems to do 8-byte alignment by default here.
      */
 #else
     ptr = malloc(size);
@@ -144,15 +146,17 @@ void *av_realloc(void *ptr, size_t size)
 #endif
 
     /* let's disallow possible ambiguous cases */
-    if (size > (max_alloc_size-32))
+    if (size > (max_alloc_size - 32))
         return NULL;
 
 #if CONFIG_MEMALIGN_HACK
     //FIXME this isn't aligned correctly, though it probably isn't needed
-    if(!ptr) return av_malloc(size);
-    diff= ((char*)ptr)[-1];
-    ptr= realloc((char*)ptr - diff, size + diff);
-    if(ptr) ptr = (char*)ptr + diff;
+    if (!ptr)
+        return av_malloc(size);
+    diff = ((char *)ptr)[-1];
+    ptr = realloc((char *)ptr - diff, size + diff);
+    if (ptr)
+        ptr = (char *)ptr + diff;
     return ptr;
 #elif HAVE_ALIGNED_MALLOC
     //return _aligned_realloc(ptr, size + !size, ALIGN);
@@ -181,7 +185,7 @@ void av_free(void *ptr)
 {
 #if CONFIG_MEMALIGN_HACK
     if (ptr)
-        free((char*)ptr - ((char*)ptr)[-1]);
+        free((char *)ptr - ((char *)ptr)[-1]);
 #elif HAVE_ALIGNED_MALLOC
     //_aligned_free(ptr);
     __mingw_aligned_free(ptr); // MPC-HC patch
@@ -192,7 +196,7 @@ void av_free(void *ptr)
 
 void av_freep(void *arg)
 {
-    void **ptr= (void**)arg;
+    void **ptr = (void **)arg;
     av_free(*ptr);
     *ptr = NULL;
 }
@@ -214,8 +218,8 @@ void *av_calloc(size_t nmemb, size_t size)
 
 char *av_strdup(const char *s)
 {
-    char *ptr= NULL;
-    if(s){
+    char *ptr = NULL;
+    if (s) {
         int len = strlen(s) + 1;
         ptr = av_malloc(len);
         if (ptr)
@@ -243,5 +247,40 @@ void av_dynarray_add(void *tab_ptr, int *nb_ptr, void *elem)
     }
     tab[nb++] = (intptr_t)elem;
     *nb_ptr = nb;
+}
+
+void av_memcpy_backptr(uint8_t *dst, int back, int cnt)
+{
+    const uint8_t *src = &dst[-back];
+    if (back <= 1) {
+        memset(dst, *src, cnt);
+    } else {
+        if (cnt >= 4) {
+            AV_COPY16U(dst,     src);
+            AV_COPY16U(dst + 2, src + 2);
+            src += 4;
+            dst += 4;
+            cnt -= 4;
+        }
+        if (cnt >= 8) {
+            AV_COPY16U(dst,     src);
+            AV_COPY16U(dst + 2, src + 2);
+            AV_COPY16U(dst + 4, src + 4);
+            AV_COPY16U(dst + 6, src + 6);
+            src += 8;
+            dst += 8;
+            cnt -= 8;
+        }
+        if (cnt > 0) {
+            int blocklen = back;
+            while (cnt > blocklen) {
+                memcpy(dst, src, blocklen);
+                dst       += blocklen;
+                cnt       -= blocklen;
+                blocklen <<= 1;
+            }
+            memcpy(dst, src, cnt);
+        }
+    }
 }
 

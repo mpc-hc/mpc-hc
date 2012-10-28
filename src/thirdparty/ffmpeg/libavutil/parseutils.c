@@ -47,7 +47,6 @@ int av_parse_ratio(AVRational *q, const char *str, int max,
 {
     char c;
     int ret;
-    int64_t gcd;
 
     if (sscanf(str, "%d:%d%c", &q->num, &q->den, &c) != 2) {
         double d;
@@ -57,12 +56,8 @@ int av_parse_ratio(AVRational *q, const char *str, int max,
         if (ret < 0)
             return ret;
         *q = av_d2q(d, max);
-    }
-
-    gcd = av_gcd(FFABS(q->num), FFABS(q->den));
-    if (gcd) {
-        q->num /= gcd;
-        q->den /= gcd;
+    } else {
+        av_reduce(&q->num, &q->den, q->num, q->den, max);
     }
 
     return 0;

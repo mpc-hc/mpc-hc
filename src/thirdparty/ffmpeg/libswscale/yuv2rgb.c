@@ -667,7 +667,7 @@ SwsFunc ff_yuv2rgb_get_func_ptr(SwsContext *c)
 }
 
 static void fill_table(uint8_t* table[256 + 2*YUVRGB_TABLE_HEADROOM], const int elemsize,
-                       const int inc, void *y_tab)
+                       const int64_t inc, void *y_tab)
 {
     int i;
     uint8_t *y_table = y_tab;
@@ -680,7 +680,7 @@ static void fill_table(uint8_t* table[256 + 2*YUVRGB_TABLE_HEADROOM], const int 
     }
 }
 
-static void fill_gv_table(int table[256 + 2*YUVRGB_TABLE_HEADROOM], const int elemsize, const int inc)
+static void fill_gv_table(int table[256 + 2*YUVRGB_TABLE_HEADROOM], const int elemsize, const int64_t inc)
 {
     int i;
     int off    = -(inc >> 9);

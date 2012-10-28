@@ -72,7 +72,6 @@
 // <== End patch MPC
 
 /* misc math functions */
-extern const uint8_t ff_log2_tab[256];
 
 /**
  * Reverse the order of the bits of an 8-bits unsigned integer.
@@ -80,34 +79,6 @@ extern const uint8_t ff_log2_tab[256];
 #if FF_API_AV_REVERSE
 extern attribute_deprecated const uint8_t av_reverse[256];
 #endif
-
-static av_always_inline av_const int av_log2_c(unsigned int v)
-{
-    int n = 0;
-    if (v & 0xffff0000) {
-        v >>= 16;
-        n += 16;
-    }
-    if (v & 0xff00) {
-        v >>= 8;
-        n += 8;
-    }
-    n += ff_log2_tab[v];
-
-    return n;
-}
-
-static av_always_inline av_const int av_log2_16bit_c(unsigned int v)
-{
-    int n = 0;
-    if (v & 0xff00) {
-        v >>= 8;
-        n += 8;
-    }
-    n += ff_log2_tab[v];
-
-    return n;
-}
 
 #ifdef HAVE_AV_CONFIG_H
 #   include "config.h"
@@ -117,6 +88,14 @@ static av_always_inline av_const int av_log2_16bit_c(unsigned int v)
 /* Pull in unguarded fallback defines at the end of this file. */
 #include "common.h"
 
+#ifndef av_log2
+av_const int av_log2(unsigned v);
+#endif
+
+#ifndef av_log2_16bit
+av_const int av_log2_16bit(unsigned v);
+#endif
+
 /**
  * Clip a signed integer value into the amin-amax range.
  * @param a value to clip
@@ -125,6 +104,20 @@ static av_always_inline av_const int av_log2_16bit_c(unsigned int v)
  * @return clipped value
  */
 static av_always_inline av_const int av_clip_c(int a, int amin, int amax)
+{
+    if      (a < amin) return amin;
+    else if (a > amax) return amax;
+    else               return a;
+}
+
+/**
+ * Clip a signed 64bit integer value into the amin-amax range.
+ * @param a value to clip
+ * @param amin minimum value of the clip range
+ * @param amax maximum value of the clip range
+ * @return clipped value
+ */
+static av_always_inline av_const int64_t av_clip64_c(int64_t a, int64_t amin, int64_t amax)
 {
     if      (a < amin) return amin;
     else if (a > amax) return amax;
@@ -398,17 +391,14 @@ static av_always_inline av_const int av_popcount64_c(uint64_t x)
  * to ensure they are immediately available in intmath.h.
  */
 
-#ifndef av_log2
-#   define av_log2       av_log2_c
-#endif
-#ifndef av_log2_16bit
-#   define av_log2_16bit av_log2_16bit_c
-#endif
 #ifndef av_ceil_log2
 #   define av_ceil_log2     av_ceil_log2_c
 #endif
 #ifndef av_clip
 #   define av_clip          av_clip_c
+#endif
+#ifndef av_clip64
+#   define av_clip64        av_clip64_c
 #endif
 #ifndef av_clip_uint8
 #   define av_clip_uint8    av_clip_uint8_c

@@ -230,7 +230,7 @@ static int initFilter(int16_t **outFilter, int32_t **filterPos,
     int minFilterSize;
     int64_t *filter    = NULL;
     int64_t *filter2   = NULL;
-    const int64_t fone = 1LL << 54;
+    const int64_t fone = 1LL << (54 - FFMIN(av_log2(srcW/dstW), 8));
     int ret            = -1;
 
     emms_c(); // FIXME should not be required but IS (even for non-MMX versions)
@@ -356,7 +356,7 @@ static int initFilter(int16_t **outFilter, int32_t **filterPos,
                                     (-12 * B - 48 * C) * d   +
                                       (8 * B + 24 * C) * (1 << 30);
                     }
-                    coeff *= fone >> (30 + 24);
+                    coeff /= (1LL<<54)/fone;
                 }
 #if 0
                 else if (flags & SWS_X) {
@@ -513,8 +513,10 @@ static int initFilter(int16_t **outFilter, int32_t **filterPos,
     av_assert0(filterSize > 0);
     filter = av_malloc(filterSize * dstW * sizeof(*filter));
     if (filterSize >= MAX_FILTER_SIZE * 16 /
-                      ((flags & SWS_ACCURATE_RND) ? APCK_SIZE : 16) || !filter)
+                      ((flags & SWS_ACCURATE_RND) ? APCK_SIZE : 16) || !filter) {
+        av_log(NULL, AV_LOG_ERROR, "sws: filterSize %d is too large, try less extreem scaling or increase MAX_FILTER_SIZE and recompile\n", filterSize);
         goto fail;
+    }
     *outFilterSize = filterSize;
 
     if (flags & SWS_PRINT_INFO)
@@ -599,6 +601,8 @@ static int initFilter(int16_t **outFilter, int32_t **filterPos,
     ret = 0;
 
 fail:
+    if(ret < 0)
+        av_log(NULL, AV_LOG_ERROR, "sws: initFilter failed\n");
     av_free(filter);
     av_free(filter2);
     return ret;
@@ -785,11 +789,17 @@ int sws_setColorspaceDetails(struct SwsContext *c, const int inv_table[4],
     memcpy(c->srcColorspaceTable, inv_table, sizeof(int) * 4);
     memcpy(c->dstColorspaceTable, table, sizeof(int) * 4);
 
+    if(!isYUV(c->dstFormat) && !isGray(c->dstFormat))
+        dstRange = 0;
+    if(!isYUV(c->srcFormat) && !isGray(c->srcFormat))
+        srcRange = 0;
+
     c->brightness = brightness;
     c->contrast   = contrast;
     c->saturation = saturation;
     c->srcRange   = srcRange;
     c->dstRange   = dstRange;
+
     if (isYUV(c->dstFormat) || isGray(c->dstFormat))
         return -1;
 
@@ -929,7 +939,7 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
         return AVERROR(EINVAL);
     }
     /* sanity check */
-    if (srcW < 4 || srcH < 1 || dstW < 8 || dstH < 1) {
+    if (srcW < 1 || srcH < 1 || dstW < 1 || dstH < 1) {
         /* FIXME check if these are enough and try to lower them after
          * fixing the relevant parts of the code */
         av_log(c, AV_LOG_ERROR, "%dx%d -> %dx%d is invalid scaling dimension\n",
@@ -1415,7 +1425,12 @@ SwsFilter *sws_getDefaultFilter(float lumaGBlur, float chromaGBlur,
 
 SwsVector *sws_allocVec(int length)
 {
-    SwsVector *vec = av_malloc(sizeof(SwsVector));
+    SwsVector *vec;
+
+    if(length <= 0 || length > INT_MAX/ sizeof(double))
+        return NULL;
+
+    vec = av_malloc(sizeof(SwsVector));
     if (!vec)
         return NULL;
     vec->length = length;
@@ -1430,7 +1445,12 @@ SwsVector *sws_getGaussianVec(double variance, double quality)
     const int length = (int)(variance * quality + 0.5) | 1;
     int i;
     double middle  = (length - 1) * 0.5;
-    SwsVector *vec = sws_allocVec(length);
+    SwsVector *vec;
+
+    if(variance < 0 || quality < 0)
+        return NULL;
+
+    vec = sws_allocVec(length);
 
     if (!vec)
         return NULL;

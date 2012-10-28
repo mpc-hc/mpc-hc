@@ -1416,6 +1416,7 @@ static int mp_decode_layer3(MPADecodeContext *s)
                 g = &s->granules[ch][gr];
                 s->last_buf_size += g->part2_3_length;
                 memset(g->sb_hybrid, 0, sizeof(g->sb_hybrid));
+                compute_imdct(s, g, &s->sb_samples[ch][18 * gr][0], s->mdct_buf[ch]);
             }
         }
         skip = s->last_buf_size - 8 * main_data_begin;
@@ -1616,6 +1617,9 @@ static int mp_decode_frame(MPADecodeContext *s, OUT_INT *samples,
         s->last_buf_size += i;
     }
 
+    if(nb_frames < 0)
+        return nb_frames;
+
     /* get output buffer */
     if (!samples) {
         s->frame.nb_samples = s->avctx->frame_size;
@@ -1650,7 +1654,7 @@ static int decode_frame(AVCodecContext * avctx, void *data, int *got_frame_ptr,
     int buf_size        = avpkt->size;
     MPADecodeContext *s = avctx->priv_data;
     uint32_t header;
-    int out_size;
+    int ret;
 
     while(buf_size && !*buf){
         buf++;
@@ -1689,31 +1693,36 @@ static int decode_frame(AVCodecContext * avctx, void *data, int *got_frame_ptr,
         buf_size= s->frame_size;
     }
 
-    out_size = mp_decode_frame(s, NULL, buf, buf_size);
-    if (out_size >= 0) {
+    ret = mp_decode_frame(s, NULL, buf, buf_size);
+    if (ret >= 0) {
         *got_frame_ptr   = 1;
         *(AVFrame *)data = s->frame;
         avctx->sample_rate = s->sample_rate;
         //FIXME maybe move the other codec info stuff from above here too
     } else {
         av_log(avctx, AV_LOG_ERROR, "Error while decoding MPEG audio frame.\n");
-        /* Only return an error if the bad frame makes up the whole packet.
-           If there is more data in the packet, just consume the bad frame
-           instead of returning an error, which would discard the whole
-           packet. */
+        /* Only return an error if the bad frame makes up the whole packet or
+         * the error is related to buffer management.
+         * If there is more data in the packet, just consume the bad frame
+         * instead of returning an error, which would discard the whole
+         * packet. */
         *got_frame_ptr = 0;
-        if (buf_size == avpkt->size)
-            return out_size;
+        if (buf_size == avpkt->size || ret != AVERROR_INVALIDDATA)
+            return ret;
     }
     s->frame_size = 0;
     return buf_size;
 }
 
+static void mp_flush(MPADecodeContext *ctx)
+{
+    memset(ctx->synth_buf, 0, sizeof(ctx->synth_buf));
+    ctx->last_buf_size = 0;
+}
+
 static void flush(AVCodecContext *avctx)
 {
-    MPADecodeContext *s = avctx->priv_data;
-    memset(s->synth_buf, 0, sizeof(s->synth_buf));
-    s->last_buf_size = 0;
+    mp_flush(avctx->priv_data);
 }
 
 #if CONFIG_MP3ADU_DECODER || CONFIG_MP3ADUFLOAT_DECODER
@@ -1724,7 +1733,7 @@ static int decode_frame_adu(AVCodecContext *avctx, void *data,
     int buf_size        = avpkt->size;
     MPADecodeContext *s = avctx->priv_data;
     uint32_t header;
-    int len;
+    int len, ret;
     int av_unused out_size;
 
     len = buf_size;
@@ -1756,10 +1765,10 @@ static int decode_frame_adu(AVCodecContext *avctx, void *data,
 
     s->frame_size = len;
 
-    out_size = mp_decode_frame(s, NULL, buf, buf_size);
-    if (out_size < 0) {
+    ret = mp_decode_frame(s, NULL, buf, buf_size);
+    if (ret < 0) {
         av_log(avctx, AV_LOG_ERROR, "Error while decoding MPEG audio frame.\n");
-        return AVERROR_INVALIDDATA;
+        return ret;
     }
 
     *got_frame_ptr   = 1;
@@ -1904,11 +1913,8 @@ static void flush_mp3on4(AVCodecContext *avctx)
     int i;
     MP3On4DecodeContext *s = avctx->priv_data;
 
-    for (i = 0; i < s->frames; i++) {
-        MPADecodeContext *m = s->mp3decctx[i];
-        memset(m->synth_buf, 0, sizeof(m->synth_buf));
-        m->last_buf_size = 0;
-    }
+    for (i = 0; i < s->frames; i++)
+        mp_flush(s->mp3decctx[i]);
 }
 
 
@@ -1967,7 +1973,10 @@ static int decode_frame_mp3on4(AVCodecContext *avctx, void *data,
         }
         ch += m->nb_channels;
 
-        out_size += mp_decode_frame(m, outptr, buf, fsize);
+        if ((ret = mp_decode_frame(m, outptr, buf, fsize)) < 0)
+            return ret;
+
+        out_size += ret;
         buf      += fsize;
         len      -= fsize;
 
