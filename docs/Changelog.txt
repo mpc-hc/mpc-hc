@@ -21,6 +21,7 @@ Legend:
 ! Fix subtitles when switching from animated subs to non-animated subs.
   The subtitles' timings were not correctly respected after switching from an
   animated subtitles track to a non-animated subtitles track.
+! MPEG Splitter: Fix parsing of some malformed TS files
 ! Ticket #2537, #2554, Fix "Attempted an unsupported operation" error in the
   Save dialogs on Vista and newer systems
 ! Ticket #2572, FLACSource: Fix playback for some files

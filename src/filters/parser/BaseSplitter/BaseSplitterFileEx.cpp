@@ -215,8 +215,7 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
         if (h.type == mpeg2) {
             BYTE b = (BYTE)BitRead(4);
             if (!(h.fdts && b == 3 || !h.fdts && b == 2)) {
-                /*ASSERT(0);*/
-                return false;
+                TRACE(_T("[PES header parser] Warning: Invalid PTS marker\n"));
             }
         }
 
@@ -232,8 +231,7 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 
     if (h.fdts) {
         if ((BYTE)BitRead(4) != 1) {
-            /*ASSERT(0);*/
-            return false;
+            TRACE(_T("[PES header parser] Warning: Invalid DTS marker\n"));
         }
 
         h.dts = 0;
