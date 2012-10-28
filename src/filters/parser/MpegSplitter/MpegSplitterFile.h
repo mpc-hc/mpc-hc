@@ -58,6 +58,8 @@ public:
 
     REFERENCE_TIME m_rtMin, m_rtMax;
     __int64 m_posMin, m_posMax;
+    REFERENCE_TIME m_rtPrec;
+    bool m_bPTSWrap;
     int m_rate; // byte/sec
 
     int m_nVC1_GuidFlag, m_AC3CoreOnly;

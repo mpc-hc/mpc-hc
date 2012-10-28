@@ -24,4 +24,5 @@ Legend:
   Save dialogs on Vista and newer systems
 ! Ticket #2572, FLACSource: Fix playback for some files
 ! Ticket #2619, FLVSplitter: PCM audio doesn't play
+! Ticket #2673, MPEG Splitter: Fix playback for some TS files
 ! Ticket #2685, FLACSource: Fix a crash with some corrupted file

@@ -29,6 +29,7 @@
 #include "moreuuids.h"
 
 #define MEGABYTE 1024*1024
+#define PTS_MAX_BEFORE_WRAP (((1i64 << 33) - 1) * 10000 / 90)
 
 
 CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo& ClipInfo, int guid_flag, bool ForcedSub, bool TrackPriority, int AC3CoreOnly, bool AlternativeDuration)
@@ -37,6 +38,8 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
     , m_rate(0)
     , m_rtMin(0), m_rtMax(0)
     , m_posMin(0), m_posMax(0)
+    , m_rtPrec(_I64_MIN)
+    , m_bPTSWrap(false)
     , m_bIsHdmv(bIsHdmv)
     , m_ClipInfo(ClipInfo)
     , m_nVC1_GuidFlag(guid_flag)
@@ -134,6 +137,8 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
     // min/max pts & bitrate
     m_rtMin = m_posMin = _I64_MAX;
     m_rtMax = m_posMax = 0;
+    m_rtPrec = _I64_MIN;
+    m_bPTSWrap = false;
 
     m_init = true;
 
@@ -191,14 +196,15 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
         }
     }
 
-    if (m_posMax - m_posMin <= 0 || m_rtMax - m_rtMin <= 0) {
+    if (m_posMax - m_posMin <= 0 || (m_rtMax - m_rtMin <= 0 && !m_bPTSWrap)) {
         return E_FAIL;
     }
 
     m_init = false;
 
     int indicated_rate = m_rate;
-    int detected_rate = int(m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0);
+    REFERENCE_TIME dur = !m_bPTSWrap ? (m_rtMax - m_rtMin) : (PTS_MAX_BEFORE_WRAP - m_rtMin + m_rtMax);
+    int detected_rate = int(10000000i64 * (m_posMax - m_posMin) / dur);
 
     m_rate = detected_rate ? detected_rate : m_rate;
 #if (0)
@@ -236,7 +242,8 @@ void CMpegSplitterFile::OnComplete(IAsyncReader* pAsyncReader)
 
     if (SUCCEEDED(SearchStreams(GetLength() - 500 * 1024, GetLength(), pAsyncReader, TRUE))) {
         int indicated_rate = m_rate;
-        int detected_rate = int(m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0);
+        REFERENCE_TIME dur = !m_bPTSWrap ? (m_rtMax - m_rtMin) : (PTS_MAX_BEFORE_WRAP - m_rtMin + m_rtMax);
+        int detected_rate = int(10000000i64 * (m_posMax - m_posMin) / dur);
 
         m_rate = detected_rate ? detected_rate : m_rate;
 #if (0)
@@ -421,13 +428,21 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
                     }
 
                     if (h2.fpts && CalcDuration && (m_AlternativeDuration || (GetMasterStream() && GetMasterStream()->GetHead() == h.pid))) {
-                        if ((m_rtMin == _I64_MAX) || (m_rtMin > h2.pts)) {
+                        if (m_rtPrec != _I64_MIN && abs(h2.pts - m_rtPrec) >= PTS_MAX_BEFORE_WRAP * 9 / 10) {
+                            m_bPTSWrap = true;
+                            m_rtMax = h2.pts;
+                            m_posMax = GetPos();
+                            TRACE(_T("PTS Wrap detected --> m_rtMax(SearchStreams)=%s\n"), ReftimeToString(m_rtMax));
+                        }
+                        m_rtPrec = h2.pts;
+
+                        if ((m_rtMin == _I64_MAX) || (m_rtMin > h2.pts && m_rtMax > h2.pts && !m_bPTSWrap)) {
                             m_rtMin = h2.pts;
                             m_posMin = GetPos();
                             TRACE(_T("m_rtMin(SearchStreams)=%s, PID=%d\n"), ReftimeToString(m_rtMin), h.pid);
                         }
 
-                        if (m_rtMin < h2.pts && m_rtMax < h2.pts) {
+                        if (m_rtMax < h2.pts && (m_rtMin < h2.pts || m_bPTSWrap)) {
                             m_rtMax = h2.pts;
                             m_posMax = GetPos();
                             TRACE(_T("m_rtMax(SearchStreams)=%s, PID=%d\n"), ReftimeToString(m_rtMax), h.pid);
