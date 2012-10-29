@@ -11,13 +11,13 @@ var sliderSize = 500;
 var sliderButtonWidth = 15;
 var vsb = 10;
 var vss = 100;
-var sc = 0
+var sc = 0;
 var rdirt;
 var AP;
 var RL;
 var rpt;
 var etaup = false;
-if (eta == 0) eta = (state < 0 && filePath.length > 0) ? 2 : 120;
+if (eta === 0) eta = (state < 0 && filePath.length > 0) ? 2 : 120;
 
 function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) {
 	filePath = _filePath;
@@ -56,22 +56,22 @@ function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) 
 	/*g = " " + secondsToTS(curPos, 0, true) + " " + x < 0 ? ("Buffering %" + (-x - 1).toString()):"";*/
 	cp.innerHTML = cpf.value = secondsToTS(curPos, 5, false);
 	rpt = curPos;
-	if (state == 2 && pbr != 0) autoplay();
+	if (state == 2 && pbr !== 0) autoplay();
 	volumeUpdate(volume, true);
 	return update(curPos, true);
 }
 
 function autoplay(a) {
-	if (etaup && re.checked == true) {
+	if (etaup && re.checked === true) {
 		etaup = false;
 		RL = setTimeout("etaup=true; if (re.checked==true) postForm(0,'null',0);", 5000);
 	}
 	AP = setTimeout("autoplay()", rdirt);
 	var ct = (new Date()).getTime();
 	var cap = pbr * (ct - startTime);
-	if (cap > length && !Live) if (re.checked == true) RL = setTimeout("window.location=window.location", 5000);
+	if (cap > length && !Live) if (re.checked === true) RL = setTimeout("window.location=window.location", 5000);
 	cap = ((cap > length && !Live) ? length : (cap < 0 ? 0 : cap));
-	if (sas.checked == true || a == true) {
+	if (sas.checked === true || a === true) {
 		update(cap, true);
 		cpf.value = secondsToTS(cap, 5, false);
 	}
@@ -278,7 +278,7 @@ OnStatus = function (title, status, pos, posStr, dur, durStr, muted, volume, fil
 	if (title.length > maxTitle)
 		title = title.substr(0, maxTitle - 3) + "...";
 	var timestr = dur > 0 && posStr && durStr ? posStr + "&nbsp;/&nbsp;" + durStr : "&nbsp;";
-	if (!dur || dur == 0)
+	if (!dur || dur === 0)
 		dur = 1;
 	var sbpercent = Math.floor(100 * pos / dur);
 	if (e = document.getElementById("title"))
@@ -302,7 +302,7 @@ OnStatus = function (title, status, pos, posStr, dur, durStr, muted, volume, fil
 		e.style.top = "2px";
 		e.style.left = Math.floor(volume) + "px";
 	}
-}
+};
 
 var httpRequestStatus;
 var statusRegExp = /OnStatus\("(.*)", "(.*)", (\d+), "(.*)", (\d+), "(.*)", (\d+), (\d+), "(.*)"\)/;
@@ -320,7 +320,7 @@ function OnReadyStateChange() {
 }
 
 function StatusLoop() {
-	if (!httpRequestStatus || httpRequestStatus.readyState == 0) {
+	if (!httpRequestStatus || httpRequestStatus.readyState === 0) {
 		httpRequestStatus = getXMLHTTP();
 		try {
 			httpRequestStatus.open("GET", "status.html", true);
