@@ -1,7 +1,7 @@
 /bin
 /build.user.bat
 /distrib/*.exe
-/docs/astyle.exe
+/docs/[Aa][Ss]tyle.exe
 /include/version_rev.h
 /src/filters/transform/VSFilter/installer/*.exe
 /src/mpc-hc/mpcresources/backup
