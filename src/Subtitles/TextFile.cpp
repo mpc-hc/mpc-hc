@@ -79,9 +79,11 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
 
 bool CTextFile::ReopenAsText()
 {
+    CString strFileName = m_strFileName;
+
     __super::Close(); // CWebTextFile::Close() would delete the temp file if we called it...
 
-    return !!__super::Open(m_strFileName, modeRead | typeText | shareDenyNone);
+    return !!__super::Open(strFileName, modeRead | typeText | shareDenyNone);
 }
 
 bool CTextFile::Save(LPCTSTR lpszFileName, enc e)
