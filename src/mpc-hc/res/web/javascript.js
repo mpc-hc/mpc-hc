@@ -66,7 +66,7 @@ function autoplay(a) {
 		etaup = false;
 		RL = setTimeout("etaup=true; if (re.checked==true) postForm(0,'null',0);", 5000);
 	}
-	AP = setTimeout("autoplay()", rdirt);
+	AP = setTimeout(autoplay, rdirt);
 	var ct = (new Date()).getTime();
 	var cap = pbr * (ct - startTime);
 	if (cap > length && !Live) if (re.checked === true) RL = setTimeout("window.location=window.location", 5000);
@@ -328,7 +328,7 @@ function StatusLoop() {
 			httpRequestStatus.send(null);
 		} catch (e) {}
 	}
-	setTimeout("StatusLoop()", 500);
+	setTimeout(StatusLoop, 500);
 }
 
 var snapshotCounter = 0;
@@ -340,11 +340,11 @@ function LoadSnapShot() {
 }
 
 function OnLoadSnapShot() {
-	setTimeout("LoadSnapShot()", 5000);
+	setTimeout(LoadSnapShot, 5000);
 }
 
 function OnAbortErrorSnapShot(e) {
-	setTimeout("LoadSnapShot()", 10000);
+	setTimeout(LoadSnapShot, 10000);
 }
 
 function OnSeek(e) {
