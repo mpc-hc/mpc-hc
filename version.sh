@@ -75,10 +75,12 @@ if [ -f ./include/version_rev.h ] ; then
 fi
 
 # Only write the files if the version information has changed
-if [ "$(echo $VERSION_INFO | sed -e 's/\\n/ /g')" != "$(echo $VERSION_INFO_OLD)" ] ; then
+[ "$(echo $VERSION_INFO | sed -e 's/\\n/ /g')" != "$(echo $VERSION_INFO_OLD)" ] ; VER_CHANGED=$?
+if [ $VER_CHANGED -eq 0 ] ; then
   # Write the version information to version_rev.h
   echo -e $VERSION_INFO > ./include/version_rev.h
-
+fi
+if [ $VER_CHANGED -eq 0 ] || [ ! -f "./src/mpc-hc/res/mpc-hc.exe.manifest" ] ; then
   # Update the revision number in the manifest file
   sed -e "s/\\\$WCREV\\\$/${VER}/" ./src/mpc-hc/res/mpc-hc.exe.manifest.conf > ./src/mpc-hc/res/mpc-hc.exe.manifest
 fi
