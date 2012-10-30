@@ -500,8 +500,9 @@ cmsNAMEDCOLORLIST* CMSEXPORT cmsAllocNamedColorList(cmsContext ContextID, cmsUIn
 // Free a list
 void CMSEXPORT cmsFreeNamedColorList(cmsNAMEDCOLORLIST* v)
 {
+    if (v == NULL) return;
     if (v ->List) _cmsFree(v ->ContextID, v ->List);
-    if (v) _cmsFree(v ->ContextID, v);
+    _cmsFree(v ->ContextID, v);
 }
 
 cmsNAMEDCOLORLIST* CMSEXPORT cmsDupNamedColorList(const cmsNAMEDCOLORLIST* v)

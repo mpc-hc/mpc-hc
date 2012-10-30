@@ -241,7 +241,7 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
             // m2 holds CHAD from output white to D50 times abs. col. scaling
 
             // Observer is not adapted, undo the chromatic adaptation
-            _cmsMAT3per(m, &m3, ChromaticAdaptationMatrixOut);
+            _cmsMAT3per(m, &m2, ChromaticAdaptationMatrixOut);
 
             m3 = *ChromaticAdaptationMatrixIn;
             if (!_cmsMAT3inverse(&m3, &m4)) return FALSE;

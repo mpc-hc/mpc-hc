@@ -179,10 +179,10 @@ cmsBool ReadPositionTable(struct _cms_typehandler_struct* self,
     cmsUInt32Number *ElementOffsets = NULL, *ElementSizes = NULL;
 
     // Let's take the offsets to each element
-    ElementOffsets = (cmsUInt32Number *) _cmsCalloc(io ->ContextID, Count, sizeof(cmsUInt32Number *));
+    ElementOffsets = (cmsUInt32Number *) _cmsCalloc(io ->ContextID, Count, sizeof(cmsUInt32Number));
     if (ElementOffsets == NULL) goto Error;
 
-    ElementSizes = (cmsUInt32Number *) _cmsCalloc(io ->ContextID, Count, sizeof(cmsUInt32Number *));
+    ElementSizes = (cmsUInt32Number *) _cmsCalloc(io ->ContextID, Count, sizeof(cmsUInt32Number));
     if (ElementSizes == NULL) goto Error;
 
     for (i=0; i < Count; i++) {
@@ -228,10 +228,10 @@ cmsBool WritePositionTable(struct _cms_typehandler_struct* self,
     cmsUInt32Number *ElementOffsets = NULL, *ElementSizes = NULL;
 
      // Create table
-    ElementOffsets = (cmsUInt32Number *) _cmsCalloc(io ->ContextID, Count, sizeof(cmsUInt32Number *));
+    ElementOffsets = (cmsUInt32Number *) _cmsCalloc(io ->ContextID, Count, sizeof(cmsUInt32Number));
     if (ElementOffsets == NULL) goto Error;
 
-    ElementSizes = (cmsUInt32Number *) _cmsCalloc(io ->ContextID, Count, sizeof(cmsUInt32Number *));
+    ElementSizes = (cmsUInt32Number *) _cmsCalloc(io ->ContextID, Count, sizeof(cmsUInt32Number));
     if (ElementSizes == NULL) goto Error;
 
     // Keep starting position of curve offsets
@@ -2004,17 +2004,15 @@ cmsBool Write16bitTables(cmsContext ContextID, cmsIOHANDLER* io, _cmsStageToneCu
     cmsUInt16Number val;
     int nEntries = 256;
 
+    _cmsAssert(Tables != NULL);
+
     nEntries = Tables->TheCurves[0]->nEntries;
 
     for (i=0; i < Tables ->nCurves; i++) {
 
         for (j=0; j < nEntries; j++) {
 
-            if (Tables != NULL)
-                val = Tables->TheCurves[i]->Table16[j];
-            else
-                val = _cmsQuantizeVal(j, nEntries);
-
+            val = Tables->TheCurves[i]->Table16[j];        
             if (!_cmsWriteUInt16Number(io, val)) return FALSE;
         }
     }
@@ -3258,7 +3256,7 @@ void *Type_ProfileSequenceDesc_Read(struct _cms_typehandler_struct* self, cmsIOH
         SizeOfTag -= sizeof(cmsUInt32Number);
 
         if (!_cmsReadUInt64Number(io, &sec ->attributes)) goto Error;
-        if (SizeOfTag < sizeof(cmsUInt32Number)) goto Error;
+        if (SizeOfTag < sizeof(cmsUInt64Number)) goto Error;
         SizeOfTag -= sizeof(cmsUInt64Number);
 
         if (!_cmsReadUInt32Number(io, (cmsUInt32Number *)&sec ->technology)) goto Error;
@@ -4263,6 +4261,9 @@ void *Type_MPEclut_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, 
     if (!_cmsReadUInt16Number(io, &InputChans)) return NULL;
     if (!_cmsReadUInt16Number(io, &OutputChans)) return NULL;
 
+    if (InputChans == 0) goto Error;
+    if (OutputChans == 0) goto Error;
+
     if (io ->Read(io, Dimensions8, sizeof(cmsUInt8Number), 16) != 16)
         goto Error;
 
@@ -4450,10 +4451,10 @@ cmsBool Type_MPE_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, v
     outputChan = cmsPipelineOutputChannels(Lut);
     ElemCount  = cmsPipelineStageCount(Lut);
 
-    ElementOffsets = (cmsUInt32Number *) _cmsCalloc(self ->ContextID, ElemCount, sizeof(cmsUInt32Number *));
+    ElementOffsets = (cmsUInt32Number *) _cmsCalloc(self ->ContextID, ElemCount, sizeof(cmsUInt32Number));
     if (ElementOffsets == NULL) goto Error;
 
-    ElementSizes = (cmsUInt32Number *) _cmsCalloc(self ->ContextID, ElemCount, sizeof(cmsUInt32Number *));
+    ElementSizes = (cmsUInt32Number *) _cmsCalloc(self ->ContextID, ElemCount, sizeof(cmsUInt32Number));
     if (ElementSizes == NULL) goto Error;
 
     // Write the head
@@ -4796,10 +4797,10 @@ typedef struct {
 static
 cmsBool AllocElem(cmsContext ContextID, _cmsDICelem* e,  cmsUInt32Number Count)
 {
-    e->Offsets = (cmsUInt32Number *) _cmsCalloc(ContextID, Count, sizeof(cmsUInt32Number *));
+    e->Offsets = (cmsUInt32Number *) _cmsCalloc(ContextID, Count, sizeof(cmsUInt32Number));
     if (e->Offsets == NULL) return FALSE;
 
-    e->Sizes = (cmsUInt32Number *) _cmsCalloc(ContextID, Count, sizeof(cmsUInt32Number *));
+    e->Sizes = (cmsUInt32Number *) _cmsCalloc(ContextID, Count, sizeof(cmsUInt32Number));
     if (e->Sizes == NULL) {
 
         _cmsFree(ContextID, e -> Offsets);
@@ -4815,7 +4816,7 @@ static
 void FreeElem(_cmsDICelem* e)
 {
     if (e ->Offsets != NULL)  _cmsFree(e -> ContextID, e -> Offsets);
-    if (e ->Sizes   != NULL)  _cmsFree(e -> ContextID, e ->Sizes);
+    if (e ->Sizes   != NULL)  _cmsFree(e -> ContextID, e -> Sizes);
     e->Offsets = e ->Sizes = NULL;
 }
 

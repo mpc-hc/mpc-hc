@@ -360,12 +360,14 @@ cmsBool  FileClose(cmsIOHANDLER* iohandler)
     return TRUE;
 }
 
-// Create a iohandler for disk based files. if FileName is NULL, then 'stream' member is also set
-// to NULL and no real writting is performed. This only happens in writting access mode
+// Create a iohandler for disk based files.
 cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromFile(cmsContext ContextID, const char* FileName, const char* AccessMode)
 {
     cmsIOHANDLER* iohandler = NULL;
     FILE* fm = NULL;
+
+    _cmsAssert(FileName != NULL);
+    _cmsAssert(AccessMode != NULL);
 
     iohandler = (cmsIOHANDLER*) _cmsMallocZero(ContextID, sizeof(cmsIOHANDLER));
     if (iohandler == NULL) return NULL;
@@ -402,12 +404,9 @@ cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromFile(cmsContext ContextID, const cha
     iohandler ->stream = (void*) fm;
     iohandler ->UsedSpace = 0;
 
-    // Keep track of the original file
-    if (FileName != NULL)  {
-
-        strncpy(iohandler -> PhysicalFile, FileName, sizeof(iohandler -> PhysicalFile)-1);
-        iohandler -> PhysicalFile[sizeof(iohandler -> PhysicalFile)-1] = 0;
-    }
+    // Keep track of the original file    
+    strncpy(iohandler -> PhysicalFile, FileName, sizeof(iohandler -> PhysicalFile)-1);
+    iohandler -> PhysicalFile[sizeof(iohandler -> PhysicalFile)-1] = 0;
 
     iohandler ->Read    = FileRead;
     iohandler ->Seek    = FileSeek;
@@ -1056,8 +1055,9 @@ cmsBool SaveTags(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
     cmsIOHANDLER* io = Icc ->IOhandler;
     cmsTagDescriptor* TagDescriptor;
     cmsTagTypeSignature TypeBase;
+    cmsTagTypeSignature Type;
     cmsTagTypeHandler* TypeHandler;
-
+    cmsFloat64Number   Version = cmsGetProfileVersion((cmsHPROFILE) Icc);
 
     for (i=0; i < Icc -> TagCount; i++) {
 
@@ -1112,8 +1112,17 @@ cmsBool SaveTags(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
             // Search for support on this tag
             TagDescriptor = _cmsGetTagDescriptor(Icc -> TagNames[i]);
             if (TagDescriptor == NULL) continue;                        // Unsupported, ignore it
+           
+            if (TagDescriptor ->DecideType != NULL) {
 
-            TypeHandler = Icc ->TagTypeHandlers[i];
+                Type = TagDescriptor ->DecideType(Version, Data);
+            }
+            else {
+
+                Type = TagDescriptor ->SupportedTypes[0];
+            }
+
+            TypeHandler =  _cmsGetTagTypeHandler(Type);
 
             if (TypeHandler == NULL) {
                 cmsSignalError(Icc ->ContextID, cmsERROR_INTERNAL, "(Internal) no handler for tag %x", Icc -> TagNames[i]);
@@ -1128,9 +1137,9 @@ cmsBool SaveTags(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
             TypeHandler ->ICCVersion = Icc ->Version;
             if (!TypeHandler ->WritePtr(TypeHandler, io, Data, TagDescriptor ->ElemCount)) {
 
-				char String[5];
+                char String[5];
 
-				 _cmsTagSignature2String(String, (cmsTagSignature) TypeBase);
+                _cmsTagSignature2String(String, (cmsTagSignature) TypeBase);
                 cmsSignalError(Icc ->ContextID, cmsERROR_WRITE, "Couldn't write type '%s'", String);
                 return FALSE;
             }
@@ -1520,7 +1529,7 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
         // Let the tag descriptor to decide the type base on depending on
         // the data. This is useful for example on parametric curves, where
         // curves specified by a table cannot be saved as parametric and needs
-        // to be revented to single v2-curves, even on v4 profiles.
+        // to be casted to single v2-curves, even on v4 profiles.
 
         Type = TagDescriptor ->DecideType(Version, data);
     }

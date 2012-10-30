@@ -15,6 +15,7 @@ Legend:
 * Updated FFmpeg (n0.8-15185-g3d6a246)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
+* Updated Little CMS to v2.4 (git 886e2f5)
 * Updated Basque, German and Slovak translations
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks
 ! API: CMD_PAUSE was acting as CMD_PLAY and vice versa

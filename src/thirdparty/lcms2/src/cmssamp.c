@@ -112,8 +112,8 @@ cmsBool  BlackPointAsDarkerColorant(cmsHPROFILE    hInput,
     cmsCloseProfile(hLab);
 
     if (xform == NULL) {
-        // Something went wrong. Get rid of open resources and return zero as black
 
+        // Something went wrong. Get rid of open resources and return zero as black
         BlackPoint -> X = BlackPoint ->Y = BlackPoint -> Z = 0.0;
         return FALSE;
     }
@@ -144,7 +144,6 @@ cmsBool  BlackPointAsDarkerColorant(cmsHPROFILE    hInput,
 // Lab (0, 0, 0) -> [Perceptual] Profile -> CMYK -> [Rel. colorimetric] Profile -> Lab
 static
 cmsBool BlackPointUsingPerceptualBlack(cmsCIEXYZ* BlackPoint, cmsHPROFILE hProfile)
-
 {
     cmsHTRANSFORM hRoundTrip;
     cmsCIELab LabIn, LabOut;
@@ -199,7 +198,6 @@ cmsBool CMSEXPORT cmsDetectBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROFILE hProfil
 
     // v4 + perceptual & saturation intents does have its own black point, and it is
     // well specified enough to use it. Black point tag is deprecated in V4.
-
     if ((cmsGetEncodedICCversion(hProfile) >= 0x4000000) &&
         (Intent == INTENT_PERCEPTUAL || Intent == INTENT_SATURATION)) {
 
@@ -443,11 +441,14 @@ cmsBool CMSEXPORT cmsDetectDestinationBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROF
         // is good enough to be the DestinationBlackPoint,
         NearlyStraightMidRange = TRUE;
 
-        for (l=0; l <= 100; l++) {
+        for (l=0; l <= 255; l++) {
 
-            Lab.L = l;
+            Lab.L = (l * 100.0) / 255.0;
             Lab.a = InitialLab.a;
             Lab.b = InitialLab.b;
+
+
+            // TODO: Clip a,b (-50, 50)
 
             cmsDoTransform(hRoundTrip, &Lab, &destLab, 1);
 
@@ -523,14 +524,15 @@ cmsBool CMSEXPORT cmsDetectDestinationBlackPoint(cmsCIEXYZ* BlackPoint, cmsHPROF
     }
 
 	// This part is not on the Adobe paper, but I found is necessary for getting any result.
-
-	if (IsMonotonic(n, y)) {
+	
+    if (IsMonotonic(n, y)) {
 
 		// Monotonic means lower point is stil valid
         cmsLab2XYZ(NULL, BlackPoint, &InitialLab);
         cmsDeleteTransform(hRoundTrip);
         return TRUE;
 	}
+    
 
     // No suitable points, regret and use safer algorithm
     if (n == 0) {

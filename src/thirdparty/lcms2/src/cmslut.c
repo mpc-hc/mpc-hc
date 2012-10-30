@@ -756,6 +756,8 @@ cmsBool CMSEXPORT cmsStageSampleCLut16bit(cmsStage* mpe, cmsSAMPLER16 Sampler, v
     nInputs  = clut->Params ->nInputs;
     nOutputs = clut->Params ->nOutputs;
 
+    if (nInputs <= 0) return FALSE;
+    if (nOutputs <= 0) return FALSE;
     if (nInputs >= cmsMAXCHANNELS) return FALSE;
     if (nOutputs >= MAX_STAGE_CHANNELS) return FALSE;
 
@@ -1395,6 +1397,8 @@ cmsPipeline* CMSEXPORT cmsPipelineDup(const cmsPipeline* lut)
     if (lut == NULL) return NULL;
 
     NewLUT = cmsPipelineAlloc(lut ->ContextID, lut ->InputChannels, lut ->OutputChannels);
+    if (NewLUT == NULL) return NULL;
+
     for (mpe = lut ->Elements;
          mpe != NULL;
          mpe = mpe ->Next) {
