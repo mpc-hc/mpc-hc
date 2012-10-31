@@ -345,6 +345,8 @@ BOOL CPPageExternalFilters::OnApply()
         }
     }
 
+    s.SaveExternalFilters();
+
     return __super::OnApply();
 }
 

@@ -630,6 +630,7 @@ public:
     CAppSettings();
     virtual ~CAppSettings();
     void            SaveSettings();
+    void            SaveExternalFilters();
     void            LoadSettings();
 
     void            GetFav(favtype ft, CAtlList<CString>& sl) const;

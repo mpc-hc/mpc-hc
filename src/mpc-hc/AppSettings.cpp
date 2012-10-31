@@ -734,59 +734,6 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, (int)fLastFullScreen);
     // CASIMIR666 : end of new settings
 
-    {
-        for (unsigned int i = 0; ; i++) {
-            CString key;
-            key.Format(_T("%s\\%04u"), IDS_R_FILTERS, i);
-            int j = pApp->GetProfileInt(key, _T("Enabled"), -1);
-            pApp->WriteProfileString(key, NULL, NULL);
-            if (j < 0) {
-                break;
-            }
-        }
-        pApp->WriteProfileString(IDS_R_FILTERS, NULL, NULL);
-
-        unsigned int k = 0;
-        POSITION pos = m_filters.GetHeadPosition();
-        while (pos) {
-            FilterOverride* f = m_filters.GetNext(pos);
-
-            if (f->fTemporary) {
-                continue;
-            }
-
-            CString key;
-            key.Format(_T("%s\\%04u"), IDS_R_FILTERS, k);
-
-            pApp->WriteProfileInt(key, _T("SourceType"), (int)f->type);
-            pApp->WriteProfileInt(key, _T("Enabled"), (int)!f->fDisabled);
-            if (f->type == FilterOverride::REGISTERED) {
-                pApp->WriteProfileString(key, _T("DisplayName"), CString(f->dispname));
-                pApp->WriteProfileString(key, _T("Name"), f->name);
-            } else if (f->type == FilterOverride::EXTERNAL) {
-                pApp->WriteProfileString(key, _T("Path"), f->path);
-                pApp->WriteProfileString(key, _T("Name"), f->name);
-                pApp->WriteProfileString(key, _T("CLSID"), CStringFromGUID(f->clsid));
-            }
-            POSITION pos2 = f->backup.GetHeadPosition();
-            for (unsigned int i = 0; pos2; i++) {
-                CString val;
-                val.Format(_T("org%04u"), i);
-                pApp->WriteProfileString(key, val, CStringFromGUID(f->backup.GetNext(pos2)));
-            }
-            pos2 = f->guids.GetHeadPosition();
-            for (unsigned int i = 0; pos2; i++) {
-                CString val;
-                val.Format(_T("mod%04u"), i);
-                pApp->WriteProfileString(key, val, CStringFromGUID(f->guids.GetNext(pos2)));
-            }
-            pApp->WriteProfileInt(key, _T("LoadType"), f->iLoadType);
-            pApp->WriteProfileInt(key, _T("Merit"), f->dwMerit);
-
-            k++;
-        }
-    }
-
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_INTREALMEDIA, fIntRealMedia);
     //pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIARENDERLESS, fRealMediaRenderless);
     //pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QUICKTIMERENDERER, iQuickTimeRenderer);
@@ -902,6 +849,68 @@ void CAppSettings::SaveSettings()
     if (pApp->m_pszRegistryKey) {
         // WINBUG: on win2k this would crash WritePrivateProfileString
         pApp->WriteProfileInt(_T(""), _T(""), pApp->GetProfileInt(_T(""), _T(""), 0) ? 0 : 1);
+    }
+}
+
+void CAppSettings::SaveExternalFilters()
+{
+    // External Filter settings are saved for a long time. Use only when really necessary.
+    CWinApp* pApp = AfxGetApp();
+    ASSERT(pApp);
+
+    if (!fInitialized) {
+        return;
+    }
+
+    for (unsigned int i = 0; ; i++) {
+        CString key;
+        key.Format(_T("%s\\%04u"), IDS_R_FILTERS, i);
+        int j = pApp->GetProfileInt(key, _T("Enabled"), -1);
+        pApp->WriteProfileString(key, NULL, NULL);
+        if (j < 0) {
+            break;
+        }
+    }
+    pApp->WriteProfileString(IDS_R_FILTERS, NULL, NULL);
+
+    unsigned int k = 0;
+    POSITION pos = m_filters.GetHeadPosition();
+    while (pos) {
+        FilterOverride* f = m_filters.GetNext(pos);
+
+        if (f->fTemporary) {
+            continue;
+        }
+
+        CString key;
+        key.Format(_T("%s\\%04u"), IDS_R_FILTERS, k);
+
+        pApp->WriteProfileInt(key, _T("SourceType"), (int)f->type);
+        pApp->WriteProfileInt(key, _T("Enabled"), (int)!f->fDisabled);
+        if (f->type == FilterOverride::REGISTERED) {
+            pApp->WriteProfileString(key, _T("DisplayName"), CString(f->dispname));
+            pApp->WriteProfileString(key, _T("Name"), f->name);
+        } else if (f->type == FilterOverride::EXTERNAL) {
+            pApp->WriteProfileString(key, _T("Path"), f->path);
+            pApp->WriteProfileString(key, _T("Name"), f->name);
+            pApp->WriteProfileString(key, _T("CLSID"), CStringFromGUID(f->clsid));
+        }
+        POSITION pos2 = f->backup.GetHeadPosition();
+        for (unsigned int i = 0; pos2; i++) {
+            CString val;
+            val.Format(_T("org%04u"), i);
+            pApp->WriteProfileString(key, val, CStringFromGUID(f->backup.GetNext(pos2)));
+        }
+        pos2 = f->guids.GetHeadPosition();
+        for (unsigned int i = 0; pos2; i++) {
+            CString val;
+            val.Format(_T("mod%04u"), i);
+            pApp->WriteProfileString(key, val, CStringFromGUID(f->guids.GetNext(pos2)));
+        }
+        pApp->WriteProfileInt(key, _T("LoadType"), f->iLoadType);
+        pApp->WriteProfileInt(key, _T("Merit"), f->dwMerit);
+
+        k++;
     }
 }
 
