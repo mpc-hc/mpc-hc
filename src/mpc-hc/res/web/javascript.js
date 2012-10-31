@@ -1,3 +1,5 @@
+/* jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, camelcase:true, trailing:true, strict:false, undef:false, boss:true, unused:true, curly:true, browser:true, indent:4, maxerr:100 */
+
 var filePath;
 var curPos;
 var length;
@@ -17,7 +19,9 @@ var AP;
 var RL;
 var rpt;
 var etaup = false;
-if (eta === 0) eta = (state < 0 && filePath.length > 0) ? 2 : 120;
+if (eta === 0) {
+	eta = (state < 0 && filePath.length > 0) ? 2 : 120;
+}
 
 function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) {
 	filePath = _filePath;
@@ -29,7 +33,9 @@ function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) 
 	volume = _volume;
 	muted = _muted;
 
-	if (eta > 0) RL = setTimeout("etaup=true; if (re.checked==true) postForm(0,'null',0);", 1000 * eta);
+	if (eta > 0) {
+		RL = setTimeout("etaup=true; if (re.checked===true) {postForm(0,'null',0);}", 1000 * eta);
+	}
 	Live = (length < 1);
 	startTime = startTime - curPos;
 	rdirt = length * pbr / sliderSize;
@@ -46,17 +52,18 @@ function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) 
 	vs1 = document.getElementById("v1");
 	vs2 = document.getElementById("v2");
 	vs3 = document.getElementById("v3");
-	document.getElementById("muted").innerHTML = muted == -1 ? "X" : muted == 1 ? "M" : "&nbsp;&nbsp;";
+	document.getElementById("muted").innerHTML = muted === -1 ? "X" : muted === 1 ? "M" : "&nbsp;&nbsp;";
 	s.height = sb1.height = sb2.height = sb3.height = vs.height = vs1.height = vs2.height = vs3.height = 20;
 	s.width = sliderSize + (sb2.width = sliderButtonWidth);
 	vs.width = vss + (vs2.width = vsb);
 	sb1.onclick = sb2.onclick = sb3.onclick = sliderClick;
 	vs1.onclick = vs2.onclick = vs3.onclick = volSliderClick;
 	sas.checked = true;
-	/*g = " " + secondsToTS(curPos, 0, true) + " " + x < 0 ? ("Buffering %" + (-x - 1).toString()):"";*/
 	cp.innerHTML = cpf.value = secondsToTS(curPos, 5, false);
 	rpt = curPos;
-	if (state == 2 && pbr !== 0) autoplay();
+	if (state === 2 && pbr !== 0) {
+		autoplay();
+	}
 	volumeUpdate(volume, true);
 	return update(curPos, true);
 }
@@ -64,12 +71,16 @@ function init(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, _muted) 
 function autoplay(a) {
 	if (etaup && re.checked === true) {
 		etaup = false;
-		RL = setTimeout("etaup=true; if (re.checked==true) postForm(0,'null',0);", 5000);
+		RL = setTimeout("etaup=true; if (re.checked===true) {postForm(0,'null',0);}", 5000);
 	}
 	AP = setTimeout(autoplay, rdirt);
 	var ct = (new Date()).getTime();
 	var cap = pbr * (ct - startTime);
-	if (cap > length && !Live) if (re.checked === true) RL = setTimeout("window.location=window.location", 5000);
+	if (cap > length && !Live) {
+		if (re.checked === true) {
+			RL = setTimeout("window.location=window.location;", 5000);
+		}
+	}
 	cap = ((cap > length && !Live) ? length : (cap < 0 ? 0 : cap));
 	if (sas.checked === true || a === true) {
 		update(cap, true);
@@ -83,11 +94,13 @@ function autoplay(a) {
 
 function pad(number, length) {
 	var str = "" + number;
-	while (str.length < length) str = "0" + str;
+	while (str.length < length) {
+		str = "0" + str;
+	}
 	return str;
 }
 
-function secondsToTS(a, b, c) {
+function secondsToTS(a, b) {
 	var a1 = Math.floor(a / 3600000);
 	var a2 = Math.floor(a / 60000) % 60;
 	var a3 = Math.floor(a / 1000) % 60;
@@ -106,9 +119,7 @@ function secondsToTS(a, b, c) {
 	case 4:
 		return a4s;
 	case 5:
-		/*return a1s+":"+a2s+":"+a3s+"."+a4s;*/
 	case 6:
-		/*return ((a1>0?(a1s+":"):"")+a2s+":"+a3s+"."+a4s);*/
 	case 7:
 		return a1s + ":" + a2s + ":" + a3s;
 	default:
@@ -124,16 +135,26 @@ function parseTime(y) {
 	p2 = ts.indexOf(":");
 	p3 = ts.indexOf(":", p2 + 1);
 	p4 = ts.indexOf(":", p3 + 1);
-	if (p4 != -1 || (p1 != -1 && p2 != -1 && p2 > p1) || (p1 != -1 && p3 != -1 && p3 > p1)) return -2000;
-	p1 = (p1 == -1 ? ts.length + 1 : p1);
-	if (p2 == -1) t = parseFloat((ts + " ").substring(0, p1 + 4));
-	if (p2 != -1 && p3 == -1) t = parseInt(ts.substring(0, p2)) * 60 + parseFloat("0" + (ts + " ").substring(p2 + 1, p1 + 4));
-	if (p2 != -1 && p3 != -1) t = parseInt(ts.substring(0, p2)) * 3600 + parseInt(ts.substring(p2 + 1, p3)) * 60 + parseFloat("0" + (ts + " ").substring(p3 + 1, p1 + 4));
+	if (p4 !== -1 || (p1 !== -1 && p2 !== -1 && p2 > p1) || (p1 !== -1 && p3 !== -1 && p3 > p1)) {
+		return -2000;
+	}
+	p1 = (p1 === -1 ? ts.length + 1 : p1);
+	if (p2 === -1) {
+		t = parseFloat((ts + " ").substring(0, p1 + 4));
+	}
+	if (p2 !== -1 && p3 === -1) {
+		t = parseInt(ts.substring(0, p2)) * 60 + parseFloat("0" + (ts + " ").substring(p2 + 1, p1 + 4));
+	}
+	if (p2 !== -1 && p3 !== -1) {
+		t = parseInt(ts.substring(0, p2)) * 3600 + parseInt(ts.substring(p2 + 1, p3)) * 60 + parseFloat("0" + (ts + " ").substring(p3 + 1, p1 + 4));
+	}
 	return t;
 }
 
 function update(a, b) {
-	if (a == -2000) return false;
+	if (a === -2000) {
+		return false;
+	}
 	if (b) {
 		m = (curPos = ((a > length && !Live) ? length : (a < 0 ? 0 : a))) * sliderSize / length;
 	} else {
@@ -165,7 +186,9 @@ function getOffsetX(m) {
 }
 
 function positionUpdate() {
-	if (event.keyCode < 46 || event.keyCode > 58 || event.keyCode == 47) return false;
+	if (event.keyCode < 46 || event.keyCode > 58 || event.keyCode === 47) {
+		return false;
+	}
 	self.setTimeout("update(parseFloat(parseTime(cpf.value)),true)", 1);
 	return true;
 }
@@ -251,7 +274,7 @@ function getXMLHTTP() {
 			return new ActiveXObject("Microsoft.XMLHTTP");
 		} catch (e) {}
 	}
-	if (typeof XMLHttpRequest != "undefined") {
+	if (typeof XMLHttpRequest !== "undefined") {
 		return new XMLHttpRequest();
 	}
 	return null;
@@ -275,26 +298,34 @@ function getOffsetX(m) {
 
 OnStatus = function (title, status, pos, posStr, dur, durStr, muted, volume, filePath) {
 	var maxTitle = 70;
-	if (title.length > maxTitle)
+	if (title.length > maxTitle) {
 		title = title.substr(0, maxTitle - 3) + "...";
+	}
 	var timestr = dur > 0 && posStr && durStr ? posStr + "&nbsp;/&nbsp;" + durStr : "&nbsp;";
-	if (!dur || dur === 0)
+	if (!dur || dur === 0) {
 		dur = 1;
+	}
 	var sbpercent = Math.floor(100 * pos / dur);
-	if (e = document.getElementById("title"))
+	if (e = document.getElementById("title")) {
 		e.innerHTML = title;
-	if (e = document.getElementById("seekbarchleft"))
+	}
+	if (e = document.getElementById("seekbarchleft")) {
 		e.width = sbpercent > 0 ? sbpercent + "%" : "1px";
-	if (e = document.getElementById("seekbarchright"))
+	}
+	if (e = document.getElementById("seekbarchright")) {
 		e.width = sbpercent < 100 ? (100 - sbpercent) + "%" : "1px";
-	if ((e = document.getElementById("status")) && e.innerHTML != status)
+	}
+	if ((e = document.getElementById("status")) && e.innerHTML !== status) {
 		e.innerHTML = status;
-	if ((e = document.getElementById("timer")) && e.innerHTML != timestr)
+	}
+	if ((e = document.getElementById("timer")) && e.innerHTML !== timestr) {
 		e.innerHTML = timestr;
+	}
 	if (e = document.getElementById("controlvolumemute")) {
 		url = "url(img/controlvolume" + (muted ? "off" : "on") + ".png)";
-		if (e.style.backgroundImage != url)
+		if (e.style.backgroundImage !== url) {
 			e.style.backgroundImage = url;
+		}
 	}
 	if (e = document.getElementById("controlvolumegrip")) {
 		volume = (document.getElementById("controlvolumebar").offsetWidth - e.offsetWidth) * volume / 100;
@@ -308,8 +339,8 @@ var httpRequestStatus;
 var statusRegExp = /OnStatus\("(.*)", "(.*)", (\d+), "(.*)", (\d+), "(.*)", (\d+), (\d+), "(.*)"\)/;
 
 function OnReadyStateChange() {
-	if (httpRequestStatus && httpRequestStatus.readyState == 4 && httpRequestStatus.responseText) {
-		if (httpRequestStatus.responseText.charAt(0) != "<") {
+	if (httpRequestStatus && httpRequestStatus.readyState === 4 && httpRequestStatus.responseText) {
+		if (httpRequestStatus.responseText.charAt(0) !== "<") {
 			var params = statusRegExp.exec(httpRequestStatus.responseText);
 			OnStatus(params[1], params[2], parseInt(params[3]), params[4], parseInt(params[5]), params[6], parseInt(params[7]), parseInt(params[8]), params[9]);
 		} else {
@@ -343,7 +374,7 @@ function OnLoadSnapShot() {
 	setTimeout(LoadSnapShot, 5000);
 }
 
-function OnAbortErrorSnapShot(e) {
+function OnAbortErrorSnapShot() {
 	setTimeout(LoadSnapShot, 10000);
 }
 
