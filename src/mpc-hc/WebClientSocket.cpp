@@ -521,8 +521,8 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
             files +=
                 "<td class=\"dirname\"><a href=\"[path]?path=" + UrlEncode(drive) + "\">" + drive + "</a></td>"
                 "<td class=\"dirtype\">Directory</td>"
-                "<td class=\"dirsize\">&nbsp</td>\r\n"
-                "<td class=\"dirdate\">&nbsp</td>";
+                "<td class=\"dirsize\">&nbsp;</td>\r\n"
+                "<td class=\"dirdate\">&nbsp;</td>";
             files += "</tr>\r\n";
         }
 
@@ -541,8 +541,8 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
         files +=
             "<td class=\"dirname\"><a href=\"[path]?path=" + parent + "\">..</a></td>"
             "<td class=\"dirtype\">Directory</td>"
-            "<td class=\"dirsize\">&nbsp</td>\r\n"
-            "<td class=\"dirdate\">&nbsp</td>";
+            "<td class=\"dirsize\">&nbsp;</td>\r\n"
+            "<td class=\"dirdate\">&nbsp;</td>";
         files += "</tr>\r\n";
 
         WIN32_FIND_DATA fd = {0};
@@ -560,7 +560,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
                 files +=
                     "<td class=\"dirname\"><a href=\"[path]?path=" + UTF8Arg(fullpath) + "\">" + UTF8(fd.cFileName) + "</a></td>"
                     "<td class=\"dirtype\">Directory</td>"
-                    "<td class=\"dirsize\">&nbsp</td>\r\n"
+                    "<td class=\"dirsize\">&nbsp;</td>\r\n"
                     "<td class=\"dirdate\"><span class=\"nobr\">" + CStringA(CTime(fd.ftLastWriteTime).Format(_T("%Y.%m.%d %H:%M"))) + "</span></td>";
                 files += "</tr>\r\n";
             } while (FindNextFile(hFind, &fd));
@@ -584,7 +584,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
                 CStringA size;
                 size.Format("%I64dK", ((UINT64)fd.nFileSizeHigh << 22) | (fd.nFileSizeLow >> 10));
 
-                CString type(_T("&nbsp"));
+                CString type(_T("&nbsp;"));
                 LoadType(fullpath, type);
 
                 if (ext != NULL) {
