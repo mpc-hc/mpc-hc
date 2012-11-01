@@ -1312,6 +1312,7 @@ STRING IDS_D3DFS_WARNING		"Questa opzione è progettata per mitigare l'effetto t
 STRING IDS_DISABLE_ALL_FILTERS		"&Disabilita tutti i filtri"
 STRING IDS_DISABLE_DXVA_FILTERS		"Disabilita filtri DXVA"
 STRING IDS_DISABLE_FFMPEG_FILTERS		"Disabilita filtri FFMpeg"
+STRING IDS_DOWNLOAD_SUBS		"Download subtitles"
 STRING IDS_DVB_CHANNEL_ENCRYPTED		"Si"
 STRING IDS_DVB_CHANNEL_ENCRYPTION		"Criptato"
 STRING IDS_DVB_CHANNEL_FREQUENCY		"Frequenza"

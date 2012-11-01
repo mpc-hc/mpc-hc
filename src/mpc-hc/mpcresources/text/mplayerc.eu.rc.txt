@@ -1312,6 +1312,7 @@ STRING IDS_D3DFS_WARNING		"Aukera hau hauspena saihesteko diseinatua dago. Horre
 STRING IDS_DISABLE_ALL_FILTERS		"E&zgaitu iragazki guztiak"
 STRING IDS_DISABLE_DXVA_FILTERS		"Ezgaitu DXVA iragazkiak"
 STRING IDS_DISABLE_FFMPEG_FILTERS		"Ezgaitu FFmpeg iragazkiak"
+STRING IDS_DOWNLOAD_SUBS		"Download subtitles"
 STRING IDS_DVB_CHANNEL_ENCRYPTED		"Bai"
 STRING IDS_DVB_CHANNEL_ENCRYPTION		"Enkriptatuta"
 STRING IDS_DVB_CHANNEL_FREQUENCY		"Maiztasuna"

@@ -1312,6 +1312,7 @@ STRING IDS_D3DFS_WARNING		"Այս ընտրանքը օգտագործվում է �
 STRING IDS_DISABLE_ALL_FILTERS		"&Անջատել բոլոր ֆիլտրերը"
 STRING IDS_DISABLE_DXVA_FILTERS		"Անջատել DXVA ֆիլտրերը"
 STRING IDS_DISABLE_FFMPEG_FILTERS		"Անջատել FFmpeg ֆիլտրերը"
+STRING IDS_DOWNLOAD_SUBS		"Download subtitles"
 STRING IDS_DVB_CHANNEL_ENCRYPTED		"Այո"
 STRING IDS_DVB_CHANNEL_ENCRYPTION		"Կոդավորված"
 STRING IDS_DVB_CHANNEL_FREQUENCY		"Հաճախականությունը"

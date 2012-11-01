@@ -10,6 +10,7 @@ Legend:
 
 1.6.5 - not released yet
 ========================
++ Add a hotkey to open the subtitles downloader dialog
 + Ticket #439, External subtitles: support UTF8 without BOM
 + Ticket #2647, Add .3ga to known formats
 * Updated FFmpeg (n0.8-15185-g3d6a246)

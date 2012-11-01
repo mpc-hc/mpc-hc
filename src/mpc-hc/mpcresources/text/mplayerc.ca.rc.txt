@@ -1312,6 +1312,7 @@ STRING IDS_D3DFS_WARNING		"Aqueta opció es per eliminar el pipelleig, però evi
 STRING IDS_DISABLE_ALL_FILTERS		"&Desactivar tots els filtres"
 STRING IDS_DISABLE_DXVA_FILTERS		"Desactivar filtres DXVA"
 STRING IDS_DISABLE_FFMPEG_FILTERS		"Desactivar filtres FFMpeg"
+STRING IDS_DOWNLOAD_SUBS		"Download subtitles"
 STRING IDS_DVB_CHANNEL_ENCRYPTED		"Si"
 STRING IDS_DVB_CHANNEL_ENCRYPTION		"Encriptat"
 STRING IDS_DVB_CHANNEL_FREQUENCY		"Freqüència"

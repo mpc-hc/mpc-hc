@@ -1312,6 +1312,7 @@ STRING IDS_D3DFS_WARNING		"Эта опция служит для устране�
 STRING IDS_DISABLE_ALL_FILTERS		"&Отключить все фильтры"
 STRING IDS_DISABLE_DXVA_FILTERS		"Отключить DXVA фильтры"
 STRING IDS_DISABLE_FFMPEG_FILTERS		"Отключить FFmpeg фильтры"
+STRING IDS_DOWNLOAD_SUBS		"Download subtitles"
 STRING IDS_DVB_CHANNEL_ENCRYPTED		"Да"
 STRING IDS_DVB_CHANNEL_ENCRYPTION		"Зашифрованный"
 STRING IDS_DVB_CHANNEL_FREQUENCY		"Частота"

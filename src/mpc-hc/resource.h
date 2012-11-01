@@ -1466,6 +1466,7 @@
 #define IDS_EMB_RESOURCES_VIEWER_TYPE   41439
 #define IDS_EMB_RESOURCES_VIEWER_INFO   41440
 #define IDS_AVISPLITTER_NON_INTERLEAVED 41441
+#define IDS_DOWNLOAD_SUBS               41442
 
 // Next default values for new objects
 // 
