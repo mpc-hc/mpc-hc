@@ -27,8 +27,6 @@
 
 class CColorStatic : public CStatic
 {
-    //  DECLARE_DYNAMIC(CColorStatic)
-
     COLORREF* m_pColor;
 
 public:

@@ -337,16 +337,13 @@ void CPlayerStatusBar::OnPaint()
         memdc.SelectObject(&m_bm);
         GetClientRect(&r);
         dc.BitBlt(r.right - bm.bmWidth - 1, (r.Height() - bm.bmHeight) / 2, bm.bmWidth, bm.bmHeight, &memdc, 0, 0, SRCCOPY);
-
-        //
     }
     /*
-        if (m_hIcon)
-        {
-            GetClientRect(&r);
-            r.SetRect(6, r.top+4, 22-1, r.bottom-4-1);
-            DrawIconEx(dc, r.left, r.top, m_hIcon, r.Width(), r.Height(), 0, NULL, DI_NORMAL|DI_COMPAT);
-        }
+    if (m_hIcon) {
+        GetClientRect(&r);
+        r.SetRect(6, r.top+4, 22-1, r.bottom-4-1);
+        DrawIconEx(dc, r.left, r.top, m_hIcon, r.Width(), r.Height(), 0, NULL, DI_NORMAL|DI_COMPAT);
+    }
     */
     // Do not call CDialogBar::OnPaint() for painting messages
 }

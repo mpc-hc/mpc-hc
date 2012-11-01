@@ -25,14 +25,6 @@
 #include "MainFrm.h"
 #include "PPageSubStyle.h"
 
-
-// CColorStatic
-
-//IMPLEMENT_DYNAMIC(CColorStatic, CStatic)
-
-//BEGIN_MESSAGE_MAP(CColorStatic, CStatic)
-//END_MESSAGE_MAP()
-
 // CPPageSubStyle dialog
 
 IMPLEMENT_DYNAMIC(CPPageSubStyle, CPPageBase)

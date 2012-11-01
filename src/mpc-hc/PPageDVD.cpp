@@ -27,9 +27,10 @@
 
 
 struct {
-    LCID lcid;
+    LCID   lcid;
     LPCSTR name;
 }
+
 LCIDNameList[] = {
     {0x0000, "Default"},
     {0x0436, "Afrikaans"},
