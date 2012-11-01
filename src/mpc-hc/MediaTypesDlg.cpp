@@ -32,9 +32,9 @@
 CMediaTypesDlg::CMediaTypesDlg(IGraphBuilderDeadEnd* pGBDE, CWnd* pParent /*=NULL*/)
     : CResizableDialog(CMediaTypesDlg::IDD, pParent)
     , m_pGBDE(pGBDE)
+    , m_subtype(GUID_NULL)
+    , m_type(UNKNOWN)
 {
-    m_subtype = GUID_NULL;
-    m_type = UNKNOWN;
 }
 
 CMediaTypesDlg::~CMediaTypesDlg()

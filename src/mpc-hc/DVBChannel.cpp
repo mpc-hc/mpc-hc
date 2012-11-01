@@ -24,22 +24,22 @@
 
 
 CDVBChannel::CDVBChannel(void)
+    : m_ulFrequency(0)
+    , m_nPrefNumber(0)
+    , m_nOriginNumber(0)
+    , m_bEncrypted(false)
+    , m_bNowNextFlag(false)
+    , m_ulONID(0)
+    , m_ulTSID(0)
+    , m_ulSID(0)
+    , m_ulPMT(0)
+    , m_ulPCR(0)
+    , m_ulVideoPID(0)
+    , m_nVideoType(DVB_MPV)
+    , m_nAudioCount(0)
+    , m_nDefaultAudio(0)
+    , m_nSubtitleCount(0)
 {
-    m_ulFrequency       = 0;
-    m_nPrefNumber       = 0;
-    m_nOriginNumber     = 0;
-    m_bEncrypted        = false;
-    m_bNowNextFlag      = false;
-    m_ulONID            = 0;
-    m_ulTSID            = 0;
-    m_ulSID             = 0;
-    m_ulPMT             = 0;
-    m_ulPCR             = 0;
-    m_ulVideoPID        = 0;
-    m_nVideoType        = DVB_MPV;
-    m_nAudioCount       = 0;
-    m_nDefaultAudio     = 0;
-    m_nSubtitleCount    = 0;
 }
 
 CDVBChannel::~CDVBChannel(void)

@@ -562,8 +562,8 @@ void CFilterMapper2::Init()
 
 CFilterMapper2::CFilterMapper2(bool fRefCounted, bool fAllowUnreg, LPUNKNOWN pUnkOuter)
     : CUnknown(NAME("CFilterMapper2"), pUnkOuter)
-    , m_fRefCounted(fRefCounted),
-    m_fAllowUnreg(fAllowUnreg)
+    , m_fRefCounted(fRefCounted)
+    , m_fAllowUnreg(fAllowUnreg)
 {
     m_cRef = fRefCounted ? 0 : 1;
 

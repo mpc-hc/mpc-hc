@@ -34,7 +34,6 @@ CPPageSubMisc::CPPageSubMisc()
     , m_szAutoloadPaths("")
     , m_ISDb(_T(""))
 {
-
 }
 
 CPPageSubMisc::~CPPageSubMisc()

@@ -28,8 +28,8 @@
 // CPlayerCaptureBar
 
 IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CPlayerBar)
-CPlayerNavigationBar::CPlayerNavigationBar() :
-    m_pParent(NULL)
+CPlayerNavigationBar::CPlayerNavigationBar()
+    : m_pParent(NULL)
 {
 }
 
@@ -115,7 +115,6 @@ void CPlayerNavigationBar::OnNcLButtonUp(UINT nHitTest, CPoint point)
         AfxGetAppSettings().fHideNavigation = true;
     }
 }
-
 
 void CPlayerNavigationBar::ShowControls(CWnd* pMainfrm, bool bShow)
 {

@@ -32,13 +32,13 @@ CWinHotkeyCtrl* CWinHotkeyCtrl::sm_pwhcFocus = NULL;
 
 
 IMPLEMENT_DYNAMIC(CWinHotkeyCtrl, CEdit)
-CWinHotkeyCtrl::CWinHotkeyCtrl():
-    m_vkCode(0),
-    m_fModSet(0),
-    m_fModRel(0),
-    m_vkCode_def(0),
-    m_fModSet_def(0),
-    m_fIsPressed(FALSE)
+CWinHotkeyCtrl::CWinHotkeyCtrl()
+    : m_vkCode(0)
+    , m_fModSet(0)
+    , m_fModRel(0)
+    , m_vkCode_def(0)
+    , m_fModSet_def(0)
+    , m_fIsPressed(FALSE)
 {
 }
 

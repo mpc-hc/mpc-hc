@@ -22,10 +22,9 @@
 #include "GolombBuffer.h"
 
 CGolombBuffer::CGolombBuffer(BYTE* pBuffer, int nSize)
+    : m_pBuffer(pBuffer)
+    , m_nSize(nSize)
 {
-    m_pBuffer = pBuffer;
-    m_nSize   = nSize;
-
     Reset();
 }
 

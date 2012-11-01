@@ -34,14 +34,14 @@
 
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
-CPlayerPlaylistBar::CPlayerPlaylistBar() :
-    m_list(0),
-    m_pDragImage(NULL),
-    m_nDragIndex(0),
-    m_nDropIndex(0),
-    m_nTimeColWidth(0),
-    m_bDragging(FALSE),
-    m_bHiddenDueToFullscreen(false)
+CPlayerPlaylistBar::CPlayerPlaylistBar()
+    : m_list(0)
+    , m_pDragImage(NULL)
+    , m_nDragIndex(0)
+    , m_nDropIndex(0)
+    , m_nTimeColWidth(0)
+    , m_bDragging(FALSE)
+    , m_bHiddenDueToFullscreen(false)
 {
 }
 

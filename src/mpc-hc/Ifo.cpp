@@ -86,11 +86,11 @@ unsigned __int32 get4bytes(const BYTE* buf)
 
 
 CIfo::CIfo()
+    : m_pBuffer(NULL)
+    , m_pPGCI(NULL)
+    , m_pPGCIT(NULL)
+    , m_dwSize(0)
 {
-    m_pBuffer = NULL;
-    m_pPGCI   = NULL;
-    m_pPGCIT  = NULL;
-    m_dwSize  = 0;
 }
 
 CIfo::~CIfo(void)

@@ -27,11 +27,11 @@
 /////////////////////////////////////////////////////////////////////////////
 // CChildView
 
-CChildView::CChildView() : m_vrect(0, 0, 0, 0)
+CChildView::CChildView()
+    : m_vrect(0, 0, 0, 0)
+    , m_lastlmdowntime(0)
 {
-    m_lastlmdowntime = 0;
     m_lastlmdownpoint.SetPoint(0, 0);
-
     LoadLogo();
 }
 

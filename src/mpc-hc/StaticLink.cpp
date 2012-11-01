@@ -43,10 +43,10 @@ END_MESSAGE_MAP()
 // bDeleteOnDestroy is used internally by PixieLib in CPixieDlg.
 //
 CStaticLink::CStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy)
+    : m_link(lpText)                        // link text (NULL ==> window text)
+    , m_color(g_colorUnvisited)             // not visited yet
+    , m_bDeleteOnDestroy(bDeleteOnDestroy)  // delete object with window?
 {
-    m_link = lpText;                            // link text (NULL ==> window text)
-    m_color = g_colorUnvisited;                 // not visited yet
-    m_bDeleteOnDestroy = bDeleteOnDestroy;      // delete object with window?
 }
 
 //////////////////

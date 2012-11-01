@@ -28,21 +28,21 @@
 #define SLIDER_CURSOR_WIDTH     15
 
 
-CVMROSD::CVMROSD(void) :
-    m_pWnd(NULL),
-    m_llSeekMin(0),
-    m_llSeekMax(0),
-    m_llSeekPos(0),
-    m_nMessagePos(OSD_NOMESSAGE),
-    m_bShowSeekBar(false),
-    m_bSeekBarVisible(false),
-    m_bCursorMoving(false),
-    m_pMFVMB(NULL),
-    m_pVMB(NULL),
-    m_pMVTO(NULL),
-    m_FontSize(0),
-    m_OSD_Font(_T("")),
-    m_bShowMessage(true)
+CVMROSD::CVMROSD(void)
+    : m_pWnd(NULL)
+    , m_llSeekMin(0)
+    , m_llSeekMax(0)
+    , m_llSeekPos(0)
+    , m_nMessagePos(OSD_NOMESSAGE)
+    , m_bShowSeekBar(false)
+    , m_bSeekBarVisible(false)
+    , m_bCursorMoving(false)
+    , m_pMFVMB(NULL)
+    , m_pVMB(NULL)
+    , m_pMVTO(NULL)
+    , m_FontSize(0)
+    , m_OSD_Font(_T(""))
+    , m_bShowMessage(true)
 {
     m_Color[OSD_TRANSPARENT] = RGB(0,     0,   0);
     m_Color[OSD_BACKGROUND]  = RGB(32,   40,  48);
@@ -91,8 +91,8 @@ void CVMROSD::UpdateBitmap()
     memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
 
     if (m_MemDC.CreateCompatibleDC(&dc)) {
-        BITMAPINFO  bmi = {0};
-        HBITMAP     hbmpRender;
+        BITMAPINFO bmi = {0};
+        HBITMAP    hbmpRender;
 
         ZeroMemory(&bmi.bmiHeader, sizeof(BITMAPINFOHEADER));
         bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);

@@ -22,14 +22,14 @@
 #include "HdmvClipInfo.h"
 #include "DSUtil.h"
 
-extern LCID    ISO6392ToLcid(LPCSTR code);
+extern LCID ISO6392ToLcid(LPCSTR code);
 
-CHdmvClipInfo::CHdmvClipInfo(void) :
-    SequenceInfo_start_address(0),
-    ProgramInfo_start_address(0)
+CHdmvClipInfo::CHdmvClipInfo()
+    : SequenceInfo_start_address(0)
+    , ProgramInfo_start_address(0)
+    , m_hFile(INVALID_HANDLE_VALUE)
+    , m_bIsHdmv(false)
 {
-    m_hFile   = INVALID_HANDLE_VALUE;
-    m_bIsHdmv = false;
 }
 
 CHdmvClipInfo::~CHdmvClipInfo()

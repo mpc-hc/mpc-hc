@@ -27,7 +27,8 @@
 // CVolumeCtrl
 
 IMPLEMENT_DYNAMIC(CVolumeCtrl, CSliderCtrl)
-CVolumeCtrl::CVolumeCtrl(bool fSelfDrawn) : m_fSelfDrawn(fSelfDrawn)
+CVolumeCtrl::CVolumeCtrl(bool fSelfDrawn)
+    : m_fSelfDrawn(fSelfDrawn)
 {
 }
 

@@ -26,7 +26,8 @@
 IMPLEMENT_DYNAMIC(UpdateCheckerDlg, CDialog)
 
 UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, const Version& latestVersion, CWnd* pParent /*=NULL*/)
-    : CDialog(UpdateCheckerDlg::IDD, pParent), m_updateStatus(updateStatus)
+    : CDialog(UpdateCheckerDlg::IDD, pParent)
+    , m_updateStatus(updateStatus)
 {
     switch (updateStatus) {
         case UPDATER_UPDATE_AVAILABLE:

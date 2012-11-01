@@ -25,9 +25,9 @@
 
 
 CClip::CClip()
+    : m_rtIn(_I64_MIN)
+    , m_rtOut(_I64_MIN)
 {
-    m_rtIn  = _I64_MIN;
-    m_rtOut = _I64_MIN;
 }
 
 void CClip::SetIn(LPCTSTR strVal)
@@ -42,7 +42,7 @@ void CClip::SetOut(LPCTSTR strVal)
 
 void CClip::SetIn(REFERENCE_TIME rtVal)
 {
-    m_rtIn  = rtVal;
+    m_rtIn = rtVal;
     if (m_rtIn > m_rtOut) {
         m_rtOut = _I64_MIN;
     }

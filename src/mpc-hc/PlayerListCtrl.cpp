@@ -28,10 +28,10 @@
 
 CInPlaceWinHotkey::CInPlaceWinHotkey(int iItem, int iSubItem, CString sInitText)
     : m_sInitText(sInitText)
+    , m_iItem(iItem)
+    , m_iSubItem(iSubItem)
+    , m_bESC(FALSE)
 {
-    m_iItem = iItem;
-    m_iSubItem = iSubItem;
-    m_bESC = FALSE;
 }
 
 CInPlaceWinHotkey::~CInPlaceWinHotkey()
@@ -124,10 +124,10 @@ int CInPlaceWinHotkey::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 CInPlaceEdit::CInPlaceEdit(int iItem, int iSubItem, CString sInitText)
     : m_sInitText(sInitText)
+    , m_iItem(iItem)
+    , m_iSubItem(iSubItem)
+    , m_bESC(FALSE)
 {
-    m_iItem = iItem;
-    m_iSubItem = iSubItem;
-    m_bESC = FALSE;
 }
 
 CInPlaceEdit::~CInPlaceEdit()
@@ -273,10 +273,9 @@ void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 // CInPlaceComboBox
 
 CInPlaceComboBox::CInPlaceComboBox(int iItem, int iSubItem, CAtlList<CString>& lstItems, int nSel)
+    : m_iItem(iItem)
+    , m_iSubItem(iSubItem)
 {
-    m_iItem = iItem;
-    m_iSubItem = iSubItem;
-
     m_lstItems.AddTailList(&lstItems);
     m_nSel = nSel;
     m_bESC = FALSE;
@@ -382,10 +381,9 @@ void CInPlaceComboBox::OnCloseup()
 // CInPlaceListBox
 
 CInPlaceListBox::CInPlaceListBox(int iItem, int iSubItem, CAtlList<CString>& lstItems, int nSel)
+    : m_iItem(iItem)
+    , m_iSubItem(iSubItem)
 {
-    m_iItem = iItem;
-    m_iSubItem = iSubItem;
-
     m_lstItems.AddTailList(&lstItems);
     m_nSel = nSel;
     m_bESC = FALSE;
@@ -581,9 +579,9 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
     while ((nIndex = GetNextItem(nIndex, LVNI_SELECTED)) != -1 && nIndex <= nBottomIndex) {
         GetItemRect(nIndex, cSingleRect, LVIR_BOUNDS);
         /*
-                CRect r;
-                GetItemRect(nIndex, r, LVIR_LABEL);
-                cSingleRect.left = r.left;
+        CRect r;
+        GetItemRect(nIndex, r, LVIR_LABEL);
+        cSingleRect.left = r.left;
         */
         if (cSingleRect.left < 0) {
             cSingleRect.left = 0;

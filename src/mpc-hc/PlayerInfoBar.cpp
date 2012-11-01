@@ -28,7 +28,8 @@
 // CPlayerInfoBar
 
 IMPLEMENT_DYNAMIC(CPlayerInfoBar, CDialogBar)
-CPlayerInfoBar::CPlayerInfoBar(int nFirstColWidth) : m_nFirstColWidth(nFirstColWidth)
+CPlayerInfoBar::CPlayerInfoBar(int nFirstColWidth)
+    : m_nFirstColWidth(nFirstColWidth)
 {
 }
 
