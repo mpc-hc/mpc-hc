@@ -1312,6 +1312,7 @@ STRING IDS_D3DFS_WARNING		"Η επιλογή αυτή έχει σχεδιαστ�
 STRING IDS_DISABLE_ALL_FILTERS		"&Απενεργοποίηση όλων των φίλτρων"
 STRING IDS_DISABLE_DXVA_FILTERS		"Απενεργοποίηση φίλτρων DXVA"
 STRING IDS_DISABLE_FFMPEG_FILTERS		"Απενεργοποίηση φίλτρων FFmpeg"
+STRING IDS_DOWNLOAD_SUBS		"Download subtitles"
 STRING IDS_DVB_CHANNEL_ENCRYPTED		"Ναι"
 STRING IDS_DVB_CHANNEL_ENCRYPTION		"Κρυπτογραφημένο"
 STRING IDS_DVB_CHANNEL_FREQUENCY		"Συχνότητα"
