@@ -355,8 +355,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
                     hdrlines.RemoveAt(cur);
                 }
             }
-            tmphdr = Implode(hdrlines, '\n');
-            tmphdr.Replace("\n", "\r\n");
+            tmphdr = Implode(hdrlines, "\r\n");
             hdr += tmphdr + "\r\n";
         }
     }
@@ -388,13 +387,11 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
     }
 
     UINT resid;
-    CStringA res;
     if (!fHandled && m_downloads.Lookup(pClient->m_path, resid)
-            && (LoadResource(resid, res, _T("FILE")) || LoadResource(resid, res, _T("PNG")))) {
+            && (LoadResource(resid, body, _T("FILE")) || LoadResource(resid, body, _T("PNG")))) {
         if (mime.IsEmpty()) {
             mime = "application/octet-stream";
         }
-        memcpy(body.GetBufferSetLength(res.GetLength()), res.GetBuffer(), res.GetLength());
         fHandled = true;
     }
 
