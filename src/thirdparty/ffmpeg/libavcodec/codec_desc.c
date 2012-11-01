@@ -1251,7 +1251,7 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .id        = AV_CODEC_ID_AVUI,
         .type      = AVMEDIA_TYPE_VIDEO,
         .name      = "avui",
-        .long_name = NULL_IF_CONFIG_SMALL("AVID Meridien"),
+        .long_name = NULL_IF_CONFIG_SMALL("Avid Meridien Uncompressed"),
         .props     = AV_CODEC_PROP_INTRA_ONLY,
     },
     {
@@ -2262,6 +2262,13 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .type      = AVMEDIA_TYPE_AUDIO,
         .name      = "opus",
         .long_name = NULL_IF_CONFIG_SMALL("Opus (Opus Interactive Audio Codec)"),
+        .props     = AV_CODEC_PROP_LOSSY,
+    },
+    {
+        .id        = AV_CODEC_ID_COMFORT_NOISE,
+        .type      = AVMEDIA_TYPE_AUDIO,
+        .name      = "comfortnoise",
+        .long_name = NULL_IF_CONFIG_SMALL("RFC 3389 Comfort Noise"),
         .props     = AV_CODEC_PROP_LOSSY,
     },
     {

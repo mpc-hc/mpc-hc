@@ -41,7 +41,7 @@ CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I$(ZLIB_DIR) -DHAVE_AV_CONFIG_H \
             -D_ISOC99_SOURCE -D_XOPEN_SOURCE=600 -D_LARGEFILE_SOURCE \
             -D_FILE_OFFSET_BITS=64 -std=gnu99 -pipe -mthreads
 OPTFLAGS  = -O2 -fno-common -fno-tree-vectorize -fomit-frame-pointer
-YASMFLAGS = -I. -Ilibavutil/x86 -Pconfig.asm
+YASMFLAGS = -I. -Pconfig.asm
 
 ifeq ($(64BIT),yes)
     GCC_PREFIX = x86_64-w64-mingw32-

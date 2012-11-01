@@ -434,6 +434,7 @@ enum AVCodecID {
     AV_CODEC_ID_IAC,
     AV_CODEC_ID_ILBC,
     AV_CODEC_ID_OPUS_DEPRECATED,
+    AV_CODEC_ID_COMFORT_NOISE,
     AV_CODEC_ID_FFWAVESYNTH = MKBETAG('F','F','W','S'),
     AV_CODEC_ID_8SVX_RAW    = MKBETAG('8','S','V','X'),
     AV_CODEC_ID_SONIC       = MKBETAG('S','O','N','C'),
@@ -4521,7 +4522,7 @@ void avpicture_free(AVPicture *picture);
  *
  * @see av_image_fill_arrays()
  */
-int avpicture_fill(AVPicture *picture, uint8_t *ptr,
+int avpicture_fill(AVPicture *picture, const uint8_t *ptr,
                    enum AVPixelFormat pix_fmt, int width, int height);
 
 /**

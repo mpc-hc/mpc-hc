@@ -448,7 +448,6 @@ typedef struct {
     int xxch_chset_nch[4];
     float xxch_dmix_sf[DCA_CHSETS_MAX];
 
-    uint32_t xxch_downmix;        /* downmix enabled per channel set */
     uint32_t xxch_dmix_embedded;  /* lower layer has mix pre-embedded, per chset */
     float xxch_dmix_coeff[DCA_PRIM_CHANNELS_MAX][32]; /* worst case sizing */
 
@@ -597,7 +596,6 @@ static int dca_parse_audio_coding_header(DCAContext *s, int base_channel,
             s->xxch_dmix_sf[s->xxch_chset] = scale_factor;
 
             for (i = base_channel; i < s->prim_channels; i++) {
-                s->xxch_downmix |= (1 << i);
                 mask[i] = get_bits(&s->gb, s->xxch_nbits_spk_mask);
             }
 
@@ -1442,6 +1440,7 @@ static int dca_filter_channels(DCAContext *s, int block_index)
     for (k = 0; k < s->prim_channels; k++) {
 /*        static float pcm_to_double[8] = { 32768.0, 32768.0, 524288.0, 524288.0,
                                             0, 8388608.0, 8388608.0 };*/
+        if(s->channel_order_tab[k] >= 0)
         qmf_32_subbands(s, k, subband_samples[k],
                         s->samples_chanptr[s->channel_order_tab[k]],
                         M_SQRT1_2 / 32768.0 /* pcm_to_double[s->source_pcm_res] */);
@@ -1904,7 +1903,6 @@ static int dca_xxch_decode_frame(DCAContext *s)
     core_spk               = get_bits(&s->gb, spkmsk_bits);
     s->xxch_core_spkmask   = core_spk;
     s->xxch_nbits_spk_mask = spkmsk_bits;
-    s->xxch_downmix        = 0;
     s->xxch_dmix_embedded  = 0;
 
     /* skip to the end of the header */
@@ -2267,7 +2265,7 @@ static int dca_decode_frame(AVCodecContext *avctx, void *data,
             return AVERROR_INVALIDDATA;
         }
 
-        s->xxch_downmix = 0;
+        s->xxch_dmix_embedded = 0;
     } else {
         /* we only get here if an XXCH channel set can be added to the mix */
         channel_mask = s->xxch_core_spkmask;

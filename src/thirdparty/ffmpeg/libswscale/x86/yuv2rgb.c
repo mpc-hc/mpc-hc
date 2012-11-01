@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2009 Konstantin Shishkov
  *
- * MMX/MMX2 template stuff (needed for fast movntq support),
+ * MMX/MMXEXT template stuff (needed for fast movntq support),
  * 1,4,8bpp support and context / deglobalize stuff
  * by Michael Niedermayer (michaelni@gmx.at)
  *
@@ -58,12 +58,12 @@ DECLARE_ASM_CONST(8, uint64_t, pb_07) = 0x0707070707070707ULL;
 #include "yuv2rgb_template.c"
 #endif /* HAVE_MMX_INLINE */
 
-//MMX2 versions
+// MMXEXT versions
 #if HAVE_MMXEXT_INLINE
 #undef RENAME
 #undef COMPILE_TEMPLATE_MMXEXT
 #define COMPILE_TEMPLATE_MMXEXT 1
-#define RENAME(a) a ## _MMX2
+#define RENAME(a) a ## _MMXEXT
 #include "yuv2rgb_template.c"
 #endif /* HAVE_MMXEXT_INLINE */
 
@@ -77,8 +77,10 @@ av_cold SwsFunc ff_yuv2rgb_init_mmx(SwsContext *c)
 #if HAVE_MMXEXT_INLINE
     if (cpu_flags & AV_CPU_FLAG_MMXEXT) {
         switch (c->dstFormat) {
-        case AV_PIX_FMT_RGB24:  return yuv420_rgb24_MMX2;
-        case AV_PIX_FMT_BGR24:  return yuv420_bgr24_MMX2;
+        case AV_PIX_FMT_RGB24:
+            return yuv420_rgb24_MMXEXT;
+        case AV_PIX_FMT_BGR24:
+            return yuv420_bgr24_MMXEXT;
         }
     }
 #endif
