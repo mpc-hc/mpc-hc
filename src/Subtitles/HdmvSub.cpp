@@ -29,7 +29,7 @@
 #endif
 
 
-CHdmvSub::CHdmvSub(void)
+CHdmvSub::CHdmvSub()
     : CBaseSub(ST_HDMV)
     , m_nCurSegment(NO_SEGMENT)
     , m_pSegBuffer(NULL)

@@ -31,7 +31,7 @@
 
 #define BUFFER_CHUNK_GROW 0x1000
 
-CDVBSub::CDVBSub(void)
+CDVBSub::CDVBSub()
     : CBaseSub(ST_DVB)
 {
     m_nBufferReadPos  = 0;
@@ -40,7 +40,7 @@ CDVBSub::CDVBSub(void)
     m_pBuffer         = NULL;
 }
 
-CDVBSub::~CDVBSub(void)
+CDVBSub::~CDVBSub()
 {
     Reset();
     SAFE_DELETE(m_pBuffer);

@@ -32,6 +32,7 @@ class CKeyProvider
 {
 public:
     CKeyProvider();
+    ~CKeyProvider();
 
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);

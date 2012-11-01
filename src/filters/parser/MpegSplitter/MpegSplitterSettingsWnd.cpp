@@ -26,7 +26,7 @@
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
-CMpegSplitterSettingsWnd::CMpegSplitterSettingsWnd(void)
+CMpegSplitterSettingsWnd::CMpegSplitterSettingsWnd()
 {
 }
 

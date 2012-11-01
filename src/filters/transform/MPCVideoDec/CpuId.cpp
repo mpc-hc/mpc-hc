@@ -35,7 +35,7 @@
 #define CPUID_MMXEXT (1 << 22)
 
 
-CCpuId::CCpuId(void)
+CCpuId::CCpuId()
 {
     unsigned nHighestFeature;
     unsigned nHighestFeatureEx;

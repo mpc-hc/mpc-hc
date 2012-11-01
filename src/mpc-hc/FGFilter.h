@@ -47,7 +47,7 @@ protected:
 
 public:
     CFGFilter(const CLSID& clsid, CStringW name = L"", UINT64 merit = MERIT64_DO_USE);
-    virtual ~CFGFilter() {}
+    virtual ~CFGFilter();
 
     CLSID GetCLSID() const { return m_clsid; }
     CStringW GetName() const { return m_name; }

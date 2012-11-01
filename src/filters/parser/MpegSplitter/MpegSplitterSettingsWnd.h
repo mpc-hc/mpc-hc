@@ -60,7 +60,7 @@ private:
     };
 
 public:
-    CMpegSplitterSettingsWnd(void);
+    CMpegSplitterSettingsWnd();
 
     bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
     void OnDisconnect();

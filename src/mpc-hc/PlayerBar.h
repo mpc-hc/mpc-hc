@@ -34,8 +34,8 @@ protected:
     CString m_strSettingName;
 
 public:
-    CPlayerBar(void);
-    virtual ~CPlayerBar(void);
+    CPlayerBar();
+    virtual ~CPlayerBar();
 
     BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName);
 

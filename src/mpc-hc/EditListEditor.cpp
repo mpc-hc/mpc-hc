@@ -30,6 +30,10 @@ CClip::CClip()
 {
 }
 
+CClip::~CClip()
+{
+}
+
 void CClip::SetIn(LPCTSTR strVal)
 {
     m_rtIn = StringToReftime(strVal);
@@ -75,7 +79,7 @@ CString CClip::GetOut()
 }
 
 IMPLEMENT_DYNAMIC(CEditListEditor, CPlayerBar)
-CEditListEditor::CEditListEditor(void)
+CEditListEditor::CEditListEditor()
     : m_pDragImage(NULL)
     , m_CurPos(NULL)
     , m_bDragging(FALSE)
@@ -85,7 +89,7 @@ CEditListEditor::CEditListEditor(void)
 {
 }
 
-CEditListEditor::~CEditListEditor(void)
+CEditListEditor::~CEditListEditor()
 {
     SaveEditListToFile();
 }

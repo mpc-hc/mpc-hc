@@ -49,6 +49,10 @@ CStaticLink::CStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy)
 {
 }
 
+CStaticLink::~CStaticLink()
+{
+}
+
 //////////////////
 // Normally, a static control does not get mouse events unless it has
 // SS_NOTIFY. This achieves the same effect as SS_NOTIFY, but it's fewer

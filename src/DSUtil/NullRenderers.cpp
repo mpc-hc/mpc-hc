@@ -96,7 +96,7 @@ public:
     STDMETHODIMP GetAspectRatioMode(DWORD* pdwAspectRatioMode) { return E_NOTIMPL; };
     STDMETHODIMP SetVideoWindow(HWND hwndVideo) { return E_NOTIMPL; };
     STDMETHODIMP GetVideoWindow(HWND* phwndVideo);
-    STDMETHODIMP RepaintVideo(void) { return E_NOTIMPL; };
+    STDMETHODIMP RepaintVideo() { return E_NOTIMPL; };
     STDMETHODIMP GetCurrentImage(BITMAPINFOHEADER* pBih, BYTE** pDib,
                                  DWORD* pcbDib, LONGLONG* pTimeStamp) { return E_NOTIMPL; };
     STDMETHODIMP SetBorderColor(COLORREF Clr) { return E_NOTIMPL; };

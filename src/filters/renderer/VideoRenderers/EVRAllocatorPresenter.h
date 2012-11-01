@@ -62,7 +62,7 @@ namespace DSObjects
     {
     public:
         CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
-        ~CEVRAllocatorPresenter(void);
+        ~CEVRAllocatorPresenter();
 
         DECLARE_IUNKNOWN;
         STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -130,7 +130,7 @@ namespace DSObjects
         STDMETHODIMP GetAspectRatioMode(DWORD* pdwAspectRatioMode);
         STDMETHODIMP SetVideoWindow(HWND hwndVideo);
         STDMETHODIMP GetVideoWindow(HWND* phwndVideo);
-        STDMETHODIMP RepaintVideo(void);
+        STDMETHODIMP RepaintVideo();
         STDMETHODIMP GetCurrentImage(BITMAPINFOHEADER* pBih, BYTE** pDib, DWORD* pcbDib, LONGLONG* pTimeStamp);
         STDMETHODIMP SetBorderColor(COLORREF Clr);
         STDMETHODIMP GetBorderColor(COLORREF* pClr);

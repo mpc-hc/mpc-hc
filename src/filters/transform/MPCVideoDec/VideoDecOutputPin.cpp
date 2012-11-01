@@ -34,7 +34,7 @@ CVideoDecOutputPin::CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFi
     memset(&m_ddUncompPixelFormat, 0, sizeof(m_ddUncompPixelFormat));
 }
 
-CVideoDecOutputPin::~CVideoDecOutputPin(void)
+CVideoDecOutputPin::~CVideoDecOutputPin()
 {
 }
 

@@ -31,8 +31,8 @@ using namespace DSObjects;
 interface __declspec(uuid("D6EE8031-214E-4E9E-A3A7-458925F933AB"))
 IMadVRExclusiveModeInfo :
 public IUnknown {
-    STDMETHOD_(BOOL, IsExclusiveModeActive)(void) = 0;
-    STDMETHOD_(BOOL, IsMadVRSeekbarEnabled)(void) = 0;
+    STDMETHOD_(BOOL, IsExclusiveModeActive)() = 0;
+    STDMETHOD_(BOOL, IsMadVRSeekbarEnabled)() = 0;
 };
 
 

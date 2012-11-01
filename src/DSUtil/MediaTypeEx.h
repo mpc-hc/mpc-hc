@@ -25,6 +25,7 @@ class CMediaTypeEx : public CMediaType
 {
 public:
     CMediaTypeEx();
+    ~CMediaTypeEx();
     CMediaTypeEx(const CMediaType& mt) {
         CMediaType::operator = (mt);
     }
@@ -37,4 +38,3 @@ public:
 
     void Dump(CAtlList<CString>& sl);
 };
-

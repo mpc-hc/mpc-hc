@@ -183,7 +183,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     m_bLastSampleOffsetValid    = false;
 }
 
-CEVRAllocatorPresenter::~CEVRAllocatorPresenter(void)
+CEVRAllocatorPresenter::~CEVRAllocatorPresenter()
 {
     StopWorkerThreads();    // If not already done...
     m_pMediaType  = NULL;

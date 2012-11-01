@@ -23,7 +23,8 @@
 class CFileVersionInfo
 {
 private:
-    CFileVersionInfo() {};
+    CFileVersionInfo();
+    ~CFileVersionInfo();
 
 public:
     static bool LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo);

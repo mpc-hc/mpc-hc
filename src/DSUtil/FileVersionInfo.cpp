@@ -21,6 +21,14 @@
 #include "stdafx.h"
 #include "FileVersionInfo.h"
 
+CFileVersionInfo::CFileVersionInfo()
+{
+}
+
+CFileVersionInfo::~CFileVersionInfo()
+{
+}
+
 bool CFileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
 {
     bool success = false;

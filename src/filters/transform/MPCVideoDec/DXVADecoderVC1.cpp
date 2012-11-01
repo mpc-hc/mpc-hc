@@ -50,7 +50,7 @@ CDXVADecoderVC1::CDXVADecoderVC1(CMPCVideoDecFilter* pFilter, IDirectXVideoDecod
     Init();
 }
 
-CDXVADecoderVC1::~CDXVADecoderVC1(void)
+CDXVADecoderVC1::~CDXVADecoderVC1()
 {
     Flush();
 }

@@ -41,6 +41,10 @@ CFGFilter::CFGFilter(const CLSID& clsid, CStringW name, UINT64 merit)
     m_merit.val = merit;
 }
 
+CFGFilter::~CFGFilter()
+{
+}
+
 const CAtlList<GUID>& CFGFilter::GetTypes() const
 {
     return m_types;

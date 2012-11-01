@@ -23,7 +23,7 @@
 #include "DVBChannel.h"
 
 
-CDVBChannel::CDVBChannel(void)
+CDVBChannel::CDVBChannel()
     : m_ulFrequency(0)
     , m_nPrefNumber(0)
     , m_nOriginNumber(0)
@@ -42,7 +42,7 @@ CDVBChannel::CDVBChannel(void)
 {
 }
 
-CDVBChannel::~CDVBChannel(void)
+CDVBChannel::~CDVBChannel()
 {
 }
 

@@ -45,7 +45,7 @@ class CRealTextParser
 {
 public:
     CRealTextParser();
-    virtual ~CRealTextParser(void);
+    virtual ~CRealTextParser();
 
     struct Tag {
         Tag(): m_bOpen(false), m_bClose(false), m_bComment(false), m_bText(false) {}

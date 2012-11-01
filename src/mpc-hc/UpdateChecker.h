@@ -50,7 +50,7 @@ public:
     static const LPCTSTR MPC_HC_UPDATE_URL;
 
     UpdateChecker(CString versionFileURL);
-    ~UpdateChecker(void);
+    ~UpdateChecker();
 
     Update_Status IsUpdateAvailable(const Version& currentVersion);
     Update_Status IsUpdateAvailable();

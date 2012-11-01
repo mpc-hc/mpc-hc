@@ -76,8 +76,8 @@ public:
     virtual ~CVideoDecDXVAAllocator();
 
 protected:
-    HRESULT Alloc(void);
-    void Free(void);
+    HRESULT Alloc();
+    void Free();
 
 private:
     CMPCVideoDecFilter* m_pVideoDecFilter;

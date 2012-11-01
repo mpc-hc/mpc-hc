@@ -89,7 +89,7 @@ STDAPI DllUnregisterServer()
 
 //
 
-BOOL (__stdcall* Real_IsDebuggerPresent)(void)
+BOOL (__stdcall* Real_IsDebuggerPresent)()
     = IsDebuggerPresent;
 
 LONG(__stdcall* Real_ChangeDisplaySettingsExA)(LPCSTR a0,

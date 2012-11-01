@@ -53,7 +53,7 @@ public:
         PS_UNUSED = 3
     };
 
-    virtual HRESULT Initialize(void);
+    virtual HRESULT Initialize();
     virtual void OnLCDButtonUp(int nButton);
     void SetPlayState(PlayState ps);
 
@@ -78,7 +78,7 @@ public:
         PS_UNUSED = 3
     };
 
-    virtual HRESULT Initialize(void);
+    virtual HRESULT Initialize();
     virtual void OnLCDButtonUp(int nButton);
     void SetPlayState(PlayState ps);
 

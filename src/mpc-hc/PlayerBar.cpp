@@ -24,11 +24,11 @@
 
 
 IMPLEMENT_DYNAMIC(CPlayerBar, CSizingControlBarG)
-CPlayerBar::CPlayerBar(void)
+CPlayerBar::CPlayerBar()
 {
 }
 
-CPlayerBar::~CPlayerBar(void)
+CPlayerBar::~CPlayerBar()
 {
 }
 

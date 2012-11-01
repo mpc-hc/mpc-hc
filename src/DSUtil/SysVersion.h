@@ -25,6 +25,7 @@
 class SysVersion
 {
     SysVersion() {};
+    ~SysVersion() {};
 
     static OSVERSIONINFOEX InitFullVersion();
 

@@ -117,7 +117,7 @@ public:
         REFERENCE_TIME   m_rtDuration;
     };
 
-    CHdmvClipInfo(void);
+    CHdmvClipInfo();
     ~CHdmvClipInfo();
 
     HRESULT ReadInfo(LPCTSTR strFile);

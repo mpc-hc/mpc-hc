@@ -64,7 +64,7 @@ public:
     virtual HRESULT SetMediaType(const CMediaType* pmt);
     virtual HRESULT CompleteConnect(IPin* pReceivePin);
 
-    HRESULT EndOfStream(void);
+    HRESULT EndOfStream();
 
 
     DECLARE_IUNKNOWN

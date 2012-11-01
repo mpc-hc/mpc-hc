@@ -49,8 +49,8 @@ typedef enum {
 class CVMROSD
 {
 public:
-    CVMROSD(void);
-    ~CVMROSD(void);
+    CVMROSD();
+    ~CVMROSD();
 
     void Start(CWnd* pWnd, IVMRMixerBitmap9* pVMB, bool bShowSeekBar);
     void Start(CWnd* pWnd, IMFVideoMixerBitmap* pVMB, bool bShowSeekBar);

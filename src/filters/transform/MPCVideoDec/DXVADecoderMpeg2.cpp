@@ -42,7 +42,7 @@ CDXVADecoderMpeg2::CDXVADecoderMpeg2(CMPCVideoDecFilter* pFilter, IDirectXVideoD
     Init();
 }
 
-CDXVADecoderMpeg2::~CDXVADecoderMpeg2(void)
+CDXVADecoderMpeg2::~CDXVADecoderMpeg2()
 {
     Flush();
 }

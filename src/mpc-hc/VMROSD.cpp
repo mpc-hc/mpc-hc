@@ -28,7 +28,7 @@
 #define SLIDER_CURSOR_WIDTH     15
 
 
-CVMROSD::CVMROSD(void)
+CVMROSD::CVMROSD()
     : m_pWnd(NULL)
     , m_llSeekMin(0)
     , m_llSeekMax(0)
@@ -62,7 +62,7 @@ CVMROSD::CVMROSD(void)
     memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
 }
 
-CVMROSD::~CVMROSD(void)
+CVMROSD::~CVMROSD()
 {
     m_MemDC.DeleteDC();
 }

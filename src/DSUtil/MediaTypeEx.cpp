@@ -42,6 +42,10 @@ CMediaTypeEx::CMediaTypeEx()
 {
 }
 
+CMediaTypeEx::~CMediaTypeEx()
+{
+}
+
 CString CMediaTypeEx::ToString(IPin* pPin)
 {
     CString packing, type, codec, dim, rate, dur;

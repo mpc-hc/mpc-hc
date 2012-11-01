@@ -27,6 +27,8 @@ class CMiniDump
 {
 public:
     CMiniDump();
+    ~CMiniDump();
+
     static void Enable()  { m_bMiniDumpEnabled = true; };
     static void Disable() { m_bMiniDumpEnabled = false; };
 

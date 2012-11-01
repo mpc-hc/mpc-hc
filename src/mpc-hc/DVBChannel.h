@@ -54,8 +54,8 @@ typedef struct {
 class CDVBChannel
 {
 public:
-    CDVBChannel(void);
-    ~CDVBChannel(void);
+    CDVBChannel();
+    ~CDVBChannel();
 
     void FromString(CString strValue);
     CString ToString();

@@ -21,7 +21,7 @@
 #include "stdafx.h"
 #include "RealTextParser.h"
 
-CRealTextParser::CRealTextParser(void):
+CRealTextParser::CRealTextParser():
     m_bIgnoreFont(false),
     m_bIgnoreFontSize(false),
     m_bIgnoreFontColor(false),
@@ -34,7 +34,7 @@ CRealTextParser::CRealTextParser(void):
 {
 }
 
-CRealTextParser::~CRealTextParser(void)
+CRealTextParser::~CRealTextParser()
 {
 }
 

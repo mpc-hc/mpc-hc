@@ -174,12 +174,12 @@ void CLCDMyProgressBar::SetProgressStyle(eMY_PROGRESS_STYLE eMyStyle)
 
 /******************************************************************************************************
  ****************************************** CLCDMyMonoPage ****************************************/
-CLCDMyMonoPage::CLCDMyMonoPage(void)
+CLCDMyMonoPage::CLCDMyMonoPage()
 {
     Initialize();
 }
 
-CLCDMyMonoPage::~CLCDMyMonoPage(void)
+CLCDMyMonoPage::~CLCDMyMonoPage()
 {
     DeleteObject(hBmp[PS_PLAY]);
     DeleteObject(hBmp[PS_PAUSE]);
@@ -188,7 +188,6 @@ CLCDMyMonoPage::~CLCDMyMonoPage(void)
 
 HRESULT CLCDMyMonoPage::Initialize()
 {
-
     LOGFONT lf;
     HFONT hFont;
     unsigned int x, y;
@@ -367,12 +366,12 @@ void CLCDMyMonoPage::SetPlayState(PlayState ps)
 
 /******************************************************************************************************
  ****************************************** CLCDMyColorPage ****************************************/
-CLCDMyColorPage::CLCDMyColorPage(void)
+CLCDMyColorPage::CLCDMyColorPage()
 {
     Initialize();
 }
 
-CLCDMyColorPage::~CLCDMyColorPage(void)
+CLCDMyColorPage::~CLCDMyColorPage()
 {
     DeleteObject(hBmp[PS_PLAY]);
     DeleteObject(hBmp[PS_PAUSE]);
@@ -564,7 +563,7 @@ void CLCDMyColorPage::SetPlayState(PlayState ps)
  ********************************************** CMPC_Lcd *********************************************/
 
 /* attach to an available lcd */
-CMPC_Lcd::CMPC_Lcd(void)
+CMPC_Lcd::CMPC_Lcd()
 {
     InitializeCriticalSection(&cs);
     hLCD_UpdateThread = NULL;
@@ -610,7 +609,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 }
 
 /* detach from lcd */
-CMPC_Lcd::~CMPC_Lcd(void)
+CMPC_Lcd::~CMPC_Lcd()
 {
     if (m_Connection.IsConnected()) {
         Thread_Loop = false;

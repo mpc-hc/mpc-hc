@@ -28,6 +28,10 @@ CGolombBuffer::CGolombBuffer(BYTE* pBuffer, int nSize)
     Reset();
 }
 
+CGolombBuffer::~CGolombBuffer()
+{
+}
+
 UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
 {
     //ASSERT(nBits >= 0 && nBits <= 64);

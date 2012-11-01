@@ -29,6 +29,10 @@ CKeyProvider::CKeyProvider()
 {
 }
 
+CKeyProvider::~CKeyProvider()
+{
+}
+
 STDMETHODIMP CKeyProvider::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     return

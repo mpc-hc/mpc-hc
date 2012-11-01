@@ -51,6 +51,10 @@ CMiniDump::CMiniDump()
 #endif
 }
 
+CMiniDump::~CMiniDump()
+{
+}
+
 LPTOP_LEVEL_EXCEPTION_FILTER WINAPI MyDummySetUnhandledExceptionFilter(LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter)
 {
     return NULL;

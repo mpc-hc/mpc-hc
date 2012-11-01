@@ -352,7 +352,7 @@ namespace GothSync
     {
     public:
         CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
-        ~CSyncAP(void);
+        ~CSyncAP();
 
         DECLARE_IUNKNOWN;
         STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -414,7 +414,7 @@ namespace GothSync
         STDMETHODIMP GetAspectRatioMode(DWORD* pdwAspectRatioMode);
         STDMETHODIMP SetVideoWindow(HWND hwndVideo);
         STDMETHODIMP GetVideoWindow(HWND* phwndVideo);
-        STDMETHODIMP RepaintVideo(void);
+        STDMETHODIMP RepaintVideo();
         STDMETHODIMP GetCurrentImage(BITMAPINFOHEADER* pBih, BYTE** pDib, DWORD* pcbDib, LONGLONG* pTimeStamp);
         STDMETHODIMP SetBorderColor(COLORREF Clr);
         STDMETHODIMP GetBorderColor(COLORREF* pClr);
@@ -557,8 +557,8 @@ namespace GothSync
         virtual HRESULT STDMETHODCALLTYPE QueryFilterInfo(__out FILTER_INFO* pInfo);
         virtual HRESULT STDMETHODCALLTYPE JoinFilterGraph(__in_opt IFilterGraph* pGraph, __in_opt LPCWSTR pName);
         virtual HRESULT STDMETHODCALLTYPE QueryVendorInfo(__out LPWSTR* pVendorInfo);
-        virtual HRESULT STDMETHODCALLTYPE Stop(void);
-        virtual HRESULT STDMETHODCALLTYPE Pause(void);
+        virtual HRESULT STDMETHODCALLTYPE Stop();
+        virtual HRESULT STDMETHODCALLTYPE Pause();
         virtual HRESULT STDMETHODCALLTYPE Run(REFERENCE_TIME tStart);
         virtual HRESULT STDMETHODCALLTYPE GetState(DWORD dwMilliSecsTimeout, __out FILTER_STATE* State);
         virtual HRESULT STDMETHODCALLTYPE SetSyncSource(__in_opt  IReferenceClock* pClock);

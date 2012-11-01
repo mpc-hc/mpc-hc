@@ -46,7 +46,7 @@ CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nTyp
     m_rtStart = 0;
 }
 
-CRenderedHdmvSubtitle::~CRenderedHdmvSubtitle(void)
+CRenderedHdmvSubtitle::~CRenderedHdmvSubtitle()
 {
     delete m_pSub;
 }

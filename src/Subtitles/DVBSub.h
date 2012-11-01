@@ -30,8 +30,8 @@ class CGolombBuffer;
 class CDVBSub : public CBaseSub
 {
 public:
-    CDVBSub(void);
-    ~CDVBSub(void);
+    CDVBSub();
+    ~CDVBSub();
 
     virtual HRESULT        ParseSample(IMediaSample* pSample);
     virtual void           Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);

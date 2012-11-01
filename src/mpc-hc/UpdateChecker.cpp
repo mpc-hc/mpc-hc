@@ -37,7 +37,7 @@ UpdateChecker::UpdateChecker(CString versionFileURL)
 {
 }
 
-UpdateChecker::~UpdateChecker(void)
+UpdateChecker::~UpdateChecker()
 {
 }
 

@@ -93,7 +93,7 @@ CIfo::CIfo()
 {
 }
 
-CIfo::~CIfo(void)
+CIfo::~CIfo()
 {
     delete [] m_pBuffer;
 }

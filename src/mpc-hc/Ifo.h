@@ -33,7 +33,7 @@ class CIfo
 {
 public:
     CIfo();
-    ~CIfo(void);
+    ~CIfo();
 
     bool OpenFile(LPCTSTR strFile);
     bool SaveFile(LPCTSTR strFile);

@@ -26,7 +26,7 @@
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
-CAviSplitterSettingsWnd::CAviSplitterSettingsWnd(void)
+CAviSplitterSettingsWnd::CAviSplitterSettingsWnd()
 {
 }
 

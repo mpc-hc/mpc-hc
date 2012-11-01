@@ -44,7 +44,7 @@ private:
     };
 
 public:
-    CMpcAudioRendererSettingsWnd(void);
+    CMpcAudioRendererSettingsWnd();
 
     bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
     void OnDisconnect();

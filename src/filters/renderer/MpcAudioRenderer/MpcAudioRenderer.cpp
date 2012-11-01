@@ -635,7 +635,7 @@ HRESULT CMpcAudioRenderer::GetReferenceClockInterface(REFIID riid, void** ppv)
     return GetReferenceClockInterface(riid, ppv);
 }
 
-HRESULT CMpcAudioRenderer::EndOfStream(void)
+HRESULT CMpcAudioRenderer::EndOfStream()
 {
     if (m_pDSBuffer) {
         m_pDSBuffer->Stop();

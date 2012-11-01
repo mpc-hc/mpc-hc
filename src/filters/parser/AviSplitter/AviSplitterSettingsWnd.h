@@ -37,7 +37,7 @@ private:
     };
 
 public:
-    CAviSplitterSettingsWnd(void);
+    CAviSplitterSettingsWnd();
 
     bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
     void OnDisconnect();

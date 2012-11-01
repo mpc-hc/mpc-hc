@@ -33,6 +33,7 @@ private:
 public:
 
     CClip();
+    ~CClip();
 
     bool HaveIn() { return m_rtIn != _I64_MIN; };
     bool HaveOut() { return m_rtOut != _I64_MIN; };
@@ -91,8 +92,8 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 public:
-    CEditListEditor(void);
-    ~CEditListEditor(void);
+    CEditListEditor();
+    ~CEditListEditor();
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
 

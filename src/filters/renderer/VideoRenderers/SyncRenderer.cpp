@@ -2490,7 +2490,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error): CBa
     m_lShiftToNearest = -1; // Illegal value to start with
 }
 
-CSyncAP::~CSyncAP(void)
+CSyncAP::~CSyncAP()
 {
     StopWorkerThreads();
     m_pMediaType = NULL;
@@ -4026,7 +4026,7 @@ STDMETHODIMP CSyncRenderer::QueryVendorInfo(__out  LPWSTR* pVendorInfo)
     return E_NOTIMPL;
 }
 
-STDMETHODIMP CSyncRenderer::Stop(void)
+STDMETHODIMP CSyncRenderer::Stop()
 {
     CComPtr<IBaseFilter> pEVRBase;
     if (m_pEVR) {
@@ -4038,7 +4038,7 @@ STDMETHODIMP CSyncRenderer::Stop(void)
     return E_NOTIMPL;
 }
 
-STDMETHODIMP CSyncRenderer::Pause(void)
+STDMETHODIMP CSyncRenderer::Pause()
 {
     CComPtr<IBaseFilter> pEVRBase;
     if (m_pEVR) {
