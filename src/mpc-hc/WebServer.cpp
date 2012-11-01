@@ -474,36 +474,41 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
                 break;
             }
 
-            CHAR path[_MAX_PATH], fn[_MAX_PATH];
-            if (!GetTempPathA(_MAX_PATH, path) || !GetTempFileNameA(path, "mpc_gz", 0, fn)) {
+            // Allocate deflate state
+            z_stream strm;
+
+            strm.zalloc = Z_NULL;
+            strm.zfree = Z_NULL;
+            strm.opaque = Z_NULL;
+            int ret = deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, 15 + 16, 8, Z_DEFAULT_STRATEGY);
+            if (ret != Z_OK) {
+                ASSERT(0);
                 break;
             }
 
-            gzFile gf = gzopen(fn, "wb9");
-            if (!gf || gzwrite(gf, (LPVOID)(LPCSTR)body, body.GetLength()) != body.GetLength()) {
-                if (gf) {
-                    gzclose(gf);
-                }
-                DeleteFileA(fn);
-                break;
-            }
-            gzclose(gf);
+            int gzippedBuffLen = body.GetLength();
+            BYTE* gzippedBuff = new BYTE[gzippedBuffLen];
 
-            FILE* f = NULL;
-            if (fopen_s(&f, fn, "rb")) {
-                DeleteFileA(fn);
+            // Compress
+            strm.avail_in = body.GetLength();
+            strm.next_in = (Bytef*)(LPCSTR)body;
+
+            strm.avail_out = gzippedBuffLen;
+            strm.next_out = gzippedBuff;
+
+            ret = deflate(&strm, Z_FINISH);
+            if (ret != Z_STREAM_END || strm.avail_in != 0) {
+                ASSERT(0);
+                deflateEnd(&strm);
+                delete [] gzippedBuff;
                 break;
             }
-            fseek(f, 0, 2);
-            CHAR* s = body.GetBufferSetLength(ftell(f));
-            fseek(f, 0, 0);
-            int len = (int)fread(s, 1, body.GetLength(), f);
-            ASSERT(len == body.GetLength());
-#ifndef _DEBUG
-            UNREFERENCED_PARAMETER(len);
-#endif
-            fclose(f);
-            DeleteFileA(fn);
+            gzippedBuffLen -= strm.avail_out;
+            memcpy(body.GetBufferSetLength(gzippedBuffLen), gzippedBuff, gzippedBuffLen);
+
+            // Clean up
+            deflateEnd(&strm);
+            delete [] gzippedBuff;
 
             hdr += "Content-Encoding: gzip\r\n";
         } while (0);
