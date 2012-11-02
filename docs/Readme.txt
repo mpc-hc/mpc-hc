@@ -62,7 +62,7 @@ libmpeg2            GPLv2                       http://libmpeg2.sourceforge.net/
 libogg              New BSD License             http://www.xiph.org/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
-MediaInfoLib        LGPLv2                      http://mediainfo.sourceforge.net/
+MediaInfoLib        LGPLv2+                     http://mediainfo.sourceforge.net/
 MultiMon            CPOL                        http://www.codeproject.com/KB/GDI/multimon.aspx
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
 RealMedia SDK       -                           -
@@ -72,5 +72,5 @@ SoundTouch          LGPLv2.1                    http://www.surina.net/soundtouch
 TreePropSheet       -                           http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P
 UnRAR               freeware                    http://www.rarlab.com/rar_add.htm
 VirtualDub          GPLv2                       http://www.virtualdub.org/
-ZenLib              Simplified BSD License      http://sourceforge.net/projects/zenlib/
+ZenLib              zlib License                http://sourceforge.net/projects/zenlib/
 zlib                zlib License                http://zlib.net/
