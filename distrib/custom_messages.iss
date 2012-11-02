@@ -155,7 +155,7 @@ en.ViewChangelog=View Changelog
 #if localize == "true"
 
 ;Portuguese (Brasil)
-br.langid=00000017
+br.langid=00001046
 br.comp_mpciconlib=Biblioteca de ícones
 br.comp_mpcresources=Traduções
 br.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC?%n%nSe você quiser instalar o MPC-HC novamente então não precisa excluí-las.
@@ -175,7 +175,7 @@ br.ViewChangelog=Ver registro de alterações
 
 
 ;Belarusian
-by.langid=00000015
+by.langid=00001059
 by.comp_mpciconlib=Бібліятэка значкоў
 by.comp_mpcresources=Пераклады
 by.msg_DeleteSettings=Ці хочаце таксама выдаліць налады MPC-HC?%n%nКалі вы збіраецеся зноў усталяваць MPC-HC, тады іх можна пакінуць.
@@ -195,7 +195,7 @@ by.ViewChangelog=Спіс зменаў
 
 
 ;Basque
-eu.langid=00000023
+eu.langid=00001069
 eu.comp_mpciconlib=Ikur Liburutegia
 eu.comp_mpcresources=Itzulpenak
 eu.msg_DeleteSettings=MPC-HC ezarpenak kentzea ere nahi dituzu?%n%nMPC-HC berriro ezartzeko asmoa baduzu ez dituzu ezabatu behar.
@@ -215,7 +215,7 @@ eu.ViewChangelog=Ikusi Aldaketa-oharra
 
 
 ;Catalan
-ca.langid=00000019
+ca.langid=00001027
 ca.comp_mpciconlib=Llibreria d'icones
 ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Vols eliminar les preferències del MPC-HC?%n%nSi planeges instal.lar altre cop el MPC-HC no necessites eliminar-les.
@@ -235,7 +235,7 @@ ca.ViewChangelog=Veure registre de canvis
 
 
 ;Czech
-cz.langid=00000005
+cz.langid=00001029
 cz.comp_mpciconlib=Ikony typů souborů
 cz.comp_mpcresources=Jazykové soubory
 cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC?%n%nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
@@ -275,7 +275,7 @@ de.ViewChangelog=Zeige Änderungsprotokoll
 
 
 ;Spanish
-es.langid=00000006
+es.langid=00001034
 es.comp_mpciconlib=Librería de iconos
 es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
@@ -295,7 +295,7 @@ es.ViewChangelog=Ver registro de cambios
 
 
 ;French
-fr.langid=00000001
+fr.langid=00001036
 fr.comp_mpciconlib=Bibliothèque d'icône
 fr.comp_mpcresources=Traductions
 fr.msg_DeleteSettings=Souhaitez-vous supprimer également les paramètres de MPC-HC?%n%nSi vous réinstallez MPC-HC, il est conseillé de ne pas les supprimer.
@@ -315,7 +315,7 @@ fr.ViewChangelog=Voir la liste des changements
 
 
 ;Hebrew
-he.langid=00000022
+he.langid=00001037
 he.comp_mpciconlib=ספריית אייקונים
 he.comp_mpcresources=תרגומים
 he.msg_DeleteSettings=האם ברצונך גם למחוק את ההגדרות של MPC-HC?%n%nאם אתה מתכנן להתקין את MPC-HC בשנית, אינך חייב להסירן.
@@ -335,7 +335,7 @@ he.ViewChangelog=הצג רשימת עדכונים
 
 
 ;Hungarian
-hu.langid=00000007
+hu.langid=00001038
 hu.comp_mpciconlib=Ikon Gyűjtemény
 hu.comp_mpcresources=Fordítások
 hu.msg_DeleteSettings=Az MPC-HC beállításokat is törölni szeretné?%n%nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket.
@@ -355,7 +355,7 @@ hu.ViewChangelog=Verziótörténet megtekintése
 
 
 ;Armenian
-hy.langid=00000021
+hy.langid=00001067
 hy.comp_mpciconlib=Պատկերների գրադարան
 hy.comp_mpcresources=Թարգմանություններ
 hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%n%nԵթե նախատեսում եք վերատեղակայել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
@@ -375,7 +375,7 @@ hy.ViewChangelog=Նայել փոփոխությունների ցանկը
 
 
 ;Italian
-it.langid=00000011
+it.langid=00001040
 it.comp_mpciconlib=Libreria icone
 it.comp_mpcresources=Traduzioni
 it.msg_DeleteSettings=Vou eliminare anche le impostazioni di MPC-HC?%n%nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
@@ -395,7 +395,7 @@ it.ViewChangelog=Visualizza Changelog
 
 
 ;Japanese
-ja.langid=00000020
+ja.langid=00001041
 ja.comp_mpciconlib=アイコン ライブラリー
 ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
@@ -415,7 +415,7 @@ ja.ViewChangelog=変更履歴を見る
 
 
 ;Korean
-kr.langid=00000008
+kr.langid=00001042
 kr.comp_mpciconlib=아이콘 라이브러리
 kr.comp_mpcresources=번역
 kr.msg_DeleteSettings=MPC-HC 의 설정도 삭제하시겠습니까?%n%nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
@@ -435,7 +435,7 @@ kr.ViewChangelog=버전 변경사항 보기
 
 
 ;Dutch
-nl.langid=00000018
+nl.langid=00001043
 nl.comp_mpciconlib=Iconen voor mediabestanden
 nl.comp_mpcresources=Localisaties
 nl.msg_DeleteSettings=Wil je ook de instellingen vab MPC-HC verwijderen?%n%nAls je MPC-HC opnieuw gaat installeren is dit niet nodig.
@@ -455,7 +455,7 @@ nl.ViewChangelog=Bekijk Wijzigingsoverzicht
 
 
 ;Polish
-pl.langid=00000009
+pl.langid=00001045
 pl.comp_mpciconlib=Ikony plików multimedialnych
 pl.comp_mpcresources=Tłumaczenia
 pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC?%n%nJeśli planujesz ponownie zainstalować MPC-HC, wtedy nie trzeba ich usuwać.
@@ -475,7 +475,7 @@ pl.ViewChangelog=Pokaż zmiany
 
 
 ;Russian
-ru.langid=00000003
+ru.langid=00001049
 ru.comp_mpciconlib=Библиотека значков
 ru.comp_mpcresources=Локализации
 ru.msg_DeleteSettings=Удалить также настроенные параметры MPC-HC?%n%nЕсли запланирована переустановка MPC-HC, эти параметры не нужно удалять.
@@ -495,7 +495,7 @@ ru.ViewChangelog=Просмотреть журнал изменений
 
 
 ;Chinese Simplified
-sc.langid=00000013
+sc.langid=00002052
 sc.comp_mpciconlib=图标库
 sc.comp_mpcresources=翻译
 sc.msg_DeleteSettings=是否同时删除 MPC-HC 设置?%n%n如果您打算再次安装 MPC-HC 则无需删除。
@@ -515,7 +515,7 @@ sc.ViewChangelog=查看更新日志
 
 
 ;Swedish
-sv.langid=00000016
+sv.langid=00001051
 sv.comp_mpciconlib=Ikonbibliotek
 sv.comp_mpcresources=Översättningar
 sv.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
@@ -535,7 +535,7 @@ sv.ViewChangelog=Visa ändringslogg
 
 
 ;Slovakian
-sk.langid=00000012
+sk.langid=00001053
 sk.comp_mpciconlib=Knižnica ikon
 sk.comp_mpcresources=Preklady
 sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC?%n%nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
@@ -555,7 +555,7 @@ sk.ViewChangelog=Zobraziť zoznam zmien
 
 
 ;Chinese Traditional
-tc.langid=00000014
+tc.langid=00003076
 tc.comp_mpciconlib=圖示庫
 tc.comp_mpcresources=翻譯
 tc.msg_DeleteSettings=您是否也要刪除 MPC-HC 設定？%n%n如果您打算再次安裝 MPC-HC 則無需刪除。
@@ -575,7 +575,7 @@ tc.ViewChangelog=檢視更新日誌
 
 
 ;Turkish
-tr.langid=00000004
+tr.langid=00001055
 tr.comp_mpciconlib=Simge Kütüphanesi
 tr.comp_mpcresources=Çeviriler
 tr.msg_DeleteSettings=MPC-HC ayarlarını silmek istiyor musunuz?%n%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemeniz önerilir.
@@ -595,7 +595,7 @@ tr.ViewChangelog=Sürüm Notları
 
 
 ;Ukrainian
-ua.langid=00000010
+ua.langid=00001058
 ua.comp_mpciconlib=Бібліотека іконок
 ua.comp_mpcresources=Локалізації
 ua.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC?%n%nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
