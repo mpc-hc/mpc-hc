@@ -143,6 +143,7 @@ Name: by; MessagesFile: Languages\Belarusian.isl
 Name: ca; MessagesFile: compiler:Languages\Catalan.isl
 Name: cz; MessagesFile: compiler:Languages\Czech.isl
 Name: de; MessagesFile: compiler:Languages\German.isl
+Name: el; MessagesFile: compiler:Languages\Greek.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
 Name: eu; MessagesFile: Languages\Basque.isl
 Name: fr; MessagesFile: compiler:Languages\French.isl
@@ -211,6 +212,7 @@ Source: {#bindir}\Lang\mpcresources.by.dll; DestDir: {app}\Lang; Components: mpc
 Source: {#bindir}\Lang\mpcresources.ca.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 Source: {#bindir}\Lang\mpcresources.cz.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 Source: {#bindir}\Lang\mpcresources.de.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.el.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 Source: {#bindir}\Lang\mpcresources.es.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 Source: {#bindir}\Lang\mpcresources.eu.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 Source: {#bindir}\Lang\mpcresources.fr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion

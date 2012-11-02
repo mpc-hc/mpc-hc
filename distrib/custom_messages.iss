@@ -18,7 +18,7 @@
 
 ; Do NOT translate your language's name
 ; Do NOT translate [name]/[ver]
-; Do NOT change the langid
+; Do NOT change the langid  <http://msdn.microsoft.com/en-us/goglobal/bb964664.aspx?>
 ; Do NOT change the file encoding; it must be UTF-8 Signature
 ; Keep the translations close to the English strings
 
@@ -51,6 +51,10 @@ cz.WinVersionTooLowError=[name] vyžaduje Windows XP Service Pack 3 nebo nověj�
 ;German
 de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wird empfohlen, alle laufenden Programme zu beenden, bevor Sie mit der Installation fortfahren.
 de.WinVersionTooLowError=[name] benötigt Windows XP Service Pack 3 oder höher.
+
+;Greek
+el.WelcomeLabel2=Θα γίνει εγκατάσταση του [name] στον υπολογιστή σας.%n%nΣας συνιστούμε να κλείσετε κάθε άλλη εφαρμογή πριν συνεχίσετε.
+el.WinVersionTooLowError=Το [name] χρειάζεται Windows XP Service Pack 3 ή νεότερο για να λειτουργήσει.
 
 ;Spanish
 es.WelcomeLabel2=Este programa instalara [name] en tu computadora.%n%nEs recomendable que cierres todas las aplicaciones antes de continuar.
@@ -252,6 +256,26 @@ de.tsk_ResetSettings=Einstellungen zurücksetzen
 de.types_DefaultInstallation=Standard Installation
 de.types_CustomInstallation=Benutzerdefinierte Installation
 de.ViewChangelog=Zeige Änderungsprotokoll
+
+
+;Greek
+el.langid=00001032
+el.comp_mpciconlib=Βιβλιοθήκη Εικονιδίων
+el.comp_mpcresources=Μεταφράσεις
+el.msg_DeleteSettings=Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;%n%nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC πάλι τότε δεν χρειάζεται να τις διαγράψετε.
+el.msg_SetupIsRunningWarning=Η εγκατάσταση του MPC-HC εκτελείται ήδη!
+#if defined(sse_required)
+el.msg_simd_sse=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή CPU με υποστήριξη SSE.%n%nΟ επεξεργαστής σας δεν το υποστηρίζει.
+#elif defined(sse2_required)
+el.msg_simd_sse2=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή CPU με υποστήριξη SSE2.%n%nΟ επεξεργαστής σας δεν το υποστηρίζει.
+#endif
+el.tsk_AllUsers=Για όλους τους χρήστες
+el.tsk_CurrentUser=Για τον τρέχων χρήστη μόνο
+el.tsk_Other=Επιπλέον ενέργειες:
+el.tsk_ResetSettings=Επαναφορά ρυθμίσεων
+el.types_DefaultInstallation=Προκαθορισμένη εγκατάσταση
+el.types_CustomInstallation=Προσαρμοσμένη εγκατάσταση
+el.ViewChangelog=Εμφάνιση Λίστας Αλλαγών
 
 
 ;Spanish
