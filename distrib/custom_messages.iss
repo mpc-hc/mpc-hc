@@ -40,10 +40,6 @@ br.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to r
 by.WelcomeLabel2=Зараз будзе ўстаноўлена [name].%n%nРэкамендуецца закрыць усе прыкладанні перад працягам.
 by.WinVersionTooLowError=[name] патрабуецца Windows XP Service Pack 3 або навей.
 
-;Basque
-eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
-eu.WinVersionTooLowError=[name] Windows XP Service Pack 3 edo berriagoa behar du lan egiteko.
-
 ;Catalan
 ca.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 ca.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
@@ -59,6 +55,10 @@ de.WinVersionTooLowError=[name] benötigt Windows XP Service Pack 3 oder höher.
 ;Spanish
 es.WelcomeLabel2=Este programa instalara [name] en tu computadora.%n%nEs recomendable que cierres todas las aplicaciones antes de continuar.
 es.WinVersionTooLowError=[name] require Windows XP Service Pack 3 o superior para funcionar.
+
+;Basque
+eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
+eu.WinVersionTooLowError=[name] Windows XP Service Pack 3 edo berriagoa behar du lan egiteko.
 
 ;French
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
@@ -194,26 +194,6 @@ by.types_CustomInstallation=Адмысловае ўсталяванне
 by.ViewChangelog=Спіс зменаў
 
 
-;Basque
-eu.langid=00001069
-eu.comp_mpciconlib=Ikur Liburutegia
-eu.comp_mpcresources=Itzulpenak
-eu.msg_DeleteSettings=MPC-HC ezarpenak kentzea ere nahi dituzu?%n%nMPC-HC berriro ezartzeko asmoa baduzu ez dituzu ezabatu behar.
-eu.msg_SetupIsRunningWarning=MPC-HC ezarpena jadanik ekinean dago!
-#if defined(sse_required)
-eu.msg_simd_sse=MPC-HC eraiketa honek SSE hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
-#elif defined(sse2_required)
-eu.msg_simd_sse2=MPC-HC erakiketa honek SSE2 hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
-#endif
-eu.tsk_AllUsers=Erabiltzaile guztientzat
-eu.tsk_CurrentUser=Oraingo erabiltzailearentzat bakarrrik
-eu.tsk_Other=Beste eginkizunak:
-eu.tsk_ResetSettings=Berrezarri ezarpenak
-eu.types_DefaultInstallation=Berezko ezarpena
-eu.types_CustomInstallation=Norbere ezarpena
-eu.ViewChangelog=Ikusi Aldaketa-oharra
-
-
 ;Catalan
 ca.langid=00001027
 ca.comp_mpciconlib=Llibreria d'icones
@@ -292,6 +272,26 @@ es.tsk_ResetSettings=Restaurar preferencias
 es.types_DefaultInstallation=Instalación por defecto
 es.types_CustomInstallation=Instalación personalizada
 es.ViewChangelog=Ver registro de cambios
+
+
+;Basque
+eu.langid=00001069
+eu.comp_mpciconlib=Ikur Liburutegia
+eu.comp_mpcresources=Itzulpenak
+eu.msg_DeleteSettings=MPC-HC ezarpenak kentzea ere nahi dituzu?%n%nMPC-HC berriro ezartzeko asmoa baduzu ez dituzu ezabatu behar.
+eu.msg_SetupIsRunningWarning=MPC-HC ezarpena jadanik ekinean dago!
+#if defined(sse_required)
+eu.msg_simd_sse=MPC-HC eraiketa honek SSE hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
+#elif defined(sse2_required)
+eu.msg_simd_sse2=MPC-HC erakiketa honek SSE2 hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
+#endif
+eu.tsk_AllUsers=Erabiltzaile guztientzat
+eu.tsk_CurrentUser=Oraingo erabiltzailearentzat bakarrrik
+eu.tsk_Other=Beste eginkizunak:
+eu.tsk_ResetSettings=Berrezarri ezarpenak
+eu.types_DefaultInstallation=Berezko ezarpena
+eu.types_CustomInstallation=Norbere ezarpena
+eu.ViewChangelog=Ikusi Aldaketa-oharra
 
 
 ;French
