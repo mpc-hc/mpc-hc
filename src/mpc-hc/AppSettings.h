@@ -330,6 +330,8 @@ class CAppSettings
     };
 
 public:
+    bool fShaderEditorWasOpened;
+
     // cmdline params
     UINT nCLSwitches;
     CAtlList<CString>   slFiles, slDubs, slSubs, slFilters;
