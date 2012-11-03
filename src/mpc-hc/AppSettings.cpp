@@ -845,9 +845,6 @@ void CAppSettings::SaveSettings()
         fShaderEditorWasOpened = false;
     }
 
-    pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINE, strShadercombine);
-    pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINESCREENSPACE, strShadercombineScreenSpace);
-
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, fRemainingTime);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, nUpdaterAutoCheck);
@@ -1497,9 +1494,6 @@ void CAppSettings::LoadSettings()
     fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, 0);
 
     // TODO: sort shaders by label
-
-    strShadercombine = pApp->GetProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINE, _T(""));
-    strShadercombineScreenSpace = pApp->GetProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINESCREENSPACE, _T(""));
 
     fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, FALSE);
 

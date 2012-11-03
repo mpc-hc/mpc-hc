@@ -573,8 +573,6 @@ public:
     bool            fToggleShaderScreenSpace;
     CString         strShaderList;
     CString         strShaderListScreenSpace;
-    CString         strShadercombine;
-    CString         strShadercombineScreenSpace;
     // Playlist (contex menu)
     bool            bShufflePlaylistItems;
     bool            bHidePlaylistFullScreen;
