@@ -827,7 +827,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINE, strShadercombine);
     pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINESCREENSPACE, strShadercombineScreenSpace);
 
-    if (fShaderEditorWasOpened) {
+    if (fShaderEditorWasOpened || pApp->m_pszRegistryKey == NULL) {
         // This is a large data block. Save it only when really necessary.
         pos = m_shaders.GetHeadPosition();
         for (int i = 0; pos; i++) {
@@ -840,9 +840,11 @@ void CAppSettings::SaveSettings()
                 srcdata.Replace(_T("\r"), _T(""));
                 srcdata.Replace(_T("\n"), _T("\\n"));
                 srcdata.Replace(_T("\t"), _T("\\t"));
-                AfxGetApp()->WriteProfileString(IDS_R_SHADERS, index, s.label + _T("|") + s.target + _T("|") + srcdata);
+                pApp->WriteProfileString(IDS_R_SHADERS, index, s.label + _T("|") + s.target + _T("|") + srcdata);
             }
         }
+
+        fShaderEditorWasOpened = false;
     }
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, fRemainingTime);

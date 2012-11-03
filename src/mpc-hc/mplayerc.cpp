@@ -435,6 +435,9 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
         success = StoreSettingsToRegistry();
     }
 
+    // Ensure the shaders are properly saved
+    AfxGetAppSettings().fShaderEditorWasOpened = true;
+
     // Write settings immediately
     m_s.SaveSettings();
 
