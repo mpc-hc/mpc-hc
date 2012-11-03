@@ -822,13 +822,11 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
 
-    pApp->WriteProfileString(IDS_R_SHADERS, NULL, NULL);
-    pApp->WriteProfileInt(IDS_R_SHADERS, IDS_R_SHADERS_INITIALIZED, 1);
-    pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINE, strShadercombine);
-    pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINESCREENSPACE, strShadercombineScreenSpace);
+    if (fShaderEditorWasOpened) { // This is a large data block. Save it only when really necessary.
+        // Erase the currently saved shaders
+        pApp->WriteProfileString(IDS_R_SHADERS, NULL, NULL);
+        pApp->WriteProfileInt(IDS_R_SHADERS, IDS_R_SHADERS_INITIALIZED, 1);
 
-    if (fShaderEditorWasOpened || pApp->m_pszRegistryKey == NULL) {
-        // This is a large data block. Save it only when really necessary.
         pos = m_shaders.GetHeadPosition();
         for (int i = 0; pos; i++) {
             const Shader& s = m_shaders.GetNext(pos);
@@ -846,6 +844,9 @@ void CAppSettings::SaveSettings()
 
         fShaderEditorWasOpened = false;
     }
+
+    pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINE, strShadercombine);
+    pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINESCREENSPACE, strShadercombineScreenSpace);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, fRemainingTime);
 
