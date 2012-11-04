@@ -33,8 +33,8 @@
 #include "WinAPIUtils.h"
 
 
-CAtlStringMap<CWebServer::RequestHandler> CWebServer::m_internalpages;
-CAtlStringMap<UINT> CWebServer::m_downloads;
+CAtlStringMap<CWebServer::RequestHandler, CStringA> CWebServer::m_internalpages;
+CAtlStringMap<UINT, CStringA> CWebServer::m_downloads;
 CAtlStringMap<CStringA, CStringA> CWebServer::m_mimes;
 
 CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
@@ -87,52 +87,52 @@ CWebServer::~CWebServer()
 
 void CWebServer::Init()
 {
-    m_internalpages[_T("/")] = &CWebClientSocket::OnIndex;
-    m_internalpages[_T("/404.html")] = &CWebClientSocket::OnError404;
-    m_internalpages[_T("/browser.html")] = &CWebClientSocket::OnBrowser;
-    m_internalpages[_T("/command.html")] = &CWebClientSocket::OnCommand;
-    m_internalpages[_T("/controls.html")] = &CWebClientSocket::OnControls;
-    m_internalpages[_T("/index.html")] = &CWebClientSocket::OnIndex;
-    m_internalpages[_T("/info.html")] = &CWebClientSocket::OnInfo;
-    m_internalpages[_T("/player.html")] = &CWebClientSocket::OnPlayer;
-    m_internalpages[_T("/snapshot.jpg")] = &CWebClientSocket::OnSnapShotJpeg;
-    m_internalpages[_T("/status.html")] = &CWebClientSocket::OnStatus;
-    m_internalpages[_T("/variables.html")] = &CWebClientSocket::OnVariables;
-    m_internalpages[_T("/viewres.html")] = &CWebClientSocket::OnViewRes;
+    m_internalpages["/"] = &CWebClientSocket::OnIndex;
+    m_internalpages["/404.html"] = &CWebClientSocket::OnError404;
+    m_internalpages["/browser.html"] = &CWebClientSocket::OnBrowser;
+    m_internalpages["/command.html"] = &CWebClientSocket::OnCommand;
+    m_internalpages["/controls.html"] = &CWebClientSocket::OnControls;
+    m_internalpages["/index.html"] = &CWebClientSocket::OnIndex;
+    m_internalpages["/info.html"] = &CWebClientSocket::OnInfo;
+    m_internalpages["/player.html"] = &CWebClientSocket::OnPlayer;
+    m_internalpages["/snapshot.jpg"] = &CWebClientSocket::OnSnapShotJpeg;
+    m_internalpages["/status.html"] = &CWebClientSocket::OnStatus;
+    m_internalpages["/variables.html"] = &CWebClientSocket::OnVariables;
+    m_internalpages["/viewres.html"] = &CWebClientSocket::OnViewRes;
 
-    m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
-    m_downloads[_T("/favicon.ico")] = IDF_FAVICON;
-    m_downloads[_T("/img/1pix.png")] = IDF_1PIX_PNG;
-    m_downloads[_T("/img/bottomside.png")] = IDF_BOTTOMSIDE_PNG;
-    m_downloads[_T("/img/controlback.png")] = IDF_CONTROLBACK_PNG;
-    m_downloads[_T("/img/controlbuttondecrate.png")] = IDF_CONTROLBUTTONDECRATE_PNG;
-    m_downloads[_T("/img/controlbuttonincrate.png")] = IDF_CONTROLBUTTONINCRATE_PNG;
-    m_downloads[_T("/img/controlbuttonpause.png")] = IDF_CONTROLBUTTONPAUSE_PNG;
-    m_downloads[_T("/img/controlbuttonplay.png")] = IDF_CONTROLBUTTONPLAY_PNG;
-    m_downloads[_T("/img/controlbuttonskipback.png")] = IDF_CONTROLBUTTONSKIPBACK_PNG;
-    m_downloads[_T("/img/controlbuttonskipforward.png")] = IDF_CONTROLBUTTONSKIPFORWARD_PNG;
-    m_downloads[_T("/img/controlbuttonstep.png")] = IDF_CONTROLBUTTONSTEP_PNG;
-    m_downloads[_T("/img/controlbuttonstop.png")] = IDF_CONTROLBUTTONSTOP_PNG;
-    m_downloads[_T("/img/controlvolumebar.png")] = IDF_CONTROLVOLUMEBAR_PNG;
-    m_downloads[_T("/img/controlvolumegrip.png")] = IDF_CONTROLVOLUMEGRIP_PNG;
-    m_downloads[_T("/img/controlvolumeoff.png")] = IDF_CONTROLVOLUMEOFF_PNG;
-    m_downloads[_T("/img/controlvolumeon.png")] = IDF_CONTROLVOLUMEON_PNG;
-    m_downloads[_T("/img/headerback.png")] = IDF_HEADERBACK_PNG;
-    m_downloads[_T("/img/headerclose.png")] = IDF_HEADERCLOSE_PNG;
-    m_downloads[_T("/img/headericon.png")] = IDF_HEADERICON_PNG;
-    m_downloads[_T("/img/leftbottomside.png")] = IDF_LEFTBOTTOMSIDE_PNG;
-    m_downloads[_T("/img/leftside.png")] = IDF_LEFTSIDE_PNG;
-    m_downloads[_T("/img/rightbottomside.png")] = IDF_RIGHTBOTTOMSIDE_PNG;
-    m_downloads[_T("/img/rightside.png")] = IDF_RIGHTSIDE_PNG;
-    m_downloads[_T("/img/seekbargrip.png")] = IDF_SEEKBARGRIP_PNG;
-    m_downloads[_T("/img/seekbarleft.png")] = IDF_SEEKBARLEFT_PNG;
-    m_downloads[_T("/img/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
-    m_downloads[_T("/img/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
-    m_downloads[_T("/img/sliderback.png")] = IDF_SLIDERBACK_PNG;
-    m_downloads[_T("/img/slidergrip.png")] = IDF_SLIDERGRIP_PNG;
-    m_downloads[_T("/img/vbg.png")] = IDF_VBR_PNG;
-    m_downloads[_T("/img/vbs.png")] = IDF_VBS_PNG;
-    m_downloads[_T("/javascript.js")] = IDF_JAVASCRIPT;
+    m_downloads["/default.css"] = IDF_DEFAULT_CSS;
+    m_downloads["/favicon.ico"] = IDF_FAVICON;
+    m_downloads["/img/1pix.png"] = IDF_1PIX_PNG;
+    m_downloads["/img/bottomside.png"] = IDF_BOTTOMSIDE_PNG;
+    m_downloads["/img/controlback.png"] = IDF_CONTROLBACK_PNG;
+    m_downloads["/img/controlbuttondecrate.png"] = IDF_CONTROLBUTTONDECRATE_PNG;
+    m_downloads["/img/controlbuttonincrate.png"] = IDF_CONTROLBUTTONINCRATE_PNG;
+    m_downloads["/img/controlbuttonpause.png"] = IDF_CONTROLBUTTONPAUSE_PNG;
+    m_downloads["/img/controlbuttonplay.png"] = IDF_CONTROLBUTTONPLAY_PNG;
+    m_downloads["/img/controlbuttonskipback.png"] = IDF_CONTROLBUTTONSKIPBACK_PNG;
+    m_downloads["/img/controlbuttonskipforward.png"] = IDF_CONTROLBUTTONSKIPFORWARD_PNG;
+    m_downloads["/img/controlbuttonstep.png"] = IDF_CONTROLBUTTONSTEP_PNG;
+    m_downloads["/img/controlbuttonstop.png"] = IDF_CONTROLBUTTONSTOP_PNG;
+    m_downloads["/img/controlvolumebar.png"] = IDF_CONTROLVOLUMEBAR_PNG;
+    m_downloads["/img/controlvolumegrip.png"] = IDF_CONTROLVOLUMEGRIP_PNG;
+    m_downloads["/img/controlvolumeoff.png"] = IDF_CONTROLVOLUMEOFF_PNG;
+    m_downloads["/img/controlvolumeon.png"] = IDF_CONTROLVOLUMEON_PNG;
+    m_downloads["/img/headerback.png"] = IDF_HEADERBACK_PNG;
+    m_downloads["/img/headerclose.png"] = IDF_HEADERCLOSE_PNG;
+    m_downloads["/img/headericon.png"] = IDF_HEADERICON_PNG;
+    m_downloads["/img/leftbottomside.png"] = IDF_LEFTBOTTOMSIDE_PNG;
+    m_downloads["/img/leftside.png"] = IDF_LEFTSIDE_PNG;
+    m_downloads["/img/rightbottomside.png"] = IDF_RIGHTBOTTOMSIDE_PNG;
+    m_downloads["/img/rightside.png"] = IDF_RIGHTSIDE_PNG;
+    m_downloads["/img/seekbargrip.png"] = IDF_SEEKBARGRIP_PNG;
+    m_downloads["/img/seekbarleft.png"] = IDF_SEEKBARLEFT_PNG;
+    m_downloads["/img/seekbarmid.png"] = IDF_SEEKBARMID_PNG;
+    m_downloads["/img/seekbarright.png"] = IDF_SEEKBARRIGHT_PNG;
+    m_downloads["/img/sliderback.png"] = IDF_SLIDERBACK_PNG;
+    m_downloads["/img/slidergrip.png"] = IDF_SLIDERGRIP_PNG;
+    m_downloads["/img/vbg.png"] = IDF_VBR_PNG;
+    m_downloads["/img/vbs.png"] = IDF_VBS_PNG;
+    m_downloads["/javascript.js"] = IDF_JAVASCRIPT;
 
     CRegKey key;
     CString str(_T("MIME\\Database\\Content Type"));
@@ -222,11 +222,11 @@ void CWebServer::Deploy(CString dir)
 
     POSITION pos = m_downloads.GetStartPosition();
     while (pos) {
-        CString fn;
+        CStringA fn;
         UINT id;
         m_downloads.GetNextAssoc(pos, fn, id);
         if (LoadResource(id, data, _T("FILE")) || LoadResource(id, data, _T("PNG"))) {
-            PutFileContents(dir + fn, data);
+            PutFileContents(dir + AToT(fn), data);
         }
     }
 }
@@ -318,7 +318,7 @@ void CWebServer::OnClose(CWebClientSocket* pClient)
 
 void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& body)
 {
-    CPath p(pClient->m_path);
+    CPath p(AToT(pClient->m_path));
     CStringA ext = p.GetExtension().MakeLower();
     CStringA mime;
     if (ext.IsEmpty()) {
@@ -367,8 +367,8 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
         }
 
         CString redir;
-        if (pClient->m_get.Lookup(_T("redir"), redir)
-                || pClient->m_post.Lookup(_T("redir"), redir)) {
+        if (pClient->m_get.Lookup("redir", redir)
+                || pClient->m_post.Lookup("redir", redir)) {
             if (redir.IsEmpty()) {
                 redir = '/';
             }
@@ -383,7 +383,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
     }
 
     if (!fHandled && m_webroot.IsDirectory()) {
-        fHandled = LoadPage(0, body, pClient->m_path);
+        fHandled = LoadPage(0, body, AToT(pClient->m_path));
     }
 
     UINT resid;
@@ -413,35 +413,46 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
             if (AfxGetAppSettings().fWebServerPrintDebugInfo) {
                 debug += "<br><hr>\r\n";
                 debug += "<div id=\"debug\">";
-                CString key, value;
+
+                CStringA key;
                 POSITION pos;
-                pos = pClient->m_hdrlines.GetStartPosition();
-                while (pos) {
-                    pClient->m_hdrlines.GetNextAssoc(pos, key, value);
-                    debug += "HEADER[" + key + "] = " + value + "\r\n";
+
+                {
+                    CStringA value;
+
+                    pos = pClient->m_hdrlines.GetStartPosition();
+                    while (pos) {
+                        pClient->m_hdrlines.GetNextAssoc(pos, key, value);
+                        debug += "HEADER[" + key + "] = " + value + "\r\n";
+                    }
                 }
                 debug += "cmd: " + pClient->m_cmd + "\r\n";
                 debug += "path: " + pClient->m_path + "\r\n";
                 debug += "ver: " + pClient->m_ver + "\r\n";
-                pos = pClient->m_get.GetStartPosition();
-                while (pos) {
-                    pClient->m_get.GetNextAssoc(pos, key, value);
-                    debug += "GET[" + key + "] = " + value + "\r\n";
-                }
-                pos = pClient->m_post.GetStartPosition();
-                while (pos) {
-                    pClient->m_post.GetNextAssoc(pos, key, value);
-                    debug += "POST[" + key + "] = " + value + "\r\n";
-                }
-                pos = pClient->m_cookie.GetStartPosition();
-                while (pos) {
-                    pClient->m_cookie.GetNextAssoc(pos, key, value);
-                    debug += "COOKIE[" + key + "] = " + value + "\r\n";
-                }
-                pos = pClient->m_request.GetStartPosition();
-                while (pos) {
-                    pClient->m_request.GetNextAssoc(pos, key, value);
-                    debug += "REQUEST[" + key + "] = " + value + "\r\n";
+
+                {
+                    CString value;
+
+                    pos = pClient->m_get.GetStartPosition();
+                    while (pos) {
+                        pClient->m_get.GetNextAssoc(pos, key, value);
+                        debug += "GET[" + key + "] = " + UTF16To8(value) + "\r\n";
+                    }
+                    pos = pClient->m_post.GetStartPosition();
+                    while (pos) {
+                        pClient->m_post.GetNextAssoc(pos, key, value);
+                        debug += "POST[" + key + "] = " + UTF16To8(value) + "\r\n";
+                    }
+                    pos = pClient->m_cookie.GetStartPosition();
+                    while (pos) {
+                        pClient->m_cookie.GetNextAssoc(pos, key, value);
+                        debug += "COOKIE[" + key + "] = " + UTF16To8(value) + "\r\n";
+                    }
+                    pos = pClient->m_request.GetStartPosition();
+                    while (pos) {
+                        pClient->m_request.GetNextAssoc(pos, key, value);
+                        debug += "REQUEST[" + key + "] = " + UTF16To8(value) + "\r\n";
+                    }
                 }
                 debug += "</div>";
             }
@@ -452,7 +463,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
         body.Replace("[commandpath]", "/command.html");
         body.Replace("[controlspath]", "/controls.html");
         body.Replace("[indexpath]", "/index.html");
-        body.Replace("[path]", CStringA(pClient->m_path));
+        body.Replace("[path]", pClient->m_path);
         body.Replace("[setposcommand]", CMD_SETPOS);
         body.Replace("[setvolumecommand]", CMD_SETVOLUME);
         body.Replace("[wmcname]", "wm_command");
@@ -461,14 +472,14 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 
     // gzip
     if (AfxGetAppSettings().fWebServerUseCompression && !body.IsEmpty()
-        && hdr.Find("Content-Encoding:") < 0 && ext != ".png" && ext != ".jpeg" && ext != ".gif")
+            && hdr.Find("Content-Encoding:") < 0 && ext != ".png" && ext != ".jpeg" && ext != ".gif")
         do {
-            CString accept_encoding;
-            pClient->m_hdrlines.Lookup(_T("accept-encoding"), accept_encoding);
+            CStringA accept_encoding;
+            pClient->m_hdrlines.Lookup("accept-encoding", accept_encoding);
             accept_encoding.MakeLower();
-            CAtlList<CString> sl;
+            CAtlList<CStringA> sl;
             ExplodeMin(accept_encoding, sl, ',');
-            if (!sl.Find(_T("gzip"))) {
+            if (!sl.Find("gzip")) {
                 break;
             }
 
@@ -580,28 +591,30 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 
     LPVOID lpvEnv = GetEnvironmentStrings();
     if (lpvEnv) {
-        CString str;
-
         CAtlList<CString> env;
-        for (LPTSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable += _tcslen(lpszVariable) + 1)
+        for (LPTSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable += _tcslen(lpszVariable) + 1) {
             if (lpszVariable != (LPTSTR)lpvEnv) {
                 env.AddTail(lpszVariable);
             }
+        }
 
         env.AddTail(_T("GATEWAY_INTERFACE=CGI/1.1"));
         env.AddTail(_T("SERVER_SOFTWARE=Media Player Classic - Home Cinema/") MPC_VERSION_STR);
-        env.AddTail(_T("SERVER_PROTOCOL=") + pClient->m_ver);
-        env.AddTail(_T("REQUEST_METHOD=") + pClient->m_cmd);
+        env.AddTail(_T("SERVER_PROTOCOL=") + AToT(pClient->m_ver));
+        env.AddTail(_T("REQUEST_METHOD=") + AToT(pClient->m_cmd));
         env.AddTail(_T("PATH_INFO=") + redir);
         env.AddTail(_T("PATH_TRANSLATED=") + path);
         env.AddTail(_T("SCRIPT_NAME=") + redir);
-        env.AddTail(_T("QUERY_STRING=") + pClient->m_query);
+        env.AddTail(_T("QUERY_STRING=") + AToT(pClient->m_query));
 
-        if (pClient->m_hdrlines.Lookup(_T("content-type"), str)) {
-            env.AddTail(_T("CONTENT_TYPE=") + str);
-        }
-        if (pClient->m_hdrlines.Lookup(_T("content-length"), str)) {
-            env.AddTail(_T("CONTENT_LENGTH=") + str);
+        {
+            CStringA str;
+            if (pClient->m_hdrlines.Lookup("content-type", str)) {
+                env.AddTail(_T("CONTENT_TYPE=") + AToT(str));
+            }
+            if (pClient->m_hdrlines.Lookup("content-length", str)) {
+                env.AddTail(_T("CONTENT_LENGTH=") + AToT(str));
+            }
         }
 
         POSITION pos = pClient->m_hdrlines.GetStartPosition();
@@ -613,7 +626,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
             env.AddTail(_T("HTTP_") + key + _T("=") + value);
         }
 
-        CString name;
+        CString str, name;
         UINT port;
 
         if (pClient->GetPeerName(name, port)) {

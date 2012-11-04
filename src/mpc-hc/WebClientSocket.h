@@ -28,15 +28,26 @@ class CWebClientSocket : public CAsyncSocket
     CWebServer* m_pWebServer;
     CMainFrame* m_pMainFrame;
 
-    CString m_hdr;
+    char* m_buff;
+    int m_buffLen, m_buffMaxLen, m_buffLenProcessed;
+
+    enum PARSING_STATE {
+        PARSING_HEADER,
+        PARSING_POST_DATA,
+        PARSING_DONE
+    };
+    PARSING_STATE m_parsingState;
+    int m_dataLen;
 
     struct cookie_attribs {
         CString path, expire, domain;
     };
-    CAtlStringMap<cookie_attribs> m_cookieattribs;
+    CAtlStringMap<cookie_attribs, CStringA> m_cookieattribs;
 
     void Clear();
-    void Header();
+    void HandleRequest();
+    void ParseHeader(char* headerEnd);
+    void ParsePostData();
 
 protected:
     void OnReceive(int nErrorCode);
@@ -46,14 +57,14 @@ public:
     CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFrame);
     virtual ~CWebClientSocket();
 
-    bool SetCookie(CString name, CString value = _T(""), __time64_t expire = -1, CString path = _T("/"), CString domain = _T(""));
+    bool SetCookie(CStringA name, CString value = _T(""), __time64_t expire = -1, CString path = _T("/"), CString domain = _T(""));
 
     CString m_sessid;
-    CString m_cmd, m_path, m_query, m_ver;
+    CStringA m_cmd, m_path, m_query, m_ver;
     CStringA m_data;
-    CAtlStringMap<> m_hdrlines;
-    CAtlStringMap<> m_get, m_post, m_cookie;
-    CAtlStringMap<> m_request;
+    CAtlStringMap<CStringA, CStringA> m_hdrlines;
+    CAtlStringMap<CString, CStringA> m_get, m_post, m_cookie;
+    CAtlStringMap<CString, CStringA> m_request;
 
     bool OnCommand(CStringA& hdr, CStringA& body, CStringA& mime);
     bool OnIndex(CStringA& hdr, CStringA& body, CStringA& mime);

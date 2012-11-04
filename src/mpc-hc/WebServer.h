@@ -48,8 +48,8 @@ class CWebServer
     CAutoPtrList<CWebClientSocket> m_clients;
 
     typedef bool (CWebClientSocket::*RequestHandler)(CStringA& hdr, CStringA& body, CStringA& mime);
-    static CAtlStringMap<RequestHandler> m_internalpages;
-    static CAtlStringMap<UINT> m_downloads;
+    static CAtlStringMap<RequestHandler, CStringA> m_internalpages;
+    static CAtlStringMap<UINT, CStringA> m_downloads;
     static CAtlStringMap<CStringA, CStringA> m_mimes;
     CPath m_webroot;
 
