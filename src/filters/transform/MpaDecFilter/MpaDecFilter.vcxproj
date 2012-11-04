@@ -213,6 +213,7 @@
     <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="AudioHelper.cpp" />
     <ClCompile Include="FFAudioDecoder.cpp" />
     <ClCompile Include="Mixer.cpp" />
     <ClCompile Include="MpaDecFilter.cpp" />
@@ -222,6 +223,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioHelper.h" />
     <ClInclude Include="PaddedArray.h" />
     <ClInclude Include="FFAudioDecoder.h" />
     <ClInclude Include="IMpaDecFilter.h" />

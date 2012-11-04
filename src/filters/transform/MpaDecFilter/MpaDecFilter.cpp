@@ -24,7 +24,9 @@
 #include <atlbase.h>
 #include <MMReg.h>
 #include <sys/timeb.h>
+
 #include "MpaDecFilter.h"
+#include "AudioHelper.h"
 
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/AudioParser.h"
@@ -58,21 +60,6 @@ extern "C" {
 #define OPTION_DRC          _T("DRC")
 #define OPTION_SPDIF_ac3    _T("SPDIF_ac3")
 #define OPTION_SPDIF_dts    _T("SPDIF_dts")
-
-#define INT24_MAX       8388607i32
-#define INT24_MIN     (-8388607i32 - 1)
-
-#define INT8_PEAK       128
-#define INT16_PEAK      32768
-#define INT24_PEAK      8388608
-#define INT32_PEAK      2147483648
-
-#define F16MAX ( float(INT16_MAX) / INT16_PEAK)
-#define F24MAX ( float(INT24_MAX) / INT24_PEAK)
-#define D32MAX (double(INT32_MAX) / INT32_PEAK)
-
-#define round_f(x) ((x) > 0 ? (x) + 0.5f : (x) - 0.5f)
-#define round_d(x) ((x) > 0 ? (x) + 0.5  : (x) - 0.5)
 
 #define AC3_HEADER_SIZE 7
 #define MAX_JITTER      1000000i64 // +-100ms jitter is allowed for now
@@ -298,19 +285,6 @@ bool DD_stats_t::Desired(int type)
     }
 
     return true;
-}
-
-enum MPCSampleFormat conv_sample_fmt(enum AVSampleFormat av_samplefmt)
-{
-    switch (av_samplefmt) {
-        default:
-        case AV_SAMPLE_FMT_S16:
-            return SF_PCM16;
-        case AV_SAMPLE_FMT_S32:
-            return SF_PCM32;
-        case AV_SAMPLE_FMT_FLT:
-            return SF_FLOAT;
-    }
 }
 
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
@@ -601,14 +575,14 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     unsigned int blocksize = nChannels * 2 * wfein->wBitsPerSample / 8;
     size_t nSamples = (m_buff.GetCount() / blocksize) * 2 * nChannels;
 
-    MPCSampleFormat out_sf;
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
     int outSize = nSamples * (wfein->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
 
     switch (wfein->wBitsPerSample) {
         case 16: {
-            out_sf = SF_PCM16;
+            out_avsf = AV_SAMPLE_FMT_S16;
             int16_t* pDataOut = (int16_t*)outBuff.GetData();
 
             for (size_t i = 0; i < nSamples; i++) {
@@ -619,7 +593,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
         }
         break;
         case 24: {
-            out_sf = SF_PCM32;
+            out_avsf = AV_SAMPLE_FMT_S32;
             int32_t* pDataOut = (int32_t*)outBuff.GetData();
 
             size_t m = nChannels * 2;
@@ -637,7 +611,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
         }
         break;
         case 20: {
-            out_sf = SF_PCM32;
+            out_avsf = AV_SAMPLE_FMT_S32;
             int32_t* pDataOut = (int32_t*)outBuff.GetData();
 
             size_t m = nChannels * 2;
@@ -664,7 +638,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     memmove(base, p, end - p);
     m_buff.SetCount(end - p);
 
-    return Deliver(outBuff.GetData(), outSize, out_sf, wfein->nSamplesPerSec, wfein->nChannels, GetDefChannelMask(wfein->nChannels));
+    return Deliver(outBuff.GetData(), outSize, out_avsf, wfein->nSamplesPerSec, wfein->nChannels, GetDefChannelMask(wfein->nChannels));
 }
 
 
@@ -686,14 +660,14 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
     }
     int nFrames = len / xChannels / BytesPerSample;
 
-    MPCSampleFormat out_sf;
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
     int outSize = nFrames * nChannels * (wfein->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
 
     switch (wfein->wBitsPerSample) {
         case 16: {
-            out_sf = SF_PCM16;
+            out_avsf = AV_SAMPLE_FMT_S16;
             int16_t* pDataOut = (int16_t*)outBuff.GetData();
 
             for (int i = 0; i < nFrames; i++) {
@@ -708,7 +682,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
         break;
         case 24:
         case 20: {
-            out_sf = SF_PCM32;
+            out_avsf = AV_SAMPLE_FMT_S32;
             int32_t* pDataOut = (int32_t*)outBuff.GetData();
 
             for (int i = 0; i < nFrames; i++) {
@@ -725,7 +699,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
     memmove(m_buff.GetData(), pDataIn, m_buff.GetCount() - len);
     m_buff.SetCount(m_buff.GetCount() - len);
 
-    return Deliver(outBuff.GetData(), outSize, out_sf, wfein->nSamplesPerSec, wfein->nChannels, remap->dwChannelMask);
+    return Deliver(outBuff.GetData(), outSize, out_avsf, wfein->nSamplesPerSec, wfein->nChannels, remap->dwChannelMask);
 }
 #endif /* INTERNAL_DECODER_LPCM */
 
@@ -768,7 +742,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
             m_bResync = true;
             return S_OK;
         } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
-            hr = Deliver(output.GetData(), output.GetCount(), conv_sample_fmt(avsamplefmt), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+            hr = Deliver(output.GetData(), output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
         } else if (size == 0) { // && pBuffOut.GetCount() == 0
             break;
         }
@@ -836,7 +810,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
                 m_bResync = true;
                 return S_OK;
             } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
-                hr = Deliver(output.GetData(), output.GetCount(), conv_sample_fmt(avsamplefmt), m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+                hr = Deliver(output.GetData(), output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
             } else if (size == 0) { // && pBuffOut.GetCount() == 0
                 break;
             }
@@ -923,33 +897,32 @@ HRESULT CMpaDecFilter::ProcessDTS_SPDIF()
 HRESULT CMpaDecFilter::ProcessPCMraw() // 'raw'
 {
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-    size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+    size_t size       = m_buff.GetCount();
+    size_t nSamples   = size * 8 / wfe->wBitsPerSample;
 
-    MPCSampleFormat out_sf = SF_PCM16;
-    int outSize = nSamples * sizeof(int16_t); // convert to 16-bit
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
     CAtlArray<BYTE> outBuff;
-    outBuff.SetCount(outSize);
-    int16_t* pDataOut = (int16_t*)outBuff.GetData();
+    outBuff.SetCount(size);
 
     switch (wfe->wBitsPerSample) {
-        case 8: { // unsigned 8-bit
-            uint8_t* b = (uint8_t*)m_buff.GetData();
+        case 8: // unsigned 8-bit
+            out_avsf = AV_SAMPLE_FMT_U8;
+            memcpy(outBuff.GetData(), m_buff.GetData(), size);
+            break;
+        case 16: { // signed big-endian 16-bit
+            out_avsf = AV_SAMPLE_FMT_S16;
+            uint16_t* pIn  = (uint16_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
+            uint16_t* pOut = (uint16_t*)outBuff.GetData();
+
             for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (int16_t)(int8_t)(b[i] + 128) * 256;
-            }
-        }
-        break;
-        case 16: { // signed big-endian 16 bit
-            uint16_t* d = (uint16_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
-            for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (int16_t)(d[i] << 8 | d[i] >> 8);
+                pOut[i] = pIn[i] << 8 | pIn[i] >> 8;
             }
         }
         break;
     }
 
     HRESULT hr;
-    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_sf, wfe->nSamplesPerSec, wfe->nChannels))) {
+    if (S_OK != (hr = Deliver(outBuff.GetData(), size, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
         return hr;
     }
 
@@ -962,61 +935,61 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
     size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
-    MPCSampleFormat out_sf;
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
     int outSize = nSamples * (wfe->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
 
     switch (wfe->wBitsPerSample) {
         case 8: { // signed 8-bit
-            out_sf = SF_PCM16;
-            int16_t* pDataOut = (int16_t*)outBuff.GetData();
+            out_avsf = AV_SAMPLE_FMT_S16;
+            int8_t*  pIn  = (int8_t*)m_buff.GetData();
+            int16_t* pOut = (int16_t*)outBuff.GetData();
 
-            int8_t* b = (int8_t*)m_buff.GetData();
             for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (int16_t)b[i] * 256;
+                pOut[i] = (int16_t)pIn[i] << 8;
             }
         }
         break;
         case 16: { // signed big-endian 16-bit
-            out_sf = SF_PCM16;
-            int16_t* pDataOut = (int16_t*)outBuff.GetData();
+            out_avsf = AV_SAMPLE_FMT_S16;
+            uint16_t* pIn  = (uint16_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
+            uint16_t* pOut = (uint16_t*)outBuff.GetData();
 
-            uint16_t* d = (uint16_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
             for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (int16_t)(d[i] << 8 | d[i] >> 8);
+                pOut[i] = pIn[i] << 8 | pIn[i] >> 8;
             }
         }
         break;
         case 24: { // signed big-endian 24-bit
-            out_sf = SF_PCM32;
-            int32_t* pDataOut = (int32_t*)outBuff.GetData();
+            out_avsf = AV_SAMPLE_FMT_S32;
+            uint8_t*  pIn  = (uint8_t*)m_buff.GetData();
+            uint32_t* pOut = (uint32_t*)outBuff.GetData();
 
-            uint8_t* b = (uint8_t*)m_buff.GetData();
             for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (int32_t)((uint32_t)b[3 * i]   << 24 |
-                                        (uint32_t)b[3 * i + 1] << 16 |
-                                        (uint32_t)b[3 * i + 2] << 8);
+                pOut[i] = (uint32_t)pIn[3 * i]     << 24 |
+                          (uint32_t)pIn[3 * i + 1] << 16 |
+                          (uint32_t)pIn[3 * i + 2] << 8;
             }
         }
         break;
         case 32: { // signed big-endian 32-bit
-            out_sf = SF_PCM32;
-            int32_t* pDataOut = (int32_t*)outBuff.GetData();
+            out_avsf = AV_SAMPLE_FMT_S32;
+            uint32_t* pIn  = (uint32_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
+            uint32_t* pOut = (uint32_t*)outBuff.GetData();
 
-            uint32_t* q = (uint32_t*)m_buff.GetData(); // signed take as an unsigned to shift operations.
             for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (int32_t)(q[i] >> 24 |
-                                        (q[i] & 0x00ff0000) >> 8 |
-                                        (q[i] & 0x0000ff00) << 8 |
-                                        q[i] << 24);
+                pOut[i] = pIn[i] >> 24 |
+                         (pIn[i] & 0x00ff0000) >> 8 |
+                         (pIn[i] & 0x0000ff00) << 8 |
+                           pIn[i] << 24;
             }
         }
         break;
     }
 
     HRESULT hr;
-    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_sf, wfe->nSamplesPerSec, wfe->nChannels))) {
+    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
         return hr;
     }
 
@@ -1029,46 +1002,46 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() // 'sowt', little-endian 'in24' and 'in
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
     size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
-    MPCSampleFormat out_sf;
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
     int outSize = nSamples * (wfe->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
 
     switch (wfe->wBitsPerSample) {
         case 8: { // signed 8-bit
-            out_sf = SF_PCM16;
-            int16_t* pDataOut = (int16_t*)outBuff.GetData();
+            out_avsf = AV_SAMPLE_FMT_S16;
+            int8_t*  pIn  = (int8_t*)m_buff.GetData();
+            int16_t* pOut = (int16_t*)outBuff.GetData();
 
-            int8_t* b = (int8_t*)m_buff.GetData();
             for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (int16_t)b[i] * 256;
+                pOut[i] = (int16_t)pIn[i] << 8;
             }
         }
         break;
-        case 16: { // signed little-endian 16-bit
+        case 16: // signed little-endian 16-bit
+            out_avsf = AV_SAMPLE_FMT_S16;
             memcpy(outBuff.GetData(), m_buff.GetData(), outSize);
-        }
-        break;
+            break;
         case 24: { // signed little-endian 32-bit
-            out_sf = SF_PCM32;
-            int32_t* pDataOut = (int32_t*)outBuff.GetData();
+            out_avsf = AV_SAMPLE_FMT_S32;
+            uint8_t*  pIn  = (uint8_t*)m_buff.GetData();
+            uint32_t* pOut = (uint32_t*)outBuff.GetData();
 
-            uint8_t* b = (uint8_t*)m_buff.GetData();
             for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (int32_t)((uint32_t)b[3 * i]   << 8  |
-                                        (uint32_t)b[3 * i + 1] << 16 |
-                                        (uint32_t)b[3 * i + 2] << 24);
+                pOut[i] = (uint32_t)pIn[3 * i]     << 8  |
+                          (uint32_t)pIn[3 * i + 1] << 16 |
+                          (uint32_t)pIn[3 * i + 2] << 24;
             }
         }
         break;
-        case 32: { // signed little-endian 32-bit
+        case 32: // signed little-endian 32-bit
+            out_avsf = AV_SAMPLE_FMT_S32;
             memcpy(outBuff.GetData(), m_buff.GetData(), outSize);
-        }
-        break;
+            break;
     }
 
     HRESULT hr;
-    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_sf, wfe->nSamplesPerSec, wfe->nChannels))) {
+    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
         return hr;
     }
 
@@ -1079,47 +1052,46 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() // 'sowt', little-endian 'in24' and 'in
 HRESULT CMpaDecFilter::ProcessPCMfloatBE() // big-endian 'fl32' and 'fl64'
 {
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-    size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+    size_t size       = m_buff.GetCount();
+    size_t nSamples   = size * 8 / wfe->wBitsPerSample;
 
-    MPCSampleFormat out_sf = SF_FLOAT;
-    int outSize = nSamples * sizeof(float); // convert to float
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
     CAtlArray<BYTE> outBuff;
-    outBuff.SetCount(outSize);
+    outBuff.SetCount(size);
 
     switch (wfe->wBitsPerSample) {
         case 32: {
-            uint32_t* q  = (uint32_t*)m_buff.GetData();
-            uint32_t* vf = (uint32_t*)outBuff.GetData();
+            out_avsf = AV_SAMPLE_FMT_FLT;
+            uint32_t* pIn  = (uint32_t*)m_buff.GetData();
+            uint32_t* pOut = (uint32_t*)outBuff.GetData();
             for (size_t i = 0; i < nSamples; i++) {
-                vf[i] = q[i] >> 24 |
-                        (q[i] & 0x00ff0000) >> 8 |
-                        (q[i] & 0x0000ff00) << 8 |
-                        q[i] << 24;
+                pOut[i] = pIn[i] >> 24 |
+                         (pIn[i] & 0x00ff0000) >> 8 |
+                         (pIn[i] & 0x0000ff00) << 8 |
+                          pIn[i] << 24;
             }
         }
         break;
         case 64: {
-            float* pDataOut = (float*)outBuff.GetData();
-
-            uint64_t* q = (uint64_t*)m_buff.GetData();
-            uint64_t x;
+            out_avsf = AV_SAMPLE_FMT_DBL;
+            uint64_t* pIn  = (uint64_t*)m_buff.GetData();
+            uint64_t* pOut = (uint64_t*)outBuff.GetData();
             for (size_t i = 0; i < nSamples; i++) {
-                x = q[i] >> 56 |
-                    (q[i] & 0x00FF000000000000) >> 40 |
-                    (q[i] & 0x0000FF0000000000) >> 24 |
-                    (q[i] & 0x000000FF00000000) >>  8 |
-                    (q[i] & 0x00000000FF000000) <<  8 |
-                    (q[i] & 0x0000000000FF0000) << 24 |
-                    (q[i] & 0x000000000000FF00) << 40 |
-                    q[i] << 56;
-                pDataOut[i] = (float)(*(double*)&x);
+                pOut[i] = pIn[i] >> 56 |
+                         (pIn[i] & 0x00FF000000000000) >> 40 |
+                         (pIn[i] & 0x0000FF0000000000) >> 24 |
+                         (pIn[i] & 0x000000FF00000000) >>  8 |
+                         (pIn[i] & 0x00000000FF000000) <<  8 |
+                         (pIn[i] & 0x0000000000FF0000) << 24 |
+                         (pIn[i] & 0x000000000000FF00) << 40 |
+                          pIn[i] << 56;
             }
         }
         break;
     }
 
     HRESULT hr;
-    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_sf, wfe->nSamplesPerSec, wfe->nChannels))) {
+    if (S_OK != (hr = Deliver(outBuff.GetData(), (int)size, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
         return hr;
     }
 
@@ -1130,31 +1102,24 @@ HRESULT CMpaDecFilter::ProcessPCMfloatBE() // big-endian 'fl32' and 'fl64'
 HRESULT CMpaDecFilter::ProcessPCMfloatLE() // little-endian 'fl32' and 'fl64'
 {
     WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-    size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
+    size_t size = m_buff.GetCount();
 
-    MPCSampleFormat out_sf = SF_FLOAT;
-    int outSize = nSamples * sizeof(float); // convert to float
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
     CAtlArray<BYTE> outBuff;
-    outBuff.SetCount(outSize);
+    outBuff.SetCount(size);
 
     switch (wfe->wBitsPerSample) {
-        case 32: {
-            memcpy(outBuff.GetData(), m_buff.GetData(), outSize);
-        }
-        break;
-        case 64: {
-            float* pDataOut = (float*)outBuff.GetData();
-
-            double* q = (double*)m_buff.GetData();
-            for (size_t i = 0; i < nSamples; i++) {
-                pDataOut[i] = (float)q[i];
-            }
-        }
-        break;
+        case 32:
+            out_avsf = AV_SAMPLE_FMT_FLT;
+            break;
+        case 64: 
+            out_avsf = AV_SAMPLE_FMT_DBL;
+            break;
     }
+    memcpy(outBuff.GetData(), m_buff.GetData(), size);
 
     HRESULT hr;
-    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_sf, wfe->nSamplesPerSec, wfe->nChannels))) {
+    if (S_OK != (hr = Deliver(outBuff.GetData(), (int)size, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
         return hr;
     }
 
@@ -1175,7 +1140,7 @@ HRESULT CMpaDecFilter::ProcessPS2PCM()
     int samples = wfe->dwInterleave / (wfe->wBitsPerSample >> 3);
     int channels = wfe->nChannels;
 
-    MPCSampleFormat out_sf = SF_PCM16;
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_S16;
     int outSize = samples * channels * sizeof(int16_t); // convert to 16-bit
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
@@ -1204,7 +1169,7 @@ HRESULT CMpaDecFilter::ProcessPS2PCM()
             }
 
             HRESULT hr;
-            if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_sf, wfe->nSamplesPerSec, wfe->nChannels))) {
+            if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
                 return hr;
             }
 
@@ -1247,7 +1212,7 @@ static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, double* pout)
         a = b;
         b = output;
 
-        *pout++ = output / INT16_PEAK;
+        *pout++ = output / 32768;
     }
 }
 
@@ -1262,7 +1227,7 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
     int samples = wfe->dwInterleave * 14 / 16 * 2;
     int channels = wfe->nChannels;
 
-    MPCSampleFormat out_sf = SF_FLOAT;
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_FLT;
     int outSize = samples * channels * sizeof(float); // convert to float
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
@@ -1298,7 +1263,7 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
             }
 
             HRESULT hr;
-            if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_sf, wfe->nSamplesPerSec, wfe->nChannels))) {
+            if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
                 return hr;
             }
 
@@ -1334,32 +1299,40 @@ HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
     return S_OK;
 }
 
-HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, MPCSampleFormat sfmt, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask)
+HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask)
 {
     int nSamples;
-    AVSampleFormat in_avsf;
-    switch (sfmt) {
-        case SF_PCM16:
-            nSamples = size / (nChannels * sizeof(int16_t));
-            in_avsf = AV_SAMPLE_FMT_S16;
-            break;
-        case SF_PCM32:
-            nSamples = size / (nChannels * sizeof(int32_t));
-            in_avsf = AV_SAMPLE_FMT_S32;
-            break;
-        case SF_FLOAT:
-            nSamples = size / (nChannels * sizeof(float));
-            in_avsf = AV_SAMPLE_FMT_FLT;
-            break;
-        //case SF_PCM24: // used for output only and not supported by avresample
-        default:
-            return E_FAIL;
-    }
-
     MPCSampleFormat out_sf;
-    if (GetSampleFormat(sfmt)) {
-        out_sf = sfmt;
-    } else {
+    switch (avsf) {
+        case AV_SAMPLE_FMT_U8:
+        case AV_SAMPLE_FMT_U8P:
+            nSamples = size / (nChannels * sizeof(uint8_t));
+            out_sf = SF_PCM16;
+            break;
+        case AV_SAMPLE_FMT_S16:
+        case AV_SAMPLE_FMT_S16P:
+            nSamples = size / (nChannels * sizeof(int16_t));
+            out_sf = SF_PCM16;
+            break;
+        case AV_SAMPLE_FMT_S32:
+        case AV_SAMPLE_FMT_S32P:
+            nSamples = size / (nChannels * sizeof(int32_t));
+            out_sf = SF_PCM32;
+            break;
+        case AV_SAMPLE_FMT_FLT:
+        case AV_SAMPLE_FMT_FLTP:
+            nSamples = size / (nChannels * sizeof(float));
+            out_sf = SF_FLOAT;
+            break;
+        case AV_SAMPLE_FMT_DBL:
+        case AV_SAMPLE_FMT_DBLP:
+            nSamples = size / (nChannels * sizeof(double));
+            out_sf = SF_FLOAT;
+            break;
+        default:
+            return E_INVALIDARG;
+    }
+    if (!GetSampleFormat(out_sf)) {
         out_sf = GetSampleFormat2();
     }
 
@@ -1386,9 +1359,9 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, MPCSampleFormat sfmt, DWOR
 
         mixData.SetCount(nSamples * mixed_channels);
 
-        if (S_OK == m_Mixer.Mixing(mixData.GetData(), mixed_channels, mixed_mask, pDataIn, nSamples, nChannels, dwChannelMask, in_avsf)) {
+        if (S_OK == m_Mixer.Mixing(mixData.GetData(), mixed_channels, mixed_mask, pDataIn, nSamples, nChannels, dwChannelMask, avsf)) {
             pDataIn       = (BYTE*)mixData.GetData();
-            sfmt          = SF_FLOAT; // float after mixing
+            avsf          = AV_SAMPLE_FMT_FLT; // float after mixing
             size          = nSamples * mixed_channels * sizeof(float);
             nChannels     = mixed_channels;
             dwChannelMask = mixed_mask;
@@ -1429,92 +1402,19 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, MPCSampleFormat sfmt, DWOR
     ASSERT(wfeout->nSamplesPerSec == wfe->nSamplesPerSec);
     UNREFERENCED_PARAMETER(wfeout);
 
-    if (sfmt == out_sf) {
-        memcpy(pDataOut, pDataIn, size);
-    } else {
-        BYTE* p = pDataIn;
-        switch (sfmt) {
-            case SF_PCM16:
-                for (unsigned int i = 0, len = nSamples * nChannels; i < len; i++) {
-                    switch (out_sf) {
-                        case SF_PCM24:
-                            *pDataOut++ = 0;
-                            *pDataOut++ = *(p);
-                            *pDataOut++ = *(p + 1);
-                            break;
-                        case SF_PCM32:
-                            *(int32_t*)pDataOut = (int32_t)(*(int16_t*)p) << 16;
-                            pDataOut += sizeof(int32_t);
-                            break;
-                        case SF_FLOAT:
-                            *(float*)pDataOut = (float)(*(int16_t*)p) / INT16_PEAK;;
-                            pDataOut += sizeof(float);
-                            break;
-                    }
-                    p += sizeof(int16_t);
-                }
-                break;
-            case SF_PCM32:
-                for (unsigned int i = 0, len = nSamples * nChannels; i < len; i++) {
-                    switch (out_sf) {
-                        case SF_PCM16:
-                            *(int16_t*)pDataOut = *(int32_t*)(p + 2);
-                            pDataOut += sizeof(int16_t);
-                            break;
-                        case SF_PCM24:
-                            *pDataOut++ = *(p + 1);
-                            *pDataOut++ = *(p + 2);
-                            *pDataOut++ = *(p + 3);
-                            break;
-                        case SF_FLOAT:
-                            *(float*)pDataOut = (float)(double(*(int32_t*)p) / INT32_PEAK);
-                            pDataOut += sizeof(float);
-                            break;
-                    }
-                    p += sizeof(int32_t);
-                }
-                break;
-            case SF_FLOAT:
-                for (unsigned int i = 0, len = nSamples * nChannels; i < len; i++) {
-                    float f = *(float*)p;
-                    if (f < -1) {
-                        f = -1;
-                    }
-                    switch (out_sf) {
-                        case SF_PCM16: {
-                            if (f > F16MAX) {
-                                f = F16MAX;
-                            }
-                            *(int16_t*)pDataOut = (int16_t)round_f(f * INT16_PEAK);
-                            pDataOut += sizeof(int16_t);
-                        }
-                        break;
-                        case SF_PCM24: {
-                            if (f > F24MAX) {
-                                f = F24MAX;
-                            }
-                            DWORD i24 = (DWORD)(int32_t)round_f(f * INT24_PEAK);
-                            *pDataOut++ = (BYTE)(i24);
-                            *pDataOut++ = (BYTE)(i24 >> 8);
-                            *pDataOut++ = (BYTE)(i24 >> 16);
-                        }
-                        break;
-                        case SF_PCM32: {
-                            double d = (double)f;
-                            if (d > D32MAX) {
-                                d = D32MAX;
-                            }
-                            *(int32_t*)pDataOut = (int32_t)round_d(d * INT32_PEAK);
-                            pDataOut += sizeof(int32_t);
-                        }
-                        break;
-                    }
-                    p += sizeof(float);
-                }
-                break;
-            default:
-                return E_FAIL;
-        }
+    switch (out_sf) {
+        case SF_PCM16:
+            convert_to_int16(avsf, nChannels, nSamples, pDataIn, (int16_t*)pDataOut);
+            break;
+        case SF_PCM24:
+            convert_to_int24(avsf, nChannels, nSamples, pDataIn, pDataOut);
+            break;
+        case SF_PCM32:
+            convert_to_int32(avsf, nChannels, nSamples, pDataIn, (int32_t*)pDataOut);
+            break;
+        case SF_FLOAT:
+            convert_to_float(avsf, nChannels, nSamples, pDataIn, (float*)pDataOut);
+            break;
     }
 
     return m_pOutput->Deliver(pOut);
@@ -1813,11 +1713,32 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
     }
 #if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
     else if (m_FFAudioDec.GetCodecId() != AV_CODEC_ID_NONE) {
-        MPCSampleFormat sf = conv_sample_fmt(m_FFAudioDec.GetSampleFmt());
-        if (!GetSampleFormat(sf)) {
-            sf = GetSampleFormat2();
+        AVSampleFormat avsf = m_FFAudioDec.GetSampleFmt();
+        MPCSampleFormat out_sf;
+        switch (avsf) {
+            case AV_SAMPLE_FMT_U8:
+            case AV_SAMPLE_FMT_U8P:
+            case AV_SAMPLE_FMT_S16:
+            case AV_SAMPLE_FMT_S16P:
+                out_sf = SF_PCM16;
+                break;
+            case AV_SAMPLE_FMT_S32:
+            case AV_SAMPLE_FMT_S32P:
+                out_sf = SF_PCM32;
+                break;
+            case AV_SAMPLE_FMT_FLT:
+            case AV_SAMPLE_FMT_FLTP:
+            case AV_SAMPLE_FMT_DBL:
+            case AV_SAMPLE_FMT_DBLP:
+                out_sf = SF_FLOAT;
+                break;
+            default:
+                out_sf = SF_PCM16;
         }
-        *pmt = CreateMediaType(sf, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+        if (!GetSampleFormat(out_sf)) {
+            out_sf = GetSampleFormat2();
+        }
+        *pmt = CreateMediaType(out_sf, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
     }
 #endif
     else {

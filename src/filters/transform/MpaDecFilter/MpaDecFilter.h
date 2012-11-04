@@ -129,7 +129,7 @@ protected:
 #endif
 
     HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);
-    HRESULT Deliver(BYTE* pBuff, int size, MPCSampleFormat sfmt, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
+    HRESULT Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
     HRESULT DeliverBitstream(BYTE* pBuff, int size, int sample_rate, int frame_length, BYTE type);
     HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
     CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
