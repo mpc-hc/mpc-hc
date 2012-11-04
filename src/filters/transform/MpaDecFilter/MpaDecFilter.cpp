@@ -1301,40 +1301,7 @@ HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
 
 HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask)
 {
-    int nSamples;
-    MPCSampleFormat out_sf;
-    switch (avsf) {
-        case AV_SAMPLE_FMT_U8:
-        case AV_SAMPLE_FMT_U8P:
-            nSamples = size / (nChannels * sizeof(uint8_t));
-            out_sf = SF_PCM16;
-            break;
-        case AV_SAMPLE_FMT_S16:
-        case AV_SAMPLE_FMT_S16P:
-            nSamples = size / (nChannels * sizeof(int16_t));
-            out_sf = SF_PCM16;
-            break;
-        case AV_SAMPLE_FMT_S32:
-        case AV_SAMPLE_FMT_S32P:
-            nSamples = size / (nChannels * sizeof(int32_t));
-            out_sf = SF_PCM32;
-            break;
-        case AV_SAMPLE_FMT_FLT:
-        case AV_SAMPLE_FMT_FLTP:
-            nSamples = size / (nChannels * sizeof(float));
-            out_sf = SF_FLOAT;
-            break;
-        case AV_SAMPLE_FMT_DBL:
-        case AV_SAMPLE_FMT_DBLP:
-            nSamples = size / (nChannels * sizeof(double));
-            out_sf = SF_FLOAT;
-            break;
-        default:
-            return E_INVALIDARG;
-    }
-    if (!GetSampleFormat(out_sf)) {
-        out_sf = GetSampleFormat2();
-    }
+    int nSamples = size / (nChannels * av_get_bytes_per_sample(avsf));
 
     REFERENCE_TIME rtDur = 10000000i64 * nSamples / nSamplesPerSec;
     REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
@@ -1366,6 +1333,31 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
             nChannels     = mixed_channels;
             dwChannelMask = mixed_mask;
         }
+    }
+
+    MPCSampleFormat out_sf;
+    switch (avsf) {
+        case AV_SAMPLE_FMT_U8:
+        case AV_SAMPLE_FMT_U8P:
+        case AV_SAMPLE_FMT_S16:
+        case AV_SAMPLE_FMT_S16P:
+            out_sf = SF_PCM16;
+            break;
+        case AV_SAMPLE_FMT_S32:
+        case AV_SAMPLE_FMT_S32P:
+            out_sf = SF_PCM32;
+            break;
+        case AV_SAMPLE_FMT_FLT:
+        case AV_SAMPLE_FMT_FLTP:
+        case AV_SAMPLE_FMT_DBL:
+        case AV_SAMPLE_FMT_DBLP:
+            out_sf = SF_FLOAT;
+            break;
+        default:
+            return E_INVALIDARG;
+    }
+    if (!GetSampleFormat(out_sf)) {
+        out_sf = GetSampleFormat2();
     }
 
     CMediaType mt = CreateMediaType(out_sf, nSamplesPerSec, nChannels, dwChannelMask);
