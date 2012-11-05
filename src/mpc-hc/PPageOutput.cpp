@@ -116,6 +116,7 @@ BOOL CPPageOutput::OnInitDialog()
     m_APSurfaceUsageCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SURF_OFFSCREEN));
     m_APSurfaceUsageCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SURF_2D));
     m_APSurfaceUsageCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SURF_3D));
+    CorrectComboListWidth(m_APSurfaceUsageCtrl);
     m_iAPSurfaceUsage       = renderersSettings.iAPSurfaceUsage;
 
     m_DX9ResizerCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_RESIZE_NN));
