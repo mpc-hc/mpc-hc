@@ -539,7 +539,7 @@ sc.ViewChangelog=查看更新日志
 
 
 ;Swedish
-sv.langid=00001051
+sv.langid=00001053
 sv.comp_mpciconlib=Ikonbibliotek
 sv.comp_mpcresources=Översättningar
 sv.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
@@ -559,7 +559,7 @@ sv.ViewChangelog=Visa ändringslogg
 
 
 ;Slovakian
-sk.langid=00001053
+sk.langid=00001051
 sk.comp_mpciconlib=Knižnica ikon
 sk.comp_mpcresources=Preklady
 sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC?%n%nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
