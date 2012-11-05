@@ -1142,7 +1142,7 @@ HRESULT CMpaDecFilter::ProcessPS2PCM()
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(size);
 
-    while (end - p >= size) {
+    while (p + size <= end) {
         DWORD* dw = (DWORD*)p;
 
         if (dw[0] == 'dhSS') {
@@ -1172,7 +1172,7 @@ HRESULT CMpaDecFilter::ProcessPS2PCM()
     return S_OK;
 }
 
-static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, double* pout)
+static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, float* pout)
 {
     int tbl_index = pin[0] >> 4;
     int shift = pin[0] & 0xf;
@@ -1201,7 +1201,7 @@ static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, double* pout)
         a = b;
         b = output;
 
-        *pout++ = output / 32768;
+        *pout++ = (float)(output / 32768);
     }
 }
 
@@ -1212,17 +1212,17 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
     BYTE* p = base;
 
     WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)m_pInput->CurrentMediaType().Format();
-    int size = wfe->dwInterleave * wfe->nChannels;
-    int samples = wfe->dwInterleave * 14 / 16 * 2;
+    size_t size  = wfe->dwInterleave * wfe->nChannels;
+    int samples  = wfe->dwInterleave * 14 / 16 * 2;
     int channels = wfe->nChannels;
 
-    AVSampleFormat out_avsf = AV_SAMPLE_FMT_FLT;
-    int outSize = samples * channels * sizeof(float); // convert to float
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_FLTP;
+    size_t outSize = samples * channels * sizeof(float); // convert to float
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
-    float* pDataOut = (float*)outBuff.GetData();
+    float* pOut = (float*)outBuff.GetData();
 
-    while (end - p >= size) {
+    while (p + size <= end) {
         DWORD* dw = (DWORD*)p;
 
         if (dw[0] == 'dhSS') {
@@ -1232,27 +1232,17 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
             m_ps2_state.sync = true;
         } else {
             if (m_ps2_state.sync) {
-                double* tmp = DNew double[samples * channels];
-
-                for (int channel = 0, j = 0, k = 0; channel < channels; channel++, j += wfe->dwInterleave)
+                for (int ch = 0, j = 0, k = 0; ch < channels; ch++, j += wfe->dwInterleave) {
                     for (DWORD i = 0; i < wfe->dwInterleave; i += 16, k += 28) {
-                        decodeps2adpcm(m_ps2_state, channel, p + i + j, tmp + k);
+                        decodeps2adpcm(m_ps2_state, ch, p + i + j, pOut + k);
                     }
-
-                for (int i = 0, k = 0; i < samples; i++)
-                    for (int j = 0; j < channels; j++, k++) {
-                        pDataOut[k] = (float)tmp[j * samples + i];
-                    }
-
-                delete [] tmp;
-            } else {
-                for (int i = 0, n = samples * channels; i < n; i++) {
-                    pDataOut[i] = 0.0;
                 }
+            } else {
+                memset(outBuff.GetData(), 0, outSize);
             }
 
             HRESULT hr;
-            if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
+            if (S_OK != (hr = Deliver(outBuff.GetData(), (int)outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
                 return hr;
             }
 
