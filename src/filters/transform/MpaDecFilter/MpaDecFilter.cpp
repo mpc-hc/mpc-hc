@@ -576,7 +576,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     size_t nSamples = (m_buff.GetCount() / blocksize) * 2 * nChannels;
 
     AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
-    int outSize = nSamples * (wfein->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
+    size_t outSize = nSamples * (wfein->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
 
@@ -638,7 +638,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
     memmove(base, p, end - p);
     m_buff.SetCount(end - p);
 
-    return Deliver(outBuff.GetData(), outSize, out_avsf, wfein->nSamplesPerSec, wfein->nChannels, GetDefChannelMask(wfein->nChannels));
+    return Deliver(outBuff.GetData(), (int)outSize, out_avsf, wfein->nSamplesPerSec, wfein->nChannels, GetDefChannelMask(wfein->nChannels));
 }
 
 
@@ -721,7 +721,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
     CPaddedArray buffRA(FF_INPUT_BUFFER_PADDING_SIZE);
     bool isRA = false;
     if (nCodecId == AV_CODEC_ID_ATRAC3 || nCodecId == AV_CODEC_ID_COOK || nCodecId == AV_CODEC_ID_SIPR) {
-        if (m_FFAudioDec.RealPrepare(p, end - p, buffRA)) {
+        if (m_FFAudioDec.RealPrepare(p, int(end - p), buffRA)) {
             p = buffRA.GetData();
             end = p + buffRA.GetCount();
             isRA = true;
@@ -742,7 +742,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId)
             m_bResync = true;
             return S_OK;
         } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
-            hr = Deliver(output.GetData(), output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+            hr = Deliver(output.GetData(), (int)output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
         } else if (size == 0) { // && pBuffOut.GetCount() == 0
             break;
         }
@@ -810,7 +810,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
                 m_bResync = true;
                 return S_OK;
             } else if (output.GetCount() > 0) { // && SUCCEEDED(hr)
-                hr = Deliver(output.GetData(), output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
+                hr = Deliver(output.GetData(), (int)output.GetCount(), avsamplefmt, m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
             } else if (size == 0) { // && pBuffOut.GetCount() == 0
                 break;
             }
@@ -922,7 +922,7 @@ HRESULT CMpaDecFilter::ProcessPCMraw() // 'raw'
     }
 
     HRESULT hr;
-    if (S_OK != (hr = Deliver(outBuff.GetData(), size, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
+    if (S_OK != (hr = Deliver(outBuff.GetData(), (int)size, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
         return hr;
     }
 
@@ -936,7 +936,7 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
     size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
     AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
-    int outSize = nSamples * (wfe->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
+    size_t outSize = nSamples * (wfe->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
 
@@ -989,7 +989,7 @@ HRESULT CMpaDecFilter::ProcessPCMintBE() //'twos', big-endian 'in24' and 'in32'
     }
 
     HRESULT hr;
-    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
+    if (S_OK != (hr = Deliver(outBuff.GetData(), (int)outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
         return hr;
     }
 
@@ -1003,7 +1003,7 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() // 'sowt', little-endian 'in24' and 'in
     size_t nSamples = m_buff.GetCount() * 8 / wfe->wBitsPerSample;
 
     AVSampleFormat out_avsf = AV_SAMPLE_FMT_NONE;
-    int outSize = nSamples * (wfe->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
+    size_t outSize = nSamples * (wfe->wBitsPerSample <= 16 ? 2 : 4); // convert to 16 and 32-bit
     CAtlArray<BYTE> outBuff;
     outBuff.SetCount(outSize);
 
@@ -1041,7 +1041,7 @@ HRESULT CMpaDecFilter::ProcessPCMintLE() // 'sowt', little-endian 'in24' and 'in
     }
 
     HRESULT hr;
-    if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
+    if (S_OK != (hr = Deliver(outBuff.GetData(), (int)outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
         return hr;
     }
 
@@ -1136,15 +1136,11 @@ HRESULT CMpaDecFilter::ProcessPS2PCM()
     BYTE* p = base;
 
     WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)m_pInput->CurrentMediaType().Format();
-    int size = wfe->dwInterleave * wfe->nChannels;
-    int samples = wfe->dwInterleave / (wfe->wBitsPerSample >> 3);
-    int channels = wfe->nChannels;
+    size_t size = wfe->dwInterleave * wfe->nChannels;
 
-    AVSampleFormat out_avsf = AV_SAMPLE_FMT_S16;
-    int outSize = samples * channels * sizeof(int16_t); // convert to 16-bit
+    AVSampleFormat out_avsf = AV_SAMPLE_FMT_S16P;
     CAtlArray<BYTE> outBuff;
-    outBuff.SetCount(outSize);
-    int16_t* pDataOut = (int16_t*)outBuff.GetData();
+    outBuff.SetCount(size);
 
     while (end - p >= size) {
         DWORD* dw = (DWORD*)p;
@@ -1156,20 +1152,13 @@ HRESULT CMpaDecFilter::ProcessPS2PCM()
             m_ps2_state.sync = true;
         } else {
             if (m_ps2_state.sync) {
-                short* s = (short*)p;
-
-                for (int i = 0; i < samples; i++)
-                    for (int j = 0; j < channels; j++) {
-                        pDataOut[i * channels + j] = s[j * samples + i];
-                    }
+                memcpy(outBuff.GetData(), p, size);
             } else {
-                for (int i = 0, n = samples * channels; i < n; i++) {
-                    pDataOut[i] = 0;
-                }
+                memset(outBuff.GetData(), 0, size);
             }
 
             HRESULT hr;
-            if (S_OK != (hr = Deliver(outBuff.GetData(), outSize, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
+            if (S_OK != (hr = Deliver(outBuff.GetData(), (int)size, out_avsf, wfe->nSamplesPerSec, wfe->nChannels))) {
                 return hr;
             }
 
@@ -1303,8 +1292,9 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
 {
     int nSamples = size / (nChannels * av_get_bytes_per_sample(avsf));
 
-    REFERENCE_TIME rtDur = 10000000i64 * nSamples / nSamplesPerSec;
-    REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
+    REFERENCE_TIME rtDur   = 10000000i64 * nSamples / nSamplesPerSec;
+    REFERENCE_TIME rtStart = m_rtStart;
+    REFERENCE_TIME rtStop  = m_rtStart + rtDur;
     m_rtStart += rtDur;
     //TRACE(_T("CMpaDecFilter: %I64d - %I64d\n"), rtStart/10000, rtStop/10000);
     if (rtStart < 0 /*200000*/ /* < 0, FIXME: 0 makes strange noises */) {
@@ -1314,7 +1304,7 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
     if (dwChannelMask == 0) {
         dwChannelMask = GetDefChannelMask(nChannels);
     }
-    //ASSERT(nChannels == av_get_channel_layout_nb_channels(dwChannelMask));
+    ASSERT(nChannels == av_popcount(dwChannelMask));
 
     BYTE*  pDataIn  = pBuff;
     CAtlArray<float> mixData;
