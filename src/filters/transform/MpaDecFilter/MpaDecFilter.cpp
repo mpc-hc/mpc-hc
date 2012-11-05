@@ -1097,7 +1097,7 @@ HRESULT CMpaDecFilter::ProcessPCMfloatLE() // little-endian 'fl32' and 'fl64'
         case 32:
             out_avsf = AV_SAMPLE_FMT_FLT;
             break;
-        case 64: 
+        case 64:
             out_avsf = AV_SAMPLE_FMT_DBL;
             break;
     }

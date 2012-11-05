@@ -68,13 +68,13 @@ HRESULT convert_to_int16(enum AVSampleFormat avsf, WORD nChannels, DWORD nSample
             break;
         case AV_SAMPLE_FMT_DBL:
             for (size_t i = 0; i < allsamples; ++i) {
-                float f = (float)*(double*)pIn;
+                float f = (float) * (double*)pIn;
                 limit(-1, f, F16MAX);
                 *pOut++ = (int16_t)round_f(f * INT16_PEAK);
                 pIn += sizeof(double);
             }
             break;
-        // planar
+            // planar
         case AV_SAMPLE_FMT_U8P:
             for (size_t i = 0; i < nSamples; ++i) {
                 for (int ch = 0; ch < nChannels; ++ch) {
@@ -172,7 +172,7 @@ HRESULT convert_to_int24(enum AVSampleFormat avsf, WORD nChannels, DWORD nSample
                 pIn += sizeof(double);
             }
             break;
-        // planar
+            // planar
         case AV_SAMPLE_FMT_U8P:
             for (size_t i = 0; i < nSamples; ++i) {
                 for (int ch = 0; ch < nChannels; ++ch) {
@@ -266,7 +266,7 @@ HRESULT convert_to_int32(enum AVSampleFormat avsf, WORD nChannels, DWORD nSample
                 pIn += sizeof(double);
             }
             break;
-        // planar
+            // planar
         case AV_SAMPLE_FMT_U8P:
             for (size_t i = 0; i < nSamples; ++i) {
                 for (int ch = 0; ch < nChannels; ++ch) {
@@ -341,15 +341,15 @@ HRESULT convert_to_float(enum AVSampleFormat avsf, WORD nChannels, DWORD nSample
             break;
         case AV_SAMPLE_FMT_DBL:
             for (size_t i = 0; i < allsamples; ++i) {
-                *pOut++ = (float)*(double*)pIn;
+                *pOut++ = (float) * (double*)pIn;
                 pIn += sizeof(double);
             }
             break;
-        // planar
+            // planar
         case AV_SAMPLE_FMT_U8P:
             for (size_t i = 0; i < nSamples; ++i) {
                 for (int ch = 0; ch < nChannels; ++ch) {
-                    *pOut++ = (float)(((int8_t*)pIn)[nSamples * ch + i] ^ 0x80)/ INT8_PEAK;
+                    *pOut++ = (float)(((int8_t*)pIn)[nSamples * ch + i] ^ 0x80) / INT8_PEAK;
                 }
             }
             break;
@@ -395,7 +395,7 @@ HRESULT convert_to_planar_float(enum AVSampleFormat avsf, WORD nChannels, DWORD 
         case AV_SAMPLE_FMT_U8:
             for (int ch = 0; ch < nChannels; ++ch) {
                 for (size_t i = 0; i < nSamples; ++i) {
-                    *pOut++ = (float)(((int8_t*)pIn)[nChannels * i + ch] ^ 0x80)/ INT8_PEAK;
+                    *pOut++ = (float)(((int8_t*)pIn)[nChannels * i + ch] ^ 0x80) / INT8_PEAK;
                 }
             }
             break;
@@ -427,7 +427,7 @@ HRESULT convert_to_planar_float(enum AVSampleFormat avsf, WORD nChannels, DWORD 
                 }
             }
             break;
-        // planar
+            // planar
         case AV_SAMPLE_FMT_U8P:
             for (size_t i = 0; i < allsamples; ++i) {
                 *pOut++ = (float)(*(int8_t*)pIn ^ 0x80) / INT8_PEAK;
@@ -451,7 +451,7 @@ HRESULT convert_to_planar_float(enum AVSampleFormat avsf, WORD nChannels, DWORD 
             break;
         case AV_SAMPLE_FMT_DBLP:
             for (size_t i = 0; i < allsamples; ++i) {
-                *pOut++ = (float)*(double*)pIn;
+                *pOut++ = (float) * (double*)pIn;
                 pIn += sizeof(double);
             }
             break;

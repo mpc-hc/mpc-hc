@@ -396,7 +396,7 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
 
 void CFFAudioDecoder::FlushBuffers()
 {
-    if(m_pParser) { // reset the parser
+    if (m_pParser) { // reset the parser
         av_parser_close(m_pParser);
         m_pParser = av_parser_init(GetCodecId());
     }
