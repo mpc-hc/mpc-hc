@@ -73,6 +73,7 @@ class __declspec(uuid("39F498AF-1A09-4275-B193-673B0BA3D478"))
             Free();
         }
         void Alloc(int w, int h, int pitch) {
+            Free(); // Ensure there is no memory leak
             this->w = w;
             this->h = h;
             this->pitch = pitch;
