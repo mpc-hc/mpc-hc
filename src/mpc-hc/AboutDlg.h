@@ -33,7 +33,7 @@ class CAboutDlg : public CDialog
 #ifndef MPCHC_LITE
     CString m_FFmpegCompiler;
 #endif
-    CString m_Credits;
+    CString m_credits;
     CString m_AuthorsPath;
 
 public:

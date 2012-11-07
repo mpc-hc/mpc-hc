@@ -46,8 +46,13 @@ CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 
 BOOL CAboutDlg::OnInitDialog()
 {
-    UpdateData();
+    // Get the default text before it is overwritten by the call to __super::OnInitDialog()
+    GetDlgItem(IDC_STATIC1)->GetWindowText(m_appname);
+    GetDlgItem(IDC_AUTHORS_LINK)->GetWindowText(m_credits);
 
+    __super::OnInitDialog();
+
+    // Because we set LR_SHARED, there is no need to explicitly destroy the icon
     m_icon.SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED));
 
 #ifdef _WIN64
@@ -116,7 +121,7 @@ BOOL CAboutDlg::OnInitDialog()
     // Check if the file exists
     if (FileExists(m_AuthorsPath)) {
         // If it does, we make the filename clickable
-        m_Credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
+        m_credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
     }
 
     UpdateData(FALSE);
@@ -138,7 +143,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 #ifndef MPCHC_LITE
     DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
 #endif
-    DDX_Text(pDX, IDC_AUTHORS_LINK, m_Credits);
+    DDX_Text(pDX, IDC_AUTHORS_LINK, m_credits);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
