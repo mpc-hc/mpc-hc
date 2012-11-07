@@ -13587,7 +13587,8 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
     try {
         if (!pSubStream) {
             CAutoPtr<CVobSubFile> pVSF(DNew CVobSubFile(&m_csSubLock));
-            if (CString(CPath(fn).GetExtension()).MakeLower() == _T(".idx") && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
+            CString ext = CPath(fn).GetExtension().MakeLower();
+            if ((ext == _T(".idx") || ext == _T(".sub")) && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
                 pSubStream = pVSF.Detach();
             }
         }
