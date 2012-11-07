@@ -970,6 +970,28 @@ enum AVPacketSideDataType {
     AV_PKT_DATA_SUBTITLE_POSITION,
 };
 
+/**
+ * This structure stores compressed data. It is typically exported by demuxers
+ * and then passed as input to decoders, or received as output from encoders and
+ * then passed to muxers.
+ *
+ * For video, it should typically contain one compressed frame. For audio it may
+ * contain several compressed frames.
+ *
+ * AVPacket is one of the few structs in FFmpeg, whose size is a part of public
+ * ABI. Thus it may be allocated on stack and no new fields can be added to it
+ * without libavcodec and libavformat major bump.
+ *
+ * The semantics of data ownership depends on the destruct field.
+ * If it is set, the packet data is dynamically allocated and is valid
+ * indefinitely until av_free_packet() is called (which in turn calls the
+ * destruct callback to free the data). If destruct is not set, the packet data
+ * is typically backed by some static buffer somewhere and is only valid for a
+ * limited time (e.g. until the next read call when demuxing).
+ *
+ * The side data is always allocated with av_malloc() and is freed in
+ * av_free_packet().
+ */
 typedef struct AVPacket {
     /**
      * Presentation timestamp in AVStream->time_base units; the time at which
@@ -3399,6 +3421,8 @@ enum AVSubtitleType {
     SUBTITLE_ASS,
 };
 
+#define AV_SUBTITLE_FLAG_FORCED 0x00000001
+
 typedef struct AVSubtitleRect {
     int x;         ///< top left corner  of pict, undefined when pict is not set
     int y;         ///< top left corner  of pict, undefined when pict is not set
@@ -3422,11 +3446,7 @@ typedef struct AVSubtitleRect {
      */
     char *ass;
 
-    /**
-     * 1 indicates this subtitle is a forced subtitle.
-     * A forced subtitle should be displayed even when subtitles are hidden.
-     */
-    int forced;
+    int flags;
 } AVSubtitleRect;
 
 typedef struct AVSubtitle {
@@ -4223,6 +4243,10 @@ FF_EXPORT int av_parser_parse2(AVCodecParserContext *s,
                      int64_t pts, int64_t dts,
                      int64_t pos);
 
+/**
+ * @return 0 if the output buffer is a subset of the input, 1 if it is allocated and must be freed
+ * @deprecated use AVBitstreamFilter
+ */
 int av_parser_change(AVCodecParserContext *s,
                      AVCodecContext *avctx,
                      uint8_t **poutbuf, int *poutbuf_size,

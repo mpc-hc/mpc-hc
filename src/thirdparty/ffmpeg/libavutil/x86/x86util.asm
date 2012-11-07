@@ -23,6 +23,8 @@
 ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 ;******************************************************************************
 
+%define cpuflags_mmxext cpuflags_mmx2
+
 %include "libavutil/x86/x86inc.asm"
 
 %macro SBUTTERFLY 4
@@ -143,28 +145,26 @@
 %endif
 %endmacro
 
-; PABSW macros assume %1 != %2, while ABS1/2 macros work in-place
-%macro PABSW_MMX 2
+; PABSW macro assumes %1 != %2, while ABS1/2 macros work in-place
+%macro PABSW 2
+%if cpuflag(ssse3)
+    pabsw      %1, %2
+%elif cpuflag(mmxext)
+    pxor    %1, %1
+    psubw   %1, %2
+    pmaxsw  %1, %2
+%else
     pxor       %1, %1
     pcmpgtw    %1, %2
     pxor       %2, %1
     psubw      %2, %1
     SWAP       %1, %2
+%endif
 %endmacro
 
 %macro PSIGNW_MMX 2
     pxor       %1, %2
     psubw      %1, %2
-%endmacro
-
-%macro PABSW_MMXEXT 2
-    pxor    %1, %1
-    psubw   %1, %2
-    pmaxsw  %1, %2
-%endmacro
-
-%macro PABSW_SSSE3 2
-    pabsw      %1, %2
 %endmacro
 
 %macro PSIGNW_SSSE3 2
@@ -315,6 +315,18 @@
     %else
         pshuflw %1
     %endif
+%endmacro
+
+%macro PSWAPD 2
+%if cpuflag(mmxext)
+    pshufw    %1, %2, q1032
+%elif cpuflag(3dnowext)
+    pswapd    %1, %2
+%elif cpuflag(3dnow)
+    movq      %1, %2
+    psrlq     %1, 32
+    punpckldq %1, %2
+%endif
 %endmacro
 
 %macro DEINTB 5 ; mask, reg1, mask, reg2, optional src to fill masks from
@@ -528,14 +540,14 @@
     movh  [%7+%8], %4
 %endmacro
 
-%macro PMINUB_MMX 3 ; dst, src, tmp
+%macro PMINUB 3 ; dst, src, ignored
+%if cpuflag(mmxext)
+    pminub   %1, %2
+%else ; dst, src, tmp
     mova     %3, %1
     psubusb  %3, %2
     psubb    %1, %3
-%endmacro
-
-%macro PMINUB_MMXEXT 3 ; dst, src, ignored
-    pminub   %1, %2
+%endif
 %endmacro
 
 %macro SPLATW 2-3 0

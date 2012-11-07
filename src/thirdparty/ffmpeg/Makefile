@@ -304,6 +304,7 @@ SRCS_C = \
     libavutil/cpu.c \
     libavutil/crc.c \
     libavutil/dict.c \
+    libavutil/error.c \
     libavutil/eval.c \
     libavutil/fifo.c \
     libavutil/float_dsp.c \

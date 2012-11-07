@@ -196,6 +196,7 @@
     <ClCompile Include="libavcodec\flacdata.c" />
     <ClCompile Include="libavcodec\flacdec.c" />
     <ClCompile Include="libavcodec\flacdsp.c" />
+    <ClCompile Include="libavcodec\flacdsp_lpc_template.c" />
     <ClCompile Include="libavcodec\flacdsp_template.c" />
     <ClCompile Include="libavcodec\flvdec.c" />
     <ClCompile Include="libavcodec\fmtconvert.c" />
@@ -372,6 +373,7 @@
     <ClCompile Include="libavutil\cpu.c" />
     <ClCompile Include="libavutil\crc.c" />
     <ClCompile Include="libavutil\dict.c" />
+    <ClCompile Include="libavutil\error.c" />
     <ClCompile Include="libavutil\eval.c" />
     <ClCompile Include="libavutil\fifo.c" />
     <ClCompile Include="libavutil\float_dsp.c" />

@@ -948,6 +948,12 @@
     <ClCompile Include="libavutil\log2_tab.c">
       <Filter>libavutil</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\flacdsp_lpc_template.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavutil\error.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
