@@ -32,3 +32,4 @@ Legend:
 ! Ticket #2619, FLVSplitter: PCM audio doesn't play
 ! Ticket #2673, MPEG Splitter: Fix playback for some TS files
 ! Ticket #2685, FLACSource: Fix a crash with some corrupted file
+! Ticket #2703, Fix a crash that could happen when auto-loading some subtitles
