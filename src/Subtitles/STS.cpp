@@ -1005,7 +1005,7 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
         // Modified by Cookie Monster
         if (lstr.Find(L"<font ", k) == k) {
             CStringW args = lstr.Mid(k + 6, l - 6); // delete "<font "
-            CStringW arg ;
+            CStringW arg;
 
             args.Remove('\"');
             args.Remove('#');   // may include 2 * " + #

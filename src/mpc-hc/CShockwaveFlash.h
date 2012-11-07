@@ -69,7 +69,7 @@ public:
         return result;
     }
     void put_Playing(BOOL newValue) {
-        static BYTE parms[] = VTS_BOOL ;
+        static BYTE parms[] = VTS_BOOL;
         InvokeHelper(0x7d, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     long get_Quality() {
@@ -78,7 +78,7 @@ public:
         return result;
     }
     void put_Quality(long newValue) {
-        static BYTE parms[] = VTS_I4 ;
+        static BYTE parms[] = VTS_I4;
         InvokeHelper(0x69, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     long get_ScaleMode() {
@@ -87,7 +87,7 @@ public:
         return result;
     }
     void put_ScaleMode(long newValue) {
-        static BYTE parms[] = VTS_I4 ;
+        static BYTE parms[] = VTS_I4;
         InvokeHelper(0x78, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     long get_AlignMode() {
@@ -96,7 +96,7 @@ public:
         return result;
     }
     void put_AlignMode(long newValue) {
-        static BYTE parms[] = VTS_I4 ;
+        static BYTE parms[] = VTS_I4;
         InvokeHelper(0x79, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     long get_BackgroundColor() {
@@ -105,7 +105,7 @@ public:
         return result;
     }
     void put_BackgroundColor(long newValue) {
-        static BYTE parms[] = VTS_I4 ;
+        static BYTE parms[] = VTS_I4;
         InvokeHelper(0x7b, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     BOOL get_Loop() {
@@ -114,7 +114,7 @@ public:
         return result;
     }
     void put_Loop(BOOL newValue) {
-        static BYTE parms[] = VTS_BOOL ;
+        static BYTE parms[] = VTS_BOOL;
         InvokeHelper(0x6a, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     CString get_Movie() {
@@ -123,7 +123,7 @@ public:
         return result;
     }
     void put_Movie(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x66, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     long get_FrameNum() {
@@ -132,19 +132,19 @@ public:
         return result;
     }
     void put_FrameNum(long newValue) {
-        static BYTE parms[] = VTS_I4 ;
+        static BYTE parms[] = VTS_I4;
         InvokeHelper(0x6b, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     void SetZoomRect(long left, long top, long right, long bottom) {
-        static BYTE parms[] = VTS_I4 VTS_I4 VTS_I4 VTS_I4 ;
+        static BYTE parms[] = VTS_I4 VTS_I4 VTS_I4 VTS_I4;
         InvokeHelper(0x6d, DISPATCH_METHOD, VT_EMPTY, NULL, parms, left, top, right, bottom);
     }
     void Zoom(long factor) {
-        static BYTE parms[] = VTS_I4 ;
+        static BYTE parms[] = VTS_I4;
         InvokeHelper(0x76, DISPATCH_METHOD, VT_EMPTY, NULL, parms, factor);
     }
     void Pan(long x, long y, long mode) {
-        static BYTE parms[] = VTS_I4 VTS_I4 VTS_I4 ;
+        static BYTE parms[] = VTS_I4 VTS_I4 VTS_I4;
         InvokeHelper(0x77, DISPATCH_METHOD, VT_EMPTY, NULL, parms, x, y, mode);
     }
     void Play() {
@@ -166,7 +166,7 @@ public:
         InvokeHelper(0x7e, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
     }
     void GotoFrame(long FrameNum) {
-        static BYTE parms[] = VTS_I4 ;
+        static BYTE parms[] = VTS_I4;
         InvokeHelper(0x7f, DISPATCH_METHOD, VT_EMPTY, NULL, parms, FrameNum);
     }
     long CurrentFrame() {
@@ -186,7 +186,7 @@ public:
     }
     BOOL FrameLoaded(long FrameNum) {
         BOOL result;
-        static BYTE parms[] = VTS_I4 ;
+        static BYTE parms[] = VTS_I4;
         InvokeHelper(0x83, DISPATCH_METHOD, VT_BOOL, (void*)&result, parms, FrameNum);
         return result;
     }
@@ -201,7 +201,7 @@ public:
         return result;
     }
     void put_WMode(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x85, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     CString get_SAlign() {
@@ -210,7 +210,7 @@ public:
         return result;
     }
     void put_SAlign(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x86, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     BOOL get_Menu() {
@@ -219,7 +219,7 @@ public:
         return result;
     }
     void put_Menu(BOOL newValue) {
-        static BYTE parms[] = VTS_BOOL ;
+        static BYTE parms[] = VTS_BOOL;
         InvokeHelper(0x87, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     CString get_Base() {
@@ -228,7 +228,7 @@ public:
         return result;
     }
     void put_Base(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x88, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     CString get_Scale() {
@@ -237,7 +237,7 @@ public:
         return result;
     }
     void put_Scale(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x89, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     BOOL get_DeviceFont() {
@@ -246,7 +246,7 @@ public:
         return result;
     }
     void put_DeviceFont(BOOL newValue) {
-        static BYTE parms[] = VTS_BOOL ;
+        static BYTE parms[] = VTS_BOOL;
         InvokeHelper(0x8a, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     BOOL get_EmbedMovie() {
@@ -255,7 +255,7 @@ public:
         return result;
     }
     void put_EmbedMovie(BOOL newValue) {
-        static BYTE parms[] = VTS_BOOL ;
+        static BYTE parms[] = VTS_BOOL;
         InvokeHelper(0x8b, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     CString get_BGColor() {
@@ -264,7 +264,7 @@ public:
         return result;
     }
     void put_BGColor(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x8c, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     CString get_Quality2() {
@@ -273,82 +273,82 @@ public:
         return result;
     }
     void put_Quality2(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x8d, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     void LoadMovie(long layer, LPCTSTR url) {
-        static BYTE parms[] = VTS_I4 VTS_BSTR ;
+        static BYTE parms[] = VTS_I4 VTS_BSTR;
         InvokeHelper(0x8e, DISPATCH_METHOD, VT_EMPTY, NULL, parms, layer, url);
     }
     void TGotoFrame(LPCTSTR target, long FrameNum) {
-        static BYTE parms[] = VTS_BSTR VTS_I4 ;
+        static BYTE parms[] = VTS_BSTR VTS_I4;
         InvokeHelper(0x8f, DISPATCH_METHOD, VT_EMPTY, NULL, parms, target, FrameNum);
     }
     void TGotoLabel(LPCTSTR target, LPCTSTR label) {
-        static BYTE parms[] = VTS_BSTR VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR VTS_BSTR;
         InvokeHelper(0x90, DISPATCH_METHOD, VT_EMPTY, NULL, parms, target, label);
     }
     long TCurrentFrame(LPCTSTR target) {
         long result;
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x91, DISPATCH_METHOD, VT_I4, (void*)&result, parms, target);
         return result;
     }
     CString TCurrentLabel(LPCTSTR target) {
         CString result;
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x92, DISPATCH_METHOD, VT_BSTR, (void*)&result, parms, target);
         return result;
     }
     void TPlay(LPCTSTR target) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x93, DISPATCH_METHOD, VT_EMPTY, NULL, parms, target);
     }
     void TStopPlay(LPCTSTR target) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x94, DISPATCH_METHOD, VT_EMPTY, NULL, parms, target);
     }
     void SetVariable(LPCTSTR name, LPCTSTR value) {
-        static BYTE parms[] = VTS_BSTR VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR VTS_BSTR;
         InvokeHelper(0x97, DISPATCH_METHOD, VT_EMPTY, NULL, parms, name, value);
     }
     CString GetVariable(LPCTSTR name) {
         CString result;
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x98, DISPATCH_METHOD, VT_BSTR, (void*)&result, parms, name);
         return result;
     }
     void TSetProperty(LPCTSTR target, long property, LPCTSTR value) {
-        static BYTE parms[] = VTS_BSTR VTS_I4 VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR VTS_I4 VTS_BSTR;
         InvokeHelper(0x99, DISPATCH_METHOD, VT_EMPTY, NULL, parms, target, property, value);
     }
     CString TGetProperty(LPCTSTR target, long property) {
         CString result;
-        static BYTE parms[] = VTS_BSTR VTS_I4 ;
+        static BYTE parms[] = VTS_BSTR VTS_I4;
         InvokeHelper(0x9a, DISPATCH_METHOD, VT_BSTR, (void*)&result, parms, target, property);
         return result;
     }
     void TCallFrame(LPCTSTR target, long FrameNum) {
-        static BYTE parms[] = VTS_BSTR VTS_I4 ;
+        static BYTE parms[] = VTS_BSTR VTS_I4;
         InvokeHelper(0x9b, DISPATCH_METHOD, VT_EMPTY, NULL, parms, target, FrameNum);
     }
     void TCallLabel(LPCTSTR target, LPCTSTR label) {
-        static BYTE parms[] = VTS_BSTR VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR VTS_BSTR;
         InvokeHelper(0x9c, DISPATCH_METHOD, VT_EMPTY, NULL, parms, target, label);
     }
     void TSetPropertyNum(LPCTSTR target, long property, double value) {
-        static BYTE parms[] = VTS_BSTR VTS_I4 VTS_R8 ;
+        static BYTE parms[] = VTS_BSTR VTS_I4 VTS_R8;
         InvokeHelper(0x9d, DISPATCH_METHOD, VT_EMPTY, NULL, parms, target, property, value);
     }
     double TGetPropertyNum(LPCTSTR target, long property) {
         double result;
-        static BYTE parms[] = VTS_BSTR VTS_I4 ;
+        static BYTE parms[] = VTS_BSTR VTS_I4;
         InvokeHelper(0x9e, DISPATCH_METHOD, VT_R8, (void*)&result, parms, target, property);
         return result;
     }
     double TGetPropertyAsNumber(LPCTSTR target, long property) {
         double result;
-        static BYTE parms[] = VTS_BSTR VTS_I4 ;
+        static BYTE parms[] = VTS_BSTR VTS_I4;
         InvokeHelper(0xac, DISPATCH_METHOD, VT_R8, (void*)&result, parms, target, property);
         return result;
     }
@@ -358,7 +358,7 @@ public:
         return result;
     }
     void put_SWRemote(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0x9f, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     CString get_FlashVars() {
@@ -367,7 +367,7 @@ public:
         return result;
     }
     void put_FlashVars(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0xaa, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
     CString get_AllowScriptAccess() {
@@ -376,7 +376,7 @@ public:
         return result;
     }
     void put_AllowScriptAccess(LPCTSTR newValue) {
-        static BYTE parms[] = VTS_BSTR ;
+        static BYTE parms[] = VTS_BSTR;
         InvokeHelper(0xab, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, parms, newValue);
     }
 

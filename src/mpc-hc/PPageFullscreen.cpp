@@ -493,10 +493,10 @@ void CPPageFullscreen::ModesUpdate()
                 n > 9 ? ss.Format(_T("%d"), n) : ss.Format(_T("0%d"), n);
                 m_list.SetItemText(n, COL_Z, ss);
 
-                ss.Format(_T("%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from) ;
+                ss.Format(_T("%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from);
                 m_list.SetItemText(n, COL_VFR_F, ss);
 
-                ss.Format(_T("%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to) ;
+                ss.Format(_T("%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to);
                 m_list.SetItemText(n, COL_VFR_T, ss);
             }
         }

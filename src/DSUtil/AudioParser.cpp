@@ -322,7 +322,7 @@ void dts14le_to_dts16be(const BYTE* source, BYTE* destination, int size)
 
 int ParseDTSHeader(const BYTE* buf, int* samplerate, int* channels, int* framelength, int* tr_bitrate)
 {
-    static const int dts_channels[16] = { 1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8} ;
+    static const int dts_channels[16] = { 1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
     static const int core_sample_rates[] = { 0, 8000, 16000, 32000, 0, 0, 11025, 22050, 44100, 0, 0, 12000, 24000, 48000, 96000, 192000 };
     static const int transmission_bitrates[32] = {
         32000,     56000,   64000,   96000,

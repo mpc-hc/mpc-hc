@@ -752,9 +752,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     //#define ENABLE_DDRAWSYNC
 #ifdef ENABLE_DDRAWSYNC
-    hr = DirectDrawCreate(NULL, &m_pDirectDraw, NULL) ;
+    hr = DirectDrawCreate(NULL, &m_pDirectDraw, NULL);
     if (hr == S_OK) {
-        hr = m_pDirectDraw->SetCooperativeLevel(m_hWnd, DDSCL_NORMAL) ;
+        hr = m_pDirectDraw->SetCooperativeLevel(m_hWnd, DDSCL_NORMAL);
     }
 #endif
 

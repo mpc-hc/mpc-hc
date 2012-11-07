@@ -160,7 +160,7 @@ CIfo::pgc_t* CIfo::GetPGCI(const int title, const ifo_hdr_t* hdr)
 
     /* jdw */
     if (ptr >= ((uint8_t*) hdr + be2me_32(hdr->len))) {
-        return NULL ;
+        return NULL;
     }
     /* /jdw */
 

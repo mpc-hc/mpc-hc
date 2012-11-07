@@ -1841,7 +1841,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
             } else {
                 for (unsigned int i = 0; i < outcspInfo->numPlanes; i++) {
                     dstStride[i] = outStride >> outcspInfo->shiftX[i];
-                    dst[i] = !i ? outData : dst[i - 1] + dstStride[i - 1] * (m_pOutSize.cy >> outcspInfo->shiftY[i - 1]) ;
+                    dst[i] = !i ? outData : dst[i - 1] + dstStride[i - 1] * (m_pOutSize.cy >> outcspInfo->shiftY[i - 1]);
                 }
 
                 if (m_nOutCsp & FF_CSP_420P) {
