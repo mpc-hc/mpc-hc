@@ -1291,7 +1291,7 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
 
         mixData.SetCount(nSamples * mixed_channels);
 
-        if (S_OK == m_Mixer.Mixing(mixData.GetData(), mixed_channels, mixed_mask, pDataIn, nSamples, nChannels, dwChannelMask, avsf)) {
+        if (S_OK == m_Mixer.Mixing(mixData.GetData(), nSamples, mixed_mask, pDataIn, nSamples, dwChannelMask, avsf)) {
             pDataIn       = (BYTE*)mixData.GetData();
             avsf          = AV_SAMPLE_FMT_FLT; // float after mixing
             size          = nSamples * mixed_channels * sizeof(float);

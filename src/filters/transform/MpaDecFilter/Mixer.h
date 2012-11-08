@@ -28,7 +28,7 @@ protected:
     AVAudioResampleContext* m_pAVRCxt;
     DWORD last_in_layout;
     DWORD last_out_layout;
-    enum AVSampleFormat last_in_sf;
+    enum AVSampleFormat last_in_avsf;
 
     void Init(DWORD out_layout, DWORD in_layout, enum AVSampleFormat in_sf);
 
@@ -36,5 +36,5 @@ public:
     CMixer();
     ~CMixer();
 
-    HRESULT Mixing(float* pOutput, WORD out_ch, DWORD out_layout, BYTE* pInput, int samples, WORD in_ch, DWORD in_layout, enum AVSampleFormat in_sf);
+    HRESULT Mixing(float* pOutput, int out_samples, DWORD out_layout, BYTE* pInput, int in_samples, DWORD in_layout, enum AVSampleFormat in_sf);
 };
