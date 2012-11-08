@@ -155,6 +155,9 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
             if (S_OK != Read(size)) {
                 return E_FAIL;
             }
+            if (GetPos() + size > end) {
+                return E_FAIL; // broken chunk
+            }
 
             TRACE(_T("CAviFile::Parse(..): '%c%c%c%c'\n"),
                   TCHAR((id >> 0) & 0xff),
