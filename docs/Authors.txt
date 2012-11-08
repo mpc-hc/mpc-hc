@@ -1,11 +1,11 @@
 People with Git commit rights (sorted by name):
 --------
 Armada                  <armada651@users.sourceforge.net>       Code
+Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 janwillem32             <janwillem32@users.sourceforge.net>     Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
 Underground78           <underground78@users.sourceforge.net>   Code, French, Admin
 v0lt                    <v0lt@users.sourceforge.net>            Code, Russian
-vBm                     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Admin
 
 
