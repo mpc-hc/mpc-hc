@@ -139,7 +139,7 @@ void CMixer::Init(DWORD out_layout, DWORD in_layout, enum AVSampleFormat in_avsf
     last_in_avsf      = in_avsf;
 }
 
-HRESULT CMixer::Mixing(float* pOutput, int out_samples, DWORD out_layout, BYTE* pInput, int in_samples, DWORD in_layout, enum AVSampleFormat in_avsf)
+HRESULT CMixer::Mixing(float* pOutput, DWORD out_layout, BYTE* pInput, int in_samples, DWORD in_layout, enum AVSampleFormat in_avsf)
 {
     if (in_layout == out_layout) {
         return E_ABORT; // do nothing
@@ -172,9 +172,9 @@ HRESULT CMixer::Mixing(float* pOutput, int out_samples, DWORD out_layout, BYTE* 
 
     // int in_plane_size  = in_samples * (av_sample_fmt_is_planar(in_avsf) ? 1 : av_popcount(in_layout)) * av_get_bytes_per_sample(in_avsf);
     int in_plane_size  = in_samples * in_ch * av_get_bytes_per_sample(avsf);
-    int out_plane_size = out_samples * av_popcount(out_layout) * sizeof(float);
+    int out_plane_size = in_samples * av_popcount(out_layout) * sizeof(float);
 
-    int ret = avresample_convert(m_pAVRCxt, (uint8_t**)&pOutput, in_plane_size, out_samples, (uint8_t**)&pInput, out_plane_size, in_samples);
+    int ret = avresample_convert(m_pAVRCxt, (uint8_t**)&pOutput, in_plane_size, in_samples, (uint8_t**)&pInput, out_plane_size, in_samples);
     if (buf) {
         delete [] buf;
     }

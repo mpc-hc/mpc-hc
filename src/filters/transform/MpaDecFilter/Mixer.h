@@ -36,5 +36,5 @@ public:
     CMixer();
     ~CMixer();
 
-    HRESULT Mixing(float* pOutput, int out_samples, DWORD out_layout, BYTE* pInput, int in_samples, DWORD in_layout, enum AVSampleFormat in_sf);
+    HRESULT Mixing(float* pOutput, DWORD out_layout, BYTE* pInput, int in_samples, DWORD in_layout, enum AVSampleFormat in_sf);
 };
