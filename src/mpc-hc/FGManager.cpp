@@ -54,6 +54,9 @@ DEFINE_GUID(CLSID_NvidiaVideoDecoder, 0x71E4616A, 0xDB5E, 0x452B, 0x8C, 0xA5, 0x
 // {D7D50E8D-DD72-43C2-8587-A0C197D837D2}
 DEFINE_GUID(CLSID_SonicCinemasterVideoDecoder, 0xD7D50E8D, 0xDD72, 0x43C2, 0x85, 0x87, 0xA0, 0xC1, 0x97, 0xD8, 0x37, 0xD2);
 
+// {AB9D6472-752F-43F6-B29E-61207BDA8E06}
+DEFINE_GUID(CLSID_RDPDShowRedirectionFilter, 0xAB9D6472, 0x752F, 0x43F6, 0xB2, 0x9E, 0x61, 0x20, 0x7B, 0xDA, 0x8E, 0x06);
+
 //
 // CFGManager
 //
@@ -2485,7 +2488,12 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
                       TRUE, 1, guids, NULL, NULL, TRUE, FALSE, 0, NULL, NULL, NULL))) {
             for (CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, NULL); pMoniker = NULL) {
                 CFGFilterRegistry f(pMoniker);
-                m_vrmerit = max(m_vrmerit, f.GetMerit());
+                // RDP DShow Redirection Filter's merit is so high that it flaws the graph building process so we ignore it.
+                // Without doing that the renderer selected in MPC-HC is given a so high merit that filters that normally
+                // should connect between the video decoder and the renderer can't (e.g. VSFilter).
+                if (f.GetCLSID() != CLSID_RDPDShowRedirectionFilter) {
+                    m_vrmerit = max(m_vrmerit, f.GetMerit());
+                }
             }
         }
 

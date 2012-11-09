@@ -24,6 +24,7 @@ Legend:
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks
 ! API: CMD_PAUSE was acting as CMD_PLAY and vice versa
 ! MPEG Splitter: Fix parsing of some malformed TS files
+! VSFilter (auto-loading version) wasn't loading on Windows 7
 ! Ticket #376, Fix subtitles when switching from animated subs to non-animated subs.
   The subtitles' timings were not correctly respected after switching from an
   animated subtitles track to a non-animated subtitles track.
