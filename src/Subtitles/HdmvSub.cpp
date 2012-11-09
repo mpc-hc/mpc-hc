@@ -174,7 +174,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 
 int CHdmvSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer)
 {
-    m_pCurrentPresentationSegment = new HDMV_PRESENTATION_SEGMENT();
+    m_pCurrentPresentationSegment = DNew HDMV_PRESENTATION_SEGMENT();
 
     m_pCurrentPresentationSegment->rtStart = rt;
     m_pCurrentPresentationSegment->rtStop  = _I64_MAX;
@@ -189,7 +189,7 @@ int CHdmvSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffe
                   m_pCurrentPresentationSegment->composition_descriptor.bState, m_pCurrentPresentationSegment->objectCount);
 
     for (int i = 0; i < m_pCurrentPresentationSegment->objectCount; i++) {
-        CompositionObject* pCompositionObject = new CompositionObject();
+        CompositionObject* pCompositionObject = DNew CompositionObject();
         ParseCompositionObject(pGBuffer, pCompositionObject);
         m_pCurrentPresentationSegment->objects.AddTail(pCompositionObject);
     }

@@ -4723,7 +4723,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
         // Create a buffer large enough to hold the array of ImageCodecInfo
         // objects that will be returned by GetImageDecoders.
-        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)new BYTE[size];
+        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)DNew BYTE[size];
 
         // GetImageDecoders creates an array of ImageCodecInfo objects
         // and copies that array into a previously allocated buffer.
