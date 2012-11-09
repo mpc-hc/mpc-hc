@@ -47,14 +47,12 @@
     #if defined(__GNUC__) && defined(__i386__)
         // gcc
         #include "cpuid.h"
-    #endif
-
-    #if defined(_M_IX86)
-        // windows
+    #elif defined(_M_IX86)
+        // windows non-gcc
         #include <intrin.h>
-        #define bit_MMX		(1 << 23)
-        #define bit_SSE		(1 << 25)
-        #define bit_SSE2	(1 << 26)
+        #define bit_MMX     (1 << 23)
+        #define bit_SSE     (1 << 25)
+        #define bit_SSE2    (1 << 26)
     #endif
 
 #endif

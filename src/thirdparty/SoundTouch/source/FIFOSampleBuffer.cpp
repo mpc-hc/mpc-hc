@@ -177,7 +177,7 @@ void FIFOSampleBuffer::ensureCapacity(uint capacityRequirement)
             ST_THROW_RT_ERROR("Couldn't allocate memory!\n");
         }
         // Align the buffer to begin at 16byte cache line boundary for optimal performance
-        temp = (SAMPLETYPE *)(((ulong)tempUnaligned + 15) & (ulong)-16);
+        temp = (SAMPLETYPE *)SOUNDTOUCH_ALIGN_POINTER_16(tempUnaligned);
         if (samplesInBuffer)
         {
             memcpy(temp, ptrBegin(), samplesInBuffer * channels * sizeof(SAMPLETYPE));
