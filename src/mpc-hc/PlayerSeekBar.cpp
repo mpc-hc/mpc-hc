@@ -253,11 +253,11 @@ void CPlayerSeekBar::OnPaint()
     bool fEnabled = m_fEnabled && m_start < m_stop;
 
     COLORREF
-    black = GetSysColor(COLOR_BACKGROUND),
-    white = GetSysColor(COLOR_WINDOW),
+    dark   = GetSysColor(COLOR_3DDKSHADOW),
+    white  = GetSysColor(COLOR_WINDOW),
     shadow = GetSysColor(COLOR_3DSHADOW),
-    light = GetSysColor(COLOR_3DHILIGHT),
-    bkg = GetSysColor(COLOR_BTNFACE);
+    light  = GetSysColor(COLOR_3DHILIGHT),
+    bkg    = GetSysColor(COLOR_BTNFACE);
 
     // thumb
     {
@@ -318,9 +318,9 @@ void CPlayerSeekBar::OnPaint()
                     if (pos < 0) {
                         continue;
                     }
-                    //RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos, cr.bottom + 1}; // 1 px width
-                    RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos + 1, cr.bottom + 1}; // 2 px width
-                    dc.FillSolidRect(&r, black);
+                    //RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos, cr.bottom}; // 1 px width
+                    RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos + 1, cr.bottom}; // 2 px width
+                    dc.FillSolidRect(&r, dark);
                     dc.ExcludeClipRect(&r);
                 }
             }
