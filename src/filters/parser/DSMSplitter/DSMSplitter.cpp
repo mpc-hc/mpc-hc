@@ -122,7 +122,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     HRESULT hr = E_FAIL;
 
     m_pFile.Free();
-    m_pFile.Attach(DNew CDSMSplitterFile(pAsyncReader, hr, *this, *this));
+    m_pFile.Attach(DEBUG_NEW CDSMSplitterFile(pAsyncReader, hr, *this, *this));
     if (!m_pFile) {
         return E_OUTOFMEMORY;
     }
@@ -156,7 +156,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         CAtlArray<CMediaType> mts;
         mts.Add(mt);
 
-        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, name, this, this, &hr));
+        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CBaseSplitterOutputPin(mts, name, this, this, &hr));
 
         name.Empty();
 
@@ -236,7 +236,7 @@ bool CDSMSplitterFilter::DemuxLoop()
         __int64 pos = m_pFile->GetPos();
 
         if (type == DSMP_SAMPLE) {
-            CAutoPtr<Packet> p(DNew Packet());
+            CAutoPtr<Packet> p(DEBUG_NEW Packet());
             if (m_pFile->Read(len, p)) {
                 if (p->rtStart != Packet::INVALID_TIME) {
                     p->rtStart -= m_pFile->m_rtFirst;

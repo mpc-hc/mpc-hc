@@ -202,12 +202,12 @@ bool CDVDSession::SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData)
 
     switch (KeyType) {
         case DvdChallengeKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_CHALLENGE_KEY_LENGTH]);
+            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_CHALLENGE_KEY_LENGTH]);
             key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
             Reverse(key->KeyData, pKeyData, 10);
             break;
         case DvdBusKey2:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_BUS_KEY_LENGTH]);
+            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_BUS_KEY_LENGTH]);
             key->KeyLength = DVD_BUS_KEY_LENGTH;
             Reverse(key->KeyData, pKeyData, 5);
             break;
@@ -233,22 +233,22 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 
     switch (KeyType) {
         case DvdChallengeKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_CHALLENGE_KEY_LENGTH]);
+            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_CHALLENGE_KEY_LENGTH]);
             key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
             key->Parameters.TitleOffset.QuadPart = 0;
             break;
         case DvdBusKey1:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_BUS_KEY_LENGTH]);
+            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_BUS_KEY_LENGTH]);
             key->KeyLength = DVD_BUS_KEY_LENGTH;
             key->Parameters.TitleOffset.QuadPart = 0;
             break;
         case DvdDiskKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_DISK_KEY_LENGTH]);
+            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_DISK_KEY_LENGTH]);
             key->KeyLength = DVD_DISK_KEY_LENGTH;
             key->Parameters.TitleOffset.QuadPart = 0;
             break;
         case DvdTitleKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_TITLE_KEY_LENGTH]);
+            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_TITLE_KEY_LENGTH]);
             key->KeyLength = DVD_TITLE_KEY_LENGTH;
             key->Parameters.TitleOffset.QuadPart = 2048i64 * lba;
             break;

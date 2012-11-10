@@ -33,7 +33,7 @@ CBaseMuxerFilter::CBaseMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& cl
     if (phr) {
         *phr = S_OK;
     }
-    m_pOutput.Attach(DNew CBaseMuxerOutputPin(L"Output", this, this, phr));
+    m_pOutput.Attach(DEBUG_NEW CBaseMuxerOutputPin(L"Output", this, this, phr));
     AddInput();
 }
 
@@ -100,7 +100,7 @@ HRESULT CBaseMuxerFilter::CreateInput(CStringW name, CBaseMuxerInputPin** ppPin)
 {
     CheckPointer(ppPin, E_POINTER);
     HRESULT hr = S_OK;
-    *ppPin = DNew CBaseMuxerInputPin(name, this, this, &hr);
+    *ppPin = DEBUG_NEW CBaseMuxerInputPin(name, this, this, &hr);
     return hr;
 }
 
@@ -108,7 +108,7 @@ HRESULT CBaseMuxerFilter::CreateRawOutput(CStringW name, CBaseMuxerRawOutputPin*
 {
     CheckPointer(ppPin, E_POINTER);
     HRESULT hr = S_OK;
-    *ppPin = DNew CBaseMuxerRawOutputPin(name, this, this, &hr);
+    *ppPin = DEBUG_NEW CBaseMuxerRawOutputPin(name, this, this, &hr);
     return hr;
 }
 

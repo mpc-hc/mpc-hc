@@ -161,7 +161,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error):
         m_bDesktopCompositionDisabled = false;
     }
 
-    m_pGenlock = DNew CGenlock(s.m_AdvRendSets.fTargetSyncOffset, s.m_AdvRendSets.fControlLimit, s.m_AdvRendSets.iLineDelta, s.m_AdvRendSets.iColumnDelta, s.m_AdvRendSets.fCycleDelta, 0); // Must be done before CreateDXDevice
+    m_pGenlock = DEBUG_NEW CGenlock(s.m_AdvRendSets.fTargetSyncOffset, s.m_AdvRendSets.fControlLimit, s.m_AdvRendSets.iLineDelta, s.m_AdvRendSets.iColumnDelta, s.m_AdvRendSets.fCycleDelta, 0); // Must be done before CreateDXDevice
     hr = CreateDXDevice(_Error);
     memset(m_pllJitter, 0, sizeof(m_pllJitter));
     memset(m_pllSyncOffset, 0, sizeof(m_pllSyncOffset));
@@ -559,7 +559,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         m_pD3DDevEx->SetGPUThreadPriority(7);
     }
 
-    m_pPSC.Attach(DNew CPixelShaderCompiler(m_pD3DDev, true));
+    m_pPSC.Attach(DEBUG_NEW CPixelShaderCompiler(m_pD3DDev, true));
     m_filter = D3DTEXF_NONE;
 
     if (m_caps.StretchRectFilterCaps & D3DPTFILTERCAPS_MINFLINEAR && m_caps.StretchRectFilterCaps & D3DPTFILTERCAPS_MAGFLINEAR) {
@@ -606,7 +606,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
-        m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, false);
+        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, false);
         if (!m_pAllocator) {
             _Error += L"CDX9SubPicAllocator failed\n";
             return E_FAIL;
@@ -623,8 +623,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
     m_pSubPicQueue = NULL;
     m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                     : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
+                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
     if (!m_pSubPicQueue || FAILED(hr)) {
         _Error += L"m_pSubPicQueue failed\n";
         return E_FAIL;
@@ -824,7 +824,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         }
     }
 
-    m_pPSC.Attach(DNew CPixelShaderCompiler(m_pD3DDev, true));
+    m_pPSC.Attach(DEBUG_NEW CPixelShaderCompiler(m_pD3DDev, true));
     m_filter = D3DTEXF_NONE;
 
     if ((m_caps.StretchRectFilterCaps & D3DPTFILTERCAPS_MINFLINEAR)
@@ -876,7 +876,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
-        m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, false);
+        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, false);
         if (!m_pAllocator) {
             _Error += L"CDX9SubPicAllocator failed\n";
 
@@ -886,8 +886,8 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
 
     hr = S_OK;
     m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                     : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
+                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
     if (!m_pSubPicQueue || FAILED(hr)) {
         _Error += L"m_pSubPicQueue failed\n";
 
@@ -2570,10 +2570,10 @@ STDMETHODIMP CSyncAP::CreateRenderer(IUnknown** ppRenderer)
     HRESULT hr = E_FAIL;
 
     do {
-        CMacrovisionKicker* pMK = DNew CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
+        CMacrovisionKicker* pMK = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
         CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
 
-        CSyncRenderer* pOuterEVR = DNew CSyncRenderer(NAME("CSyncRenderer"), pUnk, hr, &m_VMR9AlphaBitmap, this);
+        CSyncRenderer* pOuterEVR = DEBUG_NEW CSyncRenderer(NAME("CSyncRenderer"), pUnk, hr, &m_VMR9AlphaBitmap, this);
         m_pOuterEVR = pOuterEVR;
 
         pMK->SetInner((IUnknown*)(INonDelegatingUnknown*)pOuterEVR);
@@ -3927,7 +3927,7 @@ HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISub
     HRESULT hr = E_FAIL;
     if (clsid == CLSID_SyncAllocatorPresenter) {
         CString Error;
-        *ppAP = DNew CSyncAP(hWnd, bFullscreen, hr, Error);
+        *ppAP = DEBUG_NEW CSyncAP(hWnd, bFullscreen, hr, Error);
         (*ppAP)->AddRef();
 
         if (FAILED(hr)) {
@@ -4183,8 +4183,8 @@ CGenlock::CGenlock(double target, double limit, int lineD, int colD, double cloc
     psWnd = NULL;
     liveSource = FALSE;
     powerstripTimingExists = FALSE;
-    syncOffsetFifo = DNew MovingAverage(64);
-    frameCycleFifo = DNew MovingAverage(4);
+    syncOffsetFifo = DEBUG_NEW MovingAverage(64);
+    frameCycleFifo = DEBUG_NEW MovingAverage(4);
 }
 
 CGenlock::~CGenlock()

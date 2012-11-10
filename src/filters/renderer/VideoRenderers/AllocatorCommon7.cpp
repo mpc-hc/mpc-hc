@@ -53,11 +53,11 @@ HRESULT CreateAP7(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppA
     HRESULT hr = S_OK;
 
     if (IsEqualCLSID(clsid, CLSID_VMR7AllocatorPresenter)) {
-        *ppAP = DNew CVMR7AllocatorPresenter(hWnd, hr);
+        *ppAP = DEBUG_NEW CVMR7AllocatorPresenter(hWnd, hr);
     } else if (IsEqualCLSID(clsid, CLSID_RM7AllocatorPresenter)) {
-        *ppAP = DNew CRM7AllocatorPresenter(hWnd, hr);
+        *ppAP = DEBUG_NEW CRM7AllocatorPresenter(hWnd, hr);
     } else if (IsEqualCLSID(clsid, CLSID_QT7AllocatorPresenter)) {
-        *ppAP = DNew CQT7AllocatorPresenter(hWnd, hr);
+        *ppAP = DEBUG_NEW CQT7AllocatorPresenter(hWnd, hr);
     } else {
         return E_FAIL;
     }

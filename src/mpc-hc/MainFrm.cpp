@@ -688,7 +688,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;      // fail to create
     }
 
-    m_pFullscreenWnd = DNew CFullscreenWnd(this);
+    m_pFullscreenWnd = DEBUG_NEW CFullscreenWnd(this);
 
     m_bars.AddTail(&m_wndSeekBar);
     m_bars.AddTail(&m_wndToolBar);
@@ -4204,7 +4204,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
         fSetForegroundWindow = true;
 
-        CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
+        CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
         if (p) {
             p->path = s.slFiles.GetHead();
             p->subs.AddTailList(&s.slSubs);
@@ -4253,7 +4253,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
             fSetForegroundWindow = true;
 
-            CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
+            CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
             if (p) {
                 p->path = s.slFiles.GetHead();
                 p->subs.AddTailList(&s.slSubs);
@@ -4321,7 +4321,7 @@ void CMainFrame::OnFileOpendvd()
 
     ShowWindow(SW_SHOW);
 
-    CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
+    CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
     if (p)
     {
         const CAppSettings& s = AfxGetAppSettings();
@@ -4377,7 +4377,7 @@ void CMainFrame::OnFileOpendvd()
     if (!path.IsEmpty()) {
         s.strDVDPath = path;
         if (!OpenBD(path)) {
-            CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
+            CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
             p->path = path;
             p->path.Replace('/', '\\');
             if (p->path[p->path.GetLength() - 1] != '\\') {
@@ -4404,7 +4404,7 @@ void CMainFrame::OnFileOpendevice()
 
     m_wndPlaylistBar.Empty();
 
-    CAutoPtr<OpenDeviceData> p(DNew OpenDeviceData());
+    CAutoPtr<OpenDeviceData> p(DEBUG_NEW OpenDeviceData());
     if (p) {
         p->DisplayName[0] = s.strAnalogVideo;
         p->DisplayName[1] = s.strAnalogAudio;
@@ -4595,7 +4595,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
                 break;
             }
 
-            *ppData = DNew BYTE[size];
+            *ppData = DEBUG_NEW BYTE[size];
             if (!(*ppData)) {
                 return false;
             }
@@ -4632,7 +4632,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
             }
 
             size = (long)dwSize + sizeof(BITMAPINFOHEADER);
-            *ppData = DNew BYTE[size];
+            *ppData = DEBUG_NEW BYTE[size];
             if (!(*ppData)) {
                 return false;
             }
@@ -4646,7 +4646,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
                 break;
             }
 
-            *ppData = DNew BYTE[size];
+            *ppData = DEBUG_NEW BYTE[size];
             if (!(*ppData)) {
                 return false;
             }
@@ -4694,7 +4694,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
     int srcpitch = w * (bpp >> 3);
     int dstpitch = (w * 3 + 3) / 4 * 4; // round w * 3 to next multiple of 4
 
-    BYTE* p = DNew BYTE[dstpitch * h];
+    BYTE* p = DEBUG_NEW BYTE[dstpitch * h];
 
     const BYTE* src = pData + sizeof(*bih);
     if (bpp <= 8) {
@@ -4723,7 +4723,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
         // Create a buffer large enough to hold the array of ImageCodecInfo
         // objects that will be returned by GetImageDecoders.
-        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)DNew BYTE[size];
+        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)DEBUG_NEW BYTE[size];
 
         // GetImageDecoders creates an array of ImageCodecInfo objects
         // and copies that array into a previously allocated buffer.
@@ -4924,7 +4924,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         CRenderedTextSubtitle rts(&csSubLock);
         rts.CreateDefaultStyle(0);
         rts.m_dstScreenSize.SetSize(width, height);
-        STSStyle* style = DNew STSStyle();
+        STSStyle* style = DEBUG_NEW STSStyle();
         style->marginRect.SetRectEmpty();
         rts.AddStyle(_T("thumbs"), style);
 
@@ -5007,7 +5007,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         CRenderedTextSubtitle rts(&csSubLock);
         rts.CreateDefaultStyle(0);
         rts.m_dstScreenSize.SetSize(width, height);
-        STSStyle* style = DNew STSStyle();
+        STSStyle* style = DEBUG_NEW STSStyle();
         style->marginRect.SetRect(margin * 2, margin * 2, margin * 2, height - infoheight - margin);
         rts.AddStyle(_T("thumbs"), style);
 
@@ -7725,7 +7725,7 @@ void CMainFrame::OnPlayFilters(UINT nID)
 
     if (CComQIPtr<IBaseFilter> pBF = pUnk) {
         HRESULT hr;
-        CComPtr<IPropertyPage> pPP = DNew CInternalPropertyPageTempl<CPinInfoWnd>(NULL, &hr);
+        CComPtr<IPropertyPage> pPP = DEBUG_NEW CInternalPropertyPageTempl<CPinInfoWnd>(NULL, &hr);
         ps.AddPage(pPP, pBF);
     }
 
@@ -7839,7 +7839,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                         STSStyle* val;
                         pRTS->m_styles.GetNextAssoc(pos, key, val);
 
-                        CAutoPtr<CPPageSubStyle> page(DNew CPPageSubStyle());
+                        CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
                         page->InitStyle(key, *val);
                         pages.Add(page);
                         styles.Add(val);
@@ -9203,7 +9203,7 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
     HRESULT hr = OleLoadFromStream((IStream*)&stream, IID_IDvdState, (void**)&pDvdState);
     UNREFERENCED_PARAMETER(hr);
 
-    CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
+    CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
     if (p) {
         p->path = fn;
         p->pDvdState = pDvdState;
@@ -10406,7 +10406,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
             //if (!IsRealEngineCompatible(p->fns.GetHead()))
             //  throw ResStr(IDS_REALVIDEO_INCOMPATIBLE);
 
-            pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CRealMediaGraph(m_pVideoWnd->m_hWnd, hr);
+            pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW DSObjects::CRealMediaGraph(m_pVideoWnd->m_hWnd, hr);
             if (!pUnk) {
                 throw(UINT)IDS_AG_OUT_OF_MEMORY;
             }
@@ -10418,7 +10418,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
                 }
             }
         } else if (engine == ShockWave) {
-            pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CShockwaveGraph(m_pVideoWnd->m_hWnd, hr);
+            pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW DSObjects::CShockwaveGraph(m_pVideoWnd->m_hWnd, hr);
             if (!pUnk) {
                 throw(UINT)IDS_AG_OUT_OF_MEMORY;
             }
@@ -10434,7 +10434,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 #ifdef _WIN64   // TODOX64
             //MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
 #else
-            pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew DSObjects::CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr);
+            pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW DSObjects::CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr);
             if (!pUnk) {
                 throw(UINT)IDS_AG_OUT_OF_MEMORY;
             }
@@ -10451,15 +10451,15 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         m_fCustomGraph = m_fRealMediaGraph || m_fShockwaveGraph || m_fQuicktimeGraph;
 
         if (!m_fCustomGraph) {
-            pGB = DNew CFGManagerPlayer(_T("CFGManagerPlayer"), NULL, m_pVideoWnd->m_hWnd);
+            pGB = DEBUG_NEW CFGManagerPlayer(_T("CFGManagerPlayer"), NULL, m_pVideoWnd->m_hWnd);
         }
     } else if (OpenDVDData* p = dynamic_cast<OpenDVDData*>(pOMD)) {
-        pGB = DNew CFGManagerDVD(_T("CFGManagerDVD"), NULL, m_pVideoWnd->m_hWnd);
+        pGB = DEBUG_NEW CFGManagerDVD(_T("CFGManagerDVD"), NULL, m_pVideoWnd->m_hWnd);
     } else if (OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD)) {
         if (s.iDefaultCaptureDevice == 1) {
-            pGB = DNew CFGManagerBDA(_T("CFGManagerBDA"), NULL, m_pVideoWnd->m_hWnd);
+            pGB = DEBUG_NEW CFGManagerBDA(_T("CFGManagerBDA"), NULL, m_pVideoWnd->m_hWnd);
         } else {
-            pGB = DNew CFGManagerCapture(_T("CFGManagerCapture"), NULL, m_pVideoWnd->m_hWnd);
+            pGB = DEBUG_NEW CFGManagerCapture(_T("CFGManagerCapture"), NULL, m_pVideoWnd->m_hWnd);
         }
     }
 
@@ -10487,13 +10487,13 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         throw(UINT)IDS_GRAPH_TARGET_WND_ERROR;
     }
 
-    m_pProv = (IUnknown*)DNew CKeyProvider();
+    m_pProv = (IUnknown*)DEBUG_NEW CKeyProvider();
 
     if (CComQIPtr<IObjectWithSite> pObjectWithSite = pGB) {
         pObjectWithSite->SetSite(m_pProv);
     }
 
-    m_pCB = DNew CDSMChapterBag(NULL, NULL);
+    m_pCB = DEBUG_NEW CDSMChapterBag(NULL, NULL);
 }
 
 CWnd* CMainFrame::GetModalParent()
@@ -10651,7 +10651,7 @@ void CMainFrame::SetupChapters()
     // Due to smart pointers the old chapter bag won't
     // be deleted until all classes release it.
     m_pCB.Release();
-    m_pCB = DNew CDSMChapterBag(NULL, NULL);
+    m_pCB = DEBUG_NEW CDSMChapterBag(NULL, NULL);
 
     CInterfaceList<IBaseFilter> pBFs;
     BeginEnumFilters(pGB, pEF, pBF);
@@ -10798,7 +10798,7 @@ void CMainFrame::SetupDVDChapters()
     // Due to smart pointers the old chapter bag won't
     // be deleted until all classes release it.
     m_pCB.Release();
-    m_pCB = DNew CDSMChapterBag(NULL, NULL);
+    m_pCB = DEBUG_NEW CDSMChapterBag(NULL, NULL);
 
     WCHAR buff[_MAX_PATH];
     ULONG len = 0;
@@ -11076,7 +11076,7 @@ void CMainFrame::OpenCustomizeGraph()
     const CRenderersSettings& r = s.m_RenderersSettings;
     if (r.m_AdvRendSets.bSynchronizeVideo && s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
         HRESULT hr;
-        m_pRefClock = DNew CSyncClockFilter(NULL, &hr);
+        m_pRefClock = DEBUG_NEW CSyncClockFilter(NULL, &hr);
         CStringW name;
         name = L"SyncClock Filter";
         pGB->AddFilter(m_pRefClock, name);
@@ -11100,12 +11100,12 @@ void CMainFrame::OpenCustomizeGraph()
     if (GetPlaybackMode() == PM_DVD) {
         BeginEnumFilters(pGB, pEF, pBF) {
             if (CComQIPtr<IDirectVobSub2> pDVS2 = pBF) {
-                //pDVS2->AdviseSubClock(m_pSubClock = DNew CSubClock);
+                //pDVS2->AdviseSubClock(m_pSubClock = DEBUG_NEW CSubClock);
                 //break;
 
                 // TODO: test multiple dvobsub instances with one clock
                 if (!m_pSubClock) {
-                    m_pSubClock = DNew CSubClock;
+                    m_pSubClock = DEBUG_NEW CSubClock;
                 }
                 pDVS2->AdviseSubClock(m_pSubClock);
             }
@@ -12401,7 +12401,7 @@ void CMainFrame::SetupFiltersSubMenu()
                 continue;
             }
 
-            CAutoPtr<CMenu> pSubSub(DNew CMenu);
+            CAutoPtr<CMenu> pSubSub(DEBUG_NEW CMenu);
             pSubSub->CreatePopupMenu();
 
             int nPPages = 0;
@@ -13559,7 +13559,7 @@ void CMainFrame::AddTextPassThruFilter()
                 continue;
             }
 
-            CComQIPtr<IBaseFilter> pTPTF = DNew CTextPassThruFilter(this);
+            CComQIPtr<IBaseFilter> pTPTF = DEBUG_NEW CTextPassThruFilter(this);
             CStringW name;
             name.Format(L"TextPassThru%08x", pTPTF);
             if (FAILED(pGB->AddFilter(pTPTF, name))) {
@@ -13590,7 +13590,7 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
     // TMP: maybe this will catch something for those who get a runtime error dialog when opening subtitles from cds
     try {
         if (!pSubStream) {
-            CAutoPtr<CVobSubFile> pVSF(DNew CVobSubFile(&m_csSubLock));
+            CAutoPtr<CVobSubFile> pVSF(DEBUG_NEW CVobSubFile(&m_csSubLock));
             CString ext = CPath(fn).GetExtension().MakeLower();
             if ((ext == _T(".idx") || ext == _T(".sub")) && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0) {
                 pSubStream = pVSF.Detach();
@@ -13598,7 +13598,7 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
         }
 
         if (!pSubStream) {
-            CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock, &AfxGetAppSettings().subdefstyle, AfxGetAppSettings().fUseDefaultSubtitlesStyle));
+            CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock, &AfxGetAppSettings().subdefstyle, AfxGetAppSettings().fUseDefaultSubtitlesStyle));
 
             // The filename of the video file
             CString videoName = m_wndPlaylistBar.GetCurFileName();
@@ -14346,7 +14346,7 @@ void CMainFrame::ShowOptions(int idPage)
 void CMainFrame::StartWebServer(int nPort)
 {
     if (!m_pWebServer) {
-        m_pWebServer.Attach(DNew CWebServer(this, nPort));
+        m_pWebServer.Attach(DEBUG_NEW CWebServer(this, nPort));
     }
 }
 
@@ -15016,7 +15016,7 @@ void CMainFrame::SendAPICommand(MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
         va_start(args, fmt);
 
         int nBufferLen = _vsctprintf(fmt, args) + 1; // _vsctprintf doesn't count the null terminator
-        TCHAR* pBuff = DNew TCHAR[nBufferLen];
+        TCHAR* pBuff = DEBUG_NEW TCHAR[nBufferLen];
         _vstprintf_s(pBuff, nBufferLen, fmt, args);
 
         CDS.cbData = (DWORD)nBufferLen * sizeof(TCHAR);

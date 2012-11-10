@@ -236,7 +236,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     EnableSaveRestore(IDS_R_DLG_SUBTITLEDL);
 
     // start new worker thread to download the list of subtitles
-    m_pTA = DNew THREADSTRUCT;
+    m_pTA = DEBUG_NEW THREADSTRUCT;
     m_pTA->url = m_url;
     m_pTA->hWND = GetSafeHwnd();
 
@@ -277,7 +277,7 @@ void CSubtitleDlDlg::OnOK()
         url.Append(args);
 
         if (OpenUrl(is, CString(url), str)) {
-            CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&pMF->m_csSubLock, &s.subdefstyle, s.fUseDefaultSubtitlesStyle));
+            CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&pMF->m_csSubLock, &s.subdefstyle, s.fUseDefaultSubtitlesStyle));
             if (pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(sub.name)) && pRTS->GetStreamCount() > 0) {
                 CComPtr<ISubStream> pSubStream = pRTS.Detach();
                 pMF->m_pSubStreams.AddTail(pSubStream);

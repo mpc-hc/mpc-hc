@@ -941,7 +941,7 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
 {
     if (fSave) {
         if ((UINT)m_preflist.GetCount() == VIHSIZE) {
-            BYTE* pData = DNew BYTE[VIHSIZE];
+            BYTE* pData = DEBUG_NEW BYTE[VIHSIZE];
 
             for (ptrdiff_t i = 0; i < m_preflist.GetCount(); i++) {
                 pData[i] = (BYTE)m_preflist.GetItemData(i);
@@ -967,7 +967,7 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
             SAFE_DELETE_ARRAY(pData);
 
             nSize = VIHSIZE;
-            pData = DNew BYTE[VIHSIZE];
+            pData = DEBUG_NEW BYTE[VIHSIZE];
             for (size_t i = 0; i < VIHSIZE; i++) {
                 pData[i] = i;
             }

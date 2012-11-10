@@ -106,7 +106,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
             // the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
             SetSizes(CSize(height + 7, height + 6), CSize(height, height));
 
-            m_pButtonsImages = DNew CImageList();
+            m_pButtonsImages = DEBUG_NEW CImageList();
             if (bpp == 32) {
                 m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
                 m_pButtonsImages->Add(bmp, static_cast<CBitmap*>(0)); // alpha is the mask

@@ -70,7 +70,7 @@ HRESULT CSubtitleInputPin::CheckMediaType(const CMediaType* pmt)
 HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 {
     if (m_mt.majortype == MEDIATYPE_Text) {
-        if (!(m_pSubStream = DNew CRenderedTextSubtitle(m_pSubLock))) {
+        if (!(m_pSubStream = DEBUG_NEW CRenderedTextSubtitle(m_pSubLock))) {
             return E_FAIL;
         }
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
@@ -105,7 +105,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 || m_mt.subtype == MEDIASUBTYPE_SSA
                 || m_mt.subtype == MEDIASUBTYPE_ASS
                 || m_mt.subtype == MEDIASUBTYPE_ASS2) {
-            if (!(m_pSubStream = DNew CRenderedTextSubtitle(m_pSubLock))) {
+            if (!(m_pSubStream = DEBUG_NEW CRenderedTextSubtitle(m_pSubLock))) {
                 return E_FAIL;
             }
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
@@ -128,13 +128,13 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
-            if (!(m_pSubStream = DNew CVobSubStream(m_pSubLock))) {
+            if (!(m_pSubStream = DEBUG_NEW CVobSubStream(m_pSubLock))) {
                 return E_FAIL;
             }
             CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
             pVSS->Open(name, m_mt.pbFormat + dwOffset, m_mt.cbFormat - dwOffset);
         } else if (IsHdmvSub(&m_mt)) {
-            if (!(m_pSubStream = DNew CRenderedHdmvSubtitle(m_pSubLock, (m_mt.subtype == MEDIASUBTYPE_DVB_SUBTITLES) ? ST_DVB : ST_HDMV, name, lcid))) {
+            if (!(m_pSubStream = DEBUG_NEW CRenderedHdmvSubtitle(m_pSubLock, (m_mt.subtype == MEDIASUBTYPE_DVB_SUBTITLES) ? ST_DVB : ST_HDMV, name, lcid))) {
                 return E_FAIL;
             }
         }

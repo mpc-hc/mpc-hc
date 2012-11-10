@@ -115,7 +115,7 @@ HRESULT CMpaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     m_pFile.Free();
 
-    m_pFile.Attach(DNew CMpaSplitterFile(pAsyncReader, hr));
+    m_pFile.Attach(DEBUG_NEW CMpaSplitterFile(pAsyncReader, hr));
     if (!m_pFile) {
         return E_OUTOFMEMORY;
     }
@@ -127,7 +127,7 @@ HRESULT CMpaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     CAtlArray<CMediaType> mts;
     mts.Add(m_pFile->GetMediaType());
 
-    CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, L"Audio", this, this, &hr));
+    CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CBaseSplitterOutputPin(mts, L"Audio", this, this, &hr));
     AddOutputPin(0, pPinOut);
 
     m_rtNewStart = m_rtCurrent = 0;
@@ -206,7 +206,7 @@ bool CMpaSplitterFilter::DemuxLoop()
             continue;
         }
 
-        CAutoPtr<Packet> p(DNew Packet());
+        CAutoPtr<Packet> p(DEBUG_NEW Packet());
         p->SetCount(FrameSize);
         m_pFile->ByteRead(p->GetData(), FrameSize);
 

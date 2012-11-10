@@ -273,7 +273,7 @@ template <class T>
 static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
     *phr = S_OK;
-    CUnknown* punk = DNew T(lpunk, phr);
+    CUnknown* punk = DEBUG_NEW T(lpunk, phr);
     if (punk == NULL) {
         *phr = E_OUTOFMEMORY;
     }

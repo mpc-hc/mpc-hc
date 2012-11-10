@@ -192,7 +192,7 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         return;
     }
 
-    m_pInput = DNew CMpeg2DecInputPin(this, phr, L"Video");
+    m_pInput = DEBUG_NEW CMpeg2DecInputPin(this, phr, L"Video");
     if (!m_pInput) {
         *phr = E_OUTOFMEMORY;
     }
@@ -200,11 +200,11 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         return;
     }
 
-    //  m_pOutput = DNew CMpeg2DecOutputPin(this, phr, L"Output");
+    //  m_pOutput = DEBUG_NEW CMpeg2DecOutputPin(this, phr, L"Output");
     //  if (!m_pOutput) *phr = E_OUTOFMEMORY;
     //  if (FAILED(*phr)) return;
 
-    m_pSubpicInput = DNew CSubpicInputPin(this, phr);
+    m_pSubpicInput = DEBUG_NEW CSubpicInputPin(this, phr);
     if (!m_pSubpicInput) {
         *phr = E_OUTOFMEMORY;
     }
@@ -212,7 +212,7 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         return;
     }
 
-    m_pClosedCaptionOutput = DNew CClosedCaptionOutputPin(this, m_pLock, phr);
+    m_pClosedCaptionOutput = DEBUG_NEW CClosedCaptionOutputPin(this, m_pLock, phr);
     if (!m_pClosedCaptionOutput) {
         *phr = E_OUTOFMEMORY;
     }
@@ -1029,7 +1029,7 @@ HRESULT CMpeg2DecFilter::StartStreaming()
         return hr;
     }
 
-    m_dec.Attach(DNew CMpeg2Dec());
+    m_dec.Attach(DEBUG_NEW CMpeg2Dec());
     if (!m_dec) {
         return E_OUTOFMEMORY;
     }
@@ -1095,7 +1095,7 @@ STDMETHODIMP CMpeg2DecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPag
     HRESULT hr;
 
     if (guid == __uuidof(CMpeg2DecSettingsWnd)) {
-        (*ppPage = DNew CInternalPropertyPageTempl<CMpeg2DecSettingsWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMpeg2DecSettingsWnd>(NULL, &hr))->AddRef();
     }
 
     return *ppPage ? S_OK : E_FAIL;
@@ -1529,7 +1529,7 @@ HRESULT CMpeg2DecOutputPin::Active()
     if (m_Connected && !m_pOutputQueue) {
         HRESULT hr = NOERROR;
 
-        m_pOutputQueue.Attach(DNew COutputQueue(m_Connected, &hr));
+        m_pOutputQueue.Attach(DEBUG_NEW COutputQueue(m_Connected, &hr));
         if (!m_pOutputQueue) {
             hr = E_OUTOFMEMORY;
         }
@@ -1723,11 +1723,11 @@ HRESULT CSubpicInputPin::Transform(IMediaSample* pSample)
         CAutoPtr<spu> p;
 
         if (m_mt.subtype == MEDIASUBTYPE_DVD_SUBPICTURE) {
-            p.Attach(DNew dvdspu());
+            p.Attach(DEBUG_NEW dvdspu());
         } else if (m_mt.subtype == MEDIASUBTYPE_CVD_SUBPICTURE) {
-            p.Attach(DNew cvdspu());
+            p.Attach(DEBUG_NEW cvdspu());
         } else if (m_mt.subtype == MEDIASUBTYPE_SVCD_SUBPICTURE) {
-            p.Attach(DNew svcdspu());
+            p.Attach(DEBUG_NEW svcdspu());
         } else {
             return E_FAIL;
         }
@@ -1799,13 +1799,13 @@ STDMETHODIMP CSubpicInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceDat
                     if (sp->m_rtStart <= PTS2RT(pSPHLI->StartPTM) && PTS2RT(pSPHLI->StartPTM) < sp->m_rtStop) {
                         fRefresh = true;
                         sp->m_psphli.Free();
-                        sp->m_psphli.Attach(DNew AM_PROPERTY_SPHLI);
+                        sp->m_psphli.Attach(DEBUG_NEW AM_PROPERTY_SPHLI);
                         memcpy((AM_PROPERTY_SPHLI*)sp->m_psphli, pSPHLI, sizeof(AM_PROPERTY_SPHLI));
                     }
                 }
 
                 if (!fRefresh) { // save it for later, a subpic might be late for this hli
-                    m_sphli.Attach(DNew AM_PROPERTY_SPHLI);
+                    m_sphli.Attach(DEBUG_NEW AM_PROPERTY_SPHLI);
                     memcpy((AM_PROPERTY_SPHLI*)m_sphli, pSPHLI, sizeof(AM_PROPERTY_SPHLI));
                 }
             } else {

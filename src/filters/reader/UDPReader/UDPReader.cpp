@@ -177,7 +177,7 @@ void CUDPStream::Append(BYTE* buff, int len)
         }
     }
 
-    m_packets.AddTail(DNew packet_t(buff, m_len, m_len + len));
+    m_packets.AddTail(DEBUG_NEW packet_t(buff, m_len, m_len + len));
     m_len += len;
 }
 
@@ -453,6 +453,6 @@ CUDPStream::packet_t::packet_t(BYTE* p, __int64 start, __int64 end)
     , m_end(end)
 {
     size_t size = (size_t)(end - start);
-    m_buff = DNew BYTE[size];
+    m_buff = DEBUG_NEW BYTE[size];
     memcpy(m_buff, p, size);
 }

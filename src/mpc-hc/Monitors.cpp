@@ -53,7 +53,7 @@ BOOL CALLBACK CMonitors::AddMonitorsCallBack(HMONITOR hMonitor, HDC hdcMonitor, 
 {
     LPADDMONITOR pAddMonitor = (LPADDMONITOR)dwData;
 
-    CMonitor* pMonitor = DNew CMonitor;
+    CMonitor* pMonitor = DEBUG_NEW CMonitor;
     pMonitor->Attach(hMonitor);
 
     pAddMonitor->pMonitors->Add(pMonitor);

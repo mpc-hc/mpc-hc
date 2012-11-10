@@ -70,7 +70,7 @@ void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEnt
     m_pFilter           = pFilter;
     m_nMode             = nMode;
     m_nPicEntryNumber   = nPicEntryNumber;
-    m_pPictureStore     = DNew PICTURE_STORE[nPicEntryNumber];
+    m_pPictureStore     = DEBUG_NEW PICTURE_STORE[nPicEntryNumber];
     m_dwNumBuffersInfo  = 0;
     m_bNeedChangeAspect = true;
 
@@ -89,7 +89,7 @@ void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEnt
 // === Public functions
 void CDXVADecoder::AllocExecuteParams(int nSize)
 {
-    m_ExecuteParams.pCompressedBuffers = DNew DXVA2_DecodeBufferDesc[nSize];
+    m_ExecuteParams.pCompressedBuffers = DEBUG_NEW DXVA2_DecodeBufferDesc[nSize];
 
     for (int i = 0; i < nSize; i++) {
         memset(&m_ExecuteParams.pCompressedBuffers[i], 0, sizeof(DXVA2_DecodeBufferDesc));
@@ -182,11 +182,11 @@ CDXVADecoder* CDXVADecoder::CreateDecoder(CMPCVideoDecFilter* pFilter, IAMVideoA
     CDXVADecoder* pDecoder = NULL;
 
     if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo)) {
-        pDecoder = DNew CDXVADecoderH264(pFilter, pAMVideoAccelerator, H264_VLD, nPicEntryNumber);
+        pDecoder = DEBUG_NEW CDXVADecoderH264(pFilter, pAMVideoAccelerator, H264_VLD, nPicEntryNumber);
     } else if (*guidDecoder == DXVA2_ModeVC1_D) {
-        pDecoder = DNew CDXVADecoderVC1(pFilter, pAMVideoAccelerator, VC1_VLD, nPicEntryNumber);
+        pDecoder = DEBUG_NEW CDXVADecoderVC1(pFilter, pAMVideoAccelerator, VC1_VLD, nPicEntryNumber);
     } else if (*guidDecoder == DXVA2_ModeMPEG2_VLD) {
-        pDecoder = DNew CDXVADecoderMpeg2(pFilter, pAMVideoAccelerator, MPEG2_VLD, nPicEntryNumber);
+        pDecoder = DEBUG_NEW CDXVADecoderMpeg2(pFilter, pAMVideoAccelerator, MPEG2_VLD, nPicEntryNumber);
     } else {
         ASSERT(FALSE);     // Unknown decoder !!
     }
@@ -199,11 +199,11 @@ CDXVADecoder* CDXVADecoder::CreateDecoder(CMPCVideoDecFilter* pFilter, IDirectXV
     CDXVADecoder* pDecoder = NULL;
 
     if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo)) {
-        pDecoder = DNew CDXVADecoderH264(pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber, pDXVA2Config);
+        pDecoder = DEBUG_NEW CDXVADecoderH264(pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber, pDXVA2Config);
     } else if (*guidDecoder == DXVA2_ModeVC1_D) {
-        pDecoder = DNew CDXVADecoderVC1(pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber, pDXVA2Config);
+        pDecoder = DEBUG_NEW CDXVADecoderVC1(pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber, pDXVA2Config);
     } else if (*guidDecoder == DXVA2_ModeMPEG2_VLD) {
-        pDecoder = DNew CDXVADecoderMpeg2(pFilter, pDirectXVideoDec, MPEG2_VLD, nPicEntryNumber, pDXVA2Config);
+        pDecoder = DEBUG_NEW CDXVADecoderMpeg2(pFilter, pDirectXVideoDec, MPEG2_VLD, nPicEntryNumber, pDXVA2Config);
     } else {
         ASSERT(FALSE);     // Unknown decoder !!
     }

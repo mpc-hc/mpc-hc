@@ -37,7 +37,7 @@ CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFram
     , m_parsingState(PARSING_HEADER)
     , m_dataLen(0)
 {
-    m_buff = DNew char[m_buffMaxLen];
+    m_buff = DEBUG_NEW char[m_buffMaxLen];
 }
 
 CWebClientSocket::~CWebClientSocket()
@@ -852,7 +852,7 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
         }
         int w = bih->biWidth;
         int h = abs(bih->biHeight);
-        BYTE* p = DNew BYTE[w * h * 4];
+        BYTE* p = DEBUG_NEW BYTE[w * h * 4];
 
         const BYTE* src = pData + sizeof(*bih);
         if (bpp <= 8) {

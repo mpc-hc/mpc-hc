@@ -28,13 +28,13 @@ CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nTyp
 {
     switch (nType) {
         case ST_DVB:
-            m_pSub = DNew CDVBSub();
+            m_pSub = DEBUG_NEW CDVBSub();
             if (name.IsEmpty() || (name == _T("Unknown"))) {
                 m_name = "DVB Embedded Subtitle";
             }
             break;
         case ST_HDMV:
-            m_pSub = DNew CHdmvSub();
+            m_pSub = DEBUG_NEW CHdmvSub();
             if (name.IsEmpty() || (name == _T("Unknown"))) {
                 m_name = "HDMV Embedded Subtitle";
             }

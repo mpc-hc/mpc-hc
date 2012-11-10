@@ -254,7 +254,7 @@ HRESULT WINAPI Mine_CoCreateInstance(IN REFCLSID rclsid, IN LPUNKNOWN pUnkOuter,
         {
             if (rclsid == CLSID_FilterMapper2)
             {
-                CFilterMapper2* pFM2 = DNew CFilterMapper2(true, false, pUnkOuter);
+                CFilterMapper2* pFM2 = DEBUG_NEW CFilterMapper2(true, false, pUnkOuter);
                 CComPtr<IUnknown> pUnk = (IUnknown*)pFM2;
                 return pUnk->QueryInterface(riid, ppv);
             }
@@ -264,7 +264,7 @@ HRESULT WINAPI Mine_CoCreateInstance(IN REFCLSID rclsid, IN LPUNKNOWN pUnkOuter,
         if (rclsid == CLSID_VideoMixingRenderer || rclsid == CLSID_VideoMixingRenderer9
                 || rclsid == CLSID_VideoRenderer || rclsid == CLSID_VideoRendererDefault
                 || rclsid == CLSID_OverlayMixer) { // || rclsid == CLSID_OverlayMixer2 - where is this declared?)
-            CMacrovisionKicker* pMK = DNew CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
+            CMacrovisionKicker* pMK = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
             CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
             CComPtr<IUnknown> pInner;
             HRESULT hr;
@@ -647,7 +647,7 @@ STDMETHODIMP CFilterMapper2::UnregisterFilter(const CLSID* pclsidCategory, const
 STDMETHODIMP CFilterMapper2::RegisterFilter(REFCLSID clsidFilter, LPCWSTR Name, IMoniker** ppMoniker, const CLSID* pclsidCategory, const OLECHAR* szInstance, const REGFILTER2* prf2)
 {
     if (!m_path.IsEmpty()) {
-        if (FilterOverride* f = DNew FilterOverride) {
+        if (FilterOverride* f = DEBUG_NEW FilterOverride) {
             f->fDisabled = false;
             f->type = FilterOverride::EXTERNAL;
             f->path = m_path;

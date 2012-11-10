@@ -547,12 +547,12 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     if (m_pOutput)  {
         delete m_pOutput;
     }
-    m_pOutput = DNew CVideoDecOutputPin(NAME("CVideoDecOutputPin"), this, phr, L"Output");
+    m_pOutput = DEBUG_NEW CVideoDecOutputPin(NAME("CVideoDecOutputPin"), this, phr, L"Output");
     if (!m_pOutput) {
         *phr = E_OUTOFMEMORY;
     }
 
-    m_pCpuId = DNew CCpuId();
+    m_pCpuId = DEBUG_NEW CCpuId();
     m_pAVCodec = NULL;
     m_pAVCtx = NULL;
     m_pFrame = NULL;
@@ -1297,7 +1297,7 @@ void CMPCVideoDecFilter::BuildDXVAOutputFormat()
         }
         m_nVideoOutputCount += _countof(SoftwareFormats2);
     }
-    m_pVideoOutputFormat = DNew VIDEO_OUTPUT_FORMATS[m_nVideoOutputCount];
+    m_pVideoOutputFormat = DEBUG_NEW VIDEO_OUTPUT_FORMATS[m_nVideoOutputCount];
 
     int nPos = 0;
     if (IsDXVASupported()) {
@@ -2376,7 +2376,7 @@ HRESULT CMPCVideoDecFilter::FindDXVA1DecoderConfiguration(IAMVideoAccelerator* p
     pAMVideoAccelerator->GetUncompFormatsSupported(guidDecoder, &dwFormats, NULL);
     if (dwFormats > 0) {
         // Find the valid render target formats for this decoder GUID.
-        pPixelFormats = DNew DDPIXELFORMAT[dwFormats];
+        pPixelFormats = DEBUG_NEW DDPIXELFORMAT[dwFormats];
         hr = pAMVideoAccelerator->GetUncompFormatsSupported(guidDecoder, &dwFormats, pPixelFormats);
         if (SUCCEEDED(hr)) {
             // Look for a format that matches our output format.
@@ -2485,9 +2485,9 @@ STDMETHODIMP CMPCVideoDecFilter::CreatePage(const GUID& guid, IPropertyPage** pp
     HRESULT hr;
 
     if (guid == __uuidof(CMPCVideoDecSettingsWnd)) {
-        (*ppPage = DNew CInternalPropertyPageTempl<CMPCVideoDecSettingsWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMPCVideoDecSettingsWnd>(NULL, &hr))->AddRef();
     } else if (guid == __uuidof(CMPCVideoDecCodecWnd)) {
-        (*ppPage = DNew CInternalPropertyPageTempl<CMPCVideoDecCodecWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMPCVideoDecCodecWnd>(NULL, &hr))->AddRef();
     }
 
     return *ppPage ? S_OK : E_FAIL;

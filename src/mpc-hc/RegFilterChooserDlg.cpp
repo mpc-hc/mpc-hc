@@ -128,7 +128,7 @@ void CRegFilterChooserDlg::OnBnClickedOk()
     }
     if (pMoniker) {
         CFGFilterRegistry fgf(pMoniker);
-        FilterOverride* f = DNew FilterOverride;
+        FilterOverride* f = DEBUG_NEW FilterOverride;
         f->fDisabled = false;
         f->type = FilterOverride::REGISTERED;
         f->name = fgf.GetName();

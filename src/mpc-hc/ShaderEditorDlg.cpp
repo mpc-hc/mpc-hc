@@ -400,7 +400,7 @@ void CShaderEditorDlg::OnTimer(UINT_PTR nIDEvent)
             m_pShader->target = target;
 
             if (!m_pPSC) {
-                m_pPSC = DNew CPixelShaderCompiler(NULL);
+                m_pPSC = DEBUG_NEW CPixelShaderCompiler(NULL);
             }
 
             CString disasm, errmsg;

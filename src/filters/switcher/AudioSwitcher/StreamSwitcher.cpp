@@ -616,7 +616,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
                     fileName = pinName + L" ";
                 }
 
-                WCHAR* pName = DNew WCHAR[fileName.GetLength() + 1];
+                WCHAR* pName = DEBUG_NEW WCHAR[fileName.GetLength() + 1];
                 if (pName) {
                     wcscpy_s(pName, fileName.GetLength() + 1, fileName);
                     if (m_pName) {
@@ -963,7 +963,7 @@ STDMETHODIMP CStreamSwitcherOutputPin::NonDelegatingQueryInterface(REFIID riid, 
         if (m_pStreamSwitcherPassThru == NULL) {
             HRESULT hr = S_OK;
             m_pStreamSwitcherPassThru = (IUnknown*)(INonDelegatingUnknown*)
-                                        DNew CStreamSwitcherPassThru(GetOwner(), &hr, static_cast<CStreamSwitcherFilter*>(m_pFilter));
+                                        DEBUG_NEW CStreamSwitcherPassThru(GetOwner(), &hr, static_cast<CStreamSwitcherFilter*>(m_pFilter));
 
             if (!m_pStreamSwitcherPassThru) {
                 return E_OUTOFMEMORY;
@@ -1168,13 +1168,13 @@ CStreamSwitcherFilter::CStreamSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr, cons
         CAutoPtr<CStreamSwitcherOutputPin> pOutput;
 
         hr = S_OK;
-        pInput.Attach(DNew CStreamSwitcherInputPin(this, &hr, L"Channel 1"));
+        pInput.Attach(DEBUG_NEW CStreamSwitcherInputPin(this, &hr, L"Channel 1"));
         if (!pInput || FAILED(hr)) {
             break;
         }
 
         hr = S_OK;
-        pOutput.Attach(DNew CStreamSwitcherOutputPin(this, &hr));
+        pOutput.Attach(DEBUG_NEW CStreamSwitcherOutputPin(this, &hr));
         if (!pOutput || FAILED(hr)) {
             break;
         }
@@ -1298,7 +1298,7 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
             name.Format(L"Channel %d", ++m_PinVersion);
 
             HRESULT hr = S_OK;
-            CStreamSwitcherInputPin* pPin = DNew CStreamSwitcherInputPin(this, &hr, name);
+            CStreamSwitcherInputPin* pPin = DEBUG_NEW CStreamSwitcherInputPin(this, &hr, name);
             if (!pPin || FAILED(hr)) {
                 delete pPin;
                 return E_FAIL;

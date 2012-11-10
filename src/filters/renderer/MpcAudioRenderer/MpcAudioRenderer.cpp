@@ -154,7 +154,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     TRACE(_T("CMpcAudioRenderer constructor\n"));
     if (!m_useWASAPI) {
         DirectSoundEnumerate((LPDSENUMCALLBACK)DSEnumProc2, (VOID*)&m_csSound_Device);
-        m_pSoundTouch = DNew soundtouch::SoundTouch();
+        m_pSoundTouch = DEBUG_NEW soundtouch::SoundTouch();
         *phr = DirectSoundCreate8(&lpSoundGUID, &m_pDS, NULL);
     }
 }
@@ -341,7 +341,7 @@ HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType* pmt)
     if (pwf != NULL) {
         int size = sizeof(WAVEFORMATEX) + pwf->cbSize;
 
-        m_pWaveFileFormat = (WAVEFORMATEX*)DNew BYTE[size];
+        m_pWaveFileFormat = (WAVEFORMATEX*)DEBUG_NEW BYTE[size];
         if (! m_pWaveFileFormat) {
             return E_OUTOFMEMORY;
         }
@@ -550,7 +550,7 @@ STDMETHODIMP CMpcAudioRenderer::CreatePage(const GUID& guid, IPropertyPage** ppP
     HRESULT hr;
 
     if (guid == __uuidof(CMpcAudioRendererSettingsWnd)) {
-        (*ppPage = DNew CInternalPropertyPageTempl<CMpcAudioRendererSettingsWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMpcAudioRendererSettingsWnd>(NULL, &hr))->AddRef();
     }
 
     return *ppPage ? S_OK : E_FAIL;
@@ -619,7 +619,7 @@ HRESULT CMpcAudioRenderer::GetReferenceClockInterface(REFIID riid, void** ppv)
         return m_pReferenceClock->NonDelegatingQueryInterface(riid, ppv);
     }
 
-    m_pReferenceClock = DNew CBaseReferenceClock(NAME("Mpc Audio Clock"), NULL, &hr);
+    m_pReferenceClock = DEBUG_NEW CBaseReferenceClock(NAME("Mpc Audio Clock"), NULL, &hr);
     if (! m_pReferenceClock) {
         return E_OUTOFMEMORY;
     }
@@ -1161,7 +1161,7 @@ bool CMpcAudioRenderer::CheckFormatChanged(WAVEFORMATEX* pWaveFormatEx, WAVEFORM
     }
 
     int size = sizeof(WAVEFORMATEX) + pWaveFormatEx->cbSize; // Always true, even for WAVEFORMATEXTENSIBLE and WAVEFORMATEXTENSIBLE_IEC61937
-    *ppNewWaveFormatEx = (WAVEFORMATEX*)DNew BYTE[size];
+    *ppNewWaveFormatEx = (WAVEFORMATEX*)DEBUG_NEW BYTE[size];
     if (! *ppNewWaveFormatEx) {
         return false;
     }

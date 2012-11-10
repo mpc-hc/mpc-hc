@@ -108,7 +108,7 @@ public:
 template<class WndClass>
 class CInternalPropertyPageTempl : public CInternalPropertyPage
 {
-    virtual CInternalPropertyPageWnd* GetWindow() { return DNew WndClass(); }
+    virtual CInternalPropertyPageWnd* GetWindow() { return DEBUG_NEW WndClass(); }
     virtual LPCTSTR GetWindowTitle() { return WndClass::GetWindowTitle(); }
     virtual CSize GetWindowSize() { return WndClass::GetWindowSize(); }
 

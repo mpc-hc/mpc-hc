@@ -64,7 +64,7 @@ public:
         }
 
         if (fCreate) {
-            CAutoPtr<CFormat<T> > pf(DNew CFormat<T>(name));
+            CAutoPtr<CFormat<T> > pf(DEBUG_NEW CFormat<T>(name));
             CFormat<T>* tmp = pf;
             Add(pf);
             return tmp;
@@ -135,7 +135,7 @@ public:
             return false;
         }
 
-        CAutoPtr<CFormatElem<T> > pfe(DNew CFormatElem<T>());
+        CAutoPtr<CFormatElem<T> > pfe(DEBUG_NEW CFormatElem<T>());
         pfe->mt = *pmt;
         pfe->caps = caps;
         pf->Add(pfe);

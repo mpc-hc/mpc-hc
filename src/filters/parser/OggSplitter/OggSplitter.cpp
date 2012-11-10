@@ -171,7 +171,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     m_pFile.Free();
 
-    m_pFile.Attach(DNew COggFile(pAsyncReader, hr));
+    m_pFile.Attach(DEBUG_NEW COggFile(pAsyncReader, hr));
     if (!m_pFile) {
         return E_OUTOFMEMORY;
     }
@@ -209,7 +209,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 if (type == 0x80) {
                     name.Format(L"Theora %d", i);
                     CAutoPtr<CBaseSplitterOutputPin> pPinOut;
-                    pPinOut.Attach(DNew COggTheoraOutputPin(page.GetData(), name, this, this, &hr2));
+                    pPinOut.Attach(DEBUG_NEW COggTheoraOutputPin(page.GetData(), name, this, this, &hr2));
                     AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
                     nWaitForMore++;
                 }
@@ -221,20 +221,20 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                         return E_FAIL;    // fix crash on broken files
                     }
                     name.Format(L"Vorbis %d", i);
-                    pPinOut.Attach(DNew COggVorbisOutputPin((OggVorbisIdHeader*)(p + 6), name, this, this, &hr2));
+                    pPinOut.Attach(DEBUG_NEW COggVorbisOutputPin((OggVorbisIdHeader*)(p + 6), name, this, this, &hr2));
                     nWaitForMore++;
                 } else if (!memcmp(p, "video", 5)) {
                     name.Format(L"Video %d", i);
-                    pPinOut.Attach(DNew COggVideoOutputPin((OggStreamHeader*)p, name, this, this, &hr2));
+                    pPinOut.Attach(DEBUG_NEW COggVideoOutputPin((OggStreamHeader*)p, name, this, this, &hr2));
                 } else if (!memcmp(p, "audio", 5)) {
                     name.Format(L"Audio %d", i);
-                    pPinOut.Attach(DNew COggAudioOutputPin((OggStreamHeader*)p, name, this, this, &hr2));
+                    pPinOut.Attach(DEBUG_NEW COggAudioOutputPin((OggStreamHeader*)p, name, this, this, &hr2));
                 } else if (!memcmp(p, "text", 4)) {
                     name.Format(L"Text %d", i);
-                    pPinOut.Attach(DNew COggTextOutputPin((OggStreamHeader*)p, name, this, this, &hr2));
+                    pPinOut.Attach(DEBUG_NEW COggTextOutputPin((OggStreamHeader*)p, name, this, this, &hr2));
                 } else if (!memcmp(p, "Direct Show Samples embedded in Ogg", 35)) {
                     name.Format(L"DirectShow %d", i);
-                    pPinOut.Attach(DNew COggDirectShowOutputPin((AM_MEDIA_TYPE*)(p + 35 + sizeof(GUID)), name, this, this, &hr2));
+                    pPinOut.Attach(DEBUG_NEW COggDirectShowOutputPin((AM_MEDIA_TYPE*)(p + 35 + sizeof(GUID)), name, this, this, &hr2));
                 }
 
                 AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
@@ -247,7 +247,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 // Ogg Flac : method 1
                 CAutoPtr<CBaseSplitterOutputPin> pPinOut;
                 name.Format(L"FLAC %d", i);
-                pPinOut.Attach(DNew COggFlacOutputPin(p + 12, (int)page.GetCount() - 14, name, this, this, &hr2));
+                pPinOut.Attach(DEBUG_NEW COggFlacOutputPin(p + 12, (int)page.GetCount() - 14, name, this, this, &hr2));
                 AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
             } else if (*(long*)(p - 1) == 0x43614C66) {
                 //bFlac = true;
@@ -256,7 +256,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                     CAutoPtr<CBaseSplitterOutputPin> pPinOut;
                     name.Format(L"FLAC %d", i);
                     p = page.GetData();
-                    pPinOut.Attach(DNew COggFlacOutputPin(p, (int)page.GetCount(), name, this, this, &hr2));
+                    pPinOut.Attach(DEBUG_NEW COggFlacOutputPin(p, (int)page.GetCount(), name, this, this, &hr2));
                     AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
                 }
             } else if (!(type & 1) && nWaitForMore == 0) {
@@ -616,7 +616,7 @@ void COggSplitterOutputPin::AddComment(BYTE* p, int len)
         CAtlList<CStringA> sl;
         Explode(str, sl, '=', 2);
         if (sl.GetCount() == 2) {
-            CAutoPtr<CComment> ptr(DNew CComment(UTF8To16(sl.GetHead()), UTF8To16(sl.GetTail())));
+            CAutoPtr<CComment> ptr(DEBUG_NEW CComment(UTF8To16(sl.GetHead()), UTF8To16(sl.GetTail())));
 
             if (ptr->m_key == L"LANGUAGE") {
                 CString lang = ISO6392ToLanguage(sl.GetTail()), iso6392 = LanguageToISO6392(CString(ptr->m_value));
@@ -712,7 +712,7 @@ HRESULT COggSplitterOutputPin::UnpackPage(OggPage& page)
                     }
                 }
             } else {
-                CAutoPtr<OggPacket> p(DNew OggPacket());
+                CAutoPtr<OggPacket> p(DEBUG_NEW OggPacket());
 
                 if (last == pos && page.m_hdr.granule_position != -1) {
                     p->bDiscontinuity = m_fSkip;
@@ -920,7 +920,7 @@ HRESULT COggVorbisOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_
         POSITION pos = m_initpackets.GetHeadPosition();
         while (pos) {
             Packet* pi = m_initpackets.GetNext(pos);
-            CAutoPtr<OggPacket> p(DNew OggPacket());
+            CAutoPtr<OggPacket> p(DEBUG_NEW OggPacket());
             p->TrackNumber = pi->TrackNumber;
             p->bDiscontinuity = p->bSyncPoint = FALSE;//TRUE;
             p->rtStart = p->rtStop = 0;
@@ -1019,7 +1019,7 @@ HRESULT COggFlacOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TI
         POSITION pos = m_initpackets.GetHeadPosition();
         while (pos) {
             Packet* pi = m_initpackets.GetNext(pos);
-            CAutoPtr<OggPacket> p(DNew OggPacket());
+            CAutoPtr<OggPacket> p(DEBUG_NEW OggPacket());
             p->TrackNumber = pi->TrackNumber;
             p->bDiscontinuity = p->bSyncPoint = FALSE;//TRUE;
             p->rtStart = p->rtStop = 0;

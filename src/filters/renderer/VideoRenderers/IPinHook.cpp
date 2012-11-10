@@ -263,7 +263,7 @@ static void LOG_TOFILE(LPCTSTR FileName, LPCTSTR fmt, ...)
     va_list args;
     va_start(args, fmt);
     int nCount = _vsctprintf(fmt, args) + 1;
-    if (TCHAR* buff = DNew TCHAR[nCount]) {
+    if (TCHAR* buff = DEBUG_NEW TCHAR[nCount]) {
         FILE* f;
         _vstprintf_s(buff, nCount, fmt, args);
         if (_tfopen_s(&f, FileName, _T("at")) == 0) {
@@ -1433,7 +1433,7 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
                 (Guid == DXVA_Intel_H264_ClearVideo) ||
                 (Guid == DXVA_Intel_VC1_ClearVideo) ||
                 (Guid == DXVA2_ModeMPEG2_VLD)) {
-            *ppDecode   = DNew CFakeDirectXVideoDecoder(NULL, *ppDecode);
+            *ppDecode   = DEBUG_NEW CFakeDirectXVideoDecoder(NULL, *ppDecode);
             (*ppDecode)->AddRef();
         }
 

@@ -81,7 +81,7 @@ CMatroskaMuxerFilter::CMatroskaMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr)
         *phr = S_OK;
     }
 
-    m_pOutput.Attach(DNew CMatroskaMuxerOutputPin(NAME("CMatroskaMuxerOutputPin"), this, this, phr));
+    m_pOutput.Attach(DEBUG_NEW CMatroskaMuxerOutputPin(NAME("CMatroskaMuxerOutputPin"), this, this, phr));
 
     AddInput();
 
@@ -135,7 +135,7 @@ void CMatroskaMuxerFilter::AddInput()
     name.Format(L"Track %d", m_pInputs.GetCount() + 1);
 
     HRESULT hr;
-    CAutoPtr<CMatroskaMuxerInputPin> pPin(DNew CMatroskaMuxerInputPin(name, this, this, &hr));
+    CAutoPtr<CMatroskaMuxerInputPin> pPin(DEBUG_NEW CMatroskaMuxerInputPin(name, this, this, &hr));
     m_pInputs.AddTail(pPin);
 }
 
@@ -406,7 +406,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 
     // Segment Info
 
-    sh.Attach(DNew SeekHead());
+    sh.Attach(DEBUG_NEW SeekHead());
     sh->ID.Set(0x1549A966);
     sh->Position.Set(GetStreamPosition(pStream) - segpos);
     seek.SeekHeads.AddTail(sh);
@@ -422,7 +422,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 
     // Tracks
 
-    sh.Attach(DNew SeekHead());
+    sh.Attach(DEBUG_NEW SeekHead());
     sh->ID.Set(0x1654AE6B);
     sh->Position.Set(GetStreamPosition(pStream) - segpos);
     seek.SeekHeads.AddTail(sh);
@@ -430,14 +430,14 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
     UINT64 TrackNumber = 0;
     /*
         CNode<Track> Tracks;
-        CAutoPtr<Track> pT(DNew Track());
+        CAutoPtr<Track> pT(DEBUG_NEW Track());
         POSITION pos = m_pInputs.GetHeadPosition();
         for (int i = 1; pos; i++)
         {
             CMatroskaMuxerInputPin* pPin = m_pInputs.GetNext(pos);
             if (!pPin->IsConnected()) continue;
 
-            CAutoPtr<TrackEntry> pTE(DNew TrackEntry());
+            CAutoPtr<TrackEntry> pTE(DEBUG_NEW TrackEntry());
             *pTE = *pPin->GetTrackEntry();
             if (TrackNumber == 0 && pTE->TrackType == TrackEntry::TypeVideo)
                 TrackNumber = pTE->TrackNumber;
@@ -537,12 +537,12 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 
                     if (!fTracksWritten) {
                         CNode<Track> Tracks;
-                        CAutoPtr<Track> pT(DNew Track());
+                        CAutoPtr<Track> pT(DEBUG_NEW Track());
                         POSITION pos = pActivePins.GetHeadPosition();
                         for (int i = 1; pos; i++) {
                             CMatroskaMuxerInputPin* pPin = pActivePins.GetNext(pos);
 
-                            CAutoPtr<TrackEntry> pTE(DNew TrackEntry());
+                            CAutoPtr<TrackEntry> pTE(DEBUG_NEW TrackEntry());
                             *pTE = *pPin->GetTrackEntry();
                             if (TrackNumber == 0 && pTE->TrackType == TrackEntry::TypeVideo) {
                                 TrackNumber = pTE->TrackNumber;
@@ -593,7 +593,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 
                         while ((INT64)(c.TimeCode + MAXCLUSTERTIME) < b->Block.TimeCode) {
                             if (!c.BlockGroups.IsEmpty()) {
-                                sh.Attach(DNew SeekHead());
+                                sh.Attach(DEBUG_NEW SeekHead());
                                 sh->ID.Set(c.GetID()/*0x1F43B675*/);
                                 sh->Position.Set(GetStreamPosition(pStream) - segpos);
                                 seek.SeekHeads.AddTail(sh);
@@ -613,13 +613,13 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                         if (b->ReferenceBlock == 0 && b->Block.TrackNumber == TrackNumber) {
                             ULONGLONG clusterpos = GetStreamPosition(pStream) - segpos;
                             if (lastcueclusterpos != clusterpos || lastcuetimecode + 1000 < b->Block.TimeCode) {
-                                CAutoPtr<CueTrackPosition> ctp(DNew CueTrackPosition());
+                                CAutoPtr<CueTrackPosition> ctp(DEBUG_NEW CueTrackPosition());
                                 ctp->CueTrack.Set(b->Block.TrackNumber);
                                 ctp->CueClusterPosition.Set(clusterpos);
                                 if (c.BlockGroups.GetCount() > 0) {
                                     ctp->CueBlockNumber.Set(nBlocksInCueTrack);
                                 }
-                                CAutoPtr<CuePoint> cp(DNew CuePoint());
+                                CAutoPtr<CuePoint> cp(DEBUG_NEW CuePoint());
                                 cp->CueTime.Set(b->Block.TimeCode);
                                 cp->CueTrackPositions.AddTail(ctp);
                                 cue.CuePoints.AddTail(cp);
@@ -638,7 +638,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                 }
 
                 if (!c.BlockGroups.IsEmpty()) {
-                    sh.Attach(DNew SeekHead());
+                    sh.Attach(DEBUG_NEW SeekHead());
                     sh->ID.Set(c.GetID()/*0x1F43B675*/);
                     sh->Position.Set(GetStreamPosition(pStream) - segpos);
                     seek.SeekHeads.AddTail(sh);
@@ -647,7 +647,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                 }
 
                 if (!cue.CuePoints.IsEmpty()) {
-                    sh.Attach(DNew SeekHead());
+                    sh.Attach(DEBUG_NEW SeekHead());
                     sh->ID.Set(cue.GetID()/*0x1C53BB6B*/);
                     sh->Position.Set(GetStreamPosition(pStream) - segpos);
                     seek.SeekHeads.AddTail(sh);
@@ -658,7 +658,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                 {
                     Tags tags;
 
-                    sh.Attach(DNew SeekHead());
+                    sh.Attach(DEBUG_NEW SeekHead());
                     sh->ID.Set(tags.GetID());
                     sh->Position.Set(GetStreamPosition(pStream) - segpos);
                     seek.SeekHeads.AddTail(sh);
@@ -777,7 +777,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
     }
 
     m_pTE.Free();
-    m_pTE.Attach(DNew TrackEntry());
+    m_pTE.Attach(DEBUG_NEW TrackEntry());
 
     m_pTE->TrackUID.Set(rand());
     m_pTE->MinCache.Set(1);
@@ -1239,7 +1239,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
           pSample->IsSyncPoint() == S_OK ? 1 : 0);
 
     if (m_mt.subtype == MEDIASUBTYPE_Vorbis && m_pVorbisHdrs.GetCount() < 3) {
-        CAutoPtr<CBinary> data(DNew CBinary(0));
+        CAutoPtr<CBinary> data(DEBUG_NEW CBinary(0));
         data->SetCount(len);
         memcpy(data->GetData(), pData, len);
         m_pVorbisHdrs.Add(data);
@@ -1277,7 +1277,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
         pSample->SetSyncPoint(TRUE);    // HACK: some capture filters don't set this
     }
 
-    CAutoPtr<BlockGroup> b(DNew BlockGroup());
+    CAutoPtr<BlockGroup> b(DEBUG_NEW BlockGroup());
     /*
             // TODO: test this with a longer capture (pcm, mp3)
             if (S_OK == pSample->IsSyncPoint() && rtStart < m_rtLastStart)
@@ -1301,7 +1301,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
         b->BlockDuration.Set((rtStop - rtStart + 5000) / 10000);
     }
 
-    CAutoPtr<CBinary> data(DNew CBinary(0));
+    CAutoPtr<CBinary> data(DEBUG_NEW CBinary(0));
     data->SetCount(len);
     memcpy(data->GetData(), pData, len);
     b->Block.BlockData.AddTail(data);

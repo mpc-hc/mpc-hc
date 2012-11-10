@@ -36,7 +36,7 @@ void DSObjects::ExtractRects(REGION* pRegion)
 
     DWORD sizeNeeed = GetRegionData((HRGN)pRegion->pOSRegion, 0, NULL);
 
-    lpRgnData = (LPRGNDATA)DNew char[sizeNeeed];
+    lpRgnData = (LPRGNDATA)DEBUG_NEW char[sizeNeeed];
     DWORD returnValue = GetRegionData((HRGN)pRegion->pOSRegion, sizeNeeed, lpRgnData);
     UNREFERENCED_PARAMETER(returnValue);
 
@@ -49,7 +49,7 @@ void DSObjects::ExtractRects(REGION* pRegion)
     pRegion->extents.bottom = lpRgnData->rdh.rcBound.bottom;
 
     if (lpRgnData->rdh.nCount) {
-        pRegion->rects = DNew PNxRect[lpRgnData->rdh.nCount];
+        pRegion->rects = DEBUG_NEW PNxRect[lpRgnData->rdh.nCount];
 
         // now extract the information.
 
@@ -67,7 +67,7 @@ void DSObjects::ExtractRects(REGION* pRegion)
 
 REGION* DSObjects::RMACreateRectRegion(int left, int top, int right, int bottom)
 {
-    REGION* retVal = DNew REGION;
+    REGION* retVal = DEBUG_NEW REGION;
     retVal->pOSRegion = (void*)CreateRectRgn(left, top, right, bottom);
     ExtractRects(retVal);
     return retVal;
@@ -372,7 +372,7 @@ STDMETHODIMP CRealMediaWindowlessSite::CreateChild(REF(IRMASite*) /*OUT*/ pChild
     HRESULT hr = PNR_OK;
 
     CComPtr<IRMASite> pSite =
-        (IRMASite*)DNew CRealMediaWindowlessSite(hr, m_pContext, this);
+        (IRMASite*)DEBUG_NEW CRealMediaWindowlessSite(hr, m_pContext, this);
 
     if (FAILED(hr) || !pSite) {
         return E_FAIL;

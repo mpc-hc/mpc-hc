@@ -95,7 +95,7 @@ class CShoutcastStream : public CSourceStream
         CString title;
         mp3frame(DWORD len = 0) {
             this->len = len;
-            pData = len ? DNew BYTE[len] : NULL;
+            pData = len ? DEBUG_NEW BYTE[len] : NULL;
             rtStart = rtStop = 0;
         }
         mp3frame(const mp3frame& f) { *this = f; }

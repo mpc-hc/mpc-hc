@@ -125,7 +125,7 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
         m_nSurfaceArrayCount = m_lCount;
 
         // Allocate a new array of pointers.
-        m_ppRTSurfaceArray = DNew IDirect3DSurface9 * [m_lCount];
+        m_ppRTSurfaceArray = DEBUG_NEW IDirect3DSurface9 * [m_lCount];
         if (m_ppRTSurfaceArray == NULL) {
             hr = E_OUTOFMEMORY;
         } else {
@@ -152,7 +152,7 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
     if (SUCCEEDED(hr)) {
         // Important : create samples in reverse order !
         for (m_lAllocated = m_lCount - 1; m_lAllocated >= 0; m_lAllocated--) {
-            CDXVA2Sample* pSample = DNew CDXVA2Sample(this, &hr);
+            CDXVA2Sample* pSample = DEBUG_NEW CDXVA2Sample(this, &hr);
             if (pSample == NULL) {
                 hr = E_OUTOFMEMORY;
                 break;

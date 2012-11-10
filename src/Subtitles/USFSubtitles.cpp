@@ -321,7 +321,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
                 1;
         }
 
-        STSStyle* stss = DNew STSStyle;
+        STSStyle* stss = DEBUG_NEW STSStyle;
         if (!stss) {
             continue;
         }
@@ -478,7 +478,7 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
                     DeclareNameAndValue(pGrandChild, name, val);
 
                     if (name == L"style") {
-                        CAutoPtr<style_t> s(DNew style_t);
+                        CAutoPtr<style_t> s(DEBUG_NEW style_t);
                         if (s) {
                             ParseStyle(pGrandChild, s);
                             styles.AddTail(s);
@@ -500,7 +500,7 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
                     DeclareNameAndValue(pGrandChild, name, val);
 
                     if (name == L"effect") {
-                        CAutoPtr<effect_t> e(DNew effect_t);
+                        CAutoPtr<effect_t> e(DEBUG_NEW effect_t);
                         if (e) {
                             ParseEffect(pGrandChild, e);
                             effects.AddTail(e);
@@ -651,7 +651,7 @@ void CUSFSubtitles::ParseEffect(CComPtr<IXMLDOMNode> pNode, effect_t* e)
             DeclareNameAndValue(pChild, name, val);
 
             if (name == L"keyframe") {
-                CAutoPtr<keyframe_t> k(DNew keyframe_t);
+                CAutoPtr<keyframe_t> k(DEBUG_NEW keyframe_t);
                 if (k) {
                     ParseKeyframe(pChild, k);
                     e->keyframes.AddTail(k);
@@ -689,7 +689,7 @@ void CUSFSubtitles::ParseSubtitle(CComPtr<IXMLDOMNode> pNode, int start, int sto
     DeclareNameAndValue(pNode, name, val);
 
     if (name == L"text" || name == L"karaoke") {
-        CAutoPtr<text_t> t(DNew text_t);
+        CAutoPtr<text_t> t(DEBUG_NEW text_t);
         if (t) {
             t->start = start;
             t->stop = stop;

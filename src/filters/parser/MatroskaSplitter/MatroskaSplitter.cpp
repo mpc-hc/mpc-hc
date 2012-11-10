@@ -133,7 +133,7 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     CAtlArray<CMatroskaSplitterOutputPin*> pinOut;
     CAtlArray<TrackEntry*> pinOutTE;
 
-    m_pFile.Attach(DNew CMatroskaFile(pAsyncReader, hr));
+    m_pFile.Attach(DEBUG_NEW CMatroskaFile(pAsyncReader, hr));
     if (!m_pFile) {
         return E_OUTOFMEMORY;
     }
@@ -480,7 +480,7 @@ avcsuccess:
                                         if (pBlock->m_id == 0xA0) {
                                             bgn.Parse(pBlock, true);
                                         } else if (pBlock->m_id == 0xA3) {
-                                            CAutoPtr<BlockGroup> bg(DNew BlockGroup());
+                                            CAutoPtr<BlockGroup> bg(DEBUG_NEW BlockGroup());
                                             bg->Block.Parse(pBlock, true);
                                             if (!(bg->Block.Lacing & 0x80)) {
                                                 bg->ReferenceBlock.Set(0);    // not a kf
@@ -846,7 +846,7 @@ avcsuccess:
 
             HRESULT hr2;
 
-            CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2));
+            CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2));
             if (!pTE->Name.IsEmpty()) {
                 pPinOut->SetProperty(L"NAME", pTE->Name);
             }
@@ -855,10 +855,10 @@ avcsuccess:
             }
 
             if (!isSub) {
-                pinOut.InsertAt((iVideo + iAudio - 3), DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2), 1);
+                pinOut.InsertAt((iVideo + iAudio - 3), DEBUG_NEW CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2), 1);
                 pinOutTE.InsertAt((iVideo + iAudio - 3), pTE, 1);
             } else {
-                pinOut.Add(DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2));
+                pinOut.Add(DEBUG_NEW CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr2));
                 pinOutTE.Add(pTE);
             }
 
@@ -994,7 +994,7 @@ void CMatroskaSplitterFilter::InstallFonts()
                     pF->FileMimeType == "application/vnd.ms-opentype") {
                 // assume this is a font resource
 
-                if (BYTE* pData = DNew BYTE[(UINT)pF->FileDataLen]) {
+                if (BYTE* pData = DEBUG_NEW BYTE[(UINT)pF->FileDataLen]) {
                     m_pFile->Seek(pF->FileDataPos);
 
                     if (SUCCEEDED(m_pFile->ByteRead(pData, pF->FileDataLen))) {
@@ -1047,7 +1047,7 @@ void CMatroskaSplitterFilter::SendVorbisHeaderSample()
             while (pos && SUCCEEDED(hr)) {
                 long len = sizes.GetNext(pos);
 
-                CAutoPtr<Packet> p(DNew Packet());
+                CAutoPtr<Packet> p(DEBUG_NEW Packet());
                 p->TrackNumber = (DWORD)pTE->TrackNumber;
                 p->rtStart = 0;
                 p->rtStop = 1;
@@ -1085,7 +1085,7 @@ bool CMatroskaSplitterFilter::DemuxInit()
 
         UINT64 TrackNumber = m_pFile->m_segment.GetMasterTrack();
 
-        CAutoPtr<Cue> pCue(DNew Cue());
+        CAutoPtr<Cue> pCue(DEBUG_NEW Cue());
 
         do {
             Cluster c;
@@ -1093,8 +1093,8 @@ bool CMatroskaSplitterFilter::DemuxInit()
 
             m_pFile->m_segment.SegmentInfo.Duration.Set((float)c.TimeCode - m_pFile->m_rtOffset / 10000);
 
-            CAutoPtr<CuePoint> pCuePoint(DNew CuePoint());
-            CAutoPtr<CueTrackPosition> pCueTrackPosition(DNew CueTrackPosition());
+            CAutoPtr<CuePoint> pCuePoint(DEBUG_NEW CuePoint());
+            CAutoPtr<CueTrackPosition> pCueTrackPosition(DEBUG_NEW CueTrackPosition());
             pCuePoint->CueTime.Set(c.TimeCode);
             pCueTrackPosition->CueTrack.Set(TrackNumber);
             pCueTrackPosition->CueClusterPosition.Set(m_pCluster->m_filepos - m_pSegment->m_start);
@@ -1194,7 +1194,7 @@ void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
                                 if (pBlock->m_id == 0xA0) {
                                     bgn.Parse(pBlock, true);
                                 } else if (pBlock->m_id == 0xA3) {
-                                    CAutoPtr<BlockGroup> bg(DNew BlockGroup());
+                                    CAutoPtr<BlockGroup> bg(DEBUG_NEW BlockGroup());
                                     bg->Block.Parse(pBlock, true);
                                     if (!(bg->Block.Lacing & 0x80)) {
                                         bg->ReferenceBlock.Set(0);    // not a kf
@@ -1254,7 +1254,7 @@ bool CMatroskaSplitterFilter::DemuxLoop()
             if (m_pBlock->m_id == 0xA0) {
                 bgn.Parse(m_pBlock, true);
             } else if (m_pBlock->m_id == 0xA3) {
-                CAutoPtr<BlockGroup> bg(DNew BlockGroup());
+                CAutoPtr<BlockGroup> bg(DEBUG_NEW BlockGroup());
                 bg->Block.Parse(m_pBlock, true);
                 if (!(bg->Block.Lacing & 0x80)) {
                     bg->ReferenceBlock.Set(0);    // not a kf
@@ -1263,7 +1263,7 @@ bool CMatroskaSplitterFilter::DemuxLoop()
             }
 
             while (bgn.GetCount() && SUCCEEDED(hr)) {
-                CAutoPtr<MatroskaPacket> p(DNew MatroskaPacket());
+                CAutoPtr<MatroskaPacket> p(DEBUG_NEW MatroskaPacket());
                 p->bg = bgn.RemoveHead();
 
                 p->bSyncPoint = !p->bg->ReferenceBlock.IsValid();
@@ -1517,7 +1517,7 @@ HRESULT CMatroskaSplitterOutputPin::DeliverBlock(MatroskaPacket* p)
 
     POSITION pos = p->bg->Block.BlockData.GetHeadPosition();
     while (pos) {
-        CAutoPtr<Packet> tmp(DNew Packet());
+        CAutoPtr<Packet> tmp(DEBUG_NEW Packet());
         tmp->TrackNumber = p->TrackNumber;
         tmp->bDiscontinuity = p->bDiscontinuity;
         tmp->bSyncPoint = p->bSyncPoint;
@@ -1539,7 +1539,7 @@ HRESULT CMatroskaSplitterOutputPin::DeliverBlock(MatroskaPacket* p)
         POSITION pos = p->bg->ba.bm.GetHeadPosition();
         while (pos) {
             const BlockMore* bm = p->bg->ba.bm.GetNext(pos);
-            CAutoPtr<Packet> tmp(DNew Packet());
+            CAutoPtr<Packet> tmp(DEBUG_NEW Packet());
             tmp->TrackNumber = p->TrackNumber;
             tmp->bDiscontinuity = false;
             tmp->bSyncPoint = false;

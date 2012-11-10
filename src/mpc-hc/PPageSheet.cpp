@@ -79,7 +79,7 @@ CPPageSheet::~CPPageSheet()
 
 CTreeCtrl* CPPageSheet::CreatePageTreeObject()
 {
-    return DNew CTreePropSheetTreeCtrl();
+    return DEBUG_NEW CTreePropSheetTreeCtrl();
 }
 
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)

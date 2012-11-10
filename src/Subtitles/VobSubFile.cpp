@@ -1144,7 +1144,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
         packetsize = (buff[buff[0x16] + 0x18] << 8) + buff[buff[0x16] + 0x19];
         datasize = (buff[buff[0x16] + 0x1a] << 8) + buff[buff[0x16] + 0x1b];
 
-        ret = DNew BYTE[packetsize];
+        ret = DEBUG_NEW BYTE[packetsize];
         if (!ret) {
             break;
         }
@@ -2402,7 +2402,7 @@ void CVobSubStream::Add(REFERENCE_TIME tStart, REFERENCE_TIME tStop, BYTE* pData
     CVobSubImage vsi;
     vsi.GetPacketInfo(pData, (pData[0] << 8) | pData[1], (pData[2] << 8) | pData[3]);
 
-    CAutoPtr<SubPic> p(DNew SubPic());
+    CAutoPtr<SubPic> p(DEBUG_NEW SubPic());
     p->tStart = tStart;
     p->tStop = vsi.delay > 0 ? (tStart + 10000i64 * vsi.delay) : tStop;
     p->pData.SetCount(len);

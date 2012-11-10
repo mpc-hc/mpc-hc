@@ -286,7 +286,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                         if (presets[j].cx * 3 != presets[j].cy * 4) {
                             int extra = mt.cbFormat - sizeof(VIDEOINFOHEADER);
                             int bmiHeaderSize = sizeof(vih->bmiHeader) + extra;
-                            BYTE* pbmiHeader = DNew BYTE[bmiHeaderSize];
+                            BYTE* pbmiHeader = DEBUG_NEW BYTE[bmiHeaderSize];
                             memcpy(pbmiHeader, &vih->bmiHeader, bmiHeaderSize);
                             mt.ReallocFormatBuffer(FIELD_OFFSET(VIDEOINFOHEADER2, bmiHeader) + bmiHeaderSize);
                             VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.pbFormat;
@@ -866,15 +866,15 @@ void CPlayerCaptureDialog::UpdateMuxer()
     } else if (m_muxtype == 1) {
         m_pMux.CoCreateInstance(CLSID_OggMux);
     } else if (m_muxtype == 2) {
-        m_pMux = DNew CMatroskaMuxerFilter(NULL, &hr);
+        m_pMux = DEBUG_NEW CMatroskaMuxerFilter(NULL, &hr);
     } else if (m_muxtype == 3) {
-        m_pMux = DNew CDSMMuxerFilter(NULL, &hr);
+        m_pMux = DEBUG_NEW CDSMMuxerFilter(NULL, &hr);
     } else {
         return;
     }
 
     if (m_fSepAudio) {
-        m_pAudMux = DNew CWavDestFilter(NULL, &hr);
+        m_pAudMux = DEBUG_NEW CWavDestFilter(NULL, &hr);
     }
 }
 
@@ -1625,13 +1625,13 @@ void CPlayerCaptureDialog::OnRecord()
             }
         }
 
-        m_pVidBuffer = m_fVidOutput && m_nVidBuffers > 0 && m_muxtype != 2 && m_muxtype != 3 ? DNew CBufferFilter(NULL, NULL) : NULL;
+        m_pVidBuffer = m_fVidOutput && m_nVidBuffers > 0 && m_muxtype != 2 && m_muxtype != 3 ? DEBUG_NEW CBufferFilter(NULL, NULL) : NULL;
         if (CComQIPtr<IBufferFilter> pVB = m_pVidBuffer) {
             pVB->SetBuffers(m_nVidBuffers);
             pVB->SetPriority(THREAD_PRIORITY_NORMAL);
         }
 
-        m_pAudBuffer = m_fAudOutput && m_nAudBuffers > 0 && m_muxtype != 2 && m_muxtype != 3 ? DNew CBufferFilter(NULL, NULL) : NULL;
+        m_pAudBuffer = m_fAudOutput && m_nAudBuffers > 0 && m_muxtype != 2 && m_muxtype != 3 ? DEBUG_NEW CBufferFilter(NULL, NULL) : NULL;
         if (CComQIPtr<IBufferFilter> pAB = m_pAudBuffer) {
             pAB->SetBuffers(m_nAudBuffers);
             pAB->SetPriority(THREAD_PRIORITY_ABOVE_NORMAL);

@@ -59,7 +59,7 @@ public:
         }
 
         HRESULT hr = S_OK;
-        if (!(DNew TStream(pszFileName, this, &hr))) {
+        if (!(DEBUG_NEW TStream(pszFileName, this, &hr))) {
             return E_OUTOFMEMORY;
         }
 

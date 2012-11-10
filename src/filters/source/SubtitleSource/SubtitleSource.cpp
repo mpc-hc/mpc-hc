@@ -173,7 +173,7 @@ STDMETHODIMP CSubtitleSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* p
     }
 
     HRESULT hr = S_OK;
-    if (!(DNew CSubtitleStream(pszFileName, this, &hr))) {
+    if (!(DEBUG_NEW CSubtitleStream(pszFileName, this, &hr))) {
         return E_OUTOFMEMORY;
     }
 

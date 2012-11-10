@@ -115,7 +115,7 @@ STDMETHODIMP CFLICSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
     }
 
     HRESULT hr = S_OK;
-    if (!(DNew CFLICStream(pszFileName, this, &hr))) {
+    if (!(DEBUG_NEW CFLICStream(pszFileName, this, &hr))) {
         return E_OUTOFMEMORY;
     }
 

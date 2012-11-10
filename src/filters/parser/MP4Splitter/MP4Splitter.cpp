@@ -122,7 +122,7 @@ static CStringW ConvertTX3GToSSA(
 {
     int str_len = str.GetLength();
 
-    SSACharacter* chars = DNew SSACharacter[str_len];
+    SSACharacter* chars = DEBUG_NEW SSACharacter[str_len];
     for (int i = 0; i < str_len; ++i) {
         chars[i].c = str[i];
     }
@@ -447,7 +447,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     m_trackpos.RemoveAll();
 
     m_pFile.Free();
-    m_pFile.Attach(DNew CMP4SplitterFile(pAsyncReader, hr));
+    m_pFile.Attach(DEBUG_NEW CMP4SplitterFile(pAsyncReader, hr));
     if (!m_pFile) {
         return E_OUTOFMEMORY;
     }
@@ -1221,7 +1221,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 }
             }
 
-            CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMP4SplitterOutputPin(mts, name, this, this, &hr));
+            CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CMP4SplitterOutputPin(mts, name, this, this, &hr));
 
             if (!TrackName.IsEmpty()) {
                 pPinOut->SetProperty(L"NAME", TrackName);
@@ -1244,7 +1244,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
                 id ^= 0x80402010; // FIXME: until fixing, let's hope there won't be another track like this...
 
-                CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMP4SplitterOutputPin(mts, name + postfix, this, this, &hr));
+                CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CMP4SplitterOutputPin(mts, name + postfix, this, this, &hr));
 
                 if (!TrackName.IsEmpty()) {
                     pPinOut->SetProperty(L"NAME", TrackName + postfix);
@@ -1465,7 +1465,7 @@ bool CMP4SplitterFilter::DemuxLoop()
         if (pPin && pPin->IsConnected() && AP4_SUCCEEDED(track->ReadSample(pPairNext->m_value.index, sample, data))) {
             const CMediaType& mt = pPin->CurrentMediaType();
 
-            CAutoPtr<Packet> p(DNew Packet());
+            CAutoPtr<Packet> p(DEBUG_NEW Packet());
             p->TrackNumber = (DWORD)track->GetId();
             p->rtStart = (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetCts());
             p->rtStop = p->rtStart + (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetDuration());
@@ -1620,7 +1620,7 @@ bool CMP4SplitterFilter::DemuxLoop()
                 }
 
                 if (!dlgln_bkg.IsEmpty()) {
-                    CAutoPtr<Packet> p2(DNew Packet());
+                    CAutoPtr<Packet> p2(DEBUG_NEW Packet());
                     p2->TrackNumber = p->TrackNumber;
                     p2->rtStart = p->rtStart;
                     p2->rtStop = p->rtStop;
@@ -1630,7 +1630,7 @@ bool CMP4SplitterFilter::DemuxLoop()
                 }
 
                 if (!dlgln_plaintext.IsEmpty()) {
-                    CAutoPtr<Packet> p2(DNew Packet());
+                    CAutoPtr<Packet> p2(DEBUG_NEW Packet());
                     p2->TrackNumber = p->TrackNumber ^ 0x80402010;
                     p2->rtStart = p->rtStart;
                     p2->rtStop = p->rtStop;
@@ -1769,7 +1769,7 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     HRESULT hr = E_FAIL;
 
     m_pFile.Free();
-    m_pFile.Attach(DNew CBaseSplitterFileEx(pAsyncReader, hr));
+    m_pFile.Attach(DEBUG_NEW CBaseSplitterFileEx(pAsyncReader, hr));
     if (!m_pFile) {
         return E_OUTOFMEMORY;
     }
@@ -2007,7 +2007,7 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     mt.subtype = FOURCCMap(mvih->hdr.bmiHeader.biCompression = 'V4PM');
     mts.Add(mt);
 
-    CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
+    CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
     EXECUTE_ASSERT(SUCCEEDED(AddOutputPin(0, pPinOut)));
 
     m_rtNewStop = m_rtStop = m_rtDuration;
@@ -2051,7 +2051,7 @@ bool CMPEG4VideoSplitterFilter::DemuxLoop()
             }
 
             if (!p) {
-                p.Attach(DNew Packet());
+                p.Attach(DEBUG_NEW Packet());
                 p->SetCount(0, 1024);
                 p->TrackNumber = 0;
                 p->rtStart = rt;

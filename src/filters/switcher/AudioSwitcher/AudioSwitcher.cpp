@@ -346,7 +346,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     if (m_fDownSampleTo441
             && wfe->nSamplesPerSec > 44100 && wfeout->nSamplesPerSec == 44100
             && wfe->wBitsPerSample <= 16 && fPCM) {
-        if (BYTE* buff = DNew BYTE[len * bps]) {
+        if (BYTE* buff = DEBUG_NEW BYTE[len * bps]) {
             for (int ch = 0; ch < wfeout->nChannels; ch++) {
                 memset(buff, 0, len * bps);
 
@@ -368,7 +368,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     if (m_fNormalize || m_boost_mul > 1) {
         int samples = lenout * wfeout->nChannels;
 
-        if (double* buff = DNew double[samples]) {
+        if (double* buff = DEBUG_NEW double[samples]) {
             for (int i = 0; i < samples; i++) {
                 if (fPCM && wfe->wBitsPerSample == 8) {
                     buff[i] = (double)((BYTE*)pDataOut)[i] / UCHAR_MAX;
@@ -517,7 +517,7 @@ void CAudioSwitcherFilter::OnNewOutputMediaType(const CMediaType& mtIn, const CM
     m_pResamplers.RemoveAll();
     for (int i = 0; i < wfeout->nChannels; i++) {
         CAutoPtr<AudioStreamResampler> pResampler;
-        pResampler.Attach(DNew AudioStreamResampler(wfeout->wBitsPerSample >> 3, wfe->nSamplesPerSec, wfeout->nSamplesPerSec, true));
+        pResampler.Attach(DEBUG_NEW AudioStreamResampler(wfeout->wBitsPerSample >> 3, wfe->nSamplesPerSec, wfeout->nSamplesPerSec, true));
         m_pResamplers.Add(pResampler);
     }
 

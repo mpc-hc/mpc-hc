@@ -1037,7 +1037,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     AfxEnableControlContainer();
 
-    CMainFrame* pFrame = DNew CMainFrame;
+    CMainFrame* pFrame = DEBUG_NEW CMainFrame;
     m_pMainWnd = pFrame;
     if (!pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL, NULL)) {
         AfxMessageBox(_T("CMainFrame::LoadFrame failed!"));
@@ -1107,7 +1107,7 @@ UINT CMPlayerCApp::GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRaw
     // Support for MCE remote control
     GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
     if (dwSize > 0) {
-        BYTE* pRawBuffer = DNew BYTE[dwSize];
+        BYTE* pRawBuffer = DEBUG_NEW BYTE[dwSize];
         if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1) {
             RAWINPUT* raw = (RAWINPUT*)pRawBuffer;
             if (raw->header.dwType == RIM_TYPEHID) {
@@ -1127,7 +1127,7 @@ UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawIn
 
     GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
     if (dwSize > 21) {
-        BYTE* pRawBuffer = DNew BYTE[dwSize];
+        BYTE* pRawBuffer = DEBUG_NEW BYTE[dwSize];
         if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1) {
             RAWINPUT* raw = (RAWINPUT*)pRawBuffer;
 
@@ -1867,31 +1867,31 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 
         if (ct == _T("video/x-ms-asf")) {
             // ...://..."/>
-            re.Attach(DNew CAtlRegExpT());
+            re.Attach(DEBUG_NEW CAtlRegExpT());
             if (re && REPARSE_ERROR_OK == re->Parse(_T("{[a-zA-Z]+://[^\n\">]*}"), FALSE)) {
                 res.AddTail(re);
             }
             // Ref#n= ...://...\n
-            re.Attach(DNew CAtlRegExpT());
+            re.Attach(DEBUG_NEW CAtlRegExpT());
             if (re && REPARSE_ERROR_OK == re->Parse(_T("Ref\\z\\b*=\\b*[\"]*{([a-zA-Z]+://[^\n\"]+}"), FALSE)) {
                 res.AddTail(re);
             }
         } else if (ct == _T("audio/x-scpls")) {
             // File1=...\n
-            re.Attach(DNew CAtlRegExp<>());
+            re.Attach(DEBUG_NEW CAtlRegExp<>());
             if (re && REPARSE_ERROR_OK == re->Parse(_T("file\\z\\b*=\\b*[\"]*{[^\n\"]+}"), FALSE)) {
                 res.AddTail(re);
             }
         } else if (ct == _T("audio/x-mpegurl")) {
             // #comment
             // ...
-            re.Attach(DNew CAtlRegExp<>());
+            re.Attach(DEBUG_NEW CAtlRegExp<>());
             if (re && REPARSE_ERROR_OK == re->Parse(_T("{[^#][^\n]+}"), FALSE)) {
                 res.AddTail(re);
             }
         } else if (ct == _T("audio/x-pn-realaudio")) {
             // rtsp://...
-            re.Attach(DNew CAtlRegExp<>());
+            re.Attach(DEBUG_NEW CAtlRegExp<>());
             if (re && REPARSE_ERROR_OK == re->Parse(_T("{rtsp://[^\n]+}"), FALSE)) {
                 res.AddTail(re);
             }

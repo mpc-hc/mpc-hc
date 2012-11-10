@@ -174,7 +174,7 @@ STDMETHODIMP CShoutcastSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* 
 
     HRESULT hr = E_OUTOFMEMORY;
 
-    if (!(DNew CShoutcastStream(pszFileName, this, &hr)) || FAILED(hr)) {
+    if (!(DEBUG_NEW CShoutcastStream(pszFileName, this, &hr)) || FAILED(hr)) {
         return hr;
     }
 

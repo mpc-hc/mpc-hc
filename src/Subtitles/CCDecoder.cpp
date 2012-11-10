@@ -336,8 +336,8 @@ void CCDecoder::ExtractCC(BYTE* buff, int len, __int64 time)
             if (nBytes > 0) {
                 nBytes = (nBytes + 1)&~1;
 
-                BYTE* pData1 = DNew BYTE[nBytes];
-                BYTE* pData2 = DNew BYTE[nBytes];
+                BYTE* pData1 = DEBUG_NEW BYTE[nBytes];
+                BYTE* pData2 = DEBUG_NEW BYTE[nBytes];
 
                 if (pData1 && pData2) {
                     int nBytes1 = 0, nBytes2 = 0;

@@ -48,12 +48,12 @@ bool CVobSubImage::Alloc(int w, int h)
     if (lpTemp1 == NULL || w * h > org.cx * org.cy || (w + 2) * (h + 2) > (org.cx + 2) * (org.cy + 2)) {
         Free();
 
-        lpTemp1 = DNew RGBQUAD[w * h];
+        lpTemp1 = DEBUG_NEW RGBQUAD[w * h];
         if (!lpTemp1) {
             return false;
         }
 
-        lpTemp2 = DNew RGBQUAD[(w + 2) * (h + 2)];
+        lpTemp2 = DEBUG_NEW RGBQUAD[(w + 2) * (h + 2)];
         if (!lpTemp2) {
             delete [] lpTemp1;
             lpTemp1 = NULL;
@@ -362,7 +362,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
         return NULL;
     }
 
-    CAutoPtrList<COutline>* ol = DNew CAutoPtrList<COutline>();
+    CAutoPtrList<COutline>* ol = DEBUG_NEW CAutoPtrList<COutline>();
     if (!ol) {
         return NULL;
     }
@@ -406,7 +406,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 
         int ox = x, oy = y, odir = dir;
 
-        CAutoPtr<COutline> o(DNew COutline);
+        CAutoPtr<COutline> o(DEBUG_NEW COutline);
         if (!o) {
             break;
         }
@@ -1275,7 +1275,7 @@ void CVobSubImage::Scale2x()
     int w = rect.Width(), h = rect.Height();
 
     DWORD* src = (DWORD*)lpPixels;
-    DWORD* dst = DNew DWORD[w * h];
+    DWORD* dst = DEBUG_NEW DWORD[w * h];
 
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++, src++, dst++) {

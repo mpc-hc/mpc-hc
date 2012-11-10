@@ -455,7 +455,7 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
         }
     }
 
-    *ppSubPic = DNew CDX9SubPic(pSurface, fStatic ? 0 : this, m_bExternalRenderer);
+    *ppSubPic = DEBUG_NEW CDX9SubPic(pSurface, fStatic ? 0 : this, m_bExternalRenderer);
     if (!(*ppSubPic)) {
         return false;
     }

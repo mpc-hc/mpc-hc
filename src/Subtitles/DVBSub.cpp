@@ -127,7 +127,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
 
             BYTE* pPrev = m_pBuffer;
             m_nBufferSize = max(m_nBufferWritePos + nSize, m_nBufferSize + BUFFER_CHUNK_GROW);
-            m_pBuffer = DNew BYTE[m_nBufferSize];
+            m_pBuffer = DEBUG_NEW BYTE[m_nBufferSize];
             if (pPrev != NULL) {
                 memcpy_s(m_pBuffer, m_nBufferSize, pPrev, m_nBufferWritePos);
                 SAFE_DELETE(pPrev);
@@ -413,7 +413,7 @@ HRESULT CDVBSub::ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE
     int nEnd = gb.GetPos() + wSegLength;
     int nPos = 0;
 
-    pPage.Attach(DNew DVB_PAGE());
+    pPage.Attach(DEBUG_NEW DVB_PAGE());
     pPage->pageTimeOut = gb.ReadByte();
     pPage->pageVersionNumber = (BYTE)gb.BitRead(4);
     pPage->pageState = (BYTE)gb.BitRead(2);
@@ -505,7 +505,7 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
     int nEnd = gb.GetPos() + wSegLength;
 
     if (m_pCurrentPage && wSegLength > 2) {
-        DVB_CLUT* pClut = DNew DVB_CLUT();
+        DVB_CLUT* pClut = DEBUG_NEW DVB_CLUT();
         if (pClut) {
             pClut->id = gb.ReadByte();
             pClut->version_number = (BYTE)gb.BitRead(4);
@@ -560,7 +560,7 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
     HRESULT hr = E_FAIL;
 
     if (m_pCurrentPage && wSegLength > 2) {
-        CompositionObject* pObject = DNew CompositionObject();
+        CompositionObject* pObject = DEBUG_NEW CompositionObject();
         BYTE object_coding_method;
 
         pObject->m_object_id_ref  = gb.ReadShort();

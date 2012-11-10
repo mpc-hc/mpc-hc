@@ -603,12 +603,12 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     spd.bpp = 32;
     spd.pitch = (spd.w * spd.bpp) >> 3;
     spd.type = m_type;
-    spd.bits = DNew BYTE[spd.pitch * spd.h];
+    spd.bits = DEBUG_NEW BYTE[spd.pitch * spd.h];
     if (!spd.bits) {
         return false;
     }
 
-    *ppSubPic = DNew CMemSubPic(spd);
+    *ppSubPic = DEBUG_NEW CMemSubPic(spd);
     if (!(*ppSubPic)) {
         return false;
     }

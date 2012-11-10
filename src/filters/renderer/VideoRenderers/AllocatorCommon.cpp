@@ -54,15 +54,15 @@ HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
     CString Error;
 
     if (IsEqualCLSID(clsid, CLSID_VMR9AllocatorPresenter)) {
-        *ppAP = DNew CVMR9AllocatorPresenter(hWnd, bFullscreen, hr, Error);
+        *ppAP = DEBUG_NEW CVMR9AllocatorPresenter(hWnd, bFullscreen, hr, Error);
     } else if (IsEqualCLSID(clsid, CLSID_RM9AllocatorPresenter)) {
-        *ppAP = DNew CRM9AllocatorPresenter(hWnd, bFullscreen, hr, Error);
+        *ppAP = DEBUG_NEW CRM9AllocatorPresenter(hWnd, bFullscreen, hr, Error);
     } else if (IsEqualCLSID(clsid, CLSID_QT9AllocatorPresenter)) {
-        *ppAP = DNew CQT9AllocatorPresenter(hWnd, bFullscreen, hr, Error);
+        *ppAP = DEBUG_NEW CQT9AllocatorPresenter(hWnd, bFullscreen, hr, Error);
     } else if (IsEqualCLSID(clsid, CLSID_DXRAllocatorPresenter)) {
-        *ppAP = DNew CDXRAllocatorPresenter(hWnd, hr, Error);
+        *ppAP = DEBUG_NEW CDXRAllocatorPresenter(hWnd, hr, Error);
     } else if (IsEqualCLSID(clsid, CLSID_madVRAllocatorPresenter)) {
-        *ppAP = DNew CmadVRAllocatorPresenter(hWnd, hr, Error);
+        *ppAP = DEBUG_NEW CmadVRAllocatorPresenter(hWnd, hr, Error);
     } else {
         return E_FAIL;
     }
@@ -92,7 +92,7 @@ HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
     HRESULT hr = E_FAIL;
     if (clsid == CLSID_EVRAllocatorPresenter) {
         CString Error;
-        *ppAP = DNew DSObjects::CEVRAllocatorPresenter(hWnd, bFullscreen, hr, Error);
+        *ppAP = DEBUG_NEW DSObjects::CEVRAllocatorPresenter(hWnd, bFullscreen, hr, Error);
         (*ppAP)->AddRef();
 
         if (FAILED(hr)) {

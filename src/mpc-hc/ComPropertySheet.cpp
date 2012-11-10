@@ -73,14 +73,14 @@ IMPLEMENT_DYNAMIC(CComPropertySheet, CPropertySheet)
 CComPropertySheet::CComPropertySheet(UINT nIDCaption, CWnd* pParentWnd, UINT iSelectPage)
     : CPropertySheet(nIDCaption, pParentWnd, iSelectPage)
 {
-    m_pSite = DNew CComPropertyPageSite(this);
+    m_pSite = DEBUG_NEW CComPropertyPageSite(this);
     m_size.SetSize(0, 0);
 }
 
 CComPropertySheet::CComPropertySheet(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPage)
     : CPropertySheet(pszCaption, pParentWnd, iSelectPage)
 {
-    m_pSite = DNew CComPropertyPageSite(this);
+    m_pSite = DEBUG_NEW CComPropertyPageSite(this);
     m_size.SetSize(0, 0);
 }
 
@@ -155,7 +155,7 @@ bool CComPropertySheet::AddPage(IPropertyPage* pPage, IUnknown* pUnk)
     pPage->GetPageInfo(&ppi);
     m_size.cx = max(m_size.cx, ppi.size.cx);
     m_size.cy = max(m_size.cy, ppi.size.cy);
-    CAutoPtr<CComPropertyPage> p(DNew CComPropertyPage(pPage));
+    CAutoPtr<CComPropertyPage> p(DEBUG_NEW CComPropertyPage(pPage));
     __super::AddPage(p);
     m_pages.AddTail(p);
 

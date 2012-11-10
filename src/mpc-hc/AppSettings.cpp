@@ -1130,7 +1130,7 @@ void CAppSettings::LoadSettings()
             CString key;
             key.Format(_T("%s\\%04u"), IDS_R_FILTERS, i);
 
-            CAutoPtr<FilterOverride> f(DNew FilterOverride);
+            CAutoPtr<FilterOverride> f(DEBUG_NEW FilterOverride);
 
             f->fDisabled = !pApp->GetProfileInt(key, _T("Enabled"), 0);
 

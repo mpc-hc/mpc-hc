@@ -199,7 +199,7 @@ STDMETHODIMP_(BSTR) CVTSReader::GetTrackCodecDownloadURL(UINT aTrackIdx)
 
 CVTSStream::CVTSStream() : m_off(0)
 {
-    m_vob.Attach(DNew CVobFile());
+    m_vob.Attach(DEBUG_NEW CVobFile());
 }
 
 CVTSStream::~CVTSStream()

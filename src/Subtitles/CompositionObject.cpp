@@ -52,7 +52,7 @@ void CompositionObject::SetPalette(int nNbEntry, HDMV_PALETTE* pPalette, bool bI
 void CompositionObject::SetRLEData(const BYTE* pBuffer, int nSize, int nTotalSize)
 {
     delete [] m_pRLEData;
-    m_pRLEData     = DNew BYTE[nTotalSize];
+    m_pRLEData     = DEBUG_NEW BYTE[nTotalSize];
     m_nRLEDataSize = nTotalSize;
     m_nRLEPos      = nSize;
 

@@ -756,7 +756,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 
     if (fn.Find(_T("video_ts.ifo")) >= 0
             || fn.Find(_T(".ratdvd")) >= 0) {
-        if (OpenDVDData* p = DNew OpenDVDData()) {
+        if (OpenDVDData* p = DEBUG_NEW OpenDVDData()) {
             p->path = pli->m_fns.GetHead();
             p->subs.AddTailList(&pli->m_subs);
             return p;
@@ -764,7 +764,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
     }
 
     if (pli->m_type == CPlaylistItem::device) {
-        if (OpenDeviceData* p = DNew OpenDeviceData()) {
+        if (OpenDeviceData* p = DEBUG_NEW OpenDeviceData()) {
             POSITION pos = pli->m_fns.GetHeadPosition();
             for (int i = 0; i < _countof(p->DisplayName) && pos; i++) {
                 p->DisplayName[i] = pli->m_fns.GetNext(pos);
@@ -775,7 +775,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
             return p;
         }
     } else {
-        if (OpenFileData* p = DNew OpenFileData()) {
+        if (OpenFileData* p = DEBUG_NEW OpenFileData()) {
             p->fns.AddTailList(&pli->m_fns);
             p->subs.AddTailList(&pli->m_subs);
             p->rtStart = rtStart;

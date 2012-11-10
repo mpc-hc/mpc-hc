@@ -216,8 +216,8 @@ CTextPassThruFilter::CTextPassThruFilter(CMainFrame* pMainFrame)
     , m_pMainFrame(pMainFrame)
 {
     HRESULT hr;
-    m_pInput = DNew CTextPassThruInputPin(this, this, &m_pMainFrame->m_csSubLock, &hr);
-    m_pOutput = DNew CTextPassThruOutputPin(this, this, &hr);
+    m_pInput = DEBUG_NEW CTextPassThruInputPin(this, this, &m_pMainFrame->m_csSubLock, &hr);
+    m_pOutput = DEBUG_NEW CTextPassThruOutputPin(this, this, &hr);
 }
 
 CTextPassThruFilter::~CTextPassThruFilter()

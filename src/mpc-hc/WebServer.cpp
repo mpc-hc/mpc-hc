@@ -291,7 +291,7 @@ bool CWebServer::LoadPage(UINT resid, CStringA& str, CString path)
 
 void CWebServer::OnAccept(CWebServerSocket* pServer)
 {
-    CAutoPtr<CWebClientSocket> p(DNew CWebClientSocket(this, m_pMainFrame));
+    CAutoPtr<CWebClientSocket> p(DEBUG_NEW CWebClientSocket(this, m_pMainFrame));
     if (pServer->Accept(*p)) {
         CString name;
         UINT port;
@@ -496,7 +496,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
             }
 
             int gzippedBuffLen = body.GetLength();
-            BYTE* gzippedBuff = DNew BYTE[gzippedBuffLen];
+            BYTE* gzippedBuff = DEBUG_NEW BYTE[gzippedBuffLen];
 
             // Compress
             strm.avail_in = body.GetLength();
@@ -650,7 +650,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
         FreeEnvironmentStrings((LPTSTR)lpvEnv);
     }
 
-    TCHAR* cmdln = DNew TCHAR[32768];
+    TCHAR* cmdln = DEBUG_NEW TCHAR[32768];
     _sntprintf_s(cmdln, 32768, 32768, _T("\"%s\" \"%s\""), cgi, path);
 
     if (hChildStdinRd && hChildStdoutWr)

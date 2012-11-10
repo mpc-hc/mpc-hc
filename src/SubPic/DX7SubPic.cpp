@@ -297,7 +297,7 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
         return false;
     }
 
-    *ppSubPic = DNew CDX7SubPic(m_pD3DDev, pSurface);
+    *ppSubPic = DEBUG_NEW CDX7SubPic(m_pD3DDev, pSurface);
     if (!(*ppSubPic)) {
         return false;
     }

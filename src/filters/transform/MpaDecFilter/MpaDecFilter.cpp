@@ -296,7 +296,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         *phr = S_OK;
     }
 
-    m_pInput = DNew CMpaDecInputPin(this, phr, L"In");
+    m_pInput = DEBUG_NEW CMpaDecInputPin(this, phr, L"In");
     if (!m_pInput) {
         *phr = E_OUTOFMEMORY;
     }
@@ -304,7 +304,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         return;
     }
 
-    m_pOutput = DNew CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out");
+    m_pOutput = DEBUG_NEW CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out");
     if (!m_pOutput) {
         *phr = E_OUTOFMEMORY;
     }
@@ -1922,7 +1922,7 @@ STDMETHODIMP CMpaDecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)
     HRESULT hr;
 
     if (guid == __uuidof(CMpaDecSettingsWnd)) {
-        (*ppPage = DNew CInternalPropertyPageTempl<CMpaDecSettingsWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMpaDecSettingsWnd>(NULL, &hr))->AddRef();
     }
 
     return *ppPage ? S_OK : E_FAIL;

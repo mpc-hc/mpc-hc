@@ -176,9 +176,9 @@ VFRTranslator* GetVFRTranslator(const char* vfrfile)
     if (fgets(buf, 32, f) && buf[0] == '#') {
         // So do some really shoddy parsing here, assume the file is good
         if (buf[19] == '1') {
-            res = DNew TimecodesV1(f);
+            res = DEBUG_NEW TimecodesV1(f);
         } else if (buf[19] == '2') {
-            res = DNew TimecodesV2(f);
+            res = DEBUG_NEW TimecodesV2(f);
         }
     }
     fclose(f);

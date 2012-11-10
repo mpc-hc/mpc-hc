@@ -74,7 +74,7 @@ CWavDestFilter::CWavDestFilter(LPUNKNOWN pUnk, HRESULT* phr)
     : CTransformFilter(NAME("WavDest filter"), pUnk, __uuidof(this))
 {
     if (SUCCEEDED(*phr)) {
-        if (CWavDestOutputPin* pOut = DNew CWavDestOutputPin(this, phr)) {
+        if (CWavDestOutputPin* pOut = DEBUG_NEW CWavDestOutputPin(this, phr)) {
             if (SUCCEEDED(*phr)) {
                 m_pOutput = pOut;
             } else {
@@ -85,7 +85,7 @@ CWavDestFilter::CWavDestFilter(LPUNKNOWN pUnk, HRESULT* phr)
             return;
         }
 
-        if (CTransformInputPin* pIn = DNew CTransformInputPin(NAME("Transform input pin"), this, phr, L"In")) {
+        if (CTransformInputPin* pIn = DEBUG_NEW CTransformInputPin(NAME("Transform input pin"), this, phr, L"In")) {
             if (SUCCEEDED(*phr)) {
                 m_pInput = pIn;
             } else {

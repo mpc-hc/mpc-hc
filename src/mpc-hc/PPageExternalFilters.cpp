@@ -299,7 +299,7 @@ BOOL CPPageExternalFilters::OnInitDialog()
 
     POSITION pos = s.m_filters.GetHeadPosition();
     while (pos) {
-        CAutoPtr<FilterOverride> f(DNew FilterOverride(s.m_filters.GetNext(pos)));
+        CAutoPtr<FilterOverride> f(DEBUG_NEW FilterOverride(s.m_filters.GetNext(pos)));
 
         CString name(_T("<unknown>"));
 
@@ -339,7 +339,7 @@ BOOL CPPageExternalFilters::OnApply()
 
     for (int i = 0; i < m_filters.GetCount(); i++) {
         if (POSITION pos = (POSITION)m_filters.GetItemData(i)) {
-            CAutoPtr<FilterOverride> f(DNew FilterOverride(m_pFilters.GetAt(pos)));
+            CAutoPtr<FilterOverride> f(DEBUG_NEW FilterOverride(m_pFilters.GetAt(pos)));
             f->fDisabled = !m_filters.GetCheck(i);
             s.m_filters.AddTail(f);
         }

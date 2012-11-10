@@ -97,7 +97,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 
     CString valueName;
     DWORD valueNameLen, valueDataLen, type;
-    BYTE* data = DNew BYTE[maxValueDataLen];
+    BYTE* data = DEBUG_NEW BYTE[maxValueDataLen];
 
     for (DWORD indexValue = 0; indexValue < valuesCount; indexValue++) {
         valueNameLen = maxValueNameLen;

@@ -207,7 +207,7 @@ AudioStreamResampler::AudioStreamResampler(int bps, long orig_rate, long new_rat
 
             filter_width = ((samp_frac + 0x7ffff) >> 19) << 1 << 1;
 
-            filter_bank = DNew long[filter_width * 256];
+            filter_bank = DEBUG_NEW long[filter_width * 256];
             if (!filter_bank) {
                 filter_width = 1;
                 return;

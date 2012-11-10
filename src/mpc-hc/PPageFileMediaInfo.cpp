@@ -85,7 +85,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
     __super::OnInitDialog();
 
     if (!m_pCFont) {
-        m_pCFont = DNew CFont;
+        m_pCFont = DEBUG_NEW CFont;
     }
     if (!m_pCFont) {
         return TRUE;

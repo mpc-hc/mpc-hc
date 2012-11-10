@@ -226,7 +226,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     m_pFile.Free();
 
-    m_pFile.Attach(DNew CRMFile(pAsyncReader, hr));
+    m_pFile.Attach(DEBUG_NEW CRMFile(pAsyncReader, hr));
     if (!m_pFile) {
         return E_OUTOFMEMORY;
     }
@@ -517,7 +517,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
         HRESULT hr2;
 
-        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CRealMediaSplitterOutputPin(mts, name, this, this, &hr2));
+        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CRealMediaSplitterOutputPin(mts, name, this, this, &hr2));
         if (SUCCEEDED(AddOutputPin((DWORD)pmp->stream, pPinOut))) {
             if (!m_rtStop) {
                 m_pFile->m_p.tDuration = max(m_pFile->m_p.tDuration, pmp->tDuration);
@@ -544,7 +544,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
         HRESULT hr2;
 
-        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CRealMediaSplitterOutputPin(mts, name, this, this, &hr2));
+        CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CRealMediaSplitterOutputPin(mts, name, this, this, &hr2));
         AddOutputPin((DWORD)~stream, pPinOut);
     }
 
@@ -596,7 +596,7 @@ bool CRealMediaSplitterFilter::DemuxInit()
                 m_rtDuration = max((__int64)(10000i64 * mph.tStart), m_rtDuration);
 
                 if (mph.stream == stream && (mph.flags & MediaPacketHeader::PN_KEYFRAME_FLAG) && tLastStart != mph.tStart) {
-                    CAutoPtr<IndexRecord> pir(DNew IndexRecord);
+                    CAutoPtr<IndexRecord> pir(DEBUG_NEW IndexRecord);
                     pir->tStart = mph.tStart;
                     pir->ptrFilePos = (UINT32)filepos;
                     pir->packet = nPacket;
@@ -720,7 +720,7 @@ bool CRealMediaSplitterFilter::DemuxLoop()
     for (DWORD stream = 0; pos && SUCCEEDED(hr) && !CheckRequest(NULL); stream++) {
         CRMFile::subtitle& s = m_pFile->m_subs.GetNext(pos);
 
-        CAutoPtr<Packet> p(DNew Packet);
+        CAutoPtr<Packet> p(DEBUG_NEW Packet);
 
         p->TrackNumber = ~stream;
         p->bSyncPoint = TRUE;
@@ -766,7 +766,7 @@ bool CRealMediaSplitterFilter::DemuxLoop()
                 break;
             }
 
-            CAutoPtr<Packet> p(DNew Packet);
+            CAutoPtr<Packet> p(DEBUG_NEW Packet);
             p->TrackNumber = mph.stream;
             p->bSyncPoint = !!(mph.flags & MediaPacketHeader::PN_KEYFRAME_FLAG);
             p->rtStart = 10000i64 * (mph.tStart);
@@ -847,7 +847,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverSegments()
         return S_OK;
     }
 
-    CAutoPtr<Packet> p(DNew Packet());
+    CAutoPtr<Packet> p(DEBUG_NEW Packet());
 
     p->TrackNumber = (DWORD) - 1;
     p->bDiscontinuity = m_segments.fDiscontinuity;
@@ -982,7 +982,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
             int len2 = min(len - (pIn - pInOrg), int(packetlen - packetoffset));
 
-            CAutoPtr<segment> s(DNew segment);
+            CAutoPtr<segment> s(DEBUG_NEW segment);
             s->offset = packetoffset;
             s->data.SetCount(len2);
             memcpy(s->data.GetData(), pIn, len2);
@@ -1026,7 +1026,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         while (pos) {
             WORD size = sizes.GetNext(pos);
 
-            CAutoPtr<Packet> p(DNew Packet);
+            CAutoPtr<Packet> p(DEBUG_NEW Packet);
             p->bDiscontinuity = bDiscontinuity;
             p->bSyncPoint = true;
             p->rtStart = rtStart;
@@ -1240,7 +1240,7 @@ HRESULT CRMFile::Init()
                     m_p.flags = (Properies::flags_t)flags;
                     break;
                 case 'MDPR': {
-                    CAutoPtr<MediaProperies> mp(DNew MediaProperies);
+                    CAutoPtr<MediaProperies> mp(DEBUG_NEW MediaProperies);
                     if (S_OK != (hr = Read(mp->stream))) {
                         return hr;
                     }
@@ -1292,7 +1292,7 @@ HRESULT CRMFile::Init()
                     break;
                 }
                 case 'DATA': {
-                    CAutoPtr<DataChunk> dc(DNew DataChunk);
+                    CAutoPtr<DataChunk> dc(DEBUG_NEW DataChunk);
                     if (S_OK != (hr = Read(dc->nPackets))) {
                         return hr;
                     }
@@ -1322,7 +1322,7 @@ HRESULT CRMFile::Init()
                             return hr;
                         }
                         if (object_version == 0) {
-                            CAutoPtr<IndexRecord> ir(DNew IndexRecord);
+                            CAutoPtr<IndexRecord> ir(DEBUG_NEW IndexRecord);
                             if (S_OK != (hr = Read(ir->tStart))) {
                                 return hr;
                             }
@@ -1674,7 +1674,7 @@ HRESULT CRealVideoDecoder::InitRV(const CMediaType* pmt)
 
     if (rvi.fcc2 <= '03VR' && rvi.type2 >= 0x20200002) {
         int nWidthHeight = (1 + ((rvi.type1 >> 16) & 7));
-        UINT32* pWH = DNew UINT32[nWidthHeight * 2];
+        UINT32* pWH = DEBUG_NEW UINT32[nWidthHeight * 2];
         pWH[0] = rvi.w;
         pWH[1] = rvi.h;
         for (int j = 2; j < nWidthHeight * 2; j++) {

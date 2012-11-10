@@ -196,7 +196,7 @@ bool CIfo::OpenFile(LPCTSTR strFile)
 
     if (hFile != INVALID_HANDLE_VALUE && GetFileSizeEx(hFile, &size) &&
             size.QuadPart <= 0x800000) { // max size of the ifo file = 8 MB (taken with reserve. need a more correct info)
-        m_pBuffer = DNew BYTE [size.QuadPart];
+        m_pBuffer = DEBUG_NEW BYTE [size.QuadPart];
         ReadFile(hFile, m_pBuffer, size.QuadPart, &m_dwSize, NULL);
         CloseHandle(hFile);
 

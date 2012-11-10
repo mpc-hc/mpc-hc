@@ -814,7 +814,7 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
     POSITION pos = lens.GetHeadPosition();
     while (pos) {
         MatroskaReader::QWORD len = lens.GetNext(pos);
-        CAutoPtr<CBinary> p(DNew CBinary());
+        CAutoPtr<CBinary> p(DEBUG_NEW CBinary());
         p->SetCount((INT_PTR)len);
         pMN->Read(p->GetData(), len);
         BlockData.AddTail(p);
@@ -1354,7 +1354,7 @@ HRESULT CSignedLength::Parse(CMatroskaNode* pMN)
 template<class T>
 HRESULT CNode<T>::Parse(CMatroskaNode* pMN)
 {
-    CAutoPtr<T> p(DNew T());
+    CAutoPtr<T> p(DEBUG_NEW T());
     HRESULT hr = E_OUTOFMEMORY;
     if (!p || FAILED(hr = p->Parse(pMN))) {
         return hr;
@@ -1365,7 +1365,7 @@ HRESULT CNode<T>::Parse(CMatroskaNode* pMN)
 
 HRESULT CBlockGroupNode::Parse(CMatroskaNode* pMN, bool fFull)
 {
-    CAutoPtr<BlockGroup> p(DNew BlockGroup());
+    CAutoPtr<BlockGroup> p(DEBUG_NEW BlockGroup());
     HRESULT hr = E_OUTOFMEMORY;
     if (!p || FAILED(hr = p->Parse(pMN, fFull))) {
         return hr;
@@ -1376,7 +1376,7 @@ HRESULT CBlockGroupNode::Parse(CMatroskaNode* pMN, bool fFull)
 
 HRESULT CSimpleBlockNode::Parse(CMatroskaNode* pMN, bool fFull)
 {
-    CAutoPtr<SimpleBlock> p(DNew SimpleBlock());
+    CAutoPtr<SimpleBlock> p(DEBUG_NEW SimpleBlock());
     HRESULT hr = E_OUTOFMEMORY;
     if (!p || FAILED(hr = p->Parse(pMN, fFull))) {
         return hr;
@@ -1419,7 +1419,7 @@ CAutoPtr<CMatroskaNode> CMatroskaNode::Child(DWORD id, bool fSearch)
         return CAutoPtr<CMatroskaNode>();
     }
     SeekTo(m_start);
-    CAutoPtr<CMatroskaNode> pMN(DNew CMatroskaNode(this));
+    CAutoPtr<CMatroskaNode> pMN(DEBUG_NEW CMatroskaNode(this));
     if (id && !pMN->Find(id, fSearch)) {
         pMN.Free();
     }
@@ -1517,7 +1517,7 @@ MatroskaReader::QWORD CMatroskaNode::FindPos(DWORD id, MatroskaReader::QWORD sta
 
 CAutoPtr<CMatroskaNode> CMatroskaNode::Copy()
 {
-    CAutoPtr<CMatroskaNode> pNewNode(DNew CMatroskaNode(m_pMF));
+    CAutoPtr<CMatroskaNode> pNewNode(DEBUG_NEW CMatroskaNode(m_pMF));
     pNewNode->m_pParent = m_pParent;
     pNewNode->m_id.Set(m_id);
     pNewNode->m_len.Set(m_len);

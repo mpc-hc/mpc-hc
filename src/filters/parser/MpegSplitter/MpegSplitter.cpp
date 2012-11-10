@@ -681,7 +681,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
             DWORD TrackNumber = m_pFile->AddStream(0, b, h.id_ext, h.len);
 
             if (GetOutputPin(TrackNumber)) {
-                CAutoPtr<Packet> p(DNew Packet());
+                CAutoPtr<Packet> p(DEBUG_NEW Packet());
 
                 p->TrackNumber = TrackNumber;
                 p->bSyncPoint = !!h.fpts;
@@ -722,7 +722,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
             }
 
             if (GetOutputPin(TrackNumber)) {
-                CAutoPtr<Packet> p(DNew Packet());
+                CAutoPtr<Packet> p(DEBUG_NEW Packet());
 
                 p->TrackNumber = TrackNumber;
                 p->bSyncPoint = !!h2.fpts;
@@ -757,7 +757,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
         __int64 pos = m_pFile->GetPos();
 
         if (GetOutputPin(TrackNumber)) {
-            CAutoPtr<Packet> p(DNew Packet());
+            CAutoPtr<Packet> p(DEBUG_NEW Packet());
 
             p->TrackNumber = TrackNumber;
             p->bSyncPoint = !!h.fpts;
@@ -787,7 +787,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
     m_pFile.Free();
 
     ReadClipInfo(GetPartFilename(pAsyncReader));
-    m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag, m_ForcedSub, m_TrackPriority, m_AC3CoreOnly, m_AlternativeDuration));
+    m_pFile.Attach(DEBUG_NEW CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag, m_ForcedSub, m_TrackPriority, m_AC3CoreOnly, m_AlternativeDuration));
 
     if (!m_pFile) {
         return E_OUTOFMEMORY;
@@ -971,7 +971,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 }
             }
 
-            CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, str, this, this, &hr, m_pFile->m_type));
+            CAutoPtr<CBaseSplitterOutputPin> pPinOut(DEBUG_NEW CMpegSplitterOutputPin(mts, str, this, this, &hr, m_pFile->m_type));
             if (i == CMpegSplitterFile::subpic) {
                 (static_cast<CMpegSplitterOutputPin*>(pPinOut.m_p))->SetMaxShift(_I64_MAX);
             }
@@ -1445,7 +1445,7 @@ STDMETHODIMP CMpegSplitterFilter::CreatePage(const GUID& guid, IPropertyPage** p
     HRESULT hr;
 
     if (guid == __uuidof(CMpegSplitterSettingsWnd)) {
-        (*ppPage = DNew CInternalPropertyPageTempl<CMpegSplitterSettingsWnd>(NULL, &hr))->AddRef();
+        (*ppPage = DEBUG_NEW CInternalPropertyPageTempl<CMpegSplitterSettingsWnd>(NULL, &hr))->AddRef();
     }
 
     return *ppPage ? S_OK : E_FAIL;
@@ -1722,7 +1722,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
                 break;
             }
 
-            CAutoPtr<Packet> p2(DNew Packet());
+            CAutoPtr<Packet> p2(DEBUG_NEW Packet());
 
             p2->TrackNumber = m_p->TrackNumber;
             p2->bDiscontinuity |= m_p->bDiscontinuity;
@@ -1769,7 +1769,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         return S_OK;
     } else if (m_mt.subtype == FOURCCMap('1CVA') || m_mt.subtype == FOURCCMap('1cva') || m_mt.subtype == FOURCCMap('CVMA') || m_mt.subtype == FOURCCMap('CVME')) {
         if (!m_p) {
-            m_p.Attach(DNew Packet());
+            m_p.Attach(DEBUG_NEW Packet());
             m_p->TrackNumber = p->TrackNumber;
             m_p->bDiscontinuity = p->bDiscontinuity;
             p->bDiscontinuity = FALSE;
@@ -1814,7 +1814,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
                     ((Nalu.GetDataLength() <<  8) & 0x00ff0000) |
                     ((Nalu.GetDataLength() << 24) & 0xff000000);
 
-                CAutoPtr<Packet> p3(DNew Packet());
+                CAutoPtr<Packet> p3(DEBUG_NEW Packet());
 
                 p3->SetCount(Nalu.GetDataLength() + sizeof(dwNalLength));
                 memcpy(p3->GetData(), &dwNalLength, sizeof(dwNalLength));
@@ -1914,7 +1914,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
     } else if (m_mt.subtype == FOURCCMap('1CVW') || m_mt.subtype == FOURCCMap('1cvw') ||
                m_mt.subtype == MEDIASUBTYPE_WVC1_CYBERLINK || m_mt.subtype == MEDIASUBTYPE_WVC1_ARCSOFT) { // just like aac, this has to be starting nalus, more can be packed together
         if (!m_p) {
-            m_p.Attach(DNew Packet());
+            m_p.Attach(DEBUG_NEW Packet());
             m_p->TrackNumber = p->TrackNumber;
             m_p->bDiscontinuity = p->bDiscontinuity;
             p->bDiscontinuity = FALSE;
@@ -1967,7 +1967,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
             int size = next - start - 4;
             UNREFERENCED_PARAMETER(size);
 
-            CAutoPtr<Packet> p2(DNew Packet());
+            CAutoPtr<Packet> p2(DEBUG_NEW Packet());
             p2->TrackNumber = m_p->TrackNumber;
             p2->bDiscontinuity = m_p->bDiscontinuity;
             m_p->bDiscontinuity = FALSE;
@@ -2062,7 +2062,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
         // HDMV LPCM
     } else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
         if (!m_p) {
-            m_p.Attach(DNew Packet());
+            m_p.Attach(DEBUG_NEW Packet());
         }
         m_p->Append(*p);
 

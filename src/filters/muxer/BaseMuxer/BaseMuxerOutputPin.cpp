@@ -42,7 +42,7 @@ IBitStream* CBaseMuxerOutputPin::GetBitStream()
 {
     if (!m_pBitStream) {
         if (CComQIPtr<IStream> pStream = GetConnected()) {
-            m_pBitStream = DNew CBitStream(pStream, true);
+            m_pBitStream = DEBUG_NEW CBitStream(pStream, true);
         }
     }
 
