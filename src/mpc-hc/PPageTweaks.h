@@ -52,6 +52,7 @@ public:
     CString m_OSD_Font;
 
     BOOL m_fFastSeek;
+	BOOL m_fShowChapters;
 
     BOOL m_fLCDSupport;
 

@@ -404,17 +404,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"ファイルを開き直すと変更が有効になります。"
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"ジャンプ間隔 (小、中、大 : ms単位)"
 9		"デフォルト"
 10		"高速 シーク(キーフレームに)"
-11		"現在再生中のファイル情報を MSN Messenger に送る"
-13		"デフォルト モニタ以外でフルスクリーン表示しているときは最小化しない"
-15		"Windows 7 のタスクバーを使う"
-16		"1つのアイテムだけがプレイリストに残っていない場合に""前へ/次へ""でフォルダ内の前/次のファイルを開く"
-18		"時間ツールチップを使う:"
-20		"OSD フォント:"
-23		"Logitech LCD のサポートを有効 (実験的)"
+11		"Show chapter marks in seek bar"
+12		"現在再生中のファイル情報を MSN Messenger に送る"
+14		"デフォルト モニタ以外でフルスクリーン表示しているときは最小化しない"
+16		"Windows 7 のタスクバーを使う"
+17		"1つのアイテムだけがプレイリストに残っていない場合に""前へ/次へ""でフォルダ内の前/次のファイルを開く"
+19		"時間ツールチップを使う:"
+21		"OSD フォント:"
+24		"Logitech LCD のサポートを有効 (実験的)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

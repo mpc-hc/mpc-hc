@@ -404,17 +404,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Değişiklikler, yürütme kapatıldıktan ve uygulama yeniden başlatıldıktan sonra uygulanacaktır."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"Atlama uzaklıkları (ms olarak az, orta, çok)"
 9		"Varsayılan"
 10		"Hızlı oynatma (çerçeve içinde)"
-11		"MSN Messenger uygulamasına ""Ne dinliyorum"" bilgisini gönder"
-13		"Varsayılan monitör dışında tam ekranda iken küçültmeye izin verme"
-15		"Windows 7 görev çubuğu özelliklerini kullan"
-16		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
-18		"Süre gösterimi:"
-20		"OSD yazı tipi:"
-23		"Enable Logitech LCD support (experimental)"
+11		"Show chapter marks in seek bar"
+12		"MSN Messenger uygulamasına ""Ne dinliyorum"" bilgisini gönder"
+14		"Varsayılan monitör dışında tam ekranda iken küçültmeye izin verme"
+16		"Windows 7 görev çubuğu özelliklerini kullan"
+17		"Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist"
+19		"Süre gösterimi:"
+21		"OSD yazı tipi:"
+24		"Enable Logitech LCD support (experimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

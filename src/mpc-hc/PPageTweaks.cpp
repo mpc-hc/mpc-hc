@@ -41,6 +41,7 @@ CPPageTweaks::CPPageTweaks()
     , m_fUseSearchInFolder(FALSE)
     , m_fLCDSupport(FALSE)
     , m_fFastSeek(FALSE)
+	, m_fShowChapters(TRUE)
     , m_fUseTimeTooltip(TRUE)
 {
 }
@@ -64,6 +65,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO1, m_FontType);
     DDX_Control(pDX, IDC_COMBO2, m_FontSize);
     DDX_Check(pDX, IDC_CHECK1, m_fFastSeek);
+    DDX_Check(pDX, IDC_CHECK2, m_fShowChapters);
     DDX_Check(pDX, IDC_CHECK_LCD, m_fLCDSupport);
 }
 
@@ -108,6 +110,7 @@ BOOL CPPageTweaks::OnInitDialog()
     m_OSD_Font = s.strOSDFont;
 
     m_fFastSeek = s.fFastSeek;
+    m_fShowChapters = s.fShowChapters;
 
     m_fLCDSupport = s.fLCDSupport;
 
@@ -168,6 +171,7 @@ BOOL CPPageTweaks::OnApply()
     m_FontType.GetLBText(m_FontType.GetCurSel(), s.strOSDFont);
 
     s.fFastSeek = !!m_fFastSeek;
+    s.fShowChapters = !!m_fShowChapters;
 
     s.fLCDSupport = !!m_fLCDSupport;
 

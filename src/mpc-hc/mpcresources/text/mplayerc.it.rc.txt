@@ -404,17 +404,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Le modifiche saranno effettive dopo un riavvio della riproduzione."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"Intervalli di salto (piccolo, medio, grande in ms)"
 9		"Default"
 10		"Ricerca veloce (sui keyframe)"
-11		"Invia informazioni sul brano corrente a MSN Messenger"
-13		"Disattiva minimizzazione con schermo intero su schermo non predefinito"
-15		"Utilizza le caratteristiche della Taskbar di Windows 7"
-16		"Apri il file precedente/successivo nella cartella con ""Salta indietro/avanti"" quando la playlist contiene un solo elemento"
-18		"Visualizza tempo:"
-20		"Carattere OSD:"
-23		"Abilita supporto Logitech LCD (sperimentale)"
+11		"Show chapter marks in seek bar"
+12		"Invia informazioni sul brano corrente a MSN Messenger"
+14		"Disattiva minimizzazione con schermo intero su schermo non predefinito"
+16		"Utilizza le caratteristiche della Taskbar di Windows 7"
+17		"Apri il file precedente/successivo nella cartella con ""Salta indietro/avanti"" quando la playlist contiene un solo elemento"
+19		"Visualizza tempo:"
+21		"Carattere OSD:"
+24		"Abilita supporto Logitech LCD (sperimentale)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

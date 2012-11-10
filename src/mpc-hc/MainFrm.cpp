@@ -10787,7 +10787,9 @@ void CMainFrame::SetupChapters()
 
     m_pCB->ChapSort();
 
-    m_wndSeekBar.SetChapterBag(m_pCB);
+    if (AfxGetAppSettings().fShowChapters) {
+        m_wndSeekBar.SetChapterBag(m_pCB);
+    }
 }
 
 void CMainFrame::SetupDVDChapters()
@@ -10823,7 +10825,9 @@ void CMainFrame::SetupDVDChapters()
 
     m_pCB->ChapSort();
 
-    m_wndSeekBar.SetChapterBag(m_pCB);
+    if (AfxGetAppSettings().fShowChapters) {
+        m_wndSeekBar.SetChapterBag(m_pCB);
+    }
 }
 
 void CMainFrame::OpenDVD(OpenDVDData* pODD)

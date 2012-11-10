@@ -511,6 +511,7 @@ public:
     int             nJumpDistM;
     int             nJumpDistL;
     bool            fFastSeek;
+    bool            fShowChapters;
     bool            fNotifyMSN;
     bool            fPreventMinimize;
     bool            fUseWin7TaskBar;

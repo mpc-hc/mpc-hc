@@ -404,17 +404,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Zmeny sa uplatnia až po zastavení aktuálneho prehrávania a po reštartovaní."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"Veľkosť skoku (malý, stredný, veľký - v milisekundách)"
 9		"Predvolená"
 10		"Rýchle vyhľadávanie (na kľúč. snímke)"
-11		"V programe MSN Messenger zobrazovať hlásenie  - Práve sa prehráva -"
-13		"Zabrániť minimalizovaniu pri celoobrazovkovom režime na inom monitore"
-15		"Použiť vlastnosti panela úloh Windows 7"
-16		"Ak je v playliste iba jedna položka, otvoriť ďalší/predchádzajúci súbor v priečinku pri príkaze ""Preskočiť dozadu/dopredu"""
-18		"Použiť časový popis:"
-20		"Písmo OSD:"
-23		"Zapnúť podporu Logitech LCD (experimentálne)"
+11		"Show chapter marks in seek bar"
+12		"V programe MSN Messenger zobrazovať hlásenie  - Práve sa prehráva -"
+14		"Zabrániť minimalizovaniu pri celoobrazovkovom režime na inom monitore"
+16		"Použiť vlastnosti panela úloh Windows 7"
+17		"Ak je v playliste iba jedna položka, otvoriť ďalší/predchádzajúci súbor v priečinku pri príkaze ""Preskočiť dozadu/dopredu"""
+19		"Použiť časový popis:"
+21		"Písmo OSD:"
+24		"Zapnúť podporu Logitech LCD (experimentálne)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21

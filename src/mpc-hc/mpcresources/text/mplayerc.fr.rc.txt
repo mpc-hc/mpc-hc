@@ -404,17 +404,18 @@ BEGIN DIALOGEX IDD_PPAGESYNC LINES 25
 24		"Les changements prennent effet après que la lecture soit arretée et redémarrée."
 END
 
-BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 25
+BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"Intervalles de saut (petit, moyen, grand en ms)"
 9		"Par défaut"
 10		"Déplacement rapide (à l'image clé)"
-11		"Envoyer l'information titre ""Joué actuellement"" à MSN Messenger"
-13		"Ne pas réduire MPC-HC en mode plein écran sur le moniteur secondaire"
-15		"Utilisation des fonctionnalitées de la barre de tâche Windows 7"
-16		"Ouvrir le fichier suivant/précédent dans le dossier lorsque ""Fichier suivant/précédent"" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
-18		"Utiliser l'infobulle :"
-20		"Police OSD :"
-23		"Activer le support LCD pour les claviers Logitech (expérimental)"
+11		"Show chapter marks in seek bar"
+12		"Envoyer l'information titre ""Joué actuellement"" à MSN Messenger"
+14		"Ne pas réduire MPC-HC en mode plein écran sur le moniteur secondaire"
+16		"Utilisation des fonctionnalitées de la barre de tâche Windows 7"
+17		"Ouvrir le fichier suivant/précédent dans le dossier lorsque ""Fichier suivant/précédent"" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
+19		"Utiliser l'infobulle :"
+21		"Police OSD :"
+24		"Activer le support LCD pour les claviers Logitech (expérimental)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
