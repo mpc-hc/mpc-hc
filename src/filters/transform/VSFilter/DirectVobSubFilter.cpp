@@ -208,37 +208,43 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
     BITMAPINFOHEADER bihIn;
     ExtractBIH(&mt, &bihIn);
 
-    bool fYV12 = (mt.subtype == MEDIASUBTYPE_YV12 || mt.subtype == MEDIASUBTYPE_I420 || mt.subtype == MEDIASUBTYPE_IYUV);
-    int bpp = fYV12 ? 8 : bihIn.biBitCount;
-    DWORD black = fYV12 ? 0x10101010 : (bihIn.biCompression == '2YUY') ? 0x80108010 : 0;
-
     CSize sub(m_w, m_h);
     CSize in(bihIn.biWidth, bihIn.biHeight);
 
-    if (FAILED(Copy((BYTE*)m_pTempPicBuff, pDataIn, sub, in, bpp, mt.subtype, black))) {
-        return E_FAIL;
-    }
+    SubPicDesc spd = m_spd;
 
-    if (fYV12) {
-        BYTE* pSubV = (BYTE*)m_pTempPicBuff + (sub.cx * bpp >> 3) * sub.cy;
-        BYTE* pInV = pDataIn + (in.cx * bpp >> 3) * in.cy;
-        sub.cx >>= 1;
-        sub.cy >>= 1;
-        in.cx >>= 1;
-        in.cy >>= 1;
-        BYTE* pSubU = pSubV + (sub.cx * bpp >> 3) * sub.cy;
-        BYTE* pInU = pInV + (in.cx * bpp >> 3) * in.cy;
-        if (FAILED(Copy(pSubV, pInV, sub, in, bpp, mt.subtype, 0x80808080))) {
+    if (sub == in) { // The frame dimension doesn't change, apply the transform in-place.
+        spd.bits = pDataIn;
+    } else { // The frame dimension changes, use a temporary buffer
+        bool fYV12 = (mt.subtype == MEDIASUBTYPE_YV12 || mt.subtype == MEDIASUBTYPE_I420 || mt.subtype == MEDIASUBTYPE_IYUV);
+        int bpp = fYV12 ? 8 : bihIn.biBitCount;
+        DWORD black = fYV12 ? 0x10101010 : (bihIn.biCompression == '2YUY') ? 0x80108010 : 0;
+
+        if (FAILED(Copy((BYTE*)m_pTempPicBuff, pDataIn, sub, in, bpp, mt.subtype, black))) {
             return E_FAIL;
         }
-        if (FAILED(Copy(pSubU, pInU, sub, in, bpp, mt.subtype, 0x80808080))) {
-            return E_FAIL;
+
+        if (fYV12) {
+            BYTE* pSubV = (BYTE*)m_pTempPicBuff + (sub.cx * bpp >> 3) * sub.cy;
+            BYTE* pInV = pDataIn + (in.cx * bpp >> 3) * in.cy;
+            sub.cx >>= 1;
+            sub.cy >>= 1;
+            in.cx >>= 1;
+            in.cy >>= 1;
+            BYTE* pSubU = pSubV + (sub.cx * bpp >> 3) * sub.cy;
+            BYTE* pInU = pInV + (in.cx * bpp >> 3) * in.cy;
+            if (FAILED(Copy(pSubV, pInV, sub, in, bpp, mt.subtype, 0x80808080))) {
+                return E_FAIL;
+            }
+            if (FAILED(Copy(pSubU, pInU, sub, in, bpp, mt.subtype, 0x80808080))) {
+                return E_FAIL;
+            }
         }
+
+        spd.bits = (void*)m_pTempPicBuff;
     }
 
     //
-
-    SubPicDesc spd = m_spd;
 
     CComPtr<IMediaSample> pOut;
     BYTE* pDataOut = NULL;
