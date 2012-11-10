@@ -175,10 +175,13 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
             return false;
         }
 
+        CString appIcon = "\"" + GetProgramPath(true) + "\",0";
+
         // Add to playlist option
         if (bRegisterContextMenuEntries) {
             if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue"))
                     || ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST))
+                    || ERROR_SUCCESS != key.SetStringValue(_T("Icon"), appIcon)
                     || ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue\\command"))
                     || ERROR_SUCCESS != key.SetStringValue(NULL, strEnqueueCommand)) {
                 return false;
@@ -194,11 +197,13 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
             return false;
         }
         if (bRegisterContextMenuEntries) {
-            if (ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC))) {
+            if (ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC))
+                    || ERROR_SUCCESS != key.SetStringValue(_T("Icon"), appIcon)) {
                 return false;
             }
         } else {
-            if (ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))) {
+            if (ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))
+                    || ERROR_SUCCESS != key.SetStringValue(_T("Icon"), _T(""))) {
                 return false;
             }
         }
@@ -214,8 +219,6 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
         }
 
         if (bAssociatedWithIcon) {
-            CString appIcon;
-
             if (m_hIconLib) {
                 int iconIndex = GetIconIndex(ext);
 
@@ -223,11 +226,6 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
                 if (iconIndex >= 0 && ExtractIcon(AfxGetApp()->m_hInstance, m_iconLibPath, iconIndex)) {
                     appIcon.Format(_T("\"%s\",%d"), m_iconLibPath, iconIndex);
                 }
-            }
-
-            /* no icon was found for the file extension, so use MPC's icon */
-            if (appIcon.IsEmpty()) {
-                appIcon = "\"" + GetProgramPath(true) + "\",0";
             }
 
             if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))
@@ -509,8 +507,11 @@ bool CFileAssoc::RegisterFolderContextMenuEntries(bool bRegister)
     if (bRegister) {
         success = false;
 
+        CString appIcon = "\"" + GetProgramPath(true) + "\",0";
+
         if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue"))) {
             key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST));
+            key.SetStringValue(_T("Icon"), appIcon);
 
             if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue\\command"))) {
                 key.SetStringValue(NULL, strEnqueueCommand);
@@ -522,6 +523,7 @@ bool CFileAssoc::RegisterFolderContextMenuEntries(bool bRegister)
             success = false;
 
             key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC));
+            key.SetStringValue(_T("Icon"), appIcon);
 
             if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play\\command"))) {
                 key.SetStringValue(NULL, strOpenCommand);

@@ -13,6 +13,7 @@ Legend:
 + Add a hotkey to open the subtitles downloader dialog
 + Web server: various performance improvements
 + Ticket #439, External subtitles: support UTF8 without BOM
++ Ticket #1617, Use MPC-HC's icon when registering the context menu entries
 + Ticket #1680, Add Greek translation
 + Ticket #2647, Add .3ga to known formats
 * VobSub subtitles can now also be loaded by selecting or draging and dropping the .sub file
