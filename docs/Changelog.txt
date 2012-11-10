@@ -20,7 +20,7 @@ Legend:
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
 * Updated Little CMS to v2.4 (git 886e2f5)
-* Updated Basque, French, German, Simplified Chinese, Slovak and Ukrainian translations
+* Updated Basque, French, German, Russian, Simplified Chinese, Slovak and Ukrainian translations
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks
 ! API: CMD_PAUSE was acting as CMD_PLAY and vice versa
 ! MPEG Splitter: Fix parsing of some malformed TS files
