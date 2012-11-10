@@ -318,7 +318,8 @@ void CPlayerSeekBar::OnPaint()
                     if (pos < 0) {
                         continue;
                     }
-                    RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos, cr.bottom + 1};
+                    //RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos, cr.bottom + 1}; // 1 px width
+                    RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos + 1, cr.bottom + 1}; // 2 px width
                     dc.FillSolidRect(&r, black);
                     dc.ExcludeClipRect(&r);
                 }
