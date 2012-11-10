@@ -281,7 +281,10 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
                 mt.subtype = FOURCCMap(pwfe->wFormatTag);
             }
             mt.formattype = FORMAT_WaveFormatEx;
-            mt.SetFormat(s->strf.GetData(), max((ULONG)s->strf.GetCount(), sizeof(WAVEFORMATEX)));
+            if (NULL == mt.AllocFormatBuffer(max((ULONG)s->strf.GetCount(), sizeof(WAVEFORMATEX)))) {
+                continue;
+            }
+            memcpy(mt.Format(), s->strf.GetData(), s->strf.GetCount());
             pwfe = (WAVEFORMATEX*)mt.Format();
             if (s->strf.GetCount() == sizeof(PCMWAVEFORMAT)) {
                 pwfe->cbSize = 0;
