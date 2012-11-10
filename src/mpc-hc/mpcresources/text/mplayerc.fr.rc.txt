@@ -408,7 +408,7 @@ BEGIN DIALOGEX IDD_PPAGETWEAKS LINES 26
 5		"Intervalles de saut (petit, moyen, grand en ms)"
 9		"Par défaut"
 10		"Déplacement rapide (à l'image clé)"
-11		"Show chapter marks in seek bar"
+11		"Afficher la position des chapitres dans la barre de déplacement"
 12		"Envoyer l'information titre ""Joué actuellement"" à MSN Messenger"
 14		"Ne pas réduire MPC-HC en mode plein écran sur le moniteur secondaire"
 16		"Utilisation des fonctionnalitées de la barre de tâche Windows 7"
