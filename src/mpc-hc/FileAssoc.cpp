@@ -233,6 +233,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
                 return false;
             }
         } else {
+            key.Close();
             key.Attach(HKEY_CLASSES_ROOT);
             key.RecurseDeleteKey(strProgID + _T("\\DefaultIcon"));
         }
@@ -271,6 +272,7 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
             // Save the application currently associated
             if (SUCCEEDED(m_pAAR->QueryCurrentDefault(strExt, AT_FILEEXTENSION, AL_EFFECTIVE, &pszCurrentAssociation))) {
                 if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
+                    CoTaskMemFree(pszCurrentAssociation);
                     return false;
                 }
 
