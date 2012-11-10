@@ -253,7 +253,7 @@ void CPlayerSeekBar::OnPaint()
     bool fEnabled = m_fEnabled && m_start < m_stop;
 
     COLORREF
-    black = GetSysColor(COLOR_3DDKSHADOW),
+    black = GetSysColor(COLOR_BACKGROUND),
     white = GetSysColor(COLOR_WINDOW),
     shadow = GetSysColor(COLOR_3DSHADOW),
     light = GetSysColor(COLOR_3DHILIGHT),
@@ -318,7 +318,7 @@ void CPlayerSeekBar::OnPaint()
                     if (pos < 0) {
                         continue;
                     }
-                    RECT r = { cr.left + (LONG)pos - 2, cr.top, cr.left + (LONG)pos + 1, cr.bottom };
+                    RECT r = { cr.left + (LONG)pos - 1, cr.top, cr.left + (LONG)pos, cr.bottom + 1};
                     dc.FillSolidRect(&r, black);
                     dc.ExcludeClipRect(&r);
                 }
