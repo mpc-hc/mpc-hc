@@ -27,6 +27,7 @@
 #include "../Subtitles/STS.h"
 #include "MediaFormats.h"
 #include "DVBChannel.h"
+#include "MediaPositionList.h"
 
 #include <afxsock.h>
 
@@ -153,18 +154,8 @@ typedef enum {
     FAV_DEVICE
 } favtype;
 
-#define MAX_DVD_POSITION 20
-typedef struct {
-    ULONGLONG           llDVDGuid;
-    ULONG               lTitle;
-    DVD_HMSF_TIMECODE   Timecode;
-} DVD_POSITION;
-
 #define MAX_FILE_POSITION 20
-typedef struct {
-    CString             strFile;
-    LONGLONG            llPosition;
-} FILE_POSITION;
+#define MAX_DVD_POSITION 20
 
 enum {
     TIME_TOOLTIP_ABOVE_SEEKBAR,
@@ -369,6 +360,8 @@ public:
     bool            fKeepHistory;
     CRecentFileAndURLList MRU;
     CRecentFileAndURLList MRUDub;
+    CFilePositionList filePositions;
+    CDVDPositionList  dvdPositions;
     bool            fRememberDVDPos;
     bool            fRememberFilePos;
     bool            bRememberPlaylistItems;
@@ -597,25 +590,8 @@ public:
 
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
-    void            ResetPositions();
-    DVD_POSITION*   CurrentDVDPosition();
-    bool            NewDvd(ULONGLONG llDVDGuid);
-    FILE_POSITION*  CurrentFilePosition();
-    bool            NewFile(LPCTSTR strFileName);
-
-    void            SaveCurrentDVDPosition();
-    void            ClearDVDPositions();
-    void            SaveCurrentFilePosition();
-    void            ClearFilePositions();
-
-    void            DeserializeHex(LPCTSTR strVal, BYTE* pBuffer, int nBufSize) const;
-    CString         SerializeHex(BYTE* pBuffer, int nBufSize) const;
 
 private:
-    DVD_POSITION    DvdPosition[MAX_DVD_POSITION];
-    int             nCurrentDvdPosition;
-    FILE_POSITION   FilePosition[MAX_FILE_POSITION];
-    int             nCurrentFilePosition;
 
     CString         SrcFiltersKeys[SRC_LAST + !SRC_LAST];
     CString         TraFiltersKeys[TRA_LAST + !TRA_LAST];

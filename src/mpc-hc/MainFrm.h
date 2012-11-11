@@ -267,7 +267,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     bool m_fEndOfStream;
 
-    LARGE_INTEGER m_LastSaveTime;
+    LARGE_INTEGER m_liLastSaveTime;
 
     bool m_fBuffering;
 

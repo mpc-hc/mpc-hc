@@ -933,9 +933,9 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0) {
         CAppSettings& s = AfxGetAppSettings();
-        FILE_POSITION* FilePosition = s.CurrentFilePosition();
-        if (FilePosition)   {
-            FilePosition->llPosition = 0;
+        FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
+        if (filePosition)   {
+            filePosition->llPosition = 0;
         }
 
         m_pl.SetPos(FindPos(lpnmlv->iItem));

@@ -32,6 +32,8 @@ CAppSettings::CAppSettings()
     : fInitialized(false)
     , MRU(0, _T("Recent File List"), _T("File%d"), 20)
     , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), 20)
+    , filePositions(AfxGetApp(), IDS_R_SETTINGS, MAX_FILE_POSITION)
+    , dvdPositions(AfxGetApp(), IDS_R_SETTINGS, MAX_DVD_POSITION)
     , hAccel(NULL)
     , nCmdlnWebServerPort(-1)
     , fShowDebugInfo(false)
@@ -411,8 +413,6 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_EDL_NEWCLIP,                       0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_NEW_CLIP));
     ADDCMD((ID_EDL_SAVE,                          0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_SAVE));
 
-    ResetPositions();
-
 #undef ADDCMD
 }
 
@@ -444,93 +444,6 @@ CString CAppSettings::SelectedAudioRenderer() const
         strResult = AfxGetMyApp()->m_AudioRendererDisplayName_CL;
     } else {
         strResult = AfxGetAppSettings().strAudioRendererDisplayName;
-    }
-
-    return strResult;
-}
-
-void CAppSettings::ResetPositions()
-{
-    nCurrentDvdPosition  = -1;
-    nCurrentFilePosition = -1;
-}
-
-DVD_POSITION* CAppSettings::CurrentDVDPosition()
-{
-    if (nCurrentDvdPosition != -1) {
-        return &DvdPosition[nCurrentDvdPosition];
-    } else {
-        return NULL;
-    }
-}
-
-bool CAppSettings::NewDvd(ULONGLONG llDVDGuid)
-{
-    // Look for the DVD position
-    for (int i = 0; i < MAX_DVD_POSITION; i++) {
-        if (DvdPosition[i].llDVDGuid == llDVDGuid) {
-            nCurrentDvdPosition = i;
-            return false;
-        }
-    }
-
-    // If DVD is unknown, we put it first
-    for (int i = MAX_DVD_POSITION - 1; i > 0; i--) {
-        memcpy(&DvdPosition[i], &DvdPosition[i - 1], sizeof(DVD_POSITION));
-    }
-    DvdPosition[0].llDVDGuid = llDVDGuid;
-    nCurrentDvdPosition = 0;
-    return true;
-}
-
-FILE_POSITION* CAppSettings::CurrentFilePosition()
-{
-    if (nCurrentFilePosition != -1) {
-        return &FilePosition[nCurrentFilePosition];
-    } else {
-        return NULL;
-    }
-}
-
-bool CAppSettings::NewFile(LPCTSTR strFileName)
-{
-    // Look for the file position
-    for (int i = 0; i < MAX_FILE_POSITION; i++) {
-        if (FilePosition[i].strFile == strFileName) {
-            nCurrentFilePosition = i;
-            return false;
-        }
-    }
-
-    // If it is unknown, we put it first
-    for (int i = MAX_FILE_POSITION - 1; i > 0; i--) {
-        FilePosition[i].strFile    = FilePosition[i - 1].strFile;
-        FilePosition[i].llPosition = FilePosition[i - 1].llPosition;
-    }
-    FilePosition[0].strFile    = strFileName;
-    FilePosition[0].llPosition = 0;
-    nCurrentFilePosition       = 0;
-    return true;
-}
-
-void CAppSettings::DeserializeHex(LPCTSTR strVal, BYTE* pBuffer, int nBufSize) const
-{
-    long lRes;
-
-    for (int i = 0; i < nBufSize; i++) {
-        _stscanf_s(strVal + (i * 2), _T("%02x"), &lRes);
-        pBuffer[i] = (BYTE)lRes;
-    }
-}
-
-CString CAppSettings::SerializeHex(BYTE* pBuffer, int nBufSize) const
-{
-    CString strTemp;
-    CString strResult;
-
-    for (int i = 0; i < nBufSize; i++) {
-        strTemp.Format(_T("%02x"), pBuffer[i]);
-        strResult += strTemp;
     }
 
     return strResult;
@@ -709,29 +622,14 @@ void CAppSettings::SaveSettings()
         iChannel++;
     }
 
-    // playback positions for last played DVDs
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, (int)fRememberDVDPos);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, (int)fRememberFilePos);
     if (fKeepHistory) {
-        for (int i = 0; i < MAX_DVD_POSITION; i++) {
-            CString strDVDPos;
-            CString strValue;
-
-            strDVDPos.Format(_T("DVD Position %d"), i);
-            strValue = SerializeHex((BYTE*)&DvdPosition[i], sizeof(DVD_POSITION));
-            pApp->WriteProfileString(IDS_R_SETTINGS, strDVDPos, strValue);
+        if (fRememberFilePos) {
+            filePositions.Save();
         }
-
-        // playback positions for last played files
-        for (int i = 0; i < MAX_FILE_POSITION; i++) {
-            CString strFilePos;
-            CString strValue;
-
-            strFilePos.Format(_T("File Name %d"), i);
-            pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, FilePosition[i].strFile);
-            strFilePos.Format(_T("File Position %d"), i);
-            strValue.Format(_T("%I64d"), FilePosition[i].llPosition);
-            pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, strValue);
+        if (fRememberDVDPos) {
+            dvdPositions.Save();
         }
     }
 
@@ -1465,36 +1363,14 @@ void CAppSettings::LoadSettings()
         m_DVBChannels.AddTail(Channel);
     }
 
-    // playback positions for last played DVDs
-    fRememberDVDPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, 0);
-    nCurrentDvdPosition = -1;
-    memset(DvdPosition, 0, sizeof(DvdPosition));
-    for (int i = 0; i < MAX_DVD_POSITION; i++) {
-        CString strDVDPos;
-        CString strValue;
-
-        strDVDPos.Format(_T("DVD Position %d"), i);
-        strValue = pApp->GetProfileString(IDS_R_SETTINGS, strDVDPos, _T(""));
-        if (strValue.GetLength() / 2 == sizeof(DVD_POSITION)) {
-            DeserializeHex(strValue, (BYTE*)&DvdPosition[i], sizeof(DVD_POSITION));
-        }
-    }
-
     // playback positions for last played files
     fRememberFilePos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, 0);
-    nCurrentFilePosition = -1;
-    for (int i = 0; i < MAX_FILE_POSITION; i++) {
-        CString strFilePos;
-        CString strValue;
+    filePositions.Load();
 
-        strFilePos.Format(_T("File Name %d"), i);
-        FilePosition[i].strFile = pApp->GetProfileString(IDS_R_SETTINGS, strFilePos, _T(""));
-
-        strFilePos.Format(_T("File Position %d"), i);
-        strValue = pApp->GetProfileString(IDS_R_SETTINGS, strFilePos, _T(""));
-        FilePosition[i].llPosition = _tstoi64(strValue);
-    }
-
+    // playback positions for last played DVDs
+    fRememberDVDPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, 0);
+    dvdPositions.Load();
+    
     fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, 0);
 
     // TODO: sort shaders by label
@@ -1635,60 +1511,6 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 
         r.iEvrBuffers = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, 5);
         r.D3D9RenderDevice = pApp->GetProfileString(IDS_R_SETTINGS, IDS_D3D9RENDERDEVICE, _T(""));
-    }
-}
-
-void CAppSettings::SaveCurrentFilePosition()
-{
-    CWinApp* pApp = AfxGetApp();
-    CString  strFilePos;
-    CString  strValue;
-    int i = nCurrentFilePosition;
-
-    strFilePos.Format(_T("File Name %d"), i);
-    pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, FilePosition[i].strFile);
-    strFilePos.Format(_T("File Position %d"), i);
-    strValue.Format(_T("%I64d"), FilePosition[i].llPosition);
-    pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, strValue);
-}
-
-void CAppSettings::ClearFilePositions()
-{
-    CWinApp* pApp = AfxGetApp();
-    CString  strFilePos;
-    for (int i = 0; i < MAX_FILE_POSITION; i++) {
-        FilePosition[i].strFile = _T("");
-        FilePosition[i].llPosition = 0;
-
-        strFilePos.Format(_T("File Name %d"), i);
-        pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, _T(""));
-        strFilePos.Format(_T("File Position %d"), i);
-        pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, _T(""));
-    }
-}
-
-void CAppSettings::SaveCurrentDVDPosition()
-{
-    CWinApp* pApp = AfxGetApp();
-    CString  strDVDPos;
-    CString  strValue;
-    int i = nCurrentDvdPosition;
-
-    strDVDPos.Format(_T("DVD Position %d"), i);
-    strValue = SerializeHex((BYTE*)&DvdPosition[i], sizeof(DVD_POSITION));
-    pApp->WriteProfileString(IDS_R_SETTINGS, strDVDPos, strValue);
-}
-
-void CAppSettings::ClearDVDPositions()
-{
-    CWinApp* pApp = AfxGetApp();
-    CString strDVDPos;
-    for (int i = 0; i < MAX_DVD_POSITION; i++) {
-        DvdPosition[i].llDVDGuid = 0;
-        DvdPosition[i].lTitle = 0;
-
-        strDVDPos.Format(_T("DVD Position %d"), i);
-        pApp->WriteProfileString(IDS_R_SETTINGS, strDVDPos, _T(""));
     }
 }
 

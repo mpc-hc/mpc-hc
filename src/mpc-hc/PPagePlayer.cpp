@@ -159,8 +159,8 @@ BOOL CPPagePlayer::OnApply()
         s.MRU.WriteList();
         s.MRUDub.WriteList();
 
-        s.ClearFilePositions();
-        s.ClearDVDPositions();
+        s.filePositions.Empty();
+        s.dvdPositions.Empty();
     }
 
     // Check if the settings location needs to be changed

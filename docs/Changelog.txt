@@ -12,11 +12,14 @@ Legend:
 ========================
 + Add a hotkey to open the subtitles downloader dialog
 + Web server: various performance improvements
++ VobSub subtitles can now also be loaded by selecting or draging and dropping the .sub file
 + Ticket #439, External subtitles: support UTF8 without BOM
 + Ticket #1617, Use MPC-HC's icon when registering the context menu entries
 + Ticket #1680, Add Greek translation
++ Ticket #2425, Improve the remember file/DVD position feature: when a file/DVD that was already
+  in the list is reopened, it now goes at the top the list. This way files/DVDs that are often
+  used will stay in the list instead of being inexorably pushed out of it.
 + Ticket #2647, Add .3ga to known formats
-* VobSub subtitles can now also be loaded by selecting or draging and dropping the .sub file
 * Updated FFmpeg (n0.8-15587-gd55911a)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411

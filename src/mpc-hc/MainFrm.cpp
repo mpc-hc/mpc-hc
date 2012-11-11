@@ -641,7 +641,7 @@ CMainFrame::CMainFrame() :
     m_fClosingState(false)
 {
     m_Lcd.SetVolumeRange(0, 100);
-    m_LastSaveTime.QuadPart = 0;
+    m_liLastSaveTime.QuadPart = 0;
 }
 
 CMainFrame::~CMainFrame()
@@ -1661,18 +1661,20 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                     if (!m_fEndOfStream) {
                         CAppSettings& s = AfxGetAppSettings();
-                        FILE_POSITION*  FilePosition = s.CurrentFilePosition();
-                        if (FilePosition) {
-                            FilePosition->llPosition = rtNow;
 
-                            LARGE_INTEGER time;
-                            QueryPerformanceCounter(&time);
-                            LARGE_INTEGER freq;
-                            QueryPerformanceFrequency(&freq);
-                            if ((time.QuadPart - m_LastSaveTime.QuadPart) >= 30 * freq.QuadPart) { // save every half of minute
-                                m_LastSaveTime = time;
-                                if (s.fKeepHistory && s.fRememberFilePos) {
-                                    s.SaveCurrentFilePosition();
+                        if (s.fKeepHistory && s.fRememberFilePos) {
+                            FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
+
+                            if (filePosition) {
+                                filePosition->llPosition = rtNow;
+
+                                LARGE_INTEGER time;
+                                QueryPerformanceCounter(&time);
+                                LARGE_INTEGER freq;
+                                QueryPerformanceFrequency(&freq);
+                                if ((time.QuadPart - m_liLastSaveTime.QuadPart) >= 30 * freq.QuadPart) { // save every half of minute
+                                    m_liLastSaveTime = time;
+                                    s.filePositions.SaveLatestEntry();
                                 }
                             }
                         }
@@ -2194,14 +2196,15 @@ bool CMainFrame::DoAfterPlaybackEvent()
 bool CMainFrame::GraphEventComplete()
 {
     CAppSettings& s = AfxGetAppSettings();
-    FILE_POSITION*  FilePosition = s.CurrentFilePosition();
 
-    if (FilePosition) {
-        FilePosition->llPosition = 0;
+    if (s.fKeepHistory && s.fRememberFilePos) {
+        FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
 
-        QueryPerformanceCounter(&m_LastSaveTime);
-        if (s.fKeepHistory && s.fRememberFilePos) {
-            s.SaveCurrentFilePosition();
+        if (filePosition) {
+            filePosition->llPosition = 0;
+
+            QueryPerformanceCounter(&m_liLastSaveTime);
+            s.filePositions.SaveLatestEntry();
         }
     }
 
@@ -2339,9 +2342,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 break;
             case EC_DVD_TITLE_CHANGE: {
                 // Casimir666 : Save current chapter
-                DVD_POSITION* DvdPos = s.CurrentDVDPosition();
-                if (DvdPos) {
-                    DvdPos->lTitle = (DWORD)evParam1;
+                DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
+                if (dvdPosition) {
+                    dvdPosition->lTitle = (DWORD)evParam1;
                 }
 
                 if (GetPlaybackMode() == PM_FILE) {
@@ -2380,7 +2383,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                             }
 
                             if (s.lDVDTitle != 0) {
-                                s.NewDvd(llDVDGuid);
+                                s.dvdPositions.AddEntry(llDVDGuid);
                                 // Set command line position
                                 hr = pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, NULL);
                                 if (s.fShowDebugInfo) {
@@ -2448,22 +2451,22 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                                 m_iDVDTitle   = s.lDVDTitle;
                                 s.lDVDTitle   = 0;
                                 s.lDVDChapter = 0;
-                            } else if (s.fKeepHistory && s.fRememberDVDPos && !s.NewDvd(llDVDGuid)) {
+                            } else if (s.fKeepHistory && s.fRememberDVDPos && !s.dvdPositions.AddEntry(llDVDGuid)) {
                                 // Set last remembered position (if founded...)
-                                DVD_POSITION*   DvdPos = s.CurrentDVDPosition();
+                                DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
 
-                                pDVDC->PlayTitle(DvdPos->lTitle, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, NULL);
+                                pDVDC->PlayTitle(dvdPosition->lTitle, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, NULL);
                                 pDVDC->Resume(DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, NULL);
 #if 1
                                 if (SUCCEEDED(hr = pDVDC->PlayAtTimeInTitle(
-                                                       DvdPos->lTitle, &DvdPos->Timecode,
+                                                       dvdPosition->lTitle, &dvdPosition->timecode,
                                                        DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, NULL)))
 #else
-                                if (SUCCEEDED(hr = pDVDC->PlayAtTime(&DvdPos->Timecode,
+                                if (SUCCEEDED(hr = pDVDC->PlayAtTime(&dvdPosition->timecode,
                                                                      DVD_CMD_FLAG_Flush, NULL)))
 #endif
                                 {
-                                    m_iDVDTitle = DvdPos->lTitle;
+                                    m_iDVDTitle = dvdPosition->lTitle;
                                 }
                             }
 
@@ -2488,11 +2491,12 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         Domain.Format(IDS_AG_TITLE, m_iDVDTitle);
                         if (s.fShowDebugInfo) {
                             m_OSD.DebugMessage(_T("%s"), Domain);
-                        }
-                        DVD_POSITION*   DvdPos;
-                        DvdPos = s.CurrentDVDPosition();
-                        if (DvdPos) {
-                            DvdPos->lTitle = m_iDVDTitle;
+                        } 
+                        {
+                            DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
+                            if (dvdPosition) {
+                                dvdPosition->lTitle = m_iDVDTitle;
+                            }
                         }
                         break;
                     case DVD_DOMAIN_Stop:
@@ -2549,9 +2553,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
 
                 // Casimir666 : Save current position in the chapter
-                DVD_POSITION*   DvdPos = s.CurrentDVDPosition();
-                if (DvdPos) {
-                    memcpy(&DvdPos->Timecode, (void*)&evParam1, sizeof(DVD_HMSF_TIMECODE));
+                DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
+                if (dvdPosition) {
+                    memcpy(&dvdPosition->timecode, (void*)&evParam1, sizeof(DVD_HMSF_TIMECODE));
                 }
 
                 m_wndSeekBar.SetPos(rtNow);
@@ -9064,8 +9068,8 @@ void CMainFrame::OnRecentFileClear()
     s.MRU.WriteList();
     s.MRUDub.WriteList();
 
-    s.ClearFilePositions();
-    s.ClearDVDPositions();
+    s.filePositions.Empty();
+    s.dvdPositions.Empty();
 }
 
 void CMainFrame::OnUpdateRecentFileClear(CCmdUI* pCmdUI)
@@ -10514,29 +10518,29 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
     CAppSettings& s = AfxGetAppSettings();
 
-    bool fFirst = true;
+    bool bMainFile = true;
 
     POSITION pos = pOFD->fns.GetHeadPosition();
     while (pos) {
         CString fn = pOFD->fns.GetNext(pos);
 
         fn.Trim();
-        if (fn.IsEmpty() && !fFirst) {
+        if (fn.IsEmpty() && !bMainFile) {
             break;
         }
 
         HRESULT hr = pGB->RenderFile(CStringW(fn), NULL);
 
-        if (s.fKeepHistory && s.fRememberFilePos && !s.NewFile(fn)) {
-            REFERENCE_TIME rtPos = s.CurrentFilePosition()->llPosition;
+        if (bMainFile && s.fKeepHistory && s.fRememberFilePos && !s.filePositions.AddEntry(fn)) {
+            REFERENCE_TIME rtPos = s.filePositions.GetLatestEntry()->llPosition;
             if (pMS) {
                 pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
             }
         }
-        QueryPerformanceCounter(&m_LastSaveTime);
+        QueryPerformanceCounter(&m_liLastSaveTime);
 
         if (FAILED(hr)) {
-            if (fFirst) {
+            if (bMainFile) {
                 if (s.fReportFailedPins) {
                     CComQIPtr<IGraphBuilderDeadEnd> pGBDE = pGB;
                     if (pGBDE && pGBDE->GetCount()) {
@@ -10589,18 +10593,18 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         }
 
         if (s.fKeepHistory) {
-            CRecentFileList* pMRU = fFirst ? &s.MRU : &s.MRUDub;
+            CRecentFileList* pMRU = bMainFile ? &s.MRU : &s.MRUDub;
             pMRU->ReadList();
             pMRU->Add(fn);
             pMRU->WriteList();
             SHAddToRecentDocs(SHARD_PATH, fn);
         }
 
-        if (fFirst) {
+        if (bMainFile) {
             pOFD->title = fn;
         }
 
-        fFirst = false;
+        bMainFile = false;
 
         if (m_fCustomGraph) {
             break;
@@ -12073,7 +12077,6 @@ void CMainFrame::CloseMediaPrivate()
     m_closingmsg.LoadString(IDS_CONTROLS_CLOSED);
 
     AfxGetAppSettings().nCLSwitches &= CLSW_OPEN | CLSW_PLAY | CLSW_AFTERPLAYBACK_MASK | CLSW_NOFOCUS;
-    AfxGetAppSettings().ResetPositions();
 
     SetLoadState(MLS_CLOSED);
 }

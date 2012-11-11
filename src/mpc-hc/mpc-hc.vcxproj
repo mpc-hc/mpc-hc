@@ -321,6 +321,7 @@
     <ClCompile Include="FGManagerBDA.cpp" />
     <ClCompile Include="FileAssoc.cpp" />
     <ClCompile Include="FileDropTarget.cpp" />
+    <ClCompile Include="MediaPositionList.cpp" />
     <ClCompile Include="FloatEdit.cpp" />
     <ClCompile Include="FullscreenWnd.cpp" />
     <ClCompile Include="GoToDlg.cpp" />
@@ -451,6 +452,7 @@
     <ClInclude Include="LineNumberEdit.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MediaFormats.h" />
+    <ClInclude Include="MediaPositionList.h" />
     <ClInclude Include="MediaTypesDlg.h" />
     <ClInclude Include="MiniDump.h" />
     <ClInclude Include="Monitors.h" />
