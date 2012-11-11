@@ -1221,7 +1221,7 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
                     continue;
                 }
 
-                if (pOutPin && GetFilterName(pBF) == _T("Overlay Mixer")) {
+                if (pOutPin && GetFilterName(pBF) != _T("Overlay Mixer")) {
                     continue;
                 }
 
