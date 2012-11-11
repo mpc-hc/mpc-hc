@@ -17,7 +17,6 @@ Legend:
 + Ticket #1680, Add Greek translation
 + Ticket #2647, Add .3ga to known formats
 * VobSub subtitles can now also be loaded by selecting or draging and dropping the .sub file
-* VSFilter: Speed up a bit the DirectShow graph creation when VSFilter is involved
 * Updated FFmpeg (n0.8-15587-gd55911a)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
