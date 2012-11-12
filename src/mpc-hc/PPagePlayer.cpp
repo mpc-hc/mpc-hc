@@ -158,8 +158,11 @@ BOOL CPPagePlayer::OnApply()
         }
         s.MRU.WriteList();
         s.MRUDub.WriteList();
-
+    }
+    if (!m_fKeepHistory || !m_fRememberFilePos) {
         s.filePositions.Empty();
+    }
+    if (!m_fKeepHistory || !m_fRememberDVDPos) {
         s.dvdPositions.Empty();
     }
 
