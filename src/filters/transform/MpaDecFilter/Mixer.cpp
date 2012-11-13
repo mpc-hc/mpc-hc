@@ -159,12 +159,12 @@ void CMixer::Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int
 
 void CMixer::Update(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int in_samplerate, int out_samplerate)
 {
-    if (in_avsf != m_in_avsf || 
-        in_layout != m_in_layout ||
-        out_layout != m_out_layout ||
-        in_samplerate != m_in_samplerate ||
-        out_samplerate != m_out_samplerate) {
-            Init(in_avsf, in_layout, out_layout, in_samplerate, out_samplerate);
+    if (in_avsf != m_in_avsf ||
+            in_layout != m_in_layout ||
+            out_layout != m_out_layout ||
+            in_samplerate != m_in_samplerate ||
+            out_samplerate != m_out_samplerate) {
+        Init(in_avsf, in_layout, out_layout, in_samplerate, out_samplerate);
     }
 }
 

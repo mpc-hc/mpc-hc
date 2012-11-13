@@ -2491,7 +2491,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         Domain.Format(IDS_AG_TITLE, m_iDVDTitle);
                         if (s.fShowDebugInfo) {
                             m_OSD.DebugMessage(_T("%s"), Domain);
-                        } 
+                        }
                         {
                             DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
                             if (dvdPosition) {

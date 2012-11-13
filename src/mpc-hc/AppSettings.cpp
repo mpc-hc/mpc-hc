@@ -1370,7 +1370,7 @@ void CAppSettings::LoadSettings()
     // playback positions for last played DVDs
     fRememberDVDPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, 0);
     dvdPositions.Load();
-    
+
     fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, 0);
 
     // TODO: sort shaders by label

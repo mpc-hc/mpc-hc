@@ -41,7 +41,7 @@ CPPageTweaks::CPPageTweaks()
     , m_fUseSearchInFolder(FALSE)
     , m_fLCDSupport(FALSE)
     , m_fFastSeek(FALSE)
-	, m_fShowChapters(TRUE)
+    , m_fShowChapters(TRUE)
     , m_fUseTimeTooltip(TRUE)
 {
 }
