@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "AppSettings.h"
+#include "FileAssoc.h"
 #include "MiniDump.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
@@ -933,7 +934,10 @@ void CAppSettings::LoadSettings()
     fSnapToDesktopEdges = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPTODESKTOPEDGES, 0);
     sizeAspectRatio.cx = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_X, 0);
     sizeAspectRatio.cy = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_Y, 0);
+
     fKeepHistory = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, 1);
+    CFileAssoc::SetNoRecentDocs(!fKeepHistory);
+
     if (pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len)) {
         if (len == sizeof(CRect)) {
             memcpy(&rcLastWindowPos, ptr, sizeof(CRect));

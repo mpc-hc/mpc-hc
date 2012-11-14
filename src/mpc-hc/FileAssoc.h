@@ -52,6 +52,8 @@ private:
     static LPCTSTR strRegisteredAppKey;
     static LPCTSTR strRegAppFileAssocKey;
 
+    static bool m_bNoRecentDocs;
+
     static const CString strOpenCommand;
     static const CString strEnqueueCommand;
 
@@ -73,6 +75,8 @@ public:
     static bool LoadIconLib();
     static bool FreeIconLib();
     static bool SaveIconLibVersion();
+
+    static void SetNoRecentDocs(bool bNoRecentDocs, bool bUpdateAssocs = false);
 
     static bool RegisterApp();
 

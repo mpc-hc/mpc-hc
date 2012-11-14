@@ -40,6 +40,8 @@ LPCTSTR CFileAssoc::strOldAssocKey        = _T("PreviousRegistration");
 LPCTSTR CFileAssoc::strRegisteredAppKey   = _T("Software\\Clients\\Media\\Media Player Classic\\Capabilities");
 LPCTSTR CFileAssoc::strRegAppFileAssocKey = _T("Software\\Clients\\Media\\Media Player Classic\\Capabilities\\FileAssociations");
 
+bool CFileAssoc::m_bNoRecentDocs = false;
+
 const CString CFileAssoc::strOpenCommand    = CFileAssoc::GetOpenCommand();
 const CString CFileAssoc::strEnqueueCommand = CFileAssoc::GetEnqueueCommand();
 
@@ -124,6 +126,32 @@ bool CFileAssoc::SaveIconLibVersion()
     return saved;
 }
 
+void CFileAssoc::SetNoRecentDocs(bool bNoRecentDocs, bool bUpdateAssocs /*= false*/)
+{
+    if (bNoRecentDocs == m_bNoRecentDocs) {
+        bUpdateAssocs = false;
+    } else {
+        m_bNoRecentDocs = bNoRecentDocs;
+    }
+
+    CAtlList<CString> exts;
+    if (bUpdateAssocs && GetAssociatedExtensionsFromRegistry(exts)) {
+        CRegKey key;
+        POSITION pos = exts.GetHeadPosition();
+        while (pos) {
+            const CString& ext = exts.GetNext(pos);
+
+            if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, PROGID + ext)) {
+                if (m_bNoRecentDocs) {
+                    key.SetStringValue(_T("NoRecentDocs"), _T(""));
+                } else {
+                    key.DeleteValue(_T("NoRecentDocs"));
+                }
+            }
+        }
+    }
+}
+
 bool CFileAssoc::RegisterApp()
 {
     bool success = false;
@@ -173,6 +201,12 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)
                 || ERROR_SUCCESS != key.SetStringValue(NULL, strLabel)) {
             return false;
+        }
+
+        if (m_bNoRecentDocs) {
+            key.SetStringValue(_T("NoRecentDocs"), _T(""));
+        } else {
+            key.DeleteValue(_T("NoRecentDocs"));
         }
 
         CString appIcon = "\"" + GetProgramPath(true) + "\",0";

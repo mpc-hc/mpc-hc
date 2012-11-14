@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
+#include "FileAssoc.h"
 #include "PPagePlayer.h"
 
 
@@ -166,6 +167,12 @@ BOOL CPPagePlayer::OnApply()
         if (SUCCEEDED(hr)) {
             hr = pDests->RemoveAllDestinations();
         }
+
+        // Ensure no new items are added in Windows recent menu and in the "Recent" jump list
+        CFileAssoc::SetNoRecentDocs(true, true);
+    } else {
+        // Re-enable Windows recent menu and the "Recent" jump list if needed
+        CFileAssoc::SetNoRecentDocs(false, true);
     }
     if (!m_fKeepHistory || !m_fRememberFilePos) {
         s.filePositions.Empty();
