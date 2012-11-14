@@ -34,6 +34,7 @@ Legend:
 ! Ticket #376, Fix subtitles when switching from animated subs to non-animated subs.
   The subtitles' timings were not correctly respected after switching from an
   animated subtitles track to a non-animated subtitles track.
+! Ticket #1782, Correctly empty the "Recent" jump list when erasing the history
 ! Ticket #2537, #2554, Fix "Attempted an unsupported operation" error in the
   Save dialogs on Vista and newer systems
 ! Ticket #2572, FLAC Source: Fix playback for some files

@@ -9059,6 +9059,7 @@ void CMainFrame::OnRecentFileClear()
 
     CAppSettings& s = AfxGetAppSettings();
 
+    // Empty MPC-HC's recent menu (iterating reverse because the indexes change)
     for (int i = s.MRU.GetSize() - 1; i >= 0; i--) {
         s.MRU.Remove(i);
     }
@@ -9068,6 +9069,14 @@ void CMainFrame::OnRecentFileClear()
     s.MRU.WriteList();
     s.MRUDub.WriteList();
 
+    // Empty the "Recent" jump list
+    CComPtr<IApplicationDestinations> pDests;
+    HRESULT hr = pDests.CoCreateInstance(CLSID_ApplicationDestinations, NULL, CLSCTX_INPROC_SERVER);
+    if (SUCCEEDED(hr)) {
+        hr = pDests->RemoveAllDestinations();
+    }
+
+    // Remove the saved positions in media
     s.filePositions.Empty();
     s.dvdPositions.Empty();
 }

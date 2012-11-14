@@ -150,14 +150,22 @@ BOOL CPPagePlayer::OnApply()
     s.bRememberPlaylistItems = !!m_bRememberPlaylistItems;
 
     if (!m_fKeepHistory) {
-        for (int i = 0; i < s.MRU.GetSize(); i++) {
+        // Empty MPC-HC's recent menu (iterating reverse because the indexes change)
+        for (int i = s.MRU.GetSize() - 1; i >= 0; i--) {
             s.MRU.Remove(i);
         }
-        for (int i = 0; i < s.MRUDub.GetSize(); i++) {
+        for (int i = s.MRUDub.GetSize() - 1; i >= 0; i--) {
             s.MRUDub.Remove(i);
         }
         s.MRU.WriteList();
         s.MRUDub.WriteList();
+
+        // Empty the "Recent" jump list
+        CComPtr<IApplicationDestinations> pDests;
+        HRESULT hr = pDests.CoCreateInstance(CLSID_ApplicationDestinations, NULL, CLSCTX_INPROC_SERVER);
+        if (SUCCEEDED(hr)) {
+            hr = pDests->RemoveAllDestinations();
+        }
     }
     if (!m_fKeepHistory || !m_fRememberFilePos) {
         s.filePositions.Empty();
