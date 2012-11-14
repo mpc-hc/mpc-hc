@@ -34,6 +34,12 @@
 
 #define IDS_VDF_DXVA_SD                 41106
 
+#define IDS_VDF_INTERLACED_FLAG         41443
+#define IDS_VDF_IF_AUTO                 41444
+#define IDS_VDF_IF_PROGRESSIVE          41445
+#define IDS_VDF_IF_TOP_FIELD_FIRST      41446
+#define IDS_VDF_IF_BOTTOM_FIELD_FIRST   41447
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

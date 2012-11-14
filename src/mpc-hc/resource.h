@@ -1468,6 +1468,11 @@
 #define IDS_EMB_RESOURCES_VIEWER_INFO   41440
 #define IDS_AVISPLITTER_NON_INTERLEAVED 41441
 #define IDS_DOWNLOAD_SUBS               41442
+#define IDS_VDF_INTERLACED_FLAG         41443
+#define IDS_VDF_IF_AUTO                 41444
+#define IDS_VDF_IF_PROGRESSIVE          41445
+#define IDS_VDF_IF_TOP_FIELD_FIRST      41446
+#define IDS_VDF_IF_BOTTOM_FIELD_FIRST   41447
 
 // Next default values for new objects
 // 

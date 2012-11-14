@@ -83,7 +83,6 @@ class __declspec(uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4"))
     : public CBaseVideoFilter
     , public TlibavcodecExt
     , public ISpecifyPropertyPages2
-    , public IMPCVideoDecFilter
     , public IMPCVideoDecFilter2
 {
 protected:
@@ -107,6 +106,7 @@ protected:
     int m_nARMode;
     int m_nDXVACheckCompatibility;
     int m_nDXVA_SD;
+    MPCVD_INTERLACED_FLAG m_interlacedFlag;
 
     FF_FIELD_TYPE m_nFrameType;
 
@@ -269,6 +269,9 @@ public:
 
     // === IMPCVideoDecFilter2
     STDMETHOD_(int, GetFrameType());
+
+    STDMETHOD(SetInterlacedFlag(MPCVD_INTERLACED_FLAG interlacedFlag));
+    STDMETHOD_(MPCVD_INTERLACED_FLAG, GetInterlacedFlag());
 
     // === DXVA common functions
     BOOL IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config, bool& bIsPrefered);

@@ -563,11 +563,27 @@ void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* p
         if (SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))) {
             props.dwTypeSpecificFlags &= ~0x7f;
 
-            m_pFilter->SetFrameType(pPicture->n1FieldType);
+            FF_FIELD_TYPE fieldType;
+            switch (m_pFilter->GetInterlacedFlag()) {
+                case MPCVC_INTERLACED_PROGRESSIVE:
+                    fieldType = PICT_FRAME;
+                    break;
+                case MPCVC_INTERLACED_TOP_FIELD_FIRST:
+                    fieldType = PICT_TOP_FIELD;
+                    break;
+                case MPCVC_INTERLACED_BOTTOM_FIELD_FIRST:
+                    fieldType = PICT_BOTTOM_FIELD;
+                    break;
+                default:
+                    fieldType = pPicture->n1FieldType;
+                    break;
+            }
 
-            if (pPicture->n1FieldType == PICT_FRAME) {
+            m_pFilter->SetFrameType(fieldType);
+
+            if (fieldType == PICT_FRAME) {
                 props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
-            } else if (pPicture->n1FieldType == PICT_TOP_FIELD) {
+            } else if (fieldType == PICT_TOP_FIELD) {
                 props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
             }
 

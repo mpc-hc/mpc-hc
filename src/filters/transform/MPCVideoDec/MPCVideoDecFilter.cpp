@@ -603,6 +603,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
     m_nDXVA_SD = 0;
     m_sar.SetSize(1, 1);
 
+    m_interlacedFlag = MPCVC_INTERLACED_AUTO;
+
     m_bTheoraMTSupport = true;
     m_bWaitingForKeyFrame = TRUE;
     m_nPosB = 1;
@@ -641,6 +643,10 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
         if (ERROR_SUCCESS == key.QueryDWORDValue(_T("DisableDXVA_SD"), dw)) {
             m_nDXVA_SD = dw;
         }
+
+        if (ERROR_SUCCESS == key.QueryDWORDValue(_T("InterlacedFlag"), dw)) {
+            m_interlacedFlag = (MPCVD_INTERLACED_FLAG)dw;
+        }
     }
 #else
 #if HAS_FFMPEG_VIDEO_DECODERS
@@ -654,6 +660,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 #endif
     m_nDXVACheckCompatibility = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
     m_nDXVA_SD = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("DisableDXVA_SD"), m_nDXVA_SD);
+
+    m_interlacedFlag = (MPCVD_INTERLACED_FLAG)AfxGetApp()->GetProfileInt(_T("Filters\\MPC Video Decoder"), _T("InterlacedFlag"), m_interlacedFlag);
 #endif
 
     if (m_nErrorRecognition != AV_EF_CAREFUL && m_nErrorRecognition != AV_EF_COMPLIANT && m_nErrorRecognition != AV_EF_AGGRESSIVE) {
@@ -1535,11 +1543,13 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
             props.dwTypeSpecificFlags &= ~0x7f;
 
             m_nFrameType = PICT_BOTTOM_FIELD;
-            if (!m_pFrame->interlaced_frame) {
+            if ((m_interlacedFlag == MPCVC_INTERLACED_AUTO && !m_pFrame->interlaced_frame)
+                    || m_interlacedFlag == MPCVC_INTERLACED_PROGRESSIVE) {
                 props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
                 m_nFrameType = PICT_FRAME;
             } else {
-                if (m_pFrame->top_field_first) {
+                if ((m_interlacedFlag == MPCVC_INTERLACED_AUTO && m_pFrame->top_field_first)
+                        ||  m_interlacedFlag == MPCVC_INTERLACED_TOP_FIELD_FIRST) {
                     props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
                     m_nFrameType = PICT_TOP_FIELD;
                 }
@@ -2512,6 +2522,7 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
         key.SetDWORDValue(_T("ARMode"), m_nARMode);
         key.SetDWORDValue(_T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
         key.SetDWORDValue(_T("DisableDXVA_SD"), m_nDXVA_SD);
+        key.SetDWORDValue(_T("InterlacedFlag"), m_interlacedFlag);
     }
 #else
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("ThreadNumber"), m_nThreadNumber);
@@ -2520,7 +2531,7 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("IDCTAlgo"), m_nIDCTAlgo);
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("ARMode"), m_nARMode);
     AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
-    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("DisableDXVA_SD"), m_nDXVA_SD);
+    AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Video Decoder"), _T("InterlacedFlag"), m_interlacedFlag);
 #endif
 
     return S_OK;
@@ -2652,4 +2663,17 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetFrameType()
 {
     CAutoLock cAutoLock(&m_csProps);
     return m_nFrameType;
+}
+
+STDMETHODIMP CMPCVideoDecFilter::SetInterlacedFlag(MPCVD_INTERLACED_FLAG interlacedFlag)
+{
+    CAutoLock cAutoLock(&m_csProps);
+    m_interlacedFlag = interlacedFlag;
+    return S_OK;
+}
+
+STDMETHODIMP_(MPCVD_INTERLACED_FLAG) CMPCVideoDecFilter::GetInterlacedFlag()
+{
+    CAutoLock cAutoLock(&m_csProps);
+    return m_interlacedFlag;
 }

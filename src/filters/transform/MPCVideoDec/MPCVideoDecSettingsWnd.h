@@ -27,7 +27,7 @@
 class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
     CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 {
-    CComQIPtr<IMPCVideoDecFilter> m_pMDF;
+    CComQIPtr<IMPCVideoDecFilter2> m_pMDF;
 
     CButton     m_grpFFMpeg;
     CStatic     m_txtThreadNumber;
@@ -42,6 +42,10 @@ class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
     CButton     m_grpDXVA;
     CStatic     m_txtDXVAMode;
     CEdit       m_edtDXVAMode;
+
+    CStatic     m_txtInterlacedFlag;
+    CComboBox   m_cbInterlacedFlag;
+
     CStatic     m_txtVideoCardDescription;
     CEdit       m_edtVideoCardDescription;
 
@@ -59,7 +63,8 @@ class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
         IDC_PP_ERROR_RECOGNITION,
         IDC_PP_AR,
         IDC_PP_DXVA_CHECK,
-        IDC_PP_DXVA_SD
+        IDC_PP_DXVA_SD,
+        IDC_PP_INTERLACED_FLAG
     };
 
 public:

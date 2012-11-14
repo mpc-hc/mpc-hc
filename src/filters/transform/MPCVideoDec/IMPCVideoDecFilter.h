@@ -44,6 +44,14 @@ typedef enum {
     MPCVD_MPEG2_DXVA = 1 << 20
 } MPC_VIDEO_CODEC;
 
+// Interlaced flag handling
+enum MPCVD_INTERLACED_FLAG {
+    MPCVC_INTERLACED_AUTO,
+    MPCVC_INTERLACED_PROGRESSIVE,
+    MPCVC_INTERLACED_TOP_FIELD_FIRST,
+    MPCVC_INTERLACED_BOTTOM_FIELD_FIRST
+};
+
 interface __declspec(uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262"))
 IMPCVideoDecFilter :
 public IUnknown {
@@ -80,6 +88,9 @@ public IUnknown {
 
 interface __declspec(uuid("F0ABC515-19ED-4D65-9D5F-59E36AE7F2AF"))
 IMPCVideoDecFilter2 :
-public IUnknown {
+public IMPCVideoDecFilter {
     STDMETHOD_(int, GetFrameType()) = 0;
+
+    STDMETHOD(SetInterlacedFlag(MPCVD_INTERLACED_FLAG interlacedFlag)) = 0;
+    STDMETHOD_(MPCVD_INTERLACED_FLAG, GetInterlacedFlag()) = 0;
 };

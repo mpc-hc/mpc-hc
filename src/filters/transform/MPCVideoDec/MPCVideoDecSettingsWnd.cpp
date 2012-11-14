@@ -104,7 +104,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     GUID* DxvaGui = NULL;
 
 #if HAS_FFMPEG_VIDEO_DECODERS
-    m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 * 4 + h20)), this, (UINT)IDC_STATIC);
+    m_grpFFMpeg.Create(ResStr(IDS_VDF_FFSETTINGS), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 * 5 + h20)), this, (UINT)IDC_STATIC);
     p.y += h20;
 
     // Decoding threads
@@ -153,6 +153,15 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
     m_cbARMode.SetCheck(FALSE);
     p.y += h25;
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
+
+    // Interlaced flag
+    m_txtInterlacedFlag.Create(ResStr(IDS_VDF_INTERLACED_FLAG), WS_VISIBLE | WS_CHILD, CRect(p, CSize(IPP_SCALE(120), m_fontheight)), this, (UINT)IDC_STATIC);
+    m_cbInterlacedFlag.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(IPP_SCALE(230), -6), CSize(IPP_SCALE(110), 200)), this, IDC_PP_INTERLACED_FLAG);
+    m_cbInterlacedFlag.AddString(ResStr(IDS_VDF_IF_AUTO));
+    m_cbInterlacedFlag.AddString(ResStr(IDS_VDF_IF_PROGRESSIVE));
+    m_cbInterlacedFlag.AddString(ResStr(IDS_VDF_IF_TOP_FIELD_FIRST));
+    m_cbInterlacedFlag.AddString(ResStr(IDS_VDF_IF_BOTTOM_FIELD_FIRST));
+    p.y += h25;
 
     m_grpDXVA.Create(ResStr(IDS_VDF_DXVA_SETTING), WS_VISIBLE | WS_CHILD | BS_GROUPBOX, CRect(p + CPoint(-5, 0), CSize(IPP_SCALE(350), h20 + h25 + h20 * 3 + m_fontheight)), this, (UINT)IDC_STATIC);
     p.y += h20;
@@ -212,6 +221,8 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
         m_cbDXVACompatibilityCheck.SetCurSel(m_pMDF->GetDXVACheckCompatibility());
         m_cbDXVA_SD.SetCheck(m_pMDF->GetDXVA_SD());
+
+        m_cbInterlacedFlag.SetCurSel(m_pMDF->GetInterlacedFlag());
     }
 
     return true;
@@ -240,6 +251,8 @@ bool CMPCVideoDecSettingsWnd::OnApply()
         m_pMDF->SetDXVACheckCompatibility(m_cbDXVACompatibilityCheck.GetCurSel());
 
         m_pMDF->SetDXVA_SD(m_cbDXVA_SD.GetCheck());
+
+        m_pMDF->SetInterlacedFlag((MPCVD_INTERLACED_FLAG)m_cbInterlacedFlag.GetCurSel());
 
         m_pMDF->Apply();
     }
