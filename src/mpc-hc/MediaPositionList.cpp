@@ -124,12 +124,14 @@ bool CFilePositionList::AddEntry(LPCTSTR lpszFileName)
         FILE_POSITION& filePosition = GetAt(pos);
 
         // If we find it, we move it at the top of the list
-        if (filePosition.strFile == lpszFileName && pos != GetHeadPosition()) {
-            AddHead(filePosition);
-            RemoveAt(pos);
+        if (filePosition.strFile == lpszFileName) {
+            if (pos != GetHeadPosition()) {
+                AddHead(filePosition);
+                RemoveAt(pos);
 
-            // Save asynchronously the list
-            SaveAsync();
+                // Save asynchronously the list
+                SaveAsync();
+            }
 
             return false;
         }
@@ -224,12 +226,14 @@ bool CDVDPositionList::AddEntry(ULONGLONG llDVDGuid)
         DVD_POSITION& dvdPosition = GetAt(pos);
 
         // If we find it, we move it at the top of the list
-        if (dvdPosition.llDVDGuid == llDVDGuid && pos != GetHeadPosition()) {
-            AddHead(dvdPosition);
-            RemoveAt(pos);
+        if (dvdPosition.llDVDGuid == llDVDGuid) {
+            if (pos != GetHeadPosition()) {
+                AddHead(dvdPosition);
+                RemoveAt(pos);
 
-            // Save asynchronously the list
-            SaveAsync();
+                // Save asynchronously the list
+                SaveAsync();
+            }
 
             return false;
         }
