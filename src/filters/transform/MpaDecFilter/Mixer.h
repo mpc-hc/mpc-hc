@@ -26,15 +26,24 @@ class CMixer
 {
 protected:
     AVAudioResampleContext* m_pAVRCxt;
-    DWORD last_in_layout;
-    DWORD last_out_layout;
-    enum AVSampleFormat last_in_avsf;
+    double* m_matrix_dbl;
 
-    void Init(DWORD out_layout, DWORD in_layout, enum AVSampleFormat in_sf);
+    enum AVSampleFormat m_in_avsf;
+    enum AVSampleFormat m_in_avsf_used;
+    DWORD   m_in_layout;
+    DWORD   m_out_layout;
+    int     m_in_samplerate;
+    int     m_out_samplerate;
+
+    void Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int in_samplerate = 48000, int out_samplerate = 48000);
 
 public:
     CMixer();
     ~CMixer();
 
-    HRESULT Mixing(float* pOutput, DWORD out_layout, BYTE* pInput, int in_samples, DWORD in_layout, enum AVSampleFormat in_sf);
+    void Update(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int in_samplerate = 48000, int out_samplerate = 48000);
+    int Mixing(float* pOutput, int out_samples, BYTE* pInput, int in_samples);
+
+    int CalcOutSamples(int in_samples); // needed when using resampling
+    void FlushBuffers(); // needed when using resampling
 };

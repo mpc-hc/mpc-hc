@@ -413,17 +413,17 @@ HRESULT CMpaDecFilter::EndFlush()
 {
     CAutoLock cAutoLock(&m_csReceive);
     m_buff.RemoveAll();
+#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
+    m_FFAudioDec.FlushBuffers();
+#endif
+    m_Mixer.FlushBuffers();
     return __super::EndFlush();
 }
 
 HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
     CAutoLock cAutoLock(&m_csReceive);
-    m_buff.RemoveAll();
     m_ps2_state.sync = false;
-#if defined(STANDALONE_FILTER) || HAS_FFMPEG_AUDIO_DECODERS
-    m_FFAudioDec.FlushBuffers();
-#endif
     m_bResync = true;
 
     return __super::NewSegment(tStart, tStop, dRate);
@@ -1289,14 +1289,17 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, AVSampleFormat avsf, DWORD
         WORD  mixed_channels = channel_mode[sc].channels;
         DWORD mixed_mask     = channel_mode[sc].ch_layout;
 
-        mixData.SetCount(nSamples * mixed_channels);
+        if (dwChannelMask != mixed_mask) {
+            mixData.SetCount(nSamples * mixed_channels);
+            m_Mixer.Update(avsf, dwChannelMask, mixed_mask);
 
-        if (S_OK == m_Mixer.Mixing(mixData.GetData(), mixed_mask, pDataIn, nSamples, dwChannelMask, avsf)) {
-            pDataIn       = (BYTE*)mixData.GetData();
-            avsf          = AV_SAMPLE_FMT_FLT; // float after mixing
-            size          = nSamples * mixed_channels * sizeof(float);
-            nChannels     = mixed_channels;
-            dwChannelMask = mixed_mask;
+            if (m_Mixer.Mixing(mixData.GetData(), nSamples, pDataIn, nSamples) > 0) {
+                pDataIn       = (BYTE*)mixData.GetData();
+                avsf          = AV_SAMPLE_FMT_FLT; // float after mixing
+                size          = nSamples * mixed_channels * sizeof(float);
+                nChannels     = mixed_channels;
+                dwChannelMask = mixed_mask;
+            }
         }
     }
 
