@@ -23,7 +23,7 @@ Legend:
 * Updated FFmpeg (n0.8-15849-g5cd567c)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
-* Updated Little CMS to v2.4 (git 886e2f5)
+* Updated Little CMS to v2.4 (git c606462)
 * Updated SoundTouch to v1.7.0 r160
 * Updated Basque, Czech, French, German, Russian, Simplified Chinese, Slovak
   and Ukrainian translations
@@ -36,9 +36,9 @@ Legend:
   animated subtitles track to a non-animated subtitles track.
 ! Ticket #2537, #2554, Fix "Attempted an unsupported operation" error in the
   Save dialogs on Vista and newer systems
-! Ticket #2572, FLACSource: Fix playback for some files
-! Ticket #2619, FLVSplitter: PCM audio doesn't play
+! Ticket #2572, FLAC Source: Fix playback for some files
+! Ticket #2619, FLV Splitter: PCM audio doesn't play
 ! Ticket #2673, MPEG Splitter: Fix playback for some TS files
-! Ticket #2685, FLACSource: Fix a crash with some corrupted file
+! Ticket #2685, FLAC Source: Fix a crash with some corrupted file
 ! Ticket #2699, Avi Splitter: Fix a potential crash with PCM tracks
 ! Ticket #2703, Fix a crash that could happen when auto-loading some subtitles

@@ -605,6 +605,9 @@ cmsFloat64Number ParseFloatNumber(const char *Buffer)
     cmsFloat64Number dnum = 0.0;
     int sign = 1;
 
+    // keep safe
+    if (Buffer == NULL) return 0.0;
+
     if (*Buffer == '-' || *Buffer == '+') {
 
          sign = (*Buffer == '-') ? -1 : 1;
@@ -1394,6 +1397,8 @@ const char* CMSEXPORT cmsIT8GetProperty(cmsHANDLE hIT8, const char* Key)
 cmsFloat64Number CMSEXPORT cmsIT8GetPropertyDbl(cmsHANDLE hIT8, const char* cProp)
 {
     const char *v = cmsIT8GetProperty(hIT8, cProp);
+
+    if (v == NULL) return 0.0;
 
     return ParseFloatNumber(v);
 }
@@ -2534,6 +2539,8 @@ cmsFloat64Number CMSEXPORT cmsIT8GetDataRowColDbl(cmsHANDLE hIT8, int row, int c
     const char* Buffer;
 
     Buffer = cmsIT8GetDataRowCol(hIT8, row, col);
+
+    if (Buffer == NULL) return 0.0;
 
     return ParseFloatNumber(Buffer);
 }
