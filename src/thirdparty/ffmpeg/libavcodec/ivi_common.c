@@ -239,6 +239,7 @@ av_cold void ff_ivi_free_buffers(IVIPlaneDesc *planes)
     int p, b, t;
 
     for (p = 0; p < 3; p++) {
+        if (planes[p].bands)
         for (b = 0; b < planes[p].num_bands; b++) {
             av_freep(&planes[p].bands[b].bufs[0]);
             av_freep(&planes[p].bands[b].bufs[1]);
@@ -307,7 +308,10 @@ av_cold int ff_ivi_init_tiles(IVIPlaneDesc *planes, int tile_width, int tile_hei
 
                     tile->ref_mbs = 0;
                     if (p || b) {
-                        tile->ref_mbs = ref_tile->mbs;
+                        if (tile->num_MBs <= ref_tile->num_MBs) {
+                            tile->ref_mbs = ref_tile->mbs;
+                        }else
+                            av_log(0, AV_LOG_DEBUG, "Cannot use ref_tile, too few mbs\n");
                         ref_tile++;
                     }
 
@@ -559,6 +563,22 @@ static int ivi_process_empty_tile(AVCodecContext *avctx, IVIBandDesc *band,
                     mb->mv_y = ref_mb->mv_y;
                 }
                 need_mc |= mb->mv_x || mb->mv_y; /* tracking non-zero motion vectors */
+                {
+                    int dmv_x, dmv_y, cx, cy;
+
+                    dmv_x = mb->mv_x >> band->is_halfpel;
+                    dmv_y = mb->mv_y >> band->is_halfpel;
+                    cx    = mb->mv_x &  band->is_halfpel;
+                    cy    = mb->mv_y &  band->is_halfpel;
+
+                    if (   mb->xpos + dmv_x < 0
+                        || mb->xpos + dmv_x + band->mb_size + cx > band->pitch
+                        || mb->ypos + dmv_y < 0
+                        || mb->ypos + dmv_y + band->mb_size + cy > band->aheight) {
+                        av_log(avctx, AV_LOG_ERROR, "MV out of bounds\n");
+                        return AVERROR_INVALIDDATA;
+                    }
+                }
             }
 
             mb++;

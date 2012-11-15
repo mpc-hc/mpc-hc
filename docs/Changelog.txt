@@ -20,7 +20,7 @@ Legend:
   in the list is reopened, it now goes at the top the list. This way files/DVDs that are often
   used will stay in the list instead of being inexorably pushed out of it.
 + Ticket #2647, Add .3ga to known formats
-* Updated FFmpeg (n0.8-15587-gd55911a)
+* Updated FFmpeg (n0.8-15849-g5cd567c)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
 * Updated Little CMS to v2.4 (git 886e2f5)

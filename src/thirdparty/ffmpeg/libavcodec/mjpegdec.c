@@ -1095,6 +1095,11 @@ static int mjpeg_decode_scan_progressive_ac(MJpegDecodeContext *s, int ss,
     int last_scan = 0;
     int16_t *quant_matrix = s->quant_matrixes[s->quant_index[c]];
 
+    if (se > 63) {
+        av_log(s->avctx, AV_LOG_ERROR, "SE %d is too large\n", se);
+        return AVERROR_INVALIDDATA;
+    }
+
     if (!Al) {
         s->coefs_finished[c] |= (1LL << (se + 1)) - (1LL << ss);
         last_scan = !~s->coefs_finished[c];
@@ -1606,7 +1611,7 @@ int ff_mjpeg_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
         /* EOF */
         if (start_code < 0) {
             goto the_end;
-        } else if (unescaped_buf_size > (1U<<29)) {
+        } else if (unescaped_buf_size > (1U<<28)) {
             av_log(avctx, AV_LOG_ERROR, "MJPEG packet 0x%x too big (0x%x/0x%x), corrupt data?\n",
                    start_code, unescaped_buf_size, buf_size);
             return AVERROR_INVALIDDATA;

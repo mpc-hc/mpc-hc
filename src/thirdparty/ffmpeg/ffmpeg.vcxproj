@@ -366,10 +366,10 @@
     <ClCompile Include="libavresample\utils.c" />
     <ClCompile Include="libavresample\x86\audio_convert_init.c" />
     <ClCompile Include="libavresample\x86\audio_mix_init.c" />
-    <ClCompile Include="libavutil\audioconvert.c" />
     <ClCompile Include="libavutil\audio_fifo.c" />
     <ClCompile Include="libavutil\avstring.c" />
     <ClCompile Include="libavutil\bprint.c" />
+    <ClCompile Include="libavutil\channel_layout.c" />
     <ClCompile Include="libavutil\cpu.c" />
     <ClCompile Include="libavutil\crc.c" />
     <ClCompile Include="libavutil\dict.c" />
@@ -611,6 +611,7 @@
     <ClInclude Include="libavutil\avutil.h" />
     <ClInclude Include="libavutil\bprint.h" />
     <ClInclude Include="libavutil\bswap.h" />
+    <ClInclude Include="libavutil\channel_layout.h" />
     <ClInclude Include="libavutil\colorspace.h" />
     <ClInclude Include="libavutil\common.h" />
     <ClInclude Include="libavutil\cpu.h" />

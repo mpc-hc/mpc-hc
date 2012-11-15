@@ -45,7 +45,7 @@
  * 32bit  samplerate
  */
 
-#include "libavutil/audioconvert.h"
+#include "libavutil/channel_layout.h"
 #include "avcodec.h"
 #include "get_bits.h"
 #include "bytestream.h"
@@ -224,7 +224,7 @@ static void lpc_prediction(int32_t *error_buffer, int32_t *buffer_out,
     }
 
     /* read warm-up samples */
-    for (i = 1; i <= lpc_order; i++)
+    for (i = 1; i <= lpc_order && i < nb_samples; i++)
         buffer_out[i] = sign_extend(buffer_out[i - 1] + error_buffer[i], bps);
 
     /* NOTE: 4 and 8 are very common cases that could be optimized. */
@@ -303,7 +303,7 @@ static int decode_element(AVCodecContext *avctx, void *data, int ch_index,
 
     alac->extra_bits = get_bits(&alac->gb, 2) << 3;
     bps = alac->sample_size - alac->extra_bits + channels - 1;
-    if (bps > 32) {
+    if (bps > 32U) {
         av_log(avctx, AV_LOG_ERROR, "bps is unsupported: %d\n", bps);
         return AVERROR_PATCHWELCOME;
     }
@@ -495,7 +495,9 @@ static int alac_decode_frame(AVCodecContext *avctx, void *data,
         }
 
         channels = (element == TYPE_CPE) ? 2 : 1;
-        if (ch + channels > alac->channels) {
+        if (   ch + channels > alac->channels
+            || alac_channel_layout_offsets[alac->channels - 1][ch] + channels > alac->channels
+        ) {
             av_log(avctx, AV_LOG_ERROR, "invalid element channel count\n");
             return AVERROR_INVALIDDATA;
         }
@@ -542,7 +544,11 @@ static av_cold int alac_decode_close(AVCodecContext *avctx)
 static int allocate_buffers(ALACContext *alac)
 {
     int ch;
-    int buf_size = alac->max_samples_per_frame * sizeof(int32_t);
+    int buf_size;
+
+    if (alac->max_samples_per_frame > INT_MAX / sizeof(int32_t))
+        goto buf_alloc_fail;
+    buf_size = alac->max_samples_per_frame * sizeof(int32_t);
 
     for (ch = 0; ch < FFMIN(alac->channels, 2); ch++) {
         FF_ALLOC_OR_GOTO(alac->avctx, alac->predict_error_buffer[ch],
@@ -632,7 +638,7 @@ static av_cold int alac_decode_init(AVCodecContext * avctx)
         else
             avctx->channels = alac->channels;
     }
-    if (avctx->channels > MAX_CHANNELS) {
+    if (avctx->channels > MAX_CHANNELS || avctx->channels <= 0 ) {
         av_log(avctx, AV_LOG_ERROR, "Unsupported channel count: %d\n",
                avctx->channels);
         return AVERROR_PATCHWELCOME;

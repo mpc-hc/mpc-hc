@@ -26,12 +26,12 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include "libavutil/channel_layout.h"
 #include "libavutil/common.h"
 #include "libavutil/float_dsp.h"
 #include "libavutil/intmath.h"
 #include "libavutil/intreadwrite.h"
 #include "libavutil/mathematics.h"
-#include "libavutil/audioconvert.h"
 #include "libavutil/samplefmt.h"
 #include "avcodec.h"
 #include "dsputil.h"
@@ -2248,6 +2248,11 @@ static int dca_decode_frame(AVCodecContext *avctx, void *data,
             if (channels > !!s->lfe &&
                 s->channel_order_tab[channels - 1 - !!s->lfe] < 0)
                 return AVERROR_INVALIDDATA;
+
+            if (av_get_channel_layout_nb_channels(avctx->channel_layout) != channels) {
+                av_log(avctx, AV_LOG_ERROR, "Number of channels %d mismatches layout %d\n", channels, av_get_channel_layout_nb_channels(avctx->channel_layout));
+                return AVERROR_INVALIDDATA;
+            }
 
             if (avctx->request_channels == 2 && s->prim_channels > 2) {
                 channels = 2;

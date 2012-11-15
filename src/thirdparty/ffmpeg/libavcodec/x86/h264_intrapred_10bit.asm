@@ -79,10 +79,8 @@ cglobal pred4x4_down_right_10, 3, 3
 %endmacro
 
 INIT_XMM sse2
-%define PALIGNR PALIGNR_MMX
 PRED4x4_DR
 INIT_XMM ssse3
-%define PALIGNR PALIGNR_SSSE3
 PRED4x4_DR
 %if HAVE_AVX_EXTERNAL
 INIT_XMM avx
@@ -120,10 +118,8 @@ cglobal pred4x4_vertical_right_10, 3, 3, 6
 %endmacro
 
 INIT_XMM sse2
-%define PALIGNR PALIGNR_MMX
 PRED4x4_VR
 INIT_XMM ssse3
-%define PALIGNR PALIGNR_SSSE3
 PRED4x4_VR
 %if HAVE_AVX_EXTERNAL
 INIT_XMM avx
@@ -164,10 +160,8 @@ cglobal pred4x4_horizontal_down_10, 3, 3
 %endmacro
 
 INIT_XMM sse2
-%define PALIGNR PALIGNR_MMX
 PRED4x4_HD
 INIT_XMM ssse3
-%define PALIGNR PALIGNR_SSSE3
 PRED4x4_HD
 %if HAVE_AVX_EXTERNAL
 INIT_XMM avx
@@ -194,7 +188,7 @@ PRED4x4_HD
     HADDD   %1, %2
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 cglobal pred4x4_dc_10, 3, 3
     sub    r0, r2
     lea    r1, [r0+r2*2]
@@ -277,7 +271,7 @@ PRED4x4_VL
 ;-----------------------------------------------------------------------------
 ; void pred4x4_horizontal_up(pixel *src, const pixel *topright, int stride)
 ;-----------------------------------------------------------------------------
-INIT_MMX mmx2
+INIT_MMX mmxext
 cglobal pred4x4_horizontal_up_10, 3, 3
     sub       r0, r2
     lea       r1, [r0+r2*2]
@@ -426,7 +420,7 @@ cglobal pred8x8_dc_10, 2, 6
     RET
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 PRED8x8_DC pshufw
 INIT_XMM sse2
 PRED8x8_DC pshuflw
@@ -540,7 +534,7 @@ cglobal pred8x8l_128_dc_10, 4, 4
     RET
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 PRED8x8L_128_DC
 INIT_XMM sse2
 PRED8x8L_128_DC
@@ -726,10 +720,8 @@ cglobal pred8x8l_horizontal_10, 4, 4, 5
 %endmacro
 
 INIT_XMM sse2
-%define PALIGNR PALIGNR_MMX
 PRED8x8L_HORIZONTAL
 INIT_XMM ssse3
-%define PALIGNR PALIGNR_SSSE3
 PRED8x8L_HORIZONTAL
 %if HAVE_AVX_EXTERNAL
 INIT_XMM avx
@@ -796,10 +788,8 @@ cglobal pred8x8l_down_left_10, 4, 4, 7
 %endmacro
 
 INIT_XMM sse2
-%define PALIGNR PALIGNR_MMX
 PRED8x8L_DOWN_LEFT
 INIT_XMM ssse3
-%define PALIGNR PALIGNR_SSSE3
 PRED8x8L_DOWN_LEFT
 %if HAVE_AVX_EXTERNAL
 INIT_XMM avx
@@ -872,10 +862,8 @@ cglobal pred8x8l_down_right_10, 4, 5, 8
 %endmacro
 
 INIT_XMM sse2
-%define PALIGNR PALIGNR_MMX
 PRED8x8L_DOWN_RIGHT
 INIT_XMM ssse3
-%define PALIGNR PALIGNR_SSSE3
 PRED8x8L_DOWN_RIGHT
 %if HAVE_AVX_EXTERNAL
 INIT_XMM avx
@@ -944,10 +932,8 @@ cglobal pred8x8l_vertical_right_10, 4, 5, 7
 %endmacro
 
 INIT_XMM sse2
-%define PALIGNR PALIGNR_MMX
 PRED8x8L_VERTICAL_RIGHT
 INIT_XMM ssse3
-%define PALIGNR PALIGNR_SSSE3
 PRED8x8L_VERTICAL_RIGHT
 %if HAVE_AVX_EXTERNAL
 INIT_XMM avx
@@ -1007,10 +993,8 @@ cglobal pred8x8l_horizontal_up_10, 4, 4, 6
 %endmacro
 
 INIT_XMM sse2
-%define PALIGNR PALIGNR_MMX
 PRED8x8L_HORIZONTAL_UP
 INIT_XMM ssse3
-%define PALIGNR PALIGNR_SSSE3
 PRED8x8L_HORIZONTAL_UP
 %if HAVE_AVX_EXTERNAL
 INIT_XMM avx
@@ -1049,7 +1033,7 @@ cglobal pred16x16_vertical_10, 2, 3
     REP_RET
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 PRED16x16_VERTICAL
 INIT_XMM sse2
 PRED16x16_VERTICAL
@@ -1073,7 +1057,7 @@ cglobal pred16x16_horizontal_10, 2, 3
     REP_RET
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 PRED16x16_HORIZONTAL
 INIT_XMM sse2
 PRED16x16_HORIZONTAL
@@ -1119,7 +1103,7 @@ cglobal pred16x16_dc_10, 2, 6
     REP_RET
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 PRED16x16_DC
 INIT_XMM sse2
 PRED16x16_DC
@@ -1151,7 +1135,7 @@ cglobal pred16x16_top_dc_10, 2, 3
     REP_RET
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 PRED16x16_TOP_DC
 INIT_XMM sse2
 PRED16x16_TOP_DC
@@ -1188,7 +1172,7 @@ cglobal pred16x16_left_dc_10, 2, 6
     REP_RET
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 PRED16x16_LEFT_DC
 INIT_XMM sse2
 PRED16x16_LEFT_DC
@@ -1209,7 +1193,7 @@ cglobal pred16x16_128_dc_10, 2,3
     REP_RET
 %endmacro
 
-INIT_MMX mmx2
+INIT_MMX mmxext
 PRED16x16_128_DC
 INIT_XMM sse2
 PRED16x16_128_DC

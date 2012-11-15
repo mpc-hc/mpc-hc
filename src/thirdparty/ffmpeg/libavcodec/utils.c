@@ -27,10 +27,10 @@
 
 #include "libavutil/avassert.h"
 #include "libavutil/avstring.h"
+#include "libavutil/channel_layout.h"
 #include "libavutil/crc.h"
 #include "libavutil/mathematics.h"
 #include "libavutil/pixdesc.h"
-#include "libavutil/audioconvert.h"
 #include "libavutil/imgutils.h"
 #include "libavutil/samplefmt.h"
 #include "libavutil/dict.h"
@@ -40,7 +40,6 @@
 #include "libavutil/opt.h"
 #include "thread.h"
 #include "frame_thread_encoder.h"
-#include "audioconvert.h"
 #include "internal.h"
 #include "bytestream.h"
 #include <stdlib.h>
@@ -495,7 +494,8 @@ static int video_get_buffer(AVCodecContext *s, AVFrame *pic)
         const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(s->pix_fmt);
         const int pixel_size = desc->comp[0].step_minus1 + 1;
 
-        avcodec_get_chroma_sub_sample(s->pix_fmt, &h_chroma_shift, &v_chroma_shift);
+        av_pix_fmt_get_chroma_sub_sample(s->pix_fmt, &h_chroma_shift,
+                                         &v_chroma_shift);
 
         avcodec_align_dimensions2(s, &w, &h, stride_align);
 
@@ -693,9 +693,15 @@ int avcodec_default_execute2(AVCodecContext *c, int (*func)(AVCodecContext *c2, 
     return 0;
 }
 
+static int is_hwaccel_pix_fmt(enum AVPixelFormat pix_fmt)
+{
+    const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(pix_fmt);
+    return desc->flags & PIX_FMT_HWACCEL;
+}
+
 enum AVPixelFormat avcodec_default_get_format(struct AVCodecContext *s, const enum AVPixelFormat *fmt)
 {
-    while (*fmt != AV_PIX_FMT_NONE && ff_is_hwaccel_pix_fmt(*fmt))
+    while (*fmt != AV_PIX_FMT_NONE && is_hwaccel_pix_fmt(*fmt))
         ++fmt;
     return fmt[0];
 }
