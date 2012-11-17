@@ -163,6 +163,7 @@ void CWebServer::Init()
 
 DWORD WINAPI CWebServer::StaticThreadProc(LPVOID lpParam)
 {
+    SetThreadName(DWORD(-1), "WebServer Thread");
     return ((CWebServer*)lpParam)->ThreadProc();
 }
 

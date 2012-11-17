@@ -403,7 +403,8 @@ void CSubPicQueue::AppendQueue(ISubPic* pSubPic)
 DWORD CSubPicQueue::ThreadProc()
 {
     BOOL bDisableAnim = m_bDisableAnim;
-    SetThreadPriority(m_hThread, bDisableAnim ? THREAD_PRIORITY_LOWEST : THREAD_PRIORITY_ABOVE_NORMAL/*THREAD_PRIORITY_BELOW_NORMAL*/);
+    SetThreadName(DWORD(-1), "Subtitle Renderer Thread");
+    SetThreadPriority(m_hThread, bDisableAnim ? THREAD_PRIORITY_LOWEST : THREAD_PRIORITY_ABOVE_NORMAL);
 
     bool bAgain = true;
     for (;;) {
