@@ -30,7 +30,8 @@
 class CFLACStream;
 
 class __declspec(uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2"))
-    CFLACSource : public CBaseSource<CFLACStream>
+    CFLACSource
+    : public CBaseSource<CFLACStream>
     , public IDSMChapterBagImpl
 {
 public:

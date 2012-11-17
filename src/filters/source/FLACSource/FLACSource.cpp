@@ -154,6 +154,9 @@ CFLACStream::CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             break;
         }
 
+        // We want to get the embedded CUE sheet if it's available
+        FLAC__stream_decoder_set_metadata_respond(_DECODER_, FLAC__METADATA_TYPE_CUESHEET);
+
         if (FLAC__STREAM_DECODER_INIT_STATUS_OK != FLAC__stream_decoder_init_stream(_DECODER_,
                 StreamDecoderRead,
                 StreamDecoderSeek,
@@ -311,9 +314,12 @@ void CFLACStream::UpdateFromMetadata(void* pBuffer)
     } else if (pMetadata->type == FLAC__METADATA_TYPE_CUESHEET) {
         CString s;
         REFERENCE_TIME rt;
-        for (int i = 0; i < pMetadata->data.cue_sheet.num_tracks; ++i) {
+        for (unsigned int i = 0; i < pMetadata->data.cue_sheet.num_tracks; ++i) {
             FLAC__StreamMetadata_CueSheet_Track& track = pMetadata->data.cue_sheet.tracks[i];
-            if (track.type != 0) {
+            // Ignore non-audio tracks and lead-out track
+            if (track.type != 0
+                || (pMetadata->data.cue_sheet.is_cd && track.number == 170)
+                || (!pMetadata->data.cue_sheet.is_cd && track.number == 255)) {
                 continue;
             }
 

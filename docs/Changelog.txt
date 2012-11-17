@@ -15,6 +15,7 @@ Legend:
 + VobSub subtitles can now also be loaded by selecting or draging and dropping the .sub file
 + Ticket #439, External subtitles: support UTF8 without BOM
 + Ticket #1617, Use MPC-HC's icon when registering the context menu entries
++ Ticket #1673, FLAC Source: Basic support for embedded CUE sheet
 + Ticket #1680, Add Greek translation
 + Ticket #2425, Improve the remember file/DVD position feature: when a file/DVD that was already
   in the list is reopened, it now goes at the top the list. This way files/DVDs that are often
