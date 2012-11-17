@@ -2534,19 +2534,18 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         return S_FALSE;
     }
 
-    // clear any cached subs not in the range of +/-30secs measured from the segment's bounds
+    // clear any cached subs that is behind current time
     {
         POSITION pos = m_subtitleCache.GetStartPosition();
         while (pos) {
-            int key;
-            CSubtitle* value;
-            m_subtitleCache.GetNextAssoc(pos, key, value);
+            int entry;
+            CSubtitle* pSub;
+            m_subtitleCache.GetNextAssoc(pos, entry, pSub);
 
-            STSEntry& stse = GetAt(key);
-            if (stse.end <= (t - 30000) || stse.start > (t + 30000)) {
-                delete value;
-                m_subtitleCache.RemoveKey(key);
-                pos = m_subtitleCache.GetStartPosition();
+            STSEntry& stse = GetAt(entry);
+            if (stse.end < t) {
+                delete pSub;
+                m_subtitleCache.RemoveKey(entry);
             }
         }
     }
