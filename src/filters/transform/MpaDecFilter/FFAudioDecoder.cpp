@@ -365,29 +365,7 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
 
             samplefmt = m_pAVCtx->sample_fmt;
 
-            switch (samplefmt) {
-                case AV_SAMPLE_FMT_U8:
-                case AV_SAMPLE_FMT_U8P:
-                    BuffOut.SetCount(nSamples * 1);
-                    break;
-                case AV_SAMPLE_FMT_S16:
-                case AV_SAMPLE_FMT_S16P:
-                    BuffOut.SetCount(nSamples * 2);
-                    break;
-                case AV_SAMPLE_FMT_S32:
-                case AV_SAMPLE_FMT_FLT:
-                case AV_SAMPLE_FMT_S32P:
-                case AV_SAMPLE_FMT_FLTP:
-                    BuffOut.SetCount(nSamples * 4);
-                    break;
-                case AV_SAMPLE_FMT_DBL:
-                case AV_SAMPLE_FMT_DBLP:
-                    BuffOut.SetCount(nSamples * 8);
-                    break;
-                default:
-                    ASSERT(FALSE);
-                    break;
-            }
+            BuffOut.SetCount(nSamples * av_get_bytes_per_sample(samplefmt));
             memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
         }
     }
