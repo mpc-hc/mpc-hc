@@ -23,6 +23,7 @@
 
 #include <atlbase.h>
 #include "../BaseSource/BaseSource.h"
+#include "../../../DSUtil/DSMPropertyBag.h"
 
 #define FlacSourceName   L"MPC FLAC Source"
 
@@ -30,10 +31,14 @@ class CFLACStream;
 
 class __declspec(uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2"))
     CFLACSource : public CBaseSource<CFLACStream>
+    , public IDSMChapterBagImpl
 {
 public:
     CFLACSource(LPUNKNOWN lpunk, HRESULT* phr);
     virtual ~CFLACSource();
+
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
     // CBaseFilter
     STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);

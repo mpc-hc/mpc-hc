@@ -109,6 +109,15 @@ CFLACSource::~CFLACSource()
 {
 }
 
+STDMETHODIMP CFLACSource::NonDelegatingQueryInterface(REFIID riid, void** ppv)
+{
+    CheckPointer(ppv, E_POINTER);
+
+    return
+        QI(IDSMChapterBag)
+        __super::NonDelegatingQueryInterface(riid, ppv);
+}
+
 STDMETHODIMP CFLACSource::QueryFilterInfo(FILTER_INFO* pInfo)
 {
     CheckPointer(pInfo, E_POINTER);
@@ -282,22 +291,46 @@ void CFLACStream::UpdateFromMetadata(void* pBuffer)
 {
     const FLAC__StreamMetadata* pMetadata = (const FLAC__StreamMetadata*) pBuffer;
 
-    m_nMaxFrameSize         = pMetadata->data.stream_info.max_framesize;
-    m_nSamplesPerSec        = pMetadata->data.stream_info.sample_rate;
-    m_nChannels             = pMetadata->data.stream_info.channels;
-    m_wBitsPerSample        = pMetadata->data.stream_info.bits_per_sample;
-    m_i64TotalNumSamples    = pMetadata->data.stream_info.total_samples;
-    m_nAvgBytesPerSec       = (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;
+    if (pMetadata->type == FLAC__METADATA_TYPE_STREAMINFO) {
+        m_nMaxFrameSize         = pMetadata->data.stream_info.max_framesize;
+        m_nSamplesPerSec        = pMetadata->data.stream_info.sample_rate;
+        m_nChannels             = pMetadata->data.stream_info.channels;
+        m_wBitsPerSample        = pMetadata->data.stream_info.bits_per_sample;
+        m_i64TotalNumSamples    = pMetadata->data.stream_info.total_samples;
+        m_nAvgBytesPerSec       = (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;
 
-    if (!m_nMaxFrameSize) { // Estimate a maximum frame size
-        m_nMaxFrameSize = (2 * m_wBitsPerSample * m_nChannels * pMetadata->data.stream_info.max_blocksize + 7) / 8;
+        if (!m_nMaxFrameSize) { // Estimate a maximum frame size
+            m_nMaxFrameSize = (2 * m_wBitsPerSample * m_nChannels * pMetadata->data.stream_info.max_blocksize + 7) / 8;
+        }
+
+        // === Init members from base classes
+        GetFileSizeEx(m_file.m_hFile, (LARGE_INTEGER*)&m_llFileSize);
+        m_rtDuration            = (m_i64TotalNumSamples * UNITS) / m_nSamplesPerSec;
+        m_rtStop                = m_rtDuration;
+        m_AvgTimePerFrame       = (m_nMaxFrameSize + pMetadata->data.stream_info.min_framesize) * m_rtDuration / 2 / m_llFileSize;
+    } else if (pMetadata->type == FLAC__METADATA_TYPE_CUESHEET) {
+        CString s;
+        REFERENCE_TIME rt;
+        for (int i = 0; i < pMetadata->data.cue_sheet.num_tracks; ++i) {
+            FLAC__StreamMetadata_CueSheet_Track& track = pMetadata->data.cue_sheet.tracks[i];
+            if (track.type != 0) {
+                continue;
+            }
+
+            rt = MILLISECONDS_TO_100NS_UNITS(1000 * track.offset / m_nSamplesPerSec);
+            s.Format(_T("Track %02d"), i + 1);
+            ((CFLACSource*)m_pFilter)->ChapAppend(rt, s);
+
+            if (track.num_indices > 1) {
+                for (int j = 0; j < track.num_indices; ++j) {
+                    FLAC__StreamMetadata_CueSheet_Index& index = track.indices[j];
+                    s.Format(_T("+ INDEX %02d"), index.number);
+                    REFERENCE_TIME r = rt + MILLISECONDS_TO_100NS_UNITS(1000 * index.offset / m_nSamplesPerSec);
+                    ((CFLACSource*)m_pFilter)->ChapAppend(r, s);
+                }
+            }
+        }
     }
-
-    // === Init members from base classes
-    GetFileSizeEx(m_file.m_hFile, (LARGE_INTEGER*)&m_llFileSize);
-    m_rtDuration            = (m_i64TotalNumSamples * UNITS) / m_nSamplesPerSec;
-    m_rtStop                = m_rtDuration;
-    m_AvgTimePerFrame       = (m_nMaxFrameSize + pMetadata->data.stream_info.min_framesize) * m_rtDuration / 2 / m_llFileSize;
 }
 
 FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder* decoder, FLAC__byte buffer[], size_t* bytes, void* client_data)
