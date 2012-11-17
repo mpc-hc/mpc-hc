@@ -78,6 +78,7 @@ extern CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosi
 extern CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet);
 extern CStringA UrlEncode(CStringA str_in, bool fArg = false);
 extern CStringA UrlDecode(CStringA str_in);
+extern CStringA HtmlSpecialChars(CStringA str, bool bQuotes = false);
 extern DWORD CharSetToCodePage(DWORD dwCharSet);
 extern CAtlList<CString>& MakeLower(CAtlList<CString>& sl);
 extern CAtlList<CString>& MakeUpper(CAtlList<CString>& sl);

@@ -437,22 +437,22 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
                     pos = pClient->m_get.GetStartPosition();
                     while (pos) {
                         pClient->m_get.GetNextAssoc(pos, key, value);
-                        debug += "GET[" + key + "] = " + UTF16To8(value) + "\r\n";
+                        debug += "GET[" + HtmlSpecialChars(key) + "] = " + HtmlSpecialChars(UTF8(value)) + "\r\n";
                     }
                     pos = pClient->m_post.GetStartPosition();
                     while (pos) {
                         pClient->m_post.GetNextAssoc(pos, key, value);
-                        debug += "POST[" + key + "] = " + UTF16To8(value) + "\r\n";
+                        debug += "POST[" + HtmlSpecialChars(key) + "] = " + HtmlSpecialChars(UTF8(value)) + "\r\n";
                     }
                     pos = pClient->m_cookie.GetStartPosition();
                     while (pos) {
                         pClient->m_cookie.GetNextAssoc(pos, key, value);
-                        debug += "COOKIE[" + key + "] = " + UTF16To8(value) + "\r\n";
+                        debug += "COOKIE[" + HtmlSpecialChars(key) + "] = " + HtmlSpecialChars(UTF8(value)) + "\r\n";
                     }
                     pos = pClient->m_request.GetStartPosition();
                     while (pos) {
                         pClient->m_request.GetNextAssoc(pos, key, value);
-                        debug += "REQUEST[" + key + "] = " + UTF16To8(value) + "\r\n";
+                        debug += "REQUEST[" + HtmlSpecialChars(key) + "] = " + HtmlSpecialChars(UTF8(value)) + "\r\n";
                     }
                 }
                 debug += "</div>";

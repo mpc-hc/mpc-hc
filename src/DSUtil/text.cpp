@@ -169,6 +169,19 @@ CString ExtractTag(CString tag, CMapStringToString& attribs, bool& fClosing)
     return type;
 }
 
+CStringA HtmlSpecialChars(CStringA str, bool bQuotes /*= false*/)
+{
+    str.Replace("&", "&amp;");
+    str.Replace("\"", "&quot;");
+    if (bQuotes) {
+        str.Replace("\'", "&#039;");
+    }
+    str.Replace("<", "&lt;");
+    str.Replace(">", "&gt;");
+
+    return str;
+}
+
 CAtlList<CString>& MakeLower(CAtlList<CString>& sl)
 {
     POSITION pos = sl.GetHeadPosition();
