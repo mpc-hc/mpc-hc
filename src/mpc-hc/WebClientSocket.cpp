@@ -28,6 +28,9 @@
 #include "WebServer.h"
 #include "WebClientSocket.h"
 
+#define MAX_HEADER_SIZE 512 * 1024
+#define MAX_DATA_SIZE 2 * 1024 * 1024
+
 CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFrame)
     : m_pWebServer(pWebServer)
     , m_pMainFrame(pMainFrame)
@@ -312,6 +315,13 @@ void CWebClientSocket::OnReceive(int nErrorCode)
 
                     if (headerEnd) {
                         ParseHeader(headerEnd);
+                        if (m_dataLen > MAX_DATA_SIZE) {
+                            // Refuse the connection if someone tries to send
+                            // more than MAX_DATA_SIZE of size.
+                            OnClose(0);
+                            return;
+                        }
+
                         headerEnd += 4;
                         m_buffLen = max(int(m_buff + m_buffLen - headerEnd), 0);
                         if (m_buffLen > 0) {
@@ -320,6 +330,11 @@ void CWebClientSocket::OnReceive(int nErrorCode)
                                 ParsePostData();
                             }
                         }
+                    } else if (m_buffLen > MAX_HEADER_SIZE) {
+                        // If we got more than MAX_HEADER_SIZE of data without finding
+                        // the end of the header we close the connection.
+                        OnClose(0);
+                        return;
                     } else {
                         // Start next search from current end of the file
                         m_buffLenProcessed += nRead;
