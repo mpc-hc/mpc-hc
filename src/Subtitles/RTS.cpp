@@ -304,6 +304,7 @@ void CWord::Transform_SSE2(CPoint& org)
         }
 
         // scale and shift
+        __tmpy = __pointx; // save a copy for calculating __pointy later
         if (m_style.fontShiftX != 0) {
             __tmpx = _mm_mul_ps(__xshift, __pointy);
             __pointx = _mm_add_ps(__pointx, __tmpx);
@@ -312,7 +313,7 @@ void CWord::Transform_SSE2(CPoint& org)
         __pointx = _mm_sub_ps(__pointx, __xorg);
 
         if (m_style.fontShiftY != 0) {
-            __tmpy = _mm_mul_ps(__yshift, __pointx);
+            __tmpy = _mm_mul_ps(__yshift, __tmpy); // __tmpy is a copy of __pointx here, because it may otherwise be modified
             __pointy = _mm_add_ps(__pointy, __tmpy);
         }
         __pointy = _mm_mul_ps(__pointy, __yscale);
