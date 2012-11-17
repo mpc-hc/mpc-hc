@@ -18,8 +18,13 @@
  */
 
 #include "stdafx.h"
-#include "ffmpeg/libavcodec/avcodec.h"
 #include "H264RandomAccess.h"
+
+#pragma warning(disable: 4005)
+extern "C" {
+#include "ffmpeg/libavcodec/avcodec.h"
+}
+#pragma warning(default: 4005)
 
 CH264RandomAccess::CH264RandomAccess()
 {

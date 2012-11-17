@@ -25,8 +25,6 @@
 #include <evr.h>
 #include <vector>
 
-#include "ffmpeg/libavcodec/avcodec.h"
-
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
 #endif
@@ -35,12 +33,14 @@
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"
 
-#include "ffImgfmt.h"
 #include "FfmpegContext.h"
 extern "C"
 {
+// use the "extern C" if needed not only defines
+#include "ffmpeg/libavcodec/avcodec.h"
 #include "ffmpeg/libswscale/swscale.h"
 }
+#include "ffImgfmt.h"
 
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"

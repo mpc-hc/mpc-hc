@@ -21,14 +21,6 @@
 #ifndef AVCODEC_AVCODEC_H
 #define AVCODEC_AVCODEC_H
 
-// ==> Start patch MPC
-#ifdef __cplusplus
-    #define FF_EXPORT extern "C"
-#else
-    #define FF_EXPORT
-#endif
-// <== End patch MPC
-
 /**
  * @file
  * external API header
@@ -3500,7 +3492,7 @@ void avcodec_register(AVCodec *codec);
  * @see av_register_codec_parser
  * @see av_register_bitstream_filter
  */
-FF_EXPORT void avcodec_register_all(void);
+void avcodec_register_all(void);
 
 
 #if FF_API_ALLOC_CONTEXT
@@ -3551,7 +3543,7 @@ void avcodec_get_context_defaults2(AVCodecContext *s, enum AVMediaType);
  * @return An AVCodecContext filled with default values or NULL on failure.
  * @see avcodec_get_context_defaults
  */
-FF_EXPORT AVCodecContext *avcodec_alloc_context3(const AVCodec *codec);
+AVCodecContext *avcodec_alloc_context3(const AVCodec *codec);
 
 /**
  * Set the fields of the given AVCodecContext to default values corresponding
@@ -3608,7 +3600,7 @@ int avcodec_copy_context(AVCodecContext *dest, const AVCodecContext *src);
  * @return An AVFrame filled with default values or NULL on failure.
  * @see avcodec_get_frame_defaults
  */
-FF_EXPORT AVFrame *avcodec_alloc_frame(void);
+AVFrame *avcodec_alloc_frame(void);
 
 /**
  * Set the fields of the given AVFrame to default values.
@@ -3699,7 +3691,7 @@ int avcodec_open(AVCodecContext *avctx, AVCodec *codec);
  * @see avcodec_alloc_context3(), avcodec_find_decoder(), avcodec_find_encoder(),
  *      av_dict_set(), av_opt_find().
  */
-FF_EXPORT int avcodec_open2(AVCodecContext *avctx, const AVCodec *codec, AVDictionary **options);
+int avcodec_open2(AVCodecContext *avctx, const AVCodec *codec, AVDictionary **options);
 
 /**
  * Close a given AVCodecContext and free all the data associated with it
@@ -3710,7 +3702,7 @@ FF_EXPORT int avcodec_open2(AVCodecContext *avctx, const AVCodec *codec, AVDicti
  * avcodec_get_context_defaults3() with a non-NULL codec. Subsequent calls will
  * do nothing.
  */
-FF_EXPORT int avcodec_close(AVCodecContext *avctx);
+int avcodec_close(AVCodecContext *avctx);
 
 /**
  * Free all allocated data in the given subtitle struct.
@@ -3741,7 +3733,7 @@ void av_destruct_packet(AVPacket *pkt);
  *
  * @param pkt packet
  */
-FF_EXPORT void av_init_packet(AVPacket *pkt);
+void av_init_packet(AVPacket *pkt);
 
 /**
  * Allocate the payload of a packet and initialize its fields with
@@ -3842,7 +3834,7 @@ int av_packet_split_side_data(AVPacket *pkt);
  * @param id AVCodecID of the requested decoder
  * @return A decoder if one was found, NULL otherwise.
  */
-FF_EXPORT AVCodec *avcodec_find_decoder(enum AVCodecID id);
+AVCodec *avcodec_find_decoder(enum AVCodecID id);
 
 /**
  * Find a registered decoder with the specified name.
@@ -3850,11 +3842,11 @@ FF_EXPORT AVCodec *avcodec_find_decoder(enum AVCodecID id);
  * @param name name of the requested decoder
  * @return A decoder if one was found, NULL otherwise.
  */
-FF_EXPORT AVCodec *avcodec_find_decoder_by_name(const char *name);
+AVCodec *avcodec_find_decoder_by_name(const char *name);
 
-FF_EXPORT int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic);
-FF_EXPORT void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic);
-FF_EXPORT int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic);
+int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic);
+void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic);
+int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic);
 
 /**
  * Return the amount of padding in pixels which the get_buffer callback must
@@ -3981,7 +3973,7 @@ attribute_deprecated int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *s
  *         decoding, otherwise the number of bytes consumed from the input
  *         AVPacket is returned.
  */
-FF_EXPORT int avcodec_decode_audio4(AVCodecContext *avctx, AVFrame *frame,
+int avcodec_decode_audio4(AVCodecContext *avctx, AVFrame *frame,
                           int *got_frame_ptr, const AVPacket *avpkt);
 
 /**
@@ -4025,7 +4017,7 @@ FF_EXPORT int avcodec_decode_audio4(AVCodecContext *avctx, AVFrame *frame,
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame could be decompressed.
  */
-FF_EXPORT int avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture,
+int avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
                          const AVPacket *avpkt);
 
@@ -4206,7 +4198,7 @@ typedef struct AVCodecParser {
 AVCodecParser *av_parser_next(AVCodecParser *c);
 
 void av_register_codec_parser(AVCodecParser *parser);
-FF_EXPORT AVCodecParserContext *av_parser_init(int codec_id);
+AVCodecParserContext *av_parser_init(int codec_id);
 
 /**
  * Parse a packet.
@@ -4236,7 +4228,7 @@ FF_EXPORT AVCodecParserContext *av_parser_init(int codec_id);
  *   }
  * @endcode
  */
-FF_EXPORT int av_parser_parse2(AVCodecParserContext *s,
+int av_parser_parse2(AVCodecParserContext *s,
                      AVCodecContext *avctx,
                      uint8_t **poutbuf, int *poutbuf_size,
                      const uint8_t *buf, int buf_size,
@@ -4251,7 +4243,7 @@ int av_parser_change(AVCodecParserContext *s,
                      AVCodecContext *avctx,
                      uint8_t **poutbuf, int *poutbuf_size,
                      const uint8_t *buf, int buf_size, int keyframe);
-FF_EXPORT void av_parser_close(AVCodecParserContext *s);
+void av_parser_close(AVCodecParserContext *s);
 
 /**
  * @}
@@ -4815,7 +4807,7 @@ int avcodec_fill_audio_frame(AVFrame *frame, int nb_channels,
 /**
  * Flush buffers, should be called when seeking or when switching to a different stream.
  */
-FF_EXPORT void avcodec_flush_buffers(AVCodecContext *avctx);
+void avcodec_flush_buffers(AVCodecContext *avctx);
 
 void avcodec_default_free_buffers(AVCodecContext *s);
 
@@ -5051,7 +5043,7 @@ const AVCodecDescriptor *avcodec_descriptor_get_by_name(const char *name);
  * @param[out] recovery_frame_cnt. Valid only if GDR.
  * @return   0: no recovery point, 1: I-frame, 2: Recovery Point SEI (GDR), 3: IDR, -1: error
  */
-FF_EXPORT int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
+int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
                          const uint8_t *buf, int buf_size, int *recovery_frame_cnt);
 
 #endif /* AVCODEC_AVCODEC_H */
