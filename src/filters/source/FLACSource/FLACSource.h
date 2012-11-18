@@ -22,6 +22,7 @@
 #pragma once
 
 #include <atlbase.h>
+#include <qnetwork.h>
 #include "../BaseSource/BaseSource.h"
 #include "../../../DSUtil/DSMPropertyBag.h"
 
@@ -32,8 +33,11 @@ class CFLACStream;
 class __declspec(uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2"))
     CFLACSource
     : public CBaseSource<CFLACStream>
+    , public IAMMediaContent
     , public IDSMChapterBagImpl
 {
+    CFLACStream* GetFLACStream() { return (CFLACStream*)m_paStreams[0]; }
+
 public:
     CFLACSource(LPUNKNOWN lpunk, HRESULT* phr);
     virtual ~CFLACSource();
@@ -43,6 +47,29 @@ public:
 
     // CBaseFilter
     STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
+
+    // IDispatch
+
+    STDMETHODIMP GetTypeInfoCount(UINT* pctinfo) { return E_NOTIMPL; }
+    STDMETHODIMP GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo) { return E_NOTIMPL; }
+    STDMETHODIMP GetIDsOfNames(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid) { return E_NOTIMPL; }
+    STDMETHODIMP Invoke(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr) { return E_NOTIMPL; }
+
+    // IAMMediaContent
+
+    STDMETHODIMP get_AuthorName(BSTR* pbstrAuthorName);
+    STDMETHODIMP get_Title(BSTR* pbstrTitle);
+    STDMETHODIMP get_Description(BSTR* pbstrDescription);
+    STDMETHODIMP get_Copyright(BSTR* pbstrCopyright);
+    STDMETHODIMP get_Rating(BSTR* pbstrRating) { return E_NOTIMPL; }
+    STDMETHODIMP get_BaseURL(BSTR* pbstrBaseURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_LogoURL(BSTR* pbstrLogoURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_LogoIconURL(BSTR* pbstrLogoURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_WatermarkURL(BSTR* pbstrWatermarkURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_MoreInfoURL(BSTR* pbstrMoreInfoURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_MoreInfoBannerImage(BSTR* pbstrMoreInfoBannerImage) { return E_NOTIMPL; }
+    STDMETHODIMP get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL) { return E_NOTIMPL; }
+    STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText) { return E_NOTIMPL; }
 };
 
 class CGolombBuffer;
@@ -62,6 +89,8 @@ class CFLACStream : public CBaseStream
     ULONGLONG m_llOffset;             // Position of first frame in file
     ULONGLONG m_llFileSize;           // Size of the file
 
+    CMapStringToString m_vorbisComments;
+
 public:
     CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr);
     virtual ~CFLACStream();
@@ -74,6 +103,8 @@ public:
 
     void UpdateFromMetadata(void* pBuffer);
     inline CFile* GetFile() { return &m_file; };
+
+    bool GetComment(const CString& tag, CString& content) const;
 
     bool m_bIsEOF;
 };

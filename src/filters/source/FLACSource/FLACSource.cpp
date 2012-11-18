@@ -115,6 +115,7 @@ STDMETHODIMP CFLACSource::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
     return
         QI(IDSMChapterBag)
+        QI2(IAMMediaContent)
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -129,6 +130,63 @@ STDMETHODIMP CFLACSource::QueryFilterInfo(FILTER_INFO* pInfo)
     }
 
     return S_OK;
+}
+
+STDMETHODIMP CFLACSource::get_AuthorName(BSTR* pbstrAuthorName)
+{
+    CheckPointer(pbstrAuthorName, E_POINTER);
+    HRESULT hr = VFW_E_NOT_FOUND;
+
+    CString author;
+    if (GetFLACStream()->GetComment(_T("artist"), author)) {
+        *pbstrAuthorName = author.AllocSysString();
+        hr = S_OK;
+    }
+
+    return hr;
+}
+
+STDMETHODIMP CFLACSource::get_Title(BSTR* pbstrTitle)
+{
+    CheckPointer(pbstrTitle, E_POINTER);
+    HRESULT hr = VFW_E_NOT_FOUND;
+
+    CString title;
+    if (GetFLACStream()->GetComment(_T("title"), title)) {
+        *pbstrTitle = title.AllocSysString();
+        hr = S_OK;
+    }
+
+    return hr;
+}
+
+STDMETHODIMP CFLACSource::get_Description(BSTR* pbstrDescription)
+{
+    CheckPointer(pbstrDescription, E_POINTER);
+    HRESULT hr = VFW_E_NOT_FOUND;
+
+    CString desc;
+    if (GetFLACStream()->GetComment(_T("description"), desc)) {
+        *pbstrDescription = desc.AllocSysString();
+        hr = S_OK;
+    }
+
+    return hr;
+}
+
+STDMETHODIMP CFLACSource::get_Copyright(BSTR* pbstrCopyright)
+{
+    CheckPointer(pbstrCopyright, E_POINTER);
+    HRESULT hr = VFW_E_NOT_FOUND;
+
+    CString copyright;
+    if (GetFLACStream()->GetComment(_T("copyright"), copyright)
+            || GetFLACStream()->GetComment(_T("date"), copyright)) {
+        *pbstrCopyright = copyright.AllocSysString();
+        hr = S_OK;
+    }
+
+    return hr;
 }
 
 // CFLACStream
@@ -154,8 +212,9 @@ CFLACStream::CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
             break;
         }
 
-        // We want to get the embedded CUE sheet if it's available
+        // We want to get the embedded CUE sheet and the Vorbis tags if available
         FLAC__stream_decoder_set_metadata_respond(_DECODER_, FLAC__METADATA_TYPE_CUESHEET);
+        FLAC__stream_decoder_set_metadata_respond(_DECODER_, FLAC__METADATA_TYPE_VORBIS_COMMENT);
 
         if (FLAC__STREAM_DECODER_INIT_STATUS_OK != FLAC__stream_decoder_init_stream(_DECODER_,
                 StreamDecoderRead,
@@ -336,7 +395,31 @@ void CFLACStream::UpdateFromMetadata(void* pBuffer)
                 }
             }
         }
+    } else if (pMetadata->type == FLAC__METADATA_TYPE_VORBIS_COMMENT) {
+        for (unsigned int i = 0; i < pMetadata->data.vorbis_comment.num_comments; i++) {
+            FLAC__StreamMetadata_VorbisComment_Entry& entry = pMetadata->data.vorbis_comment.comments[i];
+            CStringA comment((char*)entry.entry, (int)entry.length);
+            int nSepPos = comment.Find("=");
+
+            if (nSepPos > 0) {
+                CString tag = UTF8To16(comment.Left(nSepPos)).MakeLower();
+                CString content = UTF8To16(comment.Mid(nSepPos + 1));
+
+                CString oldContent;
+                if (m_vorbisComments.Lookup(tag, oldContent)) {
+                    m_vorbisComments[tag].Append(_T(", "));
+                    m_vorbisComments[tag].Append(content);
+                } else {
+                    m_vorbisComments[tag] = content;
+                }
+            }
+        }
     }
+}
+
+bool CFLACStream::GetComment(const CString& tag, CString& content) const
+{
+    return !!m_vorbisComments.Lookup(tag, content);
 }
 
 FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder* decoder, FLAC__byte buffer[], size_t* bytes, void* client_data)
