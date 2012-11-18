@@ -270,8 +270,9 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CMPlayerCApp construction
 
-CMPlayerCApp::CMPlayerCApp()
-//  : m_hMutexOneInstance(NULL)
+CMPlayerCApp::CMPlayerCApp() :
+    m_fClosingState(false)
+    //, m_hMutexOneInstance(NULL)
 {
     TCHAR strApp[_MAX_PATH];
 
@@ -1300,6 +1301,7 @@ void CMPlayerCApp::OnAppAbout()
 
 void CMPlayerCApp::OnFileExit()
 {
+    m_fClosingState = true;
     OnAppExit();
 }
 

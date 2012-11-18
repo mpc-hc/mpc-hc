@@ -637,8 +637,7 @@ CMainFrame::CMainFrame() :
     m_bWasSnapped(false),
     m_nSeekDirection(SEEK_DIRECTION_NONE),
     m_bIsBDPlay(false),
-    m_LastOpenBDPath(_T("")),
-    m_fClosingState(false)
+    m_LastOpenBDPath(_T(""))
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -842,7 +841,6 @@ void CMainFrame::OnDestroy()
 
 void CMainFrame::OnClose()
 {
-    m_fClosingState = true;
     CAppSettings& s = AfxGetAppSettings();
     // Casimir666 : save shaders list
     {
@@ -3292,6 +3290,11 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 
     MSG msg;
     pMenu->TrackPopupMenu(TPM_RIGHTBUTTON | TPM_NOANIMATION, point.x + 1, point.y + 1, this);
+
+    if (AfxGetMyApp()->m_fClosingState) {
+        return FALSE; //prevent crash when player closes with context menu open
+    }
+
     PeekMessage(&msg, this->m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE); //remove the click LMB, which closes the popup menu
 
     if (m_fFullScreen) {
@@ -4117,7 +4120,7 @@ void CMainFrame::OnUpdateFileOpen(CCmdUI* pCmdUI)
 
 BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 {
-    if (m_fClosingState) {
+    if (AfxGetMyApp()->m_fClosingState) {
         return FALSE;
     }
 

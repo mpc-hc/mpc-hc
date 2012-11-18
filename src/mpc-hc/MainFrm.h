@@ -352,8 +352,6 @@ public:
 protected:
     MPC_LOADSTATE m_iMediaLoadState;
 
-    bool m_fClosingState;
-
     bool m_fAudioOnly;
     dispmode m_dmBeforeFullscreen;
     CString m_LastOpenFile, m_LastOpenBDPath;

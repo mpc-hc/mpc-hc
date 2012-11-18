@@ -136,6 +136,7 @@ public:
 
     bool GetAppSavePath(CString& path);
 
+    bool m_fClosingState;
     CRenderersData m_Renderers;
     CString     m_strVersion;
     CString     m_AudioRendererDisplayName_CL;
