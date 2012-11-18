@@ -48,3 +48,5 @@ Legend:
 ! Ticket #2685, FLAC Source: Fix a crash with some corrupted file
 ! Ticket #2699, Avi Splitter: Fix a potential crash with PCM tracks
 ! Ticket #2703, Fix a crash that could happen when auto-loading some subtitles
+! Ticket #2326, Fix a crash when closing the player with the player menu open
+! Ticket #2698, Allow the App key to be used as a hotkey which opens the player menu by default
