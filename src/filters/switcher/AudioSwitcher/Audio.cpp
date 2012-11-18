@@ -21,6 +21,7 @@
 // originally from virtualdub
 
 #include "stdafx.h"
+#include <MMReg.h>
 #include "Audio.h"
 
 static long audio_pointsample_8(void* dst, void* src, long accum, long samp_frac, long cnt)

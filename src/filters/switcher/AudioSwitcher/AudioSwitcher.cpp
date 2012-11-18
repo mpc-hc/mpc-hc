@@ -21,12 +21,8 @@
 
 #include "stdafx.h"
 
-#include <shlwapi.h>
 #include <math.h>
-#include <atlpath.h>
 #include <MMReg.h>
-#include <ks.h>
-#include <ksmedia.h>
 #include "AudioSwitcher.h"
 #include "Audio.h"
 #include "../../../DSUtil/DSUtil.h"
