@@ -1958,10 +1958,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             }
             EndEnumFilters;
 
-            if (GetPlaybackMode() == PM_FILE) {
-                SetupChapters();
-            }
-
             if (GetPlaybackMode() == PM_DVD) { // we also use this timer to update the info panel for DVD playback
                 ULONG ulAvailable, ulCurrent;
 
