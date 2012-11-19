@@ -6333,11 +6333,20 @@ void CMainFrame::OnViewCaptionmenu()
             dwRemove = WS_CAPTION;
             wr.right  -= 2;
             wr.bottom -= GetSystemMetrics(SM_CYCAPTION) + 2;
+            if (IsZoomed()) { // If the window is maximized, we want it to stay centered.
+                dwFlags &= ~SWP_NOMOVE;
+                wr.left += 1;
+            }
             break;
         case MODE_BORDERLESS:       // frameonly -> borderless
             dwRemove = WS_THICKFRAME;
             wr.right  -= GetSystemMetrics(SM_CXSIZEFRAME) * 2 - 2;
             wr.bottom -= GetSystemMetrics(SM_CYSIZEFRAME) * 2 - 2;
+            if (IsZoomed()) { // If the window is maximized, we want it to stay centered.
+                dwFlags &= ~SWP_NOMOVE;
+                wr.top = 0;
+                wr.left = 0;
+            }
             break;
     }
 
