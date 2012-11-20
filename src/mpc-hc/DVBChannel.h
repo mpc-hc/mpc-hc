@@ -48,7 +48,7 @@ enum DVB_STREAM_TYPE {
     DVB_PSI      = 0x80,
     DVB_TIF      = 0x81,
     DVB_EPG      = 0x82,
-    DVB_PMT      = 0x83,
+    //DVB_PMT    = 0x83,
     DVB_SUB      = 0x83,
     DVB_SUBTITLE = 0xFE,
     DVB_UNKNOWN  = 0xFF
