@@ -146,7 +146,7 @@ private:
 
     HRESULT         CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, const CStringW& DisplayName);
     HRESULT         ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFilter);
-    HRESULT         CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBaseFilter>& pMpeg2Demux);
+    HRESULT         CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux);
     HRESULT         SetChannelInternal(CDVBChannel* pChannel);
     HRESULT         SwitchStream(DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE nNewType);
     HRESULT         ChangeState(FILTER_STATE nRequested);
