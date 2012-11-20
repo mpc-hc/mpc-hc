@@ -85,7 +85,7 @@ protected:
 
     void TrimExtension(CString& fn);
     bool ReadIdx(CString fn, int& ver), ReadSub(CString fn), ReadRar(CString fn), ReadIfo(CString fn);
-    bool WriteIdx(CString fn), WriteSub(CString fn);
+    bool WriteIdx(CString fn, int delay), WriteSub(CString fn);
 
     CMemFile m_sub;
 
@@ -94,10 +94,10 @@ protected:
     bool GetFrameByTimeStamp(__int64 time);
     int GetFrameIdxByTimeStamp(__int64 time);
 
-    bool SaveVobSub(CString fn);
-    bool SaveWinSubMux(CString fn);
-    bool SaveScenarist(CString fn);
-    bool SaveMaestro(CString fn);
+    bool SaveVobSub(CString fn, int delay);
+    bool SaveWinSubMux(CString fn, int delay);
+    bool SaveScenarist(CString fn, int delay);
+    bool SaveMaestro(CString fn, int delay);
 
 public:
     typedef struct {
@@ -133,7 +133,7 @@ public:
     } SubFormat;
 
     bool Open(CString fn);
-    bool Save(CString fn, SubFormat sf = VobSub);
+    bool Save(CString fn, int delay = 0, SubFormat sf = VobSub);
     void Close();
 
     CString GetTitle() { return m_title; }

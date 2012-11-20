@@ -2657,7 +2657,7 @@ bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
     return fRet;
 }
 
-bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::enc e)
+bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, int delay, CTextFile::enc e)
 {
     if (fn.Mid(fn.ReverseFind('.') + 1).CompareNoCase(exttypestr[et])) {
         if (fn[fn.GetLength() - 1] != '.') {
@@ -2783,16 +2783,20 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
         L"";
     //  Sort(true);
 
+    if (m_mode == FRAME) {
+        delay = delay * fps / 1000;
+    }
+
     for (int i = 0, j = (int)GetCount(), k = 0; i < j; i++) {
         STSEntry& stse = GetAt(i);
 
-        int t1 = TranslateStart(i, fps);
+        int t1 = TranslateStart(i, fps) + delay;
         if (t1 < 0) {
             k++;
             continue;
         }
 
-        int t2 = TranslateEnd(i, fps);
+        int t2 = TranslateEnd(i, fps) + delay;
 
         int hh1 = (t1 / 60 / 60 / 1000);
         int mm1 = (t1 / 60 / 1000) % 60;

@@ -5325,7 +5325,7 @@ void CMainFrame::OnFileSavesubtitle()
 
                 if (fd.DoModal() == IDOK) {
                     CAutoLock cAutoLock(&m_csSubLock);
-                    pVSF->Save(fd.GetPathName());
+                    pVSF->Save(fd.GetPathName(), m_pCAP->GetSubtitleDelay());
                 }
 
                 return;
@@ -5347,7 +5347,7 @@ void CMainFrame::OnFileSavesubtitle()
 
                 if (fd.DoModal() == IDOK) {
                     CAutoLock cAutoLock(&m_csSubLock);
-                    pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), m_pCAP->GetFPS(), fd.GetEncoding());
+                    pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), m_pCAP->GetFPS(), m_pCAP->GetSubtitleDelay(), fd.GetEncoding());
                 }
 
                 return;

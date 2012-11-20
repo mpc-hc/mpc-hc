@@ -14,6 +14,7 @@ Legend:
 + Web server: various performance improvements
 + VobSub subtitles can now also be loaded by selecting or draging and dropping the .sub file
 + FLAC Source: Basic support for embedded metadata
++ Take currently applied delay into account when saving subtitles using File > Save subtitle
 + Ticket #439, External subtitles: support UTF8 without BOM
 + Ticket #1617, Use MPC-HC's icon when registering the context menu entries
 + Ticket #1673, FLAC Source: Basic support for embedded CUE sheet

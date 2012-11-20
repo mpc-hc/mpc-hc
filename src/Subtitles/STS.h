@@ -161,7 +161,7 @@ public:
     bool Open(CString fn, int CharSet, CString name = _T(""));
     bool Open(CTextFile* f, int CharSet, CString name);
     bool Open(BYTE* data, int len, int CharSet, CString name);
-    bool SaveAs(CString fn, exttype et, double fps = -1, CTextFile::enc = CTextFile::DEFAULT_ENCODING);
+    bool SaveAs(CString fn, exttype et, double fps = -1, int delay = 0, CTextFile::enc = CTextFile::DEFAULT_ENCODING);
 
     void Add(CStringW str, bool fUnicode, int start, int end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), CRect marginRect = CRect(0, 0, 0, 0), int layer = 0, int readorder = -1);
     STSStyle* CreateDefaultStyle(int CharSet);
