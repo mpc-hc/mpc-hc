@@ -169,6 +169,7 @@
     <ClCompile Include="libavcodec\atrac3.c" />
     <ClCompile Include="libavcodec\avfft.c" />
     <ClCompile Include="libavcodec\avpacket.c" />
+    <ClCompile Include="libavcodec\avpicture.c" />
     <ClCompile Include="libavcodec\bgmc.c" />
     <ClCompile Include="libavcodec\bitstream.c" />
     <ClCompile Include="libavcodec\bit_depth_template.c" />

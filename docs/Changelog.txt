@@ -23,7 +23,7 @@ Legend:
   used will stay in the list instead of being inexorably pushed out of it.
 + Ticket #2647, Add .3ga to known formats
 + Ticket #2712, MPC Video Decoder: Add the ability to force the interlaced flag
-* Updated FFmpeg (n0.8-15849-g5cd567c)
+* Updated FFmpeg (n0.8-16028-g60b59d6)
 * Updated MediaInfoLib to v0.7.61
 * Updated ZenLib to v0.4.28 r411
 * Updated Little CMS to v2.4 (git c606462)

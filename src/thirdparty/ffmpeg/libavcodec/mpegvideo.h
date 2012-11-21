@@ -60,7 +60,7 @@ enum OutputFormat {
 
 #define MAX_THREADS 32
 
-#define MAX_PICTURE_COUNT 32
+#define MAX_PICTURE_COUNT 34
 
 #define ME_MAP_SIZE 64
 #define ME_MAP_SHIFT 3
@@ -451,7 +451,7 @@ typedef struct MpegEncContext {
     uint8_t *luma_dc_vlc_length;
 #define UNI_AC_ENC_INDEX(run,level) ((run)*128 + (level))
 
-    int coded_score[8];
+    int coded_score[12];
 
     /** precomputed matrix (combine qscale and DCT renorm) */
     int (*q_intra_matrix)[64];
@@ -676,7 +676,7 @@ typedef struct MpegEncContext {
     DCTELEM (*pblocks[12])[64];
 
     DCTELEM (*block)[64]; ///< points to one of the following blocks
-    DCTELEM (*blocks)[8][64]; // for HQ mode we need to keep the best block
+    DCTELEM (*blocks)[12][64]; // for HQ mode we need to keep the best block
     int (*decode_mb)(struct MpegEncContext *s, DCTELEM block[6][64]); // used by some codecs to avoid a switch()
 #define SLICE_OK         0
 #define SLICE_ERROR     -1

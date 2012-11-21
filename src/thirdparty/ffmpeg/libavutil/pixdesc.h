@@ -99,6 +99,9 @@ typedef struct AVPixFmtDescriptor{
  */
 #define PIX_FMT_PSEUDOPAL 64
 
+#define PIX_FMT_ALPHA   128 ///< The pixel format has an alpha channel
+
+
 #if FF_API_PIX_FMT_DESC
 /**
  * The array of all the pixel format descriptors.
@@ -184,6 +187,12 @@ char *av_get_pix_fmt_string (char *buf, int buf_size, enum AVPixelFormat pix_fmt
  * not counted.
  */
 int av_get_bits_per_pixel(const AVPixFmtDescriptor *pixdesc);
+
+/**
+ * Return the number of bits per pixel for the pixel format
+ * described by pixdesc, including any padding or unused bits.
+ */
+int av_get_padded_bits_per_pixel(const AVPixFmtDescriptor *pixdesc);
 
 /**
  * @return a pixel format descriptor for provided pixel format or NULL if

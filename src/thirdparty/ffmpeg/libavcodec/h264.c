@@ -1002,7 +1002,7 @@ static av_cold void common_init(H264Context *h)
     memset(h->pps.scaling_matrix8, 16, 2 * 64 * sizeof(uint8_t));
 }
 
-int ff_h264_decode_extradata(H264Context *h, const uint8_t *buf, int size)
+static int ff_h264_decode_extradata_internal(H264Context *h, const uint8_t *buf, int size)
 {
     AVCodecContext *avctx = h->s.avctx;
 
@@ -1059,6 +1059,15 @@ int ff_h264_decode_extradata(H264Context *h, const uint8_t *buf, int size)
     return size;
 }
 
+int ff_h264_decode_extradata(H264Context *h, const uint8_t *buf, int size)
+{
+    int ret;
+    h->decoding_extradata = 1;
+    ret = ff_h264_decode_extradata_internal(h, buf, size);
+    h->decoding_extradata = 0;
+    return ret;
+}
+
 av_cold int ff_h264_decode_init(AVCodecContext *avctx)
 {
     H264Context *h = avctx->priv_data;
@@ -1095,8 +1104,12 @@ av_cold int ff_h264_decode_init(AVCodecContext *avctx)
     h->x264_build   = -1;
     ff_h264_reset_sei(h);
     if (avctx->codec_id == AV_CODEC_ID_H264) {
-        if (avctx->ticks_per_frame == 1)
-            s->avctx->time_base.den *= 2;
+        if (avctx->ticks_per_frame == 1) {
+            if(s->avctx->time_base.den < INT_MAX/2) {
+                s->avctx->time_base.den *= 2;
+            } else
+                s->avctx->time_base.num /= 2;
+        }
         avctx->ticks_per_frame = 2;
     }
 
@@ -2931,7 +2944,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0)
                 h->ref_count[1] = get_ue_golomb(&s->gb) + 1;
             else
                 // full range is spec-ok in this case, even for frames
-                max[1] = 31;
+                h->ref_count[1] = 1;
         }
 
         if (h->ref_count[0]-1 > max[0] || h->ref_count[1]-1 > max[1]){
@@ -3858,6 +3871,20 @@ static int decode_nal_units(H264Context *h, const uint8_t *buf, int buf_size)
 
 again:
             err = 0;
+
+            if (h->decoding_extradata) {
+                switch (hx->nal_unit_type) {
+                case NAL_IDR_SLICE:
+                case NAL_SLICE:
+                case NAL_DPA:
+                case NAL_DPB:
+                case NAL_DPC:
+                case NAL_AUXILIARY_SLICE:
+                    av_log(h->s.avctx, AV_LOG_WARNING, "Ignoring NAL %d in global header\n", hx->nal_unit_type);
+                    hx->nal_unit_type = NAL_FILLER_DATA;
+                }
+            }
+
             switch (hx->nal_unit_type) {
             case NAL_IDR_SLICE:
                 if (h->nal_unit_type != NAL_IDR_SLICE) {
@@ -3957,7 +3984,7 @@ again:
                 hx->inter_gb_ptr = &hx->inter_gb;
 
                 av_log(h->s.avctx, AV_LOG_ERROR, "Partitioned H.264 support is incomplete\n");
-                return AVERROR_PATCHWELCOME;
+                break;
 
                 if (hx->redundant_pic_count == 0 &&
                     hx->intra_gb_ptr &&

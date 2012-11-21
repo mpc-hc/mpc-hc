@@ -120,6 +120,7 @@ SRCS_C = \
     libavcodec/atrac3.c \
     libavcodec/avfft.c \
     libavcodec/avpacket.c \
+    libavcodec/avpicture.c \
     libavcodec/bgmc.c \
     libavcodec/bitstream.c \
     libavcodec/cabac.c \

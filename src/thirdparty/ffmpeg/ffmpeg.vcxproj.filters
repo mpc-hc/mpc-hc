@@ -949,6 +949,9 @@
     <ClCompile Include="libavcodec\avpacket.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\avpicture.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\bgmc.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
