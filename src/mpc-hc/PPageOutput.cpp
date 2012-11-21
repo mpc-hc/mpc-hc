@@ -593,8 +593,10 @@ void CPPageOutput::OnDSRendererChange()
         case VIDRNDT_DS_MADVR:
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
 
+            m_iDSDXVASupport.SetIcon(tick);
             m_iDSSubtitleSupport.SetIcon(tick);
             m_iDSSaveImageSupport.SetIcon(tick);
+            m_iDSShaderSupport.SetIcon(tick);
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSMADVR), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_DXR:

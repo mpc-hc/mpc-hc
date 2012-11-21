@@ -35,6 +35,15 @@ public IUnknown {
     STDMETHOD_(BOOL, IsMadVRSeekbarEnabled)() = 0;
 };
 
+#define ShaderStage_PreScale 0
+#define ShaderStage_PostScale 1
+
+interface  __declspec(uuid("B6A6D5D4-9637-4C7D-AAAE-BC0B36F5E433"))
+IMadVRExternalPixelShaders :
+public IUnknown {
+    STDMETHOD(ClearPixelShaders)(bool postScale) = 0;
+    STDMETHOD(AddPixelShader)(LPCSTR sourceCode, LPCSTR compileProfile, int stage, LPVOID reserved) = 0;
+};
 
 //
 // CmadVRAllocatorPresenter
@@ -254,5 +263,26 @@ STDMETHODIMP CmadVRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 
 STDMETHODIMP CmadVRAllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget)
 {
-    return E_NOTIMPL; // TODO
+    HRESULT hr = E_NOTIMPL;
+    if (CComQIPtr<IMadVRExternalPixelShaders> pEPS = m_pDXR) {
+        if ((!pSrcData) && (!pTarget)) {
+            hr = pEPS->ClearPixelShaders(false);
+        } else {
+            hr = pEPS->AddPixelShader(pSrcData, pTarget, ShaderStage_PreScale, NULL);
+        }
+    }
+    return hr;
+}
+
+STDMETHODIMP CmadVRAllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace)
+{
+    HRESULT hr = E_NOTIMPL;
+    if (CComQIPtr<IMadVRExternalPixelShaders> pEPS = m_pDXR) {
+        if ((!pSrcData) && (!pTarget)) {
+            hr = pEPS->ClearPixelShaders(bScreenSpace);
+        } else {
+            hr = pEPS->AddPixelShader(pSrcData, pTarget, bScreenSpace ? ShaderStage_PostScale : ShaderStage_PreScale, NULL);
+        }
+    }
+    return hr;
 }

@@ -30,6 +30,7 @@
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
+#include "madVRAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include "../DeCSS/VobFile.h"
 #include <InitGuid.h>
@@ -828,6 +829,12 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
                     if (CComQIPtr<IVMRMixerBitmap9> pMB = pBF) {
                         m_pUnks.AddTail(pMB);
+                    }
+
+                    if (CComQIPtr<IMadVRTextOsd> pMVTO = pBF) {
+                        // without this, m_pUnks would be empty after MainFrm.cpp queried for ISubPicAllocatorPresenter
+                        // adding this allows MainFrm.cpp to successfully query for ISubPicAllocatorPresenter2, too
+                        m_pUnks.AddTail(pMVTO);
                     }
 
                     if (CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF) {
