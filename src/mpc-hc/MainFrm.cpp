@@ -5307,13 +5307,13 @@ void CMainFrame::OnFileSavesubtitle()
             }
 
             OpenMediaData* pOMD = m_wndPlaylistBar.GetCurOMD();
-            CString suggestedFileName("");
+            CString suggestedFileName(_T(""));
             if (OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD)) {
                 // HACK: get the file name from the current playlist item
                 suggestedFileName = m_wndPlaylistBar.GetCurFileName();
                 suggestedFileName = suggestedFileName.Left(suggestedFileName.ReverseFind('.')); // exclude the extension, it will be auto completed
             }
-
+            delete pOMD;
             if (clsid == __uuidof(CVobSubFile)) {
                 CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)pSubStream;
 
