@@ -438,6 +438,9 @@ void CPPageOutput::OnSurfaceChange()
             if (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) {
                 m_iDSShaderSupport.SetIcon(tick);
                 m_iDSRotationSupport.SetIcon(tick);
+            } else if (m_iDSVideoRendererType == VIDRNDT_DS_MADVR) {
+                m_iDSShaderSupport.SetIcon(tick);
+                m_iDSRotationSupport.SetIcon(cross);
             } else {
                 m_iDSShaderSupport.SetIcon(cross);
                 m_iDSRotationSupport.SetIcon(cross);
@@ -592,6 +595,7 @@ void CPPageOutput::OnDSRendererChange()
             break;
         case VIDRNDT_DS_MADVR:
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
+            ((CComboBox*)GetDlgItem(IDC_DX_SURFACE))->SetCurSel(2);
 
             m_iDSDXVASupport.SetIcon(tick);
             m_iDSSubtitleSupport.SetIcon(tick);
