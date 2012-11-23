@@ -100,8 +100,6 @@ BOOL CPPagePlayback::OnInitDialog()
     m_volumectrl.SetRange(0, 100);
     m_volumectrl.SetTicFreq(10);
     m_balancectrl.SetRange(-100, 100);
-    m_balancectrl.SetLineSize(2);
-    m_balancectrl.SetPageSize(2);
     m_balancectrl.SetTicFreq(20);
     m_nVolume = m_oldVolume = s.nVolume;
     m_nBalance = s.nBalance;
