@@ -352,21 +352,29 @@ HRESULT CFFAudioDecoder::Decode(enum AVCodecID nCodecId, BYTE* p, int buffsize, 
     }
 
     if (got_frame) {
-        WORD   nChannels = m_pAVCtx->channels;
-        size_t nSamples  = m_pFrame->nb_samples * nChannels;
+        size_t nSamples = m_pFrame->nb_samples;
 
         if (nSamples) {
-            DWORD dwChannelMask;
+            WORD nChannels = m_pAVCtx->channels;
+            /*DWORD dwChannelMask;
             if (m_pAVCtx->channel_layout) {
                 dwChannelMask = get_lav_channel_layout(m_pAVCtx->channel_layout);
             } else {
                 dwChannelMask = GetDefChannelMask(nChannels);
-            }
-
+            }*/
             samplefmt = m_pAVCtx->sample_fmt;
+            size_t monosize = nSamples * av_get_bytes_per_sample(samplefmt);
+            BuffOut.SetCount(monosize * nChannels);
 
-            BuffOut.SetCount(nSamples * av_get_bytes_per_sample(samplefmt));
-            memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
+            if (av_sample_fmt_is_planar(samplefmt) && monosize < m_pFrame->linesize[0]) { // sometimes data is smaller than the buffer size
+                BYTE* pOut = BuffOut.GetData();
+                for (int ch = 0; ch < nChannels; ++ch) {
+                    memcpy(pOut, m_pFrame->extended_data[ch], monosize);
+                    pOut += monosize;
+                }
+            } else {
+                memcpy(BuffOut.GetData(), m_pFrame->data[0], BuffOut.GetCount());
+            }
         }
     }
 
