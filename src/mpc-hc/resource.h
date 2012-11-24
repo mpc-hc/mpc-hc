@@ -342,6 +342,7 @@
 #define IDD_PPAGEWEBSERVER              10040
 #define IDD_PPAGESUBDB                  10042
 #define IDD_SAVETEXTFILEDIALOGTEMPL     10043
+#define IDD_SAVESUBTITLESFILEDIALOGTEMPL 10044
 #define IDD_CAPTURE_DLG                 10045
 #define IDD_ADDREGFILTER                10046
 #define IDD_SELECTMEDIATYPE             10047
@@ -1473,6 +1474,7 @@
 #define IDS_VDF_IF_PROGRESSIVE          41445
 #define IDS_VDF_IF_TOP_FIELD_FIRST      41446
 #define IDS_VDF_IF_BOTTOM_FIELD_FIRST   41447
+#define IDS_SUBFILE_DELAY               41448
 
 // Next default values for new objects
 // 

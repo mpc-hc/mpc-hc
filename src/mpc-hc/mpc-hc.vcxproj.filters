@@ -366,6 +366,9 @@
     <ClCompile Include="MediaPositionList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SaveSubtitlesFileDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -723,6 +726,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MediaPositionList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveSubtitlesFileDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,10 +28,11 @@
 
 class CSaveTextFileDialog : public CFileDialog
 {
-    DECLARE_DYNAMIC(CSaveTextFileDialog)
-
-private:
+protected:
     CTextFile::enc m_e;
+    CComboBox m_encoding;
+
+    DECLARE_DYNAMIC(CSaveTextFileDialog)
 
 public:
     CSaveTextFileDialog(
@@ -40,7 +41,6 @@ public:
         LPCTSTR lpszFilter = NULL, CWnd* pParentWnd = NULL);
     virtual ~CSaveTextFileDialog();
 
-    CComboBox m_encoding;
     CTextFile::enc GetEncoding() { return m_e; }
 
 protected:
@@ -49,6 +49,5 @@ protected:
     virtual BOOL OnInitDialog();
     virtual BOOL OnFileNameOK();
 
-public:
     afx_msg void OnEncodingChange();
 };

@@ -431,6 +431,12 @@ BEGIN DIALOGEX IDD_PPAGEWEBSERVER LINES 21
 19		"Δείκτες χειρισμού CGI: (.ext1=κατάλογος1, .ext2=κατάλογος2, ...)"
 END
 
+BEGIN DIALOGEX IDD_SAVESUBTITLESFILEDIALOGTEMPL LINES 11
+5		"Κωδικοποίηση:"
+9		"Delay:"
+10		"ms"
+END
+
 BEGIN DIALOGEX IDD_SAVETEXTFILEDIALOGTEMPL LINES 7
 5		"Κωδικοποίηση:"
 END
@@ -1764,6 +1770,7 @@ STRING IDS_SUBDL_DLG_NOT_FOUND		"Δεν βρέθηκαν υπότιτλοι."
 STRING IDS_SUBDL_DLG_PARSING		"Ανάλυση λίστας..."
 STRING IDS_SUBDL_DLG_SUBS_AVAIL		" %d υπότιτλοι είναι διαθέσιμοι."
 STRING IDS_SUBDL_DLG_TITLES_COL		"Τίτλος(οι)"
+STRING IDS_SUBFILE_DELAY		"Delay (ms):"
 STRING IDS_SUBRESYNC_CAPTION		"Επανασυγχρονισμός υποτίτλων"
 STRING IDS_SUBRESYNC_CLN_ACTOR		"Ηθοποιός"
 STRING IDS_SUBRESYNC_CLN_CELL_ID		"ID κελιού"

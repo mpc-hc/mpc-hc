@@ -31,11 +31,11 @@ IMPLEMENT_DYNAMIC(CSaveTextFileDialog, CFileDialog)
 CSaveTextFileDialog::CSaveTextFileDialog(
     CTextFile::enc e,
     LPCTSTR lpszDefExt, LPCTSTR lpszFileName,
-    LPCTSTR lpszFilter, CWnd* pParentWnd) :
-    CFileDialog(FALSE, lpszDefExt, lpszFileName,
-                OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                lpszFilter, pParentWnd, 0),
-    m_e(e)
+    LPCTSTR lpszFilter, CWnd* pParentWnd)
+    : CFileDialog(FALSE, lpszDefExt, lpszFileName,
+                  OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
+                  lpszFilter, pParentWnd, 0)
+    , m_e(e)
 {
     if (SysVersion::IsVistaOrLater()) {
         // customization has to be done before OnInitDialog

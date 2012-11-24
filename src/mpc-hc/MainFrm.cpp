@@ -40,6 +40,7 @@
 #include "PnSPresetsDlg.h"
 #include "MediaTypesDlg.h"
 #include "SaveTextFileDialog.h"
+#include "SaveSubtitlesFileDialog.h"
 #include "SaveThumbnailsDialog.h"
 #include "FavoriteAddDlg.h"
 #include "FavoriteOrganizeDlg.h"
@@ -5319,13 +5320,12 @@ void CMainFrame::OnFileSavesubtitle()
 
                 // remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
                 // and tracks attempts to overwrite in a graceful manner
-                CFileDialog fd(FALSE, _T("idx"), suggestedFileName,
-                               OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                               _T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent(), 0);
+                CSaveSubtitlesFileDialog fd(m_pCAP->GetSubtitleDelay(), _T("idx"), suggestedFileName,
+                                            _T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent());
 
                 if (fd.DoModal() == IDOK) {
                     CAutoLock cAutoLock(&m_csSubLock);
-                    pVSF->Save(fd.GetPathName(), m_pCAP->GetSubtitleDelay());
+                    pVSF->Save(fd.GetPathName(), fd.GetDelay());
                 }
 
                 return;
@@ -5343,11 +5343,11 @@ void CMainFrame::OnFileSavesubtitle()
                 filter += _T("|");
 
                 // same thing as in the case of CVobSubFile above for lpszDefExt
-                CSaveTextFileDialog fd(pRTS->m_encoding, _T("srt"), suggestedFileName, filter, GetModalParent());
+                CSaveSubtitlesFileDialog fd(pRTS->m_encoding, m_pCAP->GetSubtitleDelay(), _T("srt"), suggestedFileName, filter, GetModalParent());
 
                 if (fd.DoModal() == IDOK) {
                     CAutoLock cAutoLock(&m_csSubLock);
-                    pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), m_pCAP->GetFPS(), m_pCAP->GetSubtitleDelay(), fd.GetEncoding());
+                    pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding());
                 }
 
                 return;
