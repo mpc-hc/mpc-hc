@@ -183,6 +183,7 @@ private:
 class __declspec(uuid("9852A670-F845-491b-9BE6-EBD841B8A613"))
     CDirectVobSubFilter2 : public CDirectVobSubFilter
 {
+    bool IsAppBlackListed();
     bool ShouldWeAutoload(IFilterGraph* pGraph);
     void GetRidOfInternalScriptRenderer();
 

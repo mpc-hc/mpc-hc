@@ -1185,6 +1185,10 @@ HRESULT CDirectVobSubFilter2::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName)
 {
     if (pGraph) {
+        if (IsAppBlackListed()) {
+            return E_FAIL;
+        }
+
         BeginEnumFilters(pGraph, pEF, pBF) {
             if (pBF != (IBaseFilter*)this && CComQIPtr<IDirectVobSub>(pBF)) {
                 return E_FAIL;
@@ -1287,7 +1291,7 @@ HRESULT CDirectVobSubFilter2::CheckInputType(const CMediaType* mtIn)
         return hr;
     }
 
-    if (!ShouldWeAutoload(m_pGraph)) {
+    if (IsAppBlackListed() || !ShouldWeAutoload(m_pGraph)) {
         return VFW_E_TYPE_NOT_ACCEPTED;
     }
 
@@ -1296,23 +1300,37 @@ HRESULT CDirectVobSubFilter2::CheckInputType(const CMediaType* mtIn)
     return NOERROR;
 }
 
-bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
+bool CDirectVobSubFilter2::IsAppBlackListed()
 {
-    TCHAR blacklistedapps[][32] = {
-        _T("WM8EUTIL."), // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
+    // all entries must be lowercase!
+    TCHAR* blacklistedapps[] = {
+        _T("wm8eutil."), // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
         _T("explorer."), // as some users reported thumbnail preview loads dvobsub, I've never experienced this yet...
         _T("producer."), // this is real's producer
-        _T("GoogleDesktopIndex."), // Google Desktop
-        _T("GoogleDesktopDisplay."), // Google Desktop
-        _T("GoogleDesktopCrawl."), // Google Desktop
+        _T("googledesktopindex."), // Google Desktop
+        _T("googledesktopdisplay."), // Google Desktop
+        _T("googledesktopcrawl."), // Google Desktop
+        _T("subtitleworkshop."), // Subtitle Workshop
+        _T("subtitleworkshop4."),
+        _T("darksouls."), // Dark Souls (Game)
+        _T("rometw."), // Rome Total War (Game)
+        _T("everquest2."), // EverQuest II (Game)
+        _T("yso_win."), // Ys Origin (Game)
+        _T("launcher_main."), // Logitech WebCam Software
+        _T("webcamdell2."), // Dell WebCam Software
     };
 
-    for (ptrdiff_t i = 0; i < _countof(blacklistedapps); i++) {
+    for (size_t i = 0; i < _countof(blacklistedapps); i++) {
         if (theApp.m_AppName.Find(blacklistedapps[i]) >= 0) {
-            return false;
+            return true;
         }
     }
 
+    return false;
+}
+
+bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
+{
     int level;
     bool m_fExternalLoad, m_fWebLoad, m_fEmbeddedLoad;
     get_LoadSettings(&level, &m_fExternalLoad, &m_fWebLoad, &m_fEmbeddedLoad);

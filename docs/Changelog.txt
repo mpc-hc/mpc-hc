@@ -40,6 +40,7 @@ Legend:
 ! MPEG Splitter: Fix parsing of some malformed TS files
 ! VSFilter (auto-loading version) wasn't loading on Windows 7
 ! ISR/VSFilter: Fix high RAM usage with some complex subtitles
+! VSFilter: Fix and update the blacklist
 ! Ticket #376, Fix subtitles when switching from animated subs to non-animated subs.
   The subtitles' timings were not correctly respected after switching from an
   animated subtitles track to a non-animated subtitles track.
