@@ -243,7 +243,7 @@ BEGIN DIALOGEX IDD_PPAGELOGO LINES 12
 END
 
 BEGIN DIALOGEX IDD_PPAGEMISC LINES 28
-5		"Управление цветом (для VMR-9 и EVR)"
+5		"Управление цветом (для VMR-9, EVR и madVR)"
 6		"Яркость"
 7		"Контрастность"
 8		"Оттенок"
