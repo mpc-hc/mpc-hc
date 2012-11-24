@@ -38,6 +38,7 @@ private:
     CStringArray m_AudioRendererDisplayNames;
     CStringArray m_D3D9GUIDNames;
     CImageList m_tickcross;
+    HICON m_tick, m_cross;
 
     CComboBox m_iDSVideoRendererTypeCtrl;
     CComboBox m_iAudioRendererTypeCtrl;
