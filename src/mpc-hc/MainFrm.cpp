@@ -3630,7 +3630,7 @@ void CMainFrame::OnStreamAudio(UINT nID)
 
     DWORD cStreams = 0;
     if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
-        for (int i = 0; i < (int)cStreams; i++) {
+        for (DWORD i = 0; i < cStreams; i++) {
             AM_MEDIA_TYPE* pmt = NULL;
             DWORD dwFlags = 0;
             LCID lcid = 0;
@@ -12588,10 +12588,9 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
                 pSub->AppendMenu(MF_BYCOMMAND | MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_OPTIONS));
                 pSub->AppendMenu(MF_SEPARATOR | MF_ENABLED);
 
-                for (int i = 0; i < (int)cStreams; i++) {
+                for (DWORD i = 0; i < cStreams; i++) {
                     WCHAR* pName = NULL;
-                    int iStream = i;
-                    if (FAILED(pSS->Info(iStream, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) { // audio streams are reordered, so find the index from the initial order
+                    if (FAILED(pSS->Info(i, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) { // audio streams are reordered, so find the index from the initial order
                         break;
                     }
 
