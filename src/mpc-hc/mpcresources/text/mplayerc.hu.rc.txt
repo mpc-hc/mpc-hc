@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Audió"
 6		"Hangerő"
 7		"Min"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Hibás, nem átalakítható csatlakozók jelentése"
 33		"Audiófájlok auto betöltése"
 34		"Feliratok auto betöltése"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Hangerő erősítés csökkentése"
 STRING IDS_VOLUME_BOOST_INC		"Hangerő erősítés növelése"
 STRING IDS_VOLUME_BOOST_MAX		"Hangerő erősítés Max"
 STRING IDS_VOLUME_BOOST_MIN		"Hangerő erősítés Min"
-STRING IDS_VOLUME_DEC		"Volume decrease"
-STRING IDS_VOLUME_INC		"Volume increase"
 STRING IDS_VOLUME_OSD		"Hang: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"You need to apply the new settings before testing them."
 STRING IDS_ZOOM1		"Zoom 1"

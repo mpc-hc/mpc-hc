@@ -453,7 +453,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayLanguage)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnUpdatePlayLanguage)
     ON_COMMAND_RANGE(ID_VOLUME_UP, ID_VOLUME_MUTE, OnPlayVolume)
-    ON_COMMAND_RANGE(ID_VOLUME_INC, ID_VOLUME_DEC, OnPlayVolume)
     ON_COMMAND_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnPlayVolumeBoost)
     ON_UPDATE_COMMAND_UI_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnUpdatePlayVolumeBoost)
     ON_COMMAND(ID_CUSTOM_CHANNEL_MAPPING, OnCustomChannelMapping)
@@ -14368,6 +14367,7 @@ void CMainFrame::ShowOptions(int idPage)
             SetAlwaysOnTop(s.iOnTop);
         }
 
+        m_wndToolBar.m_volctrl.SetPageSize(s.nVolumeStep);
         m_wndView.LoadLogo();
         s.SaveSettings();
 

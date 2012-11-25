@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Les filtres externes (DirectVobSub par exemple) peuvent afficher les sous-titres pour tous les moteurs de rendu."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Audio"
 6		"Volume"
 7		"Min"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Indiquer les connexions échouées lors du rendu"
 33		"Lecture automatique des fichiers audio"
 34		"Lecture automatique des sous-titres"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Diminuer le gain du volume"
 STRING IDS_VOLUME_BOOST_INC		"Augmenter le gain du volume"
 STRING IDS_VOLUME_BOOST_MAX		"Gain du volume max"
 STRING IDS_VOLUME_BOOST_MIN		"Gain du volume min"
-STRING IDS_VOLUME_DEC		"Diminuer le volume"
-STRING IDS_VOLUME_INC		"Augmenter le volume"
 STRING IDS_VOLUME_OSD		"Volume : %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Il est nécessaire d'appliquer les changements avant de pouvoir les tester."
 STRING IDS_ZOOM1		"Zoom 1"

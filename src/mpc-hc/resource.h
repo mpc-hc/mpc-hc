@@ -277,8 +277,6 @@
 #define ID_CUSTOM_CHANNEL_MAPPING       993
 #define ID_NORMALIZE                    994
 #define ID_REGAIN_VOLUME                995
-#define ID_VOLUME_INC                   996
-#define ID_VOLUME_DEC                   997
 #define ID_FILTERS_SUBITEM_START        2000
 #define ID_FILTERS_SUBITEM_END          2099
 #define ID_FILTERSTREAMS_SUBITEM_START  2100
@@ -645,6 +643,8 @@
 #define IDC_RMRND_SAVEIMAGE_SUPPORT     22070
 #define IDC_QTRND_SUBTITLE_SUPPORT      22071
 #define IDC_QTRND_SAVEIMAGE_SUPPORT     22072
+#define IDC_VOLUMESTEP                  22073
+#define IDC_VOLUMESTEP_SPIN             22074
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1117,8 +1117,6 @@
 #define IDS_THUMB_THUMBNAILS            33446
 #define IDS_THUMB_PIXELS                33447
 #define IDS_TEXTFILE_ENC                33448
-#define IDS_VOLUME_INC                  33449
-#define IDS_VOLUME_DEC                  33450
 //
 #define IDS_MFMT_AVI                    39001
 #define IDS_MFMT_MPEG                   39002

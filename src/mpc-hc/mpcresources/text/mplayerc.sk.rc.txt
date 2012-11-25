@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Externé filtre (ako napr. DirectVobSub) dokážu zobrazovať titulky pri všetkých vykresľovačoch."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Zvuk"
 6		"Hlasitosť"
 7		"Min"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Zaznamenať piny, ktoré sa nevykreslia"
 33		"Aut. načítanie zvuk. stôp"
 34		"Aut. načítanie titulkov"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Zmenšiť zvýrazňovanie zvuku"
 STRING IDS_VOLUME_BOOST_INC		"Zväčšiť zvýrazňovanie zvuku"
 STRING IDS_VOLUME_BOOST_MAX		"Zvýraznenie zvuku Max"
 STRING IDS_VOLUME_BOOST_MIN		"Zvýraznenie zvuku Min"
-STRING IDS_VOLUME_DEC		"Znížiť hlasitosť"
-STRING IDS_VOLUME_INC		"Zvýšiť hlasitosť"
 STRING IDS_VOLUME_OSD		"Hlasitosť: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Pred otestovaním je potrebné aplikovať nové nastavenia."
 STRING IDS_ZOOM1		"Priblíženie 1"

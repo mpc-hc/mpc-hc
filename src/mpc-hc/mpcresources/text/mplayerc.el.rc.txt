@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Εξωτερικά φίλτρα (όπως το DirectVobSub) μπορούν να εμφανίσουν υπότιτλους σε όλα τα προγράμματα απόδοσης."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Ήχος"
 6		"Ένταση"
 7		"Ελάχ."
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Αναφορά pin που απέτυχαν να αποδοθούν"
 33		"Αυτόματη φόρτωση αρχείων ήχου"
 34		"Αυτόματη φόρτωση υποτίτλων"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Μείωση ώθησης έντασης"
 STRING IDS_VOLUME_BOOST_INC		"Αύξηση ώθησης έντασης"
 STRING IDS_VOLUME_BOOST_MAX		"Μέγιστη ώθηση έντασης"
 STRING IDS_VOLUME_BOOST_MIN		"Ελάχιστη ώθηση έντασης"
-STRING IDS_VOLUME_DEC		"Μείωση έντασης"
-STRING IDS_VOLUME_INC		"Αύξηση έντασης"
 STRING IDS_VOLUME_OSD		"Έντ.: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Πρέπει να κάνετε εφαρμογή των νέων ρυθμίσεων πριν από τη δοκιμή τους."
 STRING IDS_ZOOM1		"Μεγέθυνση 1"

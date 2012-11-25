@@ -41,6 +41,8 @@ public:
     CSliderCtrl m_balancectrl;
     int m_nVolume;
     int m_nBalance;
+    int m_nVolumeStep;
+    CSpinButtonCtrl m_VolumeStepCtrl;
     int m_iLoopForever;
     CEdit m_loopnumctrl;
     int m_nLoops;

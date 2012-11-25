@@ -41,10 +41,12 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
     if (!CSliderCtrl::Create(WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_HORZ | TBS_TOOLTIPS, CRect(0, 0, 0, 0), pParentWnd, IDC_SLIDER1)) {
         return false;
     }
+
+    CAppSettings& s = AfxGetAppSettings();
     EnableToolTips(TRUE);
     SetRange(0, 100);
-    SetPosInternal(AfxGetAppSettings().nVolume);
-    SetPageSize(5);
+    SetPosInternal(s.nVolume);
+    SetPageSize(s.nVolumeStep);
     SetLineSize(0);
 
     return true;

@@ -73,6 +73,8 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK6, m_fReportFailedPins);
     DDX_Text(pDX, IDC_EDIT2, m_subtitlesLanguageOrder);
     DDX_Text(pDX, IDC_EDIT3, m_audiosLanguageOrder);
+    DDX_Text(pDX, IDC_VOLUMESTEP, m_nVolumeStep);
+    DDX_Control(pDX, IDC_VOLUMESTEP_SPIN, m_VolumeStepCtrl);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
@@ -103,6 +105,8 @@ BOOL CPPagePlayback::OnInitDialog()
     m_balancectrl.SetTicFreq(20);
     m_nVolume = m_oldVolume = s.nVolume;
     m_nBalance = s.nBalance;
+    m_nVolumeStep = s.nVolumeStep;
+    m_VolumeStepCtrl.SetRange(1, 25);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
     m_nLoops = s.nLoops;
     m_fRewind = s.fRewind;
@@ -137,6 +141,7 @@ BOOL CPPagePlayback::OnApply()
 
     s.nVolume = m_oldVolume = m_nVolume;
     s.nBalance = m_nBalance;
+    s.nVolumeStep = m_nVolumeStep;
     s.fLoopForever = !!m_iLoopForever;
     s.nLoops = m_nLoops;
     s.fRewind = !!m_fRewind;

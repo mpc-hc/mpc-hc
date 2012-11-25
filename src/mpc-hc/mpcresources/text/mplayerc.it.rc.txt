@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Audio"
 6		"Volume"
 7		"Min"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Mostra i pin che falliscono il rendering"
 33		"Auto-carica i file audio"
 34		"Auto-carica i sottotitoli"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Amplificazione volume: decremento"
 STRING IDS_VOLUME_BOOST_INC		"Amplificazione volume: aumento"
 STRING IDS_VOLUME_BOOST_MAX		"Amplificazione volume: massimo"
 STRING IDS_VOLUME_BOOST_MIN		"Amplificazione volume: minimo"
-STRING IDS_VOLUME_DEC		"Volume decrease"
-STRING IDS_VOLUME_INC		"Volume increase"
 STRING IDS_VOLUME_OSD		"Vol: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"È necessario applicare le nuove impostazioni prima di poterle testare."
 STRING IDS_ZOOM1		"Zoom 1"

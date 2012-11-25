@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Externe Filter (z.B. DirectVobSub) zeigen Untertitel bei allen Renderern an."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Audio"
 6		"Lautstärke"
 7		"Min"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Fehlerhafte Pins im Graph &melden"
 33		"&Audio-Dateien automatisch laden"
 34		"&Untertitel automatisch laden"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Lautstärke Verstärkung verringern"
 STRING IDS_VOLUME_BOOST_INC		"Lautstärke Verstärkung erhöhen"
 STRING IDS_VOLUME_BOOST_MAX		"Lautstärke Verstärkung Max"
 STRING IDS_VOLUME_BOOST_MIN		"Lautstärke Verstärkung Min"
-STRING IDS_VOLUME_DEC		"Lautstärke verringern"
-STRING IDS_VOLUME_INC		"Lautstärke erhöhen"
 STRING IDS_VOLUME_OSD		"Lautstärke: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Sie müssen die neuen Einstellungen bestätigen, bevor Sie diese Testen können."
 STRING IDS_ZOOM1		"Zoom 1"

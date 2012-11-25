@@ -61,6 +61,7 @@
 #define IDS_RS_VOLUME                       _T("Volume")
 #define IDS_RS_MUTE                         _T("Mute")
 #define IDS_RS_BALANCE                      _T("Balance")
+#define IDS_RS_VOLUMESTEP                   _T("VolumeStep")
 // AudioSwitcher
 #define IDS_RS_ENABLEAUDIOSWITCHER          _T("EnableAudioSwitcher")
 #define IDS_RS_AUDIONORMALIZE               _T("AudioNormalize")

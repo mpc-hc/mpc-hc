@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"오디오"
 6		"볼륨"
 7		"최소"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"렌더링에 실패하면 pin 보고"
 33		"오디오파일을 자동으로 열기"
 34		"자막파일을 자동으로 열기"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"볼륨 부스트 감소"
 STRING IDS_VOLUME_BOOST_INC		"볼륨 부스트 증가"
 STRING IDS_VOLUME_BOOST_MAX		"볼륨 부스트 최대"
 STRING IDS_VOLUME_BOOST_MIN		"볼륨 부스트 최소"
-STRING IDS_VOLUME_DEC		"Volume decrease"
-STRING IDS_VOLUME_INC		"Volume increase"
 STRING IDS_VOLUME_OSD		"볼륨: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"설정들을 테스트해보려면 설정들을 적용시켜야 합니다."
 STRING IDS_ZOOM1		"Zoom 1"

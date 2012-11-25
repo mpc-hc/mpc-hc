@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* External filters (such as DirectVobSub) can display subtitles on all renderers."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Аўдыё"
 6		"Гучнасць"
 7		"Min"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Справазд. аб памылках рэндэрынгу струменяў"
 33		"Аўтазагрузка гуку"
 34		"Аўтазагр. субтытраў"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Узмацненне гучнасці - памен
 STRING IDS_VOLUME_BOOST_INC		"Узмацненне гучнасці - павялічыць"
 STRING IDS_VOLUME_BOOST_MAX		"Узмацненне гучнасці - Max"
 STRING IDS_VOLUME_BOOST_MIN		"Узмацненне гучнасці - Min"
-STRING IDS_VOLUME_DEC		"Volume decrease"
-STRING IDS_VOLUME_INC		"Volume increase"
 STRING IDS_VOLUME_OSD		"Гучнасць: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Вы павінны ужыць налады перад іхняй праверкай."
 STRING IDS_ZOOM1		"Zoom 1"

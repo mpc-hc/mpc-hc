@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Zewnętrzne filtry (takie jak DirectVobSub) mogą wyświetlać napisy przy użyciu dowolnego renderera obrazu."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Dźwięk"
 6		"Głośność"
 7		"Min."
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Powiadamianie o niepołączonych pinach grafu"
 33		"Wczytywanie ścieżek dźwiękowych"
 34		"Wczytywanie napisów"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1883,8 +1886,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Zmniejsz wzmocnienie głośności"
 STRING IDS_VOLUME_BOOST_INC		"Zwiększ wzmocnienie głośności"
 STRING IDS_VOLUME_BOOST_MAX		"Maksymalne wzmocnienie głośności"
 STRING IDS_VOLUME_BOOST_MIN		"Minimalne wzmocnienie głośności"
-STRING IDS_VOLUME_DEC		"Volume decrease"
-STRING IDS_VOLUME_INC		"Volume increase"
 STRING IDS_VOLUME_OSD		"Głośność: %d %%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Musisz zastosować nowe ustawienia zanim je przetestujesz."
 STRING IDS_ZOOM1		"Skala 1"

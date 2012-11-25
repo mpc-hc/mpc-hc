@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Kanpoko iragazkiek (DirectVobSub bezalakoak) azpidatziak aurkezle guztietan erakutsi ditzakete."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Audioa"
 6		"Bolumena"
 7		"Gutx"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Jakinarazi aurkezlean huts egiten duten pin-ak"
 33		"Berez-gertatu audio agiriak"
 34		"Berez-gertatu azpidatziak"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Bolumen bultzada gutxitu"
 STRING IDS_VOLUME_BOOST_INC		"Bolumen bultzada handitu"
 STRING IDS_VOLUME_BOOST_MAX		"Bolumen bultzada Gehiena"
 STRING IDS_VOLUME_BOOST_MIN		"Bolumen bultzada Gutxiena"
-STRING IDS_VOLUME_DEC		"Bolumena jeitsi"
-STRING IDS_VOLUME_INC		"Bolumena igo"
 STRING IDS_VOLUME_OSD		"Bolumena: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Ezarpen berriak ezarri behar dituzu aztertu aurretik."
 STRING IDS_ZOOM1		"Zooma 1"

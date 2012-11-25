@@ -201,8 +201,6 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_UPDATE_COMMAND_UI(ID_VOLUME_MUTE, OnUpdateVolumeMute)
     ON_COMMAND_EX(ID_VOLUME_UP, OnVolumeUp)
     ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
-    ON_COMMAND_EX(ID_VOLUME_INC, OnVolumeIncrease)
-    ON_COMMAND_EX(ID_VOLUME_DEC, OnVolumeDecrease)
     ON_WM_NCPAINT()
     ON_WM_LBUTTONDOWN()
     ON_WM_MOUSEMOVE()
@@ -283,18 +281,6 @@ BOOL CPlayerToolBar::OnVolumeUp(UINT nID)
 BOOL CPlayerToolBar::OnVolumeDown(UINT nID)
 {
     m_volctrl.DecreaseVolume();
-    return FALSE;
-}
-
-BOOL CPlayerToolBar::OnVolumeIncrease(UINT nID)
-{
-    m_volctrl.SetPos(m_volctrl.GetPos() + 1);
-    return FALSE;
-}
-
-BOOL CPlayerToolBar::OnVolumeDecrease(UINT nID)
-{
-    m_volctrl.SetPos(m_volctrl.GetPos() - 1);
     return FALSE;
 }
 

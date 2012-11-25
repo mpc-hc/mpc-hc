@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Externí filtry (např. DirectVobSub) mohou titulky zobrazovat na všech rendererech."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Zvuk"
 6		"Hlasitost"
 7		"Min"
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Vypisovat podrobné informace o chybějících kodecích"
 33		"Automaticky načíst zvukové stopy"
 34		"Automaticky načíst titulky"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Zesílení - snížit"
 STRING IDS_VOLUME_BOOST_INC		"Zesílení - zvýšit"
 STRING IDS_VOLUME_BOOST_MAX		"Zesílení - maximální"
 STRING IDS_VOLUME_BOOST_MIN		"Zesílení - minimální"
-STRING IDS_VOLUME_DEC		"Snížit hlasitost"
-STRING IDS_VOLUME_INC		"Zvýšit hlasitost"
 STRING IDS_VOLUME_OSD		"Hlasitost: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Než budete moci nová nastavení vyzkoušet, musíte je aplikovat."
 STRING IDS_ZOOM1		"Roztáhnout 1"

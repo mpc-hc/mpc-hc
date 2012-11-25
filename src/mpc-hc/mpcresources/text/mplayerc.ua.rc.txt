@@ -285,7 +285,7 @@ BEGIN DIALOGEX IDD_PPAGEOUTPUT LINES 46
 45		"* Зовнішні фільтри (як то DirectVobSub) допускають показ субтитрів для всіх рендерерів."
 END
 
-BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
+BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 40
 5		"Аудіо"
 6		"Гучність"
 7		"Мін."
@@ -309,6 +309,9 @@ BEGIN DIALOGEX IDD_PPAGEPLAYBACK LINES 35
 32		"Звіт про помилки рендерингу потоків"
 33		"Автозавантаження звуку"
 34		"Автозавантаження субтитрів"
+35		"Control"
+36		"Volume step:"
+39		"unit(s)"
 END
 
 BEGIN DIALOGEX IDD_PPAGEPLAYER LINES 34
@@ -1884,8 +1887,6 @@ STRING IDS_VOLUME_BOOST_DEC		"Підсилення - зменшити"
 STRING IDS_VOLUME_BOOST_INC		"Підсилення - збільшити"
 STRING IDS_VOLUME_BOOST_MAX		"Підсилення - Макс."
 STRING IDS_VOLUME_BOOST_MIN		"Підсилення - Мін."
-STRING IDS_VOLUME_DEC		"Зменшення гучності"
-STRING IDS_VOLUME_INC		"Збільшення гучності"
 STRING IDS_VOLUME_OSD		"Гучн: %d%%"
 STRING IDS_WEBSERVER_ERROR_TEST		"Вам необхідно застосувати нові налаштування перед тим, як їх тестувати."
 STRING IDS_ZOOM1		"Збільшення 1"
