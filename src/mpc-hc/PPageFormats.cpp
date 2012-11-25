@@ -205,6 +205,9 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_CHECK3)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK4)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK5)->EnableWindow(FALSE);
+        GetDlgItem(IDC_CHECK6)->EnableWindow(FALSE);
+        GetDlgItem(IDC_CHECK7)->EnableWindow(FALSE);
+        GetDlgItem(IDC_CHECK8)->EnableWindow(FALSE);
 
         GetDlgItem(IDC_RADIO1)->EnableWindow(FALSE);
         GetDlgItem(IDC_RADIO2)->EnableWindow(FALSE);
@@ -229,59 +232,61 @@ BOOL CPPageFormats::OnInitDialog()
 
 BOOL CPPageFormats::OnApply()
 {
-    UpdateData();
+    if (!m_bInsufficientPrivileges) {
+        UpdateData();
 
-    int iSelectedItem = m_list.GetSelectionMark();
-    if (iSelectedItem >= 0) {
-        DWORD_PTR i = m_list.GetItemData(iSelectedItem);
+        int iSelectedItem = m_list.GetSelectionMark();
+        if (iSelectedItem >= 0) {
+            DWORD_PTR i = m_list.GetItemData(iSelectedItem);
 
-        m_mf[i].SetExts(m_exts);
-        m_exts = m_mf[i].GetExtsWithPeriod();
-        UpdateData(FALSE);
-    }
-
-    CFileAssoc::RegisterApp();
-
-    int fSetContextFiles = m_fContextFiles.GetCheck();
-    int fSetAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
-
-    if (m_bFileExtChanged) {
-        if (fSetAssociatedWithIcon && IsNeededIconsLib() && !CFileAssoc::LoadIconLib()) {
-            AfxMessageBox(IDS_MISSING_ICONS_LIB, MB_ICONEXCLAMATION | MB_OK, 0);
+            m_mf[i].SetExts(m_exts);
+            m_exts = m_mf[i].GetExtsWithPeriod();
+            UpdateData(FALSE);
         }
 
-        for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
-            int iChecked = IsCheckedMediaCategory(i);
-            if (iChecked == 2) {
-                continue;
+        CFileAssoc::RegisterApp();
+
+        int fSetContextFiles = m_fContextFiles.GetCheck();
+        int fSetAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
+
+        if (m_bFileExtChanged) {
+            if (fSetAssociatedWithIcon && IsNeededIconsLib() && !CFileAssoc::LoadIconLib()) {
+                AfxMessageBox(IDS_MISSING_ICONS_LIB, MB_ICONEXCLAMATION | MB_OK, 0);
             }
 
-            CFileAssoc::Register(m_mf[m_list.GetItemData(i)], !!iChecked, !!fSetContextFiles, !!fSetAssociatedWithIcon);
+            for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
+                int iChecked = IsCheckedMediaCategory(i);
+                if (iChecked == 2) {
+                    continue;
+                }
+
+                CFileAssoc::Register(m_mf[m_list.GetItemData(i)], !!iChecked, !!fSetContextFiles, !!fSetAssociatedWithIcon);
+            }
+
+            m_bFileExtChanged = false;
+
+            if (fSetAssociatedWithIcon) {
+                CFileAssoc::FreeIconLib();
+            }
         }
 
-        m_bFileExtChanged = false;
+        CFileAssoc::RegisterFolderContextMenuEntries(!!m_fContextDir.GetCheck());
 
-        if (fSetAssociatedWithIcon) {
-            CFileAssoc::FreeIconLib();
-        }
+        UpdateMediaCategoryState(m_list.GetSelectionMark());
+
+        CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_VIDEO, !!m_apvideo.GetCheck());
+        CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_MUSIC, !!m_apmusic.GetCheck());
+        CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_AUDIOCD, !!m_apaudiocd.GetCheck());
+        CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_DVDMOVIE, !!m_apdvd.GetCheck());
+
+        m_mf.SetRtspHandler(m_iRtspHandler == 0 ? RealMedia : m_iRtspHandler == 1 ? QuickTime : DirectShow, !!m_fRtspFileExtFirst);
+
+        CAppSettings& s = AfxGetAppSettings();
+        s.m_Formats = m_mf;
+        s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
+
+        SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
     }
-
-    CFileAssoc::RegisterFolderContextMenuEntries(!!m_fContextDir.GetCheck());
-
-    UpdateMediaCategoryState(m_list.GetSelectionMark());
-
-    CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_VIDEO, !!m_apvideo.GetCheck());
-    CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_MUSIC, !!m_apmusic.GetCheck());
-    CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_AUDIOCD, !!m_apaudiocd.GetCheck());
-    CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_DVDMOVIE, !!m_apdvd.GetCheck());
-
-    m_mf.SetRtspHandler(m_iRtspHandler == 0 ? RealMedia : m_iRtspHandler == 1 ? QuickTime : DirectShow, !!m_fRtspFileExtFirst);
-
-    CAppSettings& s = AfxGetAppSettings();
-    s.m_Formats = m_mf;
-    s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
-
-    SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
     return __super::OnApply();
 }
