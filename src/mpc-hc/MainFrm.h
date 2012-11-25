@@ -187,7 +187,6 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     CCritSec m_csSubLock;
     CInterfaceList<ISubStream> m_pSubStreams;
-    CAtlList<int> m_iAudioStreams; // foxX uses this to keep a mapping of audio streams, in which they're ordered based by language user preference
     int m_iSubtitleSel; // if (m_iSubtitleSel&(1<<31)): disabled
     DWORD_PTR m_nSubtitleId;
 
@@ -428,10 +427,8 @@ public:
     REFERENCE_TIME GetDur() const;
     void SeekTo(REFERENCE_TIME rt, bool fSeekToKeyFrame = false);
     void SetPlayingRate(double rate);
-    // audio streams order functions
-    void InsertAudioStream(const CComQIPtr<IAMStreamSelect>& pSS, int i);
-    void SetupAudioStreams();
-    // subtitle streams order function
+
+    DWORD SetupAudioStreams();
     bool LoadSubtitle(CString fn, ISubStream** actualStream = NULL);
 
     void UpdateSubtitle(bool fDisplayMessage = false, bool fApplyDefStyle = false);

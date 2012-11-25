@@ -3630,7 +3630,6 @@ void CMainFrame::OnStreamAudio(UINT nID)
 
     DWORD cStreams = 0;
     if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
-        nID = m_iAudioStreams.GetAt(m_iAudioStreams.FindIndex(nID)); // remember that the audio streams are reordered according to user preference, so have to figure out which stream from the original order was clicked
         for (int i = 0; i < (int)cStreams; i++) {
             AM_MEDIA_TYPE* pmt = NULL;
             DWORD dwFlags = 0;
@@ -7792,7 +7791,6 @@ void CMainFrame::OnPlayAudio(UINT nID)
     if (i == -1) {
         ShowOptions(CPPageAudioSwitcher::IDD);
     } else if (i >= 0 && pSS) {
-        i = m_iAudioStreams.GetAt(m_iAudioStreams.FindIndex(i)); // don't forget that the audio streams are reordered, so have to figure which one from the initial order is used here
         pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
     }
 }
@@ -7813,7 +7811,6 @@ void CMainFrame::OnUpdatePlayAudio(CCmdUI* pCmdUI)
     }
     else*/
     if (i >= 0 && pSS) {
-        i = m_iAudioStreams.GetAt(m_iAudioStreams.FindIndex(i)); // audio streams are reordered, so figure out which one from the initial order is used here
         DWORD flags = 0;
 
         if (SUCCEEDED(pSS->Info(i, NULL, &flags, NULL, NULL, NULL, NULL, NULL))) {
@@ -11520,77 +11517,11 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
     m_Lcd.SetMediaTitle(LPCTSTR(fn));
 }
 
-// foxX: simply global now, figures out if, based on the options selected by the user
-// the language of audio stream a from pSS is more "important" than that of audio b
-bool DoesAudioPrecede(const CComPtr<IAMStreamSelect>& pSS, int a, int b)
-{
-    WCHAR* pName = NULL;
-    if (FAILED(pSS->Info(a, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) {
-        return false;
-    }
-    CString nameA(pName);
-    nameA = nameA.Trim();
-    CoTaskMemFree(pName);
-
-    if (FAILED(pSS->Info(b, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) {
-        return false;
-    }
-    CString nameB(pName);
-    nameB = nameB.Trim();
-    CoTaskMemFree(pName);
-
-    int ia = -1;
-    int ib = -1;
-    CStringW alo = _T("[Forced],") + AfxGetAppSettings().strAudiosLanguageOrder + _T(",[Default]");
-    int tPos = 0;
-    CStringW lang = alo.Tokenize(_T(",; "), tPos);
-    while (tPos != -1 && ia == -1 && ib == -1) {
-        int ll = lang.GetLength();
-        if ((nameA.Left(ll).CompareNoCase(lang) == 0) || (nameA.Right(ll).CompareNoCase(lang) == 0)) {
-            ia = tPos;
-        }
-        if ((nameB.Left(ll).CompareNoCase(lang) == 0) || (nameB.Right(ll).CompareNoCase(lang) == 0)) {
-            ib = tPos;
-        }
-        lang = alo.Tokenize(_T(",; "), tPos);
-    }
-    if (ia != -1 && ib == -1) {
-        return true;
-    }
-    return false;
-}
-
-// foxX: does the naive insertion, in a separate list of audio streams indexes, of stream number i
-// from the original ordering of audio streams, based on language order preference
-void CMainFrame::InsertAudioStream(const CComQIPtr<IAMStreamSelect>& pSS, int i)
-{
-    POSITION pos = m_iAudioStreams.GetHeadPosition();
-    bool processed = false;
-    while (!processed && pos) {
-        POSITION prevPos = pos;
-        int j = m_iAudioStreams.GetNext(pos);
-        if (DoesAudioPrecede(pSS, i, j)) {
-            if (prevPos == m_iAudioStreams.GetHeadPosition()) {
-                m_iAudioStreams.AddHead(i);
-            } else {
-                m_iAudioStreams.InsertBefore(prevPos, i);
-            }
-            processed = true;
-        }
-    }
-    if (!processed) {
-        m_iAudioStreams.AddTail(i);
-    }
-}
-
-// foxX: creates a mapping of audio streams, where they're ordered based on their language and the user language order options
-void CMainFrame::SetupAudioStreams()
+DWORD CMainFrame::SetupAudioStreams()
 {
     if (m_iMediaLoadState != MLS_LOADED) {
-        return;
+        return 0;
     }
-
-    m_iAudioStreams.RemoveAll();
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
     if (!pSS) {
@@ -11599,10 +11530,53 @@ void CMainFrame::SetupAudioStreams()
 
     DWORD cStreams = 0;
     if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0) {
-        for (int i = 0; i < (int)cStreams; i++) {
-            InsertAudioStream(pSS, i);
+        CAtlArray<CString> langs;
+        int tPos = 0;
+        CString lang = AfxGetAppSettings().strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
+        while (tPos != -1) {
+            langs.Add(lang.MakeLower());
+            lang = AfxGetAppSettings().strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
         }
+
+        DWORD selected = 1;
+        int  maxrating = 0;
+        for (DWORD i = 0; i < cStreams; i++) {
+            WCHAR* pName = NULL;
+            if (FAILED(pSS->Info(i, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) {
+                continue;
+            }
+            CString name(pName);
+            CoTaskMemFree(pName);
+            name.Trim();
+            name.MakeLower();
+
+            int rating = 0;
+            for (size_t j = 0; j < langs.GetCount(); j++) {
+                int len = langs[j].GetLength();
+                if (name.Left(len) == langs[j]) {
+                    rating = 8 * (langs.GetCount() - j);
+                    break;
+                }
+            }
+            if (name.Find(_T("[forced]")) != -1) {
+                rating += 4;
+            }
+            if (name.Find(_T("[default]")) != -1) {
+                rating += 2;
+            }
+            if (i == 0) {
+                rating += 1;
+            }
+
+            if (rating > maxrating) {
+                maxrating = rating;
+                selected = i;
+            }
+        }
+        return selected + 1;
     }
+
+    return 0;
 }
 
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
@@ -11919,7 +11893,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             Sleep(50);
         }
 
-        SetupAudioStreams(); // reorder audio streams so that they're according to user's options
+        DWORD audstm = SetupAudioStreams();
 
         // PostMessage instead of SendMessage because the user might call CloseMedia and then we would deadlock
 
@@ -11938,8 +11912,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         // Casimir666 : audio selection should be done before running the graph to prevent an
         // unnecessary seek when a file is opened (PostMessage ID_AUDIO_SUBITEM_START removed)
-        if (m_iAudioStreams.GetCount() > 0) {
-            OnPlayAudio(ID_AUDIO_SUBITEM_START + 1);
+
+        if (audstm) {
+            OnPlayAudio(ID_AUDIO_SUBITEM_START + audstm);
         }
 
         AfxGetAppSettings().nCLSwitches &= ~CLSW_OPEN;
@@ -12615,8 +12590,7 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
 
                 for (int i = 0; i < (int)cStreams; i++) {
                     WCHAR* pName = NULL;
-                    POSITION idx = m_iAudioStreams.FindIndex(i);
-                    int iStream = m_iAudioStreams.GetAt(idx);
+                    int iStream = i;
                     if (FAILED(pSS->Info(iStream, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) { // audio streams are reordered, so find the index from the initial order
                         break;
                     }
