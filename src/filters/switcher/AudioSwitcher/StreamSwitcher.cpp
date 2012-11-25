@@ -562,7 +562,6 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
 
     (static_cast<CStreamSwitcherFilter*>(m_pFilter))->CompleteConnect(PINDIR_INPUT, this, pReceivePin);
 
-    GUID majortype = CurrentMediaType().majortype;
     m_fCanBlock = false;
     bool fForkedSomewhere = false;
 
@@ -577,46 +576,17 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
         pBF = GetFilterFromPin(pPin);
     }
     while (pPin && pBF) {
-        int nIn, nOut, nInC, nOutC;
-        CountPins(pBF, nIn, nOut, nInC, nOutC);
-        CLSID clsid = GetCLSID(pBF);
+        if (IsSplitter(pBF)) {
+            pinName = GetPinName(pPin);
+        }
 
+        CLSID clsid = GetCLSID(pBF);
         if (clsid == CLSID_AviSplitter || clsid == CLSID_OggSplitter) {
             m_fCanBlock = true;
         }
 
-        CComQIPtr<IAMStreamSelect> pSS = pBF;
-        if (pSS) {
-            DWORD n_streams = 0;
-            pSS->Count(&n_streams);
-
-            AM_MEDIA_TYPE* pmt = NULL;
-            DWORD dwFlags = 0;
-            LCID lcid = 0;
-            DWORD dwGroup = 0;
-            LPWSTR pszName = NULL;
-
-            DWORD k = 0;
-            for (DWORD i = 0; i < n_streams; i++) {
-                pSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL);
-                if (pmt && pmt->majortype == majortype) {
-                    k++;
-                }
-            }
-
-            bool ignored = (nInC == 1 && nOut == 1 && k <= 1); // ffdshow Audio Decoder, ffdshow Audio Processor
-            if (!ignored && k > 0) {
-                // found splitter with IAMStreamSelect interface
-                m_pExtSS = pSS;
-                pinName = GetPinName(pPin);
-                break;
-            }
-        }
-
-        if (nOut > 1) { // splitter
-            pinName = GetPinName(pPin);
-        }
-
+        int nIn, nOut, nInC, nOutC;
+        CountPins(pBF, nIn, nOut, nInC, nOutC);
         fForkedSomewhere = fForkedSomewhere || nIn > 1 || nOut > 1;
 
         if (CComQIPtr<IFileSourceFilter> pFSF = pBF) {
@@ -647,6 +617,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
                     m_pName = pName;
                 }
             }
+
             break;
         }
 
@@ -1427,36 +1398,7 @@ STDMETHODIMP CStreamSwitcherFilter::Count(DWORD* pcStreams)
 
     CAutoLock cAutoLock(&m_csPins);
 
-    DWORD k = 0;
-    POSITION pos = m_pInputs.GetHeadPosition();
-    while (pos) {
-        CStreamSwitcherInputPin* pPin = m_pInputs.GetNext(pos);
-        if (pPin->IsConnected()) {
-            if (pPin->m_pExtSS) {
-                GUID majortype = pPin->CurrentMediaType().majortype;
-
-                DWORD count = 0;
-                pPin->m_pExtSS->Count(&count);
-
-                AM_MEDIA_TYPE* pmt = NULL;
-                DWORD dwFlags = 0;
-                LCID lcid = 0;
-                DWORD dwGroup = 0;
-                LPWSTR pszName = NULL;
-
-                for (DWORD i = 0; i < count; i++) {
-                    pPin->m_pExtSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL);
-                    if (pmt && pmt->majortype == majortype) {
-                        k++;
-                    }
-                }
-            } else {
-                k++;
-            }
-        }
-    }
-
-    *pcStreams = k;
+    *pcStreams = GetConnectedInputPinCount();
 
     return S_OK;
 }
@@ -1465,71 +1407,38 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
 {
     CAutoLock cAutoLock(&m_csPins);
 
-    CStreamSwitcherInputPin* pPin = NULL;
-    DWORD  stmFlags = 0;
-    LPWSTR stmName  = NULL;
-
-    long k = 0;
-    POSITION pos = m_pInputs.GetHeadPosition();
-    while (pos) {
-        pPin = m_pInputs.GetNext(pos);
-        if (pPin->IsConnected()) {
-            if (pPin->m_pExtSS) {
-                GUID majortype = pPin->CurrentMediaType().majortype;
-
-                DWORD count = 0;
-                pPin->m_pExtSS->Count(&count);
-
-                AM_MEDIA_TYPE* pmt = NULL;
-                DWORD dwFlags = 0;
-                LCID lcid = 0;
-                DWORD dwGroup = 0;
-
-                for (DWORD i = 0; i < count; i++) {
-                    pPin->m_pExtSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &stmName, NULL, NULL);
-                    if (pmt && pmt->majortype == majortype) {
-                        if (k == lIndex) {
-                            stmFlags = (m_pInput == pPin && dwFlags) ? AMSTREAMSELECTINFO_EXCLUSIVE : 0;
-                            goto pinfound;
-                        }
-                        k++;
-                    }
-                }
-            } else {
-                if (k == lIndex) {
-                    stmFlags = (m_pInput == pPin) ? AMSTREAMSELECTINFO_EXCLUSIVE : 0;
-                    stmName = pPin->Name();
-                    goto pinfound;
-                }
-                k++;
-            }
-        }
+    CBasePin* pPin = GetConnectedInputPin(lIndex);
+    if (!pPin) {
+        return E_INVALIDARG;
     }
 
-    return E_INVALIDARG;
-
-pinfound:
     if (ppmt) {
         *ppmt = CreateMediaType(&m_pOutput->CurrentMediaType());
     }
+
     if (pdwFlags) {
-        *pdwFlags = stmFlags;
+        *pdwFlags = (m_pInput == pPin) ? AMSTREAMSELECTINFO_EXCLUSIVE : 0;
     }
+
     if (plcid) {
         *plcid = 0;
     }
+
     if (pdwGroup) {
         *pdwGroup = 0;
     }
+
     if (ppszName) {
-        *ppszName = (WCHAR*)CoTaskMemAlloc((wcslen(stmName) + 1) * sizeof(WCHAR));
+        *ppszName = (WCHAR*)CoTaskMemAlloc((wcslen(pPin->Name()) + 1) * sizeof(WCHAR));
         if (*ppszName) {
-            wcscpy_s(*ppszName, wcslen(stmName) + 1, stmName);
+            wcscpy_s(*ppszName, wcslen(pPin->Name()) + 1, pPin->Name());
         }
     }
+
     if (ppObject) {
         *ppObject = NULL;
     }
+
     if (ppUnk) {
         *ppUnk = NULL;
     }
@@ -1543,54 +1452,16 @@ STDMETHODIMP CStreamSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
         return E_NOTIMPL;
     }
 
-    CStreamSwitcherInputPin* pPin = NULL;
-    DWORD m = 0;
-
-    int k = 0;
-    POSITION pos = m_pInputs.GetHeadPosition();
-    while (pos) {
-        pPin = m_pInputs.GetNext(pos);
-        if (pPin->IsConnected()) {
-            if (pPin->m_pExtSS) {
-                GUID majortype = pPin->CurrentMediaType().majortype;
-
-                DWORD count = 0;
-                pPin->m_pExtSS->Count(&count);
-
-                AM_MEDIA_TYPE* pmt = NULL;
-                DWORD dwFlags = 0;
-                LCID lcid = 0;
-                DWORD dwGroup = 0;
-                LPWSTR pszName = NULL;
-
-                for (m = 0; m < count; m++) {
-                    pPin->m_pExtSS->Info(m, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL);
-                    if (pmt && pmt->majortype == majortype) {
-                        if (k == lIndex) {
-                            goto pinfound;
-                        }
-                        k++;
-                    }
-                }
-            } else {
-                if (k == lIndex) {
-                    goto pinfound;
-                }
-                k++;
-            }
-        }
-    }
-
-    return E_INVALIDARG;
-
-pinfound:
     PauseGraph;
-    SelectInput(pPin);
-    ResumeGraph;
 
-    if (pPin->m_pExtSS) {
-        pPin->m_pExtSS->Enable(m, AMSTREAMSELECTENABLE_ENABLE); // must be after SelectInput(pPin);
+    CStreamSwitcherInputPin* pNewInput = GetConnectedInputPin(lIndex);
+    if (!pNewInput) {
+        return E_INVALIDARG;
     }
+
+    SelectInput(pNewInput);
+
+    ResumeGraph;
 
     return S_OK;
 }

@@ -140,7 +140,6 @@ public:
     void Block(bool fBlock);
 
     CCritSec m_csReceive;
-    CComQIPtr<IAMStreamSelect> m_pExtSS;
 
     // pure virtual
     HRESULT CheckMediaType(const CMediaType* pmt);
