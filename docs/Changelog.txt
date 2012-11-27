@@ -37,6 +37,7 @@ Legend:
 * Ticket #1004, Allow for smaller increases of playing speed for files, slowing down is unaffected.
   Increases of 0.1 are used until 1.5x after which it will increase by 0.5.
 * Removed hotkeys to change the volume by 1%
+* VSFilter: Allow floating-point values for \fscx and \fscy.
 ! MpaDecFilter: updated CMixer, avoid possible memory leaks
 ! API: CMD_PAUSE was acting as CMD_PLAY and vice versa
 ! MPEG Splitter: Fix parsing of some malformed TS files

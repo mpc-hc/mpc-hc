@@ -1962,12 +1962,12 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                                ? CalcAnimation(wcstod(p, NULL), style.fontAngleZ, fAnimate)
                                : org.fontAngleZ;
         } else if (cmd == L"fscx") {
-            double n = CalcAnimation(wcstol(p, NULL, 10), style.fontScaleX, fAnimate);
+            double n = CalcAnimation(wcstod(p, NULL), style.fontScaleX, fAnimate);
             style.fontScaleX = !p.IsEmpty()
                                ? ((n < 0) ? 0 : n)
                                    : org.fontScaleX;
         } else if (cmd == L"fscy") {
-            double n = CalcAnimation(wcstol(p, NULL, 10), style.fontScaleY, fAnimate);
+            double n = CalcAnimation(wcstod(p, NULL), style.fontScaleY, fAnimate);
             style.fontScaleY = !p.IsEmpty()
                                ? ((n < 0) ? 0 : n)
                                    : org.fontScaleY;
