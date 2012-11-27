@@ -187,6 +187,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
     CCritSec m_csSubLock;
     CInterfaceList<ISubStream> m_pSubStreams;
+    POSITION m_posFirstExtSub;
     int m_iSubtitleSel; // if (m_iSubtitleSel&(1<<31)): disabled
     DWORD_PTR m_nSubtitleId;
 
@@ -429,6 +430,7 @@ public:
     void SetPlayingRate(double rate);
 
     DWORD SetupAudioStreams();
+    DWORD SetupSubtitleStreams();
     bool LoadSubtitle(CString fn, ISubStream** actualStream = NULL);
 
     void UpdateSubtitle(bool fDisplayMessage = false, bool fApplyDefStyle = false);

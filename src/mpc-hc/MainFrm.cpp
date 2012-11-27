@@ -605,6 +605,7 @@ CMainFrame::CMainFrame() :
     m_pLastBar(NULL),
     m_nCS(0),
     m_nLoops(0),
+    m_posFirstExtSub(NULL),
     m_iSubtitleSel(-1),
     m_ZoomX(1), m_ZoomY(1), m_PosX(0.5), m_PosY(0.5),
     m_AngleX(0), m_AngleY(0), m_AngleZ(0),
@@ -11554,7 +11555,7 @@ DWORD CMainFrame::SetupAudioStreams()
             for (size_t j = 0; j < langs.GetCount(); j++) {
                 int len = langs[j].GetLength();
                 if (name.Left(len) == langs[j]) {
-                    rating = 8 * (langs.GetCount() - j);
+                    rating = 16 * (langs.GetCount() - j);
                     break;
                 }
             }
@@ -11572,6 +11573,71 @@ DWORD CMainFrame::SetupAudioStreams()
                 maxrating = rating;
                 selected = i;
             }
+        }
+        return selected + 1;
+    }
+
+    return 0;
+}
+
+DWORD CMainFrame::SetupSubtitleStreams()
+{
+    size_t cStreams = m_pSubStreams.GetCount();
+    if (cStreams > 0) {
+        bool extproirity = false;
+        CAtlArray<CString> langs;
+        int tPos = 0;
+        CString lang = AfxGetAppSettings().strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
+        while (tPos != -1) {
+            langs.Add(lang.MakeLower());
+            lang = AfxGetAppSettings().strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
+        }
+
+        DWORD selected = 1;
+        DWORD i = 0;
+        int  maxrating = 0;
+        POSITION pos = m_pSubStreams.GetHeadPosition();
+        while (pos) {
+            if (m_posFirstExtSub == pos) {
+                extproirity = AfxGetAppSettings().fPrioritizeExternalSubtitles;
+            }
+            CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
+
+            WCHAR* pName;
+            if (FAILED(pSubStream->GetStreamInfo(0, &pName, NULL))) {
+                continue;
+            }
+            CString name(pName);
+            CoTaskMemFree(pName);
+            name.Trim();
+            name.MakeLower();
+
+            int rating = 0;
+            for (size_t j = 0; j < langs.GetCount(); j++) {
+                int len = langs[j].GetLength();
+                if (name.Left(len) == langs[j]) {
+                    rating = 16 * (langs.GetCount() - j);
+                    break;
+                }
+            }
+            if (extproirity) {
+                rating += 8;
+            }
+            if (name.Find(_T("[forced]")) != -1) {
+                rating += 4;
+            }
+            if (name.Find(_T("[default]")) != -1) {
+                rating += 2;
+            }
+            if (i == 0) {
+                rating += 1;
+            }
+
+            if (rating > maxrating) {
+                maxrating = rating;
+                selected = i;
+            }
+            i++;
         }
         return selected + 1;
     }
@@ -11832,33 +11898,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 m_pSubStreams.RemoveAll(); // Needs to be replaced with code that checks for forced subtitles.
             }
 
-            if (s.fPrioritizeExternalSubtitles) {
-                ATL::CInterfaceList<ISubStream, &__uuidof(ISubStream)> subs;
-
-                while (!m_pSubStreams.IsEmpty()) {
-                    subs.AddTail(m_pSubStreams.RemoveHead());
-                }
-
-                POSITION pos = pOMD->subs.GetHeadPosition();
-                while (pos) {
-                    LoadSubtitle(pOMD->subs.GetNext(pos));
-                }
-
-                extern ISubStream* InsertSubStream(CInterfaceList<ISubStream>* subStreams, const CComPtr<ISubStream>& theSubStream);
-
-                CInterfaceList<ISubStream> pSubStreams;
-                while (!subs.IsEmpty()) {
-                    InsertSubStream(&pSubStreams, subs.RemoveHead());
-                }
-
-                while (!pSubStreams.IsEmpty()) {
-                    m_pSubStreams.AddTail(pSubStreams.RemoveHead());
-                }
-            } else {
-                POSITION pos = pOMD->subs.GetHeadPosition();
-                while (pos) {
-                    LoadSubtitle(pOMD->subs.GetNext(pos));
-                }
+            m_posFirstExtSub = NULL;
+            POSITION pos = pOMD->subs.GetHeadPosition();
+            while (pos) {
+                LoadSubtitle(pOMD->subs.GetNext(pos));
             }
 
             if (AfxGetAppSettings().fEnableSubtitles && m_pSubStreams.GetCount() > 0) {
@@ -11894,6 +11937,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         }
 
         DWORD audstm = SetupAudioStreams();
+		DWORD substm = SetupSubtitleStreams();
 
         // PostMessage instead of SendMessage because the user might call CloseMedia and then we would deadlock
 
@@ -11915,6 +11959,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         if (audstm) {
             OnPlayAudio(ID_AUDIO_SUBITEM_START + audstm);
+        }
+        if (substm) {
+            OnPlaySubtitles(4 + ID_SUBTITLES_SUBITEM_START + substm);
         }
 
         AfxGetAppSettings().nCLSwitches &= ~CLSW_OPEN;
@@ -13476,78 +13523,6 @@ void CMainFrame::SetAlwaysOnTop(int i)
     }
 }
 
-// foxX: as with audio streams, this one will tell if a subtitle comes before the other,
-// in accordance with user options regarding subtitle language order
-bool DoesSubPrecede(const CComPtr<ISubStream>& a, const CComPtr<ISubStream>& b)
-{
-    WCHAR* pName;
-    if (FAILED(a->GetStreamInfo(0, &pName, NULL))) {
-        return false;
-    }
-    CStringW nameA(pName);
-    nameA = nameA.Trim();
-    CoTaskMemFree(pName);
-
-    if (FAILED(b->GetStreamInfo(0, &pName, NULL))) {
-        return false;
-    }
-    CStringW nameB(pName);
-    nameB = nameB.Trim();
-    CoTaskMemFree(pName);
-
-    int ia = -1;
-    int ib = -1;
-    CStringW slo = _T("[Forced],") + AfxGetAppSettings().strSubtitlesLanguageOrder + _T(",[Default]");
-    int tPos = 0;
-    CStringW lang = slo.Tokenize(_T(",; "), tPos);
-
-    while (tPos != -1 && ia == -1 && ib == -1) {
-        int ll = lang.GetLength();
-        if ((nameA.Left(ll).CompareNoCase(lang) == 0) || (nameA.Right(ll).CompareNoCase(lang) == 0)) {
-            ia = tPos;
-        }
-        if ((nameB.Left(ll).CompareNoCase(lang) == 0) || (nameB.Right(ll).CompareNoCase(lang) == 0)) {
-            ib = tPos;
-        }
-        lang = slo.Tokenize(_T(",; "), tPos);
-    }
-    if (ia != -1 && ib == -1) {
-        return true;
-    }
-    return false;
-}
-
-// foxX: inserts the subtitle stream exactly where it should be, base on user preference
-ISubStream* InsertSubStream(CInterfaceList<ISubStream>* subStreams, const CComPtr<ISubStream>& theSubStream)
-{
-    POSITION pos = subStreams->GetHeadPosition();
-    POSITION newPos = NULL;
-    bool processed = false;
-
-    while (!processed && pos) {
-        POSITION prevPos = pos;
-        CComPtr<ISubStream> pSubStream = subStreams->GetNext(pos);
-        if (DoesSubPrecede(theSubStream, pSubStream)) {
-            if (prevPos == subStreams->GetHeadPosition()) {
-                newPos = subStreams->AddHead(theSubStream);
-            } else {
-                newPos = subStreams->InsertBefore(prevPos, theSubStream);
-            }
-            processed = true;
-        }
-    }
-    if (!processed) {
-        newPos = subStreams->AddTail(theSubStream);
-    }
-    if (newPos == NULL) {
-        newPos = subStreams->GetTailPosition();
-    }
-    if (newPos == NULL) {
-        return NULL;
-    }
-    return subStreams->GetAt(newPos);
-}
-
 void CMainFrame::AddTextPassThruFilter()
 {
     BeginEnumFilters(pGB, pEF, pBF) {
@@ -13580,7 +13555,7 @@ void CMainFrame::AddTextPassThruFilter()
                     || FAILED(hr = pGB->ConnectDirect(GetFirstPin(pTPTF, PINDIR_OUTPUT), pPinTo, NULL))) {
                 hr = pGB->ConnectDirect(pPin, pPinTo, NULL);
             } else {
-                InsertSubStream(&m_pSubStreams, CComQIPtr<ISubStream>(pTPTF));
+                m_pSubStreams.AddTail(CComQIPtr<ISubStream>(pTPTF));
             }
         }
         EndEnumPins;
@@ -13628,10 +13603,14 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream** actualStream)
     }
 
     if (pSubStream) {
-        //m_pSubStreams.AddTail(pSubStream);
-        ISubStream* r = InsertSubStream(&m_pSubStreams, pSubStream);
+        m_pSubStreams.AddTail(pSubStream);
+
+        if (!m_posFirstExtSub) {
+            m_posFirstExtSub = m_pSubStreams.GetTailPosition();
+        }
+
         if (actualStream != NULL) {
-            *actualStream = r;
+            *actualStream = m_pSubStreams.GetTail();
         }
     }
 
