@@ -96,24 +96,24 @@ void CMixer::Init(AVSampleFormat in_avsf, DWORD in_layout, DWORD out_layout, int
         m_matrix_dbl[2] = 0.0;
         m_matrix_dbl[3] = 1.0;
         if (out_layout == AV_CH_LAYOUT_QUAD) {
-            m_matrix_dbl[4] = 0.5;
-            m_matrix_dbl[5] = (-0.5);
-            m_matrix_dbl[6] = (-0.5);
-            m_matrix_dbl[7] = 0.5;
+            m_matrix_dbl[4] = 0.6666;
+            m_matrix_dbl[5] = (-0.2222);
+            m_matrix_dbl[6] = (-0.2222);
+            m_matrix_dbl[7] = 0.6666;
         } else if (out_layout == AV_CH_LAYOUT_5POINT1 || out_layout == AV_CH_LAYOUT_7POINT1) {
             m_matrix_dbl[4] = 0.5;
             m_matrix_dbl[5] = 0.5;
             m_matrix_dbl[6] = 0.0;
             m_matrix_dbl[7] = 0.0;
-            m_matrix_dbl[8] = 0.5;
-            m_matrix_dbl[9] = (-0.5);
-            m_matrix_dbl[10] = (-0.5);
-            m_matrix_dbl[11] = 0.5;
+            m_matrix_dbl[8] =  0.6666;
+            m_matrix_dbl[9] =  (-0.2222);
+            m_matrix_dbl[10] = (-0.2222);
+            m_matrix_dbl[11] = 0.6666;
             if (out_layout == AV_CH_LAYOUT_7POINT1) {
-                m_matrix_dbl[12] = 0.5;
-                m_matrix_dbl[13] = (-0.5);
-                m_matrix_dbl[14] = (-0.5);
-                m_matrix_dbl[15] = 0.5;
+                m_matrix_dbl[12] = 0.6666;
+                m_matrix_dbl[13] = (-0.2222);
+                m_matrix_dbl[14] = (-0.2222);
+                m_matrix_dbl[15] = 0.6666;
             }
         }
     } else {
