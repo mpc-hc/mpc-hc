@@ -99,17 +99,13 @@ void CPPageFormats::UpdateMediaCategoryState(int iItem)
 
 bool CPPageFormats::IsNeededIconsLib()
 {
-    bool needIconsLib = false;
-    int i = 0;
-
-    while (!needIconsLib && i < m_list.GetItemCount()) {
+    for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
         if (IsCheckedMediaCategory(i) == 1) {
-            needIconsLib = true;
+            return true;
         }
-        i++;
     }
 
-    return needIconsLib;
+    return false;
 }
 
 BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
